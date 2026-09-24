@@ -1,6 +1,13 @@
 # The infrastructure index
 
-`collector/infra.mjs` → `data/infra.json` → `site/templates/infraPage.mjs` → `/infra.html`
+`collector/infra.mjs` → `data/infra.json` → `site/templates/wattsPage.mjs` → `/watts.html`
+
+The page is **WATTS**; the scalar it prints is **SUBSTRATE 5→1**. The split is
+deliberate and copied from the thing it is modelled on: pizzint's page is called
+the Commute Index and the number on it is called OPTEMPO. `docs/SUB-INDICES.md`
+§3 fixes the route as `/watts`; an earlier draft of this work shipped it at
+`/infra.html` and that path is gone. `wattsPage.mjs` still exports `hasInfra` as
+an alias of `hasWatts` so a stale import cannot fail a build.
 
 A DOOMCON sub-index pointed at the physical substrate: power, water, and the
 paper trail of the build-out. It is `docs/SUB-INDICES.md` §3 `/watts`, built.
@@ -319,7 +326,7 @@ evidence that the included list was chosen rather than assembled.
 | **poweroutage.us** API | HTTP 401 | Dropped. No free structured tier. The operator asked for power outages specifically; there is no free machine-readable live outage feed for the United States that this project found. `ercot-tightness` is the nearest honest substitute, and it measures the margin **before** an outage rather than the outage. |
 | **ERCOT** `todays-outlook.json` | HTTP 403 | Dropped; `supply-demand.json` carries the same quantities. |
 | **CAISO** dated archive `/outlook/<YYYYMMDD>/demand.csv` | HTTP 404 on two dates | No archive. This is the cause of the documented six-hour CAISO hole. |
-| **Vast.ai GPU spot** | works | **Deliberately not duplicated.** It is already live in the main index as `collector/sources/vastai.mjs` in the `compute` pillar. Re-collecting it here would put one series in two indices and make them look like independent agreement. /infra links to it instead. |
+| **Vast.ai GPU spot** | works | **Deliberately not duplicated.** It is already live in the main index as `collector/sources/vastai.mjs` in the `compute` pillar. Re-collecting it here would put one series in two indices and make them look like independent agreement. /watts links to it instead. |
 
 ---
 
@@ -523,69 +530,238 @@ with your message on the page; it is never a zero.
 
 ## 7. Measured output
 
-Real run, `2026-09-24T03:25:49Z`, `docker run --network host node:20-alpine`.
-Nothing here is illustrative.
+Real run, `2026-09-24T07:31:24Z`, `docker run --rm --network host -v "$PWD":/app
+-w /app node:20-alpine node collector/infra.mjs`. Nothing here is illustrative.
 
 ```
 source               pillar    state                value  unit                         score  pctile   base origin
 -------------------------------------------------------------------------------------------------------------------
-caiso-baseload       grid      AWAITING-BASELINE    22133  MW                               —       —      1 accumulated
-ercot-baseload       grid      AWAITING-BASELINE    55707  MW                               —       —      1 accumulated
-ercot-tightness      grid      AWAITING-BASELINE    74.81  % of committed capacity          —       —      1 accumulated
-nyiso-baseload       grid      AWAITING-BASELINE    12440  MW                               —       —      1 accumulated
+caiso-baseload       grid      DARK                     -  MW                               -       -      0 -
+  caiso-baseload: overnight window incomplete - 6 of 72 intervals present (need 68), 67 still
+  blank. CAISO publishes the current Pacific day only, so this is expected between 00:00 and
+  06:00 Pacific and is an outage at any other hour.
+ercot-baseload       grid      AWAITING-BASELINE    55707  MW                               -       -      1 accumulated
+ercot-tightness      grid      AWAITING-BASELINE    69.59  % of committed capacity          -       -      1 accumulated
+nyiso-baseload       grid      AWAITING-BASELINE    12440  MW                               -       -      1 accumulated
 usdm-drought         water     LIVE                 18.90  % of area in D2+              49.2    47.3    260 feed
 usgs-water-deficit   water     LIVE                -12.82  % below normal, median of 9   32.3     7.8   1094 feed
 fedreg-datacenter    buildout  LIVE                168.00  documents / 180d              57.3    72.0    234 feed
-sec-datacenter       buildout  AWAITING-BASELINE     1965  filings / 30d                    —       —      1 accumulated
-sec-power-contracts  buildout  AWAITING-BASELINE   298.00  filings / 90d                    —       —      1 accumulated
+sec-datacenter       buildout  AWAITING-BASELINE     1965  filings / 30d                    -       -      1 accumulated
+sec-power-contracts  buildout  AWAITING-BASELINE   298.00  filings / 90d                    -       -      1 accumulated
 
-grid      AWAITING-BASELINE  0 live / 4 awaiting / 0 dark
+grid      AWAITING-BASELINE  0 live / 3 awaiting / 1 dark
 water                  40.8  2 live / 0 awaiting / 0 dark
 buildout               57.3  1 live / 2 awaiting / 0 dark
 
 SUBSTRATE 4 STEADY  composite 51.5 of 100  (rule: none)
-3 live, 6 awaiting baseline, 0 dark, of 9
+3 live, 5 awaiting baseline, 1 dark, of 9
 ```
 
-Reading it: the grid pillar is **awaiting baseline, not dark** — all four feeds
-answered, and every one of those megawatt figures is real. The water pillar is
-scored from the feeds' own history and reads 40.8: drought is dead centre of its
-five-year distribution (47.3rd percentile) and the rivers read wetter than 92% of
-the last three years, almost entirely because of a storm over Ohio that put the
-Scioto at 3,892% of its September median. Buildout is scored
-on one of three sources. The composite is computed over two live pillars, which
-is stated in `counts` and on the page.
+Reading it, and this run is a better demonstration than the earlier one because
+**all three states are on screen at once**. CAISO is `DARK`, and it is dark for
+the documented reason: the run landed at 00:31 Pacific, inside the six-hour hole
+where no complete overnight window exists anywhere in that feed. The other three
+grid feeds are `AWAITING-BASELINE` — they answered, every megawatt figure is
+real and printed, and none of them is in an average. Water and build-out carry
+the two `LIVE` pillars. The composite is computed over those two, which is
+stated in `counts` and on the page.
 
-Nine of nine sources answered. On the same day, the main index reported five of
-fourteen scored. That contrast is the point of the sub-index franchise: a page
-can be fully alive while the index it sits beside is still growing a reference.
+The water pillar reads 40.8: drought is dead centre of its five-year
+distribution (47.3rd percentile) and the rivers read wetter than 92% of the last
+three years, almost entirely because of a storm over Ohio that put the Scioto at
+3,892% of its September median. Build-out is scored on one of three sources.
 
 ### Per-source spot checks, same run
 
 | source | reading | cross-check |
 |---|---|---|
-| `ercot-baseload` | 55,707 MW floor, 00:00–06:00 CT, **71 of 72** intervals (ERCOT dropped one; the adapter's floor is 70), 8 fuel categories, local day 2026-09-23 | overnight high in the same window 63,568 MW, so the night's range was 7,861 MW |
-| `ercot-tightness` | 74.81% — 65,889 MW of 88,076 MW committed, 22,187 MW spare | PRC 10,840 MW now, day low 6,092 MW over 8,033 samples; ERCOT's own words: *"There is enough power for current demand."*, EEA level 0 |
-| `nyiso-baseload` | 12,440 MW, 72/72 intervals | all 11 zones present at every one: 0 intervals dropped for a missing zone, 0 blank `Load` cells |
-| `caiso-baseload` | 22,133 MW, 72/72 intervals | Pacific day derived as 2026-09-23; the run was at 20:25 PT, well clear of the six-hour hole |
-| `usgs-water-deficit` | median −12.8% (wetter than normal) for 2026-09-22; **mean −528%**, and this is the whole argument for the median | Scioto 3,892% of normal, Goose Creek 1,078%, Chattahoochee 127%, Trinity 127%, Potomac 113%, Missouri 83%, Austin 81%, The Dalles 77%, Lees Ferry 74% — four of nine below normal, two of nine in flood |
-| `usdm-drought` | 18.90% mean D2+, map of 2026-09-15 | OR 60.1%, TX 42.6%, AZ 35.7%, NE 33.0%, VA 15.3%, GA 2.3%, CA 0.04%; OH, IA and NY clear of D2 |
-| `fedreg-datacenter` | 168 documents / 180d, 72nd percentile | 1,495-document corpus since 2021-09-24, 2 pages |
-| `sec-datacenter` | 1,965 filings / 30d, `relation: "eq"` | not saturated |
-| `sec-power-contracts` | 298 filings / 90d, `relation: "eq"` | not saturated |
+| `caiso-baseload` | **dark** — 6 of 72 intervals, 67 blank | the expected failure, not a broken parser: `demand.csv` carried `Current demand` only through 00:20 PT |
+| `ercot-baseload` | 55,707 MW floor, 00:00–06:00 CT, **71 of 72** intervals (ERCOT dropped one; the adapter's floor is 70), local day 2026-09-23 | feed last updated 2026-09-24 02:26 CT; overnight high in the same window 63,568 MW, so the night's range was 7,861 MW |
+| `ercot-tightness` | 69.59% — 57,556 MW of 82,702 MW committed, 25,146 MW spare, interval 2026-09-24 02:30 CT | **258 of 289 intervals in the file were dropped as forecast** (see below); PRC 14,491 MW now, day low 10,669 MW over 907 samples; ERCOT's own words: *"There is enough power for current demand."*, EEA level 0 |
+| `nyiso-baseload` | 12,440 MW, 72/72 intervals, local day 2026-09-23 | all 11 zones present at every one: 0 intervals dropped for a missing zone, 0 blank `Load` cells |
+| `usgs-water-deficit` | median −12.8% (wetter than normal) for 2026-09-22, 9 of 9 gauges reporting, 1,094 baseline days; **mean −528%**, and this is the whole argument for the median | Scioto 3,892% of normal, Goose Creek 1,078%, Chattahoochee 127%, Trinity 127%, Potomac 113%, Missouri 83%, Austin 81%, The Dalles 77%, Lees Ferry 74% — four of nine below normal, two of nine in flood |
+| `usdm-drought` | 18.90% mean D2+, map of 2026-09-15, 260 baseline weeks | OR 60.1%, TX 42.6%, AZ 35.7%, NE 33.0%, VA 15.3%, GA 2.3%, CA 0.04%; OH, IA and NY clear of D2 |
+| `fedreg-datacenter` | 168 documents / 180d, 72nd percentile, window 2026-03-28 → 2026-09-24 | 234 baseline points from the feed's own history |
+| `sec-datacenter` | 1,965 filings / 30d, `relation: "eq"`, 2026-08-25 → 2026-09-24 | not saturated |
+| `sec-power-contracts` | 298 filings / 90d, `relation: "eq"`, 2026-06-26 → 2026-09-24 | not saturated |
+
+### The ERCOT forecast trap, found and fixed on 2026-09-24
+
+Worth writing down because it produced a plausible number and no symptom.
+
+`supply-demand.json` publishes the **whole local day in one array** — the
+intervals that have happened and the intervals that have not. At 02:25 Central
+the file already carried rows stamped `2026-09-24 23:55` and `2026-09-25 00:00`.
+Those rows carry five-digit `demand` and `capacity` values exactly like the real
+ones, and the adapter took the newest row by epoch, so `ercot-tightness` was
+reporting **a day-ahead ERCOT projection as an observation** with an
+`observed_at` twenty-two hours in the future.
+
+The rows are flagged. ERCOT sets `forecast: 1` on projections and `0` on
+actuals, and the adapter now drops any row with the flag set **and** any row
+stamped after the run clock, before the ratio and the day high and low are
+computed. The count dropped is published in `meta.intervals_dropped_forecast`
+(258 of 289 on the run above) so the filter is visible rather than implied. The
+two accumulated baseline points that came from forecast rows were deleted rather
+than kept; a baseline is a record of what happened.
+
+This is the failure mode the whole page is built against, arriving from the
+inside: a number that looks right, moves plausibly, and is not a measurement.
+
+### The CAISO double-count, fixed on the same run
+
+Accumulated baselines were keyed on `observed_at`'s **UTC** date. CAISO's
+overnight window is 00:00–06:00 Pacific — 07:00–13:00 UTC — and the file stays
+readable until 07:00 UTC the next day, so a single Pacific night could be read
+under two different UTC dates and enter the baseline **twice, as though it were
+two nights**. Adapters that know which calendar day a reading belongs to now
+declare it as `meta.baseline_day`, and `collector/infra.mjs` prefers that over
+the run clock. CAISO declares its derived Pacific day; the others already carried
+an `observed_at` on the true observation day.
 
 ### Failure paths, also measured
 
 - `--network none`: all nine `dark`, all three pillars `dark`, `score: null`,
   `level: null`, `last_known` carried forward intact, all baselines preserved,
   exit code **1**.
-- Page render with `ctx.infra = null`: builds, says "this is the absence of a
-  result, and the two are different states", carries `noindex`.
-- Two renders of the same context: **byte-identical**.
+- Page render with `ctx.infra = null`: builds at 71,461 bytes, says "this is the
+  absence of a result, and the two are different states", carries `noindex`.
+- Two renders of the same context: **byte-identical**. 133,582 bytes, 190 block
+  tags opened and 190 closed, no `undefined`, `NaN` or `[object Object]` in any
+  string this template produced.
 
 ---
 
-## 8. Files
+## 8. The page — `/watts.html`
+
+`site/templates/wattsPage.mjs` exports `render(ctx)` and `hasWatts(ctx)`.
+Server-rendered, no client JavaScript, deterministic: identical inputs produce
+byte-identical HTML. It follows the scoped-`<style>` pattern `racePage.mjs` and
+`newsPage.mjs` use, so `site/styles.mjs` stays owned by one author.
+
+Order on the page, and the order is an argument:
+
+1. The lede, the one plain computed sentence, and the five-stop rail.
+2. **The readout** (below).
+3. **The correlation warning** — before any chart, in running prose.
+4. The three pillars, the corridor table, the corridor board, the three panels,
+   the full source table, *What this cannot tell you*, and the arithmetic.
+
+### The readout
+
+This is the one part of the page deliberately shaped like somebody else's.
+pizzint's Commute Index prints a fixed block —
+
+```
+OPTEMPO 5 / Business As Usual - SCORE: 5
+TIME WINDOW: EVENING RUSH
+CORRIDORS: 7/7 - CORRELATION: 14%
+DIRECTION: OUTBOUND - SENSITIVITY: 2x
+UPDATED: 6:30:50 PM ET - BASELINE SLOT: Wed 18:30
+```
+
+— and it is the best-engineered thing on that site, because every line answers a
+question a sceptic would actually ask: what is the number, over what window,
+across how many units, in which direction, how sensitive, against what, as of
+when. We copy the **information shape** exactly and decline exactly one thing.
+
+`CORRELATION: 14%` is a correlation with no published working. Ours prints
+**`CORRELATION WITH AI ACTIVITY: NOT MEASURED`**, because it is not measured, and
+a page whose entire argument is *we count, we do not claim* cannot open with a
+statistic it invented. That one substitution is the difference between an
+instrument and a conspiracy chart.
+
+Every field is computed from the run. As rendered on the run in §7:
+
+| field | value on 2026-09-24T07:31:24Z | where it comes from |
+|---|---|---|
+| Index | `SUBSTRATE 4 · STEADY — SCORE: 51.5 of 100` | `level`, `level_name`, `score` |
+| Time window | `OVERNIGHT FLOOR 00:00–06:00 local · grid. Latest published observation · water and build-out.` | fixed; the grid window is the adapters' |
+| Corridors | `3/9 carry a free real-time demand feed` | counted from the corridor table |
+| Direction | `HIGHER = MORE LOADED, every source · SENSITIVITY: 1σ = 12.5 score points; 1 of 3 scored sources sit past 1σ` | the scoring constant, and a live count |
+| Updated | `2026-09-24 07:31:24 UTC · BASELINE SLOT: own record, like against like · 234–1,094 points · feed` | `generated_at`, and the range of `baseline_n` over scored sources |
+| Sources | `3 live · 5 awaiting baseline · 1 dark, of 9` | `counts` |
+| Level held since | `2026-09-24` | `level_since` |
+| Feeds the main index | `NO — separate sources, separate instrument, separate question` | fixed |
+
+**SENSITIVITY is a published constant, not a mood.** The scoring rule is
+`S = 50 + 12.5z` (§4, and the `normalisation` string in `data/infra.json` carries
+it verbatim), so one standard deviation of a source's own record is worth
+**12.5 score points** and *"unusual for this source"* has an exact meaning: a
+score at or beyond 1σ from centre, outside 37.5–62.5. It is a threshold, which
+is a choice, so it is printed rather than assumed.
+
+**BASELINE SLOT** is the field that needed the most translation. pizzint compares
+18:30 on a Wednesday against other Wednesday 18:30s. We compare each source
+against its own prior readings of the same statistic — an overnight floor against
+overnight floors, a September flow against that gauge's September median. There
+is no single slot, so the field reports the shape of the comparison and how deep
+it goes, which is the question the slot was answering.
+
+### The corridor table
+
+`RATIO / DEV / SIGNAL` are the three columns the commute table carries
+(`Alexandria 91% +16% 11`) and they are the right three: where it is now, how far
+that is from normal, and whether that counts as anything.
+
+Rendered on the same run — nine rows, and note that **six of nine have no grid
+cell at all**, which is the coverage limit printed rather than papered over:
+
+```
+Corridor                Grid            Driest gauge   Dev       D2+     Signal
+Texas                   55,707 MW       81%            −19%      42.6%   1/2 drought +1 awaiting
+Northern Virginia       no free feed    113%           +13%      15.3%   0/2
+Central Ohio            no free feed    3892%          +3792%     0.0%   1/2 river high
+Iowa & Nebraska         no free feed    83%            −17%      33.0%   1/2 drought
+Georgia                 no free feed    127%           +27%       2.3%   1/2 river high
+Arizona                 no free feed    74%            −26%      35.7%   2/2 river dry, drought
+Oregon                  no free feed    77%            −23%      60.1%   1/2 drought
+New York (reference)    12,440 MW       —              —          0.0%   0/1 +1 awaiting
+California (reference)  dark            —              —          0.0%   0/1
+```
+
+Three decisions in that table are worth defending:
+
+- **The driest gauge, not the mean of the gauges.** Northern Virginia forces it.
+  Goose Creek ran at 1,078% of its median on 2026-09-22 while the Potomac ran at
+  113%; the mean of those two is 595%, a number describing no river in Virginia.
+  A cluster is constrained by its tightest water source, so the minimum is both
+  the honest summary and the one that matches what the water pillar asks. The
+  gauge is named in the cell.
+- **The bands are stated as choices.** A river is flagged outside **±25%** of its
+  median, a state at or above **20%** of area in D2 or worse. Neither number is a
+  finding. Both are printed under the table so a reader can disagree with them
+  rather than guess at them.
+- **The river band is two-sided, and the cell says which side.** A river far
+  above its median is as unusual as one far below — it is simply a different
+  event, and on this page usually rainfall rather than anything to do with a
+  datacentre. `1/2 river high` and `2/2 river dry, drought` say different things;
+  a bare `1/2` would read as severity.
+
+A grid series joins the signal count only once it has a baseline to be unusual
+against. Until then the cell reads `+1 awaiting` — a different state from normal,
+and never a zero.
+
+### Other page facts
+
+- **JSON-LD** `Dataset`, with `distribution` pointing at `/api/infra.json` and
+  `variableMeasured` carrying every source's label, unit and current value. A
+  source that is dark contributes its name and unit and **no** `value`.
+- **OG card** requested as `ctx.cardFor('watts')`. If the integrator has no card
+  for that key the tag is simply absent; nothing else changes.
+- **Empty state** is a real state. `ctx.infra` absent renders a page that says
+  *"this is not an empty result — it is the absence of a result, and the two are
+  different states"*, carries `noindex`, and does not appear in the nav.
+- **Mobile first at 375px.** The readout is one column with the label above the
+  value and gains a label column only where there is room for one. The corridor
+  table scrolls horizontally rather than reflowing, because a ratio, its
+  deviation and its flag only mean anything on one row together.
+- **Never colour alone.** Every source state carries a glyph *and* a word *and* a
+  border treatment: `● LIVE`, `◐ AWAITING BASELINE`, `✕ DARK`.
+
+---
+
+## 9. Files
 
 | file | owner | what |
 |---|---|---|
@@ -593,7 +769,7 @@ can be fully alive while the index it sits beside is still growing a reference.
 | `collector/infra-sources/_util.mjs` | this index | CSV/RDB parsing, quantile grid, wall-clock helpers |
 | `collector/infra-sources/_sec.mjs` | this index | the shared EDGAR reader and its two traps |
 | `collector/infra-sources/*.mjs` | this index | nine adapters |
-| `site/templates/infraPage.mjs` | this index | `/infra.html`, exports `render(ctx)` and `hasInfra(ctx)` |
+| `site/templates/wattsPage.mjs` | this index | `/watts.html`, exports `render(ctx)` and `hasWatts(ctx)` |
 | `docs/INFRA.md` | this index | this file |
 | `site/build.mjs` | **the integrator** | must be taught to read `data/infra.json` and call the template — see below |
 
@@ -602,7 +778,7 @@ can be fully alive while the index it sits beside is still growing a reference.
 Three changes, all mirroring what it already does for `/race`:
 
 ```js
-import * as infraPage from './templates/infraPage.mjs';
+import * as wattsPage from './templates/wattsPage.mjs';
 
 // 1. Read the file. Optional, separate failure domain: a dark infra index must
 //    not stop the main index building, exactly as with race.json.
@@ -610,17 +786,17 @@ let infra = null;
 const infraFile = path.join(args.data, 'infra.json');
 if (existsSync(infraFile)) {
   try { infra = JSON.parse(await readFile(infraFile, 'utf8')); }
-  catch (err) { warn(`data/infra.json is present but unreadable (${err.message}); building without /infra.`); }
+  catch (err) { warn(`data/infra.json is present but unreadable (${err.message}); building without /watts.`); }
 } else {
-  warn('data/infra.json is absent; building without /infra. Run collector/infra.mjs first.');
+  warn('data/infra.json is absent; building without /watts. Run collector/infra.mjs first.');
 }
 
 // 2. Put it on ctx, next to `race` and `news`.
 const ctx = { state, news, race, infra, /* … */ };
 
 // 3. Write the page and the API surface, gated the same way /race is.
-if (infraPage.hasInfra(ctx)) {
-  written.push(await write(args.out, 'infra.html', infraPage.render(ctx)));
+if (wattsPage.hasWatts(ctx)) {
+  written.push(await write(args.out, 'watts.html', wattsPage.render(ctx)));
 }
 if (infra) written.push(await write(args.out, 'api/infra.json', stableJson(infra)));
 ```
@@ -629,13 +805,13 @@ And in `site/templates/layout.mjs`, one row in `SECTIONS` and one arm in
 `hasSection()`:
 
 ```js
-{ href: '/infra.html', label: 'Infrastructure', short: 'Infra', needs: 'infra',
+{ href: '/watts.html', label: 'Watts', short: 'Watts', needs: 'infra',
   blurb: 'Power, water and the paper trail underneath the models.' },
 
 if (key === 'infra') return Boolean(ctx.infra && Array.isArray(ctx.infra.sources) && ctx.infra.sources.length);
 ```
 
 The page links `/api/infra.json`, so that write is not optional if the nav is
-wired. `sitemap.mjs` should gain the route on the same `hasInfra` gate.
+wired. `sitemap.mjs` should gain the route on the same `hasWatts` gate.
 
 Neither `build.mjs` nor `layout.mjs` was touched by this work.

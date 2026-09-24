@@ -16,6 +16,9 @@ export function render(ctx) {
     ...(ctx.race && Array.isArray(ctx.race.players) && ctx.race.players.length
       ? [{ loc: '/race.html', changefreq: 'daily', priority: '0.9', lastmod: ctx.race.generated_at }]
       : []),
+    ...(ctx.infra && ctx.infra.generated_at
+      ? [{ loc: '/watts.html', changefreq: 'hourly', priority: '0.8', lastmod: ctx.infra.generated_at }]
+      : []),
     { loc: '/moves/', changefreq: 'hourly', priority: '0.6', lastmod: ctx.state.generated_at },
   ];
 

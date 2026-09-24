@@ -75,8 +75,8 @@ export default {
       throw new Error(
         `caiso-baseload: overnight window incomplete — ${window.length} of ${EXPECTED_INTERVALS} ` +
         `intervals present (need ${MIN_INTERVALS}), ${blanks} still blank. ` +
-        `CAISO publishes the current Pacific day only, so this is expected between ` +
-        `00:00 and 06:00 Pacific and is an outage at any other hour.`
+        `CAISO publishes the current Pacific day only, so this is the normal state between ` +
+        `00:00 and 06:00 Pacific and an outage at any other hour.`
       );
     }
 
@@ -100,6 +100,10 @@ export default {
       // established from the feed — which it cannot, because the feed has no date.
       observed_at: new Date().toISOString(),
       meta: {
+        // The Pacific calendar day this window belongs to. collector/infra.mjs
+        // keys the accumulated baseline on this rather than on the run clock,
+        // because one overnight window is readable under two UTC dates.
+        baseline_day: localDay,
         local_day_derived: localDay,
         floor_at_local: `${floor.time} PT`,
         floor_local_naive_iso: Number.isFinite(ms) ? `${localDay}T${floor.time}:00` : null,

@@ -1,4 +1,4 @@
-// /infra.html — THE INFRASTRUCTURE INDEX.
+// /watts.html — WATTS, THE INFRASTRUCTURE INDEX.
 //
 // The sub-index pointed at the physical substrate: power, water, and the paper
 // trail of the build-out. Reads data/infra.json, written by collector/infra.mjs,
@@ -14,7 +14,7 @@
 // unfalsifiable (a quiet bar could mean anything), and ours is a physical
 // constraint. You cannot train a model without electricity. But the honest
 // version of that claim is much weaker than the exciting version, so the
-// correlation warning is the THIRD thing on the page, above every chart, in
+// correlation warning is high on the page, above every chart, in
 // running prose, before the reader has had a chance to form the wrong idea.
 //
 // The hero is a five-stop rail rather than a gauge. A gauge has one needle and
@@ -32,13 +32,17 @@ import { esc, utc, utcDay, num } from './_html.mjs';
 import { page } from './layout.mjs';
 import * as brand from '../brand.mjs';
 
-const PATH = '/infra.html';
+const PATH = '/watts.html';
 
 /** build.mjs gate: no data/infra.json, no route, no nav entry, no 404. */
-export function hasInfra(ctx) {
+export function hasWatts(ctx) {
   const i = ctx && ctx.infra;
   return Boolean(i && Array.isArray(i.sources) && i.sources.length && Array.isArray(i.pillars));
 }
+
+/** Deprecated alias. The page was briefly /infra.html before SUB-INDICES.md §3
+ *  settled the route as /watts. Kept so a stale import cannot fail a build. */
+export const hasInfra = hasWatts;
 
 // ---------------------------------------------------------------------------
 // The corridors. This table is a DISPLAY concern and lives here, not in the
@@ -386,8 +390,141 @@ function corridorBoard(infra) {
      pillars can and cannot see there. <b>${esc(String(withGrid))} of ${esc(String(CORRIDORS.length))}
      have a free real-time demand feed.</b> The other ${esc(String(CORRIDORS.length - withGrid))} say
      why not, in their own cell, rather than leaving a blank that reads as an oversight.</p>
+  ${corridorTable(infra)}
   <div class="icorr">${rows}</div>
 </section>`;
+}
+
+// ---------------------------------------------------------------------------
+// The corridor table — the scannable version of the board above.
+//
+// RATIO, DEV and SIGNAL are the three columns pizzint's commute table carries
+// (`Alexandria 91% +16% 11`) and they are the right three: where it is now,
+// how far that is from normal, and whether that counts as anything. The bands
+// that decide the last column are printed under the table, because a threshold
+// a reader cannot see is a threshold a reader cannot argue with.
+// ---------------------------------------------------------------------------
+
+/** Editorial bands. Stated on the page as choices, because that is what they are. */
+const RIVER_BAND_PCT = 25;   // flagged outside 75-125% of the long-run median
+const DROUGHT_BAND_PCT = 20; // flagged at or above 20% of state area in D2 or worse
+
+function corridorTable(infra) {
+  const water = sourceById(infra, 'usgs-water-deficit');
+  const drought = sourceById(infra, 'usdm-drought');
+  const gauges = new Map((water?.meta?.gauges ?? []).map((g) => [g.site, g]));
+  const states = new Map((drought?.meta?.states ?? []).map((st) => [st.abbr, st]));
+
+  const body = CORRIDORS.map((c) => {
+    // --- grid cell -------------------------------------------------------
+    let gridTxt;
+    let gridState = null; // null = not tracked here
+    if (c.grid) {
+      const floor = c.grid.map((id) => sourceById(infra, id)).find((x) => x && x.id.endsWith('baseload'));
+      if (!floor || floor.state === 'dark') {
+        gridTxt = `<span class="ict__dim">dark</span>`;
+        gridState = 'dark';
+      } else {
+        gridTxt = `${esc(fmtNum(floor.value, 0))} MW`;
+        gridState = floor.state;
+      }
+    } else {
+      gridTxt = `<span class="ict__dim">no free feed</span>`;
+    }
+
+    // --- river: RATIO and DEV -------------------------------------------
+    // The DRIEST gauge, not the average of them. Northern Virginia is the case
+    // that forces it: Goose Creek ran at 1,078% of its median on 2026-09-22
+    // while the Potomac ran at 113%, and the mean of those two is 595%, a
+    // number describing no river in Virginia. A cluster is constrained by its
+    // tightest water source, so the minimum is both the honest summary and the
+    // one that matches what the water pillar is asking. The gauge is named in
+    // the cell, because a statistic whose provenance is hidden is a vibe.
+    const gs = c.gauges.map((site) => gauges.get(site))
+      .filter((g) => g && Number.isFinite(g.percent_of_normal));
+    const driest = gs.length ? gs.reduce((a, b) => (b.percent_of_normal < a.percent_of_normal ? b : a)) : null;
+    const ratio = driest ? driest.percent_of_normal : null;
+    const dev = ratio === null ? null : ratio - 100;
+
+    // --- drought ---------------------------------------------------------
+    const ss = c.states.map((a) => states.get(a)).filter(Boolean);
+    const d2s = ss.map((x) => x.d2).filter(Number.isFinite);
+    const d2 = d2s.length ? Math.max(...d2s) : null;
+
+    // --- SIGNAL: how many of this corridor's measurable series are past band
+    //
+    // The river band is TWO-SIDED, and the reason is worth a line. A river far
+    // above its median is as unusual as one far below; it is simply a different
+    // event, and for this page's purposes usually rainfall rather than anything
+    // to do with a datacentre. So the cell names which side it fell on rather
+    // than printing a bare count that reads as severity.
+    let tracked = 0;
+    const why = [];
+    if (ratio !== null) {
+      tracked++;
+      if (Math.abs(dev) > RIVER_BAND_PCT) why.push(dev < 0 ? 'river dry' : 'river high');
+    }
+    if (d2 !== null) {
+      tracked++;
+      if (d2 >= DROUGHT_BAND_PCT) why.push('drought');
+    }
+    // The grid series joins this count only once it has a baseline to be
+    // unusual against. Until then it is awaiting, not normal, and not flagged.
+    const gridAwaiting = gridState === 'awaiting-baseline';
+
+    let signal;
+    if (tracked === 0) {
+      signal = `<span class="ict__na">awaiting</span>`;
+    } else {
+      const cls = why.length > 0 ? 'ict__flag' : 'ict__ok';
+      signal = `<span class="${cls}">${why.length}/${tracked}</span>` +
+        (why.length ? ` <span class="ict__dim">${esc(why.join(', '))}</span>` : '') +
+        (gridAwaiting ? ` <span class="ict__dim">+1 awaiting</span>` : '');
+    }
+
+    return `<tr>
+      <td class="ict__n"><b>${esc(c.name)}</b><span>${esc(c.place)}</span></td>
+      <td>${gridTxt}</td>
+      <td class="ict__num">${ratio === null ? '<span class="ict__dim">—</span>'
+        : `${esc(fmtNum(ratio, 0))}%<span class="ict__sub">${esc(driest.name)}</span>`}</td>
+      <td class="ict__num">${dev === null ? '<span class="ict__dim">—</span>'
+        : `${dev >= 0 ? '+' : '−'}${esc(fmtNum(Math.abs(dev), 0))}%`}</td>
+      <td class="ict__num">${d2 === null ? '<span class="ict__dim">—</span>' : `${esc(fmtNum(d2, 1))}%`}</td>
+      <td>${signal}</td>
+    </tr>`;
+  }).join('');
+
+  return `
+  <div class="ictw">
+    <table class="ict">
+      <caption class="u-visually-hidden">Corridor summary: grid overnight floor, river flow as a
+        percentage of the long-run median, deviation from that median, share of state area in severe
+        drought or worse, and how many of each corridor's measurable series sit outside their band.</caption>
+      <thead><tr>
+        <th scope="col">Corridor</th>
+        <th scope="col">Grid</th>
+        <th scope="col">Driest gauge</th>
+        <th scope="col">Dev</th>
+        <th scope="col">D2+</th>
+        <th scope="col">Signal</th>
+      </tr></thead>
+      <tbody>${body}</tbody>
+    </table>
+  </div>
+  <p class="isec__n"><b>Driest gauge</b> is the lowest of the corridor's gauges as a percentage of
+     that gauge's own long-run median for the same day of the year, named in the cell — the minimum
+     rather than the mean, because a cluster is constrained by its tightest water source and because
+     averaging a creek in flood with a river at normal describes neither. <b>Dev</b> is the same
+     number as a signed deviation. <b>D2+</b> is the largest share of a corridor state's area the US
+     Drought Monitor puts in severe drought or worse. <b>Signal</b> counts how many of the corridor's
+     measurable series sit outside their band and names which, where the bands are
+     <b>±${esc(String(RIVER_BAND_PCT))}% of the median</b> for a river and
+     <b>${esc(String(DROUGHT_BAND_PCT))}% of area</b> for drought. Those two numbers are choices, not
+     findings, and they are printed here so a reader can disagree with them. The river band is
+     two-sided: a river far above its median is as unusual as one far below, and usually means
+     rainfall rather than anything to do with a datacentre, so the cell says which side it fell on.
+     A grid series joins the count only once it has a baseline to be unusual against — until then it
+     reads <i>awaiting</i>, which is a different state from normal, and never a zero.</p>`;
 }
 
 /**
@@ -680,7 +817,7 @@ function cannotTell(infra) {
      'Datacentre water draw is not published by anyone, anywhere, at any cadence. Streamflow is ' +
      'rain, snowmelt, reservoir operations and irrigation, and a cooling tower is a rounding error ' +
      'against all four. This measures the constraint, never the consumption.'],
-    ['Five of the nine corridors have no grid feed at all.',
+    [`${CORRIDORS.length - gridCoverage().with} of the ${CORRIDORS.length} corridors have no grid feed at all.`,
      'Northern Virginia is the largest datacentre cluster on earth and it sits inside PJM, whose ' +
      'real-time demand is behind a registered key. Ohio is the same. Iowa’s MISO broker returns ' +
      'no data. Georgia, Arizona and Oregon are not organised markets and have no independent ' +
@@ -768,23 +905,112 @@ function howComputed(ctx, infra) {
 }
 
 // ---------------------------------------------------------------------------
-// The hero strip — the useful facts, above the fold
+// THE READOUT — the instrument line, above the fold
+//
+// This is the one piece of the page that is deliberately shaped like somebody
+// else's. pizzint's Commute Index prints a fixed block of the form
+//
+//   OPTEMPO 5 / Business As Usual - SCORE: 5
+//   TIME WINDOW: EVENING RUSH
+//   CORRIDORS: 7/7 - CORRELATION: 14%
+//   DIRECTION: OUTBOUND - SENSITIVITY: 2x
+//   UPDATED: 6:30:50 PM ET - BASELINE SLOT: Wed 18:30
+//
+// and it is the best-engineered thing on that site, because every line answers
+// a question a sceptic would actually ask: what is the number, over what
+// window, across how many units, in which direction, how sensitive, compared to
+// what, as of when. We copy the INFORMATION SHAPE exactly and decline exactly
+// one thing: `CORRELATION: 14%` is a correlation nobody on that page has shown
+// their working for. Ours prints NOT MEASURED, because it is not measured, and
+// a page whose whole argument is "we count, we do not claim" cannot open with a
+// statistic it invented.
+//
+// Every field below is computed from the run, never written down.
 // ---------------------------------------------------------------------------
 
-function heroFacts(infra) {
+/**
+ * SENSITIVITY, as a published constant rather than a mood.
+ *
+ * The scoring rule is `S = 50 + 12.5z` (CONTRACT.md "Index maths", and the
+ * `normalisation` string in data/infra.json carries it verbatim). So one
+ * standard deviation of a source's own record is worth 12.5 score points, and
+ * "this reading is unusual for this source" has an exact meaning: a score at
+ * or beyond 1σ from the centre, i.e. outside 37.5–62.5.
+ *
+ * It is a threshold, which is a choice. It is printed so a reader can disagree
+ * with the choice rather than guess at it.
+ */
+const POINTS_PER_SIGMA = 12.5;
+const FLAG_LO = 50 - POINTS_PER_SIGMA;
+const FLAG_HI = 50 + POINTS_PER_SIGMA;
+
+/** Sources currently sitting beyond 1σ of their own record. Scored only. */
+function flagged(infra) {
+  const scored = infra.sources.filter((x) => Number.isFinite(x.score));
+  return {
+    n: scored.filter((x) => x.score <= FLAG_LO || x.score >= FLAG_HI).length,
+    of: scored.length,
+  };
+}
+
+/**
+ * BASELINE SLOT. pizzint compares 18:30 on a Wednesday against other 18:30s on
+ * other Wednesdays. We compare each source against its own prior readings of
+ * the same statistic — an overnight floor against overnight floors, a September
+ * flow against the same gauge's September median. There is no single slot, so
+ * the field reports the shape of the comparison and how deep it goes, which is
+ * the question the slot was answering.
+ */
+function baselineSlot(infra) {
+  const scored = infra.sources.filter((x) => Number.isFinite(x.score) && Number.isFinite(x.baseline_n));
+  if (scored.length === 0) return 'nothing scored — no source has reached the 30-point floor';
+  const ns = scored.map((x) => x.baseline_n).sort((a, b) => a - b);
+  const deepest = ns[ns.length - 1];
+  const shallowest = ns[0];
+  const origins = [...new Set(scored.map((x) => x.baseline_origin).filter(Boolean))];
+  return `own record, like against like · ${shallowest.toLocaleString('en-US')}–` +
+         `${deepest.toLocaleString('en-US')} points · ${origins.join(' + ') || 'mixed'}`;
+}
+
+/** Corridors with a free real-time demand feed, over corridors tracked. */
+function gridCoverage() {
+  return { with: CORRIDORS.filter((c) => c.grid).length, of: CORRIDORS.length };
+}
+
+function readout(infra) {
   const c = infra.counts ?? {};
-  const items = [
-    ['Compiled', `<time datetime="${esc(infra.generated_at)}">${esc(utc(infra.generated_at))}</time>`],
-    ['Scored', `${esc(String(c.live ?? 0))} of ${esc(String(c.total ?? 0))} sources`],
-    ['Awaiting baseline', `${esc(String(c.awaiting_baseline ?? 0))}`],
-    ['Dark', `${esc(String(c.dark ?? 0))}`],
-    ['Level held since', infra.level_since
-      ? `<time datetime="${esc(infra.level_since)}">${esc(utcDay(infra.level_since))}</time>`
-      : '—'],
-    ['Feeds the main index', 'No'],
+  const f = flagged(infra);
+  const cov = gridCoverage();
+  const scored = Number.isFinite(infra.score);
+
+  const rows = [
+    ['Index',
+      scored
+        ? `<b>SUBSTRATE ${esc(String(infra.level))} · ${esc(infra.level_name)}</b> — SCORE: ${esc(num(infra.score, 1))} of 100`
+        : `<b>NO READING</b> — every pillar dark`],
+    ['Time window',
+      'OVERNIGHT FLOOR 00:00–06:00 local · grid. Latest published observation · water and build-out.'],
+    ['Corridors',
+      `${esc(String(cov.with))}/${esc(String(cov.of))} carry a free real-time demand feed — ` +
+      `<b>CORRELATION WITH AI ACTIVITY: NOT MEASURED</b>`],
+    ['Direction',
+      `HIGHER = MORE LOADED, every source · SENSITIVITY: 1σ = ${esc(String(POINTS_PER_SIGMA))} score points; ` +
+      `${esc(String(f.n))} of ${esc(String(f.of))} scored sources sit past 1σ`],
+    ['Updated',
+      `<time datetime="${esc(infra.generated_at)}">${esc(utc(infra.generated_at))}</time> · ` +
+      `BASELINE SLOT: ${esc(baselineSlot(infra))}`],
+    ['Sources',
+      `${esc(String(c.live ?? 0))} live · ${esc(String(c.awaiting_baseline ?? 0))} awaiting baseline · ` +
+      `${esc(String(c.dark ?? 0))} dark, of ${esc(String(c.total ?? 0))}`],
+    ['Level held since',
+      infra.level_since
+        ? `<time datetime="${esc(infra.level_since)}">${esc(utcDay(infra.level_since))}</time>`
+        : '—'],
+    ['Feeds the main index', 'NO — separate sources, separate instrument, separate question'],
   ];
-  return `<dl class="ihero__facts">${items.map(([k, v]) =>
-    `<div class="ihero__f"><dt>${esc(k)}</dt><dd>${v}</dd></div>`).join('')}</dl>`;
+
+  return `<dl class="iread" aria-label="Instrument readout">${rows.map(([k, v]) =>
+    `<div class="iread__r"><dt>${esc(k)}</dt><dd>${v}</dd></div>`).join('')}</dl>`;
 }
 
 /**
@@ -802,10 +1028,101 @@ function plainSentence(infra) {
       : `Nothing was computed on this build. Every pillar is dark and no earlier reading is on file.`;
   }
   const band = (infra.levels ?? []).find((l) => l.level === infra.level);
-  return `Today reads ${infra.level >= 4 ? 'ordinary' : infra.level === 3 ? 'above the middle' : 'near the top'}.
-    ${esc(num(infra.score, 1))} of 100 sits in the ${esc(String(band?.min ?? ''))}–${esc(String(band?.max ?? ''))}
+  // Lead with the figure, not with an adjective for it. The band's own gloss
+  // supplies the adjective a sentence later, and an earlier draft that opened
+  // "Today reads ordinary" ran straight into a gloss beginning "Ordinary."
+  return `${esc(num(infra.score, 1))} of 100 sits in the ${esc(String(band?.min ?? ''))}–${esc(String(band?.max ?? ''))}
     band of this index’s own record. ${esc(String(band?.gloss ?? ''))}
-    This is a count of how loaded the substrate is, not a claim about what anyone is building on it.`;
+    That is a count of how loaded the substrate is, not a claim about what anyone is building on it.`;
+}
+
+
+// ---------------------------------------------------------------------------
+// MEASURED EXCLUSIONS — what was tried, tested, and left out.
+//
+// /race publishes why Manifold is excluded rather than quietly dropping it, and
+// the reason generalises: a list of what was tried is the only evidence a reader
+// has that the included list was CHOSEN rather than assembled from whatever
+// happened to return 200. Every row below was requested against the live
+// endpoint and the result is what came back, on the date given.
+//
+// The water row is the one the brief specifically asked for and it is the one
+// most worth reading. US water-USE statistics are published annually. A tempo
+// index cannot be built on a series that changes once a year — it would be a
+// step function with a multi-year lag — so it is excluded and said out loud,
+// rather than interpolated into a cadence it does not have. Streamflow is on
+// this page instead, and it is a different quantity: the constraint, not the
+// consumption.
+// ---------------------------------------------------------------------------
+
+const EXCLUSIONS = Object.freeze([
+  { name: 'EIA open data — hourly demand by balancing authority',
+    host: 'api.eia.gov/v2', checked: '2026-09-23',
+    result: 'requires an api_key on every request',
+    verdict: 'Excluded. The key is free and instant, which would be tolerable if it were obtainable ' +
+      'in an unattended build — it is not, and a key committed to this repository is a key on the ' +
+      'public internet. This is the single biggest gap on the page: EIA-930 covers every balancing ' +
+      'authority including PJM and MISO and would close six corridors at once.' },
+  { name: 'PJM Data Miner 2 — Northern Virginia and Ohio',
+    host: 'api.pjm.com', checked: '2026-09-23',
+    result: 'HTTP 401 on every path tried',
+    verdict: 'Excluded. Requires a registered subscription key. This is why the largest datacentre ' +
+      'cluster on earth has no grid cell on this page.' },
+  { name: 'MISO real-time data broker — Iowa and Nebraska',
+    host: 'misoenergy.org', checked: '2026-09-23',
+    result: 'HTTP 200 carrying {"error": "no data"} on getfuelmix, gettotalload and getWindForecast; ' +
+      'empty body on three others',
+    verdict: 'Excluded. A 200 with an error body is exactly the shape that becomes a silent zero, ' +
+      'and there is nothing behind it to read.' },
+  { name: 'US water-use statistics — the operator’s "water usage"',
+    host: 'USGS national water-use programme', checked: '2026-09-23',
+    result: 'published annually',
+    verdict: 'Excluded as a tempo series, and this is the exclusion most worth stating. An index of ' +
+      'activity cannot be built on a number that changes once a year; it would be a step function ' +
+      'with a multi-year lag dressed up as a live reading. Instantaneous streamflow IS sub-daily and ' +
+      'is used instead — but it measures the water in the river, never the water a datacentre drew ' +
+      'out of it. Those are different quantities and this page does not blur them.' },
+  { name: 'poweroutage.us — the operator’s "power outages"',
+    host: 'poweroutage.us API', checked: '2026-09-23',
+    result: 'HTTP 401',
+    verdict: 'Excluded. No free structured tier, and no other free machine-readable live outage feed ' +
+      'for the United States was found. ERCOT headroom is the nearest honest substitute and it is ' +
+      'not the same thing: it measures the margin BEFORE an outage, not the outage.' },
+  { name: 'ERCOT todays-outlook.json',
+    host: 'ercot.com', checked: '2026-09-23',
+    result: 'HTTP 403',
+    verdict: 'Excluded; supply-demand.json carries the same quantities and is used instead.' },
+  { name: 'CAISO dated archive — /outlook/<YYYYMMDD>/demand.csv',
+    host: 'caiso.com', checked: '2026-09-23',
+    result: 'HTTP 404 on two dates',
+    verdict: 'No archive exists. This is the cause of the documented six-hour CAISO hole.' },
+  { name: 'Vast.ai GPU spot pricing',
+    host: 'vast.ai', checked: '2026-09-23',
+    result: 'works',
+    verdict: 'Deliberately not duplicated. It is already live in the main index as the compute ' +
+      'pillar’s GPU source. Running one series in two indices would make them look like two ' +
+      'independent witnesses agreeing, which is the single easiest way to fake corroboration.' },
+]);
+
+function exclusions() {
+  const rows = EXCLUSIONS.map((e) => `
+    <div class="iex__i">
+      <p class="iex__n">${esc(e.name)}</p>
+      <p class="iex__r"><span class="iex__host">${esc(e.host)}</span>
+         <span class="iex__res">${esc(e.result)}</span>
+         <span class="iex__when">checked ${esc(e.checked)}</span></p>
+      <p class="iex__v">${esc(e.verdict)}</p>
+    </div>`).join('');
+
+  return `
+<section class="isec iex" aria-labelledby="iex-h">
+  <h2 class="isec__h" id="iex-h">Measured exclusions</h2>
+  <p class="isec__l">Eight candidate sources were requested against their live endpoints and left
+     out. They are published here, rather than dropped quietly, because a list of what was tried is
+     the only evidence a reader has that the included list was <i>chosen</i> and not just assembled
+     from whatever returned 200.</p>
+  <div class="iex__l">${rows}</div>
+</section>`;
 }
 
 // ---------------------------------------------------------------------------
@@ -813,7 +1130,7 @@ function plainSentence(infra) {
 // ---------------------------------------------------------------------------
 
 export function render(ctx) {
-  if (!hasInfra(ctx)) return emptyPage(ctx);
+  if (!hasWatts(ctx)) return emptyPage(ctx);
   const infra = ctx.infra;
 
   const headline = Number.isFinite(infra.score)
@@ -831,14 +1148,16 @@ export function render(ctx) {
   const main = `<style>${infraCss()}</style>
 <section class="ihero">
   <p class="ihero__eyebrow">A ${esc(brand.NAME)} sub-index · does not feed the main number</p>
-  <h1 class="ihero__h1">The infrastructure index</h1>
+  <h1 class="ihero__h1">Watts</h1>
+  <p class="ihero__sub">The infrastructure index. The page is <b>WATTS</b>; the number on it is
+     <b>SUBSTRATE</b>, five to one.</p>
   <p class="ihero__lede">Intelligence is electricity with extra steps. You cannot train a frontier
      model without power, water and concrete, and unlike model weights, all three leave a public
      paper trail. Every input below is free, keyless and published by somebody with no interest in
      this question at all.</p>
   <p class="ihero__plain">${plainSentence(infra)}</p>
   ${rail(infra)}
-  ${heroFacts(infra)}
+  ${readout(infra)}
 </section>
 
 ${warning()}
@@ -857,17 +1176,19 @@ ${sourceTable(infra)}
 
 ${cannotTell(infra)}
 
+${exclusions()}
+
 ${howComputed(ctx, infra)}
 `;
 
   return page({
     ctx,
     path: PATH,
-    title: `The infrastructure index — ${headline} · ${brand.NAME}`,
-    ogTitle: `${brand.NAME}: the infrastructure index — ${headline}`,
+    title: `Watts, the infrastructure index — ${headline} · ${brand.NAME}`,
+    ogTitle: `${brand.NAME} Watts: the infrastructure index — ${headline}`,
     description,
-    ogImage: ctx.cardFor ? ctx.cardFor('infra') : null,
-    ogImageAlt: `${brand.NAME} infrastructure index: ${headline}`,
+    ogImage: ctx.cardFor ? ctx.cardFor('watts') : null,
+    ogImageAlt: `${brand.NAME} Watts, the infrastructure index: ${headline}`,
     jsonld: [dataset(ctx, infra)],
     main,
   });
@@ -879,11 +1200,12 @@ function emptyPage(ctx) {
     ctx,
     path: PATH,
     noindex: true,
-    title: `The infrastructure index · ${brand.NAME}`,
+    title: `Watts, the infrastructure index · ${brand.NAME}`,
     description: `${brand.NAME}'s infrastructure index has not published a run yet.`,
     main: `<style>${infraCss()}</style>
 <section class="ihero">
-  <h1 class="ihero__h1">The infrastructure index</h1>
+  <h1 class="ihero__h1">Watts</h1>
+  <p class="ihero__sub">The infrastructure index.</p>
   <p class="ihero__lede">No run has been published in this build. This is not an empty result — it is
      the absence of a result, and the two are different states.</p>
   <p class="isec__l">Run <code>collector/infra.mjs</code> and rebuild.</p>
@@ -895,7 +1217,7 @@ function dataset(ctx, infra) {
   return {
     '@context': 'https://schema.org',
     '@type': 'Dataset',
-    name: `${brand.NAME} infrastructure index`,
+    name: `${brand.NAME} Watts — the infrastructure index`,
     description:
       'Grid overnight demand floors, streamflow against long-run normals at nine gauges beside ' +
       'datacentre clusters, US Drought Monitor severity across ten states, and SEC and Federal ' +
@@ -930,6 +1252,8 @@ function infraCss() {
   color:var(--ink-faint);margin:0 0 var(--s-2)}
 .ihero__h1{font:600 clamp(1.6rem,7vw,2.4rem)/1.08 var(--sans);letter-spacing:-.02em;margin:0 0 var(--s-3)}
 .ihero__lede{font:400 var(--t-md)/1.5 var(--sans);color:var(--ink-dim);margin:0 0 var(--s-4);max-width:62ch}
+.ihero__sub{font:500 var(--t-sm)/1.5 var(--mono);color:var(--ink-dim);margin:var(--s-2) 0 var(--s-3);letter-spacing:.01em}
+.ihero__sub b{color:var(--ink);font-weight:600;letter-spacing:.06em}
 .ihero__plain{font:400 var(--t-base)/1.55 var(--sans);margin:0 0 var(--s-5);max-width:58ch;
   padding:var(--s-3) var(--s-4);background:var(--wash-alt);border-left:3px solid var(--accent);border-radius:var(--radius)}
 
@@ -951,11 +1275,40 @@ function infraCss() {
   font-variant-numeric:tabular-nums}
 .irail__cap b{color:var(--ink)}
 
-.ihero__facts{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--rule-soft);
+/* The readout. One column at 375px, label over value; a label column appears
+   only when there is room for one without squeezing the value. */
+.iread{display:grid;grid-template-columns:1fr;gap:1px;background:var(--rule-soft);
   border:1px solid var(--rule-soft);margin:var(--s-4) 0 0;border-radius:var(--radius);overflow:hidden}
-.ihero__f{background:var(--bg);padding:var(--s-2) var(--s-3)}
-.ihero__f dt{font:500 var(--t-2xs)/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint)}
-.ihero__f dd{margin:2px 0 0;font:500 var(--t-sm)/1.35 var(--mono);font-variant-numeric:tabular-nums}
+.iread__r{background:var(--bg);padding:var(--s-2) var(--s-3);display:grid;grid-template-columns:1fr;gap:1px}
+.iread__r dt{font:500 var(--t-2xs)/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;
+  color:var(--ink-faint)}
+.iread__r dd{margin:2px 0 0;font:400 var(--t-xs)/1.45 var(--mono);font-variant-numeric:tabular-nums;
+  overflow-wrap:anywhere}
+.iread__r dd b{font-weight:600;color:var(--ink)}
+
+/* The corridor summary table. Horizontally scrollable below 640px rather than
+   reflowed: a ratio, its deviation and its flag only mean anything on one row
+   together, and stacking them turns a table into nine unlabelled numbers. */
+.ictw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:var(--s-3) 0 0;
+  border:1px solid var(--rule-soft);border-radius:var(--radius)}
+.ict{border-collapse:collapse;width:100%;min-width:34rem;
+  font:400 var(--t-xs)/1.4 var(--mono);font-variant-numeric:tabular-nums}
+.ict th,.ict td{padding:var(--s-2) var(--s-3);text-align:left;border-bottom:1px solid var(--rule-soft);
+  vertical-align:top;white-space:nowrap}
+.ict thead th{font:600 var(--t-2xs)/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;
+  color:var(--ink-faint);background:var(--bg-soft)}
+.ict tbody tr:last-child td{border-bottom:0}
+.ict__n{white-space:normal;min-width:10rem}
+.ict__n b{font-weight:600}
+.ict__n span{display:block;font-size:var(--t-2xs);color:var(--ink-faint)}
+.ict__num{text-align:right}
+.ict__sub{display:block;font-size:var(--t-2xs);color:var(--ink-faint);font-weight:400;white-space:nowrap}
+.ict__dim{color:var(--ink-faint)}
+.ict__flag{font-weight:600}
+.ict__flag::before{content:"▲ ";font-size:.85em}
+.ict__ok::before{content:"· ";color:var(--ink-faint)}
+.ict__na{color:var(--ink-faint)}
+.ict__na::before{content:"◐ "}
 
 .iwarn{border:1px solid var(--rule);border-radius:var(--radius);padding:var(--s-4);
   margin:0 0 var(--sec);background:var(--bg-raised)}
@@ -982,6 +1335,22 @@ function infraCss() {
 .isec__h{font:600 var(--t-xl)/1.15 var(--sans);letter-spacing:-.015em;margin:0 0 var(--s-3);
   padding-top:var(--s-3);border-top:1px solid var(--rule)}
 .isec__l{font:400 var(--t-sm)/1.6 var(--sans);color:var(--ink-dim);margin:0 0 var(--s-4);max-width:66ch}
+.isec__n{font:400 var(--t-xs)/1.6 var(--sans);color:var(--ink-dim);margin:var(--s-3) 0 0;max-width:72ch}
+.iex__l{display:grid;grid-template-columns:1fr;gap:1px;background:var(--rule-soft);
+  border:1px solid var(--rule-soft);border-radius:var(--radius);overflow:hidden}
+.iex__i{background:var(--bg);padding:var(--s-3)}
+.iex__n{margin:0;font:600 var(--t-sm)/1.35 var(--sans);color:var(--ink)}
+.iex__r{margin:var(--s-2) 0 0;display:flex;flex-wrap:wrap;gap:var(--s-2);
+  font:400 var(--t-2xs)/1.4 var(--mono)}
+.iex__host{color:var(--ink-faint)}
+.iex__res{color:var(--ink);border-left:2px solid var(--rule);padding-left:var(--s-2)}
+.iex__when{color:var(--ink-faint)}
+.iex__v{margin:var(--s-2) 0 0;font:400 var(--t-xs)/1.6 var(--sans);color:var(--ink-dim);max-width:74ch}
+.isec__n b{color:var(--ink);font-weight:600}
+/* Table caption: read by a screen reader, off-screen for everyone else. Scoped
+   here rather than added to site/styles.mjs, which is owned by another author. */
+.ict caption.u-visually-hidden{position:absolute;width:1px;height:1px;margin:-1px;padding:0;
+  overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;border:0}
 .isec__l b{color:var(--ink)}
 
 .ist{display:inline-flex;align-items:baseline;gap:5px;font:500 var(--t-2xs)/1.3 var(--mono);
@@ -1090,12 +1459,13 @@ function infraCss() {
   .ipils{grid-template-columns:repeat(3,1fr)}
   .igs{grid-template-columns:repeat(3,1fr)}
   .ibs{grid-template-columns:repeat(3,1fr)}
-  .ihero__facts{grid-template-columns:repeat(3,1fr)}
+  .iread__r{grid-template-columns:13rem 1fr;align-items:baseline;gap:var(--s-3)}
+  .iread__r dd{margin:0}
 }
 @media (min-width:860px){
   .icorr{grid-template-columns:repeat(2,1fr)}
   .ic{grid-template-columns:1fr;align-content:start}
-  .ihero__facts{grid-template-columns:repeat(6,1fr)}
+  .iread__r{grid-template-columns:15rem 1fr}
   .icant__l{grid-template-columns:repeat(2,1fr)}
 }
 @media (min-width:1100px){
