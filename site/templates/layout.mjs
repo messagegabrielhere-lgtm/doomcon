@@ -37,6 +37,45 @@ const NAV = [
  *        defaults; an object is passed through to _motion.motionBlock as
  *        { stateUrl, newsUrl (null disables news polling), pollMs }.
  */
+/**
+ * The operations strip. Counters only, all read from real state.
+ *
+ * The temptation is to print STATUS: OPERATIONAL unconditionally because it
+ * reads well. pizzint's own health endpoint does exactly that while reporting
+ * two successful scrapes in twenty-four hours. The posture here is computed
+ * from the same fields the dashboard shows, so it can say DEGRADED about us.
+ */
+function opsStrip(ctx) {
+  const st = ctx && ctx.state;
+  if (!st || !Array.isArray(st.sources)) return '';
+  const total = st.sources.length;
+  // "reporting" is ok OR uncalibrated: both answered the request. Only `ok`
+  // means we also have a frozen baseline to score it against. Printing
+  // "5/14 SOURCES" conflated those and read as though nine were broken, which
+  // is the precise confusion this codebase exists to avoid.
+  const reporting = st.sources.filter((x) => x.ok || x.uncalibrated).length;
+  const scored = st.sources.filter((x) => x.ok).length;
+  const dark = st.sources.filter((x) => !x.ok && !x.uncalibrated).length;
+  const news = ctx.news && Array.isArray(ctx.news.items) ? ctx.news.items.length : null;
+  const feeds = ctx.news && Array.isArray(ctx.news.sources)
+    ? ctx.news.sources.filter((x) => x.ok).length : null;
+  const receipts = Array.isArray(ctx.receipts) ? ctx.receipts.length : null;
+  const posture = dark > 0 ? 'DEGRADED' : 'OPERATIONAL';
+
+  const cells = [
+    `${reporting}/${total} REPORTING`,
+    `${scored} SCORED`,
+    feeds !== null ? `${feeds} FEEDS` : null,
+    news !== null ? `${news} ITEMS` : null,
+    receipts !== null ? `${receipts} RECEIPTS` : null,
+    `STATUS: ${posture}`,
+  ].filter(Boolean);
+
+  return `<div class="ops" data-posture="${posture.toLowerCase()}"><div class="wrap ops__in">` +
+    cells.map((c) => `<span class="ops__c">${esc(c)}</span>`).join('') +
+    `</div></div>`;
+}
+
 export function page(o) {
   const { ctx } = o;
   const canonical = ctx.url(o.path);
@@ -108,6 +147,7 @@ ${jsonld}
   <p class="masthead__tag">${esc(brand.TAGLINE)}</p>
   <nav class="nav" aria-label="Primary">${nav}</nav>
 </div></header>
+${opsStrip(ctx)}
 ${o.showDegraded ? degradedBanner(ctx.state) : ''}${motion.beforeMain}
 <main class="wrap" id="main">
 ${o.main}
