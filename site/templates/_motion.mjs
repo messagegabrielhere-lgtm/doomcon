@@ -56,9 +56,9 @@ const TICKER_MIN = 8;
 // ~3.6s per item lands 14 items at 50s, inside MOTION.md's 40-60s window.
 // Derived from the item count, not hard-coded, because a shorter strip at a
 // fixed duration scrolls faster than anyone can read.
-const SEC_PER_ITEM = 3.6;
-const TICKER_MIN_S = 40;
-const TICKER_MAX_S = 60;
+const SEC_PER_ITEM = 6.48;
+const TICKER_MIN_S = 75;
+const TICKER_MAX_S = 110;
 
 const POLL_MS = 60000;
 const ARRIVAL_CAP = 8;

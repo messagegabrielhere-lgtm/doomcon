@@ -26,6 +26,8 @@ import { indexHistoryChart, pillarRanked, gauge, distributionStrip } from './_ch
 import { page } from './layout.mjs';
 import * as brand from '../brand.mjs';
 import * as news from './news.mjs';
+import * as labs from './_labs.mjs';
+import * as xwire from './_xwire.mjs';
 
 // Matches build.mjs's own sparkline window. Only a cap: the fallback reader
 // below never needs more points than a 300-unit sparkline can resolve.
@@ -190,6 +192,10 @@ ${news.styleTag()}
 </section>
 
 ${news.render(ctx)}
+
+${labs.render(ctx)}
+
+${xwire.render(ctx)}
 
 <section class="sec" aria-labelledby="pillars-h">
   <h2 class="sec__h" id="pillars-h">The five pillars</h2>
