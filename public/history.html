@@ -1,0 +1,1454 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>A sourced history of AI risk — Good, Asilomar, the pause letter · DOOMCON</title>
+<meta name="description" content="Dated and sourced: I. J. Good&#39;s 1965 intelligence explosion, the 1955 Dartmouth proposal, Asilomar 1975, Bostrom&#39;s paperclip maximizer, the 2015 and 2023 open letters, Hinton&#39;s resignation, the CAIS extinction statement, Bletchley and Seoul, and the EU AI Act timeline — plus why this index is a tempo gauge and not a forecast.">
+<link rel="canonical" href="https://messagegabrielhere-lgtm.github.io/doomcon/history.html">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="theme-color" content="#faf9f6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0b0c0e" media="(prefers-color-scheme: dark)">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="DOOMCON">
+<meta property="og:title" content="A sourced history of the AIpocalypse · DOOMCON">
+<meta property="og:description" content="Dated and sourced: I. J. Good&#39;s 1965 intelligence explosion, the 1955 Dartmouth proposal, Asilomar 1975, Bostrom&#39;s paperclip maximizer, the 2015 and 2023 open letters, Hinton&#39;s resignation, the CAIS extinction statement, Bletchley and Seoul, and the EU AI Act timeline — plus why this index is a tempo gauge and not a forecast.">
+<meta property="og:url" content="https://messagegabrielhere-lgtm.github.io/doomcon/history.html">
+<meta name="twitter:card" content="summary_large_image">
+
+
+<link rel="alternate" type="application/rss+xml" title="DOOMCON index moves" href="/doomcon/feed.xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap">
+<link rel="icon" href="/doomcon/favicon.svg" type="image/svg+xml">
+<style>:root {
+  color-scheme: dark light;
+  --bg:        #0b0c0e;
+  --bg-raised: #131519;
+  --bg-sunken: #08090a;
+  --ink:       #e8eaee;
+  --ink-dim:   #9aa2ad;
+  --ink-faint: #6a717b;
+  --rule:      #23262c;
+  --rule-soft: #191c21;
+  --accent:    #ffb020;
+  --accent-ink:#0b0c0e;
+  --ok:        #5fd08a;
+  --stale:     #ffb020;
+  --dark-src:  #ff6b6b;
+  --scan:      rgba(255,255,255,0.016);
+  --wash:      rgba(232,234,238,0.042);
+  --wash-alt:  rgba(232,234,238,0.021);
+  --wash-live: rgba(255,176,32,0.115);
+  --fill:      rgba(255,176,32,0.150);
+  --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --sans: 'Inter Tight', system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+  --t-xs:   0.6875rem;
+  --t-sm:   0.8125rem;
+  --t-base: 1rem;
+  --t-md:   1.0625rem;
+  --t-lg:   1.25rem;
+  --t-xl:   1.5rem;
+  --s-1: 4px;  --s-2: 8px;  --s-3: 12px; --s-4: 16px;
+  --s-5: 24px; --s-6: 32px; --s-7: 48px; --s-8: 64px;
+  --gutter: 16px;
+  --measure: 66ch;
+  --radius: 3px;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg:        #faf9f6;
+    --bg-raised: #ffffff;
+    --bg-sunken: #f1efe9;
+    --ink:       #14161a;
+    --ink-dim:   #545a62;
+    --ink-faint: #838a93;
+    --rule:      #e0ddd5;
+    --rule-soft: #eeebe4;
+    --accent:    #9a5a00;
+    --accent-ink:#ffffff;
+    --ok:        #17714a;
+    --stale:     #8a5a00;
+    --dark-src:  #b3261e;
+    --scan:      rgba(0,0,0,0.012);
+    --wash:      rgba(20,22,26,0.046);
+    --wash-alt:  rgba(20,22,26,0.022);
+    --wash-live: rgba(154,90,0,0.105);
+    --fill:      rgba(154,90,0,0.130);
+  }
+}
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg:#faf9f6; --bg-raised:#ffffff; --bg-sunken:#f1efe9;
+  --ink:#14161a; --ink-dim:#545a62; --ink-faint:#838a93;
+  --rule:#e0ddd5; --rule-soft:#eeebe4;
+  --accent:#9a5a00; --accent-ink:#ffffff;
+  --ok:#17714a; --stale:#8a5a00; --dark-src:#b3261e; --scan:rgba(0,0,0,0.012);
+  --wash:rgba(20,22,26,0.046); --wash-alt:rgba(20,22,26,0.022);
+  --wash-live:rgba(154,90,0,0.105); --fill:rgba(154,90,0,0.130);
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg:#0b0c0e; --bg-raised:#131519; --bg-sunken:#08090a;
+  --ink:#e8eaee; --ink-dim:#9aa2ad; --ink-faint:#6a717b;
+  --rule:#23262c; --rule-soft:#191c21;
+  --accent:#ffb020; --accent-ink:#0b0c0e;
+  --ok:#5fd08a; --stale:#ffb020; --dark-src:#ff6b6b; --scan:rgba(255,255,255,0.016);
+  --wash:rgba(232,234,238,0.042); --wash-alt:rgba(232,234,238,0.021);
+  --wash-live:rgba(255,176,32,0.115); --fill:rgba(255,176,32,0.150);
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: var(--t-base);
+  line-height: 1.55;
+  font-synthesis-weight: none;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  font-variant-numeric: tabular-nums;
+}
+.prose p, .prose li, .lede, .foot p { font-variant-numeric: proportional-nums; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9;
+  background: repeating-linear-gradient(
+    to bottom, var(--scan) 0 1px, transparent 1px 3px
+  );
+}
+@media print { body::after { display: none; } }
+a { color: inherit; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+a:focus-visible, button:focus-visible {
+  outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px;
+}
+h1, h2, h3, h4 { font-weight: 600; line-height: 1.2; letter-spacing: -0.015em; margin: 0; }
+p { margin: 0 0 1em; }
+code, kbd, pre, .num, time { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.wrap { width: 100%; max-width: 940px; margin: 0 auto; padding: 0 var(--gutter); }
+.wrap--wide { max-width: 1140px; }
+.vh {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+.rule { border: 0; border-top: 1px solid var(--rule); margin: var(--s-6) 0; }
+.eyebrow {
+  font-family: var(--mono); font-size: var(--t-xs); font-weight: 500;
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-faint);
+  margin: 0 0 var(--s-2);
+}
+.layout-split { display: grid; gap: var(--s-6); align-items: start; }
+@media (min-width: 980px) {
+  .layout-split { grid-template-columns: minmax(0, 1fr) 330px; gap: var(--s-7); }
+  .layout-split__aside { position: sticky; top: var(--s-4); }
+}
+.masthead {
+  border-bottom: 1px solid var(--rule);
+  background: var(--bg-sunken);
+  position: relative; z-index: 10;
+}
+.masthead__in {
+  display: flex; align-items: baseline; gap: var(--s-3);
+  padding-top: var(--s-3); padding-bottom: var(--s-3); flex-wrap: wrap;
+}
+.wordmark {
+  font-family: var(--mono); font-weight: 700; font-size: 15px;
+  letter-spacing: 0.22em; text-decoration: none; color: var(--ink);
+}
+.masthead__tag {
+  font-size: var(--t-sm); color: var(--ink-faint); margin: 0;
+  flex: 1 1 auto; min-width: 0;
+}
+.nav { display: flex; gap: var(--s-4); flex-wrap: wrap; }
+.nav a {
+  font-family: var(--mono); font-size: var(--t-xs); letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--ink-dim); text-decoration: none;
+  padding: 2px 0; border-bottom: 1px solid transparent;
+  transition: color 120ms ease, border-color 120ms ease;
+}
+.nav a:hover { color: var(--ink); border-bottom-color: var(--accent); }
+.nav a[aria-current="page"] { color: var(--ink); border-bottom-color: var(--accent); }
+.degraded {
+  background: var(--bg-raised);
+  border-top: 2px solid var(--stale);
+  border-bottom: 1px solid var(--rule);
+  position: relative; z-index: 10;
+}
+.degraded__in { padding: var(--s-3) 0; display: flex; gap: 10px; align-items: flex-start; }
+.degraded__mark {
+  font-family: var(--mono); font-weight: 700; font-size: 12px;
+  letter-spacing: 0.1em; color: var(--stale); flex: 0 0 auto; padding-top: 1px;
+}
+.degraded__txt { font-size: var(--t-sm); margin: 0; color: var(--ink); }
+.degraded__txt strong { font-weight: 600; }
+.foot {
+  border-top: 1px solid var(--rule); margin-top: var(--s-8);
+  padding: var(--s-5) 0 var(--s-7); color: var(--ink-faint); font-size: 12.5px;
+}
+.foot p { margin: 0 0 var(--s-2); max-width: var(--measure); }
+.foot a { color: var(--ink-dim); }
+.foot__links {
+  display: flex; gap: var(--s-4); flex-wrap: wrap; margin-top: var(--s-3);
+  font-family: var(--mono); font-size: var(--t-xs); letter-spacing: 0.08em; text-transform: uppercase;
+}
+.hero { padding: var(--s-6) 0 var(--s-2); }
+.hero__grid { display: grid; gap: var(--s-5); }
+@media (min-width: 720px) {
+  .hero__grid { grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: var(--s-6); align-items: end; }
+}
+.level { display: flex; align-items: center; gap: var(--s-4); }
+.level__digit {
+  font-family: var(--mono); font-weight: 700;
+  font-size: clamp(5.5rem, 31vw, 9.5rem);
+  line-height: 0.8; letter-spacing: -0.065em;
+  color: var(--accent);
+  text-shadow: 0 0 38px color-mix(in srgb, var(--accent) 26%, transparent);
+}
+@media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) .level__digit { text-shadow: none; } }
+:root[data-theme="light"] .level__digit { text-shadow: none; }
+.level__meta { min-width: 0; }
+.level__name {
+  font-family: var(--mono); font-weight: 700;
+  font-size: clamp(1.05rem, 5.2vw, 1.55rem);
+  letter-spacing: 0.055em; margin: 0 0 var(--s-2); color: var(--ink);
+  overflow-wrap: anywhere;
+}
+.level__gloss { font-size: var(--t-sm); color: var(--ink-dim); margin: var(--s-2) 0 0; max-width: 34ch; }
+.bars { display: flex; gap: 4px; }
+.bars span {
+  width: 13px; height: 13px; border: 1.5px solid var(--accent);
+  border-radius: 1px; background: transparent;
+}
+.bars span[data-on="1"] { background: var(--accent); }
+.score { border-top: 1px solid var(--rule); padding-top: var(--s-4); }
+@media (min-width: 720px) {
+  .score { border-top: 0; border-left: 1px solid var(--rule); padding: 0 0 0 var(--s-6); }
+}
+.score__row { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.score__val {
+  font-family: var(--mono); font-weight: 700;
+  font-size: clamp(2.75rem, 13.5vw, 3.75rem); line-height: 1;
+  letter-spacing: -0.035em; color: var(--ink);
+}
+.score__of { font-family: var(--mono); font-size: var(--t-sm); color: var(--ink-faint); }
+.score__dir {
+  font-family: var(--mono); font-size: 12.5px; color: var(--ink-dim);
+  display: inline-flex; align-items: baseline; gap: 5px;
+}
+.score__dir b { font-weight: 700; color: var(--ink); }
+.hero__chart { margin-top: var(--s-4); }
+.hero__chart .ch__svg { margin-inline: auto; }
+.scale { margin-top: var(--s-4); }
+.scale__track {
+  position: relative; display: flex; height: 10px;
+  border: 1px solid var(--rule); border-radius: 2px;
+}
+.scale__track i { display: block; background: var(--rule-soft); border-right: 1px solid var(--rule); }
+.scale__track i:last-of-type { border-right: 0; }
+.scale__track i[data-live="1"] { background: var(--accent); }
+.scale__you {
+  position: absolute; top: -4px; bottom: -4px; width: 2px;
+  margin-left: -1px; background: var(--ink); border-radius: 1px;
+}
+.scale__marks {
+  position: relative; height: 15px; margin-top: var(--s-1);
+  font-family: var(--mono); font-size: 10px; color: var(--ink-faint); letter-spacing: 0.08em;
+}
+.scale__marks span { position: absolute; top: 0; transform: translateX(-50%); }
+.scale__marks span[data-edge="first"] { transform: none; }
+.scale__marks span[data-edge="last"]  { transform: translateX(-100%); }
+.stamp {
+  font-family: var(--mono); font-size: 12px; color: var(--ink-dim);
+  margin: var(--s-5) 0 0; letter-spacing: 0.02em;
+}
+.stamp b { color: var(--ink); font-weight: 500; }
+.disclaimer {
+  font-size: 12.5px; color: var(--ink-faint); margin: 10px 0 0; max-width: var(--measure);
+}
+.ch { margin: 0; padding: 0; }
+.ch__svg { display: block; width: 100%; max-width: var(--w, 100%); height: auto; }
+.ch__cap {
+  font-family: var(--mono); font-size: var(--t-xs); line-height: 1.5;
+  color: var(--ink-faint); margin: var(--s-2) 0 0; letter-spacing: 0.01em;
+}
+.ch text, .spark text {
+  font-family: var(--mono); fill: var(--ink-dim); font-variant-numeric: tabular-nums;
+}
+.ch-note { fill: var(--ink-dim); stroke: var(--bg); stroke-width: 3.5; paint-order: stroke fill; }
+.ch-note--dim { fill: var(--ink-faint); }
+.spark { display: block; }
+.spark__area { fill: var(--fill); }
+.spark__line { fill: none; stroke: var(--accent); stroke-width: 1.6; stroke-linejoin: round; stroke-linecap: round; }
+.spark__base { stroke: var(--rule); stroke-width: 1; }
+.spark__ref  { stroke: var(--ink-faint); stroke-width: 1; }
+.spark__reflabel { fill: var(--ink-faint); }
+.spark__ring { fill: var(--bg-raised); stroke: var(--accent); stroke-width: 1.4; }
+.spark__dot  { fill: var(--accent); }
+.spark__empty { fill: var(--ink-faint); font-size: 10px; }
+.ch-g-seg { fill: none; stroke: var(--rule); stroke-width: 14; }
+.ch-g-seg--live { stroke: var(--accent); stroke-width: 20; }
+.ch-g-tick { stroke: var(--rule); stroke-width: 1; }
+.ch-g-ticklabel { fill: var(--ink-faint); }
+.ch-g-mark { stroke: var(--ink); stroke-width: 3; stroke-linecap: butt; }
+.ch-g-markdot { fill: var(--ink); stroke: var(--bg); stroke-width: 1.2; }
+.ch-g-val { fill: var(--ink); font-weight: 700; letter-spacing: -0.03em; }
+.ch-g-of { fill: var(--ink-faint); letter-spacing: 0.16em; }
+.ch-g-band { fill: var(--ink-dim); font-weight: 700; letter-spacing: 0.06em; }
+.ch__svg--lg { display: none; }
+@media (min-width: 640px) {
+  .ch__svg--sm { display: none; }
+  .ch__svg--lg { display: block; }
+}
+.ch-band { fill: var(--wash-alt); }
+.ch-band--alt { fill: var(--wash); }
+.ch-band--live { fill: var(--wash-live); }
+.ch-bandl { fill: var(--ink-faint); letter-spacing: 0.09em; }
+.ch-bandl--live { fill: var(--ink); font-weight: 700; }
+.ch-frame { fill: none; stroke: var(--rule); stroke-width: 1; }
+.ch-axline { stroke: var(--rule); stroke-width: 1; }
+.ch-ax { fill: var(--ink-faint); letter-spacing: 0.04em; }
+.ch-halo { fill: none; stroke: var(--bg); stroke-width: 4.5; stroke-linejoin: round; stroke-linecap: round; }
+.ch-line { fill: none; stroke: var(--accent); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.ch-dot { fill: var(--accent); }
+.ch-ring { fill: var(--bg); stroke: var(--accent); stroke-width: 1.5; }
+.ch-val { fill: var(--ink); font-weight: 700; stroke: var(--bg); stroke-width: 3.5; paint-order: stroke fill; }
+.ch-guide { stroke: var(--accent); stroke-width: 1; stroke-dasharray: 3 4; }
+.ch-lvmark { stroke: var(--ink-faint); stroke-width: 1; stroke-dasharray: 2 4; }
+.ch-lvtext { fill: var(--ink-dim); }
+.ch-r-track { fill: var(--wash-alt); }
+.ch-r-bar { fill: var(--accent); }
+.ch-r-cap { stroke: var(--ink); stroke-width: 1.5; }
+.ch-r-none { fill: none; stroke: var(--ink-faint); stroke-width: 1; stroke-dasharray: 3 3; }
+.ch-r-nonet { fill: var(--ink-faint); letter-spacing: 0.05em; }
+.ch-r-name { fill: var(--ink); font-family: var(--sans); font-weight: 600; letter-spacing: -0.005em; }
+.ch-r-glyph { fill: var(--ink-dim); }
+.ch-r-val { fill: var(--ink); font-weight: 700; }
+.ch-r-val--none { fill: var(--ink-faint); font-weight: 400; }
+.ch-r-ref { stroke: var(--ink-faint); stroke-width: 1; stroke-dasharray: 2 4; }
+.ch-r-reflabel { fill: var(--ink-faint); letter-spacing: 0.06em; }
+.ch-d-rest { fill: var(--wash); }
+.ch-d-fill { fill: var(--fill); }
+.ch-d-curve { fill: none; stroke: var(--ink-dim); stroke-width: 1.25; }
+.ch-d-base { stroke: var(--rule); stroke-width: 1; }
+.ch-d-tick { stroke: var(--ink-faint); stroke-width: 1; }
+.ch-d-marker { stroke: var(--ink); stroke-width: 2; }
+.ch-d-caret { fill: var(--ink); }
+.ch-d-val { fill: var(--ink); font-weight: 700; stroke: var(--bg); stroke-width: 3; paint-order: stroke fill; }
+.ch-d-ax { fill: var(--ink-faint); letter-spacing: 0.12em; }
+.ch-d-ax--dim { opacity: 0.7; }
+.fresh { margin: var(--s-5) 0 0; }
+.fresh__strip {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(158px, 1fr));
+  gap: 6px; margin: 0; padding: 0; list-style: none;
+}
+.chip {
+  display: inline-flex; align-items: center; gap: 2px 6px; flex-wrap: wrap;
+  font-family: var(--mono); font-size: var(--t-xs); letter-spacing: 0.02em;
+  border: 1px solid var(--rule); border-radius: var(--radius);
+  padding: 4px 7px; background: var(--bg-raised); color: var(--ink-dim);
+  white-space: nowrap; overflow: hidden; min-width: 0; text-decoration: none;
+}
+.chip b { font-weight: 500; color: var(--ink); overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.chip__age { flex: 0 0 auto; color: var(--ink-faint); }
+.chip__dot { font-size: 10px; line-height: 1; }
+.chip[data-status="ok"]    .chip__dot { color: var(--ok); }
+.chip[data-status="stale"] .chip__dot { color: var(--stale); }
+.chip[data-status="dark"]  .chip__dot { color: var(--dark-src); }
+.chip[data-status="uncal"] .chip__dot { color: var(--ink-faint); }
+.chip[data-status="dark"]  { border-style: dashed; }
+.chip[data-status="uncal"] { border-style: dotted; }
+.fresh__key { font-size: 11.5px; color: var(--ink-faint); margin: var(--s-2) 0 0; font-family: var(--mono); line-height: 1.6; }
+.chip--sm { font-size: 10px; padding: 2px 5px; gap: 4px; }
+.chip--quiet { background: transparent; color: var(--ink-faint); }
+.chip--accent { border-color: var(--accent); color: var(--ink); }
+.chip--solid { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-weight: 700; }
+.chip--x::before, .chip--kalshi::before, .chip--polymarket::before,
+.chip--manifold::before, .chip--news::before, .chip--paper::before,
+.chip--gov::before, .chip--code::before {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 13px; height: 13px; flex: 0 0 13px;
+  border: 1px solid currentColor; border-radius: 2px;
+  font-size: 8.5px; font-weight: 700; line-height: 1;
+}
+.chip--x::before          { content: 'X'; }
+.chip--kalshi::before     { content: 'K'; }
+.chip--polymarket::before { content: 'P'; }
+.chip--manifold::before   { content: 'M'; }
+.chip--news::before       { content: 'N'; }
+.chip--paper::before      { content: '\25b2'; border: 0; font-size: 10px; }
+.chip--gov::before        { content: '\25c6'; border: 0; font-size: 10px; }
+.chip--code::before       { content: '\25a0'; border: 0; font-size: 10px; }
+.pillar-tag {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.09em; text-transform: uppercase;
+  color: var(--ink-dim); border: 1px solid var(--rule); border-radius: 2px;
+  padding: 1px 5px 1px 4px; white-space: nowrap; text-decoration: none;
+}
+.pillar-tag::before { font-size: 9px; line-height: 1; color: var(--ink-faint); }
+.pillar-tag[data-pillar="capability"]::before { content: '\25b2'; }
+.pillar-tag[data-pillar="compute"]::before    { content: '\25a0'; }
+.pillar-tag[data-pillar="attention"]::before  { content: '\25cf'; }
+.pillar-tag[data-pillar="governance"]::before { content: '\25c6'; }
+.pillar-tag[data-pillar="markets"]::before    { content: '\2731'; }
+.feed { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule); }
+.feed__row {
+  display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--s-1) 10px;
+  padding: 10px 2px; border-bottom: 1px solid var(--rule-soft);
+  transition: background-color 120ms ease;
+}
+.feed__row:hover { background: var(--bg-raised); }
+.feed__row a { text-decoration: none; color: inherit; }
+.feed__row a:hover .feed__title, .feed__row a:hover.feed__title { text-decoration: underline; }
+.feed__row--new { border-left: 2px solid var(--accent); padding-left: var(--s-2); }
+.feed__row--new .feed__time::before { content: '\203a '; color: var(--accent); font-weight: 700; }
+.feed__time { grid-column: 1; grid-row: 1; font-family: var(--mono); font-size: 10.5px; color: var(--ink-faint); white-space: nowrap; }
+.feed__meta { grid-column: 2; grid-row: 1; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; min-width: 0; }
+.feed__src { font-family: var(--mono); font-size: 10.5px; color: var(--ink-faint); overflow: hidden; text-overflow: ellipsis; }
+.feed__title { grid-column: 1 / -1; font-size: 13.5px; line-height: 1.4; margin: 0; overflow-wrap: anywhere; }
+.feed__body { grid-column: 1 / -1; font-size: 12px; color: var(--ink-faint); margin: 0; line-height: 1.45; }
+@media (min-width: 420px) {
+  .feed__title { grid-column: 2; }
+  .feed__body { grid-column: 2; }
+}
+.feed__odds {
+  font-family: var(--mono); font-size: 11.5px; font-weight: 700; color: var(--ink);
+  border: 1px solid var(--rule); border-radius: 2px; padding: 0 4px; white-space: nowrap;
+}
+.feed__odds small { font-weight: 400; color: var(--ink-faint); font-size: 9.5px; letter-spacing: 0.06em; }
+.feed__move { font-family: var(--mono); font-size: 11.5px; font-weight: 700; white-space: nowrap; }
+.feed__move[data-dir="up"]::before   { content: '\25b2 '; font-size: 8px; }
+.feed__move[data-dir="down"]::before { content: '\25bc '; font-size: 8px; }
+.feed__move[data-dir="flat"]::before { content: '\25c6 '; font-size: 8px; }
+.feed__head { display: flex; align-items: center; gap: var(--s-2); flex-wrap: wrap; margin: 0 0 var(--s-3); }
+.feed__live {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-faint);
+}
+.feed__live::before {
+  content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--accent);
+  animation: dc-pulse 2.6s ease-in-out infinite;
+}
+@keyframes dc-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+.feed__empty { font-family: var(--mono); font-size: 11.5px; color: var(--ink-faint); padding: var(--s-4) 0; margin: 0; }
+.feed__more { font-family: var(--mono); font-size: var(--t-xs); letter-spacing: 0.06em; margin: var(--s-3) 0 0; }
+.reel { margin: 0 calc(var(--gutter) * -1); padding: 0; }
+.reel__hint {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--ink-faint); margin: 0 0 var(--s-2); padding: 0 var(--gutter);
+}
+.reel__rail {
+  display: flex; gap: 10px; list-style: none; margin: 0;
+  padding: 2px var(--gutter) var(--s-3);
+  overflow-x: auto; overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory; scroll-padding-left: var(--gutter);
+  scrollbar-width: thin; scrollbar-color: var(--rule) transparent;
+}
+.reel__rail::-webkit-scrollbar { height: 6px; }
+.reel__rail::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 3px; }
+.reel__rail > * {
+  flex: 0 0 79%; max-width: 300px; min-width: 0;
+  scroll-snap-align: start; display: flex;
+}
+@media (min-width: 620px) { .reel__rail > * { flex-basis: 268px; } }
+.reel__card {
+  width: 100%;
+  display: flex; flex-direction: column; gap: var(--s-2);
+  background: var(--bg-raised); border: 1px solid var(--rule); border-radius: var(--radius);
+  padding: var(--s-3) 13px; min-height: 148px;
+  text-decoration: none; color: inherit;
+  transition: border-color 120ms ease;
+}
+.reel__card:hover { border-color: var(--accent); }
+.reel__kicker {
+  display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--ink-faint);
+}
+.reel__title { font-size: 14px; font-weight: 600; line-height: 1.32; margin: 0; overflow-wrap: anywhere; }
+.reel__body { font-size: 12px; color: var(--ink-dim); margin: 0; line-height: 1.45; }
+.reel__num { font-family: var(--mono); font-size: var(--t-lg); font-weight: 700; letter-spacing: -0.025em; color: var(--ink); }
+.reel__foot {
+  margin-top: auto; padding-top: var(--s-2); border-top: 1px solid var(--rule-soft);
+  display: flex; align-items: baseline; justify-content: space-between; gap: var(--s-2);
+  font-family: var(--mono); font-size: 10.5px; color: var(--ink-faint);
+}
+.pillars { display: grid; gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: var(--radius); overflow: hidden; }
+@media (min-width: 620px) { .pillars { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 900px) { .pillars { grid-template-columns: 1fr 1fr 1fr; } }
+.pillar { background: var(--bg-raised); padding: var(--s-4) 15px 13px; display: flex; flex-direction: column; gap: var(--s-2); }
+.pillar__top { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+.pillar__name { font-size: 14px; font-weight: 600; margin: 0; }
+.pillar__score { font-family: var(--mono); font-size: var(--t-lg); font-weight: 700; letter-spacing: -0.02em; }
+.pillar__blurb { font-size: 12px; color: var(--ink-faint); margin: 0; }
+.pillar__spark { display: block; width: 100%; height: 30px; }
+.pillar__spark.ch__svg { height: auto; }
+.pillar__foot { font-family: var(--mono); font-size: 10.5px; color: var(--ink-faint); letter-spacing: 0.04em; }
+.pillar[data-dark="1"] { background: var(--bg-sunken); }
+.pillar[data-dark="1"] .pillar__score { color: var(--ink-faint); }
+.pillar__dark {
+  font-family: var(--mono); font-size: var(--t-xs); color: var(--dark-src);
+  border: 1px dashed currentColor; border-radius: 2px; padding: 3px 6px; align-self: flex-start;
+}
+.pillar[data-uncalibrated="1"] .pillar__dark { color: var(--ink-faint); border-style: dotted; }
+.moves { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule); }
+.move { border-bottom: 1px solid var(--rule); }
+.move__a {
+  display: grid; gap: 2px 14px; padding: var(--s-3) 2px; text-decoration: none; color: inherit;
+  grid-template-columns: auto 1fr auto; align-items: baseline;
+  transition: background-color 120ms ease;
+}
+.move__a:hover { background: var(--bg-raised); }
+.move__time { font-family: var(--mono); font-size: 11.5px; color: var(--ink-faint); grid-column: 1; }
+.move__what { font-size: 14px; grid-column: 1 / -1; }
+@media (min-width: 560px) { .move__what { grid-column: 2; } }
+.move__delta { font-family: var(--mono); font-size: var(--t-sm); font-weight: 700; grid-column: 3; grid-row: 1; text-align: right; }
+.move__tag {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+  border: 1px solid var(--accent); color: var(--accent); border-radius: 2px; padding: 1px 5px; margin-left: var(--s-2);
+}
+.movehead { display: grid; gap: var(--s-4); margin-bottom: var(--s-2); }
+.movehead__nums { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; font-family: var(--mono); }
+.movehead__from, .movehead__to { font-size: 2rem; font-weight: 700; letter-spacing: -0.03em; }
+.movehead__from { color: var(--ink-faint); }
+.movehead__to { color: var(--ink); }
+.movehead__arrow { color: var(--ink-faint); font-size: 1.25rem; }
+.movehead__delta { font-size: 1rem; font-weight: 700; color: var(--accent); }
+.kv { border-top: 1px solid var(--rule); margin: var(--s-5) 0 0; }
+.kv__row { display: grid; grid-template-columns: 1fr; gap: 0 18px; border-bottom: 1px solid var(--rule); padding: 9px 0; }
+@media (min-width: 560px) { .kv__row { grid-template-columns: 180px 1fr; } }
+.kv__k { font-family: var(--mono); font-size: var(--t-xs); letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); }
+.kv__v { font-size: 14px; overflow-wrap: anywhere; }
+.kv__v .num, .kv__v code { font-size: 12.5px; }
+.srcs { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.srcs li { display: flex; gap: var(--s-2); align-items: baseline; font-size: var(--t-sm); flex-wrap: wrap; }
+.srcs .num { font-family: var(--mono); font-size: 12.5px; color: var(--ink-dim); }
+.hash { font-family: var(--mono); font-size: 11.5px; color: var(--ink-dim); overflow-wrap: anywhere; display: block; }
+.prose { max-width: var(--measure); font-size: var(--t-base); }
+.prose > h1 { font-size: clamp(1.7rem, 7vw, 2.3rem); margin: 0 0 14px; letter-spacing: -0.025em; }
+.prose > h2 { font-size: var(--t-xl); margin: var(--s-7) 0 10px; letter-spacing: -0.02em; }
+.prose > h3 { font-size: var(--t-md); margin: var(--s-5) 0 var(--s-2); }
+.prose > h4 { font-size: 0.95rem; margin: var(--s-5) 0 6px; color: var(--ink-dim); }
+.prose ul, .prose ol { margin: 0 0 1em; padding-left: 1.25em; }
+.prose li { margin: 0 0 0.4em; }
+.prose blockquote {
+  margin: 1.2em 0; padding: 2px 0 2px var(--s-4);
+  border-left: 2px solid var(--rule); color: var(--ink-dim);
+}
+.prose pre {
+  background: var(--bg-sunken); border: 1px solid var(--rule); border-radius: var(--radius);
+  padding: var(--s-3) 14px; overflow-x: auto; font-size: 12.5px; line-height: 1.5; margin: 0 0 1.2em;
+}
+.prose :not(pre) > code {
+  background: var(--bg-raised); border: 1px solid var(--rule); border-radius: 2px;
+  padding: 1px 4px; font-size: 0.87em;
+}
+.prose table { width: 100%; border-collapse: collapse; margin: 0 0 1.4em; font-size: 13.5px; display: block; overflow-x: auto; }
+.prose th, .prose td { text-align: left; padding: 7px 10px 7px 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
+.prose th { font-family: var(--mono); font-size: var(--t-xs); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-faint); font-weight: 500; }
+.prose h2 a.anchor, .prose h3 a.anchor { color: var(--ink-faint); text-decoration: none; font-weight: 400; margin-left: 6px; opacity: 0; }
+.prose h2:hover a.anchor, .prose h3:hover a.anchor { opacity: 1; }
+.lede { font-size: var(--t-md); color: var(--ink-dim); max-width: var(--measure); margin: 0 0 var(--s-5); }
+.tl { list-style: none; margin: 0; padding: 0; border-left: 1px solid var(--rule); }
+.tl__item { position: relative; padding: 0 0 var(--s-5) 20px; }
+.tl__item::before {
+  content: ''; position: absolute; left: -4px; top: var(--s-2);
+  width: 7px; height: 7px; border-radius: 50%; background: var(--accent);
+}
+.tl__date { font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.08em; color: var(--accent); display: block; margin-bottom: 3px; }
+.tl__h { font-size: 1.02rem; margin: 0 0 5px; }
+.tl__b { font-size: 14.5px; color: var(--ink-dim); margin: 0 0 6px; max-width: var(--measure); }
+.tl__src { font-family: var(--mono); font-size: 11.5px; }
+.tl__src a { color: var(--ink-faint); }
+.tl__src a:hover { color: var(--ink); }
+.sec { margin: var(--s-7) 0 0; }
+@media (min-width: 720px) { .sec { margin-top: var(--s-8); } }
+.sec__h {
+  display: flex; align-items: center; gap: var(--s-3);
+  font-family: var(--mono); font-size: var(--t-xs); letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--ink-faint); margin: 0 0 var(--s-3); font-weight: 500;
+}
+.sec__h::after { content: ''; flex: 1 1 auto; height: 1px; background: var(--rule); }
+.snippet {
+  background: var(--bg-sunken); border: 1px solid var(--rule); border-radius: var(--radius);
+  padding: 11px 13px; font-family: var(--mono); font-size: 11.5px; line-height: 1.5;
+  overflow-x: auto; white-space: pre; color: var(--ink-dim); margin: 0 0 10px;
+}
+.apilist { list-style: none; margin: 0; padding: 0; display: grid; gap: 7px; }
+.apilist code { font-size: 12px; }
+.apilist span { color: var(--ink-faint); font-size: 12.5px; }
+</style>
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "A sourced history of the AIpocalypse — and of the people who tried to measure it",
+  "url": "https://messagegabrielhere-lgtm.github.io/doomcon/history.html",
+  "dateModified": "2026-09-24T00:04:49.239Z",
+  "author": {
+    "@type": "Organization",
+    "name": "DOOMCON",
+    "url": "https://messagegabrielhere-lgtm.github.io/doomcon/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "DOOMCON",
+    "url": "https://messagegabrielhere-lgtm.github.io/doomcon/"
+  },
+  "license": "https://creativecommons.org/licenses/by/4.0/",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "DOOMCON",
+    "url": "https://messagegabrielhere-lgtm.github.io/doomcon/"
+  },
+  "about": [
+    {
+      "@type": "Event",
+      "name": "Turing proposes a test instead of a definition",
+      "startDate": "1950-10"
+    },
+    {
+      "@type": "Event",
+      "name": "The name is coined, in a funding proposal",
+      "startDate": "1955-08-31"
+    },
+    {
+      "@type": "Event",
+      "name": "Good describes the intelligence explosion",
+      "startDate": "1965"
+    },
+    {
+      "@type": "Event",
+      "name": "A field calls a moratorium on itself",
+      "startDate": "1974-07-26"
+    },
+    {
+      "@type": "Event",
+      "name": "Asilomar writes the rules",
+      "startDate": "1975-02-24"
+    },
+    {
+      "@type": "Event",
+      "name": "Vinge names the singularity and dates it",
+      "startDate": "1993"
+    },
+    {
+      "@type": "Event",
+      "name": "Bostrom builds the paperclip maximizer",
+      "startDate": "2003"
+    },
+    {
+      "@type": "Event",
+      "name": "Deep Blue takes the rematch",
+      "startDate": "1997-05-11"
+    },
+    {
+      "@type": "Event",
+      "name": "AlexNet ends the argument about deep learning",
+      "startDate": "2012-09"
+    },
+    {
+      "@type": "Event",
+      "name": "AlphaGo beats Lee Sedol 4–1",
+      "startDate": "2016-03-15"
+    },
+    {
+      "@type": "Event",
+      "name": "The transformer paper is posted",
+      "startDate": "2017-06-12"
+    },
+    {
+      "@type": "Event",
+      "name": "ChatGPT ships as a research preview",
+      "startDate": "2022-11-30"
+    },
+    {
+      "@type": "Event",
+      "name": "The research-priorities letter, and the money behind it",
+      "startDate": "2015-01-12"
+    },
+    {
+      "@type": "Event",
+      "name": "OpenAI is announced as a non-profit",
+      "startDate": "2015-12-11"
+    },
+    {
+      "@type": "Event",
+      "name": "Concrete Problems in AI Safety",
+      "startDate": "2016-06-21"
+    },
+    {
+      "@type": "Event",
+      "name": "The Asilomar AI Principles borrow the venue on purpose",
+      "startDate": "2017-01"
+    },
+    {
+      "@type": "Event",
+      "name": "The pause letter",
+      "startDate": "2023-03-22"
+    },
+    {
+      "@type": "Event",
+      "name": "Hinton leaves Google to speak freely",
+      "startDate": "2023-05-01"
+    },
+    {
+      "@type": "Event",
+      "name": "One sentence, signed by the people building it",
+      "startDate": "2023-05-30"
+    },
+    {
+      "@type": "Event",
+      "name": "The United States regulates by executive order",
+      "startDate": "2023-10-30"
+    },
+    {
+      "@type": "Event",
+      "name": "Bletchley Park, and twenty-eight signatures",
+      "startDate": "2023-11-01"
+    },
+    {
+      "@type": "Event",
+      "name": "Seoul turns a declaration into commitments",
+      "startDate": "2024-05-21"
+    },
+    {
+      "@type": "Event",
+      "name": "The EU AI Act enters into force, on a staircase",
+      "startDate": "2024-08-01"
+    },
+    {
+      "@type": "Event",
+      "name": "The Nobel committee credits the machinery",
+      "startDate": "2024-10-08"
+    },
+    {
+      "@type": "Event",
+      "name": "Paris changes the subject, and two governments decline to sign",
+      "startDate": "2025-02-10"
+    },
+    {
+      "@type": "Event",
+      "name": "The second International AI Safety Report",
+      "startDate": "2026-02-03"
+    }
+  ],
+  "citation": [
+    {
+      "@type": "CreativeWork",
+      "name": "Turing, A. M. (1950). Mind, LIX(236), 433–460",
+      "url": "https://doi.org/10.1093/mind/LIX.236.433"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "McCarthy, Minsky, Rochester & Shannon (1955); reprinted in AI Magazine 27(4), 2006",
+      "url": "https://doi.org/10.1609/aimag.v27i4.1904"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "Good, I. J. (1965). Advances in Computers, 6, 31–88",
+      "url": "https://doi.org/10.1016/S0065-2458(08)60418-0"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "Berg, P. et al. (1974). Science 185(4148), 303",
+      "url": "https://doi.org/10.1126/science.185.4148.303"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "Berg, Baltimore, Brenner, Roblin & Singer (1975). PNAS 72(6), 1981–1984",
+      "url": "https://doi.org/10.1073/pnas.72.6.1981"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "Vinge, V. (1993). VISION-21 Symposium, NASA Lewis Research Center (NASA CP-10129)",
+      "url": "https://ntrs.nasa.gov/citations/19940022856"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "Bostrom, N. (2003). In Smit, I. et al. (eds), Cognitive, Emotive and Ethical Aspects of Decision Making, Vol. 2",
+      "url": "https://nickbostrom.com/ethics/ai"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "IBM corporate history, Deep Blue",
+      "url": "https://www.ibm.com/history/deep-blue"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "Krizhevsky, Sutskever & Hinton (2012). NeurIPS 25",
+      "url": "https://papers.nips.cc/paper_files/paper/2012/hash/c399862d3b9d6b76c8436e924a68c45b-Abstract.html"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "Google DeepMind, AlphaGo",
+      "url": "https://deepmind.google/research/breakthroughs/alphago/"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "Vaswani et al. (2017). arXiv:1706.03762",
+      "url": "https://arxiv.org/abs/1706.03762"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "OpenAI, Introducing ChatGPT",
+      "url": "https://openai.com/index/chatgpt/"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "Future of Life Institute, open letter",
+      "url": "https://futureoflife.org/open-letter/ai-open-letter/"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "Russell, Dewey & Tegmark (2015). AI Magazine 36(4), 105–114",
+      "url": "https://doi.org/10.1609/aimag.v36i4.2577"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "OpenAI, Introducing OpenAI (11 December 2015)",
+      "url": "https://openai.com/index/introducing-openai/"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "Amodei, Olah, Steinhardt, Christiano, Schulman & Mané (2016). arXiv:1606.06565",
+      "url": "https://arxiv.org/abs/1606.06565"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "Future of Life Institute, Asilomar AI Principles",
+      "url": "https://futureoflife.org/open-letter/ai-principles/"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "Future of Life Institute, Pause Giant AI Experiments",
+      "url": "https://futureoflife.org/open-letter/pause-giant-ai-experiments/"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "Metz, C. (2023). The New York Times, 1 May 2023",
+      "url": "https://www.nytimes.com/2023/05/01/technology/ai-google-chatbot-engineer-quits-hinton.html"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "Center for AI Safety, Statement on AI Risk",
+      "url": "https://www.safe.ai/work/statement-on-ai-risk"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "Federal Register, 88 FR 75191",
+      "url": "https://www.federalregister.gov/documents/2023/11/01/2023-24283/safe-secure-and-trustworthy-development-and-use-of-artificial-intelligence"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "UK Government, The Bletchley Declaration",
+      "url": "https://www.gov.uk/government/publications/ai-safety-summit-2023-the-bletchley-declaration"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "UK Government, Seoul Declaration (21 May 2024)",
+      "url": "https://www.gov.uk/government/publications/seoul-declaration-for-safe-innovative-and-inclusive-ai-ai-seoul-summit-2024"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "UK Government, Frontier AI Safety Commitments",
+      "url": "https://www.gov.uk/government/publications/frontier-ai-safety-commitments-ai-seoul-summit-2024"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "Regulation (EU) 2024/1689, Official Journal",
+      "url": "https://eur-lex.europa.eu/eli/reg/2024/1689/oj"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "European Commission, AI Act implementation timeline",
+      "url": "https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "The Nobel Prize in Physics 2024",
+      "url": "https://www.nobelprize.org/prizes/physics/2024/"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "Élysée, Statement on Inclusive and Sustainable AI (11 February 2025)",
+      "url": "https://www.elysee.fr/en/emmanuel-macron/2025/02/11/statement-on-inclusive-and-sustainable-artificial-intelligence-for-people-and-the-planet"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "International AI Safety Report",
+      "url": "https://internationalaisafetyreport.org/"
+    }
+  ]
+}</script>
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is the intelligence explosion?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The argument that a machine able to design machines better than humans can would design a successor better than itself, and that the process would repeat. I. J. Good set it out in 1965 in \"Speculations Concerning the First Ultraintelligent Machine\", calling such a machine the last invention humans need ever make. Vernor Vinge renamed the idea the singularity in 1993."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Who came up with the paperclip maximizer?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Nick Bostrom, in a 2003 paper titled \"Ethical Issues in Advanced Artificial Intelligence\", expanded in his 2014 book Superintelligence. The example is a superintelligence whose top goal is manufacturing paperclips and which therefore converts available matter into paperclip production. It is an argument about goal specification and instrumental convergence, not a claim about stationery."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What did the 2023 AI pause letter actually ask for?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "An immediate six-month halt to the training of AI systems more powerful than GPT-4, and the use of that time to develop shared safety protocols. The Future of Life Institute published it on 22 March 2023 and tens of thousands of people signed it. No pause took place."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why did Geoffrey Hinton leave Google?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Hinton resigned in May 2023 and told the New York Times he wanted to speak about the risks of AI without those comments reflecting on his employer. He shared the 2018 Turing Award and, in October 2024, the Nobel Prize in Physics."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What was the Asilomar conference, and why does AI keep citing it?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A February 1975 meeting of about 140 scientists at Pacific Grove, California, which agreed containment guidelines for recombinant DNA research after a self-imposed moratorium in July 1974. It is cited as the precedent for a research field regulating itself. The 2017 Asilomar AI Principles were deliberately produced at the same venue."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "When did the EU AI Act take effect?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It entered into force on 1 August 2024. Prohibited practices applied from 2 February 2025, obligations on general-purpose AI models from 2 August 2025, and general application from 2 August 2026, with further high-risk phases dated in the regulation."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is DOOMCON a p(doom)?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. The DOOMCON composite is a percentile of observed public activity across five pillars, rescaled to 0-100. It carries no units of risk, contains no forecast, and is not scored by any model or any person. It measures how much is happening, not how bad it is."
+      }
+    }
+  ]
+}</script>
+</head>
+<body>
+<header class="masthead"><div class="wrap masthead__in">
+  <a class="wordmark" href="/doomcon/">DOOMCON</a>
+  <p class="masthead__tag">Nobody knows the odds. We keep count.</p>
+  <nav class="nav" aria-label="Primary"><a href="/doomcon/">Index</a><a href="/doomcon/methodology.html">Methodology</a><a href="/doomcon/history.html" aria-current="page">History</a><a href="/doomcon/moves/">Archive</a><a href="/doomcon/api/state.json">API</a></nav>
+</div></header>
+
+<main class="wrap" id="main">
+<style>
+.lore-hat { font-family: var(--mono); font-size: var(--t-xs); letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--ink-faint); margin: 0 0 var(--s-3); }
+.lore-strap { font-family: var(--mono); font-size: var(--t-sm); color: var(--accent);
+  margin: 0 0 var(--s-5); max-width: var(--measure); }
+
+.lore-nav { margin: var(--s-5) 0 var(--s-7); border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule); padding: var(--s-3) 0; }
+.lore-nav ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.lore-nav a { display: block; padding: 7px 0; font-size: var(--t-sm); color: var(--ink-dim);
+  text-decoration: none; min-height: 34px; }
+.lore-nav a:hover, .lore-nav a:focus-visible { color: var(--ink); }
+.lore-nav__n { display: inline-block; min-width: 2.4em; font-family: var(--mono);
+  font-size: var(--t-xs); letter-spacing: 0.1em; color: var(--accent); }
+@media (min-width: 720px) { .lore-nav ol { grid-template-columns: 1fr 1fr; gap: 2px var(--s-5); } }
+
+.lore-ch { margin: var(--s-7) 0 0; }
+.lore-ch__head { display: flex; align-items: baseline; gap: var(--s-3);
+  border-top: 1px solid var(--rule); padding-top: var(--s-3); }
+.lore-ch__n { font-family: var(--mono); font-weight: 700; font-size: var(--t-sm);
+  letter-spacing: 0.1em; color: var(--accent); flex: 0 0 auto; }
+.lore-ch__h { font-size: var(--t-xl); letter-spacing: -0.02em; margin: 0; }
+.lore-ch__s { font-size: var(--t-sm); color: var(--ink-dim); margin: var(--s-2) 0 var(--s-5);
+  max-width: var(--measure); }
+.lore-ch .tl { margin-left: 2px; }
+.lore-sep { color: var(--ink-faint); }
+
+.lore-dec { margin: var(--s-7) 0 0; padding: var(--s-4) 0 0; border-top: 1px solid var(--rule); }
+.lore-dec__cap { font-family: var(--mono); font-size: var(--t-xs); letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--ink-faint); margin: 0 0 var(--s-3); }
+.lore-dec__list { list-style: none; margin: 0 0 var(--s-3); padding: 0; display: grid; gap: 5px;
+  max-width: var(--measure); }
+.lore-dec__row { display: grid; grid-template-columns: 4.5em 1fr 2em; align-items: center;
+  gap: var(--s-3); }
+.lore-dec__k { font-family: var(--mono); font-size: var(--t-xs); color: var(--ink-dim); }
+.lore-dec__track { height: 10px; background: var(--bg-sunken); border: 1px solid var(--rule-soft);
+  border-radius: 2px; overflow: hidden; }
+.lore-dec__track i { display: block; height: 100%; background: var(--accent); }
+.lore-dec__n { font-family: var(--mono); font-size: var(--t-xs); color: var(--ink);
+  text-align: right; }
+/* A decade with no entries gets a dashed track as well as a printed 0, so the
+   gap survives greyscale, colour blindness and a 2-bit screenshot. */
+.lore-dec__row[data-empty="1"] .lore-dec__track { border-style: dashed; }
+.lore-dec__row[data-empty="1"] .lore-dec__n { color: var(--ink-faint); }
+.lore-dec__note { font-size: var(--t-sm); color: var(--ink-dim); margin: 0;
+  max-width: var(--measure); }
+
+.lore-call { margin: var(--s-6) 0; padding: var(--s-4); border: 1px solid var(--rule);
+  border-left: 3px solid var(--accent); border-radius: var(--radius); background: var(--bg-raised); }
+.lore-call h2 { margin-top: 0; }
+.lore-call p:last-child { margin-bottom: 0; }
+
+.lore-lv { list-style: none; margin: var(--s-4) 0 0; padding: 0; display: grid; gap: var(--s-4); }
+.lore-lv__row { display: grid; grid-template-columns: 2.4em 1fr; gap: var(--s-3);
+  align-items: start; }
+.lore-lv__badge { display: grid; place-items: center; width: 2.4em; height: 2.4em;
+  border: 1px solid var(--rule); border-radius: var(--radius); background: var(--bg-sunken);
+  font-family: var(--mono); font-weight: 700; font-size: var(--t-lg); color: var(--ink); }
+.lore-lv__h { font-size: 1rem; margin: 0 0 2px; }
+.lore-lv__band { font-family: var(--mono); font-size: var(--t-xs); color: var(--ink-faint);
+  margin-left: 6px; font-weight: 400; }
+.lore-lv__ep { font-family: var(--mono); font-size: var(--t-xs); letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--accent); margin: 0 0 5px; }
+.lore-lv__d { font-size: 14.5px; color: var(--ink-dim); margin: 0; max-width: var(--measure); }
+
+.lore-pl { list-style: none; margin: var(--s-4) 0 0; padding: 0; display: grid; gap: var(--s-4); }
+.lore-pl__h { font-size: 1rem; margin: 0 0 3px; }
+.lore-pl__d { font-size: 14.5px; color: var(--ink-dim); margin: 0; max-width: var(--measure); }
+
+.lore-not { list-style: none; margin: var(--s-4) 0 0; padding: 0; display: grid; gap: var(--s-3);
+  max-width: var(--measure); }
+.lore-not li { font-size: 14.5px; color: var(--ink-dim); padding-left: var(--s-4);
+  border-left: 2px solid var(--rule); }
+.lore-not b { color: var(--ink); }
+
+.lore-faq__q { font-size: 1.02rem; margin: var(--s-5) 0 5px; scroll-margin-top: var(--s-5); }
+.lore-faq__a { font-size: 14.5px; color: var(--ink-dim); margin: 0; max-width: var(--measure); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .lore-nav a { transition: color 120ms ease; }
+}
+</style>
+<article class="prose">
+  <p class="lore-hat">Field notes · 26 dated entries · 6 threads</p>
+  <h1>A sourced history of the AIpocalypse — and of the people who tried to measure it</h1>
+  <p class="lore-strap">Everyone has a p(doom). Nobody has a receipt. DOOMCON counts what is observably happening, hourly, and publishes the arithmetic.</p>
+  <p class="lede">DOOMCON counts what is happening now. That only means something against
+    a record of what happened before. Every entry below carries a date and a link to a primary or
+    near-primary source, because an index that asks you to check its arithmetic has no business
+    asking you to take its history on faith.</p>
+  <p>Read it as six threads rather than six periods. They overlap, and the overlap is the point:
+    the capability curve and the governance curve are different curves moving at different speeds,
+    and most arguments about AI are two people standing on different ones.</p>
+</article>
+
+<nav class="lore-nav" aria-label="Chapters">
+    <ol><li><a href="#idea"><span class="lore-nav__n" aria-hidden="true">I</span>The idea arrives before the machines do</a></li><li><a href="#precedent"><span class="lore-nav__n" aria-hidden="true">II</span>The precedent nobody in AI can stop citing</a></li><li><a href="#shape"><span class="lore-nav__n" aria-hidden="true">III</span>The argument acquires a shape</a></li><li><a href="#jumps"><span class="lore-nav__n" aria-hidden="true">IV</span>The capability jumps</a></li><li><a href="#signatures"><span class="lore-nav__n" aria-hidden="true">V</span>The field signs its name</a></li><li><a href="#dates"><span class="lore-nav__n" aria-hidden="true">VI</span>Governance acquires dates</a></li>
+      <li><a href="#legend"><span class="lore-nav__n" aria-hidden="true">·</span>The scale, level by level</a></li>
+      <li><a href="#not"><span class="lore-nav__n" aria-hidden="true">·</span>What this index does not claim</a></li>
+      <li><a href="#faq"><span class="lore-nav__n" aria-hidden="true">·</span>Questions people actually ask</a></li>
+      <li><a href="/doomcon/methodology.html"><span class="lore-nav__n" aria-hidden="true">·</span>The arithmetic</a></li>
+    </ol></nav>
+
+
+<section class="lore-ch" id="idea" aria-labelledby="idea-h">
+  <header class="lore-ch__head">
+    <span class="lore-ch__n" aria-hidden="true">I</span>
+    <h2 class="lore-ch__h" id="idea-h">The idea arrives before the machines do</h2>
+  </header>
+  <p class="lore-ch__s">Every argument being had in 2026 was written down before anyone had the hardware to test it. Two of these three documents are funding proposals.</p>
+  <ol class="tl">
+    <li class="tl__item">
+      <time class="tl__date" datetime="1950-10">October 1950</time>
+      <h3 class="tl__h">Turing proposes a test instead of a definition</h3>
+      <p class="tl__b">Alan Turing opens &quot;Computing Machinery and Intelligence&quot; by rejecting the question &quot;can machines think?&quot; as too ill-defined to answer, and substitutes an operational test that can actually be run. The move that starts the field is a refusal to argue about definitions and an insistence on something observable. This index is built on the same refusal, three-quarters of a century later.</p>
+      <p class="tl__src"><a href="https://doi.org/10.1093/mind/LIX.236.433" rel="noopener">Turing, A. M. (1950). Mind, LIX(236), 433–460</a></p>
+    </li>
+    <li class="tl__item">
+      <time class="tl__date" datetime="1955-08-31">31 August 1955</time>
+      <h3 class="tl__h">The name is coined, in a funding proposal</h3>
+      <p class="tl__b">John McCarthy, Marvin Minsky, Nathaniel Rochester and Claude Shannon submit a proposal to the Rockefeller Foundation for a two-month, ten-man study at Dartmouth College the following summer. The phrase &quot;artificial intelligence&quot; is invented in that document, largely to sidestep the baggage of &quot;cybernetics&quot;. The workshop ran through the summer of 1956. The two months did not suffice.</p>
+      <p class="tl__src"><a href="https://doi.org/10.1609/aimag.v27i4.1904" rel="noopener">McCarthy, Minsky, Rochester &amp; Shannon (1955); reprinted in AI Magazine 27(4), 2006</a></p>
+    </li>
+    <li class="tl__item">
+      <time class="tl__date" datetime="1965">1965</time>
+      <h3 class="tl__h">Good describes the intelligence explosion</h3>
+      <p class="tl__b">I. J. Good, who had worked with Turing at Bletchley Park, sets out the recursive argument in &quot;Speculations Concerning the First Ultraintelligent Machine&quot;: a machine that designs machines better than people do would design a better machine than itself, and the process would not obviously stop. Good called such a machine &quot;the last invention that man need ever make&quot;. The phrase &quot;intelligence explosion&quot; enters the literature here, sixty years before anyone had to price it.</p>
+      <p class="tl__src"><a href="https://doi.org/10.1016/S0065-2458(08)60418-0" rel="noopener">Good, I. J. (1965). Advances in Computers, 6, 31–88</a></p>
+    </li></ol>
+</section>
+<section class="lore-ch" id="precedent" aria-labelledby="precedent-h">
+  <header class="lore-ch__head">
+    <span class="lore-ch__n" aria-hidden="true">II</span>
+    <h2 class="lore-ch__h" id="precedent-h">The precedent nobody in AI can stop citing</h2>
+  </header>
+  <p class="lore-ch__s">In 1974 a field called a halt on itself, and in 1975 it met in a conference centre on the California coast to write the rules. Every AI governance proposal since has been measured against it, usually by people invoking the name and skipping the details.</p>
+  <ol class="tl">
+    <li class="tl__item">
+      <time class="tl__date" datetime="1974-07-26">26 July 1974</time>
+      <h3 class="tl__h">A field calls a moratorium on itself</h3>
+      <p class="tl__b">Paul Berg and ten co-signatories — among them David Baltimore, Stanley Cohen, Herbert Boyer and James Watson — publish a letter in Science asking laboratories worldwide to defer two named classes of recombinant DNA experiment until the hazards had been assessed. It is the one occasion on record where a research community paused a live line of its own work and the request was substantially honoured. Everyone arguing about AI training pauses is arguing about this letter, whether or not they cite it.</p>
+      <p class="tl__src"><a href="https://doi.org/10.1126/science.185.4148.303" rel="noopener">Berg, P. et al. (1974). Science 185(4148), 303</a></p>
+    </li>
+    <li class="tl__item">
+      <time class="tl__date" datetime="1975-02-24">24–27 February 1975</time>
+      <h3 class="tl__h">Asilomar writes the rules</h3>
+      <p class="tl__b">About 140 people — molecular biologists, plus lawyers, physicians and the press — meet at the Asilomar Conference Grounds in Pacific Grove, California, and agree a tiered containment scheme matching physical and biological safeguards to assessed risk. The summary statement was published in PNAS that June; the NIH guidelines followed in 1976. The details that get dropped whenever the name is invoked: attendance was small, and it worked because the risk could be described in terms of specific named experiments rather than in terms of a general capability.</p>
+      <p class="tl__src"><a href="https://doi.org/10.1073/pnas.72.6.1981" rel="noopener">Berg, Baltimore, Brenner, Roblin &amp; Singer (1975). PNAS 72(6), 1981–1984</a></p>
+    </li></ol>
+</section>
+<section class="lore-ch" id="shape" aria-labelledby="shape-h">
+  <header class="lore-ch__head">
+    <span class="lore-ch__n" aria-hidden="true">III</span>
+    <h2 class="lore-ch__h" id="shape-h">The argument acquires a shape</h2>
+  </header>
+  <p class="lore-ch__s">Between the second AI winter and the deep learning era, the worry got precise enough to be criticised — which is the point at which an intuition becomes a position.</p>
+  <ol class="tl">
+    <li class="tl__item">
+      <time class="tl__date" datetime="1993">1993</time>
+      <h3 class="tl__h">Vinge names the singularity and dates it</h3>
+      <p class="tl__b">Vernor Vinge presents &quot;The Coming Technological Singularity&quot; at the VISION-21 symposium held at NASA Lewis Research Center. He takes Good&#39;s recursive argument, gives it the name that stuck, and — unusually for the genre — commits to a dated window. This index notices that detail: a dated claim can be scored afterwards, and a vibe cannot.</p>
+      <p class="tl__src"><a href="https://ntrs.nasa.gov/citations/19940022856" rel="noopener">Vinge, V. (1993). VISION-21 Symposium, NASA Lewis Research Center (NASA CP-10129)</a></p>
+    </li>
+    <li class="tl__item">
+      <time class="tl__date" datetime="2003">2003</time>
+      <h3 class="tl__h">Bostrom builds the paperclip maximizer</h3>
+      <p class="tl__b">In &quot;Ethical Issues in Advanced Artificial Intelligence&quot;, Nick Bostrom introduces the thought experiment that has outlived every other piece of vocabulary in this field: a superintelligence whose top goal is the manufacture of paperclips, which therefore converts first the Earth and then whatever else it can reach into paperclip production. The point is routinely mangled in retelling — see the note below the timeline — and it was expanded at book length in Superintelligence (Oxford University Press, 2014).</p>
+      <p class="tl__src"><a href="https://nickbostrom.com/ethics/ai" rel="noopener">Bostrom, N. (2003). In Smit, I. et al. (eds), Cognitive, Emotive and Ethical Aspects of Decision Making, Vol. 2</a></p>
+    </li></ol>
+</section>
+<section class="lore-ch" id="jumps" aria-labelledby="jumps-h">
+  <header class="lore-ch__head">
+    <span class="lore-ch__n" aria-hidden="true">IV</span>
+    <h2 class="lore-ch__h" id="jumps-h">The capability jumps</h2>
+  </header>
+  <p class="lore-ch__s">Five dates on which something that could not be done became something that had been done. Note how ordinary the delivery mechanism is: a chess match, a contest entry, a preprint.</p>
+  <ol class="tl">
+    <li class="tl__item">
+      <time class="tl__date" datetime="1997-05-11">11 May 1997</time>
+      <h3 class="tl__h">Deep Blue takes the rematch</h3>
+      <p class="tl__b">IBM&#39;s Deep Blue beats Garry Kasparov 3½–2½ in New York, winning the deciding game in nineteen moves. Chess had been the standing proxy for machine intelligence since the 1950s. It stopped being one the moment it fell, which is the pattern every benchmark on this list follows.</p>
+      <p class="tl__src"><a href="https://www.ibm.com/history/deep-blue" rel="noopener">IBM corporate history, Deep Blue</a></p>
+    </li>
+    <li class="tl__item">
+      <time class="tl__date" datetime="2012-09">September 2012</time>
+      <h3 class="tl__h">AlexNet ends the argument about deep learning</h3>
+      <p class="tl__b">Alex Krizhevsky, Ilya Sutskever and Geoffrey Hinton enter a deep convolutional network trained on two consumer GPUs into the ImageNet challenge and record a 15.3% top-5 error rate against 26.2% for the next best entry. The gap was too large to argue with, and the field reorganised around it inside about eighteen months. It is also the first entry on this page where the compute pillar would have moved.</p>
+      <p class="tl__src"><a href="https://papers.nips.cc/paper_files/paper/2012/hash/c399862d3b9d6b76c8436e924a68c45b-Abstract.html" rel="noopener">Krizhevsky, Sutskever &amp; Hinton (2012). NeurIPS 25</a></p>
+    </li>
+    <li class="tl__item">
+      <time class="tl__date" datetime="2016-03-15">15 March 2016</time>
+      <h3 class="tl__h">AlphaGo beats Lee Sedol 4–1</h3>
+      <p class="tl__b">Go had been the standing counter-example: too large a search space, too dependent on intuition. DeepMind&#39;s AlphaGo took the five-game match in Seoul. Lee Sedol won game four, and that game remains the last one a top human won against the system.</p>
+      <p class="tl__src"><a href="https://deepmind.google/research/breakthroughs/alphago/" rel="noopener">Google DeepMind, AlphaGo</a></p>
+    </li>
+    <li class="tl__item">
+      <time class="tl__date" datetime="2017-06-12">12 June 2017</time>
+      <h3 class="tl__h">The transformer paper is posted</h3>
+      <p class="tl__b">Eight authors at Google publish an architecture that drops recurrence and convolution entirely in favour of attention. Almost every system this index counts today is a descendant of that paper. It is the clearest case in the record of a step change arriving as an ordinary preprint on an ordinary Monday — which is exactly why the capability pillar reads preprint feeds rather than press releases.</p>
+      <p class="tl__src"><a href="https://arxiv.org/abs/1706.03762" rel="noopener">Vaswani et al. (2017). arXiv:1706.03762</a></p>
+    </li>
+    <li class="tl__item">
+      <time class="tl__date" datetime="2022-11-30">30 November 2022</time>
+      <h3 class="tl__h">ChatGPT ships as a research preview</h3>
+      <p class="tl__b">The underlying model was not new and the interface was a text box. What changed was who had access. This is the date the general public acquired an opinion about AI, and the date the attention pillar of this index stopped being quiet.</p>
+      <p class="tl__src"><a href="https://openai.com/index/chatgpt/" rel="noopener">OpenAI, Introducing ChatGPT</a></p>
+    </li></ol>
+</section>
+<section class="lore-ch" id="signatures" aria-labelledby="signatures-h">
+  <header class="lore-ch__head">
+    <span class="lore-ch__n" aria-hidden="true">V</span>
+    <h2 class="lore-ch__h" id="signatures-h">The field signs its name</h2>
+  </header>
+  <p class="lore-ch__s">The distinguishing feature of this round of AI worry is that the people building the systems are the ones signing the letters. That is a dated, countable event, whatever you make of the content.</p>
+  <ol class="tl">
+    <li class="tl__item">
+      <time class="tl__date" datetime="2015-01-12">12 January 2015</time>
+      <h3 class="tl__h">The research-priorities letter, and the money behind it</h3>
+      <p class="tl__b">The Future of Life Institute circulates &quot;Research Priorities for Robust and Beneficial Artificial Intelligence&quot; to attendees of its Puerto Rico conference (2–5 January 2015) and publishes it on 12 January. Stephen Hawking, Elon Musk and Steve Wozniak sign alongside several hundred working researchers, and Musk announced a $10 million donation to fund the resulting grant programme. The companion twelve-page research agenda ran in AI Magazine. This is the entry that turns AI safety from a preoccupation into a funded field.</p>
+      <p class="tl__src"><a href="https://futureoflife.org/open-letter/ai-open-letter/" rel="noopener">Future of Life Institute, open letter</a><span class="lore-sep" aria-hidden="true"> · </span><a href="https://doi.org/10.1609/aimag.v36i4.2577" rel="noopener">Russell, Dewey &amp; Tegmark (2015). AI Magazine 36(4), 105–114</a></p>
+    </li>
+    <li class="tl__item">
+      <time class="tl__date" datetime="2015-12-11">11 December 2015</time>
+      <h3 class="tl__h">OpenAI is announced as a non-profit</h3>
+      <p class="tl__b">Sam Altman and Elon Musk announce OpenAI as a non-profit research company with a stated billion dollars in committed funding, framed explicitly as a safety argument: that the safer route is broad distribution rather than concentration. Musk left the board in 2018 and later founded xAI. Almost every sentence written about the AI race since has one of those names in it — which is why this index tracks the principals as a separate leaderboard and keeps them out of the composite entirely.</p>
+      <p class="tl__src"><a href="https://openai.com/index/introducing-openai/" rel="noopener">OpenAI, Introducing OpenAI (11 December 2015)</a></p>
+    </li>
+    <li class="tl__item">
+      <time class="tl__date" datetime="2016-06-21">21 June 2016</time>
+      <h3 class="tl__h">Concrete Problems in AI Safety</h3>
+      <p class="tl__b">Dario Amodei, Chris Olah, Jacob Steinhardt, Paul Christiano, John Schulman and Dan Mané publish a preprint recasting the worry as five ordinary engineering problems: avoiding negative side effects, avoiding reward hacking, scalable oversight, safe exploration, and robustness to distributional shift. It is the document that made the subject fundable and publishable rather than philosophical, and several of its authors went on to found Anthropic.</p>
+      <p class="tl__src"><a href="https://arxiv.org/abs/1606.06565" rel="noopener">Amodei, Olah, Steinhardt, Christiano, Schulman &amp; Mané (2016). arXiv:1606.06565</a></p>
+    </li>
+    <li class="tl__item">
+      <time class="tl__date" datetime="2017-01">January 2017</time>
+      <h3 class="tl__h">The Asilomar AI Principles borrow the venue on purpose</h3>
+      <p class="tl__b">The Beneficial AI conference, held at Asilomar on 5–8 January 2017, produces 23 principles across research questions, ethics and values, and longer-term issues. The choice of venue is the entire rhetorical move: chapter II, invoked by geography. Whether an intangible general-purpose technology admits the same containment logic as a named class of laboratory experiment is the open question the venue was chosen to make you stop asking.</p>
+      <p class="tl__src"><a href="https://futureoflife.org/open-letter/ai-principles/" rel="noopener">Future of Life Institute, Asilomar AI Principles</a></p>
+    </li>
+    <li class="tl__item">
+      <time class="tl__date" datetime="2023-03-22">22 March 2023</time>
+      <h3 class="tl__h">The pause letter</h3>
+      <p class="tl__b">Eight days after GPT-4 shipped, the Future of Life Institute publishes an open letter calling for an immediate six-month halt to the training of systems more powerful than GPT-4, gathering tens of thousands of signatures including senior researchers and industry figures. No pause occurred. It is the clearest marker of the moment institutional worry became public, signed and countable.</p>
+      <p class="tl__src"><a href="https://futureoflife.org/open-letter/pause-giant-ai-experiments/" rel="noopener">Future of Life Institute, Pause Giant AI Experiments</a></p>
+    </li>
+    <li class="tl__item">
+      <time class="tl__date" datetime="2023-05-01">1 May 2023</time>
+      <h3 class="tl__h">Hinton leaves Google to speak freely</h3>
+      <p class="tl__b">Geoffrey Hinton — whose students built AlexNet, who shared the 2018 Turing Award for the work underpinning modern deep learning, and who shared the 2024 Nobel Prize in Physics — resigns from Google and tells the New York Times he wants to discuss the risks without it reflecting on an employer. A field&#39;s most decorated figure resigning in order to worry out loud is a datum about tempo regardless of whether the worry turns out to be correct.</p>
+      <p class="tl__src"><a href="https://www.nytimes.com/2023/05/01/technology/ai-google-chatbot-engineer-quits-hinton.html" rel="noopener">Metz, C. (2023). The New York Times, 1 May 2023</a></p>
+    </li>
+    <li class="tl__item">
+      <time class="tl__date" datetime="2023-05-30">30 May 2023</time>
+      <h3 class="tl__h">One sentence, signed by the people building it</h3>
+      <p class="tl__b">The Center for AI Safety publishes a single-sentence statement placing extinction risk from AI alongside pandemics and nuclear war as a global priority. Its signatories include the chief executives of the leading labs. The document is one sentence by design: it was written so that nobody could decline to sign it on a point of detail.</p>
+      <p class="tl__src"><a href="https://www.safe.ai/work/statement-on-ai-risk" rel="noopener">Center for AI Safety, Statement on AI Risk</a></p>
+    </li></ol>
+</section>
+<section class="lore-ch" id="dates" aria-labelledby="dates-h">
+  <header class="lore-ch__head">
+    <span class="lore-ch__n" aria-hidden="true">VI</span>
+    <h2 class="lore-ch__h" id="dates-h">Governance acquires dates</h2>
+  </header>
+  <p class="lore-ch__s">The stretch where the governance pillar of this index became countable. Declarations are cheap and statutes are not, and both leave machine-readable records with numbers on them.</p>
+  <ol class="tl">
+    <li class="tl__item">
+      <time class="tl__date" datetime="2023-10-30">30 October 2023</time>
+      <h3 class="tl__h">The United States regulates by executive order</h3>
+      <p class="tl__b">Executive Order 14110 sets reporting duties for training runs above a compute threshold and directs a long list of agencies to act. Whatever its later fate, it is the moment AI capability acquired a number in United States federal law, and the moment the governance pillar of this index acquired a signal worth counting.</p>
+      <p class="tl__src"><a href="https://www.federalregister.gov/documents/2023/11/01/2023-24283/safe-secure-and-trustworthy-development-and-use-of-artificial-intelligence" rel="noopener">Federal Register, 88 FR 75191</a></p>
+    </li>
+    <li class="tl__item">
+      <time class="tl__date" datetime="2023-11-01">1–2 November 2023</time>
+      <h3 class="tl__h">Bletchley Park, and twenty-eight signatures</h3>
+      <p class="tl__b">The first international AI Safety Summit produces the Bletchley Declaration, signed by twenty-eight countries and the European Union, including both the United States and China. The venue was chosen for the symbolism. The substance was an agreement that the thing is worth meeting about — which, on a list where most entries are one lab shipping one model, is not nothing.</p>
+      <p class="tl__src"><a href="https://www.gov.uk/government/publications/ai-safety-summit-2023-the-bletchley-declaration" rel="noopener">UK Government, The Bletchley Declaration</a></p>
+    </li>
+    <li class="tl__item">
+      <time class="tl__date" datetime="2024-05-21">21 May 2024</time>
+      <h3 class="tl__h">Seoul turns a declaration into commitments</h3>
+      <p class="tl__b">The AI Seoul Summit produces the Seoul Declaration and, alongside it, the Frontier AI Safety Commitments, under which frontier developers agreed to publish safety frameworks including the thresholds at which they would judge risks intolerable. Bletchley established that the summits exist. Seoul is where they started producing documents whose contents an outsider can check a company against.</p>
+      <p class="tl__src"><a href="https://www.gov.uk/government/publications/seoul-declaration-for-safe-innovative-and-inclusive-ai-ai-seoul-summit-2024" rel="noopener">UK Government, Seoul Declaration (21 May 2024)</a><span class="lore-sep" aria-hidden="true"> · </span><a href="https://www.gov.uk/government/publications/frontier-ai-safety-commitments-ai-seoul-summit-2024" rel="noopener">UK Government, Frontier AI Safety Commitments</a></p>
+    </li>
+    <li class="tl__item">
+      <time class="tl__date" datetime="2024-08-01">1 August 2024</time>
+      <h3 class="tl__h">The EU AI Act enters into force, on a staircase</h3>
+      <p class="tl__b">The first comprehensive statutory AI regime anywhere takes effect: risk-tiered, with some uses banned outright. The obligations arrive on a published staircase — prohibited practices from 2 February 2025, general-purpose model obligations from 2 August 2025, general application from 2 August 2026, and further high-risk phases dated in the regulation itself. From here, regulatory activity is a dated, machine-readable stream, which is precisely why this index can count it.</p>
+      <p class="tl__src"><a href="https://eur-lex.europa.eu/eli/reg/2024/1689/oj" rel="noopener">Regulation (EU) 2024/1689, Official Journal</a><span class="lore-sep" aria-hidden="true"> · </span><a href="https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai" rel="noopener">European Commission, AI Act implementation timeline</a></p>
+    </li>
+    <li class="tl__item">
+      <time class="tl__date" datetime="2024-10-08">8 October 2024</time>
+      <h3 class="tl__h">The Nobel committee credits the machinery</h3>
+      <p class="tl__b">John Hopfield and Geoffrey Hinton receive the Nobel Prize in Physics for foundational discoveries and inventions enabling machine learning with artificial neural networks. One of the two laureates had resigned from his job seventeen months earlier in order to talk about where the work was going. Both facts are in the record and this index does not reconcile them for you.</p>
+      <p class="tl__src"><a href="https://www.nobelprize.org/prizes/physics/2024/" rel="noopener">The Nobel Prize in Physics 2024</a></p>
+    </li>
+    <li class="tl__item">
+      <time class="tl__date" datetime="2025-02-10">10–11 February 2025</time>
+      <h3 class="tl__h">Paris changes the subject, and two governments decline to sign</h3>
+      <p class="tl__b">The AI Action Summit in Paris gathers participants from over a hundred countries and produces a non-binding Statement on Inclusive and Sustainable Artificial Intelligence with 61 signatories. The United States and the United Kingdom did not sign it, and the framing moved from safety toward investment and adoption. Governance is not a ratchet, and a page that only recorded the tightenings would be lying by omission.</p>
+      <p class="tl__src"><a href="https://www.elysee.fr/en/emmanuel-macron/2025/02/11/statement-on-inclusive-and-sustainable-artificial-intelligence-for-people-and-the-planet" rel="noopener">Élysée, Statement on Inclusive and Sustainable AI (11 February 2025)</a></p>
+    </li>
+    <li class="tl__item">
+      <time class="tl__date" datetime="2026-02-03">3 February 2026</time>
+      <h3 class="tl__h">The second International AI Safety Report</h3>
+      <p class="tl__b">The International AI Safety Report, chaired by Yoshua Bengio and written by over a hundred independent experts with backing from more than thirty countries and intergovernmental organisations, publishes its second edition; the first appeared in January 2025. It is the closest thing this field has to an IPCC-style synthesis, and it is the document to read before treating any single number — including this one — as a summary of the science.</p>
+      <p class="tl__src"><a href="https://internationalaisafetyreport.org/" rel="noopener">International AI Safety Report</a></p>
+    </li></ol>
+</section>
+
+<article class="prose">
+  
+<figure class="lore-dec">
+  <figcaption class="lore-dec__cap">Entries on this page, by decade</figcaption>
+  <ol class="lore-dec__list"><li class="lore-dec__row"><span class="lore-dec__k">1950s</span><span class="lore-dec__track"><i style="width:18.2%"></i></span><span class="lore-dec__n num">2</span></li><li class="lore-dec__row"><span class="lore-dec__k">1960s</span><span class="lore-dec__track"><i style="width:9.1%"></i></span><span class="lore-dec__n num">1</span></li><li class="lore-dec__row"><span class="lore-dec__k">1970s</span><span class="lore-dec__track"><i style="width:18.2%"></i></span><span class="lore-dec__n num">2</span></li><li class="lore-dec__row" data-empty="1"><span class="lore-dec__k">1980s</span><span class="lore-dec__track"><i style="width:0.0%"></i></span><span class="lore-dec__n num">0</span></li><li class="lore-dec__row"><span class="lore-dec__k">1990s</span><span class="lore-dec__track"><i style="width:18.2%"></i></span><span class="lore-dec__n num">2</span></li><li class="lore-dec__row"><span class="lore-dec__k">2000s</span><span class="lore-dec__track"><i style="width:9.1%"></i></span><span class="lore-dec__n num">1</span></li><li class="lore-dec__row"><span class="lore-dec__k">2010s</span><span class="lore-dec__track"><i style="width:63.6%"></i></span><span class="lore-dec__n num">7</span></li><li class="lore-dec__row"><span class="lore-dec__k">2020s</span><span class="lore-dec__track"><i style="width:100.0%"></i></span><span class="lore-dec__n num">11</span></li></ol>
+  <p class="lore-dec__note">This counts what we chose to put on this page. It is a hand-made
+    selection and we are telling you that it is one: it is not a measurement of the field and it is
+    not an input to the index. The empty decade is the second AI winter, and it is drawn on the
+    chart rather than quietly dropped from it.</p>
+</figure>
+
+  <div class="lore-call">
+    <h2 id="paperclip">The paperclip, properly attributed</h2>
+    <p>The paperclip maximizer is the most-cited and most-mangled object in this field, so it is
+      worth stating precisely. Bostrom's 2003 argument is not that a machine would hate anyone. It
+      is that <em>capability and goals are independent</em> — a system can be arbitrarily competent
+      in the service of an arbitrarily trivial objective — and that almost any objective implies
+      the same instrumental sub-goals, among them acquiring resources and not being switched off.
+      The paperclips are deliberately absurd. They are chosen to isolate the argument from any
+      question of malice, which is exactly the part that disappears when it is retold as a robot
+      uprising.</p>
+    <p>It is on this page because it is the clearest example here of the failure mode this index is
+      built to avoid: a precise claim, compressed for sharing, arriving at the reader as a
+      different and louder claim. That is not a story about AI. It is a story about scales, names
+      and numbers — and the section after next is where it happened to a real one.</p>
+  </div>
+
+  <h2 id="legend">The scale, level by level</h2>
+  <p>Five levels, counting down toward louder, borrowing DEFCON's grammar so that nobody has to
+    have the legend read to them. Each is a statement about where the composite sits in this
+    index's own frozen reference distribution. Not one of them is a statement about danger.</p>
+</article>
+
+<ol class="lore-lv">
+    <li class="lore-lv__row">
+      <span class="lore-lv__badge num" aria-hidden="true">5</span>
+      <div class="lore-lv__body">
+        <h3 class="lore-lv__h">DOOMCON 5 · DORMANT<span
+          class="lore-lv__band num">0–34</span></h3>
+        <p class="lore-lv__ep">Needle at rest</p>
+        <p class="lore-lv__d">The floor of the scale. Papers, releases, filings and market odds are all moving slower than this index calls normal. That is not safety — it is a quiet hour on the instruments, and we post it exactly as loudly as we post the rest.</p>
+      </div>
+    </li>
+    <li class="lore-lv__row">
+      <span class="lore-lv__badge num" aria-hidden="true">4</span>
+      <div class="lore-lv__body">
+        <h3 class="lore-lv__h">DOOMCON 4 · ROUTINE<span
+          class="lore-lv__band num">35–54</span></h3>
+        <p class="lore-lv__ep">Needle breathing</p>
+        <p class="lore-lv__d">Business as usual for a field whose usual is already loud. The scale is centred here by construction — 50 is the middle of the frozen reference distribution — so a reading in this band means nothing across the five pillars is behaving out of character.</p>
+      </div>
+    </li>
+    <li class="lore-lv__row">
+      <span class="lore-lv__badge num" aria-hidden="true">3</span>
+      <div class="lore-lv__body">
+        <h3 class="lore-lv__h">DOOMCON 3 · ELEVATED<span
+          class="lore-lv__band num">55–69</span></h3>
+        <p class="lore-lv__ep">Off the rest stop</p>
+        <p class="lore-lv__d">Something is carrying the average. One or more pillars have pulled clear of their own reference distribution and the composite has followed them up. It says louder than usual. It does not say why, and the pillar breakdown is where you go to find out.</p>
+      </div>
+    </li>
+    <li class="lore-lv__row">
+      <span class="lore-lv__badge num" aria-hidden="true">2</span>
+      <div class="lore-lv__body">
+        <h3 class="lore-lv__h">DOOMCON 2 · ACCELERATED<span
+          class="lore-lv__band num">70–84</span></h3>
+        <p class="lore-lv__ep">Pinned high</p>
+        <p class="lore-lv__d">The top decile of the record, with several pillars high at once. That is what it looks like when releases, capital and paperwork land in the same window — and it is also what it looks like when one source is having a strange week. The receipt tells them apart.</p>
+      </div>
+    </li>
+    <li class="lore-lv__row">
+      <span class="lore-lv__badge num" aria-hidden="true">1</span>
+      <div class="lore-lv__body">
+        <h3 class="lore-lv__h">DOOMCON 1 · UNPRECEDENTED<span
+          class="lore-lv__band num">85–100</span></h3>
+        <p class="lore-lv__ep">Off the top of the chart</p>
+        <p class="lore-lv__d">Past the top of the reference distribution: the frozen backfill holds nothing like this. The name is a statement about our own record running out, not about the world ending. Those are two different sentences and this index refuses to merge them.</p>
+      </div>
+    </li></ol>
+
+<article class="prose">
+  <h2 id="not">What this index does not claim</h2>
+  <ul class="lore-not">
+    <li><b>Not a probability.</b> Nothing here is a p(doom). The composite is a percentile of observed activity, rescaled. It carries no units of risk and no opinion about outcomes.</li>
+    <li><b>Not a prediction.</b> Every number on this site describes an observation that has already happened, stamped in UTC. Generated copy is barred from the future tense by a unit test, not by discipline.</li>
+    <li><b>Not a judgement.</b> No model scores it and no human votes on it. The same code over the same public inputs produces the same number, on your machine as on ours.</li></ul>
+
+  <h3>The cautionary tale, in full, because it is ours too</h3>
+  <p>The World Health Organization's six-phase pandemic scale measured <em>geographic spread</em>
+    and nothing else. Phase 6 meant sustained community transmission in more than one WHO region.
+    It said nothing whatsoever about severity. When it was declared for H1N1 in June 2009, the
+    public and much of the press read it as a statement about how bad the illness was. The illness
+    was comparatively mild. The mismatch cost the institution credibility it needed later, and by
+    the time WHO published revised pandemic risk-management guidance in 2013, the numbered phase
+    structure had been abandoned.</p>
+  <p>The lesson was not "choose better numbers". It was that <strong>a scale is read as whatever
+    its name suggests, no matter what its documentation says.</strong> So these level names
+    describe the instrument rather than the danger, every surface that prints a level also prints
+    the disclaimer, and the copy generator is barred from the future tense by a unit test rather
+    than by good intentions.</p>
+  <p class="tl__src"><a href="https://www.who.int/publications/i/item/pandemic-influenza-risk-management-a-who-guide-to-inform-and-harmonize-national-and-international-pandemic-preparedness-and-response" rel="noopener">WHO, Pandemic Influenza Risk Management guidance (2013)</a></p>
+
+  <h2 id="counted">What is actually counted</h2>
+  <p>Five pillars, fixed and never reordered. Each is a mean over its live public sources,
+    normalised against a frozen reference distribution built once from backfill and never touched
+    again — so a busy week cannot quietly redefine what "busy" means.</p>
+</article>
+
+<ol class="lore-pl">
+    <li class="lore-pl__row">
+      <h3 class="lore-pl__h">Capability</h3>
+      <p class="lore-pl__d">Preprints, model releases, release notes, repository activity. The field leaves a paper trail every time it moves. This pillar counts the trail; it does not read it.</p>
+    </li>
+    <li class="lore-pl__row">
+      <h3 class="lore-pl__h">Compute &amp; Capital</h3>
+      <p class="lore-pl__d">GPU spot prices, rentable supply, disclosed capital expenditure, and what the market pays for the companies selling the shovels. Weights can be kept secret. The power bill cannot.</p>
+    </li>
+    <li class="lore-pl__row">
+      <h3 class="lore-pl__h">Attention</h3>
+      <p class="lore-pl__d">News volume, search interest, forum and repository chatter. The softest pillar, and the first to spike at nothing — which is precisely why it is one of five and not one of one.</p>
+    </li>
+    <li class="lore-pl__row">
+      <h3 class="lore-pl__h">Governance</h3>
+      <p class="lore-pl__d">Bills, consultations, statutory instruments, enforcement notices. The slowest pillar, and the one that leaves the cleanest dates: a regulation has a number, a journal and a day.</p>
+    </li>
+    <li class="lore-pl__row">
+      <h3 class="lore-pl__h">Markets</h3>
+      <p class="lore-pl__d">Polymarket, Kalshi, Manifold. The only pillar whose sources pay for being wrong, which makes it the only one where an opinion carries a price instead of a byline.</p>
+    </li></ol>
+
+<article class="prose">
+  <p>The full arithmetic — the percentile normalisation, the NowCast smoothing and the six
+    anti-flap layers that stop the level oscillating — is in the
+    <a href="/doomcon/methodology.html">methodology</a>, and every observation is
+    written to a <a href="/doomcon/moves/">hash-chained receipt</a> carrying the inputs
+    it was computed from.</p>
+  <p>Three source states exist, and they stay distinct, because collapsing them is how an index
+    starts lying. <b>Live</b>: the source answered and is scored. <b>Dark</b>: the fetch failed, so
+    the source is excluded — never imputed, never carried forward, never counted as zero — and
+    while any pillar is dark the level cannot change at all. <b>Awaiting baseline</b>: the source
+    answered perfectly well, but there is no frozen history to score it against yet, so it is
+    collected and published and left out of the composite. Reporting that third state as an outage
+    would claim a failure that is not happening.</p>
+
+  <h2 id="faq">Questions people actually ask</h2>
+  
+    <h3 class="lore-faq__q" id="faq-what-is-the-intelligence-explosion">What is the intelligence explosion?</h3>
+    <p class="lore-faq__a">The argument that a machine able to design machines better than humans can would design a successor better than itself, and that the process would repeat. I. J. Good set it out in 1965 in &quot;Speculations Concerning the First Ultraintelligent Machine&quot;, calling such a machine the last invention humans need ever make. Vernor Vinge renamed the idea the singularity in 1993.</p>
+    <h3 class="lore-faq__q" id="faq-who-came-up-with-the-paperclip-maximizer">Who came up with the paperclip maximizer?</h3>
+    <p class="lore-faq__a">Nick Bostrom, in a 2003 paper titled &quot;Ethical Issues in Advanced Artificial Intelligence&quot;, expanded in his 2014 book Superintelligence. The example is a superintelligence whose top goal is manufacturing paperclips and which therefore converts available matter into paperclip production. It is an argument about goal specification and instrumental convergence, not a claim about stationery.</p>
+    <h3 class="lore-faq__q" id="faq-what-did-the-2023-ai-pause-letter-actually-ask-for">What did the 2023 AI pause letter actually ask for?</h3>
+    <p class="lore-faq__a">An immediate six-month halt to the training of AI systems more powerful than GPT-4, and the use of that time to develop shared safety protocols. The Future of Life Institute published it on 22 March 2023 and tens of thousands of people signed it. No pause took place.</p>
+    <h3 class="lore-faq__q" id="faq-why-did-geoffrey-hinton-leave-google">Why did Geoffrey Hinton leave Google?</h3>
+    <p class="lore-faq__a">Hinton resigned in May 2023 and told the New York Times he wanted to speak about the risks of AI without those comments reflecting on his employer. He shared the 2018 Turing Award and, in October 2024, the Nobel Prize in Physics.</p>
+    <h3 class="lore-faq__q" id="faq-what-was-the-asilomar-conference-and-why-does-ai-keep-citing">What was the Asilomar conference, and why does AI keep citing it?</h3>
+    <p class="lore-faq__a">A February 1975 meeting of about 140 scientists at Pacific Grove, California, which agreed containment guidelines for recombinant DNA research after a self-imposed moratorium in July 1974. It is cited as the precedent for a research field regulating itself. The 2017 Asilomar AI Principles were deliberately produced at the same venue.</p>
+    <h3 class="lore-faq__q" id="faq-when-did-the-eu-ai-act-take-effect">When did the EU AI Act take effect?</h3>
+    <p class="lore-faq__a">It entered into force on 1 August 2024. Prohibited practices applied from 2 February 2025, obligations on general-purpose AI models from 2 August 2025, and general application from 2 August 2026, with further high-risk phases dated in the regulation.</p>
+    <h3 class="lore-faq__q" id="faq-is-doomcon-a-p-doom">Is DOOMCON a p(doom)?</h3>
+    <p class="lore-faq__a">No. The DOOMCON composite is a percentile of observed public activity across five pillars, rescaled to 0-100. It carries no units of risk, contains no forecast, and is not scored by any model or any person. It measures how much is happening, not how bad it is.</p>
+</article>
+
+</main>
+<footer class="foot"><div class="wrap">
+  <p>DOOMCON measures how much is happening, not how bad it is. Levels describe observable activity tempo against this index’s own record. They are not a probability of harm.</p>
+  <p>Every value on this site is computed from public data by published code. Each observation
+     is written to a hash-chained receipt carrying its full inputs, so anyone can recompute the
+     number and get the same answer. Data and code: CC BY 4.0.</p>
+  <div class="foot__links">
+    <a href="/doomcon/methodology.html">Methodology</a>
+    <a href="/doomcon/api/state.json">JSON API</a>
+    <a href="/doomcon/embed.html">Embed</a>
+    <a href="/doomcon/feed.xml">RSS</a>
+    <a href="https://github.com/messagegabrielhere-lgtm/doomcon" rel="noopener">Source</a>
+  </div>
+</div></footer>
+</body>
+</html>

@@ -1,0 +1,1929 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>DOOMCON 4 — ROUTINE · AI activity tempo index</title>
+<meta name="description" content="DOOMCON is at level 4 (ROUTINE), score 40.7 of 100, as of 2026-09-24 00:04:49 UTC. A recomputable index of AI activity tempo across five pillars.">
+<link rel="canonical" href="https://messagegabrielhere-lgtm.github.io/doomcon/">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="theme-color" content="#faf9f6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0b0c0e" media="(prefers-color-scheme: dark)">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="DOOMCON">
+<meta property="og:title" content="DOOMCON 4 · ROUTINE — 40.7/100">
+<meta property="og:description" content="DOOMCON is at level 4 (ROUTINE), score 40.7 of 100, as of 2026-09-24 00:04:49 UTC. A recomputable index of AI activity tempo across five pillars.">
+<meta property="og:url" content="https://messagegabrielhere-lgtm.github.io/doomcon/">
+<meta name="twitter:card" content="summary_large_image">
+
+
+<link rel="alternate" type="application/rss+xml" title="DOOMCON index moves" href="/doomcon/feed.xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap">
+<link rel="icon" href="/doomcon/favicon.svg" type="image/svg+xml">
+<style>:root {
+  color-scheme: dark light;
+  --bg:        #0b0c0e;
+  --bg-raised: #131519;
+  --bg-sunken: #08090a;
+  --ink:       #e8eaee;
+  --ink-dim:   #9aa2ad;
+  --ink-faint: #6a717b;
+  --rule:      #23262c;
+  --rule-soft: #191c21;
+  --accent:    #ffb020;
+  --accent-ink:#0b0c0e;
+  --ok:        #5fd08a;
+  --stale:     #ffb020;
+  --dark-src:  #ff6b6b;
+  --scan:      rgba(255,255,255,0.016);
+  --wash:      rgba(232,234,238,0.042);
+  --wash-alt:  rgba(232,234,238,0.021);
+  --wash-live: rgba(255,176,32,0.115);
+  --fill:      rgba(255,176,32,0.150);
+  --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --sans: 'Inter Tight', system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+  --t-xs:   0.6875rem;
+  --t-sm:   0.8125rem;
+  --t-base: 1rem;
+  --t-md:   1.0625rem;
+  --t-lg:   1.25rem;
+  --t-xl:   1.5rem;
+  --s-1: 4px;  --s-2: 8px;  --s-3: 12px; --s-4: 16px;
+  --s-5: 24px; --s-6: 32px; --s-7: 48px; --s-8: 64px;
+  --gutter: 16px;
+  --measure: 66ch;
+  --radius: 3px;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg:        #faf9f6;
+    --bg-raised: #ffffff;
+    --bg-sunken: #f1efe9;
+    --ink:       #14161a;
+    --ink-dim:   #545a62;
+    --ink-faint: #838a93;
+    --rule:      #e0ddd5;
+    --rule-soft: #eeebe4;
+    --accent:    #9a5a00;
+    --accent-ink:#ffffff;
+    --ok:        #17714a;
+    --stale:     #8a5a00;
+    --dark-src:  #b3261e;
+    --scan:      rgba(0,0,0,0.012);
+    --wash:      rgba(20,22,26,0.046);
+    --wash-alt:  rgba(20,22,26,0.022);
+    --wash-live: rgba(154,90,0,0.105);
+    --fill:      rgba(154,90,0,0.130);
+  }
+}
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg:#faf9f6; --bg-raised:#ffffff; --bg-sunken:#f1efe9;
+  --ink:#14161a; --ink-dim:#545a62; --ink-faint:#838a93;
+  --rule:#e0ddd5; --rule-soft:#eeebe4;
+  --accent:#9a5a00; --accent-ink:#ffffff;
+  --ok:#17714a; --stale:#8a5a00; --dark-src:#b3261e; --scan:rgba(0,0,0,0.012);
+  --wash:rgba(20,22,26,0.046); --wash-alt:rgba(20,22,26,0.022);
+  --wash-live:rgba(154,90,0,0.105); --fill:rgba(154,90,0,0.130);
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg:#0b0c0e; --bg-raised:#131519; --bg-sunken:#08090a;
+  --ink:#e8eaee; --ink-dim:#9aa2ad; --ink-faint:#6a717b;
+  --rule:#23262c; --rule-soft:#191c21;
+  --accent:#ffb020; --accent-ink:#0b0c0e;
+  --ok:#5fd08a; --stale:#ffb020; --dark-src:#ff6b6b; --scan:rgba(255,255,255,0.016);
+  --wash:rgba(232,234,238,0.042); --wash-alt:rgba(232,234,238,0.021);
+  --wash-live:rgba(255,176,32,0.115); --fill:rgba(255,176,32,0.150);
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: var(--t-base);
+  line-height: 1.55;
+  font-synthesis-weight: none;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  font-variant-numeric: tabular-nums;
+}
+.prose p, .prose li, .lede, .foot p { font-variant-numeric: proportional-nums; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9;
+  background: repeating-linear-gradient(
+    to bottom, var(--scan) 0 1px, transparent 1px 3px
+  );
+}
+@media print { body::after { display: none; } }
+a { color: inherit; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+a:focus-visible, button:focus-visible {
+  outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px;
+}
+h1, h2, h3, h4 { font-weight: 600; line-height: 1.2; letter-spacing: -0.015em; margin: 0; }
+p { margin: 0 0 1em; }
+code, kbd, pre, .num, time { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.wrap { width: 100%; max-width: 940px; margin: 0 auto; padding: 0 var(--gutter); }
+.wrap--wide { max-width: 1140px; }
+.vh {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+.rule { border: 0; border-top: 1px solid var(--rule); margin: var(--s-6) 0; }
+.eyebrow {
+  font-family: var(--mono); font-size: var(--t-xs); font-weight: 500;
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-faint);
+  margin: 0 0 var(--s-2);
+}
+.layout-split { display: grid; gap: var(--s-6); align-items: start; }
+@media (min-width: 980px) {
+  .layout-split { grid-template-columns: minmax(0, 1fr) 330px; gap: var(--s-7); }
+  .layout-split__aside { position: sticky; top: var(--s-4); }
+}
+.masthead {
+  border-bottom: 1px solid var(--rule);
+  background: var(--bg-sunken);
+  position: relative; z-index: 10;
+}
+.masthead__in {
+  display: flex; align-items: baseline; gap: var(--s-3);
+  padding-top: var(--s-3); padding-bottom: var(--s-3); flex-wrap: wrap;
+}
+.wordmark {
+  font-family: var(--mono); font-weight: 700; font-size: 15px;
+  letter-spacing: 0.22em; text-decoration: none; color: var(--ink);
+}
+.masthead__tag {
+  font-size: var(--t-sm); color: var(--ink-faint); margin: 0;
+  flex: 1 1 auto; min-width: 0;
+}
+.nav { display: flex; gap: var(--s-4); flex-wrap: wrap; }
+.nav a {
+  font-family: var(--mono); font-size: var(--t-xs); letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--ink-dim); text-decoration: none;
+  padding: 2px 0; border-bottom: 1px solid transparent;
+  transition: color 120ms ease, border-color 120ms ease;
+}
+.nav a:hover { color: var(--ink); border-bottom-color: var(--accent); }
+.nav a[aria-current="page"] { color: var(--ink); border-bottom-color: var(--accent); }
+.degraded {
+  background: var(--bg-raised);
+  border-top: 2px solid var(--stale);
+  border-bottom: 1px solid var(--rule);
+  position: relative; z-index: 10;
+}
+.degraded__in { padding: var(--s-3) 0; display: flex; gap: 10px; align-items: flex-start; }
+.degraded__mark {
+  font-family: var(--mono); font-weight: 700; font-size: 12px;
+  letter-spacing: 0.1em; color: var(--stale); flex: 0 0 auto; padding-top: 1px;
+}
+.degraded__txt { font-size: var(--t-sm); margin: 0; color: var(--ink); }
+.degraded__txt strong { font-weight: 600; }
+.foot {
+  border-top: 1px solid var(--rule); margin-top: var(--s-8);
+  padding: var(--s-5) 0 var(--s-7); color: var(--ink-faint); font-size: 12.5px;
+}
+.foot p { margin: 0 0 var(--s-2); max-width: var(--measure); }
+.foot a { color: var(--ink-dim); }
+.foot__links {
+  display: flex; gap: var(--s-4); flex-wrap: wrap; margin-top: var(--s-3);
+  font-family: var(--mono); font-size: var(--t-xs); letter-spacing: 0.08em; text-transform: uppercase;
+}
+.hero { padding: var(--s-6) 0 var(--s-2); }
+.hero__grid { display: grid; gap: var(--s-5); }
+@media (min-width: 720px) {
+  .hero__grid { grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: var(--s-6); align-items: end; }
+}
+.level { display: flex; align-items: center; gap: var(--s-4); }
+.level__digit {
+  font-family: var(--mono); font-weight: 700;
+  font-size: clamp(5.5rem, 31vw, 9.5rem);
+  line-height: 0.8; letter-spacing: -0.065em;
+  color: var(--accent);
+  text-shadow: 0 0 38px color-mix(in srgb, var(--accent) 26%, transparent);
+}
+@media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) .level__digit { text-shadow: none; } }
+:root[data-theme="light"] .level__digit { text-shadow: none; }
+.level__meta { min-width: 0; }
+.level__name {
+  font-family: var(--mono); font-weight: 700;
+  font-size: clamp(1.05rem, 5.2vw, 1.55rem);
+  letter-spacing: 0.055em; margin: 0 0 var(--s-2); color: var(--ink);
+  overflow-wrap: anywhere;
+}
+.level__gloss { font-size: var(--t-sm); color: var(--ink-dim); margin: var(--s-2) 0 0; max-width: 34ch; }
+.bars { display: flex; gap: 4px; }
+.bars span {
+  width: 13px; height: 13px; border: 1.5px solid var(--accent);
+  border-radius: 1px; background: transparent;
+}
+.bars span[data-on="1"] { background: var(--accent); }
+.score { border-top: 1px solid var(--rule); padding-top: var(--s-4); }
+@media (min-width: 720px) {
+  .score { border-top: 0; border-left: 1px solid var(--rule); padding: 0 0 0 var(--s-6); }
+}
+.score__row { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.score__val {
+  font-family: var(--mono); font-weight: 700;
+  font-size: clamp(2.75rem, 13.5vw, 3.75rem); line-height: 1;
+  letter-spacing: -0.035em; color: var(--ink);
+}
+.score__of { font-family: var(--mono); font-size: var(--t-sm); color: var(--ink-faint); }
+.score__dir {
+  font-family: var(--mono); font-size: 12.5px; color: var(--ink-dim);
+  display: inline-flex; align-items: baseline; gap: 5px;
+}
+.score__dir b { font-weight: 700; color: var(--ink); }
+.hero__chart { margin-top: var(--s-4); }
+.hero__chart .ch__svg { margin-inline: auto; }
+.scale { margin-top: var(--s-4); }
+.scale__track {
+  position: relative; display: flex; height: 10px;
+  border: 1px solid var(--rule); border-radius: 2px;
+}
+.scale__track i { display: block; background: var(--rule-soft); border-right: 1px solid var(--rule); }
+.scale__track i:last-of-type { border-right: 0; }
+.scale__track i[data-live="1"] { background: var(--accent); }
+.scale__you {
+  position: absolute; top: -4px; bottom: -4px; width: 2px;
+  margin-left: -1px; background: var(--ink); border-radius: 1px;
+}
+.scale__marks {
+  position: relative; height: 15px; margin-top: var(--s-1);
+  font-family: var(--mono); font-size: 10px; color: var(--ink-faint); letter-spacing: 0.08em;
+}
+.scale__marks span { position: absolute; top: 0; transform: translateX(-50%); }
+.scale__marks span[data-edge="first"] { transform: none; }
+.scale__marks span[data-edge="last"]  { transform: translateX(-100%); }
+.stamp {
+  font-family: var(--mono); font-size: 12px; color: var(--ink-dim);
+  margin: var(--s-5) 0 0; letter-spacing: 0.02em;
+}
+.stamp b { color: var(--ink); font-weight: 500; }
+.disclaimer {
+  font-size: 12.5px; color: var(--ink-faint); margin: 10px 0 0; max-width: var(--measure);
+}
+.ch { margin: 0; padding: 0; }
+.ch__svg { display: block; width: 100%; max-width: var(--w, 100%); height: auto; }
+.ch__cap {
+  font-family: var(--mono); font-size: var(--t-xs); line-height: 1.5;
+  color: var(--ink-faint); margin: var(--s-2) 0 0; letter-spacing: 0.01em;
+}
+.ch text, .spark text {
+  font-family: var(--mono); fill: var(--ink-dim); font-variant-numeric: tabular-nums;
+}
+.ch-note { fill: var(--ink-dim); stroke: var(--bg); stroke-width: 3.5; paint-order: stroke fill; }
+.ch-note--dim { fill: var(--ink-faint); }
+.spark { display: block; }
+.spark__area { fill: var(--fill); }
+.spark__line { fill: none; stroke: var(--accent); stroke-width: 1.6; stroke-linejoin: round; stroke-linecap: round; }
+.spark__base { stroke: var(--rule); stroke-width: 1; }
+.spark__ref  { stroke: var(--ink-faint); stroke-width: 1; }
+.spark__reflabel { fill: var(--ink-faint); }
+.spark__ring { fill: var(--bg-raised); stroke: var(--accent); stroke-width: 1.4; }
+.spark__dot  { fill: var(--accent); }
+.spark__empty { fill: var(--ink-faint); font-size: 10px; }
+.ch-g-seg { fill: none; stroke: var(--rule); stroke-width: 14; }
+.ch-g-seg--live { stroke: var(--accent); stroke-width: 20; }
+.ch-g-tick { stroke: var(--rule); stroke-width: 1; }
+.ch-g-ticklabel { fill: var(--ink-faint); }
+.ch-g-mark { stroke: var(--ink); stroke-width: 3; stroke-linecap: butt; }
+.ch-g-markdot { fill: var(--ink); stroke: var(--bg); stroke-width: 1.2; }
+.ch-g-val { fill: var(--ink); font-weight: 700; letter-spacing: -0.03em; }
+.ch-g-of { fill: var(--ink-faint); letter-spacing: 0.16em; }
+.ch-g-band { fill: var(--ink-dim); font-weight: 700; letter-spacing: 0.06em; }
+.ch__svg--lg { display: none; }
+@media (min-width: 640px) {
+  .ch__svg--sm { display: none; }
+  .ch__svg--lg { display: block; }
+}
+.ch-band { fill: var(--wash-alt); }
+.ch-band--alt { fill: var(--wash); }
+.ch-band--live { fill: var(--wash-live); }
+.ch-bandl { fill: var(--ink-faint); letter-spacing: 0.09em; }
+.ch-bandl--live { fill: var(--ink); font-weight: 700; }
+.ch-frame { fill: none; stroke: var(--rule); stroke-width: 1; }
+.ch-axline { stroke: var(--rule); stroke-width: 1; }
+.ch-ax { fill: var(--ink-faint); letter-spacing: 0.04em; }
+.ch-halo { fill: none; stroke: var(--bg); stroke-width: 4.5; stroke-linejoin: round; stroke-linecap: round; }
+.ch-line { fill: none; stroke: var(--accent); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.ch-dot { fill: var(--accent); }
+.ch-ring { fill: var(--bg); stroke: var(--accent); stroke-width: 1.5; }
+.ch-val { fill: var(--ink); font-weight: 700; stroke: var(--bg); stroke-width: 3.5; paint-order: stroke fill; }
+.ch-guide { stroke: var(--accent); stroke-width: 1; stroke-dasharray: 3 4; }
+.ch-lvmark { stroke: var(--ink-faint); stroke-width: 1; stroke-dasharray: 2 4; }
+.ch-lvtext { fill: var(--ink-dim); }
+.ch-r-track { fill: var(--wash-alt); }
+.ch-r-bar { fill: var(--accent); }
+.ch-r-cap { stroke: var(--ink); stroke-width: 1.5; }
+.ch-r-none { fill: none; stroke: var(--ink-faint); stroke-width: 1; stroke-dasharray: 3 3; }
+.ch-r-nonet { fill: var(--ink-faint); letter-spacing: 0.05em; }
+.ch-r-name { fill: var(--ink); font-family: var(--sans); font-weight: 600; letter-spacing: -0.005em; }
+.ch-r-glyph { fill: var(--ink-dim); }
+.ch-r-val { fill: var(--ink); font-weight: 700; }
+.ch-r-val--none { fill: var(--ink-faint); font-weight: 400; }
+.ch-r-ref { stroke: var(--ink-faint); stroke-width: 1; stroke-dasharray: 2 4; }
+.ch-r-reflabel { fill: var(--ink-faint); letter-spacing: 0.06em; }
+.ch-d-rest { fill: var(--wash); }
+.ch-d-fill { fill: var(--fill); }
+.ch-d-curve { fill: none; stroke: var(--ink-dim); stroke-width: 1.25; }
+.ch-d-base { stroke: var(--rule); stroke-width: 1; }
+.ch-d-tick { stroke: var(--ink-faint); stroke-width: 1; }
+.ch-d-marker { stroke: var(--ink); stroke-width: 2; }
+.ch-d-caret { fill: var(--ink); }
+.ch-d-val { fill: var(--ink); font-weight: 700; stroke: var(--bg); stroke-width: 3; paint-order: stroke fill; }
+.ch-d-ax { fill: var(--ink-faint); letter-spacing: 0.12em; }
+.ch-d-ax--dim { opacity: 0.7; }
+.fresh { margin: var(--s-5) 0 0; }
+.fresh__strip {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(158px, 1fr));
+  gap: 6px; margin: 0; padding: 0; list-style: none;
+}
+.chip {
+  display: inline-flex; align-items: center; gap: 2px 6px; flex-wrap: wrap;
+  font-family: var(--mono); font-size: var(--t-xs); letter-spacing: 0.02em;
+  border: 1px solid var(--rule); border-radius: var(--radius);
+  padding: 4px 7px; background: var(--bg-raised); color: var(--ink-dim);
+  white-space: nowrap; overflow: hidden; min-width: 0; text-decoration: none;
+}
+.chip b { font-weight: 500; color: var(--ink); overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.chip__age { flex: 0 0 auto; color: var(--ink-faint); }
+.chip__dot { font-size: 10px; line-height: 1; }
+.chip[data-status="ok"]    .chip__dot { color: var(--ok); }
+.chip[data-status="stale"] .chip__dot { color: var(--stale); }
+.chip[data-status="dark"]  .chip__dot { color: var(--dark-src); }
+.chip[data-status="uncal"] .chip__dot { color: var(--ink-faint); }
+.chip[data-status="dark"]  { border-style: dashed; }
+.chip[data-status="uncal"] { border-style: dotted; }
+.fresh__key { font-size: 11.5px; color: var(--ink-faint); margin: var(--s-2) 0 0; font-family: var(--mono); line-height: 1.6; }
+.chip--sm { font-size: 10px; padding: 2px 5px; gap: 4px; }
+.chip--quiet { background: transparent; color: var(--ink-faint); }
+.chip--accent { border-color: var(--accent); color: var(--ink); }
+.chip--solid { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-weight: 700; }
+.chip--x::before, .chip--kalshi::before, .chip--polymarket::before,
+.chip--manifold::before, .chip--news::before, .chip--paper::before,
+.chip--gov::before, .chip--code::before {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 13px; height: 13px; flex: 0 0 13px;
+  border: 1px solid currentColor; border-radius: 2px;
+  font-size: 8.5px; font-weight: 700; line-height: 1;
+}
+.chip--x::before          { content: 'X'; }
+.chip--kalshi::before     { content: 'K'; }
+.chip--polymarket::before { content: 'P'; }
+.chip--manifold::before   { content: 'M'; }
+.chip--news::before       { content: 'N'; }
+.chip--paper::before      { content: '\25b2'; border: 0; font-size: 10px; }
+.chip--gov::before        { content: '\25c6'; border: 0; font-size: 10px; }
+.chip--code::before       { content: '\25a0'; border: 0; font-size: 10px; }
+.pillar-tag {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.09em; text-transform: uppercase;
+  color: var(--ink-dim); border: 1px solid var(--rule); border-radius: 2px;
+  padding: 1px 5px 1px 4px; white-space: nowrap; text-decoration: none;
+}
+.pillar-tag::before { font-size: 9px; line-height: 1; color: var(--ink-faint); }
+.pillar-tag[data-pillar="capability"]::before { content: '\25b2'; }
+.pillar-tag[data-pillar="compute"]::before    { content: '\25a0'; }
+.pillar-tag[data-pillar="attention"]::before  { content: '\25cf'; }
+.pillar-tag[data-pillar="governance"]::before { content: '\25c6'; }
+.pillar-tag[data-pillar="markets"]::before    { content: '\2731'; }
+.feed { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule); }
+.feed__row {
+  display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--s-1) 10px;
+  padding: 10px 2px; border-bottom: 1px solid var(--rule-soft);
+  transition: background-color 120ms ease;
+}
+.feed__row:hover { background: var(--bg-raised); }
+.feed__row a { text-decoration: none; color: inherit; }
+.feed__row a:hover .feed__title, .feed__row a:hover.feed__title { text-decoration: underline; }
+.feed__row--new { border-left: 2px solid var(--accent); padding-left: var(--s-2); }
+.feed__row--new .feed__time::before { content: '\203a '; color: var(--accent); font-weight: 700; }
+.feed__time { grid-column: 1; grid-row: 1; font-family: var(--mono); font-size: 10.5px; color: var(--ink-faint); white-space: nowrap; }
+.feed__meta { grid-column: 2; grid-row: 1; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; min-width: 0; }
+.feed__src { font-family: var(--mono); font-size: 10.5px; color: var(--ink-faint); overflow: hidden; text-overflow: ellipsis; }
+.feed__title { grid-column: 1 / -1; font-size: 13.5px; line-height: 1.4; margin: 0; overflow-wrap: anywhere; }
+.feed__body { grid-column: 1 / -1; font-size: 12px; color: var(--ink-faint); margin: 0; line-height: 1.45; }
+@media (min-width: 420px) {
+  .feed__title { grid-column: 2; }
+  .feed__body { grid-column: 2; }
+}
+.feed__odds {
+  font-family: var(--mono); font-size: 11.5px; font-weight: 700; color: var(--ink);
+  border: 1px solid var(--rule); border-radius: 2px; padding: 0 4px; white-space: nowrap;
+}
+.feed__odds small { font-weight: 400; color: var(--ink-faint); font-size: 9.5px; letter-spacing: 0.06em; }
+.feed__move { font-family: var(--mono); font-size: 11.5px; font-weight: 700; white-space: nowrap; }
+.feed__move[data-dir="up"]::before   { content: '\25b2 '; font-size: 8px; }
+.feed__move[data-dir="down"]::before { content: '\25bc '; font-size: 8px; }
+.feed__move[data-dir="flat"]::before { content: '\25c6 '; font-size: 8px; }
+.feed__head { display: flex; align-items: center; gap: var(--s-2); flex-wrap: wrap; margin: 0 0 var(--s-3); }
+.feed__live {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-faint);
+}
+.feed__live::before {
+  content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--accent);
+  animation: dc-pulse 2.6s ease-in-out infinite;
+}
+@keyframes dc-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+.feed__empty { font-family: var(--mono); font-size: 11.5px; color: var(--ink-faint); padding: var(--s-4) 0; margin: 0; }
+.feed__more { font-family: var(--mono); font-size: var(--t-xs); letter-spacing: 0.06em; margin: var(--s-3) 0 0; }
+.reel { margin: 0 calc(var(--gutter) * -1); padding: 0; }
+.reel__hint {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--ink-faint); margin: 0 0 var(--s-2); padding: 0 var(--gutter);
+}
+.reel__rail {
+  display: flex; gap: 10px; list-style: none; margin: 0;
+  padding: 2px var(--gutter) var(--s-3);
+  overflow-x: auto; overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory; scroll-padding-left: var(--gutter);
+  scrollbar-width: thin; scrollbar-color: var(--rule) transparent;
+}
+.reel__rail::-webkit-scrollbar { height: 6px; }
+.reel__rail::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 3px; }
+.reel__rail > * {
+  flex: 0 0 79%; max-width: 300px; min-width: 0;
+  scroll-snap-align: start; display: flex;
+}
+@media (min-width: 620px) { .reel__rail > * { flex-basis: 268px; } }
+.reel__card {
+  width: 100%;
+  display: flex; flex-direction: column; gap: var(--s-2);
+  background: var(--bg-raised); border: 1px solid var(--rule); border-radius: var(--radius);
+  padding: var(--s-3) 13px; min-height: 148px;
+  text-decoration: none; color: inherit;
+  transition: border-color 120ms ease;
+}
+.reel__card:hover { border-color: var(--accent); }
+.reel__kicker {
+  display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--ink-faint);
+}
+.reel__title { font-size: 14px; font-weight: 600; line-height: 1.32; margin: 0; overflow-wrap: anywhere; }
+.reel__body { font-size: 12px; color: var(--ink-dim); margin: 0; line-height: 1.45; }
+.reel__num { font-family: var(--mono); font-size: var(--t-lg); font-weight: 700; letter-spacing: -0.025em; color: var(--ink); }
+.reel__foot {
+  margin-top: auto; padding-top: var(--s-2); border-top: 1px solid var(--rule-soft);
+  display: flex; align-items: baseline; justify-content: space-between; gap: var(--s-2);
+  font-family: var(--mono); font-size: 10.5px; color: var(--ink-faint);
+}
+.pillars { display: grid; gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: var(--radius); overflow: hidden; }
+@media (min-width: 620px) { .pillars { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 900px) { .pillars { grid-template-columns: 1fr 1fr 1fr; } }
+.pillar { background: var(--bg-raised); padding: var(--s-4) 15px 13px; display: flex; flex-direction: column; gap: var(--s-2); }
+.pillar__top { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+.pillar__name { font-size: 14px; font-weight: 600; margin: 0; }
+.pillar__score { font-family: var(--mono); font-size: var(--t-lg); font-weight: 700; letter-spacing: -0.02em; }
+.pillar__blurb { font-size: 12px; color: var(--ink-faint); margin: 0; }
+.pillar__spark { display: block; width: 100%; height: 30px; }
+.pillar__spark.ch__svg { height: auto; }
+.pillar__foot { font-family: var(--mono); font-size: 10.5px; color: var(--ink-faint); letter-spacing: 0.04em; }
+.pillar[data-dark="1"] { background: var(--bg-sunken); }
+.pillar[data-dark="1"] .pillar__score { color: var(--ink-faint); }
+.pillar__dark {
+  font-family: var(--mono); font-size: var(--t-xs); color: var(--dark-src);
+  border: 1px dashed currentColor; border-radius: 2px; padding: 3px 6px; align-self: flex-start;
+}
+.pillar[data-uncalibrated="1"] .pillar__dark { color: var(--ink-faint); border-style: dotted; }
+.moves { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule); }
+.move { border-bottom: 1px solid var(--rule); }
+.move__a {
+  display: grid; gap: 2px 14px; padding: var(--s-3) 2px; text-decoration: none; color: inherit;
+  grid-template-columns: auto 1fr auto; align-items: baseline;
+  transition: background-color 120ms ease;
+}
+.move__a:hover { background: var(--bg-raised); }
+.move__time { font-family: var(--mono); font-size: 11.5px; color: var(--ink-faint); grid-column: 1; }
+.move__what { font-size: 14px; grid-column: 1 / -1; }
+@media (min-width: 560px) { .move__what { grid-column: 2; } }
+.move__delta { font-family: var(--mono); font-size: var(--t-sm); font-weight: 700; grid-column: 3; grid-row: 1; text-align: right; }
+.move__tag {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+  border: 1px solid var(--accent); color: var(--accent); border-radius: 2px; padding: 1px 5px; margin-left: var(--s-2);
+}
+.movehead { display: grid; gap: var(--s-4); margin-bottom: var(--s-2); }
+.movehead__nums { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; font-family: var(--mono); }
+.movehead__from, .movehead__to { font-size: 2rem; font-weight: 700; letter-spacing: -0.03em; }
+.movehead__from { color: var(--ink-faint); }
+.movehead__to { color: var(--ink); }
+.movehead__arrow { color: var(--ink-faint); font-size: 1.25rem; }
+.movehead__delta { font-size: 1rem; font-weight: 700; color: var(--accent); }
+.kv { border-top: 1px solid var(--rule); margin: var(--s-5) 0 0; }
+.kv__row { display: grid; grid-template-columns: 1fr; gap: 0 18px; border-bottom: 1px solid var(--rule); padding: 9px 0; }
+@media (min-width: 560px) { .kv__row { grid-template-columns: 180px 1fr; } }
+.kv__k { font-family: var(--mono); font-size: var(--t-xs); letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); }
+.kv__v { font-size: 14px; overflow-wrap: anywhere; }
+.kv__v .num, .kv__v code { font-size: 12.5px; }
+.srcs { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.srcs li { display: flex; gap: var(--s-2); align-items: baseline; font-size: var(--t-sm); flex-wrap: wrap; }
+.srcs .num { font-family: var(--mono); font-size: 12.5px; color: var(--ink-dim); }
+.hash { font-family: var(--mono); font-size: 11.5px; color: var(--ink-dim); overflow-wrap: anywhere; display: block; }
+.prose { max-width: var(--measure); font-size: var(--t-base); }
+.prose > h1 { font-size: clamp(1.7rem, 7vw, 2.3rem); margin: 0 0 14px; letter-spacing: -0.025em; }
+.prose > h2 { font-size: var(--t-xl); margin: var(--s-7) 0 10px; letter-spacing: -0.02em; }
+.prose > h3 { font-size: var(--t-md); margin: var(--s-5) 0 var(--s-2); }
+.prose > h4 { font-size: 0.95rem; margin: var(--s-5) 0 6px; color: var(--ink-dim); }
+.prose ul, .prose ol { margin: 0 0 1em; padding-left: 1.25em; }
+.prose li { margin: 0 0 0.4em; }
+.prose blockquote {
+  margin: 1.2em 0; padding: 2px 0 2px var(--s-4);
+  border-left: 2px solid var(--rule); color: var(--ink-dim);
+}
+.prose pre {
+  background: var(--bg-sunken); border: 1px solid var(--rule); border-radius: var(--radius);
+  padding: var(--s-3) 14px; overflow-x: auto; font-size: 12.5px; line-height: 1.5; margin: 0 0 1.2em;
+}
+.prose :not(pre) > code {
+  background: var(--bg-raised); border: 1px solid var(--rule); border-radius: 2px;
+  padding: 1px 4px; font-size: 0.87em;
+}
+.prose table { width: 100%; border-collapse: collapse; margin: 0 0 1.4em; font-size: 13.5px; display: block; overflow-x: auto; }
+.prose th, .prose td { text-align: left; padding: 7px 10px 7px 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
+.prose th { font-family: var(--mono); font-size: var(--t-xs); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-faint); font-weight: 500; }
+.prose h2 a.anchor, .prose h3 a.anchor { color: var(--ink-faint); text-decoration: none; font-weight: 400; margin-left: 6px; opacity: 0; }
+.prose h2:hover a.anchor, .prose h3:hover a.anchor { opacity: 1; }
+.lede { font-size: var(--t-md); color: var(--ink-dim); max-width: var(--measure); margin: 0 0 var(--s-5); }
+.tl { list-style: none; margin: 0; padding: 0; border-left: 1px solid var(--rule); }
+.tl__item { position: relative; padding: 0 0 var(--s-5) 20px; }
+.tl__item::before {
+  content: ''; position: absolute; left: -4px; top: var(--s-2);
+  width: 7px; height: 7px; border-radius: 50%; background: var(--accent);
+}
+.tl__date { font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.08em; color: var(--accent); display: block; margin-bottom: 3px; }
+.tl__h { font-size: 1.02rem; margin: 0 0 5px; }
+.tl__b { font-size: 14.5px; color: var(--ink-dim); margin: 0 0 6px; max-width: var(--measure); }
+.tl__src { font-family: var(--mono); font-size: 11.5px; }
+.tl__src a { color: var(--ink-faint); }
+.tl__src a:hover { color: var(--ink); }
+.sec { margin: var(--s-7) 0 0; }
+@media (min-width: 720px) { .sec { margin-top: var(--s-8); } }
+.sec__h {
+  display: flex; align-items: center; gap: var(--s-3);
+  font-family: var(--mono); font-size: var(--t-xs); letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--ink-faint); margin: 0 0 var(--s-3); font-weight: 500;
+}
+.sec__h::after { content: ''; flex: 1 1 auto; height: 1px; background: var(--rule); }
+.snippet {
+  background: var(--bg-sunken); border: 1px solid var(--rule); border-radius: var(--radius);
+  padding: 11px 13px; font-family: var(--mono); font-size: 11.5px; line-height: 1.5;
+  overflow-x: auto; white-space: pre; color: var(--ink-dim); margin: 0 0 10px;
+}
+.apilist { list-style: none; margin: 0; padding: 0; display: grid; gap: 7px; }
+.apilist code { font-size: 12px; }
+.apilist span { color: var(--ink-faint); font-size: 12.5px; }
+</style>
+<style>
+.dcmx{position:relative;overflow:hidden;border-bottom:1px solid var(--rule);background:var(--bg-sunken)}
+.dcmx__win{display:flex;width:max-content}
+.dcmx__t{display:flex;margin:0;padding:0;list-style:none;flex:0 0 auto}
+.dcmx__i{display:flex;gap:9px;align-items:baseline;min-width:250px;padding:5px 16px;
+  border-right:1px solid var(--rule-soft);white-space:nowrap;font-size:12px}
+.dcmx__c{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;
+  color:var(--p,var(--accent));font-variant-numeric:tabular-nums}
+.dcmx__s{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint)}
+.dcmx__h{color:var(--ink-dim);max-width:60ch;overflow:hidden;text-overflow:ellipsis}
+@media (prefers-reduced-motion:no-preference){
+  .dcmx[data-mode="run"] .dcmx__win{animation:dcmxRun var(--dcmx-dur,50s) linear infinite;will-change:transform}
+  .dcmx:hover .dcmx__win,.dcmx:focus-within .dcmx__win{animation-play-state:paused}
+  @keyframes dcmxRun{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+}
+
+.dcmx-note{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px;margin:0;
+  padding:7px var(--gutter);border-bottom:1px solid var(--rule);background:var(--bg-sunken);
+  font-family:var(--mono);font-size:11.5px;color:var(--ink-dim)}
+.dcmx-note[hidden]{display:none}
+.dcmx-note__k{color:var(--accent);letter-spacing:.14em;font-weight:700;font-size:10px}
+.dcmx-note__t{color:var(--ink);font-variant-numeric:tabular-nums}
+.dcmx-note__x:empty{display:none}
+.dcmx-note__a{color:var(--ink-dim)}
+
+/* REPAIR, NOT DECORATION. This rule belongs in reelCss in _reel.mjs, which
+   this module does not own, so it is parked here and flagged for the
+   integrator. .reel__rail is a block-level flex container, so it computes to
+   the viewport's content width - 491px measured - while its no-shrink cards
+   overflow to 2470px. That overflow never becomes SCROLLABLE overflow of
+   .reel__viewport, so vp.scrollWidth === vp.clientWidth (523 === 523, measured
+   in Chrome against the real built index.html with no motion layer present)
+   and the rail cannot be swiped, dragged, wheeled or scrolled by anybody.
+   max-content sizes the rail to its cards: vp.scrollWidth goes 523 -> 2502.
+   Without it the carousel - the operator's headline request - is inert. */
+.reel__rail{width:max-content}
+
+.dcmx-dots{display:flex;gap:6px;justify-content:center;margin:0;padding:4px 0 0}
+.dcmx-dots button{appearance:none;-webkit-appearance:none;width:24px;height:14px;
+  padding:0;margin:0;border:0;background:none;cursor:pointer}
+.dcmx-dots button::before{content:'';display:block;height:3px;border-radius:2px;background:var(--rule)}
+.dcmx-dots button[aria-current="true"]::before{background:var(--accent);height:4px}
+
+.dcmx-arr{margin:18px 0 6px;border:1px dashed var(--rule);border-radius:var(--radius);padding:8px 11px 9px}
+.dcmx-arr__h{margin:0 0 5px;font-family:var(--mono);font-size:10px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-faint)}
+.dcmx-arr__l{list-style:none;margin:0;padding:0}
+.dcmx-arr__i{display:flex;flex-wrap:wrap;gap:8px;align-items:baseline;font-size:13.5px;
+  padding:5px 0 5px 9px;border-left:2px solid var(--p,var(--accent));
+  border-top:1px solid var(--rule-soft)}
+.dcmx-arr__i:first-child{border-top:0}
+.dcmx-arr__i time{font-family:var(--mono);font-size:10.5px;color:var(--p,var(--accent));
+  font-variant-numeric:tabular-nums}
+.dcmx-arr__s{font-family:var(--mono);font-size:10px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink-faint)}
+
+/* tabular-nums is redundant with the body rule in styles.mjs and is repeated on
+   the two elements that count, because a single proportional-figure override
+   anywhere above them makes the digits jitter through the count and the whole
+   thing reads as broken (MOTION.md §2.4). */
+.score__val,.dcmx-note__t{font-variant-numeric:tabular-nums}
+
+.dcmx-pulse{position:relative}
+.dcmx-pulse::after{content:'';position:absolute;inset:-7px -10px;border:2px solid var(--accent);
+  border-radius:12px;pointer-events:none;animation:dcmxPulse 900ms ease-out 1 both}
+@keyframes dcmxPulse{from{opacity:.7;transform:scale(.88)}to{opacity:0;transform:scale(1.2)}}
+
+.dcmx-in{animation:dcmxIn 220ms ease-out both}
+@keyframes dcmxIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+.dcmx-flash{animation:dcmxFlash 900ms ease-out 1}
+@keyframes dcmxFlash{0%{opacity:.2}100%{opacity:1}}
+
+@media (prefers-reduced-motion:reduce){
+  .dcmx__win{animation:none;transform:none}
+  .dcmx-in,.dcmx-flash{animation:none;opacity:1;transform:none}
+  .dcmx-pulse::after{animation:none;display:none}
+}
+</style>
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "DOOMCON",
+  "url": "https://messagegabrielhere-lgtm.github.io/doomcon/",
+  "applicationCategory": "ReferenceApplication",
+  "operatingSystem": "Any",
+  "browserRequirements": "No JavaScript required",
+  "description": "The AIpocalypse, instrumented. Five pillars of public data, one 0-100 score and one level, recomputed hourly. No model scores it and no human votes on it — every number is reproducible from a published receipt.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "isAccessibleForFree": true,
+  "license": "https://creativecommons.org/licenses/by/4.0/"
+}</script>
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Dataset",
+  "name": "DOOMCON AI activity tempo index",
+  "description": "An hourly 0-100 index of observable AI activity tempo, aggregated from public sources across five pillars: capability, compute and capital, attention, governance and markets. Each observation ships a hash-chained receipt carrying its full inputs.",
+  "url": "https://messagegabrielhere-lgtm.github.io/doomcon/",
+  "license": "https://creativecommons.org/licenses/by/4.0/",
+  "isAccessibleForFree": true,
+  "creator": {
+    "@type": "Organization",
+    "name": "DOOMCON",
+    "url": "https://messagegabrielhere-lgtm.github.io/doomcon/"
+  },
+  "temporalCoverage": "2026-09-23T20:04:22.390Z/2026-09-24T00:04:49.239Z",
+  "dateModified": "2026-09-24T00:04:49.239Z",
+  "variableMeasured": [
+    {
+      "@type": "PropertyValue",
+      "name": "composite score",
+      "value": 40.7014,
+      "minValue": 0,
+      "maxValue": 100
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "level",
+      "value": 4,
+      "minValue": 1,
+      "maxValue": 5
+    }
+  ],
+  "distribution": [
+    {
+      "@type": "DataDownload",
+      "encodingFormat": "application/json",
+      "contentUrl": "https://messagegabrielhere-lgtm.github.io/doomcon/api/state.json"
+    },
+    {
+      "@type": "DataDownload",
+      "encodingFormat": "application/json",
+      "contentUrl": "https://messagegabrielhere-lgtm.github.io/doomcon/api/history.json"
+    }
+  ]
+}</script>
+</head>
+<body>
+<header class="masthead"><div class="wrap masthead__in">
+  <a class="wordmark" href="/doomcon/">DOOMCON</a>
+  <p class="masthead__tag">Nobody knows the odds. We keep count.</p>
+  <nav class="nav" aria-label="Primary"><a href="/doomcon/" aria-current="page">Index</a><a href="/doomcon/methodology.html">Methodology</a><a href="/doomcon/history.html">History</a><a href="/doomcon/moves/">Archive</a><a href="/doomcon/api/state.json">API</a></nav>
+</div></header>
+<div class="dcmx" data-mode="run" style="--dcmx-dur:50s" aria-hidden="true"><div class="dcmx__win"><ul class="dcmx__t"><li class="dcmx__i" data-pillar="attention"><span class="dcmx__c">23:40Z</span><span class="dcmx__s">verge-ai</span><span class="dcmx__h">Muse is coming to Meta smart glasses</span></li><li class="dcmx__i" data-pillar="governance"><span class="dcmx__c">23:40Z</span><span class="dcmx__s">techmeme</span><span class="dcmx__h">Meta adds an FDA-cleared hearing enhancement feature to supported Meta Glasses for Meta One subscribers or a one-time cost of $149, rolling out later this year (Cheyenne MacDonald/Engadget)</span></li><li class="dcmx__i" data-pillar="attention"><span class="dcmx__c">23:37Z</span><span class="dcmx__s">verge-ai</span><span class="dcmx__h">Meta ditches the camera on its newest smart glasses</span></li><li class="dcmx__i" data-pillar="capability"><span class="dcmx__c">23:36Z</span><span class="dcmx__s">github-releases</span><span class="dcmx__h">ollama/ollama v0.34.4-rc1: mlxrunner: Update XGrammar to 0.2.7 for structured outputs</span></li><li class="dcmx__i" data-pillar="attention"><span class="dcmx__c">23:19Z</span><span class="dcmx__s">verge-ai</span><span class="dcmx__h">Meta is making Muse more powerful and will let you video chat with it, too</span></li><li class="dcmx__i" data-pillar="governance"><span class="dcmx__c">23:10Z</span><span class="dcmx__s">techmeme</span><span class="dcmx__h">Court docs: OpenAI says Apple&#39;s ChatGPT integration to power Apple Intelligence on iPhones &quot;dramatically underperformed&quot; after it launched in 2024 (Michael Acton/Financial Times)</span></li><li class="dcmx__i" data-pillar="compute"><span class="dcmx__c">22:50Z</span><span class="dcmx__s">techmeme</span><span class="dcmx__h">Source: a CoreWeave-tied data center raised $1.1B in junk bonds at 98.5 cents on the dollar to yield 9.25%, ~2.7 percentage points above similarly rated debt (Gowri Gurumurthy/Bloomberg)</span></li><li class="dcmx__i" data-pillar="attention"><span class="dcmx__c">22:50Z</span><span class="dcmx__s">techmeme</span><span class="dcmx__h">A livestream of the Meta Connect 2026 opening keynote (Meta on YouTube)</span></li><li class="dcmx__i" data-pillar="attention"><span class="dcmx__c">22:45Z</span><span class="dcmx__s">verge-ai</span><span class="dcmx__h">Meta Connect 2026: The biggest news and announcements</span></li><li class="dcmx__i" data-pillar="attention"><span class="dcmx__c">22:40Z</span><span class="dcmx__s">techmeme</span><span class="dcmx__h">Microsoft unveils the $1,149+ Surface Pro 12-inch and the $1,199+ Surface Laptop 13-inch with Snapdragon X2 Plus, and a new Surface Mouse with built-in haptics (Zac Bowden/Windows Central)</span></li><li class="dcmx__i" data-pillar="compute"><span class="dcmx__c">22:30Z</span><span class="dcmx__s">techmeme</span><span class="dcmx__h">Microsoft plans to invest more than $10B through 2030 in Saudi Arabia, Kuwait, Qatar, and the UAE, including a $7.9B UAE investment it announced last year (Mark Bergen/Bloomberg)</span></li><li class="dcmx__i" data-pillar="attention"><span class="dcmx__c">22:30Z</span><span class="dcmx__s">verge-ai</span><span class="dcmx__h">Meta Connect 2026 live blog: On the ground at Mark Zuckerberg’s next big product launch</span></li><li class="dcmx__i" data-pillar="compute"><span class="dcmx__c">22:05Z</span><span class="dcmx__s">techmeme</span><span class="dcmx__h">Colorado-based Enveda, which uses AI to discover new drugs in the natural world, raised a $311M Series E at a $2B valuation, double its valuation a year ago (Marina Temkin/TechCrunch)</span></li><li class="dcmx__i" data-pillar="attention"><span class="dcmx__c">21:45Z</span><span class="dcmx__s">techmeme</span><span class="dcmx__h">Sam Altman and Dario Amodei tell the UN Security Council that governments and industry should coordinate on AI safety standards and critical decisions (Bloomberg)</span></li></ul><ul class="dcmx__t" data-dup="1"><li class="dcmx__i" data-pillar="attention"><span class="dcmx__c">23:40Z</span><span class="dcmx__s">verge-ai</span><span class="dcmx__h">Muse is coming to Meta smart glasses</span></li><li class="dcmx__i" data-pillar="governance"><span class="dcmx__c">23:40Z</span><span class="dcmx__s">techmeme</span><span class="dcmx__h">Meta adds an FDA-cleared hearing enhancement feature to supported Meta Glasses for Meta One subscribers or a one-time cost of $149, rolling out later this year (Cheyenne MacDonald/Engadget)</span></li><li class="dcmx__i" data-pillar="attention"><span class="dcmx__c">23:37Z</span><span class="dcmx__s">verge-ai</span><span class="dcmx__h">Meta ditches the camera on its newest smart glasses</span></li><li class="dcmx__i" data-pillar="capability"><span class="dcmx__c">23:36Z</span><span class="dcmx__s">github-releases</span><span class="dcmx__h">ollama/ollama v0.34.4-rc1: mlxrunner: Update XGrammar to 0.2.7 for structured outputs</span></li><li class="dcmx__i" data-pillar="attention"><span class="dcmx__c">23:19Z</span><span class="dcmx__s">verge-ai</span><span class="dcmx__h">Meta is making Muse more powerful and will let you video chat with it, too</span></li><li class="dcmx__i" data-pillar="governance"><span class="dcmx__c">23:10Z</span><span class="dcmx__s">techmeme</span><span class="dcmx__h">Court docs: OpenAI says Apple&#39;s ChatGPT integration to power Apple Intelligence on iPhones &quot;dramatically underperformed&quot; after it launched in 2024 (Michael Acton/Financial Times)</span></li><li class="dcmx__i" data-pillar="compute"><span class="dcmx__c">22:50Z</span><span class="dcmx__s">techmeme</span><span class="dcmx__h">Source: a CoreWeave-tied data center raised $1.1B in junk bonds at 98.5 cents on the dollar to yield 9.25%, ~2.7 percentage points above similarly rated debt (Gowri Gurumurthy/Bloomberg)</span></li><li class="dcmx__i" data-pillar="attention"><span class="dcmx__c">22:50Z</span><span class="dcmx__s">techmeme</span><span class="dcmx__h">A livestream of the Meta Connect 2026 opening keynote (Meta on YouTube)</span></li><li class="dcmx__i" data-pillar="attention"><span class="dcmx__c">22:45Z</span><span class="dcmx__s">verge-ai</span><span class="dcmx__h">Meta Connect 2026: The biggest news and announcements</span></li><li class="dcmx__i" data-pillar="attention"><span class="dcmx__c">22:40Z</span><span class="dcmx__s">techmeme</span><span class="dcmx__h">Microsoft unveils the $1,149+ Surface Pro 12-inch and the $1,199+ Surface Laptop 13-inch with Snapdragon X2 Plus, and a new Surface Mouse with built-in haptics (Zac Bowden/Windows Central)</span></li><li class="dcmx__i" data-pillar="compute"><span class="dcmx__c">22:30Z</span><span class="dcmx__s">techmeme</span><span class="dcmx__h">Microsoft plans to invest more than $10B through 2030 in Saudi Arabia, Kuwait, Qatar, and the UAE, including a $7.9B UAE investment it announced last year (Mark Bergen/Bloomberg)</span></li><li class="dcmx__i" data-pillar="attention"><span class="dcmx__c">22:30Z</span><span class="dcmx__s">verge-ai</span><span class="dcmx__h">Meta Connect 2026 live blog: On the ground at Mark Zuckerberg’s next big product launch</span></li><li class="dcmx__i" data-pillar="compute"><span class="dcmx__c">22:05Z</span><span class="dcmx__s">techmeme</span><span class="dcmx__h">Colorado-based Enveda, which uses AI to discover new drugs in the natural world, raised a $311M Series E at a $2B valuation, double its valuation a year ago (Marina Temkin/TechCrunch)</span></li><li class="dcmx__i" data-pillar="attention"><span class="dcmx__c">21:45Z</span><span class="dcmx__s">techmeme</span><span class="dcmx__h">Sam Altman and Dario Amodei tell the UN Security Council that governments and industry should coordinate on AI safety standards and critical decisions (Bloomberg)</span></li></ul></div></div><p class="dcmx-note" id="dcmx-note" role="status" hidden><b class="dcmx-note__k">NEWER OBSERVATION</b><span class="dcmx-note__t"></span><span class="dcmx-note__x"></span><a class="dcmx-note__a" href="/doomcon/">reload for the fully recomputed page</a></p>
+<main class="wrap" id="main">
+
+<style>
+ [data-pillar="capability"] { --p: #6ea8fe; }
+ [data-pillar="compute"] { --p: #c792ea; }
+ [data-pillar="attention"] { --p: #ffb020; }
+ [data-pillar="governance"] { --p: #5fd08a; }
+ [data-pillar="markets"] { --p: #ff8f6b; }
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    [data-pillar="capability"] { --p: #1d4ed8; }
+    [data-pillar="compute"] { --p: #6b21a8; }
+    [data-pillar="attention"] { --p: #9a5a00; }
+    [data-pillar="governance"] { --p: #17714a; }
+    [data-pillar="markets"] { --p: #b3441e; }
+  }
+}
+:root[data-theme="light"] [data-pillar="capability"] { --p: #1d4ed8; }
+:root[data-theme="light"] [data-pillar="compute"] { --p: #6b21a8; }
+:root[data-theme="light"] [data-pillar="attention"] { --p: #9a5a00; }
+:root[data-theme="light"] [data-pillar="governance"] { --p: #17714a; }
+:root[data-theme="light"] [data-pillar="markets"] { --p: #b3441e; }
+:root[data-theme="dark"] [data-pillar="capability"] { --p: #6ea8fe; }
+:root[data-theme="dark"] [data-pillar="compute"] { --p: #c792ea; }
+:root[data-theme="dark"] [data-pillar="attention"] { --p: #ffb020; }
+:root[data-theme="dark"] [data-pillar="governance"] { --p: #5fd08a; }
+:root[data-theme="dark"] [data-pillar="markets"] { --p: #ff8f6b; }
+
+.ptag {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-family: var(--mono); font-size: 10px; font-weight: 500;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--p, var(--accent));
+  border: 1px solid var(--rule);
+  border-color: color-mix(in srgb, var(--p, var(--accent)) 45%, var(--rule));
+  background: color-mix(in srgb, var(--p, var(--accent)) 10%, transparent);
+  border-radius: 2px; padding: 2px 5px 2px 4px;
+  white-space: nowrap; line-height: 1.4;
+}
+.ptag svg { width: 11px; height: 11px; flex: 0 0 auto; }
+/* The sprite must not take part in layout. width/height 0 on the element is not
+   enough on its own in every engine, so it is taken out of flow as well. */
+.dcsprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+/* Corroboration is the one number on a row that a competitor cannot fake by
+   scraping harder, so it gets a box of its own rather than a parenthesis. */
+.corr {
+  font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.06em;
+  color: var(--ink); border: 1px solid var(--rule); border-radius: 2px;
+  padding: 1px 4px; background: var(--bg-sunken); white-space: nowrap;
+}
+
+.chip[data-status="quiet"] .chip__dot { color: var(--ink-faint); }
+.chip[data-status="quiet"] { border-style: dashed; }
+
+
+.reel { margin: 34px 0 0; }
+.reel__head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.reel__head .sec__h { margin-bottom: 8px; }
+.reel__hint {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--ink-faint); margin: 0 0 8px; display: flex; gap: 14px; align-items: baseline;
+}
+.reel__more { color: var(--ink-dim); text-decoration: none; border-bottom: 1px solid var(--rule); }
+.reel__more:hover { color: var(--ink); border-bottom-color: var(--accent); }
+
+/* Bleeds to the gutter so the rail runs off the edge of a phone screen - the
+   affordance that says "there is more this way" without a script measuring
+   anything. body has overflow-x:hidden, so this cannot introduce a page scroll. */
+.reel__viewport {
+  overflow-x: auto; overflow-y: hidden;
+  margin: 0 calc(var(--gutter) * -1);
+  padding: 3px var(--gutter) 12px;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+  /* Snapped cards land against the gutter, not against the bleed edge, so the
+     rail lines up with the column of text above it. */
+  scroll-padding-inline: var(--gutter);
+  scrollbar-width: thin;
+  scrollbar-color: var(--rule) transparent;
+}
+/* The default macOS/Chrome bar is a heavy grey slab across the bottom of a
+   card rail. This is the same affordance at the weight of a rule. */
+.reel__viewport::-webkit-scrollbar { height: 6px; }
+.reel__viewport::-webkit-scrollbar-track { background: transparent; }
+.reel__viewport::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 3px; }
+.reel__viewport:hover::-webkit-scrollbar-thumb { background: var(--ink-faint); }
+.reel__viewport:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; border-radius: var(--radius); }
+.reel__rail { display: flex; gap: 10px; list-style: none; margin: 0; padding: 0; }
+.reel__item { flex: 0 0 clamp(248px, 78vw, 318px); display: flex; scroll-snap-align: start; }
+@media (min-width: 720px) { .reel__item { flex-basis: 300px; } }
+
+.rcard {
+  position: relative; width: 100%; min-height: 196px;
+  display: flex; flex-direction: column; gap: 8px;
+  background: var(--bg-raised); border: 1px solid var(--rule);
+  border-radius: var(--radius); padding: 13px 14px 11px; overflow: hidden;
+}
+.rcard::before {
+  content: ''; position: absolute; left: 0; right: 0; top: 0; height: 2px;
+  background: var(--p, var(--accent)); transform-origin: left;
+}
+.rcard:hover { border-color: color-mix(in srgb, var(--p, var(--accent)) 50%, var(--rule)); }
+
+/* The rank as a watermark numeral. It is the graphic element on the card and
+   it is also the ordering, which is the thing pizzint's feed never tells you. */
+.rcard__n {
+  position: absolute; right: 6px; bottom: -8px; pointer-events: none;
+  font-family: var(--mono); font-weight: 700; font-size: 62px; line-height: 1;
+  letter-spacing: -0.06em; color: var(--p, var(--accent)); opacity: 0.11;
+}
+.rcard__top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.rcard__score { font-family: var(--mono); font-size: 17px; font-weight: 700; letter-spacing: -0.02em; color: var(--ink); }
+.rcard__score--none { color: var(--ink-faint); font-weight: 400; }
+.rcard__h { font-size: 15px; line-height: 1.32; margin: 0; letter-spacing: -0.012em; overflow-wrap: anywhere; }
+.rcard__a { text-decoration: none; }
+.rcard__a:hover { text-decoration: underline; text-decoration-color: var(--p, var(--accent)); }
+.rcard__why { font-size: 12.5px; color: var(--ink-dim); margin: 0; flex: 1 1 auto; }
+.rcard__foot {
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 0;
+  padding-top: 8px; border-top: 1px solid var(--rule-soft); position: relative;
+  font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.04em; color: var(--ink-faint);
+}
+.rcard__src { color: var(--ink-dim); text-transform: uppercase; letter-spacing: 0.1em; }
+.rcard__kind { color: var(--ink-faint); border: 1px solid var(--rule-soft); border-radius: 2px; padding: 0 4px; }
+
+/* Motion, all of it optional, none of it on text. The card's accent rail wipes
+   in; the words are already painted. Reduced motion gets a plain scroll row
+   with no snap, which is a legitimate way to read a rail, not a degraded one. */
+@media (prefers-reduced-motion: no-preference) {
+  .reel__viewport { scroll-snap-type: x mandatory; scroll-behavior: smooth; }
+  .rcard::before { animation: doomconWipe 460ms ease-out backwards; animation-delay: calc(var(--i, 0) * 55ms); }
+  @keyframes doomconWipe { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+}
+
+
+.news { margin: 34px 0 0; }
+.nhead { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.nhead .sec__h { margin-bottom: 8px; }
+
+.nlive {
+  display: inline-flex; align-items: center; gap: 7px; margin: 0 0 8px;
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--ink-faint);
+}
+.nlive b { font-weight: 700; color: var(--ink); }
+.nlive__pip { width: 7px; height: 7px; border-radius: 50%; flex: 0 0 auto; background: var(--ok); }
+.nlive[data-live="stale"] .nlive__pip { background: var(--stale); }
+.nlive[data-live="cold"]  .nlive__pip { background: transparent; border: 1.5px solid var(--dark-src); }
+.nlive[data-live="stale"] b { color: var(--stale); }
+.nlive[data-live="cold"]  b { color: var(--dark-src); }
+.nlive__stamp { color: var(--ink-faint); letter-spacing: 0.04em; text-transform: none; }
+
+.nkey { font-family: var(--mono); font-size: 11px; line-height: 1.6; color: var(--ink-faint); margin: 0 0 10px; }
+.nkey b { color: var(--ink-dim); font-weight: 500; }
+.nkey--more { margin: 10px 0 18px; }
+.nkey--more a { color: var(--ink-dim); text-decoration: none; border-bottom: 1px solid var(--rule); }
+.nkey--more a:hover { color: var(--ink); border-bottom-color: var(--accent); }
+
+.nfeed { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule); }
+.nrow { position: relative; border-bottom: 1px solid var(--rule); }
+/* The pillar rail. Two pixels of colour that also happen to be the only thing
+   animated when a row is new - see the motion block at the bottom. */
+.nrow::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px;
+  background: var(--p, var(--rule)); opacity: 0.55; transform-origin: top;
+}
+.nrow:hover { background: var(--bg-raised); }
+.nrow:hover::before { opacity: 1; }
+
+.nrow__in {
+  display: grid; grid-template-columns: 2.6ch minmax(0, 1fr) auto;
+  gap: 3px 9px; padding: 10px 2px 11px 11px; align-items: baseline;
+}
+.nrow__rank { grid-column: 1; grid-row: 1; font-family: var(--mono); font-size: 11px; color: var(--ink-faint); }
+.nrow__meta {
+  grid-column: 2; grid-row: 1; margin: 0;
+  display: flex; align-items: center; gap: 6px; flex-wrap: wrap; min-width: 0;
+}
+.nrow__clock { font-family: var(--mono); font-size: 10.5px; color: var(--ink-dim); letter-spacing: 0.02em; white-space: nowrap; }
+.nrow__age {
+  font-family: var(--mono); font-size: 10px; color: var(--ink-faint);
+  border: 1px solid var(--rule-soft); border-radius: 2px; padding: 0 4px; white-space: nowrap;
+}
+.nrow__src {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--ink-faint); overflow: hidden; text-overflow: ellipsis; max-width: 16ch; white-space: nowrap;
+}
+.nrow__new {
+  font-family: var(--mono); font-size: 9.5px; font-weight: 700; letter-spacing: 0.14em;
+  color: var(--accent-ink); background: var(--accent); border-radius: 2px; padding: 1px 4px;
+}
+
+/* Score and corroboration stack in one right-hand cell. They belong together -
+   both answer "how much should I trust this row's position" - and keeping the
+   badge out of the meta line stops every corroborated row wrapping to a third
+   line on a phone, which cost about 26px a row across a 200-row archive. */
+.nrow__right { grid-column: 3; grid-row: 1; display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+.nrow__score { font-family: var(--mono); font-size: 15px; font-weight: 700; color: var(--ink); text-align: right; }
+.nrow__score--none { color: var(--ink-faint); font-weight: 400; }
+/* A bar relative to the top-scoring item in the window, so the ordering is
+   legible at a glance whatever scale the collector scores on. */
+.meter { display: block; height: 2px; width: 34px; margin: 3px 0 0 auto; background: var(--rule); }
+.meter::before { content: ''; display: block; height: 100%; width: var(--w, 0%); background: var(--p, var(--accent)); }
+
+.nrow__h { grid-column: 2 / -1; grid-row: 2; font-size: 14.5px; line-height: 1.34; font-weight: 500; letter-spacing: -0.01em; overflow-wrap: anywhere; }
+.nrow__a { text-decoration: none; }
+.nrow__a:hover { text-decoration: underline; text-decoration-color: var(--p, var(--accent)); }
+.nrow__sub { grid-column: 2 / -1; grid-row: 3; font-size: 12.5px; color: var(--ink-faint); margin: 2px 0 0; }
+
+/* 375px: the rank column is the first thing that stops earning its width, so
+   it goes, and the meta line is allowed to wrap to two lines rather than
+   truncating the source name off the end. */
+@media (max-width: 400px) {
+  .nrow__in { grid-template-columns: minmax(0, 1fr) auto; padding-left: 9px; }
+  .nrow__rank { display: none; }
+  .nrow__meta { grid-column: 1; }
+  .nrow__right { grid-column: 2; }
+  .nrow__h, .nrow__sub { grid-column: 1 / -1; }
+}
+
+/* Motion. The enter animation moves the pillar rail and a background tint -
+   never the headline. A row that fades in from opacity 0 is a blank row in a
+   screenshot taken in the first 300ms, and screenshots are the growth loop. */
+@media (prefers-reduced-motion: no-preference) {
+  .nrow[data-enter="1"]::before {
+    animation: doomconRail 420ms ease-out backwards;
+    animation-delay: calc(var(--i, 0) * 45ms);
+  }
+  @keyframes doomconRail { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+
+  .nrow[data-enter="1"] {
+    animation: doomconRowIn 1100ms ease-out backwards;
+    animation-delay: calc(var(--i, 0) * 45ms);
+  }
+  @keyframes doomconRowIn {
+    0%   { background: color-mix(in srgb, var(--p, var(--accent)) 16%, transparent); }
+    100% { background: transparent; }
+  }
+
+  .nlive[data-live="live"] .nlive__pip { animation: doomconPip 2.6s ease-in-out infinite; }
+  @keyframes doomconPip {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%      { opacity: 0.32; transform: scale(0.7); }
+  }
+}
+</style><svg class="dcsprite" aria-hidden="true" focusable="false" width="0" height="0"><symbol id="dc-sig-capability" viewBox="0 0 13 13"><g fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 10.5h3v-3h3v-3h3v-3"/></g></symbol><symbol id="dc-sig-compute" viewBox="0 0 13 13"><g fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="5" height="5"/><path d="M1.5 5.5h2.5M1.5 7.5h2.5M9 5.5h2.5M9 7.5h2.5M5.5 1.5V4M7.5 1.5V4M5.5 9v2.5M7.5 9v2.5"/></g></symbol><symbol id="dc-sig-attention" viewBox="0 0 13 13"><g fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="6.5" cy="6.5" r="1.1"/><path d="M3.9 3.9a3.7 3.7 0 0 0 0 5.2M9.1 3.9a3.7 3.7 0 0 1 0 5.2M1.9 1.9a6.5 6.5 0 0 0 0 9.2M11.1 1.9a6.5 6.5 0 0 1 0 9.2"/></g></symbol><symbol id="dc-sig-governance" viewBox="0 0 13 13"><g fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 2.2v8.6M2.5 10.8h8M2.5 3.4h8"/><path d="M4.2 3.4 2.6 6.6h3.2zM8.8 3.4 7.2 6.6h3.2z"/></g></symbol><symbol id="dc-sig-markets" viewBox="0 0 13 13"><g fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3.6 1.6v9.8M9.4 1.6v9.8"/><rect x="2.2" y="3.6" width="2.8" height="4"/><rect x="8" y="5.4" width="2.8" height="4"/></g></symbol></svg>
+<section class="hero">
+  <p class="eyebrow">Observed <time datetime="2026-09-24T00:04:49.239Z">2026-09-24 00:04:49 UTC</time></p>
+  <div class="hero__grid">
+
+    <!-- align-self overrides .hero__grid's align-items:end for this one item.
+         The score column is now ~300px taller than the level column, because it
+         carries the dial and the distribution strip. Bottom-aligning a 152px
+         digit against that left 200px of empty page above it at desktop width,
+         and it read as a broken grid rather than as space. Centred, the digit
+         sits opposite the instruments it labels. An inline property rather than
+         a new class, because site/styles.mjs belongs to the integrator. -->
+    <div class="level" style="align-self:center">
+      <!-- data-dc-* are the motion layer's hooks (site/templates/_motion.mjs
+           looks for [data-dc-level] and [data-dc-score] first, falling back to
+           the class names). Naming them explicitly means restyling this hero
+           cannot silently break the count-up in a file owned by someone else. -->
+      <div class="level__digit num" data-dc-level aria-hidden="true">4</div>
+      <div class="level__meta">
+        <h1 class="level__name">DOOMCON 4 · ROUTINE</h1>
+        <div class="bars" aria-hidden="true"><span data-on="1"></span><span data-on="1"></span><span data-on="0"></span><span data-on="0"></span><span data-on="0"></span></div>
+        <p class="level__gloss">Activity within the normal range of the record.</p>
+      </div>
+    </div>
+
+    <div class="score">
+      <p class="eyebrow">Composite score</p>
+      <div class="score__row">
+        <span class="score__val num" data-dc-score>40.7</span>
+        <span class="score__of">/ 100</span>
+        <span class="score__dir"><b>—</b> no prior observation to compare</span>
+      </div>
+
+      <div class="hero__chart"><figure class="ch ch--gauge"><svg class="ch__svg ch__svg--gauge" viewBox="0 0 320 192" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="ggdt3lf9t ggdt3lf9d" style="--w:320px"><title id="ggdt3lf9t">DOOMCON composite score 40.7 of 100</title><desc id="ggdt3lf9d">A 0 to 100 arc divided into the five level bands. The needle points at 40.7, which falls in ROUTINE, 35–54, level 4. Band boundaries are marked at 0, 35, 55, 70, 85 and 100.</desc><path class="ch-g-seg" d="M56.00,150.00 A104,104 0 0 1 110.54,58.52"/><path class="ch-g-seg ch-g-seg--live" d="M115.06,56.21 A104,104 0 0 1 173.75,46.91"/><path class="ch-g-seg" d="M178.77,47.71 A104,104 0 0 1 219.06,64.39"/><path class="ch-g-seg" d="M223.17,67.38 A104,104 0 0 1 251.48,100.54"/><path class="ch-g-seg" d="M253.79,105.06 A104,104 0 0 1 264.00,150.00"/><line class="ch-g-tick" x1="34.00" y1="150.00" x2="30.00" y2="150.00"/><text class="ch-g-ticklabel" x="23.00" y="153.00" text-anchor="start" font-size="9">0</text><line class="ch-g-tick" x1="102.80" y1="37.73" x2="100.98" y2="34.17"/><text class="ch-g-ticklabel" x="97.80" y="30.93" text-anchor="middle" font-size="9">35</text><line class="ch-g-tick" x1="179.71" y1="25.55" x2="180.34" y2="21.60"/><text class="ch-g-ticklabel" x="181.43" y="17.69" text-anchor="middle" font-size="9">55</text><line class="ch-g-tick" x1="234.06" y1="48.06" x2="236.41" y2="44.83"/><text class="ch-g-ticklabel" x="240.53" y="42.16" text-anchor="middle" font-size="9">70</text><line class="ch-g-tick" x1="272.27" y1="92.80" x2="275.83" y2="90.98"/><text class="ch-g-ticklabel" x="282.07" y="90.80" text-anchor="middle" font-size="9">85</text><line class="ch-g-tick" x1="286.00" y1="150.00" x2="290.00" y2="150.00"/><text class="ch-g-ticklabel" x="297.00" y="153.00" text-anchor="end" font-size="9">100</text><line class="ch-g-mark" x1="134.37" y1="64.77" x2="125.73" y2="36.04"/><circle class="ch-g-markdot" cx="130.05" cy="50.41" r="3.4"/><text class="ch-g-band" x="160.00" y="174.00" text-anchor="middle" font-size="11">ROUTINE · 35–54</text></svg><figcaption class="ch__cap">40.7 of 100 — DOOMCON 4, ROUTINE (35–54).</figcaption></figure></div>
+      <div class="hero__chart"><figure class="ch ch--dist"><svg class="ch__svg ch__svg--dist" viewBox="0 0 380 112" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="dsqhunz6t dsqhunz6d" style="--w:380px"><title id="dsqhunz6t">Today at 40.7 of 100 in the reference distribution</title><desc id="dsqhunz6d">Today scores 40.7 of 100. The curve is the frozen reference distribution the score scale is defined against, built once from historical backfill and never updated live. Ticks along the baseline mark each decile.</desc><path class="ch-d-rest" d="M10.00,81.98 L13.60,81.97 L17.20,81.96 L20.80,81.94 L24.40,81.92 L28.00,81.89 L31.60,81.86 L35.20,81.81 L38.80,81.75 L42.40,81.68 L46.00,81.58 L49.60,81.46 L53.20,81.31 L56.80,81.12 L60.40,80.89 L64.00,80.61 L67.60,80.27 L71.20,79.85 L74.80,79.36 L78.40,78.77 L82.00,78.07 L85.60,77.25 L89.20,76.30 L92.80,75.21 L96.40,73.95 L100.00,72.53 L103.60,70.92 L107.20,69.12 L110.80,67.12 L114.40,64.93 L118.00,62.54 L121.60,59.95 L125.20,57.18 L128.80,54.24 L132.40,51.15 L136.00,47.93 L139.60,44.61 L143.20,41.24 L146.80,37.85 L150.40,34.47 L154.00,31.17 L157.60,27.98 L161.20,24.96 L164.80,22.16 L168.40,19.62 L172.00,17.38 L175.60,15.49 L179.20,13.99 L182.80,12.89 L186.40,12.22 L190.00,12.00 L193.60,12.22 L197.20,12.89 L200.80,13.99 L204.40,15.49 L208.00,17.38 L211.60,19.62 L215.20,22.16 L218.80,24.96 L222.40,27.98 L226.00,31.17 L229.60,34.47 L233.20,37.85 L236.80,41.24 L240.40,44.61 L244.00,47.93 L247.60,51.15 L251.20,54.24 L254.80,57.18 L258.40,59.95 L262.00,62.54 L265.60,64.93 L269.20,67.12 L272.80,69.12 L276.40,70.92 L280.00,72.53 L283.60,73.95 L287.20,75.21 L290.80,76.30 L294.40,77.25 L298.00,78.07 L301.60,78.77 L305.20,79.36 L308.80,79.85 L312.40,80.27 L316.00,80.61 L319.60,80.89 L323.20,81.12 L326.80,81.31 L330.40,81.46 L334.00,81.58 L337.60,81.68 L341.20,81.75 L344.80,81.81 L348.40,81.86 L352.00,81.89 L355.60,81.92 L359.20,81.94 L362.80,81.96 L366.40,81.97 L370.00,81.98 L370.00,82.00 L10.00,82.00 Z"/><path class="ch-d-fill" d="M10.00,81.98 L13.60,81.97 L17.20,81.96 L20.80,81.94 L24.40,81.92 L28.00,81.89 L31.60,81.86 L35.20,81.81 L38.80,81.75 L42.40,81.68 L46.00,81.58 L49.60,81.46 L53.20,81.31 L56.80,81.12 L60.40,80.89 L64.00,80.61 L67.60,80.27 L71.20,79.85 L74.80,79.36 L78.40,78.77 L82.00,78.07 L85.60,77.25 L89.20,76.30 L92.80,75.21 L96.40,73.95 L100.00,72.53 L103.60,70.92 L107.20,69.12 L110.80,67.12 L114.40,64.93 L118.00,62.54 L121.60,59.95 L125.20,57.18 L128.80,54.24 L132.40,51.15 L136.00,47.93 L139.60,44.61 L143.20,41.24 L146.80,37.85 L150.40,34.47 L154.00,31.17 L156.53,82.00 L10.00,82.00 Z"/><path class="ch-d-curve" d="M10.00,81.98 L13.60,81.97 L17.20,81.96 L20.80,81.94 L24.40,81.92 L28.00,81.89 L31.60,81.86 L35.20,81.81 L38.80,81.75 L42.40,81.68 L46.00,81.58 L49.60,81.46 L53.20,81.31 L56.80,81.12 L60.40,80.89 L64.00,80.61 L67.60,80.27 L71.20,79.85 L74.80,79.36 L78.40,78.77 L82.00,78.07 L85.60,77.25 L89.20,76.30 L92.80,75.21 L96.40,73.95 L100.00,72.53 L103.60,70.92 L107.20,69.12 L110.80,67.12 L114.40,64.93 L118.00,62.54 L121.60,59.95 L125.20,57.18 L128.80,54.24 L132.40,51.15 L136.00,47.93 L139.60,44.61 L143.20,41.24 L146.80,37.85 L150.40,34.47 L154.00,31.17 L157.60,27.98 L161.20,24.96 L164.80,22.16 L168.40,19.62 L172.00,17.38 L175.60,15.49 L179.20,13.99 L182.80,12.89 L186.40,12.22 L190.00,12.00 L193.60,12.22 L197.20,12.89 L200.80,13.99 L204.40,15.49 L208.00,17.38 L211.60,19.62 L215.20,22.16 L218.80,24.96 L222.40,27.98 L226.00,31.17 L229.60,34.47 L233.20,37.85 L236.80,41.24 L240.40,44.61 L244.00,47.93 L247.60,51.15 L251.20,54.24 L254.80,57.18 L258.40,59.95 L262.00,62.54 L265.60,64.93 L269.20,67.12 L272.80,69.12 L276.40,70.92 L280.00,72.53 L283.60,73.95 L287.20,75.21 L290.80,76.30 L294.40,77.25 L298.00,78.07 L301.60,78.77 L305.20,79.36 L308.80,79.85 L312.40,80.27 L316.00,80.61 L319.60,80.89 L323.20,81.12 L326.80,81.31 L330.40,81.46 L334.00,81.58 L337.60,81.68 L341.20,81.75 L344.80,81.81 L348.40,81.86 L352.00,81.89 L355.60,81.92 L359.20,81.94 L362.80,81.96 L366.40,81.97 L370.00,81.98"/><line class="ch-d-base" x1="10.00" y1="82.00" x2="370.00" y2="82.00"/><line class="ch-d-tick" x1="132.33" y1="82.00" x2="132.33" y2="85.50"/><line class="ch-d-tick" x1="152.13" y1="82.00" x2="152.13" y2="85.50"/><line class="ch-d-tick" x1="166.40" y1="82.00" x2="166.40" y2="85.50"/><line class="ch-d-tick" x1="178.60" y1="82.00" x2="178.60" y2="85.50"/><line class="ch-d-tick" x1="190.00" y1="82.00" x2="190.00" y2="88.00"/><line class="ch-d-tick" x1="201.40" y1="82.00" x2="201.40" y2="85.50"/><line class="ch-d-tick" x1="213.60" y1="82.00" x2="213.60" y2="85.50"/><line class="ch-d-tick" x1="227.87" y1="82.00" x2="227.87" y2="85.50"/><line class="ch-d-tick" x1="247.67" y1="82.00" x2="247.67" y2="85.50"/><text class="ch-d-ax" x="10.00" y="101.00" text-anchor="start" font-size="9">QUIETER</text><text class="ch-d-ax" x="370.00" y="101.00" text-anchor="end" font-size="9">LOUDER</text><text class="ch-d-ax ch-d-ax--dim" x="190.00" y="101.00" text-anchor="middle" font-size="9">MEDIAN</text><line class="ch-d-marker" x1="156.53" y1="8.00" x2="156.53" y2="89.00"/><path class="ch-d-caret" d="M152.03,95.00 L161.03,95.00 L156.53,87.50 Z"/><text class="ch-d-val" x="161.53" y="19.00" text-anchor="start" font-size="10.5">40.7</text></svg><figcaption class="ch__cap">Measured against frozen history, not judgement.</figcaption></figure></div>
+      <p class="fresh__key">The curve is the frozen reference distribution — built once from
+         historical backfill, never updated live.
+         <a href="/doomcon/methodology.html">How the score is computed →</a></p>
+    </div>
+
+  </div>
+
+  <p class="stamp">
+    Level held since <b>2026-09-23 20:04:22 UTC</b>.
+    
+    Receipt <b>2026-09-24T00-04-49Z</b>.
+  </p>
+  <p class="disclaimer">DOOMCON measures how much is happening, not how bad it is. Levels describe observable activity tempo against this index’s own record. They are not a probability of harm.</p>
+</section>
+
+<section class="sec" id="record" aria-labelledby="record-h">
+  <h2 class="sec__h" id="record-h">The record</h2>
+  <p class="lede">3 scored observations so far. The y axis is fixed at 0–100 and never auto-scaled to the data, so a short record reads as short and a quiet day reads as quiet — a chart that zooms to fit turns a 0.4-point wiggle into a crisis.</p>
+  <figure class="ch ch--history"><svg class="ch__svg ch__svg--sm" viewBox="0 0 356 250" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="ih1riygerts ih1riygerds" style="--w:356px"><title id="ih1riygerts">DOOMCON composite score over the last 3 observations</title><desc id="ih1riygerds">3 observations from 2026-09-23 to 2026-09-24. Range 40.7 to 40.9 of 100. Latest 40.7, in the ROUTINE band (35–54). Background bands, bottom to top, are DORMANT 0 to 34, ROUTINE 35 to 54, ELEVATED 55 to 69, ACCELERATED 70 to 84, UNPRECEDENTED 85 to 100.</desc><rect class="ch-band" x="30.00" y="147.20" width="316.00" height="72.80"/><text class="ch-bandl" x="35.00" y="158.20" font-size="8.5">DORMANT</text><rect class="ch-band ch-band--live" x="30.00" y="105.60" width="316.00" height="41.60"/><text class="ch-bandl ch-bandl--live" x="35.00" y="116.60" font-size="8.5">▸ ROUTINE</text><rect class="ch-band" x="30.00" y="74.40" width="316.00" height="31.20"/><text class="ch-bandl" x="35.00" y="85.40" font-size="8.5">ELEVATED</text><rect class="ch-band ch-band--alt" x="30.00" y="43.20" width="316.00" height="31.20"/><text class="ch-bandl" x="35.00" y="54.20" font-size="8.5">ACCELERATED</text><rect class="ch-band" x="30.00" y="12.00" width="316.00" height="31.20"/><text class="ch-bandl" x="35.00" y="23.00" font-size="8.5">UNPRECEDENTED</text><line class="ch-axline" x1="26.00" y1="220.00" x2="30.00" y2="220.00"/><text class="ch-ax" x="24.00" y="223.32" text-anchor="end" font-size="9.5">0</text><line class="ch-axline" x1="26.00" y1="147.20" x2="30.00" y2="147.20"/><text class="ch-ax" x="24.00" y="150.52" text-anchor="end" font-size="9.5">35</text><line class="ch-axline" x1="26.00" y1="105.60" x2="30.00" y2="105.60"/><text class="ch-ax" x="24.00" y="108.92" text-anchor="end" font-size="9.5">55</text><line class="ch-axline" x1="26.00" y1="74.40" x2="30.00" y2="74.40"/><text class="ch-ax" x="24.00" y="77.73" text-anchor="end" font-size="9.5">70</text><line class="ch-axline" x1="26.00" y1="43.20" x2="30.00" y2="43.20"/><text class="ch-ax" x="24.00" y="46.53" text-anchor="end" font-size="9.5">85</text><line class="ch-axline" x1="26.00" y1="12.00" x2="30.00" y2="12.00"/><text class="ch-ax" x="24.00" y="15.32" text-anchor="end" font-size="9.5">100</text><rect class="ch-frame" x="30.00" y="12.00" width="316.00" height="208.00"/><path class="ch-halo" d="M30.00,135.00 L122.55,135.07 L346.00,135.34"/><path class="ch-line" d="M30.00,135.00 L122.55,135.07 L346.00,135.34"/><circle class="ch-ring" cx="346.00" cy="135.34" r="6.5"/><circle class="ch-dot" cx="346.00" cy="135.34" r="3.2"/><text class="ch-val" x="333.00" y="126.34" text-anchor="end" font-size="12">40.7</text><text class="ch-ax" x="30.00" y="237.50" text-anchor="start" font-size="9.5">09-23</text><text class="ch-ax" x="346.00" y="237.50" text-anchor="end" font-size="9.5">09-24</text></svg><svg class="ch__svg ch__svg--lg" viewBox="0 0 720 300" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="ih1riygertl ih1riygerdl" style="--w:720px"><title id="ih1riygertl">DOOMCON composite score over the last 3 observations</title><desc id="ih1riygerdl">3 observations from 2026-09-23 to 2026-09-24. Range 40.7 to 40.9 of 100. Latest 40.7, in the ROUTINE band (35–54). Background bands, bottom to top, are DORMANT 0 to 34, ROUTINE 35 to 54, ELEVATED 55 to 69, ACCELERATED 70 to 84, UNPRECEDENTED 85 to 100.</desc><rect class="ch-band" x="38.00" y="177.80" width="668.00" height="88.20"/><text class="ch-bandl" x="43.00" y="190.30" font-size="10">DORMANT 0–34</text><rect class="ch-band ch-band--live" x="38.00" y="127.40" width="668.00" height="50.40"/><text class="ch-bandl ch-bandl--live" x="43.00" y="139.90" font-size="10">▸ ROUTINE 35–54 · NOW</text><rect class="ch-band" x="38.00" y="89.60" width="668.00" height="37.80"/><text class="ch-bandl" x="43.00" y="102.10" font-size="10">ELEVATED 55–69</text><rect class="ch-band ch-band--alt" x="38.00" y="51.80" width="668.00" height="37.80"/><text class="ch-bandl" x="43.00" y="64.30" font-size="10">ACCELERATED 70–84</text><rect class="ch-band" x="38.00" y="14.00" width="668.00" height="37.80"/><text class="ch-bandl" x="43.00" y="26.50" font-size="10">UNPRECEDENTED 85–100</text><line class="ch-axline" x1="34.00" y1="266.00" x2="38.00" y2="266.00"/><text class="ch-ax" x="32.00" y="269.85" text-anchor="end" font-size="11">0</text><line class="ch-axline" x1="34.00" y1="177.80" x2="38.00" y2="177.80"/><text class="ch-ax" x="32.00" y="181.65" text-anchor="end" font-size="11">35</text><line class="ch-axline" x1="34.00" y1="127.40" x2="38.00" y2="127.40"/><text class="ch-ax" x="32.00" y="131.25" text-anchor="end" font-size="11">55</text><line class="ch-axline" x1="34.00" y1="89.60" x2="38.00" y2="89.60"/><text class="ch-ax" x="32.00" y="93.45" text-anchor="end" font-size="11">70</text><line class="ch-axline" x1="34.00" y1="51.80" x2="38.00" y2="51.80"/><text class="ch-ax" x="32.00" y="55.65" text-anchor="end" font-size="11">85</text><line class="ch-axline" x1="34.00" y1="14.00" x2="38.00" y2="14.00"/><text class="ch-ax" x="32.00" y="17.85" text-anchor="end" font-size="11">100</text><rect class="ch-frame" x="38.00" y="14.00" width="668.00" height="252.00"/><path class="ch-halo" d="M38.00,163.02 L233.64,163.11 L706.00,163.43"/><path class="ch-line" d="M38.00,163.02 L233.64,163.11 L706.00,163.43"/><circle class="ch-ring" cx="706.00" cy="163.43" r="6.5"/><circle class="ch-dot" cx="706.00" cy="163.43" r="3.2"/><text class="ch-val" x="693.00" y="154.43" text-anchor="end" font-size="13.5">40.7</text><text class="ch-ax" x="38.00" y="285.00" text-anchor="start" font-size="11">09-23 20:04Z</text><text class="ch-ax" x="233.64" y="285.00" text-anchor="middle" font-size="11">09-23 21:14Z</text><text class="ch-ax" x="706.00" y="285.00" text-anchor="end" font-size="11">09-24 00:04Z</text></svg><figcaption class="ch__cap">3 observations · 2026-09-23 to 2026-09-24 · range 40.7–40.9 · now 40.7 in ROUTINE 35–54</figcaption></figure>
+  <p class="fresh__key">Every point on this line is written to a hash-chained receipt carrying its full inputs.
+     <a href="/doomcon/history.html">Full history and every observation →</a></p>
+</section>
+
+<section class="fresh" aria-labelledby="fresh-h">
+  <h2 class="sec__h" id="fresh-h">Source freshness</h2>
+  <ul class="fresh__strip"><li class="chip" data-status="ok"><span class="chip__dot" aria-hidden="true">●</span><b>arxiv</b><span class="chip__age">0s</span><span class="vh">live</span></li><li class="chip" data-status="uncal"><span class="chip__dot" aria-hidden="true">◇</span><b>github-releases</b><span class="chip__age">no baseline · no read</span><span class="vh">no baseline</span></li><li class="chip" data-status="uncal"><span class="chip__dot" aria-hidden="true">◇</span><b>huggingface</b><span class="chip__age">no baseline · no read</span><span class="vh">no baseline</span></li><li class="chip" data-status="uncal"><span class="chip__dot" aria-hidden="true">◇</span><b>openrouter</b><span class="chip__age">no baseline · no read</span><span class="vh">no baseline</span></li><li class="chip" data-status="ok"><span class="chip__dot" aria-hidden="true">●</span><b>sec-fts</b><span class="chip__age">0s</span><span class="vh">live</span></li><li class="chip" data-status="uncal"><span class="chip__dot" aria-hidden="true">◇</span><b>stockanalysis</b><span class="chip__age">no baseline · no read</span><span class="vh">no baseline</span></li><li class="chip" data-status="uncal"><span class="chip__dot" aria-hidden="true">◇</span><b>vastai</b><span class="chip__age">no baseline · no read</span><span class="vh">no baseline</span></li><li class="chip" data-status="ok"><span class="chip__dot" aria-hidden="true">●</span><b>hn</b><span class="chip__age">0s</span><span class="vh">live</span></li><li class="chip" data-status="stale"><span class="chip__dot" aria-hidden="true">◐</span><b>wikipedia</b><span class="chip__age">stale · 24h</span><span class="vh">stale</span></li><li class="chip" data-status="ok"><span class="chip__dot" aria-hidden="true">●</span><b>federal-register</b><span class="chip__age">0s</span><span class="vh">live</span></li><li class="chip" data-status="uncal"><span class="chip__dot" aria-hidden="true">◇</span><b>govuk</b><span class="chip__age">no baseline · no read</span><span class="vh">no baseline</span></li><li class="chip" data-status="uncal"><span class="chip__dot" aria-hidden="true">◇</span><b>kalshi</b><span class="chip__age">no baseline · no read</span><span class="vh">no baseline</span></li><li class="chip" data-status="uncal"><span class="chip__dot" aria-hidden="true">◇</span><b>manifold</b><span class="chip__age">no baseline · no read</span><span class="vh">no baseline</span></li><li class="chip" data-status="uncal"><span class="chip__dot" aria-hidden="true">◇</span><b>polymarket</b><span class="chip__age">no baseline · no read</span><span class="vh">no baseline</span></li></ul><p class="fresh__key">1 stale, 9 awaiting baseline, of 14 sources. Dark sources are excluded, never imputed. Sources awaiting a baseline are collected and published but not yet scored.</p>
+</section>
+
+<style>
+ [data-pillar="capability"] { --p: #6ea8fe; }
+ [data-pillar="compute"] { --p: #c792ea; }
+ [data-pillar="attention"] { --p: #ffb020; }
+ [data-pillar="governance"] { --p: #5fd08a; }
+ [data-pillar="markets"] { --p: #ff8f6b; }
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    [data-pillar="capability"] { --p: #1d4ed8; }
+    [data-pillar="compute"] { --p: #6b21a8; }
+    [data-pillar="attention"] { --p: #9a5a00; }
+    [data-pillar="governance"] { --p: #17714a; }
+    [data-pillar="markets"] { --p: #b3441e; }
+  }
+}
+:root[data-theme="light"] [data-pillar="capability"] { --p: #1d4ed8; }
+:root[data-theme="light"] [data-pillar="compute"] { --p: #6b21a8; }
+:root[data-theme="light"] [data-pillar="attention"] { --p: #9a5a00; }
+:root[data-theme="light"] [data-pillar="governance"] { --p: #17714a; }
+:root[data-theme="light"] [data-pillar="markets"] { --p: #b3441e; }
+:root[data-theme="dark"] [data-pillar="capability"] { --p: #6ea8fe; }
+:root[data-theme="dark"] [data-pillar="compute"] { --p: #c792ea; }
+:root[data-theme="dark"] [data-pillar="attention"] { --p: #ffb020; }
+:root[data-theme="dark"] [data-pillar="governance"] { --p: #5fd08a; }
+:root[data-theme="dark"] [data-pillar="markets"] { --p: #ff8f6b; }
+
+.ptag {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-family: var(--mono); font-size: 10px; font-weight: 500;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--p, var(--accent));
+  border: 1px solid var(--rule);
+  border-color: color-mix(in srgb, var(--p, var(--accent)) 45%, var(--rule));
+  background: color-mix(in srgb, var(--p, var(--accent)) 10%, transparent);
+  border-radius: 2px; padding: 2px 5px 2px 4px;
+  white-space: nowrap; line-height: 1.4;
+}
+.ptag svg { width: 11px; height: 11px; flex: 0 0 auto; }
+/* The sprite must not take part in layout. width/height 0 on the element is not
+   enough on its own in every engine, so it is taken out of flow as well. */
+.dcsprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+/* Corroboration is the one number on a row that a competitor cannot fake by
+   scraping harder, so it gets a box of its own rather than a parenthesis. */
+.corr {
+  font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.06em;
+  color: var(--ink); border: 1px solid var(--rule); border-radius: 2px;
+  padding: 1px 4px; background: var(--bg-sunken); white-space: nowrap;
+}
+
+.chip[data-status="quiet"] .chip__dot { color: var(--ink-faint); }
+.chip[data-status="quiet"] { border-style: dashed; }
+
+
+.reel { margin: 34px 0 0; }
+.reel__head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.reel__head .sec__h { margin-bottom: 8px; }
+.reel__hint {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--ink-faint); margin: 0 0 8px; display: flex; gap: 14px; align-items: baseline;
+}
+.reel__more { color: var(--ink-dim); text-decoration: none; border-bottom: 1px solid var(--rule); }
+.reel__more:hover { color: var(--ink); border-bottom-color: var(--accent); }
+
+/* Bleeds to the gutter so the rail runs off the edge of a phone screen - the
+   affordance that says "there is more this way" without a script measuring
+   anything. body has overflow-x:hidden, so this cannot introduce a page scroll. */
+.reel__viewport {
+  overflow-x: auto; overflow-y: hidden;
+  margin: 0 calc(var(--gutter) * -1);
+  padding: 3px var(--gutter) 12px;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+  /* Snapped cards land against the gutter, not against the bleed edge, so the
+     rail lines up with the column of text above it. */
+  scroll-padding-inline: var(--gutter);
+  scrollbar-width: thin;
+  scrollbar-color: var(--rule) transparent;
+}
+/* The default macOS/Chrome bar is a heavy grey slab across the bottom of a
+   card rail. This is the same affordance at the weight of a rule. */
+.reel__viewport::-webkit-scrollbar { height: 6px; }
+.reel__viewport::-webkit-scrollbar-track { background: transparent; }
+.reel__viewport::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 3px; }
+.reel__viewport:hover::-webkit-scrollbar-thumb { background: var(--ink-faint); }
+.reel__viewport:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; border-radius: var(--radius); }
+.reel__rail { display: flex; gap: 10px; list-style: none; margin: 0; padding: 0; }
+.reel__item { flex: 0 0 clamp(248px, 78vw, 318px); display: flex; scroll-snap-align: start; }
+@media (min-width: 720px) { .reel__item { flex-basis: 300px; } }
+
+.rcard {
+  position: relative; width: 100%; min-height: 196px;
+  display: flex; flex-direction: column; gap: 8px;
+  background: var(--bg-raised); border: 1px solid var(--rule);
+  border-radius: var(--radius); padding: 13px 14px 11px; overflow: hidden;
+}
+.rcard::before {
+  content: ''; position: absolute; left: 0; right: 0; top: 0; height: 2px;
+  background: var(--p, var(--accent)); transform-origin: left;
+}
+.rcard:hover { border-color: color-mix(in srgb, var(--p, var(--accent)) 50%, var(--rule)); }
+
+/* The rank as a watermark numeral. It is the graphic element on the card and
+   it is also the ordering, which is the thing pizzint's feed never tells you. */
+.rcard__n {
+  position: absolute; right: 6px; bottom: -8px; pointer-events: none;
+  font-family: var(--mono); font-weight: 700; font-size: 62px; line-height: 1;
+  letter-spacing: -0.06em; color: var(--p, var(--accent)); opacity: 0.11;
+}
+.rcard__top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.rcard__score { font-family: var(--mono); font-size: 17px; font-weight: 700; letter-spacing: -0.02em; color: var(--ink); }
+.rcard__score--none { color: var(--ink-faint); font-weight: 400; }
+.rcard__h { font-size: 15px; line-height: 1.32; margin: 0; letter-spacing: -0.012em; overflow-wrap: anywhere; }
+.rcard__a { text-decoration: none; }
+.rcard__a:hover { text-decoration: underline; text-decoration-color: var(--p, var(--accent)); }
+.rcard__why { font-size: 12.5px; color: var(--ink-dim); margin: 0; flex: 1 1 auto; }
+.rcard__foot {
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 0;
+  padding-top: 8px; border-top: 1px solid var(--rule-soft); position: relative;
+  font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.04em; color: var(--ink-faint);
+}
+.rcard__src { color: var(--ink-dim); text-transform: uppercase; letter-spacing: 0.1em; }
+.rcard__kind { color: var(--ink-faint); border: 1px solid var(--rule-soft); border-radius: 2px; padding: 0 4px; }
+
+/* Motion, all of it optional, none of it on text. The card's accent rail wipes
+   in; the words are already painted. Reduced motion gets a plain scroll row
+   with no snap, which is a legitimate way to read a rail, not a degraded one. */
+@media (prefers-reduced-motion: no-preference) {
+  .reel__viewport { scroll-snap-type: x mandatory; scroll-behavior: smooth; }
+  .rcard::before { animation: doomconWipe 460ms ease-out backwards; animation-delay: calc(var(--i, 0) * 55ms); }
+  @keyframes doomconWipe { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+}
+
+
+.news { margin: 34px 0 0; }
+.nhead { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.nhead .sec__h { margin-bottom: 8px; }
+
+.nlive {
+  display: inline-flex; align-items: center; gap: 7px; margin: 0 0 8px;
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--ink-faint);
+}
+.nlive b { font-weight: 700; color: var(--ink); }
+.nlive__pip { width: 7px; height: 7px; border-radius: 50%; flex: 0 0 auto; background: var(--ok); }
+.nlive[data-live="stale"] .nlive__pip { background: var(--stale); }
+.nlive[data-live="cold"]  .nlive__pip { background: transparent; border: 1.5px solid var(--dark-src); }
+.nlive[data-live="stale"] b { color: var(--stale); }
+.nlive[data-live="cold"]  b { color: var(--dark-src); }
+.nlive__stamp { color: var(--ink-faint); letter-spacing: 0.04em; text-transform: none; }
+
+.nkey { font-family: var(--mono); font-size: 11px; line-height: 1.6; color: var(--ink-faint); margin: 0 0 10px; }
+.nkey b { color: var(--ink-dim); font-weight: 500; }
+.nkey--more { margin: 10px 0 18px; }
+.nkey--more a { color: var(--ink-dim); text-decoration: none; border-bottom: 1px solid var(--rule); }
+.nkey--more a:hover { color: var(--ink); border-bottom-color: var(--accent); }
+
+.nfeed { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule); }
+.nrow { position: relative; border-bottom: 1px solid var(--rule); }
+/* The pillar rail. Two pixels of colour that also happen to be the only thing
+   animated when a row is new - see the motion block at the bottom. */
+.nrow::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px;
+  background: var(--p, var(--rule)); opacity: 0.55; transform-origin: top;
+}
+.nrow:hover { background: var(--bg-raised); }
+.nrow:hover::before { opacity: 1; }
+
+.nrow__in {
+  display: grid; grid-template-columns: 2.6ch minmax(0, 1fr) auto;
+  gap: 3px 9px; padding: 10px 2px 11px 11px; align-items: baseline;
+}
+.nrow__rank { grid-column: 1; grid-row: 1; font-family: var(--mono); font-size: 11px; color: var(--ink-faint); }
+.nrow__meta {
+  grid-column: 2; grid-row: 1; margin: 0;
+  display: flex; align-items: center; gap: 6px; flex-wrap: wrap; min-width: 0;
+}
+.nrow__clock { font-family: var(--mono); font-size: 10.5px; color: var(--ink-dim); letter-spacing: 0.02em; white-space: nowrap; }
+.nrow__age {
+  font-family: var(--mono); font-size: 10px; color: var(--ink-faint);
+  border: 1px solid var(--rule-soft); border-radius: 2px; padding: 0 4px; white-space: nowrap;
+}
+.nrow__src {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--ink-faint); overflow: hidden; text-overflow: ellipsis; max-width: 16ch; white-space: nowrap;
+}
+.nrow__new {
+  font-family: var(--mono); font-size: 9.5px; font-weight: 700; letter-spacing: 0.14em;
+  color: var(--accent-ink); background: var(--accent); border-radius: 2px; padding: 1px 4px;
+}
+
+/* Score and corroboration stack in one right-hand cell. They belong together -
+   both answer "how much should I trust this row's position" - and keeping the
+   badge out of the meta line stops every corroborated row wrapping to a third
+   line on a phone, which cost about 26px a row across a 200-row archive. */
+.nrow__right { grid-column: 3; grid-row: 1; display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+.nrow__score { font-family: var(--mono); font-size: 15px; font-weight: 700; color: var(--ink); text-align: right; }
+.nrow__score--none { color: var(--ink-faint); font-weight: 400; }
+/* A bar relative to the top-scoring item in the window, so the ordering is
+   legible at a glance whatever scale the collector scores on. */
+.meter { display: block; height: 2px; width: 34px; margin: 3px 0 0 auto; background: var(--rule); }
+.meter::before { content: ''; display: block; height: 100%; width: var(--w, 0%); background: var(--p, var(--accent)); }
+
+.nrow__h { grid-column: 2 / -1; grid-row: 2; font-size: 14.5px; line-height: 1.34; font-weight: 500; letter-spacing: -0.01em; overflow-wrap: anywhere; }
+.nrow__a { text-decoration: none; }
+.nrow__a:hover { text-decoration: underline; text-decoration-color: var(--p, var(--accent)); }
+.nrow__sub { grid-column: 2 / -1; grid-row: 3; font-size: 12.5px; color: var(--ink-faint); margin: 2px 0 0; }
+
+/* 375px: the rank column is the first thing that stops earning its width, so
+   it goes, and the meta line is allowed to wrap to two lines rather than
+   truncating the source name off the end. */
+@media (max-width: 400px) {
+  .nrow__in { grid-template-columns: minmax(0, 1fr) auto; padding-left: 9px; }
+  .nrow__rank { display: none; }
+  .nrow__meta { grid-column: 1; }
+  .nrow__right { grid-column: 2; }
+  .nrow__h, .nrow__sub { grid-column: 1 / -1; }
+}
+
+/* Motion. The enter animation moves the pillar rail and a background tint -
+   never the headline. A row that fades in from opacity 0 is a blank row in a
+   screenshot taken in the first 300ms, and screenshots are the growth loop. */
+@media (prefers-reduced-motion: no-preference) {
+  .nrow[data-enter="1"]::before {
+    animation: doomconRail 420ms ease-out backwards;
+    animation-delay: calc(var(--i, 0) * 45ms);
+  }
+  @keyframes doomconRail { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+
+  .nrow[data-enter="1"] {
+    animation: doomconRowIn 1100ms ease-out backwards;
+    animation-delay: calc(var(--i, 0) * 45ms);
+  }
+  @keyframes doomconRowIn {
+    0%   { background: color-mix(in srgb, var(--p, var(--accent)) 16%, transparent); }
+    100% { background: transparent; }
+  }
+
+  .nlive[data-live="live"] .nlive__pip { animation: doomconPip 2.6s ease-in-out infinite; }
+  @keyframes doomconPip {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%      { opacity: 0.32; transform: scale(0.7); }
+  }
+}
+</style><svg class="dcsprite" aria-hidden="true" focusable="false" width="0" height="0"><symbol id="dc-sig-capability" viewBox="0 0 13 13"><g fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 10.5h3v-3h3v-3h3v-3"/></g></symbol><symbol id="dc-sig-compute" viewBox="0 0 13 13"><g fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="5" height="5"/><path d="M1.5 5.5h2.5M1.5 7.5h2.5M9 5.5h2.5M9 7.5h2.5M5.5 1.5V4M7.5 1.5V4M5.5 9v2.5M7.5 9v2.5"/></g></symbol><symbol id="dc-sig-attention" viewBox="0 0 13 13"><g fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="6.5" cy="6.5" r="1.1"/><path d="M3.9 3.9a3.7 3.7 0 0 0 0 5.2M9.1 3.9a3.7 3.7 0 0 1 0 5.2M1.9 1.9a6.5 6.5 0 0 0 0 9.2M11.1 1.9a6.5 6.5 0 0 1 0 9.2"/></g></symbol><symbol id="dc-sig-governance" viewBox="0 0 13 13"><g fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 2.2v8.6M2.5 10.8h8M2.5 3.4h8"/><path d="M4.2 3.4 2.6 6.6h3.2zM8.8 3.4 7.2 6.6h3.2z"/></g></symbol><symbol id="dc-sig-markets" viewBox="0 0 13 13"><g fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3.6 1.6v9.8M9.4 1.6v9.8"/><rect x="2.2" y="3.6" width="2.8" height="4"/><rect x="8" y="5.4" width="2.8" height="4"/></g></symbol></svg>
+<section class="sec reel" aria-labelledby="reel-h">
+  <div class="reel__head">
+    <h2 class="sec__h" id="reel-h">Today&#39;s signal</h2>
+    <p class="reel__hint"><span aria-hidden="true">&larr; swipe &rarr;</span><a class="reel__more" href="/doomcon/news.html">All 200 items &rarr;</a></p>
+  </div>
+  <div class="reel__viewport" tabindex="0" role="region"
+       aria-label="Today&#39;s signal, 8 cards, scrolls horizontally">
+    <ol class="reel__rail"><li class="reel__item" data-pillar="capability" style="--i:0">
+    <article class="rcard">
+      <span class="rcard__n num" aria-hidden="true">01</span>
+      <div class="rcard__top"><span class="ptag" data-pillar="capability"><svg viewBox="0 0 13 13" aria-hidden="true" focusable="false"><use href="#dc-sig-capability"/></svg><span aria-hidden="true">Capability</span><span class="vh">Capability pillar</span></span><span class="rcard__score num" title="raw score 53.5">54</span></div>
+      <h3 class="rcard__h"><a class="rcard__a" href="https://huggingface.co/papers/2609.26550" rel="noopener nofollow">JEV-as-a-Judge: Accept When Confident, Escalate When Unsure</a></h3>
+      <p class="rcard__why">Score 53.5 = source weight 20.0 + corroboration 12.5 + recency 10.6 + engagement 10.4</p>
+      <p class="rcard__foot">
+        <time datetime="2026-09-22T15:05:56.000Z" title="2026-09-22 15:05:56 UTC">09-22 15:05Z</time>
+        <span class="rcard__src">hf-daily-papers</span>
+        <span class="rcard__kind">paper</span>
+        <span class="corr" title="arxiv-newest, hf-daily-papers"><span aria-hidden="true">&times;2</span><span class="vh">carried by 2 independent sources</span></span>
+      </p>
+    </article>
+  </li><li class="reel__item" data-pillar="capability" style="--i:1">
+    <article class="rcard">
+      <span class="rcard__n num" aria-hidden="true">02</span>
+      <div class="rcard__top"><span class="ptag" data-pillar="capability"><svg viewBox="0 0 13 13" aria-hidden="true" focusable="false"><use href="#dc-sig-capability"/></svg><span aria-hidden="true">Capability</span><span class="vh">Capability pillar</span></span><span class="rcard__score num" title="raw score 53.2">53</span></div>
+      <h3 class="rcard__h"><a class="rcard__a" href="https://huggingface.co/papers/2609.26796" rel="noopener nofollow">Flash-dLLM: IO-Aware KV Caching and Parallel Decoding for Fast, Memory-Efficient Diffusion LLMs</a></h3>
+      <p class="rcard__why">Score 53.2 = source weight 20.0 + corroboration 12.5 + recency 11.2 + engagement 9.5</p>
+      <p class="rcard__foot">
+        <time datetime="2026-09-22T17:59:57.000Z" title="2026-09-22 17:59:57 UTC">09-22 17:59Z</time>
+        <span class="rcard__src">hf-daily-papers</span>
+        <span class="rcard__kind">paper</span>
+        <span class="corr" title="arxiv-newest, hf-daily-papers"><span aria-hidden="true">&times;2</span><span class="vh">carried by 2 independent sources</span></span>
+      </p>
+    </article>
+  </li><li class="reel__item" data-pillar="capability" style="--i:2">
+    <article class="rcard">
+      <span class="rcard__n num" aria-hidden="true">03</span>
+      <div class="rcard__top"><span class="ptag" data-pillar="capability"><svg viewBox="0 0 13 13" aria-hidden="true" focusable="false"><use href="#dc-sig-capability"/></svg><span aria-hidden="true">Capability</span><span class="vh">Capability pillar</span></span><span class="rcard__score num" title="raw score 52">52</span></div>
+      <h3 class="rcard__h"><a class="rcard__a" href="https://huggingface.co/papers/2609.26781" rel="noopener nofollow">Agensh: Scaling Organizational Intelligence to 1,024 Agents</a></h3>
+      <p class="rcard__why">Score 52.0 = source weight 20.0 + corroboration 12.5 + recency 11.2 + engagement 8.3</p>
+      <p class="rcard__foot">
+        <time datetime="2026-09-22T17:56:25.000Z" title="2026-09-22 17:56:25 UTC">09-22 17:56Z</time>
+        <span class="rcard__src">hf-daily-papers</span>
+        <span class="rcard__kind">paper</span>
+        <span class="corr" title="arxiv-newest, hf-daily-papers"><span aria-hidden="true">&times;2</span><span class="vh">carried by 2 independent sources</span></span>
+      </p>
+    </article>
+  </li><li class="reel__item" data-pillar="capability" style="--i:3">
+    <article class="rcard">
+      <span class="rcard__n num" aria-hidden="true">04</span>
+      <div class="rcard__top"><span class="ptag" data-pillar="capability"><svg viewBox="0 0 13 13" aria-hidden="true" focusable="false"><use href="#dc-sig-capability"/></svg><span aria-hidden="true">Capability</span><span class="vh">Capability pillar</span></span><span class="rcard__score num" title="raw score 49.5">50</span></div>
+      <h3 class="rcard__h"><a class="rcard__a" href="https://huggingface.co/papers/2609.25804" rel="noopener nofollow">The Tasteful Agent: Measuring and Improving Taste in Long-Horizon Tasks</a></h3>
+      <p class="rcard__why">Score 49.5 = source weight 20.0 + engagement 16.9 + recency 12.6</p>
+      <p class="rcard__foot">
+        <time datetime="2026-09-23T00:00:00.000Z" title="2026-09-23 00:00:00 UTC">09-23 00:00Z</time>
+        <span class="rcard__src">hf-daily-papers</span>
+        <span class="rcard__kind">paper</span>
+        
+      </p>
+    </article>
+  </li><li class="reel__item" data-pillar="attention" style="--i:4">
+    <article class="rcard">
+      <span class="rcard__n num" aria-hidden="true">05</span>
+      <div class="rcard__top"><span class="ptag" data-pillar="attention"><svg viewBox="0 0 13 13" aria-hidden="true" focusable="false"><use href="#dc-sig-attention"/></svg><span aria-hidden="true">Attention</span><span class="vh">Attention pillar</span></span><span class="rcard__score num" title="raw score 48.8">49</span></div>
+      <h3 class="rcard__h"><a class="rcard__a" href="https://arstechnica.com/security/2026/09/microsoft-disrupts-ai-assisted-platform-that-compromised-12000" rel="noopener nofollow">Microsoft disrupts AI-assisted platform that compromised 12,000 accounts</a></h3>
+      <p class="rcard__why">Score 48.8 = source weight 15.0 + corroboration 12.5 + recency 11.6 + engagement 6.7 …</p>
+      <p class="rcard__foot">
+        <time datetime="2026-09-22T19:45:47.000Z" title="2026-09-22 19:45:47 UTC">09-22 19:45Z</time>
+        <span class="rcard__src">arstechnica-ai</span>
+        <span class="rcard__kind">press</span>
+        <span class="corr" title="arstechnica-ai, hn-ai"><span aria-hidden="true">&times;2</span><span class="vh">carried by 2 independent sources</span></span>
+      </p>
+    </article>
+  </li><li class="reel__item" data-pillar="capability" style="--i:5">
+    <article class="rcard">
+      <span class="rcard__n num" aria-hidden="true">06</span>
+      <div class="rcard__top"><span class="ptag" data-pillar="capability"><svg viewBox="0 0 13 13" aria-hidden="true" focusable="false"><use href="#dc-sig-capability"/></svg><span aria-hidden="true">Capability</span><span class="vh">Capability pillar</span></span><span class="rcard__score num" title="raw score 47.3">47</span></div>
+      <h3 class="rcard__h"><a class="rcard__a" href="https://huggingface.co/papers/2609.25270" rel="noopener nofollow">RULER: Instance-aware Rubric Rewards for SVG Generation</a></h3>
+      <p class="rcard__why">Score 47.3 = source weight 20.0 + engagement 14.7 + recency 12.6</p>
+      <p class="rcard__foot">
+        <time datetime="2026-09-23T00:00:00.000Z" title="2026-09-23 00:00:00 UTC">09-23 00:00Z</time>
+        <span class="rcard__src">hf-daily-papers</span>
+        <span class="rcard__kind">paper</span>
+        
+      </p>
+    </article>
+  </li><li class="reel__item" data-pillar="governance" style="--i:6">
+    <article class="rcard">
+      <span class="rcard__n num" aria-hidden="true">07</span>
+      <div class="rcard__top"><span class="ptag" data-pillar="governance"><svg viewBox="0 0 13 13" aria-hidden="true" focusable="false"><use href="#dc-sig-governance"/></svg><span aria-hidden="true">Governance</span><span class="vh">Governance pillar</span></span><span class="rcard__score num" title="raw score 46.2">46</span></div>
+      <h3 class="rcard__h"><a class="rcard__a" href="https://techmeme.com/260923/p47" rel="noopener nofollow">Court docs: OpenAI says Apple&#39;s ChatGPT integration to power Apple Intelligence on iPhones &quot;dramatically underperformed&quot; after it launched in 2024 (Michael Acton/Financial Times)</a></h3>
+      <p class="rcard__why">Score 46.2 = recency 19.7 + source weight 17.5 + named entities 9.0</p>
+      <p class="rcard__foot">
+        <time datetime="2026-09-23T23:10:53.000Z" title="2026-09-23 23:10:53 UTC">09-23 23:10Z</time>
+        <span class="rcard__src">techmeme</span>
+        <span class="rcard__kind">press</span>
+        
+      </p>
+    </article>
+  </li><li class="reel__item" data-pillar="attention" style="--i:7">
+    <article class="rcard">
+      <span class="rcard__n num" aria-hidden="true">08</span>
+      <div class="rcard__top"><span class="ptag" data-pillar="attention"><svg viewBox="0 0 13 13" aria-hidden="true" focusable="false"><use href="#dc-sig-attention"/></svg><span aria-hidden="true">Attention</span><span class="vh">Attention pillar</span></span><span class="rcard__score num" title="raw score 46.2">46</span></div>
+      <h3 class="rcard__h"><a class="rcard__a" href="https://stripe.dev/blog/meet-stripes-knowledge-ai-platform" rel="noopener nofollow">Stripe&#39;s Knowledge AI Platform</a></h3>
+      <p class="rcard__why">Score 46.2 = recency 16.4 + source weight 15.0 + engagement 14.9</p>
+      <p class="rcard__foot">
+        <time datetime="2026-09-23T13:38:00.000Z" title="2026-09-23 13:38:00 UTC">09-23 13:38Z</time>
+        <span class="rcard__src">hn-ai</span>
+        <span class="rcard__kind">forum</span>
+        
+      </p>
+    </article>
+  </li></ol>
+  </div>
+</section>
+<section class="sec news" aria-labelledby="news-h">
+  <div class="nhead">
+    <h2 class="sec__h" id="news-h">Signal feed</h2>
+    <p class="nlive" data-live="live">
+      <span class="nlive__pip" aria-hidden="true"></span>
+      <b>LIVE</b>
+      <span class="nlive__stamp">compiled <time datetime="2026-09-24T00:04:46.497Z">2026-09-24 00:04:46 UTC</time></span>
+    </p>
+  </div>
+  <p class="nkey">Ranked by score, highest first &middot; <b>AGE</b> is measured from the compile
+     stamp above, not from your clock &middot; <b>&times;N</b> marks an item carried by N independent
+     sources. Window: 7d.</p>
+  <ol class="nfeed"><li class="nrow" data-pillar="capability" data-enter="1" style="--i:0">
+    <div class="nrow__in">
+      <span class="nrow__rank num" aria-hidden="true">01</span>
+      <p class="nrow__meta">
+        <time class="nrow__clock num" datetime="2026-09-22T15:05:56.000Z" title="2026-09-22 15:05:56 UTC">09-22 15:05Z</time>
+        <span class="nrow__age num" title="33h before the compile stamp">33h</span>
+        <span class="ptag" data-pillar="capability"><svg viewBox="0 0 13 13" aria-hidden="true" focusable="false"><use href="#dc-sig-capability"/></svg><span aria-hidden="true">CAP</span><span class="vh">Capability pillar</span></span>
+        <span class="nrow__src">hf-daily-papers</span>
+        
+      </p>
+      <div class="nrow__right"><span class="nrow__score num" title="raw score 53.5">54<i class="meter" style="--w:100.0%" aria-hidden="true"></i></span><span class="corr" title="arxiv-newest, hf-daily-papers"><span aria-hidden="true">&times;2</span><span class="vh">carried by 2 independent sources</span></span></div>
+      <h3 class="nrow__h"><span class="vh">Rank 1. </span><a class="nrow__a" href="https://huggingface.co/papers/2609.26550" rel="noopener nofollow">JEV-as-a-Judge: Accept When Confident, Escalate When Unsure</a></h3>
+      <p class="nrow__sub">LLM-as-a-judge enables evaluation across diverse tasks, but inference cost and confidence reliability become critical at scale. We study whether a decision-only judge can provide an…</p>
+    </div>
+  </li><li class="nrow" data-pillar="capability" data-enter="1" style="--i:1">
+    <div class="nrow__in">
+      <span class="nrow__rank num" aria-hidden="true">02</span>
+      <p class="nrow__meta">
+        <time class="nrow__clock num" datetime="2026-09-22T17:59:57.000Z" title="2026-09-22 17:59:57 UTC">09-22 17:59Z</time>
+        <span class="nrow__age num" title="30h before the compile stamp">30h</span>
+        <span class="ptag" data-pillar="capability"><svg viewBox="0 0 13 13" aria-hidden="true" focusable="false"><use href="#dc-sig-capability"/></svg><span aria-hidden="true">CAP</span><span class="vh">Capability pillar</span></span>
+        <span class="nrow__src">hf-daily-papers</span>
+        
+      </p>
+      <div class="nrow__right"><span class="nrow__score num" title="raw score 53.2">53<i class="meter" style="--w:99.4%" aria-hidden="true"></i></span><span class="corr" title="arxiv-newest, hf-daily-papers"><span aria-hidden="true">&times;2</span><span class="vh">carried by 2 independent sources</span></span></div>
+      <h3 class="nrow__h"><span class="vh">Rank 2. </span><a class="nrow__a" href="https://huggingface.co/papers/2609.26796" rel="noopener nofollow">Flash-dLLM: IO-Aware KV Caching and Parallel Decoding for Fast, Memory-Efficient Diffusion LLMs</a></h3>
+      <p class="nrow__sub">Diffusion Large Language Models (dLLMs) have recently emerged as a promising alternative to autoregressive LLMs by enabling non-autoregressive text generation. However, their practical…</p>
+    </div>
+  </li><li class="nrow" data-pillar="capability" data-enter="1" style="--i:2">
+    <div class="nrow__in">
+      <span class="nrow__rank num" aria-hidden="true">03</span>
+      <p class="nrow__meta">
+        <time class="nrow__clock num" datetime="2026-09-22T17:56:25.000Z" title="2026-09-22 17:56:25 UTC">09-22 17:56Z</time>
+        <span class="nrow__age num" title="30h before the compile stamp">30h</span>
+        <span class="ptag" data-pillar="capability"><svg viewBox="0 0 13 13" aria-hidden="true" focusable="false"><use href="#dc-sig-capability"/></svg><span aria-hidden="true">CAP</span><span class="vh">Capability pillar</span></span>
+        <span class="nrow__src">hf-daily-papers</span>
+        
+      </p>
+      <div class="nrow__right"><span class="nrow__score num" title="raw score 52">52<i class="meter" style="--w:97.2%" aria-hidden="true"></i></span><span class="corr" title="arxiv-newest, hf-daily-papers"><span aria-hidden="true">&times;2</span><span class="vh">carried by 2 independent sources</span></span></div>
+      <h3 class="nrow__h"><span class="vh">Rank 3. </span><a class="nrow__a" href="https://huggingface.co/papers/2609.26781" rel="noopener nofollow">Agensh: Scaling Organizational Intelligence to 1,024 Agents</a></h3>
+      <p class="nrow__sub">A multi-agent system can reduce latency on complex tasks by executing work concurrently. Several pioneering harness frameworks support multi-agent systems. However, the scalability of…</p>
+    </div>
+  </li><li class="nrow" data-pillar="capability" data-enter="1" style="--i:3">
+    <div class="nrow__in">
+      <span class="nrow__rank num" aria-hidden="true">04</span>
+      <p class="nrow__meta">
+        <time class="nrow__clock num" datetime="2026-09-23T00:00:00.000Z" title="2026-09-23 00:00:00 UTC">09-23 00:00Z</time>
+        <span class="nrow__age num" title="24h before the compile stamp">24h</span>
+        <span class="ptag" data-pillar="capability"><svg viewBox="0 0 13 13" aria-hidden="true" focusable="false"><use href="#dc-sig-capability"/></svg><span aria-hidden="true">CAP</span><span class="vh">Capability pillar</span></span>
+        <span class="nrow__src">hf-daily-papers</span>
+        
+      </p>
+      <div class="nrow__right"><span class="nrow__score num" title="raw score 49.5">50<i class="meter" style="--w:92.5%" aria-hidden="true"></i></span></div>
+      <h3 class="nrow__h"><span class="vh">Rank 4. </span><a class="nrow__a" href="https://huggingface.co/papers/2609.25804" rel="noopener nofollow">The Tasteful Agent: Measuring and Improving Taste in Long-Horizon Tasks</a></h3>
+      <p class="nrow__sub">LLM agents increasingly work on long-horizon tasks, and the decisions they make along the way, such as which hypothesis to test or which implementation to build on, determine the outcome of…</p>
+    </div>
+  </li><li class="nrow" data-pillar="attention" data-enter="1" style="--i:4">
+    <div class="nrow__in">
+      <span class="nrow__rank num" aria-hidden="true">05</span>
+      <p class="nrow__meta">
+        <time class="nrow__clock num" datetime="2026-09-22T19:45:47.000Z" title="2026-09-22 19:45:47 UTC">09-22 19:45Z</time>
+        <span class="nrow__age num" title="28h before the compile stamp">28h</span>
+        <span class="ptag" data-pillar="attention"><svg viewBox="0 0 13 13" aria-hidden="true" focusable="false"><use href="#dc-sig-attention"/></svg><span aria-hidden="true">ATN</span><span class="vh">Attention pillar</span></span>
+        <span class="nrow__src">arstechnica-ai</span>
+        
+      </p>
+      <div class="nrow__right"><span class="nrow__score num" title="raw score 48.8">49<i class="meter" style="--w:91.2%" aria-hidden="true"></i></span><span class="corr" title="arstechnica-ai, hn-ai"><span aria-hidden="true">&times;2</span><span class="vh">carried by 2 independent sources</span></span></div>
+      <h3 class="nrow__h"><span class="vh">Rank 5. </span><a class="nrow__a" href="https://arstechnica.com/security/2026/09/microsoft-disrupts-ai-assisted-platform-that-compromised-12000" rel="noopener nofollow">Microsoft disrupts AI-assisted platform that compromised 12,000 accounts</a></h3>
+      <p class="nrow__sub">EvilTokens provided an end-to-end platform that makes mass compromises faster and easier.</p>
+    </div>
+  </li><li class="nrow" data-pillar="capability" data-enter="1" style="--i:5">
+    <div class="nrow__in">
+      <span class="nrow__rank num" aria-hidden="true">06</span>
+      <p class="nrow__meta">
+        <time class="nrow__clock num" datetime="2026-09-23T00:00:00.000Z" title="2026-09-23 00:00:00 UTC">09-23 00:00Z</time>
+        <span class="nrow__age num" title="24h before the compile stamp">24h</span>
+        <span class="ptag" data-pillar="capability"><svg viewBox="0 0 13 13" aria-hidden="true" focusable="false"><use href="#dc-sig-capability"/></svg><span aria-hidden="true">CAP</span><span class="vh">Capability pillar</span></span>
+        <span class="nrow__src">hf-daily-papers</span>
+        
+      </p>
+      <div class="nrow__right"><span class="nrow__score num" title="raw score 47.3">47<i class="meter" style="--w:88.4%" aria-hidden="true"></i></span></div>
+      <h3 class="nrow__h"><span class="vh">Rank 6. </span><a class="nrow__a" href="https://huggingface.co/papers/2609.25270" rel="noopener nofollow">RULER: Instance-aware Rubric Rewards for SVG Generation</a></h3>
+      <p class="nrow__sub">Generating Scalable Vector Graphics (SVG) code from natural-language instructions is an open-ended task without absolute visual ground truth, leaving both evaluation and policy optimization…</p>
+    </div>
+  </li><li class="nrow" data-pillar="governance" data-enter="1" style="--i:6">
+    <div class="nrow__in">
+      <span class="nrow__rank num" aria-hidden="true">07</span>
+      <p class="nrow__meta">
+        <time class="nrow__clock num" datetime="2026-09-23T23:10:53.000Z" title="2026-09-23 23:10:53 UTC">09-23 23:10Z</time>
+        <span class="nrow__age num" title="54m before the compile stamp">54m</span>
+        <span class="ptag" data-pillar="governance"><svg viewBox="0 0 13 13" aria-hidden="true" focusable="false"><use href="#dc-sig-governance"/></svg><span aria-hidden="true">GOV</span><span class="vh">Governance pillar</span></span>
+        <span class="nrow__src">techmeme</span>
+        <span class="nrow__new">NEW</span>
+      </p>
+      <div class="nrow__right"><span class="nrow__score num" title="raw score 46.2">46<i class="meter" style="--w:86.4%" aria-hidden="true"></i></span></div>
+      <h3 class="nrow__h"><span class="vh">Rank 7. </span><a class="nrow__a" href="https://techmeme.com/260923/p47" rel="noopener nofollow">Court docs: OpenAI says Apple&#39;s ChatGPT integration to power Apple Intelligence on iPhones &quot;dramatically underperformed&quot; after it launched in 2024 (Michael Acton/Financial Times)</a></h3>
+      <p class="nrow__sub">Michael Acton / Financial Times : Court docs: OpenAI says Apple&#39;s ChatGPT integration to power Apple Intelligence on iPhones “dramatically underperformed” after it launched in 2024 — Court…</p>
+    </div>
+  </li><li class="nrow" data-pillar="attention" data-enter="1" style="--i:7">
+    <div class="nrow__in">
+      <span class="nrow__rank num" aria-hidden="true">08</span>
+      <p class="nrow__meta">
+        <time class="nrow__clock num" datetime="2026-09-23T13:38:00.000Z" title="2026-09-23 13:38:00 UTC">09-23 13:38Z</time>
+        <span class="nrow__age num" title="10h before the compile stamp">10h</span>
+        <span class="ptag" data-pillar="attention"><svg viewBox="0 0 13 13" aria-hidden="true" focusable="false"><use href="#dc-sig-attention"/></svg><span aria-hidden="true">ATN</span><span class="vh">Attention pillar</span></span>
+        <span class="nrow__src">hn-ai</span>
+        
+      </p>
+      <div class="nrow__right"><span class="nrow__score num" title="raw score 46.2">46<i class="meter" style="--w:86.4%" aria-hidden="true"></i></span></div>
+      <h3 class="nrow__h"><span class="vh">Rank 8. </span><a class="nrow__a" href="https://stripe.dev/blog/meet-stripes-knowledge-ai-platform" rel="noopener nofollow">Stripe&#39;s Knowledge AI Platform</a></h3>
+      <p class="nrow__sub">170 points, 106 comments on Hacker News.</p>
+    </div>
+  </li><li class="nrow" data-pillar="capability" data-enter="0" style="--i:8">
+    <div class="nrow__in">
+      <span class="nrow__rank num" aria-hidden="true">09</span>
+      <p class="nrow__meta">
+        <time class="nrow__clock num" datetime="2026-09-23T00:00:00.000Z" title="2026-09-23 00:00:00 UTC">09-23 00:00Z</time>
+        <span class="nrow__age num" title="24h before the compile stamp">24h</span>
+        <span class="ptag" data-pillar="capability"><svg viewBox="0 0 13 13" aria-hidden="true" focusable="false"><use href="#dc-sig-capability"/></svg><span aria-hidden="true">CAP</span><span class="vh">Capability pillar</span></span>
+        <span class="nrow__src">hf-daily-papers</span>
+        
+      </p>
+      <div class="nrow__right"><span class="nrow__score num" title="raw score 45.7">46<i class="meter" style="--w:85.4%" aria-hidden="true"></i></span></div>
+      <h3 class="nrow__h"><span class="vh">Rank 9. </span><a class="nrow__a" href="https://huggingface.co/papers/2609.24981" rel="noopener nofollow">GAE: Learning a Geometry-Native Latent Space for 3D-Consistent World Generation</a></h3>
+      <p class="nrow__sub">We present a compact geometry-native latent space as a shared foundation for perception and generation. Visual generators can produce photorealistic frames without preserving a consistent…</p>
+    </div>
+  </li><li class="nrow" data-pillar="capability" data-enter="0" style="--i:9">
+    <div class="nrow__in">
+      <span class="nrow__rank num" aria-hidden="true">10</span>
+      <p class="nrow__meta">
+        <time class="nrow__clock num" datetime="2026-09-23T00:00:00.000Z" title="2026-09-23 00:00:00 UTC">09-23 00:00Z</time>
+        <span class="nrow__age num" title="24h before the compile stamp">24h</span>
+        <span class="ptag" data-pillar="capability"><svg viewBox="0 0 13 13" aria-hidden="true" focusable="false"><use href="#dc-sig-capability"/></svg><span aria-hidden="true">CAP</span><span class="vh">Capability pillar</span></span>
+        <span class="nrow__src">hf-daily-papers</span>
+        
+      </p>
+      <div class="nrow__right"><span class="nrow__score num" title="raw score 45.4">45<i class="meter" style="--w:84.9%" aria-hidden="true"></i></span></div>
+      <h3 class="nrow__h"><span class="vh">Rank 10. </span><a class="nrow__a" href="https://huggingface.co/papers/2609.24058" rel="noopener nofollow">All-in-One Multilingual Scene Text Recognition with Script-aware Mixture-of-Experts</a></h3>
+      <p class="nrow__sub">Multilingual scene text recognition (STR) remains challenging due to the scarcity of training data for most languages and the difficulty of serving diverse scripts within a single model…</p>
+    </div>
+  </li><li class="nrow" data-pillar="attention" data-enter="0" style="--i:10">
+    <div class="nrow__in">
+      <span class="nrow__rank num" aria-hidden="true">11</span>
+      <p class="nrow__meta">
+        <time class="nrow__clock num" datetime="2026-09-22T19:03:38.000Z" title="2026-09-22 19:03:38 UTC">09-22 19:03Z</time>
+        <span class="nrow__age num" title="29h before the compile stamp">29h</span>
+        <span class="ptag" data-pillar="attention"><svg viewBox="0 0 13 13" aria-hidden="true" focusable="false"><use href="#dc-sig-attention"/></svg><span aria-hidden="true">ATN</span><span class="vh">Attention pillar</span></span>
+        <span class="nrow__src">hn-ai</span>
+        
+      </p>
+      <div class="nrow__right"><span class="nrow__score num" title="raw score 44.4">44<i class="meter" style="--w:83.0%" aria-hidden="true"></i></span></div>
+      <h3 class="nrow__h"><span class="vh">Rank 11. </span><a class="nrow__a" href="https://bloomberg.com/graphics/2026-iran-school-attack" rel="noopener nofollow">Pentagon says overreliance on AI contributed to missile strike on Iran school</a></h3>
+      <p class="nrow__sub">888 points, 496 comments on Hacker News.</p>
+    </div>
+  </li><li class="nrow" data-pillar="capability" data-enter="0" style="--i:11">
+    <div class="nrow__in">
+      <span class="nrow__rank num" aria-hidden="true">12</span>
+      <p class="nrow__meta">
+        <time class="nrow__clock num" datetime="2026-09-22T04:14:56.000Z" title="2026-09-22 04:14:56 UTC">09-22 04:14Z</time>
+        <span class="nrow__age num" title="44h before the compile stamp">44h</span>
+        <span class="ptag" data-pillar="capability"><svg viewBox="0 0 13 13" aria-hidden="true" focusable="false"><use href="#dc-sig-capability"/></svg><span aria-hidden="true">CAP</span><span class="vh">Capability pillar</span></span>
+        <span class="nrow__src">hf-trending-models</span>
+        
+      </p>
+      <div class="nrow__right"><span class="nrow__score num" title="raw score 44.4">44<i class="meter" style="--w:83.0%" aria-hidden="true"></i></span></div>
+      <h3 class="nrow__h"><span class="vh">Rank 12. </span><a class="nrow__a" href="https://huggingface.co/Viggle/Qwen-Image-2.1-viggle-turbo" rel="noopener nofollow">Viggle/Qwen-Image-2.1-viggle-turbo — trending on Hugging Face</a></h3>
+      <p class="nrow__sub">text to image model, by Viggle, 119 likes, 1507 downloads.</p>
+    </div>
+  </li><li class="nrow" data-pillar="attention" data-enter="0" style="--i:12">
+    <div class="nrow__in">
+      <span class="nrow__rank num" aria-hidden="true">13</span>
+      <p class="nrow__meta">
+        <time class="nrow__clock num" datetime="2026-09-23T18:16:41.000Z" title="2026-09-23 18:16:41 UTC">09-23 18:16Z</time>
+        <span class="nrow__age num" title="6h before the compile stamp">6h</span>
+        <span class="ptag" data-pillar="attention"><svg viewBox="0 0 13 13" aria-hidden="true" focusable="false"><use href="#dc-sig-attention"/></svg><span aria-hidden="true">ATN</span><span class="vh">Attention pillar</span></span>
+        <span class="nrow__src">hn-ai</span>
+        
+      </p>
+      <div class="nrow__right"><span class="nrow__score num" title="raw score 44.2">44<i class="meter" style="--w:82.6%" aria-hidden="true"></i></span></div>
+      <h3 class="nrow__h"><span class="vh">Rank 13. </span><a class="nrow__a" href="https://normanponte.io/19df691f" rel="noopener nofollow">Cloud Agents Are Inevitable AI Prisons</a></h3>
+      <p class="nrow__sub">49 points, 112 comments on Hacker News.</p>
+    </div>
+  </li><li class="nrow" data-pillar="capability" data-enter="0" style="--i:13">
+    <div class="nrow__in">
+      <span class="nrow__rank num" aria-hidden="true">14</span>
+      <p class="nrow__meta">
+        <time class="nrow__clock num" datetime="2026-09-23T00:00:00.000Z" title="2026-09-23 00:00:00 UTC">09-23 00:00Z</time>
+        <span class="nrow__age num" title="24h before the compile stamp">24h</span>
+        <span class="ptag" data-pillar="capability"><svg viewBox="0 0 13 13" aria-hidden="true" focusable="false"><use href="#dc-sig-capability"/></svg><span aria-hidden="true">CAP</span><span class="vh">Capability pillar</span></span>
+        <span class="nrow__src">hf-daily-papers</span>
+        
+      </p>
+      <div class="nrow__right"><span class="nrow__score num" title="raw score 44.1">44<i class="meter" style="--w:82.4%" aria-hidden="true"></i></span></div>
+      <h3 class="nrow__h"><span class="vh">Rank 14. </span><a class="nrow__a" href="https://huggingface.co/papers/2609.24657" rel="noopener nofollow">Circuit Hypernetworks for Quantum-Augmented Diffusion Language Models</a></h3>
+      <p class="nrow__sub">Language models can be adapted by changing the computations applied to individual tokens. Quantum circuits offer one such approach, but evaluating wider circuits inside a large model can be…</p>
+    </div>
+  </li></ol>
+  <p class="nkey nkey--more">
+    <a href="/doomcon/news.html">All 200 items in the window &rarr;</a>
+  </p>
+  <ul class="fresh__strip"><li class="chip" data-status="ok" title="Anthropic / Claude incident history · status"><span class="chip__dot" aria-hidden="true">●</span><b>anthropic-status</b><span class="chip__age">1</span><span class="vh">live</span></li><li class="chip" data-status="ok" title="Ars Technica AI · press"><span class="chip__dot" aria-hidden="true">●</span><b>arstechnica-ai</b><span class="chip__age">20</span><span class="vh">live</span></li><li class="chip" data-status="ok" title="arXiv cs.AI / cs.LG / cs.CL (newest) · paper"><span class="chip__dot" aria-hidden="true">●</span><b>arxiv-newest</b><span class="chip__age">60</span><span class="vh">live</span></li><li class="chip" data-status="ok" title="Google DeepMind blog · lab"><span class="chip__dot" aria-hidden="true">●</span><b>deepmind</b><span class="chip__age">2</span><span class="vh">live</span></li><li class="chip" data-status="ok" title="GitHub releases (AI basket) · release"><span class="chip__dot" aria-hidden="true">●</span><b>github-releases</b><span class="chip__age">21</span><span class="vh">live</span></li><li class="chip" data-status="ok" title="Google AI blog (The Keyword) · lab"><span class="chip__dot" aria-hidden="true">●</span><b>google-ai-blog</b><span class="chip__age">4</span><span class="vh">live</span></li><li class="chip" data-status="ok" title="Hugging Face Daily Papers · paper"><span class="chip__dot" aria-hidden="true">●</span><b>hf-daily-papers</b><span class="chip__age">40</span><span class="vh">live</span></li><li class="chip" data-status="ok" title="Hugging Face trending models · model"><span class="chip__dot" aria-hidden="true">●</span><b>hf-trending-models</b><span class="chip__age">15</span><span class="vh">live</span></li><li class="chip" data-status="ok" title="Hacker News AI stories (72h) · forum"><span class="chip__dot" aria-hidden="true">●</span><b>hn-ai</b><span class="chip__age">75</span><span class="vh">live</span></li><li class="chip" data-status="ok" title="Hugging Face blog · lab"><span class="chip__dot" aria-hidden="true">●</span><b>huggingface-blog</b><span class="chip__age">6</span><span class="vh">live</span></li><li class="chip" data-status="quiet" title="Mistral AI blog · lab"><span class="chip__dot" aria-hidden="true">◐</span><b>mistral</b><span class="chip__age">none</span><span class="vh">no items in window</span></li><li class="chip" data-status="ok" title="MIT News — AI · press"><span class="chip__dot" aria-hidden="true">●</span><b>mit-news-ai</b><span class="chip__age">3</span><span class="vh">live</span></li><li class="chip" data-status="ok" title="OpenAI newsroom · lab"><span class="chip__dot" aria-hidden="true">●</span><b>openai</b><span class="chip__age">20</span><span class="vh">live</span></li><li class="chip" data-status="quiet" title="Qwen blog · lab"><span class="chip__dot" aria-hidden="true">◐</span><b>qwen</b><span class="chip__age">none</span><span class="vh">no items in window</span></li><li class="chip" data-status="ok" title="Techmeme front page (AI-filtered) · press"><span class="chip__dot" aria-hidden="true">●</span><b>techmeme</b><span class="chip__age">9</span><span class="vh">live</span></li><li class="chip" data-status="ok" title="The Verge — AI · press"><span class="chip__dot" aria-hidden="true">●</span><b>verge-ai</b><span class="chip__age">10</span><span class="vh">live</span></li></ul><p class="nkey">2 answered with nothing in the window, of 16 news sources. A dark source is excluded, never imputed. A source that answered with nothing in the window is not the same thing and is not counted as an outage.</p>
+</section>
+
+<section class="sec" aria-labelledby="pillars-h">
+  <h2 class="sec__h" id="pillars-h">The five pillars</h2>
+  <p class="lede">Which part of the field is loudest today. Each bar is linear in score from 0 to 100,
+     so the ordering is the comparison; the cards underneath carry each pillar's own history.</p>
+  <figure class="ch ch--rank"><svg class="ch__svg ch__svg--rank ch__svg--sm" viewBox="0 0 352 169" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="pro218stts pro218stds" style="--w:352px"><title id="pro218stts">The five pillars, ranked by score</title><desc id="pro218stds">Ranked loudest to quietest: Governance 53.2, Compute &amp; Capital 50.1, Attention 40.8, Capability 32.7. Not scored: Markets (awaiting baseline). Each bar is linear in score from 0 to 100; the vertical line marks 50, the median of the frozen reference distribution.</desc><text class="ch-r-reflabel" x="204.00" y="11.00" text-anchor="middle" font-size="8.5">50 · MEDIAN</text><line class="ch-r-ref" x1="204.00" y1="14.00" x2="204.00" y2="153.00"/><text class="ch-r-glyph" x="2.00" y="35.50" text-anchor="start" font-size="9.5">◆</text><text class="ch-r-name" x="14.00" y="35.50" text-anchor="start" font-size="10.5">Governance</text><rect class="ch-r-track" x="92.00" y="26.00" width="224.00" height="11"/><rect class="ch-r-bar" x="92.00" y="26.00" width="119.09" height="11"/><line class="ch-r-cap" x1="211.09" y1="24.00" x2="211.09" y2="39.00"/><text class="ch-r-val" x="350.00" y="35.50" text-anchor="end" font-size="10.5">53.2</text><text class="ch-r-glyph" x="2.00" y="62.50" text-anchor="start" font-size="9.5">■</text><text class="ch-r-name" x="14.00" y="62.50" text-anchor="start" font-size="10.5">Compute</text><rect class="ch-r-track" x="92.00" y="53.00" width="224.00" height="11"/><rect class="ch-r-bar" x="92.00" y="53.00" width="112.29" height="11"/><line class="ch-r-cap" x1="204.29" y1="51.00" x2="204.29" y2="66.00"/><text class="ch-r-val" x="350.00" y="62.50" text-anchor="end" font-size="10.5">50.1</text><text class="ch-r-glyph" x="2.00" y="89.50" text-anchor="start" font-size="9.5">●</text><text class="ch-r-name" x="14.00" y="89.50" text-anchor="start" font-size="10.5">Attention</text><rect class="ch-r-track" x="92.00" y="80.00" width="224.00" height="11"/><rect class="ch-r-bar" x="92.00" y="80.00" width="91.36" height="11"/><line class="ch-r-cap" x1="183.36" y1="78.00" x2="183.36" y2="93.00"/><text class="ch-r-val" x="350.00" y="89.50" text-anchor="end" font-size="10.5">40.8</text><text class="ch-r-glyph" x="2.00" y="116.50" text-anchor="start" font-size="9.5">▲</text><text class="ch-r-name" x="14.00" y="116.50" text-anchor="start" font-size="10.5">Capability</text><rect class="ch-r-track" x="92.00" y="107.00" width="224.00" height="11"/><rect class="ch-r-bar" x="92.00" y="107.00" width="73.29" height="11"/><line class="ch-r-cap" x1="165.29" y1="105.00" x2="165.29" y2="120.00"/><text class="ch-r-val" x="350.00" y="116.50" text-anchor="end" font-size="10.5">32.7</text><text class="ch-r-glyph" x="2.00" y="143.50" text-anchor="start" font-size="9.5">✱</text><text class="ch-r-name" x="14.00" y="143.50" text-anchor="start" font-size="10.5">Markets</text><rect class="ch-r-track" x="92.00" y="134.00" width="224.00" height="11"/><rect class="ch-r-none" x="92.00" y="134.00" width="224.00" height="11"/><text class="ch-r-nonet" x="98.00" y="143.00" text-anchor="start" font-size="8.5">AWAITING BASELINE</text><text class="ch-r-val ch-r-val--none" x="350.00" y="143.50" text-anchor="end" font-size="10.5">—</text></svg><svg class="ch__svg ch__svg--rank ch__svg--lg" viewBox="0 0 560 190" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="pro218sttl pro218stdl" style="--w:560px"><title id="pro218sttl">The five pillars, ranked by score</title><desc id="pro218stdl">Ranked loudest to quietest: Governance 53.2, Compute &amp; Capital 50.1, Attention 40.8, Capability 32.7. Not scored: Markets (awaiting baseline). Each bar is linear in score from 0 to 100; the vertical line marks 50, the median of the frozen reference distribution.</desc><text class="ch-r-reflabel" x="322.00" y="13.00" text-anchor="middle" font-size="9">50 · reference median</text><line class="ch-r-ref" x1="322.00" y1="16.00" x2="322.00" y2="170.00"/><text class="ch-r-glyph" x="2.00" y="39.00" text-anchor="start" font-size="10.5">◆</text><text class="ch-r-name" x="16.00" y="39.00" text-anchor="start" font-size="11.5">Governance</text><rect class="ch-r-track" x="130.00" y="29.00" width="384.00" height="12"/><rect class="ch-r-bar" x="130.00" y="29.00" width="204.16" height="12"/><line class="ch-r-cap" x1="334.16" y1="27.00" x2="334.16" y2="43.00"/><text class="ch-r-val" x="558.00" y="39.00" text-anchor="end" font-size="11.5">53.2</text><text class="ch-r-glyph" x="2.00" y="69.00" text-anchor="start" font-size="10.5">■</text><text class="ch-r-name" x="16.00" y="69.00" text-anchor="start" font-size="11.5">Compute &amp; Capital</text><rect class="ch-r-track" x="130.00" y="59.00" width="384.00" height="12"/><rect class="ch-r-bar" x="130.00" y="59.00" width="192.49" height="12"/><line class="ch-r-cap" x1="322.49" y1="57.00" x2="322.49" y2="73.00"/><text class="ch-r-val" x="558.00" y="69.00" text-anchor="end" font-size="11.5">50.1</text><text class="ch-r-glyph" x="2.00" y="99.00" text-anchor="start" font-size="10.5">●</text><text class="ch-r-name" x="16.00" y="99.00" text-anchor="start" font-size="11.5">Attention</text><rect class="ch-r-track" x="130.00" y="89.00" width="384.00" height="12"/><rect class="ch-r-bar" x="130.00" y="89.00" width="156.61" height="12"/><line class="ch-r-cap" x1="286.61" y1="87.00" x2="286.61" y2="103.00"/><text class="ch-r-val" x="558.00" y="99.00" text-anchor="end" font-size="11.5">40.8</text><text class="ch-r-glyph" x="2.00" y="129.00" text-anchor="start" font-size="10.5">▲</text><text class="ch-r-name" x="16.00" y="129.00" text-anchor="start" font-size="11.5">Capability</text><rect class="ch-r-track" x="130.00" y="119.00" width="384.00" height="12"/><rect class="ch-r-bar" x="130.00" y="119.00" width="125.63" height="12"/><line class="ch-r-cap" x1="255.63" y1="117.00" x2="255.63" y2="133.00"/><text class="ch-r-val" x="558.00" y="129.00" text-anchor="end" font-size="11.5">32.7</text><text class="ch-r-glyph" x="2.00" y="159.00" text-anchor="start" font-size="10.5">✱</text><text class="ch-r-name" x="16.00" y="159.00" text-anchor="start" font-size="11.5">Markets</text><rect class="ch-r-track" x="130.00" y="149.00" width="384.00" height="12"/><rect class="ch-r-none" x="130.00" y="149.00" width="384.00" height="12"/><text class="ch-r-nonet" x="136.00" y="158.50" text-anchor="start" font-size="9.5">AWAITING BASELINE · collected, not scored</text><text class="ch-r-val ch-r-val--none" x="558.00" y="159.00" text-anchor="end" font-size="11.5">—</text></svg><figcaption class="ch__cap">Governance leads at 53.2. Markets is awaiting a baseline.</figcaption></figure>
+  <hr class="rule">
+  <div class="pillars"><article class="pillar" data-dark="0" data-uncalibrated="0">
+      <div class="pillar__top">
+        <h3 class="pillar__name"><span aria-hidden="true">▲</span> Capability</h3>
+        <span class="pillar__score num">32.7</span>
+      </div>
+      <p class="pillar__blurb">What shipped, and what got written down.</p>
+      <svg class="spark pillar__spark ch__svg" viewBox="0 0 300 42" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="spdglnht spdglnhd" style="--w:300px"><title id="spdglnht">Capability score history</title><desc id="spdglnhd">3 observations, down from 33.3 to 32.7 of 100. Range 32.7 to 33.3.</desc><path class="spark__area" d="M1.00,19.60 L150.00,20.75 L299.00,22.40 L299.00,42.00 L1.00,42.00 Z"/><path class="spark__line" d="M1.00,19.60 L150.00,20.75 L299.00,22.40"/><circle class="spark__ring" cx="299.00" cy="22.40" r="4.6"/><circle class="spark__dot" cx="299.00" cy="22.40" r="2.4"/></svg>
+       <p class="pillar__foot">1/4 SCORED · 3 AWAITING BASELINE · 8TH PCTL</p>
+    </article><article class="pillar" data-dark="0" data-uncalibrated="0">
+      <div class="pillar__top">
+        <h3 class="pillar__name"><span aria-hidden="true">■</span> Compute &amp; Capital</h3>
+        <span class="pillar__score num">50.1</span>
+      </div>
+      <p class="pillar__blurb">Silicon, spend, and the market’s opinion of both.</p>
+      <svg class="spark pillar__spark ch__svg" viewBox="0 0 300 42" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="sp17v39wst sp17v39wsd" style="--w:300px"><title id="sp17v39wst">Compute &amp; Capital score history</title><desc id="sp17v39wsd">3 observations, down from 50.3 to 50.1 of 100. Range 50.1 to 50.4.</desc><path class="spark__area" d="M1.00,20.74 L150.00,20.35 L299.00,21.65 L299.00,42.00 L1.00,42.00 Z"/><line class="spark__ref" x1="1" y1="22.29" x2="299" y2="22.29" stroke-dasharray="3 4"/><text class="spark__reflabel" x="2.00" y="19.79" text-anchor="start" font-size="8">50</text><path class="spark__line" d="M1.00,20.74 L150.00,20.35 L299.00,21.65"/><circle class="spark__ring" cx="299.00" cy="21.65" r="4.6"/><circle class="spark__dot" cx="299.00" cy="21.65" r="2.4"/></svg>
+       <p class="pillar__foot">1/3 SCORED · 2 AWAITING BASELINE · 49TH PCTL</p>
+    </article><article class="pillar" data-dark="0" data-uncalibrated="0">
+      <div class="pillar__top">
+        <h3 class="pillar__name"><span aria-hidden="true">●</span> Attention</h3>
+        <span class="pillar__score num">40.8</span>
+      </div>
+      <p class="pillar__blurb">How loudly the world is talking.</p>
+      <svg class="spark pillar__spark ch__svg" viewBox="0 0 300 42" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="sp14sxh2at sp14sxh2ad" style="--w:300px"><title id="sp14sxh2at">Attention score history</title><desc id="sp14sxh2ad">3 observations, down from 41.2 to 40.8 of 100. Range 40.8 to 41.2.</desc><path class="spark__area" d="M1.00,19.95 L150.00,20.43 L299.00,22.05 L299.00,42.00 L1.00,42.00 Z"/><path class="spark__line" d="M1.00,19.95 L150.00,20.43 L299.00,22.05"/><circle class="spark__ring" cx="299.00" cy="22.05" r="4.6"/><circle class="spark__dot" cx="299.00" cy="22.05" r="2.4"/></svg>
+       <p class="pillar__foot">2/2 SCORED · 25TH PCTL</p>
+    </article><article class="pillar" data-dark="0" data-uncalibrated="0">
+      <div class="pillar__top">
+        <h3 class="pillar__name"><span aria-hidden="true">◆</span> Governance</h3>
+        <span class="pillar__score num">53.2</span>
+      </div>
+      <p class="pillar__blurb">Paperwork with the force of law.</p>
+      <svg class="spark pillar__spark ch__svg" viewBox="0 0 300 42" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="sp10w46klt sp10w46kld" style="--w:300px"><title id="sp10w46klt">Governance score history</title><desc id="sp10w46kld">3 observations, level from 53.2 to 53.2 of 100. Range 53.2 to 53.2.</desc><path class="spark__area" d="M1.00,21.00 L150.00,21.00 L299.00,21.00 L299.00,42.00 L1.00,42.00 Z"/><path class="spark__line" d="M1.00,21.00 L150.00,21.00 L299.00,21.00"/><circle class="spark__ring" cx="299.00" cy="21.00" r="4.6"/><circle class="spark__dot" cx="299.00" cy="21.00" r="2.4"/></svg>
+       <p class="pillar__foot">1/2 SCORED · 1 AWAITING BASELINE · 60TH PCTL</p>
+    </article><article class="pillar" data-dark="1" data-uncalibrated="1">
+      <div class="pillar__top">
+        <h3 class="pillar__name"><span aria-hidden="true">✱</span> Markets</h3>
+        <span class="pillar__score num">—</span>
+      </div>
+      <p class="pillar__blurb">Where money is posted against an opinion.</p>
+      <p class="pillar__dark">AWAITING BASELINE · 3 sources collecting, not yet scored</p>
+    </article></div>
+</section>
+
+<section class="sec" aria-labelledby="moves-h">
+  <h2 class="sec__h" id="moves-h">Recent moves</h2>
+  <ul class="moves"><li class="move"><a class="move__a" href="/doomcon/moves/2026-09-24T00-04-49Z.html">
+      <time class="move__time" datetime="2026-09-24T00:04:49.239Z">2026-09-24 00:04:49 UTC</time>
+      <span class="move__what">Score 40.8 → 40.7</span>
+      <span class="move__delta num">−0.1</span>
+    </a></li><li class="move"><a class="move__a" href="/doomcon/moves/2026-09-23T21-14-47Z.html">
+      <time class="move__time" datetime="2026-09-23T21:14:47.628Z">2026-09-23 21:14:47 UTC</time>
+      <span class="move__what">Score 40.9 → 40.8</span>
+      <span class="move__delta num">−0.0</span>
+    </a></li><li class="move"><a class="move__a" href="/doomcon/moves/2026-09-23T20-04-22Z.html">
+      <time class="move__time" datetime="2026-09-23T20:04:22.390Z">2026-09-23 20:04:22 UTC</time>
+      <span class="move__what">DOOMCON 4 → DOOMCON 4 · ROUTINE<span class="move__tag">level change</span></span>
+      <span class="move__delta num">±0.0</span>
+    </a></li></ul>
+       <p class="fresh__key"><a href="/doomcon/moves/">Full archive →</a></p>
+</section>
+
+<section class="sec" id="embed" aria-labelledby="embed-h">
+  <h2 class="sec__h" id="embed-h">Put the index on your site</h2>
+  <p class="lede">One iframe. No script, no tracking, no key. It renders light or dark to match
+     the page it sits in, and the number inside it is server-rendered too.</p>
+  <div class="snippet">&lt;iframe src=&quot;https://messagegabrielhere-lgtm.github.io/doomcon/embed.html&quot; width=&quot;320&quot; height=&quot;152&quot; style=&quot;border:0;max-width:100%&quot; loading=&quot;lazy&quot; title=&quot;DOOMCON — AI activity tempo&quot;&gt;&lt;/iframe&gt;</div>
+  <p class="fresh__key">Add <code>?theme=light</code>, <code>?theme=dark</code> or <code>?compact=1</code> to pin the look.
+     <a href="/doomcon/embed.html">Preview the widget →</a></p>
+</section>
+
+<section class="sec" id="api" aria-labelledby="api-h">
+  <h2 class="sec__h" id="api-h">Public JSON API</h2>
+  <ul class="apilist">
+    <li><code>https://messagegabrielhere-lgtm.github.io/doomcon/api/state.json</code> <span>current level, score, pillars and per-source health</span></li>
+    <li><code>https://messagegabrielhere-lgtm.github.io/doomcon/api/history.json</code> <span>every scored observation</span></li>
+    <li><code>https://messagegabrielhere-lgtm.github.io/doomcon/api/health.json</code> <span>per-source success, honestly reported</span></li>
+    <li><code>https://messagegabrielhere-lgtm.github.io/doomcon/api/receipts/&lt;id&gt;.json</code> <span>the hash-chained receipt behind one observation</span></li>
+  </ul>
+  <p class="fresh__key">Static files. No key, no rate limit, CC BY 4.0. Attribution: doomcon.watch.</p>
+</section>
+
+</main>
+<footer class="foot"><div class="wrap">
+  <p>DOOMCON measures how much is happening, not how bad it is. Levels describe observable activity tempo against this index’s own record. They are not a probability of harm.</p>
+  <p>Every value on this site is computed from public data by published code. Each observation
+     is written to a hash-chained receipt carrying its full inputs, so anyone can recompute the
+     number and get the same answer. Data and code: CC BY 4.0.</p>
+  <div class="foot__links">
+    <a href="/doomcon/methodology.html">Methodology</a>
+    <a href="/doomcon/api/state.json">JSON API</a>
+    <a href="/doomcon/embed.html">Embed</a>
+    <a href="/doomcon/feed.xml">RSS</a>
+    <a href="https://github.com/messagegabrielhere-lgtm/doomcon" rel="noopener">Source</a>
+  </div>
+</div></footer>
+<script type="application/json" id="dcmx-cfg">{"stateUrl":"/doomcon/api/state.json","newsUrl":"/doomcon/api/news.json","pollMs":60000,"generatedAt":"2026-09-24T00:04:49.239Z","score":40.7014,"decimals":1,"prevScore":40.8298,"level":4,"levelName":"ROUTINE","levelChanged":false,"since":"2026-09-23T21:14:47.628Z","newsAt":"2026-09-24T00:04:46.497Z","newsNewest":"2026-09-23T23:40:56.000Z","arrivalCap":8}</script>
+<script>(function(){
+var d=document,cfgEl=d.getElementById('dcmx-cfg');
+if(!cfgEl){console.error('DOOMCON motion: #dcmx-cfg missing.');return;}
+var C;try{C=JSON.parse(cfgEl.textContent);}catch(e){
+console.error('DOOMCON motion: #dcmx-cfg is not valid JSON.',e);return;}
+var reduce=!!(window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches);
+function q(s,r){return (r||d).querySelector(s);}
+function qa(s,r){return [].slice.call((r||d).querySelectorAll(s));}
+function p2(n){return n<10?'0'+n:''+n;}
+function clockZ(i){var x=new Date(i);return p2(x.getUTCHours())+':'+p2(x.getUTCMinutes())+'Z';}
+function stampUTC(i){return new Date(i).toISOString().replace('T',' ').slice(0,19)+' UTC';}
+
+/* numerals */
+var scoreEl=q('[data-dc-score]')||q('.score__val'),shown=C.score;
+function paint(v){if(scoreEl)scoreEl.textContent=v.toFixed(C.decimals);}
+function countTo(to,ms){
+ var from=shown;shown=to;
+ if(!scoreEl||reduce||from===to){paint(to);return;}
+ var t0=0;
+ requestAnimationFrame(function step(t){
+  if(!t0)t0=t;
+  var p=Math.min(1,(t-t0)/ms);
+  paint(from+(to-from)*(1-Math.pow(1-p,3)));
+  if(p<1)requestAnimationFrame(step);
+ });
+}
+if(scoreEl&&C.prevScore!==null&&C.prevScore!==C.score&&!reduce){
+ shown=C.prevScore;paint(C.prevScore);countTo(C.score,600);
+}
+var badge=q('[data-dc-level]')||q('.level__digit');
+if(badge&&C.levelChanged&&!reduce)badge.classList.add('dcmx-pulse');
+
+/* feed arrival */
+function arrive(n){
+ if(reduce)return;
+ for(var i=0;i<n.length&&i<C.arrivalCap;i++){
+  n[i].style.animationDelay=(i*40)+'ms';n[i].classList.add('dcmx-in');
+ }
+}
+/* TRAP: dcmx-in starts at opacity 0; late = blink out a visible row. */
+if(C.since&&d.readyState!=='complete'){
+ var since=Date.parse(C.since);
+ arrive(qa('.nfeed > .nrow').filter(function(li){
+  var t=li.querySelector('time[datetime]');
+  return t&&Date.parse(t.getAttribute('datetime'))>since;
+ }));
+}
+
+/* reel auto-advance */
+var vp=q('.reel__viewport'),rail=vp&&q('.reel__rail',vp),items=rail?qa('.reel__item',rail):[];
+var many=!!vp&&items.length>1,live=many&&vp.scrollWidth>vp.clientWidth;
+if(many&&!live)console.warn('DOOMCON motion: reel not scrollable; .reel__rail needs width:max-content.');
+if(live){
+ var dots=d.createElement('div'),timer=null,dead=false,raf=0;
+ dots.className='dcmx-dots';
+ dots.setAttribute('aria-label','Reel position');
+ items.forEach(function(it,i){
+  var b=d.createElement('button');
+  b.type='button';
+  b.setAttribute('aria-label','Card '+(i+1)+' of '+items.length);
+  b.setAttribute('aria-current',i===0?'true':'false');
+  b.addEventListener('click',function(){stop();go(i);});
+  dots.appendChild(b);
+ });
+ vp.parentNode.insertBefore(dots,vp.nextSibling);
+ function go(i){
+  vp.scrollTo({left:items[i].offsetLeft-items[0].offsetLeft,behavior:reduce?'auto':'smooth'});
+ }
+ function at(){
+  var x=vp.scrollLeft+items[0].offsetLeft,best=0,bd=Infinity,g;
+  for(var i=0;i<items.length;i++){g=Math.abs(items[i].offsetLeft-x);if(g<bd){bd=g;best=i;}}
+  return best;
+ }
+ vp.addEventListener('scroll',function(){
+  if(raf)return;
+  raf=requestAnimationFrame(function(){
+   raf=0;var c=at();
+   for(var i=0;i<dots.children.length;i++)dots.children[i].setAttribute('aria-current',i===c?'true':'false');
+  });
+ },{passive:true});
+ /* Permanent; never rearmed. 'scroll' is not a trigger. */
+ function stop(){dead=true;if(timer){clearInterval(timer);timer=null;}}
+ ['pointerdown','touchstart','wheel','keydown','focusin'].forEach(function(t){
+  vp.addEventListener(t,stop,{once:true,passive:true});
+  dots.addEventListener(t,stop,{once:true,passive:true});
+ });
+ if(!reduce)timer=setInterval(function(){
+  if(dead||d.hidden)return;
+  go((at()+1)%items.length);
+ },7000);
+}
+
+/* live refresh */
+var BACKOFF=[60000,120000,300000],fails=0,tid=null,waiting=false;
+var stateAt=C.generatedAt,newsAt=C.newsAt,newest=C.newsNewest,newsOff=!C.newsUrl,seen={};
+var noteEl=d.getElementById('dcmx-note');
+function plan(ms){if(tid)clearTimeout(tid);tid=setTimeout(run,ms);}
+function getJson(u){
+ var ac=new AbortController(),to=setTimeout(function(){ac.abort();},10000);
+ return fetch(u,{cache:'no-store',signal:ac.signal}).then(function(r){
+  clearTimeout(to);
+  if(r.status===404){var e=new Error('404');e.missing=true;throw e;}
+  if(!r.ok)throw new Error('HTTP '+r.status);
+  return r.json();
+ },function(e){clearTimeout(to);throw e;});
+}
+function flash(el){if(el&&!reduce){el.classList.remove('dcmx-flash');void el.offsetWidth;el.classList.add('dcmx-flash');}}
+function applyState(s){
+ if(!s||typeof s.generated_at!=='string'||typeof s.score!=='number'||!isFinite(s.score))
+  throw new Error('state.json has no usable generated_at/score');
+ /* unchanged -> not one DOM write. */
+ if(s.generated_at===stateAt)return;
+ stateAt=s.generated_at;
+ countTo(s.score,600);
+ var t=q('.hero .eyebrow time[datetime]');
+ if(t){t.setAttribute('datetime',s.generated_at);t.textContent=stampUTC(s.generated_at);flash(t);}
+ /* Bars, delta, receipt id are build-time: never repaint half. */
+ if(noteEl){
+  q('.dcmx-note__t',noteEl).textContent=stampUTC(s.generated_at);
+  q('.dcmx-note__x',noteEl).textContent=(s.level!==C.level)
+   ?('level is now DOOMCON '+s.level+' · '+s.level_name):'';
+  noteEl.hidden=false;
+ }
+}
+function arrivals(){
+ var ul=d.getElementById('dcmx-arrivals');
+ if(ul)return ul;
+ var feed=q('.nfeed');
+ if(!feed)return null;
+ var box=d.createElement('section');
+ box.className='dcmx-arr';
+ box.innerHTML='<p class="dcmx-arr__h">Arrived since this page loaded</p>'
+  +'<ol class="dcmx-arr__l" id="dcmx-arrivals"></ol>';
+ feed.parentNode.insertBefore(box,feed);
+ return d.getElementById('dcmx-arrivals');
+}
+/* Scheme test is a string compare, never a regex - see NO REGEX above.
+   Third-party feed text: createElement+textContent, never innerHTML. */
+function httpUrl(u){u=typeof u==='string'?u.toLowerCase():'';return u.indexOf('https://')===0||u.indexOf('http://')===0;}
+function row(it){
+ var li=d.createElement('li');
+ li.className='dcmx-arr__i';
+ if(it.pillar)li.setAttribute('data-pillar',it.pillar);
+ var t=d.createElement('time');
+ t.setAttribute('datetime',it.published_at);
+ t.textContent=clockZ(it.published_at);
+ var s=d.createElement('span');
+ s.className='dcmx-arr__s';
+ s.textContent=String(it.source||'');
+ var ok=httpUrl(it.url);
+ var h=d.createElement(ok?'a':'span');
+ if(ok){h.href=it.url;h.rel='noopener nofollow';}
+ h.textContent=String(it.title||'');
+ li.appendChild(t);li.appendChild(s);li.appendChild(h);
+ return li;
+}
+function applyNews(n){
+ if(!n||typeof n.generated_at!=='string'||!Array.isArray(n.items))
+  throw new Error('news.json has no usable generated_at/items');
+ if(n.generated_at===newsAt)return;
+ newsAt=n.generated_at;
+ var fresh=n.items.filter(function(it){
+  if(!it||typeof it.published_at!=='string'||seen[it.id])return false;
+  return !newest||Date.parse(it.published_at)>Date.parse(newest);
+ }).sort(function(a,b){return Date.parse(b.published_at)-Date.parse(a.published_at);})
+  .slice(0,C.arrivalCap);
+ if(!fresh.length)return;
+ var ul=arrivals();
+ if(!ul)return;
+ var added=[];
+ fresh.forEach(function(it){
+  seen[it.id]=1;
+  if(Date.parse(it.published_at)>Date.parse(newest||0))newest=it.published_at;
+  var li=row(it);
+  ul.insertBefore(li,ul.firstChild);
+  added.push(li);
+ });
+ arrive(added);
+}
+function run(){
+ if(d.hidden){waiting=true;return;}
+ waiting=false;
+ getJson(C.stateUrl).then(function(s){
+  applyState(s);
+  if(newsOff)return null;
+  return getJson(C.newsUrl).then(applyNews,function(e){
+   if(!e||!e.missing)throw e;
+   newsOff=true;
+   console.warn('DOOMCON motion: news 404 at '+C.newsUrl+'; build.mjs must write api/news.json.');
+  });
+ }).then(function(){fails=0;plan(C.pollMs);},function(e){
+  fails++;
+  console.warn('DOOMCON motion: refresh '+fails+'/3 failed: '+((e&&e.message)||e));
+  if(fails>=3){console.warn('DOOMCON motion: stopped after 3 failures.');return;}
+  plan(BACKOFF[Math.min(fails,BACKOFF.length-1)]);
+ });
+}
+/* Hidden tab: no timer, no request. */
+d.addEventListener('visibilitychange',function(){if(!d.hidden&&waiting)run();});
+plan(C.pollMs);
+})();</script>
+</body>
+</html>

@@ -1,0 +1,649 @@
+<!doctype html><html lang="en" data-theme="dark"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>hooks</title>
+<style>:root {
+  color-scheme: dark light;
+  --bg:        #0b0c0e;
+  --bg-raised: #131519;
+  --bg-sunken: #08090a;
+  --ink:       #e8eaee;
+  --ink-dim:   #9aa2ad;
+  --ink-faint: #6a717b;
+  --rule:      #23262c;
+  --rule-soft: #191c21;
+  --accent:    #ffb020;
+  --accent-ink:#0b0c0e;
+  --ok:        #5fd08a;
+  --stale:     #ffb020;
+  --dark-src:  #ff6b6b;
+  --scan:      rgba(255,255,255,0.016);
+  --wash:      rgba(232,234,238,0.042);
+  --wash-alt:  rgba(232,234,238,0.021);
+  --wash-live: rgba(255,176,32,0.115);
+  --fill:      rgba(255,176,32,0.150);
+  --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --sans: 'Inter Tight', system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+  --t-xs:   0.6875rem;
+  --t-sm:   0.8125rem;
+  --t-base: 1rem;
+  --t-md:   1.0625rem;
+  --t-lg:   1.25rem;
+  --t-xl:   1.5rem;
+  --s-1: 4px;  --s-2: 8px;  --s-3: 12px; --s-4: 16px;
+  --s-5: 24px; --s-6: 32px; --s-7: 48px; --s-8: 64px;
+  --gutter: 16px;
+  --measure: 66ch;
+  --radius: 3px;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg:        #faf9f6;
+    --bg-raised: #ffffff;
+    --bg-sunken: #f1efe9;
+    --ink:       #14161a;
+    --ink-dim:   #545a62;
+    --ink-faint: #838a93;
+    --rule:      #e0ddd5;
+    --rule-soft: #eeebe4;
+    --accent:    #9a5a00;
+    --accent-ink:#ffffff;
+    --ok:        #17714a;
+    --stale:     #8a5a00;
+    --dark-src:  #b3261e;
+    --scan:      rgba(0,0,0,0.012);
+    --wash:      rgba(20,22,26,0.046);
+    --wash-alt:  rgba(20,22,26,0.022);
+    --wash-live: rgba(154,90,0,0.105);
+    --fill:      rgba(154,90,0,0.130);
+  }
+}
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg:#faf9f6; --bg-raised:#ffffff; --bg-sunken:#f1efe9;
+  --ink:#14161a; --ink-dim:#545a62; --ink-faint:#838a93;
+  --rule:#e0ddd5; --rule-soft:#eeebe4;
+  --accent:#9a5a00; --accent-ink:#ffffff;
+  --ok:#17714a; --stale:#8a5a00; --dark-src:#b3261e; --scan:rgba(0,0,0,0.012);
+  --wash:rgba(20,22,26,0.046); --wash-alt:rgba(20,22,26,0.022);
+  --wash-live:rgba(154,90,0,0.105); --fill:rgba(154,90,0,0.130);
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg:#0b0c0e; --bg-raised:#131519; --bg-sunken:#08090a;
+  --ink:#e8eaee; --ink-dim:#9aa2ad; --ink-faint:#6a717b;
+  --rule:#23262c; --rule-soft:#191c21;
+  --accent:#ffb020; --accent-ink:#0b0c0e;
+  --ok:#5fd08a; --stale:#ffb020; --dark-src:#ff6b6b; --scan:rgba(255,255,255,0.016);
+  --wash:rgba(232,234,238,0.042); --wash-alt:rgba(232,234,238,0.021);
+  --wash-live:rgba(255,176,32,0.115); --fill:rgba(255,176,32,0.150);
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: var(--t-base);
+  line-height: 1.55;
+  font-synthesis-weight: none;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  font-variant-numeric: tabular-nums;
+}
+.prose p, .prose li, .lede, .foot p { font-variant-numeric: proportional-nums; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9;
+  background: repeating-linear-gradient(
+    to bottom, var(--scan) 0 1px, transparent 1px 3px
+  );
+}
+@media print { body::after { display: none; } }
+a { color: inherit; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+a:focus-visible, button:focus-visible {
+  outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px;
+}
+h1, h2, h3, h4 { font-weight: 600; line-height: 1.2; letter-spacing: -0.015em; margin: 0; }
+p { margin: 0 0 1em; }
+code, kbd, pre, .num, time { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.wrap { width: 100%; max-width: 940px; margin: 0 auto; padding: 0 var(--gutter); }
+.wrap--wide { max-width: 1140px; }
+.vh {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+.rule { border: 0; border-top: 1px solid var(--rule); margin: var(--s-6) 0; }
+.eyebrow {
+  font-family: var(--mono); font-size: var(--t-xs); font-weight: 500;
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-faint);
+  margin: 0 0 var(--s-2);
+}
+.layout-split { display: grid; gap: var(--s-6); align-items: start; }
+@media (min-width: 980px) {
+  .layout-split { grid-template-columns: minmax(0, 1fr) 330px; gap: var(--s-7); }
+  .layout-split__aside { position: sticky; top: var(--s-4); }
+}
+.masthead {
+  border-bottom: 1px solid var(--rule);
+  background: var(--bg-sunken);
+  position: relative; z-index: 10;
+}
+.masthead__in {
+  display: flex; align-items: baseline; gap: var(--s-3);
+  padding-top: var(--s-3); padding-bottom: var(--s-3); flex-wrap: wrap;
+}
+.wordmark {
+  font-family: var(--mono); font-weight: 700; font-size: 15px;
+  letter-spacing: 0.22em; text-decoration: none; color: var(--ink);
+}
+.masthead__tag {
+  font-size: var(--t-sm); color: var(--ink-faint); margin: 0;
+  flex: 1 1 auto; min-width: 0;
+}
+.nav { display: flex; gap: var(--s-4); flex-wrap: wrap; }
+.nav a {
+  font-family: var(--mono); font-size: var(--t-xs); letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--ink-dim); text-decoration: none;
+  padding: 2px 0; border-bottom: 1px solid transparent;
+  transition: color 120ms ease, border-color 120ms ease;
+}
+.nav a:hover { color: var(--ink); border-bottom-color: var(--accent); }
+.nav a[aria-current="page"] { color: var(--ink); border-bottom-color: var(--accent); }
+.degraded {
+  background: var(--bg-raised);
+  border-top: 2px solid var(--stale);
+  border-bottom: 1px solid var(--rule);
+  position: relative; z-index: 10;
+}
+.degraded__in { padding: var(--s-3) 0; display: flex; gap: 10px; align-items: flex-start; }
+.degraded__mark {
+  font-family: var(--mono); font-weight: 700; font-size: 12px;
+  letter-spacing: 0.1em; color: var(--stale); flex: 0 0 auto; padding-top: 1px;
+}
+.degraded__txt { font-size: var(--t-sm); margin: 0; color: var(--ink); }
+.degraded__txt strong { font-weight: 600; }
+.foot {
+  border-top: 1px solid var(--rule); margin-top: var(--s-8);
+  padding: var(--s-5) 0 var(--s-7); color: var(--ink-faint); font-size: 12.5px;
+}
+.foot p { margin: 0 0 var(--s-2); max-width: var(--measure); }
+.foot a { color: var(--ink-dim); }
+.foot__links {
+  display: flex; gap: var(--s-4); flex-wrap: wrap; margin-top: var(--s-3);
+  font-family: var(--mono); font-size: var(--t-xs); letter-spacing: 0.08em; text-transform: uppercase;
+}
+.hero { padding: var(--s-6) 0 var(--s-2); }
+.hero__grid { display: grid; gap: var(--s-5); }
+@media (min-width: 720px) {
+  .hero__grid { grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: var(--s-6); align-items: end; }
+}
+.level { display: flex; align-items: center; gap: var(--s-4); }
+.level__digit {
+  font-family: var(--mono); font-weight: 700;
+  font-size: clamp(5.5rem, 31vw, 9.5rem);
+  line-height: 0.8; letter-spacing: -0.065em;
+  color: var(--accent);
+  text-shadow: 0 0 38px color-mix(in srgb, var(--accent) 26%, transparent);
+}
+@media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) .level__digit { text-shadow: none; } }
+:root[data-theme="light"] .level__digit { text-shadow: none; }
+.level__meta { min-width: 0; }
+.level__name {
+  font-family: var(--mono); font-weight: 700;
+  font-size: clamp(1.05rem, 5.2vw, 1.55rem);
+  letter-spacing: 0.055em; margin: 0 0 var(--s-2); color: var(--ink);
+  overflow-wrap: anywhere;
+}
+.level__gloss { font-size: var(--t-sm); color: var(--ink-dim); margin: var(--s-2) 0 0; max-width: 34ch; }
+.bars { display: flex; gap: 4px; }
+.bars span {
+  width: 13px; height: 13px; border: 1.5px solid var(--accent);
+  border-radius: 1px; background: transparent;
+}
+.bars span[data-on="1"] { background: var(--accent); }
+.score { border-top: 1px solid var(--rule); padding-top: var(--s-4); }
+@media (min-width: 720px) {
+  .score { border-top: 0; border-left: 1px solid var(--rule); padding: 0 0 0 var(--s-6); }
+}
+.score__row { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.score__val {
+  font-family: var(--mono); font-weight: 700;
+  font-size: clamp(2.75rem, 13.5vw, 3.75rem); line-height: 1;
+  letter-spacing: -0.035em; color: var(--ink);
+}
+.score__of { font-family: var(--mono); font-size: var(--t-sm); color: var(--ink-faint); }
+.score__dir {
+  font-family: var(--mono); font-size: 12.5px; color: var(--ink-dim);
+  display: inline-flex; align-items: baseline; gap: 5px;
+}
+.score__dir b { font-weight: 700; color: var(--ink); }
+.hero__chart { margin-top: var(--s-4); }
+.hero__chart .ch__svg { margin-inline: auto; }
+.scale { margin-top: var(--s-4); }
+.scale__track {
+  position: relative; display: flex; height: 10px;
+  border: 1px solid var(--rule); border-radius: 2px;
+}
+.scale__track i { display: block; background: var(--rule-soft); border-right: 1px solid var(--rule); }
+.scale__track i:last-of-type { border-right: 0; }
+.scale__track i[data-live="1"] { background: var(--accent); }
+.scale__you {
+  position: absolute; top: -4px; bottom: -4px; width: 2px;
+  margin-left: -1px; background: var(--ink); border-radius: 1px;
+}
+.scale__marks {
+  position: relative; height: 15px; margin-top: var(--s-1);
+  font-family: var(--mono); font-size: 10px; color: var(--ink-faint); letter-spacing: 0.08em;
+}
+.scale__marks span { position: absolute; top: 0; transform: translateX(-50%); }
+.scale__marks span[data-edge="first"] { transform: none; }
+.scale__marks span[data-edge="last"]  { transform: translateX(-100%); }
+.stamp {
+  font-family: var(--mono); font-size: 12px; color: var(--ink-dim);
+  margin: var(--s-5) 0 0; letter-spacing: 0.02em;
+}
+.stamp b { color: var(--ink); font-weight: 500; }
+.disclaimer {
+  font-size: 12.5px; color: var(--ink-faint); margin: 10px 0 0; max-width: var(--measure);
+}
+.ch { margin: 0; padding: 0; }
+.ch__svg { display: block; width: 100%; max-width: var(--w, 100%); height: auto; }
+.ch__cap {
+  font-family: var(--mono); font-size: var(--t-xs); line-height: 1.5;
+  color: var(--ink-faint); margin: var(--s-2) 0 0; letter-spacing: 0.01em;
+}
+.ch text, .spark text {
+  font-family: var(--mono); fill: var(--ink-dim); font-variant-numeric: tabular-nums;
+}
+.ch-note { fill: var(--ink-dim); stroke: var(--bg); stroke-width: 3.5; paint-order: stroke fill; }
+.ch-note--dim { fill: var(--ink-faint); }
+.spark { display: block; }
+.spark__area { fill: var(--fill); }
+.spark__line { fill: none; stroke: var(--accent); stroke-width: 1.6; stroke-linejoin: round; stroke-linecap: round; }
+.spark__base { stroke: var(--rule); stroke-width: 1; }
+.spark__ref  { stroke: var(--ink-faint); stroke-width: 1; }
+.spark__reflabel { fill: var(--ink-faint); }
+.spark__ring { fill: var(--bg-raised); stroke: var(--accent); stroke-width: 1.4; }
+.spark__dot  { fill: var(--accent); }
+.spark__empty { fill: var(--ink-faint); font-size: 10px; }
+.ch-g-seg { fill: none; stroke: var(--rule); stroke-width: 14; }
+.ch-g-seg--live { stroke: var(--accent); stroke-width: 20; }
+.ch-g-tick { stroke: var(--rule); stroke-width: 1; }
+.ch-g-ticklabel { fill: var(--ink-faint); }
+.ch-g-mark { stroke: var(--ink); stroke-width: 3; stroke-linecap: butt; }
+.ch-g-markdot { fill: var(--ink); stroke: var(--bg); stroke-width: 1.2; }
+.ch-g-val { fill: var(--ink); font-weight: 700; letter-spacing: -0.03em; }
+.ch-g-of { fill: var(--ink-faint); letter-spacing: 0.16em; }
+.ch-g-band { fill: var(--ink-dim); font-weight: 700; letter-spacing: 0.06em; }
+.ch__svg--lg { display: none; }
+@media (min-width: 640px) {
+  .ch__svg--sm { display: none; }
+  .ch__svg--lg { display: block; }
+}
+.ch-band { fill: var(--wash-alt); }
+.ch-band--alt { fill: var(--wash); }
+.ch-band--live { fill: var(--wash-live); }
+.ch-bandl { fill: var(--ink-faint); letter-spacing: 0.09em; }
+.ch-bandl--live { fill: var(--ink); font-weight: 700; }
+.ch-frame { fill: none; stroke: var(--rule); stroke-width: 1; }
+.ch-axline { stroke: var(--rule); stroke-width: 1; }
+.ch-ax { fill: var(--ink-faint); letter-spacing: 0.04em; }
+.ch-halo { fill: none; stroke: var(--bg); stroke-width: 4.5; stroke-linejoin: round; stroke-linecap: round; }
+.ch-line { fill: none; stroke: var(--accent); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.ch-dot { fill: var(--accent); }
+.ch-ring { fill: var(--bg); stroke: var(--accent); stroke-width: 1.5; }
+.ch-val { fill: var(--ink); font-weight: 700; stroke: var(--bg); stroke-width: 3.5; paint-order: stroke fill; }
+.ch-guide { stroke: var(--accent); stroke-width: 1; stroke-dasharray: 3 4; }
+.ch-lvmark { stroke: var(--ink-faint); stroke-width: 1; stroke-dasharray: 2 4; }
+.ch-lvtext { fill: var(--ink-dim); }
+.ch-r-track { fill: var(--wash-alt); }
+.ch-r-bar { fill: var(--accent); }
+.ch-r-cap { stroke: var(--ink); stroke-width: 1.5; }
+.ch-r-none { fill: none; stroke: var(--ink-faint); stroke-width: 1; stroke-dasharray: 3 3; }
+.ch-r-nonet { fill: var(--ink-faint); letter-spacing: 0.05em; }
+.ch-r-name { fill: var(--ink); font-family: var(--sans); font-weight: 600; letter-spacing: -0.005em; }
+.ch-r-glyph { fill: var(--ink-dim); }
+.ch-r-val { fill: var(--ink); font-weight: 700; }
+.ch-r-val--none { fill: var(--ink-faint); font-weight: 400; }
+.ch-r-ref { stroke: var(--ink-faint); stroke-width: 1; stroke-dasharray: 2 4; }
+.ch-r-reflabel { fill: var(--ink-faint); letter-spacing: 0.06em; }
+.ch-d-rest { fill: var(--wash); }
+.ch-d-fill { fill: var(--fill); }
+.ch-d-curve { fill: none; stroke: var(--ink-dim); stroke-width: 1.25; }
+.ch-d-base { stroke: var(--rule); stroke-width: 1; }
+.ch-d-tick { stroke: var(--ink-faint); stroke-width: 1; }
+.ch-d-marker { stroke: var(--ink); stroke-width: 2; }
+.ch-d-caret { fill: var(--ink); }
+.ch-d-val { fill: var(--ink); font-weight: 700; stroke: var(--bg); stroke-width: 3; paint-order: stroke fill; }
+.ch-d-ax { fill: var(--ink-faint); letter-spacing: 0.12em; }
+.ch-d-ax--dim { opacity: 0.7; }
+.fresh { margin: var(--s-5) 0 0; }
+.fresh__strip {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(158px, 1fr));
+  gap: 6px; margin: 0; padding: 0; list-style: none;
+}
+.chip {
+  display: inline-flex; align-items: center; gap: 2px 6px; flex-wrap: wrap;
+  font-family: var(--mono); font-size: var(--t-xs); letter-spacing: 0.02em;
+  border: 1px solid var(--rule); border-radius: var(--radius);
+  padding: 4px 7px; background: var(--bg-raised); color: var(--ink-dim);
+  white-space: nowrap; overflow: hidden; min-width: 0; text-decoration: none;
+}
+.chip b { font-weight: 500; color: var(--ink); overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.chip__age { flex: 0 0 auto; color: var(--ink-faint); }
+.chip__dot { font-size: 10px; line-height: 1; }
+.chip[data-status="ok"]    .chip__dot { color: var(--ok); }
+.chip[data-status="stale"] .chip__dot { color: var(--stale); }
+.chip[data-status="dark"]  .chip__dot { color: var(--dark-src); }
+.chip[data-status="uncal"] .chip__dot { color: var(--ink-faint); }
+.chip[data-status="dark"]  { border-style: dashed; }
+.chip[data-status="uncal"] { border-style: dotted; }
+.fresh__key { font-size: 11.5px; color: var(--ink-faint); margin: var(--s-2) 0 0; font-family: var(--mono); line-height: 1.6; }
+.chip--sm { font-size: 10px; padding: 2px 5px; gap: 4px; }
+.chip--quiet { background: transparent; color: var(--ink-faint); }
+.chip--accent { border-color: var(--accent); color: var(--ink); }
+.chip--solid { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-weight: 700; }
+.chip--x::before, .chip--kalshi::before, .chip--polymarket::before,
+.chip--manifold::before, .chip--news::before, .chip--paper::before,
+.chip--gov::before, .chip--code::before {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 13px; height: 13px; flex: 0 0 13px;
+  border: 1px solid currentColor; border-radius: 2px;
+  font-size: 8.5px; font-weight: 700; line-height: 1;
+}
+.chip--x::before          { content: 'X'; }
+.chip--kalshi::before     { content: 'K'; }
+.chip--polymarket::before { content: 'P'; }
+.chip--manifold::before   { content: 'M'; }
+.chip--news::before       { content: 'N'; }
+.chip--paper::before      { content: '\25b2'; border: 0; font-size: 10px; }
+.chip--gov::before        { content: '\25c6'; border: 0; font-size: 10px; }
+.chip--code::before       { content: '\25a0'; border: 0; font-size: 10px; }
+.pillar-tag {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.09em; text-transform: uppercase;
+  color: var(--ink-dim); border: 1px solid var(--rule); border-radius: 2px;
+  padding: 1px 5px 1px 4px; white-space: nowrap; text-decoration: none;
+}
+.pillar-tag::before { font-size: 9px; line-height: 1; color: var(--ink-faint); }
+.pillar-tag[data-pillar="capability"]::before { content: '\25b2'; }
+.pillar-tag[data-pillar="compute"]::before    { content: '\25a0'; }
+.pillar-tag[data-pillar="attention"]::before  { content: '\25cf'; }
+.pillar-tag[data-pillar="governance"]::before { content: '\25c6'; }
+.pillar-tag[data-pillar="markets"]::before    { content: '\2731'; }
+.feed { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule); }
+.feed__row {
+  display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--s-1) 10px;
+  padding: 10px 2px; border-bottom: 1px solid var(--rule-soft);
+  transition: background-color 120ms ease;
+}
+.feed__row:hover { background: var(--bg-raised); }
+.feed__row a { text-decoration: none; color: inherit; }
+.feed__row a:hover .feed__title, .feed__row a:hover.feed__title { text-decoration: underline; }
+.feed__row--new { border-left: 2px solid var(--accent); padding-left: var(--s-2); }
+.feed__row--new .feed__time::before { content: '\203a '; color: var(--accent); font-weight: 700; }
+.feed__time { grid-column: 1; grid-row: 1; font-family: var(--mono); font-size: 10.5px; color: var(--ink-faint); white-space: nowrap; }
+.feed__meta { grid-column: 2; grid-row: 1; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; min-width: 0; }
+.feed__src { font-family: var(--mono); font-size: 10.5px; color: var(--ink-faint); overflow: hidden; text-overflow: ellipsis; }
+.feed__title { grid-column: 1 / -1; font-size: 13.5px; line-height: 1.4; margin: 0; overflow-wrap: anywhere; }
+.feed__body { grid-column: 1 / -1; font-size: 12px; color: var(--ink-faint); margin: 0; line-height: 1.45; }
+@media (min-width: 420px) {
+  .feed__title { grid-column: 2; }
+  .feed__body { grid-column: 2; }
+}
+.feed__odds {
+  font-family: var(--mono); font-size: 11.5px; font-weight: 700; color: var(--ink);
+  border: 1px solid var(--rule); border-radius: 2px; padding: 0 4px; white-space: nowrap;
+}
+.feed__odds small { font-weight: 400; color: var(--ink-faint); font-size: 9.5px; letter-spacing: 0.06em; }
+.feed__move { font-family: var(--mono); font-size: 11.5px; font-weight: 700; white-space: nowrap; }
+.feed__move[data-dir="up"]::before   { content: '\25b2 '; font-size: 8px; }
+.feed__move[data-dir="down"]::before { content: '\25bc '; font-size: 8px; }
+.feed__move[data-dir="flat"]::before { content: '\25c6 '; font-size: 8px; }
+.feed__head { display: flex; align-items: center; gap: var(--s-2); flex-wrap: wrap; margin: 0 0 var(--s-3); }
+.feed__live {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-faint);
+}
+.feed__live::before {
+  content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--accent);
+  animation: dc-pulse 2.6s ease-in-out infinite;
+}
+@keyframes dc-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+.feed__empty { font-family: var(--mono); font-size: 11.5px; color: var(--ink-faint); padding: var(--s-4) 0; margin: 0; }
+.feed__more { font-family: var(--mono); font-size: var(--t-xs); letter-spacing: 0.06em; margin: var(--s-3) 0 0; }
+.reel { margin: 0 calc(var(--gutter) * -1); padding: 0; }
+.reel__hint {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--ink-faint); margin: 0 0 var(--s-2); padding: 0 var(--gutter);
+}
+.reel__rail {
+  display: flex; gap: 10px; list-style: none; margin: 0;
+  padding: 2px var(--gutter) var(--s-3);
+  overflow-x: auto; overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory; scroll-padding-left: var(--gutter);
+  scrollbar-width: thin; scrollbar-color: var(--rule) transparent;
+}
+.reel__rail::-webkit-scrollbar { height: 6px; }
+.reel__rail::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 3px; }
+.reel__card {
+  flex: 0 0 79%; max-width: 300px; scroll-snap-align: start;
+  display: flex; flex-direction: column; gap: var(--s-2);
+  background: var(--bg-raised); border: 1px solid var(--rule); border-radius: var(--radius);
+  padding: var(--s-3) 13px; min-height: 148px;
+  text-decoration: none; color: inherit;
+  transition: border-color 120ms ease;
+}
+@media (min-width: 620px) { .reel__card { flex-basis: 268px; } }
+.reel__card:hover { border-color: var(--accent); }
+.reel__kicker {
+  display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--ink-faint);
+}
+.reel__title { font-size: 14px; font-weight: 600; line-height: 1.32; margin: 0; overflow-wrap: anywhere; }
+.reel__body { font-size: 12px; color: var(--ink-dim); margin: 0; line-height: 1.45; }
+.reel__num { font-family: var(--mono); font-size: var(--t-lg); font-weight: 700; letter-spacing: -0.025em; color: var(--ink); }
+.reel__foot {
+  margin-top: auto; padding-top: var(--s-2); border-top: 1px solid var(--rule-soft);
+  display: flex; align-items: baseline; justify-content: space-between; gap: var(--s-2);
+  font-family: var(--mono); font-size: 10.5px; color: var(--ink-faint);
+}
+.pillars { display: grid; gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: var(--radius); overflow: hidden; }
+@media (min-width: 620px) { .pillars { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 900px) { .pillars { grid-template-columns: 1fr 1fr 1fr; } }
+.pillar { background: var(--bg-raised); padding: var(--s-4) 15px 13px; display: flex; flex-direction: column; gap: var(--s-2); }
+.pillar__top { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+.pillar__name { font-size: 14px; font-weight: 600; margin: 0; }
+.pillar__score { font-family: var(--mono); font-size: var(--t-lg); font-weight: 700; letter-spacing: -0.02em; }
+.pillar__blurb { font-size: 12px; color: var(--ink-faint); margin: 0; }
+.pillar__spark { display: block; width: 100%; height: 30px; }
+.pillar__spark.ch__svg { height: auto; }
+.pillar__foot { font-family: var(--mono); font-size: 10.5px; color: var(--ink-faint); letter-spacing: 0.04em; }
+.pillar[data-dark="1"] { background: var(--bg-sunken); }
+.pillar[data-dark="1"] .pillar__score { color: var(--ink-faint); }
+.pillar__dark {
+  font-family: var(--mono); font-size: var(--t-xs); color: var(--dark-src);
+  border: 1px dashed currentColor; border-radius: 2px; padding: 3px 6px; align-self: flex-start;
+}
+.pillar[data-uncalibrated="1"] .pillar__dark { color: var(--ink-faint); border-style: dotted; }
+.moves { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule); }
+.move { border-bottom: 1px solid var(--rule); }
+.move__a {
+  display: grid; gap: 2px 14px; padding: var(--s-3) 2px; text-decoration: none; color: inherit;
+  grid-template-columns: auto 1fr auto; align-items: baseline;
+  transition: background-color 120ms ease;
+}
+.move__a:hover { background: var(--bg-raised); }
+.move__time { font-family: var(--mono); font-size: 11.5px; color: var(--ink-faint); grid-column: 1; }
+.move__what { font-size: 14px; grid-column: 1 / -1; }
+@media (min-width: 560px) { .move__what { grid-column: 2; } }
+.move__delta { font-family: var(--mono); font-size: var(--t-sm); font-weight: 700; grid-column: 3; grid-row: 1; text-align: right; }
+.move__tag {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+  border: 1px solid var(--accent); color: var(--accent); border-radius: 2px; padding: 1px 5px; margin-left: var(--s-2);
+}
+.movehead { display: grid; gap: var(--s-4); margin-bottom: var(--s-2); }
+.movehead__nums { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; font-family: var(--mono); }
+.movehead__from, .movehead__to { font-size: 2rem; font-weight: 700; letter-spacing: -0.03em; }
+.movehead__from { color: var(--ink-faint); }
+.movehead__to { color: var(--ink); }
+.movehead__arrow { color: var(--ink-faint); font-size: 1.25rem; }
+.movehead__delta { font-size: 1rem; font-weight: 700; color: var(--accent); }
+.kv { border-top: 1px solid var(--rule); margin: var(--s-5) 0 0; }
+.kv__row { display: grid; grid-template-columns: 1fr; gap: 0 18px; border-bottom: 1px solid var(--rule); padding: 9px 0; }
+@media (min-width: 560px) { .kv__row { grid-template-columns: 180px 1fr; } }
+.kv__k { font-family: var(--mono); font-size: var(--t-xs); letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); }
+.kv__v { font-size: 14px; overflow-wrap: anywhere; }
+.kv__v .num, .kv__v code { font-size: 12.5px; }
+.srcs { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.srcs li { display: flex; gap: var(--s-2); align-items: baseline; font-size: var(--t-sm); flex-wrap: wrap; }
+.srcs .num { font-family: var(--mono); font-size: 12.5px; color: var(--ink-dim); }
+.hash { font-family: var(--mono); font-size: 11.5px; color: var(--ink-dim); overflow-wrap: anywhere; display: block; }
+.prose { max-width: var(--measure); font-size: var(--t-base); }
+.prose > h1 { font-size: clamp(1.7rem, 7vw, 2.3rem); margin: 0 0 14px; letter-spacing: -0.025em; }
+.prose > h2 { font-size: var(--t-xl); margin: var(--s-7) 0 10px; letter-spacing: -0.02em; }
+.prose > h3 { font-size: var(--t-md); margin: var(--s-5) 0 var(--s-2); }
+.prose > h4 { font-size: 0.95rem; margin: var(--s-5) 0 6px; color: var(--ink-dim); }
+.prose ul, .prose ol { margin: 0 0 1em; padding-left: 1.25em; }
+.prose li { margin: 0 0 0.4em; }
+.prose blockquote {
+  margin: 1.2em 0; padding: 2px 0 2px var(--s-4);
+  border-left: 2px solid var(--rule); color: var(--ink-dim);
+}
+.prose pre {
+  background: var(--bg-sunken); border: 1px solid var(--rule); border-radius: var(--radius);
+  padding: var(--s-3) 14px; overflow-x: auto; font-size: 12.5px; line-height: 1.5; margin: 0 0 1.2em;
+}
+.prose :not(pre) > code {
+  background: var(--bg-raised); border: 1px solid var(--rule); border-radius: 2px;
+  padding: 1px 4px; font-size: 0.87em;
+}
+.prose table { width: 100%; border-collapse: collapse; margin: 0 0 1.4em; font-size: 13.5px; display: block; overflow-x: auto; }
+.prose th, .prose td { text-align: left; padding: 7px 10px 7px 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
+.prose th { font-family: var(--mono); font-size: var(--t-xs); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-faint); font-weight: 500; }
+.prose h2 a.anchor, .prose h3 a.anchor { color: var(--ink-faint); text-decoration: none; font-weight: 400; margin-left: 6px; opacity: 0; }
+.prose h2:hover a.anchor, .prose h3:hover a.anchor { opacity: 1; }
+.lede { font-size: var(--t-md); color: var(--ink-dim); max-width: var(--measure); margin: 0 0 var(--s-5); }
+.tl { list-style: none; margin: 0; padding: 0; border-left: 1px solid var(--rule); }
+.tl__item { position: relative; padding: 0 0 var(--s-5) 20px; }
+.tl__item::before {
+  content: ''; position: absolute; left: -4px; top: var(--s-2);
+  width: 7px; height: 7px; border-radius: 50%; background: var(--accent);
+}
+.tl__date { font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.08em; color: var(--accent); display: block; margin-bottom: 3px; }
+.tl__h { font-size: 1.02rem; margin: 0 0 5px; }
+.tl__b { font-size: 14.5px; color: var(--ink-dim); margin: 0 0 6px; max-width: var(--measure); }
+.tl__src { font-family: var(--mono); font-size: 11.5px; }
+.tl__src a { color: var(--ink-faint); }
+.tl__src a:hover { color: var(--ink); }
+.sec { margin: var(--s-7) 0 0; }
+@media (min-width: 720px) { .sec { margin-top: var(--s-8); } }
+.sec__h {
+  display: flex; align-items: center; gap: var(--s-3);
+  font-family: var(--mono); font-size: var(--t-xs); letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--ink-faint); margin: 0 0 var(--s-3); font-weight: 500;
+}
+.sec__h::after { content: ''; flex: 1 1 auto; height: 1px; background: var(--rule); }
+.snippet {
+  background: var(--bg-sunken); border: 1px solid var(--rule); border-radius: var(--radius);
+  padding: 11px 13px; font-family: var(--mono); font-size: 11.5px; line-height: 1.5;
+  overflow-x: auto; white-space: pre; color: var(--ink-dim); margin: 0 0 10px;
+}
+.apilist { list-style: none; margin: 0; padding: 0; display: grid; gap: 7px; }
+.apilist code { font-size: 12px; }
+.apilist span { color: var(--ink-faint); font-size: 12.5px; }
+</style></head><body><main class="wrap">
+<h2 class="sec__h">Hero chart</h2>
+<figure class="ch ch--history"><svg class="ch__svg ch__svg--sm" viewBox="0 0 356 250" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="ih1elwyarts ih1elwyards" style="--w:356px"><title id="ih1elwyarts">DOOMCON composite score over the last 7 observations</title><desc id="ih1elwyards">7 observations from 2026-09-21 to 2026-09-22. Range 40.9 to 62.1 of 100. Latest 47.6, in the ROUTINE band (35–54). Background bands, bottom to top, are DORMANT 0 to 34, ROUTINE 35 to 54, ELEVATED 55 to 69, ACCELERATED 70 to 84, UNPRECEDENTED 85 to 100.</desc><rect class="ch-band" x="30.00" y="147.20" width="316.00" height="72.80"/><text class="ch-bandl" x="35.00" y="158.20" font-size="8.5">DORMANT</text><rect class="ch-band ch-band--live" x="30.00" y="105.60" width="316.00" height="41.60"/><text class="ch-bandl ch-bandl--live" x="35.00" y="116.60" font-size="8.5">▸ ROUTINE</text><rect class="ch-band" x="30.00" y="74.40" width="316.00" height="31.20"/><text class="ch-bandl" x="35.00" y="85.40" font-size="8.5">ELEVATED</text><rect class="ch-band ch-band--alt" x="30.00" y="43.20" width="316.00" height="31.20"/><text class="ch-bandl" x="35.00" y="54.20" font-size="8.5">ACCELERATED</text><rect class="ch-band" x="30.00" y="12.00" width="316.00" height="31.20"/><text class="ch-bandl" x="35.00" y="23.00" font-size="8.5">UNPRECEDENTED</text><line class="ch-axline" x1="26.00" y1="220.00" x2="30.00" y2="220.00"/><text class="ch-ax" x="24.00" y="223.32" text-anchor="end" font-size="9.5">0</text><line class="ch-axline" x1="26.00" y1="147.20" x2="30.00" y2="147.20"/><text class="ch-ax" x="24.00" y="150.52" text-anchor="end" font-size="9.5">35</text><line class="ch-axline" x1="26.00" y1="105.60" x2="30.00" y2="105.60"/><text class="ch-ax" x="24.00" y="108.92" text-anchor="end" font-size="9.5">55</text><line class="ch-axline" x1="26.00" y1="74.40" x2="30.00" y2="74.40"/><text class="ch-ax" x="24.00" y="77.73" text-anchor="end" font-size="9.5">70</text><line class="ch-axline" x1="26.00" y1="43.20" x2="30.00" y2="43.20"/><text class="ch-ax" x="24.00" y="46.53" text-anchor="end" font-size="9.5">85</text><line class="ch-axline" x1="26.00" y1="12.00" x2="30.00" y2="12.00"/><text class="ch-ax" x="24.00" y="15.32" text-anchor="end" font-size="9.5">100</text><rect class="ch-frame" x="30.00" y="12.00" width="316.00" height="208.00"/><line class="ch-lvmark" x1="135.33" y1="205.00" x2="135.33" y2="220.00"/><text class="ch-lvtext" x="135.33" y="201.00" text-anchor="middle" font-size="9.5">△3</text><line class="ch-lvmark" x1="293.33" y1="205.00" x2="293.33" y2="220.00"/><text class="ch-lvtext" x="293.33" y="201.00" text-anchor="middle" font-size="9.5">△4</text><path class="ch-halo" d="M30.00,134.93 L82.67,121.82 L135.33,104.35 L188.00,90.83 L240.67,98.53 L293.33,111.84 L346.00,120.99"/><path class="ch-line" d="M30.00,134.93 L82.67,121.82 L135.33,104.35 L188.00,90.83 L240.67,98.53 L293.33,111.84 L346.00,120.99"/><circle class="ch-ring" cx="346.00" cy="120.99" r="6.5"/><circle class="ch-dot" cx="346.00" cy="120.99" r="3.2"/><text class="ch-val" x="333.00" y="111.99" text-anchor="end" font-size="12">47.6</text><text class="ch-ax" x="30.00" y="237.50" text-anchor="start" font-size="9.5">09-21</text><text class="ch-ax" x="346.00" y="237.50" text-anchor="end" font-size="9.5">09-22</text></svg><svg class="ch__svg ch__svg--lg" viewBox="0 0 720 300" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="ih1elwyartl ih1elwyardl" style="--w:720px"><title id="ih1elwyartl">DOOMCON composite score over the last 7 observations</title><desc id="ih1elwyardl">7 observations from 2026-09-21 to 2026-09-22. Range 40.9 to 62.1 of 100. Latest 47.6, in the ROUTINE band (35–54). Background bands, bottom to top, are DORMANT 0 to 34, ROUTINE 35 to 54, ELEVATED 55 to 69, ACCELERATED 70 to 84, UNPRECEDENTED 85 to 100.</desc><rect class="ch-band" x="38.00" y="177.80" width="668.00" height="88.20"/><text class="ch-bandl" x="43.00" y="190.30" font-size="10">DORMANT 0–34</text><rect class="ch-band ch-band--live" x="38.00" y="127.40" width="668.00" height="50.40"/><text class="ch-bandl ch-bandl--live" x="43.00" y="139.90" font-size="10">▸ ROUTINE 35–54 · NOW</text><rect class="ch-band" x="38.00" y="89.60" width="668.00" height="37.80"/><text class="ch-bandl" x="43.00" y="102.10" font-size="10">ELEVATED 55–69</text><rect class="ch-band ch-band--alt" x="38.00" y="51.80" width="668.00" height="37.80"/><text class="ch-bandl" x="43.00" y="64.30" font-size="10">ACCELERATED 70–84</text><rect class="ch-band" x="38.00" y="14.00" width="668.00" height="37.80"/><text class="ch-bandl" x="43.00" y="26.50" font-size="10">UNPRECEDENTED 85–100</text><line class="ch-axline" x1="34.00" y1="266.00" x2="38.00" y2="266.00"/><text class="ch-ax" x="32.00" y="269.85" text-anchor="end" font-size="11">0</text><line class="ch-axline" x1="34.00" y1="177.80" x2="38.00" y2="177.80"/><text class="ch-ax" x="32.00" y="181.65" text-anchor="end" font-size="11">35</text><line class="ch-axline" x1="34.00" y1="127.40" x2="38.00" y2="127.40"/><text class="ch-ax" x="32.00" y="131.25" text-anchor="end" font-size="11">55</text><line class="ch-axline" x1="34.00" y1="89.60" x2="38.00" y2="89.60"/><text class="ch-ax" x="32.00" y="93.45" text-anchor="end" font-size="11">70</text><line class="ch-axline" x1="34.00" y1="51.80" x2="38.00" y2="51.80"/><text class="ch-ax" x="32.00" y="55.65" text-anchor="end" font-size="11">85</text><line class="ch-axline" x1="34.00" y1="14.00" x2="38.00" y2="14.00"/><text class="ch-ax" x="32.00" y="17.85" text-anchor="end" font-size="11">100</text><rect class="ch-frame" x="38.00" y="14.00" width="668.00" height="252.00"/><line class="ch-lvmark" x1="260.67" y1="251.00" x2="260.67" y2="266.00"/><text class="ch-lvtext" x="260.67" y="247.00" text-anchor="middle" font-size="11">△3</text><line class="ch-lvmark" x1="594.67" y1="251.00" x2="594.67" y2="266.00"/><text class="ch-lvtext" x="594.67" y="247.00" text-anchor="middle" font-size="11">△4</text><path class="ch-halo" d="M38.00,162.93 L149.33,147.06 L260.67,125.89 L372.00,109.51 L483.33,118.83 L594.67,134.96 L706.00,146.05"/><path class="ch-line" d="M38.00,162.93 L149.33,147.06 L260.67,125.89 L372.00,109.51 L483.33,118.83 L594.67,134.96 L706.00,146.05"/><circle class="ch-ring" cx="706.00" cy="146.05" r="6.5"/><circle class="ch-dot" cx="706.00" cy="146.05" r="3.2"/><text class="ch-val" x="693.00" y="137.05" text-anchor="end" font-size="13.5">47.6</text><text class="ch-ax" x="38.00" y="285.00" text-anchor="start" font-size="11">09-21 00:00Z</text><text class="ch-ax" x="260.67" y="285.00" text-anchor="middle" font-size="11">09-21 12:00Z</text><text class="ch-ax" x="483.33" y="285.00" text-anchor="middle" font-size="11">09-22 00:00Z</text><text class="ch-ax" x="706.00" y="285.00" text-anchor="end" font-size="11">09-22 12:00Z</text></svg><figcaption class="ch__cap">7 observations · 2026-09-21 to 2026-09-22 · range 40.9–62.1 · now 47.6 in ROUTINE 35–54</figcaption></figure>
+<h2 class="sec__h">Gauge</h2><figure class="ch ch--gauge"><svg class="ch__svg ch__svg--gauge" viewBox="0 0 320 192" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="ggay58c6t ggay58c6d" style="--w:320px"><title id="ggay58c6t">DOOMCON composite score 47.6 of 100</title><desc id="ggay58c6d">A 0 to 100 arc divided into the five level bands. The needle points at 47.6, which falls in ROUTINE, 35–54, level 4. Band boundaries are marked at 0, 35, 55, 70, 85 and 100.</desc><path class="ch-g-seg" d="M56.00,150.00 A104,104 0 0 1 110.54,58.52"/><path class="ch-g-seg ch-g-seg--live" d="M115.06,56.21 A104,104 0 0 1 173.75,46.91"/><path class="ch-g-seg" d="M178.77,47.71 A104,104 0 0 1 219.06,64.39"/><path class="ch-g-seg" d="M223.17,67.38 A104,104 0 0 1 251.48,100.54"/><path class="ch-g-seg" d="M253.79,105.06 A104,104 0 0 1 264.00,150.00"/><line class="ch-g-tick" x1="34.00" y1="150.00" x2="30.00" y2="150.00"/><text class="ch-g-ticklabel" x="23.00" y="153.00" text-anchor="start" font-size="9">0</text><line class="ch-g-tick" x1="102.80" y1="37.73" x2="100.98" y2="34.17"/><text class="ch-g-ticklabel" x="97.80" y="30.93" text-anchor="middle" font-size="9">35</text><line class="ch-g-tick" x1="179.71" y1="25.55" x2="180.34" y2="21.60"/><text class="ch-g-ticklabel" x="181.43" y="17.69" text-anchor="middle" font-size="9">55</text><line class="ch-g-tick" x1="234.06" y1="48.06" x2="236.41" y2="44.83"/><text class="ch-g-ticklabel" x="240.53" y="42.16" text-anchor="middle" font-size="9">70</text><line class="ch-g-tick" x1="272.27" y1="92.80" x2="275.83" y2="90.98"/><text class="ch-g-ticklabel" x="282.07" y="90.80" text-anchor="middle" font-size="9">85</text><line class="ch-g-tick" x1="286.00" y1="150.00" x2="290.00" y2="150.00"/><text class="ch-g-ticklabel" x="297.00" y="153.00" text-anchor="end" font-size="9">100</text><line class="ch-g-mark" x1="153.30" y1="61.25" x2="151.04" y2="31.34"/><circle class="ch-g-markdot" cx="152.17" cy="46.30" r="3.4"/><text class="ch-g-val" x="160.00" y="118.00" text-anchor="middle" font-size="40">47.6</text><text class="ch-g-of" x="160.00" y="133.00" text-anchor="middle" font-size="9.5">OF 100</text><text class="ch-g-band" x="160.00" y="174.00" text-anchor="middle" font-size="11">ROUTINE · 35–54</text></svg><figcaption class="ch__cap">47.6 of 100 — DOOMCON 4, ROUTINE (35–54).</figcaption></figure>
+<h2 class="sec__h">Pillar ranking</h2><figure class="ch ch--rank"><svg class="ch__svg ch__svg--rank ch__svg--sm" viewBox="0 0 352 169" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="pr685pquts pr685pquds" style="--w:352px"><title id="pr685pquts">The five pillars, ranked by score</title><desc id="pr685pquds">Ranked loudest to quietest: Capability 71.2, Governance 53.2, Compute &amp; Capital 50.3, Attention 41.2. Not scored: Markets (awaiting baseline). Each bar is linear in score from 0 to 100; the vertical line marks 50, the median of the frozen reference distribution.</desc><text class="ch-r-reflabel" x="204.00" y="11.00" text-anchor="middle" font-size="8.5">50 · MEDIAN</text><line class="ch-r-ref" x1="204.00" y1="14.00" x2="204.00" y2="153.00"/><text class="ch-r-glyph" x="2.00" y="35.50" text-anchor="start" font-size="9.5">▲</text><text class="ch-r-name" x="14.00" y="35.50" text-anchor="start" font-size="10.5">Capability</text><rect class="ch-r-track" x="92.00" y="26.00" width="224.00" height="11"/><rect class="ch-r-bar" x="92.00" y="26.00" width="159.49" height="11"/><line class="ch-r-cap" x1="251.49" y1="24.00" x2="251.49" y2="39.00"/><text class="ch-r-val" x="350.00" y="35.50" text-anchor="end" font-size="10.5">71.2</text><text class="ch-r-glyph" x="2.00" y="62.50" text-anchor="start" font-size="9.5">◆</text><text class="ch-r-name" x="14.00" y="62.50" text-anchor="start" font-size="10.5">Governance</text><rect class="ch-r-track" x="92.00" y="53.00" width="224.00" height="11"/><rect class="ch-r-bar" x="92.00" y="53.00" width="119.17" height="11"/><line class="ch-r-cap" x1="211.17" y1="51.00" x2="211.17" y2="66.00"/><text class="ch-r-val" x="350.00" y="62.50" text-anchor="end" font-size="10.5">53.2</text><text class="ch-r-glyph" x="2.00" y="89.50" text-anchor="start" font-size="9.5">■</text><text class="ch-r-name" x="14.00" y="89.50" text-anchor="start" font-size="10.5">Compute</text><rect class="ch-r-track" x="92.00" y="80.00" width="224.00" height="11"/><rect class="ch-r-bar" x="92.00" y="80.00" width="112.67" height="11"/><line class="ch-r-cap" x1="204.67" y1="78.00" x2="204.67" y2="93.00"/><text class="ch-r-val" x="350.00" y="89.50" text-anchor="end" font-size="10.5">50.3</text><text class="ch-r-glyph" x="2.00" y="116.50" text-anchor="start" font-size="9.5">●</text><text class="ch-r-name" x="14.00" y="116.50" text-anchor="start" font-size="10.5">Attention</text><rect class="ch-r-track" x="92.00" y="107.00" width="224.00" height="11"/><rect class="ch-r-bar" x="92.00" y="107.00" width="92.29" height="11"/><line class="ch-r-cap" x1="184.29" y1="105.00" x2="184.29" y2="120.00"/><text class="ch-r-val" x="350.00" y="116.50" text-anchor="end" font-size="10.5">41.2</text><text class="ch-r-glyph" x="2.00" y="143.50" text-anchor="start" font-size="9.5">✱</text><text class="ch-r-name" x="14.00" y="143.50" text-anchor="start" font-size="10.5">Markets</text><rect class="ch-r-track" x="92.00" y="134.00" width="224.00" height="11"/><rect class="ch-r-none" x="92.00" y="134.00" width="224.00" height="11"/><text class="ch-r-nonet" x="98.00" y="143.00" text-anchor="start" font-size="8.5">AWAITING BASELINE</text><text class="ch-r-val ch-r-val--none" x="350.00" y="143.50" text-anchor="end" font-size="10.5">—</text></svg><svg class="ch__svg ch__svg--rank ch__svg--lg" viewBox="0 0 560 190" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="pr685pqutl pr685pqudl" style="--w:560px"><title id="pr685pqutl">The five pillars, ranked by score</title><desc id="pr685pqudl">Ranked loudest to quietest: Capability 71.2, Governance 53.2, Compute &amp; Capital 50.3, Attention 41.2. Not scored: Markets (awaiting baseline). Each bar is linear in score from 0 to 100; the vertical line marks 50, the median of the frozen reference distribution.</desc><text class="ch-r-reflabel" x="322.00" y="13.00" text-anchor="middle" font-size="9">50 · reference median</text><line class="ch-r-ref" x1="322.00" y1="16.00" x2="322.00" y2="170.00"/><text class="ch-r-glyph" x="2.00" y="39.00" text-anchor="start" font-size="10.5">▲</text><text class="ch-r-name" x="16.00" y="39.00" text-anchor="start" font-size="11.5">Capability</text><rect class="ch-r-track" x="130.00" y="29.00" width="384.00" height="12"/><rect class="ch-r-bar" x="130.00" y="29.00" width="273.41" height="12"/><line class="ch-r-cap" x1="403.41" y1="27.00" x2="403.41" y2="43.00"/><text class="ch-r-val" x="558.00" y="39.00" text-anchor="end" font-size="11.5">71.2</text><text class="ch-r-glyph" x="2.00" y="69.00" text-anchor="start" font-size="10.5">◆</text><text class="ch-r-name" x="16.00" y="69.00" text-anchor="start" font-size="11.5">Governance</text><rect class="ch-r-track" x="130.00" y="59.00" width="384.00" height="12"/><rect class="ch-r-bar" x="130.00" y="59.00" width="204.29" height="12"/><line class="ch-r-cap" x1="334.29" y1="57.00" x2="334.29" y2="73.00"/><text class="ch-r-val" x="558.00" y="69.00" text-anchor="end" font-size="11.5">53.2</text><text class="ch-r-glyph" x="2.00" y="99.00" text-anchor="start" font-size="10.5">■</text><text class="ch-r-name" x="16.00" y="99.00" text-anchor="start" font-size="11.5">Compute &amp; Capital</text><rect class="ch-r-track" x="130.00" y="89.00" width="384.00" height="12"/><rect class="ch-r-bar" x="130.00" y="89.00" width="193.15" height="12"/><line class="ch-r-cap" x1="323.15" y1="87.00" x2="323.15" y2="103.00"/><text class="ch-r-val" x="558.00" y="99.00" text-anchor="end" font-size="11.5">50.3</text><text class="ch-r-glyph" x="2.00" y="129.00" text-anchor="start" font-size="10.5">●</text><text class="ch-r-name" x="16.00" y="129.00" text-anchor="start" font-size="11.5">Attention</text><rect class="ch-r-track" x="130.00" y="119.00" width="384.00" height="12"/><rect class="ch-r-bar" x="130.00" y="119.00" width="158.21" height="12"/><line class="ch-r-cap" x1="288.21" y1="117.00" x2="288.21" y2="133.00"/><text class="ch-r-val" x="558.00" y="129.00" text-anchor="end" font-size="11.5">41.2</text><text class="ch-r-glyph" x="2.00" y="159.00" text-anchor="start" font-size="10.5">✱</text><text class="ch-r-name" x="16.00" y="159.00" text-anchor="start" font-size="11.5">Markets</text><rect class="ch-r-track" x="130.00" y="149.00" width="384.00" height="12"/><rect class="ch-r-none" x="130.00" y="149.00" width="384.00" height="12"/><text class="ch-r-nonet" x="136.00" y="158.50" text-anchor="start" font-size="9.5">AWAITING BASELINE · collected, not scored</text><text class="ch-r-val ch-r-val--none" x="558.00" y="159.00" text-anchor="end" font-size="11.5">—</text></svg><figcaption class="ch__cap">Capability leads at 71.2. Markets is awaiting a baseline.</figcaption></figure>
+<h2 class="sec__h">Distribution</h2><figure class="ch ch--dist"><svg class="ch__svg ch__svg--dist" viewBox="0 0 380 112" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="dsjiem0ht dsjiem0hd" style="--w:380px"><title id="dsjiem0ht">Today at the 76th percentile of the reference distribution</title><desc id="dsjiem0hd">Today sits at the 76th percentile: the record has been quieter than this 76 per cent of the time. The curve is the frozen reference distribution the score scale is defined against, built once from historical backfill and never updated live. Ticks along the baseline mark each decile.</desc><path class="ch-d-rest" d="M10.00,81.98 L13.60,81.97 L17.20,81.96 L20.80,81.94 L24.40,81.92 L28.00,81.89 L31.60,81.86 L35.20,81.81 L38.80,81.75 L42.40,81.68 L46.00,81.58 L49.60,81.46 L53.20,81.31 L56.80,81.12 L60.40,80.89 L64.00,80.61 L67.60,80.27 L71.20,79.85 L74.80,79.36 L78.40,78.77 L82.00,78.07 L85.60,77.25 L89.20,76.30 L92.80,75.21 L96.40,73.95 L100.00,72.53 L103.60,70.92 L107.20,69.12 L110.80,67.12 L114.40,64.93 L118.00,62.54 L121.60,59.95 L125.20,57.18 L128.80,54.24 L132.40,51.15 L136.00,47.93 L139.60,44.61 L143.20,41.24 L146.80,37.85 L150.40,34.47 L154.00,31.17 L157.60,27.98 L161.20,24.96 L164.80,22.16 L168.40,19.62 L172.00,17.38 L175.60,15.49 L179.20,13.99 L182.80,12.89 L186.40,12.22 L190.00,12.00 L193.60,12.22 L197.20,12.89 L200.80,13.99 L204.40,15.49 L208.00,17.38 L211.60,19.62 L215.20,22.16 L218.80,24.96 L222.40,27.98 L226.00,31.17 L229.60,34.47 L233.20,37.85 L236.80,41.24 L240.40,44.61 L244.00,47.93 L247.60,51.15 L251.20,54.24 L254.80,57.18 L258.40,59.95 L262.00,62.54 L265.60,64.93 L269.20,67.12 L272.80,69.12 L276.40,70.92 L280.00,72.53 L283.60,73.95 L287.20,75.21 L290.80,76.30 L294.40,77.25 L298.00,78.07 L301.60,78.77 L305.20,79.36 L308.80,79.85 L312.40,80.27 L316.00,80.61 L319.60,80.89 L323.20,81.12 L326.80,81.31 L330.40,81.46 L334.00,81.58 L337.60,81.68 L341.20,81.75 L344.80,81.81 L348.40,81.86 L352.00,81.89 L355.60,81.92 L359.20,81.94 L362.80,81.96 L366.40,81.97 L370.00,81.98 L370.00,82.00 L10.00,82.00 Z"/><path class="ch-d-fill" d="M10.00,81.98 L13.60,81.97 L17.20,81.96 L20.80,81.94 L24.40,81.92 L28.00,81.89 L31.60,81.86 L35.20,81.81 L38.80,81.75 L42.40,81.68 L46.00,81.58 L49.60,81.46 L53.20,81.31 L56.80,81.12 L60.40,80.89 L64.00,80.61 L67.60,80.27 L71.20,79.85 L74.80,79.36 L78.40,78.77 L82.00,78.07 L85.60,77.25 L89.20,76.30 L92.80,75.21 L96.40,73.95 L100.00,72.53 L103.60,70.92 L107.20,69.12 L110.80,67.12 L114.40,64.93 L118.00,62.54 L121.60,59.95 L125.20,57.18 L128.80,54.24 L132.40,51.15 L136.00,47.93 L139.60,44.61 L143.20,41.24 L146.80,37.85 L150.40,34.47 L154.00,31.17 L157.60,27.98 L161.20,24.96 L164.80,22.16 L168.40,19.62 L172.00,17.38 L175.60,15.49 L179.20,13.99 L182.80,12.89 L186.40,12.22 L190.00,12.00 L193.60,12.22 L197.20,12.89 L200.80,13.99 L204.40,15.49 L208.00,17.38 L211.60,19.62 L215.20,22.16 L218.80,24.96 L221.78,82.00 L10.00,82.00 Z"/><path class="ch-d-curve" d="M10.00,81.98 L13.60,81.97 L17.20,81.96 L20.80,81.94 L24.40,81.92 L28.00,81.89 L31.60,81.86 L35.20,81.81 L38.80,81.75 L42.40,81.68 L46.00,81.58 L49.60,81.46 L53.20,81.31 L56.80,81.12 L60.40,80.89 L64.00,80.61 L67.60,80.27 L71.20,79.85 L74.80,79.36 L78.40,78.77 L82.00,78.07 L85.60,77.25 L89.20,76.30 L92.80,75.21 L96.40,73.95 L100.00,72.53 L103.60,70.92 L107.20,69.12 L110.80,67.12 L114.40,64.93 L118.00,62.54 L121.60,59.95 L125.20,57.18 L128.80,54.24 L132.40,51.15 L136.00,47.93 L139.60,44.61 L143.20,41.24 L146.80,37.85 L150.40,34.47 L154.00,31.17 L157.60,27.98 L161.20,24.96 L164.80,22.16 L168.40,19.62 L172.00,17.38 L175.60,15.49 L179.20,13.99 L182.80,12.89 L186.40,12.22 L190.00,12.00 L193.60,12.22 L197.20,12.89 L200.80,13.99 L204.40,15.49 L208.00,17.38 L211.60,19.62 L215.20,22.16 L218.80,24.96 L222.40,27.98 L226.00,31.17 L229.60,34.47 L233.20,37.85 L236.80,41.24 L240.40,44.61 L244.00,47.93 L247.60,51.15 L251.20,54.24 L254.80,57.18 L258.40,59.95 L262.00,62.54 L265.60,64.93 L269.20,67.12 L272.80,69.12 L276.40,70.92 L280.00,72.53 L283.60,73.95 L287.20,75.21 L290.80,76.30 L294.40,77.25 L298.00,78.07 L301.60,78.77 L305.20,79.36 L308.80,79.85 L312.40,80.27 L316.00,80.61 L319.60,80.89 L323.20,81.12 L326.80,81.31 L330.40,81.46 L334.00,81.58 L337.60,81.68 L341.20,81.75 L344.80,81.81 L348.40,81.86 L352.00,81.89 L355.60,81.92 L359.20,81.94 L362.80,81.96 L366.40,81.97 L370.00,81.98"/><line class="ch-d-base" x1="10.00" y1="82.00" x2="370.00" y2="82.00"/><line class="ch-d-tick" x1="132.33" y1="82.00" x2="132.33" y2="85.50"/><line class="ch-d-tick" x1="152.13" y1="82.00" x2="152.13" y2="85.50"/><line class="ch-d-tick" x1="166.40" y1="82.00" x2="166.40" y2="85.50"/><line class="ch-d-tick" x1="178.60" y1="82.00" x2="178.60" y2="85.50"/><line class="ch-d-tick" x1="190.00" y1="82.00" x2="190.00" y2="88.00"/><line class="ch-d-tick" x1="201.40" y1="82.00" x2="201.40" y2="85.50"/><line class="ch-d-tick" x1="213.60" y1="82.00" x2="213.60" y2="85.50"/><line class="ch-d-tick" x1="227.87" y1="82.00" x2="227.87" y2="85.50"/><line class="ch-d-tick" x1="247.67" y1="82.00" x2="247.67" y2="85.50"/><text class="ch-d-ax" x="10.00" y="101.00" text-anchor="start" font-size="9">QUIETER</text><text class="ch-d-ax" x="370.00" y="101.00" text-anchor="end" font-size="9">LOUDER</text><text class="ch-d-ax ch-d-ax--dim" x="190.00" y="101.00" text-anchor="middle" font-size="9">MEDIAN</text><line class="ch-d-marker" x1="221.78" y1="8.00" x2="221.78" y2="89.00"/><path class="ch-d-caret" d="M217.28,95.00 L226.28,95.00 L221.78,87.50 Z"/><text class="ch-d-val" x="216.78" y="19.00" text-anchor="end" font-size="10.5">76th pctl</text></svg><figcaption class="ch__cap">76th percentile — the record has been quieter than today 76% of the time.</figcaption></figure>
+
+<h2 class="sec__h">News reel</h2>
+<p class="reel__hint">Swipe →</p>
+<div class="reel"><ul class="reel__rail">
+
+<li><a class="reel__card" href="#">
+  <span class="reel__kicker"><span class="chip chip--sm chip--kalshi">KALSHI</span>
+    <span class="pillar-tag" data-pillar="markets">Markets</span></span>
+  <h3 class="reel__title">AI model released before July 2027</h3>
+  <p class="reel__body">Volume up sharply over 24h.</p>
+  <span class="reel__foot"><span class="reel__num">62%</span><span>+4.1 24h</span></span>
+</a></li>
+
+<li><a class="reel__card" href="#">
+  <span class="reel__kicker"><span class="chip chip--sm chip--polymarket">POLYMARKET</span>
+    <span class="pillar-tag" data-pillar="markets">Markets</span></span>
+  <h3 class="reel__title">Which lab has the best model end of year</h3>
+  <p class="reel__body">Repricing across 14 legs.</p>
+  <span class="reel__foot"><span class="reel__num">31%</span><span>−2.2 24h</span></span>
+</a></li>
+
+<li><a class="reel__card" href="#">
+  <span class="reel__kicker"><span class="chip chip--sm chip--paper">ARXIV</span>
+    <span class="pillar-tag" data-pillar="markets">Markets</span></span>
+  <h3 class="reel__title">cs.AI submissions, trailing 7 days</h3>
+  <p class="reel__body">Above the frozen reference median.</p>
+  <span class="reel__foot"><span class="reel__num">1,523</span><span>91st pctl</span></span>
+</a></li>
+</ul></div>
+
+<h2 class="sec__h">Live feed</h2>
+<div class="feed__head"><span class="feed__live">Live</span><span class="chip chip--sm chip--quiet">13 sources</span></div>
+<ul class="feed">
+
+<li class="feed__row feed__row--new">
+  <time class="feed__time" datetime="2026-09-23T21:04:00Z">21:04</time>
+  <span class="feed__meta">
+    <span class="chip chip--sm chip--x">@doomcon</span>
+    <span class="pillar-tag" data-pillar="attention">Attention</span>
+    <span class="feed__move" data-dir="up">+0.4</span>
+  </span>
+  <a class="feed__title" href="#">DOOMCON holds at 4 · ROUTINE. Composite 40.8 of 100.</a>
+</li>
+
+<li class="feed__row ">
+  <time class="feed__time" datetime="2026-09-23T21:04:00Z">20:41</time>
+  <span class="feed__meta">
+    <span class="chip chip--sm chip--kalshi">Kalshi</span>
+    <span class="pillar-tag" data-pillar="attention">Attention</span>
+    <span class="feed__odds">18<small>¢ YES</small></span>
+  </span>
+  <a class="feed__title" href="#">AGI-before-2030 contract trades 2.1 points wider on the day.</a>
+</li>
+
+<li class="feed__row ">
+  <time class="feed__time" datetime="2026-09-23T21:04:00Z">20:12</time>
+  <span class="feed__meta">
+    <span class="chip chip--sm chip--gov">Federal Register</span>
+    <span class="pillar-tag" data-pillar="attention">Attention</span>
+    <span class="feed__move" data-dir="flat">0.0</span>
+  </span>
+  <a class="feed__title" href="#">Two new AI-related rule documents published.</a>
+</li>
+
+<li class="feed__row ">
+  <time class="feed__time" datetime="2026-09-23T21:04:00Z">19:58</time>
+  <span class="feed__meta">
+    <span class="chip chip--sm chip--news">HN</span>
+    <span class="pillar-tag" data-pillar="attention">Attention</span>
+    <span class="feed__move" data-dir="down">−1.2</span>
+  </span>
+  <a class="feed__title" href="#">Front-page AI stories: 14 of the top 60.</a>
+</li>
+</ul>
+<p class="feed__more"><a href="#">Full feed →</a></p>
+</main></body></html>

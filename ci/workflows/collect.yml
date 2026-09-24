@@ -1,0 +1,188 @@
+# DOOMCON data pipeline: collect -> score -> build -> commit.
+#
+# This workflow is the only thing that writes data/ and public/ on main. It is
+# deliberately boring, because the product claim is that a stranger can recompute
+# our number: anything clever here becomes a thing they cannot reproduce locally.
+#
+# Schedule reality check. GitHub's documented minimum is 5 minutes, but scheduled
+# runs are queued on shared infrastructure and are routinely late by 5-20 minutes
+# under load, and are dropped outright during incidents. So: */15 rather than */5
+# (gives a late run room to land before the next one is due), and every step below
+# is written so that a SKIPPED run and a DOUBLED run are both harmless.
+#   - skipped: the engine reads the newest snapshot whenever it next runs; the
+#     NowCast smoother is defined over the trailing 12 observations, not over
+#     wall-clock, so a gap shifts the window rather than corrupting it.
+#   - doubled: the "did collect write a new snapshot" gate below means the engine
+#     only ever advances the receipt chain once per snapshot, and the concurrency
+#     group means two runs cannot be pushing at the same moment.
+#
+# */15 also keeps us under the GitHub Pages soft limit of 10 builds per hour,
+# which the deploy in pages.yml would otherwise start throttling.
+
+name: collect
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+
+# The built-in token, not a PAT. Nothing here touches another repo, so a PAT
+# would be a secret to rotate in exchange for no capability at all.
+permissions:
+  contents: write
+
+# Serialises every data-writing run. Not cancel-in-progress: a run cancelled
+# between "commit" and "push" would leave the rebase retry loop half-done. Queue
+# instead, and let the late run land after the early one.
+concurrency:
+  group: doomcon-data
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          # Full history: the push step rebases onto main if anything landed while
+          # we were collecting, and a shallow clone cannot rebase.
+          fetch-depth: 0
+
+      - name: Set up Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          # No cache key and no install step on purpose. Zero dependencies
+          # (CONTRACT.md §1) means there is nothing to restore; adding a cache
+          # here would be ~15s of ceremony around an empty directory.
+
+      - name: Preflight
+        run: |
+          set -euo pipefail
+          # Fail here with an instruction rather than letting the engine throw a
+          # stack trace 40 seconds later. reference.json is the FROZEN empirical
+          # distribution every score is normalised against; it is built once from
+          # backfill and committed, never regenerated live.
+          if [ ! -f data/reference.json ]; then
+            echo "::error::data/reference.json is missing. The index cannot be computed without the frozen reference distribution."
+            echo "Build it once, locally, and commit it:"
+            echo "  docker run --rm --network host -v \"\$PWD\":/app -w /app node:20-alpine node collector/backfill.mjs"
+            exit 1
+          fi
+          for f in collector/collect.mjs collector/engine.mjs site/build.mjs; do
+            [ -f "$f" ] || { echo "::error::missing $f"; exit 1; }
+          done
+
+      - name: Note newest snapshot before collecting
+        id: before
+        run: |
+          set -euo pipefail
+          # Recorded so the next step can prove collect produced something new.
+          # Names here are ISO stamps written by collect.mjs with the colons
+          # already swapped out, so nothing glob-hostile lives in this directory and
+          # `ls | sort` is the exact lexicographic order engine.mjs uses to pick the
+          # newest file. `|| true` because pipefail would turn "no snapshots yet"
+          # into a job failure, and a first-ever run legitimately has none.
+          # shellcheck disable=SC2012
+          echo "snapshot=$(ls -1 data/raw/*.json 2>/dev/null | sort | tail -1 || true)" >> "$GITHUB_OUTPUT"
+
+      - name: Collect
+        id: collect
+        # A dark source is a normal operating state, not an incident, and
+        # collect.mjs only exits non-zero when EVERY source failed. We still do
+        # not want that to abort the job here: the all-failed snapshot is
+        # evidence and belongs in the repo. The run is failed at the very end
+        # instead, after the evidence has been committed.
+        continue-on-error: true
+        run: node collector/collect.mjs
+
+      - name: Score
+        id: score
+        run: |
+          set -euo pipefail
+          # shellcheck disable=SC2012  # same reasoning as the previous step
+          AFTER="$(ls -1 data/raw/*.json 2>/dev/null | sort | tail -1 || true)"
+          # The idempotency gate. If collect crashed before writing (no fetch
+          # helper, unwritable disk), the newest snapshot is the one we already
+          # scored — and engine.mjs defaults to "newest file in data/raw". Running
+          # it anyway would append a second history line and a second receipt for
+          # the same observation, silently double-weighting it in the NowCast and
+          # putting a duplicate in a hash chain that is supposed to be append-only.
+          if [ "$AFTER" = "${{ steps.before.outputs.snapshot }}" ]; then
+            echo "::warning::collect wrote no new snapshot; skipping the engine so the receipt chain does not advance twice on one observation"
+            echo "ran=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          node collector/engine.mjs
+          echo "ran=true" >> "$GITHUB_OUTPUT"
+
+      - name: Build site
+        # Runs even when the engine was skipped: the generator is a pure function
+        # of data/, so a rebuild on unchanged data produces byte-identical output
+        # and the commit step below simply finds nothing to commit.
+        run: node site/build.mjs
+
+      - name: Render cards and posting console
+        # ORDER MATTERS. site/build.mjs clears public/ before regenerating it, so
+        # anything that writes into public/ has to run AFTER it or it is wiped.
+        # Measured the hard way on 2026-09-23: cards written first vanished.
+        run: |
+          node collector/card.mjs
+          node collector/posts.mjs
+          node site/post-sheet.mjs
+
+      - name: Commit and push
+        run: |
+          set -euo pipefail
+          git config user.name  'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+
+          git add data public
+          if git diff --cached --quiet; then
+            echo 'nothing changed; not committing'
+            exit 0
+          fi
+
+          # Message reads "data: DOOMCON 3 @ 61.4 — 2026-09-23T02:00Z", so the
+          # commit list on GitHub is a legible chart of the index over time.
+          # An all-dark run genuinely has no score and says so rather than
+          # printing a number we did not measure. The ${...} below are JS template
+          # literals that must reach node unexpanded, hence the single quotes.
+          # shellcheck disable=SC2016
+          MSG="$(node --input-type=module -e '
+            import { readFileSync } from "node:fs";
+            const s = JSON.parse(readFileSync("data/state.json", "utf8"));
+            const score = typeof s.score === "number" ? s.score.toFixed(1) : "NO SCORE";
+            const when = (s.generated_at ?? "").replace(/:\d\d\.\d+Z$/, "Z");
+            const dark = (s.dark_pillars ?? []).length;
+            process.stdout.write(
+              `data: DOOMCON ${s.level ?? "-"} @ ${score} — ${when}` +
+              (dark ? ` (${dark} pillar${dark > 1 ? "s" : ""} dark)` : "")
+            );
+          ')"
+
+          git commit -m "$MSG"
+
+          # Retry loop, not a bare push. The concurrency group stops two scheduled
+          # runs from racing, but a human pushing a code change at the wrong second
+          # still loses the push. A rebase conflict is NOT retried away:
+          # data/history.ndjson is append-only, so a conflict there means two runs
+          # scored the same window and that needs a person, not a --force.
+          for attempt in 1 2 3; do
+            if git push origin HEAD:main; then
+              exit 0
+            fi
+            echo "push rejected (attempt $attempt); rebasing onto main"
+            git pull --rebase origin main
+          done
+          echo '::error::could not push after 3 attempts'
+          exit 1
+
+      - name: Fail the run if every source was dark
+        if: steps.collect.outcome == 'failure'
+        run: |
+          echo '::error::every source failed this run — the snapshot was committed as evidence, but we learned nothing. Check collector/fetch.mjs and the source endpoints.'
+          exit 1
