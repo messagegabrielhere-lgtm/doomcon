@@ -94,6 +94,8 @@ jobs:
               node site/post-sheet.mjs  || true
 
               rm -rf .pages && mkdir .pages
+              echo '.pages/' > .git/info/exclude.tmp && cat .git/info/exclude >> .git/info/exclude.tmp 2>/dev/null || true
+              mv .git/info/exclude.tmp .git/info/exclude
               tar cf - -C public . | (cd .pages && tar xf -)
               (
                 cd .pages
@@ -127,6 +129,10 @@ jobs:
           set -euo pipefail
           git config user.name  'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          # Only the data files. public/ is rebuilt from them by whoever runs
+          # next, and committing it here would collide with collect.yml.
+          git checkout -- public 2>/dev/null || true
+          rm -rf .pages
           git add data/news.json data/x-surface.json 2>/dev/null || true
           if git diff --cached --quiet; then
             echo "nothing to persist"
@@ -135,5 +141,9 @@ jobs:
           git commit -q -m "newsroom: $(node -e "process.stdout.write(String(require('./data/news.json').items.length))") items — $(date -u +%Y-%m-%dT%H:%MZ)"
           # Rebase rather than force: collect.yml commits to main too, and the
           # loser of a race must not erase the other's work.
-          git pull --rebase --quiet origin main || true
+          # --autostash is load-bearing. The loop leaves public/ and .pages/
+          # dirty, and plain `pull --rebase` refuses to run with unstaged
+          # changes — which is exactly how the first live run failed after
+          # publishing successfully six times.
+          git pull --rebase --autostash --quiet origin main || true
           git push origin HEAD:main
