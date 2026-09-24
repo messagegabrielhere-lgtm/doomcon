@@ -1,0 +1,139 @@
+# The fast newsroom loop.
+#
+# WHY THIS EXISTS, AND WHY IT IS NOT A CRON
+#
+# The brief was "update every minute so we are never late on superintelligence".
+# GitHub Actions cron cannot do that: the documented floor is five minutes, and
+# under platform load scheduled runs are routinely delayed ten minutes or more.
+# A `*/1` schedule would not give you a minute — it would give you an irregular
+# five-to-twenty.
+#
+# So this is ONE job that runs for most of an hour and loops internally on a
+# real sixty-second timer, re-armed every hour. Actions minutes are unlimited
+# for public repositories, so the loop is free.
+#
+# WHAT IT DOES NOT DO
+#
+# It does not run the index engine. Receipts are append-only and the level
+# machinery uses dwell windows measured in hours; scoring every minute would
+# write ~1,400 receipts a day, silently re-weight the NowCast, and change what
+# the number means. The index keeps its own beat in collect.yml. This loop is
+# the newsroom only.
+#
+# It does not poll every source every minute either. collector/news.mjs carries
+# a per-source cadence: the wires (Hacker News, Techmeme, Verge, Ars) are asked
+# every minute because they genuinely move that fast; lab blogs every five;
+# arXiv and the daily-paper feeds every thirty, because they publish in daily
+# batches and throttle hard when pushed. Polling arXiv sixty times an hour buys
+# no news and earns a ban.
+
+name: news-fast
+
+on:
+  schedule:
+    # Hourly re-arm. The job itself covers the hour.
+    - cron: '4 * * * *'
+  workflow_dispatch:
+    inputs:
+      minutes:
+        description: 'How long to loop (minutes)'
+        required: false
+        default: '50'
+
+permissions:
+  contents: write
+
+concurrency:
+  # Never two loops at once: they would race on gh-pages and fight over
+  # data/news.json's first_seen_at ledger.
+  group: news-fast
+  cancel-in-progress: false
+
+jobs:
+  loop:
+    runs-on: ubuntu-latest
+    # Hard ceiling below the 6h job limit, and comfortably above the loop.
+    timeout-minutes: 58
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Loop
+        env:
+          MINUTES: ${{ github.event.inputs.minutes || '50' }}
+        run: |
+          set -uo pipefail
+          END=$(( $(date +%s) + MINUTES * 60 ))
+          PUBLISHED=0
+          TICK=0
+
+          while [ "$(date +%s)" -lt "$END" ]; do
+            TICK=$((TICK + 1))
+            START=$(date +%s)
+
+            # Hash before/after. news.mjs rewrites the file every run (the
+            # timestamp alone changes), so comparing the whole file would
+            # publish every minute regardless. Compare the ITEMS only.
+            BEFORE=$(node -e "try{const d=require('./data/news.json');process.stdout.write(require('crypto').createHash('sha256').update(JSON.stringify(d.items.map(i=>i.id))).digest('hex'))}catch{process.stdout.write('none')}")
+
+            node collector/news.mjs || echo "::warning::news pass $TICK failed; continuing"
+
+            AFTER=$(node -e "try{const d=require('./data/news.json');process.stdout.write(require('crypto').createHash('sha256').update(JSON.stringify(d.items.map(i=>i.id))).digest('hex'))}catch{process.stdout.write('none')}")
+
+            if [ "$BEFORE" != "$AFTER" ]; then
+              echo "tick $TICK: newsroom changed — rebuilding and publishing"
+              node site/build.mjs || { echo "::warning::build failed on tick $TICK"; sleep 45; continue; }
+              node collector/card.mjs   || true
+              node collector/posts.mjs  || true
+              node site/post-sheet.mjs  || true
+
+              rm -rf .pages && mkdir .pages
+              tar cf - -C public . | (cd .pages && tar xf -)
+              (
+                cd .pages
+                git init -q
+                git checkout -q -b gh-pages
+                git config user.name  'github-actions[bot]'
+                git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+                git add -A
+                git commit -q -m "newsroom refresh — $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+                git push -q -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" gh-pages
+              ) && PUBLISHED=$((PUBLISHED + 1))
+            else
+              echo "tick $TICK: no change"
+            fi
+
+            # Sleep the REMAINDER of the minute, not a flat 60s, so a slow pass
+            # does not make the cadence drift later every iteration.
+            ELAPSED=$(( $(date +%s) - START ))
+            REMAIN=$(( 60 - ELAPSED ))
+            [ "$REMAIN" -gt 0 ] && sleep "$REMAIN"
+          done
+
+          echo "loop finished: $TICK ticks, $PUBLISHED publishes"
+          echo "PUBLISHED=$PUBLISHED" >> "$GITHUB_ENV"
+
+      - name: Commit the newsroom state once
+        # One commit per hour, not per tick. The in-job working directory keeps
+        # data/news.json across iterations, so first_seen_at continuity holds
+        # inside the loop; this persists the final state for the next run.
+        run: |
+          set -euo pipefail
+          git config user.name  'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/news.json data/x-surface.json 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "nothing to persist"
+            exit 0
+          fi
+          git commit -q -m "newsroom: $(node -e "process.stdout.write(String(require('./data/news.json').items.length))") items — $(date -u +%Y-%m-%dT%H:%MZ)"
+          # Rebase rather than force: collect.yml commits to main too, and the
+          # loser of a race must not erase the other's work.
+          git pull --rebase --quiet origin main || true
+          git push origin HEAD:main

@@ -227,6 +227,52 @@ export function titleOverlap(a, b) {
 // Adapter discovery
 // ---------------------------------------------------------------------------
 
+// ---------------------------------------------------------------------------
+// Per-source cadence
+//
+// The operator wants the newsroom refreshed every minute so we are first on
+// anything that matters. The binding constraint is NOT our loop — it is each
+// source's own publish rate and its tolerance for being polled.
+//
+// arXiv asks for ~3 seconds between requests, throttles hard when pushed, and
+// publishes in daily batches: polling it every minute would earn a ban in
+// exchange for zero extra news. Hacker News and the press wires genuinely do
+// move minute to minute.
+//
+// So every adapter declares how often it is worth asking. A source that is not
+// due is SKIPPED and its items are carried forward from the previous run
+// unchanged, which is why this costs nothing in coverage. Adapters may override
+// with their own `minIntervalMs`.
+// ---------------------------------------------------------------------------
+const CADENCE_BY_KIND = {
+  forum: 60_000,        // HN front page turns over in minutes
+  press: 60_000,        // Techmeme, Verge, Ars — the actual wire
+  status: 120_000,      // incident feeds are rare but matter immediately
+  release: 300_000,     // GitHub releases land in bursts, not continuously
+  lab: 300_000,         // lab blogs publish a few times a week
+  model: 900_000,       // HF trending is a rolling average; it cannot move in a minute
+  paper: 1_800_000,     // arXiv and HF daily papers are daily batches. Do not hammer.
+};
+const DEFAULT_CADENCE_MS = 300_000;
+
+function cadenceFor(a) {
+  if (Number.isFinite(a.minIntervalMs)) return a.minIntervalMs;
+  return CADENCE_BY_KIND[a.kind] ?? DEFAULT_CADENCE_MS;
+}
+
+/**
+ * Was this source fetched recently enough that asking again is waste?
+ *
+ * `lastFetch` comes from the previous run's own source ledger, so the decision
+ * survives process restarts — which matters because the fast loop is a fresh
+ * process every minute.
+ */
+function isDue(a, lastFetchMs, nowMs, force) {
+  if (force) return true;
+  if (!Number.isFinite(lastFetchMs)) return true;   // never fetched: always due
+  return (nowMs - lastFetchMs) >= cadenceFor(a);
+}
+
 async function discoverAdapters() {
   const entries = await readdir(SOURCES_DIR);
   const files = entries
@@ -591,13 +637,28 @@ async function main() {
   const knownIds = new Set(previous.items.map((i) => i.id));
   const firstSeen = new Map(previous.items.map((i) => [i.id, i.meta?.first_seen_at ?? null]));
 
-  console.log(`news: ${adapters.length} adapters, window ${WINDOW_DAYS}d, ${previous.items.length} items carried forward`);
+  // --force ignores cadence and asks every source. The hourly full pass uses it
+  // so no feed can go stale behind its own interval.
+  const force = process.argv.includes('--force');
+  // When each source was last actually fetched, from the previous run's ledger.
+  // It lives in the output file because the fast loop is a fresh process every
+  // minute and has no memory of its own.
+  const lastFetch = new Map(
+    (Array.isArray(previous.sources) ? previous.sources : [])
+      .map((x) => [x.id, Date.parse(x.fetched_at ?? '')])
+      .filter(([, t]) => Number.isFinite(t)),
+  );
+  const due = adapters.filter((a) => isDue(a, lastFetch.get(a.id), generatedAtMs, force));
+  const skipped = adapters.filter((a) => !due.includes(a));
+
+  console.log(`news: ${adapters.length} adapters, ${due.length} due, ${skipped.length} skipped by cadence` +
+    `${force ? ' (--force: cadence ignored)' : ''}, window ${WINDOW_DAYS}d, ${previous.items.length} items carried forward`);
 
   // Promise.allSettled, never Promise.all: one dead feed must never take down
   // the rest of the run. Every adapter runs concurrently — they are independent
   // hosts, and fetch.mjs already caps concurrency inside any single fan-out.
   const settled = await Promise.allSettled(
-    adapters.map(async (a) => {
+    due.map(async (a) => {
       const t0 = Date.now();
       try {
         const drafts = await withTimeout(
@@ -676,7 +737,25 @@ async function main() {
       newest_item_at: newestMs === null ? null : new Date(newestMs).toISOString(),
       error: null,
       ms: res.ms,
+      // The cadence ledger. Written on every real fetch and read by the next
+      // process, which is how a one-minute loop knows not to re-ask arXiv.
+      fetched_at: generatedAt,
+      cadence_ms: cadenceFor(res.adapter),
     });
+  }
+
+  // Sources we deliberately did not ask this run. Their previous row is carried
+  // forward verbatim apart from the state marker, so the ledger stays complete
+  // and the freshness strip can say "not due" rather than implying an outage.
+  const prevById = new Map(
+    (Array.isArray(previous.sources) ? previous.sources : []).map((x) => [x.id, x]),
+  );
+  for (const a of skipped) {
+    const prev = prevById.get(a.id);
+    sources.push(prev
+      ? { ...prev, state: prev.state === 'dark' ? 'dark' : prev.state, skipped_this_run: true }
+      : { id: a.id, kind: a.kind, label: a.label, ok: true, state: 'dormant', count: 0,
+          error: null, ms: 0, fetched_at: null, cadence_ms: cadenceFor(a), skipped_this_run: true });
   }
 
   // Retained items join the SAME grouping pass as fresh ones, so an item first
