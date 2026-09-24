@@ -60,104 +60,88 @@ const NOT_CAISO_CA = Object.freeze(new Set([
  * what a percentage of committed capacity is.
  */
 export function gridFor({ state, county_fips }) {
-  if (!state) {
-    return { id: null, label: null, watts_source: null, why: 'no state resolved for this site' };
-  }
+  if (!state) return { key: 'UNKNOWN', ...GRIDS.UNKNOWN };
 
   if (state === 'TX') {
     if (county_fips && NOT_ERCOT_TX.has(county_fips)) {
-      return {
-        id: null,
-        label: 'WECC / SPP / MISO',
-        watts_source: null,
-        why: 'this Texas county is outside ERCOT — El Paso is WECC, the far Panhandle is SPP, the far east is MISO',
-      };
+      return { key: 'TX_NON_ERCOT', ...GRIDS.TX_NON_ERCOT };
     }
-    return { id: 'ERCOT', label: 'ERCOT', watts_source: 'ercot-tightness', why: null };
+    return { key: 'ERCOT', ...GRIDS.ERCOT };
   }
 
-  if (state === 'NY') {
-    return { id: 'NYISO', label: 'NYISO', watts_source: 'nyiso-baseload', why: null };
-  }
+  if (state === 'NY') return { key: 'NYISO', ...GRIDS.NYISO };
 
   if (state === 'CA') {
-    if (county_fips && NOT_CAISO_CA.has(county_fips)) {
-      return {
-        id: null,
-        label: 'LADWP / SMUD / IID',
-        watts_source: null,
-        why: 'this California load pocket is balanced by a municipal utility, not by CAISO',
-      };
-    }
-    return { id: 'CAISO', label: 'CAISO', watts_source: 'caiso-baseload', why: null };
+    if (county_fips && NOT_CAISO_CA.has(county_fips)) return { key: 'CA_MUNI', ...GRIDS.CA_MUNI };
+    return { key: 'CAISO', ...GRIDS.CAISO };
   }
 
-  const PJM = new Set(['VA', 'OH', 'PA', 'NJ', 'MD', 'DE', 'WV', 'DC', 'KY', 'IN', 'NC', 'MI']);
-  if (PJM.has(state)) {
-    return {
-      id: 'PJM',
-      label: 'PJM',
-      watts_source: null,
-      why: 'PJM publishes real-time demand only through Data Miner 2, which requires a registered subscription key. Keys are free; secrets in this repo are not permitted.',
-    };
+  for (const [key, states] of Object.entries(REGIONS)) {
+    if (states.has(state)) return { key, ...GRIDS[key] };
   }
-
-  const MISO_SPP = new Set(['IA', 'NE', 'MN', 'MO', 'KS', 'OK', 'AR', 'LA', 'MS', 'ND', 'SD', 'WI', 'IL', 'MT']);
-  if (MISO_SPP.has(state)) {
-    return {
-      id: 'MISO/SPP',
-      label: 'MISO / SPP',
-      watts_source: null,
-      why: 'MISO’s public data broker answered {"error": "no data"} on every message type tested on 2026-09-23. SPP has no equivalent keyless endpoint.',
-    };
-  }
-
-  const SOUTHEAST = new Set(['GA', 'AL', 'FL', 'SC', 'TN']);
-  if (SOUTHEAST.has(state)) {
-    return {
-      id: null,
-      label: 'Southern Co. / TVA / vertically integrated',
-      watts_source: null,
-      why: 'The Southeast is not an organised market. There is no independent system operator here and therefore no public real-time demand feed.',
-    };
-  }
-
-  const WEST_VI = new Set(['AZ', 'NV', 'NM', 'UT', 'CO', 'WY', 'ID']);
-  if (WEST_VI.has(state)) {
-    return {
-      id: null,
-      label: 'WECC — vertically integrated utilities',
-      watts_source: null,
-      why: 'Vertically integrated utilities, no organised market, no public demand feed.',
-    };
-  }
-
-  if (state === 'OR' || state === 'WA') {
-    return {
-      id: null,
-      label: 'BPA',
-      watts_source: null,
-      why: 'Bonneville publishes balancing-authority totals on a different cadence and format; not yet read by this collector.',
-    };
-  }
-
-  const ISONE = new Set(['MA', 'CT', 'RI', 'NH', 'VT', 'ME']);
-  if (ISONE.has(state)) {
-    return {
-      id: 'ISO-NE',
-      label: 'ISO New England',
-      watts_source: null,
-      why: 'ISO-NE publishes real-time demand through a web-services account; no keyless endpoint was found.',
-    };
-  }
-
-  return {
-    id: null,
-    label: null,
-    watts_source: null,
-    why: `no grid mapped for ${state} in this table`,
-  };
+  return { key: 'UNKNOWN', ...GRIDS.UNKNOWN };
 }
+
+/**
+ * The grid table itself, published once at the top of data/datacenters.json.
+ *
+ * A site carries only its `grid_key`. The label, the reason there is no
+ * reading, and the /watts source id live here, once. That is not just tidiness:
+ * a thousand copies of the same paragraph would rewrite the whole file every
+ * time a word in it changed, and the live megawatt reading would rewrite it
+ * every single minute.
+ */
+export const GRIDS = Object.freeze({
+  ERCOT: { id: 'ERCOT', label: 'ERCOT', watts_source: 'ercot-tightness', why: null },
+  NYISO: { id: 'NYISO', label: 'NYISO', watts_source: 'nyiso-baseload', why: null },
+  CAISO: { id: 'CAISO', label: 'CAISO', watts_source: 'caiso-baseload', why: null },
+  TX_NON_ERCOT: {
+    id: null, label: 'WECC / SPP / MISO', watts_source: null,
+    why: 'this Texas county is outside ERCOT — El Paso is WECC, the far Panhandle is SPP, the far east is MISO',
+  },
+  CA_MUNI: {
+    id: null, label: 'LADWP / SMUD / IID', watts_source: null,
+    why: 'this California load pocket is balanced by a municipal utility, not by CAISO',
+  },
+  PJM: {
+    id: 'PJM', label: 'PJM', watts_source: null,
+    why: 'PJM publishes real-time demand only through Data Miner 2, which requires a registered subscription key. Keys are free; secrets in this repo are not permitted.',
+  },
+  MISO_SPP: {
+    id: 'MISO/SPP', label: 'MISO / SPP', watts_source: null,
+    why: 'MISO’s public data broker answered {"error": "no data"} on every message type tested on 2026-09-23. SPP has no equivalent keyless endpoint.',
+  },
+  SOUTHEAST: {
+    id: null, label: 'Southern Co. / TVA / vertically integrated', watts_source: null,
+    why: 'The Southeast is not an organised market. There is no independent system operator here and therefore no public real-time demand feed.',
+  },
+  WECC_VI: {
+    id: null, label: 'WECC — vertically integrated utilities', watts_source: null,
+    why: 'Vertically integrated utilities, no organised market, no public demand feed.',
+  },
+  BPA: {
+    id: null, label: 'BPA', watts_source: null,
+    why: 'Bonneville publishes balancing-authority totals on a different cadence and format; not yet read by this collector.',
+  },
+  ISO_NE: {
+    id: 'ISO-NE', label: 'ISO New England', watts_source: null,
+    why: 'ISO-NE publishes real-time demand through a web-services account; no keyless endpoint was found.',
+  },
+  UNKNOWN: {
+    id: null, label: null, watts_source: null,
+    why: 'no grid mapped for this site in this table',
+  },
+});
+
+// Order matters only in that a state appears once. Checked by a test below.
+const REGIONS = Object.freeze({
+  PJM: new Set(['VA', 'OH', 'PA', 'NJ', 'MD', 'DE', 'WV', 'DC', 'KY', 'IN', 'NC', 'MI']),
+  MISO_SPP: new Set(['IA', 'NE', 'MN', 'MO', 'KS', 'OK', 'AR', 'LA', 'MS', 'ND', 'SD', 'WI', 'IL', 'MT']),
+  SOUTHEAST: new Set(['GA', 'AL', 'FL', 'SC', 'TN']),
+  WECC_VI: new Set(['AZ', 'NV', 'NM', 'UT', 'CO', 'WY', 'ID']),
+  BPA: new Set(['OR', 'WA']),
+  ISO_NE: new Set(['MA', 'CT', 'RI', 'NH', 'VT', 'ME']),
+});
 
 /** Everything this table claims, for the honesty section on the page. */
 export const GRID_TABLE_NOTE = Object.freeze({

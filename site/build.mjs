@@ -27,6 +27,7 @@ import * as racePage from './templates/racePage.mjs';
 import * as wattsPage from './templates/wattsPage.mjs';
 import * as digestPage from './templates/digestPage.mjs';
 import * as blissPage from './templates/blissPage.mjs';
+import * as itemPage from './templates/itemPage.mjs';
 import { render as sitemap, robots } from './templates/sitemap.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -488,6 +489,26 @@ async function main() {
   }
   if (blissPage.hasBliss(ctx)) {
     written.push(await write(args.out, 'bliss.html', blissPage.render(ctx)));
+  }
+
+  // THE LONG TAIL. One permanent page per scored item, which is how pizzint
+  // gets 997 of its 1,018 sitemap URLs. Each of ours carries the score
+  // decomposition and the corroboration set, so these are unique computed
+  // pages rather than the thin doorway pages this pattern usually produces.
+  if (itemPage.hasItems(ctx)) {
+    const items = ctx.news.items;
+    const byPillar = new Map();
+    for (const it of items) {
+      if (!byPillar.has(it.pillar)) byPillar.set(it.pillar, []);
+      byPillar.get(it.pillar).push(it);
+    }
+    for (const it of items) {
+      const related = (byPillar.get(it.pillar) || [])
+        .filter((r) => r.id !== it.id)
+        .slice(0, 5);
+      written.push(await write(args.out, `item/${itemPage.slugFor(it)}.html`, itemPage.render(ctx, it, related)));
+    }
+    written.push(await write(args.out, 'item/index.html', itemPage.renderIndex(ctx)));
   }
   for (const m of moves) {
     written.push(await write(args.out, `moves/${m.id}.html`, movePage.render(ctx, m)));

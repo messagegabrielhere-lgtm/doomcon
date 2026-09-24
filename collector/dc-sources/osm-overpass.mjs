@@ -32,15 +32,36 @@
 import { cached } from './_cache.mjs';
 import { parseMegawatts, stableId } from './_util.mjs';
 
-export const ENDPOINT = 'https://overpass-api.de/api/interpreter';
+// Three independent Overpass instances. They are tried IN ORDER and the first
+// one that answers wins — so a healthy main instance is still one query per
+// refresh, and the mirrors only see traffic when it is already refusing.
+//
+// The failure mode is not query cost, which was measured and is small. It is
+// that these servers are shared and frequently saturated: during this build
+// even `node(1); out;` — the cheapest query expressible — came back 504 with
+// "Dispatcher_Client::request_read_and_idx::timeout. The server is probably too
+// busy to handle your request." Minutes earlier the same instance had served
+// the full United States in 19 seconds. Nothing is wrong with the query when
+// that happens and retrying harder is the wrong answer; waiting is.
+export const ENDPOINTS = Object.freeze([
+  'https://overpass-api.de/api/interpreter',
+  'https://overpass.kumi.systems/api/interpreter',
+  'https://overpass.private.coffee/api/interpreter',
+]);
+export const ENDPOINT = ENDPOINTS[0];
 export const CACHE_KEY = 'osm-datacenters';
 export const REFRESH_DAYS = 7;
 
-// Latitude 15 to 72, longitude -180 to -64: the whole United States including
-// Alaska and Hawaii, and unavoidably a lot of Canada, Mexico and the Caribbean.
-// _geo.mjs drops everything that is not inside a US county, so the box only has
-// to be big enough, not tight.
-const BBOX = '15.0,-180.0,72.0,-64.0';
+// Three boxes rather than one continental one: the contiguous states, Alaska
+// and Hawaii. A single box spanning all three covers a quarter of the planet,
+// most of it ocean and Canada, and asks Overpass to scan it eight times over.
+// _geo.mjs drops anything that is not inside a US county, so these only have to
+// be big enough, not tight.
+const BOXES = Object.freeze([
+  '24.0,-125.0,49.6,-66.5',   // the contiguous states
+  '51.0,-170.0,72.0,-129.0',  // Alaska
+  '18.5,-160.6,22.6,-154.5',  // Hawaii
+]);
 
 // Every key/value pair worth asking for, in one union. The order is the order
 // the query is written in, so the query string is stable across runs.
@@ -48,7 +69,6 @@ const TAG_VARIANTS = Object.freeze([
   ['telecom', 'data_center'],
   ['building', 'data_center'],
   ['landuse', 'data_center'],
-  ['man_made', 'data_center'],
   ['construction:telecom', 'data_center'],
   ['proposed:telecom', 'data_center'],
   ['construction', 'data_center'],
@@ -56,48 +76,76 @@ const TAG_VARIANTS = Object.freeze([
 ]);
 
 export function buildQuery() {
-  const body = TAG_VARIANTS.map(([k, v]) => `  nwr["${k}"="${v}"](${BBOX});`).join('\n');
+  const body = BOXES.flatMap((box) => TAG_VARIANTS.map(([k, v]) => `  nwr["${k}"="${v}"](${box});`)).join('\n');
   return `[out:json][timeout:540];\n(\n${body}\n);\nout tags center qt;`;
+}
+
+/** Overpass says "too busy" in prose, inside an XHTML body, under a 504. */
+function isBusy(message) {
+  return /Dispatcher_Client|too busy|rate_limited|429/i.test(String(message));
 }
 
 async function loadOverpass(net) {
   const data = buildQuery();
-  // GET, not POST. collector/fetch.mjs does not forward a request body — every
-  // other source in this repo is a GET — and CONTRACT.md §1.5 forbids calling
-  // global fetch() around it. Overpass accepts the same query as ?data=, and a
-  // 700-character URL is well inside every limit in the chain.
-  const url = `${ENDPOINT}?${new URLSearchParams({ data })}`;
-  const body = await net.text(url, {
-    // Overpass queues behind other people's queries; the server-side timeout is
-    // 540s and the client has to outlast it or every busy minute looks like a
-    // network fault.
-    timeoutMs: 600_000,
-    retries: 0, // a retry against a queue is how a slow query becomes a ban
-  });
+  const failures = [];
 
-  let parsed;
-  try {
-    parsed = JSON.parse(body);
-  } catch {
-    // Overpass answers its own errors as XHTML with a 200 or a 504. Quote it.
-    throw new Error(`overpass: non-JSON answer — ${body.replace(/\s+/g, ' ').slice(0, 300)}`);
+  for (const endpoint of ENDPOINTS) {
+    // GET, not POST. collector/fetch.mjs does not forward a request body — every
+    // other source in this repo is a GET — and CONTRACT.md §1.5 forbids calling
+    // global fetch() around it. Overpass accepts the same query as ?data=, and a
+    // 1,000-character URL is well inside every limit in the chain.
+    const url = `${endpoint}?${new URLSearchParams({ data })}`;
+    let body;
+    try {
+      body = await net.text(url, {
+        // Overpass queues behind other people's queries; the server-side timeout
+        // is 540s and the client has to outlast it or every busy minute looks
+        // like a network fault.
+        timeoutMs: 600_000,
+        retries: 0, // a retry against a queue is how a slow query becomes a ban
+      });
+    } catch (err) {
+      failures.push(`${endpoint}: ${err?.message ?? err}`);
+      continue;
+    }
+
+    let parsed;
+    try {
+      parsed = JSON.parse(body);
+    } catch {
+      // Overpass answers its own errors as XHTML, sometimes under a 200. Quote it.
+      const why = (/<strong[^>]*>Error<\/strong>:([^<]*)/.exec(body)?.[1] ?? body)
+        .replace(/\s+/g, ' ').trim().slice(0, 200);
+      failures.push(`${endpoint}: ${isBusy(why) ? 'server busy' : 'non-JSON answer'} — ${why}`);
+      continue;
+    }
+
+    if (!Array.isArray(parsed?.elements)) {
+      failures.push(`${endpoint}: no elements array (keys: ${Object.keys(parsed ?? {}).join(',') || 'none'})`);
+      continue;
+    }
+    // A query that succeeds and returns nothing is not a country with no
+    // datacentres, it is a broken query. Refuse it rather than publish an empty map.
+    if (parsed.elements.length < 100) {
+      failures.push(
+        `${endpoint}: only ${parsed.elements.length} elements for the whole United States; ` +
+          'the last measured count was 1,921 and a collapse like that is a query fault, not a finding',
+      );
+      continue;
+    }
+
+    return {
+      fetched_at: new Date().toISOString(),
+      endpoint,
+      query: data,
+      attempts: failures,
+      elements: parsed.elements,
+    };
   }
-  if (!Array.isArray(parsed?.elements)) {
-    throw new Error(`overpass: no elements array (keys: ${Object.keys(parsed ?? {}).join(',') || 'none'})`);
-  }
-  // A query that succeeds and returns nothing is not a country with no
-  // datacentres, it is a broken query. Refuse it rather than publish an empty map.
-  if (parsed.elements.length < 100) {
-    throw new Error(
-      `overpass: only ${parsed.elements.length} elements for the whole United States; ` +
-        'the last measured count was 1,921 and a collapse like that is a query fault, not a finding',
-    );
-  }
-  return {
-    fetched_at: new Date().toISOString(),
-    query: data,
-    elements: parsed.elements,
-  };
+
+  // Nothing answered. _cache.mjs turns this into a stale-cache read when there
+  // is a copy on disk, and only fails the source outright when there is not.
+  throw new Error(`overpass: all ${ENDPOINTS.length} instances refused — ${failures.join(' | ')}`);
 }
 
 /**
@@ -113,12 +161,13 @@ async function loadOverpass(net) {
  * A decommissioned datacentre keeps its tag until somebody visits.
  */
 function statusOf(tags) {
-  if (Object.keys(tags).some((k) => k.startsWith('proposed:'))) return 'announced';
-  if (tags.construction === 'data_center') return 'under_construction';
-  if (tags['construction:telecom'] === 'data_center') return 'under_construction';
-  if (tags.building === 'construction') return 'under_construction';
-  if (tags.landuse === 'construction') return 'under_construction';
-  return 'operating';
+  const proposed = Object.keys(tags).find((k) => k.startsWith('proposed:'));
+  if (proposed) return { status: 'announced', because: `${proposed}=${tags[proposed]}` };
+  if (tags.construction === 'data_center') return { status: 'under_construction', because: 'construction=data_center' };
+  if (tags['construction:telecom'] === 'data_center') return { status: 'under_construction', because: 'construction:telecom=data_center' };
+  if (tags.building === 'construction') return { status: 'under_construction', because: 'building=construction' };
+  if (tags.landuse === 'construction') return { status: 'under_construction', because: 'landuse=construction' };
+  return { status: 'operating', because: 'a datacentre tag with no construction or proposed qualifier' };
 }
 
 /** The tag that matched, for the evidence trail. First match in TAG_VARIANTS order. */
@@ -152,7 +201,7 @@ export default {
       byVariant[tag] = (byVariant[tag] ?? 0) + 1;
 
       const osmRef = `${el.type}/${el.id}`;
-      const status = statusOf(tags);
+      const { status, because } = statusOf(tags);
       const itMw = parseMegawatts(tags.it_power);
       const inMw = parseMegawatts(tags['input:electricity']);
 
@@ -187,6 +236,11 @@ export default {
           {
             kind: 'osm',
             tag,
+            // The tag that set the status, which is often not the tag that
+            // matched the query — a proposed campus still carries
+            // telecom=data_center. Without this a reader cannot check the
+            // status claim against OSM, and every pin here has to be checkable.
+            status_tag: because,
             ref: osmRef,
             url: `https://www.openstreetmap.org/${el.type}/${el.id}`,
             // OSM has no per-object "last surveyed" in a tags-only response.
@@ -214,7 +268,9 @@ export default {
         elements: r.value.elements.length,
         sites: sites.length,
         by_tag: byVariant,
-        bbox: BBOX,
+        bbox: BOXES,
+        endpoint_used: r.value.endpoint ?? null,
+        endpoint_attempts: r.value.attempts ?? [],
         refresh_days: REFRESH_DAYS,
         note:
           'OpenStreetMap coverage is uneven and volunteer-maintained. A datacentre missing ' +
