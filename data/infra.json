@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "engine_version": "1.0.0",
-  "generated_at": "2026-09-24T07:43:10.441Z",
+  "generated_at": "2026-09-24T07:45:05.144Z",
   "index": {
     "name": "SUBSTRATE",
     "question": "How loaded is the physical substrate the models are being built on?",
@@ -20,7 +20,7 @@
     "level_name": "STEADY",
     "level_since": "2026-09-24T03:20:33.302Z",
     "score": 51.5,
-    "generated_at": "2026-09-24T07:43:10.441Z"
+    "generated_at": "2026-09-24T07:45:05.144Z"
   },
   "degraded": true,
   "dark_pillars": [],
@@ -128,9 +128,9 @@
       "baseline_span": null,
       "baseline_note": null,
       "observed_at": null,
-      "error": "caiso-baseload: overnight window incomplete — 8 of 72 intervals present (need 68), 65 still blank. CAISO publishes the current Pacific day only, so this is the normal state between 00:00 and 06:00 Pacific and an outage at any other hour.",
+      "error": "caiso-baseload: overnight window incomplete — 9 of 72 intervals present (need 68), 64 still blank. CAISO publishes the current Pacific day only, so this is the normal state between 00:00 and 06:00 Pacific and an outage at any other hour.",
       "meta": {},
-      "ms": 516
+      "ms": 527
     },
     {
       "id": "ercot-baseload",
@@ -169,7 +169,7 @@
         "direction": "higher = more always-on load",
         "source_note": "net generation summed across all fuel categories, five-minute resolution; Power Storage is negative while batteries charge and that sign is kept"
       },
-      "ms": 198
+      "ms": 640
     },
     {
       "id": "ercot-tightness",
@@ -203,10 +203,10 @@
         "today_low_pct": 69.276,
         "feed_last_updated": "2026-09-24 02:40:00-0500",
         "prc": {
-          "current_mw": 14880,
+          "current_mw": 14918,
           "day_low_mw": 10669,
           "day_low_at_local": "2026-09-24 00:29:04-0500",
-          "samples": 978,
+          "samples": 989,
           "ercot_state": "normal",
           "ercot_title": "Normal Conditions",
           "ercot_note": "There is enough power for current demand.",
@@ -215,7 +215,7 @@
         "direction": "higher = tighter",
         "source_note": "capacity is COMMITTED capacity, which follows expected load, so this ratio understates the swing in physical margin; PRC is enrichment and never scored; rows ERCOT flags as forecast, and any row stamped after the run clock, are dropped before the ratio and the day high and low are computed"
       },
-      "ms": 475
+      "ms": 643
     },
     {
       "id": "nyiso-baseload",
@@ -253,7 +253,7 @@
         "direction": "higher = more always-on load",
         "source_note": "statewide sum of all eleven NYISO load zones; a timestamp missing any zone is discarded rather than summed short"
       },
-      "ms": 460
+      "ms": 1011
     },
     {
       "id": "usdm-drought",
@@ -406,7 +406,7 @@
         "direction": "higher = drier",
         "source_note": "US Drought Monitor, produced weekly by NDMC, USDA and NOAA; an expert assessment, not an instrument reading, and averaged here without area or population weighting"
       },
-      "ms": 1127,
+      "ms": 1299,
       "z": -0.067809,
       "baseline_min": 1.539,
       "baseline_median": 19.157,
@@ -558,7 +558,7 @@
         "direction": "higher = drier",
         "source_note": "denominator is the USGS published median for that gauge on that day of the year, over the gauge’s full period of record; it is not computed by this project"
       },
-      "ms": 939,
+      "ms": 1144,
       "z": -1.418859,
       "baseline_min": -139.437,
       "baseline_median": 10.987,
@@ -582,7 +582,7 @@
       "baseline_source": "the same 180-day rolling count taken at weekly anchors across the fetched corpus",
       "baseline_span": "2022-03-26 to 2026-09-17",
       "baseline_note": "windows overlap, so these points are strongly autocorrelated and the effective sample size is much smaller than the count",
-      "observed_at": "2026-09-24T07:43:10.521Z",
+      "observed_at": "2026-09-24T07:45:05.238Z",
       "error": null,
       "meta": {
         "term": "data center",
@@ -597,7 +597,7 @@
         "direction": "higher = more federal documents mention datacentres",
         "source_note": "the noisiest source in this index: \"data center\" also matches the National Climatic Data Center, federal facility consolidation notices and every agency building with the words in its name"
       },
-      "ms": 1015,
+      "ms": 1160,
       "z": 0.582842,
       "baseline_min": 95,
       "baseline_median": 126,
@@ -621,7 +621,7 @@
       "baseline_source": null,
       "baseline_span": null,
       "baseline_note": "1 of 30 points needed before this source can be scored",
-      "observed_at": "2026-09-24T07:43:12.249Z",
+      "observed_at": "2026-09-24T07:45:07.127Z",
       "error": null,
       "meta": {
         "phrase": "data centers",
@@ -632,7 +632,7 @@
         "direction": "higher = more filings mention datacentres",
         "source_note": "efts.sec.gov full-text search; a count of matching filings, not of dollars, and it carries EDGAR’s own filing calendar — 10-K season lifts every phrase"
       },
-      "ms": 1727
+      "ms": 1888
     },
     {
       "id": "sec-power-contracts",
@@ -652,7 +652,7 @@
       "baseline_source": null,
       "baseline_span": null,
       "baseline_note": "1 of 30 points needed before this source can be scored",
-      "observed_at": "2026-09-24T07:43:12.682Z",
+      "observed_at": "2026-09-24T07:45:06.888Z",
       "error": null,
       "meta": {
         "phrase": "power purchase agreement",
@@ -663,7 +663,7 @@
         "direction": "higher = more bulk power contracted",
         "source_note": "efts.sec.gov full-text search; PPAs are signed by every heavy industry, and nothing in a phrase count separates a datacentre’s from a smelter’s"
       },
-      "ms": 2159
+      "ms": 1647
     }
   ],
   "thresholds": {
@@ -727,6 +727,11 @@
     },
     {
       "generated_at": "2026-09-24T07:43:10.441Z",
+      "score": 51.5,
+      "level": 4
+    },
+    {
+      "generated_at": "2026-09-24T07:45:05.144Z",
       "score": 51.5,
       "level": 4
     }
