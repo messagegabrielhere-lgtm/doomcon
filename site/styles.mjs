@@ -88,7 +88,17 @@ const LIGHT = {
   'accent-2':    '#0f6183',
   ok:            '#17714a',
   stale:         '#8a5a00',
-  'dark-src':    '#b3261e',
+  // DARKENED THIS PASS, and it is a colour-blindness fix rather than a taste
+  // one. Measured relative luminance on paper: --ok #17714a is 0.125 and the
+  // old --dark-src #b3261e was 0.111 - a 1.1x lightness ratio between the two
+  // states this codebase exists to keep apart. Green and red are the textbook
+  // deuteranopia confusion pair, so a reader with the commonest colour vision
+  // deficiency was separating "live" from "dark" on the glyph alone, in the
+  // theme the brief correctly names as the weaker one. #8c1d18 measures 0.065,
+  // which is a 1.9x lightness ratio, and it still clears 8.6:1 against the
+  // #faf9f6 ground - it got MORE legible, not less. The dark theme's pair
+  // (0.49 against 0.33) was already separated and is untouched.
+  'dark-src':    '#8c1d18',
   // Every one of these is darkened until it clears 4.5:1 against #faf9f6. The
   // dark set's #56b0e0 lands at 2.0:1 on paper, which is a hairline nobody can
   // see - a first-class light theme is the whole reason this map exists.
@@ -136,11 +146,61 @@ function orgHues(prefix, hues) {
     .join('\n');
 }
 
+// THE FIVE PILLAR HUES, PROMOTED TO THE GLOBAL SHEET.
+//
+// These five values are _reel.mjs's HUES_DARK / HUES_LIGHT, character for
+// character. They are repeated here rather than imported for one reason that
+// is worth the duplication: `pillarCss` is shipped INSIDE <main>, by whichever
+// page happens to import it, so on a page that does not (methodology, history,
+// the move pages, and this file's own chrome) `--p` was simply unset and every
+// pillar-keyed surface fell back to the neutral rule. The operator has asked
+// twice for more colour and five of the site's best colours were switched off
+// on four of its pages.
+//
+// Promoting them costs ~40 lines of the head sheet and makes the hue a fact of
+// the document rather than a fact of one section. The per-page block still
+// ships and still wins on order; the values are identical, so it wins a tie
+// with itself. If the two ever disagree, _reel.mjs is the definition and this
+// is the copy — that pairing is in the integration note.
+//
+// Never the only signal, anywhere: every element that spends --p also carries
+// the pillar's sigil (.pillar-tag::before, PILLAR_GLYPH in _charts.mjs) or its
+// name in words. Desaturate the whole sheet and no fact is lost.
+const PILLARS_DARK = {
+  capability: '#6ea8fe',
+  compute: '#c792ea',
+  attention: '#ffb020',
+  governance: '#5fd08a',
+  markets: '#ff8f6b',
+};
+const PILLARS_LIGHT = {
+  capability: '#1d4ed8',
+  compute: '#6b21a8',
+  attention: '#9a5a00',
+  governance: '#17714a',
+  markets: '#b3441e',
+};
+
+/**
+ * Two emissions per set. `--pill-<id>` on the root is what lets a surface name
+ * ONE pillar without carrying the attribute — the nav, a legend swatch, a
+ * gradient across all five. `--p` on `[data-pillar=<id>]` is the inherited
+ * hook every existing template already writes against and is untouched.
+ */
+function pillarHues(prefix, hues) {
+  const root = Object.entries(hues).map(([id, c]) => `  --pill-${id}: ${c};`).join('\n');
+  const hook = Object.entries(hues)
+    .map(([id, c]) => `${prefix}[data-pillar="${id}"] { --p: ${c}; }`)
+    .join('\n');
+  return { root, hook };
+}
+
 const TOKENS = `
 :root {
   color-scheme: dark light;
 
 ${palette(DARK)}
+${pillarHues('', PILLARS_DARK).root}
 
   --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   --sans: 'Inter Tight', system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
@@ -159,13 +219,23 @@ ${palette(DARK)}
   --s-1: 4px;  --s-2: 8px;  --s-3: 12px; --s-4: 16px;
   --s-5: 24px; --s-6: 32px; --s-7: 48px; --s-8: 64px;
 
-  /* Section rhythm, as its own token rather than as --s-7/--s-8 read off the
-     space scale. Measured at 375: the old 48px gap between sections cost 7
-     gaps x 20px = 140px of a page a reader is scrolling THROUGH to find facts,
-     and a terminal-style instrument page earns its authority from facts per
-     screen. */
-  --sec:    28px;
-  --sec-lg: 38px;
+  /* Section rhythm. TWO values doing two different jobs, which is the whole of
+     this pass's answer to "more organised".
+
+     --row is the gap between things that belong TOGETHER: a heading and the
+     list it labels, two rows of the same table, a caption and its chart. It is
+     deliberately tight, because negative space between related items is not
+     breathing room - it is a suggestion that they are unrelated.
+
+     --sec is the gap between things that do NOT belong together, and it is now
+     larger than it was rather than smaller. Measured at 375px before this pass:
+     eleven sections at a uniform 28px, so the page read as one 13,000px column
+     with hairlines in it. Shortening the inner gaps and lengthening the outer
+     ones costs nothing net and is what turns a column into a stack of panels -
+     the difference between a document and a console. */
+  --row:    10px;
+  --sec:    32px;
+  --sec-lg: 44px;
 
   /* The measure. One token, overridden on <body data-wide> for the pages whose
      job is density rather than reading. */
@@ -174,17 +244,26 @@ ${palette(DARK)}
   --gutter: 16px;
   --measure: 66ch;
   --radius: 3px;
+
+  /* The height of the sticky rail, as a token rather than as a number typed in
+     two places. Anything that ever needs to scroll to a position clear of the
+     pinned strip reads this, and the scroll-padding-top rule below is what stops an
+     in-page anchor landing under it. */
+  --rail-h: 28px;
 }
 
 body[data-wide="1"] { --wrap: 1240px; }
 
 ${orgHues('', ORG_DARK)}
+${pillarHues('', PILLARS_DARK).hook}
 
 @media (prefers-color-scheme: light) {
   :root:not([data-theme="dark"]) {
 ${palette(LIGHT, '    ')}
+${pillarHues('', PILLARS_LIGHT).root}
   }
 ${orgHues('  :root:not([data-theme="dark"]) ', ORG_LIGHT)}
+${pillarHues('  :root:not([data-theme="dark"]) ', PILLARS_LIGHT).hook}
 }
 
 /* Explicit overrides so the embed can be pinned to a theme by the host page
@@ -193,20 +272,31 @@ ${orgHues('  :root:not([data-theme="dark"]) ', ORG_LIGHT)}
 :root[data-theme="light"] {
   color-scheme: light;
 ${palette(LIGHT)}
+${pillarHues('', PILLARS_LIGHT).root}
 }
 ${orgHues(':root[data-theme="light"] ', ORG_LIGHT)}
+${pillarHues(':root[data-theme="light"] ', PILLARS_LIGHT).hook}
 
 :root[data-theme="dark"] {
   color-scheme: dark;
 ${palette(DARK)}
+${pillarHues('', PILLARS_DARK).root}
 }
 ${orgHues(':root[data-theme="dark"] ', ORG_DARK)}
+${pillarHues(':root[data-theme="dark"] ', PILLARS_DARK).hook}
 `;
 
 
 const BASE = `
 *, *::before, *::after { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+html {
+  -webkit-text-size-adjust: 100%; scroll-behavior: smooth;
+  /* Every in-page anchor on this site - the methodology headings, #oven, the
+     footer's section ids - would otherwise land its target underneath the
+     pinned rail. One declaration, and it is the only cost the sticky rail
+     imposes anywhere. */
+  scroll-padding-top: calc(var(--rail-h) + 6px);
+}
 body {
   margin: 0;
   background: var(--bg);
@@ -338,8 +428,21 @@ const CHROME = `
   position: relative; z-index: 10;
 }
 .masthead__in {
-  display: flex; align-items: baseline; gap: var(--s-2) var(--s-3);
-  padding-top: 9px; padding-bottom: 8px; flex-wrap: wrap;
+  display: flex; align-items: baseline; gap: 2px var(--s-3);
+  padding-top: 8px; padding-bottom: 7px; flex-wrap: wrap;
+}
+/* Measured at 375px: 96px of masthead to carry a wordmark, a tagline and a nav
+   - on a page whose first job is to show a number above the fold to someone who
+   tapped a screenshot. The tagline is the thing to spend: it is repeated
+   verbatim in the footer creed one screen further down and it is the only line
+   in the block that is not a fact or a destination. Under 560px it is dropped
+   from the flow and the nav takes the row, which is 32px of a 812px fold back.
+   It is still in the HTML and still in the footer, so nothing is lost to a
+   crawler or to a reader. */
+@media (max-width: 559px) {
+  .masthead__tag { display: none; }
+  .masthead__in { gap: 4px var(--s-3); }
+  .nav { margin-left: 0; flex-basis: 100%; }
 }
 .wordmark {
   font-family: var(--mono); font-weight: 700; font-size: 15px;
@@ -350,12 +453,23 @@ const CHROME = `
   font-size: var(--t-sm); color: var(--ink-faint); margin: 0;
   flex: 1 1 auto; min-width: 0;
 }
-/* Seven destinations, not five, because /race and /news exist and the homepage
-   mentioned /race exactly once. On a phone the row wraps rather than scrolling:
-   a horizontally scrolled nav hides half the publication behind a gesture
-   nobody is told about, and the whole point of the addition is discovery. */
+/* THE NAV IS AN INSTRUMENT, NOT A LIST OF WORDS.
+
+   Every destination that holds a scalar now prints it inside its own link:
+   INDEX 40.7 / RACE 73.5% / NEWS 200 / WATTS 51.5 / HISTORY 3 / ARCHIVE 3.
+   That is six facts in the space the six words already occupied, and it is the
+   cheapest density on the site, because the numbers were all computed before
+   the nav was rendered. pizzint's nav is two chips that say nothing.
+
+   On a phone the row still WRAPS rather than scrolling - a horizontally
+   scrolled nav hides half the publication behind a gesture nobody is told
+   about, and discovery is the whole point. What pays for the extra glyphs is
+   the short label: layout.mjs emits both forms and this swaps them under 560px,
+   so "THE RACE 73.5%" becomes "RACE 73.5%" and nine destinations still fit in
+   two rows. */
 .nav { display: flex; gap: 3px var(--s-3); flex-wrap: wrap; margin-left: auto; }
 .nav a {
+  display: inline-flex; align-items: baseline; gap: 5px;
   font-family: var(--mono); font-size: var(--t-xs); letter-spacing: 0.09em;
   text-transform: uppercase; color: var(--ink-dim); text-decoration: none;
   padding: 2px 0; border-bottom: 1px solid transparent;
@@ -363,17 +477,66 @@ const CHROME = `
 }
 .nav a:hover { color: var(--ink); border-bottom-color: var(--accent); }
 .nav a[aria-current="page"] { color: var(--ink); border-bottom-color: var(--accent); }
+/* The figure. Cool accent, not amber: amber is spent on the LIVE value of the
+   page you are on, and eight amber numerals in the masthead would spend the
+   one colour that means something on eight things that are merely true. The
+   page you are on keeps its figure in ink, so the current destination reads as
+   a reading and the others read as a menu. */
+.nav__n {
+  font-weight: 700; letter-spacing: 0.01em; color: var(--accent-2);
+  font-variant-numeric: tabular-nums;
+}
+.nav a[aria-current="page"] .nav__n { color: var(--accent); }
+.nav a:hover .nav__n { color: var(--accent); }
+.nav__s { display: none; }
+@media (max-width: 559px) {
+  .nav { gap: 2px var(--s-3); }
+  .nav__l:not(.nav__l--only) { display: none; }
+  .nav__s { display: inline; }
+}
 
 /* ---- the rail ---------------------------------------------------------- */
+/* THE RAIL IS NOW STICKY, AND IT IS THE BIGGEST SINGLE MOVE IN THIS PASS.
+
+   The homepage is thirteen thousand pixels tall on a phone. Under the old
+   rules, every fact about the instrument - the clock, the delta, the level, the
+   source counters, the posture - lived in the first 130px and then left,
+   permanently, and 12,000px of a page called a dashboard had no dashboard on
+   it. Pinning the rail costs ZERO pixels of page height, because the strip was
+   already there, and it converts the whole scroll into an instrument: the
+   number and the second hand stay with you through the feed, the oven, the
+   watch floor and the wire.
+
+   It is the one thing in the category nobody does. It is also the honest
+   version of "a dashboard you cannot stop looking at": what is pinned is a
+   ticking clock and an exact signed delta, not an animation.
+
+   Held to ONE LINE at every width so the offset below is a constant and the
+   sticky band can never eat a third of a phone fold. */
 .rail {
   border-bottom: 1px solid var(--rule);
   background: var(--bg-sunken);
-  position: relative; z-index: 10;
+  position: sticky; top: 0; z-index: 20;
+}
+/* A sticky element inherits no backdrop, so the scanline overlay and the page
+   behind it would both show through the 1px hairline. An explicit background
+   plus the hairline is what makes it read as a panel edge rather than a seam. */
+@supports (backdrop-filter: blur(2px)) {
+  .rail { background: color-mix(in srgb, var(--bg-sunken) 92%, transparent); backdrop-filter: blur(6px); }
 }
 .rail__in {
-  display: flex; flex-wrap: wrap; align-items: baseline;
+  display: flex; flex-wrap: nowrap; align-items: baseline;
   gap: 0; padding-top: 0; padding-bottom: 0;
+  min-height: var(--rail-h); overflow-x: auto; overscroll-behavior-x: contain;
+  scrollbar-width: none; -ms-overflow-style: none;
 }
+.rail__in::-webkit-scrollbar { display: none; }
+.rail__c { flex: 0 0 auto; }
+/* The wall clock, absorbed from the deleted .ops strip. The only element on the
+   site that changes when nothing has happened - which is why it is stated as a
+   TIME and sits beside OBSERVED, whose stamp is the thing that means the data
+   moved. Tabular figures or the whole strip reflows once a second. */
+.rail__clk { color: var(--accent); letter-spacing: 0.04em; }
 /* On a phone the rail is ONE scrolling line, not five wrapped ones. Wrapped, it
    was 146px - 18% of an 812px fold - to say nine things that each fit in a
    thumb-width. A status bar that scrolls is the terminal idiom and it is what
@@ -381,22 +544,27 @@ const CHROME = `
    affordance it needs, and every cell in it is also stated somewhere below in
    full. STATUS is ordered first here because it is the one cell whose absence
    from view could mislead - and it is the one that says DEGRADED about us. */
-@media (max-width: 679px) {
+/* The fade on the trailing edge is the only affordance a terminal status bar
+   has ever needed, and it is applied only where the strip can actually
+   overflow: at the wide measure all eleven cells fit and a permanent fade over
+   the last cell would be a lie about there being more. */
+@media (max-width: 1100px) {
   .rail__in {
-    flex-wrap: nowrap; overflow-x: auto; overscroll-behavior-x: contain;
-    scrollbar-width: none; -ms-overflow-style: none;
-    -webkit-mask-image: linear-gradient(to right, #000 86%, transparent);
-    mask-image: linear-gradient(to right, #000 86%, transparent);
+    -webkit-mask-image: linear-gradient(to right, #000 88%, transparent);
+    mask-image: linear-gradient(to right, #000 88%, transparent);
   }
-  .rail__in::-webkit-scrollbar { display: none; }
-  .rail__c { flex: 0 0 auto; }
+}
+@media (max-width: 679px) {
   /* Re-establish the separator the desktop rules take off the posture cell,
      because at this width it is no longer the last item on the line - it is the
-     first, and "OPERATIONALDELTA" is what happens without this. */
+     first, and "OPERATIONALUTC" is what happens without this. The clock is
+     ordered ahead of it: on a phone the two cells that must survive a glance
+     without a swipe are "is it working" and "what time is it now". */
   .rail__in .rail__c--posture:last-child {
     order: -1; border-right: 1px solid var(--rule-soft);
     padding-right: var(--s-3); margin-right: var(--s-3);
   }
+  .rail__in .rail__c:first-child { order: -2; }
 }
 /* A vertical hairline between cells, not a gap: the cells are of very different
    widths and a pure gap made the strip read as a wrapped sentence. The rule
@@ -541,11 +709,17 @@ a.rail__c:hover .rail__v { color: var(--accent); }
    with the one sentence that says why you would open it. The reader who got
    this far is the reader most likely to open a second page, and we were handing
    them five bare words. */
+/* 885px AT 375px, MEASURED - 9.8% of the page, to list twelve links and a
+   licence. The footer earns its keep as a site index (that argument is above
+   and it stands), but it was spending fold-sized money on air: a 48px top
+   margin, 24/32 padding, a full-width creed, a disclaimer, and twelve
+   descriptions set at 12px/1.4 in a single phone column.
+   Tightened to a third of that without dropping one link or one sentence. */
 .foot {
-  border-top: 1px solid var(--rule); margin-top: var(--s-7);
-  padding: var(--s-5) 0 var(--s-6); color: var(--ink-faint); font-size: 12.5px;
+  border-top: 1px solid var(--rule); margin-top: var(--sec-lg);
+  padding: var(--s-4) 0 var(--s-5); color: var(--ink-faint); font-size: 12.5px;
 }
-.foot__top { display: grid; gap: var(--s-5); }
+.foot__top { display: grid; gap: var(--s-4); }
 @media (min-width: 760px) {
   .foot__top { grid-template-columns: minmax(0, 260px) minmax(0, 1fr); gap: var(--s-6); }
 }
@@ -553,18 +727,24 @@ a.rail__c:hover .rail__v { color: var(--accent); }
   font-family: var(--mono); font-weight: 700; font-size: 13px;
   letter-spacing: 0.22em; color: var(--ink); display: block;
 }
-.foot__creed { margin: 5px 0 var(--s-2); color: var(--ink-dim); font-size: var(--t-sm); }
-.foot__dis { margin: 0; max-width: 42ch; }
-.foot__cols { display: grid; gap: var(--s-4) var(--s-5); grid-template-columns: 1fr; }
-@media (min-width: 520px) { .foot__cols { grid-template-columns: 1fr 1fr; } }
+.foot__creed { margin: 4px 0 6px; color: var(--ink-dim); font-size: var(--t-sm); }
+.foot__dis { margin: 0; max-width: 42ch; line-height: 1.45; }
+/* Two columns from the narrowest width, not from 520px. The site index is nine
+   pages plus five data surfaces plus the repo; in one phone column that is a
+   588px scroll of nothing but link text, and the reader who reached the footer
+   of a 9,000px page has already proved they scroll - what they need is to SEE
+   the shape of the publication in one screen, which is exactly what a second
+   column buys. */
+.foot__cols { display: grid; gap: var(--s-4) var(--s-5); grid-template-columns: 1fr 1fr; }
+@media (max-width: 359px) { .foot__cols { grid-template-columns: 1fr; } }
 @media (min-width: 980px) { .foot__cols { grid-template-columns: 1.15fr 1fr 1fr; } }
 .foot__h {
   font-family: var(--mono); font-size: var(--t-2xs); letter-spacing: 0.16em;
   text-transform: uppercase; color: var(--ink-faint); font-weight: 500;
   margin: 0 0 var(--s-2); padding-bottom: 5px; border-bottom: 1px solid var(--rule);
 }
-.foot__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 7px; }
-.foot__list li { display: grid; gap: 1px; }
+.foot__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 5px; }
+.foot__list li { display: grid; gap: 0; }
 .foot__list a {
   font-family: var(--mono); font-size: var(--t-xs); letter-spacing: 0.07em;
   text-transform: uppercase; color: var(--ink); text-decoration: none;
@@ -578,13 +758,42 @@ a.rail__c:hover .rail__v { color: var(--accent); }
    PAGES tempting rather than merely listed, so they survive in the first
    column; an API endpoint and a repo link do not need selling to the reader who
    scrolled this far. */
-@media (max-width: 519px) {
+/* The blurbs are what make the PAGES tempting rather than merely listed, so
+   they survive in the first column at every width. An API endpoint and a repo
+   link do not need selling to the reader who scrolled this far, and at two
+   columns on a phone there is no room to try. */
+@media (max-width: 759px) {
   .foot__col:nth-child(n+2) .foot__list span { display: none; }
-  .foot__col:nth-child(n+2) .foot__list { gap: var(--s-2); }
+  .foot__col:nth-child(n+2) .foot__list { gap: 6px; }
 }
+/* MEASURED, and it is the reason the blurbs go at phone width rather than the
+   two-column grid: with descriptions on, "The desk" is 446px tall, and because
+   grid rows are sized by their tallest item the five-link "Data" column beside
+   it is ALSO 446px - about 250px of which is empty. Two columns of bare links
+   is 420px of footer instead of 844px, and the shape of the publication - nine
+   pages, five data surfaces, the source - arrives in one screen instead of
+   two, which is what a footer that calls itself a site index is for.
+
+   The sentences are not deleted. They are in the HTML for the crawler, they
+   are the link titles for a screen reader, and they are visible from 520px up,
+   which is every tablet and every desktop. */
+@media (max-width: 519px) {
+  .foot__list span { display: none; }
+  .foot__list { gap: 6px; }
+  .foot__cols > .foot__col:nth-child(3) { grid-column: 1 / -1; }
+}
+/* NOT CUT, though it is 55px and though the homepage hero prints the same
+   sentence verbatim one screen up: on methodology.html, history.html and every
+   move page the footer copy is the ONLY copy, and there is no hook in the
+   markup that says "this page already said it". A duplicate on one page is a
+   cheaper mistake than an omission on seven. The de-duplication belongs in
+   index.mjs, which knows which page it is, and it is in the integration note. */
+/* The one paragraph on the site that says how the whole thing works. It keeps
+   every word; it stops keeping 24px of air above it and a 1.55 leading it does
+   not need at 12.5px in faint ink. */
 .foot__fine {
-  margin: var(--s-5) 0 0; padding-top: var(--s-3); border-top: 1px solid var(--rule-soft);
-  max-width: 96ch; line-height: 1.55;
+  margin: var(--s-4) 0 0; padding-top: 10px; border-top: 1px solid var(--rule-soft);
+  max-width: 96ch; line-height: 1.5;
 }
 .foot__fine code { font-size: 11.5px; color: var(--ink-dim); }
 .foot__fine b { color: var(--ink-dim); font-weight: 600; }
@@ -856,15 +1065,57 @@ const FRESH = `
 .chip b { font-weight: 500; color: var(--ink); overflow: hidden; text-overflow: ellipsis; min-width: 0; }
 .chip__age { flex: 0 0 auto; color: var(--ink-faint); }
 .chip__dot { font-size: 10px; line-height: 1; }
+
+/* ---- THE THREE SOURCE STATES, AND WHY EACH GETS FOUR SIGNALS -------------
+
+   live / dark / awaiting-baseline are the distinction this whole codebase is
+   built to hold, so they are the one place on the site where a reader must
+   never have to compare two colours to read the answer. Four independent
+   signals carry each state, and any one of them alone is sufficient:
+
+     1. GLYPH SHAPE.  ● filled / ◐ half / ○ hollow / ◇ open diamond.
+        Emitted by _parts.mjs. Survives greyscale and thumbnail scale.
+     2. THE WORD.     "live", "stale", "dark", "no baseline", in the chip for
+        every state but the healthy one, and in the .vh span for that one.
+     3. BORDER STYLE. solid / dashed / dotted, on the box AND now on a 3px
+        inline-start bar, which is what makes the state legible in peripheral
+        vision down a 14-chip grid rather than only on inspection.
+     4. HUE, last and never alone.
+
+   The hue axis is chosen for deuteranopia and protanopia, which is where the
+   old set failed: --ok green against --dark-src red is the textbook confusion
+   pair, and a reader with the commonest colour vision deficiency was reading
+   two of the three states off shape alone. The three are now separated by
+   LIGHTNESS and by the blue-yellow axis, which both forms of red-green CVD
+   preserve: dark sources take the red at LOW lightness against a dimmed box,
+   awaiting-baseline takes the cool accent, and live keeps the green - which
+   now only ever has to be told apart from a much darker red and a blue.
+   -------------------------------------------------------------------------- */
+.chip { border-inline-start-width: 3px; }
 .chip[data-status="ok"]    .chip__dot { color: var(--ok); }
 .chip[data-status="stale"] .chip__dot { color: var(--stale); }
 .chip[data-status="dark"]  .chip__dot { color: var(--dark-src); }
-.chip[data-status="uncal"] .chip__dot { color: var(--ink-faint); }
-/* Border STYLE, not border colour, is the second signal: dashed = dark,
-   dotted = awaiting a baseline. Those are different states and a greyscale
-   screenshot has to keep them apart. */
-.chip[data-status="dark"]  { border-style: dashed; }
-.chip[data-status="uncal"] { border-style: dotted; }
+.chip[data-status="uncal"] .chip__dot { color: var(--accent-2); }
+
+.chip[data-status="ok"]    { border-inline-start-color: var(--ok); }
+.chip[data-status="stale"] { border-inline-start-color: var(--stale); }
+/* Dark is the only state that dims the whole box. A source that did not answer
+   should look like an absence, not like a red alert - MOTION.md 4 is explicit
+   that dark sources are pointedly still, and this is the static half of that
+   rule. The dashed border and the hollow glyph do the identifying; the fade
+   does the ranking. */
+.chip[data-status="dark"] {
+  border-style: dashed; border-inline-start-color: var(--dark-src);
+  background: transparent; color: var(--ink-faint);
+}
+.chip[data-status="dark"] b { color: var(--ink-dim); font-weight: 400; }
+/* Awaiting a baseline is NOT a flavour of dark and is not drawn like one: the
+   source answered fine. Dotted, cool, and at full weight - it is a live read
+   with nothing to score it against yet. */
+.chip[data-status="uncal"] {
+  border-style: dotted; border-inline-start-color: var(--accent-2);
+}
+.chip[data-status="uncal"] b { color: var(--ink); }
 .fresh__key { font-size: 11.5px; color: var(--ink-faint); margin: var(--s-2) 0 0; font-family: var(--mono); line-height: 1.55; }
 /* The legend restates the three source states as counts, right where the chips
    are, so a reader matches glyph to word without a paragraph in between. The
@@ -875,10 +1126,21 @@ const FRESH = `
 }
 .fresh__lg { display: inline-flex; align-items: baseline; gap: 4px; color: var(--ink-dim); white-space: nowrap; }
 .fresh__lg i { font-style: normal; font-size: 9px; line-height: 1; }
+/* The legend takes the SAME four signals in the same order, because a legend
+   that renders its states differently from the things it is a legend for is
+   worse than no legend. The bar is a border-block-end here rather than an
+   inline-start one: these sit on a baseline row, not in a grid of boxes. */
+.fresh__lg {
+  padding-bottom: 2px; border-bottom: 2px solid transparent;
+}
 .fresh__lg[data-status="ok"] i { color: var(--ok); }
+.fresh__lg[data-status="ok"] { border-bottom-color: var(--ok); }
 .fresh__lg[data-status="stale"] i { color: var(--stale); }
+.fresh__lg[data-status="stale"] { border-bottom-color: var(--stale); }
 .fresh__lg[data-status="dark"] i { color: var(--dark-src); }
-.fresh__lg[data-status="uncal"] i { color: var(--ink-faint); }
+.fresh__lg[data-status="dark"] { border-bottom-style: dashed; border-bottom-color: var(--dark-src); }
+.fresh__lg[data-status="uncal"] i { color: var(--accent-2); }
+.fresh__lg[data-status="uncal"] { border-bottom-style: dotted; border-bottom-color: var(--accent-2); }
 
 /* Chip variants for the feed and the reel. Every source-kind chip carries a
    letter or a shape in a boxed badge, so it is identifiable without colour and
@@ -1049,40 +1311,27 @@ const ARRIVE = `
 `;
 
 const REEL = `
-/* Horizontally snapping card rail. No JS: scroll-snap and overflow do the whole
-   job, so it works with the keyboard, works in a screenshot, and cannot break
-   during hydration because there is no hydration.
+/* THE RAIL MECHANICS MOVED, AND THIS BLOCK IS NOW ALMOST EMPTY ON PURPOSE.
 
-   The card interior (.rcard*) is shipped by _reel.mjs's own styleTag; only the
-   rail mechanics live here, because only the rail interacts with the page
-   gutter. The .reel__card/.reel__kicker/.reel__num rules that used to sit in
-   this block were emitted by nothing at all and have been cut. */
-.reel { margin: 0 calc(var(--gutter) * -1); padding: 0; }
-.reel__hint {
-  font-family: var(--mono); font-size: var(--t-2xs); letter-spacing: 0.1em; text-transform: uppercase;
-  color: var(--ink-faint); margin: 0 0 var(--s-2); padding: 0 var(--gutter);
-}
-.reel__rail {
-  display: flex; gap: 10px; list-style: none; margin: 0;
-  padding: 2px var(--gutter) var(--s-3);
-  overflow-x: auto; overscroll-behavior-x: contain;
-  scroll-snap-type: x mandatory; scroll-padding-left: var(--gutter);
-  scrollbar-width: thin; scrollbar-color: var(--rule) transparent;
-}
-.reel__rail::-webkit-scrollbar { height: 6px; }
-.reel__rail::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 3px; }
-/* Sizing and snapping live on the RAIL'S DIRECT CHILD, whatever that is. Both
-   <a class="reel__card"> straight in the rail and <li><a> are natural markup,
-   and in the second shape the <li> is the flex item - so putting flex-basis on
-   the inner element let the <li> shrink to max-content and the three cards
-   collapsed into a 99px-wide column with no horizontal scroll at all. Measured,
-   not guessed. */
-.reel__rail > * {
-  flex: 0 0 79%; max-width: 300px; min-width: 0;
-  scroll-snap-align: start; display: flex;
-}
-@media (min-width: 620px) { .reel__rail > * { flex-basis: 268px; } }
+   _reel.mjs shipped a .reel__viewport wrapper this round and took the scroller,
+   the snap axis, the bleed margin, the scrollbar paint and the item flex-basis
+   into its own styleTag. This file was still painting the OLD shape, and the
+   two disagreed in three ways that were all visible at 375px:
+
+     - .reel { margin: 0 -16px } here, PLUS .reel__viewport's own -16px there,
+       bled the card rail 32px past the page gutter in both directions.
+     - overflow-x + scroll-snap-type on .reel__rail put a second, nested
+       scroller inside the real one.
+     - .reel__rail > * { flex: 0 0 79%; max-width: 300px } fought
+       .reel__item { flex: 0 0 clamp(248px, 78vw, 318px) } for the card width.
+
+   The rule for two files painting one component is that the one shipping the
+   markup wins, so all of it is cut rather than reconciled. What stays is the
+   one thing that is a PAGE concern rather than a component concern: the
+   heading row's rhythm against the section above it. */
+.reel .sec__h { margin-bottom: var(--s-2); }
 `;
+
 
 const PILLARS = `
 /* One row on a phone, two at 620, three at 900, five once the wide measure is
@@ -1451,6 +1700,353 @@ const CHROMA = `
 /* The section rule fades rather than stopping dead, which is the cheapest
    possible way to make eleven identical headings look composed. */
 .sec__h::after { background: linear-gradient(90deg, var(--rule), transparent); }
+
+/* ---- THE OVEN RAIL TAKES THE HEAT RAMP -----------------------------------
+
+   The rail is the best-built object on the homepage and it was rendered in one
+   colour. Five stages, named DORMANT to UNPRECEDENTED, cool to hot, drawn as
+   five identical grey cells with one amber box - so the thing the rail is FOR,
+   that the stages are a temperature scale rather than a list, was carried by
+   the words alone and by a burner bar that was grey at every stage.
+
+   --k is set inline by _oven.mjs, per stage, as heat/100: 0.0 at DORMANT
+   through 0.8 at UNPRECEDENTED. That one number is enough to interpolate the
+   whole ramp, so each burner is lit at its own stage's colour with no new
+   markup, no per-stage class and nothing for that file to emit. Turn the
+   colour off and the burner is still a bar that is 20% longer per stage, the
+   number is still printed, the name is still printed and the band is still
+   printed. The hue is the fourth signal, exactly as the heat ramp's own
+   definition in this file requires.
+
+   Selected at .oven <thing> because _oven.mjs's styleTag ships inside <main>
+   and is therefore later in the document; one extra class is the whole of what
+   it takes to win that tie without renaming anything. */
+.oven .oven__st {
+  --burn: color-mix(in oklab, var(--heat-5), var(--heat-1) calc(var(--k, 0) * 100%));
+}
+.oven .oven__st::after { background: var(--burn); opacity: 0.55; }
+.oven .oven__st[data-state="live"]::after { background: var(--accent); opacity: 1; }
+/* The stage number takes the same hue at half strength, so the staircase reads
+   at a glance from the numerals as well as from the burners. The live stage
+   keeps full ink and 700 weight from _oven.mjs, which is what must win. */
+.oven .oven__st .oven__num { color: color-mix(in srgb, var(--burn) 62%, var(--ink-faint)); }
+.oven .oven__st[data-state="live"] .oven__num { color: var(--ink); }
+/* A hairline of the stage's own colour along its top edge. 1px, inside the
+   cell's existing border, so it adds no height and moves nothing. */
+.oven .oven__st { border-top: 2px solid var(--burn); }
+.oven .oven__st[data-state="live"] { border-top-color: var(--accent); }
+
+/* ---- PILLAR HUE, SPENT WHERE IT IS ALSO INFORMATION -----------------------
+
+   --p is now set on every [data-pillar] in the document rather than only on the
+   pages that happen to ship _reel.mjs's block (see PILLARS_DARK above). These
+   are the surfaces that were carrying a pillar id and painting it grey. */
+
+/* The pillar tag's sigil was ink-faint on every pillar - the one element on the
+   site whose entire job is to say WHICH pillar, rendered in the colour that
+   says "none of them". The sigil shape still does the identifying. */
+.pillar-tag { color: var(--ink-dim); border-color: color-mix(in srgb, var(--p, var(--rule)) 38%, var(--rule)); }
+.pillar-tag::before { color: var(--p, var(--ink-faint)); }
+/* NOT WRITTEN HERE, and the reason is worth a line so the next pass does not
+   try: the 200-row signal feed already takes the pillar hue. news.mjs draws
+   .nrow::before as var(--p, var(--rule)), which resolved to the fallback rule
+   on every page that did not ship _reel.mjs's block and now resolves to the
+   pillar on all of them. Promoting the tokens lit that up for free. The ranked
+   pillar chart is the one surface that still cannot: _charts.mjs emits its bars
+   as bare <rect class="ch-r-bar"> with no per-row pillar hook, so there is
+   nothing to select. That is a two-attribute change in that file and it is in
+   the integration note rather than forced from here.
+
+   THE SPARKLINES. Five pillar cards, five sparklines, all of them amber - so
+   the row read as one chart drawn five times. .spark__line and friends are the
+   real class names (double underscore; the first draft of this block guessed
+   single and shipped four dead selectors). A five-card row in five colours is
+   the clearest statement the homepage makes that the pillars are five different
+   things, and every card still prints its pillar's name, sigil and score. */
+.pillar .spark__line { stroke: var(--p, var(--accent)); }
+.pillar .spark__area { fill: color-mix(in srgb, var(--p, var(--accent)) 15%, transparent); }
+.pillar .spark__dot  { fill: var(--p, var(--accent)); }
+.pillar .spark__ring { stroke: var(--p, var(--accent)); }
+/* A dark or uncalibrated pillar keeps its grey. Colour on that card would say
+   the series is live, which is the one thing MOTION.md 4 forbids a visual from
+   implying - and a still, colourless card is the honest opposite. */
+.pillar[data-dark="1"] .spark__line, .pillar[data-uncalibrated="1"] .spark__line { stroke: var(--ink-faint); }
+.pillar[data-dark="1"] .spark__area, .pillar[data-uncalibrated="1"] .spark__area { fill: var(--wash-alt); }
+.pillar[data-dark="1"] .spark__dot, .pillar[data-uncalibrated="1"] .spark__dot { fill: var(--ink-faint); }
+
+/* The masthead ramp is the page's legend for all of the above, and it now has
+   two things to legend rather than one. Unchanged geometry, stated here only
+   so the next reader knows it is deliberate that it is the LEVEL ramp and not
+   the pillar palette: the pillars are five categories with no order, and a
+   gradient across them would claim an ordering that does not exist. */
+`;
+
+
+// ---------------------------------------------------------------------------
+// THE SWITCHER - .sw*
+//
+// WHY IT EXISTS. docs/VISITORS.md 4.9, measured: pizzint runs SEVEN in-place
+// dataset switchers - one slot, different datasets, no navigation - and we ran
+// zero. That is the structural reason their sessions are longer. It is a
+// control, not a decoration: it turns "read this page" into "operate this
+// instrument", and it retires "Elsewhere on the desk", which reached the same
+// destinations as three link cards at 84% scroll depth.
+//
+// THE ONE RULE THAT CANNOT BEND, and the reason the control is radios and not
+// script: every panel is in the static HTML. The page works with JavaScript
+// off, a crawler reads all five datasets, and a screenshot taken before
+// hydration shows the default panel complete. That is the exact failure we beat
+// pizzint on - LOADING TACTICAL DATA... where their venue card should be - and
+// buying their engagement mechanism at the price of their worst bug would be a
+// bad trade at any exchange rate.
+//
+// WHO PAINTS WHAT. _switcher.mjs ships the markup and the panel INTERIORS,
+// namespaced .dsk__*, and ships no rule at all for the control. The control is
+// this block, entire: the radios, the strip, the selected state, the frame and
+// the stacking. That division is why the contract below is written out in full
+// - it is the interface between two files, so it is stated rather than implied.
+//
+// THE MARKUP CONTRACT.
+//
+//   <section class="sw" aria-labelledby="sw-h">
+//     …an optional heading row…
+//     <input class="sw__in" type="radio" name="sw" id="sw-…" checked>   one per
+//                                        panel, ALL of them before .sw__tabs
+//     <div class="sw__tabs" role="radiogroup">
+//       <label class="sw__tab" for="sw-…" data-state="live">
+//         <i class="sw__tg" aria-hidden="true">◆</i>
+//         <span class="sw__tk">Signal</span>
+//         <b class="sw__tn num">200</b>
+//       </label>                                       same order as the radios
+//     </div>
+//     <div class="sw__panels">
+//       <article class="sw__panel">
+//         <div class="sw__head"><h3 class="sw__ph">…</h3><span class="sw__pm">…</span></div>
+//         <div class="sw__body">…</div>
+//         <a class="sw__more" href="…">…</a>
+//       </article>                                     same order again
+//     </div>
+//   </section>
+//
+// Panel N binds to radio N by nth-of-type, so the labels must be the only
+// children of .sw__tabs and the articles the only children of .sw__panels. A
+// heading before the radios is fine - :nth-of-type counts inputs among inputs.
+// Exactly one radio carries `checked`. SW_MAX is the ceiling.
+//
+// If the control is ever rendered server-selected instead - one panel chosen at
+// build time, the tabs as real links - set aria-selected="true" on the chosen
+// tab and data-on="1" on the chosen panel and every rule here still applies.
+// ---------------------------------------------------------------------------
+
+/** Radio N lights tab N and shows panel N. Five datasets today; room for eight
+ *  before anyone has to think about this number again. */
+const SW_MAX = 8;
+
+/** One index, six selectors: the lit tab, its accent cap, its figure, its
+ *  sigil, its panel, and its focus ring. Generated rather than typed out, so
+ *  adding a dataset is a data change in _switcher.mjs and nothing at all here. */
+function swBindings() {
+  const rows = [];
+  const on = (n, sel) => `.sw__in:nth-of-type(${n}):checked ~ ${sel}`;
+  for (let n = 1; n <= SW_MAX; n += 1) {
+    const tab = `.sw__tabs > .sw__tab:nth-child(${n})`;
+    rows.push(`${on(n, tab)} { color: var(--ink); background: var(--bg-sunken); border-color: var(--rule); border-bottom-color: var(--bg-sunken); font-weight: 700; }`);
+    rows.push(`${on(n, tab)}::after { opacity: 1; }`);
+    rows.push(`${on(n, tab)} .sw__tn { color: var(--accent); border-color: var(--accent); }`);
+    rows.push(`${on(n, tab)} .sw__tg { color: var(--accent); }`);
+    rows.push(`${on(n, `.sw__panels > .sw__panel:nth-child(${n})`)} { visibility: visible; opacity: 1; }`);
+    rows.push(`.sw__in:nth-of-type(${n}):focus-visible ~ ${tab} { outline: 2px solid var(--accent); outline-offset: -2px; }`);
+  }
+  return rows.join('\n');
+}
+
+const SWITCHER = `
+/* The densest object on the page gets the page's largest gap above it. A tab
+   strip beginning 24px under the thing before it reads as part of that thing. */
+.sw { margin-top: var(--sec-lg); }
+
+/* The radios are the state machine. Off-screen rather than display:none, which
+   would take them out of the tab order and leave the control unreachable from a
+   keyboard - the labels are the only visible handle, so the input being
+   focusable is what makes the arrow keys work. */
+.sw__in {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* ---- THE TAB STRIP ------------------------------------------------------ */
+/* Folder tabs, not pills. A tab whose bottom edge opens into the panel below it
+   is the one idiom that says "this strip and that frame are one object" with no
+   word of instruction, and it is the difference between a control and five
+   buttons above some content. The -1px margin closes the seam. */
+.sw__tabs {
+  display: flex; gap: 2px; margin: 0; padding: 0;
+  overflow-x: auto; overscroll-behavior-x: contain;
+  scrollbar-width: none; -ms-overflow-style: none;
+  border-bottom: 1px solid var(--rule);
+}
+.sw__tabs::-webkit-scrollbar { display: none; }
+.sw__tab {
+  position: relative; flex: 0 0 auto;
+  display: inline-flex; align-items: baseline; gap: 6px;
+  padding: 7px 11px; cursor: pointer;
+  font-family: var(--mono); font-size: var(--t-xs); letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--ink-dim); font-weight: 500;
+  background: var(--bg); border: 1px solid transparent; border-bottom: 0;
+  border-radius: var(--radius) var(--radius) 0 0;
+  margin-bottom: -1px;
+  -webkit-user-select: none; user-select: none;
+  transition: color 120ms ease, background-color 120ms ease;
+}
+.sw__tab:hover { color: var(--ink); background: var(--bg-raised); }
+/* SELECTION IS NEVER COLOUR ALONE, and on a tab strip that is not a nicety:
+   this control is how the reader knows which dataset is under them, so getting
+   it wrong makes the panel beneath it a lie. FOUR signals, all generated in
+   swBindings(): the tab lifts onto the frame's own background, its hairline
+   opens into the frame, its label goes to 700 weight and full ink, and a 2px
+   accent cap sits on its top edge. Desaturate the page and the open tab is
+   still the heavier one that has broken the line. */
+.sw__tab::after {
+  content: ''; position: absolute; left: -1px; right: -1px; top: -1px; height: 2px;
+  background: var(--accent); border-radius: var(--radius) var(--radius) 0 0;
+  opacity: 0; transition: opacity 120ms ease;
+}
+.sw__tg { font-style: normal; font-size: 9px; line-height: 1; color: var(--ink-faint); }
+.sw__tk { white-space: nowrap; }
+/* THE LIVE COUNT is what makes the strip a legend rather than a menu: five
+   destinations AND five readings in one 34px row, every figure already computed
+   before the control was rendered. Cool accent, the same rule the masthead nav
+   follows - amber is the live value of the thing you are LOOKING at, so only
+   the open tab's figure goes amber. */
+.sw__tn {
+  font-weight: 700; letter-spacing: 0.01em; font-size: var(--t-xs);
+  font-variant-numeric: tabular-nums; color: var(--accent-2);
+  border: 1px solid var(--rule); border-radius: 2px; padding: 0 4px;
+  min-width: 3.4ch; text-align: center; line-height: 1.5;
+}
+/* ZERO IS NOT AN EVENT - the arrival badges' rule, applied here. A counter that
+   lights up to announce that nothing happened is the pizzint failure in a
+   smaller costume, and this index posts the calm days on purpose. */
+.sw__tn[data-zero="1"] { color: var(--ink-faint); font-weight: 500; }
+/* A dataset whose sources are dark says so ON ITS OWN TAB, before the reader
+   spends a tap on it, and in the same three-state grammar the freshness chips
+   use - because it is the same statement. */
+.sw__tab[data-state="dark"] { border-style: dashed; border-color: var(--rule); color: var(--ink-faint); }
+.sw__tab[data-state="dark"] .sw__tn { color: var(--ink-faint); border-style: dashed; }
+.sw__tab[data-state="uncal"] .sw__tn,
+.sw__tab[data-state="awaiting-baseline"] .sw__tn { border-style: dotted; color: var(--accent-2); }
+
+/* ---- THE PANEL FRAME ---------------------------------------------------- */
+/* MOUNTED, NOT STACKED. Before this the tab strip floated over a panel with no
+   edges, so five datasets read as five headings that happened to replace each
+   other rather than as one instrument with five settings. An inset well with a
+   hairline around it, under a strip of raised tabs, is the whole difference
+   between a control and a list, and it costs 13px of padding.
+
+   EVERY PANEL IN ONE GRID CELL is the whole of "no layout shift on switch": the
+   well is always as tall as its TALLEST panel, so switching moves nothing on
+   the page below it and the reader's thumb stays where they put it. A stack
+   that resizes on every tap is why most tab strips feel cheap. Measured on the
+   live build, the five panels run 617px to 1,920px - so without this, tapping
+   SUBSTRATE after SIGNAL shortens the page by about 1,300px under the reader's
+   finger. It costs the tallest panel's height rather than the average, and that
+   is the price of the control not jumping.
+
+   Hidden panels are visibility:hidden, NOT display:none. Three reasons, all
+   load-bearing: a display:none box has no height, so there would be nothing to
+   stack against; visibility:hidden still takes the links out of the tab order
+   and the text out of the accessibility tree, which is the correctness
+   requirement; and a laid-out card reel can measure itself, so it does not
+   appear at zero width the first time its panel is opened.
+
+   min-width: 0 ON THE PANEL IS NOT COSMETIC, and this block shipped without it
+   once. A grid item's default min-width is auto, which means it refuses to
+   shrink below its content's MIN-CONTENT width. The signal panel contains the
+   card reel, whose min-content width is eight 300px cards, so the panel
+   resolved to 2,410px inside a 375px viewport and every line of text in it ran
+   off the right edge. Found by looking at the built page at 375x812, which is
+   the only way it could have been found. */
+.sw__panels {
+  display: grid; grid-template-areas: 'sw'; grid-template-columns: minmax(0, 1fr);
+  align-items: start; min-width: 0;
+  background: var(--bg-sunken);
+  border: 1px solid var(--rule); border-top: 0;
+  border-radius: 0 0 var(--radius) var(--radius);
+}
+.sw__panel {
+  grid-area: sw; min-width: 0;
+  padding: var(--s-3) 13px var(--s-4);
+  visibility: hidden; opacity: 0;
+  transition: opacity 140ms ease;
+}
+/* The server-selected form, for a rendering with no radios. Before the
+   generated bindings, so a radio always wins when both are present. */
+.sw__panel[data-on="1"] { visibility: visible; opacity: 1; }
+.sw__tab[aria-selected="true"] {
+  color: var(--ink); background: var(--bg-sunken); border-color: var(--rule);
+  border-bottom-color: var(--bg-sunken); font-weight: 700;
+}
+.sw__tab[aria-selected="true"]::after { opacity: 1; }
+.sw__tab[aria-selected="true"] .sw__tn { color: var(--accent); border-color: var(--accent); }
+
+${swBindings()}
+
+/* ---- PANEL INTERIOR ----------------------------------------------------- */
+/* The well is inset from the page, so the first thing in it must not be inset
+   again from the well, and the last must not push a gap against the frame. */
+.sw__panel > :first-child { margin-top: 0; }
+.sw__panel > :last-child { margin-bottom: 0; }
+.sw__head {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px var(--s-3);
+  padding-bottom: 7px; margin-bottom: var(--row);
+  border-bottom: 1px solid var(--rule-soft);
+}
+.sw__ph {
+  font-family: var(--mono); font-size: var(--t-sm); letter-spacing: 0.06em;
+  color: var(--ink); margin: 0; font-weight: 500;
+}
+/* THE STAMP, and every panel carries one. The first question anyone asks of an
+   in-place dataset switcher is whether the thing they just switched to is as
+   fresh as the thing they switched from. pizzint's seven panels answer it zero
+   times; that is the difference between a dashboard and a slideshow. */
+.sw__pm {
+  font-family: var(--mono); font-size: var(--t-2xs); letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--ink-faint); margin-left: auto;
+  font-variant-numeric: tabular-nums;
+}
+.sw__body { min-width: 0; }
+.sw__body > :first-child { margin-top: 0; }
+.sw__body > :last-child { margin-bottom: 0; }
+/* A panel that re-hosts a whole section brings that section's own top margin
+   with it, and in here it is already inside a frame with its own padding. */
+.sw__body > .sec:first-child, .sw__body > section:first-child { margin-top: 0; }
+.sw__body .sec__h { font-size: var(--t-xs); }
+/* Every tile is also a real URL. The crawler requirement and the share
+   requirement are one requirement. The arrow is drawn, not typed. */
+.sw__more {
+  display: inline-flex; align-items: baseline; gap: 5px; margin-top: var(--row);
+  font-family: var(--mono); font-size: var(--t-xs); letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--ink-dim); text-decoration: none;
+  border-bottom: 1px solid var(--rule);
+}
+.sw__more::after { content: '\\2192'; color: var(--ink-faint); }
+.sw__more:hover { color: var(--ink); border-bottom-color: var(--accent); }
+.sw__more:hover::after { color: var(--accent); }
+
+/* At 375px the well's 13px of side padding is 26px a card reel cannot spend on
+   the card. The frame's edges are still drawn; only the inset shrinks. */
+@media (max-width: 519px) {
+  .sw__panel { padding: var(--s-3) 10px 12px; }
+  .sw__tab { padding-inline: 9px; gap: 5px; }
+}
+
+/* Reduce turns the cross-fade off; the panel still switches, instantly. Same
+   information, no motion - MOTION.md 3. Restated rather than left to the
+   blanket override in BASE, because a zero-duration opacity transition on a
+   visibility-hidden element is the exact case engines disagree on. */
+@media (prefers-reduced-motion: reduce) {
+  .sw__panel { transition: none; }
+}
 `;
 
 /**
@@ -1461,16 +2057,19 @@ const CHROMA = `
  * matters and still lives in this file - it just does not need to travel. The
  * repo is public and linked from the footer, so nothing is hidden by this.
  *
- * Measured on the v5 sheet, 2026-09-24: 62.4 KB -> 45.9 KB raw, 8.8 KB
- * gzipped. Against the sheet this pass started from that is +4.4 KB raw for the
- * heat ramp, the cool accent, the eight per-lab hues and the avatar paint, less
- * the .layout-split and .wrap--wide rules that were emitting for nobody and the
- * .oven block that was emitting over somebody. (The 35.7/29.1 figures this
- * comment carried before were three component blocks out of date; a measurement
- * with no date on it goes stale exactly like a source does, which is the joke
- * this whole repo is built on.) Safe because no
- * declaration in this file contains the sequence slash-star - the 'content'
- * values are all escaped code points.
+ * Measured after this pass, 2026-09-24: 59.3 KB raw, 10.3 KB gzipped, against
+ * 45.9 KB / 8.8 KB before it. The +13.4 KB raw is almost entirely the
+ * switcher's generated bindings - forty-eight selectors that differ only in an
+ * index - which is why the gzipped figure moves by 1.5 KB and not by thirteen:
+ * that is exactly the shape a deflate window eats. The rest is the promoted
+ * pillar tokens (four theme blocks) and the switcher's frame.
+ *
+ * Paid back in the same pass: the dead .ops block, the stale .reel rail
+ * mechanics, and the first draft of the switcher contract are all cut.
+ *
+ * Safe because no declaration in this file contains the sequence slash-star -
+ * the 'content' values are all escaped code points, and the assertion is
+ * checked by building and grepping the output rather than by hoping.
  */
 function lean(sheet) {
   return sheet
@@ -1553,68 +2152,23 @@ const PLAIN = `
 
 const OPS = `
 /* ---------------------------------------------------------------------------
-   THE OPERATIONS STRIP — .ops, emitted by layout.mjs's opsStrip().
+   WHAT IS LEFT OF THE OPERATIONS STRIP.
 
-   This block carried the clock's colour and nothing that gave the strip a
-   layout, so it was rendering RAW on the homepage fold: 16px Inter, no
-   separators, wrapped to three lines, reading
-   "03:30:32Z+3:25:4314/14 REPORTING5 SCORED15 FEEDS200 ITEMSSTATUS:
-   OPERATIONAL". Found by looking at the built page at 375px, not by reading the
-   file — .ops is emitted by a template this module does not import, so nothing
-   in the repo could have pointed at it.
+   The .ops block that lived here - the strip's layout, its phone-width scroll,
+   its clock and its posture hue, about forty lines - is CUT, because the markup
+   it painted is cut. layout.mjs printed .ops immediately above .rail and the
+   two shared five atoms verbatim: REPORTING, SCORED, FEEDS, ITEMS and STATUS,
+   said twice, 53px apart, in an 812px fold. That is precisely the "same fact
+   wearing a different hat" failure the rail was built to fix, and the rail's
+   own file was committing it. The one atom .ops carried alone - the ticking
+   wall clock - is a rail cell now (.rail__clk in CHROME).
 
-   Painted as the rail's quieter sibling and deliberately not as its equal: the
-   same hairline-separated mono cells, one size smaller, in dimmer ink, so two
-   counter strips stacked above the fold read as a panel and its caption rather
-   than as the same announcement made twice. (That they restate each other at
-   all is a markup question for layout.mjs, not a paint question — it is in the
-   integration note.)
+   Grepped before cutting: nothing in site/templates/ or site/*.mjs emits .ops
+   or any .ops__* class except layout.mjs, which no longer does.
+
+   The level epithet stays. It was only ever in this block because the counters
+   it sat beside used to be.
    --------------------------------------------------------------------------- */
-.ops {
-  border-bottom: 1px solid var(--rule);
-  background: var(--bg-sunken);
-  position: relative; z-index: 10;
-}
-.ops__in {
-  display: flex; align-items: baseline; flex-wrap: wrap;
-  gap: 0; padding-top: 0; padding-bottom: 0;
-}
-/* The same treatment the rail gets at phone width, for the same measured
-   reason: wrapped, these eight cells spend three lines of an 812px fold saying
-   eight things that each fit in a thumb-width. Scrolled, they spend one, and
-   the fade on the trailing edge is the only affordance a terminal-style status
-   bar has ever needed. */
-@media (max-width: 679px) {
-  .ops__in {
-    flex-wrap: nowrap; overflow-x: auto; overscroll-behavior-x: contain;
-    scrollbar-width: none; -ms-overflow-style: none;
-    -webkit-mask-image: linear-gradient(to right, #000 88%, transparent);
-    mask-image: linear-gradient(to right, #000 88%, transparent);
-  }
-  .ops__in::-webkit-scrollbar { display: none; }
-  .ops__c { flex: 0 0 auto; }
-}
-.ops__c {
-  display: inline-flex; align-items: baseline; gap: 4px;
-  padding: 4px var(--s-3) 4px 0; margin-right: var(--s-3);
-  border-right: 1px solid var(--rule-soft);
-  font-family: var(--mono); font-size: var(--t-2xs);
-  letter-spacing: 0.12em; text-transform: uppercase;
-  color: var(--ink-faint); white-space: nowrap;
-}
-.ops__c:last-child { border-right: 0; margin-right: 0; padding-right: 0; }
-/* STATUS is the last cell opsStrip() writes and it is the one cell that can say
-   DEGRADED about us, so it gets a hue — on top of the word, never instead of
-   it. If that emitter ever appends a cell after STATUS, this is the selector
-   that needs revisiting. */
-.ops[data-posture="operational"] .ops__c:last-child { color: var(--ok); }
-.ops[data-posture="degraded"] .ops__c:last-child { color: var(--stale); }
-
-/* The clock moves every second — the only thing on the page that does. Tabular
-   figures, or the strip reflows once a second and reads as broken. */
-.ops__clk { color: var(--accent); font-variant-numeric: tabular-nums; letter-spacing: 0.06em; }
-.ops__c[data-dc-age] { font-variant-numeric: tabular-nums; }
-
 /* The epithet sits between the level name and the gloss: two to four words with
    a point of view, where the name above it is the measurement. The counters
    that used to live in this block are now the rail, in CHROME. */
@@ -1632,7 +2186,7 @@ export function css() {
   return lean([
     TOKENS, BASE, CHROME, OPS, PLAIN, HERO,
     CHARTS_CORE, CHARTS,
-    FRESH, ARRIVE, REEL, PILLARS, MOVES, XSELL, PROSE,
+    FRESH, ARRIVE, REEL, PILLARS, MOVES, SWITCHER, XSELL, PROSE,
     // AVATARS is global because _avatars.mjs deliberately ships no style block
     // and its marks appear on more than one page. (The arrival counters' paint
     // is in ARRIVE, above, with the rest of the arrival grammar, for the same

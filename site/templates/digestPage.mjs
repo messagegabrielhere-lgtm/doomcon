@@ -25,6 +25,7 @@
 
 import { esc, utc, utcClock, signed, num } from './_html.mjs';
 import { pillarTag, pillarSprite, pillarCss } from './_reel.mjs';
+import { newCounts, newBadgeFor, newCoverageNote } from './_parts.mjs';
 import { page } from './layout.mjs';
 import * as brand from '../brand.mjs';
 
@@ -44,6 +45,14 @@ export function render(ctx) {
   const streaks = d.streaks || { state: 'awaiting-baseline', records: [], streaks: [], facts: [] };
   const ents = d.entities || { labs: [] };
 
+  // Arrival counts, from data/news.json's meta.first_seen_at. They answer the
+  // one question the digest's own stamps cannot — how much has landed on this
+  // desk since, rather than how much the world published — and _parts.newCounts
+  // is the single place that arithmetic lives, so this page and the homepage
+  // cannot print two different numbers for it. null when the build has no
+  // newsroom; every consumer below is written to take that.
+  const counts = ctx.news ? newCounts(ctx.news) : null;
+
   const main = `<style>${digestCss()}</style>${pillarSprite()}
 <section class="dg__intro">
   <h1 class="dg__h1">The daily brief</h1>
@@ -56,8 +65,8 @@ export function render(ctx) {
      <a href="${esc(ctx.href('/methodology.html'))}">the methodology</a> and in <code>docs/DIGEST.md</code>.</p>
 </section>
 
-${briefSection(d, brief)}
-${changedSection(ctx, d, changed)}
+${briefSection(d, brief, counts)}
+${changedSection(ctx, d, changed, counts)}
 ${streakSection(d, streaks)}
 ${entitySection(ctx, d, ents)}
 ${rulesSection(d)}`;
@@ -175,10 +184,17 @@ const RULE_WORD = {
   frontier_salience: 'frontier lab named',
 };
 
-function briefSection(d, brief) {
+function briefSection(d, brief, arrivals) {
+  // The heading counter. The brief is a rule-selected six; the badge beside it
+  // is how many items landed on the desk in the last hour, which is a different
+  // number over a different window and is exactly why it is worth printing.
+  // newBadgeFor returns '' with no counts, and marks itself partial when the
+  // first-seen record is shallower than the window it was asked for, so it can
+  // never claim an hour it has not watched.
+  const badge = newBadgeFor(arrivals, 3600, { noun: 'arrived' });
   if (!brief.items || !brief.items.length) {
     return `<section class="sec dg" aria-labelledby="dg-brief-h">
-      <h2 class="sec__h" id="dg-brief-h">The brief</h2>
+      <h2 class="sec__h" id="dg-brief-h">The brief ${badge}</h2>
       <p class="dg__empty"><b>NO ITEM CLEARED A RULE</b>
         Of ${esc(brief.candidates || 0)} items published in the last ${esc(brief.window_hours || 24)} hours,
         none satisfied any of the ${esc(Object.keys(RULE_WORD).length)} selection rules. The brief is short
@@ -193,7 +209,7 @@ function briefSection(d, brief) {
       <span class="num">${esc(counts[id] ?? 0)}</span> in window</li>`).join('');
 
   return `<section class="sec dg" aria-labelledby="dg-brief-h">
-  <h2 class="sec__h" id="dg-brief-h">The brief</h2>
+  <h2 class="sec__h" id="dg-brief-h">The brief ${badge}</h2>
   <p class="dg__key">${esc(brief.shown)} shown of ${esc(brief.qualified)} that cleared a rule, from
      ${esc(brief.candidates)} candidates in the last ${esc(brief.window_hours)} hours. Capped at
      ${esc(brief.max_items)} items and ${esc(brief.max_per_source)} per source, so a single high-volume feed
@@ -232,7 +248,7 @@ function briefItem(it) {
     <h3 class="dg__title"><span class="vh">Item ${esc(it.rank)}. </span>${title}</h3>
     ${sub}
     <p class="dg__rules">${rules}</p>
-    <h4 class="vh">Why this matters</h4>
+    <h4 class="dg__whyh">Why this matters</h4>
     <ul class="dg__why">${why}</ul>
   </li>`;
 }
@@ -241,14 +257,14 @@ function briefItem(it) {
 // 2. WHAT CHANGED
 // ---------------------------------------------------------------------------
 
-function changedSection(ctx, d, changed) {
+function changedSection(ctx, d, changed, counts) {
   const idx = changed.index || {};
   return `<section class="sec dg" aria-labelledby="dg-chg-h">
   <h2 class="sec__h" id="dg-chg-h">What changed</h2>
   ${indexBlock(idx)}
   ${sourcesBlock(changed.sources)}
   ${raceBlock(ctx, changed.race)}
-  ${firstSeenBlock(changed.first_seen)}
+  ${firstSeenBlock(changed.first_seen, counts)}
 </section>`;
 }
 
@@ -409,13 +425,28 @@ function raceBlock(ctx, r) {
  * dictionary lookup per item: a name that has never appeared in the record
  * before is a fact about the record, and the record is ours.
  */
-function firstSeenBlock(f) {
+function firstSeenBlock(f, counts) {
   if (!f) return '';
+  // The arrivals block. "First sighting" above is about NAMES entering the
+  // record; this is about ITEMS entering it, and the two are different ledgers
+  // over the same corpus, so they sit together and are labelled apart.
+  //
+  // The coverage note is not optional here and is the whole reason this is
+  // rendered from newCounts() rather than from a filter written inline. On the
+  // live file the record is 5.9 hours deep over 7 collector runs, so the 24h
+  // row reads "200 new - 6h on record" rather than "200 new in 24h", which
+  // would be false: the first run stamped 101 items as first-seen simply
+  // because it was the first run to look at them.
+  const arrivals = counts ? `<h3 class="dg__h3">Arrivals</h3>
+    <p class="dg__key">
+      ${newBadgeFor(counts, 3600, { noun: 'arrived' })}
+      ${newBadgeFor(counts, 86400, { noun: 'arrived' })}
+      ${esc(newCoverageNote(counts))}</p>` : '';
   if (f.state !== 'live') {
-    return `<h3 class="dg__h3">First sightings</h3>${awaiting(f.reason)}`;
+    return `${arrivals}<h3 class="dg__h3">First sightings</h3>${awaiting(f.reason)}`;
   }
   if (!f.entities.length && !f.sources.length) {
-    return `<h3 class="dg__h3">First sightings</h3>
+    return `${arrivals}<h3 class="dg__h3">First sightings</h3>
       <p class="dg__key">No name appeared in the corpus for the first time. The ledger has run
          ${esc(f.runs)} ${esc(f.runs === 1 ? 'time' : 'times')} since
          <time datetime="${esc(f.established_at)}">${esc(utc(f.established_at))}</time>.</p>`;
@@ -428,7 +459,7 @@ function firstSeenBlock(f) {
   const srcs = f.sources.length
     ? `<p class="dg__key">New to the corpus this run: ${f.sources.map((x) => `<code>${esc(x.id)}</code>`).join(', ')}.</p>`
     : '';
-  return `<h3 class="dg__h3">First sightings</h3>
+  return `${arrivals}<h3 class="dg__h3">First sightings</h3>
     <p class="dg__key">${esc(f.entities.length)} ${esc(f.entities.length === 1 ? 'name' : 'names')} appeared in the
        corpus for the first time since the ledger was established
        <time datetime="${esc(f.established_at)}">${esc(utc(f.established_at))}</time>.</p>
@@ -771,6 +802,19 @@ const dgCss = `
 .dg__title a:hover { text-decoration: underline; text-decoration-color: var(--p, var(--accent)); }
 .dg__sub { font-size: var(--t-sm); color: var(--ink-faint); margin: 5px 0 0; line-height: 1.5; }
 .dg__rules { display: flex; flex-wrap: wrap; gap: 5px; margin: 9px 0 0; }
+/* Visible, not vh. This label was hidden, and it sits over the only lines on
+   the site that state the recomputability claim in plain words - "2 independent
+   sources carried it ... first at 23:40 UTC, 64 minutes before the last of
+   them". docs/VISITORS.md §3 conclusion 3 is that our best material is our
+   least visible, and a heading that existed only for a screen reader was that
+   finding in miniature. Small, uppercase, faint: it labels the block without
+   competing with the headline above it. */
+.dg__whyh {
+  font-family: var(--mono); font-size: 9.5px; font-weight: 700;
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-faint);
+  margin: 9px 0 0;
+}
+.dg__whyh + .dg__why { margin-top: 4px; }
 .dg__why { list-style: none; margin: 9px 0 0; padding: 0 0 0 11px; border-left: 1px solid var(--rule); display: grid; gap: 4px; }
 .dg__why li { font-family: var(--mono); font-size: var(--t-xs); line-height: 1.6; color: var(--ink-dim); }
 
@@ -857,7 +901,7 @@ const dgCss = `
   .dg__labstats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .dg__itemhead { grid-template-columns: minmax(0, 1fr) auto; }
   .dg__rank { display: none; }
-  .dg__title, .dg__sub, .dg__rules, .dg__why { grid-column: 1 / -1; }
+  .dg__title, .dg__sub, .dg__rules, .dg__whyh, .dg__why { grid-column: 1 / -1; }
 }
 
 /* Motion. The rail beside a brief item wipes in, because the item is a new

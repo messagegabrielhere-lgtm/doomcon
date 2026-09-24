@@ -47,7 +47,7 @@
 // Paint lives in site/styles.mjs (the `.avt*` block), not here, so one sheet
 // themes these for light and dark the same way it themes every chart.
 
-import { esc } from './_html.mjs';
+import { esc, utcDay } from './_html.mjs';
 
 // ---------------------------------------------------------------------------
 // The shapes
@@ -215,6 +215,16 @@ const SIZES = new Set(['sm', 'md', 'lg']);
  * @param {boolean} [opts.role=true]   show "CEO · OpenAI" under the name
  * @param {string|null} [opts.sub=null] replace the role line with your own text
  *        (a measured figure, e.g. "posts 18 / 30d"). Escaped here.
+ * @param {string|null} [opts.note=null] the full published note behind `sub`,
+ *        carried visually-hidden. The visible slot is one line; the measured
+ *        reasons in data/race.json are two — "Posts on X. Scraping X carries an
+ *        explicit permanent-suspension penalty under its developer terms, so
+ *        this cell is empty by policy, not by accident." Clipping that to its
+ *        first sentence and dropping the rest turns a stated decision back into
+ *        what reads as a missing value, so the remainder rides along here: a
+ *        screen reader gets it, a copy-paste gets it, and the row still fits in
+ *        one line. Same split avatarUnknown() already makes with `detail`, and
+ *        it is skipped when it would only repeat `sub`.
  * @param {string|null} [opts.href=null] wrap the whole row in a link
  * @returns {string} HTML
  */
@@ -231,12 +241,14 @@ export function avatar(personId, opts = {}) {
   const showRole = opts.role !== false;
   const sub = typeof opts.sub === 'string' && opts.sub ? opts.sub
     : (showRole ? `${p.role} · ${p.orgName}` : null);
+  const note = typeof opts.note === 'string' && opts.note && opts.note !== sub ? opts.note : null;
 
   const body = label === 'none'
-    ? `${mark(p, size)}<span class="vh">${esc(p.name)}</span>`
+    ? `${mark(p, size)}<span class="vh">${esc(p.name)}${note ? ` — ${esc(note)}` : ''}</span>`
     : `${mark(p, size)}<span class="avtrow__t">` +
       `<b class="avtrow__n">${esc(p.name)}</b>` +
       (sub ? `<span class="avtrow__r">${esc(sub)}</span>` : '') +
+      (note ? `<span class="vh">${esc(note)}</span>` : '') +
       `</span>`;
 
   const cls = `avtrow avtrow--${label === 'none' ? 'bare' : size}`;
@@ -276,10 +288,79 @@ export function avatarUnknown({ size = 'sm', reason = 'no principal published', 
     `</span></span>`;
 }
 
-/** The first sentence of a published note, for a one-line slot. */
+/**
+ * The first sentence of a published note, for a one-line slot.
+ *
+ * A TERMINATOR FOLLOWED BY AN ALPHANUMERIC IS NOT A SENTENCE END, and that
+ * exception is the whole reason this is not a one-liner. The naive
+ * `^[^.!?]*[.!?]` cut data/race.json's Anthropic reason —
+ * "darioamodei.com publishes essays but serves no feed: /rss and /feed.xml both
+ * returned HTTP 404 (probed 2026-09-23)." — down to the two words
+ * "darioamodei.", which is not a sentence, not a measurement, and reads on the
+ * watch floor as a truncation bug rather than as the probe result it is.
+ *
+ * Checked against all eight published reasons and the one principal_note in
+ * data/race.json as of 2026-09-24. The domain cases (darioamodei.com,
+ * hassabis.com, /feed.xml) are the ones that decide the rule: a dot inside a
+ * hostname or a filename is always followed by a letter, and a real sentence
+ * end here is always followed by a space or by nothing. Where a note is a
+ * single sentence the whole note comes back, which is correct — the caller caps
+ * the visible line in CSS and carries the full text alongside it.
+ */
 function firstSentence(text) {
-  const m = String(text).match(/^[^.!?]*[.!?]/);
+  const m = String(text).match(/^[\s\S]*?[.!?](?![A-Za-z0-9])/);
   return (m ? m[0] : String(text)).trim();
+}
+
+/**
+ * The measured reading for a principal, from the `loudness` block a
+ * data/race.json player already carries. One function so the watch floor and
+ * /race cannot print two different sentences about the same person.
+ *
+ * This exists because of what the watch floor was throwing away. Seven of the
+ * eight boxes printed the string "no public feed" and nothing else, while
+ * data/race.json was carrying, per lab, the actual probe result that produced
+ * it — "darioamodei.com publishes essays but serves no feed: /rss and /feed.xml
+ * both returned HTTP 404 (probed 2026-09-23)", "Posts on X. Scraping X carries
+ * an explicit permanent-suspension penalty under its developer terms, so this
+ * cell is empty by policy, not by accident." Those are the strongest sentences
+ * we own and they were rendered as three identical words eight times.
+ *
+ * The four states stay four. `dormant` is a feed that answers and has published
+ * nothing lately — Altman's blog, last post 2026-04-10 — and collapsing it into
+ * `no_feed` would claim a working feed is broken, which is the same merge
+ * docs/NEWS.md refuses for source states.
+ *
+ * @param {object|null} player a data/race.json player row
+ * @returns {{state: string, text: string|null, note: string|null}}
+ *          `text` is one line for the visible slot, `note` the full published
+ *          reason when it is longer, or null when it is not.
+ */
+export function principalLine(player) {
+  const l = (player && player.loudness) || {};
+  const state = typeof l.state === 'string' ? l.state : 'unread';
+  const reason = typeof l.reason === 'string' && l.reason ? l.reason : null;
+
+  if (state === 'live' && Number.isFinite(l.posts_30d)) {
+    return { state, text: `${l.posts_30d} posts / 30d`, note: reason };
+  }
+  if (state === 'dormant') {
+    // A date, not "dormant" on its own. "No post since 2026-04-10" is a
+    // measurement a reader can check; "dormant" is a word we chose.
+    const since = typeof l.newest_at === 'string' && Number.isFinite(Date.parse(l.newest_at))
+      ? `no post since ${utcDay(l.newest_at)}`
+      : 'feed answers, nothing published in the window';
+    return { state, text: since, note: reason };
+  }
+  if (state === 'no_feed') {
+    return { state, text: reason ? firstSentence(reason) : 'no public feed', note: reason };
+  }
+  if (state === 'dark') {
+    return { state, text: reason ? firstSentence(reason) : 'feed read failed', note: reason };
+  }
+  // Not "quiet". We have not looked, which is not the same as having looked and
+  // found nothing — the rule _labs.mjs prints under the grid.
+  return { state: 'unread', text: null, note: reason };
 }
 
 /**
@@ -290,18 +371,47 @@ function firstSentence(text) {
  * the honest empty frame rather than to nothing. A lab box with a mark for
  * seven labs and a hole for the eighth reads as a rendering bug; a lab box that
  * says "no principal published" reads as a measurement.
+ *
+ * Pass `measured: true` and the second line becomes principalLine()'s reading —
+ * what this person's feed actually did — instead of their job title. That is
+ * the call the watch floor wants: the box above the row already names the lab,
+ * so "CEO · Anthropic" is two words we already printed, while "no post since
+ * 2026-04-10" is a fact that exists nowhere else on the page. `sub` passed
+ * explicitly still wins over both.
  */
 export function avatarFor(player, opts = {}) {
   if (!player || typeof player !== 'object') {
     return avatarUnknown({ ...opts, reason: 'no player record' });
   }
-  const id = personIdFor(player.principal) || personIdFor(player.id);
+  // A PUBLISHED NULL BEATS OUR OWN TABLE, and this is the line that makes it
+  // so. The lab-id fallback is there for a row that simply never carried a
+  // principal field; it must not fire when data/race.json has explicitly
+  // published `"principal": null`, because PEOPLE above maps a lab id to a
+  // person and would then reinstate a name the collector has stopped
+  // publishing. That is imputation — the same move as treating a dark source as
+  // a zero — and it fails silently, which is worse: measured against the live
+  // file, nulling every principal changed the rendered watch floor by zero
+  // bytes. Every name stayed, sourced from a table typed by hand.
+  const declaredNull = Object.prototype.hasOwnProperty.call(player, 'principal') && !player.principal;
+  const id = personIdFor(player.principal) || (declaredNull ? null : personIdFor(player.id));
   if (!id) {
     const note = typeof player.principal_note === 'string' && player.principal_note ? player.principal_note : null;
     return avatarUnknown({
       ...opts,
       reason: note ? firstSentence(note) : 'no principal published',
       detail: note,
+    });
+  }
+
+  if (opts.measured) {
+    const m = principalLine(player);
+    const { measured, ...rest } = opts;
+    return avatar(id, {
+      ...rest,
+      // text null means we have not looked. Fall through to the role rather
+      // than printing an empty line or inventing a state for the person.
+      sub: typeof rest.sub === 'string' ? rest.sub : (m.text || undefined),
+      note: typeof rest.note === 'string' ? rest.note : m.note,
     });
   }
   // The published role wins over ours when race.json carries one: that field is
