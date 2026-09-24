@@ -1,0 +1,785 @@
+{
+  "schema": 1,
+  "engine_version": "1.0.0",
+  "generated_at": "2026-09-24T07:24:05.761Z",
+  "index": {
+    "name": "SUBSTRATE",
+    "question": "How loaded is the physical substrate the models are being built on?",
+    "feeds_main_index": false
+  },
+  "score": 51.5,
+  "level": 4,
+  "level_name": "STEADY",
+  "level_gloss": "Ordinary. This is where most observations sit.",
+  "previous_level": 4,
+  "level_since": "2026-09-24T03:20:33.302Z",
+  "rule_fired": "none",
+  "raw_level": 4,
+  "last_known": {
+    "level": 4,
+    "level_name": "STEADY",
+    "level_since": "2026-09-24T03:20:33.302Z",
+    "score": 51.5,
+    "generated_at": "2026-09-24T07:24:05.761Z"
+  },
+  "degraded": true,
+  "dark_pillars": [],
+  "awaiting_pillars": [
+    "grid"
+  ],
+  "counts": {
+    "live": 3,
+    "awaiting_baseline": 5,
+    "dark": 1,
+    "total": 9
+  },
+  "levels": [
+    {
+      "level": 5,
+      "name": "SLACK",
+      "min": 0,
+      "max": 34,
+      "gloss": "The substrate is reading at the quiet end of its own record."
+    },
+    {
+      "level": 4,
+      "name": "STEADY",
+      "min": 35,
+      "max": 54,
+      "gloss": "Ordinary. This is where most observations sit."
+    },
+    {
+      "level": 3,
+      "name": "LOADED",
+      "min": 55,
+      "max": 69,
+      "gloss": "Above the middle of the record on more than one pillar."
+    },
+    {
+      "level": 2,
+      "name": "STRAINED",
+      "min": 70,
+      "max": 84,
+      "gloss": "Near the top of what this index has observed."
+    },
+    {
+      "level": 1,
+      "name": "MAXIMAL",
+      "min": 85,
+      "max": 100,
+      "gloss": "At the top of the record. A statement about our sample, not about the world."
+    }
+  ],
+  "pillars": [
+    {
+      "id": "grid",
+      "name": "The grid",
+      "blurb": "How much load never switches off, and how little slack is left over it.",
+      "score": null,
+      "state": "awaiting-baseline",
+      "dark": false,
+      "sources_live": 0,
+      "sources_awaiting": 3,
+      "sources_dark": 1,
+      "sources_total": 4
+    },
+    {
+      "id": "water",
+      "name": "The water",
+      "blurb": "The state of the rivers and the ground the clusters were built beside.",
+      "score": 40.8,
+      "state": "live",
+      "dark": false,
+      "sources_live": 2,
+      "sources_awaiting": 0,
+      "sources_dark": 0,
+      "sources_total": 2
+    },
+    {
+      "id": "buildout",
+      "name": "The build-out",
+      "blurb": "What companies had to write down, and what the government had to publish.",
+      "score": 57.3,
+      "state": "live",
+      "dark": false,
+      "sources_live": 1,
+      "sources_awaiting": 2,
+      "sources_dark": 0,
+      "sources_total": 3
+    }
+  ],
+  "sources": [
+    {
+      "id": "caiso-baseload",
+      "pillar": "grid",
+      "label": "CAISO overnight floor",
+      "region": "CAISO · California",
+      "unit": null,
+      "unit_label": "MW",
+      "cadence": "daily, settles at 06:00 Pacific",
+      "direction": "higher = more load that never switches off",
+      "state": "dark",
+      "value": null,
+      "score": null,
+      "percentile": null,
+      "baseline_n": 0,
+      "baseline_origin": null,
+      "baseline_source": null,
+      "baseline_span": null,
+      "baseline_note": null,
+      "observed_at": null,
+      "error": "caiso-baseload: overnight window incomplete — 5 of 72 intervals present (need 68), 68 still blank. CAISO publishes the current Pacific day only, so this is expected between 00:00 and 06:00 Pacific and is an outage at any other hour.",
+      "meta": {},
+      "ms": 698
+    },
+    {
+      "id": "ercot-baseload",
+      "pillar": "grid",
+      "label": "ERCOT overnight floor",
+      "region": "ERCOT · Texas",
+      "unit": "MW",
+      "unit_label": "MW",
+      "cadence": "daily, settles at 06:00 Central",
+      "direction": "higher = more load that never switches off",
+      "state": "awaiting-baseline",
+      "value": 55706.8,
+      "score": null,
+      "percentile": null,
+      "baseline_n": 1,
+      "baseline_origin": "accumulated",
+      "baseline_source": null,
+      "baseline_span": null,
+      "baseline_note": "1 of 30 points needed before this source can be scored",
+      "observed_at": "2026-09-23T09:25:00.000Z",
+      "error": null,
+      "meta": {
+        "local_day": "2026-09-23",
+        "window_local": "00:00–06:00 CT",
+        "intervals_used": 71,
+        "intervals_expected": 72,
+        "fuel_categories": 8,
+        "floor_at_local": "2026-09-23 04:25:00-0500",
+        "window_high_mw": 63568,
+        "window_range_mw": 7861.2,
+        "days_available": [
+          "2026-09-24",
+          "2026-09-23"
+        ],
+        "feed_last_updated": "2026-09-24 02:21:00-0500",
+        "direction": "higher = more always-on load",
+        "source_note": "net generation summed across all fuel categories, five-minute resolution; Power Storage is negative while batteries charge and that sign is kept"
+      },
+      "ms": 261
+    },
+    {
+      "id": "ercot-tightness",
+      "pillar": "grid",
+      "label": "ERCOT headroom used",
+      "region": "ERCOT · Texas",
+      "unit": "percent",
+      "unit_label": "% of committed capacity",
+      "cadence": "every 5 minutes",
+      "direction": "higher = less slack between load and the committed fleet",
+      "state": "awaiting-baseline",
+      "value": 71.833,
+      "score": null,
+      "percentile": null,
+      "baseline_n": 2,
+      "baseline_origin": "accumulated",
+      "baseline_source": null,
+      "baseline_span": null,
+      "baseline_note": "2 of 30 points needed before this source can be scored",
+      "observed_at": "2026-09-25T05:00:00.000Z",
+      "error": null,
+      "meta": {
+        "demand_mw": 63285,
+        "committed_capacity_mw": 88100,
+        "headroom_mw": 24815,
+        "interval_local": "2026-09-25 00:00:00-0500",
+        "intervals_today": 289,
+        "today_high_pct": 86.989,
+        "today_low_pct": 63.749,
+        "feed_last_updated": "2026-09-24 02:20:00-0500",
+        "prc": {
+          "current_mw": 14381,
+          "day_low_mw": 10669,
+          "day_low_at_local": "2026-09-24 00:29:04-0500",
+          "samples": 864,
+          "ercot_state": "normal",
+          "ercot_title": "Normal Conditions",
+          "ercot_note": "There is enough power for current demand.",
+          "eea_level": 0
+        },
+        "direction": "higher = tighter",
+        "source_note": "capacity is COMMITTED capacity, which follows expected load, so this ratio understates the swing in physical margin; PRC is enrichment and never scored"
+      },
+      "ms": 625
+    },
+    {
+      "id": "nyiso-baseload",
+      "pillar": "grid",
+      "label": "NYISO overnight floor",
+      "region": "NYISO · New York",
+      "unit": "MW",
+      "unit_label": "MW",
+      "cadence": "daily, settles at 06:00 Eastern",
+      "direction": "higher = more load that never switches off",
+      "state": "awaiting-baseline",
+      "value": 12440.4,
+      "score": null,
+      "percentile": null,
+      "baseline_n": 1,
+      "baseline_origin": "accumulated",
+      "baseline_source": null,
+      "baseline_span": null,
+      "baseline_note": "1 of 30 points needed before this source can be scored",
+      "observed_at": "2026-09-23T07:55:00.000Z",
+      "error": null,
+      "meta": {
+        "local_day": "2026-09-23",
+        "window_local": "00:00–06:00 ET",
+        "intervals_used": 72,
+        "intervals_expected": 72,
+        "intervals_dropped_incomplete": 0,
+        "blank_load_cells": 0,
+        "zones": 11,
+        "floor_at_local": "09/23/2026 03:55:00",
+        "time_zone": "EDT",
+        "attempts": [
+          "20260924pal.csv: 39 complete intervals (need 66)"
+        ],
+        "direction": "higher = more always-on load",
+        "source_note": "statewide sum of all eleven NYISO load zones; a timestamp missing any zone is discarded rather than summed short"
+      },
+      "ms": 609
+    },
+    {
+      "id": "usdm-drought",
+      "pillar": "water",
+      "label": "Severe drought, ten cluster states",
+      "region": "ten states, weekly",
+      "unit": "percent of area",
+      "unit_label": "% of area in D2+",
+      "cadence": "weekly, published Thursdays",
+      "direction": "higher = more of the build-out sitting in severe drought",
+      "state": "live",
+      "value": 18.9,
+      "score": 49.2,
+      "percentile": 0.473,
+      "baseline_n": 260,
+      "baseline_origin": "feed",
+      "baseline_source": "the same ten-state mean recomputed for every earlier week in the window",
+      "baseline_span": "2021-09-21 to 2026-09-08",
+      "baseline_note": "5 years of weekly maps; the current week is excluded",
+      "observed_at": "2026-09-15T12:00:00.000Z",
+      "error": null,
+      "meta": {
+        "map_date": "2026-09-15",
+        "valid_start": "2026-09-15T00:00:00",
+        "valid_end": "2026-09-21T23:59:59",
+        "states": [
+          {
+            "abbr": "OR",
+            "name": "Oregon",
+            "cluster": "The Dalles, Hillsboro",
+            "none": 1.52,
+            "d0": 98.48,
+            "d1": 91.5,
+            "d2": 60.06,
+            "d3": 27.78,
+            "d4": 3.91
+          },
+          {
+            "abbr": "TX",
+            "name": "Texas",
+            "cluster": "Dallas, Austin, San Antonio",
+            "none": 3.55,
+            "d0": 96.45,
+            "d1": 81.01,
+            "d2": 42.64,
+            "d3": 17.97,
+            "d4": 3.64
+          },
+          {
+            "abbr": "AZ",
+            "name": "Arizona",
+            "cluster": "Phoenix metro",
+            "none": 6.88,
+            "d0": 93.12,
+            "d1": 77.16,
+            "d2": 35.66,
+            "d3": 1.87,
+            "d4": 0
+          },
+          {
+            "abbr": "NE",
+            "name": "Nebraska",
+            "cluster": "Omaha, Papillion",
+            "none": 18.52,
+            "d0": 81.48,
+            "d1": 60.32,
+            "d2": 33.01,
+            "d3": 9.06,
+            "d4": 0.93
+          },
+          {
+            "abbr": "VA",
+            "name": "Virginia",
+            "cluster": "Loudoun County",
+            "none": 27.65,
+            "d0": 72.35,
+            "d1": 34.5,
+            "d2": 15.25,
+            "d3": 3.79,
+            "d4": 0
+          },
+          {
+            "abbr": "GA",
+            "name": "Georgia",
+            "cluster": "Atlanta metro",
+            "none": 6.45,
+            "d0": 93.55,
+            "d1": 27.04,
+            "d2": 2.29,
+            "d3": 0,
+            "d4": 0
+          },
+          {
+            "abbr": "CA",
+            "name": "California",
+            "cluster": "Santa Clara, the CAISO control region",
+            "none": 34.77,
+            "d0": 65.23,
+            "d1": 22.32,
+            "d2": 0.04,
+            "d3": 0,
+            "d4": 0
+          },
+          {
+            "abbr": "OH",
+            "name": "Ohio",
+            "cluster": "New Albany, Columbus",
+            "none": 100,
+            "d0": 0,
+            "d1": 0,
+            "d2": 0,
+            "d3": 0,
+            "d4": 0
+          },
+          {
+            "abbr": "IA",
+            "name": "Iowa",
+            "cluster": "Council Bluffs, Des Moines",
+            "none": 85.71,
+            "d0": 14.29,
+            "d1": 6.79,
+            "d2": 0,
+            "d3": 0,
+            "d4": 0
+          },
+          {
+            "abbr": "NY",
+            "name": "New York",
+            "cluster": "the NYISO control region",
+            "none": 81.17,
+            "d0": 18.83,
+            "d1": 0.13,
+            "d2": 0,
+            "d3": 0,
+            "d4": 0
+          }
+        ],
+        "states_total": 10,
+        "driest": "OR",
+        "driest_d2": 60.06,
+        "states_clear_of_d2": [
+          "OH",
+          "IA",
+          "NY"
+        ],
+        "baseline_weeks": 260,
+        "weeks_seen": 261,
+        "weeks_complete": 261,
+        "threshold": "D2 — severe drought or worse; cumulative, so D2 includes D3 and D4",
+        "direction": "higher = drier",
+        "source_note": "US Drought Monitor, produced weekly by NDMC, USDA and NOAA; an expert assessment, not an instrument reading, and averaged here without area or population weighting"
+      },
+      "ms": 1436,
+      "z": -0.067809,
+      "baseline_min": 1.539,
+      "baseline_median": 19.157,
+      "baseline_max": 41.852
+    },
+    {
+      "id": "usgs-water-deficit",
+      "pillar": "water",
+      "label": "Streamflow below normal, nine clusters",
+      "region": "nine gauges, seven states",
+      "unit": "percent below normal",
+      "unit_label": "% below normal, median of 9",
+      "cadence": "daily, one day in arrears",
+      "direction": "higher = less water in the rivers these clusters draw on",
+      "state": "live",
+      "value": -12.82,
+      "score": 32.3,
+      "percentile": 0.078,
+      "baseline_n": 1094,
+      "baseline_origin": "feed",
+      "baseline_source": "the same nine-gauge median recomputed for every earlier day in the window",
+      "baseline_span": "2023-09-24 to 2026-09-21",
+      "baseline_note": "3 years of USGS daily values; the current reading is excluded",
+      "observed_at": "2026-09-22T12:00:00.000Z",
+      "error": null,
+      "meta": {
+        "reading_day": "2026-09-22",
+        "gauges_reporting": 9,
+        "gauges_total": 9,
+        "gauges_missing": [],
+        "gauges": [
+          {
+            "site": "08158000",
+            "name": "Colorado Rv at Austin",
+            "state": "TX",
+            "cluster": "Austin–San Antonio",
+            "note": "central Texas build-out; ERCOT South",
+            "flow_cfs": 765,
+            "normal_cfs": 940,
+            "percent_of_normal": 81.4,
+            "deficit_pct": 18.6,
+            "record_years": "1899–2026"
+          },
+          {
+            "site": "08057000",
+            "name": "Trinity Rv at Dallas",
+            "state": "TX",
+            "cluster": "Dallas–Fort Worth",
+            "note": "ERCOT North; the densest Texas cluster",
+            "flow_cfs": 477,
+            "normal_cfs": 376,
+            "percent_of_normal": 126.9,
+            "deficit_pct": -26.9,
+            "record_years": "1914–2026"
+          },
+          {
+            "site": "01644000",
+            "name": "Goose Creek near Leesburg",
+            "state": "VA",
+            "cluster": "Loudoun County",
+            "note": "Data Center Alley itself; a small local stream",
+            "flow_cfs": 388,
+            "normal_cfs": 36,
+            "percent_of_normal": 1077.8,
+            "deficit_pct": -977.8,
+            "record_years": "1910–2025"
+          },
+          {
+            "site": "01646500",
+            "name": "Potomac Rv at Little Falls",
+            "state": "MD",
+            "cluster": "Northern Virginia",
+            "note": "the regional supply gauge for the DC metro",
+            "flow_cfs": 2640,
+            "normal_cfs": 2340,
+            "percent_of_normal": 112.8,
+            "deficit_pct": -12.8,
+            "record_years": "1931–2026"
+          },
+          {
+            "site": "03227500",
+            "name": "Scioto Rv at Columbus",
+            "state": "OH",
+            "cluster": "Central Ohio",
+            "note": "New Albany and the Columbus corridor",
+            "flow_cfs": 6850,
+            "normal_cfs": 176,
+            "percent_of_normal": 3892,
+            "deficit_pct": -3792,
+            "record_years": "1921–2025"
+          },
+          {
+            "site": "06610000",
+            "name": "Missouri Rv at Omaha",
+            "state": "NE",
+            "cluster": "Council Bluffs–Omaha",
+            "note": "the Iowa–Nebraska river cluster",
+            "flow_cfs": 29500,
+            "normal_cfs": 35600,
+            "percent_of_normal": 82.9,
+            "deficit_pct": 17.1,
+            "record_years": "1953–2026"
+          },
+          {
+            "site": "02335000",
+            "name": "Chattahoochee Rv near Norcross",
+            "state": "GA",
+            "cluster": "Atlanta metro",
+            "note": "metro Atlanta water supply",
+            "flow_cfs": 2190,
+            "normal_cfs": 1720,
+            "percent_of_normal": 127.3,
+            "deficit_pct": -27.3,
+            "record_years": "1957–2026"
+          },
+          {
+            "site": "09380000",
+            "name": "Colorado Rv at Lees Ferry",
+            "state": "AZ",
+            "cluster": "Phoenix metro",
+            "note": "the accounting point for Lower Basin deliveries, which is how Central Arizona Project water reaches Phoenix; it is 300 miles upstream of the datacentres and is a supply gauge, not a local one",
+            "flow_cfs": 7680,
+            "normal_cfs": 10400,
+            "percent_of_normal": 73.8,
+            "deficit_pct": 26.2,
+            "record_years": "1922–2026"
+          },
+          {
+            "site": "14105700",
+            "name": "Columbia Rv at The Dalles",
+            "state": "OR",
+            "cluster": "The Dalles",
+            "note": "the Oregon cluster sits on this river",
+            "flow_cfs": 82800,
+            "normal_cfs": 107000,
+            "percent_of_normal": 77.4,
+            "deficit_pct": 22.6,
+            "record_years": "1879–2025"
+          }
+        ],
+        "median_deficit_pct": -12.82,
+        "mean_deficit_pct": -528.03,
+        "aggregator": "median across gauges; the mean is reported but never scored",
+        "driest": "Colorado Rv at Lees Ferry",
+        "wettest": "Scioto Rv at Columbus",
+        "baseline_days": 1094,
+        "no_data_points_dropped": 5,
+        "lag_note": "USGS daily values settle the following morning, so this reads one day behind",
+        "direction": "higher = drier",
+        "source_note": "denominator is the USGS published median for that gauge on that day of the year, over the gauge’s full period of record; it is not computed by this project"
+      },
+      "ms": 1032,
+      "z": -1.418859,
+      "baseline_min": -139.437,
+      "baseline_median": 10.987,
+      "baseline_max": 56.997
+    },
+    {
+      "id": "fedreg-datacenter",
+      "pillar": "buildout",
+      "label": "Federal Register documents saying \"data center\"",
+      "region": "US federal government",
+      "unit": "documents/180d",
+      "unit_label": "documents / 180d",
+      "cadence": "daily, on the federal publication calendar",
+      "direction": "higher = more federal paperwork touching datacentres",
+      "state": "live",
+      "value": 168,
+      "score": 57.3,
+      "percentile": 0.72,
+      "baseline_n": 234,
+      "baseline_origin": "feed",
+      "baseline_source": "the same 180-day rolling count taken at weekly anchors across the fetched corpus",
+      "baseline_span": "2022-03-26 to 2026-09-17",
+      "baseline_note": "windows overlap, so these points are strongly autocorrelated and the effective sample size is much smaller than the count",
+      "observed_at": "2026-09-24T07:24:05.877Z",
+      "error": null,
+      "meta": {
+        "term": "data center",
+        "window_days": 180,
+        "window_start": "2026-03-28",
+        "window_end": "2026-09-24",
+        "corpus_since": "2021-09-24",
+        "corpus_documents": 1495,
+        "corpus_reported_count": 1495,
+        "pages_fetched": 2,
+        "baseline_points": 234,
+        "direction": "higher = more federal documents mention datacentres",
+        "source_note": "the noisiest source in this index: \"data center\" also matches the National Climatic Data Center, federal facility consolidation notices and every agency building with the words in its name"
+      },
+      "ms": 1470,
+      "z": 0.582842,
+      "baseline_min": 95,
+      "baseline_median": 126,
+      "baseline_max": 258
+    },
+    {
+      "id": "sec-datacenter",
+      "pillar": "buildout",
+      "label": "SEC filings saying \"data centers\"",
+      "region": "US public companies",
+      "unit": "filings/30d",
+      "unit_label": "filings / 30d",
+      "cadence": "continuous; EDGAR indexes on filing",
+      "direction": "higher = more disclosed datacentre activity",
+      "state": "awaiting-baseline",
+      "value": 1965,
+      "score": null,
+      "percentile": null,
+      "baseline_n": 1,
+      "baseline_origin": "accumulated",
+      "baseline_source": null,
+      "baseline_span": null,
+      "baseline_note": "1 of 30 points needed before this source can be scored",
+      "observed_at": "2026-09-24T07:24:06.929Z",
+      "error": null,
+      "meta": {
+        "phrase": "data centers",
+        "window_days": 30,
+        "startdt": "2026-08-25",
+        "enddt": "2026-09-24",
+        "relation": "eq",
+        "direction": "higher = more filings mention datacentres",
+        "source_note": "efts.sec.gov full-text search; a count of matching filings, not of dollars, and it carries EDGAR’s own filing calendar — 10-K season lifts every phrase"
+      },
+      "ms": 1051
+    },
+    {
+      "id": "sec-power-contracts",
+      "pillar": "buildout",
+      "label": "SEC filings saying \"power purchase agreement\"",
+      "region": "US public companies",
+      "unit": "filings/90d",
+      "unit_label": "filings / 90d",
+      "cadence": "continuous; EDGAR indexes on filing",
+      "direction": "higher = more bulk electricity being contracted for",
+      "state": "awaiting-baseline",
+      "value": 298,
+      "score": null,
+      "percentile": null,
+      "baseline_n": 1,
+      "baseline_origin": "accumulated",
+      "baseline_source": null,
+      "baseline_span": null,
+      "baseline_note": "1 of 30 points needed before this source can be scored",
+      "observed_at": "2026-09-24T07:24:06.774Z",
+      "error": null,
+      "meta": {
+        "phrase": "power purchase agreement",
+        "window_days": 90,
+        "startdt": "2026-06-26",
+        "enddt": "2026-09-24",
+        "relation": "eq",
+        "direction": "higher = more bulk power contracted",
+        "source_note": "efts.sec.gov full-text search; PPAs are signed by every heavy industry, and nothing in a phrase count separates a datacentre’s from a smelter’s"
+      },
+      "ms": 895
+    }
+  ],
+  "thresholds": {
+    "min_baseline_n": 30,
+    "deadband": 3,
+    "min_hours_between_changes": 6,
+    "quorum": 2,
+    "composite": "0.7 * mean(live pillars) + 0.3 * max(live pillars)",
+    "normalisation": "empirical percentile -> inverse normal CDF -> 50 + 12.5z, clamped to [0,100]"
+  },
+  "history": [
+    {
+      "generated_at": "2026-09-24T03:20:33.302Z",
+      "score": 49.3,
+      "level": 4
+    },
+    {
+      "generated_at": "2026-09-24T03:21:34.526Z",
+      "score": 51.5,
+      "level": 4
+    },
+    {
+      "generated_at": "2026-09-24T03:24:09.042Z",
+      "score": 51.5,
+      "level": 4
+    },
+    {
+      "generated_at": "2026-09-24T03:25:49.910Z",
+      "score": 51.5,
+      "level": 4
+    },
+    {
+      "generated_at": "2026-09-24T03:37:44.383Z",
+      "score": 51.5,
+      "level": 4
+    },
+    {
+      "generated_at": "2026-09-24T07:24:05.761Z",
+      "score": 51.5,
+      "level": 4
+    }
+  ],
+  "baselines": {
+    "caiso-baseload": {
+      "days": [
+        {
+          "d": "2026-09-24",
+          "v": 22133
+        }
+      ]
+    },
+    "ercot-baseload": {
+      "days": [
+        {
+          "d": "2026-09-23",
+          "v": 55706.8
+        }
+      ]
+    },
+    "ercot-tightness": {
+      "days": [
+        {
+          "d": "2026-09-24",
+          "v": 74.809
+        },
+        {
+          "d": "2026-09-25",
+          "v": 71.833
+        }
+      ]
+    },
+    "nyiso-baseload": {
+      "days": [
+        {
+          "d": "2026-09-23",
+          "v": 12440.4
+        }
+      ]
+    },
+    "usdm-drought": {
+      "days": [
+        {
+          "d": "2026-09-15",
+          "v": 18.9
+        }
+      ]
+    },
+    "usgs-water-deficit": {
+      "days": [
+        {
+          "d": "2026-09-22",
+          "v": -12.82
+        }
+      ]
+    },
+    "fedreg-datacenter": {
+      "days": [
+        {
+          "d": "2026-09-24",
+          "v": 168
+        }
+      ]
+    },
+    "sec-datacenter": {
+      "days": [
+        {
+          "d": "2026-09-24",
+          "v": 1965
+        }
+      ]
+    },
+    "sec-power-contracts": {
+      "days": [
+        {
+          "d": "2026-09-24",
+          "v": 298
+        }
+      ]
+    }
+  }
+}

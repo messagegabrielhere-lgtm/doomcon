@@ -43,6 +43,13 @@ const MAX_ITEMS = 200;
 // whole basket).
 const ADAPTER_TIMEOUT_MS = 60_000;
 
+// The fast lane runs on a ~15 minute cron and must never be the reason a run
+// overruns its own beat. A hung adapter cannot be allowed to hold the whole run
+// for a minute when the only thing at stake is one feed's latency: it is dark
+// for this pass and asked again on the next one, ~15 minutes later. The hourly
+// full pass keeps the generous timeout, because there the point is completeness.
+const ADAPTER_TIMEOUT_FAST_MS = 25_000;
+
 const VALID_SOURCE_ID = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const VALID_KINDS = Object.freeze(['lab', 'paper', 'model', 'release', 'forum', 'press', 'status']);
 const PILLARS = Object.freeze(['capability', 'compute', 'attention', 'governance', 'markets']);
@@ -228,32 +235,46 @@ export function titleOverlap(a, b) {
 // ---------------------------------------------------------------------------
 
 // ---------------------------------------------------------------------------
-// Per-source cadence
+// Per-source cadence — what makes a news-only run cheap
 //
-// The operator wants the newsroom refreshed every minute so we are first on
-// anything that matters. The binding constraint is NOT our loop — it is each
-// source's own publish rate and its tolerance for being polled.
-//
-// arXiv asks for ~3 seconds between requests, throttles hard when pushed, and
-// publishes in daily batches: polling it every minute would earn a ban in
-// exchange for zero extra news. Hacker News and the press wires genuinely do
-// move minute to minute.
+// The operator's ask is that the newsroom updates itself. The binding constraint
+// is NOT our schedule — it is each source's own publish rate and its tolerance
+// for being polled. arXiv asks for ~3 seconds between requests, throttles hard
+// when pushed, and publishes in daily batches; asking it every quarter hour
+// earns a ban in exchange for zero extra news. Hacker News and the press wires
+// genuinely do turn over inside fifteen minutes.
 //
 // So every adapter declares how often it is worth asking. A source that is not
-// due is SKIPPED and its items are carried forward from the previous run
-// unchanged, which is why this costs nothing in coverage. Adapters may override
-// with their own `minIntervalMs`.
+// due is SKIPPED, and its items are carried forward from the previous run
+// unchanged — which is why skipping costs nothing in coverage, only in latency
+// on that one feed. Adapters may override with their own `minIntervalMs`.
+//
+// The numbers below are set against the FAST LANE's ~15 minute beat
+// (docs/AUTOUPDATE.md). Anything at or under 900s is effectively "every fast
+// run"; anything above it deliberately gets asked on a subset of runs. The
+// hourly full pass runs with --force and ignores all of it, so no feed can
+// ever hide behind its own interval for longer than an hour.
 // ---------------------------------------------------------------------------
 const CADENCE_BY_KIND = {
-  forum: 60_000,        // HN front page turns over in minutes
-  press: 60_000,        // Techmeme, Verge, Ars — the actual wire
-  status: 120_000,      // incident feeds are rare but matter immediately
-  release: 300_000,     // GitHub releases land in bursts, not continuously
-  lab: 300_000,         // lab blogs publish a few times a week
-  model: 900_000,       // HF trending is a rolling average; it cannot move in a minute
-  paper: 1_800_000,     // arXiv and HF daily papers are daily batches. Do not hammer.
+  forum: 300_000,       // HN front page turns over in minutes
+  press: 300_000,       // Techmeme, Verge, Ars — the actual wire
+  status: 300_000,      // incident feeds are rare, but matter immediately
+  release: 900_000,     // GitHub releases land in bursts, not continuously
+  lab: 900_000,         // lab blogs publish a few times a week
+  model: 1_800_000,     // HF trending is a rolling average; it cannot move in 15m
+  paper: 3_600_000,     // arXiv and HF daily papers are daily batches. Do not hammer.
 };
-const DEFAULT_CADENCE_MS = 300_000;
+const DEFAULT_CADENCE_MS = 900_000;
+
+// Cron does not keep time. GitHub's scheduler is documented at a 5-minute floor
+// and routinely runs late under load, but it also runs a little EARLY relative
+// to the previous run's own clock: a pair of runs nominally 15 minutes apart can
+// land 14m40s apart. Against a bare `>= cadence` test that near-miss skips the
+// source, and it is then not asked again until the run after — so a 15-minute
+// cadence silently degrades to 30. The slack absorbs the jitter: a source is due
+// once it is within 20% of its interval, which can never make it MORE than 20%
+// early and removes the doubling entirely.
+const DUE_SLACK = 0.2;
 
 function cadenceFor(a) {
   if (Number.isFinite(a.minIntervalMs)) return a.minIntervalMs;
@@ -263,14 +284,19 @@ function cadenceFor(a) {
 /**
  * Was this source fetched recently enough that asking again is waste?
  *
- * `lastFetch` comes from the previous run's own source ledger, so the decision
- * survives process restarts — which matters because the fast loop is a fresh
- * process every minute.
+ * `lastFetch` comes from the previous run's own source ledger, which is written
+ * into data/news.json. It lives in the output file rather than in memory because
+ * every scheduled run is a fresh checkout in a fresh container with no memory of
+ * its own — the committed file IS the process state.
  */
 function isDue(a, lastFetchMs, nowMs, force) {
   if (force) return true;
   if (!Number.isFinite(lastFetchMs)) return true;   // never fetched: always due
-  return (nowMs - lastFetchMs) >= cadenceFor(a);
+  // Clock skew between two runners, or a hand-edited ledger, can put the last
+  // fetch in the future. Treat that as due rather than locking the source out
+  // until the clock catches up.
+  if (lastFetchMs > nowMs) return true;
+  return (nowMs - lastFetchMs) >= cadenceFor(a) * (1 - DUE_SLACK);
 }
 
 async function discoverAdapters() {
@@ -516,9 +542,38 @@ function mergeGroup(indexes, records, knownIds, generatedAtMs) {
         first_seen_published_at: first.published_at,
         last_published_at: last.published_at,
         lead_minutes: leadMinutes,
+        // The primary's OWN timestamp. The item's `published_at` is the group's
+        // earliest sighting, which is frequently a corroborating source rather
+        // than the primary — so without this the rehydration below would hand
+        // the primary someone else's clock, and `first_source` could flip on a
+        // run that changed nothing.
+        primary_published_at: primary.published_at,
+        // Every corroborating member, with ENOUGH OF ITSELF to be rebuilt.
+        //
+        // This block is not just an audit trail; it is the group's only backup.
+        // A run that does not re-fetch a source (cadence, or an outage) sees
+        // only the primary, and a group of one recomputes to "single source" —
+        // which silently deleted the ×2 badge, dropped 12.5 points of score and
+        // erased the layer's headline claim on any incremental run. Measured
+        // 2026-09-24 across two consecutive passes: both corroborated stories
+        // collapsed to one source and lost 12.5 points each.
+        //
+        // So each member carries kind, weight, engagement and dedup_key, and
+        // main() rehydrates them as records on the next run. Then the SAME
+        // grouping and merging code recomputes the same answer from the same
+        // inputs, rather than a second code path guessing at it.
         also: members
           .filter((m) => m !== primary)
-          .map((m) => ({ source: m.source, url: m.url, title: m.title, published_at: m.published_at }))
+          .map((m) => ({
+            source: m.source,
+            url: m.url,
+            title: m.title,
+            published_at: m.published_at,
+            kind: m.kind,
+            weight: m.weight,
+            dedup_key: m.dedup_key ?? null,
+            engagement: m.engagement ?? null,
+          }))
           .sort((a, b) => a.source.localeCompare(b.source) || a.url.localeCompare(b.url)),
       },
     },
@@ -584,19 +639,24 @@ function printSourceTable(sources) {
     kind: Math.max(4, ...sources.map((s) => s.kind.length)),
   };
   const header =
-    'source'.padEnd(w.id) + '  ' + 'kind'.padEnd(w.kind) + '  wt    state    fetched  in-window      ms  newest item';
+    'source'.padEnd(w.id) + '  ' + 'kind'.padEnd(w.kind) + '  wt    state    asked  raw  in-win      ms  newest item';
   console.log('');
   console.log(header);
   console.log('-'.repeat(header.length));
   for (const s of sources) {
+    // ASKED matters as much as the state does. A carried-forward row shows the
+    // PREVIOUS run's numbers, and a table that does not say so reads as sixteen
+    // live fetches when only six happened — the precise shape of the dishonesty
+    // this project exists to avoid.
     let line =
       s.id.padEnd(w.id) + '  ' +
       s.kind.padEnd(w.kind) + '  ' +
-      s.weight.toFixed(2) + '  ' +
+      (Number.isFinite(s.weight) ? s.weight.toFixed(2) : ' — ') + '  ' +
       s.state.toUpperCase().padEnd(7) + '  ' +
-      String(s.raw_items ?? 0).padStart(7) + '  ' +
-      String(s.count ?? 0).padStart(9) + '  ' +
-      String(s.ms).padStart(6) + '  ' +
+      (s.skipped_this_run ? ' held' : '  yes') + '  ' +
+      String(s.raw_items ?? 0).padStart(3) + '  ' +
+      String(s.count ?? 0).padStart(6) + '  ' +
+      String(s.ms ?? 0).padStart(6) + '  ' +
       (s.newest_item_at ? s.newest_item_at.slice(0, 16).replace('T', ' ') : '—');
     if (s.error) line += `  ${s.error}`;
     console.log(line);
@@ -640,9 +700,11 @@ async function main() {
   // --force ignores cadence and asks every source. The hourly full pass uses it
   // so no feed can go stale behind its own interval.
   const force = process.argv.includes('--force');
+  const adapterTimeoutMs = force ? ADAPTER_TIMEOUT_MS : ADAPTER_TIMEOUT_FAST_MS;
+  const runStartedMs = Date.now();
   // When each source was last actually fetched, from the previous run's ledger.
-  // It lives in the output file because the fast loop is a fresh process every
-  // minute and has no memory of its own.
+  // It lives in the output file because every scheduled run is a fresh container
+  // with no memory of its own: the committed file IS the process state.
   const lastFetch = new Map(
     (Array.isArray(previous.sources) ? previous.sources : [])
       .map((x) => [x.id, Date.parse(x.fetched_at ?? '')])
@@ -663,7 +725,7 @@ async function main() {
       try {
         const drafts = await withTimeout(
           Promise.resolve(a.collect(fetchText, fetchJson)),
-          ADAPTER_TIMEOUT_MS,
+          adapterTimeoutMs,
           a.id,
         );
         if (!Array.isArray(drafts)) throw new Error(`${a.id}: collect() did not return an array`);
@@ -679,18 +741,30 @@ async function main() {
 
   for (let i = 0; i < settled.length; i++) {
     const outcome = settled[i];
-    const a = adapters[i];
+    // `settled` is indexed against DUE, not against ADAPTERS. Getting this wrong
+    // is silent and total: with 6 of 16 sources due, every row was labelled with
+    // the wrong adapter's id, kind and weight, every draft was normalised under
+    // a stranger's source id, and the skipped-source loop below then appended a
+    // SECOND row for each of those ids. Measured before the fix on a run where
+    // 6 of 16 were due: 22 source rows for 16 adapters, six of them duplicates.
+    const a = due[i];
     const base = { id: a.id, kind: a.kind, label: a.label, weight: a.weight };
 
     if (outcome.status !== 'fulfilled') {
-      sources.push({ ...base, ok: false, state: 'dark', count: 0, raw_items: 0, newest_item_at: null, error: `runner bug: ${errMsg(outcome.reason)}`, ms: 0 });
+      sources.push({ ...base, ok: false, state: 'dark', count: 0, raw_items: 0, newest_item_at: null, error: `runner bug: ${errMsg(outcome.reason)}`, ms: 0, fetched_at: generatedAt, cadence_ms: cadenceFor(a) });
       continue;
     }
     const res = outcome.value;
     if (res.error) {
       // A dark source is reported dark. It is never omitted and never zeroed —
       // the same rule collect.mjs enforces for the index, for the same reason.
-      sources.push({ ...base, ok: false, state: 'dark', count: 0, raw_items: 0, newest_item_at: null, error: res.error, ms: res.ms });
+      //
+      // `fetched_at` is stamped on a FAILED attempt too, and that is deliberate:
+      // the ledger records when we last ASKED, not when we last succeeded. Left
+      // unstamped, a permanently dead feed is "never fetched", therefore always
+      // due, and every fast run pays its full timeout — the one source that
+      // gives us nothing would become the most expensive one in the file.
+      sources.push({ ...base, ok: false, state: 'dark', count: 0, raw_items: 0, newest_item_at: null, error: res.error, ms: res.ms, fetched_at: generatedAt, cadence_ms: cadenceFor(a) });
       continue;
     }
 
@@ -738,9 +812,9 @@ async function main() {
       error: null,
       ms: res.ms,
       // The cadence ledger. Written on every real fetch and read by the next
-      // process, which is how a one-minute loop knows not to re-ask arXiv.
+      // process, which is how a 15-minute lane knows not to re-ask arXiv.
       fetched_at: generatedAt,
-      cadence_ms: cadenceFor(res.adapter),
+      cadence_ms: cadenceFor(a),
     });
   }
 
@@ -754,9 +828,19 @@ async function main() {
     const prev = prevById.get(a.id);
     sources.push(prev
       ? { ...prev, state: prev.state === 'dark' ? 'dark' : prev.state, skipped_this_run: true }
-      : { id: a.id, kind: a.kind, label: a.label, ok: true, state: 'dormant', count: 0,
+      : { id: a.id, kind: a.kind, label: a.label, weight: a.weight, ok: true, state: 'dormant',
+          count: 0, raw_items: 0, newest_item_at: null,
           error: null, ms: 0, fetched_at: null, cadence_ms: cadenceFor(a), skipped_this_run: true });
   }
+
+  // Sorted, not "fetched first then skipped". Adapter discovery is alphabetical
+  // by filename, so before cadence existed this array was already in id order
+  // and the source strip rendered in a stable sequence. Splitting the run into
+  // due and skipped broke that: which sources were due changes every run, so the
+  // strip reshuffled and data/news.json produced a large meaningless diff on
+  // every commit. Sorting restores a total order that does not depend on which
+  // feeds happened to be due.
+  sources.sort((x, y) => x.id.localeCompare(y.id));
 
   // Retained items join the SAME grouping pass as fresh ones, so an item first
   // seen yesterday still collects today's corroboration instead of sitting at a
@@ -767,7 +851,19 @@ async function main() {
     .map((i) => rescoreRetained(i, generatedAtMs))
     .filter(Boolean);
 
+  // Keyed on SOURCE AND URL, not url alone. Two sources legitimately carry the
+  // identical canonical URL — hn-ai's entry for an Ars Technica story IS the
+  // Ars URL — and that pair is exactly the corroboration we are trying to keep.
+  // A url-only key silently dropped the ghost as "already present" and lost the
+  // second source on the very story the fix existed for (measured 2026-09-24:
+  // the Microsoft account-compromise item fell 48.1 -> 35.6 with the guard on
+  // url alone, and stayed at 48.1 once the key included the source).
+  const haveRecord = new Set(records.map((r) => `${r.source}|${r.url}`));
+  const adapterById = new Map(adapters.map((a) => [a.id, a]));
+  let ghosts = 0;
+
   for (const r of retained) {
+    const corr = r.meta?.corroboration ?? {};
     records.push({
       source: r.source,
       kind: r.kind,
@@ -775,14 +871,63 @@ async function main() {
       title: r.title,
       summary: r.summary,
       url: r.url,
-      published_at: r.published_at,
-      published_ms: Date.parse(r.published_at),
+      // The primary's own timestamp when we stored it, NOT the item's
+      // published_at — that field is the group's earliest sighting and belongs
+      // to whichever member actually printed first.
+      published_at: corr.primary_published_at ?? r.published_at,
+      published_ms: Date.parse(corr.primary_published_at ?? r.published_at),
       default_pillar: PILLARS.includes(r.pillar) ? r.pillar : null,
       dedup_key: r.meta?.arxiv_id ? `arxiv:${r.meta.arxiv_id}` : null,
       engagement: r.meta?.engagement ?? null,
       meta: r.meta ?? {},
       retained: true,
     });
+    haveRecord.add(`${r.source}|${r.url}`);
+
+    // REHYDRATE THE GROUP, not just the primary.
+    //
+    // Without this an incremental run sees a corroborated story as a group of
+    // one and recomputes it as single-sourced: the ×2 badge vanishes from the
+    // feed, the score drops by the whole 12.5-point corroboration term, and the
+    // one claim a single-source competitor structurally cannot make disappears
+    // from our own file. Measured on two consecutive passes before the fix,
+    // both corroborated stories lost their second source and 12.5 points.
+    //
+    // Members are rebuilt as ordinary records and re-enter the same grouping
+    // pass, so the count, the lead time and the engagement maximum are all
+    // recomputed by the one code path that owns those rules. Files written
+    // before `also[]` carried weight and kind fall back to the live adapter
+    // table, which is where those values came from in the first place.
+    for (const m of Array.isArray(corr.also) ? corr.also : []) {
+      if (!m || typeof m.url !== 'string' || !m.url) continue;
+      const key = `${m.source}|${m.url}`;
+      if (haveRecord.has(key)) continue;
+      const src = adapterById.get(m.source);
+      const publishedMs = Date.parse(m.published_at);
+      if (!Number.isFinite(publishedMs)) continue;
+      haveRecord.add(key);
+      ghosts += 1;
+      records.push({
+        source: String(m.source),
+        kind: m.kind ?? src?.kind ?? 'press',
+        weight: Number.isFinite(m.weight) ? m.weight : (src?.weight ?? 0.5),
+        title: String(m.title ?? ''),
+        // Deliberately empty. A ghost exists to contribute its SOURCE IDENTITY,
+        // its clock and its engagement number. Entities and the pillar are read
+        // off the primary's text only, so carrying a stale summary here could
+        // only change an answer it has no business changing.
+        summary: '',
+        url: m.url,
+        published_at: m.published_at,
+        published_ms: publishedMs,
+        default_pillar: null,
+        dedup_key: m.dedup_key ?? null,
+        engagement: m.engagement ?? null,
+        meta: {},
+        retained: true,
+        ghost: true,
+      });
+    }
   }
 
   const groups = groupDuplicates(records);
@@ -826,6 +971,21 @@ async function main() {
   );
   items = items.filter((i) => membership.has(i.id));
 
+  // WHAT CHANGED, as a published field rather than as something the caller has
+  // to derive. The fast lane rebuilds and publishes only when the SET of items
+  // moved, because every other difference between two consecutive runs is the
+  // recency term re-decaying — which changes every score by a tenth of a point,
+  // changes no content a reader would notice, and would otherwise trigger a
+  // deploy every fifteen minutes forever. Computing this here rather than by
+  // hashing the file in bash keeps the definition of "the newsroom changed" in
+  // one auditable place, next to the rules that produced it.
+  //
+  // Both sides are pure functions of the previous file and this run's fetches,
+  // so this stays reproducible: no clock, no randomness (CONTRACT.md §4).
+  const currentIds = new Set(items.map((i) => i.id));
+  const arrived = items.filter((i) => !knownIds.has(i.id)).map((i) => i.id).sort();
+  const departed = [...knownIds].filter((id) => !currentIds.has(id)).sort();
+
   const output = {
     schema: SCHEMA_VERSION,
     generated_at: generatedAt,
@@ -833,6 +993,16 @@ async function main() {
     window_days: WINDOW_DAYS,
     max_items: MAX_ITEMS,
     scoring: SCORE,
+    run: {
+      mode: force ? 'full' : 'incremental',
+      adapters: adapters.length,
+      fetched: due.length,
+      skipped: skipped.length,
+      arrived: arrived.length,
+      departed: departed.length,
+      // The single flag the workflow reads. See docs/AUTOUPDATE.md.
+      items_changed: arrived.length > 0 || departed.length > 0,
+    },
     items,
     sources,
   };
@@ -853,9 +1023,17 @@ async function main() {
   // Named, not just counted. A count nobody can act on is a count nobody reads.
   if (dormant.length) console.log(`dormant (feed healthy, nothing published inside ${WINDOW_DAYS}d): ${dormant.map((s) => s.id).join(', ')}`);
   if (dark.length) console.log(`dark (fetch or parse failed): ${dark.map((s) => s.id).join(', ')}`);
-  console.log(`${records.length} records -> ${groups.length} unique stories (${collapsed} collapsed as duplicates)`);
+  console.log(`${records.length} records (${ghosts} rehydrated corroborating members) -> ${groups.length} unique stories (${collapsed} collapsed as duplicates)`);
   console.log(`${corroborated} stories corroborated by 2+ independent sources`);
   console.log(`wrote data/news.json — ${items.length} items, newest first`);
+  console.log(
+    `run: ${output.run.mode}, ${due.length}/${adapters.length} sources fetched, ` +
+    `${arrived.length} item${arrived.length === 1 ? '' : 's'} arrived, ${departed.length} left the window, ` +
+    `items_changed=${output.run.items_changed}, ${Date.now() - runStartedMs}ms`,
+  );
+  if (skipped.length) {
+    console.log(`not due this run (carried forward unchanged): ${skipped.map((a) => a.id).sort().join(', ')}`);
+  }
 
   printTop(items, 5);
 
