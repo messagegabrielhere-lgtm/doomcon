@@ -71,6 +71,10 @@ const SECTIONS = [
     blurb: 'The substrate index: grid load, drought and buildout under the models.',
     count: (ctx) => (ctx.infra && Number.isFinite(ctx.infra.score)
       ? { v: num(ctx.infra.score, 1), k: 'substrate score' } : null) },
+  { href: '/map.html', label: 'Map', short: 'Map', needs: 'map',
+    blurb: 'Where the compute physically sits, against the water it needs.',
+    count: (ctx) => (ctx.datacenters && ctx.datacenters.counts
+      ? { v: String(ctx.datacenters.counts.sites ?? ctx.datacenters.sites.length), k: 'datacentres mapped' } : null) },
   { href: '/digest.html', label: 'Digest', short: 'Digest', needs: 'digest',
     blurb: 'The day in one page, assembled from the scored corpus.' },
   { href: '/bliss.html', label: 'Bliss', short: 'Bliss', needs: 'bliss',
@@ -631,6 +635,10 @@ function hasSection(ctx, key) {
   }
   if (key === 'digest') return Boolean(ctx.digest && typeof ctx.digest === 'object');
   if (key === 'bliss') return Boolean(ctx.bliss && Array.isArray(ctx.bliss.sources) && ctx.bliss.sources.length);
+  if (key === 'map') {
+    return Boolean(ctx.datacenters && Array.isArray(ctx.datacenters.sites)
+      && ctx.datacenters.sites.length && ctx.datacenters.resources_index);
+  }
   return true;
 }
 

@@ -28,6 +28,7 @@ import * as wattsPage from './templates/wattsPage.mjs';
 import * as digestPage from './templates/digestPage.mjs';
 import * as blissPage from './templates/blissPage.mjs';
 import * as itemPage from './templates/itemPage.mjs';
+import * as mapPage from './templates/mapPage.mjs';
 import { render as sitemap, robots } from './templates/sitemap.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -435,6 +436,13 @@ async function main() {
     }
   }
 
+  let datacenters = null;
+  const dcFile = path.join(args.data, 'datacenters.json');
+  if (existsSync(dcFile)) {
+    try { datacenters = JSON.parse(await readFile(dcFile, 'utf8')); }
+    catch (err) { warn(`data/datacenters.json unreadable (${err.message}); building without /map.`); }
+  }
+
   let digest = null;
   const digestFile = path.join(args.data, 'digest.json');
   if (existsSync(digestFile)) {
@@ -456,6 +464,7 @@ async function main() {
     infra,
     digest,
     bliss,
+    datacenters,
     x: xwire,
     history,
     receipts,
@@ -490,6 +499,11 @@ async function main() {
   if (blissPage.hasBliss(ctx)) {
     written.push(await write(args.out, 'bliss.html', blissPage.render(ctx)));
   }
+  // hasDatacenters takes the whole ctx, not the data file — it also requires
+  // resources_index, because a map of pins with no resource join is just dots.
+  if (mapPage.hasDatacenters(ctx)) {
+    written.push(await write(args.out, 'map.html', mapPage.render(ctx)));
+  }
 
   // THE LONG TAIL. One permanent page per scored item, which is how pizzint
   // gets 997 of its 1,018 sitemap URLs. Each of ours carries the score
@@ -516,7 +530,7 @@ async function main() {
 
   await writeDirectoryAliases(
     args.out,
-    ['race', 'news', 'methodology', 'history', 'digest', 'bliss', 'watts'],
+    ['race', 'news', 'methodology', 'history', 'digest', 'bliss', 'watts', 'map'],
     write,
     written,
   );
@@ -553,6 +567,7 @@ async function main() {
   if (infra) written.push(await write(args.out, 'api/infra.json', stableJson(infra)));
   if (digest) written.push(await write(args.out, 'api/digest.json', stableJson(digest)));
   if (bliss) written.push(await write(args.out, 'api/bliss.json', stableJson(bliss)));
+  if (datacenters) written.push(await write(args.out, 'api/datacenters.json', stableJson(datacenters)));
   written.push(await write(args.out, 'api/index.json', stableJson({
     name: brand.NAME,
     description: brand.DESCRIPTION,

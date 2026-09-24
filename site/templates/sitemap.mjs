@@ -26,6 +26,9 @@ export function render(ctx) {
     ...(ctx.bliss && ctx.bliss.generated_at
       ? [{ loc: '/bliss.html', changefreq: 'hourly', priority: '0.8', lastmod: ctx.bliss.generated_at }]
       : []),
+    ...(ctx.datacenters && ctx.datacenters.generated_at
+      ? [{ loc: '/map.html', changefreq: 'daily', priority: '0.9', lastmod: ctx.datacenters.generated_at }]
+      : []),
     { loc: '/moves/', changefreq: 'hourly', priority: '0.6', lastmod: ctx.state.generated_at },
   ];
 

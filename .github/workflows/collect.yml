@@ -362,6 +362,21 @@ jobs:
         continue-on-error: true
         run: node collector/bliss.mjs
 
+      - name: Refresh the datacentre map
+        # DAILY AT MOST, and never in the per-minute loop. This queries the
+        # public Overpass API, which is a shared volunteer resource: eleven
+        # small probes in four minutes already earned a 429 and two 504s during
+        # development. Running it every 60s would get this project's User-Agent
+        # banned and take the map down permanently.
+        #
+        # The guard is the cache in data/dc-cache/ (3.1MB, committed on
+        # purpose): Actions runners are ephemeral, so an uncommitted cache is a
+        # cold cache on every run, which defeats the 7-day refresh policy
+        # entirely. The collector only reaches the network when the cache is
+        # older than its refresh window.
+        continue-on-error: true
+        run: node collector/datacenters.mjs
+
       - name: Compile the digest
         # Runs LAST of the collectors: it reads state.json, news.json, race.json
         # and infra.json to compute what changed, so everything else must have
