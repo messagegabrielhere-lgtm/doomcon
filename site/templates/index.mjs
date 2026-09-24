@@ -1,122 +1,77 @@
 // The dashboard.
 //
 // Everything above the fold on a 375px phone is server-rendered: the level
-// digit, the score, its position on the 0-100 arc, and where today sits inside
-// the frozen reference record. All of it is text or inline SVG in the first
+// digit, the score, its direction, the plain-language read, the oven rail and
+// the first panel of the switcher. All of it is text or inline SVG in the first
 // byte of the response. pizzint client-renders, so its prerendered HTML says
 // "LOADING TACTICAL DATA..." - a crawler sees nothing and a screenshot taken
 // before hydration is blank (TEARDOWN 3.3). Screenshots are the growth loop,
 // so nothing on this page waits for JavaScript. There is no JavaScript.
 //
+// -------------------------------------------------------------------------
+// THIS ROUND: the page was 235KB and ~8,700px tall on a phone, because it had
+// grown a section per release and nothing had ever been removed. docs/VISITORS
+// .md §5 measured the damage and its cut list is executed here, item by item.
+//
+//   §5.1  The reel and the feed's top eight were the SAME EIGHT STORIES, in
+//         the same order, with the same scores - about two mobile screens of
+//         verbatim duplication. The rail now carries the eight NEWEST items;
+//         the feed carries the highest-scoring fourteen. Two orderings that
+//         genuinely disagree, which is a second fact rather than a second coat
+//         of paint. Both live in _switcher.mjs's SIGNAL panel.
+//   §5.2  The frozen-reference distribution curve explained NORMALISATION to
+//         the reader least equipped to read it, in the hero, above 6,000px of
+//         one scalar drawn three ways. Gone from here; one line links the
+//         readers who want it to where they already are.
+//   §5.3  The fourteen-row source-freshness table collapses to the sentence we
+//         already compute, with the rows one press away behind <details>.
+//   §5.4  The X wire stops outranking our own scored corpus and becomes a
+//         switcher panel.
+//   §5.5  "Elsewhere on the desk" - three link cards at the very bottom of an
+//         8,742px page - is deleted. The switcher reaches those destinations
+//         from the fold, and the footer is already a full site index.
+//   §5.6  THE LEVEL WAS STATED SEVEN TIMES above 6,000px: the digit, the name,
+//         the epithet, the pips, the gauge arc, the band caption and the oven
+//         rail. The gauge, the pips, the epithet and the band caption are gone.
+//         Three statements remain and one of them is a five-stop scale that
+//         shows the other four levels too.
+//
+// Density is facts per pixel, not ink per pixel. Roughly twenty of our
+// fifty-seven desktop text atoms were the composite score wearing different
+// hats; of pizzint's eighty-six, almost none repeat. The way to raise density
+// of KINDS is to delete, which is what most of this diff is.
+//
+// -------------------------------------------------------------------------
 // Visual hierarchy, top to bottom, and why:
 //
-//   1. HERO      the level digit and the score, dominant, plus gauge() for
-//                "where in the range" and distributionStrip() for "where in
-//                the record". The second of those is the only graphic on the
-//                site that draws our actual differentiator: every competitor
-//                scores by human or model judgement (TEARDOWN 4), and this one
-//                places today against published frozen history instead.
-//   2. THE RECORD  the full-width history chart. The single most important
-//                graphic here: one number is a claim, a line is a record.
-//   3. FRESHNESS then the newsroom, then the pillars, then the archive.
+//   1. THE FOLD   the level, the score, the direction since the last
+//                 observation, and one plain sentence. A first-time visitor
+//                 decides in about four seconds on a phone; sixteen of a
+//                 hundred arrive from a screenshot with a budget under eight.
+//                 Nothing above the numeral but its own timestamp.
+//   2. THE OVEN   five named stages, the live one lit, the previous position
+//                 marked so the rail reads as a needle that moves both ways
+//                 rather than as a countdown.
+//   3. THE DESK   the in-place switcher. One slot, five datasets, no page
+//                 load, every panel already in this HTML.
+//   4. THE RECORD then source health, the pillars, the archive, the machine
+//                 surfaces.
 
 import { esc, num, signed, utc } from './_html.mjs';
-import { levelBars, freshnessStrip, pillarCard, moveRow } from './_parts.mjs';
-import { indexHistoryChart, pillarRanked, gauge, distributionStrip } from './_charts.mjs';
+import { freshnessStrip, pillarCard, moveRow, sourceStatus } from './_parts.mjs';
+import { indexHistoryChart, pillarRanked } from './_charts.mjs';
 import { page } from './layout.mjs';
 import * as brand from '../brand.mjs';
 import * as news from './news.mjs';
-import * as labs from './_labs.mjs';
-import * as xwire from './_xwire.mjs';
 import * as oven from './_oven.mjs';
+import * as switcher from './_switcher.mjs';
 
 // Matches build.mjs's own sparkline window. Only a cap: the fallback reader
 // below never needs more points than a 300-unit sparkline can resolve.
 const SPARK_POINTS = 48;
 
-/**
- * Where to go next. Every card carries a real, current number pulled from the
- * same state the dashboard renders, because "The AI race" is a label and
- * "Anthropic leads at 73.5%" is a reason to click.
- */
-function elsewhere(ctx) {
-  const cards = [];
-
-  const race = ctx.race;
-  if (race && Array.isArray(race.players) && race.players.length) {
-    const top = race.players[0];
-    // The probability is nested under .market, and only meaningful when that
-    // market is live — a dark leg must not be printed as a confident number.
-    const mk = top.market || {};
-    const pct = mk.state === 'live' && Number.isFinite(mk.probability)
-      ? `${(mk.probability * 100).toFixed(1)}%` : null;
-    cards.push({
-      href: ctx.href('/race.html'),
-      kicker: 'The AI race',
-      line: pct ? `${top.name} leads at ${pct}` : `${race.players.length} labs ranked`,
-      sub: 'Frontier labs ranked on live prediction-market odds.',
-    });
-  }
-
-  const news = ctx.news;
-  if (news && Array.isArray(news.items) && news.items.length) {
-    cards.push({
-      href: ctx.href('/news.html'),
-      kicker: 'The newsroom',
-      line: `${news.items.length} items in the window`,
-      sub: 'Every story, scored on how many independent sources carried it.',
-    });
-  }
-
-  const infra = ctx.infra;
-  if (infra && Number.isFinite(infra.score)) {
-    cards.push({
-      href: ctx.href('/watts.html'),
-      kicker: 'The substrate',
-      line: `SUBSTRATE ${infra.level ?? '\u2014'} \u00b7 ${infra.score.toFixed(1)} of 100`,
-      sub: 'Grid load, drought and datacentre buildout. You cannot train a model without power.',
-    });
-  }
-
-  cards.push({
-    href: ctx.href('/methodology.html'),
-    kicker: 'The arithmetic',
-    line: 'Recompute this number yourself',
-    sub: 'Every formula, every constant, and the three ways this index could mislead you.',
-  });
-
-  cards.push({
-    href: ctx.href('/history.html'),
-    kicker: 'The lore',
-    line: 'Sixty years of the same argument',
-    sub: 'Good 1965 to the EU AI Act, dated and attributed.',
-  });
-
-  if (Array.isArray(ctx.moves) && ctx.moves.length) {
-    cards.push({
-      href: ctx.href('/moves/'),
-      kicker: 'The receipts',
-      line: `${ctx.moves.length} timestamped observation${ctx.moves.length === 1 ? '' : 's'}`,
-      sub: 'Hash-chained. Take any one and re-derive it.',
-    });
-  }
-
-  return `
-<section class="sec xsell" aria-labelledby="xsell-h">
-  <h2 class="sec__h" id="xsell-h">Elsewhere on the desk</h2>
-  <ul class="xsell__grid">
-    ${cards.map((c) => `<li class="xsell__i"><a class="xsell__a" href="${esc(c.href)}">
-      <span class="xsell__k">${esc(c.kicker)}</span>
-      <span class="xsell__l">${esc(c.line)}</span>
-      <span class="xsell__s">${esc(c.sub)}</span>
-    </a></li>`).join('')}
-  </ul>
-</section>`;
-}
-
 export function render(ctx) {
   const { state } = ctx;
-  const meta = brand.levelMeta(state.level);
   const scoreTxt = num(state.score, 1);
 
   const pillars = brand.PILLARS.map((p) => {
@@ -135,19 +90,35 @@ export function render(ctx) {
 
   const obs = ctx.history.length;
 
+  // -----------------------------------------------------------------------
+  // THE FOLD
+  //
+  // Four facts and nothing else. The old fold reached the numeral after seven
+  // rows of apparatus and then restated the level six more ways before the
+  // first story. What is gone: the epithet, the five pips, the 0-100 gauge,
+  // the frozen-reference distribution strip and its caption, the
+  // "level held since / receipt" stamp - which the oven rail directly below
+  // now states with the interval spelled out - and the three-line disclaimer,
+  // whose content the plain sentence one column to the left already carries
+  // ("it is not a claim about how it ends") and which the footer prints in
+  // full on every page. Saying the same refusal twice in one screen is the
+  // §5.6 problem in prose rather than in numerals.
+  //
+  // The market leader deliberately does NOT sit here, although we compute it
+  // every build. It is one press away on THE RACE tab, and a fold that carries
+  // a fifth fact is a fold that carries none.
+  // -----------------------------------------------------------------------
   const main = `
 ${news.styleTag()}
 <section class="hero">
   <p class="eyebrow">Observed <time datetime="${esc(state.generated_at)}">${esc(utc(state.generated_at))}</time></p>
   <div class="hero__grid">
 
-    <!-- align-self overrides .hero__grid's align-items:end for this one item.
-         The score column is now ~300px taller than the level column, because it
-         carries the dial and the distribution strip. Bottom-aligning a 152px
-         digit against that left 200px of empty page above it at desktop width,
-         and it read as a broken grid rather than as space. Centred, the digit
-         sits opposite the instruments it labels. An inline property rather than
-         a new class, because site/styles.mjs belongs to the integrator. -->
+    <!-- align-self overrides .hero__grid's align-items:end. With the dial and
+         the distribution strip cut, the two columns are close to the same
+         height and centring keeps the digit opposite the number it labels.
+         An inline property rather than a new class, because site/styles.mjs
+         belongs to the integrator. -->
     <div class="level" style="align-self:center">
       <!-- data-dc-* are the motion layer's hooks (site/templates/_motion.mjs
            looks for [data-dc-level] and [data-dc-score] first, falling back to
@@ -156,9 +127,6 @@ ${news.styleTag()}
       <div class="level__digit num" data-dc-level aria-hidden="true">${esc(state.level)}</div>
       <div class="level__meta">
         <h1 class="level__name">${esc(brand.NAME)} ${esc(state.level)} · ${esc(state.level_name)}</h1>
-        ${meta.epithet ? `<p class="level__ep">${esc(meta.epithet)}</p>` : ''}
-        ${levelBars(state.level)}
-        <p class="level__gloss">${esc(meta.gloss)}</p>
         <p class="level__plain">${esc(plainRead(ctx))}</p>
       </div>
     </div>
@@ -170,25 +138,14 @@ ${news.styleTag()}
         <span class="score__of">/ 100</span>
         ${direction(ctx)}
       </div>
-
-      <div class="hero__chart">${heroGauge(state)}</div>
-      <div class="hero__chart">${heroDistribution(state)}</div>
-      <p class="fresh__key">The curve is the frozen reference distribution — built once from
-         historical backfill, never updated live.
-         <a href="${esc(ctx.href('/methodology.html'))}">How the score is computed →</a></p>
     </div>
 
   </div>
-
-  <p class="stamp">
-    Level held since <b>${esc(utc(state.level_since))}</b>.
-    ${state.previous_level && state.previous_level !== state.level
-      ? `Previous level <b>${esc(brand.NAME)} ${esc(state.previous_level)}</b>.`
-      : ''}
-    Receipt <b>${esc(state.receipt_id)}</b>.
-  </p>
-  <p class="disclaimer">${esc(brand.DISCLAIMER)}</p>
 </section>
+
+${oven.render(ctx)}
+
+${switcher.render(ctx)}
 
 <section class="sec" id="record" aria-labelledby="record-h">
   <h2 class="sec__h" id="record-h">The record</h2>
@@ -196,21 +153,19 @@ ${news.styleTag()}
   ${indexHistoryChart(ctx.history, { id: 'home', now: state.score })}
   <p class="fresh__key">${esc(recordKey(obs))}
      <a href="${esc(ctx.href('/history.html'))}">Full history and every observation →</a></p>
+  <p class="fresh__key">Where today sits inside the frozen reference distribution, and why that curve
+     is never updated live, is drawn and explained on the
+     <a href="${esc(ctx.href('/methodology.html'))}">methodology page →</a></p>
 </section>
 
 <section class="fresh" aria-labelledby="fresh-h">
-  <h2 class="sec__h" id="fresh-h">Source freshness</h2>
-  ${freshnessStrip(state.sources, state.generated_at)}
+  <h2 class="sec__h" id="fresh-h">Source health</h2>
+  <p class="lede">${esc(healthSentence(state))}</p>
+  <details class="fresh__more">
+    <summary>All ${esc(state.sources.length)} sources, one row each</summary>
+    <div class="fresh__morein">${freshnessStrip(state.sources, state.generated_at)}</div>
+  </details>
 </section>
-
-${news.render(ctx)}
-
-${oven.styleTag()}
-${oven.render(ctx)}
-
-${labs.render(ctx)}
-
-${xwire.render(ctx)}
 
 <section class="sec" aria-labelledby="pillars-h">
   <h2 class="sec__h" id="pillars-h">The five pillars</h2>
@@ -228,8 +183,6 @@ ${xwire.render(ctx)}
        <p class="fresh__key"><a href="${esc(ctx.href('/moves/'))}">Full archive →</a></p>`
     : `<p class="fresh__key">No scored observations recorded yet. Moves appear here the first time the index is computed twice.</p>`}
 </section>
-
-${elsewhere(ctx)}
 
 <section class="sec" id="embed" aria-labelledby="embed-h">
   <h2 class="sec__h" id="embed-h">Put the index on your site</h2>
@@ -250,6 +203,20 @@ ${elsewhere(ctx)}
   </ul>
   <p class="fresh__key">Static files. No key, no rate limit, ${esc(brand.LICENSE)}. Attribution: ${esc(brand.DOMAIN)}.</p>
 </section>
+
+<style>
+/* Three rules, all of them consequences of the cuts above, all namespaced to
+   elements this template owns. site/styles.mjs belongs to the integrator. */
+
+/* The plain-language read is now the largest piece of prose in the hero, and
+   it is the one sentence thirteen of a hundred visitors came for. It was set
+   at caption size under five pips that no longer exist. */
+.hero .level__plain { font-size: var(--t-md); line-height: 1.45; color: var(--ink); max-width: 46ch; }
+
+/* The collapsed source table. */
+.fresh__more { margin-top: var(--s-2); }
+.fresh__morein { padding-top: var(--s-3); }
+</style>
 `;
 
   return page({
@@ -266,54 +233,6 @@ ${elsewhere(ctx)}
     showDegraded: true,
     jsonld: [webApplication(ctx), dataset(ctx)],
     main,
-  });
-}
-
-// ---------------------------------------------------------------------------
-// Hero graphics
-// ---------------------------------------------------------------------------
-
-/**
- * The score as a position in a bounded range.
- *
- * showValue is FALSE on purpose. The dial can print the score in its own
- * middle, and next to a .score__val already set at 13.5vw that is the same
- * number three times in one column (the strip below prints it a fourth). The
- * digit stays where it is dominant and the dial answers the question the digit
- * cannot: 40.7 of what, and which band is that.
- */
-function heroGauge(state) {
-  return gauge(state.score, { id: 'hero', showValue: false });
-}
-
-/**
- * Where today sits in the frozen reference distribution.
- *
- * NO PERCENTILE IS PASSED, and that is a deliberate refusal rather than an
- * omission. state.json publishes a percentile per PILLAR and per SOURCE - each
- * one a genuine empirical percentile against data/reference.json - but never
- * for the composite, because the composite is 0.7*mean + 0.3*max over pillar
- * scores and is not itself a draw from that distribution. Running the composite
- * back through the normal to print "31st percentile" would be a manufactured
- * number wearing the costume of a measured one, which is the single thing this
- * project exists not to do.
- *
- * So the strip is handed the SCORE. The placement is still exact - score space
- * IS 50 + 12.5z against the frozen reference, which is the curve being drawn -
- * and the label reads as the score rather than asserting a percentile we have
- * not computed. If the engine ever publishes state.percentile for the
- * composite, it arrives here automatically.
- */
-function heroDistribution(state) {
-  const pct = Number.isFinite(state.percentile) ? state.percentile : null;
-  return distributionStrip(pct, {
-    id: 'hero',
-    score: state.score,
-    subject: 'Today',
-    // Six words. The whole competitive claim, and the reason this graphic is
-    // in the hero at all: DoomBench, the AI Safety Clock and every countdown
-    // in the category score by judgement. This one does not.
-    caption: 'Measured against frozen history, not judgement.',
   });
 }
 
@@ -356,6 +275,49 @@ function recordKey(n) {
 }
 
 // ---------------------------------------------------------------------------
+// Source health
+// ---------------------------------------------------------------------------
+
+/**
+ * Fourteen rows of which nine read "no baseline · no read" is a database dump.
+ * The honesty is in the counts, and we already compute them for the strip's own
+ * legend - docs/VISITORS.md §5.3. So the sentence is the section and the rows
+ * are one press away, which loses nothing and returns about 300px of phone.
+ *
+ * The three states stay distinct and are never merged. A source awaiting a
+ * baseline answered its request perfectly well; calling it dark would report an
+ * outage that is not happening, and that is the same category error as pizzint
+ * printing a confident DOUGHCON 5 over a scraper managing two runs a day, just
+ * pointed the other way.
+ */
+function healthSentence(state) {
+  const rows = Array.isArray(state.sources) ? state.sources : [];
+  if (!rows.length) return 'state.json reports no source health at all, so nothing on this page can be attributed to a named feed.';
+
+  let live = 0; let stale = 0; let uncal = 0; let dark = 0;
+  for (const s of rows) {
+    const { status } = sourceStatus(s, state.generated_at);
+    if (status === 'uncal') uncal += 1;
+    else if (status === 'dark') dark += 1;
+    else if (status === 'stale') stale += 1;
+    else live += 1;
+  }
+
+  const bits = [`${live} live`];
+  if (stale) bits.push(`${stale} stale`);
+  if (uncal) bits.push(`${uncal} awaiting a baseline`);
+  if (dark) bits.push(`${dark} dark`);
+
+  const tail = dark
+    ? 'A dark source failed to answer and is excluded from the composite, never imputed as a zero.'
+    : uncal
+      ? 'A source awaiting a baseline answered fine; there is simply no frozen reference to score it against yet, so it is published and not counted.'
+      : 'Every source answered inside its window.';
+
+  return `${bits.join(', ')}, of ${rows.length} sources. ${tail}`;
+}
+
+// ---------------------------------------------------------------------------
 // Series plumbing
 // ---------------------------------------------------------------------------
 
@@ -370,9 +332,6 @@ function recordKey(n) {
  * claiming we have no data when we do is the same lie as a chart claiming we
  * have data when we do not, so the log is read here too, tolerantly, and the
  * builder's reader is still preferred whenever it produced anything.
- *
- * The one-line fix belongs in build.mjs's seriesBuilder; this fallback is
- * harmless once it lands. See integration_notes.
  */
 function seriesFor(ctx, id) {
   const fromCtx = typeof ctx.seriesFor === 'function' ? ctx.seriesFor(id) : null;
@@ -439,22 +398,55 @@ function plainRead(ctx) {
     `This counts how much is happening in AI right now — it is not a claim about how it ends.`;
 }
 
+/**
+ * The direction of the last move, on the fold.
+ *
+ * docs/VISITORS.md §0 found this printing "— no prior observation to compare"
+ * while "Recent moves", two screens down in the same build, printed
+ * "Score 40.8 → 40.7 · −0.1". The delta was never missing; the CHOSEN
+ * COMPARISON was, and the fold reported that as an absence of information to
+ * the 45 of 100 visitors whose first question is whether the number moved.
+ *
+ * So there are now three sources, tried in order, and each one is LABELLED AS
+ * WHAT IT IS rather than dressed up as the one above it:
+ *
+ *   1. ctx.vsYesterday, basis "day"       a genuine ~24h comparison
+ *   2. ctx.vsYesterday, basis "previous"  the preceding observation, by clock
+ *   3. state.delta_from_previous          the engine's own last-move delta,
+ *                                         which exists from the second run and
+ *                                         survives a history log too short for
+ *                                         build.mjs to difference
+ *
+ * Only when all three are absent - a genuine genesis observation - does it say
+ * so, and then it says the true thing: this is the first reading. Printing
+ * "+0.0" against nothing would be exactly the imputation this project is a
+ * reaction to.
+ */
 function direction(ctx) {
+  const st = ctx.state;
   const d = ctx.vsYesterday;
-  // No prior observation is a real state, not a zero. Saying "+0.0" when we
-  // have nothing to compare against is exactly the imputation this whole
-  // project is a reaction to.
-  if (!d) {
-    return `<span class="score__dir"><b>—</b> no prior observation to compare</span>`;
+
+  if (d && Number.isFinite(d.delta)) {
+    const against = d.basis === 'previous' ? `since ${d.label}` : `vs ${d.label}`;
+    return chip(d.delta, against, d.basis || 'day');
   }
-  const glyph = d.delta > 0 ? '▲' : d.delta < 0 ? '▼' : '◆';
-  const word = d.delta > 0 ? 'up' : d.delta < 0 ? 'down' : 'unchanged';
-  // "vs 22h ago" is a day-over-day claim. "since 00:04 UTC" is a clock fact.
-  // Only one of them is true before we have a day of history.
-  const against = d.basis === 'previous' ? `since ${d.label}` : `vs ${d.label}`;
-  return `<span class="score__dir" data-basis="${esc(d.basis || 'day')}">
+
+  // The engine writes this on every scored run after the first. It is the same
+  // number the move rows print, so the fold and the archive can no longer
+  // disagree about whether anything happened.
+  if (Number.isFinite(st.delta_from_previous)) {
+    return chip(st.delta_from_previous, 'since the last observation', 'engine');
+  }
+
+  return `<span class="score__dir"><b>—</b> first scored observation; nothing yet to compare it against</span>`;
+}
+
+function chip(delta, against, basis) {
+  const glyph = delta > 0 ? '▲' : delta < 0 ? '▼' : '◆';
+  const word = delta > 0 ? 'up' : delta < 0 ? 'down' : 'unchanged';
+  return `<span class="score__dir" data-basis="${esc(basis)}">
       <span aria-hidden="true">${glyph}</span>
-      <b>${esc(signed(d.delta, 1))}</b> ${esc(word)} ${esc(against)}
+      <b>${esc(signed(delta, 1))}</b> ${esc(word)} ${esc(against)}
     </span>`;
 }
 

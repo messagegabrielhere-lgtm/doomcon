@@ -44,22 +44,69 @@ import * as brand from '../brand.mjs';
  * `needs` gates a route on data that may be absent: build.mjs only writes
  * race.html when data/race.json parsed and news.html when data/news.json did.
  * A nav that links a 404 is worse than a nav with five items, and "be careful"
- * is not a mechanism - the gate is.
+ * is not a mechanism - the gate is. hasSection() below holds every predicate.
+ *
+ * `count(ctx)` is what turns the nav from a list of words into an instrument.
+ *
+ * Every destination that HOLDS a number publishes it in the nav, so a reader
+ * learns what is behind a link before spending a tap on it. Each returns
+ * `{ v, k }` — the figure, and the word a screen reader hears in its place —
+ * or null, and null prints nothing at all rather than a dash. Methodology has
+ * no scalar and is deliberately left bare: a nav that invented a number for the
+ * page that explains the numbers would be a joke at its own expense.
  */
 const SECTIONS = [
   { href: '/', label: 'Index', short: 'Index',
-    blurb: 'The composite, the five pillars, the live signal feed.' },
+    blurb: 'The composite, the five pillars, the live signal feed.',
+    count: (ctx) => (ctx.state && Number.isFinite(ctx.state.score)
+      ? { v: num(ctx.state.score, 1), k: 'composite score' } : null) },
   { href: '/race.html', label: 'The Race', short: 'Race', needs: 'race',
-    blurb: 'Frontier labs ranked on live prediction-market odds.' },
+    blurb: 'Frontier labs ranked on live prediction-market odds.',
+    count: raceCount },
   { href: '/news.html', label: 'Newsroom', short: 'News', needs: 'news',
-    blurb: 'Every story, scored on how many independent sources carried it.' },
+    blurb: 'Every story, scored on how many independent sources carried it.',
+    count: (ctx) => (ctx.news && Array.isArray(ctx.news.items) && ctx.news.items.length
+      ? { v: String(ctx.news.items.length), k: 'scored items' } : null) },
+  { href: '/watts.html', label: 'Watts', short: 'Watts', needs: 'watts',
+    blurb: 'The substrate index: grid load, drought and buildout under the models.',
+    count: (ctx) => (ctx.infra && Number.isFinite(ctx.infra.score)
+      ? { v: num(ctx.infra.score, 1), k: 'substrate score' } : null) },
+  { href: '/digest.html', label: 'Digest', short: 'Digest', needs: 'digest',
+    blurb: 'The day in one page, assembled from the scored corpus.' },
+  { href: '/bliss.html', label: 'Bliss', short: 'Bliss', needs: 'bliss',
+    blurb: 'The same machinery, pointed the other way.',
+    count: (ctx) => (ctx.bliss && Number.isFinite(ctx.bliss.score)
+      ? { v: num(ctx.bliss.score, 1), k: 'bliss score' } : null) },
   { href: '/methodology.html', label: 'Methodology', short: 'Method',
     blurb: 'Every formula and constant. Recompute the number yourself.' },
   { href: '/history.html', label: 'History', short: 'History',
-    blurb: 'Sixty years of the same argument, dated and attributed.' },
+    blurb: 'Sixty years of the same argument, dated and attributed.',
+    count: (ctx) => (Array.isArray(ctx.history) && ctx.history.length
+      ? { v: String(ctx.history.length), k: 'scored observations' } : null) },
   { href: '/moves/', label: 'Archive', short: 'Archive',
-    blurb: 'Every scored observation, each with a hash-chained receipt.' },
+    blurb: 'Every scored observation, each with a hash-chained receipt.',
+    count: (ctx) => (Array.isArray(ctx.moves) && ctx.moves.length
+      ? { v: String(ctx.moves.length), k: 'archived moves' } : null) },
 ];
+
+/**
+ * The leader's odds, or the roster size — never a stale price.
+ *
+ * The three market states are kept apart here exactly as they are everywhere
+ * else: a leg whose market is not `live` has no probability we are entitled to
+ * print. A percentage in a navigation bar is read as current by definition, so
+ * a dark one would be the single most misleading number on the site.
+ */
+function raceCount(ctx) {
+  const players = ctx.race && Array.isArray(ctx.race.players) ? ctx.race.players : [];
+  if (!players.length) return null;
+  const top = players.find((p) => p && p.rank === 1) || players[0];
+  const m = top && top.market;
+  if (m && m.state === 'live' && Number.isFinite(m.probability)) {
+    return { v: `${num(m.probability * 100, 1)}%`, k: `${top.name} on the ranking market` };
+  }
+  return { v: String(players.length), k: 'labs tracked' };
+}
 
 /** Machine-readable surfaces. Separated in the footer because the audience is. */
 const DATA_LINKS = [
@@ -147,6 +194,19 @@ function rail(ctx, path) {
 
   const cell = (k, v, extra = '') =>
     `<span class="rail__c"${extra}><span class="rail__k">${k}</span>${v}</span>`;
+
+  // THE WALL CLOCK. Absorbed from the operations strip this pass, which is the
+  // only atom that strip carried that this one did not already hold. Rendered
+  // with the observation's own second so the first paint is a true UTC time
+  // (CONTRACT.md 4: no unseeded clock in output); the chrome script then moves
+  // it every second. It is the only element on the site that changes when
+  // nothing has happened, and it is honest because it is stating the time
+  // rather than pretending the data moved.
+  cells.push(cell(
+    'UTC',
+    `<b class="rail__v rail__clk num" data-dc-clock>${esc(utcClock(st.generated_at))}Z</b>`,
+    ' title="Wall-clock UTC. The observation stamp is the next cell along."',
+  ));
 
   if (path !== '/') {
     cells.push(
@@ -275,11 +335,17 @@ function coarse(ms){var s=Math.max(0,Math.round(ms/1000));
 var reduce=!!(window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches);
 var fmt=reduce?coarse:span,every=reduce?3e4:1000;
 var obs=d.querySelector('[data-dc-obs]'),age=d.querySelector('[data-dc-age]'),
-    nx=d.querySelector('[data-dc-next]');
+    nx=d.querySelector('[data-dc-next]'),clk=d.querySelector('[data-dc-clock]');
 var tObs=obs?Date.parse(obs.getAttribute('datetime')):NaN,
     tNx=nx?Date.parse(nx.getAttribute('datetime')):NaN;
 function tick(){
  var now=Date.now();
+ /* The wall clock. Absorbed from the deleted operations strip. Under reduce it
+    ticks every 30s with the same string, which is still a correct UTC time to
+    the second at the moment it is written - it simply stops being a thing
+    flickering in the corner of the eye. */
+ if(clk){var u=new Date(now);
+  clk.textContent=pad(u.getUTCHours())+':'+pad(u.getUTCMinutes())+':'+pad(u.getUTCSeconds())+'Z';}
  if(age&&tObs===tObs){age.hidden=false;age.textContent='+'+fmt(now-tObs);}
  if(nx&&tNx===tNx){
   var dt=tNx-now;
@@ -334,59 +400,17 @@ try{
  *        defaults; an object is passed through to _motion.motionBlock as
  *        { stateUrl, newsUrl (null disables news polling), pollMs }.
  */
-/**
- * The operations strip, with the two ALWAYS-MOVING atoms.
- *
- * Measured 2026-09-24: two DOM snapshots of pizzint seventy seconds apart on a
- * quiet night differed in exactly TWO above-fold strings — a clock and a
- * countdown. That is their entire perceived liveness; the underlying data
- * barely moves. We had zero such atoms, which is why the page felt static even
- * while it was republishing every minute.
- *
- * Both are server-rendered with correct initial values, so a screenshot taken
- * before any script runs still shows a true clock and a true age. The script
- * only keeps them ticking.
- *
- * STATUS is computed, never asserted: it reads DEGRADED when a calibrated
- * source is actually dark. pizzint's own health endpoint reports "healthy" at
- * two successful scrapes in twenty-four hours, and that is the line we hold.
- */
-function opsStrip(ctx) {
-  const st = ctx && ctx.state;
-  if (!st || !Array.isArray(st.sources)) return '';
-  const total = st.sources.length;
-  const reporting = st.sources.filter((x) => x.ok || x.uncalibrated).length;
-  const scored = st.sources.filter((x) => x.ok).length;
-  const dark = st.sources.filter((x) => !x.ok && !x.uncalibrated).length;
-  const feeds = ctx.news && Array.isArray(ctx.news.sources)
-    ? ctx.news.sources.filter((x) => x.ok).length : null;
-  const items = ctx.news && Array.isArray(ctx.news.items) ? ctx.news.items.length : null;
-  const posture = dark > 0 ? 'DEGRADED' : 'OPERATIONAL';
+/* THE OPERATIONS STRIP IS GONE, and what it was for is in rail() above.
 
-  const plain = [
-    `${reporting}/${total} REPORTING`,
-    `${scored} SCORED`,
-    feeds !== null ? `${feeds} FEEDS` : null,
-    items !== null ? `${items} ITEMS` : null,
-  ].filter(Boolean);
-
-  return `<div class="ops" data-posture="${posture.toLowerCase()}"><div class="wrap ops__in">` +
-    `<span class="ops__c ops__clk" data-dc-clock>${esc(String(st.generated_at).slice(11, 19))}Z</span>` +
-    `<span class="ops__c" data-dc-age data-since="${esc(st.generated_at)}">READ 0S AGO</span>` +
-    plain.map((c) => `<span class="ops__c">${esc(c)}</span>`).join('') +
-    `<span class="ops__c">STATUS: ${esc(posture)}</span>` +
-    `</div></div>` +
-    `<script>(function(){` +
-    `var c=document.querySelector('[data-dc-clock]'),a=document.querySelector('[data-dc-age]');` +
-    `if(!c&&!a)return;var s=a?Date.parse(a.getAttribute('data-since')):NaN;` +
-    `function p(n){return n<10?'0'+n:''+n}` +
-    `function f(x){if(x<60)return x+'S';var m=Math.floor(x/60);if(m<60)return m+'M '+p(x%60)+'S';` +
-    `var h=Math.floor(m/60);return h+'H '+p(m%60)+'M'}` +
-    `function t(){var d=new Date();` +
-    `if(c)c.textContent=p(d.getUTCHours())+':'+p(d.getUTCMinutes())+':'+p(d.getUTCSeconds())+'Z';` +
-    `if(a&&isFinite(s))a.textContent='READ '+f(Math.max(0,Math.round((d.getTime()-s)/1000)))+' AGO'}` +
-    `t();setInterval(t,1000);})();</script>`;
-}
+   Measured on the built homepage at 375px, 2026-09-24: .ops printed
+   "14/14 REPORTING · 5 SCORED · 15 FEEDS · 200 ITEMS · STATUS: OPERATIONAL"
+   twenty-eight pixels above a rail printing SOURCES 14/14 reporting, SCORED 5,
+   FEEDS 15/16, ITEMS 200, STATUS OPERATIONAL. Five atoms, stated twice, in two
+   strips, 53px of an 812px fold - the exact "same fact wearing a different
+   hat" failure the rail was built to fix, committed by the file that built it.
+   .ops carried exactly one atom the rail did not: the ticking wall clock. That
+   atom is now a rail cell and the strip is deleted. Nothing else in the repo
+   emitted .ops or .ops__*; grepped across every template before cutting. */
 
 export function page(o) {
   const { ctx } = o;
@@ -421,10 +445,24 @@ export function page(o) {
     ? `<meta name="twitter:site" content="${esc(brand.X_HANDLE)}">`
     : '';
 
+  // The nav carries the number each destination holds. Two labels are emitted
+  // per link, not one: the full name and the short one, and CSS swaps them at
+  // phone width - so a nine-item nav with a figure on each is one wrapped row
+  // on a 375px screen rather than three. The figure is inside the link on
+  // purpose; it is the reason to tap, not a decoration beside it.
   const sections = SECTIONS.filter((s) => !s.needs || hasSection(ctx, s.needs));
   const nav = sections.map((item) => {
     const current = item.href === o.path ? ' aria-current="page"' : '';
-    return `<a href="${esc(ctx.href(item.href))}"${current}>${esc(item.label)}</a>`;
+    const c = typeof item.count === 'function' ? item.count(ctx) : null;
+    const short = item.short && item.short !== item.label
+      ? `<span class="nav__s" aria-hidden="true">${esc(item.short)}</span>` : '';
+    const label = short
+      ? `<span class="nav__l">${esc(item.label)}</span>${short}`
+      : `<span class="nav__l nav__l--only">${esc(item.label)}</span>`;
+    const figure = c
+      ? `<b class="nav__n num">${esc(c.v)}</b><span class="vh"> — ${esc(c.k)}</span>`
+      : '';
+    return `<a href="${esc(ctx.href(item.href))}"${current}>${label}${figure}</a>`;
   }).join('');
 
   // Data pages get the wide measure; prose pages keep the 66ch reading column.
@@ -467,7 +505,6 @@ ${jsonld}
   <p class="masthead__tag">${esc(brand.TAGLINE)}</p>
   <nav class="nav" aria-label="Primary">${nav}</nav>
 </div></header>
-${opsStrip(ctx)}
 ${rail(ctx, o.path)}
 ${visitSlot(ctx)}
 ${o.showDegraded ? degradedBanner(ctx.state) : ''}${motion.beforeMain}
@@ -481,9 +518,29 @@ ${footer(ctx, sections, o.path)}${bodyEndExtra}
 `;
 }
 
+/**
+ * The route gate. One predicate per `needs` key, and each one is the SAME
+ * predicate build.mjs uses to decide whether to write the file — deliberately
+ * restated here rather than imported, because importing wattsPage into layout
+ * would close an import cycle (every page module imports `page` from this
+ * file). If build.mjs's gate moves, this one moves with it; that pairing is in
+ * the integration note.
+ *
+ * `digest` and `bliss` read false today, because build.mjs sets neither
+ * ctx.digest nor ctx.bliss. That is the correct failure: the entries sit in
+ * SECTIONS ready, and the day the integrator wires those two templates up the
+ * nav grows two links and the footer grows two rows with no edit here. A nav
+ * that links a 404 is worse than a nav with seven items.
+ */
 function hasSection(ctx, key) {
   if (key === 'race') return Boolean(ctx.race && Array.isArray(ctx.race.players) && ctx.race.players.length);
   if (key === 'news') return Boolean(ctx.news && Array.isArray(ctx.news.items) && ctx.news.items.length);
+  if (key === 'watts') {
+    return Boolean(ctx.infra && Array.isArray(ctx.infra.sources) && ctx.infra.sources.length
+      && Array.isArray(ctx.infra.pillars));
+  }
+  if (key === 'digest') return Boolean(ctx.digest && typeof ctx.digest === 'object');
+  if (key === 'bliss') return Boolean(ctx.bliss && Array.isArray(ctx.bliss.sources) && ctx.bliss.sources.length);
   return true;
 }
 

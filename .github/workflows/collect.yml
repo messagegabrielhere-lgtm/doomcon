@@ -355,6 +355,20 @@ jobs:
         continue-on-error: true
         run: node collector/infra.mjs
 
+      - name: Refresh the upside index
+        # BLISS has no frozen reference yet, so every source reads
+        # awaiting-baseline. That is the correct cold-start state and the page
+        # says so; it is not an error and must not fail the run.
+        continue-on-error: true
+        run: node collector/bliss.mjs
+
+      - name: Compile the digest
+        # Runs LAST of the collectors: it reads state.json, news.json, race.json
+        # and infra.json to compute what changed, so everything else must have
+        # written first.
+        continue-on-error: true
+        run: node collector/digest.mjs
+
       - name: Build site
         # Runs even when the engine was skipped: the generator is a pure function
         # of data/, so a rebuild on unchanged data produces byte-identical output

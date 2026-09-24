@@ -17,6 +17,7 @@
 // from the ones beside it.
 
 import { esc } from './_html.mjs';
+import { avatarFor, avatarSprite, principalLine } from './_avatars.mjs';
 
 /** Per-lab accent. Chosen for contrast against the dark ground AND legibility
  *  in light mode; never the only carrier of meaning — every box is also
@@ -121,11 +122,18 @@ function box(p, href) {
   const share = mind.state === 'live' ? pct(mind.recent_share, 1) : null;
   const mdelta = mind.delta_state === 'live' ? signedPts(mind.delta) : null;
 
-  const loud = p.loudness || {};
-  const loudVal = loud.state === 'live' && Number.isFinite(loud.posts_30d)
-    ? String(loud.posts_30d) : null;
-  const loudSub = loud.state === 'no_feed' ? 'no public feed'
-    : loud.state === 'dormant' ? 'dormant' : 'posts / 30d';
+  // The principal row replaces the old fourth metric cell, which printed
+  // "Principal — no public feed" for seven of the eight boxes: eight rows of the
+  // same three words, and the measured probe result behind each of them thrown
+  // away. principalLine() reads that result out of the same player object, so
+  // the row now carries a fact per lab instead of a repeated absence, and
+  // avatarFor() puts an abstract monogram beside it with the name in text.
+  //
+  // Three cells, not four. docs/VISITORS.md §5 measures the failure this module
+  // was part of — the level and its restatements above 6,000px of scroll — and
+  // its rule is that density is facts per pixel, so a cell whose value is the
+  // same string in every box is the one to delete rather than to restyle.
+  const prin = principalLine(p);
 
   return `<li class="lab" data-posture="${esc(st.key)}" style="--lab-accent:${esc(accent)}">
   <a class="lab__in" href="${esc(href)}">
@@ -133,7 +141,6 @@ function box(p, href) {
       <span class="lab__ico">${glyph(id)}</span>
       <span class="lab__n">
         <b class="lab__name">${esc(p.name || id)}</b>
-        <span class="lab__p">${esc(p.principal || '—')}</span>
       </span>
       <span class="lab__rank num" aria-label="Rank ${esc(p.rank)}">${esc(p.rank)}</span>
     </div>
@@ -141,11 +148,14 @@ function box(p, href) {
     <p class="lab__st"><span class="lab__dot" aria-hidden="true"></span>${esc(st.word)}
       <span class="lab__stn">${esc(st.note)}</span></p>
 
+    <div class="lab__prin" data-feed="${esc(prin.state)}">${avatarFor(p, {
+      size: 'sm', measured: true, role: false,
+    })}</div>
+
     <div class="lab__grid">
       ${cell('Best-model odds', prob, d7 !== null ? `${d7} pts / 7d` : 'no 7d reference', mk.state)}
       ${cell('Releases 30d', rel, gh.state === 'live' ? `${gh.repos_answered || 0} repos` : 'unread', gh.state)}
       ${cell('Mindshare', share, mdelta !== null ? `${mdelta} pts` : 'window only', mind.state)}
-      ${cell('Principal', loudVal, loudSub, loud.state)}
     </div>
   </a>
 </li>`;
@@ -165,7 +175,22 @@ export function render(ctx) {
   const href = ctx.href('/race.html');
   const stamp = ctx.race.generated_at;
 
-  return `${styleTag()}
+  // The principals we can draw, over the labs that published one. Printed
+  // rather than implied: a grid where one box carries a dotted frame wants the
+  // count beside it, or the frame reads as a rendering fault.
+  const named = players.filter((p) => p.principal).length;
+  // live AND dormant. A dormant feed is one that answered and had published
+  // nothing lately — Altman's blog, last post 2026-04-10 — so it is a feed we
+  // can read, and counting only `live` here would have printed "0 of 7 publish
+  // a feed we can read" over a row that names the date of his last post. That
+  // is the live/dormant/dark merge docs/NEWS.md refuses, committed in a
+  // denominator instead of in a table.
+  const feeds = players.filter((p) => {
+    const s = principalLine(p).state;
+    return s === 'live' || s === 'dormant';
+  }).length;
+
+  return `${styleTag()}${avatarSprite()}
 <section class="sec labs" aria-labelledby="labs-h">
   <div class="labs__hd">
     <h2 class="sec__h" id="labs-h">The watch floor</h2>
@@ -176,7 +201,14 @@ export function render(ctx) {
   <ul class="labs__grid">${players.map((p) => box(p, href)).join('')}</ul>
   <p class="fresh__key">Posture describes visible output, not capability and not risk.
      A lab with no public feed reads UNREAD, never QUIET — we do not report an
-     absence of evidence as evidence of absence.</p>
+     absence of evidence as evidence of absence.
+     ${esc(named)} of ${esc(players.length)} labs publish a principal, and ${esc(feeds)} of those
+     ${esc(named)} ${feeds === 1 ? 'has a personal feed that answers' : 'have a personal feed that answers'};
+     the line under each name is what that feed actually did rather than a job title.
+     The marks are abstract monograms, not
+     likenesses: every one of these people has a computed rank and a posture word beside them
+     on this page, and a drawn face next to a computed label reads as a claim about the person.
+     The name in text is the identification; the shape is not.</p>
 </section>`;
 }
 
@@ -186,9 +218,16 @@ export function styleTag() {
   return `<style>
 .labs__hd{display:flex;flex-wrap:wrap;align-items:baseline;gap:0 var(--s-3);justify-content:space-between}
 .labs__k{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin:0}
-.labs__grid{list-style:none;margin:var(--s-3) 0 var(--s-2);padding:0;display:grid;gap:9px;grid-template-columns:1fr}
-@media(min-width:560px){.labs__grid{grid-template-columns:repeat(2,1fr)}}
-@media(min-width:1040px){.labs__grid{grid-template-columns:repeat(4,1fr)}}
+/* minmax(0,1fr), never plain 1fr. A 1fr track floors at the item's min-content
+   width, and the principal row inside each box carries a measured sentence
+   ("no post since 2026-04-10", "Posts on X.") whose min-content width then sets
+   the track — which pushed the whole grid past a 375px viewport. The row itself
+   is capped too; this is the caller-side half of that guard, written into the
+   integration note at the bottom of _avatars.mjs. */
+.labs__grid{list-style:none;margin:var(--s-3) 0 var(--s-2);padding:0;display:grid;gap:9px;
+  grid-template-columns:minmax(0,1fr)}
+@media(min-width:560px){.labs__grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(min-width:1040px){.labs__grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
 .lab{position:relative}
 .lab__in{display:flex;flex-direction:column;gap:7px;height:100%;padding:11px 12px;
   background:var(--bg-raised);border:1px solid var(--rule);border-left:3px solid var(--lab-accent);
@@ -200,8 +239,19 @@ export function styleTag() {
 .lab__g{width:16px;height:16px;display:block}
 .lab__n{display:flex;flex-direction:column;min-width:0;flex:1}
 .lab__name{font-family:var(--mono);font-size:var(--t-sm);letter-spacing:.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.lab__p{font-size:10.5px;color:var(--ink-faint);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .lab__rank{font-family:var(--mono);font-size:11px;color:var(--ink-faint);font-variant-numeric:tabular-nums}
+/* The principal row. min-width:0 is load-bearing: without it the avatar row's
+   measured second line refuses to ellipsis and widens the box. */
+.lab__prin{display:flex;min-width:0;padding:1px 0 2px;border-bottom:1px dashed var(--rule-soft)}
+.lab__prin .avtrow{min-width:0;max-width:100%}
+/* A feed we can read is the only one of the four states that is a live
+   measurement, so it is the only one that gets full ink. The other three are
+   stated in words by principalLine() and dimmed here; the dotted underline on
+   an unread row is the same grammar the freshness chips use for a baseline that
+   does not exist yet. */
+.lab__prin[data-feed="live"] .avtrow__r{color:var(--ink-dim)}
+.lab__prin[data-feed="dark"] .avtrow__r{color:var(--dark-src,var(--ink-faint))}
+.lab__prin[data-feed="unread"]{border-bottom-style:dotted}
 .lab__st{display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin:0;
   font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase}
 .lab__dot{width:6px;height:6px;border-radius:50%;background:currentColor;flex:none}
@@ -213,7 +263,11 @@ export function styleTag() {
 .lab[data-posture="quiet"] .lab__st{color:var(--ink-dim)}
 .lab[data-posture="unread"] .lab__st{color:var(--ink-faint)}
 .lab[data-posture="unread"] .lab__in{border-left-style:dashed}
-.lab__grid{display:grid;grid-template-columns:1fr 1fr;gap:6px 9px;margin-top:auto}
+/* Three cells since the Principal cell moved up into .lab__prin. Two columns at
+   375px with the third on its own row, three across as soon as there is room —
+   and minmax(0,1fr) for the same reason the outer grid uses it. */
+.lab__grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 9px;margin-top:auto}
+@media(min-width:400px){.lab__grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 .lab__m{display:flex;flex-direction:column;gap:0}
 .lab__ml{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint)}
 .lab__mv{font-family:var(--mono);font-size:var(--t-sm);font-variant-numeric:tabular-nums;color:var(--ink)}
