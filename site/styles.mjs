@@ -388,7 +388,7 @@ details > summary {
 details > summary::-webkit-details-marker { display: none; }
 details > summary::before {
   content: '\\002b'; display: inline-block; width: 11px; text-align: center;
-  border: 1px solid currentColor; border-radius: 2px; font-size: 9px; line-height: 10px;
+  border: 1px solid currentColor; border-radius: 2px; font-size: var(--t-2xs); line-height: 11px;
 }
 details[open] > summary::before { content: '\\2212'; }
 details > summary:hover { color: var(--ink); }
@@ -445,7 +445,7 @@ const CHROME = `
   .nav { margin-left: 0; flex-basis: 100%; }
 }
 .wordmark {
-  font-family: var(--mono); font-weight: 700; font-size: 15px;
+  font-family: var(--mono); font-weight: 700; font-size: var(--t-sm);
   letter-spacing: 0.22em; text-decoration: none; color: var(--ink);
 }
 .wordmark:hover { color: var(--accent); }
@@ -611,7 +611,7 @@ a.rail__c:hover .rail__v { color: var(--accent); }
   display: inline-flex; align-items: baseline; gap: 3px;
   font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap;
 }
-.delta__g { font-size: 8px; line-height: 1; }
+.delta__g { font-size: var(--t-2xs); line-height: 1; }
 .delta__n { font-weight: 700; color: var(--ink); }
 /* ONE accent, and no good/bad axis. Green for a falling score would say that a
    quieter day is a better day, and DOOMCON measures activity tempo - it is not
@@ -717,14 +717,14 @@ a.rail__c:hover .rail__v { color: var(--accent); }
    Tightened to a third of that without dropping one link or one sentence. */
 .foot {
   border-top: 1px solid var(--rule); margin-top: var(--sec-lg);
-  padding: var(--s-4) 0 var(--s-5); color: var(--ink-faint); font-size: 12.5px;
+  padding: var(--s-4) 0 var(--s-5); color: var(--ink-faint); font-size: var(--t-sm);
 }
 .foot__top { display: grid; gap: var(--s-4); }
 @media (min-width: 760px) {
   .foot__top { grid-template-columns: minmax(0, 260px) minmax(0, 1fr); gap: var(--s-6); }
 }
 .foot__mark {
-  font-family: var(--mono); font-weight: 700; font-size: 13px;
+  font-family: var(--mono); font-weight: 700; font-size: var(--t-sm);
   letter-spacing: 0.22em; color: var(--ink); display: block;
 }
 .foot__creed { margin: 4px 0 6px; color: var(--ink-dim); font-size: var(--t-sm); }
@@ -752,7 +752,7 @@ a.rail__c:hover .rail__v { color: var(--accent); }
 }
 .foot__list a:hover { border-bottom-color: var(--accent); }
 .foot__list a[aria-current="page"] { color: var(--accent); }
-.foot__list span { color: var(--ink-faint); font-size: 12px; line-height: 1.4; }
+.foot__list span { color: var(--ink-faint); font-size: var(--t-xs); line-height: 1.4; }
 /* On a phone the site index is 12 links in one column, and twelve descriptions
    under them turned the footer into 988px. The descriptions are what make the
    PAGES tempting rather than merely listed, so they survive in the first
@@ -795,7 +795,7 @@ a.rail__c:hover .rail__v { color: var(--accent); }
   margin: var(--s-4) 0 0; padding-top: 10px; border-top: 1px solid var(--rule-soft);
   max-width: 96ch; line-height: 1.5;
 }
-.foot__fine code { font-size: 11.5px; color: var(--ink-dim); }
+.foot__fine code { font-size: var(--t-xs); color: var(--ink-dim); }
 .foot__fine b { color: var(--ink-dim); font-weight: 600; }
 .foot a { color: var(--ink-dim); }
 `;
@@ -827,7 +827,7 @@ const HERO = `
 .level { display: flex; align-items: center; gap: var(--s-4); }
 .level__digit {
   font-family: var(--mono); font-weight: 700;
-  font-size: clamp(5.5rem, 31vw, 9.5rem);
+  font-size: var(--d-level);
   line-height: 0.8; letter-spacing: -0.065em;
   color: var(--accent);
   /* A single soft glow, dark mode only, on the one element that earns it. */
@@ -839,7 +839,7 @@ const HERO = `
 .level__meta { min-width: 0; }
 .level__name {
   font-family: var(--mono); font-weight: 700;
-  font-size: clamp(1.05rem, 5.2vw, 1.55rem);
+  font-size: var(--t-xl);
   letter-spacing: 0.055em; margin: 0 0 var(--s-2); color: var(--ink);
   overflow-wrap: anywhere;
 }
@@ -865,12 +865,12 @@ const HERO = `
 .score__row { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
 .score__val {
   font-family: var(--mono); font-weight: 700;
-  font-size: clamp(2.75rem, 13.5vw, 3.75rem); line-height: 1;
+  font-size: var(--d-score); line-height: 1;
   letter-spacing: -0.035em; color: var(--ink);
 }
 .score__of { font-family: var(--mono); font-size: var(--t-sm); color: var(--ink-faint); }
 .score__dir {
-  font-family: var(--mono); font-size: 12.5px; color: var(--ink-dim);
+  font-family: var(--mono); font-size: var(--t-sm); color: var(--ink-dim);
   display: inline-flex; align-items: baseline; gap: 5px;
 }
 .score__dir b { font-weight: 700; color: var(--ink); }
@@ -911,7 +911,7 @@ const HERO = `
 }
 .scale__marks {
   position: relative; height: 15px; margin-top: var(--s-1);
-  font-family: var(--mono); font-size: 10px; color: var(--ink-faint); letter-spacing: 0.08em;
+  font-family: var(--mono); font-size: var(--t-2xs); color: var(--ink-faint); letter-spacing: 0.08em;
 }
 .scale__marks span { position: absolute; top: 0; transform: translateX(-50%); }
 .scale__marks span[data-edge="first"] { transform: none; }
@@ -925,7 +925,7 @@ const HERO = `
 }
 .stamp b { color: var(--ink); font-weight: 500; }
 .disclaimer {
-  font-size: 12.5px; color: var(--ink-faint); margin: 5px 0 0; max-width: var(--measure);
+  font-size: var(--t-sm); color: var(--ink-faint); margin: 5px 0 0; max-width: var(--measure);
 }
 `;
 
@@ -964,7 +964,7 @@ const CHARTS_CORE = `
 .spark__dot  { fill: var(--accent); }
 /* font-size here, not only as an SVG attribute: _parts.sparkline (the older
    inline sparkline this kit replaces) sets no size and relies on the rule. */
-.spark__empty { fill: var(--ink-faint); font-size: 10px; }
+.spark__empty { fill: var(--ink-faint); font-size: var(--t-2xs); }
 
 /* gauge() - the hero score as a bounded arc. The live segment is six units
    thicker than the rest (14 -> 20; GAUGE.liveSw in _charts.mjs must match this
@@ -1064,7 +1064,7 @@ const FRESH = `
    not say WHICH source is not a freshness chip. */
 .chip b { font-weight: 500; color: var(--ink); overflow: hidden; text-overflow: ellipsis; min-width: 0; }
 .chip__age { flex: 0 0 auto; color: var(--ink-faint); }
-.chip__dot { font-size: 10px; line-height: 1; }
+.chip__dot { font-size: var(--t-2xs); line-height: 1; }
 
 /* ---- THE THREE SOURCE STATES, AND WHY EACH GETS FOUR SIGNALS -------------
 
@@ -1116,7 +1116,7 @@ const FRESH = `
   border-style: dotted; border-inline-start-color: var(--accent-2);
 }
 .chip[data-status="uncal"] b { color: var(--ink); }
-.fresh__key { font-size: 11.5px; color: var(--ink-faint); margin: var(--s-2) 0 0; font-family: var(--mono); line-height: 1.55; }
+.fresh__key { font-size: var(--t-xs); color: var(--ink-faint); margin: var(--s-2) 0 0; font-family: var(--mono); line-height: 1.55; }
 /* The legend restates the three source states as counts, right where the chips
    are, so a reader matches glyph to word without a paragraph in between. The
    states are still named separately and still never merged - they are shorter. */
@@ -1125,7 +1125,7 @@ const FRESH = `
   padding-bottom: 5px; margin-bottom: 5px; border-bottom: 1px solid var(--rule-soft);
 }
 .fresh__lg { display: inline-flex; align-items: baseline; gap: 4px; color: var(--ink-dim); white-space: nowrap; }
-.fresh__lg i { font-style: normal; font-size: 9px; line-height: 1; }
+.fresh__lg i { font-style: normal; font-size: var(--t-2xs); line-height: 1; }
 /* The legend takes the SAME four signals in the same order, because a legend
    that renders its states differently from the things it is a legend for is
    worse than no legend. The bar is a border-block-end here rather than an
@@ -1145,7 +1145,7 @@ const FRESH = `
 /* Chip variants for the feed and the reel. Every source-kind chip carries a
    letter or a shape in a boxed badge, so it is identifiable without colour and
    at screenshot scale. */
-.chip--sm { font-size: 10px; padding: 2px 5px; gap: 4px; }
+.chip--sm { font-size: var(--t-2xs); padding: 2px 5px; gap: 4px; }
 .chip--quiet { background: transparent; color: var(--ink-faint); }
 .chip--accent { border-color: var(--accent); color: var(--ink); }
 .chip--solid { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-weight: 700; }
@@ -1155,27 +1155,27 @@ const FRESH = `
   display: inline-flex; align-items: center; justify-content: center;
   width: 13px; height: 13px; flex: 0 0 13px;
   border: 1px solid currentColor; border-radius: 2px;
-  font-size: 8.5px; font-weight: 700; line-height: 1;
+  font-size: var(--t-2xs); font-weight: 700; line-height: 1;
 }
 .chip--x::before          { content: 'X'; }
 .chip--kalshi::before     { content: 'K'; }
 .chip--polymarket::before { content: 'P'; }
 .chip--manifold::before   { content: 'M'; }
 .chip--news::before       { content: 'N'; }
-.chip--paper::before      { content: '\\25b2'; border: 0; font-size: 10px; }
-.chip--gov::before        { content: '\\25c6'; border: 0; font-size: 10px; }
-.chip--code::before       { content: '\\25a0'; border: 0; font-size: 10px; }
+.chip--paper::before      { content: '\\25b2'; border: 0; font-size: var(--t-2xs); }
+.chip--gov::before        { content: '\\25c6'; border: 0; font-size: var(--t-2xs); }
+.chip--code::before       { content: '\\25a0'; border: 0; font-size: var(--t-2xs); }
 
 /* Pillar attribution, wherever a feed item or reel card is assigned to a
    pillar. The glyphs match PILLAR_GLYPH in _charts.mjs on purpose: the same
    shape means the same pillar on the ranked chart and in the feed. */
 .pillar-tag {
   display: inline-flex; align-items: center; gap: 5px;
-  font-family: var(--mono); font-size: 10px; letter-spacing: 0.09em; text-transform: uppercase;
+  font-family: var(--mono); font-size: var(--t-2xs); letter-spacing: 0.09em; text-transform: uppercase;
   color: var(--ink-dim); border: 1px solid var(--rule); border-radius: 2px;
   padding: 1px 5px 1px 4px; white-space: nowrap; text-decoration: none;
 }
-.pillar-tag::before { font-size: 9px; line-height: 1; color: var(--ink-faint); }
+.pillar-tag::before { font-size: var(--t-2xs); line-height: 1; color: var(--ink-faint); }
 .pillar-tag[data-pillar="capability"]::before { content: '\\25b2'; }
 .pillar-tag[data-pillar="compute"]::before    { content: '\\25a0'; }
 .pillar-tag[data-pillar="attention"]::before  { content: '\\25cf'; }
@@ -1255,7 +1255,7 @@ const ARRIVE = `
 .npulse[data-partial="1"] { border-left-style: dotted; }
 .npulse__lead { display: flex; align-items: baseline; gap: var(--s-2); min-width: 0; }
 .npulse__n {
-  font-family: var(--mono); font-weight: 700; font-size: 2.25rem; line-height: 0.95;
+  font-family: var(--mono); font-weight: 700; font-size: var(--t-xl); line-height: 1;
   letter-spacing: -0.035em; color: var(--accent);
 }
 .npulse[data-zero="1"] .npulse__n { color: var(--ink-faint); }
@@ -1271,7 +1271,7 @@ const ARRIVE = `
   text-transform: uppercase; color: var(--ink-faint);
 }
 .npulse__cv {
-  font-family: var(--mono); font-size: var(--t-md); font-weight: 700; color: var(--ink);
+  font-family: var(--mono); font-size: var(--t-lg); font-weight: 700; color: var(--ink);
   font-variant-numeric: tabular-nums;
   display: flex; align-items: baseline; gap: 3px; min-width: 0;
 }
@@ -1390,42 +1390,42 @@ const MOVES = `
   color: var(--ink-faint); margin-left: var(--s-2); white-space: nowrap;
 }
 .move__delta { font-family: var(--mono); font-size: var(--t-sm); font-weight: 700; grid-column: 3; grid-row: 1; text-align: right; }
-.move__delta[data-dir="up"]::before   { content: '\\25b2 '; font-size: 8px; color: var(--accent); }
-.move__delta[data-dir="down"]::before { content: '\\25bc '; font-size: 8px; color: var(--ink-dim); }
-.move__delta[data-dir="flat"]::before { content: '\\25c6 '; font-size: 8px; color: var(--ink-faint); }
+.move__delta[data-dir="up"]::before   { content: '\\25b2 '; font-size: var(--t-2xs); color: var(--accent); }
+.move__delta[data-dir="down"]::before { content: '\\25bc '; font-size: var(--t-2xs); color: var(--ink-dim); }
+.move__delta[data-dir="flat"]::before { content: '\\25c6 '; font-size: var(--t-2xs); color: var(--ink-faint); }
 .move[data-changed="1"] { background: var(--wash-alt); }
 .move__tag {
-  font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
-  border: 1px solid var(--accent); color: var(--accent); border-radius: 2px; padding: 1px 5px; margin-left: var(--s-2);
+  font-family: var(--mono); font-size: var(--t-2xs); letter-spacing: 0.1em; text-transform: uppercase;
+  border: 1px solid var(--rule); color: var(--ink-dim); border-radius: 2px; padding: 1px 5px; margin-left: var(--s-2);
 }
 
 .movehead { display: grid; gap: var(--s-4); margin-bottom: var(--s-2); }
 .movehead__nums { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; font-family: var(--mono); }
-.movehead__from, .movehead__to { font-size: 2rem; font-weight: 700; letter-spacing: -0.03em; }
+.movehead__from, .movehead__to { font-size: var(--t-xl); font-weight: 700; letter-spacing: -0.03em; }
 .movehead__from { color: var(--ink-faint); }
 .movehead__to { color: var(--ink); }
-.movehead__arrow { color: var(--ink-faint); font-size: 1.25rem; }
-.movehead__delta { font-size: 1rem; font-weight: 700; color: var(--accent); }
+.movehead__arrow { color: var(--ink-faint); font-size: var(--t-lg); }
+.movehead__delta { font-size: var(--t-lg); font-weight: 700; color: var(--accent); }
 
 .kv { border-top: 1px solid var(--rule); margin: var(--s-5) 0 0; }
 .kv__row { display: grid; grid-template-columns: 1fr; gap: 0 18px; border-bottom: 1px solid var(--rule); padding: 9px 0; }
 @media (min-width: 560px) { .kv__row { grid-template-columns: 180px 1fr; } }
 .kv__k { font-family: var(--mono); font-size: var(--t-xs); letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); }
-.kv__v { font-size: 14px; overflow-wrap: anywhere; }
-.kv__v .num, .kv__v code { font-size: 12.5px; }
+.kv__v { font-size: var(--t-base); overflow-wrap: anywhere; }
+.kv__v .num, .kv__v code { font-size: var(--t-sm); }
 
 .srcs { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
 .srcs li { display: flex; gap: var(--s-2); align-items: baseline; font-size: var(--t-sm); flex-wrap: wrap; }
-.srcs .num { font-family: var(--mono); font-size: 12.5px; color: var(--ink-dim); }
-.hash { font-family: var(--mono); font-size: 11.5px; color: var(--ink-dim); overflow-wrap: anywhere; display: block; }
+.srcs .num { font-family: var(--mono); font-size: var(--t-sm); color: var(--ink-dim); }
+.hash { font-family: var(--mono); font-size: var(--t-xs); color: var(--ink-dim); overflow-wrap: anywhere; display: block; }
 `;
 
 const PROSE = `
 .prose { max-width: var(--measure); font-size: var(--t-base); }
-.prose > h1 { font-size: clamp(1.7rem, 7vw, 2.3rem); margin: 0 0 14px; letter-spacing: -0.025em; }
+.prose > h1 { font-size: var(--d-title); margin: 0 0 14px; letter-spacing: -0.025em; }
 .prose > h2 { font-size: var(--t-xl); margin: var(--sec-lg) 0 9px; letter-spacing: -0.02em; }
-.prose > h3 { font-size: var(--t-md); margin: var(--s-4) 0 var(--s-2); }
-.prose > h4 { font-size: 0.95rem; margin: var(--s-4) 0 6px; color: var(--ink-dim); }
+.prose > h3 { font-size: var(--t-lg); margin: var(--s-4) 0 var(--s-2); }
+.prose > h4 { font-size: var(--t-base); margin: var(--s-4) 0 6px; color: var(--ink-dim); }
 .prose ul, .prose ol { margin: 0 0 1em; padding-left: 1.25em; }
 .prose li { margin: 0 0 0.4em; }
 .prose blockquote {
@@ -1434,13 +1434,13 @@ const PROSE = `
 }
 .prose pre {
   background: var(--bg-sunken); border: 1px solid var(--rule); border-radius: var(--radius);
-  padding: var(--s-3) 14px; overflow-x: auto; font-size: 12.5px; line-height: 1.5; margin: 0 0 1.2em;
+  padding: var(--s-3) 14px; overflow-x: auto; font-size: var(--t-sm); line-height: 1.5; margin: 0 0 1.2em;
 }
 .prose :not(pre) > code {
   background: var(--bg-raised); border: 1px solid var(--rule); border-radius: 2px;
-  padding: 1px 4px; font-size: 0.87em;
+  padding: 1px 4px; font-size: var(--t-sm);
 }
-.prose table { width: 100%; border-collapse: collapse; margin: 0 0 1.4em; font-size: 13.5px; display: block; overflow-x: auto; }
+.prose table { width: 100%; border-collapse: collapse; margin: 0 0 1.4em; font-size: var(--t-sm); display: block; overflow-x: auto; }
 .prose th, .prose td { text-align: left; padding: 7px 10px 7px 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
 .prose th { font-family: var(--mono); font-size: var(--t-xs); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-faint); font-weight: 500; }
 /* Every heading level, not just h2 and h3. _markdown.mjs appends an anchor to
@@ -1459,7 +1459,7 @@ const PROSE = `
    the whole document and it stays at reading size. Inside a dashboard .sec it
    is a caption under a five-word heading, and at 17px it was competing with the
    thing it was captioning while costing three lines of fold. */
-.lede { font-size: var(--t-md); color: var(--ink-dim); max-width: var(--measure); margin: 0 0 var(--s-3); }
+.lede { font-size: var(--t-base); color: var(--ink-dim); max-width: var(--measure); margin: 0 0 var(--s-3); }
 .sec .lede { font-size: var(--t-sm); line-height: 1.5; margin-bottom: var(--s-2); }
 
 /* history.html timeline - a rule with dated entries, each with a real source. */
@@ -1469,10 +1469,10 @@ const PROSE = `
   content: ''; position: absolute; left: -4px; top: var(--s-2);
   width: 7px; height: 7px; border-radius: 50%; background: var(--accent);
 }
-.tl__date { font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.08em; color: var(--accent); display: block; margin-bottom: 3px; }
-.tl__h { font-size: 1.02rem; margin: 0 0 5px; }
-.tl__b { font-size: 14.5px; color: var(--ink-dim); margin: 0 0 6px; max-width: var(--measure); }
-.tl__src { font-family: var(--mono); font-size: 11.5px; }
+.tl__date { font-family: var(--mono); font-size: var(--t-xs); letter-spacing: 0.08em; color: var(--accent); display: block; margin-bottom: 3px; }
+.tl__h { font-size: var(--t-base); margin: 0 0 5px; }
+.tl__b { font-size: var(--t-base); color: var(--ink-dim); margin: 0 0 6px; max-width: var(--measure); }
+.tl__src { font-family: var(--mono); font-size: var(--t-xs); }
 .tl__src a { color: var(--ink-faint); }
 .tl__src a:hover { color: var(--ink); }
 
@@ -1494,12 +1494,12 @@ const PROSE = `
    can find the copy-paste line without reading docs. */
 .snippet {
   background: var(--bg-sunken); border: 1px solid var(--rule); border-radius: var(--radius);
-  padding: 11px 13px; font-family: var(--mono); font-size: 11.5px; line-height: 1.5;
+  padding: 11px 13px; font-family: var(--mono); font-size: var(--t-xs); line-height: 1.5;
   overflow-x: auto; white-space: pre; color: var(--ink-dim); margin: 0 0 10px;
 }
 .apilist { list-style: none; margin: 0; padding: 0; display: grid; gap: 7px; }
-.apilist code { font-size: 12px; }
-.apilist span { color: var(--ink-faint); font-size: 12.5px; }
+.apilist code { font-size: var(--t-xs); }
+.apilist span { color: var(--ink-faint); font-size: var(--t-sm); }
 `;
 
 // ---------------------------------------------------------------------------
@@ -1540,9 +1540,9 @@ const AVATARS = `
   color: var(--ink); line-height: 1; letter-spacing: 0.01em;
   -webkit-user-select: none; user-select: none;
 }
-.avt--sm .avt__i { font-size: 8px; }
-.avt--md .avt__i { font-size: 10px; }
-.avt--lg .avt__i { font-size: 13px; }
+.avt--sm .avt__i { font-size: var(--t-2xs); }
+.avt--md .avt__i { font-size: var(--t-2xs); }
+.avt--lg .avt__i { font-size: var(--t-sm); }
 /* No principal published. Dotted, unlettered, in faint ink - the same grammar
    the freshness chips use for "awaiting a baseline", because it is the same
    kind of statement: we have not published this, which is not the same as
@@ -1575,7 +1575,7 @@ const AVATARS = `
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 .avtrow--md .avtrow__n { font-size: var(--t-sm); }
-.avtrow--lg .avtrow__n { font-size: var(--t-md); font-weight: 700; letter-spacing: 0; }
+.avtrow--lg .avtrow__n { font-size: var(--t-base); font-weight: 700; letter-spacing: 0; }
 .avtrow--lg .avtrow__r { font-size: var(--t-xs); }
 a.avtrow:hover .avtrow__n { color: var(--avt-a, var(--accent)); }
 a.avtrow:hover .avt__m { fill: color-mix(in srgb, currentColor 28%, transparent); }
@@ -1911,7 +1911,7 @@ const SWITCHER = `
   background: var(--accent); border-radius: var(--radius) var(--radius) 0 0;
   opacity: 0; transition: opacity 120ms ease;
 }
-.sw__tg { font-style: normal; font-size: 9px; line-height: 1; color: var(--ink-faint); }
+.sw__tg { font-style: normal; font-size: var(--t-2xs); line-height: 1; color: var(--ink-faint); }
 .sw__tk { white-space: nowrap; }
 /* THE LIVE COUNT is what makes the strip a legend rather than a menu: five
    destinations AND five readings in one 34px row, every figure already computed
@@ -2160,7 +2160,7 @@ const WORDMARK = `
   letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink);
 }
 .wordmark__sc {
-  font-family: var(--mono); font-size: 9.5px;
+  font-family: var(--mono); font-size: var(--t-2xs);
   letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-faint);
 }
 .wordmark:hover .wordmark__pub { color: var(--accent); }
@@ -2237,18 +2237,18 @@ body { font-family: var(--sans); color: var(--ink); -webkit-font-smoothing: anti
 }
 .w:hover { border-color: var(--accent); }
 .w__top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-.w__brand { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.2em; color: var(--ink-faint); }
+.w__brand { font-family: var(--mono); font-size: var(--t-2xs); font-weight: 700; letter-spacing: 0.2em; color: var(--ink-faint); }
 .w__main { display: flex; align-items: center; gap: 12px; margin-top: 6px; }
-.w__digit { font-family: var(--mono); font-weight: 700; font-size: 44px; line-height: 0.85; letter-spacing: -0.05em; color: var(--accent); }
+.w__digit { font-family: var(--mono); font-weight: 700; font-size: var(--w-digit, 44px); line-height: 0.85; letter-spacing: -0.05em; color: var(--accent); }
 .w__meta { min-width: 0; }
-.w__name { font-family: var(--mono); font-weight: 700; font-size: 13px; letter-spacing: 0.06em; margin: 0 0 4px; }
-.w__score { font-family: var(--mono); font-size: 11.5px; color: var(--ink-dim); margin: 4px 0 0; font-variant-numeric: tabular-nums; }
+.w__name { font-family: var(--mono); font-weight: 700; font-size: var(--t-sm); letter-spacing: 0.06em; margin: 0 0 4px; }
+.w__score { font-family: var(--mono); font-size: var(--t-xs); color: var(--ink-dim); margin: 4px 0 0; font-variant-numeric: tabular-nums; }
 .w__bars { display: flex; gap: 3px; }
 .w__bars span { width: 9px; height: 9px; border: 1.5px solid var(--accent); border-radius: 1px; }
 .w__bars span[data-on="1"] { background: var(--accent); }
-.w__foot { display: flex; justify-content: space-between; gap: 8px; margin-top: 9px; padding-top: 8px; border-top: 1px solid var(--rule-soft); font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.06em; color: var(--ink-faint); }
+.w__foot { display: flex; justify-content: space-between; gap: 8px; margin-top: 9px; padding-top: 8px; border-top: 1px solid var(--rule-soft); font-family: var(--mono); font-size: var(--t-2xs); letter-spacing: 0.06em; color: var(--ink-faint); }
 .w__degraded { color: var(--stale); }
-body[data-compact="1"] .w__digit { font-size: 30px; }
+body[data-compact="1"] { --w-digit: 30px; }
 body[data-compact="1"] .w__foot { margin-top: 7px; }
 ${CHARTS_CORE}`);
 }

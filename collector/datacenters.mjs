@@ -33,14 +33,14 @@ import { fetchJson, fetchText } from './fetch.mjs';
 import { parseRdb } from './infra-sources/_util.mjs';
 import { cached } from './dc-sources/_cache.mjs';
 import { countyIndex } from './dc-sources/_geo.mjs';
-import { gridFor, GRID_TABLE_NOTE } from './dc-sources/_grid.mjs';
+import { gridFor, GRIDS, GRID_TABLE_NOTE } from './dc-sources/_grid.mjs';
 import { bySiteOrder, canonical, round, STATE_NAMES } from './dc-sources/_util.mjs';
 import osmOverpass from './dc-sources/osm-overpass.mjs';
 import newsAnnouncements from './dc-sources/news-announcements.mjs';
 import fedregProjects from './dc-sources/fedreg-projects.mjs';
 import secOperators from './dc-sources/sec-operators.mjs';
 import {
-  readInfra, droughtByCounty, gaugeCoords, joinSite, sentenceFor,
+  readInfra, droughtByCounty, gaugeCoords, joinSite, buildIndex, sentenceFor,
 } from './dc-sources/resources.mjs';
 
 const OUT = 'data/datacenters.json';
@@ -65,6 +65,28 @@ function previousSites() {
   }
 }
 
+/**
+ * Pretty JSON everywhere except the sites array, where each site is one line.
+ *
+ * This file is committed and it holds nearly two thousand records. Fully
+ * indented it is three megabytes of mostly whitespace, and a single retagged
+ * building produces a diff spread over forty lines. One line per site keeps the
+ * metadata readable by a human, keeps the file about a third of the size, and
+ * makes `git diff` say exactly which buildings changed.
+ */
+function serialise(value) {
+  const parts = [];
+  for (const key of Object.keys(value)) {
+    if (key === 'sites') {
+      const rows = value.sites.map((s) => `    ${JSON.stringify(s)}`).join(',\n');
+      parts.push(`  ${JSON.stringify(key)}: [\n${rows}\n  ]`);
+    } else {
+      parts.push(`  ${JSON.stringify(key)}: ${JSON.stringify(value[key], null, 2).split('\n').join('\n  ')}`);
+    }
+  }
+  return `{\n${parts.join(',\n')}\n}\n`;
+}
+
 /** Run one adapter, never letting it take the run down. A dark source is a state. */
 async function run(adapter, ctx) {
   const t0 = Date.now();
@@ -77,6 +99,10 @@ async function run(adapter, ctx) {
       keyless: adapter.keyless,
       gives: adapter.gives,
       state: r.meta?.origin === 'stale-cache' ? 'stale-cache' : 'live',
+      // 'network' | 'cache' | 'stale-cache' | 'local'. A fresh cache read is a
+      // live source — the refresh policy is measured in days on purpose — but a
+      // reader of the run report is entitled to know which it was.
+      origin: r.meta?.origin ?? 'network',
       ms: Date.now() - t0,
       error: r.meta?.error ?? null,
       meta: r.meta ?? {},
@@ -209,11 +235,13 @@ async function main() {
     }
   }
 
+  const index = buildIndex({ infra, droughtMap: drought.byFips, gauges, grids: GRIDS });
+
   for (const s of sites) {
     const grid = gridFor({ state: s.state, county_fips: s.county_fips });
     s.grid = grid.id;
-    s.resources = joinSite(s, { infra, droughtMap: drought.byFips, gauges, grid });
-    s.sentence = sentenceFor(s);
+    s.resources = joinSite(s, { droughtMap: drought.byFips, gauges, grid });
+    s.sentence = sentenceFor(s, index);
   }
 
   // ---- operator corroboration from EDGAR ----------------------------------
@@ -249,6 +277,35 @@ async function main() {
 
   sites.sort(bySiteOrder);
 
+  // COMPACTION. A site keeps every field that carries information and drops the
+  // ones that only say "not tagged". OpenStreetMap leaves most optional tags
+  // empty, so an uncompacted file is largely a list of nulls — and this file is
+  // committed, so those nulls are committed too, forever, on every refresh.
+  //
+  // What never drops: id, name, operator, status, lat, lon, state, county,
+  // grid, evidence, confidence, resources. Those are the documented shape and a
+  // consumer may rely on their presence even when the value is null.
+  for (const s of sites) {
+    for (const k of ['ref', 'website', 'start_date', 'operator_wikidata', 'osm', 'location_precision', 'first_seen_at', 'carried_from_ledger']) {
+      if (s[k] === null || s[k] === undefined) delete s[k];
+    }
+    if (s.county_boundary_risk === false) delete s.county_boundary_risk;
+    if (s.capacity && !Number.isFinite(s.capacity.it_power_mw) && !Number.isFinite(s.capacity.input_electricity_mw)) {
+      delete s.capacity;
+    } else if (s.capacity) {
+      for (const k of Object.keys(s.capacity)) if (s.capacity[k] === null) delete s.capacity[k];
+    }
+    if (s.addr) {
+      for (const k of Object.keys(s.addr)) if (s.addr[k] === null) delete s.addr[k];
+      if (Object.keys(s.addr).length === 0) delete s.addr;
+    }
+    for (const e of s.evidence ?? []) {
+      for (const k of Object.keys(e)) if (e[k] === null) delete e[k];
+    }
+    if (s.resources?.drought === null) delete s.resources.drought;
+    if (s.resources?.streamflow === null) delete s.resources.streamflow;
+  }
+
   // ---- counts -------------------------------------------------------------
   const byState = {};
   for (const s of sites) {
@@ -278,7 +335,8 @@ async function main() {
       with_capacity_tag: withCapacity,
       tagged_it_power_mw: round(capacitySumMw, 1),
       with_county_drought: sites.filter((s) => s.resources?.drought?.granularity === 'county').length,
-      with_grid_reading: sites.filter((s) => s.resources?.grid?.reading).length,
+      with_grid_reading: sites.filter((s) => index.grids[s.resources?.grid?.key]?.reading).length,
+      with_local_gauge: sites.filter((s) => s.resources?.streamflow?.relevance === 'local').length,
       operator_sec_matches: operatorMatches,
       dropped_outside_us: droppedOutsideUS,
     },
@@ -286,8 +344,8 @@ async function main() {
     sources: [
       ...results.map((r) => ({
         id: r.id, label: r.label, endpoint: r.endpoint, keyless: r.keyless,
-        gives: r.gives, state: r.state, ms: r.ms, error: r.error, meta: r.meta,
-        sites: r.sites.length,
+        gives: r.gives, state: r.state, origin: r.origin, ms: r.ms,
+        error: r.error, meta: r.meta, sites: r.sites.length,
       })),
       countyMeta,
       gaugeMeta,
@@ -296,13 +354,55 @@ async function main() {
         label: 'US Drought Monitor, county statistics',
         endpoint: 'https://usdmdataservices.unl.edu/api/CountyStatistics/GetDroughtSeverityStatisticsByAreaPercent',
         keyless: true,
-        state: drought.meta.error ? 'degraded' : drought.byFips.size ? 'live' : 'dark',
+        // "no counties asked for" is not an outage. Three states stay apart.
+        state: drought.meta.counties_requested === 0 ? 'not-needed'
+          : drought.meta.error ? 'degraded'
+          : drought.byFips.size ? 'live' : 'dark',
         error: drought.meta.error,
         meta: drought.meta,
       },
     ],
 
     grid_table: GRID_TABLE_NOTE,
+    resources_index: index,
+
+    // ---- copy -------------------------------------------------------------
+    // The words the page says. They live here, not in the template, for the
+    // same reason the grid table does: the claims and the numbers that support
+    // them are built together and must not drift apart.
+    copy: {
+      name: 'THE BUILD',
+      question: 'Where are the datacentres, and what is the power and water around them doing?',
+      standfirst:
+        'Every datacentre OpenStreetMap has mapped in the United States, plus the ones it has ' +
+        'mapped as under construction or proposed, joined to the drought in their county, the ' +
+        'nearest river gauge /watts reads, and the grid they sit on.',
+      // Printed third, above every pin, before a reader can form the wrong idea.
+      // Same position and same job as the equivalent paragraph on /watts.
+      the_claim_and_its_size:
+        'Nothing here measures a datacentre’s power or water draw. No public feed publishes ' +
+        'either, for any site, at any cadence. What is measured is where the buildings are and ' +
+        'what the substrate around them is doing — which is a smaller claim, and a true one.',
+      status_legend: {
+        operating: 'a building that exists. Not a claim that servers are in it and running.',
+        under_construction: 'tagged in OpenStreetMap as under construction — a hole in the ground and a crane.',
+        announced: 'somebody said it is being built. Location is as precise as the evidence, and never more.',
+      },
+      confidence_legend: {
+        high: 'named, with an operator, and carrying a capacity tag.',
+        medium: 'named, with an operator.',
+        low: 'a mapped polygon with no name or no operator, or a single unconfirmed announcement.',
+      },
+      // How to build the headline sentence under a pin. The stable half is in
+      // site.sentence; the live half is in resources_index and moves every five
+      // minutes, so it is composed at render time and never frozen into the file.
+      sentence_recipe:
+        'site.sentence, then — where resources_index.grids[site.resources.grid.key].reading exists — ' +
+        '“, ” plus that reading’s value and unit, carrying its state tag (live, awaiting-baseline, dark) ' +
+        'so a number awaiting its baseline is never printed as a scored one.',
+      empty_state:
+        'A state with no pins is a state nobody has mapped. It is not a state with no datacentres.',
+    },
 
     // Copy the page says out loud. The honesty section is not a footnote.
     honesty: [
@@ -320,7 +420,7 @@ async function main() {
   };
 
   mkdirSync('data', { recursive: true });
-  writeFileSync(OUT, `${JSON.stringify(canonical(out), null, 2)}\n`);
+  writeFileSync(OUT, serialise(canonical(out)));
 
   // ---- the run report -----------------------------------------------------
   const line = (k, v) => console.log(`${String(k).padEnd(34)} ${v}`);
@@ -334,7 +434,9 @@ async function main() {
   line('dropped: outside the US', droppedOutsideUS);
   console.log('-'.repeat(70));
   for (const r of out.sources) {
-    line(`${r.id} [${r.state}]`, r.error ? `ERROR ${String(r.error).slice(0, 90)}` : (r.meta?.note ? '' : ''));
+    const n = Number.isFinite(r.sites) ? `${r.sites} sites` : (r.counties ? `${r.counties} counties` : `${r.meta?.counties_returned ?? r.sites ?? ''}`);
+    const tag = r.origin && r.origin !== 'network' ? `${r.state}/${r.origin}` : r.state;
+    line(`${r.id} [${tag}]`, r.error ? `ERROR ${String(r.error).slice(0, 120)}` : n);
   }
   console.log('-'.repeat(70));
   console.log('BY STATE');
@@ -343,11 +445,39 @@ async function main() {
   }
   console.log('-'.repeat(70));
   console.log('THREE JOINED EXAMPLES');
-  const examples = sites
-    .filter((s) => s.resources?.grid?.reading && s.resources?.drought && s.name)
-    .sort((a, b) => (b.capacity?.it_power_mw ?? 0) - (a.capacity?.it_power_mw ?? 0))
-    .slice(0, 3);
-  for (const s of examples) console.log(`  • ${s.name} — ${s.sentence}`);
+  // Prefer the pins where the join actually did something: a live grid number,
+  // a county with a drought category in it, and a gauge close enough to mean
+  // anything. Sorted by tagged capacity so the biggest such site leads.
+  const scoreExample = (s) => {
+    const g = index.grids[s.resources?.grid?.key];
+    const d = index.drought_by_county[s.resources?.drought?.county_fips];
+    return (
+      (g?.reading ? 4 : 0) +
+      (d?.headline && d.headline.category !== 'none' ? 3 : 0) +
+      (s.resources?.streamflow?.relevance === 'local' ? 3 : s.resources?.streamflow?.relevance === 'regional' ? 2 : 0) +
+      (Number.isFinite(s.capacity?.it_power_mw) ? 2 : 0) +
+      (s.name ? 1 : 0)
+    );
+  };
+  // One per state, so three examples are three places rather than three
+  // buildings on the same business park.
+  const ranked = sites
+    .filter((s) => s.name)
+    .sort((a, b) => scoreExample(b) - scoreExample(a) || (b.capacity?.it_power_mw ?? 0) - (a.capacity?.it_power_mw ?? 0));
+  const examples = [];
+  const usedStates = new Set();
+  for (const s of ranked) {
+    if (usedStates.has(s.state)) continue;
+    usedStates.add(s.state);
+    examples.push(s);
+    if (examples.length === 3) break;
+  }
+  for (const s of examples) {
+    const g = index.grids[s.resources?.grid?.key];
+    const live = g?.reading ? ` — ${g.reading.label} ${g.reading.value} ${g.reading.unit ?? ''} [${g.reading.state}]` : '';
+    console.log(`  • ${s.name}${s.operator && s.operator !== s.name ? ` (${s.operator})` : ''}`);
+    console.log(`      ${s.sentence}${live}`);
+  }
   console.log(`\nwrote ${OUT}\n`);
 }
 

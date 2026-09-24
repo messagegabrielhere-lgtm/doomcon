@@ -1,3 +1,4 @@
+import { slugFor } from './itemPage.mjs';
 // sitemap.xml. Head pages always; move pages only when substantive, matching
 // the noindex decision in move.mjs exactly. Submitting thin pages you have
 // already told Google not to index is a way of looking like you do not know
@@ -27,6 +28,20 @@ export function render(ctx) {
       : []),
     { loc: '/moves/', changefreq: 'hourly', priority: '0.6', lastmod: ctx.state.generated_at },
   ];
+
+  // Every scored item is an indexable page. This is the long tail — it takes
+  // the sitemap from ten URLs to two hundred and ten, and it grows daily.
+  if (ctx.news && Array.isArray(ctx.news.items)) {
+    entries.push({ loc: '/item/', changefreq: 'hourly', priority: '0.7', lastmod: ctx.news.generated_at });
+    for (const it of ctx.news.items) {
+      entries.push({
+        loc: `/item/${slugFor(it)}.html`,
+        changefreq: 'weekly',
+        priority: '0.6',
+        lastmod: it.published_at,
+      });
+    }
+  }
 
   for (const m of ctx.moves) {
     if (!m.indexable) continue;

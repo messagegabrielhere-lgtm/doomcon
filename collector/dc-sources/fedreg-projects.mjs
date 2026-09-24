@@ -15,8 +15,29 @@
 //
 // THE FILTER, THEREFORE: the phrase has to be in the TITLE, not merely in the
 // body. That is the difference between a document about a datacentre and a
-// document that mentions one. The yield is small and is published as a number
-// so a reader can see how small.
+// document that mentions one.
+//
+// AND THE MEASURED RESULT OF THAT FILTER, 2026-09-24, over 437 full-text
+// matches across eighteen months — FOUR documents have the phrase in the title,
+// and NOT ONE of them is a project:
+//
+//   2026-08-21  DOT   Information collection: National Flight Data Center Web Portal
+//   2026-04-13  HHS   Emergency Medical Services for Children Data Center (EDC)
+//   2025-07-28  EOP   Accelerating Federal Permitting of Data Center Infrastructure
+//   2025-06-17  DOC   NTIA Listening Session on Bolstering Data Center Growth
+//
+// Two are records systems that happen to be called data centers. Two are
+// policy. A first version of this adapter pinned the HHS paediatric emergency
+// data repository in Utah as an announced datacentre, which is a fabrication
+// with a citation attached — the worst failure available in this dataset.
+//
+// So this source is GATED HARD and currently yields nothing: the agency must be
+// one that permits physical infrastructure, the document must not be an
+// information-collection notice or a listening session, and presidential policy
+// documents are excluded. It stays wired up because a FERC interconnection
+// notice naming a datacentre campus is exactly the thing worth catching, and
+// the day one is published this will catch it. Until then it publishes the
+// count of what it rejected, which is the honest output.
 //
 // WHAT A FEDERAL REGISTER PIN IS. A named project in a federal notice —
 // typically a FERC preliminary permit, an environmental scoping notice or an
@@ -32,6 +53,35 @@ const PER_PAGE = 200;
 const MAX_PAGES = 6;
 
 const TITLE_MATCH = /data\s?cent(?:er|re)s?\b/i;
+
+// A record system, a web portal or a meeting is not a building.
+const NOT_A_PROJECT =
+  /\b(information collection|listening session|web portal|privacy act|system of records|request(?:s)? for comments|clearance of|paperwork reduction|advisory committee|meeting notice)\b/i;
+
+// Agencies that permit, license or site physical energy and land
+// infrastructure. Anything else naming a "data center" is naming something
+// else. Matched as a substring of the Federal Register's own agency name.
+const INFRASTRUCTURE_AGENCIES = Object.freeze([
+  'Federal Energy Regulatory Commission',
+  'Energy Department',
+  'Environmental Protection Agency',
+  'Engineers Corps',
+  'Army Department',
+  'Interior Department',
+  'Land Management Bureau',
+  'Reclamation Bureau',
+  'Agriculture Department',
+  'Rural Utilities Service',
+  'Bonneville Power Administration',
+  'Western Area Power Administration',
+  'Nuclear Regulatory Commission',
+]);
+
+function isInfrastructureAgency(agencies) {
+  return (agencies ?? []).some((a) =>
+    INFRASTRUCTURE_AGENCIES.some((name) => String(a?.name ?? '').includes(name)),
+  );
+}
 
 function statesIn(text) {
   const found = new Set();
@@ -78,15 +128,30 @@ export default {
     }
 
     const sites = [];
-    let titled = 0;
+    const titleMatches = [];
+    let rejected = 0;
 
     for (const d of docs) {
       const title = String(d?.title ?? '');
       if (!TITLE_MATCH.test(title)) continue;
-      titled++;
+
+      titleMatches.push({
+        document_number: d.document_number ?? null,
+        published_at: d.publication_date ?? null,
+        agency: d.agencies?.[0]?.name ?? null,
+        document_type: d.type ?? null,
+        title,
+        url: d.html_url ?? null,
+      });
+
+      // The three gates. Each one exists because a real document got through
+      // without it.
+      if (NOT_A_PROJECT.test(title)) { rejected++; continue; }
+      if (d.type === 'Presidential Document') { rejected++; continue; }
+      if (!isInfrastructureAgency(d.agencies)) { rejected++; continue; }
 
       const states = statesIn(`${title} ${d?.abstract ?? ''}`);
-      if (states.length !== 1) continue;
+      if (states.length !== 1) { rejected++; continue; }
 
       const id = stableId('dc', 'fedreg', String(d.document_number));
       sites.push({
@@ -125,11 +190,15 @@ export default {
         window_days: WINDOW_DAYS,
         corpus_since: since,
         documents_matching_full_text: docs.length,
-        documents_with_the_phrase_in_the_title: titled,
+        documents_with_the_phrase_in_the_title: titleMatches.length,
+        title_matches_rejected: rejected,
+        title_matches: titleMatches,
         sites: sites.length,
         note:
           'the full-text corpus is dominated by FAA approach procedures, exchange rule filings ' +
-          'and Privacy Act notices; only a title match is treated as a project',
+          'and Privacy Act notices. Of 437 full-text matches over eighteen months, four have the ' +
+          'phrase in the title and none of them is a project. This source is gated to an ' +
+          'infrastructure-permitting agency and currently yields no pins, by design.',
       },
     };
   },

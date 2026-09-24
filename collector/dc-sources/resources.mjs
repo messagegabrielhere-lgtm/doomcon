@@ -183,48 +183,33 @@ export async function gaugeCoords(net, siteIds, parseRdb, cached, nowMs) {
 }
 
 /**
- * Attach drought, streamflow and grid to one site.
- * A site with no coordinates still gets drought and grid from its state where
- * the data is state-shaped; it never gets a streamflow distance it cannot have.
+ * WHAT A SITE CARRIES, AND WHY IT IS ONLY THIS.
+ *
+ * A pin holds join KEYS and the one number that is genuinely its own — the
+ * distance to the nearest gauge. Everything else lives once, at the top of the
+ * file, in `resources_index`.
+ *
+ * This is not tidiness. data/datacenters.json is rebuilt on a schedule and
+ * committed. If every one of 1,877 pins carried a copy of its county's drought
+ * row, its gauge's flow and its grid's current megawatts, then a grid reading
+ * that moves every five minutes would rewrite all five megabytes every single
+ * run, forever. Normalised, the pins change when OpenStreetMap changes — about
+ * once a week — and the volatile numbers change in a block of about three
+ * hundred lines.
  */
-export function joinSite(site, { infra, droughtMap, gauges, grid }) {
-  const resources = { drought: null, streamflow: null, grid: null };
+export function joinSite(site, { droughtMap, gauges, grid }) {
+  const resources = {
+    drought: null,
+    streamflow: null,
+    grid: { key: grid.key, id: grid.id },
+  };
 
-  // --- drought -------------------------------------------------------------
-  const usdm = sourceById(infra, 'usdm-drought');
   if (site.county_fips && droughtMap.has(site.county_fips)) {
-    const d = droughtMap.get(site.county_fips);
-    resources.drought = {
-      granularity: 'county',
-      county: d.county,
-      county_fips: site.county_fips,
-      map_date: d.map_date,
-      headline: droughtHeadline(d),
-      area_pct: { none: d.none, d0: d.d0, d1: d.d1, d2: d.d2, d3: d.d3, d4: d.d4 },
-      source: 'US Drought Monitor, county statistics',
-      state: null,
-    };
-  } else if (site.state && usdm?.meta?.states) {
-    // Fall back to the ten states /watts already reads. Only ten states, so
-    // most of the country gets null here rather than an invented number.
-    const st = usdm.meta.states.find((s) => s.abbr === site.state);
-    if (st) {
-      resources.drought = {
-        granularity: 'state',
-        county: null,
-        county_fips: null,
-        map_date: usdm.meta.map_date ?? null,
-        headline: droughtHeadline(st),
-        area_pct: { none: st.none, d0: st.d0, d1: st.d1, d2: st.d2, d3: st.d3, d4: st.d4 },
-        source: 'US Drought Monitor, state statistics, via /watts',
-        state: st.abbr,
-      };
-    }
+    resources.drought = { granularity: 'county', county_fips: site.county_fips };
+  } else if (site.state) {
+    resources.drought = { granularity: 'state', state: site.state };
   }
 
-  // --- streamflow ----------------------------------------------------------
-  const usgs = sourceById(infra, 'usgs-water-deficit');
-  const gaugeReadings = usgs?.meta?.gauges ?? [];
   if (Number.isFinite(site.lat) && Number.isFinite(site.lon) && gauges.length) {
     let best = null;
     for (const g of gauges) {
@@ -232,82 +217,150 @@ export function joinSite(site, { infra, droughtMap, gauges, grid }) {
       if (!best || km < best.km) best = { ...g, km };
     }
     if (best) {
-      const reading = gaugeReadings.find((g) => g.site === best.site) ?? null;
       resources.streamflow = {
         site: best.site,
-        name: reading?.name ?? best.name,
-        cluster: reading?.cluster ?? null,
         distance_km: round(best.km, 1),
-        percent_of_normal: reading?.percent_of_normal ?? null,
-        deficit_pct: reading?.deficit_pct ?? null,
-        flow_cfs: reading?.flow_cfs ?? null,
-        normal_cfs: reading?.normal_cfs ?? null,
-        reading_day: usgs?.meta?.reading_day ?? null,
-        gauge_note: reading?.note ?? null,
-        // The one number that decides whether the rest of this object means
-        // anything. Nine gauges cannot cover a continent.
+        // The one number that decides whether the gauge means anything here.
+        // Nine gauges cannot cover a continent and the distance says so.
         relevance:
           best.km <= 50 ? 'local'
           : best.km <= 200 ? 'regional'
-          : 'distant — this gauge describes a different watershed',
+          : 'distant',
       };
     }
   }
 
-  // --- grid ----------------------------------------------------------------
-  const g = grid;
-  const src = g.watts_source ? sourceById(infra, g.watts_source) : null;
-  resources.grid = {
-    id: g.id,
-    label: g.label,
-    why_no_reading: g.why,
-    watts_source: g.watts_source,
-    reading:
-      src && Number.isFinite(src.value)
-        ? {
-            source: src.id,
-            label: src.label,
-            value: src.value,
-            unit: src.unit_label ?? src.unit ?? null,
-            state: src.state,
-            observed_at: src.observed_at,
-            // A source that is live is scored; one awaiting baseline has a real
-            // number and no percentile. The two are never merged.
-            score: Number.isFinite(src.score) ? src.score : null,
-          }
-        : null,
-    reading_state: src ? src.state : null,
-  };
-
   return resources;
 }
 
-/** One plain sentence per site. The thing the page prints under the pin. */
-export function sentenceFor(site) {
-  const where = site.county && site.state ? `${site.county}, ${site.state}`
+/**
+ * The index every pin points into. Built once per run.
+ *
+ * `drought_by_county` — only the counties that actually have a site in them.
+ * `drought_by_state` — the ten states /watts already reads, for pins with no
+ *                      coordinates. Most of the country is absent, deliberately.
+ * `gauges`            — the nine USGS gauges, with their current reading.
+ * `grids`             — the grid table, with the live reading where one exists.
+ */
+export function buildIndex({ infra, droughtMap, gauges, grids }) {
+  const usdm = sourceById(infra, 'usdm-drought');
+  const usgs = sourceById(infra, 'usgs-water-deficit');
+  const gaugeReadings = usgs?.meta?.gauges ?? [];
+
+  const drought_by_county = {};
+  for (const [fips, d] of [...droughtMap.entries()].sort(([a], [b]) => a.localeCompare(b))) {
+    drought_by_county[fips] = {
+      county: d.county,
+      state: d.state,
+      map_date: d.map_date,
+      headline: droughtHeadline(d),
+      area_pct: { none: d.none, d0: d.d0, d1: d.d1, d2: d.d2, d3: d.d3, d4: d.d4 },
+    };
+  }
+
+  const drought_by_state = {};
+  for (const st of usdm?.meta?.states ?? []) {
+    drought_by_state[st.abbr] = {
+      state: st.abbr,
+      name: st.name ?? null,
+      map_date: usdm?.meta?.map_date ?? null,
+      headline: droughtHeadline(st),
+      area_pct: { none: st.none, d0: st.d0, d1: st.d1, d2: st.d2, d3: st.d3, d4: st.d4 },
+    };
+  }
+
+  const gaugeIndex = {};
+  for (const g of gauges) {
+    const r = gaugeReadings.find((x) => x.site === g.site) ?? null;
+    gaugeIndex[g.site] = {
+      site: g.site,
+      name: r?.name ?? g.name,
+      cluster: r?.cluster ?? null,
+      note: r?.note ?? null,
+      percent_of_normal: r?.percent_of_normal ?? null,
+      deficit_pct: r?.deficit_pct ?? null,
+      flow_cfs: r?.flow_cfs ?? null,
+      normal_cfs: r?.normal_cfs ?? null,
+      reading_day: usgs?.meta?.reading_day ?? null,
+      // usgs-water-deficit can be live, awaiting-baseline or dark. The pin must
+      // never present a dark gauge's last number as a current one.
+      reading_state: usgs?.state ?? 'dark',
+    };
+  }
+
+  const gridIndex = {};
+  for (const [key, g] of Object.entries(grids)) {
+    const src = g.watts_source ? sourceById(infra, g.watts_source) : null;
+    gridIndex[key] = {
+      id: g.id,
+      label: g.label,
+      why_no_reading: g.why,
+      watts_source: g.watts_source,
+      reading:
+        src && Number.isFinite(src.value)
+          ? {
+              source: src.id,
+              label: src.label,
+              value: src.value,
+              unit: src.unit_label ?? src.unit ?? null,
+              observed_at: src.observed_at,
+              // live | awaiting-baseline | dark, never merged into one another.
+              state: src.state,
+              score: Number.isFinite(src.score) ? src.score : null,
+            }
+          : null,
+      reading_error: src?.error ?? null,
+    };
+  }
+
+  return {
+    drought_by_county,
+    drought_by_state,
+    gauges: gaugeIndex,
+    grids: gridIndex,
+    usdm_map_date: usdm?.meta?.map_date ?? null,
+    usgs_reading_day: usgs?.meta?.reading_day ?? null,
+    usgs_state: usgs?.state ?? 'dark',
+    usdm_state: usdm?.state ?? 'dark',
+  };
+}
+
+/**
+ * The stable half of the sentence under a pin: place, grid name, county drought
+ * headline, nearest gauge and its distance.
+ *
+ * THE LIVE NUMBERS ARE DELIBERATELY NOT IN HERE. "ERCOT, 71.6% of committed
+ * capacity" is the sentence the feature exists to print, and the 71.6 moves
+ * every five minutes. The page composes it from `resources_index.grids`; baking
+ * it into 1,877 strings would make the file churn and would freeze a five-minute
+ * number into a weekly artefact. docs/DATACENTERS.md gives the exact recipe.
+ */
+export function sentenceFor(site, index) {
+  const parts = [];
+  parts.push(
+    site.county && site.state ? `${site.county}, ${site.state}`
     : site.state ? site.state
-    : 'location not resolved';
-  const parts = [where];
+    : 'location not resolved',
+  );
 
-  const gr = site.resources?.grid;
-  if (gr?.reading) {
-    parts.push(`${gr.id} — ${fmt(gr.reading.value)} ${gr.reading.unit ?? ''}`.trim());
-  } else if (gr?.label) {
-    parts.push(`${gr.label}, no keyless demand feed`);
-  }
+  const g = index.grids[site.resources?.grid?.key];
+  if (g?.id) parts.push(g.id);
+  else if (g?.label) parts.push(`${g.label} — no keyless demand feed`);
 
-  const d = site.resources?.drought;
-  if (d?.headline && d.headline.category !== 'none') {
+  const d = site.resources?.drought?.granularity === 'county'
+    ? index.drought_by_county[site.resources.drought.county_fips]
+    : index.drought_by_state[site.resources?.drought?.state];
+  if (d?.headline) {
     parts.push(
-      `${d.granularity === 'county' ? d.county : d.state} ${fmt(d.headline.area_pct)}% in ${d.headline.category}`,
+      d.headline.category === 'none'
+        ? 'no drought category here'
+        : `${fmt(d.headline.area_pct)}% of the ${d.county ? 'county' : 'state'} in ${d.headline.category}`,
     );
-  } else if (d?.headline) {
-    parts.push('no drought category in this county');
   }
 
-  const s = site.resources?.streamflow;
-  if (s && Number.isFinite(s.percent_of_normal)) {
-    parts.push(`nearest gauge ${s.name} ${fmt(s.percent_of_normal)}% of the seasonal median, ${s.distance_km} km away`);
+  const sf = site.resources?.streamflow;
+  if (sf && index.gauges[sf.site]) {
+    parts.push(`nearest gauge ${index.gauges[sf.site].name}, ${sf.distance_km} km`);
   }
 
   return parts.join(' · ');
