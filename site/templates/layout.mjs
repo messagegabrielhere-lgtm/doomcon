@@ -483,7 +483,7 @@ ${o.noindex ? '<meta name="robots" content="noindex,follow">' : '<meta name="rob
 <meta name="theme-color" content="#faf9f6" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0b0c0e" media="(prefers-color-scheme: dark)">
 <meta property="og:type" content="${esc(o.ogType || 'website')}">
-<meta property="og:site_name" content="${esc(brand.NAME)}">
+<meta property="og:site_name" content="${esc(brand.PUBLICATION)}">
 <meta property="og:title" content="${esc(o.ogTitle || o.title)}">
 <meta property="og:description" content="${esc(o.description)}">
 <meta property="og:url" content="${esc(canonical)}">
@@ -501,7 +501,10 @@ ${jsonld}
 <body${wide ? ' data-wide="1"' : ''}>
 <a class="skip" href="#main">Skip to the index</a>
 <header class="masthead"><div class="wrap masthead__in">
-  <a class="wordmark" href="${esc(ctx.href('/'))}">${esc(brand.NAME)}</a>
+  <a class="wordmark" href="${esc(ctx.href('/'))}">
+    <b class="wordmark__pub">${esc(brand.PUBLICATION)}</b>
+    <span class="wordmark__sc">the ${esc(brand.NAME)} index</span>
+  </a>
   <p class="masthead__tag">${esc(brand.TAGLINE)}</p>
   <nav class="nav" aria-label="Primary">${nav}</nav>
 </div></header>
@@ -574,7 +577,7 @@ function footer(ctx, sections, path) {
   <div class="wrap">
     <div class="foot__top">
       <div class="foot__brand">
-        <span class="foot__mark">${esc(brand.NAME)}</span>
+        <span class="foot__mark">${esc(brand.PUBLICATION)}</span>
         <p class="foot__creed">${esc(brand.TAGLINE)}</p>
         <p class="foot__dis">${esc(brand.DISCLAIMER)}</p>
       </div>
