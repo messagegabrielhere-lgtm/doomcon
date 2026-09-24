@@ -25,6 +25,8 @@ import * as newsFeed from './templates/news.mjs';
 import * as newsPage from './templates/newsPage.mjs';
 import * as racePage from './templates/racePage.mjs';
 import * as wattsPage from './templates/wattsPage.mjs';
+import * as digestPage from './templates/digestPage.mjs';
+import * as blissPage from './templates/blissPage.mjs';
 import { render as sitemap, robots } from './templates/sitemap.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -432,11 +434,27 @@ async function main() {
     }
   }
 
+  let digest = null;
+  const digestFile = path.join(args.data, 'digest.json');
+  if (existsSync(digestFile)) {
+    try { digest = JSON.parse(await readFile(digestFile, 'utf8')); }
+    catch (err) { warn(`data/digest.json unreadable (${err.message}); building without /digest.`); }
+  }
+
+  let bliss = null;
+  const blissFile = path.join(args.data, 'bliss.json');
+  if (existsSync(blissFile)) {
+    try { bliss = JSON.parse(await readFile(blissFile, 'utf8')); }
+    catch (err) { warn(`data/bliss.json unreadable (${err.message}); building without /bliss.`); }
+  }
+
   const ctx = {
     state,
     news,
     race,
     infra,
+    digest,
+    bliss,
     x: xwire,
     history,
     receipts,
@@ -464,6 +482,12 @@ async function main() {
   }
   if (wattsPage.hasWatts ? wattsPage.hasWatts(ctx) : wattsPage.hasInfra(ctx)) {
     written.push(await write(args.out, 'watts.html', wattsPage.render(ctx)));
+  }
+  if (digestPage.hasDigest(ctx)) {
+    written.push(await write(args.out, 'digest.html', digestPage.render(ctx)));
+  }
+  if (blissPage.hasBliss(ctx)) {
+    written.push(await write(args.out, 'bliss.html', blissPage.render(ctx)));
   }
   for (const m of moves) {
     written.push(await write(args.out, `moves/${m.id}.html`, movePage.render(ctx, m)));
@@ -506,6 +530,8 @@ async function main() {
   if (race) written.push(await write(args.out, 'api/race.json', stableJson(race)));
   if (xwire) written.push(await write(args.out, 'api/x-surface.json', stableJson(xwire)));
   if (infra) written.push(await write(args.out, 'api/infra.json', stableJson(infra)));
+  if (digest) written.push(await write(args.out, 'api/digest.json', stableJson(digest)));
+  if (bliss) written.push(await write(args.out, 'api/bliss.json', stableJson(bliss)));
   written.push(await write(args.out, 'api/index.json', stableJson({
     name: brand.NAME,
     description: brand.DESCRIPTION,
