@@ -370,10 +370,21 @@ async function main() {
     warn('data/race.json is absent; building without /race. Run collector/race.mjs first.');
   }
 
+  let xwire = null;
+  const xFile = path.join(args.data, 'x-surface.json');
+  if (existsSync(xFile)) {
+    try {
+      xwire = JSON.parse(await readFile(xFile, 'utf8'));
+    } catch (err) {
+      warn(`data/x-surface.json is present but unreadable (${err.message}); building without the X wire.`);
+    }
+  }
+
   const ctx = {
     state,
     news,
     race,
+    x: xwire,
     history,
     receipts,
     moves,
@@ -430,6 +441,7 @@ async function main() {
   // polling state, rather than pretending the newsroom is empty.
   if (news) written.push(await write(args.out, 'api/news.json', stableJson(news)));
   if (race) written.push(await write(args.out, 'api/race.json', stableJson(race)));
+  if (xwire) written.push(await write(args.out, 'api/x-surface.json', stableJson(xwire)));
   written.push(await write(args.out, 'api/index.json', stableJson({
     name: brand.NAME,
     description: brand.DESCRIPTION,

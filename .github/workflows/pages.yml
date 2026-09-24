@@ -1,0 +1,84 @@
+# Publishes public/ to GitHub Pages.
+#
+# THE TRAP THAT SHAPES THIS FILE: a push made with the built-in GITHUB_TOKEN does
+# not trigger other workflows. GitHub does that on purpose, to stop a workflow
+# that commits from triggering itself forever. collect.yml commits public/ with
+# exactly that token, so a plain `on: push` here would fire for a human's commit
+# and never once for the 96 data commits a day that are the entire point.
+#
+# `workflow_run` is the documented way out: it fires on the COMPLETION of another
+# workflow run rather than on the push that workflow made, so the token rule does
+# not apply. The `push` trigger is kept as well, for hand edits pushed by a person
+# (those carry a user token and do fire normally).
+#
+# Deploy is not gated on collect succeeding. collect fails only on a total
+# blackout, where public/ is unchanged and this job re-publishes identical bytes —
+# a wasted minute, versus the alternative of a failed collect leaving the site
+# frozen on stale data with no way back up except a manual dispatch.
+
+name: pages
+
+on:
+  workflow_run:
+    workflows: ['collect']
+    types: [completed]
+  push:
+    branches: [main]
+    paths:
+      - 'public/**'
+      - '.github/workflows/pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write       # create a Pages deployment
+  id-token: write    # OIDC token deploy-pages exchanges for its deploy credential
+
+# GitHub's own convention for this workflow. Queue rather than cancel: cancelling
+# a deployment mid-upload can leave the Pages environment pointing at a half-built
+# artifact.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          # Explicit. On a workflow_run event the default ref is the default
+          # branch as it stood when this run was created, which can predate the
+          # data commit that just landed. Naming main re-reads the tip and
+          # guarantees we deploy the bytes collect.yml actually pushed.
+          ref: main
+
+      - name: Check there is a site to deploy
+        run: |
+          set -euo pipefail
+          # upload-pages-artifact is happy to upload an empty directory, and a
+          # successful deploy of nothing is the worst possible outcome: green
+          # check, blank site. Refuse instead.
+          if [ ! -f public/index.html ]; then
+            echo '::error::public/index.html does not exist. Run site/build.mjs and commit public/ before deploying.'
+            exit 1
+          fi
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload public/
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
