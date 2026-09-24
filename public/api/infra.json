@@ -11,6 +11,10 @@
         {
           "d": "2026-09-23",
           "v": 55706.8
+        },
+        {
+          "d": "2026-09-24",
+          "v": 55674.2
         }
       ]
     },
@@ -18,7 +22,7 @@
       "days": [
         {
           "d": "2026-09-24",
-          "v": 70.016
+          "v": 72.798
         }
       ]
     },
@@ -46,7 +50,7 @@
       "days": [
         {
           "d": "2026-09-24",
-          "v": 1975
+          "v": 1976
         }
       ]
     },
@@ -88,7 +92,7 @@
   "dark_pillars": [],
   "degraded": true,
   "engine_version": "1.0.0",
-  "generated_at": "2026-09-24T10:22:24.885Z",
+  "generated_at": "2026-09-24T11:21:45.827Z",
   "history": [
     {
       "generated_at": "2026-09-24T03:20:33.302Z",
@@ -164,6 +168,11 @@
       "generated_at": "2026-09-24T10:22:24.885Z",
       "level": 4,
       "score": 54.8
+    },
+    {
+      "generated_at": "2026-09-24T11:21:45.827Z",
+      "level": 4,
+      "score": 54.8
     }
   ],
   "index": {
@@ -172,7 +181,7 @@
     "question": "How loaded is the physical substrate the models are being built on?"
   },
   "last_known": {
-    "generated_at": "2026-09-24T10:22:24.885Z",
+    "generated_at": "2026-09-24T11:21:45.827Z",
     "level": 4,
     "level_name": "STEADY",
     "level_since": "2026-09-24T03:20:33.302Z",
@@ -271,11 +280,11 @@
       "baseline_span": null,
       "cadence": "daily, settles at 06:00 Pacific",
       "direction": "higher = more load that never switches off",
-      "error": "caiso-baseload: overnight window incomplete — 40 of 72 intervals present (need 68), 33 still blank. CAISO publishes the current Pacific day only, so this is the normal state between 00:00 and 06:00 Pacific and an outage at any other hour.",
+      "error": "caiso-baseload: overnight window incomplete — 52 of 72 intervals present (need 68), 21 still blank. CAISO publishes the current Pacific day only, so this is the normal state between 00:00 and 06:00 Pacific and an outage at any other hour.",
       "id": "caiso-baseload",
       "label": "CAISO overnight floor",
       "meta": {},
-      "ms": 625,
+      "ms": 603,
       "observed_at": null,
       "percentile": null,
       "pillar": "grid",
@@ -287,8 +296,8 @@
       "value": null
     },
     {
-      "baseline_n": 1,
-      "baseline_note": "1 of 30 points needed before this source can be scored",
+      "baseline_n": 2,
+      "baseline_note": "2 of 30 points needed before this source can be scored",
       "baseline_origin": "accumulated",
       "baseline_source": null,
       "baseline_span": null,
@@ -303,19 +312,19 @@
           "2026-09-23"
         ],
         "direction": "higher = more always-on load",
-        "feed_last_updated": "2026-09-24 05:16:00-0500",
-        "floor_at_local": "2026-09-23 04:25:00-0500",
+        "feed_last_updated": "2026-09-24 06:16:00-0500",
+        "floor_at_local": "2026-09-24 04:25:00-0500",
         "fuel_categories": 8,
         "intervals_expected": 72,
-        "intervals_used": 71,
-        "local_day": "2026-09-23",
+        "intervals_used": 72,
+        "local_day": "2026-09-24",
         "source_note": "net generation summed across all fuel categories, five-minute resolution; Power Storage is negative while batteries charge and that sign is kept",
-        "window_high_mw": 63568,
+        "window_high_mw": 62985.7,
         "window_local": "00:00–06:00 CT",
-        "window_range_mw": 7861.2
+        "window_range_mw": 7311.5
       },
-      "ms": 196,
-      "observed_at": "2026-09-23T09:25:00.000Z",
+      "ms": 239,
+      "observed_at": "2026-09-24T09:25:00.000Z",
       "percentile": null,
       "pillar": "grid",
       "region": "ERCOT · Texas",
@@ -323,7 +332,7 @@
       "state": "awaiting-baseline",
       "unit": "MW",
       "unit_label": "MW",
-      "value": 55706.8
+      "value": 55674.2
     },
     {
       "baseline_n": 1,
@@ -337,31 +346,31 @@
       "id": "ercot-tightness",
       "label": "ERCOT headroom used",
       "meta": {
-        "committed_capacity_mw": 81189,
-        "demand_mw": 56845,
+        "committed_capacity_mw": 80377,
+        "demand_mw": 58513,
         "direction": "higher = tighter",
-        "feed_last_updated": "2026-09-24 05:20:00-0500",
-        "headroom_mw": 24344,
-        "interval_local": "2026-09-24 05:20:00-0500",
-        "intervals_dropped_forecast": 224,
+        "feed_last_updated": "2026-09-24 06:15:00-0500",
+        "headroom_mw": 21864,
+        "interval_local": "2026-09-24 06:15:00-0500",
+        "intervals_dropped_forecast": 213,
         "intervals_in_feed": 289,
-        "intervals_today": 65,
+        "intervals_today": 76,
         "prc": {
-          "current_mw": 16297,
+          "current_mw": 14676,
           "day_low_at_local": "2026-09-24 00:29:04-0500",
           "day_low_mw": 10669,
           "eea_level": 0,
           "ercot_note": "There is enough power for current demand.",
           "ercot_state": "normal",
           "ercot_title": "Normal Conditions",
-          "samples": 1934
+          "samples": 2289
         },
         "source_note": "capacity is COMMITTED capacity, which follows expected load, so this ratio understates the swing in physical margin; PRC is enrichment and never scored; rows ERCOT flags as forecast, and any row stamped after the run clock, are dropped before the ratio and the day high and low are computed",
         "today_high_pct": 74.839,
         "today_low_pct": 68.517
       },
-      "ms": 549,
-      "observed_at": "2026-09-24T10:20:00.000Z",
+      "ms": 273,
+      "observed_at": "2026-09-24T11:15:00.000Z",
       "percentile": null,
       "pillar": "grid",
       "region": "ERCOT · Texas",
@@ -369,7 +378,7 @@
       "state": "awaiting-baseline",
       "unit": "percent",
       "unit_label": "% of committed capacity",
-      "value": 70.016
+      "value": 72.798
     },
     {
       "baseline_n": 2,
@@ -396,7 +405,7 @@
         "window_local": "00:00–06:00 ET",
         "zones": 11
       },
-      "ms": 474,
+      "ms": 688,
       "observed_at": "2026-09-24T08:05:00.000Z",
       "percentile": null,
       "pillar": "grid",
@@ -552,7 +561,7 @@
         "weeks_complete": 261,
         "weeks_seen": 261
       },
-      "ms": 1439,
+      "ms": 863,
       "observed_at": "2026-09-15T12:00:00.000Z",
       "percentile": 0.473,
       "pillar": "water",
@@ -704,7 +713,7 @@
         "source_note": "denominator is the USGS published median for that gauge on that day of the year, over the gauge’s full period of record; it is not computed by this project",
         "wettest": "Scioto Rv at Columbus"
       },
-      "ms": 1010,
+      "ms": 1549,
       "observed_at": "2026-09-23T12:00:00.000Z",
       "percentile": 0.5305,
       "pillar": "water",
@@ -743,8 +752,8 @@
         "window_end": "2026-09-24",
         "window_start": "2026-03-28"
       },
-      "ms": 1207,
-      "observed_at": "2026-09-24T10:22:24.973Z",
+      "ms": 1388,
+      "observed_at": "2026-09-24T11:21:45.899Z",
       "percentile": 0.72,
       "pillar": "buildout",
       "region": "US federal government",
@@ -775,8 +784,8 @@
         "startdt": "2026-08-25",
         "window_days": 30
       },
-      "ms": 669,
-      "observed_at": "2026-09-24T10:22:25.643Z",
+      "ms": 828,
+      "observed_at": "2026-09-24T11:21:46.728Z",
       "percentile": null,
       "pillar": "buildout",
       "region": "US public companies",
@@ -784,7 +793,7 @@
       "state": "awaiting-baseline",
       "unit": "filings/30d",
       "unit_label": "filings / 30d",
-      "value": 1975
+      "value": 1976
     },
     {
       "baseline_n": 1,
@@ -806,8 +815,8 @@
         "startdt": "2026-06-26",
         "window_days": 90
       },
-      "ms": 617,
-      "observed_at": "2026-09-24T10:22:25.592Z",
+      "ms": 786,
+      "observed_at": "2026-09-24T11:21:46.688Z",
       "percentile": null,
       "pillar": "buildout",
       "region": "US public companies",
