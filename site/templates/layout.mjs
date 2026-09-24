@@ -412,6 +412,78 @@ try{
    atom is now a rail cell and the strip is deleted. Nothing else in the repo
    emitted .ops or .ops__*; grepped across every template before cutting. */
 
+// ---------------------------------------------------------------------------
+// The feature bar.
+//
+// pizzint's features are findable because they sit in a seven-item ICON ROW
+// near the top — Pizza Cards, HormuzHub, Gay Bar Report, Strip Club Index, Map
+// View, Commute Index — each a tile you can see rather than a word in a list.
+// Ours were a thin run of text in the masthead, which reads as boilerplate, so
+// /watts, /digest and /bliss shipped and nobody could find them.
+//
+// Same links, same SECTIONS table, same live counts. The difference is that a
+// tile with a mark and a number on it reads as a PLACE, and a word in a row
+// reads as chrome.
+//
+// The palette is measured from pizzint (2026-09-24): ground #060c16, a
+// near-black navy rather than grey, and a saturated hue per destination out of
+// their own spectrum — #ffef2a #eab308 #ff7a00 #ff0033 #00e676 #00a3ff #4b59ff
+// #c400ff. Eleven hues doing eleven jobs is why their page reads as an arcade
+// HUD and ours read as a terminal printout. Colour is never the only carrier:
+// every tile also has a distinct mark and its name in text.
+// ---------------------------------------------------------------------------
+const FEATURE_ART = {
+  '/': { hue: '#ffef2a', mark: '<path d="M2 12.5 6.5 6l3.5 4L14 3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>' },
+  '/race.html': { hue: '#00e676', mark: '<path d="M3 13V7m5 6V3m5 10V9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>' },
+  '/news.html': { hue: '#00a3ff', mark: '<path d="M2.5 4h11v8.5H2.5z" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M4.5 6.5h5M4.5 9h7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>' },
+  '/watts.html': { hue: '#ff7a00', mark: '<path d="M9 2 4 9h3l-1 5 5-7H8z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>' },
+  '/map.html': { hue: '#c400ff', mark: '<path d="M8 14s4.5-4.2 4.5-7.4A4.5 4.5 0 0 0 3.5 6.6C3.5 9.8 8 14 8 14z" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="8" cy="6.5" r="1.6" fill="currentColor"/>' },
+  '/digest.html': { hue: '#ffd600', mark: '<path d="M3.5 2.5h9v11l-4.5-2.5L3.5 13.5z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>' },
+  '/bliss.html': { hue: '#5fd08a', mark: '<circle cx="8" cy="8" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 1.5v2M8 12.5v2M1.5 8h2M12.5 8h2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>' },
+  '/methodology.html': { hue: '#4b59ff', mark: '<path d="M6 2v4.5L2.8 12a1.6 1.6 0 0 0 1.4 2.4h7.6A1.6 1.6 0 0 0 13.2 12L10 6.5V2z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>' },
+  '/history.html': { hue: '#ffb655', mark: '<circle cx="8" cy="8" r="5.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 4.5V8l2.5 1.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>' },
+  '/moves/': { hue: '#9aa4b2', mark: '<path d="M2.5 4.5h11M2.5 8h11M2.5 11.5h7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>' },
+};
+
+function featureBar(ctx, sections, path) {
+  const tiles = sections.map((item) => {
+    const art = FEATURE_ART[item.href] || { hue: 'var(--accent)', mark: '' };
+    const c = typeof item.count === 'function' ? item.count(ctx) : null;
+    const current = item.href === path ? ' aria-current="page"' : '';
+    return `<a class="fb__t" href="${esc(ctx.href(item.href))}"${current} style="--fb-hue:${esc(art.hue)}">
+      <svg class="fb__m" viewBox="0 0 16 16" aria-hidden="true" focusable="false">${art.mark}</svg>
+      <span class="fb__l">${esc(item.label)}</span>
+      ${c ? `<b class="fb__n num">${esc(c.v)}</b>` : '<span class="fb__n fb__n--none" aria-hidden="true">·</span>'}
+    </a>`;
+  }).join('');
+  return `<nav class="fb" aria-label="Sections"><div class="wrap fb__in">${tiles}</div></nav>`;
+}
+
+const FEATURE_BAR_CSS = `<style>
+.fb { border-bottom: 1px solid var(--rule); background: var(--bg-sunken); }
+.fb__in { display: flex; gap: 6px; padding: 7px var(--gutter); overflow-x: auto; scrollbar-width: thin; }
+.fb__t {
+  display: flex; align-items: center; gap: 6px; flex: 0 0 auto;
+  padding: 6px 10px; border: 1px solid var(--rule); border-radius: 7px;
+  background: color-mix(in srgb, var(--fb-hue) 7%, transparent);
+  text-decoration: none; color: var(--ink-dim);
+  font-family: var(--mono); font-size: 11px; letter-spacing: .07em; text-transform: uppercase;
+  transition: border-color 120ms ease, background 120ms ease, color 120ms ease;
+}
+.fb__m { width: 15px; height: 15px; color: var(--fb-hue); flex: none; }
+.fb__n { color: var(--fb-hue); font-variant-numeric: tabular-nums; font-size: 11.5px; }
+.fb__n--none { opacity: .45; }
+.fb__t:hover { color: var(--ink); border-color: var(--fb-hue);
+  background: color-mix(in srgb, var(--fb-hue) 16%, transparent); }
+.fb__t[aria-current="page"] {
+  color: var(--ink); border-color: var(--fb-hue);
+  background: color-mix(in srgb, var(--fb-hue) 20%, transparent);
+  box-shadow: inset 0 -2px 0 0 var(--fb-hue);
+}
+@media (max-width: 620px) { .fb__l { display: none; } .fb__t { padding: 7px 9px; } }
+@media (prefers-reduced-motion: reduce) { .fb__t { transition: none; } }
+</style>`;
+
 export function page(o) {
   const { ctx } = o;
   const canonical = ctx.url(o.path);
@@ -465,6 +537,20 @@ export function page(o) {
     return `<a href="${esc(ctx.href(item.href))}"${current}>${label}${figure}</a>`;
   }).join('');
 
+  // The responsive label pair needs a rule to be a PAIR rather than both. The
+  // markup has emitted .nav__l and .nav__s together since v4 and nothing ever
+  // hid either, so the nav read "The Race Race 73.5%", "Newsroom News 200",
+  // "Methodology Method". Scoped here rather than in styles.mjs because that
+  // sheet is being rewritten concurrently and this is a one-selector fix that
+  // belongs with the markup that emits it.
+  const navCss = `<style>
+.nav__s { display: none; }
+@media (max-width: 900px) {
+  .nav__l:not(.nav__l--only) { display: none; }
+  .nav__s { display: inline; }
+}
+</style>`;
+
   // Data pages get the wide measure; prose pages keep the 66ch reading column.
   // A methodology page at 1240px is a worse methodology page; a dashboard at
   // 940px on a 1440px screen is 500px of margin doing nothing.
@@ -506,8 +592,9 @@ ${jsonld}
     <span class="wordmark__sc">the ${esc(brand.NAME)} index</span>
   </a>
   <p class="masthead__tag">${esc(brand.TAGLINE)}</p>
-  <nav class="nav" aria-label="Primary">${nav}</nav>
+  <nav class="nav" aria-label="Primary">${nav}</nav>${navCss}
 </div></header>
+${featureBar(ctx, sections, o.path)}${FEATURE_BAR_CSS}
 ${rail(ctx, o.path)}
 ${visitSlot(ctx)}
 ${o.showDegraded ? degradedBanner(ctx.state) : ''}${motion.beforeMain}
