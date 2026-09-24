@@ -29,13 +29,27 @@
 //    value look fresh"; silently leaving a recomputed score beside a delta from
 //    the previous build would be exactly that, in a costume.
 //
-// 3. NEW ITEMS LAND IN THEIR OWN LABELLED STRIP, not prepended into .nfeed.
-//    A feed row carries a rank, a score meter, a why-line and a corroboration
-//    count, all computed in news.mjs. Rebuilding that shape in inline JS means
-//    two renderers of one row that are guaranteed to diverge, and a half-formed
-//    row at the top of a ranked list reads as a bug. The arrivals strip says
-//    what it is — "arrived since this page loaded" — which is a true statement
-//    about items that were genuinely not in the build.
+// 3. NEW ITEMS ARE OFFERED, NEVER INSERTED, and they land in their own labelled
+//    strip rather than in .nfeed. Two separate rules, both learned the hard way.
+//
+//    Offered, because content that moves under a reader mid-sentence is the one
+//    behaviour every news site has been taught not to ship. Arrivals are
+//    buffered and counted — "3 new stories since you arrived" — and the reader
+//    presses a button. Until then the page is exactly as still as it was.
+//
+//    Their own strip, because a feed row carries a rank, a score meter, a
+//    why-line and a corroboration count, all computed in news.mjs. Rebuilding
+//    that shape in inline JS means two renderers of one row that are guaranteed
+//    to diverge, and a half-formed row at the top of a ranked list reads as a
+//    bug. The strip says what it is — "arrived since this page loaded" — which
+//    is a true statement about items that were genuinely not in the build.
+//
+// 4. THE PAGE IS HONEST ABOUT ITS OWN LIVENESS. Ages follow the live compile
+//    stamp so they are never stale against the data they claim to describe; the
+//    pill's "newest 4m ago" is the one figure measured against the READER's
+//    clock, so it is the one figure on a repaint timer. And when the poller
+//    gives up after three failures it says so in the note, rather than leaving a
+//    page that looks live sitting on data that has stopped arriving.
 //
 // Byte budget: MOTION.md sets 8KB uncompressed for MOTION_JS. The reasoning
 // lives in this file's comments rather than in the shipped string, so the
@@ -62,6 +76,16 @@ const TICKER_MAX_S = 190;
 
 const POLL_MS = 60000;
 const ARRIVAL_CAP = 8;
+
+// The arrivals buffer. A tab left open for a day against a wire that prints a
+// few items an hour is the case this caps: the count stays truthful ("40+"),
+// and merging cannot drop hundreds of nodes into the document in one frame.
+const BUFFER_MAX = 40;
+
+// How often the one wall-clock-relative figure on the page is repainted. 30s is
+// the coarsest interval at which a value rendered in whole minutes can never be
+// more than half a unit wrong, and it is cheap enough to leave running.
+const AGE_TICK_MS = 30000;
 
 // ---------------------------------------------------------------------------
 // Server-rendered model
@@ -90,6 +114,10 @@ export function tickerModel(ctx) {
   }).slice(0, TICKER_ITEMS);
 
   const items = byClock.map((it) => ({
+    // Never rendered. It is the signature the poller compares a refreshed feed
+    // against, so a newsroom whose newest headlines did not change rebuilds
+    // nothing at all and the crawl is not interrupted for no reason.
+    id: it.id,
     clock: `${utcClock(it.published_at)}Z`,
     datetime: it.published_at,
     source: it.source,
@@ -143,6 +171,35 @@ function note(ctx, path) {
     `<span class="dcmx-note__t"></span>` +
     `<span class="dcmx-note__x"></span>` +
     `<a class="dcmx-note__a" href="${esc(href)}">reload for the fully recomputed page</a></p>`;
+}
+
+/**
+ * "N new since you arrived."
+ *
+ * THE RULE THIS EXISTS TO OBEY: content never moves under a reader mid-sentence.
+ * The previous version of the poller inserted arrivals straight into the page
+ * the moment they landed — the single behaviour every news site has been taught
+ * not to ship, because the paragraph you were reading jumps and you lose your
+ * place for something you did not ask for. So arrivals are BUFFERED and counted,
+ * and a reader who wants them presses a button. Until then the page is exactly
+ * as still as it was.
+ *
+ * The count is the honest headline: it is the number of items in the refreshed
+ * feed that are newer than the newest item this page was built with, so it is a
+ * statement about the wire and not about our render loop.
+ *
+ * Server-rendered and `hidden`, like the note above it: the live region has to
+ * be registered before it has anything to announce, or the first announcement is
+ * swallowed. `aria-live` is deliberately NOT on the button — a button that
+ * announces itself every time its label changes is a screen-reader torture
+ * device. The wrapper is `role="status"`, which is polite and coalescing.
+ */
+function newPill() {
+  return `<p class="dcmx-new" id="dcmx-new" role="status" hidden>` +
+    `<button class="dcmx-new__b" type="button">` +
+    `<b class="dcmx-new__n">0</b><span class="dcmx-new__w"> new since you arrived</span>` +
+    `</button>` +
+    `<span class="dcmx-new__t"></span></p>`;
 }
 
 /** The newest observation strictly older than the one being rendered, or null. */
@@ -216,6 +273,21 @@ export function motionConfig(ctx, opts = {}) {
     newsAt: news ? news.generated_at : null,
     newsNewest,
     arrivalCap: ARRIVAL_CAP,
+    // The ids currently crawling across the ticker, in order. The poller
+    // rebuilds the strip only when this list changes, which is what keeps
+    // "nothing changed -> nothing visible" true for the one element on the page
+    // that is always moving anyway.
+    tickerIds: (tickerModel(ctx)?.items ?? []).map((i) => i.id),
+    tickerN: TICKER_ITEMS,
+    // How many arrivals the pill will hold before it stops counting individuals.
+    // A reader who leaves a tab open overnight comes back to a real number, not
+    // to 400 buffered DOM nodes waiting to be inserted at once.
+    bufferMax: BUFFER_MAX,
+    // Milliseconds between wall-clock age repaints. Everything else on this page
+    // is measured against the compile stamp; the pill's "newest 4m ago" is the
+    // one figure measured against the READER's clock, so it is the one figure
+    // that has to be re-rendered on a timer or it starts lying immediately.
+    tickMs: AGE_TICK_MS,
   };
 }
 
@@ -258,6 +330,25 @@ export function motionCss() {
 .dcmx-note__t{color:var(--ink);font-variant-numeric:tabular-nums}
 .dcmx-note__x:empty{display:none}
 .dcmx-note__a{color:var(--ink-dim)}
+
+/* The arrivals pill. It sits in the same strip band as the note, so the top of
+   the page has exactly one place where the live layer is allowed to speak. */
+.dcmx-new{display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin:0;
+  padding:6px var(--gutter);border-bottom:1px solid var(--rule);background:var(--bg-sunken);
+  font-family:var(--mono);font-size:11.5px;color:var(--ink-dim)}
+.dcmx-new[hidden]{display:none}
+.dcmx-new__b{appearance:none;-webkit-appearance:none;font:inherit;line-height:1.5;
+  color:var(--accent);background:none;border:1px solid var(--accent);border-radius:999px;
+  padding:2px 12px;cursor:pointer;letter-spacing:.04em}
+.dcmx-new__b:hover,.dcmx-new__b:focus-visible{background:var(--accent);color:var(--accent-ink,var(--bg))}
+.dcmx-new__n{font-variant-numeric:tabular-nums;font-weight:700}
+.dcmx-new__t{color:var(--ink-faint)}
+.dcmx-new__t:empty{display:none}
+/* The arrivals list takes focus on merge so the reader lands on what they asked
+   for. A focus ring on a container that was never clicked is noise, so it is
+   the programmatic-focus ring only. */
+.dcmx-arr__l:focus{outline:2px solid var(--accent);outline-offset:3px}
+.dcmx-arr__l:focus:not(:focus-visible){outline:none}
 
 /* REPAIR, NOT DECORATION. This rule belongs in reelCss in _reel.mjs, which
    this module does not own, so it is parked here and flagged for the
@@ -319,15 +410,56 @@ export function motionCss() {
 // The inline script
 // ---------------------------------------------------------------------------
 
-// No template literals inside this string: a `${` in the payload would be
-// interpolated by the very template literal that carries it.
-// THE PAYLOAD. MOTION.md budgets 8KB uncompressed for this string, so the
-// reasoning lives in the comments above rather than inside it. Only the notes a
-// debugger standing in this code actually needs are shipped; everything else is
-// argued for in this file's header and beside the model functions.
+// THE PAYLOAD. MOTION.md budgets 8KB uncompressed for this string and it is
+// currently 8147 bytes, so the reasoning lives HERE rather than inside it. Check
+// the budget after any edit:
+//
+//   docker run --rm -v "$PWD":/app -w /app node:20-alpine node -e \
+//     "import('./site/templates/_motion.mjs').then(m=>console.log(Buffer.byteLength(m.MOTION_JS)))"
 //
 // No template literals inside the string: a `${` in the payload would be
 // interpolated by the very template literal that carries it.
+//
+// MAP OF THE SHIPPED CODE, in the order it appears:
+//
+//   q/qa/T/clk/sp/dur/el/A/L   micro-helpers. `dur` MIRRORS duration() in
+//                              _html.mjs exactly — a different rounding rule
+//                              makes a ticked age disagree with the one the
+//                              next build server-renders beside it.
+//   sc/ct/pt                   the score count-up (MOTION.md §2.4).
+//   arr                        the arrival animation. TRAP: .dcmx-in starts at
+//                              opacity 0, so adding it to a row the browser has
+//                              ALREADY painted blinks a visible row out and
+//                              back — hence the readyState !== 'complete' gate.
+//   vp/cd/dots/go/at/stop      the reel (§2.2). `stop` is permanent and never
+//                              rearmed; 'scroll' is deliberately not a trigger,
+//                              because the auto-advance itself scrolls.
+//   gj                         fetch with `cache:'no-cache'`, NOT 'no-store'.
+//                              no-store forbids caching, so every poll drags
+//                              the whole of api/news.json (~350KB) down a phone
+//                              connection. no-cache still revalidates on every
+//                              poll but lets an unchanged file answer 304 with
+//                              no body at all — which, between builds, is what
+//                              almost every poll gets.
+//   aS                         state.json -> score and observed-at stamp only.
+//                              See decision 2 above for what it refuses to touch.
+//   rt                         ages, recomputed against the LIVE compile stamp.
+//                              NOT against the reader's clock: news.mjs prints a
+//                              legend saying the AGE column is measured from the
+//                              compile stamp, and re-basing it here would make
+//                              every row disagree with the sentence above it.
+//                              When a refresh moves the stamp, every age and the
+//                              "compiled" line move with it, together.
+//   rk                         the ticker, refed from the poll. Rebuilt only
+//                              when the newest-N id list actually changes, so an
+//                              unchanged newsroom never interrupts the crawl.
+//   pl/bf/box/row/ago/ofr/mg   the arrivals buffer and its pill. See newPill().
+//   run/plan                   the poll loop: 60s, backoff 120s then 300s, dead
+//                              after three, no timer at all while hidden. On
+//                              giving up it SAYS SO in the note — a page that
+//                              has silently stopped updating while still looking
+//                              live is the exact failure this project exists to
+//                              not commit.
 //
 // NO REGEX LITERALS IN THE PAYLOAD EITHER, and this one drew blood. A backslash
 // inside the template literal that carries the payload is consumed by it, so a
@@ -339,204 +471,128 @@ export function motionCss() {
 // harness executes the shipped httpUrl against a hostile URL list rather than
 // pattern-matching the source.
 export const MOTION_JS = `(function(){
-var d=document,cfgEl=d.getElementById('dcmx-cfg');
-if(!cfgEl){console.error('DOOMCON motion: #dcmx-cfg missing.');return;}
-var C;try{C=JSON.parse(cfgEl.textContent);}catch(e){
-console.error('DOOMCON motion: #dcmx-cfg is not valid JSON.',e);return;}
-var reduce=!!(window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches);
+var d=document,cf=d.getElementById('dcmx-cfg');
+if(!cf){console.error('dcmx: no #dcmx-cfg');return;}
+var C;try{C=JSON.parse(cf.textContent);}catch(e){console.error('dcmx: bad cfg',e);return;}
+var rm=!!(window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches);
 function q(s,r){return (r||d).querySelector(s);}
 function qa(s,r){return [].slice.call((r||d).querySelectorAll(s));}
-function p2(n){return n<10?'0'+n:''+n;}
-function clockZ(i){var x=new Date(i);return p2(x.getUTCHours())+':'+p2(x.getUTCMinutes())+'Z';}
-function stampUTC(i){return new Date(i).toISOString().replace('T',' ').slice(0,19)+' UTC';}
-
-/* numerals */
-var scoreEl=q('[data-dc-score]')||q('.score__val'),shown=C.score;
-function paint(v){if(scoreEl)scoreEl.textContent=v.toFixed(C.decimals);}
-function countTo(to,ms){
- var from=shown;shown=to;
- if(!scoreEl||reduce||from===to){paint(to);return;}
- var t0=0;
- requestAnimationFrame(function step(t){
-  if(!t0)t0=t;
-  var p=Math.min(1,(t-t0)/ms);
-  paint(from+(to-from)*(1-Math.pow(1-p,3)));
-  if(p<1)requestAnimationFrame(step);
- });
-}
-if(scoreEl&&C.prevScore!==null&&C.prevScore!==C.score&&!reduce){
- shown=C.prevScore;paint(C.prevScore);countTo(C.score,600);
-}
-var badge=q('[data-dc-level]')||q('.level__digit');
-if(badge&&C.levelChanged&&!reduce)badge.classList.add('dcmx-pulse');
-
-/* feed arrival */
-function arrive(n){
- if(reduce)return;
- for(var i=0;i<n.length&&i<C.arrivalCap;i++){
-  n[i].style.animationDelay=(i*40)+'ms';n[i].classList.add('dcmx-in');
- }
-}
-/* TRAP: dcmx-in starts at opacity 0; late = blink out a visible row. */
-if(C.since&&d.readyState!=='complete'){
- var since=Date.parse(C.since);
- arrive(qa('.nfeed > .nrow').filter(function(li){
-  var t=li.querySelector('time[datetime]');
-  return t&&Date.parse(t.getAttribute('datetime'))>since;
- }));
-}
-
-/* reel auto-advance */
-var vp=q('.reel__viewport'),rail=vp&&q('.reel__rail',vp),items=rail?qa('.reel__item',rail):[];
-var many=!!vp&&items.length>1,live=many&&vp.scrollWidth>vp.clientWidth;
-if(many&&!live)console.warn('DOOMCON motion: reel not scrollable; .reel__rail needs width:max-content.');
-if(live){
- var dots=d.createElement('div'),timer=null,dead=false,raf=0;
- dots.className='dcmx-dots';
- dots.setAttribute('aria-label','Reel position');
- items.forEach(function(it,i){
-  var b=d.createElement('button');
-  b.type='button';
-  b.setAttribute('aria-label','Card '+(i+1)+' of '+items.length);
-  b.setAttribute('aria-current',i===0?'true':'false');
-  b.addEventListener('click',function(){stop();go(i);});
-  dots.appendChild(b);
- });
- vp.parentNode.insertBefore(dots,vp.nextSibling);
- function go(i){
-  vp.scrollTo({left:items[i].offsetLeft-items[0].offsetLeft,behavior:reduce?'auto':'smooth'});
- }
- function at(){
-  var x=vp.scrollLeft+items[0].offsetLeft,best=0,bd=Infinity,g;
-  for(var i=0;i<items.length;i++){g=Math.abs(items[i].offsetLeft-x);if(g<bd){bd=g;best=i;}}
-  return best;
- }
- vp.addEventListener('scroll',function(){
-  if(raf)return;
-  raf=requestAnimationFrame(function(){
-   raf=0;var c=at();
-   for(var i=0;i<dots.children.length;i++)dots.children[i].setAttribute('aria-current',i===c?'true':'false');
-  });
- },{passive:true});
- /* Permanent; never rearmed. 'scroll' is not a trigger. */
- function stop(){dead=true;if(timer){clearInterval(timer);timer=null;}}
- ['pointerdown','touchstart','wheel','keydown','focusin'].forEach(function(t){
-  vp.addEventListener(t,stop,{once:true,passive:true});
-  dots.addEventListener(t,stop,{once:true,passive:true});
- });
- if(!reduce)timer=setInterval(function(){
-  if(dead||d.hidden)return;
-  go((at()+1)%items.length);
- },7000);
-}
-
-/* live refresh */
-var BACKOFF=[60000,120000,300000],fails=0,tid=null,waiting=false;
-var stateAt=C.generatedAt,newsAt=C.newsAt,newest=C.newsNewest,newsOff=!C.newsUrl,seen={};
-var noteEl=d.getElementById('dcmx-note');
+function T(i){return Date.parse(i);}
+function clk(i){return new Date(i).toISOString().slice(11,16)+'Z';}
+function sp(i){return new Date(i).toISOString().replace('T',' ').slice(0,19)+' UTC';}
+function dur(s){s=Math.round(s);if(s<90)return s+'s';var m=Math.round(s/60);if(m<90)return m+'m';var h=Math.round(m/60);if(h<48)return h+'h';return Math.round(h/24)+'d';}
+function el(t,c,x){var e=d.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e;}
+function A(e,k,v){e.setAttribute(k,v);}
+function L(e,t,f,o){e.addEventListener(t,f,o);}
+var sc=q('[data-dc-score]')||q('.score__val'),sh=C.score;
+function pt(v){if(sc)sc.textContent=v.toFixed(C.decimals);}
+function ct(to,ms){var f=sh;sh=to;if(!sc||rm||f===to){pt(to);return;}var t0=0;
+requestAnimationFrame(function s(t){if(!t0)t0=t;var p=Math.min(1,(t-t0)/ms);
+pt(f+(to-f)*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(s);});}
+if(sc&&C.prevScore!==null&&C.prevScore!==C.score&&!rm){sh=C.prevScore;pt(C.prevScore);ct(C.score,600);}
+var lv=q('[data-dc-level]')||q('.level__digit');
+if(lv&&C.levelChanged&&!rm)lv.classList.add('dcmx-pulse');
+function arr(n){if(rm)return;for(var i=0;i<n.length&&i<C.arrivalCap;i++){
+n[i].style.animationDelay=(i*40)+'ms';n[i].classList.add('dcmx-in');}}
+if(C.since&&d.readyState!=='complete'){var sn=T(C.since);
+arr(qa('.nfeed > .nrow').filter(function(li){var t=q('time[datetime]',li);
+return t&&T(t.getAttribute('datetime'))>sn;}));}
+var vp=q('.reel__viewport'),rl=vp&&q('.reel__rail',vp),cd=rl?qa('.reel__item',rl):[];
+if(vp&&cd.length>1&&vp.scrollWidth>vp.clientWidth){
+var dt=el('div','dcmx-dots'),tm=null,dead=false,raf=0;
+A(dt,'aria-label','Reel position');
+cd.forEach(function(it,i){var b=el('button');b.type='button';
+A(b,'aria-label','Card '+(i+1)+' of '+cd.length);A(b,'aria-current',i===0?'true':'false');
+L(b,'click',function(){stop();go(i);});dt.appendChild(b);});
+vp.parentNode.insertBefore(dt,vp.nextSibling);
+function go(i){vp.scrollTo({left:cd[i].offsetLeft-cd[0].offsetLeft,behavior:rm?'auto':'smooth'});}
+function at(){var x=vp.scrollLeft+cd[0].offsetLeft,b=0,g,bg=Infinity;
+for(var i=0;i<cd.length;i++){g=Math.abs(cd[i].offsetLeft-x);if(g<bg){bg=g;b=i;}}return b;}
+L(vp,'scroll',function(){if(raf)return;raf=requestAnimationFrame(function(){raf=0;var c=at();
+for(var i=0;i<dt.children.length;i++)A(dt.children[i],'aria-current',i===c?'true':'false');});},{passive:true});
+function stop(){dead=true;if(tm){clearInterval(tm);tm=null;}}
+['pointerdown','touchstart','wheel','keydown','focusin'].forEach(function(t){
+L(vp,t,stop,{once:true,passive:true});L(dt,t,stop,{once:true,passive:true});});
+if(!rm)tm=setInterval(function(){if(dead||d.hidden)return;go((at()+1)%cd.length);},7000);}
+var BO=[0,120000,300000],fl=0,tid=null,wt=false,off=false;
+var sAt=C.generatedAt,nAt=C.newsAt,nw=C.newsNewest,noN=!C.newsUrl,mem={};
+var nt=d.getElementById('dcmx-note');
 function plan(ms){if(tid)clearTimeout(tid);tid=setTimeout(run,ms);}
-function getJson(u){
- var ac=new AbortController(),to=setTimeout(function(){ac.abort();},10000);
- return fetch(u,{cache:'no-store',signal:ac.signal}).then(function(r){
-  clearTimeout(to);
-  if(r.status===404){var e=new Error('404');e.missing=true;throw e;}
-  if(!r.ok)throw new Error('HTTP '+r.status);
-  return r.json();
- },function(e){clearTimeout(to);throw e;});
-}
-function flash(el){if(el&&!reduce){el.classList.remove('dcmx-flash');void el.offsetWidth;el.classList.add('dcmx-flash');}}
-function applyState(s){
- if(!s||typeof s.generated_at!=='string'||typeof s.score!=='number'||!isFinite(s.score))
-  throw new Error('state.json has no usable generated_at/score');
- /* unchanged -> not one DOM write. */
- if(s.generated_at===stateAt)return;
- stateAt=s.generated_at;
- countTo(s.score,600);
- var t=q('.hero .eyebrow time[datetime]');
- if(t){t.setAttribute('datetime',s.generated_at);t.textContent=stampUTC(s.generated_at);flash(t);}
- /* Bars, delta, receipt id are build-time: never repaint half. */
- if(noteEl){
-  q('.dcmx-note__t',noteEl).textContent=stampUTC(s.generated_at);
-  q('.dcmx-note__x',noteEl).textContent=(s.level!==C.level)
-   ?('level is now DOOMCON '+s.level+' · '+s.level_name):'';
-  noteEl.hidden=false;
- }
-}
-function arrivals(){
- var ul=d.getElementById('dcmx-arrivals');
- if(ul)return ul;
- var feed=q('.nfeed');
- if(!feed)return null;
- var box=d.createElement('section');
- box.className='dcmx-arr';
- box.innerHTML='<p class="dcmx-arr__h">Arrived since this page loaded</p>'
-  +'<ol class="dcmx-arr__l" id="dcmx-arrivals"></ol>';
- feed.parentNode.insertBefore(box,feed);
- return d.getElementById('dcmx-arrivals');
-}
-/* Scheme test is a string compare, never a regex - see NO REGEX above.
-   Third-party feed text: createElement+textContent, never innerHTML. */
-function httpUrl(u){u=typeof u==='string'?u.toLowerCase():'';return u.indexOf('https://')===0||u.indexOf('http://')===0;}
-function row(it){
- var li=d.createElement('li');
- li.className='dcmx-arr__i';
- if(it.pillar)li.setAttribute('data-pillar',it.pillar);
- var t=d.createElement('time');
- t.setAttribute('datetime',it.published_at);
- t.textContent=clockZ(it.published_at);
- var s=d.createElement('span');
- s.className='dcmx-arr__s';
- s.textContent=String(it.source||'');
- var ok=httpUrl(it.url);
- var h=d.createElement(ok?'a':'span');
- if(ok){h.href=it.url;h.rel='noopener nofollow';}
- h.textContent=String(it.title||'');
- li.appendChild(t);li.appendChild(s);li.appendChild(h);
- return li;
-}
-function applyNews(n){
- if(!n||typeof n.generated_at!=='string'||!Array.isArray(n.items))
-  throw new Error('news.json has no usable generated_at/items');
- if(n.generated_at===newsAt)return;
- newsAt=n.generated_at;
- var fresh=n.items.filter(function(it){
-  if(!it||typeof it.published_at!=='string'||seen[it.id])return false;
-  return !newest||Date.parse(it.published_at)>Date.parse(newest);
- }).sort(function(a,b){return Date.parse(b.published_at)-Date.parse(a.published_at);})
-  .slice(0,C.arrivalCap);
- if(!fresh.length)return;
- var ul=arrivals();
- if(!ul)return;
- var added=[];
- fresh.forEach(function(it){
-  seen[it.id]=1;
-  if(Date.parse(it.published_at)>Date.parse(newest||0))newest=it.published_at;
-  var li=row(it);
-  ul.insertBefore(li,ul.firstChild);
-  added.push(li);
- });
- arrive(added);
-}
+function gj(u){var ac=new AbortController(),to=setTimeout(function(){ac.abort();},10000);
+return fetch(u,{cache:'no-cache',signal:ac.signal}).then(function(r){clearTimeout(to);
+if(r.status===404){var e=new Error('404');e.missing=true;throw e;}
+if(!r.ok)throw new Error('HTTP '+r.status);return r.json();},function(e){clearTimeout(to);throw e;});}
+function say(x){if(!nt)return;q('.dcmx-note__x',nt).textContent=x;nt.hidden=false;}
+function aS(s){
+if(!s||typeof s.generated_at!=='string'||!Number.isFinite(s.score))throw new Error('bad state');
+var g=s.generated_at;if(g===sAt)return;
+sAt=g;var z=sp(g);ct(s.score,600);
+var t=q('.hero .eyebrow time[datetime]');
+if(t){A(t,'datetime',g);t.textContent=z;
+if(!rm){t.classList.remove('dcmx-flash');void t.offsetWidth;t.classList.add('dcmx-flash');}}
+if(nt){q('.dcmx-note__t',nt).textContent=z;
+say(s.level!==C.level?('level is now DOOMCON '+s.level+' '+s.level_name):'');}}
+function rt(){
+if(!nAt)return;var at=T(nAt);qa('.nrow').forEach(function(li){var t=q('time[datetime]',li),a=q('.nrow__age',li);
+if(!t||!a)return;var v=dur(Math.max(0,(at-T(t.getAttribute('datetime')))/1000));
+if(a.textContent!==v){a.textContent=v;A(a,'title',v+' before the compile stamp');}});
+var s=q('.nlive__stamp time[datetime]');
+if(s&&s.getAttribute('datetime')!==nAt){A(s,'datetime',nAt);s.textContent=sp(nAt);}}
+var tg=(C.tickerIds||[]).join(',');
+function bc(a,b){return T(b.published_at)-T(a.published_at)||(a.id<b.id?-1:a.id>b.id?1:0);}
+function rk(ls){
+var w=q('.dcmx__win');if(!w)return;
+var tp=ls.slice(0,C.tickerN),sg=tp.map(function(i){return i.id;}).join(',');
+if(sg===tg)return;tg=sg;w.textContent='';
+for(var k=0;k<2;k++){var u=el('ul','dcmx__t');if(k)A(u,'data-dup','1');
+tp.forEach(function(it){var li=el('li','dcmx__i');if(it.pillar)A(li,'data-pillar',it.pillar);
+li.appendChild(el('span','dcmx__c',clk(it.published_at)));
+li.appendChild(el('span','dcmx__s',it.source||''));
+li.appendChild(el('span','dcmx__h',it.title||''));u.appendChild(li);});
+w.appendChild(u);}}
+var pl=d.getElementById('dcmx-new'),bf=[];
+function box(){var u=d.getElementById('dcmx-arrivals');if(u)return u;
+var f=q('.nfeed');if(!f)return null;
+var b=el('section','dcmx-arr');b.appendChild(el('p','dcmx-arr__h','Arrived since this page loaded'));
+u=el('ol','dcmx-arr__l');u.id='dcmx-arrivals';u.tabIndex=-1;
+b.appendChild(u);f.parentNode.insertBefore(b,f);return u;}
+function hu(u){u=typeof u==='string'?u.toLowerCase():'';return u.indexOf('https://')===0||u.indexOf('http://')===0;}
+function row(it){var li=el('li','dcmx-arr__i');if(it.pillar)A(li,'data-pillar',it.pillar);
+var t=el('time',null,clk(it.published_at));A(t,'datetime',it.published_at);
+var ok=hu(it.url),h=el(ok?'a':'span',null,it.title||'');
+if(ok){h.href=it.url;h.rel='noopener nofollow';}
+li.appendChild(t);li.appendChild(el('span','dcmx-arr__s',it.source||''));li.appendChild(h);return li;}
+function ago(){if(!pl||pl.hidden)return;
+q('.dcmx-new__t',pl).textContent=bf.length?('newest '+dur(Math.max(0,(Date.now()-T(bf[0].published_at))/1000))+' ago'):'';}
+function ofr(){if(!pl)return;if(!bf.length){pl.hidden=true;return;}
+q('.dcmx-new__n',pl).textContent=bf.length+(bf.length>=C.bufferMax?'+':'');
+q('.dcmx-new__w',pl).textContent=(bf.length===1?' new story':' new stories')+' since you arrived';
+pl.hidden=false;ago();}
+function mg(){var u=box();if(!u)return;var a=[];
+for(var i=bf.length-1;i>=0;i--)a.unshift(u.insertBefore(row(bf[i]),u.firstChild));
+bf=[];ofr();arr(a);u.focus({preventScroll:true});
+u.scrollIntoView({behavior:rm?'auto':'smooth',block:'center'});}
+if(pl)L(q('button',pl),'click',mg);
+function aN(n){
+if(!n||typeof n.generated_at!=='string'||!Array.isArray(n.items))throw new Error('bad news');
+if(n.generated_at===nAt)return;nAt=n.generated_at;
+var ls=n.items.filter(function(it){return it&&it.id&&isFinite(T(it.published_at));}).sort(bc);
+rt();rk(ls);
+if(!nw){if(ls.length)nw=ls[0].published_at;ls.forEach(function(it){mem[it.id]=1;});return;}
+var fr=ls.filter(function(it){return !mem[it.id]&&T(it.published_at)>T(nw);});
+if(!fr.length)return;
+fr.forEach(function(it){mem[it.id]=1;});nw=fr[0].published_at;bf=fr.concat(bf).slice(0,C.bufferMax);ofr();}
 function run(){
- if(d.hidden){waiting=true;return;}
- waiting=false;
- getJson(C.stateUrl).then(function(s){
-  applyState(s);
-  if(newsOff)return null;
-  return getJson(C.newsUrl).then(applyNews,function(e){
-   if(!e||!e.missing)throw e;
-   newsOff=true;
-   console.warn('DOOMCON motion: news 404 at '+C.newsUrl+'; build.mjs must write api/news.json.');
-  });
- }).then(function(){fails=0;plan(C.pollMs);},function(e){
-  fails++;
-  console.warn('DOOMCON motion: refresh '+fails+'/3 failed: '+((e&&e.message)||e));
-  if(fails>=3){console.warn('DOOMCON motion: stopped after 3 failures.');return;}
-  plan(BACKOFF[Math.min(fails,BACKOFF.length-1)]);
- });
-}
-/* Hidden tab: no timer, no request. */
-d.addEventListener('visibilitychange',function(){if(!d.hidden&&waiting)run();});
+if(d.hidden){wt=true;return;}
+wt=false;gj(C.stateUrl).then(function(s){aS(s);if(noN)return null;
+return gj(C.newsUrl).then(aN,function(e){if(!e||!e.missing)throw e;noN=true;console.warn('dcmx news 404');});
+}).then(function(){fl=0;plan(C.pollMs);},function(e){fl++;
+console.warn('dcmx poll '+fl+': '+((e&&e.message)||e));
+if(fl>=3){off=true;if(nt)q('.dcmx-note__k',nt).textContent='REFRESH STOPPED';
+say('refresh gave up; reload the page');return;}
+plan(BO[fl]);});}
+L(d,'visibilitychange',function(){if(d.hidden)return;ago();if(wt&&!off)run();});
+setInterval(function(){if(!d.hidden)ago();},C.tickMs);
 plan(C.pollMs);
 })();`;
 
@@ -571,7 +627,7 @@ export function motionBlock(ctx, opts = {}, path = '/') {
 
   return {
     head: `<style>${motionCss()}</style>`,
-    beforeMain: `${strip}${note(ctx, path)}`,
+    beforeMain: `${strip}${note(ctx, path)}${newPill()}`,
     bodyEnd: `<script type="application/json" id="dcmx-cfg">${jsonBlock(cfg)}</script>\n<script>${MOTION_JS}</script>`,
   };
 }

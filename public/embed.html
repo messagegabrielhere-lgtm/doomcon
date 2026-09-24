@@ -8,26 +8,33 @@
 <link rel="canonical" href="https://messagegabrielhere-lgtm.github.io/doomcon/embed.html">
 <style>:root {
   color-scheme: dark light;
-  --bg:        #0b0c0e;
+  --bg: #0b0c0e;
   --bg-raised: #131519;
   --bg-sunken: #08090a;
-  --ink:       #e8eaee;
-  --ink-dim:   #9aa2ad;
+  --ink: #e8eaee;
+  --ink-dim: #9aa2ad;
   --ink-faint: #6a717b;
-  --rule:      #23262c;
+  --rule: #23262c;
   --rule-soft: #191c21;
-  --accent:    #ffb020;
-  --accent-ink:#0b0c0e;
-  --ok:        #5fd08a;
-  --stale:     #ffb020;
-  --dark-src:  #ff6b6b;
-  --scan:      rgba(255,255,255,0.016);
-  --wash:      rgba(232,234,238,0.042);
-  --wash-alt:  rgba(232,234,238,0.021);
+  --accent: #ffb020;
+  --accent-ink: #0b0c0e;
+  --accent-2: #56b0e0;
+  --ok: #5fd08a;
+  --stale: #ffb020;
+  --dark-src: #ff6b6b;
+  --heat-5: #56b0e0;
+  --heat-4: #5fd08a;
+  --heat-3: #ffb020;
+  --heat-2: #ff8b3d;
+  --heat-1: #ff5f56;
+  --scan: rgba(255,255,255,0.016);
+  --wash: rgba(232,234,238,0.042);
+  --wash-alt: rgba(232,234,238,0.021);
   --wash-live: rgba(255,176,32,0.115);
-  --fill:      rgba(255,176,32,0.150);
+  --fill: rgba(255,176,32,0.150);
   --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   --sans: 'Inter Tight', system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+  --t-2xs:  0.625rem;
   --t-xs:   0.6875rem;
   --t-sm:   0.8125rem;
   --t-base: 1rem;
@@ -36,52 +43,128 @@
   --t-xl:   1.5rem;
   --s-1: 4px;  --s-2: 8px;  --s-3: 12px; --s-4: 16px;
   --s-5: 24px; --s-6: 32px; --s-7: 48px; --s-8: 64px;
+  --sec:    28px;
+  --sec-lg: 38px;
+  --wrap: 940px;
   --gutter: 16px;
   --measure: 66ch;
   --radius: 3px;
 }
+body[data-wide="1"] { --wrap: 1240px; }
+[data-org="openai"] { --avt-a: #10a37f; }
+[data-org="anthropic"] { --avt-a: #d97757; }
+[data-org="google-deepmind"] { --avt-a: #5b9cff; }
+[data-org="xai"] { --avt-a: #aab3bf; }
+[data-org="meta"] { --avt-a: #3b82f6; }
+[data-org="deepseek"] { --avt-a: #7a8cff; }
+[data-org="mistral"] { --avt-a: #fa720f; }
+[data-org="qwen"] { --avt-a: #8b86ff; }
 @media (prefers-color-scheme: light) {
   :root:not([data-theme="dark"]) {
-    --bg:        #faf9f6;
+    --bg: #faf9f6;
     --bg-raised: #ffffff;
     --bg-sunken: #f1efe9;
-    --ink:       #14161a;
-    --ink-dim:   #545a62;
+    --ink: #14161a;
+    --ink-dim: #545a62;
     --ink-faint: #838a93;
-    --rule:      #e0ddd5;
+    --rule: #e0ddd5;
     --rule-soft: #eeebe4;
-    --accent:    #9a5a00;
-    --accent-ink:#ffffff;
-    --ok:        #17714a;
-    --stale:     #8a5a00;
-    --dark-src:  #b3261e;
-    --scan:      rgba(0,0,0,0.012);
-    --wash:      rgba(20,22,26,0.046);
-    --wash-alt:  rgba(20,22,26,0.022);
+    --accent: #9a5a00;
+    --accent-ink: #ffffff;
+    --accent-2: #0f6183;
+    --ok: #17714a;
+    --stale: #8a5a00;
+    --dark-src: #b3261e;
+    --heat-5: #0f6183;
+    --heat-4: #17714a;
+    --heat-3: #9a5a00;
+    --heat-2: #a8450d;
+    --heat-1: #b3261e;
+    --scan: rgba(0,0,0,0.012);
+    --wash: rgba(20,22,26,0.046);
+    --wash-alt: rgba(20,22,26,0.022);
     --wash-live: rgba(154,90,0,0.105);
-    --fill:      rgba(154,90,0,0.130);
+    --fill: rgba(154,90,0,0.130);
   }
+  :root:not([data-theme="dark"]) [data-org="openai"] { --avt-a: #0a6e55; }
+  :root:not([data-theme="dark"]) [data-org="anthropic"] { --avt-a: #a2472a; }
+  :root:not([data-theme="dark"]) [data-org="google-deepmind"] { --avt-a: #1a56d6; }
+  :root:not([data-theme="dark"]) [data-org="xai"] { --avt-a: #4a525c; }
+  :root:not([data-theme="dark"]) [data-org="meta"] { --avt-a: #1d4ed8; }
+  :root:not([data-theme="dark"]) [data-org="deepseek"] { --avt-a: #3b3fc4; }
+  :root:not([data-theme="dark"]) [data-org="mistral"] { --avt-a: #a34204; }
+  :root:not([data-theme="dark"]) [data-org="qwen"] { --avt-a: #4b46c4; }
 }
 :root[data-theme="light"] {
   color-scheme: light;
-  --bg:#faf9f6; --bg-raised:#ffffff; --bg-sunken:#f1efe9;
-  --ink:#14161a; --ink-dim:#545a62; --ink-faint:#838a93;
-  --rule:#e0ddd5; --rule-soft:#eeebe4;
-  --accent:#9a5a00; --accent-ink:#ffffff;
-  --ok:#17714a; --stale:#8a5a00; --dark-src:#b3261e; --scan:rgba(0,0,0,0.012);
-  --wash:rgba(20,22,26,0.046); --wash-alt:rgba(20,22,26,0.022);
-  --wash-live:rgba(154,90,0,0.105); --fill:rgba(154,90,0,0.130);
+  --bg: #faf9f6;
+  --bg-raised: #ffffff;
+  --bg-sunken: #f1efe9;
+  --ink: #14161a;
+  --ink-dim: #545a62;
+  --ink-faint: #838a93;
+  --rule: #e0ddd5;
+  --rule-soft: #eeebe4;
+  --accent: #9a5a00;
+  --accent-ink: #ffffff;
+  --accent-2: #0f6183;
+  --ok: #17714a;
+  --stale: #8a5a00;
+  --dark-src: #b3261e;
+  --heat-5: #0f6183;
+  --heat-4: #17714a;
+  --heat-3: #9a5a00;
+  --heat-2: #a8450d;
+  --heat-1: #b3261e;
+  --scan: rgba(0,0,0,0.012);
+  --wash: rgba(20,22,26,0.046);
+  --wash-alt: rgba(20,22,26,0.022);
+  --wash-live: rgba(154,90,0,0.105);
+  --fill: rgba(154,90,0,0.130);
 }
+:root[data-theme="light"] [data-org="openai"] { --avt-a: #0a6e55; }
+:root[data-theme="light"] [data-org="anthropic"] { --avt-a: #a2472a; }
+:root[data-theme="light"] [data-org="google-deepmind"] { --avt-a: #1a56d6; }
+:root[data-theme="light"] [data-org="xai"] { --avt-a: #4a525c; }
+:root[data-theme="light"] [data-org="meta"] { --avt-a: #1d4ed8; }
+:root[data-theme="light"] [data-org="deepseek"] { --avt-a: #3b3fc4; }
+:root[data-theme="light"] [data-org="mistral"] { --avt-a: #a34204; }
+:root[data-theme="light"] [data-org="qwen"] { --avt-a: #4b46c4; }
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --bg:#0b0c0e; --bg-raised:#131519; --bg-sunken:#08090a;
-  --ink:#e8eaee; --ink-dim:#9aa2ad; --ink-faint:#6a717b;
-  --rule:#23262c; --rule-soft:#191c21;
-  --accent:#ffb020; --accent-ink:#0b0c0e;
-  --ok:#5fd08a; --stale:#ffb020; --dark-src:#ff6b6b; --scan:rgba(255,255,255,0.016);
-  --wash:rgba(232,234,238,0.042); --wash-alt:rgba(232,234,238,0.021);
-  --wash-live:rgba(255,176,32,0.115); --fill:rgba(255,176,32,0.150);
+  --bg: #0b0c0e;
+  --bg-raised: #131519;
+  --bg-sunken: #08090a;
+  --ink: #e8eaee;
+  --ink-dim: #9aa2ad;
+  --ink-faint: #6a717b;
+  --rule: #23262c;
+  --rule-soft: #191c21;
+  --accent: #ffb020;
+  --accent-ink: #0b0c0e;
+  --accent-2: #56b0e0;
+  --ok: #5fd08a;
+  --stale: #ffb020;
+  --dark-src: #ff6b6b;
+  --heat-5: #56b0e0;
+  --heat-4: #5fd08a;
+  --heat-3: #ffb020;
+  --heat-2: #ff8b3d;
+  --heat-1: #ff5f56;
+  --scan: rgba(255,255,255,0.016);
+  --wash: rgba(232,234,238,0.042);
+  --wash-alt: rgba(232,234,238,0.021);
+  --wash-live: rgba(255,176,32,0.115);
+  --fill: rgba(255,176,32,0.150);
 }
+:root[data-theme="dark"] [data-org="openai"] { --avt-a: #10a37f; }
+:root[data-theme="dark"] [data-org="anthropic"] { --avt-a: #d97757; }
+:root[data-theme="dark"] [data-org="google-deepmind"] { --avt-a: #5b9cff; }
+:root[data-theme="dark"] [data-org="xai"] { --avt-a: #aab3bf; }
+:root[data-theme="dark"] [data-org="meta"] { --avt-a: #3b82f6; }
+:root[data-theme="dark"] [data-org="deepseek"] { --avt-a: #7a8cff; }
+:root[data-theme="dark"] [data-org="mistral"] { --avt-a: #fa720f; }
+:root[data-theme="dark"] [data-org="qwen"] { --avt-a: #8b86ff; }
 *, *::before, *::after { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; background: transparent; }
 body { font-family: var(--sans); color: var(--ink); -webkit-font-smoothing: antialiased; font-variant-numeric: tabular-nums; }
@@ -152,11 +235,11 @@ body[data-compact="1"] .w__foot { margin-top: 7px; }
     <span class="w__digit" aria-hidden="true">4</span>
     <span class="w__meta">
       <span class="w__name">ROUTINE</span>
-      <span class="w__score">42.9 / 100 · all sources live</span>
+      <span class="w__score">40.7 / 100 · all sources live</span>
     </span>
   </div>
   <div class="w__foot">
-    <span>2026-09-24 07:14:55 UTC</span>
+    <span>2026-09-24 00:04:49 UTC</span>
     <span>doomcon.watch</span>
   </div>
 </a>

@@ -26,12 +26,38 @@ tar cf - -C "$ROOT/public" . | (cd "$WORK" && tar xf -)
 
 cd "$WORK"
 git add -A
-if git diff --cached --quiet; then echo "no change to publish"; exit 0; fi
+# "Nothing to commit" does NOT mean "nothing to publish". A previous run may
+# have committed and then lost the push race against the news-fast loop, which
+# is exactly what happened on 2026-09-24 — the directory aliases sat in a local
+# commit while the live site 404'd on them. Only skip when the remote already
+# has this exact tree.
+if git diff --cached --quiet; then
+  git fetch -q origin gh-pages 2>/dev/null || true
+  if git rev-parse --verify -q HEAD >/dev/null &&
+     [ "$(git rev-parse HEAD)" = "$(git rev-parse -q --verify origin/gh-pages || echo none)" ]; then
+    echo "no change to publish"; exit 0
+  fi
+  echo "nothing new to commit, but the remote is behind — pushing the existing commit" >&2
+else
 git -c user.name="Gabriel Tornberg" -c user.email="messagegabrielhere@gmail.com" \
     commit -q -m "DOOMCON $LEVEL, score $SCORE — $STAMP
 
 Build output from messagegabrielhere-lgtm/doomcon@main. Do not hand-edit.
 
 Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>"
-git push -q -f origin gh-pages
-echo "published DOOMCON $LEVEL score $SCORE ($STAMP)"
+fi
+# Retry on a lost race. The news-fast Actions loop force-pushes gh-pages every
+# minute, so a local publish and a CI publish WILL collide eventually — the
+# first one did, with "cannot lock ref". Both write the same build output, so
+# losing the race is harmless; we just need to try again rather than fail.
+for attempt in 1 2 3 4 5; do
+  if git push -q -f origin gh-pages 2>/dev/null; then
+    echo "published DOOMCON $LEVEL score $SCORE ($STAMP)"
+    exit 0
+  fi
+  echo "gh-pages push lost a race (attempt $attempt); retrying" >&2
+  git fetch -q origin gh-pages 2>/dev/null || true
+  sleep 4
+done
+echo "could not publish after 5 attempts — is the news-fast loop mid-push?" >&2
+exit 1

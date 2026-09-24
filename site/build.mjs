@@ -224,12 +224,51 @@ function vsYesterday(state, history) {
     if (age < DAY_MIN_AGE_S || age > DAY_MAX_AGE_S) continue;
     if (!best || Math.abs(age - 86400) < Math.abs(best.age - 86400)) best = { age, row };
   }
-  if (!best) return null;
+  if (best) {
+    return {
+      delta: state.score - best.row.score,
+      label: `${Math.round(best.age / 3600)}h ago`,
+      reference_at: best.row.generated_at,
+      basis: 'day',
+    };
+  }
+
+  // No ~24h reference yet. That is honest for "vs yesterday" but it was
+  // silencing the fold entirely: the hero printed "no prior observation to
+  // compare" while the score visibly moved 40.7 -> 40.5 between builds, which
+  // is the one above-fold fact answering "should I care today". Fall back to
+  // the immediately preceding observation and LABEL IT AS WHAT IT IS - a clock
+  // time, never dressed up as a day-over-day move.
+  const prior = history.length >= 2 ? history[history.length - 2] : null;
+  if (!prior || !Number.isFinite(prior.score)) return null;
+  const age = secondsBetween(state.generated_at, prior.generated_at);
+  if (!Number.isFinite(age) || age <= 0) return null;
   return {
-    delta: state.score - best.row.score,
-    label: `${Math.round(best.age / 3600)}h ago`,
-    reference_at: best.row.generated_at,
+    delta: state.score - prior.score,
+    label: `${String(prior.generated_at).slice(11, 16)} UTC`,
+    reference_at: prior.generated_at,
+    basis: 'previous',
   };
+}
+
+/**
+ * Directory aliases for every top-level page.
+ *
+ * Found by the 100-visitor study: /doomcon/race/ returned 404 while
+ * /doomcon/race.html served fine. Internal links were right, but every
+ * hand-typed guess, every verbal share and the task brief's own path landed on
+ * a 404 — and a 404 from a shared link is a visitor lost at the door.
+ *
+ * GitHub Pages has no rewrite rules, so the fix is a real file at each
+ * directory index. It is a copy, not a redirect, so the canonical tag in the
+ * page keeps search engines pointed at one URL.
+ */
+async function writeDirectoryAliases(outDir, names, write, written) {
+  for (const name of names) {
+    const src = path.join(outDir, `${name}.html`);
+    if (!existsSync(src)) continue;
+    written.push(await write(outDir, `${name}/index.html`, await readFile(src, 'utf8')));
+  }
 }
 
 function seriesBuilder(history) {
@@ -412,6 +451,13 @@ async function main() {
   for (const m of moves) {
     written.push(await write(args.out, `moves/${m.id}.html`, movePage.render(ctx, m)));
   }
+
+  await writeDirectoryAliases(
+    args.out,
+    ['race', 'news', 'methodology', 'history', 'digest', 'bliss', 'watts'],
+    write,
+    written,
+  );
 
   written.push(await write(args.out, 'sitemap.xml', sitemap(ctx)));
   written.push(await write(args.out, 'robots.txt', robots(ctx)));

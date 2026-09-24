@@ -1,54 +1,105 @@
-# DOOMCON data pipeline: collect -> score -> build -> commit.
+# DOOMCON's clock. Two lanes, one file, one queue.
 #
-# This workflow is the only thing that writes data/ and public/ on main. It is
-# deliberately boring, because the product claim is that a stranger can recompute
-# our number: anything clever here becomes a thing they cannot reproduce locally.
+# The operator's ask was "it should be built so the news automatically updates".
+# The whole design below follows from one measurement and one platform fact.
 #
-# Schedule reality check. GitHub's documented minimum is 5 minutes, but scheduled
-# runs are queued on shared infrastructure and are routinely late by 5-20 minutes
-# under load, and are dropped outright during incidents. So: */15 rather than */5
-# (gives a late run room to land before the next one is due), and every step below
-# is written so that a SKIPPED run and a DOUBLED run are both harmless.
-#   - skipped: the engine reads the newest snapshot whenever it next runs; the
-#     NowCast smoother is defined over the trailing 12 observations, not over
-#     wall-clock, so a gap shifts the window rather than corrupting it.
-#   - doubled: the "did collect write a new snapshot" gate below means the engine
-#     only ever advances the receipt chain once per snapshot, and the concurrency
-#     group means two runs cannot be pushing at the same moment.
+# THE MEASUREMENT. A full pipeline pass costs the market adapters, the SEC feed
+# and arXiv — minutes of wall clock, and arXiv answers HTTP 429 if you ask it
+# much more than once an hour (observed 2026-09-24, "Rate exceeded", while
+# testing the cadence). A newsroom-only pass costs a handful of RSS fetches and
+# finishes in about two seconds. Putting both on the same schedule means either
+# the news is slow or the markets get hammered. So: two lanes.
 #
-# */15 also keeps us under the GitHub Pages soft limit of 10 builds per hour,
-# which the deploy in pages.yml would otherwise start throttling.
+#   news  every 15 min   news -> build -> publish                     ~1-2 min
+#   full  hourly at :07  collect -> news -> race -> engine -> build -> publish
+#
+# THE PLATFORM FACT. GitHub's cron floor is five minutes, scheduled runs are
+# routinely late by 5-20 minutes under load, and they are DROPPED OUTRIGHT
+# during incidents. A schedule here is a hint, never a guarantee. Every step
+# below is therefore written so that a SKIPPED run and a DOUBLED run are both
+# harmless:
+#
+#   skipped  the engine reads the newest snapshot whenever it next runs, and the
+#            NowCast smoother is defined over the trailing 12 observations rather
+#            than over wall clock, so a gap shifts the window instead of
+#            corrupting it. collector/news.mjs carries its own per-source cadence
+#            ledger with 20% slack, so a late run does not double any interval.
+#   doubled  the "did collect write a new snapshot" gate stops the receipt chain
+#            advancing twice on one observation, and the concurrency group below
+#            stops two runs pushing at the same moment.
+#
+# WHY :07 FOR THE FULL PASS. The */15 grid fires at :00, :15, :30 and :45.
+# Minute 7 is the furthest point from all four, so a full pass (~3 min) and a
+# fast pass (~2 min) have to slip by more than five minutes before they can
+# collide. When they do collide the concurrency group queues them, and GitHub
+# keeps only ONE pending run per group — so a third arrival cancels the queued
+# one. That is survivable precisely because nothing here is a one-shot: the
+# cancelled lane runs at its next tick, over the same idempotent steps.
+#
+# WHERE THE SITE ACTUALLY COMES FROM. Pages serves the gh-pages BRANCH for this
+# repo. Committing public/ to main deploys nothing at all. The publish step
+# mirrors deploy.sh: replace the branch contents wholesale so deletions
+# propagate, then force-push one flat orphan commit. gh-pages therefore never
+# accumulates history, which is why publishing 96 times a day is free.
+#
+# Cadence, failure modes and how to check freshness from outside: docs/AUTOUPDATE.md
 
 name: collect
 
 on:
   schedule:
-    - cron: '*/15 * * * *'
+    # Keep these strings EXACTLY as written. The job-level `if` below matches on
+    # github.event.schedule, which is the literal cron text from this file — an
+    # innocent reformat to '*/15 * * * *' vs '*/15 * * * * ' silently stops both
+    # lanes from ever selecting themselves, and the workflow runs and does
+    # nothing, green, forever.
+    - cron: '*/15 * * * *'   # news, the fast lane
+    - cron: '7 * * * *'      # the full index pass
   workflow_dispatch:
+    inputs:
+      mode:
+        description: 'Which lane to run by hand'
+        type: choice
+        options: [full, news]
+        default: full
 
 # The built-in token, not a PAT. Nothing here touches another repo, so a PAT
 # would be a secret to rotate in exchange for no capability at all.
 permissions:
   contents: write
 
-# Serialises every data-writing run. Not cancel-in-progress: a run cancelled
-# between "commit" and "push" would leave the rebase retry loop half-done. Queue
-# instead, and let the late run land after the early one.
+# Serialises every data-writing run across BOTH lanes. Not cancel-in-progress:
+# a run cancelled between "commit" and "push" would leave the rebase retry loop
+# half-done. Queue instead, and let the late run land after the early one.
 concurrency:
   group: doomcon-data
   cancel-in-progress: false
 
 jobs:
-  collect:
+  # ---------------------------------------------------------------------------
+  # THE FAST LANE. Newsroom only.
+  #
+  # It does NOT run the index engine, and that is a correctness rule rather than
+  # a cost saving. Receipts are append-only and the anti-flap machinery measures
+  # dwell in hours; scoring the index every fifteen minutes would write ~96
+  # receipts a day, silently re-weight the NowCast and change what the number
+  # means. The index keeps its own beat in the full lane. This lane is the
+  # newsroom, and only the newsroom.
+  # ---------------------------------------------------------------------------
+  news:
+    name: newsroom
+    if: >-
+      (github.event_name == 'schedule' && github.event.schedule == '*/15 * * * *') ||
+      (github.event_name == 'workflow_dispatch' && inputs.mode == 'news')
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 10
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          # Full history: the push step rebases onto main if anything landed while
-          # we were collecting, and a shallow clone cannot rebase.
+          # Full history: the push step rebases onto main if anything landed
+          # while we were collecting, and a shallow clone cannot rebase.
           fetch-depth: 0
 
       - name: Set up Node 20
@@ -56,8 +107,174 @@ jobs:
         with:
           node-version: '20'
           # No cache key and no install step on purpose. Zero dependencies
-          # (CONTRACT.md §1) means there is nothing to restore; adding a cache
-          # here would be ~15s of ceremony around an empty directory.
+          # (CONTRACT.md §1) means there is nothing to restore; a cache here
+          # would be ~15s of ceremony around an empty directory.
+
+      - name: Refresh the newsroom
+        # NEVER fails the job. A dark feed is a normal operating state, and
+        # news.mjs exits non-zero only when EVERY source failed — which is worth
+        # a warning in the log, not a red X in the operator's inbox every time a
+        # CDN has a bad minute. The full lane is the one that reports outages.
+        continue-on-error: true
+        run: node collector/news.mjs
+
+      - name: Did the newsroom actually change?
+        id: gate
+        run: |
+          set -euo pipefail
+          # news.mjs publishes the answer rather than making this script guess at
+          # it. Every run rewrites data/news.json — generated_at moves and the
+          # recency term re-decays every score by a tenth of a point — so "the
+          # file differs" is true on every single pass and is useless as a deploy
+          # trigger. `run.items_changed` is true only when the SET of items
+          # moved, which is the only difference a reader can see.
+          # Two answers, not one. `usable` says the file can be trusted at all;
+          # `changed` says it is worth a deploy. They are separate because the
+          # commit below must never persist a file it could not parse, and
+          # because "0 items" is a collapse rather than a change — a newsroom
+          # that emptied itself gets investigated, not published.
+          read -r USABLE CHANGED <<<"$(node --input-type=module -e '
+            import { readFileSync } from "node:fs";
+            try {
+              const n = JSON.parse(readFileSync("data/news.json", "utf8"));
+              const r = n.run ?? {};
+              const count = Array.isArray(n.items) ? n.items.length : 0;
+              const changed = r.items_changed === true && count > 0;
+              if (count === 0) console.error("::warning::data/news.json parsed but carries no items; refusing to publish an empty newsroom");
+              process.stdout.write(`true ${changed ? "true" : "false"}`);
+              console.error(`news: ${count} items, ${r.arrived ?? "?"} arrived, ${r.departed ?? "?"} departed, ${r.fetched ?? "?"}/${r.adapters ?? "?"} sources asked`);
+            } catch (err) {
+              process.stdout.write("false false");
+              console.error(`::warning::data/news.json unreadable (${err.message}); nothing to commit or publish this pass`);
+            }
+          ')"
+          echo "usable=$USABLE"   >> "$GITHUB_OUTPUT"
+          echo "changed=$CHANGED" >> "$GITHUB_OUTPUT"
+          echo "usable=$USABLE items_changed=$CHANGED"
+
+      - name: Rebuild the site
+        if: steps.gate.outputs.changed == 'true'
+        # ORDER MATTERS. site/build.mjs CLEARS public/ before regenerating it, so
+        # everything that writes into public/ has to run AFTER it. Measured the
+        # hard way on 2026-09-23: cards written first vanished. Skipping the card
+        # steps here would be the same bug wearing a hat — the share cards would
+        # be deleted from public/ and the next deploy would publish a site whose
+        # OpenGraph images 404 on every link anyone shares.
+        run: |
+          node site/build.mjs
+          node collector/card.mjs
+          node collector/posts.mjs
+          node site/post-sheet.mjs
+
+      - name: Commit the newsroom
+        # Only when the gate could actually parse what is on disk. Committing a
+        # file we failed to read would make one bad pass permanent: news.mjs
+        # refuses to start against a corrupt data/news.json (it will not silently
+        # erase the rolling window), so the next run, and every run after it,
+        # would fail on the file this step had persisted.
+        if: steps.gate.outputs.usable == 'true'
+        run: |
+          set -euo pipefail
+          git config user.name  'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+
+          # data/news.json ONLY, and on every pass — including one that changed
+          # nothing visible. That file carries the cadence ledger
+          # (sources[].fetched_at) and the first_seen_at stamps that back the "we
+          # had this first" claim, and a scheduled run is a fresh container with
+          # no memory of its own: the committed file IS the process state.
+          # Leaving it uncommitted would reset the ledger every pass, re-fetch all
+          # sixteen sources every fifteen minutes, and re-date every item the fast
+          # lane discovered between hours.
+          #
+          # public/ is deliberately NOT committed here. gh-pages is what Pages
+          # serves and it is force-pushed as a single orphan commit, so
+          # publishing costs no history at all; committing the built HTML 96
+          # times a day onto main would. The full lane commits public/ hourly, so
+          # main still carries a build-output archive — an hour behind the live
+          # site by design.
+          git add data/news.json
+          if git diff --cached --quiet; then
+            echo 'newsroom unchanged; nothing to commit'
+            exit 0
+          fi
+
+          SUMMARY="$(node --input-type=module -e '
+            import { readFileSync } from "node:fs";
+            const n = JSON.parse(readFileSync("data/news.json", "utf8"));
+            const r = n.run ?? {};
+            const when = (n.generated_at ?? "").replace(/:\d\d\.\d+Z$/, "Z");
+            process.stdout.write(`news: ${n.items.length} items, +${r.arrived ?? 0}/-${r.departed ?? 0} — ${when}`);
+          ')"
+          git commit -m "$SUMMARY"
+
+          # Retry, not a bare push. The concurrency group stops two scheduled
+          # runs racing, but a human pushing a code change at the wrong second
+          # still wins. A rebase CONFLICT is not retried away — it would mean two
+          # runs wrote the same append-only file, which needs a person.
+          for attempt in 1 2 3; do
+            if git push origin HEAD:main; then exit 0; fi
+            echo "push rejected (attempt $attempt); rebasing onto main"
+            git pull --rebase origin main
+          done
+          echo '::error::could not push after 3 attempts'
+          exit 1
+
+      - name: Publish to gh-pages
+        if: steps.gate.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          rm -rf .pages
+          test -f public/index.html || { echo '::error::public/index.html missing; refusing to publish'; exit 1; }
+          SUBJECT="$(node --input-type=module -e '
+            import { readFileSync } from "node:fs";
+            let s = {};
+            try { s = JSON.parse(readFileSync("data/state.json", "utf8")); } catch {}
+            const score = typeof s.score === "number" ? s.score.toFixed(1) : "NO SCORE";
+            process.stdout.write(`DOOMCON ${s.level ?? "-"}, score ${score} — newsroom refresh`);
+          ')"
+          mkdir .pages
+          tar cf - -C public . | (cd .pages && tar xf -)
+          cd .pages
+          git init -q -b gh-pages
+          git config user.name  'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -q -m "$SUBJECT" \
+            -m "Build output from ${{ github.repository }}@${{ github.sha }} (collect/news). Do not hand-edit."
+          git push -q -f "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git" gh-pages
+          cd ..
+          rm -rf .pages
+          echo "published: $SUBJECT"
+
+  # ---------------------------------------------------------------------------
+  # THE FULL LANE. The index, the race and the newsroom, once an hour.
+  #
+  # Hourly rather than quarter-hourly because that is how fast the inputs move:
+  # arXiv publishes in daily batches, the SEC in business hours, and the
+  # prediction markets in a way a 15-minute sample cannot distinguish from noise
+  # at this index's smoothing. Hourly is also the cadence arXiv tolerates.
+  # ---------------------------------------------------------------------------
+  full:
+    name: full index pass
+    if: >-
+      (github.event_name == 'schedule' && github.event.schedule == '7 * * * *') ||
+      (github.event_name == 'workflow_dispatch' && inputs.mode == 'full')
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
 
       - name: Preflight
         run: |
@@ -72,7 +289,7 @@ jobs:
             echo "  docker run --rm --network host -v \"\$PWD\":/app -w /app node:20-alpine node collector/backfill.mjs"
             exit 1
           fi
-          for f in collector/collect.mjs collector/engine.mjs site/build.mjs; do
+          for f in collector/collect.mjs collector/news.mjs collector/race.mjs collector/engine.mjs site/build.mjs; do
             [ -f "$f" ] || { echo "::error::missing $f"; exit 1; }
           done
 
@@ -82,10 +299,10 @@ jobs:
           set -euo pipefail
           # Recorded so the next step can prove collect produced something new.
           # Names here are ISO stamps written by collect.mjs with the colons
-          # already swapped out, so nothing glob-hostile lives in this directory and
-          # `ls | sort` is the exact lexicographic order engine.mjs uses to pick the
-          # newest file. `|| true` because pipefail would turn "no snapshots yet"
-          # into a job failure, and a first-ever run legitimately has none.
+          # already swapped out, so nothing glob-hostile lives in this directory
+          # and `ls | sort` is the exact lexicographic order engine.mjs uses to
+          # pick the newest file. `|| true` because pipefail would turn "no
+          # snapshots yet" into a job failure, and a first-ever run has none.
           # shellcheck disable=SC2012
           echo "snapshot=$(ls -1 data/raw/*.json 2>/dev/null | sort | tail -1 || true)" >> "$GITHUB_OUTPUT"
 
@@ -99,33 +316,13 @@ jobs:
         continue-on-error: true
         run: node collector/collect.mjs
 
-      - name: Score
-        id: score
-        run: |
-          set -euo pipefail
-          # shellcheck disable=SC2012  # same reasoning as the previous step
-          AFTER="$(ls -1 data/raw/*.json 2>/dev/null | sort | tail -1 || true)"
-          # The idempotency gate. If collect crashed before writing (no fetch
-          # helper, unwritable disk), the newest snapshot is the one we already
-          # scored — and engine.mjs defaults to "newest file in data/raw". Running
-          # it anyway would append a second history line and a second receipt for
-          # the same observation, silently double-weighting it in the NowCast and
-          # putting a duplicate in a hash chain that is supposed to be append-only.
-          if [ "$AFTER" = "${{ steps.before.outputs.snapshot }}" ]; then
-            echo "::warning::collect wrote no new snapshot; skipping the engine so the receipt chain does not advance twice on one observation"
-            echo "ran=false" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-          node collector/engine.mjs
-          echo "ran=true" >> "$GITHUB_OUTPUT"
-
       - name: Refresh the newsroom
-        # The operator's top ask: the news must update itself. This is the step
-        # that does it. news.mjs is a separate failure domain from the index -
-        # a dead feed must not stop the index building, and vice versa - so it
-        # never fails the job.
+        # --force ignores the per-source cadence ledger, so the hourly pass asks
+        # every feed no matter how recently the fast lane did. That is the point
+        # of having an hourly pass at all: no feed can hide behind its own
+        # interval for longer than an hour.
         continue-on-error: true
-        run: node collector/news.mjs
+        run: node collector/news.mjs --force
 
       - name: Refresh the AI race
         # Reads data/news.json for the mindshare column, so it runs AFTER news.
@@ -134,6 +331,24 @@ jobs:
         continue-on-error: true
         run: node collector/race.mjs
 
+      - name: Score
+        id: score
+        run: |
+          set -euo pipefail
+          # shellcheck disable=SC2012  # same reasoning as the earlier step
+          AFTER="$(ls -1 data/raw/*.json 2>/dev/null | sort | tail -1 || true)"
+          # The idempotency gate. If collect crashed before writing, the newest
+          # snapshot is the one we already scored — and engine.mjs defaults to
+          # "newest file in data/raw". Running it anyway would append a second
+          # history line and a second receipt for the same observation, silently
+          # double-weighting it in the NowCast and putting a duplicate in a hash
+          # chain that is supposed to be append-only.
+          if [ "$AFTER" = "${{ steps.before.outputs.snapshot }}" ]; then
+            echo "::warning::collect wrote no new snapshot; skipping the engine so the receipt chain does not advance twice on one observation"
+            exit 0
+          fi
+          node collector/engine.mjs
+
       - name: Build site
         # Runs even when the engine was skipped: the generator is a pure function
         # of data/, so a rebuild on unchanged data produces byte-identical output
@@ -141,9 +356,8 @@ jobs:
         run: node site/build.mjs
 
       - name: Render cards and posting console
-        # ORDER MATTERS. site/build.mjs clears public/ before regenerating it, so
-        # anything that writes into public/ has to run AFTER it or it is wiped.
-        # Measured the hard way on 2026-09-23: cards written first vanished.
+        # AFTER build.mjs, which clears public/. Same measured ordering as the
+        # fast lane.
         run: |
           node collector/card.mjs
           node collector/posts.mjs
@@ -162,9 +376,9 @@ jobs:
           fi
 
           # Message reads "data: DOOMCON 3 @ 61.4 — 2026-09-23T02:00Z", so the
-          # commit list on GitHub is a legible chart of the index over time.
-          # An all-dark run genuinely has no score and says so rather than
-          # printing a number we did not measure. The ${...} below are JS template
+          # commit list on GitHub is a legible chart of the index over time. An
+          # all-dark run genuinely has no score and says so rather than printing
+          # a number we did not measure. The ${...} below are JS template
           # literals that must reach node unexpanded, hence the single quotes.
           # shellcheck disable=SC2016
           MSG="$(node --input-type=module -e '
@@ -181,15 +395,8 @@ jobs:
 
           git commit -m "$MSG"
 
-          # Retry loop, not a bare push. The concurrency group stops two scheduled
-          # runs from racing, but a human pushing a code change at the wrong second
-          # still loses the push. A rebase conflict is NOT retried away:
-          # data/history.ndjson is append-only, so a conflict there means two runs
-          # scored the same window and that needs a person, not a --force.
           for attempt in 1 2 3; do
-            if git push origin HEAD:main; then
-              exit 0
-            fi
+            if git push origin HEAD:main; then exit 0; fi
             echo "push rejected (attempt $attempt); rebasing onto main"
             git pull --rebase origin main
           done
@@ -197,32 +404,39 @@ jobs:
           exit 1
 
       - name: Publish to gh-pages
-        # Pages serves the gh-pages BRANCH for this repo (build_type: legacy),
-        # so committing public/ to main deploys nothing at all. This mirrors
-        # what deploy.sh does locally: replace the branch contents wholesale so
-        # deletions propagate, then force-push a single flat commit.
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
-          test -f public/index.html || { echo "::error::public/index.html missing; refusing to publish"; exit 1; }
-          LEVEL=$(node -e "process.stdout.write(String(require('./data/state.json').level))")
-          SCORE=$(node -e "process.stdout.write(require('./data/state.json').score.toFixed(1))")
-          STAMP=$(node -e "process.stdout.write(require('./data/state.json').generated_at)")
-          rm -rf .pages && mkdir .pages
+          rm -rf .pages
+          test -f public/index.html || { echo '::error::public/index.html missing; refusing to publish'; exit 1; }
+          SUBJECT="$(node --input-type=module -e '
+            import { readFileSync } from "node:fs";
+            const s = JSON.parse(readFileSync("data/state.json", "utf8"));
+            const score = typeof s.score === "number" ? s.score.toFixed(1) : "NO SCORE";
+            process.stdout.write(`DOOMCON ${s.level ?? "-"}, score ${score} — ${s.generated_at ?? "unknown"}`);
+          ')"
+          mkdir .pages
           tar cf - -C public . | (cd .pages && tar xf -)
           cd .pages
-          git init -q
-          git checkout -q -b gh-pages
+          git init -q -b gh-pages
           git config user.name  'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add -A
-          git commit -q -m "DOOMCON $LEVEL, score $SCORE — $STAMP
+          git commit -q -m "$SUBJECT" \
+            -m "Build output from ${{ github.repository }}@${{ github.sha }} (collect/full). Do not hand-edit."
+          git push -q -f "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git" gh-pages
+          cd ..
+          rm -rf .pages
+          echo "published: $SUBJECT"
 
-          Build output from ${{ github.repository }}@${{ github.sha }}. Do not hand-edit."
-          git push -q -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" gh-pages
-          echo "published DOOMCON $LEVEL score $SCORE"
-
-      - name: Fail the run if every source was dark
+      - name: Fail the run if every index source was dark
         if: steps.collect.outcome == 'failure'
+        # SOME sources dark is normal and is reported on the page, never here.
+        # EVERY source dark means we learned nothing this hour, and that is the
+        # one condition worth an email. The snapshot was already committed above
+        # as evidence and gh-pages was already refreshed, so failing here costs
+        # the operator nothing but the notification.
         run: |
-          echo '::error::every source failed this run — the snapshot was committed as evidence, but we learned nothing. Check collector/fetch.mjs and the source endpoints.'
+          echo '::error::every index source failed this run — the snapshot was committed as evidence, but we learned nothing. Check collector/fetch.mjs and the source endpoints.'
           exit 1

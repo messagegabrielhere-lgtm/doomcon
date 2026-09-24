@@ -28,6 +28,7 @@ import * as brand from '../brand.mjs';
 import * as news from './news.mjs';
 import * as labs from './_labs.mjs';
 import * as xwire from './_xwire.mjs';
+import * as oven from './_oven.mjs';
 
 // Matches build.mjs's own sparkline window. Only a cap: the fallback reader
 // below never needs more points than a 300-unit sparkline can resolve.
@@ -148,6 +149,7 @@ ${news.styleTag()}
         ${meta.epithet ? `<p class="level__ep">${esc(meta.epithet)}</p>` : ''}
         ${levelBars(state.level)}
         <p class="level__gloss">${esc(meta.gloss)}</p>
+        <p class="level__plain">${esc(plainRead(ctx))}</p>
       </div>
     </div>
 
@@ -192,6 +194,9 @@ ${news.styleTag()}
 </section>
 
 ${news.render(ctx)}
+
+${oven.styleTag()}
+${oven.render(ctx)}
 
 ${labs.render(ctx)}
 
@@ -393,6 +398,37 @@ function sourcesForPillar(state, id) {
   return state.sources.filter((s) => s && s.pillar === id);
 }
 
+/**
+ * The plain-language read, for the largest group of people who arrive here.
+ *
+ * Pew (June 2025): 50% of US adults are more concerned than excited about AI,
+ * against 10% more excited. YouGov (2026, n=18,238): 50% very or somewhat
+ * concerned about AI ending humanity, up from 43% in June 2025. The modal
+ * visitor is not an ML engineer — it is an ordinary anxious person who clicked
+ * a frightening headline, and the 100-visitor study found that neither this
+ * site nor pizzint says anything to them at all.
+ *
+ * This is the sentence that does. It states where today sits in our own record
+ * and what the number is NOT, in words that need no key. It makes no
+ * prediction, offers no reassurance we cannot support, and uses no future
+ * tense.
+ */
+function plainRead(ctx) {
+  const st = ctx.state;
+  const s = Number.isFinite(st.score) ? st.score : null;
+  if (s === null) return 'No score today — not enough sources reported to compute one.';
+
+  const where = s >= 85 ? 'higher than almost anything in our record'
+    : s >= 70 ? 'above the usual range of our record'
+    : s >= 55 ? 'a little above the middle of our record'
+    : s >= 35 ? 'inside the middle band of our own record'
+    : 'below the usual range of our record';
+
+  return `Today reads ${s >= 70 ? 'busy' : s >= 55 ? 'slightly busy' : 'ordinary'}. ` +
+    `${s.toFixed(1)} of 100 sits ${where}. ` +
+    `This counts how much is happening in AI right now — it is not a claim about how it ends.`;
+}
+
 function direction(ctx) {
   const d = ctx.vsYesterday;
   // No prior observation is a real state, not a zero. Saying "+0.0" when we
@@ -403,9 +439,12 @@ function direction(ctx) {
   }
   const glyph = d.delta > 0 ? '▲' : d.delta < 0 ? '▼' : '◆';
   const word = d.delta > 0 ? 'up' : d.delta < 0 ? 'down' : 'unchanged';
-  return `<span class="score__dir">
+  // "vs 22h ago" is a day-over-day claim. "since 00:04 UTC" is a clock fact.
+  // Only one of them is true before we have a day of history.
+  const against = d.basis === 'previous' ? `since ${d.label}` : `vs ${d.label}`;
+  return `<span class="score__dir" data-basis="${esc(d.basis || 'day')}">
       <span aria-hidden="true">${glyph}</span>
-      <b>${esc(signed(d.delta, 1))}</b> ${esc(word)} vs ${esc(d.label)}
+      <b>${esc(signed(d.delta, 1))}</b> ${esc(word)} ${esc(against)}
     </span>`;
 }
 
