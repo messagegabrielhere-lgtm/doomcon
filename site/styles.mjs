@@ -16,10 +16,54 @@ export const FONT_HREF =
   'https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap';
 
 // Colour is dark-native: this is instrumentation, and the brand lives at night.
-// Light is a full first-class theme, not an inverted afterthought. One accent
-// (sodium amber) and it is spent only on live values and the active level -
-// everything else is ink on paper. Amber over terminal green on purpose: green
-// on black is what every competitor in the category already does badly.
+// Light is a full first-class theme, not an inverted afterthought. Amber over
+// terminal green on purpose: green on black is what every competitor in the
+// category already does badly.
+//
+// =========================================================================
+// THE FOUR COLOUR JOBS. Every hue on this site does exactly one of them.
+// =========================================================================
+//
+// This sheet has always claimed amber was "spent only on live values and the
+// active level". It was not. Counted at the start of this pass, --accent was
+// spent 66 times in this file alone: the level, links, link hover, the wall
+// clock, the nav figures, tab selection, the focus ring, chart series lines,
+// sparklines, the pillar ranking bars, arrival badges, per-feed count bars,
+// timeline dots and dates, cross-sell figures, the move archive's deltas, the
+// level epithet, and as the fallback under four different var() chains. A
+// colour used for sixteen things is not an accent; it is the body text in a
+// costume, and the level digit — the one number this entire publication exists
+// to publish — was competing with the footer's hover state for it.
+//
+//   1. --accent (sodium amber)  THE LIVE READING OF THE INDEX ON THIS PAGE.
+//      Nothing else. Ever. It survives on: the level digit and its glow, the
+//      five level pips, the live band of the scale strip, the live segment of
+//      the gauge, the newest point on the history chart and the guide line
+//      pointing at it, the live stage of the oven rail, the return line (which
+//      is drawn only when the index has actually moved since your last visit),
+//      the live delta chip, and the same level inside the embed widget.
+//      66 uses became 20, and eighteen of those twenty are one number.
+//      The two that are not are ::selection and .skip, which are browser
+//      affordances rather than content and have to be the loudest thing on
+//      screen when they exist at all.
+//
+//   2. --accent-2 (cool)  A REAL SCALAR THAT BELONGS SOMEWHERE ELSE, plus
+//      every interactive affordance. Nav figures, tab counts, cross-sell
+//      figures, arrival badges, the focus ring, and every hover. The rule that
+//      makes this legible: if clicking it takes you somewhere, or if the number
+//      is about a different page, it is cool. If it is the reading of the page
+//      you are standing on, it is amber.
+//
+//   3. --p / --pill-<id> (five pillar hues)  WHICH OF THE FIVE. Set on every
+//      [data-pillar] in the document. See PILLARS_DARK below.
+//
+//   4. --heat-5 … --heat-1  WHERE ON THE 5→1 SCALE. The masthead ramp, the
+//      oven burners, and nothing else.
+//
+// Everything outside those four is ink, rule, or one of the three source-state
+// colours (--ok / --dark-src / --accent-2 doubling as awaiting-baseline), and
+// the source states are the one place where the hue is the FOURTH signal
+// behind a glyph, a word and a border style.
 //
 // The two scales below are what separates "considered" from "default": a short
 // type scale and an eight-step space scale, both used everywhere, so no
@@ -39,7 +83,23 @@ const DARK = {
   'bg-sunken':   '#08090a',
   ink:           '#e8eaee',
   'ink-dim':     '#9aa2ad',
-  'ink-faint':   '#6a717b',
+  // RAISED THIS PASS, in both schemes, and it is the largest single legibility
+  // change in the file. Measured on the built homepage, 2026-09-24: 166 rules
+  // across nine templates paint text in --ink-faint, and in the LIGHT scheme
+  // #838a93 on the sunken ground measured 3.03:1 — 88 text elements on one page
+  // failing WCAG AA at every size the site uses. The dark scheme was failing
+  // too, more quietly: #6a717b measured 3.97:1 on --bg and 3.71:1 on
+  // --bg-raised.
+  //
+  // #7a828c measures 5.03 : 4.70 : 5.12 against bg / raised / sunken.
+  //
+  // This does cost some of the tonal distance from --ink-dim (the two are now
+  // 1.41x apart in relative luminance rather than 1.91x). That is the right
+  // trade and it is the whole argument of this pass: de-emphasis is supposed to
+  // come from SIZE, WEIGHT and POSITION, which a reader can act on, not from
+  // ink so pale that the sentence is merely hard to read. A caption that cannot
+  // be read is not a quiet caption, it is a bug with good manners.
+  'ink-faint':   '#7a828c',
   rule:          '#23262c',
   'rule-soft':   '#191c21',
   accent:        '#ffb020',
@@ -80,7 +140,12 @@ const LIGHT = {
   'bg-sunken':   '#f1efe9',
   ink:           '#14161a',
   'ink-dim':     '#545a62',
-  'ink-faint':   '#838a93',
+  // See the dark set's note. #838a93 measured 3.31 : 3.49 : 3.03 against
+  // bg / raised / sunken and was the direct cause of 70 of the 88 AA failures
+  // counted on the light homepage. #666d75 measures 4.97 : 5.24 : 4.56, so the
+  // weakest of the three grounds now clears AA with room, and the light scheme
+  // stops being the one that has quietly been the weaker for several rounds.
+  'ink-faint':   '#666d75',
   rule:          '#e0ddd5',
   'rule-soft':   '#eeebe4',
   accent:        '#9a5a00',
@@ -205,15 +270,40 @@ ${pillarHues('', PILLARS_DARK).root}
   --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   --sans: 'Inter Tight', system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
 
-  /* Type scale. Deliberately short - seven sizes plus the two display sizes
-     that clamp. A page with eleven font sizes reads as an accident. */
-  --t-2xs:  0.625rem;   /* 10 - chip labels, glyph captions, rail keys */
-  --t-xs:   0.6875rem;  /* 11 - mono labels, eyebrows, chips */
-  --t-sm:   0.8125rem;  /* 13 - secondary prose, captions */
-  --t-base: 1rem;       /* 16 - body */
-  --t-md:   1.0625rem;  /* 17 - lede, h3 */
-  --t-lg:   1.25rem;    /* 20 - card numbers */
-  --t-xl:   1.5rem;     /* 24 - h2 */
+  /* ---- THE TYPE SCALE. SIX STEPS. -------------------------------------
+     The previous sheet said "deliberately short - seven sizes" and then, three
+     hundred lines lower down, typed a size by hand sixty-one more times.
+     Counted before this pass: 24 distinct absolute sizes plus 4 ad-hoc clamps,
+     so the "scale" described the tokens and not the sheet. On the built
+     homepage at 375px that resolved to 25 distinct RENDERED sizes, which is
+     not a hierarchy — it is a gradient, and a gradient has no top.
+
+     Six, and each has a job no other one does. Nothing below this block sets a
+     size in pixels; every rule names a step. 8, 8.5, 9, 9.5, 11.5, 12, 12.5,
+     13.5, 14, 14.5, 15, 15.2, 16.32, 17, 32 and 36 are gone, and every one of
+     them went to the nearest step LARGER than itself, never smaller — six of
+     the cut sizes were under 10px, which is below the floor where this site's
+     faint ink is legible at all in the light scheme (see --ink-faint).
+
+     --t-md is KEPT, as an alias of --t-base, rather than deleted: eleven rules
+     across six other templates name it, and a token that resolves to the body
+     size is a one-line retirement where a deletion is six files of breakage.
+     It is not a seventh step and nothing new may use it. */
+  --t-2xs:  0.625rem;   /* 10 - mono micro-labels: rail keys, chip status, sigils */
+  --t-xs:   0.6875rem;  /* 11 - mono labels, eyebrows, section heads, captions    */
+  --t-sm:   0.8125rem;  /* 13 - secondary prose, blurbs, tab labels, code         */
+  --t-base: 1rem;       /* 16 - body, and every lede                              */
+  --t-lg:   1.25rem;    /* 20 - card numerals, h3                                 */
+  --t-xl:   1.625rem;   /* 26 - h2, the level name, the page's second-largest fact */
+  --t-md:   var(--t-base);  /* RETIRED alias. Do not use. */
+
+  /* ---- DISPLAY. Outside the scale, and each bound to ONE element. --------
+     A clamp is not a step — it is one element's behaviour across the viewport,
+     and the moment two elements share one, the scale has quietly grown a
+     seventh member. Three, and the comment names the sole user of each. */
+  --d-level: clamp(5rem, 29vw, 8.75rem);      /* .level__digit  — nothing else */
+  --d-score: clamp(2.5rem, 12.5vw, 3.5rem);   /* .score__val    — nothing else */
+  --d-title: clamp(2rem, 8.5vw, 2.5rem);      /* .prose > h1    — nothing else */
 
   /* Space scale, 4px-based. Every margin and gap on the site is one of these. */
   --s-1: 4px;  --s-2: 8px;  --s-3: 12px; --s-4: 16px;
@@ -352,7 +442,7 @@ a { color: inherit; text-underline-offset: 3px; text-decoration-thickness: 1px; 
    surface (the filled level cells). */
 a:focus-visible, button:focus-visible, summary:focus-visible,
 [tabindex]:focus-visible, details:focus-visible {
-  outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px;
+  outline: 2px solid var(--accent-2); outline-offset: 2px; border-radius: 2px;
 }
 ::selection { background: var(--accent); color: var(--accent-ink); }
 h1, h2, h3, h4 { font-weight: 600; line-height: 1.2; letter-spacing: -0.015em; margin: 0; }
@@ -448,7 +538,7 @@ const CHROME = `
   font-family: var(--mono); font-weight: 700; font-size: var(--t-sm);
   letter-spacing: 0.22em; text-decoration: none; color: var(--ink);
 }
-.wordmark:hover { color: var(--accent); }
+.wordmark:hover { color: var(--accent-2); }
 .masthead__tag {
   font-size: var(--t-sm); color: var(--ink-faint); margin: 0;
   flex: 1 1 auto; min-width: 0;
@@ -475,8 +565,8 @@ const CHROME = `
   padding: 2px 0; border-bottom: 1px solid transparent;
   transition: color 120ms ease, border-color 120ms ease;
 }
-.nav a:hover { color: var(--ink); border-bottom-color: var(--accent); }
-.nav a[aria-current="page"] { color: var(--ink); border-bottom-color: var(--accent); }
+.nav a:hover { color: var(--ink); border-bottom-color: var(--accent-2); }
+.nav a[aria-current="page"] { color: var(--ink); border-bottom-color: var(--ink); }
 /* The figure. Cool accent, not amber: amber is spent on the LIVE value of the
    page you are on, and eight amber numerals in the masthead would spend the
    one colour that means something on eight things that are merely true. The
@@ -486,8 +576,8 @@ const CHROME = `
   font-weight: 700; letter-spacing: 0.01em; color: var(--accent-2);
   font-variant-numeric: tabular-nums;
 }
-.nav a[aria-current="page"] .nav__n { color: var(--accent); }
-.nav a:hover .nav__n { color: var(--accent); }
+.nav a[aria-current="page"] .nav__n { color: var(--ink); }
+.nav a:hover .nav__n { color: var(--accent-2); }
 .nav__s { display: none; }
 @media (max-width: 559px) {
   .nav { gap: 2px var(--s-3); }
@@ -536,7 +626,7 @@ const CHROME = `
    site that changes when nothing has happened - which is why it is stated as a
    TIME and sits beside OBSERVED, whose stamp is the thing that means the data
    moved. Tabular figures or the whole strip reflows once a second. */
-.rail__clk { color: var(--accent); letter-spacing: 0.04em; }
+.rail__clk { color: var(--ink); letter-spacing: 0.04em; }
 /* On a phone the rail is ONE scrolling line, not five wrapped ones. Wrapped, it
    was 146px - 18% of an 812px fold - to say nine things that each fit in a
    thumb-width. A status bar that scrolls is the terminal idiom and it is what
@@ -586,7 +676,7 @@ const CHROME = `
 .rail__s { color: var(--ink-faint); font-size: var(--t-2xs); letter-spacing: 0.06em; }
 .rail__c[data-bad="1"] .rail__v { color: var(--dark-src); }
 a.rail__c { transition: color 120ms ease; }
-a.rail__c:hover .rail__v { color: var(--accent); }
+a.rail__c:hover .rail__v { color: var(--accent-2); }
 .rail__c--home .rail__v:first-of-type { letter-spacing: 0.06em; }
 /* Posture is carried by the WORD as well as the hue: a greyscale screenshot,
    or a reader who cannot separate the colours, still reads DEGRADED. */
@@ -750,8 +840,8 @@ a.rail__c:hover .rail__v { color: var(--accent); }
   text-transform: uppercase; color: var(--ink); text-decoration: none;
   justify-self: start; border-bottom: 1px solid transparent;
 }
-.foot__list a:hover { border-bottom-color: var(--accent); }
-.foot__list a[aria-current="page"] { color: var(--accent); }
+.foot__list a:hover { border-bottom-color: var(--accent-2); }
+.foot__list a[aria-current="page"] { color: var(--ink); }
 .foot__list span { color: var(--ink-faint); font-size: var(--t-xs); line-height: 1.4; }
 /* On a phone the site index is 12 links in one column, and twelve descriptions
    under them turned the footer into 988px. The descriptions are what make the
@@ -839,7 +929,7 @@ const HERO = `
 .level__meta { min-width: 0; }
 .level__name {
   font-family: var(--mono); font-weight: 700;
-  font-size: var(--t-xl);
+  font-size: var(--t-lg);
   letter-spacing: 0.055em; margin: 0 0 var(--s-2); color: var(--ink);
   overflow-wrap: anywhere;
 }
@@ -956,12 +1046,12 @@ const CHARTS_CORE = `
 /* sparkline() - pillar cards */
 .spark { display: block; }
 .spark__area { fill: var(--fill); }
-.spark__line { fill: none; stroke: var(--accent); stroke-width: 1.6; stroke-linejoin: round; stroke-linecap: round; }
+.spark__line { fill: none; stroke: var(--ink-dim); stroke-width: 1.6; stroke-linejoin: round; stroke-linecap: round; }
 .spark__base { stroke: var(--rule); stroke-width: 1; }
 .spark__ref  { stroke: var(--ink-faint); stroke-width: 1; }
 .spark__reflabel { fill: var(--ink-faint); }
-.spark__ring { fill: var(--bg-raised); stroke: var(--accent); stroke-width: 1.4; }
-.spark__dot  { fill: var(--accent); }
+.spark__ring { fill: var(--bg-raised); stroke: var(--ink); stroke-width: 1.4; }
+.spark__dot  { fill: var(--ink); }
 /* font-size here, not only as an SVG attribute: _parts.sparkline (the older
    inline sparkline this kit replaces) sets no size and relies on the rule. */
 .spark__empty { fill: var(--ink-faint); font-size: var(--t-2xs); }
@@ -1002,7 +1092,7 @@ const CHARTS = `
 /* A fat background-coloured stroke under the line, so the series stays readable
    where it crosses a band label without having to place labels defensively. */
 .ch-halo { fill: none; stroke: var(--bg); stroke-width: 4.5; stroke-linejoin: round; stroke-linecap: round; }
-.ch-line { fill: none; stroke: var(--accent); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.ch-line { fill: none; stroke: var(--ink); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
 .ch-dot { fill: var(--accent); }
 .ch-ring { fill: var(--bg); stroke: var(--accent); stroke-width: 1.5; }
 .ch-val { fill: var(--ink); font-weight: 700; stroke: var(--bg); stroke-width: 3.5; paint-order: stroke fill; }
@@ -1012,7 +1102,7 @@ const CHARTS = `
 
 /* pillarRanked() */
 .ch-r-track { fill: var(--wash-alt); }
-.ch-r-bar { fill: var(--accent); }
+.ch-r-bar { fill: var(--ink-dim); }
 .ch-r-cap { stroke: var(--ink); stroke-width: 1.5; }
 .ch-r-none { fill: none; stroke: var(--ink-faint); stroke-width: 1; stroke-dasharray: 3 3; }
 .ch-r-nonet { fill: var(--ink-faint); letter-spacing: 0.05em; }
@@ -1147,8 +1237,9 @@ const FRESH = `
    at screenshot scale. */
 .chip--sm { font-size: var(--t-2xs); padding: 2px 5px; gap: 4px; }
 .chip--quiet { background: transparent; color: var(--ink-faint); }
-.chip--accent { border-color: var(--accent); color: var(--ink); }
-.chip--solid { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-weight: 700; }
+/* CUT in this pass: .chip--accent and .chip--solid. Grepped across site/ and
+   collector/ — nothing has ever emitted either, and both spent the one accent
+   on a chip with no owner. */
 .chip--x::before, .chip--kalshi::before, .chip--polymarket::before,
 .chip--manifold::before, .chip--news::before, .chip--paper::before,
 .chip--gov::before, .chip--code::before {
@@ -1215,7 +1306,7 @@ const ARRIVE = `
         does.
    --------------------------------------------------------------------------- */
 [data-new="1"], .is-new {
-  border-inline-start: 2px solid var(--accent);
+  border-inline-start: 2px solid var(--accent-2);
   padding-inline-start: var(--s-2);
 }
 
@@ -1223,14 +1314,14 @@ const ARRIVE = `
 .newbadge {
   display: inline-flex; align-items: baseline; gap: 5px;
   font-family: var(--mono); font-size: var(--t-2xs); letter-spacing: 0.06em;
-  border: 1px solid var(--accent); border-radius: 2px; padding: 1px 5px;
+  border: 1px solid var(--accent-2); border-radius: 2px; padding: 1px 5px;
   color: var(--ink-dim); white-space: nowrap; vertical-align: middle;
   /* .sec__h is a flex row terminated by a hairline rule, which is exactly where
      a section's count belongs. Without this the badge is a shrinkable flex item
      and the rule eats it. */
   flex: 0 0 auto;
 }
-.newbadge__n { font-size: var(--t-xs); font-weight: 700; color: var(--accent); }
+.newbadge__n { font-size: var(--t-xs); font-weight: 700; color: var(--accent-2); }
 .newbadge__w { text-transform: uppercase; }
 .newbadge__w time { font-family: inherit; font-size: inherit; }
 .newbadge[data-zero="1"] { border-color: var(--rule); color: var(--ink-faint); }
@@ -1243,7 +1334,7 @@ const ARRIVE = `
    page per pixel - which is exactly what it is for. */
 .npulse {
   display: grid; gap: var(--s-3);
-  border: 1px solid var(--rule); border-left: 2px solid var(--accent);
+  border: 1px solid var(--rule); border-left: 2px solid var(--accent-2);
   border-radius: var(--radius); background: var(--bg-raised);
   padding: var(--s-3) 13px;
 }
@@ -1256,7 +1347,7 @@ const ARRIVE = `
 .npulse__lead { display: flex; align-items: baseline; gap: var(--s-2); min-width: 0; }
 .npulse__n {
   font-family: var(--mono); font-weight: 700; font-size: var(--t-xl); line-height: 1;
-  letter-spacing: -0.035em; color: var(--accent);
+  letter-spacing: -0.035em; color: var(--ink);
 }
 .npulse[data-zero="1"] .npulse__n { color: var(--ink-faint); }
 .npulse__u { font-size: var(--t-xs); color: var(--ink-dim); line-height: 1.35; min-width: 0; }
@@ -1302,7 +1393,7 @@ const ARRIVE = `
 }
 .nsrc__n { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--ink); }
 .nsrc__bar { display: block; height: 7px; background: var(--wash-alt); border-radius: 1px; overflow: hidden; }
-.nsrc__bar i { display: block; height: 100%; background: var(--accent); border-radius: 1px; }
+.nsrc__bar i { display: block; height: 100%; background: var(--ink-dim); border-radius: 1px; }
 .nsrc__v { font-weight: 700; color: var(--ink); white-space: nowrap; }
 .nsrc__of { font-weight: 400; color: var(--ink-faint); font-size: var(--t-2xs); margin-left: 2px; }
 .nsrc[data-zero="1"] { color: var(--ink-faint); }
@@ -1390,7 +1481,7 @@ const MOVES = `
   color: var(--ink-faint); margin-left: var(--s-2); white-space: nowrap;
 }
 .move__delta { font-family: var(--mono); font-size: var(--t-sm); font-weight: 700; grid-column: 3; grid-row: 1; text-align: right; }
-.move__delta[data-dir="up"]::before   { content: '\\25b2 '; font-size: var(--t-2xs); color: var(--accent); }
+.move__delta[data-dir="up"]::before   { content: '\\25b2 '; font-size: var(--t-2xs); color: var(--ink); }
 .move__delta[data-dir="down"]::before { content: '\\25bc '; font-size: var(--t-2xs); color: var(--ink-dim); }
 .move__delta[data-dir="flat"]::before { content: '\\25c6 '; font-size: var(--t-2xs); color: var(--ink-faint); }
 .move[data-changed="1"] { background: var(--wash-alt); }
@@ -1405,7 +1496,7 @@ const MOVES = `
 .movehead__from { color: var(--ink-faint); }
 .movehead__to { color: var(--ink); }
 .movehead__arrow { color: var(--ink-faint); font-size: var(--t-lg); }
-.movehead__delta { font-size: var(--t-lg); font-weight: 700; color: var(--accent); }
+.movehead__delta { font-size: var(--t-lg); font-weight: 700; color: var(--ink); }
 
 .kv { border-top: 1px solid var(--rule); margin: var(--s-5) 0 0; }
 .kv__row { display: grid; grid-template-columns: 1fr; gap: 0 18px; border-bottom: 1px solid var(--rule); padding: 9px 0; }
@@ -1467,9 +1558,9 @@ const PROSE = `
 .tl__item { position: relative; padding: 0 0 var(--s-5) 20px; }
 .tl__item::before {
   content: ''; position: absolute; left: -4px; top: var(--s-2);
-  width: 7px; height: 7px; border-radius: 50%; background: var(--accent);
+  width: 7px; height: 7px; border-radius: 50%; background: var(--ink-faint);
 }
-.tl__date { font-family: var(--mono); font-size: var(--t-xs); letter-spacing: 0.08em; color: var(--accent); display: block; margin-bottom: 3px; }
+.tl__date { font-family: var(--mono); font-size: var(--t-xs); letter-spacing: 0.08em; color: var(--ink-dim); display: block; margin-bottom: 3px; }
 .tl__h { font-size: var(--t-base); margin: 0 0 5px; }
 .tl__b { font-size: var(--t-base); color: var(--ink-dim); margin: 0 0 6px; max-width: var(--measure); }
 .tl__src { font-family: var(--mono); font-size: var(--t-xs); }
@@ -1519,7 +1610,7 @@ const AVATARS = `
 
 .avt {
   position: relative; display: inline-flex; align-items: center; justify-content: center;
-  flex: 0 0 auto; color: var(--avt-a, var(--accent));
+  flex: 0 0 auto; color: var(--avt-a, var(--ink-dim));
 }
 .avt--sm { width: 20px; height: 20px; }
 .avt--md { width: 26px; height: 26px; }
@@ -1577,7 +1668,7 @@ const AVATARS = `
 .avtrow--md .avtrow__n { font-size: var(--t-sm); }
 .avtrow--lg .avtrow__n { font-size: var(--t-base); font-weight: 700; letter-spacing: 0; }
 .avtrow--lg .avtrow__r { font-size: var(--t-xs); }
-a.avtrow:hover .avtrow__n { color: var(--avt-a, var(--accent)); }
+a.avtrow:hover .avtrow__n { color: var(--avt-a, var(--accent-2)); }
 a.avtrow:hover .avt__m { fill: color-mix(in srgb, currentColor 28%, transparent); }
 `;
 
@@ -1647,6 +1738,87 @@ a.avtrow:hover .avt__m { fill: color-mix(in srgb, currentColor 28%, transparent)
 // the cool-to-hot ramp; and the three source states keep their existing
 // grammar — solid for live, dashed for dark, dotted for awaiting a baseline —
 // which is set by .chip in FRESH and must not be reinvented per page.
+
+// ---------------------------------------------------------------------------
+// THE ICON SPRITE — paint for site/templates/_icons.mjs.
+//
+// That module ships the geometry and no CSS; this block is the whole of its
+// appearance. The division is the same one the rest of this file already
+// keeps: a component with its own scoped <style> owns its namespace, and a
+// component that deliberately ships none (_parts.mjs, _avatars.mjs, and now
+// _icons.mjs) is painted here.
+//
+// SIZED IN `em`, and that is the decision that makes one sprite serve six type
+// steps. A mark set in em is 1.15x the size of the text it sits beside, at
+// every step, with no size prop at any call site — so the same icon is 11.5px
+// against a rail key and 23px against a card numeral and is optically correct
+// in both. The old marks were sized in px at every call site, which is why
+// _labs's 16px glyph and _reel's 13px sigil looked like different weights
+// beside the same 11px label.
+//
+// COLOUR IS INHERITED, never declared. `currentColor` inside a <symbol>
+// resolves against the referencing element, so a mark in a pillar tag takes
+// --p, a mark in a live chip takes --ok, and a mark in the level block takes
+// the accent, with no per-icon rule and no second copy of the geometry.
+// ---------------------------------------------------------------------------
+const ICONS = `
+/* The sheet itself must not take part in layout. width/height 0 on the element
+   is not enough in every engine; absolute plus overflow hidden is. Same
+   treatment as .avtsprite and .dcsprite, for the same reason. */
+.dcicons { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+.dcico {
+  width: var(--ico, 1.15em); height: var(--ico, 1.15em);
+  display: inline-block; flex: 0 0 auto;
+  /* Optical baseline. A square mark sitting on the text baseline rides high,
+     because a lowercase-height line of mono has its mass below the cap line.
+     -0.16em is measured against JetBrains Mono at --t-xs, which is where most
+     of these sit. */
+  vertical-align: -0.16em;
+  color: inherit;
+}
+/* In a baseline-aligned flex row (.chip, .rail__c, .sw__tab, .avtrow) the
+   element is already positioned by the row and the shift would double. */
+.chip .dcico, .rail__c .dcico, .sw__tab .dcico,
+.fresh__lg .dcico, .pillar-tag .dcico, .delta .dcico { vertical-align: baseline; }
+
+/* A mark that is doing the identifying on its own gets a little more room. */
+.dcico--lg { --ico: 1.45em; }
+/* A mark inside a heading is a label for the heading, not a second heading. */
+.sec__h .dcico, .foot__h .dcico { --ico: 1.25em; color: var(--ink-faint); }
+
+/* THE THREE — FOUR — SOURCE STATES, WHEN DRAWN AS AN ICON RATHER THAN AS A
+   CHIP BORDER. Same four hues the chips use, in the same order, because a
+   legend that renders its states differently from the things it legends is
+   worse than no legend. The dash pattern is baked into the geometry in
+   _icons.mjs, so these rules add only the hue — which is the fourth signal,
+   behind silhouette, dash and the word beside it. */
+[data-status="ok"]    > .dcico, .dcico--live     { color: var(--ok); }
+[data-status="stale"] > .dcico, .dcico--stale    { color: var(--stale); }
+[data-status="dark"]  > .dcico, .dcico--dark     { color: var(--dark-src); }
+[data-status="uncal"] > .dcico, .dcico--awaiting { color: var(--accent-2); }
+
+/* Datacentre status, for the map and its legend. Deliberately NOT the source
+   states' palette: a building that is operating is not a feed that is live,
+   and giving them one palette would invite the reader to read a dark pin as a
+   failed fetch. Operating takes ink — it is the ordinary case and there are
+   1,769 of them; the two that are NOT yet concrete take the cool accent and
+   the faint ink, which is the same "not scored yet" grammar as everywhere
+   else on this site. */
+[data-dc="operating"] > .dcico, .dcico--operating { color: var(--ink); }
+[data-dc="under_construction"] > .dcico, .dcico--building { color: var(--accent-2); }
+[data-dc="announced"] > .dcico, .dcico--announced { color: var(--ink-faint); }
+
+/* Direction. The same no-good-bad-axis rule the .delta chip already follows and
+   for the same reason: green for a falling score would say a quieter day is a
+   better day, and DOOMCON measures tempo. Up takes the accent ONLY inside the
+   live delta chip — everywhere else all three directions are ink, and the
+   chevron is the signal. */
+.dcico--up, .dcico--down, .dcico--flat { color: var(--ink-dim); }
+.delta[data-dir="up"] .dcico--up { color: var(--accent); }
+
+@media print { .dcico { color: #000; } }
+`;
 
 // ---------------------------------------------------------------------------
 // CHROMA - the colour the operator asked for twice, spent where it is also
@@ -1745,8 +1917,16 @@ const CHROMA = `
 /* The pillar tag's sigil was ink-faint on every pillar - the one element on the
    site whose entire job is to say WHICH pillar, rendered in the colour that
    says "none of them". The sigil shape still does the identifying. */
-.pillar-tag { color: var(--ink-dim); border-color: color-mix(in srgb, var(--p, var(--rule)) 38%, var(--rule)); }
+.pillar-tag {
+  color: var(--p, var(--ink-dim));
+  border-color: color-mix(in srgb, var(--p, var(--rule)) 45%, var(--rule));
+  background: color-mix(in srgb, var(--p, transparent) 10%, transparent);
+}
 .pillar-tag::before { color: var(--p, var(--ink-faint)); }
+/* The five pillar hues, available as a swatch to anything that names ONE
+   pillar without carrying the attribute — a legend key, a filter chip, a map
+   overlay. --pill-<id> is set on :root in TOKENS; this is the paint. */
+.pswatch { display: inline-block; width: 0.7em; height: 0.7em; border-radius: 1px; background: var(--p, var(--rule)); vertical-align: -0.02em; }
 /* NOT WRITTEN HERE, and the reason is worth a line so the next pass does not
    try: the 200-row signal feed already takes the pillar hue. news.mjs draws
    .nrow::before as var(--p, var(--rule)), which resolved to the fallback rule
@@ -1763,10 +1943,10 @@ const CHROMA = `
    single and shipped four dead selectors). A five-card row in five colours is
    the clearest statement the homepage makes that the pillars are five different
    things, and every card still prints its pillar's name, sigil and score. */
-.pillar .spark__line { stroke: var(--p, var(--accent)); }
-.pillar .spark__area { fill: color-mix(in srgb, var(--p, var(--accent)) 15%, transparent); }
-.pillar .spark__dot  { fill: var(--p, var(--accent)); }
-.pillar .spark__ring { stroke: var(--p, var(--accent)); }
+.pillar .spark__line { stroke: var(--p, var(--ink-dim)); }
+.pillar .spark__area { fill: color-mix(in srgb, var(--p, var(--ink-dim)) 15%, transparent); }
+.pillar .spark__dot  { fill: var(--p, var(--ink)); }
+.pillar .spark__ring { stroke: var(--p, var(--ink)); }
 /* A dark or uncalibrated pillar keeps its grey. Colour on that card would say
    the series is live, which is the one thing MOTION.md 4 forbids a visual from
    implying - and a still, colourless card is the honest opposite. */
@@ -1852,14 +2032,41 @@ function swBindings() {
     const tab = `.sw__tabs > .sw__tab:nth-child(${n})`;
     rows.push(`${on(n, tab)} { color: var(--ink); background: var(--bg-sunken); border-color: var(--rule); border-bottom-color: var(--bg-sunken); font-weight: 700; }`);
     rows.push(`${on(n, tab)}::after { opacity: 1; }`);
-    rows.push(`${on(n, tab)} .sw__tn { color: var(--accent); border-color: var(--accent); }`);
-    rows.push(`${on(n, tab)} .sw__tg { color: var(--accent); }`);
+    rows.push(`${on(n, tab)} .sw__tn { color: var(--accent-2); border-color: var(--accent-2); }`);
+    rows.push(`${on(n, tab)} .sw__tg { color: var(--ink); }`);
     rows.push(`${on(n, `.sw__panels > .sw__panel:nth-child(${n})`)} { visibility: visible; opacity: 1; }`);
-    rows.push(`.sw__in:nth-of-type(${n}):focus-visible ~ ${tab} { outline: 2px solid var(--accent); outline-offset: -2px; }`);
+    rows.push(`.sw__in:nth-of-type(${n}):focus-visible ~ ${tab} { outline: 2px solid var(--accent-2); outline-offset: -2px; }`);
   }
   return rows.join('\n');
 }
 
+/* ---------------------------------------------------------------------------
+   MEASURED THIS PASS, AND DELIBERATELY NOT CUT.
+
+   _switcher.mjs has since landed its own complete scoped <style> for this
+   control, and it binds its panels with ID selectors (`#sw-signal:checked ~ …`)
+   rather than with the nth-of-type chain below. An id beats a class chain and
+   its sheet ships inside <main>, so it wins twice. Checked on the built page:
+   ALL THIRTEEN .sw__* selectors this block paints are also painted there, and
+   nothing here is currently reaching the page — about 5.9 KB of emitted CSS,
+   inlined into every page, doing nothing.
+
+   It stays anyway, and the reason is one line in that module: `render()` takes
+   `o.style === false` and will emit the markup with no sheet at all. Its header
+   states the redundancy as a design choice — "the control works with that
+   sheet, without it, and with either of its vocabularies" — and a switcher
+   whose panels do not switch because two files disagreed is the worst available
+   outcome. Today's single caller (index.mjs:148) does not pass that flag, so
+   the block is a parachute. Cutting a parachute because it has not opened is
+   not a saving.
+
+   What IS a defect is the two files disagreeing about COLOUR, which they now
+   do: the accent doctrine at the top of this file spends amber only on the live
+   reading of the index, and the rules below were moved to --accent-2 to match.
+   _switcher.mjs:607 and :693 still say var(--accent) and they win, so the open
+   tab's count renders amber on the live page. That is two values in one file
+   and it is in the integration note.
+   --------------------------------------------------------------------------- */
 const SWITCHER = `
 /* The densest object on the page gets the page's largest gap above it. A tab
    strip beginning 24px under the thing before it reads as part of that thing. */
@@ -1908,7 +2115,7 @@ const SWITCHER = `
    still the heavier one that has broken the line. */
 .sw__tab::after {
   content: ''; position: absolute; left: -1px; right: -1px; top: -1px; height: 2px;
-  background: var(--accent); border-radius: var(--radius) var(--radius) 0 0;
+  background: var(--accent-2); border-radius: var(--radius) var(--radius) 0 0;
   opacity: 0; transition: opacity 120ms ease;
 }
 .sw__tg { font-style: normal; font-size: var(--t-2xs); line-height: 1; color: var(--ink-faint); }
@@ -1987,7 +2194,7 @@ const SWITCHER = `
   border-bottom-color: var(--bg-sunken); font-weight: 700;
 }
 .sw__tab[aria-selected="true"]::after { opacity: 1; }
-.sw__tab[aria-selected="true"] .sw__tn { color: var(--accent); border-color: var(--accent); }
+.sw__tab[aria-selected="true"] .sw__tn { color: var(--accent-2); border-color: var(--accent-2); }
 
 ${swBindings()}
 
@@ -2030,8 +2237,8 @@ ${swBindings()}
   border-bottom: 1px solid var(--rule);
 }
 .sw__more::after { content: '\\2192'; color: var(--ink-faint); }
-.sw__more:hover { color: var(--ink); border-bottom-color: var(--accent); }
-.sw__more:hover::after { color: var(--accent); }
+.sw__more:hover { color: var(--ink); border-bottom-color: var(--accent-2); }
+.sw__more:hover::after { color: var(--accent-2); }
 
 /* At 375px the well's 13px of side padding is 26px a card reel cannot spend on
    the card. The frame's edges are still drawn; only the inset shrinks. */
@@ -2117,13 +2324,13 @@ const XSELL = `
   text-decoration: none; color: inherit;
   transition: border-color 120ms ease, background-color 120ms ease, transform 120ms ease;
 }
-.xsell__a:hover { border-color: var(--accent); background: var(--bg-sunken); }
+.xsell__a:hover { border-color: var(--accent-2); background: var(--bg-sunken); }
 .xsell__a::after {
   content: '\\2192'; position: absolute; top: 9px; right: 10px;
   font-family: var(--mono); font-size: var(--t-xs); color: var(--ink-faint);
   transition: color 120ms ease, transform 120ms ease;
 }
-.xsell__a:hover::after { color: var(--accent); }
+.xsell__a:hover::after { color: var(--accent-2); }
 @media (prefers-reduced-motion: no-preference) {
   .xsell__a:hover { transform: translateY(-1px); }
   .xsell__a:hover::after { transform: translateX(2px); }
@@ -2134,7 +2341,7 @@ const XSELL = `
 }
 .xsell__l {
   font-family: var(--mono); font-size: var(--t-sm); line-height: 1.3;
-  color: var(--accent); font-variant-numeric: tabular-nums;
+  color: var(--accent-2); font-variant-numeric: tabular-nums;
 }
 .xsell__s { font-size: var(--t-xs); color: var(--ink-dim); line-height: 1.4; }
 `;
@@ -2144,7 +2351,7 @@ const PLAIN = `
    the prose face rather than the mono — it is addressed to someone who does not
    read dashboards, and it should not look like telemetry. */
 .level__plain {
-  font-size: var(--t-sm); line-height: 1.5; color: var(--ink-dim);
+  font-size: var(--t-base); line-height: 1.5; color: var(--ink-dim);
   max-width: 46ch; margin: var(--s-2) 0 0;
   border-left: 2px solid var(--rule); padding-left: 10px;
 }
@@ -2163,7 +2370,7 @@ const WORDMARK = `
   font-family: var(--mono); font-size: var(--t-2xs);
   letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-faint);
 }
-.wordmark:hover .wordmark__pub { color: var(--accent); }
+.wordmark:hover .wordmark__pub { color: var(--accent-2); }
 `;
 
 const OPS = `
@@ -2193,7 +2400,7 @@ const OPS = `
   font-size: var(--t-xs);
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: var(--ink-dim);
   margin: 2px 0 var(--s-2);
 }
 `;
@@ -2213,7 +2420,7 @@ export function css() {
     // CHROMA is last on purpose: every rule in it restyles a selector an
     // existing template already emits, and last is how it wins the tie without
     // any of those templates being renamed.
-    AVATARS, CHROMA,
+    AVATARS, ICONS, CHROMA,
   ].join('\n'));
 }
 
@@ -2235,7 +2442,7 @@ body { font-family: var(--sans); color: var(--ink); -webkit-font-smoothing: anti
   background: var(--bg); border: 1px solid var(--rule); border-radius: 4px;
   padding: 12px 14px 11px; min-width: 0;
 }
-.w:hover { border-color: var(--accent); }
+.w:hover { border-color: var(--accent-2); }
 .w__top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
 .w__brand { font-family: var(--mono); font-size: var(--t-2xs); font-weight: 700; letter-spacing: 0.2em; color: var(--ink-faint); }
 .w__main { display: flex; align-items: center; gap: 12px; margin-top: 6px; }
