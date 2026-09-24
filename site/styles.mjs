@@ -2150,6 +2150,22 @@ const PLAIN = `
 }
 `;
 
+const WORDMARK = `
+/* Two-tier masthead: the publication is the name of the desk, the scalar is
+   the number it publishes. Same shape as "Pentagon Pizza Index" sitting above
+   "DOUGHCON 5" — one tells you where you are, the other tells you the reading. */
+.wordmark { display: flex; flex-direction: column; gap: 0; text-decoration: none; line-height: 1.1; }
+.wordmark__pub {
+  font-family: var(--mono); font-size: var(--t-sm);
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink);
+}
+.wordmark__sc {
+  font-family: var(--mono); font-size: 9.5px;
+  letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-faint);
+}
+.wordmark:hover .wordmark__pub { color: var(--accent); }
+`;
+
 const OPS = `
 /* ---------------------------------------------------------------------------
    WHAT IS LEFT OF THE OPERATIONS STRIP.
@@ -2184,7 +2200,7 @@ const OPS = `
 
 export function css() {
   return lean([
-    TOKENS, BASE, CHROME, OPS, PLAIN, HERO,
+    TOKENS, BASE, CHROME, WORDMARK, OPS, PLAIN, HERO,
     CHARTS_CORE, CHARTS,
     FRESH, ARRIVE, REEL, PILLARS, MOVES, SWITCHER, XSELL, PROSE,
     // AVATARS is global because _avatars.mjs deliberately ships no style block

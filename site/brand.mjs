@@ -11,6 +11,28 @@
 
 export const NAME = 'DOOMCON';
 
+// ---------------------------------------------------------------------------
+// The PUBLICATION. Distinct from NAME, which is the scalar.
+//
+// pizzint carries two: the masthead is "PizzINT / Pentagon Pizza Index" and the
+// number on it is "DOUGHCON 5". Collapsing those into one word left us with a
+// score wearing a hat and no desk behind it.
+//
+// "Early warning" is meant in the smoke-detector sense and the copy says so
+// out loud: a smoke detector predicts nothing, it tells you something is
+// happening sooner than you would otherwise know. That is literally what this
+// site does — it reads arXiv, Hugging Face, the lab feeds and the filings
+// directly, so it is UPSTREAM of the accounts that relay them. Early means
+// detected early, never forecast, and the index still measures observed tempo
+// only. Stating the distinction in the masthead copy is what keeps the name
+// honest rather than merely dramatic.
+// ---------------------------------------------------------------------------
+export const PUBLICATION = 'AI Early Warning System';
+export const PUBLICATION_SHORT = 'AI EWS';
+export const PUBLICATION_LINE =
+  'Detected early, not predicted. We read the labs directly, so we see it ' +
+  'before the feeds that repeat them.';
+
 // DECISION: the tagline moved from self-deprecation ("We don't know anything.
 // We just count.") to a line that points at the competition. Every rival in
 // this category - DoomBench, the AI Safety Clock, the p(doom) countdowns -
@@ -23,7 +45,7 @@ export const NAME = 'DOOMCON';
 // long tagline shrinks the level line until fitSize() drops under MIN_FONT and
 // auditCard() fails the build. Keep it at or under the ~38 characters the
 // original ran to. This one is 37.
-export const TAGLINE = 'Nobody knows the odds. We keep count.';
+export const TAGLINE = 'Detected early, never predicted. We just count.';
 
 // The original line, kept verbatim because CONTRACT.md, README.md and
 // docs/METHODOLOGY.md all quote it and it is still the most honest sentence on
