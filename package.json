@@ -1,0 +1,30 @@
+{
+  "name": "doomcon",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "A real-time index of AI activity tempo, computed from public data by open code. Five pillars, one 0-100 score, one level. Every number is recomputable.",
+  "keywords": ["ai", "index", "open-data", "observability", "static-site"],
+  "license": "CC-BY-4.0",
+  "homepage": "https://messagegabrielhere-lgtm.github.io/doomcon",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/messagegabrielhere-lgtm/doomcon.git"
+  },
+  "bugs": {
+    "url": "https://github.com/messagegabrielhere-lgtm/doomcon/issues"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "backfill": "node collector/backfill.mjs",
+    "collect": "node collector/collect.mjs",
+    "score": "node collector/engine.mjs",
+    "build": "node site/build.mjs",
+    "pipeline": "npm run collect && npm run score && npm run build",
+    "posts": "node collector/posts.mjs",
+    "cards": "node collector/card.mjs",
+    "test:posts": "node collector/posts.mjs --test"
+  }
+}

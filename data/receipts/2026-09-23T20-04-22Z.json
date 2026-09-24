@@ -1,0 +1,362 @@
+{
+  "schema": 1,
+  "id": "2026-09-23T20-04-22Z",
+  "generated_at": "2026-09-23T20:04:22.390Z",
+  "score": 40.8644,
+  "level": 4,
+  "level_name": "ROUTINE",
+  "delta_from_previous": null,
+  "level_changed": true,
+  "rule_fired": "genesis",
+  "decision": null,
+  "degraded": false,
+  "dark_pillars": [],
+  "uncalibrated_pillars": [
+    "markets"
+  ],
+  "uncalibrated_sources": [
+    "github-releases",
+    "huggingface",
+    "openrouter",
+    "stockanalysis",
+    "vastai",
+    "govuk",
+    "manifold",
+    "polymarket"
+  ],
+  "pillars": [
+    {
+      "id": "capability",
+      "name": "Capability",
+      "score": 33.2774,
+      "percentile": 0.09048,
+      "sources_ok": 1,
+      "sources_total": 4,
+      "dark": false,
+      "uncalibrated": false
+    },
+    {
+      "id": "compute",
+      "name": "Compute & Capital",
+      "score": 50.3109,
+      "percentile": 0.509922,
+      "sources_ok": 1,
+      "sources_total": 3,
+      "dark": false,
+      "uncalibrated": false
+    },
+    {
+      "id": "attention",
+      "name": "Attention",
+      "score": 41.2047,
+      "percentile": 0.262219,
+      "sources_ok": 2,
+      "sources_total": 2,
+      "dark": false,
+      "uncalibrated": false
+    },
+    {
+      "id": "governance",
+      "name": "Governance",
+      "score": 53.1668,
+      "percentile": 0.6,
+      "sources_ok": 1,
+      "sources_total": 2,
+      "dark": false,
+      "uncalibrated": false
+    },
+    {
+      "id": "markets",
+      "name": "Markets",
+      "score": null,
+      "percentile": null,
+      "sources_ok": 0,
+      "sources_total": 2,
+      "dark": false,
+      "uncalibrated": true
+    }
+  ],
+  "inputs": [
+    {
+      "id": "arxiv",
+      "pillar": "capability",
+      "label": null,
+      "ok": true,
+      "error": null,
+      "value": 1523,
+      "unit": "papers/7d",
+      "observed_at": "2026-09-23T20:04:22.446Z",
+      "reference_key": "arxiv",
+      "percentile": 0.09048,
+      "percentile_adjusted": 0.09048,
+      "z": -1.337805,
+      "score_raw": 33.2774,
+      "score": 33.2774,
+      "nowcast_w": 1,
+      "nowcast_used": 1,
+      "nowcast_series": [
+        33.2774
+      ]
+    },
+    {
+      "id": "github-releases",
+      "pillar": "capability",
+      "label": null,
+      "ok": false,
+      "uncalibrated": true,
+      "error": "uncalibrated: \"github-releases\" has no entry in data/reference.json yet, so it is collected and published but not scored",
+      "value": 78,
+      "unit": "releases/30d",
+      "observed_at": "2026-09-23T20:04:22.538Z",
+      "percentile": null,
+      "z": null,
+      "score_raw": null,
+      "score": null,
+      "nowcast_w": null,
+      "nowcast_series": null
+    },
+    {
+      "id": "huggingface",
+      "pillar": "capability",
+      "label": null,
+      "ok": false,
+      "uncalibrated": true,
+      "error": "uncalibrated: \"huggingface\" has no entry in data/reference.json yet, so it is collected and published but not scored",
+      "value": 4272,
+      "unit": "models/24h",
+      "observed_at": "2026-09-23T20:04:22.542Z",
+      "percentile": null,
+      "z": null,
+      "score_raw": null,
+      "score": null,
+      "nowcast_w": null,
+      "nowcast_series": null
+    },
+    {
+      "id": "openrouter",
+      "pillar": "capability",
+      "label": null,
+      "ok": false,
+      "uncalibrated": true,
+      "error": "uncalibrated: \"openrouter\" has no entry in data/reference.json yet, so it is collected and published but not scored",
+      "value": 62,
+      "unit": "models/30d",
+      "observed_at": "2026-09-23T20:04:22.542Z",
+      "percentile": null,
+      "z": null,
+      "score_raw": null,
+      "score": null,
+      "nowcast_w": null,
+      "nowcast_series": null
+    },
+    {
+      "id": "sec-fts",
+      "pillar": "compute",
+      "label": null,
+      "ok": true,
+      "error": null,
+      "value": 3661,
+      "unit": "filings/30d",
+      "observed_at": "2026-09-23T20:04:22.543Z",
+      "reference_key": "sec-fts",
+      "percentile": 0.509922,
+      "percentile_adjusted": 0.509922,
+      "z": 0.024873,
+      "score_raw": 50.3109,
+      "score": 50.3109,
+      "nowcast_w": 1,
+      "nowcast_used": 1,
+      "nowcast_series": [
+        50.3109
+      ]
+    },
+    {
+      "id": "stockanalysis",
+      "pillar": "compute",
+      "label": null,
+      "ok": false,
+      "uncalibrated": true,
+      "error": "uncalibrated: \"stockanalysis\" has no entry in data/reference.json yet, so it is collected and published but not scored",
+      "value": 1.635,
+      "unit": "mean_abs_percent_change",
+      "observed_at": "2026-09-23T20:04:23.223Z",
+      "percentile": null,
+      "z": null,
+      "score_raw": null,
+      "score": null,
+      "nowcast_w": null,
+      "nowcast_series": null
+    },
+    {
+      "id": "vastai",
+      "pillar": "compute",
+      "label": null,
+      "ok": false,
+      "uncalibrated": true,
+      "error": "uncalibrated: \"vastai\" has no entry in data/reference.json yet, so it is collected and published but not scored",
+      "value": 0.4955555555555555,
+      "unit": "usd/gpu/hour",
+      "observed_at": "2026-09-23T20:04:23.371Z",
+      "percentile": null,
+      "z": null,
+      "score_raw": null,
+      "score": null,
+      "nowcast_w": null,
+      "nowcast_series": null
+    },
+    {
+      "id": "hn",
+      "pillar": "attention",
+      "label": null,
+      "ok": true,
+      "error": null,
+      "value": 863,
+      "unit": "points/24h",
+      "observed_at": "2026-09-23T20:04:22.547Z",
+      "reference_key": "hn",
+      "percentile": 0.124079,
+      "percentile_adjusted": 0.124079,
+      "z": -1.154835,
+      "score_raw": 35.5646,
+      "score": 35.5646,
+      "nowcast_w": 1,
+      "nowcast_used": 1,
+      "nowcast_series": [
+        35.5646
+      ]
+    },
+    {
+      "id": "wikipedia",
+      "pillar": "attention",
+      "label": null,
+      "ok": true,
+      "error": null,
+      "value": 125357.85714285713,
+      "unit": "pageviews/day",
+      "observed_at": "2026-09-22T23:59:59.999Z",
+      "reference_key": "wikipedia",
+      "percentile": 0.400358,
+      "percentile_adjusted": 0.400358,
+      "z": -0.252421,
+      "score_raw": 46.8447,
+      "score": 46.8447,
+      "nowcast_w": 1,
+      "nowcast_used": 1,
+      "nowcast_series": [
+        46.8447
+      ]
+    },
+    {
+      "id": "federal-register",
+      "pillar": "governance",
+      "label": null,
+      "ok": true,
+      "error": null,
+      "value": 26,
+      "unit": "documents/30d",
+      "observed_at": "2026-09-23T20:04:22.552Z",
+      "reference_key": "federal-register",
+      "percentile": 0.6,
+      "percentile_adjusted": 0.6,
+      "z": 0.253347,
+      "score_raw": 53.1668,
+      "score": 53.1668,
+      "nowcast_w": 1,
+      "nowcast_used": 1,
+      "nowcast_series": [
+        53.1668
+      ]
+    },
+    {
+      "id": "govuk",
+      "pillar": "governance",
+      "label": null,
+      "ok": false,
+      "uncalibrated": true,
+      "error": "uncalibrated: \"govuk\" has no entry in data/reference.json yet, so it is collected and published but not scored",
+      "value": 151,
+      "unit": "documents/30d",
+      "observed_at": "2026-09-23T20:04:22.554Z",
+      "percentile": null,
+      "z": null,
+      "score_raw": null,
+      "score": null,
+      "nowcast_w": null,
+      "nowcast_series": null
+    },
+    {
+      "id": "manifold",
+      "pillar": "markets",
+      "label": null,
+      "ok": false,
+      "uncalibrated": true,
+      "error": "uncalibrated: \"manifold\" has no entry in data/reference.json yet, so it is collected and published but not scored",
+      "value": 7812.084562047912,
+      "unit": "mana/24h",
+      "observed_at": "2026-09-23T20:04:24.447Z",
+      "percentile": null,
+      "z": null,
+      "score_raw": null,
+      "score": null,
+      "nowcast_w": null,
+      "nowcast_series": null
+    },
+    {
+      "id": "polymarket",
+      "pillar": "markets",
+      "label": null,
+      "ok": false,
+      "uncalibrated": true,
+      "error": "uncalibrated: \"polymarket\" has no entry in data/reference.json yet, so it is collected and published but not scored",
+      "value": 0.02510255157038831,
+      "unit": "prob_points/day",
+      "observed_at": "2026-09-23T20:04:25.821Z",
+      "percentile": null,
+      "z": null,
+      "score_raw": null,
+      "score": null,
+      "nowcast_w": null,
+      "nowcast_series": null
+    }
+  ],
+  "raw_generated_at": "2026-09-23T20:04:22.390Z",
+  "constants": {
+    "score_centre": 50,
+    "score_z_scale": 12.5,
+    "boundaries": {
+      "2": 85,
+      "3": 70,
+      "4": 55,
+      "5": 35
+    },
+    "deadband": 3,
+    "dwell_up_seconds": [
+      10800,
+      1800
+    ],
+    "dwell_down_seconds": [
+      43200,
+      10800
+    ],
+    "min_interval_ms": 21600000,
+    "lock_ms": 14400000,
+    "quorum": 2,
+    "nowcast_window": 12,
+    "nowcast_min_weight": 0.5,
+    "composite_weights": {
+      "mean": 0.7,
+      "max": 0.3
+    },
+    "rounding": {
+      "score_decimals": 4,
+      "percentile_decimals": 6
+    }
+  },
+  "reference": {
+    "built_at": "2026-09-23T20:03:56.869Z",
+    "hash": "sha256:f91658b2dc572ae2b5a74ff21e869dd9aa6f814ff68f1b66462708b91dfaf6e7"
+  },
+  "engine_version": "1.0.0",
+  "prev_hash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+  "hash": "sha256:b155a609dc0c66d963dd04c3439f903cea9356eaf091f4fec45f33f772cde5cd"
+}
