@@ -9,3 +9,8 @@ site/.cache/
 # Backfill intermediates. Regenerable, large, and not part of the audit trail —
 # data/reference.json is the committed artefact, not the cache that built it.
 data/backfill-cache/
+
+# Build output. Published to the gh-pages branch by the workflows and by
+# deploy.sh; tracking it on main as well made two concurrent jobs conflict on
+# every regenerated file. Rebuild it with: node site/build.mjs
+public/
