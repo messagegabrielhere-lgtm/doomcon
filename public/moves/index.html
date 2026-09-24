@@ -206,6 +206,28 @@ code, kbd, pre, .num, time { font-family: var(--mono); font-variant-numeric: tab
   display: flex; gap: var(--s-4); flex-wrap: wrap; margin-top: var(--s-3);
   font-family: var(--mono); font-size: var(--t-xs); letter-spacing: 0.08em; text-transform: uppercase;
 }
+.ops {
+  border-bottom: 1px solid var(--rule);
+  background: var(--bg-sunken);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+.ops__in { display: flex; flex-wrap: wrap; gap: 0 var(--s-3); padding: 6px var(--gutter); }
+.ops__c { white-space: nowrap; padding: 1px 0; }
+.ops__c:last-child { margin-left: auto; color: var(--ok); }
+.ops[data-posture="degraded"] .ops__c:last-child { color: var(--accent); }
+@media (max-width: 560px) { .ops__c:last-child { margin-left: 0; } }
+.level__ep {
+  font-family: var(--mono);
+  font-size: var(--t-xs);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 2px 0 var(--s-2);
+}
 .hero { padding: var(--s-6) 0 var(--s-2); }
 .hero__grid { display: grid; gap: var(--s-5); }
 @media (min-width: 720px) {
@@ -538,6 +560,35 @@ code, kbd, pre, .num, time { font-family: var(--mono); font-variant-numeric: tab
 .srcs li { display: flex; gap: var(--s-2); align-items: baseline; font-size: var(--t-sm); flex-wrap: wrap; }
 .srcs .num { font-family: var(--mono); font-size: 12.5px; color: var(--ink-dim); }
 .hash { font-family: var(--mono); font-size: 11.5px; color: var(--ink-dim); overflow-wrap: anywhere; display: block; }
+.xsell__grid {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; gap: 10px;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 620px) { .xsell__grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 980px) { .xsell__grid { grid-template-columns: repeat(3, 1fr); } }
+.xsell__a {
+  display: flex; flex-direction: column; gap: 4px; height: 100%;
+  padding: var(--s-3) 13px;
+  background: var(--bg-raised);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  text-decoration: none; color: inherit;
+  transition: border-color 120ms ease, transform 120ms ease;
+}
+.xsell__a:hover { border-color: var(--accent); }
+@media (prefers-reduced-motion: no-preference) {
+  .xsell__a:hover { transform: translateY(-1px); }
+}
+.xsell__k {
+  font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--ink-faint);
+}
+.xsell__l {
+  font-family: var(--mono); font-size: var(--t-sm);
+  color: var(--accent); font-variant-numeric: tabular-nums;
+}
+.xsell__s { font-size: var(--t-xs); color: var(--ink-dim); line-height: 1.45; }
 .prose { max-width: var(--measure); font-size: var(--t-base); }
 .prose > h1 { font-size: clamp(1.7rem, 7vw, 2.3rem); margin: 0 0 14px; letter-spacing: -0.025em; }
 .prose > h2 { font-size: var(--t-xl); margin: var(--s-7) 0 10px; letter-spacing: -0.02em; }
@@ -606,6 +657,7 @@ code, kbd, pre, .num, time { font-family: var(--mono); font-variant-numeric: tab
   <p class="masthead__tag">Nobody knows the odds. We keep count.</p>
   <nav class="nav" aria-label="Primary"><a href="/doomcon/">Index</a><a href="/doomcon/methodology.html">Methodology</a><a href="/doomcon/history.html">History</a><a href="/doomcon/moves/" aria-current="page">Archive</a><a href="/doomcon/api/state.json">API</a></nav>
 </div></header>
+<div class="ops" data-posture="operational"><div class="wrap ops__in"><span class="ops__c">14/14 REPORTING</span><span class="ops__c">5 SCORED</span><span class="ops__c">16 FEEDS</span><span class="ops__c">200 ITEMS</span><span class="ops__c">3 RECEIPTS</span><span class="ops__c">STATUS: OPERATIONAL</span></div></div>
 
 <main class="wrap" id="main">
 

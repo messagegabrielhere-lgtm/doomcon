@@ -119,6 +119,21 @@ jobs:
           node collector/engine.mjs
           echo "ran=true" >> "$GITHUB_OUTPUT"
 
+      - name: Refresh the newsroom
+        # The operator's top ask: the news must update itself. This is the step
+        # that does it. news.mjs is a separate failure domain from the index -
+        # a dead feed must not stop the index building, and vice versa - so it
+        # never fails the job.
+        continue-on-error: true
+        run: node collector/news.mjs
+
+      - name: Refresh the AI race
+        # Reads data/news.json for the mindshare column, so it runs AFTER news.
+        # Exits non-zero only when the ranking market itself is dark; a dark
+        # shipping channel is a normal Tuesday.
+        continue-on-error: true
+        run: node collector/race.mjs
+
       - name: Build site
         # Runs even when the engine was skipped: the generator is a pure function
         # of data/, so a rebuild on unchanged data produces byte-identical output
@@ -180,6 +195,31 @@ jobs:
           done
           echo '::error::could not push after 3 attempts'
           exit 1
+
+      - name: Publish to gh-pages
+        # Pages serves the gh-pages BRANCH for this repo (build_type: legacy),
+        # so committing public/ to main deploys nothing at all. This mirrors
+        # what deploy.sh does locally: replace the branch contents wholesale so
+        # deletions propagate, then force-push a single flat commit.
+        run: |
+          set -euo pipefail
+          test -f public/index.html || { echo "::error::public/index.html missing; refusing to publish"; exit 1; }
+          LEVEL=$(node -e "process.stdout.write(String(require('./data/state.json').level))")
+          SCORE=$(node -e "process.stdout.write(require('./data/state.json').score.toFixed(1))")
+          STAMP=$(node -e "process.stdout.write(require('./data/state.json').generated_at)")
+          rm -rf .pages && mkdir .pages
+          tar cf - -C public . | (cd .pages && tar xf -)
+          cd .pages
+          git init -q
+          git checkout -q -b gh-pages
+          git config user.name  'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -q -m "DOOMCON $LEVEL, score $SCORE — $STAMP
+
+          Build output from ${{ github.repository }}@${{ github.sha }}. Do not hand-edit."
+          git push -q -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" gh-pages
+          echo "published DOOMCON $LEVEL score $SCORE"
 
       - name: Fail the run if every source was dark
         if: steps.collect.outcome == 'failure'

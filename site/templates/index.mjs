@@ -31,6 +31,76 @@ import * as news from './news.mjs';
 // below never needs more points than a 300-unit sparkline can resolve.
 const SPARK_POINTS = 48;
 
+/**
+ * Where to go next. Every card carries a real, current number pulled from the
+ * same state the dashboard renders, because "The AI race" is a label and
+ * "Anthropic leads at 73.5%" is a reason to click.
+ */
+function elsewhere(ctx) {
+  const cards = [];
+
+  const race = ctx.race;
+  if (race && Array.isArray(race.players) && race.players.length) {
+    const top = race.players[0];
+    // The probability is nested under .market, and only meaningful when that
+    // market is live — a dark leg must not be printed as a confident number.
+    const mk = top.market || {};
+    const pct = mk.state === 'live' && Number.isFinite(mk.probability)
+      ? `${(mk.probability * 100).toFixed(1)}%` : null;
+    cards.push({
+      href: ctx.href('/race.html'),
+      kicker: 'The AI race',
+      line: pct ? `${top.name} leads at ${pct}` : `${race.players.length} labs ranked`,
+      sub: 'Frontier labs ranked on live prediction-market odds.',
+    });
+  }
+
+  const news = ctx.news;
+  if (news && Array.isArray(news.items) && news.items.length) {
+    cards.push({
+      href: ctx.href('/news.html'),
+      kicker: 'The newsroom',
+      line: `${news.items.length} items in the window`,
+      sub: 'Every story, scored on how many independent sources carried it.',
+    });
+  }
+
+  cards.push({
+    href: ctx.href('/methodology.html'),
+    kicker: 'The arithmetic',
+    line: 'Recompute this number yourself',
+    sub: 'Every formula, every constant, and the three ways this index could mislead you.',
+  });
+
+  cards.push({
+    href: ctx.href('/history.html'),
+    kicker: 'The lore',
+    line: 'Sixty years of the same argument',
+    sub: 'Good 1965 to the EU AI Act, dated and attributed.',
+  });
+
+  if (Array.isArray(ctx.moves) && ctx.moves.length) {
+    cards.push({
+      href: ctx.href('/moves/'),
+      kicker: 'The receipts',
+      line: `${ctx.moves.length} timestamped observation${ctx.moves.length === 1 ? '' : 's'}`,
+      sub: 'Hash-chained. Take any one and re-derive it.',
+    });
+  }
+
+  return `
+<section class="sec xsell" aria-labelledby="xsell-h">
+  <h2 class="sec__h" id="xsell-h">Elsewhere on the desk</h2>
+  <ul class="xsell__grid">
+    ${cards.map((c) => `<li class="xsell__i"><a class="xsell__a" href="${esc(c.href)}">
+      <span class="xsell__k">${esc(c.kicker)}</span>
+      <span class="xsell__l">${esc(c.line)}</span>
+      <span class="xsell__s">${esc(c.sub)}</span>
+    </a></li>`).join('')}
+  </ul>
+</section>`;
+}
+
 export function render(ctx) {
   const { state } = ctx;
   const meta = brand.levelMeta(state.level);
@@ -73,6 +143,7 @@ ${news.styleTag()}
       <div class="level__digit num" data-dc-level aria-hidden="true">${esc(state.level)}</div>
       <div class="level__meta">
         <h1 class="level__name">${esc(brand.NAME)} ${esc(state.level)} · ${esc(state.level_name)}</h1>
+        ${meta.epithet ? `<p class="level__ep">${esc(meta.epithet)}</p>` : ''}
         ${levelBars(state.level)}
         <p class="level__gloss">${esc(meta.gloss)}</p>
       </div>
@@ -136,6 +207,8 @@ ${news.render(ctx)}
        <p class="fresh__key"><a href="${esc(ctx.href('/moves/'))}">Full archive →</a></p>`
     : `<p class="fresh__key">No scored observations recorded yet. Moves appear here the first time the index is computed twice.</p>`}
 </section>
+
+${elsewhere(ctx)}
 
 <section class="sec" id="embed" aria-labelledby="embed-h">
   <h2 class="sec__h" id="embed-h">Put the index on your site</h2>

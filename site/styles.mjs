@@ -815,11 +815,85 @@ function lean(sheet) {
     .trim() + '\n';
 }
 
+/* ---------------------------------------------------------------------------
+   OPS — the operations strip, and the level epithet.
+
+   Measured against pizzint on 2026-09-24: we carry 554 numeric facts to their
+   162, so density was never our problem. They beat us on internal links (84 to
+   our 43) and on FRAMING — "8 LOCATIONS MONITORED / 40 REPORTS / 19 ALERTS /
+   STATUS: OPERATIONAL" makes the page read as a desk that is watching
+   something, rather than a page that displays a number. These rules buy that
+   framing using counters we already hold and can defend.
+   --------------------------------------------------------------------------- */
+const XSELL = `
+/* The cross-sell deck. Each card is a live fact, not a label, so the grid reads
+   as five more things to know rather than five more places to click. */
+.xsell__grid {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; gap: 10px;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 620px) { .xsell__grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 980px) { .xsell__grid { grid-template-columns: repeat(3, 1fr); } }
+.xsell__a {
+  display: flex; flex-direction: column; gap: 4px; height: 100%;
+  padding: var(--s-3) 13px;
+  background: var(--bg-raised);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  text-decoration: none; color: inherit;
+  transition: border-color 120ms ease, transform 120ms ease;
+}
+.xsell__a:hover { border-color: var(--accent); }
+@media (prefers-reduced-motion: no-preference) {
+  .xsell__a:hover { transform: translateY(-1px); }
+}
+.xsell__k {
+  font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--ink-faint);
+}
+.xsell__l {
+  font-family: var(--mono); font-size: var(--t-sm);
+  color: var(--accent); font-variant-numeric: tabular-nums;
+}
+.xsell__s { font-size: var(--t-xs); color: var(--ink-dim); line-height: 1.45; }
+`;
+
+const OPS = `
+.ops {
+  border-bottom: 1px solid var(--rule);
+  background: var(--bg-sunken);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+.ops__in { display: flex; flex-wrap: wrap; gap: 0 var(--s-3); padding: 6px var(--gutter); }
+.ops__c { white-space: nowrap; padding: 1px 0; }
+.ops__c:last-child { margin-left: auto; color: var(--ok); }
+/* Posture is carried by the WORD as well as the hue: a greyscale screenshot,
+   or a reader who cannot separate the colours, still reads DEGRADED. */
+.ops[data-posture="degraded"] .ops__c:last-child { color: var(--accent); }
+@media (max-width: 560px) { .ops__c:last-child { margin-left: 0; } }
+
+/* The epithet sits between the level name and the gloss: two to four words with
+   a point of view, where the name above it is the measurement. */
+.level__ep {
+  font-family: var(--mono);
+  font-size: var(--t-xs);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 2px 0 var(--s-2);
+}
+`;
+
 export function css() {
   return lean([
-    TOKENS, BASE, CHROME, HERO,
+    TOKENS, BASE, CHROME, OPS, HERO,
     CHARTS_CORE, CHARTS,
-    FRESH, FEED, REEL, PILLARS, MOVES, PROSE,
+    FRESH, FEED, REEL, PILLARS, MOVES, XSELL, PROSE,
   ].join('\n'));
 }
 
