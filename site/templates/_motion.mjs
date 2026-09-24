@@ -56,9 +56,9 @@ const TICKER_MIN = 8;
 // ~3.6s per item lands 14 items at 50s, inside MOTION.md's 40-60s window.
 // Derived from the item count, not hard-coded, because a shorter strip at a
 // fixed duration scrolls faster than anyone can read.
-const SEC_PER_ITEM = 6.48;
-const TICKER_MIN_S = 75;
-const TICKER_MAX_S = 110;
+const SEC_PER_ITEM = 11.5;
+const TICKER_MIN_S = 130;
+const TICKER_MAX_S = 190;
 
 const POLL_MS = 60000;
 const ARRIVAL_CAP = 8;
@@ -235,15 +235,15 @@ export function motionConfig(ctx, opts = {}) {
 // nothing at all.
 export function motionCss() {
   return `
-.dcmx{position:relative;overflow:hidden;border-bottom:1px solid var(--rule);background:var(--bg-sunken)}
+.dcmx{position:relative;overflow:hidden;padding:7px 0;border-bottom:1px solid var(--rule);background:var(--bg-sunken)}
 .dcmx__win{display:flex;width:max-content}
 .dcmx__t{display:flex;margin:0;padding:0;list-style:none;flex:0 0 auto}
 .dcmx__i{display:flex;gap:9px;align-items:baseline;min-width:250px;padding:5px 16px;
-  border-right:1px solid var(--rule-soft);white-space:nowrap;font-size:12px}
+  border-right:1px solid var(--rule-soft);white-space:nowrap;font-size:13px;font-size:12.5px}
 .dcmx__c{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;
   color:var(--p,var(--accent));font-variant-numeric:tabular-nums}
-.dcmx__s{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint)}
-.dcmx__h{color:var(--ink-dim);max-width:60ch;overflow:hidden;text-overflow:ellipsis}
+.dcmx__s{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint)}
+.dcmx__h{color:var(--ink);max-width:78ch;overflow:hidden;text-overflow:ellipsis}
 @media (prefers-reduced-motion:no-preference){
   .dcmx[data-mode="run"] .dcmx__win{animation:dcmxRun var(--dcmx-dur,50s) linear infinite;will-change:transform}
   .dcmx:hover .dcmx__win,.dcmx:focus-within .dcmx__win{animation-play-state:paused}
