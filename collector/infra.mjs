@@ -331,7 +331,13 @@ function updateAccumulated(previous, readings) {
       .map((d) => ({ d: d.d, v: d.v }));
 
     if (r.state === 'ok') {
-      const day = String(r.observed_at ?? '').slice(0, 10);
+      // An adapter that knows which calendar day its reading BELONGS to says so
+      // in meta.baseline_day, and that wins over the run clock. CAISO is the
+      // case that forces it: its overnight window is 00:00-06:00 Pacific, which
+      // is 07:00-13:00 UTC, and the file stays readable until 07:00 UTC the
+      // NEXT day. Keyed on the run instant, one Pacific window lands under two
+      // UTC dates and enters the baseline twice as if it were two nights.
+      const day = String(r.meta?.baseline_day ?? r.observed_at ?? '').slice(0, 10);
       if (/^\d{4}-\d{2}-\d{2}$/.test(day)) {
         const at = days.findIndex((d) => d.d === day);
         if (at >= 0) days[at] = { d: day, v: r.value };

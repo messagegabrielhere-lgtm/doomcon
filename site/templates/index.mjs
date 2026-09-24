@@ -68,6 +68,16 @@ function elsewhere(ctx) {
     });
   }
 
+  const infra = ctx.infra;
+  if (infra && Number.isFinite(infra.score)) {
+    cards.push({
+      href: ctx.href('/watts.html'),
+      kicker: 'The substrate',
+      line: `SUBSTRATE ${infra.level ?? '\u2014'} \u00b7 ${infra.score.toFixed(1)} of 100`,
+      sub: 'Grid load, drought and datacentre buildout. You cannot train a model without power.',
+    });
+  }
+
   cards.push({
     href: ctx.href('/methodology.html'),
     kicker: 'The arithmetic',

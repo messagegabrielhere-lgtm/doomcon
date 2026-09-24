@@ -349,6 +349,12 @@ jobs:
           fi
           node collector/engine.mjs
 
+      - name: Refresh the substrate index
+        # Grid, drought and buildout. Its own failure domain: ERCOT being down
+        # must not stop the main index, and vice versa.
+        continue-on-error: true
+        run: node collector/infra.mjs
+
       - name: Build site
         # Runs even when the engine was skipped: the generator is a pure function
         # of data/, so a rebuild on unchanged data produces byte-identical output

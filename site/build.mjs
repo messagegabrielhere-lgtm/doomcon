@@ -24,6 +24,7 @@ import * as feed from './templates/feed.mjs';
 import * as newsFeed from './templates/news.mjs';
 import * as newsPage from './templates/newsPage.mjs';
 import * as racePage from './templates/racePage.mjs';
+import * as wattsPage from './templates/wattsPage.mjs';
 import { render as sitemap, robots } from './templates/sitemap.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -419,10 +420,23 @@ async function main() {
     }
   }
 
+  // Same separate-failure-domain rule as news and race: a dark substrate index
+  // must not stop the main index building, and vice versa.
+  let infra = null;
+  const infraFile = path.join(args.data, 'infra.json');
+  if (existsSync(infraFile)) {
+    try {
+      infra = JSON.parse(await readFile(infraFile, 'utf8'));
+    } catch (err) {
+      warn(`data/infra.json is present but unreadable (${err.message}); building without /watts.`);
+    }
+  }
+
   const ctx = {
     state,
     news,
     race,
+    infra,
     x: xwire,
     history,
     receipts,
@@ -447,6 +461,9 @@ async function main() {
   }
   if (racePage.hasRace(ctx)) {
     written.push(await write(args.out, 'race.html', racePage.render(ctx)));
+  }
+  if (wattsPage.hasWatts ? wattsPage.hasWatts(ctx) : wattsPage.hasInfra(ctx)) {
+    written.push(await write(args.out, 'watts.html', wattsPage.render(ctx)));
   }
   for (const m of moves) {
     written.push(await write(args.out, `moves/${m.id}.html`, movePage.render(ctx, m)));
@@ -488,6 +505,7 @@ async function main() {
   if (news) written.push(await write(args.out, 'api/news.json', stableJson(news)));
   if (race) written.push(await write(args.out, 'api/race.json', stableJson(race)));
   if (xwire) written.push(await write(args.out, 'api/x-surface.json', stableJson(xwire)));
+  if (infra) written.push(await write(args.out, 'api/infra.json', stableJson(infra)));
   written.push(await write(args.out, 'api/index.json', stableJson({
     name: brand.NAME,
     description: brand.DESCRIPTION,
