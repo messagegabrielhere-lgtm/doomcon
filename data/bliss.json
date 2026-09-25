@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "index": "BLISS",
-  "generated_at": "2026-09-25T00:29:54.424Z",
+  "generated_at": "2026-09-25T01:20:26.754Z",
   "score": null,
   "level": null,
   "level_name": null,
@@ -9,13 +9,12 @@
   "level_since": "2026-09-24T03:08:24.487Z",
   "delta_from_previous": null,
   "posture": "awaiting-baseline",
-  "degraded": true,
+  "degraded": false,
   "awaiting_baseline": true,
   "reference_present": false,
-  "dark_pillars": [
-    "science"
-  ],
+  "dark_pillars": [],
   "uncalibrated_pillars": [
+    "science",
     "medicine",
     "access",
     "adoption",
@@ -23,6 +22,7 @@
   ],
   "uncalibrated_sources": [
     "arxiv-science-ai",
+    "openalex-ai-science",
     "clinicaltrials-ai",
     "pubmed-ai-clinical",
     "hf-permissive-models",
@@ -32,10 +32,8 @@
     "epoch-open-weights",
     "github-permissive-ai"
   ],
-  "failed_sources": [
-    "openalex-ai-science"
-  ],
-  "sources_reporting": 9,
+  "failed_sources": [],
+  "sources_reporting": 10,
   "sources_total": 10,
   "rule_fired": "no_live_pillars",
   "decision": null,
@@ -104,8 +102,8 @@
       "percentile": null,
       "sources_ok": 0,
       "sources_total": 2,
-      "dark": true,
-      "uncalibrated": false,
+      "dark": false,
+      "uncalibrated": true,
       "blurb": "AI methods showing up in other people’s fields.",
       "description": "Papers outside computer science whose method is a model: structural biology, materials, chemistry, numerical analysis. Not the field talking about itself — the field being used by somebody solving a different problem."
     },
@@ -166,18 +164,18 @@
       "ok": false,
       "uncalibrated": true,
       "error": "awaiting_baseline: \"arxiv-science-ai\" has no entry in data/bliss-reference.json yet, so it is collected and published but not scored",
-      "value": 64,
+      "value": 73,
       "unit": "papers/7d",
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-09-25T00:29:54.442Z",
+      "observed_at": "2026-09-25T01:20:26.771Z",
       "age_seconds": 0,
-      "last_ok": "2026-09-25T00:29:54.442Z",
+      "last_ok": "2026-09-25T01:20:26.771Z",
       "meta": {
         "window_days": 7,
-        "window_from": "202609180029",
-        "window_to": "202609250029",
+        "window_from": "202609180120",
+        "window_to": "202609250120",
         "categories": [
           "q-bio.BM",
           "q-bio.QM",
@@ -202,17 +200,23 @@
       "pillar": "science",
       "label": "OpenAlex AI-in-science articles",
       "ok": false,
-      "uncalibrated": false,
-      "error": "HTTP 429 Too Many Requests from https://api.openalex.org/works?filter=from_publication_date:2026-08-26,to_publication_date:2026-09-25,type:article,title_and_abstract.search:(machine%20learning%20OR%20deep%20learning)%20AND%20(protein%20structure%20OR%20materials%20discovery)&per-page=1 — {\"error\":\"Rate limit exceeded\",\"message\":\"Anonymous search is temporarily rate-limited while the search cluster is under elevated load. Please retry in 36s, or use a free API key for uninterrupted access: https://openalex.org/rest-api.\",\"retryAfter\":36}",
-      "value": null,
-      "unit": null,
+      "uncalibrated": true,
+      "error": "awaiting_baseline: \"openalex-ai-science\" has no entry in data/bliss-reference.json yet, so it is collected and published but not scored",
+      "value": 96,
+      "unit": "works/30d",
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": null,
-      "age_seconds": null,
-      "last_ok": "2026-09-24T23:20:04.971Z",
-      "meta": {}
+      "observed_at": "2026-09-25T01:20:26.828Z",
+      "age_seconds": 0,
+      "last_ok": "2026-09-25T01:20:26.828Z",
+      "meta": {
+        "window_days": 30,
+        "window_from": "2026-08-26",
+        "window_to": "2026-09-25",
+        "search": "(machine learning OR deep learning) AND (protein structure OR materials discovery)",
+        "boolean_operators": 3
+      }
     },
     {
       "id": "clinicaltrials-ai",
@@ -226,9 +230,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-09-25T00:29:54.504Z",
+      "observed_at": "2026-09-25T01:20:26.829Z",
       "age_seconds": 0,
-      "last_ok": "2026-09-25T00:29:54.504Z",
+      "last_ok": "2026-09-25T01:20:26.829Z",
       "meta": {
         "window_days": 180,
         "start_date_from": "2026-03-29",
@@ -252,9 +256,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-09-25T00:29:54.505Z",
+      "observed_at": "2026-09-25T01:20:26.831Z",
       "age_seconds": 0,
-      "last_ok": "2026-09-25T00:29:54.505Z",
+      "last_ok": "2026-09-25T01:20:26.831Z",
       "meta": {
         "window_days": 30,
         "edat_from": "2026/08/26",
@@ -280,14 +284,14 @@
       "ok": false,
       "uncalibrated": true,
       "error": "awaiting_baseline: \"hf-permissive-models\" has no entry in data/bliss-reference.json yet, so it is collected and published but not scored",
-      "value": 1382,
+      "value": 1378,
       "unit": "models/24h",
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-09-25T00:29:54.507Z",
+      "observed_at": "2026-09-25T01:20:26.832Z",
       "age_seconds": 0,
-      "last_ok": "2026-09-25T00:29:54.507Z",
+      "last_ok": "2026-09-25T01:20:26.832Z",
       "meta": {
         "window_hours": 24,
         "licences": [
@@ -295,8 +299,8 @@
           "mit"
         ],
         "per_licence": {
-          "apache-2.0": 952,
-          "mit": 430
+          "apache-2.0": 949,
+          "mit": 429
         },
         "pages_fetched": 2,
         "page_size": 1000
@@ -314,9 +318,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-09-25T00:29:54.508Z",
+      "observed_at": "2026-09-25T01:20:26.834Z",
       "age_seconds": 0,
-      "last_ok": "2026-09-25T00:29:54.508Z",
+      "last_ok": "2026-09-25T01:20:26.834Z",
       "meta": {
         "percentile": 0.1,
         "usd_per_million_tokens": 0.125,
@@ -330,7 +334,7 @@
         "priced_models": 431,
         "free_models": 24,
         "cheapest_usd_per_million": 0.02175,
-        "median_usd_per_million": 0.875
+        "median_usd_per_million": 0.9
       }
     },
     {
@@ -345,9 +349,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-09-25T00:29:54.509Z",
+      "observed_at": "2026-09-25T01:20:26.835Z",
       "age_seconds": 0,
-      "last_ok": "2026-09-25T00:29:54.509Z",
+      "last_ok": "2026-09-25T01:20:26.835Z",
       "meta": {
         "basket": [
           "sentence-transformers/all-MiniLM-L6-v2",
@@ -385,9 +389,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-09-25T00:29:54.510Z",
+      "observed_at": "2026-09-25T01:20:26.836Z",
       "age_seconds": 0,
-      "last_ok": "2026-09-25T00:29:54.510Z",
+      "last_ok": "2026-09-25T01:20:26.836Z",
       "meta": {
         "basket": [
           "openai",
@@ -427,9 +431,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-09-25T00:29:54.512Z",
+      "observed_at": "2026-09-25T01:20:26.838Z",
       "age_seconds": 0,
-      "last_ok": "2026-09-25T00:29:54.512Z",
+      "last_ok": "2026-09-25T01:20:26.838Z",
       "meta": {
         "window_days": 365,
         "open_weight_models": 44,
@@ -463,9 +467,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-09-25T00:29:54.513Z",
+      "observed_at": "2026-09-25T01:20:26.839Z",
       "age_seconds": 0,
-      "last_ok": "2026-09-25T00:29:54.513Z",
+      "last_ok": "2026-09-25T01:20:26.839Z",
       "meta": {
         "window_days": 30,
         "created_from": "2026-08-26",
@@ -484,10 +488,10 @@
       "level_name": null
     },
     "doomcon": {
-      "score": 42.6195,
+      "score": 42.8421,
       "level": 4,
       "level_name": "ROUTINE",
-      "generated_at": "2026-09-25T00:29:37.158Z"
+      "generated_at": "2026-09-25T01:20:10.494Z"
     },
     "divergence": null,
     "divergence_band": 3,
