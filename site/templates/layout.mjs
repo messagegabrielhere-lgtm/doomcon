@@ -592,7 +592,7 @@ ${jsonld}
 <body${wide ? ' data-wide="1"' : ''}>
 <a class="skip" href="#main">Skip to the index</a>
 <header class="masthead"><div class="wrap masthead__in">
-  ${marks.mastheadLockup(ctx.state.level, { href: ctx.href('/'), current: o.path === '/' })}
+  ${marks.mastheadLockup(ctx.state.level, { href: ctx.href('/'), current: o.path === '/', logos: ctx.logos, logoHref: (n) => ctx.href(`/logos/${n}`) })}
   <p class="masthead__tag">${esc(brand.TAGLINE)}</p>
 </div></header>
 ${featureBar(ctx, sections, o.path)}${FEATURE_BAR_CSS}
