@@ -36,6 +36,7 @@ import { degradedBanner, deltaChip } from './_parts.mjs';
 import { motionBlock } from './_motion.mjs';
 import { css, FONT_HREF } from '../styles.mjs';
 import * as brand from '../brand.mjs';
+import * as marks from '../brandmarks.mjs';
 
 /**
  * The publication. Order is the nav order and the footer order, so a reader who
@@ -593,17 +594,15 @@ ${ogImage}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="${esc(FONT_HREF)}">
-<link rel="icon" href="${esc(ctx.href('/favicon.svg'))}" type="image/svg+xml">
+${marks.headLinks({ href: ctx.href })}
+<style>${marks.LOCKUP_CSS}</style>
 <style>${css()}</style>${headExtra}
 ${jsonld}
 </head>
 <body${wide ? ' data-wide="1"' : ''}>
 <a class="skip" href="#main">Skip to the index</a>
 <header class="masthead"><div class="wrap masthead__in">
-  <a class="wordmark" href="${esc(ctx.href('/'))}">
-    <b class="wordmark__pub">${esc(brand.PUBLICATION)}</b>
-    <span class="wordmark__sc">the ${esc(brand.NAME)} index</span>
-  </a>
+  ${marks.mastheadLockup(ctx.state.level, { href: ctx.href('/'), current: o.path === '/' })}
   <p class="masthead__tag">${esc(brand.TAGLINE)}</p>
   <nav class="nav" aria-label="Primary">${nav}</nav>${navCss}
 </div></header>
