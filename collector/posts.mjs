@@ -6,10 +6,11 @@
 // rejection actually fires. Run it: node collector/posts.mjs --test
 //
 // Two rules pay for themselves immediately:
-//   1. No URL in the text. X charges roughly 13x reach for an outbound link
-//      ($0.200 vs $0.015 in the leaked ad-equivalent numbers). The domain goes
-//      in the card image and is SPELLED in the text. Techmeme has done exactly
-//      this for years.
+//   1. No URL in the text of the API variant. X charges roughly 13x reach for
+//      an outbound link ($0.200 vs $0.015 in the leaked ad-equivalent numbers).
+//      The domain goes in the card image and is SPELLED in the text. Techmeme
+//      has done exactly this for years. The surcharge does NOT apply to posting
+//      by hand, which is how v1 ships — hence the second variant, below.
 //   2. No future tense. This index measures observable tempo, never probability
 //      of harm. The WHO Phase-6 collapse is the cautionary tale: a
 //      spread-measuring scale read by the public as a severity forecast.
@@ -73,6 +74,31 @@ export const PILLAR_PROSE = Object.freeze({
   markets: 'Markets',
 });
 
+// --- the build (datacentres x drought) -------------------------------------
+//
+// The US Drought Monitor publishes, per county, the SHARE OF THAT COUNTY'S AREA
+// in each category. Whether the API returns those shares cumulatively (D1 means
+// "D1 or worse") or categorically (D1 means "exactly D1") is a `statisticsType`
+// argument in collector/dc-sources/resources.mjs, and it has changed upstream
+// before. So the test is "any of these keys is above zero", which is TRUE under
+// both encodings — summing them would be wrong under one of them.
+//
+// If the design agent's drought card and this post ever disagree by a few
+// hundred sites, it is because one of them counted D0. D0 is "abnormally dry",
+// which is not drought; the line starts at D1 and the copy says D1 out loud.
+export const DROUGHT_ANY_KEYS = Object.freeze(['d1', 'd2', 'd3', 'd4']);
+export const DROUGHT_SEVERE_KEYS = Object.freeze(['d2', 'd3', 'd4']);
+export const DROUGHT_CATEGORY_ORDER = Object.freeze(['d4', 'd3', 'd2', 'd1', 'd0']);
+
+// --- the race (labs on live prediction-market odds) ------------------------
+export const RACE_BOARD_MAX = 4;          // named on the leaderboard line
+export const RACE_MIN_LIVE_LEGS = 3;      // below this it is not a leaderboard
+
+// --- developing (a news cluster carrying incident language) ----------------
+export const DEVELOPING_MIN_SOURCES = 2;
+export const DEVELOPING_TERMS_MAX = 3;
+export const DEVELOPING_CANDIDATES = 6;
+
 // ---------------------------------------------------------------------------
 // Pre-flight rule 1: no URL, in any form
 // ---------------------------------------------------------------------------
@@ -118,6 +144,144 @@ export function assertNoUrl(textValue) {
     );
   }
   return textValue;
+}
+
+// ---------------------------------------------------------------------------
+// Rule 1b: the two variants, and the address that actually resolves
+// ---------------------------------------------------------------------------
+//
+// THE DEFECT THIS SECTION FIXES. Every post used to end "Arithmetic at doomcon
+// dot watch", spelled from brand.domain — a domain this project DOES NOT OWN.
+// A reader who typed it landed nowhere, and a dead address at the end of every
+// post costs more credibility than the link surcharge ever saved. The address
+// now comes from brand.canonicalUrl, which is where the site is actually
+// served from, so the spelled form and the clickable form are derived from the
+// same constant and cannot drift apart. Registering doomcon.watch stays the
+// one-line change CONTRACT.md promises: change CANONICAL_URL, and both the
+// spelled tail and the link follow it the same minute.
+//
+// Two variants, same body, different last sentence:
+//
+//   api     Link-free. The address is SPELLED. X charges $0.200 for a post
+//           carrying a link against $0.015 without one, a 13.3x surcharge, so
+//           the paid API path can never carry a link. assertNoUrl() still runs
+//           over this variant and still throws.
+//   manual  The real, clickable URL. v1 is posted BY HAND from the operator's
+//           own account, where the surcharge does not exist. A hand-posted link
+//           is free reach; a spelled domain there is friction for nothing.
+//
+// The BODY of both variants is byte-identical. It is assembled once, against
+// whichever tail is longer, so the two can never select a different headline or
+// clamp a market name to a different length — a bug that would be invisible
+// until the day someone compared two screenshots. Only the final sentence
+// differs, and post() asserts that before it swaps it.
+export const POST_VARIANTS = Object.freeze(['api', 'manual']);
+
+// "https://doomcon.watch"          -> "doomcon dot watch"
+// "https://x-y.github.io/doomcon"  -> "x dash y dot github dot io slash doomcon"
+//
+// Hyphens and slashes are spoken, not dropped. The spelled address exists so a
+// reader can TYPE it; an unspoken hyphen produces a different host, and a
+// silent one is worse than a long one.
+export function spokenUrl(url) {
+  let u;
+  try { u = new URL(String(url)); } catch { return null; }
+  const say = (s) => s.replace(/\./g, ' dot ').replace(/-/g, ' dash ').replace(/_/g, ' underscore ');
+  const parts = [say(u.host.replace(/^www\./i, ''))];
+  for (const seg of u.pathname.split('/')) if (seg) parts.push('slash', say(seg));
+  const spoken = parts.join(' ').replace(/\s+/g, ' ').trim();
+  return spoken.length > 0 ? spoken : null;
+}
+
+// Origin plus path, no trailing slash, no query, no fragment. A trailing slash
+// is one more character of an already long link and changes nothing.
+export function canonicalLink(brand) {
+  try {
+    const u = new URL(String(brand?.canonicalUrl));
+    if (u.protocol !== 'https:' && u.protocol !== 'http:') return null;
+    return `${u.origin}${u.pathname.replace(/\/+$/, '')}`;
+  } catch { return null; }
+}
+
+export function attributionTails(brand) {
+  const link = canonicalLink(brand);
+  // Fallback only if brand.canonicalUrl is missing or unparsable. It keeps the
+  // generator alive against a half-written brand module; it is not a path we
+  // expect to take, and the CLI says so when it does.
+  const spoken = link === null ? spokenDomain(brand.domain) : spokenUrl(link);
+  return {
+    link,
+    spoken,
+    api: `Arithmetic at ${spoken}.`,
+    // No full stop after the URL. Some clients swallow a trailing dot into the
+    // link and some leave it outside; a 404 from a stray "." is precisely the
+    // failure this section exists to remove.
+    manual: link === null ? `Arithmetic at ${spoken}.` : `Arithmetic at ${link}`,
+  };
+}
+
+// The manual variant's URL rule. Not "no URLs" — exactly ONE, and it is ours.
+// Headlines and market questions arrive stripped of links by safeExternalText,
+// so this proves that stayed true rather than assuming it.
+export function assertOnlyCanonicalUrl(textValue, link) {
+  const s = String(textValue);
+  if (typeof link !== 'string' || link.length === 0) return assertNoUrl(s);
+  if (!s.includes(link)) {
+    throw new Error(
+      `POST REJECTED: the manual variant does not carry the canonical link (${link}). ` +
+      'The manual variant exists to be clickable; without the link it is just a worse api variant.',
+    );
+  }
+  const rest = s.split(link).join(' ');
+  const v = findUrlViolation(rest);
+  if (v) {
+    throw new Error(
+      `POST REJECTED: the manual variant carries ${v.why} ("${v.match}") that is not the ` +
+      'canonical link. One link, ours, or none.',
+    );
+  }
+  return s;
+}
+
+export function preflightManual(textValue, link, limit = X_CHAR_LIMIT) {
+  if (typeof textValue !== 'string' || textValue.trim().length === 0) {
+    throw new Error('POST REJECTED: empty text');
+  }
+  assertOnlyCanonicalUrl(textValue, link);
+  assertNoFutureTense(textValue);
+  assertHasUtcStamp(textValue);
+  const n = charCount(textValue);
+  if (n > limit) throw new Error(`POST REJECTED: ${n} chars, limit ${limit}`);
+  return textValue;
+}
+
+// ---------------------------------------------------------------------------
+// Three phrasings, chosen by the calendar
+// ---------------------------------------------------------------------------
+//
+// An account that posts the same sentence with a different number every day
+// reads as a bot, and a bot does not get quote-tweeted. Every template that
+// fires daily carries three phrasings. Index 0 is the PREFERRED one and the
+// cycle below spends half its days there; the other two exist so the reader
+// notices the number rather than the format.
+//
+// Deterministic by construction — CONTRACT.md forbids Math.random and forbids
+// unseeded time. The choice is a pure function of the UTC day in
+// state.generated_at plus a per-template offset, so re-running a snapshot
+// reproduces the same post, and two templates in one slate do not switch
+// phrasing on the same morning.
+export const PHRASING_CYCLE = Object.freeze([0, 1, 0, 2]);
+
+export function phrasingIndex(kind, iso, count) {
+  if (!Number.isFinite(count) || count <= 1) return 0;
+  const t = Date.parse(iso);
+  if (!Number.isFinite(t)) return 0;
+  const day = Math.floor(t / 86400000);
+  let h = 0;
+  for (const ch of String(kind)) h = (h * 31 + ch.charCodeAt(0)) % 100003;
+  const cycle = PHRASING_CYCLE.filter((i) => i < count);
+  if (cycle.length === 0) return 0;
+  return cycle[(((day + h) % cycle.length) + cycle.length) % cycle.length];
 }
 
 // ---------------------------------------------------------------------------
@@ -655,18 +819,37 @@ export function marketLabel(m) {
 // This is the whole credibility engine: @PenPizzaReport's most valuable posts
 // are the ones saying nothing is happening. An index that only speaks when
 // alarmed reads as a hype account.
+//
+// THREE PHRASINGS.
+//   0 (preferred) Instrument first: level, name, composite, delta, stamp. It is
+//                 preferred because it reads identically on the loudest day and
+//                 the dullest one, and that sameness IS the credibility claim —
+//                 an index whose format changes with its mood is a mood.
+//   1            Number first. Lands harder as a standalone first line when the
+//                 composite has actually moved, because the figure arrives
+//                 before the jargon.
+//   2            Log entry: date, clock, then the reading. The driest of the
+//                 three, and the one that most looks like something copied off
+//                 an instrument rather than written for an audience.
 function dailyPost(c) {
   const { state, spoken, delta } = c;
   const lvl = LEVELS[state.level];
   const loud = loudestLivePillar(state);
   const tally = sourceTally(state);
+  const score = fmt1(state.score);
+  const d = deltaClause(delta);
+  const lead = c.say('daily', [
+    `DOOMCON ${state.level}, ${lvl.name}. Composite ${score} of 100${d}, as of ${prettyStamp(state.generated_at)}.`,
+    `The AI tempo index reads ${score} of 100 as of ${prettyStamp(state.generated_at)}. DOOMCON ${state.level}, ${lvl.name}${d}.`,
+    `${prettyDate(state.generated_at)}, ${utcClock(state.generated_at)}. Composite ${score} of 100${d}. DOOMCON ${state.level}, ${lvl.name}.`,
+  ]);
   return post(c, {
     kind: 'daily',
     priority: 60,
     variant: 'landscape',
     rationale: 'Fires every day at every level. The calm days are what make the loud ones believable.',
     lines: [
-      R(`DOOMCON ${state.level}, ${lvl.name}. Composite ${fmt1(state.score)} of 100${deltaClause(delta)}, as of ${prettyStamp(state.generated_at)}.`),
+      R(lead),
       loud ? O(`${PILLAR_PROSE[loud.id]} is the loudest of the five pillars at ${fmt1(loud.score)}.`) : null,
       tally ? O(`${tally.ok} of ${tally.total} sources reporting${tally.uncalibrated ? `, ${tally.uncalibrated} awaiting a frozen baseline` : ''}.`) : null,
       R(`Arithmetic at ${spoken}.`),
@@ -905,9 +1088,24 @@ function topNewsPost(c) {
     const pillar = item.pillar ? pillarsInOrder(state).find((p) => p.id === item.pillar) : null;
     const when = item.published_at || state.generated_at;
 
+    // THREE PHRASINGS of the carrier line.
+    //   0 (preferred) names the count and the first sighting in one clause —
+    //     the count is the claim, the timestamp is the receipt, and putting
+    //     them together is what a reply cannot separate.
+    //   1 leads with the verb, which reads less like a database row on a day
+    //     when the headline itself is the whole story.
+    //   2 is the terse one, for when the clamped headline needs the characters.
     const carriedLine = item.source_count > 1
-      ? `${fmtInt(item.source_count)} independent sources carried it, first at ${prettyStamp(when)}.`
-      : `One source carried it, at ${prettyStamp(when)}.`;
+      ? c.say('top-news', [
+        `${fmtInt(item.source_count)} independent sources carried it, first at ${prettyStamp(when)}.`,
+        `Carried by ${fmtInt(item.source_count)} independent sources. First at ${prettyStamp(when)}.`,
+        `${fmtInt(item.source_count)} sources, one item, first at ${prettyStamp(when)}.`,
+      ])
+      : c.say('top-news', [
+        `One source carried it, at ${prettyStamp(when)}.`,
+        `One source so far, at ${prettyStamp(when)}.`,
+        `Single-sourced as of ${prettyStamp(when)}.`,
+      ]);
     const pillarLine = pillar && !pillar.dark && !pillar.uncalibrated
       ? `It feeds ${PILLAR_PROSE[pillar.id].toLowerCase()}, at ${fmt1(pillar.score)} of 100.`
       : (pillar ? `Its pillar, ${PILLAR_PROSE[pillar.id].toLowerCase()}, is not scored yet.` : null);
@@ -991,10 +1189,29 @@ function corroborationPost(c, usedId) {
     const names = item.sources.map((s) => safeExternalText(s.name)).filter(Boolean);
     const carriers = names.length >= 2 ? `Carriers: ${joinList(names.slice(0, 4))}.` : null;
 
+    // THREE PHRASINGS. The claim is identical in all three; only the order of
+    // count, window and quote moves.
+    //   0 (preferred) puts the number of independent sources first, because
+    //     that number is the measurement and it is the one thing in the post
+    //     nobody else in this category computes at all.
+    //   1 makes the ITEM the subject, which reads better when the window is a
+    //     lead time ("4.1 hours apart") rather than a simultaneity.
+    //   2 is the compressed one, and buys the headline about twenty characters.
+    const leadIdx = phrasingIndex('corroboration', state.generated_at, 3);
+    const leadLine = (h) => [
+      `${fmtInt(item.source_count)} independent sources carried the same item ${lead}: ${h}`,
+      `The same item reached ${fmtInt(item.source_count)} independent sources ${lead}: ${h}`,
+      `${fmtInt(item.source_count)} outlets, ${lead}, one item: ${h}`,
+    ][leadIdx];
+
+    // The composite line is OUTSIDE this budget on purpose. It is colour on
+    // this template — the measurement is the corroboration — so the quoted
+    // headline gets its characters first and assemble() drops the composite if
+    // the headline used them. A clamped-to-nothing quote is worth less than an
+    // index number the tail already points at.
     const fixed = [
-      `${fmtInt(item.source_count)} independent sources carried the same item ${lead}: .`,
-      `First at ${prettyStamp(firstIso)}.`,
-      `Composite ${fmt1(state.score)} of 100, DOOMCON ${state.level}.`,
+      leadLine('.'),
+      `First at ${compactStamp(firstIso)}.`,
       `Arithmetic at ${spoken}.`,
     ].join(' ');
     const budget = c.limit - charCount(fixed) - 2;
@@ -1011,10 +1228,10 @@ function corroborationPost(c, usedId) {
       key: item.id,
       rationale: 'Corroboration is the measurement, and it is the one number nobody else in the category can compute. Checkable claims get argued with.',
       lines: [
-        R(`${fmtInt(item.source_count)} independent sources carried the same item ${lead}: ${sentence(headline)}`),
-        R(`First at ${prettyStamp(firstIso)}.`),
+        R(leadLine(sentence(headline))),
+        R(`First at ${compactStamp(firstIso)}.`),
         carriers ? O(carriers) : null,
-        R(`Composite ${fmt1(state.score)} of 100, DOOMCON ${state.level}.`),
+        O(`Composite ${fmt1(state.score)} of 100, DOOMCON ${state.level}.`),
         R(`Arithmetic at ${spoken}.`),
       ],
     });
@@ -1100,6 +1317,444 @@ function marketMovePost(c) {
 }
 
 // ---------------------------------------------------------------------------
+// (l) THE BUILD — datacentres against the drought in their county
+// ---------------------------------------------------------------------------
+//
+// The single most pasteable number this project owns, and the one most likely
+// to be quote-tweeted by someone who thinks they have caught us. Three things
+// keep it survivable, and all three are in the copy rather than in a footnote:
+//
+//   1. The denominator is "datacentres OpenStreetMap has MAPPED", never "US
+//      datacentres". A site missing from OSM means nobody mapped it. The first
+//      line says mapped, every time.
+//   2. The Drought Monitor figure is the share of a COUNTY'S AREA in a
+//      category. A county 20% in D3 does not say which 20%, and a pin in that
+//      county is not necessarily in that 20%. Said out loud, in the post.
+//   3. Nothing here measures a datacentre's water draw. No public feed
+//      publishes it, for any site, at any cadence. This is a statement about
+//      WHERE THE BUILDINGS ARE, which is a smaller claim and a true one.
+//
+// Returns null — and records why — when the county join is empty. On
+// 2026-09-25 the usdm-county endpoint was failing outright, so the join was
+// empty and this post correctly did not fire. That is the whole design: a dark
+// source produces no post, never a remembered number.
+export function resolveDatacenters(opts = {}) {
+  const dc = opts.datacenters ?? null;
+  if (!dc || typeof dc !== 'object') return null;
+  const sites = Array.isArray(dc.sites) ? dc.sites : [];
+  const byCounty = dc.resources_index?.drought_by_county;
+  if (sites.length === 0 || !byCounty || typeof byCounty !== 'object') return null;
+
+  const above = (row, keys) => keys.some((k) => Number.isFinite(row?.area_pct?.[k]) && row.area_pct[k] > 0);
+  const rank = (row) => {
+    const i = DROUGHT_CATEGORY_ORDER.findIndex((k) => Number.isFinite(row?.area_pct?.[k]) && row.area_pct[k] > 0);
+    return i === -1 ? DROUGHT_CATEGORY_ORDER.length : i;
+  };
+
+  let joined = 0;
+  let any = 0;
+  let severe = 0;
+  let worst = null;           // the single worst-hit county with a site in it
+  const seenCounty = new Set();
+  for (const s of sites) {
+    const d = s?.resources?.drought;
+    if (!d || d.granularity !== 'county') continue;
+    const row = byCounty[d.county_fips];
+    if (!row) continue;
+    joined += 1;
+    if (above(row, DROUGHT_ANY_KEYS)) any += 1;
+    if (above(row, DROUGHT_SEVERE_KEYS)) severe += 1;
+    if (seenCounty.has(d.county_fips)) continue;
+    seenCounty.add(d.county_fips);
+    const r = rank(row);
+    // Worst category first, then the largest area share inside it, then the
+    // FIPS code — which is unique and fixed, so the same data always names the
+    // same county. No unstable tiebreak, per CONTRACT.md.
+    const cand = { fips: d.county_fips, rank: r, row, share: row.area_pct?.[DROUGHT_CATEGORY_ORDER[r]] ?? 0 };
+    if (!worst
+      || cand.rank < worst.rank
+      || (cand.rank === worst.rank && cand.share > worst.share)
+      || (cand.rank === worst.rank && cand.share === worst.share && cand.fips < worst.fips)) worst = cand;
+  }
+  if (joined === 0) return null;
+  return {
+    total: sites.length,
+    joined,
+    any,
+    severe,
+    worst: worst && worst.rank < DROUGHT_CATEGORY_ORDER.length ? worst : null,
+    map_date: typeof dc.resources_index?.usdm_map_date === 'string' ? dc.resources_index.usdm_map_date : null,
+    generated_at: typeof dc.generated_at === 'string' ? dc.generated_at : null,
+  };
+}
+
+// "2026-09-18" -> "18 Sep 2026". The Drought Monitor publishes a map DATE, not
+// a map time, so this one figure is a date and says so rather than borrowing a
+// clock it does not have.
+function prettyDay(ymd) {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(ymd));
+  if (!m) return null;
+  const mon = MON_T[Number(m[2]) - 1];
+  if (!mon) return null;
+  return `${Number(m[3])} ${mon} ${m[1]}`;
+}
+
+function droughtPost(c) {
+  const { state, spoken, skips } = c;
+  const b = c.build;
+  if (!b) {
+    skips.data.push({
+      id: 'drought',
+      why: 'no county-level drought join in data/datacenters.json — nothing to count, and the share is not remembered from a previous run',
+    });
+    return null;
+  }
+  if (b.any === 0) {
+    skips.data.push({ id: 'drought', why: `${b.joined} sites joined to a county and none of those counties is at D1 or worse` });
+    return null;
+  }
+  const share = Math.round((b.any / b.joined) * 100);
+  const mapDay = prettyDay(b.map_date);
+  const readAt = b.generated_at && !Number.isNaN(Date.parse(b.generated_at)) ? b.generated_at : state.generated_at;
+
+  // THREE PHRASINGS.
+  //   0 (preferred) share first, denominator inside the same sentence. The
+  //     denominator is the thing every reply attacks, so it goes where it
+  //     cannot be cropped out of a screenshot.
+  //   1 counts first, no percentage. Reads as a tally rather than a statistic,
+  //     and a tally is harder to accuse of being massaged.
+  //   2 severity first. Use this one when D2-or-worse is the larger number in
+  //     the news that week; it is the sharpest of the three and the easiest to
+  //     over-read, which is why it is not the default.
+  const lead = c.say('drought', [
+    `${share} percent of mapped US datacentres — ${fmtInt(b.any)} of ${fmtInt(b.joined)} — are in a county at D1 drought or worse.`,
+    `${fmtInt(b.any)} of the ${fmtInt(b.joined)} mapped US datacentres sit in a county at D1 drought or worse.`,
+    `${fmtInt(b.severe)} of ${fmtInt(b.joined)} mapped US datacentres are in a county at D2 drought or worse, ${fmtInt(b.any)} at D1 or worse.`,
+  ]);
+  const worstLine = b.worst && b.worst.row?.county
+    ? (() => {
+      const nm = safeExternalText(`${b.worst.row.county}${b.worst.row.state ? `, ${b.worst.row.state}` : ''}`);
+      const cat = DROUGHT_CATEGORY_ORDER[b.worst.rank].toUpperCase();
+      return nm ? O(`Worst county on the map with a site in it: ${nm}, ${Math.round(b.worst.share)} percent of its area at ${cat}.`) : null;
+    })()
+    : null;
+
+  return post(c, {
+    kind: 'drought',
+    priority: 35,
+    variant: 'landscape',
+    preferredCard: 'drought',
+    rationale: 'The most pasteable number this project owns. The denominator and the area caveat are in the copy, not in a footnote, so the obvious reply is already answered.',
+    lines: [
+      R(lead),
+      // Phrasing 2 already carries the D2 figure in its first line; adding it
+      // again would read as a stutter.
+      c.say('drought', [
+        O(`${fmtInt(b.severe)} of them are in a county at D2 or worse.`),
+        O(`${fmtInt(b.severe)} of them are in a county at D2 or worse.`),
+        null,
+      ]),
+      // The caveat and the clock are REQUIRED. A drought share without "county
+      // area, not site draw" beside it is the sentence a hostile quote-tweet
+      // is built out of, and it costs thirty-four characters to close.
+      R('That is county area, not site draw.'),
+      R(`US Drought Monitor, ${mapDay ? `${mapDay} map, ` : ''}joined at ${compactStamp(readAt)}.`),
+      // Colour, in the order it should survive a squeeze.
+      O('Pins are OpenStreetMap’s: a site missing from the map means nobody mapped it.'),
+      O('Nothing public reports what any datacentre draws.'),
+      worstLine,
+      R(`Arithmetic at ${spoken}.`),
+    ],
+  });
+}
+
+// ---------------------------------------------------------------------------
+// (m) THE RACE — named people, live odds, one leaderboard
+// ---------------------------------------------------------------------------
+//
+// data/race.json ranks labs on a live Polymarket event. This is the template
+// most likely to be screenshotted into a group chat, because the subject is
+// people rather than pillars, and it is the template most likely to be argued
+// with, because the reader can go and take the other side of the trade.
+//
+// Two rigour rules, both easy to break by accident:
+//   - A price belongs to the LAB, never to the person. "Dario Amodei 73.5
+//     percent" attributes a company's market odds to a human being and is
+//     false. It is always "<person>'s <lab>".
+//   - The event's own title is quoted from the venue, never paraphrased into
+//     something it did not ask. If the title trips a post guard, the post does
+//     not ship.
+export function resolveRace(opts = {}) {
+  const r = opts.race ?? null;
+  if (!r || typeof r !== 'object' || !Array.isArray(r.players)) return null;
+  const legs = r.players
+    .filter((p) => p && p.market && p.market.state === 'live' && Number.isFinite(p.market.probability))
+    .map((p) => ({
+      id: typeof p.id === 'string' ? p.id : String(p.name ?? ''),
+      name: typeof p.name === 'string' ? p.name : null,
+      principal: typeof p.principal === 'string' ? p.principal : null,
+      probability: p.market.probability * 100,
+      change_7d: Number.isFinite(p.market.change_7d) && p.market.change_7d_state === 'live'
+        ? p.market.change_7d * 100 : null,
+      volume_usd: Number.isFinite(p.market.volume_usd) ? p.market.volume_usd : null,
+      rank: Number.isFinite(p.rank) ? p.rank : Number.MAX_SAFE_INTEGER,
+    }))
+    .filter((p) => p.name)
+    .sort((a, b) => b.probability - a.probability || a.rank - b.rank || a.id.localeCompare(b.id));
+  if (legs.length < RACE_MIN_LIVE_LEGS) return null;
+  const horizon = r.markets?.polymarket?.horizon ?? null;
+  const volume = legs.reduce((sum, p) => sum + (p.volume_usd ?? 0), 0);
+  return {
+    legs,
+    venue: r.markets?.polymarket?.ok ? 'Polymarket' : null,
+    title: typeof horizon?.title === 'string' ? horizon.title : null,
+    volume_usd: volume > 0 ? volume : null,
+    generated_at: typeof r.generated_at === 'string' ? r.generated_at : null,
+  };
+}
+
+// "Demis Hassabis" -> "Demis Hassabis'", "Sam Altman" -> "Sam Altman's".
+function possessive(name) {
+  const s = String(name).trim();
+  if (!s) return s;
+  return /s$/i.test(s) ? `${s}’` : `${s}’s`;
+}
+
+// The venue writes "Which company has best AI model end of 2026?". It is quoted
+// VERBATIM, minus the question mark, because a leaderboard whose question has
+// been reworded is a leaderboard of nothing. Paraphrasing it would be the exact
+// thing marketLabel() refuses to do one screen up.
+function raceSubject(title) {
+  if (typeof title !== 'string') return null;
+  const base = stripUrls(title).replace(/\s+/g, ' ').trim().replace(/\?+$/, '').trim();
+  if (base.length < 8) return null;
+  return safeExternalText(base);
+}
+
+// "12:26 UTC, 25 Sep 2026" — prettyStamp without the weekday. Used only where
+// the line is already at its character ceiling; it still satisfies the exact-
+// UTC-stamp rule, which is what the weekday was never doing.
+function compactStamp(iso) {
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) throw new TypeError(`compactStamp: unparsable date ${iso}`);
+  return `${utcClock(iso)}, ${d.getUTCDate()} ${MON_T[d.getUTCMonth()]} ${d.getUTCFullYear()}`;
+}
+
+// The two required lines, as [opener, leaderboard]. Split out because racePost
+// has to COST a candidate board before it commits to one.
+//
+// THREE PHRASINGS. All three carry the venue's own question verbatim, because a
+// leaderboard without its question is a leaderboard of nothing.
+//   0 (preferred) question, clock, then the people and their prices. It is the
+//     only one of the three a stranger can forward with no context, and the
+//     people are what make it forwardable at all.
+//   1 gap first. Sharpest when first and second are far apart — it is an
+//     arithmetic fact about two prices and claims nothing beyond that.
+//   2 money first, which answers "who cares what a betting site thinks" before
+//     the reader has finished typing it.
+//
+// Note "<person>'s <lab>" throughout: the price belongs to the LAB. Writing
+// "Dario Amodei 73.5 percent" would attribute a company's market odds to a
+// human being, and would simply be false.
+function raceLines(c, { named, subject, venue, stamp, gap, money }) {
+  const withPeople = `${named[0].label} ${named[0].pct} percent, ${named.slice(1).map((x) => `${x.label} ${x.pct}`).join(', ')}.`;
+  const plain = `${named[0].plain} ${named[0].pct} percent, ${named.slice(1).map((x) => `${x.plain} ${x.pct}`).join(', ')}.`;
+  const opener = `${venue}, “${subject}”, ${stamp}:`;
+  return c.say('race', [
+    [opener, withPeople],
+    gap === null
+      ? [opener, plain]
+      : [`${Math.abs(gap).toFixed(1)} points separate first and second on ${venue}’s “${subject}”, ${stamp}:`, plain],
+    money === null ? [opener, withPeople] : [`${money} is posted on ${venue}’s “${subject}”, ${stamp}:`, withPeople],
+  ]);
+}
+
+function racePost(c) {
+  const { state, spoken, skips } = c;
+  const r = c.race;
+  if (!r) return null;
+  const subject = raceSubject(r.title);
+  if (subject === null) {
+    skips.data.push({ id: 'race', why: 'the venue’s own event title trips a post guard, and it is quoted or not used' });
+    return null;
+  }
+  const nameOf = (p) => {
+    const nm = safeExternalText(p.name);
+    const who = p.principal ? safeExternalText(p.principal) : null;
+    if (!nm) return null;
+    return { label: who ? `${possessive(who)} ${nm}` : nm, plain: nm, pct: round1(p.probability).toFixed(1) };
+  };
+  const readAt = r.generated_at && !Number.isNaN(Date.parse(r.generated_at)) ? r.generated_at : state.generated_at;
+  const money = r.volume_usd === null ? null : fmtVolume(r.volume_usd, 'usd');
+  const gap = r.legs.length >= 2 ? round1(r.legs[0].probability - r.legs[1].probability) : null;
+  const venue = r.venue ?? 'The venue';
+  const stamp = compactStamp(readAt);
+
+  // BOTH lines of this template are required — a leaderboard cannot shed half
+  // its names to fit and still be a leaderboard — so the board SHRINKS rather
+  // than overflowing. Four names, then three, then two. A longer lab name or a
+  // longer venue question next week costs a seat on the board, not a build.
+  let named = null;
+  let lines = null;
+  for (let n = RACE_BOARD_MAX; n >= 2; n -= 1) {
+    const slice = r.legs.slice(0, n).map(nameOf);
+    if (slice.some((x) => x === null)) {
+      skips.data.push({ id: 'race', why: 'a lab or principal name trips a post guard' });
+      return null;
+    }
+    const trial = raceLines(c, { named: slice, subject, venue, stamp, gap, money });
+    const cost = charCount(trial[0]) + charCount(trial[1]) + charCount(`Arithmetic at ${spoken}.`) + 2;
+    if (cost <= c.limit) { named = slice; lines = trial; break; }
+  }
+  // Not even two names and the question fit. That is a real answer — a
+  // leaderboard of one is not a leaderboard — so the post does not ship and
+  // the reason is recorded rather than the board being silently truncated.
+  if (lines === null) {
+    skips.data.push({ id: 'race', why: 'the venue question plus two lab names does not fit one post at this character limit' });
+    return null;
+  }
+
+  return post(c, {
+    kind: 'race',
+    priority: 38,
+    variant: 'landscape',
+    preferredCard: 'race',
+    rationale: 'People, not pillars. The one template a reader can disagree with by placing a trade, which is the most argued-with kind of number there is.',
+    lines: [
+      R(lines[0]),
+      R(lines[1]),
+      money === null ? null : O(`${money} on the book across ${fmtInt(r.legs.length)} legs.`),
+      O('Prices, not a ranking.'),
+      R(`Arithmetic at ${spoken}.`),
+    ],
+  });
+}
+
+// ---------------------------------------------------------------------------
+// (n) DEVELOPING — a cluster carrying incident language
+// ---------------------------------------------------------------------------
+//
+// data/news.json groups items into stories and scores each on SEVERITY TERMS:
+// literal words found in the title and summary, each with its tier and weight.
+// This template reports those words as what they are — the sources' own
+// vocabulary — and never as our assessment of anything.
+//
+// That distinction is the entire template. "Three outlets used the word breach"
+// is a measurement of published language. "A serious breach" is a judgement
+// this index does not make. The first is checkable in one click, which is why
+// it travels.
+export function resolveStories(state, opts = {}) {
+  const raw = opts.stories ?? opts.newsRaw?.stories ?? state?.news?.stories ?? null;
+  const stories = Array.isArray(raw) ? raw : [];
+  const rawItems = Array.isArray(opts.newsRaw?.items) ? opts.newsRaw.items : [];
+  const titles = new Map();
+  for (const i of rawItems) {
+    if (i && typeof i.id === 'string' && typeof i.title === 'string') titles.set(i.id, i.title);
+  }
+  return { stories, titles };
+}
+
+function developingPost(c) {
+  const { state, spoken, skips } = c;
+  if (isUnavailable(state)) return null;
+  const { stories, titles } = c.storyLayer;
+  const nowMs = Date.parse(state.generated_at);
+  const maxAge = c.newsMaxAgeHours;
+
+  const eligible = stories.filter((s) => {
+    if (!s || !Array.isArray(s.members)) return false;
+    if (!Number.isFinite(s.source_count) || s.source_count < DEVELOPING_MIN_SOURCES) return false;
+    if (!Number.isFinite(s.severity) || s.severity <= 0) return false;
+    const t = Date.parse(s.last_published_at);
+    if (!Number.isFinite(t) || !Number.isFinite(nowMs)) return false;
+    const age = (nowMs - t) / 3600000;
+    return age >= -2 && age <= maxAge;
+  }).sort((a, b) => (
+    b.severity - a.severity
+    || b.source_count - a.source_count
+    || Date.parse(b.last_published_at) - Date.parse(a.last_published_at)
+    || String(a.id).localeCompare(String(b.id))
+  )).slice(0, DEVELOPING_CANDIDATES);
+
+  if (eligible.length === 0) return null;
+
+  for (const s of eligible) {
+    // Terms are external text like everything else. A term that trips a guard —
+    // "warning" is on the severity list and on the banned list — is dropped,
+    // and the story is still posted with the terms that survive. Dropping the
+    // whole story for one word would silently bias this template toward
+    // quieter language.
+    const byWeight = [...(Array.isArray(s.severity_terms) ? s.severity_terms : [])]
+      .filter((t) => t && typeof t.term === 'string')
+      .sort((a, b) => (b.weight ?? 0) - (a.weight ?? 0) || String(a.term).localeCompare(String(b.term)));
+    const terms = [];
+    for (const t of byWeight) {
+      const safe = safeExternalText(t.term);
+      if (safe === null) continue;
+      const lower = safe.toLowerCase();
+      if (!terms.includes(lower)) terms.push(lower);
+      if (terms.length >= DEVELOPING_TERMS_MAX) break;
+    }
+    if (terms.length === 0) {
+      skips.data.push({ id: String(s.id), why: 'every severity term in the cluster trips a post guard, and a term is quoted or omitted' });
+      continue;
+    }
+
+    const firstIso = s.first_published_at || state.generated_at;
+    const span = Number.isFinite(s.span_hours) ? s.span_hours : null;
+    const spanPhrase = span === null
+      ? null
+      : (span < 1
+        ? `${Math.max(1, Math.round(span * 60))} minutes`
+        : `${round1(span).toFixed(1)} hours`);
+    const n = fmtInt(s.source_count);
+
+    // THREE PHRASINGS.
+    //   0 (preferred) cluster first, quote second. The first line is a
+    //     measurement — a count and a span — so it survives alone, and the
+    //     quote arrives as evidence rather than as the headline.
+    //   1 words first. The most arresting of the three and the one that most
+    //     invites "those are just words", which is exactly the argument we
+    //     want, because the answer is yes, that is what is being counted.
+    //   2 quote first, count after. Use it when the headline is strong enough
+    //     to carry itself; it reads least like an index and most like a wire.
+    const idx = phrasingIndex('developing', state.generated_at, 3);
+    const termList = joinList(terms);
+    const skeleton = (h) => [
+      `${n} outlets${spanPhrase ? ` over ${spanPhrase}` : ''}, one event, first at ${compactStamp(firstIso)}: ${h}`,
+      `Their words, not ours: ${termList}. ${n} outlets on one event, first at ${compactStamp(firstIso)}: ${h}`,
+      `${h} ${n} outlets${spanPhrase ? ` over ${spanPhrase}` : ''}, first at ${compactStamp(firstIso)}.`,
+    ][idx];
+    const termsLine = idx === 1 ? null : `Their words, not ours: ${termList}.`;
+
+    const fixed = [skeleton('.'), termsLine, `Arithmetic at ${spoken}.`].filter(Boolean).join(' ');
+    const budget = c.limit - charCount(fixed) - 2;
+    const lead = titles.get(s.lead) ?? null;
+    const headline = clampSafe(lead, budget);
+    if (headline === null) {
+      skips.data.push({ id: String(s.id), why: 'the cluster’s lead headline trips a post guard or does not fit the budget' });
+      continue;
+    }
+
+    return post(c, {
+      kind: 'developing',
+      priority: 28,
+      variant: 'portrait',
+      preferredCard: 'developing',
+      key: String(s.id),
+      rationale: 'Counts published language rather than judging an event. "Three outlets used the word breach" is checkable in one click, which is why it travels.',
+      lines: [
+        R(skeleton(sentence(headline))),
+        termsLine ? R(termsLine) : null,
+        O(`Composite ${fmt1(state.score)} of 100, DOOMCON ${state.level}.`),
+        R(`Arithmetic at ${spoken}.`),
+      ],
+    });
+  }
+  return null;
+}
+
+// ---------------------------------------------------------------------------
 // Assembly
 // ---------------------------------------------------------------------------
 
@@ -1116,13 +1771,40 @@ function post(c, spec) {
   }
   const text = assemble(spec.lines, c.limit);
   preflight(text, c.limit); // throws — nothing leaves this module unchecked
+
+  // The attribution is the last sentence of every template without exception,
+  // which is what makes a one-line swap safe. Asserting it here means a
+  // template that forgets it fails at generation rather than shipping a post
+  // that names no source for its own arithmetic.
+  const { api, manual, link } = c.tails;
+  if (!text.endsWith(api)) {
+    throw new Error(
+      `template "${spec.kind}" does not end with the attribution line ("${api}"). ` +
+      'Every post names where its arithmetic is, and the two variants are swapped on that sentence.',
+    );
+  }
+  const manualText = `${text.slice(0, text.length - api.length)}${manual}`;
+  preflightManual(manualText, link, c.limit);
+
   const idStamp = c.state.generated_at.replace(/[:.]/g, '-');
   return {
     id: `${spec.kind}${spec.key ? `-${String(spec.key).replace(/[^a-z0-9]+/gi, '-').toLowerCase()}` : ''}-${idStamp}`,
     kind: spec.kind,
     priority: spec.priority,
+    // `text` stays the API variant so every existing consumer — site/post-sheet
+    // .mjs among them — keeps its link-free guarantee without a change. The
+    // clickable one is a new field beside it, and it is the one v1 posts.
     text,
+    text_api: text,
+    text_manual: manualText,
+    link,
     chars: charCount(text),
+    chars_api: charCount(text),
+    chars_manual: charCount(manualText),
+    variants: {
+      api: { text, chars: charCount(text), link: null },
+      manual: { text: manualText, chars: charCount(manualText), link },
+    },
     char_limit: c.limit,
     card_variant: spec.variant,
     card_preferred: spec.preferredCard || spec.variant,
@@ -1154,14 +1836,28 @@ export function buildPosts(state, opts = {}) {
     const age = (Date.parse(nowIso) - t) / 3600000;
     return age >= -2 && age <= maxAge;
   });
-  const skips = { news: [], markets: [] };
+  const skips = { news: [], markets: [], data: [] };
+  const tails = attributionTails(brand);
+  // Both variants share one body, so the body is budgeted against whichever
+  // tail is LONGER. Today the spelled Pages address is longer than the link;
+  // the day doomcon.watch is registered the link becomes the longer of the two
+  // and this line quietly reverses, with no template touched.
+  const tailSlack = Math.max(0, charCount(tails.manual) - charCount(tails.api));
   const c = {
-    state, brand, history, notable, limit, skips,
+    state, brand, history, notable, skips, tails,
+    limit: limit - tailSlack,
     usedNewsItemId: null,
     news: { generated_at: allNews.generated_at, items: freshItems },
+    newsMaxAgeHours: maxAge,
     markets: collectMarkets(state, opts),
-    spoken: spokenDomain(brand.domain),
+    build: resolveDatacenters(opts),
+    race: resolveRace(opts),
+    storyLayer: resolveStories(state, opts),
+    spoken: tails.spoken,
     delta: resolveDelta(state, history),
+    // Phrasing picker. Kept on the context so a template says which template it
+    // is exactly once, and so the whole slate reads from one clock.
+    say: (kind, options) => options[phrasingIndex(kind, state.generated_at, options.length)],
   };
 
   const dark = darkPillars(state);
@@ -1205,6 +1901,15 @@ export function buildPosts(state, opts = {}) {
   const market = marketMovePost(c);
   if (market) posts.push(market);
 
+  const developing = developingPost(c);
+  if (developing) posts.push(developing);
+
+  const race = racePost(c);
+  if (race) posts.push(race);
+
+  const drought = droughtPost(c);
+  if (drought) posts.push(drought);
+
   posts.push(...notablePosts(c));
 
   const weekly = weeklyPost(c);
@@ -1246,8 +1951,10 @@ function schedule(posts, state, opts) {
 }
 
 export default {
-  buildPosts, preflight, assertNoUrl, assertNoFutureTense, charCount,
+  buildPosts, preflight, preflightManual, assertNoUrl, assertOnlyCanonicalUrl,
+  assertNoFutureTense, charCount, spokenUrl, canonicalLink, attributionTails, phrasingIndex,
   safeExternalText, clampSafe, normaliseMarkets, collectMarkets, marketLabel, resolveNews,
+  resolveStories, resolveRace, resolveDatacenters,
 };
 
 // ---------------------------------------------------------------------------
@@ -1440,6 +2147,323 @@ export function selfTest() {
     eq(delta, null, 'delta with no history');
   });
 
+  // --- Rule 1b: the two variants ------------------------------------------
+  //
+  // The defect these guard: every post used to end at a domain the project does
+  // not own. Both variants now derive from brand.canonicalUrl, and the api
+  // variant is still forbidden a link.
+  const PAGES = Object.freeze({
+    name: 'DOOMCON', domain: 'doomcon.watch', tagline: 'x',
+    canonicalUrl: 'https://messagegabrielhere-lgtm.github.io/doomcon',
+  });
+
+  check('spokenUrl speaks an apex domain', () => eq(spokenUrl('https://doomcon.watch'), 'doomcon dot watch', 'apex'));
+  check('spokenUrl speaks hyphens and paths, so it can be typed', () => {
+    eq(spokenUrl(PAGES.canonicalUrl), 'messagegabrielhere dash lgtm dot github dot io slash doomcon', 'pages url');
+  });
+  check('spokenUrl of the spelled form carries no URL', () => { assertNoUrl(spokenUrl(PAGES.canonicalUrl)); });
+  check('canonicalLink drops a trailing slash and any query', () => {
+    eq(canonicalLink({ canonicalUrl: 'https://doomcon.watch/?a=1' }), 'https://doomcon.watch', 'normalised');
+  });
+  check('canonicalLink returns null for an unparsable url', () => eq(canonicalLink({ canonicalUrl: 'not a url' }), null, 'null'));
+  check('the tails come from canonicalUrl, not from the aspirational domain', () => {
+    // THE DEFECT, as a test. brand.domain says doomcon.watch; the site is not
+    // served there. Neither variant may name it.
+    const t = attributionTails(PAGES);
+    if (/doomcon dot watch/.test(t.api)) throw new Error('api variant spells a domain the project does not own');
+    if (t.manual !== `Arithmetic at ${PAGES.canonicalUrl}`) throw new Error(`manual tail is ${t.manual}`);
+  });
+
+  check('every post carries both variants', () => {
+    const { posts } = buildPosts(state, { brand: PAGES, history });
+    if (posts.length === 0) throw new Error('no posts');
+    for (const p of posts) {
+      for (const v of POST_VARIANTS) {
+        if (typeof p.variants?.[v]?.text !== 'string' || p.variants[v].text.length === 0) {
+          throw new Error(`${p.kind} has no ${v} variant`);
+        }
+      }
+      eq(p.text, p.variants.api.text, `${p.kind} text is the api variant`);
+      eq(p.text_manual, p.variants.manual.text, `${p.kind} text_manual`);
+    }
+  });
+  check('the api variant is still rejected if it carries a URL', () => {
+    const { posts } = buildPosts(state, { brand: PAGES, history });
+    for (const p of posts) {
+      assertNoUrl(p.variants.api.text);
+      throws(() => assertNoUrl(`${p.variants.api.text} https://doomcon.watch`), 'url smuggled into api variant');
+    }
+  });
+  check('the manual variant carries the canonical link, once', () => {
+    const { posts } = buildPosts(state, { brand: PAGES, history });
+    for (const p of posts) {
+      eq(p.link, PAGES.canonicalUrl, `${p.kind} link`);
+      if (!p.variants.manual.text.includes(PAGES.canonicalUrl)) throw new Error(`${p.kind} manual variant has no link`);
+      assertOnlyCanonicalUrl(p.variants.manual.text, PAGES.canonicalUrl);
+    }
+  });
+  check('a manual variant carrying a FOREIGN url is rejected', () => {
+    throws(
+      () => assertOnlyCanonicalUrl(`Read at 02:00 UTC. ${PAGES.canonicalUrl} and also https://evil.com`, PAGES.canonicalUrl),
+      'foreign url',
+    );
+  });
+  check('a manual variant with no link at all is rejected', () => {
+    throws(() => preflightManual('DOOMCON 4 at 02:00 UTC.', PAGES.canonicalUrl), 'missing link');
+  });
+  check('future tense is rejected in BOTH variants', () => {
+    throws(() => preflight('activity will rise, 02:00 UTC'), 'api');
+    throws(() => preflightManual(`activity will rise, 02:00 UTC ${PAGES.canonicalUrl}`, PAGES.canonicalUrl), 'manual');
+    const { posts } = buildPosts(state, { brand: PAGES, history });
+    for (const p of posts) for (const v of POST_VARIANTS) assertNoFutureTense(p.variants[v].text);
+  });
+  check('both variants carry an exact UTC stamp and fit the limit', () => {
+    const { posts } = buildPosts(state, { brand: PAGES, history });
+    for (const p of posts) {
+      for (const v of POST_VARIANTS) {
+        assertHasUtcStamp(p.variants[v].text);
+        if (p.variants[v].chars > X_CHAR_LIMIT) throw new Error(`${p.kind} ${v} is ${p.variants[v].chars} chars`);
+      }
+    }
+  });
+  check('the two variants differ ONLY in the final sentence', () => {
+    const { posts } = buildPosts(state, { brand: PAGES, history });
+    const tails = attributionTails(PAGES);
+    for (const p of posts) {
+      const a = p.variants.api.text;
+      const m = p.variants.manual.text;
+      if (!a.endsWith(tails.api)) throw new Error(`${p.kind} api variant does not end with the attribution`);
+      if (!m.endsWith(tails.manual)) throw new Error(`${p.kind} manual variant does not end with the link`);
+      eq(a.slice(0, a.length - tails.api.length), m.slice(0, m.length - tails.manual.length), `${p.kind} body`);
+    }
+  });
+  check('a short domain still fits: the body is budgeted against the longer tail', () => {
+    // DEFAULT_BRAND is the apex domain, where the LINK is longer than the
+    // spelled form — the reverse of today. Both variants must still fit.
+    const { posts } = buildPosts(state, { history });
+    for (const p of posts) {
+      for (const v of POST_VARIANTS) if (p.variants[v].chars > X_CHAR_LIMIT) throw new Error(`${p.kind} ${v} over limit`);
+      preflight(p.variants.api.text);
+      preflightManual(p.variants.manual.text, p.link);
+    }
+  });
+
+  // --- Phrasings ------------------------------------------------------------
+  check('phrasingIndex is deterministic for one timestamp', () => {
+    eq(phrasingIndex('daily', state.generated_at, 3), phrasingIndex('daily', state.generated_at, 3), 'same day');
+  });
+  check('phrasingIndex reaches all three phrasings across a fortnight', () => {
+    const seen = new Set();
+    for (let i = 0; i < 14; i += 1) {
+      seen.add(phrasingIndex('daily', new Date(Date.parse(state.generated_at) + i * 86400000).toISOString(), 3));
+    }
+    eq(seen.size, 3, 'phrasings reached');
+  });
+  check('the preferred phrasing is used more than the others', () => {
+    let pref = 0;
+    for (let i = 0; i < 20; i += 1) {
+      if (phrasingIndex('daily', new Date(Date.parse(state.generated_at) + i * 86400000).toISOString(), 3) === 0) pref += 1;
+    }
+    if (pref !== 10) throw new Error(`preferred phrasing used ${pref} of 20 days, expected 10`);
+  });
+  check('two templates do not switch phrasing on the same day', () => {
+    // Not a guarantee for every pair on every day — an offset, not a lock. The
+    // claim is only that the offsets differ, so the whole slate cannot rotate
+    // in lockstep.
+    const kinds = ['daily', 'drought', 'race', 'developing', 'corroboration', 'top-news'];
+    const idx = kinds.map((k) => phrasingIndex(k, state.generated_at, 3));
+    if (new Set(idx).size === 1) throw new Error('every template picked the same phrasing');
+  });
+
+  // --- The three new templates ---------------------------------------------
+  const dcFixture = {
+    generated_at: '2026-09-23T02:00:00.000Z',
+    resources_index: {
+      usdm_map_date: '2026-09-18',
+      drought_by_county: {
+        '01069': { county: 'Houston County', state: 'AL', map_date: '2026-09-18', area_pct: { none: 0, d0: 40, d1: 30, d2: 10, d3: 0, d4: 0 } },
+        '48371': { county: 'Pecos County', state: 'TX', map_date: '2026-09-18', area_pct: { none: 0, d0: 10, d1: 20, d2: 30, d3: 40, d4: 0 } },
+        '06037': { county: 'Los Angeles County', state: 'CA', map_date: '2026-09-18', area_pct: { none: 100, d0: 0, d1: 0, d2: 0, d3: 0, d4: 0 } },
+      },
+    },
+    sites: [
+      { id: 'a', resources: { drought: { granularity: 'county', county_fips: '01069' } } },
+      { id: 'b', resources: { drought: { granularity: 'county', county_fips: '48371' } } },
+      { id: 'c', resources: { drought: { granularity: 'county', county_fips: '06037' } } },
+      { id: 'd', resources: { drought: { granularity: 'state', state: 'NV' } } },
+    ],
+  };
+
+  check('drought post fires from a live county join', () => {
+    const { posts } = buildPosts(state, { brand: PAGES, history, datacenters: dcFixture });
+    const p = posts.find((x) => x.kind === 'drought');
+    if (!p) throw new Error('no drought post');
+    // 3 sites joined, 2 of them in a county at D1 or worse, 2 at D2 or worse.
+    if (!/2 of 3/.test(p.text) && !/67 percent/.test(p.text)) throw new Error(`figures wrong: ${p.text}`);
+    if (!/18 Sep 2026/.test(p.text)) throw new Error('no map date');
+    preflight(p.variants.api.text);
+    preflightManual(p.variants.manual.text, p.link);
+  });
+  check('drought post names county AREA, never a site', () => {
+    const { posts } = buildPosts(state, { brand: PAGES, history, datacenters: dcFixture });
+    const p = posts.find((x) => x.kind === 'drought');
+    if (!/county area, not site draw/.test(p.text)) throw new Error('the area caveat was dropped as optional; it is required');
+    for (const v of POST_VARIANTS) {
+      if (!/county area, not site draw/.test(p.variants[v].text)) throw new Error(`the caveat is missing from the ${v} variant`);
+    }
+  });
+  check('an empty drought join produces NO post and a recorded reason', () => {
+    const empty = { ...dcFixture, resources_index: { ...dcFixture.resources_index, drought_by_county: {} } };
+    const out = buildPosts(state, { brand: PAGES, history, datacenters: empty });
+    if (out.posts.some((x) => x.kind === 'drought')) throw new Error('posted a drought share with no drought data');
+    if (!out.skipped.data.some((s) => s.id === 'drought')) throw new Error('skipped without saying why');
+  });
+  check('no datacenters file at all produces no drought post', () => {
+    const out = buildPosts(state, { brand: PAGES, history });
+    if (out.posts.some((x) => x.kind === 'drought')) throw new Error('drought post with no data');
+  });
+
+  const raceFixture = {
+    generated_at: '2026-09-23T02:00:00.000Z',
+    markets: { polymarket: { ok: true, horizon: { title: 'Which company has best AI model end of 2026?' } } },
+    players: [
+      { id: 'anthropic', name: 'Anthropic', principal: 'Dario Amodei', rank: 1, market: { state: 'live', probability: 0.735, change_7d: 0.01, change_7d_state: 'live', volume_usd: 168734 } },
+      { id: 'openai', name: 'OpenAI', principal: 'Sam Altman', rank: 2, market: { state: 'live', probability: 0.095, change_7d: -0.015, change_7d_state: 'live', volume_usd: 135064 } },
+      { id: 'google-deepmind', name: 'Google DeepMind', principal: 'Demis Hassabis', rank: 3, market: { state: 'live', probability: 0.095, change_7d: -0.005, change_7d_state: 'live', volume_usd: 89797 } },
+      { id: 'xai', name: 'xAI', principal: 'Elon Musk', rank: 4, market: { state: 'live', probability: 0.0275, change_7d: -0.0045, change_7d_state: 'live', volume_usd: 115916 } },
+    ],
+  };
+
+  check('race post fires and names the people', () => {
+    const { posts } = buildPosts(state, { brand: PAGES, history, race: raceFixture });
+    const p = posts.find((x) => x.kind === 'race');
+    if (!p) throw new Error('no race post');
+    if (!/Elon Musk|Dario Amodei|Sam Altman/.test(p.text)) throw new Error('no named principal');
+    preflight(p.variants.api.text);
+    preflightManual(p.variants.manual.text, p.link);
+  });
+  check('race post prices the LAB, never the person', () => {
+    const { posts } = buildPosts(state, { brand: PAGES, history, race: raceFixture });
+    const p = posts.find((x) => x.kind === 'race');
+    // "Dario Amodei 73.5" would attribute a company's odds to a human. The
+    // possessive has to be there.
+    if (/Dario Amodei \d/.test(p.text)) throw new Error('attributed a market price to a person');
+  });
+  check('race post quotes the venue question verbatim', () => {
+    const { posts } = buildPosts(state, { brand: PAGES, history, race: raceFixture });
+    const p = posts.find((x) => x.kind === 'race');
+    if (!/Which company has best AI model end of 2026/.test(p.text)) throw new Error('the question was reworded or dropped');
+  });
+  check('race post shrinks the board rather than overflowing', () => {
+    const long = {
+      ...raceFixture,
+      players: raceFixture.players.map((p) => ({ ...p, name: `${p.name} Research Incorporated` })),
+    };
+    const full = buildPosts(state, { brand: PAGES, history, race: raceFixture }).posts.find((x) => x.kind === 'race');
+    const { posts } = buildPosts(state, { brand: PAGES, history, race: long });
+    const p = posts.find((x) => x.kind === 'race');
+    if (!p) throw new Error('race post vanished instead of shrinking');
+    if (p.chars > X_CHAR_LIMIT) throw new Error(`${p.chars} chars`);
+    const seats = (t) => (t.match(/percent|, /g) || []).length;
+    if (seats(p.text) >= seats(full.text)) throw new Error('the board did not shrink');
+  });
+  check('a board that cannot fit at all does not ship a truncated one', () => {
+    const absurd = {
+      ...raceFixture,
+      players: raceFixture.players.map((p) => ({ ...p, name: `${p.name} Superintelligence Research Laboratories International` })),
+    };
+    const out = buildPosts(state, { brand: PAGES, history, race: absurd });
+    if (out.posts.some((x) => x.kind === 'race')) throw new Error('shipped a leaderboard that does not fit');
+    if (!out.skipped.data.some((s) => s.id === 'race')) throw new Error('skipped without saying why');
+  });
+  check('too few live legs is not a leaderboard', () => {
+    const thin = { ...raceFixture, players: raceFixture.players.slice(0, 2) };
+    const { posts } = buildPosts(state, { brand: PAGES, history, race: thin });
+    if (posts.some((x) => x.kind === 'race')) throw new Error('posted a two-horse leaderboard');
+  });
+  check('a dark market leg is never priced', () => {
+    const dark = {
+      ...raceFixture,
+      players: raceFixture.players.map((p) => (p.id === 'xai' ? { ...p, market: { ...p.market, state: 'dark', probability: null } } : p)),
+    };
+    const { posts } = buildPosts(state, { brand: PAGES, history, race: dark });
+    const p = posts.find((x) => x.kind === 'race');
+    if (p && /xAI/.test(p.text)) throw new Error('priced a dark leg');
+  });
+
+  const storyFixture = {
+    items: [
+      { id: 'i1', title: 'OpenAI discovered the Australian breach in August and told the government on September 10' },
+      { id: 'i2', title: 'Second outlet on the same disclosure' },
+    ],
+    stories: [{
+      id: 'st1',
+      members: ['i1', 'i2'],
+      sources: ['arstechnica-ai', 'techmeme', 'verge-ai'],
+      source_count: 3,
+      severity: 1,
+      severity_terms: [
+        { term: 'breach', tier: 'a', weight: 1 },
+        { term: 'warning', tier: 'c', weight: 0.9 },   // banned word: dropped, story kept
+        { term: 'hacked', tier: 'a', weight: 0.8 },
+      ],
+      first_published_at: '2026-09-23T00:30:00.000Z',
+      last_published_at: '2026-09-23T01:40:00.000Z',
+      span_hours: 1.2,
+      lead: 'i1',
+    }],
+  };
+
+  check('developing post fires on a cluster carrying incident language', () => {
+    const { posts } = buildPosts(state, { brand: PAGES, history, newsRaw: storyFixture });
+    const p = posts.find((x) => x.kind === 'developing');
+    if (!p) throw new Error('no developing post');
+    if (!/breach/.test(p.text)) throw new Error('no severity term quoted');
+    preflight(p.variants.api.text);
+    preflightManual(p.variants.manual.text, p.link);
+  });
+  check('a banned severity term is dropped, the story is not', () => {
+    const { posts } = buildPosts(state, { brand: PAGES, history, newsRaw: storyFixture });
+    const p = posts.find((x) => x.kind === 'developing');
+    if (/warning/i.test(p.text)) throw new Error('a banned term reached the post');
+    if (!/hacked/.test(p.text)) throw new Error('the surviving terms were dropped with the banned one');
+  });
+  check('a cluster with no severity is not "developing"', () => {
+    const calm = { ...storyFixture, stories: [{ ...storyFixture.stories[0], severity: 0, severity_terms: [] }] };
+    const { posts } = buildPosts(state, { brand: PAGES, history, newsRaw: calm });
+    if (posts.some((x) => x.kind === 'developing')) throw new Error('posted a calm cluster as developing');
+  });
+  check('a single-sourced cluster is not "developing"', () => {
+    const one = { ...storyFixture, stories: [{ ...storyFixture.stories[0], source_count: 1 }] };
+    const { posts } = buildPosts(state, { brand: PAGES, history, newsRaw: one });
+    if (posts.some((x) => x.kind === 'developing')) throw new Error('one outlet is not a corroborated cluster');
+  });
+  check('a stale cluster is not today’s news', () => {
+    const old = {
+      ...storyFixture,
+      stories: [{ ...storyFixture.stories[0], first_published_at: '2026-09-01T00:00:00.000Z', last_published_at: '2026-09-01T01:00:00.000Z' }],
+    };
+    const { posts } = buildPosts(state, { brand: PAGES, history, newsRaw: old });
+    if (posts.some((x) => x.kind === 'developing')) throw new Error('posted a three-week-old cluster');
+  });
+
+  check('the new templates are suppressed with the rest when two pillars are dark', () => {
+    const degraded = fixtureState({
+      degraded: true,
+      dark_pillars: ['markets', 'governance'],
+      pillars: fixtureState().pillars.map((p) => (
+        p.id === 'markets' || p.id === 'governance' ? { ...p, dark: true, score: null, sources_ok: 0 } : p
+      )),
+    });
+    const out = buildPosts(degraded, { brand: PAGES, history, race: raceFixture, datacenters: dcFixture, newsRaw: storyFixture });
+    eq(out.posts.length, 1, 'post count');
+    eq(out.posts[0].kind, 'degraded', 'kind');
+  });
+  check('everything still deterministic with all three data layers present', () => {
+    const opts = { brand: PAGES, history, race: raceFixture, datacenters: dcFixture, newsRaw: storyFixture };
+    eq(JSON.stringify(buildPosts(state, opts)), JSON.stringify(buildPosts(state, opts)), 'two runs');
+  });
+
   return results;
 }
 
@@ -1493,18 +2517,45 @@ async function main(argv) {
 
   const { brand } = await loadBrand();
   const { news } = await loadNews(newsPath);
-  const out = buildPosts(state, { brand, history, news, readings });
+
+  // The story clusters and the two sibling indices. Each is optional: a missing
+  // file removes its template from the slate and says so, and never leaves a
+  // remembered number behind.
+  const optional = async (path, label) => {
+    try {
+      return JSON.parse(await readFile(path, 'utf8'));
+    } catch (err) {
+      if (err.code !== 'ENOENT') throw err;
+      process.stderr.write(`[posts] no ${path} — the ${label} post is omitted, not faked.\n`);
+      return null;
+    }
+  };
+  const newsRaw = await optional(newsPath, 'developing');
+  const race = await optional('data/race.json', 'race');
+  const datacenters = await optional('data/datacenters.json', 'drought');
+
+  const out = buildPosts(state, { brand, history, news, newsRaw, race, datacenters, readings });
   if (out.suppressed) process.stderr.write(`[posts] SUPPRESSED: ${out.reason}\n`);
   process.stderr.write(
     `[posts] ${out.news_considered} fresh news item(s), ${out.markets_considered} market row(s)\n`,
   );
-  for (const sk of [...out.skipped.news, ...out.skipped.markets]) {
+  const tails = attributionTails(brand);
+  process.stderr.write(`[posts] api tail: "${tails.api}"\n[posts] manual tail: "${tails.manual}"\n`);
+  if (tails.link === null) {
+    process.stderr.write('[posts] WARNING: brand.canonicalUrl is missing or unparsable — both variants fell back to the spelled brand domain.\n');
+  }
+  for (const sk of [...out.skipped.news, ...out.skipped.markets, ...out.skipped.data]) {
     process.stderr.write(`[posts] skipped ${sk.id}: ${sk.why}\n`);
   }
+  const only = (argv.find((a) => a.startsWith('--variant=')) || '').slice('--variant='.length) || null;
   for (const p of out.posts) {
-    process.stdout.write(`\n--- ${p.rank}. ${p.kind}  (${p.chars}/${p.char_limit} chars, card ${p.card_variant}`
+    process.stdout.write(`\n--- ${p.rank}. ${p.kind}  (card ${p.card_variant}`
       + `${p.card_preferred !== p.card_variant ? `, prefers ${p.card_preferred}` : ''})\n`);
-    process.stdout.write(`    post at ${p.suggested_at_human} | ${p.reach_note}\n\n${p.text}\n`);
+    process.stdout.write(`    post at ${p.suggested_at_human} | ${p.reach_note}\n`);
+    for (const v of POST_VARIANTS) {
+      if (only && only !== v) continue;
+      process.stdout.write(`\n    [${v}] ${p.variants[v].chars}/${p.char_limit} chars\n${p.variants[v].text}\n`);
+    }
   }
 }
 

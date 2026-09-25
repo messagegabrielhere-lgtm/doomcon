@@ -518,10 +518,20 @@ export function page(o) {
   // og:image only when the card actually exists on disk. A tag pointing at a
   // 404 is worse than no tag: X renders a broken card instead of falling back
   // to the summary form, and the share is the whole growth loop.
-  const ogImage = o.ogImage
-    ? `<meta property="og:image" content="${esc(ctx.url(o.ogImage))}">
+  // Fall back to the live state card rather than to nothing. Every page with
+  // no card of its own — /methodology, /history, the 200 item pages — was
+  // emitting NO og:image at all, which docs/COMPETITIVE.md measured as the
+  // largest single acquisition hole on the site: a shared link rendered as a
+  // bare blue rectangle. The state card is a reading rather than a logo, so
+  // the fallback is worth clicking.
+  const ogPath = o.ogImage || 'cards/state.png';
+  const ogImage = ogPath
+    ? `<meta property="og:image" content="${esc(ctx.url(ogPath))}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="675">
     <meta property="og:image:alt" content="${esc(o.ogImageAlt || `${brand.NAME} share card`)}">
-    <meta name="twitter:image" content="${esc(ctx.url(o.ogImage))}">`
+    <meta name="twitter:image" content="${esc(ctx.url(ogPath))}">
+    <meta name="twitter:card" content="summary_large_image">`
     : '';
 
   // twitter:site is emitted only when brand.X_HANDLE is a handle we control.
