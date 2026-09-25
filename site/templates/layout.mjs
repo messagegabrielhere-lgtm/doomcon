@@ -547,33 +547,13 @@ export function page(o) {
   // on a 375px screen rather than three. The figure is inside the link on
   // purpose; it is the reason to tap, not a decoration beside it.
   const sections = SECTIONS.filter((s) => !s.needs || hasSection(ctx, s.needs));
-  const nav = sections.map((item) => {
-    const current = item.href === o.path ? ' aria-current="page"' : '';
-    const c = typeof item.count === 'function' ? item.count(ctx) : null;
-    const short = item.short && item.short !== item.label
-      ? `<span class="nav__s" aria-hidden="true">${esc(item.short)}</span>` : '';
-    const label = short
-      ? `<span class="nav__l">${esc(item.label)}</span>${short}`
-      : `<span class="nav__l nav__l--only">${esc(item.label)}</span>`;
-    const figure = c
-      ? `<b class="nav__n num">${esc(c.v)}</b><span class="vh"> — ${esc(c.k)}</span>`
-      : '';
-    return `<a href="${esc(ctx.href(item.href))}"${current}>${label}${figure}</a>`;
-  }).join('');
-
-  // The responsive label pair needs a rule to be a PAIR rather than both. The
-  // markup has emitted .nav__l and .nav__s together since v4 and nothing ever
-  // hid either, so the nav read "The Race Race 73.5%", "Newsroom News 200",
-  // "Methodology Method". Scoped here rather than in styles.mjs because that
-  // sheet is being rewritten concurrently and this is a one-selector fix that
-  // belongs with the markup that emits it.
-  const navCss = `<style>
-.nav__s { display: none; }
-@media (max-width: 900px) {
-  .nav__l:not(.nav__l--only) { display: none; }
-  .nav__s { display: inline; }
-}
-</style>`;
+  // The masthead text nav was REMOVED here. The feature bar above renders the
+  // same SECTIONS array with a mark and a live count on each tile, so it was a
+  // strict superset of this list, and shipping both stacked two navigations on
+  // top of each other: 122px of masthead on a 375px phone, and no answer to
+  // "which one do I use?". Measured 2026-09-25, chrome above the first content
+  // was 244px of an 812px fold. `sections` stays — the feature bar and the
+  // footer both still read it.
 
   // Data pages get the wide measure; prose pages keep the 66ch reading column.
   // A methodology page at 1240px is a worse methodology page; a dashboard at
@@ -614,7 +594,6 @@ ${jsonld}
 <header class="masthead"><div class="wrap masthead__in">
   ${marks.mastheadLockup(ctx.state.level, { href: ctx.href('/'), current: o.path === '/' })}
   <p class="masthead__tag">${esc(brand.TAGLINE)}</p>
-  <nav class="nav" aria-label="Primary">${nav}</nav>${navCss}
 </div></header>
 ${featureBar(ctx, sections, o.path)}${FEATURE_BAR_CSS}
 ${rail(ctx, o.path)}
