@@ -313,6 +313,158 @@ const ICONS = {
     title: 'The API',
     d: 'M7 5.4 2.6 10 7 14.6M13 5.4 17.4 10 13 14.6',
   },
+
+  // ---- the five levels --------------------------------------------------
+  // ONE DIAL AT FIVE NEEDLE ANGLES. Not five pictures: the reader learns the
+  // instrument once and then reads only where the needle is pointing, which is
+  // the same economy the datacentre set buys with one footprint.
+  //
+  // WHY THIS SET EXISTS AT ALL. docs/VISITORS.md §4 item 5 asks for the level
+  // rail to carry "a glyph per stop so it is never colour alone", and today the
+  // five stops are five anonymous pips plus the heat ramp — which is colour
+  // alone, in the one place on the site where the level is the whole point.
+  // Five needle angles are distinguishable in a greyscale thumbnail and to
+  // every dichromacy, because a rotation is not a hue.
+  //
+  // The sweep runs 144° (calm, pointing up-left) to 36° (loudest, pointing
+  // up-right), through vertical at ELEVATED — the same direction of travel
+  // as the level rail, the gauge on the fold, and the five slots in the logo.
+  // A mark that ran the other way would be a fourth convention, which is the
+  // thing this file was written to end.
+  //
+  // 144-36 RATHER THAN THE 162-18 THE FIRST DRAFT USED, and the reason is the
+  // 16px render. At 162° the needle lies almost along the chord at y=14.6 and
+  // merges with it, so DORMANT and UNPRECEDENTED both came out of the harness
+  // as "a dome with a bump" and were indistinguishable from each other — which
+  // is the worst possible pair to confuse. Pulling the ends in by 18° each
+  // lifts both tips clear of the chord. Needle length 6.6 against the dome's
+  // radius 7, so the tip never breaks the arc at ELEVATED.
+  //
+  // The dome is `sec-index`'s dome, to the decimal, so a level mark and the
+  // section mark for the index read as the same instrument.
+  'level-5': {
+    title: 'DOOMCON 5, DORMANT',
+    d: 'M3 14.6a7 7 0 0 1 14 0M3 14.6h14M10 14.6 4.66 10.72',
+    solid: 'M10 13.3a1.3 1.3 0 1 1 0 2.6 1.3 1.3 0 0 1 0-2.6',
+  },
+  'level-4': {
+    title: 'DOOMCON 4, ROUTINE',
+    d: 'M3 14.6a7 7 0 0 1 14 0M3 14.6h14M10 14.6 7 8.72',
+    solid: 'M10 13.3a1.3 1.3 0 1 1 0 2.6 1.3 1.3 0 0 1 0-2.6',
+  },
+  'level-3': {
+    title: 'DOOMCON 3, ELEVATED',
+    d: 'M3 14.6a7 7 0 0 1 14 0M3 14.6h14M10 14.6V8',
+    solid: 'M10 13.3a1.3 1.3 0 1 1 0 2.6 1.3 1.3 0 0 1 0-2.6',
+  },
+  'level-2': {
+    title: 'DOOMCON 2, ACCELERATED',
+    d: 'M3 14.6a7 7 0 0 1 14 0M3 14.6h14M10 14.6 13 8.72',
+    solid: 'M10 13.3a1.3 1.3 0 1 1 0 2.6 1.3 1.3 0 0 1 0-2.6',
+  },
+  'level-1': {
+    title: 'DOOMCON 1, UNPRECEDENTED',
+    d: 'M3 14.6a7 7 0 0 1 14 0M3 14.6h14M10 14.6 15.34 10.72',
+    solid: 'M10 13.3a1.3 1.3 0 1 1 0 2.6 1.3 1.3 0 0 1 0-2.6',
+  },
+
+  // ---- the eight labs ---------------------------------------------------
+  // Redrawn from _labs.mjs's GLYPH onto this grid. Same eight concepts, one
+  // stroke weight, one live area — the module they came from draws them on a
+  // 16 grid at stroke 1.6-1.8, so a lab mark and the pillar tag beside it on
+  // the same row were two different weights of line.
+  //
+  // THESE ARE NOT LOGOS AND THEY ARE NOT TRYING TO BE. Nobody's registered mark
+  // is reproduced here: they are eight abstract figures, assigned to eight
+  // named organisations, and the organisation's NAME is printed beside every
+  // one of them everywhere it appears — the same rule, and the same reason, as
+  // the principal marks in _avatars.mjs. Identification is by label.
+  'lab-openai': {
+    title: 'OpenAI',
+    d: 'M10 3.2a6.8 6.8 0 1 1 0 13.6 6.8 6.8 0 0 1 0-13.6',
+    solid: 'M10 7.9a2.1 2.1 0 1 1 0 4.2 2.1 2.1 0 0 1 0-4.2',
+  },
+  'lab-anthropic': {
+    title: 'Anthropic',
+    d: 'M3.2 16.4 10 3.6l6.8 12.8',
+  },
+  'lab-google-deepmind': {
+    title: 'Google DeepMind',
+    d: 'M10 3.2 16.8 10 10 16.8 3.2 10z',
+  },
+  'lab-xai': {
+    title: 'xAI',
+    d: 'M4.2 4.2 15.8 15.8M15.8 4.2 4.2 15.8',
+  },
+  'lab-meta': {
+    title: 'Meta',
+    d: 'M2.8 12.9c2-6.3 4.3-6.3 7.2-1.8s5.2 4.5 7.2-1.8',
+  },
+  'lab-deepseek': {
+    title: 'DeepSeek',
+    d: 'M2.6 10h4.1l2-4.4 2.5 8.6 2-4.2h4.2',
+  },
+  'lab-mistral': {
+    title: 'Mistral',
+    d: 'M3.4 16.6V6.1h4.1v10.5M12.5 16.6V3.4h4.1v13.2',
+  },
+  'lab-qwen': {
+    title: 'Alibaba Qwen',
+    d: 'M9.1 3.4a5.7 5.7 0 1 1 0 11.4 5.7 5.7 0 0 1 0-11.4M13.2 13.2 17 17',
+  },
+  // A lab we draw no figure for. A ROUNDED SQUARE, NOT A QUESTION MARK: the
+  // roster is open and a new entrant is not an error, and a query glyph in a
+  // column of eight confident marks reads as a rendering fault. The name
+  // beside it is doing the work, as it is for the other eight.
+  'lab-generic': {
+    title: 'Lab',
+    d: 'M4 4h12v12H4z',
+  },
+
+  // ---- news item kinds --------------------------------------------------
+  // The seven `kind` values docs/NEWS.md fixes on a NewsItem. The newsroom
+  // prints the word — `paper`, `release`, `status` — and this is the mark that
+  // goes beside it, so a reader scanning 200 rows can sort them by silhouette
+  // before reading any of them.
+  'kind-paper': {
+    title: 'Paper',
+    // a sheet with a turned corner
+    d: 'M5 2.6h6.4L15 6.2v11.2H5zM11.4 2.6V6.2H15M7.4 10.4h5.2M7.4 13.4h5.2',
+  },
+  'kind-model': {
+    title: 'Model',
+    // a box in three dimensions: weights that actually landed, as an object
+    d: 'M10 2.6 17.2 6.5v7.8L10 18.2 2.8 14.3V6.5zM10 10.4l7.2-3.9M10 10.4v7.8M10 10.4 2.8 6.5',
+  },
+  'kind-release': {
+    title: 'Release',
+    // a cut tag — the least ambiguous "shipped" event there is
+    d: 'M2.8 10.6 10.6 2.8h6.6v6.6L9.4 17.2z',
+    solid: 'M13.6 5.2a1.3 1.3 0 1 1 0 2.6 1.3 1.3 0 0 1 0-2.6',
+  },
+  'kind-lab': {
+    title: 'Lab newsroom',
+    // a building with a door: the lab's own front page, not a report about it
+    d: 'M3 17.4V5.6L10 2.8l7 2.8v11.8M8.2 17.4v-4.4h3.6v4.4',
+  },
+  'kind-forum': {
+    title: 'Forum',
+    // two overlapping bubbles — a thread, not a statement
+    d: 'M2.6 4.2h10v6.6H6.9L3.9 13.4v-2.6H2.6z',
+    d2: 'M8.6 8.2h8.8v6.4h-1.3v2.6l-2.9-2.6H8.6z',
+  },
+  'kind-press': {
+    title: 'Press',
+    // a folded newspaper
+    d: 'M2.6 4.6h10.8v12.8H2.6zM13.4 8.4h4v7.2a1.6 1.6 0 0 1-4 0M5 7.8h6M5 10.8h6M5 13.8h6',
+  },
+  'kind-status': {
+    title: 'Status page',
+    // two rack units with their lamps lit. The one kind that is about a fleet
+    // rather than about a publication.
+    d: 'M3 4.4h14v4.4H3zM3 11.2h14v4.4H3z',
+    solid: 'M5.4 5.5a1.1 1.1 0 1 1 0 2.2 1.1 1.1 0 0 1 0-2.2M5.4 12.3a1.1 1.1 0 1 1 0 2.2 1.1 1.1 0 0 1 0-2.2',
+  },
 };
 
 /** Every name in the sprite, in emission order. Frozen so a caller cannot
@@ -508,3 +660,117 @@ export function sectionIcon(key, opts) {
 export function hasSection(key) {
   return Object.prototype.hasOwnProperty.call(SECTION_ALIAS, String(key).toLowerCase());
 }
+
+/**
+ * A DOOMCON level, 1-5. Takes the number, a `state.json` object, or the level
+ * word — three things a caller might be holding, and none of them should have
+ * to be converted at the call site.
+ *
+ * Throws on anything else rather than falling back to a neutral mark: a level
+ * is the one quantity on this site that must never be drawn wrong, and a
+ * silent fallback would render DORMANT's needle over an UNPRECEDENTED reading.
+ */
+const LEVEL_WORD = {
+  dormant: 5, routine: 4, elevated: 3, accelerated: 2, unprecedented: 1,
+};
+export function levelIcon(level, opts) {
+  let n = level;
+  if (n && typeof n === 'object') n = n.level;
+  if (typeof n === 'string') {
+    const w = LEVEL_WORD[n.trim().toLowerCase()];
+    n = w === undefined ? Number(n) : w;
+  }
+  if (!Number.isInteger(n) || n < 1 || n > 5) {
+    throw new Error(`_icons: no level mark for ${JSON.stringify(level)} (expected 1-5 or a level name)`);
+  }
+  return icon(`level-${n}`, opts);
+}
+
+/**
+ * A lab mark, keyed by the ids data/race.json and _labs.mjs already use.
+ *
+ * Unknown ids resolve to `lab-generic` rather than throwing, and that is the
+ * opposite of the level rule above on purpose: the roster of frontier labs is
+ * open, a new entrant arriving in the data is an ordinary Tuesday, and failing
+ * the whole build over one is the wrong trade. The level set is closed by
+ * docs/CONTRACT.md and can never grow.
+ */
+const LAB_ALIAS = {
+  openai: 'openai',
+  anthropic: 'anthropic',
+  'google-deepmind': 'google-deepmind', deepmind: 'google-deepmind', google: 'google-deepmind',
+  xai: 'xai', 'x-ai': 'xai',
+  meta: 'meta', 'meta-ai': 'meta',
+  deepseek: 'deepseek',
+  mistral: 'mistral',
+  qwen: 'qwen', 'alibaba-qwen': 'qwen', alibaba: 'qwen',
+};
+export function labIcon(id, opts) {
+  const k = LAB_ALIAS[String(id).toLowerCase()] || 'generic';
+  return icon(`lab-${k}`, opts);
+}
+
+/** True when this lab has a figure of its own rather than the generic frame. */
+export function hasLab(id) {
+  return Object.prototype.hasOwnProperty.call(LAB_ALIAS, String(id).toLowerCase());
+}
+
+/**
+ * A news item's `kind`, in the seven spellings docs/NEWS.md fixes.
+ * Falls back to the press mark for an unknown kind, for the same reason
+ * labIcon() falls back: a new adapter is not a build failure.
+ */
+const KIND_ALIAS = {
+  lab: 'lab', paper: 'paper', model: 'model', release: 'release',
+  forum: 'forum', press: 'press', status: 'status',
+  // the two spellings that already exist elsewhere in the tree
+  news: 'press', code: 'release',
+};
+export function kindIcon(kind, opts) {
+  const k = KIND_ALIAS[String(kind).toLowerCase()] || 'press';
+  return icon(`kind-${k}`, opts);
+}
+
+/**
+ * THE SHEET, GROUPED.
+ *
+ * Exported so three callers stop hard-coding name lists: a legend that wants
+ * to print every source state; `iconSprite({ only })` on a page that knows it
+ * needs one group and should not pay for the other six; and the visual
+ * regression harness, which renders every group at 16, 32 and 64px and is the
+ * only way anyone finds out that a new mark is mud at the smallest size it
+ * ships at.
+ *
+ * Adding an icon without adding it to a set is caught at import time below.
+ */
+export const ICON_SETS = Object.freeze({
+  pillar: ['pillar-capability', 'pillar-compute', 'pillar-attention', 'pillar-governance', 'pillar-markets'],
+  state: ['state-live', 'state-stale', 'state-dark', 'state-awaiting'],
+  datacentre: ['dc-operating', 'dc-building', 'dc-announced'],
+  direction: ['dir-up', 'dir-down', 'dir-flat'],
+  section: ['sec-index', 'sec-signal', 'sec-race', 'sec-floor', 'sec-wire', 'sec-substrate',
+    'sec-digest', 'sec-bliss', 'sec-map', 'sec-history', 'sec-archive', 'sec-method', 'sec-api'],
+  level: ['level-5', 'level-4', 'level-3', 'level-2', 'level-1'],
+  lab: ['lab-openai', 'lab-anthropic', 'lab-google-deepmind', 'lab-xai', 'lab-meta',
+    'lab-deepseek', 'lab-mistral', 'lab-qwen', 'lab-generic'],
+  kind: ['kind-paper', 'kind-model', 'kind-release', 'kind-lab', 'kind-forum', 'kind-press', 'kind-status'],
+});
+
+// Module-load invariants. Both directions, because both have been wrong:
+// a name in a set that no longer exists renders an empty <use> that nobody
+// sees, and a name in the sheet that is in no set is invisible to the harness
+// that would have caught it being mud at 16px.
+(function assertIconSets() {
+  const inSets = new Set();
+  for (const [set, names] of Object.entries(ICON_SETS)) {
+    for (const name of names) {
+      if (!hasIcon(name)) throw new Error(`_icons: ICON_SETS.${set} names "${name}", which is not in the sheet`);
+      if (inSets.has(name)) throw new Error(`_icons: "${name}" appears in two sets`);
+      inSets.add(name);
+    }
+  }
+  const orphans = ICON_NAMES.filter((n) => !inSets.has(n));
+  if (orphans.length) {
+    throw new Error(`_icons: ${orphans.length} icon(s) belong to no set: ${orphans.join(', ')}`);
+  }
+})();

@@ -65,6 +65,8 @@ import * as brand from '../brand.mjs';
 import * as news from './news.mjs';
 import * as oven from './_oven.mjs';
 import * as switcher from './_switcher.mjs';
+import * as developing from './_developing.mjs';
+import * as leaderwire from './_leaderwire.mjs';
 
 // Matches build.mjs's own sparkline window. Only a cap: the fallback reader
 // below never needs more points than a 300-unit sparkline can resolve.
@@ -110,6 +112,7 @@ export function render(ctx) {
   // -----------------------------------------------------------------------
   const main = `
 ${news.styleTag()}
+${developing.render(ctx)}
 <section class="hero">
   <p class="eyebrow">Observed <time datetime="${esc(state.generated_at)}">${esc(utc(state.generated_at))}</time></p>
   <div class="hero__grid">

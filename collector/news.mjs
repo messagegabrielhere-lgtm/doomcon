@@ -27,9 +27,14 @@ import { createHash } from 'node:crypto';
 
 import { fetchText, fetchJson } from './fetch.mjs';
 import { extractEntities, entityKinds, classifyPillar } from './news-sources/_entities.mjs';
+import { storyPass, STORY_SCORE } from './news-stories.mjs';
 
 const SCHEMA_VERSION = 1;
-const SCORING_VERSION = '1.0.0';
+// 1.1.0 adds the two story terms — severity and coverage — on top of the five
+// original ones. See collector/news-stories.mjs and docs/STORIES.md. The version
+// is bumped rather than reused because a score computed under 1.0.0 and a score
+// computed under 1.1.0 are not the same measurement and must not be compared.
+const SCORING_VERSION = '1.1.0';
 
 // Rolling window. 7 days matches the reference window the rest of the pipeline
 // thinks in, and 200 items is about as much as a phone on a cellular connection
@@ -67,8 +72,13 @@ const OUTPUT_URL = new URL('../data/news.json', import.meta.url);
 // recompute these scores. See docs/NEWS.md, "Scoring".
 // ---------------------------------------------------------------------------
 
-// The five terms sum to exactly 100, so the clamp in scoreItem() is a guard
-// rather than a load-bearing part of the maths.
+// The five terms below sum to exactly 100, so the clamp in scoreItem() is a
+// guard rather than a load-bearing part of the maths. TWO MORE TERMS are added
+// after this by the story pass in collector/news-stories.mjs — severity (15)
+// and coverage (15) — which take the ceiling of the sum to 130 and make the
+// clamp real. That clamp is applied THERE, and it is applied by removing points
+// from the two new components rather than from the total, so
+// `score == sum(components)` stays true. See docs/STORIES.md.
 //
 // The balance is an EDITORIAL JUDGEMENT and is disclosed here rather than
 // buried, the same way docs/METHODOLOGY.md discloses the index's 70/30 AQI
@@ -86,6 +96,15 @@ const OUTPUT_URL = new URL('../data/news.json', import.meta.url);
 //   RECENCY        20  a news reel that is not fresh is not news.
 //   ENGAGEMENT     18  how hard humans actually reacted, where measurable.
 //   ENTITIES       12  a named frontier lab or model family in the headline.
+//
+// Added at scoring_version 1.1.0, computed by the story pass:
+//
+//   SEVERITY       15  what KIND of event this is. Before this term, a rogue-
+//                      agent breach and a keychain launch scored identically,
+//                      because nothing in the formula knew what an incident was.
+//   COVERAGE       15  distinct sources carrying the same EVENT beyond the ones
+//                      already carrying this item's own URL. Credited to the
+//                      story lead only, so a cluster cannot inflate every member.
 const SCORE = Object.freeze({
   WEIGHT_MAX: 25,
   RECENCY_MAX: 20,
@@ -95,6 +114,9 @@ const SCORE = Object.freeze({
   ENTITY_MAX: 12,
   ENTITY_PER_HIT: 3,
   ENGAGEMENT_MAX: 18,
+  SEVERITY_MAX: STORY_SCORE.SEVERITY_MAX,
+  COVERAGE_PER_SOURCE: STORY_SCORE.COVERAGE_PER_SOURCE,
+  COVERAGE_MAX: STORY_SCORE.COVERAGE_MAX,
 });
 
 function round1(n) {
@@ -126,12 +148,20 @@ function scoreItem({ weight, publishedAtMs, generatedAtMs, sourceCount, entityCo
     p = SCORE.ENGAGEMENT_MAX * Math.min(1, Math.log1p(engagement.value) / Math.log1p(engagement.full_scale));
   }
 
+  // severity and coverage are declared here at zero rather than appearing from
+  // nowhere later: the component object has ONE shape everywhere in the file,
+  // so a consumer that iterates it (site/templates/_reel.mjs prints the
+  // addition on every card) never has to branch on which pass produced it.
+  // The story pass fills them in; on an item it does not touch, zero is the
+  // true answer and not a placeholder.
   const components = {
     source_weight: round1(w),
     recency: round1(r),
     corroboration: round1(c),
     entities: round1(e),
     engagement: round1(p),
+    severity: 0,
+    coverage: 0,
   };
   const total = Math.min(100, Math.max(0, round1(w + r + c + e + p)));
   return { score: total, components, age_hours: round1(ageHours) };
@@ -616,10 +646,18 @@ function rescoreRetained(item, generatedAtMs) {
     corroboration: Number(c.corroboration) || 0,
     entities: Number(c.entities) || 0,
     engagement: Number(c.engagement) || 0,
+    // Carried, not recomputed, for the same reason as every other non-recency
+    // term: this function's contract is "only the clock moved". The story pass
+    // recomputes both from scratch a few lines later in main(), against the
+    // whole window — but a retained item that never reaches that pass must
+    // still satisfy score == sum(components) on its own.
+    severity: Number(c.severity) || 0,
+    coverage: Number(c.coverage) || 0,
   };
   const total = Math.min(100, Math.max(0, round1(
     components.source_weight + components.recency + components.corroboration +
-    components.entities + components.engagement,
+    components.entities + components.engagement +
+    components.severity + components.coverage,
   )));
 
   return {
@@ -679,9 +717,53 @@ function printTop(items, n) {
     console.log(
       `         ${it.source}` +
       (corr.count > 1 ? ` +${corr.count - 1} (${corr.sources.filter((s) => s !== it.source).join(', ')})` : ' (single source)') +
+      // ALL SEVEN components, because five of seven printed under a
+      // seven-component score is a log that does not add up. Before this was
+      // fixed the line read `w=17.5 r=15.8 c=0 e=3 p=0` beside a score of 61.3.
       `  w=${c.source_weight} r=${c.recency} c=${c.corroboration} e=${c.entities} p=${c.engagement}` +
+      ` s=${c.severity ?? 0} v=${c.coverage ?? 0}` +
       (it.entities.length ? `  [${it.entities.join(', ')}]` : ''),
     );
+    const st = it.meta.story;
+    if (st) {
+      console.log(
+        `         story ${st.id} ${st.is_lead ? '(lead)' : '(member)'}  ` +
+        `${st.source_count} source${st.source_count === 1 ? '' : 's'} [${st.sources.join(', ')}]  ` +
+        `linked by: ${st.linked_by.map((l) => l.words.join('+')).join(' / ') || '—'}`,
+      );
+    }
+  }
+}
+
+/**
+ * The clusters, the words that made them, and the pairs that were refused.
+ *
+ * Printed in full rather than counted, because the only way to know whether a
+ * clustering rule is right is to read the merges it made. A run log that says
+ * "4 stories" and stops is a run log that cannot be audited.
+ */
+function printStories({ stories, rules }) {
+  const c = rules.counts;
+  console.log(
+    `${stories.length} event stories over ${c.clusterable_items} clusterable items ` +
+    `(${c.clustered_items} clustered, ${c.papers_excluded} papers excluded from clustering, ${c.links} links)`,
+  );
+  if (c.rejected.span || c.rejected.near_miss || c.rejected.entity_only) {
+    console.log(
+      `refused: ${c.rejected.near_miss} near misses, ` +
+      `${c.rejected.entity_only} pairs sharing only company or product names, ` +
+      `${c.rejected.span} over the ${rules.window_hours}h span guard`,
+    );
+  }
+  for (const s of stories) {
+    console.log('');
+    console.log(`  story ${s.id}  ${s.source_count} sources [${s.sources.join(', ')}]  severity ${s.severity}  span ${s.span_hours}h`);
+    for (const l of s.links) {
+      console.log(`    link  ${l.a} + ${l.b}  via ${l.rule}: ${l.words.join(', ')}`);
+    }
+    if (s.severity_terms.length) {
+      console.log(`    terms ${s.severity_terms.map((t) => `${t.term} (${t.tier.toUpperCase()}, ${t.field})`).join(' · ')}`);
+    }
   }
 }
 
@@ -971,6 +1053,27 @@ async function main() {
   );
   items = items.filter((i) => membership.has(i.id));
 
+  // EVENT CLUSTERING, and it runs HERE — after the cut, never before.
+  //
+  // The three de-duplication passes above find the same PAGE arriving through
+  // two feeds. They cannot find the same EVENT reported by four newsrooms in
+  // four different sentences at four different URLs, and the failure is
+  // inverted: a bigger story attracts more outlets, more outlets means more
+  // distinct URLs, and every one of them then scores `corroboration 0`. See the
+  // header of collector/news-stories.mjs for the measurement.
+  //
+  // It runs after the membership cut so the window it clusters over is already
+  // fixed. Membership is deliberately decided on (published_at, id) and must
+  // never depend on score; this pass changes scores, so it has to be downstream
+  // of that decision or the two rules would fight every run.
+  const story = storyPass(items, { generatedAtMs });
+  // Re-sorted with the SAME total order as above, because the story terms have
+  // moved scores and score is the tiebreaker within one published instant.
+  items = story.items.sort((a, b) =>
+    Date.parse(b.published_at) - Date.parse(a.published_at) ||
+    b.score - a.score ||
+    a.id.localeCompare(b.id));
+
   // WHAT CHANGED, as a published field rather than as something the caller has
   // to derive. The fast lane rebuilds and publishes only when the SET of items
   // moved, because every other difference between two consecutive runs is the
@@ -1004,6 +1107,15 @@ async function main() {
       items_changed: arrived.length > 0 || departed.length > 0,
     },
     items,
+    // One entry per multi-item event, with the words that linked each pair.
+    // Singletons are not listed: an unclustered item is its own story and
+    // printing 190 one-member rows would be file weight with no information in
+    // it. `story_rules` carries the thresholds, the severity table, the counts
+    // and a capped list of NEAR MISSES — the pairs this pass decided not to
+    // merge — because a clustering layer that publishes only its merges is
+    // asking to be believed rather than checked.
+    stories: story.stories,
+    story_rules: story.rules,
     sources,
   };
 
@@ -1023,8 +1135,12 @@ async function main() {
   // Named, not just counted. A count nobody can act on is a count nobody reads.
   if (dormant.length) console.log(`dormant (feed healthy, nothing published inside ${WINDOW_DAYS}d): ${dormant.map((s) => s.id).join(', ')}`);
   if (dark.length) console.log(`dark (fetch or parse failed): ${dark.map((s) => s.id).join(', ')}`);
-  console.log(`${records.length} records (${ghosts} rehydrated corroborating members) -> ${groups.length} unique stories (${collapsed} collapsed as duplicates)`);
-  console.log(`${corroborated} stories corroborated by 2+ independent sources`);
+  // "unique items", not "unique stories": a story is now a named object with
+  // its own row in the file, and reusing the word for the output of URL
+  // de-duplication is exactly the confusion this task was raised to end.
+  console.log(`${records.length} records (${ghosts} rehydrated corroborating members) -> ${groups.length} unique items (${collapsed} collapsed as duplicates)`);
+  console.log(`${corroborated} items corroborated by 2+ independent sources at the same URL`);
+  printStories(story);
   console.log(`wrote data/news.json — ${items.length} items, newest first`);
   console.log(
     `run: ${output.run.mode}, ${due.length}/${adapters.length} sources fetched, ` +
