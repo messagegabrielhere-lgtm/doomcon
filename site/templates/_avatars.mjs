@@ -26,13 +26,23 @@
 //      mark with no name attached. You are never asked to recognise a shape.
 //
 //   2. THE SHAPE IS THE PERSON; THE COLOUR IS THE ORGANISATION. Eight
-//      silhouettes, all distinct in a greyscale thumbnail: circle, hexagon,
-//      diamond, squircle, shield, octagon, bracket, stadium. The accent comes
-//      from the lab, so Zuckerberg and LeCun share a hue and differ in shape,
-//      which is the true relationship and not a coincidence of palette.
-//      Colour is never the only carrier — that is the site-wide rule and it is
-//      the reason the shapes had to be distinguishable before the hues were
-//      chosen.
+//      emblems, all distinct in a greyscale thumbnail: a beaded orbit, a
+//      crested shield, a faceted prism, a reticled octagon, a sealed stadium,
+//      a closed bracket, a beaded cell, a cut squircle.
+//
+//      THE ACCENT IS PER-PERSON, INSIDE THE LAB'S OWN HUE. The brief asked for
+//      "a strong per-person accent colour"; the previous rule was one hue per
+//      organisation. Both are kept, because they are not actually in tension:
+//      every person has their own hex, and every hex sits in their lab's hue
+//      family, so Zuckerberg and LeCun are two values of Meta blue and differ
+//      in silhouette — which is the true relationship rather than a palette
+//      accident. See ACCENT below and docs/BRAND.md §4.
+//
+//      Colour is never the only carrier, and at eight marks over six labs it
+//      structurally cannot be: three of the labs sit in one blue-violet region
+//      of the wheel. That is measured, printed in docs/BRAND.md §6, and it is
+//      exactly why the emblems had to be distinguishable in greyscale before a
+//      single hue was chosen.
 //
 //   3. NOTHING HERE IS FETCHED, GENERATED OR RANDOM. No portrait, no gravatar,
 //      no hashed identicon whose output nobody has looked at. Eight hand-drawn
@@ -62,14 +72,78 @@ import { esc, utcDay } from './_html.mjs';
 // these eight are still eight. A set that needed colour to be told apart would
 // have failed the rule it exists to satisfy.
 const SHAPE = {
-  circle:   '<circle cx="12" cy="12" r="10.1"/>',
-  hex:      '<path d="M12 1.7 21 6.85v10.3L12 22.3 3 17.15V6.85Z"/>',
-  diamond:  '<path d="M12 1.5 22.5 12 12 22.5 1.5 12Z"/>',
-  squircle: '<rect x="2" y="2" width="20" height="20" rx="6.5"/>',
-  shield:   '<path d="M12 1.8 21.3 5.3v7.1c0 4.6-4 7.6-9.3 9.8-5.3-2.2-9.3-5.2-9.3-9.8V5.3Z"/>',
-  octagon:  '<path d="M8.1 1.9h7.8l5.2 5.2v7.8l-5.2 5.2H8.1L2.9 14.9V7.1Z"/>',
-  bracket:  '<path d="M8.6 2.5H2.6v19h6M15.4 2.5h6v19h-6"/>',
-  stadium:  '<rect x="1.5" y="4.6" width="21" height="14.8" rx="7.4"/>',
+  // OpenAI / Altman. A ring with a bead on it — a node on an orbit. The bead
+  // is the only filled element in the set that is not a vertex dot, which is
+  // what makes this one findable in a column of eight at 20px.
+  orbit:
+    '<circle cx="12" cy="12" r="8.7"/>'
+    + '<circle cx="18.15" cy="5.85" r="2.15" fill="currentColor" stroke="none"/>',
+
+  // Anthropic / Amodei. A shield, with the top edge notched into a crest.
+  aegis:
+    '<path d="M12 1.9 20.9 5.3v6.4c0 4.7-3.9 7.9-8.9 10.4-5-2.5-8.9-5.7-8.9-10.4V5.3Z"/>'
+    + '<path d="M7.5 3.6 12 5.3l4.5-1.7" fill="none" stroke-width="1.6"/>',
+
+  // Google DeepMind / Hassabis. A cut gem: a diamond with the bottom point
+  // taken off, so the silhouette is asymmetric top-to-bottom and cannot be
+  // confused with the plain diamond it started as. The first draft WAS a plain
+  // diamond with two facet strokes near the top vertex, and the harness showed
+  // those strokes were invisible at 20 and 26px and fought the monogram at 34 —
+  // so the character moved into the outline, where small sizes can still see it.
+  prism:
+    '<path d="M12 2.1 21.9 12 15.6 21.9H8.4L2.1 12Z"/>',
+
+  // xAI / Musk. An octagon inside a reticle. Four ticks on the axes, outside
+  // the body, so the silhouette is unmistakable without touching the middle.
+  rotor:
+    '<path d="M8.4 3.4h7.2l4.9 4.9v7.4l-4.9 4.9H8.4l-4.9-4.9V8.3Z"/>'
+    + '<path d="M12 0.8v1.9M12 21.3v1.9M0.8 12h1.9M21.3 12h1.9" fill="none" stroke-width="1.8"/>',
+
+  // Meta / Zuckerberg. A stadium with its two end caps drawn in — a capsule
+  // that has been sealed at both ends rather than an empty pill.
+  stadium:
+    '<rect x="1.5" y="5.1" width="21" height="13.8" rx="6.9"/>'
+    + '<path d="M6.6 8.7v6.6M17.4 8.7v6.6" fill="none" stroke-width="1.5"/>',
+
+  // Meta / LeCun. Two brackets, closed along the bottom. Shares Meta's hue
+  // with the stadium above and shares nothing else, which is the relationship:
+  // same lab, different person, and the SHAPE is what tells them apart.
+  bracket:
+    '<path d="M8.8 2.6H2.8v18.8h6M15.2 2.6h6v18.8h-6"/>'
+    + '<path d="M9.8 21.4h4.4" fill="none" stroke-width="1.5"/>',
+
+  // DeepSeek / Liang. A hexagon with its top and base vertices beaded — a cell
+  // in a lattice, which is the one of these that is about a structure rather
+  // than about a boundary.
+  //
+  // FLAT-TOP, NOT POINT-TOP, and the harness is why. The first draft was a
+  // point-top hexagon and Hassabis's gem is a point-top pentagon; at 16px and
+  // 20px the two were the same picture with one side's difference in it. A
+  // hexagon turned 30° has a different axis from every other mark in the set,
+  // which is a difference that survives being 16 pixels wide.
+  cell:
+    '<path d="M7.1 2.6h9.8L21.8 12l-4.9 9.4H7.1L2.2 12Z"/>'
+    + '<circle cx="2.2" cy="12" r="1.7" fill="currentColor" stroke="none"/>'
+    + '<circle cx="21.8" cy="12" r="1.7" fill="currentColor" stroke="none"/>',
+
+  // Mistral / Mensch. A squircle with the top-right corner cut away. The one
+  // asymmetric mark in the set, which is why it is the easiest of the eight to
+  // pick out of a grid, and it costs no interior room at all.
+  //
+  // KEEP THIS KEY NAMED `squircle`. avatarUnknown() draws the "no principal
+  // published" frame from it, and renaming it would silently empty that mark
+  // rather than failing the build.
+  squircle:
+    '<path d="M8.6 2.4h6.6l6.4 6.4v6.6a6 6 0 0 1-6 6H8.4a6 6 0 0 1-6-6V8.4a6 6 0 0 1 6-6Z"/>'
+    + '<path d="M15.2 2.4v6.4h6.4" fill="none" stroke-width="1.5"/>',
+
+  // NOBODY'S. The honest empty frame, and it is a ninth shape rather than a
+  // borrowed one on purpose: avatarUnknown() used to draw the squircle, and
+  // now that the squircle is Mensch's cut corner, "no principal published"
+  // would have been rendered in another man's emblem. A plain rounded square
+  // belongs to no one, which is the whole statement.
+  frame:
+    '<rect x="2.6" y="2.6" width="18.8" height="18.8" rx="6"/>',
 };
 
 export const AVATAR_SHAPES = Object.freeze(Object.keys(SHAPE));
@@ -92,19 +166,19 @@ export const AVATAR_SHAPES = Object.freeze(Object.keys(SHAPE));
 const PEOPLE = {
   altman: {
     name: 'Sam Altman', initials: 'SA', org: 'openai', orgName: 'OpenAI',
-    role: 'CEO', shape: 'circle',
+    role: 'CEO', shape: 'orbit',
   },
   amodei: {
     name: 'Dario Amodei', initials: 'DA', org: 'anthropic', orgName: 'Anthropic',
-    role: 'CEO', shape: 'shield',
+    role: 'CEO', shape: 'aegis',
   },
   hassabis: {
     name: 'Demis Hassabis', initials: 'DH', org: 'google-deepmind', orgName: 'Google DeepMind',
-    role: 'CEO', shape: 'diamond',
+    role: 'CEO', shape: 'prism',
   },
   musk: {
     name: 'Elon Musk', initials: 'EM', org: 'xai', orgName: 'xAI',
-    role: 'Founder', shape: 'octagon',
+    role: 'Founder', shape: 'rotor',
   },
   zuckerberg: {
     name: 'Mark Zuckerberg', initials: 'MZ', org: 'meta', orgName: 'Meta',
@@ -116,7 +190,7 @@ const PEOPLE = {
   },
   liang: {
     name: 'Liang Wenfeng', initials: 'LW', org: 'deepseek', orgName: 'DeepSeek',
-    role: 'Founder', shape: 'hex',
+    role: 'Founder', shape: 'cell',
   },
   mensch: {
     name: 'Arthur Mensch', initials: 'AM', org: 'mistral', orgName: 'Mistral',
@@ -124,12 +198,56 @@ const PEOPLE = {
   },
 };
 
+/**
+ * THE PER-PERSON ACCENT.
+ *
+ * `[dark, light]`, and the light value is not decoration: site/styles.mjs
+ * carries a full light scheme, _labs.mjs cannot (it sets its accent inline and
+ * therefore has exactly one), and xAI's #aab3bf measures 2.1:1 on paper, which
+ * is a hairline. Both values are published in docs/BRAND.md §4 with their
+ * measured contrast against both grounds.
+ *
+ * SEVEN OF THE EIGHT ARE THEIR LAB'S OWN HUE, character for character, because
+ * a principal's mark and the left edge of that lab's box on the watch floor
+ * being the same colour is a real relationship and worth keeping. The eighth —
+ * LeCun — is a second value of Meta blue, because Meta is the one lab here
+ * with two named principals and two people sharing one hex is the one case
+ * where "per-person accent" has to mean something.
+ */
+const ACCENT = {
+  altman:            ['#10a37f', '#0a6e55'],
+  amodei:            ['#d97757', '#a2472a'],
+  hassabis:          ['#5b9cff', '#1a56d6'],
+  musk:              ['#aab3bf', '#4a525c'],
+  zuckerberg:        ['#3b82f6', '#1d4ed8'],
+  lecun:             ['#93b8ff', '#3665cc'],
+  liang:             ['#7a8cff', '#3b3fc4'],
+  mensch:            ['#fa720f', '#a34204'],
+};
+
 for (const [id, p] of Object.entries(PEOPLE)) {
   // A typo in the table above would ship a mark with no outline and no way to
   // notice at a glance. Fail at import time instead.
   if (!SHAPE[p.shape]) throw new Error(`_avatars: person "${id}" wants shape "${p.shape}", which does not exist`);
   if (!/^[A-Z]{2}$/.test(p.initials)) throw new Error(`_avatars: person "${id}" has initials ${JSON.stringify(p.initials)}; two capitals expected`);
+  if (!ACCENT[id]) throw new Error(`_avatars: person "${id}" has no accent pair in ACCENT`);
+  // Carried on the record so mark() can stamp it without a second lookup, and
+  // so a caller building a legend has the id without re-deriving it.
+  p.id = id;
 }
+
+// Two people may not share a silhouette. The shapes are the identification of
+// last resort — greyscale, dichromatic, 20px — and a duplicate would quietly
+// undo the whole argument in the header of this file.
+(function assertShapesAreDistinct() {
+  const seen = new Map();
+  for (const [id, p] of Object.entries(PEOPLE)) {
+    if (seen.has(p.shape)) {
+      throw new Error(`_avatars: "${id}" and "${seen.get(p.shape)}" both draw "${p.shape}"`);
+    }
+    seen.set(p.shape, id);
+  }
+})();
 
 export { PEOPLE };
 
@@ -181,18 +299,71 @@ export function personIdFor(value) {
  * page that renders both the watch floor and the race table does not have to
  * co-ordinate.
  */
-export function avatarSprite() {
+export function avatarSprite({ style = true } = {}) {
   const symbols = Object.entries(SHAPE).map(([id, d]) =>
     `<symbol id="dc-avt-${id}" viewBox="0 0 24 24">` +
-    `<g stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round">${d}</g>` +
+    `<g stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round">${d}</g>` +
     `</symbol>`
   ).join('');
-  return `<svg class="avtsprite" aria-hidden="true" focusable="false" width="0" height="0">${symbols}</svg>`;
+  return (style ? accentStyleTag() : '')
+    + `<svg class="avtsprite" aria-hidden="true" focusable="false" width="0" height="0">${symbols}</svg>`;
+}
+
+/**
+ * THE PER-PERSON ACCENTS, as a <style> element.
+ *
+ * WHY THIS SHIPS FROM HERE AND NOT FROM site/styles.mjs. That file is the
+ * site's sheet and it already carries the per-ORGANISATION accents; adding a
+ * per-person layer to it is an edit to a module this pass does not own. So the
+ * rules ride with the sprite instead, and `avatarSprite()` emits both by
+ * default — which means the integration for this whole feature is zero lines:
+ * the one existing caller (_labs.mjs) already calls avatarSprite().
+ *
+ * THE THREE-WAY EMISSION IS NOT BELT-AND-BRACES. site/styles.mjs states the
+ * pattern and this obeys it exactly: the media query for a visitor on their OS
+ * setting, and the two [data-theme] forms for an embed that a host page has
+ * pinned. A light blog embedding a dark box cannot restyle inside an iframe,
+ * so the pin has to work.
+ *
+ * SPECIFICITY IS DELIBERATE AND IT IS TIGHT. styles.mjs emits
+ * `[data-org="meta"] { --avt-a }` at (0,1,0) and
+ * `:root:not([data-theme="dark"]) [data-org="meta"]` at (0,3,0). Each rule
+ * below matches its counterpart exactly and wins on document order, because
+ * this block ships inside <main> and the sheet ships in <head>. If styles.mjs
+ * ever tightens those selectors, these stop winning and every mark falls back
+ * to its lab hue — which is a graceful failure, not a broken page, and it is
+ * the reason this was built as an override rather than a replacement.
+ *
+ * Emitting it twice on one page is harmless: the rules are identical.
+ */
+export function accentStyleTag() {
+  const rules = (prefix, i) => Object.entries(ACCENT)
+    .map(([id, pair]) => `${prefix}[data-person="${id}"]{--avt-a:${pair[i]}}`)
+    .join('');
+  return '<style>'
+    + rules('', 0)
+    + `@media (prefers-color-scheme:light){${rules(':root:not([data-theme="dark"]) ', 1)}}`
+    + rules(':root[data-theme="light"] ', 1)
+    + rules(':root[data-theme="dark"] ', 0)
+    + '</style>';
+}
+
+/** The accent pair for a person, as `[dark, light]`. For a legend, for the
+ *  colour-blindness harness, and for anything rendered outside the document
+ *  where a CSS variable does not exist. */
+export function accentFor(personId) {
+  const id = personIdFor(personId);
+  return id ? [...ACCENT[id]] : null;
 }
 
 /** The mark alone. Never exported on its own — see rule 1 in the header. */
 function mark(p, size) {
-  return `<span class="avt avt--${esc(size)}" data-org="${esc(p.org)}" data-shape="${esc(p.shape)}" aria-hidden="true">` +
+  // data-person as well as data-org: the accent rules in avatarStyleTag() key
+  // off the person and they have to reach THIS element, not an ancestor. A
+  // custom property set on .avtrow would inherit down, but styles.mjs sets
+  // --avt-a directly on [data-org] here, and a direct set beats an inherited
+  // one no matter how specific the ancestor's selector is.
+  return `<span class="avt avt--${esc(size)}" data-person="${esc(p.id)}" data-org="${esc(p.org)}" data-shape="${esc(p.shape)}" aria-hidden="true">` +
     `<svg class="avt__m" viewBox="0 0 24 24" focusable="false"><use href="#dc-avt-${esc(p.shape)}"/></svg>` +
     `<span class="avt__i">${esc(p.initials)}</span>` +
     `</span>`;
@@ -272,7 +443,7 @@ export function avatar(personId, opts = {}) {
 export function avatarUnknown({ size = 'sm', reason = 'no principal published', detail = null, label = 'beside' } = {}) {
   const s = SIZES.has(size) ? size : 'sm';
   const frame = `<span class="avt avt--${esc(s)} avt--none" aria-hidden="true">` +
-    `<svg class="avt__m" viewBox="0 0 24 24" focusable="false"><use href="#dc-avt-squircle"/></svg>` +
+    `<svg class="avt__m" viewBox="0 0 24 24" focusable="false"><use href="#dc-avt-frame"/></svg>` +
     `<span class="avt__i">—</span></span>`;
   const full = detail && detail !== reason ? detail : null;
   if (label === 'none') return `${frame}<span class="vh">${esc(full || reason)}</span>`;

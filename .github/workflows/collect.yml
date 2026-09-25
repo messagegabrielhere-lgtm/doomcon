@@ -377,6 +377,13 @@ jobs:
         continue-on-error: true
         run: node collector/datacenters.mjs
 
+      - name: Refresh the leader wire
+        # Reads data/news.json, so it runs AFTER the newsroom. Headline-only by
+        # design: it never generates a quotation, it only reproduces what a
+        # publication printed, so every line stays verifiable by clicking it.
+        continue-on-error: true
+        run: node collector/leaders.mjs
+
       - name: Compile the digest
         # Runs LAST of the collectors: it reads state.json, news.json, race.json
         # and infra.json to compute what changed, so everything else must have

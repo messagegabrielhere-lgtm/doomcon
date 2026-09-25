@@ -96,6 +96,7 @@
 //      thing you switched from, and pizzint's seven panels answer it zero times.
 
 import { esc, num, signed, utc, utcDay, duration } from './_html.mjs';
+import * as leaderwire from './_leaderwire.mjs';
 import { readNews, reel, newsSourceStrip } from './_reel.mjs';
 import { liveHead, legend, feedRow } from './news.mjs';
 import * as labs from './_labs.mjs';
@@ -560,6 +561,25 @@ export function panels(ctx) {
       head: { title: 'The digest', stamp: `compiled ${clock(dg.d.as_of || dg.d.generated_at) || ''}` },
       more: { href: ctx.href('/digest.html'), text: 'The full digest, with what changed and why' },
       body: () => digestPanel(ctx, dg),
+    });
+  }
+
+  // The Leader Wire. It sits in the switcher rather than as its own band
+  // because it answers the same question as the other panels — what is
+  // happening right now — and the fold cannot carry another section.
+  if (leaderwire.hasWire && leaderwire.hasWire(ctx)) {
+    const rows = (ctx.leaders && Array.isArray(ctx.leaders.leaders)) ? ctx.leaders.leaders : [];
+    const onRecord = rows.filter((r) => Array.isArray(r.lines) && r.lines.length).length;
+    out.push({
+      key: 'leaders',
+      glyph: '◈',
+      label: 'Leaders',
+      count: onRecord,
+      countTitle: `${onRecord} of ${rows.length} leaders on the record this week`,
+      state: onRecord ? 'live' : 'uncal',
+      head: { title: 'The leader wire', stamp: `read ${clock(ctx.leaders.generated_at) || ''}` },
+      more: { href: ctx.href('/leaders.html'), text: 'Every leader, including the silent ones' },
+      body: () => leaderwire.render(ctx, { heading: null }),
     });
   }
 

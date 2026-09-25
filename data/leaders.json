@@ -1,0 +1,737 @@
+{
+  "schema": 1,
+  "generated_at": "2026-09-25T02:30:50.346Z",
+  "news_generated_at": "2026-09-25T02:30:50.346Z",
+  "matcher_version": "1.0.0",
+  "window_days": 7,
+  "window_start": "2026-09-18T02:30:50.346Z",
+  "rule": {
+    "headline_only": true,
+    "statement": "Only the headline is ever reproduced, exactly as the publication printed it. No quotation is generated, paraphrased, summarised or reconstructed anywhere in this file.",
+    "match": "The headline names a roster member (whole word, published alias table) AND carries a speech cue.",
+    "no_line_means": "No headline in this corpus named this person beside a speech cue. It is not a claim that the person said nothing."
+  },
+  "cues": {
+    "core": [
+      "say",
+      "says",
+      "said",
+      "saying",
+      "tell",
+      "tells",
+      "told",
+      "telling",
+      "warn",
+      "warns",
+      "warned",
+      "warning",
+      "warnings",
+      "argue",
+      "argues",
+      "argued",
+      "arguing",
+      "interview",
+      "interviews",
+      "interviewed",
+      "Q and A",
+      "Q&A",
+      "testify",
+      "testifies",
+      "testified",
+      "testimony",
+      "podcast",
+      "podcasts",
+      "keynote",
+      "keynotes",
+      "letter",
+      "letters",
+      "memo",
+      "memos"
+    ],
+    "extended": [
+      "talk",
+      "talks",
+      "talked",
+      "talking",
+      "speak",
+      "speaks",
+      "spoke",
+      "speaking",
+      "speech",
+      "quoted",
+      "remarks"
+    ],
+    "quoted_text": "double quotes, two words or more",
+    "classes": {
+      "verb": [
+        "say",
+        "says",
+        "said",
+        "saying",
+        "tell",
+        "tells",
+        "told",
+        "telling",
+        "warn",
+        "warns",
+        "warned",
+        "warning",
+        "warnings",
+        "argue",
+        "argues",
+        "argued",
+        "arguing",
+        "testify",
+        "testifies",
+        "testified",
+        "talk",
+        "talks",
+        "talked",
+        "talking",
+        "speak",
+        "speaks",
+        "spoke",
+        "speaking",
+        "quoted"
+      ],
+      "appearance": [
+        "interview",
+        "interviews",
+        "interviewed",
+        "Q and A",
+        "Q&A",
+        "podcast",
+        "podcasts",
+        "keynote",
+        "keynotes",
+        "testimony",
+        "speech",
+        "remarks"
+      ],
+      "document": [
+        "letter",
+        "letters",
+        "memo",
+        "memos"
+      ],
+      "quote": [
+        "quoted text"
+      ]
+    },
+    "class_means": {
+      "verb": "the headline's own verb is an act of speech",
+      "appearance": "the headline names a venue or a format — interview, podcast, keynote, testimony",
+      "document": "a document names the person. It may be by them or about them; the headline is the only thing that can tell you, and it is printed in full",
+      "quote": "the publication put words in quotation marks in its own headline"
+    }
+  },
+  "corpus": {
+    "source": "data/news.json",
+    "items": 200,
+    "items_in_window": 200,
+    "scanned": 200,
+    "max_items": 200,
+    "window_binds": true,
+    "oldest_item_at": "2026-09-23T18:40:43.000Z",
+    "newest_item_at": "2026-09-25T02:25:52.000Z",
+    "named_without_cue": 2
+  },
+  "cross_check": {
+    "source": "data/race.json",
+    "present": true,
+    "race_generated_at": "2026-09-24T17:19:42.258Z",
+    "players_matched": 7,
+    "wire_fills_gap": [
+      "altman",
+      "amodei"
+    ]
+  },
+  "totals": {
+    "leaders": 15,
+    "on_record": 3,
+    "no_line": 12,
+    "lines": 4,
+    "distinct_items": 3
+  },
+  "leaders": [
+    {
+      "id": "altman",
+      "name": "Sam Altman",
+      "initials": "SA",
+      "org": "OpenAI",
+      "org_id": "openai",
+      "role": "CEO",
+      "aliases": [
+        "Sam Altman",
+        "Altman"
+      ],
+      "state": "on_record",
+      "count": 1,
+      "sources": [
+        "techmeme"
+      ],
+      "latest": {
+        "item_id": "408c16b6e924c80e",
+        "headline": "Sam Altman and Dario Amodei tell the UN Security Council that governments and industry should coordinate on AI safety standards and critical decisions (Bloomberg)",
+        "source": "techmeme",
+        "kind": "press",
+        "url": "https://techmeme.com/260923/p40",
+        "published_at": "2026-09-23T21:45:01.000Z",
+        "score": 35,
+        "pillar": "attention",
+        "matched_alias": "Sam Altman",
+        "cue": "tell",
+        "cue_group": "core",
+        "cue_class": "verb",
+        "cue_text": "tell",
+        "cues": [
+          "tell"
+        ],
+        "corroboration": 1,
+        "also_sources": [
+          "techmeme"
+        ]
+      },
+      "lines": [
+        {
+          "item_id": "408c16b6e924c80e",
+          "headline": "Sam Altman and Dario Amodei tell the UN Security Council that governments and industry should coordinate on AI safety standards and critical decisions (Bloomberg)",
+          "source": "techmeme",
+          "kind": "press",
+          "url": "https://techmeme.com/260923/p40",
+          "published_at": "2026-09-23T21:45:01.000Z",
+          "score": 35,
+          "pillar": "attention",
+          "matched_alias": "Sam Altman",
+          "cue": "tell",
+          "cue_group": "core",
+          "cue_class": "verb",
+          "cue_text": "tell",
+          "cues": [
+            "tell"
+          ],
+          "corroboration": 1,
+          "also_sources": [
+            "techmeme"
+          ]
+        }
+      ],
+      "watch_floor": {
+        "tracked": true,
+        "player_id": "openai",
+        "player_name": "OpenAI",
+        "state": "dormant",
+        "reason": null,
+        "feed": "blog.samaltman.com",
+        "posts_30d": 0,
+        "verdict": "wire_fills_gap",
+        "note": "The watch floor reads dormant for Sam Altman and that reading stands: it is about feeds we can fetch. The one line on the wire came from the press instead — techmeme — and links to the publication that printed it."
+      }
+    },
+    {
+      "id": "amodei",
+      "name": "Dario Amodei",
+      "initials": "DA",
+      "org": "Anthropic",
+      "org_id": "anthropic",
+      "role": "CEO",
+      "aliases": [
+        "Dario Amodei",
+        "Amodei"
+      ],
+      "state": "on_record",
+      "count": 2,
+      "sources": [
+        "techmeme"
+      ],
+      "latest": {
+        "item_id": "34d41e6c4ebf2322",
+        "headline": "Sources: a White House memo paints effective altruism as a fringe, dangerous cult that \"built the AI-doom pipeline\" and places Dario Amodei at its foundation (Axios)",
+        "source": "techmeme",
+        "kind": "press",
+        "url": "https://techmeme.com/260924/p30",
+        "published_at": "2026-09-24T14:40:00.000Z",
+        "score": 36.4,
+        "pillar": "governance",
+        "matched_alias": "Dario Amodei",
+        "cue": "memo",
+        "cue_group": "core",
+        "cue_class": "document",
+        "cue_text": "memo",
+        "cues": [
+          "memo",
+          "quoted text"
+        ],
+        "corroboration": 1,
+        "also_sources": [
+          "techmeme"
+        ]
+      },
+      "lines": [
+        {
+          "item_id": "34d41e6c4ebf2322",
+          "headline": "Sources: a White House memo paints effective altruism as a fringe, dangerous cult that \"built the AI-doom pipeline\" and places Dario Amodei at its foundation (Axios)",
+          "source": "techmeme",
+          "kind": "press",
+          "url": "https://techmeme.com/260924/p30",
+          "published_at": "2026-09-24T14:40:00.000Z",
+          "score": 36.4,
+          "pillar": "governance",
+          "matched_alias": "Dario Amodei",
+          "cue": "memo",
+          "cue_group": "core",
+          "cue_class": "document",
+          "cue_text": "memo",
+          "cues": [
+            "memo",
+            "quoted text"
+          ],
+          "corroboration": 1,
+          "also_sources": [
+            "techmeme"
+          ]
+        },
+        {
+          "item_id": "408c16b6e924c80e",
+          "headline": "Sam Altman and Dario Amodei tell the UN Security Council that governments and industry should coordinate on AI safety standards and critical decisions (Bloomberg)",
+          "source": "techmeme",
+          "kind": "press",
+          "url": "https://techmeme.com/260923/p40",
+          "published_at": "2026-09-23T21:45:01.000Z",
+          "score": 35,
+          "pillar": "attention",
+          "matched_alias": "Dario Amodei",
+          "cue": "tell",
+          "cue_group": "core",
+          "cue_class": "verb",
+          "cue_text": "tell",
+          "cues": [
+            "tell"
+          ],
+          "corroboration": 1,
+          "also_sources": [
+            "techmeme"
+          ]
+        }
+      ],
+      "watch_floor": {
+        "tracked": true,
+        "player_id": "anthropic",
+        "player_name": "Anthropic",
+        "state": "no_feed",
+        "reason": "darioamodei.com publishes essays but serves no feed: /rss and /feed.xml both returned HTTP 404 (probed 2026-09-23).",
+        "feed": null,
+        "posts_30d": null,
+        "verdict": "wire_fills_gap",
+        "note": "The watch floor reads no feed for Dario Amodei and that reading stands: it is about feeds we can fetch. All 2 lines on the wire came from the press instead — techmeme — each linked to the publication that printed it."
+      }
+    },
+    {
+      "id": "hassabis",
+      "name": "Demis Hassabis",
+      "initials": "DH",
+      "org": "Google DeepMind",
+      "org_id": "google-deepmind",
+      "role": "CEO",
+      "aliases": [
+        "Demis Hassabis",
+        "Hassabis"
+      ],
+      "state": "no_line",
+      "count": 0,
+      "sources": [],
+      "latest": null,
+      "lines": [],
+      "watch_floor": {
+        "tracked": true,
+        "player_id": "google-deepmind",
+        "player_name": "Google DeepMind",
+        "state": "no_feed",
+        "reason": "No personal feed. hassabis.com serves a 114-byte JavaScript redirect, not a document (probed 2026-09-23).",
+        "feed": null,
+        "posts_30d": null,
+        "verdict": "both_quiet",
+        "note": "The watch floor reads no feed and no headline in this window named Demis Hassabis beside a speech cue. Two separate silences, neither imputed from the other."
+      }
+    },
+    {
+      "id": "musk",
+      "name": "Elon Musk",
+      "initials": "EM",
+      "org": "xAI",
+      "org_id": "xai",
+      "role": "Founder",
+      "aliases": [
+        "Elon Musk",
+        "Musk"
+      ],
+      "state": "no_line",
+      "count": 0,
+      "sources": [],
+      "latest": null,
+      "lines": [],
+      "watch_floor": {
+        "tracked": true,
+        "player_id": "xai",
+        "player_name": "xAI",
+        "state": "no_feed",
+        "reason": "Posts on X. Scraping X carries an explicit permanent-suspension penalty under its developer terms, so this cell is empty by policy, not by accident.",
+        "feed": null,
+        "posts_30d": null,
+        "verdict": "both_quiet",
+        "note": "The watch floor reads no feed and no headline in this window named Elon Musk beside a speech cue. Two separate silences, neither imputed from the other."
+      }
+    },
+    {
+      "id": "zuckerberg",
+      "name": "Mark Zuckerberg",
+      "initials": "MZ",
+      "org": "Meta",
+      "org_id": "meta",
+      "role": "CEO",
+      "aliases": [
+        "Mark Zuckerberg",
+        "Zuckerberg",
+        "Zuck"
+      ],
+      "state": "no_line",
+      "count": 0,
+      "sources": [],
+      "latest": null,
+      "lines": [],
+      "watch_floor": {
+        "tracked": true,
+        "player_id": "meta",
+        "player_name": "Meta AI",
+        "state": "no_feed",
+        "reason": "Posts on Facebook and Instagram, neither of which exposes a free per-person feed at any documented path.",
+        "feed": null,
+        "posts_30d": null,
+        "verdict": "both_quiet",
+        "note": "The watch floor reads no feed and no headline in this window named Mark Zuckerberg beside a speech cue. Two separate silences, neither imputed from the other."
+      }
+    },
+    {
+      "id": "huang",
+      "name": "Jensen Huang",
+      "initials": "JH",
+      "org": "Nvidia",
+      "org_id": "nvidia",
+      "role": "CEO",
+      "aliases": [
+        "Jensen Huang",
+        "Jensen"
+      ],
+      "state": "on_record",
+      "count": 1,
+      "sources": [
+        "verge-ai"
+      ],
+      "latest": {
+        "item_id": "7eef13e99dbfd660",
+        "headline": "Jensen Huang talks about AI and climate change like a supervillain",
+        "source": "verge-ai",
+        "kind": "press",
+        "url": "https://theverge.com/tech/1000140/jensen-huang-nvidia-ai-energy-climate-change-supervillain",
+        "published_at": "2026-09-24T18:04:44.000Z",
+        "score": 33.8,
+        "pillar": "attention",
+        "matched_alias": "Jensen Huang",
+        "cue": "talks",
+        "cue_group": "extended",
+        "cue_class": "verb",
+        "cue_text": "talks",
+        "cues": [
+          "talks"
+        ],
+        "corroboration": 1,
+        "also_sources": [
+          "verge-ai"
+        ]
+      },
+      "lines": [
+        {
+          "item_id": "7eef13e99dbfd660",
+          "headline": "Jensen Huang talks about AI and climate change like a supervillain",
+          "source": "verge-ai",
+          "kind": "press",
+          "url": "https://theverge.com/tech/1000140/jensen-huang-nvidia-ai-energy-climate-change-supervillain",
+          "published_at": "2026-09-24T18:04:44.000Z",
+          "score": 33.8,
+          "pillar": "attention",
+          "matched_alias": "Jensen Huang",
+          "cue": "talks",
+          "cue_group": "extended",
+          "cue_class": "verb",
+          "cue_text": "talks",
+          "cues": [
+            "talks"
+          ],
+          "corroboration": 1,
+          "also_sources": [
+            "verge-ai"
+          ]
+        }
+      ],
+      "watch_floor": {
+        "tracked": false,
+        "player_id": null,
+        "state": null,
+        "reason": null,
+        "feed": null,
+        "posts_30d": null,
+        "verdict": "not_tracked",
+        "note": "Jensen Huang is not a principal on the watch floor, so there is no loudness reading to contradict. These lines are the only reading we have."
+      }
+    },
+    {
+      "id": "nadella",
+      "name": "Satya Nadella",
+      "initials": "SN",
+      "org": "Microsoft",
+      "org_id": "microsoft",
+      "role": "CEO",
+      "aliases": [
+        "Satya Nadella",
+        "Nadella"
+      ],
+      "state": "no_line",
+      "count": 0,
+      "sources": [],
+      "latest": null,
+      "lines": [],
+      "watch_floor": {
+        "tracked": false,
+        "player_id": null,
+        "state": null,
+        "reason": null,
+        "feed": null,
+        "posts_30d": null,
+        "verdict": "not_tracked",
+        "note": "Satya Nadella is not a principal on the watch floor, so there is no loudness reading to contradict. These lines are the only reading we have."
+      }
+    },
+    {
+      "id": "pichai",
+      "name": "Sundar Pichai",
+      "initials": "SP",
+      "org": "Alphabet",
+      "org_id": "google",
+      "role": "CEO",
+      "aliases": [
+        "Sundar Pichai",
+        "Pichai"
+      ],
+      "state": "no_line",
+      "count": 0,
+      "sources": [],
+      "latest": null,
+      "lines": [],
+      "watch_floor": {
+        "tracked": false,
+        "player_id": null,
+        "state": null,
+        "reason": null,
+        "feed": null,
+        "posts_30d": null,
+        "verdict": "not_tracked",
+        "note": "Sundar Pichai is not a principal on the watch floor, so there is no loudness reading to contradict. These lines are the only reading we have."
+      }
+    },
+    {
+      "id": "suleyman",
+      "name": "Mustafa Suleyman",
+      "initials": "MS",
+      "org": "Microsoft AI",
+      "org_id": "microsoft",
+      "role": "CEO",
+      "aliases": [
+        "Mustafa Suleyman",
+        "Suleyman"
+      ],
+      "state": "no_line",
+      "count": 0,
+      "sources": [],
+      "latest": null,
+      "lines": [],
+      "watch_floor": {
+        "tracked": false,
+        "player_id": null,
+        "state": null,
+        "reason": null,
+        "feed": null,
+        "posts_30d": null,
+        "verdict": "not_tracked",
+        "note": "Mustafa Suleyman is not a principal on the watch floor, so there is no loudness reading to contradict. These lines are the only reading we have."
+      }
+    },
+    {
+      "id": "kavukcuoglu",
+      "name": "Koray Kavukcuoglu",
+      "initials": "KK",
+      "org": "Google",
+      "org_id": "google",
+      "role": "Chief AI Architect",
+      "aliases": [
+        "Koray Kavukcuoglu",
+        "Kavukcuoglu",
+        "Koray"
+      ],
+      "state": "no_line",
+      "count": 0,
+      "sources": [],
+      "latest": null,
+      "lines": [],
+      "watch_floor": {
+        "tracked": false,
+        "player_id": null,
+        "state": null,
+        "reason": null,
+        "feed": null,
+        "posts_30d": null,
+        "verdict": "not_tracked",
+        "note": "Koray Kavukcuoglu is not a principal on the watch floor, so there is no loudness reading to contradict. These lines are the only reading we have."
+      }
+    },
+    {
+      "id": "lecun",
+      "name": "Yann LeCun",
+      "initials": "YL",
+      "org": "Meta",
+      "org_id": "meta",
+      "role": "Chief AI Scientist",
+      "aliases": [
+        "Yann LeCun",
+        "Yann Le Cun",
+        "LeCun",
+        "Le Cun"
+      ],
+      "state": "no_line",
+      "count": 0,
+      "sources": [],
+      "latest": null,
+      "lines": [],
+      "watch_floor": {
+        "tracked": false,
+        "player_id": null,
+        "state": null,
+        "reason": null,
+        "feed": null,
+        "posts_30d": null,
+        "verdict": "not_tracked",
+        "note": "Yann LeCun is not a principal on the watch floor, so there is no loudness reading to contradict. These lines are the only reading we have."
+      }
+    },
+    {
+      "id": "hinton",
+      "name": "Geoffrey Hinton",
+      "initials": "GH",
+      "org": "University of Toronto",
+      "org_id": "academia",
+      "role": "Professor emeritus",
+      "aliases": [
+        "Geoffrey Hinton",
+        "Geoff Hinton",
+        "Hinton"
+      ],
+      "state": "no_line",
+      "count": 0,
+      "sources": [],
+      "latest": null,
+      "lines": [],
+      "watch_floor": {
+        "tracked": false,
+        "player_id": null,
+        "state": null,
+        "reason": null,
+        "feed": null,
+        "posts_30d": null,
+        "verdict": "not_tracked",
+        "note": "Geoffrey Hinton is not a principal on the watch floor, so there is no loudness reading to contradict. These lines are the only reading we have."
+      }
+    },
+    {
+      "id": "bengio",
+      "name": "Yoshua Bengio",
+      "initials": "YB",
+      "org": "Mila, Université de Montréal",
+      "org_id": "academia",
+      "role": "Professor",
+      "aliases": [
+        "Yoshua Bengio",
+        "Bengio"
+      ],
+      "state": "no_line",
+      "count": 0,
+      "sources": [],
+      "latest": null,
+      "lines": [],
+      "watch_floor": {
+        "tracked": false,
+        "player_id": null,
+        "state": null,
+        "reason": null,
+        "feed": null,
+        "posts_30d": null,
+        "verdict": "not_tracked",
+        "note": "Yoshua Bengio is not a principal on the watch floor, so there is no loudness reading to contradict. These lines are the only reading we have."
+      }
+    },
+    {
+      "id": "mensch",
+      "name": "Arthur Mensch",
+      "initials": "AM",
+      "org": "Mistral AI",
+      "org_id": "mistral",
+      "role": "CEO",
+      "aliases": [
+        "Arthur Mensch",
+        "Mensch"
+      ],
+      "state": "no_line",
+      "count": 0,
+      "sources": [],
+      "latest": null,
+      "lines": [],
+      "watch_floor": {
+        "tracked": true,
+        "player_id": "mistral",
+        "player_name": "Mistral",
+        "state": "no_feed",
+        "reason": "No personal feed. Mistral publishes as a company; Arthur Mensch does not.",
+        "feed": null,
+        "posts_30d": null,
+        "verdict": "both_quiet",
+        "note": "The watch floor reads no feed and no headline in this window named Arthur Mensch beside a speech cue. Two separate silences, neither imputed from the other."
+      }
+    },
+    {
+      "id": "liang",
+      "name": "Liang Wenfeng",
+      "initials": "LW",
+      "org": "DeepSeek",
+      "org_id": "deepseek",
+      "role": "Founder",
+      "aliases": [
+        "Liang Wenfeng",
+        "Wenfeng"
+      ],
+      "state": "no_line",
+      "count": 0,
+      "sources": [],
+      "latest": null,
+      "lines": [],
+      "watch_floor": {
+        "tracked": true,
+        "player_id": "deepseek",
+        "player_name": "DeepSeek",
+        "state": "no_feed",
+        "reason": "Liang Wenfeng maintains no public feed in any language we can fetch.",
+        "feed": null,
+        "posts_30d": null,
+        "verdict": "both_quiet",
+        "note": "The watch floor reads no feed and no headline in this window named Liang Wenfeng beside a speech cue. Two separate silences, neither imputed from the other."
+      }
+    }
+  ]
+}

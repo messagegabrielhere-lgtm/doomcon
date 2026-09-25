@@ -75,6 +75,14 @@ const SECTIONS = [
     blurb: 'Where the compute physically sits, against the water it needs.',
     count: (ctx) => (ctx.datacenters && ctx.datacenters.counts
       ? { v: String(ctx.datacenters.counts.sites ?? ctx.datacenters.sites.length), k: 'datacentres mapped' } : null) },
+  { href: '/leaders.html', label: 'Leaders', short: 'Leaders', needs: 'leaders',
+    blurb: 'What the people running AI said this week, as their publishers printed it.',
+    count: (ctx) => {
+      const rows = ctx.leaders && Array.isArray(ctx.leaders.leaders) ? ctx.leaders.leaders : null;
+      if (!rows) return null;
+      const on = rows.filter((r) => Array.isArray(r.lines) && r.lines.length).length;
+      return { v: `${on}/${rows.length}`, k: 'leaders on the record this week' };
+    } },
   { href: '/digest.html', label: 'Digest', short: 'Digest', needs: 'digest',
     blurb: 'The day in one page, assembled from the scored corpus.' },
   { href: '/bliss.html', label: 'Bliss', short: 'Bliss', needs: 'bliss',
@@ -442,6 +450,7 @@ const FEATURE_ART = {
   '/news.html': { hue: '#00a3ff', mark: '<path d="M2.5 4h11v8.5H2.5z" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M4.5 6.5h5M4.5 9h7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>' },
   '/watts.html': { hue: '#ff7a00', mark: '<path d="M9 2 4 9h3l-1 5 5-7H8z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>' },
   '/map.html': { hue: '#c400ff', mark: '<path d="M8 14s4.5-4.2 4.5-7.4A4.5 4.5 0 0 0 3.5 6.6C3.5 9.8 8 14 8 14z" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="8" cy="6.5" r="1.6" fill="currentColor"/>' },
+  '/leaders.html': { hue: '#ff0033', mark: '<path d="M8 2.5a2.6 2.6 0 1 1 0 5.2 2.6 2.6 0 0 1 0-5.2z" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M3 13.5c0-2.6 2.2-4.2 5-4.2s5 1.6 5 4.2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>' },
   '/digest.html': { hue: '#ffd600', mark: '<path d="M3.5 2.5h9v11l-4.5-2.5L3.5 13.5z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>' },
   '/bliss.html': { hue: '#5fd08a', mark: '<circle cx="8" cy="8" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 1.5v2M8 12.5v2M1.5 8h2M12.5 8h2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>' },
   '/methodology.html': { hue: '#4b59ff', mark: '<path d="M6 2v4.5L2.8 12a1.6 1.6 0 0 0 1.4 2.4h7.6A1.6 1.6 0 0 0 13.2 12L10 6.5V2z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>' },
@@ -635,6 +644,9 @@ function hasSection(ctx, key) {
   }
   if (key === 'digest') return Boolean(ctx.digest && typeof ctx.digest === 'object');
   if (key === 'bliss') return Boolean(ctx.bliss && Array.isArray(ctx.bliss.sources) && ctx.bliss.sources.length);
+  if (key === 'leaders') {
+    return Boolean(ctx.leaders && Array.isArray(ctx.leaders.leaders) && ctx.leaders.leaders.length);
+  }
   if (key === 'map') {
     return Boolean(ctx.datacenters && Array.isArray(ctx.datacenters.sites)
       && ctx.datacenters.sites.length && ctx.datacenters.resources_index);
