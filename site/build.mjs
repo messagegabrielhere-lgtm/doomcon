@@ -14,6 +14,7 @@ import { fileURLToPath } from 'node:url';
 
 import * as brand from './brand.mjs';
 import * as marks from './brandmarks.mjs';
+import { cardAssets } from './cardpng.mjs';
 import { stableJson, num, secondsBetween } from './templates/_html.mjs';
 import * as indexPage from './templates/index.mjs';
 import * as methodologyPage from './templates/methodology.mjs';
@@ -570,6 +571,14 @@ async function main() {
     written.push(await writeBinary(args.out, name, marks.iconPng(state.level, { size })));
   }
   written.push(await writeBinary(args.out, 'og-default.png', marks.ogImagePng({ state })));
+
+  // THE SHARE CARDS, as real PNGs. site/cardpng.mjs draws them with a font it
+  // defines itself — no image dependency — because X does not render SVG in a
+  // post, which is why every card this project built before today went unseen.
+  // A card whose data was not collected is omitted, never emitted blank.
+  for (const asset of cardAssets({ state, item: (news?.items ?? [])[0] ?? null, race }, {})) {
+    written.push(await writeBinary(args.out, asset.path, asset.body));
+  }
 
   // GitHub Pages runs Jekyll unless told not to, which silently drops any path
   // beginning with an underscore and adds a build step we do not want.
