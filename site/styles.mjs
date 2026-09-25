@@ -526,64 +526,21 @@ const CHROME = `
    tapped a screenshot. The tagline is the thing to spend: it is repeated
    verbatim in the footer creed one screen further down and it is the only line
    in the block that is not a fact or a destination. Under 560px it is dropped
-   from the flow and the nav takes the row, which is 32px of a 812px fold back.
+   from the flow, which is 32px of a 812px fold back.
    It is still in the HTML and still in the footer, so nothing is lost to a
    crawler or to a reader. */
 @media (max-width: 559px) {
   .masthead__tag { display: none; }
   .masthead__in { gap: 4px var(--s-3); }
-  .nav { margin-left: 0; flex-basis: 100%; }
 }
-.wordmark {
-  font-family: var(--mono); font-weight: 700; font-size: var(--t-sm);
-  letter-spacing: 0.22em; text-decoration: none; color: var(--ink);
-}
-.wordmark:hover { color: var(--accent-2); }
 .masthead__tag {
   font-size: var(--t-sm); color: var(--ink-faint); margin: 0;
   flex: 1 1 auto; min-width: 0;
 }
-/* THE NAV IS AN INSTRUMENT, NOT A LIST OF WORDS.
-
-   Every destination that holds a scalar now prints it inside its own link:
-   INDEX 40.7 / RACE 73.5% / NEWS 200 / WATTS 51.5 / HISTORY 3 / ARCHIVE 3.
-   That is six facts in the space the six words already occupied, and it is the
-   cheapest density on the site, because the numbers were all computed before
-   the nav was rendered. pizzint's nav is two chips that say nothing.
-
-   On a phone the row still WRAPS rather than scrolling - a horizontally
-   scrolled nav hides half the publication behind a gesture nobody is told
-   about, and discovery is the whole point. What pays for the extra glyphs is
-   the short label: layout.mjs emits both forms and this swaps them under 560px,
-   so "THE RACE 73.5%" becomes "RACE 73.5%" and nine destinations still fit in
-   two rows. */
-.nav { display: flex; gap: 3px var(--s-3); flex-wrap: wrap; margin-left: auto; }
-.nav a {
-  display: inline-flex; align-items: baseline; gap: 5px;
-  font-family: var(--mono); font-size: var(--t-xs); letter-spacing: 0.09em;
-  text-transform: uppercase; color: var(--ink-dim); text-decoration: none;
-  padding: 2px 0; border-bottom: 1px solid transparent;
-  transition: color 120ms ease, border-color 120ms ease;
-}
-.nav a:hover { color: var(--ink); border-bottom-color: var(--accent-2); }
-.nav a[aria-current="page"] { color: var(--ink); border-bottom-color: var(--ink); }
-/* The figure. Cool accent, not amber: amber is spent on the LIVE value of the
-   page you are on, and eight amber numerals in the masthead would spend the
-   one colour that means something on eight things that are merely true. The
-   page you are on keeps its figure in ink, so the current destination reads as
-   a reading and the others read as a menu. */
-.nav__n {
-  font-weight: 700; letter-spacing: 0.01em; color: var(--accent-2);
-  font-variant-numeric: tabular-nums;
-}
-.nav a[aria-current="page"] .nav__n { color: var(--ink); }
-.nav a:hover .nav__n { color: var(--accent-2); }
-.nav__s { display: none; }
-@media (max-width: 559px) {
-  .nav { gap: 2px var(--s-3); }
-  .nav__l:not(.nav__l--only) { display: none; }
-  .nav__s { display: inline; }
-}
+/* The masthead text nav lived here. It is gone: the feature bar renders the
+   same SECTIONS array as tiles with a mark and a live count on each, so this
+   was the same eleven links a second time, stacked above them. Removed with
+   the markup in site/templates/layout.mjs, 2026-09-25. */
 
 /* ---- the rail ---------------------------------------------------------- */
 /* THE RAIL IS NOW STICKY, AND IT IS THE BIGGEST SINGLE MOVE IN THIS PASS.

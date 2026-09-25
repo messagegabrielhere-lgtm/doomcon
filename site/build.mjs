@@ -475,8 +475,19 @@ async function main() {
     catch (err) { warn(`data/bliss.json unreadable (${err.message}); building without /bliss.`); }
   }
 
+  // OPERATOR-SUPPLIED LOGOS, listed once. The copy loop further down reuses
+  // this exact list, so the manifest the templates read and the files that
+  // actually land in public/logos/ cannot disagree. Absent -> empty -> every
+  // slot falls back to the generated mark.
+  const logoDir = path.join(ROOT, 'assets', 'logos');
+  const logos = existsSync(logoDir)
+    ? (await readdir(logoDir)).filter(
+        (n) => !n.startsWith('.') && n.toLowerCase() !== 'readme.md')
+    : [];
+
   const ctx = {
     state,
+    logos,
     news,
     race,
     infra,
@@ -585,13 +596,9 @@ async function main() {
   // slots. Absent files change nothing: every slot falls back to the mark
   // brandmarks.mjs generates. This exists so dropping a file in the repo is
   // the whole integration, rather than a code change each time.
-  const logoDir = path.join(ROOT, 'assets', 'logos');
-  if (existsSync(logoDir)) {
-    for (const name of await readdir(logoDir)) {
-      if (name.startsWith('.') || name.toLowerCase() === 'readme.md') continue;
-      const body = await readFile(path.join(logoDir, name));
-      written.push(await writeBinary(args.out, `logos/${name}`, body));
-    }
+  for (const name of logos) {
+    const body = await readFile(path.join(logoDir, name));
+    written.push(await writeBinary(args.out, `logos/${name}`, body));
   }
 
   // GitHub Pages runs Jekyll unless told not to, which silently drops any path

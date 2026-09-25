@@ -385,13 +385,51 @@ export function logoMark(level, opts = {}) {
  * block this module asks the integrator to add, and it is printed verbatim in
  * `LOCKUP_CSS` below so it can be pasted rather than re-derived.
  */
-export function mastheadLockup(level, { href = '/', current = false } = {}) {
+/**
+ * Resolve an operator slot from the manifest site/build.mjs passes as
+ * `ctx.logos`. Accepts an Array, a Set or an Object keyed by filename (a falsy
+ * value counts as absent), because the shape of that manifest is the build's
+ * business, not ours. SVG is preferred over PNG when an operator ships both.
+ *
+ * Never touches the filesystem — it only maps a name to a URL. If nothing
+ * matches, the caller falls back to the mark we generate, which is the path
+ * that has the tests on it.
+ */
+function operatorSlot(logos, base) {
+  if (!logos) return null;
+  const has = Array.isArray(logos) || logos instanceof Set
+    ? (n) => (logos instanceof Set ? logos.has(n) : logos.includes(n))
+    : (n) => Boolean(logos[n]);
+  for (const ext of ['svg', 'png']) {
+    const name = `${base}.${ext}`;
+    if (has(name)) return name;
+  }
+  return null;
+}
+
+export function mastheadLockup(level, { href = '/', current = false, logos = null, logoHref = null } = {}) {
   const L = assertLevel(level);
   const meta = brand.levelMeta(L);
+
+  // An operator file wins over the generated mark; absent, nothing changes.
+  const resolve = typeof logoHref === 'function' ? logoHref : (n) => `/logos/${n}`;
+  const opMark = logoHref ? operatorSlot(logos, 'mark') : null;
+  const opWord = logoHref ? operatorSlot(logos, 'wordmark') : null;
+
+  // alt is deliberately empty on the mark (the wordmark beside it already names
+  // the publication, so alt text here would be read twice) and is the name on
+  // the wordmark, so replacing the text cannot cost the page its accessible name.
+  const markHtml = opMark
+    ? `<img class="dclock__m dclock__m--op" src="${esc(resolve(opMark))}" alt="" width="30" height="30" decoding="async">`
+    : logoMark(L, { className: 'dclock__m' });
+  const wordHtml = opWord
+    ? `<img class="dclock__wm" src="${esc(resolve(opWord))}" alt="${esc(brand.NAME)}" decoding="async">`
+    : `<b class="dclock__w">${esc(brand.NAME)}</b>`;
+
   const inner =
-    `${logoMark(L, { className: 'dclock__m' })}`
+    `${markHtml}`
     + `<span class="dclock__t">`
-    + `<b class="dclock__w">${esc(brand.NAME)}</b>`
+    + `${wordHtml}`
     + `<span class="dclock__p">${esc(brand.PUBLICATION)}</span>`
     + `</span>`
     // The reading, in text, beside the mark. This is the label that makes the
@@ -417,7 +455,9 @@ export const LOCKUP_CSS = `
 .dclock__p { font-family: var(--mono); font-size: var(--t-2xs); letter-spacing: 0.14em;
   text-transform: uppercase; color: var(--ink-faint); }
 a.dclock:hover .dclock__w { color: var(--accent); }
-@media (max-width: 420px) { .dclock__m { --mark: 26px; } }
+.dclock__m--op { width: 30px; height: 30px; object-fit: contain; }
+.dclock__wm { display: block; height: 1.15em; width: auto; max-width: 62vw; object-fit: contain; object-position: left center; }
+@media (max-width: 420px) { .dclock__m { --mark: 26px; } .dclock__m--op { width: 26px; height: 26px; } }
 `.trim();
 
 /**
@@ -585,7 +625,10 @@ export function headLinks({ href }) {
     `<link rel="icon" href="${esc(href('/favicon-32.png'))}" sizes="32x32" type="image/png">`,
     `<link rel="apple-touch-icon" href="${esc(href('/apple-touch-icon.png'))}">`,
     `<link rel="manifest" href="${esc(href('/manifest.webmanifest'))}">`,
-    `<meta name="theme-color" content="${GROUND}">`,
+    // NO theme-color here. layout.mjs emits one per colour scheme, and an
+    // unconditional value printed after them matches in BOTH, so it won
+    // outright -- Android chrome rendered the dark ground on the light page.
+    // GROUND stays the manifest's colour, which is scheme-independent.
   ].join('\n');
 }
 
