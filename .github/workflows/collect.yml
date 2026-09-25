@@ -212,10 +212,49 @@ jobs:
           # runs racing, but a human pushing a code change at the wrong second
           # still wins. A rebase CONFLICT is not retried away — it would mean two
           # runs wrote the same append-only file, which needs a person.
+          # Two classes of file, two rules.
+          #
+          # REGENERATED (data/news.json, leaders, race, infra, bliss, digest,
+          # datacenters): every run rewrites the whole file, so there is no
+          # meaningful merge and the run that commits last is simply the current
+          # truth. Rebasing into a conflict here is the wrong tool — it is what
+          # failed the pipeline on 2026-09-25 when the newsroom job and the full
+          # index job both rewrote news.json. Replay ours onto the fetched tip.
+          #
+          # APPEND-ONLY (data/history.ndjson, data/receipts/): a conflict there
+          # really does mean two runs appended to one ledger, which needs a
+          # person. Those are never force-resolved.
           for attempt in 1 2 3; do
             if git push origin HEAD:main; then exit 0; fi
-            echo "push rejected (attempt $attempt); rebasing onto main"
-            git pull --rebase origin main
+            echo "push rejected (attempt $attempt); replaying onto the new tip"
+
+            CHANGED="$(git diff --name-only HEAD~1 HEAD || true)"
+            if echo "$CHANGED" | grep -qE 'data/(history\.ndjson|receipts/)'; then
+              echo '::error::append-only ledger conflicted with a concurrent run; not auto-resolving'
+              exit 1
+            fi
+
+            TMP="$(mktemp -d)"
+            for f in $CHANGED; do
+              [ -f "$f" ] || continue
+              mkdir -p "$TMP/$(dirname "$f")"
+              cp "$f" "$TMP/$f"
+            done
+            MSG="$(git log -1 --pretty=%B)"
+            git fetch -q origin main
+            git reset -q --hard origin/main
+            for f in $CHANGED; do
+              [ -f "$TMP/$f" ] || continue
+              mkdir -p "$(dirname "$f")"
+              cp "$TMP/$f" "$f"
+            done
+            rm -rf "$TMP"
+            git add data
+            if git diff --cached --quiet; then
+              echo "the other run already published this; nothing to replay"
+              exit 0
+            fi
+            git commit -q -m "$MSG"
           done
           echo '::error::could not push after 3 attempts'
           exit 1
@@ -437,10 +476,49 @@ jobs:
 
           git commit -m "$MSG"
 
+          # Two classes of file, two rules.
+          #
+          # REGENERATED (data/news.json, leaders, race, infra, bliss, digest,
+          # datacenters): every run rewrites the whole file, so there is no
+          # meaningful merge and the run that commits last is simply the current
+          # truth. Rebasing into a conflict here is the wrong tool — it is what
+          # failed the pipeline on 2026-09-25 when the newsroom job and the full
+          # index job both rewrote news.json. Replay ours onto the fetched tip.
+          #
+          # APPEND-ONLY (data/history.ndjson, data/receipts/): a conflict there
+          # really does mean two runs appended to one ledger, which needs a
+          # person. Those are never force-resolved.
           for attempt in 1 2 3; do
             if git push origin HEAD:main; then exit 0; fi
-            echo "push rejected (attempt $attempt); rebasing onto main"
-            git pull --rebase origin main
+            echo "push rejected (attempt $attempt); replaying onto the new tip"
+
+            CHANGED="$(git diff --name-only HEAD~1 HEAD || true)"
+            if echo "$CHANGED" | grep -qE 'data/(history\.ndjson|receipts/)'; then
+              echo '::error::append-only ledger conflicted with a concurrent run; not auto-resolving'
+              exit 1
+            fi
+
+            TMP="$(mktemp -d)"
+            for f in $CHANGED; do
+              [ -f "$f" ] || continue
+              mkdir -p "$TMP/$(dirname "$f")"
+              cp "$f" "$TMP/$f"
+            done
+            MSG="$(git log -1 --pretty=%B)"
+            git fetch -q origin main
+            git reset -q --hard origin/main
+            for f in $CHANGED; do
+              [ -f "$TMP/$f" ] || continue
+              mkdir -p "$(dirname "$f")"
+              cp "$TMP/$f" "$f"
+            done
+            rm -rf "$TMP"
+            git add data
+            if git diff --cached --quiet; then
+              echo "the other run already published this; nothing to replay"
+              exit 0
+            fi
+            git commit -q -m "$MSG"
           done
           echo '::error::could not push after 3 attempts'
           exit 1
