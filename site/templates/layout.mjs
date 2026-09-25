@@ -459,7 +459,7 @@ const FEATURE_ART = {
   '/moves/': { hue: '#9aa4b2', mark: '<path d="M2.5 4.5h11M2.5 8h11M2.5 11.5h7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>' },
 };
 
-function featureBar(ctx, sections, path) {
+function featureBar(ctx, sections, path, { inline = false } = {}) {
   const tiles = sections.map((item) => {
     const art = FEATURE_ART[item.href] || { hue: 'var(--accent)', mark: '' };
     const c = typeof item.count === 'function' ? item.count(ctx) : null;
@@ -470,6 +470,10 @@ function featureBar(ctx, sections, path) {
       ${c ? `<b class="fb__n num">${esc(c.v)}</b>` : '<span class="fb__n fb__n--none" aria-hidden="true">·</span>'}
     </a>`;
   }).join('');
+  // Inline form: the masthead already supplies the .wrap and the gutter, so a
+  // second one here would indent the tiles inside their own band. The tile
+  // markup is identical either way -- only the container changes.
+  if (inline) return `<nav class="fb fb--inline" aria-label="Sections">${tiles}</nav>`;
   return `<nav class="fb" aria-label="Sections"><div class="wrap fb__in">${tiles}</div></nav>`;
 }
 
@@ -494,6 +498,44 @@ const FEATURE_BAR_CSS = `<style>
   background: color-mix(in srgb, var(--fb-hue) 20%, transparent);
   box-shadow: inset 0 -2px 0 0 var(--fb-hue);
 }
+/* THE INLINE FORM -- the tiles live in the masthead's row, not in a band of
+   their own. Two bands cost two borders, two lots of vertical padding and, on
+   a wide screen, a whole extra 58px stripe before any content.
+
+   flex-wrap on .masthead__in does the responsive work with no breakpoint: the
+   tiles sit beside the lockup when they fit and drop to their own line when
+   they do not, so nothing is ever hidden behind a horizontal gesture. All
+   eleven destinations stay TILES at every width -- a mark and a live number --
+   because the text-link treatment is what made /watts, /digest and /bliss
+   undiscoverable in the first place. */
+.fb--inline {
+  display: flex; gap: 6px; flex: 1 1 100%; min-width: 0;
+  justify-content: flex-start;
+}
+/* WRAP, DO NOT SCROLL, ONCE THERE IS ROOM TO WRAP INTO.
+   Measured 2026-09-25 at 1440x900: the tiles need 1400px and the column is
+   1240, so the strip was scrolling 160px and "Archive" sat past the right
+   edge -- one to two destinations hidden behind a gesture with no affordance,
+   at the commonest desktop width. That is the same findability failure the
+   tiles were built to fix, arriving from the other direction. A second row
+   costs ~38px and hides nothing. */
+@media (min-width: 700px) { .fb--inline { flex-wrap: wrap; } }
+/* Under 700px eleven tiles would wrap into three rows and eat the fold, so the
+   strip scrolls -- the one width where a swipe is the expected idiom, and
+   where the labels are already dropped so a tile is a mark and a number. */
+@media (max-width: 699px) {
+  .fb--inline { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: thin; padding-bottom: 2px;
+    /* The strip is ALWAYS scrollable at this width -- eleven tiles need ~790px
+       of a 375px screen -- so the right edge is faded to say so. Without it the
+       last tile ends flush and the strip reads as complete, which is how five
+       destinations go missing on a phone. The fade is unconditional here
+       precisely because the overflow is. */
+    -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 26px), transparent);
+    mask-image: linear-gradient(90deg, #000 calc(100% - 26px), transparent);
+  }
+}
+/* The tagline must not eat the row the tiles need. */
+.masthead__in > .masthead__tag { flex: 0 1 auto; }
 @media (max-width: 620px) { .fb__l { display: none; } .fb__t { padding: 7px 9px; } }
 @media (prefers-reduced-motion: reduce) { .fb__t { transition: none; } }
 </style>`;
@@ -594,8 +636,8 @@ ${jsonld}
 <header class="masthead"><div class="wrap masthead__in">
   ${marks.mastheadLockup(ctx.state.level, { href: ctx.href('/'), current: o.path === '/', logos: ctx.logos, logoHref: (n) => ctx.href(`/logos/${n}`) })}
   <p class="masthead__tag">${esc(brand.TAGLINE)}</p>
-</div></header>
-${featureBar(ctx, sections, o.path)}${FEATURE_BAR_CSS}
+  ${featureBar(ctx, sections, o.path, { inline: true })}
+</div></header>${FEATURE_BAR_CSS}
 ${rail(ctx, o.path)}
 ${visitSlot(ctx)}
 ${o.showDegraded ? degradedBanner(ctx.state) : ''}${motion.beforeMain}
