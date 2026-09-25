@@ -152,12 +152,15 @@ ${siblings.map((s) => `    <li class="dv__sib">${headlineBody(ctx, s)}</li>`).jo
   </ul>` : ''}
   ${hidden > 0 ? `<p class="dv__hidden">${esc(String(hidden))} further report${hidden === 1 ? '' : 's'} in this group, in the feed below.</p>` : ''}
 
-  <p class="dv__terms">
-    <b>Terms that fired</b>
-    ${terms.map((t) => `<span class="dv__term" data-tier="${esc(t.tier)}">${esc(t.term)}<span class="dv__termk"> ${esc(TIER_NAME[t.tier] || t.tier)}&middot;${esc(t.field)}</span></span>`).join('\n    ')}
-    ${moreTerms > 0 ? `<span class="dv__term dv__term--rest">+${esc(String(moreTerms))} more</span>` : ''}
-  </p>
-  <p class="dv__rule">Grouped on ${esc(linkedWords(story))} &middot; severity ${esc(String(story.severity))} of 1 &middot; ${esc(sources)}</p>
+  <details class="dv__forensics">
+    <summary class="dv__sum">How this was grouped and scored</summary>
+    <p class="dv__terms">
+      <b>Terms that fired</b>
+      ${terms.map((t) => `<span class="dv__term" data-tier="${esc(t.tier)}">${esc(t.term)}<span class="dv__termk"> ${esc(TIER_NAME[t.tier] || t.tier)}&middot;${esc(t.field)}</span></span>`).join('\n    ')}
+      ${moreTerms > 0 ? `<span class="dv__term dv__term--rest">+${esc(String(moreTerms))} more</span>` : ''}
+    </p>
+    <p class="dv__rule">Grouped on ${esc(linkedWords(story))} &middot; severity ${esc(String(story.severity))} of 1 &middot; ${esc(sources)}</p>
+  </details>
 </section>`;
 }
 
@@ -293,6 +296,15 @@ const dvCss = `
 .dv__termk { color: var(--ink-faint); }
 .dv__term--rest { border-style: dashed; color: var(--ink-faint); }
 
+.dv__forensics { margin-top: 10px; }
+.dv__sum {
+  font-family: var(--mono); font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--ink-faint); cursor: pointer; padding: 4px 0; list-style: none;
+}
+.dv__sum::-webkit-details-marker { display: none; }
+.dv__sum::before { content: '▸ '; display: inline-block; transition: transform 120ms ease; }
+.dv__forensics[open] .dv__sum::before { transform: rotate(90deg); }
+.dv__sum:hover { color: var(--accent); }
 .dv__rule {
   margin: 8px 0 0; padding-right: var(--s-3);
   font-family: var(--mono); font-size: var(--t-xs); line-height: 1.6; color: var(--ink-faint);
