@@ -580,6 +580,20 @@ async function main() {
     written.push(await writeBinary(args.out, asset.path, asset.body));
   }
 
+  // OPERATOR-SUPPLIED LOGOS. Anything in assets/logos/ is copied to
+  // public/logos/ and picked up by name — see that directory's README for the
+  // slots. Absent files change nothing: every slot falls back to the mark
+  // brandmarks.mjs generates. This exists so dropping a file in the repo is
+  // the whole integration, rather than a code change each time.
+  const logoDir = path.join(ROOT, 'assets', 'logos');
+  if (existsSync(logoDir)) {
+    for (const name of await readdir(logoDir)) {
+      if (name.startsWith('.') || name.toLowerCase() === 'readme.md') continue;
+      const body = await readFile(path.join(logoDir, name));
+      written.push(await writeBinary(args.out, `logos/${name}`, body));
+    }
+  }
+
   // GitHub Pages runs Jekyll unless told not to, which silently drops any path
   // beginning with an underscore and adds a build step we do not want.
   written.push(await write(args.out, '.nojekyll', ''));
