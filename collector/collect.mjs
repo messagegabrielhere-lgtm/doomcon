@@ -23,7 +23,7 @@ const PILLAR_ORDER = Object.freeze(['capability', 'compute', 'attention', 'gover
 // all. Without it one wedged socket holds a scheduled run open until the CI
 // job's own limit kills it — and a killed job writes no snapshot at all, which
 // loses the other live sources too.
-const ADAPTER_TIMEOUT_MS = 50_000; // arXiv's windowed range scan needs ~40s; see sources/arxiv.mjs
+const ADAPTER_TIMEOUT_MS = 90_000; // arXiv's windowed range scan has needed up to 75s; see sources/arxiv.mjs
 
 const SOURCES_DIR = new URL('./sources/', import.meta.url);
 const RAW_DIR = new URL('../data/raw/', import.meta.url);

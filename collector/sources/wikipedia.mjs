@@ -106,32 +106,39 @@ export default {
     // against. One 404 = one dark source, visibly dark.
     const perArticle = {};
     let total = 0;
-    let coveredDays = null;
 
-    for (const { article, items } of responses) {
-      if (items.length < WINDOW_DAYS) {
-        throw new Error(
-          `wikipedia: ${article} returned ${items.length} days, need ${WINDOW_DAYS} ` +
-          `(requested a ${REQUEST_DAYS}-day span; Wikimedia lag may have widened)`
-        );
-      }
+    // The invariant that matters is that every article is summed over THE SAME
+    // DAYS — otherwise the total is a blend of two windows and a rise could be
+    // calendar drift rather than attention. The old guard enforced that by
+    // demanding every article's response carry identical timestamps, which is
+    // stricter than the invariant and took the whole source dark whenever one
+    // article lagged by a day. Wikimedia publishes per-article with its own
+    // lag, so that happens routinely: measured 2026-09-25, ChatGPT covered
+    // 09-17..09-23 while the others covered 09-18..09-24.
+    //
+    // Take the INTERSECTION of days present in every article instead. Same
+    // invariant, honestly satisfied, and the window is reported in meta so a
+    // reader can see which days the number actually covers.
+    const dayMaps = responses.map(({ article, items }) => {
+      const m = new Map();
+      for (const it of items) m.set(String(it.timestamp), it);
+      return { article, m };
+    });
 
-      // Items arrive oldest-first; sort defensively rather than trusting it,
-      // then take the newest WINDOW_DAYS.
-      const sorted = [...items].sort((a, b) => String(a.timestamp).localeCompare(String(b.timestamp)));
-      const window = sorted.slice(-WINDOW_DAYS);
+    let shared = [...dayMaps[0].m.keys()];
+    for (const { m } of dayMaps.slice(1)) shared = shared.filter((d) => m.has(d));
+    shared.sort();
 
-      const stamps = window.map((i) => String(i.timestamp));
-      if (coveredDays === null) {
-        coveredDays = stamps;
-      } else if (coveredDays.join() !== stamps.join()) {
-        // Different articles covering different days would make the sum a
-        // blend of two windows. Refuse rather than average across time.
-        throw new Error(
-          `wikipedia: ${article} covers ${stamps[0]}..${stamps[stamps.length - 1]} ` +
-          `but earlier articles cover ${coveredDays[0]}..${coveredDays[coveredDays.length - 1]}`
-        );
-      }
+    if (shared.length < WINDOW_DAYS) {
+      throw new Error(
+        `wikipedia: only ${shared.length} day(s) are common to all ${dayMaps.length} articles, ` +
+        `need ${WINDOW_DAYS} (requested a ${REQUEST_DAYS}-day span; Wikimedia lag may have widened)`
+      );
+    }
+    const coveredDays = shared.slice(-WINDOW_DAYS);
+
+    for (const { article, m } of dayMaps) {
+      const window = coveredDays.map((d) => m.get(d));
 
       let sum = 0;
       for (const item of window) {

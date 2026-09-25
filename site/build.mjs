@@ -13,6 +13,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import * as brand from './brand.mjs';
+import * as marks from './brandmarks.mjs';
 import { stableJson, num, secondsBetween } from './templates/_html.mjs';
 import * as indexPage from './templates/index.mjs';
 import * as methodologyPage from './templates/methodology.mjs';
@@ -327,6 +328,14 @@ async function write(outDir, rel, body) {
   return file;
 }
 
+/** Same, for the PNGs brandmarks.mjs rasterises itself (no encoder dependency). */
+async function writeBinary(outDir, rel, bytes) {
+  const file = path.join(outDir, rel);
+  await mkdir(path.dirname(file), { recursive: true });
+  await writeFile(file, Buffer.from(bytes));
+  return file;
+}
+
 // The favicon carries the level, so a pinned tab is the index. Generated, not
 // stored, so it can never disagree with the number on the page.
 function faviconSvg(state) {
@@ -550,7 +559,17 @@ async function main() {
   written.push(await write(args.out, 'sitemap.xml', sitemap(ctx)));
   written.push(await write(args.out, 'robots.txt', robots(ctx)));
   written.push(await write(args.out, 'feed.xml', feed.render(ctx)));
-  written.push(await write(args.out, 'favicon.svg', faviconSvg(state)));
+  // THE BRAND MARKS. A smoke-detector mark whose five grille slots stand for
+  // the five DOOMCON levels, and whose FAVICON LIGHTS THE SLOTS UP TO THE
+  // CURRENT LEVEL in heat colours — so the browser tab itself carries the
+  // reading. Nobody else in this category does that.
+  written.push(await write(args.out, 'favicon.svg', marks.faviconSvg(state.level)));
+  written.push(await write(args.out, 'og-default.svg', marks.ogImageSvg({ state })));
+  written.push(await write(args.out, 'manifest.webmanifest', marks.manifestJson(state.level)));
+  for (const [name, size] of [['favicon-32.png', 32], ['apple-touch-icon.png', 180], ['icon-192.png', 192], ['icon-512.png', 512]]) {
+    written.push(await writeBinary(args.out, name, marks.iconPng(state.level, { size })));
+  }
+  written.push(await writeBinary(args.out, 'og-default.png', marks.ogImagePng({ state })));
 
   // GitHub Pages runs Jekyll unless told not to, which silently drops any path
   // beginning with an underscore and adds a build step we do not want.
