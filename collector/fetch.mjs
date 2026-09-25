@@ -74,7 +74,50 @@ function isRetryable(kind, status) {
 }
 
 /** One attempt. Normalises every platform failure mode into FetchError. */
+// ---------------------------------------------------------------------------
+// Per-host politeness gate.
+//
+// Four different adapters query export.arxiv.org — collector/sources/arxiv.mjs,
+// news-sources/arxiv-newest.mjs, bliss-sources/arxiv-science-ai.mjs and
+// backfill.mjs — and the pipeline fires them within the same forty seconds on
+// every run. arXiv asks for roughly three seconds between requests and answers
+// a burst with "Rate exceeded" for minutes afterwards.
+//
+// So the 429s were not arXiv being unfriendly. WE WERE RATE-LIMITING
+// OURSELVES, and then reporting the capability pillar dark because of it.
+//
+// This serialises every request to a gated host behind a minimum interval,
+// process-wide. A collector that would have burst now queues, which costs a few
+// seconds per run and buys back a source the index depends on.
+// ---------------------------------------------------------------------------
+const HOST_MIN_INTERVAL_MS = {
+  'export.arxiv.org': 3500,
+  'overpass-api.de': 5000,
+  'api.crossref.org': 1000,
+};
+
+/** host -> promise chain tail, so callers queue rather than race. */
+const hostQueues = new Map();
+
+function hostGate(url) {
+  let host;
+  try { host = new URL(url).hostname; } catch { return Promise.resolve(); }
+  const minMs = HOST_MIN_INTERVAL_MS[host];
+  if (!minMs) return Promise.resolve();
+
+  const prev = hostQueues.get(host) ?? Promise.resolve(0);
+  const next = prev.then(async (lastAt) => {
+    const wait = Math.max(0, (lastAt || 0) + minMs - Date.now());
+    if (wait > 0) await sleep(wait);
+    return Date.now();
+  });
+  hostQueues.set(host, next);
+  return next;
+}
+
 async function attemptOnce(url, { method, headers, timeoutMs }) {
+  // Wait our turn on hosts that ask us to. Costs seconds; saves a source.
+  await hostGate(url);
   let res;
   try {
     res = await fetch(url, {
