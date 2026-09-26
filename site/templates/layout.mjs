@@ -94,6 +94,28 @@ const SECTIONS = [
       const q = f.copy && f.copy.headline_qualifier ? f.copy.headline_qualifier : 'as mapped in OpenStreetMap';
       return { v: grouped(f.totals.mapped_worldwide), k: `Flock ALPR cameras ${q}` };
     } },
+  // "Exploits", not "KEV", not "Disclosure-to-catalogue lag". The tile that
+  // used to say ALPR now says Cameras because a stranger could not tell what
+  // ALPR was, and the acronym here is worse: nobody outside the field knows
+  // the Known Exploited Vulnerabilities catalogue by its initials.
+  //
+  // THE COUNT IS QUALIFIED, and the qualifier is the whole job. 1,726 is the
+  // ENTIRE catalogue since it opened in 2021 — not a rate, not a year, not a
+  // backlog of live incidents — and a bare four-figure number on a tile
+  // labelled Exploits is read as "1,726 things are on fire". `k` is what a
+  // screen reader hears in place of the figure and what a pointer shows, and
+  // it says which catalogue, since when, and as of when. Every part of it
+  // comes from the payload, so it cannot drift from the data.
+  { href: '/exploits.html', label: 'Exploits', short: 'Exploits', needs: 'exploits',
+    blurb: 'Days from a vulnerability record going public to the US government cataloguing it as exploited. Flat for four years.',
+    count: (ctx) => {
+      const e = ctx.exploits;
+      const all = e && e.populations ? e.populations.all : null;
+      if (!all || !Number.isFinite(all.n)) return null;
+      const q = e.copy && e.copy.retrieved_qualifier ? e.copy.retrieved_qualifier : 'as catalogued at the retrieval date';
+      const since = all.first_listed ? ` since it opened on ${all.first_listed}` : '';
+      return { v: grouped(all.n), k: `entries in the whole CISA catalogue of exploited vulnerabilities${since}, ${q}` };
+    } },
   { href: '/leaders.html', label: 'Leaders', short: 'Leaders', needs: 'leaders',
     blurb: 'What the people running AI said this week, as their publishers printed it.',
     count: (ctx) => {
@@ -487,6 +509,42 @@ const FEATURE_ART = {
   // #c400ff that the two map pages never read as the same tile, which is the
   // pair most at risk of being confused.
   '/flock.html': { hue: '#00e5ff', mark: '<path d="M3.2 14.4V4.6h3.2M1.8 14.4h2.8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M6.4 2.7h5.4v3.8H6.4z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M11.8 3.5 14 2.5v4.2l-2.2-1z" fill="currentColor"/>' },
+  // Violet, chosen against three constraints rather than for taste. Every
+  // figure below was computed off this table, not estimated.
+  //
+  // HUE: the unused arc. The twelve hues above sit at 29 34 50 55 143 151 186
+  // 202 235 286 348 degrees, plus Archive's grey. The widest gap with nothing
+  // in it runs from methodology's indigo #4b59ff (235) to the map's magenta
+  // #c400ff (286), and #8b5cf6 (258) is near its middle. That is the largest
+  // minimum separation still on the wheel, and it is NOT large — 23 degrees
+  // one way, 28 the other — so the mark and the word carry more of the load
+  // here than on the earlier tiles. Which is the rule at the top of this
+  // block, stated the other way round: colour is never the only carrier.
+  //
+  // REGISTER: this page's finding is a NULL RESULT — something was measured
+  // and it had not moved. Putting that in the red end of the spectrum, beside
+  // Leaders' #ff0033, would be an alarm claim made in CSS about a measurement
+  // that found nothing. Same argument styles.mjs makes for --accent-2 on
+  // /watts: "nothing is happening" printed in the alarm colour is a lie.
+  //
+  // CONTRAST: --fb-hue paints the mark and the figure in BOTH schemes from one
+  // token, and NO single colour can clear AA on the dark sunken ground
+  // (#08090a) and the light one (#f1efe9) at once — a colour needs relative
+  // luminance >= 0.187 for the first and <= 0.153 for the second, so the two
+  // requirements are arithmetically incompatible and every tile in this table
+  // fails one of them. #8b5cf6 measures 4.71:1 dark — AA, and the site is
+  // dark-first — and 3.68:1 light, which is third of the thirteen tiles behind
+  // #4b59ff (4.38) and #c400ff (3.81). The eight brightest here are between
+  // 1.04 and 2.38 on light. Among violets in the unused arc it is the best
+  // light figure that still clears AA on dark: #9575ff buys 5.95 dark for 2.91
+  // light, #a78bfa 7.32 for 2.37. The label beside the figure is --ink-dim,
+  // which clears AA in both schemes, so the tile is never read by colour alone.
+  //
+  // MARK: an interval — two posts with a measured span between them. What this
+  // page publishes is a GAP BETWEEN TWO DATES, and no other mark in the table
+  // is a span. History's clock is deliberately not reused: a clock says
+  // "time", where this has to say "the distance between two events".
+  '/exploits.html': { hue: '#8b5cf6', mark: '<path d="M3 3.2v9.6M13 3.2v9.6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M5.4 8h5.2" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M4.5 8 6.5 6.3v3.4zM11.5 8 9.5 9.7V6.3z" fill="currentColor"/>' },
   '/leaders.html': { hue: '#ff0033', mark: '<path d="M8 2.5a2.6 2.6 0 1 1 0 5.2 2.6 2.6 0 0 1 0-5.2z" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M3 13.5c0-2.6 2.2-4.2 5-4.2s5 1.6 5 4.2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>' },
   '/digest.html': { hue: '#ffd600', mark: '<path d="M3.5 2.5h9v11l-4.5-2.5L3.5 13.5z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>' },
   '/bliss.html': { hue: '#5fd08a', mark: '<circle cx="8" cy="8" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 1.5v2M8 12.5v2M1.5 8h2M12.5 8h2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>' },
@@ -763,6 +821,37 @@ function hasSection(ctx, key) {
       && f.coverage
       && f.copy && f.copy.attribution_required);
   }
+  // /exploits is gated on TWO facts, exactly like /flock and for the same
+  // reason: two modules decide it.
+  //
+  // The data half is build.mjs's hasExploitsData() restated verbatim — same
+  // fields, same order — and the two must move together. Every clause is
+  // load-bearing because the page publishes a NULL RESULT, and a null result
+  // without its caveats is just a headline. naive_by_half_year is required
+  // rather than optional: it is the ARTEFACT series, the one that shows the
+  // median collapsing from 1,616 days to 8 because a new catalogue was
+  // clearing a backlog of decades-old vulnerabilities, and a page that shipped
+  // only the flattering series would have had the check on its own finding
+  // removed. copy.what_this_is_not carries the distinction the page turns on —
+  // no acceleration is visible IN THIS MEASUREMENT, which is not the same
+  // sentence as "AI is not accelerating attacks".
+  //
+  // The second half is ctx.routes.exploits, which build.mjs sets and this
+  // module cannot compute: whether site/templates/exploitsPage.mjs loaded at
+  // all. Absent ctx.routes — a harness rendering layout on its own — the data
+  // predicate stands by itself.
+  if (key === 'exploits') {
+    if (ctx.routes && ctx.routes.exploits === false) return false;
+    const e = ctx.exploits;
+    const s = e && e.series;
+    return Boolean(e
+      && s && s.fresh_by_year && Array.isArray(s.fresh_by_year.rows) && s.fresh_by_year.rows.length
+      && s.naive_by_half_year && Array.isArray(s.naive_by_half_year.rows) && s.naive_by_half_year.rows.length
+      && e.populations && e.populations.all && Number.isFinite(e.populations.all.n)
+      && e.sources && e.sources.cisa_kev && e.sources.nvd
+      && e.copy && e.copy.headline && e.copy.what_this_is_not
+      && Array.isArray(e.honesty) && e.honesty.length);
+  }
   return true;
 }
 
@@ -799,14 +888,32 @@ function footer(ctx, sections, path) {
   const flockOn = hasSection(ctx, 'flock');
   const zeros = flockOn && ctx.flock.coverage && Number.isFinite(ctx.flock.coverage.counties_with_none_mapped)
     ? ctx.flock.coverage.counties_with_none_mapped : null;
-  const dataLinks = flockOn ? [...DATA_LINKS,
-    { href: '/api/flock.json', label: 'ALPR JSON',
-      blurb: zeros === null
-        ? 'Mapped ALPR cameras by state and by county, every county included.'
-        : `Mapped ALPR cameras by state and by county — including the ${grouped(zeros)} counties nobody has mapped.` },
-    { href: '/api/flock-points.json', label: 'ALPR points',
-      blurb: 'Packed latitude, longitude and bearing, one entry per mapped camera. OpenStreetMap data, ODbL.' },
-  ] : DATA_LINKS;
+  //
+  // /api/exploits.json joins the same way and for the same reason. Its blurb
+  // prints the n from the payload rather than a number typed here, because the
+  // catalogue grows and a footer that claimed a stale count would be the first
+  // wrong figure a reader met.
+  const exploitsOn = hasSection(ctx, 'exploits');
+  const exploitsN = exploitsOn && ctx.exploits.populations && ctx.exploits.populations.all
+    && Number.isFinite(ctx.exploits.populations.all.n)
+    ? ctx.exploits.populations.all.n : null;
+  const dataLinks = [
+    ...DATA_LINKS,
+    ...(flockOn ? [
+      { href: '/api/flock.json', label: 'ALPR JSON',
+        blurb: zeros === null
+          ? 'Mapped ALPR cameras by state and by county, every county included.'
+          : `Mapped ALPR cameras by state and by county — including the ${grouped(zeros)} counties nobody has mapped.` },
+      { href: '/api/flock-points.json', label: 'ALPR points',
+        blurb: 'Packed latitude, longitude and bearing, one entry per mapped camera. OpenStreetMap data, ODbL.' },
+    ] : []),
+    ...(exploitsOn ? [
+      { href: '/api/exploits.json', label: 'Exploits JSON',
+        blurb: exploitsN === null
+          ? 'Every catalogued exploited vulnerability joined to its NVD publication date, with the lag in days.'
+          : `All ${grouped(exploitsN)} catalogued entries joined to their NVD publication date, with the lag in days and every series on the page.` },
+    ] : []),
+  ];
 
   // THE LICENCE LINE. ODbL requires the attribution and the link wherever the
   // data is shown, and "the page template will remember" is not a mechanism.
@@ -820,6 +927,25 @@ function footer(ctx, sections, path) {
     ? `<p class="foot__fine">Camera locations on this page are ${esc(ctx.flock.copy.attribution_required)}, licensed under the
       <a href="${esc(ctx.flock.copy.attribution_url || 'https://www.openstreetmap.org/copyright')}" rel="noopener">Open Database License</a>.
       ${esc(ctx.flock.coverage && ctx.flock.coverage.what_zero_means ? ctx.flock.coverage.what_zero_means : '')}</p>`
+    : '';
+
+  // THE SOURCE LINE ON /exploits. Nothing legally compels this one: CISA KEV
+  // and NVD are works of the US Government in the public domain, so unlike the
+  // ODbL line above there is no licence condition to meet. The payload
+  // compels it. copy.attribution_note says public domain is not a reason to
+  // omit the citation, because the page's whole claim on a reader is that
+  // every figure can be recomputed, and a figure without its source and its
+  // retrieval date cannot be. The chrome carries it so the guarantee survives
+  // an edit to the page body, and both the label and the date are printed from
+  // the payload so neither can drift from the data that was actually pulled.
+  const exSrc = exploitsOn && ctx.exploits.sources ? ctx.exploits.sources : null;
+  const exploitSource = exSrc && exSrc.cisa_kev && exSrc.nvd && path === '/exploits.html'
+    ? `<p class="foot__fine">${esc(ctx.exploits.copy && ctx.exploits.copy.attribution
+        ? ctx.exploits.copy.attribution
+        : 'CISA Known Exploited Vulnerabilities catalogue and the National Vulnerability Database (NIST).')}
+      Retrieved ${esc(ctx.exploits.retrieved_date || exSrc.cisa_kev.retrieved_date || '')}:
+      <a href="${esc(exSrc.cisa_kev.url)}" rel="noopener">${esc(exSrc.cisa_kev.label)}</a>,
+      <a href="${esc(exSrc.nvd.url)}" rel="noopener">${esc(exSrc.nvd.label)}</a>.</p>`
     : '';
 
   return `<footer class="foot">
@@ -836,7 +962,7 @@ function footer(ctx, sections, path) {
         ${col('foot-src', 'Provenance', source)}
       </div>
     </div>
-    ${odbl}<p class="foot__fine">Collection runs on a published <code>*/${CADENCE_MIN}</code> cron; scheduled runs are queued and
+    ${odbl}${exploitSource}<p class="foot__fine">Collection runs on a published <code>*/${CADENCE_MIN}</code> cron; scheduled runs are queued and
       are routinely late, which is why the rail above says <b>overdue</b> rather than counting down into fiction.
       Every value on this site is computed from public data by published code, and each observation is written to a
       hash-chained receipt carrying its full inputs — so anyone can recompute the number and get the same answer.

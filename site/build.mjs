@@ -128,6 +128,81 @@ function hasFlockData(ctx) {
 /** Where the packed per-camera arrays are published. */
 const FLOCK_POINTS_HREF = '/api/flock-points.json';
 
+// ---------------------------------------------------------------------------
+// /exploits — the SECOND page module that is not a static import, for exactly
+// the reason given for /flock above. site/templates/exploitsPage.mjs is being
+// written on its own track; a static `import` of a file that has not landed is
+// a hard crash for the whole build, so the wiring lands first and picks the
+// template up the moment it exists. Same two failure cases, kept apart:
+//
+//   absent              -> silent. ctx.routes.exploits below carries the fact
+//                          to layout.mjs, so there is no route and no tile.
+//   present but broken  -> a loud WARNING, and every other page still builds.
+// ---------------------------------------------------------------------------
+const EXPLOITS_PAGE_FILE = path.join(ROOT, 'site', 'templates', 'exploitsPage.mjs');
+let exploitsPage = null;
+if (existsSync(EXPLOITS_PAGE_FILE)) {
+  try {
+    exploitsPage = await import('./templates/exploitsPage.mjs');
+  } catch (err) {
+    warn(`site/templates/exploitsPage.mjs is present but failed to load (${err.message}); building without /exploits.`);
+  }
+}
+
+/**
+ * THE /exploits GATE. Same contract as hasFlockData() above — this file
+ * decides whether public/exploits.html exists, layout.mjs restates the
+ * predicate verbatim in hasSection('exploits'), and THE TWO MUST MOVE
+ * TOGETHER. Disagree and the nav grows a tile pointing at a 404, which this
+ * repo has shipped before.
+ *
+ * Every clause is load-bearing, because of WHAT THIS PAGE IS. It publishes a
+ * NULL RESULT: a candidate correlate of AI capability that was measured and
+ * did not move. A null result is worth something only with its caveats
+ * attached, so the caveats are part of the gate rather than part of the page's
+ * good intentions.
+ *
+ *   series.fresh_by_year       the headline series. No series, no page.
+ *   series.naive_by_half_year  the ARTEFACT series, required rather than
+ *                              optional. Grouped naively the median collapses
+ *                              from 1,616 days to 8; the page exists to show
+ *                              that this is a new catalogue clearing a backlog
+ *                              of decades-old vulnerabilities and not
+ *                              attackers getting faster. A build that rendered
+ *                              only the flattering series would be publishing
+ *                              the finding with the check on it removed.
+ *   populations.all.n          the denominator the nav prints, and the number
+ *                              every figure on the page has to sit beside.
+ *   sources.cisa_kev / .nvd    the two feeds, their URLs and the retrieval
+ *                              date. Every figure has to be recomputable.
+ *   copy.headline
+ *   copy.what_this_is_not      the load-bearing distinction, carried verbatim:
+ *                              this does NOT show that AI is not accelerating
+ *                              attacks, it shows that no acceleration is
+ *                              visible IN THIS MEASUREMENT. Those are
+ *                              different sentences and the page must have the
+ *                              second one available to print.
+ *   honesty                    the limits, led by the biggest: dateAdded is
+ *                              when CISA WROTE IT DOWN, not when exploitation
+ *                              began.
+ *
+ * Any one of them absent and there is no page. That is the right failure — a
+ * null result stripped of its caveats is just a headline.
+ */
+function hasExploitsData(ctx) {
+  const e = ctx && ctx.exploits;
+  const s = e && e.series;
+  return Boolean(
+    e
+    && s && s.fresh_by_year && Array.isArray(s.fresh_by_year.rows) && s.fresh_by_year.rows.length
+    && s.naive_by_half_year && Array.isArray(s.naive_by_half_year.rows) && s.naive_by_half_year.rows.length
+    && e.populations && e.populations.all && Number.isFinite(e.populations.all.n)
+    && e.sources && e.sources.cisa_kev && e.sources.nvd
+    && e.copy && e.copy.headline && e.copy.what_this_is_not
+    && Array.isArray(e.honesty) && e.honesty.length,
+  );
+}
+
 async function readJson(file, what) {
   let text;
   try {
@@ -571,6 +646,32 @@ async function main() {
     catch (err) { warn(`data/flock-points.json unreadable (${err.message}); /flock will have no per-camera layer.`); }
   }
 
+  // PUBLISHED VERBATIM, for the same reasons as the two flock files and one
+  // more that is specific to this payload. stableJson() sorts object keys
+  // alphabetically, and data/exploits.json's key order is documented and
+  // deliberate: `dataset`, `measurement`, `sources`, `join` and `populations`
+  // come BEFORE the series, so anyone reading the raw file meets the
+  // definition and the caveats before the numbers. Alphabetising that puts
+  // `copy` and `backfill_evidence` first and the honesty block near the end,
+  // which is the wrong reading order for a null result. It would also re-indent
+  // each of the 1,726 seven-element entry rows onto seven lines, taking a
+  // 164 KiB file past a megabyte without changing one value. So the endpoint is
+  // the committed artefact: the same sha256 answers for data/exploits.json and
+  // for /api/exploits.json. The parse below exists only to build ctx.
+  let exploits = null;
+  let exploitsText = null;
+  const exploitsFile = path.join(args.data, 'exploits.json');
+  if (existsSync(exploitsFile)) {
+    try {
+      exploitsText = await readFile(exploitsFile, 'utf8');
+      exploits = JSON.parse(exploitsText);
+    } catch (err) {
+      exploits = null;
+      exploitsText = null;
+      warn(`data/exploits.json unreadable (${err.message}); building without /exploits.`);
+    }
+  }
+
   // OPERATOR-SUPPLIED LOGOS, listed once. The copy loop further down reuses
   // this exact list, so the manifest the templates read and the files that
   // actually land in public/logos/ cannot disagree. Absent -> empty -> every
@@ -603,6 +704,7 @@ async function main() {
       ? null
       : { href: FLOCK_POINTS_HREF, bytes: Buffer.byteLength(flockPointsText, 'utf8') },
     leaders,
+    exploits,
     x: xwire,
     history,
     receipts,
@@ -633,6 +735,7 @@ async function main() {
   // then defers to this flag for the half it cannot see. Both must hold.
   ctx.routes = {
     flock: Boolean(flockPage) && hasFlockData(ctx),
+    exploits: Boolean(exploitsPage) && hasExploitsData(ctx),
   };
 
   const written = [];
@@ -676,6 +779,15 @@ async function main() {
   if (ctx.routes.flock) {
     written.push(await write(args.out, 'flock.html', flockPage.render(ctx)));
   }
+  // /exploits. Days from a CVE record being published to CISA cataloguing it
+  // as exploited — the measurement that came back NEGATIVE and is published
+  // for that reason. Gated on ctx.routes.exploits, set immediately after ctx
+  // is built and the one place this route is decided, for the same reason
+  // /flock is: the nav is drawn by a different module and a gate the nav
+  // cannot see is a gate the nav can disagree with.
+  if (ctx.routes.exploits) {
+    written.push(await write(args.out, 'exploits.html', exploitsPage.render(ctx)));
+  }
 
   // THE LONG TAIL. One permanent page per scored item, which is how pizzint
   // gets 997 of its 1,018 sitemap URLs. Each of ours carries the score
@@ -702,7 +814,7 @@ async function main() {
 
   await writeDirectoryAliases(
     args.out,
-    ['race', 'news', 'methodology', 'history', 'digest', 'bliss', 'watts', 'map', 'leaders', 'flock'],
+    ['race', 'news', 'methodology', 'history', 'digest', 'bliss', 'watts', 'map', 'leaders', 'flock', 'exploits'],
     write,
     written,
   );
@@ -774,6 +886,11 @@ async function main() {
   if (flockPointsText !== null) {
     written.push(await write(args.out, 'api/flock-points.json', flockPointsText));
   }
+  // Verbatim too, and note the condition: the TEXT, not the route. The
+  // aggregate is the recompute path for every figure on /exploits, and it is
+  // worth publishing whenever it parsed even if the template has not landed
+  // yet and the page itself is not being written.
+  if (exploitsText !== null) written.push(await write(args.out, 'api/exploits.json', exploitsText));
   written.push(await write(args.out, 'api/index.json', stableJson({
     name: brand.NAME,
     description: brand.DESCRIPTION,
