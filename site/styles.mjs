@@ -2282,6 +2282,26 @@ a.chip:hover b { color: var(--accent-2); }
   /* A <summary> cannot be flex without losing its marker box in some engines. */
   summary { min-height: 24px; padding-block: 3px; }
 
+
+  /* ---- THE JUMP INDEX ----------------------------------------------------
+     An overview of a page that is 8.5 screens long. Quiet by construction: it
+     is read once on arrival and then never again, so it must not compete with
+     the reading it introduces. One row that wraps, the same rule above it as
+     any section, and the links carry the document underline like every other
+     link rather than inventing a treatment. */
+  .jump { margin: 0 0 var(--s-4); padding-bottom: var(--s-3); border-bottom: 1px solid var(--rule); }
+  .jump__k {
+    display: block; margin-bottom: 6px;
+    font-family: var(--mono); font-size: var(--t-2xs); letter-spacing: .14em;
+    text-transform: uppercase; color: var(--ink-faint);
+  }
+  .jump__l { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px var(--s-3); }
+  .jump__l a {
+    font-family: var(--mono); font-size: var(--t-xs); color: var(--ink-dim);
+    min-height: 24px; display: inline-flex; align-items: center;
+  }
+  .jump__l a:hover { color: var(--accent); }
+
 `;
 
 

@@ -655,6 +655,53 @@ const FEATURE_BAR_CSS = `<style>
 @media (prefers-reduced-motion: reduce) { .fb__t { transition: none; } }
 </style>`;
 
+
+/**
+ * A JUMP INDEX FOR A PAGE YOU CANNOT SEE THE END OF.
+ *
+ * Measured 2026-09-26: the homepage is 8.5 screens with fifteen id'd <h2>
+ * headings, and exactly ONE link on the whole page pointed at any of them. A
+ * reader had no way to see what was on the page, let alone reach it. Every
+ * heading already carries an id, so the anchors were free and simply unused.
+ *
+ * WHY THIS IS NOT STICKY, against the research. The sweep found that Our
+ * World in Data, Wikipedia and MDN all pin an in-page index and let the global
+ * nav scroll. We already let the global nav scroll, and the sticky section
+ * headings shipped earlier give the continuous "where am I" that pinning
+ * mostly buys. What was still missing is the OVERVIEW — what is on this page —
+ * and an overview is read once, on arrival. Pinning it would spend 30px of
+ * every screen forever to keep answering a question asked once. So it sits at
+ * the top of the content, where a reader arrives, and scrolls away like any
+ * other content.
+ *
+ * DEPTH-AWARE ON PURPOSE. A flat regex for <h2 id> would pull in the five
+ * panels nested inside the switcher and turn a seven-item index into a
+ * fifteen-item directory. This tracks <section> depth and takes only the
+ * headings of top-level sections, which is the same set the section rules in
+ * styles.mjs target.
+ */
+function jumpIndex(mainHtml) {
+  const items = [];
+  let depth = 0;
+  const token = /<section\b|<\/section>|<h2\b[^>]*\bid="([^"]+)"[^>]*>([\s\S]*?)<\/h2>/g;
+  let m;
+  while ((m = token.exec(mainHtml)) !== null) {
+    const tag = m[0];
+    if (tag === '</section>') { depth -= 1; continue; }
+    if (tag.startsWith('<section')) { depth += 1; continue; }
+    // A heading counts when its own section is the outermost one open.
+    if (depth === 1 && m[1]) {
+      const text = m[2].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+      if (text) items.push({ id: m[1], text });
+    }
+  }
+  if (items.length < 3) return '';
+  return `<nav class="jump" aria-label="On this page">
+  <span class="jump__k">On this page</span>
+  <ul class="jump__l">${items.map((i) => `<li><a href="#${esc(i.id)}">${esc(i.text)}</a></li>`).join('')}</ul>
+</nav>`;
+}
+
 export function page(o) {
   const { ctx } = o;
   const canonical = ctx.url(o.path);
@@ -758,6 +805,7 @@ ${rail(ctx, o.path)}
 ${visitSlot(ctx)}
 ${o.showDegraded ? degradedBanner(ctx.state) : ''}${motion.beforeMain}
 <main class="wrap" id="main">
+${jumpIndex(o.main)}
 ${o.main}
 </main>
 ${footer(ctx, sections, o.path)}${bodyEndExtra}
