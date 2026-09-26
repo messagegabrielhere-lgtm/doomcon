@@ -15,6 +15,8 @@ import { fileURLToPath } from 'node:url';
 import * as brand from './brand.mjs';
 import * as marks from './brandmarks.mjs';
 import { cardAssets } from './cardpng.mjs';
+import { createHash } from 'node:crypto';
+import { css as siteCss } from './styles.mjs';
 import { stableJson, num, secondsBetween } from './templates/_html.mjs';
 import * as indexPage from './templates/index.mjs';
 import * as methodologyPage from './templates/methodology.mjs';
@@ -682,6 +684,22 @@ async function main() {
         (n) => !n.startsWith('.') && n.toLowerCase() !== 'readme.md')
     : [];
 
+  // ONE STYLESHEET, CACHED, INSTEAD OF 158KB INLINED INTO EVERY PAGE.
+  // Measured 2026-09-26: the homepage carried 157,689 bytes of inline CSS and
+  // so did all 334 other pages -- identical bytes, re-downloaded on every
+  // navigation, with no cache to show for it. Inlining buys one round trip on
+  // a cold first paint and gives it back on the second page and every page
+  // after. This site wants multi-page sessions, so the trade was the wrong way
+  // round.
+  //
+  // The filename carries a hash of the contents, so the URL changes when the
+  // CSS changes and never otherwise. That makes it safe to cache hard without
+  // setting a single header, which matters because GitHub Pages does not let
+  // us set any.
+  const sheet = `${marks.LOCKUP_CSS}\n${siteCss()}`;
+  const cssName = `s-${createHash('sha256').update(sheet).digest('hex').slice(0, 12)}.css`;
+  const cssHref = `${brand.BASE_PATH}/${cssName}`;
+
   const ctx = {
     state,
     logos,
@@ -711,6 +729,7 @@ async function main() {
     moves,
     methodologyMd,
     href: (p) => `${brand.BASE_PATH}${p.startsWith('/') ? p : `/${p}`}`,
+    cssHref,
     url: (p) => `${brand.ORIGIN}${brand.BASE_PATH}${p.startsWith('/') ? p : `/${p}`}`,
     seriesFor: seriesBuilder(history),
     vsYesterday: vsYesterday(state, history),
@@ -854,6 +873,7 @@ async function main() {
 
   // GitHub Pages runs Jekyll unless told not to, which silently drops any path
   // beginning with an underscore and adds a build step we do not want.
+  written.push(await write(args.out, cssName, sheet));
   written.push(await write(args.out, '.nojekyll', ''));
 
   written.push(await write(args.out, 'api/state.json', stableJson({

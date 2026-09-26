@@ -68,7 +68,7 @@ const SECTIONS = [
     blurb: 'Every story, scored on how many independent sources carried it.',
     count: (ctx) => (ctx.news && Array.isArray(ctx.news.items) && ctx.news.items.length
       ? { v: String(ctx.news.items.length), k: 'scored items' } : null) },
-  { href: '/watts.html', label: 'Watts', short: 'Watts', needs: 'watts',
+  { href: '/watts.html', label: 'Power', short: 'Power', needs: 'watts',
     blurb: 'The substrate index: grid load, drought and buildout under the models.',
     count: (ctx) => (ctx.infra && Number.isFinite(ctx.infra.score)
       ? { v: num(ctx.infra.score, 1), k: 'substrate score' } : null) },
@@ -126,7 +126,7 @@ const SECTIONS = [
     } },
   { href: '/digest.html', label: 'Digest', short: 'Digest', needs: 'digest',
     blurb: 'The day in one page, assembled from the scored corpus.' },
-  { href: '/bliss.html', label: 'Bliss', short: 'Bliss', needs: 'bliss',
+  { href: '/bliss.html', label: 'Upside', short: 'Upside', needs: 'bliss',
     blurb: 'The same machinery, pointed the other way.',
     count: (ctx) => (ctx.bliss && Number.isFinite(ctx.bliss.score)
       ? { v: num(ctx.bliss.score, 1), k: 'bliss score' } : null) },
@@ -742,8 +742,9 @@ ${ogImage}
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="${esc(FONT_HREF)}">
 ${marks.headLinks({ href: ctx.href })}
-<style>${marks.LOCKUP_CSS}</style>
-<style>${css()}</style>${headExtra}
+${ctx.cssHref
+  ? `<link rel="stylesheet" href="${esc(ctx.cssHref)}">`
+  : `<style>${marks.LOCKUP_CSS}</style><style>${css()}</style>`}${headExtra}
 ${jsonld}
 </head>
 <body${wide ? ' data-wide="1"' : ''}>
@@ -957,7 +958,7 @@ function footer(ctx, sections, path) {
         <p class="foot__dis">${esc(brand.DISCLAIMER)}</p>
       </div>
       <div class="foot__cols">
-        ${col('foot-pages', 'The desk', sections)}
+        ${col('foot-pages', 'Pages', sections)}
         ${col('foot-data', 'Data', dataLinks)}
         ${col('foot-src', 'Provenance', source)}
       </div>
