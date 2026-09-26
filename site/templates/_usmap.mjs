@@ -361,6 +361,17 @@ export function mapModel(dc) {
       status: STATUS_ORDER.includes(site.status) ? site.status : 'operating',
       r: radiusFor(mw),
       scaled: Number.isFinite(mw) && mw > 0,
+      // Identity, carried onto the marker so a reader can ask what a dot IS.
+      // A missing field stays missing all the way to the markup: a site with
+      // no name renders the words "unnamed in OpenStreetMap", never a blank,
+      // never a placeholder that reads like a name, and never a zero.
+      name: site.name || null,
+      operator: site.operator || null,
+      stateAb: ab,
+      grid: gk,
+      confidence: site.confidence || null,
+      mw: Number.isFinite(mw) && mw > 0 ? mw : null,
+      sentence: site.sentence || null,
     });
   }
 
@@ -476,6 +487,62 @@ function labelAnchor(ab) {
   return best;
 }
 
+// ---------------------------------------------------------------------------
+// MARKER IDENTITY — the <title>, and what it costs
+//
+// Until this pass a pin was an anonymous <circle>. 1,877 of them and not one
+// could be asked what it was. Every pin now carries a <title>, which is the
+// ONE thing on this page that makes the dots inspectable with no script at all:
+// the browser's own tooltip on hover, and the string the detail panel reads
+// back when the script does run. There is no second copy of the text anywhere.
+//
+// The string is `name · operator · status · sentence`, and `sentence` is the
+// join the collector already wrote — county, grid, drought share, nearest
+// gauge. So the title is the whole record with no field repeated.
+//
+// It is not free. Measured on this dataset it adds ~150 characters per marker;
+// see the size figures in the build report. The alternative — a JSON blob for
+// the script plus a title for the tooltip — costs MORE, and the blob is
+// invisible to a reader with JS off, which is the trade this file exists to
+// refuse.
+//
+// STATUS and DROUGHT are deliberately NOT on the marker. They are already
+// carried by the group it sits in (`usm__pins--announced`, `usm__k-d4`), so
+// putting them on each child would be 36 wasted bytes x 1,877 and, worse, two
+// places to disagree. A filter on status or drought is therefore a single CSS
+// rule against a group; see FILTER CONTRACT below.
+// ---------------------------------------------------------------------------
+
+/** Attributes the filter contract is built on. Anything unknown is OMITTED,
+ *  never defaulted: the absence of data-mw means "capacity unpublished", and
+ *  there is no value that could mean it instead. */
+function pinAttrs(p, needsPoint) {
+  // A circle already publishes its centre as cx/cy and the controller reads it
+  // from there. Only the triangles and diamonds, whose centre is buried in a
+  // path's `d`, need it spelled out — 108 markers rather than 1,877, which is
+  // 30 KB of markup and 3.3 KB over the wire that nobody has to download.
+  // Integers: one viewBox unit is ~0.7 CSS px at the width this renders at, so
+  // rounding moves a HIT TEST by a third of a pixel and moves the drawn shape,
+  // which is still placed at full precision, not at all.
+  let a = needsPoint ? ` data-p="${Math.round(p.x)} ${Math.round(p.y)}"` : '';
+  if (p.stateAb) a += ` data-st="${esc(p.stateAb)}"`;
+  if (p.grid) a += ` data-g="${esc(p.grid)}"`;
+  if (p.confidence) a += ` data-c="${esc(p.confidence)}"`;
+  if (p.mw !== null) a += ` data-mw="${esc(String(p.mw))}"`;
+  return a;
+}
+
+/** The tooltip, and the only prose the detail panel has. Unknowns are words. */
+function pinTitle(p) {
+  const bits = [
+    p.name || 'unnamed in OpenStreetMap',
+    p.operator || 'operator not recorded',
+    STATUS_MARKS[p.status].word,
+  ];
+  if (p.sentence) bits.push(p.sentence);
+  return `<title>${esc(bits.join(' · '))}</title>`;
+}
+
 function pinLayer(model) {
   const out = [];
   for (const cat of DROUGHT_ORDER) {
@@ -486,15 +553,17 @@ function pinLayer(model) {
       // the dots of its neighbours.
       group.sort((a, b) => a.r - b.r);
       const body = group.map((p) => {
+        const cls = p.scaled ? 'usm__p usm__big' : 'usm__p';
         if (status === 'operating') {
-          return `<circle cx="${n1(p.x)}" cy="${n1(p.y)}" r="${n1(p.r)}"${p.scaled ? ' class="usm__big"' : ''}/>`;
+          return `<circle class="${cls}" cx="${n1(p.x)}" cy="${n1(p.y)}" r="${n1(p.r)}"${pinAttrs(p, false)}>${pinTitle(p)}</circle>`;
         }
+        const tail = `${pinAttrs(p, true)}>${pinTitle(p)}`;
         if (status === 'under_construction') {
           const a = p.r * 1.35; const b = p.r * 1.2; const c = p.r * 0.82;
-          return `<path d="M${n1(p.x)} ${n1(p.y - a)}L${n1(p.x + b)} ${n1(p.y + c)}L${n1(p.x - b)} ${n1(p.y + c)}Z"${p.scaled ? ' class="usm__big"' : ''}/>`;
+          return `<path class="${cls}" d="M${n1(p.x)} ${n1(p.y - a)}L${n1(p.x + b)} ${n1(p.y + c)}L${n1(p.x - b)} ${n1(p.y + c)}Z"${tail}</path>`;
         }
         const r = p.r * 1.45;
-        return `<path d="M${n1(p.x)} ${n1(p.y - r)}L${n1(p.x + r)} ${n1(p.y)}L${n1(p.x)} ${n1(p.y + r)}L${n1(p.x - r)} ${n1(p.y)}Z"${p.scaled ? ' class="usm__big"' : ''}/>`;
+        return `<path class="${cls}" d="M${n1(p.x)} ${n1(p.y - r)}L${n1(p.x + r)} ${n1(p.y)}L${n1(p.x)} ${n1(p.y + r)}L${n1(p.x - r)} ${n1(p.y)}Z"${tail}</path>`;
       }).join('');
       out.push(`<g class="usm__pins usm__pins--${esc(status.replace(/_/g, '-'))} usm__k-${esc(cat.toLowerCase())}">${body}</g>`);
     }
@@ -506,7 +575,7 @@ function gaugeLayer(model) {
   const marks = model.gaugeRows.filter((g) => g.xy).map((g) => {
     const [x, y] = g.xy;
     const pct = Number.isFinite(g.percent_of_normal) ? `${num(g.percent_of_normal, 1)}% of the long-run median` : 'no reading';
-    return `<g class="usm__gauge"><path d="M${n1(x)} ${n1(y - 7)}L${n1(x + 6)} ${n1(y + 4)}L${n1(x - 6)} ${n1(y + 4)}Z"/><circle cx="${n1(x)}" cy="${n1(y)}" r="1.6"/>` +
+    return `<g class="usm__gauge" data-p="${Math.round(x)} ${Math.round(y)}"><path d="M${n1(x)} ${n1(y - 7)}L${n1(x + 6)} ${n1(y + 4)}L${n1(x - 6)} ${n1(y + 4)}Z"/><circle cx="${n1(x)}" cy="${n1(y)}" r="1.6"/>` +
       `<title>${esc(g.name)} — ${esc(pct)}${g.cluster ? ` · ${esc(g.cluster)}` : ''}</title></g>`;
   }).join('');
   return marks ? `<g class="usm__gauges">${marks}</g>` : '';
@@ -526,11 +595,618 @@ function labelLayer(model) {
   }).join('');
 }
 
+// ===========================================================================
+// THE INTERACTION LAYER
+// ===========================================================================
+//
+// Rule 0 first, because everything below is subordinate to it: THE PAGE IS
+// FINISHED BEFORE THIS RUNS. Every outline, every one of the 1,877 markers,
+// every marker's <title>, the legend and the whole ranked table are in the
+// server-rendered HTML. _xwire.mjs records why that matters — the competitor's
+// widget "renders nothing until it executes, so a screenshot before hydration
+// is blank" — and this script does not get to break it. It only ADDS: a
+// transform on one group, a panel, a highlight, and a filter hook.
+//
+// Concretely, with JavaScript off you still get: the map, every marker, a
+// native browser tooltip on every marker carrying name / operator / status /
+// county / grid / drought / nearest gauge, the legend, the table, and the
+// off-frame note. What you lose is zoom, pan, the positioned panel, the
+// keyboard walk and filtering. The three controls, the readout and the panel
+// are rendered with the `hidden` attribute and unhidden by this script, so a
+// scriptless reader is never shown a button that does nothing.
+//
+// ---------------------------------------------------------------------------
+// ONE REVERSAL, STATED PLAINLY
+// ---------------------------------------------------------------------------
+// The note at the top of this file argues the map must be hidden below 760px
+// because 407 Virginia pins in 22x16 CSS pixels is a smudge that still looks
+// authoritative. That argument was correct for a map you cannot touch. It is
+// not correct for one you can pinch. So the rule is now conditional: the map
+// is still hidden below 760px WHEN THERE IS NO SCRIPT — the static phone view
+// is exactly what it was — and it is shown when this script has wired the
+// gestures up, because at that point the smudge is a starting view rather than
+// the only view. The table is unchanged and still sits underneath at every
+// width. The selector is `.usm:not(.usm--live)`; this script adds the class.
+//
+// ---------------------------------------------------------------------------
+// WHY THE HIT TEST IS HAND-WRITTEN AND NOT pointer-events
+// ---------------------------------------------------------------------------
+// A pin is 2.4 viewBox units across, which at the width this renders at is
+// under 2 CSS pixels. WCAG 2.5.8 asks for 24. The obvious fix — an invisible
+// 24px circle per pin — makes 1,877 overlapping hit targets where the one that
+// wins a tap is whichever happens to be last in document order, which is an
+// arbitrary answer dressed up as a deliberate one. So markers are
+// pointer-events:none and the script does its own nearest-neighbour search
+// over a uniform grid: the effective target is 24 CSS pixels at every zoom,
+// the winner is the genuinely nearest marker, and ties break on index so the
+// same tap always returns the same site.
+//
+// That search also produces the honest answer to occlusion. Having picked a
+// marker it asks how many others sit within four CSS pixels of it AT THE
+// CURRENT ZOOM, and the panel says "1 of 9 here". Nothing is clustered and
+// nothing is jittered — a pin is drawn where the site is — and the number of
+// hidden neighbours is printed rather than left to be discovered.
+//
+// ---------------------------------------------------------------------------
+// FILTER CONTRACT — other templates code against this
+// ---------------------------------------------------------------------------
+// Two levels, and the first needs no script at all.
+//
+// 1. GROUP LEVEL, pure CSS. Markers are grouped by status and drought, and the
+//    group carries both as classes:
+//       g.usm__pins--operating | .usm__pins--under-construction
+//                              | .usm__pins--announced
+//       g.usm__k-nodata | .usm__k-none | .usm__k-d0 ... .usm__k-d4
+//    `g.usm__pins--announced{display:none}` hides every announced pin with one
+//    rule, works with JS off, and costs nothing per marker.
+//
+// 2. MARKER LEVEL. Every marker is `.usm__p` and carries:
+//       data-p   "X Y"     integer viewBox centre — ONLY on the triangle and
+//                          diamond markers, whose centre is buried in a path.
+//                          A circle marker publishes cx/cy instead and the
+//                          controller reads whichever exists. If you want
+//                          coordinates, take x and y off .records() and never
+//                          mind which shape it was.
+//       data-st  "VA"      2-letter state          (omitted if unrecorded)
+//       data-g   "PJM"     grid key, "UNKNOWN" when the record has none
+//       data-c   "high"    confidence: high|medium|low (omitted if unrecorded)
+//       data-mw  "47"      IT power in MW — PRESENT ONLY WHEN PUBLISHED.
+//                          Its absence means unpublished. There is deliberately
+//                          no value that could be mistaken for a measured zero.
+//    Adding the class `is-out` to a marker hides it. That is the whole
+//    mechanism; the JS API below is a convenience over it.
+//
+// 3. THE JS API. `window.usMap.get(figureId)` returns a controller, and the
+//    same object is on the element as `figure.usmap`. It exposes:
+//       .fields()                 -> {status,drought,state,grid,confidence}
+//                                    sorted distinct values actually present,
+//                                    so a control panel can be built without
+//                                    knowing the dataset
+//       .setFilter(spec)          -> result (below). spec keys are all
+//                                    optional; an omitted or empty key is NO
+//                                    constraint:
+//                                      status:['operating', ...]
+//                                      drought:['D3','D4','nodata', ...]
+//                                      state:['VA', ...]
+//                                      grid:['PJM', ...]
+//                                      confidence:['high', ...]
+//                                      minMw: 25
+//                                      includeUnknownMw: true
+//       .filter(fn)               -> result. fn(record) returns true to keep.
+//       .clearFilter()            -> result
+//       .records()                -> plain copies, no DOM: index, x, y,
+//                                    status, drought, state, grid, confidence,
+//                                    mw (null when unpublished), label, hidden
+//       .zoomIn() .zoomOut() .reset() .focusState('VA')
+//       .select(index) .clear()
+//    and fires two bubbling CustomEvents on the <figure>:
+//       usmap:filter  detail = the result object
+//       usmap:select  detail = {index, record, stack}
+//
+//    THE RESULT OBJECT, and the reason it has the shape it has:
+//       {total, shown, hidden,
+//        unknownHidden:{drought,state,grid,confidence,mw},  note:"..."}
+//    A filter must never quietly convert "we have no reading" into "it is not
+//    in your selection". So a marker dropped because the field the filter
+//    tested is UNKNOWN is counted separately, and `note` is a ready-made
+//    sentence saying so. The readout prints it. If you build your own controls,
+//    print it too — an unknown that vanishes is the one failure this site does
+//    not get to ship. Capacity is the sharpest case: minMw never treats a site
+//    with no published IT-power tag as 0 MW. It hides it and says how many.
+// ===========================================================================
+
+/** Label tables, stringified once so the script and the legend cannot drift.
+ *  The only interpolation inside MAP_JS, on purpose. */
+const JS_LABELS = JSON.stringify({
+  k: DROUGHT_ORDER.reduce((o, c) => { o[c] = DROUGHT_WORDS[c].label; return o; }, {}),
+  s: STATUS_ORDER.reduce((o, c) => { o[c] = STATUS_MARKS[c].word; return o; }, {}),
+});
+
+// No template literals, no regex literals and no backslashes inside this
+// payload: a `${` would be interpolated by the template literal carrying it and
+// a backslash would be eaten by it. Same trap, same rule, as _motion.mjs.
+const MAP_JS = `(function(){
+if(window.usMap&&window.usMap.rescan){window.usMap.rescan();return;}
+var LBL=${JS_LABELS};
+var D=document,MAXK=40,PICKPX=24,STACKPX=4;
+var REDUCE=!!(window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches);
+var FILLBOX=!!(window.CSS&&CSS.supports&&CSS.supports('transform-box','fill-box'));
+var API={maps:[]};
+API.get=function(id){for(var i=0;i<API.maps.length;i++){if(API.maps[i].id===id)return API.maps[i];}return null;};
+window.usMap=API;
+function nf(n){return n.toLocaleString('en-US');}
+function uniq(a){var s={},o=[],i;for(i=0;i<a.length;i++){var v=a[i];if(v!==null&&v!==undefined&&!s[v]){s[v]=1;o.push(v);}}return o.sort();}
+function has(list,v){return !list||!list.length||list.indexOf(v)>=0;}
+function grp(g){
+ var s='',k='',p=(g.getAttribute('class')||'').split(' '),i;
+ for(i=0;i<p.length;i++){
+  if(p[i].indexOf('usm__pins--')===0)s=p[i].slice(11).split('-').join('_');
+  else if(p[i].indexOf('usm__k-')===0){k=p[i].slice(7);if(k.length===2&&k.charAt(0)==='d')k=k.toUpperCase();}}
+ return{s:s,k:k};
+}
+
+function boot(fig){
+ var svg=fig.querySelector('.usm__svg'),vp=fig.querySelector('.usm__vp');
+ if(!svg||!vp)return null;
+ var stage=fig.querySelector('.usm__stage')||fig;
+ var vb=(svg.getAttribute('viewBox')||'0 0 1000 638').split(' ');
+ var W=parseFloat(vb[2])||1000,H=parseFloat(vb[3])||638;
+ var ring=fig.querySelector('.usm__sel');
+ var pop=fig.querySelector('[data-usm-pop]'),poph=fig.querySelector('[data-usm-poph]'),
+  popb=fig.querySelector('[data-usm-popb]'),popm=fig.querySelector('[data-usm-popm]'),
+  pops=fig.querySelector('[data-usm-pops]'),stkEl=fig.querySelector('[data-usm-stack]');
+ var hud=fig.querySelector('.usm__hud'),zEl=fig.querySelector('[data-usm-zoom]'),
+  shEl=fig.querySelector('[data-usm-shown]'),slEl=fig.querySelector('[data-usm-shownlab]');
+ var ctls=fig.querySelector('.usm__ctl'),keys=fig.querySelector('.usm__keys');
+ var noun=fig.getAttribute('data-usm-noun')||'pins';
+ var k=1,tx=0,ty=0,raf=0,invq=1,animT=0;
+ var items=[],cells={},order=[],built=0,CELL=25,GW=Math.ceil(W/CELL)+1;
+ var cur=-1,stack=[],spos=0,sticky=0,rov=-1,shown=0,note='';
+
+ /* ---- geometry ---- */
+ function upp(){var r=svg.getBoundingClientRect();return r.width>0?W/r.width:1;}
+ function toV(cx,cy){var r=svg.getBoundingClientRect();if(!r.width)return null;
+  var s=W/r.width;return{x:(cx-r.left)*s,y:(cy-r.top)*s};}
+ function toC(cx,cy){var v=toV(cx,cy);return v?{x:(v.x-tx)/k,y:(v.y-ty)/k}:null;}
+ function clamp(){
+  if(!(k>=1))k=1;if(k>MAXK)k=MAXK;
+  var ax=W-W*k,ay=H-H*k;
+  if(tx>0)tx=0;if(tx<ax)tx=ax;if(ty>0)ty=0;if(ty<ay)ty=ay;
+ }
+ function paint(){
+  vp.setAttribute('transform','translate('+tx.toFixed(2)+' '+ty.toFixed(2)+') scale('+k.toFixed(4)+')');
+  /* Half-octave steps: a smooth zoom recalculates 1,877 nodes ~8 times, not
+     once a frame, and never drifts past 19% of true size. */
+  if(FILLBOX){
+   var q=Math.pow(2,Math.round(Math.log(k)/Math.LN2*2)/2);
+   if(q!==invq){invq=q;fig.style.setProperty('--usm-inv',(1/q).toFixed(4));gscale(1/q);}
+  }
+  if(zEl)zEl.textContent=k.toFixed(1)+'×';
+  fig.setAttribute('data-usm-z',k>2.5?'in':'out');
+  if(cur>=0)place();
+ }
+ /* The nine gauge marks are groups, and transform-box:fill-box on a <g> is
+    the corner of that property browsers have historically got wrong. Nine
+    explicit transforms cost nothing and are exact everywhere. */
+ var gauges=vp.querySelectorAll('.usm__gauge');
+ function gscale(inv){
+  for(var i=0;i<gauges.length;i++){
+   var p=(gauges[i].getAttribute('data-p')||'').split(' '),gx=+p[0]||0,gy=+p[1]||0;
+   gauges[i].setAttribute('transform','translate('+gx+' '+gy+') scale('+inv.toFixed(4)+') translate('+(-gx)+' '+(-gy)+')');
+  }
+ }
+ function apply(){clamp();if(raf)return;raf=requestAnimationFrame(function(){raf=0;paint();});}
+ function anim(){
+  if(REDUCE)return;
+  fig.classList.add('usm--anim');
+  if(animT)clearTimeout(animT);
+  animT=setTimeout(function(){fig.classList.remove('usm--anim');animT=0;},240);
+ }
+ function zoomAt(vx,vy,f){
+  var nk=k*f;if(nk<1)nk=1;if(nk>MAXK)nk=MAXK;if(nk===k)return;
+  tx=vx-(vx-tx)*(nk/k);ty=vy-(vy-ty)*(nk/k);k=nk;apply();
+ }
+ function zoomMid(f){anim();zoomAt(W/2,H/2,f);}
+
+ /* ---- index, built on first use ---- */
+ function ensure(){
+  if(built)return;built=1;
+  var els=vp.querySelectorAll('.usm__p'),gn=null,gi={s:'',k:''},i;
+  for(i=0;i<els.length;i++){
+   var el=els[i],g=el.parentNode;
+   if(g!==gn){gn=g;gi=grp(g);}
+   var dp=el.getAttribute('data-p'),px,py;
+   if(dp){var p=dp.split(' ');px=+p[0]||0;py=+p[1]||0;}
+   else{px=+el.getAttribute('cx')||0;py=+el.getAttribute('cy')||0;}
+   var mw=el.getAttribute('data-mw'),t=el.querySelector('title');
+   el.__usm=i;
+   items.push({el:el,i:i,x:px,y:py,status:gi.s,drought:gi.k,
+    state:el.getAttribute('data-st')||null,grid:el.getAttribute('data-g')||null,
+    confidence:el.getAttribute('data-c')||null,mw:mw===null?null:+mw,
+    label:t?(t.textContent||''):'',hidden:false});
+  }
+  shown=items.length;
+  for(i=0;i<items.length;i++){
+   var cx=(items[i].x/CELL)|0,cy=(items[i].y/CELL)|0,key=cy*GW+cx;
+   if(!cells[key])cells[key]=[];
+   cells[key].push(i);
+   order.push(i);
+  }
+  /* Walk order: north to south in bands, west to east inside one. */
+  order.sort(function(a,b){
+   var A=items[a],B=items[b],ab=(A.y/16)|0,bb=(B.y/16)|0;
+   return ab-bb||A.x-B.x||a-b;
+  });
+ }
+ function near(ux,uy,rad){
+  var out=[],r2=rad*rad;
+  var x0=((ux-rad)/CELL)|0,x1=((ux+rad)/CELL)|0,y0=((uy-rad)/CELL)|0,y1=((uy+rad)/CELL)|0;
+  if(x0<0)x0=0;if(y0<0)y0=0;
+  for(var cy=y0;cy<=y1;cy++)for(var cx=x0;cx<=x1;cx++){
+   var b=cells[cy*GW+cx];if(!b)continue;
+   for(var j=0;j<b.length;j++){
+    var it=items[b[j]];if(it.hidden)continue;
+    var dx=it.x-ux,dy=it.y-uy,d=dx*dx+dy*dy;
+    if(d<=r2)out.push([d,b[j]]);
+   }
+  }
+  out.sort(function(a,b){return a[0]-b[0]||a[1]-b[1];});
+  return out;
+ }
+
+ /* ---- selection ---- */
+ function setStack(i){
+  cur=i;
+  var s=near(items[i].x,items[i].y,STACKPX*upp()/k),j;
+  stack=[];
+  for(j=0;j<s.length;j++)stack.push(s[j][1]);
+  if(stack.indexOf(i)<0)stack.unshift(i);
+  spos=stack.indexOf(i);
+ }
+ function chips(it){
+  var o=[];
+  o.push(LBL.s[it.status]||it.status||'status not recorded');
+  o.push('drought '+(LBL.k[it.drought]||'no reading'));
+  o.push('grid '+(it.grid==='UNKNOWN'||!it.grid?'not identified':it.grid));
+  o.push(it.mw===null?'capacity unpublished':it.mw+' MW IT power');
+  o.push((it.confidence||'unrecorded')+' confidence');
+  return o.join(' · ');
+ }
+ function place(){
+  if(cur<0)return;
+  var it=items[cur],r=svg.getBoundingClientRect(),sr=stage.getBoundingClientRect();
+  if(!r.width)return;
+  var s=r.width/W;
+  var px=(it.x*k+tx)*s+(r.left-sr.left),py=(it.y*k+ty)*s+(r.top-sr.top);
+  if(ring){
+   var rr=(12*upp()/k);
+   ring.setAttribute('cx',it.x);ring.setAttribute('cy',it.y);ring.setAttribute('r',rr.toFixed(2));
+  }
+  var pw=pop.offsetWidth,ph=pop.offsetHeight;
+  var x=px+14,y=py+14;
+  if(x+pw>sr.width-4)x=px-pw-14;
+  if(x<4)x=4;
+  if(y+ph>sr.height-4)y=py-ph-14;
+  if(y<4)y=4;
+  pop.style.left=Math.round(x)+'px';
+  pop.style.top=Math.round(y)+'px';
+ }
+ function show(){
+  if(cur<0)return;
+  var it=items[cur],parts=it.label.split(' · ');
+  poph.textContent=parts.shift()||'unnamed site';
+  popb.textContent=parts.join(' · ');
+  popm.textContent=chips(it);
+  if(stack.length>1){
+   pops.hidden=false;
+   stkEl.textContent=(spos+1)+' of '+stack.length+' inside '+STACKPX+'px of each other at '+k.toFixed(1)+'× — zoom in to separate them';
+  }else{pops.hidden=true;}
+  pop.hidden=false;
+  if(ring)ring.setAttribute('data-on','1');
+  place();
+  fig.dispatchEvent(new CustomEvent('usmap:select',{bubbles:true,
+   detail:{index:cur,record:rec(it),stack:stack.slice()}}));
+ }
+ function hide(){
+  cur=-1;stack=[];sticky=0;pop.hidden=true;
+  if(ring){ring.removeAttribute('data-on');ring.setAttribute('r',0);}
+ }
+ function pickAt(cx,cy,stick){
+  ensure();
+  var c=toC(cx,cy);if(!c)return;
+  var hits=near(c.x,c.y,PICKPX*upp()/k);
+  if(!hits.length){if(stick||!sticky)hide();return;}
+  if(sticky&&!stick)return;
+  setStack(hits[0][1]);sticky=stick?1:0;show();
+ }
+ function step(d){
+  if(!stack.length)return;
+  spos=(spos+d+stack.length)%stack.length;
+  cur=stack[spos];show();
+ }
+
+ /* ---- pointers: one path for mouse, pen and finger ---- */
+ var ptrs={},np=0,drag=null,pinch=null,moved=0;
+ function pk(){var a=[];for(var id in ptrs)a.push(ptrs[id]);return a;}
+ function startPinch(){
+  var a=pk();if(a.length<2){pinch=null;return;}
+  var v1=toV(a[0].x,a[0].y),v2=toV(a[1].x,a[1].y);
+  if(!v1||!v2){pinch=null;return;}
+  var dx=v2.x-v1.x,dy=v2.y-v1.y,d=Math.sqrt(dx*dx+dy*dy);
+  pinch={d:d<1?1:d,mx:(v1.x+v2.x)/2,my:(v1.y+v2.y)/2,k:k,tx:tx,ty:ty};
+ }
+ function doPinch(){
+  var a=pk();if(a.length<2||!pinch)return;
+  var v1=toV(a[0].x,a[0].y),v2=toV(a[1].x,a[1].y);
+  if(!v1||!v2)return;
+  var dx=v2.x-v1.x,dy=v2.y-v1.y,d=Math.sqrt(dx*dx+dy*dy);
+  var nk=pinch.k*(d/pinch.d);if(nk<1)nk=1;if(nk>MAXK)nk=MAXK;
+  var mx=(v1.x+v2.x)/2,my=(v1.y+v2.y)/2;
+  /* Anchor on the pinch centre AND follow it: zoom and pan in one gesture. */
+  tx=mx-(pinch.mx-pinch.tx)*(nk/pinch.k);
+  ty=my-(pinch.my-pinch.ty)*(nk/pinch.k);
+  k=nk;apply();
+ }
+ function inChrome(t){return !!(t&&t.closest&&t.closest('.usm__ctl,.usm__pop'));}
+ /* Listeners sit on the STAGE, a plain div: an SVG root only hit-tests where
+    it has painted, and the empty ocean is where a reader grabs to pan. */
+ stage.addEventListener('pointerdown',function(e){
+  if(e.pointerType==='mouse'&&e.button!==0)return;
+  if(inChrome(e.target))return;
+  ensure();arm();
+  ptrs[e.pointerId]={x:e.clientX,y:e.clientY};np++;
+  try{stage.setPointerCapture(e.pointerId);}catch(err){}
+  moved=0;fig.classList.remove('usm--anim');
+  if(np===1){var v=toV(e.clientX,e.clientY);drag=v?{vx:v.x,vy:v.y,tx:tx,ty:ty}:null;pinch=null;}
+  else if(np===2){drag=null;startPinch();}
+  fig.classList.add('usm--grab');
+ });
+ function move(e){
+  var p=ptrs[e.pointerId];
+  if(!p){
+   if(e.pointerType!=='touch')pickAt(e.clientX,e.clientY,false);
+   return;
+  }
+  moved+=Math.abs(e.clientX-p.x)+Math.abs(e.clientY-p.y);
+  p.x=e.clientX;p.y=e.clientY;
+  if(pinch)doPinch();
+  else if(drag){var v=toV(e.clientX,e.clientY);
+   if(v){tx=drag.tx+(v.x-drag.vx);ty=drag.ty+(v.y-drag.vy);apply();}}
+ }
+ stage.addEventListener('pointermove',move);
+ function up(e){
+  if(!ptrs[e.pointerId])return;
+  delete ptrs[e.pointerId];np--;if(np<0)np=0;
+  try{stage.releasePointerCapture(e.pointerId);}catch(err){}
+  if(np<2)pinch=null;
+  if(np===0){
+   fig.classList.remove('usm--grab');
+   if(moved<6)pickAt(e.clientX,e.clientY,true);
+   drag=null;
+  }else{var a=pk();if(a.length){var v=toV(a[0].x,a[0].y);if(v)drag={vx:v.x,vy:v.y,tx:tx,ty:ty};}}
+ }
+ stage.addEventListener('pointerup',up);
+ stage.addEventListener('pointercancel',up);
+ stage.addEventListener('pointerleave',function(e){
+  if(np===0&&!sticky&&e.pointerType!=='touch')hide();
+ });
+ stage.addEventListener('wheel',function(e){
+  var v=toV(e.clientX,e.clientY);if(!v)return;
+  e.preventDefault();
+  var dy=e.deltaY;
+  if(e.deltaMode===1)dy*=16;else if(e.deltaMode===2)dy*=400;
+  zoomAt(v.x,v.y,Math.exp(-dy*0.0016));
+ },{passive:false});
+
+ /* ---- controls ---- */
+ function on(selector,fn){var b=fig.querySelector(selector);if(b)b.addEventListener('click',fn);}
+ on('[data-usm-zin]',function(){zoomMid(1.6);});
+ on('[data-usm-zout]',function(){zoomMid(1/1.6);});
+ on('[data-usm-reset]',function(){anim();k=1;tx=0;ty=0;hide();apply();});
+ on('[data-usm-close]',hide);
+ on('[data-usm-prev]',function(){step(-1);});
+ on('[data-usm-next]',function(){step(1);});
+
+ /* ---- keyboard: roving tabindex, so 1,877 markers share ONE tab stop ---- */
+ var moving=0;
+ function setRov(idx,focus){
+  if(rov>=0&&items[rov])items[rov].el.removeAttribute('tabindex');
+  rov=idx;
+  var it=items[rov];if(!it)return;
+  it.el.setAttribute('tabindex','0');
+  it.el.setAttribute('role','button');
+  it.el.setAttribute('aria-label',it.label);
+  if(focus){try{it.el.focus({preventScroll:true});}catch(err){try{it.el.focus();}catch(e2){}}}
+ }
+ function visible(i){
+  var it=items[i],vx=it.x*k+tx,vy=it.y*k+ty;
+  return vx>W*0.06&&vx<W*0.94&&vy>H*0.06&&vy<H*0.94;
+ }
+ function centre(i){
+  var it=items[i];tx=W/2-it.x*k;ty=H/2-it.y*k;apply();
+ }
+ function walk(d){
+  ensure();
+  if(!order.length)return;
+  var at=order.indexOf(rov);
+  if(at<0)at=d>0?-1:0;
+  var n=order[(at+d+order.length)%order.length];
+  var guard=0;
+  while(items[n].hidden&&guard++<order.length){
+   at=order.indexOf(n);n=order[(at+d+order.length)%order.length];
+  }
+  moving=1;setRov(n,true);moving=0;
+  if(!visible(n)){anim();centre(n);}
+  setStack(n);sticky=1;show();
+ }
+ /* Tabbing ONTO a marker must show something. A 2px dot cannot carry a focus
+    outline that anyone can see, so the selection ring is the focus indicator:
+    it is 12 CSS px of accent around the marker and it is drawn for keyboard
+    focus and for the pointer alike. */
+ vp.addEventListener('focusin',function(e){
+  if(moving)return;
+  var t=e.target;
+  if(!t||t.__usm===undefined)return;
+  ensure();
+  var i=t.__usm;
+  rov=i;
+  if(!visible(i))centre(i);
+  setStack(i);sticky=1;show();
+ });
+ function arm(){if(rov<0){ensure();if(order.length)setRov(order[0],false);}}
+ /* Armed from three places, not one: a browser will not fire a focus event in an
+    unfocused document, and the map must still have its single tab stop. */
+ stage.addEventListener('keydown',function(e){
+  arm();
+  var onMark=!!(e.target&&e.target.getAttribute&&(''+e.target.getAttribute('class')).indexOf('usm__p')>=0);
+  var s=(e.shiftKey?140:44)/k;
+  var key=e.key;
+  if(key==='Escape'){if(cur>=0){hide();try{stage.focus();}catch(err){}e.preventDefault();}return;}
+  if(key==='+'||key==='='){zoomMid(1.6);e.preventDefault();return;}
+  if(key==='-'||key==='_'){zoomMid(1/1.6);e.preventDefault();return;}
+  if(key==='0'){anim();k=1;tx=0;ty=0;hide();apply();e.preventDefault();return;}
+  if(onMark){
+   if(key==='ArrowRight'||key==='ArrowDown'){walk(1);e.preventDefault();return;}
+   if(key==='ArrowLeft'||key==='ArrowUp'){walk(-1);e.preventDefault();return;}
+   if(key==='Home'||key==='End'){
+    ensure();
+    if(order.length){var z=key==='Home'?order[0]:order[order.length-1];
+     moving=1;setRov(z,true);moving=0;anim();centre(z);setStack(z);sticky=1;show();}
+    e.preventDefault();return;}
+   if(key==='Enter'||key===' '||key==='Spacebar'){if(rov>=0){setStack(rov);sticky=1;show();}e.preventDefault();return;}
+   return;
+  }
+  if(key==='ArrowLeft'){tx+=s;apply();e.preventDefault();return;}
+  if(key==='ArrowRight'){tx-=s;apply();e.preventDefault();return;}
+  if(key==='ArrowUp'){ty+=s;apply();e.preventDefault();return;}
+  if(key==='ArrowDown'){ty-=s;apply();e.preventDefault();return;}
+ });
+ stage.addEventListener('focus',arm);
+
+ /* ---- filtering ---- */
+ function rec(it){
+  return{index:it.i,x:it.x,y:it.y,status:it.status,drought:it.drought,state:it.state,
+   grid:it.grid,confidence:it.confidence,mw:it.mw,label:it.label,hidden:it.hidden};
+ }
+ function report(unk){
+  var bits=[],n=0,key;
+  var words={drought:'no Drought Monitor reading',state:'no state recorded',
+   grid:'no grid identified',confidence:'no confidence recorded',mw:'no published capacity'};
+  for(key in unk){if(unk[key]>0){bits.push(nf(unk[key])+' with '+words[key]);n+=unk[key];}}
+  note=n?('Hidden for want of a reading, not because they failed the test: '+bits.join(', ')+'.'):'';
+  var out={total:items.length,shown:shown,hidden:items.length-shown,unknownHidden:unk,note:note};
+  if(shEl)shEl.textContent=nf(shown);
+  if(slEl)slEl.textContent='of '+nf(items.length)+' '+noun+(note?' · '+note:'');
+  if(hud)hud.setAttribute('data-usm-partial',shown<items.length?'1':'0');
+  fig.dispatchEvent(new CustomEvent('usmap:filter',{bubbles:true,detail:out}));
+  return out;
+ }
+ function run(test){
+  ensure();
+  var unk={drought:0,state:0,grid:0,confidence:0,mw:0},i;
+  shown=0;
+  for(i=0;i<items.length;i++){
+   var it=items[i],v=test(it,unk);
+   it.hidden=!v;
+   if(v){shown++;it.el.classList.remove('is-out');}else{it.el.classList.add('is-out');}
+  }
+  if(cur>=0&&items[cur]&&items[cur].hidden)hide();
+  return report(unk);
+ }
+ function setFilter(spec){
+  spec=spec||{};
+  return run(function(it,unk){
+   var ok=true;
+   if(spec.drought&&spec.drought.length&&spec.drought.indexOf(it.drought)<0){
+    if(it.drought==='nodata')unk.drought++;ok=false;}
+   if(ok&&spec.state&&spec.state.length&&(it.state===null||spec.state.indexOf(it.state)<0)){
+    if(it.state===null)unk.state++;ok=false;}
+   if(ok&&spec.grid&&spec.grid.length&&(it.grid===null||spec.grid.indexOf(it.grid)<0)){
+    if(it.grid===null||it.grid==='UNKNOWN')unk.grid++;ok=false;}
+   if(ok&&spec.confidence&&spec.confidence.length&&(it.confidence===null||spec.confidence.indexOf(it.confidence)<0)){
+    if(it.confidence===null)unk.confidence++;ok=false;}
+   if(ok&&!has(spec.status,it.status))ok=false;
+   if(ok&&typeof spec.minMw==='number'){
+    if(it.mw===null){if(!spec.includeUnknownMw){unk.mw++;ok=false;}}
+    else if(it.mw<spec.minMw)ok=false;
+   }
+   return ok;
+  });
+ }
+
+ /* ---- go live ---- */
+ fig.classList.add('usm--live');
+ if(ctls)ctls.hidden=false;
+ if(hud)hud.hidden=false;
+ if(keys)keys.hidden=false;
+ stage.setAttribute('tabindex','0');
+ stage.setAttribute('role','application');
+ stage.setAttribute('aria-label','Interactive map. Arrow keys pan, plus and minus zoom, zero resets. Tab once more to step between markers. The table below this map carries every row.');
+
+ var ctl={
+  id:fig.id||'',el:fig,
+  zoomIn:function(){zoomMid(1.6);},
+  zoomOut:function(){zoomMid(1/1.6);},
+  reset:function(){anim();k=1;tx=0;ty=0;hide();apply();},
+  zoom:function(){return k;},
+  select:function(i){ensure();if(items[i]){setStack(i);sticky=1;if(!visible(i))centre(i);show();}},
+  clear:hide,
+  fields:function(){
+   ensure();
+   var s=[],d=[],st=[],g=[],c=[],i;
+   for(i=0;i<items.length;i++){s.push(items[i].status);d.push(items[i].drought);
+    st.push(items[i].state);g.push(items[i].grid);c.push(items[i].confidence);}
+   return{status:uniq(s),drought:uniq(d),state:uniq(st),grid:uniq(g),confidence:uniq(c)};
+  },
+  focusState:function(ab){
+   ensure();
+   var xs=[],ys=[],i;
+   for(i=0;i<items.length;i++)if(items[i].state===ab){xs.push(items[i].x);ys.push(items[i].y);}
+   if(!xs.length)return false;
+   var x0=Math.min.apply(null,xs),x1=Math.max.apply(null,xs),
+       y0=Math.min.apply(null,ys),y1=Math.max.apply(null,ys);
+   var pad=24,nk=Math.min(W/(x1-x0+pad*2),H/(y1-y0+pad*2));
+   if(!(nk>1))nk=1;if(nk>MAXK)nk=MAXK;
+   anim();k=nk;tx=W/2-((x0+x1)/2)*k;ty=H/2-((y0+y1)/2)*k;apply();
+   return true;
+  },
+  records:function(){ensure();var o=[],i;for(i=0;i<items.length;i++)o.push(rec(items[i]));return o;},
+  setFilter:setFilter,
+  filter:function(fn){return run(function(it){return !!fn(rec(it));});},
+  clearFilter:function(){return run(function(){return true;});}
+ };
+ fig.usmap=ctl;
+ return ctl;
+}
+
+function bootAll(){
+ var figs=D.querySelectorAll('[data-usm]'),i;
+ for(i=0;i<figs.length;i++){
+  if(figs[i].getAttribute('data-usm-live'))continue;
+  figs[i].setAttribute('data-usm-live','1');
+  try{var c=boot(figs[i]);if(c)API.maps.push(c);}catch(err){}
+ }
+}
+API.rescan=bootAll;
+bootAll();
+})();`;
+
 /**
  * The map itself. `desc` is generated from the model so it can never describe a
  * different build than the one it is drawn beside.
+ *
+ * @param {object} model  from mapModel()
+ * @param {object} opts
+ * @param {string} [opts.caption]  figcaption HTML
+ * @param {string} [opts.id]       id prefix, default 'usm'. A page carrying TWO
+ *                                 maps must give the second one its own prefix
+ *                                 or the two <title id> pairs collide and
+ *                                 aria-labelledby resolves to the wrong map.
+ * @param {string} [opts.noun]     plural noun for the markers, default 'pins'.
  */
 export function mapFigure(model, opts = {}) {
+  const uid = opts.id || 'usm';
+  const noun = opts.noun || 'pins';
   const t = model.totals;
   const title = `Datacentres mapped in the contiguous United States, ${t.pinned.toLocaleString('en-US')} pins`;
   // Counted off the PINS rather than off the dataset, so the description can
@@ -547,18 +1223,55 @@ export function mapFigure(model, opts = {}) {
     `${t.severe.toLocaleString('en-US')} in D2 or worse. ` +
     `${t.gaugesPlotted} river gauges are marked as outlined triangles. ` +
     `The same figures are in the table below this map.`;
-  return `<figure class="usm">
+  // Everything below the <desc> that moves lives inside ONE group, usm__vp.
+  // Zoom and pan are a transform on that group and nothing else: no
+  // re-projection, no second coordinate system, and with the transform absent
+  // — which is how it ships — the picture is bit-for-bit what it was before
+  // this pass. The controls, the readout and the detail panel are rendered
+  // `hidden` because with no script they would be three lies; the script
+  // unhides exactly the ones it has wired up.
+  return `<figure class="usm" id="${esc(uid)}" data-usm data-usm-total="${t.pinned}" data-usm-noun="${esc(noun)}">
+  <div class="usm__stage">
   <svg class="usm__svg" viewBox="0 0 ${FRAME.width} ${FRAME.height}" role="img"
-       aria-labelledby="usm-t usm-d" preserveAspectRatio="xMidYMid meet">
-    <title id="usm-t">${esc(title)}</title>
-    <desc id="usm-d">${esc(desc)}</desc>
+       aria-labelledby="${esc(uid)}-t ${esc(uid)}-d" preserveAspectRatio="xMidYMid meet">
+    <title id="${esc(uid)}-t">${esc(title)}</title>
+    <desc id="${esc(uid)}-d">${esc(desc)}</desc>
+    <g class="usm__vp">
     <g class="usm__lands">${landLayer()}</g>
     ${gaugeLayer(model)}
     ${pinLayer(model)}
     ${labelLayer(model)}
+    <g class="usm__hl" aria-hidden="true"><circle class="usm__sel" cx="0" cy="0" r="0"/></g>
+    </g>
   </svg>
+  <div class="usm__ctl" role="group" aria-label="Map zoom" hidden>
+    <button class="usm__cb" type="button" data-usm-zin aria-label="Zoom in">+</button>
+    <button class="usm__cb" type="button" data-usm-zout aria-label="Zoom out">−</button>
+    <button class="usm__cb usm__cb--r" type="button" data-usm-reset aria-label="Reset the map to the whole country">Reset</button>
+  </div>
+  <p class="usm__hud" hidden><b class="num" data-usm-shown>${t.pinned.toLocaleString('en-US')}</b>
+    <span data-usm-shownlab>of ${t.pinned.toLocaleString('en-US')} ${esc(noun)}</span>
+    <span class="usm__hud__z num" data-usm-zoom>1.0×</span></p>
+  <div class="usm__pop" data-usm-pop hidden aria-hidden="true">
+    <button class="usm__popx" type="button" data-usm-close tabindex="-1" aria-hidden="true">Close</button>
+    <p class="usm__poph" data-usm-poph></p>
+    <p class="usm__popb" data-usm-popb></p>
+    <p class="usm__popm" data-usm-popm></p>
+    <p class="usm__pops" data-usm-pops hidden>
+      <button class="usm__popn" type="button" data-usm-prev tabindex="-1" aria-hidden="true">‹</button>
+      <span data-usm-stack></span>
+      <button class="usm__popn" type="button" data-usm-next tabindex="-1" aria-hidden="true">›</button>
+    </p>
+  </div>
+  </div>
+  <p class="usm__keys" hidden>Drag or swipe to pan, wheel or pinch to zoom, hover or tap a marker for
+    its record. <b>Keyboard:</b> tab to the map, then arrows pan, <kbd>+</kbd> and <kbd>−</kbd> zoom,
+    <kbd>0</kbd> resets; tab once more to step marker to marker with the arrows,
+    <kbd>Enter</kbd> for the record and <kbd>Esc</kbd> to leave. The table below carries every
+    row whether or not any of this works.</p>
   ${opts.caption ? `<figcaption class="usm__cap">${opts.caption}</figcaption>` : ''}
-</figure>`;
+</figure>
+<script>${MAP_JS}</script>`;
 }
 
 // ---------------------------------------------------------------------------
@@ -826,11 +1539,13 @@ g.usm__pins--announced.usm__k-d4{stroke:var(--usm-d4)}
 .usm__n{margin-left:auto;color:var(--ink);font-variant-numeric:tabular-nums}
 .usm__lp{font:400 var(--t-xs)/1.55 var(--sans);color:var(--ink-faint);margin:var(--s-3) 0 0}
 
-/* THE SWITCH. Below 760px the map is a smudge — see the note at the top of this
-   file — so it is hidden and the table becomes the whole view. Both are always
-   in the HTML; CSS decides, so a crawler and a reader with images off get
-   everything at every width. */
-@media (max-width: 759px) { .usm { display: none; } }
+/* THE SWITCH, now conditional. Below 760px an UNTOUCHABLE map is a smudge —
+   see the note at the top of this file — so it is still hidden and the table
+   is still the whole view when there is no script. .usm--live is added by
+   MAP_JS once the gestures are wired, and at that point the smudge is a
+   starting view you pinch into rather than the only view you get. The table is
+   underneath at every width either way. */
+@media (max-width: 759px) { .usm:not(.usm--live) { display: none; } }
 
 .usm__tw{margin:var(--s-4) 0 0;border:1px solid var(--rule-soft);border-radius:var(--radius);
   overflow-x:auto;-webkit-overflow-scrolling:touch}
@@ -865,6 +1580,128 @@ g.usm__pins--announced.usm__k-d4{stroke:var(--usm-d4)}
 .usm__chip i{width:10px;height:10px;border-radius:2px;flex:none;outline:1px solid var(--rule-soft)}
 
 .usm__off{font:400 var(--t-sm)/1.6 var(--sans);color:var(--ink-dim);margin:var(--s-3) 0 0;max-width:66ch}
+
+/* ===========================================================================
+   THE INTERACTION LAYER
+   Everything below is inert until MAP_JS adds .usm--live. Nothing here changes
+   a single pixel of the server-rendered picture: the controls, the readout and
+   the panel all ship with the hidden attribute, and the one rule that could
+   move a marker (--usm-inv) resolves to scale(1) until the script sets it.
+   =========================================================================== */
+
+.usm__stage{position:relative}
+
+/* THE [hidden] GUARD, AND IT IS NOT A DETAIL.
+   The controls, the readout and the stack stepper are all display:flex, and an
+   author rule out-specifies the UA sheet's [hidden]{display:none} no matter
+   where it sits. Without this line a reader with JavaScript off is served
+   three dead buttons and a readout asserting "1.0×" over a picture that cannot
+   zoom — painted lies, which is the one thing the hidden attribute was there
+   to prevent. The script toggles the IDL property, so the attribute and this
+   rule both go the moment it runs. */
+.usm__ctl[hidden],.usm__hud[hidden],.usm__pop[hidden],.usm__pops[hidden],
+.usm__keys[hidden]{display:none}
+
+/* A marker is under two CSS pixels wide. It never hit-tests; MAP_JS runs a
+   nearest-neighbour search with a 24px radius instead, so the effective target
+   meets WCAG 2.5.8 at every zoom and the nearest marker always wins. */
+.usm--live .usm__p{pointer-events:none}
+.usm__p.is-out{display:none}
+
+/* Undo the group scale on the markers so zooming SEPARATES pins rather than
+   inflating them. transform-box:fill-box makes each marker's own centre the
+   origin; MAP_JS only sets --usm-inv when the browser supports it, and the
+   default value is a no-op. */
+.usm--live .usm__p{transform-box:fill-box;transform-origin:center;
+  transform:scale(var(--usm-inv,1))}
+/* Leaf geometry only. fill-box on a <g> is the part of this property browsers
+   have historically got wrong, so the gauges keep their natural scale (nine
+   landmarks, and growing is right for a landmark) and the six state-count
+   pills are dropped past 2.5x instead, where they would be covering the
+   cluster the reader has just zoomed into. */
+.usm--live[data-usm-z="in"] .usm__tag{display:none}
+
+.usm--live .usm__svg{touch-action:none;cursor:grab}
+.usm--live.usm--grab .usm__svg{cursor:grabbing}
+.usm--anim .usm__vp{transition:transform .22s cubic-bezier(.22,.61,.36,1)}
+
+/* The selection ring. One element, moved. non-scaling-stroke keeps it a
+   hairline at 40x, and it is the focus indicator for the keyboard walk as well
+   as the hover mark, so focus is always visible on a 2px dot. */
+.usm__sel{fill:none;stroke:var(--accent);stroke-width:2;vector-effect:non-scaling-stroke;
+  opacity:0;pointer-events:none}
+.usm__sel[data-on]{opacity:1}
+.usm--live .usm__sel[data-on]{animation:usm-ping 1.6s ease-out infinite}
+@keyframes usm-ping{0%{stroke-opacity:1}55%{stroke-opacity:.35}100%{stroke-opacity:1}}
+.usm--live .usm__p:focus{outline:none}
+.usm--live .usm__stage:focus-visible{outline:2px solid var(--accent-2);outline-offset:2px;
+  border-radius:var(--radius)}
+
+/* Controls. Discoverable without knowing a gesture exists, which is the whole
+   reason they are here: a wheel and a pinch are invisible affordances. 34px
+   square, comfortably over the 24px minimum. */
+.usm__ctl{position:absolute;top:var(--s-2);right:var(--s-2);display:flex;flex-direction:column;
+  gap:var(--s-1);z-index:2}
+.usm__cb{min-width:34px;min-height:34px;padding:0 6px;display:flex;align-items:center;
+  justify-content:center;font:600 var(--t-xs)/1 var(--mono);letter-spacing:.06em;
+  color:var(--ink);background:color-mix(in srgb, var(--bg-raised) 88%, transparent);
+  border:1px solid var(--rule);border-radius:var(--radius);cursor:pointer;
+  box-shadow:var(--shadow-1);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+.usm__cb:hover{background:var(--bg-raised);border-color:var(--ink-faint)}
+.usm__cb:active{transform:translateY(1px)}
+.usm__cb--r{font-size:var(--t-2xs);letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-dim)}
+
+/* The readout. Two numbers that move: how many markers the current filter
+   leaves standing, and the zoom. When a filter has hidden anything the count
+   goes amber, and when it has hidden something for want of a reading the label
+   says so in words — a filter never gets to turn "we do not know" into
+   "not selected". */
+.usm__hud{position:absolute;left:var(--s-2);top:var(--s-2);margin:0;z-index:2;
+  display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;max-width:calc(100% - 96px);
+  padding:5px 9px;border:1px solid var(--rule);border-radius:var(--radius);
+  background:color-mix(in srgb, var(--bg-raised) 88%, transparent);
+  -webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);
+  font:400 var(--t-2xs)/1.35 var(--mono);color:var(--ink-faint);box-shadow:var(--shadow-1)}
+.usm__hud b{font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums}
+.usm__hud[data-usm-partial="1"] b{color:var(--accent)}
+.usm__hud__z{margin-left:auto;padding-left:8px;color:var(--ink-dim)}
+
+/* The detail panel. Visual only: it is aria-hidden and its buttons are out of
+   the tab order, because the accessible name of the marker already carries the
+   same string and a live region here would say everything twice. */
+.usm__pop{position:absolute;left:0;top:0;z-index:3;width:min(19rem,calc(100% - 16px));
+  padding:var(--s-3) var(--s-3) var(--s-2);border:1px solid var(--rule);
+  border-radius:var(--radius);background:var(--bg-raised);box-shadow:var(--shadow-2);
+  pointer-events:auto}
+.usm__poph{margin:0 26px 2px 0;font:600 var(--t-sm)/1.35 var(--sans);color:var(--ink)}
+.usm__popb{margin:0 0 var(--s-2);font:400 var(--t-xs)/1.5 var(--sans);color:var(--ink-dim)}
+.usm__popm{margin:0;padding-top:var(--s-2);border-top:1px solid var(--rule-soft);
+  font:400 var(--t-2xs)/1.5 var(--mono);color:var(--ink-faint)}
+.usm__popx{position:absolute;top:4px;right:4px;min-width:28px;min-height:28px;
+  border:0;background:none;color:var(--ink-faint);cursor:pointer;
+  font:400 var(--t-2xs)/1 var(--mono);text-transform:uppercase;letter-spacing:.08em}
+.usm__popx:hover{color:var(--ink)}
+.usm__pops{display:flex;align-items:center;gap:var(--s-2);margin:var(--s-2) 0 0;
+  font:400 var(--t-2xs)/1.4 var(--mono);color:var(--accent)}
+.usm__popn{min-width:28px;min-height:28px;border:1px solid var(--rule);border-radius:4px;
+  background:none;color:var(--ink);cursor:pointer;font:600 var(--t-xs)/1 var(--mono)}
+.usm__popn:hover{border-color:var(--ink-faint)}
+
+.usm__keys{margin:var(--s-3) 0 0;font:400 var(--t-xs)/1.6 var(--sans);color:var(--ink-faint);
+  max-width:72ch}
+.usm__keys b{color:var(--ink-dim);font-weight:600}
+.usm__keys kbd{font:600 var(--t-2xs)/1 var(--mono);border:1px solid var(--rule);
+  border-radius:3px;padding:2px 4px;color:var(--ink-dim)}
+
+/* MOTION.md: reduce takes away the movement, never the information. The ring
+   stops breathing and the zoom stops gliding; both still land in exactly the
+   same place with exactly the same reading. */
+@media (prefers-reduced-motion: reduce) {
+  .usm--live .usm__sel[data-on]{animation:none}
+  .usm--anim .usm__vp{transition:none}
+  .usm__cb:active{transform:none}
+}
 
 @media (min-width: 720px) {
   .usm__legend{grid-template-columns:repeat(3,1fr)}

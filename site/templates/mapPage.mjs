@@ -43,8 +43,14 @@
 import { esc, utc, num } from './_html.mjs';
 import { page } from './layout.mjs';
 import * as brand from '../brand.mjs';
+// mapTable is deliberately NOT imported. _usmap.mjs still exports it and it is
+// still correct; this page now renders its own jurisdiction table instead,
+// because the table has to carry a per-row focus control, per-row sort keys and
+// a filter-aware column, and those are page furniture rather than map internals.
+// Every honest string mapTable printed — the caption, the zero rows carrying
+// copy.empty_state, the off-frame paragraph — is carried through verbatim.
 import {
-  mapModel, mapFigure, mapLegend, mapTable, usMapCss,
+  mapModel, mapFigure, mapLegend, usMapCss,
   DROUGHT_ORDER, DROUGHT_WORDS, STATUS_ORDER, STATUS_MARKS,
 } from './_usmap.mjs';
 import {
@@ -216,6 +222,7 @@ function theClaim(dc) {
 // ---------------------------------------------------------------------------
 
 const JUMPS = [
+  { href: '#what-moves', label: 'What moves', icon: 'sec-substrate' },
   { href: '#the-map', label: 'The map', icon: 'sec-map' },
   { href: '#one-pin', label: 'One pin', icon: 'operating' },
   { href: '#the-water', label: 'The water', icon: 'drop' },
@@ -579,6 +586,760 @@ function siblingCard(ctx) {
 }
 
 // ---------------------------------------------------------------------------
+// THE CONSOLE — the filter rail, the readout, the jurisdiction focus.
+//
+// docs/ENGAGEMENT.md §1.2 measured the one mechanic that separates pizzint's
+// page from ours, and it is not animation: it is SEVERAL DATASETS SWAPPED INTO
+// ONE SLOT, so there is always a next thing to look at without a page load.
+// §8.5 says to build it the way site/templates/_switcher.mjs already does —
+// off-screen radios, CSS `:checked`, no script — so that every state of the
+// control is in the served HTML and a screenshot taken before hydration shows
+// a complete page. site/templates/_xwire.mjs states the reason in one line:
+// a widget that "renders nothing until it executes" is "the exact failure we
+// beat pizzint on".
+//
+// So this control is three native radio groups and roughly two hundred
+// generated CSS rules. No script switches anything. The script that ships at
+// the bottom of this file adds three things that CSS cannot do — a ticking
+// age, a sortable table and scroll-into-view — and removes nothing.
+//
+// ---------------------------------------------------------------------------
+// THE ONE DESIGN DECISION WORTH ARGUING WITH: THIS FILTER DIMS, IT NEVER HIDES
+// ---------------------------------------------------------------------------
+// A filter that removes rows is a filter that can hide a dark source. Set it
+// once, forget it is set, and the page quietly tells you a thing that is not
+// true — which is the failure this whole repository is built against. So every
+// control here is a HIGHLIGHTER: 1,877 pins and 49 rows stay in the DOM at
+// every setting, the map fades the non-matching pins rather than dropping
+// them, and the table dims a column rather than deleting it. Nothing you can
+// press on this page can reduce what a crawler, a screen reader, a reader with
+// CSS off, or Ctrl-F can find.
+//
+// The fourth water filter exists for the same reason. "No drought reading" is
+// its own selectable state, never folded into "none", so the pins whose county
+// did not resolve can be isolated and counted rather than silently scored as
+// dry-enough. On this build that bucket is zero because the Drought Monitor
+// answered for every county; if it is ever non-zero the control is already
+// there to show you which pins it is.
+// ---------------------------------------------------------------------------
+
+const UID = 'dcf';
+
+/** Shape filter. Keys are the STATUS_ORDER values, plus 'all'. */
+const SHAPE_FILTERS = [
+  { k: 'all', tab: 'every shape', gloss: 'all three statuses drawn at full strength' },
+  { k: 'operating', tab: 'operating', gloss: 'the building exists — not a claim that anything is running in it' },
+  { k: 'under_construction', tab: 'building', gloss: 'a hole in the ground and a crane, in OpenStreetMap' },
+  { k: 'announced', tab: 'announced', gloss: 'located to the evidence, never more precisely' },
+];
+
+/** Water filter. 'unread' is the honesty control; see the header note. */
+const WATER_FILTERS = [
+  { k: 'all', tab: 'every county', gloss: 'no colour filter' },
+  { k: 'any', tab: 'in a category', gloss: 'the county carries D0 or worse this week' },
+  { k: 'severe', tab: 'D2 or worse', gloss: 'severe, extreme or exceptional drought' },
+  { k: 'unread', tab: 'no reading', gloss: 'the Drought Monitor row for this county did not resolve — unknown, not none' },
+];
+
+function shapeHit(status, k) {
+  return k === 'all' || status === k;
+}
+
+function waterHit(cat, k) {
+  if (k === 'all') return true;
+  if (k === 'any') return cat !== 'none' && cat !== 'nodata';
+  if (k === 'severe') return cat === 'D2' || cat === 'D3' || cat === 'D4';
+  return cat === 'nodata';
+}
+
+/**
+ * The joint distribution the model does not carry. mapModel gives per-state
+ * status counts and per-state drought counts separately; a cross-filtered
+ * figure needs the pair, so it is counted here in one pass. Pure, ordered by
+ * the source array, no clock.
+ */
+function jointCounts(dc, model) {
+  const cat = catResolver(dc);
+  const nat = {};
+  const byState = {};
+  for (const st of model.states) byState[st.ab] = {};
+  for (const site of dc.sites) {
+    const s = STATUS_ORDER.includes(site.status) ? site.status : 'operating';
+    const c = cat(site);
+    const key = `${s}|${c}`;
+    nat[key] = (nat[key] || 0) + 1;
+    const ab = site.state;
+    if (ab && byState[ab]) byState[ab][key] = (byState[ab][key] || 0) + 1;
+  }
+  return { nat, byState };
+}
+
+/** The same category rule mapModel uses, re-derived rather than re-guessed. */
+function catResolver(dc) {
+  const ri = dc.resources_index || {};
+  const byCounty = ri.drought_by_county || {};
+  return (site) => {
+    const fips = site.county_fips
+      || (site.resources && site.resources.drought && site.resources.drought.county_fips);
+    const row = fips ? byCounty[fips] : null;
+    if (!row || !row.headline || !row.headline.category) return 'nodata';
+    const c = String(row.headline.category);
+    return DROUGHT_ORDER.includes(c) ? c : 'nodata';
+  };
+}
+
+function crossCount(bucket, s, w) {
+  let n = 0;
+  for (const status of STATUS_ORDER) {
+    if (!shapeHit(status, s)) continue;
+    for (const c of DROUGHT_ORDER) {
+      if (!waterHit(c, w)) continue;
+      n += bucket[`${status}|${c}`] || 0;
+    }
+  }
+  return n;
+}
+
+/**
+ * Sixteen spans, one per filter pair, of which CSS shows exactly one. This is
+ * the whole mechanism behind "counts that update with the active filter", and
+ * it is why there is no script in the path: the figure for every setting is
+ * already in the HTML, so the count cannot lag the control and cannot be wrong
+ * in a screenshot.
+ */
+function crossSpans(bucket, cls = 'dcnum') {
+  return SHAPE_FILTERS.map((s) => WATER_FILTERS.map((w) => (
+    `<b class="${cls} num" data-sd="${esc(s.k)}|${esc(w.k)}" title="${esc(s.tab)} · ${esc(w.tab)}">${
+      esc(N(crossCount(bucket, s.k, w.k)))}</b>`
+  )).join('')).join('');
+}
+
+/**
+ * A drought-derived figure is only a figure while the Drought Monitor is live.
+ * docs/VOICE.md §4 and the brief for this page are the same rule: an unknown
+ * count prints as unknown. If USDM went dark every county would resolve to
+ * 'nodata' and "0 in a category" would be a lie in the shape of a measurement.
+ */
+function droughtFigure(model, value) {
+  if (model.usdm_state === 'live') return esc(N(value));
+  return '<span class="dcunk" title="the US Drought Monitor did not answer on this run">unknown</span>';
+}
+
+// ---------------------------------------------------------------------------
+// The readout. Five cells, four of which move when the control moves, and one
+// of which is the same denominator in every state of the control so there is
+// always something to divide by.
+// ---------------------------------------------------------------------------
+
+function readout(dc, model, joint) {
+  const t = model.totals;
+  const nodata = model.droughtCounts.nodata;
+  const cells = [
+    {
+      k: 'PINS IN VIEW',
+      v: crossSpans(joint.nat, 'dcro__n'),
+      s: `of ${N(t.pinned)} drawn · dimmed, never removed`,
+      wide: true,
+    },
+    {
+      k: 'JURISDICTION',
+      v: `<b class="dcro__n num" data-j0>NATIONAL</b>${model.states.map((st) => (
+        `<b class="dcro__n dcro__n--ab" data-jv="${esc(st.ab)}">${esc(st.ab)}</b>`
+      )).join('')}`,
+      s: `${N(model.states.filter((s) => s.total > 0).length)} of ${N(model.states.length)} states carry a pin`,
+    },
+    {
+      k: 'IN A CATEGORY',
+      v: `<b class="dcro__n num">${droughtFigure(model, t.inDrought)}</b>`,
+      s: `${N(t.severe)} of those at D2 or worse · week of ${model.usdm_map_date || 'unknown'}`,
+    },
+    {
+      k: 'NO DROUGHT READING',
+      v: `<b class="dcro__n num">${model.usdm_state === 'live' ? esc(N(nodata)) : '<span class="dcunk">unknown</span>'}</b>`,
+      s: model.usdm_state === 'live'
+        ? (nodata === 0
+          ? 'every county resolved on this run — a measured zero, not a blank'
+          : 'unknown, and never counted as none')
+        : 'the Drought Monitor did not answer on this run',
+    },
+    {
+      k: 'LIVE GRID NUMBER',
+      v: `<b class="dcro__n num">${esc(N(t.withGridReading))}</b>`,
+      s: `${N(t.sites - t.withGridReading)} sit on a grid with no keyless feed`,
+    },
+  ];
+  return `<ul class="dcro" aria-label="Live counts for the current filter">${cells.map((c) => (
+    `<li class="dcro__i${c.wide ? ' dcro__i--wide' : ''}">
+      <span class="dcro__k">${esc(c.k)}</span>
+      <span class="dcro__v">${c.v}</span>
+      <span class="dcro__s">${esc(c.s)}</span>
+    </li>`
+  )).join('')}</ul>`;
+}
+
+// ---------------------------------------------------------------------------
+// The control rail itself.
+// ---------------------------------------------------------------------------
+
+function chip(group, f, count) {
+  const id = `${UID}-${group}-${f.k}`;
+  return `<label class="dcch" for="${esc(id)}" title="${esc(f.gloss)}">
+    <span class="dcch__l">${esc(f.tab)}</span>
+    <b class="dcch__n num"${count === '0' ? ' data-zero="1"' : ''}>${count}</b>
+  </label>`;
+}
+
+function shapeRail(model, joint) {
+  const n = (k) => esc(N(crossCount(joint.nat, k, 'all')));
+  return `<div class="dcgrp">
+    <p class="dcgrp__h"><span class="dcgrp__t">Shape</span> <span class="dcgrp__g">status, from the OpenStreetMap tag that set it</span></p>
+    <div class="dcgrp__r">${SHAPE_FILTERS.map((f) => chip('s', f, n(f.k))).join('')}</div>
+  </div>`;
+}
+
+function waterRail(model, joint) {
+  const live = model.usdm_state === 'live';
+  const n = (k) => (live ? esc(N(crossCount(joint.nat, 'all', k))) : '<span class="dcunk">?</span>');
+  return `<div class="dcgrp">
+    <p class="dcgrp__h"><span class="dcgrp__t">Colour</span> <span class="dcgrp__g">the US Drought Monitor category of the county the pin stands in</span></p>
+    <div class="dcgrp__r">${WATER_FILTERS.map((f) => chip('w', f, n(f.k))).join('')}</div>
+  </div>`;
+}
+
+function jurisdictionRail(model) {
+  const all = `<label class="dcch dcch--j" for="${UID}-j-ALL" title="Every state in the drawn frame">
+    <span class="dcch__l">National</span>
+    <b class="dcch__n num">${esc(N(model.states.length))}</b>
+  </label>`;
+  const chips = model.states.map((s) => (
+    `<label class="dcch dcch--j" for="${UID}-j-${esc(s.ab)}" title="${esc(s.name)}">
+      <span class="dcch__l">${esc(s.ab)}</span>
+      <b class="dcch__n num"${s.total === 0 ? ' data-zero="1"' : ''}>${esc(N(s.total))}</b>
+    </label>`
+  )).join('');
+  return `<div class="dcgrp dcgrp--j">
+    <p class="dcgrp__h"><span class="dcgrp__t">Jurisdiction</span> <span class="dcgrp__g">focus one state — its dossier opens below the map and its row lights in the table</span></p>
+    <div class="dcgrp__r dcgrp__r--scroll">${all}${chips}</div>
+  </div>`;
+}
+
+/**
+ * Every radio, in the sibling order the generated CSS depends on: shape, then
+ * colour, then jurisdiction, then `.dcx`. That order IS the state machine — a
+ * `#a:checked ~ #b:checked ~ .dcx` chain only resolves left to right — so
+ * these three lists are emitted from one function for the same reason
+ * _switcher.mjs emits its three from one array.
+ *
+ * Each input carries its own aria-label naming the group it belongs to. The
+ * visible chip is a <label for>, and a state row in the table is a SECOND
+ * <label for> on the same input; with two labels pointing at one control the
+ * accessible name would otherwise be the two of them concatenated. The
+ * aria-label settles it, and it still contains the visible chip text, so
+ * "label in name" holds.
+ */
+function radios(model) {
+  const s = SHAPE_FILTERS.map((f, i) => (
+    `<input class="dcin" type="radio" name="${UID}-s" id="${UID}-s-${esc(f.k)}"` +
+    ` aria-label="Shape filter: ${esc(f.tab)}"${i === 0 ? ' checked' : ''}>`
+  )).join('');
+  const w = WATER_FILTERS.map((f, i) => (
+    `<input class="dcin" type="radio" name="${UID}-w" id="${UID}-w-${esc(f.k)}"` +
+    ` aria-label="Colour filter: ${esc(f.tab)}"${i === 0 ? ' checked' : ''}>`
+  )).join('');
+  const j = `<input class="dcin" type="radio" name="${UID}-j" id="${UID}-j-ALL" data-ab="ALL"` +
+    ` aria-label="Jurisdiction: national, every state in the frame" checked>`
+    + model.states.map((st) => (
+      `<input class="dcin" type="radio" name="${UID}-j" id="${UID}-j-${esc(st.ab)}"` +
+      ` data-ab="${esc(st.ab)}" aria-label="Jurisdiction: ${esc(st.ab)} ${esc(st.name)}">`
+    )).join('');
+  return `${s}${w}${j}`;
+}
+
+// ---------------------------------------------------------------------------
+// The state dossier. Forty-nine of them, all in the HTML, one visible.
+// ---------------------------------------------------------------------------
+
+function dossier(st, dc, model, joint) {
+  const bucket = joint.byState[st.ab] || {};
+  const cats = DROUGHT_ORDER.filter((k) => st.drought[k] > 0);
+  const gridList = [...st.grids.entries()]
+    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+    .map(([key, count]) => {
+      const row = model.gridRows.find((g) => g.key === key);
+      const label = row ? row.label : key;
+      const r = row && row.reading;
+      return `<li class="dcd__g">
+        <b>${esc(label)}</b> <span class="dcd__gn num">${esc(N(count))} pins</span>
+        ${r
+    ? `<span class="dcd__gv num">${esc(fmt(r.value, 2))}${r.unit ? (r.unit.startsWith('%') ? esc(r.unit) : ` ${esc(r.unit)}`) : ''}</span>${stateTag(r.state)}`
+    : `<span class="dcd__gw">${esc((row && row.why) || 'no keyless feed')}</span>${stateTag('dark', 'no number to print')}`}
+      </li>`;
+    }).join('');
+
+  const capacity = st.withCapacity > 0
+    ? `${N(st.withCapacity)} of ${N(st.total)} sites carry an IT-power tag, totalling ${fmt(st.capacityMw, 1)} MW. That is a sum over ${((st.withCapacity / st.total) * 100).toFixed(1)}% of this state and is not the state's datacentre load.`
+    : `No site in ${st.name} carries an IT-power tag, so no megawatt figure is printed for it. That is a statement about OpenStreetMap's tagging, not about the buildings.`;
+
+  const empty = (dc.copy && dc.copy.empty_state) || '';
+
+  return `<article class="dcd" data-j="${esc(st.ab)}" aria-label="${esc(st.name)} dossier">
+    <header class="dcd__h">
+      <b class="dcd__ab">${esc(st.ab)}</b>
+      <span class="dcd__nm">${esc(st.name)}</span>
+      <span class="dcd__t num">${esc(N(st.total))} <small>mapped</small></span>
+    </header>
+    <p class="dcd__m"><span class="dcd__mk">matching the filter</span>
+      ${crossSpans(bucket, 'dcd__mn')}
+      <span class="dcd__ms">of ${esc(N(st.total))} in this state</span></p>
+    ${st.total === 0
+    ? `<p class="dcd__z">${esc(empty)}</p>`
+    : `<ul class="dcd__s">${STATUS_ORDER.map((k) => (
+      `<li data-k="${esc(k)}"><span class="dcd__sg">${dcIcon(k)}</span><b>${esc(STATUS_MARKS[k].word)}</b>
+         <span class="dcd__sn num">${esc(N(st[k]))}</span></li>`
+    )).join('')}</ul>
+    <ul class="dcd__w">${cats.map((k) => (
+      `<li class="usm__k-${esc(k.toLowerCase())}" data-w="${esc(k)}"><span class="usm__sw" aria-hidden="true"></span>
+        <b>${esc(DROUGHT_WORDS[k].label)}</b> <span class="dcd__sn num">${esc(N(st.drought[k]))}</span></li>`
+    )).join('')}${st.drought.nodata === 0 && model.usdm_state === 'live'
+      ? '<li class="dcd__ok">every county under a pin here resolved on this run</li>' : ''}</ul>
+    <ul class="dcd__gs">${gridList}</ul>
+    <p class="dcd__c">${esc(capacity)}</p>`}
+  </article>`;
+}
+
+function dossiers(dc, model, joint) {
+  const t = model.totals;
+  const national = `<article class="dcd dcd--nat" data-j="ALL" aria-label="National dossier">
+    <header class="dcd__h">
+      <b class="dcd__ab">US</b>
+      <span class="dcd__nm">the contiguous frame</span>
+      <span class="dcd__t num">${esc(N(t.pinned))} <small>pinned</small></span>
+    </header>
+    <p class="dcd__m"><span class="dcd__mk">matching the filter</span>
+      ${crossSpans(joint.nat, 'dcd__mn')}
+      <span class="dcd__ms">of ${esc(N(t.sites))} mapped</span></p>
+    <p class="dcd__p">Pick a state above, or press a row in the table, to open its dossier here: the status
+      split, the drought under its pins, every balancing authority its pins sit on with that authority's live
+      number or the named reason there is not one, and whether anybody tagged a megawatt figure.
+      ${model.offFrame.length === 0
+    ? 'Every mapped site in this build fell inside the drawn frame, so nothing is listed away from the map.'
+    : `${esc(N(model.offFrame.length))} sites fell outside the drawn frame and are listed in words below rather than dragged to the edge.`}</p>
+  </article>`;
+  return `<div class="dcds">${national}${model.states.map((s) => dossier(s, dc, model, joint)).join('')}</div>`;
+}
+
+// ---------------------------------------------------------------------------
+// The jurisdiction table. Server-rendered whole, ranked by total, every state
+// including the zeroes. Sorting is added by script; the buttons do not exist
+// until the script creates them, so nothing on this page is a control that
+// looks pressable and is not.
+// ---------------------------------------------------------------------------
+
+function jurisdictionTable(dc, model, joint) {
+  const empty = (dc.copy && dc.copy.empty_state) || '';
+  const max = model.states.reduce((m, s) => Math.max(m, s.total), 1);
+  const w = (n) => `${((n / max) * 100).toFixed(2)}%`;
+
+  const rows = model.states.map((s) => {
+    const bucket = joint.byState[s.ab] || {};
+    const topGrid = s.total > 0
+      ? [...s.grids.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))[0]
+      : null;
+    const gridRow = topGrid ? model.gridRows.find((g) => g.key === topGrid[0]) : null;
+    const gridLabel = gridRow ? gridRow.label : (topGrid ? topGrid[0] : '—');
+    const hasReading = Boolean(gridRow && gridRow.reading);
+    const worst = s.total > 0 ? s.worst : 'nodata';
+    return `<tr data-jrow="${esc(s.ab)}"${s.total === 0 ? ' class="usm__zero"' : ''}
+      data-v-ab="${esc(s.ab)}" data-v-total="${s.total}" data-v-op="${s.operating}"
+      data-v-bld="${s.under_construction}" data-v-ann="${s.announced}"
+      data-v-dro="${DROUGHT_ORDER.indexOf(worst)}" data-v-mw="${Math.round(s.capacityMw)}">
+      <th scope="row" class="dcjt__st">
+        <label class="dcjt__lb" for="${UID}-j-${esc(s.ab)}">
+          <b>${esc(s.ab)}</b> <span>${esc(s.name)}</span>
+        </label>
+      </th>
+      <td class="usm__barcell">
+        <span class="usm__bar" aria-hidden="true">${s.total === 0 ? '' : (
+    `<i class="usm__seg usm__seg--op" style="width:${w(s.operating)}"></i><i class="usm__seg usm__seg--uc" style="width:${w(s.under_construction)}"></i><i class="usm__seg usm__seg--an" style="width:${w(s.announced)}"></i>`
+  )}</span>
+        <b class="usm__tot num">${esc(N(s.total))}</b>
+      </td>
+      <td class="dcjt__f">${crossSpans(bucket, 'dcjt__fn')}</td>
+      ${s.total === 0
+    ? `<td class="usm__none" colspan="2">${esc(empty)}</td>`
+    : `<td>${droughtChipLocal(worst)}<span class="usm__sub">${esc(N(s.inDrought))} of ${esc(N(s.total))} in a county with a category</span></td>
+       <td>${esc(gridLabel)}<span class="usm__sub">${hasReading ? 'live demand feed' : 'no keyless demand feed'}${s.grids.size > 1 ? ` · ${s.grids.size} grids in state` : ''}</span></td>`}
+      <td class="usm__num num" data-c="operating">${esc(N(s.operating))}</td>
+      <td class="usm__num num" data-c="under_construction">${s.under_construction}</td>
+      <td class="usm__num num" data-c="announced">${s.announced}</td>
+    </tr>`;
+  }).join('');
+
+  const off = model.offFrame.length
+    ? `<p class="usm__off"><b>${model.offFrame.length}</b> ${model.offFrame.length === 1 ? 'site is' : 'sites are'}
+       outside the drawn frame and ${model.offFrame.length === 1 ? 'is' : 'are'} therefore not on the map —
+       ${esc(model.offFrame.map((s) => `${s.name || 'unnamed site'} (${s.state || 'no state'})`).slice(0, 8).join('; '))}.
+       The frame is the contiguous states. A pin outside it is listed rather than dragged to the edge.</p>`
+    : `<p class="usm__off">Every mapped site in this build fell inside the drawn frame. A site outside it would
+       be listed here in words rather than dragged to the edge of the picture.</p>`;
+
+  return `<div class="usm__tw dcjt__w">
+  <table class="usm__t dcjt" id="${UID}-jt">
+    <caption class="usm__tcap">Every state in the frame, ranked by mapped sites, <b>including the ones with a
+      zero</b> — those rows are the point of this table. This is also the map at phone width and the map with
+      images off: it carries every channel the picture encodes except position. Press a state to focus it; the
+      <b>filter</b> column is the count for the shape and colour you have selected above.
+      <b>Op</b> operating, <b>Bld</b> under construction, <b>Ann</b> announced.</caption>
+    <thead><tr>
+      <th scope="col" data-sk="ab">State</th>
+      <th scope="col" data-sk="total">Sites</th>
+      <th scope="col">Filter</th>
+      <th scope="col" data-sk="dro">Worst drought under a pin</th>
+      <th scope="col">Grid most pins sit on</th>
+      <th scope="col" class="usm__num" data-sk="op" title="operating">Op</th>
+      <th scope="col" class="usm__num" data-sk="bld" title="under construction">Bld</th>
+      <th scope="col" class="usm__num" data-sk="ann" title="announced">Ann</th>
+    </tr></thead>
+    <tbody>${rows}</tbody>
+  </table>
+</div>${off}`;
+}
+
+/** Local copy of the drought chip so this table does not depend on a private
+ *  helper in _usmap.mjs. Same classes, same words, same source of truth. */
+function droughtChipLocal(cat) {
+  return `<span class="usm__chip usm__k-${esc(cat.toLowerCase())}"><i aria-hidden="true"></i>${esc(DROUGHT_WORDS[cat].label)}</span>`;
+}
+
+// ---------------------------------------------------------------------------
+// WHAT MOVES BETWEEN COLLECTS.
+//
+// docs/ENGAGEMENT.md §8.3 wants a "since you looked" element and §6 ranks it
+// second on the steal list. The honest version of it for THIS page is smaller
+// than that, and the reason is worth printing rather than hiding:
+//
+//   data/datacenters.json carries first_seen_at on every site, and on this
+//   build all 1,877 of them hold the SAME value, equal to generated_at. The
+//   field is stamped at collect time, not carried forward, so it cannot tell a
+//   new site from an old one. A "23 new sites" line built on it would read as
+//   1,877 new sites on every single run. That is a fabricated event, and
+//   docs/MOTION.md §2.5 calls a page that reports change when none occurred
+//   the pizzint failure mode in a different costume.
+//
+// So no site-level diff is printed. What IS printed is the set of things that
+// genuinely move from collect to collect — three live grid readings with their
+// own observation stamps, the Drought Monitor's weekly map date, the USGS
+// reading day, and the age of the run — each with its source state attached.
+// Those are real, they change, and the ticking age makes the panel the one
+// always-moving, always-true atom on the page that §8.2 asks for.
+// ---------------------------------------------------------------------------
+
+function firstSeenSpread(dc) {
+  let min = null; let max = null;
+  for (const s of dc.sites) {
+    const v = s.first_seen_at;
+    if (!v) continue;
+    if (min === null || v < min) min = v;
+    if (max === null || v > max) max = v;
+  }
+  return { min, max, flat: min !== null && min === max };
+}
+
+function movesPanel(dc, model) {
+  const spread = firstSeenSpread(dc);
+  const live = model.gridRows.filter((g) => g.reading);
+  const stamp = (iso, label, extra) => `<li class="dcmv__i">
+    <span class="dcmv__k">${esc(label)}</span>
+    <span class="dcmv__v"><time class="num" datetime="${esc(iso)}">${esc(utc(iso))}</time><span
+      class="dcmv__a num" data-dcm-age datetime="${esc(iso)}" hidden></span></span>
+    <span class="dcmv__s">${extra}</span>
+  </li>`;
+
+  const gridItems = live.map((g) => {
+    const r = g.reading;
+    const obs = r.observed_at || dc.infra_generated_at;
+    return `<li class="dcmv__i">
+      <span class="dcmv__k">${esc(g.label)}</span>
+      <span class="dcmv__v"><b class="num">${esc(fmt(r.value, 2))}</b><span class="dcmv__u">${esc(r.unit || '')}</span>${
+  obs ? `<span class="dcmv__a num" data-dcm-age datetime="${esc(obs)}" hidden></span>` : ''}</span>
+      <span class="dcmv__s">${esc(r.label || 'reading')}${obs ? ` · observed ${esc(utc(obs))}` : ''} ${stateTag(r.state)}</span>
+    </li>`;
+  }).join('');
+
+  return `<section class="dcmv" aria-labelledby="bld-moves">
+  <div class="dcmv__hd">
+    <h3 class="dcmv__h" id="bld-moves">${icon('sec-substrate')} What moves between collects</h3>
+    <p class="dcmv__sub">${esc(N(live.length))} of ${esc(N(model.gridRows.length))} balancing authorities
+      publish a number without an account. These are the only figures on this page that can differ from the
+      ones you saw last time.</p>
+  </div>
+  <ul class="dcmv__l">
+    ${stamp(dc.generated_at, 'this collect', 'the run that wrote every pin above')}
+    ${gridItems}
+    <li class="dcmv__i">
+      <span class="dcmv__k">drought map</span>
+      <span class="dcmv__v"><b class="num">${esc(model.usdm_map_date || 'unknown')}</b></span>
+      <span class="dcmv__s">weekly, published Thursdays ${stateTag(model.usdm_state)}</span>
+    </li>
+    <li class="dcmv__i">
+      <span class="dcmv__k">streamflow day</span>
+      <span class="dcmv__v"><b class="num">${esc(model.usgs_reading_day || 'unknown')}</b></span>
+      <span class="dcmv__s">day of year, against each gauge's own long-run median ${stateTag(model.usgs_state)}</span>
+    </li>
+  </ul>
+  <p class="dcmv__n"><b>There is no new-sites line here, and that is deliberate.</b>
+    ${spread.flat
+    ? `Every one of the ${esc(N(dc.sites.length))} sites in this file carries the same <code>first_seen_at</code>
+       — ${esc(utc(spread.min))} — which is this run's own timestamp. The field is stamped at collect time
+       rather than carried forward, so it cannot separate a site found today from one found last week. A
+       diff built on it would announce ${esc(N(dc.sites.length))} new sites on every single run, which is a
+       fabricated event dressed as a measurement.`
+    : `<code>first_seen_at</code> spans ${esc(utc(spread.min))} to ${esc(utc(spread.max))} in this file.`}
+    The pins move when OpenStreetMap moves, which is on volunteer time, not on a cron.</p>
+</section>`;
+}
+
+// ---------------------------------------------------------------------------
+// The generated CSS. Two hundred-odd rules, all of them mechanical, all of them
+// keyed on a radio id rather than on a position — the same rule _switcher.mjs
+// follows, and for the same reason: adding or dropping a state can never leave
+// a chip pointing at its neighbour's panel.
+//
+// ---------------------------------------------------------------------------
+// THE CONTRACT WITH site/templates/_usmap.mjs, WHICH THIS FILE DOES NOT OWN
+// ---------------------------------------------------------------------------
+// The figure is rendered by _usmap.mjs. That file publishes a FILTER CONTRACT
+// in its own header — "other templates code against this" — and everything
+// below codes against exactly that and nothing else. Three hooks, all three of
+// them in the served HTML before any script runs:
+//
+//   1. g.usm__pins--operating | --under-construction | --announced
+//   2. g.usm__k-nodata | -none | -d0 | -d1 | -d2 | -d3 | -d4
+//        The two group class families on every pin group. These are also the
+//        selectors _usmap.mjs FILLS the pins with, so they cannot be removed
+//        without rewriting its colour system.
+//   3. .usm__p[data-st="VA"]
+//        Per-marker, the two-letter state. Its contract says data-st is
+//        OMITTED when the record has no state rather than given a filler
+//        value — so `:not([data-st="VA"])` dims a stateless marker along with
+//        the out-of-state ones, which is correct (unknown is not Virginia)
+//        and is said out loud in the rail copy rather than left to be
+//        discovered. In this build every one of the 1,877 sites carries a
+//        state, so that set is empty today.
+//
+// What this file deliberately does NOT touch: `is-out`, `window.usMap`'s
+// setFilter, and the `.usm__hud` readout. Those are that file's own JS filter
+// path. Running two filter systems over one map is how a count and a picture
+// end up disagreeing, so the CSS layer here only ever changes OPACITY, which
+// composes with anything and removes nothing. The one place the two do meet is
+// deliberate and additive: when script is available, focusing a jurisdiction
+// also calls the published `focusState(ab)` so the map pans to it.
+//
+// The failure mode is chosen deliberately. Dimming is applied to the
+// NON-MATCHING set, so a selector that stops matching leaves every pin at full
+// strength — a filter that quietly stops working shows MORE of the map, never
+// less. It can never blank the picture, and it can never hide a source.
+// ---------------------------------------------------------------------------
+
+const DIM = '.14';
+
+function consoleCss(model) {
+  const out = [];
+  // Hook 1. Shape. Dim every GROUP that is not the chosen status.
+  for (const f of SHAPE_FILTERS) {
+    if (f.k === 'all') continue;
+    const dash = f.k.replace(/_/g, '-');
+    out.push(`#${UID}-s-${f.k}:checked~.dcx .usm__pins:not(.usm__pins--${dash}){opacity:${DIM}}`);
+  }
+  // Hook 2. Colour. The same rule over the drought ramp.
+  out.push(`#${UID}-w-any:checked~.dcx .usm__pins.usm__k-none,`
+    + `#${UID}-w-any:checked~.dcx .usm__pins.usm__k-nodata{opacity:${DIM}}`);
+  out.push(`#${UID}-w-severe:checked~.dcx .usm__pins`
+    + `:not(.usm__k-d2):not(.usm__k-d3):not(.usm__k-d4){opacity:${DIM}}`);
+  out.push(`#${UID}-w-unread:checked~.dcx .usm__pins:not(.usm__k-nodata){opacity:${DIM}}`);
+
+  // The active chip. Never colour alone: fill, weight and a 2px cap, exactly
+  // the grammar _switcher.mjs uses for its open tab.
+  const groups = [['s', SHAPE_FILTERS.map((f) => f.k)], ['w', WATER_FILTERS.map((f) => f.k)],
+    ['j', ['ALL', ...model.states.map((s) => s.ab)]]];
+  for (const [g, keys] of groups) {
+    for (const k of keys) {
+      const id = `${UID}-${g}-${k}`;
+      out.push(`#${id}:checked~.dcx [for="${id}"],#${id}:checked~.dcbar [for="${id}"]`
+        + `{color:var(--ink);background:var(--bg-sunken);border-color:var(--accent);font-weight:700}`);
+      out.push(`#${id}:checked~.dcx [for="${id}"] .dcch__n,#${id}:checked~.dcbar [for="${id}"] .dcch__n`
+        + `{color:var(--accent);border-color:var(--accent)}`);
+      out.push(`#${id}:focus-visible~.dcx [for="${id}"],#${id}:focus-visible~.dcbar [for="${id}"]`
+        + `{outline:2px solid var(--accent-2);outline-offset:2px}`);
+    }
+  }
+
+  // The sixteen cross-filter figures. One pair is showing at any moment.
+  for (const s of SHAPE_FILTERS) {
+    for (const w of WATER_FILTERS) {
+      out.push(`#${UID}-s-${s.k}:checked~#${UID}-w-${w.k}:checked~.dcx [data-sd="${s.k}|${w.k}"]{display:inline}`);
+    }
+  }
+  // Emphasis inside the dossier and the table, keyed on the group alone.
+  for (const f of SHAPE_FILTERS) {
+    if (f.k === 'all') continue;
+    out.push(`#${UID}-s-${f.k}:checked~.dcx .dcd__s li:not([data-k="${f.k}"]),`
+      + `#${UID}-s-${f.k}:checked~.dcx .dcjt td[data-c]:not([data-c="${f.k}"]){opacity:.45}`);
+    out.push(`#${UID}-s-${f.k}:checked~.dcx .dcd__s li[data-k="${f.k}"],`
+      + `#${UID}-s-${f.k}:checked~.dcx .dcjt td[data-c="${f.k}"]{color:var(--accent);font-weight:700}`);
+  }
+  out.push(`#${UID}-w-severe:checked~.dcx .dcd__w li:not([data-w="D2"]):not([data-w="D3"]):not([data-w="D4"]){opacity:.45}`);
+  out.push(`#${UID}-w-any:checked~.dcx .dcd__w li[data-w="none"],`
+    + `#${UID}-w-any:checked~.dcx .dcd__w li[data-w="nodata"]{opacity:.45}`);
+  out.push(`#${UID}-w-unread:checked~.dcx .dcd__w li:not([data-w="nodata"]){opacity:.45}`);
+
+  // Jurisdiction: the dossier, the table row, the readout abbreviation, and
+  // the forward declaration for the state outline.
+  out.push(`#${UID}-j-ALL:checked~.dcx .dcd[data-j="ALL"]{display:block}`);
+  out.push(`#${UID}-j-ALL:checked~.dcx [data-j0]{display:inline}`);
+  for (const st of model.states) {
+    const id = `${UID}-j-${st.ab}`;
+    out.push(`#${id}:checked~.dcx .dcd[data-j="${st.ab}"]{display:block}`);
+    out.push(`#${id}:checked~.dcx [data-jv="${st.ab}"]{display:inline}`);
+    out.push(`#${id}:checked~.dcx tr[data-jrow="${st.ab}"]{background:var(--wash-alt);`
+      + `box-shadow:inset 3px 0 0 var(--accent);opacity:1}`);
+    // Hook 3, and the reason "press a state and the map answers" needs no
+    // script: a marker whose data-st is not this one — INCLUDING a marker
+    // with no data-st at all — drops to the dim level.
+    out.push(`#${id}:checked~.dcx .usm__p:not([data-st="${st.ab}"]){opacity:${DIM}}`);
+  }
+  return out.join('\n');
+}
+
+/**
+ * The whole control, assembled. The radios come first because the generated
+ * CSS above is a chain of general-sibling combinators and that chain is the
+ * state machine; `.dcx` is last because everything it styles lives inside it.
+ */
+function consoleBlock(dc, model, joint) {
+  return `<div class="dccon" id="${UID}-console">
+  ${radios(model)}
+  <div class="dcbar">
+    <div class="dcbar__hd">
+      <p class="dcbar__k">3 controls · ${esc(N(SHAPE_FILTERS.length * WATER_FILTERS.length * (model.states.length + 1)))} states of this page · every one already in this HTML</p>
+      <p class="dcbar__w">These controls <b>dim</b>. They never remove. ${esc(N(model.totals.pinned))} pins and
+        ${esc(N(model.states.length))} table rows stay in the page at every setting, because a filter that
+        deletes rows is a filter that can hide a source that went dark. Focusing a jurisdiction dims every
+        pin that is not recorded in it, <b>including any pin with no state recorded at all</b> — unknown is
+        not the same as elsewhere. ${esc(N(model.totals.sites - model.states.reduce((a, s) => a + s.total, 0)))}
+        of ${esc(N(model.totals.sites))} sites are in that position in this build.</p>
+    </div>
+    ${shapeRail(model, joint)}
+    ${waterRail(model, joint)}
+    ${jurisdictionRail(model)}
+  </div>
+  <div class="dcx">
+    ${readout(dc, model, joint)}
+    <div class="bldmapwrap">
+      ${mapFigure(model, { caption: mapCaption(model) })}
+      ${mapLegend(model)}
+      ${dossiers(dc, model, joint)}
+      <div class="bldstate" id="by-state">
+        <p class="bldsmall">This screen is narrower than 760 pixels, so the map is not drawn.
+           ${esc(N(model.totals.pinned))} pins on a 343-pixel map is a smudge, and a smudge that cannot be
+           read still looks authoritative. The controls above and the table below carry every channel the
+           map encodes except position.</p>
+        <h3 class="bldsec__h3 bldstate__h">${icon('rows')} Every jurisdiction, ranked
+          <span class="bldcount num">${esc(N(model.states.length))}</span></h3>
+        <p class="bldsec__l">Every state in the contiguous frame, ranked by mapped sites. The states at the
+           bottom with a zero are the point of this table.</p>
+        ${jurisdictionTable(dc, model, joint)}
+      </div>
+    </div>
+  </div>
+</div>`;
+}
+
+function mapCaption(model) {
+  const t = model.totals;
+  return `<b>${esc(N(t.pinned))}</b> pins, equal-area Albers projection so the northern states are not
+    inflated and Texas is not shrunk. Shape is status, size is capacity where it is published, colour is the
+    drought category of the county the pin is standing in.
+    ${t.gaugesPlotted === t.gaugesTotal
+    ? `All ${t.gaugesTotal} river gauges are marked.`
+    : `${t.gaugesPlotted} of ${t.gaugesTotal} river gauges are marked; the rest carry no coordinates in this file and are listed in words below.`}
+    Below 760 pixels the map is replaced by the ranked table, because ${esc(N(t.pinned))} pins on a 343-pixel
+    map is a smudge, and a smudge that cannot be read still looks authoritative.`;
+}
+
+// ---------------------------------------------------------------------------
+// The enhancement. Three things CSS cannot do, and not one thing more.
+//
+//   1. An elapsed age beside each UTC stamp. The stamp itself is in the HTML.
+//   2. Sorting the jurisdiction table. The buttons are CREATED here, so with no
+//      script there is no control that looks pressable and is not.
+//   3. Scrolling a focused state's row into view.
+//
+// Nothing here renders content, nothing here fetches, nothing here writes to
+// storage. Turn it off and the page loses an age, a sort and a scroll.
+// ---------------------------------------------------------------------------
+
+function enhanceJs() {
+  return `<script>(function(){
+var d=document,root=d.getElementById('${UID}-console');
+if(!root||window.__dcMapUi)return;window.__dcMapUi=1;
+var red=!!(window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches);
+function pad(n){return n<10?'0'+n:''+n}
+function fine(ms){var s=Math.max(0,Math.round(ms/1000));
+ if(s<3600)return pad(Math.floor(s/60))+':'+pad(s%60);
+ var h=Math.floor(s/3600);if(h<48)return h+':'+pad(Math.floor((s%3600)/60))+':'+pad(s%60);
+ return Math.round(h/24)+'d'}
+function coarse(ms){var s=Math.max(0,Math.round(ms/1000));if(s<90)return s+'s';
+ var m=Math.round(s/60);if(m<90)return m+'m';var h=Math.floor(s/3600);
+ if(h<48)return h+'h';return Math.round(h/24)+'d'}
+var fmt=red?coarse:fine,every=red?3e4:1000;
+var ages=[].slice.call(d.querySelectorAll('[data-dcm-age]'));
+function tick(){var now=Date.now(),i,t;for(i=0;i<ages.length;i++){
+ t=Date.parse(ages[i].getAttribute('datetime'));
+ if(t===t){ages[i].textContent='+'+fmt(now-t);ages[i].hidden=false}}}
+if(ages.length){tick();setInterval(tick,every)}
+var tb=d.getElementById('${UID}-jt');
+if(tb&&tb.tBodies[0]){
+ var body=tb.tBodies[0],heads=[].slice.call(tb.querySelectorAll('th[data-sk]')),cur='total',dir=-1;
+ var mark=function(){for(var i=0;i<heads.length;i++){var k=heads[i].getAttribute('data-sk');
+  heads[i].setAttribute('aria-sort',k===cur?(dir<0?'descending':'ascending'):'none')}};
+ heads.forEach(function(th){
+  var k=th.getAttribute('data-sk'),txt=th.textContent.trim();
+  var b=d.createElement('button');b.type='button';b.className='dcjt__sb';
+  b.appendChild(d.createTextNode(txt));
+  var ar=d.createElement('span');ar.className='dcjt__ar';ar.setAttribute('aria-hidden','true');
+  b.appendChild(ar);
+  while(th.firstChild)th.removeChild(th.firstChild);
+  th.appendChild(b);
+  b.addEventListener('click',function(){
+   if(cur===k){dir=-dir}else{cur=k;dir=(k==='ab')?1:-1}
+   var rows=[].slice.call(body.rows);
+   rows.sort(function(x,y){
+    var a=x.getAttribute('data-v-'+k),c=y.getAttribute('data-v-'+k),r;
+    var na=parseFloat(a),nc=parseFloat(c);
+    r=(na===na&&nc===nc)?(na-nc):String(a).localeCompare(String(c));
+    if(r===0)return String(x.getAttribute('data-jrow')).localeCompare(String(y.getAttribute('data-jrow')));
+    return r*dir});
+   for(var i=0;i<rows.length;i++)body.appendChild(rows[i]);
+   mark()})});
+ mark();tb.setAttribute('data-sortable','1')}
+var js=[].slice.call(root.querySelectorAll('input[name="${UID}-j"]'));
+js.forEach(function(r){r.addEventListener('change',function(){
+ var ab=r.getAttribute('data-ab');if(!ab)return;
+ /* _usmap.mjs publishes focusState(ab)/reset() on window.usMap. Calling it is
+    PURELY ADDITIVE: the CSS above has already dimmed the out-of-state pins
+    with no script at all, and this pans the picture on top of that. Guarded
+    on every step, because that API belongs to another file and this page must
+    not break if it is absent, renamed or mid-deploy. */
+ try{var m=window.usMap&&window.usMap.get&&window.usMap.get('usm');
+  if(m){if(ab==='ALL'){if(m.reset)m.reset();}else if(m.focusState)m.focusState(ab);}}catch(e){}
+ if(ab==='ALL')return;
+ var row=d.querySelector('tr[data-jrow="'+ab+'"]');
+ if(row&&row.scrollIntoView)row.scrollIntoView({block:'nearest',behavior:red?'auto':'smooth'})})});
+})();</script>`;
+}
+
+// ---------------------------------------------------------------------------
 // render
 // ---------------------------------------------------------------------------
 
@@ -586,6 +1347,7 @@ export function render(ctx) {
   if (!hasDatacenters(ctx)) return emptyPage(ctx);
   const dc = ctx.datacenters;
   const model = mapModel(dc);
+  const joint = jointCounts(dc, model);
   const copy = dc.copy || {};
   const c = dc.counts || {};
   const t = model.totals;
@@ -601,16 +1363,7 @@ export function render(ctx) {
     `Nothing here measures a datacentre's power or water draw, and the page says so above the map. ` +
     `Compiled ${utc(dc.generated_at)}.`;
 
-  const caption = `<b>${esc(N(t.pinned))}</b> pins, equal-area Albers projection so the northern states are not
-    inflated and Texas is not shrunk. Shape is status, size is capacity where it is published, colour is the
-    drought category of the county the pin is standing in.
-    ${t.gaugesPlotted === t.gaugesTotal
-      ? `All ${t.gaugesTotal} river gauges are marked.`
-      : `${t.gaugesPlotted} of ${t.gaugesTotal} river gauges are marked; the rest carry no coordinates in this file and are listed in words below.`}
-    Below 760 pixels the map is replaced by the ranked table, because ${esc(N(t.pinned))} pins on a 343-pixel
-    map is a smudge, and a smudge that cannot be read still looks authoritative.`;
-
-  const main = `<style>${usMapCss()}${mapCss()}</style>
+  const main = `<style>${usMapCss()}${mapCss()}${consoleCss(model)}</style>
 ${iconSprite({ only: SPRITE })}
 <div class="usm-scope bld">
 <section class="bldhero">
@@ -626,21 +1379,20 @@ ${theClaim(dc)}
 
 ${jumpNav()}
 
+<section class="bldsec" id="what-moves" aria-labelledby="bld-moves">
+  ${movesPanel(dc, model)}
+</section>
+
 <section class="bldsec" id="the-map" aria-labelledby="bld-map">
-  <h2 class="bldsec__h" id="bld-map">${icon('sec-map')} The map</h2>
-  <div class="bldmapwrap">
-    ${mapFigure(model, { caption })}
-    ${mapLegend(model)}
-    <div class="bldstate" id="by-state">
-      <p class="bldsmall">This screen is narrower than 760 pixels, so the map is not drawn.
-         ${esc(N(t.pinned))} pins on a 343-pixel map is a smudge, and a smudge that cannot be read still looks
-         authoritative. The ranked table below carries every channel the map encodes except position.</p>
-      <h3 class="bldsec__h3 bldstate__h">${icon('rows')} By state, ranked</h3>
-      <p class="bldsec__l">Every state in the contiguous frame, ranked by mapped sites. The states at the
-         bottom with a zero are the point of this table.</p>
-      ${mapTable(model, { emptyState: copy.empty_state || '' })}
-    </div>
-  </div>
+  <h2 class="bldsec__h" id="bld-map">${icon('sec-map')} The map
+    <span class="bldcount num">${esc(N(t.pinned))}</span></h2>
+  <p class="bldsec__l">Three controls sit on top of this picture and none of them needs JavaScript: shape,
+     colour, and one of ${esc(N(model.states.length))} jurisdictions. They dim the map rather than cutting
+     it, the count beside every chip is the count you get if you press it, and the figure in the readout is
+     already in this HTML for all
+     ${esc(N(SHAPE_FILTERS.length * WATER_FILTERS.length))} combinations — so it cannot lag the control and
+     cannot be wrong in a screenshot.</p>
+  ${consoleBlock(dc, model, joint)}
 </section>
 
 ${joinedExamples(dc, model)}
@@ -666,6 +1418,7 @@ ${siblingCard(ctx)}
     ogImageAlt: `${brand.NAME} map of mapped United States datacentres: ${headline}`,
     jsonld: [dataset(ctx, dc, model)],
     main: main.split(ctxHrefPlaceholder).join(ctx.href('/watts.html')),
+    bodyEnd: enhanceJs(),
   });
 }
 
@@ -779,12 +1532,14 @@ function mapCss() {
    a bug until it explains itself. */
 .bldmapwrap{display:flex;flex-direction:column;gap:var(--s-4)}
 .bldmapwrap>.usm{order:1}
-.bldmapwrap>.usm__legend{order:2;margin-top:0}
-.bldstate{order:3;scroll-margin-top:calc(var(--rail-h) + 12px)}
+.bldmapwrap>.usm__legend{order:3;margin-top:0}
+.dcds{order:2}
+.bldstate{order:4;scroll-margin-top:calc(var(--rail-h) + 12px)}
 .bldstate__h{margin-top:0}
 .bldsmall{display:none}
 @media (max-width: 759px){
   .bldstate{order:0}
+  .dcds{order:-1}
   .bldsmall{display:block;font:400 var(--t-xs)/1.6 var(--sans);color:var(--ink-faint);
     margin:0 0 var(--s-3);padding:var(--s-3);border:1px dashed var(--rule);border-radius:var(--radius)}
 }
@@ -896,6 +1651,207 @@ function mapCss() {
   .bldc{grid-template-columns:repeat(5,1fr)}
   .bldgs{grid-template-columns:1fr 1fr}
   .bldexs{grid-template-columns:1fr 1fr}
+}
+
+/* -------------------------------------------------------------------------
+   THE CONSOLE
+   Mobile first. Every interactive thing is at least 32px tall and 32px wide,
+   above the 24px floor, because a chip you cannot hit with a thumb is a chip
+   that does not exist. Colour comes only from the shared tokens, so both
+   themes are painted from one place and neither has a private hex.
+   ------------------------------------------------------------------------- */
+
+/* The radios ARE the state machine. Off-screen rather than display:none, which
+   would take them out of the tab order and leave the labels unreachable from a
+   keyboard. Each group is one tab stop and the arrow keys move inside it —
+   native radio behaviour, nothing re-implemented. */
+.dcin{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+  clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+.dccon{position:relative}
+.dcbar{display:grid;gap:var(--s-3);padding:var(--s-3);margin:0 0 var(--s-4);
+  background:var(--bg-raised);border:1px solid var(--rule);border-radius:var(--radius)}
+.dcbar__hd{display:grid;gap:4px}
+.dcbar__k{margin:0;font:500 var(--t-2xs)/1.3 var(--mono);letter-spacing:.09em;text-transform:uppercase;
+  color:var(--ink-faint)}
+.dcbar__w{margin:0;font:400 var(--t-xs)/1.55 var(--sans);color:var(--ink-faint);max-width:70ch}
+.dcbar__w b{color:var(--ink-dim)}
+
+.dcgrp{display:grid;gap:5px;min-width:0}
+.dcgrp__h{margin:0;display:flex;flex-wrap:wrap;align-items:baseline;gap:0 7px}
+.dcgrp__t{font:600 var(--t-2xs)/1.3 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink)}
+.dcgrp__g{font:400 var(--t-2xs)/1.4 var(--sans);color:var(--ink-faint)}
+.dcgrp__r{display:flex;flex-wrap:wrap;gap:5px;min-width:0}
+/* Forty-nine jurisdictions do not wrap on to a phone in any useful way, so that
+   one group scrolls sideways with momentum and keeps its own row. The radios
+   behind it still arrow-key in document order, so the keyboard never has to
+   scroll anything. */
+.dcgrp__r--scroll{flex-wrap:nowrap;overflow-x:auto;overscroll-behavior-x:contain;
+  -webkit-overflow-scrolling:touch;scrollbar-width:thin;padding-bottom:3px}
+
+.dcch{display:inline-flex;align-items:center;gap:6px;flex:0 0 auto;min-height:32px;padding:5px 10px;
+  cursor:pointer;-webkit-user-select:none;user-select:none;white-space:nowrap;
+  border:1px solid var(--rule);border-radius:7px;background:var(--bg);color:var(--ink-dim);
+  font:500 var(--t-2xs)/1 var(--mono);letter-spacing:.08em;text-transform:uppercase}
+.dcch:hover{color:var(--ink);border-color:var(--ink-faint);background:var(--bg-sunken)}
+.dcch--j{padding:5px 8px;min-width:32px;justify-content:center}
+.dcch__l{white-space:nowrap}
+.dcch__n{font-weight:700;letter-spacing:.01em;font-variant-numeric:tabular-nums;color:var(--accent-2);
+  border:1px solid var(--rule);border-radius:2px;padding:0 4px;min-width:3ch;text-align:center;
+  font-size:var(--t-2xs);line-height:1.5}
+/* Zero is not an event. Same rule the switcher's tab figures follow. */
+.dcch__n[data-zero="1"]{color:var(--ink-faint);font-weight:500;border-style:dashed}
+.dcunk{color:var(--stale);font-style:normal;letter-spacing:.04em}
+
+/* THE READOUT. Five cells, four of which move with the control. The first is
+   wide because it is the one people read, and it is the only one that is a
+   count OF the current filter rather than a fact beside it. */
+.dcro{list-style:none;margin:0 0 var(--s-4);padding:0;display:grid;grid-template-columns:1fr 1fr;gap:1px;
+  background:var(--rule-soft);border:1px solid var(--rule-soft);border-radius:var(--radius);overflow:hidden}
+.dcro__i{background:var(--bg);padding:var(--s-3);display:flex;flex-direction:column;gap:2px;min-width:0}
+.dcro__i--wide{grid-column:1 / -1;background:var(--bg-raised)}
+.dcro__k{font:500 var(--t-2xs)/1.3 var(--mono);letter-spacing:.09em;text-transform:uppercase;color:var(--ink-faint)}
+.dcro__v{display:block;min-height:1.2em}
+.dcro__n{font:600 var(--t-xl)/1.05 var(--mono);font-variant-numeric:tabular-nums;color:var(--ink)}
+.dcro__i--wide .dcro__n{color:var(--accent)}
+.dcro__n--ab{letter-spacing:.04em}
+.dcro__s{font:400 var(--t-2xs)/1.45 var(--sans);color:var(--ink-faint)}
+
+/* Only one member of a switched set is displayed; the rest are display:none
+   until their pair of radios is checked. With no stylesheet at all every
+   member prints, each carrying a title that names its combination, which is a
+   list rather than a contradiction. */
+.dcx [data-sd],.dcx [data-jv],.dcx [data-j0]{display:none}
+.dcx .dcd{display:none}
+
+/* THE DOSSIER. One per jurisdiction, all in the HTML, one on screen.
+   Its column order lives with the other .bldmapwrap order rules above, not
+   here — a second .dcds order rule at this point in the sheet would win on
+   source order and quietly undo the phone-width reordering. */
+.dcd{border:1px solid var(--rule);border-left:3px solid var(--accent);border-radius:var(--radius);
+  padding:var(--s-3) var(--s-4);background:var(--bg-raised)}
+.dcd__h{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;margin:0 0 var(--s-2);
+  padding-bottom:var(--s-2);border-bottom:1px solid var(--rule-soft)}
+.dcd__ab{font:700 var(--t-lg)/1 var(--mono);letter-spacing:.06em;color:var(--accent)}
+.dcd__nm{font:400 var(--t-sm)/1.2 var(--sans);color:var(--ink-dim)}
+.dcd__t{margin-left:auto;font:600 var(--t-md)/1 var(--mono);font-variant-numeric:tabular-nums;color:var(--ink)}
+.dcd__t small{font-weight:400;font-size:var(--t-2xs);color:var(--ink-faint);letter-spacing:.08em;text-transform:uppercase}
+.dcd__m{margin:0 0 var(--s-3);display:flex;align-items:baseline;gap:7px;flex-wrap:wrap;
+  font:400 var(--t-2xs)/1.4 var(--mono)}
+.dcd__mk{letter-spacing:.09em;text-transform:uppercase;color:var(--ink-faint)}
+.dcd__mn{font:700 var(--t-lg)/1 var(--mono);font-variant-numeric:tabular-nums;color:var(--accent-2)}
+.dcd__ms{color:var(--ink-faint)}
+.dcd__z{margin:0;font:400 var(--t-xs)/1.6 var(--sans);color:var(--ink-faint);max-width:60ch}
+.dcd__s,.dcd__w,.dcd__gs{list-style:none;margin:0 0 var(--s-3);padding:0;display:grid;gap:4px}
+.dcd__s li,.dcd__w li{display:flex;align-items:center;gap:7px;font:400 var(--t-xs)/1.4 var(--mono);
+  color:var(--ink-dim)}
+.dcd__s b,.dcd__w b{font-weight:500;color:var(--ink-dim)}
+.dcd__sg{color:var(--ink-faint);display:inline-flex}
+.dcd__sn{margin-left:auto;font-variant-numeric:tabular-nums;color:var(--ink);font-weight:600}
+.dcd__ok{font:400 var(--t-2xs)/1.4 var(--sans);color:var(--ink-faint)}
+.dcd__g{display:flex;align-items:center;gap:7px;flex-wrap:wrap;font:400 var(--t-2xs)/1.5 var(--mono);
+  padding:5px 0;border-top:1px dotted var(--rule-soft)}
+.dcd__g b{color:var(--ink);letter-spacing:.05em}
+.dcd__gn{color:var(--ink-faint);font-variant-numeric:tabular-nums}
+.dcd__gv{margin-left:auto;font-weight:600;color:var(--ok);font-variant-numeric:tabular-nums}
+.dcd__gw{color:var(--ink-faint);font-family:var(--sans);flex:1 1 14rem;min-width:0}
+.dcd__c{margin:0;font:400 var(--t-2xs)/1.6 var(--sans);color:var(--ink-faint);max-width:64ch}
+.dcd__p{margin:0;font:400 var(--t-xs)/1.6 var(--sans);color:var(--ink-dim);max-width:68ch}
+
+/* WHAT MOVES BETWEEN COLLECTS. */
+.dcmv{border:1px solid var(--rule);border-radius:var(--radius);padding:var(--s-3) var(--s-4);
+  margin:0 0 var(--sec);background:var(--bg-raised)}
+.dcmv__hd{margin:0 0 var(--s-3)}
+.dcmv__h{font:600 var(--t-md)/1.3 var(--sans);margin:0 0 4px;display:flex;align-items:center;gap:8px}
+.dcmv__sub{margin:0;font:400 var(--t-xs)/1.6 var(--sans);color:var(--ink-faint);max-width:68ch}
+.dcmv__l{list-style:none;margin:0;padding:0;display:grid;gap:1px;background:var(--rule-soft);
+  border:1px solid var(--rule-soft);border-radius:var(--radius);overflow:hidden}
+.dcmv__i{background:var(--bg);padding:var(--s-2) var(--s-3);display:grid;gap:1px;min-width:0}
+.dcmv__k{font:500 var(--t-2xs)/1.3 var(--mono);letter-spacing:.09em;text-transform:uppercase;color:var(--ink-faint)}
+.dcmv__v{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;
+  font:600 var(--t-sm)/1.3 var(--mono);font-variant-numeric:tabular-nums;color:var(--ink)}
+.dcmv__u{font-weight:400;font-size:var(--t-2xs);color:var(--ink-faint)}
+/* The one always-moving atom on this page, and it is a fact about our own rig
+   rather than about the world. It is hidden until the script fills it, so a
+   pre-script screenshot shows the exact UTC stamp and no empty bracket. */
+.dcmv__a{font-weight:400;font-size:var(--t-2xs);color:var(--accent-2);letter-spacing:.04em}
+.dcmv__s{display:flex;align-items:center;gap:6px;flex-wrap:wrap;
+  font:400 var(--t-2xs)/1.5 var(--sans);color:var(--ink-faint)}
+.dcmv__n{margin:var(--s-3) 0 0;font:400 var(--t-xs)/1.65 var(--sans);color:var(--ink-faint);max-width:70ch}
+.dcmv__n b{color:var(--ink-dim)}
+.dcmv__n code{font-family:var(--mono);font-size:.94em;color:var(--ink-dim)}
+
+/* THE JURISDICTION TABLE. */
+.dcjt__st{min-width:11rem}
+.dcjt__lb{display:flex;align-items:baseline;gap:6px;min-height:24px;cursor:pointer;
+  -webkit-user-select:none;user-select:none}
+.dcjt__lb b{font-weight:600;color:var(--ink)}
+.dcjt__lb span{font-size:var(--t-2xs);color:var(--ink-faint);white-space:normal}
+.dcjt__lb:hover b{color:var(--accent)}
+.dcjt__f{text-align:right}
+.dcjt__fn{font-weight:700;color:var(--accent-2);font-variant-numeric:tabular-nums}
+.dcjt tbody tr{transition:background-color 120ms ease}
+/* The sort button does not exist in the served HTML; the script builds it. A
+   control that looks pressable and is not is worse than no control. */
+.dcjt__sb{font:inherit;color:inherit;letter-spacing:inherit;text-transform:inherit;background:none;
+  border:0;padding:0;margin:0;cursor:pointer;display:inline-flex;align-items:center;gap:4px;min-height:24px}
+.dcjt__sb:hover{color:var(--ink)}
+.dcjt__ar{width:7px;height:7px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;
+  transform:rotate(45deg) translate(-1px,-1px);opacity:0}
+.dcjt th[aria-sort="descending"] .dcjt__ar{opacity:1}
+.dcjt th[aria-sort="ascending"] .dcjt__ar{opacity:1;transform:rotate(225deg) translate(-1px,-1px)}
+.dcjt th[aria-sort="descending"] .dcjt__sb,.dcjt th[aria-sort="ascending"] .dcjt__sb{color:var(--accent)}
+
+/* -------------------------------------------------------------------------
+   ONE DEFENSIVE LINE FOR A DEFECT THIS FILE MAY NOT FIX AT SOURCE.
+
+   _usmap.mjs renders its zoom controls and its zoom readout with the hidden
+   attribute and says why in its own comment: "with no script they would be
+   three lies; the script unhides exactly the ones it has wired up". But the
+   rules that position them, .usm__ctl{display:flex} and
+   .usm__hud{display:flex}, out-specify the UA's [hidden]{display:none} —
+   so with JavaScript off a reader gets three dead buttons (+ / − / Reset) and
+   a readout asserting "1.0x" on a picture that cannot zoom. Measured on the
+   served HTML with every script element stripped: 56x110 and 198x28 of
+   painted lies.
+
+   The real fix is one [hidden] guard in _usmap.mjs, which another task owns.
+   Until it lands, this page refuses to serve the dead controls. The selector
+   goes away by itself the moment the script runs, because that script toggles
+   the IDL property and the attribute goes with it.
+   ------------------------------------------------------------------------- */
+.usm [hidden]{display:none}
+
+/* A counter on a heading. docs/ENGAGEMENT.md ranks this as free density and
+   docs/VOICE.md §4 already demands the denominator, so every section heading
+   that counts something says how many. */
+.bldcount{font:600 var(--t-xs)/1 var(--mono);font-variant-numeric:tabular-nums;color:var(--accent-2);
+  border:1px solid var(--rule);border-radius:3px;padding:2px 6px;margin-left:2px;letter-spacing:.02em}
+
+/* Motion. Everything above is a state change on content that is already
+   painted, so reduce turns the easing off and the state change still happens,
+   instantly. docs/MOTION.md §3. */
+/* Fifteen pin GROUPS ease; the 1,877 individual markers do not. A transition
+   on every marker turns a jurisdiction press into 1,877 animating nodes, and
+   the state change it decorates is already instant. */
+@media (prefers-reduced-motion: no-preference){
+  .dcx .usm__pins,.dcd__s li,.dcjt td[data-c],.dcd__w li{transition:opacity 160ms ease}
+  .dcch{transition:color 120ms ease,background-color 120ms ease,border-color 120ms ease}
+}
+@media (prefers-reduced-motion: reduce){
+  .dcx .usm__pins,.dcd__s li,.dcjt td[data-c],.dcd__w li,.dcch,.dcjt tbody tr{transition:none}
+}
+
+@media (min-width: 620px){
+  .dcro{grid-template-columns:repeat(4,1fr)}
+  .dcro__i--wide{grid-column:span 4}
+}
+@media (min-width: 900px){
+  .dcro{grid-template-columns:repeat(5,1fr)}
+  .dcro__i--wide{grid-column:span 5}
+  .dcbar{grid-template-columns:auto auto 1fr;align-items:start;gap:var(--s-3) var(--s-4)}
+  .dcbar__hd{grid-column:1 / -1}
+  .dcgrp--j{min-width:0}
 }
 `;
 }
