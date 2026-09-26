@@ -835,7 +835,9 @@ export const reelCss = `
 .rcard__score { font-family: var(--mono); font-size: 17px; font-weight: 700; letter-spacing: -0.02em; color: var(--ink); margin-left: auto; }
 .rcard__score--none { color: var(--ink-faint); font-weight: 400; }
 .rcard__h { font-size: var(--t-base); line-height: 1.32; margin: 0; letter-spacing: -0.012em; overflow-wrap: anywhere; }
-.rcard__a { text-decoration: none; }
+/* No text-decoration:none here any more. This was one of the six hover-only
+   links: the card headline rendered in body ink with no underline, so on a
+   phone it was indistinguishable from prose. It inherits the underline now. */
 .rcard__a:hover { text-decoration: underline; text-decoration-color: var(--p, var(--accent)); }
 .rcard__why { font-size: var(--t-xs); color: var(--ink-dim); margin: 0; flex: 1 1 auto; }
 .rcard__foot {

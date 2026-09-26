@@ -258,7 +258,10 @@ const dvCss = `
 .dv__not b { color: var(--ink); }
 
 .dv__lead { margin: 8px 0 0; padding-right: var(--s-3); }
-.dv__t { display: block; color: var(--ink); text-decoration: none; line-height: 1.3; }
+/* The Developing headline is the most important link on the homepage and it
+   had NO static affordance: body ink, no underline, hover only. It inherits
+   the document underline now. */
+.dv__t { display: block; color: var(--ink); line-height: 1.3; }
 .dv__lead .dv__t { font-size: var(--t-md); font-weight: 600; }
 .dv__t:hover { text-decoration: underline; text-decoration-color: var(--accent); }
 .dv__meta {
