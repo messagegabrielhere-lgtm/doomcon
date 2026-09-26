@@ -1,7 +1,7 @@
 // ---------------------------------------------------------------------------
 // THE MARKS. Logo, favicon, touch icons, manifest, default OG image.
 //
-// WHY A DETECTOR AND NOT A CLOCK.
+// WHAT THE MARK IS: A TRIPWIRE, NOT A CLOCK.
 //
 // The publication is the AI EARLY WARNING SYSTEM (site/brand.mjs PUBLICATION).
 // Every other instrument in this category draws a clock: the Doomsday Clock,
@@ -9,42 +9,75 @@
 // about how much time is left, which is a claim about the future, which is the
 // one sentence docs/VOICE.md §1 forbids us. We would be drawing our own ban.
 //
-// The honest picture of "early warning" is the one brand.mjs already argues in
-// prose: a SMOKE DETECTOR. It predicts nothing. It has no opinion about the
-// fire. It tells you sooner than you would otherwise have known, and it is
-// judged on whether it is wired to anything. That is exactly our claim — we
-// read arXiv, Hugging Face, the lab feeds and the filings directly, so we are
-// upstream of the accounts that relay them (docs/NEWS.md, opening).
+// So the mark is a WIRE strung across a frame, and the reading is how far
+// something has pulled it up:
 //
-// So the mark is a detector seen face-on: a ring, a grille, a lamp.
+//   DOOMCON 5     the wire is dead flat. Strung, armed, nothing touching it.
+//   DOOMCON 4..1  the wire is snagged upward into one hard spike, higher and
+//                 hotter the louder the reading.
 //
-//   OUTER RING     the housing
-//   FIVE SLOTS     the grille, swept across the lower arc — one per DOOMCON
-//                  level, in level order, 5 (calm) on the left to 1 (loudest)
-//                  on the right
-//   CENTRAL LED    the lamp, in the current level's heat colour
+// A wire reports a deflection that has ALREADY happened; it has no opinion
+// about what comes next. That is "Detected early, never predicted. We just
+// count." rendered as geometry rather than asserted as a slogan.
 //
-// THE THING NOBODY ELSE IN THE CATEGORY DOES. The favicon takes the level and
-// lights every slot from the calm end up to the current one — two lit at
-// DOOMCON 4, five lit at DOOMCON 1 — so the TAB ICON CARRIES THE READING. A
-// pinned tab becomes the instrument. pizzint ships a static flag; DoomBench,
-// the IMD clock and skynetcountdown ship a static logo. Ours is generated per
-// observation from the same state.json that produced the number on the page,
-// so it cannot disagree with it.
+// THE THING NOBODY ELSE IN THE CATEGORY DOES is unchanged and is the whole
+// reason this stayed generated rather than becoming a file in assets/logos/:
+// the apex is computed from the level, so THE TAB ICON CARRIES THE READING.
+// pizzint ships a static flag; DoomBench, the IMD clock and skynetcountdown
+// ship a static logo. Ours comes off the same state.json that produced the
+// number on the page, so it cannot disagree with it.
 //
-// NEVER COLOUR ALONE — and this is the one place on the site where the usual
-// answer ("the word is printed beside it") is not available, because a favicon
-// has no room for a word. Three independent carriers, verified in
-// docs/BRAND.md §6 against greyscale and the three dichromacies:
+// ---------------------------------------------------------------------------
+// WHY THIS REPLACED THE GRILLE, AND WHAT IT COST.
 //
-//   1. COUNT   how many slots are lit. Countable with the hue removed.
-//   2. WEIGHT  a lit slot is drawn at full stroke, an unlit one at 55% and
-//              at 22% alpha. Survives a greyscale repost.
-//   3. HUE     the heat ramp. Confirmation, never the reading.
+// The mark this file drew until 2026-09-25 was a detector seen face-on: a
+// ring, a five-slot grille and a central lamp, with the slots lit from the
+// calm end up to the current level. The comment that stood here argued that
+// the COUNT of lit slots was the mark's first carrier, that it stayed
+// countable with the hue removed, and that 1.11 device pixels of clear space
+// between slots kept it countable at 16px.
 //
-// And the fourth, outside the image: the <title> the tab prints beside the
-// icon is `DOOMCON 4 — ROUTINE · …`, which layout.mjs already emits. The mark
-// is never unlabelled in situ.
+// THAT CLAIM WAS TESTED AND IT IS FALSE IN PRACTICE. All five levels were
+// rasterised at 16px and 32px, in colour and in greyscale. At 16px every level
+// is the same small ring with a dot in it — the slots close up against the
+// ring and against each other and nothing is countable. At 32px in greyscale
+// the five states are still not rankable. The count carrier did not survive
+// contact with a rasteriser, so the paragraph that asserted it has been
+// deleted rather than softened: a comment that contradicts the render is worse
+// than no comment.
+//
+// The wire was tested the same way and it does survive. Five states that can
+// be ranked at 16px with the hue stripped out, because the carrier is the
+// HEIGHT OF ONE EDGE against a flat baseline, which is the largest signal a
+// 16px tile can hold.
+//
+// WHAT IT GIVES UP — stated here because the file that hides it will mislead
+// whoever reads it next:
+//
+//   1. COUNT IS GONE as an independent carrier. The level is now an ordinal
+//      MAGNITUDE, not a tally. Adjacent levels differ by ~1.5 device pixels of
+//      apex height at 16px. DOOMCON 5 is instantly distinct from everything
+//      (it is the only flat state) and 1 from 4, but 2 AND 3 ARE NOT RELIABLY
+//      SEPARABLE AT 16px IN GREYSCALE. Two and a half carriers, not three, and
+//      the middle of the scale is the weak part. The grille was better at this
+//      in theory and worse at it in fact, which is why this is still a trade
+//      worth taking.
+//   2. DOOMCON 5 IS A BARE HORIZONTAL LINE. Right as a reading and right as an
+//      armed state; thin as a press-kit asset on a quiet day. The mark is at
+//      its most legible when the news is bad.
+//   3. IT READS AS AN EVENT, NOT AS AN OBJECT. The grille read as an
+//      instrument you could pick up. A line with a peak is close to sparkline
+//      territory. Deliberate — the publication is a feed, not a device — but
+//      it is a trade, and some readers will call it a chart.
+//
+// The carrier OUTSIDE the image is unchanged and still does the real work: the
+// <title> printed beside the tab icon reads `DOOMCON 4 — ROUTINE · …`, which
+// layout.mjs already emits. The mark is never unlabelled in situ.
+//
+// NEVER COLOUR ALONE still holds. Apex height is the reading; HEAT[level] is
+// confirmation, never the reading. On a white ground the dark ramp does not
+// clear 4.5:1, so there is a second ramp — HEAT_LIGHT — which is a real
+// substitution, not an opacity.
 //
 // ---------------------------------------------------------------------------
 // ZERO DEPENDENCIES, INCLUDING FOR THE PNGs.
@@ -61,12 +94,22 @@
 //                      og:image". docs/COMPETITIVE.md §1.4 records this as our
 //                      largest single acquisition hole.
 //
-// So this module carries a rasteriser. It is ~180 lines, it uses `node:zlib`
-// and nothing else, and it draws exactly the primitives these marks need —
-// stroked polylines with round caps, discs, rounded rectangles — by analytic
-// coverage, which is what gives it clean antialiasing at 16px without a
-// supersampling budget. It is deterministic: the same level in produces the
-// same bytes out, which CONTRACT.md §4 requires of everything this repo emits.
+// So this module carries a rasteriser. It uses `node:zlib` and nothing else,
+// and it draws exactly the primitives these marks need — a BUTT-CAPPED,
+// MITER-JOINED stroked polyline, a filled rounded rectangle, and a hairline
+// round-joined outline — by analytic coverage, which is what gives it clean
+// antialiasing at 16px without a supersampling budget. It is deterministic:
+// the same level in produces the same bytes out, which CONTRACT.md §4 requires
+// of everything this repo emits.
+//
+// The miter matters and is not decoration. The spike's flanks meet the
+// horizontal runs at about 104°; a round-joined version of the same path reads
+// visibly softer at every size, and soft is the one thing a tripwire must not
+// be. So `strokeOutline()` below converts the stroked polyline into its true
+// outline polygon — offset chains, real miters, miter-limit fallback to bevel,
+// and the inner-side self-intersection spliced out where the apex flat is
+// shorter than the miter reaches — and the rasteriser fills that polygon. No
+// approximation and no round joins pretending to be miters.
 //
 // It also carries a STROKE ALPHABET, because a 1200×630 OG image with no text
 // on it is a decoration rather than a share card. Forty glyphs of straight
@@ -132,6 +175,28 @@ export const HEAT = Object.freeze({
   1: '#ff5f56',
 });
 
+/**
+ * THE HEAT RAMP FOR A WHITE GROUND.
+ *
+ * Not an opacity and not a tint of the ramp above — a real substitution. The
+ * dark ramp is tuned against #060c16 and does not survive the change of
+ * ground: #ffb020 on white is about 1.7:1, which is a pale smear rather than a
+ * reading. Every value here clears 4.5:1 on #ffffff, measured, which costs
+ * fidelity at 3 and 2 (yellow becomes dark amber, orange becomes rust) and is
+ * the right price for a mark that is legible on paper and in a light-scheme
+ * browser chrome.
+ */
+export const HEAT_LIGHT = Object.freeze({
+  5: '#1c6f9e',
+  4: '#0e7a46',
+  3: '#8a6500',
+  2: '#a84a00',
+  1: '#c4001f',
+});
+
+/** The light scheme's ground. */
+export const PAPER = '#ffffff';
+
 /** The masthead accent — sodium amber, styles.mjs's --accent. */
 export const ACCENT = '#ffb020';
 
@@ -146,155 +211,216 @@ function assertLevel(level) {
 }
 
 /**
- * How many slots are lit at a level: 6 − level.
+ * How many stops are lit at a level: 6 − level.
  *
- * READ THIS ONCE AND THE WHOLE MARK FOLLOWS. DOOMCON counts DOWN toward
- * louder — 5 is the calmest reading and 1 the loudest — so "more lit" has to
- * mean "lower number", and a naive `slots <= level` would light four slots at
- * the calmest reading and one at the loudest, which is the instrument running
- * backwards. Slot i (i = 5…1, left to right) is lit when i >= level.
+ * THE MARK NO LONGER USES THIS. The grille it was written for is gone (see the
+ * header). It stays exported because the rule it encodes is not the grille's,
+ * it is the SCALE's, and the scale is still drawn in several places: the
+ * five-stop level rail on every share card (collector/cards/_kit.mjs
+ * levelRail) lights exactly these stops, and it currently re-derives the test
+ * inline. One definition is better than two that can drift.
+ *
+ * READ IT ONCE AND EVERY LADDER ON THE SITE FOLLOWS. DOOMCON counts DOWN
+ * toward louder — 5 is the calmest reading and 1 the loudest — so "more lit"
+ * has to mean "lower number", and a naive `stop <= level` would light four
+ * stops at the calmest reading and one at the loudest, which is the instrument
+ * running backwards. Stop i (i = 5…1, left to right) is lit when i >= level.
  */
 export function litSlots(level) {
   return 6 - assertLevel(level);
 }
 
 // ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
 // 2. THE GEOMETRY
 //
-// A 64-unit grid. Every asset below is this one drawing at a different size
-// with a different ground, which is the entire reason it reads as one mark
-// rather than as a family of related ones.
+// A 64-unit grid and ONE VARIABLE: the y of the apex. Wire height, stroke
+// width, flank run and apex flat are constant across all five levels, so the
+// whole mark is one path with one number substituted into it.
 //
-// THE NUMBERS ARE LOAD-BEARING AND THEY WERE MEASURED, NOT PICKED.
+// THE NUMBERS ARE LOAD-BEARING AND THEY WERE CHOSEN AGAINST THE PIXEL GRID,
+// then verified by rasterising. Do not "improve" them.
 //
-// At 16px a 64-unit grid is 4 units per device pixel, and the whole design is
-// a fight for one clear pixel between the grille slots at that size.
+// At 16px, 4 grid units is exactly one device pixel.
 //
-// The five slots sit on an arc of radius 23 swept from 16° to 164° (y down, so
-// the LOWER arc), 37° apart. 37° at r=23 is 14.85 units of arc between slot
-// centres. Each slot draws 5.6 units of arc and is stroked at 4.8 with round
-// caps, so it occupies 5.6 + 4.8 = 10.4 units and leaves a gap of 4.45 units —
-// 1.11 device pixels of clear space at 16px.
+//   WIRE STROKE 8 units = 2 device pixels at 16px. The wire spans y 40…48,
+//               both multiples of 4, so BOTH LONG EDGES LAND ON PIXEL
+//               BOUNDARIES at 16, 32, 64 and 128px. The longest and thinnest
+//               element in the mark is therefore the one element that can
+//               never go soft — the inverse of the usual favicon failure,
+//               where the hairline dissolves first. Nothing here is a
+//               hairline: the thinnest painted run is 2 device pixels at
+//               favicon size.
+//   APEX FLAT   3 units. The peak is CUT, never pointed, so it terminates in
+//               0.75 device pixels of solid colour instead of in antialiased
+//               nothing. It also caps the miter: the flanks meet the
+//               horizontal runs at ~104°, a miter ratio of 1.26 at DOOMCON 4
+//               and 1.33 at DOOMCON 1, so the miterlimit of 2 is a guard that
+//               never fires and no join spikes outside the frame.
+//   FLANK RUN   5 units each side. A 45° flank at an 18-unit deflection would
+//               make the peak 43 units wide and it would stop being a spike.
+//   THE BLEED   the drawn wire runs the full width of the tile, x 0…64, and
+//               its butt ends land ON the tile edge rather than short of it.
+//               That puts maximum ink on a 16px tile, and under the circular
+//               crop X and most avatar surfaces apply it reads as passing
+//               THROUGH the frame instead of being beheaded. An earlier
+//               version ended at x 4…60, almost exactly where the inscribed
+//               circle cuts at that height, and looked like a rendering bug.
 //
-// Below about 4 units of gap the slots blur into one smear at 16px and the
-// COUNT, which is the first of the three carriers above, stops being
-// countable. Every other number here is downstream of that one: the radius is
-// as large as the housing allows (23 + half the 4.8 stroke = 25.4, against the
-// ring's inner edge at 28 − 1.7 = 26.3), and the slot length is whatever is
-// left after the gap is paid for. Rendered and counted at 16, 32 and 64px
-// across all five levels; the sheet is described in docs/BRAND.md §6.
+// ON THE BLEED AND THE CLIP. The mark was drawn as x −2…66 clipped by the
+// rounded tile. That clip is emitted here already applied, at x 0…64, and the
+// two are EXACTLY equivalent for this geometry: the tile's corner radius is
+// 12, so its corner arcs only bend the boundary at y < 12 and y > 52, and the
+// wire lives at y 40…48 where the tile's left and right edges are straight
+// verticals at x = 0 and x = 64. Clipping a horizontal butt-capped run against
+// a vertical line is the same shape as ending it there. Doing it this way
+// costs no clipPath element, which matters: two inline copies of the mark in
+// one HTML document would otherwise collide on the clip path's id.
+//
+// THE FRAME. A 1-unit hairline at 18% ink on the tile's edge. Measured: on a
+// dark browser chrome the navy square has no edge at all and the mark appears
+// to float, which at 16px reads as a broken transparent icon. It also gives
+// the butt ends of the wire something to end AGAINST, which is what makes the
+// flat DOOMCON 5 state read as a strung wire rather than as a dash.
 // ---------------------------------------------------------------------------
 
+/**
+ * THE APEX TABLE — the centreline y of the spike, by level.
+ *
+ * `null` at DOOMCON 5 means there is no spike: the wire is flat. Every other
+ * value was picked by rendering the ladder and checking that consecutive
+ * states are separable, then rounded to keep the apex's cut top on a clean
+ * fraction of a device pixel.
+ *
+ * This is the whole level-responsive surface of the mark. If you want to know
+ * what the favicon does with the number in state.json, it is this table.
+ */
+export const APEX_Y = Object.freeze({
+  5: null,
+  4: 26,
+  3: 20,
+  2: 13,
+  1: 7,
+});
+
+/** The tile the mark is drawn on. */
 export const LOGO_GRID = Object.freeze({
   size: 64,
   cx: 32,
   cy: 32,
-  ringRadius: 28,
-  ringStroke: 3.4,
-  slotRadius: 23,
-  slotStroke: 4.8,
-  slotArc: 5.6,        // drawn arc length in grid units, before caps
-  slotFrom: 16,        // degrees, y-down; the lower arc
-  slotStep: 37,
-  ledRadius: 7.0,
-  ledGap: 2.6,         // clear ring between the LED and everything else
+  radius: 12,            // the tile's corner radius
+  frameStroke: 1,        // the hairline that seats the tile on browser chrome
+  frameAlpha: 0.18,      // …on the dark ground
+  frameAlphaLight: 0.16, // …on white
 });
 
 const RAD = Math.PI / 180;
 
-/** A point on the slot arc. */
-function onArc(deg, r = LOGO_GRID.slotRadius) {
-  return [
-    LOGO_GRID.cx + Math.cos(deg * RAD) * r,
-    LOGO_GRID.cy + Math.sin(deg * RAD) * r,
-  ];
-}
+/** The wire itself. See the comment above before touching any of it. */
+export const WIRE = Object.freeze({
+  y: 44,             // the resting centreline; the wire spans y 40…48
+  stroke: 8,         // 2 device pixels at 16px
+  flat: 3,           // the apex's cut top
+  run: 5,            // horizontal run of each flank
+  miterLimit: 2,
+});
 
-/** The centre angle of slot `i`, where i is a LEVEL (5 leftmost … 1 rightmost). */
-function slotAngle(level) {
-  // In a y-down frame, 18° is the lower RIGHT of the circle and 162° the lower
-  // LEFT. DOOMCON 5 is the calm end and belongs on the left, which is the
-  // direction every scale on this site already runs, so level 5 takes 162° and
-  // level 1 takes 18°.
-  const idx = level - 1;
-  return LOGO_GRID.slotFrom + LOGO_GRID.slotStep * idx;
+/**
+ * The wire's centreline, as points, already clipped to the tile.
+ *
+ * Six points when the wire is triggered, two when it is flat. Exported because
+ * it is the one thing a consumer might legitimately want without the rest of
+ * the shape list — a test that wants to assert the apex moved, for instance.
+ */
+export function wirePoints(level) {
+  const L = assertLevel(level);
+  const g = LOGO_GRID;
+  const apex = APEX_Y[L];
+  if (apex == null) return [[0, WIRE.y], [g.size, WIRE.y]];
+  const half = WIRE.flat / 2;
+  return [
+    [0, WIRE.y],
+    [g.cx - half - WIRE.run, WIRE.y],
+    [g.cx - half, apex],
+    [g.cx + half, apex],
+    [g.cx + half + WIRE.run, WIRE.y],
+    [g.size, WIRE.y],
+  ];
 }
 
 /**
  * The mark as a list of primitives, in paint order.
  *
- * ONE description, consumed by two renderers — the SVG writer below and the
- * rasteriser further down. That is deliberate and it is the only way the PNG
- * favicon and the inline SVG masthead can be guaranteed to be the same
- * drawing: there is exactly one copy of the geometry and neither renderer can
- * drift from it.
+ * ONE description, consumed by three renderers — the SVG writer below, the
+ * rasteriser further down, and site/cardpng.mjs's surface.mark(). That is
+ * deliberate and it is the only way the PNG favicon, the inline SVG masthead
+ * and the share cards can be guaranteed to be the same drawing: there is
+ * exactly one copy of the geometry and no renderer can drift from it.
+ *
+ * THE SHAPE KINDS, in full — every consumer must handle all three or throw:
+ *
+ *   rrect        { x, y, w, h, r, color, alpha }        the tile's fill
+ *   wire         { pts, w, cap, join, miterLimit,       the wire; `w` is the
+ *                  color, alpha, level, apex }          STROKE width
+ *   rrectStroke  { x, y, w, h, r, sw, color, alpha }    the hairline frame
  *
  * @param {number} level 1-5
  * @param {object} [opts]
- * @param {boolean} [opts.mono] draw every element in one colour (currentColor
- *   in SVG). For the masthead, where the mark sits beside the wordmark and
- *   takes the ink of the text it belongs to. The level is still legible: the
- *   lit slots keep their weight and the unlit ones keep their 22% alpha.
- * @param {boolean} [opts.led] draw the central lamp. Off for the wordmark
- *   lockup at small sizes, where the lamp closes up against the grille.
+ * @param {boolean} [opts.mono] draw in one colour (currentColor in SVG), for
+ *   the masthead, where the mark takes the ink of the type it sits beside. The
+ *   level is still legible with the hue gone: apex height is the carrier.
+ * @param {string|null} [opts.ground] paint the tile's fill in this colour.
+ *   Null (the default) emits no fill, for the surfaces that already have a
+ *   ground of their own — the inline masthead SVG, the OG image, a card.
+ * @param {boolean} [opts.frame] emit the hairline frame.
+ * @param {boolean} [opts.rounded=true] round the tile's corners.
+ * @param {'dark'|'light'} [opts.scheme] which heat ramp and which frame ink.
  */
-export function markShapes(level, { mono = false, led = true } = {}) {
+export function markShapes(level, {
+  mono = false, ground = null, frame = false, rounded = true, scheme = 'dark',
+} = {}) {
   const L = assertLevel(level);
   const g = LOGO_GRID;
-  const heat = HEAT[L];
+  const light = scheme === 'light';
+  const r = rounded ? g.radius : 0;
   const out = [];
 
-  // The housing. One ring, drawn as a closed polyline so the rasteriser needs
-  // no circle primitive of its own.
-  out.push({
-    kind: 'ring',
-    cx: g.cx, cy: g.cy, r: g.ringRadius, w: g.ringStroke,
-    color: mono ? 'currentColor' : INK_DIM,
-    alpha: mono ? 0.55 : 1,
-  });
-
-  // The grille. Five slots, in level order, calm end first.
-  for (const slot of LEVELS) {
-    const on = slot >= L;
-    const a = slotAngle(slot);
-    const half = (g.slotArc / g.slotRadius) / RAD / 2; // half the drawn arc, in degrees
+  if (ground) {
     out.push({
-      kind: 'arc',
-      cx: g.cx, cy: g.cy, r: g.slotRadius,
-      a0: a - half, a1: a + half,
-      // WEIGHT IS THE SECOND CARRIER. A lit slot is drawn at full stroke and a
-      // dark one at 55%, so the reading survives a greyscale repost and a
-      // dichromatic reader, neither of which gets the hue.
-      w: on ? g.slotStroke : g.slotStroke * 0.55,
-      color: mono ? 'currentColor' : (on ? HEAT[slot] : INK_DIM),
-      alpha: on ? 1 : 0.30,
-      slot,
-      on,
+      kind: 'rrect', x: 0, y: 0, w: g.size, h: g.size, r, color: ground, alpha: 1, tile: true,
     });
   }
 
-  if (led) {
-    // The lamp. The only filled element in the mark, which is the whole reason
-    // it reads as a light rather than as a dot: fill is spent once, here.
+  out.push({
+    kind: 'wire',
+    pts: wirePoints(L),
+    w: WIRE.stroke,
+    cap: 'butt',
+    join: 'miter',
+    miterLimit: WIRE.miterLimit,
+    // HUE IS CONFIRMATION, NOT THE READING. The apex already carries the
+    // level; this makes the same statement a second time for the readers who
+    // get it, and costs nothing to the readers who do not.
+    color: mono ? 'currentColor' : (light ? HEAT_LIGHT : HEAT)[L],
+    alpha: 1,
+    level: L,
+    apex: APEX_Y[L],
+  });
+
+  if (frame) {
+    const half = g.frameStroke / 2;
     out.push({
-      kind: 'disc',
-      cx: g.cx, cy: g.cy, r: g.ledRadius,
-      color: mono ? 'currentColor' : heat,
-      alpha: 1,
+      kind: 'rrectStroke',
+      x: half,
+      y: half,
+      w: g.size - g.frameStroke,
+      h: g.size - g.frameStroke,
+      r: r ? r - half : 0,
+      sw: g.frameStroke,
+      color: mono ? 'currentColor' : (light ? GROUND_RAISED : INK),
+      alpha: light ? g.frameAlphaLight : g.frameAlpha,
+      frame: true,
     });
-    // A dark collar, so the lamp does not touch the grille at any size. Drawn
-    // as a stroke in the ground colour rather than as a gap in the geometry,
-    // because a gap would have to know what it is sitting on and a collar does
-    // not. In `mono` it is omitted — there is nothing to separate it from.
-    if (!mono) {
-      out.push({
-        kind: 'ring',
-        cx: g.cx, cy: g.cy, r: g.ledRadius + g.ledGap / 2, w: g.ledGap,
-        color: 'ground',
-        alpha: 1,
-        collar: true,
-      });
-    }
   }
 
   return out;
@@ -309,33 +435,47 @@ const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;')
 
 const n2 = (v) => (Math.round(v * 100) / 100).toString();
 
-function arcPath(cx, cy, r, a0, a1) {
-  const [x0, y0] = [cx + Math.cos(a0 * RAD) * r, cy + Math.sin(a0 * RAD) * r];
-  const [x1, y1] = [cx + Math.cos(a1 * RAD) * r, cy + Math.sin(a1 * RAD) * r];
-  const large = Math.abs(a1 - a0) > 180 ? 1 : 0;
-  const sweep = a1 > a0 ? 1 : 0;
-  return `M${n2(x0)} ${n2(y0)}A${n2(r)} ${n2(r)} 0 ${large} ${sweep} ${n2(x1)} ${n2(y1)}`;
-}
-
 /**
  * The shape list as SVG elements.
- * @param {string} ground the colour the collar paints in; ignored when the
- *   caller drew no ground, in which case pass null and the collar is dropped.
+ *
+ * Every kind markShapes() can emit is handled here and an unknown one THROWS.
+ * That is the guard the grille never had: the old writer silently dropped a
+ * shape it did not recognise, so a new primitive could reach production as a
+ * hole in the icon.
  */
-function shapesToSvg(shapes, ground) {
+function shapesToSvg(shapes) {
   const parts = [];
   for (const s of shapes) {
-    if (s.collar && !ground) continue;
-    const color = s.color === 'ground' ? ground : s.color;
-    const op = s.alpha === 1 ? '' : ` opacity="${n2(s.alpha)}"`;
-    if (s.kind === 'disc') {
-      parts.push(`<circle cx="${n2(s.cx)}" cy="${n2(s.cy)}" r="${n2(s.r)}" fill="${esc(color)}"${op}/>`);
-    } else if (s.kind === 'ring') {
-      parts.push(`<circle cx="${n2(s.cx)}" cy="${n2(s.cy)}" r="${n2(s.r)}" fill="none"`
-        + ` stroke="${esc(color)}" stroke-width="${n2(s.w)}"${op}/>`);
-    } else if (s.kind === 'arc') {
-      parts.push(`<path d="${arcPath(s.cx, s.cy, s.r, s.a0, s.a1)}" fill="none"`
-        + ` stroke="${esc(color)}" stroke-width="${n2(s.w)}" stroke-linecap="round"${op}/>`);
+    if (s.kind === 'rrect') {
+      parts.push('<rect'
+        + (s.x ? ` x="${n2(s.x)}"` : '')
+        + (s.y ? ` y="${n2(s.y)}"` : '')
+        + ` width="${n2(s.w)}" height="${n2(s.h)}"`
+        + (s.r ? ` rx="${n2(s.r)}"` : '')
+        + ` fill="${esc(s.color)}"`
+        + (s.alpha === 1 ? '' : ` fill-opacity="${n2(s.alpha)}"`)
+        + '/>');
+    } else if (s.kind === 'wire') {
+      // BUTT CAPS AND MITER JOINS ARE THE POINT. A round cap would round the
+      // wire's ends where they meet the frame, and a round join would soften
+      // the ~104° corners the spike is made of — which is the difference
+      // between a tripwire and a sparkline.
+      const d = s.pts.map(([x, y], i) => `${i ? 'L' : 'M'}${n2(x)} ${n2(y)}`).join(' ');
+      parts.push(`<path d="${d}" fill="none" stroke="${esc(s.color)}"`
+        + ` stroke-width="${n2(s.w)}" stroke-linecap="${esc(s.cap)}"`
+        + ` stroke-linejoin="${esc(s.join)}" stroke-miterlimit="${n2(s.miterLimit)}"`
+        + (s.alpha === 1 ? '' : ` stroke-opacity="${n2(s.alpha)}"`)
+        + '/>');
+    } else if (s.kind === 'rrectStroke') {
+      parts.push(`<rect x="${n2(s.x)}" y="${n2(s.y)}"`
+        + ` width="${n2(s.w)}" height="${n2(s.h)}"`
+        + (s.r ? ` rx="${n2(s.r)}"` : '')
+        + ` fill="none" stroke="${esc(s.color)}"`
+        + (s.sw === 1 ? '' : ` stroke-width="${n2(s.sw)}"`)
+        + (s.alpha === 1 ? '' : ` stroke-opacity="${n2(s.alpha)}"`)
+        + '/>');
+    } else {
+      throw new Error(`brandmarks: no SVG writer for shape kind ${JSON.stringify(s.kind)}`);
     }
   }
   return parts.join('');
@@ -357,19 +497,27 @@ function shapesToSvg(shapes, ground) {
  * @param {string} [opts.label]  accessible name; makes the mark non-decorative
  * @param {string|number} [opts.size] a CSS length. Omit it and `.dcmark` sizes
  *   it in em.
- * @param {boolean} [opts.heat=false] paint the grille and lamp in the heat
- *   ramp instead of currentColor. For the one place it is the subject rather
- *   than the byline.
+ * @param {boolean} [opts.heat=false] paint the wire in the heat ramp instead
+ *   of currentColor. For the one place it is the subject rather than the
+ *   byline.
+ * @param {'dark'|'light'} [opts.scheme='dark'] only consulted under `heat`;
+ *   in mono the mark is currentColor and follows the page by itself.
  */
 export function logoMark(level, opts = {}) {
-  const { className = '', label = null, size = null, heat = false } = opts;
-  const shapes = markShapes(level, { mono: !heat });
+  const {
+    className = '', label = null, size = null, heat = false, scheme = 'dark',
+  } = opts;
+  // THE FRAME COMES ALONG, THE FILL DOES NOT. Inline in the masthead the mark
+  // sits on whatever the page's ground is, so a fill would be a patch of the
+  // wrong colour on the light scheme; the hairline is currentColor at 18% and
+  // is what stops the flat DOOMCON 5 wire reading as a stray dash.
+  const shapes = markShapes(level, { mono: !heat, frame: true, scheme });
   const cls = `dcmark${className ? ` ${esc(className)}` : ''}`;
   const style = size
     ? ` style="--mark:${esc(typeof size === 'number' ? `${size}px` : size)}"` : '';
   const a11y = label ? ` role="img" aria-label="${esc(label)}"` : ' aria-hidden="true"';
   return `<svg class="${cls}" viewBox="0 0 ${LOGO_GRID.size} ${LOGO_GRID.size}"${style}${a11y}`
-    + ` focusable="false">${shapesToSvg(shapes, null)}</svg>`;
+    + ` focusable="false">${shapesToSvg(shapes)}</svg>`;
 }
 
 /**
@@ -472,24 +620,41 @@ a.dclock:hover .dclock__w { color: var(--accent); }
  * @param {boolean} [opts.rounded=true] round the ground's corners. Chrome
  *   masks the tab icon square; Safari's pinned-tab and the bookmark grids do
  *   not, and a hard square there reads as a missing icon.
+ * @param {'dark'|'light'} [opts.scheme='dark'] `light` draws the same wire on
+ *   white in the light heat ramp. Nothing ships this today — the icon has its
+ *   own ground, so it does not follow the page — but it is the path the press
+ *   kit and any printed use take, and it is tested.
  */
-export function faviconSvg(level, { rounded = true } = {}) {
+export function faviconSvg(level, { rounded = true, scheme = 'dark' } = {}) {
   const L = assertLevel(level);
   const meta = brand.levelMeta(L);
   const g = LOGO_GRID;
-  const r = rounded ? 12 : 0;
-  // A HAIRLINE ON THE GROUND. Measured: on a dark browser chrome the navy
-  // square has no edge at all and the mark appears to float, which at 16px
-  // reads as a broken transparent icon. 1px of --rule at 18% is enough to seat
-  // it and is invisible against light chrome.
+  const ground = scheme === 'light' ? PAPER : GROUND;
+  // The tile, the wire and the hairline all come out of markShapes() now, so
+  // this function no longer draws anything of its own. That is the point: the
+  // favicon cannot be a different drawing from the card or the masthead
+  // because there is only one drawing.
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${g.size} ${g.size}" role="img"`
     + ` aria-label="${esc(`${brand.NAME} ${L}, ${meta.name}`)}">`
     + `<title>${esc(`${brand.NAME} ${L} — ${meta.name}`)}</title>`
-    + `<rect width="${g.size}" height="${g.size}" rx="${r}" fill="${GROUND}"/>`
-    + `<rect x="0.5" y="0.5" width="${g.size - 1}" height="${g.size - 1}" rx="${r ? r - 0.5 : 0}"`
-    + ` fill="none" stroke="${INK}" stroke-opacity="0.18"/>`
-    + shapesToSvg(markShapes(L), GROUND)
+    + shapesToSvg(markShapes(L, { ground, frame: true, rounded, scheme }))
     + `</svg>\n`;
+}
+
+/**
+ * The level an OG image is for.
+ *
+ * `opts.level` when the caller passed one, and the level off `opts.state`
+ * otherwise — site/build.mjs calls both OG builders as `({ state })`, which
+ * before this fell straight through to the hardcoded 4 and pinned the default
+ * share image to ROUTINE forever regardless of the reading. The mark is
+ * level-responsive; an OG image that ignores the level would throw that away
+ * on the single most-shared surface we have.
+ */
+function ogLevel(opts) {
+  if (opts && opts.level != null) return opts.level;
+  if (opts && opts.state && opts.state.level != null) return opts.state.level;
+  return 4;
 }
 
 /**
@@ -505,7 +670,7 @@ export function faviconSvg(level, { rounded = true } = {}) {
  * the same six lines in the stroke alphabet.
  */
 export function ogImageSvg(opts = {}) {
-  const L = assertLevel(opts.level ?? 4);
+  const L = assertLevel(ogLevel(opts));
   const lines = ogLines(L, opts);
   const g = LOGO_GRID;
   const markSize = 300;
@@ -524,7 +689,9 @@ export function ogImageSvg(opts = {}) {
     + `<title>${esc(lines.alt)}</title>`
     + `<rect width="1200" height="630" fill="${GROUND}"/>`
     + `<rect x="0" y="0" width="1200" height="8" fill="${HEAT[L]}"/>`
-    + `<g transform="translate(${mx} ${my}) scale(${n2(scale)})">${shapesToSvg(markShapes(L), GROUND)}</g>`
+    + `<g transform="translate(${mx} ${my}) scale(${n2(scale)})">`
+    + shapesToSvg(markShapes(L, { frame: true }))
+    + `</g>`
     + row(236, lines.wordmark, 92, INK, 700, 12)
     + row(282, lines.publication, 24, INK_FAINT, null, 7)
     + row(372, lines.reading, 42, HEAT[L], 700, 3)
@@ -638,9 +805,19 @@ export function headLinks({ href }) {
 // Analytic coverage, not supersampling. Every primitive here has a cheap exact
 // signed distance, so a pixel's coverage is `clamp(0.5 - d, 0, 1)` with d in
 // device pixels — which produces the same antialiasing a real rasteriser does,
-// at 16px, without a 16x sample budget. Stroked geometry is reduced to
-// polylines of round-capped capsules, because a capsule's SDF is four lines of
-// arithmetic and a stroked arc's is not.
+// at 16px, without a 16x sample budget.
+//
+// TWO WAYS OF STROKING, and the difference is the whole reason the wire looks
+// like a wire:
+//
+//   poly  a polyline of ROUND-capped, round-joined capsules. Four lines of
+//         arithmetic per segment. It draws the frame hairline and every glyph
+//         in the stroke alphabet, where nobody can see a join.
+//   fill  a filled polygon. The wire is stroked by turning it into its true
+//         outline first (`strokeOutline`) — offset chains, real miter joins,
+//         butt caps — and filling that. It costs one polygon SDF instead of
+//         one capsule SDF and it is the only way to get a 104° corner that
+//         stays a corner.
 // ---------------------------------------------------------------------------
 
 function hexToRgb(hex) {
@@ -660,6 +837,161 @@ function segDist(px, py, ax, ay, bx, by) {
   const dx = wx - vx * t;
   const dy = wy - vy * t;
   return Math.sqrt(dx * dx + dy * dy);
+}
+
+/**
+ * Signed distance to a closed polygon, negative inside. NONZERO WINDING, not
+ * even-odd: a stroke outline can legitimately fold over itself and even-odd
+ * would punch a hole in the fold.
+ */
+function polyDist(px, py, pts) {
+  let best = Infinity;
+  let wind = 0;
+  const n = pts.length;
+  for (let i = 0; i < n; i += 1) {
+    const [ax, ay] = pts[i];
+    const [bx, by] = pts[(i + 1) % n];
+    const dd = segDist(px, py, ax, ay, bx, by);
+    if (dd < best) best = dd;
+    const side = (bx - ax) * (py - ay) - (px - ax) * (by - ay);
+    if (ay <= py) {
+      if (by > py && side > 0) wind += 1;
+    } else if (by <= py && side < 0) {
+      wind -= 1;
+    }
+  }
+  return (wind !== 0 ? -1 : 1) * best;
+}
+
+/** A rounded rectangle's outline, as a polyline. Eight chords a corner, which
+ *  is under a tenth of a pixel of chord error on a 512px icon. */
+function rrectOutline(x, y, w, h, r) {
+  const rr = Math.min(r, w / 2, h / 2);
+  if (rr <= 0) return [[x, y], [x + w, y], [x + w, y + h], [x, y + h], [x, y]];
+  const pts = [];
+  const corner = (cx, cy, a0) => {
+    for (let i = 0; i <= 8; i += 1) {
+      const a = (a0 + (i / 8) * 90) * RAD;
+      pts.push([cx + rr * Math.cos(a), cy + rr * Math.sin(a)]);
+    }
+  };
+  corner(x + w - rr, y + rr, -90);
+  corner(x + w - rr, y + h - rr, 0);
+  corner(x + rr, y + h - rr, 90);
+  corner(x + rr, y + rr, 180);
+  pts.push(pts[0]);
+  return pts;
+}
+
+/** Where two open segments cross, or null. Endpoints excluded, so a shared
+ *  vertex is not an intersection. */
+function segCross(p1, p2, p3, p4) {
+  const ax = p2[0] - p1[0];
+  const ay = p2[1] - p1[1];
+  const bx = p4[0] - p3[0];
+  const by = p4[1] - p3[1];
+  const den = ax * by - ay * bx;
+  if (Math.abs(den) < 1e-12) return null;
+  const ox = p3[0] - p1[0];
+  const oy = p3[1] - p1[1];
+  const t = (ox * by - oy * bx) / den;
+  const u = (ox * ay - oy * ax) / den;
+  const E = 1e-9;
+  if (t <= E || t >= 1 - E || u <= E || u >= 1 - E) return null;
+  return [p1[0] + ax * t, p1[1] + ay * t];
+}
+
+/**
+ * THE STROKED POLYLINE, AS AN OUTLINE POLYGON. Butt caps, miter joins, miter
+ * limit. This is the primitive the sentinel wire is drawn with, in both
+ * renderers — site/cardpng.mjs imports it so a card and a favicon cannot
+ * disagree about what a miter is.
+ *
+ * WHY AN OUTLINE AND NOT A CAPSULE UNION. A union of round-capped capsules is
+ * four lines of arithmetic and it is what the rest of this rasteriser uses,
+ * but it can only ever produce round caps and round joins. The wire's flanks
+ * meet its horizontal runs at about 104°, and rounded, that corner reads
+ * visibly soft at every size — the mark stops being a snagged wire and starts
+ * being a smoothed curve. So the stroke is resolved to geometry first.
+ *
+ * HOW. Offset the centreline by half the width to each side; at each interior
+ * vertex place the miter point where the two offset lines meet, falling back
+ * to a bevel when the miter ratio would exceed the limit; join the two chains
+ * end to end. On the INNER side of a sharp turn those offsets overshoot each
+ * other whenever the adjacent run is shorter than the miter reaches — which
+ * is exactly what happens at this mark's apex, where the flat top is 3 units
+ * and the miter reaches about 5 — so the fold is spliced out at the crossing.
+ * The result is a simple polygon identical to what an SVG renderer paints.
+ *
+ * LIMIT: the splice removes any self-crossing it finds, which is right for an
+ * inner-side fold and would be wrong for a path that genuinely crosses itself
+ * (a figure eight). Nothing here draws one, and the guard stops after 16
+ * splices rather than looping.
+ *
+ * @param {Array<[number, number]>} points the centreline
+ * @param {number} width stroke width
+ * @param {object} [o]
+ * @param {number} [o.miterLimit=2]
+ * @returns {Array<[number, number]>} a closed polygon, first point not repeated
+ */
+export function strokeOutline(points, width, { miterLimit = 2 } = {}) {
+  const h = width / 2;
+  const p = [];
+  for (const q of points) {
+    const last = p[p.length - 1];
+    if (!last || Math.abs(q[0] - last[0]) > 1e-9 || Math.abs(q[1] - last[1]) > 1e-9) {
+      p.push([q[0], q[1]]);
+    }
+  }
+  if (p.length < 2) {
+    throw new Error('brandmarks: strokeOutline needs at least two distinct points');
+  }
+  const n = p.length;
+  const nor = [];
+  for (let i = 1; i < n; i += 1) {
+    const dx = p[i][0] - p[i - 1][0];
+    const dy = p[i][1] - p[i - 1][1];
+    const len = Math.hypot(dx, dy);
+    nor.push([-dy / len, dx / len]);
+  }
+  const chain = (sgn) => {
+    const out = [[p[0][0] + nor[0][0] * h * sgn, p[0][1] + nor[0][1] * h * sgn]];
+    for (let i = 1; i < n - 1; i += 1) {
+      const a = nor[i - 1];
+      const b = nor[i];
+      const mx = a[0] + b[0];
+      const my = a[1] + b[1];
+      const mlen = Math.hypot(mx, my);
+      // |a + b| = 2·cos(half the turn), so the miter ratio is 2 / |a + b| and
+      // the miter point is vertex + (a + b)·(2h / |a + b|²).
+      if (mlen > 1e-9 && 2 / mlen <= miterLimit) {
+        const k = (2 * h) / (mlen * mlen);
+        out.push([p[i][0] + mx * k * sgn, p[i][1] + my * k * sgn]);
+      } else {
+        out.push([p[i][0] + a[0] * h * sgn, p[i][1] + a[1] * h * sgn]);
+        out.push([p[i][0] + b[0] * h * sgn, p[i][1] + b[1] * h * sgn]);
+      }
+    }
+    const e = nor[n - 2];
+    out.push([p[n - 1][0] + e[0] * h * sgn, p[n - 1][1] + e[1] * h * sgn]);
+    return out;
+  };
+  const ring = chain(1).concat(chain(-1).reverse());
+  for (let guard = 0; guard < 16; guard += 1) {
+    let spliced = false;
+    for (let i = 0; i < ring.length - 1 && !spliced; i += 1) {
+      for (let j = i + 2; j < ring.length - 1; j += 1) {
+        const x = segCross(ring[i], ring[i + 1], ring[j], ring[j + 1]);
+        if (x) {
+          ring.splice(i + 1, j - i, x);
+          spliced = true;
+          break;
+        }
+      }
+    }
+    if (!spliced) break;
+  }
+  return ring;
 }
 
 /** A canvas of premultiplied-free RGBA floats. */
@@ -695,10 +1027,7 @@ function paint(buf, w, h, prim) {
   const pad = (prim.w ?? 0) / 2 + 1.5;
   let x0 = Infinity; let y0 = Infinity; let x1 = -Infinity; let y1 = -Infinity;
   const pts = prim.pts || [];
-  if (prim.kind === 'disc' || prim.kind === 'ringPoly') {
-    x0 = prim.cx - prim.r - pad; x1 = prim.cx + prim.r + pad;
-    y0 = prim.cy - prim.r - pad; y1 = prim.cy + prim.r + pad;
-  } else if (prim.kind === 'rrect') {
+  if (prim.kind === 'rrect') {
     x0 = prim.x - 1.5; y0 = prim.y - 1.5; x1 = prim.x + prim.w2 + 1.5; y1 = prim.y + prim.h2 + 1.5;
   } else {
     for (const [px, py] of pts) {
@@ -716,10 +1045,8 @@ function paint(buf, w, h, prim) {
     for (let x = ix0; x <= ix1; x += 1) {
       const px = x + 0.5;
       let d;
-      if (prim.kind === 'disc') {
-        d = Math.hypot(px - prim.cx, py - prim.cy) - prim.r;
-      } else if (prim.kind === 'ringPoly') {
-        d = Math.abs(Math.hypot(px - prim.cx, py - prim.cy) - prim.r) - prim.w / 2;
+      if (prim.kind === 'fill') {
+        d = polyDist(px, py, pts);
       } else if (prim.kind === 'rrect') {
         // Rounded-rect SDF, the standard one.
         const hw = prim.w2 / 2;
@@ -803,29 +1130,54 @@ function encodePng(w, h, rgba) {
   ]);
 }
 
-/** The mark's shape list, flattened into rasteriser primitives at `size`. */
-function markPrimitives(level, size, { inset = 0, ground = GROUND } = {}) {
+/**
+ * The mark's shape list, flattened into rasteriser primitives at `size`.
+ *
+ * EVERY KIND markShapes() CAN EMIT IS HANDLED AND AN UNKNOWN ONE THROWS — the
+ * same guard the SVG writer carries, for the same reason. A dropped shape here
+ * is a hole in a PNG that nothing else in the build would notice.
+ *
+ * @param {number} level
+ * @param {number} size    the mark's box, in pixels
+ * @param {object} [o]
+ * @param {number} [o.inset] keep this many pixels clear inside the box
+ * @param {number} [o.ox] translate the finished primitives
+ * @param {number} [o.oy]
+ *   …plus anything markShapes() takes (mono, ground, frame, rounded, scheme).
+ */
+function markPrimitives(level, size, { inset = 0, ox = 0, oy = 0, ...shapeOpts } = {}) {
   const g = LOGO_GRID;
   const live = size - inset * 2;
   const k = live / g.size;
   const T = (v) => v * k + inset;
   const out = [];
-  for (const s of markShapes(level)) {
-    const color = s.color === 'ground' ? ground : s.color;
-    if (s.kind === 'disc') {
-      out.push({ kind: 'disc', cx: T(s.cx), cy: T(s.cy), r: s.r * k, color, alpha: s.alpha });
-    } else if (s.kind === 'ring') {
-      out.push({ kind: 'ringPoly', cx: T(s.cx), cy: T(s.cy), r: s.r * k, w: s.w * k, color, alpha: s.alpha });
-    } else if (s.kind === 'arc') {
-      // Sixteen samples per slot. The slot spans ~13° of arc, so the chord
-      // error at 16 samples is well under a hundredth of a pixel at 512.
-      const pts = [];
-      const steps = 16;
-      for (let i = 0; i <= steps; i += 1) {
-        const a = s.a0 + ((s.a1 - s.a0) * i) / steps;
-        pts.push([T(s.cx + Math.cos(a * RAD) * s.r), T(s.cy + Math.sin(a * RAD) * s.r)]);
-      }
-      out.push({ kind: 'poly', pts, w: s.w * k, color, alpha: s.alpha });
+  for (const s of markShapes(level, shapeOpts)) {
+    if (s.kind === 'rrect') {
+      out.push({
+        kind: 'rrect',
+        x: ox + T(s.x), y: oy + T(s.y), w2: s.w * k, h2: s.h * k, r: s.r * k,
+        color: s.color, alpha: s.alpha,
+      });
+    } else if (s.kind === 'wire') {
+      // The stroke is resolved to its outline HERE, at device scale, so the
+      // miter is computed in the same units the coverage test runs in.
+      out.push({
+        kind: 'fill',
+        pts: strokeOutline(
+          s.pts.map(([x, y]) => [ox + T(x), oy + T(y)]),
+          s.w * k,
+          { miterLimit: s.miterLimit },
+        ),
+        color: s.color, alpha: s.alpha,
+      });
+    } else if (s.kind === 'rrectStroke') {
+      out.push({
+        kind: 'poly',
+        pts: rrectOutline(ox + T(s.x), oy + T(s.y), s.w * k, s.h * k, s.r * k),
+        w: s.sw * k, color: s.color, alpha: s.alpha,
+      });
+    } else {
+      throw new Error(`brandmarks: no rasteriser for shape kind ${JSON.stringify(s.kind)}`);
     }
   }
   return out;
@@ -838,26 +1190,44 @@ function markPrimitives(level, size, { inset = 0, ground = GROUND } = {}) {
  * @param {object} opts
  * @param {number} opts.size        square edge in pixels
  * @param {boolean} [opts.rounded]  round the ground's corners
- * @param {number} [opts.padding]   fraction of the edge kept clear around the
- *   mark. 0.10 for an ordinary icon. 0.20 for `maskable`, where Android may
- *   crop to a circle inscribed in the middle 80% and anything outside that is
- *   not guaranteed to survive.
+ * @param {number} [opts.padding=0] fraction of the edge kept clear around the
+ *   mark.
+ *
+ *   IT IS ZERO NOW AND IT USED TO BE 0.10. The grille was a ring and a ring
+ *   needs its corners; the wire is drawn edge to edge on the 64-unit tile and
+ *   padding fights the design — an inset wire stops short of the icon and
+ *   reads as a floating hyphen instead of as something strung across the
+ *   frame. The one case that still pays for padding is `maskable`, below.
+ *
+ *   0.20 for `maskable`, where Android may crop to a circle inscribed in the
+ *   middle 80%. That crop is what forces the inset: at DOOMCON 1 the apex's
+ *   top edge sits at y = 3/64 of the tile, far outside the safe circle, so a
+ *   full-bleed maskable icon would have the spike beheaded.
  * @param {boolean} [opts.transparent] no ground at all. For nothing currently
  *   shipped; kept because a transparent mark is what a press kit asks for and
  *   the alternative is somebody re-deriving the geometry by hand.
+ * @param {boolean} [opts.frame] the hairline. Defaults to on when the mark
+ *   fills the icon and off when it is inset, because the hairline belongs on
+ *   the ICON's edge — an inset one is a box drawn inside a box.
+ * @param {'dark'|'light'} [opts.scheme='dark']
  * @returns {Buffer}
  */
-export function iconPng(level, { size = 192, rounded = true, padding = 0.10, transparent = false } = {}) {
+export function iconPng(level, {
+  size = 192, rounded = true, padding = 0, transparent = false,
+  frame = padding === 0, scheme = 'dark',
+} = {}) {
   const L = assertLevel(level);
+  const g = LOGO_GRID;
   const buf = canvas(size, size, null);
+  const ground = scheme === 'light' ? PAPER : GROUND;
   if (!transparent) {
     paint(buf, size, size, {
       kind: 'rrect', x: 0, y: 0, w2: size, h2: size,
-      r: rounded ? size * 0.1875 : 0, color: GROUND, alpha: 1,
+      r: rounded ? size * (g.radius / g.size) : 0, color: ground, alpha: 1,
     });
   }
   const inset = size * padding;
-  for (const p of markPrimitives(L, size, { inset, ground: transparent ? GROUND : GROUND })) {
+  for (const p of markPrimitives(L, size, { inset, frame, scheme })) {
     paint(buf, size, size, p);
   }
   return encodePng(size, size, buf);
@@ -1013,7 +1383,7 @@ function textWidth(text, size, track = 0.22) {
  * that runs off the edge.
  */
 export function ogImagePng(opts = {}) {
-  const L = assertLevel(opts.level ?? 4);
+  const L = assertLevel(ogLevel(opts));
   const lines = ogLines(L, opts);
   const W = 1200;
   const H = 630;
@@ -1031,10 +1401,13 @@ export function ogImagePng(opts = {}) {
   const markSize = 300;
   const mx = 86;
   const my = 346 - markSize / 2;
-  for (const p of markPrimitives(L, markSize, { inset: 0 })) {
-    paint(buf, W, H, { ...p, pts: p.pts ? p.pts.map(([x, y]) => [x + mx, y + my]) : undefined,
-      cx: p.cx === undefined ? undefined : p.cx + mx,
-      cy: p.cy === undefined ? undefined : p.cy + my });
+  // The mark carries its own hairline frame here and no fill: the OG ground is
+  // already GROUND, so a tile fill would be an invisible rectangle, while the
+  // frame is what the wire's butt ends need to end against. The translate is
+  // markPrimitives's job now — the old per-kind field-patching loop silently
+  // failed to move anything that was not a disc or a polyline.
+  for (const p of markPrimitives(L, markSize, { inset: 0, ox: mx, oy: my, frame: true })) {
+    paint(buf, W, H, p);
   }
 
   const tx = mx + markSize + 78;
@@ -1100,11 +1473,14 @@ export function brandmarkAssets(state, opts = {}) {
   const generatedAt = opts.generatedAt
     || (state && typeof state.generated_at === 'string' ? state.generated_at : null);
   return [
+    // NO PADDING except on the maskable icon. See iconPng(): the wire is drawn
+    // edge to edge and an inset one reads as a floating hyphen. The maskable
+    // icon keeps 20% because Android's circular crop would behead the spike.
     { path: 'favicon.svg', body: faviconSvg(level), type: 'image/svg+xml' },
-    { path: 'favicon-32.png', body: iconPng(level, { size: 32, padding: 0.06 }), type: 'image/png' },
-    { path: 'apple-touch-icon.png', body: iconPng(level, { size: 180, rounded: false, padding: 0.12 }), type: 'image/png' },
-    { path: 'icon-192.png', body: iconPng(level, { size: 192, padding: 0.10 }), type: 'image/png' },
-    { path: 'icon-512.png', body: iconPng(level, { size: 512, padding: 0.10 }), type: 'image/png' },
+    { path: 'favicon-32.png', body: iconPng(level, { size: 32 }), type: 'image/png' },
+    { path: 'apple-touch-icon.png', body: iconPng(level, { size: 180, rounded: false }), type: 'image/png' },
+    { path: 'icon-192.png', body: iconPng(level, { size: 192 }), type: 'image/png' },
+    { path: 'icon-512.png', body: iconPng(level, { size: 512 }), type: 'image/png' },
     { path: 'icon-maskable-512.png', body: iconPng(level, { size: 512, rounded: false, padding: 0.20 }), type: 'image/png' },
     { path: 'manifest.webmanifest', body: manifestJson(level), type: 'application/manifest+json' },
     { path: 'og-default.png', body: ogImagePng({ level, score, generatedAt }), type: 'image/png' },
