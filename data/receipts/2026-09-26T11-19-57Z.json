@@ -1,12 +1,14 @@
 {
   "schema": 1,
+  "id": "2026-09-26T11-19-57Z",
   "generated_at": "2026-09-26T11:19:57.466Z",
   "score": 40.9416,
   "level": 4,
   "level_name": "ROUTINE",
-  "previous_level": null,
-  "level_since": "2026-09-23T20:04:22.390Z",
   "delta_from_previous": 4.1507,
+  "level_changed": false,
+  "rule_fired": "none",
+  "decision": null,
   "degraded": false,
   "dark_pillars": [],
   "uncalibrated_pillars": [
@@ -23,10 +25,6 @@
     "manifold",
     "polymarket"
   ],
-  "failed_sources": [],
-  "post_suppressed": false,
-  "genesis_under_degradation": false,
-  "rule_fired": "none",
   "pillars": [
     {
       "id": "capability",
@@ -79,21 +77,38 @@
       "uncalibrated": true
     }
   ],
-  "sources": [
+  "inputs": [
     {
       "id": "arxiv",
       "pillar": "capability",
       "label": null,
       "ok": true,
-      "uncalibrated": false,
       "error": null,
       "value": 1519,
       "unit": "papers/7d",
-      "score": 34.8283,
-      "percentile": 0.088762,
       "observed_at": "2026-09-26T11:19:57.481Z",
-      "age_seconds": 0,
-      "last_ok": "2026-09-26T11:19:57.481Z"
+      "reference_key": "arxiv",
+      "percentile": 0.088762,
+      "percentile_adjusted": 0.088762,
+      "z": -1.348418,
+      "score_raw": 33.1448,
+      "score": 34.8283,
+      "nowcast_w": 0.9067,
+      "nowcast_used": 10,
+      "nowcast_series": [
+        33.1448,
+        33.6596,
+        33.9235,
+        34.4478,
+        35.0209,
+        35.7294,
+        36.2001,
+        36.5048,
+        36.5048,
+        36.5538,
+        null,
+        null
+      ]
     },
     {
       "id": "github-releases",
@@ -104,11 +119,13 @@
       "error": "uncalibrated: \"github-releases\" has no entry in data/reference.json yet, so it is collected and published but not scored",
       "value": 71,
       "unit": "releases/30d",
-      "score": null,
-      "percentile": null,
       "observed_at": "2026-09-26T11:19:57.482Z",
-      "age_seconds": 0,
-      "last_ok": null
+      "percentile": null,
+      "z": null,
+      "score_raw": null,
+      "score": null,
+      "nowcast_w": null,
+      "nowcast_series": null
     },
     {
       "id": "huggingface",
@@ -119,11 +136,13 @@
       "error": "uncalibrated: \"huggingface\" has no entry in data/reference.json yet, so it is collected and published but not scored",
       "value": 3459,
       "unit": "models/24h",
-      "score": null,
-      "percentile": null,
       "observed_at": "2026-09-26T11:19:57.482Z",
-      "age_seconds": 0,
-      "last_ok": null
+      "percentile": null,
+      "z": null,
+      "score_raw": null,
+      "score": null,
+      "nowcast_w": null,
+      "nowcast_series": null
     },
     {
       "id": "openrouter",
@@ -134,26 +153,45 @@
       "error": "uncalibrated: \"openrouter\" has no entry in data/reference.json yet, so it is collected and published but not scored",
       "value": 58,
       "unit": "models/30d",
-      "score": null,
-      "percentile": null,
       "observed_at": "2026-09-26T11:19:57.482Z",
-      "age_seconds": 0,
-      "last_ok": null
+      "percentile": null,
+      "z": null,
+      "score_raw": null,
+      "score": null,
+      "nowcast_w": null,
+      "nowcast_series": null
     },
     {
       "id": "sec-fts",
       "pillar": "compute",
       "label": null,
       "ok": true,
-      "uncalibrated": false,
       "error": null,
       "value": 3491,
       "unit": "filings/30d",
-      "score": 49.3273,
-      "percentile": 0.478609,
       "observed_at": "2026-09-26T11:19:57.482Z",
-      "age_seconds": 0,
-      "last_ok": "2026-09-26T11:19:57.482Z"
+      "reference_key": "sec-fts",
+      "percentile": 0.478609,
+      "percentile_adjusted": 0.478609,
+      "z": -0.053645,
+      "score_raw": 49.3294,
+      "score": 49.3273,
+      "nowcast_w": 0.9997,
+      "nowcast_used": 12,
+      "nowcast_series": [
+        49.3294,
+        49.3294,
+        49.3294,
+        49.3294,
+        49.3294,
+        49.3294,
+        49.3294,
+        49.3294,
+        49.3294,
+        49.3294,
+        49.3169,
+        49.3169
+      ]
     },
     {
       "id": "stockanalysis",
@@ -164,11 +202,13 @@
       "error": "uncalibrated: \"stockanalysis\" has no entry in data/reference.json yet, so it is collected and published but not scored",
       "value": 0.315,
       "unit": "mean_abs_percent_change",
-      "score": null,
-      "percentile": null,
       "observed_at": "2026-09-26T11:19:57.915Z",
-      "age_seconds": 0,
-      "last_ok": null
+      "percentile": null,
+      "z": null,
+      "score_raw": null,
+      "score": null,
+      "nowcast_w": null,
+      "nowcast_series": null
     },
     {
       "id": "vastai",
@@ -179,56 +219,109 @@
       "error": "uncalibrated: \"vastai\" has no entry in data/reference.json yet, so it is collected and published but not scored",
       "value": 0.47,
       "unit": "usd/gpu/hour",
-      "score": null,
-      "percentile": null,
       "observed_at": "2026-09-26T11:19:57.942Z",
-      "age_seconds": 0,
-      "last_ok": null
+      "percentile": null,
+      "z": null,
+      "score_raw": null,
+      "score": null,
+      "nowcast_w": null,
+      "nowcast_series": null
     },
     {
       "id": "hn",
       "pillar": "attention",
       "label": null,
       "ok": true,
-      "uncalibrated": false,
       "error": null,
       "value": 962,
       "unit": "points/24h",
-      "score": 37.9029,
-      "percentile": 0.162121,
       "observed_at": "2026-09-26T11:19:57.483Z",
-      "age_seconds": 0,
-      "last_ok": "2026-09-26T11:19:57.483Z"
+      "reference_key": "hn",
+      "percentile": 0.162121,
+      "percentile_adjusted": 0.162121,
+      "z": -0.985778,
+      "score_raw": 37.6778,
+      "score": 37.9029,
+      "nowcast_w": 0.9545,
+      "nowcast_used": 12,
+      "nowcast_series": [
+        37.6778,
+        37.7435,
+        39.0686,
+        38.4708,
+        38.2582,
+        37.917,
+        37.6887,
+        37.6448,
+        37.5896,
+        37.5543,
+        37.385,
+        37.2928
+      ]
     },
     {
       "id": "wikipedia",
       "pillar": "attention",
       "label": null,
       "ok": true,
-      "uncalibrated": false,
       "error": null,
       "value": 118823.57142857142,
       "unit": "pageviews/day",
-      "score": 44.4744,
-      "percentile": 0.329227,
       "observed_at": "2026-09-25T23:59:59.999Z",
-      "age_seconds": 40797,
-      "last_ok": "2026-09-25T23:59:59.999Z"
+      "reference_key": "wikipedia",
+      "percentile": 0.329227,
+      "percentile_adjusted": 0.329227,
+      "z": -0.442049,
+      "score_raw": 44.4744,
+      "score": 44.4744,
+      "nowcast_w": 1,
+      "nowcast_used": 12,
+      "nowcast_series": [
+        44.4744,
+        44.4744,
+        44.4744,
+        44.4744,
+        44.4744,
+        44.4744,
+        44.4744,
+        44.4744,
+        44.4744,
+        44.4744,
+        44.4744,
+        44.4744
+      ]
     },
     {
       "id": "federal-register",
       "pillar": "governance",
       "label": null,
       "ok": true,
-      "uncalibrated": false,
       "error": null,
       "value": 26,
       "unit": "documents/30d",
-      "score": 53.1668,
-      "percentile": 0.6,
       "observed_at": "2026-09-26T11:19:57.483Z",
-      "age_seconds": 0,
-      "last_ok": "2026-09-26T11:19:57.483Z"
+      "reference_key": "federal-register",
+      "percentile": 0.6,
+      "percentile_adjusted": 0.6,
+      "z": 0.253347,
+      "score_raw": 53.1668,
+      "score": 53.1668,
+      "nowcast_w": 1,
+      "nowcast_used": 11,
+      "nowcast_series": [
+        53.1668,
+        null,
+        53.1668,
+        53.1668,
+        53.1668,
+        53.1668,
+        53.1668,
+        53.1668,
+        53.1668,
+        53.1668,
+        53.1668,
+        53.1668
+      ]
     },
     {
       "id": "govuk",
@@ -239,11 +332,13 @@
       "error": "uncalibrated: \"govuk\" has no entry in data/reference.json yet, so it is collected and published but not scored",
       "value": 133,
       "unit": "documents/30d",
-      "score": null,
-      "percentile": null,
       "observed_at": "2026-09-26T11:19:57.484Z",
-      "age_seconds": 0,
-      "last_ok": null
+      "percentile": null,
+      "z": null,
+      "score_raw": null,
+      "score": null,
+      "nowcast_w": null,
+      "nowcast_series": null
     },
     {
       "id": "kalshi",
@@ -254,11 +349,13 @@
       "error": "uncalibrated: \"kalshi\" has no entry in data/reference.json yet, so it is collected and published but not scored",
       "value": 0.03636153732108077,
       "unit": "prob_points/day",
-      "score": null,
-      "percentile": null,
       "observed_at": "2026-09-26T11:20:06.392Z",
-      "age_seconds": 0,
-      "last_ok": null
+      "percentile": null,
+      "z": null,
+      "score_raw": null,
+      "score": null,
+      "nowcast_w": null,
+      "nowcast_series": null
     },
     {
       "id": "manifold",
@@ -269,11 +366,13 @@
       "error": "uncalibrated: \"manifold\" has no entry in data/reference.json yet, so it is collected and published but not scored",
       "value": 33958.198483308865,
       "unit": "mana/24h",
-      "score": null,
-      "percentile": null,
       "observed_at": "2026-09-26T11:19:58.462Z",
-      "age_seconds": 0,
-      "last_ok": null
+      "percentile": null,
+      "z": null,
+      "score_raw": null,
+      "score": null,
+      "nowcast_w": null,
+      "nowcast_series": null
     },
     {
       "id": "polymarket",
@@ -284,15 +383,53 @@
       "error": "uncalibrated: \"polymarket\" has no entry in data/reference.json yet, so it is collected and published but not scored",
       "value": 0.019573081284047285,
       "unit": "prob_points/day",
-      "score": null,
-      "percentile": null,
       "observed_at": "2026-09-26T11:20:01.445Z",
-      "age_seconds": 0,
-      "last_ok": null
+      "percentile": null,
+      "z": null,
+      "score_raw": null,
+      "score": null,
+      "nowcast_w": null,
+      "nowcast_series": null
     }
   ],
+  "raw_generated_at": "2026-09-26T11:19:57.466Z",
+  "constants": {
+    "score_centre": 50,
+    "score_z_scale": 12.5,
+    "boundaries": {
+      "2": 85,
+      "3": 70,
+      "4": 55,
+      "5": 35
+    },
+    "deadband": 3,
+    "dwell_up_seconds": [
+      10800,
+      1800
+    ],
+    "dwell_down_seconds": [
+      43200,
+      10800
+    ],
+    "min_interval_ms": 21600000,
+    "lock_ms": 14400000,
+    "quorum": 2,
+    "nowcast_window": 12,
+    "nowcast_min_weight": 0.5,
+    "composite_weights": {
+      "mean": 0.7,
+      "max": 0.3
+    },
+    "rounding": {
+      "score_decimals": 4,
+      "percentile_decimals": 6
+    }
+  },
+  "reference": {
+    "built_at": "2026-09-23T20:03:56.869Z",
+    "hash": "sha256:f91658b2dc572ae2b5a74ff21e869dd9aa6f814ff68f1b66462708b91dfaf6e7"
+  },
   "engine_version": "1.0.0",
-  "receipt_id": "2026-09-26T11-19-57Z",
-  "prev_receipt_hash": "sha256:048493411b7ad4a00318b0dcb715e5c6dad6d7116046f302d7e78ecb8775d068",
-  "receipt_hash": "sha256:97dd0e0d45b26b34c6d926635050d7f9ce7e29cbdce5aa5f6b4019ab3841fe2b"
+  "prev_hash": "sha256:048493411b7ad4a00318b0dcb715e5c6dad6d7116046f302d7e78ecb8775d068",
+  "hash": "sha256:97dd0e0d45b26b34c6d926635050d7f9ce7e29cbdce5aa5f6b4019ab3841fe2b"
 }
