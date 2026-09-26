@@ -2301,6 +2301,44 @@ a.chip:hover b { color: var(--accent-2); }
     min-height: 24px; display: inline-flex; align-items: center;
   }
   .jump__l a:hover { color: var(--accent); }
+  /* On a phone the eight entries wrap to four lines and cost 124px of an
+     812px fold — 15% of the screen, for an index read once. One scrolling
+     row instead, with the same right-edge fade the tile strip uses to say
+     there is more, because a strip that ends flush reads as complete. */
+  @media (max-width: 699px) {
+    .jump__l {
+      flex-wrap: nowrap; overflow-x: auto; scrollbar-width: thin;
+      -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 26px), transparent);
+      mask-image: linear-gradient(90deg, #000 calc(100% - 26px), transparent);
+    }
+    .jump__l li { flex: 0 0 auto; }
+  }
+
+
+  /* ---- THE DIAL IS THE HEADLINE, SO LET IT BE HEADLINE-SIZED -------------
+     Measured 2026-09-26 at 1440x900: the hero grid is 700px + 476px, and the
+     dial rendered at 320x308 inside the 700px column — under a quarter of the
+     hero's width, for the single fact the whole site exists to publish, while
+     the column beside it held an 84px score block in a 338px row. The hero
+     read as sparse because its subject was undersized, not because it lacked
+     content.
+
+     _gauge.mjs caps the dial with an INLINE style="--w:320px". That sets the
+     custom property, not the max-width, so a more specific rule here wins
+     without !important and without the template having to change. The SVG has
+     a viewBox, so everything inside scales with it and the 9.5px end labels
+     stay in proportion. Only above 1080px, where the 700px column exists at
+     all; the phone geometry is untouched. */
+  @media (min-width: 1080px) {
+    /* THREE classes on purpose. _gauge.mjs ships its own styleTag with
+       ".ch--dial .ch__svg--lg { max-width: 100% }" — same specificity as a
+       two-class selector and LATER in the document than this external sheet,
+       so a two-class rule here loses the cascade. And the <figure> is a flex
+       item sized to its content (measured: 354px), so the svg has to be given
+       room as well as permission. */
+    .hero .ch--dial { width: 420px; max-width: 100%; }
+    .hero .ch--dial .ch__svg--dial { width: 420px; max-width: 420px; }
+  }
 
 `;
 
