@@ -235,7 +235,8 @@ const feedCss = `
 .meter::before { content: ''; display: block; height: 100%; width: var(--w, 0%); background: var(--p, var(--accent)); }
 
 .nrow__h { grid-column: 2 / -1; grid-row: 2; font-size: var(--t-sm); line-height: 1.34; font-weight: 500; letter-spacing: -0.01em; overflow-wrap: anywhere; }
-.nrow__a { text-decoration: none; }
+/* Inherits the document underline. See the anchor block in site/styles.mjs:
+   these headline links had no static affordance at all. */
 .nrow__a:hover { text-decoration: underline; text-decoration-color: var(--p, var(--accent)); }
 .nrow__sub { grid-column: 2 / -1; grid-row: 3; font-size: var(--t-xs); color: var(--ink-faint); margin: 2px 0 0; }
 

@@ -497,7 +497,35 @@ body::after {
 }
 @media print { body::after { display: none; } }
 
-a { color: inherit; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+/* LINKS ARE UNDERLINED UNLESS THEY CARRY THEIR OWN BOX.
+   This line used to read "a { color: inherit; ... }" with no text-decoration,
+   which meant every anchor on the site was born invisible and only became
+   findable where a template happened to remember. Measured 2026-09-26: 31 of
+   74 visible links on the homepage had NO static affordance at all — same ink
+   as the body text, no underline, no border, no background — and the six
+   worst carried a :hover rule only. Hover does not exist on a phone, so on
+   most of the traffic those links were indistinguishable from prose. The
+   operator's words: "it's hard to see what to click".
+
+   Inverting the default fixes the CLASS of bug rather than the instances: a
+   link added next year is visible without anyone remembering. The underline is
+   drawn in --ink-faint rather than the text colour so it reads as a quiet
+   affordance on a dense page instead of shouting.
+
+   Opted out below: anything that already carries a border, a background or a
+   chip, because two affordances on one control is noise, not clarity. */
+a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--ink-faint);
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+a:hover { text-decoration-color: currentColor; }
+/* Controls that are already unmistakably pressable. Measured, not guessed:
+   each of these reported a border or a background in the audit. */
+.skip, .fb__t, .reel__more, .sw__more, .lw__more, .lw__rest,
+.foot a, .sw__tab, .sw__tl, .rail__c, .dcmx__i { text-decoration: none; }
 /* One focus ring for the whole document, and it is a RING plus an offset rather
    than a colour swap: on a page whose single accent is already spent on live
    values, a focused link that merely turns amber is indistinguishable from a
@@ -1565,13 +1593,17 @@ const MOVES = `
 .moves { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule); }
 .move { border-bottom: 1px solid var(--rule); }
 .move__a {
+  /* text-decoration:none stays: this anchor is a THREE-COLUMN GRID (time,
+     description, delta) and underlining the wrapper would rule through the
+     timestamp and the number as well. The description carries the affordance
+     instead — see .move__what below. */
   display: grid; gap: 2px 14px; padding: 8px 2px; text-decoration: none; color: inherit;
   grid-template-columns: auto 1fr auto; align-items: baseline;
   transition: background-color 120ms ease;
 }
 .move__a:hover { background: var(--bg-raised); }
 .move__time { font-family: var(--mono); font-size: var(--t-xs); color: var(--ink-faint); grid-column: 1; }
-.move__what { font-size: var(--t-sm); grid-column: 1 / -1; }
+.move__what { text-decoration: underline; text-decoration-color: var(--ink-faint); font-size: var(--t-sm); grid-column: 1 / -1; }
 @media (min-width: 560px) { .move__what { grid-column: 2; } }
 /* The loudest live pillar at that observation, off the receipt. The row used to
    say only THAT the number moved; this says which part of the field moved it. */
@@ -1739,8 +1771,13 @@ const PROSE = `
    the heading so a five-word label does not float in the middle of a wide column. */
 .sec__h {
   display: flex; align-items: center; gap: var(--s-3);
-  font-family: var(--mono); font-size: var(--t-sm); letter-spacing: 0.16em; text-transform: uppercase;
-  color: var(--ink-dim); margin: 0 0 var(--s-3); font-weight: 600;
+  /* WAS --t-sm (14.5px) in --ink-dim — SMALLER AND DIMMER THAN BODY TEXT, on
+     the element whose whole job is to break 17 sections into findable parts.
+     That is an inverted hierarchy: the organising layer was the quietest thing
+     on the page. Now the body step in full ink, which is the smallest change
+     that makes a heading outrank the prose under it. */
+  font-family: var(--mono); font-size: var(--t-base); letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--ink); margin: 0 0 var(--s-3); font-weight: 600;
 }
 /* FOUR CHANGES TO THE MOST-REPEATED ELEMENT ON THE SITE, and they are the
    cheapest hierarchy available: there are 32 of these across the templates and

@@ -1399,7 +1399,7 @@ export function styleTag(rules = '') {
 .sw__body>:first-child,.sw__body>.sec:first-child{margin-top:0}
 .sw__body>:last-child{margin-bottom:0}
 .sw__body .sec{margin-top:var(--s-4)}
-.sw__body .sec__h{font-size:var(--t-md)}
+/* .sw__body .sec__h used --t-md, which styles.mjs marks 'RETIRED alias. Do not use.' It also fought the real .sec__h step. Removed; the shared rule governs. */
 /* Every tile is also a real URL: the crawler requirement and the share
    requirement are one requirement. */
 .sw__more{display:inline-flex;align-items:baseline;gap:5px;margin-top:var(--row);
