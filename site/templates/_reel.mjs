@@ -441,21 +441,41 @@ export function reel(items, o = {}) {
 
   const heading = o.heading || 'Highest-scoring items';
   const cards = picked.map((it, i) => card(it, i)).join('');
+  const fresh = picked.filter((it) => it.fresh).length;
 
+  // `items` is what this rail was handed, which is not always the corpus: the
+  // switcher hands it eight pre-sliced cards, so "All 8 items →" was pointing
+  // at a 200-item archive and naming the wrong number. `total` is the size of
+  // the collection the link actually leads to; without one the rail is the
+  // whole set and its own length is the truth.
+  const all = Number.isFinite(o.total) ? o.total : items.length;
   const more = o.href
-    ? `<a class="reel__more" href="${esc(o.href)}">All ${items.length} items &rarr;</a>`
+    ? `<a class="reel__more" href="${esc(o.href)}">All ${all} items &rarr;</a>`
     : '';
 
-  return `<section class="sec reel" aria-labelledby="${esc(id)}-h">
+  // The count is the affordance, server-side. "swipe" alone tells a reader with
+  // a mouse nothing and tells a reader with a keyboard less; "1 of 8" tells
+  // everyone there are seven more and it is true before any script runs. The
+  // script replaces the leading numeral with the live position and adds two
+  // buttons beside it — see reelJs. Neither is the only way to move the rail:
+  // touch-drag, trackpad, the scrollbar and the arrow keys all still work.
+  const hint = `<span class="reel__pos" data-dc-pos><b class="reel__posn" data-dc-posn>1</b>` +
+    `<span class="reel__post"> of ${picked.length}</span></span>` +
+    (fresh
+      ? `<span class="reel__fc"><b data-dc-fcn>${fresh}</b> ` +
+        `<span data-dc-fcl>under 90m old at the compile stamp</span></span>`
+      : '');
+
+  return `<section class="sec reel" aria-labelledby="${esc(id)}-h" data-dc-reel>
   <div class="reel__head">
     <h2 class="sec__h" id="${esc(id)}-h">${esc(heading)}</h2>
-    <p class="reel__hint"><span aria-hidden="true">&larr; swipe &rarr;</span>${more}</p>
+    <p class="reel__hint">${hint}${more}</p>
   </div>
   <div class="reel__viewport" tabindex="0" role="region"
        aria-label="${esc(heading)}, ${picked.length} cards, scrolls horizontally">
     <ol class="reel__rail">${cards}</ol>
   </div>
-</section>`;
+</section>${reelJs}`;
 }
 
 function card(it, i) {
@@ -473,14 +493,26 @@ function card(it, i) {
     ? `<span class="rcard__score num" title="raw score ${esc(String(it.score))}">${esc(it.scoreLabel)}</span>`
     : '<span class="rcard__score num rcard__score--none" title="this item carries no score">&mdash;</span>';
 
-  return `<li class="reel__item" data-pillar="${esc(it.pillar)}" style="--i:${i}">
+  // NEW is a claim with a clock in it, so it says which clock. `it.fresh` is
+  // measured against the COMPILE STAMP, and the page is cached for up to the
+  // cron interval, so a badge left to itself would still say NEW on an item
+  // that had aged out while the reader looked at it — the exact failure
+  // _html.utc()'s comment forbids. Two defences: the title names the reference,
+  // and reelJs removes the badge the moment the reader's own clock puts the
+  // item past the window. Nothing is invented; something true is retired.
+  const isNew = it.fresh
+    ? `<span class="rcard__new" title="published within 90 minutes of the compile stamp">` +
+      `<span aria-hidden="true">NEW</span><span class="vh">new: published within 90 minutes of the compile stamp</span></span>`
+    : '';
+
+  return `<li class="reel__item" data-pillar="${esc(it.pillar)}" style="--i:${i}"${it.fresh ? ' data-fresh="1"' : ''}>
     <article class="rcard">
       <span class="rcard__n num" aria-hidden="true">${esc(it.rankLabel)}</span>
-      <div class="rcard__top">${pillarTag(it.pillar, { long: true })}${score}</div>
+      <div class="rcard__top">${pillarTag(it.pillar, { long: true })}${isNew}${score}</div>
       <h3 class="rcard__h">${title}</h3>
       <p class="rcard__why">${esc(it.why)}</p>
       <p class="rcard__foot">
-        <time datetime="${esc(it.published_at)}" title="${esc(it.stampFull)}">${esc(it.stamp)}</time>
+        <time datetime="${esc(it.published_at)}" title="${esc(it.stampFull)}" data-dc-t="${esc(it.published_at)}">${esc(it.stamp)}</time>
         <span class="rcard__src">${esc(it.source)}</span>
         ${it.kind ? `<span class="rcard__kind">${esc(it.kind)}</span>` : ''}
         ${corr}
@@ -488,6 +520,110 @@ function card(it, i) {
     </article>
   </li>`;
 }
+
+// ---------------------------------------------------------------------------
+// The only script in this file, and the only script the reel has ever had.
+//
+// WHAT IT IS NOT. It does not render a card, a title, a score, a stamp or a
+// rail. Delete it and the rail is exactly what it was before this round: a CSS
+// scroll-snap container that drags under a finger, scrolls under a trackpad,
+// takes focus and answers the arrow keys, with every card already painted. A
+// screenshot taken before this runs is complete. That is the property
+// _xwire.mjs names as the one we beat pizzint on and it is not negotiable.
+//
+// WHAT IT ADDS, and why each one needs a clock rather than a build:
+//
+//   1. A LIVE AGE beside each absolute stamp. The hook is `data-dc-relage`
+//      and NOT `data-dc-age`: site/templates/layout.mjs already owns that name
+//      for the masthead's observation clock and reads it with a document-wide
+//      `querySelector`, which returns the first match. Eight reel cards
+//      claiming the same attribute inside <main> is one reordering away from
+//      the masthead clock writing its age into a news card. _html.utc() carries a standing
+//      rule against relative times — "a relative string is a statement that
+//      becomes false while the reader is looking at it" — and it is right
+//      about STATIC ones. A ticking one is the resolution of that rule, not an
+//      exception to it: it cannot go stale, and it is ADDED beside the
+//      absolute stamp rather than replacing it, so the no-script rendering
+//      still carries only absolute UTC and loses no fact.
+//
+//   2. RETIRING AN EXPIRED `NEW`. Same rule, pointed at the badge: `fresh` is
+//      measured at the compile stamp and the page is cached for a cron
+//      interval, so the badge has a shelf life. Nothing is invented here —
+//      only withdrawn once the reader's own clock has passed it.
+//
+//   3. TWO BUTTONS AND A POSITION. Real <button>s, so they are in the tab
+//      order and answer Enter and Space for free; 32px square, which clears
+//      the 24px touch minimum; aria-disabled rather than disabled at the ends
+//      so pressing the last one does not throw the focus ring off the page.
+//      They are an ADDITION to four native ways of moving the rail, never the
+//      only one, and `01 of 08` is already in the HTML before they exist.
+//
+// Every write is inside a try/catch-free but null-guarded path, the whole
+// thing is wrapped in one idempotence flag, and nothing here ever runs at
+// build time — so `docker run … site/build.mjs` twice still emits the same
+// bytes. Math.random and Date.now appear below because this is browser code.
+// ---------------------------------------------------------------------------
+
+const reelJs = `<script>(function(){
+if(window.__dcreel)return;window.__dcreel=1;
+var D=document,MM=window.matchMedia,RM=MM?MM('(prefers-reduced-motion: reduce)'):null,FRESH=5400000;
+function rel(ms){var s=Math.max(0,Math.round(ms/1000));
+if(s<90)return s+'s ago';var m=Math.round(s/60);if(m<90)return m+'m ago';
+var h=Math.round(m/60);if(h<48)return h+'h ago';return Math.round(h/24)+'d ago';}
+function ages(){var now=Date.now(),n=D.querySelectorAll('[data-dc-t]'),i,el,t,tag,txt,card,b;
+for(i=0;i<n.length;i++){el=n[i];t=Date.parse(el.getAttribute('data-dc-t'));if(!isFinite(t))continue;
+tag=el.nextElementSibling;
+if(!tag||!tag.hasAttribute('data-dc-relage')){tag=D.createElement('span');tag.className='rcard__age';
+tag.setAttribute('data-dc-relage','');el.parentNode.insertBefore(tag,el.nextSibling);}
+txt=rel(now-t);if(tag.textContent!==txt)tag.textContent=txt;
+card=el.closest?el.closest('[data-fresh]'):null;
+if(card&&now-t>FRESH){card.removeAttribute('data-fresh');
+b=card.querySelector('.rcard__new');if(b&&b.parentNode)b.parentNode.removeChild(b);}}
+var reels=D.querySelectorAll('[data-dc-reel]'),j,sec,fcn,fcl,live;
+for(j=0;j<reels.length;j++){sec=reels[j];fcn=sec.querySelector('[data-dc-fcn]');
+if(!fcn)continue;fcl=sec.querySelector('[data-dc-fcl]');
+live=sec.querySelectorAll('.reel__item[data-fresh]').length;
+fcn.textContent=String(live);if(fcl)fcl.textContent='under 90m old now';
+if(fcn.parentNode)fcn.parentNode.hidden=live===0;}}
+function step(vp){var it=vp.querySelector('.reel__item');
+if(!it)return Math.max(160,Math.round(vp.clientWidth*0.8));
+var r=it.getBoundingClientRect(),nx=it.nextElementSibling;
+if(nx){var d=Math.round(nx.getBoundingClientRect().left-r.left);if(d>8)return d;}
+return Math.round(r.width)+10;}
+function mkbtn(dir,label,glyph){var b=D.createElement('button');b.type='button';
+b.className='reel__nb';b.setAttribute('data-dc-dir',String(dir));b.setAttribute('aria-label',label);
+b.innerHTML='<span aria-hidden="true">'+glyph+'</span>';return b;}
+function wire(sec){if(sec.getAttribute('data-dc-wired'))return;
+var vp=sec.querySelector('.reel__viewport'),pos=sec.querySelector('[data-dc-pos]'),
+posn=sec.querySelector('[data-dc-posn]');if(!vp||!pos||!posn)return;
+sec.setAttribute('data-dc-wired','1');
+var total=vp.querySelectorAll('.reel__item').length,
+prev=mkbtn(-1,'Scroll the rail back',String.fromCharCode(9664)),
+next=mkbtn(1,'Scroll the rail forward',String.fromCharCode(9654));
+pos.parentNode.insertBefore(prev,pos);
+if(pos.nextSibling)pos.parentNode.insertBefore(next,pos.nextSibling);else pos.parentNode.appendChild(next);
+pos.parentNode.setAttribute('data-dc-nav','1');
+function off(b,v){b.setAttribute('aria-disabled',v?'true':'false');}
+function sync(){var st=step(vp),max=vp.scrollWidth-vp.clientWidth,
+i=Math.min(total,Math.max(1,Math.round(vp.scrollLeft/st)+1));
+if(posn.textContent!==String(i))posn.textContent=String(i);
+off(prev,vp.scrollLeft<=2);off(next,vp.scrollLeft>=max-2);}
+function go(dir){if(dir<0&&vp.scrollLeft<=2)return;
+var st=step(vp),sm=!(RM&&RM.matches);
+if(vp.scrollBy)vp.scrollBy({left:dir*st,behavior:sm?'smooth':'auto'});else vp.scrollLeft+=dir*st;}
+function press(b,dir){return function(){if(b.getAttribute('aria-disabled')==='true')return;go(dir);};}
+prev.addEventListener('click',press(prev,-1));
+next.addEventListener('click',press(next,1));
+var q=0;vp.addEventListener('scroll',function(){if(q)return;q=1;
+requestAnimationFrame(function(){q=0;sync();});},{passive:true});
+window.addEventListener('resize',sync,{passive:true});
+sync();}
+function boot(){var r=D.querySelectorAll('[data-dc-reel]'),i;for(i=0;i<r.length;i++)wire(r[i]);ages();}
+boot();
+if(D.readyState==='loading')D.addEventListener('DOMContentLoaded',boot);
+setInterval(ages,30000);
+D.addEventListener('visibilitychange',function(){if(!D.hidden)ages();});
+})();</script>`;
 
 // ---------------------------------------------------------------------------
 // CSS
@@ -567,10 +703,48 @@ export const reelCss = `
 .reel__head .sec__h { margin-bottom: 8px; }
 .reel__hint {
   font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
-  color: var(--ink-faint); margin: 0 0 8px; display: flex; gap: 14px; align-items: baseline;
+  color: var(--ink-faint); margin: 0 0 8px; display: flex; gap: 10px; align-items: center;
+  flex-wrap: wrap;
 }
 .reel__more { color: var(--ink-dim); text-decoration: none; border-bottom: 1px solid var(--rule); }
 .reel__more:hover { color: var(--ink); border-bottom-color: var(--accent); }
+
+/* THE POSITION READOUT, server-rendered as "1 of 8" and upgraded in place to
+   the live position once reelJs wires the rail. Both forms are true; the
+   static one is the affordance ("there are eight of these") and the live one
+   is the instrument. Tabular figures so the numeral does not shuffle the row
+   sideways as it counts. */
+.reel__pos {
+  display: inline-flex; align-items: baseline; gap: 3px;
+  font-variant-numeric: tabular-nums;
+}
+.reel__posn { color: var(--accent); font-weight: 700; min-width: 1.2ch; text-align: right; }
+.reel__post { color: var(--ink-faint); }
+
+/* The freshness count. Absent entirely at zero — a zero is not an event, the
+   same rule the switcher's tab figures follow. The label names its own clock:
+   the server writes "at the compile stamp", reelJs rewrites it to "now". */
+.reel__fc { color: var(--ink-dim); }
+.reel__fc b { color: var(--accent); font-weight: 700; font-variant-numeric: tabular-nums; }
+.reel__fc[hidden] { display: none; }
+
+/* The two rail buttons. Injected by reelJs and styled here so they arrive
+   painted rather than flashing unstyled. 32px square clears the 24px touch
+   minimum with room; aria-disabled rather than disabled keeps the focus ring
+   on the control after the last press instead of dropping it to the body. */
+.reel__nb {
+  flex: 0 0 auto; width: 32px; height: 32px; padding: 0; margin: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 10px; line-height: 1; cursor: pointer;
+  color: var(--ink-dim); background: var(--bg-raised);
+  border: 1px solid var(--rule); border-radius: var(--radius);
+  -webkit-appearance: none; appearance: none;
+}
+.reel__nb:hover { color: var(--ink); border-color: var(--accent); }
+.reel__nb:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.reel__nb[aria-disabled="true"] { color: var(--ink-faint); border-style: dashed; cursor: default; }
+.reel__nb[aria-disabled="true"]:hover { color: var(--ink-faint); border-color: var(--rule); }
+[data-dc-nav] { gap: 6px; }
 
 /* Bleeds to the gutter so the rail runs off the edge of a phone screen - the
    affordance that says "there is more this way" without a script measuring
@@ -604,11 +778,48 @@ export const reelCss = `
   background: var(--bg-raised); border: 1px solid var(--rule);
   border-radius: var(--radius); padding: 13px 14px 11px; overflow: hidden;
 }
+/* COMMIT TO THE HUE. Before this round a pillar was a 2px rule at the top of
+   the card and nothing else, so eight cards read as eight grey boxes and the
+   five colours the sheet defines were doing almost no work. The wash is the
+   pillar's own hue at 6% over the card's ground, and it FADES OUT BY 55% of
+   the card height — deliberately, because the foot below that line is
+   --ink-faint at 10.5px and is the one run of text on the card with no
+   contrast headroom to give away. Everything the wash touches is --ink or
+   --ink-dim. Turn the wash off and no fact is lost: the sigil, the pillar name
+   and the short code all still say which pillar this is. */
+.rcard {
+  background:
+    linear-gradient(180deg,
+      color-mix(in srgb, var(--p, var(--accent)) 6%, var(--bg-raised)) 0%,
+      var(--bg-raised) 55%);
+}
 .rcard::before {
-  content: ''; position: absolute; left: 0; right: 0; top: 0; height: 2px;
+  content: ''; position: absolute; left: 0; right: 0; top: 0; height: 3px;
   background: var(--p, var(--accent)); transform-origin: left;
 }
 .rcard:hover { border-color: color-mix(in srgb, var(--p, var(--accent)) 50%, var(--rule)); }
+
+/* A FRESH CARD IS LOUD. pizzint's one genuinely good reward is that a new item
+   arrives with a full-panel flash rather than a 220ms fade, and ENGAGEMENT.md
+   §1.3 calls that the slot machine. This is the honest, static version of it:
+   the card's rule goes to the live amber, the border picks the amber up, and
+   the badge is filled rather than outlined. No animation is involved, so it is
+   in the screenshot, and reelJs takes it all away again the moment the item is
+   more than 90 minutes old by the reader's own clock. */
+.reel__item[data-fresh] .rcard {
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--rule));
+  box-shadow: var(--shadow-1);
+}
+.reel__item[data-fresh] .rcard::before { background: var(--accent); height: 4px; }
+.rcard__new {
+  flex: 0 0 auto; font-family: var(--mono); font-size: 9px; font-weight: 700;
+  letter-spacing: 0.16em; line-height: 1.5; padding: 1px 5px; border-radius: 2px;
+  color: var(--accent-ink); background: var(--accent);
+}
+/* The live age reelJs adds beside the absolute stamp. It is never in the
+   served HTML, so a reader with no script sees exactly the UTC clock this site
+   has always printed and never a relative string that has gone stale. */
+.rcard__age { color: var(--ink-dim); font-variant-numeric: tabular-nums; }
 
 /* The rank as a watermark numeral. It is the graphic element on the card and
    it is also the ordering, which is the thing pizzint's feed never tells you. */
@@ -617,8 +828,11 @@ export const reelCss = `
   font-family: var(--mono); font-weight: 700; font-size: 62px; line-height: 1;
   letter-spacing: -0.06em; color: var(--p, var(--accent)); opacity: 0.11;
 }
-.rcard__top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-.rcard__score { font-family: var(--mono); font-size: 17px; font-weight: 700; letter-spacing: -0.02em; color: var(--ink); }
+/* Pillar tag and NEW badge sit together on the left and the score is pushed to
+   the right edge by its own margin rather than by space-between, which would
+   have centred the badge in the gap the moment a third child appeared. */
+.rcard__top { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.rcard__score { font-family: var(--mono); font-size: 17px; font-weight: 700; letter-spacing: -0.02em; color: var(--ink); margin-left: auto; }
 .rcard__score--none { color: var(--ink-faint); font-weight: 400; }
 .rcard__h { font-size: 15px; line-height: 1.32; margin: 0; letter-spacing: -0.012em; overflow-wrap: anywhere; }
 .rcard__a { text-decoration: none; }
