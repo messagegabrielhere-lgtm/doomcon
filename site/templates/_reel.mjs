@@ -671,7 +671,7 @@ ${hueBlock(':root[data-theme="dark"]', HUES_DARK)}
 
 .ptag {
   display: inline-flex; align-items: center; gap: 4px;
-  font-family: var(--mono); font-size: 10px; font-weight: 500;
+  font-family: var(--mono); font-size: var(--t-2xs); font-weight: 500;
   letter-spacing: 0.12em; text-transform: uppercase;
   color: var(--p, var(--accent));
   border: 1px solid var(--rule);
@@ -688,7 +688,7 @@ ${hueBlock(':root[data-theme="dark"]', HUES_DARK)}
 /* Corroboration is the one number on a row that a competitor cannot fake by
    scraping harder, so it gets a box of its own rather than a parenthesis. */
 .corr {
-  font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.06em;
+  font-family: var(--mono); font-size: var(--t-2xs); font-weight: 700; letter-spacing: 0.06em;
   color: var(--ink); border: 1px solid var(--rule); border-radius: 2px;
   padding: 1px 4px; background: var(--bg-sunken); white-space: nowrap;
 }
@@ -702,7 +702,7 @@ export const reelCss = `
 .reel__head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
 .reel__head .sec__h { margin-bottom: 8px; }
 .reel__hint {
-  font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+  font-family: var(--mono); font-size: var(--t-2xs); letter-spacing: 0.14em; text-transform: uppercase;
   color: var(--ink-faint); margin: 0 0 8px; display: flex; gap: 10px; align-items: center;
   flex-wrap: wrap;
 }
@@ -735,7 +735,7 @@ export const reelCss = `
 .reel__nb {
   flex: 0 0 auto; width: 32px; height: 32px; padding: 0; margin: 0;
   display: inline-flex; align-items: center; justify-content: center;
-  font-size: 10px; line-height: 1; cursor: pointer;
+  font-size: var(--t-2xs); line-height: 1; cursor: pointer;
   color: var(--ink-dim); background: var(--bg-raised);
   border: 1px solid var(--rule); border-radius: var(--radius);
   -webkit-appearance: none; appearance: none;
@@ -812,7 +812,7 @@ export const reelCss = `
 }
 .reel__item[data-fresh] .rcard::before { background: var(--accent); height: 4px; }
 .rcard__new {
-  flex: 0 0 auto; font-family: var(--mono); font-size: 9px; font-weight: 700;
+  flex: 0 0 auto; font-family: var(--mono); font-size: var(--t-2xs); font-weight: 700;
   letter-spacing: 0.16em; line-height: 1.5; padding: 1px 5px; border-radius: 2px;
   color: var(--accent-ink); background: var(--accent);
 }
@@ -834,14 +834,14 @@ export const reelCss = `
 .rcard__top { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
 .rcard__score { font-family: var(--mono); font-size: 17px; font-weight: 700; letter-spacing: -0.02em; color: var(--ink); margin-left: auto; }
 .rcard__score--none { color: var(--ink-faint); font-weight: 400; }
-.rcard__h { font-size: 15px; line-height: 1.32; margin: 0; letter-spacing: -0.012em; overflow-wrap: anywhere; }
+.rcard__h { font-size: var(--t-base); line-height: 1.32; margin: 0; letter-spacing: -0.012em; overflow-wrap: anywhere; }
 .rcard__a { text-decoration: none; }
 .rcard__a:hover { text-decoration: underline; text-decoration-color: var(--p, var(--accent)); }
-.rcard__why { font-size: 12.5px; color: var(--ink-dim); margin: 0; flex: 1 1 auto; }
+.rcard__why { font-size: var(--t-xs); color: var(--ink-dim); margin: 0; flex: 1 1 auto; }
 .rcard__foot {
   display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 0;
   padding-top: 8px; border-top: 1px solid var(--rule-soft); position: relative;
-  font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.04em; color: var(--ink-faint);
+  font-family: var(--mono); font-size: var(--t-2xs); letter-spacing: 0.04em; color: var(--ink-faint);
 }
 .rcard__src { color: var(--ink-dim); text-transform: uppercase; letter-spacing: 0.1em; }
 .rcard__kind { color: var(--ink-faint); border: 1px solid var(--rule-soft); border-radius: 2px; padding: 0 4px; }

@@ -532,11 +532,11 @@ const FEATURE_BAR_CSS = `<style>
   padding: 6px 10px; border: 1px solid var(--rule); border-radius: 7px;
   background: color-mix(in srgb, var(--fb-hue) 7%, transparent);
   text-decoration: none; color: var(--ink-dim);
-  font-family: var(--mono); font-size: 11px; letter-spacing: .07em; text-transform: uppercase;
+  font-family: var(--mono); font-size: var(--t-xs); letter-spacing: .07em; text-transform: uppercase;
   transition: border-color 120ms ease, background 120ms ease, color 120ms ease;
 }
 .fb__m { width: 15px; height: 15px; color: var(--fb-hue); flex: none; }
-.fb__n { color: var(--fb-hue); font-variant-numeric: tabular-nums; font-size: 11.5px; }
+.fb__n { color: var(--fb-hue); font-variant-numeric: tabular-nums; font-size: var(--t-xs); }
 .fb__n--none { opacity: .45; }
 .fb__t:hover { color: var(--ink); border-color: var(--fb-hue);
   background: color-mix(in srgb, var(--fb-hue) 16%, transparent); }

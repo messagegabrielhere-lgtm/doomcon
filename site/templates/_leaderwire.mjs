@@ -80,10 +80,24 @@ export function render(ctx, { heading = DEFAULT_HEADING, href = '/leaders.html' 
   const t = wire.totals;
   const pageHref = ctx && typeof ctx.href === 'function' ? ctx.href(href) : href;
 
+  // A CALLER PASSING heading: null MEANS "no heading", NOT the string "null".
+  // _switcher.mjs:1191 does exactly that, because inside a switcher panel the
+  // tab already names the section and a second title is noise. A JS default
+  // only fires on `undefined`, so null flowed straight through to esc(null)
+  // and the homepage shipped a visible <h2> reading "null" — which was also
+  // this section's aria-labelledby target, so a screen reader announced the
+  // whole region as "null" too. Suppress the element and label the region
+  // directly instead of leaving aria-labelledby pointing at nothing.
+  const showHeading = heading !== null && heading !== undefined && String(heading).trim() !== '';
+  const headingText = showHeading ? String(heading) : DEFAULT_HEADING;
+  const label = showHeading
+    ? ' aria-labelledby="lw-h"'
+    : ` aria-label="${esc(DEFAULT_HEADING)}"`;
+
   return `${styleTag()}
-<section class="sec lw" aria-labelledby="lw-h">
+<section class="sec lw"${label}>
   <div class="lw__hd">
-    <h2 class="sec__h" id="lw-h">${esc(heading)}</h2>
+    ${showHeading ? `<h2 class="sec__h" id="lw-h">${esc(headingText)}</h2>` : ''}
     <p class="lw__k">${esc(t.on_record)} of ${esc(t.leaders)} on the record ·
       ${esc(t.lines)} line${t.lines === 1 ? '' : 's'} ·
       <time datetime="${esc(wire.generated_at)}" title="${esc(utc(wire.generated_at))}">${esc(utcClock(wire.generated_at))}Z</time></p>
