@@ -68,6 +68,66 @@ function parseArgs(argv) {
 const warnings = [];
 function warn(message) { warnings.push(message); }
 
+// ---------------------------------------------------------------------------
+// /flock — the one page module that is NOT a static import.
+//
+// site/templates/flockPage.mjs is written on its own track. A static `import`
+// of a file that has not landed yet is a hard crash for the whole build, which
+// would mean this wiring could only be committed AFTER the template — and
+// "commit the wiring later" is exactly how this repo ended up with six modules
+// built and never imported. So the wiring lands first and picks the template up
+// the moment it exists.
+//
+// The two failure cases are kept apart on purpose:
+//   absent              -> silent. There is nothing to warn about: /flock has
+//                          no route yet and, because ctx.routes.flock below
+//                          carries this fact to layout.mjs, no nav tile
+//                          either. The site is simply one section smaller.
+//   present but broken  -> a loud WARNING, and every other page still builds.
+//                          A template that throws on import must not take
+//                          index.html down with it.
+// ---------------------------------------------------------------------------
+const FLOCK_PAGE_FILE = path.join(ROOT, 'site', 'templates', 'flockPage.mjs');
+let flockPage = null;
+if (existsSync(FLOCK_PAGE_FILE)) {
+  try {
+    flockPage = await import('./templates/flockPage.mjs');
+  } catch (err) {
+    warn(`site/templates/flockPage.mjs is present but failed to load (${err.message}); building without /flock.`);
+  }
+}
+
+/**
+ * THE /flock GATE. This file decides whether public/flock.html exists, so the
+ * predicate lives here — and layout.mjs restates it verbatim in hasSection()
+ * for the same reason wattsPage's is restated there: importing a page module
+ * into layout would close an import cycle. THE TWO MUST MOVE TOGETHER. If they
+ * disagree the nav grows a tile that links a 404, which is this repo's other
+ * standing failure mode.
+ *
+ * Note what is required. `coverage` and `copy` are load-bearing, not
+ * decoration: copy carries the headline qualifier ("as mapped in OpenStreetMap
+ * on <date>"), the empty-state sentence that separates "nobody mapped this"
+ * from "there is nothing here", and the "© OpenStreetMap contributors"
+ * attribution the ODbL requires. A page rendered without them would be
+ * publishing a crowdsourced sample as though it were a census, and would
+ * breach the data licence on the way. No copy block, no page.
+ */
+function hasFlockData(ctx) {
+  const f = ctx && ctx.flock;
+  return Boolean(
+    f
+    && f.totals && Number.isFinite(f.totals.mapped_worldwide)
+    && Array.isArray(f.counties) && f.counties.length
+    && Array.isArray(f.states) && f.states.length
+    && f.coverage
+    && f.copy && f.copy.attribution_required,
+  );
+}
+
+/** Where the packed per-camera arrays are published. */
+const FLOCK_POINTS_HREF = '/api/flock-points.json';
+
 async function readJson(file, what) {
   let text;
   try {
@@ -475,6 +535,42 @@ async function main() {
     catch (err) { warn(`data/bliss.json unreadable (${err.message}); building without /bliss.`); }
   }
 
+  // BOTH FLOCK FILES ARE PUBLISHED VERBATIM, and the text is kept for that
+  // reason. collector/flock.mjs already emits canonical, key-sorted,
+  // deterministic JSON with one row per line — ["01001","Autauga County",
+  // "AL",25] — and stableJson would re-indent every inner array into six
+  // lines, taking the aggregate from 305 KB to 543 KB without changing a
+  // single value. Republishing the bytes instead means the endpoint is the
+  // committed artefact: the same sha256 answers for data/flock.json and for
+  // /api/flock.json, which is a stronger recomputability claim than a
+  // reformatted copy. The parse below exists only to build ctx.
+  let flock = null;
+  let flockText = null;
+  const flockFile = path.join(args.data, 'flock.json');
+  if (existsSync(flockFile)) {
+    try {
+      flockText = await readFile(flockFile, 'utf8');
+      flock = JSON.parse(flockText);
+    } catch (err) {
+      flock = null;
+      flockText = null;
+      warn(`data/flock.json unreadable (${err.message}); building without /flock.`);
+    }
+  }
+
+  // THE PACKED POINT FILE IS READ AS TEXT AND REPUBLISHED BYTE FOR BYTE.
+  // collector/flock.mjs already emits canonical, key-sorted, deterministic
+  // JSON. Putting it through stableJson would re-indent it at two spaces and
+  // put each of ~462,000 integers in the four parallel arrays on its own line,
+  // taking the file from 2.6 MiB to roughly 5 MiB for no gain whatsoever.
+  // Never JSON.parse this — the only thing done with it is a copy.
+  let flockPointsText = null;
+  const flockPointsFile = path.join(args.data, 'flock-points.json');
+  if (existsSync(flockPointsFile)) {
+    try { flockPointsText = await readFile(flockPointsFile, 'utf8'); }
+    catch (err) { warn(`data/flock-points.json unreadable (${err.message}); /flock will have no per-camera layer.`); }
+  }
+
   // OPERATOR-SUPPLIED LOGOS, listed once. The copy loop further down reuses
   // this exact list, so the manifest the templates read and the files that
   // actually land in public/logos/ cannot disagree. Absent -> empty -> every
@@ -494,6 +590,18 @@ async function main() {
     digest,
     bliss,
     datacenters,
+    flock,
+    // The per-camera layer as a POINTER, never as data. 115,608 coordinate
+    // triples are 2.6 MiB; a template that put them in ctx as an array would
+    // be one careless interpolation away from inlining them into the HTML, so
+    // what ctx carries is the published URL and the size, and null when the
+    // file was absent — so a template can say the layer is missing rather than
+    // request a 404. Today's flockPage renders the whole page server-side from
+    // the aggregate and does not need this; it is the contract for the day a
+    // per-camera layer is drawn, and the reason the endpoint has a fixed path.
+    flockPoints: flockPointsText === null
+      ? null
+      : { href: FLOCK_POINTS_HREF, bytes: Buffer.byteLength(flockPointsText, 'utf8') },
     leaders,
     x: xwire,
     history,
@@ -506,6 +614,25 @@ async function main() {
     vsYesterday: vsYesterday(state, history),
     cardFor: cardResolver(args.data, args.out),
     temporalCoverage: stamps.length ? `${stamps[0]}/${stamps[stamps.length - 1]}` : state.generated_at,
+  };
+
+  // ---------------------------------------------------------------------------
+  // WHICH ROUTES THIS BUILD ACTUALLY WROTE.
+  //
+  // THE TRAP THIS CLOSES: a route is decided in two modules — this one writes
+  // the file, layout.mjs decides whether to draw the tile — and the site has
+  // already shipped tiles for pages that were never written. For /flock the
+  // two gates are not even made of the same facts: whether data/flock.json is
+  // complete is visible to both, but whether site/templates/flockPage.mjs
+  // loaded is visible only here. A tile drawn from the data alone would point
+  // at a 404 for as long as the template is missing.
+  //
+  // So build.mjs states the answer and layout.mjs reads it. hasSection('flock')
+  // still restates the DATA half of the predicate — the repo's convention,
+  // because importing a page module into layout closes an import cycle — and
+  // then defers to this flag for the half it cannot see. Both must hold.
+  ctx.routes = {
+    flock: Boolean(flockPage) && hasFlockData(ctx),
   };
 
   const written = [];
@@ -537,6 +664,18 @@ async function main() {
   if (leadersPage.hasLeaders(ctx)) {
     written.push(await write(args.out, 'leaders.html', leadersPage.render(ctx)));
   }
+  // /flock. The ALPR camera map, from OpenStreetMap via Overpass.
+  //
+  // ctx.routes.flock — set immediately after ctx is built, above — is the ONE
+  // place this route is decided. It is deliberately not `flockPage.hasFlock`
+  // the way /map defers to mapPage's own predicate, because the nav is drawn
+  // by a different module and a gate the nav cannot see is a gate the nav can
+  // disagree with. If the template wants a narrower condition it can render
+  // its own empty state; that costs a dull page, whereas the other way costs
+  // a 404 in the navigation.
+  if (ctx.routes.flock) {
+    written.push(await write(args.out, 'flock.html', flockPage.render(ctx)));
+  }
 
   // THE LONG TAIL. One permanent page per scored item, which is how pizzint
   // gets 997 of its 1,018 sitemap URLs. Each of ours carries the score
@@ -563,7 +702,7 @@ async function main() {
 
   await writeDirectoryAliases(
     args.out,
-    ['race', 'news', 'methodology', 'history', 'digest', 'bliss', 'watts', 'map', 'leaders'],
+    ['race', 'news', 'methodology', 'history', 'digest', 'bliss', 'watts', 'map', 'leaders', 'flock'],
     write,
     written,
   );
@@ -630,6 +769,11 @@ async function main() {
   if (bliss) written.push(await write(args.out, 'api/bliss.json', stableJson(bliss)));
   if (datacenters) written.push(await write(args.out, 'api/datacenters.json', stableJson(datacenters)));
   if (leaders) written.push(await write(args.out, 'api/leaders.json', stableJson(leaders)));
+  // Both verbatim. See the read above; neither goes through stableJson.
+  if (flockText !== null) written.push(await write(args.out, 'api/flock.json', flockText));
+  if (flockPointsText !== null) {
+    written.push(await write(args.out, 'api/flock-points.json', flockPointsText));
+  }
   written.push(await write(args.out, 'api/index.json', stableJson({
     name: brand.NAME,
     description: brand.DESCRIPTION,
