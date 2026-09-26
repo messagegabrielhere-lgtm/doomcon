@@ -29,6 +29,14 @@ export function render(ctx) {
     ...(ctx.datacenters && ctx.datacenters.generated_at
       ? [{ loc: '/map.html', changefreq: 'daily', priority: '0.9', lastmod: ctx.datacenters.generated_at }]
       : []),
+    // /flock. Gated on ctx.routes.flock, which build.mjs sets from the same
+    // predicate it uses to decide whether to write the file — so this entry
+    // cannot name a URL the build did not produce. weekly, because the
+    // Overpass harvest behind it runs on a 7-day refresh and takes 27 minutes;
+    // claiming daily would be asking crawlers to revisit an unchanged page.
+    ...(ctx.routes && ctx.routes.flock && ctx.flock && ctx.flock.generated_at
+      ? [{ loc: '/flock.html', changefreq: 'weekly', priority: '0.8', lastmod: ctx.flock.generated_at }]
+      : []),
     { loc: '/moves/', changefreq: 'hourly', priority: '0.6', lastmod: ctx.state.generated_at },
   ];
 

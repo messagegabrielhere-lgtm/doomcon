@@ -76,6 +76,24 @@ const SECTIONS = [
     blurb: 'Where the compute physically sits, against the water it needs.',
     count: (ctx) => (ctx.datacenters && ctx.datacenters.counts
       ? { v: String(ctx.datacenters.counts.sites ?? ctx.datacenters.sites.length), k: 'datacentres mapped' } : null) },
+  // Beside /map on purpose: both are maps of physical AI infrastructure, and a
+  // reader who has learned one legend has learned half of the other.
+  //
+  // THE COUNT IS QUALIFIED IN THE NAV ITSELF. `k` is what a screen reader
+  // hears in place of the figure, and it carries copy.headline_qualifier — "as
+  // mapped in OpenStreetMap on <date>" — because 115,608 read as a national
+  // total is the single wrong reading this page exists to prevent, and a bare
+  // number in a navigation bar is read as a total by default. The qualifier
+  // comes from the payload rather than from a string typed here, so it cannot
+  // drift from the date the data was actually collected.
+  { href: '/flock.html', label: 'ALPR', short: 'ALPR', needs: 'flock',
+    blurb: 'Automated licence-plate readers, as volunteers have mapped them into OpenStreetMap.',
+    count: (ctx) => {
+      const f = ctx.flock;
+      if (!f || !f.totals || !Number.isFinite(f.totals.mapped_worldwide)) return null;
+      const q = f.copy && f.copy.headline_qualifier ? f.copy.headline_qualifier : 'as mapped in OpenStreetMap';
+      return { v: grouped(f.totals.mapped_worldwide), k: `Flock ALPR cameras ${q}` };
+    } },
   { href: '/leaders.html', label: 'Leaders', short: 'Leaders', needs: 'leaders',
     blurb: 'What the people running AI said this week, as their publishers printed it.',
     count: (ctx) => {
@@ -101,6 +119,19 @@ const SECTIONS = [
     count: (ctx) => (Array.isArray(ctx.moves) && ctx.moves.length
       ? { v: String(ctx.moves.length), k: 'archived moves' } : null) },
 ];
+
+/**
+ * Thousands separators, done by hand.
+ *
+ * toLocaleString() would be one call and is banned here: its output depends on
+ * the host's ICU build and default locale, so the same inputs would produce
+ * different bytes on a contributor's laptop and in CI. This build promises
+ * byte-identical output from identical inputs, and 115608 is unreadable at
+ * 11.5px in a nav tile, so the grouping is computed rather than looked up.
+ */
+function grouped(value) {
+  return String(value).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
 
 /**
  * The leader's odds, or the roster size — never a stale price.
@@ -451,6 +482,11 @@ const FEATURE_ART = {
   '/news.html': { hue: '#00a3ff', mark: '<path d="M2.5 4h11v8.5H2.5z" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M4.5 6.5h5M4.5 9h7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>' },
   '/watts.html': { hue: '#ff7a00', mark: '<path d="M9 2 4 9h3l-1 5 5-7H8z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>' },
   '/map.html': { hue: '#c400ff', mark: '<path d="M8 14s4.5-4.2 4.5-7.4A4.5 4.5 0 0 0 3.5 6.6C3.5 9.8 8 14 8 14z" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="8" cy="6.5" r="1.6" fill="currentColor"/>' },
+  // Aqua: the one clear gap in the eleven hues above — #00a3ff is azure and
+  // #00e676 is green, and nothing sits between them. Far enough from /map's
+  // #c400ff that the two map pages never read as the same tile, which is the
+  // pair most at risk of being confused.
+  '/flock.html': { hue: '#00e5ff', mark: '<path d="M3.2 14.4V4.6h3.2M1.8 14.4h2.8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M6.4 2.7h5.4v3.8H6.4z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M11.8 3.5 14 2.5v4.2l-2.2-1z" fill="currentColor"/>' },
   '/leaders.html': { hue: '#ff0033', mark: '<path d="M8 2.5a2.6 2.6 0 1 1 0 5.2 2.6 2.6 0 0 1 0-5.2z" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M3 13.5c0-2.6 2.2-4.2 5-4.2s5 1.6 5 4.2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>' },
   '/digest.html': { hue: '#ffd600', mark: '<path d="M3.5 2.5h9v11l-4.5-2.5L3.5 13.5z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>' },
   '/bliss.html': { hue: '#5fd08a', mark: '<circle cx="8" cy="8" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 1.5v2M8 12.5v2M1.5 8h2M12.5 8h2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>' },
@@ -464,7 +500,18 @@ function featureBar(ctx, sections, path, { inline = false } = {}) {
     const art = FEATURE_ART[item.href] || { hue: 'var(--accent)', mark: '' };
     const c = typeof item.count === 'function' ? item.count(ctx) : null;
     const current = item.href === path ? ' aria-current="page"' : '';
-    return `<a class="fb__t" href="${esc(ctx.href(item.href))}"${current} style="--fb-hue:${esc(art.hue)}">
+    // `k` WAS BEING COMPUTED AND THROWN AWAY. SECTIONS documents it as "the
+    // word a screen reader hears in place of the figure" and nothing rendered
+    // it, so every tile announced a bare number: "ALPR, 115,608". For most
+    // tiles that is merely unhelpful. For this one it is the wrong reading —
+    // 115,608 heard without "as mapped in OpenStreetMap on <date>" is heard as
+    // a national total, which is the single claim the data cannot support. So
+    // the unit is attached where it was always meant to go: aria-label for
+    // assistive technology, title for a pointer. Neither changes the visible
+    // tile, and a tile with no count is unchanged.
+    const unit = c && c.k ? `${c.v} ${c.k}` : '';
+    const named = unit ? ` aria-label="${esc(`${item.label}: ${unit}`)}" title="${esc(unit)}"` : '';
+    return `<a class="fb__t" href="${esc(ctx.href(item.href))}"${current}${named} style="--fb-hue:${esc(art.hue)}">
       <svg class="fb__m" viewBox="0 0 16 16" aria-hidden="true" focusable="false">${art.mark}</svg>
       <span class="fb__l">${esc(item.label)}</span>
       ${c ? `<b class="fb__n num">${esc(c.v)}</b>` : '<span class="fb__n fb__n--none" aria-hidden="true">·</span>'}
@@ -681,6 +728,31 @@ function hasSection(ctx, key) {
     return Boolean(ctx.datacenters && Array.isArray(ctx.datacenters.sites)
       && ctx.datacenters.sites.length && ctx.datacenters.resources_index);
   }
+  // /flock is gated on TWO facts, because it is decided by two modules.
+  //
+  // The data half is build.mjs's hasFlockData() restated verbatim — same
+  // fields, same order — and the two must move together. `coverage` and `copy`
+  // are required, not optional: copy carries the "as mapped in OpenStreetMap
+  // on <date>" qualifier this nav prints, the sentence that separates a county
+  // nobody has mapped from a county with no cameras, and the
+  // "© OpenStreetMap contributors" attribution the ODbL requires. A page
+  // without them would publish a crowdsourced sample as a census.
+  //
+  // The second half is ctx.routes.flock, which build.mjs sets and this module
+  // cannot compute: whether site/templates/flockPage.mjs loaded at all. Data
+  // with no template is no page, and a tile drawn from the data alone would
+  // link a 404 until the template lands. Absent ctx.routes — a harness
+  // rendering layout on its own — the data predicate stands by itself.
+  if (key === 'flock') {
+    if (ctx.routes && ctx.routes.flock === false) return false;
+    const f = ctx.flock;
+    return Boolean(f
+      && f.totals && Number.isFinite(f.totals.mapped_worldwide)
+      && Array.isArray(f.counties) && f.counties.length
+      && Array.isArray(f.states) && f.states.length
+      && f.coverage
+      && f.copy && f.copy.attribution_required);
+  }
   return true;
 }
 
@@ -710,6 +782,36 @@ function footer(ctx, sections, path) {
 
   const source = [{ href: brand.REPO_URL, label: 'Source code', blurb: `Every line that produced these numbers. ${brand.LICENSE}.` }];
 
+  // The two ALPR endpoints appear only when the route does. Every other row in
+  // DATA_LINKS is unconditional because every other endpoint is; these two are
+  // written only when data/flock.json parsed, and a footer link to a 404 is
+  // the same failure as a nav link to one.
+  const flockOn = hasSection(ctx, 'flock');
+  const zeros = flockOn && ctx.flock.coverage && Number.isFinite(ctx.flock.coverage.counties_with_none_mapped)
+    ? ctx.flock.coverage.counties_with_none_mapped : null;
+  const dataLinks = flockOn ? [...DATA_LINKS,
+    { href: '/api/flock.json', label: 'ALPR JSON',
+      blurb: zeros === null
+        ? 'Mapped ALPR cameras by state and by county, every county included.'
+        : `Mapped ALPR cameras by state and by county — including the ${grouped(zeros)} counties nobody has mapped.` },
+    { href: '/api/flock-points.json', label: 'ALPR points',
+      blurb: 'Packed latitude, longitude and bearing, one entry per mapped camera. OpenStreetMap data, ODbL.' },
+  ] : DATA_LINKS;
+
+  // THE LICENCE LINE. ODbL requires the attribution and the link wherever the
+  // data is shown, and "the page template will remember" is not a mechanism.
+  // The page carries its own attribution; this is the footer's copy of it, on
+  // the one route that shows the data, so the licence condition is met by the
+  // chrome even if a future edit to the page body drops it. The second
+  // sentence is the coverage caveat, printed from the payload rather than
+  // paraphrased here: a reader who scrolls to the bottom of a map of cameras
+  // should not be able to leave believing the blank counties are clear.
+  const odbl = flockOn && path === '/flock.html'
+    ? `<p class="foot__fine">Camera locations on this page are ${esc(ctx.flock.copy.attribution_required)}, licensed under the
+      <a href="${esc(ctx.flock.copy.attribution_url || 'https://www.openstreetmap.org/copyright')}" rel="noopener">Open Database License</a>.
+      ${esc(ctx.flock.coverage && ctx.flock.coverage.what_zero_means ? ctx.flock.coverage.what_zero_means : '')}</p>`
+    : '';
+
   return `<footer class="foot">
   <div class="wrap">
     <div class="foot__top">
@@ -720,11 +822,11 @@ function footer(ctx, sections, path) {
       </div>
       <div class="foot__cols">
         ${col('foot-pages', 'The desk', sections)}
-        ${col('foot-data', 'Data', DATA_LINKS)}
+        ${col('foot-data', 'Data', dataLinks)}
         ${col('foot-src', 'Provenance', source)}
       </div>
     </div>
-    <p class="foot__fine">Collection runs on a published <code>*/${CADENCE_MIN}</code> cron; scheduled runs are queued and
+    ${odbl}<p class="foot__fine">Collection runs on a published <code>*/${CADENCE_MIN}</code> cron; scheduled runs are queued and
       are routinely late, which is why the rail above says <b>overdue</b> rather than counting down into fiction.
       Every value on this site is computed from public data by published code, and each observation is written to a
       hash-chained receipt carrying its full inputs — so anyone can recompute the number and get the same answer.
