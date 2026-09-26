@@ -217,7 +217,7 @@ export function render(ctx) {
 export function styleTag() {
   return `<style>
 .labs__hd{display:flex;flex-wrap:wrap;align-items:baseline;gap:0 var(--s-3);justify-content:space-between}
-.labs__k{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin:0}
+.labs__k{font-family:var(--mono);font-size: var(--t-2xs);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin:0}
 /* minmax(0,1fr), never plain 1fr. A 1fr track floors at the item's min-content
    width, and the principal row inside each box carries a measured sentence
    ("no post since 2026-04-10", "Posts on X.") whose min-content width then sets
@@ -239,7 +239,7 @@ export function styleTag() {
 .lab__g{width:16px;height:16px;display:block}
 .lab__n{display:flex;flex-direction:column;min-width:0;flex:1}
 .lab__name{font-family:var(--mono);font-size:var(--t-sm);letter-spacing:.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.lab__rank{font-family:var(--mono);font-size:11px;color:var(--ink-faint);font-variant-numeric:tabular-nums}
+.lab__rank{font-family:var(--mono);font-size: var(--t-xs);color:var(--ink-faint);font-variant-numeric:tabular-nums}
 /* The principal row. min-width:0 is load-bearing: without it the avatar row's
    measured second line refuses to ellipsis and widens the box. */
 .lab__prin{display:flex;min-width:0;padding:1px 0 2px;border-bottom:1px dashed var(--rule-soft)}
@@ -253,9 +253,9 @@ export function styleTag() {
 .lab__prin[data-feed="dark"] .avtrow__r{color:var(--dark-src,var(--ink-faint))}
 .lab__prin[data-feed="unread"]{border-bottom-style:dotted}
 .lab__st{display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin:0;
-  font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase}
+  font-family:var(--mono);font-size: var(--t-2xs);letter-spacing:.12em;text-transform:uppercase}
 .lab__dot{width:6px;height:6px;border-radius:50%;background:currentColor;flex:none}
-.lab__stn{color:var(--ink-faint);letter-spacing:.06em;text-transform:none;font-size:10px}
+.lab__stn{color:var(--ink-faint);letter-spacing:.06em;text-transform:none;font-size: var(--t-2xs)}
 /* Posture is stated in the WORD; colour only reinforces it. A greyscale
    screenshot of this grid still reads correctly. */
 .lab[data-posture="surge"] .lab__st{color:var(--accent)}
@@ -269,9 +269,9 @@ export function styleTag() {
 .lab__grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 9px;margin-top:auto}
 @media(min-width:400px){.lab__grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 .lab__m{display:flex;flex-direction:column;gap:0}
-.lab__ml{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint)}
+.lab__ml{font-family:var(--mono);font-size: var(--t-2xs);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint)}
 .lab__mv{font-family:var(--mono);font-size:var(--t-sm);font-variant-numeric:tabular-nums;color:var(--ink)}
-.lab__ms{font-size:9.5px;color:var(--ink-faint)}
+.lab__ms{font-size: var(--t-2xs);color:var(--ink-faint)}
 .lab__m[data-state="dark"] .lab__mv,.lab__m[data-state="no_feed"] .lab__mv,
 .lab__m[data-state="unread"] .lab__mv{color:var(--ink-faint)}
 </style>`;

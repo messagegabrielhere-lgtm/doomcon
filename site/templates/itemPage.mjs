@@ -191,13 +191,13 @@ export function renderIndex(ctx) {
 
 export function styleTag() {
   return `<style>
-.it__k{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint)}
+.it__k{font-family:var(--mono);font-size: var(--t-xs);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint)}
 .it__h{margin:var(--s-2) 0;max-width:24ch;font-size:clamp(22px,4vw,34px);line-height:1.15}
-.it__src{font-family:var(--mono);font-size:11.5px;color:var(--ink-dim)}
+.it__src{font-family:var(--mono);font-size: var(--t-xs);color:var(--ink-dim)}
 .it__s{margin-top:var(--s-5);border-top:1px solid var(--rule);padding-top:var(--s-3)}
-.it__s h2{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 var(--s-2)}
-.it__t{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:12.5px}
-.it__t caption{text-align:left;color:var(--ink-dim);font-size:11.5px;padding-bottom:6px}
+.it__s h2{font-family:var(--mono);font-size: var(--t-xs);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 var(--s-2)}
+.it__t{width:100%;border-collapse:collapse;font-family:var(--mono);font-size: var(--t-xs)}
+.it__t caption{text-align:left;color:var(--ink-dim);font-size: var(--t-xs);padding-bottom:6px}
 .it__t th,.it__t td{text-align:left;padding:5px 0;border-bottom:1px solid var(--rule-soft,var(--rule))}
 .it__t td{text-align:right;font-variant-numeric:tabular-nums;color:var(--accent)}
 .it__t tfoot th,.it__t tfoot td{border-bottom:0;padding-top:8px}
@@ -209,6 +209,6 @@ export function styleTag() {
 .it__rel li,.it__all li{display:flex;gap:var(--s-2);align-items:baseline;padding:6px 0;border-bottom:1px solid var(--rule)}
 .it__rel a,.it__all a{flex:1;color:inherit;text-decoration:none}
 .it__rel a:hover,.it__all a:hover{color:var(--accent)}
-.it__rm{font-family:var(--mono);font-size:11.5px;color:var(--ink-faint);font-variant-numeric:tabular-nums}
+.it__rm{font-family:var(--mono);font-size: var(--t-xs);color:var(--ink-faint);font-variant-numeric:tabular-nums}
 </style>`;
 }

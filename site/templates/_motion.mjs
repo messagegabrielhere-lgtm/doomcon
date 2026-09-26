@@ -311,10 +311,10 @@ export function motionCss() {
 .dcmx__win{display:flex;width:max-content}
 .dcmx__t{display:flex;margin:0;padding:0;list-style:none;flex:0 0 auto}
 .dcmx__i{display:flex;gap:9px;align-items:baseline;min-width:250px;padding:5px 16px;
-  border-right:1px solid var(--rule-soft);white-space:nowrap;font-size:13px;font-size:12.5px}
-.dcmx__c{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;
+  border-right:1px solid var(--rule-soft);white-space:nowrap;font-size: var(--t-xs);font-size: var(--t-xs)}
+.dcmx__c{font-family:var(--mono);font-size: var(--t-2xs);letter-spacing:.06em;
   color:var(--p,var(--accent));font-variant-numeric:tabular-nums}
-.dcmx__s{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint)}
+.dcmx__s{font-family:var(--mono);font-size: var(--t-xs);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint)}
 .dcmx__h{color:var(--ink);max-width:78ch;overflow:hidden;text-overflow:ellipsis}
 @media (prefers-reduced-motion:no-preference){
   .dcmx[data-mode="run"] .dcmx__win{animation:dcmxRun var(--dcmx-dur,50s) linear infinite;will-change:transform}
@@ -324,9 +324,9 @@ export function motionCss() {
 
 .dcmx-note{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px;margin:0;
   padding:7px var(--gutter);border-bottom:1px solid var(--rule);background:var(--bg-sunken);
-  font-family:var(--mono);font-size:11.5px;color:var(--ink-dim)}
+  font-family:var(--mono);font-size: var(--t-xs);color:var(--ink-dim)}
 .dcmx-note[hidden]{display:none}
-.dcmx-note__k{color:var(--accent);letter-spacing:.14em;font-weight:700;font-size:10px}
+.dcmx-note__k{color:var(--accent);letter-spacing:.14em;font-weight:700;font-size: var(--t-2xs)}
 .dcmx-note__t{color:var(--ink);font-variant-numeric:tabular-nums}
 .dcmx-note__x:empty{display:none}
 .dcmx-note__a{color:var(--ink-dim)}
@@ -335,7 +335,7 @@ export function motionCss() {
    the page has exactly one place where the live layer is allowed to speak. */
 .dcmx-new{display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin:0;
   padding:6px var(--gutter);border-bottom:1px solid var(--rule);background:var(--bg-sunken);
-  font-family:var(--mono);font-size:11.5px;color:var(--ink-dim)}
+  font-family:var(--mono);font-size: var(--t-xs);color:var(--ink-dim)}
 .dcmx-new[hidden]{display:none}
 .dcmx-new__b{appearance:none;-webkit-appearance:none;font:inherit;line-height:1.5;
   color:var(--accent);background:none;border:1px solid var(--accent);border-radius:999px;
@@ -369,16 +369,16 @@ export function motionCss() {
 .dcmx-dots button[aria-current="true"]::before{background:var(--accent);height:4px}
 
 .dcmx-arr{margin:18px 0 6px;border:1px dashed var(--rule);border-radius:var(--radius);padding:8px 11px 9px}
-.dcmx-arr__h{margin:0 0 5px;font-family:var(--mono);font-size:10px;letter-spacing:.14em;
+.dcmx-arr__h{margin:0 0 5px;font-family:var(--mono);font-size: var(--t-2xs);letter-spacing:.14em;
   text-transform:uppercase;color:var(--ink-faint)}
 .dcmx-arr__l{list-style:none;margin:0;padding:0}
-.dcmx-arr__i{display:flex;flex-wrap:wrap;gap:8px;align-items:baseline;font-size:13.5px;
+.dcmx-arr__i{display:flex;flex-wrap:wrap;gap:8px;align-items:baseline;font-size: var(--t-sm);
   padding:5px 0 5px 9px;border-left:2px solid var(--p,var(--accent));
   border-top:1px solid var(--rule-soft)}
 .dcmx-arr__i:first-child{border-top:0}
-.dcmx-arr__i time{font-family:var(--mono);font-size:10.5px;color:var(--p,var(--accent));
+.dcmx-arr__i time{font-family:var(--mono);font-size: var(--t-2xs);color:var(--p,var(--accent));
   font-variant-numeric:tabular-nums}
-.dcmx-arr__s{font-family:var(--mono);font-size:10px;letter-spacing:.1em;
+.dcmx-arr__s{font-family:var(--mono);font-size: var(--t-2xs);letter-spacing:.1em;
   text-transform:uppercase;color:var(--ink-faint)}
 
 /* tabular-nums is redundant with the body rule in styles.mjs and is repeated on

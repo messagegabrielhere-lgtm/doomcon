@@ -776,20 +776,20 @@ function loreCss() {
   margin-left: 6px; font-weight: 400; }
 .lore-lv__ep { font-family: var(--mono); font-size: var(--t-xs); letter-spacing: 0.08em;
   text-transform: uppercase; color: var(--accent); margin: 0 0 5px; }
-.lore-lv__d { font-size: 14.5px; color: var(--ink-dim); margin: 0; max-width: var(--measure); }
+.lore-lv__d { font-size: var(--t-sm); color: var(--ink-dim); margin: 0; max-width: var(--measure); }
 
 .lore-pl { list-style: none; margin: var(--s-4) 0 0; padding: 0; display: grid; gap: var(--s-4); }
 .lore-pl__h { font-size: 1rem; margin: 0 0 3px; }
-.lore-pl__d { font-size: 14.5px; color: var(--ink-dim); margin: 0; max-width: var(--measure); }
+.lore-pl__d { font-size: var(--t-sm); color: var(--ink-dim); margin: 0; max-width: var(--measure); }
 
 .lore-not { list-style: none; margin: var(--s-4) 0 0; padding: 0; display: grid; gap: var(--s-3);
   max-width: var(--measure); }
-.lore-not li { font-size: 14.5px; color: var(--ink-dim); padding-left: var(--s-4);
+.lore-not li { font-size: var(--t-sm); color: var(--ink-dim); padding-left: var(--s-4);
   border-left: 2px solid var(--rule); }
 .lore-not b { color: var(--ink); }
 
 .lore-faq__q { font-size: 1.02rem; margin: var(--s-5) 0 5px; scroll-margin-top: var(--s-5); }
-.lore-faq__a { font-size: 14.5px; color: var(--ink-dim); margin: 0; max-width: var(--measure); }
+.lore-faq__a { font-size: var(--t-sm); color: var(--ink-dim); margin: 0; max-width: var(--measure); }
 
 @media (prefers-reduced-motion: no-preference) {
   .lore-nav a { transition: color 120ms ease; }

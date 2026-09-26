@@ -311,9 +311,19 @@ ${pillarHues('', PILLARS_DARK).root}
      across six other templates name it, and a token that resolves to the body
      size is a one-line retirement where a deletion is six files of breakage.
      It is not a seventh step and nothing new may use it. */
-  --t-2xs:  0.625rem;   /* 10 - mono micro-labels: rail keys, chip status, sigils */
-  --t-xs:   0.6875rem;  /* 11 - mono labels, eyebrows, section heads, captions    */
-  --t-sm:   0.8125rem;  /* 13 - secondary prose, blurbs, tab labels, code         */
+  /* THE STEPS WERE TOO SMALL. Measured on the live homepage at 1440x900,
+     2026-09-26: of 1,154 rendered HTML text nodes, 804 - SEVENTY PER CENT -
+     were under 12px, the single commonest size on the site was 10px (401
+     nodes) and only 53 nodes reached the 16px body step. The six-step scale
+     above is sound; what was wrong is that the site is built almost entirely
+     out of its two smallest steps, so the page reads as a terminal printout
+     however much colour is added to it. Raising the three small steps lifts
+     954 of those nodes in one move, without renaming a token or touching the
+     34 templates that name them. --t-base and up are unchanged: the body was
+     never the problem. */
+  --t-2xs:  0.75rem;    /* 12 - mono micro-labels: rail keys, chip status, sigils (was 10) */
+  --t-xs:   0.8125rem;  /* 13 - mono labels, eyebrows, section heads, captions    (was 11) */
+  --t-sm:   0.90625rem; /* 14.5 - secondary prose, blurbs, tab labels, code       (was 13) */
   --t-base: 1rem;       /* 16 - body, and every lede                              */
   --t-lg:   1.25rem;    /* 20 - card numerals, h3                                 */
   --t-xl:   1.625rem;   /* 26 - h2, the level name, the page's second-largest fact */
