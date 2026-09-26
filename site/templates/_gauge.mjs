@@ -135,6 +135,7 @@ const LG = {
   emptyFs: 22, emptyY: 146, emptySubFs: 10.5, emptySubY: 168,
   markPad: 8, dotR: 4.2, ghostR: 4.6,
   arrow: 6,
+  endR: 160, endFs: 9.5,
   footFs: 11, footFs2: 9.5, footY: [268, 283, 297],
 };
 
@@ -147,6 +148,7 @@ const SM = {
   emptyFs: 19, emptyY: 128, emptySubFs: 9.5, emptySubY: 148,
   markPad: 7, dotR: 3.8, ghostR: 4.2,
   arrow: 5.2,
+  endR: 137, endFs: 9,
   footFs: 10.5, footFs2: 9, footY: [236, 251, 264],
 };
 
@@ -383,6 +385,26 @@ function dial(m, g, id, variantCls) {
     const y = py(g, e, g.labR);
     out += textAt('dial__ticklab', x, y + g.labFs * 0.34, 'middle', g.labFs, String(e));
   }
+
+  // --- WHICH END IS BAD ---------------------------------------------------
+  // Measured on the live page 2026-09-26: the words "calm", "worst", "most
+  // severe", "counts down" and "1 is" appeared ZERO times anywhere on it. The
+  // dial drew 5 4 3 2 1 round an arc and left the direction to the heat ramp,
+  // which is exactly the thing this file's own header forbids — "colour is
+  // never the carrier". A numeral tells you WHICH band you are in; it does not
+  // tell you which way is worse, and DOOMCON counts DOWN, so a newcomer reads
+  // "4 of 5" as four-fifths of the way to bad when it is the second CALMEST
+  // reading there is. That is not a small misread, it is the opposite of the
+  // truth, and it was the site's single largest comprehension failure.
+  //
+  // Two words at the two ends of the arc fix it in any colour scheme, in
+  // greyscale, and for a reader who has never heard of DEFCON. They sit just
+  // outside the boundary numerals at the open bottom of the sweep, where
+  // value 0 lands bottom-left and value 100 bottom-right.
+  out += textAt('dial__end', px(g, 0, g.endR), py(g, 0, g.endR) + g.endFs * 0.34,
+    'middle', g.endFs, 'CALM');
+  out += textAt('dial__end', px(g, 100, g.endR), py(g, 100, g.endR) + g.endFs * 0.34,
+    'middle', g.endFs, 'SEVERE');
 
   // --- the level numerals, inside the ring --------------------------------
   // The band carries the hue; this carries the number. The live one is a filled
@@ -633,6 +655,9 @@ export function styleTag() {
 
 .ch--dial .dial__tick { stroke: var(--rule); stroke-width: 1.2; }
 .ch--dial .dial__ticklab { fill: var(--ink-faint); letter-spacing: .02em; }
+/* The two end words. Brighter than the boundary numerals on purpose: they are
+   read once, to learn the direction of the scale, and then never again. */
+.ch--dial .dial__end { fill: var(--ink-dim); letter-spacing: .14em; font-weight: 600; }
 
 /* Level numerals inside the ring. The live one is a filled chip; --accent-ink
    is the token for type sitting on a saturated ground and is white on paper,
