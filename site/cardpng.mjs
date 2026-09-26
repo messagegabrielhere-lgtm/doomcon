@@ -39,7 +39,7 @@
 import { deflateSync } from 'node:zlib';
 import {
   GROUND, GROUND_RAISED, INK, INK_DIM, INK_FAINT, HEAT, ACCENT,
-  markShapes, LOGO_GRID,
+  markShapes, strokeOutline, LOGO_GRID,
 } from './brandmarks.mjs';
 import * as brand from './brand.mjs';
 
@@ -975,29 +975,58 @@ export function surface(w, h, { background = GROUND } = {}) {
     },
 
     /**
-     * The DOOMCON detector mark, at `size` px square, from site/brandmarks.mjs
+     * The DOOMCON sentinel mark, at `size` px square, from site/brandmarks.mjs
      * — the same geometry as the favicon and the OG image, so a card cannot
-     * show a different instrument from the tab it was opened in. `ground` is
-     * what the LED's collar is painted in and must be whatever is actually
-     * behind the mark.
+     * show a different instrument from the tab it was opened in.
+     *
+     * THE WIRE IS STROKED, NOT CAPSULED. brandmarks.strokeOutline() turns the
+     * centreline into its true outline — butt caps, real miter joins — and
+     * that polygon is filled with the `fill` primitive this module already
+     * had. Using `poly` here instead would give round joins, and the ~104°
+     * corners of the spike are the mark; rounded, it reads as a curve.
+     *
+     * NO TILE FILL BY DEFAULT, and that is deliberate. The mark sits inside
+     * chrome()'s heat wash, so painting the card's own ground behind it would
+     * stamp a flat rectangle over the gradient. The hairline frame is what
+     * seats it, and whatever is behind shows through. `ground` is still
+     * accepted because callers pass it (collector/cards/_kit.mjs), but the
+     * wire mark has no LED and therefore nothing to collar; pass `fill`
+     * explicitly if a surface genuinely needs an opaque tile.
+     *
+     * Every shape kind markShapes() emits is handled and an unknown one
+     * THROWS — a dropped shape here is a hole in a card.
      */
-    mark(level, { x, y, size, ground = GROUND }) {
+    mark(level, {
+      x, y, size, ground = null, fill = null, frame = true, scheme = 'dark',
+    }) {
+      void ground; // accepted, deliberately unused — see the note above
       const g = LOGO_GRID;
       const k = size / g.size;
       const T = (v) => v * k;
-      for (const s of markShapes(level)) {
-        const color = s.color === 'ground' ? ground : s.color;
-        if (s.kind === 'disc') {
-          push({ kind: 'disc', cx: x + T(s.cx), cy: y + T(s.cy), r: s.r * k, color, alpha: s.alpha });
-        } else if (s.kind === 'ring') {
-          push({ kind: 'ring', cx: x + T(s.cx), cy: y + T(s.cy), r: s.r * k, w: s.w * k, color, alpha: s.alpha });
-        } else if (s.kind === 'arc') {
-          const pts = [];
-          for (let i = 0; i <= 16; i += 1) {
-            const a = s.a0 + ((s.a1 - s.a0) * i) / 16;
-            pts.push([x + T(s.cx + Math.cos(a * RAD) * s.r), y + T(s.cy + Math.sin(a * RAD) * s.r)]);
-          }
-          push({ kind: 'poly', pts, w: s.w * k, color, alpha: s.alpha });
+      for (const s of markShapes(level, { ground: fill, frame, scheme })) {
+        if (s.kind === 'rrect') {
+          push({
+            kind: 'rrect', x: x + T(s.x), y: y + T(s.y), rw: s.w * k, rh: s.h * k, r: s.r * k,
+            color: s.color, alpha: s.alpha,
+          });
+        } else if (s.kind === 'wire') {
+          push({
+            kind: 'fill',
+            pts: strokeOutline(
+              s.pts.map(([px, py]) => [x + T(px), y + T(py)]),
+              s.w * k,
+              { miterLimit: s.miterLimit },
+            ),
+            color: s.color, alpha: s.alpha,
+          });
+        } else if (s.kind === 'rrectStroke') {
+          push({
+            kind: 'poly',
+            pts: rrectOutline(x + T(s.x), y + T(s.y), s.w * k, s.h * k, s.r * k),
+            w: s.sw * k, color: s.color, alpha: s.alpha,
+          });
+        } else {
+          throw new Error(`cardpng: no rasteriser for mark shape kind ${JSON.stringify(s.kind)}`);
         }
       }
       return api;
