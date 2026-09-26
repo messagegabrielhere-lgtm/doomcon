@@ -369,7 +369,14 @@ ${pillarHues('', PILLARS_DARK).root}
   --wrap: 940px;
 
   --gutter: 16px;
-  --measure: 66ch;
+  /* THE MEASURE WAS CALIBRATED IN THE WRONG UNIT. Measured on the live page
+     2026-09-26: .lede carries max-width:var(--measure) and still rendered 92
+     REAL characters per line. The CSS ch unit is the advance of "0", which
+     in this face is 8.38px where the average lowercase advance is 6.01px — a
+     ratio of 0.72 — so 66ch buys about 92 characters, not 66. Typographic
+     comfort is 45-75 characters and 92 is outside it.
+     50ch x (8.38/6.01) lands at ~70 real characters, inside the band. */
+  --measure: 50ch;
 
   /* RADIUS, NOW A SCALE OF TWO RATHER THAN ONE VALUE OF 3px.
 
@@ -1681,6 +1688,21 @@ const PROSE = `
    the whole document and it stays at reading size. Inside a dashboard .sec it
    is a caption under a five-word heading, and at 17px it was competing with the
    thing it was captioning while costing three lines of fold. */
+/* PROSE THAT HAD NO MEASURE AT ALL.
+   Measured on the live homepage, real font metrics via canvas, 2026-09-26:
+   median line length 132 characters, longest 210, and 68 of 89 prose blocks
+   over the 75-character comfort ceiling. Every class below reported
+   max-width:none. The worst were .nrow__sub at 202 average and .dv__not at
+   191 — and .dv__not is the "this does not move the level" honesty note, the
+   one paragraph on the site that most needs to be read rather than skimmed.
+
+   NOT constrained, deliberately: .dcmx__i (the ticker is a horizontal
+   scroller, width is the point) and .nrow itself (a row container; its
+   .nrow__sub child carries the prose and is capped instead). */
+.dv__not, .dv__lead, .dv__sib, .dv__terms, .dv__rule,
+.nrow__sub, .fresh__key, .nkey, .oven__hint, .sw__lede,
+.move, .foot__fine,
+.apilist li { max-width: var(--measure); }
 .lede { font-size: var(--t-base); color: var(--ink-dim); max-width: var(--measure); margin: 0 0 var(--s-3); }
 .sec .lede { font-size: var(--t-sm); line-height: 1.55; margin-bottom: var(--s-3); }
 

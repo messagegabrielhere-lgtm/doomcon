@@ -1298,7 +1298,7 @@ export function styleTag(rules = '') {
   return `<style>
 .sw{margin-top:var(--sec-lg)}
 .sw__hd{display:flex;flex-wrap:wrap;align-items:baseline;gap:0 var(--s-3);justify-content:space-between}
-.sw__k{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 var(--s-2)}
+.sw__k{font-family:var(--mono);font-size: var(--t-2xs);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 var(--s-2)}
 
 /* The radios are the state machine. Off-screen rather than display:none, which
    would take them out of the tab order and make the control unreachable from a
@@ -1326,7 +1326,7 @@ export function styleTag(rules = '') {
    glyph and the closed tab's figure carry it; the OPEN tab overrides both to
    amber in the generated rules, so the strip reads as eight coloured
    destinations with one live one, rather than eight grey ones. */
-.sw__tg{font-style:normal;font-size:11px;line-height:1;color:var(--sw-h,var(--ink-faint))}
+.sw__tg{font-style:normal;font-size: var(--t-xs);line-height:1;color:var(--sw-h,var(--ink-faint))}
 .sw__tk{white-space:nowrap}
 /* THE LIVE COUNT. Without it the strip is a menu; with it the strip is also a
    legend — five destinations and five readings in one row. Cool accent, the
@@ -1343,7 +1343,7 @@ export function styleTag(rules = '') {
    emitted only when that count is a positive integer — no chip for zero, and
    no chip at all when there is no previous observation to be "since", because
    those are two different facts and neither of them is "0 new". */
-.sw__td{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.08em;
+.sw__td{font-family:var(--mono);font-size: var(--t-2xs);font-weight:700;letter-spacing:.08em;
   text-transform:uppercase;color:var(--accent-ink);background:var(--accent);
   border-radius:2px;padding:1px 4px;line-height:1.5;white-space:nowrap}
 /* Zero is not an event — the same rule the arrival badges follow. */
@@ -1443,25 +1443,25 @@ export function styleTag(rules = '') {
 .sw__dl{display:grid;grid-template-columns:1fr;gap:6px 18px;margin:0 0 var(--s-3);padding:0}
 @media(min-width:620px){.sw__dl{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .sw__dl>div{display:flex;flex-wrap:wrap;align-items:baseline;gap:0 8px;min-width:0}
-.sw__dl dt{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint)}
+.sw__dl dt{font-family:var(--mono);font-size: var(--t-2xs);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint)}
 .sw__dl dd{margin:0;font-size:var(--t-sm);color:var(--ink);min-width:0;overflow-wrap:anywhere}
 
 /* --- the race rows ------------------------------------------------------ */
 .sw__race{list-style:none;margin:0 0 var(--s-3);padding:0;border-top:1px solid var(--rule)}
 .sw__rrow{display:grid;grid-template-columns:2.4ch minmax(0,1fr) auto;gap:2px 9px;align-items:baseline;
   padding:9px 0 10px;border-bottom:1px solid var(--rule)}
-.sw__rrank{font-family:var(--mono);font-size:11px;color:var(--ink-faint)}
+.sw__rrank{font-family:var(--mono);font-size: var(--t-xs);color:var(--ink-faint)}
 .sw__rname{font-family:var(--mono);font-size:var(--t-sm);color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .sw__rval{display:flex;align-items:baseline;gap:8px;justify-content:flex-end;flex-wrap:wrap}
-.sw__pct{font-size:15px;font-weight:700;color:var(--ink)}
-.sw__abs{font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--ink-faint);
+.sw__pct{font-size: var(--t-base);font-weight:700;color:var(--ink)}
+.sw__abs{font-family:var(--mono);font-size: var(--t-2xs);letter-spacing:.08em;color:var(--ink-faint);
   border:1px dashed var(--rule);border-radius:2px;padding:0 4px}
 .sw__rbar{grid-column:2/-1;position:relative;display:block;height:4px;background:var(--wash);border-radius:2px;margin-top:3px}
 .sw__rbar i{position:absolute;left:0;top:0;bottom:0;background:var(--avt-a,var(--accent));border-radius:2px}
 /* Where the leg traded seven days ago. A position, not a digit — the only thing
    on this panel that shows a change as a place. */
 .sw__rbar u{position:absolute;top:-3px;bottom:-3px;width:1px;background:var(--ink-faint);text-decoration:none}
-.sw__mv{display:inline-flex;align-items:baseline;gap:4px;font-family:var(--mono);font-size:10.5px;color:var(--ink-faint)}
+.sw__mv{display:inline-flex;align-items:baseline;gap:4px;font-family:var(--mono);font-size: var(--t-2xs);color:var(--ink-faint)}
 .sw__mv b{color:var(--ink-dim);font-weight:700}
 .sw__mvu{letter-spacing:.06em}
 
@@ -1476,20 +1476,20 @@ export function styleTag(rules = '') {
   border:1px solid var(--rule);border-left:3px solid var(--accent-2);border-radius:var(--radius)}
 .sw__pill[data-state="awaiting-baseline"]{border-left-style:dotted;border-left-color:var(--accent-2)}
 .sw__pill[data-state="dark"]{border-left-style:dashed;border-left-color:var(--dark-src)}
-.sw__pn{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint)}
+.sw__pn{font-family:var(--mono);font-size: var(--t-2xs);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint)}
 .sw__pb{display:flex;align-items:baseline;gap:5px}
 .sw__pv{font-family:var(--mono);font-size:var(--t-lg);font-weight:700;color:var(--ink)}
-.sw__pv--none{font-size:10px;font-weight:700;letter-spacing:.12em;color:var(--ink-faint)}
-.sw__pu{font-family:var(--mono);font-size:10px;color:var(--ink-faint)}
-.sw__pd{font-size:12px;color:var(--ink-dim)}
-.sw__pc{font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;color:var(--ink-faint);margin-top:auto;padding-top:4px}
+.sw__pv--none{font-size: var(--t-2xs);font-weight:700;letter-spacing:.12em;color:var(--ink-faint)}
+.sw__pu{font-family:var(--mono);font-size: var(--t-2xs);color:var(--ink-faint)}
+.sw__pd{font-size: var(--t-xs);color:var(--ink-dim)}
+.sw__pc{font-family:var(--mono);font-size: var(--t-2xs);letter-spacing:.06em;color:var(--ink-faint);margin-top:auto;padding-top:4px}
 
 /* --- digest (optional panel) -------------------------------------------- */
 .sw__digest{list-style:none;margin:0 0 var(--s-3);padding:0;border-top:1px solid var(--rule)}
 .sw__drow{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;justify-content:space-between;
   padding:9px 0;border-bottom:1px solid var(--rule)}
-.sw__dh{font-size:14px;line-height:1.35;min-width:0;overflow-wrap:anywhere}
-.sw__dm{display:flex;align-items:baseline;gap:8px;font-family:var(--mono);font-size:10px;color:var(--ink-faint)}
+.sw__dh{font-size: var(--t-sm);line-height:1.35;min-width:0;overflow-wrap:anywhere}
+.sw__dm{display:flex;align-items:baseline;gap:8px;font-family:var(--mono);font-size: var(--t-2xs);color:var(--ink-faint)}
 
 /* --- the collapsed source table ---------------------------------------- */
 .sw__src{margin:var(--s-3) 0 0;border-top:1px solid var(--rule-soft);padding-top:var(--s-2)}
@@ -1505,13 +1505,13 @@ export function styleTag(rules = '') {
 .sw__stat{display:flex;flex-direction:column;gap:2px;min-width:0;padding:8px 10px;
   background:var(--bg-raised);border:1px solid var(--rule);border-radius:var(--radius);
   border-top:2px solid color-mix(in srgb,var(--p,var(--sw-h,var(--accent-2))) 55%,var(--rule))}
-.sw__sk{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;
+.sw__sk{font-family:var(--mono);font-size: var(--t-2xs);letter-spacing:.12em;text-transform:uppercase;
   color:var(--ink-faint);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .sw__sb{display:flex;align-items:baseline;gap:5px;flex-wrap:wrap;min-width:0}
 .sw__sv{font-family:var(--mono);font-size:21px;font-weight:700;letter-spacing:-.02em;color:var(--ink);
   font-variant-numeric:tabular-nums;line-height:1.15;overflow-wrap:anywhere}
-.sw__sv--none{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint)}
-.sw__su{font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;color:var(--ink-faint);overflow-wrap:anywhere}
+.sw__sv--none{font-size: var(--t-xs);font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint)}
+.sw__su{font-family:var(--mono);font-size: var(--t-2xs);letter-spacing:.06em;color:var(--ink-faint);overflow-wrap:anywhere}
 
 /* --- meters and signed bars -------------------------------------------- */
 /* An unknown draws the dashed empty track, never a zero-width fill: a
@@ -1539,7 +1539,7 @@ export function styleTag(rules = '') {
 .sw__mhd{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px var(--s-3);justify-content:space-between}
 .sw__mh{font-family:var(--mono);font-size:var(--t-sm);letter-spacing:.14em;text-transform:uppercase;
   color:var(--ink);margin:0;font-weight:700}
-.sw__mk{font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;
+.sw__mk{font-family:var(--mono);font-size: var(--t-2xs);letter-spacing:.08em;text-transform:uppercase;
   color:var(--ink-faint);margin:0;font-variant-numeric:tabular-nums}
 .sw__mtop{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;margin:7px 0 2px}
 .sw__msc{display:flex;align-items:baseline;gap:6px}
@@ -1547,26 +1547,26 @@ export function styleTag(rules = '') {
   font-variant-numeric:tabular-nums;color:var(--ink)}
 .sw__msc b[data-dir="up"]{color:var(--heat-2)}
 .sw__msc b[data-dir="down"]{color:var(--heat-5)}
-.sw__msu{font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:var(--ink-faint)}
-.sw__mlvl{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+.sw__msu{font-family:var(--mono);font-size: var(--t-2xs);letter-spacing:.06em;color:var(--ink-faint)}
+.sw__mlvl{font-family:var(--mono);font-size: var(--t-2xs);letter-spacing:.12em;text-transform:uppercase;
   color:var(--ink-dim);border:1px solid var(--rule);border-radius:2px;padding:2px 6px}
 .sw__mlvl[data-changed]{color:var(--accent-ink);background:var(--accent);border-color:var(--accent)}
 .sw__mds{list-style:none;margin:9px 0 7px;padding:0;display:grid;gap:7px 14px;grid-template-columns:1fr}
 @media(min-width:560px){.sw__mds{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(min-width:900px){.sw__mds{grid-template-columns:repeat(5,minmax(0,1fr))}}
 .sw__md{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 8px;align-items:baseline;min-width:0}
-.sw__mdk{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;
+.sw__mdk{font-family:var(--mono);font-size: var(--t-2xs);letter-spacing:.1em;text-transform:uppercase;
   color:var(--p,var(--ink-dim));white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .sw__md .sw__db{grid-column:1/-1;order:3}
-.sw__mdv{font-family:var(--mono);font-size:12.5px;font-weight:700;font-variant-numeric:tabular-nums;color:var(--ink)}
+.sw__mdv{font-family:var(--mono);font-size: var(--t-xs);font-weight:700;font-variant-numeric:tabular-nums;color:var(--ink)}
 .sw__mdv[data-dir="up"]{color:var(--heat-2)}
 .sw__mdv[data-dir="down"]{color:var(--heat-5)}
-.sw__mdv--none{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint)}
+.sw__mdv--none{font-size: var(--t-2xs);font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint)}
 .sw__md[data-state="dark"] .sw__mdk{color:var(--dark-src)}
 
 /* --- the instrument grid ------------------------------------------------ */
 .sw__insts{margin:var(--s-3) 0 0}
-.sw__ih{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+.sw__ih{font-family:var(--mono);font-size: var(--t-2xs);letter-spacing:.12em;text-transform:uppercase;
   color:var(--ink-faint);margin:0 0 7px}
 .sw__ig{list-style:none;margin:0 0 var(--s-2);padding:0;display:grid;gap:8px;grid-template-columns:1fr}
 @media(min-width:560px){.sw__ig{grid-template-columns:repeat(2,minmax(0,1fr))}}
@@ -1578,16 +1578,16 @@ export function styleTag(rules = '') {
    under each reading say which one it is in full. */
 .sw__inst[data-state="awaiting-baseline"]{border-left-style:dotted}
 .sw__inst[data-state="dark"]{border-left-style:dashed;border-left-color:var(--dark-src)}
-.sw__ik{font-family:var(--mono);font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-faint);
+.sw__ik{font-family:var(--mono);font-size: var(--t-2xs);letter-spacing:.09em;text-transform:uppercase;color:var(--ink-faint);
   overflow-wrap:anywhere}
 .sw__iv{display:flex;align-items:baseline;gap:5px;flex-wrap:wrap;min-width:0}
 .sw__iv b{font-family:var(--mono);font-size:19px;font-weight:700;letter-spacing:-.02em;color:var(--ink);
   font-variant-numeric:tabular-nums;line-height:1.2}
-.sw__ivn{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.1em;
+.sw__ivn{font-family:var(--mono);font-size: var(--t-2xs);font-weight:700;letter-spacing:.1em;
   text-transform:uppercase;color:var(--ink-faint)}
-.sw__iu{font-family:var(--mono);font-size:10px;color:var(--ink-dim);overflow-wrap:anywhere}
-.sw__ir{font-family:var(--mono);font-size:9px;letter-spacing:.06em;color:var(--ink-faint)}
-.sw__il{display:block;font-family:var(--mono);font-size:9.5px;line-height:1.45;color:var(--ink-faint);
+.sw__iu{font-family:var(--mono);font-size: var(--t-2xs);color:var(--ink-dim);overflow-wrap:anywhere}
+.sw__ir{font-family:var(--mono);font-size: var(--t-2xs);letter-spacing:.06em;color:var(--ink-faint)}
+.sw__il{display:block;font-family:var(--mono);font-size: var(--t-2xs);line-height:1.45;color:var(--ink-faint);
   margin-top:auto;padding-top:3px}
 .sw__il--dark{color:var(--dark-src)}
 
@@ -1598,7 +1598,7 @@ export function styleTag(rules = '') {
 .sw__strk b{color:var(--ink)}
 .sw__ds{color:var(--ink);font-weight:700}
 .sw__dl2{flex:1 1 100%;min-width:0;display:block;margin-top:2px}
-.sw__dlt{font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;color:var(--ink-faint)}
+.sw__dlt{font-family:var(--mono);font-size: var(--t-2xs);letter-spacing:.06em;color:var(--ink-faint)}
 .sw__dlt--none{border:1px dashed var(--rule);border-radius:2px;padding:0 4px;display:inline-block}
 ${rules}
 </style>`;
