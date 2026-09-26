@@ -1584,7 +1584,7 @@ function raceCss(race) {
 
 .rch { display: inline-flex; align-items: baseline; gap: 4px;
   border: 1px solid var(--rule); border-radius: var(--radius); padding: 2px 6px; }
-.rch b { font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em;
+.rch b { font-family: var(--mono); font-size: var(--t-2xs); letter-spacing: 0.08em;
   text-transform: uppercase; color: var(--ink-faint); font-weight: 400; }
 .rch .num { font-family: var(--mono); font-size: var(--t-sm); color: var(--ink); }
 .rch[data-state="live"] { border-color: var(--ink-faint); }
@@ -1596,7 +1596,7 @@ function raceCss(race) {
 .rms { font-family: var(--mono); font-size: 1.05rem; font-weight: 700; }
 /* A floor is labelled, not glued to the number as a >=. "≥0.0%" is logically
    correct and reads as a typo; "0.0%  FLOOR" reads as what it is. */
-.rfloor { font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em;
+.rfloor { font-family: var(--mono); font-size: var(--t-2xs); letter-spacing: 0.08em;
   text-transform: uppercase; color: var(--ink-faint); border: 1px solid var(--rule);
   border-radius: var(--radius); padding: 1px 4px; text-decoration: none; cursor: help; }
 
@@ -1612,7 +1612,7 @@ function raceCss(race) {
 .rtb__why td { display: block; padding: 0; border: 0; }
 .rtb__why td::before { content: none; }
 .rwhy { margin: 0; font-size: var(--t-sm); color: var(--ink-dim); }
-.rwhy__lab { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em;
+.rwhy__lab { font-family: var(--mono); font-size: var(--t-2xs); letter-spacing: 0.1em;
   text-transform: uppercase; color: var(--accent); margin-right: 6px; }
 .rwhy__more { margin-top: 8px; }
 .rwhy__more summary { font-family: var(--mono); font-size: var(--t-xs); color: var(--ink-faint);
@@ -1644,7 +1644,7 @@ function raceCss(race) {
 .rchip[data-state="live"] span:first-child { color: var(--ok); }
 .rchip[data-state="dark"] { border-style: dashed; }
 .rchip[data-state="dark"] span:first-child, .rchip[data-state="dark"] .rchip__w { color: var(--dark-src); }
-.rchip__e { flex: 1 1 100%; color: var(--ink-faint); font-size: 10.5px; }
+.rchip__e { flex: 1 1 100%; color: var(--ink-faint); font-size: var(--t-2xs); }
 
 .rnote { font-size: var(--t-sm); color: var(--ink-dim); max-width: var(--measure); margin: var(--s-3) 0 0; }
 .rnote .num, .rmeth__l .num { font-family: var(--mono); }

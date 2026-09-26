@@ -655,7 +655,7 @@ ${ruleNote}
 export function styleTag() {
   return `<style>
 .oven__hd{display:flex;flex-wrap:wrap;align-items:baseline;gap:0 var(--s-3);justify-content:space-between}
-.oven__k{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 var(--s-2)}
+.oven__k{font-family:var(--mono);font-size: var(--t-2xs);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 var(--s-2)}
 
 /* --- the rail ---------------------------------------------------------- */
 .oven__rail{list-style:none;margin:var(--s-3) 0 0;padding:0;
@@ -677,10 +677,10 @@ export function styleTag() {
   width:calc((100% - 10px) * var(--k));background:var(--ink-faint)}
 .oven__slot{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;
   gap:0;height:32px;width:100%;padding-top:3px}
-.oven__nowv{font-family:var(--mono);font-size:13px;line-height:1.1;color:var(--accent);
+.oven__nowv{font-family:var(--mono);font-size: var(--t-xs);line-height:1.1;color:var(--accent);
   font-variant-numeric:tabular-nums}
-.oven__nowk{font-family:var(--mono);font-size:8.5px;letter-spacing:.14em;color:var(--accent);line-height:1.3}
-.oven__wask{font-family:var(--mono);font-size:8.5px;letter-spacing:.14em;color:var(--ink-faint);line-height:1.3}
+.oven__nowk{font-family:var(--mono);font-size: var(--t-2xs);letter-spacing:.14em;color:var(--accent);line-height:1.3}
+.oven__wask{font-family:var(--mono);font-size: var(--t-2xs);letter-spacing:.14em;color:var(--ink-faint);line-height:1.3}
 .oven__num{font-family:var(--mono);font-size:19px;line-height:1.15;color:var(--ink-dim);
   font-variant-numeric:tabular-nums}
 .oven__name{font-family:var(--mono);text-transform:uppercase;color:var(--ink-dim);
@@ -698,7 +698,7 @@ export function styleTag() {
   .oven__st{container-type:inline-size}
   .oven__name[data-len]{font-size:clamp(6.4px,calc(100cqw / (var(--len,8) * 0.63)),11px)}
 }
-.oven__band{font-size:9px;color:var(--ink-faint);font-variant-numeric:tabular-nums;font-family:var(--mono)}
+.oven__band{font-size: var(--t-2xs);color:var(--ink-faint);font-variant-numeric:tabular-nums;font-family:var(--mono)}
 
 .oven__st[data-state="live"]{background:linear-gradient(to top,var(--wash-live) 0 var(--heat),transparent var(--heat));
   box-shadow:inset 0 0 0 2px var(--accent)}
@@ -721,24 +721,24 @@ export function styleTag() {
 .oven__now{position:absolute;top:-8px;bottom:-5px;width:2px;margin-left:-1px;background:var(--accent)}
 .oven__now::before{content:'';position:absolute;top:-5px;left:-3px;
   border-left:4px solid transparent;border-right:4px solid transparent;border-top:5px solid var(--accent)}
-.oven__ticks{position:relative;height:14px;margin-top:4px;font-family:var(--mono);font-size:9.5px;
+.oven__ticks{position:relative;height:14px;margin-top:4px;font-family:var(--mono);font-size: var(--t-2xs);
   color:var(--ink-faint);font-variant-numeric:tabular-nums}
 .oven__ticks span{position:absolute;transform:translateX(-50%)}
 .oven__ticks span[data-edge="first"]{transform:none}
 .oven__ticks span[data-edge="last"]{transform:translateX(-100%)}
-.oven__hint{font-family:var(--mono);font-size:10.5px;line-height:1.5;color:var(--ink-faint);margin:7px 0 0}
+.oven__hint{font-family:var(--mono);font-size: var(--t-2xs);line-height:1.5;color:var(--ink-faint);margin:7px 0 0}
 .oven__hint b{color:var(--ink-dim);font-weight:400}
 
 .oven__crit,.oven__held{font-size:var(--t-sm);color:var(--ink-dim);margin:var(--s-2) 0 0;max-width:var(--measure)}
 .oven__crit b,.oven__held b{color:var(--ink);font-weight:500;font-variant-numeric:tabular-nums}
 .oven__crit{padding-left:9px;border-left:2px solid var(--rule)}
-.oven__frozen{font-family:var(--mono);font-size:11px;line-height:1.55;color:var(--ink-dim);
+.oven__frozen{font-family:var(--mono);font-size: var(--t-xs);line-height:1.55;color:var(--ink-dim);
   margin:var(--s-2) 0 0;padding:9px 11px;border:1px dashed var(--rule);border-radius:var(--radius);
   background:var(--bg-raised)}
 .oven__frozen b{color:var(--ink);letter-spacing:.1em}
 
 /* --- the gate cards ---------------------------------------------------- */
-.oven__gsh{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+.oven__gsh{font-family:var(--mono);font-size: var(--t-xs);letter-spacing:.12em;text-transform:uppercase;
   color:var(--ink-faint);margin:var(--sec) 0 var(--s-2);font-weight:400}
 .oven__gp{font-size:var(--t-sm);line-height:1.55;color:var(--ink-dim);margin:0;max-width:var(--measure)}
 .oven__gp--intro{margin-bottom:var(--s-3)}
@@ -749,23 +749,23 @@ export function styleTag() {
 .oven__gate[data-dir="hot"]{border-left-color:var(--accent)}
 .oven__gate[data-end="1"]{border-left-style:dashed}
 .oven__gh{display:flex;flex-direction:column;gap:2px;margin:0 0 9px;font-weight:400}
-.oven__gk{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint)}
+.oven__gk{font-family:var(--mono);font-size: var(--t-2xs);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint)}
 .oven__gn{font-family:var(--mono);font-size:var(--t-sm);letter-spacing:.02em;color:var(--ink)}
 .oven__rows{margin:0;padding:0;display:grid;gap:7px}
 .oven__row{margin:0}
-.oven__row dt{font-family:var(--mono);font-size:9.5px;letter-spacing:.11em;text-transform:uppercase;
+.oven__row dt{font-family:var(--mono);font-size: var(--t-2xs);letter-spacing:.11em;text-transform:uppercase;
   color:var(--ink-faint);display:flex;align-items:baseline;gap:5px}
 .oven__row dd{margin:0 0 0 15px;display:flex;flex-wrap:wrap;align-items:baseline;gap:0 7px}
-.oven__mk{font-style:normal;font-size:8px;line-height:1;color:var(--ink-faint);flex:none}
+.oven__mk{font-style:normal;font-size: var(--t-2xs);line-height:1;color:var(--ink-faint);flex:none}
 .oven__row[data-met="met"] .oven__mk{color:var(--ok)}
 .oven__req{font-family:var(--mono);font-size:var(--t-sm);font-weight:400;color:var(--ink);
   font-variant-numeric:tabular-nums}
-.oven__sub{font-family:var(--mono);font-size:10px;color:var(--ink-faint);font-variant-numeric:tabular-nums}
-.oven__rule{font-family:var(--mono);font-size:10.5px;line-height:1.6;color:var(--ink-faint);
+.oven__sub{font-family:var(--mono);font-size: var(--t-2xs);color:var(--ink-faint);font-variant-numeric:tabular-nums}
+.oven__rule{font-family:var(--mono);font-size: var(--t-2xs);line-height:1.6;color:var(--ink-faint);
   margin:var(--s-3) 0 0;max-width:var(--measure)}
-.oven__rulek{color:var(--ink-dim);letter-spacing:.12em;text-transform:uppercase;font-size:9.5px}
+.oven__rulek{color:var(--ink-dim);letter-spacing:.12em;text-transform:uppercase;font-size: var(--t-2xs)}
 .oven__rulei{color:var(--ink-faint)}
-.oven__rulei code{font-size:10px}
+.oven__rulei code{font-size: var(--t-2xs)}
 
 /* --- motion ------------------------------------------------------------ */
 /* The only animation in the component, and it passes MOTION.md's test: the

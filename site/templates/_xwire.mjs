@@ -103,7 +103,7 @@ export function render(ctx, { limit = MAX_HOME } = {}) {
 export function styleTag() {
   return `<style>
 .xw__hd{display:flex;flex-wrap:wrap;align-items:baseline;gap:0 var(--s-3);justify-content:space-between}
-.xw__k{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin:0}
+.xw__k{font-family:var(--mono);font-size: var(--t-2xs);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin:0}
 .xw__lede{margin:var(--s-2) 0 var(--s-3)}
 .xw__grid{list-style:none;margin:0;padding:0;display:grid;gap:9px;grid-template-columns:1fr}
 @media(min-width:720px){.xw__grid{grid-template-columns:repeat(2,1fr)}}
@@ -113,15 +113,15 @@ export function styleTag() {
 .xw__h{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
 .xw__a{display:flex;align-items:baseline;gap:5px;text-decoration:none;color:inherit;min-width:0}
 .xw__an{font-family:var(--mono);font-size:var(--t-sm);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.xw__ah{font-family:var(--mono);font-size:10.5px;color:var(--ink-faint)}
+.xw__ah{font-family:var(--mono);font-size: var(--t-2xs);color:var(--ink-faint)}
 .xw__a:hover .xw__an{color:var(--accent)}
-.xw__b{font-family:var(--mono);font-size:9px;letter-spacing:.12em;padding:1px 4px;
+.xw__b{font-family:var(--mono);font-size: var(--t-2xs);letter-spacing:.12em;padding:1px 4px;
   border:1px solid var(--accent);color:var(--accent);border-radius:3px}
-.xw__t{margin-left:auto;font-family:var(--mono);font-size:10.5px;color:var(--ink-faint);font-variant-numeric:tabular-nums}
+.xw__t{margin-left:auto;font-family:var(--mono);font-size: var(--t-2xs);color:var(--ink-faint);font-variant-numeric:tabular-nums}
 .xw__x{margin:0;font-size:var(--t-xs);line-height:1.5;color:var(--ink)}
 .xw__tr{color:var(--ink-faint)}
 .xw__f{display:flex;align-items:center;gap:var(--s-2);margin-top:auto;padding-top:4px;
-  font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase}
+  font-family:var(--mono);font-size: var(--t-2xs);letter-spacing:.08em;text-transform:uppercase}
 .xw__ci{color:var(--ink-faint)}
 .xw__l{margin-left:auto;color:var(--ink-dim);text-decoration:none}
 .xw__l:hover{color:var(--accent)}

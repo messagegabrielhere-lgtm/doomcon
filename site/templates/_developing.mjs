@@ -244,7 +244,7 @@ const dvCss = `
   display: inline-flex; align-items: center; gap: 6px;
 }
 .dv__glyph { color: var(--accent); }
-.dv__count { font-family: var(--mono); font-size: 10.5px; color: var(--ink-faint); margin: 0; }
+.dv__count { font-family: var(--mono); font-size: var(--t-2xs); color: var(--ink-faint); margin: 0; }
 .dv__count time { color: var(--ink-dim); }
 
 /* The denial. Same type size as the headlines it qualifies, never smaller —
@@ -263,7 +263,7 @@ const dvCss = `
 .dv__t:hover { text-decoration: underline; text-decoration-color: var(--accent); }
 .dv__meta {
   display: block; margin-top: 2px;
-  font-family: var(--mono); font-size: 10.5px; color: var(--ink-faint);
+  font-family: var(--mono); font-size: var(--t-2xs); color: var(--ink-faint);
 }
 
 .dv__sibs { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 6px; }
@@ -280,12 +280,12 @@ const dvCss = `
   display: flex; flex-wrap: wrap; align-items: baseline; gap: 5px;
 }
 .dv__terms b {
-  font-family: var(--mono); font-size: 9.5px; font-weight: 700;
+  font-family: var(--mono); font-size: var(--t-2xs); font-weight: 700;
   letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint);
   margin-right: 3px;
 }
 .dv__term {
-  font-family: var(--mono); font-size: 11px; color: var(--ink-dim);
+  font-family: var(--mono); font-size: var(--t-xs); color: var(--ink-dim);
   border: 1px solid var(--rule); border-radius: 2px; padding: 2px 5px;
 }
 /* The tier is a letter, not a hue. Greyscale, print and a screen reader all get
@@ -298,7 +298,7 @@ const dvCss = `
 
 .dv__forensics { margin-top: 10px; }
 .dv__sum {
-  font-family: var(--mono); font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase;
+  font-family: var(--mono); font-size: var(--t-2xs); letter-spacing: .1em; text-transform: uppercase;
   color: var(--ink-faint); cursor: pointer; padding: 4px 0; list-style: none;
 }
 .dv__sum::-webkit-details-marker { display: none; }
@@ -326,9 +326,9 @@ const dvCss = `
 @media (max-width: 420px) {
   .dv { padding: var(--s-2) 0 var(--s-2) var(--s-2); }
   .dv__head { flex-direction: column; gap: 2px; }
-  .dv__count { font-size: 10px; }
+  .dv__count { font-size: var(--t-2xs); }
   .dv__lead .dv__t { font-size: var(--t-sm); font-weight: 700; }
-  .dv__meta { font-size: 10px; }
+  .dv__meta { font-size: var(--t-2xs); }
   .dv__sib .dv__t { font-size: var(--t-xs); }
   .dv__rule { line-height: 1.5; }
 }

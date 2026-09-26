@@ -1314,7 +1314,7 @@ function archiveCss(present = brand.PILLARS) {
 
 .nlg { list-style: none; margin: 14px 0 0; padding: 0; border-top: 1px solid var(--rule); }
 .nlg__h {
-  font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+  font-family: var(--mono); font-size: var(--t-2xs); letter-spacing: 0.1em; text-transform: uppercase;
   color: var(--ink-faint); padding: 7px 2px 5px;
 }
 .nlg__i {
@@ -1322,11 +1322,11 @@ function archiveCss(present = brand.PILLARS) {
   align-items: center; gap: 8px; padding: 6px 2px; border-top: 1px solid var(--rule-soft);
 }
 .nlg__i svg { width: 13px; height: 13px; color: var(--p, var(--accent)); }
-.nlg__ord { font-family: var(--mono); font-size: 10px; color: var(--ink-faint); }
-.nlg__n { font-size: 13px; font-weight: 600; color: var(--ink); overflow-wrap: anywhere; }
-.nlg__c { font-family: var(--mono); font-size: 13px; font-weight: 700; color: var(--ink); text-align: right; }
-.nlg__pct { font-family: var(--mono); font-size: 11px; color: var(--ink-dim); text-align: right; }
-.nlg__sp { font-family: var(--mono); font-size: 10.5px; color: var(--ink-faint); white-space: nowrap; }
+.nlg__ord { font-family: var(--mono); font-size: var(--t-2xs); color: var(--ink-faint); }
+.nlg__n { font-size: var(--t-xs); font-weight: 600; color: var(--ink); overflow-wrap: anywhere; }
+.nlg__c { font-family: var(--mono); font-size: var(--t-xs); font-weight: 700; color: var(--ink); text-align: right; }
+.nlg__pct { font-family: var(--mono); font-size: var(--t-xs); color: var(--ink-dim); text-align: right; }
+.nlg__sp { font-family: var(--mono); font-size: var(--t-2xs); color: var(--ink-faint); white-space: nowrap; }
 @media (max-width: 460px) {
   .nlg__i { grid-template-columns: 1.8ch 14px minmax(0, 1fr) 4ch 4ch; row-gap: 2px; }
   .nlg__sp { grid-column: 3 / -1; }
@@ -1348,7 +1348,7 @@ function archiveCss(present = brand.PILLARS) {
   margin: 22px 0 0; padding: 12px 12px 4px; background: var(--bg-raised);
   border: 1px solid var(--rule); border-radius: var(--radius);
 }
-.ntier__h3 { font-size: 13px; font-weight: 600; letter-spacing: -0.01em; margin: 0 0 6px; }
+.ntier__h3 { font-size: var(--t-xs); font-weight: 600; letter-spacing: -0.01em; margin: 0 0 6px; }
 .ntier__none { margin-top: 14px; }
 .ntier__l { list-style: none; margin: 8px 0 0; padding: 0; }
 .ntier__i {
@@ -1360,17 +1360,17 @@ function archiveCss(present = brand.PILLARS) {
 /* The band letter, boxed. A is the one that has to read from across the room,
    so it is the only one that inverts. */
 .ntier__b {
-  font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
+  font-family: var(--mono); font-size: var(--t-xs); font-weight: 700; letter-spacing: 0.08em;
   min-width: 18px; text-align: center; border-radius: 2px; padding: 1px 4px;
   border: 1px solid var(--ink-faint); color: var(--ink-dim); flex: 0 0 auto;
 }
 .ntier__i[data-band="A"] .ntier__b { background: var(--dark-src); border-color: var(--dark-src); color: var(--bg); }
 .ntier__i[data-band="B"] .ntier__b { border-color: var(--stale); color: var(--stale); }
-.ntier__sc { font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--ink); flex: 0 0 auto; }
+.ntier__sc { font-family: var(--mono); font-size: var(--t-xs); font-weight: 700; color: var(--ink); flex: 0 0 auto; }
 .ntier__sc--none { color: var(--ink-faint); font-weight: 400; }
-.ntier__h { font-size: 13px; line-height: 1.35; color: var(--ink); overflow-wrap: anywhere; }
+.ntier__h { font-size: var(--t-xs); line-height: 1.35; color: var(--ink); overflow-wrap: anywhere; }
 .ntier__t, .ntier__s {
-  font-family: var(--mono); font-size: 10px; letter-spacing: 0.04em; color: var(--ink-faint);
+  font-family: var(--mono); font-size: var(--t-2xs); letter-spacing: 0.04em; color: var(--ink-faint);
   border: 1px solid var(--rule); border-radius: 2px; padding: 1px 5px; white-space: nowrap;
 }
 .ntier__t { color: var(--ink-dim); white-space: normal; }
@@ -1380,7 +1380,7 @@ function archiveCss(present = brand.PILLARS) {
 .nfbar { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 14px; }
 .nfchip {
   position: relative; display: inline-flex; align-items: center; gap: 6px;
-  font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em;
+  font-family: var(--mono); font-size: var(--t-xs); letter-spacing: 0.06em;
   border: 1px solid var(--rule); border-radius: var(--radius);
   padding: 5px 9px; background: transparent; color: var(--ink-dim);
   cursor: pointer; user-select: none; white-space: nowrap;
@@ -1390,7 +1390,7 @@ function archiveCss(present = brand.PILLARS) {
 }
 .nfchip:hover { color: var(--ink); border-color: var(--ink-faint); }
 .nfchip svg { width: 12px; height: 12px; color: var(--p, var(--accent)); flex: 0 0 auto; }
-.nfchip b { font-weight: 700; color: var(--ink-faint); font-size: 10.5px; }
+.nfchip b { font-weight: 700; color: var(--ink-faint); font-size: var(--t-2xs); }
 .nfchip__ab { font-weight: 700; color: var(--dark-src); letter-spacing: 0.02em; }
 .nfchip--corr .nstk { color: var(--ink-dim); }
 /* The selected chip is marked by an underline bar as well as by colour, so the
@@ -1427,11 +1427,11 @@ ${filterRules(present)}
 .nflag {
   display: flex; align-items: center; flex-wrap: wrap; gap: 5px;
   margin: 0; padding: 7px 4px 1px 11px;
-  font-family: var(--mono); font-size: 10px; letter-spacing: 0.04em;
+  font-family: var(--mono); font-size: var(--t-2xs); letter-spacing: 0.04em;
   color: var(--ink-faint); line-height: 1.5;
 }
 .nflag__tier {
-  font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
+  font-size: var(--t-xs); font-weight: 700; letter-spacing: 0.12em;
   border-radius: 2px; padding: 2px 6px;
   border: 1px solid var(--ink-faint); color: var(--ink-dim);
 }
@@ -1449,7 +1449,7 @@ ${filterRules(present)}
   color: var(--ink); border: 1px solid var(--rule); border-radius: 2px;
   padding: 2px 6px; background: var(--bg-sunken);
 }
-.nflag__corr b { font-size: 10.5px; font-weight: 700; letter-spacing: 0.06em; }
+.nflag__corr b { font-size: var(--t-2xs); font-weight: 700; letter-spacing: 0.06em; }
 .nflag__corr--story { background: transparent; }
 .nflag__who { color: var(--ink-faint); overflow: hidden; text-overflow: ellipsis; max-width: 42ch; white-space: nowrap; }
 
@@ -1462,7 +1462,7 @@ ${filterRules(present)}
 .nrow[data-tier]::before { width: 3px; opacity: 1; }
 .nrow[data-tier="A"] { background: var(--wash-live); }
 .nrow[data-tier="A"]::before { width: 5px; opacity: 1; }
-.nrow[data-tier="A"] .nrow__h { font-size: 15.5px; font-weight: 600; }
+.nrow[data-tier="A"] .nrow__h { font-size: var(--t-base); font-weight: 600; }
 .nrow[data-tier]:hover, .nrow[data-corr]:hover { background: var(--bg-raised); }
 
 @media (max-width: 400px) {
