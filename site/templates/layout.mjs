@@ -86,7 +86,7 @@ const SECTIONS = [
   // number in a navigation bar is read as a total by default. The qualifier
   // comes from the payload rather than from a string typed here, so it cannot
   // drift from the date the data was actually collected.
-  { href: '/flock.html', label: 'ALPR', short: 'ALPR', needs: 'flock',
+  { href: '/flock.html', label: 'Cameras', short: 'Cameras', needs: 'flock',
     blurb: 'Automated licence-plate readers, as volunteers have mapped them into OpenStreetMap.',
     count: (ctx) => {
       const f = ctx.flock;
@@ -583,7 +583,17 @@ const FEATURE_BAR_CSS = `<style>
 }
 /* The tagline must not eat the row the tiles need. */
 .masthead__in > .masthead__tag { flex: 0 1 auto; }
-@media (max-width: 620px) { .fb__l { display: none; } .fb__t { padding: 7px 9px; } }
+/* THE LABEL STAYS ON A PHONE. This hid .fb__l below 620px so twelve tiles
+   would fit, which turned the entire navigation into twelve icon-and-number
+   pairs with no words — the operator's exact words were "it's an icon and a
+   number for the flock map, it doesn't say what it is so I wouldn't know to
+   click it". They were right, and it was true of all twelve, not just that
+   one. An unlabelled glyph beside a number is a puzzle, not a destination.
+   The strip already scrolls horizontally at this width and already carries a
+   fade on its right edge to say so, so the cost of keeping the words is that
+   fewer tiles are visible at once — which is the correct trade: four tiles a
+   reader can read beats twelve they cannot. */
+@media (max-width: 620px) { .fb__t { padding: 7px 9px; } }
 @media (prefers-reduced-motion: reduce) { .fb__t { transition: none; } }
 </style>`;
 
