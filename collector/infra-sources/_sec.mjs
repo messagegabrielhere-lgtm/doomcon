@@ -19,7 +19,7 @@
 
 const ENDPOINT = 'https://efts.sec.gov/LATEST/search-index';
 
-export const SEC_UA = 'doomcon.watch collector (gabegtornberg@protonmail.com)';
+export const SEC_UA = 'doomcon.watch collector (messagegabrielhere@gmail.com)';
 
 function isoDate(ms) {
   // Slicing the ISO string keeps the window in UTC. toLocaleDateString would

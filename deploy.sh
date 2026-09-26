@@ -39,7 +39,7 @@ if git diff --cached --quiet; then
   fi
   echo "nothing new to commit, but the remote is behind — pushing the existing commit" >&2
 else
-git -c user.name="Gabriel Tornberg" -c user.email="messagegabrielhere@gmail.com" \
+git -c user.name="DOOMCON" -c user.email="messagegabrielhere@gmail.com" \
     commit -q -m "DOOMCON $LEVEL, score $SCORE — $STAMP
 
 Build output from messagegabrielhere-lgtm/doomcon@main. Do not hand-edit.

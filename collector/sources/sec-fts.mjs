@@ -59,7 +59,7 @@ export default {
     //    "my override was ignored". Matching the helper's casing makes this a
     //    replacement rather than an append.
     const body = await fetchJson(`${ENDPOINT}?${qs}`, {
-      headers: { 'user-agent': 'doomcon.watch collector (gabegtornberg@protonmail.com)' },
+      headers: { 'user-agent': 'doomcon.watch collector (messagegabrielhere@gmail.com)' },
     });
 
     const total = body?.hits?.total;

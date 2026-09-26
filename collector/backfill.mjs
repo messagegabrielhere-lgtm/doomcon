@@ -317,7 +317,7 @@ async function buildHn(days) {
  * lowercase to replace it rather than sit beside it.
  */
 const SEC_WINDOW_DAYS = 30;
-const SEC_UA = 'doomcon.watch backfill (gabegtornberg@protonmail.com)';
+const SEC_UA = 'doomcon.watch backfill (messagegabrielhere@gmail.com)';
 
 async function buildSecFts(days) {
   return walkDays('sec-fts', days, async (d) => {
