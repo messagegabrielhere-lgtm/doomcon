@@ -2252,6 +2252,36 @@ a.chip:hover b { color: var(--accent-2); }
     main.wrap > .sec > :has(> .sec__h) { position: static; }
   }
 
+
+  /* ---- TAP TARGETS ------------------------------------------------------
+     WCAG 2.2 SC 2.5.8 asks for 24x24. Measured on the live homepage at 375px,
+     excluding inline links inside a sentence (which the criterion exempts):
+     17 of 83 controls were under it, and every one failed on HEIGHT, not
+     width -- 138x17, 156x20, 258x19. They are easy to hit sideways and thin
+     as a hair vertically.
+
+     The worst were the ticker's own pagination dots at 24x14 with zero
+     padding, eight of them, which is the classic version of this bug: a dot
+     is drawn at the size of the dot rather than the size of a fingertip.
+     Those get a transparent box around the dot, so the target grows and the
+     painted dot does not move.
+
+     min-height rather than padding on the text links, so a row that is
+     already tall enough is not pushed taller. */
+  .dcmx-dots button {
+    min-width: 24px; min-height: 24px;
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+  .nrow__a, .rcard__a, .reel__more, .sw__more, .rvisit__b, .lw__more, .lw__rest,
+  .move__a, .it__rel a, .apilist a, .fresh__key a {
+    min-height: 24px;
+    display: flex; align-items: center;
+  }
+  /* .move__a is a three-column grid and must keep being one. */
+  .move__a { display: grid; align-items: center; }
+  /* A <summary> cannot be flex without losing its marker box in some engines. */
+  summary { min-height: 24px; padding-block: 3px; }
+
 `;
 
 
