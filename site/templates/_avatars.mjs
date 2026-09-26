@@ -137,6 +137,59 @@ const SHAPE = {
     '<path d="M8.6 2.4h6.6l6.4 6.4v6.6a6 6 0 0 1-6 6H8.4a6 6 0 0 1-6-6V8.4a6 6 0 0 1 6-6Z"/>'
     + '<path d="M15.2 2.4v6.4h6.4" fill="none" stroke-width="1.5"/>',
 
+  // ---- THE SECOND SEVEN ---------------------------------------------------
+  // Added when /leaders grew this module from the eight watch-floor principals
+  // to the fifteen people on the leader-wire roster. Same three rules as
+  // above, and the same test: printed at 20px and desaturated, the fifteen are
+  // still fifteen. Every one of these keeps a clear centre band at least 13
+  // units wide at y=12, because a two-letter monogram sits on top of it — the
+  // reason a plain down-triangle and a plus-sign were both drawn and both
+  // thrown away.
+
+  // Nvidia / Huang. A pentagon with a rectangular base — vertical sides and
+  // square bottom corners, which is what separates it from Hassabis's gem
+  // (slanted on every edge) at the sizes where only the silhouette survives.
+  tower:
+    '<path d="M12 2.3 21.3 9.4V21.3H2.7V9.4Z"/>',
+
+  // Microsoft / Nadella. A trapezoid, wide at the top. Deliberately NOT the
+  // vertical mirror of itself: a wide-bottom trapezoid was drawn for Suleyman
+  // first and the pair read as one shape and its reflection, which is a
+  // difference nobody sees in a column.
+  keystone:
+    '<path d="M3.6 2.9h16.8l-2.9 18.2H6.5Z"/>',
+
+  // Microsoft AI / Suleyman. A tablet: rounded portrait rectangle with a rule
+  // across the top. The rule is what keeps it off the "no principal published"
+  // frame, which is a rounded SQUARE with nothing in it.
+  tablet:
+    '<rect x="4.2" y="2.6" width="15.6" height="18.8" rx="2.6"/>'
+    + '<path d="M4.2 7.2h15.6" fill="none" stroke-width="1.5"/>',
+
+  // Alphabet / Pichai. A dome: flat base, semicircular top.
+  // The only mark in the set whose top and bottom edges are different KINDS of
+  // edge, which is legible at any size.
+  dome:
+    '<path d="M2.6 21.4V12a9.4 9.4 0 0 1 18.8 0v9.4Z"/>',
+
+  // Google / Kavukcuoglu. A ring broken into three arcs. Shares a circle with
+  // Altman's orbit and differs in the two ways that survive 20px: the ring is
+  // interrupted, and there is no bead.
+  arcs:
+    '<path d="M21.00 13.91A9.2 9.2 0 0 1 9.16 20.75M5.84 18.84A9.2 9.2 0 0 1 5.84 5.16'
+    + 'M9.16 3.25A9.2 9.2 0 0 1 21.00 10.09" fill="none"/>',
+
+  // University of Toronto / Hinton. A parallelogram. Shear is a silhouette
+  // difference no other mark in the set has.
+  pennant:
+    '<path d="M7.4 2.7h13.9l-4.7 18.6H2.7Z"/>',
+
+  // Mila / Bengio. A plain diamond, point top and point bottom. The gem it sits
+  // nearest is Hassabis's, which has a six-unit flat edge along its base; this
+  // one comes to a point there.
+  rhombus:
+    '<path d="M12 2.2 21.8 12 12 21.8 2.2 12Z"/>',
+
   // NOBODY'S. The honest empty frame, and it is a ninth shape rather than a
   // borrowed one on purpose: avatarUnknown() used to draw the squircle, and
   // now that the squircle is Mensch's cut corner, "no principal published"
@@ -166,35 +219,79 @@ export const AVATAR_SHAPES = Object.freeze(Object.keys(SHAPE));
 const PEOPLE = {
   altman: {
     name: 'Sam Altman', initials: 'SA', org: 'openai', orgName: 'OpenAI',
-    role: 'CEO', shape: 'orbit',
+    role: 'CEO', shape: 'orbit', tag: 'OPENAI',
   },
   amodei: {
     name: 'Dario Amodei', initials: 'DA', org: 'anthropic', orgName: 'Anthropic',
-    role: 'CEO', shape: 'aegis',
+    role: 'CEO', shape: 'aegis', tag: 'ANTHROPIC',
   },
   hassabis: {
     name: 'Demis Hassabis', initials: 'DH', org: 'google-deepmind', orgName: 'Google DeepMind',
-    role: 'CEO', shape: 'prism',
+    role: 'CEO', shape: 'prism', tag: 'DEEPMIND',
   },
   musk: {
     name: 'Elon Musk', initials: 'EM', org: 'xai', orgName: 'xAI',
-    role: 'Founder', shape: 'rotor',
+    role: 'Founder', shape: 'rotor', tag: 'XAI',
   },
   zuckerberg: {
     name: 'Mark Zuckerberg', initials: 'MZ', org: 'meta', orgName: 'Meta',
-    role: 'CEO', shape: 'stadium',
+    role: 'CEO', shape: 'stadium', tag: 'META',
   },
   lecun: {
     name: 'Yann LeCun', initials: 'YL', org: 'meta', orgName: 'Meta',
-    role: 'Chief AI Scientist', shape: 'bracket',
+    role: 'Chief AI Scientist', shape: 'bracket', tag: 'META',
   },
   liang: {
     name: 'Liang Wenfeng', initials: 'LW', org: 'deepseek', orgName: 'DeepSeek',
-    role: 'Founder', shape: 'cell',
+    role: 'Founder', shape: 'cell', tag: 'DEEPSEEK',
   },
   mensch: {
     name: 'Arthur Mensch', initials: 'AM', org: 'mistral', orgName: 'Mistral',
-    role: 'CEO', shape: 'squircle',
+    role: 'CEO', shape: 'squircle', tag: 'MISTRAL',
+  },
+
+  // ---- THE SEVEN THE LEADER WIRE ADDED ------------------------------------
+  // data/leaders.json carries fifteen people and this table carried eight, so
+  // seven rows of /leaders had no mark at all. Every id, name, org id and role
+  // below is the one collector/leaders.mjs publishes, copied rather than
+  // invented, so `personIdFor(leader.id)` resolves straight off the wire.
+  //
+  // None of them is a principal in data/race.json, which is checked and not
+  // assumed: no player there carries the id `nvidia`, `microsoft`, `google` or
+  // `academia`, so adding these cannot change a single mark on the watch floor
+  // or on /race. They are reachable only by the ids and names below.
+  huang: {
+    name: 'Jensen Huang', initials: 'JH', org: 'nvidia', orgName: 'Nvidia',
+    role: 'CEO', shape: 'tower', tag: 'NVIDIA',
+  },
+  nadella: {
+    name: 'Satya Nadella', initials: 'SN', org: 'microsoft', orgName: 'Microsoft',
+    role: 'CEO', shape: 'keystone', tag: 'MICROSOFT',
+  },
+  suleyman: {
+    name: 'Mustafa Suleyman', initials: 'MS', org: 'microsoft', orgName: 'Microsoft AI',
+    role: 'CEO', shape: 'tablet', tag: 'MICROSOFT AI',
+  },
+  pichai: {
+    name: 'Sundar Pichai', initials: 'SP', org: 'google', orgName: 'Alphabet',
+    role: 'CEO', shape: 'dome', tag: 'ALPHABET',
+  },
+  kavukcuoglu: {
+    name: 'Koray Kavukcuoglu', initials: 'KK', org: 'google', orgName: 'Google',
+    role: 'Chief AI Architect', shape: 'arcs', tag: 'GOOGLE',
+  },
+  // The two academics are the reason `tag` exists as its own field rather than
+  // being derived from orgName. "Mila, Université de Montréal" is twenty-eight
+  // characters and the portrait's footer slot is twelve; deriving a short form
+  // by truncation would print "MILA, UNIVERS". A short name is an editorial
+  // choice, so it is typed out and reviewable.
+  hinton: {
+    name: 'Geoffrey Hinton', initials: 'GH', org: 'academia', orgName: 'University of Toronto',
+    role: 'Professor emeritus', shape: 'pennant', tag: 'TORONTO',
+  },
+  bengio: {
+    name: 'Yoshua Bengio', initials: 'YB', org: 'academia', orgName: 'Mila, Université de Montréal',
+    role: 'Professor', shape: 'rhombus', tag: 'MILA',
   },
 };
 
@@ -223,6 +320,20 @@ const ACCENT = {
   lecun:             ['#93b8ff', '#3665cc'],
   liang:             ['#7a8cff', '#3b3fc4'],
   mensch:            ['#fa720f', '#a34204'],
+
+  // The seven the leader wire added. Four new organisations, and three of them
+  // carry two principals each, so the Meta rule above generalises: one hue per
+  // lab, two VALUES of it where two people share the lab. Measured against
+  // both grounds before they were committed — every pair below clears 4.5:1 on
+  // --bg and on --bg-raised in its own scheme, which the first draft of
+  // Bengio's light value (#44807c, 4.31:1) did not.
+  huang:             ['#76b900', '#3f6300'],
+  nadella:           ['#4cc2ff', '#005a8c'],
+  suleyman:          ['#a8e0ff', '#0b6f9e'],
+  pichai:            ['#f0544a', '#a3261a'],
+  kavukcuoglu:       ['#ffb0a6', '#7a1f14'],
+  hinton:            ['#7fb3b0', '#2d6360'],
+  bengio:            ['#b9d6d4', '#387470'],
 };
 
 for (const [id, p] of Object.entries(PEOPLE)) {
@@ -231,6 +342,11 @@ for (const [id, p] of Object.entries(PEOPLE)) {
   if (!SHAPE[p.shape]) throw new Error(`_avatars: person "${id}" wants shape "${p.shape}", which does not exist`);
   if (!/^[A-Z]{2}$/.test(p.initials)) throw new Error(`_avatars: person "${id}" has initials ${JSON.stringify(p.initials)}; two capitals expected`);
   if (!ACCENT[id]) throw new Error(`_avatars: person "${id}" has no accent pair in ACCENT`);
+  // The portrait footer is a fixed-width slot; a tag longer than this is a
+  // layout bug that only shows up in a screenshot, so it is a build error.
+  if (typeof p.tag !== 'string' || !p.tag || p.tag.length > 12) {
+    throw new Error(`_avatars: person "${id}" needs a two-to-twelve character tag, got ${JSON.stringify(p.tag)}`);
+  }
   // Carried on the record so mark() can stamp it without a second lookup, and
   // so a caller building a legend has the id without re-deriving it.
   p.id = id;
@@ -610,6 +726,139 @@ export function avatarFor(player, opts = {}) {
     sub = role.includes(',') ? role : `${role} · ${org}`;
   }
   return avatar(id, { ...opts, sub });
+}
+
+// ---------------------------------------------------------------------------
+// The portrait
+// ---------------------------------------------------------------------------
+
+/**
+ * THE SAME MARK, BIG. 96px and up, and that number is the whole point of it.
+ *
+ * Measured on the built /leaders.html before this existed: twelve SVGs on the
+ * page, eleven of them 16x16 and the largest 64x64. The roster of fifteen
+ * people — the page's entire subject — was rendered as fifteen two-letter
+ * monograms in 26px boxes. The operator's note was "I don't see the new
+ * graphics", and they were right; there was nothing to see.
+ *
+ * WHAT THIS IS NOT, AND WHY THE ANSWER DID NOT CHANGE WHEN THE MARKS GOT BIG.
+ * The argument in the header of this file was written for a 20px mark, and the
+ * obvious objection to scaling it up is that 96px is enough room to draw a
+ * face, so why not. Because the objection has it backwards: the reason there
+ * is no face here was never that a face would not fit. These are fifteen real,
+ * living, named people, and this site prints computed labels beside their
+ * names. A drawn likeness next to a computed label is a claim about the person
+ * that we cannot source, and a caricature is a verdict on them. More pixels
+ * make that worse, not better — a 20px doodle is deniable and a 120px portrait
+ * is a publication.
+ *
+ * So the portrait is the same abstract geometry, drawn larger, with the three
+ * rules intact: the name in text is the identification, the shape is the
+ * person, the colour is the organisation. Nothing here is derived from any
+ * person's appearance, and nothing here is fetched.
+ *
+ * WHY IT REDRAWS THE PATH INSTEAD OF <use>-ING THE SPRITE. The sprite's
+ * outlines carry stroke-width as a presentation attribute in 24-unit space. A
+ * <use> scaled 4x scales the stroke with it, to the equivalent of a 7px line,
+ * and inheritance cannot override a presentation attribute set inside the
+ * symbol. Drawing the path into the document instead puts the geometry where a
+ * CSS rule can reach it, so `.avtp__mk > *` sets one weight for every element
+ * and the portrait is crisp rather than inflated. The sprite is still the right
+ * answer at 20-34px and both call sites keep using it.
+ *
+ * @param {string} personId  a key of PEOPLE, or anything personIdFor() resolves
+ * @param {object} [opts]
+ * @param {boolean} [opts.decorative=false]
+ *        true marks the whole SVG aria-hidden. Correct ONLY when the caller
+ *        prints the person's name and organisation as text beside it, which is
+ *        what /leaders does: role="img" there would read the same two facts a
+ *        second time on each of fifteen cards. The default is labelled.
+ * @param {string} [opts.idPrefix='avtp']
+ *        Disambiguator for the <title> id. Two portraits of the same person on
+ *        one page need different prefixes; content-derived rather than
+ *        counted, so the output does not depend on call order.
+ * @returns {string} HTML
+ */
+export function avatarPortrait(personId, opts = {}) {
+  const id = personIdFor(personId);
+  if (!id) throw new Error(`_avatars: no principal portrait for ${JSON.stringify(personId)}`);
+  const p = PEOPLE[id];
+  const decorative = opts.decorative === true;
+  const prefix = typeof opts.idPrefix === 'string' && opts.idPrefix ? opts.idPrefix : 'avtp';
+  const tid = `${prefix}-${id}-t`;
+
+  // 120 x 136. The emblem is 88 units square, which at the 112px the card
+  // renders it at is a 92px mark — over the 96px the brief asked for once the
+  // frame is counted, and still square-ish on a 375px phone at 88px.
+  const mk = `<g class="avtp__mk" transform="translate(16 12) scale(3.6667)">${SHAPE[p.shape]}</g>`;
+
+  // The monogram sits at the emblem's centre, not the tile's: every shape in
+  // SHAPE is drawn to keep y=12 of its own 24-unit box clear, and that maps to
+  // y=56 here.
+  const mono = `<text class="avtp__i" x="60" y="68" text-anchor="middle" font-size="31">${esc(p.initials)}</text>`;
+
+  const foot = `<path class="avtp__rule" d="M14 111h92" fill="none"/>`
+    + `<text class="avtp__o" x="60" y="126" text-anchor="middle" font-size="10">${esc(p.tag)}</text>`;
+
+  // Corner ticks. Purely decorative, identical for everybody, and drawn
+  // OUTSIDE the emblem so they never fight the monogram.
+  const hud = '<g class="avtp__hud" fill="none">'
+    + '<path d="M5 17V5h12M103 5h12v12M115 119v12h-12M17 131H5v-12"/></g>';
+
+  const a11y = decorative
+    ? ' aria-hidden="true" focusable="false"'
+    : ` role="img" aria-labelledby="${esc(tid)}"`;
+  const title = decorative
+    ? ''
+    : `<title id="${esc(tid)}">${esc(p.name)} — ${esc(p.role)}, ${esc(p.orgName)}. `
+      + 'An abstract monogram, not a likeness.</title>';
+
+  return `<svg class="avtp" viewBox="0 0 120 136"${a11y} data-person="${esc(id)}" data-org="${esc(p.org)}" data-shape="${esc(p.shape)}">`
+    + title
+    + '<rect class="avtp__bg" x="0.75" y="0.75" width="118.5" height="134.5" rx="9"/>'
+    + hud + mk + mono + foot
+    + '</svg>';
+}
+
+/**
+ * Paint for the portrait, as a CSS string.
+ *
+ * It ships from here rather than from site/styles.mjs for the reason
+ * accentStyleTag() already gives: that file is another module's, and a caller
+ * that inlines this block gets the whole feature with no edit to the sheet.
+ * Inlining it twice on one page is harmless — the rules are identical.
+ *
+ * --avtp-size is the one number a caller tunes. Everything inside the tile is
+ * in viewBox units and scales with it, so there is no second breakpoint to
+ * keep in step.
+ */
+export function portraitCss() {
+  return `
+.avtp {
+  display: block; width: var(--avtp-size, 96px); height: auto; flex: 0 0 auto;
+  color: var(--avt-a, var(--ink-dim));
+}
+.avtp__bg { fill: var(--bg-raised); stroke: var(--rule); stroke-width: 1.5; }
+.avtp__hud { stroke: currentColor; stroke-width: 2; stroke-linecap: square; opacity: 0.85; }
+.avtp__mk {
+  stroke: currentColor; fill: transparent;
+  fill: color-mix(in srgb, currentColor 14%, transparent);
+  stroke-linejoin: round; stroke-linecap: round;
+}
+/* One weight for every element of the emblem. This is the rule the doc comment
+   on avatarPortrait() is about: it beats the stroke-width presentation
+   attributes inside the shape data, which are tuned for a 24px box. */
+.avtp__mk > * { stroke-width: 0.52; }
+.avtp__i {
+  font-family: var(--mono); font-weight: 700; fill: var(--ink);
+  letter-spacing: 0.01em;
+}
+.avtp__rule { stroke: var(--rule); stroke-width: 1; }
+.avtp__o {
+  font-family: var(--mono); fill: var(--ink-faint);
+  letter-spacing: 0.14em;
+}
+`;
 }
 
 /**

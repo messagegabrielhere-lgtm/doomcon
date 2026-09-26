@@ -63,6 +63,7 @@ import { indexHistoryChart, pillarRanked } from './_charts.mjs';
 import { page } from './layout.mjs';
 import * as brand from '../brand.mjs';
 import * as news from './news.mjs';
+import * as gauge from './_gauge.mjs';
 import * as oven from './_oven.mjs';
 import * as switcher from './_switcher.mjs';
 import * as developing from './_developing.mjs';
@@ -112,22 +113,44 @@ export function render(ctx) {
   // -----------------------------------------------------------------------
   const main = `
 ${news.styleTag()}
+${gauge.styleTag()}
 ${developing.render(ctx)}
 <section class="hero">
   <p class="eyebrow">Observed <time datetime="${esc(state.generated_at)}">${esc(utc(state.generated_at))}</time></p>
   <div class="hero__grid">
 
-    <!-- align-self overrides .hero__grid's align-items:end. With the dial and
-         the distribution strip cut, the two columns are close to the same
-         height and centring keeps the digit opposite the number it labels.
+    <!-- align-self overrides .hero__grid's align-items:end, so the dial sits
+         opposite the number it labels rather than being hung off the baseline.
          An inline property rather than a new class, because site/styles.mjs
          belongs to the integrator. -->
-    <div class="level" style="align-self:center">
-      <!-- data-dc-* are the motion layer's hooks (site/templates/_motion.mjs
-           looks for [data-dc-level] and [data-dc-score] first, falling back to
-           the class names). Naming them explicitly means restyling this hero
-           cannot silently break the count-up in a file owned by someone else. -->
-      <div class="level__digit num" data-dc-level aria-hidden="true">${esc(state.level)}</div>
+    <div class="level level--dial" style="align-self:center">
+      <!-- THE DIAL replaces the 140px text numeral that used to sit here.
+           It is the same fact — the level — drawn as an instrument instead of
+           set as type, and it carries three things the numeral could not: where
+           the score sits inside the band, where the previous reading was, and
+           whether the observation is degraded. site/templates/_gauge.mjs.
+
+           data-dc-level rides on the <figure>, because it is the motion layer's
+           hook (site/templates/_motion.mjs looks for [data-dc-level] first and
+           falls back to .level__digit) and .dcmx-pulse is a ::after ring around
+           whatever carries it. Moving it here keeps the level-changed pulse
+           working and now rings the whole instrument. The score's own hook,
+           data-dc-score, stays on .score__val below: _motion.mjs live-updates
+           exactly ONE element per page, so the dial deliberately prints no
+           composite score of its own that could drift out of step with it. -->
+      ${gauge.render(ctx, {
+        attrs: 'data-dc-level',
+        // No figcaption HERE, and only here. _charts.mjs rule 4 wants a visible
+        // sentence under every graphic so the finding survives an SVG that
+        // never paints — but this dial already prints its own scale (0, 35, 55,
+        // 70, 85, 100), its band range, the level's name, the delta and the
+        // pillar coverage as text inside the drawing, and the h1 and the plain
+        // read sit six pixels to its right saying the same thing in prose. The
+        // caption was 38px of the fold restating what four other elements in
+        // the same screen already say. The <desc> still carries the full
+        // description for a screen reader. Other callers keep the default.
+        caption: false,
+      })}
       <div class="level__meta">
         <h1 class="level__name">${esc(brand.NAME)} ${esc(state.level)} · ${esc(state.level_name)}</h1>
         <p class="level__plain">${esc(plainRead(ctx))}</p>
@@ -208,13 +231,52 @@ ${switcher.render(ctx)}
 </section>
 
 <style>
-/* Three rules, all of them consequences of the cuts above, all namespaced to
-   elements this template owns. site/styles.mjs belongs to the integrator. */
+/* Rules namespaced to elements this template owns, because site/styles.mjs
+   belongs to the integrator. */
 
 /* The plain-language read is now the largest piece of prose in the hero, and
    it is the one sentence thirteen of a hundred visitors came for. It was set
    at caption size under five pips that no longer exist. */
 .hero .level__plain { font-size: var(--t-md); line-height: 1.45; color: var(--ink); max-width: 46ch; }
+
+/* ---- THE DIAL IN THE HERO ------------------------------------------------
+   .level is a flex row in styles.mjs and held a 140px numeral beside its text.
+   It now holds a 320x314 instrument, which does not fit beside a sentence until
+   there is real width, so the row only stays a row at 1080px and up.
+
+   THE FOLD COST, measured at 1440x900 and stated because the operator has
+   fought for this number: the hero was 158px tall and ended at y=717. A 314px
+   instrument cannot cost nothing. Everything below is about making it cost as
+   little as possible — the level column widens into the 756px of empty space
+   the score column was sitting in rather than pushing anything down, and the
+   grid centres rather than bottom-aligns so the 81px score block sits opposite
+   the middle of the dial instead of under its bottom edge. */
+.hero .level--dial { gap: var(--s-4); }
+.hero .ch--dial { flex: 0 0 auto; }
+
+/* Below 1080 the dial stacks above its own text. At 720-1079 the grid is still
+   two columns, so the level column is ~480px — enough for the dial, not enough
+   for the dial AND 34ch of prose beside it. */
+@media (max-width: 1079.98px) {
+  .hero .level--dial { flex-direction: column; align-items: flex-start; }
+  .hero .level--dial .level__meta { width: 100%; }
+}
+
+/* On a phone the dial is the fold. Centre it, and let the caption centre with
+   it; the SM geometry caps itself at 272px through --w, so this never upscales
+   a 272-unit viewBox onto a 343px column. */
+@media (max-width: 719.98px) {
+  .hero .level--dial { align-items: center; text-align: left; }
+  .hero .level--dial .ch--dial { align-self: center; }
+}
+
+/* At 1080+ the two hero columns are 420px : 1fr, which was sized for a numeral.
+   Give the dial and its sentence the room, and let the score column keep the
+   rest — it needs ~400px and had 756. */
+@media (min-width: 1080px) {
+  .hero .hero__grid { grid-template-columns: minmax(0, 700px) minmax(0, 1fr); align-items: center; }
+  .hero .level--dial { gap: var(--s-5); }
+}
 
 /* The collapsed source table. */
 .fresh__more { margin-top: var(--s-2); }

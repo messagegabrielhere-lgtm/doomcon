@@ -132,6 +132,22 @@ const DARK = {
   'wash-alt':    'rgba(232,234,238,0.021)',
   'wash-live':   'rgba(255,176,32,0.115)',
   fill:          'rgba(255,176,32,0.150)',
+  // ELEVATION - TWO STEPS, AND THEY ARE THIS PASS'S ANSWER TO "FRIENDLIER".
+  //
+  // The sheet had no shadow token at all, so every raised surface on the site
+  // was separated from the page by a 1px hairline and nothing else. A hairline
+  // is a DIAGRAM of a card; a shadow is a card. Two steps and no more, because
+  // a third is how an elevation system starts lying about depth:
+  //   --shadow-1  a resting surface: chart plates, the pillar grid, the
+  //               cross-sell deck, the arrivals strip, the embed snippet.
+  //   --shadow-2  a surface the pointer is on. Only ever a hover state.
+  // Both are pure black in the dark scheme (a shadow on #0b0c0e has to be
+  // darker than the page or it is a glow) and the warm near-black of --ink in
+  // the light one, so the light theme's paper ground does not get a grey cast.
+  // Neither carries meaning: turn both off and the site loses no fact and
+  // fails no contrast check, which is the test for anything decorative here.
+  'shadow-1':    '0 1px 2px rgba(0,0,0,0.44)',
+  'shadow-2':    '0 10px 26px -12px rgba(0,0,0,0.72), 0 2px 6px -2px rgba(0,0,0,0.5)',
 };
 
 const LIGHT = {
@@ -177,6 +193,12 @@ const LIGHT = {
   'wash-alt':    'rgba(20,22,26,0.022)',
   'wash-live':   'rgba(154,90,0,0.105)',
   fill:          'rgba(154,90,0,0.130)',
+  // See the dark set. Tinted with --ink (#14161a) rather than pure black so a
+  // card on the #faf9f6 paper ground casts a warm shadow rather than a grey
+  // one - pure black on warm paper is the single tell that separates a light
+  // theme that was designed from a light theme that was inverted.
+  'shadow-1':    '0 1px 2px rgba(20,22,26,0.055)',
+  'shadow-2':    '0 10px 26px -12px rgba(20,22,26,0.18), 0 2px 6px -2px rgba(20,22,26,0.08)',
 };
 
 function palette(vars, indent = '  ') {
@@ -325,7 +347,12 @@ ${pillarHues('', PILLARS_DARK).root}
      the difference between a document and a console. */
   --row:    10px;
   --sec:    32px;
-  --sec-lg: 44px;
+  /* 48, not 44. --sec is --s-6 exactly and --sec-lg was the one rhythm value
+     in the file that named no step, which is the precise thing the comment
+     above the type scale forbids ("every rule names a step"). 48 is --s-7, it
+     is 4px more air between unrelated blocks rather than less, and it means
+     the two section gaps are now 2 and 3 units of the same 16px module. */
+  --sec-lg: 48px;
 
   /* The measure. One token, overridden on <body data-wide> for the pages whose
      job is density rather than reading. */
@@ -333,7 +360,27 @@ ${pillarHues('', PILLARS_DARK).root}
 
   --gutter: 16px;
   --measure: 66ch;
-  --radius: 3px;
+
+  /* RADIUS, NOW A SCALE OF TWO RATHER THAN ONE VALUE OF 3px.
+
+     3px is the radius of something that did not want a radius. It reads at
+     arm's length as a square corner with an antialiasing artefact, which is
+     why the site looked machined rather than made. Raised to 6, which is the
+     smallest radius that is legible AS a radius at 13px type, and given a
+     large partner for anything that is a PANEL rather than a control.
+
+     The reason this is one token change and not fifty is that 55 rules across
+     the page templates already name var(--radius) - so every chip, badge,
+     card and code block on every page rounds together, including the ones in
+     files this task may not open. Anything that wants to stay crisp keeps its
+     own literal; nothing does, because nothing on a dashboard is improved by
+     one box being sharper than the box beside it.
+
+     --radius     controls and inline objects: chips, tags, badges, buttons.
+     --radius-lg  panels: chart plates, the pillar grid, the cross-sell deck,
+                  the arrivals strip, prose tables and code blocks. */
+  --radius: 6px;
+  --radius-lg: 12px;
 
   /* The height of the sticky rail, as a token rather than as a number typed in
      two places. Anything that ever needs to scroll to a position clear of the
@@ -624,16 +671,22 @@ const CHROME = `
   color: var(--ink-dim); text-decoration: none;
 }
 .rail__c:last-child { border-right: 0; margin-right: 0; padding-right: 0; }
+/* 10px uppercase mono at 0.12em tracking is the smallest type on the site, and
+   it was also in the palette's faintest ink - the two hardest-to-read choices
+   stacked on the one strip that is pinned to the top of every page. --ink-dim
+   measures 7.73 on --bg-sunken in dark and 6.06 in light, against 5.12 / 4.56.
+   The key still reads as the quiet half of the cell because it is 10px against
+   the value's 11px and because the value is weight 500. */
 .rail__k {
   font-size: var(--t-2xs); letter-spacing: 0.12em; text-transform: uppercase;
-  color: var(--ink-faint);
+  color: var(--ink-dim);
 }
 .rail__v { color: var(--ink); font-weight: 500; }
 .rail__v small { color: var(--ink-faint); font-weight: 400; font-size: var(--t-2xs); }
 .rail__s { color: var(--ink-faint); font-size: var(--t-2xs); letter-spacing: 0.06em; }
 .rail__c[data-bad="1"] .rail__v { color: var(--dark-src); }
 a.rail__c { transition: color 120ms ease; }
-a.rail__c:hover .rail__v { color: var(--accent-2); }
+a.rail__c:hover .rail__v, a.rail__c:hover .rail__k { color: var(--accent-2); }
 .rail__c--home .rail__v:first-of-type { letter-spacing: 0.06em; }
 /* Posture is carried by the WORD as well as the hue: a greyscale screenshot,
    or a reader who cannot separate the colours, still reads DEGRADED. */
@@ -764,7 +817,11 @@ a.rail__c:hover .rail__v { color: var(--accent-2); }
    Tightened to a third of that without dropping one link or one sentence. */
 .foot {
   border-top: 1px solid var(--rule); margin-top: var(--sec-lg);
-  padding: var(--s-4) 0 var(--s-5); color: var(--ink-faint); font-size: var(--t-sm);
+  /* 16/24 -> 24/32. The tightening note below this rule is still right about
+     the BLURBS and the two-column index; it was wrong about the top and bottom
+     edges, which is where a footer actually earns the word "considered". The
+     whole block is still under a third of what it was before that pass. */
+  padding: var(--s-5) 0 var(--s-6); color: var(--ink-faint); font-size: var(--t-sm);
 }
 .foot__top { display: grid; gap: var(--s-4); }
 @media (min-width: 760px) {
@@ -785,19 +842,26 @@ a.rail__c:hover .rail__v { color: var(--accent-2); }
 .foot__cols { display: grid; gap: var(--s-4) var(--s-5); grid-template-columns: 1fr 1fr; }
 @media (max-width: 359px) { .foot__cols { grid-template-columns: 1fr; } }
 @media (min-width: 980px) { .foot__cols { grid-template-columns: 1.15fr 1fr 1fr; } }
+/* The same move as .sec__h, one step smaller, so the footer's column heads and
+   the page's section heads are recognisably the same object at two scales.
+   --ink-faint -> --ink-dim: 5.03 -> 7.59 on --bg in dark, 4.97 -> 6.61 light. */
 .foot__h {
   font-family: var(--mono); font-size: var(--t-2xs); letter-spacing: 0.16em;
-  text-transform: uppercase; color: var(--ink-faint); font-weight: 500;
-  margin: 0 0 var(--s-2); padding-bottom: 5px; border-bottom: 1px solid var(--rule);
+  text-transform: uppercase; color: var(--ink-dim); font-weight: 600;
+  margin: 0 0 var(--s-3); padding-bottom: 6px; border-bottom: 2px solid var(--rule);
 }
-.foot__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 5px; }
+.foot__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 7px; }
 .foot__list li { display: grid; gap: 0; }
 .foot__list a {
   font-family: var(--mono); font-size: var(--t-xs); letter-spacing: 0.07em;
   text-transform: uppercase; color: var(--ink); text-decoration: none;
   justify-self: start; border-bottom: 1px solid transparent;
 }
-.foot__list a:hover { border-bottom-color: var(--accent-2); }
+/* The hover moves the LINK, not just a hairline under it. --accent-2 is the
+   interactive hue by the doctrine at the top of this file, it measures 8.09 on
+   --bg in dark and 6.52 in light, and it is what makes a 14-link index feel
+   like a control panel rather than a colophon. */
+.foot__list a:hover { color: var(--accent-2); border-bottom-color: var(--accent-2); }
 .foot__list a[aria-current="page"] { color: var(--ink); }
 .foot__list span { color: var(--ink-faint); font-size: var(--t-xs); line-height: 1.4; }
 /* On a phone the site index is 12 links in one column, and twelve descriptions
@@ -983,13 +1047,47 @@ const HERO = `
 // what keeps the chart kit itself free of any colour knowledge.
 // ---------------------------------------------------------------------------
 const CHARTS_CORE = `
-.ch { margin: 0; padding: 0; }
+/* THE CHART PLATE. The single highest-leverage rule in this file right now.
+
+   Every chart the kit emits is <figure class="ch">, and .ch was a bare
+   margin:0 / padding:0 - which is to say a chart arrived as a loose SVG
+   with a caption under it and no edges at all. On a page made of hairlines
+   that is indistinguishable from a printout, and it is most of the reason the
+   operator says there is nothing to look at: the two largest graphics on the
+   homepage were not framed as objects, so they read as page furniture.
+
+   Framed, padded and lifted, they read as instruments. This costs no template
+   a single character - every chart already in the codebase and every chart
+   landing beside this one inherits it from the class the kit already writes.
+
+   THE BACKGROUND IS --bg ON PURPOSE AND MUST STAY --bg. Six rules in this
+   block (.ch-halo, .ch-val, .ch-note, .ch-ring, .ch-g-markdot, .ch-d-val) knock
+   text and lines out of the plot with a fat stroke or fill of var(--bg). Paint
+   the plate --bg-raised and every one of those turns into a dark outline
+   around the series. The plate separates from the page on its border, its
+   radius and its shadow, which is enough, and it keeps the knockouts honest. */
+.ch {
+  margin: 0;
+  padding: var(--s-3) var(--s-3) var(--s-2);
+  background: var(--bg);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-1);
+}
+@media (min-width: 640px) { .ch { padding: var(--s-4) var(--s-4) var(--s-3); } }
 /* --w is set per chart by _charts.mjs to its own viewBox width, so a chart is
-   never UPSCALED past the size its type was designed at. */
-.ch__svg { display: block; width: 100%; max-width: var(--w, 100%); height: auto; }
+   never UPSCALED past the size its type was designed at. Centred rather than
+   left-aligned, because a plot capped at 720 inside a 1240 plate parked hard
+   against the left edge with 400px of blank plate beside it. */
+.ch__svg { display: block; width: 100%; max-width: var(--w, 100%); height: auto; margin-inline: auto; }
+/* The caption is the plate's legend, so it is ruled off from the plot rather
+   than floating under it, and it is --ink-dim rather than --ink-faint: it
+   carries the units and the caveat, which is the last thing on a chart that
+   should be the hardest to read. 5.03 -> 7.59 dark, 4.97 -> 6.61 light. */
 .ch__cap {
   font-family: var(--mono); font-size: var(--t-xs); line-height: 1.5;
-  color: var(--ink-faint); margin: var(--s-2) 0 0; letter-spacing: 0.01em;
+  color: var(--ink-dim); margin: var(--s-3) 0 0; letter-spacing: 0.01em;
+  padding-top: var(--s-2); border-top: 1px solid var(--rule-soft);
 }
 .ch text, .spark text {
   font-family: var(--mono); fill: var(--ink-dim); font-variant-numeric: tabular-nums;
@@ -997,8 +1095,21 @@ const CHARTS_CORE = `
 /* Status messages knock out whatever they sit on: an empty history chart still
    draws its five band labels, and "No scored observations yet" landed straight
    on top of "ROUTINE". */
+/* THE LABEL LIFT. Every one of the rules below paints type INSIDE a graphic -
+   axis ticks, reference labels, and the words a chart prints when it has no
+   data. All of them were --ink-faint, which is the palette's tertiary ink, set
+   at 10px, sometimes over a band wash. A chart whose axis cannot be read is a
+   picture of a chart, and the empty states are worse: "no read" is the most
+   important sentence a graphic on this site can print, because this codebase
+   never imputes a number, and it was the palest thing in the frame.
+
+   --ink-faint -> --ink-dim throughout: 5.03 -> 7.59 against --bg in dark and
+   4.97 -> 6.61 in light. --ink-faint survives only where it is genuinely a
+   fourth-rank detail (band labels behind the series, sparkline references),
+   because the point of the change is to stop spending the faint ink on things
+   a reader has to read. */
 .ch-note { fill: var(--ink-dim); stroke: var(--bg); stroke-width: 3.5; paint-order: stroke fill; }
-.ch-note--dim { fill: var(--ink-faint); }
+.ch-note--dim { fill: var(--ink-dim); }
 
 /* sparkline() - pillar cards */
 .spark { display: block; }
@@ -1011,7 +1122,7 @@ const CHARTS_CORE = `
 .spark__dot  { fill: var(--ink); }
 /* font-size here, not only as an SVG attribute: _parts.sparkline (the older
    inline sparkline this kit replaces) sets no size and relies on the rule. */
-.spark__empty { fill: var(--ink-faint); font-size: var(--t-2xs); }
+.spark__empty { fill: var(--ink-dim); font-size: var(--t-2xs); }
 
 /* gauge() - the hero score as a bounded arc. The live segment is six units
    thicker than the rest (14 -> 20; GAUGE.liveSw in _charts.mjs must match this
@@ -1020,7 +1131,7 @@ const CHARTS_CORE = `
 .ch-g-seg { fill: none; stroke: var(--rule); stroke-width: 14; }
 .ch-g-seg--live { stroke: var(--accent); stroke-width: 20; }
 .ch-g-tick { stroke: var(--rule); stroke-width: 1; }
-.ch-g-ticklabel { fill: var(--ink-faint); }
+.ch-g-ticklabel { fill: var(--ink-dim); }
 .ch-g-mark { stroke: var(--ink); stroke-width: 3; stroke-linecap: butt; }
 .ch-g-markdot { fill: var(--ink); stroke: var(--bg); stroke-width: 1.2; }
 .ch-g-val { fill: var(--ink); font-weight: 700; letter-spacing: -0.03em; }
@@ -1045,7 +1156,7 @@ const CHARTS = `
 .ch-bandl--live { fill: var(--ink); font-weight: 700; }
 .ch-frame { fill: none; stroke: var(--rule); stroke-width: 1; }
 .ch-axline { stroke: var(--rule); stroke-width: 1; }
-.ch-ax { fill: var(--ink-faint); letter-spacing: 0.04em; }
+.ch-ax { fill: var(--ink-dim); letter-spacing: 0.04em; }
 /* A fat background-coloured stroke under the line, so the series stays readable
    where it crosses a band label without having to place labels defensively. */
 .ch-halo { fill: none; stroke: var(--bg); stroke-width: 4.5; stroke-linejoin: round; stroke-linecap: round; }
@@ -1061,14 +1172,14 @@ const CHARTS = `
 .ch-r-track { fill: var(--wash-alt); }
 .ch-r-bar { fill: var(--ink-dim); }
 .ch-r-cap { stroke: var(--ink); stroke-width: 1.5; }
-.ch-r-none { fill: none; stroke: var(--ink-faint); stroke-width: 1; stroke-dasharray: 3 3; }
-.ch-r-nonet { fill: var(--ink-faint); letter-spacing: 0.05em; }
+.ch-r-none { fill: none; stroke: var(--ink-dim); stroke-width: 1; stroke-dasharray: 3 3; }
+.ch-r-nonet { fill: var(--ink-dim); letter-spacing: 0.05em; }
 .ch-r-name { fill: var(--ink); font-family: var(--sans); font-weight: 600; letter-spacing: -0.005em; }
 .ch-r-glyph { fill: var(--ink-dim); }
 .ch-r-val { fill: var(--ink); font-weight: 700; }
-.ch-r-val--none { fill: var(--ink-faint); font-weight: 400; }
+.ch-r-val--none { fill: var(--ink-dim); font-weight: 400; }
 .ch-r-ref { stroke: var(--ink-faint); stroke-width: 1; stroke-dasharray: 2 4; }
-.ch-r-reflabel { fill: var(--ink-faint); letter-spacing: 0.06em; }
+.ch-r-reflabel { fill: var(--ink-dim); letter-spacing: 0.06em; }
 
 /* distributionStrip() */
 .ch-d-rest { fill: var(--wash); }
@@ -1079,7 +1190,7 @@ const CHARTS = `
 .ch-d-marker { stroke: var(--ink); stroke-width: 2; }
 .ch-d-caret { fill: var(--ink); }
 .ch-d-val { fill: var(--ink); font-weight: 700; stroke: var(--bg); stroke-width: 3; paint-order: stroke fill; }
-.ch-d-ax { fill: var(--ink-faint); letter-spacing: 0.12em; }
+.ch-d-ax { fill: var(--ink-dim); letter-spacing: 0.12em; }
 .ch-d-ax--dim { opacity: 0.7; }
 `;
 
@@ -1099,7 +1210,7 @@ const FRESH = `
   display: inline-flex; align-items: center; gap: 1px 5px; flex-wrap: wrap;
   font-family: var(--mono); font-size: var(--t-2xs); letter-spacing: 0.02em;
   border: 1px solid var(--rule); border-radius: var(--radius);
-  padding: 3px 6px; background: var(--bg-raised); color: var(--ink-dim);
+  padding: 4px 7px; background: var(--bg-raised); color: var(--ink-dim);
   white-space: nowrap; overflow: hidden; min-width: 0; text-decoration: none;
 }
 /* flex-wrap, not shrink. An uncalibrated source's detail reads "no baseline .
@@ -1271,7 +1382,7 @@ const ARRIVE = `
 .newbadge {
   display: inline-flex; align-items: baseline; gap: 5px;
   font-family: var(--mono); font-size: var(--t-2xs); letter-spacing: 0.06em;
-  border: 1px solid var(--accent-2); border-radius: 2px; padding: 1px 5px;
+  border: 1px solid var(--accent-2); border-radius: var(--radius); padding: 2px 6px;
   color: var(--ink-dim); white-space: nowrap; vertical-align: middle;
   /* .sec__h is a flex row terminated by a hairline rule, which is exactly where
      a section's count belongs. Without this the badge is a shrinkable flex item
@@ -1291,9 +1402,10 @@ const ARRIVE = `
    page per pixel - which is exactly what it is for. */
 .npulse {
   display: grid; gap: var(--s-3);
-  border: 1px solid var(--rule); border-left: 2px solid var(--accent-2);
-  border-radius: var(--radius); background: var(--bg-raised);
-  padding: var(--s-3) 13px;
+  border: 1px solid var(--rule); border-left: 3px solid var(--accent-2);
+  border-radius: var(--radius-lg); background: var(--bg-raised);
+  box-shadow: var(--shadow-1);
+  padding: var(--s-3) 14px;
 }
 @media (min-width: 760px) {
   .npulse { grid-template-columns: minmax(0, 190px) minmax(0, 1fr); align-items: start; }
@@ -1386,12 +1498,25 @@ const PILLARS = `
    in play - so on a 1440px dashboard the five pillars are ONE screen-row and
    the reader compares them by scanning rather than by scrolling. That is the
    whole argument for the section. */
-.pillars { display: grid; gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: var(--radius); overflow: hidden; }
+/* The grid is ONE object - a five-up panel with hairline seams, not five loose
+   boxes - so it takes the panel radius and the panel shadow as a unit. The
+   overflow clip was already here for the seams; it now also rounds the corner
+   cards' own inline-start pillar bars, which is why the radius can go this
+   large without a square corner poking out of a round one. */
+.pillars {
+  display: grid; gap: 1px; background: var(--rule);
+  border: 1px solid var(--rule); border-radius: var(--radius-lg); overflow: hidden;
+  box-shadow: var(--shadow-1);
+}
 @media (min-width: 620px) { .pillars { grid-template-columns: 1fr 1fr; } }
 @media (min-width: 900px) { .pillars { grid-template-columns: 1fr 1fr 1fr; } }
 @media (min-width: 1140px) { .pillars { grid-template-columns: repeat(5, 1fr); } }
 
-.pillar { background: var(--bg-raised); padding: 11px 12px 10px; display: flex; flex-direction: column; gap: 5px; }
+/* 11/12/10 was three numbers that named no step. One step, --s-3, on all four
+   sides, and the inner gap goes 5 -> 6 so the card's own stack is on the 2px
+   half-module the rest of the card uses. Five pillars across 1140px gain 6px
+   of height each and lose nothing. */
+.pillar { background: var(--bg-raised); padding: var(--s-3); display: flex; flex-direction: column; gap: 6px; }
 .pillar__top { display: flex; align-items: baseline; justify-content: space-between; gap: var(--s-2); }
 .pillar__name { font-size: var(--t-sm); font-weight: 600; margin: 0; }
 /* The score and its change since the previous observation, on one baseline. The
@@ -1411,7 +1536,7 @@ const PILLARS = `
 .pillar[data-dark="1"] .pillar__score { color: var(--ink-faint); }
 .pillar__dark {
   font-family: var(--mono); font-size: var(--t-2xs); line-height: 1.4; color: var(--dark-src);
-  border: 1px dashed currentColor; border-radius: 2px; padding: 3px 6px; align-self: flex-start;
+  border: 1px dashed currentColor; border-radius: var(--radius); padding: 3px 7px; align-self: flex-start;
 }
 /* Awaiting a baseline is a THIRD state, not a flavour of dark: the source
    answered, we have no frozen history to score it against. Dotted rather than
@@ -1444,7 +1569,7 @@ const MOVES = `
 .move[data-changed="1"] { background: var(--wash-alt); }
 .move__tag {
   font-family: var(--mono); font-size: var(--t-2xs); letter-spacing: 0.1em; text-transform: uppercase;
-  border: 1px solid var(--rule); color: var(--ink-dim); border-radius: 2px; padding: 1px 5px; margin-left: var(--s-2);
+  border: 1px solid var(--rule); color: var(--ink-dim); border-radius: var(--radius); padding: 2px 6px; margin-left: var(--s-2);
 }
 
 .movehead { display: grid; gap: var(--s-4); margin-bottom: var(--s-2); }
@@ -1456,7 +1581,20 @@ const MOVES = `
 .movehead__delta { font-size: var(--t-lg); font-weight: 700; color: var(--ink); }
 
 .kv { border-top: 1px solid var(--rule); margin: var(--s-5) 0 0; }
-.kv__row { display: grid; grid-template-columns: 1fr; gap: 0 18px; border-bottom: 1px solid var(--rule); padding: 9px 0; }
+/* Same banding grammar as .prose table, for the same reason: a move page is
+   fourteen of these rows and without a band the key and the value on line nine
+   are held together by nothing but proximity. */
+.kv__row {
+  display: grid; grid-template-columns: 1fr; gap: 0 18px;
+  border-bottom: 1px solid var(--rule-soft);
+  /* The band is inset into the gutter and the padding gives it back, so the
+     keys stay on exactly the column they were on and the tint has a margin
+     rather than ending under the first letter. 8px into a 16px gutter. */
+  padding: 10px var(--s-2); margin-inline: calc(var(--s-2) * -1);
+  border-radius: var(--radius);
+}
+.kv__row:nth-child(even) { background: var(--wash-alt); }
+.kv__row:last-child { border-bottom: 0; }
 @media (min-width: 560px) { .kv__row { grid-template-columns: 180px 1fr; } }
 .kv__k { font-family: var(--mono); font-size: var(--t-xs); letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); }
 .kv__v { font-size: var(--t-base); overflow-wrap: anywhere; }
@@ -1478,19 +1616,45 @@ const PROSE = `
 .prose li { margin: 0 0 0.4em; }
 .prose blockquote {
   margin: 1.2em 0; padding: 2px 0 2px var(--s-4);
-  border-left: 2px solid var(--rule); color: var(--ink-dim);
+  border-left: 3px solid var(--rule); color: var(--ink-dim);
 }
 .prose pre {
-  background: var(--bg-sunken); border: 1px solid var(--rule); border-radius: var(--radius);
+  background: var(--bg-sunken); border: 1px solid var(--rule); border-radius: var(--radius-lg);
   padding: var(--s-3) 14px; overflow-x: auto; font-size: var(--t-sm); line-height: 1.5; margin: 0 0 1.2em;
 }
 .prose :not(pre) > code {
-  background: var(--bg-raised); border: 1px solid var(--rule); border-radius: 2px;
-  padding: 1px 4px; font-size: var(--t-sm);
+  background: var(--bg-raised); border: 1px solid var(--rule); border-radius: var(--radius);
+  padding: 1px 5px; font-size: var(--t-sm);
 }
-.prose table { width: 100%; border-collapse: collapse; margin: 0 0 1.4em; font-size: var(--t-sm); display: block; overflow-x: auto; }
-.prose th, .prose td { text-align: left; padding: 7px 10px 7px 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
-.prose th { font-family: var(--mono); font-size: var(--t-xs); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-faint); font-weight: 500; }
+/* THE TABLE, which on methodology.html is most of the page and which had no
+   row structure at all: every row was a pair of hairlines and the header was
+   set in the faintest ink in the palette. A table with no banding is read by
+   tracking a finger across it, which is not something a reader will do twice.
+
+   Banding is --wash-alt, the same 2% knock-down the charts use for their
+   alternating bands, so the two objects on a page that both mean "these rows
+   are a series" agree. The hover is --wash, one step up, which is the only
+   thing on the row that says a pointer is on it - a table with no hover on a
+   30-row methodology page loses your place every time you glance away.
+
+   The header goes --ink-faint -> --ink-dim (4.97 -> 6.61 light, 5.03 -> 7.59
+   dark) and gains a 2px underline, so the head separates from the body on
+   weight and rule rather than on ink alone. Cells keep their flush-left first
+   column - a full-bleed band with the first column indented is a spreadsheet,
+   and this is a document - and the band is drawn on the row so the flush cell
+   still sits inside it. */
+.prose table {
+  width: 100%; border-collapse: collapse; margin: 0 0 1.4em; font-size: var(--t-sm);
+  display: block; overflow-x: auto;
+}
+.prose th, .prose td { text-align: left; padding: 8px 14px 8px 0; border-bottom: 1px solid var(--rule-soft); vertical-align: top; }
+.prose th {
+  font-family: var(--mono); font-size: var(--t-xs); letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--ink-dim); font-weight: 600; border-bottom: 2px solid var(--rule); white-space: nowrap;
+}
+.prose tbody tr:nth-child(even) { background: var(--wash-alt); }
+.prose tbody tr:hover { background: var(--wash); }
+.prose tbody tr:last-child td { border-bottom: 0; }
 /* Every heading level, not just h2 and h3. _markdown.mjs appends an anchor to
    ALL of them, so "Methodology #" was printing a permanent hash next to the
    title of the most-linked page on the site. Focus is included alongside hover
@@ -1508,14 +1672,24 @@ const PROSE = `
    is a caption under a five-word heading, and at 17px it was competing with the
    thing it was captioning while costing three lines of fold. */
 .lede { font-size: var(--t-base); color: var(--ink-dim); max-width: var(--measure); margin: 0 0 var(--s-3); }
-.sec .lede { font-size: var(--t-sm); line-height: 1.5; margin-bottom: var(--s-2); }
+.sec .lede { font-size: var(--t-sm); line-height: 1.55; margin-bottom: var(--s-3); }
 
 /* history.html timeline - a rule with dated entries, each with a real source. */
-.tl { list-style: none; margin: 0; padding: 0; border-left: 1px solid var(--rule); }
-.tl__item { position: relative; padding: 0 0 var(--s-5) 20px; }
+/* THE TIMELINE, which is the whole of history.html and was a 1px line with 7px
+   grey dots on it. The dot is now a NODE - a ring drawn in the page ground with
+   an --ink-dim edge - which is the difference between a list that has bullets
+   and a spine that has stops on it. The spine goes to 2px to match every other
+   rule on the site that separates rather than decorates (.sec__h::after,
+   .foot__h, .prose thead th), so the page has one line weight rather than two.
+
+   The ring's fill is --bg rather than transparent on purpose: it has to knock
+   the spine out from under itself or the line runs straight through the node. */
+.tl { list-style: none; margin: 0; padding: 0; border-left: 2px solid var(--rule); }
+.tl__item { position: relative; padding: 0 0 var(--s-5) 22px; }
 .tl__item::before {
-  content: ''; position: absolute; left: -4px; top: var(--s-2);
-  width: 7px; height: 7px; border-radius: 50%; background: var(--ink-faint);
+  content: ''; position: absolute; left: -6px; top: 6px;
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--bg); border: 2px solid var(--ink-dim); box-sizing: border-box;
 }
 .tl__date { font-family: var(--mono); font-size: var(--t-xs); letter-spacing: 0.08em; color: var(--ink-dim); display: block; margin-bottom: 3px; }
 .tl__h { font-size: var(--t-base); margin: 0 0 5px; }
@@ -1533,16 +1707,38 @@ const PROSE = `
    the heading so a five-word label does not float in the middle of a wide column. */
 .sec__h {
   display: flex; align-items: center; gap: var(--s-3);
-  font-family: var(--mono); font-size: var(--t-xs); letter-spacing: 0.16em; text-transform: uppercase;
-  color: var(--ink-faint); margin: 0 0 var(--s-2); font-weight: 500;
+  font-family: var(--mono); font-size: var(--t-sm); letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--ink-dim); margin: 0 0 var(--s-3); font-weight: 600;
 }
-.sec__h::after { content: ''; flex: 1 1 auto; height: 1px; background: var(--rule); }
+/* FOUR CHANGES TO THE MOST-REPEATED ELEMENT ON THE SITE, and they are the
+   cheapest hierarchy available: there are 32 of these across the templates and
+   every one of them was an <h2> set at 11px in the faintest ink in the palette
+   at weight 500 - lighter, smaller and paler than the caption underneath it.
+   A section heading that loses to its own lede is not a heading.
+
+     size    --t-xs -> --t-sm. 11 -> 13. Still the smallest step that is not a
+             micro-label, so nothing reflows; it is simply no longer tied with
+             the axis ticks inside the charts for smallest type on the page.
+     ink     --ink-faint -> --ink-dim. Measured: 5.03 -> 7.59 on --bg in dark
+             and 4.97 -> 6.61 in light. Both already cleared AA; this is the
+             brief's point that de-emphasis should come from size and weight
+             rather than from pale ink, applied to the element that had been
+             carrying all three at once.
+     weight  500 -> 600, which is what actually separates it from the mono
+             labels that share its case and tracking.
+     air     8 -> 12px below, so the heading belongs to the block it labels by
+             a clear margin rather than by one step of --s.
+
+   The trailing rule goes 1px -> 2px for the same reason: at 1px it read as the
+   bottom of a table, at 2px it reads as the end of a title. CHROMA overrides
+   only its BACKGROUND with the fade, so the weight set here is what ships. */
+.sec__h::after { content: ''; flex: 1 1 auto; height: 2px; border-radius: 2px; background: var(--rule); }
 
 /* The embed snippet box on the dashboard - the moat is only a moat if people
    can find the copy-paste line without reading docs. */
 .snippet {
-  background: var(--bg-sunken); border: 1px solid var(--rule); border-radius: var(--radius);
-  padding: 11px 13px; font-family: var(--mono); font-size: var(--t-xs); line-height: 1.5;
+  background: var(--bg-sunken); border: 1px solid var(--rule); border-radius: var(--radius-lg);
+  padding: var(--s-3) 14px; font-family: var(--mono); font-size: var(--t-xs); line-height: 1.5;
   overflow-x: auto; white-space: pre; color: var(--ink-dim); margin: 0 0 10px;
 }
 .apilist { list-style: none; margin: 0; padding: 0; display: grid; gap: 7px; }
@@ -1797,7 +1993,7 @@ const CHROMA = `
    the page's legend: the reader meets the ramp before they meet the rail that
    uses it. Absolutely positioned, so it adds no height and shifts nothing. */
 .masthead::before {
-  content: ''; position: absolute; left: 0; right: 0; top: 0; height: 2px;
+  content: ''; position: absolute; left: 0; right: 0; top: 0; height: 3px;
   background: linear-gradient(90deg,
     var(--heat-5) 0%, var(--heat-4) 30%, var(--heat-3) 54%, var(--heat-2) 74%, var(--heat-1) 100%);
 }
@@ -1827,8 +2023,14 @@ const CHROMA = `
 .chip--code::before       { color: var(--heat-2); }
 
 /* The section rule fades rather than stopping dead, which is the cheapest
-   possible way to make eleven identical headings look composed. */
-.sec__h::after { background: linear-gradient(90deg, var(--rule), transparent); }
+   possible way to make eleven identical headings look composed. It now fades
+   from var(--p) where a pillar hue is in scope and from --rule where it is
+   not, so a heading inside a pillar-scoped block is tied to its pillar by the
+   same five colours the cards, the feed rows and the filter chips use. The
+   fallback is the neutral rule, which is what every heading outside such a
+   block still gets - this adds a hue where one is already defined and invents
+   none. Height comes from the base rule (2px), not from here. */
+.sec__h::after { background: linear-gradient(90deg, var(--p, var(--rule)), transparent); }
 
 /* ---- THE OVEN RAIL TAKES THE HEAT RAMP -----------------------------------
 
@@ -1916,6 +2118,24 @@ const CHROMA = `
    so the next reader knows it is deliberate that it is the LEVEL ramp and not
    the pillar palette: the pillars are five categories with no order, and a
    gradient across them would claim an ordering that does not exist. */
+
+/* ---- ONE HOVER GRAMMAR, SPENT IN THE INTERACTIVE HUE ----------------------
+
+   --accent-2 is defined at the top of this file as "every interactive
+   affordance", and it was being spent on about half of them: the cross-sell
+   cards had it, the footer index and the row lists did not, so whether a thing
+   was clickable was answered differently in three places on one page.
+
+   Every hover below is the same two ideas - a 3px inline-start mark in the
+   interactive hue, and the raised ground - so a reader learns the affordance
+   once. Colour is never alone in any of them: the ground moves too, and every
+   one of these targets is a link whose cursor and focus ring already say so.
+   An inset shadow rather than a border, because a border on hover reflows a
+   row by 3px and an inset does not move anything at all. */
+.move__a:hover { box-shadow: inset 3px 0 0 var(--accent-2); }
+a.chip:hover { border-color: var(--accent-2); background: var(--bg-sunken); }
+a.chip:hover b { color: var(--accent-2); }
+
 `;
 
 
@@ -2274,14 +2494,19 @@ const XSELL = `
 .xsell__a {
   position: relative;
   display: flex; flex-direction: column; gap: 3px; height: 100%;
-  padding: 10px 12px 11px;
+  padding: var(--s-3) 14px;
   background: var(--bg-raised);
   border: 1px solid var(--rule);
-  border-radius: var(--radius);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-1);
   text-decoration: none; color: inherit;
-  transition: border-color 120ms ease, background-color 120ms ease, transform 120ms ease;
+  transition: border-color 120ms ease, background-color 120ms ease,
+              box-shadow 120ms ease, transform 120ms ease;
 }
-.xsell__a:hover { border-color: var(--accent-2); background: var(--bg-sunken); }
+/* The deck is the only place on the site where five cards sit in a row and
+   every one of them is a link, so it is where a hover is worth spending depth
+   on: the card lifts off the page rather than merely changing its edge. */
+.xsell__a:hover { border-color: var(--accent-2); background: var(--bg-sunken); box-shadow: var(--shadow-2); }
 .xsell__a::after {
   content: '\\2192'; position: absolute; top: 9px; right: 10px;
   font-family: var(--mono); font-size: var(--t-xs); color: var(--ink-faint);
