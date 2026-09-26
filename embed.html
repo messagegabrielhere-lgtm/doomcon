@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DOOMCON 4 · ROUTINE</title>
+<meta name="robots" content="noindex,follow">
+<link rel="canonical" href="https://messagegabrielhere-lgtm.github.io/doomcon/embed.html">
+<style>:root {
+  color-scheme: dark light;
+  --bg: #0b0c0e;
+  --bg-raised: #131519;
+  --bg-sunken: #08090a;
+  --ink: #e8eaee;
+  --ink-dim: #9aa2ad;
+  --ink-faint: #7a828c;
+  --rule: #23262c;
+  --rule-soft: #191c21;
+  --accent: #ffb020;
+  --accent-ink: #0b0c0e;
+  --accent-2: #56b0e0;
+  --ok: #5fd08a;
+  --stale: #ffb020;
+  --dark-src: #ff6b6b;
+  --heat-5: #56b0e0;
+  --heat-4: #5fd08a;
+  --heat-3: #ffb020;
+  --heat-2: #ff8b3d;
+  --heat-1: #ff5f56;
+  --scan: rgba(255,255,255,0.016);
+  --wash: rgba(232,234,238,0.042);
+  --wash-alt: rgba(232,234,238,0.021);
+  --wash-live: rgba(255,176,32,0.115);
+  --fill: rgba(255,176,32,0.150);
+  --shadow-1: 0 1px 2px rgba(0,0,0,0.44);
+  --shadow-2: 0 10px 26px -12px rgba(0,0,0,0.72), 0 2px 6px -2px rgba(0,0,0,0.5);
+  --pill-capability: #6ea8fe;
+  --pill-compute: #c792ea;
+  --pill-attention: #ffb020;
+  --pill-governance: #5fd08a;
+  --pill-markets: #ff8f6b;
+  --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --sans: 'Inter Tight', system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+  --t-2xs:  0.75rem;
+  --t-xs:   0.8125rem;
+  --t-sm:   0.90625rem;
+  --t-base: 1rem;
+  --t-lg:   1.25rem;
+  --t-xl:   1.625rem;
+  --t-md:   var(--t-base);
+  --d-level: clamp(5rem, 29vw, 8.75rem);
+  --d-score: clamp(2.5rem, 12.5vw, 3.5rem);
+  --d-title: clamp(2rem, 8.5vw, 2.5rem);
+  --s-1: 4px;  --s-2: 8px;  --s-3: 12px; --s-4: 16px;
+  --s-5: 24px; --s-6: 32px; --s-7: 48px; --s-8: 64px;
+  --row:    10px;
+  --sec:    32px;
+  --sec-lg: 48px;
+  --wrap: 940px;
+  --gutter: 16px;
+  --measure: 50ch;
+  --radius: 6px;
+  --radius-lg: 12px;
+  --rail-h: 28px;
+}
+body[data-wide="1"] { --wrap: 1240px; }
+[data-org="openai"] { --avt-a: #10a37f; }
+[data-org="anthropic"] { --avt-a: #d97757; }
+[data-org="google-deepmind"] { --avt-a: #5b9cff; }
+[data-org="xai"] { --avt-a: #aab3bf; }
+[data-org="meta"] { --avt-a: #3b82f6; }
+[data-org="deepseek"] { --avt-a: #7a8cff; }
+[data-org="mistral"] { --avt-a: #fa720f; }
+[data-org="qwen"] { --avt-a: #8b86ff; }
+[data-pillar="capability"] { --p: #6ea8fe; }
+[data-pillar="compute"] { --p: #c792ea; }
+[data-pillar="attention"] { --p: #ffb020; }
+[data-pillar="governance"] { --p: #5fd08a; }
+[data-pillar="markets"] { --p: #ff8f6b; }
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg: #faf9f6;
+    --bg-raised: #ffffff;
+    --bg-sunken: #f1efe9;
+    --ink: #14161a;
+    --ink-dim: #545a62;
+    --ink-faint: #666d75;
+    --rule: #e0ddd5;
+    --rule-soft: #eeebe4;
+    --accent: #9a5a00;
+    --accent-ink: #ffffff;
+    --accent-2: #0f6183;
+    --ok: #17714a;
+    --stale: #8a5a00;
+    --dark-src: #8c1d18;
+    --heat-5: #0f6183;
+    --heat-4: #17714a;
+    --heat-3: #9a5a00;
+    --heat-2: #a8450d;
+    --heat-1: #b3261e;
+    --scan: rgba(0,0,0,0.012);
+    --wash: rgba(20,22,26,0.046);
+    --wash-alt: rgba(20,22,26,0.022);
+    --wash-live: rgba(154,90,0,0.105);
+    --fill: rgba(154,90,0,0.130);
+    --shadow-1: 0 1px 2px rgba(20,22,26,0.055);
+    --shadow-2: 0 10px 26px -12px rgba(20,22,26,0.18), 0 2px 6px -2px rgba(20,22,26,0.08);
+  --pill-capability: #1d4ed8;
+  --pill-compute: #6b21a8;
+  --pill-attention: #9a5a00;
+  --pill-governance: #17714a;
+  --pill-markets: #b3441e;
+  }
+  :root:not([data-theme="dark"]) [data-org="openai"] { --avt-a: #0a6e55; }
+  :root:not([data-theme="dark"]) [data-org="anthropic"] { --avt-a: #a2472a; }
+  :root:not([data-theme="dark"]) [data-org="google-deepmind"] { --avt-a: #1a56d6; }
+  :root:not([data-theme="dark"]) [data-org="xai"] { --avt-a: #4a525c; }
+  :root:not([data-theme="dark"]) [data-org="meta"] { --avt-a: #1d4ed8; }
+  :root:not([data-theme="dark"]) [data-org="deepseek"] { --avt-a: #3b3fc4; }
+  :root:not([data-theme="dark"]) [data-org="mistral"] { --avt-a: #a34204; }
+  :root:not([data-theme="dark"]) [data-org="qwen"] { --avt-a: #4b46c4; }
+  :root:not([data-theme="dark"]) [data-pillar="capability"] { --p: #1d4ed8; }
+  :root:not([data-theme="dark"]) [data-pillar="compute"] { --p: #6b21a8; }
+  :root:not([data-theme="dark"]) [data-pillar="attention"] { --p: #9a5a00; }
+  :root:not([data-theme="dark"]) [data-pillar="governance"] { --p: #17714a; }
+  :root:not([data-theme="dark"]) [data-pillar="markets"] { --p: #b3441e; }
+}
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #faf9f6;
+  --bg-raised: #ffffff;
+  --bg-sunken: #f1efe9;
+  --ink: #14161a;
+  --ink-dim: #545a62;
+  --ink-faint: #666d75;
+  --rule: #e0ddd5;
+  --rule-soft: #eeebe4;
+  --accent: #9a5a00;
+  --accent-ink: #ffffff;
+  --accent-2: #0f6183;
+  --ok: #17714a;
+  --stale: #8a5a00;
+  --dark-src: #8c1d18;
+  --heat-5: #0f6183;
+  --heat-4: #17714a;
+  --heat-3: #9a5a00;
+  --heat-2: #a8450d;
+  --heat-1: #b3261e;
+  --scan: rgba(0,0,0,0.012);
+  --wash: rgba(20,22,26,0.046);
+  --wash-alt: rgba(20,22,26,0.022);
+  --wash-live: rgba(154,90,0,0.105);
+  --fill: rgba(154,90,0,0.130);
+  --shadow-1: 0 1px 2px rgba(20,22,26,0.055);
+  --shadow-2: 0 10px 26px -12px rgba(20,22,26,0.18), 0 2px 6px -2px rgba(20,22,26,0.08);
+  --pill-capability: #1d4ed8;
+  --pill-compute: #6b21a8;
+  --pill-attention: #9a5a00;
+  --pill-governance: #17714a;
+  --pill-markets: #b3441e;
+}
+:root[data-theme="light"] [data-org="openai"] { --avt-a: #0a6e55; }
+:root[data-theme="light"] [data-org="anthropic"] { --avt-a: #a2472a; }
+:root[data-theme="light"] [data-org="google-deepmind"] { --avt-a: #1a56d6; }
+:root[data-theme="light"] [data-org="xai"] { --avt-a: #4a525c; }
+:root[data-theme="light"] [data-org="meta"] { --avt-a: #1d4ed8; }
+:root[data-theme="light"] [data-org="deepseek"] { --avt-a: #3b3fc4; }
+:root[data-theme="light"] [data-org="mistral"] { --avt-a: #a34204; }
+:root[data-theme="light"] [data-org="qwen"] { --avt-a: #4b46c4; }
+:root[data-theme="light"] [data-pillar="capability"] { --p: #1d4ed8; }
+:root[data-theme="light"] [data-pillar="compute"] { --p: #6b21a8; }
+:root[data-theme="light"] [data-pillar="attention"] { --p: #9a5a00; }
+:root[data-theme="light"] [data-pillar="governance"] { --p: #17714a; }
+:root[data-theme="light"] [data-pillar="markets"] { --p: #b3441e; }
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0b0c0e;
+  --bg-raised: #131519;
+  --bg-sunken: #08090a;
+  --ink: #e8eaee;
+  --ink-dim: #9aa2ad;
+  --ink-faint: #7a828c;
+  --rule: #23262c;
+  --rule-soft: #191c21;
+  --accent: #ffb020;
+  --accent-ink: #0b0c0e;
+  --accent-2: #56b0e0;
+  --ok: #5fd08a;
+  --stale: #ffb020;
+  --dark-src: #ff6b6b;
+  --heat-5: #56b0e0;
+  --heat-4: #5fd08a;
+  --heat-3: #ffb020;
+  --heat-2: #ff8b3d;
+  --heat-1: #ff5f56;
+  --scan: rgba(255,255,255,0.016);
+  --wash: rgba(232,234,238,0.042);
+  --wash-alt: rgba(232,234,238,0.021);
+  --wash-live: rgba(255,176,32,0.115);
+  --fill: rgba(255,176,32,0.150);
+  --shadow-1: 0 1px 2px rgba(0,0,0,0.44);
+  --shadow-2: 0 10px 26px -12px rgba(0,0,0,0.72), 0 2px 6px -2px rgba(0,0,0,0.5);
+  --pill-capability: #6ea8fe;
+  --pill-compute: #c792ea;
+  --pill-attention: #ffb020;
+  --pill-governance: #5fd08a;
+  --pill-markets: #ff8f6b;
+}
+:root[data-theme="dark"] [data-org="openai"] { --avt-a: #10a37f; }
+:root[data-theme="dark"] [data-org="anthropic"] { --avt-a: #d97757; }
+:root[data-theme="dark"] [data-org="google-deepmind"] { --avt-a: #5b9cff; }
+:root[data-theme="dark"] [data-org="xai"] { --avt-a: #aab3bf; }
+:root[data-theme="dark"] [data-org="meta"] { --avt-a: #3b82f6; }
+:root[data-theme="dark"] [data-org="deepseek"] { --avt-a: #7a8cff; }
+:root[data-theme="dark"] [data-org="mistral"] { --avt-a: #fa720f; }
+:root[data-theme="dark"] [data-org="qwen"] { --avt-a: #8b86ff; }
+:root[data-theme="dark"] [data-pillar="capability"] { --p: #6ea8fe; }
+:root[data-theme="dark"] [data-pillar="compute"] { --p: #c792ea; }
+:root[data-theme="dark"] [data-pillar="attention"] { --p: #ffb020; }
+:root[data-theme="dark"] [data-pillar="governance"] { --p: #5fd08a; }
+:root[data-theme="dark"] [data-pillar="markets"] { --p: #ff8f6b; }
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: transparent; }
+body { font-family: var(--sans); color: var(--ink); -webkit-font-smoothing: antialiased; font-variant-numeric: tabular-nums; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+}
+.w {
+  display: block; text-decoration: none; color: inherit;
+  background: var(--bg); border: 1px solid var(--rule); border-radius: 4px;
+  padding: 12px 14px 11px; min-width: 0;
+}
+.w:hover { border-color: var(--accent-2); }
+.w__top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.w__brand { font-family: var(--mono); font-size: var(--t-2xs); font-weight: 700; letter-spacing: 0.2em; color: var(--ink-faint); }
+.w__main { display: flex; align-items: center; gap: 12px; margin-top: 6px; }
+.w__digit { font-family: var(--mono); font-weight: 700; font-size: var(--w-digit, 44px); line-height: 0.85; letter-spacing: -0.05em; color: var(--accent); }
+.w__meta { min-width: 0; }
+.w__name { font-family: var(--mono); font-weight: 700; font-size: var(--t-sm); letter-spacing: 0.06em; margin: 0 0 4px; }
+.w__score { font-family: var(--mono); font-size: var(--t-xs); color: var(--ink-dim); margin: 4px 0 0; font-variant-numeric: tabular-nums; }
+.w__bars { display: flex; gap: 3px; }
+.w__bars span { width: 9px; height: 9px; border: 1.5px solid var(--accent); border-radius: 1px; }
+.w__bars span[data-on="1"] { background: var(--accent); }
+.w__foot { display: flex; justify-content: space-between; gap: 8px; margin-top: 9px; padding-top: 8px; border-top: 1px solid var(--rule-soft); font-family: var(--mono); font-size: var(--t-2xs); letter-spacing: 0.06em; color: var(--ink-faint); }
+.w__degraded { color: var(--stale); }
+body[data-compact="1"] { --w-digit: 30px; }
+body[data-compact="1"] .w__foot { margin-top: 7px; }
+.ch {
+  margin: 0;
+  padding: var(--s-3) var(--s-3) var(--s-2);
+  background: var(--bg);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-1);
+}
+@media (min-width: 640px) { .ch { padding: var(--s-4) var(--s-4) var(--s-3); } }
+.ch__svg { display: block; width: 100%; max-width: var(--w, 100%); height: auto; margin-inline: auto; }
+.ch__cap {
+  font-family: var(--mono); font-size: var(--t-xs); line-height: 1.5;
+  color: var(--ink-dim); margin: var(--s-3) 0 0; letter-spacing: 0.01em;
+  padding-top: var(--s-2); border-top: 1px solid var(--rule-soft);
+}
+.ch text, .spark text {
+  font-family: var(--mono); fill: var(--ink-dim); font-variant-numeric: tabular-nums;
+}
+.ch-note { fill: var(--ink-dim); stroke: var(--bg); stroke-width: 3.5; paint-order: stroke fill; }
+.ch-note--dim { fill: var(--ink-dim); }
+.spark { display: block; }
+.spark__area { fill: var(--fill); }
+.spark__line { fill: none; stroke: var(--ink-dim); stroke-width: 1.6; stroke-linejoin: round; stroke-linecap: round; }
+.spark__base { stroke: var(--rule); stroke-width: 1; }
+.spark__ref  { stroke: var(--ink-faint); stroke-width: 1; }
+.spark__reflabel { fill: var(--ink-faint); }
+.spark__ring { fill: var(--bg-raised); stroke: var(--ink); stroke-width: 1.4; }
+.spark__dot  { fill: var(--ink); }
+.spark__empty { fill: var(--ink-dim); font-size: var(--t-2xs); }
+.ch-g-seg { fill: none; stroke: var(--rule); stroke-width: 14; }
+.ch-g-seg--live { stroke: var(--accent); stroke-width: 20; }
+.ch-g-tick { stroke: var(--rule); stroke-width: 1; }
+.ch-g-ticklabel { fill: var(--ink-dim); }
+.ch-g-mark { stroke: var(--ink); stroke-width: 3; stroke-linecap: butt; }
+.ch-g-markdot { fill: var(--ink); stroke: var(--bg); stroke-width: 1.2; }
+.ch-g-val { fill: var(--ink); font-weight: 700; letter-spacing: -0.03em; }
+.ch-g-of { fill: var(--ink-faint); letter-spacing: 0.16em; }
+.ch-g-band { fill: var(--ink-dim); font-weight: 700; letter-spacing: 0.06em; }
+
+:root { --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        --sans: system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif; }</style>
+</head>
+<body>
+<a class="w" href="https://messagegabrielhere-lgtm.github.io/doomcon/" target="_blank" rel="noopener"
+   title="DOOMCON measures how much is happening, not how bad it is. Levels describe observable activity tempo against this index’s own record. They are not a probability of harm.">
+  <div class="w__top">
+    <span class="w__brand">DOOMCON</span>
+    <div class="w__bars" aria-hidden="true"><span data-on="1"></span><span data-on="1"></span><span data-on="0"></span><span data-on="0"></span><span data-on="0"></span></div>
+  </div>
+  <div class="w__main">
+    <span class="w__digit" aria-hidden="true">4</span>
+    <span class="w__meta">
+      <span class="w__name">ROUTINE</span>
+      <span class="w__score">40.7 / 100 · all sources live</span>
+    </span>
+  </div>
+  <div class="w__foot">
+    <span>2026-09-26 16:21:44 UTC</span>
+    <span>messagegabrielhere-lgtm.github.io/doomcon</span>
+  </div>
+</a>
+<script>
+// The only script on the site, and nothing depends on it: the widget is fully
+// rendered before it runs. It exists so a host page can pin the theme, because
+// a light blog cannot restyle across an iframe boundary and a black box on a
+// white page looks broken. try/catch because a sandboxed iframe can throw on
+// location access, and a thrown error here must not be visible to the host.
+try {
+  var q = new URLSearchParams(location.search);
+  var t = q.get('theme');
+  if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+  if (q.get('compact') === '1') document.body.setAttribute('data-compact', '1');
+} catch (e) { /* pinned theme unavailable; prefers-color-scheme still applies */ }
+</script>
+</body>
+</html>

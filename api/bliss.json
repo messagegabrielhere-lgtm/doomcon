@@ -1,0 +1,536 @@
+{
+  "awaiting_baseline": true,
+  "bliss_version": "1.0.0",
+  "comparison": {
+    "bliss": {
+      "level": null,
+      "level_name": null,
+      "score": null
+    },
+    "computable": false,
+    "divergence": null,
+    "divergence_band": 3,
+    "doomcon": {
+      "generated_at": "2026-09-26T16:21:44.111Z",
+      "level": 4,
+      "level_name": "ROUTINE",
+      "score": 40.6954
+    },
+    "reading": null,
+    "working": null
+  },
+  "constants": {
+    "boundaries": {
+      "2": 85,
+      "3": 70,
+      "4": 55,
+      "5": 35
+    },
+    "composite_weights": {
+      "max": 0.3,
+      "mean": 0.7
+    },
+    "deadband": 3,
+    "dwell_down_seconds": [
+      43200,
+      10800
+    ],
+    "dwell_up_seconds": [
+      10800,
+      1800
+    ],
+    "lock_ms": 14400000,
+    "min_interval_ms": 21600000,
+    "nowcast_min_weight": 0.5,
+    "nowcast_window": 12,
+    "quorum": 2,
+    "score_centre": 50,
+    "score_z_scale": 12.5
+  },
+  "dark_pillars": [],
+  "decision": null,
+  "degraded": false,
+  "delta_from_previous": null,
+  "engine_version": "1.0.0",
+  "failed_sources": [],
+  "generated_at": "2026-09-26T16:22:01.575Z",
+  "index": "BLISS",
+  "level": null,
+  "level_name": null,
+  "level_since": "2026-09-24T03:08:24.487Z",
+  "levels": [
+    {
+      "band": [
+        0,
+        34
+      ],
+      "description": "The floor of the scale. Papers, trials, price curves and open releases are all moving slower than BLISS calls normal. That is not a judgement about whether anything good is happening — it is a quiet hour on these particular instruments.",
+      "epithet": "Needle at rest",
+      "gloss": "Upside activity below this index’s own historical norm.",
+      "level": 5,
+      "name": "BECALMED"
+    },
+    {
+      "band": [
+        35,
+        54
+      ],
+      "description": "The scale is centred here by construction: 50 is the middle of the frozen reference distribution. A reading in this band means nothing across the five pillars is behaving out of character.",
+      "epithet": "Needle breathing",
+      "gloss": "Upside activity within the normal range of the record.",
+      "level": 4,
+      "name": "STEADY"
+    },
+    {
+      "band": [
+        55,
+        69
+      ],
+      "description": "Something is carrying the average. One or more pillars have pulled clear of their own reference distribution and the composite followed. It says louder than usual. It does not say why, and the pillar breakdown is where you go to find out.",
+      "epithet": "Off the rest stop",
+      "gloss": "Upside activity above the normal range of the record.",
+      "level": 3,
+      "name": "LIFTING"
+    },
+    {
+      "band": [
+        70,
+        84
+      ],
+      "description": "The top decile, with several pillars high at once. That is what it looks like when results, trials and open releases land in the same window — and it is also what it looks like when one source is having a strange week. The inputs tell them apart.",
+      "epithet": "Pinned high",
+      "gloss": "Upside activity in the top decile of the record.",
+      "level": 2,
+      "name": "SURGING"
+    },
+    {
+      "band": [
+        85,
+        100
+      ],
+      "description": "Past the top of the reference distribution: the frozen record holds nothing like this. The name is a statement about our own record running out, not about anybody being saved. Those are two different sentences and this index refuses to merge them.",
+      "epithet": "Off the top of the chart",
+      "gloss": "Upside activity beyond anything in the record.",
+      "level": 1,
+      "name": "UNMATCHED"
+    }
+  ],
+  "pillars": [
+    {
+      "blurb": "AI methods showing up in other people’s fields.",
+      "dark": false,
+      "description": "Papers outside computer science whose method is a model: structural biology, materials, chemistry, numerical analysis. Not the field talking about itself — the field being used by somebody solving a different problem.",
+      "id": "science",
+      "name": "Science",
+      "percentile": null,
+      "score": null,
+      "sources_ok": 0,
+      "sources_total": 2,
+      "uncalibrated": true
+    },
+    {
+      "blurb": "Trials started, clinical results indexed.",
+      "dark": false,
+      "description": "Registered interventional trials involving AI, and the published clinical literature pairing a model with a diagnosis. A trial costs a protocol, an ethics board and enrolled human beings. It is the most expensive signal in this index.",
+      "id": "medicine",
+      "name": "Medicine",
+      "percentile": null,
+      "score": null,
+      "sources_ok": 0,
+      "sources_total": 2,
+      "uncalibrated": true
+    },
+    {
+      "blurb": "What a dollar buys, and what you may keep.",
+      "dark": false,
+      "description": "The price of a million tokens at the cheap frontier, and the volume of weights published under a licence that lets a stranger run them commercially without asking. Falling cost is not a proxy for broadening access. It is broadening access.",
+      "id": "access",
+      "name": "Access",
+      "percentile": null,
+      "score": null,
+      "sources_ok": 0,
+      "sources_total": 2,
+      "uncalibrated": true
+    },
+    {
+      "blurb": "People building, not labs announcing.",
+      "dark": false,
+      "description": "Installs of the AI stack and downloads of widely deployed open models. Every other pillar counts what laboratories produce; this one counts what everybody else does with it.",
+      "id": "adoption",
+      "name": "Adoption",
+      "percentile": null,
+      "score": null,
+      "sources_ok": 0,
+      "sources_total": 2,
+      "uncalibrated": true
+    },
+    {
+      "blurb": "How much of it anybody is allowed to hold.",
+      "dark": false,
+      "description": "The open-weight share of notable model releases over a year, and the count of new permissively licensed ML repositories over a month. One measures the frontier, the other the floor. A share can fall while every count rises, and this pillar can say so.",
+      "id": "openness",
+      "name": "Openness",
+      "percentile": null,
+      "score": null,
+      "sources_ok": 0,
+      "sources_total": 2,
+      "uncalibrated": true
+    }
+  ],
+  "posture": "awaiting-baseline",
+  "previous_level": null,
+  "reference": {
+    "built_at": null,
+    "hash": null,
+    "present": false
+  },
+  "reference_present": false,
+  "rule_fired": "no_live_pillars",
+  "schema": 1,
+  "score": null,
+  "sources": [
+    {
+      "age_seconds": 0,
+      "error": "awaiting_baseline: \"arxiv-science-ai\" has no entry in data/bliss-reference.json yet, so it is collected and published but not scored",
+      "id": "arxiv-science-ai",
+      "label": "arXiv AI-method papers outside cs.*",
+      "last_ok": "2026-09-26T16:22:01.594Z",
+      "meta": {
+        "categories": [
+          "q-bio.BM",
+          "q-bio.QM",
+          "q-bio.GN",
+          "cond-mat.mtrl-sci",
+          "physics.chem-ph",
+          "physics.med-ph",
+          "math.NA",
+          "astro-ph.IM"
+        ],
+        "phrases": [
+          "machine learning",
+          "deep learning",
+          "neural network",
+          "foundation model",
+          "language model"
+        ],
+        "window_days": 7,
+        "window_from": "202609191622",
+        "window_to": "202609261622"
+      },
+      "observed_at": "2026-09-26T16:22:01.594Z",
+      "ok": false,
+      "percentile": null,
+      "pillar": "science",
+      "score": null,
+      "score_raw": null,
+      "uncalibrated": true,
+      "unit": "papers/7d",
+      "value": 60
+    },
+    {
+      "age_seconds": 0,
+      "error": "awaiting_baseline: \"openalex-ai-science\" has no entry in data/bliss-reference.json yet, so it is collected and published but not scored",
+      "id": "openalex-ai-science",
+      "label": "OpenAlex AI-in-science articles",
+      "last_ok": "2026-09-26T16:22:01.595Z",
+      "meta": {
+        "boolean_operators": 3,
+        "search": "(machine learning OR deep learning) AND (protein structure OR materials discovery)",
+        "window_days": 30,
+        "window_from": "2026-08-27",
+        "window_to": "2026-09-26"
+      },
+      "observed_at": "2026-09-26T16:22:01.595Z",
+      "ok": false,
+      "percentile": null,
+      "pillar": "science",
+      "score": null,
+      "score_raw": null,
+      "uncalibrated": true,
+      "unit": "works/30d",
+      "value": 99
+    },
+    {
+      "age_seconds": 0,
+      "error": "awaiting_baseline: \"clinicaltrials-ai\" has no entry in data/bliss-reference.json yet, so it is collected and published but not scored",
+      "id": "clinicaltrials-ai",
+      "label": "ClinicalTrials.gov AI trial starts",
+      "last_ok": "2026-09-26T16:22:01.595Z",
+      "meta": {
+        "registry": "ClinicalTrials.gov API v2",
+        "start_date_from": "2026-03-30",
+        "start_date_to": "2026-09-26",
+        "terms": [
+          "\"artificial intelligence\"",
+          "\"machine learning\""
+        ],
+        "window_days": 180
+      },
+      "observed_at": "2026-09-26T16:22:01.595Z",
+      "ok": false,
+      "percentile": null,
+      "pillar": "medicine",
+      "score": null,
+      "score_raw": null,
+      "uncalibrated": true,
+      "unit": "trials/180d",
+      "value": 691
+    },
+    {
+      "age_seconds": 0,
+      "error": "awaiting_baseline: \"pubmed-ai-clinical\" has no entry in data/bliss-reference.json yet, so it is collected and published but not scored",
+      "id": "pubmed-ai-clinical",
+      "label": "PubMed AI-in-clinical-practice records",
+      "last_ok": "2026-09-26T16:22:01.595Z",
+      "meta": {
+        "ai_terms": [
+          "\"artificial intelligence\"",
+          "\"machine learning\"",
+          "\"deep learning\""
+        ],
+        "clinical_terms": [
+          "diagnosis",
+          "\"drug discovery\"",
+          "screening",
+          "prognosis"
+        ],
+        "date_field": "EDAT (Entrez date, i.e. when PubMed indexed it)",
+        "edat_from": "2026/08/27",
+        "edat_to": "2026/09/26",
+        "window_days": 30
+      },
+      "observed_at": "2026-09-26T16:22:01.595Z",
+      "ok": false,
+      "percentile": null,
+      "pillar": "medicine",
+      "score": null,
+      "score_raw": null,
+      "uncalibrated": true,
+      "unit": "records/30d",
+      "value": 2172
+    },
+    {
+      "age_seconds": 0,
+      "error": "awaiting_baseline: \"hf-permissive-models\" has no entry in data/bliss-reference.json yet, so it is collected and published but not scored",
+      "id": "hf-permissive-models",
+      "label": "Open-weight models under a permissive licence",
+      "last_ok": "2026-09-26T16:22:01.595Z",
+      "meta": {
+        "licences": [
+          "apache-2.0",
+          "mit"
+        ],
+        "page_size": 1000,
+        "pages_fetched": 2,
+        "per_licence": {
+          "apache-2.0": 757,
+          "mit": 375
+        },
+        "window_hours": 24
+      },
+      "observed_at": "2026-09-26T16:22:01.595Z",
+      "ok": false,
+      "percentile": null,
+      "pillar": "access",
+      "score": null,
+      "score_raw": null,
+      "uncalibrated": true,
+      "unit": "models/24h",
+      "value": 1132
+    },
+    {
+      "age_seconds": 0,
+      "error": "awaiting_baseline: \"openrouter-cost-floor\" has no entry in data/bliss-reference.json yet, so it is collected and published but not scored",
+      "id": "openrouter-cost-floor",
+      "label": "Tokens per dollar at the cheap frontier",
+      "last_ok": "2026-09-26T16:22:01.595Z",
+      "meta": {
+        "blend": {
+          "completion": 0.25,
+          "prompt": 0.75
+        },
+        "catalogue_size": 458,
+        "cheapest_usd_per_million": 0.02175,
+        "free_models": 21,
+        "median_usd_per_million": 0.875,
+        "min_context": 131072,
+        "percentile": 0.1,
+        "pool_size": 360,
+        "priced_models": 431,
+        "usd_per_million_tokens": 0.1225
+      },
+      "observed_at": "2026-09-26T16:22:01.595Z",
+      "ok": false,
+      "percentile": null,
+      "pillar": "access",
+      "score": null,
+      "score_raw": null,
+      "uncalibrated": true,
+      "unit": "Mtok/usd",
+      "value": 8.163265
+    },
+    {
+      "age_seconds": 0,
+      "error": "awaiting_baseline: \"hf-model-downloads\" has no entry in data/bliss-reference.json yet, so it is collected and published but not scored",
+      "id": "hf-model-downloads",
+      "label": "Downloads of widely deployed open models",
+      "last_ok": "2026-09-26T16:22:01.595Z",
+      "meta": {
+        "basket": [
+          "sentence-transformers/all-MiniLM-L6-v2",
+          "Qwen/Qwen2.5-7B-Instruct",
+          "meta-llama/Llama-3.1-8B-Instruct",
+          "openai/whisper-large-v3",
+          "stabilityai/stable-diffusion-xl-base-1.0",
+          "mistralai/Mistral-7B-Instruct-v0.3",
+          "google/gemma-2-9b-it",
+          "microsoft/Phi-3-mini-4k-instruct"
+        ],
+        "basket_size": 8,
+        "field": "downloads (trailing 30d)",
+        "per_model": {
+          "Qwen/Qwen2.5-7B-Instruct": 9971153,
+          "google/gemma-2-9b-it": 1146361,
+          "meta-llama/Llama-3.1-8B-Instruct": 6191239,
+          "microsoft/Phi-3-mini-4k-instruct": 335430,
+          "mistralai/Mistral-7B-Instruct-v0.3": 2255457,
+          "openai/whisper-large-v3": 4600554,
+          "sentence-transformers/all-MiniLM-L6-v2": 245656284,
+          "stabilityai/stable-diffusion-xl-base-1.0": 3598555
+        }
+      },
+      "observed_at": "2026-09-26T16:22:01.595Z",
+      "ok": false,
+      "percentile": null,
+      "pillar": "adoption",
+      "score": null,
+      "score_raw": null,
+      "uncalibrated": true,
+      "unit": "downloads/30d",
+      "value": 273755033
+    },
+    {
+      "age_seconds": 0,
+      "error": "awaiting_baseline: \"npm-ai-installs\" has no entry in data/bliss-reference.json yet, so it is collected and published but not scored",
+      "id": "npm-ai-installs",
+      "label": "npm installs of the AI application stack",
+      "last_ok": "2026-09-26T16:22:01.595Z",
+      "meta": {
+        "basket": [
+          "openai",
+          "ai",
+          "langchain",
+          "tiktoken",
+          "ollama",
+          "@anthropic-ai/sdk",
+          "@google/generative-ai",
+          "@huggingface/inference"
+        ],
+        "basket_size": 8,
+        "per_package": {
+          "@anthropic-ai/sdk": 43792628,
+          "@google/generative-ai": 4410350,
+          "@huggingface/inference": 454030,
+          "ai": 28694661,
+          "langchain": 3195008,
+          "ollama": 763414,
+          "openai": 43397532,
+          "tiktoken": 1783729
+        },
+        "requests": 4,
+        "window_end": "2026-09-24",
+        "window_start": "2026-09-18"
+      },
+      "observed_at": "2026-09-26T16:22:01.595Z",
+      "ok": false,
+      "percentile": null,
+      "pillar": "adoption",
+      "score": null,
+      "score_raw": null,
+      "uncalibrated": true,
+      "unit": "installs/7d",
+      "value": 126491352
+    },
+    {
+      "age_seconds": 0,
+      "error": "awaiting_baseline: \"epoch-open-weights\" has no entry in data/bliss-reference.json yet, so it is collected and published but not scored",
+      "id": "epoch-open-weights",
+      "label": "Open-weight share of notable models",
+      "last_ok": "2026-09-26T16:22:01.596Z",
+      "meta": {
+        "accessibility_breakdown": {
+          "API access": 55,
+          "Hosted access (no API)": 10,
+          "Limited access": 2,
+          "Open weights (non-commercial)": 1,
+          "Open weights (restricted use)": 10,
+          "Open weights (unrestricted)": 33
+        },
+        "classified_releases": 111,
+        "excluded_from_denominator": [
+          "(unclassified)",
+          "Unreleased"
+        ],
+        "newest_model": "Grok 4.7",
+        "newest_publication_date": "2026-09-21",
+        "open_weight_models": 44,
+        "rows_in_file": 1072,
+        "window_days": 365
+      },
+      "observed_at": "2026-09-26T16:22:01.596Z",
+      "ok": false,
+      "percentile": null,
+      "pillar": "openness",
+      "score": null,
+      "score_raw": null,
+      "uncalibrated": true,
+      "unit": "share/365d",
+      "value": 0.396396
+    },
+    {
+      "age_seconds": 0,
+      "error": "awaiting_baseline: \"github-permissive-ai\" has no entry in data/bliss-reference.json yet, so it is collected and published but not scored",
+      "id": "github-permissive-ai",
+      "label": "New permissively licensed ML repositories",
+      "last_ok": "2026-09-26T16:22:01.596Z",
+      "meta": {
+        "created_from": "2026-08-27",
+        "licence": "apache-2.0",
+        "query": "topic:machine-learning license:apache-2.0 created:>=2026-08-27",
+        "scope_note": "single topic and single licence; a floor, not a total",
+        "topic": "machine-learning",
+        "window_days": 30
+      },
+      "observed_at": "2026-09-26T16:22:01.596Z",
+      "ok": false,
+      "percentile": null,
+      "pillar": "openness",
+      "score": null,
+      "score_raw": null,
+      "uncalibrated": true,
+      "unit": "repos/30d",
+      "value": 246
+    }
+  ],
+  "sources_reporting": 10,
+  "sources_total": 10,
+  "uncalibrated_pillars": [
+    "science",
+    "medicine",
+    "access",
+    "adoption",
+    "openness"
+  ],
+  "uncalibrated_sources": [
+    "arxiv-science-ai",
+    "openalex-ai-science",
+    "clinicaltrials-ai",
+    "pubmed-ai-clinical",
+    "hf-permissive-models",
+    "openrouter-cost-floor",
+    "hf-model-downloads",
+    "npm-ai-installs",
+    "epoch-open-weights",
+    "github-permissive-ai"
+  ]
+}
