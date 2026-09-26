@@ -1085,17 +1085,38 @@ function chrome(S, { level, stamp, margin, stripe = 10, footer = true }) {
   if (footer) {
     const fy = S.height - margin - small * 2.4;
     S.line({ from: [margin, fy], to: [S.width - margin, fy], color: RULE, width: 1.5 });
-    const dom = brand.DOMAIN.toUpperCase();
-    const domW = measureText(dom, { size: small, track: 0.20 });
-    const room = S.width - margin * 2 - domW - 36;
-    if (measureText(stamp, { size: small, track: 0.14 }) > room) {
-      throw new Error(`cardpng: the footer stamp ${JSON.stringify(stamp)} does not fit beside ${dom} in ${Math.round(room)}px`);
+    // THE FOOTER ADDRESS HAS TO FIT WHATEVER IT IS.
+    // This printed brand.DOMAIN.toUpperCase() at a fixed size and threw when it
+    // did not fit, which was correct while the domain was the nine characters of
+    // "doomcon.watch". The day that changed to the address that actually serves
+    // the site, the throw fired and no card could be built at all. A card
+    // generator that only works for one specific string is not a generator.
+    //
+    // So: uppercase while it fits, because that is the house style, then fall
+    // back to lower case (narrower, and the conventional form for a URL), then
+    // step the size down. The throw stays as the floor — if even the smallest
+    // form collides with the stamp the card is genuinely impossible and should
+    // fail loudly rather than overprint two strings on top of each other.
+    const fitFooter = () => {
+      const stampW = (sz) => measureText(stamp, { size: sz, track: 0.14 });
+      for (const form of [brand.DOMAIN.toUpperCase(), brand.DOMAIN.toLowerCase()]) {
+        for (const scale of [1, 0.92, 0.84, 0.76, 0.68]) {
+          const sz = Math.max(11, Math.round(small * scale));
+          const w = measureText(form, { size: sz, track: 0.20 });
+          if (stampW(sz) <= S.width - margin * 2 - w - 36) return { form, sz };
+        }
+      }
+      return null;
+    };
+    const fit = fitFooter();
+    if (!fit) {
+      throw new Error(`cardpng: neither ${JSON.stringify(brand.DOMAIN)} nor its lower-case form fits beside the stamp ${JSON.stringify(stamp)} at any size on a ${S.width}px card`);
     }
     S.text(stamp, {
-      x: margin, y: fy + small * 1.9, size: small, color: INK_FAINT, weight: 0.10, track: 0.14,
+      x: margin, y: fy + small * 1.9, size: fit.sz, color: INK_FAINT, weight: 0.10, track: 0.14,
     });
-    S.text(dom, {
-      x: S.width - margin, y: fy + small * 1.9, size: small, color: ACCENT,
+    S.text(fit.form, {
+      x: S.width - margin, y: fy + small * 1.9, size: fit.sz, color: ACCENT,
       weight: 0.115, track: 0.20, align: 'right',
     });
   }
