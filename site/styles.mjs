@@ -2205,6 +2205,53 @@ const CHROMA = `
 a.chip:hover { border-color: var(--accent-2); background: var(--bg-sunken); }
 a.chip:hover b { color: var(--accent-2); }
 
+
+  /* ---- SECTIONS READ AS ONE BLOCK, AND THEY SHOULD NOT --------------------
+     Measured on the live homepage 2026-09-26 at 1440x900: fifteen sections, a
+     median gap between them of 48px, a median section height of 383px, and
+     every one reporting background:transparent and border-top:0. The only
+     thing separating one section from the next was a gap an eighth of a
+     section's own height, so proximity grouped nothing and a page with
+     seventeen headings scanned as one undifferentiated column.
+
+     Scoped to TOP-LEVEL sections. The five inside .sw__body are switcher
+     panels, already inset 16px, and that inset is how a reader knows they are
+     nested -- ruling them too would claim they are siblings of the sections
+     outside. An earlier note called that inset a misalignment; I measured it
+     and it is deliberate. */
+  main.wrap > .sec { border-top: 1px solid var(--rule); padding-top: var(--s-4); }
+  main.wrap > .sec:first-of-type { border-top: 0; padding-top: 0; }
+
+  /* ---- A HEADING YOU CAN STILL SEE HALFWAY DOWN ITS OWN SECTION -----------
+     The tallest section here is 2,501px, nearly three screens, so a reader in
+     the middle of one cannot tell which of seventeen they are in. The heading
+     sticks under the status rail for as long as its own section is on screen
+     and leaves with it: a continuous "where am I" for zero extra chrome, no
+     JavaScript and no markup change. The rail measures 31px -- --rail-h (28px)
+     plus its bottom border -- so the offset is computed, not typed; at a bare
+     var(--rail-h) the heading sits under the rail and is clipped by it.
+     It needs its own background or content scrolls visibly beneath it. */
+  /* THE STICKY ELEMENT MUST BE A DIRECT CHILD OF THE SECTION. position:sticky
+     is constrained by its CONTAINING BLOCK, which is its parent -- not by the
+     scroll container. Targeting .sec__h itself only works where the heading is
+     a direct child of the section; where a module wraps it (.oven__hd,
+     .sw__hd, .labs__hd, .xw__hd, .nhead, .reel__head) the heading can only
+     stick within that wrapper's own height, which is one heading row, so it
+     scrolls away immediately and looks like sticky is broken. Measured: the
+     Oven heading sat at top:-336 inside a 1,187px section.
+     So the WRAPPER sticks when there is one, and the heading sticks when there
+     is not. :has() is the clean way to say that; where it is unsupported the
+     rule simply does not apply and nothing else changes. */
+  main.wrap > .sec > .sec__h,
+  main.wrap > .sec > :has(> .sec__h) {
+    position: sticky; top: calc(var(--rail-h, 28px) + 3px);
+    background: var(--bg); z-index: 3; padding-block: 7px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    main.wrap > .sec > .sec__h,
+    main.wrap > .sec > :has(> .sec__h) { position: static; }
+  }
+
 `;
 
 
