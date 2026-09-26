@@ -58,10 +58,20 @@ export const STRAPLINE =
   'Everyone has a p(doom). Nobody has a receipt. DOOMCON counts what is ' +
   'observably happening, hourly, and publishes the arithmetic.';
 
-// The domain we intend to own. Deliberately separate from CANONICAL_URL: we
-// spell this one out in post text and burn it into share cards even while the
-// site still lives on github.io, so the printed brand never has to change.
-export const DOMAIN = 'doomcon.watch';
+// The address we PRINT. This was 'doomcon.watch' — the domain we intend to own —
+// on the reasoning that burning the final brand into share cards early means the
+// printed brand never has to change. That reasoning only holds if the domain
+// resolves, and on 2026-09-26 it did not: no A record, HTTP 000, unreachable,
+// and it is still unregistered. A share card is the surface most likely to be
+// seen long after it was made by somebody with no other route back to us, so an
+// address that answers nothing is the one failure it cannot survive —
+// collector/cards/_chassis.mjs had already reached that conclusion and derives
+// its own default from CANONICAL_URL. This now agrees with it.
+//
+// THE DAY doomcon.watch IS REGISTERED this goes back to 'doomcon.watch' and
+// CANONICAL_URL becomes 'https://doomcon.watch'. Two lines, and every card, OG
+// image, embed and post follows automatically. Nothing else needs to change.
+export const DOMAIN = 'messagegabrielhere-lgtm.github.io/doomcon';
 
 // Where the site is actually served from today. GitHub Pages project sites are
 // served under /<repo>, NOT at the host root — every internal link has to carry
