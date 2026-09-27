@@ -282,7 +282,7 @@ function waterSection(dc, model) {
   }
 
   return `<section class="bldsec" id="the-water" aria-labelledby="bld-water">
-  <h2 class="bldsec__h" id="bld-water">${icon('drop')} The water</h2>
+  <h2 class="bldsec__h" id="bld-water">${icon('drop')} Drought, by county<span class="sec__eb">The water</span></h2>
   <p class="bldsec__l">Drought is the resource this map can actually carry, because the US Drought Monitor
      publishes it by county and every pin has a county. It is the colour of every dot above.
      <b>${esc(N(t.inDrought))} of ${esc(N(t.sites))}</b> pins stand in a county carrying a category on the
@@ -340,7 +340,7 @@ function powerSection(dc, model) {
   };
 
   return `<section class="bldsec" id="the-power" aria-labelledby="bld-power">
-  <h2 class="bldsec__h" id="bld-power">${icon('sec-substrate')} The power</h2>
+  <h2 class="bldsec__h" id="bld-power">${icon('sec-substrate')} The grid under each pin<span class="sec__eb">The power</span></h2>
   <p class="bldsec__l">Every pin is assigned to the balancing authority that runs its state's grid, with named
      county exceptions where that is wrong. Three of those authorities publish a real-time number without an
      account, and they cover <b>${esc(N(t.withGridReading))} of ${esc(N(t.sites))}</b> pins.
@@ -576,7 +576,7 @@ function methodSection(ctx, dc, model) {
 function siblingCard(ctx) {
   return `<aside class="bldsib">
   <p class="bldsib__k">Same subject, different instrument</p>
-  <h2 class="bldsib__h"><a href="${esc(ctx.href('/watts.html'))}">Watts — the infrastructure index</a></h2>
+  <h2 class="bldsib__h"><a href="${esc(ctx.href('/watts.html'))}">The infrastructure index</a></h2>
   <p class="bldsib__p">This page asks <b>where the buildings are</b>. Watts asks <b>how the substrate is
      holding up</b>: grid overnight floors in three control regions, streamflow at the nine gauges above,
      drought across ten states, and the SEC and Federal Register paper trail, scored on to a five-stop scale.
@@ -1367,8 +1367,8 @@ export function render(ctx) {
 ${iconSprite({ only: SPRITE })}
 <div class="usm-scope bld">
 <section class="bldhero">
-  <p class="bldhero__eyebrow">A ${esc(brand.NAME)} sub-index · does not feed the main number</p>
-  <h1 class="bldhero__h1">${esc(copy.name || 'The Build')}</h1>
+  <p class="bldhero__eyebrow">${esc(copy.name || 'The Build')} · a ${esc(brand.NAME)} sub-index · does not feed the main number</p>
+  <h1 class="bldhero__h1">Every mapped US datacentre</h1>
   <p class="bldhero__sub">${esc(copy.question || '')}</p>
   <p class="bldhero__lede">${esc(copy.standfirst || '')}</p>
   <p class="bldhero__plain">${plainSentence(dc, model)}</p>
@@ -1411,7 +1411,7 @@ ${siblingCard(ctx)}
   return page({
     ctx,
     path: PATH,
-    title: `The Build — ${headline} · ${brand.NAME}`,
+    title: `Every mapped US datacentre — ${headline} · ${brand.NAME}`,
     ogTitle: `${brand.NAME}: ${headline}`,
     description,
     ogImage: ctx.cardFor ? ctx.cardFor('map') : null,
@@ -1428,11 +1428,12 @@ function emptyPage(ctx) {
     ctx,
     path: PATH,
     noindex: true,
-    title: `The Build — the datacentre map · ${brand.NAME}`,
+    title: `Every mapped US datacentre — the map · ${brand.NAME}`,
     description: `${brand.NAME}'s datacentre map has not published a run yet.`,
     main: `<style>${mapCss()}</style>
 <section class="bldhero">
-  <h1 class="bldhero__h1">The Build</h1>
+  <p class="bldhero__eyebrow">The Build · a ${esc(brand.NAME)} sub-index</p>
+  <h1 class="bldhero__h1">Every mapped US datacentre</h1>
   <p class="bldhero__sub">Where the datacentres are, and what the power and the water around them are doing.</p>
   <p class="bldhero__lede">No run has been published in this build. This is not an empty map — it is the
      absence of a map, and the two are different states. An empty map would be a finding, and it is not one

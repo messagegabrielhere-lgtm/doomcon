@@ -349,7 +349,7 @@ function leadersClaim(ctx) {
   const on = t ? Number(t.on_record) : NaN;
   const total = t ? Number(t.leaders) : NaN;
   if (!roster.length || !Number.isFinite(on) || !Number.isFinite(total)) {
-    return dark('leaders', ctx, 'The leader wire did not come back this run.');
+    return dark('leaders', ctx, 'The AI leaders feed did not come back this run.');
   }
 
   const days = Number(L.window_days);

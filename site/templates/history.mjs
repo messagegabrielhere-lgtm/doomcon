@@ -826,7 +826,7 @@ ${chapters}
   ${decadeStrip()}
 
   <div class="lore-call">
-    <h2 id="paperclip">The paperclip, properly attributed</h2>
+    <h2 id="paperclip">The paperclip maximizer, properly attributed</h2>
     <p>The paperclip maximizer is the most-cited and most-mangled object in this field, so it is
       worth stating precisely. Bostrom's 2003 argument is not that a machine would hate anyone. It
       is that <em>capability and goals are independent</em> — a system can be arbitrarily competent

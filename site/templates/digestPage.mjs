@@ -543,9 +543,16 @@ function streakSection(d, s) {
 function entitySection(ctx, d, e) {
   if (!e.labs || !e.labs.length) return '';
   const blocks = e.labs.map((l) => labBlock(l)).join('');
+  // window_label arrives as "3 days (the 200-item cap, not the 7-day window)".
+  // The caveat is true and stays; it moves from the heading, which was the
+  // only thirteen-word heading on the site, to the kicker under it.
+  const wl = String(e.window_label || '');
+  const wlMain = wl.replace(/\s*\([^)]*\)\s*$/, '');
+  const wlParen = (wl.match(/\(([^)]*)\)\s*$/) || [])[1] || '';
+  const wlNote = wlParen ? wlParen.charAt(0).toUpperCase() + wlParen.slice(1) : '';
   return `<section class="sec dg" aria-labelledby="dg-lab-h">
-  <h2 class="sec__h" id="dg-lab-h">Every frontier lab, last ${esc(e.window_label)}</h2>
-  <p class="dg__key">${esc(e.items_naming_any_entity)} of ${esc(e.corpus_items)} items in the corpus name at
+  <h2 class="sec__h" id="dg-lab-h">Every frontier lab, last ${esc(wlMain)}</h2>
+  <p class="dg__key">${wlNote ? `${esc(wlNote)}. ` : ''}${esc(e.items_naming_any_entity)} of ${esc(e.corpus_items)} items in the corpus name at
      least one of the ${esc(e.distinct_entities)} entities in the published vocabulary. A lab with no items
      is a measured zero across the live feeds, not a gap in collection. Market position and mindshare come
      from <a href="${esc(ctx.href('/race.html'))}">the leaderboard</a>; item counts and release cadence are

@@ -87,7 +87,7 @@ export function render(ctx, { limit = MAX_HOME } = {}) {
   return `${styleTag()}
 <section class="sec xw" aria-labelledby="xw-h">
   <div class="xw__hd">
-    <h2 class="sec__h" id="xw-h">The X wire</h2>
+    <h2 class="sec__h" id="xw-h">The labs’ posts on X<span class="sec__eb">The X wire</span></h2>
     <p class="xw__k">${esc(x.items.length)} posts · resolved
       <time datetime="${esc(now)}">${esc(String(now).slice(11, 16))}Z</time></p>
   </div>

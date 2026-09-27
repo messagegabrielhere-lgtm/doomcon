@@ -2057,6 +2057,17 @@ const ICONS = `
 // loses no fact.
 // ---------------------------------------------------------------------------
 const CHROMA = `
+/* THE HOUSE NAME, AFTER THE PLAIN HEADING. Every section used to be headed
+   by its insider name - the oven, the desk, the watch floor, the X wire - and
+   a first-time visitor could place none of them. docs/WORDING.md: the heading
+   now says what the section is, and the house name survives as a small
+   uppercase tag after it, on the same line, so the sticky heading stays one
+   line tall. On a phone the row is allowed to wrap, so the tag drops to a
+   second line only when the heading itself has used the width - measured at
+   375px: forcing it onto its own line made every sticky heading 58-76px. */
+.sec__eb{display:inline-block;margin-left:.7em;font:500 var(--t-2xs)/1.2 var(--mono);letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-faint);white-space:nowrap;align-self:center;vertical-align:.1em}
+.sec__h:has(> .sec__eb){flex-wrap:wrap}
 /* The masthead hairline is the level scale, cool to hot, two pixels tall. It is
    the only piece of pure decoration added here and it earns its place by being
    the page's legend: the reader meets the ramp before they meet the rail that

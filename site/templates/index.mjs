@@ -196,7 +196,7 @@ ${oven.render(ctx)}
 ${switcher.render(ctx)}
 
 <section class="sec" id="record" aria-labelledby="record-h">
-  <h2 class="sec__h" id="record-h">The record</h2>
+  <h2 class="sec__h" id="record-h">The score over time<span class="sec__eb">The record</span></h2>
   <p class="lede">${esc(recordLede(obs))}</p>
   ${indexHistoryChart(ctx.history, { id: 'home', now: state.score })}
   <p class="fresh__key">${esc(recordKey(obs))}

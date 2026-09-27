@@ -346,7 +346,7 @@ export function render(ctx) {
 
   const title = hasScore
     ? `BLISS ${bliss.level} ${bliss.level_name} — the upside index · ${brand.NAME}`
-    : `BLISS — the upside index, awaiting baseline · ${brand.NAME}`;
+    : `The upside index — BLISS, awaiting baseline · ${brand.NAME}`;
 
   const description = hasScore
     ? `BLISS ${bliss.level}, ${bliss.level_name}. Upside tempo at ${num(bliss.score, 1)} of 100 ` +
@@ -359,7 +359,8 @@ export function render(ctx) {
 
   const main = `<style>${blissCss()}</style>
 <section class="bintro">
-  <h1 class="bintro__h1">BLISS</h1>
+  <p class="eyebrow">BLISS</p>
+  <h1 class="bintro__h1">The upside index</h1>
   <p class="bintro__tag">The other ending.</p>
   <p class="lede">Every AI index measures how bad. This one measures the other direction, with the
      same machinery: five pillars, the same percentile normalisation against a frozen reference,
@@ -426,7 +427,7 @@ ${howComputed(ctx, bliss)}
     title,
     ogTitle: hasScore
       ? `BLISS ${bliss.level} ${bliss.level_name} · ${brand.NAME}`
-      : `BLISS — the upside index · ${brand.NAME}`,
+      : `The upside index — BLISS · ${brand.NAME}`,
     description,
     ogImage: ctx.cardFor ? ctx.cardFor('bliss') : null,
     ogImageAlt: hasScore
@@ -483,11 +484,12 @@ function emptyPage(ctx) {
     ctx,
     path: PATH,
     noindex: true,
-    title: `BLISS — the upside index · ${brand.NAME}`,
+    title: `The upside index — BLISS · ${brand.NAME}`,
     description: `${brand.NAME}'s upside index has not published a run yet.`,
     main: `<style>${blissCss()}</style>
 <section class="bintro">
-  <h1 class="bintro__h1">BLISS</h1>
+  <p class="eyebrow">BLISS</p>
+  <h1 class="bintro__h1">The upside index</h1>
   <p class="bintro__tag">The other ending.</p>
   <p class="lede">No BLISS run has been published in this build. This is not an empty result
      &mdash; it is the absence of a result, and the two are different states. When

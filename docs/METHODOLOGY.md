@@ -136,7 +136,7 @@ Counting *down* to 1, following DEFCON, because that grammar needs no explaining
 The 0–100 score is published alongside the level — the AQI dual-output pattern,
 where you get both "157" and "Unhealthy".
 
-## Anti-flap
+## Why the level does not flicker
 
 An index that oscillates across a boundary destroys its own credibility. Six
 layers prevent it, all live in v1:
@@ -150,7 +150,7 @@ layers prevent it, all live in v1:
 5. **One step per change** — never 5 → 3. The level walks a staircase.
 6. **2-of-5 pillar quorum** must agree with the direction before anything moves.
 
-## Missing data is never imputed
+## Missing data stays missing
 
 A source that fails is **dark**. It is not zero, not last-known-good, not
 interpolated.
@@ -166,7 +166,7 @@ in 24 hours across 16 monitored locations, and its homepage prints a confident
 DOUGHCON 5 over four pizzerias reading NO DATA. Never print a confident number
 over a dead pipe.
 
-## Receipts
+## The receipt behind every number
 
 Every scored observation writes a receipt to `data/receipts/`, hash-chained:
 

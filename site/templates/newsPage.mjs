@@ -95,7 +95,8 @@ export function render(ctx) {
 
   const main = `<style>${newsCss()}${archiveCss(pillarsPresent(news))}</style>${pillarSprite()}
 <section class="narch__intro">
-  <h1 class="narch__h1">AI signal feed</h1>
+  <p class="eyebrow">AI signal feed</p>
+  <h1 class="narch__h1">The newsroom</h1>
   <p class="lede">Every item ${esc(brand.NAME)} scored in the current collection window &mdash;
      ${esc(total)} item${total === 1 ? '' : 's'} across ${esc(days)} day${days === 1 ? '' : 's'},
      ranked by score and tagged to the pillar each one feeds. These are the inputs behind the
@@ -132,7 +133,7 @@ ${corpusSection(news, corpus)}
     ctx,
     motion: true,
     path: PATH,
-    title: `AI signal feed — ${total} scored items · ${brand.NAME}`,
+    title: `The newsroom — ${total} scored items · ${brand.NAME}`,
     ogTitle: `${brand.NAME} signal feed — ${total} scored items`,
     description:
       `Every AI news item ${brand.NAME} scored in the current window: ${total} items across ` +
@@ -155,11 +156,12 @@ function emptyPage(ctx) {
     ctx,
     path: PATH,
     noindex: true,
-    title: `AI signal feed · ${brand.NAME}`,
+    title: `The newsroom · ${brand.NAME}`,
     description: `${brand.NAME} news collection has not published a window yet.`,
     main: `<style>${newsCss()}${archiveCss()}</style>${pillarSprite()}
 <section class="narch__intro">
-  <h1 class="narch__h1">AI signal feed</h1>
+  <p class="eyebrow">AI signal feed</p>
+  <h1 class="narch__h1">The newsroom</h1>
   <p class="lede">No collection window has been published in this build. This page is not
      an empty result &mdash; it is the absence of a result, and the two are different states.
      When <code>data/news.json</code> is present it is rendered here in full.</p>
@@ -872,7 +874,7 @@ function yieldPlot(rows, axis, g, tid, did, variantCls) {
 function corpusSection(news, corpus) {
   if (!corpus.total) {
     return `<section class="sec ncorp" aria-labelledby="corp-h">
-  <h2 class="sec__h" id="corp-h">The shape of this window</h2>
+  <h2 class="sec__h" id="corp-h">How the scores are spread<span class="sec__eb">The shape of this window</span></h2>
   <p class="nkey">No items in the collection window, so there is no distribution to draw.
      This is a measured zero and not an outage &mdash; the per-source strip below says which
      feeds answered and which did not.</p>
@@ -880,7 +882,7 @@ function corpusSection(news, corpus) {
   }
 
   return `<section class="sec ncorp" aria-labelledby="corp-h">
-  <h2 class="sec__h" id="corp-h">The shape of this window</h2>
+  <h2 class="sec__h" id="corp-h">How the scores are spread<span class="sec__eb">The shape of this window</span></h2>
   <p class="nkey">Bar height is a <b>count of items</b>; position along the axis is the
      <b>score</b> those items were given. Each bar is stacked by pillar, bottom to top, in the
      order printed in the key below it.</p>

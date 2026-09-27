@@ -63,7 +63,8 @@ export function render(ctx) {
   const main = `<style>${wireStyles()}${portraitCss()}${pageCss()}</style>
 ${avatarSprite()}
 <section class="lwp__intro">
-  <h1 class="lwp__h1">The leader wire</h1>
+  <p class="eyebrow">The leader wire</p>
+  <h1 class="lwp__h1">AI leaders, on the record</h1>
   <p class="lede">What the people running AI said on the record in the last
      ${esc(wire.window_days)} days, in the words their publications printed.
      ${esc(t.on_record)} of ${esc(t.leaders)} are on the record this week across
@@ -105,7 +106,7 @@ ${method(ctx, wire, onRecord, quiet)}`;
   return page({
     ctx,
     path: PATH,
-    title: `The leader wire — ${t.on_record} of ${t.leaders} on the record · ${brand.NAME}`,
+    title: `AI leaders, on the record — ${t.on_record} of ${t.leaders} · ${brand.NAME}`,
     ogTitle: `${brand.NAME} leader wire — ${t.on_record} of ${t.leaders} on the record`,
     description:
       `What the people running AI said on the record in the last ${wire.window_days} days: ` +
@@ -129,11 +130,12 @@ function emptyPage(ctx) {
     ctx,
     path: PATH,
     noindex: true,
-    title: `The leader wire · ${brand.NAME}`,
+    title: `AI leaders, on the record · ${brand.NAME}`,
     description: `${brand.NAME} has not published a leader wire in this build.`,
     main: `<style>${wireStyles()}${pageCss()}</style>
 <section class="lwp__intro">
-  <h1 class="lwp__h1">The leader wire</h1>
+  <p class="eyebrow">The leader wire</p>
+  <h1 class="lwp__h1">AI leaders, on the record</h1>
   <p class="lede">No wire was published in this build. This is the absence of a result, not a
      result: it does not mean nobody spoke this week, it means <code>data/leaders.json</code> was
      not present when this page was generated. When it is, every one of the fifteen people on the
@@ -498,7 +500,7 @@ function crossCheck(wire) {
   };
 
   return `<section class="sec lwp__cc" aria-labelledby="lwp-cc-h">
-  <h2 class="sec__h" id="lwp-cc-h">Cross-check against the watch floor</h2>
+  <h2 class="sec__h" id="lwp-cc-h">Cross-check against the lab feeds<span class="sec__eb">The watch floor</span></h2>
   <p class="lwp__ruletext">The race page tracks a loudness signal for each lab's principal, and
      seven of its eight cells are empty — not because those people are quiet, but because
      <b>the floor measures feeds we may lawfully fetch</b> and almost none of them publish one.

@@ -43,7 +43,7 @@ import { esc, utc, utcClock } from './_html.mjs';
 // constant here and there should never be one: a "top N leaders" module would
 // print the loudest people and silently drop the quiet ones, which inverts the
 // whole point of the section.
-const DEFAULT_HEADING = 'The leader wire';
+const DEFAULT_HEADING = 'AI leaders, on the record';
 
 /**
  * Normalise what build.mjs put on ctx into the shape the markup wants.

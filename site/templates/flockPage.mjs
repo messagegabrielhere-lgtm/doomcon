@@ -1347,7 +1347,7 @@ function fieldsSection(f) {
   const body = completeness(f);
   if (!body) return '';
   return `<section class="flk__sec" id="fields" aria-labelledby="flk-fields-h">
-  <h2 class="flk__sec__h" id="flk-fields-h">${icon('sec-api')} What the tags actually carry</h2>
+  <h2 class="flk__sec__h" id="flk-fields-h">${icon('sec-api')} How complete the data is<span class="sec__eb">What the tags carry</span></h2>
   <p class="flk__sec__l">A tag is only present if a volunteer typed it. This is the completeness of
     each field across the ${N(f.totals.mapped_worldwide)} mapped objects — the honest denominator for
     every figure on this page, and the reason the operator ranking below is a fact about attribution
@@ -1409,8 +1409,8 @@ ${iconSprite({ only: SPRITE })}
 <div class="flk">
 
 <section class="flk__hero">
-  <p class="flk__eyebrow">A ${esc(brand.NAME)} register · does not feed the main number</p>
-  <h1 class="flk__h1">Plate readers</h1>
+  <p class="flk__eyebrow">Plate readers · a ${esc(brand.NAME)} register · does not feed the main number</p>
+  <h1 class="flk__h1">Number-plate cameras, mapped</h1>
   <p class="flk__sub">Flock Safety automated licence-plate-reader cameras, as OpenStreetMap has them</p>
   <p class="flk__lede">An ALPR is a camera pointed at a road that reads every number plate that passes
     it. Flock Safety builds them and sells them to police departments, sheriffs' offices, homeowners'
@@ -1475,7 +1475,7 @@ ${methodSection(ctx, f, m)}
   return page({
     ctx,
     path: PATH,
-    title: `Plate readers — ${headline} · ${brand.NAME}`,
+    title: `Number-plate cameras, mapped — ${headline} · ${brand.NAME}`,
     ogTitle: `${brand.NAME}: ${headline}`,
     description,
     ogImage: ctx.cardFor ? ctx.cardFor('flock') : null,
@@ -1491,10 +1491,11 @@ function emptyPage(ctx) {
     ctx,
     path: PATH,
     noindex: true,
-    title: `Plate readers · ${brand.NAME}`,
+    title: `Number-plate cameras · ${brand.NAME}`,
     description: 'The Flock ALPR register is not in this build.',
     main: `<div class="flk"><section class="flk__hero">
-  <h1 class="flk__h1">Plate readers</h1>
+  <p class="flk__eyebrow">Plate readers · a ${esc(brand.NAME)} register</p>
+  <h1 class="flk__h1">Number-plate cameras, mapped</h1>
   <p class="flk__lede">This build carries no <code>data/flock.json</code>, so there is nothing to
     draw. The page exists and says so rather than inventing a map. Run
     <code>collector/flock.mjs</code> and rebuild.</p>

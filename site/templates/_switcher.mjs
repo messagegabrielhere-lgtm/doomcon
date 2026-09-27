@@ -541,12 +541,12 @@ ${statRow([
    The rail is the newest eight in publication order. The list under it is the highest-scoring
    ${esc(rows.length)}. Which stories lead one and not the other is itself the reading.</p>
 
-${reel(railItems, { id: 'sw-latest', limit: RAIL_CARDS, heading: 'Latest eight', href: archive, total: news.total })}
+${reel(railItems, { id: 'sw-latest', limit: RAIL_CARDS, heading: 'The eight newest stories', href: archive, total: news.total })}
 <p class="nkey">Ordered by publication time, newest first — <b>not</b> by score. The numeral on each card
    is its position on this rail${spread ? `, and the eighth card is ${esc(spread)} old at the compile stamp` : ''}.</p>
 
 <section class="sec news" aria-labelledby="news-h">
-  ${liveHead(news, 'Ranked feed')}
+  ${liveHead(news, 'Every story, ranked by score')}
   ${legend(news)}
   <ol class="nfeed">${rows.map(feedRow).join('')}</ol>
   ${sourceDetails(newsSourceStrip(news.sources), newsSourceSentence(news.sources))}
@@ -1265,7 +1265,7 @@ export function render(ctx, o = {}) {
   return `${o.style === false ? '' : styleTag(rules)}
 <section class="sw" id="${esc(uid)}" aria-labelledby="${esc(uid)}-h">
   <div class="sw__hd">
-    <h2 class="sec__h" id="${esc(uid)}-h">The desk</h2>
+    <h2 class="sec__h" id="${esc(uid)}-h">Every dataset, one panel<span class="sec__eb">The desk</span></h2>
     <p class="sw__k">${esc(list.length)} datasets · one slot · no page load · every one already in this HTML</p>
   </div>
   ${movedBand(movedModel(ctx))}
