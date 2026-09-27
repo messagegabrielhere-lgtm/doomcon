@@ -1081,7 +1081,7 @@ export function panels(ctx) {
     out.push({
       key: 'signal',
       glyph: '◆',
-      label: 'Signal',
+      label: 'Newsroom',
       count: news.total,
       countTitle: `${news.total} scored items in the collection window`,
       state: news.liveness && news.liveness.status === 'cold' ? 'dark' : 'live',
@@ -1111,7 +1111,7 @@ export function panels(ctx) {
     out.push({
       key: 'floor',
       glyph: '■',
-      label: 'Watch floor',
+      label: 'Labs',
       count: race.players.length,
       countTitle: `${race.players.length} labs monitored for visible output`,
       state: 'live',
@@ -1130,7 +1130,7 @@ export function panels(ctx) {
     out.push({
       key: 'wire',
       glyph: '✕',
-      label: 'X wire',
+      label: 'On X',
       count: n,
       countTitle: `${n} posts resolved through X's keyless embed endpoint`,
       state: 'live',
@@ -1148,11 +1148,11 @@ export function panels(ctx) {
     out.push({
       key: 'substrate',
       glyph: '◐',
-      label: 'Substrate',
+      label: 'Power',
       count: n,
       countTitle: `${n} keyless grid, drought and build-out sources`,
       state,
-      head: { title: 'The substrate', stamp: `read ${clock(infra.generated_at) || ''}` },
+      head: { title: 'The infrastructure index', stamp: `read ${clock(infra.generated_at) || ''}` },
       more: { href: ctx.href('/watts.html'), text: 'The full substrate board, corridor by corridor' },
       body: () => substratePanel(ctx, infra),
     });
@@ -1186,7 +1186,7 @@ export function panels(ctx) {
       count: onRecord,
       countTitle: `${onRecord} of ${rows.length} leaders on the record this week`,
       state: onRecord ? 'live' : 'uncal',
-      head: { title: 'The leader wire', stamp: `read ${clock(ctx.leaders.generated_at) || ''}` },
+      head: { title: 'AI leaders, on the record', stamp: `read ${clock(ctx.leaders.generated_at) || ''}` },
       more: { href: ctx.href('/leaders.html'), text: 'Every leader, including the silent ones' },
       body: () => leaderwire.render(ctx, { heading: null }),
     });
@@ -1197,11 +1197,11 @@ export function panels(ctx) {
     out.push({
       key: 'bliss',
       glyph: '○',
-      label: 'Bliss',
+      label: 'Upside',
       count: Number.isFinite(bl.score) ? num(bl.score, 1) : 0,
       countTitle: Number.isFinite(bl.score) ? `BLISS score ${num(bl.score, 1)} of 100` : 'No BLISS score yet',
       state: Number.isFinite(bl.score) ? 'live' : 'uncal',
-      head: { title: 'The other direction', stamp: `read ${clock(bl.generated_at) || ''}` },
+      head: { title: 'The upside index', stamp: `read ${clock(bl.generated_at) || ''}` },
       more: { href: ctx.href('/bliss.html'), text: 'The full board' },
       body: () => blissPanel(ctx, bl),
     });
