@@ -506,6 +506,12 @@ const clmCss = `
   display: grid; gap: var(--s-2);
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 268px), 1fr));
 }
+/* SIX CARDS, THREE ACROSS. auto-fill at 268px yields four columns on a
+   1,208px column and leaves the second row two cards and two thirds empty -
+   measured, and visibly lopsided. Six is two rows of three. Below 1080px the
+   auto-fill rule above still governs and the cards wrap as they did. */
+@media (min-width: 1080px) { .clm__l { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
 .clm__i { min-width: 0; }
 
 /* The card is the link. Border, raised ground and a shadow: the same boxed

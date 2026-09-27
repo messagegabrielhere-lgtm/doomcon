@@ -1057,7 +1057,7 @@ function listKey(corpus) {
   if (corpus.banded.length) bits.push(`${corpus.banded.length} fired an incident term`);
   if (corpus.unscored.length) bits.push(`${corpus.unscored.length} carry no score`);
   return `<p class="nkey">${esc(bits.join(' · '))}. Flagged rows carry a banner above the
-     headline; everything else is a plain row.</p>`;
+     pill; everything else is a plain pill.</p>`;
 }
 
 /**
@@ -1082,14 +1082,13 @@ function stackGlyph(n = 3) {
  * One row.
  *
  * feedRow() in news.mjs stays the single definition of what a row IS - the
- * homepage feed and this list must not drift apart. What happens here is
- * strictly additive: two attributes on the <li> for the filter and the weight
- * rules, and, on the minority of rows that carry a signal, a banner spliced in
- * ahead of the row's own grid so the grid itself is untouched.
- *
- * Both splice points are asserted rather than assumed. A silent no-op here
- * would mean the flags vanish while the build still passes, which is precisely
- * how this repo has ended up with modules that render nothing.
+ * homepage feed and this list must not drift apart. What this adds is strictly
+ * additive, through feedRow's second argument: the anchor and the two filter
+ * attributes on the <li>, the banner ahead of the pill on the minority of rows
+ * that carry a signal, and the corroboration chip's data. The chip prefers the
+ * item's own corroboration (the same item carried by N sources) and falls back
+ * to the story cluster (N sources ran this story) - two different facts, and
+ * the banner spells out whichever one it is in words with the sources named.
  */
 function archiveRow(it) {
   const sig = signalsOf(it);
@@ -1099,29 +1098,12 @@ function archiveRow(it) {
     const n = Math.max(sig.carried ? sig.carried.count : 0, sig.story ? sig.story.count : 0);
     attrs.push(` data-corr="${esc(n)}"`);
   }
-
-  let html = spliceOnce(feedRow(it), '<li class="nrow"', `<li class="nrow"${attrs.join('')}`);
-  const banner = rowBanner(sig);
-  if (banner) html = spliceOnce(html, '<div class="nrow__in">', `${banner}<div class="nrow__in">`);
-  return html;
-}
-
-function spliceOnce(haystack, needle, replacement) {
-  const at = haystack.indexOf(needle);
-  if (at === -1) {
-    throw new Error(
-      `newsPage.archiveRow(): news.mjs feedRow() no longer emits ${JSON.stringify(needle)}. ` +
-      'The row banner and the tier/corroboration filters attach to that string; fix this rather ' +
-      'than letting them silently stop rendering.'
-    );
-  }
-  if (haystack.indexOf(needle, at + needle.length) !== -1) {
-    throw new Error(
-      `newsPage.archiveRow(): ${JSON.stringify(needle)} appears more than once in one feedRow(), ` +
-      'so the splice point is ambiguous.'
-    );
-  }
-  return haystack.slice(0, at) + replacement + haystack.slice(at + needle.length);
+  const corr = sig.carried
+    ? { count: sig.carried.count, sources: sig.carried.sources, kind: 'item' }
+    : sig.story
+      ? { count: sig.story.count, sources: sig.story.sources, kind: 'story' }
+      : null;
+  return feedRow(it, { attrs: attrs.join(''), before: rowBanner(sig), corr });
 }
 
 /**
@@ -1422,11 +1404,12 @@ ${filterRules(present)}
 
 .nstk { width: 10px; height: 12px; flex: 0 0 auto; fill: currentColor; }
 
-/* The banner sits above the row's own grid, so the grid is untouched and an
-   ordinary row is exactly as dense as it was before this existed. */
+/* The banner sits above the pill, inside the row, so an ordinary row is
+   exactly as dense as a plain pill and a flagged one reads as a kicker over
+   its headline. */
 .nflag {
   display: flex; align-items: center; flex-wrap: wrap; gap: 5px;
-  margin: 0; padding: 7px 4px 1px 11px;
+  margin: 0 0 4px; padding: 1px 10px 0;
   font-family: var(--mono); font-size: var(--t-2xs); letter-spacing: 0.04em;
   color: var(--ink-faint); line-height: 1.5;
 }
@@ -1453,20 +1436,22 @@ ${filterRules(present)}
 .nflag__corr--story { background: transparent; }
 .nflag__who { color: var(--ink-faint); overflow: hidden; text-overflow: ellipsis; max-width: 42ch; white-space: nowrap; }
 
-/* Weight, applied to the whole row. The pillar rail keeps its hue and simply
-   gets thicker - recolouring it by tier would have thrown away the pillar
-   signal to say something the banner already says in words. */
+/* Weight, applied to the pill's own outline. The fill keeps the pillar hue -
+   recolouring it by tier would have thrown away the pillar signal to say
+   something the banner already says in words - so a flagged row is a heavier
+   track, and tier A is the one that has to read from across the room: a 2px
+   ink border and a heavier headline, on top of the banner. */
 .nrow[data-corr] { background: var(--wash-alt); }
-.nrow[data-corr]::before { width: 3px; opacity: 0.9; }
+.nrow[data-corr] .npill { border-color: var(--ink-faint); }
 .nrow[data-tier] { background: var(--wash); }
-.nrow[data-tier]::before { width: 3px; opacity: 1; }
+.nrow[data-tier] .npill { border-color: var(--ink-faint); }
 .nrow[data-tier="A"] { background: var(--wash-live); }
-.nrow[data-tier="A"]::before { width: 5px; opacity: 1; }
-.nrow[data-tier="A"] .nrow__h { font-size: var(--t-base); font-weight: 600; }
+.nrow[data-tier="A"] .npill { border-color: var(--ink); border-width: 2px; }
+.nrow[data-tier="A"] .npill__h { font-weight: 600; }
 .nrow[data-tier]:hover, .nrow[data-corr]:hover { background: var(--bg-raised); }
 
 @media (max-width: 400px) {
-  .nflag { padding-left: 9px; gap: 4px; }
+  .nflag { padding: 1px 8px 0; gap: 4px; }
   .nflag__who { max-width: 24ch; }
 }
 
@@ -1475,7 +1460,7 @@ ${filterRules(present)}
    settled. news.mjs only sets data-enter on the top rows, so this is belt and
    braces for a future change to that constant. */
 .narch__list .nrow[data-enter="1"]:nth-child(n+16) { animation: none; }
-.narch__list .nrow[data-enter="1"]:nth-child(n+16)::before { animation: none; }
+.narch__list .nrow[data-enter="1"]:nth-child(n+16) .npill__fill::before { animation: none; }
 `;
 }
 
@@ -1492,10 +1477,9 @@ ${filterRules(present)}
 // Also needs, and none of these is mine to edit:
 //   layout.mjs NAV       add { href: '/news.html', label: 'News' }
 //   sitemap.mjs          add /news.html, changefreq hourly, priority 0.8
-//   news.mjs feedRow()   archiveRow() splices onto two literal strings in its
-//                        output, `<li class="nrow"` and `<div class="nrow__in">`,
-//                        and throws by name if either stops being emitted. If
-//                        that file is refactored, the fix is one line here.
+//   news.mjs feedRow()   archiveRow() passes its hooks through feedRow's
+//                        second argument ({ attrs, before, corr }). There is
+//                        no string splice on that module's output any more.
 //   _charts.mjs          the two graphics on this page draw with its classes
 //                        and repeat five of its module-private primitives
 //                        (hashId, openSvg, seal, figure, textAt). If those are
