@@ -611,3 +611,9 @@ export default {
   }),
   harvest,
 };
+
+// The slot-aware, mirror-walking requester is the part of this module worth
+// sharing. collector/dc-sources/osm-world.mjs issues one planet-wide query a
+// week through it rather than growing a second, slightly different copy of the
+// rate-limit strategy.
+export { ask as overpassAsk };
