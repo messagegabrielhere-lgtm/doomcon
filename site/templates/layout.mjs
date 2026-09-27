@@ -936,10 +936,20 @@ function telemetryRow(ctx) {
 }
 
 function footer(ctx, sections, path) {
-  const col = (id, heading, items, blurbKey = 'blurb') => `
+  // MEASURED 2026-09-27 at 1024px: the footer was 1,179px tall, 902 of them
+  // the index, because thirteen pages and nine data files each carried a
+  // sentence. The nav bar at the top of every page already sells each page
+  // with its label and its live count, and the homepage's "Public JSON API"
+  // section describes every file; a footer that repeats both is a second
+  // screen of scrolling past the end of the page. Pages and Data are bare
+  // labels now - Pages in two columns - and Data carries one pointer to the
+  // section that explains it. Provenance keeps its one line. Target: under
+  // 500px at desktop width.
+  const col = (id, heading, items, blurbKey = null, note = '') => `
     <div class="foot__col">
       <h2 class="foot__h" id="${esc(id)}">${esc(heading)}</h2>
-      <ul class="foot__list">
+      ${note}
+      <ul class="foot__list${items.length > 8 ? ' foot__list--2' : ''}">
         ${items.map((it) => {
           const external = /^https?:/.test(it.href);
           const href = external ? it.href : ctx.href(it.href);
@@ -1029,8 +1039,9 @@ function footer(ctx, sections, path) {
       </div>
       <div class="foot__cols">
         ${col('foot-pages', 'Pages', sections)}
-        ${col('foot-data', 'Data', dataLinks)}
-        ${col('foot-src', 'Provenance', source)}
+        ${col('foot-data', 'Data', dataLinks, null,
+    `<p class="foot__note">What each file holds is described under <a href="${esc(ctx.href('/'))}#api">Public JSON API</a>.</p>`)}
+        ${col('foot-src', 'Provenance', source, 'blurb')}
       </div>
     </div>
     ${telemetryRow(ctx)}

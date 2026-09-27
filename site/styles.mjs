@@ -2057,6 +2057,12 @@ const ICONS = `
 // loses no fact.
 // ---------------------------------------------------------------------------
 const CHROMA = `
+/* THE FOOTER AS AN INDEX, NOT A BROCHURE. See footer() in layout.mjs for the
+   measurement. Pages is a two-column list of labels; Data carries one note. */
+@media (min-width:760px){.foot__list--2{grid-template-columns:1fr 1fr;column-gap:var(--s-4)}}
+.foot__note{margin:0 0 var(--s-3);font-size:var(--t-xs);color:var(--ink-faint);line-height:1.4;max-width:34ch}
+.foot__note a{color:var(--ink-dim)}
+.foot__fine{max-width:80ch}
 /* THE HOUSE NAME, AFTER THE PLAIN HEADING. Every section used to be headed
    by its insider name - the oven, the desk, the watch floor, the X wire - and
    a first-time visitor could place none of them. docs/WORDING.md: the heading
