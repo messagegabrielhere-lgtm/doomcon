@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "index": "BLISS",
-  "generated_at": "2026-09-27T02:50:58.492Z",
+  "generated_at": "2026-09-27T02:59:49.377Z",
   "score": null,
   "level": null,
   "level_name": null,
@@ -22,6 +22,7 @@
     "openness"
   ],
   "uncalibrated_sources": [
+    "openalex-ai-science",
     "clinicaltrials-ai",
     "hf-permissive-models",
     "openrouter-cost-floor",
@@ -32,10 +33,9 @@
   ],
   "failed_sources": [
     "arxiv-science-ai",
-    "openalex-ai-science",
     "pubmed-ai-clinical"
   ],
-  "sources_reporting": 7,
+  "sources_reporting": 8,
   "sources_total": 10,
   "rule_fired": "no_live_pillars",
   "decision": null,
@@ -165,7 +165,7 @@
       "label": "arXiv AI-method papers outside cs.*",
       "ok": false,
       "uncalibrated": false,
-      "error": "timeout after 40000ms: https://export.arxiv.org/api/query?search_query=(cat:q-bio.BM+OR+cat:q-bio.QM+OR+cat:q-bio.GN+OR+cat:cond-mat.mtrl-sci+OR+cat:physics.chem-ph+OR+cat:physics.med-ph+OR+cat:math.NA+OR+cat:astro-ph.IM)+AND+(abs:%22machine+learning%22+OR+abs:%22deep+learning%22+OR+abs:%22neural+network%22+OR+abs:%22foundation+model%22+OR+abs:%22language+model%22)+AND+submittedDate:[202609200250+TO+202609270250]&start=0&max_results=1",
+      "error": "HTTP 429 Too Many Requests from https://export.arxiv.org/api/query?search_query=(cat:q-bio.BM+OR+cat:q-bio.QM+OR+cat:q-bio.GN+OR+cat:cond-mat.mtrl-sci+OR+cat:physics.chem-ph+OR+cat:physics.med-ph+OR+cat:math.NA+OR+cat:astro-ph.IM)+AND+(abs:%22machine+learning%22+OR+abs:%22deep+learning%22+OR+abs:%22neural+network%22+OR+abs:%22foundation+model%22+OR+abs:%22language+model%22)+AND+submittedDate:[202609200259+TO+202609270259]&start=0&max_results=1 — Rate exceeded.",
       "value": null,
       "unit": null,
       "score": null,
@@ -181,17 +181,23 @@
       "pillar": "science",
       "label": "OpenAlex AI-in-science articles",
       "ok": false,
-      "uncalibrated": false,
-      "error": "HTTP 429 Too Many Requests from https://api.openalex.org/works?filter=from_publication_date:2026-08-28,to_publication_date:2026-09-27,type:article,title_and_abstract.search:(machine%20learning%20OR%20deep%20learning)%20AND%20(protein%20structure%20OR%20materials%20discovery)&per-page=1 — {\"error\":\"Rate limit exceeded\",\"message\":\"Anonymous search is temporarily rate-limited while the search cluster is under elevated load. Please retry in 36s, or use a free API key for uninterrupted access: https://openalex.org/rest-api.\",\"retryAfter\":36}",
-      "value": null,
-      "unit": null,
+      "uncalibrated": true,
+      "error": "awaiting_baseline: \"openalex-ai-science\" has no entry in data/bliss-reference.json yet, so it is collected and published but not scored",
+      "value": 95,
+      "unit": "works/30d",
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": null,
-      "age_seconds": null,
-      "last_ok": "2026-09-27T02:21:59.243Z",
-      "meta": {}
+      "observed_at": "2026-09-27T02:59:49.395Z",
+      "age_seconds": 0,
+      "last_ok": "2026-09-27T02:59:49.395Z",
+      "meta": {
+        "window_days": 30,
+        "window_from": "2026-08-28",
+        "window_to": "2026-09-27",
+        "search": "(machine learning OR deep learning) AND (protein structure OR materials discovery)",
+        "boolean_operators": 3
+      }
     },
     {
       "id": "clinicaltrials-ai",
@@ -205,9 +211,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-09-27T02:50:58.511Z",
+      "observed_at": "2026-09-27T02:59:49.395Z",
       "age_seconds": 0,
-      "last_ok": "2026-09-27T02:50:58.511Z",
+      "last_ok": "2026-09-27T02:59:49.395Z",
       "meta": {
         "window_days": 180,
         "start_date_from": "2026-03-31",
@@ -243,14 +249,14 @@
       "ok": false,
       "uncalibrated": true,
       "error": "awaiting_baseline: \"hf-permissive-models\" has no entry in data/bliss-reference.json yet, so it is collected and published but not scored",
-      "value": 1236,
+      "value": 1233,
       "unit": "models/24h",
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-09-27T02:50:58.511Z",
+      "observed_at": "2026-09-27T02:59:49.395Z",
       "age_seconds": 0,
-      "last_ok": "2026-09-27T02:50:58.511Z",
+      "last_ok": "2026-09-27T02:59:49.395Z",
       "meta": {
         "window_hours": 24,
         "licences": [
@@ -258,8 +264,8 @@
           "mit"
         ],
         "per_licence": {
-          "apache-2.0": 787,
-          "mit": 449
+          "apache-2.0": 785,
+          "mit": 448
         },
         "pages_fetched": 2,
         "page_size": 1000
@@ -277,9 +283,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-09-27T02:50:58.511Z",
+      "observed_at": "2026-09-27T02:59:49.395Z",
       "age_seconds": 0,
-      "last_ok": "2026-09-27T02:50:58.511Z",
+      "last_ok": "2026-09-27T02:59:49.395Z",
       "meta": {
         "percentile": 0.1,
         "usd_per_million_tokens": 0.12,
@@ -308,9 +314,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-09-27T02:50:58.511Z",
+      "observed_at": "2026-09-27T02:59:49.395Z",
       "age_seconds": 0,
-      "last_ok": "2026-09-27T02:50:58.511Z",
+      "last_ok": "2026-09-27T02:59:49.395Z",
       "meta": {
         "basket": [
           "sentence-transformers/all-MiniLM-L6-v2",
@@ -348,9 +354,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-09-27T02:50:58.511Z",
+      "observed_at": "2026-09-27T02:59:49.396Z",
       "age_seconds": 0,
-      "last_ok": "2026-09-27T02:50:58.511Z",
+      "last_ok": "2026-09-27T02:59:49.396Z",
       "meta": {
         "basket": [
           "openai",
@@ -390,9 +396,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-09-27T02:50:58.512Z",
+      "observed_at": "2026-09-27T02:59:49.396Z",
       "age_seconds": 0,
-      "last_ok": "2026-09-27T02:50:58.512Z",
+      "last_ok": "2026-09-27T02:59:49.396Z",
       "meta": {
         "window_days": 365,
         "open_weight_models": 44,
@@ -426,9 +432,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-09-27T02:50:58.512Z",
+      "observed_at": "2026-09-27T02:59:49.396Z",
       "age_seconds": 0,
-      "last_ok": "2026-09-27T02:50:58.512Z",
+      "last_ok": "2026-09-27T02:59:49.396Z",
       "meta": {
         "window_days": 30,
         "created_from": "2026-08-28",
@@ -447,10 +453,10 @@
       "level_name": null
     },
     "doomcon": {
-      "score": 40.3339,
+      "score": 40.2915,
       "level": 4,
       "level_name": "ROUTINE",
-      "generated_at": "2026-09-27T02:50:07.575Z"
+      "generated_at": "2026-09-27T02:59:35.572Z"
     },
     "divergence": null,
     "divergence_band": 3,
