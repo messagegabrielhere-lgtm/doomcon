@@ -2340,6 +2340,16 @@ a.chip:hover b { color: var(--accent-2); }
     .hero .ch--dial .ch__svg--dial { width: 420px; max-width: 420px; }
   }
 
+
+  /* ---- COLLECTOR TELEMETRY, IN THE FOOTER WHERE THE PLUMBING LIVES -------
+     The five cells the rail used to show above the fold. Quiet mono, one row
+     that wraps, the same tooltips they carried before. */
+  .foot__tele { display: flex; flex-wrap: wrap; gap: 6px var(--s-4); margin: var(--s-4) 0 var(--s-3);
+    font-family: var(--mono); font-size: var(--t-2xs); letter-spacing: .06em; color: var(--ink-faint); }
+  .tele__c { display: inline-flex; align-items: baseline; gap: 6px; min-height: 24px; }
+  .tele__k { text-transform: uppercase; letter-spacing: .12em; }
+  .tele__v { color: var(--ink-dim); font-weight: 500; }
+
 `;
 
 
