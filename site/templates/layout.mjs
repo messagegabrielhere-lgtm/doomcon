@@ -236,6 +236,22 @@ function nextDueIso(iso) {
  * problem this rail exists to fix. On every other page it is the anchor that
  * makes the site read as one instrument, so it is there and it is a link home.
  */
+/**
+ * THE RAIL IS THE PULSE, NOT THE DASHBOARD. Measured 2026-09-26: ten cells,
+ * 1,409px wide, seven of them operator telemetry - Scored 5, Feeds 16/16,
+ * Items 200, Receipts 45 - shown above the fold on every page to strangers
+ * who have not yet seen the number. And one cell was actively harmful:
+ * "Next due: overdue 07:10" is the collector's cron deadline admitting it is
+ * late, and a newcomer reads "overdue" as the site being broken.
+ *
+ * What stays is what a human reads as a pulse and a trust signal: the wall
+ * clock, the reading on subpages, whether the number moved, when it was
+ * observed and how long ago, how many sources answered, whether any are dark,
+ * and the posture. The five telemetry cells moved to the footer - see
+ * telemetryRow() - where provenance already lives and where a reader who
+ * wants the plumbing goes looking for it. Nothing was deleted; it was
+ * re-homed. At 375px the rail was a 1,409px scroller; it is now under half.
+ */
 function rail(ctx, path) {
   const st = ctx && ctx.state;
   if (!st || !Array.isArray(st.sources)) return '';
@@ -246,16 +262,10 @@ function rail(ctx, path) {
   // "5/14 SOURCES" conflated those and read as though nine were broken, which
   // is the precise confusion this codebase exists to avoid.
   const reporting = st.sources.filter((x) => x.ok || x.uncalibrated).length;
-  const scored = st.sources.filter((x) => x.ok).length;
   const dark = st.sources.filter((x) => !x.ok && !x.uncalibrated).length;
-  const news = ctx.news && Array.isArray(ctx.news.items) ? ctx.news.items.length : null;
-  const feedRows = ctx.news && Array.isArray(ctx.news.sources) ? ctx.news.sources : null;
-  const feeds = feedRows ? feedRows.filter((x) => x.ok).length : null;
-  const receipts = Array.isArray(ctx.receipts) ? ctx.receipts.length : null;
   const posture = dark > 0 ? 'DEGRADED' : 'OPERATIONAL';
 
   const prev = prevObservation(ctx);
-  const due = nextDueIso(st.generated_at);
   const cells = [];
 
   const cell = (k, v, extra = '') =>
@@ -303,27 +313,8 @@ function rail(ctx, path) {
     ` title="${esc(utc(st.generated_at))}"`,
   ));
 
-  // Atom two. A schedule, stated as a schedule - and it admits lateness rather
-  // than counting down into fiction.
-  if (due) {
-    cells.push(cell(
-      'Next due',
-      `<time class="rail__v num" datetime="${esc(due)}" data-dc-next>${esc(utcClock(due))}Z</time>`,
-      ` title="Collection runs on a published */${CADENCE_MIN} cron. Scheduled runs are queued and are routinely late."`,
-    ));
-  }
-
   cells.push(cell('Sources', `<b class="rail__v num">${reporting}/${total}</b><span class="rail__s">reporting</span>`));
-  cells.push(cell('Scored', `<b class="rail__v num">${scored}</b>`));
   if (dark) cells.push(cell('Dark', `<b class="rail__v num">${dark}</b>`, ' data-bad="1"'));
-  // A bare "FEEDS 15" is a number with no denominator, which is the one thing
-  // VOICE.md will not have. 15 of 16 says both that the newsroom is wide and
-  // that one feed is not answering, in four more characters.
-  if (feeds !== null) {
-    cells.push(cell('Feeds', `<b class="rail__v num">${feeds}/${feedRows.length}</b>`));
-  }
-  if (news !== null) cells.push(cell('Items', `<b class="rail__v num">${news}</b>`));
-  if (receipts !== null) cells.push(cell('Receipts', `<b class="rail__v num">${receipts}</b>`));
 
   cells.push(
     `<span class="rail__c rail__c--posture" data-posture="${posture.toLowerCase()}">` +
@@ -913,6 +904,34 @@ function hasSection(ctx, key) {
  * why you would open it. The reader who got this far is the reader most likely
  * to open a second page, and we were handing them five bare words.
  */
+
+/**
+ * The five cells the rail used to carry, re-homed. The expressions are the
+ * rail's own, verbatim, so the numbers cannot disagree with what the rail
+ * printed yesterday; the titles travel with them because "routinely late" is
+ * the honest gloss on a cron and belongs beside the stamp, not lost.
+ */
+function telemetryRow(ctx) {
+  const st = ctx && ctx.state;
+  if (!st || !Array.isArray(st.sources)) return '';
+  const scored = st.sources.filter((x) => x.ok).length;
+  const news = ctx.news && Array.isArray(ctx.news.items) ? ctx.news.items.length : null;
+  const feedRows = ctx.news && Array.isArray(ctx.news.sources) ? ctx.news.sources : null;
+  const feeds = feedRows ? feedRows.filter((x) => x.ok).length : null;
+  const receipts = Array.isArray(ctx.receipts) ? ctx.receipts.length : null;
+  const due = nextDueIso(st.generated_at);
+  const cell = (k, v, title = '') =>
+    `<span class="tele__c"${title ? ` title="${esc(title)}"` : ''}><span class="tele__k">${k}</span><b class="tele__v num">${v}</b></span>`;
+  const cells = [];
+  if (due) cells.push(cell('Next collection', `<time datetime="${esc(due)}" data-dc-next>${esc(utcClock(due))}Z</time>`,
+    `Collection runs on a published */${CADENCE_MIN} cron. Scheduled runs are queued and are routinely late.`));
+  cells.push(cell('Sources scored', String(scored), 'Sources with a frozen baseline to score against.'));
+  if (feeds !== null) cells.push(cell('News feeds', `${feeds}/${feedRows.length}`, 'Newsroom feeds answering, of those asked.'));
+  if (news !== null) cells.push(cell('Items scored', String(news)));
+  if (receipts !== null) cells.push(cell('Receipts', String(receipts), 'Hash-chained receipts, one per scored observation.'));
+  return `<p class="foot__tele" aria-label="Collector telemetry">${cells.join('')}</p>`;
+}
+
 function footer(ctx, sections, path) {
   const col = (id, heading, items, blurbKey = 'blurb') => `
     <div class="foot__col">
@@ -1011,6 +1030,7 @@ function footer(ctx, sections, path) {
         ${col('foot-src', 'Provenance', source)}
       </div>
     </div>
+    ${telemetryRow(ctx)}
     ${odbl}${exploitSource}<p class="foot__fine">Collection runs on a published <code>*/${CADENCE_MIN}</code> cron; scheduled runs are queued and
       are routinely late, which is why the rail above says <b>overdue</b> rather than counting down into fiction.
       Every value on this site is computed from public data by published code, and each observation is written to a
