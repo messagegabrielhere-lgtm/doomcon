@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "index": "BLISS",
-  "generated_at": "2026-09-27T05:21:11.932Z",
+  "generated_at": "2026-09-27T06:26:17.792Z",
   "score": null,
   "level": null,
   "level_name": null,
@@ -9,14 +9,13 @@
   "level_since": "2026-09-24T03:08:24.487Z",
   "delta_from_previous": null,
   "posture": "awaiting-baseline",
-  "degraded": true,
+  "degraded": false,
   "awaiting_baseline": true,
   "reference_present": false,
-  "dark_pillars": [
-    "medicine"
-  ],
+  "dark_pillars": [],
   "uncalibrated_pillars": [
     "science",
+    "medicine",
     "access",
     "adoption",
     "openness"
@@ -25,6 +24,7 @@
     "arxiv-science-ai",
     "openalex-ai-science",
     "clinicaltrials-ai",
+    "pubmed-ai-clinical",
     "hf-permissive-models",
     "openrouter-cost-floor",
     "hf-model-downloads",
@@ -32,10 +32,8 @@
     "epoch-open-weights",
     "github-permissive-ai"
   ],
-  "failed_sources": [
-    "pubmed-ai-clinical"
-  ],
-  "sources_reporting": 9,
+  "failed_sources": [],
+  "sources_reporting": 10,
   "sources_total": 10,
   "rule_fired": "no_live_pillars",
   "decision": null,
@@ -116,8 +114,8 @@
       "percentile": null,
       "sources_ok": 0,
       "sources_total": 2,
-      "dark": true,
-      "uncalibrated": false,
+      "dark": false,
+      "uncalibrated": true,
       "blurb": "Trials started, clinical results indexed.",
       "description": "Registered interventional trials involving AI, and the published clinical literature pairing a model with a diagnosis. A trial costs a protocol, an ethics board and enrolled human beings. It is the most expensive signal in this index."
     },
@@ -171,13 +169,13 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-09-27T05:21:11.950Z",
+      "observed_at": "2026-09-27T06:26:17.810Z",
       "age_seconds": 0,
-      "last_ok": "2026-09-27T05:21:11.950Z",
+      "last_ok": "2026-09-27T06:26:17.810Z",
       "meta": {
         "window_days": 7,
-        "window_from": "202609200521",
-        "window_to": "202609270521",
+        "window_from": "202609200626",
+        "window_to": "202609270626",
         "categories": [
           "q-bio.BM",
           "q-bio.QM",
@@ -209,9 +207,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-09-27T05:21:11.950Z",
+      "observed_at": "2026-09-27T06:26:17.810Z",
       "age_seconds": 0,
-      "last_ok": "2026-09-27T05:21:11.950Z",
+      "last_ok": "2026-09-27T06:26:17.810Z",
       "meta": {
         "window_days": 30,
         "window_from": "2026-08-28",
@@ -232,9 +230,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-09-27T05:21:11.951Z",
+      "observed_at": "2026-09-27T06:26:17.811Z",
       "age_seconds": 0,
-      "last_ok": "2026-09-27T05:21:11.951Z",
+      "last_ok": "2026-09-27T06:26:17.811Z",
       "meta": {
         "window_days": 180,
         "start_date_from": "2026-03-31",
@@ -251,17 +249,33 @@
       "pillar": "medicine",
       "label": "PubMed AI-in-clinical-practice records",
       "ok": false,
-      "uncalibrated": false,
-      "error": "timeout after 15000ms: https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&retmode=json&rettype=count&tool=doomcon-bliss&term=(%22artificial%20intelligence%22%5BTitle%2FAbstract%5D%20OR%20%22machine%20learning%22%5BTitle%2FAbstract%5D%20OR%20%22deep%20learning%22%5BTitle%2FAbstract%5D)%20AND%20(diagnosis%5BTitle%2FAbstract%5D%20OR%20%22drug%20discovery%22%5BTitle%2FAbstract%5D%20OR%20screening%5BTitle%2FAbstract%5D%20OR%20prognosis%5BTitle%2FAbstract%5D)%20AND%20(%222026%2F08%2F28%22%5BEDAT%5D%20%3A%20%222026%2F09%2F27%22%5BEDAT%5D)",
-      "value": null,
-      "unit": null,
+      "uncalibrated": true,
+      "error": "awaiting_baseline: \"pubmed-ai-clinical\" has no entry in data/bliss-reference.json yet, so it is collected and published but not scored",
+      "value": 1999,
+      "unit": "records/30d",
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": null,
-      "age_seconds": null,
-      "last_ok": "2026-09-27T01:20:24.398Z",
-      "meta": {}
+      "observed_at": "2026-09-27T06:26:17.811Z",
+      "age_seconds": 0,
+      "last_ok": "2026-09-27T06:26:17.811Z",
+      "meta": {
+        "window_days": 30,
+        "edat_from": "2026/08/28",
+        "edat_to": "2026/09/27",
+        "ai_terms": [
+          "\"artificial intelligence\"",
+          "\"machine learning\"",
+          "\"deep learning\""
+        ],
+        "clinical_terms": [
+          "diagnosis",
+          "\"drug discovery\"",
+          "screening",
+          "prognosis"
+        ],
+        "date_field": "EDAT (Entrez date, i.e. when PubMed indexed it)"
+      }
     },
     {
       "id": "hf-permissive-models",
@@ -270,14 +284,14 @@
       "ok": false,
       "uncalibrated": true,
       "error": "awaiting_baseline: \"hf-permissive-models\" has no entry in data/bliss-reference.json yet, so it is collected and published but not scored",
-      "value": 1259,
+      "value": 1267,
       "unit": "models/24h",
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-09-27T05:21:11.951Z",
+      "observed_at": "2026-09-27T06:26:17.811Z",
       "age_seconds": 0,
-      "last_ok": "2026-09-27T05:21:11.951Z",
+      "last_ok": "2026-09-27T06:26:17.811Z",
       "meta": {
         "window_hours": 24,
         "licences": [
@@ -285,7 +299,7 @@
           "mit"
         ],
         "per_licence": {
-          "apache-2.0": 811,
+          "apache-2.0": 819,
           "mit": 448
         },
         "pages_fetched": 2,
@@ -304,9 +318,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-09-27T05:21:11.951Z",
+      "observed_at": "2026-09-27T06:26:17.811Z",
       "age_seconds": 0,
-      "last_ok": "2026-09-27T05:21:11.951Z",
+      "last_ok": "2026-09-27T06:26:17.811Z",
       "meta": {
         "percentile": 0.1,
         "usd_per_million_tokens": 0.1125,
@@ -335,9 +349,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-09-27T05:21:11.951Z",
+      "observed_at": "2026-09-27T06:26:17.811Z",
       "age_seconds": 0,
-      "last_ok": "2026-09-27T05:21:11.951Z",
+      "last_ok": "2026-09-27T06:26:17.811Z",
       "meta": {
         "basket": [
           "sentence-transformers/all-MiniLM-L6-v2",
@@ -375,9 +389,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-09-27T05:21:11.951Z",
+      "observed_at": "2026-09-27T06:26:17.811Z",
       "age_seconds": 0,
-      "last_ok": "2026-09-27T05:21:11.951Z",
+      "last_ok": "2026-09-27T06:26:17.811Z",
       "meta": {
         "basket": [
           "openai",
@@ -417,9 +431,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-09-27T05:21:11.952Z",
+      "observed_at": "2026-09-27T06:26:17.811Z",
       "age_seconds": 0,
-      "last_ok": "2026-09-27T05:21:11.952Z",
+      "last_ok": "2026-09-27T06:26:17.811Z",
       "meta": {
         "window_days": 365,
         "open_weight_models": 44,
@@ -453,9 +467,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-09-27T05:21:11.952Z",
+      "observed_at": "2026-09-27T06:26:17.812Z",
       "age_seconds": 0,
-      "last_ok": "2026-09-27T05:21:11.952Z",
+      "last_ok": "2026-09-27T06:26:17.812Z",
       "meta": {
         "window_days": 30,
         "created_from": "2026-08-28",
@@ -474,10 +488,10 @@
       "level_name": null
     },
     "doomcon": {
-      "score": 39.5136,
+      "score": 39.4447,
       "level": 4,
       "level_name": "ROUTINE",
-      "generated_at": "2026-09-27T05:20:54.673Z"
+      "generated_at": "2026-09-27T06:26:03.354Z"
     },
     "divergence": null,
     "divergence_band": 3,
