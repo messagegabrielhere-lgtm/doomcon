@@ -16,6 +16,7 @@ import * as brand from './brand.mjs';
 import * as marks from './brandmarks.mjs';
 import { cardAssets } from './cardpng.mjs';
 import { createHash } from 'node:crypto';
+import { gzipSync } from 'node:zlib';
 import { css as siteCss } from './styles.mjs';
 import { stableJson, num, secondsBetween } from './templates/_html.mjs';
 import * as indexPage from './templates/index.mjs';
@@ -718,9 +719,16 @@ async function main() {
     // request a 404. Today's flockPage renders the whole page server-side from
     // the aggregate and does not need this; it is the contract for the day a
     // per-camera layer is drawn, and the reason the endpoint has a fixed path.
+    // gzBytes is what the reader actually pays to fetch it - Pages serves the
+    // file compressed - so the button on /flock can say "0.9 MB" and be
+    // telling the truth. gzip is deterministic for a given input.
     flockPoints: flockPointsText === null
       ? null
-      : { href: FLOCK_POINTS_HREF, bytes: Buffer.byteLength(flockPointsText, 'utf8') },
+      : {
+        href: FLOCK_POINTS_HREF,
+        bytes: Buffer.byteLength(flockPointsText, 'utf8'),
+        gzBytes: gzipSync(Buffer.from(flockPointsText, 'utf8'), { level: 6 }).length,
+      },
     leaders,
     exploits,
     x: xwire,

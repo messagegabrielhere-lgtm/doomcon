@@ -564,3 +564,51 @@ Three obligations, none of them optional:
    ODbL is a licence, not a suggestion.
 3. "Zero mapped" is distinguishable from everything else by something that is
    not colour alone — see `copy.legend_requirement`.
+
+## 9. The map, with scripting
+
+The picture is complete before any script runs and is unchanged by it: the
+live layer is a transform on one `<g class="flk__vp">` and a handful of
+controls rendered `hidden` until the script has wired them. What it adds, in
+the order a reader meets it:
+
+- **Pan and zoom** — drag, wheel, pinch, the `+ − Reset` buttons, arrow keys.
+  Zoom runs from 1× to 300× (about 15 km across the frame). Borders, the hatch
+  pitch and the pick outline are counter-scaled in half-octave steps so they
+  stay a screen pixel wide.
+- **A readout of the cell under the pointer.** Not 5,029 hit targets: the
+  script runs the build's Albers projection *in reverse* (the fit is published
+  in the page's `flk__data` JSON), floors the latitude and longitude to the
+  0.25° lattice, and looks the count up. The state comes from
+  `isPointInFill` against the outline paths. Tap or click pins it; Escape or a
+  second tap on the same cell releases it. Hatched land reads **"None mapped
+  in this cell — nobody has mapped here"**, never "0".
+- **A scale bar**, because past 12× the cells are flat colour with nothing
+  in them to give distance. One raw Albers unit is one Earth radius, so
+  viewBox units per kilometre is `fit.scale / 6371`.
+- **State zoom** from every drawn state's name in the jurisdictions table
+  (`data-flk-go`). Without script the same link jumps to the map.
+- **Near me** — `navigator.geolocation`, once, kept on the device, then
+  `goTo(lat, lon, 90)` and the camera layer on. States outside the frame get
+  "Outside this map".
+- **The individual cameras**, past 12×, behind a button that says what it
+  costs (`ctx.flockPoints.gzBytes`, gzip level 6, about 0.9 MB). The packed
+  points file is fetched once, projected once (115,608 `proj()` calls, a few
+  tens of milliseconds), and only the cameras inside the viewport plus a
+  half-viewport margin are drawn — as two `<path>`s of arcs, filled for
+  cameras with a bearing and hollow for the −1 sentinel. Past 40× a third
+  path carries a tick per camera in the direction its lens points, rotated
+  by the meridian convergence `n(λ − λ₀)` so it is true north on screen, not
+  page-up. Redrawn 120 ms after the last transform, not per frame; panning
+  inside the margin costs nothing.
+
+The API on `window.flockMap.get('flock-map')`: `zoomIn`, `zoomOut`, `reset`,
+`zoom()`, `goTo(lat, lon, zoom)`, `focusState(ab)`, `cellAt(lat, lon)`,
+`readAt(lat, lon, stick)`, `showCameras`, `hideCameras`, `camerasLoaded()`,
+`camerasOn()`, `inView()`. The figure dispatches `flockmap:cell` with
+`{lat, lon, cell, count, state, sticky}` on every readout.
+
+What it does not do, and why: no basemap (roads, place names) — none is in
+the data and none is served, so at street zoom the reader sees the lattice,
+the scale bar and the dots, which is exactly what the data supports and
+nothing more.
