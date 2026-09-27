@@ -16,6 +16,12 @@
  *      applying because the letters are drawn rather than typed.
  *   4. THE STENCIL. Every string a card sets must be settable, and the lines
  *      that carry somebody else's words must not be losing characters.
+ *   5. THE BRAND. Every card prints brand.DOMAIN — the address that serves the
+ *      site — and never doomcon.watch, which does not resolve. Nothing on a
+ *      card is set under 10px, because X shows this 1080px card at about
+ *      500px on a phone and that is where legibility ends. The daily-state
+ *      card leads with the homepage's own sentence and its ladder carries
+ *      the page's two direction words, CALM and SEVERE.
  */
 
 import { readFileSync, existsSync } from 'node:fs';
@@ -23,7 +29,12 @@ import { createHash } from 'node:crypto';
 import { join } from 'node:path';
 import { render, auditCard, fold, canSet } from './_kit.mjs';
 import { DESIGNS } from './index.mjs';
+import { cardDomain } from './_chassis.mjs';
 import { findFutureViolation, findUrlViolation } from '../posts.mjs';
+import * as brand from '../../site/brand.mjs';
+
+/** The floor a glyph can be set at and still be read where X shows the card. */
+const LEGIBLE_PX = 10;
 
 const ROOT = process.cwd();
 const load = (n) => {
@@ -95,6 +106,28 @@ for (const { id, surface } of built) {
     if (!canSet(t)) fail(`${id}: the stencil cannot set "${t}"`);
     const f = fold(t);
     if (f.lost) fail(`${id}: "${t}" loses ${f.lost} characters to the stencil`);
+    /* 5. The brand. -------------------------------------------------------- */
+    if (/doomcon\.watch/i.test(t)) fail(`${id}: prints doomcon.watch, which does not resolve: "${t}"`);
+    if (op.size < LEGIBLE_PX) fail(`${id}: "${t}" is set at ${op.size}px, under the ${LEGIBLE_PX}px floor`);
+  }
+  const texts = surface.ops.filter((o) => o.op === 'text');
+  const dom = texts.find((o) => o.role === 'domain');
+  if (!dom) fail(`${id}: no domain on the card`);
+  else if (dom.text !== cardDomain() || dom.text !== String(brand.DOMAIN).toLowerCase()) {
+    fail(`${id}: domain "${dom.text}" is not brand.DOMAIN "${brand.DOMAIN}"`);
+  } else pass(`${id}: prints ${dom.text}`);
+  if (id === 'level') {
+    const want = `AI activity is at ${brand.NAME} ${data.state.level} — ${data.state.level_name}, on a scale where 1 is loudest.`;
+    const note = surface.notes.find((n) => n.key === 'sentence');
+    if (!note || note.value !== want) fail(`${id}: sentence is ${JSON.stringify(note && note.value)}, the page says ${JSON.stringify(want)}`);
+    else if (!texts.some((o) => o.text.startsWith('AI activity is at'))
+      || !texts.some((o) => o.text.includes(`${brand.NAME} ${data.state.level}`))) {
+      fail(`${id}: the sentence is noted but not drawn`);
+    } else pass(`${id}: leads with the page's sentence`);
+    for (const word of ['CALM', 'SEVERE']) {
+      if (!texts.some((o) => o.text === word)) fail(`${id}: the ladder does not say ${word}`);
+    }
+    if (texts.some((o) => o.text === 'CALM') && texts.some((o) => o.text === 'SEVERE')) pass(`${id}: ladder ends read CALM and SEVERE`);
   }
 
   /* 1. Determinism. ------------------------------------------------------- */

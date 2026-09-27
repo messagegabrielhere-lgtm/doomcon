@@ -114,8 +114,12 @@ export function tileMap(s, { x, y, w, maxH = Infinity, cell, ramp, showValues = 
       Math.round(tile * 0.28), fg, { align: 'center', track: 0.01, weight: 0.12 });
     if (showValues && got.value != null) {
       const v = fold(String(got.value)).text;
+      // 10px is the floor: X shows this 1080px card at about 500px on a phone,
+      // and anything under ~11px at 1200 wide is unreadable there. A figure
+      // that still does not fit at 10px is drawn at 10px inside the tile
+      // rather than shrunk to a smudge.
       let vs = Math.round(tile * 0.22);
-      while (vs > 8 && textWidth(v, vs, 0.01) > tile - 8) vs -= 1;
+      while (vs > 10 && textWidth(v, vs, 0.01) > tile - 8) vs -= 1;
       s.text(v, tx + tile / 2, ty + tile * 0.82, vs, fg, { align: 'center', track: 0.01, alpha: 0.86 });
     }
   }

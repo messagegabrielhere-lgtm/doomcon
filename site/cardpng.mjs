@@ -850,6 +850,12 @@ export function surface(w, h, { background = GROUND } = {}) {
     width: W,
     height: H,
 
+    /** Every string this surface set, with its cap height, in draw order. A
+     *  PNG cannot be grepped, so this is how a card is proven to print the
+     *  address that serves the site and nothing under the legibility floor —
+     *  the card functions hand it back through `opts.trace`. */
+    strings: [],
+
     /** Filled rectangle, optionally with corner radii. */
     rect({ x, y, w: rw, h: rh, r = 0, color, alpha = 1, clip }) {
       push({ kind: 'rrect', x, y, rw, rh, r, color, alpha, clip });
@@ -949,6 +955,7 @@ export function surface(w, h, { background = GROUND } = {}) {
       if (weight > MAX_WEIGHT) {
         throw new Error(`cardpng: weight ${weight} closes this font's counters; the ceiling is ${MAX_WEIGHT} (docs/CARDS.md §3.3)`);
       }
+      api.strings.push({ text: str, size });
       const k = size / FONT_METRICS.cap;
       const sw = size * weight;
       const total = measureText(str, { size, track });
@@ -1092,8 +1099,246 @@ const PANEL = mix(GROUND, '#8fa6c8', 0.07);
 const RULE = mix(GROUND, '#8fa6c8', 0.18);
 const TRACK = mix(GROUND, '#8fa6c8', 0.13);
 
-/** The common furniture: the level stripe, the masthead, the footer rule.
- *  Every design calls it, which is why the three read as one set. */
+// ---------------------------------------------------------------------------
+// 5b. THE READING, SHARED BY BOTH RENDERERS
+//
+// The homepage now opens with one sentence — "AI activity is at DOOMCON 4 —
+// ROUTINE, on a scale where 1 is loudest." — and a dial whose two ends say
+// CALM and SEVERE, because a numeral alone does not tell a stranger which way
+// is worse, and DOOMCON counts DOWN. A card is the same page, seen first and
+// most often, so it has to say the same thing in the same words.
+//
+// The three helpers below are PURE: they measure with this module's font and
+// return geometry, and they draw nothing. site/cardpng.mjs's own cards draw
+// them through `surface()`; collector/cards/_chassis.mjs replays the same ops
+// onto its audited Surface. One definition, two renderers, no drift.
+// ---------------------------------------------------------------------------
+
+/**
+ * The sentence the homepage's <h1> builds (site/templates/index.mjs
+ * headline()), word for word, as colour runs: the reading in the level's
+ * heat, the rest in ink. The page's <h1> glues "DOOMCON 4" with a no-break
+ * space; here the whole reading is glued, so "DOOMCON 4 — ROUTINE," is one
+ * token that never breaks across a line, and fitRuns() sets each no-break
+ * space as an ordinary one.
+ *
+ * @param {object} state  needs .level; .level_name is used when present, and
+ *   site/build.mjs already refuses to ship when it disagrees with brand.mjs.
+ */
+export function levelSentence(state, { ink = INK } = {}) {
+  const level = req(state && state.level, 'state.level');
+  const meta = levelMeta(level);
+  const name = typeof state.level_name === 'string' && state.level_name ? state.level_name : meta.name;
+  // The comma rides with the reading rather than with the clause after it, so
+  // every run boundary falls on a space: two runs that abut with no space
+  // between them would measure as touching in collector/cards' audit.
+  return [
+    { text: 'AI activity is at ', color: ink },
+    { text: `${brand.NAME}\u00a0${level}\u00a0\u2014\u00a0${name},`, color: HEAT[level] },
+    { text: ' on a scale where 1 is loudest.', color: ink },
+  ];
+}
+
+/** The same sentence as one plain string, for a test or an alt text. */
+export function levelSentenceText(state) {
+  return levelSentence(state).map((s) => s.text).join('').replace(/\u00a0/g, ' ');
+}
+
+/**
+ * Wrap colour runs into lines, stepping the cap height down a whole pixel at
+ * a time until they fit `maxLines` in `maxWidth`, and place every run at its
+ * exact x — so a line drawn as three runs is pixel-identical to the same
+ * line drawn as one call. Tokens split on ordinary spaces only; U+00A0 glues
+ * two words. Throws below `to`, like fitText().
+ *
+ * @returns {{ size:number, lines:Array<{text:string, runs:Array<{text,color,x}>}> }}
+ */
+export function fitRuns(segments, { from, to = 16, track = 0.02, maxWidth, maxLines = 3 }) {
+  const joined = segments.map((s) => String(s.text)).join('');
+  const plain = (s) => s.replace(/\u00a0/g, ' ');
+  assertCanSet(plain(joined), 'fitRuns');
+  const bounds = [];
+  let at = 0;
+  for (const s of segments) {
+    bounds.push({ start: at, end: at + String(s.text).length, color: s.color });
+    at += String(s.text).length;
+  }
+  const words = joined.split(' ');
+  const offs = [];
+  let o = 0;
+  for (const w of words) { offs.push(o); o += w.length + 1; }
+
+  for (let size = Math.round(from); size >= to; size -= 1) {
+    const t = size * track;
+    const lines = [];
+    let cur = null;
+    for (let i = 0; i < words.length; i += 1) {
+      const w = words[i];
+      if (!w.length) continue;
+      const trial = cur ? `${cur.text} ${w}` : w;
+      if (cur && measureText(plain(trial), { size, track }) > maxWidth) { lines.push(cur); cur = null; }
+      if (!cur) cur = { start: offs[i], end: offs[i] + w.length, text: w };
+      else { cur.text = trial; cur.end = offs[i] + w.length; }
+    }
+    if (cur) lines.push(cur);
+    if (lines.length > maxLines) continue;
+    if (lines.some((l) => measureText(plain(l.text), { size, track }) > maxWidth)) continue;
+    const spaceW = measureText(' ', { size }) + t;
+    return {
+      size,
+      lines: lines.map((l) => {
+        const runs = [];
+        for (const b of bounds) {
+          let s = Math.max(b.start, l.start);
+          let e = Math.min(b.end, l.end);
+          if (e <= s) continue;
+          // A run never starts or ends on a space: the space is walked over
+          // as advance instead, so two adjacent runs measure exactly as one.
+          while (s < e && joined[s] === ' ') s += 1;
+          while (e > s && joined[e - 1] === ' ') e -= 1;
+          if (e <= s) continue;
+          const prefix = plain(joined.slice(l.start, s));
+          const lead = /\s*$/.exec(prefix)[0].length;
+          const solid = prefix.slice(0, prefix.length - lead);
+          const x = (solid.length ? measureText(solid, { size, track }) + t : 0) + lead * spaceW;
+          runs.push({ text: plain(joined.slice(s, e)), color: b.color, x });
+        }
+        return { text: plain(l.text), runs };
+      }),
+    };
+  }
+  throw new Error(`cardpng: ${JSON.stringify(plain(joined).slice(0, 80))} does not fit ${Math.round(maxWidth)}px in ${maxLines} line(s) even at ${to}px`);
+}
+
+/**
+ * THE LADDER. The five bands of the scale as one horizontal instrument — the
+ * page's dial, unrolled — with the two words that say which way is worse.
+ *
+ *   CALM  [ 5 ][ 4 ][ 3 ][ 2 ][ 1 ]  SEVERE
+ *         0   35   55   70   85   100
+ *
+ * Band widths are proportional to the score range each one covers, exactly
+ * as the dial's arcs are, so the scale is not redrawn as five equal cells.
+ * Stops are lit from the calm end up to the live one (brandmarks.litSlots'
+ * rule); the live band is raised, filled in its heat and carries its numeral
+ * in dark ink — the one place a hue is load-bearing on the page, and the
+ * same place here. A caret under the live band marks where the composite
+ * sits inside it. Never colour alone: the count of lit stops, the raised
+ * silhouette, the numerals and the two words all say the same thing.
+ *
+ * Returns ops, not pixels: { kind:'rect'|'disc'|'text', … }.
+ *
+ * @param {object} o
+ * @param {number} o.x, o.y   left edge and the TOP of the base cells
+ * @param {number} o.w        total width, words included
+ * @param {number} [o.h]      base cell height
+ * @param {number} [o.raise]  how far the live band rises above the others
+ * @param {number} [o.size]   cap height of the numerals and edge values
+ * @param {number} [o.wordSize] cap height of CALM / SEVERE
+ * @param {number|null} [o.score] composite, for the caret; null draws none
+ * @returns {{ ops:Array<object>, top:number, bottom:number, cells:{x:number,w:number} }}
+ */
+export function ladderShapes({
+  x, y, w, h = 40, level, score = null, raise = 0, size = 15, wordSize = 15,
+  numerals = true, edges = true, words = true, gap = 5,
+}) {
+  const L = Number(req(level, 'level'));
+  levelMeta(L);
+  const bands = [...brand.LEVELS].sort((a, b) => b.level - a.level);
+  const ops = [];
+  const wTrack = 0.14;
+  const lw = words ? measureText('CALM', { size: wordSize, track: wTrack }) : 0;
+  const rw = words ? measureText('SEVERE', { size: wordSize, track: wTrack }) : 0;
+  const pad = words ? Math.round(wordSize * 0.9) : 0;
+  const cx0 = x + lw + pad;
+  const cw = w - lw - rw - pad * 2;
+  const units = bands.reduce((a, b) => a + (b.band[1] - b.band[0] + 1), 0);
+  const unit = (cw - gap * (bands.length - 1)) / units;
+  if (words) {
+    const base = y + h / 2 + wordSize * 0.36;
+    ops.push({ kind: 'text', text: 'CALM', x, y: base, size: wordSize, color: INK_DIM, align: 'left', track: wTrack, weight: 0.10 });
+    ops.push({ kind: 'text', text: 'SEVERE', x: x + w, y: base, size: wordSize, color: INK_DIM, align: 'right', track: wTrack, weight: 0.10 });
+  }
+  const edgeBase = y + h + Math.round(size * 2.1);
+  let bx = cx0;
+  bands.forEach((b, i) => {
+    const [lo, hi] = b.band;
+    const bw = (hi - lo + 1) * unit;
+    const lv = b.level;
+    const lit = lv >= L;
+    const live = lv === L;
+    if (live) {
+      ops.push({ kind: 'rect', x: bx, y: y - raise, w: bw, h: h + raise, r: Math.min(8, h / 2), color: HEAT[lv], alpha: 1 });
+    } else {
+      ops.push({ kind: 'rect', x: bx, y, w: bw, h, r: Math.min(6, h / 2), color: lit ? HEAT[lv] : INK_DIM, alpha: lit ? 0.55 : 0.18 });
+    }
+    if (numerals) {
+      const cellH = live ? h + raise : h;
+      const top = live ? y - raise : y;
+      let ns = live ? Math.round(cellH * 0.62) : size;
+      while (ns > size && measureText(String(lv), { size: ns, track: 0 }) > bw - 10) ns -= 1;
+      ops.push({
+        kind: 'text', text: String(lv), x: bx + bw / 2, y: top + cellH / 2 + ns * 0.36, size: ns,
+        color: lit ? GROUND : INK_FAINT, align: 'center', track: 0, weight: live ? 0.105 : 0.095,
+      });
+    }
+    if (edges) {
+      ops.push({ kind: 'text', text: String(lo), x: bx, y: edgeBase, size, color: INK_FAINT, align: 'center', track: 0, weight: 0.095 });
+      if (i === bands.length - 1) {
+        ops.push({ kind: 'text', text: String(hi), x: bx + bw, y: edgeBase, size, color: INK_FAINT, align: 'center', track: 0, weight: 0.095 });
+      }
+    }
+    if (live && Number.isFinite(score)) {
+      const t = clamp((score - lo) / (hi - lo + 1), 0, 1);
+      const tx = bx + t * bw;
+      const r = Math.max(3, Math.round(size * 0.3));
+      ops.push({ kind: 'rect', x: tx - 1.5, y: y + h + 1, w: 3, h: r * 1.6, r: 1.5, color: INK, alpha: 1 });
+      ops.push({ kind: 'disc', cx: tx, cy: y + h + 1 + r * 1.6 + r * 0.8, r, color: INK, alpha: 1 });
+    }
+    bx += bw + gap;
+  });
+  return {
+    ops,
+    top: y - raise,
+    bottom: edges ? edgeBase + size * 0.3 : y + h + (Number.isFinite(score) ? size : 0),
+    cells: { x: cx0, w: cw },
+  };
+}
+
+/** Replay ladderShapes() ops onto a cardpng surface. */
+function drawLadder(S, o) {
+  const got = ladderShapes(o);
+  for (const p of got.ops) {
+    if (p.kind === 'rect') S.rect({ x: p.x, y: p.y, w: p.w, h: p.h, r: p.r, color: p.color, alpha: p.alpha });
+    else if (p.kind === 'disc') S.disc({ cx: p.cx, cy: p.cy, r: p.r, color: p.color, alpha: p.alpha });
+    else if (p.kind === 'text') S.text(p.text, { x: p.x, y: p.y, size: p.size, color: p.color, align: p.align, track: p.track, weight: p.weight });
+    else throw new Error(`cardpng: ladder op ${JSON.stringify(p.kind)} has no drawer`);
+  }
+  return got;
+}
+
+/** Draw fitRuns() output top-down from the first baseline; returns the last
+ *  baseline. */
+function drawRuns(S, fit, { x, y, leading = LEADING, weight = 0.09, track = 0.01 }) {
+  const step = Math.round(fit.size * leading);
+  fit.lines.forEach((line, i) => {
+    for (const r of line.runs) {
+      S.text(r.text, { x: x + r.x, y: y + i * step, size: fit.size, color: r.color, weight, track });
+    }
+  });
+  return y + (fit.lines.length - 1) * step;
+}
+
+/**
+ * The common furniture: the level stripe, the masthead lockup, the footer.
+ * Every design calls it, which is why the three read as one set.
+ *
+ * THE LOCKUP is the site's masthead — the sentinel wire, the wordmark, the
+ * publication — and the mark is set large enough that the spike is a
+ * reading at X's render size: 72px on the landscape card is 30px on a phone,
+ * where DOOMCON 4's apex is still 8px above the wire. Returns `top`, the
+ * first y a design may use.
+ */
 function chrome(S, { level, stamp, margin, stripe = 10, footer = true }) {
   const heat = HEAT[level];
   // A wash of the level's hue under the stripe. It is the one decorative
@@ -1106,11 +1351,19 @@ function chrome(S, { level, stamp, margin, stripe = 10, footer = true }) {
   });
   S.rect({ x: 0, y: 0, w: S.width, h: stripe, color: heat });
   const small = Math.max(15, Math.round(S.width / 60));
-  S.mark(level, { x: margin, y: stripe + margin * 0.55, size: small * 2.7 });
-  S.text(brand.PUBLICATION.toUpperCase(), {
-    x: margin + small * 3.5, y: stripe + margin * 0.55 + small * 1.9,
-    size: small, color: INK_FAINT, weight: 0.10, track: 0.22,
+  const markSize = Math.round(small * 3.6);
+  const my = stripe + Math.round(margin * 0.5);
+  S.mark(level, { x: margin, y: my, size: markSize });
+  const tx = margin + markSize + Math.round(small * 1.1);
+  S.text(brand.NAME, {
+    x: tx, y: my + Math.round(markSize * 0.50), size: Math.round(small * 1.5),
+    color: INK, weight: 0.115, track: 0.24,
   });
+  S.text(brand.PUBLICATION.toUpperCase(), {
+    x: tx, y: my + markSize - Math.round(small * 0.2),
+    size: Math.max(14, small - 4), color: INK_FAINT, weight: 0.10, track: 0.22,
+  });
+  const top = my + markSize;
   if (footer) {
     const fy = S.height - margin - small * 2.4;
     S.line({ from: [margin, fy], to: [S.width - margin, fy], color: RULE, width: 1.5 });
@@ -1149,7 +1402,7 @@ function chrome(S, { level, stamp, margin, stripe = 10, footer = true }) {
       weight: 0.115, track: 0.20, align: 'right',
     });
   }
-  return { heat, small };
+  return { heat, small, top };
 }
 
 /** One pillar row: name, bar, figure — or, where there is no figure, the name
@@ -1192,25 +1445,34 @@ function pillarRow(S, p, {
 }
 
 /**
- * CARD 1 — THE STATE CARD. The daily post's image: the level, the composite,
- * the five pillars, the clock.
+ * CARD 1 — THE STATE CARD. The daily post's image and every page's og:image:
+ * the sentence, the ladder, the composite, the five pillars, the clock.
  *
- * WHAT SURVIVES AT 200px: the stripe and the level numeral, which is 230px
- * tall on the landscape card — 38px in the thumbnail, bigger than the whole
- * headline of a text post.
+ * IT LEADS WITH THE SENTENCE THE PAGE LEADS WITH. "AI activity is at DOOMCON
+ * 4 — ROUTINE, on a scale where 1 is loudest." A reader who sees this card in
+ * a feed and the page they land on read one thing. Until 2026-09-27 the card
+ * led with a 208px numeral and the word ROUTINE, which is a reading to us and
+ * a number to a stranger — and DOOMCON counts down, so "4" read as four-fifths
+ * of the way to bad. The ladder under the sentence carries the direction a
+ * second time, in the page's own two words, CALM and SEVERE.
+ *
+ * WHAT SURVIVES AT 200px: the stripe, the raised live band of the ladder with
+ * its numeral, and the lockup. On the portrait card the level numeral is also
+ * set at 210px beside the ladder, which is the element that made the portrait
+ * card the one to post (docs/CARDS.md §5.1) and still is.
  */
-export function stateCard(state, { format = 'landscape', generatedAt } = {}) {
+export function stateCard(state, { format = 'landscape', generatedAt, trace } = {}) {
   const fmt = FORMATS[format];
   if (!fmt) throw new Error(`cardpng: unknown format ${JSON.stringify(format)}`);
   const portrait = fmt.id === 'portrait';
   const level = req(state && state.level, 'state.level');
-  const meta = levelMeta(level);
+  levelMeta(level);
   const score = req(state && state.score, 'state.score');
   const pillars = Array.isArray(state && state.pillars) ? state.pillars : [];
   if (pillars.length !== 5) throw new Error(`cardpng: the state card sets five pillars and got ${pillars.length}`);
-  // The tally rides on the stamp line. Liveness is a feature (docs/VOICE.md
+  // The tally rides under the pillars. Liveness is a feature (docs/VOICE.md
   // §2): the count of dark and uncalibrated sources goes on the card, in the
-  // same breath as the clock, rather than behind it.
+  // same breath as the bars, rather than behind them.
   const sources = Array.isArray(state && state.sources) ? state.sources : [];
   const live = sources.filter((x) => x.ok).length;
   const dark = sources.filter((x) => !x.ok && !x.uncalibrated).length;
@@ -1225,19 +1487,64 @@ export function stateCard(state, { format = 'landscape', generatedAt } = {}) {
 
   const S = surface(fmt.w, fmt.h, { background: GROUND });
   const margin = portrait ? 72 : 64;
-  const { heat, small } = chrome(S, { level, stamp, margin });
+  const col = fmt.w - margin * 2;
+  const { heat, small, top } = chrome(S, { level, stamp, margin });
 
   // Every baseline below was measured against the one under it. The landscape
-  // card is 675px tall and its footer rule sits at 563, so the columns are
-  // laid out from that ceiling upward rather than from the top down — which is
-  // the only way the last pillar bar and the tally both clear it.
+  // card is 675px tall and its footer rule sits at 563, so the two columns
+  // are laid out from that ceiling upward rather than from the top down.
   const L = portrait
-    ? { numCap: 264, numBase: 496, wordBase: 202, nameCap: 54, nameBase: 576, epiBase: 624,
-      colX: margin, colW: fmt.w - margin * 2, scoreCap: 100, scoreBase: 812, bandBase: 864,
-      pillarTop: 930, pillarStep: 48, size: 26, barH: 14, nameW: 400, valueW: 110 }
-    : { numCap: 208, numBase: 412, wordBase: 178, nameCap: 44, nameBase: 474, epiBase: 512,
-      colX: 520, colW: fmt.w - 520 - margin, scoreCap: 86, scoreBase: 240, bandBase: 288,
-      pillarTop: 344, pillarStep: 36, size: 19, barH: 11, nameW: 300, valueW: 64 };
+    ? { sentFrom: 54, sentTo: 30, sentLines: 4, sentTop: top + 46,
+      numCap: 210, ladderH: 44, raise: 46, ladderSize: 17, wordSize: 17,
+      scoreCap: 60, size: 24, barH: 14, nameW: 380, valueW: 96, pillarStep: 56 }
+    : { sentFrom: 40, sentTo: 26, sentLines: 3, sentTop: top + 28,
+      numCap: 0, ladderH: 32, raise: 26, ladderSize: 14, wordSize: 15,
+      scoreCap: 40, size: 17, barH: 11, nameW: 270, valueW: 56, pillarStep: 34 };
+
+  // 1. THE SENTENCE.
+  const sent = fitRuns(levelSentence(state), {
+    from: L.sentFrom, to: L.sentTo, track: 0.01, maxWidth: col, maxLines: L.sentLines,
+  });
+  const sentLast = drawRuns(S, sent, { x: margin, y: L.sentTop + sent.size, leading: 1.36, weight: 0.092 });
+  const bodyTop = sentLast + Math.round(sent.size * 0.9);
+
+  // 2. THE LADDER, with the composite beside or under it, and 3. THE PILLARS.
+  let leftX = margin;
+  let leftW = portrait ? col : 520;
+  let pillarX = portrait ? margin : margin + leftW + 36;
+  let pillarW = portrait ? col : col - leftW - 36;
+  let pillarTop;
+  let lastY;
+
+  if (portrait) {
+    // The numeral at 210px is the thumbnail's anchor; the ladder sits beside
+    // it, and the composite under the ladder, so the reading is one block.
+    const numW = measureText(String(level), { size: L.numCap, track: 0 });
+    S.text(String(level), { x: margin - 8, y: bodyTop + L.numCap + 4, size: L.numCap, color: heat, weight: 0.105, track: 0 });
+    leftX = margin + numW + 24;
+    leftW = col - numW - 24;
+    const lad = drawLadder(S, {
+      x: leftX, y: bodyTop + L.raise + 8, w: leftW, h: L.ladderH, level, score,
+      raise: L.raise, size: L.ladderSize, wordSize: L.wordSize,
+    });
+    const scoreBase = lad.bottom + L.scoreCap + 40;
+    S.text('COMPOSITE', { x: leftX, y: scoreBase - L.scoreCap - 20, size: small - 3, color: INK_FAINT, weight: 0.10, track: 0.22 });
+    const sw = S.text(dec1(score), { x: leftX, y: scoreBase, size: L.scoreCap, color: INK, weight: 0.105 });
+    S.text('of 100', { x: leftX + sw + 16, y: scoreBase, size: Math.round(L.scoreCap * 0.36), color: INK_DIM, weight: 0.09 });
+    lastY = deltaLine(S, state, { x: leftX, y: scoreBase + small + 14, size: small });
+    pillarTop = Math.max(lastY, bodyTop + L.numCap + 4) + 72;
+  } else {
+    const lad = drawLadder(S, {
+      x: leftX, y: bodyTop + L.raise, w: leftW, h: L.ladderH, level, score,
+      raise: L.raise, size: L.ladderSize, wordSize: L.wordSize,
+    });
+    const scoreBase = lad.bottom + L.scoreCap + 32;
+    S.text('COMPOSITE', { x: leftX, y: scoreBase - L.scoreCap - 14, size: small - 6, color: INK_FAINT, weight: 0.10, track: 0.22 });
+    const sw = S.text(dec1(score), { x: leftX, y: scoreBase, size: L.scoreCap, color: INK, weight: 0.105 });
+    S.text('of 100', { x: leftX + sw + 14, y: scoreBase, size: Math.round(L.scoreCap * 0.38), color: INK_DIM, weight: 0.09 });
+    lastY = deltaLine(S, state, { x: leftX, y: scoreBase + (small - 4) + 6, size: small - 4 });
+    pillarTop = bodyTop + 6;
+  }
 
   // "Compute & Capital" is the longest pillar name and CONTRACT.md forbids
   // abbreviating it, so the row's type size is measured against the widest
@@ -1246,94 +1553,65 @@ export function stateCard(state, { format = 'landscape', generatedAt } = {}) {
     (pm) => measureText(pm.name.toUpperCase(), { size: L.size, track: 0.10 }) > L.nameW - 16,
   )) L.size -= 1;
 
-  // The lockup and the numeral. The numeral is the card: it is the one element
-  // that is still a reading at a sixth of full size.
-  S.text(brand.NAME, {
-    x: margin, y: L.wordBase, size: portrait ? 52 : 40, color: INK_DIM, weight: 0.11, track: 0.26,
-  });
-  S.text(String(level), {
-    x: margin - (portrait ? 8 : 6), y: L.numBase, size: L.numCap, color: heat, weight: 0.105,
-  });
-  // UNPRECEDENTED is 13 characters and ROUTINE is 7, so the level name is
-  // fitted to the left column rather than set at a fixed size — at DOOMCON 1
-  // the fixed size ran 80px into the composite column, which is the sort of
-  // defect nobody sees until the loudest day of the year.
-  const nameFit = fitText(meta.name, {
-    from: L.nameCap, to: 24, track: 0.14, maxLines: 1,
-    maxWidth: portrait ? L.colW : L.colX - margin - 28,
-  });
-  S.text(meta.name, {
-    x: margin, y: L.nameBase, size: nameFit.size, color: heat, weight: 0.115, track: 0.14,
-  });
-  S.text(meta.epithet, {
-    x: margin, y: L.epiBase, size: portrait ? 28 : 22, color: INK_FAINT, weight: 0.09, track: 0.06,
-  });
-
-  // The composite, its denominator and its band — docs/VOICE.md §4's "always
-  // write the figure, its denominator and its timestamp", as a layout.
-  S.text('COMPOSITE', {
-    x: L.colX, y: L.scoreBase - L.scoreCap - 22, size: small, color: INK_FAINT, weight: 0.10, track: 0.22,
-  });
-  const sw = S.text(dec1(score), {
-    x: L.colX, y: L.scoreBase, size: L.scoreCap, color: INK, weight: 0.105,
-  });
-  S.text('of 100', {
-    x: L.colX + sw + 18, y: L.scoreBase, size: Math.round(L.scoreCap * 0.30), color: INK_DIM, weight: 0.09,
-  });
-  S.text(`${meta.name} BAND ${meta.band[0]}–${meta.band[1]}`, {
-    x: L.colX, y: L.bandBase, size: small + 3, color: INK_FAINT, weight: 0.10, track: 0.16,
-  });
-
-  // The move since the previous observation. Direction is a SHAPE before it is
-  // a hue — up, down, unchanged as three silhouettes (docs/BRAND.md §2.2) —
-  // and the sentence is in the past, because that is the only tense this
-  // index has (docs/VOICE.md §3.1).
-  const delta = state.delta_from_previous;
-  if (Number.isFinite(delta)) {
-    const words = delta === 0 ? 'unchanged since the previous observation'
-      : `${dec1(Math.abs(delta))} ${delta > 0 ? 'higher' : 'lower'} than the previous observation`;
-    const tw = measureText(words, { size: small, track: 0.05 });
-    const gx = L.colX + L.colW - tw - 30;
-    const dy = L.bandBase + (portrait ? 38 : 32);
-    const gy = dy - small * 0.34;
-    const r = small * 0.52;
-    if (delta === 0) {
-      S.rect({ x: gx - r, y: gy - r * 0.26, w: r * 2, h: r * 0.52, r: r * 0.26, color: INK_DIM });
-    } else {
-      S.polygon({
-        points: delta > 0
-          ? [[gx, gy - r], [gx + r, gy + r * 0.72], [gx - r, gy + r * 0.72]]
-          : [[gx, gy + r], [gx + r, gy - r * 0.72], [gx - r, gy - r * 0.72]],
-        color: INK_DIM,
-      });
-    }
-    S.text(words, {
-      x: L.colX + L.colW, y: dy, size: small, color: INK_FAINT,
-      weight: 0.10, track: 0.05, align: 'right',
-    });
-  }
-
   for (let i = 0; i < pillars.length; i += 1) {
     pillarRow(S, pillars[i], {
-      x: L.colX, y: L.pillarTop + i * L.pillarStep,
-      nameW: L.nameW, barW: L.colW - L.nameW - L.valueW, valueW: L.valueW,
+      x: pillarX, y: pillarTop + i * L.pillarStep,
+      nameW: L.nameW, barW: pillarW - L.nameW - L.valueW, valueW: L.valueW,
       h: L.barH, size: L.size,
     });
+  }
+  if (tally.length) {
+    // Under the pillar block, because that is what it is about: which of the
+    // sources behind those five bars answered this run. On the landscape card
+    // the two clauses go on two lines: joined, "5 of 14 sources live · 9
+    // awaiting baseline" is ~570px right-aligned in a 516px column, and its
+    // first word landed on top of the delta line in the left column. Seen,
+    // not measured - the first render of this layout had them overlapping.
+    const tallyY = pillarTop + (pillars.length - 1) * L.pillarStep + (portrait ? 44 : 30);
+    const lines = portrait ? [tally.join(' · ')] : tally;
+    for (let i = 0; i < lines.length; i += 1) {
+      S.text(lines[i], {
+        x: pillarX + pillarW, y: tallyY + i * (small + 2),
+        size: small - 2, color: INK_FAINT, weight: 0.10, track: 0.05, align: 'right',
+      });
+    }
   }
 
   const noteY = S.height - margin - small * 2.4 - (portrait ? 34 : 18);
   S.text(brand.DISCLAIMER_SHORT, {
     x: margin, y: noteY, size: small, color: INK_DIM, weight: 0.10, track: 0.05,
   });
-  if (tally.length) {
-    // Under the pillar block, because that is what it is about: which of the
-    // sources behind those five bars answered this run.
-    S.text(tally.join(' · '), {
-      x: fmt.w - margin, y: L.pillarTop + (pillars.length - 1) * L.pillarStep + (portrait ? 40 : 30),
-      size: small - 2, color: INK_FAINT, weight: 0.10, track: 0.05, align: 'right',
+  if (Array.isArray(trace)) trace.push(...S.strings);
+  return S.png();
+}
+
+/**
+ * The move since the previous observation. Direction is a SHAPE before it is
+ * a hue — up, down, unchanged as three silhouettes (docs/BRAND.md §2.2) — and
+ * the sentence is in the past, because that is the only tense this index has
+ * (docs/VOICE.md §3.1). A missing delta is an omitted line, never a zero.
+ * Returns the baseline used, or `y` untouched when nothing was drawn.
+ */
+function deltaLine(S, state, { x, y, size }) {
+  const delta = state.delta_from_previous;
+  if (!Number.isFinite(delta)) return y - size;
+  const words = delta === 0 ? 'unchanged since the previous observation'
+    : `${dec1(Math.abs(delta))} ${delta > 0 ? 'higher' : 'lower'} than the previous observation`;
+  const r = size * 0.5;
+  const gx = x + r;
+  const gy = y - size * 0.36;
+  if (delta === 0) {
+    S.rect({ x: gx - r, y: gy - r * 0.26, w: r * 2, h: r * 0.52, r: r * 0.26, color: INK_DIM });
+  } else {
+    S.polygon({
+      points: delta > 0
+        ? [[gx, gy - r], [gx + r, gy + r * 0.72], [gx - r, gy + r * 0.72]]
+        : [[gx, gy + r], [gx + r, gy - r * 0.72], [gx - r, gy - r * 0.72]],
+      color: INK_DIM,
     });
   }
-  return S.png();
+  S.text(words, { x: gx + r + Math.round(size * 0.6), y, size, color: INK_FAINT, weight: 0.10, track: 0.05 });
+  return y;
 }
 
 /**
@@ -1345,7 +1623,7 @@ export function stateCard(state, { format = 'landscape', generatedAt } = {}) {
  * FITTED, not trusted: the cap height steps down a pixel at a time until it
  * wraps into the box, and throws if it never does.
  */
-export function headlineCard(item, { level, format = 'landscape', generatedAt } = {}) {
+export function headlineCard(item, { level, format = 'landscape', generatedAt, trace } = {}) {
   const fmt = FORMATS[format];
   if (!fmt) throw new Error(`cardpng: unknown format ${JSON.stringify(format)}`);
   const portrait = fmt.id === 'portrait';
@@ -1356,26 +1634,31 @@ export function headlineCard(item, { level, format = 'landscape', generatedAt } 
 
   const S = surface(fmt.w, fmt.h, { background: GROUND });
   const margin = portrait ? 72 : 64;
-  const { heat, small } = chrome(S, { level: L, stamp, margin });
+  const { heat, small, top } = chrome(S, { level: L, stamp, margin });
   const col = fmt.w - margin * 2;
 
-  // THE BADGE, top right. It is the card's thumbnail-scale anchor: 140px tall
-  // on the landscape card, so the numeral inside it is still 8px in a 200px
-  // thumbnail — the same size as the whole of a text post's first line.
-  const bw = portrait ? 410 : 352;
-  const bh = portrait ? 176 : 140;
+  // THE BADGE, top right: the reading in the page's own shape — "DOOMCON 4",
+  // the level's name, and the ladder with CALM and SEVERE at its ends — so
+  // the level on a news card is a level and not a bare numeral. It is also
+  // the card's thumbnail-scale anchor: the raised live band and the name in
+  // heat survive 200px; the words are the payoff at X's ~500px.
+  const bw = portrait ? 500 : 440;
+  const bh = portrait ? 188 : 154;
   const bx = fmt.w - margin - bw;
-  const by = portrait ? 176 : 124;
+  const by = top + (portrait ? 30 : 20);
+  const pad = 26;
   S.rect({ x: bx, y: by, w: bw, h: bh, r: 18, color: PANEL });
   S.rect({ x: bx, y: by, w: 8, h: bh, r: 4, color: heat });
-  S.text(String(L), { x: bx + 30, y: by + bh - (portrait ? 34 : 26), size: bh * 0.58, color: heat, weight: 0.105 });
-  S.text('DOOMCON', {
-    x: bx + bw - 28, y: by + (portrait ? 58 : 50), size: small - 3, color: INK_DIM,
-    weight: 0.11, track: 0.24, align: 'right',
-  });
-  S.text(meta.name, {
-    x: bx + bw - 28, y: by + bh - (portrait ? 38 : 30), size: portrait ? 30 : 24,
-    color: heat, weight: 0.115, track: 0.10, align: 'right',
+  const b1 = portrait ? 32 : 27;
+  const nameFrom = portrait ? 36 : 30;
+  const dw = S.text(brand.NAME, { x: bx + pad, y: by + pad + b1, size: b1, color: INK, weight: 0.115, track: 0.16 });
+  S.text(String(L), { x: bx + pad + dw + Math.round(b1 * 0.5), y: by + pad + b1, size: b1, color: heat, weight: 0.115, track: 0 });
+  const nameFit = fitText(meta.name, { from: nameFrom, to: 18, track: 0.12, maxLines: 1, maxWidth: bw - pad * 2 });
+  const nameBase = by + pad + b1 + Math.round(nameFrom * 1.45);
+  S.text(meta.name, { x: bx + pad, y: nameBase, size: nameFit.size, color: heat, weight: 0.115, track: 0.12 });
+  drawLadder(S, {
+    x: bx + pad, y: nameBase + (portrait ? 30 : 24), w: bw - pad * 2, h: portrait ? 12 : 10, level: L,
+    raise: portrait ? 8 : 6, numerals: false, edges: false, wordSize: portrait ? 14 : 13,
   });
 
   // The kind and the pillar, as words. A chip carries its hue and its word
@@ -1431,6 +1714,7 @@ export function headlineCard(item, { level, format = 'landscape', generatedAt } 
     x: margin, y: S.height - margin - small * 2.4 - (portrait ? 34 : 18),
     size: small, color: INK_FAINT, weight: 0.10, track: 0.05,
   });
+  if (Array.isArray(trace)) trace.push(...S.strings);
   return S.png();
 }
 
@@ -1442,7 +1726,7 @@ export function headlineCard(item, { level, format = 'landscape', generatedAt } 
  * the venue and the question are printed, because a bare percentage next to a
  * lab's name would read as ours.
  */
-export function raceCard(race, { level, format = 'landscape', generatedAt, limit = 5 } = {}) {
+export function raceCard(race, { level, format = 'landscape', generatedAt, limit = 5, trace } = {}) {
   const fmt = FORMATS[format];
   if (!fmt) throw new Error(`cardpng: unknown format ${JSON.stringify(format)}`);
   const portrait = fmt.id === 'portrait';
@@ -1459,13 +1743,13 @@ export function raceCard(race, { level, format = 'landscape', generatedAt, limit
 
   const S = surface(fmt.w, fmt.h, { background: GROUND });
   const margin = portrait ? 72 : 64;
-  const { heat, small } = chrome(S, { level: L, stamp, margin });
+  const { heat, small, top } = chrome(S, { level: L, stamp, margin });
   const col = fmt.w - margin * 2;
 
   S.text('POLYMARKET, LIVE', {
-    x: margin, y: portrait ? 230 : 152, size: small + 2, color: ACCENT, weight: 0.11, track: 0.22,
+    x: margin, y: top + (portrait ? 118 : 46), size: small + 2, color: ACCENT, weight: 0.11, track: 0.22,
   });
-  const qTop = portrait ? 272 : 176;
+  const qTop = top + (portrait ? 160 : 70);
   const q = fitBlock(question, {
     from: portrait ? 64 : 48, to: 22, maxWidth: col, maxHeight: portrait ? 164 : 100,
     track: 0.01, leading: 1.3,
@@ -1513,6 +1797,7 @@ export function raceCard(race, { level, format = 'landscape', generatedAt, limit
     x: margin, y: S.height - margin - small * 2.4 - (portrait ? 34 : 18),
     size: note.size, color: INK_FAINT, weight: 0.10, track: 0.05,
   });
+  if (Array.isArray(trace)) trace.push(...S.strings);
   return S.png();
 }
 
