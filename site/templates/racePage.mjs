@@ -721,43 +721,6 @@ function raceGraphics(race) {
 </section>`;
 }
 
-// ---------------------------------------------------------------------------
-// The market bar
-// ---------------------------------------------------------------------------
-
-/**
- * One player's probability as a bar, with a tick where the price sat a week ago.
- *
- * The bar is on an ABSOLUTE 0-100 scale, not normalised to the leader. On the
- * live data that makes seven of eight bars hairlines next to a 73.5% leader,
- * and that is the correct picture: one lab is not marginally ahead, it is the
- * whole market. Rescaling to make the tail legible would draw a race that is
- * not happening.
- *
- * A non-zero probability gets at least 2px so "small" never renders as "none" —
- * the number printed beside it carries the actual value, always.
- *
- * The tick is the only thing on this page that shows a change as a POSITION
- * rather than as a digit, and it is real data: probability minus the venue's own
- * 7-day change is where the leg traded a week ago.
- */
-function marketBar(probability, change7d) {
-  const now = Math.max(0, Math.min(1, probability));
-  const width = now === 0 ? 0 : Math.max(0.6, now * 100);
-  const then = Number.isFinite(change7d) ? Math.max(0, Math.min(1, probability - change7d)) : null;
-
-  const tick = then === null
-    ? ''
-    : `<i class="rbar__then" style="left:${(then * 100).toFixed(3)}%" aria-hidden="true"></i>`;
-
-  const label = then === null
-    ? `${pct(probability, 2)} of the market`
-    : `${pct(probability, 2)} of the market, ${pct(then, 2)} a week ago`;
-
-  return `<span class="rbar" role="img" aria-label="${esc(label)}">` +
-    `<i class="rbar__fill" style="width:${width.toFixed(3)}%"></i>${tick}</span>`;
-}
-
 /**
  * The whole negRisk market as one stacked bar — the hero graphic.
  *
@@ -837,28 +800,38 @@ function partitionBar(race) {
 
 // ---------------------------------------------------------------------------
 // The leaderboard
+//
+// ONE PILL PER LAB. Five research sweeps measured the ranked tables a newcomer
+// reads fastest - Metaculus, artificialanalysis.ai - and every one of them is
+// a full-width outlined track per row, 32px tall, 8px radius, a 1px neutral
+// border, the label left and the value right at 16px, with a fill behind the
+// text whose WIDTH IS THE VALUE. Ours was a seven-column table that became a
+// stack of labelled cards on a phone. This is that pill: rank, mark, name and
+// principal on the left; the seven-day change and the live probability on the
+// right; and the fill is the probability on an ABSOLUTE 0-100% scale, never
+// normalised to the leader, in the lab's own hue (--avt-a, which
+// site/styles.mjs publishes per [data-org] in both schemes). The printed
+// figure is always the same number as the fill, so colour is never the
+// carrier and a greyscale screenshot still ranks.
+//
+// The tick is real data and it stays: probability minus the venue's own 7-day
+// change is where the leg traded a week ago, marked at the top and bottom edge
+// of the track so it reads as a reference and not as a second value.
+//
+// Everything the table's other columns carried - the second venue, the three
+// shipping channels, the mindshare share and its trend, the lifetime volume,
+// the why line and every component behind it - is under the pill on the same
+// row, each reading labelled in text. Nothing was dropped.
+//
+// Five distinct absences are still five distinct words (ABSENCE, above): a lab
+// with no leg gets a dashed track and the word, never a fill of zero.
 // ---------------------------------------------------------------------------
 
-/**
- * A real <table>, with explicit ARIA roles.
- *
- * On a phone the CSS turns every cell into a labelled flex row and the whole
- * <tr> into a card, which is the only layout that is genuinely readable at
- * 375px. `display: block` on table elements strips the implicit table semantics
- * in several browsers, so the roles are written out by hand — otherwise the
- * mobile layout would silently cost every screen-reader user the column
- * headers, which on a table of eight near-identical numeric rows is the whole
- * meaning.
- */
 function leaderboard(race) {
   const ranked = race.players.filter((p) => p.rank !== null);
   const unranked = race.players.filter((p) => p.rank === null);
 
-  const head = ['#', 'Player', 'Year-end odds', '7d change', 'Cross-check', 'Shipping, 30d', 'Mindshare']
-    .map((h, i) => `<th role="columnheader" scope="col"${i === 0 ? ' class="rtb__rankh"' : ''}>${esc(h)}</th>`)
-    .join('');
-
-  const body = [...ranked, ...unranked].map((p) => playerRows(p, race)).join('');
+  const rows = [...ranked, ...unranked].map((p) => playerRow(p, race)).join('');
 
   const unrankedNote = unranked.length
     ? `<p class="rnote"><b>${esc(unranked.length)}</b> player${unranked.length === 1 ? ' is' : 's are'} unranked:
@@ -866,36 +839,69 @@ function leaderboard(race) {
        <em>not</em> placed last at 0% &mdash; "nobody is offering this bet" is not a low probability.</p>`
     : '';
 
-  return `<section class="sec rtbwrap" aria-labelledby="rtb-h">
+  return `<section class="sec rlbwrap" aria-labelledby="rtb-h">
   <h2 class="sec__h" id="rtb-h">The leaderboard</h2>
-  <table class="rtb" role="table">
-    <caption class="vh">The AI race: ${esc(race.players.length)} frontier labs ranked by live market probability, with shipping activity and news mindshare. Compiled ${esc(utc(race.generated_at))}.</caption>
-    <thead role="rowgroup"><tr role="row">${head}</tr></thead>
-    <tbody role="rowgroup">${body}</tbody>
-  </table>
+  <p class="rnote rlb__key">The fill behind each row is the live year-end probability on an absolute
+     0&ndash;100% scale, never normalised to the leader, and the figure at the right edge is the same
+     number. The <b>tick</b> at the track's edge is where that leg traded seven days ago. Under every
+     row: the second venue, what the lab shipped in ${esc(race.ship_window_days)} days, and its share
+     of the news window.</p>
+  <p class="vh">The AI race: ${esc(race.players.length)} frontier labs ranked by live market probability, with shipping activity and news mindshare. Compiled ${esc(utc(race.generated_at))}.</p>
+  <ol class="rlb">${rows}</ol>
   ${unrankedNote}
 </section>`;
 }
 
-function playerRows(p, race) {
+/**
+ * One lab: the pill, then the labelled readings, then the why.
+ *
+ * `then` is the price a week ago - the live price minus the venue's own
+ * published 7-day change - and it is the ONLY prior observation this dataset
+ * holds. It is drawn as a tick, printed as a figure in the Market reading and
+ * read out in the value's screen-reader text. A row with no week-old reference
+ * gets no tick and the words "no ref", never a tick at the live price.
+ */
+function playerRow(p, race) {
   const m = p.market;
-  const rank = p.rank === null ? '—' : p.rank;
+  const live = m.probability !== null;
 
-  // ---- market probability -------------------------------------------------
-  const probCell = m.probability === null
-    ? absent(m.state === 'dark' ? 'dark' : 'no_market')
-    : `<span class="rprob num">${esc(pct(m.probability, m.probability < 0.1 ? 2 : 1))}</span>` +
-      marketBar(m.probability, m.change_7d) +
-      (Number.isFinite(m.volume_usd)
-        ? `<span class="rsub">${esc(money(m.volume_usd))} traded</span>`
-        : '');
+  // ---- the fill and the tick ----------------------------------------------
+  // A non-zero probability gets at least 0.6% of the track so "small" never
+  // renders as "none" - the figure beside it carries the actual value, always.
+  const now = live ? Math.max(0, Math.min(1, m.probability)) : null;
+  const fill = live ? (now === 0 ? 0 : Math.max(0.6, now * 100)) : null;
+  const then = live && Number.isFinite(m.change_7d)
+    ? Math.max(0, Math.min(1, m.probability - m.change_7d))
+    : null;
+  const tick = then === null
+    ? ''
+    : `<i class="rpill__then" style="left:${(then * 100).toFixed(3)}%" aria-hidden="true"></i>`;
+
+  // ---- the value ----------------------------------------------------------
+  // Two decimals below 10%: a column of figures is read by comparing digits,
+  // and 0.55% against 0.15% needs both of them.
+  const value = live
+    ? `<span class="rpill__v num">${esc(pct(m.probability, m.probability < 0.1 ? 2 : 1))}` +
+      `<span class="vh"> of the year-end market${then === null ? '' : `, ${esc(pct(then, 2))} a week ago`}</span></span>`
+    : `<span class="rpill__v rpill__v--none">${absent(m.state === 'dark' ? 'dark' : 'no_market')}</span>`;
 
   // ---- 7-day delta --------------------------------------------------------
-  const deltaCell = m.change_7d === null
-    ? absent(m.change_7d_state === 'no_market' ? 'no_market' : 'no_reference')
+  const delta = m.change_7d === null
+    ? `<span class="rpill__d">${absent(m.change_7d_state === 'no_market' ? 'no_market' : 'no_reference')}</span>`
     : `<span class="rdel num" data-dir="${esc(dirWord(m.change_7d))}">` +
       `${arrow(m.change_7d) ? `<i aria-hidden="true">${arrow(m.change_7d)}</i>` : ''}${esc(pts(m.change_7d, 2))}` +
       `<span class="vh"> points, ${esc(dirWord(m.change_7d))}, over seven days</span></span>`;
+
+  // ---- the market's own provenance: volume and the week-old price ---------
+  const marketBits = [];
+  if (live) {
+    if (Number.isFinite(m.volume_usd)) marketBits.push(`<span class="rsub">${esc(money(m.volume_usd))} traded</span>`);
+    marketBits.push(then === null
+      ? `<span class="rsub">week-old price: ${absent(m.change_7d_state === 'no_market' ? 'no_market' : 'no_reference')}</span>`
+      : `<span class="rsub"><span class="num">${esc(pct(then, 2))}</span> a week ago</span>`);
+  } else {
+    marketBits.push(absent(m.state === 'dark' ? 'dark' : 'no_market'));
+  }
 
   // ---- cross-check: the spot market and the regulated venue ---------------
   const crossBits = [];
@@ -931,38 +937,40 @@ function playerRows(p, race) {
           `${arrow(ms.delta) ? `<i aria-hidden="true">${arrow(ms.delta)}</i>` : ''}${esc(pts(ms.delta, 1))}` +
           `<span class="vh"> points of corpus share, ${esc(dirWord(ms.delta))}</span></span>`);
 
+  const rank = p.rank === null
+    ? '<span class="rpill__rank num"><span aria-hidden="true">—</span><span class="vh">Unranked</span></span>'
+    : `<span class="rpill__rank num"><span class="vh">Rank </span>${esc(p.rank)}</span>`;
+
   const principal = p.principal
-    ? `<span class="rp__who">${esc(p.principal)}</span>`
-    : `<span class="rp__who rp__who--none" title="${esc(p.principal_note ?? '')}">no single principal</span>`;
+    ? `<span class="rpill__who">${esc(p.principal)}</span>`
+    : `<span class="rpill__who rpill__who--none" title="${esc(p.principal_note ?? '')}">no single principal</span>`;
 
-  // The inner .rv wrapper is load-bearing, not markup noise. On a phone the
-  // <td> is a flex row of [label | value], and without the wrapper each chip
-  // becomes its own flex child: the first one sits beside the label and the
-  // rest wrap underneath it, one per line, misaligned. The wrapper makes the
-  // whole value one child that wraps internally.
-  const cell = (label, cls, html) =>
-    `<td role="cell" class="${esc(cls)}" data-label="${esc(label)}"><span class="rv">${html}</span></td>`;
+  const fact = (label, cls, html) =>
+    `<div class="rfact ${esc(cls)}"><dt>${esc(label)}</dt><dd>${html}</dd></div>`;
 
-  return `<tr role="row" class="rtb__r" id="${esc(`p-${p.id}`)}">
-    <td role="cell" class="rtb__rank" data-label="Rank"><span class="rrank">${esc(rank)}</span></td>
-    <th role="rowheader" scope="row" class="rtb__p" data-label="Player">
-      <span class="rpmk" data-org="${esc(p.id)}" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><use href="#dc-avt-${esc(markFor(p).shape)}"/></svg></span>
-      <span class="rp__txt"><span class="rp__name">${esc(p.name)}</span>${principal}</span>
-    </th>
-    ${cell('Year-end odds', 'rtb__prob', probCell)}
-    ${cell('7d change', 'rtb__delta', deltaCell)}
-    ${cell('Cross-check', 'rtb__cross', crossCell)}
-    ${cell('Shipping, 30d', 'rtb__ship', shipCell)}
-    ${cell('Mindshare', 'rtb__mind', msCell)}
-  </tr>
-  <tr role="row" class="rtb__why"><td role="cell" colspan="7">
-    <p class="rwhy"><b class="rwhy__lab">why</b> ${esc(p.why)}</p>
-    <details class="rwhy__more"><summary>every signal we have on ${esc(p.name)}</summary>
-      <ul class="rwhy__list">${p.why_components.map((c) => `<li>${esc(c)}</li>`).join('')}</ul>
-      ${ms.caveat ? `<p class="rwhy__caveat">${esc(ms.caveat)}</p>` : ''}
-      ${p.loudness.state !== 'live' && p.loudness.reason ? `<p class="rwhy__caveat"><b>Loudness:</b> ${esc(p.loudness.reason)}</p>` : ''}
-    </details>
-  </td></tr>`;
+  return `<li class="rrow" id="${esc(`p-${p.id}`)}" data-org="${esc(p.id)}">
+    <div class="rpill"${live ? ` style="--fill:${fill.toFixed(3)}%"` : ' data-fill="none"'}>
+      <i class="rpill__fill" aria-hidden="true"></i>${tick}
+      ${rank}
+      <span class="rpill__mk" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><use href="#dc-avt-${esc(markFor(p).shape)}"/></svg></span>
+      <span class="rpill__lab"><b class="rpill__name">${esc(p.name)}</b>${principal}</span>
+      <span class="rpill__right">${delta}${value}</span>
+    </div>
+    <dl class="rfacts">
+      ${fact('Market', 'rfact--market', marketBits.join(''))}
+      ${fact('Cross-check', 'rfact--cross', crossCell)}
+      ${fact('Shipping, 30d', 'rfact--ship', shipCell)}
+      ${fact('Mindshare', 'rfact--mind', msCell)}
+    </dl>
+    <div class="rrow__why">
+      <p class="rwhy"><b class="rwhy__lab">why</b> ${esc(p.why)}</p>
+      <details class="rwhy__more"><summary>every signal we have on ${esc(p.name)}</summary>
+        <ul class="rwhy__list">${p.why_components.map((c) => `<li>${esc(c)}</li>`).join('')}</ul>
+        ${ms.caveat ? `<p class="rwhy__caveat">${esc(ms.caveat)}</p>` : ''}
+        ${p.loudness.state !== 'live' && p.loudness.reason ? `<p class="rwhy__caveat"><b>Loudness:</b> ${esc(p.loudness.reason)}</p>` : ''}
+      </details>
+    </div>
+  </li>`;
 }
 
 /**
@@ -1012,7 +1020,7 @@ function instrumentStrip(race) {
   const dark = (race.sources ?? []).filter((s) => !s.ok);
   const key = dark.length === 0
     ? `All ${(race.sources ?? []).length} instruments answered on this run.`
-    : `${dark.length} of ${(race.sources ?? []).length} instruments are dark. Their columns are blank above. Nothing is filled in.`;
+    : `${dark.length} of ${(race.sources ?? []).length} instruments are dark. Their readings are blank above. Nothing is filled in.`;
 
   return `<section class="sec" aria-labelledby="rsrc-h">
   <h2 class="sec__h" id="rsrc-h">Instrument health</h2>
@@ -1037,7 +1045,7 @@ function howComputed(ctx, race) {
        so a leg price is a live, money-backed probability for that lab and nothing else.
        We do <b>not</b> blend the probability with shipping and mindshare into a composite score.
        A blend would need weights no one can check against an outcome, and the resulting rank would be
-       ours rather than the market's. The other columns are context. They do not move the order.`
+       ours rather than the market's. The other readings on each row are context. They do not move the order.`
     : `<b>The ranking market is dark on this run</b>, so no ranking was produced.
        ${esc(race.rank_basis?.error ?? '')}`;
 
@@ -1105,7 +1113,7 @@ function howComputed(ctx, race) {
     ${item('Loudness', loudBody)}
     ${item('Manifold', manBody)}
   </dl>
-  <h3 class="rmeth__h3">What a blank cell means</h3>
+  <h3 class="rmeth__h3">What a blank reading means</h3>
   <ul class="rlegend">
     ${Object.entries(ABSENCE).map(([, a]) => `<li><span class="rab">${esc(a.mark)}</span><span>${esc(a.title)}</span></li>`).join('')}
     <li><span class="rab rab--zero num">0</span><span>We looked, the channel answered, and the answer is genuinely zero. This is the only one of the six that is a measurement.</span></li>
@@ -1513,62 +1521,65 @@ function raceCss(race) {
 .rmv--xl .rmv__halo { stroke-width: 6.2; }
 .rmv--xl .rmv__then { stroke-width: 2.3; }
 
-/* The lab mark in the leaderboard's player cell. Same sprite, same hue, so the
-   row and the chart above it are recognisably the same lab. Decoration only —
-   aria-hidden, with the name in text immediately beside it. */
-.rpmk { display: inline-block; width: 22px; height: 22px; margin: 2px 8px 0 0;
-  vertical-align: top; color: var(--avt-a, var(--accent)); }
-.rpmk svg { display: block; width: 100%; height: 100%;
-  fill: transparent; fill: color-mix(in srgb, currentColor 18%, transparent); }
-.rp__txt { display: inline-block; vertical-align: top; min-width: 0; max-width: 100%; }
+/* ---- the leaderboard: one pill per lab --------------------------------- */
+.rlb { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s-4); }
+.rlb__key b { color: var(--ink); font-weight: 500; }
+.rrow { border-radius: 8px; }
 
-/* ---- the leaderboard ---- */
-.rtb { width: 100%; border-collapse: collapse; display: block; }
-.rtb thead { position: absolute; width: 1px; height: 1px; overflow: hidden;
-  clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
-.rtb tbody { display: block; }
-.rtb__r, .rtb__why { display: block; }
-
-/* One card per player on a phone. The rank badge floats top-left of the card
-   and the player name sits beside it; every other cell is a labelled row. */
-.rtb__r {
-  position: relative; border: 1px solid var(--rule); border-top-width: 1px;
-  border-radius: var(--radius) var(--radius) 0 0; background: var(--bg-raised);
-  padding: 12px 12px 6px 56px; margin-top: var(--s-4);
+/* THE PILL. 32px minimum, 8px radius, 1px neutral track. The fill sits
+   between the track's ground and its text: a negative z-index inside the
+   pill's own isolated stacking context paints exactly there. The wrapper
+   clips the bar to the radius; the bar is its ::before, width --fill, in the
+   lab's hue with a 2px edge so the value has a hard end to read against in
+   greyscale. The flat wash is declared first so an engine without color-mix
+   draws a neutral bar rather than nothing. */
+.rpill {
+  position: relative; isolation: isolate;
+  display: flex; align-items: center; gap: 8px;
+  min-height: 32px; padding: 3px 10px;
+  border: 1px solid var(--rule); border-radius: 8px;
 }
-.rtb__rank { display: block; position: absolute; left: 12px; top: 12px; padding: 0; }
-.rrank { font-family: var(--mono); font-size: 1.45rem; font-weight: 700; color: var(--accent);
-  line-height: 1; display: block; }
-.rtb__r .rtb__rank::before { content: none; }
-.rtb__p { display: block; text-align: left; padding: 0 0 10px; font-weight: 400; }
-.rtb__p::before { content: none; }
-.rp__name { display: block; font-size: 1.12rem; font-weight: 600; letter-spacing: -0.01em; }
-.rp__who { display: block; font-size: var(--t-xs); font-family: var(--mono);
-  letter-spacing: 0.04em; color: var(--ink-dim); text-transform: uppercase; }
-.rp__who--none { color: var(--ink-faint); font-style: normal; }
+.rpill__fill { position: absolute; inset: 0; z-index: -1; border-radius: inherit; overflow: hidden; pointer-events: none; }
+.rpill__fill::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: var(--fill, 0%);
+  background: var(--wash-alt);
+  background: color-mix(in srgb, var(--avt-a, var(--accent)) 24%, transparent);
+  border-right: 2px solid var(--avt-a, var(--accent));
+}
+/* No leg on the board, or the venue is dark: a dashed track and the word.
+   Never a fill of zero. */
+.rpill[data-fill="none"] { border-style: dashed; }
+.rpill[data-fill="none"] .rpill__fill::before { display: none; }
+/* The week-old price: two 8px nubs at the track's edges, in ink, so it reads
+   as a reference mark on an axis and never as a second bar. */
+.rpill__then { position: absolute; top: 0; bottom: 0; width: 2px; margin-left: -1px; z-index: -1; pointer-events: none; }
+.rpill__then::before, .rpill__then::after { content: ''; position: absolute; left: 0; width: 2px; height: 8px; background: var(--ink); opacity: 0.8; }
+.rpill__then::before { top: 0; }
+.rpill__then::after { bottom: 0; }
 
-.rtb td { display: flex; align-items: baseline; gap: var(--s-3);
-  padding: 6px 0; border-top: 1px dashed var(--rule-soft); }
-.rtb td::before {
-  content: attr(data-label); flex: 0 0 7.2em;
-  font-family: var(--mono); font-size: var(--t-xs); letter-spacing: 0.06em;
+.rpill__rank { flex: 0 0 2ch; font-family: var(--mono); font-size: var(--t-sm); font-weight: 700; color: var(--accent); text-align: right; line-height: 1; }
+/* The lab mark. Same sprite, same hue as the two charts above, so the row and
+   the chart are recognisably the same lab. Decoration only - aria-hidden,
+   with the name in text immediately beside it. */
+.rpill__mk { flex: 0 0 auto; width: 20px; height: 20px; color: var(--avt-a, var(--accent)); }
+.rpill__mk svg { display: block; width: 100%; height: 100%; fill: transparent; fill: color-mix(in srgb, currentColor 18%, transparent); }
+.rpill__lab { flex: 1 1 auto; min-width: 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 10px; line-height: 1.5; }
+.rpill__name { font-size: var(--t-base); font-weight: 500; color: var(--ink); letter-spacing: -0.01em; }
+.rpill__who { font-family: var(--mono); font-size: var(--t-2xs); letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-dim); white-space: nowrap; }
+.rpill__who--none { color: var(--ink-faint); }
+.rpill__right { flex: 0 0 auto; margin-left: auto; display: inline-flex; align-items: baseline; gap: 10px; }
+.rpill__v { font-family: var(--mono); font-size: var(--t-base); font-weight: 500; line-height: 1; color: var(--ink); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.rpill__v--none, .rpill__d { font-size: var(--t-xs); }
+
+/* ---- the readings under the pill --------------------------------------- */
+.rfacts { margin: 4px 0 0; padding: 0 10px; display: grid; grid-template-columns: 1fr; gap: 0 16px; }
+.rfact { display: flex; align-items: baseline; gap: var(--s-3); min-width: 0; padding: 4px 0; border-top: 1px dashed var(--rule-soft); }
+.rfact dt {
+  flex: 0 0 7.2em; font-family: var(--mono); font-size: var(--t-xs); letter-spacing: 0.06em;
   text-transform: uppercase; color: var(--ink-faint); line-height: 1.35;
 }
-.rv { flex: 1 1 0; min-width: 0; display: flex; flex-wrap: wrap;
-  align-items: baseline; gap: 4px 10px; }
-.rtb__rank::before, .rtb__p::before { display: none; }
-
-.rprob { font-family: var(--mono); font-size: 1.35rem; font-weight: 700; color: var(--accent);
-  line-height: 1.1; }
+.rfact dd { margin: 0; flex: 1 1 0; min-width: 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
 .rsub { font-size: var(--t-xs); font-family: var(--mono); color: var(--ink-faint); }
-
-/* The bar: absolute 0-100 scale, with a tick where the price was a week ago. */
-.rbar { position: relative; display: block; flex: 1 0 100%; height: 8px; margin-top: 2px;
-  background: var(--bg-sunken); border: 1px solid var(--rule); border-radius: 1px; }
-.rbar__fill { position: absolute; left: 0; top: 0; bottom: 0; background: var(--accent);
-  min-width: 2px; }
-.rbar__then { position: absolute; top: -2px; bottom: -2px; width: 2px; margin-left: -1px;
-  background: var(--ink); opacity: 0.75; }
 
 .rdel { font-family: var(--mono); font-size: var(--t-sm); font-weight: 500; white-space: nowrap; }
 .rdel i { font-style: normal; margin-right: 3px; font-size: 0.8em; }
@@ -1605,12 +1616,7 @@ function raceCss(race) {
   color: var(--ink-faint); border-bottom: 1px dotted var(--ink-faint); cursor: help; }
 .rab--zero { color: var(--ink); border-bottom: 0; }
 
-.rtb__why {
-  border: 1px solid var(--rule); border-top: 0; border-radius: 0 0 var(--radius) var(--radius);
-  background: var(--bg-sunken); padding: 10px 12px;
-}
-.rtb__why td { display: block; padding: 0; border: 0; }
-.rtb__why td::before { content: none; }
+.rrow__why { padding: 6px 10px 0; }
 .rwhy { margin: 0; font-size: var(--t-sm); color: var(--ink-dim); }
 .rwhy__lab { font-family: var(--mono); font-size: var(--t-2xs); letter-spacing: 0.1em;
   text-transform: uppercase; color: var(--accent); margin-right: 6px; }
@@ -1629,7 +1635,7 @@ function raceCss(race) {
 .rmeth__l dt { font-family: var(--mono); font-size: var(--t-xs); letter-spacing: 0.08em;
   text-transform: uppercase; color: var(--accent); margin-bottom: 4px; }
 .rmeth__l dd { margin: 0; font-size: var(--t-sm); color: var(--ink-dim); max-width: var(--measure); }
-.rmeth__h3 { font-size: var(--t-md); margin: var(--s-5) 0 var(--s-3); }
+.rmeth__h3 { font-size: var(--t-base); margin: var(--s-5) 0 var(--s-3); }
 .rlegend { list-style: none; margin: 0; padding: 0; }
 .rlegend li { display: flex; gap: var(--s-3); align-items: baseline; padding: 5px 0;
   border-top: 1px dashed var(--rule-soft); font-size: var(--t-sm); color: var(--ink-dim); }
@@ -1650,9 +1656,9 @@ function raceCss(race) {
 .rnote .num, .rmeth__l .num { font-family: var(--mono); }
 
 @media (prefers-reduced-motion: no-preference) {
-  .rtb__r { transition: border-color 140ms ease-out; }
+  .rpill { transition: border-color 140ms ease-out; }
 }
-.rtb__r:hover, .rtb__r:focus-within { border-color: var(--ink-faint); }
+.rrow:hover .rpill, .rrow:focus-within .rpill { border-color: var(--ink-faint); }
 
 /* ---- 720px and up: the strip and the board get room ---- */
 @media (min-width: 720px) {
@@ -1662,53 +1668,24 @@ function raceCss(race) {
   .rpart__t { font-size: var(--t-xs); }
 }
 
-/* ---- 900px and up: a real table again ----------------------------------
-   MEASURED, NOT GUESSED, AND IT USED TO BE 720. Seven columns of dense data
-   have a floor: at 800px the <table> laid out at 795px inside a 753px wrap,
-   which put a horizontal scrollbar under the whole page and squeezed the
-   player column to 94px, so "Google DeepMind" and "Dario Amodei" both broke
-   across two lines. The table did not fit and the browser was being asked to
-   pretend it did.
-   900px is where it does fit. Below that the card layout — which is the
-   phone layout, and is the more readable of the two at any width where the
-   table has to be compressed — carries on doing its job. Nothing is hidden at
-   either width: the same cells, the same values, a different arrangement. */
-@media (min-width: 900px) {
-  .rtb { display: table; }
-  .rtb thead { position: static; width: auto; height: auto; clip: auto; clip-path: none;
-    display: table-header-group; }
-  .rtb tbody { display: table-row-group; }
-  .rtb thead th { text-align: left; font-family: var(--mono); font-size: var(--t-xs);
-    letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-faint);
-    font-weight: 400; padding: 0 var(--s-3) 8px 0; border-bottom: 1px solid var(--rule); }
-  .rtb__rankh { width: 2.5em; }
-  .rtb__r { display: table-row; border: 0; border-radius: 0; background: transparent;
-    padding: 0; margin: 0; position: static; }
-  .rtb__r > td, .rtb__r > th { display: table-cell; vertical-align: top;
-    padding: var(--s-3) var(--s-3) var(--s-2) 0; border-top: 1px solid var(--rule-soft);
-    border-bottom: 0; }
-  .rtb td::before { content: none; }
-  .rv { display: flex; }
-  .rtb__rank { position: static; }
-  .rtb__p { padding-bottom: var(--s-2); }
-  .rtb__prob { min-width: 190px; }
-  /* Two different questions from two different venues. Stacked rather than run
-     together inline, so they read as two readings and not as one number with a
-     suffix. */
-  .rtb__cross .rv { flex-direction: column; align-items: flex-start; gap: 3px; }
-  .rtb__cross { min-width: 132px; }
-  .rtb__mind { min-width: 122px; }
-  /* Three chips of roughly 5em. Below this they wrap one per line and the
-     column reads as three separate facts instead of one. */
-  .rtb__ship { min-width: 152px; }
-  /* Enough for the longest published name and the longest published principal
-     on one line each, beside the 22px mark. "Google DeepMind" / "Demis
-     Hassabis" is the pair that sets it. */
-  .rtb__p { min-width: 162px; }
-  .rbar { flex: 1 1 100%; }
-  .rtb__why { display: table-row; border: 0; background: transparent; padding: 0; }
-  .rtb__why > td { display: table-cell; padding: 0 0 var(--s-4); border: 0; }
-  .rwhy { padding-left: 2.5em; }
+/* ---- 620px and up: two readings per line under the pill ---------------- */
+@media (min-width: 620px) {
+  .rfacts { grid-template-columns: 1fr 1fr; }
+}
+
+/* ---- 1000px and up: four readings across, each labelled over its value --
+   MEASURED. The old seven-column table only fitted at 900px and squeezed the
+   player column to 94px there; the pill has no columns to squeeze, so the
+   only thing that changes with width is how many readings sit side by side. */
+@media (min-width: 1000px) {
+  .rfacts { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0 var(--s-5); }
+  .rfact { flex-direction: column; align-items: flex-start; gap: 3px; }
+  .rfact dt { flex-basis: auto; }
+  .rfact dd { flex: 0 0 auto; }
+  /* Two different questions from two different venues. Stacked rather than
+     run together inline, so they read as two readings and not as one number
+     with a suffix. */
+  .rfact--cross dd { flex-direction: column; align-items: flex-start; gap: 3px; }
 }
 `;
 }
