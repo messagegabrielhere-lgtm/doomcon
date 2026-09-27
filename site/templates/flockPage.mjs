@@ -320,9 +320,416 @@ function landGroup() {
 // the document once rather than three times.
 // ---------------------------------------------------------------------------
 
-function mapFigure(f, m) {
+// ---------------------------------------------------------------------------
+// THE LIVE LAYER. Progressive: the picture above is complete before this runs.
+//
+// What it adds, in the order a reader meets it: pan and zoom (drag, wheel,
+// pinch, buttons, keys); a readout of whichever 0.25-degree cell is under the
+// pointer, with its count and its state, driven by running the build's Albers
+// projection in reverse rather than by 5,029 hit-target elements; a zoom link
+// from every drawn state in the table; "Near me"; and, past 12x, a button that
+// fetches the packed points file and draws the individual cameras, past 40x
+// with a tick for the way each lens points. The points are never inlined and
+// never fetched unasked.
+//
+// No backticks and no ${ in here: it is a template literal's body.
+// ---------------------------------------------------------------------------
+const FLK_JS = `(function(){
+if(window.flockMap&&window.flockMap.rescan){window.flockMap.rescan();return;}
+var D=document,MAXK=300,SHOWK=12,TICKK=40;
+var REDUCE=!!(window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches);
+var RAD=Math.PI/180,P1=29.5*RAD,P2=45.5*RAD,P0=23*RAD,L0=-96*RAD;
+var AN=(Math.sin(P1)+Math.sin(P2))/2,AC=Math.cos(P1)*Math.cos(P1)+2*AN*Math.sin(P1),AR0=Math.sqrt(AC-2*AN*Math.sin(P0))/AN;
+var API={maps:[]};
+API.get=function(id){for(var i=0;i<API.maps.length;i++){if(API.maps[i].id===id)return API.maps[i];}return null;};
+window.flockMap=API;
+function nf(n){return n.toLocaleString('en-US');}
+function r1(v){return (Math.round(v*10)/10).toString();}
+
+function boot(fig){
+ var svg=fig.querySelector('.flk__svg'),vp=fig.querySelector('.flk__vp'),dataEl=fig.querySelector('.flk__data');
+ if(!svg||!vp||!dataEl)return null;
+ var data;try{data=JSON.parse(dataEl.textContent);}catch(err){return null;}
+ var fit=data.fit,CELL=data.cell||0.25;
+ if(!fit||!(fit.scale>0))return null;
+ var stage=fig.querySelector('.flk__stage')||fig;
+ var vb=(svg.getAttribute('viewBox')||'0 0 1000 638').split(' ');
+ var W=parseFloat(vb[2])||1000,H=parseFloat(vb[3])||638;
+ var hud=fig.querySelector('.flk__hud'),hudA=fig.querySelector('[data-flk-cell]'),hudB=fig.querySelector('[data-flk-state]'),
+  hudC=fig.querySelector('[data-flk-cams-n]'),zEl=fig.querySelector('[data-flk-zoom]');
+ var ctls=fig.querySelector('.flk__ctl'),keys=fig.querySelector('.flk__keys');
+ var pick=vp.querySelector('.flk__pick'),camsEl=vp.querySelector('.flk__cams'),camBtn=fig.querySelector('[data-flk-cams]'),
+  meBtn=fig.querySelector('[data-flk-me]'),edge=vp.querySelector('.flk__edge');
+ var pats=svg.querySelectorAll('pattern'),lands=svg.querySelectorAll('#flk-land path');
+ var url=fig.getAttribute('data-flk-points')||'';
+ var k=1,tx=0,ty=0,raf=0,invq=1,animT=0,settleT=0,i;
+ var grid={};
+ for(i=0;i<data.rows.length;i++){var r=data.rows[i];grid[r[0]+','+r[1]]=r[2];}
+ var stInfo=data.states||{};
+
+ /* ---- the projection the build used, forward and back ---- */
+ function proj(lon,lat){
+  var rho=Math.sqrt(AC-2*AN*Math.sin(lat*RAD))/AN,th=AN*(lon*RAD-L0);
+  var ax=rho*Math.sin(th),ay=AR0-rho*Math.cos(th);
+  return[fit.pad+(ax-fit.minX)*fit.scale,fit.height-fit.pad-(ay-fit.minY)*fit.scale];
+ }
+ function unproj(x,y){
+  var ax=(x-fit.pad)/fit.scale+fit.minX,ay=(fit.height-fit.pad-y)/fit.scale+fit.minY;
+  var dy=AR0-ay,rho=Math.sqrt(ax*ax+dy*dy),th=Math.atan2(ax,dy);
+  var s=(AC-rho*rho*AN*AN)/(2*AN);if(s>1)s=1;if(s<-1)s=-1;
+  return[(L0+th/AN)/RAD,Math.asin(s)/RAD];
+ }
+ var pt=svg.createSVGPoint?svg.createSVGPoint():null;
+ function stateAt(x,y){
+  if(!pt)return null;
+  pt.x=x;pt.y=y;
+  for(var j=0;j<lands.length;j++){
+   try{if(lands[j].isPointInFill(pt)){var t=lands[j].querySelector('title');return t?t.textContent:null;}}
+   catch(err){return null;}
+  }
+  return null;
+ }
+ function landBox(ab){
+  for(var j=0;j<lands.length;j++){
+   var t=lands[j].querySelector('title');
+   if(!t||t.textContent!==ab)continue;
+   var d=(lands[j].getAttribute('d')||'').replace(/[MLZ]/g,' ').split(' '),x0=1e9,y0=1e9,x1=-1e9,y1=-1e9,n=0,m;
+   for(m=0;m<d.length;m++){if(d[m]==='')continue;var v=+d[m];if(!isFinite(v))continue;
+    if(n%2===0){if(v<x0)x0=v;if(v>x1)x1=v;}else{if(v<y0)y0=v;if(v>y1)y1=v;}n++;}
+   return n>3?{x:x0,y:y0,w:x1-x0,h:y1-y0}:null;
+  }
+  return null;
+ }
+
+ /* ---- geometry ---- */
+ function upp(){var r=svg.getBoundingClientRect();return r.width>0?W/r.width:1;}
+ function toV(cx,cy){var r=svg.getBoundingClientRect();if(!r.width)return null;var s=W/r.width;return{x:(cx-r.left)*s,y:(cy-r.top)*s};}
+ function clamp(){
+  if(!(k>=1))k=1;if(k>MAXK)k=MAXK;
+  var ax=W-W*k,ay=H-H*k;
+  if(tx>0)tx=0;if(tx<ax)tx=ax;if(ty>0)ty=0;if(ty<ay)ty=ay;
+ }
+ function paint(){
+  vp.setAttribute('transform','translate('+tx.toFixed(2)+' '+ty.toFixed(2)+') scale('+k.toFixed(4)+')');
+  /* Half-octave steps, like the datacentre map: the borders, the hatch pitch
+     and the pick outline stay a screen pixel wide without restyling per frame. */
+  var q=Math.pow(2,Math.round(Math.log(k)/Math.LN2*2)/2);
+  if(q!==invq){
+   invq=q;var inv=(1/q).toFixed(4);
+   if(edge)edge.style.strokeWidth=inv;
+   if(pick)pick.style.strokeWidth=(1.4/q).toFixed(4);
+   for(var j=0;j<pats.length;j++)pats[j].setAttribute('patternTransform','scale('+inv+')');
+  }
+  if(zEl)zEl.textContent=k.toFixed(1)+'×';
+  scaleBar();
+  fig.setAttribute('data-flk-z',k>=TICKK?'tick':k>=SHOWK?'cams':'out');
+  if(camBtn)camBtn.hidden=!(k>=SHOWK&&url);
+  if(settleT)clearTimeout(settleT);
+  settleT=setTimeout(settled,120);
+ }
+ function settled(){settleT=0;drawCams();if(centred&&!np)readAt(W/2,H/2,false);}
+ /* The projection is on a unit sphere, so one raw Albers unit is one Earth
+    radius and fit.scale is viewBox units per radius. Equal-area conic, so the
+    bar is true on the standard parallels and within about two per cent
+    elsewhere in the frame. */
+ var sbEl=fig.querySelector('[data-flk-scale]'),sbBar=sbEl?sbEl.querySelector('i'):null,sbK=fig.querySelector('[data-flk-scale-k]'),UPK=fit.scale/6371;
+ function scaleBar(){
+  if(!sbBar||!sbK)return;
+  var r=svg.getBoundingClientRect();if(!r.width)return;
+  var pxPerKm=UPK*k*(r.width/W),km=Math.min(140,r.width*0.25)/pxPerKm;
+  var p=Math.pow(10,Math.floor(Math.log(km)/Math.LN10)),best=p,steps=[1,2,5],j;
+  for(j=0;j<steps.length;j++){if(steps[j]*p<=km)best=steps[j]*p;}
+  if(best<1)best=1;
+  sbBar.style.width=Math.round(best*pxPerKm)+'px';
+  sbK.textContent=nf(best)+' km';
+ }
+ function apply(){clamp();if(raf)return;raf=requestAnimationFrame(function(){raf=0;paint();});}
+ function anim(){
+  if(REDUCE)return;
+  fig.classList.add('flk--anim');
+  if(animT)clearTimeout(animT);
+  animT=setTimeout(function(){fig.classList.remove('flk--anim');animT=0;},260);
+ }
+ function zoomAt(vx,vy,f){
+  var nk=k*f;if(nk<1)nk=1;if(nk>MAXK)nk=MAXK;if(nk===k)return;
+  tx=vx-(vx-tx)*(nk/k);ty=vy-(vy-ty)*(nk/k);k=nk;apply();
+ }
+ function zoomMid(f){anim();zoomAt(W/2,H/2,f);}
+ function reset(){anim();k=1;tx=0;ty=0;centred=0;unpick();apply();}
+ function goTo(lat,lon,zoom){
+  var p=proj(lon,lat);
+  anim();k=Math.min(MAXK,Math.max(1,zoom||60));tx=W/2-p[0]*k;ty=H/2-p[1]*k;apply();
+ }
+ function focusState(ab){
+  var b=landBox(ab);if(!b||!(b.w>0))return false;
+  var pad=10,nk=Math.min(W/(b.w+pad*2),H/(b.h+pad*2));
+  if(!(nk>1))nk=1;if(nk>MAXK)nk=MAXK;
+  anim();k=nk;tx=W/2-(b.x+b.w/2)*k;ty=H/2-(b.y+b.h/2)*k;centred=0;unpick();apply();
+  return true;
+ }
+
+ /* ---- the readout: which cell, how many, which state ---- */
+ var sticky=0,curKey='',centred=0;
+ function cellQuad(li,lo){
+  var a=proj(lo*CELL,li*CELL),b=proj(lo*CELL+CELL,li*CELL),c=proj(lo*CELL+CELL,li*CELL+CELL),d=proj(lo*CELL,li*CELL+CELL);
+  return 'M'+r1(a[0])+' '+r1(a[1])+'L'+r1(b[0])+' '+r1(b[1])+'L'+r1(c[0])+' '+r1(c[1])+'L'+r1(d[0])+' '+r1(d[1])+'Z';
+ }
+ function readAt(vx,vy,stick){
+  var x=(vx-tx)/k,y=(vy-ty)/k;
+  var ll=unproj(x,y),lon=ll[0],lat=ll[1];
+  var li=Math.floor(lat/CELL),lo=Math.floor(lon/CELL),key=li+','+lo;
+  if(stick&&sticky&&key===curKey){unpick();return;}
+  var n=grid[key]||0,ab=stateAt(x,y),st=ab&&stInfo[ab]?stInfo[ab]:null;
+  curKey=key;sticky=stick?1:0;
+  if(pick){pick.setAttribute('d',cellQuad(li,lo));pick.setAttribute('data-on','1');}
+  if(hudA){
+   hudA.innerHTML=n?('<b>'+nf(n)+'</b> camera'+(n===1?'':'s')+' mapped in this '+CELL+'° cell')
+    :(ab?'<b>None mapped</b> in this cell — nobody has mapped here':'Outside the outline');
+  }
+  if(hudB)hudB.textContent=st?(st[1]+': '+nf(st[0])+' mapped'):(ab||'');
+  fig.setAttribute('data-flk-pick',sticky?'stuck':'hover');
+  fig.dispatchEvent(new CustomEvent('flockmap:cell',{bubbles:true,
+   detail:{lat:li*CELL,lon:lo*CELL,cell:CELL,count:n,state:ab,sticky:!!sticky}}));
+ }
+ function unpick(){
+  sticky=0;curKey='';
+  if(pick){pick.setAttribute('d','');pick.removeAttribute('data-on');}
+  if(hudA)hudA.textContent='Hover or tap a cell';
+  if(hudB)hudB.textContent='';
+  fig.removeAttribute('data-flk-pick');
+ }
+
+ /* ---- the cameras: fetched once, on request, never inlined ---- */
+ var cams=null,camsOn=0,busy=0,inView=0,mb=fig.getAttribute('data-flk-mb')||'';
+ function camLabel(){
+  if(!camBtn)return;
+  if(busy){camBtn.textContent='Loading…';return;}
+  camBtn.textContent=camsOn?'Hide the cameras':(cams?'Show the cameras':'Show the cameras · '+mb+' MB');
+ }
+ function loadCams(done){
+  if(cams||busy||!url)return;
+  busy=1;camBtn.disabled=true;camLabel();
+  fetch(url,{credentials:'omit'}).then(function(r){if(!r.ok)throw new Error(String(r.status));return r.json();}).then(function(p){
+   var n=p.count|0,q=p.quantisation||100000,X=new Float32Array(n),Y=new Float32Array(n),j;
+   for(j=0;j<n;j++){var xy=proj(p.lon_q[j]/q,p.lat_q[j]/q);X[j]=xy[0];Y[j]=xy[1];}
+   cams={n:n,x:X,y:Y,dir:p.dir,lon:p.lon_q,q:q};
+   busy=0;camBtn.disabled=false;camLabel();
+   if(done)done();
+  }).catch(function(){busy=0;camBtn.disabled=false;camBtn.textContent='Could not load the cameras';});
+ }
+ function toggleCams(){
+  if(camsOn){camsOn=0;drawCams();camLabel();return;}
+  if(!cams){loadCams(function(){camsOn=1;drawCams();camLabel();});return;}
+  camsOn=1;drawCams();camLabel();
+ }
+ function drawCams(){
+  if(!camsEl)return;
+  if(!camsOn||!cams||k<SHOWK){
+   camsEl.innerHTML='';inView=0;fig.removeAttribute('data-flk-cams');
+   if(hudC)hudC.textContent=(camsOn&&cams&&k<SHOWK)?('zoom past '+SHOWK+'× for the cameras'):'';
+   return;
+  }
+  var u=upp()/k,r=2.4*u,tl=9*u,rr=r.toFixed(3),d2=(2*r).toFixed(3);
+  var x0=-tx/k,x1=(W-tx)/k,y0=-ty/k,y1=(H-ty)/k,mx=(x1-x0)*0.5,my=(y1-y0)*0.5;
+  var X=cams.x,Y=cams.y,dir=cams.dir,lon=cams.lon,q=cams.q,ticks=k>=TICKK;
+  var dots=[],hollow=[],lines=[],vis=0,j;
+  for(j=0;j<cams.n;j++){
+   var x=X[j],y=Y[j];
+   if(x<x0-mx||x>x1+mx||y<y0-my||y>y1+my)continue;
+   if(x>=x0&&x<=x1&&y>=y0&&y<=y1)vis++;
+   var d=dir[j],xs=x.toFixed(2),ys=y.toFixed(2);
+   var arc='M'+(x-r).toFixed(2)+' '+ys+'a'+rr+' '+rr+' 0 1 0 '+d2+' 0a'+rr+' '+rr+' 0 1 0 -'+d2+' 0';
+   if(d<0){hollow.push(arc);continue;}
+   dots.push(arc);
+   if(ticks){
+    /* North on screen is the local meridian, which Albers rotates by n(λ−λ0);
+       the bearing is measured clockwise from it. */
+    var th=AN*(lon[j]/q*RAD-L0),nx=-Math.sin(th),ny=-Math.cos(th),ex=-ny,ey=nx;
+    var sn=Math.sin(d*RAD),cs=Math.cos(d*RAD),vx=nx*cs+ex*sn,vy=ny*cs+ey*sn;
+    lines.push('M'+xs+' '+ys+'l'+(vx*tl).toFixed(2)+' '+(vy*tl).toFixed(2));
+   }
+  }
+  camsEl.innerHTML='<path class="flk__cam" d="'+dots.join('')+'"/>'
+   +'<path class="flk__cam flk__cam--nodir" style="stroke-width:'+(0.9*u).toFixed(3)+'" d="'+hollow.join('')+'"/>'
+   +(ticks?'<path class="flk__cam--tick" style="stroke-width:'+(1.1*u).toFixed(3)+'" d="'+lines.join('')+'"/>':'');
+  inView=vis;
+  if(hudC)hudC.textContent=nf(vis)+' camera'+(vis===1?'':'s')+' in view'+(ticks?'':' — past '+TICKK+'× each shows its bearing');
+  fig.setAttribute('data-flk-cams','on');
+ }
+
+ /* ---- pointers: one path for mouse, pen and finger ---- */
+ var ptrs={},np=0,drag=null,pinch=null,moved=0;
+ function pk(){var a=[];for(var id in ptrs)a.push(ptrs[id]);return a;}
+ function startPinch(){
+  var a=pk();if(a.length<2){pinch=null;return;}
+  var v1=toV(a[0].x,a[0].y),v2=toV(a[1].x,a[1].y);
+  if(!v1||!v2){pinch=null;return;}
+  var dx=v2.x-v1.x,dy=v2.y-v1.y,d=Math.sqrt(dx*dx+dy*dy);
+  pinch={d:d<1?1:d,mx:(v1.x+v2.x)/2,my:(v1.y+v2.y)/2,k:k,tx:tx,ty:ty};
+ }
+ function doPinch(){
+  var a=pk();if(a.length<2||!pinch)return;
+  var v1=toV(a[0].x,a[0].y),v2=toV(a[1].x,a[1].y);
+  if(!v1||!v2)return;
+  var dx=v2.x-v1.x,dy=v2.y-v1.y,d=Math.sqrt(dx*dx+dy*dy);
+  var nk=pinch.k*(d/pinch.d);if(nk<1)nk=1;if(nk>MAXK)nk=MAXK;
+  var mx=(v1.x+v2.x)/2,my=(v1.y+v2.y)/2;
+  tx=mx-(pinch.mx-pinch.tx)*(nk/pinch.k);
+  ty=my-(pinch.my-pinch.ty)*(nk/pinch.k);
+  k=nk;apply();
+ }
+ function inChrome(t){return !!(t&&t.closest&&t.closest('.flk__ctl'));}
+ stage.addEventListener('pointerdown',function(e){
+  if(e.pointerType==='mouse'&&e.button!==0)return;
+  if(inChrome(e.target))return;
+  ptrs[e.pointerId]={x:e.clientX,y:e.clientY};np++;
+  try{stage.setPointerCapture(e.pointerId);}catch(err){}
+  moved=0;centred=0;fig.classList.remove('flk--anim');
+  if(np===1){var v=toV(e.clientX,e.clientY);drag=v?{vx:v.x,vy:v.y,tx:tx,ty:ty}:null;pinch=null;}
+  else if(np===2){drag=null;startPinch();}
+  fig.classList.add('flk--grab');
+ });
+ stage.addEventListener('pointermove',function(e){
+  var p=ptrs[e.pointerId];
+  if(!p){
+   if(e.pointerType!=='touch'&&!sticky&&!inChrome(e.target)){var v=toV(e.clientX,e.clientY);if(v)readAt(v.x,v.y,false);}
+   return;
+  }
+  moved+=Math.abs(e.clientX-p.x)+Math.abs(e.clientY-p.y);
+  p.x=e.clientX;p.y=e.clientY;
+  if(pinch)doPinch();
+  else if(drag){var w=toV(e.clientX,e.clientY);if(w){tx=drag.tx+(w.x-drag.vx);ty=drag.ty+(w.y-drag.vy);apply();}}
+ });
+ function up(e){
+  if(!ptrs[e.pointerId])return;
+  delete ptrs[e.pointerId];np--;if(np<0)np=0;
+  try{stage.releasePointerCapture(e.pointerId);}catch(err){}
+  if(np<2)pinch=null;
+  if(np===0){
+   fig.classList.remove('flk--grab');
+   if(moved<6){var v=toV(e.clientX,e.clientY);if(v)readAt(v.x,v.y,true);}
+   drag=null;
+  }else{var a=pk();if(a.length){var v2=toV(a[0].x,a[0].y);if(v2)drag={vx:v2.x,vy:v2.y,tx:tx,ty:ty};}}
+ }
+ stage.addEventListener('pointerup',up);
+ stage.addEventListener('pointercancel',up);
+ stage.addEventListener('pointerleave',function(e){if(np===0&&!sticky&&e.pointerType!=='touch')unpick();});
+ stage.addEventListener('wheel',function(e){
+  var v=toV(e.clientX,e.clientY);if(!v)return;
+  e.preventDefault();
+  var dy=e.deltaY;if(e.deltaMode===1)dy*=16;else if(e.deltaMode===2)dy*=400;
+  zoomAt(v.x,v.y,Math.exp(-dy*0.0016));
+ },{passive:false});
+
+ /* ---- controls ---- */
+ function on(sel,fn){var b=fig.querySelector(sel);if(b)b.addEventListener('click',fn);}
+ on('[data-flk-zin]',function(){zoomMid(1.6);});
+ on('[data-flk-zout]',function(){zoomMid(1/1.6);});
+ on('[data-flk-reset]',reset);
+ if(camBtn)camBtn.addEventListener('click',toggleCams);
+ if(meBtn&&navigator.geolocation){
+  meBtn.hidden=false;
+  meBtn.addEventListener('click',function(){
+   meBtn.disabled=true;meBtn.textContent='Locating…';
+   navigator.geolocation.getCurrentPosition(function(pos){
+    var la=pos.coords.latitude,lo=pos.coords.longitude,p=proj(lo,la);
+    meBtn.disabled=false;meBtn.textContent='Near me';
+    if(p[0]<0||p[0]>W||p[1]<0||p[1]>H){meBtn.textContent='Outside this map';return;}
+    goTo(la,lo,90);centred=1;
+    if(!camsOn&&url)toggleCams();
+   },function(){meBtn.disabled=false;meBtn.textContent='Location refused';},{maximumAge:600000,timeout:15000});
+  });
+ }
+
+ /* ---- keyboard ---- */
+ stage.addEventListener('keydown',function(e){
+  if(inChrome(e.target))return;
+  var s=(e.shiftKey?140:44)/k,key=e.key,pan=0;
+  if(key==='Escape'){unpick();e.preventDefault();return;}
+  if(key==='+'||key==='='){zoomMid(1.6);pan=1;}
+  else if(key==='-'||key==='_'){zoomMid(1/1.6);pan=1;}
+  else if(key==='0'){reset();e.preventDefault();return;}
+  else if(key==='c'||key==='C'){if(camBtn&&!camBtn.hidden)toggleCams();e.preventDefault();return;}
+  else if(key==='ArrowLeft'){tx+=s;pan=1;}
+  else if(key==='ArrowRight'){tx-=s;pan=1;}
+  else if(key==='ArrowUp'){ty+=s;pan=1;}
+  else if(key==='ArrowDown'){ty-=s;pan=1;}
+  else if(key==='Enter'||key===' '||key==='Spacebar'){readAt(W/2,H/2,true);e.preventDefault();return;}
+  if(pan){centred=1;apply();e.preventDefault();}
+ });
+
+ /* ---- go live ---- */
+ fig.classList.add('flk--live');
+ if(ctls)ctls.hidden=false;
+ if(hud)hud.hidden=false;
+ if(keys)keys.hidden=false;
+ stage.setAttribute('tabindex','0');
+ stage.setAttribute('role','application');
+ stage.setAttribute('aria-label','Interactive map. Arrow keys pan, plus and minus zoom, zero resets, Enter reads the cell at the centre, C toggles the individual cameras. The tables below this map carry every number.');
+ unpick();camLabel();scaleBar();
+ var ctl={
+  id:fig.id||'',el:fig,stage:stage,
+  zoomIn:function(){zoomMid(1.6);},zoomOut:function(){zoomMid(1/1.6);},reset:reset,
+  zoom:function(){return k;},goTo:goTo,focusState:focusState,
+  cellAt:function(lat,lon){return grid[Math.floor(lat/CELL)+','+Math.floor(lon/CELL)]||0;},
+  readAt:function(lat,lon,stick){var p=proj(lon,lat);readAt(p[0]*k+tx,p[1]*k+ty,!!stick);},
+  showCameras:function(){if(!camsOn)toggleCams();},hideCameras:function(){if(camsOn)toggleCams();},
+  camerasLoaded:function(){return !!cams;},camerasOn:function(){return !!camsOn;},inView:function(){return inView;}
+ };
+ fig.flockmap=ctl;
+ return ctl;
+}
+
+function bootAll(){
+ var figs=D.querySelectorAll('[data-flk]'),i;
+ for(i=0;i<figs.length;i++){
+  if(figs[i].getAttribute('data-flk-live'))continue;
+  figs[i].setAttribute('data-flk-live','1');
+  var c=boot(figs[i]);if(c)API.maps.push(c);
+ }
+}
+API.rescan=bootAll;
+/* The state table's names: with the map live they zoom it; without, the href
+   still jumps to the map. */
+D.addEventListener('click',function(e){
+ var a=e.target&&e.target.closest?e.target.closest('[data-flk-go]'):null;
+ if(!a||!API.maps.length)return;
+ var m=API.maps[0];
+ if(!m.focusState(a.getAttribute('data-flk-go')))return;
+ e.preventDefault();
+ try{m.el.scrollIntoView({block:'start',behavior:REDUCE?'auto':'smooth'});}catch(err){m.el.scrollIntoView();}
+ try{m.stage.focus({preventScroll:true});}catch(err2){}
+});
+bootAll();
+})();`;
+
+function pointsOf(ctx) {
+  const p = ctx && ctx.flockPoints;
+  if (!p || !p.href || !Number.isFinite(Number(p.bytes))) return null;
+  const gz = Number.isFinite(Number(p.gzBytes)) ? Number(p.gzBytes) : Number(p.bytes);
+  return { href: p.href, bytes: Number(p.bytes), gzBytes: gz, mb: (gz / 1e6).toFixed(1) };
+}
+
+/**
+ * Everything the client script needs and nothing it does not: the fit (so it
+ * can run the same Albers forward and back), the occupied cells with their
+ * counts, and a name and a total per state. About 65 KB. The 115,608
+ * individual cameras are NOT here - see the points file, fetched on request.
+ */
+function clientData(f, m) {
+  const fit = MAP_FRAME.fit;
+  const rows = (Array.isArray(f.grid_rows) ? f.grid_rows : [])
+    .map((r) => [Number(r[0]), Number(r[1]), Number(r[2])])
+    .filter((r) => r.every(Number.isFinite) && r[2] > 0);
+  const states = {};
+  for (const st of f.states) states[st.state] = [Number(st.cameras_mapped) || 0, String(st.name || st.state)];
+  return JSON.stringify({ cell: m.cellDeg, fit, rows, states });
+}
+
+function mapFigure(f, m, ctx) {
   const t = f.totals;
   const q = String(f.copy.headline_qualifier || '');
+  const points = pointsOf(ctx);
   const title = `Flock ALPR cameras ${q}, binned to ${m.cellDeg}-degree cells across the contiguous United States`;
   const desc =
     `An equal-area map of the contiguous United States. `
@@ -340,9 +747,31 @@ function mapFigure(f, m) {
       : ''
   )).join('');
 
-  return `<figure class="flk__fig">
+  // THE PICTURE IS COMPLETE BEFORE ANY SCRIPT RUNS. Everything that moves sits
+  // inside one group, flk__vp, and zoom and pan are a transform on that group
+  // and nothing else; with the transform absent, which is how it ships, the
+  // rendering is what it was before this layer existed. The controls, the
+  // readout and the key are rendered hidden because with no script they would
+  // be promises the page cannot keep; the script unhides exactly what it wires.
+  //
+  // The individual cameras are not in this document. They are ${points.mb} MB
+  // over the wire, and the map offers to fetch them - a button, once the reader
+  // is zoomed in far enough for them to mean anything - rather than deciding
+  // for the reader that a megabyte is nothing.
+  const camsBtn = points
+    ? `<button class="flk__cb flk__cb--t" type="button" data-flk-cams hidden>Show the cameras · ${esc(points.mb)} MB</button>`
+    : '';
+  const keysCams = points
+    ? ` Past 12× a button offers the <b>individual cameras</b> — ${N(f.points_file && f.points_file.count)} of them,
+      about ${esc(points.mb)} MB, fetched only when you ask — and past 40× each one shows the way its lens points;
+      a hollow dot is a camera with no usable direction tag. <b>Near me</b> asks your browser for your location
+      once, keeps it on your device, and zooms there.`
+    : '';
+
+  return `<figure class="flk__fig" id="flock-map" data-flk${points ? ` data-flk-points="${esc(ctx.href(points.href))}" data-flk-mb="${esc(points.mb)}"` : ''}>
   <p class="flk__inmap"><b>The hatch is the finding.</b> Hatched land is land where nobody has mapped
     a camera. It is not land with no cameras. ${esc(f.coverage.what_zero_means || '')}</p>
+  <div class="flk__stage">
   <svg class="flk__svg" viewBox="0 0 ${MAP_FRAME.width} ${MAP_FRAME.height}" role="img"
        aria-labelledby="flk-mt flk-md" preserveAspectRatio="xMidYMid meet">
     <title id="flk-mt">${esc(title)}</title>
@@ -352,17 +781,41 @@ function mapFigure(f, m) {
 ${hatchPattern('flk-hatch', 7, 1.1)}
       ${hatchPattern('flk-hatch-lg', 16, 2.4)}
     </defs>
+    <g class="flk__vp">
     <use href="#flk-land" class="flk__base"/>
     <use href="#flk-land" class="flk__hatch"/>
     <g class="flk__cells">${cells}</g>
     <use href="#flk-land" class="flk__edge"/>
+    <g class="flk__cams" aria-hidden="true"></g>
+    <path class="flk__pick" d="" aria-hidden="true"/>
+    </g>
   </svg>
+  <div class="flk__ctl" role="group" aria-label="Map controls" hidden>
+    <button class="flk__cb" type="button" data-flk-zin aria-label="Zoom in">+</button>
+    <button class="flk__cb" type="button" data-flk-zout aria-label="Zoom out">−</button>
+    <button class="flk__cb flk__cb--t" type="button" data-flk-reset aria-label="Reset the map to the whole country">Reset</button>
+    <button class="flk__cb flk__cb--t" type="button" data-flk-me hidden>Near me</button>
+    ${camsBtn}
+  </div>
+  <p class="flk__hud" hidden><span class="flk__hud__c" data-flk-cell>Hover or tap a cell</span>
+    <span class="flk__hud__s" data-flk-state></span>
+    <span class="flk__hud__n" data-flk-cams-n></span>
+    <span class="flk__hud__sb" data-flk-scale><i aria-hidden="true"></i><span data-flk-scale-k>1,000 km</span></span>
+    <span class="flk__hud__z num" data-flk-zoom>1.0×</span></p>
+  </div>
+  <p class="flk__keys" hidden>Drag or swipe to pan, wheel or pinch to zoom, hover or tap a cell for its
+    count.${keysCams} <b>Keyboard:</b> tab to the map, then arrows pan, <kbd>+</kbd> and <kbd>−</kbd> zoom,
+    <kbd>0</kbd> resets, <kbd>Enter</kbd> reads the cell at the centre, <kbd>C</kbd> toggles the cameras.
+    Click a state in the table below to zoom to it. The tables carry every number whether or not any of
+    this works.</p>
   <figcaption class="flk__cap">${N(m.drawnCameras)} cameras in ${N(m.drawnCells)} cells of
     ${m.cellDeg}°, ${esc(q)}. Cell colour is the count inside that cell; the ranges are in the key
     below. The outline is the contiguous states, so a cell can sit off the coast or over the border
     where a camera is mapped outside them. Data
     <a href="${esc(f.copy.attribution_url)}" rel="license noopener">${esc(f.copy.attribution_required)}</a>,
     ODbL v1.0.</figcaption>
+  <script type="application/json" class="flk__data">${clientData(f, m).replace(/<\//g, '<\\/')}</script>
+  <script>${FLK_JS}</script>
 </figure>`;
 }
 
@@ -527,11 +980,16 @@ function roseTable(f) {
 // ---------------------------------------------------------------------------
 
 function stateTable(f, m) {
+  // Only states the outline draws get a zoom link: focusing the map on Hawaii
+  // would zoom to nothing, and a link that does nothing is worse than no link.
+  const drawn = new Set(MAP_FRAME.shapes.map((sh) => sh.ab));
   const rows = m.states.map((s) => {
     const zero = Number(s.cameras_mapped) === 0;
     return `
       <tr${zero ? ' class="is-zero"' : ''}>
-        <th scope="row">${esc(s.name)} <span class="flk__ab">${esc(s.state)}</span></th>
+        <th scope="row">${drawn.has(s.state)
+          ? `<a class="flk__go" href="#flock-map" data-flk-go="${esc(s.state)}" title="Zoom the map to ${esc(s.name)}">${esc(s.name)}</a>`
+          : esc(s.name)} <span class="flk__ab">${esc(s.state)}</span></th>
         <td>${zero ? '<span class="flk__none">none mapped</span>' : N(s.cameras_mapped)}</td>
         <td>${N(s.counties_with_mapped_cameras)} / ${N(s.counties_total)}</td>
         <td class="flk__gap">${N(s.counties_with_none_mapped)}</td>
@@ -746,8 +1204,7 @@ function methodSection(ctx, f, m) {
   // so the page can offer them honestly without inlining 2.6 MiB of
   // coordinates. Null means the file was absent, and the row is then omitted
   // rather than linking a 404.
-  const points = (ctx && ctx.flockPoints && ctx.flockPoints.href
-    && Number.isFinite(Number(ctx.flockPoints.bytes))) ? ctx.flockPoints : null;
+  const points = pointsOf(ctx);
   const checkRows = checks.map((k) => `
       <tr><th scope="row">${esc(k.seed)}</th><td>${N(k.counted)}</td><td>${N(k.collected)}</td>
         <td>${k.shortfall ? '<b class="flk__bad">shortfall</b>' : 'no shortfall'}</td></tr>`).join('');
@@ -813,9 +1270,10 @@ function methodSection(ctx, f, m) {
     ${points ? `<li><a href="${esc(ctx.href(points.href))}"><code class="flk__tag">${esc(points.href)}</code></a>
       <span>${N(f.points_file && f.points_file.count)} individual cameras as four packed integer
         arrays — latitude, longitude, bearing and state. ${N(Math.round(points.bytes / 1024))}&nbsp;KiB.
-        A bearing of &minus;1 means <b>no usable direction tag</b>, not north. This page does not load
-        it: everything above is rendered from the aggregates, and 2.6&nbsp;MiB of coordinates has no
-        business in an HTML document.</span></li>` : ''}
+        A bearing of &minus;1 means <b>no usable direction tag</b>, not north. The page never inlines
+        it. The map offers to fetch it once you are zoomed past 12× — a button, not an ambush, because
+        ${esc(points.mb)}&nbsp;MB over the wire is the reader's decision — and past 40× draws each
+        camera with its bearing.</span></li>` : ''}
   </ul>
 
   <h3 class="flk__sec__h3">Recompute it</h3>
@@ -974,9 +1432,10 @@ ${jumpNav(present)}
   <p class="flk__sec__l">Every camera is binned into a cell ${m.cellDeg}° on a side — about 28 km of
     latitude — and each occupied cell is drawn as its own projected quadrilateral, shaded by how many
     are in it. <b>Land with no mapped camera is hatched, not left blank</b>, because a blank would be
-    an assertion this data cannot make. The map needs no JavaScript and everything in it is a number
-    in the tables below.</p>
-  ${mapFigure(f, m)}
+    an assertion this data cannot make. The picture needs no JavaScript and every figure in it is a
+    number in the tables below. With it, the map pans and zooms, reads out any cell you point at,
+    and — once you are in close — offers the individual cameras, each with the way its lens points.</p>
+  ${mapFigure(f, m, ctx)}
   ${mapKey(f, m)}
 </section>
 
@@ -1239,6 +1698,43 @@ ${rampVars(RAMP_DARK)}
 ${rampRules()}
 .flk__cap{font:400 var(--t-xs)/1.6 var(--sans);color:var(--ink-faint);margin:var(--s-3) 0 0;max-width:74ch}
 .flk__cap a{color:var(--accent-2)}
+
+/* ---- the map, live ------------------------------------------------------
+   Nothing below paints until the script adds flk--live, so the no-script
+   render is untouched. Stroke widths that must stay one screen pixel wide
+   under zoom are set inline by the script, quantised to half-octaves. */
+.flk__fig{scroll-margin-top:calc(var(--rail-h,28px) + 12px)}
+.flk__stage{position:relative}
+.flk--live .flk__stage{touch-action:none;outline:none;border-radius:var(--radius)}
+.flk--live .flk__stage:focus-visible{box-shadow:0 0 0 2px var(--accent)}
+.flk--live .flk__svg{cursor:grab}
+.flk--live.flk--grab .flk__svg{cursor:grabbing}
+.flk--anim .flk__vp{transition:transform .24s cubic-bezier(.22,.61,.36,1)}
+.flk__ctl{position:absolute;top:8px;right:8px;display:flex;flex-wrap:wrap;justify-content:flex-end;
+  gap:4px;max-width:calc(100% - 16px)}
+.flk__cb{min-width:34px;height:34px;padding:0 10px;font:600 16px/1 var(--mono);background:var(--bg-raised);
+  color:var(--ink);border:1px solid var(--rule);border-radius:var(--radius);cursor:pointer}
+.flk__cb:hover{border-color:var(--accent);color:var(--accent)}
+.flk__cb[disabled]{opacity:.6;cursor:default}
+.flk__cb--t{font:600 12px/1 var(--mono);letter-spacing:.04em}
+.flk__hud{position:absolute;left:8px;bottom:8px;margin:0;padding:6px 10px;display:flex;flex-wrap:wrap;
+  gap:2px 10px;align-items:baseline;font:400 var(--t-xs)/1.45 var(--sans);color:var(--ink-dim);
+  background:var(--bg-raised);border:1px solid var(--rule);border-radius:var(--radius);
+  max-width:calc(100% - 16px);pointer-events:none}
+.flk__hud b{color:var(--ink);font-variant-numeric:tabular-nums}
+.flk__hud__z{font-family:var(--mono);color:var(--ink-faint)}
+.flk__hud__sb{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);color:var(--ink-faint)}
+.flk__hud__sb i{display:block;height:6px;width:80px;border:1px solid var(--ink-dim);border-top:0;box-sizing:border-box}
+.flk__hud__n:empty,.flk__hud__s:empty{display:none}
+.flk__pick{fill:none;stroke:var(--accent);stroke-width:1.4;pointer-events:none}
+.flk__pick:not([data-on]){display:none}
+.flk__cam{fill:var(--accent);stroke:none}
+.flk__cam--nodir{fill:none;stroke:var(--accent)}
+.flk__cam--tick{fill:none;stroke:var(--accent);stroke-linecap:round}
+.flk__keys{font:400 var(--t-xs)/1.6 var(--sans);color:var(--ink-faint);margin:var(--s-2) 0 0;max-width:74ch}
+.flk__keys kbd{font-family:var(--mono);border:1px solid var(--rule);border-radius:3px;padding:0 4px}
+@media (prefers-reduced-motion:reduce){.flk--anim .flk__vp{transition:none}}
+@media (max-width:560px){.flk__hud{font-size:var(--t-2xs)}.flk__cb{min-width:30px;height:30px}}
 
 .flk__key{display:grid;grid-template-columns:1fr;gap:var(--s-3);margin:var(--s-4) 0 0}
 .flk__kgrp{border:1px solid var(--rule-soft);border-radius:var(--radius);padding:var(--s-3)}

@@ -271,7 +271,12 @@ function frame() {
   // measured. Now that the extent is known it moves into viewBox units, once,
   // so every consumer below works in the same coordinates the pins are in.
   for (const shape of shapes) shape.polys = shape.polys.map((poly) => poly.map(place));
-  return { shapes, project, place, height, width: WIDTH };
+  // The four numbers that turn raw Albers output into viewBox units, published
+  // so a client script can run the SAME projection - forward for drawing a
+  // point, inverse for reading a pointer back to a latitude and longitude -
+  // without a second, slightly different copy of the fit.
+  const fit = { scale, minX, minY, pad: PAD, height };
+  return { shapes, project, place, height, width: WIDTH, fit };
 }
 
 const FRAME = frame();
