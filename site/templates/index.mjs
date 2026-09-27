@@ -68,6 +68,8 @@ import * as oven from './_oven.mjs';
 import * as switcher from './_switcher.mjs';
 import * as developing from './_developing.mjs';
 import * as leaderwire from './_leaderwire.mjs';
+import * as readings from './_readings.mjs';
+import * as claims from './_claims.mjs';
 
 // Matches build.mjs's own sparkline window. Only a cap: the fallback reader
 // below never needs more points than a 300-unit sparkline can resolve.
@@ -176,6 +178,16 @@ ${gauge.styleTag()}
 
   </div>
 </section>
+
+<!-- THE RECENT READINGS STRIP and THE CLAIM CARDS sit directly under the
+     instrument. The strip is the Bulletin's 'Recent Clock changes' - the
+     number seen MOVING, which is what brings a reader back - and the cards
+     are the site's surface area as six sentences with the live number
+     inside each, so a newcomer learns what DOOMCON knows before meeting
+     eleven tiles. Both render '' when their data is absent; neither needs
+     a script to exist. site/templates/_readings.mjs, _claims.mjs. -->
+${readings.render(ctx)}
+${claims.render(ctx)}
 
 ${developing.render(ctx)}
 
