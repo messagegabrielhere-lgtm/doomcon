@@ -24,7 +24,8 @@
 import * as brand from '../../site/brand.mjs';
 import {
   CARD_W, CARD_H, MARGIN, COL, GROUND_RAISED, RULE, INK, INK_DIM, INK_FAINT,
-  HEAT, TRACK_LABEL, W_MED, fit, utcStamp, fold, wrapFit, GROUND, measureText,
+  TRACK_LABEL, W_MED, fit, utcStamp, fold, wrapFit, GROUND, measureText,
+  ladderShapes, fitRuns, levelSentence, levelSentenceText,
 } from './_kit.mjs';
 
 /* --------------------------------------------------------------- the domain */
@@ -32,20 +33,23 @@ import {
 /**
  * What gets burned into the card.
  *
- * docs/BRAND.md §1.6 flags this as an open item and it is the same one here:
- * `brand.DOMAIN` is doomcon.watch, which docs/COMPETITIVE.md §1.4 measured as
- * NOT RESOLVING. An image is the surface most likely to be looked at long after
- * it was made, by somebody with no other way back to us. Burning an address
- * that answers nothing is the one failure a share card cannot survive, so the
- * default here is the address that actually serves the site today, derived from
- * `brand.CANONICAL_URL` rather than typed.
+ * `brand.DOMAIN` is the address we print, and since 2026-09-26 it is the
+ * address that actually serves the site — the GitHub Pages project URL —
+ * because doomcon.watch, the domain we intend to own, does not resolve
+ * (docs/COMPETITIVE.md §1.4: no A record, HTTP 000). An image is the surface
+ * most likely to be looked at long after it was made, by somebody with no
+ * other way back to us, so an address that answers nothing is the one failure
+ * a share card cannot survive.
  *
- * It is a parameter. The day doomcon.watch resolves this becomes
- * `cardDomain({ domain: brand.DOMAIN })` at the call site, or the default below
- * changes, and every card follows. One line, exactly as CONTRACT.md §Brand asks.
+ * Read from brand.DOMAIN first, so the day doomcon.watch is registered the
+ * two-line change in site/brand.mjs reaches every card with no edit here. The
+ * derivation from CANONICAL_URL stays as the fallback for a brand module with
+ * an empty DOMAIN, and selftest.mjs checks the printed string against
+ * brand.DOMAIN on every design.
  */
 export function cardDomain({ domain = null } = {}) {
   if (domain) return domain.toLowerCase();
+  if (typeof brand.DOMAIN === 'string' && brand.DOMAIN.trim()) return brand.DOMAIN.trim().toLowerCase();
   const u = new URL(brand.CANONICAL_URL);
   return `${u.host}${u.pathname.replace(/\/+$/, '')}`.toLowerCase();
 }
@@ -68,8 +72,12 @@ export const LIMIT_BOTTOM = FOOT_RULE - 34;
  */
 export function chassis(s, { level, kind, observedAt, domain = null }) {
   // --- masthead -----------------------------------------------------------
-  s.mark(level, MARGIN, 48, 64, { ground: GROUND });
-  s.text('DOOMCON', MARGIN + 84, 100, 36, INK, { track: 0.08, weight: W_MED });
+  // The sentinel wire at 76px: on a phone X shows this 1080px card at about
+  // 500px, so the mark is ~35px there and DOOMCON 4's apex still stands 10px
+  // above the wire. At the 64px it was, the spike was a smudge at that size.
+  const MARK = 76;
+  s.mark(level, MARGIN, 40, MARK, { ground: GROUND });
+  s.text('DOOMCON', MARGIN + MARK + 20, 100, 36, INK, { track: 0.08, weight: W_MED });
 
   const k = fold(kind).text.toUpperCase();
   s.text(k, CARD_W - MARGIN, 84, fit(k, 22, 400, 15, TRACK_LABEL), INK_DIM,
@@ -158,26 +166,53 @@ export function eyebrow(s, text, x, y, { color = INK_FAINT, size = 17, align = '
     { align, track: TRACK_LABEL + 0.04 });
 }
 
-/** The five-stop level rail. The live stop is lit; the rest are drawn at 55%
- *  weight and 30% alpha, exactly as the favicon's grille is, so the reading is
- *  a COUNT and a WEIGHT before it is ever a hue. docs/BRAND.md §1.2. */
-export function levelRail(s, level, { x, y, w, h = 26, previous = null }) {
-  const gap = 11;
-  const each = (w - gap * 4) / 5;
-  const order = [5, 4, 3, 2, 1];
-  order.forEach((lv, i) => {
-    const lx = x + i * (each + gap);
-    const on = lv >= level;                       // litSlots: calm end up to live
-    s.rect(lx, y, each, h, on ? HEAT[lv] : INK_DIM, { r: 4, alpha: on ? 1 : 0.30 });
-    if (!on) s.rect(lx, y + h * 0.225, each, h * 0.55, GROUND, { r: 3, alpha: 0.55 });
-    s.text(String(lv), lx + each / 2, y + h + 30, 22, lv === level ? INK : INK_FAINT,
-      { align: 'center', track: 0 });
-    if (lv === level) {
-      // The live stop, marked by shape as well as by heat: a bar under it.
-      s.rect(lx, y + h + 40, each, 5, HEAT[lv], { r: 2.5 });
-    }
-    if (previous != null && lv === previous && previous !== level) {
-      s.ring(lx + each / 2, y + h + 58, 6, INK_FAINT, { width: 2.6 });
+/* -------------------------------------------------------------- the reading */
+
+/**
+ * THE SENTENCE. The homepage's <h1>, word for word, in the level's heat where
+ * the reading is and in ink where it is not: "AI activity is at DOOMCON 4 —
+ * ROUTINE, on a scale where 1 is loudest." The geometry comes from
+ * site/cardpng.mjs's fitRuns(), so this card and the PNG state card wrap the
+ * same words at the same places. Records the plain sentence as a note, for
+ * selftest.mjs.
+ *
+ * @param {number} o.top  the cap top of the first line
+ * @returns {{ size:number, last:number }} the cap height and the last baseline
+ */
+export function sentence(s, state, {
+  x = MARGIN, top, from = 44, to = 26, maxWidth = COL, maxLines = 3, leading = 1.42, weight = 0.092,
+} = {}) {
+  const fit = fitRuns(levelSentence(state), { from, to, track: 0.01, maxWidth, maxLines });
+  const step = Math.round(fit.size * leading);
+  const y = top + fit.size;
+  fit.lines.forEach((line, i) => {
+    for (const r of line.runs) {
+      s.text(r.text, x + r.x, y + i * step, fit.size, r.color, { track: 0.01, weight });
     }
   });
+  s.note('sentence', levelSentenceText(state));
+  return { size: fit.size, last: y + (fit.lines.length - 1) * step };
+}
+
+/**
+ * THE LADDER. The page's dial, unrolled: five bands at widths proportional to
+ * the score range each covers, lit from the calm end up to the live one, the
+ * live one raised in its heat with its numeral in dark ink, a caret under it
+ * where the composite sits, and CALM / SEVERE at the two ends so nobody reads
+ * "4" as four-fifths of the way to bad. Shared with site/cardpng.mjs's cards
+ * through ladderShapes(); this only replays the ops onto the audited Surface.
+ *
+ * It replaces the equal-width five-stop rail, which lit the right stops but
+ * never said which end was which — the exact misread the page fixed.
+ */
+export function ladder(s, opts) {
+  const got = ladderShapes(opts);
+  for (const p of got.ops) {
+    if (p.kind === 'rect') s.rect(p.x, p.y, p.w, p.h, p.color, { r: p.r, alpha: p.alpha });
+    else if (p.kind === 'disc') s.disc(p.cx, p.cy, p.r, p.color, { alpha: p.alpha });
+    else if (p.kind === 'text') {
+      s.text(p.text, p.x, p.y, p.size, p.color, { align: p.align, track: p.track, weight: p.weight });
+    } else throw new Error(`cards: ladder op ${JSON.stringify(p.kind)} has no drawer`);
+  }
+  return got;
 }

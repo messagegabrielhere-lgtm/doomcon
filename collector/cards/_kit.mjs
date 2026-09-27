@@ -36,6 +36,14 @@ export {
   GROUND, GROUND_RAISED, INK, INK_DIM, INK_FAINT, HEAT, ACCENT, measureText,
 };
 
+/** The reading's geometry, shared with site/cardpng.mjs's own cards so the
+ *  two renderers cannot print a different sentence or a different ladder.
+ *  These are pure — they measure and return ops — and _chassis.mjs replays
+ *  them onto a Surface, which is the seam this file exists to keep. */
+export {
+  ladderShapes, fitRuns, levelSentence, levelSentenceText,
+} from '../../site/cardpng.mjs';
+
 /* ------------------------------------------------------------------ palette */
 /* The ground, the inks and the heat ramp come from site/cardpng.mjs above, so a
  * card cannot invent its own green. What is added here is the three ramps no
