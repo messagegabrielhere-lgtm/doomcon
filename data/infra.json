@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "engine_version": "1.0.0",
-  "generated_at": "2026-09-27T21:20:53.711Z",
+  "generated_at": "2026-09-27T22:21:35.541Z",
   "index": {
     "name": "SUBSTRATE",
     "question": "How loaded is the physical substrate the models are being built on?",
@@ -20,7 +20,7 @@
     "level_name": "STEADY",
     "level_since": "2026-09-24T03:20:33.302Z",
     "score": 53,
-    "generated_at": "2026-09-27T21:20:53.711Z"
+    "generated_at": "2026-09-27T22:21:35.541Z"
   },
   "degraded": false,
   "dark_pillars": [],
@@ -127,7 +127,7 @@
       "baseline_source": null,
       "baseline_span": null,
       "baseline_note": "4 of 30 points needed before this source can be scored",
-      "observed_at": "2026-09-27T21:20:54.164Z",
+      "observed_at": "2026-09-27T22:21:36.234Z",
       "error": null,
       "meta": {
         "baseline_day": "2026-09-27",
@@ -143,7 +143,7 @@
         "direction": "higher = more always-on load",
         "source_note": "CAISO publishes the current Pacific day only and carries no offset in the file; the calendar day is derived from the run clock and observed_at is the run instant"
       },
-      "ms": 437
+      "ms": 676
     },
     {
       "id": "ercot-baseload",
@@ -178,11 +178,11 @@
           "2026-09-27",
           "2026-09-26"
         ],
-        "feed_last_updated": "2026-09-27 16:16:00-0500",
+        "feed_last_updated": "2026-09-27 17:16:00-0500",
         "direction": "higher = more always-on load",
         "source_note": "net generation summed across all fuel categories, five-minute resolution; Power Storage is negative while batteries charge and that sign is kept"
       },
-      "ms": 191
+      "ms": 268
     },
     {
       "id": "ercot-tightness",
@@ -194,7 +194,7 @@
       "cadence": "every 5 minutes",
       "direction": "higher = less slack between load and the committed fleet",
       "state": "awaiting-baseline",
-      "value": 78.292,
+      "value": 80.373,
       "score": null,
       "percentile": null,
       "baseline_n": 4,
@@ -202,24 +202,24 @@
       "baseline_source": null,
       "baseline_span": null,
       "baseline_note": "4 of 30 points needed before this source can be scored",
-      "observed_at": "2026-09-27T21:20:00.000Z",
+      "observed_at": "2026-09-27T22:20:00.000Z",
       "error": null,
       "meta": {
-        "demand_mw": 81566,
-        "committed_capacity_mw": 104182,
-        "headroom_mw": 22616,
-        "interval_local": "2026-09-27 16:20:00-0500",
-        "intervals_today": 197,
+        "demand_mw": 81372,
+        "committed_capacity_mw": 101243,
+        "headroom_mw": 19871,
+        "interval_local": "2026-09-27 17:20:00-0500",
+        "intervals_today": 209,
         "intervals_in_feed": 289,
-        "intervals_dropped_forecast": 92,
-        "today_high_pct": 80.286,
+        "intervals_dropped_forecast": 80,
+        "today_high_pct": 80.531,
         "today_low_pct": 61.755,
-        "feed_last_updated": "2026-09-27 16:20:00-0500",
+        "feed_last_updated": "2026-09-27 17:20:00-0500",
         "prc": {
-          "current_mw": 17899,
+          "current_mw": 16200,
           "day_low_mw": 11679,
           "day_low_at_local": "2026-09-27 00:07:12-0500",
-          "samples": 5884,
+          "samples": 6248,
           "ercot_state": "normal",
           "ercot_title": "Normal Conditions",
           "ercot_note": "There is enough power for current demand.",
@@ -228,7 +228,7 @@
         "direction": "higher = tighter",
         "source_note": "capacity is COMMITTED capacity, which follows expected load, so this ratio understates the swing in physical margin; PRC is enrichment and never scored; rows ERCOT flags as forecast, and any row stamped after the run clock, are dropped before the ratio and the day high and low are computed"
       },
-      "ms": 213
+      "ms": 291
     },
     {
       "id": "nyiso-baseload",
@@ -264,7 +264,7 @@
         "direction": "higher = more always-on load",
         "source_note": "statewide sum of all eleven NYISO load zones; a timestamp missing any zone is discarded rather than summed short"
       },
-      "ms": 420
+      "ms": 422
     },
     {
       "id": "usdm-drought",
@@ -418,7 +418,7 @@
         "direction": "higher = drier",
         "source_note": "US Drought Monitor, produced weekly by NDMC, USDA and NOAA; an expert assessment, not an instrument reading, and averaged here without area or population weighting"
       },
-      "ms": 1231,
+      "ms": 1166,
       "z": -0.124199,
       "baseline_min": 1.539,
       "baseline_median": 19.124,
@@ -570,7 +570,7 @@
         "direction": "higher = drier",
         "source_note": "denominator is the USGS published median for that gauge on that day of the year, over the gauge’s full period of record; it is not computed by this project"
       },
-      "ms": 865,
+      "ms": 831,
       "z": -0.6885,
       "baseline_min": -139.437,
       "baseline_median": 11.173,
@@ -594,7 +594,7 @@
       "baseline_source": "the same 180-day rolling count taken at weekly anchors across the fetched corpus",
       "baseline_span": "2022-03-26 to 2026-09-20",
       "baseline_note": "windows overlap, so these points are strongly autocorrelated and the effective sample size is much smaller than the count",
-      "observed_at": "2026-09-27T21:20:53.738Z",
+      "observed_at": "2026-09-27T22:21:35.568Z",
       "error": null,
       "meta": {
         "term": "data center",
@@ -609,7 +609,7 @@
         "direction": "higher = more federal documents mention datacentres",
         "source_note": "the noisiest source in this index: \"data center\" also matches the National Climatic Data Center, federal facility consolidation notices and every agency building with the words in its name"
       },
-      "ms": 1607,
+      "ms": 1385,
       "z": 0.582842,
       "baseline_min": 94,
       "baseline_median": 125,
@@ -633,7 +633,7 @@
       "baseline_source": null,
       "baseline_span": null,
       "baseline_note": "4 of 30 points needed before this source can be scored",
-      "observed_at": "2026-09-27T21:20:54.605Z",
+      "observed_at": "2026-09-27T22:21:36.997Z",
       "error": null,
       "meta": {
         "phrase": "data centers",
@@ -644,7 +644,7 @@
         "direction": "higher = more filings mention datacentres",
         "source_note": "efts.sec.gov full-text search; a count of matching filings, not of dollars, and it carries EDGAR’s own filing calendar — 10-K season lifts every phrase"
       },
-      "ms": 867
+      "ms": 1429
     },
     {
       "id": "sec-power-contracts",
@@ -664,7 +664,7 @@
       "baseline_source": null,
       "baseline_span": null,
       "baseline_note": "4 of 30 points needed before this source can be scored",
-      "observed_at": "2026-09-27T21:20:54.467Z",
+      "observed_at": "2026-09-27T22:21:36.967Z",
       "error": null,
       "meta": {
         "phrase": "power purchase agreement",
@@ -675,7 +675,7 @@
         "direction": "higher = more bulk power contracted",
         "source_note": "efts.sec.gov full-text search; PPAs are signed by every heavy industry, and nothing in a phrase count separates a datacentre’s from a smelter’s"
       },
-      "ms": 729
+      "ms": 1398
     }
   ],
   "thresholds": {
@@ -1141,6 +1141,11 @@
       "generated_at": "2026-09-27T21:20:53.711Z",
       "score": 53,
       "level": 4
+    },
+    {
+      "generated_at": "2026-09-27T22:21:35.541Z",
+      "score": 53,
+      "level": 4
     }
   ],
   "baselines": {
@@ -1204,7 +1209,7 @@
         },
         {
           "d": "2026-09-27",
-          "v": 78.292
+          "v": 80.373
         }
       ]
     },
