@@ -114,9 +114,18 @@ export function render(ctx) {
   const main = `
 ${news.styleTag()}
 ${gauge.styleTag()}
-${developing.render(ctx)}
 <section class="hero">
   <p class="eyebrow">Observed <time datetime="${esc(state.generated_at)}">${esc(utc(state.generated_at))}</time></p>
+  <!-- THE ONE SENTENCE. Measured 2026-09-26 at 1440x900: 161 text atoms above
+       the fold at a median of 13px, second-largest type 20px, and no single
+       statement a newcomer could read. The Doomsday Clock's entire phone fold
+       is one sentence at 36px - "It is now 85 seconds to midnight" - and a
+       stranger understands it before they understand anything else. This is
+       that sentence for this site: the reading, its unit, its name, and the
+       direction of the scale, because nothing else on the page said which end
+       was loud. It is the h1; the old "DOOMCON 4 · ROUTINE" label below it is
+       gone rather than repeated. -->
+  <h1 class="hero__headline">${headline(ctx)}</h1>
   <div class="hero__grid">
 
     <!-- align-self overrides .hero__grid's align-items:end, so the dial sits
@@ -152,7 +161,6 @@ ${developing.render(ctx)}
         caption: false,
       })}
       <div class="level__meta">
-        <h1 class="level__name">${esc(brand.NAME)} ${esc(state.level)} · ${esc(state.level_name)}</h1>
         <p class="level__plain">${esc(plainRead(ctx))}</p>
       </div>
     </div>
@@ -168,6 +176,8 @@ ${developing.render(ctx)}
 
   </div>
 </section>
+
+${developing.render(ctx)}
 
 ${oven.render(ctx)}
 
@@ -237,6 +247,17 @@ ${switcher.render(ctx)}
 /* The plain-language read is now the largest piece of prose in the hero, and
    it is the one sentence thirteen of a hundred visitors came for. It was set
    at caption size under five pips that no longer exist. */
+/* THE HEADLINE is the largest thing on the page by design: 2.5x the next
+   largest type above the fold (20px), clamped so a phone gets 30px across two
+   or three lines and a desktop gets up to 54px on one or two. The dial's own
+   numeral is 56px inside an SVG and does not compete - it is a glyph in an
+   instrument, this is the sentence that names the instrument's reading. */
+.hero__headline {
+  font-family: var(--sans); font-weight: 650; letter-spacing: -0.02em;
+  font-size: clamp(30px, 3.7vw, 54px); line-height: 1.08;
+  max-width: 22ch; margin: var(--s-2) 0 var(--s-4); color: var(--ink);
+  text-wrap: balance;
+}
 .hero .level__plain { font-size: var(--t-md); line-height: 1.45; color: var(--ink); max-width: 46ch; }
 
 /* ---- THE DIAL IN THE HERO ------------------------------------------------
@@ -447,6 +468,20 @@ function sourcesForPillar(state, id) {
  * prediction, offers no reassurance we cannot support, and uses no future
  * tense.
  */
+/**
+ * The headline: one sentence, the number inside it, the unit and the
+ * direction carried along. No future tense, no adjective the data did not
+ * earn. When there is no score it says so - the absence is the headline.
+ */
+function headline(ctx) {
+  const st = ctx.state;
+  if (!Number.isFinite(st.score)) {
+    return 'No reading today: not enough sources reported to compute one.';
+  }
+  return `AI activity is at ${esc(brand.NAME)}\u00a0${esc(st.level)} — ${esc(st.level_name)}, ` +
+    'on a scale where 1 is loudest.';
+}
+
 function plainRead(ctx) {
   const st = ctx.state;
   const s = Number.isFinite(st.score) ? st.score : null;
