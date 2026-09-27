@@ -385,7 +385,7 @@ function corridorBoard(infra) {
 
   return `
 <section class="isec" aria-labelledby="icorr-h">
-  <h2 class="isec__h" id="icorr-h">The corridors</h2>
+  <h2 class="isec__h" id="icorr-h">${CORRIDORS.length === 9 ? 'Nine' : String(CORRIDORS.length)} datacentre regions<span class="sec__eb">The corridors</span></h2>
   <p class="isec__l">Nine places where the American build-out actually is, and what each of the three
      pillars can and cannot see there. <b>${esc(String(withGrid))} of ${esc(String(CORRIDORS.length))}
      have a free real-time demand feed.</b> The other ${esc(String(CORRIDORS.length - withGrid))} say
@@ -626,7 +626,7 @@ function gridPanel(infra) {
 
   return `
 <section class="isec" aria-labelledby="igrid-h">
-  <h2 class="isec__h" id="igrid-h">The grid</h2>
+  <h2 class="isec__h" id="igrid-h">Overnight grid load<span class="sec__eb">The grid</span></h2>
   <p class="isec__l">Every grid has a daily minimum — the hour when air conditioning, offices and
      traffic have all gone home. What is still drawing power at four in the morning is the load that
      never stops, and a datacentre is one of very few large loads that runs flat out at that hour.
@@ -676,7 +676,7 @@ function waterPanel(infra) {
 
   return `
 <section class="isec" aria-labelledby="iwater-h">
-  <h2 class="isec__h" id="iwater-h">The water</h2>
+  <h2 class="isec__h" id="iwater-h">River flow at the gauges<span class="sec__eb">The water</span></h2>
   <p class="isec__l">Cooling a datacentre consumes water, and the argument about how much is one of
      the loudest live public fights about this industry. <b>Nobody publishes the consumption.</b>
      What is published, free and keyless, is the state of the water the clusters have to draw on:
@@ -751,7 +751,7 @@ function buildoutPanel(infra) {
 
   return `
 <section class="isec" aria-labelledby="ibuild-h">
-  <h2 class="isec__h" id="ibuild-h">The build-out</h2>
+  <h2 class="isec__h" id="ibuild-h">Filings that mention datacentres<span class="sec__eb">The build-out</span></h2>
   <p class="isec__l">Power and water are what a training cluster consumes. This is what it costs,
      and it is the one part of the story American public companies are legally obliged to write
      down. A company can decline to say how large its next model is. It cannot decline to tell its
@@ -1116,7 +1116,7 @@ function exclusions() {
 
   return `
 <section class="isec iex" aria-labelledby="iex-h">
-  <h2 class="isec__h" id="iex-h">Measured exclusions</h2>
+  <h2 class="isec__h" id="iex-h">Sources tried and left out<span class="sec__eb">Measured exclusions</span></h2>
   <p class="isec__l">Eight candidate sources were requested against their live endpoints and left
      out. They are published here, rather than dropped quietly, because a list of what was tried is
      the only evidence a reader has that the included list was <i>chosen</i> and not just assembled
@@ -1147,8 +1147,8 @@ export function render(ctx) {
 
   const main = `<style>${infraCss()}</style>
 <section class="ihero">
-  <p class="ihero__eyebrow">A ${esc(brand.NAME)} sub-index · does not feed the main number</p>
-  <h1 class="ihero__h1">Watts</h1>
+  <p class="ihero__eyebrow">Watts · a ${esc(brand.NAME)} sub-index · does not feed the main number</p>
+  <h1 class="ihero__h1">The infrastructure index</h1>
   <p class="ihero__sub">The infrastructure index. The page is <b>WATTS</b>; the number on it is
      <b>SUBSTRATE</b>, five to one.</p>
   <p class="ihero__lede">Intelligence is electricity with extra steps. You cannot train a frontier
@@ -1184,7 +1184,7 @@ ${howComputed(ctx, infra)}
   return page({
     ctx,
     path: PATH,
-    title: `Watts, the infrastructure index — ${headline} · ${brand.NAME}`,
+    title: `The infrastructure index — ${headline} · ${brand.NAME}`,
     ogTitle: `${brand.NAME} Watts: the infrastructure index — ${headline}`,
     description,
     ogImage: ctx.cardFor ? ctx.cardFor('watts') : null,
@@ -1200,11 +1200,12 @@ function emptyPage(ctx) {
     ctx,
     path: PATH,
     noindex: true,
-    title: `Watts, the infrastructure index · ${brand.NAME}`,
+    title: `The infrastructure index · ${brand.NAME}`,
     description: `${brand.NAME}'s infrastructure index has not published a run yet.`,
     main: `<style>${infraCss()}</style>
 <section class="ihero">
-  <h1 class="ihero__h1">Watts</h1>
+  <p class="ihero__eyebrow">Watts · a ${esc(brand.NAME)} sub-index</p>
+  <h1 class="ihero__h1">The infrastructure index</h1>
   <p class="ihero__sub">The infrastructure index.</p>
   <p class="ihero__lede">No run has been published in this build. This is not an empty result — it is
      the absence of a result, and the two are different states.</p>

@@ -602,7 +602,7 @@ export function render(ctx, opts = {}) {
 
   const body = `
 ${heading ? `<div class="oven__hd">
-  <h2 class="sec__h" id="oven-h">The oven</h2>
+  <h2 class="sec__h" id="oven-h">Where the index sits<span class="sec__eb">The oven</span></h2>
 </div>` : ''}
 <p class="oven__k">Observed position · the mark moves both ways · not a prediction</p>
 <p class="lede">Five stages, coolest on the left, lit at the one the index is in as of

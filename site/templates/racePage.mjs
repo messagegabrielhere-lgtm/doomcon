@@ -706,7 +706,7 @@ function moveChart(race) {
 
 function raceGraphics(race) {
   return `<section class="sec rgfx" aria-labelledby="rgfx-h">
-  <h2 class="sec__h" id="rgfx-h">The field</h2>
+  <h2 class="sec__h" id="rgfx-h">Every lab on one axis<span class="sec__eb">The field</span></h2>
   <p class="rnote rgfx__lede">Every lab on the board, on one absolute 0&ndash;100% axis. The dot is the
      price now; the hollow ring is where that leg traded seven days ago. Nothing is normalised to the
      leader &mdash; one lab really is most of this market.</p>
@@ -714,7 +714,7 @@ function raceGraphics(race) {
 </section>
 
 <section class="sec rgfx" aria-labelledby="rgfx-move-h">
-  <h2 class="sec__h" id="rgfx-move-h">Seven days</h2>
+  <h2 class="sec__h" id="rgfx-move-h">Seven-day change, per lab<span class="sec__eb">Seven days</span></h2>
   <p class="rnote rgfx__lede">Two observations per lab and a line joining them. There is no price
      history in <code>race.json</code>, so there is no curve here to draw and none is invented.</p>
   ${moveChart(race)}
@@ -785,7 +785,7 @@ function partitionBar(race) {
     .filter(Boolean).join(', ');
 
   return `<section class="sec rpartwrap" aria-labelledby="rpart-h">
-  <h2 class="sec__h" id="rpart-h">The whole board</h2>
+  <h2 class="sec__h" id="rpart-h">How the odds are split<span class="sec__eb">The whole board</span></h2>
   <div class="rpart" role="img" aria-label="${esc(`${poly.horizon.title} — ${readout}.`)}">${segs}</div>
   <ul class="rpart__key">${keyItems}</ul>
   <p class="rnote">${esc(poly.horizon.legs_live)} legs are trading on
@@ -1023,7 +1023,7 @@ function instrumentStrip(race) {
     : `${dark.length} of ${(race.sources ?? []).length} instruments are dark. Their readings are blank above. Nothing is filled in.`;
 
   return `<section class="sec" aria-labelledby="rsrc-h">
-  <h2 class="sec__h" id="rsrc-h">Instrument health</h2>
+  <h2 class="sec__h" id="rsrc-h">Source health</h2>
   <ul class="rchips">${rows}</ul>
   <p class="rnote">${esc(key)}</p>
 </section>`;

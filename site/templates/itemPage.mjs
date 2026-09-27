@@ -137,7 +137,7 @@ export function render(ctx, item, related = []) {
   </section>
 
   <section class="it__s" aria-labelledby="it-corr">
-    <h2 id="it-corr">Corroboration</h2>
+    <h2 id="it-corr">How many sources carried it<span class="sec__eb">Corroboration</span></h2>
     ${corroboration(item)}
   </section>
 

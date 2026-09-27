@@ -29,9 +29,15 @@ export const NAME = 'DOOMCON';
 // ---------------------------------------------------------------------------
 export const PUBLICATION = 'AI Early Warning System';
 export const PUBLICATION_SHORT = 'AI EWS';
+//
+// TRAP (VOICE.md §5.6): "not predicted" is REJECTED by the post pre-flight —
+// "predicted" is in BANNED_FUTURE_EXTENDED and the word list cannot tell a
+// denial from a claim. "not a prediction" is the same sentence with the noun
+// the ban deliberately permits, and it matches NOT_CLAIMS[1] word for word.
 export const PUBLICATION_LINE =
-  'Detected early, not predicted. We read the labs directly, so we see it ' +
-  'before the feeds that repeat them.';
+  'Early means detected early, not a prediction. The index reads the preprints, ' +
+  'the model releases, the filings and the labs’ own feeds at the source, ' +
+  'upstream of the accounts that relay them.';
 
 // DECISION: the tagline moved from self-deprecation ("We don't know anything.
 // We just count.") to a line that points at the competition. Every rival in
@@ -43,9 +49,17 @@ export const PUBLICATION_LINE =
 // TRAP: collector/card.mjs MEASURES this string (estWidth at 22px) to size the
 // card's right-hand column, and the left column gets whatever is left over. A
 // long tagline shrinks the level line until fitSize() drops under MIN_FONT and
-// auditCard() fails the build. Keep it at or under the ~38 characters the
-// original ran to. This one is 37.
-export const TAGLINE = 'Detected early, never predicted. We just count.';
+// auditCard() fails the build. site/brandmarks.mjs also sets it, uppercased,
+// on the OG image in a stroke alphabet of A-Z 0-9 . , - / : · % — so no
+// apostrophe, no parenthesis, no dash but the hyphen — in a 664px column that
+// steps the type down when the line is long. Shorter is safer. This one is 43;
+// the previous ran to 47 while its comment claimed 37.
+//
+// TRAP (VOICE.md §5.6): the previous line, "never predicted", is REJECTED by
+// the post pre-flight — "predicted" is on the banned list and the list cannot
+// tell denying the future from asserting it. "not a prediction" is the same
+// meaning with the noun the ban permits; it is NOT_CLAIMS[1] verbatim.
+export const TAGLINE = 'Detected early, not a prediction. We count.';
 
 // The original line, kept verbatim because CONTRACT.md, README.md and
 // docs/METHODOLOGY.md all quote it and it is still the most honest sentence on
@@ -91,10 +105,23 @@ export const X_HANDLE = null;
 // it was typed and becomes a lie the first time an adapter lands or dies — in a
 // field (og:description, api/index.json) that nobody ever re-reads. Counts come
 // from state.json at render time or they do not appear at all.
+//
+// DECISION (2026-09-27): this opened "The AIpocalypse, instrumented." It is the
+// meta description — the search snippet — and a snippet is read with no page
+// around it: no dial, no DISCLAIMER, no lede to make the coinage a joke. Read
+// cold, "the AIpocalypse, instrumented" is a noun phrase asserting that an
+// apocalypse exists and we have put gauges on it, forty characters before the
+// same site says it measures "not how bad it is". That is the sentence
+// VOICE.md §1 bans: a claim smuggled in under a figure of speech. The word
+// survives on the history page, where the essay frames it. Here the hook is
+// aimed at the category instead (VOICE.md §5.5), which is checkable — every
+// rival number is human or model judgement (docs/METHODOLOGY.md) — and the
+// scale's direction is stated, because nothing else in a snippet can.
 export const DESCRIPTION =
-  'The AIpocalypse, instrumented. Five pillars of public data, one 0-100 score ' +
-  'and one level, recomputed hourly. No model scores it and no human votes on ' +
-  'it — every number is reproducible from a published receipt.';
+  'Every AI doom number is a judgement call. This one is arithmetic: how much is ' +
+  'happening in AI, measured hourly from public data — not how bad it is. Five ' +
+  'pillars, one 0-100 score, one level from 5 (quietest) to 1 (loudest), and ' +
+  'every number reproducible from a published receipt.';
 
 // Levels count DOWN toward louder, borrowing DEFCON's grammar so nobody needs
 // the legend explained. Bands are duplicated from CONTRACT.md; the engine owns
@@ -113,13 +140,23 @@ export const DESCRIPTION =
 // Every string below is about the NEEDLE, never about the world. That is the
 // line: "off the top of the chart" is a fact about our reference distribution.
 // It is not a fact about anybody's odds.
+//
+// `gloss` is the one-line plain-words version: which END of the scale this
+// level is, and what that means, in words that need no key. The scale counts
+// down toward louder and nothing used to say so. Two constraints, both from
+// site/brandmarks.mjs, which prints the gloss on the OG image when there is
+// no score: it is uppercased with apostrophes stripped and set in a stroke
+// alphabet of A-Z 0-9 . , - / : · % — so no parentheses, no dash but the
+// hyphen — in a 664px column at 23px, which is about 45 characters before
+// the type steps down. "Quiet" and "loud" are the digest's own words for the
+// two ends of the record and the homepage headline's word for level 1.
 export const LEVELS = [
   {
     level: 5,
     name: 'DORMANT',
     band: [0, 34],
     epithet: 'Needle at rest',
-    gloss: 'Activity below this index’s own historical norm.',
+    gloss: 'The quiet end: less is happening than usual.',
     description:
       'The floor of the scale. Papers, releases, filings and market odds are all moving ' +
       'slower than this index calls normal. That is not safety — it is a quiet hour on the ' +
@@ -130,7 +167,7 @@ export const LEVELS = [
     name: 'ROUTINE',
     band: [35, 54],
     epithet: 'Needle breathing',
-    gloss: 'Activity within the normal range of the record.',
+    gloss: 'The normal range: as much happening as usual.',
     description:
       'Business as usual for a field whose usual is already loud. The scale is centred here by ' +
       'construction — 50 is the middle of the frozen reference distribution — so a reading in ' +
@@ -141,7 +178,7 @@ export const LEVELS = [
     name: 'ELEVATED',
     band: [55, 69],
     epithet: 'Off the rest stop',
-    gloss: 'Activity above the normal range of the record.',
+    gloss: 'Above normal: more is happening than usual.',
     description:
       'Something is carrying the average. One or more pillars have pulled clear of their own ' +
       'reference distribution and the composite has followed them up. It says louder than ' +
@@ -152,7 +189,7 @@ export const LEVELS = [
     name: 'ACCELERATED',
     band: [70, 84],
     epithet: 'Pinned high',
-    gloss: 'Activity in the top decile of the record.',
+    gloss: 'Next to loudest: the busiest tenth on record.',
     description:
       'The top decile of the record, with several pillars high at once. That is what it looks ' +
       'like when releases, capital and paperwork land in the same window — and it is also what ' +
@@ -163,7 +200,7 @@ export const LEVELS = [
     name: 'UNPRECEDENTED',
     band: [85, 100],
     epithet: 'Off the top of the chart',
-    gloss: 'Activity beyond anything in the record.',
+    gloss: 'The loud end: busier than anything on record.',
     description:
       'Past the top of the reference distribution: the frozen backfill holds nothing like this. ' +
       'The name is a statement about our own record running out, not about the world ending. ' +
@@ -229,10 +266,18 @@ export const PILLARS = [
 // and nobody finishes reading it. "How much is happening, not how bad it is" is
 // the same claim in words that survive being skimmed on a phone, with the
 // precise version immediately behind it for anyone who did not skim.
+//
+// DECISION (2026-09-27): it now also says which way the scale runs. The levels
+// count DOWN toward louder, and this is the one line guaranteed to sit near
+// the number on every surface — footer, embed, feed, JSON-LD — so it is the
+// one place a reader who saw "DOOMCON 4" out of context can learn that 4 is
+// the second-quietest reading and not four-fifths of the way to something.
+// "Quietest" and "loudest" are the words the digest already uses for the two
+// ends of the record and the homepage headline uses for level 1.
 export const DISCLAIMER =
-  'DOOMCON measures how much is happening, not how bad it is. Levels describe ' +
-  'observable activity tempo against this index’s own record. They are not a ' +
-  'probability of harm.';
+  'DOOMCON measures how much is happening, not how bad it is. Levels run from ' +
+  '5 (quietest) to 1 (loudest) and describe observable activity tempo against ' +
+  'this index’s own record. They are not a probability of harm.';
 
 // For surfaces with one line and no more: embed chrome, a card strap, a tooltip.
 // Never a substitute for DISCLAIMER anywhere DISCLAIMER fits.

@@ -193,7 +193,7 @@ export function render(ctx) {
   return `${styleTag()}${avatarSprite()}
 <section class="sec labs" aria-labelledby="labs-h">
   <div class="labs__hd">
-    <h2 class="sec__h" id="labs-h">The watch floor</h2>
+    <h2 class="sec__h" id="labs-h">The frontier labs, monitored<span class="sec__eb">The watch floor</span></h2>
     <p class="labs__k">${esc(players.length)} labs monitored · read
       <time datetime="${esc(stamp)}">${esc(String(stamp).slice(11, 16))}Z</time>
       · <a href="${esc(href)}">full ranking →</a></p>
