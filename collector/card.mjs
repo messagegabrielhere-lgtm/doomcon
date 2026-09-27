@@ -879,8 +879,8 @@ function levelRamp(x, y, w, h, level, { digitSize = 36, labelSize = 20 } = {}) {
       fill: active ? ON_CHIP : mix(meta.color, BG, 0.4), weight: 800, anchor: 'middle',
     }));
   });
-  out.push(text('5 CALMEST', { x, y: y + h + 28, size: labelSize, fill: INK_FAINT, weight: 600, family: MONO, tracking: 2 }));
-  out.push(text('LOUDEST 1', { x: x + w, y: y + h + 28, size: labelSize, fill: INK_FAINT, weight: 600, family: MONO, anchor: 'end', tracking: 2 }));
+  out.push(text('CALM', { x, y: y + h + 28, size: labelSize, fill: INK_FAINT, weight: 600, family: MONO, tracking: 2 }));
+  out.push(text('SEVERE', { x: x + w, y: y + h + 28, size: labelSize, fill: INK_FAINT, weight: 600, family: MONO, anchor: 'end', tracking: 2 }));
   if (!LEVELS[level]) {
     out.push(text('NO LEVEL PUBLISHED', {
       x: Math.round(x + w / 2), y: y + h + 28, size: labelSize, fill: DEGRADED_COLOR,

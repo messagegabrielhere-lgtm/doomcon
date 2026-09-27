@@ -80,10 +80,10 @@ stage cannot be drawn hotter than its position.
 
 | stage | name | band | burner | what a reading in this band means |
 |---|---|---|---|---|
-| DOOMCON 5 | DORMANT | 0–34 | 20% | Activity below this index's own historical norm. |
-| DOOMCON 4 | ROUTINE | 35–54 | 40% | Activity within the normal range of the record. 50 is the centre of the frozen reference by construction. |
-| DOOMCON 3 | ELEVATED | 55–69 | 60% | Activity above the normal range of the record. |
-| DOOMCON 2 | ACCELERATED | 70–84 | 80% | Activity in the top decile of the record. |
+| DOOMCON 5 | DORMANT | 0–34 | 20% | The quiet end: less is happening than usual. |
+| DOOMCON 4 | ROUTINE | 35–54 | 40% | The normal range: as much happening as usual. 50 is the centre of the frozen reference by construction. |
+| DOOMCON 3 | ELEVATED | 55–69 | 60% | Above normal: more is happening than usual. |
+| DOOMCON 2 | ACCELERATED | 70–84 | 80% | Next to loudest: the busiest tenth on record. |
 | DOOMCON 1 | UNPRECEDENTED | 85–100 | 100% | Past the top of the reference distribution. A statement about our record running out, not about the world. |
 
 The entry criterion for a stage is the composite score landing in that band —
