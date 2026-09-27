@@ -764,6 +764,11 @@ function boot(fig){
   shEl=fig.querySelector('[data-usm-shown]'),slEl=fig.querySelector('[data-usm-shownlab]');
  var ctls=fig.querySelector('.usm__ctl'),keys=fig.querySelector('.usm__keys');
  var noun=fig.getAttribute('data-usm-noun')||'pins';
+ /* data-usm-lite: the world map has no drought, grid, capacity or confidence
+    join, and a popup that said "drought no reading · grid not identified ·
+    capacity unpublished · unrecorded confidence" under every pin on Earth
+    would be four true sentences that read as four failures. */
+ var LITE=fig.hasAttribute('data-usm-lite');
  var k=1,tx=0,ty=0,raf=0,invq=1,animT=0;
  var items=[],cells={},order=[],built=0,CELL=25,GW=Math.ceil(W/CELL)+1;
  var cur=-1,stack=[],spos=0,sticky=0,rov=-1,shown=0,note='';
@@ -871,6 +876,7 @@ function boot(fig){
  function chips(it){
   var o=[];
   o.push(LBL.s[it.status]||it.status||'status not recorded');
+  if(LITE)return o.join(' · ');
   o.push('drought '+(LBL.k[it.drought]||'no reading'));
   o.push('grid '+(it.grid==='UNKNOWN'||!it.grid?'not identified':it.grid));
   o.push(it.mw===null?'capacity unpublished':it.mw+' MW IT power');
@@ -1095,6 +1101,7 @@ function boot(fig){
  }
  function report(unk){
   var bits=[],n=0,key;
+  if(LITE)unk={};
   var words={drought:'no Drought Monitor reading',state:'no state recorded',
    grid:'no grid identified',confidence:'no confidence recorded',mw:'no published capacity'};
   for(key in unk){if(unk[key]>0){bits.push(nf(unk[key])+' with '+words[key]);n+=unk[key];}}
@@ -1714,4 +1721,4 @@ g.usm__pins--announced.usm__k-d4{stroke:var(--usm-d4)}
 `;
 }
 
-export { STATE_NAMES, FRAME as MAP_FRAME };
+export { STATE_NAMES, FRAME as MAP_FRAME, MAP_JS };
