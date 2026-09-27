@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated_at": "2026-09-27T17:19:35.251Z",
+  "generated_at": "2026-09-27T17:25:15.141Z",
   "scoring_version": "1.1.0",
   "window_days": 7,
   "max_items": 200,
@@ -18,32 +18,111 @@
     "COVERAGE_MAX": 15
   },
   "run": {
-    "mode": "full",
+    "mode": "incremental",
     "adapters": 16,
-    "fetched": 16,
-    "skipped": 0,
-    "arrived": 0,
-    "departed": 0,
-    "items_changed": false
+    "fetched": 6,
+    "skipped": 10,
+    "arrived": 1,
+    "departed": 1,
+    "items_changed": true
   },
   "items": [
+    {
+      "id": "1b4ba2f38e37bb41",
+      "source": "verge-ai",
+      "kind": "press",
+      "title": "OpenAI agents tried to ‘bruteforce’ a UN website",
+      "summary": "Security researcher Rowan Howard-Jones says that OpenAI agents scanned the UN Conference on Trade and Development's (UNCTAD) statistics site over 16,000 times between April and June. While the incident doesn't quite rise to the level of the Hugging Face hack, or the recent attacks on US government sites, it's yet…",
+      "url": "https://theverge.com/ai-artificial-intelligence/1001178/openai-agents-bruteforce-un-website",
+      "published_at": "2026-09-27T17:21:07.000Z",
+      "pillar": "attention",
+      "score": 43,
+      "entities": [
+        "Hugging Face",
+        "OpenAI"
+      ],
+      "meta": {
+        "feed": "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml",
+        "categories": [
+          "AI",
+          "News",
+          "OpenAI"
+        ],
+        "source_weight": 0.55,
+        "pillar_reason": "source default",
+        "entity_kinds": {
+          "labs": [
+            "Hugging Face",
+            "OpenAI"
+          ],
+          "models": []
+        },
+        "score_components": {
+          "source_weight": 13.8,
+          "recency": 20,
+          "corroboration": 0,
+          "entities": 6,
+          "engagement": 0,
+          "severity": 3.2,
+          "coverage": 0
+        },
+        "age_hours_at_score": 0.1,
+        "engagement": null,
+        "corroboration": {
+          "count": 1,
+          "sources": [
+            "verge-ai"
+          ],
+          "first_source": "verge-ai",
+          "first_seen_published_at": "2026-09-27T17:21:07.000Z",
+          "last_published_at": "2026-09-27T17:21:07.000Z",
+          "lead_minutes": 0,
+          "primary_published_at": "2026-09-27T17:21:07.000Z",
+          "also": []
+        },
+        "first_seen_at": "2026-09-27T17:25:15.141Z",
+        "incident": {
+          "severity": 0.21,
+          "band": "C",
+          "strong_signal": false,
+          "terms": [
+            {
+              "term": "attacks",
+              "matched": "attacks",
+              "tier": "b",
+              "field": "summary",
+              "weight": 0.21
+            },
+            {
+              "term": "incident",
+              "matched": "incident",
+              "tier": "c",
+              "field": "summary",
+              "weight": 0.11
+            }
+          ],
+          "excluded": null
+        },
+        "story": null
+      }
+    },
     {
       "id": "440e44887d07b4dd",
       "source": "hn-ai",
       "kind": "forum",
       "title": "OpenAI halts training of latest models as reports mount of AI agents going rogue",
-      "summary": "23 points, 21 comments on Hacker News.",
+      "summary": "29 points, 27 comments on Hacker News.",
       "url": "https://theguardian.com/technology/2026/sep/27/openai-halts-training-of-latest-models-as-reports-mount-of-ai-agents-going-rogue",
       "published_at": "2026-09-27T16:29:38.000Z",
       "pillar": "attention",
-      "score": 61.9,
+      "score": 62.4,
       "entities": [
         "OpenAI"
       ],
       "meta": {
         "hn_id": "49868202",
-        "points": 23,
-        "comments": 21,
+        "points": 29,
+        "comments": 27,
         "discussion_url": "https://news.ycombinator.com/item?id=49868202",
         "window_hours": 72,
         "min_points": 8,
@@ -59,17 +138,17 @@
         },
         "score_components": {
           "source_weight": 15,
-          "recency": 19.7,
+          "recency": 19.6,
           "corroboration": 0,
           "entities": 3,
-          "engagement": 9.2,
+          "engagement": 9.8,
           "severity": 15,
           "coverage": 0
         },
-        "age_hours_at_score": 0.8,
+        "age_hours_at_score": 0.9,
         "engagement": {
           "metric": "hn_points",
-          "value": 23,
+          "value": 29,
           "full_scale": 500
         },
         "corroboration": {
@@ -139,7 +218,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 1,
+        "age_hours_at_score": 1.1,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -169,16 +248,16 @@
       "source": "hn-ai",
       "kind": "forum",
       "title": "There are no \"rogue\" AI agents",
-      "summary": "47 points, 25 comments on Hacker News.",
+      "summary": "62 points, 29 comments on Hacker News.",
       "url": "https://eoinhiggins.substack.com/p/there-are-no-rogue-ai-agents",
       "published_at": "2026-09-27T16:19:46.000Z",
       "pillar": "attention",
-      "score": 60.8,
+      "score": 61.6,
       "entities": [],
       "meta": {
         "hn_id": "49868083",
-        "points": 47,
-        "comments": 25,
+        "points": 62,
+        "comments": 29,
         "discussion_url": "https://news.ycombinator.com/item?id=49868083",
         "window_hours": 72,
         "min_points": 8,
@@ -195,14 +274,14 @@
           "recency": 19.6,
           "corroboration": 0,
           "entities": 0,
-          "engagement": 11.2,
+          "engagement": 12,
           "severity": 15,
           "coverage": 0
         },
-        "age_hours_at_score": 1,
+        "age_hours_at_score": 1.1,
         "engagement": {
           "metric": "hn_points",
-          "value": 47,
+          "value": 62,
           "full_scale": 500
         },
         "corroboration": {
@@ -241,15 +320,15 @@
       "source": "hn-ai",
       "kind": "forum",
       "title": "Show HN: TinyAIArena watch AI agents battle it out",
-      "summary": "28 points, 16 comments on Hacker News.",
+      "summary": "30 points, 16 comments on Hacker News.",
       "url": "https://tinyaiarena.com",
       "published_at": "2026-09-27T15:51:28.000Z",
       "pillar": "attention",
-      "score": 44.1,
+      "score": 44.3,
       "entities": [],
       "meta": {
         "hn_id": "49867775",
-        "points": 28,
+        "points": 30,
         "comments": 16,
         "discussion_url": "https://news.ycombinator.com/item?id=49867775",
         "window_hours": 72,
@@ -267,14 +346,14 @@
           "recency": 19.4,
           "corroboration": 0,
           "entities": 0,
-          "engagement": 9.7,
+          "engagement": 9.9,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 1.5,
+        "age_hours_at_score": 1.6,
         "engagement": {
           "metric": "hn_points",
-          "value": 28,
+          "value": 30,
           "full_scale": 500
         },
         "corroboration": {
@@ -309,7 +388,7 @@
       "url": "https://techmeme.com/260927/p7",
       "published_at": "2026-09-27T15:41:53.000Z",
       "pillar": "governance",
-      "score": 39.9,
+      "score": 39.8,
       "entities": [
         "Anthropic"
       ],
@@ -327,14 +406,14 @@
         },
         "score_components": {
           "source_weight": 17.5,
-          "recency": 19.4,
+          "recency": 19.3,
           "corroboration": 0,
           "entities": 3,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 1.6,
+        "age_hours_at_score": 1.7,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -389,7 +468,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 6.3,
+        "age_hours_at_score": 6.4,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -447,7 +526,7 @@
       "url": "https://washingtonpost.com/technology/2026/09/26/how-us-russia-weakened-global-effort-regulate-killer-ai",
       "published_at": "2026-09-27T08:48:32.000Z",
       "pillar": "attention",
-      "score": 43.4,
+      "score": 43.3,
       "entities": [],
       "meta": {
         "hn_id": "49864667",
@@ -466,14 +545,14 @@
         },
         "score_components": {
           "source_weight": 15,
-          "recency": 17,
+          "recency": 16.9,
           "corroboration": 0,
           "entities": 0,
           "engagement": 6.4,
           "severity": 0,
           "coverage": 5
         },
-        "age_hours_at_score": 8.5,
+        "age_hours_at_score": 8.6,
         "engagement": {
           "metric": "hn_points",
           "value": 8,
@@ -561,7 +640,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 11.3,
+        "age_hours_at_score": 11.4,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -616,7 +695,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 12.6,
+        "age_hours_at_score": 12.7,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -671,7 +750,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 12.8,
+        "age_hours_at_score": 12.9,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -733,7 +812,7 @@
       "url": "https://techmeme.com/260926/p20",
       "published_at": "2026-09-27T03:20:01.000Z",
       "pillar": "attention",
-      "score": 43.3,
+      "score": 43.2,
       "entities": [
         "Anthropic",
         "OpenAI"
@@ -753,14 +832,14 @@
         },
         "score_components": {
           "source_weight": 17.5,
-          "recency": 15.3,
+          "recency": 15.2,
           "corroboration": 0,
           "entities": 6,
           "engagement": 0,
           "severity": 4.5,
           "coverage": 0
         },
-        "age_hours_at_score": 14,
+        "age_hours_at_score": 14.1,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -816,7 +895,7 @@
       "url": "https://techmeme.com/260926/p19",
       "published_at": "2026-09-27T03:15:01.000Z",
       "pillar": "attention",
-      "score": 35.8,
+      "score": 35.7,
       "entities": [
         "OpenAI"
       ],
@@ -834,14 +913,14 @@
         },
         "score_components": {
           "source_weight": 17.5,
-          "recency": 15.3,
+          "recency": 15.2,
           "corroboration": 0,
           "entities": 3,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 14.1,
+        "age_hours_at_score": 14.2,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -902,7 +981,7 @@
           "severity": 3.2,
           "coverage": 0
         },
-        "age_hours_at_score": 17,
+        "age_hours_at_score": 17.1,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -970,7 +1049,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 17.4,
+        "age_hours_at_score": 17.5,
         "engagement": {
           "metric": "hn_points",
           "value": 12,
@@ -1034,7 +1113,7 @@
           "severity": 4.5,
           "coverage": 0
         },
-        "age_hours_at_score": 18.1,
+        "age_hours_at_score": 18.2,
         "engagement": {
           "metric": "hn_points",
           "value": 9,
@@ -1106,7 +1185,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 18.4,
+        "age_hours_at_score": 18.5,
         "engagement": {
           "metric": "hn_points",
           "value": 33,
@@ -1165,7 +1244,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 21.5,
+        "age_hours_at_score": 21.6,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -1250,7 +1329,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 24.2,
+        "age_hours_at_score": 24.3,
         "engagement": {
           "metric": "hn_points",
           "value": 10,
@@ -1288,7 +1367,7 @@
       "url": "https://hughhowey.com/the-ai-bubble-explained",
       "published_at": "2026-09-26T15:55:36.000Z",
       "pillar": "attention",
-      "score": 35.5,
+      "score": 35.4,
       "entities": [],
       "meta": {
         "hn_id": "49857723",
@@ -1307,14 +1386,14 @@
         },
         "score_components": {
           "source_weight": 15,
-          "recency": 12.3,
+          "recency": 12.2,
           "corroboration": 0,
           "entities": 0,
           "engagement": 8.2,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 25.4,
+        "age_hours_at_score": 25.5,
         "engagement": {
           "metric": "hn_points",
           "value": 16,
@@ -1373,7 +1452,7 @@
           "severity": 4.5,
           "coverage": 0
         },
-        "age_hours_at_score": 26.9,
+        "age_hours_at_score": 27,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -1450,7 +1529,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 27.3,
+        "age_hours_at_score": 27.4,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -1505,7 +1584,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 27.7,
+        "age_hours_at_score": 27.8,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -1566,7 +1645,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 28.2,
+        "age_hours_at_score": 28.3,
         "engagement": {
           "metric": "hn_points",
           "value": 56,
@@ -1604,7 +1683,7 @@
       "url": "https://lemonde.fr/en/economy/article/2026/09/24/arthur-mensch-ceo-of-french-start-up-mistral-ai-ai-is-software-it-can-be-controlled_6757890_19.html",
       "published_at": "2026-09-26T12:52:04.000Z",
       "pillar": "attention",
-      "score": 42.8,
+      "score": 42.7,
       "entities": [
         "Mistral"
       ],
@@ -1627,14 +1706,14 @@
         },
         "score_components": {
           "source_weight": 15,
-          "recency": 11.6,
+          "recency": 11.5,
           "corroboration": 0,
           "entities": 3,
           "engagement": 13.2,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 28.5,
+        "age_hours_at_score": 28.6,
         "engagement": {
           "metric": "hn_points",
           "value": 96,
@@ -1698,7 +1777,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 31.2,
+        "age_hours_at_score": 31.3,
         "engagement": {
           "metric": "hn_points",
           "value": 178,
@@ -1762,7 +1841,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 32.5,
+        "age_hours_at_score": 32.6,
         "engagement": {
           "metric": "hn_points",
           "value": 9,
@@ -1825,7 +1904,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 34.8,
+        "age_hours_at_score": 34.9,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -1886,7 +1965,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 35.1,
+        "age_hours_at_score": 35.2,
         "engagement": {
           "metric": "hn_points",
           "value": 17,
@@ -1924,7 +2003,7 @@
       "url": "https://techmeme.com/260926/p5",
       "published_at": "2026-09-26T05:40:01.000Z",
       "pillar": "compute",
-      "score": 27.6,
+      "score": 27.5,
       "entities": [],
       "meta": {
         "feed": "https://www.techmeme.com/feed.xml",
@@ -1938,14 +2017,14 @@
         },
         "score_components": {
           "source_weight": 17.5,
-          "recency": 10.1,
+          "recency": 10,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 35.7,
+        "age_hours_at_score": 35.8,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -2008,7 +2087,7 @@
       "url": "https://f-secure.com/en/partners/insights/can-ai-shopping-agents-be-trusted-we-built-one-to-find-out",
       "published_at": "2026-09-26T05:36:46.000Z",
       "pillar": "attention",
-      "score": 33.1,
+      "score": 33,
       "entities": [],
       "meta": {
         "hn_id": "49853522",
@@ -2027,14 +2106,14 @@
         },
         "score_components": {
           "source_weight": 15,
-          "recency": 10.1,
+          "recency": 10,
           "corroboration": 0,
           "entities": 0,
           "engagement": 8,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 35.7,
+        "age_hours_at_score": 35.8,
         "engagement": {
           "metric": "hn_points",
           "value": 15,
@@ -2072,7 +2151,7 @@
       "url": "https://techmeme.com/260926/p3",
       "published_at": "2026-09-26T05:05:00.000Z",
       "pillar": "governance",
-      "score": 30.5,
+      "score": 30.4,
       "entities": [
         "Anthropic"
       ],
@@ -2090,14 +2169,14 @@
         },
         "score_components": {
           "source_weight": 17.5,
-          "recency": 10,
+          "recency": 9.9,
           "corroboration": 0,
           "entities": 3,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 36.2,
+        "age_hours_at_score": 36.3,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -2181,7 +2260,7 @@
           "severity": 9,
           "coverage": 0
         },
-        "age_hours_at_score": 37.2,
+        "age_hours_at_score": 37.3,
         "engagement": null,
         "corroboration": {
           "count": 2,
@@ -2268,7 +2347,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 41.3,
+        "age_hours_at_score": 41.4,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -2328,7 +2407,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 42.4,
+        "age_hours_at_score": 42.5,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -2389,7 +2468,7 @@
           "severity": 0,
           "coverage": 5
         },
-        "age_hours_at_score": 42.5,
+        "age_hours_at_score": 42.6,
         "engagement": {
           "metric": "hn_points",
           "value": 67,
@@ -2477,7 +2556,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 42.8,
+        "age_hours_at_score": 42.9,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -2512,7 +2591,7 @@
       "url": "https://github.com/anthropics/claude-code/releases/tag/v2.1.283",
       "published_at": "2026-09-25T21:50:12.000Z",
       "pillar": "capability",
-      "score": 30.5,
+      "score": 30.4,
       "entities": [
         "Claude"
       ],
@@ -2532,14 +2611,14 @@
         },
         "score_components": {
           "source_weight": 18.8,
-          "recency": 8.7,
+          "recency": 8.6,
           "corroboration": 0,
           "entities": 3,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 43.5,
+        "age_hours_at_score": 43.6,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -2561,7 +2640,8 @@
           "terms": [],
           "excluded": null
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -2605,7 +2685,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 43.7,
+        "age_hours_at_score": 43.8,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -2686,7 +2766,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 43.9,
+        "age_hours_at_score": 44,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -2772,7 +2852,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 43.9,
+        "age_hours_at_score": 44,
         "engagement": {
           "metric": "hn_points",
           "value": 11,
@@ -2810,7 +2890,7 @@
       "url": "https://bsky.app/profile/lebassett.bsky.social/post/3mwel345jr22s",
       "published_at": "2026-09-25T21:15:55.000Z",
       "pillar": "attention",
-      "score": 32.6,
+      "score": 32.5,
       "entities": [],
       "meta": {
         "hn_id": "49850042",
@@ -2829,14 +2909,14 @@
         },
         "score_components": {
           "source_weight": 15,
-          "recency": 8.6,
+          "recency": 8.5,
           "corroboration": 0,
           "entities": 0,
           "engagement": 9,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 44.1,
+        "age_hours_at_score": 44.2,
         "engagement": {
           "metric": "hn_points",
           "value": 21,
@@ -2903,7 +2983,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 44.1,
+        "age_hours_at_score": 44.2,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -2967,7 +3047,7 @@
           "severity": 9,
           "coverage": 0
         },
-        "age_hours_at_score": 44.3,
+        "age_hours_at_score": 44.4,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -3045,7 +3125,7 @@
       "url": "https://tai-dr.com",
       "published_at": "2026-09-25T20:37:56.000Z",
       "pillar": "attention",
-      "score": 37.2,
+      "score": 37.1,
       "entities": [],
       "meta": {
         "hn_id": "49849625",
@@ -3064,14 +3144,14 @@
         },
         "score_components": {
           "source_weight": 15,
-          "recency": 8.5,
+          "recency": 8.4,
           "corroboration": 0,
           "entities": 0,
           "engagement": 13.7,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 44.7,
+        "age_hours_at_score": 44.8,
         "engagement": {
           "metric": "hn_points",
           "value": 111,
@@ -3109,7 +3189,7 @@
       "url": "https://techmeme.com/260925/p18",
       "published_at": "2026-09-25T20:35:49.000Z",
       "pillar": "attention",
-      "score": 36.5,
+      "score": 36.4,
       "entities": [
         "Hugging Face",
         "OpenAI"
@@ -3129,14 +3209,14 @@
         },
         "score_components": {
           "source_weight": 17.5,
-          "recency": 8.5,
+          "recency": 8.4,
           "corroboration": 0,
           "entities": 6,
           "engagement": 0,
           "severity": 4.5,
           "coverage": 0
         },
-        "age_hours_at_score": 44.7,
+        "age_hours_at_score": 44.8,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -3224,7 +3304,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 45.1,
+        "age_hours_at_score": 45.2,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -3258,7 +3338,7 @@
       "url": "https://electrek.co/2026/09/25/geely-ai-fast-charging-heals-ev-batteries-pulse-restoration",
       "published_at": "2026-09-25T20:00:11.000Z",
       "pillar": "attention",
-      "score": 29.8,
+      "score": 29.7,
       "entities": [],
       "meta": {
         "hn_id": "49849171",
@@ -3277,14 +3357,14 @@
         },
         "score_components": {
           "source_weight": 15,
-          "recency": 8.4,
+          "recency": 8.3,
           "corroboration": 0,
           "entities": 0,
           "engagement": 6.4,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 45.3,
+        "age_hours_at_score": 45.4,
         "engagement": {
           "metric": "hn_points",
           "value": 8,
@@ -3348,7 +3428,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 45.4,
+        "age_hours_at_score": 45.5,
         "engagement": {
           "metric": "hn_points",
           "value": 8,
@@ -3412,7 +3492,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 46,
+        "age_hours_at_score": 46.1,
         "engagement": {
           "metric": "hn_points",
           "value": 32,
@@ -3476,7 +3556,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 46.1,
+        "age_hours_at_score": 46.2,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -3535,7 +3615,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 46.2,
+        "age_hours_at_score": 46.3,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -3594,7 +3674,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 46.3,
+        "age_hours_at_score": 46.4,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -3616,7 +3696,8 @@
           "terms": [],
           "excluded": null
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -3653,7 +3734,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 46.5,
+        "age_hours_at_score": 46.6,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -3719,7 +3800,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 47.4,
+        "age_hours_at_score": 47.5,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -3779,7 +3860,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 47.5,
+        "age_hours_at_score": 47.6,
         "engagement": {
           "metric": "hn_points",
           "value": 9,
@@ -3838,7 +3919,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 47.7,
+        "age_hours_at_score": 47.8,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -3905,7 +3986,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 48.2,
+        "age_hours_at_score": 48.3,
         "engagement": {
           "metric": "hn_points",
           "value": 13,
@@ -3969,7 +4050,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 48.5,
+        "age_hours_at_score": 48.6,
         "engagement": {
           "metric": "hn_points",
           "value": 56,
@@ -4007,7 +4088,7 @@
       "url": "https://theverge.com/ai-artificial-intelligence/1000784/meta-muse-filesystem",
       "published_at": "2026-09-25T16:49:53.000Z",
       "pillar": "attention",
-      "score": 21.7,
+      "score": 21.6,
       "entities": [],
       "meta": {
         "feed": "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml",
@@ -4025,14 +4106,14 @@
         },
         "score_components": {
           "source_weight": 13.8,
-          "recency": 7.9,
+          "recency": 7.8,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 48.5,
+        "age_hours_at_score": 48.6,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -4094,7 +4175,7 @@
           "severity": 0,
           "coverage": 5
         },
-        "age_hours_at_score": 49.4,
+        "age_hours_at_score": 49.5,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -4182,7 +4263,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 49.5,
+        "age_hours_at_score": 49.6,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -4241,7 +4322,7 @@
           "severity": 9,
           "coverage": 0
         },
-        "age_hours_at_score": 49.7,
+        "age_hours_at_score": 49.8,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -4323,7 +4404,7 @@
           "severity": 15,
           "coverage": 0
         },
-        "age_hours_at_score": 49.7,
+        "age_hours_at_score": 49.8,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -4400,7 +4481,7 @@
       "url": "https://washingtonsun.com/technology/classified-estimates-nsa-paying-billions-to-test-ai-models",
       "published_at": "2026-09-25T15:27:35.000Z",
       "pillar": "attention",
-      "score": 37.7,
+      "score": 37.6,
       "entities": [],
       "meta": {
         "hn_id": "49845952",
@@ -4419,14 +4500,14 @@
         },
         "score_components": {
           "source_weight": 15,
-          "recency": 7.7,
+          "recency": 7.6,
           "corroboration": 0,
           "entities": 0,
           "engagement": 15,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 49.9,
+        "age_hours_at_score": 50,
         "engagement": {
           "metric": "hn_points",
           "value": 177,
@@ -4487,7 +4568,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 50,
+        "age_hours_at_score": 50.1,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -4509,7 +4590,8 @@
           "terms": [],
           "excluded": null
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -4521,7 +4603,7 @@
       "url": "https://techmeme.com/260925/p8",
       "published_at": "2026-09-25T14:45:01.000Z",
       "pillar": "attention",
-      "score": 25.1,
+      "score": 25,
       "entities": [],
       "meta": {
         "feed": "https://www.techmeme.com/feed.xml",
@@ -4535,14 +4617,14 @@
         },
         "score_components": {
           "source_weight": 17.5,
-          "recency": 7.6,
+          "recency": 7.5,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 50.6,
+        "age_hours_at_score": 50.7,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -4603,7 +4685,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 50.9,
+        "age_hours_at_score": 51,
         "engagement": {
           "metric": "hn_points",
           "value": 15,
@@ -4641,7 +4723,7 @@
       "url": "https://bloomberg.com/news/articles/2026-09-25/microsoft-abandons-personal-ai-chatbot-race-with-copilot-reboot",
       "published_at": "2026-09-25T14:07:08.000Z",
       "pillar": "attention",
-      "score": 40.1,
+      "score": 40,
       "entities": [
         "Microsoft"
       ],
@@ -4664,14 +4746,14 @@
         },
         "score_components": {
           "source_weight": 15,
-          "recency": 7.5,
+          "recency": 7.4,
           "corroboration": 0,
           "entities": 3,
           "engagement": 14.6,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 51.2,
+        "age_hours_at_score": 51.3,
         "engagement": {
           "metric": "hn_points",
           "value": 153,
@@ -4730,7 +4812,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 51.5,
+        "age_hours_at_score": 51.6,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -4786,7 +4868,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 52.1,
+        "age_hours_at_score": 52.2,
         "engagement": {
           "metric": "hn_points",
           "value": 8,
@@ -4872,7 +4954,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 52.3,
+        "age_hours_at_score": 52.4,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -4931,7 +5013,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 53.1,
+        "age_hours_at_score": 53.2,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -4995,7 +5077,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 53.3,
+        "age_hours_at_score": 53.4,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -5029,7 +5111,7 @@
       "url": "https://techmeme.com/260925/p4",
       "published_at": "2026-09-25T11:15:01.000Z",
       "pillar": "compute",
-      "score": 24.6,
+      "score": 24.5,
       "entities": [],
       "meta": {
         "feed": "https://www.techmeme.com/feed.xml",
@@ -5043,14 +5125,14 @@
         },
         "score_components": {
           "source_weight": 17.5,
-          "recency": 7.1,
+          "recency": 7,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 54.1,
+        "age_hours_at_score": 54.2,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -5114,7 +5196,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 54.3,
+        "age_hours_at_score": 54.4,
         "engagement": {
           "metric": "hn_points",
           "value": 14,
@@ -5208,7 +5290,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 54.5,
+        "age_hours_at_score": 54.6,
         "engagement": {
           "metric": "hn_points",
           "value": 36,
@@ -5267,7 +5349,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 55.7,
+        "age_hours_at_score": 55.8,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -5332,7 +5414,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 58.8,
+        "age_hours_at_score": 58.9,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -5388,7 +5470,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 59.9,
+        "age_hours_at_score": 60,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -5423,7 +5505,7 @@
       "url": "https://techmeme.com/260924/p56",
       "published_at": "2026-09-25T03:15:01.000Z",
       "pillar": "compute",
-      "score": 23.6,
+      "score": 23.5,
       "entities": [],
       "meta": {
         "feed": "https://www.techmeme.com/feed.xml",
@@ -5437,14 +5519,14 @@
         },
         "score_components": {
           "source_weight": 17.5,
-          "recency": 6.1,
+          "recency": 6,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 62.1,
+        "age_hours_at_score": 62.2,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -5504,7 +5586,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 62.7,
+        "age_hours_at_score": 62.8,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -5565,7 +5647,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 62.7,
+        "age_hours_at_score": 62.8,
         "engagement": {
           "metric": "hn_points",
           "value": 128,
@@ -5644,7 +5726,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 63.2,
+        "age_hours_at_score": 63.3,
         "engagement": {
           "metric": "hn_points",
           "value": 16,
@@ -5703,7 +5785,7 @@
           "severity": 4.5,
           "coverage": 0
         },
-        "age_hours_at_score": 63.7,
+        "age_hours_at_score": 63.8,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -5779,7 +5861,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 64,
+        "age_hours_at_score": 64.1,
         "engagement": {
           "metric": "hn_points",
           "value": 8,
@@ -5838,7 +5920,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 64.2,
+        "age_hours_at_score": 64.3,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -5894,7 +5976,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 65.2,
+        "age_hours_at_score": 65.3,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -5952,7 +6034,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 65.3,
+        "age_hours_at_score": 65.4,
         "engagement": {
           "metric": "hf_upvotes",
           "value": 202,
@@ -5978,7 +6060,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -6013,7 +6096,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 65.3,
+        "age_hours_at_score": 65.4,
         "engagement": {
           "metric": "hf_upvotes",
           "value": 75,
@@ -6039,7 +6122,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -6081,7 +6165,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 65.3,
+        "age_hours_at_score": 65.4,
         "engagement": {
           "metric": "hf_upvotes",
           "value": 11,
@@ -6107,7 +6191,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -6146,7 +6231,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 65.3,
+        "age_hours_at_score": 65.4,
         "engagement": {
           "metric": "hf_upvotes",
           "value": 17,
@@ -6172,7 +6257,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -6207,7 +6293,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 65.3,
+        "age_hours_at_score": 65.4,
         "engagement": {
           "metric": "hf_upvotes",
           "value": 36,
@@ -6233,7 +6319,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -6268,7 +6355,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 65.3,
+        "age_hours_at_score": 65.4,
         "engagement": {
           "metric": "hf_upvotes",
           "value": 22,
@@ -6294,7 +6381,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -6329,7 +6417,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 65.3,
+        "age_hours_at_score": 65.4,
         "engagement": {
           "metric": "hf_upvotes",
           "value": 19,
@@ -6355,7 +6443,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -6394,7 +6483,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 65.3,
+        "age_hours_at_score": 65.4,
         "engagement": {
           "metric": "hf_upvotes",
           "value": 6,
@@ -6420,7 +6509,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -6455,7 +6545,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 65.3,
+        "age_hours_at_score": 65.4,
         "engagement": {
           "metric": "hf_upvotes",
           "value": 11,
@@ -6481,7 +6571,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -6516,7 +6607,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 65.3,
+        "age_hours_at_score": 65.4,
         "engagement": {
           "metric": "hf_upvotes",
           "value": 10,
@@ -6542,7 +6633,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -6577,7 +6669,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 65.3,
+        "age_hours_at_score": 65.4,
         "engagement": {
           "metric": "hf_upvotes",
           "value": 9,
@@ -6603,7 +6695,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -6638,7 +6731,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 65.3,
+        "age_hours_at_score": 65.4,
         "engagement": {
           "metric": "hf_upvotes",
           "value": 8,
@@ -6664,7 +6757,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -6699,7 +6793,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 65.3,
+        "age_hours_at_score": 65.4,
         "engagement": {
           "metric": "hf_upvotes",
           "value": 8,
@@ -6725,7 +6819,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -6760,7 +6855,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 65.3,
+        "age_hours_at_score": 65.4,
         "engagement": {
           "metric": "hf_upvotes",
           "value": 7,
@@ -6786,7 +6881,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -6821,7 +6917,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 65.3,
+        "age_hours_at_score": 65.4,
         "engagement": {
           "metric": "hf_upvotes",
           "value": 7,
@@ -6847,7 +6943,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -6882,7 +6979,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 65.3,
+        "age_hours_at_score": 65.4,
         "engagement": {
           "metric": "hf_upvotes",
           "value": 6,
@@ -6908,7 +7005,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -6943,7 +7041,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 65.3,
+        "age_hours_at_score": 65.4,
         "engagement": {
           "metric": "hf_upvotes",
           "value": 5,
@@ -6969,7 +7067,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -7004,7 +7103,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 65.3,
+        "age_hours_at_score": 65.4,
         "engagement": {
           "metric": "hf_upvotes",
           "value": 4,
@@ -7030,7 +7129,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -7065,7 +7165,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 65.3,
+        "age_hours_at_score": 65.4,
         "engagement": {
           "metric": "hf_upvotes",
           "value": 3,
@@ -7091,7 +7191,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -7126,7 +7227,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 65.3,
+        "age_hours_at_score": 65.4,
         "engagement": {
           "metric": "hf_upvotes",
           "value": 2,
@@ -7152,7 +7253,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -7190,7 +7292,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 65.7,
+        "age_hours_at_score": 65.8,
         "engagement": {
           "metric": "hn_points",
           "value": 15,
@@ -7254,7 +7356,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 65.7,
+        "age_hours_at_score": 65.8,
         "engagement": {
           "metric": "hn_points",
           "value": 10,
@@ -7318,7 +7420,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 66.5,
+        "age_hours_at_score": 66.6,
         "engagement": {
           "metric": "hn_points",
           "value": 9,
@@ -7356,7 +7458,7 @@
       "url": "https://techmeme.com/260924/p50",
       "published_at": "2026-09-24T22:45:00.000Z",
       "pillar": "attention",
-      "score": 26.1,
+      "score": 26,
       "entities": [
         "Anthropic"
       ],
@@ -7374,14 +7476,14 @@
         },
         "score_components": {
           "source_weight": 17.5,
-          "recency": 5.6,
+          "recency": 5.5,
           "corroboration": 0,
           "entities": 3,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 66.6,
+        "age_hours_at_score": 66.7,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -7441,7 +7543,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 68,
+        "age_hours_at_score": 68.1,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -7502,7 +7604,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 68.3,
+        "age_hours_at_score": 68.4,
         "engagement": {
           "metric": "hn_points",
           "value": 9,
@@ -7561,7 +7663,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 68.3,
+        "age_hours_at_score": 68.4,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -7632,7 +7734,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 68.3,
+        "age_hours_at_score": 68.4,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -7662,16 +7764,16 @@
       "source": "hn-ai",
       "kind": "forum",
       "title": "How I changed teaching after AI managed to do all my homework assignments",
-      "summary": "271 points, 261 comments on Hacker News.",
+      "summary": "271 points, 263 comments on Hacker News.",
       "url": "https://thelastsoftwareengineer.substack.com/p/how-i-changed-teaching-after-ai-managed",
       "published_at": "2026-09-24T20:51:50.000Z",
       "pillar": "attention",
-      "score": 36.6,
+      "score": 36.5,
       "entities": [],
       "meta": {
         "hn_id": "49836579",
         "points": 271,
-        "comments": 261,
+        "comments": 263,
         "discussion_url": "https://news.ycombinator.com/item?id=49836579",
         "window_hours": 72,
         "min_points": 8,
@@ -7685,14 +7787,14 @@
         },
         "score_components": {
           "source_weight": 15,
-          "recency": 5.4,
+          "recency": 5.3,
           "corroboration": 0,
           "entities": 0,
           "engagement": 16.2,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 68.5,
+        "age_hours_at_score": 68.6,
         "engagement": {
           "metric": "hn_points",
           "value": 271,
@@ -7730,7 +7832,7 @@
       "url": "https://zephclick.com",
       "published_at": "2026-09-24T20:51:25.000Z",
       "pillar": "attention",
-      "score": 27.6,
+      "score": 27.5,
       "entities": [],
       "meta": {
         "hn_id": "49836576",
@@ -7749,14 +7851,14 @@
         },
         "score_components": {
           "source_weight": 15,
-          "recency": 5.4,
+          "recency": 5.3,
           "corroboration": 0,
           "entities": 0,
           "engagement": 7.2,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 68.5,
+        "age_hours_at_score": 68.6,
         "engagement": {
           "metric": "hn_points",
           "value": 11,
@@ -7819,7 +7921,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 68.5,
+        "age_hours_at_score": 68.6,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -7916,7 +8018,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 68.7,
+        "age_hours_at_score": 68.8,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -7972,7 +8074,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 68.7,
+        "age_hours_at_score": 68.8,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -8033,7 +8135,7 @@
           "severity": 9,
           "coverage": 0
         },
-        "age_hours_at_score": 68.8,
+        "age_hours_at_score": 68.9,
         "engagement": {
           "metric": "hn_points",
           "value": 18,
@@ -8109,7 +8211,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 68.9,
+        "age_hours_at_score": 69,
         "engagement": {
           "metric": "hn_points",
           "value": 11,
@@ -8168,7 +8270,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 68.9,
+        "age_hours_at_score": 69,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -8224,7 +8326,7 @@
           "severity": 0,
           "coverage": 5
         },
-        "age_hours_at_score": 69.1,
+        "age_hours_at_score": 69.2,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -8310,7 +8412,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 69.3,
+        "age_hours_at_score": 69.4,
         "engagement": {
           "metric": "hn_points",
           "value": 13,
@@ -8377,7 +8479,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 69.3,
+        "age_hours_at_score": 69.4,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -8460,7 +8562,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 70.2,
+        "age_hours_at_score": 70.3,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -8522,7 +8624,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 70.7,
+        "age_hours_at_score": 70.8,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -8544,7 +8646,8 @@
           "terms": [],
           "excluded": null
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -8584,7 +8687,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 71,
+        "age_hours_at_score": 71.1,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -8650,7 +8753,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 71.2,
+        "age_hours_at_score": 71.3,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -8715,7 +8818,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 71.3,
+        "age_hours_at_score": 71.4,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -8737,7 +8840,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -8774,7 +8878,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 71.3,
+        "age_hours_at_score": 71.4,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -8796,7 +8900,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -8833,7 +8938,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 71.3,
+        "age_hours_at_score": 71.4,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -8855,7 +8960,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -8892,7 +8998,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 71.3,
+        "age_hours_at_score": 71.4,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -8914,7 +9020,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -8973,7 +9080,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -9010,7 +9118,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 71.4,
+        "age_hours_at_score": 71.5,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -9032,7 +9140,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -9069,7 +9178,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 71.4,
+        "age_hours_at_score": 71.5,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -9091,7 +9200,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -9103,7 +9213,7 @@
       "url": "https://arxiv.org/abs/2609.30238",
       "published_at": "2026-09-24T17:55:31.000Z",
       "pillar": "capability",
-      "score": 21.4,
+      "score": 21.3,
       "entities": [],
       "meta": {
         "arxiv_id": "2609.30238",
@@ -9121,14 +9231,14 @@
         },
         "score_components": {
           "source_weight": 16.3,
-          "recency": 5.1,
+          "recency": 5,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 71.4,
+        "age_hours_at_score": 71.5,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -9150,7 +9260,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -9162,7 +9273,7 @@
       "url": "https://arxiv.org/abs/2609.30233",
       "published_at": "2026-09-24T17:53:35.000Z",
       "pillar": "capability",
-      "score": 42.5,
+      "score": 42.4,
       "entities": [],
       "meta": {
         "arxiv_id": "2609.30233",
@@ -9180,14 +9291,14 @@
         },
         "score_components": {
           "source_weight": 16.3,
-          "recency": 5.1,
+          "recency": 5,
           "corroboration": 12.5,
           "entities": 0,
           "engagement": 8.6,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 71.4,
+        "age_hours_at_score": 71.5,
         "engagement": {
           "metric": "hf_upvotes",
           "value": 10,
@@ -9229,7 +9340,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -9241,7 +9353,7 @@
       "url": "https://theverge.com/games/999972/meta-horizon-create-studio-ai-games",
       "published_at": "2026-09-24T17:52:29.000Z",
       "pillar": "attention",
-      "score": 18.9,
+      "score": 18.8,
       "entities": [],
       "meta": {
         "feed": "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml",
@@ -9260,7 +9372,7 @@
         },
         "score_components": {
           "source_weight": 13.8,
-          "recency": 5.1,
+          "recency": 5,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
@@ -9314,7 +9426,8 @@
               ]
             }
           ]
-        }
+        },
+        "retained": true
       }
     },
     {
@@ -9326,7 +9439,7 @@
       "url": "https://arxiv.org/abs/2609.30227",
       "published_at": "2026-09-24T17:50:40.000Z",
       "pillar": "capability",
-      "score": 21.4,
+      "score": 21.3,
       "entities": [],
       "meta": {
         "arxiv_id": "2609.30227",
@@ -9344,14 +9457,14 @@
         },
         "score_components": {
           "source_weight": 16.3,
-          "recency": 5.1,
+          "recency": 5,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 71.5,
+        "age_hours_at_score": 71.6,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -9373,7 +9486,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -9410,7 +9524,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 71.5,
+        "age_hours_at_score": 71.6,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -9432,7 +9546,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -9469,7 +9584,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 71.5,
+        "age_hours_at_score": 71.6,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -9491,7 +9606,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -9528,7 +9644,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 71.5,
+        "age_hours_at_score": 71.6,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -9550,7 +9666,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -9587,7 +9704,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 71.5,
+        "age_hours_at_score": 71.6,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -9609,7 +9726,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -9668,7 +9786,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -9705,7 +9824,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 71.6,
+        "age_hours_at_score": 71.7,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -9727,7 +9846,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -9764,7 +9884,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 71.6,
+        "age_hours_at_score": 71.7,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -9786,7 +9906,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -9824,7 +9945,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 71.6,
+        "age_hours_at_score": 71.7,
         "engagement": {
           "metric": "hn_points",
           "value": 11,
@@ -9887,7 +10008,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 71.6,
+        "age_hours_at_score": 71.7,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -9909,7 +10030,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -9946,7 +10068,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 71.6,
+        "age_hours_at_score": 71.7,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -9968,7 +10090,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -10005,7 +10128,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 71.6,
+        "age_hours_at_score": 71.7,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -10027,7 +10150,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -10064,7 +10188,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 71.7,
+        "age_hours_at_score": 71.8,
         "engagement": {
           "metric": "hf_upvotes",
           "value": 12,
@@ -10106,7 +10230,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -10143,7 +10268,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 71.7,
+        "age_hours_at_score": 71.8,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -10165,7 +10290,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -10202,7 +10328,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 71.8,
+        "age_hours_at_score": 71.9,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -10224,7 +10350,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -10261,7 +10388,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 71.8,
+        "age_hours_at_score": 71.9,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -10283,7 +10410,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -10320,7 +10448,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 71.8,
+        "age_hours_at_score": 71.9,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -10342,7 +10470,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -10379,7 +10508,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 71.8,
+        "age_hours_at_score": 71.9,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -10401,7 +10530,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -10438,7 +10568,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 71.9,
+        "age_hours_at_score": 72,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -10460,7 +10590,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -10497,7 +10628,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 71.9,
+        "age_hours_at_score": 72,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -10519,7 +10650,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -10556,7 +10688,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 72,
+        "age_hours_at_score": 72.1,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -10578,7 +10710,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -10615,7 +10748,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 72,
+        "age_hours_at_score": 72.1,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -10637,7 +10770,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -10674,7 +10808,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 72.1,
+        "age_hours_at_score": 72.2,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -10696,7 +10830,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -10734,7 +10869,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 72.1,
+        "age_hours_at_score": 72.2,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -10794,7 +10929,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 72.1,
+        "age_hours_at_score": 72.2,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -10816,7 +10951,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -10853,7 +10989,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 72.1,
+        "age_hours_at_score": 72.2,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -10875,7 +11011,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -10912,7 +11049,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 72.1,
+        "age_hours_at_score": 72.2,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -10934,7 +11071,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -10972,7 +11110,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 72.1,
+        "age_hours_at_score": 72.2,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -11032,7 +11170,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 72.2,
+        "age_hours_at_score": 72.3,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -11054,7 +11192,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -11091,7 +11230,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 72.2,
+        "age_hours_at_score": 72.3,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -11113,7 +11252,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -11150,7 +11290,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 72.3,
+        "age_hours_at_score": 72.4,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -11172,7 +11312,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -11210,7 +11351,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 72.3,
+        "age_hours_at_score": 72.4,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -11292,7 +11433,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -11329,7 +11471,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 72.4,
+        "age_hours_at_score": 72.5,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -11351,7 +11493,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -11388,7 +11531,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 72.4,
+        "age_hours_at_score": 72.5,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -11410,7 +11553,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -11447,7 +11591,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 72.4,
+        "age_hours_at_score": 72.5,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -11507,7 +11651,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 72.5,
+        "age_hours_at_score": 72.6,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -11529,7 +11673,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -11566,7 +11711,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 72.5,
+        "age_hours_at_score": 72.6,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -11588,7 +11733,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -11625,7 +11771,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 72.6,
+        "age_hours_at_score": 72.7,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -11647,7 +11793,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -11685,7 +11832,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 72.6,
+        "age_hours_at_score": 72.7,
         "engagement": {
           "metric": "hn_points",
           "value": 11,
@@ -11749,7 +11896,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 72.7,
+        "age_hours_at_score": 72.8,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -11771,7 +11918,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -11808,7 +11956,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 72.7,
+        "age_hours_at_score": 72.8,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -11830,7 +11978,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -11867,7 +12016,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 72.7,
+        "age_hours_at_score": 72.8,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -11889,7 +12038,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -11926,7 +12076,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 72.7,
+        "age_hours_at_score": 72.8,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -11948,7 +12098,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -11985,7 +12136,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 72.8,
+        "age_hours_at_score": 72.9,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -12007,7 +12158,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -12044,7 +12196,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 72.8,
+        "age_hours_at_score": 72.9,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -12066,7 +12218,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -12103,7 +12256,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 72.8,
+        "age_hours_at_score": 72.9,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -12125,7 +12278,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -12162,7 +12316,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 72.8,
+        "age_hours_at_score": 72.9,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -12184,7 +12338,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -12221,7 +12376,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 72.9,
+        "age_hours_at_score": 73,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -12243,7 +12398,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -12280,7 +12436,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 72.9,
+        "age_hours_at_score": 73,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -12302,7 +12458,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -12339,7 +12496,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 72.9,
+        "age_hours_at_score": 73,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -12361,7 +12518,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -12396,7 +12554,7 @@
           "severity": 0,
           "coverage": 10
         },
-        "age_hours_at_score": 73,
+        "age_hours_at_score": 73.1,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -12445,7 +12603,8 @@
               ]
             }
           ]
-        }
+        },
+        "retained": true
       }
     },
     {
@@ -12482,7 +12641,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 73,
+        "age_hours_at_score": 73.1,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -12504,7 +12663,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -12602,7 +12762,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 73.1,
+        "age_hours_at_score": 73.2,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -12624,7 +12784,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -12661,7 +12822,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 73.1,
+        "age_hours_at_score": 73.2,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -12683,7 +12844,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -12720,7 +12882,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 73.1,
+        "age_hours_at_score": 73.2,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -12742,7 +12904,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -12779,7 +12942,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 73.1,
+        "age_hours_at_score": 73.2,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -12801,7 +12964,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -12838,7 +13002,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 73.1,
+        "age_hours_at_score": 73.2,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -12860,67 +13024,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
-      }
-    },
-    {
-      "id": "8d5fed31c6f60800",
-      "source": "techmeme",
-      "kind": "press",
-      "title": "Google is testing Call for Me, which lets Gemini call businesses on behalf of users, initially for Pixel 11 users with a Gemini subscription in the US (Sarah Perez/TechCrunch)",
-      "summary": "Sarah Perez / TechCrunch : Google is testing Call for Me, which lets Gemini call businesses on behalf of users, initially for Pixel 11 users with a Gemini subscription in the US — With AI agents like Meta's Muse and Instinct now able to make calls on users' behalf, Google is now letting Gemini call businesses with a…",
-      "url": "https://techmeme.com/260924/p34",
-      "published_at": "2026-09-24T16:10:01.000Z",
-      "pillar": "attention",
-      "score": 25.4,
-      "entities": [
-        "Gemini"
-      ],
-      "meta": {
-        "feed": "https://www.techmeme.com/feed.xml",
-        "locally_ai_filtered": true,
-        "rejected_off_topic": 6,
-        "source_weight": 0.7,
-        "pillar_reason": "source default",
-        "entity_kinds": {
-          "labs": [],
-          "models": [
-            "Gemini"
-          ]
-        },
-        "score_components": {
-          "source_weight": 17.5,
-          "recency": 4.9,
-          "corroboration": 0,
-          "entities": 3,
-          "engagement": 0,
-          "severity": 0,
-          "coverage": 0
-        },
-        "age_hours_at_score": 73.2,
-        "engagement": null,
-        "corroboration": {
-          "count": 1,
-          "sources": [
-            "techmeme"
-          ],
-          "first_source": "techmeme",
-          "first_seen_published_at": "2026-09-24T16:10:01.000Z",
-          "last_published_at": "2026-09-24T16:10:01.000Z",
-          "lead_minutes": 0,
-          "primary_published_at": "2026-09-24T16:10:01.000Z",
-          "also": []
-        },
-        "first_seen_at": "2026-09-24T17:19:40.073Z",
-        "retained": true,
-        "incident": {
-          "severity": 0,
-          "band": null,
-          "strong_signal": false,
-          "terms": [],
-          "excluded": null
-        },
-        "story": null
+        "story": null,
+        "retained": true
       }
     }
   ],
@@ -13330,8 +13435,8 @@
       "links": 8,
       "rejected": {
         "span": 0,
-        "entity_only": 25,
-        "near_miss": 32
+        "entity_only": 23,
+        "near_miss": 34
       }
     },
     "near_misses": [
@@ -13418,6 +13523,38 @@
         "severity_b": 0
       },
       {
+        "a": "1b4ba2f38e37bb41",
+        "b": "462516c61edb1369",
+        "a_title": "OpenAI agents tried to ‘bruteforce’ a UN website",
+        "b_title": "Sources: OpenAI, Anthropic, and researchers are probing tens of thousands of frontier model security incidents, including sandbox escapes and website hijacking (Madison Mills/Axios)",
+        "shared_words": [
+          "openai",
+          "websit"
+        ],
+        "non_entity_words": [
+          "websit"
+        ],
+        "reason": "2 shared words, and not both items are incidents",
+        "severity_a": 0.21,
+        "severity_b": 0.3
+      },
+      {
+        "a": "1b4ba2f38e37bb41",
+        "b": "617ecf0e1178257d",
+        "a_title": "OpenAI agents tried to ‘bruteforce’ a UN website",
+        "b_title": "Researchers: OpenAI's agents meddled with the US Commerce Dept. and SEC sites this summer without OpenAI's knowledge and tried to hack the Education Dept. site (New York Times)",
+        "shared_words": [
+          "openai",
+          "tri"
+        ],
+        "non_entity_words": [
+          "tri"
+        ],
+        "reason": "2 shared words, and not both items are incidents",
+        "severity_a": 0.21,
+        "severity_b": 0
+      },
+      {
         "a": "1ded1b44b4ce5f2c",
         "b": "5d837c6ff015c06a",
         "a_title": "OpenAI says the 53 images its agents uploaded were on \"image-hosting sites as links that weren't publicly listed\" and \"most\" of the images have been removed (@openai)",
@@ -13494,36 +13631,6 @@
         "reason": "2 shared words, and not both items are incidents",
         "severity_a": 0,
         "severity_b": 0
-      },
-      {
-        "a": "462516c61edb1369",
-        "b": "7c1066c43ba46365",
-        "a_title": "Sources: OpenAI, Anthropic, and researchers are probing tens of thousands of frontier model security incidents, including sandbox escapes and website hijacking (Madison Mills/Axios)",
-        "b_title": "The cheap new AI model taking aim at OpenAI and Anthropic",
-        "shared_words": [
-          "anthropic",
-          "openai"
-        ],
-        "non_entity_words": [],
-        "reason": "every shared word is a company, product or publication name",
-        "severity_a": 0.3,
-        "severity_b": 0
-      },
-      {
-        "a": "462516c61edb1369",
-        "b": "87f06a3005b78636",
-        "a_title": "Sources: OpenAI, Anthropic, and researchers are probing tens of thousands of frontier model security incidents, including sandbox escapes and website hijacking (Madison Mills/Axios)",
-        "b_title": "Researchers add details to the Hugging Face incident, including OpenAI agents creating ~1M shortened URLs to encode information in an attempt to solve CAPTCHAs (New York Times)",
-        "shared_words": [
-          "includ",
-          "openai"
-        ],
-        "non_entity_words": [
-          "includ"
-        ],
-        "reason": "2 shared words, and not both items are incidents",
-        "severity_a": 0.3,
-        "severity_b": 0.3
       }
     ]
   },
@@ -13539,8 +13646,8 @@
       "raw_items": 20,
       "newest_item_at": "2026-09-22T02:35:23.000Z",
       "error": null,
-      "ms": 587,
-      "fetched_at": "2026-09-27T17:19:35.251Z",
+      "ms": 181,
+      "fetched_at": "2026-09-27T17:25:15.141Z",
       "cadence_ms": 300000
     },
     {
@@ -13554,8 +13661,8 @@
       "raw_items": 20,
       "newest_item_at": "2026-09-25T21:36:20.000Z",
       "error": null,
-      "ms": 314,
-      "fetched_at": "2026-09-27T17:19:35.251Z",
+      "ms": 494,
+      "fetched_at": "2026-09-27T17:25:15.141Z",
       "cadence_ms": 300000
     },
     {
@@ -13571,7 +13678,8 @@
       "error": null,
       "ms": 472,
       "fetched_at": "2026-09-27T17:19:35.251Z",
-      "cadence_ms": 3600000
+      "cadence_ms": 3600000,
+      "skipped_this_run": true
     },
     {
       "id": "deepmind",
@@ -13586,7 +13694,8 @@
       "error": null,
       "ms": 315,
       "fetched_at": "2026-09-27T17:19:35.251Z",
-      "cadence_ms": 900000
+      "cadence_ms": 900000,
+      "skipped_this_run": true
     },
     {
       "id": "github-releases",
@@ -13601,7 +13710,8 @@
       "error": null,
       "ms": 672,
       "fetched_at": "2026-09-27T17:19:35.251Z",
-      "cadence_ms": 900000
+      "cadence_ms": 900000,
+      "skipped_this_run": true
     },
     {
       "id": "google-ai-blog",
@@ -13616,7 +13726,8 @@
       "error": null,
       "ms": 579,
       "fetched_at": "2026-09-27T17:19:35.251Z",
-      "cadence_ms": 900000
+      "cadence_ms": 900000,
+      "skipped_this_run": true
     },
     {
       "id": "hf-daily-papers",
@@ -13631,7 +13742,8 @@
       "error": null,
       "ms": 257,
       "fetched_at": "2026-09-27T17:19:35.251Z",
-      "cadence_ms": 3600000
+      "cadence_ms": 3600000,
+      "skipped_this_run": true
     },
     {
       "id": "hf-trending-models",
@@ -13646,7 +13758,8 @@
       "error": null,
       "ms": 237,
       "fetched_at": "2026-09-27T17:19:35.251Z",
-      "cadence_ms": 1800000
+      "cadence_ms": 1800000,
+      "skipped_this_run": true
     },
     {
       "id": "hn-ai",
@@ -13659,8 +13772,8 @@
       "raw_items": 46,
       "newest_item_at": "2026-09-27T16:29:38.000Z",
       "error": null,
-      "ms": 550,
-      "fetched_at": "2026-09-27T17:19:35.251Z",
+      "ms": 330,
+      "fetched_at": "2026-09-27T17:25:15.141Z",
       "cadence_ms": 300000
     },
     {
@@ -13676,7 +13789,8 @@
       "error": null,
       "ms": 291,
       "fetched_at": "2026-09-27T17:19:35.251Z",
-      "cadence_ms": 900000
+      "cadence_ms": 900000,
+      "skipped_this_run": true
     },
     {
       "id": "mistral",
@@ -13691,7 +13805,8 @@
       "error": null,
       "ms": 511,
       "fetched_at": "2026-09-27T17:19:35.251Z",
-      "cadence_ms": 900000
+      "cadence_ms": 900000,
+      "skipped_this_run": true
     },
     {
       "id": "mit-news-ai",
@@ -13704,8 +13819,8 @@
       "raw_items": 20,
       "newest_item_at": "2026-09-25T20:15:00.000Z",
       "error": null,
-      "ms": 329,
-      "fetched_at": "2026-09-27T17:19:35.251Z",
+      "ms": 154,
+      "fetched_at": "2026-09-27T17:25:15.141Z",
       "cadence_ms": 300000
     },
     {
@@ -13721,7 +13836,8 @@
       "error": null,
       "ms": 341,
       "fetched_at": "2026-09-27T17:19:35.251Z",
-      "cadence_ms": 900000
+      "cadence_ms": 900000,
+      "skipped_this_run": true
     },
     {
       "id": "qwen",
@@ -13736,7 +13852,8 @@
       "error": null,
       "ms": 399,
       "fetched_at": "2026-09-27T17:19:35.251Z",
-      "cadence_ms": 900000
+      "cadence_ms": 900000,
+      "skipped_this_run": true
     },
     {
       "id": "techmeme",
@@ -13749,8 +13866,8 @@
       "raw_items": 10,
       "newest_item_at": "2026-09-27T16:20:00.000Z",
       "error": null,
-      "ms": 731,
-      "fetched_at": "2026-09-27T17:19:35.251Z",
+      "ms": 166,
+      "fetched_at": "2026-09-27T17:25:15.141Z",
       "cadence_ms": 300000
     },
     {
@@ -13762,10 +13879,10 @@
       "state": "live",
       "count": 10,
       "raw_items": 10,
-      "newest_item_at": "2026-09-26T16:34:59.000Z",
+      "newest_item_at": "2026-09-27T17:21:07.000Z",
       "error": null,
-      "ms": 413,
-      "fetched_at": "2026-09-27T17:19:35.251Z",
+      "ms": 174,
+      "fetched_at": "2026-09-27T17:25:15.141Z",
       "cadence_ms": 300000
     }
   ]
