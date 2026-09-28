@@ -77,6 +77,25 @@ jobs:
             TICK=$((TICK + 1))
             START=$(date +%s)
 
+            # EVERY TICK BUILDS FROM THE NEWEST MAIN, not from the commit this
+            # job checked out when it started up to fifty minutes ago. Without
+            # this the loop republished its start-of-job copy of state.json and
+            # the templates over every newer deploy: measured 2026-09-28, the
+            # live headline read 39.2 as of 23:19 UTC while main held 39.6 as of
+            # 02:22, three hours and two full index passes later, and every
+            # template change pushed mid-hour was reverted within a minute.
+            # Everything is refreshed except the two files this loop owns and
+            # carries forward between ticks. WORKING TREE ONLY: `git checkout
+            # <commit> -- .` would also stage every refreshed file, and the
+            # hourly commit below would then carry a tick-old copy of main and
+            # conflict when it rebases onto the real one.
+            if git fetch -q --depth=1 origin main 2>/dev/null; then
+              git restore --source=FETCH_HEAD --worktree -- . ':(exclude)data/news.json' ':(exclude)data/x-surface.json' \
+                || echo "::warning::tick $TICK could not refresh from main; building from the previous tick's tree"
+            else
+              echo "::warning::tick $TICK could not fetch main; building from the previous tick's tree"
+            fi
+
             # Hash before/after. news.mjs rewrites the file every run (the
             # timestamp alone changes), so comparing the whole file would
             # publish every minute regardless. Compare the ITEMS only.
@@ -132,6 +151,11 @@ jobs:
           # Only the data files. public/ is rebuilt from them by whoever runs
           # next, and committing it here would collide with collect.yml.
           git checkout -- public 2>/dev/null || true
+          # The loop refreshed the working tree from main every tick. Put
+          # everything except the newsroom's own two files back to this job's
+          # HEAD, so the commit and the rebase below see exactly what they
+          # always saw: two data files changed, nothing else.
+          git restore --source=HEAD --worktree -- . ':(exclude)data/news.json' ':(exclude)data/x-surface.json' 2>/dev/null || true
           rm -rf .pages
           git add data/news.json data/x-surface.json 2>/dev/null || true
           if git diff --cached --quiet; then
