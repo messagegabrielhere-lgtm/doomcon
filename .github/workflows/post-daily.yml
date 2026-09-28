@@ -1,0 +1,169 @@
+# The daily post. One reading a day to X and Bluesky, sent by the pipeline.
+#
+# WHAT IT DOES. Checks out main, runs every posting guard's selftest, then runs
+# collector/post-daily.mjs: build today's slate with collector/posts.mjs, pick
+# the top post cleared for unattended posting, render its card in-process with
+# site/cardpng.mjs from the same data/ files, post it (X: the link-free `api`
+# variant plus the card; Bluesky: the `manual` variant with a link card), and
+# append one line per post to data/posted.ndjson. That file is then committed
+# back to main so tomorrow's run knows what today's did.
+#
+# WITHOUT SECRETS IT DOES NOTHING, AND STAYS GREEN. The job computes two
+# booleans from the secrets (never the values) and every step is gated on them.
+# A repo with no posting accounts runs one echo a day and exits 0. Secrets the
+# operator adds under Settings > Secrets and variables > Actions:
+#   X:       X_API_KEY  X_API_SECRET  X_ACCESS_TOKEN  X_ACCESS_SECRET
+#   Bluesky: BSKY_HANDLE  BSKY_APP_PASSWORD
+# docs/POSTING.md §6 has the steps that produce them.
+#
+# IT CANNOT BREAK THE SITE. It is its own workflow: it does not touch public/,
+# does not push gh-pages, is not in collect.yml's `doomcon-data` concurrency
+# group (GitHub keeps one pending run per group, so joining it could get a
+# post cancelled by a data run), and pages.yml only listens for `collect`. A
+# failed post turns THIS workflow red — deliberately, since it is a paid write
+# that did not happen — and nothing else.
+#
+# WHEN. 14:41 UTC, every day.
+#   - Three measured timing studies (Buffer 8.7M posts, Sprout ~2B engagements,
+#     OpenTweet 50K) converge on weekday mid-morning to afternoon local time; for
+#     a US-Eastern-weighted AI audience that is 13:00-16:00 UTC. The 02:00 UTC
+#     build lands in the worst window of the day (22:00-03:00 UTC).
+#   - :41 so the hourly full lane (cron :07, ~3 min, 25 max) has committed the
+#     14:07 reading first. post-daily refuses a reading older than 6 h anyway.
+#   - Every day, Saturdays included. The studies rate Saturday worst, but
+#     docs/POSTING.md §3 rule 1 makes the daily post compulsory: the calm days
+#     are what make the loud ones believable.
+#   GitHub starts scheduled runs 5-20 minutes late and the delay varies; the
+#   double-post guard (one post per channel per UTC day, never two inside 20 h)
+#   is built so that drift never skips a day and never doubles one.
+#
+# BY HAND. Actions > post-daily > Run workflow. `dry_run` defaults to TRUE: it
+# prints the exact requests, signed with X's published sample credentials, and
+# posts nothing — and that step never has the secrets in its environment.
+
+name: post-daily
+
+on:
+  schedule:
+    # Keep this string exactly as written; nothing matches on it, but the time
+    # is argued for above and a reformat should not move it by accident.
+    - cron: '41 14 * * *'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry run: print the exact requests, post nothing'
+        type: boolean
+        default: true
+      channel:
+        description: 'Which channel(s)'
+        type: choice
+        options: [all, x, bluesky]
+        default: all
+
+permissions:
+  contents: write   # to commit data/posted.ndjson back to main
+
+concurrency:
+  group: post-daily
+  cancel-in-progress: false
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      # Booleans derived from the secrets. The values themselves are only ever
+      # placed in the environment of the one step that posts.
+      HAS_X: ${{ secrets.X_API_KEY != '' && secrets.X_API_SECRET != '' && secrets.X_ACCESS_TOKEN != '' && secrets.X_ACCESS_SECRET != '' }}
+      HAS_BSKY: ${{ secrets.BSKY_HANDLE != '' && secrets.BSKY_APP_PASSWORD != '' }}
+      DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}
+      CHANNEL: ${{ inputs.channel || 'all' }}
+
+    steps:
+      - name: Nothing to post with
+        if: env.HAS_X != 'true' && env.HAS_BSKY != 'true' && env.DRY_RUN != 'true'
+        run: echo "No posting secrets are configured (docs/POSTING.md §6). Nothing to do; exiting green."
+
+      - name: Checkout
+        if: env.HAS_X == 'true' || env.HAS_BSKY == 'true' || env.DRY_RUN == 'true'
+        uses: actions/checkout@v4
+        with:
+          # Full history: the ledger commit rebases if a data run landed first.
+          fetch-depth: 0
+
+      - name: Set up Node 20
+        if: env.HAS_X == 'true' || env.HAS_BSKY == 'true' || env.DRY_RUN == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          # Zero dependencies (CONTRACT.md §1): nothing to install or cache.
+
+      - name: Selftest every posting guard
+        # Signing test vectors, the URL / future-tense / mention pre-flights,
+        # the double-post guard, the bio disclosure. If any fails, nothing posts.
+        if: env.HAS_X == 'true' || env.HAS_BSKY == 'true' || env.DRY_RUN == 'true'
+        run: node collector/post-daily.mjs --selftest
+
+      - name: Dry run
+        # No secrets in this step's environment at all.
+        if: env.DRY_RUN == 'true'
+        run: |
+          set -euo pipefail
+          ARGS=(--dry-run)
+          if [ "$CHANNEL" != "all" ]; then ARGS+=("--channel=$CHANNEL"); fi
+          node collector/post-daily.mjs "${ARGS[@]}"
+
+      - name: Post
+        id: post
+        if: env.DRY_RUN != 'true' && (env.HAS_X == 'true' || env.HAS_BSKY == 'true')
+        env:
+          X_API_KEY: ${{ secrets.X_API_KEY }}
+          X_API_SECRET: ${{ secrets.X_API_SECRET }}
+          X_ACCESS_TOKEN: ${{ secrets.X_ACCESS_TOKEN }}
+          X_ACCESS_SECRET: ${{ secrets.X_ACCESS_SECRET }}
+          BSKY_HANDLE: ${{ secrets.BSKY_HANDLE }}
+          BSKY_APP_PASSWORD: ${{ secrets.BSKY_APP_PASSWORD }}
+          # Not a secret: a repository VARIABLE, set only for a self-hosted PDS.
+          # Empty means https://bsky.social.
+          BSKY_SERVICE: ${{ vars.BSKY_SERVICE }}
+        run: |
+          set -euo pipefail
+          ARGS=()
+          if [ "$CHANNEL" != "all" ]; then ARGS+=("--channel=$CHANNEL"); fi
+          node collector/post-daily.mjs "${ARGS[@]}"
+
+      - name: Commit the post ledger
+        # always(): if X posted and Bluesky then failed, X's line must still
+        # reach main, or tomorrow's run cannot see today's post.
+        if: always() && env.DRY_RUN != 'true' && (env.HAS_X == 'true' || env.HAS_BSKY == 'true')
+        run: |
+          set -euo pipefail
+          if [ ! -f data/posted.ndjson ]; then echo 'no ledger yet; nothing to commit'; exit 0; fi
+          git config user.name  'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          # The ledger ONLY. Nothing else in the tree changed: the cards were
+          # rendered in memory, and public/ is not this workflow's to publish.
+          git add data/posted.ndjson
+          if git diff --cached --quiet; then echo 'ledger unchanged; nothing posted this run'; exit 0; fi
+          MSG="$(node --input-type=module -e '
+            import { readFileSync } from "node:fs";
+            const rows = readFileSync("data/posted.ndjson", "utf8").trim().split("\n").map((l) => JSON.parse(l));
+            const last = rows[rows.length - 1];
+            const day = last.posted_at.slice(0, 10);
+            const today = rows.filter((r) => r.posted_at.slice(0, 10) === day).map((r) => r.channel + " " + r.kind);
+            process.stdout.write("posted: " + today.join(", ") + " — " + last.posted_at.replace(/:\d\d\.\d+Z$/, "Z"));
+          ')"
+          git commit -q -m "$MSG"
+          # Append-only, and written by this workflow alone, so a rebase onto a
+          # data commit from collect.yml or news-fast.yml cannot conflict on it.
+          for attempt in 1 2 3; do
+            if git push origin HEAD:main; then exit 0; fi
+            echo "push rejected (attempt $attempt); rebasing onto the new tip"
+            git pull --rebase --quiet origin main || {
+              echo '::error::rebase of data/posted.ndjson failed. The post DID go out; resolve the ledger by hand before the next run.'
+              exit 1
+            }
+          done
+          echo '::error::could not push data/posted.ndjson after 3 attempts. The post DID go out. Append this line to data/posted.ndjson on main by hand before 14:41 UTC tomorrow:'
+          tail -n 1 data/posted.ndjson
+          exit 1

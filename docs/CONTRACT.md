@@ -11,11 +11,23 @@ here without changing it everywhere. Agents building in parallel rely on it.
    `docker run --rm -v "$PWD":/app -w /app node:20-alpine node <script>` —
    and GitHub Actions stays dependency-free and fast.
 2. **ES modules, `.mjs` extension** throughout.
-3. **No secrets anywhere.** There is no X API in v1. Posting is manual.
+3. **No secrets in the repository, and none required to build.** Posting was
+   manual in v1. Since 2026-09-28 `.github/workflows/post-daily.yml` can post one
+   reading a day to X and Bluesky, but only with credentials the operator adds as
+   GitHub Actions secrets. They reach the one step that posts and nothing else,
+   and with none configured the workflow is a green no-op. The site, the
+   collectors and every build must keep working with no secret present.
+   docs/POSTING.md §6 has the details.
 4. **Never `Math.random()` or unseeded time in output** beyond the explicit
    `generated_at` field. Output must be reproducible from inputs.
 5. **Every network call** goes through `collector/fetch.mjs` (timeout, retry,
    User-Agent, per-source error capture). Never call `fetch()` directly.
+   One exception, since 2026-09-28: the paid posting writes in
+   `collector/post-x.mjs` and `collector/post-bluesky.mjs` use a single-attempt
+   `sendOnce()` that carries fetch.mjs's User-Agent and error type. fetch.mjs
+   cannot send a request body, and its retries could post the same paid write
+   twice. Folding it back needs a `body` option and a no-retry switch in
+   fetch.mjs.
 
 ## Directory ownership
 

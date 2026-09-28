@@ -429,3 +429,217 @@ missing file removes its template from the slate and says so on stderr:
 
 That line is the design. A dark source produces no post, never a remembered
 number.
+
+---
+
+## 6. Automated posting
+
+Everything above assumes a human pastes from `/post-sheet.html`. None did, so
+the calm-day post that §3 calls compulsory never went out. `collector/post-daily.mjs`
+and `.github/workflows/post-daily.yml` now send the day's post themselves, once
+a day, to X and to Bluesky, **the moment the operator adds the credentials** —
+and do nothing at all, green, until then. This supersedes the "later" in the §1
+table: the `api` variant is now the one X receives.
+
+Nothing in this section was run against a live account. The signing, the text
+guards and the double-post ledger are proven by selftests with no network; the
+live request path is not, because no DOOMCON account exists yet (§6.9).
+
+### 6.1 What runs, and when
+
+| | |
+|---|---|
+| **When** | 14:41 UTC every day (`cron: '41 14 * * *'`). Three timing studies put the best window for a US-Eastern-weighted audience at 13:00–16:00 UTC; the 02:00 UTC build lands in the worst one. `:41` lets the hourly full lane (cron `:07`) commit its reading first. Saturdays too — §3 rule 1. |
+| **What** | `buildPosts()` from `collector/posts.mjs`, unchanged. The slate arrives ranked; the poster takes the highest-ranked post whose kind is cleared for unattended posting (below), that has not already run on that channel inside the 48-hour feed window, and that passes the channel's pre-flight. Escalation, de-escalation and milestone posts are never rotated away. If only one eligible post is left, it posts: the daily floor holds. |
+| **X** | The `api` variant — address spelled, no link. $0.015 instead of $0.200, and it ranks as a self-contained post, not an outbound click. |
+| **Bluesky** | The `manual` variant. The URL is made clickable with a link facet (Bluesky does not auto-link plain text) and the card rides in an `app.bsky.embed.external` link card. |
+| **Card** | Rendered in the same process by `site/cardpng.mjs`, from the same `data/` files as the text, so the image cannot disagree with the words. The race post carries `race.png`; everything else carries the index card `state.png`. **Not** `collector/cards/drought.png` for the drought post: that design counts D0 and printed 71.9% on 2026-09-28 while the post said 1,171 of 1,877 at D1 or worse (§2.2). |
+| **Ledger** | One line per post appended to `data/posted.ndjson`: channel, outcome, UTC time, slate id, kind, variant, the exact text and its sha256, the remote id and URL, the card's hash, and the `receipt_id` of the reading every number came from. The workflow commits it to `main`. Append-only; written by this workflow alone. |
+
+**Hand-only kinds.** `top-news`, `corroboration` and `developing` quote a
+third-party headline. They stay in the console for a human: they carry the most
+judgement of anything in the slate, the `news-portrait` card they prefer shows
+whichever headline `cardpng.mjs` picks rather than the one quoted, and the X
+use-case below — which X treats as binding — describes an index reading, not a
+news feed. Everything else (`escalation`, `deescalation`, `milestone`,
+`degraded`, `pillar-spike`, `drought`, `race`, `market-move`, `notable-input`,
+`weekly`, `daily`) is data this index computes. The list is `AUTO_KINDS` in
+`collector/post-daily.mjs`.
+
+**Do not hand-post the daily to the automated account.** The ledger only knows
+what the workflow sent. A hand-posted news item on the same day is allowed, and
+costs reach: the second post by one author in a window scores about 0.625 of the
+first in the open-source ranker.
+
+```sh
+# every guard, all three modules, no network, no credentials
+docker run --rm -v "$PWD":/app -w /app node:20-alpine node collector/post-daily.mjs --selftest
+
+# today's pick on each channel and the exact requests, signed with X's
+# published sample credentials. Reads no secret, sends nothing, writes nothing.
+docker run --rm -v "$PWD":/app -w /app node:20-alpine node collector/post-daily.mjs --dry-run
+```
+
+Live posting refuses to run outside GitHub Actions (a laptop's ledger is not the
+one CI reads) unless given `--live-local`.
+
+### 6.2 The guards, and what each one stops
+
+| guard | stops |
+|---|---|
+| One post per channel per UTC day, and never two inside 20 hours | A re-run, a manual dispatch, or a doubled schedule posting twice. The rule is two rules rather than "24 hours" because GitHub starts crons 5–20 minutes late and the delay varies: a literal 24-hour window refuses whenever today's run is less late than yesterday's, which is about every other day. |
+| Same text, or same slate id, never twice on a channel | Reposting an unchanged reading. |
+| Reading older than 6 hours, or dated in the future | Posting yesterday's number as today's because `collect` stalled. The workflow logs a warning and posts nothing. |
+| A ledger line that does not parse | Everything. It fails closed: an unreadable ledger cannot prove the account has not posted. |
+| `preflight()` / `preflightManual()` from `posts.mjs` | A URL in the X text, any future tense, a missing UTC stamp, over 280. The Bluesky text must carry exactly one URL, ours. |
+| No `@handle`, no `!`, no `BREAKING`, no emoji | Unsolicited mentions (X rejects them from self-serve apps since 2026-02-23) and the register §4.9 bans. |
+| Bluesky: 300 graphemes, 3,000 bytes, thumb ≤ 1,000,000 bytes | The lexicon limits. An oversize card posts without its thumb rather than failing. |
+| X: no retry on a paid write | A timeout after X accepted the post turning into two posts and two charges. |
+| X refuses duplicate text; Bluesky record key derived from the reading and the text | A double post if the ledger commit was lost. Both come back as `outcome: "duplicate"` and are recorded, not re-sent. |
+| Credentials only from the environment; redacted under `JSON.stringify` and `inspect`; dry runs never read them; the Bluesky account password refused on shape | A secret in a log or in the repo. |
+
+### 6.3 X — what the operator does
+
+Nothing here is done from a coding session, and no credential ever passes
+through one.
+
+1. **Create a new X account for DOOMCON.** The existing personal handle is all
+   replies and reposts and cannot carry this.
+2. **Bio.** Replace `HUMAN_HANDLE` with the human account that manages it:
+
+   ```text
+   Automated account managed by @HUMAN_HANDLE. One reading a day of the DOOMCON AI tempo index, from public data. Not a prediction.
+   ```
+
+3. **Automated label.** Signed in as DOOMCON: Settings > Your account > Account
+   information > Automation > Managing account, and choose the human account.
+   X describes the label as in testing; it may not render at once. The bio and
+   the managing-account link are the parts that can be guaranteed.
+4. **Developer app — created while signed in AS THE DOOMCON ACCOUNT**, at
+   `https://console.x.com`. Accept the Developer Agreement and Policy. Describe
+   the use case with exactly this text; X's policy makes the description
+   binding, so change it before changing what the account posts:
+
+   ```text
+   Automated account that publishes one scheduled, informational post a day: a reading of the DOOMCON AI activity index and its share card, computed from the project's own published data. No replies, no mentions, no likes, follows, reposts or quote posts, and no reading of other accounts' content.
+   ```
+
+   Creating the app under the human account instead means the console's tokens
+   belong to the human account, and the bot would need the OAuth 2.0 PKCE flow,
+   which this code does not implement.
+5. **User authentication settings:** app permissions **Read and write**, type
+   automated app / bot, callback URL and website URL both
+   `https://messagegabrielhere-lgtm.github.io/doomcon`.
+6. **Keys and tokens:** generate the API Key and Secret, then the Access Token
+   and Secret. **Generate (or regenerate) the Access Token after setting Read
+   and write** — a token minted before the change stays read-only and every
+   post fails with 403.
+7. **Credits.** Buy a small amount and set a spending limit (for example $5 per
+   billing cycle); leave auto-recharge off. Requests are refused at zero balance,
+   which is the safe failure.
+8. **Repository secrets** — Settings > Secrets and variables > Actions > New
+   repository secret, or `gh secret set NAME`, which prompts for the value and
+   keeps it out of shell history:
+
+   | secret | value from the console |
+   |---|---|
+   | `X_API_KEY` | API Key (consumer key) |
+   | `X_API_SECRET` | API Key Secret |
+   | `X_ACCESS_TOKEN` | Access Token |
+   | `X_ACCESS_SECRET` | Access Token Secret |
+
+9. **First run by hand.** Actions > post-daily > Run workflow, with `dry_run`
+   ticked: it prints the pick and the requests and posts nothing. Then run it
+   with `dry_run` unticked, or wait for 14:41 UTC.
+
+### 6.4 Bluesky — what the operator does
+
+1. **Create the account** at bsky.app (for example `doomcon.bsky.social`; a
+   domain handle can replace it later without breaking anything here).
+2. **Bio:**
+
+   ```text
+   Automated account managed by @HUMAN_HANDLE. One reading a day of the DOOMCON AI tempo index, from public data. Not a prediction. A human reads the replies.
+   ```
+
+3. **Bot label.** Bluesky's guidance is that automated accounts self-label as a
+   bot; the app has carried a setting for it since version 1.119 (2026-03-19).
+   Turn it on. (The exact menu path was not checked from this session.)
+4. **App password:** Settings > Privacy and security > App passwords > Add, named
+   `doomcon-ci`, without direct-message access. It is shown once. The poster
+   refuses anything not shaped like an app password (`xxxx-xxxx-xxxx-xxxx`), so
+   the account password cannot end up in CI by mistake.
+5. **Repository secrets:** `BSKY_HANDLE` (the handle, without the `@`) and
+   `BSKY_APP_PASSWORD`. Only for a self-hosted PDS, also set a repository
+   **variable** (not a secret) `BSKY_SERVICE` to its `https://` origin.
+
+The session is created and deleted on every run and never stored: the only
+place to store it would be the repo.
+
+### 6.5 What it costs
+
+X prices from `docs.x.com/x-api/getting-started/pricing`, 2026-09-27; 30.44
+days a month.
+
+| | per post | per month, one a day |
+|---|---|---|
+| X, link-free text only | $0.015 | **$0.46** |
+| X, link-free text + card (the card upload is metered as a post create, per X staff; it is not on the pricing table) | ~$0.030 | **~$0.91** |
+| X, if a URL were ever in the text | $0.200 + card | ~$6.55 — which is why X never gets the `manual` variant |
+| Bluesky | $0 | $0 |
+| GitHub Actions (public repo) | $0 | $0 |
+
+A failed request that X had already metered can still cost money; the
+spending limit is the cap on a bug.
+
+### 6.6 Compliance checklist
+
+Before the first live run, and again whenever the account's output changes:
+
+- [ ] X: Automated label on, managing account set to the human account.
+- [ ] X and Bluesky: bio says **Automated** and names the human who runs it (text above).
+- [ ] Bluesky: bot self-label on.
+- [ ] X developer app created under the DOOMCON account, with the use case above. Updated first if the account ever posts anything else.
+- [ ] No unsolicited mentions — enforced: any `@handle` in the text is refused.
+- [ ] No automated replies, likes, follows, reposts or quote posts — none is implemented, and self-serve apps lost like/follow/quote on 2026-04-20. Replying to people who reply stays a human's job (§3 rule 6); a reply to someone who mentioned the account is a "summoned" post, still by hand.
+- [ ] Opt-out requests honoured at once, by a human.
+- [ ] Official API only. No scraping, no browser automation (X-STRATEGY.md §6.1).
+- [ ] One post a day: far inside 100 per 15 minutes and the 50 original posts a day an unverified account is allowed.
+- [ ] One X account posts this copy. No second account, ever.
+- [ ] Spending limit set in the console.
+- [ ] Secrets exist only as GitHub Actions secrets. **`docs/CONTRACT.md` hard constraint 3 — "No secrets anywhere. There is no X API in v1. Posting is manual." — is now false and needs amending** to "secrets exist only as GitHub Actions secrets; every publisher is a no-op when its secret is absent". That file was not this change's to edit.
+
+### 6.7 Stopping it
+
+- **One channel:** delete its secrets. The next run skips it, green.
+- **Everything:** Actions > post-daily > ⋯ > Disable workflow.
+- **Compromise:** revoke the Bluesky app password; regenerate the X keys and
+  tokens in the console. Then replace the secrets.
+- **A wrong post:** delete it by hand, then post the correction with the same
+  prominence (§4, item 10). The ledger line stays: it is a record of what was
+  sent, not of what survived.
+
+### 6.8 CONTRACT.md §1.5, the one exception
+
+Every network call is supposed to go through `collector/fetch.mjs`. The two
+posters do not: `fetch.mjs` has no request-body option, and its policy of
+retrying 5xx and transport failures is exactly wrong for a paid write — a
+timeout after X accepted the post, retried, is a second post and a second
+charge. `sendOnce()` in `collector/post-x.mjs` makes one attempt, uses
+`fetch.mjs`'s User-Agent and `FetchError`, and should be replaced by `fetch.mjs`
+the day it grows a `body` and a no-retry switch.
+
+### 6.9 What is not verified
+
+- **No live call has been made.** Request shapes were read on 2026-09-27 from
+  `docs.x.com` (create post, media upload) and from the AT Protocol lexicons.
+  The OAuth 1.0a signature reproduces RFC 5849 §1.2 and X's own worked example
+  byte for byte, which proves the signing and nothing about the account.
+- The card upload being billed as a post create is an X staff statement, not
+  the pricing table.
+- The error Bluesky returns for an existing record key is matched loosely
+  (`already exists`); its exact wording was not observed.
+- Whether a Bluesky PDS accepts a record key whose timestamp is the reading
+  time rather than the send time (hours earlier) was not observed. The key is
+  syntactically a valid TID.
+- The X Automated label is still described by X as in testing.
