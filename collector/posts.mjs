@@ -838,10 +838,15 @@ function dailyPost(c) {
   const tally = sourceTally(state);
   const score = fmt1(state.score);
   const d = deltaClause(delta);
+  // "on a scale where 1 is loudest" in every phrasing. The levels count DOWN
+  // toward louder, and a stranger who meets "DOOMCON 4" in a feed with no page
+  // around it reads four-fifths of the way to something. The homepage headline
+  // and the share card already say it; the post the card rides on now does too.
+  const scale = 'on a scale where 1 is loudest';
   const lead = c.say('daily', [
-    `DOOMCON ${state.level}, ${lvl.name}. Composite ${score} of 100${d}, as of ${prettyStamp(state.generated_at)}.`,
-    `The AI tempo index reads ${score} of 100 as of ${prettyStamp(state.generated_at)}. DOOMCON ${state.level}, ${lvl.name}${d}.`,
-    `${prettyDate(state.generated_at)}, ${utcClock(state.generated_at)}. Composite ${score} of 100${d}. DOOMCON ${state.level}, ${lvl.name}.`,
+    `DOOMCON ${state.level}, ${lvl.name}, ${scale}. Composite ${score} of 100${d}, as of ${prettyStamp(state.generated_at)}.`,
+    `The AI tempo index reads ${score} of 100${d}, as of ${prettyStamp(state.generated_at)}. DOOMCON ${state.level}, ${lvl.name}, ${scale}.`,
+    `${prettyDate(state.generated_at)}, ${utcClock(state.generated_at)}. Composite ${score} of 100${d}. DOOMCON ${state.level}, ${lvl.name}, ${scale}.`,
   ]);
   return post(c, {
     kind: 'daily',
@@ -850,7 +855,9 @@ function dailyPost(c) {
     rationale: 'Fires every day at every level. The calm days are what make the loud ones believable.',
     lines: [
       R(lead),
-      loud ? O(`${PILLAR_PROSE[loud.id]} is the loudest of the five pillars at ${fmt1(loud.score)}.`) : null,
+      // "leads", not "is the loudest": the lead line now says "1 is loudest" and
+      // the same word twice in 250 characters reads as a template.
+      loud ? O(`${PILLAR_PROSE[loud.id]} leads the five pillars at ${fmt1(loud.score)}.`) : null,
       tally ? O(`${tally.ok} of ${tally.total} sources reporting${tally.uncalibrated ? `, ${tally.uncalibrated} awaiting a frozen baseline` : ''}.`) : null,
       R(`Arithmetic at ${spoken}.`),
     ],
