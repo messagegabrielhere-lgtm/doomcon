@@ -1,10 +1,10 @@
 {
   "schema": 1,
-  "generated_at": "2026-09-29T20:24:20.396Z",
-  "news_generated_at": "2026-09-29T20:24:20.396Z",
+  "generated_at": "2026-09-29T21:22:42.879Z",
+  "news_generated_at": "2026-09-29T21:22:42.879Z",
   "matcher_version": "1.0.0",
   "window_days": 7,
-  "window_start": "2026-09-22T20:24:20.396Z",
+  "window_start": "2026-09-22T21:22:42.879Z",
   "rule": {
     "headline_only": true,
     "statement": "Only the headline is ever reproduced, exactly as the publication printed it. No quotation is generated, paraphrased, summarised or reconstructed anywhere in this file.",
@@ -132,23 +132,25 @@
     "scanned": 200,
     "max_items": 200,
     "window_binds": true,
-    "oldest_item_at": "2026-09-28T17:59:09.000Z",
-    "newest_item_at": "2026-09-29T20:15:07.000Z",
+    "oldest_item_at": "2026-09-28T17:59:53.000Z",
+    "newest_item_at": "2026-09-29T21:15:01.000Z",
     "named_without_cue": 0
   },
   "cross_check": {
     "source": "data/race.json",
     "present": true,
-    "race_generated_at": "2026-09-29T20:24:22.506Z",
+    "race_generated_at": "2026-09-29T21:22:44.051Z",
     "players_matched": 7,
-    "wire_fills_gap": []
+    "wire_fills_gap": [
+      "zuckerberg"
+    ]
   },
   "totals": {
     "leaders": 15,
-    "on_record": 1,
-    "no_line": 14,
-    "lines": 1,
-    "distinct_items": 1
+    "on_record": 2,
+    "no_line": 13,
+    "lines": 2,
+    "distinct_items": 2
   },
   "leaders": [
     {
@@ -275,11 +277,57 @@
         "Zuckerberg",
         "Zuck"
       ],
-      "state": "no_line",
-      "count": 0,
-      "sources": [],
-      "latest": null,
-      "lines": [],
+      "state": "on_record",
+      "count": 1,
+      "sources": [
+        "techmeme"
+      ],
+      "latest": {
+        "item_id": "7d972cded5ab6543",
+        "headline": "Mark Zuckerberg says the voluntary \"accord\" on AI standards that tech executives agreed to includes internal risk reviews and external auditors (Axios)",
+        "source": "techmeme",
+        "kind": "press",
+        "url": "https://techmeme.com/260929/p48",
+        "published_at": "2026-09-29T21:15:01.000Z",
+        "score": 37.5,
+        "pillar": "attention",
+        "matched_alias": "Mark Zuckerberg",
+        "cue": "says",
+        "cue_group": "core",
+        "cue_class": "verb",
+        "cue_text": "says",
+        "cues": [
+          "says"
+        ],
+        "corroboration": 1,
+        "also_sources": [
+          "techmeme"
+        ]
+      },
+      "lines": [
+        {
+          "item_id": "7d972cded5ab6543",
+          "headline": "Mark Zuckerberg says the voluntary \"accord\" on AI standards that tech executives agreed to includes internal risk reviews and external auditors (Axios)",
+          "source": "techmeme",
+          "kind": "press",
+          "url": "https://techmeme.com/260929/p48",
+          "published_at": "2026-09-29T21:15:01.000Z",
+          "score": 37.5,
+          "pillar": "attention",
+          "matched_alias": "Mark Zuckerberg",
+          "cue": "says",
+          "cue_group": "core",
+          "cue_class": "verb",
+          "cue_text": "says",
+          "cues": [
+            "says"
+          ],
+          "corroboration": 1,
+          "also_sources": [
+            "techmeme"
+          ]
+        }
+      ],
       "watch_floor": {
         "tracked": true,
         "player_id": "meta",
@@ -288,8 +336,8 @@
         "reason": "Posts on Facebook and Instagram, neither of which exposes a free per-person feed at any documented path.",
         "feed": null,
         "posts_30d": null,
-        "verdict": "both_quiet",
-        "note": "The watch floor reads no feed and no headline in this window named Mark Zuckerberg beside a speech cue. Two separate silences, neither imputed from the other."
+        "verdict": "wire_fills_gap",
+        "note": "The watch floor reads no feed for Mark Zuckerberg and that reading stands: it is about feeds we can fetch. The one line on the wire came from the press instead — techmeme — and links to the publication that printed it."
       }
     },
     {
@@ -315,7 +363,7 @@
         "kind": "press",
         "url": "https://techmeme.com/260929/p9",
         "published_at": "2026-09-29T10:10:31.000Z",
-        "score": 33.9,
+        "score": 33.6,
         "pillar": "governance",
         "matched_alias": "Jensen Huang",
         "cue": "saying",
@@ -339,7 +387,7 @@
           "kind": "press",
           "url": "https://techmeme.com/260929/p9",
           "published_at": "2026-09-29T10:10:31.000Z",
-          "score": 33.9,
+          "score": 33.6,
           "pillar": "governance",
           "matched_alias": "Jensen Huang",
           "cue": "saying",
