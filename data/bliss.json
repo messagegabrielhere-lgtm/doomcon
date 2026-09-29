@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "index": "BLISS",
-  "generated_at": "2026-09-29T16:26:18.970Z",
+  "generated_at": "2026-09-29T17:23:03.639Z",
   "score": null,
   "level": null,
   "level_name": null,
@@ -9,12 +9,13 @@
   "level_since": "2026-09-24T03:08:24.487Z",
   "delta_from_previous": null,
   "posture": "awaiting-baseline",
-  "degraded": false,
+  "degraded": true,
   "awaiting_baseline": true,
   "reference_present": false,
-  "dark_pillars": [],
+  "dark_pillars": [
+    "science"
+  ],
   "uncalibrated_pillars": [
-    "science",
     "medicine",
     "access",
     "adoption",
@@ -22,7 +23,6 @@
   ],
   "uncalibrated_sources": [
     "arxiv-science-ai",
-    "openalex-ai-science",
     "clinicaltrials-ai",
     "pubmed-ai-clinical",
     "hf-permissive-models",
@@ -32,8 +32,10 @@
     "epoch-open-weights",
     "github-permissive-ai"
   ],
-  "failed_sources": [],
-  "sources_reporting": 10,
+  "failed_sources": [
+    "openalex-ai-science"
+  ],
+  "sources_reporting": 9,
   "sources_total": 10,
   "rule_fired": "no_live_pillars",
   "decision": null,
@@ -102,8 +104,8 @@
       "percentile": null,
       "sources_ok": 0,
       "sources_total": 2,
-      "dark": false,
-      "uncalibrated": true,
+      "dark": true,
+      "uncalibrated": false,
       "blurb": "AI methods showing up in other people’s fields.",
       "description": "Papers outside computer science whose method is a model: structural biology, materials, chemistry, numerical analysis. Not the field talking about itself — the field being used by somebody solving a different problem."
     },
@@ -164,18 +166,18 @@
       "ok": false,
       "uncalibrated": true,
       "error": "awaiting_baseline: \"arxiv-science-ai\" has no entry in data/bliss-reference.json yet, so it is collected and published but not scored",
-      "value": 77,
+      "value": 76,
       "unit": "papers/7d",
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-09-29T16:26:18.981Z",
+      "observed_at": "2026-09-29T17:23:03.657Z",
       "age_seconds": 0,
-      "last_ok": "2026-09-29T16:26:18.981Z",
+      "last_ok": "2026-09-29T17:23:03.657Z",
       "meta": {
         "window_days": 7,
-        "window_from": "202609221626",
-        "window_to": "202609291626",
+        "window_from": "202609221723",
+        "window_to": "202609291723",
         "categories": [
           "q-bio.BM",
           "q-bio.QM",
@@ -200,23 +202,17 @@
       "pillar": "science",
       "label": "OpenAlex AI-in-science articles",
       "ok": false,
-      "uncalibrated": true,
-      "error": "awaiting_baseline: \"openalex-ai-science\" has no entry in data/bliss-reference.json yet, so it is collected and published but not scored",
-      "value": 93,
-      "unit": "works/30d",
+      "uncalibrated": false,
+      "error": "HTTP 503 Service Unavailable from https://api.openalex.org/works?filter=from_publication_date:2026-08-30,to_publication_date:2026-09-29,type:article,title_and_abstract.search:(machine%20learning%20OR%20deep%20learning)%20AND%20(protein%20structure%20OR%20materials%20discovery)&per-page=1 — {\"error\":\"Search temporarily unavailable\",\"message\":\"Anonymous search is paused while the search cluster recovers from heavy load. Please retry shortly, or use a free API key for uninterrupted access: https://openalex.org/rest-api.\"}",
+      "value": null,
+      "unit": null,
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-09-29T16:26:18.981Z",
-      "age_seconds": 0,
+      "observed_at": null,
+      "age_seconds": null,
       "last_ok": "2026-09-29T16:26:18.981Z",
-      "meta": {
-        "window_days": 30,
-        "window_from": "2026-08-30",
-        "window_to": "2026-09-29",
-        "search": "(machine learning OR deep learning) AND (protein structure OR materials discovery)",
-        "boolean_operators": 3
-      }
+      "meta": {}
     },
     {
       "id": "clinicaltrials-ai",
@@ -230,9 +226,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-09-29T16:26:18.981Z",
+      "observed_at": "2026-09-29T17:23:03.658Z",
       "age_seconds": 0,
-      "last_ok": "2026-09-29T16:26:18.981Z",
+      "last_ok": "2026-09-29T17:23:03.658Z",
       "meta": {
         "window_days": 180,
         "start_date_from": "2026-04-02",
@@ -251,14 +247,14 @@
       "ok": false,
       "uncalibrated": true,
       "error": "awaiting_baseline: \"pubmed-ai-clinical\" has no entry in data/bliss-reference.json yet, so it is collected and published but not scored",
-      "value": 1978,
+      "value": 2009,
       "unit": "records/30d",
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-09-29T16:26:18.981Z",
+      "observed_at": "2026-09-29T17:23:03.659Z",
       "age_seconds": 0,
-      "last_ok": "2026-09-29T16:26:18.981Z",
+      "last_ok": "2026-09-29T17:23:03.659Z",
       "meta": {
         "window_days": 30,
         "edat_from": "2026/08/30",
@@ -284,14 +280,14 @@
       "ok": false,
       "uncalibrated": true,
       "error": "awaiting_baseline: \"hf-permissive-models\" has no entry in data/bliss-reference.json yet, so it is collected and published but not scored",
-      "value": 1526,
+      "value": 1498,
       "unit": "models/24h",
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-09-29T16:26:18.982Z",
+      "observed_at": "2026-09-29T17:23:03.659Z",
       "age_seconds": 0,
-      "last_ok": "2026-09-29T16:26:18.982Z",
+      "last_ok": "2026-09-29T17:23:03.659Z",
       "meta": {
         "window_hours": 24,
         "licences": [
@@ -299,8 +295,8 @@
           "mit"
         ],
         "per_licence": {
-          "apache-2.0": 870,
-          "mit": 656
+          "apache-2.0": 845,
+          "mit": 653
         },
         "pages_fetched": 2,
         "page_size": 1000
@@ -318,9 +314,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-09-29T16:26:18.982Z",
+      "observed_at": "2026-09-29T17:23:03.659Z",
       "age_seconds": 0,
-      "last_ok": "2026-09-29T16:26:18.982Z",
+      "last_ok": "2026-09-29T17:23:03.659Z",
       "meta": {
         "percentile": 0.1,
         "usd_per_million_tokens": 0.12,
@@ -334,7 +330,7 @@
         "priced_models": 434,
         "free_models": 20,
         "cheapest_usd_per_million": 0.02175,
-        "median_usd_per_million": 0.93
+        "median_usd_per_million": 0.95
       }
     },
     {
@@ -349,9 +345,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-09-29T16:26:18.982Z",
+      "observed_at": "2026-09-29T17:23:03.659Z",
       "age_seconds": 0,
-      "last_ok": "2026-09-29T16:26:18.982Z",
+      "last_ok": "2026-09-29T17:23:03.659Z",
       "meta": {
         "basket": [
           "sentence-transformers/all-MiniLM-L6-v2",
@@ -389,9 +385,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-09-29T16:26:18.982Z",
+      "observed_at": "2026-09-29T17:23:03.659Z",
       "age_seconds": 0,
-      "last_ok": "2026-09-29T16:26:18.982Z",
+      "last_ok": "2026-09-29T17:23:03.659Z",
       "meta": {
         "basket": [
           "openai",
@@ -431,9 +427,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-09-29T16:26:18.982Z",
+      "observed_at": "2026-09-29T17:23:03.659Z",
       "age_seconds": 0,
-      "last_ok": "2026-09-29T16:26:18.982Z",
+      "last_ok": "2026-09-29T17:23:03.659Z",
       "meta": {
         "window_days": 365,
         "open_weight_models": 44,
@@ -462,14 +458,14 @@
       "ok": false,
       "uncalibrated": true,
       "error": "awaiting_baseline: \"github-permissive-ai\" has no entry in data/bliss-reference.json yet, so it is collected and published but not scored",
-      "value": 241,
+      "value": 243,
       "unit": "repos/30d",
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-09-29T16:26:18.982Z",
+      "observed_at": "2026-09-29T17:23:03.660Z",
       "age_seconds": 0,
-      "last_ok": "2026-09-29T16:26:18.982Z",
+      "last_ok": "2026-09-29T17:23:03.660Z",
       "meta": {
         "window_days": 30,
         "created_from": "2026-08-30",
@@ -488,10 +484,10 @@
       "level_name": null
     },
     "doomcon": {
-      "score": 52.0547,
+      "score": 51.9454,
       "level": 4,
       "level_name": "ROUTINE",
-      "generated_at": "2026-09-29T16:25:59.671Z"
+      "generated_at": "2026-09-29T17:22:48.303Z"
     },
     "divergence": null,
     "divergence_band": 3,
