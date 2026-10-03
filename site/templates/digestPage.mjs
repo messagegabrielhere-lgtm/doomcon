@@ -831,7 +831,16 @@ const dgCss = `
    scroll, and overscroll-behavior-x:contain stops a horizontal swipe on a
    table chaining into the browser's back gesture - the same pairing
    styles.mjs already uses for its own scrollers. */
-.dg__scroll { overflow-x: auto; overscroll-behavior-x: contain; -webkit-overflow-scrolling: touch; margin: 0 0 var(--s-3); }
+/* position:relative is load-bearing here, not a style choice. Measured
+   2026-10-03 at 375px: this page reported scrollWidth 383 against clientWidth
+   375. span.vh "Direction" in the thead is position:absolute, and with every
+   ancestor static it resolved against the initial containing block rather than
+   this box - so it sat at left:383px and widened the DOCUMENT. The
+   overflow-x:auto below never clipped it, because a scroller only clips what it
+   is the containing block FOR. Same bug and same one-property fix as .rail__in
+   in styles.mjs and .flk__tw in flockPage.mjs. There is no overflow-x:clip on
+   html any more to hide the next one, which is why it is stated here. */
+.dg__scroll { position: relative; overflow-x: auto; overscroll-behavior-x: contain; -webkit-overflow-scrolling: touch; margin: 0 0 var(--s-3); }
 .dg__t { width: 100%; border-collapse: collapse; font-size: var(--t-sm); }
 .dg__t th, .dg__t td { text-align: left; padding: 7px 10px 7px 0; border-bottom: 1px solid var(--rule-soft); vertical-align: baseline; white-space: nowrap; }
 .dg__t thead th { font-family: var(--mono); font-size: var(--t-2xs); letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); font-weight: 500; border-bottom-color: var(--rule); }
