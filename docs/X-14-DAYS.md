@@ -13,7 +13,7 @@ Written 2026-10-03 for @DoomConin0, a zero-follower account posted by hand.
 - Do not drop the number under large accounts (`VIRAL.md` §6).
 - A level change pre-empts any day and goes out within 90 minutes, using the escalation or de-escalation template.
 - Never paste "Early warning bulletin" into a post: "warning" is on the pre-flight's banned list.
-- Refresh every number and stamp from the data files on the day. Run the text through `/post-sheet.html` or `collector/posts.mjs` pre-flight before posting.
+- Refresh every number and stamp from the data files on the day. Generate the day's text with `collector/posts.mjs --variant=manual` (`docs/POSTING.md` §5); it runs the pre-flight for you.
 
 ## Schedule
 
@@ -21,7 +21,7 @@ Written 2026-10-03 for @DoomConin0, a zero-follower account posted by hand.
 |---|---|---|
 | Sun 4 | Draft 1, pinned | `/` |
 | Mon 5 | Draft 5 (race) | `/race.html` |
-| Tue 6 | Daily from `/post-sheet.html` | `/` |
+| Tue 6 | Daily from `collector/posts.mjs --variant=manual` | `/` |
 | Wed 7 | Draft 6 (Flock) | `/flock/` |
 | Thu 8 | Drought from the slate (D1 or worse only) | `/map.html` |
 | Fri 9 | Draft 3 (loudest pillar) | `/methodology.html` |
