@@ -9,7 +9,7 @@ Everything below fits Apple's character limits.
 | Name (30 max) | Unlisted: Remove My Info |
 | Backup names if taken | Unlisted Family Privacy · Unlisted: Opt Out & Protect |
 | Subtitle (30 max) | Erase your family from the web |
-| Bundle ID | app.unlisted.ios |
+| Bundle ID | com.messagegabrielhere.unlisted |
 | SKU | unlisted-ios-001 |
 | Primary category | Utilities |
 | Secondary category | Lifestyle |

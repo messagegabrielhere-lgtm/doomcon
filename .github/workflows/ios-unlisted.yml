@@ -112,7 +112,7 @@ jobs:
           mkdir -p AppStore/screenshots
           names=(1-home 2-scan 3-remove 4-letters 5-protect)
           for tab in 0 1 2 3 4; do
-            xcrun simctl launch --terminate-running-process "$UDID" app.unlisted.ios -demo -tab "$tab"
+            xcrun simctl launch --terminate-running-process "$UDID" com.messagegabrielhere.unlisted -demo -tab "$tab"
             sleep 6
             xcrun simctl io "$UDID" screenshot "AppStore/screenshots/${names[$tab]}.png"
           done

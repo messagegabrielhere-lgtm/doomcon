@@ -4,13 +4,14 @@ name: ios-unlisted-release
 # Run it by pushing a tag like `unlisted-v1.0.0`. The version comes from the tag
 # and the build number from the run number.
 #
-# Needs these repository secrets (Settings > Secrets and variables > Actions):
-#   APPLE_TEAM_ID   your 10-character Team ID
+# Needs three repository secrets (Settings > Secrets and variables > Actions):
 #   ASC_KEY_ID      App Store Connect API key ID
 #   ASC_ISSUER_ID   App Store Connect API issuer ID
-#   ASC_KEY_P8      full contents of the downloaded AuthKey_XXXX.p8 file
-# Optional repository variable:
-#   UNLISTED_BUNDLE_ID  defaults to app.unlisted.ios
+#   ASC_KEY_P8      the AuthKey_XXXX.p8 file, pasted as-is or base64-encoded
+# The key needs the Admin role so Xcode can create the signing certificate in
+# the cloud; no certificate export from a Mac is needed.
+# Optional repository variables: APPLE_TEAM_ID (defaults to MAP974T827) and
+# UNLISTED_BUNDLE_ID (defaults to com.messagegabrielhere.unlisted).
 on:
   push:
     tags:
@@ -27,19 +28,19 @@ jobs:
       run:
         working-directory: ios/Unlisted
     env:
-      BUNDLE_ID: ${{ vars.UNLISTED_BUNDLE_ID || 'app.unlisted.ios' }}
+      BUNDLE_ID: ${{ vars.UNLISTED_BUNDLE_ID || 'com.messagegabrielhere.unlisted' }}
+      APPLE_TEAM_ID: ${{ vars.APPLE_TEAM_ID || 'MAP974T827' }}
     steps:
       - uses: actions/checkout@v4
 
       - name: Check secrets
         env:
-          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
           ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
           ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
           ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
         run: |
           missing=""
-          for name in APPLE_TEAM_ID ASC_KEY_ID ASC_ISSUER_ID ASC_KEY_P8; do
+          for name in ASC_KEY_ID ASC_ISSUER_ID ASC_KEY_P8; do
             [ -z "${!name}" ] && missing="$missing $name"
           done
           if [ -n "$missing" ]; then
@@ -51,7 +52,11 @@ jobs:
         env:
           ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
         run: |
-          printf '%s\n' "$ASC_KEY_P8" > "$RUNNER_TEMP/AuthKey.p8"
+          if printf '%s' "$ASC_KEY_P8" | grep -q "BEGIN PRIVATE KEY"; then
+            printf '%s\n' "$ASC_KEY_P8" > "$RUNNER_TEMP/AuthKey.p8"
+          else
+            printf '%s' "$ASC_KEY_P8" | base64 --decode > "$RUNNER_TEMP/AuthKey.p8"
+          fi
           chmod 600 "$RUNNER_TEMP/AuthKey.p8"
 
       - name: Install XcodeGen and generate project
@@ -61,7 +66,6 @@ jobs:
 
       - name: Archive
         env:
-          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
           ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
           ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
         run: |
@@ -86,7 +90,6 @@ jobs:
 
       - name: Upload to App Store Connect
         env:
-          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
           ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
           ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
         run: |
