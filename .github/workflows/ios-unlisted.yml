@@ -52,8 +52,10 @@ jobs:
               -destination "id=${{ steps.sim.outputs.udid }}" \
               CODE_SIGNING_ALLOWED=NO > build.log 2>&1; then
             grep -E "Test Suite|Executed" build.log | tail -n 20
+            echo "::notice title=Unlisted tests::$(grep -E 'Executed [0-9]+ tests' build.log | tail -n 1 | sed 's/^ *//')"
           else
             grep -nE "error:|warning: .*Unlisted|Failing tests|failed" build.log | head -n 150
+            grep -E "error:" build.log | head -n 20 | while IFS= read -r line; do echo "::error::$line"; done
             tail -n 80 build.log
             exit 1
           fi

@@ -144,8 +144,8 @@ final class AppStore {
         for item in ChecklistCatalog.all {
             switch item.audience {
             case .household: steps.append((item, nil))
-            case .adult: steps += adults.map { (item, $0) }
-            case .child: steps += children.map { (item, $0) }
+            case .adult: steps += adults.map { (item, Optional($0)) }
+            case .child: steps += children.map { (item, Optional($0)) }
             }
         }
         return steps
