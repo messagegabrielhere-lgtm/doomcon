@@ -42,6 +42,54 @@ function badgeSvg(state) {
 `;
 }
 
+/**
+ * A static page that renders its list from an inline script is empty to a
+ * crawler that does not run scripts. So the build runs the page's OWN data
+ * (the CRATES and TOOLS literals, nothing else) and writes the rows into
+ * <main id="manifest"> as plain HTML; the page's script then redraws the
+ * same markup and takes over. One source of truth, the file itself.
+ */
+function prerenderStatic(html, name, ctx) {
+  const x = (v) => String(v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+  const loc = ctx.url(`/${name}`);
+  const title = (html.match(/<title>([^<]*)<\/title>/) || [])[1] || brand.NAME;
+  const desc = (html.match(/<meta name="description" content="([^"]*)"/) || [])[1] || '';
+  let head = `<link rel="canonical" href="${x(loc)}">
+<link rel="icon" href="${x(ctx.href('/favicon.svg'))}" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="${x(brand.NAME)}">
+<meta property="og:title" content="${title}">
+<meta property="og:description" content="${desc}">
+<meta property="og:url" content="${x(loc)}">
+<meta property="og:image" content="${x(ctx.url('/cards/state.png'))}">
+<meta name="twitter:card" content="summary_large_image">`;
+  let out = html;
+  const data = html.match(/<script>\n(const CRATES = [\s\S]*?)\nconst packed = /);
+  if (data && out.includes('<main id="manifest"></main>')) {
+    const { CRATES, TOOLS } = new Function(`${data[1]}\nreturn { CRATES, TOOLS };`)();
+    const link = (t) => t[7] || `https://${t[2]}`;
+    const body = CRATES.map((c) => {
+      const rows = TOOLS.filter((t) => t[0] === c.id);
+      if (!rows.length) return '';
+      return `<section class="crate"><h2>${x(c.name)}</h2><p class="why">${x(c.why)}</p><div class="rows">`
+        + rows.map((t) => `<div class="row">
+          <input type="checkbox" class="pack" data-d="${x(t[7] || t[2])}" aria-label="Pack ${x(t[1])}">
+          <p class="name"><a href="${x(link(t))}" target="_blank" rel="${t[7] ? 'sponsored ' : ''}noopener">${x(t[1])}</a><small>${x(t[2])}</small></p>
+          <p class="doom">${x(t[4])}</p>
+          <p class="does">${x(t[3])}${t[5] ? `<br><span class="stamp">${x(t[5])}</span>` : ''}${t[6] ? `<br><span class="stamp unk">${x(t[6])}</span>` : ''}</p>
+        </div>`).join('') + '</div></section>';
+    }).join('');
+    out = out.replace('<main id="manifest"></main>', `<main id="manifest">${body}</main>`);
+    const ld = {
+      '@context': 'https://schema.org', '@type': 'ItemList', name: title, url: loc,
+      numberOfItems: TOOLS.length,
+      itemListElement: TOOLS.map((t, i) => ({ '@type': 'ListItem', position: i + 1, name: t[1], description: t[3], url: link(t) })),
+    };
+    head += `\n<script type="application/ld+json">${JSON.stringify(ld).replace(/</g, '\\u003c')}</script>`;
+  }
+  return out.replace('</head>', `${head}\n</head>`);
+}
+
 function llmsTxt(ctx) {
   return `# ${brand.NAME}
 > Hourly index of AI activity tempo. Levels run from 5 (quietest) to 1 (loudest). It counts how much is happening. It is not a probability of harm and not a forecast.
@@ -50,6 +98,7 @@ function llmsTxt(ctx) {
 - [Every reading (JSON)](${ctx.url('/api/history.json')})
 - [Method](${ctx.url('/methodology.html')})
 - [Feed](${ctx.url('/feed.xml')})
+- [Bunker Kit: free tools and gear checklist](${ctx.url('/bunker-kit.html')})
 `;
 }
 import * as feed from './templates/feed.mjs';
@@ -1052,12 +1101,14 @@ async function main() {
   // GitHub Pages serves this for every missing path under the site. Without it
   // a dead URL lands on GitHub's own page, with no masthead and no way back.
   written.push(await write(args.out, '404.html', notFoundPage.render(ctx)));
-  // Hand-written standalone pages: site/static/*.html is copied through
-  // byte for byte. They carry their own styles and take nothing from ctx.
+  // Hand-written standalone pages in site/static/*.html. They carry their own
+  // styles; the build only adds the head tags a crawler needs and, for a page
+  // that draws a manifest from its own script, the same rows as static HTML.
   const staticDir = path.join(ROOT, 'site', 'static');
   if (existsSync(staticDir)) {
     for (const name of (await readdir(staticDir)).filter((n) => n.endsWith('.html')).sort()) {
-      written.push(await write(args.out, name, await readFile(path.join(staticDir, name))));
+      const raw = await readFile(path.join(staticDir, name), 'utf8');
+      written.push(await write(args.out, name, prerenderStatic(raw, name, ctx)));
     }
   }
   written.push(await write(args.out, 'moves/index.html', movesIndexPage.render(ctx)));

@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>DOOMCON · Bunker Kit</title>
-<meta name="description" content="50 free tools to stockpile before the machines take over the internet. A DOOMCON field manual.">
+<title>Bunker Kit: 50 free online tools and an emergency gear checklist · DOOMCON</title>
+<meta name="description" content="A checklist of 50 free online tools for research, privacy, design, coding and PDFs, plus a crate of emergency gear: radio, water filter, power, maps. A DOOMCON field manual.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil+Display:wght@600;800&family=Archivo:wght@400;600&display=swap" rel="stylesheet">
@@ -88,7 +88,7 @@ footer{max-width:1040px;margin:0 auto;padding:0 20px 40px;color:var(--dim);font-
     <div>
       <a class="back" href="./">Back to DOOMCON index</a>
       <h1>Bunker Kit</h1>
-      <p>50 free tools to stockpile before the machines take the internet. Check off what you've packed.</p>
+      <p>50 free tools to stockpile before the machines take the internet. Check off what you've packed. Plus one crate of gear that is not free.</p>
     </div>
   </div>
 </header>
@@ -107,7 +107,8 @@ footer{max-width:1040px;margin:0 auto;padding:0 20px 40px;color:var(--dim);font-
 <main id="manifest"></main>
 
 <footer>
-  <p>All tools are free to start and run by third parties, not DOOMCON. Stamps mark real cautions; "signal unconfirmed" means the service has changed or may be offline. Verify before you rely on it.</p>
+  <p>The 50 tools are free to start and run by third parties, not DOOMCON. Stamps mark real cautions; "signal unconfirmed" means the service has changed or may be offline. Verify before you rely on it.</p>
+  <p>The Supply drop crate is the exception: its links are paid Amazon links. As an Amazon Associate, DOOMCON earns from qualifying purchases. Listing there is not a review; read the product page before you buy.</p>
 </footer>
 
 <script>
@@ -119,8 +120,12 @@ const CRATES = [
  {id:"bench", name:"Engineer's bench", why:"For whoever has to reprogram the robots."},
  {id:"signal", name:"Signal monitoring", why:"Know when the grid flickers, and where to go when an app dies."},
  {id:"morale", name:"Morale", why:"The apocalypse is long. Bring something to listen to."},
- {id:"paper", name:"Paperwork", why:"Even after the end of the world, someone will ask for a signed PDF."}
+ {id:"paper", name:"Paperwork", why:"Even after the end of the world, someone will ask for a signed PDF."},
+ {id:"supply", name:"Supply drop", why:"The one crate that costs money: physical gear, sold on Amazon. These are paid links. As an Amazon Associate, DOOMCON earns from qualifying purchases."}
 ];
+
+const TAG = "buyusa0d-20";
+const amz = asin => "https://www.amazon.com/dp/" + asin + "?tag=" + TAG;
 
 const TOOLS = [
  ["vault","Unpaywall","unpaywall.org","Free research papers","Liberate the papers before the paywalls become firewalls."],
@@ -172,7 +177,18 @@ const TOOLS = [
  ["morale","Coffitivity","coffitivity.com","Café ambience","Remember coffee shops? Now you can again."],
  ["morale","JustWatch","justwatch.com","Where to stream movies","Find every AI-uprising movie for research purposes."],
  ["paper","Smallpdf","smallpdf.com","All-in-one PDF tools","Fill out the post-apocalyptic paperwork."],
- ["paper","iLovePDF","ilovepdf.com","Merge, split and convert PDFs","Bureaucracy will outlive us all."]
+ ["paper","iLovePDF","ilovepdf.com","Merge, split and convert PDFs","Bureaucracy will outlive us all."],
+ ["supply","Hand-crank weather radio","amazon.com","FosPower NOAA emergency radio with solar panel and hand crank","When the feeds go quiet, AM still works.","Paid link",null,amz("B07FKYHTWP")],
+ ["supply","Offline voice translator","amazon.com","Two-way translator device that also works without WiFi","For negotiating with the neighbours once the translation apps are gone.","Paid link",null,amz("B0HD5WJW31")],
+ ["supply","LifeStraw water filter","amazon.com","Personal water filter for hiking, travel and emergencies","The cloud is down. The puddle is up.","Paid link",null,amz("B006QF3TW4")],
+ ["supply","Solar power bank","amazon.com","BLAVOR 20,000mAh solar power bank with wireless charging","The sun has no terms of service.","Paid link",null,amz("B0D4Z7VJ43")],
+ ["supply","Portable power station","amazon.com","ALLWEI 300W, 256Wh LiFePO4 power station","Keep one laptop alive. Choose which one carefully.","Paid link",null,amz("B08CXN4TZR")],
+ ["supply","Faraday bags","amazon.com","Signal-blocking pouches for phones and car keys, 2 pack","Put the phone in the bag. Enjoy the silence.","Paid link",null,amz("B0BZCFXN8X")],
+ ["supply","Paper road atlas","amazon.com","Rand McNally 2027 Road Atlas","Maps that do not reroute you.","Paid link",null,amz("0528029487")],
+ ["supply","Two-way radios","amazon.com","Rechargeable FRS walkie talkies, 2 pack","Group chat, but with a range limit and no read receipts.","Paid link",null,amz("B0DG87NKLM")],
+ ["supply","Rechargeable headlamp","amazon.com","Blukar LED rechargeable headlamp","For reading the manual after the grid flickers.","Paid link",null,amz("B0BLVT2Y9N")],
+ ["supply","All-weather notebooks","amazon.com","Rite in the Rain weatherproof 3 x 5 notebooks, 3 pack","Notes no model was trained on.","Paid link",null,amz("B0CWSB1N8F")],
+ ["supply","First aid kit","amazon.com","First Aid Only 298-piece family first aid kit","The one item on this page that is not a joke.","Paid link",null,amz("B000069EYA")]
 ];
 
 const packed = new Set();
@@ -195,11 +211,12 @@ function render(){
     const rows = TOOLS.filter(t => t[0]===c.id && (!q || t.slice(1,5).join(" ").toLowerCase().includes(q)));
     if (!rows.length) return;
     out.push(`<section class="crate"><h2>${c.name}</h2><p class="why">${c.why}</p><div class="rows">` +
-      rows.map(([,name,dom,does,doom,warn,unk]) => {
-        const on = packed.has(dom);
+      rows.map(([,name,dom,does,doom,warn,unk,url]) => {
+        const key = url || dom;
+        const on = packed.has(key);
         return `<div class="row${on?" packed":""}">
-          <input type="checkbox" class="pack" data-d="${dom}" ${on?"checked":""} aria-label="Pack ${name}">
-          <p class="name"><a href="https://${dom}" target="_blank" rel="noopener">${name}</a><small>${dom}</small></p>
+          <input type="checkbox" class="pack" data-d="${key}" ${on?"checked":""} aria-label="Pack ${name}">
+          <p class="name"><a href="${url || "https://"+dom}" target="_blank" rel="${url?"sponsored ":""}noopener">${name}</a><small>${dom}</small></p>
           <p class="doom">${doom}</p>
           <p class="does">${does}${warn?`<br><span class="stamp">${warn}</span>`:""}${unk?`<br><span class="stamp unk">${unk}</span>`:""}</p>
         </div>`;}).join("") + `</div></section>`);
