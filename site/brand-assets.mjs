@@ -35,7 +35,37 @@ const STATIC_LEVEL = 3;
 
 /** 400x400. X crops it to a circle, so the mark sits inside a 16% inset. */
 export function profilePng() {
-  return marks.iconPng(STATIC_LEVEL, { size: 400, rounded: false, padding: 0.16, frame: false });
+  // A civil-defence roundel, the same furniture as the site seal: double ring,
+  // sixty ticks with every fifth long, four stars, and the sentinel mark in
+  // the middle. X crops to a circle, so the outer ring sits just inside it.
+  const N = 400; const c = N / 2;
+  const S = surface(N, N, { background: marks.GROUND });
+  const heat = marks.HEAT[STATIC_LEVEL];
+  S.disc({ cx: c, cy: c, r: 192, color: marks.GROUND_RAISED });
+  S.circle({ cx: c, cy: c, r: 188, color: heat, width: 7 });
+  S.circle({ cx: c, cy: c, r: 174, color: marks.INK, width: 2, alpha: 0.75 });
+  for (let i = 0; i < 60; i += 1) {
+    const a = (i / 60) * Math.PI * 2; const long = i % 5 === 0;
+    const r0 = long ? 150 : 158; const r1 = 168;
+    S.line({
+      from: [c + Math.cos(a) * r0, c + Math.sin(a) * r0],
+      to: [c + Math.cos(a) * r1, c + Math.sin(a) * r1],
+      color: long ? heat : marks.INK_DIM, width: long ? 4 : 2, alpha: long ? 1 : 0.7,
+    });
+  }
+  S.circle({ cx: c, cy: c, r: 140, color: marks.INK, width: 2, alpha: 0.4 });
+  const star = (cx, cy, r) => {
+    const pts = [];
+    for (let i = 0; i < 10; i += 1) {
+      const a = -Math.PI / 2 + (i / 10) * Math.PI * 2; const rr = i % 2 ? r * 0.42 : r;
+      pts.push([cx + Math.cos(a) * rr, cy + Math.sin(a) * rr]);
+    }
+    S.polygon({ points: pts, color: heat });
+  };
+  for (const [dx, dy] of [[0, -1], [1, 0], [0, 1], [-1, 0]]) star(c + dx * 122, c + dy * 122, 11);
+  const ms = 176;
+  S.mark(STATIC_LEVEL, { x: c - ms / 2, y: c - ms / 2, size: ms });
+  return S.png();
 }
 
 /**
@@ -57,6 +87,17 @@ export function headerPng() {
     }
     throw new Error(`brand-assets: "${text}" does not fit ${max}px above ${floor}px`);
   };
+
+  // Hazard tape along the top and bottom edges, in the accent, like the site's
+  // masthead rule. X crops these edges on phones, which is fine: they are
+  // dress, and nothing that has to be read is set in them.
+  const tape = (y, th) => {
+    S.rect({ x: 0, y, w: W, h: th, color: marks.HEAT[STATIC_LEVEL] });
+    for (let x = -th; x < W + th; x += 56) {
+      S.polygon({ points: [[x, y + th], [x + 28, y + th], [x + 28 + th, y], [x + th, y]], color: marks.GROUND });
+    }
+  };
+  tape(40, 26); tape(H - 66, 26);
 
   // The scale's column, fixed first so the lockup knows where it must stop.
   const lw = 500; const lx = W - 110 - lw; const ly = 176; const lh = 62; const gap = 6;
@@ -90,6 +131,13 @@ export function headerPng() {
   const l2 = 'Counted hourly. Not how bad it is.';
   S.text(l1, { x: lx, y: ly + lh + 42, size: fit(l1, { from: 21, max: lw, track: 0.02 }), color: marks.INK, weight: 0.095, track: 0.02 });
   S.text(l2, { x: lx, y: ly + lh + 74, size: fit(l2, { from: 21, max: lw, track: 0.02 }), color: marks.INK_DIM, weight: 0.095, track: 0.02 });
+
+  // The rubber stamp, set square because the rasteriser sets no rotated text.
+  const st = 'NOT A PREDICTION';
+  const ss = 20; const sw = measureText(st, { size: ss, track: 0.2 });
+  const sx = tx + 3; const sy = my + 186;
+  S.strokeRect({ x: sx, y: sy, w: sw + 28, h: 40, r: 4, color: marks.HEAT[1], width: 3 });
+  S.text(st, { x: sx + 14, y: sy + 28, size: ss, color: marks.HEAT[1], weight: 0.12, track: 0.2 });
 
   return S.png();
 }
