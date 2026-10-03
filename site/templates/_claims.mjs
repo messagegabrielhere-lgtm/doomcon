@@ -578,6 +578,22 @@ const clmCss = `
 @media (min-width: 1080px) { .clm__l { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 
 .clm__i { min-width: 0; }
+/* EACH CARD IN ITS DESTINATION'S COLOUR - the same hue as the nav tile it
+   links to, on the top edge and in the proportion bar. The sentence and its
+   numeral stay ink, so the colour is a signpost and never the message. */
+.clm__i[data-claim="race"] { --ch: #00e676; }
+.clm__i[data-claim="flock"] { --ch: #00e5ff; }
+.clm__i[data-claim="datacenters"] { --ch: #c400ff; }
+.clm__i[data-claim="exploits"] { --ch: #8b5cf6; }
+.clm__i[data-claim="news"] { --ch: #00a3ff; }
+.clm__i[data-claim="leaders"] { --ch: #ff0033; }
+.clm__i .clm__a { border-top: 2px solid var(--ch, var(--rule)); }
+.clm__i .clm__prb i { background: var(--ch, var(--accent-2)); }
+.clm__i .clm__a:hover { box-shadow: 0 0 0 1px var(--ch, var(--accent-2)), 0 6px 22px color-mix(in srgb, var(--ch, transparent) 22%, transparent); }
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) .clm__i .clm__prb i { filter: brightness(.74) saturate(1.3); }
+}
+:root[data-theme="light"] .clm__i .clm__prb i { filter: brightness(.74) saturate(1.3); }
 
 /* The card is the link. Border, raised ground and a shadow: the same boxed
    affordance as the cross-sell deck (.xsell__a), which is what the sheet's

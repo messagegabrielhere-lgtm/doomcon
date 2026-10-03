@@ -302,6 +302,60 @@ ${brand.X_URL ? `<section class="sec supp" id="support" aria-labelledby="support
 /* Rules namespaced to elements this template owns, because site/styles.mjs
    belongs to the integrator. */
 
+/* THE DIAL BREATHES, AND HOW FAST IS THE LEVEL. The epithets have always
+   described a needle - at rest, breathing, off the rest stop, pinned high, off
+   the top of the chart - and the instrument itself sat perfectly still. The
+   halo behind the dial now swells and settles at a tempo set by the level:
+   still at 5, a slow breath at 4, quicker at each step, urgent at 1. It is the
+   halo that moves and never the needle, so the mark stays exactly where the
+   score puts it; the level is still in words inside the dial, so the motion is
+   confirmation and not the reading. Off entirely under reduced motion. */
+@keyframes dcBreathe {
+  from { filter: drop-shadow(0 0 12px color-mix(in srgb, var(--lvl, var(--accent)) 16%, transparent)); }
+  to   { filter: drop-shadow(0 0 36px color-mix(in srgb, var(--lvl, var(--accent)) 52%, transparent)); }
+}
+main.wrap[data-level="4"] > .hero .ch--dial { animation: dcBreathe 5.5s ease-in-out infinite alternate; }
+main.wrap[data-level="3"] > .hero .ch--dial { animation: dcBreathe 3.2s ease-in-out infinite alternate; }
+main.wrap[data-level="2"] > .hero .ch--dial { animation: dcBreathe 1.9s ease-in-out infinite alternate; }
+main.wrap[data-level="1"] > .hero .ch--dial { animation: dcBreathe 1.1s ease-in-out infinite alternate; }
+@media (prefers-reduced-motion: reduce) { main.wrap > .hero .ch--dial { animation: none !important; } }
+
+/* EVERY SECTION WEARS THE COLOUR OF THE TILE THAT LEADS TO IT. The nav bar is
+   thirteen saturated hues and the page under it was grey from the hero to the
+   footer, so a reader who pressed the green tile landed in a section with
+   nothing green about it. Each homepage heading now opens with a chip in its
+   destination's hue and its rule starts in that hue and fades to the house
+   line. Decoration only: the heading text stays ink, so nothing depends on
+   telling the hues apart. */
+#rd-h, #record-h { --sh: #ffef2a; }
+#bal-h { --sh: #5fd08a; }
+#oven-h { --sh: #ffb020; }
+#sw-h, #news-h, #sw-latest-h, #sw-moved-h { --sh: #00a3ff; }
+#labs-h { --sh: #00e676; }
+#xw-h { --sh: #00e5ff; }
+#fresh-h { --sh: #5fd08a; }
+#pillars-h { --sh: #ff7a00; }
+#moves-h { --sh: #ffb655; }
+#embed-h { --sh: #4b59ff; }
+#api-h { --sh: #8b5cf6; }
+#support-h { --sh: #ff73c8; }
+.sec__h[id]::before {
+  content: ""; flex: 0 0 auto; align-self: center;
+  width: 10px; height: 10px; margin-right: .65em; border-radius: 2px;
+  background: var(--sh, var(--ink-faint));
+  box-shadow: 0 0 10px color-mix(in srgb, var(--sh, transparent) 55%, transparent);
+}
+.sec__h[id]::after { background: linear-gradient(90deg, var(--sh, var(--rule)) 0%, var(--rule) 45%); }
+/* No chip on a phone. Measured at 375px: its 16px pushed five sticky headings
+   onto an extra line - "Where the index sits" from 19px to 46 - and a sticky
+   heading is the worst place to spend a line. The coloured rule stays. */
+@media (max-width: 560px) { .sec__h[id]::before { display: none; } }
+/* On paper the neon hues wash out, so they are deepened rather than dropped. */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) .sec__h[id]::before { filter: brightness(.72) saturate(1.3); box-shadow: none; }
+}
+:root[data-theme="light"] .sec__h[id]::before { filter: brightness(.72) saturate(1.3); box-shadow: none; }
+
 /* The voice line under the headline: the level's epithet in the level's own
    colour, then the hook in dim ink. One line on a desktop, two on a phone. */
 .hero__voice { margin: var(--s-2) 0 var(--s-3); font: 500 var(--t-base)/1.4 var(--sans); color: var(--ink-dim); max-width: 60ch; }
