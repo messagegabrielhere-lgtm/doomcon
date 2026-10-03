@@ -196,6 +196,7 @@ ${gauge.styleTag()}
       })}
       <div class="level__meta">
         <p class="level__plain">${esc(plainRead(ctx))}</p>
+        ${Number.isFinite(state.score) ? `<button type="button" class="sharebtn" hidden data-t="${esc(`${brand.NAME} ${state.level}, ${state.level_name}. ${num(state.score, 1)} of 100 as of ${utc(state.generated_at)}. Tempo, not a probability.`)}">Copy this reading</button>` : ''}
       </div>
     </div>
 
@@ -278,7 +279,10 @@ ${switcher.render(ctx)}
   <h2 class="sec__h" id="embed-h">Put the index on your site</h2>
   <p class="lede">One iframe. No script, no tracking, no key. It renders light or dark to match
      the page it sits in, and the number inside it is server-rendered too.</p>
-  <div class="snippet">${esc(snippet)}</div>
+  <div class="clip"><div class="snippet">${esc(snippet)}</div></div>
+  <p class="lede">Or a badge, for a README or anywhere an iframe is stripped. It shows the current level and links back here.</p>
+  <div class="clip"><div class="snippet">${esc(`[![${brand.NAME}](${ctx.url('/badge.svg')})](${ctx.url('/')})`)}</div></div>
+  <p><img src="${esc(ctx.href('/badge.svg'))}" alt="${esc(brand.NAME)} badge showing the current level" height="20"></p>
   <p class="fresh__key">Add <code>?theme=light</code>, <code>?theme=dark</code> or <code>?compact=1</code> to pin the look.
      <a href="${esc(ctx.href('/embed.html'))}">Preview the widget →</a></p>
 </section>
@@ -398,6 +402,15 @@ main.wrap[data-level="1"] > .hero .ch--dial { animation: dcBreathe 1.1s ease-in-
 
 /* The voice line under the headline: the level's epithet in the level's own
    colour, then the hook in dim ink. One line on a desktop, two on a phone. */
+.sharebtn { margin-top: var(--s-3); padding: 8px 14px; border: 2px solid var(--lvl, var(--accent)); border-radius: 4px; background: transparent;
+  color: var(--ink); cursor: pointer; font: 700 var(--t-xs)/1 var(--stencil); letter-spacing: .14em; text-transform: uppercase; }
+.sharebtn:hover, .sharebtn:focus-visible { background: var(--lvl, var(--accent)); color: #0b0c0e; }
+.hero__orders { margin: 0 0 var(--s-3); max-width: 60ch; font: 500 var(--t-xs)/1.45 var(--mono); letter-spacing: .04em; color: var(--ink-dim); }
+.hero__orders b { font: 700 var(--t-xs)/1 var(--stencil); letter-spacing: .14em; text-transform: uppercase; color: var(--ink); }
+.clip { position: relative; margin: var(--s-4) 0 10px; padding: 14px 10px 10px; border: 2px dashed var(--ink-faint); border-radius: 2px; }
+.clip::before { content: "✂ Clip and post"; position: absolute; top: -.8em; left: 12px; padding: 0 8px;
+  background: var(--bg); color: var(--ink-dim); font: 700 var(--t-2xs)/1.5 var(--stencil); letter-spacing: .14em; text-transform: uppercase; }
+.clip .snippet { margin: 0; }
 .hero__voice { margin: var(--s-2) 0 var(--s-3); font: 500 var(--t-base)/1.4 var(--sans); color: var(--ink-dim); max-width: 60ch; }
 .hero__ep { color: var(--lvl, var(--accent)); font-weight: 650; }
 
@@ -738,12 +751,24 @@ function sourcesForPillar(state, id) {
  * that docs/METHODOLOGY.md backs. docs/VOICE.md 5: a joke in the framing plus
  * a straight number is a brand. The straight number is one line above.
  */
+// The instruction is "none" at every level: the index counts activity, it does
+// not tell anyone what to do about it. The second sentence is the level's.
+const STANDING_ORDERS = {
+  5: 'The needle is at rest. So is the duty officer.',
+  4: 'Carry on. The kettle is on.',
+  3: 'Read the pillar breakdown before the replies.',
+  2: 'Check the receipt. Then check it again.',
+  1: 'This is a count, not a siren. The arithmetic is below.',
+};
+
 function heroAside(ctx) {
   const st = ctx.state;
   const lvl = Number.isFinite(st.level) ? brand.LEVELS.find((l) => l.level === st.level) : null;
   const hook = String(brand.STRAPLINE).split('. ').slice(0, 2).join('. ') + '.';
   return `<p class="hero__voice">${lvl && lvl.epithet
-    ? `<span class="hero__ep">${esc(lvl.epithet)}.</span> ` : ''}<span class="hero__hook">${esc(hook)}</span></p>`;
+    ? `<span class="hero__ep">${esc(lvl.epithet)}.</span> ` : ''}<span class="hero__hook">${esc(hook)}</span></p>`
+    + `<p class="hero__orders"><b>Instructions to the public:</b> none. ${esc(
+      (lvl && STANDING_ORDERS[lvl.level]) || 'No reading was taken, so none is posted.')}</p>`;
 }
 
 function headline(ctx) {

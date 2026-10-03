@@ -27,6 +27,31 @@ import * as movesIndexPage from './templates/movesIndex.mjs';
 import * as embedPage from './templates/embed.mjs';
 import * as notFoundPage from './templates/notFound.mjs';
 import { sealCss } from './templates/_seal.mjs';
+
+function badgeSvg(state) {
+  const has = Number.isFinite(state.level);
+  const right = has ? `${state.level} · ${String(state.level_name).toUpperCase()}` : 'NO READING';
+  const fill = has ? marks.HEAT[state.level] : '#7a828c';
+  const rw = 22 + right.length * 7; const lw = 76; const w = lw + rw;
+  const x = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;');
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="20" role="img" aria-label="${x(brand.NAME)} ${x(right)}">
+<title>${x(brand.NAME)} ${x(right)}: AI activity tempo, not a prediction</title>
+<rect width="${lw}" height="20" fill="#0c1320"/><rect x="${lw}" width="${rw}" height="20" fill="${fill}"/>
+<g font-family="Verdana,DejaVu Sans,sans-serif" font-size="11" font-weight="700"><text x="8" y="14" fill="#e8eaee">${x(brand.NAME)}</text>
+<text x="${lw + 10}" y="14" fill="#060c16">${x(right)}</text></g></svg>
+`;
+}
+
+function llmsTxt(ctx) {
+  return `# ${brand.NAME}
+> Hourly index of AI activity tempo. Levels run from 5 (quietest) to 1 (loudest). It counts how much is happening. It is not a probability of harm and not a forecast.
+
+- [Current reading (JSON)](${ctx.url('/api/state.json')})
+- [Every reading (JSON)](${ctx.url('/api/history.json')})
+- [Method](${ctx.url('/methodology.html')})
+- [Feed](${ctx.url('/feed.xml')})
+`;
+}
 import * as feed from './templates/feed.mjs';
 import * as newsFeed from './templates/news.mjs';
 import * as newsPage from './templates/newsPage.mjs';
@@ -1128,6 +1153,10 @@ async function main() {
   // reading. Nobody else in this category does that.
   written.push(await write(args.out, 'favicon.svg', marks.faviconSvg(state.level)));
   written.push(await write(args.out, 'og-default.svg', marks.ogImageSvg({ state })));
+  // A README badge. GitHub, Substack and most markdown strip iframes, so the
+  // embed cannot go where a developer would put it; an <img> can.
+  written.push(await write(args.out, 'badge.svg', badgeSvg(state)));
+  written.push(await write(args.out, 'llms.txt', llmsTxt(ctx)));
   written.push(await write(args.out, 'manifest.webmanifest', marks.manifestJson(state.level)));
   for (const [name, size] of [['favicon-32.png', 32], ['apple-touch-icon.png', 180], ['icon-192.png', 192], ['icon-512.png', 512]]) {
     written.push(await writeBinary(args.out, name, marks.iconPng(state.level, { size })));

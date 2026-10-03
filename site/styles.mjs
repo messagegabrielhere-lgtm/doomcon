@@ -2076,6 +2076,35 @@ const CHROMA = `
 .sec__eb { font-family: var(--mono); }
 .foot__seal { margin: 0 0 var(--s-3); opacity: .9; }
 .masthead { position: relative; }
+.bstamp { display: inline-block; margin: var(--s-2) 0 var(--s-3); padding: 6px 12px 4px;
+  border: 3px solid currentColor; border-radius: 4px; color: var(--ok); opacity: .82;
+  font: 700 var(--t-sm)/1 var(--stencil); letter-spacing: .16em; text-transform: uppercase; transform: rotate(-3deg); }
+.bstamp--old { color: var(--dark-src); }
+.bstamp a { color: inherit; text-decoration: none; }
+.bstamp a:hover { text-decoration: underline; }
+.foot__bcast { margin: 0 0 var(--s-5); padding: 6px 16px; text-align: center;
+  background: repeating-linear-gradient(-45deg, var(--accent) 0 12px, #0b0c0e 12px 24px); }
+.foot__bcast span { display: inline-block; padding: 5px 14px; background: var(--bg); color: var(--ink);
+  font: 700 var(--t-xs)/1.35 var(--stencil); letter-spacing: .14em; text-transform: uppercase; }
+.foot__memo { display: flex; flex-wrap: wrap; gap: 4px var(--s-4); margin: 0 0 var(--s-3);
+  font: 400 var(--t-2xs)/1.5 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-faint); }
+.foot__memo b { color: var(--ink-dim); font-weight: 600; overflow-wrap: anywhere; }
+.hero__stamp, .bstamp {
+  text-shadow: 1px 1px 0 color-mix(in srgb, currentColor 35%, transparent);
+  -webkit-mask-image: repeating-linear-gradient(100deg, #000 0 5px, rgba(0,0,0,.7) 5px 6px, #000 6px 13px),
+    radial-gradient(circle at 18% 30%, #000 0 60%, rgba(0,0,0,.6) 62% 100%);
+  mask-image: repeating-linear-gradient(100deg, #000 0 5px, rgba(0,0,0,.7) 5px 6px, #000 6px 13px),
+    radial-gradient(circle at 18% 30%, #000 0 60%, rgba(0,0,0,.6) 62% 100%);
+  -webkit-mask-composite: source-in; mask-composite: intersect;
+}
+@media print {
+  .skip, .masthead__tag, .fb, .rail, .rvisit, .jump, .foot__cols, .foot__tele, .foot__bcast { display: none !important; }
+  main.wrap::before { content: "Public notice · post in a conspicuous place"; display: block; margin: 0 0 8pt; padding: 6pt 0;
+    border-block: 3pt double #000; text-align: center; font: 700 13pt/1.2 var(--stencil); letter-spacing: .18em; text-transform: uppercase; }
+  main.wrap::after { content: "Do not remove until superseded. Not a prediction."; display: block; margin-top: 12pt; padding-top: 6pt;
+    border-top: 1pt solid #000; text-align: center; font: 400 9pt/1.3 var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+  .hero__stamp, .bstamp { color: #000 !important; opacity: 1; }
+}
 .masthead::after {
   content: ""; display: block; height: 6px;
   background: repeating-linear-gradient(-45deg, var(--accent) 0 12px, #0b0c0e 12px 24px);

@@ -484,6 +484,21 @@ function tick(){
  }
 }
 tick();setInterval(tick,every);
+try{var cv=d.getElementById('dc-visit'),cs=cv?cv.dataset:{};
+ console.log('%cDOOMCON','font:700 28px Impact,sans-serif;letter-spacing:.08em;color:#ffb020');
+ console.log('This is not a test. It is not an emergency either. It is a count.');
+ console.log(+cs.level>0&&parseFloat(cs.score)===parseFloat(cs.score)
+  ?'Reading on file: DOOMCON '+cs.level+', '+cs.name+', '+cs.score+' of 100, observed '+cs.at+'.'
+  :'No reading on file. None is imputed.');
+ console.log('Nothing in this panel is classified. Recompute it: api/state.json, api/history.json, api/receipts/');
+}catch(e){}
+[].forEach.call(d.querySelectorAll('.sharebtn'),function(b){
+ if(!(navigator.share||(navigator.clipboard&&navigator.clipboard.writeText)))return;
+ b.hidden=false;
+ b.addEventListener('click',function(){var t=b.dataset.t,u=location.origin+location.pathname;
+  if(navigator.share){navigator.share({text:t,url:u}).catch(function(){});return;}
+  navigator.clipboard.writeText(t+' '+u).then(function(){b.textContent='Copied';});});
+});
 
 if(window.__dcSince)return;window.__dcSince=1;
 try{
@@ -920,7 +935,10 @@ export function page(o) {
   // largest single acquisition hole on the site: a shared link rendered as a
   // bare blue rectangle. The state card is a reading rather than a logo, so
   // the fallback is worth clicking.
-  const ogPath = o.ogImage || 'cards/state.png';
+  // X caches a link card by URL. The fallback state card is rewritten every
+  // reading under one path, so it is versioned by the receipt it was drawn from.
+  const ogPath = o.ogImage || `cards/state.png${ctx.state && ctx.state.receipt_id
+    ? `?v=${encodeURIComponent(ctx.state.receipt_id)}` : ''}`;
   const ogImage = ogPath
     ? `<meta property="og:image" content="${esc(ctx.url(ogPath))}">
     <meta property="og:image:width" content="1200">
@@ -1326,6 +1344,7 @@ function footer(ctx, sections, path) {
     : '';
 
   return `<footer class="foot">
+  <p class="foot__bcast"><span>This is not a test. It is not an emergency either. It is a count.</span></p>
   <div class="wrap">
     <div class="foot__top">
       <div class="foot__brand">
@@ -1342,6 +1361,7 @@ function footer(ctx, sections, path) {
       </div>
     </div>
     ${telemetryRow(ctx)}
+    <p class="foot__memo">${ctx.state && ctx.state.receipt_id ? `<span>Ref <b>DC/${esc(ctx.state.receipt_id)}</b></span>` : ''}<span>Typed by <b>a cron job</b></span><span>Checked by <b>SHA-256</b></span><span>Copies to <b>anyone</b></span><span>Destroy after reading <b>no need, it is hash-chained</b></span></p>
     ${odbl}${exploitSource}<p class="foot__fine">Collection runs on a published <code>*/${CADENCE_MIN}</code> cron; scheduled runs are queued and
       are routinely late, which is why the rail above says <b>overdue</b> rather than counting down into fiction.
       Every value on this site is computed from public data by published code, and each observation is written to a
