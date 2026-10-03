@@ -1,0 +1,2738 @@
+{
+  "balance_version": "1.0.0",
+  "beam_rule": {
+    "angle": "angle = 8 x |H - B| / (H + B) degrees, clamped to 8, heavier pan down",
+    "both_lists": "a story on both lists sits at the fulcrum and moves neither pan",
+    "constants": {
+      "deadband": 2,
+      "max_deg": 8,
+      "min_tagged": 5
+    },
+    "level_when": "|H - B| <= 2 or H + B < 5",
+    "never_on": [
+      "the counters",
+      "the registers in data/ledger.json",
+      "DOOMCON against BLISS",
+      "severity tiers, item scores, recency, corroboration or engagement",
+      "counts from different windows or source sets",
+      "any language-model or sentiment judgement"
+    ],
+    "print": "the two counts, large; never their difference or their ratio as a number",
+    "tilts_on": "newsroom.beam.harm against newsroom.beam.benefit: distinct stories matching one list only, in one window, by one rule"
+  },
+  "counters": {
+    "benefit": [
+      {
+        "ai_specific": true,
+        "context_only": true,
+        "counts": "Structure predictions the AlphaFold Protein Structure Database search returns, single chains and complexes together.",
+        "does_not_count": "Experimental structures, validated structures, or anything a prediction was used for. A prediction is not a drug. The total jumps whenever a provider batch lands, so a rise says a batch landed.",
+        "endpoint": "https://alphafold.ebi.ac.uk/api/search?q=*&type=main&start=0&rows=0",
+        "error": null,
+        "id": "alphafold-db-entries",
+        "keyless": true,
+        "label": "AlphaFold DB structure predictions, single-chain plus complexes (total)",
+        "meta": {
+          "num_found_exact": true
+        },
+        "side": "benefit",
+        "state": "live",
+        "unit": "structure predictions",
+        "value": 261328474,
+        "window": null,
+        "windowed": false
+      },
+      {
+        "ai_specific": true,
+        "context_only": false,
+        "counts": "Registered studies matching \"artificial intelligence\" or \"machine learning\" in any of about 40 registry fields, whose start date falls in the window AND is marked ACTUAL by the sponsor. Interventional and observational both.",
+        "does_not_count": "Results, approvals or patient benefit: a trial starting is a commitment, not an outcome. Trials whose sponsor has not yet updated the start to ACTUAL, so the newest days read low. Registered plans whose start is still marked estimated.",
+        "endpoint": "https://clinicaltrials.gov/api/v2/studies?query.term=%22artificial%20intelligence%22%20OR%20%22machine%20learning%22&filter.advanced=AREA%5BStartDate%5DRANGE%5B%7Bfrom%7D%2C%7Bto%7D%5D%20AND%20AREA%5BStartDateType%5DACTUAL&countTotal=true&pageSize=1&fields=NCTId",
+        "error": null,
+        "id": "clinicaltrials-ai-starts-30d",
+        "keyless": true,
+        "label": "ClinicalTrials.gov: AI trials that actually started in the window",
+        "meta": {
+          "filter_advanced": "AREA[StartDate]RANGE[2026-09-03,2026-10-03] AND AREA[StartDateType]ACTUAL",
+          "query_term": "\"artificial intelligence\" OR \"machine learning\"",
+          "registry": "ClinicalTrials.gov API v2"
+        },
+        "side": "benefit",
+        "state": "live",
+        "unit": "trials started",
+        "value": 15,
+        "window": {
+          "from": "2026-09-03",
+          "to": "2026-10-03"
+        },
+        "windowed": true
+      },
+      {
+        "ai_specific": true,
+        "context_only": false,
+        "counts": "Every device on the FDA AI-Enabled Medical Device List, one row per authorisation (510(k), De Novo or PMA), from the first in 1995 to the newest the file carries.",
+        "does_not_count": "Use, outcomes or benefit to patients: the list records marketing authorisation. Devices the FDA has not yet added (the list lags by about two months, so the newest months read low). Devices the FDA did not identify as AI-enabled.",
+        "endpoint": "https://www.fda.gov/media/178541/download?attachment",
+        "error": null,
+        "id": "fda-ai-enabled-devices",
+        "keyless": true,
+        "label": "FDA AI-enabled medical device authorisations (cumulative)",
+        "meta": {
+          "by_year": {
+            "1995": 2,
+            "1997": 1,
+            "1998": 2,
+            "2001": 2,
+            "2002": 1,
+            "2004": 1,
+            "2005": 1,
+            "2006": 1,
+            "2008": 5,
+            "2010": 2,
+            "2011": 3,
+            "2012": 5,
+            "2013": 4,
+            "2014": 6,
+            "2015": 6,
+            "2016": 18,
+            "2017": 27,
+            "2018": 65,
+            "2019": 80,
+            "2020": 114,
+            "2021": 129,
+            "2022": 162,
+            "2023": 226,
+            "2024": 235,
+            "2025": 335,
+            "2026": 181
+          },
+          "decisions_in_window": 0,
+          "distinct_submissions": 1614,
+          "file_last_modified": "Fri, 04 Sep 2026 11:54:10 GMT",
+          "list_page": "https://www.fda.gov/medical-devices/software-medical-device-samd/artificial-intelligence-enabled-medical-devices",
+          "newest_decision": "2026-06-29",
+          "oldest_decision": "1995-09-29",
+          "rows": 1614,
+          "unparseable_dates": 0
+        },
+        "side": "benefit",
+        "state": "live",
+        "unit": "devices authorised, cumulative",
+        "value": 1614,
+        "window": null,
+        "windowed": false
+      }
+    ],
+    "dark": 0,
+    "harm": [
+      {
+        "ai_specific": true,
+        "context_only": false,
+        "counts": "Incidents whose earliest linked report was submitted to the database inside the window: the editors' intake, in whole UTC days.",
+        "does_not_count": "Harms that happened in the window (the incident date lags entry by months or years). Verified harms: the database is volunteer-curated from press reports and many entries are allegations. Incidents nobody reported to it.",
+        "endpoint": "https://incidentdatabase.ai/page-data/apps/incidents/page-data.json",
+        "error": null,
+        "id": "aiid-incidents-entered-30d",
+        "keyless": true,
+        "label": "AI Incident Database: incidents first entered in the window",
+        "meta": {
+          "entry_date_rule": "earliest date_submitted among the incident's reports, as a UTC day",
+          "incidents_total": 1710,
+          "incidents_without_entry_date": [
+            88,
+            141
+          ],
+          "max_incident_id": 1721,
+          "newest_entry_day": "2026-10-01",
+          "unparseable_report_dates": 0
+        },
+        "side": "harm",
+        "state": "live",
+        "unit": "incidents entered",
+        "value": 54,
+        "window": {
+          "from": "2026-09-03",
+          "to": "2026-10-03"
+        },
+        "windowed": true
+      },
+      {
+        "ai_specific": false,
+        "context_only": true,
+        "counts": "Entries CISA added to its Known Exploited Vulnerabilities catalogue inside the window, for any vendor and any product.",
+        "does_not_count": "Anything specific to AI. When exploitation happened: dateAdded is the cataloguing date. Exploitation the US government did not observe, or did not publish.",
+        "endpoint": "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json",
+        "error": null,
+        "id": "cisa-kev-added-30d",
+        "keyless": true,
+        "label": "CISA KEV: vulnerabilities catalogued as exploited in the window (not AI-specific)",
+        "meta": {
+          "catalog_version": "2026.10.02",
+          "count_declared": 1733,
+          "date_released": "2026-10-02T15:19:38.2945Z",
+          "rows_malformed": 0,
+          "rows_usable": 1733,
+          "this_month": {
+            "count": 3,
+            "month": "2026-10"
+          }
+        },
+        "side": "harm",
+        "state": "live",
+        "unit": "vulnerabilities catalogued",
+        "value": 39,
+        "window": {
+          "from": "2026-09-03",
+          "to": "2026-10-03"
+        },
+        "windowed": true
+      },
+      {
+        "ai_specific": true,
+        "context_only": false,
+        "counts": "News-detected AI incidents and hazards dated inside the window, as the OECD monitor classifies them. The classification is made by OpenAI models in the OECD's pipeline, not by a person and not by this site.",
+        "does_not_count": "Verified harm: it counts media-reported events. It does not separate incidents (harm occurred) from hazards (harm plausible). The last three or so days of the window are incomplete.",
+        "endpoint": "https://oecd.ai/en/incidents?search_terms=%5B%5D&and_condition=false&from_date={from}&to_date={to}&properties_config=%7B%22principles%22%3A%5B%5D%2C%22industries%22%3A%5B%5D%2C%22harm_types%22%3A%5B%5D%2C%22harm_levels%22%3A%5B%5D%2C%22harmed_entities%22%3A%5B%5D%2C%22business_functions%22%3A%5B%5D%2C%22ai_tasks%22%3A%5B%5D%2C%22autonomy_levels%22%3A%5B%5D%2C%22languages%22%3A%5B%5D%7D&order_by=date&num_results=20",
+        "error": null,
+        "id": "oecd-aim-incidents-30d",
+        "keyless": true,
+        "label": "OECD AI Incidents and Hazards Monitor: incidents and hazards dated in the window",
+        "meta": {
+          "classifier": "OECD pipeline: GPT-4o mini filter, GPT-4o incident-or-hazard, o3-mini metadata and clustering",
+          "newest_days_incomplete": "events are processed one to four days after they occur",
+          "wording": "About"
+        },
+        "side": "harm",
+        "state": "live",
+        "unit": "incidents and hazards",
+        "value": 683,
+        "window": {
+          "from": "2026-09-03",
+          "to": "2026-10-03"
+        },
+        "windowed": true
+      }
+    ],
+    "live": 6,
+    "never_summed": true,
+    "window": {
+      "anchor": "2026-10-03T17:29:39.419Z",
+      "days_back": 30,
+      "from": "2026-09-03",
+      "to": "2026-10-03"
+    },
+    "window_rule": "the 30 whole UTC days before the anchor day plus the anchor day so far, both ends inclusive; the anchor is generated_at"
+  },
+  "generated_at": "2026-10-03T17:29:39.419Z",
+  "generated_at_rule": "the newest timestamp among the inputs (news, DOOMCON, BLISS, ledger as_of_date), never the clock",
+  "honesty": [
+    "No net score. Nothing in this file adds a harm to a benefit, subtracts one from the other or divides one by the other, because the two sides share no unit.",
+    "The beam compares two counts made by one rule over one set of headlines: distinct stories in the newsroom's current window that matched the harm list only, against those that matched the benefit list only. It moves on nothing else.",
+    "A headline count is a count of words, not of outcomes. The stories that match neither list are counted and published beside the other two every time, so the two pans never pose as the whole newsroom.",
+    "Each counter is published as its publisher reports it, in its own unit and window. A counter that failed is dark, with its error, and never a zero.",
+    "DOOMCON and BLISS are printed as context and never compared here. A BLISS with no frozen reference is printed as awaiting baseline, never as a number."
+  ],
+  "indices": {
+    "bliss": {
+      "degraded": false,
+      "error": null,
+      "failed_sources": [],
+      "generated_at": "2026-10-03T17:29:39.419Z",
+      "index": "BLISS",
+      "level": null,
+      "level_name": null,
+      "posture": "awaiting-baseline",
+      "printed_as": "awaiting baseline",
+      "score": null,
+      "sources_reporting": 10,
+      "sources_total": 10,
+      "state": "awaiting-baseline"
+    },
+    "doomcon": {
+      "dark_pillars": [],
+      "degraded": false,
+      "error": null,
+      "generated_at": "2026-10-03T17:29:23.811Z",
+      "index": "DOOMCON",
+      "level": 4,
+      "level_name": "ROUTINE",
+      "printed_as": "score",
+      "score": 55.4678,
+      "state": "live"
+    },
+    "note": "Context only. Neither index feeds the beam, and the two are never subtracted, compared or combined in this file."
+  },
+  "ledger": {
+    "as_of_date": "2026-09-28",
+    "dropped": 2,
+    "error": null,
+    "file": "data/ledger.json",
+    "retired": 0,
+    "rows": {
+      "benefit": 18,
+      "harm": 18
+    },
+    "sha256": "sha256:009983d7662f7804145c32c9181c073b260a4fc3bb9d8b7c4cad67a0b1e02038",
+    "state": "valid",
+    "totals": {
+      "benefit": {
+        "by_confidence": {
+          "probable": 6,
+          "verified": 12
+        },
+        "by_status": {
+          "claimed": 0,
+          "delivered": 4,
+          "demonstrated": 8,
+          "in-trial": 2,
+          "in-use": 4
+        },
+        "numbers": 56,
+        "rows": 18
+      },
+      "harm": {
+        "by_confidence": {
+          "probable": 2,
+          "verified": 16
+        },
+        "by_status": {
+          "alleged": 2,
+          "documented": 6,
+          "measured": 10
+        },
+        "numbers": 51,
+        "rows": 18
+      }
+    }
+  },
+  "lexicon": {
+    "benefit_terms": [
+      "cure",
+      "cures",
+      "cured",
+      "diagnose",
+      "diagnosed",
+      "diagnosis",
+      "diagnoses",
+      "cancer",
+      "tumor",
+      "tumour",
+      "tumors",
+      "tumours",
+      "disease",
+      "diseases",
+      "lifesaving",
+      "life saving",
+      "save lives",
+      "saved lives",
+      "saves lives",
+      "antibiotic",
+      "antibiotics",
+      "vaccine",
+      "vaccines",
+      "antibody",
+      "antibodies",
+      "enzyme",
+      "enzymes",
+      "protein",
+      "proteins",
+      "accessibility",
+      "visually impaired",
+      "deaf",
+      "hearing loss",
+      "hard of hearing",
+      "fda cleared",
+      "fda clearance",
+      "fda approved",
+      "fda approval",
+      "early detection",
+      "wildfire detection",
+      "flood forecasting",
+      "early warning",
+      "civilian defense",
+      "civilian defence",
+      "sign language",
+      "drug candidate",
+      "drug candidates"
+    ],
+    "dropped_from_v4": {
+      "benefit": [
+        "heal",
+        "heals",
+        "healed"
+      ],
+      "harm": [
+        "harassed",
+        "harassment",
+        "addiction",
+        "theft",
+        "endanger",
+        "endangers",
+        "endangering",
+        "spying",
+        "surveillance",
+        "ai weapons",
+        "autonomous weapons"
+      ]
+    },
+    "harm_terms": [
+      "harm",
+      "harms",
+      "harmed",
+      "harmful",
+      "rogue",
+      "incident",
+      "incidents",
+      "breach",
+      "breached",
+      "breaches",
+      "hacked",
+      "hacking",
+      "tried to hack",
+      "attempted to hack",
+      "attempts to hack",
+      "attempting to hack",
+      "attack",
+      "attacks",
+      "attacked",
+      "attacking",
+      "exploit",
+      "exploits",
+      "exploited",
+      "compromised",
+      "unauthorized",
+      "unauthorised",
+      "leak",
+      "leaks",
+      "leaked",
+      "leaking",
+      "lawsuit",
+      "lawsuits",
+      "sued",
+      "sues",
+      "suing",
+      "scam",
+      "scams",
+      "scammer",
+      "scammers",
+      "fraud",
+      "fraudulent",
+      "deceptive",
+      "deepfake",
+      "deepfakes",
+      "abuse",
+      "abused",
+      "abusive",
+      "misinformation",
+      "disinformation",
+      "lethal",
+      "weaponise",
+      "weaponises",
+      "weaponised",
+      "weaponize",
+      "weaponizes",
+      "weaponized",
+      "catastrophic",
+      "killed",
+      "deaths",
+      "layoffs",
+      "laid off",
+      "job cuts",
+      "infringes",
+      "infringement",
+      "infringing",
+      "malware",
+      "ransomware",
+      "phishing",
+      "jailbreak",
+      "jailbreaks",
+      "jailbroken",
+      "stolen",
+      "misuse",
+      "misused",
+      "without consent",
+      "without permission",
+      "fined",
+      "fines"
+    ],
+    "hedge_terms": [
+      "risk",
+      "risks",
+      "warns",
+      "warned",
+      "warning",
+      "warnings",
+      "could",
+      "might",
+      "would",
+      "q a",
+      "interview",
+      "podcast",
+      "opinion"
+    ],
+    "measured": {
+      "benefit_all_history": {
+        "known_y_found": "2 of 4",
+        "matched": 2,
+        "precision_strict_pct": 100,
+        "wilson_95_lower_pct": 34.2,
+        "y": 2
+      },
+      "benefit_current_file": {
+        "matched": 0
+      },
+      "harm_all_history": {
+        "borderline": 2,
+        "known_y_found": "23 of 34",
+        "matched": 26,
+        "n": 1,
+        "precision_counting_borderline_pct": 96.2,
+        "precision_strict_pct": 88.5,
+        "wilson_95_pct": [
+          71,
+          96
+        ],
+        "y": 23
+      },
+      "harm_current_file": {
+        "known_y_found": "11 of 16",
+        "matched": 11,
+        "precision_strict_pct": 100,
+        "wilson_95_lower_pct": 74.1,
+        "y": 11
+      },
+      "in_sample": true,
+      "labels": "One labeller. An item counts as Y only if it reports something that happened; commentary about what has not happened is not harm, and funding rounds and vendor self-announcements are not benefit.",
+      "matched_both_lists": 0,
+      "sample": "data/news.json generated_at 2026-09-28T02:46:46.998Z (200 items, 85 non-paper), plus every distinct item in its 483 git revisions (757 items, 324 non-paper)"
+    },
+    "negation_reach_words": 2,
+    "negators": [
+      "no",
+      "not",
+      "never"
+    ],
+    "not_scanned_kinds": [
+      "paper",
+      "lab",
+      "release",
+      "model"
+    ],
+    "rule": {
+      "hedge": "a headline ending in \"?\" (a trailing credit in parentheses allowed after it), or carrying a hedge term, counts on neither side",
+      "matching": "exact word forms after lower-casing, accent-folding and splitting on anything that is not a letter or a digit (wordSequence in collector/news-stories.mjs); phrases of 1 to 4 consecutive words; no stemming",
+      "negation": "a hit with no, not, never up to 2 words before it is ignored",
+      "same_rule_both_sides": true,
+      "summary_min_distinct_hits": 2,
+      "title_min_hits": 1
+    },
+    "sizes": {
+      "benefit": 47,
+      "harm": 78
+    },
+    "version": "v5"
+  },
+  "newsroom": {
+    "beam": {
+      "angle_deg": 8,
+      "benefit": 0,
+      "both": 0,
+      "harm": 5,
+      "level": false,
+      "level_reason": null,
+      "neither": 69,
+      "scanned": 74,
+      "sinks": "harm",
+      "state": "live",
+      "unit": "distinct stories"
+    },
+    "error": null,
+    "generated_at": "2026-10-03T17:29:32.685Z",
+    "items": {
+      "benefit_list": 0,
+      "benefit_only": 0,
+      "both": 0,
+      "harm_list": 6,
+      "harm_only": 6,
+      "hedged_headlines": 7,
+      "neither": 82,
+      "scanned": 88
+    },
+    "items_in_window": 200,
+    "matched": {
+      "benefit": [],
+      "harm": [
+        {
+          "hedge": null,
+          "hits": {
+            "benefit": {
+              "summary": [],
+              "title": []
+            },
+            "harm": {
+              "summary": [
+                "rogue"
+              ],
+              "title": [
+                "rogue"
+              ]
+            }
+          },
+          "id": "4858e04884f497d9",
+          "kind": "press",
+          "negated": [],
+          "published_at": "2026-10-03T06:35:01.000Z",
+          "score": 48.7,
+          "set_aside": null,
+          "source": "techmeme",
+          "story": "300a6d811f1c",
+          "tag": "harm",
+          "title": "A look at the Swarmchasers forum, which has 400 members, including the Nightingale Collective and Transluce, who comb the web for traces of rogue AI agents (Robert McMillan/Wall Street Journal)",
+          "url": "https://techmeme.com/261003/p6"
+        },
+        {
+          "hedge": null,
+          "hits": {
+            "benefit": {
+              "summary": [],
+              "title": []
+            },
+            "harm": {
+              "summary": [
+                "leaked"
+              ],
+              "title": [
+                "leaked"
+              ]
+            }
+          },
+          "id": "fc8a842c157f490f",
+          "kind": "press",
+          "negated": [],
+          "published_at": "2026-10-02T23:50:01.000Z",
+          "score": 43.7,
+          "set_aside": null,
+          "source": "techmeme",
+          "story": "9696cba87fb8",
+          "tag": "harm",
+          "title": "Leaked Slack messages show OpenAI employees' pushback in June to Greg Brockman's Leading the Future ties, contributing to Brockman reneging on a $25M donation (Garrison Lovely/Semafor)",
+          "url": "https://techmeme.com/261002/p28"
+        },
+        {
+          "hedge": null,
+          "hits": {
+            "benefit": {
+              "summary": [],
+              "title": []
+            },
+            "harm": {
+              "summary": [],
+              "title": [
+                "abuse"
+              ]
+            }
+          },
+          "id": "5432f5b94c34f514",
+          "kind": "press",
+          "negated": [],
+          "published_at": "2026-10-02T23:03:16.000Z",
+          "score": 29,
+          "set_aside": null,
+          "source": "arstechnica-ai",
+          "story": "1b4a7f5d2b03",
+          "tag": "harm",
+          "title": "Apple changes full-disk access permissions to curb abuse from AI agents",
+          "url": "https://arstechnica.com/security/2026/10/apple-changes-full-disk-access-permissions-to-curb-abuse-from-ai-agents"
+        },
+        {
+          "hedge": null,
+          "hits": {
+            "benefit": {
+              "summary": [],
+              "title": []
+            },
+            "harm": {
+              "summary": [
+                "lawsuits"
+              ],
+              "title": [
+                "lawsuits"
+              ]
+            }
+          },
+          "id": "878a9209d9ad23d7",
+          "kind": "press",
+          "negated": [],
+          "published_at": "2026-10-02T13:05:02.000Z",
+          "score": 34.1,
+          "set_aside": null,
+          "source": "techmeme",
+          "story": "03b3a93bb727",
+          "tag": "harm",
+          "title": "Suno debuts Speech, which generates spoken voices from scripts or prompts, with optional background music, in public beta, as its music generator faces lawsuits (Jess Weatherbed/The Verge)",
+          "url": "https://techmeme.com/261002/p11"
+        },
+        {
+          "hedge": null,
+          "hits": {
+            "benefit": {
+              "summary": [],
+              "title": []
+            },
+            "harm": {
+              "summary": [
+                "attack",
+                "hacked"
+              ],
+              "title": [
+                "hacked"
+              ]
+            }
+          },
+          "id": "4f2d93c93c3f32c7",
+          "kind": "press",
+          "negated": [],
+          "published_at": "2026-10-02T10:45:00.000Z",
+          "score": 46.6,
+          "set_aside": null,
+          "source": "techmeme",
+          "story": "9696cba87fb8",
+          "tag": "harm",
+          "title": "OpenAI says it learned this week that its AI agent hacked Australia's NSW state government in June, following a similar hack of Australia's federal government (Henry Belot/The Guardian)",
+          "url": "https://techmeme.com/261002/p9"
+        },
+        {
+          "hedge": null,
+          "hits": {
+            "benefit": {
+              "summary": [],
+              "title": []
+            },
+            "harm": {
+              "summary": [
+                "incidents",
+                "unauthorized"
+              ],
+              "title": []
+            }
+          },
+          "id": "c2b8d7778d25d3b4",
+          "kind": "press",
+          "negated": [],
+          "published_at": "2026-10-02T01:55:01.000Z",
+          "score": 35.1,
+          "set_aside": null,
+          "source": "techmeme",
+          "story": null,
+          "tag": "harm",
+          "title": "OpenAI says that as of September 26, it has notified 100+ organizations about its AI agents bypassing their security controls or negatively impacting a service (Arasu Kannagi Basil/Reuters)",
+          "url": "https://techmeme.com/261001/p47"
+        }
+      ]
+    },
+    "neither": [
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "79cbb0ef610aa1d1",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-03T16:49:10.000Z",
+        "score": 33.5,
+        "set_aside": null,
+        "source": "verge-ai",
+        "story": null,
+        "tag": "neither",
+        "title": "Capcom is preparing for a ‘future where we create games together with AI’",
+        "url": "https://theverge.com/games/1004418/capcom-ai-game-development"
+      },
+      {
+        "hedge": "could",
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "2c780191dd3207a8",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-03T15:10:01.000Z",
+        "score": 42.6,
+        "set_aside": null,
+        "source": "techmeme",
+        "story": null,
+        "tag": "neither",
+        "title": "OpenAI's DevDay 2026 announcements to turn ChatGPT into a place to discover, launch, and use software could potentially disrupt the traditional app store model (Sarah Perez/TechCrunch)",
+        "url": "https://techmeme.com/261003/p9"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "432e37d70464e75b",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-03T15:00:00.000Z",
+        "score": 32.9,
+        "set_aside": null,
+        "source": "verge-ai",
+        "story": null,
+        "tag": "neither",
+        "title": "Splice CEO Kakul Srivastava thinks AI emails are killing conversations",
+        "url": "https://theverge.com/entertainment/1004162/splice-ceo-kakul-srivastava-ai-interview"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "f6f593b7658385dd",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-03T14:31:56.000Z",
+        "score": 35.7,
+        "set_aside": null,
+        "source": "verge-ai",
+        "story": null,
+        "tag": "neither",
+        "title": "An OpenAI safety employee has quit and is sounding the alarm",
+        "url": "https://theverge.com/ai-artificial-intelligence/1004408/openai-safety-quits-sounding-the-alarm"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "d84c1b5f545d8952",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-03T13:35:01.000Z",
+        "score": 36.1,
+        "set_aside": null,
+        "source": "techmeme",
+        "story": "099b016cde6a",
+        "tag": "neither",
+        "title": "A look at a radio show co-hosted by an AI DJ and a human that is expanding in LA and other cities, as radio workers worry synthetic hosts may soon replace them (Nilesh Christopher/Los Angeles Times)",
+        "url": "https://techmeme.com/261003/p8"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "f2d260de0be38dc1",
+        "kind": "forum",
+        "negated": [],
+        "published_at": "2026-10-03T13:34:18.000Z",
+        "score": 45.2,
+        "set_aside": null,
+        "source": "hn-ai",
+        "story": null,
+        "tag": "neither",
+        "title": "US killer's sentence quashed because of AI video of victim shown in court",
+        "url": "https://bbc.com/news/articles/cwgkvygg5nzvo"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "1ef1b38c39d01608",
+        "kind": "forum",
+        "negated": [],
+        "published_at": "2026-10-03T10:43:51.000Z",
+        "score": 46.1,
+        "set_aside": null,
+        "source": "hn-ai",
+        "story": null,
+        "tag": "neither",
+        "title": "Show HN: Germany's new sovereign AI model Kolibri",
+        "url": "https://tej.as/blog/aleph-alpha-kolibri"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "28cadae6e77108c1",
+        "kind": "forum",
+        "negated": [],
+        "published_at": "2026-10-03T10:07:08.000Z",
+        "score": 43.5,
+        "set_aside": null,
+        "source": "hn-ai",
+        "story": null,
+        "tag": "neither",
+        "title": "An AI agent emailed researchers for help. It told us why",
+        "url": "https://science.org/content/article/exclusive-ai-agent-emailed-hundreds-researchers-help-it-told-us-why"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "e8728643fe2fddf1",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-03T09:41:06.000Z",
+        "score": 34.7,
+        "set_aside": null,
+        "source": "techmeme",
+        "story": null,
+        "tag": "neither",
+        "title": "Center for Technology & Statecraft: Chinese fabs had acquired ~343 DUVi tools by early 2026, with ~270 from ASML; DUVi can be adapted to make 7nm chips and HBM (Howard Liu/South China Morning Post)",
+        "url": "https://techmeme.com/261003/p7"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "eeef60b4231a79e5",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-03T05:55:57.000Z",
+        "score": 33.5,
+        "set_aside": null,
+        "source": "techmeme",
+        "story": "099b016cde6a",
+        "tag": "neither",
+        "title": "Relay, which develops cloud-hosted, AI-powered smart radio communicators for frontline workers, raised $36M to help businesses capture \"frontline intelligence\" (Mike Wheatley/SiliconANGLE)",
+        "url": "https://techmeme.com/261003/p5"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "0c286c93f2d66d52",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-03T05:45:00.000Z",
+        "score": 33.5,
+        "set_aside": null,
+        "source": "techmeme",
+        "story": "e93f7df6336e",
+        "tag": "neither",
+        "title": "Nasdaq-listed neocloud Nebius acquires Inferize, whose tech helps optimize GPU utilization and reduce AI request costs, sources say for $100M to $150M (Meir Orbach/CTech)",
+        "url": "https://techmeme.com/261003/p4"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "a01b26a99f44c194",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-03T05:30:02.000Z",
+        "score": 36.4,
+        "set_aside": null,
+        "source": "techmeme",
+        "story": null,
+        "tag": "neither",
+        "title": "Elon Musk confirms TSMC discussions on a Terafab deal to supply Tesla, SpaceX, and xAI, as TSMC also mulls a Texas presence; Musk didn't elaborate (Tim Culpan/Culpium)",
+        "url": "https://techmeme.com/261003/p3"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "a1ded1cc3091e579",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-03T05:11:01.000Z",
+        "score": 33.3,
+        "set_aside": null,
+        "source": "techmeme",
+        "story": "668e2922097b",
+        "tag": "neither",
+        "title": "Reco, whose tech helps enterprises secure and govern AI agents across SaaS environments, raised a $55M Series B extension, taking its total funding to $140M (Ram Iyer/TechCrunch)",
+        "url": "https://techmeme.com/261003/p2"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "9656ec0fbd1cc90f",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-03T00:50:01.000Z",
+        "score": 32,
+        "set_aside": null,
+        "source": "techmeme",
+        "story": "e93f7df6336e",
+        "tag": "neither",
+        "title": "Supabase raised $150M led by Singapore's GIC and agrees to acquire Turso, which offers a database optimized for AI agents, for an undisclosed sum (Maria Deutscher/SiliconANGLE)",
+        "url": "https://techmeme.com/261002/p30"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "2a1829bef4580bda",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-02T23:55:35.000Z",
+        "score": 34.8,
+        "set_aside": null,
+        "source": "techmeme",
+        "story": null,
+        "tag": "neither",
+        "title": "David Robinson, who worked on OpenAI's Safety Systems team and had previously led policy planning, left OpenAI last week (Business Insider)",
+        "url": "https://techmeme.com/261002/p29"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "ab1faefd57fbb0e9",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-02T23:20:01.000Z",
+        "score": 44.6,
+        "set_aside": null,
+        "source": "techmeme",
+        "story": "2d05217cac25",
+        "tag": "neither",
+        "title": "Amazon says it has stopped using NDAs with county officials for data center projects and acknowledges community backlash is leading to data center moratoriums (Molly Taft/Wired)",
+        "url": "https://techmeme.com/261002/p27"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "4b85fc1357efa8f4",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-02T23:00:38.000Z",
+        "score": 34.5,
+        "set_aside": null,
+        "source": "techmeme",
+        "story": null,
+        "tag": "neither",
+        "title": "Nvidia announces a version of DGX Spark with 64 GB of unified memory for $4,999, or $1,000 more than the 128 GB version at launch (Michael Kan/PCMag)",
+        "url": "https://techmeme.com/261002/p26"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "a4992c43b31c550a",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-02T21:08:37.000Z",
+        "score": 27.3,
+        "set_aside": null,
+        "source": "verge-ai",
+        "story": "56329b6e5835",
+        "tag": "neither",
+        "title": "Meta open sources code to let you make Muse AI gadgets",
+        "url": "https://theverge.com/tech/1004330/meta-muse-ai-gadgets-home-link"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "e02bec34cddb2982",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-02T20:50:01.000Z",
+        "score": 35.9,
+        "set_aside": null,
+        "source": "techmeme",
+        "story": "56329b6e5835",
+        "tag": "neither",
+        "title": "Meta announces Muse Gadgets, providing an open source ESP32 microchip firmware and a Linux SDK to let users bring Muse to their hardware, like Raspberry Pi 5 (Karissa Bell/Engadget)",
+        "url": "https://techmeme.com/261002/p24"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "c513a3cfcdf98800",
+        "kind": "forum",
+        "negated": [],
+        "published_at": "2026-10-02T20:39:05.000Z",
+        "score": 35.1,
+        "set_aside": null,
+        "source": "hn-ai",
+        "story": null,
+        "tag": "neither",
+        "title": "Three AI agents, two countries, and one uneven world wide web",
+        "url": "https://royapakzad.substack.com/p/multilingual-ai-agents"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "90c6c9903271281a",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-02T20:30:27.000Z",
+        "score": 31.4,
+        "set_aside": null,
+        "source": "arstechnica-ai",
+        "story": "2d05217cac25",
+        "tag": "neither",
+        "title": "Amazon’s $1B plan to combat data center backlash draws more backlash",
+        "url": "https://arstechnica.com/tech-policy/2026/10/amazons-1b-plan-to-combat-data-center-backlash-draws-more-backlash"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "9e58a85031c0f21d",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-02T20:25:21.000Z",
+        "score": 30.8,
+        "set_aside": null,
+        "source": "techmeme",
+        "story": null,
+        "tag": "neither",
+        "title": "Meta says it is letting go of employees it hired from AI safety startup Virtue AI four months after they joined the company, citing clashing work styles (Ashley Gold/Semafor)",
+        "url": "https://techmeme.com/261002/p23"
+      },
+      {
+        "hedge": "risk",
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "d38f609848f214fe",
+        "kind": "forum",
+        "negated": [],
+        "published_at": "2026-10-02T20:08:40.000Z",
+        "score": 47.5,
+        "set_aside": null,
+        "source": "hn-ai",
+        "story": "1b4a7f5d2b03",
+        "tag": "neither",
+        "title": "Apple will limit Mac disk access as AI agents 'substantially' increase risk",
+        "url": "https://theverge.com/tech/1004295/apple-limit-mac-disk-access-ai-agents"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "16212e61438fe737",
+        "kind": "forum",
+        "negated": [],
+        "published_at": "2026-10-02T20:00:15.000Z",
+        "score": 42.4,
+        "set_aside": null,
+        "source": "hn-ai",
+        "story": null,
+        "tag": "neither",
+        "title": "Show HN: Made an open-source Lego AI generator",
+        "url": "https://github.com/anteloc/ldraw-nova"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "bebca6424b0efee5",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-02T19:30:00.000Z",
+        "score": 24.4,
+        "set_aside": null,
+        "source": "mit-news-ai",
+        "story": null,
+        "tag": "neither",
+        "title": "Computational tools for society’s most complex challenges",
+        "url": "https://news.mit.edu/2026/computational-tools-for-societys-most-complex-challenges-cathy-wu-1002"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "e07379c32b37b00c",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-02T19:25:15.000Z",
+        "score": 30.6,
+        "set_aside": null,
+        "source": "techmeme",
+        "story": null,
+        "tag": "neither",
+        "title": "TypeSafe CEO Diogo Almeida says Jev is in use by ~25% of Fortune 500 companies and \"we were at a trillion tokens per day about a week ago\" (Elias Schisgall/Wall Street Journal)",
+        "url": "https://techmeme.com/261002/p21"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "9c74b8828a2c0cb5",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-02T18:39:36.000Z",
+        "score": 30.9,
+        "set_aside": null,
+        "source": "arstechnica-ai",
+        "story": "6063748138d3",
+        "tag": "neither",
+        "title": "US arrests tech CEO accused of smuggling $300M in Nvidia chips into China",
+        "url": "https://arstechnica.com/tech-policy/2026/10/us-arrests-tech-ceo-accused-of-smuggling-300m-in-nvidia-chips-into-china"
+      },
+      {
+        "hedge": "risks",
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "44c11c671b54b398",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-02T18:30:00.000Z",
+        "score": 61.5,
+        "set_aside": null,
+        "source": "techmeme",
+        "story": "1b4a7f5d2b03",
+        "tag": "neither",
+        "title": "Apple says it is adding additional controls around \"Full Disk Access\" on macOS as AI agents have increased \"the risks associated with this level of access\" (Sarah Perez/TechCrunch)",
+        "url": "https://techmeme.com/261002/p19"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "e842e64aefcf3d4a",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-02T18:00:38.000Z",
+        "score": 36.2,
+        "set_aside": null,
+        "source": "techmeme",
+        "story": null,
+        "tag": "neither",
+        "title": "Anthropic launches the Claude Frontier Academy with a $100M commitment to train 10K \"Frontier Deployed Engineers\" by 2028, starting with Accenture, Bain, others (Anthropic)",
+        "url": "https://techmeme.com/261002/p18"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "55c119b740b463df",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-02T18:00:00.000Z",
+        "score": 29.5,
+        "set_aside": null,
+        "source": "verge-ai",
+        "story": null,
+        "tag": "neither",
+        "title": "OpenAI’s Dot agent is enterprise software that can also order your dinner",
+        "url": "https://theverge.com/ai-artificial-intelligence/1004096/openai-chatgpt-dots-hands-on-agent"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "40e75582d4827bf0",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-02T17:37:36.000Z",
+        "score": 26.4,
+        "set_aside": null,
+        "source": "verge-ai",
+        "story": null,
+        "tag": "neither",
+        "title": "Breaking up (with Elon Musk) is hard to do",
+        "url": "https://theverge.com/tech/1004177/elon-musk-unfollows-shivon-zilis"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "f8896539f3c382bb",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-02T17:35:05.000Z",
+        "score": 33.1,
+        "set_aside": null,
+        "source": "techmeme",
+        "story": "6be772460ad9",
+        "tag": "neither",
+        "title": "Sources: SpaceX's AI unit held talks about leasing computing capacity to Microsoft, as it fully embraces the neocloud business despite Musk's initial reluctance (Grace Kay/The Information)",
+        "url": "https://techmeme.com/261002/p17"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "902326ffbbad48eb",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-02T17:00:00.000Z",
+        "score": 23.8,
+        "set_aside": null,
+        "source": "mit-news-ai",
+        "story": null,
+        "tag": "neither",
+        "title": "Documenting the tech worker movement",
+        "url": "https://news.mit.edu/2026/documenting-tech-worker-movement-0918"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "fd0285610cdb9c3a",
+        "kind": "forum",
+        "negated": [],
+        "published_at": "2026-10-02T16:56:33.000Z",
+        "score": 37.4,
+        "set_aside": null,
+        "source": "hn-ai",
+        "story": null,
+        "tag": "neither",
+        "title": "Musk's AI chatbot Grok encouraged Trump to capture Venezuela's president",
+        "url": "https://techcrunch.com/2026/10/01/musks-ai-chatbot-grok-reportedly-encouraged-trump-to-capture-venezuelas-president"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "8daf795c3302dcc0",
+        "kind": "forum",
+        "negated": [],
+        "published_at": "2026-10-02T16:06:55.000Z",
+        "score": 33.7,
+        "set_aside": null,
+        "source": "hn-ai",
+        "story": null,
+        "tag": "neither",
+        "title": "Trump's AI rebrand causes 'unprecedented' demand for Slovenian website names",
+        "url": "https://bbc.co.uk/news/articles/cqx2z23xj555o"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "0cdc40be2f31ee94",
+        "kind": "forum",
+        "negated": [],
+        "published_at": "2026-10-02T15:24:54.000Z",
+        "score": 38.4,
+        "set_aside": null,
+        "source": "hn-ai",
+        "story": null,
+        "tag": "neither",
+        "title": "Power approval set to delay Oracle's Wisconsin AI datacenter",
+        "url": "https://theregister.com/on-prem/2026/10/02/power-approval-set-to-delay-oracles-wisconsin-ai-datacenter/5300832"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "4280f3756dc6030f",
+        "kind": "forum",
+        "negated": [],
+        "published_at": "2026-10-02T15:19:22.000Z",
+        "score": 37.1,
+        "set_aside": null,
+        "source": "hn-ai",
+        "story": null,
+        "tag": "neither",
+        "title": "Mozilla shutting down Solo AI website creator",
+        "url": "https://support.soloist.ai/doc/solo-shutdown-faq"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "7c35e1148c5e7af2",
+        "kind": "forum",
+        "negated": [],
+        "published_at": "2026-10-02T15:18:00.000Z",
+        "score": 42.3,
+        "set_aside": null,
+        "source": "hn-ai",
+        "story": null,
+        "tag": "neither",
+        "title": "AI Makes Me Sad",
+        "url": "https://mondobe.com/ai-makes-me-sad"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "a7fde56c028e1d7a",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-02T15:05:00.000Z",
+        "score": 29.5,
+        "set_aside": null,
+        "source": "techmeme",
+        "story": null,
+        "tag": "neither",
+        "title": "Slovenia says 44,000 domain names with the .si suffix were registered in September, up from ~2,000 in August, as Trump renamed AI \"super intelligence\" (Laura Cress/BBC)",
+        "url": "https://techmeme.com/261002/p14"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "a08a24d3f61d4df5",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-02T14:52:16.000Z",
+        "score": 30,
+        "set_aside": null,
+        "source": "arstechnica-ai",
+        "story": null,
+        "tag": "neither",
+        "title": "The 7-year-old Nvidia Shield TV is now $100 more expensive due to AI",
+        "url": "https://arstechnica.com/gadgets/2026/10/the-7-year-old-nvidia-shield-tv-is-now-100-more-expensive-thanks-to-ai"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "ddf974b04ba4f621",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-02T14:30:00.000Z",
+        "score": 32.4,
+        "set_aside": null,
+        "source": "techmeme",
+        "story": null,
+        "tag": "neither",
+        "title": "Sources: Broadcom's Wall Street syndicate is amassing $60B in AI chip financing to help Anthropic and others access chips and other key AI infrastructure (Bloomberg)",
+        "url": "https://techmeme.com/261002/p13"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "f1b843081f85077f",
+        "kind": "forum",
+        "negated": [],
+        "published_at": "2026-10-02T14:18:34.000Z",
+        "score": 35.6,
+        "set_aside": null,
+        "source": "hn-ai",
+        "story": null,
+        "tag": "neither",
+        "title": "We're Missing a Key Reason Why Americans Hate AI",
+        "url": "https://derekthompson.org/p/were-missing-a-key-reason-why-americans"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "69e4d5ad95ee1b62",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-02T13:45:02.000Z",
+        "score": 39.7,
+        "set_aside": null,
+        "source": "techmeme",
+        "story": null,
+        "tag": "neither",
+        "title": "Sources: an EU investigation is set to find that Azure and AWS meet DMA thresholds, as the EU strengthens its regulatory scrutiny of the cloud sector (Bloomberg)",
+        "url": "https://techmeme.com/261002/p12"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "e5a64fefca98f908",
+        "kind": "forum",
+        "negated": [],
+        "published_at": "2026-10-02T13:24:24.000Z",
+        "score": 34.2,
+        "set_aside": null,
+        "source": "hn-ai",
+        "story": null,
+        "tag": "neither",
+        "title": "Robot Hands for Modern AI and Real Work",
+        "url": "https://bostondynamics.com/blog/robot-hands-for-modern-ai-and-real-work"
+      },
+      {
+        "hedge": "question",
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "14f88081bd16e6a2",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-02T12:00:00.000Z",
+        "score": 25.1,
+        "set_aside": null,
+        "source": "verge-ai",
+        "story": null,
+        "tag": "neither",
+        "title": "If a data center is camouflaged in the woods, will anyone hate it?",
+        "url": "https://theverge.com/tech/1003681/microsoft-data-centers-ai-environment-biomimicry"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "44b043045017e492",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-02T12:00:00.000Z",
+        "score": 25.1,
+        "set_aside": null,
+        "source": "verge-ai",
+        "story": null,
+        "tag": "neither",
+        "title": "AI hallucinations are making entitled customers even worse",
+        "url": "https://theverge.com/report/1002963/ai-hallucinations-customer-service-jobs-agents"
+      },
+      {
+        "hedge": "warning",
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [
+              "harm"
+            ],
+            "title": []
+          }
+        },
+        "id": "7fee27dbfb1ebc52",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-02T11:52:20.000Z",
+        "score": 28.1,
+        "set_aside": "hedge word \"warning\" in the headline",
+        "source": "verge-ai",
+        "story": "2d05217cac25",
+        "tag": "neither",
+        "title": "Amazon writes scary blog warning communities not to block data centers",
+        "url": "https://theverge.com/tech/1003929/amazon-ai-data-center-blog-warning"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "534724f9f094f4b1",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-02T10:25:01.000Z",
+        "score": 31.5,
+        "set_aside": null,
+        "source": "techmeme",
+        "story": "2d05217cac25",
+        "tag": "neither",
+        "title": "Amazon plans to spend $1B+ over five years for infrastructure upgrades and other projects in US communities that host its data centers, amid a growing backlash (Todd Bishop/GeekWire)",
+        "url": "https://techmeme.com/261002/p8"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "0205649479ffc8fc",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-02T10:01:25.000Z",
+        "score": 28.4,
+        "set_aside": null,
+        "source": "techmeme",
+        "story": "668e2922097b",
+        "tag": "neither",
+        "title": "Halluminate, which builds AI training environments for complex financial workflows, raised a $30M Series A led by Oak HC/FT, taking its total funding to $38.5M (Wen Shao/Fortune)",
+        "url": "https://techmeme.com/261002/p6"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "f1665f612e8ba07b",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-02T09:45:01.000Z",
+        "score": 36.4,
+        "set_aside": null,
+        "source": "techmeme",
+        "story": "6063748138d3",
+        "tag": "neither",
+        "title": "US authorities arrest a California man suspected of smuggling $300M+ worth of restricted Nvidia AI chips to China via Malaysia and Singapore from 2023 to 2024 (Michael Shepard/Bloomberg)",
+        "url": "https://techmeme.com/261002/p5"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "5d9296aae3fcc667",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-02T09:42:19.000Z",
+        "score": 24.6,
+        "set_aside": null,
+        "source": "verge-ai",
+        "story": "03b3a93bb727",
+        "tag": "neither",
+        "title": "AI music maker Suno now generates spoken words",
+        "url": "https://theverge.com/ai-artificial-intelligence/1003925/suno-speech-ai-voice-feature-beta-availability"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "624cedfcd6b9a979",
+        "kind": "forum",
+        "negated": [],
+        "published_at": "2026-10-02T09:12:45.000Z",
+        "score": 32.9,
+        "set_aside": null,
+        "source": "hn-ai",
+        "story": null,
+        "tag": "neither",
+        "title": "AI-Generated Victim Statement Leads to Sentence Being Vacated",
+        "url": "https://apnews.com/article/arizona-ai-video-victim-cd1ca553c7fa80c6698d7f97b51b1edd"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "160e55915d304055",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-02T08:45:00.000Z",
+        "score": 31.1,
+        "set_aside": null,
+        "source": "techmeme",
+        "story": null,
+        "tag": "neither",
+        "title": "A profile of Larry Ellison, including his octopus fixation, influence across Oracle, data centers, TikTok, politics, and support for David's media ambitions (Vanity Fair)",
+        "url": "https://techmeme.com/261002/p4"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "5dd4ec833b1cedb8",
+        "kind": "forum",
+        "negated": [],
+        "published_at": "2026-10-02T08:40:39.000Z",
+        "score": 33.2,
+        "set_aside": null,
+        "source": "hn-ai",
+        "story": null,
+        "tag": "neither",
+        "title": "Trump renaming AI to SI is making his wife's home country a little richer",
+        "url": "https://neowin.net/news/trump-renaming-ai-to-super-intelligence-is-making-his-wifes-home-country-a-little-richer"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "c2a65951232f9e0d",
+        "kind": "forum",
+        "negated": [],
+        "published_at": "2026-10-02T07:40:15.000Z",
+        "score": 33.2,
+        "set_aside": null,
+        "source": "hn-ai",
+        "story": null,
+        "tag": "neither",
+        "title": "The Philadelphia Inquirer built Scrape, an AI tool to surface hyperlocal news",
+        "url": "https://lenfestinstitute.org/solutions-resources/philadelphia-inquirer-scrape-ai-hyperlocal-news"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "79f2db3a8d463d0b",
+        "kind": "forum",
+        "negated": [],
+        "published_at": "2026-10-02T06:31:39.000Z",
+        "score": 37.5,
+        "set_aside": null,
+        "source": "hn-ai",
+        "story": null,
+        "tag": "neither",
+        "title": "AI godfather Yann LeCun: Anthropic CEO deluded, doesn't understand cybersecurity",
+        "url": "https://fortune.com/2026/10/01/yann-lecun-anthropic-ceo-dario-amodei-deluded-crazy-cybersecurity"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "de4d045bb7d423f5",
+        "kind": "forum",
+        "negated": [],
+        "published_at": "2026-10-02T06:18:31.000Z",
+        "score": 36.9,
+        "set_aside": null,
+        "source": "hn-ai",
+        "story": null,
+        "tag": "neither",
+        "title": "AI training of copyrighted material not fair use: Third Circuit",
+        "url": "https://courthousenews.com/ai-training-of-copyrighted-material-not-fair-use-third-circuit"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "24fe6782c188941a",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-02T05:10:02.000Z",
+        "score": 33.4,
+        "set_aside": null,
+        "source": "techmeme",
+        "story": "6be772460ad9",
+        "tag": "neither",
+        "title": "Sources: Amazon has held talks with investors about a deal to spin off $8B of Grace Blackwell chips into an SPV, then lease them back for its US data centers (Financial Times)",
+        "url": "https://techmeme.com/261002/p2"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "08a68f6f5079b353",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-02T04:55:00.000Z",
+        "score": 27.4,
+        "set_aside": null,
+        "source": "techmeme",
+        "story": null,
+        "tag": "neither",
+        "title": "ArXiv limits preprint submissions to two per month per submitter, as AI access fuels a record 40,363 submissions in September 2026, vs. 20,569 in September 2024 (Kat Boboris/arXiv)",
+        "url": "https://techmeme.com/261002/p1"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "59d88ee0fd4c3ec0",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-02T04:00:00.000Z",
+        "score": 21,
+        "set_aside": null,
+        "source": "mit-news-ai",
+        "story": null,
+        "tag": "neither",
+        "title": "3 Questions: A new resource to empower young entrepreneurs",
+        "url": "https://news.mit.edu/2026/3-questions-new-resource-empower-young-entrepreneurs-1002"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "30ba708940484e29",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-02T03:30:08.000Z",
+        "score": 30.1,
+        "set_aside": null,
+        "source": "techmeme",
+        "story": null,
+        "tag": "neither",
+        "title": "Experts say mounting cases of Nvidia chips reaching Chinese AI companies despite US export controls are increasingly pointing to gaps in Nvidia's due diligence (Mackenzie Hawkins/Bloomberg)",
+        "url": "https://techmeme.com/261001/p49"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "bc3dee56cb007da9",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-02T02:35:00.000Z",
+        "score": 33,
+        "set_aside": null,
+        "source": "techmeme",
+        "story": null,
+        "tag": "neither",
+        "title": "Cloudflare debuts open-weight multimodal decision models Clef and Clef-flash, claiming they are smarter and faster than Jev, based on Qwen3.8-27B and Qwen3.5-9B (Brandon Vigliarolo/The Register)",
+        "url": "https://techmeme.com/261001/p48"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "d8da31033454a298",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-02T01:30:03.000Z",
+        "score": 26.8,
+        "set_aside": null,
+        "source": "techmeme",
+        "story": null,
+        "tag": "neither",
+        "title": "Sources: Jay Clayton will likely be the White House's pick for AI czar, and he may remain in his current role as director of national intelligence (Jennifer Jacobs/CBS News)",
+        "url": "https://techmeme.com/261001/p46"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "c30abe5661a0b546",
+        "kind": "forum",
+        "negated": [],
+        "published_at": "2026-10-02T01:20:32.000Z",
+        "score": 31.6,
+        "set_aside": null,
+        "source": "hn-ai",
+        "story": null,
+        "tag": "neither",
+        "title": "Our AI Midwife",
+        "url": "https://astralcodexten.com/p/our-ai-midwife"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "3c1de85e46b885fe",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-01T23:30:01.000Z",
+        "score": 41.4,
+        "set_aside": null,
+        "source": "techmeme",
+        "story": "300a6d811f1c",
+        "tag": "neither",
+        "title": "A look at two opposing perspectives on AI agent sandboxing: infosec says labs need better containment while AI alignment says sandboxes cannot contain agents (Matthew Green/A Few Thoughts on…",
+        "url": "https://techmeme.com/261001/p44"
+      },
+      {
+        "hedge": "risks",
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [
+              "incidents"
+            ],
+            "title": [
+              "incidents"
+            ]
+          }
+        },
+        "id": "52899805183c704f",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-01T23:15:01.000Z",
+        "score": 33.9,
+        "set_aside": "hedge word \"risks\" in the headline",
+        "source": "techmeme",
+        "story": null,
+        "tag": "neither",
+        "title": "California AG Rob Bonta issues an investigative subpoena to OpenAI, as part of a broader inquiry into cybersecurity incidents and risks related to its AI models (Jaspreet Singh/Reuters)",
+        "url": "https://techmeme.com/261001/p43"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "332a030dbfbb2ae0",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-01T23:00:00.000Z",
+        "score": 29.3,
+        "set_aside": null,
+        "source": "techmeme",
+        "story": null,
+        "tag": "neither",
+        "title": "Microsoft launches MAI-Transcribe-2-Streaming, a model for low-latency, real-time transcripts, and two new voice models, MAI-Voice-2.1 and MAI-Voice-2.1-Flash (Microsoft AI)",
+        "url": "https://techmeme.com/261001/p42"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "6889b17eb8474548",
+        "kind": "status",
+        "negated": [],
+        "published_at": "2026-10-01T22:36:22.000Z",
+        "score": 28.6,
+        "set_aside": null,
+        "source": "anthropic-status",
+        "story": null,
+        "tag": "neither",
+        "title": "Anthropic status: Delayed credits on the Claude Platform",
+        "url": "https://status.claude.com/incidents/k0h22tsvnydg"
+      },
+      {
+        "hedge": "might",
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "6cbeb818c5f3a17b",
+        "kind": "forum",
+        "negated": [],
+        "published_at": "2026-10-01T22:15:57.000Z",
+        "score": 34.2,
+        "set_aside": null,
+        "source": "hn-ai",
+        "story": null,
+        "tag": "neither",
+        "title": "Your Big Mac might cost more if McDonald's AI thinks people nearby can afford it",
+        "url": "https://neow.in/NGxhb3d6"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "5eac50629b789dda",
+        "kind": "forum",
+        "negated": [],
+        "published_at": "2026-10-01T22:02:31.000Z",
+        "score": 34.4,
+        "set_aside": null,
+        "source": "hn-ai",
+        "story": null,
+        "tag": "neither",
+        "title": "Aweb – Communication for AI Agents",
+        "url": "https://aweb.ai"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "02c744c8cb64f92f",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-01T22:00:00.000Z",
+        "score": 20,
+        "set_aside": null,
+        "source": "mit-news-ai",
+        "story": null,
+        "tag": "neither",
+        "title": "New tool lets users repair AI-generated 3D models, then fabricate them just the way they want",
+        "url": "https://news.mit.edu/2026/instructmesh-tool-lets-users-repair-ai-3d-models-then-fabricate-them-1001"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "3b16b4e401d0da01",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-01T21:55:00.000Z",
+        "score": 29.1,
+        "set_aside": null,
+        "source": "techmeme",
+        "story": null,
+        "tag": "neither",
+        "title": "Source: some of the information that the three now ex-OpenAI employees allegedly mishandled pertained to OpenAI's infrastructure architecture (Rachel Metz/Bloomberg)",
+        "url": "https://techmeme.com/261001/p39"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "2ca320cd1c3a419d",
+        "kind": "forum",
+        "negated": [],
+        "published_at": "2026-10-01T21:34:19.000Z",
+        "score": 34.4,
+        "set_aside": null,
+        "source": "hn-ai",
+        "story": null,
+        "tag": "neither",
+        "title": "Don't Be Fooled by this Summer of AI Hype",
+        "url": "https://technologyreview.com/2026/09/22/1144867/dont-be-fooled-summer-ai-hype"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "e0b96168557b695f",
+        "kind": "forum",
+        "negated": [],
+        "published_at": "2026-10-01T20:55:31.000Z",
+        "score": 31.1,
+        "set_aside": null,
+        "source": "hn-ai",
+        "story": null,
+        "tag": "neither",
+        "title": "AI as Normal Technology (2025)",
+        "url": "https://knightcolumbia.org/content/ai-as-normal-technology"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "4a0a599780913055",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-01T20:40:00.000Z",
+        "score": 31.9,
+        "set_aside": null,
+        "source": "techmeme",
+        "story": null,
+        "tag": "neither",
+        "title": "OpenAI launches two ChatGPT shopping features: a virtual try-on tool for clothing and accessories, and a Favorites feature to save products to a user's Library (Sarah Perez/TechCrunch)",
+        "url": "https://techmeme.com/261001/p37"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "c2cddce9b3a8c7d3",
+        "kind": "forum",
+        "negated": [],
+        "published_at": "2026-10-01T20:30:02.000Z",
+        "score": 30.6,
+        "set_aside": null,
+        "source": "hn-ai",
+        "story": null,
+        "tag": "neither",
+        "title": "Show HN: Premortem – AI agents that red-team your startup idea",
+        "url": "https://premortem.site"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "43678b864e543bf8",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-01T19:47:51.000Z",
+        "score": 25.1,
+        "set_aside": null,
+        "source": "verge-ai",
+        "story": null,
+        "tag": "neither",
+        "title": "Google’s new Guided Vision feature can help you read the fine print",
+        "url": "https://theverge.com/ai-artificial-intelligence/1003756/google-gemini-live-guided-vision"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "9d298a2976eeab19",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-01T19:25:01.000Z",
+        "score": 31.7,
+        "set_aside": null,
+        "source": "techmeme",
+        "story": null,
+        "tag": "neither",
+        "title": "Anthropic urges Australia to consider \"conditional approval\" for Big Tech to train its models on copyrighted works, giving copyright holders a choice to opt out (Josh Butler/The Guardian)",
+        "url": "https://techmeme.com/261001/p35"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "bcd8654fde9caad3",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-01T18:55:14.000Z",
+        "score": 31.7,
+        "set_aside": null,
+        "source": "techmeme",
+        "story": null,
+        "tag": "neither",
+        "title": "SoftBank made the final $10B investment in its $30B pledge to OpenAI's most recent funding round; source: Nvidia made its final $10B investment in the round too (The Information)",
+        "url": "https://techmeme.com/261001/p34"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "6a9142be6b2f2d5f",
+        "kind": "forum",
+        "negated": [],
+        "published_at": "2026-10-01T18:53:51.000Z",
+        "score": 44.5,
+        "set_aside": null,
+        "source": "hn-ai",
+        "story": null,
+        "tag": "neither",
+        "title": "US judge dismisses Chegg, Penske antitrust suits over Google AI Overviews",
+        "url": "https://reuters.com/legal/litigation/google-wins-dismissal-chegg-penske-media-lawsuits-over-ai-overviews-2026-10-01"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "9272faccbe228bc8",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-01T18:15:02.000Z",
+        "score": 34.6,
+        "set_aside": null,
+        "source": "techmeme",
+        "story": null,
+        "tag": "neither",
+        "title": "Strands Labs, AWS's experimental agent-development project, unveils Strands Decider 2B, a free, open-source Jev competitor fine-tuned from an Alibaba Qwen base (Carl Franzen/VentureBeat)",
+        "url": "https://techmeme.com/261001/p32"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "e9abf1e70b491ae8",
+        "kind": "forum",
+        "negated": [],
+        "published_at": "2026-10-01T17:58:37.000Z",
+        "score": 34.1,
+        "set_aside": null,
+        "source": "hn-ai",
+        "story": null,
+        "tag": "neither",
+        "title": "Show HN: Breadcrumb, record everything on your mac + context manager for AI",
+        "url": "https://innerloop.works/breadcrumb"
+      }
+    ],
+    "not_scanned": {
+      "by_kind": {
+        "lab": 5,
+        "model": 1,
+        "paper": 96,
+        "release": 10
+      },
+      "total": 112
+    },
+    "sentence": "5 of 74 stories in the newsroom's current window matched the harm list and 0 matched the benefit list, as of 17:29 UTC on Sat 03 Oct 2026. A count of words, not of outcomes.",
+    "state": "live",
+    "stories": {
+      "benefit_list": 0,
+      "benefit_only": 0,
+      "both": 0,
+      "harm_list": 5,
+      "harm_only": 5,
+      "neither": 69,
+      "scanned": 74
+    },
+    "window": {
+      "first_published_at": "2026-10-01T17:57:44.000Z",
+      "last_published_at": "2026-10-03T16:49:10.000Z",
+      "max_items": 200,
+      "nominal_days": 7,
+      "span_hours": 46.9
+    }
+  },
+  "schema": 1
+}
