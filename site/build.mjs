@@ -25,6 +25,7 @@ import * as historyPage from './templates/history.mjs';
 import * as movePage from './templates/move.mjs';
 import * as movesIndexPage from './templates/movesIndex.mjs';
 import * as embedPage from './templates/embed.mjs';
+import * as notFoundPage from './templates/notFound.mjs';
 import * as feed from './templates/feed.mjs';
 import * as newsFeed from './templates/news.mjs';
 import * as newsPage from './templates/newsPage.mjs';
@@ -1022,6 +1023,9 @@ async function main() {
   written.push(await write(args.out, 'methodology.html', methodologyPage.render(ctx)));
   written.push(await write(args.out, 'history.html', historyPage.render(ctx)));
   written.push(await write(args.out, 'embed.html', embedPage.render(ctx)));
+  // GitHub Pages serves this for every missing path under the site. Without it
+  // a dead URL lands on GitHub's own page, with no masthead and no way back.
+  written.push(await write(args.out, '404.html', notFoundPage.render(ctx)));
   written.push(await write(args.out, 'moves/index.html', movesIndexPage.render(ctx)));
   if (newsPage.hasNews(ctx)) {
     written.push(await write(args.out, 'news.html', newsPage.render(ctx)));

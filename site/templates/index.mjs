@@ -152,6 +152,7 @@ ${gauge.styleTag()}
        was loud. It is the h1; the old "DOOMCON 4 · ROUTINE" label below it is
        gone rather than repeated. -->
   <h1 class="hero__headline">${headline(ctx)}</h1>
+  ${heroAside(ctx)}
   <div class="hero__grid">
 
     <!-- align-self overrides .hero__grid's align-items:end, so the dial sits
@@ -300,6 +301,11 @@ ${brand.X_URL ? `<section class="sec supp" id="support" aria-labelledby="support
 <style>
 /* Rules namespaced to elements this template owns, because site/styles.mjs
    belongs to the integrator. */
+
+/* The voice line under the headline: the level's epithet in the level's own
+   colour, then the hook in dim ink. One line on a desktop, two on a phone. */
+.hero__voice { margin: var(--s-2) 0 var(--s-3); font: 500 var(--t-base)/1.4 var(--sans); color: var(--ink-dim); max-width: 60ch; }
+.hero__ep { color: var(--lvl, var(--accent)); font-weight: 650; }
 
 /* THE SOURCE-HEALTH BAR. Fourteen cells; shape carries the state, colour
    confirms it. position:relative on each cell because its visually-hidden
@@ -626,6 +632,26 @@ function sourcesForPillar(state, id) {
  * direction carried along. No future tense, no adjective the data did not
  * earn. When there is no score it says so - the absence is the headline.
  */
+/**
+ * THE BRAND'S OWN VOICE, UNDER THE HEADLINE. brand.mjs has carried an epithet
+ * for every level since the first week - "Needle breathing" for ROUTINE, "Off
+ * the top of the chart" for UNPRECEDENTED - and the best line the project has,
+ * "Everyone has a p(doom). Nobody has a receipt." Measured 2026-10-03: neither
+ * appeared anywhere on the homepage. The page was all instrument and no voice.
+ *
+ * Both are framing, and neither is a number: the epithet describes the needle,
+ * never the world (docs/FEAR.md 11), and the hook is a claim about the category
+ * that docs/METHODOLOGY.md backs. docs/VOICE.md 5: a joke in the framing plus
+ * a straight number is a brand. The straight number is one line above.
+ */
+function heroAside(ctx) {
+  const st = ctx.state;
+  const lvl = Number.isFinite(st.level) ? brand.LEVELS.find((l) => l.level === st.level) : null;
+  const hook = String(brand.STRAPLINE).split('. ').slice(0, 2).join('. ') + '.';
+  return `<p class="hero__voice">${lvl && lvl.epithet
+    ? `<span class="hero__ep">${esc(lvl.epithet)}.</span> ` : ''}<span class="hero__hook">${esc(hook)}</span></p>`;
+}
+
 function headline(ctx) {
   const st = ctx.state;
   if (!Number.isFinite(st.score)) {
