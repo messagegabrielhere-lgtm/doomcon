@@ -2065,9 +2065,14 @@ const CHROMA = `
    it because it was not the containing block. One property fixes it, and the
    label stays exactly as audible as before. */
 .rail__in { position: relative; }
-/* A backstop, so no single absolutely-positioned child can widen a page again.
-   clip, not hidden: hidden on the root would break position:sticky everywhere. */
-html { overflow-x: clip; }
+/* NO overflow-x BACKSTOP ON html, DELIBERATELY. A clip here was added with this
+   fix and removed the same day: it took /map from "scrolls sideways" to "11
+   cards silently truncated at 413px inside a 375px viewport", because clip
+   makes scrollWidth equal clientWidth whether or not anything is cut off. That
+   turned the one cheap signal for this entire class of bug into a constant.
+   Every overflow is fixed at its cause instead, and scrollWidth stays
+   trustworthy: if a page ever reports more than its clientWidth at 375, that
+   is a real defect and not a stray label. */
 
 /* SECTION HEADINGS STICK ON EVERY PAGE, NOT JUST THE ONES WHOSE SECTIONS ARE
    DIRECT CHILDREN OF main.wrap. /balance wraps its sections in .bp and /world
