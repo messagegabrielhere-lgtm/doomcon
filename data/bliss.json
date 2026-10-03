@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "index": "BLISS",
-  "generated_at": "2026-10-03T16:55:43.952Z",
+  "generated_at": "2026-10-03T16:58:47.829Z",
   "score": null,
   "level": null,
   "level_name": null,
@@ -22,7 +22,6 @@
     "openness"
   ],
   "uncalibrated_sources": [
-    "openalex-ai-science",
     "clinicaltrials-ai",
     "pubmed-ai-clinical",
     "hf-permissive-models",
@@ -33,9 +32,10 @@
     "github-permissive-ai"
   ],
   "failed_sources": [
-    "arxiv-science-ai"
+    "arxiv-science-ai",
+    "openalex-ai-science"
   ],
-  "sources_reporting": 9,
+  "sources_reporting": 8,
   "sources_total": 10,
   "rule_fired": "no_live_pillars",
   "decision": null,
@@ -165,7 +165,7 @@
       "label": "arXiv AI-method papers outside cs.*",
       "ok": false,
       "uncalibrated": false,
-      "error": "HTTP 429 Too Many Requests from https://export.arxiv.org/api/query?search_query=(cat:q-bio.BM+OR+cat:q-bio.QM+OR+cat:q-bio.GN+OR+cat:cond-mat.mtrl-sci+OR+cat:physics.chem-ph+OR+cat:physics.med-ph+OR+cat:math.NA+OR+cat:astro-ph.IM)+AND+(abs:%22machine+learning%22+OR+abs:%22deep+learning%22+OR+abs:%22neural+network%22+OR+abs:%22foundation+model%22+OR+abs:%22language+model%22)+AND+submittedDate:[202609261655+TO+202610031655]&start=0&max_results=1 — Rate exceeded.",
+      "error": "timeout after 40000ms: https://export.arxiv.org/api/query?search_query=(cat:q-bio.BM+OR+cat:q-bio.QM+OR+cat:q-bio.GN+OR+cat:cond-mat.mtrl-sci+OR+cat:physics.chem-ph+OR+cat:physics.med-ph+OR+cat:math.NA+OR+cat:astro-ph.IM)+AND+(abs:%22machine+learning%22+OR+abs:%22deep+learning%22+OR+abs:%22neural+network%22+OR+abs:%22foundation+model%22+OR+abs:%22language+model%22)+AND+submittedDate:[202609261658+TO+202610031658]&start=0&max_results=1",
       "value": null,
       "unit": null,
       "score": null,
@@ -181,23 +181,17 @@
       "pillar": "science",
       "label": "OpenAlex AI-in-science articles",
       "ok": false,
-      "uncalibrated": true,
-      "error": "awaiting_baseline: \"openalex-ai-science\" has no entry in data/bliss-reference.json yet, so it is collected and published but not scored",
-      "value": 90,
-      "unit": "works/30d",
+      "uncalibrated": false,
+      "error": "HTTP 429 Too Many Requests from https://api.openalex.org/works?filter=from_publication_date:2026-09-03,to_publication_date:2026-10-03,type:article,title_and_abstract.search:(machine%20learning%20OR%20deep%20learning)%20AND%20(protein%20structure%20OR%20materials%20discovery)&per-page=1 — {\"error\":\"Rate limit exceeded\",\"message\":\"Insufficient budget. This request has no API key, so it counts against the free daily budget shared by everyone on your network's IP address, and that budget is used up ($0 remaining; resets at midnight UTC). Use your own key instead: add ?api_key=YOUR_KEY t…",
+      "value": null,
+      "unit": null,
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-10-03T16:55:43.970Z",
-      "age_seconds": 0,
+      "observed_at": null,
+      "age_seconds": null,
       "last_ok": "2026-10-03T16:55:43.970Z",
-      "meta": {
-        "window_days": 30,
-        "window_from": "2026-09-03",
-        "window_to": "2026-10-03",
-        "search": "(machine learning OR deep learning) AND (protein structure OR materials discovery)",
-        "boolean_operators": 3
-      }
+      "meta": {}
     },
     {
       "id": "clinicaltrials-ai",
@@ -211,9 +205,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-10-03T16:55:43.971Z",
+      "observed_at": "2026-10-03T16:58:47.848Z",
       "age_seconds": 0,
-      "last_ok": "2026-10-03T16:55:43.971Z",
+      "last_ok": "2026-10-03T16:58:47.848Z",
       "meta": {
         "window_days": 180,
         "start_date_from": "2026-04-06",
@@ -237,9 +231,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-10-03T16:55:43.971Z",
+      "observed_at": "2026-10-03T16:58:47.848Z",
       "age_seconds": 0,
-      "last_ok": "2026-10-03T16:55:43.971Z",
+      "last_ok": "2026-10-03T16:58:47.848Z",
       "meta": {
         "window_days": 30,
         "edat_from": "2026/09/03",
@@ -265,14 +259,14 @@
       "ok": false,
       "uncalibrated": true,
       "error": "awaiting_baseline: \"hf-permissive-models\" has no entry in data/bliss-reference.json yet, so it is collected and published but not scored",
-      "value": 1118,
+      "value": 1120,
       "unit": "models/24h",
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-10-03T16:55:43.971Z",
+      "observed_at": "2026-10-03T16:58:47.848Z",
       "age_seconds": 0,
-      "last_ok": "2026-10-03T16:55:43.971Z",
+      "last_ok": "2026-10-03T16:58:47.848Z",
       "meta": {
         "window_hours": 24,
         "licences": [
@@ -280,8 +274,8 @@
           "mit"
         ],
         "per_licence": {
-          "apache-2.0": 729,
-          "mit": 389
+          "apache-2.0": 730,
+          "mit": 390
         },
         "pages_fetched": 2,
         "page_size": 1000
@@ -299,9 +293,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-10-03T16:55:43.971Z",
+      "observed_at": "2026-10-03T16:58:47.848Z",
       "age_seconds": 0,
-      "last_ok": "2026-10-03T16:55:43.971Z",
+      "last_ok": "2026-10-03T16:58:47.848Z",
       "meta": {
         "percentile": 0.1,
         "usd_per_million_tokens": 0.1225,
@@ -330,9 +324,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-10-03T16:55:43.971Z",
+      "observed_at": "2026-10-03T16:58:47.848Z",
       "age_seconds": 0,
-      "last_ok": "2026-10-03T16:55:43.971Z",
+      "last_ok": "2026-10-03T16:58:47.848Z",
       "meta": {
         "basket": [
           "sentence-transformers/all-MiniLM-L6-v2",
@@ -370,9 +364,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-10-03T16:55:43.971Z",
+      "observed_at": "2026-10-03T16:58:47.848Z",
       "age_seconds": 0,
-      "last_ok": "2026-10-03T16:55:43.971Z",
+      "last_ok": "2026-10-03T16:58:47.848Z",
       "meta": {
         "basket": [
           "openai",
@@ -412,9 +406,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-10-03T16:55:43.972Z",
+      "observed_at": "2026-10-03T16:58:47.848Z",
       "age_seconds": 0,
-      "last_ok": "2026-10-03T16:55:43.972Z",
+      "last_ok": "2026-10-03T16:58:47.848Z",
       "meta": {
         "window_days": 365,
         "open_weight_models": 43,
@@ -448,9 +442,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-10-03T16:55:43.972Z",
+      "observed_at": "2026-10-03T16:58:47.848Z",
       "age_seconds": 0,
-      "last_ok": "2026-10-03T16:55:43.972Z",
+      "last_ok": "2026-10-03T16:58:47.848Z",
       "meta": {
         "window_days": 30,
         "created_from": "2026-09-03",
@@ -469,10 +463,10 @@
       "level_name": null
     },
     "doomcon": {
-      "score": 41.2346,
+      "score": 41.1729,
       "level": 4,
       "level_name": "ROUTINE",
-      "generated_at": "2026-10-03T16:55:07.217Z"
+      "generated_at": "2026-10-03T16:58:31.794Z"
     },
     "divergence": null,
     "divergence_band": 3,
