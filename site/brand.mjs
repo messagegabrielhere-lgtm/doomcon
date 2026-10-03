@@ -96,10 +96,20 @@ export const CANONICAL_URL = 'https://messagegabrielhere-lgtm.github.io/doomcon'
 
 // pizzint ships twitter:site="@pizzint" while their account is @pizzintwatch —
 // the card is misattributed on every share. The fix is not "be careful", it is
-// "have no default". Leave this null until an account genuinely exists and is
-// controlled by us; layout.mjs omits the tag entirely when it is null rather
-// than guessing a plausible handle.
-export const X_HANDLE = null;
+// "have no default". It stayed null until an account genuinely existed and was
+// controlled by us; layout.mjs still omits the tag entirely when it is null
+// rather than guessing a plausible handle.
+//
+// Set 2026-10-03, read off the signed-in profile rather than typed from
+// memory: the operator renamed the account, so the handle this site posted
+// from on 2026-09-28 (@GT1771868173636) now 404s and @DoomConin0 is the live
+// one. Verify before changing it again — a wrong handle here misattributes
+// every share card on every page, which is the exact pizzint defect above.
+export const X_HANDLE = '@DoomConin0';
+
+/** The account's page, derived so the handle is written once. Null when there
+ *  is no handle, so every consumer can gate on it the way layout.mjs does. */
+export const X_URL = X_HANDLE ? `https://x.com/${X_HANDLE.replace(/^@/, '')}` : null;
 
 // TRAP: no source count in this string. "Fourteen sources" was true on the day
 // it was typed and becomes a lie the first time an adapter lands or dies — in a

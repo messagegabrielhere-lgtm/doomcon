@@ -283,9 +283,37 @@ ${switcher.render(ctx)}
   <p class="fresh__key">Static files. No key, no rate limit, ${esc(brand.LICENSE)}. Attribution: ${esc(brand.DOMAIN)}.</p>
 </section>
 
+${brand.X_URL ? `<section class="sec supp" id="support" aria-labelledby="support-h">
+  <h2 class="sec__h" id="support-h">Support this index</h2>
+  <p class="lede">${esc(brand.NAME)} is free, carries no advertising, sets no tracking
+    cookie and runs no analytics at all — nobody here knows you visited. It is built on
+    public data, keyless endpoints and free hosting. If it is useful to you, the tip jar
+    is on its X account.</p>
+  <p class="supp__row"><a class="supp__a" href="${esc(brand.X_URL)}" rel="noopener">Support ${esc(brand.NAME)} on X
+    <span class="supp__h">${esc(brand.X_HANDLE)}</span></a></p>
+  <p class="fresh__key">Nothing on this site is behind a paywall and nothing will be: the
+    arithmetic is the product, and a number you have to pay to check is not a number anybody
+    can check. Tips go to the person who runs it.</p>
+</section>` : ''}
+
 <style>
 /* Rules namespaced to elements this template owns, because site/styles.mjs
    belongs to the integrator. */
+
+/* THE SUPPORT ROW. One link, sized like a control rather than set in running
+   prose, because it is the only thing on the page asking the reader for
+   something. It is the last section deliberately: a reader who has scrolled
+   past the API list has already had the whole index for free. */
+.supp__row { margin: var(--s-3) 0 var(--s-2); }
+.supp__a {
+  display: inline-flex; align-items: baseline; gap: .6em;
+  padding: 9px var(--s-4); border: 1px solid var(--rule); border-radius: var(--radius);
+  background: var(--bg-raised); color: var(--ink); text-decoration: none;
+  font: 600 var(--t-sm)/1.2 var(--sans);
+}
+.supp__a:hover { border-color: var(--accent-2); color: var(--accent-2); }
+.supp__h { font: 400 var(--t-2xs)/1.2 var(--mono); color: var(--ink-faint); }
+.supp__a:hover .supp__h { color: var(--accent-2); }
 
 /* The plain-language read is now the largest piece of prose in the hero, and
    it is the one sentence thirteen of a hundred visitors came for. It was set
