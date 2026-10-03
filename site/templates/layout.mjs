@@ -31,6 +31,7 @@
 // The motion layer (o.motion) is unchanged: opt-in, off for every caller that
 // does not ask, and everything it animates is already in the HTML it decorates.
 
+import { seal } from './_seal.mjs';
 import { esc, num, utc, utcClock, jsonScript } from './_html.mjs';
 import { degradedBanner, deltaChip } from './_parts.mjs';
 import { motionBlock } from './_motion.mjs';
@@ -1328,6 +1329,7 @@ function footer(ctx, sections, path) {
   <div class="wrap">
     <div class="foot__top">
       <div class="foot__brand">
+        <div class="foot__seal">${seal(ctx, { size: 116, id: 'seal-foot' })}</div>
         <span class="foot__mark">${esc(brand.PUBLICATION)}</span>
         <p class="foot__creed">${esc(brand.TAGLINE)}</p>
         <p class="foot__dis">${esc(brand.DISCLAIMER)}</p>

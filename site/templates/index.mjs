@@ -62,6 +62,7 @@ import { freshnessStrip, pillarCard, moveRow, sourceStatus } from './_parts.mjs'
 import { indexHistoryChart, pillarRanked } from './_charts.mjs';
 import { page } from './layout.mjs';
 import * as brand from '../brand.mjs';
+import { seal } from './_seal.mjs';
 import * as news from './news.mjs';
 import * as gauge from './_gauge.mjs';
 import * as oven from './_oven.mjs';
@@ -141,7 +142,13 @@ export function render(ctx) {
 ${news.styleTag()}
 ${gauge.styleTag()}
 <section class="hero">
-  <p class="eyebrow">Observed <time datetime="${esc(state.generated_at)}">${esc(utc(state.generated_at))}</time></p>
+  <!-- THE BULLETIN LINE. The number is real: it is the count of scored
+       observations in the published history, so bulletin No. 164 is the 164th
+       reading and anybody can count them at /history. A period costume with a
+       checkable number in it, which is the house rule for jokes. -->
+  <p class="eyebrow hero__bul"><span class="hero__bulno">Early warning bulletin${Array.isArray(ctx.history) && ctx.history.length ? ` No.&nbsp;${esc(ctx.history.length)}` : ''}</span>
+    <span>Observed <time datetime="${esc(state.generated_at)}">${esc(utc(state.generated_at))}</time></span></p>
+  <p class="hero__stamp" aria-hidden="true">Not a prediction</p>
   <!-- THE ONE SENTENCE. Measured 2026-09-26 at 1440x900: 161 text atoms above
        the fold at a median of 13px, second-largest type 20px, and no single
        statement a newcomer could read. The Doomsday Clock's entire phone fold
@@ -191,6 +198,8 @@ ${gauge.styleTag()}
         <p class="level__plain">${esc(plainRead(ctx))}</p>
       </div>
     </div>
+
+    <div class="hero__seal">${seal(ctx, { size: 210, id: 'seal-hero' })}</div>
 
     <div class="score">
       <p class="eyebrow">Composite score</p>
@@ -301,6 +310,37 @@ ${brand.X_URL ? `<section class="sec supp" id="support" aria-labelledby="support
 <style>
 /* Rules namespaced to elements this template owns, because site/styles.mjs
    belongs to the integrator. */
+
+/* THE 1950s HERO. A broadside: hazard stripe across the top in the level's
+   colour, a numbered bulletin line, the headline in poster gothic, a rubber
+   stamp, and the seal. The stamp says NOT A PREDICTION because that is the one
+   thing a page dressed as an official warning must not let a reader assume;
+   it is aria-hidden because the disclaimer is already in the text twice. */
+main.wrap > .hero { border-top: 0; overflow: hidden; }
+main.wrap > .hero::before {
+  content: ""; position: absolute; left: 0; right: 0; top: 0; height: 9px;
+  background: repeating-linear-gradient(-45deg, var(--lvl, var(--accent)) 0 14px, #0b0c0e 14px 28px);
+}
+main.wrap > .hero { padding-top: calc(var(--s-4) + 9px); }
+.hero__bul { display: flex; flex-wrap: wrap; gap: 4px var(--s-4); align-items: baseline; }
+.hero__bulno { font-family: var(--stencil); font-weight: 700; letter-spacing: .14em; color: var(--ink); }
+/* main.wrap > .hero in front, because the template's older .hero__headline
+   rule comes later in this same sheet and would win the tie. */
+main.wrap > .hero .hero__headline { font-family: var(--poster); font-weight: 400; text-transform: uppercase;
+  letter-spacing: .012em; line-height: 1.04; font-size: clamp(34px, 4.6vw, 68px); max-width: 20ch; }
+.hero__stamp {
+  position: absolute; right: var(--s-5); top: calc(var(--s-5) + 6px); margin: 0;
+  padding: 6px 12px 4px; border: 3px solid currentColor; border-radius: 4px;
+  font: 700 clamp(13px, 1.5vw, 19px)/1 var(--stencil); letter-spacing: .16em; text-transform: uppercase;
+  color: var(--dark-src); opacity: .78; transform: rotate(-7deg); pointer-events: none;
+}
+/* The seal sits in the panel's bottom-right corner, out of the grid: a badge
+   on the broadside, not a third column competing with the score for width. */
+.hero__seal { display: none; }
+@media (min-width: 1080px) {
+  .hero__seal { display: block; position: absolute; right: var(--s-5); bottom: var(--s-4); width: 176px; opacity: .92; }
+}
+@media (max-width: 720px) { .hero__stamp { position: static; display: inline-block; transform: rotate(-3deg); margin: 0 0 var(--s-2); } }
 
 /* THE DIAL BREATHES, AND HOW FAST IS THE LEVEL. The epithets have always
    described a needle - at rest, breathing, off the rest stop, pinned high, off

@@ -13,7 +13,7 @@
 //                     condensed-and-shouty.
 // display=swap so a slow or blocked Google Fonts never hides the score.
 export const FONT_HREF =
-  'https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap';
+  'https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Anton&family=Stardos+Stencil:wght@400;700&display=swap';
 
 // Colour is dark-native: this is instrumentation, and the brand lives at night.
 // Light is a full first-class theme, not an inverted afterthought. Amber over
@@ -291,6 +291,15 @@ ${pillarHues('', PILLARS_DARK).root}
 
   --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   --sans: 'Inter Tight', system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+  /* THE PERIOD FACES, 2026-10-03. The operator asked for a 1950s doomsday look.
+     Anton is the condensed poster gothic of a civil-defense broadside; Stardos
+     Stencil is the crate-and-placard stencil. Display only - headlines, stamps,
+     the seal, section placards. Body text stays Inter Tight and figures stay
+     JetBrains Mono, because a reading has to be legible before it is stylish.
+     Each stack ends in faces every system has, so display=swap degrades to
+     something still condensed or still monospaced, never to nothing. */
+  --poster: 'Anton', Impact, 'Haettenschweiler', 'Arial Narrow Bold', 'Arial Narrow', sans-serif;
+  --stencil: 'Stardos Stencil', 'Stencil', 'Stencil Std', var(--mono);
 
   /* ---- THE TYPE SCALE. SIX STEPS. -------------------------------------
      The previous sheet said "deliberately short - seven sizes" and then, three
@@ -2057,6 +2066,21 @@ const ICONS = `
 // loses no fact.
 // ---------------------------------------------------------------------------
 const CHROMA = `
+/* 1950s DRESS, SITE-WIDE. Three things carry it on every page: the wordmark and
+   the section headings set in the stencil, and a hazard stripe - the level's
+   colour against black - under the masthead. The stripe is the one place the
+   reading colours the chrome of every page, so /race at level 2 looks like a
+   different day from /race at level 5. Words still carry the level everywhere. */
+.dclock__w { font-family: var(--stencil); font-weight: 700; letter-spacing: 0.14em; font-size: calc(var(--t-lg) + 2px); }
+.sec__h { font-family: var(--stencil); letter-spacing: 0.12em; }
+.sec__eb { font-family: var(--mono); }
+.foot__seal { margin: 0 0 var(--s-3); opacity: .9; }
+.masthead { position: relative; }
+.masthead::after {
+  content: ""; display: block; height: 6px;
+  background: repeating-linear-gradient(-45deg, var(--accent) 0 12px, #0b0c0e 12px 24px);
+  opacity: .9;
+}
 /* THE RAIL'S SCREEN-READER LABEL WAS WIDENING THE WHOLE PAGE.
    Measured 2026-10-03 at the 375px mobile preset: /balance and /world reported
    documentElement.clientWidth 375 but scrollWidth 561, and hiding .rail alone

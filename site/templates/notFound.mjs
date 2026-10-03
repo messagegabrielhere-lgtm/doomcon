@@ -17,6 +17,7 @@
 import { esc } from './_html.mjs';
 import { page } from './layout.mjs';
 import * as brand from '../brand.mjs';
+import { seal } from './_seal.mjs';
 
 export function render(ctx) {
   const st = ctx.state || {};
@@ -26,6 +27,8 @@ export function render(ctx) {
   const main = `<style>
 .nf { margin: var(--s-6) 0; max-width: 60ch; }
 .nf__code { font: 700 clamp(64px, 16vw, 132px)/1 var(--mono); letter-spacing: -0.02em; color: var(--ink); margin: 0; }
+.nf__top { display: flex; align-items: center; gap: var(--s-5); flex-wrap: wrap; }
+.nf__code { font-family: var(--poster) !important; font-weight: 400 !important; }
 .nf__h { font: 650 clamp(24px, 4vw, 36px)/1.15 var(--sans); letter-spacing: -0.02em; margin: var(--s-3) 0; }
 .nf__rows { list-style: none; margin: var(--s-4) 0; padding: 0; border-top: 1px solid var(--rule);
   font: 400 var(--t-sm)/1.5 var(--mono); }
@@ -39,7 +42,7 @@ export function render(ctx) {
 </style>
 <section class="nf">
   <p class="eyebrow">Page status · dark</p>
-  <p class="nf__code num">404</p>
+  <div class="nf__top"><p class="nf__code num">404</p>${seal(ctx, { size: 150, id: 'seal-nf' })}</div>
   <h1 class="nf__h">Nothing detected at this address.</h1>
   <p class="lede">This site never imputes a missing value, and it will not impute a missing page.
     There is no reading here, so none is printed. ${reading}</p>
