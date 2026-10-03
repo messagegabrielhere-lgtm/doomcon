@@ -13,6 +13,7 @@ struct SettingsView: View {
                     Text("Everything you enter is saved only on this device, in a file iOS encrypts when your phone is locked. The app has no Social Security number field. Searches and opt-out pages open in Safari; letters are sent from your own Mail app, by you.")
                         .font(.footnote)
                         .foregroundStyle(.secondary)
+                    NavigationLink("Privacy policy") { PrivacyPolicyView() }
                 } header: {
                     Text("Your privacy")
                 }

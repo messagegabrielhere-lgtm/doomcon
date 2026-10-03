@@ -187,3 +187,24 @@ final class CatalogTests: XCTestCase {
         XCTAssertEqual(Set(ids).count, ids.count)
     }
 }
+
+final class LaunchTests: XCTestCase {
+    func testLaunchArguments() {
+        let options = LaunchOptions(arguments: ["Unlisted", "-demo", "-tab", "3"])
+        XCTAssertTrue(options.demo)
+        XCTAssertEqual(options.tab, 3)
+        XCTAssertFalse(LaunchOptions(arguments: ["Unlisted"]).demo)
+    }
+
+    func testDemoFamilyIsFictionalAndComplete() {
+        let store = AppStore.demo()
+        XCTAssertEqual(store.data.people.count, 4)
+        XCTAssertEqual(store.children.count, 2)
+        XCTAssertNotNil(store.me)
+        XCTAssertGreaterThan(store.checklistProgress.done, 0)
+        XCTAssertFalse(store.data.findings.isEmpty)
+        for person in store.data.people {
+            XCTAssertEqual(person.lastName, "Avery")
+        }
+    }
+}

@@ -51,18 +51,27 @@ CI runs the same build and tests on every change to this folder
 
 ## Publishing it free on the App Store
 
-1. Join the Apple Developer Program ($99/year; it's required even for free apps).
-2. In `project.yml`, set `DEVELOPMENT_TEAM` to your Team ID and change
-   `PRODUCT_BUNDLE_IDENTIFIER` (`app.unlisted.ios`) to one you own, then run
-   `xcodegen generate` again.
-3. In App Store Connect, create the app with the same bundle ID and set the
-   price to Free.
-4. Privacy: choose "Data Not Collected". Add a privacy policy URL; a short page
-   saying the app collects nothing and stores data only on the device is enough.
-5. In Xcode, choose Product > Archive, then Distribute App > App Store Connect.
-   Test it with TestFlight, then submit for review.
-6. Replace the placeholder icon (`Unlisted/Resources/Assets.xcassets/AppIcon.appiconset`)
-   if you want a designed one.
+Copy for every App Store Connect field is in `AppStore/listing.md`. The
+privacy policy is `PRIVACY.md` and the support page is `SUPPORT.md`.
+
+**Screenshots** are taken automatically. On every push to a branch, CI boots a
+6.9" iPhone simulator, opens each tab with a fictional demo family
+(`-demo -tab N`) and commits the images to `AppStore/screenshots/`.
+
+**Uploading builds** is done by `.github/workflows/ios-unlisted-release.yml`:
+
+1. In App Store Connect, open Users and Access > Integrations > App Store
+   Connect API, create a key with the **Admin** role, and download the `.p8`
+   file. Note the Key ID and Issuer ID.
+2. In GitHub, open Settings > Secrets and variables > Actions and add
+   `APPLE_TEAM_ID`, `ASC_KEY_ID`, `ASC_ISSUER_ID` and `ASC_KEY_P8` (the whole
+   `.p8` file).
+3. Create the app in App Store Connect with bundle ID `app.unlisted.ios` (or set
+   the `UNLISTED_BUNDLE_ID` repository variable to the one you choose).
+4. Push a tag such as `unlisted-v1.0.0`. The workflow signs the app with cloud
+   signing and uploads it. It shows up in TestFlight about 10-30 minutes later.
+5. In App Store Connect, add the screenshots and listing copy, choose "Data Not
+   Collected", select the build, and submit for review.
 
 ## Keeping the opt-out list current
 
