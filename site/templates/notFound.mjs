@@ -26,9 +26,8 @@ export function render(ctx) {
     : 'The index itself has no reading today either, which the homepage explains.';
   const main = `<style>
 .nf { margin: var(--s-6) 0; max-width: 60ch; }
-.nf__code { font: 700 clamp(64px, 16vw, 132px)/1 var(--mono); letter-spacing: -0.02em; color: var(--ink); margin: 0; }
+.nf__code { font: 400 clamp(64px, 16vw, 132px)/1 var(--poster); letter-spacing: .01em; color: var(--ink); margin: 0; }
 .nf__top { display: flex; align-items: center; gap: var(--s-5); flex-wrap: wrap; }
-.nf__code { font-family: var(--poster) !important; font-weight: 400 !important; }
 .nf__h { font: 650 clamp(24px, 4vw, 36px)/1.15 var(--sans); letter-spacing: -0.02em; margin: var(--s-3) 0; }
 .nf__rows { list-style: none; margin: var(--s-4) 0; padding: 0; border-top: 1px solid var(--rule);
   font: 400 var(--t-sm)/1.5 var(--mono); }

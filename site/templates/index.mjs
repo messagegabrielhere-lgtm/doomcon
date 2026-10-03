@@ -323,7 +323,7 @@ ${brand.X_URL ? `<section class="sec supp" id="support" aria-labelledby="support
 main.wrap > .hero { border-top: 0; overflow: hidden; }
 main.wrap > .hero::before {
   content: ""; position: absolute; left: 0; right: 0; top: 0; height: 9px;
-  background: repeating-linear-gradient(-45deg, var(--lvl, var(--accent)) 0 14px, #0b0c0e 14px 28px);
+  background: repeating-linear-gradient(-45deg, var(--lvl, var(--accent)) 0 12px, var(--bg) 12px 24px);
 }
 main.wrap > .hero { padding-top: calc(var(--s-4) + 9px); }
 .hero__bul { display: flex; flex-wrap: wrap; gap: 4px var(--s-4); align-items: baseline; }
@@ -344,7 +344,7 @@ main.wrap > .hero .hero__headline { font-family: var(--poster); font-weight: 400
 @media (min-width: 1080px) {
   .hero__seal { display: block; position: absolute; right: var(--s-5); bottom: var(--s-4); width: 176px; opacity: .92; }
 }
-@media (max-width: 720px) { .hero__stamp { position: static; display: inline-block; transform: rotate(-3deg); margin: 0 0 var(--s-2); } }
+@media (max-width: 1079px) { .hero__stamp { position: static; display: inline-block; transform: rotate(-3deg); margin: 0 0 var(--s-2); } }
 
 /* THE DIAL BREATHES, AND HOW FAST IS THE LEVEL. The epithets have always
    described a needle - at rest, breathing, off the rest stop, pinned high, off
@@ -409,7 +409,7 @@ main.wrap[data-level="1"] > .hero .ch--dial { animation: dcBreathe 1.1s ease-in-
 .hero__orders b { font: 700 var(--t-xs)/1 var(--stencil); letter-spacing: .14em; text-transform: uppercase; color: var(--ink); }
 .clip { position: relative; margin: var(--s-4) 0 10px; padding: 14px 10px 10px; border: 2px dashed var(--ink-faint); border-radius: 2px; }
 .clip::before { content: "✂ Clip and post"; position: absolute; top: -.8em; left: 12px; padding: 0 8px;
-  background: var(--bg); color: var(--ink-dim); font: 700 var(--t-2xs)/1.5 var(--stencil); letter-spacing: .14em; text-transform: uppercase; }
+  background: var(--bg); color: var(--ink-dim); font: 700 var(--t-xs)/1.5 var(--stencil); letter-spacing: .14em; text-transform: uppercase; }
 .clip .snippet { margin: 0; }
 .hero__voice { margin: var(--s-2) 0 var(--s-3); font: 500 var(--t-base)/1.4 var(--sans); color: var(--ink-dim); max-width: 60ch; }
 .hero__ep { color: var(--lvl, var(--accent)); font-weight: 650; }

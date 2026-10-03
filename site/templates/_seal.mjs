@@ -61,8 +61,8 @@ export function seal(ctx, { size = 220, id = null } = {}) {
   <circle class="seal__ring" cx="100" cy="100" r="97"/>
   <circle class="seal__ring seal__ring--thin" cx="100" cy="100" r="70"/>
   <path class="seal__ticks" d="${ticks.join('')}"/>
-  <text class="seal__rim"><textPath href="#${esc(uid)}-top" startOffset="50%" text-anchor="middle">${esc(brand.NAME)} · ${esc(brand.PUBLICATION.toUpperCase())}</textPath></text>
-  <text class="seal__rim seal__rim--low"><textPath href="#${esc(uid)}-bot" startOffset="50%" text-anchor="middle">DETECTED EARLY · NOT A PREDICTION</textPath></text>
+  <text class="seal__rim"><textPath href="#${esc(uid)}-top" startOffset="50%" text-anchor="middle" textLength="220" lengthAdjust="spacingAndGlyphs">${esc(brand.NAME)} · ${esc(brand.PUBLICATION.toUpperCase())}</textPath></text>
+  <text class="seal__rim seal__rim--low"><textPath href="#${esc(uid)}-bot" startOffset="50%" text-anchor="middle" textLength="232" lengthAdjust="spacingAndGlyphs">DETECTED EARLY · NOT A PREDICTION</textPath></text>
   <path class="seal__star" d="M13 100l2.2 4.6 5 .7-3.6 3.5.9 5-4.5-2.4-4.5 2.4.9-5-3.6-3.5 5-.7z" transform="translate(0 -6)"/>
   <path class="seal__star" d="M187 100l2.2 4.6 5 .7-3.6 3.5.9 5-4.5-2.4-4.5 2.4.9-5-3.6-3.5 5-.7z" transform="translate(0 -6)"/>
   <path class="seal__tri" d="M100 44 L148 128 L52 128 Z"/>
@@ -78,11 +78,11 @@ export function sealCss() {
 .seal__ring { fill: none; stroke: currentColor; stroke-width: 3; }
 .seal__ring--thin { stroke-width: 1.2; }
 .seal__ticks { stroke: currentColor; stroke-width: 1; opacity: .55; fill: none; }
-.seal__rim { font: 400 13.5px/1 var(--stencil); letter-spacing: .16em; fill: currentColor; }
-.seal__rim--low { font-size: 10.5px; letter-spacing: .2em; fill: var(--ink-dim); }
+.seal__rim { font: 400 11px/1 var(--stencil); letter-spacing: .05em; fill: currentColor; }
+.seal__rim--low { font-size: 9.5px; letter-spacing: .2em; fill: var(--ink-dim); }
 .seal__star { fill: var(--seal); }
 .seal__tri { fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linejoin: round; opacity: .85; }
 .seal__wire { fill: none; stroke: var(--seal); stroke-width: 9; stroke-linejoin: miter; stroke-linecap: butt; }
-.seal__cond { font: 400 12px/1 var(--stencil); letter-spacing: .18em; fill: currentColor; }
+.seal__cond { font: 400 10.5px/1 var(--stencil); letter-spacing: .18em; fill: currentColor; }
 `;
 }

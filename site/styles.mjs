@@ -2074,7 +2074,20 @@ const CHROMA = `
 .dclock__w { font-family: var(--stencil); font-weight: 700; letter-spacing: 0.14em; font-size: calc(var(--t-lg) + 2px); }
 .sec__h { font-family: var(--stencil); letter-spacing: 0.12em; }
 .sec__eb { font-family: var(--mono); }
-.foot__seal { margin: 0 0 var(--s-3); opacity: .9; }
+body:has(main.wrap[data-level="5"]) { --lvl: var(--heat-5); }
+body:has(main.wrap[data-level="4"]) { --lvl: var(--heat-4); }
+body:has(main.wrap[data-level="3"]) { --lvl: var(--heat-3); }
+body:has(main.wrap[data-level="2"]) { --lvl: var(--heat-2); }
+body:has(main.wrap[data-level="1"]) { --lvl: var(--heat-1); }
+.foot__seal { margin: 0 0 var(--s-3); opacity: .9; max-width: 160px; }
+main.wrap:has(.nf .seal) ~ .foot .foot__seal { display: none; }
+@media (min-width: 1080px) { main.wrap:has(.hero__seal) ~ .foot .foot__seal { display: none; } }
+.foot__h { font-family: var(--stencil); font-size: var(--t-xs); letter-spacing: .12em; }
+main.wrap :is(.rintro__h1, .narch__h1, .dg__h1, .lwp__h1, .bp__h1, .bintro__h1, .ihero__h1,
+  .bldhero__h1, .wld__h1, .flk__h1, .exp__h1, .nf__h) {
+  font-family: var(--poster); font-weight: 400; text-transform: uppercase;
+  letter-spacing: .012em; line-height: 1.04; font-size: clamp(30px, 4.2vw, 56px); text-wrap: balance;
+}
 .masthead { position: relative; }
 .bstamp { display: inline-block; margin: var(--s-2) 0 var(--s-3); padding: 6px 12px 4px;
   border: 3px solid currentColor; border-radius: 4px; color: var(--ok); opacity: .82;
@@ -2083,7 +2096,7 @@ const CHROMA = `
 .bstamp a { color: inherit; text-decoration: none; }
 .bstamp a:hover { text-decoration: underline; }
 .foot__bcast { margin: 0 0 var(--s-5); padding: 6px 16px; text-align: center;
-  background: repeating-linear-gradient(-45deg, var(--accent) 0 12px, #0b0c0e 12px 24px); }
+  background: repeating-linear-gradient(-45deg, var(--lvl, var(--accent)) 0 12px, var(--bg) 12px 24px); }
 .foot__bcast span { display: inline-block; padding: 5px 14px; background: var(--bg); color: var(--ink);
   font: 700 var(--t-xs)/1.35 var(--stencil); letter-spacing: .14em; text-transform: uppercase; }
 .foot__memo { display: flex; flex-wrap: wrap; gap: 4px var(--s-4); margin: 0 0 var(--s-3);
@@ -2107,7 +2120,7 @@ const CHROMA = `
 }
 .masthead::after {
   content: ""; display: block; height: 6px;
-  background: repeating-linear-gradient(-45deg, var(--accent) 0 12px, #0b0c0e 12px 24px);
+  background: repeating-linear-gradient(-45deg, var(--lvl, var(--accent)) 0 12px, var(--bg) 12px 24px);
   opacity: .9;
 }
 /* THE RAIL'S SCREEN-READER LABEL WAS WIDENING THE WHOLE PAGE.
