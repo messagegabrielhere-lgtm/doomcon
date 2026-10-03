@@ -800,9 +800,10 @@ async function main() {
   // THE WORLD FILES. Two of the three are published verbatim, for the flock
   // reasons above and with measured sizes of their own. collector/world.mjs
   // writes data/world.json canonical and key-sorted with ONE SITE PER LINE:
-  // 2,228,162 bytes in 6,618 lines. Through stableJson every site object is
-  // re-indented onto seventeen lines of its own — 2,887,412 bytes in 91,002
-  // lines — without changing one value. data/orbital.json happens to be byte-identical
+  // 2,228,040 bytes in 6,623 lines. Through stableJson every site object is
+  // re-indented onto seventeen lines of its own — 2,888,040 bytes in 91,103
+  // lines — without changing one value. (Re-measured 2026-10-03 against that
+  // day's harvest; these four move with every collector run.) data/orbital.json happens to be byte-identical
   // through stableJson today (22,812 bytes either way), and is copied verbatim
   // anyway, so that "the checksum in the repo is the checksum served" is true
   // by construction rather than by coincidence. /world's "Take the data"
