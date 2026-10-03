@@ -149,8 +149,36 @@ function hrefOf(ctx, path) {
 // split on a regex. A dark card is one plain sentence and no number.
 // ---------------------------------------------------------------------------
 
-function live(id, ctx, pre, num, post) {
-  return { id, state: 'live', href: hrefOf(ctx, DEST[id].href), to: DEST[id].to, pre, num, post };
+function live(id, ctx, pre, num, post, ratio = null) {
+  return { id, state: 'live', href: hrefOf(ctx, DEST[id].href), to: DEST[id].to, pre, num, post, ratio: ratio && proportion(ratio) };
+}
+
+/**
+ * A PART OF A WHOLE, OR NOTHING.
+ *
+ * Four of the six cards state a real proportion and three of them bury it in
+ * the sentence: 1,341 of 1,880 datacentres in drought, 2 of 15 leaders on the
+ * record, items carried by a second source. Those get a bar. The camera count
+ * has no denominator — 115,608 cameras out of how many cameras is a question
+ * this data cannot answer — and a median lag in days is not a part of anything,
+ * so those two get NO bar rather than an invented one. That absence is the
+ * point: a bar here always means a real ratio.
+ *
+ * The bar is never the only carrier. It prints its own figures underneath, so
+ * the fact survives a stylesheet that never loads, a screen reader, and a
+ * screenshot taken by somebody who cannot see colour.
+ *
+ * Throws rather than clamping. A part larger than its whole is a collector
+ * bug, and a bar quietly pinned at 100% would hide it.
+ */
+function proportion({ part, whole, of }) {
+  const a = Number(part);
+  const b = Number(whole);
+  if (!Number.isFinite(a) || !Number.isFinite(b) || b <= 0 || a < 0 || a > b) {
+    throw new Error(`_claims proportion(): need 0 <= part <= whole and whole > 0, got ${JSON.stringify({ part, whole })}`);
+  }
+  // Fixed precision, so the width is the same string on every build.
+  return { pct: fixed((a / b) * 100, 1), part: a, whole: b, of: String(of) };
 }
 
 function dark(id, ctx, text) {
@@ -196,7 +224,8 @@ function raceClaim(ctx) {
   return live('race', ctx,
     `${lead.name} leads at `,
     pct1(p),
-    `, ${venue}’s live probability that it holds the best AI model${when}.`);
+    `, ${venue}’s live probability that it holds the best AI model${when}.`,
+    { part: p, whole: 1, of: `${lead.name}’s share of the market’s probability` });
 }
 
 /**
@@ -261,7 +290,8 @@ function datacentersClaim(ctx) {
   const week = ri.usdm_map_date ? ` on the Drought Monitor map of ${ri.usdm_map_date}` : '';
 
   return live('datacenters', ctx, '', N(n),
-    ` US datacentres mapped, ${N(inDrought)} of them in a county in drought${week}.`);
+    ` US datacentres mapped, ${N(inDrought)} of them in a county in drought${week}.`,
+    { part: inDrought, whole: n, of: 'mapped datacentres sit in a county in drought' });
 }
 
 /**
@@ -328,7 +358,8 @@ function newsClaim(ctx) {
     ? `, ${multi ? N(multi) : 'none'} of them carried by two or more`
     : '';
 
-  return live('news', ctx, '', N(items.length), ` items scored${feeds}${carried}.`);
+  return live('news', ctx, '', N(items.length), ` items scored${feeds}${carried}.`,
+    counts.length ? { part: multi, whole: counts.length, of: 'scored items were carried by two or more sources' } : null);
 }
 
 /**
@@ -359,7 +390,8 @@ function leadersClaim(ctx) {
     ? `, in ${N(lines)} headline${lines === 1 ? '' : 's'} reproduced exactly as printed.`
     : '.';
 
-  return live('leaders', ctx, '', `${N(on)} of ${N(total)}`, ` AI leaders on the record${window}${tail}`);
+  return live('leaders', ctx, '', `${N(on)} of ${N(total)}`, ` AI leaders on the record${window}${tail}`,
+    { part: on, whole: total, of: 'on the roster said something on the record' });
 }
 
 const BUILDERS = Object.freeze({
@@ -459,9 +491,26 @@ function card(c) {
   return `    <li class="clm__i" data-claim="${esc(c.id)}" data-state="${esc(c.state)}">
       <a class="clm__a" href="${esc(c.href)}">
         <span class="clm__s">${body}</span>
+        ${c.ratio ? bar(c.ratio) : ''}
         <span class="clm__to" aria-hidden="true">${esc(c.to)} →</span>
       </a>
     </li>`;
+}
+
+/**
+ * The proportion, drawn and then stated. The track is the whole, the fill is
+ * the part, and the line underneath carries both figures and the percentage —
+ * so the bar adds a shape to a fact that is already in words and never becomes
+ * the only place the fact lives.
+ */
+function bar(r) {
+  const counts = r.whole === 1
+    ? `${r.pct}% ${r.of}`
+    : `${N(r.part)} of ${N(r.whole)} ${r.of} — ${r.pct}%`;
+  return `<span class="clm__pr">
+          <span class="clm__prb" aria-hidden="true"><i style="width:${r.pct}%"></i></span>
+          <span class="clm__prl">${esc(counts)}</span>
+        </span>`;
 }
 
 /**
@@ -492,6 +541,22 @@ function liveBody(c) {
 // a step from its scale, except the one display size below, which is bound to
 // one element and explained there.
 const clmCss = `
+/* THE PROPORTION BAR. A track at the card's full width, a fill at the ratio,
+   and the figures under it. --accent-2 is the interactive hue in the house
+   sheet and reads on both themes; the fill is never the only carrier, because
+   the line under it prints the part, the whole and the percentage as text. */
+.clm__pr { display: block; margin: var(--s-2) 0 0; }
+.clm__prb {
+  display: block; height: 5px; border-radius: 3px;
+  background: var(--bg-sunken); border: 1px solid var(--rule-soft, var(--rule));
+  overflow: hidden;
+}
+.clm__prb i { display: block; height: 100%; background: var(--accent-2); }
+.clm__prl {
+  display: block; margin-top: 5px;
+  font: 400 var(--t-2xs)/1.35 var(--mono); color: var(--ink-faint);
+  font-variant-numeric: tabular-nums;
+}
 .clm { margin: var(--s-5) 0 0; }
 .clm .sec__h { margin-bottom: var(--s-3); }
 
