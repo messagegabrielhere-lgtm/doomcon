@@ -61,7 +61,7 @@ struct ChecklistRow: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text(item.title)
                     .strikethrough(done)
-                    .foregroundStyle(done ? .secondary : .primary)
+                    .foregroundStyle(done ? Color.secondary : Color.primary)
                 if showPerson, let person {
                     Text(person.displayName).font(.caption.weight(.semibold)).foregroundStyle(.tint)
                 }
