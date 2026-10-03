@@ -63,7 +63,11 @@ final class AppStore {
     // MARK: People
 
     var me: Person? { data.people.first { $0.relationship == .me } }
-    var adults: [Person] { data.people.filter { !$0.isMinor } }
+    /// Adults, with "me" first so pickers default to the user.
+    var adults: [Person] {
+        let all = data.people.filter { !$0.isMinor }
+        return all.filter { $0.relationship == .me } + all.filter { $0.relationship != .me }
+    }
     var children: [Person] { data.people.filter(\.isMinor) }
 
     func person(_ id: UUID?) -> Person? {
