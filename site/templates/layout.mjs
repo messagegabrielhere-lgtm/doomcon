@@ -721,8 +721,10 @@ const FEATURE_ART = {
   '/moves/': { hue: '#9aa4b2', mark: '<path d="M2.5 4.5h11M2.5 8h11M2.5 11.5h7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>' },
 };
 
+const FB_PRIMARY = 8;
+
 function featureBar(ctx, sections, path, { inline = false } = {}) {
-  const tiles = sections.map((item) => {
+  const tileList = sections.map((item) => {
     const art = FEATURE_ART[item.href] || { hue: 'var(--accent)', mark: '' };
     const c = typeof item.count === 'function' ? item.count(ctx) : null;
     const current = item.href === path ? ' aria-current="page"' : '';
@@ -742,11 +744,25 @@ function featureBar(ctx, sections, path, { inline = false } = {}) {
       <span class="fb__l">${esc(item.label)}</span>
       ${c ? `<b class="fb__n num">${esc(c.v)}</b>` : '<span class="fb__n fb__n--none" aria-hidden="true">·</span>'}
     </a>`;
-  }).join('');
+  });
+  const tiles = tileList.join('');
+  // ONE ROW ON A WIDE SCREEN. Fourteen tiles wrapped into two rows and put
+  // ~40px more chrome above the reading than the competitor's whole header.
+  // From 1080px the first FB_PRIMARY tiles stay in the row and the rest move
+  // into a native <details> menu, so nothing needs a script and nothing is
+  // behind a sideways gesture. Below 1080px the menu is display:none and every
+  // tile is in the strip exactly as before.
+  const extraFrom = Math.min(FB_PRIMARY, tileList.length);
+  const extras = tileList.slice(extraFrom);
+  const curInExtras = sections.slice(extraFrom).some((item) => item.href === path);
+  const inlineTiles = tileList.map((t, i) => (i >= extraFrom ? t.replace('class="fb__t"', 'class="fb__t fb__t--x"') : t)).join('')
+    + (extras.length
+      ? `<details class="fb__more${curInExtras ? ' fb__more--cur' : ''}"><summary class="fb__t fb__sum">More <b class="fb__n num">${extras.length}</b></summary><div class="fb__menu">${extras.join('')}</div></details>`
+      : '');
   // Inline form: the masthead already supplies the .wrap and the gutter, so a
   // second one here would indent the tiles inside their own band. The tile
   // markup is identical either way -- only the container changes.
-  if (inline) return `<nav class="fb fb--inline" aria-label="Sections">${tiles}</nav>`;
+  if (inline) return `<nav class="fb fb--inline" aria-label="Sections">${inlineTiles}</nav>`;
   return `<nav class="fb" aria-label="Sections"><div class="wrap fb__in">${tiles}</div></nav>`;
 }
 
@@ -806,6 +822,20 @@ const FEATURE_BAR_CSS = `<style>
     -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 26px), transparent);
     mask-image: linear-gradient(90deg, #000 calc(100% - 26px), transparent);
   }
+}
+.fb__more { display: none; position: relative; flex: 0 0 auto; }
+.fb__sum { cursor: pointer; list-style: none; --fb-hue: var(--accent); }
+.fb__sum::-webkit-details-marker { display: none; }
+.fb__more--cur > .fb__sum { color: var(--ink); border-color: var(--fb-hue); }
+.fb__menu { position: absolute; right: 0; top: calc(100% + 6px); z-index: 40; display: grid; gap: 6px; min-width: 220px;
+  padding: 8px; border: 1px solid var(--rule); border-radius: 9px; background: var(--bg-sunken);
+  box-shadow: 0 12px 30px rgba(0,0,0,.45); }
+.fb__menu .fb__t { justify-content: flex-start; }
+.fb__menu .fb__n { margin-left: auto; }
+@media (min-width: 1080px) {
+  .fb--inline { flex-wrap: nowrap; }
+  .fb--inline > .fb__t--x { display: none; }
+  .fb__more { display: block; }
 }
 /* The tagline must not eat the row the tiles need. */
 .masthead__in > .masthead__tag { flex: 0 1 auto; }

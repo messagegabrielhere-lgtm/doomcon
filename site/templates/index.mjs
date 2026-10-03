@@ -62,7 +62,6 @@ import { freshnessStrip, pillarCard, moveRow, sourceStatus } from './_parts.mjs'
 import { indexHistoryChart, pillarRanked } from './_charts.mjs';
 import { page } from './layout.mjs';
 import * as brand from '../brand.mjs';
-import { seal } from './_seal.mjs';
 import * as news from './news.mjs';
 import * as gauge from './_gauge.mjs';
 import * as oven from './_oven.mjs';
@@ -199,8 +198,6 @@ ${gauge.styleTag()}
         ${Number.isFinite(state.score) ? `<button type="button" class="sharebtn" hidden data-t="${esc(`${brand.NAME} ${state.level}, ${state.level_name}. ${num(state.score, 1)} of 100 as of ${utc(state.generated_at)}. Tempo, not a probability.`)}">Copy this reading</button>` : ''}
       </div>
     </div>
-
-    <div class="hero__seal">${seal(ctx, { size: 210, id: 'seal-hero' })}</div>
 
     <div class="score">
       <p class="eyebrow">Composite score</p>
@@ -340,18 +337,26 @@ main.wrap > .hero { padding-top: calc(var(--s-4) + 9px); }
 main.wrap > .hero .hero__headline { font-family: var(--poster); font-weight: 400; text-transform: uppercase;
   letter-spacing: .012em; line-height: 1.04; font-size: clamp(34px, 4.6vw, 68px); max-width: 20ch; }
 .hero__stamp {
-  position: absolute; right: var(--s-5); top: calc(var(--s-5) + 6px); margin: 0;
+  position: static; margin: 0 0 var(--s-2);
   padding: 6px 12px 4px; border: 3px solid currentColor; border-radius: 4px;
   font: 700 clamp(13px, 1.5vw, 19px)/1 var(--stencil); letter-spacing: .16em; text-transform: uppercase;
-  color: var(--dark-src); opacity: .78; transform: rotate(-7deg); pointer-events: none;
+  color: var(--dark-src); opacity: .78; transform: rotate(-3deg); pointer-events: none;
 }
-/* The seal sits in the panel's bottom-right corner, out of the grid: a badge
-   on the broadside, not a third column competing with the score for width. */
-.hero__seal { display: none; }
+/* THE INSTRUMENT BESIDE THE SENTENCE. At 1080px and up the hero was a
+   headline with an empty right half and the dial a screen-height below it.
+   The two wrappers dissolve (display: contents) so the dial becomes a grid
+   item of the hero itself and takes the right column for the full height;
+   everything else stacks in the left. The seal gives its corner to the dial
+   here and is carried by the footer instead. */
+.hero__stamp { display: inline-block; justify-self: start; }
 @media (min-width: 1080px) {
-  .hero__seal { display: block; position: absolute; right: var(--s-5); bottom: var(--s-4); width: 176px; opacity: .92; }
+  main.wrap > .hero { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: var(--s-5); align-items: start; }
+  main.wrap > .hero > *, main.wrap > .hero .level__meta { grid-column: 1; }
+  main.wrap > .hero .hero__grid, main.wrap > .hero .level--dial { display: contents; }
+  main.wrap > .hero .ch--dial { grid-column: 2; grid-row: 1 / span 5; align-self: end; margin: 0; }
+  /* The number sits under the instrument that draws it, not a scroll below. */
+  main.wrap > .hero .score { grid-column: 2; grid-row: 6; align-self: start; justify-self: center; margin-top: var(--s-3); }
 }
-@media (max-width: 1079px) { .hero__stamp { position: static; display: inline-block; transform: rotate(-3deg); margin: 0 0 var(--s-2); } }
 
 /* THE DIAL BREATHES, AND HOW FAST IS THE LEVEL. The epithets have always
    described a needle - at rest, breathing, off the rest stop, pinned high, off

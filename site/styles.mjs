@@ -2081,7 +2081,6 @@ body:has(main.wrap[data-level="2"]) { --lvl: var(--heat-2); }
 body:has(main.wrap[data-level="1"]) { --lvl: var(--heat-1); }
 .foot__seal { margin: 0 0 var(--s-3); opacity: .9; max-width: 160px; }
 main.wrap:has(.nf .seal) ~ .foot .foot__seal { display: none; }
-@media (min-width: 1080px) { main.wrap:has(.hero__seal) ~ .foot .foot__seal { display: none; } }
 .foot__h { font-family: var(--stencil); font-size: var(--t-xs); letter-spacing: .12em; }
 main.wrap :is(.rintro__h1, .narch__h1, .dg__h1, .lwp__h1, .bp__h1, .bintro__h1, .ihero__h1,
   .bldhero__h1, .wld__h1, .flk__h1, .exp__h1, .nf__h) {
