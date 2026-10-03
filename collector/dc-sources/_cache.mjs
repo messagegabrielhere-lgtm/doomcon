@@ -22,12 +22,53 @@ function pathFor(key) {
   return `${CACHE_DIR}/${key}.json`;
 }
 
-/** Age of a cache entry in days, or null when it does not exist. */
-export function cacheAgeDays(key, nowMs) {
+/**
+ * WHY THE STAMP IS INSIDE THE FILE.
+ *
+ * Age used to come from the file's mtime, and on a GitHub Actions runner that
+ * number is a lie: `actions/checkout` writes every tracked file at checkout
+ * time, so a cache committed four days ago reads as zero days old and the
+ * 7-day window never elapses. The evidence was in the output — data/datacenters.json
+ * built by CI at 2026-09-28T02:22Z reported its osm-overpass source as
+ * `origin: cache, age_days: 0` while that harvest's own `fetched_at` said
+ * 2026-09-24T19:18:48Z. Nothing re-harvested, ever, as long as the files existed.
+ *
+ * So the fetch time travels with the value. Loaders that already stamp their
+ * payload (`osm-overpass`, `tiger-counties`, `usgs-gauge-sites`) keep their own
+ * stamp; the ones that did not (`ne-countries-50m`, `osm-datacenters-world`)
+ * get one from writeCache. mtime stays as the fallback, and only as the
+ * fallback, so a cache written before this change still ages — from the wrong
+ * clock in CI, for exactly one refresh cycle, and then from its own stamp.
+ */
+function stampMs(doc) {
+  const t = doc?.fetched_at;
+  if (typeof t !== 'string') return null;
+  const ms = Date.parse(t);
+  return Number.isFinite(ms) ? ms : null;
+}
+
+/** Only plain objects can carry a stamp. Anything else ages by mtime. */
+function stampable(value) {
+  return value !== null && typeof value === 'object' && !Array.isArray(value);
+}
+
+/**
+ * Age of a cache entry in days, or null when it does not exist.
+ *
+ * Reads the stamp embedded in the file, falling back to mtime for a legacy
+ * file that has none. Pass `doc` when the caller has already read the file —
+ * these are multi-megabyte documents and parsing one twice per run is waste.
+ *
+ * Clamped at zero: a stamp from the future is a clock disagreement, not a
+ * negative age, and `age_days: -0.3` in published output would be nonsense.
+ */
+export function cacheAgeDays(key, nowMs, doc) {
   const p = pathFor(key);
   if (!existsSync(p)) return null;
+  const stamp = stampMs(doc === undefined ? readCache(key) : doc);
+  if (stamp !== null) return Math.max(0, (nowMs - stamp) / DAY_MS);
   try {
-    return (nowMs - statSync(p).mtimeMs) / DAY_MS;
+    return Math.max(0, (nowMs - statSync(p).mtimeMs) / DAY_MS);
   } catch {
     return null;
   }
@@ -44,10 +85,18 @@ export function readCache(key) {
   }
 }
 
-export function writeCache(key, value) {
+/**
+ * Write a cache entry, stamped with the moment it was fetched, and return what
+ * was written. A loader's own `fetched_at` wins — it knows when the response
+ * actually arrived, which is before a slow reduction finished — and anything
+ * that is not a plain object is written through untouched.
+ */
+export function writeCache(key, value, nowMs = Date.now()) {
+  const doc = stampable(value) ? { fetched_at: new Date(nowMs).toISOString(), ...value } : value;
   const p = pathFor(key);
   mkdirSync(dirname(p), { recursive: true });
-  writeFileSync(p, `${JSON.stringify(value)}\n`);
+  writeFileSync(p, `${JSON.stringify(doc)}\n`);
+  return doc;
 }
 
 /**
@@ -67,23 +116,23 @@ export function writeCache(key, value) {
  * because at that point there is no honest thing left to publish.
  */
 export async function cached(key, { maxAgeDays, nowMs, load }) {
-  const age = cacheAgeDays(key, nowMs);
+  // One read, used for the age decision and, if it wins, as the value. A
+  // corrupt file is null here and therefore a miss, exactly as before.
+  const disk = readCache(key);
+  const age = disk === null ? null : cacheAgeDays(key, nowMs, disk);
   if (age !== null && age < maxAgeDays) {
-    const value = readCache(key);
-    if (value !== null) return { value, origin: 'cache', age_days: round1(age), error: null };
+    return { value: disk, origin: 'cache', age_days: round1(age), error: null };
   }
 
   try {
-    const value = await load();
-    writeCache(key, value);
+    const value = writeCache(key, await load(), nowMs);
     return { value, origin: 'network', age_days: 0, error: null };
   } catch (err) {
-    const fallback = readCache(key);
-    if (fallback === null) throw err;
+    if (disk === null) throw err;
     return {
-      value: fallback,
+      value: disk,
       origin: 'stale-cache',
-      age_days: round1(cacheAgeDays(key, nowMs) ?? 0),
+      age_days: round1(age ?? 0),
       error: String(err?.message ?? err),
     };
   }

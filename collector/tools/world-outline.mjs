@@ -61,7 +61,13 @@ const g = JSON.parse(readFileSync(src, 'utf8'));
 const countries = [];
 for (const f of g.features) {
   const p = f.properties;
-  const iso2 = (p.ISO_A2 && p.ISO_A2 !== '-99') ? p.ISO_A2 : (p.ISO_A2_EH && p.ISO_A2_EH !== '-99' ? p.ISO_A2_EH : null);
+  // THE SAME ORDER collector/dc-sources/_country.mjs uses, and the same shape
+  // test. Preferring raw ISO_A2 gave Taiwan the code "CN-TW" here while the
+  // attribution layer called it "TW", so /world drew Taiwan's outline and then
+  // reported the country as having no outline, with 11 pins sitting on it.
+  const iso2 = ['ISO_A2_EH', 'ISO_A2', 'WB_A2']
+    .map((k) => p[k])
+    .find((v) => typeof v === 'string' && /^[A-Z]{2}$/.test(v)) ?? null;
   const geom = f.geometry;
   const polys = geom.type === 'MultiPolygon' ? geom.coordinates : [geom.coordinates];
   const rings = polys.map((poly) => poly[0]); // outer rings only; holes are sub-pixel at this scale

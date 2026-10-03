@@ -206,6 +206,128 @@ function hasExploitsData(ctx) {
   );
 }
 
+// ---------------------------------------------------------------------------
+// /world — the THIRD page module that is not a static import, for exactly the
+// reason given for /flock above. site/templates/worldPage.mjs and its helper
+// _worldmap.mjs are written on their own track; a static `import` of a file
+// that has not landed is a hard crash for the whole build, so the wiring
+// lands first and picks the template up the moment it exists. Same two
+// failure cases, kept apart:
+//
+//   absent              -> silent. ctx.routes.world below carries the fact to
+//                          layout.mjs, so there is no route and no tile.
+//   present but broken  -> a loud WARNING, and every other page still builds.
+//                          _worldmap.mjs is imported BY the template, so a
+//                          broken helper lands here too, not as a crash.
+// ---------------------------------------------------------------------------
+const WORLD_PAGE_FILE = path.join(ROOT, 'site', 'templates', 'worldPage.mjs');
+let worldPage = null;
+if (existsSync(WORLD_PAGE_FILE)) {
+  try {
+    worldPage = await import('./templates/worldPage.mjs');
+  } catch (err) {
+    warn(`site/templates/worldPage.mjs is present but failed to load (${err.message}); building without /world.`);
+  }
+}
+
+/**
+ * THE /world GATE. Same contract as hasFlockData() above — this file decides
+ * whether public/world.html exists, layout.mjs restates the predicate
+ * verbatim in hasSection('world'), and THE TWO MUST MOVE TOGETHER. Disagree
+ * and the nav grows a tile pointing at a 404. There is a third copy this
+ * time: worldPage.mjs exports its own hasWorldData(), which it uses to choose
+ * between the page and its empty state. main() compares that one against this
+ * one on every build and warns when they disagree, because a drift between
+ * the gate and the template would otherwise ship a noindex "nothing to draw"
+ * page behind a live tile.
+ *
+ * Every clause is load-bearing, and for the same reason as /flock's:
+ *
+ *   sites                       the pins. No sites, nothing to count.
+ *   totals                      the counters the hero and the nav print.
+ *   copy.attribution_required   "© OpenStreetMap contributors". Attribution
+ *                               is a term of the ODbL, not a courtesy; a page
+ *                               without it publishes OSM data in breach of
+ *                               the licence.
+ *   worldOutline.countries      the land. Pins over nothing are a scatter
+ *                               plot, not a map, and the outline is also what
+ *                               lets the page name the countries drawn blank.
+ *
+ * data/orbital.json is deliberately NOT in the gate. The register is a
+ * section of the page, which renders without it; a missing register must not
+ * take the datacentre map down with it.
+ */
+function hasWorldData(ctx) {
+  return Boolean(
+    ctx && ctx.world
+    && Array.isArray(ctx.world.sites) && ctx.world.sites.length
+    && ctx.world.totals
+    && ctx.world.copy && ctx.world.copy.attribution_required
+    && ctx.worldOutline
+    && Array.isArray(ctx.worldOutline.countries) && ctx.worldOutline.countries.length,
+  );
+}
+
+// ---------------------------------------------------------------------------
+// /balance — the FOURTH page module that is not a static import, for exactly
+// the reason given for /flock above. site/templates/balancePage.mjs is written
+// on its own track; a static `import` of a file that has not landed is a hard
+// crash for the whole build, so the wiring lands first and picks the template
+// up the moment it exists. Same two failure cases, kept apart:
+//
+//   absent              -> silent. ctx.routes.balance below carries the fact
+//                          to layout.mjs, so there is no route and no Balance
+//                          tile, and the Upside tile keeps its place on the bar.
+//   present but broken  -> a loud WARNING, and every other page still builds.
+//
+// One thing differs from the other three: a homepage module links here.
+// site/templates/_balance.mjs is loaded by index.mjs on the same terms —
+// absent is silent, broken is a WARNING (index.mjs keeps the error in
+// balanceLoadError and main() prints it) — and it can load when this page did
+// not. index.mjs therefore reads ctx.routes.balance as well as hasBalance():
+// a "See the whole balance" link to a page this build never wrote is the
+// nav's 404 problem moved into the body.
+// ---------------------------------------------------------------------------
+const BALANCE_PAGE_FILE = path.join(ROOT, 'site', 'templates', 'balancePage.mjs');
+let balancePage = null;
+if (existsSync(BALANCE_PAGE_FILE)) {
+  try {
+    balancePage = await import('./templates/balancePage.mjs');
+  } catch (err) {
+    warn(`site/templates/balancePage.mjs is present but failed to load (${err.message}); building without /balance.`);
+  }
+}
+
+/**
+ * THE /balance GATE. Same contract as hasWorldData() above — this file
+ * decides whether public/balance.html exists, layout.mjs restates the
+ * predicate verbatim in hasSection('balance'), and THE TWO MUST MOVE
+ * TOGETHER. The third copy is the template's: balancePage.mjs exports
+ * hasBalancePage(), which is _balance.mjs's hasBalance(), and picks the page
+ * or its empty state with it. main() compares that one against this one on
+ * every build and warns when they disagree.
+ *
+ * What is required, and why it is so little:
+ *
+ *   balance               the collector's file, whole. Its blocks are NOT
+ *                         required one by one, because each has a dark state
+ *                         the page prints: a dark newsroom draws the beam
+ *                         level and dashed with no count on either pan, and a
+ *                         dark counter prints its error in place of a value.
+ *                         Gating on them would turn a printed "dark" into a
+ *                         missing page, the less honest of the two.
+ *   ledger.benefit/.harm  the two registers, as arrays. Without them there is
+ *                         no page: the newsroom counts alone are a count of
+ *                         words, and the registers are the part of the utopia
+ *                         case that carries receipts.
+ */
+function hasBalanceData(ctx) {
+  return Boolean(
+    ctx && ctx.balance && ctx.ledger
+    && Array.isArray(ctx.ledger.benefit) && Array.isArray(ctx.ledger.harm),
+  );
+}
+
 async function readJson(file, what) {
   let text;
   try {
@@ -675,6 +797,104 @@ async function main() {
     }
   }
 
+  // THE WORLD FILES. Two of the three are published verbatim, for the flock
+  // reasons above and with measured sizes of their own. collector/world.mjs
+  // writes data/world.json canonical and key-sorted with ONE SITE PER LINE:
+  // 2,228,162 bytes in 6,618 lines. Through stableJson every site object is
+  // re-indented onto seventeen lines of its own — 2,887,412 bytes in 91,002
+  // lines — without changing one value. data/orbital.json happens to be byte-identical
+  // through stableJson today (22,812 bytes either way), and is copied verbatim
+  // anyway, so that "the checksum in the repo is the checksum served" is true
+  // by construction rather than by coincidence. /world's "Take the data"
+  // section makes exactly that claim. The parses exist only to build ctx.
+  //
+  // Absent -> silent, like flock.json: the route simply does not exist.
+  // Unreadable -> a warning, and every other page still builds.
+  let world = null;
+  let worldText = null;
+  const worldFile = path.join(args.data, 'world.json');
+  if (existsSync(worldFile)) {
+    try {
+      worldText = await readFile(worldFile, 'utf8');
+      world = JSON.parse(worldText);
+    } catch (err) {
+      world = null;
+      worldText = null;
+      warn(`data/world.json unreadable (${err.message}); building without /world.`);
+    }
+  }
+
+  // The outline is build input, never an endpoint. It is Natural Earth
+  // 1:110m, simplified and quantised by collector/tools/world-outline.mjs, and
+  // it only ever DRAWS the land: every site's country was attributed by
+  // collector/world.mjs against the finer 1:50m file, because 1:110m has no
+  // Singapore polygon. Parsed, not kept as text, because nothing republishes it.
+  let worldOutline = null;
+  const worldOutlineFile = path.join(args.data, 'world-outline.json');
+  if (existsSync(worldOutlineFile)) {
+    try { worldOutline = JSON.parse(await readFile(worldOutlineFile, 'utf8')); }
+    catch (err) { warn(`data/world-outline.json unreadable (${err.message}); building without /world.`); }
+  }
+
+  // The orbital register. Hand-compiled, sourced row by row, and not part of
+  // the /world gate: a broken register loses its section and its endpoint,
+  // never the map above it.
+  let orbital = null;
+  let orbitalText = null;
+  const orbitalFile = path.join(args.data, 'orbital.json');
+  if (existsSync(orbitalFile)) {
+    try {
+      orbitalText = await readFile(orbitalFile, 'utf8');
+      orbital = JSON.parse(orbitalText);
+    } catch (err) {
+      orbital = null;
+      orbitalText = null;
+      warn(`data/orbital.json unreadable (${err.message}); /world will build without the orbital register.`);
+    }
+  }
+
+  // THE BALANCE FILES. Both published verbatim, on the orbital register's
+  // terms. collector/balance.mjs refuses data/ledger.json unless it is already
+  // canonical — keys sorted at every level, two-space indent, one trailing
+  // newline — so that "the checksum in the repository is the checksum served"
+  // (docs/BALANCE.md §7), and /balance's "Take the data" section makes that
+  // claim. Both files happen to be byte-identical through stableJson today
+  // (80,169 and 94,913 bytes on 2026-09-28); copying the bytes makes the claim
+  // true by construction rather than by coincidence. The parses exist only to
+  // build ctx.
+  //
+  // Absent -> silent, like world.json: no route, and the Upside tile keeps its
+  // place on the bar. Unreadable -> a warning, and every other page builds.
+  let balance = null;
+  let balanceText = null;
+  const balanceFile = path.join(args.data, 'balance.json');
+  if (existsSync(balanceFile)) {
+    try {
+      balanceText = await readFile(balanceFile, 'utf8');
+      balance = JSON.parse(balanceText);
+    } catch (err) {
+      balance = null;
+      balanceText = null;
+      warn(`data/balance.json unreadable (${err.message}); building without /balance.`);
+    }
+  }
+
+  // The two hand-verified registers. Required by the gate: no registers, no
+  // page, and the homepage module goes with it.
+  let ledger = null;
+  let ledgerText = null;
+  const ledgerFile = path.join(args.data, 'ledger.json');
+  if (existsSync(ledgerFile)) {
+    try {
+      ledgerText = await readFile(ledgerFile, 'utf8');
+      ledger = JSON.parse(ledgerText);
+    } catch (err) {
+      ledger = null;
+      ledgerText = null;
+      warn(`data/ledger.json unreadable (${err.message}); building without /balance.`);
+    }
+  }
+
   // OPERATOR-SUPPLIED LOGOS, listed once. The copy loop further down reuses
   // this exact list, so the manifest the templates read and the files that
   // actually land in public/logos/ cannot disagree. Absent -> empty -> every
@@ -731,6 +951,16 @@ async function main() {
       },
     leaders,
     exploits,
+    // /world. The parsed payloads only. What /api/world.json and
+    // /api/orbital.json serve is the verbatim text read above, never a
+    // re-serialisation of these objects.
+    world,
+    worldOutline,
+    orbital,
+    // /balance and the homepage module. The parsed payloads only; what
+    // /api/balance.json and /api/ledger.json serve is the verbatim text.
+    balance,
+    ledger,
     x: xwire,
     history,
     receipts,
@@ -763,7 +993,28 @@ async function main() {
   ctx.routes = {
     flock: Boolean(flockPage) && hasFlockData(ctx),
     exploits: Boolean(exploitsPage) && hasExploitsData(ctx),
+    world: Boolean(worldPage) && hasWorldData(ctx),
+    balance: Boolean(balancePage) && hasBalanceData(ctx),
   };
+
+  // The third copy of the /world predicate lives in the template, where it
+  // picks the page or the empty state. If it and the gate above ever disagree,
+  // either a live tile leads to a noindex "nothing to draw" page, or data the
+  // page could have drawn gets no route at all. Neither is a crash, so neither
+  // would be noticed; say it out loud instead.
+  if (worldPage && typeof worldPage.hasWorldData === 'function'
+    && worldPage.hasWorldData(ctx) !== hasWorldData(ctx)) {
+    warn(`hasWorldData() in site/build.mjs and in site/templates/worldPage.mjs disagree about this data; all three copies, with hasSection('world') in layout.mjs, must move together.`);
+  }
+  // The homepage half of /balance, which index.mjs loads for itself.
+  if (indexPage.balanceLoadError) {
+    warn(`site/templates/_balance.mjs is present but failed to load (${indexPage.balanceLoadError}); the homepage builds without the balance module.`);
+  }
+  // The same check for /balance, and the same two silent failures if it drifts.
+  if (balancePage && typeof balancePage.hasBalancePage === 'function'
+    && balancePage.hasBalancePage(ctx) !== hasBalanceData(ctx)) {
+    warn(`hasBalanceData() in site/build.mjs and hasBalancePage() in site/templates/balancePage.mjs disagree about this data; all three copies, with hasSection('balance') in layout.mjs, must move together.`);
+  }
 
   const written = [];
   written.push(await write(args.out, 'index.html', indexPage.render(ctx)));
@@ -815,6 +1066,22 @@ async function main() {
   if (ctx.routes.exploits) {
     written.push(await write(args.out, 'exploits.html', exploitsPage.render(ctx)));
   }
+  // /world. Every datacentre mapped in OpenStreetMap anywhere on Earth, by
+  // country, and the orbital register under it. Gated on ctx.routes.world,
+  // set immediately after ctx is built and the one place this route is
+  // decided, for the reason /flock gives above: the nav is drawn by another
+  // module, and a gate the nav cannot see is a gate the nav can disagree with.
+  if (ctx.routes.world) {
+    written.push(await write(args.out, 'world.html', worldPage.render(ctx)));
+  }
+  // /balance. Harm and benefit, counted side by side and never summed: the
+  // newsroom's two word lists, six live counters, and the two registers.
+  // Gated on ctx.routes.balance, set immediately after ctx is built and the
+  // one place this route is decided — the nav tile, the footer's two data
+  // links, the sitemap entry and the homepage module's link all read it.
+  if (ctx.routes.balance) {
+    written.push(await write(args.out, 'balance.html', balancePage.render(ctx)));
+  }
 
   // THE LONG TAIL. One permanent page per scored item, which is how pizzint
   // gets 997 of its 1,018 sitemap URLs. Each of ours carries the score
@@ -841,7 +1108,7 @@ async function main() {
 
   await writeDirectoryAliases(
     args.out,
-    ['race', 'news', 'methodology', 'history', 'digest', 'bliss', 'watts', 'map', 'leaders', 'flock', 'exploits'],
+    ['race', 'news', 'methodology', 'history', 'digest', 'bliss', 'balance', 'watts', 'map', 'world', 'leaders', 'flock', 'exploits'],
     write,
     written,
   );
@@ -919,6 +1186,26 @@ async function main() {
   // worth publishing whenever it parsed even if the template has not landed
   // yet and the page itself is not being written.
   if (exploitsText !== null) written.push(await write(args.out, 'api/exploits.json', exploitsText));
+  // Both verbatim, and note the condition: the ROUTE, not the text. These two
+  // files are advertised in exactly one place outside /world itself — the
+  // footer's Data column, gated on hasSection('world'), which reads the same
+  // flag — so writing them on the route keeps the files and the links that
+  // point at them in lockstep. The register additionally needs its own text:
+  // the route does not require it, and a register that failed to parse has no
+  // bytes to publish.
+  if (ctx.routes.world) {
+    written.push(await write(args.out, 'api/world.json', worldText));
+    if (orbitalText !== null) written.push(await write(args.out, 'api/orbital.json', orbitalText));
+  }
+  // Both verbatim, and on the ROUTE, for /world's reason: the footer's Data
+  // column links them under hasSection('balance'), which reads the same flag,
+  // so a link cannot outlive its file. The route requires both parses, and a
+  // parse is only ever made from text that was read, so neither text is null
+  // here.
+  if (ctx.routes.balance) {
+    written.push(await write(args.out, 'api/balance.json', balanceText));
+    written.push(await write(args.out, 'api/ledger.json', ledgerText));
+  }
   written.push(await write(args.out, 'api/index.json', stableJson({
     name: brand.NAME,
     description: brand.DESCRIPTION,
@@ -937,7 +1224,7 @@ async function main() {
     written.push(await write(args.out, `api/receipts/${r.id}.json`, stableJson(r)));
   }
 
-  await selfCheck(args.out, state);
+  await selfCheck(args.out, state, ctx);
 
   log(`${brand.NAME} build complete.`);
   log(`  out          ${args.out}`);
@@ -973,8 +1260,9 @@ function health(state) {
  * The claim this build makes is "the number is in the HTML". Assert it rather
  * than believe it: a refactor that moves the score behind a script would
  * otherwise ship silently and every screenshot of the site would be blank.
+ * `ctx` is optional; without it only the index and the widget are checked.
  */
-async function selfCheck(outDir, state) {
+async function selfCheck(outDir, state, ctx = null) {
   const html = await readFile(path.join(outDir, 'index.html'), 'utf8');
   const score = num(state.score, 1);
   const needles = [score, `${brand.NAME} ${state.level}`, state.level_name];
@@ -998,6 +1286,58 @@ async function selfCheck(outDir, state) {
   const embed = await readFile(path.join(outDir, 'embed.html'), 'utf8');
   if (!embed.includes(score)) {
     throw new Error(`build: self-check failed - the widget does not contain the score "${score}" as text.`);
+  }
+
+  // /world makes two claims this build can check, so it does. The count is in
+  // the HTML, not behind the map script: the same promise as the index, and
+  // the one pizzint breaks. And the ODbL attribution is on the page — a
+  // licence term, not a courtesy. The page body prints it and so does the
+  // footer on this route; this fails the build only if neither still does.
+  // The count is checked only when the payload has one: a missing total
+  // prints as a dash on the page, and demanding a number here would be
+  // asking the page to impute it.
+  if (ctx && ctx.routes && ctx.routes.world) {
+    const worldHtml = await readFile(path.join(outDir, 'world.html'), 'utf8');
+    const sites = ctx.world.totals.sites;
+    const needles = [ctx.world.copy.attribution_required];
+    if (Number.isFinite(sites)) needles.push(String(sites).replace(/\B(?=(\d{3})+(?!\d))/g, ','));
+    for (const needle of needles) {
+      if (!worldHtml.includes(needle)) {
+        throw new Error(`build: self-check failed - "${needle}" is not present as text in world.html.`);
+      }
+    }
+  }
+
+  // /balance makes the index's promise too: the drawing is in the HTML. The
+  // scale is an inline SVG with its tilt baked in and no script
+  // (docs/MOTION.md Rule 0), on the page and in the homepage module, and a
+  // refactor that moved either behind a script would ship a blank where the
+  // two counts go. That fails the build. The counts themselves are not
+  // searched for: "0" and "11" are in every page, and a needle that always
+  // matches checks nothing.
+  //
+  // The second check is the one the page exists to keep: the pan drawn low
+  // is the pan the collector published. The template restates the beam rule
+  // from balance.json's constants rather than reading the collector's angle,
+  // so the two can drift, and a drift is a weighing nobody published. That
+  // is a WARNING rather than a failure, because a wrong tilt on one page must
+  // not stop the index publishing, and the warning names both answers.
+  if (ctx && ctx.routes && ctx.routes.balance) {
+    const balHtml = await readFile(path.join(outDir, 'balance.html'), 'utf8');
+    const drawn = balHtml.match(/<svg class="bal__svg[^"]*"[^>]*\bdata-sinks="([a-z]+)" data-angle="(-?[0-9.]+)"/);
+    if (!drawn) {
+      throw new Error('build: self-check failed - balance.html does not carry the balance drawing as inline SVG.');
+    }
+    if (!html.includes('<svg class="bal__svg')) {
+      throw new Error('build: self-check failed - index.html does not carry the balance module\'s drawing, though the /balance route is on.');
+    }
+    const beam = ctx.balance.newsroom && ctx.balance.newsroom.beam;
+    if (beam && beam.state === 'live' && Number.isFinite(beam.angle_deg)) {
+      const want = beam.level ? 'none' : String(beam.sinks);
+      if (drawn[1] !== want || Math.abs(Math.abs(Number(drawn[2])) - beam.angle_deg) > 0.005) {
+        warn(`balance.html draws the ${drawn[1]} pan low at ${drawn[2]} degrees, but data/balance.json publishes ${want} at ${beam.angle_deg}. site/templates/_balance.mjs tilt() and collector/balance.mjs beamFor() have drifted.`);
+      }
+    }
   }
 }
 

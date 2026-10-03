@@ -41,6 +41,29 @@ function isMechanical(firstSource, otherSource) {
   return a.includes(firstSource) || b.includes(otherSource);
 }
 
+// MISSING IS A STATE, NOT A ZERO — the fifth rule in the header of
+// _charts.mjs, and the one this page used to break. _reel.normalizeItem() sets
+// score: null for an item the collector did not score, which is a real and
+// supported state, and _html.num() throws on any non-finite value. So an
+// unscored item did not render as 0 here; it took the whole build down inside
+// the per-item page loop.
+//
+// Every score read on this page goes through these two helpers. An unscored
+// item renders as an em dash plus the phrase below, never as a zero and never
+// as a value imputed from anything else on the page.
+const UNSCORED = 'this item carries no score';
+
+function hasScore(item) {
+  return Boolean(item) && Number.isFinite(item.score);
+}
+
+/** A score cell, or the named unscored state. Shares the caller's classes. */
+function scoreCell(item, cls) {
+  return hasScore(item)
+    ? `<span class="${esc(cls)}">${esc(num(item.score, 1))}</span>`
+    : `<span class="${esc(cls)} it__sc--none" title="${esc(UNSCORED)}">&mdash;</span>`;
+}
+
 export function slugFor(item) {
   const base = String(item.title || 'item')
     .toLowerCase()
@@ -57,20 +80,49 @@ export function hasItems(ctx) {
 
 function components(item) {
   const c = (item.meta || {}).score_components;
-  if (!c || typeof c !== 'object') return '';
-  const rows = Object.entries(c)
-    .filter(([, v]) => Number.isFinite(v))
-    .sort((a, b) => b[1] - a[1]);
-  if (!rows.length) return '';
-  const total = rows.reduce((n, [, v]) => n + v, 0);
-  return `<table class="it__t">
-    <caption>How this item scored ${esc(num(item.score, 1))} of 100</caption>
-    <thead><tr><th scope="col">Component</th><th scope="col">Points</th></tr></thead>
+  const rows = c && typeof c === 'object'
+    ? Object.entries(c)
+      .filter(([, v]) => Number.isFinite(v))
+      .sort((a, b) => b[1] - a[1])
+    : [];
+
+  // No decomposition to draw. Both halves are stated in words rather than
+  // returning '' — an absent table beside the note below reads as a rendering
+  // failure, and a zero total would read as "scored, and it scored nothing".
+  if (!rows.length) {
+    return hasScore(item)
+      ? `<p class="it__none">Scored <b class="num">${esc(num(item.score, 1))}</b> of 100. This
+         item's record carries no component breakdown, so there is nothing here to decompose —
+         the five terms are absent, not zero.</p>`
+      : `<p class="it__none"><b aria-hidden="true">&mdash;</b> <span class="vh">No score. </span>This
+         item carries no score: the collector did not score it, and no components were recorded.
+         Both are absent rather than zero, so nothing on this page imputes a number for it.</p>`;
+  }
+
+  const sum = rows.reduce((n, [, v]) => n + v, 0);
+  const body = `<thead><tr><th scope="col">Component</th><th scope="col">Points</th></tr></thead>
     <tbody>${rows.map(([k, v]) => `<tr>
       <th scope="row">${esc(k.replace(/_/g, ' '))}</th>
       <td class="num">${esc(num(v, 1))}</td>
-    </tr>`).join('')}</tbody>
-    <tfoot><tr><th scope="row">Total</th><td class="num">${esc(num(total, 1))}</td></tr></tfoot>
+    </tr>`).join('')}</tbody>`;
+
+  // Components without an overall score: the rows are real published numbers,
+  // so they are shown, but the foot is labelled as the arithmetic sum of the
+  // rows above it. Calling it the item's total would be publishing a score the
+  // collector never assigned.
+  if (!hasScore(item)) {
+    return `<table class="it__t">
+      <caption>Score components recorded for this item, which carries no overall score</caption>
+      ${body}
+      <tfoot><tr><th scope="row">Sum of these components</th><td class="num">${esc(num(sum, 1))}</td></tr>
+      <tr><th scope="row">Score of 100</th><td class="num it__sc--none" title="${esc(UNSCORED)}">&mdash;</td></tr></tfoot>
+    </table>`;
+  }
+
+  return `<table class="it__t">
+    <caption>How this item scored ${esc(num(item.score, 1))} of 100</caption>
+    ${body}
+    <tfoot><tr><th scope="row">Total</th><td class="num">${esc(num(sum, 1))}</td></tr></tfoot>
   </table>`;
 }
 
@@ -131,9 +183,13 @@ export function render(ctx, item, related = []) {
   <section class="it__s" aria-labelledby="it-score">
     <h2 id="it-score">The score</h2>
     ${components(item)}
-    <p class="it__n">Every term is published and every input is public, so this number can be
+    <p class="it__n">${hasScore(item)
+      ? `Every term is published and every input is public, so this number can be
        recomputed. It ranks the item inside the ${esc(ctx.news.items.length)}-item window; it is
-       not a judgement about importance in the world.</p>
+       not a judgement about importance in the world.`
+      : `Unscored items stay in the ${esc(ctx.news.items.length)}-item window and keep their page;
+         they are simply not ranked by a number. The page says so rather than printing a zero,
+         because a zero would read as "measured, and it measured nothing".`}</p>
   </section>
 
   <section class="it__s" aria-labelledby="it-corr">
@@ -145,7 +201,7 @@ export function render(ctx, item, related = []) {
     <h2 id="it-rel">Related in this window</h2>
     <ul class="it__rel">${related.map((r) => `<li>
       <a href="${esc(ctx.href(`/item/${slugFor(r)}.html`))}">${esc(r.title)}</a>
-      <span class="it__rm">${esc(num(r.score, 1))}</span>
+      ${scoreCell(r, 'it__rm')}
     </li>`).join('')}</ul>
   </section>` : ''}
 </article>`;
@@ -154,9 +210,13 @@ export function render(ctx, item, related = []) {
     ctx,
     path: `/item/${slugFor(item)}.html`,
     title: `${item.title} — ${brand.PUBLICATION}`,
-    description: `${String(item.summary || item.title).slice(0, 150)} Scored ${num(item.score, 1)} of 100 by the ${brand.NAME} index.`,
+    description: `${String(item.summary || item.title).slice(0, 150)} ${hasScore(item)
+      ? `Scored ${num(item.score, 1)} of 100 by the ${brand.NAME} index.`
+      : `Indexed by ${brand.NAME}; ${UNSCORED}.`}`,
     ogTitle: item.title,
-    ogImageAlt: `${brand.NAME} scored this item ${num(item.score, 1)} of 100`,
+    ogImageAlt: hasScore(item)
+      ? `${brand.NAME} scored this item ${num(item.score, 1)} of 100`
+      : `${brand.NAME} indexed this item without a score`,
     jsonld: [{
       '@context': 'https://schema.org',
       '@type': 'NewsArticle',
@@ -184,7 +244,7 @@ export function renderIndex(ctx) {
    carrying how it scored and who else carried it.</p>
 <ol class="it__all">${items.map((i) => `<li>
   <a href="${esc(ctx.href(`/item/${slugFor(i)}.html`))}">${esc(i.title)}</a>
-  <span class="it__rm num">${esc(num(i.score, 1))}</span>
+  ${scoreCell(i, 'it__rm num')}
 </li>`).join('')}</ol>`,
   });
 }
@@ -201,7 +261,8 @@ export function styleTag() {
 .it__t th,.it__t td{text-align:left;padding:5px 0;border-bottom:1px solid var(--rule-soft,var(--rule))}
 .it__t td{text-align:right;font-variant-numeric:tabular-nums;color:var(--accent)}
 .it__t tfoot th,.it__t tfoot td{border-bottom:0;padding-top:8px}
-.it__n,.it__solo{font-size:var(--t-xs);color:var(--ink-dim);line-height:1.5;max-width:60ch}
+.it__n,.it__solo,.it__none{font-size:var(--t-xs);color:var(--ink-dim);line-height:1.5;max-width:60ch}
+.it__sc--none{color:var(--ink-faint)}
 .it__lead{font-size:var(--t-sm)}
 .it__lead--mech,.it__mech{color:var(--ink-faint);font-size:var(--t-xs);max-width:60ch}
 .it__ind{font-size:var(--t-xs);color:var(--ink-dim)}

@@ -1489,7 +1489,7 @@ ${rampVars(RAMP_DARK)}
 .usm{margin:0;padding:0}
 .usm__svg{display:block;width:100%;height:auto;background:var(--bg-sunken);
   border:1px solid var(--rule-soft);border-radius:var(--radius)}
-.usm__land{fill:var(--usm-land);stroke:var(--usm-line);stroke-width:1;stroke-linejoin:round}
+.usm__land{fill:var(--usm-land);stroke:var(--usm-line);stroke-width:1;stroke-linejoin:round;vector-effect:non-scaling-stroke}
 
 .usm__pins{stroke:var(--bg-sunken);stroke-width:.5}
 .usm__pins--announced{fill:none;stroke-width:1.6}
@@ -1717,6 +1717,24 @@ g.usm__pins--announced.usm__k-d4{stroke:var(--usm-d4)}
 
 @media (min-width: 720px) {
   .usm__legend{grid-template-columns:repeat(3,1fr)}
+}
+
+/* ON A PHONE THE CHROME GETS OUT OF THE MAP.
+   Measured 2026-10-03 at 375px on /world: the stage is 343x156 and the floating
+   readout (247x50, top left) and the zoom buttons (56x110, top right) covered
+   18,603 of its 53,508 square pixels - a third of the picture, including North
+   America, Europe and Japan - while an open record covered all of it. Overlays
+   are right on a map 600px tall and wrong on one 156px tall, so below 560px the
+   stage becomes a column and they dock under the drawing. Markup order is
+   unchanged, so nothing moves for a screen reader, and this lives here rather
+   than in site/styles.mjs because this stylesheet is inlined after that one and
+   would otherwise win the tie. */
+@media (max-width: 560px) {
+  .usm__stage{display:flex;flex-direction:column;gap:6px}
+  .usm__ctl,.usm__hud,.usm__pop{position:static;max-width:100%;align-self:stretch}
+  .usm__ctl{flex-direction:row;flex-wrap:wrap;order:1}
+  .usm__hud{order:2}
+  .usm__pop{order:3;width:100%;left:auto;top:auto}
 }
 `;
 }

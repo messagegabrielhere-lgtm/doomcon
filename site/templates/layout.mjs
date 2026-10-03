@@ -76,8 +76,30 @@ const SECTIONS = [
     blurb: 'Where the compute physically sits, against the water it needs.',
     count: (ctx) => (ctx.datacenters && ctx.datacenters.counts
       ? { v: String(ctx.datacenters.counts.sites ?? ctx.datacenters.sites.length), k: 'datacentres mapped' } : null) },
-  // Beside /map on purpose: both are maps of physical AI infrastructure, and a
-  // reader who has learned one legend has learned half of the other.
+  // Immediately after /map, because it is /map with the border taken away:
+  // the same OpenStreetMap source, the same three status marks, the whole
+  // planet — and joined to nothing, where /map joins every pin to its water
+  // and its grid. The two US figures differ and both pages say why.
+  //
+  // THE COUNT IS QUALIFIED IN THE NAV, as the Cameras tile's is and for the
+  // same reason. 5,274 (on 2026-09-27) heard bare is heard as "the
+  // datacentres in the world", which is the one phrase copy.never_say exists
+  // to forbid: it is the number of map objects volunteers have tagged. So
+  // `k` carries copy.headline_qualifier from the payload rather than a date
+  // typed here. No total in the payload, no figure on the tile — the dot,
+  // not the length of some other array standing in for a number that was
+  // not published.
+  { href: '/world.html', label: 'World', short: 'World', needs: 'world',
+    blurb: 'Every datacentre mapped in OpenStreetMap, anywhere on Earth. Then orbit: what flies, against what is filed.',
+    count: (ctx) => {
+      const w = ctx.world;
+      if (!w || !w.totals || !Number.isFinite(w.totals.sites)) return null;
+      const q = w.copy && w.copy.headline_qualifier ? w.copy.headline_qualifier : 'as mapped in OpenStreetMap';
+      return { v: grouped(w.totals.sites), k: `datacentres ${q}` };
+    } },
+  // Beside the two datacentre maps on purpose: all three are maps of physical
+  // AI infrastructure, and a reader who has learned one legend has learned
+  // half of the next.
   //
   // THE COUNT IS QUALIFIED IN THE NAV ITSELF. `k` is what a screen reader
   // hears in place of the figure, and it carries copy.headline_qualifier — "as
@@ -126,7 +148,28 @@ const SECTIONS = [
     } },
   { href: '/digest.html', label: 'Digest', short: 'Digest', needs: 'digest',
     blurb: 'The day in one page, assembled from the scored corpus.' },
-  { href: '/bliss.html', label: 'Upside', short: 'Upside', needs: 'bliss',
+  // BALANCE TAKES UPSIDE'S TILE. The operator asked for the other viewpoint —
+  // AI solving problems, beside the doom case — and /balance is where that
+  // lives: benefit and harm counted side by side and never summed, with BLISS
+  // printed on it as context and a link through to /bliss. So the bar carries
+  // one tile for the whole question rather than one for its sunny half.
+  //
+  // THE COUNT IS THE PAIR THE BEAM TILTS ON, and nothing else: newsroom
+  // stories in this window that matched the benefit list only, then the harm
+  // list only, in the drawing's order (benefit left, harm right). Never their
+  // difference and never their ratio as a number (docs/BALANCE.md §4); the
+  // colon separates two counts and computes nothing. `k` says what they are
+  // and which window, from the file's own stamp. A dark newsroom has no count
+  // on either pan, so the tile prints the dot, never 0 : 0.
+  { href: '/balance.html', label: 'Balance', short: 'Balance', needs: 'balance',
+    blurb: 'Harm and benefit, counted side by side and never summed.',
+    count: balanceCount },
+  // /bliss stays in SECTIONS, so it keeps its row in the footer's Pages list
+  // and /balance's link to it has a home in the index of the site. On the bar
+  // it YIELDS to the Balance tile, and comes back whenever there is no
+  // /balance to yield to: a build without data/balance.json must not leave
+  // BLISS reachable from the footer alone.
+  { href: '/bliss.html', label: 'Upside', short: 'Upside', needs: 'bliss', yieldsTo: 'balance',
     blurb: 'The same machinery, pointed the other way.',
     count: (ctx) => (ctx.bliss && Number.isFinite(ctx.bliss.score)
       ? { v: num(ctx.bliss.score, 1), k: 'bliss score' } : null) },
@@ -172,6 +215,34 @@ function raceCount(ctx) {
     return { v: `${num(m.probability * 100, 1)}%`, k: `${top.name} on the ranking market` };
   }
   return { v: String(players.length), k: 'labs tracked' };
+}
+
+/**
+ * The two counts the balance's pans carry, or null.
+ *
+ * Read from balance.json's newsroom beam, the block the drawing reads, so the
+ * tile and the pans cannot print different pairs. Both must be whole counts
+ * from a live window: a dark newsroom writes null on both sides, and null
+ * prints the tile's dot rather than a pair of zeros it never measured. A
+ * measured 0 on one side is a count, and prints as 0.
+ */
+function balanceCount(ctx) {
+  const nr = ctx.balance && ctx.balance.newsroom;
+  const beam = nr && nr.beam;
+  const whole = (v) => Number.isInteger(v) && v >= 0;
+  if (!nr || nr.state !== 'live' || !beam || beam.state !== 'live'
+    || !whole(beam.benefit) || !whole(beam.harm)) return null;
+  const at = typeof nr.generated_at === 'string' && Number.isFinite(Date.parse(nr.generated_at))
+    ? `as of ${utc(nr.generated_at)}` : 'in the current window';
+  // THE WORDS GO IN THE VISIBLE VALUE. A bare "0 : 11" on thirteen pages told a
+  // sighted reader nothing about which side was which, or which direction was
+  // good; only the aria-label and the title carried "benefit language : harm
+  // language", and neither is read by someone looking at the tile. Letters are
+  // the cheapest possible legend and they fit.
+  return {
+    v: `${grouped(beam.benefit)}b · ${grouped(beam.harm)}h`,
+    k: `newsroom stories matching one list only, benefit language : harm language, ${at}`,
+  };
 }
 
 /** Machine-readable surfaces. Separated in the footer because the audience is. */
@@ -495,6 +566,51 @@ const FEATURE_ART = {
   '/news.html': { hue: '#00a3ff', mark: '<path d="M2.5 4h11v8.5H2.5z" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M4.5 6.5h5M4.5 9h7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>' },
   '/watts.html': { hue: '#ff7a00', mark: '<path d="M9 2 4 9h3l-1 5 5-7H8z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>' },
   '/map.html': { hue: '#c400ff', mark: '<path d="M8 14s4.5-4.2 4.5-7.4A4.5 4.5 0 0 0 3.5 6.6C3.5 9.8 8 14 8 14z" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="8" cy="6.5" r="1.6" fill="currentColor"/>' },
+  // Rose, #ff73c8. Measured against the thirteen tiles in this table — in
+  // OKLab, not on the HSL wheel the notes below use, because this is the tile
+  // where the two disagree. Every figure here was computed off the hex values
+  // in this table, not estimated.
+  //
+  // THE HSL WHEEL OVERSTATES THE GREENS. On it the widest empty arc is 55 to
+  // 143 degrees, the Index's #ffef2a to Upside's #5fd08a: 87 degrees, wider
+  // than the 235-286 arc the /exploits note measures as widest. Perceptually
+  // it is not there. HSL spreads yellow-greens that the eye does not; in
+  // OKLCH the same two tiles are 47 degrees apart, and a lime dropped into
+  // the "gap" (#8fd11c) lands 0.085 from The Race's #00e676 in OKLab
+  // distance, about as close as Upside and The Race already are (0.078).
+  //
+  // HUE. The widest perceptual gap on the bar is magenta to red: /map's
+  // #c400ff at 314 degrees OKLCH to Leaders' #ff0033 at 24, 69 degrees with
+  // nothing in it. #ff73c8 sits at 345, 31 degrees from /map and 38 from
+  // Leaders. (In HSL, for comparison with the notes below: 324, against
+  // /map's 286 and Leaders' 348.) /flock's #00e5ff is at 209 in OKLCH, 186 in
+  // HSL: the far side of the wheel either way.
+  //
+  // DISTANCE, which hue alone undersells, because this tile is also lighter
+  // and softer than either neighbour: OKLCH lightness 0.75 and chroma 0.19,
+  // against /map's 0.62 and 0.31 and Leaders' 0.63 and 0.26. Its nearest tile
+  // in OKLab is 0.197 away (Leaders, with Archive's grey a hair behind);
+  // /map is 0.216 and /flock 0.329. Every OTHER tile here has a neighbour
+  // within 0.153 — the closest pair, the Index and Digest yellows, are 0.060
+  // apart — so this is the most isolated colour on the bar.
+  //
+  // REGISTER: not red. Leaders owns the alarm end, and the /exploits note's
+  // argument holds here too: this page counts map objects, and a count of map
+  // objects printed in the alarm colour is a claim made in CSS. Leaders is
+  // nonetheless this tile's nearest neighbour, which is why lightness rather
+  // than hue does most of the separating on that side.
+  //
+  // CONTRAST: 8.10:1 on the dark sunken ground (#08090a), AA with room.
+  // 2.14:1 on the light one (#f1efe9), which fails, as every tile here fails
+  // one ground or the other for the arithmetic reason given under /exploits;
+  // it sits among the nine light-ground figures from 1.04 to 2.38. The label
+  // beside the figure is --ink-dim, which clears AA in both schemes.
+  //
+  // MARK: a globe — the outline, one meridian, the equator — on the same
+  // 16-unit grid and 1.5 stroke as its neighbours. The only other large
+  // circle in the table is History's clock, which has hands and no meridian,
+  // so the meridian ellipse is what carries the difference.
+  '/world.html': { hue: '#ff73c8', mark: '<circle cx="8" cy="8" r="5.8" fill="none" stroke="currentColor" stroke-width="1.5"/><ellipse cx="8" cy="8" rx="2.5" ry="5.8" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M2.2 8h11.6" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>' },
   // Aqua: the one clear gap in the eleven hues above — #00a3ff is azure and
   // #00e676 is green, and nothing sits between them. Far enough from /map's
   // #c400ff that the two map pages never read as the same tile, which is the
@@ -538,6 +654,50 @@ const FEATURE_ART = {
   '/exploits.html': { hue: '#8b5cf6', mark: '<path d="M3 3.2v9.6M13 3.2v9.6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M5.4 8h5.2" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M4.5 8 6.5 6.3v3.4zM11.5 8 9.5 9.7V6.3z" fill="currentColor"/>' },
   '/leaders.html': { hue: '#ff0033', mark: '<path d="M8 2.5a2.6 2.6 0 1 1 0 5.2 2.6 2.6 0 0 1 0-5.2z" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M3 13.5c0-2.6 2.2-4.2 5-4.2s5 1.6 5 4.2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>' },
   '/digest.html': { hue: '#ffd600', mark: '<path d="M3.5 2.5h9v11l-4.5-2.5L3.5 13.5z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>' },
+  // Brass, #878700: the metal a pair of scales is made of, and the most
+  // isolated colour left on the bar that the register allows. Measured the
+  // way the /world note measures, in OKLab off the hex values in this table,
+  // against the fourteen tiles on the bar once Upside yields its place.
+  //
+  // THE ANGLES, and why the angle is not what separates it. OKLCH hue 109.8
+  // (HSL 60). The nearest tiles by angle are the Index's #ffef2a at 104.3
+  // and Digest's #ffd600 at 94.9 — 5.5 and 14.9 degrees away, which on the
+  // wheel alone is a clash — then The Race's #00e676 at 151.8, 42 degrees
+  // on. (In HSL: 60 against 55, 50 and 151.) What carries the difference is
+  // lightness: 0.60 against the Index's 0.94 and Digest's 0.885, the gap
+  // between a gold and a dark brass.
+  //
+  // DISTANCE. Its nearest tile in OKLab is Archive's grey at 0.188, then
+  // Watts 0.205, History 0.242, The Race 0.253, Digest 0.289 and the Index
+  // 0.338. Only /world (0.197) sits further from its nearest neighbour; the
+  // Index and Digest yellows are 0.060 apart. (The /world note's "every
+  // other tile within 0.153" was measured with Upside on the bar. With it
+  // yielding, The Race's nearest becomes /flock at 0.186, and /flock's is
+  // Newsroom at 0.184.)
+  //
+  // REGISTER. An unconstrained search of the sRGB cube, keeping only colours
+  // that clear 4.5:1 on the dark ground, ranked a dark green first (#008d00,
+  // 0.255 from its nearest tile). Refused: green is the live state (--ok),
+  // BLISS's own colour and the tile this one replaces (#5fd08a, 0.200 away),
+  // and a balance painted in the benefit colour is a verdict in CSS. With
+  // greens and reds excluded — red is Leaders and the dark-source state —
+  // lightness kept to 0.60-0.90, and nothing allowed within 0.12 of either
+  // side hue in _balance.mjs or the amber live reading, this is the search's
+  // answer. Benefit's #9fa6ff
+  // is 0.299 away and harm's #e39f7c 0.198, because this tile stands for
+  // both pans; the amber is 0.230.
+  //
+  // CONTRAST: 5.22:1 on the dark sunken ground (#08090a), AA. 3.32:1 on the
+  // light one (#f1efe9), which fails for the arithmetic reason the /exploits
+  // note gives and is fifth of the fourteen, behind #4b59ff, #c400ff,
+  // #8b5cf6 and #ff0033. The label beside the figure is --ink-dim.
+  //
+  // MARK: a two-pan balance on the 16-unit grid — a post with a foot, a
+  // beam, two pans on strings — and DRAWN LEVEL, always. A mark that tilted
+  // with the data would print a verdict in the nav at fifteen pixels with
+  // no rule under it, and one fixed at a tilt would print a permanent one.
+  // No other mark in the table puts a horizontal beam across a vertical post.
+  '/balance.html': { hue: '#878700', mark: '<path d="M8 2.4v10.8M4.8 13.4h6.4M2.8 4.6h10.4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M2.8 4.6 1.5 9.3M2.8 4.6 4.1 9.3M13.2 4.6 11.9 9.3M13.2 4.6 14.5 9.3" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/><path d="M1.3 9.3h3a1.5 1.5 0 0 1-3 0zM11.7 9.3h3a1.5 1.5 0 0 1-3 0z" fill="currentColor"/>' },
   '/bliss.html': { hue: '#5fd08a', mark: '<circle cx="8" cy="8" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 1.5v2M8 12.5v2M1.5 8h2M12.5 8h2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>' },
   '/methodology.html': { hue: '#4b59ff', mark: '<path d="M6 2v4.5L2.8 12a1.6 1.6 0 0 0 1.4 2.4h7.6A1.6 1.6 0 0 0 13.2 12L10 6.5V2z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>' },
   '/history.html': { hue: '#ffb655', mark: '<circle cx="8" cy="8" r="5.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 4.5V8l2.5 1.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>' },
@@ -671,6 +831,43 @@ const FEATURE_BAR_CSS = `<style>
  * headings of top-level sections, which is the same set the section rules in
  * styles.mjs target.
  */
+/**
+ * THE TABLE OF CONTENTS GOES AFTER THE FIRST SECTION, NOT BEFORE IT.
+ *
+ * Measured 2026-10-03 at 1440x1100 against pizzint.watch, the competitor this
+ * site is built to beat on distribution: they spend 43px of the first screen on
+ * chrome before their headline number; we spent 335px, and 94 of those were
+ * this nav - a list of nine links to places the reader has no reason to want
+ * yet, printed above the one sentence that says what the site measures.
+ *
+ * A contents list is navigation for a page you have decided to read. It earns
+ * its space after the first section has made the case, so it now follows the
+ * hero on the homepage and the intro on every other page. The markup, the
+ * links and the order are unchanged; only the position moves.
+ *
+ * Splice point: the close of the first TOP-LEVEL section. Nested sections are
+ * tracked by depth so a section inside the hero cannot end it early. With no
+ * section in the page the nav goes back to the top, which is where a page with
+ * no sections wants it.
+ */
+function withJumpIndex(mainHtml) {
+  const nav = jumpIndex(mainHtml);
+  if (!nav) return mainHtml;
+  const token = /<section\b|<\/section>/g;
+  let depth = 0;
+  let m;
+  while ((m = token.exec(mainHtml)) !== null) {
+    if (m[0] === '</section>') {
+      depth -= 1;
+      if (depth === 0) {
+        const at = m.index + m[0].length;
+        return `${mainHtml.slice(0, at)}\n${nav}\n${mainHtml.slice(at)}`;
+      }
+    } else depth += 1;
+  }
+  return `${nav}\n${mainHtml}`;
+}
+
 function jumpIndex(mainHtml) {
   const items = [];
   let depth = 0;
@@ -752,6 +949,11 @@ export function page(o) {
   // "which one do I use?". Measured 2026-09-25, chrome above the first content
   // was 244px of an 812px fold. `sections` stays — the feature bar and the
   // footer both still read it.
+  //
+  // With one difference between the two: an entry that `yieldsTo` another
+  // route gives up its TILE while that route exists, and keeps its footer
+  // row. Today that is Upside yielding to Balance.
+  const tiles = sections.filter((s) => !s.yieldsTo || !hasSection(ctx, s.yieldsTo));
 
   // Data pages get the wide measure; prose pages keep the 66ch reading column.
   // A methodology page at 1240px is a worse methodology page; a dashboard at
@@ -793,14 +995,13 @@ ${jsonld}
 <header class="masthead"><div class="wrap masthead__in">
   ${marks.mastheadLockup(ctx.state.level, { href: ctx.href('/'), current: o.path === '/', logos: ctx.logos, logoHref: (n) => ctx.href(`/logos/${n}`) })}
   <p class="masthead__tag">${esc(brand.TAGLINE)}</p>
-  ${featureBar(ctx, sections, o.path, { inline: true })}
+  ${featureBar(ctx, tiles, o.path, { inline: true })}
 </div></header>${FEATURE_BAR_CSS}
 ${rail(ctx, o.path)}
 ${visitSlot(ctx)}
 ${o.showDegraded ? degradedBanner(ctx.state) : ''}${motion.beforeMain}
-<main class="wrap" id="main">
-${jumpIndex(o.main)}
-${o.main}
+<main class="wrap" id="main" data-level="${esc(ctx.state && Number.isFinite(ctx.state.level) ? String(ctx.state.level) : '')}">
+${withJumpIndex(o.main)}
 </main>
 ${footer(ctx, sections, o.path)}${bodyEndExtra}
 <script>${CHROME_JS}</script>
@@ -838,6 +1039,52 @@ function hasSection(ctx, key) {
   if (key === 'map') {
     return Boolean(ctx.datacenters && Array.isArray(ctx.datacenters.sites)
       && ctx.datacenters.sites.length && ctx.datacenters.resources_index);
+  }
+  // /world is gated on TWO facts, exactly like /flock below and for the same
+  // reason: two modules decide it.
+  //
+  // The data half is build.mjs's hasWorldData() restated verbatim — same
+  // fields, same order — and it is also the predicate worldPage.mjs exports
+  // to choose between the page and its empty state. Three copies; they move
+  // together, and build.mjs warns when its copy and the template's disagree.
+  // copy.attribution_required is the ODbL line; worldOutline.countries is the
+  // land the pins are drawn on. The orbital register is not in the gate: it
+  // is one section of the page and the page renders without it.
+  //
+  // The second half is ctx.routes.world, which build.mjs sets and this module
+  // cannot compute: whether site/templates/worldPage.mjs loaded at all.
+  // Absent ctx.routes — a harness rendering layout on its own — the data
+  // predicate stands by itself.
+  if (key === 'world') {
+    if (ctx.routes && ctx.routes.world === false) return false;
+    const w = ctx.world;
+    const o = ctx.worldOutline;
+    return Boolean(w
+      && Array.isArray(w.sites) && w.sites.length
+      && w.totals
+      && w.copy && w.copy.attribution_required
+      && o
+      && Array.isArray(o.countries) && o.countries.length);
+  }
+  // /balance is gated on TWO facts, exactly like /world and for the same
+  // reason: two modules decide it.
+  //
+  // The data half is build.mjs's hasBalanceData() restated verbatim — same
+  // fields, same order — and it is also the predicate balancePage.mjs exports
+  // as hasBalancePage() (it is _balance.mjs's hasBalance()). Three copies;
+  // they move together, and build.mjs warns when its copy and the template's
+  // disagree. The file's blocks are not required one by one because each has
+  // a dark state the page prints; the two registers are required because
+  // without them the page is a word count.
+  //
+  // The second half is ctx.routes.balance: whether balancePage.mjs loaded.
+  // Absent ctx.routes — a harness rendering layout on its own — the data
+  // predicate stands by itself. This key also decides whether the Upside tile
+  // yields its place on the bar (SECTIONS, `yieldsTo`).
+  if (key === 'balance') {
+    if (ctx.routes && ctx.routes.balance === false) return false;
+    return Boolean(ctx.balance && ctx.ledger
+      && Array.isArray(ctx.ledger.benefit) && Array.isArray(ctx.ledger.harm));
   }
   // /flock is gated on TWO facts, because it is decided by two modules.
   //
@@ -978,8 +1225,31 @@ function footer(ctx, sections, path) {
   const exploitsN = exploitsOn && ctx.exploits.populations && ctx.exploits.populations.all
     && Number.isFinite(ctx.exploits.populations.all.n)
     ? ctx.exploits.populations.all.n : null;
+  //
+  // /world's two endpoints join on the same terms, with one difference worth
+  // stating: build.mjs writes them on the ROUTE, not merely on the text, and
+  // the route is exactly what hasSection('world') reads — so a link here
+  // cannot outlive its file. The register's row also needs the register
+  // itself, because the route does not require one and build.mjs publishes
+  // /api/orbital.json only from a copy that parsed.
+  const worldOn = hasSection(ctx, 'world');
+  const worldQ = worldOn && ctx.world.copy && ctx.world.copy.headline_qualifier
+    ? ctx.world.copy.headline_qualifier : 'as mapped in OpenStreetMap';
+  //
+  // /balance's two files join on /world's terms: build.mjs writes both on the
+  // route, and the route is what hasSection('balance') reads. The register
+  // row counts come from the ledger itself rather than a number typed here.
+  const balanceOn = hasSection(ctx, 'balance');
   const dataLinks = [
     ...DATA_LINKS,
+    ...(worldOn ? [
+      { href: '/api/world.json', label: 'World JSON',
+        blurb: `Every mapped datacentre site with its country and status, and the per-country counts, ${worldQ}. OpenStreetMap data, ODbL.` },
+      ...(ctx.orbital ? [
+        { href: '/api/orbital.json', label: 'Orbital JSON',
+          blurb: 'Every orbital computing programme: what is in space, what is filed, and the sources for both.' },
+      ] : []),
+    ] : []),
     ...(flockOn ? [
       { href: '/api/flock.json', label: 'ALPR JSON',
         blurb: zeros === null
@@ -994,6 +1264,12 @@ function footer(ctx, sections, path) {
           ? 'Every catalogued exploited vulnerability joined to its NVD publication date, with the lag in days.'
           : `All ${grouped(exploitsN)} catalogued entries joined to their NVD publication date, with the lag in days and every series on the page.` },
     ] : []),
+    ...(balanceOn ? [
+      { href: '/api/balance.json', label: 'Balance JSON',
+        blurb: 'The newsroom counts on both word lists, every matched headline, the six counters and both lists in full. Nothing summed.' },
+      { href: '/api/ledger.json', label: 'Registers JSON',
+        blurb: `The two hand-checked registers: ${grouped(ctx.ledger.benefit.length)} benefit and ${grouped(ctx.ledger.harm.length)} harm rows, each dated and sourced.` },
+    ] : []),
   ];
 
   // THE LICENCE LINE. ODbL requires the attribution and the link wherever the
@@ -1004,11 +1280,20 @@ function footer(ctx, sections, path) {
   // sentence is the coverage caveat, printed from the payload rather than
   // paraphrased here: a reader who scrolls to the bottom of a map of cameras
   // should not be able to leave believing the blank counties are clear.
+  //
+  // /world shows OpenStreetMap data too, so it carries the same line, printed
+  // from ctx.world.copy on the same terms: the attribution, the link, and the
+  // sentence that separates a country nobody has mapped from a country with
+  // no datacentres.
   const odbl = flockOn && path === '/flock.html'
     ? `<p class="foot__fine">Camera locations on this page are ${esc(ctx.flock.copy.attribution_required)}, licensed under the
       <a href="${esc(ctx.flock.copy.attribution_url || 'https://www.openstreetmap.org/copyright')}" rel="noopener">Open Database License</a>.
       ${esc(ctx.flock.coverage && ctx.flock.coverage.what_zero_means ? ctx.flock.coverage.what_zero_means : '')}</p>`
-    : '';
+    : worldOn && path === '/world.html'
+      ? `<p class="foot__fine">Datacentre locations on this page are ${esc(ctx.world.copy.attribution_required)}, licensed under the
+      <a href="${esc(ctx.world.copy.attribution_url || 'https://www.openstreetmap.org/copyright')}" rel="noopener">Open Database License</a>.
+      ${esc(ctx.world.copy.what_zero_means || '')}</p>`
+      : '';
 
   // THE SOURCE LINE ON /exploits. Nothing legally compels this one: CISA KEV
   // and NVD are works of the US Government in the public domain, so unlike the

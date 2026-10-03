@@ -106,8 +106,21 @@ async function main() {
   }
   log(`countries: ${ci.meta.countries} polygons, ${ci.meta.origin}${ci.meta.error ? ` - ${ci.meta.error}` : ''}`);
 
+  // ONE FEATURE PER COUNTRY CODE, AND IT IS THE COUNTRY. Keeping the first
+  // feature seen put 148 Australian datacentres under "Ashmore and Cartier
+  // Islands", an uninhabited reef that shares Australia's code in Natural
+  // Earth. The sovereign feature wins; the larger extent breaks a tie. The
+  // polygons themselves are untouched - every feature still resolves points,
+  // so a site on Ashmore is still found - this decides only the NAME.
   const byIso = new Map();
-  for (const c of ci.countries) if (c.iso2 && !byIso.has(c.iso2)) byIso.set(c.iso2, c);
+  for (const c of ci.countries) {
+    if (!c.iso2) continue;
+    const held = byIso.get(c.iso2);
+    if (!held) { byIso.set(c.iso2, c); continue; }
+    if (held.primary && !c.primary) continue;
+    if (c.primary && !held.primary) { byIso.set(c.iso2, c); continue; }
+    if ((c.extent ?? 0) > (held.extent ?? 0)) byIso.set(c.iso2, c);
+  }
 
   let resolvedByPolygon = 0;
   let resolvedByTag = 0;
@@ -197,7 +210,10 @@ async function main() {
       by_status: byStatus,
       countries_with_sites: countries.length,
       countries_with_none: countriesWithNone,
-      countries_in_roster: ci.countries.filter((c) => c.iso2).length,
+      // DISTINCT CODES, not Natural Earth features. Counting features made the
+      // roster 239 while 113 with sites and 124 without came to 237, because
+      // Australia is three features. The page prints all three numbers.
+      countries_in_roster: byIso.size,
       by_continent: byContinent,
       attributed_by_polygon: resolvedByPolygon,
       attributed_by_tag: resolvedByTag,

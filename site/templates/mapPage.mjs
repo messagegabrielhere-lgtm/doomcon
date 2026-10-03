@@ -1803,26 +1803,6 @@ function mapCss() {
 .dcjt th[aria-sort="ascending"] .dcjt__ar{opacity:1;transform:rotate(225deg) translate(-1px,-1px)}
 .dcjt th[aria-sort="descending"] .dcjt__sb,.dcjt th[aria-sort="ascending"] .dcjt__sb{color:var(--accent)}
 
-/* -------------------------------------------------------------------------
-   ONE DEFENSIVE LINE FOR A DEFECT THIS FILE MAY NOT FIX AT SOURCE.
-
-   _usmap.mjs renders its zoom controls and its zoom readout with the hidden
-   attribute and says why in its own comment: "with no script they would be
-   three lies; the script unhides exactly the ones it has wired up". But the
-   rules that position them, .usm__ctl{display:flex} and
-   .usm__hud{display:flex}, out-specify the UA's [hidden]{display:none} —
-   so with JavaScript off a reader gets three dead buttons (+ / − / Reset) and
-   a readout asserting "1.0x" on a picture that cannot zoom. Measured on the
-   served HTML with every script element stripped: 56x110 and 198x28 of
-   painted lies.
-
-   The real fix is one [hidden] guard in _usmap.mjs, which another task owns.
-   Until it lands, this page refuses to serve the dead controls. The selector
-   goes away by itself the moment the script runs, because that script toggles
-   the IDL property and the attribute goes with it.
-   ------------------------------------------------------------------------- */
-.usm [hidden]{display:none}
-
 /* A counter on a heading. docs/ENGAGEMENT.md ranks this as free density and
    docs/VOICE.md §4 already demands the denominator, so every section heading
    that counts something says how many. */

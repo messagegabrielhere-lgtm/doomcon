@@ -2057,6 +2057,84 @@ const ICONS = `
 // loses no fact.
 // ---------------------------------------------------------------------------
 const CHROMA = `
+/* THE RAIL'S SCREEN-READER LABEL WAS WIDENING THE WHOLE PAGE.
+   Measured 2026-10-03 at the 375px mobile preset: /balance and /world reported
+   documentElement.clientWidth 375 but scrollWidth 561, and hiding .rail alone
+   brought it back. .vh is position:absolute with no positioned ancestor, so it
+   resolved against the page and stretched it; the rail scroller never clipped
+   it because it was not the containing block. One property fixes it, and the
+   label stays exactly as audible as before. */
+.rail__in { position: relative; }
+/* A backstop, so no single absolutely-positioned child can widen a page again.
+   clip, not hidden: hidden on the root would break position:sticky everywhere. */
+html { overflow-x: clip; }
+
+/* SECTION HEADINGS STICK ON EVERY PAGE, NOT JUST THE ONES WHOSE SECTIONS ARE
+   DIRECT CHILDREN OF main.wrap. /balance wraps its sections in .bp and /world
+   in .usm-scope, so the house rule missed both - on pages 9,394px and 1,711px
+   long, which are the two that need a heading overhead the most. */
+.bp > .bp__sec > .bp__h,
+.usm-scope > .wld__sec > h2 {
+  position: sticky; top: calc(var(--rail-h, 28px) + 3px);
+  background: var(--bg); z-index: 3; padding-block: 7px;
+}
+
+/* FOOTER DATA LINKS STAY ON ONE LINE. World, Orbital, Balance and Registers
+   took the column to six two-line links at 1024; the labels are short enough
+   that only the wrap was making them look long. */
+.foot__list a { white-space: nowrap; }
+
+/* THE HOMEPAGE BALANCE MODULE'S COLUMN HEADINGS. The house-name tag kept its
+   left margin when it wrapped, so a wrapped eyebrow started indented under its
+   own heading while the unwrapped one sat flush. A flex gap does the same job
+   and survives the wrap. */
+.bal__k { display: flex; flex-wrap: wrap; column-gap: .7em; align-items: baseline; }
+.bal__k .bal__eb, .bal__k .sec__eb { margin-left: 0; }
+@media (max-width: 560px) { .bal__k .bal__eb, .bal__k .sec__eb { display: none; } }
+/* THE HERO IS ONE OBJECT, AND IT CARRIES THE LEVEL.
+   Measured 2026-10-03 at 1440x1100 against pizzint.watch. Their first screen
+   is one glowing bounded badge at 60px type: you read it from across the room
+   and you cannot miss where the number is. Ours set the same facts larger -
+   66px dial numeral, 56px composite, 53px headline - and still read as three
+   separate things laid side by side, because nothing bounded them into a
+   single instrument and nothing but the dial carried the level colour.
+   The heat ramp is already defined per level and already printed on the dial;
+   this spends it on the panel edge too, so the whole reading changes colour
+   together when the level does. The level name and band stay in words inside
+   the dial, so the colour is confirmation and never the reading. */
+main.wrap[data-level="5"] { --lvl: var(--heat-5); }
+main.wrap[data-level="4"] { --lvl: var(--heat-4); }
+main.wrap[data-level="3"] { --lvl: var(--heat-3); }
+main.wrap[data-level="2"] { --lvl: var(--heat-2); }
+main.wrap[data-level="1"] { --lvl: var(--heat-1); }
+
+main.wrap > .hero {
+  position: relative;
+  margin-top: var(--s-3);
+  padding: var(--s-4) var(--s-4) var(--s-5);
+  border: 1px solid var(--rule);
+  border-top: 2px solid var(--lvl, var(--accent));
+  border-radius: var(--radius);
+  background: var(--bg-raised);
+  /* Polish only: a wash of the level down the top of the panel. If color-mix
+     is unsupported this declaration is dropped and the flat raised background
+     above it stands, which is what the panel looked like before this rule. */
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--lvl, var(--accent)) 7%, var(--bg-raised)) 0%,
+      var(--bg-raised) 44%);
+}
+/* The section rule above every main > .sec would draw a second line across the
+   top of the panel, immediately under its own level-coloured edge. */
+main.wrap > .hero + .jump { border-top: 0; padding-top: 0; margin-top: var(--s-4); }
+
+/* The dial gets the same colour as a halo rather than a second border, so the
+   instrument reads as lit from within the panel instead of boxed twice. */
+main.wrap > .hero .ch--dial { filter: drop-shadow(0 0 22px color-mix(in srgb, var(--lvl, var(--accent)) 26%, transparent)); }
+
+@media (max-width: 560px) {
+  main.wrap > .hero { padding: var(--s-3) var(--s-3) var(--s-4); margin-left: 0; margin-right: 0; }
+}
+@media (prefers-reduced-motion: reduce) { main.wrap > .hero .ch--dial { filter: none; } }
 /* THE FOOTER AS AN INDEX, NOT A BROCHURE. See footer() in layout.mjs for the
    measurement. Pages is a two-column list of labels; Data carries one note. */
 @media (min-width:760px){.foot__list--2{grid-template-columns:1fr 1fr;column-gap:var(--s-4)}}

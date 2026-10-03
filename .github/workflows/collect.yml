@@ -10,8 +10,16 @@
 # finishes in about two seconds. Putting both on the same schedule means either
 # the news is slow or the markets get hammered. So: two lanes.
 #
-#   news  every 15 min   news -> build -> publish                     ~1-2 min
-#   full  hourly at :07  collect -> news -> race -> engine -> build -> publish
+#   news  every 15 min   news -> balance -> build -> publish          ~1-2 min
+#   full  hourly at :07  collect -> news -> race -> engine -> bliss -> balance
+#                        -> build -> publish
+#
+# balance is collector/balance.mjs: the harm-and-benefit counts under /balance
+# and the homepage's balance module. It runs in both lanes, straight after the
+# newsroom it counts, because its beam tilts on the current window's headlines
+# and a build that paired a fresh news.json with the last window's counts would
+# draw a weighing of stories no longer on the page. It never fails a run and
+# never replaces a good data/balance.json with a bad one; see its steps.
 #
 # THE PLATFORM FACT. GitHub's cron floor is five minutes, scheduled runs are
 # routinely late by 5-20 minutes under load, and they are DROPPED OUTRIGHT
@@ -152,6 +160,39 @@ jobs:
           echo "changed=$CHANGED" >> "$GITHUB_OUTPUT"
           echo "usable=$USABLE items_changed=$CHANGED"
 
+      - name: Recount harm and benefit
+        # AFTER the newsroom and BEFORE the build, and only when the newsroom
+        # changed, which is the only time this lane rebuilds. The beam on
+        # /balance and on the homepage tilts on this window's headlines and on
+        # nothing else (docs/BALANCE.md §4), so the counts have to be made from
+        # the same news.json the build is about to render.
+        #
+        # NEVER FAILS THE JOB, AND NEVER REPLACES A GOOD FILE WITH A BAD ONE.
+        # The collector writes its output first and exits 1 afterwards when the
+        # ledger is invalid or every counter is dark, so it is pointed at a
+        # scratch path outside data/ and its file is moved in only on a clean
+        # exit that parses. Anything else — a non-zero exit, the 240 s ceiling,
+        # a file that does not parse — leaves the previous data/balance.json
+        # standing, and the site builds from it with that file's own stamp
+        # printed beside the counts. The ceiling sits above the collector's own
+        # 150 s per-counter watchdog; a clean run measured 2 s on 2026-09-28.
+        #
+        # Cost: about 9 MB of registry fetches per run (docs/BALANCE.md §10),
+        # paid here only on a pass that changed the newsroom.
+        if: steps.gate.outputs.changed == 'true'
+        continue-on-error: true
+        run: |
+          set -uo pipefail
+          NEXT="${RUNNER_TEMP:-/tmp}/balance.next.json"
+          rm -f "$NEXT"
+          if timeout 240 node collector/balance.mjs --out "$NEXT" \
+             && node -e 'JSON.parse(require("fs").readFileSync(process.argv[1], "utf8"))' "$NEXT"; then
+            mv "$NEXT" data/balance.json
+          else
+            echo "::warning::collector/balance.mjs did not finish cleanly (exit $?); keeping the previous data/balance.json"
+            rm -f "$NEXT"
+          fi
+
       - name: Rebuild the site
         if: steps.gate.outputs.changed == 'true'
         # ORDER MATTERS. site/build.mjs CLEARS public/ before regenerating it, so
@@ -178,11 +219,12 @@ jobs:
           git config user.name  'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
 
-          # data/news.json ONLY, and on every pass — including one that changed
-          # nothing visible. That file carries the cadence ledger
-          # (sources[].fetched_at) and the first_seen_at stamps that back the "we
-          # had this first" claim, and a scheduled run is a fresh container with
-          # no memory of its own: the committed file IS the process state.
+          # data/news.json on every pass — including one that changed nothing
+          # visible — and data/balance.json beside it (below). The newsroom
+          # file carries the cadence ledger (sources[].fetched_at) and the
+          # first_seen_at stamps that back the "we had this first" claim, and a
+          # scheduled run is a fresh container with no memory of its own: the
+          # committed file IS the process state.
           # Leaving it uncommitted would reset the ledger every pass, re-fetch all
           # sixteen sources every fifteen minutes, and re-date every item the fast
           # lane discovered between hours.
@@ -194,6 +236,13 @@ jobs:
           # main still carries a build-output archive — an hour behind the live
           # site by design.
           git add data/news.json
+          # data/balance.json rides with it: the counts made from this window
+          # belong in the same commit as the window. Only a clean recount ever
+          # reaches data/, so whatever is on disk is either this pass's file or
+          # the previous good one, and the latter adds nothing. Checked for,
+          # not assumed, because before the first recount there is no file and
+          # `git add` of a missing path is fatal under set -e.
+          if [ -f data/balance.json ]; then git add data/balance.json; fi
           if git diff --cached --quiet; then
             echo 'newsroom unchanged; nothing to commit'
             exit 0
@@ -214,12 +263,13 @@ jobs:
           # runs wrote the same append-only file, which needs a person.
           # Two classes of file, two rules.
           #
-          # REGENERATED (data/news.json, leaders, race, infra, bliss, digest,
-          # datacenters): every run rewrites the whole file, so there is no
-          # meaningful merge and the run that commits last is simply the current
-          # truth. Rebasing into a conflict here is the wrong tool — it is what
-          # failed the pipeline on 2026-09-25 when the newsroom job and the full
-          # index job both rewrote news.json. Replay ours onto the fetched tip.
+          # REGENERATED (data/news.json, balance, leaders, race, infra, bliss,
+          # digest, datacenters): every run rewrites the whole file, so there is
+          # no meaningful merge and the run that commits last is simply the
+          # current truth. Rebasing into a conflict here is the wrong tool — it
+          # is what failed the pipeline on 2026-09-25 when the newsroom job and
+          # the full index job both rewrote news.json. Replay ours onto the
+          # fetched tip.
           #
           # APPEND-ONLY (data/history.ndjson, data/receipts/): a conflict there
           # really does mean two runs appended to one ledger, which needs a
@@ -401,6 +451,29 @@ jobs:
         continue-on-error: true
         run: node collector/bliss.mjs
 
+      - name: Recount harm and benefit
+        # Reads data/news.json, data/state.json and data/bliss.json, so it runs
+        # after the newsroom, the engine and BLISS, and before the build. The
+        # same step as the fast lane's and the same two guarantees: it never
+        # fails the run, and a run that does not finish cleanly — non-zero
+        # exit, the 240 s ceiling, output that does not parse — leaves the
+        # previous data/balance.json standing. The scratch file lives outside
+        # data/, so `git add data` below can never commit a half-written one;
+        # it commits data/balance.json itself whenever a clean recount
+        # replaced it.
+        continue-on-error: true
+        run: |
+          set -uo pipefail
+          NEXT="${RUNNER_TEMP:-/tmp}/balance.next.json"
+          rm -f "$NEXT"
+          if timeout 240 node collector/balance.mjs --out "$NEXT" \
+             && node -e 'JSON.parse(require("fs").readFileSync(process.argv[1], "utf8"))' "$NEXT"; then
+            mv "$NEXT" data/balance.json
+          else
+            echo "::warning::collector/balance.mjs did not finish cleanly (exit $?); keeping the previous data/balance.json"
+            rm -f "$NEXT"
+          fi
+
       - name: Refresh the datacentre map
         # DAILY AT MOST, and never in the per-minute loop. This queries the
         # public Overpass API, which is a shared volunteer resource: eleven
@@ -415,6 +488,33 @@ jobs:
         # older than its refresh window.
         continue-on-error: true
         run: node collector/datacenters.mjs
+
+      - name: Refresh the world datacentre map
+        # Same failure posture as the US map above, and the same guard: one
+        # planet-wide Overpass query cached 7 days in
+        # data/dc-cache/osm-datacenters-world.json, and Natural Earth's 1:50m
+        # country polygons cached 90 days in data/dc-cache/ne-countries-50m.json.
+        # Both are committed by the step below, so a run is usually free: two
+        # file reads and some point-in-polygon arithmetic. It reads nothing else
+        # under data/, so its place in this list only has to be before the build.
+        #
+        # One addition the US step does not carry: a hard ceiling. The planet
+        # query answered in 66 s when measured, but the mirror walk behind it
+        # allows four attempts of up to eleven minutes on each of three
+        # instances — hours, against this whole job's 25-minute budget. A cold
+        # cache on a bad Overpass day must cost /world one refresh, not cancel
+        # the build and publish below.
+        # `timeout` exits 124, continue-on-error absorbs it, and the previous
+        # data/world.json stands: the collector writes it last, and only on
+        # success.
+        #
+        # Cache age is read from the file's mtime, and a fresh checkout stamps
+        # every file with the checkout time, so on a runner a committed cache
+        # always reads as fresh. In practice this step re-harvests only when a
+        # cache file is missing; a weekly refresh is a local `--refresh` run
+        # and a commit. docs/WORLD.md, "Cadence".
+        continue-on-error: true
+        run: timeout 480 node collector/world.mjs
 
       - name: Refresh the leader wire
         # Reads data/news.json, so it runs AFTER the newsroom. Headline-only by
@@ -450,6 +550,11 @@ jobs:
           git config user.name  'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
 
+          # `git add data`, not a list of files, is what persists the map
+          # caches: it picks up data/world.json and both world caches under
+          # data/dc-cache/ (osm-datacenters-world.json, ne-countries-50m.json)
+          # exactly as it picks up the US map's. An uncommitted cache is a cold
+          # cache on the next runner, and a cold cache is a live Overpass query.
           git add data
           if git diff --cached --quiet; then
             echo 'nothing changed; not committing'
@@ -478,12 +583,13 @@ jobs:
 
           # Two classes of file, two rules.
           #
-          # REGENERATED (data/news.json, leaders, race, infra, bliss, digest,
-          # datacenters): every run rewrites the whole file, so there is no
-          # meaningful merge and the run that commits last is simply the current
-          # truth. Rebasing into a conflict here is the wrong tool — it is what
-          # failed the pipeline on 2026-09-25 when the newsroom job and the full
-          # index job both rewrote news.json. Replay ours onto the fetched tip.
+          # REGENERATED (data/news.json, balance, leaders, race, infra, bliss,
+          # digest, datacenters, world, and the dc-cache files): every run
+          # rewrites the whole file, so there is no meaningful merge and the
+          # run that commits last is simply the current truth. Rebasing into a
+          # conflict here is the wrong tool — it is what failed the pipeline on
+          # 2026-09-25 when the newsroom job and the full index job both
+          # rewrote news.json. Replay ours onto the fetched tip.
           #
           # APPEND-ONLY (data/history.ndjson, data/receipts/): a conflict there
           # really does mean two runs appended to one ledger, which needs a
