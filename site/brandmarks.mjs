@@ -187,11 +187,11 @@ export const HEAT = Object.freeze({
  * browser chrome.
  */
 export const HEAT_LIGHT = Object.freeze({
-  5: '#1c6f9e',
-  4: '#0e7a46',
-  3: '#8a6500',
-  2: '#a84a00',
-  1: '#c4001f',
+  5: '#0f6183',
+  4: '#17714a',
+  3: '#9a5a00',
+  2: '#a8450d',
+  1: '#b3261e',
 });
 
 /** The light scheme's ground. */

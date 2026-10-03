@@ -285,7 +285,7 @@ function datacentersClaim(ctx) {
       || (s && s.resources && s.resources.drought && s.resources.drought.county_fips);
     const row = fips ? byCounty[fips] : null;
     const c = row && row.headline && row.headline.category;
-    if (c && /^D[0-4]$/.test(String(c))) inDrought += 1;
+    if (c && /^D[1-4]$/.test(String(c))) inDrought += 1;
   }
   const week = ri.usdm_map_date ? ` on the Drought Monitor map of ${ri.usdm_map_date}` : '';
 

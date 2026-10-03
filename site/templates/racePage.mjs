@@ -1185,7 +1185,7 @@ ${instrumentStrip(race)}
     // has written one and falls back to the index card. It never returns a path
     // that is not on disk, because an og:image pointing at a 404 makes X render
     // a broken card instead of falling back to the summary form.
-    ogImage: ctx.cardFor ? ctx.cardFor('race') : null,
+    ogImage: (ctx.cardFor && ctx.cardFor('race')) || 'cards/race.png',
     ogImageAlt: leader
       ? `${brand.NAME} AI race leaderboard: ${leader.name} at ${pct(leader.market.probability, 1)}`
       : `${brand.NAME} AI race leaderboard`,

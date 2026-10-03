@@ -1147,6 +1147,8 @@ async function main() {
   written.push(await write(args.out, 'sitemap.xml', sitemap(ctx)));
   written.push(await write(args.out, 'robots.txt', robots(ctx)));
   written.push(await write(args.out, 'feed.xml', feed.render(ctx)));
+  // The quiet one: an entry only when the level itself changes.
+  written.push(await write(args.out, 'feed-level.xml', feed.render(ctx, { levelOnly: true })));
   // THE BRAND MARKS. A smoke-detector mark whose five grille slots stand for
   // the five DOOMCON levels, and whose FAVICON LIGHTS THE SLOTS UP TO THE
   // CURRENT LEVEL in heat colours — so the browser tab itself carries the

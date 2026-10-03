@@ -431,6 +431,10 @@ export function mapModel(dc) {
 
   const inDrought = sites.length - droughtCounts.none - droughtCounts.nodata;
   const severe = droughtCounts.D2 + droughtCounts.D3 + droughtCounts.D4;
+  // D0 is "abnormally dry", which the US Drought Monitor does not call
+  // drought. inDrought stays "carries any category"; any sentence that says
+  // "in drought" must use this D1-or-worse count instead.
+  const droughtD1 = droughtCounts.D1 + severe;
   const withReading = gridRows.reduce((t, g) => t + (g.reading ? g.count : 0), 0);
 
   return {
@@ -439,6 +443,7 @@ export function mapModel(dc) {
       sites: sites.length,
       pinned: pins.length,
       inDrought,
+      droughtD1,
       severe,
       withGridReading: withReading,
       gaugesPlotted: gaugeRows.filter((g) => g.xy).length,

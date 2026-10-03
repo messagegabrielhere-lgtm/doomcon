@@ -162,7 +162,7 @@ function counters(dc, model) {
     { k: 'sec-map', n: N(c.sites), l: 'mapped sites', s: `${N(c.pinned)} carry surveyed coordinates` },
     { k: 'under_construction', n: N(by.under_construction), l: 'under construction', s: 'a hole in the ground and a crane, in OpenStreetMap' },
     { k: 'announced', n: N(by.announced), l: 'announced', s: 'located to the evidence, never more precisely' },
-    { k: 'drop', n: N(t.inDrought), l: 'in a county in drought', s: `${N(t.severe)} of them in D2 or worse` },
+    { k: 'drop', n: N(t.droughtD1), l: 'in a county in drought', s: `${N(t.severe)} of them in D2 or worse` },
     { k: 'sec-substrate', n: N(t.withGridReading), l: 'with a live grid number', s: `${N(c.sites - t.withGridReading)} sit on a grid with no keyless feed` },
   ];
   return `<ul class="bldc">${cells.map((x) => `<li class="bldc__i">
@@ -182,10 +182,10 @@ function counters(dc, model) {
 function plainSentence(dc, model) {
   const c = dc.counts || {};
   const t = model.totals;
-  const pct = c.sites ? Math.round((t.inDrought / c.sites) * 100) : 0;
+  const pct = c.sites ? Math.round((t.droughtD1 / c.sites) * 100) : 0;
   return `This is a map of buildings, not of electricity. ${esc(N(c.sites))} datacentres have been ` +
-    `mapped in the United States by volunteers; ${esc(N(t.inDrought))} of them — ${pct}% — stand in a county ` +
-    `the US Drought Monitor placed in a drought category this week, and ${esc(N(t.withGridReading))} sit on ` +
+    `mapped in the United States by volunteers; ${esc(N(t.droughtD1))} of them — ${pct}% — stand in a county ` +
+    `the US Drought Monitor placed in drought (D1 or worse) this week, and ${esc(N(t.withGridReading))} sit on ` +
     `one of the three grids that publish a demand number without an account. What any of these buildings ` +
     `actually draws is not published by anyone.`;
 }
@@ -1352,13 +1352,13 @@ export function render(ctx) {
   const c = dc.counts || {};
   const t = model.totals;
 
-  const headline = `${N(c.sites)} datacentres mapped, ${N(t.inDrought)} of them in a county in drought`;
+  const headline = `${N(c.sites)} datacentres mapped, ${N(t.droughtD1)} of them in a county in drought`;
 
   const description =
     `Every datacentre OpenStreetMap has mapped in the United States — ${N(c.sites)} sites, ` +
     `${N((c.by_status || {}).under_construction)} under construction, ${N((c.by_status || {}).announced)} proposed — ` +
     `joined to the US Drought Monitor category of the county each one sits in, the nearest of nine USGS river ` +
-    `gauges, and the grid it draws from. ${N(t.inDrought)} pins stand in a county in drought; ` +
+    `gauges, and the grid it draws from. ${N(t.droughtD1)} pins stand in a county in drought; ` +
     `${N(t.withGridReading)} sit on a grid that publishes a real-time demand number without an account. ` +
     `Nothing here measures a datacentre's power or water draw, and the page says so above the map. ` +
     `Compiled ${utc(dc.generated_at)}.`;

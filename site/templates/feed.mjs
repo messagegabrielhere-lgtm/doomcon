@@ -4,8 +4,9 @@
 import { esc, num, signed, utc, rfc822 } from './_html.mjs';
 import * as brand from '../brand.mjs';
 
-export function render(ctx) {
-  const items = ctx.moves.filter((m) => m.indexable).slice(0, 50).map((m) => {
+export function render(ctx, { levelOnly = false } = {}) {
+  const self = levelOnly ? '/feed-level.xml' : '/feed.xml';
+  const items = ctx.moves.filter((m) => (levelOnly ? m.level_changed : m.indexable)).slice(0, 50).map((m) => {
     const title = m.level_changed
       ? `${brand.NAME} ${m.previous_level} → ${brand.NAME} ${m.level}: ${m.level_name}`
       : `${brand.NAME} ${m.level} · ${num(m.score, 1)} (${signed(m.delta, 1)})`;
@@ -22,9 +23,9 @@ export function render(ctx) {
   return `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 <channel>
-  <title>${esc(brand.NAME)} — index moves</title>
+  <title>${esc(brand.NAME)} — ${levelOnly ? 'level changes only' : 'index moves'}</title>
   <link>${esc(ctx.url('/'))}</link>
-  <atom:link href="${esc(ctx.url('/feed.xml'))}" rel="self" type="application/rss+xml"/>
+  <atom:link href="${esc(ctx.url(self))}" rel="self" type="application/rss+xml"/>
   <description>${esc(brand.DESCRIPTION)}</description>
   <language>en</language>
   <lastBuildDate>${esc(rfc822(ctx.state.generated_at))}</lastBuildDate>

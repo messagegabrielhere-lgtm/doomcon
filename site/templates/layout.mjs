@@ -253,6 +253,7 @@ const DATA_LINKS = [
   { href: '/api/health.json', label: 'Health', blurb: 'Per-source success, honestly reported.' },
   { href: '/embed.html', label: 'Embed', blurb: 'One iframe. No script, no key, no tracking.' },
   { href: '/feed.xml', label: 'RSS', blurb: 'An entry per index move.' },
+  { href: '/feed-level.xml', label: 'Level alerts', blurb: 'RSS that fires only when the level changes.' },
 ];
 
 // The published collection cadence, from .github/workflows/collect.yml: a */15
@@ -937,8 +938,9 @@ export function page(o) {
   // the fallback is worth clicking.
   // X caches a link card by URL. The fallback state card is rewritten every
   // reading under one path, so it is versioned by the receipt it was drawn from.
-  const ogPath = o.ogImage || `cards/state.png${ctx.state && ctx.state.receipt_id
-    ? `?v=${encodeURIComponent(ctx.state.receipt_id)}` : ''}`;
+  const ogBase = o.ogImage || 'cards/state.png';
+  const ogPath = ogBase + (ctx.state && ctx.state.receipt_id && !ogBase.includes('?')
+    ? `?v=${encodeURIComponent(ctx.state.receipt_id)}` : '');
   const ogImage = ogPath
     ? `<meta property="og:image" content="${esc(ctx.url(ogPath))}">
     <meta property="og:image:width" content="1200">
@@ -1000,6 +1002,7 @@ ${o.noindex ? '<meta name="robots" content="noindex,follow">' : '<meta name="rob
 ${twitterSite}
 ${ogImage}
 <link rel="alternate" type="application/rss+xml" title="${esc(brand.NAME)} index moves" href="${esc(ctx.href('/feed.xml'))}">
+<link rel="alternate" type="application/rss+xml" title="${esc(brand.NAME)} level changes only" href="${esc(ctx.href('/feed-level.xml'))}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="${esc(FONT_HREF)}">
