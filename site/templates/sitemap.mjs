@@ -26,8 +26,26 @@ export function render(ctx) {
     ...(ctx.bliss && ctx.bliss.generated_at
       ? [{ loc: '/bliss.html', changefreq: 'hourly', priority: '0.8', lastmod: ctx.bliss.generated_at }]
       : []),
+    // /balance. Gated on ctx.routes.balance, the same flag build.mjs uses to
+    // decide whether to write the file, so this entry cannot name a URL the
+    // build did not produce. daily, not hourly, although the newsroom counts
+    // move with every window: the six counters are 30-day or cumulative counts
+    // that docs/BALANCE.md §10 finds "daily is enough" for, and the registers
+    // change only when a row is re-verified by hand. lastmod is the file's own
+    // generated_at, the newest of its inputs' stamps, never the build clock.
+    ...(ctx.routes && ctx.routes.balance && ctx.balance && ctx.balance.generated_at
+      ? [{ loc: '/balance.html', changefreq: 'daily', priority: '0.8', lastmod: ctx.balance.generated_at }]
+      : []),
     ...(ctx.datacenters && ctx.datacenters.generated_at
       ? [{ loc: '/map.html', changefreq: 'daily', priority: '0.9', lastmod: ctx.datacenters.generated_at }]
+      : []),
+    // /world. Gated on ctx.routes.world, the same flag build.mjs uses to decide
+    // whether to write the file, so this entry cannot name a URL the build did
+    // not produce. weekly, because the Overpass harvest behind every pin is
+    // refreshed on a 7-day cache and the country outlines on a 90-day one;
+    // lastmod is still generated_at, the honest stamp of the file served.
+    ...(ctx.routes && ctx.routes.world && ctx.world && ctx.world.generated_at
+      ? [{ loc: '/world.html', changefreq: 'weekly', priority: '0.8', lastmod: ctx.world.generated_at }]
       : []),
     // /flock. Gated on ctx.routes.flock, which build.mjs sets from the same
     // predicate it uses to decide whether to write the file — so this entry

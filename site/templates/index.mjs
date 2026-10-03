@@ -70,6 +70,30 @@ import * as developing from './_developing.mjs';
 import * as leaderwire from './_leaderwire.mjs';
 import * as readings from './_readings.mjs';
 import * as claims from './_claims.mjs';
+import { existsSync } from 'node:fs';
+
+// THE ONE HOMEPAGE MODULE THAT IS NOT A STATIC IMPORT, for the reason
+// build.mjs gives at /flock. _balance.mjs is written on its own track, and a
+// static import of a file that has not landed takes index.html down, and the
+// whole build with it, so this wiring can land first and pick the module up
+// the moment it exists. The same two failure cases, kept apart:
+//
+//   absent              -> silent. The homepage is one section shorter, and
+//                          build.mjs has no /balance route either, because
+//                          balancePage.mjs imports this same file.
+//   present but broken  -> no section, and the error is kept in
+//                          balanceLoadError, which build.mjs prints as a
+//                          WARNING. A module that throws on import must not
+//                          take the index with it.
+let balance = null;
+export let balanceLoadError = null;
+if (existsSync(new URL('./_balance.mjs', import.meta.url))) {
+  try {
+    balance = await import('./_balance.mjs');
+  } catch (err) {
+    balanceLoadError = err.message;
+  }
+}
 
 // Matches build.mjs's own sparkline window. Only a cap: the fallback reader
 // below never needs more points than a 300-unit sparkline can resolve.
@@ -188,6 +212,13 @@ ${gauge.styleTag()}
      a script to exist. site/templates/_readings.mjs, _claims.mjs. -->
 ${readings.render(ctx)}
 ${claims.render(ctx)}
+<!-- THE BALANCE, straight after the claim cards: the cards say what DOOMCON
+     counts, and this is where the page first sets the benefit side beside
+     it. Its style block rides inside the fragment, as the cards' does, so a
+     build without data/balance.json carries neither. Empty when either file
+     is absent or when build.mjs did not write the page its link points at.
+     site/templates/_balance.mjs. -->
+${balanceModule(ctx)}
 
 ${developing.render(ctx)}
 
@@ -332,6 +363,29 @@ ${switcher.render(ctx)}
     jsonld: [webApplication(ctx), dataset(ctx)],
     main,
   });
+}
+
+// ---------------------------------------------------------------------------
+// The balance module
+// ---------------------------------------------------------------------------
+
+/**
+ * _balance.mjs render(), behind two conditions once the module has loaded.
+ *
+ * hasBalance() is the module's own: both files parsed and the ledger carries
+ * its two registers. ctx.routes.balance is build.mjs's: whether it wrote
+ * /balance.html at all, which also depends on balancePage.mjs loading — a
+ * fact this file cannot see. The drawing and the page are two files, so the
+ * first can be here when the second is not, and the module's "See the whole
+ * balance" link would then point at a 404. Absent ctx.routes — a harness
+ * rendering the homepage on its own — hasBalance() stands by itself, as it
+ * does for the route gates in layout.mjs.
+ */
+function balanceModule(ctx) {
+  if (!balance) return '';
+  if (ctx.routes && ctx.routes.balance === false) return '';
+  if (!balance.hasBalance(ctx)) return '';
+  return balance.render(ctx);
 }
 
 // ---------------------------------------------------------------------------

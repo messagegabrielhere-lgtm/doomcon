@@ -58,13 +58,26 @@ async function loadCountries(net) {
       const features = g.features.map((f) => {
         const p = f.properties ?? {};
         const polys = f.geometry.type === 'MultiPolygon' ? f.geometry.coordinates : [f.geometry.coordinates];
+        const code = alpha2(p);
+        const bb = bboxOf(f.geometry).map(q4);
         return {
           iso3: p.ADM0_A3 ?? null,
-          iso2: alpha2(p),
+          iso2: code,
+          // WHICH FEATURE IS THE COUNTRY, AND WHICH IS ONE OF ITS SPECKS.
+          // Natural Earth gives Australia three features that all resolve to
+          // AU - the mainland, Ashmore and Cartier, and the Coral Sea Islands.
+          // A consumer that keeps the first one it sees labelled 148 Australian
+          // datacentres "Ashmore and Cartier Islands". Only the sovereign
+          // feature carries the plain ISO_A2; a dependency carries -99 there and
+          // borrows the code through ISO_A2_EH. Extent is the tiebreak when
+          // neither does, and it is in square degrees because it is only ever
+          // compared with itself.
+          primary: typeof p.ISO_A2 === 'string' && p.ISO_A2 === code,
+          extent: Math.round(Math.abs((bb[2] - bb[0]) * (bb[3] - bb[1])) * 100) / 100,
           name: p.ADMIN ?? p.NAME ?? null,
           continent: p.CONTINENT ?? null,
           subregion: p.SUBREGION ?? null,
-          bbox: bboxOf(f.geometry).map(q4),
+          bbox: bb,
           polys: polys.map((poly) => poly.map((ring) => ring.map(([x, y]) => [q4(x), q4(y)]))),
         };
       }).sort((a, b) => String(a.iso3).localeCompare(String(b.iso3)) || String(a.name).localeCompare(String(b.name)));
@@ -89,27 +102,66 @@ export async function countryIndex(net, nowMs) {
   });
   const features = r.value.features;
   const RISK_DEG = 0.02; // ~2 km: twice the layer's generalisation
+  // Eight compass points on a circle of RISK_DEG around the site. The diagonals
+  // are at RISK_DEG / sqrt(2) per axis so all eight sit the same distance out.
+  const DIAG = Math.round(RISK_DEG * Math.SQRT1_2 * 1e6) / 1e6;
+  const PROBES = Object.freeze([
+    [0, RISK_DEG], [DIAG, DIAG], [RISK_DEG, 0], [DIAG, -DIAG],
+    [0, -RISK_DEG], [-DIAG, -DIAG], [-RISK_DEG, 0], [-DIAG, DIAG],
+  ]);
 
-  function lookup(lat, lon) {
-    if (!Number.isFinite(lat) || !Number.isFinite(lon)) return null;
+  /** Which country identity owns this feature. Natural Earth gives Australia
+   *  three features that all carry AU; a probe that steps from the mainland on
+   *  to Ashmore and Cartier has not crossed a border. Codeless features - the
+   *  handful that carry "-99" in all three fields - are their own identity, so
+   *  they still count as somewhere else. */
+  const idOf = (f) => f.iso2 ?? `iso3:${f.iso3}`;
+
+  /** The first feature whose polygons contain the point, or null. */
+  function locate(lat, lon) {
     for (const f of features) {
       const [minLon, minLat, maxLon, maxLat] = f.bbox;
       if (lon < minLon || lon > maxLon || lat < minLat || lat > maxLat) continue;
-      for (const rings of f.polys) {
-        if (!inPolygon(lon, lat, rings)) continue;
-        const edge = Math.min(lon - minLon, maxLon - lon, lat - minLat, maxLat - lat);
-        return {
-          iso2: f.iso2, iso3: f.iso3, name: f.name, continent: f.continent, subregion: f.subregion,
-          boundary_risk: edge < RISK_DEG,
-        };
-      }
+      for (const rings of f.polys) if (inPolygon(lon, lat, rings)) return f;
     }
     return null;
   }
 
+  // DISTANCE TO A BORDER, NOT TO A BOUNDING BOX. The flag used to test how far
+  // the site was from the edge of its country's bbox, which for anywhere with
+  // an overseas territory is a rectangle out at sea with no border on it: France
+  // reached past Kourou, the United States past Guam, and 5,196 attributed sites
+  // produced 3 flags. This steps RISK_DEG out in eight directions and asks the
+  // same polygons what is there; a step into a DIFFERENT country is the thing
+  // the flag claims. A step into the sea is not a border and is not flagged -
+  // this says "could belong to the neighbour", and the sea has no neighbour.
+  function nearAnotherCountry(lat, lon, home) {
+    const mine = idOf(home);
+    for (const [dLon, dLat] of PROBES) {
+      const probeLat = lat + dLat;
+      if (probeLat > 90 || probeLat < -90) continue;
+      let probeLon = lon + dLon;
+      if (probeLon > 180) probeLon -= 360;
+      if (probeLon < -180) probeLon += 360;
+      const f = locate(probeLat, probeLon);
+      if (f && idOf(f) !== mine) return true;
+    }
+    return false;
+  }
+
+  function lookup(lat, lon) {
+    if (!Number.isFinite(lat) || !Number.isFinite(lon)) return null;
+    const f = locate(lat, lon);
+    if (!f) return null;
+    return {
+      iso2: f.iso2, iso3: f.iso3, name: f.name, continent: f.continent, subregion: f.subregion,
+      boundary_risk: nearAnotherCountry(lat, lon, f),
+    };
+  }
+
   return {
     lookup,
-    countries: features.map((f) => ({ iso2: f.iso2, iso3: f.iso3, name: f.name, continent: f.continent, subregion: f.subregion })),
+    countries: features.map((f) => ({ iso2: f.iso2, iso3: f.iso3, name: f.name, continent: f.continent, subregion: f.subregion, primary: f.primary, extent: f.extent })),
     meta: {
       id: COUNTRY_CACHE_KEY,
       label: 'Natural Earth 1:50m admin-0 countries',
@@ -124,7 +176,9 @@ export async function countryIndex(net, nowMs) {
       refresh_days: MAX_AGE_DAYS,
       note:
         'country polygons generalised to about 1 km; a site within about a kilometre of a land border ' +
-        'can be assigned to the neighbour, and says so. A site in no polygon is published as unresolved.',
+        'can be assigned to the neighbour, and says so. The border flag steps 0.02 degrees out in eight ' +
+        'directions and checks whether any of them lands in a different country. A site in no polygon is ' +
+        'published as unresolved.',
     },
   };
 }

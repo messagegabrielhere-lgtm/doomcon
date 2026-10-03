@@ -502,6 +502,14 @@ better than two mechanisms disagreeing.
 When the county index itself is dark, sites are **kept** with an unresolved
 state rather than deleted, because a geocoding outage must not empty the map.
 
+This dataset is the United States and only the United States; the rest of the
+planet is dropped here, not everywhere. `/world` — `collector/world.mjs`,
+documented in `docs/WORLD.md` — asks OpenStreetMap for sixteen datacentre tag
+variants over the whole planet, where this file asks for seven over three US
+boxes, attributes each site to a country, and joins it to nothing. Its United
+States count is not this file's and is not adjusted toward it;
+`docs/WORLD.md` §8 measures the three reasons.
+
 ---
 
 ## 7. Limitations — blunt

@@ -1735,7 +1735,27 @@ ${rampRules()}
 .flk__keys{font:400 var(--t-xs)/1.6 var(--sans);color:var(--ink-faint);margin:var(--s-2) 0 0;max-width:74ch}
 .flk__keys kbd{font-family:var(--mono);border:1px solid var(--rule);border-radius:3px;padding:0 4px}
 @media (prefers-reduced-motion:reduce){.flk--anim .flk__vp{transition:none}}
-@media (max-width:560px){.flk__hud{font-size:var(--t-2xs)}.flk__cb{min-width:30px;height:30px}}
+/* THE [hidden] GUARD, AND IT IS NOT A DETAIL.
+   The controls, the readout and the key ship with the hidden attribute because
+   with no script they would be promises the page cannot keep - the script
+   unhides exactly what it has wired. But display:flex above out-specifies the
+   UA sheet's [hidden]{display:none}, so with JavaScript off a reader got three
+   dead buttons and a readout asserting 1.0x over a map that cannot zoom. The
+   same defect was found and fixed on the datacentre map; this is its twin. */
+.flk__ctl[hidden],.flk__hud[hidden],.flk__keys[hidden],.flk__cb[hidden]{display:none}
+
+/* ON A PHONE THE CHROME GETS OUT OF THE MAP. Measured 2026-10-03 at 375px:
+   the stage is 343px wide and the floating controls and readout covered a
+   third of the drawing. Below 560px the stage becomes a column and they dock
+   under it; markup order is unchanged, so nothing moves for a screen reader. */
+@media (max-width:560px){
+  .flk__hud{font-size:var(--t-2xs)}
+  .flk__cb{min-width:30px;height:30px}
+  .flk__stage{display:flex;flex-direction:column;gap:6px}
+  .flk__ctl,.flk__hud{position:static;max-width:100%;align-self:stretch;justify-content:flex-start}
+  .flk__ctl{order:1}
+  .flk__hud{order:2;left:auto;bottom:auto}
+}
 
 .flk__key{display:grid;grid-template-columns:1fr;gap:var(--s-3);margin:var(--s-4) 0 0}
 .flk__kgrp{border:1px solid var(--rule-soft);border-radius:var(--radius);padding:var(--s-3)}
