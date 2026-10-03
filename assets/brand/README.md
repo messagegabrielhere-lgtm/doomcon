@@ -7,6 +7,18 @@ Distribution artefacts — for X, press, decks. **Not** the on-site marks.
 | `x-profile.png` | 400×400 | X profile picture |
 | `x-header.png` | 1500×500 | X header |
 
+**Generated, not drawn.** `node site/brand-assets.mjs` writes both from the
+same primitives as the share cards and the favicon: the sentinel mark, and
+`brand.TAGLINE` / `brand.PUBLICATION` read at run time. Until 2026-10-03 these
+were hand-made files carrying the retired dial logo and the retired tagline
+("never predicted", which fails the post pre-flight). Change the tagline in
+`site/brand.mjs`, re-run the script, upload the two files to X by hand — X
+blocks automated profile edits.
+
+Both are static, so neither claims a reading: the mark is set at level 3,
+whose heat colour is the brand accent, and the header draws the five-band scale
+with no band singled out.
+
 ## These are deliberately NOT in `assets/logos/`
 
 `assets/logos/` overrides what the site renders. Everything there replaces a

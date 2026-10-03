@@ -240,6 +240,7 @@ ${switcher.render(ctx)}
 <section class="fresh" aria-labelledby="fresh-h">
   <h2 class="sec__h" id="fresh-h">Source health</h2>
   <p class="lede">${esc(healthSentence(state))}</p>
+  ${healthBar(state)}
   <details class="fresh__more">
     <summary>All ${esc(state.sources.length)} sources, one row each</summary>
     <div class="fresh__morein">${freshnessStrip(state.sources, state.generated_at)}</div>
@@ -299,6 +300,24 @@ ${brand.X_URL ? `<section class="sec supp" id="support" aria-labelledby="support
 <style>
 /* Rules namespaced to elements this template owns, because site/styles.mjs
    belongs to the integrator. */
+
+/* THE SOURCE-HEALTH BAR. Fourteen cells; shape carries the state, colour
+   confirms it. position:relative on each cell because its visually-hidden
+   label is absolute - the bug that widened three pages on 2026-10-03. */
+.hb { margin: var(--s-3) 0; max-width: 560px; }
+.hb__row { list-style: none; margin: 0; padding: 0; display: flex; gap: 4px; }
+.hb__row .hb__c { flex: 1 1 0; height: 18px; }
+.hb__c { position: relative; display: block; box-sizing: border-box; border-radius: 3px; border: 1.5px solid var(--ink-faint); }
+.hb__c--live { background: var(--ok); border-color: var(--ok); }
+.hb__c--stale { border-color: var(--stale); background: linear-gradient(90deg, var(--stale) 50%, transparent 50%); }
+.hb__c--uncal { border-style: dashed; background: transparent; }
+.hb__c--dark { border-color: var(--dark-src);
+  background: linear-gradient(to top right, transparent 44%, var(--dark-src) 44%, var(--dark-src) 56%, transparent 56%); }
+.hb__key { list-style: none; margin: var(--s-2) 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px var(--s-4);
+  font: 400 var(--t-xs)/1.4 var(--mono); color: var(--ink-dim); }
+.hb__key li { display: inline-flex; align-items: center; gap: 6px; }
+.hb__key .hb__c { width: 14px; height: 12px; flex: 0 0 auto; }
+.hb__key b { color: var(--ink); }
 
 /* THE SUPPORT ROW. One link, sized like a control rather than set in running
    prose, because it is the only thing on the page asking the reader for
@@ -470,18 +489,58 @@ function recordKey(n) {
  * printing a confident DOUGHCON 5 over a scraper managing two runs a day, just
  * pointed the other way.
  */
+/** One tally for the sentence and the bar, so the two cannot disagree. */
+function healthTally(state) {
+  const rows = Array.isArray(state.sources) ? state.sources : [];
+  const cells = rows.map((s) => {
+    const { status } = sourceStatus(s, state.generated_at);
+    const kind = status === 'uncal' || status === 'dark' || status === 'stale' ? status : 'live';
+    return { id: String(s.id ?? s.source ?? 'unnamed'), kind };
+  });
+  const n = (k) => cells.filter((c) => c.kind === k).length;
+  return { cells, live: n('live'), stale: n('stale'), uncal: n('uncal'), dark: n('dark') };
+}
+
+/**
+ * THE SOURCES, ONE CELL EACH. The sentence above says "4 live, 1 stale, 9
+ * awaiting a baseline, of 14"; this draws the fourteen. One cell per source,
+ * grouped by state and then by name so the order is stable across builds.
+ *
+ * State is carried by SHAPE before colour, because three of the four hues are
+ * a green, an amber and a red: live is a solid cell, stale is a half-filled
+ * one, awaiting-baseline is an empty outline - it answered, there is nothing
+ * to fill it against - and dark is an outline struck through. The key beneath
+ * repeats each shape with its word and its count, so the bar is readable in
+ * greyscale and the counts survive a stylesheet that never loads.
+ */
+const HEALTH_KINDS = Object.freeze([
+  ['live', 'live'], ['stale', 'stale'], ['uncal', 'awaiting a baseline'], ['dark', 'dark'],
+]);
+
+function healthBar(state) {
+  const t = healthTally(state);
+  if (!t.cells.length) return '';
+  const order = HEALTH_KINDS.map(([k]) => k);
+  const cells = t.cells.slice().sort((a, b) => (
+    order.indexOf(a.kind) - order.indexOf(b.kind) || a.id.localeCompare(b.id)
+  ));
+  const word = Object.fromEntries(HEALTH_KINDS);
+  const key = HEALTH_KINDS.filter(([k]) => t[k] > 0).map(([k, w]) => (
+    `<li><i class="hb__c hb__c--${k}" aria-hidden="true"></i><b class="num">${esc(t[k])}</b> ${esc(w)}</li>`
+  )).join('');
+  return `<div class="hb">
+    <ol class="hb__row" aria-label="Each of the ${esc(t.cells.length)} sources, by state">${cells.map((c) => (
+      `<li class="hb__c hb__c--${esc(c.kind)}" title="${esc(c.id)}: ${esc(word[c.kind])}"><span class="vh">${esc(c.id)}: ${esc(word[c.kind])}</span></li>`
+    )).join('')}</ol>
+    <ul class="hb__key">${key}</ul>
+  </div>`;
+}
+
 function healthSentence(state) {
   const rows = Array.isArray(state.sources) ? state.sources : [];
   if (!rows.length) return 'state.json reports no source health at all, so nothing on this page can be attributed to a named feed.';
 
-  let live = 0; let stale = 0; let uncal = 0; let dark = 0;
-  for (const s of rows) {
-    const { status } = sourceStatus(s, state.generated_at);
-    if (status === 'uncal') uncal += 1;
-    else if (status === 'dark') dark += 1;
-    else if (status === 'stale') stale += 1;
-    else live += 1;
-  }
+  const { live, stale, uncal, dark } = healthTally(state);
 
   const bits = [`${live} live`];
   if (stale) bits.push(`${stale} stale`);
