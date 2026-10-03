@@ -1207,7 +1207,17 @@ function footer(ctx, sections, path) {
       </ul>
     </div>`;
 
+  // Provenance, plus the one place the site asks for anything. Gated on
+  // brand.X_URL for the same reason twitter:site is: with no handle there is
+  // no account, and a dead "support us" link is worse than none.
   const source = [{ href: brand.REPO_URL, label: 'Source code', blurb: `Every line that produced these numbers. ${brand.LICENSE}.` }];
+  if (brand.X_URL) {
+    source.push({
+      href: brand.X_URL,
+      label: 'Support on X',
+      blurb: `${brand.X_HANDLE} — the tip jar, and where the daily reading is posted.`,
+    });
+  }
 
   // The two ALPR endpoints appear only when the route does. Every other row in
   // DATA_LINKS is unconditional because every other endpoint is; these two are
