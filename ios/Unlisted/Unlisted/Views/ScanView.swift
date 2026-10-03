@@ -6,13 +6,14 @@ struct ScanView: View {
     @State private var engine: SearchEngine = .google
     @State private var newFinding = false
 
-    private var person: Person? { store.person(personID) ?? store.adults.first ?? store.data.people.first }
+    private var people: [Person] { store.adults + store.children }
+    private var person: Person? { store.person(personID) ?? people.first }
 
     var body: some View {
         NavigationStack {
             List {
                 Section {
-                    PersonPicker(people: store.data.people, selection: $personID)
+                    PersonPicker(people: people, selection: $personID)
                     Picker("Search with", selection: $engine) {
                         ForEach(SearchEngine.allCases) { Text($0.name).tag($0) }
                     }

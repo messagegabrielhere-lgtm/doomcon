@@ -162,7 +162,11 @@ struct PersonPicker: View {
 
     var body: some View {
         if people.count > 1 {
-            Picker("Person", selection: $selection) {
+            // Show the first person as chosen until the user picks someone,
+            // matching what the screens fall back to.
+            Picker("Person", selection: Binding(
+                get: { selection.flatMap { id in people.contains { $0.id == id } ? id : nil } ?? people.first?.id },
+                set: { selection = $0 })) {
                 ForEach(people) { Text($0.displayName).tag(Optional($0.id)) }
             }
             .pickerStyle(.menu)
