@@ -45,8 +45,8 @@ data.
 ### Every number is a count of what has been MAPPED
 
 `data/world.json` does not count datacentres. It counts map objects carrying a
-datacentre tag in OpenStreetMap on the day OSM was read: **5,274, as mapped in
-OpenStreetMap on 2026-09-27**. Those are different quantities.
+datacentre tag in OpenStreetMap on the day OSM was read: **5,280, as mapped in
+OpenStreetMap on 2026-10-03**. Those are different quantities.
 
 Every headline figure carries that qualifier. It is precomputed at
 `copy.headline_qualifier` so no renderer has to remember it — the nav tile's
@@ -61,29 +61,30 @@ site footer on `/world.html`:
 > A country with no mapped datacentre is a country nobody has mapped. It is not
 > a country with no datacentres, and this data cannot tell those two apart.
 
-On the 2026-09-27 harvest, 113 country codes have a mapped site and 124 have
-none. (The payload's roster says 239, not 237; §10 explains the two.) The page
-names every outline it draws blank, because the blank is the finding, and says
-the 124 are *outside* the ranking rather than at the bottom of it.
+On the 2026-10-03 harvest, 113 country codes have a mapped site and 124 have
+none, and `totals.countries_in_roster` is 237 — the distinct codes, not the 239
+Natural Earth features that carry one, so the two halves add up to the whole.
+The page names every outline it draws blank, because the blank is the finding,
+and says the 124 are *outside* the ranking rather than at the bottom of it.
 
 ### Coverage follows volunteers, not deployments
 
 A dense country is a country somebody mapped. The United States carries 2,041
-of the 5,274; France 381, Germany 324, the United Kingdom 311. Some of that is
+of the 5,280; France 381, Germany 324, the United Kingdom 311. Some of that is
 the build-out and some of it is who maps, and nothing in this data separates
 the two. The ranking says so in its own lede.
 
 ### Unresolved is published, never guessed
 
-Each site gets its country by point-in-polygon (§5). On the 2026-09-27 run:
+Each site gets its country by point-in-polygon (§5). On the 2026-10-03 run:
 
 | attributed by | sites |
 |---|---|
-| polygon | 5,192 |
+| polygon | 5,196 |
 | its own `addr:country` tag, having fallen in no polygon | 5 |
-| **unresolved** — neither | **77** |
+| **unresolved** — neither | **79** |
 
-The 77 are real map objects at real coordinates. They are drawn where they are,
+The 79 are real map objects at real coordinates. They are drawn where they are,
 with no country in the popup, counted in their own table row, and never
 assigned to the nearest country. A site whose `addr:country` tag disagrees with
 the polygon it fell in keeps the polygon's answer and carries
@@ -144,16 +145,16 @@ is the exact query, as published in `source.query_template`:
 out tags center qt;
 ```
 
-**Why sixteen variants.** Read from taginfo, not guessed. Measured 2026-09-25,
-the seven `/map` asks for miss 270 real sites worldwide (5.1%), 244 of them
-`industrial=data_centre` — the Commonwealth spelling lives there.
+**Why sixteen variants.** Read from taginfo, not guessed. On the 2026-10-03
+harvest the seven `/map` asks for miss 274 real sites worldwide (5.2%), 248 of
+them `industrial=data_centre` — the Commonwealth spelling lives there.
 `landuse=data_center`, which `/map` does ask for, has zero objects on the
 planet. The order is fixed so the query string, which is published, is
 byte-identical every run.
 
 **Measured** 2026-09-25 against overpass-api.de: HTTP 200 in 66 s, 1.86 MB,
-5,270 elements. The 2026-09-27 harvest returned 5,274, every one with a usable
-coordinate from `out center`.
+5,270 elements. The 2026-10-03 harvest returned 5,280 in 1,859,818 bytes, every
+one with a usable coordinate from `out center`, and none without tags.
 
 **Status is read from the tags**, the same three words and marks `/map` uses,
 and the tag that decided it is kept beside the verdict in `because`:
@@ -188,10 +189,10 @@ all — every site would be unresolved — also writes nothing.
 move under us; 242 country features, cached 90 days in
 `data/dc-cache/ne-countries-50m.json`. **Not 1:110m, because 1:110m has no
 Singapore polygon.** Measured 2026-09-25: every Singapore-tagged datacentre —
-47 then, 92 on the 2026-09-27 harvest — would have landed in Malaysia, and
+47 then, 92 on the 2026-10-03 harvest — would have landed in Malaysia, and
 nothing downstream would have noticed.
 
-**Drawing: Natural Earth 1:110m admin-0.** `data/world-outline.json`, 96,500
+**Drawing: Natural Earth 1:110m admin-0.** `data/world-outline.json`, 96,497
 bytes: 177 countries, 287 rings, 5,481 vertices after Visvalingam-Whyatt
 simplification (minimum triangle 0.2 deg²), rings under 0.02 deg² dropped
 unless they are all a country has, coordinates quantised to 0.01°. Projected
@@ -200,14 +201,20 @@ Equal Earth, so Greenland is not drawn the size of Africa; framed from 57°S to
 
 **Drawing is not attribution.** A pin's country came from the finer file; the
 coarser one is only the picture under it. The two disagree at the edges, and
-the page says where: on the 2026-09-27 harvest, 8 countries with a mapped site
-have no 1:110m outline, and their pins are drawn at their coordinates over sea —
-Singapore (92), Taiwan (11, but see §10), Hong Kong (6), Bahrain (4), Isle of
-Man (2), Curaçao, the Faroe Islands and Mauritius (1 each).
+the page says where: on the 2026-10-03 harvest 7 countries with a mapped site
+have no 1:110m outline, and
+their pins are drawn at their coordinates over sea — Singapore (92), Hong Kong
+(6), Bahrain (4), Isle of Man (2), Curaçao, the Faroe Islands and Mauritius
+(1 each). Taiwan was an eighth until the outline file and the attribution agreed
+on its code; it is drawn, and it is ranked with 11.
 
 **The border flag.** 1:50m polygons are generalised to about a kilometre, so a
-site near a land border can be assigned to the neighbour. `boundary_risk`
-exists to mark those — but read §10 before relying on it.
+site near a land border can be assigned to the neighbour. `boundary_risk` marks
+those: `_country.mjs` steps 0.02° out from the site on eight compass bearings and
+asks the same polygons what is there, and the flag is set when any of the eight
+lands in a different country. A step into the sea is not a border and is not
+flagged, because the claim the flag makes is "could belong to the neighbour", and
+the sea has no neighbour. 25 sites carry it on the 2026-10-03 harvest.
 
 ---
 
@@ -263,12 +270,12 @@ claim.
 
 | endpoint | what | bytes |
 |---|---|---|
-| `/api/world.json` | `data/world.json`, byte for byte | 2,228,162 |
+| `/api/world.json` | `data/world.json`, byte for byte | 2,228,040 |
 | `/api/orbital.json` | `data/orbital.json`, byte for byte | 22,812 |
 
 **Verbatim, never re-serialised.** `collector/world.mjs` writes canonical,
-key-sorted JSON with one site per line, 6,618 lines. Through `stableJson` every
-site object would be re-indented onto its own lines — 2,887,412 bytes in 91,002
+key-sorted JSON with one site per line, 6,623 lines. Through `stableJson` every
+site object would be re-indented onto its own lines — 2,888,040 bytes in 91,103
 lines — without one value changing. `orbital.json` happens to be byte-identical
 through `stableJson` today and is copied verbatim anyway, so "the checksum of
 the file in the repository is the checksum of the file served here", which the
@@ -315,7 +322,7 @@ other.** 2,041 here against 1,877 on `/map`. Three reasons, measured:
    2026-09-24 run and were dropped. This page attributes by Natural Earth
    polygon and keeps the unresolved.
 3. **The date.** `/map`'s harvest was fetched 2026-09-24; this one on
-   2026-09-27.
+   2026-10-03.
 
 Reconciling the two would mean inventing a number. Both pages print theirs and
 say why they differ.
@@ -348,15 +355,30 @@ picks them up with `data/world.json`, exactly as it picks up the US map's
 cache, so the first CI run persists whatever it had to fetch. An uncommitted
 cache is a cold cache on every runner.
 
-**What "7 days" really means on a runner.** `_cache.mjs` measures a cache's age
-from the file's mtime, and a fresh checkout stamps every file with the checkout
-time — so a committed cache always reads as fresh in CI, and the step never
-re-harvests while the files exist. The US map shows the same thing:
-`data/datacenters.json` built by CI at 2026-09-28T02:22Z reports its Overpass
-cache as `age_days: 0`, though that harvest was fetched 2026-09-24. In practice
-a warm run costs about a second with no network at all (verified with the
-network switched off), and **a refresh is a local run with `--refresh`,
-followed by a commit.**
+**What "7 days" really means on a runner.** It now means seven days. Until
+2026-10-03 `_cache.mjs` measured a cache's age from the file's mtime, and
+`actions/checkout` writes every tracked file at checkout time — so a committed
+cache always read as fresh in CI and no window ever elapsed there. The evidence
+was in the output: `data/datacenters.json` built by CI at 2026-09-28T02:22Z
+reported its Overpass cache as `origin: cache, age_days: 0` while that harvest's
+own `fetched_at` said 2026-09-24T19:18:48Z. The 7-day harvest window and the
+90-day outline window were both dead letters on a runner; only a missing file
+ever caused a refresh.
+
+The fix is that the fetch time travels **inside** the cached value.
+`writeCache()` stamps every cache document with `fetched_at` — keeping a
+loader's own stamp when it sets one, which `osm-overpass`, `tiger-counties` and
+`usgs-gauge-sites` always did — and `cacheAgeDays()` reads that stamp, falling
+back to mtime only for a legacy file written before this change. Checkout can
+rewrite every mtime in the tree and the age does not move.
+
+So **CI re-harvests on its own**, about once a week for the planet query and
+once a quarter for the outlines, in whichever hourly full-lane run first crosses
+the window; the commit step's `git add data` persists the newly stamped file, so
+the following runs are cache hits again. `--refresh` is still there for a local
+forced harvest, and is no longer the only thing that can cause one. A warm run
+still costs about a second with no network at all (verified with the network
+switched off), and a cold one is bounded by the step's `timeout 480`.
 
 **`data/world.json` still changes every run**, because `generated_at` does, and
 `harvest_origin` and the geography's `origin` flip between `network` and
@@ -375,29 +397,65 @@ because the harvest refreshes weekly at most) and the nav tile.
 
 ---
 
-## 10. Known defects, open
+## 10. Defects found, and what fixed them
 
-Found while wiring the page, 2026-09-28. None is in the wiring; each is named
-with where it lives.
+Three, found while wiring the page on 2026-09-28 and fixed on 2026-10-03. None
+was in the wiring. Each is kept here because the figures on the page moved when
+it was fixed, and a reader comparing an older build needs to know why.
 
-1. **Australia is named "Ashmore and Cartier Islands".** Natural Earth 1:50m has
-   three features whose ISO-2 is `AU` (Ashmore and Cartier Islands, Australia,
-   Indian Ocean Territories). `_country.mjs` sorts features by ISO-3, `ATC`
-   before `AUS`, and `collector/world.mjs` names each country from the first
-   feature it meets with a given code. The attribution is right and the 148
-   sites are Australian; the name on the row and in every Australian pin's
-   popup is wrong. The same triple counts toward `countries_in_roster`, which
-   counts features rather than codes: 239, where 113 with a site and 124
-   without make 237, and the page prints both halves of that sum.
-2. **Taiwan is listed both as ranked and as blank.** `collector/tools/world-outline.mjs`
-   takes `ISO_A2` before `ISO_A2_EH`, and Natural Earth v5 sets Taiwan's
-   `ISO_A2` to `CN-TW`, so the outline carries `CN-TW` while the attribution
-   carries `TW`. The page therefore says Taiwan has no 1:110m outline (it is
-   drawn), and names Taiwan among the outlines "drawn, with no mapped site"
-   while the table ranks it with 11.
-3. **`boundary_risk` undercounts.** It tests whether a site is within 0.02° of
-   its country's bounding-box edge, not of a border; for a country with
-   overseas territory the box is far from most of its borders. 3 sites carry
-   the flag. Testing eight points 0.02° away from each polygon-attributed site
-   against the same polygons finds 25 within that distance of another country.
-   The honesty line built from the flag says 3.
+**None open.**
+
+1. **Australia was named "Ashmore and Cartier Islands".** Natural Earth 1:50m
+   has three features whose ISO-2 is `AU` — Ashmore and Cartier Islands,
+   Australia, and the Indian Ocean Territories. `_country.mjs` sorts features by
+   ISO-3, `ATC` before `AUS`, and `collector/world.mjs` named each code from the
+   first feature it met with that code, so the row and every Australian pin's
+   popup carried the name of an uninhabited reef. The attribution was never
+   wrong; only the name was.
+
+   `_country.mjs` now publishes two fields per feature: `primary`, true when the
+   feature's own plain `ISO_A2` equals the code it resolved to — a dependency
+   carries `-99` there and borrows the code through `ISO_A2_EH`, so only the
+   sovereign feature is primary — and `extent`, its bounding box in square
+   degrees, which breaks a tie when neither feature is primary. `world.mjs` names
+   each code from that feature. The polygons are untouched: all three features
+   still resolve points, so a site on Ashmore is still found.
+
+   The same triple made `countries_in_roster` count features rather than codes.
+   239 of Natural Earth's 242 features carry a valid ISO-2 and 237 codes are
+   distinct, so the roster said 239 while 113 with a site and 124 without came
+   to 237 — and the page prints both halves of that sum. It is now
+   `byIso.size`: 237.
+
+2. **Taiwan was listed both as ranked and as blank.**
+   `collector/tools/world-outline.mjs` took `ISO_A2` before `ISO_A2_EH`, and
+   Natural Earth v5 sets Taiwan's `ISO_A2` to `CN-TW`, so the outline file
+   carried `CN-TW` while the attribution carried `TW`. The page said Taiwan had
+   no 1:110m outline, which it has and which its 11 pins sit on, and named it
+   among the outlines "drawn, with no mapped site" while the table ranked it.
+
+   The tool now picks the code the way `_country.mjs` does: `ISO_A2_EH`, then
+   `ISO_A2`, then `WB_A2`, each only if it matches `/^[A-Z]{2}$/`. The
+   regenerated `data/world-outline.json` differs from its predecessor in exactly
+   one value — `countries[153].iso2`, `CN-TW` to `TW` — which is the test that
+   the rule changed the code and nothing else: no vertex, no ring, no count.
+   `/world` now lists 7 countries with a mapped site and no outline, not 8.
+
+3. **`boundary_risk` counted bounding boxes, not borders.** It tested whether a
+   site was within 0.02° of the edge of its country's bounding box. For any
+   country with overseas territory that box is a rectangle out at sea with no
+   border on it — France's reaches past Kourou, the United States' past Guam —
+   so 5,196 polygon-attributed sites produced 3 flags, and the honesty line in
+   `data/world.json` said 3 sites sit within about 2 km of a border.
+
+   `countryIndex()` now steps 0.02° out from the site on eight compass bearings,
+   the diagonals at 0.02/√2 per axis so all eight sit the same distance out, and
+   asks the same 1:50m polygons what is there. A probe that lands in a different
+   country sets the flag; one that lands in the sea does not, because the sea is
+   not a neighbour. Country identity is the ISO-2 code, falling back to the
+   ISO-3 for the handful of features that carry `-99` in all three code fields,
+   so a step from the Australian mainland onto Ashmore is not a border crossing.
+   25 sites carry the flag, which is what the eight-point probe measured before
+   the fix; 28 changed state, the 25 plus the 3 bounding-box artefacts that fell
+   away. The honesty line and the table's per-country column read from the same
+   count.

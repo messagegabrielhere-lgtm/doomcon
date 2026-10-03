@@ -568,5 +568,18 @@ Two requirements:
    (`tiger-counties.json` 2.6 MB, `osm-datacenters.json` 0.6 MB, gauge sites
    1 KB) and changes weekly at most. It is build input, it is the failure plan,
    and it must be in the repository.
+3. **The age is read from the cache file, not from its mtime.** Until
+   2026-10-03 `_cache.mjs` used `mtimeMs`, and `actions/checkout` stamps every
+   tracked file with the checkout time: a cache committed four days earlier read
+   as zero days old, so in CI the 7-day and 90-day windows never elapsed and
+   nothing was ever re-fetched while the files existed. `data/datacenters.json`
+   built by CI at 2026-09-28T02:22Z said `origin: cache, age_days: 0` about a
+   harvest whose own `fetched_at` was 2026-09-24T19:18:48Z. `writeCache()` now
+   stamps each document with `fetched_at` (keeping the loader's own stamp where
+   there is one — this source, TIGER and the gauge sites all set theirs) and
+   `cacheAgeDays()` reads it, with mtime kept only as the fallback for a legacy
+   file. Two consequences: the CI step refreshes on its own, roughly weekly, and
+   it therefore carries `timeout 480` so one cold harvest on a busy Overpass day
+   cannot eat the full lane's 25-minute budget. docs/WORLD.md §9 has the detail.
 
 `site/build.mjs` reads `data/datacenters.json` and nothing else from here.

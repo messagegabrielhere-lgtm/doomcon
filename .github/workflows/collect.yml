@@ -485,9 +485,22 @@ jobs:
         # purpose): Actions runners are ephemeral, so an uncommitted cache is a
         # cold cache on every run, which defeats the 7-day refresh policy
         # entirely. The collector only reaches the network when the cache is
-        # older than its refresh window.
+        # older than its refresh window — measured from the `fetched_at` stamp
+        # inside the cache file since 2026-10-03, because mtime is meaningless
+        # after a checkout and the window never elapsed here before. So this
+        # step now refreshes on its own, roughly weekly, instead of only when a
+        # cache file is missing.
+        #
+        # Hence the ceiling, which this step did not have while refreshes never
+        # happened: the US query walks three Overpass instances at up to 600 s
+        # each, and the TIGER county download sits behind it, against this
+        # job's 25-minute budget. A cold cache on a bad Overpass day must cost
+        # the map one refresh, not cancel the build and publish below. `timeout`
+        # exits 124 and continue-on-error absorbs it; datacenters.mjs writes
+        # data/datacenters.json last, so a killed run leaves the previous file
+        # standing. docs/DATACENTERS.md §8.
         continue-on-error: true
-        run: node collector/datacenters.mjs
+        run: timeout 480 node collector/datacenters.mjs
 
       - name: Refresh the world datacentre map
         # Same failure posture as the US map above, and the same guard: one
@@ -508,11 +521,14 @@ jobs:
         # data/world.json stands: the collector writes it last, and only on
         # success.
         #
-        # Cache age is read from the file's mtime, and a fresh checkout stamps
-        # every file with the checkout time, so on a runner a committed cache
-        # always reads as fresh. In practice this step re-harvests only when a
-        # cache file is missing; a weekly refresh is a local `--refresh` run
-        # and a commit. docs/WORLD.md, "Cadence".
+        # Cache age comes from the `fetched_at` stamp INSIDE each cache file,
+        # not from its mtime: actions/checkout rewrites every mtime, so until
+        # 2026-10-03 a committed cache always read as zero days old here and
+        # neither window ever elapsed on a runner. Now it does, which means
+        # this step genuinely re-harvests about once a week (and re-downloads
+        # the outlines about once a quarter), and the commit step below
+        # persists the newly stamped file so the next runs are cache hits
+        # again. That is what `timeout 480` is sized for. docs/WORLD.md §9.
         continue-on-error: true
         run: timeout 480 node collector/world.mjs
 

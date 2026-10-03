@@ -1572,8 +1572,18 @@ function mapCss() {
 .bldd__n{margin-left:auto;font-variant-numeric:tabular-nums;color:var(--ink);font-weight:600}
 .bldd__p{width:4.2em;text-align:right;font-variant-numeric:tabular-nums;color:var(--ink-faint)}
 
+/* The status chip holds its line on a wide screen, where breaking "AWAITING
+   BASELINE" across lines would read as two chips. On a phone it is the one
+   element forcing the card past the viewport, and a wrapped phrase beats a
+   truncated one. */
+@media (max-width:560px){.bldst{white-space:normal}}
+
 .bldgs{list-style:none;margin:var(--s-4) 0 0;padding:0;display:grid;grid-template-columns:1fr;gap:var(--s-3)}
-.bldg{border:1px solid var(--rule);border-radius:var(--radius);padding:var(--s-3) var(--s-4)}
+/* min-width:0 because a grid item defaults to min-width:auto and so cannot
+   shrink below its content. Measured at 375px: every one of the 11 cards
+   computed to 413px inside a 343px list and ran 38px off the screen, with
+   nothing to scroll it back. The widest child is the status chip below. */
+.bldg{min-width:0;border:1px solid var(--rule);border-radius:var(--radius);padding:var(--s-3) var(--s-4)}
 .bldg--is-wait{border-style:dashed}
 .bldg--none{border-style:dotted;opacity:.9}
 .bldg__top{display:flex;align-items:baseline;gap:var(--s-3);justify-content:space-between}

@@ -1795,7 +1795,13 @@ ${rampRules()}
 .flk__card{font:600 15px var(--mono);fill:var(--ink-dim);text-anchor:middle;letter-spacing:.06em}
 
 /* ---- tables -------------------------------------------------------------- */
-.flk__tw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:var(--s-3) 0 0;
+/* position:relative so the visually-hidden column labels inside resolve
+   against this scroller instead of the page. span.flk__vh is absolute at
+   left:381px; with a static wrapper it resolved against the initial
+   containing block and took /flock to 382px wide on a 375px phone. The
+   overflow-x here never clipped it, because this box was not in its
+   containing-block chain. Same defect, same fix, as the status rail. */
+.flk__tw{position:relative;overflow-x:auto;-webkit-overflow-scrolling:touch;margin:var(--s-3) 0 0;
   border:1px solid var(--rule-soft);border-radius:var(--radius)}
 .flk__t{border-collapse:collapse;width:100%;min-width:30rem;
   font:400 var(--t-xs)/1.45 var(--mono);font-variant-numeric:tabular-nums}
