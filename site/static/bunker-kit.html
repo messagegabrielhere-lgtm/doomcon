@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>DOOMCON · Bunker Kit</title>
+<meta name="description" content="50 free tools to stockpile before the machines take over the internet. A DOOMCON field manual.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil+Display:wght@600;800&family=Archivo:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --drab:#343B26; --crate:#3D4530; --soot:#1E2216;
+  --signal:#E8B923; --paper:#E6DFC8; --dim:#B6B096; --rust:#C4602F;
+  --stencil:"Big Shoulders Stencil Display", Impact, "Arial Narrow", sans-serif;
+  --body:"Archivo", system-ui, -apple-system, "Segoe UI", sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--drab);color:var(--paper);font:400 16px/1.55 var(--body)}
+a{color:var(--signal)}
+:focus-visible{outline:3px solid var(--signal);outline-offset:3px}
+
+/* Hero: the shelter sign */
+.sign{background:var(--signal);color:var(--soot);padding:clamp(28px,6vw,64px) 20px;border-bottom:10px solid var(--soot)}
+.sign-inner{max-width:1040px;margin:0 auto;display:grid;grid-template-columns:auto 1fr;gap:clamp(18px,4vw,44px);align-items:center}
+.emblem{width:clamp(96px,18vw,180px);height:auto}
+.sign h1{font:800 clamp(3.2rem,11vw,7.5rem)/.86 var(--stencil);margin:0;letter-spacing:.01em}
+.sign p{font-size:clamp(1rem,2.2vw,1.25rem);max-width:34ch;margin:.8em 0 0;font-weight:600}
+.back{display:inline-block;margin-bottom:1.2em;color:var(--soot);font-weight:600;text-decoration:none;border-bottom:2px solid}
+@media (max-width:560px){.sign-inner{grid-template-columns:1fr}}
+
+/* Readiness + controls */
+.controls{position:sticky;top:0;z-index:5;background:var(--soot);padding:14px 20px;border-bottom:1px solid #000}
+.controls-inner{max-width:1040px;margin:0 auto;display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center}
+.meter{flex:1 1 260px;min-width:220px}
+.meter-label{display:flex;justify-content:space-between;font-size:.9rem;color:var(--dim)}
+.meter-label strong{color:var(--paper);font-weight:600}
+.bar{height:12px;background:#0f120b;margin-top:6px;border:1px solid #4a5139}
+.bar span{display:block;height:100%;width:0;background:repeating-linear-gradient(-45deg,var(--signal) 0 10px,#c99c12 10px 20px);transition:width .35s ease}
+.search{flex:1 1 220px;background:#0f120b;border:1px solid #4a5139;color:var(--paper);padding:10px 12px;font:inherit}
+.search::placeholder{color:#8a8670}
+.crates{max-width:1040px;margin:12px auto 0;display:flex;gap:8px;overflow-x:auto;padding-bottom:4px}
+.crates button{flex:none;background:transparent;color:var(--paper);border:1px solid #5b6347;padding:6px 12px;font:600 .9rem var(--body);cursor:pointer}
+.crates button[aria-pressed="true"]{background:var(--signal);color:var(--soot);border-color:var(--signal)}
+
+/* Manifest */
+main{max-width:1040px;margin:0 auto;padding:28px 20px 60px}
+.crate{margin:0 0 44px}
+.crate h2{font:800 clamp(2rem,5vw,3rem)/1 var(--stencil);margin:0;color:var(--signal)}
+.crate .why{color:var(--dim);margin:.4em 0 1em;max-width:62ch}
+.rows{border-top:2px solid var(--signal)}
+.row{display:grid;grid-template-columns:44px minmax(0,1fr);gap:4px 14px;padding:14px 4px;border-bottom:1px solid #4d5540}
+.row:nth-child(even){background:var(--crate)}
+.row.packed .name{text-decoration:line-through;text-decoration-color:var(--signal);text-decoration-thickness:3px}
+.pack{grid-row:span 3;width:30px;height:30px;margin-top:2px;appearance:none;border:2px solid var(--dim);background:transparent;cursor:pointer;display:grid;place-content:center}
+.pack:checked{background:var(--signal);border-color:var(--signal)}
+.pack:checked::after{content:"";width:14px;height:8px;border:solid var(--soot);border-width:0 0 3px 3px;transform:rotate(-45deg) translate(1px,-2px)}
+.name{font:600 1.15rem/1.2 var(--body);margin:0;overflow-wrap:anywhere}
+.name a{color:var(--paper);text-decoration:none}
+.name a:hover{color:var(--signal);text-decoration:underline}
+.name small{font-weight:400;color:var(--dim);font-size:.85rem;margin-left:6px}
+.doom{margin:0;font-style:italic;max-width:62ch}
+.does{margin:0;color:var(--dim);font-size:.92rem}
+.stamp{display:inline-block;margin-top:6px;font:800 .95rem/1 var(--stencil);letter-spacing:.04em;padding:5px 8px;border:2px solid var(--rust);color:var(--rust);transform:rotate(-1.5deg)}
+.stamp.unk{border-color:var(--dim);color:var(--dim)}
+.empty{color:var(--dim);padding:30px 0}
+footer{max-width:1040px;margin:0 auto;padding:0 20px 40px;color:var(--dim);font-size:.9rem}
+@media (prefers-reduced-motion:reduce){.bar span{transition:none}}
+</style>
+</head>
+<body>
+
+<header class="sign">
+  <div class="sign-inner">
+    <svg class="emblem" viewBox="0 0 100 100" role="img" aria-label="Shelter emblem">
+      <circle cx="50" cy="50" r="47" fill="#1E2216"/>
+      <g fill="#E8B923">
+        <polygon points="50,8 38,32 62,32"/>
+        <polygon points="13,72 26,49 40,72" transform="rotate(0)"/>
+        <polygon points="87,72 74,49 60,72"/>
+      </g>
+      <circle cx="50" cy="55" r="9" fill="#E8B923"/>
+    </svg>
+    <div>
+      <a class="back" href="./">Back to DOOMCON index</a>
+      <h1>Bunker Kit</h1>
+      <p>50 free tools to stockpile before the machines take the internet. Check off what you've packed.</p>
+    </div>
+  </div>
+</header>
+
+<div class="controls">
+  <div class="controls-inner">
+    <div class="meter" aria-live="polite">
+      <div class="meter-label"><span>Bunker readiness</span><strong id="count">0 / 50 packed</strong></div>
+      <div class="bar"><span id="fill"></span></div>
+    </div>
+    <input class="search" id="q" type="search" placeholder="Search the manifest" aria-label="Search tools">
+  </div>
+  <div class="crates" id="crates" role="toolbar" aria-label="Filter by crate"></div>
+</div>
+
+<main id="manifest"></main>
+
+<footer>
+  <p>All tools are free to start and run by third parties, not DOOMCON. Stamps mark real cautions; "signal unconfirmed" means the service has changed or may be offline. Verify before you rely on it.</p>
+</footer>
+
+<script>
+const CRATES = [
+ {id:"vault", name:"Knowledge vault", why:"Grab humanity's books and research while they're still free and still written by humans."},
+ {id:"intel", name:"Threat intel", why:"Research tools for figuring out what the machines are actually up to."},
+ {id:"opsec", name:"Go dark", why:"Check what's already leaked and leave fewer tracks from here on."},
+ {id:"workshop", name:"Propaganda workshop", why:"Make the resistance look good. Image, video and mockup tools."},
+ {id:"bench", name:"Engineer's bench", why:"For whoever has to reprogram the robots."},
+ {id:"signal", name:"Signal monitoring", why:"Know when the grid flickers, and where to go when an app dies."},
+ {id:"morale", name:"Morale", why:"The apocalypse is long. Bring something to listen to."},
+ {id:"paper", name:"Paperwork", why:"Even after the end of the world, someone will ask for a signed PDF."}
+];
+
+const TOOLS = [
+ ["vault","Unpaywall","unpaywall.org","Free research papers","Liberate the papers before the paywalls become firewalls."],
+ ["vault","Open Library","openlibrary.org","Borrow books online","A lending library the robots haven't foreclosed on. Yet."],
+ ["vault","DOAJ","doaj.org","Free academic journals","Peer review, from actual peers. Get it while it lasts."],
+ ["vault","Project Gutenberg","gutenberg.org","70K+ free public-domain books","Every classic, pre-AI-slop. Certified human-written."],
+ ["vault","OpenStax","openstax.org","Free textbooks","Rebuilding civilization? Start with the chemistry book."],
+ ["vault","Open Culture","openculture.com","Free online courses","Retrain before your job gets automated."],
+ ["vault","Internet Archive","archive.org","The internet's digital library","The ark. If it's not in here, it may not survive."],
+ ["vault","archive.today","archive.ph","Snapshot any webpage","Screenshot the evidence before it gets quietly edited.","Snapshots are public"],
+ ["intel","Wolfram|Alpha","wolframalpha.com","Solve complex problems","Run the numbers on the end of the world yourself."],
+ ["intel","Elicit","elicit.com","AI research assistant","Use the machine to research the machine. Bold strategy."],
+ ["intel","Consensus","consensus.app","Research-backed AI answers","What the papers actually say, not what the doom posters say."],
+ ["intel","Connected Papers","connectedpapers.com","Map how research connects","Trace the conspiracy. Literally, it's a graph."],
+ ["intel","Semantic Scholar","semanticscholar.org","Academic search engine","Find the paper that started it all."],
+ ["intel","SciSpace","scispace.com","Explain research papers simply","For when the alignment paper is 40 pages of math."],
+ ["intel","Phind","phind.com","AI search for developers","A coding oracle, if it's still answering.",null,"Signal unconfirmed"],
+ ["opsec","Have I Been Pwned","haveibeenpwned.com","Check if your data leaked","Find out how much the machines already know about you."],
+ ["opsec","VirusTotal","virustotal.com","Scan files and URLs for malware","Interrogate suspicious files before they interrogate you.","Uploads are shared with researchers. Don't upload private or work files."],
+ ["opsec","Privnote","privnote.com","Self-destructing notes","This message will self-destruct. Very spy. Very bunker.","Phishing lookalikes exist. Check the exact URL."],
+ ["opsec","Temp Mail","temp-mail.org","Disposable email","A burner inbox for sites that want too much.","Never use for accounts you need to keep"],
+ ["opsec","10 Minute Mail","10minutemail.com","10-minute temporary email","Ten minutes of anonymity. Use them wisely."],
+ ["opsec","file.io","file.io","Temporary file sharing","Hand off the files and vanish.",null,"Signal unconfirmed"],
+ ["opsec","TinEye","tineye.com","Reverse image search","Is that photo real, or did a model dream it up?"],
+ ["workshop","Photopea","photopea.com","Free Photoshop alternative","Full editing suite. No subscription to the overlords."],
+ ["workshop","Squoosh","squoosh.app","Compress images","Shrink files for when bandwidth gets rationed."],
+ ["workshop","remove.bg","remove.bg","Remove image backgrounds","Cut yourself out of the scene. Useful skill, generally."],
+ ["workshop","Cleanup.pictures","cleanup.pictures","Remove objects from photos","Erase the drone from your vacation photo."],
+ ["workshop","Unscreen","unscreen.com","Remove video backgrounds","Green screen without the green screen.",null,"Signal unconfirmed"],
+ ["workshop","Carbon","carbon.now.sh","Beautiful code images","Make the kill-switch code look nice for the history books."],
+ ["workshop","Ray.so","ray.so","Code screenshots","Same mission, different gradient."],
+ ["workshop","Shots","shots.so","Product mockups","Put the resistance on a device mockup. Instant credibility."],
+ ["workshop","Mediamodifier","mediamodifier.com","Online mockup generator","Posters, shirts, flyers for the bunker bulletin board."],
+ ["bench","regex101","regex101.com","Test and debug regex","Pattern-match the threat."],
+ ["bench","Code Beautify","codebeautify.org","Format and clean code","Clean code survives the apocalypse. Spaghetti does not."],
+ ["bench","JSON Formatter","jsonformatter.org","Format and validate JSON","Read the machine's diary in a legible format."],
+ ["bench","explainshell","explainshell.com","Explain terminal commands","Know exactly what that command does before you run it."],
+ ["signal","Downdetector","downdetector.com","Real-time outage tracking","Is it down for everyone, or is it starting?"],
+ ["signal","Fast.com","fast.com","Internet speed test","Check the pipe before the pipe checks you."],
+ ["signal","SimilarSites","similarsites.com","Find related websites","When a site goes dark, find its neighbors."],
+ ["signal","AlternativeTo","alternativeto.net","Alternatives to any app","Every app has a backup. Know yours."],
+ ["signal","Summarize.tech","summarize.tech","AI YouTube summaries","Two-hour doom podcast, two-minute briefing."],
+ ["signal","Raindrop.io","raindrop.io","Smart bookmark manager","Your evacuation list of links, organized."],
+ ["morale","Radio Garden","radio.garden","Live radio from around the world","Spin the globe and hear who's still broadcasting."],
+ ["morale","Music-Map","music-map.com","Find similar artists","Build the bunker playlist."],
+ ["morale","Tunefind","tunefind.com","Songs from movies and shows","Identify the track from the apocalypse movie you just watched."],
+ ["morale","musicForProgramming","musicforprogramming.net","Focus music for coding","Soundtrack for the all-night patch."],
+ ["morale","myNoise","mynoise.net","Custom background sounds","Drown out the server fans."],
+ ["morale","Coffitivity","coffitivity.com","Café ambience","Remember coffee shops? Now you can again."],
+ ["morale","JustWatch","justwatch.com","Where to stream movies","Find every AI-uprising movie for research purposes."],
+ ["paper","Smallpdf","smallpdf.com","All-in-one PDF tools","Fill out the post-apocalyptic paperwork."],
+ ["paper","iLovePDF","ilovepdf.com","Merge, split and convert PDFs","Bureaucracy will outlive us all."]
+];
+
+const packed = new Set();
+let crate = "all";
+const $ = s => document.querySelector(s);
+
+function renderCrates(){
+  const wrap = $("#crates");
+  const opts = [{id:"all",name:"All crates"}, ...CRATES];
+  wrap.innerHTML = opts.map(c =>
+    `<button type="button" data-c="${c.id}" aria-pressed="${c.id===crate}">${c.name}</button>`).join("");
+  wrap.querySelectorAll("button").forEach(b => b.onclick = () => { crate = b.dataset.c; renderCrates(); render(); });
+}
+
+function render(){
+  const q = $("#q").value.trim().toLowerCase();
+  const out = [];
+  CRATES.forEach(c => {
+    if (crate !== "all" && crate !== c.id) return;
+    const rows = TOOLS.filter(t => t[0]===c.id && (!q || t.slice(1,5).join(" ").toLowerCase().includes(q)));
+    if (!rows.length) return;
+    out.push(`<section class="crate"><h2>${c.name}</h2><p class="why">${c.why}</p><div class="rows">` +
+      rows.map(([,name,dom,does,doom,warn,unk]) => {
+        const on = packed.has(dom);
+        return `<div class="row${on?" packed":""}">
+          <input type="checkbox" class="pack" data-d="${dom}" ${on?"checked":""} aria-label="Pack ${name}">
+          <p class="name"><a href="https://${dom}" target="_blank" rel="noopener">${name}</a><small>${dom}</small></p>
+          <p class="doom">${doom}</p>
+          <p class="does">${does}${warn?`<br><span class="stamp">${warn}</span>`:""}${unk?`<br><span class="stamp unk">${unk}</span>`:""}</p>
+        </div>`;}).join("") + `</div></section>`);
+  });
+  $("#manifest").innerHTML = out.join("") || `<p class="empty">Nothing in the manifest matches that. Try a broader search or pick "All crates".</p>`;
+  document.querySelectorAll(".pack").forEach(cb => cb.onchange = () => {
+    cb.checked ? packed.add(cb.dataset.d) : packed.delete(cb.dataset.d);
+    cb.closest(".row").classList.toggle("packed", cb.checked);
+    meter();
+  });
+}
+
+function meter(){
+  const n = packed.size;
+  $("#count").textContent = `${n} / ${TOOLS.length} packed`;
+  $("#fill").style.width = (n / TOOLS.length * 100) + "%";
+}
+
+$("#q").addEventListener("input", render);
+renderCrates(); render(); meter();
+</script>
+</body>
+</html>

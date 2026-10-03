@@ -298,6 +298,13 @@ ${switcher.render(ctx)}
   <p class="fresh__key">Static files. No key, no rate limit, ${esc(brand.LICENSE)}. Attribution: ${esc(brand.DOMAIN)}.</p>
 </section>
 
+<section class="sec bunk" id="bunker-kit" aria-labelledby="bunker-h">
+  <h2 class="sec__h" id="bunker-h">Bunker Kit</h2>
+  <p class="lede">A field manual, not a reading: 50 free tools to pack, in eight crates, with a
+     readiness meter. Run by third parties, not by ${esc(brand.NAME)}, and it does not feed the index.</p>
+  <p><a class="bunk__go" href="${esc(ctx.href('/bunker-kit.html'))}">Open the Bunker Kit →</a></p>
+</section>
+
 ${brand.X_URL ? `<section class="sec supp" id="support" aria-labelledby="support-h">
   <h2 class="sec__h" id="support-h">Support this index</h2>
   <p class="lede">${esc(brand.NAME)} is free, carries no advertising, sets no tracking
@@ -405,6 +412,9 @@ main.wrap[data-level="1"] > .hero .ch--dial { animation: dcBreathe 1.1s ease-in-
 .sharebtn { margin-top: var(--s-3); padding: 8px 14px; border: 2px solid var(--lvl, var(--accent)); border-radius: 4px; background: transparent;
   color: var(--ink); cursor: pointer; font: 700 var(--t-xs)/1 var(--stencil); letter-spacing: .14em; text-transform: uppercase; }
 .sharebtn:hover, .sharebtn:focus-visible { background: var(--lvl, var(--accent)); color: #0b0c0e; }
+.bunk__go { display: inline-block; padding: 10px 16px; border: 2px solid var(--accent); border-radius: 4px; color: var(--ink);
+  text-decoration: none; font: 700 var(--t-sm)/1 var(--stencil); letter-spacing: .14em; text-transform: uppercase; }
+.bunk__go:hover, .bunk__go:focus-visible { background: var(--accent); color: #0b0c0e; }
 .hero__orders { margin: 0 0 var(--s-3); max-width: 60ch; font: 500 var(--t-xs)/1.45 var(--mono); letter-spacing: .04em; color: var(--ink-dim); }
 .hero__orders b { font: 700 var(--t-xs)/1 var(--stencil); letter-spacing: .14em; text-transform: uppercase; color: var(--ink); }
 .clip { position: relative; margin: var(--s-4) 0 10px; padding: 14px 10px 10px; border: 2px dashed var(--ink-faint); border-radius: 2px; }

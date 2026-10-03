@@ -1052,6 +1052,14 @@ async function main() {
   // GitHub Pages serves this for every missing path under the site. Without it
   // a dead URL lands on GitHub's own page, with no masthead and no way back.
   written.push(await write(args.out, '404.html', notFoundPage.render(ctx)));
+  // Hand-written standalone pages: site/static/*.html is copied through
+  // byte for byte. They carry their own styles and take nothing from ctx.
+  const staticDir = path.join(ROOT, 'site', 'static');
+  if (existsSync(staticDir)) {
+    for (const name of (await readdir(staticDir)).filter((n) => n.endsWith('.html')).sort()) {
+      written.push(await write(args.out, name, await readFile(path.join(staticDir, name))));
+    }
+  }
   written.push(await write(args.out, 'moves/index.html', movesIndexPage.render(ctx)));
   if (newsPage.hasNews(ctx)) {
     written.push(await write(args.out, 'news.html', newsPage.render(ctx)));
