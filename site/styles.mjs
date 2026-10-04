@@ -2172,9 +2172,10 @@ main.wrap :is(.rintro__h1, .narch__h1, .dg__h1, .lwp__h1, .bp__h1, .bintro__h1, 
 .bstamp a { color: inherit; text-decoration: none; }
 .bstamp a:hover { text-decoration: underline; }
 .foot__bcast { margin: 0 0 var(--s-5); padding: 6px 16px; text-align: center;
-  background: repeating-linear-gradient(-45deg, var(--lvl, var(--accent)) 0 12px, var(--bg) 12px 24px); }
+  background: var(--bg-sunken); border-block: 1px solid var(--rule); }
 .foot__bcast .tally { display: inline-block; vertical-align: middle; margin-right: 8px; padding: 2px; border-radius: 50%; background: var(--bg); }
-.foot__bcast span { display: inline-block; padding: 5px 14px; background: var(--bg); color: var(--ink);
+@media (min-width: 1000px) { .faq__l { max-width: none; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; } }
+.foot__bcast span { display: inline-block; padding: 5px 14px; background: none; color: var(--ink-dim);
   font: 700 var(--t-xs)/1.35 var(--mono); letter-spacing: .14em; text-transform: uppercase; }
 .foot__memo { display: flex; flex-wrap: wrap; gap: 4px var(--s-4); margin: 0 0 var(--s-3);
   font: 400 var(--t-2xs)/1.5 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-faint); }

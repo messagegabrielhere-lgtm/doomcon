@@ -98,7 +98,7 @@ for (const { id, surface } of built) {
     const t = op.text;
     if (t === NAME_CARVE_OUT) continue;
     const fv = findFutureViolation(t);
-    if (fv) fail(`${id}: future tense "${fv}" in "${t}"`);
+    if (fv) fail(`${id}: future tense "${fv.match}" in "${t}"`);
     const uv = findUrlViolation(t);
     // role:'domain' IS the burned-in domain, which is the whole point of it.
     if (uv && op.role !== 'domain') fail(`${id}: url-shaped "${uv}" in "${t}"`);

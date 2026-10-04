@@ -304,7 +304,7 @@ main.wrap:has(> .hero) > .sw .sw__lede { display: none; }
 .earn__c { display: grid; gap: 6px; align-content: start; padding: var(--s-4); border: 1px solid var(--rule); border-top: 6px solid var(--accent); border-radius: 8px;
   background: var(--bg-sunken); text-decoration: none; color: var(--ink-dim); }
 .earn__c:hover, .earn__c:focus-visible { border-color: var(--accent); }
-.earn__c b { font: 400 clamp(20px, 2.4vw, 26px)/1.05 var(--poster); text-transform: uppercase; letter-spacing: .012em; color: var(--ink); }
+.earn__c b { font: 700 clamp(19px, 1.9vw, 23px)/1.15 var(--poster); letter-spacing: -.01em; color: var(--ink); }
 .earn__c span { font: 400 var(--t-sm)/1.45 var(--sans); }
 .earn__c i { font: 700 var(--t-2xs)/1 var(--mono); font-style: normal; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
 .fol__l { margin: var(--s-3) 0 var(--s-4); padding: 0 0 0 1.1em; display: grid; gap: 8px; max-width: 72ch; }
@@ -371,6 +371,7 @@ main.wrap > .hero .hero__headline { margin: 0 0 var(--s-3); font: 500 var(--t-sm
 .wall__v { font: 700 clamp(20px, 2.3vw, 30px)/1.05 var(--mono); letter-spacing: -.03em; color: var(--lvl, var(--accent)); text-shadow: 0 0 16px color-mix(in srgb, var(--lvl, var(--accent)) 45%, transparent); overflow-wrap: anywhere; }
 .wall__s { font: 500 var(--t-2xs)/1.35 var(--mono); letter-spacing: .04em; color: var(--ink-dim); overflow-wrap: anywhere; }
 .pcs__l { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s-3); grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); }
+@media (min-width: 1100px) { .wall { grid-template-columns: repeat(6, minmax(0, 1fr)); } .pcs__l { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
 .pc { padding: 14px 16px 12px; border: 1px solid var(--rule); border-radius: 12px; background: var(--bg-raised); min-width: 0; }
 .pc__top { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
 .pc__n { font: 700 var(--t-sm)/1.2 var(--poster); letter-spacing: 0; text-transform: uppercase; color: var(--ink); }

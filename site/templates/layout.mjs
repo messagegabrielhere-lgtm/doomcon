@@ -760,7 +760,8 @@ function pageBanner(ctx, path) {
   return `<figure class="pgph"><img src="${esc(ctx.href(`/img/${file}`))}" width="1600" height="600" alt="" decoding="async"><figcaption>Illustration: generated image</figcaption></figure>\n`;
 }
 
-const FB_PRIMARY = 8;
+const FB_PRIMARY = 6;
+const FB_NARROW = 6;
 
 function featureBar(ctx, sections, path, { inline = false } = {}) {
   const tileList = sections.map((item) => {
@@ -794,9 +795,15 @@ function featureBar(ctx, sections, path, { inline = false } = {}) {
   const extraFrom = Math.min(FB_PRIMARY, tileList.length);
   const extras = tileList.slice(extraFrom);
   const curInExtras = sections.slice(extraFrom).some((item) => item.href === path);
-  const inlineTiles = tileList.map((t, i) => (i >= extraFrom ? t.replace('class="fb__t"', 'class="fb__t fb__t--x"') : t)).join('')
+  // Tiles past FB_NARROW also leave the row between 1080 and 1499px, where
+  // eight tiles and More do not fit on one line; the menu carries a copy of
+  // them that only shows at those widths.
+  const narrowFrom = Math.min(FB_NARROW, extraFrom);
+  const narrow = tileList.slice(narrowFrom, extraFrom).map((t) => t.replace('class="fb__t"', 'class="fb__t fb__t--ym"'));
+  const cls = (i) => (i >= extraFrom ? 'fb__t fb__t--x' : i >= narrowFrom ? 'fb__t fb__t--y' : 'fb__t');
+  const inlineTiles = tileList.map((t, i) => t.replace('class="fb__t"', `class="${cls(i)}"`)).join('')
     + (extras.length
-      ? `<details class="fb__more${curInExtras ? ' fb__more--cur' : ''}"><summary class="fb__t fb__sum">More <b class="fb__n num">${extras.length}</b></summary><div class="fb__menu">${extras.join('')}</div></details>`
+      ? `<details class="fb__more${curInExtras ? ' fb__more--cur' : ''}"><summary class="fb__t fb__sum">More <b class="fb__n num fb__c--w">${extras.length}</b><b class="fb__n num fb__c--n">${extras.length + narrow.length}</b></summary><div class="fb__menu">${narrow.join('')}${extras.join('')}</div></details>`
       : '');
   // Inline form: the masthead already supplies the .wrap and the gutter, so a
   // second one here would indent the tiles inside their own band. The tile
@@ -871,12 +878,18 @@ const FEATURE_BAR_CSS = `<style>
   box-shadow: 0 12px 30px rgba(0,0,0,.45); }
 .fb__menu .fb__t { justify-content: flex-start; }
 .fb__menu .fb__n { margin-left: auto; }
-@media (min-width: 1080px) {
+@media (min-width: 700px) {
   /* Wraps rather than runs off the edge: eight tiles and their live numbers
      need ~1,350px, and a 1280px laptop was scrolling sideways by 200. More
      is pinned right so its menu always opens inside the page. */
   .fb--inline > .fb__t--x { display: none; }
   .fb__more { display: block; margin-left: auto; }
+  .fb--inline .fb__t { padding: 6px 8px; letter-spacing: .04em; }
+  .fb__c--w, .fb__menu .fb__t--ym { display: none; }
+}
+@media (min-width: 1080px) and (max-width: 1499px) { .fb--inline > .fb__t--y { display: none; } .fb__menu .fb__t--ym { display: flex; } }
+@media (min-width: 1500px) {
+  .fb__c--w { display: inline; } .fb__c--n { display: none; }
 }
 /* The tagline must not eat the row the tiles need. */
 .masthead__in > .masthead__tag { flex: 0 1 auto; }

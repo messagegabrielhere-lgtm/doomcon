@@ -30,6 +30,7 @@ import {
   HEAT, Surface, fit, fmt1, fold, wrapFit, textWidth, utcStamp, W_HERO, W_MED,
 } from './_kit.mjs';
 import { chassis, limitBox, eyebrow, BODY_TOP } from './_chassis.mjs';
+import { findFutureViolation } from '../posts.mjs';
 
 /** Independent feeds needed before a cluster is a card. Two is the floor the
  *  posts generator already uses (MIN_CORROBORATION); three is asked for here
@@ -51,6 +52,10 @@ export function pick(news, { now = null } = {}) {
   const candidates = news.stories
     .filter((st) => st.source_count >= MIN_SOURCES)
     .filter((st) => byId.has(st.lead))
+    // The headline is set verbatim on our card, so a lead that carries a word
+    // our own voice bans ("warning", "will") is passed over for the next
+    // cluster rather than printed under our name.
+    .filter((st) => !findFutureViolation(byId.get(st.lead).title))
     .filter((st) => (t - new Date(st.last_published_at).getTime()) / 36e5 <= MAX_AGE_HOURS)
     // Severity first, then corroboration, then tightness. Ties broken by id so
     // two runs over the same file choose the same story. No Math.random here or
