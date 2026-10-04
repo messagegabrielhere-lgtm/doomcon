@@ -438,8 +438,23 @@ main.wrap:has(.stage) > section.sec, main.wrap:has(.stage) > section.sw { margin
   .wr__big--c b { font-size: 24px; }
   .wr__s { font-size: 12.5px; line-height: 1.4; }
 }
+/* THE WALL ON THE FIRST SCREEN. At 1440x900 the photo stage was 704px tall and
+   the war room began at 1,003 - a full scroll away from a reader who came for
+   the panels. On a wide screen the stage gives up its fixed height, the answer
+   steps down a size, and the one line that repeats the paragraph above it is
+   kept for screen readers only, so the wall's header and jump bar are in view
+   on arrival. Phones keep the tall stage: there the answer is the screen. */
+@media (min-width: 1000px) {
+  .stage { min-height: 0; padding-block: 34px 30px; }
+  .ans__a { font-size: clamp(56px, 6.4vw, 92px); }
+  main.wrap > .hero .stage .hero__headline { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .stage .stage__credit { position: absolute; right: 18px; bottom: 12px; margin: 0; }
+  .stage .ans__cta { margin: var(--s-3) 0; }
+  .wr { margin-top: var(--s-3); }
+}
 @media (min-width: 1100px) { .wr__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } #wr-news { grid-row: span 2; } #wr-bets { grid-column: span 2; } }
-.wr { margin-bottom: var(--s-5); }
+.wr { margin-bottom: var(--s-3); }
+.srcs { margin: 0 0 var(--s-5); }
 .ans__cta { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; margin: var(--s-4) 0; }
 .cta { display: inline-flex; align-items: center; gap: 6px; text-decoration: none; font: 650 var(--t-base)/1 var(--sans); letter-spacing: -.005em; }
 .cta--pri { padding: 13px 22px; border-radius: 999px; background: var(--lvl, var(--accent)); color: #06070b;
@@ -728,8 +743,8 @@ ${gauge.styleTag()}
   ${Number.isFinite(state.score) ? langStrip(state) : ''}
   <p class="stage__credit">Background: a generated illustration, not a photograph.</p>
   </div>
-  ${sourceStrip(state)}
   ${warRoom(ctx)}
+  ${sourceStrip(state)}
   <div class="hero__grid">
 
     <!-- align-self overrides .hero__grid's align-items:end, so the dial sits
@@ -1289,7 +1304,7 @@ function warRoom(ctx) {
   }
 
   const n = Array.isArray(ctx.history) ? ctx.history.length : null;
-  return `<section class="wr rv" id="war-room" aria-labelledby="wr-h" style="--lvl:var(--heat-${esc(st.level)})">
+  return `<section class="wr" id="war-room" aria-labelledby="wr-h" style="--lvl:var(--heat-${esc(st.level)})">
   <div class="wr__top">
     <h2 class="wr__h" id="wr-h"><span class="wr__live" aria-hidden="true"></span>War room</h2>
     <p class="wr__k">${n ? `Reading no. ${esc(n)} · ` : ''}${panels.length} panels · every number opens its page</p>
@@ -1315,77 +1330,15 @@ function closer(ctx) {
 </section>`;
 }
 
-function wall(ctx) {
-  const st = ctx.state; const tiles = [];
-  const add = (k, v, sub, href, lvl) => tiles.push(`<a class="wall__t" href="${esc(ctx.href(href))}"${lvl ? ` style="--lvl:var(--heat-${esc(lvl)})"` : ''}><span class="wall__k">${esc(k)}</span><b class="wall__v num">${esc(v)}</b><span class="wall__s">${esc(sub)}</span></a>`);
-  if (Number.isFinite(st.score)) {
-    add('Level', String(st.level), st.level_name, '/guide.html', st.level);
-    add('Score', num(st.score, 1), 'of 100, composite', '/instruments.html#record', st.level);
-  }
-  const d = ctx.vsYesterday;
-  if (d && Number.isFinite(d.delta)) add('Change', `${d.delta > 0 ? '+' : d.delta < 0 ? '−' : ''}${num(Math.abs(d.delta), 1)}`, d.basis === 'previous' ? `since ${d.label}` : `vs ${d.label}`, '/moves/');
-  const top = loudest(st);
-  if (top) add('Loudest', num(top.score, 1), top.name, '/instruments.html');
-  const src = Array.isArray(st.sources) ? st.sources : [];
-  if (src.length) add('Sources', `${src.filter((x) => x && (x.ok || x.uncalibrated)).length}/${src.length}`, 'reporting this hour', '/instruments.html');
-  if (Array.isArray(ctx.history) && ctx.history.length) add('Readings', ctx.history.length.toLocaleString('en-US'), 'published, each with a receipt', '/moves/');
-  const jobs = topicLead(ctx, 'jobs'); if (jobs) add('Jobs', jobs.value, jobs.unit, '/jobs.html');
-  const med = topicLead(ctx, 'medicine'); if (med) add('Medicine', Number.isFinite(Number(med.value)) ? Number(med.value).toLocaleString('en-US') : med.value, med.unit, '/medicine.html');
-  if (ctx.news && Array.isArray(ctx.news.items) && ctx.news.items.length) add('Stories', String(ctx.news.items.length), 'in the newsroom window', '/news.html');
-  if (ctx.bets && Array.isArray(ctx.bets.open)) add('Bets', String(ctx.bets.open.length), `open · ${ctx.bets.summary ? ctx.bets.summary.resolved : 0} settled`, '/bets.html');
-  if (ctx.world && ctx.world.totals && Number.isFinite(ctx.world.totals.sites)) add('Datacentres', ctx.world.totals.sites.toLocaleString('en-US'), 'sites mapped worldwide', '/world.html');
-  add('Trackers', '0', 'ads, cookies or analytics', '/privacy.html');
-  return `<section class="wall" aria-label="Every instrument, one tile each">${tiles.join('')}</section>`;
-}
 
 // THE FIVE CARDS. One per pillar, each with a bar for every recent reading:
 // the competitor's signature graphic (a bar chart per pizza shop), drawn for
 // the five things this index counts. The chip compares the newest reading with
 // the median of the bars shown, in words, and a pillar with no score is
 // printed as waiting, never as zero.
-function pillarCards(ctx) {
-  const rows = Array.isArray(ctx.history) ? ctx.history.slice(-24) : [];
-  if (rows.length < 4) return '';
-  const cards = brand.PILLARS.map((p) => {
-    const series = rows.map((r) => (r.pillars && Number.isFinite(r.pillars[p.id]) ? r.pillars[p.id] : null));
-    const vals = series.filter((v) => v !== null);
-    if (vals.length < 4) {
-      return `<li class="pc" data-pillar="${esc(p.id)}"><div class="pc__top"><b class="pc__n">${esc(p.name)}</b><span class="pc__chip pc__chip--wait">Awaiting baseline</span></div>
-      <p class="pc__s">${esc(PILLAR_PLAIN[p.id] || '')}</p><p class="pc__none">Readings are arriving, and there is no frozen record to score them against yet. Nothing is drawn.</p></li>`;
-    }
-    const sorted = [...vals].sort((a, b) => a - b);
-    const med = sorted.length % 2 ? sorted[(sorted.length - 1) / 2] : (sorted[sorted.length / 2 - 1] + sorted[sorted.length / 2]) / 2;
-    const last = vals[vals.length - 1];
-    const ratio = med > 0 ? last / med : 1;
-    const [chip, cls] = ratio > 1.08 ? ['Louder than usual', 'up'] : ratio < 0.92 ? ['Quieter than usual', 'down'] : ['About as usual', 'flat'];
-    const n = series.length; const bw = 100 / n;
-    const bars = series.map((v, i) => (v === null ? '' : `<rect x="${(i * bw + bw * 0.14).toFixed(2)}" y="${(40 - (v / 100) * 40).toFixed(2)}" width="${(bw * 0.72).toFixed(2)}" height="${((v / 100) * 40).toFixed(2)}" rx=".6"${i === n - 1 ? ' class="pc__now"' : ''}/>`)).join('');
-    return `<li class="pc" data-pillar="${esc(p.id)}"><div class="pc__top"><b class="pc__n">${esc(p.name)}</b><span class="pc__chip pc__chip--${cls}">${esc(chip)}</span></div>
-      <p class="pc__s">${esc(PILLAR_PLAIN[p.id] || '')}</p>
-      <svg class="pc__bars" viewBox="0 0 100 40" preserveAspectRatio="none" role="img" aria-label="${esc(p.name)}: one bar per reading for the last ${n} readings, newest on the right at ${esc(num(last, 1))} of 100">${bars}</svg>
-      <p class="pc__f"><span class="pc__live">Live</span><b class="num">${esc(num(last, 1))}</b> of 100 now · median of these ${esc(vals.length)}: ${esc(num(med, 1))}</p></li>`;
-  });
-  return `<section class="sec pcs" id="pillars" aria-labelledby="pcs-h">
-  <h2 class="sec__h" id="pcs-h">The five things we count</h2>
-  <ul class="pcs__l">${cards.join('')}</ul>
-  <p class="fresh__key">One bar per reading, newest on the right, each from 0 to 100. <a href="${esc(ctx.href('/instruments.html'))}">Every pillar in full →</a></p>
-</section>`;
-}
 
 // WHAT HAPPENED. The three highest-scoring stories in the window, verbatim,
 // so "should I care" comes with the reasons a person can read for themselves.
-function topStories(ctx) {
-  const items = ctx.news && Array.isArray(ctx.news.items) ? ctx.news.items : [];
-  if (!items.length) return '';
-  const top = [...items].sort((a, b) => Number(b.score) - Number(a.score) || String(a.id).localeCompare(String(b.id))).slice(0, 5);
-  return `<section class="sec tops" id="what-happened" aria-labelledby="tops-h">
-  <h2 class="sec__h" id="tops-h">What happened</h2>
-  <ol class="tops__l">
-${top.map((i, k) => `    <li class="tops__i"><span class="tops__r num">${String(k + 1).padStart(2, '0')}</span><a href="${esc(i.url)}" rel="noopener">${esc(i.title)}</a><span class="tops__m">${esc(i.source)} · ${esc(String(i.published_at).slice(0, 16).replace('T', ' '))}Z · score ${esc(num(Number(i.score), 1))}</span></li>`).join('\n')}
-  </ol>
-  <p class="fresh__key">The five highest-scoring stories of ${esc(items.length)} in the window, as their publishers wrote them. <a href="${esc(ctx.href('/news.html'))}">All of them →</a></p>
-</section>`;
-}
 
 // FOUR NUMBERS, SET LARGE. What the site is, as counts a stranger can check:
 // how many readings exist, how many sources answered this hour, how many
