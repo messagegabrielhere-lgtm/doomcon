@@ -350,6 +350,42 @@ main.wrap > .hero { border-radius: 3px; }
 .ans__a { margin: 0 0 var(--s-3); font: 700 clamp(48px, 8.6vw, 128px)/.96 var(--poster); letter-spacing: -.04em; text-transform: none; color: var(--ink); }
 .ans__a b { font-weight: 400; color: var(--lvl, var(--accent)); text-shadow: 0 0 34px color-mix(in srgb, var(--lvl, var(--accent)) 55%, transparent); }
 .ans__a span { display: block; font-size: .34em; font-weight: 500; line-height: 1.15; letter-spacing: -.02em; margin-top: .28em; color: var(--ink); }
+/* BORROWED FROM THE PAGES THAT DO THIS BEST. Three moves, each seen on Apple,
+   Stripe and Linear: a section opens on a large plain sentence rather than a
+   small label; the first screen offers exactly one filled action and one quiet
+   one; and the page ends on a line and an action rather than fading into its
+   footer. Home page only - .stage exists nowhere else. */
+main.wrap:has(.stage) > section > .sec__h[id],
+main.wrap:has(.stage) .sw__hd > .sec__h[id] {
+  display: block; position: static; margin: 0 0 var(--s-3); max-width: 24ch;
+  font: 700 clamp(27px, 3.9vw, 46px)/1.06 var(--poster); letter-spacing: -.028em; text-transform: none; color: var(--ink);
+}
+main.wrap:has(.stage) > section > .sec__h[id]::before,
+main.wrap:has(.stage) .sw__hd > .sec__h[id]::before {
+  display: block; width: 40px; height: 4px; margin: 0 0 16px; border-radius: 2px;
+}
+main.wrap:has(.stage) > section > .sec__h[id]::after,
+main.wrap:has(.stage) .sw__hd > .sec__h[id]::after { display: none; }
+main.wrap:has(.stage) .sec__h[id] > .sec__eb { display: block; margin: 10px 0 0; }
+main.wrap:has(.stage) > section.sec, main.wrap:has(.stage) > section.sw { margin-top: clamp(44px, 6vw, 84px); }
+.ans__cta { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; margin: var(--s-4) 0; }
+.cta { display: inline-flex; align-items: center; gap: 6px; text-decoration: none; font: 650 var(--t-base)/1 var(--sans); letter-spacing: -.005em; }
+.cta--pri { padding: 13px 22px; border-radius: 999px; background: var(--lvl, var(--accent)); color: #06070b;
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--lvl, var(--accent)) 60%, transparent), 0 8px 28px color-mix(in srgb, var(--lvl, var(--accent)) 28%, transparent); }
+.cta--pri:hover, .cta--pri:focus-visible { filter: brightness(1.08); }
+.cta--sec { padding: 13px 4px; color: var(--ink); }
+.cta--sec span { transition: transform 140ms ease; }
+.cta--sec:hover span, .cta--sec:focus-visible span { transform: translateX(3px); }
+.srcs { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px var(--s-4); margin: var(--s-4) 0 0; padding: 0 2px; }
+.srcs__k { font: 700 var(--t-2xs)/1.4 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--ink-faint); }
+.srcs__l { display: flex; flex-wrap: wrap; gap: 4px var(--s-4); margin: 0; padding: 0; list-style: none; }
+.srcs__l li { font: 600 var(--t-sm)/1.4 var(--sans); letter-spacing: -.005em; color: var(--ink-dim); }
+.close { margin: clamp(56px, 8vw, 110px) 0 var(--s-6); padding: clamp(36px, 6vw, 72px) clamp(20px, 5vw, 64px); border: 1px solid var(--rule); border-radius: 20px; text-align: center;
+  background: radial-gradient(120% 140% at 50% 0%, color-mix(in srgb, var(--lvl, var(--accent)) 14%, transparent), transparent 60%), var(--bg-raised); }
+.close__h { margin: 0 auto; max-width: 20ch; font: 750 clamp(30px, 5.2vw, 64px)/1.02 var(--poster); letter-spacing: -.035em; color: var(--ink); }
+.close__h span { display: block; color: var(--lvl, var(--accent)); }
+.close__p { margin: var(--s-4) auto 0; max-width: 44ch; font: 400 var(--t-base)/1.5 var(--sans); color: var(--ink-dim); }
+.close .ans__cta { justify-content: center; margin-bottom: 0; }
 .ans__why { margin: 0 0 var(--s-3); max-width: 62ch; font: 400 clamp(16px, 1.5vw, 20px)/1.5 var(--sans); color: var(--ink); }
 .ans__meta { display: flex; flex-wrap: wrap; gap: 6px 14px; margin: 0 0 var(--s-3); font: 600 var(--t-2xs)/1.3 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-dim); }
 .ans__live { color: var(--ok); }
@@ -620,6 +656,7 @@ ${gauge.styleTag()}
   ${Number.isFinite(state.score) ? langStrip(state) : ''}
   <p class="stage__credit">Background: a generated illustration, not a photograph.</p>
   </div>
+  ${sourceStrip(state)}
   <div class="hero__grid">
 
     <!-- align-self overrides .hero__grid's align-items:end, so the dial sits
@@ -721,6 +758,8 @@ ${switcher.render(ctx)}
   </div>
   <p class="fresh__key">As an Amazon Associate, ${esc(brand.NAME)} earns from qualifying purchases. Paid links are marked wherever they appear, and nothing a reader buys changes a number.</p>
 </section>
+
+${closer(ctx)}
 
 <script>(function(){
 if(!('IntersectionObserver' in window)||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
@@ -1079,6 +1118,7 @@ function answer(ctx) {
   return `<p class="ans__q">Should you care about AI today?</p>
   <h1 class="ans__a" style="--lvl:var(--heat-${esc(st.level)})"><b>${esc(yes)}</b> <span>${esc(gloss)}</span></h1>
   <p class="ans__why">AI activity is at level ${esc(st.level)} on a scale where 5 is quiet and 1 is loudest. ${esc(bits.join(' '))}</p>
+  <p class="ans__cta">${brand.X_URL ? `<a class="cta cta--pri" href="${esc(brand.X_URL)}" rel="noopener">Get the alert on X</a>` : ''}<a class="cta cta--sec" href="#pcs-h">See why <span aria-hidden="true">›</span></a></p>
   <p class="hero__badge" aria-hidden="true">${mascot({ size: 44, level: st.level })}<span class="hero__badge-t"><b>${esc(brand.NAME)} ${esc(st.level)}</b><span>${esc(st.level_name)} · ${esc(num(st.score, 1))} of 100</span></span></p>
   ${meta}`;
 }
@@ -1086,6 +1126,36 @@ function answer(ctx) {
 // THE WALL. The terminal: every instrument the site runs, as one tile with one
 // glowing number and a link to the page behind it. A tile whose data is absent
 // is not drawn; nothing here is a placeholder.
+// THE SOURCE STRIP. Where a product page puts its customers' logos, this page
+// puts where the number comes from. Names only, taken from the sources the
+// current reading lists; a source the reading does not carry is not named.
+const SOURCE_NAMES = {
+  arxiv: 'arXiv', 'github-releases': 'GitHub', huggingface: 'Hugging Face', openrouter: 'OpenRouter',
+  'sec-fts': 'SEC filings', stockanalysis: 'StockAnalysis', vastai: 'Vast.ai', hn: 'Hacker News',
+  wikipedia: 'Wikipedia', 'federal-register': 'Federal Register', govuk: 'GOV.UK', kalshi: 'Kalshi',
+  manifold: 'Manifold', polymarket: 'Polymarket',
+};
+function sourceStrip(st) {
+  const src = (Array.isArray(st.sources) ? st.sources : []).filter((x) => x && x.id && (x.ok || x.uncalibrated));
+  if (src.length < 3) return '';
+  const names = src.map((x) => x.label || SOURCE_NAMES[x.id] || x.id);
+  return `<div class="srcs" aria-label="Sources read for this reading"><span class="srcs__k">Read from ${names.length} public sources</span><ul class="srcs__l">${names.map((n) => `<li>${esc(n)}</li>`).join('')}</ul></div>`;
+}
+
+// THE CLOSE. Every page worth copying ends on one line and one action instead
+// of trailing off into its footer. The line states today's level; it promises
+// nothing about tomorrow's.
+function closer(ctx) {
+  const st = ctx.state;
+  if (!brand.X_URL || !Number.isFinite(st.score)) return '';
+  const v = VERDICT[st.level];
+  return `<section class="close rv" aria-label="Follow for level changes" style="--lvl:var(--heat-${esc(st.level)})">
+  <h2 class="close__h">${esc(v ? v[1] : `${brand.NAME} ${st.level}.`)} <span>Hear it the hour that changes.</span></h2>
+  <p class="close__p">One post when the level moves, with the receipt. Nothing in between.</p>
+  <p class="ans__cta"><a class="cta cta--pri" href="${esc(brand.X_URL)}" rel="noopener">Follow ${esc(brand.X_HANDLE)}</a><a class="cta cta--sec" href="${esc(ctx.href('/feed-level.xml'))}">Level alerts by RSS <span aria-hidden="true">›</span></a></p>
+</section>`;
+}
+
 function wall(ctx) {
   const st = ctx.state; const tiles = [];
   const add = (k, v, sub, href, lvl) => tiles.push(`<a class="wall__t" href="${esc(ctx.href(href))}"${lvl ? ` style="--lvl:var(--heat-${esc(lvl)})"` : ''}><span class="wall__k">${esc(k)}</span><b class="wall__v num">${esc(v)}</b><span class="wall__s">${esc(sub)}</span></a>`);
