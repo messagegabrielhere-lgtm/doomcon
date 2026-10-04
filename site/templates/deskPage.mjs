@@ -86,13 +86,13 @@ export function render(ctx) {
 .dk__h1 { margin: 0; }
 .dk__l { list-style: none; margin: var(--s-5) 0; padding: 0; display: grid; gap: var(--s-4); grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); }
 .dk__c { margin: 0; padding: var(--s-4); border: 1px solid var(--rule); border-top: 6px solid var(--lvl, var(--accent)); border-radius: 8px; background: var(--bg-raised, var(--bg-sunken)); }
-.dk__h { margin: 0; font: 700 var(--t-sm)/1.2 var(--stencil); letter-spacing: .14em; text-transform: uppercase; color: var(--ink); }
+.dk__h { margin: 0; font: 700 var(--t-sm)/1.2 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--ink); }
 .dk__n { margin: var(--s-2) 0 0; font: 400 clamp(54px, 9vw, 84px)/1 var(--poster); color: var(--lvl, var(--accent)); }
 .dk__u { margin: 4px 0 var(--s-3); font: 500 var(--t-xs)/1.45 var(--mono); letter-spacing: .04em; color: var(--ink-dim); }
 .dk__j { margin: 0 0 var(--s-3); font: 400 var(--t-base)/1.5 var(--sans); color: var(--ink); }
 .dk__f { margin: 0; display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; font: 500 var(--t-xs)/1.4 var(--mono); }
 .dk__x { display: inline-block; padding: 7px 12px; border: 2px solid var(--lvl, var(--accent)); border-radius: 4px; color: var(--ink); text-decoration: none;
-  font: 700 var(--t-xs)/1 var(--stencil); letter-spacing: .14em; text-transform: uppercase; }
+  font: 700 var(--t-xs)/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; }
 .dk__x:hover, .dk__x:focus-visible { background: var(--lvl, var(--accent)); color: #0b0c0e; }
 .dk__fine { font: 400 var(--t-sm)/1.55 var(--sans); color: var(--ink-dim); max-width: 70ch; }
 </style>

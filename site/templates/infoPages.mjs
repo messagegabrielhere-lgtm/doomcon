@@ -12,7 +12,7 @@ const CSS = `<style>
 .inf { max-width: 74ch; }
 .inf__top { display: flex; align-items: center; gap: var(--s-4); margin: var(--s-4) 0 var(--s-3); }
 .inf__top h1 { margin: 0; }
-.inf h2 { margin: var(--s-6, 40px) 0 var(--s-2); font: 700 var(--t-md)/1.2 var(--stencil); letter-spacing: .12em; text-transform: uppercase; color: var(--ink); }
+.inf h2 { margin: var(--s-6, 40px) 0 var(--s-2); font: 400 clamp(20px, 2.4vw, 26px)/1.15 var(--poster); letter-spacing: .02em; text-transform: uppercase; color: var(--ink); }
 .inf p, .inf li { font: 400 var(--t-base)/1.65 var(--sans); color: var(--ink-dim); }
 .inf b { color: var(--ink); }
 .inf table { border-collapse: collapse; width: 100%; margin: var(--s-3) 0; font: 400 var(--t-sm)/1.45 var(--sans); }

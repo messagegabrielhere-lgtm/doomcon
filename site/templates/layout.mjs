@@ -181,6 +181,8 @@ const SECTIONS = [
       ? { v: num(ctx.bliss.score, 1), k: 'bliss score' } : null) },
   { href: '/methodology.html', label: 'Methodology', short: 'Method',
     blurb: 'Every formula and constant. Recompute the number yourself.' },
+  { href: '/instruments.html', label: 'Instruments', short: 'Instruments',
+    blurb: 'Score history, source health, the five pillars, moves, embed and API.' },
   { href: '/desk.html', label: 'Tally’s Desk', short: 'Desk', needs: 'news',
     blurb: 'The unserious counts: robots, godfathers, question marks.' },
   { href: '/game.html', label: 'Game', short: 'Game',
@@ -1405,7 +1407,7 @@ function footer(ctx, sections, path) {
       <div class="foot__cols">
         ${col('foot-pages', 'Pages', sections)}
         ${col('foot-data', 'Data', dataLinks, null,
-    `<p class="foot__note">What each file holds is described under <a href="${esc(ctx.href('/'))}#api">Public JSON API</a>.</p>`)}
+    `<p class="foot__note">What each file holds is described under <a href="${esc(ctx.href('/instruments.html'))}#api">Public JSON API</a>.</p>`)}
         ${col('foot-src', 'Provenance', source, 'blurb')}
       </div>
     </div>

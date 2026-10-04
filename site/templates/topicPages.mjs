@@ -104,7 +104,7 @@ export function render(ctx, key) {
 .tp__nums { list-style: none; margin: 0 0 var(--s-3); padding: 0; display: grid; gap: 6px; }
 .tp__nums li { font: 400 var(--t-sm)/1.4 var(--sans); color: var(--ink-dim); overflow-wrap: anywhere; }
 .tp__nums b { font: 400 clamp(26px, 5vw, 38px)/1 var(--poster); color: var(--ink); margin-right: 6px; }
-.tp__k { margin: var(--s-3) 0 2px; font: 700 var(--t-xs)/1.2 var(--stencil); letter-spacing: .14em; text-transform: uppercase; color: var(--ink); }
+.tp__k { margin: var(--s-3) 0 2px; font: 700 var(--t-xs)/1.2 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--ink); }
 .tp__e p { margin: 0 0 var(--s-2); font: 400 var(--t-base)/1.6 var(--sans); color: var(--ink-dim); }
 .tp__f { font-size: var(--t-sm) !important; overflow-wrap: anywhere; }
 .tp__news { list-style: none; margin: var(--s-3) 0; padding: 0; display: grid; gap: 8px; }
@@ -156,6 +156,6 @@ export function topicCss() {
 .tq__q { font: 400 clamp(26px, 4vw, 38px)/1.02 var(--poster); text-transform: uppercase; letter-spacing: .012em; }
 .tq__n { font: 400 clamp(40px, 7vw, 64px)/1 var(--poster); color: var(--lvl, var(--accent)); }
 .tq__u { font: 500 var(--t-xs)/1.45 var(--mono); letter-spacing: .04em; color: var(--ink-dim); }
-.tq__to { margin-top: 6px; font: 700 var(--t-xs)/1.2 var(--stencil); letter-spacing: .14em; text-transform: uppercase; color: var(--ink-dim); }
+.tq__to { margin-top: 6px; font: 700 var(--t-xs)/1.2 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--ink-dim); }
 `;
 }

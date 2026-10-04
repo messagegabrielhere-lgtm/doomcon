@@ -1104,6 +1104,7 @@ async function main() {
 
   const written = [];
   written.push(await write(args.out, 'index.html', indexPage.render(ctx)));
+  written.push(await write(args.out, 'instruments.html', indexPage.render(ctx, { view: 'instruments' })));
   written.push(await write(args.out, 'methodology.html', methodologyPage.render(ctx)));
   written.push(await write(args.out, 'history.html', historyPage.render(ctx)));
   written.push(await write(args.out, 'embed.html', embedPage.render(ctx)));
@@ -1440,8 +1441,9 @@ async function selfCheck(outDir, state, ctx = null) {
     if (!drawn) {
       throw new Error('build: self-check failed - balance.html does not carry the balance drawing as inline SVG.');
     }
-    if (!html.includes('<svg class="bal__svg')) {
-      throw new Error('build: self-check failed - index.html does not carry the balance module\'s drawing, though the /balance route is on.');
+    const instHtml = await readFile(path.join(outDir, 'instruments.html'), 'utf8');
+    if (!instHtml.includes('<svg class="bal__svg')) {
+      throw new Error('build: self-check failed - instruments.html does not carry the balance module\'s drawing, though the /balance route is on.');
     }
     const beam = ctx.balance.newsroom && ctx.balance.newsroom.beam;
     if (beam && beam.state === 'live' && Number.isFinite(beam.angle_deg)) {

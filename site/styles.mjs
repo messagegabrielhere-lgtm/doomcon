@@ -2072,7 +2072,7 @@ const CHROMA = `
    reading colours the chrome of every page, so /race at level 2 looks like a
    different day from /race at level 5. Words still carry the level everywhere. */
 .dclock__w { font-family: var(--stencil); font-weight: 700; letter-spacing: 0.14em; font-size: calc(var(--t-lg) + 2px); }
-.sec__h { font-family: var(--stencil); letter-spacing: 0.12em; }
+.sec__h { font-family: var(--poster); font-weight: 400; font-size: clamp(22px, 2.6vw, 30px); letter-spacing: .02em; line-height: 1.1; }
 .sec__eb { font-family: var(--mono); }
 body:has(main.wrap[data-level="5"]) { --lvl: var(--heat-5); }
 body:has(main.wrap[data-level="4"]) { --lvl: var(--heat-4); }
@@ -2081,7 +2081,7 @@ body:has(main.wrap[data-level="2"]) { --lvl: var(--heat-2); }
 body:has(main.wrap[data-level="1"]) { --lvl: var(--heat-1); }
 .foot__seal { margin: 0 0 var(--s-3); opacity: .9; max-width: 160px; }
 main.wrap:has(.nf .seal) ~ .foot .foot__seal { display: none; }
-.foot__h { font-family: var(--stencil); font-size: var(--t-xs); letter-spacing: .12em; }
+.foot__h { font-family: var(--mono); font-size: var(--t-xs); letter-spacing: .12em; }
 main.wrap :is(.rintro__h1, .narch__h1, .dg__h1, .lwp__h1, .bp__h1, .bintro__h1, .ihero__h1,
   .bldhero__h1, .wld__h1, .flk__h1, .exp__h1, .nf__h) {
   font-family: var(--poster); font-weight: 400; text-transform: uppercase;
@@ -2098,7 +2098,7 @@ main.wrap :is(.rintro__h1, .narch__h1, .dg__h1, .lwp__h1, .bp__h1, .bintro__h1, 
   background: repeating-linear-gradient(-45deg, var(--lvl, var(--accent)) 0 12px, var(--bg) 12px 24px); }
 .foot__bcast .tally { display: inline-block; vertical-align: middle; margin-right: 8px; padding: 2px; border-radius: 50%; background: var(--bg); }
 .foot__bcast span { display: inline-block; padding: 5px 14px; background: var(--bg); color: var(--ink);
-  font: 700 var(--t-xs)/1.35 var(--stencil); letter-spacing: .14em; text-transform: uppercase; }
+  font: 700 var(--t-xs)/1.35 var(--mono); letter-spacing: .14em; text-transform: uppercase; }
 .foot__memo { display: flex; flex-wrap: wrap; gap: 4px var(--s-4); margin: 0 0 var(--s-3);
   font: 400 var(--t-2xs)/1.5 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-faint); }
 .foot__memo b { color: var(--ink-dim); font-weight: 600; overflow-wrap: anywhere; }
@@ -2113,7 +2113,7 @@ main.wrap :is(.rintro__h1, .narch__h1, .dg__h1, .lwp__h1, .bp__h1, .bintro__h1, 
 @media print {
   .skip, .masthead__tag, .fb, .rail, .rvisit, .jump, .foot__cols, .foot__tele, .foot__bcast { display: none !important; }
   main.wrap::before { content: "Public notice · post in a conspicuous place"; display: block; margin: 0 0 8pt; padding: 6pt 0;
-    border-block: 3pt double #000; text-align: center; font: 700 13pt/1.2 var(--stencil); letter-spacing: .18em; text-transform: uppercase; }
+    border-block: 3pt double #000; text-align: center; font: 700 13pt/1.2 var(--mono); letter-spacing: .18em; text-transform: uppercase; }
   main.wrap::after { content: "Do not remove until superseded. Not a prediction."; display: block; margin-top: 12pt; padding-top: 6pt;
     border-top: 1pt solid #000; text-align: center; font: 400 9pt/1.3 var(--mono); letter-spacing: .1em; text-transform: uppercase; }
   .hero__stamp, .bstamp { color: #000 !important; opacity: 1; }

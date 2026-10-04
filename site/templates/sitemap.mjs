@@ -15,6 +15,7 @@ export function render(ctx) {
       { loc: '/jobs.html', changefreq: 'daily', priority: '0.9', lastmod: ctx.state.generated_at },
       { loc: '/medicine.html', changefreq: 'daily', priority: '0.9', lastmod: ctx.state.generated_at },
     ] : []),
+    { loc: '/instruments.html', changefreq: 'hourly', priority: '0.8', lastmod: ctx.state.generated_at },
     { loc: '/guide.html', changefreq: 'weekly', priority: '0.8', lastmod: ctx.state.generated_at },
     { loc: '/about.html', changefreq: 'monthly', priority: '0.5', lastmod: ctx.state.generated_at },
     { loc: '/privacy.html', changefreq: 'monthly', priority: '0.3', lastmod: ctx.state.generated_at },

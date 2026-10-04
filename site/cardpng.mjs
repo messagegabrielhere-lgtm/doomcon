@@ -36,6 +36,7 @@
 // byte-identical bytes, as CONTRACT.md §4 requires — verified in docs/CARDS.md
 // §7 by rendering every card twice in two separate Node processes.
 
+import { tally } from './tallypng.mjs';
 import { deflateSync } from 'node:zlib';
 import {
   GROUND, GROUND_RAISED, INK, INK_DIM, INK_FAINT, HEAT, ACCENT,
@@ -1359,6 +1360,10 @@ function chrome(S, { level, stamp, margin, stripe = 10, footer = true }) {
   const markSize = Math.round(small * 3.6);
   const my = stripe + Math.round(margin * 0.5);
   S.mark(level, { x: margin, y: my, size: markSize });
+  // Tally, top right, helmet in the level's colour: the mascot is the most
+  // recognisable thing on a card that is seen at thumbnail size in a feed.
+  const ts = Math.round(markSize * 1.25);
+  tally(S, { x: S.width - margin - ts, y: my - Math.round(ts * 0.08), size: ts, hat: heat });
   const tx = margin + markSize + Math.round(small * 1.1);
   S.text(brand.NAME, {
     x: tx, y: my + Math.round(markSize * 0.50), size: Math.round(small * 1.5),

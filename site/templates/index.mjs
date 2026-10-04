@@ -60,6 +60,7 @@
 import { esc, num, signed, utc } from './_html.mjs';
 import { mascot, MOODS } from './_mascot.mjs';
 import * as faq from './_faq.mjs';
+import { worldModel, worldFigure, worldMapCss } from './_worldmap.mjs';
 import { homeCards as topicCards } from './topicPages.mjs';
 import { freshnessStrip, pillarCard, moveRow, sourceStatus } from './_parts.mjs';
 import { indexHistoryChart, pillarRanked } from './_charts.mjs';
@@ -102,7 +103,7 @@ if (existsSync(new URL('./_balance.mjs', import.meta.url))) {
 // below never needs more points than a 300-unit sparkline can resolve.
 const SPARK_POINTS = 48;
 
-export function render(ctx) {
+export function render(ctx, { view = 'home' } = {}) {
   const { state } = ctx;
   const scoreTxt = num(state.score, 1);
 
@@ -140,199 +141,7 @@ export function render(ctx) {
   // every build. It is one press away on THE RACE tab, and a fold that carries
   // a fifth fact is a fold that carries none.
   // -----------------------------------------------------------------------
-  const main = `
-${news.styleTag()}
-${gauge.styleTag()}
-<section class="hero">
-  <!-- THE BULLETIN LINE. The number is real: it is the count of scored
-       observations in the published history, so bulletin No. 164 is the 164th
-       reading and anybody can count them at /history. A period costume with a
-       checkable number in it, which is the house rule for jokes. -->
-  <!-- THE LEVEL, FIRST, ON A PHONE. The dial sits a screen below the sentence
-       at this width, so the reading opens the panel as one lit plate with the
-       mascot on it. Hidden from 720px, where the dial is already in view, and
-       aria-hidden because the h1 below says the same thing in full. -->
-  ${Number.isFinite(state.score) ? `<p class="hero__badge" aria-hidden="true">${mascot({ size: 58, level: state.level })}<span class="hero__badge-t"><b>${esc(brand.NAME)} ${esc(state.level)}</b><span>${esc(state.level_name)} · ${esc(scoreTxt)} of 100</span></span></p>` : ''}
-  <p class="eyebrow hero__bul"><span class="hero__bulno">Early warning bulletin${Array.isArray(ctx.history) && ctx.history.length ? ` No.&nbsp;${esc(ctx.history.length)}` : ''}</span>
-    <span>Observed <time datetime="${esc(state.generated_at)}">${esc(utc(state.generated_at))}</time></span></p>
-  <p class="hero__stamp" aria-hidden="true">Not a prediction</p>
-  <!-- THE ONE SENTENCE. Measured 2026-09-26 at 1440x900: 161 text atoms above
-       the fold at a median of 13px, second-largest type 20px, and no single
-       statement a newcomer could read. The Doomsday Clock's entire phone fold
-       is one sentence at 36px - "It is now 85 seconds to midnight" - and a
-       stranger understands it before they understand anything else. This is
-       that sentence for this site: the reading, its unit, its name, and the
-       direction of the scale, because nothing else on the page said which end
-       was loud. It is the h1; the old "DOOMCON 4 · ROUTINE" label below it is
-       gone rather than repeated. -->
-  <h1 class="hero__headline">${headline(ctx)}</h1>
-  ${heroAside(ctx)}
-  ${Number.isFinite(state.score) ? langStrip(state) : ''}
-  <div class="hero__grid">
-
-    <!-- align-self overrides .hero__grid's align-items:end, so the dial sits
-         opposite the number it labels rather than being hung off the baseline.
-         An inline property rather than a new class, because site/styles.mjs
-         belongs to the integrator. -->
-    <div class="level level--dial" style="align-self:center">
-      <!-- THE DIAL replaces the 140px text numeral that used to sit here.
-           It is the same fact — the level — drawn as an instrument instead of
-           set as type, and it carries three things the numeral could not: where
-           the score sits inside the band, where the previous reading was, and
-           whether the observation is degraded. site/templates/_gauge.mjs.
-
-           data-dc-level rides on the <figure>, because it is the motion layer's
-           hook (site/templates/_motion.mjs looks for [data-dc-level] first and
-           falls back to .level__digit) and .dcmx-pulse is a ::after ring around
-           whatever carries it. Moving it here keeps the level-changed pulse
-           working and now rings the whole instrument. The score's own hook,
-           data-dc-score, stays on .score__val below: _motion.mjs live-updates
-           exactly ONE element per page, so the dial deliberately prints no
-           composite score of its own that could drift out of step with it. -->
-      ${gauge.render(ctx, {
-        attrs: 'data-dc-level',
-        // No figcaption HERE, and only here. _charts.mjs rule 4 wants a visible
-        // sentence under every graphic so the finding survives an SVG that
-        // never paints — but this dial already prints its own scale (0, 35, 55,
-        // 70, 85, 100), its band range, the level's name, the delta and the
-        // pillar coverage as text inside the drawing, and the h1 and the plain
-        // read sit six pixels to its right saying the same thing in prose. The
-        // caption was 38px of the fold restating what four other elements in
-        // the same screen already say. The <desc> still carries the full
-        // description for a screen reader. Other callers keep the default.
-        caption: false,
-      })}
-      <div class="level__meta">
-        <p class="level__plain">${esc(plainRead(ctx))}</p>
-        ${Number.isFinite(state.score) ? `<button type="button" class="sharebtn" hidden data-t="${esc(`${brand.NAME} ${state.level}, ${state.level_name}. ${num(state.score, 1)} of 100 as of ${utc(state.generated_at)}. Tempo, not a probability.`)}">Copy this reading</button>
-        <a class="sharebtn sharebtn--x" rel="noopener" target="_blank" href="https://x.com/intent/post?text=${encodeURIComponent(`${brand.NAME} ${state.level}, ${state.level_name}. ${num(state.score, 1)} of 100 as of ${utc(state.generated_at)}. Tempo, not a probability.`)}&amp;url=${encodeURIComponent(ctx.url('/'))}">Post this on X</a>
-        <a class="hero__what" href="${esc(ctx.href('/guide.html'))}">What is ${esc(brand.NAME)}?</a>` : ''}
-      </div>
-    </div>
-
-    <div class="score">
-      <p class="eyebrow">Composite score</p>
-      <div class="score__row">
-        <span class="score__val num" data-dc-score>${esc(scoreTxt)}</span>
-        <span class="score__of">/ 100</span>
-        ${direction(ctx)}
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<!-- THE RECENT READINGS STRIP and THE CLAIM CARDS sit directly under the
-     instrument. The strip is the Bulletin's 'Recent Clock changes' - the
-     number seen MOVING, which is what brings a reader back - and the cards
-     are the site's surface area as six sentences with the live number
-     inside each, so a newcomer learns what DOOMCON knows before meeting
-     eleven tiles. Both render '' when their data is absent; neither needs
-     a script to exist. site/templates/_readings.mjs, _claims.mjs. -->
-${readings.render(ctx)}
-${claims.render(ctx)}
-${topicCards(ctx)}
-${followBand(ctx)}
-<!-- THE BALANCE, straight after the claim cards: the cards say what DOOMCON
-     counts, and this is where the page first sets the benefit side beside
-     it. Its style block rides inside the fragment, as the cards' does, so a
-     build without data/balance.json carries neither. Empty when either file
-     is absent or when build.mjs did not write the page its link points at.
-     site/templates/_balance.mjs. -->
-${balanceModule(ctx)}
-
-${developing.render(ctx)}
-
-${oven.render(ctx)}
-
-${switcher.render(ctx)}
-
-<section class="sec" id="record" aria-labelledby="record-h">
-  <h2 class="sec__h" id="record-h">The score over time<span class="sec__eb">The record</span></h2>
-  <p class="lede">${esc(recordLede(obs))}</p>
-  ${indexHistoryChart(ctx.history, { id: 'home', now: state.score })}
-  <p class="fresh__key">${esc(recordKey(obs))}
-     <a href="${esc(ctx.href('/history.html'))}">Full history and every observation →</a></p>
-  <p class="fresh__key">Where today sits inside the frozen reference distribution, and why that curve
-     is never updated live, is drawn and explained on the
-     <a href="${esc(ctx.href('/methodology.html'))}">methodology page →</a></p>
-</section>
-
-<section class="fresh" aria-labelledby="fresh-h">
-  <h2 class="sec__h" id="fresh-h">Source health</h2>
-  <p class="lede">${esc(healthSentence(state))}</p>
-  ${healthBar(state)}
-  <details class="fresh__more">
-    <summary>All ${esc(state.sources.length)} sources, one row each</summary>
-    <div class="fresh__morein">${freshnessStrip(state.sources, state.generated_at)}</div>
-  </details>
-</section>
-
-<section class="sec" aria-labelledby="pillars-h">
-  <h2 class="sec__h" id="pillars-h">The five pillars</h2>
-  <p class="lede">Which part of the field is loudest today. Each bar is linear in score from 0 to 100,
-     so the ordering is the comparison; the cards underneath carry each pillar's own history.</p>
-  ${pillarRanked(state.pillars, { id: 'home' })}
-  <hr class="rule">
-  <div class="pillars">${pillars}</div>
-</section>
-
-<section class="sec" aria-labelledby="moves-h">
-  <h2 class="sec__h" id="moves-h">Recent moves</h2>
-  ${moves
-    ? `<ul class="moves">${moves}</ul>
-       <p class="fresh__key"><a href="${esc(ctx.href('/moves/'))}">Full archive →</a></p>`
-    : `<p class="fresh__key">No scored observations recorded yet. Moves appear here the first time the index is computed twice.</p>`}
-</section>
-
-<section class="sec" id="embed" aria-labelledby="embed-h">
-  <h2 class="sec__h" id="embed-h">Put the index on your site</h2>
-  <p class="lede">One iframe. No script, no tracking, no key. It renders light or dark to match
-     the page it sits in, and the number inside it is server-rendered too.</p>
-  <div class="clip"><div class="snippet">${esc(snippet)}</div></div>
-  <p class="lede">Or a badge, for a README or anywhere an iframe is stripped. It shows the current level and links back here.</p>
-  <div class="clip"><div class="snippet">${esc(`[![${brand.NAME}](${ctx.url('/badge.svg')})](${ctx.url('/')})`)}</div></div>
-  <p><img src="${esc(ctx.href('/badge.svg'))}" alt="${esc(brand.NAME)} badge showing the current level" height="20"></p>
-  <p class="fresh__key">Add <code>?theme=light</code>, <code>?theme=dark</code> or <code>?compact=1</code> to pin the look.
-     <a href="${esc(ctx.href('/embed.html'))}">Preview the widget →</a></p>
-</section>
-
-<section class="sec" id="api" aria-labelledby="api-h">
-  <h2 class="sec__h" id="api-h">Public JSON API</h2>
-  <ul class="apilist">
-    <li><code>${esc(ctx.url('/api/state.json'))}</code> <span>current level, score, pillars and per-source health</span></li>
-    <li><code>${esc(ctx.url('/api/history.json'))}</code> <span>every scored observation</span></li>
-    <li><code>${esc(ctx.url('/api/health.json'))}</code> <span>per-source success, honestly reported</span></li>
-    <li><code>${esc(ctx.url('/api/receipts/'))}&lt;id&gt;.json</code> <span>the hash-chained receipt behind one observation</span></li>
-  </ul>
-  <p class="fresh__key">Static files. No key, no rate limit, ${esc(brand.LICENSE)}. Attribution: ${esc(brand.DOMAIN)}.</p>
-</section>
-
- ${faq.render(ctx)}
-
-<section class="sec bunk" id="bunker-kit" aria-labelledby="bunker-h">
-  <h2 class="sec__h" id="bunker-h">Bunker Kit</h2>
-  <p class="lede">A field manual, not a reading: 50 free tools to pack, in eight crates, with a
-     readiness meter. Run by third parties, not by ${esc(brand.NAME)}, and it does not feed the index.</p>
-  <p><a class="bunk__go" href="${esc(ctx.href('/bunker-kit.html'))}">Open the Bunker Kit →</a></p>
-</section>
-
-${brand.X_URL ? `<section class="sec supp" id="support" aria-labelledby="support-h">
-  <h2 class="sec__h" id="support-h">Support this index</h2>
-  <p class="lede">${esc(brand.NAME)} is free, carries no advertising, sets no tracking
-    cookie and runs no analytics at all — nobody here knows you visited. It is built on
-    public data, keyless endpoints and free hosting. If it is useful to you, you can
-    chip in with X Money, or just follow and share a reading. Tally accepts both.</p>
-  <p class="supp__row"><a class="supp__a" href="${esc(brand.X_URL)}" rel="noopener">Donate with X Money
-    <span class="supp__h">${esc(brand.X_HANDLE)}</span></a></p>
-  <p class="supp__how">How: open ${esc(brand.X_HANDLE)} on X and use the Money ($) button on the profile to send any amount.
-    The supplies crate in the <a href="${esc(ctx.href('/bunker-kit.html'))}">Bunker Kit</a> carries paid links too.</p>
-  <p class="fresh__key">Nothing on this site is behind a paywall and nothing will be: the
-    arithmetic is the product, and a number you have to pay to check is not a number anybody
-    can check. Donations go to the person who runs it.</p>
-</section>` : ''}
-
-<style>
+  const style = `<style>
 /* Rules namespaced to elements this template owns, because site/styles.mjs
    belongs to the integrator. */
 
@@ -348,7 +157,7 @@ main.wrap > .hero::before {
 }
 main.wrap > .hero { padding-top: calc(var(--s-4) + 9px); }
 .hero__bul { display: flex; flex-wrap: wrap; gap: 4px var(--s-4); align-items: baseline; }
-.hero__bulno { font-family: var(--stencil); font-weight: 700; letter-spacing: .14em; color: var(--ink); }
+.hero__bulno { font-family: var(--mono); font-weight: 700; letter-spacing: .14em; color: var(--ink); }
 /* main.wrap > .hero in front, because the template's older .hero__headline
    rule comes later in this same sheet and would win the tie. */
 main.wrap > .hero .hero__headline { font-family: var(--poster); font-weight: 400; text-transform: uppercase;
@@ -432,7 +241,7 @@ main.wrap[data-level="1"] > .hero .ch--dial { animation: dcBreathe 1.1s ease-in-
 /* The voice line under the headline: the level's epithet in the level's own
    colour, then the hook in dim ink. One line on a desktop, two on a phone. */
 .sharebtn { margin-top: var(--s-3); padding: 8px 14px; border: 2px solid var(--lvl, var(--accent)); border-radius: 4px; background: transparent;
-  color: var(--ink); cursor: pointer; font: 700 var(--t-xs)/1 var(--stencil); letter-spacing: .14em; text-transform: uppercase; }
+  color: var(--ink); cursor: pointer; font: 700 var(--t-xs)/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; }
 .fol__l { margin: var(--s-3) 0 var(--s-4); padding: 0 0 0 1.1em; display: grid; gap: 8px; max-width: 72ch; }
 .fol__l li { font: 400 var(--t-base)/1.5 var(--sans); color: var(--ink-dim); }
 .fol__l b { color: var(--ink); }
@@ -442,7 +251,7 @@ main.wrap[data-level="1"] > .hero .ch--dial { animation: dcBreathe 1.1s ease-in-
 .supp__how { margin: var(--s-2) 0 0; font: 500 var(--t-sm)/1.5 var(--sans); color: var(--ink-dim); max-width: 60ch; }
 .sharebtn:hover, .sharebtn:focus-visible { background: var(--lvl, var(--accent)); color: #0b0c0e; }
 .bunk__go { display: inline-block; padding: 10px 16px; border: 2px solid var(--accent); border-radius: 4px; color: var(--ink);
-  text-decoration: none; font: 700 var(--t-sm)/1 var(--stencil); letter-spacing: .14em; text-transform: uppercase; }
+  text-decoration: none; font: 700 var(--t-sm)/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; }
 .bunk__go:hover, .bunk__go:focus-visible { background: var(--accent); color: #0b0c0e; }
 .hero__lang { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 0 0 var(--s-3); font: 600 var(--t-2xs)/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-faint); }
 .hero__lang span { margin-right: 4px; }
@@ -463,10 +272,10 @@ main.wrap[data-level="1"] > .hero .ch--dial { animation: dcBreathe 1.1s ease-in-
   main.wrap > .hero .hero__headline { font-size: 28px; }
 }
 .hero__orders { margin: 0 0 var(--s-3); max-width: 60ch; font: 500 var(--t-xs)/1.45 var(--mono); letter-spacing: .04em; color: var(--ink-dim); }
-.hero__orders b { font: 700 var(--t-xs)/1 var(--stencil); letter-spacing: .14em; text-transform: uppercase; color: var(--ink); }
+.hero__orders b { font: 700 var(--t-xs)/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--ink); }
 .clip { position: relative; margin: var(--s-4) 0 10px; padding: 14px 10px 10px; border: 2px dashed var(--ink-faint); border-radius: 2px; }
 .clip::before { content: "✂ Clip and post"; position: absolute; top: -.8em; left: 12px; padding: 0 8px;
-  background: var(--bg); color: var(--ink-dim); font: 700 var(--t-xs)/1.5 var(--stencil); letter-spacing: .14em; text-transform: uppercase; }
+  background: var(--bg); color: var(--ink-dim); font: 700 var(--t-xs)/1.5 var(--mono); letter-spacing: .14em; text-transform: uppercase; }
 .clip .snippet { margin: 0; }
 .hero__voice { margin: var(--s-2) 0 var(--s-3); font: 500 var(--t-base)/1.4 var(--sans); color: var(--ink-dim); max-width: 60ch; }
 .hero__ep { color: var(--lvl, var(--accent)); font-weight: 650; }
@@ -564,6 +373,237 @@ main.wrap[data-level="1"] > .hero .ch--dial { animation: dcBreathe 1.1s ease-in-
 .fresh__morein { padding-top: var(--s-3); }
 </style>
 `;
+
+  // THE INSTRUMENT ROOM. Everything a newcomer does not need in the first
+  // minute and a checker needs in the second: the balance, the oven, the
+  // record, source health, the pillars, the moves, the embed and the API.
+  // These sections were the lower two thirds of a 12,574px home page
+  // (measured 2026-10-04, 19 sections). They are unchanged; they have their
+  // own address now, and the home page links to it.
+  const instruments = `
+<section class="inst__top">
+  <p class="eyebrow">The instrument room · everything behind the reading</p>
+  <h1 class="bp__h1">The instruments</h1>
+  <p class="lede">The home page gives the reading. This page shows the working: where the score sits, how it has moved,
+    which sources reported, what each pillar is doing, and how to take the number with you.</p>
+</section>
+<!-- THE BALANCE, straight after the claim cards: the cards say what DOOMCON
+     counts, and this is where the page first sets the benefit side beside
+     it. Its style block rides inside the fragment, as the cards' does, so a
+     build without data/balance.json carries neither. Empty when either file
+     is absent or when build.mjs did not write the page its link points at.
+     site/templates/_balance.mjs. -->
+${balanceModule(ctx)}
+
+${oven.render(ctx)}
+
+<section class="sec" id="record" aria-labelledby="record-h">
+  <h2 class="sec__h" id="record-h">The score over time<span class="sec__eb">The record</span></h2>
+  <p class="lede">${esc(recordLede(obs))}</p>
+  ${indexHistoryChart(ctx.history, { id: 'home', now: state.score })}
+  <p class="fresh__key">${esc(recordKey(obs))}
+     <a href="${esc(ctx.href('/history.html'))}">Full history and every observation →</a></p>
+  <p class="fresh__key">Where today sits inside the frozen reference distribution, and why that curve
+     is never updated live, is drawn and explained on the
+     <a href="${esc(ctx.href('/methodology.html'))}">methodology page →</a></p>
+</section>
+
+<section class="fresh" aria-labelledby="fresh-h">
+  <h2 class="sec__h" id="fresh-h">Source health</h2>
+  <p class="lede">${esc(healthSentence(state))}</p>
+  ${healthBar(state)}
+  <details class="fresh__more">
+    <summary>All ${esc(state.sources.length)} sources, one row each</summary>
+    <div class="fresh__morein">${freshnessStrip(state.sources, state.generated_at)}</div>
+  </details>
+</section>
+
+<section class="sec" aria-labelledby="pillars-h">
+  <h2 class="sec__h" id="pillars-h">The five pillars</h2>
+  <p class="lede">Which part of the field is loudest today. Each bar is linear in score from 0 to 100,
+     so the ordering is the comparison; the cards underneath carry each pillar's own history.</p>
+  ${pillarRanked(state.pillars, { id: 'home' })}
+  <hr class="rule">
+  <div class="pillars">${pillars}</div>
+</section>
+
+<section class="sec" aria-labelledby="moves-h">
+  <h2 class="sec__h" id="moves-h">Recent moves</h2>
+  ${moves
+    ? `<ul class="moves">${moves}</ul>
+       <p class="fresh__key"><a href="${esc(ctx.href('/moves/'))}">Full archive →</a></p>`
+    : `<p class="fresh__key">No scored observations recorded yet. Moves appear here the first time the index is computed twice.</p>`}
+</section>
+
+<section class="sec" id="embed" aria-labelledby="embed-h">
+  <h2 class="sec__h" id="embed-h">Put the index on your site</h2>
+  <p class="lede">One iframe. No script, no tracking, no key. It renders light or dark to match
+     the page it sits in, and the number inside it is server-rendered too.</p>
+  <div class="clip"><div class="snippet">${esc(snippet)}</div></div>
+  <p class="lede">Or a badge, for a README or anywhere an iframe is stripped. It shows the current level and links back here.</p>
+  <div class="clip"><div class="snippet">${esc(`[![${brand.NAME}](${ctx.url('/badge.svg')})](${ctx.url('/')})`)}</div></div>
+  <p><img src="${esc(ctx.href('/badge.svg'))}" alt="${esc(brand.NAME)} badge showing the current level" height="20"></p>
+  <p class="fresh__key">Add <code>?theme=light</code>, <code>?theme=dark</code> or <code>?compact=1</code> to pin the look.
+     <a href="${esc(ctx.href('/embed.html'))}">Preview the widget →</a></p>
+</section>
+
+<section class="sec" id="api" aria-labelledby="api-h">
+  <h2 class="sec__h" id="api-h">Public JSON API</h2>
+  <ul class="apilist">
+    <li><code>${esc(ctx.url('/api/state.json'))}</code> <span>current level, score, pillars and per-source health</span></li>
+    <li><code>${esc(ctx.url('/api/history.json'))}</code> <span>every scored observation</span></li>
+    <li><code>${esc(ctx.url('/api/health.json'))}</code> <span>per-source success, honestly reported</span></li>
+    <li><code>${esc(ctx.url('/api/receipts/'))}&lt;id&gt;.json</code> <span>the hash-chained receipt behind one observation</span></li>
+  </ul>
+  <p class="fresh__key">Static files. No key, no rate limit, ${esc(brand.LICENSE)}. Attribution: ${esc(brand.DOMAIN)}.</p>
+</section>
+
+${style}`;
+
+  const main = `
+${news.styleTag()}
+${gauge.styleTag()}
+<section class="hero">
+  <!-- THE BULLETIN LINE. The number is real: it is the count of scored
+       observations in the published history, so bulletin No. 164 is the 164th
+       reading and anybody can count them at /history. A period costume with a
+       checkable number in it, which is the house rule for jokes. -->
+  <!-- THE LEVEL, FIRST, ON A PHONE. The dial sits a screen below the sentence
+       at this width, so the reading opens the panel as one lit plate with the
+       mascot on it. Hidden from 720px, where the dial is already in view, and
+       aria-hidden because the h1 below says the same thing in full. -->
+  ${Number.isFinite(state.score) ? `<p class="hero__badge" aria-hidden="true">${mascot({ size: 58, level: state.level })}<span class="hero__badge-t"><b>${esc(brand.NAME)} ${esc(state.level)}</b><span>${esc(state.level_name)} · ${esc(scoreTxt)} of 100</span></span></p>` : ''}
+  <p class="eyebrow hero__bul"><span class="hero__bulno">Early warning bulletin${Array.isArray(ctx.history) && ctx.history.length ? ` No.&nbsp;${esc(ctx.history.length)}` : ''}</span>
+    <span>Observed <time datetime="${esc(state.generated_at)}">${esc(utc(state.generated_at))}</time></span></p>
+  <p class="hero__stamp" aria-hidden="true">Not a prediction</p>
+  <!-- THE ONE SENTENCE. Measured 2026-09-26 at 1440x900: 161 text atoms above
+       the fold at a median of 13px, second-largest type 20px, and no single
+       statement a newcomer could read. The Doomsday Clock's entire phone fold
+       is one sentence at 36px - "It is now 85 seconds to midnight" - and a
+       stranger understands it before they understand anything else. This is
+       that sentence for this site: the reading, its unit, its name, and the
+       direction of the scale, because nothing else on the page said which end
+       was loud. It is the h1; the old "DOOMCON 4 · ROUTINE" label below it is
+       gone rather than repeated. -->
+  <h1 class="hero__headline">${headline(ctx)}</h1>
+  ${heroAside(ctx)}
+  ${Number.isFinite(state.score) ? langStrip(state) : ''}
+  <div class="hero__grid">
+
+    <!-- align-self overrides .hero__grid's align-items:end, so the dial sits
+         opposite the number it labels rather than being hung off the baseline.
+         An inline property rather than a new class, because site/styles.mjs
+         belongs to the integrator. -->
+    <div class="level level--dial" style="align-self:center">
+      <!-- THE DIAL replaces the 140px text numeral that used to sit here.
+           It is the same fact — the level — drawn as an instrument instead of
+           set as type, and it carries three things the numeral could not: where
+           the score sits inside the band, where the previous reading was, and
+           whether the observation is degraded. site/templates/_gauge.mjs.
+
+           data-dc-level rides on the <figure>, because it is the motion layer's
+           hook (site/templates/_motion.mjs looks for [data-dc-level] first and
+           falls back to .level__digit) and .dcmx-pulse is a ::after ring around
+           whatever carries it. Moving it here keeps the level-changed pulse
+           working and now rings the whole instrument. The score's own hook,
+           data-dc-score, stays on .score__val below: _motion.mjs live-updates
+           exactly ONE element per page, so the dial deliberately prints no
+           composite score of its own that could drift out of step with it. -->
+      ${gauge.render(ctx, {
+        attrs: 'data-dc-level',
+        // No figcaption HERE, and only here. _charts.mjs rule 4 wants a visible
+        // sentence under every graphic so the finding survives an SVG that
+        // never paints — but this dial already prints its own scale (0, 35, 55,
+        // 70, 85, 100), its band range, the level's name, the delta and the
+        // pillar coverage as text inside the drawing, and the h1 and the plain
+        // read sit six pixels to its right saying the same thing in prose. The
+        // caption was 38px of the fold restating what four other elements in
+        // the same screen already say. The <desc> still carries the full
+        // description for a screen reader. Other callers keep the default.
+        caption: false,
+      })}
+      <div class="level__meta">
+        <p class="level__plain">${esc(plainRead(ctx))}</p>
+        ${Number.isFinite(state.score) ? `<button type="button" class="sharebtn" hidden data-t="${esc(`${brand.NAME} ${state.level}, ${state.level_name}. ${num(state.score, 1)} of 100 as of ${utc(state.generated_at)}. Tempo, not a probability.`)}">Copy this reading</button>
+        <a class="sharebtn sharebtn--x" rel="noopener" target="_blank" href="https://x.com/intent/post?text=${encodeURIComponent(`${brand.NAME} ${state.level}, ${state.level_name}. ${num(state.score, 1)} of 100 as of ${utc(state.generated_at)}. Tempo, not a probability.`)}&amp;url=${encodeURIComponent(ctx.url('/'))}">Post this on X</a>
+        <a class="hero__what" href="${esc(ctx.href('/guide.html'))}">What is ${esc(brand.NAME)}?</a>` : ''}
+      </div>
+    </div>
+
+    <div class="score">
+      <p class="eyebrow">Composite score</p>
+      <div class="score__row">
+        <span class="score__val num" data-dc-score>${esc(scoreTxt)}</span>
+        <span class="score__of">/ 100</span>
+        ${direction(ctx)}
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- THE RECENT READINGS STRIP and THE CLAIM CARDS sit directly under the
+     instrument. The strip is the Bulletin's 'Recent Clock changes' - the
+     number seen MOVING, which is what brings a reader back - and the cards
+     are the site's surface area as six sentences with the live number
+     inside each, so a newcomer learns what DOOMCON knows before meeting
+     eleven tiles. Both render '' when their data is absent; neither needs
+     a script to exist. site/templates/_readings.mjs, _claims.mjs. -->
+${readings.render(ctx)}
+${claims.render(ctx)}
+${topicCards(ctx)}
+${followBand(ctx)}
+
+${homeMap(ctx)}
+
+${developing.render(ctx)}
+
+
+${switcher.render(ctx)}
+
+
+<section class="sec inst" id="instruments" aria-labelledby="inst-h">
+  <h2 class="sec__h" id="inst-h">Check the working</h2>
+  <p class="lede">The score over time, source health, the five pillars, every recent move, the harm and benefit scale,
+    the embed code and the public JSON API all live in one place.</p>
+  <p><a class="bunk__go" href="${esc(ctx.href('/instruments.html'))}">Open the instrument room →</a></p>
+</section>
+
+ ${faq.render(ctx)}
+
+<section class="sec bunk" id="bunker-kit" aria-labelledby="bunker-h">
+  <h2 class="sec__h" id="bunker-h">Bunker Kit</h2>
+  <p class="lede">A field manual, not a reading: 50 free tools to pack, in eight crates, with a
+     readiness meter. Run by third parties, not by ${esc(brand.NAME)}, and it does not feed the index.</p>
+  <p><a class="bunk__go" href="${esc(ctx.href('/bunker-kit.html'))}">Open the Bunker Kit →</a></p>
+</section>
+
+${brand.X_URL ? `<section class="sec supp" id="support" aria-labelledby="support-h">
+  <h2 class="sec__h" id="support-h">Support this index</h2>
+  <p class="lede">${esc(brand.NAME)} is free, carries no advertising, sets no tracking
+    cookie and runs no analytics at all — nobody here knows you visited. It is built on
+    public data, keyless endpoints and free hosting. If it is useful to you, you can
+    chip in with X Money, or just follow and share a reading. Tally accepts both.</p>
+  <p class="supp__row"><a class="supp__a" href="${esc(brand.X_URL)}" rel="noopener">Donate with X Money
+    <span class="supp__h">${esc(brand.X_HANDLE)}</span></a></p>
+  <p class="supp__how">How: open ${esc(brand.X_HANDLE)} on X and use the Money ($) button on the profile to send any amount.
+    The supplies crate in the <a href="${esc(ctx.href('/bunker-kit.html'))}">Bunker Kit</a> carries paid links too.</p>
+  <p class="fresh__key">Nothing on this site is behind a paywall and nothing will be: the
+    arithmetic is the product, and a number you have to pay to check is not a number anybody
+    can check. Donations go to the person who runs it.</p>
+</section>` : ''}
+
+${style}`;
+
+  if (view === 'instruments') {
+    return page({
+      ctx,
+      path: '/instruments.html',
+      title: `The instruments: score history, source health, pillars and API · ${brand.NAME}`,
+      description: `Everything behind the ${brand.NAME} reading: the score over time, per-source health, the five pillars, recent moves, the embed and the public JSON API.`,
+      main: instruments,
+    });
+  }
 
   return page({
     ctx,
@@ -846,6 +886,28 @@ function set(l){var t=T[l];h.textContent=t?t[0]:en;h.lang=l;g.textContent=t?t[1]
 try{localStorage.setItem('dc-lang',l);}catch(e){}}
 w.addEventListener('click',function(e){var b=e.target.closest('button');if(b)set(b.getAttribute('data-l'));});
 try{var s=localStorage.getItem('dc-lang');if(s&&T[s])set(s);}catch(e){}})();</script>`;
+}
+
+// THE MAP, ON THE FRONT PAGE. The competitor's globe is a destination; ours
+// was two clicks down. This is the /world figure itself, drawn by the same
+// function from the same file, with the count in the sentence above it so the
+// number is text and not only dots.
+function homeMap(ctx) {
+  if (!(ctx.routes && ctx.routes.world && ctx.world && ctx.worldOutline)) return '';
+  let m;
+  try { m = worldModel(ctx.world, ctx.worldOutline); } catch { return ''; }
+  const t = ctx.world.totals || {};
+  const q = (ctx.world.copy && ctx.world.copy.headline_qualifier) || 'as mapped in OpenStreetMap';
+  const n = (v) => Number(v).toLocaleString('en-US');
+  return `<section class="sec hmap" id="where" aria-labelledby="hmap-h">
+  <style>${worldMapCss()}</style>
+  <h2 class="sec__h" id="hmap-h">Where the machines live</h2>
+  <p class="lede"><b>${esc(n(t.sites))}</b> datacentre sites in <b>${esc(n(t.countries_with_sites))}</b> countries, ${esc(q)}.
+    ${esc(n(t.countries_with_none))} countries have none mapped, which means nobody has mapped one there, not that none exists.</p>
+  ${worldFigure(m, { id: 'home-wm', noun: 'datacentres' })}
+  <p class="fresh__key"><a href="${esc(ctx.href('/world.html'))}">The world map, country by country →</a> ·
+    <a href="${esc(ctx.href('/map.html'))}">US sites, drought and the grid →</a> · <a href="${esc(ctx.href('/flock.html'))}">Cameras →</a></p>
+</section>`;
 }
 
 // WHY FOLLOW. The site cannot tap anyone on the shoulder: it is a static page
