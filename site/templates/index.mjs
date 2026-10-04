@@ -278,6 +278,17 @@ body:has(> main.wrap > .hero) .rail { display: none; }
   .rv { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s cubic-bezier(.2,.7,.2,1); }
   .rv.rv--in { opacity: 1; transform: none; }
 }
+.mt__l { list-style: none; margin: var(--s-4) 0; padding: 0; display: grid; gap: var(--s-3); grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.mt__i { display: grid; justify-items: center; gap: 6px; padding: var(--s-4) var(--s-2); border: 1px solid var(--rule); border-radius: 12px; background: var(--bg-sunken); opacity: .55; text-align: center; }
+.mt__i .tally { width: 100%; max-width: 132px; height: auto; }
+.mt__i--on { opacity: 1; border-color: var(--lvl); box-shadow: 0 0 26px color-mix(in srgb, var(--lvl) 30%, transparent); }
+.mt__n { font: 400 clamp(15px, 1.6vw, 20px)/1.1 var(--poster); letter-spacing: .03em; color: var(--lvl); }
+.mt__m { font: 500 var(--t-xs)/1.3 var(--mono); letter-spacing: .04em; color: var(--ink-dim); }
+@media (max-width: 719.98px) {
+  .mt__l { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 8px; scrollbar-width: thin; }
+  .mt__i { flex: 0 0 46%; scroll-snap-align: center; }
+}
+main.wrap:has(> .hero) > .sw { margin-top: clamp(56px, 9vw, 120px); }
 .hmap__a { display: block; border: 1px solid var(--rule); border-radius: 12px; background: var(--bg-sunken); overflow: hidden; }
 .hmap__svg { display: block; width: 100%; height: auto; }
 .hmap__land { fill: color-mix(in srgb, var(--ink) 9%, transparent); stroke: color-mix(in srgb, var(--ink) 18%, transparent); stroke-width: .5; }
@@ -602,6 +613,8 @@ ${verify.render(ctx)}
 ${claims.render(ctx)}
 ${topicCards(ctx)}
 ${followBand(ctx)}
+
+${meetTally(ctx)}
 
 ${homeMap(ctx)}
 
@@ -956,6 +969,25 @@ function statStrip(ctx) {
   ].filter(Boolean);
   return `<section class="stat" aria-label="${esc(brand.NAME)} in four numbers">
   ${cells.map(([v, k]) => `<p class="stat__c"><b class="stat__n num">${esc(v)}</b><span class="stat__k">${esc(k)}</span></p>`).join('')}
+</section>`;
+}
+
+// THE ONE PICTURE THE SITE HAS. Five large drawings of the mascot, one per
+// level, with the current one lit. It is also the scale explained without a
+// chart: read left to right and the bird gets louder.
+function meetTally(ctx) {
+  const cur = Number.isFinite(ctx.state.level) ? ctx.state.level : null;
+  const levels = [...brand.LEVELS].sort((a, b) => b.level - a.level);
+  return `<section class="sec mt" id="tally" aria-labelledby="mt-h">
+  <h2 class="sec__h" id="mt-h">Meet Tally</h2>
+  <p class="lede">The duty canary keeps the count. The helmet is the level's colour and the face is the level's mood, so one look tells you how loud things are.${cur ? ` Today Tally is ${esc(MOODS[cur])}.` : ''}</p>
+  <ol class="mt__l">
+${levels.map((l) => `    <li class="mt__i${l.level === cur ? ' mt__i--on' : ''}" style="--lvl:var(--heat-${l.level})"${l.level === cur ? ' aria-current="true"' : ''}>
+      ${mascot({ size: 132, level: l.level })}
+      <b class="mt__n">${esc(l.level)} · ${esc(l.name)}</b><span class="mt__m">${esc(MOODS[l.level])}</span>
+    </li>`).join('\n')}
+  </ol>
+  <p class="fresh__key"><a href="${esc(ctx.href('/desk.html'))}">Tally's desk: the unserious counts →</a> · <a href="${esc(ctx.href('/game.html'))}">Play Tally Counts →</a></p>
 </section>`;
 }
 

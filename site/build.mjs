@@ -33,7 +33,7 @@ import * as shopPages from './templates/shopPages.mjs';
 import { faqCss } from './templates/_faq.mjs';
 import { verifyCss } from './templates/_verify.mjs';
 import { sealCss } from './templates/_seal.mjs';
-import { mascotCss } from './templates/_mascot.mjs';
+import { mascotCss, mascotFile } from './templates/_mascot.mjs';
 
 function badgeSvg(state) {
   const has = Number.isFinite(state.level);
@@ -1130,6 +1130,10 @@ async function main() {
   written.push(await write(args.out, 'about.html', infoPages.about(ctx)));
   written.push(await write(args.out, 'privacy.html', infoPages.privacy(ctx)));
   written.push(await write(args.out, 'press.html', infoPages.press(ctx)));
+  written.push(await write(args.out, 'brand.html', infoPages.brandPage(ctx)));
+  for (const lv of [1, 2, 3, 4, 5]) {
+    written.push(await write(args.out, `brand/tally-${lv}.svg`, mascotFile(lv, marks.HEAT[lv])));
+  }
   written.push(await write(args.out, 'library.html', shopPages.library(ctx)));
   written.push(await write(args.out, 'sponsor.html', shopPages.sponsor(ctx)));
   written.push(await write(args.out, 'guide.html', infoPages.guide(ctx)));

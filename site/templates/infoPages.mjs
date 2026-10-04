@@ -6,7 +6,7 @@
 import { esc, utc } from './_html.mjs';
 import { page } from './layout.mjs';
 import * as brand from '../brand.mjs';
-import { mascot } from './_mascot.mjs';
+import { mascot, MOODS } from './_mascot.mjs';
 
 const CSS = `<style>
 .inf { max-width: 74ch; }
@@ -99,6 +99,89 @@ export function privacy(ctx) {
   });
 }
 
+export function brandPage(ctx) {
+  const levels = [...brand.LEVELS].sort((a, b) => b.level - a.level);
+  const sw = (name, v, note) => `<li class="br__sw"><i style="background:${v}"></i><b>${esc(name)}</b><code>${esc(v)}</code><span>${esc(note)}</span></li>`;
+  const main = `${CSS}
+<style>
+.br__row { display: grid; gap: var(--s-3); grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); list-style: none; margin: var(--s-3) 0; padding: 0; }
+.br__t { display: grid; justify-items: center; gap: 6px; padding: var(--s-3); border: 1px solid var(--rule); border-radius: 12px; background: var(--bg-sunken); text-align: center; }
+.br__t .tally { width: 100%; max-width: 120px; height: auto; }
+.br__t b { font: 400 18px/1.1 var(--poster); letter-spacing: .03em; color: var(--lvl); }
+.br__t a { font: 600 var(--t-2xs)/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+.br__sw { display: grid; gap: 4px; padding: 0; }
+.br__sw i { display: block; height: 56px; border-radius: 8px; border: 1px solid var(--rule); }
+.br__sw code { font: 500 var(--t-xs)/1 var(--mono); color: var(--ink-dim); }
+.br__sw span { font: 400 var(--t-xs)/1.35 var(--sans); color: var(--ink-faint); }
+.br__type { display: grid; gap: var(--s-3); margin: var(--s-3) 0; }
+.br__type p { margin: 0; color: var(--ink); }
+.br__do { display: grid; gap: var(--s-4); grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+</style>
+<section class="inf">
+  <p class="eyebrow">Brand</p>
+  <div class="inf__top">${mascot({ size: 76, level: level(ctx) })}<h1 class="bp__h1">How ${esc(brand.NAME)} looks and sounds</h1></div>
+  <p class="lede">One page for anyone making something with the brand: a slide, a post, a story, a sticker. Everything here may be used with credit; ${esc(brand.LICENSE)}.</p>
+
+  <h2>The idea</h2>
+  <p><b>${esc(brand.SLOGAN)}</b> A public-information bulletin from the 1950s, about a twenty-first-century subject, that shows its arithmetic.
+    The costume is civil defence: hazard tape, a rubber stamp, a duty mascot. The content is a count.</p>
+
+  <h2>The name</h2>
+  <p>Always <b>${esc(brand.NAME)}</b>, in capitals, followed by the level: “${esc(brand.NAME)} 4”. The publication line is “${esc(brand.PUBLICATION)}”.
+    The tagline is “${esc(brand.TAGLINE)}”</p>
+
+  <h2>Tally, the duty canary</h2>
+  <p>The mascot. The helmet takes the level's colour and the face takes the level's mood. Use the drawing for the level you are talking about; do not recolour the body.</p>
+  <ol class="br__row">
+${levels.map((l) => `    <li class="br__t" style="--lvl:var(--heat-${l.level})">${mascot({ size: 120, level: l.level })}<b>${esc(l.level)} · ${esc(l.name)}</b><span>${esc(MOODS[l.level])}</span><a href="${esc(ctx.href(`/brand/tally-${l.level}.svg`))}" download>Download SVG</a></li>`).join('\n')}
+  </ol>
+
+  <h2>Colour</h2>
+  <p>The five level colours carry meaning and are never used as decoration for something else. Amber is the brand accent.</p>
+  <ul class="br__row">
+    ${sw('Level 5', '#56b0e0', 'quietest')}${sw('Level 4', '#5fd08a', '')}${sw('Level 3 · accent', '#ffb020', 'also the brand amber')}${sw('Level 2', '#ff8b3d', '')}${sw('Level 1', '#ff5f56', 'loudest')}${sw('Ground', '#0b0c0e', 'page background')}${sw('Ink', '#e8eaee', 'text')}
+  </ul>
+
+  <h2>Type</h2>
+  <div class="br__type">
+    <p style="font:400 44px/1 var(--poster);text-transform:uppercase">Anton, for headlines</p>
+    <p style="font:400 18px/1.5 var(--sans)">Inter Tight, for reading. Sentences, explanations, anything longer than a label.</p>
+    <p style="font:600 14px/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase">JetBrains Mono, for labels and numbers 52.4</p>
+    <p style="font:700 20px/1.2 var(--stencil);letter-spacing:.14em;text-transform:uppercase">Stardos Stencil, for the wordmark and stamps only</p>
+  </div>
+
+  <h2>Voice</h2>
+  <div class="br__do">
+    <div><p><b>Do</b></p><ul>
+      <li>Put the joke in the framing and keep the number straight.</li>
+      <li>Say what was counted, by whom, and when.</li>
+      <li>Say “loud” and “quiet”. The scale measures tempo.</li>
+      <li>Print a zero as a zero and a missing value as missing.</li>
+    </ul></div>
+    <div><p><b>Do not</b></p><ul>
+      <li>Predict. No “will”, no “soon”, no countdowns.</li>
+      <li>Say a loud level means danger, or a quiet one means safety.</li>
+      <li>Call anything evil, or add harm and benefit into one figure.</li>
+      <li>Imitate a real agency's emblem. The costume is a genre.</li>
+    </ul></div>
+  </div>
+
+  <h2>Files</h2>
+  <ul>
+    <li><a href="${esc(ctx.href('/favicon.svg'))}">The mark</a> (SVG, lit to the current level) · <a href="${esc(ctx.href('/badge.svg'))}">level badge</a></li>
+    <li><a href="${esc(ctx.href('/cards/state.png'))}">Current reading card</a> · <a href="${esc(ctx.href('/cards/state-portrait.png'))}">portrait card</a></li>
+    <li>Tally, all five moods: the download links above</li>
+  </ul>
+  <p><a href="${esc(ctx.href('/press.html'))}">Press kit →</a></p>
+</section>`;
+  return page({
+    ctx, path: '/brand.html',
+    title: `Brand guide: name, colours, type, voice and Tally · ${brand.NAME}`,
+    description: `How ${brand.NAME} looks and sounds: the level colours, the typefaces, the voice rules, and Tally the duty canary in five moods to download.`,
+    main,
+  });
+}
+
 export function press(ctx) {
   const st = ctx.state;
   const now = st && Number.isFinite(st.level)
@@ -133,6 +216,7 @@ export function press(ctx) {
     <li><a href="${esc(ctx.href('/cards/state.png'))}">Current reading card</a> (1200×675 PNG, redrawn every reading)</li>
     <li><a href="${esc(ctx.href('/cards/state-portrait.png'))}">Portrait card</a> for stories and vertical video</li>
     <li><a href="${esc(ctx.href('/badge.svg'))}">Level badge</a> (SVG) and <a href="${esc(ctx.href('/favicon.svg'))}">mark</a> (SVG)</li>
+    <li><a href="${esc(ctx.href('/brand.html'))}">Brand guide</a>, with Tally in five moods to download</li>
     <li><a href="${esc(ctx.href('/embed.html'))}">Embeddable widget</a>; the code is on the <a href="${esc(ctx.href('/instruments.html'))}#embed">instruments page</a></li>
   </ul>
   <h2>Contact</h2>

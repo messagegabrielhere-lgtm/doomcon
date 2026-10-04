@@ -2098,6 +2098,26 @@ main.wrap :is(.rintro__h1, .narch__h1, .dg__h1, .lwp__h1, .bp__h1, .bintro__h1, 
 .fb--inline > .fb__t:hover, .fb--inline > .fb__t:focus-visible, .fb__sum:hover { border-color: var(--fb-hue); background: color-mix(in srgb, var(--fb-hue) 10%, transparent); }
 .fb--inline > .fb__t[aria-current="page"] { border-color: var(--fb-hue); background: color-mix(in srgb, var(--fb-hue) 12%, transparent); }
 html { scroll-padding-top: 110px; }
+/* THE INNER PAGES JOIN IN. The same display face, air and reading size the
+   front page has, applied to every page's section headings and ledes by the
+   classes the templates already use. Specificity (0,2,1) beats each page's
+   own inline rule, which is the point: one rule instead of nine patches. */
+main.wrap :is(.bldsec__h, .wld__sec__h, .bp__h, .flk__sec__h, .exp__sec__h, .isec__h, .lore-ch__h, .bh2) {
+  font-family: var(--poster); font-weight: 400; text-transform: uppercase; letter-spacing: .015em;
+  font-size: clamp(24px, 3.2vw, 40px); line-height: 1.05; text-wrap: balance;
+}
+main.wrap:not(:has(> .hero)) > .sec > .sec__h { font-size: clamp(24px, 3.2vw, 40px); line-height: 1.05; }
+main.wrap:not(:has(> .hero)) :is(.sec, .bldsec, .bp__sec, .flk__sec, .exp__sec, .isec, .wld__sec) { margin-top: clamp(44px, 6vw, 88px); }
+main.wrap:not(:has(> .hero)) :is(.lede, .bldsec__l, .bp__l) { font-size: clamp(16px, 1.35vw, 19px); line-height: 1.55; }
+/* THE RETURN NOTE IS A NOTE, NOT A STRIP. "Since you looked" was a full-width
+   band between the masthead and the page on every return visit. It now sits
+   in the bottom corner, out of the way of the reading it is commenting on. */
+.rvisit { position: fixed; left: 16px; bottom: 16px; z-index: 70; max-width: min(92vw, 560px);
+  border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 10px;
+  box-shadow: 0 12px 30px rgba(0,0,0,.45); }
+.rvisit .wrap { padding-left: 14px; padding-right: 14px; }
+/* The ticker is a whisper above the page, not a second header. */
+.dcmx { opacity: .8; }
 .bstamp { display: inline-block; margin: var(--s-2) 0 var(--s-3); padding: 6px 12px 4px;
   border: 3px solid currentColor; border-radius: 4px; color: var(--ok); opacity: .82;
   font: 700 var(--t-sm)/1 var(--stencil); letter-spacing: .16em; text-transform: uppercase; transform: rotate(-3deg); }

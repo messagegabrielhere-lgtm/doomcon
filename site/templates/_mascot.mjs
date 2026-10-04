@@ -61,6 +61,16 @@ export function mascot({ size = 56, cls = '', level = null } = {}) {
 </svg>`;
 }
 
+/** A self-contained file version: the hat colour is baked in, so it works
+ *  anywhere an image does (a sticker, a slide, a post). */
+export function mascotFile(level, hat) {
+  return mascot({ size: 512, level })
+    .replace('<svg class="tally"', '<svg xmlns="http://www.w3.org/2000/svg"')
+    .replace(/ aria-hidden="true" focusable="false"/, ` role="img" aria-label="Tally the duty canary, ${MOODS[level] || 'on duty'}"`)
+    .replace(/class="tally__hat"/g, `fill="${hat}"`)
+    .replace(/currentColor/g, '#9aa2ad') + '\n';
+}
+
 export function mascotCss() {
   return `
 .tally { flex: none; display: block; color: var(--ink-dim); }
