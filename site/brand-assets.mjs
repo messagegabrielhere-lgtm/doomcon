@@ -33,10 +33,42 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = path.join(ROOT, 'assets', 'brand');
 const STATIC_LEVEL = 3;
 
+/**
+ * Tally the duty canary, the site's mascot (site/templates/_mascot.mjs), drawn
+ * with the rasteriser's own primitives on the same 64-unit grid as the SVG.
+ * Each shape is laid twice, ink first and fill inset, which is the outline.
+ */
+function tally(S, { x, y, size, hat }) {
+  const k = size / 64; const INK = '#0b0c0e'; const o = 1.3;
+  const P = (px, py) => [x + px * k, y + py * k];
+  const ell = (cx, cy, rx, ry, color, a0 = 0, a1 = Math.PI * 2) => {
+    const pts = [];
+    for (let i = 0; i <= 48; i += 1) { const a = a0 + ((a1 - a0) * i) / 48; pts.push(P(cx + Math.cos(a) * rx, cy + Math.sin(a) * ry)); }
+    S.polygon({ points: pts, color });
+  };
+  const both = (cx, cy, rx, ry, color, a0, a1) => { ell(cx, cy, rx + o, ry + o, INK, a0, a1); ell(cx, cy, rx, ry, color, a0, a1); };
+  const poly = (pts, color) => S.polygon({ points: pts.map(([px, py]) => P(px, py)), color });
+  for (const fx of [27, 37]) {
+    S.line({ from: P(fx, 54), to: P(fx, 60), color: INK, width: 2.4 * k });
+    S.line({ from: P(fx - 3, 60), to: P(fx + 3, 60), color: INK, width: 2.4 * k });
+  }
+  poly([[44.5, 42.5], [61, 36.5], [57.5, 52]], INK); poly([[46, 42], [59, 38], [56, 50]], '#f0b400');
+  both(32, 41, 17, 15, '#ffd23f');
+  both(19.5, 45, 4.6, 6.6, '#f0b400');
+  ell(32, 46, 9, 7, '#ffe58a');
+  both(32, 24, 12.5, 12.5, '#ffd23f');
+  both(32, 21, 14, 14, hat, Math.PI, Math.PI * 2);
+  S.rect({ x: x + (14.5 - o) * k, y: y + (19.5 - o) * k, w: (35 + 2 * o) * k, h: (4.6 + 2 * o) * k, r: 3.4 * k, color: INK });
+  S.rect({ x: x + 14.5 * k, y: y + 19.5 * k, w: 35 * k, h: 4.6 * k, r: 2.3 * k, color: hat });
+  ell(32, 13.4, 3.6, 3.6, INK); poly([[32, 11], [34.4, 15], [29.6, 15]], '#ffffff');
+  poly([[27.6, 30], [36.4, 30], [32, 37.4]], INK); poly([[29, 31], [35, 31], [32, 36]], '#ff8b3d');
+  for (const ex of [27, 37]) { ell(ex, 28, 2.1, 2.1, INK); ell(ex + 0.7, 27.3, 0.7, 0.7, '#ffffff'); }
+}
+
 /** 400x400. X crops it to a circle, so the mark sits inside a 16% inset. */
 export function profilePng() {
   // A civil-defence roundel, the same furniture as the site seal: double ring,
-  // sixty ticks with every fifth long, four stars, and the sentinel mark in
+  // sixty ticks with every fifth long, two stars, and Tally the canary in
   // the middle. X crops to a circle, so the outer ring sits just inside it.
   const N = 400; const c = N / 2;
   const S = surface(N, N, { background: marks.GROUND });
@@ -62,9 +94,8 @@ export function profilePng() {
     }
     S.polygon({ points: pts, color: heat });
   };
-  for (const [dx, dy] of [[0, -1], [1, 0], [0, 1], [-1, 0]]) star(c + dx * 122, c + dy * 122, 11);
-  const ms = 176;
-  S.mark(STATIC_LEVEL, { x: c - ms / 2, y: c - ms / 2, size: ms });
+  for (const [dx, dy] of [[1, 0], [-1, 0]]) star(c + dx * 122, c + dy * 122, 11);
+  tally(S, { x: c - 112, y: c - 118, size: 224, hat: heat });
   return S.png();
 }
 
@@ -131,6 +162,8 @@ export function headerPng() {
   const l2 = 'Counted hourly. Not how bad it is.';
   S.text(l1, { x: lx, y: ly + lh + 42, size: fit(l1, { from: 21, max: lw, track: 0.02 }), color: marks.INK, weight: 0.095, track: 0.02 });
   S.text(l2, { x: lx, y: ly + lh + 74, size: fit(l2, { from: 21, max: lw, track: 0.02 }), color: marks.INK_DIM, weight: 0.095, track: 0.02 });
+
+  tally(S, { x: W - 110 - 96, y: 318, size: 96, hat: marks.HEAT[STATIC_LEVEL] });
 
   // The rubber stamp, set square because the rasteriser sets no rotated text.
   const st = 'NOT A PREDICTION';
