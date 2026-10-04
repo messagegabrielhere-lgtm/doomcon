@@ -2087,7 +2087,17 @@ main.wrap :is(.rintro__h1, .narch__h1, .dg__h1, .lwp__h1, .bp__h1, .bintro__h1, 
   font-family: var(--poster); font-weight: 400; text-transform: uppercase;
   letter-spacing: .012em; line-height: 1.04; font-size: clamp(30px, 4.2vw, 56px); text-wrap: balance;
 }
-.masthead { position: relative; }
+/* THE CHROME STEPS BACK. The masthead stays with the reader as a thin
+   translucent bar, and the tiles lose their boxes until they are pointed at
+   or are the current page, so the top of every page is a wordmark and a row
+   of quiet labels with live numbers, not a row of buttons. */
+.masthead { position: sticky; top: 0; z-index: 60;
+  background: color-mix(in srgb, var(--bg) 78%, transparent);
+  -webkit-backdrop-filter: saturate(160%) blur(14px); backdrop-filter: saturate(160%) blur(14px); }
+.fb--inline > .fb__t, .fb__sum { border-color: transparent; background: transparent; }
+.fb--inline > .fb__t:hover, .fb--inline > .fb__t:focus-visible, .fb__sum:hover { border-color: var(--fb-hue); background: color-mix(in srgb, var(--fb-hue) 10%, transparent); }
+.fb--inline > .fb__t[aria-current="page"] { border-color: var(--fb-hue); background: color-mix(in srgb, var(--fb-hue) 12%, transparent); }
+html { scroll-padding-top: 110px; }
 .bstamp { display: inline-block; margin: var(--s-2) 0 var(--s-3); padding: 6px 12px 4px;
   border: 3px solid currentColor; border-radius: 4px; color: var(--ok); opacity: .82;
   font: 700 var(--t-sm)/1 var(--stencil); letter-spacing: .16em; text-transform: uppercase; transform: rotate(-3deg); }

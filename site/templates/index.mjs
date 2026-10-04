@@ -62,7 +62,7 @@ import { mascot, MOODS } from './_mascot.mjs';
 import * as faq from './_faq.mjs';
 import * as verify from './_verify.mjs';
 import { BOOK_COUNT } from './shopPages.mjs';
-import { worldModel, worldFigure, worldMapCss } from './_worldmap.mjs';
+import { worldModel } from './_worldmap.mjs';
 import { homeCards as topicCards } from './topicPages.mjs';
 import { freshnessStrip, pillarCard, moveRow, sourceStatus } from './_parts.mjs';
 import { indexHistoryChart, pillarRanked } from './_charts.mjs';
@@ -259,6 +259,29 @@ main.wrap[data-level="1"] > .hero .ch--dial { animation: dcBreathe 1.1s ease-in-
   main.wrap .clm__i { flex: 0 0 84%; scroll-snap-align: start; }
   body:has(.hero__badge) .foot__seal, body:has(.hero__badge) .foot__memo { display: none; }
 }
+.stat { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: var(--s-4) var(--s-5); margin: clamp(40px, 7vw, 88px) 0 0; }
+.stat__c { margin: 0; display: grid; gap: 6px; align-content: start; }
+.stat__n { font: 400 clamp(52px, 8vw, 104px)/.92 var(--poster); letter-spacing: .01em; color: var(--ink); }
+.stat__c:last-child .stat__n { color: var(--lvl, var(--accent)); }
+.stat__k { font: 500 var(--t-sm)/1.4 var(--sans); color: var(--ink-dim); max-width: 22ch; }
+/* THE FRONT PAGE BREATHES. One idea per screen: more air between sections,
+   headings that read from across the room, ledes at reading size. Scoped to
+   the home page by the hero that only it has. */
+main.wrap:has(> .hero) > .sec, main.wrap:has(> .hero) > section.clm, main.wrap:has(> .hero) > section.rd { margin-top: clamp(56px, 9vw, 120px); }
+main.wrap:has(> .hero) > .sec > .sec__h, main.wrap:has(> .hero) > section > .sec__h { font-size: clamp(30px, 4.4vw, 56px); line-height: 1.02; margin-bottom: var(--s-4); }
+main.wrap:has(> .hero) > .sec > .lede { font-size: clamp(17px, 1.6vw, 21px); line-height: 1.5; color: var(--ink); max-width: 62ch; }
+body:has(> main.wrap > .hero) .rail { display: none; }
+/* Sections rise into place as they are reached. The class is only ever added
+   by the script below, so without it, or with reduced motion, nothing is
+   hidden and nothing moves. */
+@media (prefers-reduced-motion: no-preference) {
+  .rv { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s cubic-bezier(.2,.7,.2,1); }
+  .rv.rv--in { opacity: 1; transform: none; }
+}
+.hmap__a { display: block; border: 1px solid var(--rule); border-radius: 12px; background: var(--bg-sunken); overflow: hidden; }
+.hmap__svg { display: block; width: 100%; height: auto; }
+.hmap__land { fill: color-mix(in srgb, var(--ink) 9%, transparent); stroke: color-mix(in srgb, var(--ink) 18%, transparent); stroke-width: .5; }
+.hmap__dots circle { fill: var(--lvl, var(--accent)); fill-opacity: .78; }
 .earn { display: grid; gap: var(--s-3); grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); margin: var(--s-4) 0; }
 .earn__c { display: grid; gap: 6px; align-content: start; padding: var(--s-4); border: 1px solid var(--rule); border-top: 6px solid var(--accent); border-radius: 8px;
   background: var(--bg-sunken); text-decoration: none; color: var(--ink-dim); }
@@ -573,6 +596,7 @@ ${gauge.styleTag()}
      inside each, so a newcomer learns what DOOMCON knows before meeting
      eleven tiles. Both render '' when their data is absent; neither needs
      a script to exist. site/templates/_readings.mjs, _claims.mjs. -->
+${statStrip(ctx)}
 ${readings.render(ctx)}
 ${verify.render(ctx)}
 ${claims.render(ctx)}
@@ -609,6 +633,16 @@ ${switcher.render(ctx)}
   <p class="fresh__key">As an Amazon Associate, ${esc(brand.NAME)} earns from qualifying purchases. Paid links are marked wherever they appear, and nothing a reader buys changes a number.</p>
 </section>
 
+<script>(function(){
+if(!('IntersectionObserver' in window)||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+var els=[].slice.call(document.querySelectorAll('main.wrap > section:not(.hero)')),vh=innerHeight;
+els=els.filter(function(e){return e.getBoundingClientRect().top>vh*0.9;});
+if(!els.length)return;
+var io=new IntersectionObserver(function(en){en.forEach(function(x){if(x.isIntersecting){x.target.classList.add('rv--in');io.unobserve(x.target);}});},{rootMargin:'0px 0px -8% 0px'});
+els.forEach(function(e){e.classList.add('rv');io.observe(e);});
+setTimeout(function(){els.forEach(function(e){e.classList.add('rv--in');});},6000);
+window.addEventListener('hashchange',function(){els.forEach(function(e){e.classList.add('rv--in');});});
+})();</script>
 ${style}`;
 
   if (view === 'instruments') {
@@ -904,6 +938,27 @@ w.addEventListener('click',function(e){var b=e.target.closest('button');if(b)set
 try{var s=localStorage.getItem('dc-lang');if(s&&T[s])set(s);}catch(e){}})();</script>`;
 }
 
+// FOUR NUMBERS, SET LARGE. What the site is, as counts a stranger can check:
+// how many readings exist, how many sources answered this hour, how many
+// receipts the verify button walks, and how many forecasts the site has made.
+// The last one is zero by construction, which is why it is printed.
+function statStrip(ctx) {
+  const st = ctx.state;
+  const readingsN = Array.isArray(ctx.history) ? ctx.history.length : null;
+  const src = Array.isArray(st.sources) ? st.sources : [];
+  // Same definition as the status rail: answered, whether or not it is scored yet.
+  const ok = src.filter((x) => x && (x.ok || x.uncalibrated)).length;
+  const cells = [
+    readingsN ? [readingsN.toLocaleString('en-US'), 'readings published, each with a receipt'] : null,
+    src.length ? [`${ok}/${src.length}`, 'sources reporting this hour'] : null,
+    ['12', 'receipts your browser can re-check in one click'],
+    ['0', 'predictions made, ever'],
+  ].filter(Boolean);
+  return `<section class="stat" aria-label="${esc(brand.NAME)} in four numbers">
+  ${cells.map(([v, k]) => `<p class="stat__c"><b class="stat__n num">${esc(v)}</b><span class="stat__k">${esc(k)}</span></p>`).join('')}
+</section>`;
+}
+
 // THE MAP, ON THE FRONT PAGE. The competitor's globe is a destination; ours
 // was two clicks down. This is the /world figure itself, drawn by the same
 // function from the same file, with the count in the sentence above it so the
@@ -915,13 +970,36 @@ function homeMap(ctx) {
   const t = ctx.world.totals || {};
   const q = (ctx.world.copy && ctx.world.copy.headline_qualifier) || 'as mapped in OpenStreetMap';
   const n = (v) => Number(v).toLocaleString('en-US');
+  // A PICTURE, NOT THE INSTRUMENT. The full /world figure is 921 KB of markup
+  // (one titled marker per site) and put the front page at 1.3 MB when it was
+  // embedded here. This is the same projection drawn light: the land as one
+  // path with every other vertex of the long rings, and the sites binned into
+  // 5-unit cells with the dot sized by how many fall in each. The count stays
+  // in the sentence above, and the real map is one link away.
+  const land = m.lands.map(({ polys }) => polys.map((poly) => {
+    const pts = poly.length > 24 ? poly.filter((_, k) => k % 2 === 0) : poly;
+    return pts.map((pt, k) => `${k === 0 ? 'M' : 'L'}${Math.round(pt[0])} ${Math.round(pt[1])}`).join('') + 'Z';
+  }).join('')).join('');
+  const CELL = 5; const bins = new Map();
+  for (const pin of m.pins) {
+    const key = `${Math.floor(pin.x / CELL)},${Math.floor(pin.y / CELL)}`;
+    bins.set(key, (bins.get(key) || 0) + 1);
+  }
+  const dots = [...bins.entries()].sort((a, b) => (a[0] < b[0] ? -1 : 1)).map(([key, c]) => {
+    const [bx, by] = key.split(',').map(Number);
+    const r = Math.min(6, 1.1 + Math.sqrt(c) * 0.55);
+    return `<circle cx="${bx * CELL + CELL / 2}" cy="${by * CELL + CELL / 2}" r="${r.toFixed(1)}"/>`;
+  }).join('');
   return `<section class="sec hmap" id="where" aria-labelledby="hmap-h">
-  <style>${worldMapCss()}</style>
   <h2 class="sec__h" id="hmap-h">Where the machines live</h2>
   <p class="lede"><b>${esc(n(t.sites))}</b> datacentre sites in <b>${esc(n(t.countries_with_sites))}</b> countries, ${esc(q)}.
     ${esc(n(t.countries_with_none))} countries have none mapped, which means nobody has mapped one there, not that none exists.</p>
-  ${worldFigure(m, { id: 'home-wm', noun: 'datacentres' })}
-  <p class="fresh__key"><a href="${esc(ctx.href('/world.html'))}">The world map, country by country →</a> ·
+  <a class="hmap__a" href="${esc(ctx.href('/world.html'))}" aria-label="Open the world map of datacentre sites">
+    <svg class="hmap__svg" viewBox="0 0 1000 451" role="img" aria-label="World map with a dot wherever datacentre sites are mapped; larger dots mean more sites close together">
+      <path class="hmap__land" d="${land}"/><g class="hmap__dots">${dots}</g>
+    </svg>
+  </a>
+  <p class="fresh__key">Dots are sites grouped by area; bigger means more. <a href="${esc(ctx.href('/world.html'))}">The full map, every site and country →</a> ·
     <a href="${esc(ctx.href('/map.html'))}">US sites, drought and the grid →</a> · <a href="${esc(ctx.href('/flock.html'))}">Cameras →</a></p>
 </section>`;
 }
