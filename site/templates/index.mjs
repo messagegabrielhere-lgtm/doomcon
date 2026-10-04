@@ -368,6 +368,78 @@ main.wrap:has(.stage) > section > .sec__h[id]::after,
 main.wrap:has(.stage) .sw__hd > .sec__h[id]::after { display: none; }
 main.wrap:has(.stage) .sec__h[id] > .sec__eb { display: block; margin: 10px 0 0; }
 main.wrap:has(.stage) > section.sec, main.wrap:has(.stage) > section.sw { margin-top: clamp(44px, 6vw, 84px); }
+.wr { margin: var(--s-5) 0 0; padding: 14px; border: 1px solid var(--rule); border-radius: 16px; background: var(--bg-sunken);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--lvl, var(--accent)) 14%, transparent), 0 30px 80px -40px color-mix(in srgb, var(--lvl, var(--accent)) 40%, transparent); }
+.wr__top { display: flex; flex-wrap: wrap; align-items: center; gap: 8px var(--s-4); padding: 2px 4px 12px; }
+.wr__h { display: inline-flex; align-items: center; gap: 10px; margin: 0; font: 800 var(--t-sm)/1 var(--mono); letter-spacing: .2em; text-transform: uppercase; color: var(--ink); }
+.wr__live { width: 9px; height: 9px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 0 0 color-mix(in srgb, var(--ok) 70%, transparent); }
+@media (prefers-reduced-motion: no-preference) { .wr__live { animation: wrpulse 2s ease-out infinite; } }
+@keyframes wrpulse { to { box-shadow: 0 0 0 9px transparent; } }
+.wr__k { margin: 0; font: 500 var(--t-2xs)/1.3 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-faint); }
+.wr__nav { display: flex; gap: 6px; flex: 1 1 100%; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
+.wr__nav::-webkit-scrollbar { display: none; }
+.wr__nav a { flex: 0 0 auto; padding: 7px 11px; border: 1px solid var(--rule); border-radius: 7px; background: color-mix(in srgb, var(--ph) 8%, transparent);
+  font: 700 var(--t-2xs)/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; text-decoration: none; color: var(--ink-dim); }
+.wr__nav a::before { content: ""; display: inline-block; width: 6px; height: 6px; margin-right: 7px; border-radius: 50%; background: var(--ph); vertical-align: 1px; }
+.wr__nav a:hover, .wr__nav a:focus-visible { color: var(--ink); border-color: var(--ph); }
+.wr__grid { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 270px), 1fr)); grid-auto-flow: dense; }
+.wr__p { display: flex; flex-direction: column; min-width: 0; border: 1px solid var(--rule); border-top: 2px solid var(--ph); border-radius: 10px; background: var(--bg-raised); scroll-margin-top: 130px; }
+.wr__p:target { box-shadow: 0 0 0 2px var(--ph); }
+@media (min-width: 640px) { .wr__p--w { grid-column: span 2; } }
+.wr__ph { display: flex; align-items: center; gap: 8px; padding: 9px 12px; border-bottom: 1px solid var(--rule); }
+.wr__dot { width: 7px; height: 7px; border-radius: 50%; background: var(--ph); box-shadow: 0 0 8px var(--ph); flex: none; }
+.wr__pn { margin: 0; font: 700 var(--t-2xs)/1.2 var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--ink); }
+.wr__pm { font: 500 var(--t-2xs)/1.2 var(--mono); letter-spacing: .06em; color: var(--ink-faint); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.wr__go { margin-left: auto; flex: none; font: 700 var(--t-2xs)/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; text-decoration: none; color: var(--ph); }
+.wr__go:hover, .wr__go:focus-visible { text-decoration: underline; }
+.wr__pb { display: grid; gap: 8px; align-content: start; padding: 12px; flex: 1 1 auto; }
+.wr__pb > * { margin: 0; }
+.wr__big { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
+.wr__big b { font: 700 clamp(34px, 4vw, 52px)/1 var(--mono); letter-spacing: -.04em; color: var(--ph); text-shadow: 0 0 22px color-mix(in srgb, var(--ph) 45%, transparent); }
+.wr__big--c b { font-size: clamp(28px, 3vw, 40px); }
+.wr__big span { font: 600 var(--t-2xs)/1.3 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-dim); }
+.wr__d { font: 600 var(--t-xs)/1.3 var(--mono); color: var(--ink-dim); }
+.wr__spark { display: block; width: 100%; height: 84px; }
+.wr__spark polyline { fill: none; stroke: var(--ph); stroke-width: 1.6; vector-effect: non-scaling-stroke; filter: drop-shadow(0 0 4px var(--ph)); }
+.wr__spark polygon { fill: color-mix(in srgb, var(--ph) 14%, transparent); }
+.wr__ax { display: flex; justify-content: space-between; gap: 8px; font: 500 var(--t-2xs)/1.3 var(--mono); letter-spacing: .06em; color: var(--ink-faint); }
+.wr__s { font: 400 var(--t-sm)/1.45 var(--sans); color: var(--ink-dim); }
+.wr__s--dark { color: var(--ink-faint); }
+.wr__bars { list-style: none; padding: 0; display: grid; gap: 9px; }
+.wr__bars li { display: grid; grid-template-columns: 112px minmax(0, 1fr) 42px; align-items: center; gap: 10px; }
+.wr__bn { font: 600 var(--t-xs)/1.2 var(--sans); color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.wr__bt { height: 8px; border-radius: 4px; background: color-mix(in srgb, var(--ink) 9%, transparent); overflow: hidden; }
+.wr__bt i { display: block; height: 100%; border-radius: 4px; background: var(--ph); box-shadow: 0 0 10px var(--ph); }
+.wr__bars b { font: 700 var(--t-xs)/1 var(--mono); text-align: right; color: var(--ink); }
+.wr__bx b { font-weight: 500; font-size: 10px; color: var(--ink-faint); line-height: 1.1; }
+.wr__news { list-style: none; padding: 0; display: grid; gap: 0; }
+.wr__news li { display: grid; grid-template-columns: 2.4em minmax(0, 1fr); gap: 2px 10px; padding: 8px 0; border-bottom: 1px solid var(--rule); }
+.wr__news li:last-child { border-bottom: 0; padding-bottom: 0; } .wr__news li:first-child { padding-top: 0; }
+.wr__news b { grid-row: span 2; font: 700 var(--t-sm)/1.35 var(--mono); color: var(--ph); }
+.wr__news a { font: 600 var(--t-sm)/1.35 var(--sans); color: var(--ink); text-decoration: none; }
+.wr__news a:hover, .wr__news a:focus-visible { text-decoration: underline; }
+.wr__news span { font: 500 var(--t-2xs)/1.2 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-faint); }
+.wr__kv { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 10px; align-items: baseline; padding: 8px 0; border-bottom: 1px solid var(--rule); text-decoration: none; }
+.wr__kv:last-child { border-bottom: 0; padding-bottom: 0; } .wr__kv:first-child { padding-top: 0; }
+.wr__kv span { font: 700 var(--t-2xs)/1.2 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--ink-dim); }
+.wr__kv b { font: 700 clamp(22px, 2.4vw, 30px)/1 var(--mono); letter-spacing: -.03em; color: var(--ph); }
+.wr__kv em { grid-column: 1 / -1; font: 400 var(--t-xs)/1.4 var(--sans); font-style: normal; color: var(--ink-dim); }
+.wr__bets { list-style: none; padding: 0; display: grid; gap: 8px; }
+.wr__bets li { display: grid; grid-template-columns: 3.6em minmax(0, 1fr); gap: 10px; align-items: baseline; }
+.wr__bets b { font: 700 var(--t-md, 18px)/1 var(--mono); color: var(--ph); }
+.wr__bets span { font: 400 var(--t-xs)/1.4 var(--sans); color: var(--ink-dim); }
+@media (max-width: 639px) {
+  .wr { padding: 10px; border-radius: 12px; }
+  .wr__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .wr__p--w, #wr-pillars, #wr-people, #wr-bets { grid-column: span 2; }
+  .wr__p:not(.wr__p--w):not(#wr-pillars):not(#wr-people):not(#wr-bets) .wr__go { font-size: 0; }
+  .wr__p:not(.wr__p--w):not(#wr-pillars):not(#wr-people):not(#wr-bets) .wr__go::after { content: "→"; font-size: 14px; }
+  .wr__pn { letter-spacing: .1em; }
+  .wr__big--c b { font-size: 24px; }
+  .wr__s { font-size: 12.5px; line-height: 1.4; }
+}
+@media (min-width: 1100px) { .wr__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } #wr-news { grid-row: span 2; } #wr-bets { grid-column: span 2; } }
+.wr { margin-bottom: var(--s-5); }
 .ans__cta { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; margin: var(--s-4) 0; }
 .cta { display: inline-flex; align-items: center; gap: 6px; text-decoration: none; font: 650 var(--t-base)/1 var(--sans); letter-spacing: -.005em; }
 .cta--pri { padding: 13px 22px; border-radius: 999px; background: var(--lvl, var(--accent)); color: #06070b;
@@ -657,6 +729,7 @@ ${gauge.styleTag()}
   <p class="stage__credit">Background: a generated illustration, not a photograph.</p>
   </div>
   ${sourceStrip(state)}
+  ${warRoom(ctx)}
   <div class="hero__grid">
 
     <!-- align-self overrides .hero__grid's align-items:end, so the dial sits
@@ -718,12 +791,8 @@ ${gauge.styleTag()}
      inside each, so a newcomer learns what SIREN knows before meeting
      eleven tiles. Both render '' when their data is absent; neither needs
      a script to exist. site/templates/_readings.mjs, _claims.mjs. -->
-${wall(ctx)}
-${pillarCards(ctx)}
-${topStories(ctx)}
 ${readings.render(ctx)}
 ${verify.render(ctx)}
-${claims.render(ctx)}
 ${topicCards(ctx)}
 ${followBand(ctx)}
 
@@ -1118,7 +1187,7 @@ function answer(ctx) {
   return `<p class="ans__q">Should you care about AI today?</p>
   <h1 class="ans__a" style="--lvl:var(--heat-${esc(st.level)})"><b>${esc(yes)}</b> <span>${esc(gloss)}</span></h1>
   <p class="ans__why">AI activity is at level ${esc(st.level)} on a scale where 5 is quiet and 1 is loudest. ${esc(bits.join(' '))}</p>
-  <p class="ans__cta">${brand.X_URL ? `<a class="cta cta--pri" href="${esc(brand.X_URL)}" rel="noopener">Get the alert on X</a>` : ''}<a class="cta cta--sec" href="#pcs-h">See why <span aria-hidden="true">›</span></a></p>
+  <p class="ans__cta">${brand.X_URL ? `<a class="cta cta--pri" href="${esc(brand.X_URL)}" rel="noopener">Get the alert on X</a>` : ''}<a class="cta cta--sec" href="#war-room">See why <span aria-hidden="true">›</span></a></p>
   <p class="hero__badge" aria-hidden="true">${mascot({ size: 44, level: st.level })}<span class="hero__badge-t"><b>${esc(brand.NAME)} ${esc(st.level)}</b><span>${esc(st.level_name)} · ${esc(num(st.score, 1))} of 100</span></span></p>
   ${meta}`;
 }
@@ -1140,6 +1209,96 @@ function sourceStrip(st) {
   if (src.length < 3) return '';
   const names = src.map((x) => x.label || SOURCE_NAMES[x.id] || x.id);
   return `<div class="srcs" aria-label="Sources read for this reading"><span class="srcs__k">Read from ${names.length} public sources</span><ul class="srcs__l">${names.map((n) => `<li>${esc(n)}</li>`).join('')}</ul></div>`;
+}
+
+// THE WAR ROOM. Every instrument at once, as panels on one wall, each with a
+// name, a live number and a door to the page behind it. The operator asked
+// for the competitor's density with better navigation, so the bar across the
+// top jumps to any panel and each panel's header opens its page. A panel
+// whose data is absent is not drawn; nothing here is a placeholder, and no
+// number is computed here that its own page does not also print.
+const WR_HUE = { signal: 'var(--lvl, var(--accent))', pillars: '#ff7a00', news: '#00a3ff', race: '#00e676', flock: '#00e5ff', datacenters: '#c9a0ff', exploits: '#ff5f56', leaders: '#ffb020', people: '#ff73c8', bets: '#8b9cff', corrob: '#5fd08a' };
+const WR_NAME = { race: 'The race', flock: 'Cameras', datacenters: 'Machines', exploits: 'Exploits', news: 'Corroboration', leaders: 'Leaders' };
+function warRoom(ctx) {
+  const st = ctx.state;
+  if (!Number.isFinite(st.score)) return '';
+  const panels = [];
+  const panel = (id, name, href, body, { wide = false, meta = '' } = {}) => panels.push({ id, name,
+    html: `<article class="wr__p${wide ? ' wr__p--w' : ''}" id="wr-${esc(id)}" style="--ph:${WR_HUE[id] || 'var(--accent)'}">
+    <header class="wr__ph"><span class="wr__dot" aria-hidden="true"></span><h3 class="wr__pn">${esc(name)}</h3>${meta ? `<span class="wr__pm">${esc(meta)}</span>` : ''}<a class="wr__go" href="${esc(href)}" aria-label="Open ${esc(name)}">Open →</a></header>
+    <div class="wr__pb">${body}</div></article>` });
+
+  // SIGNAL: the score and its own recent record, drawn on the range it used.
+  const rows = (Array.isArray(ctx.history) ? ctx.history : []).slice(-72).filter((r) => Number.isFinite(r.score));
+  let spark = '';
+  if (rows.length >= 4) {
+    const vals = rows.map((r) => r.score);
+    const lo = Math.floor(Math.min(...vals) - 2); const hi = Math.ceil(Math.max(...vals) + 2);
+    const pts = vals.map((v, i) => `${((i / (vals.length - 1)) * 300).toFixed(1)},${(70 - ((v - lo) / (hi - lo)) * 64 - 3).toFixed(1)}`);
+    spark = `<svg class="wr__spark" viewBox="0 0 300 70" preserveAspectRatio="none" role="img" aria-label="The score over the last ${vals.length} readings, between ${lo} and ${hi} of 100; now ${esc(num(st.score, 1))}"><polygon points="0,70 ${pts.join(' ')} 300,70"/><polyline points="${pts.join(' ')}"/></svg>
+      <p class="wr__ax"><span>Last ${vals.length} readings</span><span>axis ${lo}–${hi} of 100</span></p>`;
+  }
+  const d = ctx.vsYesterday;
+  const delta = d && Number.isFinite(d.delta) ? `${d.delta > 0 ? '▲ +' : d.delta < 0 ? '▼ −' : '■ '}${num(Math.abs(d.delta), 1)} ${d.basis === 'previous' ? `since ${d.label}` : `vs ${d.label}`}` : '';
+  panel('signal', 'Signal', ctx.href('/instruments.html#record'),
+    `<p class="wr__big"><b class="num">${esc(num(st.score, 1))}</b><span>/ 100 · ${esc(brand.NAME)} ${esc(st.level)} · ${esc(st.level_name)}</span></p>${delta ? `<p class="wr__d">${esc(delta)}</p>` : ''}${spark}`,
+    { wide: true, meta: `observed ${utc(st.generated_at)}` });
+
+  // PILLARS: the five, as bars on the same 0-100 scale.
+  const last = Array.isArray(ctx.history) && ctx.history.length ? ctx.history[ctx.history.length - 1] : null;
+  if (last && last.pillars) {
+    const li = brand.PILLARS.map((p) => {
+      const v = last.pillars[p.id];
+      return Number.isFinite(v)
+        ? `<li><span class="wr__bn">${esc(p.name)}</span><span class="wr__bt"><i style="width:${Math.max(0, Math.min(100, v)).toFixed(1)}%"></i></span><b class="num">${esc(num(v, 1))}</b></li>`
+        : `<li class="wr__bx"><span class="wr__bn">${esc(p.name)}</span><span class="wr__bt"></span><b>no baseline</b></li>`;
+    }).join('');
+    panel('pillars', 'The five pillars', ctx.href('/instruments.html'), `<ul class="wr__bars">${li}</ul><p class="wr__ax"><span>Each of 100</span><span>this reading</span></p>`);
+  }
+
+  // NEWSROOM: the five highest-scoring stories, as their publishers wrote them.
+  const items = ctx.news && Array.isArray(ctx.news.items) ? ctx.news.items : [];
+  if (items.length) {
+    const top = [...items].sort((a, b) => Number(b.score) - Number(a.score) || String(a.id).localeCompare(String(b.id))).slice(0, 5);
+    panel('news', 'Newsroom', ctx.href('/news.html'),
+      `<ol class="wr__news">${top.map((i) => `<li><b class="num">${esc(num(Number(i.score), 0))}</b><a href="${esc(i.url)}" rel="noopener">${esc(i.title)}</a><span>${esc(i.source)}</span></li>`).join('')}</ol>`,
+      { wide: true, meta: `${items.length} scored` });
+  }
+
+  // ONE PANEL PER CLAIM: the same sentence its own page leads with.
+  for (const c of claims.claims(ctx)) {
+    if (c.id === 'news' && c.state !== 'live') continue;
+    const body = c.state === 'live'
+      ? `<p class="wr__big wr__big--c"><b class="num">${esc(c.num)}</b></p><p class="wr__s">${esc(claims.sentenceOf(c))}</p>`
+      : `<p class="wr__s wr__s--dark">${esc(c.text)}</p>`;
+    panel(c.id === 'news' ? 'corrob' : c.id, WR_NAME[c.id] || c.id, c.href, body);
+  }
+
+  // PEOPLE: the two questions everyone asks, as the registers record them.
+  const jobs = topicLead(ctx, 'jobs'); const med = topicLead(ctx, 'medicine');
+  if (jobs || med) {
+    const row = (t, href, label) => (t ? `<a class="wr__kv" href="${esc(ctx.href(href))}"><span>${esc(label)}</span><b class="num">${esc(Number.isFinite(Number(t.value)) ? Number(t.value).toLocaleString('en-US') : t.value)}</b><em>${esc(t.unit)}</em></a>` : '');
+    panel('people', 'Jobs & medicine', ctx.href('/jobs.html'), `${row(jobs, '/jobs.html', 'Jobs')}${row(med, '/medicine.html', 'Medicine')}`);
+  }
+
+  // BETS: base rates about the index itself, scored when they come due.
+  if (ctx.bets && Array.isArray(ctx.bets.open) && ctx.bets.open.length) {
+    panel('bets', 'Tally’s bets', ctx.href('/bets.html'),
+      `<ul class="wr__bets">${ctx.bets.open.slice(0, 3).map((b) => `<li><b class="num">${esc(num(b.p * 100, 0))}%</b><span>${esc(b.statement)}</span></li>`).join('')}</ul>`,
+      { meta: `${ctx.bets.summary ? ctx.bets.summary.resolved : 0} settled` });
+  }
+
+  const n = Array.isArray(ctx.history) ? ctx.history.length : null;
+  return `<section class="wr rv" id="war-room" aria-labelledby="wr-h" style="--lvl:var(--heat-${esc(st.level)})">
+  <div class="wr__top">
+    <h2 class="wr__h" id="wr-h"><span class="wr__live" aria-hidden="true"></span>War room</h2>
+    <p class="wr__k">${n ? `Reading no. ${esc(n)} · ` : ''}${panels.length} panels · every number opens its page</p>
+    <nav class="wr__nav" aria-label="Jump to a panel">${panels.map((p) => `<a href="#wr-${esc(p.id)}" style="--ph:${WR_HUE[p.id] || 'var(--accent)'}">${esc(p.name)}</a>`).join('')}</nav>
+  </div>
+  <div class="wr__grid">
+${panels.map((p) => p.html).join('\n')}
+  </div>
+</section>`;
 }
 
 // THE CLOSE. Every page worth copying ends on one line and one action instead
