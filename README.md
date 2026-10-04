@@ -1,5 +1,9 @@
 # DOOMCON
 
+[![DOOMCON](https://messagegabrielhere-lgtm.github.io/doomcon/badge.svg)](https://messagegabrielhere-lgtm.github.io/doomcon/)
+
+**Live: https://messagegabrielhere-lgtm.github.io/doomcon/** · [verify the readings in your browser](https://messagegabrielhere-lgtm.github.io/doomcon/#vfy) · [method](https://messagegabrielhere-lgtm.github.io/doomcon/methodology.html)
+
 **A real-time index of AI activity tempo, computed from public data by open code.**
 
 Five pillars, one 0–100 score, one level from DOOMCON 5 (DORMANT) to DOOMCON 1

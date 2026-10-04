@@ -98,6 +98,8 @@ function prerenderStatic(html, name, ctx) {
   return out.replace('</head>', `${head}\n</head>`);
 }
 
+const INDEXNOW_KEY = 'd00mc0n7a11yc0un75a1d0e5n07pr3d1c7';
+
 function llmsTxt(ctx) {
   return `# ${brand.NAME}
 > Hourly index of AI activity tempo. Levels run from 5 (quietest) to 1 (loudest). It counts how much is happening. It is not a probability of harm and not a forecast.
@@ -107,6 +109,8 @@ function llmsTxt(ctx) {
 - [Method](${ctx.url('/methodology.html')})
 - [Guide: DOOMCON vs DEFCON vs the Doomsday Clock vs p(doom)](${ctx.url('/guide.html')})
 - [About](${ctx.url('/about.html')})
+- [What is p(doom)?](${ctx.url('/p-doom.html')})
+- [Is there an AI doomsday clock?](${ctx.url('/ai-doomsday-clock.html')})
 - [AI and jobs: what has been measured](${ctx.url('/jobs.html')})
 - [AI in medicine: results on the record](${ctx.url('/medicine.html')})
 - [Feed](${ctx.url('/feed.xml')})
@@ -1140,6 +1144,11 @@ async function main() {
     written.push(await write(args.out, 'api/bets.json', JSON.stringify(ctx.bets, null, 2) + '\n'));
   }
   written.push(await write(args.out, 'brand.html', infoPages.brandPage(ctx)));
+  written.push(await write(args.out, 'p-doom.html', infoPages.pdoom(ctx)));
+  written.push(await write(args.out, 'ai-doomsday-clock.html', infoPages.aiClock(ctx)));
+  // IndexNow: the key file a search engine fetches to confirm that URL
+  // submissions for this site come from this site. The key is public by design.
+  written.push(await write(args.out, `${INDEXNOW_KEY}.txt`, INDEXNOW_KEY));
   for (const lv of [1, 2, 3, 4, 5]) {
     written.push(await write(args.out, `brand/tally-${lv}.svg`, mascotFile(lv, marks.HEAT[lv])));
   }

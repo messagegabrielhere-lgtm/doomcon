@@ -682,7 +682,7 @@ ${style}`;
     ctx,
     motion: true,
     path: '/',
-    title: `${brand.NAME} ${state.level} — ${state.level_name} · AI activity tempo index`,
+    title: `${brand.NAME} ${state.level} — ${state.level_name} · the live AI activity index you can verify`,
     ogTitle: `${brand.NAME} ${state.level} · ${state.level_name} — ${scoreTxt}/100`,
     description:
       `${brand.NAME} is at level ${state.level} (${state.level_name}), score ${scoreTxt} of 100, ` +

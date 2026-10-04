@@ -1281,6 +1281,8 @@ function footer(ctx, sections, path) {
   // no account, and a dead "support us" link is worse than none.
   const source = [
     { href: '/about.html', label: 'About', blurb: 'What this is, who runs it, how it is paid for, and how to get in touch.' },
+    { href: '/p-doom.html', label: 'What is p(doom)?', blurb: 'The probability-of-doom number, explained.' },
+    { href: '/ai-doomsday-clock.html', label: 'AI doomsday clock?', blurb: 'What exists, and one you can verify.' },
     { href: '/guide.html', label: 'Guide', blurb: 'DOOMCON, DEFCON, the Doomsday Clock and p(doom): what each one measures.' },
     { href: '/sponsor.html', label: 'Sponsor', blurb: 'One labelled sponsor at a time, with no say over the number.' },
     { href: '/brand.html', label: 'Brand', blurb: 'Name, colours, type, voice and Tally to download.' },

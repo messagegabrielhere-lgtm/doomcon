@@ -99,6 +99,88 @@ export function privacy(ctx) {
   });
 }
 
+// TWO ANSWER PAGES for the two phrases people actually type. Each one answers
+// the question in its first paragraph, says what the thing measures and who
+// sets it, and only then says how DOOMCON differs. Facts about other people's
+// numbers are kept to what is stable and uncontroversial; nothing here states
+// the Clock's current setting or anyone's current estimate, because both
+// change and this page would go stale without anyone noticing.
+function nowLine(ctx) {
+  const st = ctx.state;
+  return st && Number.isFinite(st.level)
+    ? `<p><b>Right now:</b> ${esc(brand.NAME)} ${esc(st.level)}, ${esc(st.level_name)}, composite ${esc(Number(st.score).toFixed(1))} of 100, observed ${esc(utc(st.generated_at))}. <a href="${esc(ctx.href('/'))}">See the live reading →</a></p>` : '';
+}
+
+export function pdoom(ctx) {
+  const main = `${CSS}
+<section class="inf">
+  <p class="eyebrow">Explainer</p>
+  <div class="inf__top">${mascot({ size: 76, level: level(ctx) })}<h1 class="bp__h1">What is p(doom)?</h1></div>
+  <p class="lede"><b>p(doom) is shorthand for “probability of doom”: one person’s estimate, as a percentage, that advanced AI leads to a catastrophic outcome for humanity.</b>
+    It is an opinion expressed as a number. There is no agreed method for producing it and no way to check one.</p>
+  <h2>Where the term comes from</h2>
+  <p>It started as informal slang among people who work on and argue about AI risk, as a quick way to ask “how worried are you?” It spread into interviews and headlines once prominent researchers and executives began giving their own figures in public.</p>
+  <h2>Why the numbers differ so much</h2>
+  <ul>
+    <li><b>“Doom” is not defined.</b> Some people mean human extinction, others mean permanent loss of control, others something milder. Two people can give the same number and mean different things.</li>
+    <li><b>The time frame varies.</b> Ten years, this century, ever.</li>
+    <li><b>It is a judgement, not a measurement.</b> Estimates given in public run from near zero to near certain, and the same person’s figure can move with the news.</li>
+  </ul>
+  <h2>What p(doom) cannot tell you</h2>
+  <p>It cannot be verified or recomputed, and it does not tell you what is happening today. A room of experts with very different figures can all be looking at the same facts.</p>
+  <h2>How ${esc(brand.NAME)} is different</h2>
+  <p>${esc(brand.NAME)} does not estimate the chance of anything. It counts how much is happening in AI, hourly, and reports it as a level from 5 (quietest) to 1 (loudest).
+    Every reading ships with a receipt, and a button on the home page lets you <a href="${esc(ctx.href('/#vfy'))}">re-check the published record in your own browser</a>.
+    The site’s line is: everyone has a p(doom), nobody has a receipt.</p>
+  ${nowLine(ctx)}
+  <h2>Read more</h2>
+  <p><a href="${esc(ctx.href('/guide.html'))}">p(doom) next to DEFCON and the Doomsday Clock →</a> · <a href="${esc(ctx.href('/ai-doomsday-clock.html'))}">Is there an AI doomsday clock? →</a> ·
+    <a href="${esc(ctx.href('/library.html'))}">Books from every side of the argument →</a> · <a href="${esc(ctx.href('/history.html'))}">Sixty years of the same argument →</a></p>
+</section>`;
+  return page({
+    ctx, path: '/p-doom.html',
+    title: `What is p(doom)? The probability-of-doom number, explained · ${brand.NAME}`,
+    description: `p(doom) is one person's estimate of the probability that AI ends catastrophically. Where the term comes from, why the figures differ so widely, and what it cannot tell you.`,
+    jsonld: [{ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: [
+      { '@type': 'Question', name: 'What is p(doom)?', acceptedAnswer: { '@type': 'Answer', text: 'p(doom) is shorthand for "probability of doom": one person\'s estimate, as a percentage, that advanced AI leads to a catastrophic outcome for humanity. It is an opinion expressed as a number, with no agreed method behind it.' } },
+      { '@type': 'Question', name: 'Why do p(doom) estimates differ so much?', acceptedAnswer: { '@type': 'Answer', text: 'Because "doom" is not defined the same way by everyone, the time frame varies, and the figure is a judgement rather than a measurement.' } },
+    ] }],
+    main,
+  });
+}
+
+export function aiClock(ctx) {
+  const main = `${CSS}
+<section class="inf">
+  <p class="eyebrow">Explainer</p>
+  <div class="inf__top">${mascot({ size: 76, level: level(ctx) })}<h1 class="bp__h1">Is there a doomsday clock for AI?</h1></div>
+  <p class="lede"><b>The Doomsday Clock is not an AI clock, though it now takes AI into account. Several AI-specific “clocks” exist, and all of them are set by judgement.
+    ${esc(brand.NAME)} is the nearest thing that is counted instead: an hourly reading of AI activity that anyone can verify.</b></p>
+  <h2>The Doomsday Clock</h2>
+  <p>The Bulletin of the Atomic Scientists has published the Doomsday Clock since 1947. It is a symbol: a board of experts decides, usually once a year, how close to “midnight” to set it.
+    It began as a warning about nuclear weapons and has since widened to include climate change and disruptive technologies, AI among them. It is a considered judgement, not a calculation, and it is not updated between announcements.</p>
+  <h2>AI-specific clocks and scores</h2>
+  <p>A number of sites publish an AI risk clock, countdown or score. What they share is the method: a person, a panel or a language model decides the setting. That makes them statements of opinion. Useful ones, sometimes, but not something a reader can recompute.</p>
+  <h2>What ${esc(brand.NAME)} does instead</h2>
+  <ul>
+    <li><b>It counts.</b> Releases, compute and capital, attention, governance and markets, from public sources, every hour.</li>
+    <li><b>It reports tempo, not danger.</b> The level runs from 5 (quietest) to 1 (loudest). Loud means a lot is happening; it does not mean things are going badly.</li>
+    <li><b>It can be checked.</b> Each reading has a receipt, and the home page has a button that <a href="${esc(ctx.href('/#vfy'))}">re-verifies the record in your browser</a>.</li>
+    <li><b>It moves when the world does.</b> Hourly, not yearly.</li>
+  </ul>
+  ${nowLine(ctx)}
+  <h2>Which should you use?</h2>
+  <p>If you want an expert body’s considered view of overall risk, read the Bulletin’s statement. If you want to know how much is happening in AI this week, and to be able to check the answer, that is what this site is for. They answer different questions.</p>
+  <p><a href="${esc(ctx.href('/guide.html'))}">The side-by-side comparison →</a> · <a href="${esc(ctx.href('/p-doom.html'))}">What is p(doom)? →</a> · <a href="${esc(ctx.href('/methodology.html'))}">How the index is computed →</a></p>
+</section>`;
+  return page({
+    ctx, path: '/ai-doomsday-clock.html',
+    title: `Is there an AI doomsday clock? What exists, and one you can verify · ${brand.NAME}`,
+    description: `The Doomsday Clock is set by a board once a year and is not AI-specific. AI risk clocks are set by judgement. ${brand.NAME} is an hourly count of AI activity that anyone can verify.`,
+    main,
+  });
+}
+
 export function brandPage(ctx) {
   const levels = [...brand.LEVELS].sort((a, b) => b.level - a.level);
   const sw = (name, v, note) => `<li class="br__sw"><i style="background:${v}"></i><b>${esc(name)}</b><code>${esc(v)}</code><span>${esc(note)}</span></li>`;
