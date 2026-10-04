@@ -39,9 +39,10 @@ export function about(ctx) {
   <p>One person, independently. It is not affiliated with any AI lab, government body or the organisations whose scales it
     borrows its grammar from. It is free to read, carries no advertising and has no investors.</p>
   <h2>How it is paid for</h2>
-  <p>Hosting is free. The <a href="${esc(ctx.href('/bunker-kit.html'))}">Bunker Kit</a> has one crate of Amazon links that are paid
-    links: as an Amazon Associate, ${esc(brand.NAME)} earns from qualifying purchases. They are labelled where they appear and
-    nothing else on the site is paid. There is also a donate link to ${x}.</p>
+  <p>Hosting is free. The <a href="${esc(ctx.href('/bunker-kit.html'))}">Bunker Kit</a> and the
+    <a href="${esc(ctx.href('/library.html'))}">reading list</a> carry Amazon links that are paid links: as an Amazon Associate,
+    ${esc(brand.NAME)} earns from qualifying purchases. They are labelled where they appear. There is room for
+    <a href="${esc(ctx.href('/sponsor.html'))}">one named sponsor</a>, who gets no say over the number, and a donate link to ${x}.</p>
   <h2>Contact</h2>
   <p>Corrections, data sources and press questions: message ${x} on X, or open an issue on the
     <a href="${esc(brand.REPO_URL)}" rel="noopener">repository</a>. A correction that changes a number is recorded in the open.</p>
@@ -82,7 +83,7 @@ export function privacy(ctx) {
     <li><b>Google Fonts</b> serves the typefaces, so Google receives the same when a page loads.</li>
     <li><b>Links out.</b> Clicking a link to X, Amazon, a news source or a data source takes you to that site under its own
       policy. The "Post on X" links pass only the text of the card and this site's address.</li>
-    <li><b>Amazon paid links.</b> The supplies crate in the Bunker Kit uses Amazon Associates links. If you follow one, Amazon
+    <li><b>Amazon paid links.</b> The reading list and the supplies crate in the Bunker Kit use Amazon Associates links. If you follow one, Amazon
       may set its own cookies to attribute a purchase. As an Amazon Associate, ${esc(brand.NAME)} earns from qualifying purchases.</li>
   </ul>
   <h2>The embed and the badge</h2>

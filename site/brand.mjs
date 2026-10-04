@@ -69,6 +69,11 @@ export const TAGLINE = 'Detected early, not a prediction. We count.';
 // line promises tempo and nothing else.
 export const SLOGAN = 'How loud is AI today? We count.';
 
+// The Amazon Associates tracking id. Every paid Amazon link on the site is
+// built from this one constant (site/templates/shopPages.mjs); the Bunker Kit
+// carries its own copy because it is a hand-written static page.
+export const AMAZON_TAG = 'buyusa0d-20';
+
 export const CREED = "We don't know anything. We just count.";
 
 // The long form, for surfaces with a full sentence of room: og:description

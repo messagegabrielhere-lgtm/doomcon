@@ -61,6 +61,7 @@ import { esc, num, signed, utc } from './_html.mjs';
 import { mascot, MOODS } from './_mascot.mjs';
 import * as faq from './_faq.mjs';
 import * as verify from './_verify.mjs';
+import { BOOK_COUNT } from './shopPages.mjs';
 import { worldModel, worldFigure, worldMapCss } from './_worldmap.mjs';
 import { homeCards as topicCards } from './topicPages.mjs';
 import { freshnessStrip, pillarCard, moveRow, sourceStatus } from './_parts.mjs';
@@ -258,6 +259,13 @@ main.wrap[data-level="1"] > .hero .ch--dial { animation: dcBreathe 1.1s ease-in-
   main.wrap .clm__i { flex: 0 0 84%; scroll-snap-align: start; }
   body:has(.hero__badge) .foot__seal, body:has(.hero__badge) .foot__memo { display: none; }
 }
+.earn { display: grid; gap: var(--s-3); grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); margin: var(--s-4) 0; }
+.earn__c { display: grid; gap: 6px; align-content: start; padding: var(--s-4); border: 1px solid var(--rule); border-top: 6px solid var(--accent); border-radius: 8px;
+  background: var(--bg-sunken); text-decoration: none; color: var(--ink-dim); }
+.earn__c:hover, .earn__c:focus-visible { border-color: var(--accent); }
+.earn__c b { font: 400 clamp(20px, 2.4vw, 26px)/1.05 var(--poster); text-transform: uppercase; letter-spacing: .012em; color: var(--ink); }
+.earn__c span { font: 400 var(--t-sm)/1.45 var(--sans); }
+.earn__c i { font: 700 var(--t-2xs)/1 var(--mono); font-style: normal; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
 .fol__l { margin: var(--s-3) 0 var(--s-4); padding: 0 0 0 1.1em; display: grid; gap: 8px; max-width: 72ch; }
 .fol__l li { font: 400 var(--t-base)/1.5 var(--sans); color: var(--ink-dim); }
 .fol__l b { color: var(--ink); }
@@ -588,27 +596,18 @@ ${switcher.render(ctx)}
 
  ${faq.render(ctx)}
 
-<section class="sec bunk" id="bunker-kit" aria-labelledby="bunker-h">
-  <h2 class="sec__h" id="bunker-h">Bunker Kit</h2>
-  <p class="lede">A field manual, not a reading: 50 free tools to pack, in eight crates, with a
-     readiness meter. Run by third parties, not by ${esc(brand.NAME)}, and it does not feed the index.</p>
-  <p><a class="bunk__go" href="${esc(ctx.href('/bunker-kit.html'))}">Open the Bunker Kit →</a></p>
+<section class="sec supp" id="support" aria-labelledby="support-h">
+  <h2 class="sec__h" id="support-h">Keep the count running</h2>
+  <p class="lede">${esc(brand.NAME)} is free, sets no cookies and runs no analytics, and the number will never be behind a paywall:
+    a number you have to pay to check is not a number anybody can check. It pays its way four ways, all labelled.</p>
+  <div class="earn">
+    <a class="earn__c" href="${esc(ctx.href('/library.html'))}"><b>The reading list</b><span>${esc(BOOK_COUNT)} books from every side of the AI argument.</span><i>Paid links</i></a>
+    <a class="earn__c" href="${esc(ctx.href('/bunker-kit.html'))}"><b>The Bunker Kit</b><span>50 free tools, and one crate of gear that is not free.</span><i>Paid links</i></a>
+    <a class="earn__c" href="${esc(ctx.href('/sponsor.html'))}"><b>Sponsor the index</b><span>One named sponsor at a time, with no say over the number.</span><i>Open</i></a>
+    ${brand.X_URL ? `<a class="earn__c" href="${esc(brand.X_URL)}" rel="noopener"><b>Donate with X Money</b><span>Open ${esc(brand.X_HANDLE)} and use the Money ($) button on the profile.</span><i>Any amount</i></a>` : ''}
+  </div>
+  <p class="fresh__key">As an Amazon Associate, ${esc(brand.NAME)} earns from qualifying purchases. Paid links are marked wherever they appear, and nothing a reader buys changes a number.</p>
 </section>
-
-${brand.X_URL ? `<section class="sec supp" id="support" aria-labelledby="support-h">
-  <h2 class="sec__h" id="support-h">Support this index</h2>
-  <p class="lede">${esc(brand.NAME)} is free, carries no advertising, sets no tracking
-    cookie and runs no analytics at all — nobody here knows you visited. It is built on
-    public data, keyless endpoints and free hosting. If it is useful to you, you can
-    chip in with X Money, or just follow and share a reading. Tally accepts both.</p>
-  <p class="supp__row"><a class="supp__a" href="${esc(brand.X_URL)}" rel="noopener">Donate with X Money
-    <span class="supp__h">${esc(brand.X_HANDLE)}</span></a></p>
-  <p class="supp__how">How: open ${esc(brand.X_HANDLE)} on X and use the Money ($) button on the profile to send any amount.
-    The supplies crate in the <a href="${esc(ctx.href('/bunker-kit.html'))}">Bunker Kit</a> carries paid links too.</p>
-  <p class="fresh__key">Nothing on this site is behind a paywall and nothing will be: the
-    arithmetic is the product, and a number you have to pay to check is not a number anybody
-    can check. Donations go to the person who runs it.</p>
-</section>` : ''}
 
 ${style}`;
 

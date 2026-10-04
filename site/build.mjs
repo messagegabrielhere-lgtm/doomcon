@@ -29,6 +29,7 @@ import * as notFoundPage from './templates/notFound.mjs';
 import * as deskPage from './templates/deskPage.mjs';
 import * as infoPages from './templates/infoPages.mjs';
 import * as topicPages from './templates/topicPages.mjs';
+import * as shopPages from './templates/shopPages.mjs';
 import { faqCss } from './templates/_faq.mjs';
 import { verifyCss } from './templates/_verify.mjs';
 import { sealCss } from './templates/_seal.mjs';
@@ -1129,6 +1130,8 @@ async function main() {
   written.push(await write(args.out, 'about.html', infoPages.about(ctx)));
   written.push(await write(args.out, 'privacy.html', infoPages.privacy(ctx)));
   written.push(await write(args.out, 'press.html', infoPages.press(ctx)));
+  written.push(await write(args.out, 'library.html', shopPages.library(ctx)));
+  written.push(await write(args.out, 'sponsor.html', shopPages.sponsor(ctx)));
   written.push(await write(args.out, 'guide.html', infoPages.guide(ctx)));
   if (deskPage.hasDesk(ctx)) written.push(await write(args.out, 'desk.html', deskPage.render(ctx)));
   if (newsPage.hasNews(ctx)) {

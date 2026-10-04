@@ -187,6 +187,8 @@ const SECTIONS = [
     blurb: 'The unserious counts: robots, godfathers, question marks.' },
   { href: '/game.html', label: 'Game', short: 'Game',
     blurb: 'Tally Counts: thirty seconds of counting signals and ignoring predictions.' },
+  { href: '/library.html', label: 'Reading list', short: 'Books',
+    blurb: 'Books from every side of the AI argument. Paid links.' },
   { href: '/bunker-kit.html', label: 'Bunker Kit', short: 'Bunker',
     blurb: 'Fifty free tools and one crate of gear.' },
   { href: '/history.html', label: 'History', short: 'History',
@@ -1278,6 +1280,7 @@ function footer(ctx, sections, path) {
   const source = [
     { href: '/about.html', label: 'About', blurb: 'What this is, who runs it, how it is paid for, and how to get in touch.' },
     { href: '/guide.html', label: 'Guide', blurb: 'DOOMCON, DEFCON, the Doomsday Clock and p(doom): what each one measures.' },
+    { href: '/sponsor.html', label: 'Sponsor', blurb: 'One labelled sponsor at a time, with no say over the number.' },
     { href: '/press.html', label: 'Press kit', blurb: 'Facts, a paragraph to lift, images and a contact.' },
     { href: '/privacy.html', label: 'Privacy', blurb: 'No cookies, no analytics. Every trace a visit can leave.' },
     { href: brand.REPO_URL, label: 'Source code', blurb: `Every line that produced these numbers. ${brand.LICENSE}.` },

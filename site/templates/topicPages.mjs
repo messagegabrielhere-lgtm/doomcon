@@ -123,7 +123,7 @@ ${list.map((e) => entry(ctx, e, L && L.status_words, t)).join('\n')}
   <p class="fresh__key"><b>${esc(N(hits.length))} of ${esc(N(items.length))}</b> headlines in the newsroom window mention ${esc(t.what)}${at ? `, as of ${esc(at)}` : ''}.
     Matched by word, so read them before trusting the count.</p>
   ${hits.length ? `<ul class="tp__news">${hits.slice(0, 12).map((i) => `<li><a href="${esc(i.url)}" rel="noopener">${esc(i.title)}</a><small>${esc(i.source)} · ${esc(String(i.published_at).slice(0, 10))}</small></li>`).join('')}</ul>` : ''}
-  <p><a href="${esc(ctx.href(other.path))}">${esc(other.h1)} →</a> · <a href="${esc(ctx.href('/balance.html'))}">Every register entry, both sides →</a>${brand.X_URL ? ` · <a href="https://x.com/intent/follow?screen_name=${esc(brand.X_HANDLE.replace(/^@/, ''))}" rel="noopener">Follow ${esc(brand.X_HANDLE)} for updates to these numbers →</a>` : ''}</p>
+  <p><a href="${esc(ctx.href(other.path))}">${esc(other.h1)} →</a> · <a href="${esc(ctx.href('/balance.html'))}">Every register entry, both sides →</a> · <a href="${esc(ctx.href('/library.html'))}">Books on the argument (paid links) →</a>${brand.X_URL ? ` · <a href="https://x.com/intent/follow?screen_name=${esc(brand.X_HANDLE.replace(/^@/, ''))}" rel="noopener">Follow ${esc(brand.X_HANDLE)} for updates to these numbers →</a>` : ''}</p>
 </section>`;
 
   return page({ ctx, path: t.path, title: t.title, description: t.description, main });
