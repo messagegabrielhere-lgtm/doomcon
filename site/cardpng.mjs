@@ -1351,11 +1351,6 @@ function chrome(S, { level, stamp, margin, stripe = 10, footer = true }) {
     stops: [{ at: 0, color: mix(GROUND, heat, 0.13) }, { at: 1, color: GROUND }],
   });
   S.rect({ x: 0, y: 0, w: S.width, h: stripe, color: heat });
-  // Hazard tape, the site's masthead rule: ground-coloured notches cut into
-  // the level stripe. The stripe is still the level's colour end to end.
-  for (let x = -stripe; x < S.width + stripe; x += stripe * 4) {
-    S.polygon({ points: [[x, stripe], [x + stripe * 2, stripe], [x + stripe * 3, 0], [x + stripe, 0]], color: GROUND });
-  }
   const small = Math.max(15, Math.round(S.width / 60));
   const markSize = Math.round(small * 3.6);
   const my = stripe + Math.round(margin * 0.5);

@@ -2282,6 +2282,7 @@ main.wrap > .hero .ch--dial { filter: drop-shadow(0 0 22px color-mix(in srgb, va
    measurement. Pages is a two-column list of labels; Data carries one note. */
 .foot__list--2{grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:var(--s-3)}
 .foot__col{min-width:0}.foot__list li{min-width:0;overflow-wrap:anywhere}
+.foot__list--2 li{grid-template-columns:minmax(0,1fr)}.foot__list--2 a{white-space:normal}
 @media (max-width:759px){.foot__cols{grid-template-columns:minmax(0,1fr)}}
 .foot__note{margin:0 0 var(--s-3);font-size:var(--t-xs);color:var(--ink-faint);line-height:1.4;max-width:34ch}
 .foot__note a{color:var(--ink-dim)}

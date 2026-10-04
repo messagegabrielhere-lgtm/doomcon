@@ -1236,7 +1236,7 @@ export function render(ctx, o = {}) {
 #${uid}-${p.key}:checked ~ .sw__tabs [for="${uid}-${p.key}"] .sw__tn { color: var(--accent); border-color: var(--accent); }
 #${uid}-${p.key}:checked ~ .sw__tabs [for="${uid}-${p.key}"] .sw__tg { color: var(--accent); }
 #${uid}-${p.key}:focus-visible ~ .sw__tabs [for="${uid}-${p.key}"] { outline: 2px solid var(--accent); outline-offset: -2px; }
-#${uid}-${p.key}:checked ~ .sw__panels > [data-panel="${p.key}"] { visibility: visible; opacity: 1; }
+#${uid}-${p.key}:checked ~ .sw__panels > [data-panel="${p.key}"] { visibility: visible; opacity: 1; max-height: none; overflow: visible; padding-top: var(--s-3); padding-bottom: 14px; }
 #${uid}-${p.key}:checked ~ .sw__panels { --sw-a: ${PANEL_HUE[p.key] || 'var(--accent-2)'}; }`).join('');
 
   // The order of these three lists IS the binding. They are built from one
@@ -1370,9 +1370,9 @@ export function styleTag(rules = '') {
   border-left:3px solid var(--sw-a,var(--rule));
   border-radius:0 0 var(--radius) var(--radius)}
 @media(prefers-reduced-motion:no-preference){.sw__panels{transition:border-left-color 140ms ease}}
-.sw__panel{grid-area:sw;min-width:0;padding:var(--s-3) 13px 14px;visibility:hidden;opacity:0}
+.sw__panel{grid-area:sw;min-width:0;padding:0 13px;max-height:0;overflow:hidden;visibility:hidden;opacity:0}
 /* The server-selected form, for a rendering with no radios at all. */
-.sw__panel[data-on="1"]{visibility:visible;opacity:1}
+.sw__panel[data-on="1"]{visibility:visible;opacity:1;max-height:none;overflow:visible;padding-top:var(--s-3);padding-bottom:14px}
 /* The cross-fade is decoration on content that is already painted; reduce turns
    it off and the panel still switches, instantly. MOTION.md §3. Restated rather
    than left to the blanket override, because a zero-duration opacity transition
@@ -1432,7 +1432,7 @@ export function styleTag(rules = '') {
   .sw__tab:last-child:nth-child(odd){grid-column:1 / -1}
   .sw__tk{overflow:hidden;text-overflow:ellipsis}
   .sw__panels{border-top:1px solid var(--rule);border-radius:var(--radius)}
-  .sw__panel{padding:var(--s-3) 10px 12px}
+  .sw__panel{padding-left:10px;padding-right:10px}
 }
 
 .sw__lede{font-size:var(--t-sm);line-height:1.55;color:var(--ink-dim);margin:0 0 var(--s-3);max-width:70ch}

@@ -283,7 +283,13 @@ body:has(> main.wrap > .hero) .rail { display: none; }
   .mt__l { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 8px; scrollbar-width: thin; }
   .mt__i { flex: 0 0 46%; scroll-snap-align: center; }
 }
-main.wrap:has(> .hero) > .sw { margin-top: clamp(56px, 9vw, 120px); }
+/* THE LIVE DESK, FRAMED. One rounded panel like the others on the page. The
+   ranked list and the what-moved strip are left to the pages that own them:
+   "What happened" above already prints the top five, and the wall prints the
+   movement, so the desk here is the tabs and the newest stories. */
+main.wrap:has(> .hero) > .sw { margin-top: clamp(40px, 6vw, 72px); padding: clamp(14px, 2.4vw, 28px); border: 1px solid var(--rule); border-radius: 16px; background: var(--bg-raised); }
+main.wrap:has(> .hero) > .sw .sec.news, main.wrap:has(> .hero) > .sw .sw__moved { display: none; }
+main.wrap:has(> .hero) > .sw .sw__lede { display: none; }
 .hmap__ph { position: relative; margin: 0 0 var(--s-4); border-radius: 16px; overflow: hidden; background: #06070b; }
 .hmap__ph img { display: block; width: 100%; height: clamp(220px, 46vw, 560px); object-fit: cover; object-position: center 60%; }
 .hmap__ph figcaption { position: absolute; left: 0; right: 0; bottom: 0; display: grid; gap: 4px; padding: clamp(14px, 3vw, 32px);

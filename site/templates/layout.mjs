@@ -748,6 +748,10 @@ const PAGE_BANNERS = {
   '/medicine.html': 'page-medicine.jpg',
   '/race.html': 'page-race.jpg',
   '/news.html': 'page-news.jpg',
+  '/map.html': 'page-map.jpg',
+  '/world.html': 'page-world.jpg',
+  '/flock.html': 'page-flock.jpg',
+  '/exploits.html': 'page-exploits.jpg',
 };
 
 function pageBanner(ctx, path) {
@@ -868,9 +872,11 @@ const FEATURE_BAR_CSS = `<style>
 .fb__menu .fb__t { justify-content: flex-start; }
 .fb__menu .fb__n { margin-left: auto; }
 @media (min-width: 1080px) {
-  .fb--inline { flex-wrap: nowrap; }
+  /* Wraps rather than runs off the edge: eight tiles and their live numbers
+     need ~1,350px, and a 1280px laptop was scrolling sideways by 200. More
+     is pinned right so its menu always opens inside the page. */
   .fb--inline > .fb__t--x { display: none; }
-  .fb__more { display: block; }
+  .fb__more { display: block; margin-left: auto; }
 }
 /* The tagline must not eat the row the tiles need. */
 .masthead__in > .masthead__tag { flex: 0 1 auto; }
