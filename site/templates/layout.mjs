@@ -1063,6 +1063,7 @@ ${jsonld}
 </head>
 <body${wide ? ' data-wide="1"' : ''}>
 <a class="skip" href="#main">Skip to the index</a>
+${brand.X_URL ? `<p class="give">${esc(brand.NAME)} is free and carries no ads. <a href="${esc(brand.X_URL)}" rel="noopener">Keep it running: donate with X Money →</a></p>` : ''}
 <header class="masthead"><div class="wrap masthead__in">
   ${marks.mastheadLockup(ctx.state.level, { href: ctx.href('/'), current: o.path === '/', logos: ctx.logos, logoHref: (n) => ctx.href(`/logos/${n}`) })}
   <p class="masthead__tag">${esc(brand.SLOGAN)}</p>

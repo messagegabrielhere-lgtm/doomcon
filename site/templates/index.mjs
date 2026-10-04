@@ -324,9 +324,9 @@ main.wrap:has(> .hero) > .sw { margin-top: clamp(56px, 9vw, 120px); }
 main.wrap > .hero::before { display: none; }
 main.wrap > .hero { border-radius: 3px; }
 .ans__q { margin: 0 0 var(--s-2); font: 700 var(--t-sm)/1.2 var(--mono); letter-spacing: .18em; text-transform: uppercase; color: var(--accent); }
-.ans__a { margin: 0 0 var(--s-3); font: 400 clamp(54px, 10.5vw, 150px)/.9 var(--poster); letter-spacing: .005em; text-transform: uppercase; color: var(--ink); }
+.ans__a { margin: 0 0 var(--s-3); font: 700 clamp(34px, 6.4vw, 92px)/1 var(--poster); letter-spacing: 0; text-transform: uppercase; color: var(--ink); }
 .ans__a b { font-weight: 400; color: var(--lvl, var(--accent)); text-shadow: 0 0 34px color-mix(in srgb, var(--lvl, var(--accent)) 55%, transparent); }
-.ans__a span { display: block; font-size: .42em; line-height: 1.05; margin-top: .12em; color: var(--ink); }
+.ans__a span { display: block; font-size: .36em; font-weight: 400; line-height: 1.2; margin-top: .3em; color: var(--ink); }
 .ans__why { margin: 0 0 var(--s-3); max-width: 62ch; font: 400 clamp(16px, 1.5vw, 20px)/1.5 var(--sans); color: var(--ink); }
 .ans__meta { display: flex; flex-wrap: wrap; gap: 6px 14px; margin: 0 0 var(--s-3); font: 600 var(--t-2xs)/1.3 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-dim); }
 .ans__live { color: var(--ok); }
@@ -351,6 +351,23 @@ main.wrap > .hero .hero__headline { margin: 0 0 var(--s-3); font: 500 var(--t-sm
 .wall__k { font: 700 var(--t-2xs)/1 var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--ink-faint); }
 .wall__v { font: 700 clamp(20px, 2.3vw, 30px)/1.05 var(--mono); letter-spacing: -.03em; color: var(--lvl, var(--accent)); text-shadow: 0 0 16px color-mix(in srgb, var(--lvl, var(--accent)) 45%, transparent); overflow-wrap: anywhere; }
 .wall__s { font: 500 var(--t-2xs)/1.35 var(--mono); letter-spacing: .04em; color: var(--ink-dim); overflow-wrap: anywhere; }
+.pcs__l { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s-3); grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); }
+.pc { padding: 14px 16px 12px; border: 1px solid var(--rule); border-radius: 12px; background: var(--bg-raised); min-width: 0; }
+.pc__top { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.pc__n { font: 700 var(--t-sm)/1.2 var(--poster); letter-spacing: 0; text-transform: uppercase; color: var(--ink); }
+.pc__chip { padding: 4px 8px; border: 1px solid currentColor; border-radius: 6px; font: 700 var(--t-2xs)/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+.pc__chip--up { color: var(--dark-src); background: color-mix(in srgb, var(--dark-src) 12%, transparent); }
+.pc__chip--down { color: var(--accent-2); background: color-mix(in srgb, var(--accent-2) 12%, transparent); }
+.pc__chip--flat, .pc__chip--wait { color: var(--ink-dim); }
+.pc__s { margin: 6px 0 10px; font: 500 var(--t-2xs)/1.3 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-faint); }
+.pc__bars { display: block; width: 100%; height: 96px; border-bottom: 1px solid var(--rule); }
+.pc__bars rect { fill: var(--bar); }
+.pc__bars .pc__now { fill: var(--lvl, var(--accent)); filter: drop-shadow(0 0 3px var(--lvl, var(--accent))); }
+.pc__f { margin: 8px 0 0; font: 500 var(--t-2xs)/1.4 var(--mono); letter-spacing: .04em; color: var(--ink-dim); }
+.pc__f b { font-size: var(--t-md); color: var(--ink); margin: 0 4px 0 8px; }
+.pc__live { color: var(--ok); font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+.pc__live::before { content: ""; display: inline-block; width: 6px; height: 6px; margin-right: 5px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 8px var(--ok); vertical-align: 1px; }
+.pc__none { margin: 0; font: 400 var(--t-sm)/1.5 var(--sans); color: var(--ink-dim); }
 .tops__l { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule); }
 .tops__i { display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 2px 10px; padding: 12px 0; border-bottom: 1px solid var(--rule); }
 .tops__r { grid-row: span 2; font: 700 var(--t-md)/1.3 var(--mono); color: var(--accent); }
@@ -620,6 +637,7 @@ ${gauge.styleTag()}
      eleven tiles. Both render '' when their data is absent; neither needs
      a script to exist. site/templates/_readings.mjs, _claims.mjs. -->
 ${wall(ctx)}
+${pillarCards(ctx)}
 ${topStories(ctx)}
 ${readings.render(ctx)}
 ${verify.render(ctx)}
@@ -1043,6 +1061,40 @@ function wall(ctx) {
   if (ctx.world && ctx.world.totals && Number.isFinite(ctx.world.totals.sites)) add('Datacentres', ctx.world.totals.sites.toLocaleString('en-US'), 'sites mapped worldwide', '/world.html');
   add('Trackers', '0', 'ads, cookies or analytics', '/privacy.html');
   return `<section class="wall" aria-label="Every instrument, one tile each">${tiles.join('')}</section>`;
+}
+
+// THE FIVE CARDS. One per pillar, each with a bar for every recent reading:
+// the competitor's signature graphic (a bar chart per pizza shop), drawn for
+// the five things this index counts. The chip compares the newest reading with
+// the median of the bars shown, in words, and a pillar with no score is
+// printed as waiting, never as zero.
+function pillarCards(ctx) {
+  const rows = Array.isArray(ctx.history) ? ctx.history.slice(-24) : [];
+  if (rows.length < 4) return '';
+  const cards = brand.PILLARS.map((p) => {
+    const series = rows.map((r) => (r.pillars && Number.isFinite(r.pillars[p.id]) ? r.pillars[p.id] : null));
+    const vals = series.filter((v) => v !== null);
+    if (vals.length < 4) {
+      return `<li class="pc" data-pillar="${esc(p.id)}"><div class="pc__top"><b class="pc__n">${esc(p.name)}</b><span class="pc__chip pc__chip--wait">Awaiting baseline</span></div>
+      <p class="pc__s">${esc(PILLAR_PLAIN[p.id] || '')}</p><p class="pc__none">Readings are arriving, and there is no frozen record to score them against yet. Nothing is drawn.</p></li>`;
+    }
+    const sorted = [...vals].sort((a, b) => a - b);
+    const med = sorted.length % 2 ? sorted[(sorted.length - 1) / 2] : (sorted[sorted.length / 2 - 1] + sorted[sorted.length / 2]) / 2;
+    const last = vals[vals.length - 1];
+    const ratio = med > 0 ? last / med : 1;
+    const [chip, cls] = ratio > 1.08 ? ['Louder than usual', 'up'] : ratio < 0.92 ? ['Quieter than usual', 'down'] : ['About as usual', 'flat'];
+    const n = series.length; const bw = 100 / n;
+    const bars = series.map((v, i) => (v === null ? '' : `<rect x="${(i * bw + bw * 0.14).toFixed(2)}" y="${(40 - (v / 100) * 40).toFixed(2)}" width="${(bw * 0.72).toFixed(2)}" height="${((v / 100) * 40).toFixed(2)}" rx=".6"${i === n - 1 ? ' class="pc__now"' : ''}/>`)).join('');
+    return `<li class="pc" data-pillar="${esc(p.id)}"><div class="pc__top"><b class="pc__n">${esc(p.name)}</b><span class="pc__chip pc__chip--${cls}">${esc(chip)}</span></div>
+      <p class="pc__s">${esc(PILLAR_PLAIN[p.id] || '')}</p>
+      <svg class="pc__bars" viewBox="0 0 100 40" preserveAspectRatio="none" role="img" aria-label="${esc(p.name)}: one bar per reading for the last ${n} readings, newest on the right at ${esc(num(last, 1))} of 100">${bars}</svg>
+      <p class="pc__f"><span class="pc__live">Live</span><b class="num">${esc(num(last, 1))}</b> of 100 now · median of these ${esc(vals.length)}: ${esc(num(med, 1))}</p></li>`;
+  });
+  return `<section class="sec pcs" id="pillars" aria-labelledby="pcs-h">
+  <h2 class="sec__h" id="pcs-h">The five things we count</h2>
+  <ul class="pcs__l">${cards.join('')}</ul>
+  <p class="fresh__key">One bar per reading, newest on the right, each from 0 to 100. <a href="${esc(ctx.href('/instruments.html'))}">Every pillar in full →</a></p>
+</section>`;
 }
 
 // WHAT HAPPENED. The three highest-scoring stories in the window, verbatim,

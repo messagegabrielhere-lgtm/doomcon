@@ -121,7 +121,7 @@ export const CANONICAL_URL = 'https://messagegabrielhere-lgtm.github.io/doomcon'
 // from on 2026-09-28 (@GT1771868173636) now 404s and @DoomConin0 is the live
 // one. Verify before changing it again — a wrong handle here misattributes
 // every share card on every page, which is the exact pizzint defect above.
-export const X_HANDLE = '@DoomConin0';
+export const X_HANDLE = '@SIRENutf6';
 
 /** The account's page, derived so the handle is written once. Null when there
  *  is no handle, so every consumer can gate on it the way layout.mjs does. */
