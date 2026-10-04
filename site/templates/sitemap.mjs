@@ -11,6 +11,8 @@ export function render(ctx) {
     { loc: '/', changefreq: 'hourly', priority: '1.0', lastmod: ctx.state.generated_at },
     { loc: '/methodology.html', changefreq: 'monthly', priority: '0.8', lastmod: ctx.state.generated_at },
     { loc: '/history.html', changefreq: 'monthly', priority: '0.8', lastmod: ctx.state.generated_at },
+    { loc: '/desk.html', changefreq: 'hourly', priority: '0.7', lastmod: ctx.state.generated_at },
+    { loc: '/game.html', changefreq: 'monthly', priority: '0.6', lastmod: ctx.state.generated_at },
     { loc: '/bunker-kit.html', changefreq: 'monthly', priority: '0.7', lastmod: ctx.state.generated_at },
     ...(ctx.news && Array.isArray(ctx.news.items) && ctx.news.items.length
       ? [{ loc: '/news.html', changefreq: 'hourly', priority: '0.9', lastmod: ctx.news.generated_at }]

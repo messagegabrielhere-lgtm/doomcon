@@ -177,6 +177,12 @@ const SECTIONS = [
       ? { v: num(ctx.bliss.score, 1), k: 'bliss score' } : null) },
   { href: '/methodology.html', label: 'Methodology', short: 'Method',
     blurb: 'Every formula and constant. Recompute the number yourself.' },
+  { href: '/desk.html', label: 'Tally’s Desk', short: 'Desk', needs: 'news',
+    blurb: 'The unserious counts: robots, godfathers, question marks.' },
+  { href: '/game.html', label: 'Game', short: 'Game',
+    blurb: 'Tally Counts: thirty seconds of counting signals and ignoring predictions.' },
+  { href: '/bunker-kit.html', label: 'Bunker Kit', short: 'Bunker',
+    blurb: 'Fifty free tools and one crate of gear.' },
   { href: '/history.html', label: 'History', short: 'History',
     blurb: 'Sixty years of the same argument, dated and attributed.',
     count: (ctx) => (Array.isArray(ctx.history) && ctx.history.length

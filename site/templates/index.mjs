@@ -165,6 +165,7 @@ ${gauge.styleTag()}
        gone rather than repeated. -->
   <h1 class="hero__headline">${headline(ctx)}</h1>
   ${heroAside(ctx)}
+  ${Number.isFinite(state.score) ? langStrip(state) : ''}
   <div class="hero__grid">
 
     <!-- align-self overrides .hero__grid's align-items:end, so the dial sits
@@ -432,6 +433,11 @@ main.wrap[data-level="1"] > .hero .ch--dial { animation: dcBreathe 1.1s ease-in-
 .bunk__go { display: inline-block; padding: 10px 16px; border: 2px solid var(--accent); border-radius: 4px; color: var(--ink);
   text-decoration: none; font: 700 var(--t-sm)/1 var(--stencil); letter-spacing: .14em; text-transform: uppercase; }
 .bunk__go:hover, .bunk__go:focus-visible { background: var(--accent); color: #0b0c0e; }
+.hero__lang { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 0 0 var(--s-3); font: 600 var(--t-2xs)/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-faint); }
+.hero__lang span { margin-right: 4px; }
+.hero__lang button { padding: 5px 8px; border: 1px solid var(--rule); border-radius: 4px; background: transparent; color: var(--ink-dim); cursor: pointer; font: 500 var(--t-xs)/1 var(--sans); letter-spacing: 0; text-transform: none; }
+.hero__lang button[aria-pressed="true"] { border-color: var(--lvl, var(--accent)); color: var(--ink); }
+.hero__gist { margin: 0 0 var(--s-2); font: 500 var(--t-base)/1.4 var(--sans); color: var(--ink); max-width: 60ch; }
 .hero__orders { display: flex; align-items: center; gap: 10px; }
 .hero__badge { display: none; }
 @media (max-width: 719.98px) {
@@ -800,6 +806,36 @@ const STANDING_ORDERS = {
   2: 'Check the receipt. Then check it again.',
   1: 'This is a count, not a siren. The arithmetic is below.',
 };
+
+// THE SENTENCE, IN SEVEN LANGUAGES. Only the headline and a one-line gist are
+// translated; the level NAME stays in English because it is a code word that
+// the cards, the feed and the API all print. The strip is hidden until its
+// script runs, so without JavaScript the page is simply English.
+const LANGS = [
+  ['en', 'English', null, null],
+  ['es', 'Español', 'La actividad de la IA está en DOOMCON {n} — {name}, en una escala donde 1 es lo más ruidoso.', 'DOOMCON cuenta cuánto está pasando en la IA, cada hora. No es una predicción.'],
+  ['fr', 'Français', 'L’activité de l’IA est à DOOMCON {n} — {name}, sur une échelle où 1 est le plus bruyant.', 'DOOMCON compte ce qui se passe dans l’IA, chaque heure. Ce n’est pas une prédiction.'],
+  ['de', 'Deutsch', 'Die KI-Aktivität steht bei DOOMCON {n} — {name}, auf einer Skala, auf der 1 am lautesten ist.', 'DOOMCON zählt stündlich, wie viel in der KI passiert. Es ist keine Vorhersage.'],
+  ['pt', 'Português', 'A atividade de IA está em DOOMCON {n} — {name}, numa escala em que 1 é o mais ruidoso.', 'O DOOMCON conta, de hora em hora, quanto está a acontecer na IA. Não é uma previsão.'],
+  ['ja', '日本語', 'AIの活動量は DOOMCON {n} — {name}。1が最も騒がしい尺度です。', 'DOOMCONはAIで起きていることの量を毎時数えます。予測ではありません。'],
+  ['zh', '中文', 'AI 活动水平为 DOOMCON {n} — {name}，量表中 1 表示最喧闹。', 'DOOMCON 每小时统计 AI 领域发生了多少事。这不是预测。'],
+];
+
+function langStrip(state) {
+  const fill = (t) => t.replace('{n}', String(state.level)).replace('{name}', String(state.level_name));
+  const data = {};
+  for (const [code, , h, g] of LANGS) if (h) data[code] = [fill(h), g];
+  const json = JSON.stringify(data).replace(/</g, '\\u003c');
+  return `<p class="hero__gist" id="hero-gist" hidden></p>
+  <p class="hero__lang" id="hero-lang" hidden><span>Read it in</span>${LANGS.map(([code, label]) => `<button type="button" lang="${code}" data-l="${code}"${code === 'en' ? ' aria-pressed="true"' : ' aria-pressed="false"'}>${esc(label)}</button>`).join('')}</p>
+  <script>(function(){var T=${json},h=document.querySelector('.hero__headline'),g=document.getElementById('hero-gist'),w=document.getElementById('hero-lang');
+if(!h||!g||!w)return;var en=h.textContent;w.hidden=false;
+function set(l){var t=T[l];h.textContent=t?t[0]:en;h.lang=l;g.textContent=t?t[1]:'';g.lang=l;g.hidden=!t;
+[].forEach.call(w.querySelectorAll('button'),function(b){b.setAttribute('aria-pressed',String(b.getAttribute('data-l')===l));});
+try{localStorage.setItem('dc-lang',l);}catch(e){}}
+w.addEventListener('click',function(e){var b=e.target.closest('button');if(b)set(b.getAttribute('data-l'));});
+try{var s=localStorage.getItem('dc-lang');if(s&&T[s])set(s);}catch(e){}})();</script>`;
+}
 
 function heroAside(ctx) {
   const st = ctx.state;

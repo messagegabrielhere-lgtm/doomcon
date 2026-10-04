@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tally Counts: the 30-second counting game · DOOMCON</title>
+<meta name="description" content="A 30-second game from DOOMCON. Count the signals, ignore the predictions. Tally the duty canary keeps score.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Stardos+Stencil:wght@400;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b0c0e; --panel:#14171c; --rule:#2a2f38; --ink:#e8eaee; --dim:#9aa2ad;
+  --amber:#ffb020; --green:#5fd08a; --red:#ff5f56;
+  --poster:"Anton", Impact, "Arial Narrow", sans-serif;
+  --stencil:"Stardos Stencil", Georgia, serif;
+  --mono:"JetBrains Mono", ui-monospace, Menlo, monospace;
+  box-sizing:border-box;
+}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.5 var(--mono);
+  padding:env(safe-area-inset-top,0) 16px calc(env(safe-area-inset-bottom,0) + 32px)}
+a{color:var(--amber)}
+:focus-visible{outline:3px solid var(--amber);outline-offset:3px}
+.tape{height:10px;margin:0 -16px;background:repeating-linear-gradient(-45deg,var(--amber) 0 12px,var(--bg) 12px 24px)}
+.wrap{max-width:560px;margin:0 auto}
+.back{display:inline-block;margin:16px 0 8px;font-size:.85rem;letter-spacing:.08em;text-transform:uppercase}
+h1{font:400 clamp(2.6rem,12vw,4.2rem)/.95 var(--poster);text-transform:uppercase;margin:0;letter-spacing:.01em}
+.rules{color:var(--dim);font-size:.9rem;margin:.6em 0 1em;max-width:52ch}
+.rules b{color:var(--ink)}
+.hud{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:10px 12px;border:1px solid var(--rule);background:var(--panel);border-radius:8px}
+.hud svg{width:64px;height:64px;display:block}
+.hud dl{margin:0;display:flex;gap:18px;flex-wrap:wrap}
+.hud dt{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+.hud dd{margin:0;font:400 2rem/1 var(--poster)}
+#say{font:700 .8rem/1.3 var(--stencil);letter-spacing:.1em;text-transform:uppercase;color:var(--amber);text-align:right;max-width:11ch}
+.bar{height:8px;margin:10px 0;background:#000;border:1px solid var(--rule)}
+.bar span{display:block;height:100%;width:100%;background:var(--amber)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.cell{aspect-ratio:1;min-height:88px;border:2px solid var(--rule);border-radius:8px;background:var(--panel);color:var(--ink);
+  font:700 clamp(.62rem,2.6vw,.85rem)/1.15 var(--stencil);letter-spacing:.08em;text-transform:uppercase;cursor:pointer;padding:6px;
+  display:grid;place-items:center;text-align:center;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.cell[data-k="sig"]{border-color:var(--green);color:var(--green);background:#12201a}
+.cell[data-k="pred"]{border-color:var(--red);color:var(--red);background:#241414}
+.cell.hit{background:var(--green);color:#0b0c0e}
+.cell.miss{background:var(--red);color:#0b0c0e}
+.cell:disabled{cursor:default}
+.go{display:block;width:100%;margin:14px 0 0;padding:14px;border:3px solid var(--amber);border-radius:6px;background:var(--amber);color:#0b0c0e;
+  font:700 1.05rem/1 var(--stencil);letter-spacing:.16em;text-transform:uppercase;cursor:pointer}
+.out{margin:14px 0 0;padding:14px;border:2px dashed var(--rule);border-radius:8px}
+.out h2{font:400 2rem/1 var(--poster);text-transform:uppercase;margin:0 0 .3em}
+.out p{margin:.3em 0;color:var(--dim)}
+.out a.x{display:inline-block;margin-top:8px;padding:9px 14px;border:2px solid var(--amber);border-radius:4px;color:var(--ink);text-decoration:none;
+  font:700 .85rem/1 var(--stencil);letter-spacing:.14em;text-transform:uppercase}
+.fine{color:var(--dim);font-size:.8rem;margin-top:22px}
+[hidden]{display:none!important}
+@media (prefers-reduced-motion:no-preference){.cell{transition:background .08s}}
+</style>
+</head>
+<body>
+<div class="tape" aria-hidden="true"></div>
+<div class="wrap">
+  <a class="back" href="./">Back to DOOMCON</a>
+  <h1>Tally Counts</h1>
+  <p class="rules">Thirty seconds on the duty desk. Tap every <b style="color:var(--green)">signal</b> to count it: +1.
+    Tap a <b style="color:var(--red)">prediction</b> and you lose 2, because we count and we do not predict. Signals you let go by cost nothing.</p>
+
+  <div class="hud">
+    <svg id="bird" viewBox="0 0 64 64" aria-hidden="true">
+      <g stroke="#0b0c0e" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round">
+        <path d="M27 54v6m-3 0h6M37 54v6m-3 0h6" fill="none"/>
+        <polygon points="46,42 59,38 56,50" fill="#f0b400"/>
+        <ellipse cx="32" cy="41" rx="17" ry="15" fill="#ffd23f"/>
+        <path d="M18 38q-7 7 2 14q6-3 6-11z" fill="#f0b400"/>
+        <circle cx="32" cy="24" r="12.5" fill="#ffd23f"/>
+        <path id="hat1" d="M18 21a14 14 0 0 1 28 0z" fill="#ffb020"/>
+        <rect id="hat2" x="14.5" y="19.5" width="35" height="4.6" rx="2.3" fill="#ffb020"/>
+        <polygon points="29,31 35,31 32,36" fill="#ff8b3d"/>
+      </g>
+      <ellipse cx="32" cy="46" rx="9" ry="7" fill="#ffe58a"/>
+      <circle cx="32" cy="13.4" r="3.6" fill="#0b0c0e"/><polygon points="32,11 34.4,15 29.6,15" fill="#fff"/>
+      <circle cx="27" cy="28" r="2.2" fill="#0b0c0e"/><circle cx="37" cy="28" r="2.2" fill="#0b0c0e"/>
+    </svg>
+    <dl>
+      <div><dt>Counted</dt><dd id="score">0</dd></div>
+      <div><dt>Seconds</dt><dd id="time">30</dd></div>
+      <div><dt>Best</dt><dd id="best">0</dd></div>
+    </dl>
+    <p id="say" aria-live="polite">Standing by.</p>
+  </div>
+  <div class="bar" aria-hidden="true"><span id="fill"></span></div>
+
+  <div class="grid" id="grid" role="group" aria-label="Duty desk"></div>
+  <button class="go" id="go" type="button">Start the shift</button>
+
+  <div class="out" id="out" hidden>
+    <h2 id="verdict"></h2>
+    <p id="detail"></p>
+    <a class="x" id="share" target="_blank" rel="noopener" href="#">Post my count on X</a>
+  </div>
+
+  <p class="fine">A game, not a reading. Nothing here feeds the index. Your best score is kept in this browser only.
+    For the real count, see <a href="./">the index</a> or <a href="./desk.html">Tally's desk</a>.</p>
+</div>
+<script>
+(function(){
+  var SIG = ["Model release","Chip order","New paper","Rule filed","Data centre","Benchmark","Open weights","Funding round"];
+  var PRED = ["Prediction","Hot take","Vibes","AGI by Friday","Trust me","It's over"];
+  var RANKS = [[0,"Sent home early"],[8,"Trainee counter"],[16,"Duty canary"],[24,"Senior tallyman"],[32,"Chief of the count"]];
+  var $ = function(id){ return document.getElementById(id); };
+  var grid = $("grid"), cells = [], score = 0, left = 30, timer = null, spawner = null, running = false, best = 0, hits = 0, slips = 0;
+  try { best = parseInt(localStorage.getItem("tally-best") || "0", 10) || 0; } catch (e) {}
+  $("best").textContent = best;
+  for (var i = 0; i < 9; i++) {
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "cell"; b.disabled = true; b.setAttribute("aria-label", "Empty desk");
+    b.addEventListener("click", tap);
+    grid.appendChild(b); cells.push(b);
+  }
+  function hat(c){ $("hat1").setAttribute("fill", c); $("hat2").setAttribute("fill", c); }
+  function say(t){ $("say").textContent = t; }
+  function clear(c){ c.textContent = ""; c.removeAttribute("data-k"); c.className = "cell"; c.setAttribute("aria-label", "Empty desk"); if (c._t) { clearTimeout(c._t); c._t = null; } }
+  function spawn(){
+    if (!running) return;
+    var free = cells.filter(function(c){ return !c.getAttribute("data-k"); });
+    if (!free.length) return;
+    var c = free[Math.floor(Math.random() * free.length)];
+    var pred = Math.random() < 0.34;
+    var list = pred ? PRED : SIG;
+    var word = list[Math.floor(Math.random() * list.length)];
+    c.textContent = word; c.setAttribute("data-k", pred ? "pred" : "sig");
+    c.setAttribute("aria-label", (pred ? "Prediction: " : "Signal: ") + word);
+    var life = Math.max(650, 1500 - (30 - left) * 26);
+    c._t = setTimeout(function(){ clear(c); }, life);
+  }
+  function tap(e){
+    var c = e.currentTarget, k = c.getAttribute("data-k");
+    if (!running || !k) return;
+    if (k === "sig") { score += 1; hits += 1; c.classList.add("hit"); hat("#5fd08a"); say("Counted."); }
+    else { score -= 2; slips += 1; c.classList.add("miss"); hat("#ff5f56"); say("That was a prediction."); }
+    $("score").textContent = score;
+    c.removeAttribute("data-k");
+    if (c._t) clearTimeout(c._t);
+    c._t = setTimeout(function(){ clear(c); }, 160);
+  }
+  function tick(){
+    left -= 1; $("time").textContent = left; $("fill").style.width = (left / 30 * 100) + "%";
+    if (left <= 0) end();
+  }
+  function start(){
+    score = 0; left = 30; hits = 0; slips = 0; running = true;
+    $("score").textContent = 0; $("time").textContent = 30; $("fill").style.width = "100%";
+    $("out").hidden = true; $("go").hidden = true; hat("#ffb020"); say("Count.");
+    cells.forEach(function(c){ clear(c); c.disabled = false; });
+    timer = setInterval(tick, 1000);
+    (function loop(){ if (!running) return; spawn(); spawner = setTimeout(loop, Math.max(330, 760 - (30 - left) * 14)); })();
+  }
+  function end(){
+    running = false; clearInterval(timer); clearTimeout(spawner);
+    cells.forEach(function(c){ clear(c); c.disabled = true; });
+    var rank = RANKS[0][1];
+    RANKS.forEach(function(r){ if (score >= r[0]) rank = r[1]; });
+    var isBest = score > best;
+    if (isBest) { best = score; try { localStorage.setItem("tally-best", String(best)); } catch (e) {} $("best").textContent = best; }
+    $("verdict").textContent = score + " counted. " + rank + ".";
+    $("detail").textContent = hits + " signals counted, " + slips + " predictions touched." + (isBest ? " New best on this device." : "");
+    var text = "I counted " + score + " signals in 30 seconds on Tally Counts and touched " + slips + " predictions. Rank: " + rank + ".";
+    var here = location.origin + location.pathname;
+    $("share").href = "https://x.com/intent/post?text=" + encodeURIComponent(text) + "&url=" + encodeURIComponent(here);
+    $("out").hidden = false; $("go").hidden = false; $("go").textContent = "Another shift";
+    hat("#ffb020"); say("Shift over.");
+  }
+  $("go").addEventListener("click", start);
+})();
+</script>
+</body>
+</html>

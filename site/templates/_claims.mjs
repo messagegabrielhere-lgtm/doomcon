@@ -150,7 +150,11 @@ function hrefOf(ctx, path) {
 // ---------------------------------------------------------------------------
 
 function live(id, ctx, pre, num, post, ratio = null) {
-  return { id, state: 'live', href: hrefOf(ctx, DEST[id].href), to: DEST[id].to, pre, num, post, ratio: ratio && proportion(ratio) };
+  // text + share feed the card's own "Post on X" link: the sentence exactly as
+  // printed, and the absolute address of the page that holds the number.
+  const text = `${pre}${num}${post}`.replace(/\s+/g, ' ').trim();
+  const share = typeof ctx.url === 'function' ? ctx.url(DEST[id].href) : null;
+  return { id, state: 'live', href: hrefOf(ctx, DEST[id].href), to: DEST[id].to, pre, num, post, text, share, ratio: ratio && proportion(ratio) };
 }
 
 /**
@@ -493,7 +497,8 @@ function card(c) {
         <span class="clm__s">${body}</span>
         ${c.ratio ? bar(c.ratio) : ''}
         <span class="clm__to" aria-hidden="true">${esc(c.to)} →</span>
-      </a>
+      </a>${c.state === 'live' && c.text && c.share ? `
+      <a class="clm__x" rel="noopener" target="_blank" href="https://x.com/intent/post?text=${encodeURIComponent(String(c.text))}&amp;url=${encodeURIComponent(c.share)}">Post on X</a>` : ''}
     </li>`;
 }
 
@@ -616,6 +621,9 @@ const clmCss = `
   transition: border-color 120ms ease, box-shadow 120ms ease, transform 120ms ease;
 }
 .clm__a:hover { border-color: var(--accent-2); box-shadow: var(--shadow-2); text-decoration-color: var(--ink-faint); }
+.clm__x { display: inline-block; margin: 8px 0 0; font: 700 var(--t-2xs)/1 var(--mono); letter-spacing: .12em; text-transform: uppercase;
+  color: var(--ink-dim); text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: 2px; }
+.clm__x:hover, .clm__x:focus-visible { color: var(--ink); }
 .clm__a:hover .clm__to { color: var(--accent-2); }
 /* The document ring squares its corners to 2px; this box is 12px. */
 .clm__a:focus-visible { border-radius: var(--radius-lg); }

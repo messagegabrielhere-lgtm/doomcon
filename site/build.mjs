@@ -26,6 +26,7 @@ import * as movePage from './templates/move.mjs';
 import * as movesIndexPage from './templates/movesIndex.mjs';
 import * as embedPage from './templates/embed.mjs';
 import * as notFoundPage from './templates/notFound.mjs';
+import * as deskPage from './templates/deskPage.mjs';
 import { sealCss } from './templates/_seal.mjs';
 import { mascotCss } from './templates/_mascot.mjs';
 
@@ -1113,6 +1114,7 @@ async function main() {
     }
   }
   written.push(await write(args.out, 'moves/index.html', movesIndexPage.render(ctx)));
+  if (deskPage.hasDesk(ctx)) written.push(await write(args.out, 'desk.html', deskPage.render(ctx)));
   if (newsPage.hasNews(ctx)) {
     written.push(await write(args.out, 'news.html', newsPage.render(ctx)));
   }
