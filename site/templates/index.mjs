@@ -317,17 +317,27 @@ main.wrap:has(> .hero) > .sw { margin-top: clamp(56px, 9vw, 120px); }
 .hero__lang button[aria-pressed="true"] { border-color: var(--lvl, var(--accent)); color: var(--ink); }
 .hero__gist { margin: 0 0 var(--s-2); font: 500 var(--t-base)/1.4 var(--sans); color: var(--ink); max-width: 60ch; }
 .hero__orders { display: flex; align-items: center; gap: 10px; }
-.hero__badge { display: none; }
-@media (max-width: 719.98px) {
-  .hero__badge { display: flex; align-items: center; gap: 12px; margin: 0 0 var(--s-3); padding: 10px 14px;
-    border: 2px solid var(--lvl, var(--accent)); border-radius: 10px;
-    background: color-mix(in srgb, var(--lvl, var(--accent)) 12%, transparent);
-    box-shadow: 0 0 22px color-mix(in srgb, var(--lvl, var(--accent)) 35%, transparent), inset 0 0 18px color-mix(in srgb, var(--lvl, var(--accent)) 10%, transparent); }
-  .hero__badge-t { display: grid; gap: 4px; min-width: 0; }
-  .hero__badge-t b { font: 400 clamp(34px, 11vw, 46px)/.95 var(--poster); letter-spacing: .02em; text-transform: uppercase; color: var(--lvl, var(--accent)); }
-  .hero__badge-t span { font: 600 var(--t-xs)/1.2 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-dim); }
-  .hero__tally { display: none; }
-  main.wrap > .hero .hero__headline { font-size: 28px; }
+/* THE POSTER. The level is the first thing on the page at every width: one
+   solid block in the level's own colour, the name set as large as the block
+   allows, and Tally beside it in a white civil-defence helmet. Everything
+   under it explains it. It is aria-hidden because the h1 says the same thing
+   in a full sentence. */
+main.wrap > .hero > .hero__badge { grid-column: 1 / -1; }
+.hero__badge { display: flex; align-items: center; gap: clamp(12px, 3vw, 36px);
+  margin: 0 0 var(--s-4); padding: clamp(14px, 3vw, 34px) clamp(16px, 3.4vw, 44px); border-radius: 14px;
+  background: var(--lvl, var(--accent)); color: var(--bg);
+  box-shadow: 0 0 60px color-mix(in srgb, var(--lvl, var(--accent)) 38%, transparent); }
+.hero__badge .tally { width: clamp(76px, 15vw, 190px); height: auto; }
+.hero__badge .tally__hat { fill: #f4f1e6; }
+.hero__badge .tally { color: #0b0c0e; }
+.hero__badge-t { display: grid; gap: clamp(4px, .8vw, 10px); min-width: 0; }
+.hero__badge-t b { font: 400 clamp(40px, 12vw, 176px)/.9 var(--poster); letter-spacing: .01em; text-transform: uppercase; color: var(--bg); white-space: nowrap; }
+.hero__badge-t span { font: 700 clamp(11px, 1.5vw, 20px)/1.2 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--bg); opacity: .85; }
+main.wrap > .hero .hero__headline { font-size: clamp(24px, 3vw, 44px); max-width: 26ch; }
+.hero__tally { display: none; }
+@media (min-width: 1080px) {
+  main.wrap > .hero .ch--dial { grid-row: 2 / span 5; }
+  main.wrap > .hero .score { grid-row: 7; }
 }
 .hero__orders { margin: 0 0 var(--s-3); max-width: 60ch; font: 500 var(--t-xs)/1.45 var(--mono); letter-spacing: .04em; color: var(--ink-dim); }
 .hero__orders b { font: 700 var(--t-xs)/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--ink); }

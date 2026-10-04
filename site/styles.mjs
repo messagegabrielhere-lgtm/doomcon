@@ -2116,6 +2116,7 @@ main.wrap:not(:has(> .hero)) :is(.lede, .bldsec__l, .bp__l) { font-size: clamp(1
   border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 10px;
   box-shadow: 0 12px 30px rgba(0,0,0,.45); }
 .rvisit .wrap { padding-left: 14px; padding-right: 14px; }
+@media (max-width: 719.98px) { .rvisit { display: none; } }
 /* The ticker is a whisper above the page, not a second header. */
 .dcmx { opacity: .8; }
 .bstamp { display: inline-block; margin: var(--s-2) 0 var(--s-3); padding: 6px 12px 4px;
