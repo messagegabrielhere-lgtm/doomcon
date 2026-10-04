@@ -2476,6 +2476,8 @@ a.chip:hover b { color: var(--accent-2); }
     min-height: 24px;
     display: flex; align-items: center;
   }
+  /* A link inside a sentence keeps its 24px target but stays in the line. */
+  .fresh__key a { display: inline-flex; }
   /* .move__a is a three-column grid and must keep being one. */
   .move__a { display: grid; align-items: center; }
   /* A <summary> cannot be flex without losing its marker box in some engines. */

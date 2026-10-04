@@ -185,6 +185,8 @@ const SECTIONS = [
     blurb: 'Score history, source health, the five pillars, moves, embed and API.' },
   { href: '/bets.html', label: 'Tally’s Bets', short: 'Bets',
     blurb: 'Daily forecasts about the index, with probabilities, scored in public.' },
+  { href: '/ai-doomsday-clock.html', label: 'The Clock', short: 'Clock',
+    blurb: 'The reading as a clock face, and what the other clocks are.' },
   { href: '/desk.html', label: 'Tally’s Desk', short: 'Desk', needs: 'news',
     blurb: 'The unserious counts: robots, godfathers, question marks.' },
   { href: '/game.html', label: 'Game', short: 'Game',

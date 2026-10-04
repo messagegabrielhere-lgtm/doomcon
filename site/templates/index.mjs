@@ -60,6 +60,7 @@
 import { esc, num, signed, utc } from './_html.mjs';
 import { mascot, MOODS } from './_mascot.mjs';
 import * as faq from './_faq.mjs';
+import { tempoClock, TCLK_CSS } from './infoPages.mjs';
 import * as verify from './_verify.mjs';
 import { BOOK_COUNT } from './shopPages.mjs';
 import { worldModel } from './_worldmap.mjs';
@@ -259,6 +260,32 @@ main.wrap[data-level="1"] > .hero .ch--dial { animation: dcBreathe 1.1s ease-in-
   main.wrap .clm__i { flex: 0 0 84%; scroll-snap-align: start; }
   body:has(.hero__badge) .foot__seal, body:has(.hero__badge) .foot__memo { display: none; }
 }
+${TCLK_CSS}
+.xp__grid { display: grid; gap: var(--s-5); grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); align-items: center; max-width: 980px; }
+.xp__l { display: grid; gap: var(--s-3); }
+.xp__c { display: grid; gap: 4px; padding: var(--s-4); border: 1px solid var(--rule); border-radius: 12px; background: var(--bg-sunken); text-decoration: none; color: var(--ink-dim); text-align: left; }
+.xp__c:hover, .xp__c:focus-visible { border-color: var(--lvl, var(--accent)); }
+.xp__c b { font: 400 clamp(20px, 2.2vw, 26px)/1.08 var(--poster); letter-spacing: .012em; text-transform: uppercase; color: var(--ink); }
+.xp__c span { font: 400 var(--t-sm)/1.45 var(--sans); }
+.xp__c i { font: 700 var(--t-2xs)/1 var(--mono); font-style: normal; letter-spacing: .12em; text-transform: uppercase; color: var(--lvl, var(--accent)); }
+/* PANELS. Each section of the front page is one screen-sized statement:
+   a centred headline, one sentence, the thing itself, and room around it.
+   Alternate panels sit on the sunken ground, drawn full-bleed with a shadow
+   the width of the viewport and clipped back to the row, so no markup changes
+   and nothing overflows. */
+main.wrap:has(> .hero) > section.sec { margin-top: 0; padding-block: clamp(52px, 9vh, 120px); background: var(--panel, transparent);
+  box-shadow: 0 0 0 100vmax var(--panel, transparent); clip-path: inset(0 -100vmax); }
+main.wrap:has(> .hero) > section.sec:nth-of-type(even) { --panel: var(--bg-sunken); }
+main.wrap:has(> .hero) > section.sec:nth-of-type(even) :is(.xp__c, .mt__i, .earn__c, .faq__i, .tq__c, .hmap__a, .vfy__out) { background: var(--bg); }
+@media (min-width: 720px) { main.wrap:has(> .hero) > section.sec { min-height: 70svh; display: grid; align-content: center; } }
+main.wrap:has(> .hero) > section.sec > .sec__h { justify-content: center; text-align: center; }
+main.wrap:has(> .hero) > section.sec > .sec__h::after { display: none; }
+main.wrap:has(> .hero) > section.sec > :is(p, ul, ol, div, a, details) { margin-inline: auto; }
+main.wrap:has(> .hero) > section.sec > p { text-align: center; }
+main.wrap:has(> .hero) > section.sec > :is(.xp__grid, .tq__l, .earn, .mt__l, .hmap__a) { width: 100%; }
+main.wrap:has(> .hero) > section.sec > .fresh__key { display: block; max-width: 72ch; }
+/* One button shape everywhere on the front page. */
+main.wrap:has(> .hero) :is(.vfy__go, .bunk__go, .supp__a, .sharebtn) { border-radius: 999px; padding: 13px 24px; }
 .stat { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: var(--s-4) var(--s-5); margin: clamp(40px, 7vw, 88px) 0 0; }
 .stat__c { margin: 0; display: grid; gap: 6px; align-content: start; }
 .stat__n { font: 400 clamp(52px, 8vw, 104px)/.92 var(--poster); letter-spacing: .01em; color: var(--ink); }
@@ -624,6 +651,8 @@ ${claims.render(ctx)}
 ${topicCards(ctx)}
 ${followBand(ctx)}
 
+${explainers(ctx)}
+
 ${meetTally(ctx)}
 
 ${homeMap(ctx)}
@@ -979,6 +1008,24 @@ function statStrip(ctx) {
   ].filter(Boolean);
   return `<section class="stat" aria-label="${esc(brand.NAME)} in four numbers">
   ${cells.map(([v, k]) => `<p class="stat__c"><b class="stat__n num">${esc(v)}</b><span class="stat__k">${esc(k)}</span></p>`).join('')}
+</section>`;
+}
+
+// THE CLOCK AND THE EXPLAINERS. The reading as a clock face, beside the three
+// pages that answer what people type into a search box.
+function explainers(ctx) {
+  const card = (href, q, a) => `<a class="xp__c" href="${esc(ctx.href(href))}"><b>${esc(q)}</b><span>${esc(a)}</span><i>Read →</i></a>`;
+  return `<section class="sec xp" id="clock" aria-labelledby="xp-h">
+  <h2 class="sec__h" id="xp-h">The reading, as a clock</h2>
+  <p class="lede">Everyone asks for a doomsday clock. This is the honest version: one hand, showing how loud AI is right now, that you can check.</p>
+  <div class="xp__grid">
+    ${tempoClock(ctx, { size: 280 })}
+    <div class="xp__l">
+      ${card('/ai-doomsday-clock.html', 'Is there an AI doomsday clock?', 'What exists, who sets it, and the one you can verify.')}
+      ${card('/p-doom.html', 'What is p(doom)?', 'The probability-of-doom number, and why nobody can check one.')}
+      ${card('/guide.html', 'DOOMCON vs DEFCON vs the Clock', 'Five numbers side by side, and what each one measures.')}
+    </div>
+  </div>
 </section>`;
 }
 

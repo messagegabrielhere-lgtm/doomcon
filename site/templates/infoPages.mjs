@@ -105,6 +105,50 @@ export function privacy(ctx) {
 // numbers are kept to what is stable and uncontroversial; nothing here states
 // the Clock's current setting or anyone's current estimate, because both
 // change and this page would go stale without anyone noticing.
+/**
+ * THE TEMPO CLOCK. People look for a clock, so here is the reading drawn as
+ * one: a single hand that has gone score/100 of the way round, in the level's
+ * colour. It is the dial in a different costume and nothing more. Twelve
+ * o'clock is 0 and 100, and the caption says in words that it is not a
+ * countdown to anything.
+ */
+export function tempoClock(ctx, { size = 220 } = {}) {
+  const st = ctx.state;
+  if (!st || !Number.isFinite(st.score)) return '';
+  const a = (st.score / 100) * Math.PI * 2 - Math.PI / 2;
+  const hx = (100 + Math.cos(a) * 62).toFixed(2); const hy = (100 + Math.sin(a) * 62).toFixed(2);
+  const ticks = Array.from({ length: 60 }, (_, i) => {
+    const t = (i / 60) * Math.PI * 2; const long = i % 5 === 0;
+    const r0 = long ? 78 : 83; const p = (r) => `${(100 + Math.cos(t) * r).toFixed(1)} ${(100 + Math.sin(t) * r).toFixed(1)}`;
+    return `<path d="M${p(r0)}L${p(88)}" stroke-width="${long ? 2.4 : 1}"/>`;
+  }).join('');
+  const sweep = st.score >= 50 ? 1 : 0;
+  const ex = (100 + Math.cos(a) * 88).toFixed(2); const ey = (100 + Math.sin(a) * 88).toFixed(2);
+  return `<figure class="tclk" style="--lvl:var(--heat-${esc(st.level)})">
+  <svg viewBox="0 0 200 200" width="${size}" height="${size}" role="img" aria-label="Tempo clock: the hand is ${esc(Number(st.score).toFixed(1))} hundredths of the way round, level ${esc(st.level)}, ${esc(st.level_name)}">
+    <circle cx="100" cy="100" r="94" class="tclk__face"/>
+    <path d="M100 12A88 88 0 ${sweep} 1 ${ex} ${ey}" class="tclk__arc"/>
+    <g class="tclk__ticks">${ticks}</g>
+    <path d="M100 100L${hx} ${hy}" class="tclk__hand"/>
+    <circle cx="100" cy="100" r="6" class="tclk__hub"/>
+    <text x="100" y="${st.score > 25 && st.score < 75 ? 66 : 150}" text-anchor="middle" class="tclk__n">${esc(Number(st.score).toFixed(1))}</text>
+  </svg>
+  <figcaption>The tempo clock: the hand has gone ${esc(Number(st.score).toFixed(1))} of 100 round the face. ${esc(brand.NAME)} ${esc(st.level)}, ${esc(st.level_name)}. It is not a countdown to anything.</figcaption>
+</figure>`;
+}
+
+export const TCLK_CSS = `
+.tclk { margin: var(--s-4) 0; display: grid; justify-items: center; gap: 8px; }
+.tclk svg { max-width: 100%; height: auto; }
+.tclk__face { fill: var(--bg-sunken); stroke: var(--rule); stroke-width: 2; }
+.tclk__arc { fill: none; stroke: var(--lvl, var(--accent)); stroke-width: 7; stroke-linecap: round; opacity: .9; }
+.tclk__ticks path { stroke: var(--ink-dim); }
+.tclk__hand { stroke: var(--ink); stroke-width: 5; stroke-linecap: round; }
+.tclk__hub { fill: var(--lvl, var(--accent)); stroke: var(--ink); stroke-width: 2; }
+.tclk__n { font: 400 26px var(--poster); fill: var(--ink); }
+.tclk figcaption { font: 500 var(--t-xs)/1.45 var(--mono); letter-spacing: .03em; color: var(--ink-dim); text-align: center; max-width: 44ch; }
+`;
+
 function nowLine(ctx) {
   const st = ctx.state;
   return st && Number.isFinite(st.level)
@@ -156,6 +200,8 @@ export function aiClock(ctx) {
   <div class="inf__top">${mascot({ size: 76, level: level(ctx) })}<h1 class="bp__h1">Is there a doomsday clock for AI?</h1></div>
   <p class="lede"><b>The Doomsday Clock is not an AI clock, though it now takes AI into account. Several AI-specific “clocks” exist, and all of them are set by judgement.
     ${esc(brand.NAME)} is the nearest thing that is counted instead: an hourly reading of AI activity that anyone can verify.</b></p>
+  <style>${TCLK_CSS}</style>
+  ${tempoClock(ctx, { size: 260 })}
   <h2>The Doomsday Clock</h2>
   <p>The Bulletin of the Atomic Scientists has published the Doomsday Clock since 1947. It is a symbol: a board of experts decides, usually once a year, how close to “midnight” to set it.
     It began as a warning about nuclear weapons and has since widened to include climate change and disruptive technologies, AI among them. It is a considered judgement, not a calculation, and it is not updated between announcements.</p>
