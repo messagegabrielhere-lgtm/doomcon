@@ -13,7 +13,7 @@
 //                     condensed-and-shouty.
 // display=swap so a slow or blocked Google Fonts never hides the score.
 export const FONT_HREF =
-  'https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700;800&family=Silkscreen:wght@400;700&family=Stardos+Stencil:wght@400;700&display=swap';
+  'https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700;800&display=swap';
 
 // Colour is dark-native: this is instrumentation, and the brand lives at night.
 // Light is a full first-class theme, not an inverted afterthought. Amber over
@@ -301,9 +301,9 @@ ${pillarHues('', PILLARS_DARK).root}
      JetBrains Mono, because a reading has to be legible before it is stylish.
      Each stack ends in faces every system has, so display=swap degrades to
      something still condensed or still monospaced, never to nothing. */
-  --poster: 'Silkscreen', 'JetBrains Mono', ui-monospace, Menlo, monospace;
+  --poster: 'Inter Tight', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   --bar: #3d5cff;
-  --stencil: 'Stardos Stencil', 'Stencil', 'Stencil Std', var(--mono);
+  --stencil: 'JetBrains Mono', ui-monospace, Menlo, monospace;
 
   /* ---- THE TYPE SCALE. SIX STEPS. -------------------------------------
      The previous sheet said "deliberately short - seven sizes" and then, three
@@ -2132,15 +2132,19 @@ main.wrap:not(:has(> .hero)) :is(.sec, .bldsec, .bp__sec, .flk__sec, .exp__sec, 
 :is(.score__val, .tq__n, .dk__n, .bt__p, .tclk__n, .rail__v) { text-shadow: 0 0 18px color-mix(in srgb, currentColor 38%, transparent); }
 :is(.tq__n, .dk__n, .bt__p) { font-family: var(--mono); font-weight: 700; letter-spacing: -.02em; }
 :is(.tq__c, .dk__c, .bt__c, .earn__c, .xp__c, .faq__i, .tp__e, .shp__b) { border-radius: 3px; }
-/* THE DISPLAY FACE IS A PIXEL FACE NOW, and it is about half again as wide as
-   the condensed poster face it replaces, so every size set for that one is
-   brought down here in one place. Long words may break rather than overflow. */
+/* ONE DISPLAY FACE, AND IT IS THE TEXT FACE SET LARGE. The pixel face and
+   the poster face before it both fought the photographs. Titles are now the
+   reading sans at display size, sentence case, tight, with the weight doing
+   the work; labels and numbers stay mono. Two families on the whole site. */
 main.wrap :is(.rintro__h1, .narch__h1, .dg__h1, .lwp__h1, .bp__h1, .bintro__h1, .ihero__h1,
-  .bldhero__h1, .wld__h1, .flk__h1, .exp__h1, .nf__h) { font-size: clamp(20px, 3vw, 40px); line-height: 1.12; letter-spacing: 0; overflow-wrap: anywhere; }
-.nf__code { font-size: clamp(56px, 13vw, 110px); }
-:is(.tq__q, .xp__c b, .earn__c b, .mt__n) { font-size: clamp(14px, 1.5vw, 19px); line-height: 1.2; letter-spacing: 0; }
-:is(.inf h2, .shp h2) { font-size: clamp(15px, 1.7vw, 21px); letter-spacing: 0; }
-.dclock__w { font-family: var(--poster); font-weight: 700; letter-spacing: .04em; }
+  .bldhero__h1, .wld__h1, .flk__h1, .exp__h1, .nf__h) {
+  font-family: var(--poster); font-weight: 650; text-transform: none; font-size: clamp(30px, 4.4vw, 60px);
+  line-height: 1.04; letter-spacing: -.025em; overflow-wrap: break-word; text-wrap: balance; }
+.nf__code { font-family: var(--poster); font-weight: 700; font-size: clamp(64px, 14vw, 132px); letter-spacing: -.04em; }
+:is(.tq__q, .xp__c b, .earn__c b, .mt__n, .pc__n) { font-family: var(--poster); font-weight: 650; text-transform: none; font-size: clamp(17px, 1.7vw, 22px); line-height: 1.15; letter-spacing: -.015em; }
+:is(.inf h2, .shp h2) { font-family: var(--poster); font-weight: 650; text-transform: none; font-size: clamp(20px, 2.1vw, 28px); letter-spacing: -.02em; }
+.dclock__w { font-family: var(--poster); font-weight: 800; letter-spacing: .22em; }
+.foot__seal { display: none; }
 /* THE ASK, at the very top of every page. One line, one link. */
 .give { margin: 0; padding: 7px var(--gutter); text-align: center; background: var(--accent); color: #0b0c0e;
   font: 700 var(--t-xs)/1.35 var(--mono); letter-spacing: .06em; }
