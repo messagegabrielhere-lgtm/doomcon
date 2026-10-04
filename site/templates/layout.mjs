@@ -751,7 +751,7 @@ const PAGE_BANNERS = {
   '/map.html': 'page-map.jpg',
   '/world.html': 'page-world.jpg',
   '/flock.html': 'page-flock.jpg',
-  '/exploits.html': 'page-exploits.jpg',
+  '/exploits.html': 'page-exploits.jpg', '/balance.html': 'page-balance.jpg',
 };
 
 function pageBanner(ctx, path) {

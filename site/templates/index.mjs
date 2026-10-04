@@ -375,6 +375,7 @@ main.wrap > .hero .hero__headline { margin: 0 0 var(--s-3); font: 500 var(--t-sm
 .pc { padding: 14px 16px 12px; border: 1px solid var(--rule); border-radius: 12px; background: var(--bg-raised); min-width: 0; }
 .pc__top { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
 .pc__n { font: 700 var(--t-sm)/1.2 var(--poster); letter-spacing: 0; text-transform: uppercase; color: var(--ink); }
+@media (max-width: 599px) { .pc__bars { height: 56px; } .pc { padding: 12px 14px 10px; } }
 .pc__chip { padding: 4px 8px; border: 1px solid currentColor; border-radius: 6px; font: 700 var(--t-2xs)/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; }
 .pc__chip--up { color: var(--dark-src); background: color-mix(in srgb, var(--dark-src) 12%, transparent); }
 .pc__chip--down { color: var(--accent-2); background: color-mix(in srgb, var(--accent-2) 12%, transparent); }
@@ -735,6 +736,7 @@ ${style}`;
       `${brand.NAME} is at level ${state.level} (${state.level_name}), score ${scoreTxt} of 100, ` +
       `as of ${utc(state.generated_at)}. A recomputable index of AI activity tempo across five pillars.`,
     ogImage: ctx.cardFor(state.receipt_id),
+    head: `<link rel="preload" as="image" href="${esc(ctx.href('/img/hero-siren.jpg'))}" fetchpriority="high">`,
     ogImageAlt: `${brand.NAME} ${state.level}, ${state.level_name}, score ${scoreTxt} of 100`,
     showDegraded: true,
     jsonld: [webApplication(ctx), dataset(ctx), faq.jsonLd(ctx)],
