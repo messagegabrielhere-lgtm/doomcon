@@ -97,7 +97,10 @@ export function headerPng() {
       S.polygon({ points: [[x, y + th], [x + 28, y + th], [x + 28 + th, y], [x + th, y]], color: marks.GROUND });
     }
   };
-  tape(40, 26); tape(H - 66, 26);
+  // The 2026-10-04 terminal redesign dropped the hazard tape: one thin rule in
+  // the accent, top and bottom, is all the dress the header carries now.
+  S.rect({ x: 0, y: 58, w: W, h: 2, color: marks.HEAT[STATIC_LEVEL], alpha: 0.7 });
+  S.rect({ x: 0, y: H - 60, w: W, h: 2, color: marks.HEAT[STATIC_LEVEL], alpha: 0.7 });
 
   // The scale's column, fixed first so the lockup knows where it must stop.
   const lw = 500; const lx = W - 110 - lw; const ly = 176; const lh = 62; const gap = 6;
@@ -111,7 +114,8 @@ export function headerPng() {
   S.text(brand.NAME, { x: tx, y: my + 72, size: nameSize, color: marks.INK, weight: 0.11, track: 0.12 });
   const pub = brand.PUBLICATION.toUpperCase();
   S.text(pub, { x: tx + 3, y: my + 114, size: fit(pub, { from: 23, max: col, track: 0.06, floor: 11 }), color: marks.INK_DIM, weight: 0.10, track: 0.06 });
-  S.text(brand.TAGLINE, { x: tx + 3, y: my + 160, size: fit(brand.TAGLINE, { from: 24, max: col, track: 0.03 }), color: marks.ACCENT, weight: 0.10, track: 0.03 });
+  const ask = 'Should you care about AI today?';
+  S.text(ask, { x: tx + 3, y: my + 160, size: fit(ask, { from: 26, max: col, track: 0.03 }), color: marks.ACCENT, weight: 0.11, track: 0.03 });
 
   // The scale, with no band singled out.
   const bands = [...brand.LEVELS].sort((x, y) => y.level - x.level);
@@ -134,12 +138,8 @@ export function headerPng() {
 
   tally(S, { x: W - 110 - 96, y: 318, size: 96, hat: marks.HEAT[STATIC_LEVEL] });
 
-  // The rubber stamp, set square because the rasteriser sets no rotated text.
-  const st = 'NOT A PREDICTION';
-  const ss = 20; const sw = measureText(st, { size: ss, track: 0.2 });
-  const sx = tx + 3; const sy = my + 186;
-  S.strokeRect({ x: sx, y: sy, w: sw + 28, h: 40, r: 4, color: marks.HEAT[1], width: 3 });
-  S.text(st, { x: sx + 14, y: sy + 28, size: ss, color: marks.HEAT[1], weight: 0.12, track: 0.2 });
+  const sub2 = 'One answer, every hour. Not a forecast.';
+  S.text(sub2, { x: tx + 3, y: my + 196, size: fit(sub2, { from: 20, max: col, track: 0.02, floor: 12 }), color: marks.INK_DIM, weight: 0.095, track: 0.03 });
 
   return S.png();
 }
