@@ -107,8 +107,8 @@ export function guide(ctx) {
 <section class="inf">
   <p class="eyebrow">Guide</p>
   <div class="inf__top">${mascot({ size: 76, level: level(ctx) })}<h1 class="bp__h1">DOOMCON, DEFCON, the Doomsday Clock and p(doom)</h1></div>
-  <p class="lede">Four numbers people reach for when they want to know how worried to be. They measure different things, and
-    only one of them is a count. ${now}</p>
+  <p class="lede">Five numbers people reach for when they want to know how worried to be. They measure different things, and
+    only one of them is a count you can check. ${now}</p>
   <h2>The short version</h2>
   <div class="inf__scroll"><table>
     <thead><tr><th>Number</th><th>What it measures</th><th>Who sets it</th><th>Can you recompute it?</th></tr></thead>
@@ -116,6 +116,7 @@ export function guide(ctx) {
       <tr><td><b>${esc(brand.NAME)}</b></td><td>How much is happening in AI: tempo, not danger</td><td>A published formula over public data, hourly</td><td>Yes, from the receipt</td></tr>
       <tr><td><b>DEFCON</b></td><td>The readiness posture of US armed forces, 5 (lowest) to 1 (highest)</td><td>US military command</td><td>No. The current level is not routinely made public</td></tr>
       <tr><td><b>Doomsday Clock</b></td><td>A symbolic judgement of how close humanity is to catastrophe</td><td>The Bulletin of the Atomic Scientists, usually once a year</td><td>No. It is a judgement, by design</td></tr>
+      <tr><td><b>Pentagon Pizza Index</b></td><td>How busy pizza shops near the Pentagon are, read as a hint of military activity</td><td>A website, from shop-busyness data</td><td>Not from anything it publishes that we could find; its own disclaimer says not to rely on it</td></tr>
       <tr><td><b>p(doom)</b></td><td>One person's stated probability that AI ends very badly</td><td>Whoever is asked</td><td>No. It is an opinion expressed as a number</td></tr>
     </tbody>
   </table></div>

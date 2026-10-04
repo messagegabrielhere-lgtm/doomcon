@@ -2208,7 +2208,9 @@ main.wrap > .hero .ch--dial { filter: drop-shadow(0 0 22px color-mix(in srgb, va
 @media (prefers-reduced-motion: reduce) { main.wrap > .hero .ch--dial { filter: none; } }
 /* THE FOOTER AS AN INDEX, NOT A BROCHURE. See footer() in layout.mjs for the
    measurement. Pages is a two-column list of labels; Data carries one note. */
-@media (min-width:760px){.foot__list--2{grid-template-columns:1fr 1fr;column-gap:var(--s-4)}}
+.foot__list--2{grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:var(--s-3)}
+.foot__col{min-width:0}.foot__list li{min-width:0;overflow-wrap:anywhere}
+@media (max-width:759px){.foot__cols{grid-template-columns:minmax(0,1fr)}}
 .foot__note{margin:0 0 var(--s-3);font-size:var(--t-xs);color:var(--ink-faint);line-height:1.4;max-width:34ch}
 .foot__note a{color:var(--ink-dim)}
 .foot__fine{max-width:80ch}

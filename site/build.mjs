@@ -30,6 +30,7 @@ import * as deskPage from './templates/deskPage.mjs';
 import * as infoPages from './templates/infoPages.mjs';
 import * as topicPages from './templates/topicPages.mjs';
 import { faqCss } from './templates/_faq.mjs';
+import { verifyCss } from './templates/_verify.mjs';
 import { sealCss } from './templates/_seal.mjs';
 import { mascotCss } from './templates/_mascot.mjs';
 
@@ -1003,7 +1004,7 @@ async function main() {
   // CSS changes and never otherwise. That makes it safe to cache hard without
   // setting a single header, which matters because GitHub Pages does not let
   // us set any.
-  const sheet = `${marks.LOCKUP_CSS}\n${siteCss()}\n${sealCss()}\n${mascotCss()}\n${faqCss()}\n${topicPages.topicCss()}`;
+  const sheet = `${marks.LOCKUP_CSS}\n${siteCss()}\n${sealCss()}\n${mascotCss()}\n${faqCss()}\n${topicPages.topicCss()}\n${verifyCss()}`;
   const cssName = `s-${createHash('sha256').update(sheet).digest('hex').slice(0, 12)}.css`;
   const cssHref = `${brand.BASE_PATH}/${cssName}`;
 

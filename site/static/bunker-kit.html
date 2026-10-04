@@ -7,13 +7,13 @@
 <meta name="description" content="A checklist of 50 free online tools for research, privacy, design, coding and PDFs, plus a crate of emergency gear: radio, water filter, power, maps. A DOOMCON field manual.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil+Display:wght@600;800&family=Archivo:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter+Tight:wght@400;600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --drab:#343B26; --crate:#3D4530; --soot:#1E2216;
-  --signal:#E8B923; --paper:#E6DFC8; --dim:#B6B096; --rust:#C4602F;
-  --stencil:"Big Shoulders Stencil Display", Impact, "Arial Narrow", sans-serif;
-  --body:"Archivo", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --drab:#0b0c0e; --crate:#14171c; --soot:#0b0c0e;
+  --signal:#ffb020; --paper:#e8eaee; --dim:#9aa2ad; --rust:#ff5f56;
+  --stencil:"Anton", Impact, "Arial Narrow", sans-serif;
+  --body:"Inter Tight", system-ui, -apple-system, "Segoe UI", sans-serif;
   box-sizing:border-box;
   padding-top:env(safe-area-inset-top,0px);
   padding-bottom:env(safe-area-inset-bottom,0px);
@@ -25,10 +25,10 @@ a{color:var(--signal)}
 :focus-visible{outline:3px solid var(--signal);outline-offset:3px}
 
 /* Hero: the shelter sign */
-.sign{background:var(--signal);color:var(--soot);padding:clamp(28px,6vw,64px) 20px;border-bottom:10px solid var(--soot)}
+.sign{background:var(--signal);color:var(--soot);padding:clamp(28px,6vw,64px) 20px;border-bottom:10px solid transparent;border-image:repeating-linear-gradient(-45deg,#ffb020 0 12px,#0b0c0e 12px 24px) 10}
 .sign-inner{max-width:1040px;margin:0 auto;display:grid;grid-template-columns:auto 1fr;gap:clamp(18px,4vw,44px);align-items:center}
 .emblem{width:clamp(96px,18vw,180px);height:auto}
-.sign h1{font:800 clamp(3.2rem,11vw,7.5rem)/.86 var(--stencil);margin:0;letter-spacing:.01em}
+.sign h1{font:400 clamp(3.2rem,11vw,7.5rem)/.9 var(--stencil);margin:0;letter-spacing:.01em;text-transform:uppercase}
 .sign p{font-size:clamp(1rem,2.2vw,1.25rem);max-width:34ch;margin:.8em 0 0;font-weight:600}
 .back{display:inline-block;margin-bottom:1.2em;color:var(--soot);font-weight:600;text-decoration:none;border-bottom:2px solid}
 @media (max-width:560px){.sign-inner{grid-template-columns:1fr}}
@@ -39,21 +39,21 @@ a{color:var(--signal)}
 .meter{flex:1 1 260px;min-width:220px}
 .meter-label{display:flex;justify-content:space-between;font-size:.9rem;color:var(--dim)}
 .meter-label strong{color:var(--paper);font-weight:600}
-.bar{height:12px;background:#0f120b;margin-top:6px;border:1px solid #4a5139}
-.bar span{display:block;height:100%;width:0;background:repeating-linear-gradient(-45deg,var(--signal) 0 10px,#c99c12 10px 20px);transition:width .35s ease}
-.search{flex:1 1 220px;background:#0f120b;border:1px solid #4a5139;color:var(--paper);padding:10px 12px;font:inherit}
-.search::placeholder{color:#8a8670}
+.bar{height:12px;background:#000;margin-top:6px;border:1px solid #2a2f38}
+.bar span{display:block;height:100%;width:0;background:repeating-linear-gradient(-45deg,var(--signal) 0 10px,#0b0c0e 10px 20px);transition:width .35s ease}
+.search{flex:1 1 220px;background:#000;border:1px solid #2a2f38;color:var(--paper);padding:10px 12px;font:inherit}
+.search::placeholder{color:#7a828c}
 .crates{max-width:1040px;margin:12px auto 0;display:flex;gap:8px;overflow-x:auto;padding-bottom:4px}
-.crates button{flex:none;background:transparent;color:var(--paper);border:1px solid #5b6347;padding:6px 12px;font:600 .9rem var(--body);cursor:pointer}
+.crates button{flex:none;background:transparent;color:var(--paper);border:1px solid #2a2f38;padding:6px 12px;font:600 .9rem var(--body);cursor:pointer}
 .crates button[aria-pressed="true"]{background:var(--signal);color:var(--soot);border-color:var(--signal)}
 
 /* Manifest */
 main{max-width:1040px;margin:0 auto;padding:28px 20px 60px}
 .crate{margin:0 0 44px}
-.crate h2{font:800 clamp(2rem,5vw,3rem)/1 var(--stencil);margin:0;color:var(--signal)}
+.crate h2{font:400 clamp(2rem,5vw,3rem)/1 var(--stencil);margin:0;color:var(--signal);text-transform:uppercase;letter-spacing:.012em}
 .crate .why{color:var(--dim);margin:.4em 0 1em;max-width:62ch}
 .rows{border-top:2px solid var(--signal)}
-.row{display:grid;grid-template-columns:44px minmax(0,1fr);gap:4px 14px;padding:14px 4px;border-bottom:1px solid #4d5540}
+.row{display:grid;grid-template-columns:44px minmax(0,1fr);gap:4px 14px;padding:14px 4px;border-bottom:1px solid #2a2f38}
 .row:nth-child(even){background:var(--crate)}
 .row.packed .name{text-decoration:line-through;text-decoration-color:var(--signal);text-decoration-thickness:3px}
 .pack{grid-row:span 3;width:30px;height:30px;margin-top:2px;appearance:none;border:2px solid var(--dim);background:transparent;cursor:pointer;display:grid;place-content:center}
@@ -65,7 +65,7 @@ main{max-width:1040px;margin:0 auto;padding:28px 20px 60px}
 .name small{font-weight:400;color:var(--dim);font-size:.85rem;margin-left:6px}
 .doom{margin:0;font-style:italic;max-width:62ch}
 .does{margin:0;color:var(--dim);font-size:.92rem}
-.stamp{display:inline-block;margin-top:6px;font:800 .95rem/1 var(--stencil);letter-spacing:.04em;padding:5px 8px;border:2px solid var(--rust);color:var(--rust);transform:rotate(-1.5deg)}
+.stamp{display:inline-block;margin-top:6px;font:700 .78rem/1 "JetBrains Mono",ui-monospace,monospace;letter-spacing:.1em;text-transform:uppercase;padding:5px 8px;border:2px solid var(--rust);color:var(--rust);transform:rotate(-1.5deg)}
 .stamp.unk{border-color:var(--dim);color:var(--dim)}
 .empty{color:var(--dim);padding:30px 0}
 footer{max-width:1040px;margin:0 auto;padding:0 20px 40px;color:var(--dim);font-size:.9rem}

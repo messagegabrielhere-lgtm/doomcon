@@ -60,6 +60,7 @@
 import { esc, num, signed, utc } from './_html.mjs';
 import { mascot, MOODS } from './_mascot.mjs';
 import * as faq from './_faq.mjs';
+import * as verify from './_verify.mjs';
 import { worldModel, worldFigure, worldMapCss } from './_worldmap.mjs';
 import { homeCards as topicCards } from './topicPages.mjs';
 import { freshnessStrip, pillarCard, moveRow, sourceStatus } from './_parts.mjs';
@@ -242,6 +243,14 @@ main.wrap[data-level="1"] > .hero .ch--dial { animation: dcBreathe 1.1s ease-in-
    colour, then the hook in dim ink. One line on a desktop, two on a phone. */
 .sharebtn { margin-top: var(--s-3); padding: 8px 14px; border: 2px solid var(--lvl, var(--accent)); border-radius: 4px; background: transparent;
   color: var(--ink); cursor: pointer; font: 700 var(--t-xs)/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; }
+/* ON A PHONE the front page keeps the top of the ranked list and drops the
+   clock rail; the full list is one tap away on /news and the level is already
+   on the plate that opens the hero. */
+@media (max-width: 719.98px) {
+  main.wrap .sec.news, main.wrap .sw__moved { display: none; }
+  main.wrap .sw .reel__item:nth-child(n+5), main.wrap .sw .lab:nth-child(n+4), main.wrap .sw .xw__i:nth-child(n+4) { display: none; }
+  body:has(.hero__badge) .rail { display: none; }
+}
 .fol__l { margin: var(--s-3) 0 var(--s-4); padding: 0 0 0 1.1em; display: grid; gap: 8px; max-width: 72ch; }
 .fol__l li { font: 400 var(--t-base)/1.5 var(--sans); color: var(--ink-dim); }
 .fol__l b { color: var(--ink); }
@@ -550,6 +559,7 @@ ${gauge.styleTag()}
      eleven tiles. Both render '' when their data is absent; neither needs
      a script to exist. site/templates/_readings.mjs, _claims.mjs. -->
 ${readings.render(ctx)}
+${verify.render(ctx)}
 ${claims.render(ctx)}
 ${topicCards(ctx)}
 ${followBand(ctx)}
