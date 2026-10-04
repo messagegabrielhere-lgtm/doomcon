@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// DOOMCON collector — runs every source adapter and writes one raw snapshot.
+// SIREN collector — runs every source adapter and writes one raw snapshot.
 //
 //   docker run --rm -v "$PWD":/app -w /app node:20-alpine node collector/collect.mjs
 //

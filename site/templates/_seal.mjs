@@ -1,4 +1,4 @@
-// The seal — DOOMCON's badge, in the manner of a 1950s civil-defense roundel.
+// The seal — SIREN's badge, in the manner of a 1950s civil-defense roundel.
 //
 // THE OPERATOR ASKED FOR IT: "cooler graphics and logos ... 1950s doomsday
 // style". The sentinel wire stays the mark - it is the favicon, it is level-lit

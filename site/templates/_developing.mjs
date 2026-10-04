@@ -3,7 +3,7 @@
 //
 // WHAT IT IS NOT, because this is the whole design problem.
 //
-// DOOMCON's level is observed activity tempo measured against a FROZEN
+// SIREN's level is observed activity tempo measured against a FROZEN
 // reference distribution (docs/CONTRACT.md, "Index maths"). A breaking story is
 // not a level change. It is one event, inside one 200-item window, counted by a
 // layer that does not feed the index at all — data/news.json and data/state.json
@@ -215,7 +215,7 @@ function linkedWords(story) {
 /** The level's own name, so the disclaimer names the thing it is denying. */
 function levelWord(ctx) {
   const name = ctx && ctx.state && ctx.state.level_name;
-  return typeof name === 'string' && name ? `DOOMCON ${ctx.state.level}` : 'DOOMCON';
+  return typeof name === 'string' && name ? `SIREN ${ctx.state.level}` : 'SIREN';
 }
 
 // ---------------------------------------------------------------------------

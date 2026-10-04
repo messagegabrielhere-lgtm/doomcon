@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// BLISS — the upside index. DOOMCON's machinery, pointed the other way.
+// BLISS — the upside index. SIREN's machinery, pointed the other way.
 //
 //   docker run --rm --network host -v "$PWD":/app -w /app node:20-alpine node collector/bliss.mjs
 //
@@ -12,7 +12,7 @@
 // account's credibility comes from (docs/TEARDOWN.md §2.4).
 //
 // THE ONE RULE THAT SHAPES THIS FILE. BLISS must be computed by the SAME code as
-// DOOMCON, not by a second implementation of the same formulas. Two implementations
+// SIREN, not by a second implementation of the same formulas. Two implementations
 // that can disagree would be worse than having no second index at all — the moment
 // they diverge for an arithmetic reason rather than a world reason, the entire
 // "you can recompute our number" claim dies. So every piece of maths below is
@@ -40,7 +40,7 @@ import { createHash } from 'node:crypto';
 
 import { fetchJson as sharedFetchJson, fetchText as sharedFetchText } from './fetch.mjs';
 import {
-  // The maths. Every one of these is the exact function that computes DOOMCON.
+  // The maths. Every one of these is the exact function that computes SIREN.
   normalise,
   nowcast,
   composite,
@@ -69,7 +69,7 @@ export const BLISS_VERSION = '1.0.0';
 
 // ---------------------------------------------------------------------------
 // The five pillars. Fixed ids, fixed order, never renamed — the same discipline
-// CONTRACT.md imposes on DOOMCON's five, for the same reason: the ids are keys in
+// CONTRACT.md imposes on SIREN's five, for the same reason: the ids are keys in
 // an append-only history file and a rename silently orphans every stored series.
 // ---------------------------------------------------------------------------
 
@@ -126,7 +126,7 @@ const PILLAR_ORDER = Object.freeze(PILLARS.map((p) => p.id));
 // ---------------------------------------------------------------------------
 // The level vocabulary.
 //
-// BLISS counts 5 -> 1 exactly as DOOMCON does, over the SAME bands, taken from the
+// BLISS counts 5 -> 1 exactly as SIREN does, over the SAME bands, taken from the
 // same BOUNDARY constant. Only the words differ, and every word describes the
 // NEEDLE rather than the world (docs/VOICE.md §2): "UNMATCHED" is a statement
 // about this index's reference distribution running out, not a claim that anybody
@@ -493,7 +493,7 @@ export function scoreBliss({ readings, reference, history, previous, doomcon, no
     { t: nowMs, score },
   ];
 
-  // The identical state machine DOOMCON runs, with all six anti-flap layers and
+  // The identical state machine SIREN runs, with all six anti-flap layers and
   // the honesty rule that freezes a level change while any pillar is dark.
   const decision = decideLevel({
     score, currentLevel: prevLevel, levelSinceMs: prevLevelSince,
@@ -621,7 +621,7 @@ function lastOkFor(previous, id) {
 }
 
 /**
- * BLISS beside DOOMCON, and the arithmetic of their disagreement.
+ * BLISS beside SIREN, and the arithmetic of their disagreement.
  *
  * Both are 0-100 percentile scores against their own frozen reference, produced by
  * the same normalise/nowcast/composite chain, so the SUBTRACTION IS MEANINGFUL in
@@ -730,9 +730,9 @@ function printSummary(state, outPath) {
               `${state.uncalibrated_sources.length} awaiting baseline · ` +
               `${state.failed_sources.length} dark`);
   if (state.comparison.computable) {
-    console.log(`vs DOOMCON: ${state.comparison.working} (${state.comparison.reading})`);
+    console.log(`vs SIREN: ${state.comparison.working} (${state.comparison.reading})`);
   } else {
-    console.log('vs DOOMCON: not computable — one of the two indices has no score this run');
+    console.log('vs SIREN: not computable — one of the two indices has no score this run');
   }
   console.log(`wrote ${outPath}`);
 }

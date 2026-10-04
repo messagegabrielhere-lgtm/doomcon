@@ -1,6 +1,8 @@
-# DOOMCON
+# SIREN
 
-[![DOOMCON](https://messagegabrielhere-lgtm.github.io/doomcon/badge.svg)](https://messagegabrielhere-lgtm.github.io/doomcon/)
+*Superintelligence Real-time Early Notice. Formerly DOOMCON; the repository and the web address keep the old name.*
+
+[![SIREN](https://messagegabrielhere-lgtm.github.io/doomcon/badge.svg)](https://messagegabrielhere-lgtm.github.io/doomcon/)
 
 **Live: https://messagegabrielhere-lgtm.github.io/doomcon/** · [verify the readings in your browser](https://messagegabrielhere-lgtm.github.io/doomcon/#vfy) · [method](https://messagegabrielhere-lgtm.github.io/doomcon/methodology.html)
 

@@ -66,18 +66,18 @@ export const LIMIT_BOTTOM = FOOT_RULE - 34;
  * itself against BODY_TOP and FOOT_RULE and nothing has to agree by accident.
  *
  * @param {object} o
- * @param {number} o.level      DOOMCON level, for the mark's lamp and grille
+ * @param {number} o.level      SIREN level, for the mark's lamp and grille
  * @param {string} o.kind       the card's own name, top right
  * @param {string} o.observedAt ISO. Printed exactly, in UTC. Never relative.
  */
 export function chassis(s, { level, kind, observedAt, domain = null }) {
   // --- masthead -----------------------------------------------------------
   // The sentinel wire at 76px: on a phone X shows this 1080px card at about
-  // 500px, so the mark is ~35px there and DOOMCON 4's apex still stands 10px
+  // 500px, so the mark is ~35px there and SIREN 4's apex still stands 10px
   // above the wire. At the 64px it was, the spike was a smudge at that size.
   const MARK = 76;
   s.mark(level, MARGIN, 40, MARK, { ground: GROUND });
-  s.text('DOOMCON', MARGIN + MARK + 20, 100, 36, INK, { track: 0.08, weight: W_MED });
+  s.text('SIREN', MARGIN + MARK + 20, 100, 36, INK, { track: 0.08, weight: W_MED });
 
   const k = fold(kind).text.toUpperCase();
   s.text(k, CARD_W - MARGIN, 84, fit(k, 22, 400, 15, TRACK_LABEL), INK_DIM,
@@ -170,7 +170,7 @@ export function eyebrow(s, text, x, y, { color = INK_FAINT, size = 17, align = '
 
 /**
  * THE SENTENCE. The homepage's <h1>, word for word, in the level's heat where
- * the reading is and in ink where it is not: "AI activity is at DOOMCON 4 —
+ * the reading is and in ink where it is not: "AI activity is at SIREN 4 —
  * ROUTINE, on a scale where 1 is loudest." The geometry comes from
  * site/cardpng.mjs's fitRuns(), so this card and the PNG state card wrap the
  * same words at the same places. Records the plain sentence as a note, for

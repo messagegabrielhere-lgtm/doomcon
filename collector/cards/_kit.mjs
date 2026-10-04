@@ -269,7 +269,7 @@ export class Surface {
     });
   }
 
-  /** The DOOMCON detector mark, delegated to site/cardpng.mjs, which takes it
+  /** The SIREN detector mark, delegated to site/cardpng.mjs, which takes it
    *  from site/brandmarks.mjs — so a card cannot show a different instrument
    *  from the tab it was opened in. docs/BRAND.md §1. */
   mark(level, x, y, size, { ground = this.ground } = {}) {

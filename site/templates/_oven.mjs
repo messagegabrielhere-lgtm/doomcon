@@ -17,7 +17,7 @@
 // and the first hostile quote-tweet is correct. So three properties are
 // non-negotiable and are enforced by the markup below:
 //
-//   1. The stages are the DOOMCON levels. Not a second, parallel scale that can
+//   1. The stages are the SIREN levels. Not a second, parallel scale that can
 //      disagree with the first. brand.LEVELS is the only stage table; the band
 //      edges printed here are derived from it and asserted at module load.
 //   2. The rail is a THERMOSTAT, not a progress bar. The mark falls as readily

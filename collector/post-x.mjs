@@ -451,7 +451,7 @@ export function dryRun({ text, png }) {
 // ---------------------------------------------------------------------------
 
 // A real api-variant post from collector/posts.mjs on 2026-09-28.
-export const FIXTURE_API_TEXT = 'DOOMCON 4, ROUTINE. Composite 39.6 of 100, up 0.4 from the previous reading, '
+export const FIXTURE_API_TEXT = 'SIREN 4, ROUTINE. Composite 39.6 of 100, up 0.4 from the previous reading, '
   + 'as of 02:22 UTC on Mon 28 Sep 2026. Governance is the loudest of the five pillars at 53.2. '
   + 'Arithmetic at messagegabrielhere dash lgtm dot github dot io slash doomcon.';
 

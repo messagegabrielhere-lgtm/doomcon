@@ -552,8 +552,8 @@ const FAQ = [
        '2 August 2026, with further high-risk phases dated in the regulation.',
   },
   {
-    q: 'Is DOOMCON a p(doom)?',
-    a: 'No. The DOOMCON composite is a percentile of observed public activity across five pillars, ' +
+    q: 'Is SIREN a p(doom)?',
+    a: 'No. The SIREN composite is a percentile of observed public activity across five pillars, ' +
        'rescaled to 0-100. It carries no units of risk, contains no forecast, and is not scored by ' +
        'any model or any person. It measures how much is happening, not how bad it is.',
   },

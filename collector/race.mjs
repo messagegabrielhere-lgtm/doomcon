@@ -21,7 +21,7 @@
 // As a LEADERBOARD the same structure is ideal: each leg is a live,
 // money-backed probability attached to a named lab. The thing that is useless
 // for scoring is exactly the right thing for display. Nothing in this file
-// feeds the DOOMCON scalar; data/race.json is read only by the /race page.
+// feeds the SIREN scalar; data/race.json is read only by the /race page.
 // docs/SUB-INDICES.md, "Shared rules": a page can be interesting without being
 // load-bearing, and conflating the two is how an index becomes a vibe.
 // ───────────────────────────────────────────────────────────────────────────
@@ -1323,7 +1323,7 @@ async function main() {
 
   sources.push({
     id: 'news-corpus',
-    label: 'DOOMCON news corpus (data/news.json)',
+    label: 'SIREN news corpus (data/news.json)',
     ok: newsRead.ok,
     state: newsRead.ok ? 'live' : 'dark',
     error: newsRead.ok ? null : newsRead.error,
@@ -1432,7 +1432,7 @@ async function main() {
       event: poly ? { slug: poly.horizon.slug, title: poly.horizon.title, url: poly.horizon.url, end_date: poly.horizon.end_date, legs_live: poly.horizon.legs_live, legs_total: poly.horizon.legs_total, sum_of_live_legs: poly.horizon.sum_of_live_legs, volume_usd: poly.horizon.volume_usd } : null,
       statement:
         'Players are ranked by the live Polymarket probability that they hold the best AI model at the furthest-out resolution date still trading. ' +
-        'This is the market’s ranking, not DOOMCON’s. Nothing on this page is a DOOMCON forecast, and none of it feeds the DOOMCON index.',
+        'This is the market’s ranking, not SIREN’s. Nothing on this page is a SIREN forecast, and none of it feeds the SIREN index.',
       error: poly ? null : (sources.find((s) => s.id === 'polymarket')?.error ?? 'polymarket did not run'),
     },
     markets: {

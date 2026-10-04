@@ -768,7 +768,7 @@ a.rail__c:hover .rail__v, a.rail__c:hover .rail__k { color: var(--accent-2); }
 .delta__g { font-size: var(--t-2xs); line-height: 1; }
 .delta__n { font-weight: 700; color: var(--ink); }
 /* ONE accent, and no good/bad axis. Green for a falling score would say that a
-   quieter day is a better day, and DOOMCON measures activity tempo - it is not
+   quieter day is a better day, and SIREN measures activity tempo - it is not
    a risk scale and VOICE.md will not let a colour smuggle in the claim the copy
    is forbidden to make. Up gets the accent because rising activity is the thing
    the instrument is watching for; down and flat are ink. The glyph is the
@@ -2042,7 +2042,7 @@ const ICONS = `
 
 /* Direction. The same no-good-bad-axis rule the .delta chip already follows and
    for the same reason: green for a falling score would say a quieter day is a
-   better day, and DOOMCON measures tempo. Up takes the accent ONLY inside the
+   better day, and SIREN measures tempo. Up takes the accent ONLY inside the
    live delta chip — everywhere else all three directions are ink, and the
    chevron is the signal. */
 .dcico--up, .dcico--down, .dcico--flat { color: var(--ink-dim); }

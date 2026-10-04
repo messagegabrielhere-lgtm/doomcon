@@ -61,7 +61,7 @@ function statesIn(text) {
 
 export default {
   id: 'news-announcements',
-  label: 'Announcements extracted from the DOOMCON newsroom',
+  label: 'Announcements extracted from the SIREN newsroom',
   endpoint: NEWS_PATH,
   keyless: true,
   refresh_days: 0,

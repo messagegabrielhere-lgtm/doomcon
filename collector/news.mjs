@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// DOOMCON news layer — the data behind the news reel.
+// SIREN news layer — the data behind the news reel.
 //
 //   docker run --rm --network host -v "$PWD":/app -w /app node:20-alpine node collector/news.mjs
 //

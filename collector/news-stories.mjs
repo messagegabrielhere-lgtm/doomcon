@@ -1,4 +1,4 @@
-// DOOMCON news layer — event clustering and incident severity.
+// SIREN news layer — event clustering and incident severity.
 //
 // THE BUG THIS FILE EXISTS TO FIX, stated first because it shapes every rule
 // below.

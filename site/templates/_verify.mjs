@@ -52,7 +52,7 @@ btn.addEventListener('click',function(){
     var top=rs[0],match=st.receipt_hash===top.hash;
     if(bad===0){
      line('ok','✔ '+rs.length+' receipts re-hashed in your browser. Every one matches its own contents and links to the one before it.');
-     line('ok','Newest: '+top.id+', DOOMCON '+top.level+' at '+top.score+' of 100, '+top.hash.slice(0,23)+'…');
+     line('ok','Newest: '+top.id+', SIREN '+top.level+' at '+top.score+' of 100, '+top.hash.slice(0,23)+'…');
      if(!match)line('note','A newer reading has been published since this page was built; reload to see it.');
     }else{
      line('bad','✖ '+bad+' of '+rs.length+' receipts failed. That should never happen. Please report it.');

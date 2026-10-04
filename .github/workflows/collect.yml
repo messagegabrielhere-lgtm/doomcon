@@ -1,4 +1,4 @@
-# DOOMCON's clock. Two lanes, one file, one queue.
+# SIREN's clock. Two lanes, one file, one queue.
 #
 # The operator's ask was "it should be built so the news automatically updates".
 # The whole design below follows from one measurement and one platform fact.
@@ -322,7 +322,7 @@ jobs:
             let s = {};
             try { s = JSON.parse(readFileSync("data/state.json", "utf8")); } catch {}
             const score = typeof s.score === "number" ? s.score.toFixed(1) : "NO SCORE";
-            process.stdout.write(`DOOMCON ${s.level ?? "-"}, score ${score} — newsroom refresh`);
+            process.stdout.write(`SIREN ${s.level ?? "-"}, score ${score} — newsroom refresh`);
           ')"
           mkdir .pages
           tar cf - -C public . | (cd .pages && tar xf -)
@@ -582,7 +582,7 @@ jobs:
             exit 0
           fi
 
-          # Message reads "data: DOOMCON 3 @ 61.4 — 2026-09-23T02:00Z", so the
+          # Message reads "data: SIREN 3 @ 61.4 — 2026-09-23T02:00Z", so the
           # commit list on GitHub is a legible chart of the index over time. An
           # all-dark run genuinely has no score and says so rather than printing
           # a number we did not measure. The ${...} below are JS template
@@ -595,7 +595,7 @@ jobs:
             const when = (s.generated_at ?? "").replace(/:\d\d\.\d+Z$/, "Z");
             const dark = (s.dark_pillars ?? []).length;
             process.stdout.write(
-              `data: DOOMCON ${s.level ?? "-"} @ ${score} — ${when}` +
+              `data: SIREN ${s.level ?? "-"} @ ${score} — ${when}` +
               (dark ? ` (${dark} pillar${dark > 1 ? "s" : ""} dark)` : "")
             );
           ')"
@@ -661,7 +661,7 @@ jobs:
             import { readFileSync } from "node:fs";
             const s = JSON.parse(readFileSync("data/state.json", "utf8"));
             const score = typeof s.score === "number" ? s.score.toFixed(1) : "NO SCORE";
-            process.stdout.write(`DOOMCON ${s.level ?? "-"}, score ${score} — ${s.generated_at ?? "unknown"}`);
+            process.stdout.write(`SIREN ${s.level ?? "-"}, score ${score} — ${s.generated_at ?? "unknown"}`);
           ')"
           mkdir .pages
           tar cf - -C public . | (cd .pages && tar xf -)

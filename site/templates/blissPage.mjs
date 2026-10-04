@@ -56,7 +56,7 @@ const PATH = '/bliss.html';
 // Shapes, not colours. Every pillar carries a glyph so the five are
 // distinguishable in greyscale and to a reader who cannot separate hues.
 // Deliberately not imported from _charts.PILLAR_GLYPH: that map is keyed by
-// DOOMCON's five pillar ids and has no entry for any of these.
+// SIREN's five pillar ids and has no entry for any of these.
 const PILLAR_GLYPH = {
   science: '◈',
   medicine: '✚',
@@ -190,7 +190,7 @@ function divergence(bliss, doomState) {
         ? 'BLISS has no frozen reference distribution yet, so its sources are collected and published but not scored'
         : 'BLISS has no score this run');
     }
-    if (!Number.isFinite(c?.doomcon?.score)) missing.push('DOOMCON published no score in this build');
+    if (!Number.isFinite(c?.doomcon?.score)) missing.push('SIREN published no score in this build');
 
     return `<div class="bdiv" data-state="none">
       <p class="bdiv__h">The two indices cannot be compared in this build.</p>
@@ -202,7 +202,7 @@ function divergence(bliss, doomState) {
   }
 
   const aligned = c.reading === 'aligned';
-  const ahead = c.reading === 'bliss-ahead' ? 'BLISS' : 'DOOMCON';
+  const ahead = c.reading === 'bliss-ahead' ? 'BLISS' : 'SIREN';
   const headline = aligned
     ? `The two indices agree today.`
     : `${ahead} is ahead by ${num(Math.abs(c.divergence), 1)} points.`;
@@ -221,7 +221,7 @@ function divergence(bliss, doomState) {
 
   return `<div class="bdiv" data-state="${esc(c.reading)}">
     <p class="bdiv__h">${esc(headline)}</p>
-    <p class="bdiv__sum num" aria-label="BLISS ${esc(score1(c.bliss.score))} minus DOOMCON ${esc(score1(c.doomcon.score))} equals ${esc(signed(c.divergence, 1))}">
+    <p class="bdiv__sum num" aria-label="BLISS ${esc(score1(c.bliss.score))} minus SIREN ${esc(score1(c.doomcon.score))} equals ${esc(signed(c.divergence, 1))}">
       ${esc(c.working)}</p>
     <p class="bdiv__p">${body}</p>
   </div>`;
@@ -350,7 +350,7 @@ export function render(ctx) {
 
   const description = hasScore
     ? `BLISS ${bliss.level}, ${bliss.level_name}. Upside tempo at ${num(bliss.score, 1)} of 100 ` +
-      `against DOOMCON's ${score1(doom?.score)}, computed from the same five-pillar percentile ` +
+      `against SIREN's ${score1(doom?.score)}, computed from the same five-pillar percentile ` +
       `machinery over ${total} sources in science, medicine, access, adoption and openness. ` +
       `Compiled ${utc(bliss.generated_at)}.`
     : `The upside index: ${reporting} of ${total} sources reporting across science, medicine, ` +
@@ -463,7 +463,7 @@ function awaitingPanel(bliss, reporting, total, awaiting, dark) {
        against yet${dark ? `, while ${esc(String(dark))} did not answer this run` : ''}.
        A score is a percentile against a frozen record of how this source normally behaves; until
        that record exists there is no percentile to compute, so there is no number here.</p>
-    <p class="bnote">This is the same state DOOMCON's markets pillar sits in, and it is deliberately
+    <p class="bnote">This is the same state SIREN's markets pillar sits in, and it is deliberately
        <b>not</b> the same thing as dark. Dark means a pipe is dead. Awaiting baseline means the
        measurement is arriving and the ruler has not been built yet. Every value the sources
        returned is published below, unrounded and with its unit, so the record being accumulated
@@ -553,7 +553,7 @@ function dataset(ctx, bliss) {
     description:
       'Five-pillar upside index for AI: science, medicine, access, adoption and openness, ' +
       'normalised as percentiles against a frozen reference distribution and published beside ' +
-      'the DOOMCON activity index on the same 0-100 scale.',
+      'the SIREN activity index on the same 0-100 scale.',
     url: ctx.url(PATH),
     license: brand.LICENSE,
     isAccessibleForFree: true,

@@ -14,7 +14,7 @@
  *
  * THE SENTENCE THIS CARD EXISTS TO NOT SAY. A severity term firing is a fact
  * about the words in a headline. It is not a fact about the world, it is not a
- * risk score, and it does not move the DOOMCON level — the newsroom is not one
+ * risk score, and it does not move the SIREN level — the newsroom is not one
  * of the fourteen sources the index reads, and the card says so in its own
  * band, in the largest type it can spare, above the limitation box.
  *
@@ -179,7 +179,7 @@ export function build(data, opts = {}) {
   const bandY = 988;
   s.rect(MARGIN, bandY, COL, 56, GROUND_RAISED, { r: 8 });
   s.rect(MARGIN, bandY, 5, 56, HEAT[state.level], { r: 2.5 });
-  const band = `The newsroom does not move the level. DOOMCON holds at ${state.level}, ${state.level_name}.`;
+  const band = `The newsroom does not move the level. SIREN holds at ${state.level}, ${state.level_name}.`;
   s.text(band, MARGIN + 22, bandY + 36, fit(band, 25, COL - 46), INK, { track: 0.01 });
 
   s.note('story', story.id);

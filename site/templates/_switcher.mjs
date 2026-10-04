@@ -432,8 +432,8 @@ function movedBand(m) {
   const level = m.levelTo === null
     ? ''
     : m.levelChanged
-      ? `<span class="sw__mlvl" data-changed="1">DOOMCON ${esc(m.levelFrom)} &rarr; ${esc(m.levelTo)}</span>`
-      : `<span class="sw__mlvl">level held at DOOMCON ${esc(m.levelTo)}</span>`;
+      ? `<span class="sw__mlvl" data-changed="1">SIREN ${esc(m.levelFrom)} &rarr; ${esc(m.levelTo)}</span>`
+      : `<span class="sw__mlvl">level held at SIREN ${esc(m.levelTo)}</span>`;
 
   const score = m.scoreDelta === null
     ? ''

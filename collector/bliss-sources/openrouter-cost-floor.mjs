@@ -2,7 +2,7 @@
 //
 // This is the most concrete "AI is getting better for people" number available
 // anywhere in this repo, and it is the one source here that needs no interpretation
-// at all: the same catalogue that DOOMCON's capability pillar counts for arrivals
+// at all: the same catalogue that SIREN's capability pillar counts for arrivals
 // carries a dated price for every listed model. Falling price is not a proxy for
 // broadening access. It IS broadening access.
 //

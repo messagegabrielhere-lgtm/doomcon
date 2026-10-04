@@ -419,7 +419,7 @@ export function parsePath(d) {
 }
 
 // ---------------------------------------------------------------------------
-// 3. THE FONT — "DOOMCON Signal"
+// 3. THE FONT — "SIREN Signal"
 //
 // THE DECISION, STATED ONCE AND ARGUED IN docs/CARDS.md §3.
 //
@@ -983,7 +983,7 @@ export function surface(w, h, { background = GROUND } = {}) {
     },
 
     /**
-     * The DOOMCON sentinel mark, at `size` px square, from site/brandmarks.mjs
+     * The SIREN sentinel mark, at `size` px square, from site/brandmarks.mjs
      * — the same geometry as the favicon and the OG image, so a card cannot
      * show a different instrument from the tab it was opened in.
      *
@@ -1103,10 +1103,10 @@ const TRACK = mix(GROUND, '#8fa6c8', 0.13);
 // ---------------------------------------------------------------------------
 // 5b. THE READING, SHARED BY BOTH RENDERERS
 //
-// The homepage now opens with one sentence — "AI activity is at DOOMCON 4 —
+// The homepage now opens with one sentence — "AI activity is at SIREN 4 —
 // ROUTINE, on a scale where 1 is loudest." — and a dial whose two ends say
 // CALM and SEVERE, because a numeral alone does not tell a stranger which way
-// is worse, and DOOMCON counts DOWN. A card is the same page, seen first and
+// is worse, and SIREN counts DOWN. A card is the same page, seen first and
 // most often, so it has to say the same thing in the same words.
 //
 // The three helpers below are PURE: they measure with this module's font and
@@ -1118,8 +1118,8 @@ const TRACK = mix(GROUND, '#8fa6c8', 0.13);
 /**
  * The sentence the homepage's <h1> builds (site/templates/index.mjs
  * headline()), word for word, as colour runs: the reading in the level's
- * heat, the rest in ink. The page's <h1> glues "DOOMCON 4" with a no-break
- * space; here the whole reading is glued, so "DOOMCON 4 — ROUTINE," is one
+ * heat, the rest in ink. The page's <h1> glues "SIREN 4" with a no-break
+ * space; here the whole reading is glued, so "SIREN 4 — ROUTINE," is one
  * token that never breaks across a line, and fitRuns() sets each no-break
  * space as an ordinary one.
  *
@@ -1337,7 +1337,7 @@ function drawRuns(S, fit, { x, y, leading = LEADING, weight = 0.09, track = 0.01
  * THE LOCKUP is the site's masthead — the sentinel wire, the wordmark, the
  * publication — and the mark is set large enough that the spike is a
  * reading at X's render size: 72px on the landscape card is 30px on a phone,
- * where DOOMCON 4's apex is still 8px above the wire. Returns `top`, the
+ * where SIREN 4's apex is still 8px above the wire. Returns `top`, the
  * first y a design may use.
  */
 function chrome(S, { level, stamp, margin, stripe = 10, footer = true }) {
@@ -1458,11 +1458,11 @@ function pillarRow(S, p, {
  * CARD 1 — THE STATE CARD. The daily post's image and every page's og:image:
  * the sentence, the ladder, the composite, the five pillars, the clock.
  *
- * IT LEADS WITH THE SENTENCE THE PAGE LEADS WITH. "AI activity is at DOOMCON
+ * IT LEADS WITH THE SENTENCE THE PAGE LEADS WITH. "AI activity is at SIREN
  * 4 — ROUTINE, on a scale where 1 is loudest." A reader who sees this card in
  * a feed and the page they land on read one thing. Until 2026-09-27 the card
  * led with a 208px numeral and the word ROUTINE, which is a reading to us and
- * a number to a stranger — and DOOMCON counts down, so "4" read as four-fifths
+ * a number to a stranger — and SIREN counts down, so "4" read as four-fifths
  * of the way to bad. The ladder under the sentence carries the direction a
  * second time, in the page's own two words, CALM and SEVERE.
  *
@@ -1647,7 +1647,7 @@ export function headlineCard(item, { level, format = 'landscape', generatedAt, t
   const { heat, small, top } = chrome(S, { level: L, stamp, margin });
   const col = fmt.w - margin * 2;
 
-  // THE BADGE, top right: the reading in the page's own shape — "DOOMCON 4",
+  // THE BADGE, top right: the reading in the page's own shape — "SIREN 4",
   // the level's name, and the ladder with CALM and SEVERE at its ends — so
   // the level on a news card is a level and not a bare numeral. It is also
   // the card's thumbnail-scale anchor: the raised live band and the name in

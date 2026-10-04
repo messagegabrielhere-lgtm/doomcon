@@ -9,8 +9,8 @@
  * somebody else's money at risk rather than our opinion.
  *
  * The line this card does not cross is the one docs/BRAND.md §3.1 draws. These
- * are market prices on one Polymarket question. They are not DOOMCON's ranking,
- * they are not a DOOMCON forecast, and none of it feeds the index. That is said
+ * are market prices on one Polymarket question. They are not SIREN's ranking,
+ * they are not a SIREN forecast, and none of it feeds the index. That is said
  * three times on the face of the card — in the kind label, in the standfirst,
  * and in the limitation box — because this is the card most likely to be
  * screenshotted out of context and attributed to us.
@@ -136,8 +136,8 @@ export function build(data, opts = {}) {
   s.note('volume_usd', vol);
 
   limitBox(s,
-    'Live prices on one Polymarket question. The market’s ranking, not DOOMCON’s. '
-    + 'None of it feeds the DOOMCON index.');
+    'Live prices on one Polymarket question. The market’s ranking, not SIREN’s. '
+    + 'None of it feeds the SIREN index.');
 
   return s;
 }

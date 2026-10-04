@@ -85,11 +85,11 @@ export const CARD_FOR_KIND = Object.freeze({ race: 'race' });
 // What the operator puts in each bio. docs/POSTING.md §6 quotes these verbatim
 // and selfTest() checks it still does, so the doc and the code cannot drift.
 export const BIO_GUIDANCE = Object.freeze({
-  x: 'Automated account managed by @HUMAN_HANDLE. One reading a day of the DOOMCON AI tempo index, from public data. Not a prediction.',
-  bluesky: 'Automated account managed by @HUMAN_HANDLE. One reading a day of the DOOMCON AI tempo index, from public data. Not a prediction. A human reads the replies.',
+  x: 'Automated account managed by @HUMAN_HANDLE. One reading a day of the SIREN AI tempo index, from public data. Not a prediction.',
+  bluesky: 'Automated account managed by @HUMAN_HANDLE. One reading a day of the SIREN AI tempo index, from public data. Not a prediction. A human reads the replies.',
 });
 // The use-case text for console.x.com. X's Developer Policy makes it binding.
-export const X_USE_CASE = 'Automated account that publishes one scheduled, informational post a day: a reading of the DOOMCON '
+export const X_USE_CASE = 'Automated account that publishes one scheduled, informational post a day: a reading of the SIREN '
   + 'AI activity index and its share card, computed from the project\'s own published data. No replies, no mentions, '
   + 'no likes, follows, reposts or quote posts, and no reading of other accounts\' content.';
 
@@ -508,7 +508,7 @@ export async function selfTest() {
     eq(freshness(s, at('2026-09-28T13:00:00Z')).ok, false, 'future');
   });
   await check('end to end on a fixture reading: X gets a link-free text, Bluesky the link, both pass', () => {
-    const out = buildPosts(fixtureState(), { brand: { name: 'DOOMCON', domain: 'messagegabrielhere-lgtm.github.io/doomcon', tagline: 't', canonicalUrl: 'https://messagegabrielhere-lgtm.github.io/doomcon' } });
+    const out = buildPosts(fixtureState(), { brand: { name: 'SIREN', domain: 'messagegabrielhere-lgtm.github.io/doomcon', tagline: 't', canonicalUrl: 'https://messagegabrielhere-lgtm.github.io/doomcon' } });
     const now = at('2026-09-28T14:41:00Z');
     const x = pickPost(out.posts, { channel: 'x', ledger: [], now });
     const b = pickPost(out.posts, { channel: 'bluesky', ledger: [], now });

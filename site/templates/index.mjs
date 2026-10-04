@@ -478,7 +478,7 @@ main.wrap > .hero .hero__headline { margin: 0 0 var(--s-3); font: 500 var(--t-sm
   <p class="lede">The home page gives the reading. This page shows the working: where the score sits, how it has moved,
     which sources reported, what each pillar is doing, and how to take the number with you.</p>
 </section>
-<!-- THE BALANCE, straight after the claim cards: the cards say what DOOMCON
+<!-- THE BALANCE, straight after the claim cards: the cards say what SIREN
      counts, and this is where the page first sets the benefit side beside
      it. Its style block rides inside the fragment, as the cards' does, so a
      build without data/balance.json carries neither. Empty when either file
@@ -616,7 +616,7 @@ ${gauge.styleTag()}
      instrument. The strip is the Bulletin's 'Recent Clock changes' - the
      number seen MOVING, which is what brings a reader back - and the cards
      are the site's surface area as six sentences with the live number
-     inside each, so a newcomer learns what DOOMCON knows before meeting
+     inside each, so a newcomer learns what SIREN knows before meeting
      eleven tiles. Both render '' when their data is absent; neither needs
      a script to exist. site/templates/_readings.mjs, _claims.mjs. -->
 ${wall(ctx)}
@@ -942,12 +942,12 @@ const STANDING_ORDERS = {
 // script runs, so without JavaScript the page is simply English.
 const LANGS = [
   ['en', 'English', null, null],
-  ['es', 'Español', 'La actividad de la IA está en DOOMCON {n} — {name}, en una escala donde 1 es lo más ruidoso.', 'DOOMCON cuenta cuánto está pasando en la IA, cada hora. No es una predicción.'],
-  ['fr', 'Français', 'L’activité de l’IA est à DOOMCON {n} — {name}, sur une échelle où 1 est le plus bruyant.', 'DOOMCON compte ce qui se passe dans l’IA, chaque heure. Ce n’est pas une prédiction.'],
-  ['de', 'Deutsch', 'Die KI-Aktivität steht bei DOOMCON {n} — {name}, auf einer Skala, auf der 1 am lautesten ist.', 'DOOMCON zählt stündlich, wie viel in der KI passiert. Es ist keine Vorhersage.'],
-  ['pt', 'Português', 'A atividade de IA está em DOOMCON {n} — {name}, numa escala em que 1 é o mais ruidoso.', 'O DOOMCON conta, de hora em hora, quanto está a acontecer na IA. Não é uma previsão.'],
-  ['ja', '日本語', 'AIの活動量は DOOMCON {n} — {name}。1が最も騒がしい尺度です。', 'DOOMCONはAIで起きていることの量を毎時数えます。予測ではありません。'],
-  ['zh', '中文', 'AI 活动水平为 DOOMCON {n} — {name}，量表中 1 表示最喧闹。', 'DOOMCON 每小时统计 AI 领域发生了多少事。这不是预测。'],
+  ['es', 'Español', 'La actividad de la IA está en SIREN {n} — {name}, en una escala donde 1 es lo más ruidoso.', 'SIREN cuenta cuánto está pasando en la IA, cada hora. No es una predicción.'],
+  ['fr', 'Français', 'L’activité de l’IA est à SIREN {n} — {name}, sur une échelle où 1 est le plus bruyant.', 'SIREN compte ce qui se passe dans l’IA, chaque heure. Ce n’est pas une prédiction.'],
+  ['de', 'Deutsch', 'Die KI-Aktivität steht bei SIREN {n} — {name}, auf einer Skala, auf der 1 am lautesten ist.', 'SIREN zählt stündlich, wie viel in der KI passiert. Es ist keine Vorhersage.'],
+  ['pt', 'Português', 'A atividade de IA está em SIREN {n} — {name}, numa escala em que 1 é o mais ruidoso.', 'O SIREN conta, de hora em hora, quanto está a acontecer na IA. Não é uma previsão.'],
+  ['ja', '日本語', 'AIの活動量は SIREN {n} — {name}。1が最も騒がしい尺度です。', 'SIRENはAIで起きていることの量を毎時数えます。予測ではありません。'],
+  ['zh', '中文', 'AI 活动水平为 SIREN {n} — {name}，量表中 1 表示最喧闹。', 'SIREN 每小时统计 AI 领域发生了多少事。这不是预测。'],
 ];
 
 function langStrip(state) {
@@ -973,11 +973,11 @@ try{var s=localStorage.getItem('dc-lang');if(s&&T[s])set(s);}catch(e){}})();</sc
 // "Care" here means "is it worth your attention", which is what tempo is; it
 // is never a statement that things are going well or badly.
 const VERDICT = {
-  5: ['No.', 'It is quiet.'],
-  4: ['Not really.', 'A normal day.'],
+  5: ['No.', 'The siren is silent.'],
+  4: ['Not really.', 'A normal day. The siren is off.'],
   3: ['A little.', 'Busier than usual.'],
   2: ['Yes.', 'A lot is happening.'],
-  1: ['Yes.', 'This is as loud as it gets.'],
+  1: ['Yes.', 'The siren is at full volume.'],
 };
 const PILLAR_PLAIN = {
   capability: 'new models, papers and code',
@@ -1093,7 +1093,7 @@ function explainers(ctx) {
     <div class="xp__l">
       ${card('/ai-doomsday-clock.html', 'Is there an AI doomsday clock?', 'What exists, who sets it, and the one you can verify.')}
       ${card('/p-doom.html', 'What is p(doom)?', 'The probability-of-doom number, and why nobody can check one.')}
-      ${card('/guide.html', 'DOOMCON vs DEFCON vs the Clock', 'Five numbers side by side, and what each one measures.')}
+      ${card('/guide.html', 'SIREN vs DEFCON vs the Clock', 'Five numbers side by side, and what each one measures.')}
     </div>
   </div>
 </section>`;

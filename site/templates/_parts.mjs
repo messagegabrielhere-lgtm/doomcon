@@ -7,10 +7,10 @@ import { sparkline, PILLAR_GLYPH } from './_charts.mjs';
 import * as brand from '../brand.mjs';
 
 /**
- * Five cells, filled count = 6 - level, so DOOMCON 1 is five filled and
- * DOOMCON 5 is one. The level has to survive greyscale: shape carries the
+ * Five cells, filled count = 6 - level, so SIREN 1 is five filled and
+ * SIREN 5 is one. The level has to survive greyscale: shape carries the
  * signal and the accent only confirms it. aria-hidden because the adjacent
- * text already says "DOOMCON 3 - ELEVATED"; a screen reader does not need the
+ * text already says "SIREN 3 - ELEVATED"; a screen reader does not need the
  * decoration read out twice.
  */
 export function levelBars(level, cls = 'bars') {

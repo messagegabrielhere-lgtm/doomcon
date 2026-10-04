@@ -701,7 +701,7 @@ export function main(argv = process.argv.slice(2)) {
   appendFileSync(P.history, JSON.stringify(historyLine) + '\n', 'utf8');
 
   const shown = state.score === null ? 'NO SCORE (all pillars dark)' : state.score.toFixed(1);
-  console.log(`DOOMCON ${state.level ?? '-'} ${state.level_name ?? 'UNAVAILABLE'}  score=${shown}  rule=${state.rule_fired}` +
+  console.log(`SIREN ${state.level ?? '-'} ${state.level_name ?? 'UNAVAILABLE'}  score=${shown}  rule=${state.rule_fired}` +
               (state.degraded ? `  DEGRADED dark=[${state.dark_pillars.join(',')}] failed=[${state.failed_sources.join(',')}]` : ''));
   console.log(`receipt ${receipt.id}  ${receipt.hash}`);
   return state;

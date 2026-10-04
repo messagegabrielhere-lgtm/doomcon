@@ -9,7 +9,7 @@
 // mild, and the numbered phases were gone by 2013. A scale is read as whatever
 // its name suggests, so these names describe the instrument, never the danger.
 
-export const NAME = 'DOOMCON';
+export const NAME = 'SIREN';
 
 // ---------------------------------------------------------------------------
 // The PUBLICATION. Distinct from NAME, which is the scalar.
@@ -27,8 +27,14 @@ export const NAME = 'DOOMCON';
 // only. Stating the distinction in the masthead copy is what keeps the name
 // honest rather than merely dramatic.
 // ---------------------------------------------------------------------------
-export const PUBLICATION = 'AI Early Warning System';
-export const PUBLICATION_SHORT = 'AI EWS';
+// 2026-10-04: the index was renamed from its first name to SIREN, the operator's
+// choice. SI is superintelligence; REN is Real-time Early Notice. "Notice" and
+// not "warning", because the instrument reports activity and the publisher's
+// pre-flight bans the other word. The old name is kept in FORMERLY so a reader
+// who knew it, and a search that still finds it, can tell it is the same site.
+export const PUBLICATION = 'Superintelligence Real-time Early Notice';
+export const FORMERLY = 'DOOMCON';
+export const PUBLICATION_SHORT = 'SI REN';
 //
 // TRAP (VOICE.md §5.6): "not predicted" is REJECTED by the post pre-flight —
 // "predicted" is in BANNED_FUTURE_EXTENDED and the word list cannot tell a
@@ -67,7 +73,7 @@ export const TAGLINE = 'Detected early, not a prediction. We count.';
 // The catchy one, for the masthead: a question a stranger can answer by
 // looking at the dial. "Loud" is the scale's own word (1 is loudest), so the
 // line promises tempo and nothing else.
-export const SLOGAN = 'Should you care about AI today? One answer, every hour.';
+export const SLOGAN = 'Is the siren on today? One answer, every hour.';
 
 // The Amazon Associates tracking id. Every paid Amazon link on the site is
 // built from this one constant (site/templates/shopPages.mjs); the Bunker Kit
@@ -79,7 +85,7 @@ export const CREED = "We don't know anything. We just count.";
 // The long form, for surfaces with a full sentence of room: og:description
 // fallbacks, the history page, an about box. Says the moat out loud.
 export const STRAPLINE =
-  'Everyone has a p(doom). Nobody has a receipt. DOOMCON counts what is ' +
+  'Everyone has a p(doom). Nobody has a receipt. SIREN counts what is ' +
   'observably happening, hourly, and publishes the arithmetic.';
 
 // The address we PRINT. This was 'doomcon.watch' — the domain we intend to own —
@@ -290,12 +296,12 @@ export const PILLARS = [
 // DECISION (2026-09-27): it now also says which way the scale runs. The levels
 // count DOWN toward louder, and this is the one line guaranteed to sit near
 // the number on every surface — footer, embed, feed, JSON-LD — so it is the
-// one place a reader who saw "DOOMCON 4" out of context can learn that 4 is
+// one place a reader who saw "SIREN 4" out of context can learn that 4 is
 // the second-quietest reading and not four-fifths of the way to something.
 // "Quietest" and "loudest" are the words the digest already uses for the two
 // ends of the record and the homepage headline uses for level 1.
 export const DISCLAIMER =
-  'DOOMCON measures how much is happening, not how bad it is. Levels run from ' +
+  'SIREN measures how much is happening, not how bad it is. Levels run from ' +
   '5 (quietest) to 1 (loudest) and describe observable activity tempo against ' +
   'this index’s own record. They are not a probability of harm.';
 

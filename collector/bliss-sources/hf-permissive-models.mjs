@@ -1,6 +1,6 @@
 // ACCESS pillar — weights somebody else can actually run.
 //
-// DOOMCON's capability pillar counts every model created on the Hub, which is a
+// SIREN's capability pillar counts every model created on the Hub, which is a
 // measure of how many hands are on the tools. This counts only the subset published
 // under a licence that lets a stranger download, fine-tune and deploy the weights
 // commercially without asking anybody. That difference is the entire upside claim:

@@ -343,27 +343,27 @@ const ICONS = {
   // The dome is `sec-index`'s dome, to the decimal, so a level mark and the
   // section mark for the index read as the same instrument.
   'level-5': {
-    title: 'DOOMCON 5, DORMANT',
+    title: 'SIREN 5, DORMANT',
     d: 'M3 14.6a7 7 0 0 1 14 0M3 14.6h14M10 14.6 4.66 10.72',
     solid: 'M10 13.3a1.3 1.3 0 1 1 0 2.6 1.3 1.3 0 0 1 0-2.6',
   },
   'level-4': {
-    title: 'DOOMCON 4, ROUTINE',
+    title: 'SIREN 4, ROUTINE',
     d: 'M3 14.6a7 7 0 0 1 14 0M3 14.6h14M10 14.6 7 8.72',
     solid: 'M10 13.3a1.3 1.3 0 1 1 0 2.6 1.3 1.3 0 0 1 0-2.6',
   },
   'level-3': {
-    title: 'DOOMCON 3, ELEVATED',
+    title: 'SIREN 3, ELEVATED',
     d: 'M3 14.6a7 7 0 0 1 14 0M3 14.6h14M10 14.6V8',
     solid: 'M10 13.3a1.3 1.3 0 1 1 0 2.6 1.3 1.3 0 0 1 0-2.6',
   },
   'level-2': {
-    title: 'DOOMCON 2, ACCELERATED',
+    title: 'SIREN 2, ACCELERATED',
     d: 'M3 14.6a7 7 0 0 1 14 0M3 14.6h14M10 14.6 13 8.72',
     solid: 'M10 13.3a1.3 1.3 0 1 1 0 2.6 1.3 1.3 0 0 1 0-2.6',
   },
   'level-1': {
-    title: 'DOOMCON 1, UNPRECEDENTED',
+    title: 'SIREN 1, UNPRECEDENTED',
     d: 'M3 14.6a7 7 0 0 1 14 0M3 14.6h14M10 14.6 15.34 10.72',
     solid: 'M10 13.3a1.3 1.3 0 1 1 0 2.6 1.3 1.3 0 0 1 0-2.6',
   },
@@ -662,7 +662,7 @@ export function hasSection(key) {
 }
 
 /**
- * A DOOMCON level, 1-5. Takes the number, a `state.json` object, or the level
+ * A SIREN level, 1-5. Takes the number, a `state.json` object, or the level
  * word — three things a caller might be holding, and none of them should have
  * to be converted at the call site.
  *

@@ -1,6 +1,6 @@
 // SCIENCE pillar — AI methods landing in the sciences that are not computer science.
 //
-// The distinction this source exists to draw: cs.AI/cs.LG/cs.CL (which DOOMCON's
+// The distinction this source exists to draw: cs.AI/cs.LG/cs.CL (which SIREN's
 // capability pillar already counts) is the field talking about itself. A paper in
 // q-bio.BM or cond-mat.mtrl-sci whose abstract reaches for a neural network is the
 // field being USED — somebody solving a protein or a catalyst problem with the
@@ -22,7 +22,7 @@ const ENDPOINT = 'https://export.arxiv.org/api/query';
 // Eight categories, chosen because each is a domain where an AI-assisted result is
 // a real-world result rather than a benchmark: structural biology and quantitative
 // biology, materials, chemical and medical physics, numerical analysis, and
-// astronomy instrumentation. Deliberately NO cs.* — that is DOOMCON's side of the
+// astronomy instrumentation. Deliberately NO cs.* — that is SIREN's side of the
 // house and counting it here would make BLISS a second copy of the capability
 // pillar wearing a nicer name.
 const CATEGORIES = [

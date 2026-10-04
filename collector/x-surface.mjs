@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// DOOMCON X surface — real X posts on the page, for $0, without a read key.
+// SIREN X surface — real X posts on the page, for $0, without a read key.
 //
 //   docker run --rm --network host -v "$PWD":/app -w /app node:20-alpine \
 //     node collector/x-surface.mjs
@@ -1023,7 +1023,7 @@ async function main() {
     attribution:
       'Posts are resolved through X’s public, keyless oEmbed endpoint (publish.x.com/oembed) ' +
       'from permalinks that Hacker News submitters or Techmeme editors chose to cite. ' +
-      'DOOMCON holds no X API key, reads no timeline, and pays X nothing. ' +
+      'SIREN holds no X API key, reads no timeline, and pays X nothing. ' +
       'Each post is shown with the source that cited it.',
     notes: [
       'Presentation only. No value here is scored, and nothing here can move the index.',

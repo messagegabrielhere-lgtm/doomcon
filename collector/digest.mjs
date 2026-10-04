@@ -1564,7 +1564,7 @@ export async function main(argv = process.argv.slice(2)) {
   await mkdir(path.dirname(args.out), { recursive: true });
   await writeFile(args.out, stableJson(digest));
 
-  log('DOOMCON digest written.');
+  log('SIREN digest written.');
   log(`  out            ${args.out}`);
   log(`  as of          ${digest.as_of}  (index ${digest.index_as_of}, skew ${digest.clock_skew_seconds}s)`);
   log(`  corpus         ${digest.corpus.items} items over ${digest.corpus.observed_span_hours}h, ${digest.corpus.feeds_live} live feeds`);

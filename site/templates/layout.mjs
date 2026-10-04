@@ -505,10 +505,10 @@ function tick(){
 }
 tick();setInterval(tick,every);
 try{var cv=d.getElementById('dc-visit'),cs=cv?cv.dataset:{};
- console.log('%cDOOMCON','font:700 28px Impact,sans-serif;letter-spacing:.08em;color:#ffb020');
+ console.log('%cSIREN','font:700 28px Impact,sans-serif;letter-spacing:.08em;color:#ffb020');
  console.log('This is not a test. It is not an emergency either. It is a count.');
  console.log(+cs.level>0&&parseFloat(cs.score)===parseFloat(cs.score)
-  ?'Reading on file: DOOMCON '+cs.level+', '+cs.name+', '+cs.score+' of 100, observed '+cs.at+'.'
+  ?'Reading on file: SIREN '+cs.level+', '+cs.name+', '+cs.score+' of 100, observed '+cs.at+'.'
   :'No reading on file. None is imputed.');
  console.log('Nothing in this panel is classified. Recompute it: api/state.json, api/history.json, api/receipts/');
 }catch(e){}
@@ -1285,7 +1285,7 @@ function footer(ctx, sections, path) {
     { href: '/about.html', label: 'About', blurb: 'What this is, who runs it, how it is paid for, and how to get in touch.' },
     { href: '/p-doom.html', label: 'What is p(doom)?', blurb: 'The probability-of-doom number, explained.' },
     { href: '/ai-doomsday-clock.html', label: 'AI doomsday clock?', blurb: 'What exists, and one you can verify.' },
-    { href: '/guide.html', label: 'Guide', blurb: 'DOOMCON, DEFCON, the Doomsday Clock and p(doom): what each one measures.' },
+    { href: '/guide.html', label: 'Guide', blurb: 'SIREN, DEFCON, the Doomsday Clock and p(doom): what each one measures.' },
     { href: '/sponsor.html', label: 'Sponsor', blurb: 'One labelled sponsor at a time, with no say over the number.' },
     { href: '/brand.html', label: 'Brand', blurb: 'Name, colours, type, voice and Tally to download.' },
     { href: '/press.html', label: 'Press kit', blurb: 'Facts, a paragraph to lift, images and a contact.' },
@@ -1423,7 +1423,7 @@ function footer(ctx, sections, path) {
       </div>
     </div>
     ${telemetryRow(ctx)}
-    <p class="foot__memo">${ctx.state && ctx.state.receipt_id ? `<span>Ref <b>DC/${esc(ctx.state.receipt_id)}</b></span>` : ''}<span>Typed by <b>a cron job</b></span><span>Checked by <b>SHA-256</b></span><span>Copies to <b>anyone</b></span><span>Destroy after reading <b>no need, it is hash-chained</b></span></p>
+    <p class="foot__memo"><span>Formerly <b>${esc(brand.FORMERLY)}</b></span>${ctx.state && ctx.state.receipt_id ? `<span>Ref <b>DC/${esc(ctx.state.receipt_id)}</b></span>` : ''}<span>Typed by <b>a cron job</b></span><span>Checked by <b>SHA-256</b></span><span>Copies to <b>anyone</b></span><span>Destroy after reading <b>no need, it is hash-chained</b></span></p>
     ${odbl}${exploitSource}<p class="foot__fine">Collection runs on a published <code>*/${CADENCE_MIN}</code> cron; scheduled runs are queued and
       are routinely late, which is why the rail above says <b>overdue</b> rather than counting down into fiction.
       Every value on this site is computed from public data by published code, and each observation is written to a

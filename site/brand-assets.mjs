@@ -110,7 +110,7 @@ export function headerPng() {
   const nameSize = fit(brand.NAME, { from: 70, max: col, track: 0.12, floor: 40 });
   S.text(brand.NAME, { x: tx, y: my + 72, size: nameSize, color: marks.INK, weight: 0.11, track: 0.12 });
   const pub = brand.PUBLICATION.toUpperCase();
-  S.text(pub, { x: tx + 3, y: my + 114, size: fit(pub, { from: 23, max: col, track: 0.16 }), color: marks.INK_DIM, weight: 0.10, track: 0.16 });
+  S.text(pub, { x: tx + 3, y: my + 114, size: fit(pub, { from: 23, max: col, track: 0.06, floor: 11 }), color: marks.INK_DIM, weight: 0.10, track: 0.06 });
   S.text(brand.TAGLINE, { x: tx + 3, y: my + 160, size: fit(brand.TAGLINE, { from: 24, max: col, track: 0.03 }), color: marks.ACCENT, weight: 0.10, track: 0.03 });
 
   // The scale, with no band singled out.

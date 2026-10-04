@@ -1074,7 +1074,7 @@ function howComputed(ctx, race) {
     All three windows are ${esc(race.ship_window_days)} days.`;
 
   const mindBody = w
-    ? `Share of DOOMCON's own news corpus naming that lab, computed from the entity list
+    ? `Share of SIREN's own news corpus naming that lab, computed from the entity list
        <a href="${esc(ctx.href('/news.html'))}">the signal feed</a> already published &mdash; the same
        extractor, so the two surfaces can never disagree about a headline.
        The window is ${esc(w.corpus)} items spanning

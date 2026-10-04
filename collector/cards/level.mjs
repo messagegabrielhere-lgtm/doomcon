@@ -8,7 +8,7 @@
  * calm days is where the credibility comes from.
  *
  * IT SAYS WHAT THE PAGE SAYS. The homepage now opens with one sentence — "AI
- * activity is at DOOMCON 4 — ROUTINE, on a scale where 1 is loudest." — and a
+ * activity is at SIREN 4 — ROUTINE, on a scale where 1 is loudest." — and a
  * dial whose ends read CALM and SEVERE. This card is that page, seen first and
  * most often, so it leads with the same sentence and carries the same two
  * words, and it is laid out to match site/cardpng.mjs's portrait state card,

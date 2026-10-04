@@ -30,6 +30,9 @@ export function about(ctx) {
   <p class="eyebrow">About</p>
   <div class="inf__top">${mascot({ size: 76, level: level(ctx) })}<h1 class="bp__h1">What this is, and who is behind it</h1></div>
   <p class="lede">${esc(brand.DESCRIPTION)}</p>
+  <h2>The name</h2>
+  <p><b>SI</b> is superintelligence. <b>REN</b> is Real-time Early Notice. Together: a siren for the road to superintelligence, which tells you how loud things are and never claims to know how the road ends.
+    The index was called ${esc(brand.FORMERLY)} until October 2026. Only the name changed; the method, the history and every receipt are the same.</p>
   <h2>What it is</h2>
   <p>${esc(brand.NAME)} is a small, automated publication. A collector reads public sources every hour, a published formula turns
     them into a score, and a static site is rebuilt from the result. There is no editorial desk deciding the level.
@@ -101,7 +104,7 @@ export function privacy(ctx) {
 
 // TWO ANSWER PAGES for the two phrases people actually type. Each one answers
 // the question in its first paragraph, says what the thing measures and who
-// sets it, and only then says how DOOMCON differs. Facts about other people's
+// sets it, and only then says how SIREN differs. Facts about other people's
 // numbers are kept to what is stable and uncontroversial; nothing here states
 // the Clock's current setting or anyone's current estimate, because both
 // change and this page would go stale without anyone noticing.
@@ -368,7 +371,7 @@ export function guide(ctx) {
   const main = `${CSS}
 <section class="inf">
   <p class="eyebrow">Guide</p>
-  <div class="inf__top">${mascot({ size: 76, level: level(ctx) })}<h1 class="bp__h1">DOOMCON, DEFCON, the Doomsday Clock and p(doom)</h1></div>
+  <div class="inf__top">${mascot({ size: 76, level: level(ctx) })}<h1 class="bp__h1">SIREN, DEFCON, the Doomsday Clock and p(doom)</h1></div>
   <p class="lede">Five numbers people reach for when they want to know how worried to be. They measure different things, and
     only one of them is a count you can check. ${now}</p>
   <h2>The short version</h2>
@@ -382,7 +385,7 @@ export function guide(ctx) {
       <tr><td><b>p(doom)</b></td><td>One person's stated probability that AI ends very badly</td><td>Whoever is asked</td><td>No. It is an opinion expressed as a number</td></tr>
     </tbody>
   </table></div>
-  <h2>How to read the DOOMCON dial</h2>
+  <h2>How to read the SIREN dial</h2>
   <p>The scale runs from 5 to 1 and <b>1 is the loudest</b>. The level is the band the 0–100 composite score falls in:</p>
   <div class="inf__scroll"><table>
     <thead><tr><th>Level</th><th>Name</th><th>Score band</th><th>In a few words</th></tr></thead>
@@ -405,7 +408,7 @@ ${bands.map((l) => `      <tr><td><b>${esc(l.level)}</b></td><td>${esc(l.name)}<
 </section>`;
   return page({
     ctx, path: '/guide.html',
-    title: `DOOMCON vs DEFCON vs the Doomsday Clock vs p(doom): what each measures`,
+    title: `SIREN vs DEFCON vs the Doomsday Clock vs p(doom): what each measures`,
     description: `A plain guide to four doom numbers. DEFCON is military readiness, the Doomsday Clock is a board's judgement, p(doom) is an opinion, and ${brand.NAME} is an hourly count of AI activity you can recompute.`,
     main,
   });

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// DOOMCON leader wire — what the people running AI actually said this week.
+// SIREN leader wire — what the people running AI actually said this week.
 //
 //   docker run --rm --network host -v "$PWD":/app -w /app node:20-alpine node collector/leaders.mjs
 //

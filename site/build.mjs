@@ -107,7 +107,7 @@ function llmsTxt(ctx) {
 - [Current reading (JSON)](${ctx.url('/api/state.json')})
 - [Every reading (JSON)](${ctx.url('/api/history.json')})
 - [Method](${ctx.url('/methodology.html')})
-- [Guide: DOOMCON vs DEFCON vs the Doomsday Clock vs p(doom)](${ctx.url('/guide.html')})
+- [Guide: SIREN vs DEFCON vs the Doomsday Clock vs p(doom)](${ctx.url('/guide.html')})
 - [About](${ctx.url('/about.html')})
 - [What is p(doom)?](${ctx.url('/p-doom.html')})
 - [Is there an AI doomsday clock?](${ctx.url('/ai-doomsday-clock.html')})
@@ -1253,7 +1253,7 @@ async function main() {
   // The quiet one: an entry only when the level itself changes.
   written.push(await write(args.out, 'feed-level.xml', feed.render(ctx, { levelOnly: true })));
   // THE BRAND MARKS. A smoke-detector mark whose five grille slots stand for
-  // the five DOOMCON levels, and whose FAVICON LIGHTS THE SLOTS UP TO THE
+  // the five SIREN levels, and whose FAVICON LIGHTS THE SLOTS UP TO THE
   // CURRENT LEVEL in heat colours — so the browser tab itself carries the
   // reading. Nobody else in this category does that.
   written.push(await write(args.out, 'favicon.svg', marks.faviconSvg(state.level)));

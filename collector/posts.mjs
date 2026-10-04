@@ -839,14 +839,14 @@ function dailyPost(c) {
   const score = fmt1(state.score);
   const d = deltaClause(delta);
   // "on a scale where 1 is loudest" in every phrasing. The levels count DOWN
-  // toward louder, and a stranger who meets "DOOMCON 4" in a feed with no page
+  // toward louder, and a stranger who meets "SIREN 4" in a feed with no page
   // around it reads four-fifths of the way to something. The homepage headline
   // and the share card already say it; the post the card rides on now does too.
   const scale = 'on a scale where 1 is loudest';
   const lead = c.say('daily', [
-    `DOOMCON ${state.level}, ${lvl.name}, ${scale}. Composite ${score} of 100${d}, as of ${prettyStamp(state.generated_at)}.`,
-    `The AI tempo index reads ${score} of 100${d}, as of ${prettyStamp(state.generated_at)}. DOOMCON ${state.level}, ${lvl.name}, ${scale}.`,
-    `${prettyDate(state.generated_at)}, ${utcClock(state.generated_at)}. Composite ${score} of 100${d}. DOOMCON ${state.level}, ${lvl.name}, ${scale}.`,
+    `SIREN ${state.level}, ${lvl.name}, ${scale}. Composite ${score} of 100${d}, as of ${prettyStamp(state.generated_at)}.`,
+    `The AI tempo index reads ${score} of 100${d}, as of ${prettyStamp(state.generated_at)}. SIREN ${state.level}, ${lvl.name}, ${scale}.`,
+    `${prettyDate(state.generated_at)}, ${utcClock(state.generated_at)}. Composite ${score} of 100${d}. SIREN ${state.level}, ${lvl.name}, ${scale}.`,
   ]);
   return post(c, {
     kind: 'daily',
@@ -877,9 +877,9 @@ function escalationPost(c, change) {
     variant: 'landscape',
     rationale: 'A threshold crossing is the single most screenshot-able thing this index produces.',
     lines: [
-      R(`DOOMCON ${change.from} to ${change.to}. ${lvl.name}.`),
+      R(`SIREN ${change.from} to ${change.to}. ${lvl.name}.`),
       R(`Composite ${fmt1(state.score)} of 100, past the ${crossed} line at ${prettyStamp(change.at)}.`),
-      stood ? O(`DOOMCON ${change.from} stood for ${stood}.`) : null,
+      stood ? O(`SIREN ${change.from} stood for ${stood}.`) : null,
       loud ? O(`${PILLAR_PROSE[loud.id]} carried it at ${fmt1(loud.score)}.`) : null,
       R(`Arithmetic at ${spoken}.`),
     ],
@@ -900,9 +900,9 @@ function deescalationPost(c, change) {
     variant: 'landscape',
     rationale: 'Stands down get the same billing as escalations, or the index is a ratchet.',
     lines: [
-      R(`DOOMCON ${change.from} to ${change.to}. ${lvl.name}.`),
+      R(`SIREN ${change.from} to ${change.to}. ${lvl.name}.`),
       R(`Composite ${fmt1(state.score)} of 100, back under the ${crossed} line at ${prettyStamp(change.at)}.`),
-      stood ? O(`DOOMCON ${change.from} stood for ${stood}.`) : null,
+      stood ? O(`SIREN ${change.from} stood for ${stood}.`) : null,
       O('Standing down here takes four times longer than raising.'),
       R(`Arithmetic at ${spoken}.`),
     ],
@@ -930,7 +930,7 @@ function pillarSpikePost(c) {
       R(`${PILLAR_PROSE[loud.id]} is at ${fmt1(loud.score)} of 100${pctl}, the loudest of the five pillars as of ${prettyStamp(state.generated_at)}.`),
       loud.sources_ok !== null && loud.sources_total !== null
         ? O(`${loud.sources_ok} of ${loud.sources_total} sources in that pillar are reporting.`) : null,
-      R(`Composite holds at ${fmt1(state.score)}, DOOMCON ${state.level}.`),
+      R(`Composite holds at ${fmt1(state.score)}, SIREN ${state.level}.`),
       R(`Arithmetic at ${spoken}.`),
     ],
   });
@@ -967,7 +967,7 @@ function notablePosts(c) {
         context,
         pillar.dark
           ? R(`Its pillar, ${PILLAR_PROSE[pillar.id].toLowerCase()}, is dark, so it is not in the composite.`)
-          : R(`It feeds ${PILLAR_PROSE[pillar.id].toLowerCase()}, at ${fmt1(pillar.score)} of 100. Composite ${fmt1(state.score)}, DOOMCON ${state.level}.`),
+          : R(`It feeds ${PILLAR_PROSE[pillar.id].toLowerCase()}, at ${fmt1(pillar.score)} of 100. Composite ${fmt1(state.score)}, SIREN ${state.level}.`),
         R(`Arithmetic at ${spoken}.`),
       ],
     }));
@@ -997,7 +997,7 @@ function weeklyPost(c) {
     variant: 'landscape',
     rationale: 'A week in one screenshot. Rides the Sunday-evening catch-up read.',
     lines: [
-      R(`DOOMCON week to ${prettyStamp(state.generated_at)}.`),
+      R(`SIREN week to ${prettyStamp(state.generated_at)}.`),
       R(`Opened at ${open.level} ${LEVELS[open.level]?.name || ''}, closed at ${close.level} ${LEVELS[close.level].name}. Composite ${fmt1(open.score)} to ${fmt1(close.score)}.`),
       O(`High ${fmt1(hi.score)}, low ${fmt1(lo.score)}, across ${fmtInt(week.length)} readings.`),
       O(`${changes === 0 ? 'No' : fmtInt(changes)} level ${changes === 1 ? 'change' : 'changes'}.`),
@@ -1026,7 +1026,7 @@ function milestonePost(c) {
     rationale: 'A record is the one claim that needs no context to land, and the receipt chain makes it checkable.',
     lines: [
       R(`Composite ${fmt1(state.score)} of 100 is the ${isHigh ? 'highest' : 'lowest'} reading this index has recorded, as of ${prettyStamp(state.generated_at)}.`),
-      R(`DOOMCON ${state.level}, ${LEVELS[state.level].name}.`),
+      R(`SIREN ${state.level}, ${LEVELS[state.level].name}.`),
       O(`Previous ${isHigh ? 'high' : 'low'} ${fmt1(prev.score)} on ${prettyDate(prev.generated_at)}, across ${fmtInt(prior.length)} readings since ${prettyDate(first.generated_at)}.`),
       R(`Arithmetic at ${spoken}.`),
     ],
@@ -1062,7 +1062,7 @@ function degradedPost(c) {
     variant: 'landscape',
     rationale: 'The competitor prints a confident number over a dead pipe. Saying so is the differentiator.',
     lines: [
-      R(`DOOMCON is degraded as of ${prettyStamp(state.generated_at)}.`),
+      R(`SIREN is degraded as of ${prettyStamp(state.generated_at)}.`),
       R(trulyDark.length > 0
         ? `${trulyDark.length} of 5 pillars dark: ${darkNames}.`
         : (uncal.length > 0
@@ -1116,7 +1116,7 @@ function topNewsPost(c) {
     const pillarLine = pillar && !pillar.dark && !pillar.uncalibrated
       ? `It feeds ${PILLAR_PROSE[pillar.id].toLowerCase()}, at ${fmt1(pillar.score)} of 100.`
       : (pillar ? `Its pillar, ${PILLAR_PROSE[pillar.id].toLowerCase()}, is not scored yet.` : null);
-    const indexLine = `Composite ${fmt1(state.score)} of 100, DOOMCON ${state.level}.`;
+    const indexLine = `Composite ${fmt1(state.score)} of 100, SIREN ${state.level}.`;
     const tail = `Arithmetic at ${spoken}.`;
 
     // Budget the headline against the lines that must survive.
@@ -1238,7 +1238,7 @@ function corroborationPost(c, usedId) {
         R(leadLine(sentence(headline))),
         R(`First at ${compactStamp(firstIso)}.`),
         carriers ? O(carriers) : null,
-        O(`Composite ${fmt1(state.score)} of 100, DOOMCON ${state.level}.`),
+        O(`Composite ${fmt1(state.score)} of 100, SIREN ${state.level}.`),
         R(`Arithmetic at ${spoken}.`),
       ],
     });
@@ -1295,7 +1295,7 @@ function marketMovePost(c) {
     const fixed = [
       headLine.replace('LABEL', ''),
       readLine,
-      `Composite ${fmt1(state.score)} of 100, DOOMCON ${state.level}. Arithmetic at ${spoken}.`,
+      `Composite ${fmt1(state.score)} of 100, SIREN ${state.level}. Arithmetic at ${spoken}.`,
     ].join(' ');
     const budget = c.limit - charCount(fixed) - 2;
     const label = clampSafe(rawLabel, budget);
@@ -1316,7 +1316,7 @@ function marketMovePost(c) {
         R(readLine),
         money ? O(`${money} on the book.`) : null,
         O(pillarLine),
-        R(`Composite ${fmt1(state.score)} of 100, DOOMCON ${state.level}. Arithmetic at ${spoken}.`),
+        R(`Composite ${fmt1(state.score)} of 100, SIREN ${state.level}. Arithmetic at ${spoken}.`),
       ],
     });
   }
@@ -1753,7 +1753,7 @@ function developingPost(c) {
       lines: [
         R(skeleton(sentence(headline))),
         termsLine ? R(termsLine) : null,
-        O(`Composite ${fmt1(state.score)} of 100, DOOMCON ${state.level}.`),
+        O(`Composite ${fmt1(state.score)} of 100, SIREN ${state.level}.`),
         R(`Arithmetic at ${spoken}.`),
       ],
     });
@@ -2038,7 +2038,7 @@ export function selfTest() {
   check('does not false-positive on "incoming"', () => { assertNoFutureTense('incoming readings recorded'); });
 
   // --- Rule 3: timestamp and length ----------------------------------------
-  check('rejects a post with no UTC stamp', () => throws(() => preflight('DOOMCON 3, ELEVATED.'), 'no stamp'));
+  check('rejects a post with no UTC stamp', () => throws(() => preflight('SIREN 3, ELEVATED.'), 'no stamp'));
   check('rejects an over-length post', () => throws(() => preflight(`x`.repeat(300) + ' 02:00 UTC'), 'too long'));
   check('charCount counts ASCII as 1', () => eq(charCount('abcde'), 5, 'charCount'));
 
@@ -2160,7 +2160,7 @@ export function selfTest() {
   // not own. Both variants now derive from brand.canonicalUrl, and the api
   // variant is still forbidden a link.
   const PAGES = Object.freeze({
-    name: 'DOOMCON', domain: 'doomcon.watch', tagline: 'x',
+    name: 'SIREN', domain: 'doomcon.watch', tagline: 'x',
     canonicalUrl: 'https://messagegabrielhere-lgtm.github.io/doomcon',
   });
 
@@ -2216,7 +2216,7 @@ export function selfTest() {
     );
   });
   check('a manual variant with no link at all is rejected', () => {
-    throws(() => preflightManual('DOOMCON 4 at 02:00 UTC.', PAGES.canonicalUrl), 'missing link');
+    throws(() => preflightManual('SIREN 4 at 02:00 UTC.', PAGES.canonicalUrl), 'missing link');
   });
   check('future tense is rejected in BOTH variants', () => {
     throws(() => preflight('activity will rise, 02:00 UTC'), 'api');

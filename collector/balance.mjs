@@ -20,10 +20,10 @@
 // in the output — and the only thing allowed to tip a drawn beam is a pair of
 // like-for-like counts: distinct stories in ONE newsroom window, matched by ONE
 // rule, against two published word lists. Not the counters, not the
-// registers, not DOOMCON against BLISS. docs/BALANCE.md §3 says why.
+// registers, not SIREN against BLISS. docs/BALANCE.md §3 says why.
 //
 // WHAT IT READS. data/news.json (the newsroom's current window), data/state.json
-// (DOOMCON), data/bliss.json (BLISS), data/ledger.json (the registers), and six
+// (SIREN), data/bliss.json (BLISS), data/ledger.json (the registers), and six
 // counters fetched through collector/fetch.mjs by the adapters in
 // collector/balance-sources/. WHAT IT WRITES. data/balance.json, and nothing in
 // public/: site/build.mjs clears that directory before it regenerates.
@@ -465,7 +465,7 @@ export function newsroomBlock(news, { error = null } = {}) {
 }
 
 // ---------------------------------------------------------------------------
-// DOOMCON and BLISS, as context. Read, never combined.
+// SIREN and BLISS, as context. Read, never combined.
 // ---------------------------------------------------------------------------
 
 /** state.json / bliss.json -> a context reading in the site's three states. Pure. */
@@ -738,7 +738,7 @@ export const HONESTY = Object.freeze([
   'The beam compares two counts made by one rule over one set of headlines: distinct stories in the newsroom\'s current window that matched the harm list only, against those that matched the benefit list only. It moves on nothing else.',
   'A headline count is a count of words, not of outcomes. The stories that match neither list are counted and published beside the other two every time, so the two pans never pose as the whole newsroom.',
   'Each counter is published as its publisher reports it, in its own unit and window. A counter that failed is dark, with its error, and never a zero.',
-  'DOOMCON and BLISS are printed as context and never compared here. A BLISS with no frozen reference is printed as awaiting baseline, never as a number.',
+  'SIREN and BLISS are printed as context and never compared here. A BLISS with no frozen reference is printed as awaiting baseline, never as a number.',
 ]);
 
 export function buildBalance({ news, newsError = null, state, stateError = null, bliss, blissError = null, ledger, ledgerText, ledgerError = null, counters, window, generatedAt }) {
@@ -753,7 +753,7 @@ export function buildBalance({ news, newsError = null, state, stateError = null,
     schema: BALANCE_SCHEMA,
     balance_version: BALANCE_VERSION,
     generated_at: generatedAt,
-    generated_at_rule: 'the newest timestamp among the inputs (news, DOOMCON, BLISS, ledger as_of_date), never the clock',
+    generated_at_rule: 'the newest timestamp among the inputs (news, SIREN, BLISS, ledger as_of_date), never the clock',
     honesty: HONESTY,
     newsroom,
     lexicon: {
@@ -788,13 +788,13 @@ export function buildBalance({ news, newsError = null, state, stateError = null,
     ledger: ledgerBlock(ledger, ledgerText, { error: ledgerError }),
     indices: {
       note: 'Context only. Neither index feeds the beam, and the two are never subtracted, compared or combined in this file.',
-      doomcon: indexBlock('DOOMCON', state, { error: stateError }),
+      doomcon: indexBlock('SIREN', state, { error: stateError }),
       bliss: indexBlock('BLISS', bliss, { error: blissError }),
     },
     beam_rule: {
       tilts_on: 'newsroom.beam.harm against newsroom.beam.benefit: distinct stories matching one list only, in one window, by one rule',
       never_on: [
-        'the counters', 'the registers in data/ledger.json', 'DOOMCON against BLISS',
+        'the counters', 'the registers in data/ledger.json', 'SIREN against BLISS',
         'severity tiers, item scores, recency, corroboration or engagement', 'counts from different windows or source sets',
         'any language-model or sentiment judgement',
       ],
@@ -869,7 +869,7 @@ function printSummary(out, timings, dest) {
         `harm list ${n.stories.harm_list}, benefit list ${n.stories.benefit_list}, both ${n.stories.both}, neither ${n.stories.neither}`
       : `newsroom DARK (${n.error})`} · ${beamText} · ` +
     `counters ${out.counters.live} live, ${out.counters.dark} dark · ` +
-    `DOOMCON ${d.state === 'live' ? `${d.level} ${d.level_name} ${d.score.toFixed(1)}` : d.state.toUpperCase()} · ` +
+    `SIREN ${d.state === 'live' ? `${d.level} ${d.level_name} ${d.score.toFixed(1)}` : d.state.toUpperCase()} · ` +
     `BLISS ${b.state === 'awaiting-baseline' ? 'awaiting baseline' : b.state === 'live' ? b.score.toFixed(1) : 'DARK'} · ` +
     `ledger ${out.ledger.state}${out.ledger.state === 'valid' ? ` (${out.ledger.rows.benefit} benefit, ${out.ledger.rows.harm} harm rows)` : ''} · ${dest}`,
   );
@@ -1083,12 +1083,12 @@ async function runSelftest() {
     [{ dateAdded: '2026-08-28' }, { dateAdded: '2026-08-29' }, { dateAdded: '2026-09-01' }, { dateAdded: '2026-09-28' }, { dateAdded: '2026-09-29' }],
     { ...W, month: '2026-09' }), { inWindow: 3, inMonth: 3 });
 
-  console.log('DOOMCON and BLISS');
+  console.log('SIREN and BLISS');
   const blissFixture = { generated_at: '2026-09-28T02:22:45.038Z', score: null, level: null, level_name: null, posture: 'awaiting-baseline', sources_reporting: 9, sources_total: 10, failed_sources: ['openalex-ai-science'] };
   const bl = indexBlock('BLISS', blissFixture);
   eq('BLISS awaiting baseline is printed as that, with no number', [bl.state, bl.score, bl.printed_as], ['awaiting-baseline', null, 'awaiting baseline']);
-  eq('a missing DOOMCON reading is dark, not zero', [indexBlock('DOOMCON', null).state, indexBlock('DOOMCON', null).score], ['dark', null]);
-  eq('a scored DOOMCON is live with its score', indexBlock('DOOMCON', { score: 39.6108, level: 4, level_name: 'ROUTINE', generated_at: 't' }).score, 39.6108);
+  eq('a missing SIREN reading is dark, not zero', [indexBlock('SIREN', null).state, indexBlock('SIREN', null).score], ['dark', null]);
+  eq('a scored SIREN is live with its score', indexBlock('SIREN', { score: 39.6108, level: 4, level_name: 'ROUTINE', generated_at: 't' }).score, 39.6108);
 
   console.log('the registers');
   const ledgerUrl = new URL('../data/ledger.json', import.meta.url);

@@ -12,8 +12,8 @@
 // So the mark is a WIRE strung across a frame, and the reading is how far
 // something has pulled it up:
 //
-//   DOOMCON 5     the wire is dead flat. Strung, armed, nothing touching it.
-//   DOOMCON 4..1  the wire is snagged upward into one hard spike, higher and
+//   SIREN 5     the wire is dead flat. Strung, armed, nothing touching it.
+//   SIREN 4..1  the wire is snagged upward into one hard spike, higher and
 //                 hotter the louder the reading.
 //
 // A wire reports a deflection that has ALREADY happened; it has no opinion
@@ -56,13 +56,13 @@
 //
 //   1. COUNT IS GONE as an independent carrier. The level is now an ordinal
 //      MAGNITUDE, not a tally. Adjacent levels differ by ~1.5 device pixels of
-//      apex height at 16px. DOOMCON 5 is instantly distinct from everything
+//      apex height at 16px. SIREN 5 is instantly distinct from everything
 //      (it is the only flat state) and 1 from 4, but 2 AND 3 ARE NOT RELIABLY
 //      SEPARABLE AT 16px IN GREYSCALE. Two and a half carriers, not three, and
 //      the middle of the scale is the weak part. The grille was better at this
 //      in theory and worse at it in fact, which is why this is still a trade
 //      worth taking.
-//   2. DOOMCON 5 IS A BARE HORIZONTAL LINE. Right as a reading and right as an
+//   2. SIREN 5 IS A BARE HORIZONTAL LINE. Right as a reading and right as an
 //      armed state; thin as a press-kit asset on a quiet day. The mark is at
 //      its most legible when the news is bad.
 //   3. IT READS AS AN EVENT, NOT AS AN OBJECT. The grille read as an
@@ -71,7 +71,7 @@
 //      it is a trade, and some readers will call it a chart.
 //
 // The carrier OUTSIDE the image is unchanged and still does the real work: the
-// <title> printed beside the tab icon reads `DOOMCON 4 — ROUTINE · …`, which
+// <title> printed beside the tab icon reads `SIREN 4 — ROUTINE · …`, which
 // layout.mjs already emits. The mark is never unlabelled in situ.
 //
 // NEVER COLOUR ALONE still holds. Apex height is the reading; HEAT[level] is
@@ -220,7 +220,7 @@ function assertLevel(level) {
  * levelRail) lights exactly these stops, and it currently re-derives the test
  * inline. One definition is better than two that can drift.
  *
- * READ IT ONCE AND EVERY LADDER ON THE SITE FOLLOWS. DOOMCON counts DOWN
+ * READ IT ONCE AND EVERY LADDER ON THE SITE FOLLOWS. SIREN counts DOWN
  * toward louder — 5 is the calmest reading and 1 the loudest — so "more lit"
  * has to mean "lower number", and a naive `stop <= level` would light four
  * stops at the calmest reading and one at the loudest, which is the instrument
@@ -254,8 +254,8 @@ export function litSlots(level) {
 //   APEX FLAT   3 units. The peak is CUT, never pointed, so it terminates in
 //               0.75 device pixels of solid colour instead of in antialiased
 //               nothing. It also caps the miter: the flanks meet the
-//               horizontal runs at ~104°, a miter ratio of 1.26 at DOOMCON 4
-//               and 1.33 at DOOMCON 1, so the miterlimit of 2 is a guard that
+//               horizontal runs at ~104°, a miter ratio of 1.26 at SIREN 4
+//               and 1.33 at SIREN 1, so the miterlimit of 2 is a guard that
 //               never fires and no join spikes outside the frame.
 //   FLANK RUN   5 units each side. A 45° flank at an 18-unit deflection would
 //               make the peak 43 units wide and it would stop being a spike.
@@ -281,13 +281,13 @@ export function litSlots(level) {
 // dark browser chrome the navy square has no edge at all and the mark appears
 // to float, which at 16px reads as a broken transparent icon. It also gives
 // the butt ends of the wire something to end AGAINST, which is what makes the
-// flat DOOMCON 5 state read as a strung wire rather than as a dash.
+// flat SIREN 5 state read as a strung wire rather than as a dash.
 // ---------------------------------------------------------------------------
 
 /**
  * THE APEX TABLE — the centreline y of the spike, by level.
  *
- * `null` at DOOMCON 5 means there is no spike: the wire is flat. Every other
+ * `null` at SIREN 5 means there is no spike: the wire is flat. Every other
  * value was picked by rendering the ladder and checking that consecutive
  * states are separable, then rounded to keep the apex's cut top on a clean
  * fraction of a device pixel.
@@ -487,7 +487,7 @@ function shapesToSvg(shapes) {
  *
  * Decorative by default and that is not laziness — it is the same rule
  * _icons.mjs and _avatars.mjs are built on. In the masthead the words
- * "DOOMCON" and "AI Early Warning System" are printed immediately beside it,
+ * "SIREN" and "AI Early Warning System" are printed immediately beside it,
  * so an aria-label here makes a screen reader say the name twice. Pass `label`
  * only where the mark genuinely stands alone.
  *
@@ -510,7 +510,7 @@ export function logoMark(level, opts = {}) {
   // THE FRAME COMES ALONG, THE FILL DOES NOT. Inline in the masthead the mark
   // sits on whatever the page's ground is, so a fill would be a patch of the
   // wrong colour on the light scheme; the hairline is currentColor at 18% and
-  // is what stops the flat DOOMCON 5 wire reading as a stray dash.
+  // is what stops the flat SIREN 5 wire reading as a stray dash.
   const shapes = markShapes(level, { mono: !heat, frame: true, scheme });
   const cls = `dcmark${className ? ` ${esc(className)}` : ''}`;
   const style = size
@@ -1200,7 +1200,7 @@ function markPrimitives(level, size, { inset = 0, ox = 0, oy = 0, ...shapeOpts }
  *   frame. The one case that still pays for padding is `maskable`, below.
  *
  *   0.20 for `maskable`, where Android may crop to a circle inscribed in the
- *   middle 80%. That crop is what forces the inset: at DOOMCON 1 the apex's
+ *   middle 80%. That crop is what forces the inset: at SIREN 1 the apex's
  *   top edge sits at y = 3/64 of the tile, far outside the safe circle, so a
  *   full-bleed maskable icon would have the spike beheaded.
  * @param {boolean} [opts.transparent] no ground at all. For nothing currently

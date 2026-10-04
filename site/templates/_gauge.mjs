@@ -392,7 +392,7 @@ function dial(m, g, id, variantCls) {
   // dial drew 5 4 3 2 1 round an arc and left the direction to the heat ramp,
   // which is exactly the thing this file's own header forbids — "colour is
   // never the carrier". A numeral tells you WHICH band you are in; it does not
-  // tell you which way is worse, and DOOMCON counts DOWN, so a newcomer reads
+  // tell you which way is worse, and SIREN counts DOWN, so a newcomer reads
   // "4 of 5" as four-fifths of the way to bad when it is the second CALMEST
   // reading there is. That is not a small misread, it is the opposite of the
   // truth, and it was the site's single largest comprehension failure.
@@ -562,7 +562,7 @@ function describe(m) {
   const scale = BANDS.map((b) => `level ${b.level} ${b.name} ${b.label}`).join('; ');
 
   if (m.score === null) {
-    return 'A dial showing the five DOOMCON bands across 0 to 100: ' + scale + '. ' +
+    return 'A dial showing the five SIREN bands across 0 to 100: ' + scale + '. ' +
       'No composite score is available for this observation, so no position is marked. ' +
       'Nothing is drawn at zero, because zero would be a reading.';
   }

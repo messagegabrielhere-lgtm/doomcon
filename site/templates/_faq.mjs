@@ -11,9 +11,11 @@ export function items(ctx) {
     .map((l) => `${l.level} ${l.name} (${l.band[0]}–${l.band[1]})`).join(', ');
   const pillars = brand.PILLARS.map((p) => p.name.toLowerCase()).join(', ');
   return [
-    ['What is DOOMCON?',
-      `${brand.NAME} is an hourly index of how much is happening in AI. It counts public activity across five pillars (${pillars}), turns it into one score from 0 to 100, and reports a level from 5 (quietest) to 1 (loudest). It is not a prediction and not a probability of harm.`],
-    ['Is DOOMCON like DEFCON or the Doomsday Clock?',
+    ['What is SIREN, and what does the name stand for?',
+      `${brand.NAME} is an hourly index of how much is happening in AI. SI is superintelligence and REN is Real-time Early Notice: a siren for the road to superintelligence. It counts public activity across five pillars (${pillars}), turns it into one score from 0 to 100, and reports a level from 5 (quietest) to 1 (loudest). It was called ${brand.FORMERLY} until October 2026; the method and the record are unchanged.`],
+    ['Does SIREN say superintelligence is here, or coming?',
+      `No. It does not detect superintelligence and it does not forecast it. It measures how loud AI activity is right now: releases, compute, headlines, rule-making and market prices. A loud reading means a lot is happening, and nothing more.`],
+    ['Is SIREN like DEFCON or the Doomsday Clock?',
       `It borrows DEFCON's grammar, a scale that counts down from 5 to 1. The difference is what sits behind the number. DEFCON is set by military command and the Doomsday Clock by a board's judgement; ${brand.NAME} is arithmetic over public data, and every reading is published with the inputs needed to recompute it.`],
     ['Does a louder level mean AI is more dangerous?',
       `No. The level measures tempo: releases, compute, headlines, rule-making and market prices. A loud week means a lot happened. It says nothing about whether what happened was good or bad, and the site never sums harm and benefit into one figure.`],
@@ -21,7 +23,7 @@ export function items(ctx) {
       `A collector runs every hour, scores each pillar against the index's own frozen record, and combines them into the composite. The level is the band the score falls in: ${bands}. The formulas and constants are on the methodology page.`],
     ['Can I check the number myself?',
       `Yes. Each reading ships with a receipt holding its inputs, its score and the hash of the receipt before it, and the state, history and receipts are open JSON. If a source did not report, the page says so and no value is filled in for it.`],
-    ['Who runs DOOMCON, and how is it paid for?',
+    ['Who runs SIREN, and how is it paid for?',
       `One person runs it. It is free, carries no advertising, sets no cookies and runs no analytics. The paid links are the Amazon links on the reading list and in the Bunker Kit's supplies crate, which are labelled; there is room for one named sponsor with no say over the number, and a donate link to the project's X account.`],
     ['How can I cite, embed or share it?',
       `The site's text and data are licensed ${brand.LICENSE}. There is an iframe embed and a README badge on the home page, a public JSON API, two RSS feeds, and a "Post on X" link on every card.`],
@@ -37,7 +39,7 @@ export function render(ctx) {
   <div class="faq__l">
 ${qa.map(([q, a], i) => `    <details class="faq__i"${i === 0 ? ' open' : ''}><summary class="faq__q">${esc(q)}</summary><p class="faq__a">${esc(a)}</p></details>`).join('\n')}
   </div>
-  <p class="fresh__key"><a href="${esc(ctx.href('/guide.html'))}">The longer version: DOOMCON, DEFCON, the Doomsday Clock and p(doom) →</a></p>
+  <p class="fresh__key"><a href="${esc(ctx.href('/guide.html'))}">The longer version: SIREN, DEFCON, the Doomsday Clock and p(doom) →</a></p>
 </section>`;
 }
 

@@ -27,7 +27,7 @@
 // stories on neither are printed under the stand every time, so two pans
 // never pose as the whole newsroom.
 //
-// It never tilts on the counters, the registers, DOOMCON against BLISS, item
+// It never tilts on the counters, the registers, SIREN against BLISS, item
 // scores or anything a model judged. The registers under the drawing are
 // picked by strength of evidence and printed as words; they move nothing.
 //

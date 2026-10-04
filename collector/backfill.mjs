@@ -437,7 +437,7 @@ async function build(opts) {
   const quick = opts.quick;
   const refDays = quick ? 30 : REFERENCE_WINDOW_DAYS;
 
-  console.log(`DOOMCON backfill v${BACKFILL_VERSION}`);
+  console.log(`SIREN backfill v${BACKFILL_VERSION}`);
   console.log(`  reference window : ${refDays} days ending ${yesterday}`);
   console.log(`  chart history    : from ${quick ? isoDay(dayMs(yesterday) - 60 * MS_DAY) : HISTORY_FROM}`);
   console.log('');

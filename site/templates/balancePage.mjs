@@ -26,7 +26,7 @@
 //      what was measured beside what is claimed about it.
 //   4. Six live counters from other people's registries, each in its own unit
 //      and window, never paired across the two sides.
-//   5. DOOMCON and BLISS as context, in their three states.
+//   5. SIREN and BLISS as context, in their three states.
 //   6. What none of this can say, the lexicons in full, and the files.
 //
 // The refusal: nothing is summed, netted, subtracted or divided across the two
@@ -522,7 +522,7 @@ function countersSection(b) {
 }
 
 // ---------------------------------------------------------------------------
-// Section: DOOMCON and BLISS
+// Section: SIREN and BLISS
 // ---------------------------------------------------------------------------
 
 function indexCell(x, name) {
@@ -582,7 +582,7 @@ function indicesSection(ctx, b) {
       ${arr(bl.failed_sources).length ? `Dark this run: ${esc(arr(bl.failed_sources).join(', '))}.` : ''}</p>`;
   }
   return `<section class="bp__sec" id="the-indices" aria-labelledby="bp-ix-h">
-  <h2 class="bp__h" id="bp-ix-h">${icon('sec-bliss')} DOOMCON and BLISS, as context</h2>
+  <h2 class="bp__h" id="bp-ix-h">${icon('sec-bliss')} SIREN and BLISS, as context</h2>
   <p class="bp__l bp__l--lead">${esc(ix.note || 'Context only. Neither index feeds the beam.')}</p>
   <div class="bp__ixs">
     ${indexCell(ix.doomcon || null, brand.NAME)}
@@ -701,7 +701,7 @@ function dataSection(ctx, b, L) {
   <ul class="bp__dl">
     <li><a href="${esc(ctx.href('/api/balance.json'))}"><code class="bp__code">/api/balance.json</code></a>
       <span>The newsroom counts and every matched and unmatched headline, the beam rule, the six counters with
-        their windows and errors, DOOMCON and BLISS as context, and both word lists in full.</span></li>
+        their windows and errors, SIREN and BLISS as context, and both word lists in full.</span></li>
     <li><a href="${esc(ctx.href('/api/ledger.json'))}"><code class="bp__code">/api/ledger.json</code></a>
       <span>The two registers: ${count(arr(L.benefit).length)} benefit and ${count(arr(L.harm).length)} harm rows, each with
         its numbers, sources, status and caveat, key-sorted so the checksum in the repository is the checksum served.</span></li>

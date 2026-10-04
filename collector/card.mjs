@@ -30,7 +30,7 @@ import { dirname } from 'node:path';
 // functions therefore take `brand` as a value and never touch the filesystem;
 // loadBrand() is the single impure edge that goes looking for the real one.
 export const DEFAULT_BRAND = Object.freeze({
-  name: 'DOOMCON',
+  name: 'SIREN',
   domain: 'doomcon.watch',
   tagline: "We don't know anything. We just count.",
   canonicalUrl: 'https://doomcon.watch',

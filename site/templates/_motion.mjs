@@ -531,7 +531,7 @@ var t=q('.hero .eyebrow time[datetime]');
 if(t){A(t,'datetime',g);t.textContent=z;
 if(!rm){t.classList.remove('dcmx-flash');void t.offsetWidth;t.classList.add('dcmx-flash');}}
 if(nt){q('.dcmx-note__t',nt).textContent=z;
-say(s.level!==C.level?('level is now DOOMCON '+s.level+' '+s.level_name):'');}}
+say(s.level!==C.level?('level is now SIREN '+s.level+' '+s.level_name):'');}}
 function rt(){
 if(!nAt)return;var at=T(nAt);qa('.nrow').forEach(function(li){var t=q('time[datetime]',li),a=q('.nrow__age',li);
 if(!t||!a)return;var v=dur(Math.max(0,(at-T(t.getAttribute('datetime')))/1000));
