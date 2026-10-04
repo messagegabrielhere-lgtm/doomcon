@@ -97,6 +97,8 @@ h1{font:400 clamp(2.6rem,12vw,4.2rem)/.95 var(--poster);text-transform:uppercase
     <h2 id="verdict"></h2>
     <p id="detail"></p>
     <a class="x" id="share" target="_blank" rel="noopener" href="#">Post my count on X</a>
+    <a class="x" target="_blank" rel="noopener" href="https://x.com/search?q=%23TallyCounts&f=live">See everyone's counts</a>
+    <p>There is no server keeping scores. The leaderboard is the hashtag: post your count with #TallyCounts and it is on the board.</p>
   </div>
 
   <p class="fine">A game, not a reading. Nothing here feeds the index. Your best score is kept in this browser only.
@@ -164,7 +166,7 @@ h1{font:400 clamp(2.6rem,12vw,4.2rem)/.95 var(--poster);text-transform:uppercase
     if (isBest) { best = score; try { localStorage.setItem("tally-best", String(best)); } catch (e) {} $("best").textContent = best; }
     $("verdict").textContent = score + " counted. " + rank + ".";
     $("detail").textContent = hits + " signals counted, " + slips + " predictions touched." + (isBest ? " New best on this device." : "");
-    var text = "I counted " + score + " signals in 30 seconds on Tally Counts and touched " + slips + " predictions. Rank: " + rank + ".";
+    var text = "I counted " + score + " signals in 30 seconds on Tally Counts and touched " + slips + " predictions. Rank: " + rank + ". #TallyCounts";
     var here = location.origin + location.pathname;
     $("share").href = "https://x.com/intent/post?text=" + encodeURIComponent(text) + "&url=" + encodeURIComponent(here);
     $("out").hidden = false; $("go").hidden = false; $("go").textContent = "Another shift";

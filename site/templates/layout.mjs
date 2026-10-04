@@ -1278,6 +1278,7 @@ function footer(ctx, sections, path) {
   const source = [
     { href: '/about.html', label: 'About', blurb: 'What this is, who runs it, how it is paid for, and how to get in touch.' },
     { href: '/guide.html', label: 'Guide', blurb: 'DOOMCON, DEFCON, the Doomsday Clock and p(doom): what each one measures.' },
+    { href: '/press.html', label: 'Press kit', blurb: 'Facts, a paragraph to lift, images and a contact.' },
     { href: '/privacy.html', label: 'Privacy', blurb: 'No cookies, no analytics. Every trace a visit can leave.' },
     { href: brand.REPO_URL, label: 'Source code', blurb: `Every line that produced these numbers. ${brand.LICENSE}.` },
   ];

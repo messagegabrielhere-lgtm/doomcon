@@ -1128,6 +1128,7 @@ async function main() {
   }
   written.push(await write(args.out, 'about.html', infoPages.about(ctx)));
   written.push(await write(args.out, 'privacy.html', infoPages.privacy(ctx)));
+  written.push(await write(args.out, 'press.html', infoPages.press(ctx)));
   written.push(await write(args.out, 'guide.html', infoPages.guide(ctx)));
   if (deskPage.hasDesk(ctx)) written.push(await write(args.out, 'desk.html', deskPage.render(ctx)));
   if (newsPage.hasNews(ctx)) {

@@ -250,6 +250,13 @@ main.wrap[data-level="1"] > .hero .ch--dial { animation: dcBreathe 1.1s ease-in-
   main.wrap .sec.news, main.wrap .sw__moved { display: none; }
   main.wrap .sw .reel__item:nth-child(n+5), main.wrap .sw .lab:nth-child(n+4), main.wrap .sw .xw__i:nth-child(n+4) { display: none; }
   body:has(.hero__badge) .rail { display: none; }
+  /* Six stacked cards were 1,192px of a phone page. They become one row that
+     scrolls sideways with the next card showing at the edge, so the gesture
+     is visible before it is needed. */
+  main.wrap .clm { position: relative; }
+  main.wrap .clm__l { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 8px; scrollbar-width: thin; }
+  main.wrap .clm__i { flex: 0 0 84%; scroll-snap-align: start; }
+  body:has(.hero__badge) .foot__seal, body:has(.hero__badge) .foot__memo { display: none; }
 }
 .fol__l { margin: var(--s-3) 0 var(--s-4); padding: 0 0 0 1.1em; display: grid; gap: 8px; max-width: 72ch; }
 .fol__l li { font: 400 var(--t-base)/1.5 var(--sans); color: var(--ink-dim); }

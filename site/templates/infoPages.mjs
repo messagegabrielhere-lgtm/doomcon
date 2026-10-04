@@ -3,7 +3,7 @@
 // number compares with the ones people already know. Prose only; every claim
 // here is one the rest of the site already makes or the code can show.
 
-import { esc } from './_html.mjs';
+import { esc, utc } from './_html.mjs';
 import { page } from './layout.mjs';
 import * as brand from '../brand.mjs';
 import { mascot } from './_mascot.mjs';
@@ -94,6 +94,55 @@ export function privacy(ctx) {
     ctx, path: '/privacy.html',
     title: `Privacy · ${brand.NAME}`,
     description: `${brand.NAME} sets no cookies and runs no analytics. What a visit touches: GitHub Pages, Google Fonts, and the sites you choose to click through to.`,
+    main,
+  });
+}
+
+export function press(ctx) {
+  const st = ctx.state;
+  const now = st && Number.isFinite(st.level)
+    ? `${brand.NAME} ${st.level}, ${st.level_name}, composite ${Number(st.score).toFixed(1)} of 100, observed ${utc(st.generated_at)}` : null;
+  const x = brand.X_URL ? `<a href="${esc(brand.X_URL)}" rel="noopener">${esc(brand.X_HANDLE)}</a>` : 'the project account';
+  const n = Array.isArray(ctx.history) ? ctx.history.length : null;
+  const main = `${CSS}
+<section class="inf">
+  <p class="eyebrow">Press kit</p>
+  <div class="inf__top">${mascot({ size: 76, level: level(ctx) })}<h1 class="bp__h1">For anyone writing about ${esc(brand.NAME)}</h1></div>
+  <p class="lede">Facts, a paragraph you can lift, images and a contact. Everything on this page may be quoted; the site's text and data are ${esc(brand.LICENSE)}.</p>
+  <h2>In one sentence</h2>
+  <p><b>${esc(brand.NAME)} is an hourly index of how much is happening in AI, on a scale from 5 (quietest) to 1 (loudest), where every reading can be verified by the reader.</b></p>
+  <h2>A paragraph you can lift</h2>
+  <p>${esc(brand.NAME)} counts public AI activity across five pillars (${brand.PILLARS.map((p) => esc(p.name.toLowerCase())).join(', ')}) and turns it into one score from 0 to 100 and a level from 5 to 1.
+    It measures tempo, not danger, and it does not forecast. Each reading is published with a receipt containing its inputs and the hash of the receipt before it,
+    and a button on the home page lets any visitor re-check the last twelve readings in their own browser. It is run by one person, carries no advertising and sets no cookies.</p>
+  <h2>Facts</h2>
+  <ul>
+    ${now ? `<li><b>Current reading:</b> ${esc(now)}. <a href="${esc(ctx.href('/'))}">Live page</a>.</li>` : ''}
+    ${n ? `<li><b>Readings published:</b> ${esc(n.toLocaleString('en-US'))}, each with a receipt. <a href="${esc(ctx.href('/moves/'))}">Archive</a>.</li>` : ''}
+    <li><b>Update cadence:</b> the index is scored hourly; the newsroom refreshes every minute.</li>
+    <li><b>What it is not:</b> a probability, a prediction, or a measure of how bad anything is.</li>
+    <li><b>Checkable:</b> <a href="${esc(ctx.href('/#vfy'))}">verify the readings in your browser</a>, read the <a href="${esc(ctx.href('/methodology.html'))}">method</a>, or the <a href="${esc(brand.REPO_URL)}" rel="noopener">source</a>.</li>
+    <li><b>Jobs and medicine:</b> sourced, caveated pages on <a href="${esc(ctx.href('/jobs.html'))}">AI and jobs</a> and <a href="${esc(ctx.href('/medicine.html'))}">AI in medicine</a>.</li>
+    <li><b>Mascot:</b> Tally, the duty canary. The helmet colour and the face follow the level.</li>
+  </ul>
+  <h2>How to cite a reading</h2>
+  <p>Use the "Cite this reading" line under the verify button on the home page. It links to one reading permanently, so the number in your piece does not change after you publish.</p>
+  <h2>Images</h2>
+  <ul>
+    <li><a href="${esc(ctx.href('/cards/state.png'))}">Current reading card</a> (1200×675 PNG, redrawn every reading)</li>
+    <li><a href="${esc(ctx.href('/cards/state-portrait.png'))}">Portrait card</a> for stories and vertical video</li>
+    <li><a href="${esc(ctx.href('/badge.svg'))}">Level badge</a> (SVG) and <a href="${esc(ctx.href('/favicon.svg'))}">mark</a> (SVG)</li>
+    <li><a href="${esc(ctx.href('/embed.html'))}">Embeddable widget</a>; the code is on the <a href="${esc(ctx.href('/instruments.html'))}#embed">instruments page</a></li>
+  </ul>
+  <h2>Contact</h2>
+  <p>Message ${x} on X. Corrections that change a number are recorded in the open on the <a href="${esc(brand.REPO_URL)}" rel="noopener">repository</a>.</p>
+  <h2>Coverage</h2>
+  <p>None yet. When there is some, it will be linked here, including the critical pieces.</p>
+</section>`;
+  return page({
+    ctx, path: '/press.html',
+    title: `Press kit · ${brand.NAME}`,
+    description: `Facts, a liftable paragraph, images and a contact for anyone writing about ${brand.NAME}, the hourly AI activity index you can verify yourself.`,
     main,
   });
 }
