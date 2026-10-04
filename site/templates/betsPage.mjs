@@ -36,7 +36,7 @@ export function render(ctx) {
 .bt { max-width: 84ch; }
 .bt__top { display: flex; align-items: center; gap: var(--s-4); margin: var(--s-4) 0 var(--s-3); }
 .bt__top h1 { margin: 0; }
-.bt__l { list-style: none; margin: var(--s-4) 0; padding: 0; display: grid; gap: var(--s-4); grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); }
+.bt__l { list-style: none; margin: var(--s-4) 0; padding: 0; display: grid; gap: var(--s-4); grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); }
 .bt__c { padding: var(--s-4); border: 1px solid var(--rule); border-top: 6px solid var(--lvl, var(--accent)); border-radius: 8px; background: var(--bg-sunken); }
 .bt__p { margin: 0; font: 400 clamp(48px, 8vw, 76px)/1 var(--poster); color: var(--lvl, var(--accent)); }
 .bt__s { margin: 6px 0 var(--s-2); font: 600 var(--t-base)/1.4 var(--sans); color: var(--ink); }
