@@ -438,6 +438,11 @@ jobs:
           fi
           node collector/engine.mjs
 
+      - name: Tally's bets
+        # Settles forecasts that have fallen due and writes the day's new ones,
+        # from data/history.ndjson alone. Never allowed to stop the index.
+        run: node collector/bets.mjs || echo "::warning::bets pass failed; the index is unaffected"
+
       - name: Refresh the substrate index
         # Grid, drought and buildout. Its own failure domain: ERCOT being down
         # must not stop the main index, and vice versa.

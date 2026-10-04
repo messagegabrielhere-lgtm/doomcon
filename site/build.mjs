@@ -30,6 +30,7 @@ import * as deskPage from './templates/deskPage.mjs';
 import * as infoPages from './templates/infoPages.mjs';
 import * as topicPages from './templates/topicPages.mjs';
 import * as shopPages from './templates/shopPages.mjs';
+import * as betsPage from './templates/betsPage.mjs';
 import { faqCss } from './templates/_faq.mjs';
 import { verifyCss } from './templates/_verify.mjs';
 import { sealCss } from './templates/_seal.mjs';
@@ -969,6 +970,9 @@ async function main() {
 
   // The two hand-verified registers. Required by the gate: no registers, no
   // page, and the homepage module goes with it.
+  // Tally's bets (collector/bets.mjs). Optional: without the file there is no page.
+  let bets = null;
+  try { bets = JSON.parse(await readFile(path.join(args.data, 'bets.json'), 'utf8')); } catch { bets = null; }
   let ledger = null;
   let ledgerText = null;
   const ledgerFile = path.join(args.data, 'ledger.json');
@@ -1049,6 +1053,7 @@ async function main() {
     // /api/balance.json and /api/ledger.json serve is the verbatim text.
     balance,
     ledger,
+    bets,
     x: xwire,
     history,
     receipts,
@@ -1130,6 +1135,10 @@ async function main() {
   written.push(await write(args.out, 'about.html', infoPages.about(ctx)));
   written.push(await write(args.out, 'privacy.html', infoPages.privacy(ctx)));
   written.push(await write(args.out, 'press.html', infoPages.press(ctx)));
+  if (betsPage.hasBets(ctx)) {
+    written.push(await write(args.out, 'bets.html', betsPage.render(ctx)));
+    written.push(await write(args.out, 'api/bets.json', JSON.stringify(ctx.bets, null, 2) + '\n'));
+  }
   written.push(await write(args.out, 'brand.html', infoPages.brandPage(ctx)));
   for (const lv of [1, 2, 3, 4, 5]) {
     written.push(await write(args.out, `brand/tally-${lv}.svg`, mascotFile(lv, marks.HEAT[lv])));

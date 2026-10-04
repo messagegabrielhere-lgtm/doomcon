@@ -183,6 +183,8 @@ const SECTIONS = [
     blurb: 'Every formula and constant. Recompute the number yourself.' },
   { href: '/instruments.html', label: 'Instruments', short: 'Instruments',
     blurb: 'Score history, source health, the five pillars, moves, embed and API.' },
+  { href: '/bets.html', label: 'Tally’s Bets', short: 'Bets',
+    blurb: 'Daily forecasts about the index, with probabilities, scored in public.' },
   { href: '/desk.html', label: 'Tally’s Desk', short: 'Desk', needs: 'news',
     blurb: 'The unserious counts: robots, godfathers, question marks.' },
   { href: '/game.html', label: 'Game', short: 'Game',

@@ -953,7 +953,7 @@ try{var s=localStorage.getItem('dc-lang');if(s&&T[s])set(s);}catch(e){}})();</sc
 
 // FOUR NUMBERS, SET LARGE. What the site is, as counts a stranger can check:
 // how many readings exist, how many sources answered this hour, how many
-// receipts the verify button walks, and how many forecasts the site has made.
+// receipts the verify button walks, and how many ads or trackers it carries.
 // The last one is zero by construction, which is why it is printed.
 function statStrip(ctx) {
   const st = ctx.state;
@@ -965,7 +965,7 @@ function statStrip(ctx) {
     readingsN ? [readingsN.toLocaleString('en-US'), 'readings published, each with a receipt'] : null,
     src.length ? [`${ok}/${src.length}`, 'sources reporting this hour'] : null,
     ['12', 'receipts your browser can re-check in one click'],
-    ['0', 'predictions made, ever'],
+    ['0', 'ads, trackers or cookies'],
   ].filter(Boolean);
   return `<section class="stat" aria-label="${esc(brand.NAME)} in four numbers">
   ${cells.map(([v, k]) => `<p class="stat__c"><b class="stat__n num">${esc(v)}</b><span class="stat__k">${esc(k)}</span></p>`).join('')}
@@ -987,7 +987,7 @@ ${levels.map((l) => `    <li class="mt__i${l.level === cur ? ' mt__i--on' : ''}"
       <b class="mt__n">${esc(l.level)} · ${esc(l.name)}</b><span class="mt__m">${esc(MOODS[l.level])}</span>
     </li>`).join('\n')}
   </ol>
-  <p class="fresh__key"><a href="${esc(ctx.href('/desk.html'))}">Tally's desk: the unserious counts →</a> · <a href="${esc(ctx.href('/game.html'))}">Play Tally Counts →</a></p>
+  <p class="fresh__key"><a href="${esc(ctx.href('/bets.html'))}">Tally's bets: scored forecasts →</a> · <a href="${esc(ctx.href('/desk.html'))}">Tally's desk: the unserious counts →</a> · <a href="${esc(ctx.href('/game.html'))}">Play Tally Counts →</a></p>
 </section>`;
 }
 

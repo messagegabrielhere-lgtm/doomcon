@@ -159,7 +159,7 @@ ${levels.map((l) => `    <li class="br__t" style="--lvl:var(--heat-${l.level})">
       <li>Print a zero as a zero and a missing value as missing.</li>
     </ul></div>
     <div><p><b>Do not</b></p><ul>
-      <li>Predict. No “will”, no “soon”, no countdowns.</li>
+      <li>Predict in the index or in posts. Forecasts live only on Tally\u2019s bets, each with a probability, a due date and a score.</li>
       <li>Say a loud level means danger, or a quiet one means safety.</li>
       <li>Call anything evil, or add harm and benefit into one figure.</li>
       <li>Imitate a real agency's emblem. The costume is a genre.</li>
