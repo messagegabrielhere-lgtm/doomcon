@@ -67,7 +67,7 @@ export const TAGLINE = 'Detected early, not a prediction. We count.';
 // The catchy one, for the masthead: a question a stranger can answer by
 // looking at the dial. "Loud" is the scale's own word (1 is loudest), so the
 // line promises tempo and nothing else.
-export const SLOGAN = 'How loud is AI today? We count.';
+export const SLOGAN = 'Should you care about AI today? One answer, every hour.';
 
 // The Amazon Associates tracking id. Every paid Amazon link on the site is
 // built from this one constant (site/templates/shopPages.mjs); the Bunker Kit

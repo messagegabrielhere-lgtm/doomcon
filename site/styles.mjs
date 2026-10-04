@@ -2109,6 +2109,25 @@ main.wrap :is(.bldsec__h, .wld__sec__h, .bp__h, .flk__sec__h, .exp__sec__h, .ise
 main.wrap:not(:has(> .hero)) > .sec > .sec__h { font-size: clamp(24px, 3.2vw, 40px); line-height: 1.05; }
 main.wrap:not(:has(> .hero)) :is(.sec, .bldsec, .bp__sec, .flk__sec, .exp__sec, .isec, .wld__sec) { margin-top: clamp(44px, 6vw, 88px); }
 main.wrap:not(:has(> .hero)) :is(.lede, .bldsec__l, .bp__l) { font-size: clamp(16px, 1.35vw, 19px); line-height: 1.55; }
+/* THE TERMINAL SKIN (2026-10-04 redesign). The look is a live newsroom
+   terminal: section heads are amber label strips in the mono face, the big
+   numerals glow, the 1950s tape is gone, and pages are denser. The poster face
+   stays for page titles and the answer on the front page; everything that
+   labels or counts is mono. */
+.sec__h { font-family: var(--mono); font-weight: 700; font-size: var(--t-sm); letter-spacing: .18em; line-height: 1.3; color: var(--accent); }
+main.wrap :is(.bldsec__h, .wld__sec__h, .bp__h, .flk__sec__h, .exp__sec__h, .isec__h, .lore-ch__h, .bh2) {
+  font-family: var(--mono); font-weight: 700; text-transform: uppercase; letter-spacing: .14em;
+  font-size: clamp(15px, 1.5vw, 19px); line-height: 1.3; color: var(--accent); text-wrap: balance;
+}
+main.wrap:not(:has(> .hero)) > .sec > .sec__h { font-size: var(--t-sm); line-height: 1.3; }
+main.wrap:not(:has(> .hero)) :is(.sec, .bldsec, .bp__sec, .flk__sec, .exp__sec, .isec, .wld__sec) { margin-top: clamp(28px, 4vw, 52px); }
+.masthead::after { display: none; }
+.masthead { border-bottom: 1px solid var(--rule); }
+.foot__bcast { background: none; border-block: 1px solid var(--rule); }
+.foot__bcast span { background: none; color: var(--ink-dim); }
+:is(.score__val, .tq__n, .dk__n, .bt__p, .tclk__n, .rail__v) { text-shadow: 0 0 18px color-mix(in srgb, currentColor 38%, transparent); }
+:is(.tq__n, .dk__n, .bt__p) { font-family: var(--mono); font-weight: 700; letter-spacing: -.02em; }
+:is(.tq__c, .dk__c, .bt__c, .earn__c, .xp__c, .faq__i, .tp__e, .shp__b) { border-radius: 3px; }
 /* THE RETURN NOTE IS A NOTE, NOT A STRIP. "Since you looked" was a full-width
    band between the masthead and the page on every return visit. It now sits
    in the bottom corner, out of the way of the reading it is commenting on. */
@@ -2148,11 +2167,6 @@ main.wrap:not(:has(> .hero)) :is(.lede, .bldsec__l, .bp__l) { font-size: clamp(1
   main.wrap::after { content: "Do not remove until superseded. Not a prediction."; display: block; margin-top: 12pt; padding-top: 6pt;
     border-top: 1pt solid #000; text-align: center; font: 400 9pt/1.3 var(--mono); letter-spacing: .1em; text-transform: uppercase; }
   .hero__stamp, .bstamp { color: #000 !important; opacity: 1; }
-}
-.masthead::after {
-  content: ""; display: block; height: 6px;
-  background: repeating-linear-gradient(-45deg, var(--lvl, var(--accent)) 0 12px, var(--bg) 12px 24px);
-  opacity: .9;
 }
 /* THE RAIL'S SCREEN-READER LABEL WAS WIDENING THE WHOLE PAGE.
    Measured 2026-10-03 at the 375px mobile preset: /balance and /world reported

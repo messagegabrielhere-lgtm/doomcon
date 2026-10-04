@@ -64,7 +64,7 @@ import { tempoClock, TCLK_CSS } from './infoPages.mjs';
 import * as verify from './_verify.mjs';
 import { BOOK_COUNT } from './shopPages.mjs';
 import { worldModel } from './_worldmap.mjs';
-import { homeCards as topicCards } from './topicPages.mjs';
+import { homeCards as topicCards, lead as topicLead } from './topicPages.mjs';
 import { freshnessStrip, pillarCard, moveRow, sourceStatus } from './_parts.mjs';
 import { indexHistoryChart, pillarRanked } from './_charts.mjs';
 import { page } from './layout.mjs';
@@ -268,35 +268,11 @@ ${TCLK_CSS}
 .xp__c b { font: 400 clamp(20px, 2.2vw, 26px)/1.08 var(--poster); letter-spacing: .012em; text-transform: uppercase; color: var(--ink); }
 .xp__c span { font: 400 var(--t-sm)/1.45 var(--sans); }
 .xp__c i { font: 700 var(--t-2xs)/1 var(--mono); font-style: normal; letter-spacing: .12em; text-transform: uppercase; color: var(--lvl, var(--accent)); }
-/* PANELS. Each section of the front page is one screen-sized statement:
-   a centred headline, one sentence, the thing itself, and room around it.
-   Alternate panels sit on the sunken ground, drawn full-bleed with a shadow
-   the width of the viewport and clipped back to the row, so no markup changes
-   and nothing overflows. */
-main.wrap:has(> .hero) > section.sec { margin-top: 0; padding-block: clamp(52px, 9vh, 120px); background: var(--panel, transparent);
-  box-shadow: 0 0 0 100vmax var(--panel, transparent); clip-path: inset(0 -100vmax); }
-main.wrap:has(> .hero) > section.sec:nth-of-type(even) { --panel: var(--bg-sunken); }
-main.wrap:has(> .hero) > section.sec:nth-of-type(even) :is(.xp__c, .mt__i, .earn__c, .faq__i, .tq__c, .hmap__a, .vfy__out) { background: var(--bg); }
-@media (min-width: 720px) { main.wrap:has(> .hero) > section.sec { min-height: 70svh; display: grid; align-content: center; } }
-main.wrap:has(> .hero) > section.sec > .sec__h { justify-content: center; text-align: center; }
-main.wrap:has(> .hero) > section.sec > .sec__h::after { display: none; }
-main.wrap:has(> .hero) > section.sec > :is(p, ul, ol, div, a, details) { margin-inline: auto; }
-main.wrap:has(> .hero) > section.sec > p { text-align: center; }
-main.wrap:has(> .hero) > section.sec > :is(.xp__grid, .tq__l, .earn, .mt__l, .hmap__a) { width: 100%; }
-main.wrap:has(> .hero) > section.sec > .fresh__key { display: block; max-width: 72ch; }
-/* One button shape everywhere on the front page. */
-main.wrap:has(> .hero) :is(.vfy__go, .bunk__go, .supp__a, .sharebtn) { border-radius: 999px; padding: 13px 24px; }
 .stat { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: var(--s-4) var(--s-5); margin: clamp(40px, 7vw, 88px) 0 0; }
 .stat__c { margin: 0; display: grid; gap: 6px; align-content: start; }
 .stat__n { font: 400 clamp(52px, 8vw, 104px)/.92 var(--poster); letter-spacing: .01em; color: var(--ink); }
 .stat__c:last-child .stat__n { color: var(--lvl, var(--accent)); }
 .stat__k { font: 500 var(--t-sm)/1.4 var(--sans); color: var(--ink-dim); max-width: 22ch; }
-/* THE FRONT PAGE BREATHES. One idea per screen: more air between sections,
-   headings that read from across the room, ledes at reading size. Scoped to
-   the home page by the hero that only it has. */
-main.wrap:has(> .hero) > .sec, main.wrap:has(> .hero) > section.clm, main.wrap:has(> .hero) > section.rd { margin-top: clamp(56px, 9vw, 120px); }
-main.wrap:has(> .hero) > .sec > .sec__h, main.wrap:has(> .hero) > section > .sec__h { font-size: clamp(30px, 4.4vw, 56px); line-height: 1.02; margin-bottom: var(--s-4); }
-main.wrap:has(> .hero) > .sec > .lede { font-size: clamp(17px, 1.6vw, 21px); line-height: 1.5; color: var(--ink); max-width: 62ch; }
 body:has(> main.wrap > .hero) .rail { display: none; }
 /* Sections rise into place as they are reached. The class is only ever added
    by the script below, so without it, or with reduced motion, nothing is
@@ -344,23 +320,43 @@ main.wrap:has(> .hero) > .sw { margin-top: clamp(56px, 9vw, 120px); }
 .hero__lang button[aria-pressed="true"] { border-color: var(--lvl, var(--accent)); color: var(--ink); }
 .hero__gist { margin: 0 0 var(--s-2); font: 500 var(--t-base)/1.4 var(--sans); color: var(--ink); max-width: 60ch; }
 .hero__orders { display: flex; align-items: center; gap: 10px; }
-/* THE POSTER. The level is the first thing on the page at every width: one
-   solid block in the level's own colour, the name set as large as the block
-   allows, and Tally beside it in a white civil-defence helmet. Everything
-   under it explains it. It is aria-hidden because the h1 says the same thing
-   in a full sentence. */
-main.wrap > .hero > .hero__badge { grid-column: 1 / -1; }
-.hero__badge { display: flex; align-items: center; gap: clamp(12px, 3vw, 36px);
-  margin: 0 0 var(--s-4); padding: clamp(14px, 3vw, 34px) clamp(16px, 3.4vw, 44px); border-radius: 14px;
-  background: var(--lvl, var(--accent)); color: var(--bg);
-  box-shadow: 0 0 60px color-mix(in srgb, var(--lvl, var(--accent)) 38%, transparent); }
-.hero__badge .tally { width: clamp(76px, 15vw, 190px); height: auto; }
-.hero__badge .tally__hat { fill: #f4f1e6; }
-.hero__badge .tally { color: #0b0c0e; }
-.hero__badge-t { display: grid; gap: clamp(4px, .8vw, 10px); min-width: 0; }
-.hero__badge-t b { font: 400 clamp(40px, 12vw, 176px)/.9 var(--poster); letter-spacing: .01em; text-transform: uppercase; color: var(--bg); white-space: nowrap; }
-.hero__badge-t span { font: 700 clamp(11px, 1.5vw, 20px)/1.2 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--bg); opacity: .85; }
-main.wrap > .hero .hero__headline { font-size: clamp(24px, 3vw, 44px); max-width: 26ch; }
+/* THE ANSWER AND THE WALL: the terminal front page. */
+main.wrap > .hero::before { display: none; }
+main.wrap > .hero { border-radius: 3px; }
+.ans__q { margin: 0 0 var(--s-2); font: 700 var(--t-sm)/1.2 var(--mono); letter-spacing: .18em; text-transform: uppercase; color: var(--accent); }
+.ans__a { margin: 0 0 var(--s-3); font: 400 clamp(54px, 10.5vw, 150px)/.9 var(--poster); letter-spacing: .005em; text-transform: uppercase; color: var(--ink); }
+.ans__a b { font-weight: 400; color: var(--lvl, var(--accent)); text-shadow: 0 0 34px color-mix(in srgb, var(--lvl, var(--accent)) 55%, transparent); }
+.ans__a span { display: block; font-size: .42em; line-height: 1.05; margin-top: .12em; color: var(--ink); }
+.ans__why { margin: 0 0 var(--s-3); max-width: 62ch; font: 400 clamp(16px, 1.5vw, 20px)/1.5 var(--sans); color: var(--ink); }
+.ans__meta { display: flex; flex-wrap: wrap; gap: 6px 14px; margin: 0 0 var(--s-3); font: 600 var(--t-2xs)/1.3 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-dim); }
+.ans__live { color: var(--ok); }
+.ans__live::before { content: ""; display: inline-block; width: 7px; height: 7px; margin-right: 6px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 10px var(--ok); vertical-align: 1px; }
+@media (prefers-reduced-motion: no-preference) { .ans__live::before { animation: ansPulse 1.8s ease-in-out infinite; } }
+@keyframes ansPulse { 50% { opacity: .35; } }
+.hero__badge { display: inline-flex; align-items: center; gap: 12px; margin: 0 0 var(--s-3); padding: 8px 14px 8px 10px;
+  border: 1px solid var(--lvl, var(--accent)); border-radius: 4px; background: color-mix(in srgb, var(--lvl, var(--accent)) 10%, transparent);
+  box-shadow: 0 0 22px color-mix(in srgb, var(--lvl, var(--accent)) 32%, transparent), inset 0 0 18px color-mix(in srgb, var(--lvl, var(--accent)) 10%, transparent); }
+main.wrap > .hero > .hero__badge { justify-self: start; }
+.hero__badge-t { display: grid; gap: 3px; }
+.hero__badge-t b { font: 700 clamp(18px, 2.2vw, 26px)/1 var(--mono); letter-spacing: .1em; color: var(--lvl, var(--accent)); text-shadow: 0 0 14px color-mix(in srgb, var(--lvl, var(--accent)) 60%, transparent); }
+.hero__badge-t span { font: 600 var(--t-2xs)/1.2 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--ink-dim); }
+main.wrap > .hero .hero__headline { margin: 0 0 var(--s-3); font: 500 var(--t-sm)/1.45 var(--mono); letter-spacing: .02em; text-transform: none; color: var(--ink-dim); max-width: 70ch; }
+@media (min-width: 1080px) {
+  main.wrap > .hero .ch--dial { grid-row: 1 / span 6; }
+  main.wrap > .hero .score { grid-row: 7; }
+}
+.wall { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 1px; margin: var(--s-5) 0 0; border: 1px solid var(--rule); background: var(--rule); }
+.wall__t { display: grid; gap: 4px; align-content: start; padding: 12px 14px 14px; background: var(--bg-sunken); text-decoration: none; color: var(--ink-dim); min-width: 0; }
+.wall__t:hover, .wall__t:focus-visible { background: color-mix(in srgb, var(--lvl, var(--accent)) 9%, var(--bg-sunken)); }
+.wall__k { font: 700 var(--t-2xs)/1 var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--ink-faint); }
+.wall__v { font: 700 clamp(20px, 2.3vw, 30px)/1.05 var(--mono); letter-spacing: -.03em; color: var(--lvl, var(--accent)); text-shadow: 0 0 16px color-mix(in srgb, var(--lvl, var(--accent)) 45%, transparent); overflow-wrap: anywhere; }
+.wall__s { font: 500 var(--t-2xs)/1.35 var(--mono); letter-spacing: .04em; color: var(--ink-dim); overflow-wrap: anywhere; }
+.tops__l { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule); }
+.tops__i { display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 2px 10px; padding: 12px 0; border-bottom: 1px solid var(--rule); }
+.tops__r { grid-row: span 2; font: 700 var(--t-md)/1.3 var(--mono); color: var(--accent); }
+.tops__i a { font: 600 clamp(16px, 1.5vw, 19px)/1.35 var(--sans); color: var(--ink); text-decoration: none; }
+.tops__i a:hover { text-decoration: underline; }
+.tops__m { font: 500 var(--t-2xs)/1.3 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-faint); }
 .hero__tally { display: none; }
 @media (min-width: 1080px) {
   main.wrap > .hero .ch--dial { grid-row: 2 / span 5; }
@@ -559,29 +555,8 @@ ${style}`;
 ${news.styleTag()}
 ${gauge.styleTag()}
 <section class="hero">
-  <!-- THE BULLETIN LINE. The number is real: it is the count of scored
-       observations in the published history, so bulletin No. 164 is the 164th
-       reading and anybody can count them at /history. A period costume with a
-       checkable number in it, which is the house rule for jokes. -->
-  <!-- THE LEVEL, FIRST, ON A PHONE. The dial sits a screen below the sentence
-       at this width, so the reading opens the panel as one lit plate with the
-       mascot on it. Hidden from 720px, where the dial is already in view, and
-       aria-hidden because the h1 below says the same thing in full. -->
-  ${Number.isFinite(state.score) ? `<p class="hero__badge" aria-hidden="true">${mascot({ size: 58, level: state.level })}<span class="hero__badge-t"><b>${esc(brand.NAME)} ${esc(state.level)}</b><span>${esc(state.level_name)} · ${esc(scoreTxt)} of 100</span></span></p>` : ''}
-  <p class="eyebrow hero__bul"><span class="hero__bulno">Early warning bulletin${Array.isArray(ctx.history) && ctx.history.length ? ` No.&nbsp;${esc(ctx.history.length)}` : ''}</span>
-    <span>Observed <time datetime="${esc(state.generated_at)}">${esc(utc(state.generated_at))}</time></span></p>
-  <p class="hero__stamp" aria-hidden="true">Not a prediction</p>
-  <!-- THE ONE SENTENCE. Measured 2026-09-26 at 1440x900: 161 text atoms above
-       the fold at a median of 13px, second-largest type 20px, and no single
-       statement a newcomer could read. The Doomsday Clock's entire phone fold
-       is one sentence at 36px - "It is now 85 seconds to midnight" - and a
-       stranger understands it before they understand anything else. This is
-       that sentence for this site: the reading, its unit, its name, and the
-       direction of the scale, because nothing else on the page said which end
-       was loud. It is the h1; the old "DOOMCON 4 · ROUTINE" label below it is
-       gone rather than repeated. -->
-  <h1 class="hero__headline">${headline(ctx)}</h1>
-  ${heroAside(ctx)}
+  ${answer(ctx)}
+  <p class="hero__headline">${headline(ctx)}</p>
   ${Number.isFinite(state.score) ? langStrip(state) : ''}
   <div class="hero__grid">
 
@@ -644,7 +619,8 @@ ${gauge.styleTag()}
      inside each, so a newcomer learns what DOOMCON knows before meeting
      eleven tiles. Both render '' when their data is absent; neither needs
      a script to exist. site/templates/_readings.mjs, _claims.mjs. -->
-${statStrip(ctx)}
+${wall(ctx)}
+${topStories(ctx)}
 ${readings.render(ctx)}
 ${verify.render(ctx)}
 ${claims.render(ctx)}
@@ -652,8 +628,6 @@ ${topicCards(ctx)}
 ${followBand(ctx)}
 
 ${explainers(ctx)}
-
-${meetTally(ctx)}
 
 ${homeMap(ctx)}
 
@@ -711,7 +685,9 @@ ${style}`;
     ctx,
     motion: true,
     path: '/',
-    title: `${brand.NAME} ${state.level} — ${state.level_name} · the live AI activity index you can verify`,
+    title: Number.isFinite(state.score) && VERDICT[state.level]
+      ? `Should you care about AI today? ${VERDICT[state.level][0]} ${VERDICT[state.level][1]} · ${brand.NAME} ${state.level}`
+      : `Should you care about AI today? · ${brand.NAME}`,
     ogTitle: `${brand.NAME} ${state.level} · ${state.level_name} — ${scoreTxt}/100`,
     description:
       `${brand.NAME} is at level ${state.level} (${state.level_name}), score ${scoreTxt} of 100, ` +
@@ -988,6 +964,100 @@ function set(l){var t=T[l];h.textContent=t?t[0]:en;h.lang=l;g.textContent=t?t[1]
 try{localStorage.setItem('dc-lang',l);}catch(e){}}
 w.addEventListener('click',function(e){var b=e.target.closest('button');if(b)set(b.getAttribute('data-l'));});
 try{var s=localStorage.getItem('dc-lang');if(s&&T[s])set(s);}catch(e){}})();</script>`;
+}
+
+// THE ANSWER. The site's job, said first: should a person care about AI today?
+// The verdict is a fixed phrase per level, so it is the reading in plain words
+// and never somebody's mood. The sentence under it is assembled from the same
+// state: which pillar is loudest and how the score compares with a day ago.
+// "Care" here means "is it worth your attention", which is what tempo is; it
+// is never a statement that things are going well or badly.
+const VERDICT = {
+  5: ['No.', 'It is quiet.'],
+  4: ['Not really.', 'A normal day.'],
+  3: ['A little.', 'Busier than usual.'],
+  2: ['Yes.', 'A lot is happening.'],
+  1: ['Yes.', 'This is as loud as it gets.'],
+};
+const PILLAR_PLAIN = {
+  capability: 'new models, papers and code',
+  compute: 'chips, data centres and money',
+  attention: 'headlines and searches',
+  governance: 'rules and regulators',
+  markets: 'market prices',
+};
+
+function loudest(state) {
+  const scored = (state.pillars || []).filter((x) => Number.isFinite(x.score) && !x.dark && !x.uncalibrated);
+  return scored.length ? scored.reduce((a, b) => (b.score > a.score ? b : a)) : null;
+}
+
+function answer(ctx) {
+  const st = ctx.state;
+  const n = Array.isArray(ctx.history) ? ctx.history.length : null;
+  const meta = `<p class="ans__meta"><span class="ans__live">Live</span>${n ? `<span>Reading No.&nbsp;${esc(n)}</span>` : ''}<span>Observed <time datetime="${esc(st.generated_at)}">${esc(utc(st.generated_at))}</time></span><span>A count, not a forecast</span></p>`;
+  if (!Number.isFinite(st.score) || !VERDICT[st.level]) {
+    return `<p class="ans__q">Should you care about AI today?</p>
+  <h1 class="ans__a"><b>No reading.</b> <span>Not enough sources reported to say.</span></h1>
+  ${meta}`;
+  }
+  const [yes, gloss] = VERDICT[st.level];
+  const top = loudest(st);
+  const d = ctx.vsYesterday;
+  const bits = [];
+  if (top) bits.push(`The loudest part is ${top.name.toLowerCase()} (${PILLAR_PLAIN[top.id] || top.name.toLowerCase()}), at ${num(top.score, 1)} of 100.`);
+  if (d && Number.isFinite(d.delta)) {
+    const mag = Math.abs(d.delta);
+    const when = d.basis === 'previous' ? `since ${d.label}` : `than ${d.label}`;
+    bits.push(mag < 1 ? `The overall score is about where it was ${d.basis === 'previous' ? `at ${d.label}` : d.label}.`
+      : `The overall score is ${num(mag, 1)} ${d.delta > 0 ? 'higher' : 'lower'} ${when}.`);
+  }
+  return `<p class="ans__q">Should you care about AI today?</p>
+  <h1 class="ans__a" style="--lvl:var(--heat-${esc(st.level)})"><b>${esc(yes)}</b> <span>${esc(gloss)}</span></h1>
+  <p class="ans__why">AI activity is at level ${esc(st.level)} on a scale where 5 is quiet and 1 is loudest. ${esc(bits.join(' '))}</p>
+  <p class="hero__badge" aria-hidden="true">${mascot({ size: 44, level: st.level })}<span class="hero__badge-t"><b>${esc(brand.NAME)} ${esc(st.level)}</b><span>${esc(st.level_name)} · ${esc(num(st.score, 1))} of 100</span></span></p>
+  ${meta}`;
+}
+
+// THE WALL. The terminal: every instrument the site runs, as one tile with one
+// glowing number and a link to the page behind it. A tile whose data is absent
+// is not drawn; nothing here is a placeholder.
+function wall(ctx) {
+  const st = ctx.state; const tiles = [];
+  const add = (k, v, sub, href, lvl) => tiles.push(`<a class="wall__t" href="${esc(ctx.href(href))}"${lvl ? ` style="--lvl:var(--heat-${esc(lvl)})"` : ''}><span class="wall__k">${esc(k)}</span><b class="wall__v num">${esc(v)}</b><span class="wall__s">${esc(sub)}</span></a>`);
+  if (Number.isFinite(st.score)) {
+    add('Level', String(st.level), st.level_name, '/guide.html', st.level);
+    add('Score', num(st.score, 1), 'of 100, composite', '/instruments.html#record', st.level);
+  }
+  const d = ctx.vsYesterday;
+  if (d && Number.isFinite(d.delta)) add('Change', `${d.delta > 0 ? '+' : d.delta < 0 ? '−' : ''}${num(Math.abs(d.delta), 1)}`, d.basis === 'previous' ? `since ${d.label}` : `vs ${d.label}`, '/moves/');
+  const top = loudest(st);
+  if (top) add('Loudest', num(top.score, 1), top.name, '/instruments.html');
+  const src = Array.isArray(st.sources) ? st.sources : [];
+  if (src.length) add('Sources', `${src.filter((x) => x && (x.ok || x.uncalibrated)).length}/${src.length}`, 'reporting this hour', '/instruments.html');
+  if (Array.isArray(ctx.history) && ctx.history.length) add('Readings', ctx.history.length.toLocaleString('en-US'), 'published, each with a receipt', '/moves/');
+  const jobs = topicLead(ctx, 'jobs'); if (jobs) add('Jobs', jobs.value, jobs.unit, '/jobs.html');
+  const med = topicLead(ctx, 'medicine'); if (med) add('Medicine', Number.isFinite(Number(med.value)) ? Number(med.value).toLocaleString('en-US') : med.value, med.unit, '/medicine.html');
+  if (ctx.news && Array.isArray(ctx.news.items) && ctx.news.items.length) add('Stories', String(ctx.news.items.length), 'in the newsroom window', '/news.html');
+  if (ctx.bets && Array.isArray(ctx.bets.open)) add('Bets', String(ctx.bets.open.length), `open · ${ctx.bets.summary ? ctx.bets.summary.resolved : 0} settled`, '/bets.html');
+  if (ctx.world && ctx.world.totals && Number.isFinite(ctx.world.totals.sites)) add('Datacentres', ctx.world.totals.sites.toLocaleString('en-US'), 'sites mapped worldwide', '/world.html');
+  add('Trackers', '0', 'ads, cookies or analytics', '/privacy.html');
+  return `<section class="wall" aria-label="Every instrument, one tile each">${tiles.join('')}</section>`;
+}
+
+// WHAT HAPPENED. The three highest-scoring stories in the window, verbatim,
+// so "should I care" comes with the reasons a person can read for themselves.
+function topStories(ctx) {
+  const items = ctx.news && Array.isArray(ctx.news.items) ? ctx.news.items : [];
+  if (!items.length) return '';
+  const top = [...items].sort((a, b) => Number(b.score) - Number(a.score) || String(a.id).localeCompare(String(b.id))).slice(0, 5);
+  return `<section class="sec tops" id="what-happened" aria-labelledby="tops-h">
+  <h2 class="sec__h" id="tops-h">What happened</h2>
+  <ol class="tops__l">
+${top.map((i, k) => `    <li class="tops__i"><span class="tops__r num">${String(k + 1).padStart(2, '0')}</span><a href="${esc(i.url)}" rel="noopener">${esc(i.title)}</a><span class="tops__m">${esc(i.source)} · ${esc(String(i.published_at).slice(0, 16).replace('T', ' '))}Z · score ${esc(num(Number(i.score), 1))}</span></li>`).join('\n')}
+  </ol>
+  <p class="fresh__key">The five highest-scoring stories of ${esc(items.length)} in the window, as their publishers wrote them. <a href="${esc(ctx.href('/news.html'))}">All of them →</a></p>
+</section>`;
 }
 
 // FOUR NUMBERS, SET LARGE. What the site is, as counts a stranger can check:
