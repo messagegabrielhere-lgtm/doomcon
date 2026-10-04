@@ -2146,6 +2146,11 @@ main.wrap :is(.rintro__h1, .narch__h1, .dg__h1, .lwp__h1, .bp__h1, .bintro__h1, 
   font: 700 var(--t-xs)/1.35 var(--mono); letter-spacing: .06em; }
 .give a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
 @media print { .give { display: none; } }
+.pgph { position: relative; margin: 0 0 var(--s-4); border-radius: 16px; overflow: hidden; background: #06070b; }
+.pgph img { display: block; width: 100%; height: clamp(150px, 26vw, 360px); object-fit: cover; }
+.pgph::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, var(--bg) 0%, transparent 46%); pointer-events: none; }
+.pgph figcaption { position: absolute; right: 12px; bottom: 8px; z-index: 1; font: 500 10px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-faint); }
+@media print { .pgph { display: none; } }
 /* THE RETURN NOTE IS A NOTE, NOT A STRIP. "Since you looked" was a full-width
    band between the masthead and the page on every return visit. It now sits
    in the bottom corner, out of the way of the reading it is commenting on. */

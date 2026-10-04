@@ -134,7 +134,7 @@ export function homeCards(ctx) {
   const cards = ['jobs', 'medicine'].filter((k) => hasTopic(ctx, k)).map((k) => {
     const t = TOPICS[k]; const l = lead(ctx, k);
     const q = k === 'jobs' ? 'Is AI taking jobs?' : 'Is AI curing anything?';
-    return `<a class="tq__c" href="${esc(ctx.href(t.path))}">
+    return `<a class="tq__c tq__c--ph" href="${esc(ctx.href(t.path))}" style="--ph:url('${esc(ctx.href(`/img/page-${k}.jpg`))}')">
       <span class="tq__q">${esc(q)}</span>
       ${l ? `<b class="tq__n num">${esc(l.value)}</b><span class="tq__u">${esc(l.unit)} · ${esc(l.date)}</span>` : ''}
       <span class="tq__to">${esc(N(entries(ctx, k).length))} results on the record, with caveats →</span>
@@ -144,6 +144,7 @@ export function homeCards(ctx) {
   return `<section class="sec tq" id="two-questions" aria-labelledby="tq-h">
   <h2 class="sec__h" id="tq-h">The two questions everyone asks</h2>
   <div class="tq__l">${cards.join('')}</div>
+  <p class="fresh__key">The pictures on these cards are generated illustrations. The numbers are not.</p>
 </section>`;
 }
 
@@ -153,6 +154,11 @@ export function topicCss() {
 .tq__c { display: grid; gap: 6px; padding: var(--s-4); border: 1px solid var(--rule); border-top: 6px solid var(--lvl, var(--accent)); border-radius: 8px;
   background: var(--bg-sunken); text-decoration: none; color: var(--ink); }
 .tq__c:hover, .tq__c:focus-visible { border-color: var(--lvl, var(--accent)); }
+.tq__c--ph { position: relative; isolation: isolate; min-height: clamp(220px, 30vw, 340px); align-content: end; overflow: hidden; border: 0; border-radius: 16px;
+  --ink: #eef0f4; --ink-dim: #b3bac4; color: #eef0f4; background: #06070b; }
+.tq__c--ph::before { content: ""; position: absolute; inset: 0; z-index: -2; background: var(--ph) center / cover no-repeat; transition: transform .6s ease; }
+.tq__c--ph::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(0deg, rgba(6,7,11,.94) 8%, rgba(6,7,11,.35) 70%, rgba(6,7,11,.1)); }
+@media (prefers-reduced-motion: no-preference) { .tq__c--ph:hover::before { transform: scale(1.04); } }
 .tq__q { font: 400 clamp(26px, 4vw, 38px)/1.02 var(--poster); text-transform: uppercase; letter-spacing: .012em; }
 .tq__n { font: 400 clamp(40px, 7vw, 64px)/1 var(--poster); color: var(--lvl, var(--accent)); }
 .tq__u { font: 500 var(--t-xs)/1.45 var(--mono); letter-spacing: .04em; color: var(--ink-dim); }

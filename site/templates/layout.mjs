@@ -740,6 +740,22 @@ const FEATURE_ART = {
   '/moves/': { hue: '#9aa4b2', mark: '<path d="M2.5 4.5h11M2.5 8h11M2.5 11.5h7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>' },
 };
 
+// A PICTURE AT THE TOP OF FOUR PAGES. Generated illustrations, credited as
+// such in the caption. Decorative: the alt text is empty because the page's
+// own h1 directly below says what the page is.
+const PAGE_BANNERS = {
+  '/jobs.html': 'page-jobs.jpg',
+  '/medicine.html': 'page-medicine.jpg',
+  '/race.html': 'page-race.jpg',
+  '/news.html': 'page-news.jpg',
+};
+
+function pageBanner(ctx, path) {
+  const file = PAGE_BANNERS[path];
+  if (!file) return '';
+  return `<figure class="pgph"><img src="${esc(ctx.href(`/img/${file}`))}" width="1600" height="600" alt="" decoding="async"><figcaption>Illustration: generated image</figcaption></figure>\n`;
+}
+
 const FB_PRIMARY = 8;
 
 function featureBar(ctx, sections, path, { inline = false } = {}) {
@@ -1073,7 +1089,7 @@ ${rail(ctx, o.path)}
 ${visitSlot(ctx)}
 ${o.showDegraded ? degradedBanner(ctx.state) : ''}${motion.beforeMain}
 <main class="wrap" id="main" data-level="${esc(ctx.state && Number.isFinite(ctx.state.level) ? String(ctx.state.level) : '')}">
-${withJumpIndex(o.main)}
+${pageBanner(ctx, o.path)}${withJumpIndex(o.main)}
 </main>
 ${footer(ctx, sections, o.path)}${bodyEndExtra}
 <script>${CHROME_JS}</script>
