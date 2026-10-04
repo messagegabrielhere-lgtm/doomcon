@@ -1266,8 +1266,8 @@ function footer(ctx, sections, path) {
   if (brand.X_URL) {
     source.push({
       href: brand.X_URL,
-      label: 'Support on X',
-      blurb: `${brand.X_HANDLE} — the tip jar, and where the daily reading is posted.`,
+      label: 'Follow on X',
+      blurb: `${brand.X_HANDLE} — where the daily reading is posted.`,
     });
   }
 

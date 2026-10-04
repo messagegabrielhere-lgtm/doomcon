@@ -312,13 +312,13 @@ ${brand.X_URL ? `<section class="sec supp" id="support" aria-labelledby="support
   <h2 class="sec__h" id="support-h">Support this index</h2>
   <p class="lede">${esc(brand.NAME)} is free, carries no advertising, sets no tracking
     cookie and runs no analytics at all — nobody here knows you visited. It is built on
-    public data, keyless endpoints and free hosting. If it is useful to you, the tip jar
-    is on its X account.</p>
-  <p class="supp__row"><a class="supp__a" href="${esc(brand.X_URL)}" rel="noopener">Support ${esc(brand.NAME)} on X
+    public data, keyless endpoints and free hosting. If it is useful to you, the cheapest
+    help is a follow and a shared reading; the supplies crate in the Bunker Kit carries paid links.</p>
+  <p class="supp__row"><a class="supp__a" href="${esc(brand.X_URL)}" rel="noopener">Follow ${esc(brand.NAME)} on X
     <span class="supp__h">${esc(brand.X_HANDLE)}</span></a></p>
   <p class="fresh__key">Nothing on this site is behind a paywall and nothing will be: the
     arithmetic is the product, and a number you have to pay to check is not a number anybody
-    can check. Tips go to the person who runs it.</p>
+    can check.</p>
 </section>` : ''}
 
 <style>
