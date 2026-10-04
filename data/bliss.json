@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "index": "BLISS",
-  "generated_at": "2026-10-04T16:24:44.026Z",
+  "generated_at": "2026-10-04T17:04:32.262Z",
   "score": null,
   "level": null,
   "level_name": null,
@@ -9,15 +9,14 @@
   "level_since": "2026-09-24T03:08:24.487Z",
   "delta_from_previous": null,
   "posture": "awaiting-baseline",
-  "degraded": true,
+  "degraded": false,
   "awaiting_baseline": true,
   "reference_present": false,
-  "dark_pillars": [
-    "access"
-  ],
+  "dark_pillars": [],
   "uncalibrated_pillars": [
     "science",
     "medicine",
+    "access",
     "adoption",
     "openness"
   ],
@@ -26,16 +25,15 @@
     "openalex-ai-science",
     "clinicaltrials-ai",
     "pubmed-ai-clinical",
+    "hf-permissive-models",
     "openrouter-cost-floor",
     "hf-model-downloads",
     "npm-ai-installs",
     "epoch-open-weights",
     "github-permissive-ai"
   ],
-  "failed_sources": [
-    "hf-permissive-models"
-  ],
-  "sources_reporting": 9,
+  "failed_sources": [],
+  "sources_reporting": 10,
   "sources_total": 10,
   "rule_fired": "no_live_pillars",
   "decision": null,
@@ -128,8 +126,8 @@
       "percentile": null,
       "sources_ok": 0,
       "sources_total": 2,
-      "dark": true,
-      "uncalibrated": false,
+      "dark": false,
+      "uncalibrated": true,
       "blurb": "What a dollar buys, and what you may keep.",
       "description": "The price of a million tokens at the cheap frontier, and the volume of weights published under a licence that lets a stranger run them commercially without asking. Falling cost is not a proxy for broadening access. It is broadening access."
     },
@@ -171,13 +169,13 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-10-04T16:24:44.043Z",
+      "observed_at": "2026-10-04T17:04:32.280Z",
       "age_seconds": 0,
-      "last_ok": "2026-10-04T16:24:44.043Z",
+      "last_ok": "2026-10-04T17:04:32.280Z",
       "meta": {
         "window_days": 7,
-        "window_from": "202609271624",
-        "window_to": "202610041624",
+        "window_from": "202609271704",
+        "window_to": "202610041704",
         "categories": [
           "q-bio.BM",
           "q-bio.QM",
@@ -209,9 +207,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-10-04T16:24:44.044Z",
+      "observed_at": "2026-10-04T17:04:32.280Z",
       "age_seconds": 0,
-      "last_ok": "2026-10-04T16:24:44.044Z",
+      "last_ok": "2026-10-04T17:04:32.280Z",
       "meta": {
         "window_days": 30,
         "window_from": "2026-09-04",
@@ -232,9 +230,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-10-04T16:24:44.044Z",
+      "observed_at": "2026-10-04T17:04:32.280Z",
       "age_seconds": 0,
-      "last_ok": "2026-10-04T16:24:44.044Z",
+      "last_ok": "2026-10-04T17:04:32.280Z",
       "meta": {
         "window_days": 180,
         "start_date_from": "2026-04-07",
@@ -258,9 +256,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-10-04T16:24:44.044Z",
+      "observed_at": "2026-10-04T17:04:32.281Z",
       "age_seconds": 0,
-      "last_ok": "2026-10-04T16:24:44.044Z",
+      "last_ok": "2026-10-04T17:04:32.281Z",
       "meta": {
         "window_days": 30,
         "edat_from": "2026/09/04",
@@ -284,17 +282,29 @@
       "pillar": "access",
       "label": "Open-weight models under a permissive licence",
       "ok": false,
-      "uncalibrated": false,
-      "error": "timeout after 15000ms: https://huggingface.co/api/models?filter=license:apache-2.0&sort=createdAt&direction=-1&limit=1000",
-      "value": null,
-      "unit": null,
+      "uncalibrated": true,
+      "error": "awaiting_baseline: \"hf-permissive-models\" has no entry in data/bliss-reference.json yet, so it is collected and published but not scored",
+      "value": 1210,
+      "unit": "models/24h",
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": null,
-      "age_seconds": null,
-      "last_ok": "2026-10-04T16:11:27.831Z",
-      "meta": {}
+      "observed_at": "2026-10-04T17:04:32.281Z",
+      "age_seconds": 0,
+      "last_ok": "2026-10-04T17:04:32.281Z",
+      "meta": {
+        "window_hours": 24,
+        "licences": [
+          "apache-2.0",
+          "mit"
+        ],
+        "per_licence": {
+          "apache-2.0": 806,
+          "mit": 404
+        },
+        "pages_fetched": 2,
+        "page_size": 1000
+      }
     },
     {
       "id": "openrouter-cost-floor",
@@ -308,9 +318,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-10-04T16:24:44.045Z",
+      "observed_at": "2026-10-04T17:04:32.281Z",
       "age_seconds": 0,
-      "last_ok": "2026-10-04T16:24:44.045Z",
+      "last_ok": "2026-10-04T17:04:32.281Z",
       "meta": {
         "percentile": 0.1,
         "usd_per_million_tokens": 0.125,
@@ -339,9 +349,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-10-04T16:24:44.045Z",
+      "observed_at": "2026-10-04T17:04:32.281Z",
       "age_seconds": 0,
-      "last_ok": "2026-10-04T16:24:44.045Z",
+      "last_ok": "2026-10-04T17:04:32.281Z",
       "meta": {
         "basket": [
           "sentence-transformers/all-MiniLM-L6-v2",
@@ -379,9 +389,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-10-04T16:24:44.045Z",
+      "observed_at": "2026-10-04T17:04:32.281Z",
       "age_seconds": 0,
-      "last_ok": "2026-10-04T16:24:44.045Z",
+      "last_ok": "2026-10-04T17:04:32.281Z",
       "meta": {
         "basket": [
           "openai",
@@ -421,9 +431,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-10-04T16:24:44.045Z",
+      "observed_at": "2026-10-04T17:04:32.281Z",
       "age_seconds": 0,
-      "last_ok": "2026-10-04T16:24:44.045Z",
+      "last_ok": "2026-10-04T17:04:32.281Z",
       "meta": {
         "window_days": 365,
         "open_weight_models": 43,
@@ -457,9 +467,9 @@
       "score": null,
       "score_raw": null,
       "percentile": null,
-      "observed_at": "2026-10-04T16:24:44.045Z",
+      "observed_at": "2026-10-04T17:04:32.282Z",
       "age_seconds": 0,
-      "last_ok": "2026-10-04T16:24:44.045Z",
+      "last_ok": "2026-10-04T17:04:32.282Z",
       "meta": {
         "window_days": 30,
         "created_from": "2026-09-04",
@@ -478,10 +488,10 @@
       "level_name": null
     },
     "doomcon": {
-      "score": 51.7788,
+      "score": 40.7341,
       "level": 4,
       "level_name": "ROUTINE",
-      "generated_at": "2026-10-04T16:22:11.195Z"
+      "generated_at": "2026-10-04T17:01:44.102Z"
     },
     "divergence": null,
     "divergence_band": 3,
