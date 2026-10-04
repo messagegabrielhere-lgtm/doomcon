@@ -178,14 +178,6 @@ main.wrap > .hero .hero__headline { font-family: var(--poster); font-weight: 400
    everything else stacks in the left. The seal gives its corner to the dial
    here and is carried by the footer instead. */
 .hero__stamp { display: inline-block; justify-self: start; }
-@media (min-width: 1080px) {
-  main.wrap > .hero { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: var(--s-5); align-items: start; }
-  main.wrap > .hero > *, main.wrap > .hero .level__meta { grid-column: 1; }
-  main.wrap > .hero .hero__grid, main.wrap > .hero .level--dial { display: contents; }
-  main.wrap > .hero .ch--dial { grid-column: 2; grid-row: 1 / span 5; align-self: end; margin: 0; }
-  /* The number sits under the instrument that draws it, not a scroll below. */
-  main.wrap > .hero .score { grid-column: 2; grid-row: 6; align-self: start; justify-self: center; margin-top: var(--s-3); }
-}
 
 /* THE DIAL BREATHES, AND HOW FAST IS THE LEVEL. The epithets have always
    described a needle - at rest, breathing, off the rest stop, pinned high, off
@@ -292,6 +284,12 @@ body:has(> main.wrap > .hero) .rail { display: none; }
   .mt__i { flex: 0 0 46%; scroll-snap-align: center; }
 }
 main.wrap:has(> .hero) > .sw { margin-top: clamp(56px, 9vw, 120px); }
+.hmap__ph { position: relative; margin: 0 0 var(--s-4); border-radius: 16px; overflow: hidden; background: #06070b; }
+.hmap__ph img { display: block; width: 100%; height: clamp(220px, 46vw, 560px); object-fit: cover; object-position: center 60%; }
+.hmap__ph figcaption { position: absolute; left: 0; right: 0; bottom: 0; display: grid; gap: 4px; padding: clamp(14px, 3vw, 32px);
+  background: linear-gradient(0deg, rgba(6,7,11,.92), rgba(6,7,11,0)); color: #eef0f4; }
+.hmap__ph b { font: 700 clamp(40px, 8vw, 104px)/.95 var(--mono); letter-spacing: -.03em; text-shadow: 0 0 30px rgba(120,160,255,.45); }
+.hmap__ph span { font: 500 var(--t-xs)/1.4 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: #b3bac4; }
 .hmap__a { display: block; border: 1px solid var(--rule); border-radius: 12px; background: var(--bg-sunken); overflow: hidden; }
 .hmap__svg { display: block; width: 100%; height: auto; }
 .hmap__land { fill: color-mix(in srgb, var(--ink) 9%, transparent); stroke: color-mix(in srgb, var(--ink) 18%, transparent); stroke-width: .5; }
@@ -320,6 +318,25 @@ main.wrap:has(> .hero) > .sw { margin-top: clamp(56px, 9vw, 120px); }
 .hero__lang button[aria-pressed="true"] { border-color: var(--lvl, var(--accent)); color: var(--ink); }
 .hero__gist { margin: 0 0 var(--s-2); font: 500 var(--t-base)/1.4 var(--sans); color: var(--ink); max-width: 60ch; }
 .hero__orders { display: flex; align-items: center; gap: 10px; }
+/* THE STAGE: the picture, the answer over it. */
+main.wrap > .hero { padding: 0; border: 0; background: none; box-shadow: none; overflow: visible; }
+.stage { position: relative; isolation: isolate; display: grid; align-content: end; min-height: min(78svh, 760px);
+  padding: clamp(20px, 4vw, 56px); border-radius: 16px; overflow: hidden;
+  --ink: #eef0f4; --ink-dim: #b3bac4; --ink-faint: #8d95a0; --rule: #26324d; --bg: #06070b; --accent: #ffb020; --ok: #5fd08a;
+  color: var(--ink); background: #06070b; }
+.stage::before { content: ""; position: absolute; inset: 0; z-index: -2; background: var(--stage) right center / cover no-repeat; }
+.stage::after { content: ""; position: absolute; inset: 0; z-index: -1;
+  background: linear-gradient(90deg, rgba(6,7,11,.9) 0%, rgba(6,7,11,.62) 46%, rgba(6,7,11,.08) 78%),
+    linear-gradient(0deg, rgba(6,7,11,.85) 0%, rgba(6,7,11,0) 34%); }
+.stage > * { max-width: min(100%, 720px); }
+.stage__credit { margin: var(--s-3) 0 0; font: 500 var(--t-2xs)/1.3 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-faint); }
+.stage .hero__lang button { color: var(--ink-dim); border-color: var(--rule); }
+main.wrap > .hero .hero__grid { margin-top: var(--s-5); padding: var(--s-4); border: 1px solid var(--rule); border-radius: 12px; background: var(--bg-raised); }
+@media (max-width: 719.98px) {
+  .stage { min-height: 0; padding-top: 44vw; }
+  .stage::before { background-position: 78% top; background-size: auto 62vw; }
+  .stage::after { background: linear-gradient(0deg, rgba(6,7,11,1) 0%, rgba(6,7,11,.96) 58%, rgba(6,7,11,.1) 100%); }
+}
 /* THE ANSWER AND THE WALL: the terminal front page. */
 main.wrap > .hero::before { display: none; }
 main.wrap > .hero { border-radius: 3px; }
@@ -341,10 +358,6 @@ main.wrap > .hero > .hero__badge { justify-self: start; }
 .hero__badge-t b { font: 700 clamp(18px, 2.2vw, 26px)/1 var(--mono); letter-spacing: .1em; color: var(--lvl, var(--accent)); text-shadow: 0 0 14px color-mix(in srgb, var(--lvl, var(--accent)) 60%, transparent); }
 .hero__badge-t span { font: 600 var(--t-2xs)/1.2 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--ink-dim); }
 main.wrap > .hero .hero__headline { margin: 0 0 var(--s-3); font: 500 var(--t-sm)/1.45 var(--mono); letter-spacing: .02em; text-transform: none; color: var(--ink-dim); max-width: 70ch; }
-@media (min-width: 1080px) {
-  main.wrap > .hero .ch--dial { grid-row: 1 / span 6; }
-  main.wrap > .hero .score { grid-row: 7; }
-}
 .wall { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 1px; margin: var(--s-5) 0 0; border: 1px solid var(--rule); background: var(--rule); }
 .wall__t { display: grid; gap: 4px; align-content: start; padding: 12px 14px 14px; background: var(--bg-sunken); text-decoration: none; color: var(--ink-dim); min-width: 0; }
 .wall__t:hover, .wall__t:focus-visible { background: color-mix(in srgb, var(--lvl, var(--accent)) 9%, var(--bg-sunken)); }
@@ -375,10 +388,6 @@ main.wrap > .hero .hero__headline { margin: 0 0 var(--s-3); font: 500 var(--t-sm
 .tops__i a:hover { text-decoration: underline; }
 .tops__m { font: 500 var(--t-2xs)/1.3 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-faint); }
 .hero__tally { display: none; }
-@media (min-width: 1080px) {
-  main.wrap > .hero .ch--dial { grid-row: 2 / span 5; }
-  main.wrap > .hero .score { grid-row: 7; }
-}
 .hero__orders { margin: 0 0 var(--s-3); max-width: 60ch; font: 500 var(--t-xs)/1.45 var(--mono); letter-spacing: .04em; color: var(--ink-dim); }
 .hero__orders b { font: 700 var(--t-xs)/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--ink); }
 .clip { position: relative; margin: var(--s-4) 0 10px; padding: 14px 10px 10px; border: 2px dashed var(--ink-faint); border-radius: 2px; }
@@ -572,9 +581,17 @@ ${style}`;
 ${news.styleTag()}
 ${gauge.styleTag()}
 <section class="hero">
+  <!-- THE STAGE. A picture behind the answer: a siren over a city at dusk.
+       It is a generated illustration and the credit line under it says so.
+       The text sits on the dark sky to its left, so the answer is still the
+       first thing read, and the stage keeps a dark palette in both themes
+       because the picture is dark in both. -->
+  <div class="stage" style="--stage:url('${esc(ctx.href('/img/hero-siren.jpg'))}')">
   ${answer(ctx)}
   <p class="hero__headline">${headline(ctx)}</p>
   ${Number.isFinite(state.score) ? langStrip(state) : ''}
+  <p class="stage__credit">Background: a generated illustration, not a photograph.</p>
+  </div>
   <div class="hero__grid">
 
     <!-- align-self overrides .hero__grid's align-items:end, so the dial sits
@@ -1205,6 +1222,10 @@ function homeMap(ctx) {
   <h2 class="sec__h" id="hmap-h">Where the machines live</h2>
   <p class="lede"><b>${esc(n(t.sites))}</b> datacentre sites in <b>${esc(n(t.countries_with_sites))}</b> countries, ${esc(q)}.
     ${esc(n(t.countries_with_none))} countries have none mapped, which means nobody has mapped one there, not that none exists.</p>
+  <figure class="hmap__ph">
+    <img src="${esc(ctx.href('/img/datacentre-night.jpg'))}" width="1920" height="1080" loading="lazy" decoding="async" alt="A large data centre campus lit up at night, seen from the air">
+    <figcaption><b class="num">${esc(n(t.sites))}</b><span>of these, mapped so far. Illustration: generated image, not a real site.</span></figcaption>
+  </figure>
   <a class="hmap__a" href="${esc(ctx.href('/world.html'))}" aria-label="Open the world map of datacentre sites">
     <svg class="hmap__svg" viewBox="0 0 1000 451" role="img" aria-label="World map with a dot wherever datacentre sites are mapped; larger dots mean more sites close together">
       <path class="hmap__land" d="${land}"/><g class="hmap__dots">${dots}</g>

@@ -1263,6 +1263,14 @@ async function main() {
   written.push(await write(args.out, 'badge.svg', badgeSvg(state)));
   written.push(await write(args.out, 'llms.txt', llmsTxt(ctx)));
   written.push(await write(args.out, 'manifest.webmanifest', marks.manifestJson(state.level)));
+  // Pictures. assets/img holds the site's few bitmap images (generated
+  // illustrations, credited as such where they are shown); copied through.
+  const imgDir = path.join(ROOT, 'assets', 'img');
+  if (existsSync(imgDir)) {
+    for (const name of (await readdir(imgDir)).filter((f) => /\.(jpe?g|png|webp)$/i.test(f)).sort()) {
+      written.push(await write(args.out, `img/${name}`, await readFile(path.join(imgDir, name))));
+    }
+  }
   for (const [name, size] of [['favicon-32.png', 32], ['apple-touch-icon.png', 180], ['icon-192.png', 192], ['icon-512.png', 512]]) {
     written.push(await writeBinary(args.out, name, marks.iconPng(state.level, { size })));
   }
