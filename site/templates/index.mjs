@@ -59,6 +59,8 @@
 
 import { esc, num, signed, utc } from './_html.mjs';
 import { mascot, MOODS } from './_mascot.mjs';
+import * as faq from './_faq.mjs';
+import { homeCards as topicCards } from './topicPages.mjs';
 import { freshnessStrip, pillarCard, moveRow, sourceStatus } from './_parts.mjs';
 import { indexHistoryChart, pillarRanked } from './_charts.mjs';
 import { page } from './layout.mjs';
@@ -203,7 +205,8 @@ ${gauge.styleTag()}
       <div class="level__meta">
         <p class="level__plain">${esc(plainRead(ctx))}</p>
         ${Number.isFinite(state.score) ? `<button type="button" class="sharebtn" hidden data-t="${esc(`${brand.NAME} ${state.level}, ${state.level_name}. ${num(state.score, 1)} of 100 as of ${utc(state.generated_at)}. Tempo, not a probability.`)}">Copy this reading</button>
-        <a class="sharebtn sharebtn--x" rel="noopener" target="_blank" href="https://x.com/intent/post?text=${encodeURIComponent(`${brand.NAME} ${state.level}, ${state.level_name}. ${num(state.score, 1)} of 100 as of ${utc(state.generated_at)}. Tempo, not a probability.`)}&amp;url=${encodeURIComponent(ctx.url('/'))}">Post this on X</a>` : ''}
+        <a class="sharebtn sharebtn--x" rel="noopener" target="_blank" href="https://x.com/intent/post?text=${encodeURIComponent(`${brand.NAME} ${state.level}, ${state.level_name}. ${num(state.score, 1)} of 100 as of ${utc(state.generated_at)}. Tempo, not a probability.`)}&amp;url=${encodeURIComponent(ctx.url('/'))}">Post this on X</a>
+        <a class="hero__what" href="${esc(ctx.href('/guide.html'))}">What is ${esc(brand.NAME)}?</a>` : ''}
       </div>
     </div>
 
@@ -228,6 +231,8 @@ ${gauge.styleTag()}
      a script to exist. site/templates/_readings.mjs, _claims.mjs. -->
 ${readings.render(ctx)}
 ${claims.render(ctx)}
+${topicCards(ctx)}
+${followBand(ctx)}
 <!-- THE BALANCE, straight after the claim cards: the cards say what DOOMCON
      counts, and this is where the page first sets the benefit side beside
      it. Its style block rides inside the fragment, as the cards' does, so a
@@ -302,6 +307,8 @@ ${switcher.render(ctx)}
   </ul>
   <p class="fresh__key">Static files. No key, no rate limit, ${esc(brand.LICENSE)}. Attribution: ${esc(brand.DOMAIN)}.</p>
 </section>
+
+ ${faq.render(ctx)}
 
 <section class="sec bunk" id="bunker-kit" aria-labelledby="bunker-h">
   <h2 class="sec__h" id="bunker-h">Bunker Kit</h2>
@@ -426,6 +433,10 @@ main.wrap[data-level="1"] > .hero .ch--dial { animation: dcBreathe 1.1s ease-in-
    colour, then the hook in dim ink. One line on a desktop, two on a phone. */
 .sharebtn { margin-top: var(--s-3); padding: 8px 14px; border: 2px solid var(--lvl, var(--accent)); border-radius: 4px; background: transparent;
   color: var(--ink); cursor: pointer; font: 700 var(--t-xs)/1 var(--stencil); letter-spacing: .14em; text-transform: uppercase; }
+.fol__l { margin: var(--s-3) 0 var(--s-4); padding: 0 0 0 1.1em; display: grid; gap: 8px; max-width: 72ch; }
+.fol__l li { font: 400 var(--t-base)/1.5 var(--sans); color: var(--ink-dim); }
+.fol__l b { color: var(--ink); }
+.hero__what { display: inline-block; margin: var(--s-3) 0 0 10px; font: 600 var(--t-xs)/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-dim); }
 .sharebtn--x { display: inline-block; margin-left: 8px; text-decoration: none; }
 .hero__mood { color: var(--lvl, var(--accent)) !important; }
 .supp__how { margin: var(--s-2) 0 0; font: 500 var(--t-sm)/1.5 var(--sans); color: var(--ink-dim); max-width: 60ch; }
@@ -566,7 +577,7 @@ main.wrap[data-level="1"] > .hero .ch--dial { animation: dcBreathe 1.1s ease-in-
     ogImage: ctx.cardFor(state.receipt_id),
     ogImageAlt: `${brand.NAME} ${state.level}, ${state.level_name}, score ${scoreTxt} of 100`,
     showDegraded: true,
-    jsonld: [webApplication(ctx), dataset(ctx)],
+    jsonld: [webApplication(ctx), dataset(ctx), faq.jsonLd(ctx)],
     main,
   });
 }
@@ -835,6 +846,28 @@ function set(l){var t=T[l];h.textContent=t?t[0]:en;h.lang=l;g.textContent=t?t[1]
 try{localStorage.setItem('dc-lang',l);}catch(e){}}
 w.addEventListener('click',function(e){var b=e.target.closest('button');if(b)set(b.getAttribute('data-l'));});
 try{var s=localStorage.getItem('dc-lang');if(s&&T[s])set(s);}catch(e){}})();</script>`;
+}
+
+// WHY FOLLOW. The site cannot tap anyone on the shoulder: it is a static page
+// with no accounts and no notifications. The X account is the only channel
+// that reaches a reader who is not looking, so this band says exactly what is
+// posted there and nothing it does not do.
+function followBand(ctx) {
+  if (!brand.X_URL) return '';
+  const handle = brand.X_HANDLE.replace(/^@/, '');
+  return `<section class="sec fol" id="follow" aria-labelledby="fol-h">
+  <h2 class="sec__h" id="fol-h">Hear it first: follow ${esc(brand.X_HANDLE)}</h2>
+  <p class="lede">This page only tells you something when you open it. The X account tells you when something changes.
+    If you want to know that AI got louder before your feed fills up with takes about it, that is where it lands.</p>
+  <ul class="fol__l">
+    <li><b>Level changes, as they happen.</b> When the dial moves a level, it is posted with the receipt. The site has no alerts; X is the alert.</li>
+    <li><b>One reading a day.</b> The level, the score and the card, in one post you can read in five seconds.</li>
+    <li><b>What moved it.</b> Which of the five pillars got loud, in plain words, so you know whether it was releases, money, headlines, rules or markets.</li>
+    <li><b>Jobs and medicine, when the numbers update.</b> New counts on the two questions everyone asks, with the source.</li>
+    <li><b>No predictions.</b> Counts with timestamps. If we cannot count it, we do not post it.</li>
+  </ul>
+  <p class="supp__row"><a class="supp__a" rel="noopener" href="https://x.com/intent/follow?screen_name=${esc(handle)}">Follow ${esc(brand.X_HANDLE)} on X</a></p>
+</section>`;
 }
 
 function heroAside(ctx) {

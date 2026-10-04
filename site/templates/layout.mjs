@@ -163,6 +163,10 @@ const SECTIONS = [
   // colon separates two counts and computes nothing. `k` says what they are
   // and which window, from the file's own stamp. A dark newsroom has no count
   // on either pan, so the tile prints the dot, never 0 : 0.
+  { href: '/jobs.html', label: 'Jobs', short: 'Jobs', needs: 'balance',
+    blurb: 'AI and jobs: what has been measured, and what the counts do not show.' },
+  { href: '/medicine.html', label: 'Medicine', short: 'Medicine', needs: 'balance',
+    blurb: 'AI in medicine: trials, authorisations and databases on the record.' },
   { href: '/balance.html', label: 'Balance', short: 'Balance', needs: 'balance',
     blurb: 'Harm and benefit, counted side by side and never summed.',
     count: balanceCount },
@@ -1269,7 +1273,12 @@ function footer(ctx, sections, path) {
   // Provenance, plus the one place the site asks for anything. Gated on
   // brand.X_URL for the same reason twitter:site is: with no handle there is
   // no account, and a dead "support us" link is worse than none.
-  const source = [{ href: brand.REPO_URL, label: 'Source code', blurb: `Every line that produced these numbers. ${brand.LICENSE}.` }];
+  const source = [
+    { href: '/about.html', label: 'About', blurb: 'What this is, who runs it, how it is paid for, and how to get in touch.' },
+    { href: '/guide.html', label: 'Guide', blurb: 'DOOMCON, DEFCON, the Doomsday Clock and p(doom): what each one measures.' },
+    { href: '/privacy.html', label: 'Privacy', blurb: 'No cookies, no analytics. Every trace a visit can leave.' },
+    { href: brand.REPO_URL, label: 'Source code', blurb: `Every line that produced these numbers. ${brand.LICENSE}.` },
+  ];
   if (brand.X_URL) {
     source.push({
       href: brand.X_URL,

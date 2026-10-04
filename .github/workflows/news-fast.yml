@@ -42,6 +42,8 @@ on:
 
 permissions:
   contents: write
+  # To re-arm itself and to wake the index pass when GitHub drops the cron.
+  actions: write
 
 concurrency:
   # Never two loops at once: they would race on gh-pages and fight over
@@ -67,11 +69,14 @@ jobs:
       - name: Loop
         env:
           MINUTES: ${{ github.event.inputs.minutes || '50' }}
+          GH_TOKEN: ${{ github.token }}
+          CHAIN: ${{ vars.NEWS_FAST_CHAIN }}
         run: |
           set -uo pipefail
           END=$(( $(date +%s) + MINUTES * 60 ))
           PUBLISHED=0
           TICK=0
+          LAST_WAKE=0
 
           while [ "$(date +%s)" -lt "$END" ]; do
             TICK=$((TICK + 1))
@@ -94,6 +99,22 @@ jobs:
                 || echo "::warning::tick $TICK could not refresh from main; building from the previous tick's tree"
             else
               echo "::warning::tick $TICK could not fetch main; building from the previous tick's tree"
+            fi
+
+            # WAKE THE INDEX PASS IF THE CRON DID NOT. Measured 2026-10-04: the
+            # hourly schedule in collect.yml fired at 05:15, then not again
+            # until 10:49. GitHub drops scheduled runs under load and says so.
+            # A reading five hours old is the opposite of early, so when the
+            # newest state on main is more than 70 minutes old this loop asks
+            # for a full pass itself, at most once every 20 minutes.
+            # workflow_dispatch is one of the two events GITHUB_TOKEN is
+            # allowed to raise.
+            AGE=$(node -e "try{const s=require('./data/state.json');process.stdout.write(String(Math.round((Date.now()-Date.parse(s.generated_at))/60000)))}catch(e){process.stdout.write('0')}")
+            NOW=$(date +%s)
+            if [ "$AGE" -gt 70 ] && [ $(( NOW - LAST_WAKE )) -gt 1200 ] && [ "${CHAIN:-on}" != "off" ]; then
+              echo "tick $TICK: newest reading is ${AGE} min old — dispatching the full index pass"
+              gh workflow run collect.yml --repo "$GITHUB_REPOSITORY" || echo "::warning::could not dispatch collect.yml"
+              LAST_WAKE=$NOW
             fi
 
             # Hash before/after. news.mjs rewrites the file every run (the
@@ -169,5 +190,27 @@ jobs:
           # dirty, and plain `pull --rebase` refuses to run with unstaged
           # changes — which is exactly how the first live run failed after
           # publishing successfully six times.
-          git pull --rebase --autostash --quiet origin main || true
-          git push origin HEAD:main
+          # Files that are NEW on main arrive in the working tree as untracked
+          # files (the per-tick refresh writes them, HEAD has never heard of
+          # them), and a rebase onto a main that tracks them refuses to
+          # overwrite them. That failed the 11:34 run on 2026-10-04 after new
+          # templates landed mid-loop. The two data files are committed by now,
+          # so everything still untracked is a refreshed copy and can go.
+          git clean -fdq
+          for attempt in 1 2 3; do
+            git pull --rebase --autostash --quiet origin main || true
+            git push origin HEAD:main && break
+            echo "push rejected (attempt $attempt); retrying"
+            sleep 5
+          done
+
+      - name: Re-arm
+        # THE LOOP KEEPS ITSELF ALIVE. The hourly cron is only a fallback: on
+        # 2026-10-03/04 it started this job three times in a day. Each run now
+        # queues the next one as it ends; the concurrency group holds it until
+        # this run is finished, so there is never more than one loop. Set the
+        # repository variable NEWS_FAST_CHAIN to "off" to stop the chain.
+        if: ${{ always() && vars.NEWS_FAST_CHAIN != 'off' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run news-fast.yml --repo "$GITHUB_REPOSITORY" || echo "::warning::could not re-arm; the hourly cron remains the fallback"
