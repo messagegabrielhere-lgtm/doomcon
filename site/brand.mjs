@@ -64,6 +64,11 @@ export const TAGLINE = 'Detected early, not a prediction. We count.';
 // The original line, kept verbatim because CONTRACT.md, README.md and
 // docs/METHODOLOGY.md all quote it and it is still the most honest sentence on
 // the site. Rendered wherever there is room for a second line.
+// The catchy one, for the masthead: a question a stranger can answer by
+// looking at the dial. "Loud" is the scale's own word (1 is loudest), so the
+// line promises tempo and nothing else.
+export const SLOGAN = 'How loud is AI today? We count.';
+
 export const CREED = "We don't know anything. We just count.";
 
 // The long form, for surfaces with a full sentence of room: og:description

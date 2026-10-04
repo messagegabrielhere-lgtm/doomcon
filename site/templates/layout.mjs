@@ -32,6 +32,7 @@
 // does not ask, and everything it animates is already in the HTML it decorates.
 
 import { seal } from './_seal.mjs';
+import { mascot } from './_mascot.mjs';
 import { esc, num, utc, utcClock, jsonScript } from './_html.mjs';
 import { degradedBanner, deltaChip } from './_parts.mjs';
 import { motionBlock } from './_motion.mjs';
@@ -1046,7 +1047,7 @@ ${jsonld}
 <a class="skip" href="#main">Skip to the index</a>
 <header class="masthead"><div class="wrap masthead__in">
   ${marks.mastheadLockup(ctx.state.level, { href: ctx.href('/'), current: o.path === '/', logos: ctx.logos, logoHref: (n) => ctx.href(`/logos/${n}`) })}
-  <p class="masthead__tag">${esc(brand.TAGLINE)}</p>
+  <p class="masthead__tag">${esc(brand.SLOGAN)}</p>
   ${featureBar(ctx, tiles, o.path, { inline: true })}
 </div></header>${FEATURE_BAR_CSS}
 ${rail(ctx, o.path)}
@@ -1266,8 +1267,8 @@ function footer(ctx, sections, path) {
   if (brand.X_URL) {
     source.push({
       href: brand.X_URL,
-      label: 'Follow on X',
-      blurb: `${brand.X_HANDLE} — where the daily reading is posted.`,
+      label: 'Donate with X Money',
+      blurb: `${brand.X_HANDLE} — the Money ($) button on the profile, and where the daily reading is posted.`,
     });
   }
 
@@ -1377,7 +1378,7 @@ function footer(ctx, sections, path) {
     : '';
 
   return `<footer class="foot">
-  <p class="foot__bcast"><span>This is not a test. It is not an emergency either. It is a count.</span></p>
+  <p class="foot__bcast">${mascot({ size: 40, level: ctx.state && Number.isFinite(ctx.state.level) ? ctx.state.level : null })}<span>This is not a test. It is not an emergency either. It is a count.</span></p>
   <div class="wrap">
     <div class="foot__top">
       <div class="foot__brand">

@@ -2096,6 +2096,7 @@ main.wrap :is(.rintro__h1, .narch__h1, .dg__h1, .lwp__h1, .bp__h1, .bintro__h1, 
 .bstamp a:hover { text-decoration: underline; }
 .foot__bcast { margin: 0 0 var(--s-5); padding: 6px 16px; text-align: center;
   background: repeating-linear-gradient(-45deg, var(--lvl, var(--accent)) 0 12px, var(--bg) 12px 24px); }
+.foot__bcast .tally { display: inline-block; vertical-align: middle; margin-right: 8px; padding: 2px; border-radius: 50%; background: var(--bg); }
 .foot__bcast span { display: inline-block; padding: 5px 14px; background: var(--bg); color: var(--ink);
   font: 700 var(--t-xs)/1.35 var(--stencil); letter-spacing: .14em; text-transform: uppercase; }
 .foot__memo { display: flex; flex-wrap: wrap; gap: 4px var(--s-4); margin: 0 0 var(--s-3);

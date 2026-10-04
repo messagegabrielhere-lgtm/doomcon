@@ -58,7 +58,7 @@
 //                 surfaces.
 
 import { esc, num, signed, utc } from './_html.mjs';
-import { mascot } from './_mascot.mjs';
+import { mascot, MOODS } from './_mascot.mjs';
 import { freshnessStrip, pillarCard, moveRow, sourceStatus } from './_parts.mjs';
 import { indexHistoryChart, pillarRanked } from './_charts.mjs';
 import { page } from './layout.mjs';
@@ -150,7 +150,7 @@ ${gauge.styleTag()}
        at this width, so the reading opens the panel as one lit plate with the
        mascot on it. Hidden from 720px, where the dial is already in view, and
        aria-hidden because the h1 below says the same thing in full. -->
-  ${Number.isFinite(state.score) ? `<p class="hero__badge" aria-hidden="true">${mascot({ size: 58 })}<span class="hero__badge-t"><b>${esc(brand.NAME)} ${esc(state.level)}</b><span>${esc(state.level_name)} · ${esc(scoreTxt)} of 100</span></span></p>` : ''}
+  ${Number.isFinite(state.score) ? `<p class="hero__badge" aria-hidden="true">${mascot({ size: 58, level: state.level })}<span class="hero__badge-t"><b>${esc(brand.NAME)} ${esc(state.level)}</b><span>${esc(state.level_name)} · ${esc(scoreTxt)} of 100</span></span></p>` : ''}
   <p class="eyebrow hero__bul"><span class="hero__bulno">Early warning bulletin${Array.isArray(ctx.history) && ctx.history.length ? ` No.&nbsp;${esc(ctx.history.length)}` : ''}</span>
     <span>Observed <time datetime="${esc(state.generated_at)}">${esc(utc(state.generated_at))}</time></span></p>
   <p class="hero__stamp" aria-hidden="true">Not a prediction</p>
@@ -201,7 +201,8 @@ ${gauge.styleTag()}
       })}
       <div class="level__meta">
         <p class="level__plain">${esc(plainRead(ctx))}</p>
-        ${Number.isFinite(state.score) ? `<button type="button" class="sharebtn" hidden data-t="${esc(`${brand.NAME} ${state.level}, ${state.level_name}. ${num(state.score, 1)} of 100 as of ${utc(state.generated_at)}. Tempo, not a probability.`)}">Copy this reading</button>` : ''}
+        ${Number.isFinite(state.score) ? `<button type="button" class="sharebtn" hidden data-t="${esc(`${brand.NAME} ${state.level}, ${state.level_name}. ${num(state.score, 1)} of 100 as of ${utc(state.generated_at)}. Tempo, not a probability.`)}">Copy this reading</button>
+        <a class="sharebtn sharebtn--x" rel="noopener" target="_blank" href="https://x.com/intent/post?text=${encodeURIComponent(`${brand.NAME} ${state.level}, ${state.level_name}. ${num(state.score, 1)} of 100 as of ${utc(state.generated_at)}. Tempo, not a probability.`)}&amp;url=${encodeURIComponent(ctx.url('/'))}">Post this on X</a>` : ''}
       </div>
     </div>
 
@@ -312,13 +313,15 @@ ${brand.X_URL ? `<section class="sec supp" id="support" aria-labelledby="support
   <h2 class="sec__h" id="support-h">Support this index</h2>
   <p class="lede">${esc(brand.NAME)} is free, carries no advertising, sets no tracking
     cookie and runs no analytics at all — nobody here knows you visited. It is built on
-    public data, keyless endpoints and free hosting. If it is useful to you, the cheapest
-    help is a follow and a shared reading; the supplies crate in the Bunker Kit carries paid links.</p>
-  <p class="supp__row"><a class="supp__a" href="${esc(brand.X_URL)}" rel="noopener">Follow ${esc(brand.NAME)} on X
+    public data, keyless endpoints and free hosting. If it is useful to you, you can
+    chip in with X Money, or just follow and share a reading. Tally accepts both.</p>
+  <p class="supp__row"><a class="supp__a" href="${esc(brand.X_URL)}" rel="noopener">Donate with X Money
     <span class="supp__h">${esc(brand.X_HANDLE)}</span></a></p>
+  <p class="supp__how">How: open ${esc(brand.X_HANDLE)} on X and use the Money ($) button on the profile to send any amount.
+    The supplies crate in the <a href="${esc(ctx.href('/bunker-kit.html'))}">Bunker Kit</a> carries paid links too.</p>
   <p class="fresh__key">Nothing on this site is behind a paywall and nothing will be: the
     arithmetic is the product, and a number you have to pay to check is not a number anybody
-    can check.</p>
+    can check. Donations go to the person who runs it.</p>
 </section>` : ''}
 
 <style>
@@ -422,6 +425,9 @@ main.wrap[data-level="1"] > .hero .ch--dial { animation: dcBreathe 1.1s ease-in-
    colour, then the hook in dim ink. One line on a desktop, two on a phone. */
 .sharebtn { margin-top: var(--s-3); padding: 8px 14px; border: 2px solid var(--lvl, var(--accent)); border-radius: 4px; background: transparent;
   color: var(--ink); cursor: pointer; font: 700 var(--t-xs)/1 var(--stencil); letter-spacing: .14em; text-transform: uppercase; }
+.sharebtn--x { display: inline-block; margin-left: 8px; text-decoration: none; }
+.hero__mood { color: var(--lvl, var(--accent)) !important; }
+.supp__how { margin: var(--s-2) 0 0; font: 500 var(--t-sm)/1.5 var(--sans); color: var(--ink-dim); max-width: 60ch; }
 .sharebtn:hover, .sharebtn:focus-visible { background: var(--lvl, var(--accent)); color: #0b0c0e; }
 .bunk__go { display: inline-block; padding: 10px 16px; border: 2px solid var(--accent); border-radius: 4px; color: var(--ink);
   text-decoration: none; font: 700 var(--t-sm)/1 var(--stencil); letter-spacing: .14em; text-transform: uppercase; }
@@ -801,7 +807,7 @@ function heroAside(ctx) {
   const hook = String(brand.STRAPLINE).split('. ').slice(0, 2).join('. ') + '.';
   return `<p class="hero__voice">${lvl && lvl.epithet
     ? `<span class="hero__ep">${esc(lvl.epithet)}.</span> ` : ''}<span class="hero__hook">${esc(hook)}</span></p>`
-    + `<p class="hero__orders">${mascot({ size: 44, cls: 'hero__tally' })}<span><b>Instructions to the public:</b> none. ${esc(
+    + `<p class="hero__orders">${mascot({ size: 48, cls: 'hero__tally', level: lvl ? lvl.level : null })}<span>${lvl && MOODS[lvl.level] ? `<b class="hero__mood">Tally is ${esc(MOODS[lvl.level])}.</b> ` : ''}<b>Instructions to the public:</b> none. ${esc(
       (lvl && STANDING_ORDERS[lvl.level]) || 'No reading was taken, so none is posted.')}</span></p>`;
 }
 

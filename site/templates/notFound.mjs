@@ -18,6 +18,7 @@ import { esc } from './_html.mjs';
 import { page } from './layout.mjs';
 import * as brand from '../brand.mjs';
 import { seal } from './_seal.mjs';
+import { mascot } from './_mascot.mjs';
 
 export function render(ctx) {
   const st = ctx.state || {};
@@ -41,7 +42,7 @@ export function render(ctx) {
 </style>
 <section class="nf">
   <p class="eyebrow">Page status · dark</p>
-  <div class="nf__top"><p class="nf__code num">404</p>${seal(ctx, { size: 150, id: 'seal-nf' })}</div>
+  <div class="nf__top"><p class="nf__code num">404</p>${seal(ctx, { size: 150, id: 'seal-nf' })}${mascot({ size: 96, level: 5 })}</div>
   <h1 class="nf__h">Nothing detected at this address.</h1>
   <p class="lede">This site never imputes a missing value, and it will not impute a missing page.
     There is no reading here, so none is printed. ${reading}</p>
