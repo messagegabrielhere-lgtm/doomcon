@@ -257,7 +257,7 @@ ${TCLK_CSS}
 .xp__l { display: grid; gap: var(--s-3); }
 .xp__c { display: grid; gap: 4px; padding: var(--s-4); border: 1px solid var(--rule); border-radius: 12px; background: var(--bg-sunken); text-decoration: none; color: var(--ink-dim); text-align: left; }
 .xp__c:hover, .xp__c:focus-visible { border-color: var(--lvl, var(--accent)); }
-.xp__c b { font: 400 clamp(20px, 2.2vw, 26px)/1.08 var(--poster); letter-spacing: .012em; text-transform: uppercase; color: var(--ink); }
+.xp__c b { font: 700 clamp(18px, 1.9vw, 22px)/1.15 var(--poster); letter-spacing: -.01em; color: var(--ink); }
 .xp__c span { font: 400 var(--t-sm)/1.45 var(--sans); }
 .xp__c i { font: 700 var(--t-2xs)/1 var(--mono); font-style: normal; letter-spacing: .12em; text-transform: uppercase; color: var(--lvl, var(--accent)); }
 .stat { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: var(--s-4) var(--s-5); margin: clamp(40px, 7vw, 88px) 0 0; }
@@ -375,7 +375,27 @@ main.wrap > .hero .hero__headline { margin: 0 0 var(--s-3); font: 500 var(--t-sm
 .pc { padding: 14px 16px 12px; border: 1px solid var(--rule); border-radius: 12px; background: var(--bg-raised); min-width: 0; }
 .pc__top { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
 .pc__n { font: 700 var(--t-sm)/1.2 var(--poster); letter-spacing: 0; text-transform: uppercase; color: var(--ink); }
-@media (max-width: 599px) { .pc__bars { height: 56px; } .pc { padding: 12px 14px 10px; } }
+/* THE PHONE PAGE WAS 13,000px. These are the cuts that cost no content: the
+   stat wall goes three across, the five pillar cards become one swipe row
+   (faded at the right edge so it reads as a row, not as one card), the
+   support cards pair up, and the clock stops filling the whole screen. */
+@media (max-width: 599px) {
+  .wall { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .wall__t { padding: 10px 9px 11px; }
+  .wall__v { font-size: 17px; }
+  .wall__s { display: none; }
+  .pcs__l { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 78%; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding-bottom: 4px;
+    -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 28px), transparent); mask-image: linear-gradient(90deg, #000 calc(100% - 28px), transparent); }
+  .pcs__l::-webkit-scrollbar { display: none; }
+  .pcs__l > li { scroll-snap-align: start; }
+  .pc__bars { height: 72px; }
+  .earn { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--s-2); }
+  .earn__c { padding: var(--s-3); }
+  .earn__c b { font-size: 16px; }
+  .xp__grid { gap: var(--s-3); }
+  .xp__grid .tclk { max-width: 230px; margin-inline: auto; }
+  .xp__c { padding: var(--s-3); }
+}
 .pc__chip { padding: 4px 8px; border: 1px solid currentColor; border-radius: 6px; font: 700 var(--t-2xs)/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; }
 .pc__chip--up { color: var(--dark-src); background: color-mix(in srgb, var(--dark-src) 12%, transparent); }
 .pc__chip--down { color: var(--accent-2); background: color-mix(in srgb, var(--accent-2) 12%, transparent); }
