@@ -58,6 +58,7 @@
 //                 surfaces.
 
 import { esc, num, signed, utc } from './_html.mjs';
+import { mascot } from './_mascot.mjs';
 import { freshnessStrip, pillarCard, moveRow, sourceStatus } from './_parts.mjs';
 import { indexHistoryChart, pillarRanked } from './_charts.mjs';
 import { page } from './layout.mjs';
@@ -145,6 +146,11 @@ ${gauge.styleTag()}
        observations in the published history, so bulletin No. 164 is the 164th
        reading and anybody can count them at /history. A period costume with a
        checkable number in it, which is the house rule for jokes. -->
+  <!-- THE LEVEL, FIRST, ON A PHONE. The dial sits a screen below the sentence
+       at this width, so the reading opens the panel as one lit plate with the
+       mascot on it. Hidden from 720px, where the dial is already in view, and
+       aria-hidden because the h1 below says the same thing in full. -->
+  ${Number.isFinite(state.score) ? `<p class="hero__badge" aria-hidden="true">${mascot({ size: 58 })}<span class="hero__badge-t"><b>${esc(brand.NAME)} ${esc(state.level)}</b><span>${esc(state.level_name)} · ${esc(scoreTxt)} of 100</span></span></p>` : ''}
   <p class="eyebrow hero__bul"><span class="hero__bulno">Early warning bulletin${Array.isArray(ctx.history) && ctx.history.length ? ` No.&nbsp;${esc(ctx.history.length)}` : ''}</span>
     <span>Observed <time datetime="${esc(state.generated_at)}">${esc(utc(state.generated_at))}</time></span></p>
   <p class="hero__stamp" aria-hidden="true">Not a prediction</p>
@@ -420,6 +426,19 @@ main.wrap[data-level="1"] > .hero .ch--dial { animation: dcBreathe 1.1s ease-in-
 .bunk__go { display: inline-block; padding: 10px 16px; border: 2px solid var(--accent); border-radius: 4px; color: var(--ink);
   text-decoration: none; font: 700 var(--t-sm)/1 var(--stencil); letter-spacing: .14em; text-transform: uppercase; }
 .bunk__go:hover, .bunk__go:focus-visible { background: var(--accent); color: #0b0c0e; }
+.hero__orders { display: flex; align-items: center; gap: 10px; }
+.hero__badge { display: none; }
+@media (max-width: 719.98px) {
+  .hero__badge { display: flex; align-items: center; gap: 12px; margin: 0 0 var(--s-3); padding: 10px 14px;
+    border: 2px solid var(--lvl, var(--accent)); border-radius: 10px;
+    background: color-mix(in srgb, var(--lvl, var(--accent)) 12%, transparent);
+    box-shadow: 0 0 22px color-mix(in srgb, var(--lvl, var(--accent)) 35%, transparent), inset 0 0 18px color-mix(in srgb, var(--lvl, var(--accent)) 10%, transparent); }
+  .hero__badge-t { display: grid; gap: 4px; min-width: 0; }
+  .hero__badge-t b { font: 400 clamp(34px, 11vw, 46px)/.95 var(--poster); letter-spacing: .02em; text-transform: uppercase; color: var(--lvl, var(--accent)); }
+  .hero__badge-t span { font: 600 var(--t-xs)/1.2 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-dim); }
+  .hero__tally { display: none; }
+  main.wrap > .hero .hero__headline { font-size: 28px; }
+}
 .hero__orders { margin: 0 0 var(--s-3); max-width: 60ch; font: 500 var(--t-xs)/1.45 var(--mono); letter-spacing: .04em; color: var(--ink-dim); }
 .hero__orders b { font: 700 var(--t-xs)/1 var(--stencil); letter-spacing: .14em; text-transform: uppercase; color: var(--ink); }
 .clip { position: relative; margin: var(--s-4) 0 10px; padding: 14px 10px 10px; border: 2px dashed var(--ink-faint); border-radius: 2px; }
@@ -782,8 +801,8 @@ function heroAside(ctx) {
   const hook = String(brand.STRAPLINE).split('. ').slice(0, 2).join('. ') + '.';
   return `<p class="hero__voice">${lvl && lvl.epithet
     ? `<span class="hero__ep">${esc(lvl.epithet)}.</span> ` : ''}<span class="hero__hook">${esc(hook)}</span></p>`
-    + `<p class="hero__orders"><b>Instructions to the public:</b> none. ${esc(
-      (lvl && STANDING_ORDERS[lvl.level]) || 'No reading was taken, so none is posted.')}</p>`;
+    + `<p class="hero__orders">${mascot({ size: 44, cls: 'hero__tally' })}<span><b>Instructions to the public:</b> none. ${esc(
+      (lvl && STANDING_ORDERS[lvl.level]) || 'No reading was taken, so none is posted.')}</span></p>`;
 }
 
 function headline(ctx) {

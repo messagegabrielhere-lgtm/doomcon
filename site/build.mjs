@@ -27,6 +27,7 @@ import * as movesIndexPage from './templates/movesIndex.mjs';
 import * as embedPage from './templates/embed.mjs';
 import * as notFoundPage from './templates/notFound.mjs';
 import { sealCss } from './templates/_seal.mjs';
+import { mascotCss } from './templates/_mascot.mjs';
 
 function badgeSvg(state) {
   const has = Number.isFinite(state.level);
@@ -994,7 +995,7 @@ async function main() {
   // CSS changes and never otherwise. That makes it safe to cache hard without
   // setting a single header, which matters because GitHub Pages does not let
   // us set any.
-  const sheet = `${marks.LOCKUP_CSS}\n${siteCss()}\n${sealCss()}`;
+  const sheet = `${marks.LOCKUP_CSS}\n${siteCss()}\n${sealCss()}\n${mascotCss()}`;
   const cssName = `s-${createHash('sha256').update(sheet).digest('hex').slice(0, 12)}.css`;
   const cssHref = `${brand.BASE_PATH}/${cssName}`;
 
