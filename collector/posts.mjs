@@ -1122,7 +1122,15 @@ function topNewsPost(c) {
     // Budget the headline against the lines that must survive.
     const fixed = [carriedLine, indexLine, tail].join(' ');
     const budget = c.limit - charCount(fixed) - 2;
-    const headline = clampSafe(item.headline, budget);
+    // The clamp appends "..." after cutting and sentence() may add a full stop,
+    // so a headline cut to exactly the budget can land a few characters over
+    // it. Measured 2026-10-05: 281 of 280, which threw in assemble() and took
+    // the whole collect run down with it. Tighten until the required lines fit.
+    let headline = clampSafe(item.headline, budget);
+    for (let b = budget - 1; headline !== null && b > 24
+      && charCount([sentence(headline), fixed].join(' ')) > c.limit; b -= 1) {
+      headline = clampSafe(item.headline, b);
+    }
     if (headline === null) {
       skips.news.push({ id: item.id, why: 'headline trips a post guard or does not fit the budget' });
       continue;
