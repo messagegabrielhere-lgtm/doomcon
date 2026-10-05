@@ -1,0 +1,22 @@
+{
+  "name": "clipper",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Watches YouTube channels, cuts the strongest moments of each new upload into captioned vertical clips, and posts them to YouTube Shorts, TikTok and Instagram Reels.",
+  "engines": {
+    "node": ">=20"
+  },
+  "bin": {
+    "clipper": "src/cli.mjs"
+  },
+  "scripts": {
+    "start": "node src/cli.mjs watch",
+    "once": "node src/cli.mjs tick",
+    "status": "node src/cli.mjs status",
+    "test": "node --test test/*.test.mjs"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.131.0"
+  }
+}

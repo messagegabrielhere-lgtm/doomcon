@@ -1,0 +1,49 @@
+{
+  "channels": [
+    {
+      "url": "https://www.youtube.com/@YOUR_CHANNEL",
+      "rights": "own",
+      "note": "rights must be 'own' or 'licensed' (e.g. an approved clipping campaign). Reposting other people's videos without permission gets accounts struck and demonetised."
+    }
+  ],
+
+  "pollMinutes": 15,
+  "backfill": 0,
+  "minSourceSeconds": 180,
+
+  "clipsPerVideo": 3,
+  "minClipSeconds": 20,
+  "maxClipSeconds": 59,
+  "minScore": 60,
+
+  "picker": "claude",
+  "model": "claude-opus-5-5",
+  "effort": "medium",
+  "captionLanguage": "en",
+
+  "render": {
+    "layout": "blur",
+    "font": "DejaVu Sans",
+    "fontSize": 84,
+    "uppercase": true,
+    "highlightColor": "#FFE500",
+    "wordsPerLine": 3,
+    "captionY": 0.68,
+    "hookTitle": true,
+    "loudnorm": true
+  },
+
+  "keepSource": false,
+
+  "publish": {
+    "dryRun": true,
+    "requireApproval": false,
+    "platforms": ["youtube", "tiktok", "instagram"],
+    "spacingMinutes": 90,
+    "maxPerDayPerPlatform": 6,
+    "creditSource": true,
+    "youtube": { "privacy": "public", "categoryId": "22" },
+    "tiktok": { "privacy": "SELF_ONLY" },
+    "instagram": { "graphVersion": "v23.0", "shareToFeed": true }
+  }
+}
