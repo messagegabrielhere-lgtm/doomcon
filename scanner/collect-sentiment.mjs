@@ -57,7 +57,8 @@ export async function build({ fetchImpl = fetch, gapMs = 400 } = {}) {
 
   const reddit = await attempt('reddit', async () => {
     const j = await getJSON('https://apewisdom.io/api/v1.0/filter/all-stocks/page/1');
-    return (j.results || []).slice(0, 100).map((x) => ({ t: x.ticker, name: x.name, n: x.mentions, n0: x.mentions_24h_ago, r: x.rank, r0: x.rank_24h_ago, up: x.upvotes }));
+    const dec = (t) => String(t || '').replace(/&amp;/g, '&').replace(/&#0?39;|&apos;/g, "'").replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+    return (j.results || []).slice(0, 100).map((x) => ({ t: x.ticker, name: dec(x.name), n: x.mentions, n0: x.mentions_24h_ago, r: x.rank, r0: x.rank_24h_ago, up: x.upvotes }));
   });
 
   const vix = await attempt('vix', async () => {
