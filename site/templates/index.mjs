@@ -471,6 +471,9 @@ main.wrap:has(.stage) > section.sec, main.wrap:has(.stage) > section.sw { margin
 .duo > section { margin: 0; padding: clamp(20px, 2.6vw, 34px); border: 1px solid var(--rule); border-radius: 16px; background: var(--bg-raised); min-width: 0; }
 .duo > section > .sec__h[id] { font-size: clamp(25px, 2.7vw, 36px); }
 @media (min-width: 1000px) { .duo { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: stretch; } }
+.duo > section:only-of-type { grid-column: 1 / -1; }
+.duo > .dv { border-left: 3px solid var(--accent); }
+.duo .xp__grid { gap: var(--s-4); }
 .ans__cta { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; margin: var(--s-4) 0; }
 .cta { display: inline-flex; align-items: center; gap: 6px; text-decoration: none; font: 650 var(--t-base)/1 var(--sans); letter-spacing: -.005em; }
 .cta--pri { padding: 13px 22px; border-radius: 999px; background: var(--lvl, var(--accent)); color: #06070b;
@@ -829,12 +832,12 @@ ${followBand(ctx)}
 </div>
 ${topicCards(ctx)}
 
+<div class="duo">
 ${explainers(ctx)}
+${developing.render(ctx)}
+</div>
 
 ${homeMap(ctx)}
-
-${developing.render(ctx)}
-
 
 ${switcher.render(ctx)}
 
