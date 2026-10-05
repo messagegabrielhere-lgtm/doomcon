@@ -357,15 +357,18 @@ main.wrap > .hero { border-radius: 3px; }
    one; and the page ends on a line and an action rather than fading into its
    footer. Home page only - .stage exists nowhere else. */
 main.wrap:has(.stage) > section > .sec__h[id],
+main.wrap:has(.stage) .duo > section > .sec__h[id],
 main.wrap:has(.stage) .sw__hd > .sec__h[id] {
   display: block; position: static; margin: 0 0 var(--s-3); max-width: 24ch;
   font: 700 clamp(27px, 3.9vw, 46px)/1.06 var(--poster); letter-spacing: -.028em; text-transform: none; color: var(--ink);
 }
 main.wrap:has(.stage) > section > .sec__h[id]::before,
+main.wrap:has(.stage) .duo > section > .sec__h[id]::before,
 main.wrap:has(.stage) .sw__hd > .sec__h[id]::before {
   display: block; width: 40px; height: 4px; margin: 0 0 16px; border-radius: 2px;
 }
 main.wrap:has(.stage) > section > .sec__h[id]::after,
+main.wrap:has(.stage) .duo > section > .sec__h[id]::after,
 main.wrap:has(.stage) .sw__hd > .sec__h[id]::after { display: none; }
 main.wrap:has(.stage) .sec__h[id] > .sec__eb { display: block; margin: 10px 0 0; }
 main.wrap:has(.stage) > section.sec, main.wrap:has(.stage) > section.sw { margin-top: clamp(44px, 6vw, 84px); }
@@ -461,6 +464,13 @@ main.wrap:has(.stage) > section.sec, main.wrap:has(.stage) > section.sw { margin
 @media (min-width: 1100px) { .wr__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } #wr-news { grid-row: span 2; } #wr-bets { grid-column: span 2; } }
 .wr { margin-bottom: var(--s-3); }
 .srcs { margin: 0 0 var(--s-5); }
+/* TWO PANELS, NOT TWO HALF-EMPTY ROWS. "Check it" and "follow it" each ran in
+   a column 45ch wide with the other half of a 1240px page left blank. Side by
+   side they read as one wall of two panels, the way the war room does. */
+.duo { display: grid; gap: var(--s-4); margin-top: clamp(44px, 6vw, 84px); }
+.duo > section { margin: 0; padding: clamp(20px, 2.6vw, 34px); border: 1px solid var(--rule); border-radius: 16px; background: var(--bg-raised); min-width: 0; }
+.duo > section > .sec__h[id] { font-size: clamp(25px, 2.7vw, 36px); }
+@media (min-width: 1000px) { .duo { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: stretch; } }
 .ans__cta { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; margin: var(--s-4) 0; }
 .cta { display: inline-flex; align-items: center; gap: 6px; text-decoration: none; font: 650 var(--t-base)/1 var(--sans); letter-spacing: -.005em; }
 .cta--pri { padding: 13px 22px; border-radius: 999px; background: var(--lvl, var(--accent)); color: #06070b;
@@ -813,9 +823,11 @@ ${gauge.styleTag()}
      eleven tiles. Both render '' when their data is absent; neither needs
      a script to exist. site/templates/_readings.mjs, _claims.mjs. -->
 ${readings.render(ctx)}
+<div class="duo">
 ${verify.render(ctx)}
-${topicCards(ctx)}
 ${followBand(ctx)}
+</div>
+${topicCards(ctx)}
 
 ${explainers(ctx)}
 
