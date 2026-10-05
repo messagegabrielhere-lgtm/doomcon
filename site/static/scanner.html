@@ -1,0 +1,1043 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Capitulation Scanner</title>
+<meta name="description" content="Scan crypto perpetual futures for RSI washouts on heavy volume. Supports, entry zones, backtest, week replay and Pine Script export.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: trading desk. Command bar on top, scanner list left, chart right, tool tabs under the chart. */
+:root{
+  --bg:#eef1f5; --panel:#ffffff; --sunk:#f5f7fa; --ink:#131923; --mute:#5b6678; --line:#d7dde6;
+  --accent:#b06d10; --accent-ink:#ffffff; --up:#0f7d68; --down:#c63f37; --zone:rgba(176,109,16,.13);
+  --f-display:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
+  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0a0e15; --panel:#111722; --sunk:#0d121b; --ink:#e4e9f1; --mute:#8590a3; --line:#222b3a;
+  --accent:#f0b44c; --accent-ink:#1a1206; --up:#33c1a1; --down:#f0645a; --zone:rgba(240,180,76,.12); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0a0e15; --panel:#111722; --sunk:#0d121b; --ink:#e4e9f1; --mute:#8590a3; --line:#222b3a;
+  --accent:#f0b44c; --accent-ink:#1a1206; --up:#33c1a1; --down:#f0645a; --zone:rgba(240,180,76,.12); color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:14px/1.45 var(--f-body);padding-inline:16px;padding-block:14px 28px}
+.wrap{max-width:1360px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.mono,.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+
+/* header */
+.top{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px}
+.brand{display:flex;align-items:baseline;gap:10px;margin-right:auto}
+.brand h1{margin:0;font:700 26px/1 var(--f-display);letter-spacing:.02em;text-transform:uppercase}
+.brand h1 b{color:var(--accent);font-weight:700}
+.brand span{color:var(--mute);font-size:12.5px}
+.chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:3px 10px;font-size:12px;color:var(--mute);white-space:nowrap}
+.chip i{width:7px;height:7px;border-radius:50%;background:var(--mute);display:inline-block}
+.chip.live i{background:var(--up);box-shadow:0 0 0 3px color-mix(in srgb,var(--up) 25%,transparent)}
+.chip.demo i{background:var(--accent)}
+.ctl{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--mute)}
+select,input[type=number],input[type=text]{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:5px 8px}
+input[type=number]{width:70px}
+.btn{border:1px solid var(--line);background:var(--panel);border-radius:6px;padding:6px 12px;font-weight:500}
+.btn:hover{border-color:var(--mute)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
+.btn:disabled{opacity:.55;cursor:default}
+
+/* command bar */
+.cmd{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px;display:flex;flex-direction:column;gap:8px}
+.cmd form{display:flex;gap:8px}
+.cmd label.prompt{font:600 13px/1 var(--f-display);letter-spacing:.12em;text-transform:uppercase;color:var(--accent);align-self:center;white-space:nowrap}
+.cmd input{flex:1;min-width:0;font-size:15px;padding:9px 11px;background:var(--sunk)}
+.examples{display:flex;flex-wrap:wrap;gap:6px}
+.examples button{border:1px dashed var(--line);background:transparent;border-radius:999px;padding:3px 10px;font-size:12px;color:var(--mute)}
+.examples button:hover{color:var(--ink);border-color:var(--mute)}
+.status{font-size:12.5px;color:var(--mute);min-height:1.45em}
+.status b{color:var(--ink);font-weight:600}
+
+/* main grid */
+.grid{display:grid;grid-template-columns:minmax(270px,330px) minmax(0,1fr);gap:12px;align-items:start}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;min-width:0}
+.ph{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 12px;border-bottom:1px solid var(--line)}
+.ph h2{margin:0;font:600 15px/1 var(--f-display);letter-spacing:.1em;text-transform:uppercase}
+.rules{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;padding:10px 12px;border-bottom:1px solid var(--line)}
+.rules label{display:flex;flex-direction:column;gap:3px;font-size:11px;color:var(--mute);letter-spacing:.04em;text-transform:uppercase}
+.rules input{width:100%}
+.scanwrap{max-height:560px;overflow:auto}
+table{width:100%;border-collapse:collapse}
+th{font:600 11px/1.2 var(--f-body);color:var(--mute);text-transform:uppercase;letter-spacing:.05em;text-align:right;padding:8px 8px;position:sticky;top:0;background:var(--panel);border-bottom:1px solid var(--line)}
+th:first-child,td:first-child{text-align:left}
+td{padding:7px 8px;text-align:right;border-bottom:1px solid color-mix(in srgb,var(--line) 60%,transparent);font-family:var(--f-mono);font-size:12.5px;font-variant-numeric:tabular-nums;white-space:nowrap}
+tr.row{cursor:pointer}
+tr.row:hover td{background:var(--sunk)}
+tr.row.sel td{background:color-mix(in srgb,var(--accent) 12%,transparent)}
+tr.row.sel td:first-child{box-shadow:inset 3px 0 0 var(--accent)}
+.sym{font-family:var(--f-body);font-weight:600}
+.sym small{color:var(--mute);font-weight:400;font-size:11px}
+.pill{display:inline-block;border-radius:4px;padding:1px 6px;font:600 10.5px/1.5 var(--f-body);letter-spacing:.05em;text-transform:uppercase}
+.pill.match{background:var(--accent);color:var(--accent-ink)}
+.pill.near{border:1px solid var(--accent);color:var(--accent)}
+.pill.none{color:var(--mute)}
+.hot{color:var(--accent)}
+.mk{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:7px;vertical-align:0;border:1.5px solid transparent}
+.mk.match{background:var(--accent);border-color:var(--accent)}
+.mk.near{border-color:var(--accent)}
+.mk.none{border-color:var(--line)}
+.keyline{display:flex;gap:12px;padding:6px 12px;font-size:11px;color:var(--mute);border-bottom:1px solid var(--line)}
+.up{color:var(--up)} .down{color:var(--down)}
+
+/* chart */
+.readout{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 16px;padding:10px 12px;border-bottom:1px solid var(--line)}
+.readout .name{font:700 22px/1 var(--f-display);letter-spacing:.03em}
+.readout .px{font:500 18px/1 var(--f-mono)}
+.readout .kv{font-size:12px;color:var(--mute)}
+.readout .kv b{font-family:var(--f-mono);font-weight:500;color:var(--ink)}
+.chartbox{position:relative;padding:4px 0 0}
+canvas#chart{display:block;width:100%;height:500px;touch-action:pan-y}
+.legend{display:flex;flex-wrap:wrap;gap:4px 14px;padding:6px 12px 10px;font-size:11.5px;color:var(--mute)}
+.legend span{display:inline-flex;align-items:center;gap:5px}
+.legend i{display:inline-block;width:14px;height:0;border-top:2px dashed var(--up)}
+.legend i.z{height:9px;border:1px dashed var(--accent);background:var(--zone)}
+.legend i.t{width:0;height:0;border:5px solid transparent;border-bottom:8px solid var(--accent);border-top:0}
+.legend i.r{border-top-color:var(--down)}
+
+/* tabs */
+.tabs{display:flex;gap:2px;padding:0 8px;border-bottom:1px solid var(--line);overflow-x:auto}
+.tabs button{border:0;background:transparent;padding:11px 12px 9px;font:600 14px/1 var(--f-display);letter-spacing:.1em;text-transform:uppercase;color:var(--mute);border-bottom:2px solid transparent;white-space:nowrap}
+.tabs button[aria-selected=true]{color:var(--ink);border-bottom-color:var(--accent)}
+.tabpane{padding:12px;display:flex;flex-direction:column;gap:12px}
+.row-ctl{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:end}
+.row-ctl label{display:flex;flex-direction:column;gap:3px;font-size:11px;color:var(--mute);text-transform:uppercase;letter-spacing:.04em}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.stat{background:var(--panel);padding:9px 11px}
+.stat > span{display:block;font-size:10.5px;color:var(--mute);text-transform:uppercase;letter-spacing:.06em}
+.stat b{display:block;font:500 18px/1.3 var(--f-mono);font-variant-numeric:tabular-nums}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px}
+.two h3,.tabpane h3{margin:0 0 6px;font:600 13px/1.2 var(--f-display);letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+.tblwrap{overflow-x:auto;max-height:260px;overflow-y:auto;border:1px solid var(--line);border-radius:8px}
+.tblwrap th{background:var(--sunk)}
+.note{font-size:12px;color:var(--mute);margin:0;max-width:80ch}
+.note b{color:var(--ink);font-weight:500}
+textarea{width:100%;min-height:240px;background:var(--sunk);border:1px solid var(--line);border-radius:8px;padding:10px;font:12.5px/1.5 var(--f-mono);resize:vertical;tab-size:2}
+.err{color:var(--down);font:12px/1.4 var(--f-mono);white-space:pre-wrap;margin:0}
+.indhead{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.indhead input{flex:1;min-width:200px}
+.indname{font:700 18px/1.2 var(--f-display);letter-spacing:.03em}
+.rp-bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.rp-bar .btn{min-width:40px}
+.prog{flex:1;min-width:140px;height:6px;background:var(--sunk);border:1px solid var(--line);border-radius:999px;overflow:hidden}
+.prog i{display:block;height:100%;width:0;background:var(--accent)}
+.foot{font-size:11.5px;color:var(--mute);text-align:center}
+
+@media (max-width:900px){
+  .grid{grid-template-columns:minmax(0,1fr)}
+  .scanwrap{max-height:300px}
+  canvas#chart{height:430px}
+  .two{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:520px){
+  .cmd form{flex-wrap:wrap}
+  .cmd label.prompt{display:none}
+  .brand span{display:none}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="top">
+    <div class="brand"><h1>Capitulation <b>Scanner</b></h1><span>Perpetual futures: RSI washouts on heavy volume</span></div>
+    <span id="src" class="chip demo"><i></i><span id="srcText">Demo data (simulated)</span></span>
+    <label class="ctl" for="tf">Timeframe
+      <select id="tf"><option value="15m">15m</option><option value="1H" selected>1H</option><option value="4H">4H</option></select>
+    </label>
+    <label class="ctl" for="topn">Contracts
+      <select id="topn"><option>20</option><option selected>40</option><option>60</option><option>100</option></select>
+    </label>
+    <button class="btn" id="liveBtn" type="button">Load live OKX data</button>
+    <button class="btn" id="demoBtn" type="button" hidden>Back to demo</button>
+  </header>
+
+  <section class="cmd" aria-label="Ask the scanner">
+    <form id="cmdForm">
+      <label class="prompt" for="cmd">Ask</label>
+      <input id="cmd" type="text" autocomplete="off" value="Find me all BTC futures with RSI below 30 and volume +200% at the same time">
+      <button class="btn primary" type="submit" id="cmdGo">Run</button>
+    </form>
+    <div class="examples">
+      <button type="button" data-q="Find me all BTC futures with RSI below 30 and volume +200% at the same time">RSI &lt; 30 and volume +200%</button>
+      <button type="button" data-q="Replay last week and show me where my system would have entered">Replay last week</button>
+      <button type="button" data-q="Write me a momentum oscillator that crosses whale activity with price trend">Write a whale momentum oscillator</button>
+      <button type="button" data-q="Scan 4h for RSI under 35 with 2x volume in the last 5 bars">4H, RSI &lt; 35, 2× volume</button>
+    </div>
+    <div class="status" id="status" role="status" aria-live="polite"></div>
+  </section>
+
+  <div class="grid">
+    <section class="panel" aria-label="Scanner">
+      <div class="ph"><h2>Scanner</h2><span class="chip" id="countChip">–</span></div>
+      <div class="rules">
+        <label for="rRsi">RSI below<input id="rRsi" type="number" min="5" max="60" step="1" value="30"></label>
+        <label for="rVol">Volume +%<input id="rVol" type="number" min="0" max="2000" step="25" value="200"></label>
+        <label for="rWin">Last bars<input id="rWin" type="number" min="1" max="50" step="1" value="3"></label>
+      </div>
+      <div class="keyline"><span><span class="mk match"></span>Match</span><span><span class="mk near"></span>Near</span><span>Sorted by closeness to the rule</span></div>
+      <div class="scanwrap">
+        <table>
+          <thead><tr><th>Contract</th><th>Last</th><th title="Lowest RSI(14) in the last N bars">RSI low</th><th title="Highest volume vs. its 20-bar average in the last N bars">Vol×</th></tr></thead>
+          <tbody id="scanBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel" aria-label="Chart and tools">
+      <div class="readout" id="readout"></div>
+      <div class="chartbox"><canvas id="chart" aria-label="Price chart with support levels, entry zone, RSI and indicator panes" role="img"></canvas></div>
+      <div class="legend">
+        <span><i></i>Support (pivot-low clusters)</span>
+        <span><i class="r"></i>Resistance</span>
+        <span><i class="z"></i>Entry zone</span>
+        <span><i class="t"></i>System entry</span>
+      </div>
+      <div class="tabs" role="tablist">
+        <button role="tab" id="tab-bt" aria-selected="true" aria-controls="pane-bt">Backtest</button>
+        <button role="tab" id="tab-rp" aria-selected="false" aria-controls="pane-rp">Replay</button>
+        <button role="tab" id="tab-ind" aria-selected="false" aria-controls="pane-ind">Indicator</button>
+        <button role="tab" id="tab-pine" aria-selected="false" aria-controls="pane-pine">Pine Script</button>
+      </div>
+
+      <div class="tabpane" id="pane-bt" role="tabpanel" aria-labelledby="tab-bt">
+        <div class="row-ctl">
+          <label for="bStop">Stop (ATR)<input id="bStop" type="number" step="0.25" min="0.25" value="1.5"></label>
+          <label for="bTp">Target (ATR)<input id="bTp" type="number" step="0.25" min="0.25" value="2.5"></label>
+          <label for="bExit">Exit at RSI ≥<input id="bExit" type="number" step="1" min="30" max="90" value="50"></label>
+          <label for="bMax">Max bars<input id="bMax" type="number" step="1" min="1" value="48"></label>
+          <label for="bSize">Size per trade ($)<input id="bSize" type="number" step="500" min="100" value="10000" style="width:90px"></label>
+        </div>
+        <div class="two">
+          <div>
+            <h3 id="btSymTitle">This contract</h3>
+            <div class="stats" id="btSym"></div>
+          </div>
+          <div>
+            <h3>All scanned contracts</h3>
+            <div class="stats" id="btAll"></div>
+          </div>
+        </div>
+        <div class="two">
+          <div>
+            <h3>Trades on this contract</h3>
+            <div class="tblwrap"><table><thead><tr><th>Entry</th><th>Price</th><th>Exit</th><th>Why</th><th>PnL</th></tr></thead><tbody id="btTrades"></tbody></table></div>
+          </div>
+          <div>
+            <h3>Best and worst contracts</h3>
+            <div class="tblwrap"><table><thead><tr><th>Contract</th><th>Trades</th><th>Hit</th><th>PnL</th></tr></thead><tbody id="btRank"></tbody></table></div>
+          </div>
+        </div>
+        <p class="note">System: go long when RSI(14) is below the scan threshold and volume is at least the scan multiple of its 20-bar average. Fill at the next bar's open, stop and target set in ATR from the signal close, exit early when RSI recovers or the time limit hits. 0.05% fee per side. If stop and target fall inside the same bar, the stop counts. <b>These are hypothetical results and no orders are placed.</b></p>
+      </div>
+
+      <div class="tabpane" id="pane-rp" role="tabpanel" aria-labelledby="tab-rp" hidden>
+        <div class="rp-bar">
+          <button class="btn" id="rpStart" type="button" title="Back to week start">⏮</button>
+          <button class="btn primary" id="rpPlay" type="button">Play</button>
+          <button class="btn" id="rpStep" type="button" title="Next candle">Step ▸</button>
+          <label class="ctl" for="rpSpeed">Speed
+            <select id="rpSpeed"><option value="350">1×</option><option value="120" selected>3×</option><option value="40">10×</option><option value="10">40×</option></select>
+          </label>
+          <div class="prog" aria-hidden="true"><i id="rpProg"></i></div>
+          <button class="btn" id="rpExit" type="button">Exit replay</button>
+        </div>
+        <div class="status" id="rpLabel"></div>
+        <div class="stats" id="rpStats"></div>
+        <div class="tblwrap"><table><thead><tr><th>Entry</th><th>Price</th><th>Exit</th><th>Why</th><th>PnL</th></tr></thead><tbody id="rpTrades"></tbody></table></div>
+        <p class="note">Replay hides every candle after the cursor. Supports, entry zone and signals are recomputed from the bars seen so far, so nothing looks ahead.</p>
+      </div>
+
+      <div class="tabpane" id="pane-ind" role="tabpanel" aria-labelledby="tab-ind" hidden>
+        <div class="indhead">
+          <input id="indReq" type="text" aria-label="Describe an indicator" value="Write me a momentum oscillator that crosses whale activity with price trend">
+          <button class="btn primary" id="indWrite" type="button">Write it with Claude</button>
+          <button class="btn" id="indStop" type="button" hidden>Stop</button>
+        </div>
+        <div class="status" id="indStatus"></div>
+        <div><div class="indname" id="indName">Whale Momentum</div><p class="note" id="indSum">Outsized-volume candles, signed by who won the bar, blended with the EMA 20/50 trend in ATR units. Range ±100.</p></div>
+        <label for="indCode" class="note">Code. This is the body of <span class="mono">function (d, ta)</span>, where d holds the arrays o, h, l, c and v. Return <span class="mono">{ line, signal?, levels? }</span>.</label>
+        <textarea id="indCode" spellcheck="false"></textarea>
+        <div class="row-ctl"><button class="btn" id="indRun" type="button">Run on chart</button><button class="btn" id="indReset" type="button">Reset to Whale Momentum</button></div>
+        <pre class="err" id="indErr"></pre>
+      </div>
+
+      <div class="tabpane" id="pane-pine" role="tabpanel" aria-labelledby="tab-pine" hidden>
+        <p class="note">The same system as a TradingView strategy, using your current thresholds. Open the Pine Editor, paste this, then click <b>Add to chart</b> and check the Strategy Tester.</p>
+        <textarea id="pine" readonly spellcheck="false"></textarea>
+        <div class="row-ctl"><button class="btn primary" id="pineCopy" type="button">Copy Pine Script</button><span class="status" id="pineMsg"></span></div>
+      </div>
+    </section>
+  </div>
+  <p class="foot">Market data: OKX public API, fetched directly or through your TinyFish connector. The demo feed is simulated and contains no real prices. This is not financial advice.</p>
+</div>
+
+<script>
+"use strict";
+const $ = s => document.querySelector(s);
+const isF = Number.isFinite;
+
+/* ---------- technical analysis (shared with the indicator worker) ---------- */
+function makeTA(){
+  const isF = Number.isFinite;
+  const nanArr = n => new Array(n).fill(NaN);
+  function sma(a,n){const o=nanArr(a.length);let s=0,k=0;for(let i=0;i<a.length;i++){const x=a[i];if(isF(x)){s+=x;k++}if(i>=n){const y=a[i-n];if(isF(y)){s-=y;k--}}if(i>=n-1&&k===n)o[i]=s/n}return o}
+  function ema(a,n){const o=nanArr(a.length);const al=2/(n+1);let p=NaN;for(let i=0;i<a.length;i++){const x=a[i];if(!isF(x)){o[i]=p;continue}p=isF(p)?p+al*(x-p):x;o[i]=p}return o}
+  function rsi(a,n=14){const o=nanArr(a.length);let g=0,l=0,k=0;for(let i=1;i<a.length;i++){const d=a[i]-a[i-1];const u=d>0?d:0,w=d<0?-d:0;if(k<n){g+=u;l+=w;k++;if(k===n){g/=n;l/=n;o[i]=l===0?100:100-100/(1+g/l)}}else{g=(g*(n-1)+u)/n;l=(l*(n-1)+w)/n;o[i]=l===0?100:100-100/(1+g/l)}}return o}
+  function atr(d,n=14){const tr=d.c.map((c,i)=>i?Math.max(d.h[i]-d.l[i],Math.abs(d.h[i]-d.c[i-1]),Math.abs(d.l[i]-d.c[i-1])):d.h[i]-d.l[i]);const o=nanArr(tr.length);let s=0;for(let i=0;i<tr.length;i++){if(i<n){s+=tr[i];if(i===n-1){s/=n;o[i]=s}}else{s=(s*(n-1)+tr[i])/n;o[i]=s}}return o}
+  function stdev(a,n){const m=sma(a,n);return a.map((x,i)=>{if(!isF(m[i]))return NaN;let s=0;for(let j=i-n+1;j<=i;j++)s+=(a[j]-m[i])**2;return Math.sqrt(s/n)})}
+  function highest(a,n){return a.map((_,i)=>i<n-1?NaN:Math.max(...a.slice(i-n+1,i+1)))}
+  function lowest(a,n){return a.map((_,i)=>i<n-1?NaN:Math.min(...a.slice(i-n+1,i+1)))}
+  function change(a,n=1){return a.map((x,i)=>i<n?NaN:x-a[i-n])}
+  return {sma,ema,rsi,atr,stdev,highest,lowest,change};
+}
+const ta = makeTA();
+
+/* ---------- state ---------- */
+const S = {
+  source:"demo", via:null, bar:"1H", top:40,
+  rsiBelow:30, volPct:200, within:3, rsiLen:14, volLen:20,
+  stopAtr:1.5, tpAtr:2.5, exitRsi:50, maxBars:48, size:10000, fee:0.05,
+  universe:[], sel:null, view:140, hover:-1,
+  replay:{on:false,start:0,cursor:0,timer:null},
+  osc:null, tab:"bt"
+};
+const BAR_MS = {"15m":9e5,"1H":36e5,"4H":144e5};
+const WEEK_BARS = {"15m":250,"1H":168,"4H":42};
+
+/* ---------- demo feed (simulated, seeded so it is stable for the day) ---------- */
+const DEMO = [["BTC",86600],["ETH",3150],["SOL",142],["XRP",2.05],["DOGE",0.162],["BNB",612],["ADA",0.61],["AVAX",21.4],["LINK",14.2],["TON",3.1],["SUI",2.6],["LTC",88],["DOT",4.1],["TRX",0.27],["BCH",395],["NEAR",2.7],["APT",5.3],["ARB",0.38],["OP",0.71],["INJ",11.8],["FIL",2.9],["ATOM",4.6],["UNI",7.9],["AAVE",168],["ETC",17.6],["HBAR",0.18],["PEPE",0.0000098],["WIF",0.74],["TIA",3.2],["SEI",0.23],["RENDER",3.9],["FET",0.62],["ORDI",8.4],["JUP",0.52],["STX",0.71],["IMX",0.55],["LDO",1.05],["CRV",0.64],["ENA",0.41],["ONDO",0.88],["WLD",1.2],["POL",0.24],["ICP",5.1],["ALGO",0.19],["GALA",0.021],["SAND",0.29],["MANA",0.31],["AXS",3.4],["XLM",0.27],["VET",0.025],["THETA",0.95],["EGLD",18.5],["KAS",0.085],["RUNE",1.4],["PYTH",0.16],["JTO",2.1],["BONK",0.000021],["FLOKI",0.000095],["SHIB",0.0000135],["NOT",0.0024],["W",0.11],["ZRO",2.2],["STRK",0.14],["BLUR",0.12],["DYDX",0.66],["GMX",15.2],["SNX",0.72],["COMP",42],["MKR",1350],["YFI",5200],["SUSHI",0.68],["1INCH",0.26],["ENS",19.5],["APE",0.62],["CHZ",0.041],["EOS",0.58],["NEO",6.2],["IOTA",0.19],["ZIL",0.013],["KSM",16],["CFX",0.09],["MINA",0.31],["ROSE",0.035],["CELO",0.38],["AR",7.1],["GRT",0.11],["LRC",0.12],["MASK",1.6],["OM",0.42],["PENDLE",3.6],["TRB",44],["SSV",8.1],["ACE",0.9],["BOME",0.0021],["MEME",0.0035],["PEOPLE",0.021],["ZETA",0.24],["ALT",0.04],["AEVO",0.13],["ETHFI",1.1]];
+function hash(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return h>>>0}
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function genDemo(sym, base, bar, n=300){
+  const day = Math.floor(Date.now()/864e5);
+  const rnd = mulberry32(hash(sym+"|"+bar+"|"+day));
+  const g = () => {let u=0;while(!u)u=rnd();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*rnd())};
+  const tf = {"15m":0.5,"1H":1,"4H":2}[bar];
+  const baseSig = (sym==="BTC"?0.0045:sym==="ETH"?0.006:0.0085+rnd()*0.004)*tf;
+  const ms = BAR_MS[bar], end = Math.floor(Date.now()/ms)*ms - ms;
+  const events = [];
+  const k = 1+Math.floor(rnd()*3);
+  for(let e=0;e<k;e++) events.push({at:30+Math.floor(rnd()*(n-70)), len:3+Math.floor(rnd()*4), depth:0.05+rnd()*0.09});
+  if(rnd()<0.16){const len=4+Math.floor(rnd()*3);events.push({at:n-len-Math.floor(rnd()*2), len, depth:0.07+rnd()*0.07})}
+  const d = {t:[],o:[],h:[],l:[],c:[],v:[]};
+  let p = base*(0.88+0.24*rnd()), sig = baseSig;
+  const vbase = 1e6*(sym==="BTC"?380:sym==="ETH"?160:4+rnd()*45)*tf;
+  for(let i=0;i<n;i++){
+    const ev = events.find(e=>i>=e.at&&i<e.at+e.len);
+    sig = 0.93*sig + 0.07*baseSig*(0.55+rnd()*0.9);
+    const r = g()*sig + (ev ? -ev.depth/ev.len : 0.00004);
+    const o = p, c = p*Math.exp(r);
+    const h = Math.max(o,c)*Math.exp(Math.abs(g())*sig*0.55);
+    const l = Math.min(o,c)*Math.exp(-Math.abs(g())*sig*0.55 - (ev ? 0.25*ev.depth/ev.len*rnd() : 0));
+    const v = vbase*Math.exp(g()*0.33)*(1+Math.abs(r)/sig*0.2)*(ev ? 2.7+rnd()*2.6 : 1);
+    d.t.push(end-(n-1-i)*ms); d.o.push(o); d.h.push(h); d.l.push(l); d.c.push(c); d.v.push(v);
+    p = c;
+  }
+  return d;
+}
+
+/* ---------- live data: OKX, directly or through the TinyFish connector ---------- */
+let mcpP = null, sampleP = null;
+const getMcp = () => mcpP ??= (window.claude?.use ? window.claude.use("mcp").catch(()=>null) : Promise.resolve(null));
+const getSample = () => sampleP ??= (window.claude?.use ? window.claude.use("sample").catch(()=>null) : Promise.resolve(null));
+
+async function directJSON(url){
+  const ctl = new AbortController(); const t = setTimeout(()=>ctl.abort(), 6000);
+  try{ const r = await fetch(url,{signal:ctl.signal}); if(!r.ok) throw new Error("HTTP "+r.status); return await r.json(); }
+  finally{ clearTimeout(t); }
+}
+function parseFetched(text){
+  try{ return JSON.parse(text); }catch{}
+  try{ return JSON.parse(String(text).replace(/\\_/g,"_")); }catch{}
+  const m = String(text).match(/[\[{][\s\S]*[\]}]/); if(m){ try{ return JSON.parse(m[0].replace(/\\_/g,"_")); }catch{} }
+  return null;
+}
+async function tinyFish(urls){
+  const mcp = await getMcp();
+  if(!mcp) throw {code:"no_mcp"};
+  const r = await mcp.callTool("TinyFish","fetch_content",{urls, format:"markdown", links:false, image_links:false, page_metadata:false, ttl:0});
+  let p = r.payload; if(typeof p==="string") p = parseFetched(p);
+  const out = {};
+  for(const x of (p?.results||[])){ const j = parseFetched(x.text); if(j) out[x.url]=j; }
+  return out;
+}
+function mcpCopy(e){
+  switch(e?.code){
+    case "no_mcp": return "Live data needs this page opened in Claude with the TinyFish connector, or the file opened directly in a browser.";
+    case "server_not_connected": case "selection_required": return "Add the TinyFish connector in claude.ai Settings → Connectors, then try again.";
+    case "needs_reauth": return "Reconnect TinyFish in claude.ai Settings → Connectors, then try again.";
+    case "not_in_manifest": case "consent_required": return "TinyFish is turned off for this page. Allow it from the page's Permissions menu to load live data.";
+    case "blocked_by_policy": case "approval_required": return "Your organization blocks TinyFish for this page.";
+    case "server_unavailable": return "TinyFish didn't answer in time. Try again in a minute.";
+    case "tool_error": return "TinyFish couldn't fetch OKX: "+(e.message||"unknown error");
+    default: return "Couldn't load live data: "+(e?.message||e?.code||e);
+  }
+}
+function okxCandles(json){
+  const rows = (json?.data||[]).slice().reverse().filter(r=>r[8]==="1");
+  const d = {t:[],o:[],h:[],l:[],c:[],v:[]};
+  for(const r of rows){ d.t.push(+r[0]); d.o.push(+r[1]); d.h.push(+r[2]); d.l.push(+r[3]); d.c.push(+r[4]); d.v.push(+r[7]); }
+  return d;
+}
+async function loadLive(){
+  stopReplay();
+  const btn = $("#liveBtn"); btn.disabled = true;
+  setStatus("Fetching the OKX perpetuals list…");
+  const tickUrl = "https://www.okx.com/api/v5/market/tickers?instType=SWAP";
+  let via = null, tick = null;
+  try{ tick = await directJSON(tickUrl); via = "direct"; }catch{}
+  if(!via){
+    try{ const r = await tinyFish([tickUrl]); tick = r[tickUrl]; if(!tick?.data) throw {code:"tool_error",message:"no ticker data came back"}; via = "tinyfish"; }
+    catch(e){ setStatus(mcpCopy(e)); btn.disabled = false; return; }
+  }
+  const list = tick.data.filter(x=>/-USDT-SWAP$/.test(x.instId))
+    .map(x=>({id:x.instId, turnover:(+x.volCcy24h)*(+x.last)}))
+    .sort((a,b)=>b.turnover-a.turnover).slice(0,S.top);
+  const urls = list.map(x=>`https://www.okx.com/api/v5/market/candles?instId=${x.id}&bar=${S.bar}&limit=300`);
+  const got = {};
+  let done = 0;
+  try{
+    if(via==="direct"){
+      for(let i=0;i<urls.length;i+=8){
+        await Promise.all(urls.slice(i,i+8).map(async u=>{ try{ got[u]=await directJSON(u); }catch{} done++; }));
+        setStatus(`Fetched ${done} of ${urls.length} contracts from OKX…`);
+      }
+    }else{
+      const chunks = []; for(let i=0;i<urls.length;i+=10) chunks.push(urls.slice(i,i+10));
+      for(let i=0;i<chunks.length;i+=2){
+        const res = await Promise.all(chunks.slice(i,i+2).map(c=>tinyFish(c)));
+        for(const r of res) Object.assign(got,r);
+        done = Math.min(urls.length,(i+2)*10);
+        setStatus(`Fetched ${done} of ${urls.length} contracts through TinyFish…`);
+      }
+    }
+  }catch(e){ setStatus(mcpCopy(e)); btn.disabled = false; return; }
+  const uni = [];
+  list.forEach((x,i)=>{ const d = okxCandles(got[urls[i]]); if(d.c.length>=80) uni.push({sym:x.id, d}); });
+  btn.disabled = false;
+  if(!uni.length){ setStatus("OKX returned no candles. Try again, or pick another timeframe."); return; }
+  S.source = "live"; S.via = via;
+  setUniverse(uni);
+  setSource();
+  runScan(true, `Loaded ${uni.length} live contracts.`);
+}
+function loadDemo(){
+  stopReplay();
+  S.source = "demo"; S.via = null;
+  setUniverse(DEMO.slice(0,S.top).map(([s,b])=>({sym:s+"-USDT-SWAP", d:genDemo(s,b,S.bar)})));
+  setSource();
+}
+function setSource(){
+  const live = S.source==="live";
+  $("#src").className = "chip "+(live?"live":"demo");
+  $("#srcText").textContent = live ? `Live · OKX ${S.via==="tinyfish"?"via TinyFish":"direct"} · ${S.bar}` : "Demo data (simulated)";
+  $("#demoBtn").hidden = !live;
+  $("#liveBtn").textContent = live ? "Refresh live data" : "Load live OKX data";
+}
+function setUniverse(list){
+  for(const u of list) computeInd(u);
+  S.universe = list;
+  if(!list.find(u=>u.sym===S.sel)) S.sel = list[0]?.sym ?? null;
+}
+function computeInd(u){
+  const d = u.d;
+  const avg = ta.sma(d.v, S.volLen);
+  u.ind = { rsi: ta.rsi(d.c, S.rsiLen), atr: ta.atr(d, 14), vr: d.v.map((v,i)=> i>0 && isF(avg[i-1]) ? v/avg[i-1] : NaN) };
+}
+const cur = () => S.universe.find(u=>u.sym===S.sel);
+
+/* ---------- scanner ---------- */
+function evalSym(u){
+  const {d,ind} = u, n = d.c.length, mult = 1+S.volPct/100;
+  let hit = -1, best = Infinity, rMin = Infinity, vMax = 0;
+  for(let i=n-1;i>=Math.max(0,n-S.within);i--){
+    const r = ind.rsi[i], v = ind.vr[i];
+    if(!isF(r)||!isF(v)) continue;
+    rMin = Math.min(rMin,r); vMax = Math.max(vMax,v);
+    if(r<S.rsiBelow && v>=mult && hit<0) hit = i;
+    best = Math.min(best, Math.max(0,(r-S.rsiBelow)/S.rsiBelow) + Math.max(0,(mult-v)/mult));
+  }
+  u.hit = hit; u.rMin = rMin; u.vMax = vMax;
+  u.status = hit>=0 ? "match" : best<0.3 ? "near" : "none";
+  u.score = hit>=0 ? -1 : best;
+}
+function runScan(selectTop, prefix){
+  const t0 = performance.now();
+  for(const u of S.universe) evalSym(u);
+  S.universe.sort((a,b)=>a.score-b.score);
+  const ms = performance.now()-t0;
+  const k = S.universe.filter(u=>u.status==="match").length;
+  if(selectTop && S.universe.length) S.sel = S.universe[0].sym;
+  $("#countChip").textContent = `${k} of ${S.universe.length} match`;
+  const mult = (1+S.volPct/100);
+  setStatus(`${prefix?prefix+" ":""}Swept <b>${S.universe.length}</b> contracts on ${S.bar} in ${ms<1?"<1":ms.toFixed(0)} ms. <b>${k} found</b> with RSI below ${S.rsiBelow} and volume at least ${fmtX(mult)} its average (+${S.volPct}%) in the last ${S.within} bar${S.within>1?"s":""}.${k?"":" Nothing matches right now; the closest ones are listed first."}`, true);
+  renderTable(); refreshAll();
+}
+function renderTable(){
+  const body = $("#scanBody"); body.textContent = "";
+  for(const u of S.universe){
+    const tr = document.createElement("tr");
+    tr.className = "row"+(u.sym===S.sel?" sel":""); tr.tabIndex = 0;
+    const base = u.sym.replace(/-USDT-SWAP$/,"");
+    const n = u.d.c.length;
+    tr.innerHTML = `<td class="sym"><span class="mk ${u.status}" title="${u.status==="match"?"Match":u.status==="near"?"Near match":"No match"}"></span>${esc(base)}</td><td>${fmtP(u.d.c[n-1])}</td>`+
+      `<td class="${u.rMin<S.rsiBelow?"hot":""}">${isF(u.rMin)?u.rMin.toFixed(1):"–"}</td>`+
+      `<td class="${u.vMax>=1+S.volPct/100?"hot":""}">${isF(u.vMax)?u.vMax.toFixed(1)+"×":"–"}</td>`;
+    const pick = () => { stopReplay(); S.sel = u.sym; renderTable(); refreshAll(); };
+    tr.addEventListener("click", pick);
+    tr.addEventListener("keydown", e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); pick(); } });
+    body.appendChild(tr);
+  }
+}
+
+/* ---------- support / resistance and entry zone (only uses bars up to `end`) ---------- */
+function levels(u, end){
+  const {d,ind} = u, w = 4, piv = [];
+  for(let i=Math.max(w,end-220);i<=end-w;i++){
+    let lo = true, hi = true;
+    for(let k=1;k<=w;k++){ if(d.l[i]>d.l[i-k]||d.l[i]>d.l[i+k]) lo=false; if(d.h[i]<d.h[i-k]||d.h[i]<d.h[i+k]) hi=false; }
+    if(lo) piv.push({p:d.l[i],i}); if(hi) piv.push({p:d.h[i],i});
+  }
+  const a = ind.atr[end] || (d.h[end]-d.l[end]);
+  piv.sort((x,y)=>x.p-y.p);
+  const cl = [];
+  for(const pv of piv){ const last = cl[cl.length-1]; if(last && pv.p-last.hi <= a*0.6){ last.sum+=pv.p; last.n++; last.hi=pv.p; last.first=Math.min(last.first,pv.i); } else cl.push({sum:pv.p,n:1,hi:pv.p,first:pv.i}); }
+  const price = d.c[end];
+  const lv = cl.map(c=>({p:c.sum/c.n, n:c.n, first:c.first}));
+  const sup = lv.filter(x=>x.p<price).sort((x,y)=>y.p-x.p).slice(0,3);
+  const res = lv.filter(x=>x.p>price).sort((x,y)=>x.p-y.p).slice(0,2);
+  let zone = sup[0] ? {lo:sup[0].p-0.25*a, hi:sup[0].p+0.35*a, src:"support"} : null;
+  if(!zone || price-zone.hi > 3*a){
+    // no support close below: mark the capitulation low itself
+    let low = Infinity; for(let i=Math.max(0,end-5);i<=end;i++) low = Math.min(low,d.l[i]);
+    zone = {lo:low-0.3*a, hi:low+0.25*a, src:"low"};
+  }
+  return {sup,res,zone};
+}
+
+/* ---------- backtest ---------- */
+function backtest(u, from, to){
+  const {d,ind} = u, mult = 1+S.volPct/100, trades = [];
+  let pos = null, pend = null;
+  from = Math.max(from, S.rsiLen+S.volLen);
+  for(let i=from;i<=to;i++){
+    if(pend && !pos){ pos = {si:pend.si, ei:i, entry:d.o[i], stop:pend.stop, tp:pend.tp}; pend = null; }
+    if(pos){
+      let ex = null, why = "";
+      if(d.l[i]<=pos.stop){ ex = Math.min(pos.stop, d.o[i]); why = "Stop"; }
+      else if(d.h[i]>=pos.tp){ ex = i>pos.ei ? Math.max(pos.tp, d.o[i]) : pos.tp; why = "Target"; }
+      else if(ind.rsi[i]>=S.exitRsi){ ex = d.c[i]; why = "RSI exit"; }
+      else if(i-pos.ei>=S.maxBars){ ex = d.c[i]; why = "Time"; }
+      if(ex!==null){ trades.push(closeTrade(pos,i,ex,why)); pos = null; }
+    }
+    if(!pos && !pend && ind.rsi[i]<S.rsiBelow && ind.vr[i]>=mult && isF(ind.atr[i])){
+      pend = {si:i, stop:d.c[i]-S.stopAtr*ind.atr[i], tp:d.c[i]+S.tpAtr*ind.atr[i]};
+    }
+  }
+  const open = pos ? {...pos, mark:d.c[to], pnl:pnlOf(pos.entry,d.c[to])} : null;
+  return {trades, open, pend};
+}
+function pnlOf(entry, exit){ return S.size*(exit/entry-1) - S.size*S.fee/100*(1+exit/entry); }
+function closeTrade(pos, xi, ex, why){ return {...pos, xi, exit:ex, why, pnl:pnlOf(pos.entry,ex)}; }
+function statsOf(trades, open){
+  const n = trades.length, wins = trades.filter(t=>t.pnl>0).length;
+  const pnl = trades.reduce((s,t)=>s+t.pnl,0);
+  const gw = trades.filter(t=>t.pnl>0).reduce((s,t)=>s+t.pnl,0), gl = -trades.filter(t=>t.pnl<=0).reduce((s,t)=>s+t.pnl,0);
+  let eq = 0, peak = 0, dd = 0; for(const t of trades){ eq+=t.pnl; peak=Math.max(peak,eq); dd=Math.max(dd,peak-eq); }
+  return {n, wins, hit:n?wins/n:NaN, pnl, pf: gl>0 ? gw/gl : (gw>0?Infinity:NaN), dd, open:open?.pnl ?? 0};
+}
+function statTiles(el, st, extra, drop){
+  const tiles = [
+    ["Trades", st.n],
+    ["Hit rate", isF(st.hit)?(st.hit*100).toFixed(0)+"%":"–"],
+    ["Net PnL", `<span class="${st.pnl>=0?"up":"down"}">${fmtUsd(st.pnl)}</span>`],
+    ["Profit factor", st.pf===Infinity?"∞":isF(st.pf)?st.pf.toFixed(2):"–"],
+    ["Max drawdown", st.n?`<span class="down">${fmtUsd(-st.dd)}</span>`:"–"],
+    ["Avg trade", st.n?`<span class="${st.pnl>=0?"up":"down"}">${fmtUsd(st.pnl/st.n)}</span>`:"–"],
+    ...(extra||[])
+  ].filter(x=>!(drop||[]).includes(x[0])).slice(0,6);
+  el.innerHTML = tiles.map(([k,v])=>`<div class="stat"><span>${k}</span><b>${v}</b></div>`).join("");
+}
+function tradeRows(el, u, res){
+  const {d} = u;
+  const rows = res.trades.slice().reverse().map(t=>`<tr><td>${fmtT(d.t[t.ei])}</td><td>${fmtP(t.entry)}</td><td>${fmtP(t.exit)}</td><td style="font-family:var(--f-body)">${t.why}</td><td class="${t.pnl>=0?"up":"down"}">${fmtUsd(t.pnl)}</td></tr>`);
+  if(res.open) rows.unshift(`<tr><td>${fmtT(d.t[res.open.ei])}</td><td>${fmtP(res.open.entry)}</td><td>${fmtP(res.open.mark)}</td><td style="font-family:var(--f-body)">Open</td><td class="${res.open.pnl>=0?"up":"down"}">${fmtUsd(res.open.pnl)}</td></tr>`);
+  el.innerHTML = rows.join("") || `<tr><td colspan="5" style="text-align:left;font-family:var(--f-body);color:var(--mute)">No signals in this window. Loosen the RSI or volume threshold to see trades.</td></tr>`;
+}
+function renderBacktest(){
+  const u = cur(); if(!u) return;
+  const res = backtest(u, 0, u.d.c.length-1); u.bt = res;
+  $("#btSymTitle").textContent = `${u.sym.replace(/-USDT-SWAP$/,"")} · ${u.d.c.length} bars`;
+  statTiles($("#btSym"), statsOf(res.trades,res.open));
+  tradeRows($("#btTrades"), u, res);
+  const all = []; const per = [];
+  for(const x of S.universe){ const r = backtest(x,0,x.d.c.length-1); all.push(...r.trades); const s = statsOf(r.trades); if(s.n) per.push({sym:x.sym,...s}); }
+  statTiles($("#btAll"), statsOf(all), [["Contracts traded", per.length]], ["Avg trade"]);
+  per.sort((a,b)=>b.pnl-a.pnl);
+  const pick = per.length>8 ? [...per.slice(0,4), ...per.slice(-4)] : per;
+  $("#btRank").innerHTML = pick.map(p=>`<tr><td class="sym">${esc(p.sym.replace(/-USDT-SWAP$/,""))}</td><td>${p.n}</td><td>${(p.hit*100).toFixed(0)}%</td><td class="${p.pnl>=0?"up":"down"}">${fmtUsd(p.pnl)}</td></tr>`).join("")
+    || `<tr><td colspan="4" style="text-align:left;font-family:var(--f-body);color:var(--mute)">No contract produced a signal with these thresholds.</td></tr>`;
+}
+
+/* ---------- replay ---------- */
+function startReplay(autoplay){
+  const u = cur(); if(!u) return;
+  const n = u.d.c.length, wk = Math.min(WEEK_BARS[S.bar], n-60);
+  S.replay.on = true; S.replay.start = n-wk; S.replay.cursor = n-wk;
+  setTab("rp"); renderReplay(); draw();
+  if(autoplay) playReplay();
+}
+function playReplay(){
+  if(!S.replay.on) startReplay(false);
+  const u = cur(); if(!u) return;
+  if(S.replay.cursor>=u.d.c.length-1) S.replay.cursor = S.replay.start;
+  clearInterval(S.replay.timer);
+  S.replay.timer = setInterval(stepReplay, +$("#rpSpeed").value);
+  $("#rpPlay").textContent = "Pause";
+}
+function pauseReplay(){ clearInterval(S.replay.timer); S.replay.timer = null; $("#rpPlay").textContent = "Play"; }
+function stepReplay(){
+  const u = cur(); if(!u||!S.replay.on) return;
+  if(S.replay.cursor<u.d.c.length-1) S.replay.cursor++;
+  if(S.replay.cursor>=u.d.c.length-1) pauseReplay();
+  renderReplay(); draw();
+}
+function stopReplay(){ pauseReplay(); if(S.replay.on){ S.replay.on = false; draw(); renderReadout(); } $("#rpLabel").textContent = ""; }
+function renderReplay(){
+  const u = cur(); if(!u) return;
+  if(!S.replay.on){
+    $("#rpLabel").innerHTML = `Press <b>Play</b> to replay the last ${Math.min(WEEK_BARS[S.bar],u.d.c.length-60)} candles of ${esc(u.sym.replace(/-USDT-SWAP$/,""))} one at a time.`;
+    $("#rpStats").innerHTML = ""; $("#rpTrades").innerHTML = ""; $("#rpProg").style.width = "0"; return;
+  }
+  const {start,cursor} = S.replay, n = u.d.c.length;
+  const res = backtest(u, start, cursor); u.rp = res;
+  const st = statsOf(res.trades, res.open);
+  $("#rpProg").style.width = ((cursor-start)/(n-1-start)*100).toFixed(1)+"%";
+  $("#rpLabel").innerHTML = `Replaying <b>${esc(u.sym.replace(/-USDT-SWAP$/,""))}</b> ${fmtT(u.d.t[start])} → ${fmtT(u.d.t[n-1])} · candle ${cursor-start+1} of ${n-start} · now at <b>${fmtT(u.d.t[cursor])}</b>${res.pend?" · <b class=\"hot\">signal, entering next candle</b>":""}`;
+  statTiles($("#rpStats"), st, [["Open position", res.open?`<span class="${res.open.pnl>=0?"up":"down"}">${fmtUsd(res.open.pnl)}</span>`:"–"], ["Total incl. open", `<span class="${st.pnl+st.open>=0?"up":"down"}">${fmtUsd(st.pnl+st.open)}</span>`]], ["Profit factor","Avg trade"]);
+  tradeRows($("#rpTrades"), u, res);
+  renderReadout();
+}
+
+/* ---------- indicator (runs in a worker with a time limit) ---------- */
+const DEFAULT_IND = {
+  name:"Whale Momentum",
+  summary:"Outsized-volume candles, signed by who won the bar, blended with the EMA 20/50 trend in ATR units. Range ±100.",
+  code:`// Whale activity: candles with volume well above normal, signed by who won the bar
+const vAvg = ta.sma(d.v, 50);
+const flow = d.c.map((c, i) => {
+  const range = d.h[i] - d.l[i] || 1e-12;
+  const body = (c - d.o[i]) / range;                       // -1..1
+  const heavy = Math.max(0, d.v[i] / (vAvg[i] || d.v[i]) - 1.5);
+  return body * heavy;
+});
+const whale = ta.ema(flow, 10);
+
+// Price trend: EMA 20 vs EMA 50, measured in ATRs
+const a = ta.atr(d, 14);
+const fast = ta.ema(d.c, 20), slow = ta.ema(d.c, 50);
+const trend = fast.map((f, i) => (f - slow[i]) / (a[i] || 1));
+
+// Cross the two and squash to ±100
+const line = whale.map((w, i) => 100 * Math.tanh(0.8 * w + 0.35 * trend[i]));
+return { line, signal: ta.ema(line, 9), levels: [0] };`
+};
+const WORKER_SRC = `const ta=(${makeTA.toString()})();
+onmessage=e=>{try{const f=new Function("d","ta",e.data.code);let r=f(e.data.d,ta);if(Array.isArray(r))r={line:r};
+if(!r||!r.line)throw new Error("Return { line: number[] } (same length as d.c).");
+postMessage({ok:true,r:{line:Array.from(r.line,Number),signal:r.signal?Array.from(r.signal,Number):null,levels:Array.isArray(r.levels)?r.levels.map(Number).filter(Number.isFinite):[]}})}
+catch(err){postMessage({ok:false,err:String(err&&err.message||err)})}}`;
+let workerUrl = null;
+function runIndicator(){
+  const u = cur(); if(!u) return;
+  const code = $("#indCode").value;
+  $("#indErr").textContent = "";
+  try{ workerUrl ??= URL.createObjectURL(new Blob([WORKER_SRC],{type:"text/javascript"})); }catch(e){ $("#indErr").textContent = "This browser can't run indicator code here."; return; }
+  const w = new Worker(workerUrl);
+  const sym = u.sym;
+  const t = setTimeout(()=>{ w.terminate(); $("#indErr").textContent = "The indicator took longer than 3 seconds and was stopped."; }, 3000);
+  w.onmessage = e => {
+    clearTimeout(t); w.terminate();
+    if(!e.data.ok){ $("#indErr").textContent = "Error: "+e.data.err; return; }
+    const r = e.data.r;
+    if(r.line.length!==u.d.c.length){ $("#indErr").textContent = `The line has ${r.line.length} values but there are ${u.d.c.length} candles.`; return; }
+    if(cur()?.sym!==sym) return;
+    S.osc = {sym, name:$("#indName").textContent, ...r};
+    draw();
+  };
+  w.onerror = e => { clearTimeout(t); w.terminate(); $("#indErr").textContent = "Error: "+(e.message||"the code didn't run"); e.preventDefault?.(); };
+  w.postMessage({code, d:{o:u.d.o,h:u.d.h,l:u.d.l,c:u.d.c,v:u.d.v,t:u.d.t}});
+}
+let indCtl = null;
+async function writeIndicator(){
+  const req = $("#indReq").value.trim(); if(!req) return;
+  const sample = await getSample();
+  if(!sample){
+    $("#indStatus").innerHTML = "Writing new indicators needs Claude, which isn't available in this view. The Whale Momentum preset matches the example request; edit its code below.";
+    return;
+  }
+  indCtl?.abort(); indCtl = new AbortController();
+  $("#indWrite").disabled = true; $("#indStop").hidden = false;
+  $("#indStatus").textContent = "Claude is writing the indicator…";
+  const prompt = `Write a technical indicator for a crypto price chart as the BODY of a JavaScript function with parameters (d, ta).
+d has arrays of equal length, oldest first: d.o, d.h, d.l, d.c (prices), d.v (volume in USDT), d.t (ms timestamps).
+ta has helpers that return arrays of the same length with NaN during warm-up: ta.sma(arr,n), ta.ema(arr,n), ta.rsi(arr,n), ta.atr(d,n), ta.stdev(arr,n), ta.highest(arr,n), ta.lowest(arr,n), ta.change(arr,n).
+The body must return { line: number[], signal: number[] (optional), levels: number[] (optional horizontal reference lines) } with line the same length as d.c. Plain JavaScript only: no imports, no network, no DOM, no async. Keep it under 40 lines with short comments.
+Reply with only JSON: {"name": "short indicator name", "summary": "one sentence on what it measures and how to read it", "code": "the function body"}
+Request: ${req}`;
+  try{
+    const out = await sample.json(prompt, {signal:indCtl.signal});
+    if(!out || typeof out.code!=="string") throw {code:"invalid_json"};
+    $("#indName").textContent = String(out.name||"Custom indicator").slice(0,60);
+    $("#indSum").textContent = String(out.summary||"");
+    $("#indCode").value = out.code;
+    $("#indStatus").textContent = "Done. Running it on the chart.";
+    runIndicator();
+  }catch(e){
+    const msg = {cancelled:"Stopped.", not_granted:"Claude isn't allowed for this page, so the preset stays.", sampling_disabled:"Claude isn't available for this account.", rate_limited:"Too many requests just now. Try again in a minute.", invalid_json:"Claude's answer couldn't be read as an indicator. Try again or rephrase.", refused:"Claude declined that request. Try describing it differently."}[e?.code];
+    $("#indStatus").textContent = msg || "Couldn't write the indicator. Try again.";
+  }finally{ $("#indWrite").disabled = false; $("#indStop").hidden = true; }
+}
+
+/* ---------- Pine Script export ---------- */
+function renderPine(){
+  const mult = (1+S.volPct/100).toFixed(2);
+  $("#pine").value = `//@version=5
+strategy("Capitulation scan: RSI < ${S.rsiBelow} and volume +${S.volPct}%", overlay=true, initial_capital=${S.size}, default_qty_type=strategy.cash, default_qty_value=${S.size}, commission_type=strategy.commission.percent, commission_value=${S.fee})
+
+rsiLen   = input.int(${S.rsiLen}, "RSI length")
+rsiBelow = input.float(${S.rsiBelow}, "RSI below")
+volMult  = input.float(${mult}, "Volume at least x average")
+volLen   = input.int(${S.volLen}, "Volume average length")
+stopAtr  = input.float(${S.stopAtr}, "Stop (ATR)")
+tpAtr    = input.float(${S.tpAtr}, "Target (ATR)")
+exitRsi  = input.float(${S.exitRsi}, "Exit when RSI reaches")
+maxBars  = input.int(${S.maxBars}, "Max bars in trade")
+
+r      = ta.rsi(close, rsiLen)
+volAvg = ta.sma(volume, volLen)[1]
+a      = ta.atr(14)
+sig    = r < rsiBelow and volume >= volMult * volAvg
+
+var float stopPx = na
+var float tpPx   = na
+var int   entryBar = na
+
+if sig and strategy.position_size == 0
+    strategy.entry("Long", strategy.long)
+    stopPx   := close - stopAtr * a
+    tpPx     := close + tpAtr * a
+    entryBar := bar_index + 1
+
+if strategy.position_size > 0
+    strategy.exit("Stop/Target", "Long", stop=stopPx, limit=tpPx)
+    if r >= exitRsi or bar_index - entryBar >= maxBars
+        strategy.close("Long", comment="RSI/Time")
+
+plotshape(sig, "Signal", shape.triangleup, location.belowbar, color.new(color.orange, 0), size=size.tiny)
+bgcolor(sig ? color.new(color.orange, 88) : na)
+`;
+}
+
+/* ---------- chart ---------- */
+function tok(name){ return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+function draw(){
+  const cv = $("#chart"), u = cur();
+  const W = cv.clientWidth, H = cv.clientHeight; if(!W||!H) return;
+  const dpr = window.devicePixelRatio||1;
+  cv.width = Math.round(W*dpr); cv.height = Math.round(H*dpr);
+  const ctx = cv.getContext("2d"); ctx.setTransform(dpr,0,0,dpr,0,0); ctx.clearRect(0,0,W,H);
+  const C = {ink:tok("--ink"), mute:tok("--mute"), line:tok("--line"), acc:tok("--accent"), up:tok("--up"), dn:tok("--down"), zone:tok("--zone"), panel:tok("--panel")};
+  const mono = `11px ${tok("--f-mono")}`;
+  if(!u){ ctx.fillStyle=C.mute; ctx.font=mono; ctx.fillText("No data loaded.",12,24); return; }
+  const {d,ind} = u, n = d.c.length;
+  const end = S.replay.on ? S.replay.cursor : n-1;
+  const view = W<560 ? Math.min(S.view, 80) : S.view;
+  const start = Math.max(0, end-view+1);
+  const padL = 8, padR = 66, axisH = 18;
+  const plotW = W-padL-padR, slot = plotW/view;
+  const gap = 8, priceH = Math.round((H-axisH)*0.58), rsiH = Math.round((H-axisH)*0.19), oscH = H-axisH-priceH-rsiH-gap*2;
+  const pTop = 6, rTop = pTop+priceH+gap, oTop = rTop+rsiH+gap;
+  const X = i => padL + (i-start+0.5)*slot;
+  const lv = levels(u, end);
+  const mult = 1+S.volPct/100;
+
+  // price range
+  let lo = Infinity, hi = -Infinity;
+  for(let i=start;i<=end;i++){ lo=Math.min(lo,d.l[i]); hi=Math.max(hi,d.h[i]); }
+  for(const s of [...lv.sup,...lv.res]) if(s.p>lo-(hi-lo)*0.25 && s.p<hi+(hi-lo)*0.25){ lo=Math.min(lo,s.p); hi=Math.max(hi,s.p); }
+  if(lv.zone){ lo=Math.min(lo,lv.zone.lo); }
+  const padP = (hi-lo)*0.06||hi*0.01; lo-=padP; hi+=padP;
+  const volH = priceH*0.2;
+  const Y = p => pTop + (hi-p)/(hi-lo)*(priceH-volH*0.35);
+
+  // pane frames + grid
+  ctx.lineWidth = 1; ctx.strokeStyle = C.line; ctx.font = mono; ctx.textBaseline = "middle";
+  for(const [top,h] of [[pTop,priceH],[rTop,rsiH],[oTop,oscH]]){ ctx.strokeRect(padL+0.5, top+0.5, plotW, h); }
+  ctx.fillStyle = C.mute;
+  for(let k=0;k<=4;k++){
+    const p = lo + (hi-lo)*k/4, y = Math.round(Y(p))+0.5;
+    if(y<pTop+6||y>pTop+priceH-4) continue;
+    ctx.globalAlpha = .5; ctx.beginPath(); ctx.moveTo(padL,y); ctx.lineTo(padL+plotW,y); ctx.stroke(); ctx.globalAlpha = 1;
+    ctx.fillText(fmtP(p), padL+plotW+6, y);
+  }
+
+  // volume
+  let vmax = 0; for(let i=start;i<=end;i++) vmax = Math.max(vmax,d.v[i]);
+  for(let i=start;i<=end;i++){
+    const h = d.v[i]/vmax*volH, x = X(i);
+    ctx.fillStyle = ind.vr[i]>=mult ? C.acc : (d.c[i]>=d.o[i]?C.up:C.dn);
+    ctx.globalAlpha = ind.vr[i]>=mult ? .55 : .2;
+    ctx.fillRect(x-slot*0.35, pTop+priceH-h, Math.max(1,slot*0.7), h);
+  }
+  ctx.globalAlpha = 1;
+
+  // entry zone
+  if(lv.zone){
+    const y1 = Y(lv.zone.hi), y2 = Y(lv.zone.lo), x1 = X(Math.max(start,end-Math.round(view*0.22)));
+    ctx.fillStyle = C.zone; ctx.fillRect(x1, y1, padL+plotW-x1, y2-y1);
+    ctx.setLineDash([4,3]); ctx.strokeStyle = C.acc; ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(padL+plotW,y1); ctx.moveTo(x1,y2); ctx.lineTo(padL+plotW,y2); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle = C.acc; ctx.textAlign = "left"; ctx.fillText(lv.zone.src==="low"?"ENTRY ZONE · CAPITULATION LOW":"ENTRY ZONE · S1", x1+4, Math.max(pTop+8,y1-8));
+  }
+  // levels
+  const drawLevel = (lvl, col, tag) => {
+    const y = Math.round(Y(lvl.p))+0.5; if(y<pTop||y>pTop+priceH) return;
+    ctx.strokeStyle = col; ctx.lineWidth = Math.min(2.5, 0.8+lvl.n*0.45); ctx.setLineDash([6,4]);
+    ctx.beginPath(); ctx.moveTo(Math.max(padL, X(Math.max(start,lvl.first))), y); ctx.lineTo(padL+plotW, y); ctx.stroke(); ctx.setLineDash([]); ctx.lineWidth = 1;
+    const label = `${tag} ${fmtP(lvl.p)}${lvl.n>1?" ×"+lvl.n:""}`;
+    ctx.font = mono; const tw = ctx.measureText(label).width;
+    ctx.fillStyle = C.panel; ctx.fillRect(padL+plotW-tw-10, y-8, tw+8, 16);
+    ctx.fillStyle = col; ctx.textAlign = "left"; ctx.fillText(label, padL+plotW-tw-6, y);
+  };
+  lv.sup.forEach((s,k)=>drawLevel(s, C.up, "S"+(k+1)));
+  lv.res.forEach((s,k)=>drawLevel(s, C.dn, "R"+(k+1)));
+
+  // candles
+  for(let i=start;i<=end;i++){
+    const x = Math.round(X(i))+0.5, upc = d.c[i]>=d.o[i], col = upc?C.up:C.dn;
+    ctx.strokeStyle = col; ctx.fillStyle = col;
+    ctx.beginPath(); ctx.moveTo(x, Y(d.h[i])); ctx.lineTo(x, Y(d.l[i])); ctx.stroke();
+    const y1 = Y(Math.max(d.o[i],d.c[i])), y2 = Y(Math.min(d.o[i],d.c[i]));
+    const bw = Math.max(1, slot*0.62);
+    ctx.fillRect(x-bw/2, y1, bw, Math.max(1,y2-y1));
+  }
+  // last price tag
+  { const y = Y(d.c[end]); const lbl = fmtP(d.c[end]); ctx.fillStyle = d.c[end]>=d.o[end]?C.up:C.dn; ctx.fillRect(padL+plotW+1, y-9, padR-2, 18); ctx.fillStyle = C.panel; ctx.textAlign = "left"; ctx.fillText(lbl, padL+plotW+5, y); }
+
+  // trades
+  const res = S.replay.on ? backtest(u, S.replay.start, end) : backtest(u, 0, end);
+  const all = [...res.trades, ...(res.open?[{...res.open, xi:null}]:[])];
+  for(const t of all){
+    if(t.ei<start && (t.xi??end)<start) continue;
+    const xe = X(t.ei), ye = Y(d.l[t.ei]) + 12;
+    if(t.ei>=start){
+      ctx.fillStyle = C.acc; ctx.beginPath(); ctx.moveTo(xe, ye-8); ctx.lineTo(xe-6, ye+3); ctx.lineTo(xe+6, ye+3); ctx.closePath(); ctx.fill();
+    }
+    const xx = t.xi!=null ? X(t.xi) : X(end), yy = Y(t.xi!=null ? t.exit : d.c[end]);
+    ctx.strokeStyle = t.pnl>=0 ? C.up : C.dn; ctx.setLineDash([3,3]);
+    ctx.beginPath(); ctx.moveTo(Math.max(padL,xe), Y(t.entry)); ctx.lineTo(xx, yy); ctx.stroke(); ctx.setLineDash([]);
+    if(t.xi!=null && t.xi>=start){ ctx.fillStyle = t.pnl>=0?C.up:C.dn; ctx.beginPath(); ctx.arc(xx, yy, 3.5, 0, 7); ctx.fill(); }
+  }
+  // replay boundary
+  if(S.replay.on && S.replay.start>=start){
+    const x = Math.round(X(S.replay.start)-slot/2)+0.5;
+    ctx.strokeStyle = C.acc; ctx.globalAlpha = .7; ctx.setLineDash([2,3]); ctx.beginPath(); ctx.moveTo(x,pTop); ctx.lineTo(x,oTop+oscH); ctx.stroke(); ctx.setLineDash([]); ctx.globalAlpha = 1;
+    ctx.fillStyle = C.acc; ctx.textAlign = "left"; ctx.fillText("REPLAY START", x+4, pTop+10);
+  }
+
+  // RSI pane
+  const RY = v => rTop + (100-v)/100*rsiH;
+  ctx.fillStyle = C.zone; ctx.fillRect(padL, RY(S.rsiBelow), plotW, rTop+rsiH-RY(S.rsiBelow));
+  for(const [v,dash] of [[70,[2,4]],[S.rsiBelow,[5,3]]]){ ctx.strokeStyle = v===70?C.mute:C.acc; ctx.globalAlpha = v===70?.5:.9; ctx.setLineDash(dash); ctx.beginPath(); ctx.moveTo(padL,RY(v)); ctx.lineTo(padL+plotW,RY(v)); ctx.stroke(); }
+  ctx.setLineDash([]); ctx.globalAlpha = 1;
+  plotLine(ctx, ind.rsi, start, end, X, RY, C.ink, 1.3);
+  for(let i=start;i<=end;i++) if(ind.rsi[i]<S.rsiBelow && ind.vr[i]>=mult){ ctx.fillStyle = C.acc; ctx.beginPath(); ctx.arc(X(i), rTop+rsiH-5, 2.5, 0, 7); ctx.fill(); }
+  ctx.fillStyle = C.mute; ctx.textAlign = "left"; ctx.fillText(`RSI ${S.rsiLen}  ${isF(ind.rsi[end])?ind.rsi[end].toFixed(1):"–"}`, padL+6, rTop+10);
+  ctx.fillText(String(S.rsiBelow), padL+plotW+6, RY(S.rsiBelow)); ctx.fillText("70", padL+plotW+6, RY(70));
+
+  // oscillator pane
+  const osc = S.osc && S.osc.sym===u.sym ? S.osc : null;
+  if(osc){
+    let a = Infinity, b = -Infinity;
+    for(let i=start;i<=end;i++){ for(const arr of [osc.line, osc.signal]){ const v = arr?.[i]; if(isF(v)){ a=Math.min(a,v); b=Math.max(b,v); } } }
+    for(const l of osc.levels) { a=Math.min(a,l); b=Math.max(b,l); }
+    if(!isF(a)){ a=-1; b=1; } if(a===b){ a-=1; b+=1; }
+    const pad = (b-a)*0.08; a-=pad; b+=pad;
+    const OY = v => oTop + (b-v)/(b-a)*oscH;
+    for(const l of osc.levels){ ctx.strokeStyle = C.mute; ctx.globalAlpha = .6; ctx.setLineDash([2,4]); ctx.beginPath(); ctx.moveTo(padL,OY(l)); ctx.lineTo(padL+plotW,OY(l)); ctx.stroke(); ctx.setLineDash([]); ctx.globalAlpha = 1; }
+    if(osc.signal) plotLine(ctx, osc.signal, start, end, X, OY, C.mute, 1);
+    plotLine(ctx, osc.line, start, end, X, OY, C.acc, 1.5);
+    ctx.fillStyle = C.mute; ctx.textAlign = "left";
+    const lastV = osc.line[end];
+    ctx.fillText(`${osc.name}  ${isF(lastV)?(+lastV).toFixed(2):"–"}`, padL+6, oTop+10);
+    ctx.fillText(fmtNum(b-pad), padL+plotW+6, oTop+8); ctx.fillText(fmtNum(a+pad), padL+plotW+6, oTop+oscH-8);
+  }else{
+    ctx.fillStyle = C.mute; ctx.textAlign = "left"; ctx.fillText("Indicator pane: open the Indicator tab", padL+6, oTop+oscH/2);
+  }
+
+  // time axis
+  ctx.fillStyle = C.mute; ctx.textAlign = "center";
+  const every = Math.max(1, Math.round(110/slot));
+  for(let i=start;i<=end;i+=every){ const x = X(i); if(x<padL+30||x>padL+plotW-30) continue; ctx.fillText(fmtT(d.t[i], true), x, H-axisH/2); }
+
+  // crosshair
+  if(S.hover>=start && S.hover<=end){
+    const x = Math.round(X(S.hover))+0.5;
+    ctx.strokeStyle = C.mute; ctx.globalAlpha = .6; ctx.setLineDash([3,3]); ctx.beginPath(); ctx.moveTo(x,pTop); ctx.lineTo(x,oTop+oscH); ctx.stroke(); ctx.setLineDash([]); ctx.globalAlpha = 1;
+  }
+  draw.geom = {start, end, X, slot, padL};
+}
+function plotLine(ctx, arr, s, e, X, Yf, col, w){
+  ctx.strokeStyle = col; ctx.lineWidth = w; ctx.beginPath(); let on = false;
+  for(let i=s;i<=e;i++){ const v = arr[i]; if(!isF(v)){ on=false; continue; } const x = X(i), y = Yf(v); if(on) ctx.lineTo(x,y); else { ctx.moveTo(x,y); on = true; } }
+  ctx.stroke(); ctx.lineWidth = 1;
+}
+function renderReadout(){
+  const u = cur(); if(!u){ $("#readout").textContent = ""; return; }
+  const {d,ind} = u, n = d.c.length;
+  const end = S.replay.on ? S.replay.cursor : n-1;
+  const i = S.hover>=0 && S.hover<=end ? S.hover : end;
+  const per = Math.round(864e5/BAR_MS[S.bar]);
+  const ref = d.c[Math.max(0,i-per)], chg = d.c[i]/ref-1;
+  const lv = levels(u, end);
+  $("#readout").innerHTML =
+    `<span class="name">${esc(u.sym.replace(/-USDT-SWAP$/,""))}<span class="kv"> USDT perp · ${S.bar}</span></span>`+
+    `<span class="px">${fmtP(d.c[i])}</span>`+
+    `<span class="kv">24h <b class="${chg>=0?"up":"down"}">${(chg*100).toFixed(2)}%</b></span>`+
+    `<span class="kv">O <b>${fmtP(d.o[i])}</b> H <b>${fmtP(d.h[i])}</b> L <b>${fmtP(d.l[i])}</b></span>`+
+    `<span class="kv">RSI <b class="${ind.rsi[i]<S.rsiBelow?"hot":""}">${isF(ind.rsi[i])?ind.rsi[i].toFixed(1):"–"}</b></span>`+
+    `<span class="kv">Vol <b class="${ind.vr[i]>=1+S.volPct/100?"hot":""}">${isF(ind.vr[i])?ind.vr[i].toFixed(1)+"×":"–"}</b></span>`+
+    (lv.zone?`<span class="kv">Entry zone <b>${fmtP(lv.zone.lo)} to ${fmtP(lv.zone.hi)}</b></span>`:"")+
+    `<span class="kv">${fmtT(d.t[i])}</span>`;
+}
+
+/* ---------- commands ---------- */
+function parseLocal(q){
+  const s = q.toLowerCase(), out = {};
+  if(/replay/.test(s)) out.intent = "replay";
+  else if(/(indicator|oscillator|write me|script for)/.test(s)) { out.intent = "indicator"; out.indicatorRequest = q; }
+  else if(/backtest/.test(s) && !/rsi|volume/.test(s)) out.intent = "backtest";
+  let m = s.match(/rsi[^0-9]{0,24}?(?:below|under|<|less than|lower than)\s*(\d+(?:\.\d+)?)/);
+  if(m){ out.rsiBelow = +m[1]; out.intent ??= "scan"; }
+  m = s.match(/(?:volume|vol)[^0-9%x×]{0,20}?\+?\s*(\d+(?:\.\d+)?)\s*%/) || s.match(/\+\s*(\d+(?:\.\d+)?)\s*%\s*(?:volume|vol)/);
+  if(m){ out.volPct = +m[1]; out.intent ??= "scan"; }
+  m = s.match(/(\d+(?:\.\d+)?)\s*(?:x|×|times)\s*(?:the\s*)?(?:average\s*)?(?:volume|vol)/) || s.match(/(?:volume|vol)\s*(?:of\s*)?(\d+(?:\.\d+)?)\s*(?:x|×)/);
+  if(m){ out.volPct = Math.round((+m[1]-1)*100); out.intent ??= "scan"; }
+  m = s.match(/\b(15\s?m(?:in)?|1\s?h|hourly|4\s?h)\b/);
+  if(m){ const t = m[1].replace(/\s/g,""); out.bar = /^15/.test(t)?"15m":/^4/.test(t)?"4H":"1H"; }
+  m = s.match(/last\s*(\d+)\s*(?:bars|candles)/); if(m) out.within = +m[1];
+  if(!out.intent && /(scan|find|show|screen)/.test(s)) out.intent = "scan";
+  return out;
+}
+async function askClaude(q){
+  const sample = await getSample(); if(!sample) return null;
+  const prompt = `You turn a trader's request into settings for a crypto perpetual-futures scanner and chart tool.
+Reply with only JSON: {"intent": "scan" | "replay" | "indicator" | "backtest", "rsiBelow": number or null, "volPct": number or null, "bar": "15m" | "1H" | "4H" | null, "within": number or null, "indicatorRequest": string or null}
+volPct is the volume increase in percent over the 20-bar average (+200% gives 200, "3x volume" gives 200). within is how many recent bars to check. Use null for anything not mentioned. indicatorRequest restates the indicator to write, if any.
+Request: ${q}`;
+  try{ return await sample.json(prompt, {modelTier:"quick"}); }catch{ return null; }
+}
+async function runCommand(q){
+  q = q.trim(); if(!q) return;
+  let plan = parseLocal(q);
+  if(!plan.intent){
+    setStatus("Reading your request…");
+    const c = await askClaude(q);
+    if(c && c.intent) plan = Object.fromEntries(Object.entries(c).filter(([,v])=>v!==null && v!==undefined));
+  }
+  if(!plan.intent){ setStatus("I couldn't tell what to do. Try “RSI below 30 and volume +200%”, “replay last week” or “write me an oscillator that …”."); return; }
+  stopReplay();
+  let reload = false;
+  if(isF(+plan.rsiBelow) && plan.rsiBelow>0){ S.rsiBelow = +plan.rsiBelow; }
+  if(isF(+plan.volPct) && plan.volPct>=0){ S.volPct = +plan.volPct; }
+  if(isF(+plan.within) && plan.within>0){ S.within = Math.min(50, Math.round(plan.within)); }
+  if(plan.bar && BAR_MS[plan.bar] && plan.bar!==S.bar){ S.bar = plan.bar; $("#tf").value = S.bar; reload = true; }
+  syncInputs();
+  if(reload){ if(S.source==="live"){ await loadLive(); } else loadDemo(); }
+  if(plan.intent==="scan"){ runScan(true); setTab("bt"); }
+  else if(plan.intent==="backtest"){ setTab("bt"); refreshAll(); }
+  else if(plan.intent==="replay"){ if(!S.universe.length) return; runScan(false); startReplay(true); setStatus(`Replaying the last week of <b>${esc(cur().sym.replace(/-USDT-SWAP$/,""))}</b> candle by candle. Entries are marked as the system takes them.`, true); }
+  else if(plan.intent==="indicator"){ setTab("ind"); $("#indReq").value = plan.indicatorRequest || q; writeIndicator(); }
+}
+
+/* ---------- glue ---------- */
+function refreshAll(){ renderReadout(); renderBacktest(); renderReplay(); renderPine(); draw(); if(!S.osc || S.osc.sym!==S.sel) runIndicator(); }
+function syncInputs(){ $("#rRsi").value = S.rsiBelow; $("#rVol").value = S.volPct; $("#rWin").value = S.within; }
+function setTab(t){
+  S.tab = t;
+  for(const k of ["bt","rp","ind","pine"]){ $("#tab-"+k).setAttribute("aria-selected", String(k===t)); $("#pane-"+k).hidden = k!==t; }
+}
+function setStatus(html, isHtml){ const el = $("#status"); if(isHtml) el.innerHTML = html; else el.textContent = html; }
+function esc(s){ return String(s).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+function fmtP(p){ if(!isF(p)) return "–"; const a = Math.abs(p); const dp = a>=1000?1:a>=100?2:a>=1?3:a>=0.01?5:a>=0.0001?7:9; return p.toLocaleString("en-US",{minimumFractionDigits:Math.min(dp,2),maximumFractionDigits:dp}); }
+function fmtNum(v){ return Math.abs(v)>=100 ? v.toFixed(0) : Math.abs(v)>=1 ? v.toFixed(1) : v.toFixed(3); }
+function fmtX(m){ return (Math.round(m*100)/100)+"×"; }
+function fmtUsd(x){ if(!isF(x)) return "–"; const s = Math.round(Math.abs(x)).toLocaleString("en-US"); return (x>=0?"+$":"−$")+s; }
+function fmtT(t, short){
+  const dt = new Date(t);
+  if(short && S.bar==="4H") return dt.toLocaleDateString("en-US",{month:"short",day:"numeric"});
+  return dt.toLocaleString("en-US",{month:"short",day:"numeric",hour:"2-digit",minute:"2-digit",hour12:false});
+}
+
+$("#cmdForm").addEventListener("submit", e=>{ e.preventDefault(); runCommand($("#cmd").value); });
+document.querySelectorAll(".examples button").forEach(b=>b.addEventListener("click", ()=>{ $("#cmd").value = b.dataset.q; runCommand(b.dataset.q); }));
+$("#liveBtn").addEventListener("click", loadLive);
+$("#demoBtn").addEventListener("click", ()=>{ loadDemo(); runScan(true, "Switched to the demo feed."); });
+$("#tf").addEventListener("change", async e=>{ S.bar = e.target.value; S.osc = null; if(S.source==="live") await loadLive(); else { loadDemo(); runScan(true); } });
+$("#topn").addEventListener("change", async e=>{ S.top = +e.target.value; if(S.source==="live") await loadLive(); else { loadDemo(); runScan(true); } });
+for(const [id,key,min] of [["#rRsi","rsiBelow",1],["#rVol","volPct",0],["#rWin","within",1]]){
+  $(id).addEventListener("change", e=>{ const v = +e.target.value; if(isF(v) && v>=min){ S[key] = key==="within"?Math.round(v):v; stopReplay(); runScan(false); } else syncInputs(); });
+}
+for(const [id,key,min] of [["#bStop","stopAtr",0.1],["#bTp","tpAtr",0.1],["#bExit","exitRsi",1],["#bMax","maxBars",1],["#bSize","size",1]]){
+  $(id).addEventListener("change", e=>{ const v = +e.target.value; if(isF(v) && v>=min){ S[key] = v; renderBacktest(); renderReplay(); renderPine(); draw(); } });
+}
+for(const k of ["bt","rp","ind","pine"]) $("#tab-"+k).addEventListener("click", ()=>{ setTab(k); if(k==="rp") renderReplay(); });
+$("#rpPlay").addEventListener("click", ()=>{ S.replay.timer ? pauseReplay() : playReplay(); });
+$("#rpStep").addEventListener("click", ()=>{ if(!S.replay.on) startReplay(false); else { pauseReplay(); stepReplay(); } });
+$("#rpStart").addEventListener("click", ()=>{ pauseReplay(); startReplay(false); });
+$("#rpExit").addEventListener("click", ()=>{ stopReplay(); renderReplay(); });
+$("#rpSpeed").addEventListener("change", ()=>{ if(S.replay.timer) playReplay(); });
+$("#indRun").addEventListener("click", ()=>{ $("#indName").textContent ||= "Custom indicator"; runIndicator(); });
+$("#indReset").addEventListener("click", ()=>{ $("#indName").textContent = DEFAULT_IND.name; $("#indSum").textContent = DEFAULT_IND.summary; $("#indCode").value = DEFAULT_IND.code; runIndicator(); });
+$("#indWrite").addEventListener("click", writeIndicator);
+$("#indStop").addEventListener("click", ()=>indCtl?.abort());
+$("#pineCopy").addEventListener("click", async ()=>{
+  const ta2 = $("#pine");
+  try{ await navigator.clipboard.writeText(ta2.value); $("#pineMsg").textContent = "Copied."; }
+  catch{ ta2.focus(); ta2.select(); $("#pineMsg").textContent = "Selected. Press Ctrl+C or ⌘C to copy."; }
+});
+const cv = $("#chart");
+cv.addEventListener("mousemove", e=>{
+  const g = draw.geom; if(!g) return;
+  const r = cv.getBoundingClientRect();
+  const i = g.start + Math.floor((e.clientX-r.left-g.padL)/g.slot);
+  if(i!==S.hover){ S.hover = (i>=g.start && i<=g.end) ? i : -1; draw(); renderReadout(); }
+});
+cv.addEventListener("mouseleave", ()=>{ S.hover = -1; draw(); renderReadout(); });
+let rz; window.addEventListener("resize", ()=>{ clearTimeout(rz); rz = setTimeout(draw, 80); });
+window.matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change", draw);
+new MutationObserver(draw).observe(document.documentElement, {attributes:true, attributeFilter:["data-theme"]});
+document.fonts?.ready?.then(draw);
+
+// boot: demo feed, run the post's own query
+$("#indCode").value = DEFAULT_IND.code;
+loadDemo();
+runScan(true, "Demo feed loaded.");
+getSample().then(s=>{ if(!s){ $("#indWrite").title = "Needs Claude in the viewer"; } });
+</script>
+</body>
+</html>
