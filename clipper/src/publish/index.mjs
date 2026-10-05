@@ -39,7 +39,21 @@ export function enqueue(state, cfg, { clipId, videoId, file, post }, now = Date.
   }
 }
 
+// Once every platform has had its turn with a clip, the mp4 is not needed.
+function removeIfDone(state, file) {
+  const pending = state.queue.some((q) => q.file === file && !['posted', 'failed'].includes(q.status))
+  if (!pending) fs.rmSync(file, { force: true })
+}
+
+// Keeps the queue from growing forever: finished items older than 30 days go.
+export function prune(state, now = Date.now()) {
+  state.queue = state.queue.filter(
+    (q) => !['posted', 'failed'].includes(q.status) || now - (q.postedAt || q.notBefore) < 30 * DAY,
+  )
+}
+
 export async function publishDue(state, cfg, save, now = Date.now()) {
+  prune(state, now)
   for (const item of state.queue) {
     if (item.status !== 'queued' || item.notBefore > now) continue
     const recent = state.queue.filter(
@@ -65,6 +79,7 @@ export async function publishDue(state, cfg, save, now = Date.now()) {
       item.status = 'posted'
       item.postedAt = Date.now()
       delete item.error
+      if (!cfg.publish.dryRun) removeIfDone(state, item.file)
     } catch (e) {
       item.error = e.message
       if (item.attempts >= MAX_ATTEMPTS) item.status = 'failed'

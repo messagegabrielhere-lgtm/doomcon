@@ -23,3 +23,11 @@ export function run(cmd, args, { cwd, quiet = true } = {}) {
 }
 
 export const log = (...a) => console.log(new Date().toISOString().slice(11, 19), ...a)
+
+// Arguments every yt-dlp call gets. YouTube often asks datacenter IPs (CI
+// runners, VPSes) to sign in; a cookies.txt exported from a logged-in browser
+// gets past that.
+export function ytdlpBase() {
+  const cookies = process.env.YTDLP_COOKIES_FILE
+  return cookies ? ['--cookies', cookies] : []
+}

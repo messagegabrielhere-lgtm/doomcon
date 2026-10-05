@@ -66,6 +66,13 @@ export function loadConfig(file = process.env.CLIPPER_CONFIG || path.join(ROOT, 
   const cfg = merge(DEFAULTS, user)
   cfg.file = file
 
+  // Lets a CI runner supply the channel without committing it to the config:
+  // CLIPPER_CHANNEL_URL plus CLIPPER_CHANNEL_RIGHTS (own | licensed).
+  if (process.env.CLIPPER_CHANNEL_URL) {
+    const urls = process.env.CLIPPER_CHANNEL_URL.split(/[\s,]+/).filter(Boolean)
+    cfg.channels = urls.map((url) => ({ url, rights: process.env.CLIPPER_CHANNEL_RIGHTS }))
+  }
+
   for (const ch of cfg.channels) {
     if (!RIGHTS.has(ch.rights)) {
       throw new Error(

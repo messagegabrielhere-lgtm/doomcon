@@ -1,0 +1,128 @@
+# clipper: turns new uploads on the configured YouTube channel into captioned
+# Shorts and posts them. Code and docs are in clipper/; see clipper/README.md.
+#
+# Each run is one `tick`: check the channel feed, clip any new upload, post
+# whatever the queue says is due. Runs are independent and idempotent, so a
+# late, skipped or doubled schedule only shifts when a clip goes out.
+#
+# State (what has been seen, the posting queue, clips waiting to be posted)
+# lives in clipper/data/ and is carried between runs in the Actions cache,
+# never committed. If the cache is ever evicted, the next run re-baselines the
+# channel: it marks existing uploads as seen and posts nothing old.
+#
+# Configure once in Settings -> Secrets and variables -> Actions:
+#   variable  CLIPPER_CHANNEL_URL   e.g. https://www.youtube.com/@yourhandle
+#   secrets   ANTHROPIC_API_KEY, YT_CLIENT_ID, YT_CLIENT_SECRET, YT_REFRESH_TOKEN
+#   optional  YTDLP_COOKIES         contents of a cookies.txt, if YouTube starts
+#                                   asking the runner to sign in
+# Until the variable and secrets exist, every run logs a notice and does nothing.
+
+name: clipper
+
+on:
+  schedule:
+    # Off the :00/:15/:30/:45 grid the other workflows use.
+    - cron: '4,19,34,49 * * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: clipper
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  tick:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    defaults:
+      run:
+        working-directory: clipper
+    env:
+      CLIPPER_CONFIG: config.live.json
+      CLIPPER_CHANNEL_URL: ${{ vars.CLIPPER_CHANNEL_URL }}
+      CLIPPER_CHANNEL_RIGHTS: own
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
+      YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
+      YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
+    steps:
+      - name: Check configuration
+        id: ready
+        run: |
+          missing=""
+          for v in CLIPPER_CHANNEL_URL ANTHROPIC_API_KEY YT_CLIENT_ID YT_CLIENT_SECRET YT_REFRESH_TOKEN; do
+            [ -n "${!v}" ] || missing="$missing $v"
+          done
+          if [ -n "$missing" ]; then
+            echo "::notice::clipper is not configured yet, skipping. Missing:$missing"
+            echo "ok=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "ok=true" >> "$GITHUB_OUTPUT"
+          fi
+        working-directory: .
+
+      - uses: actions/checkout@v4
+        if: steps.ready.outputs.ok == 'true'
+
+      - uses: actions/setup-node@v4
+        if: steps.ready.outputs.ok == 'true'
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: clipper/package-lock.json
+
+      # yt-dlp needs a JavaScript runtime to read YouTube's player.
+      - uses: denoland/setup-deno@v2
+        if: steps.ready.outputs.ok == 'true'
+        with:
+          deno-version: v2.x
+
+      - name: Install ffmpeg, fonts and yt-dlp
+        if: steps.ready.outputs.ok == 'true'
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg fonts-dejavu-core > /dev/null
+          # Always the newest yt-dlp: YouTube breaks old versions every few weeks.
+          pipx install --force yt-dlp > /dev/null
+          yt-dlp --version
+          npm ci --no-audit --no-fund
+
+      - name: Restore state
+        if: steps.ready.outputs.ok == 'true'
+        uses: actions/cache/restore@v4
+        with:
+          path: clipper/data
+          key: clipper-data-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: clipper-data-
+
+      - name: Write yt-dlp cookies
+        if: steps.ready.outputs.ok == 'true'
+        env:
+          YTDLP_COOKIES: ${{ secrets.YTDLP_COOKIES }}
+        run: |
+          if [ -n "$YTDLP_COOKIES" ]; then
+            printf '%s\n' "$YTDLP_COOKIES" > "$RUNNER_TEMP/cookies.txt"
+            echo "YTDLP_COOKIES_FILE=$RUNNER_TEMP/cookies.txt" >> "$GITHUB_ENV"
+          fi
+
+      - name: Tick
+        if: steps.ready.outputs.ok == 'true'
+        run: node src/cli.mjs tick
+
+      - name: Summary
+        if: always() && steps.ready.outputs.ok == 'true'
+        run: |
+          {
+            echo '```'
+            node src/cli.mjs status
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Save state
+        if: always() && steps.ready.outputs.ok == 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: clipper/data
+          key: clipper-data-${{ github.run_id }}-${{ github.run_attempt }}

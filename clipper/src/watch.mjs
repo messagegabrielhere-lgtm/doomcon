@@ -1,7 +1,7 @@
 // Detects new uploads. A channel URL is resolved to its channel id once (via
 // yt-dlp, so @handles, /c/ and /channel/ URLs all work); after that each poll
 // reads the channel's public RSS feed, which is cheap and needs no API key.
-import { run } from './proc.mjs'
+import { run, ytdlpBase } from './proc.mjs'
 
 const decode = (s) =>
   s
@@ -32,7 +32,7 @@ export async function resolveChannel(url) {
   if (m) return { channelId: m[1], title: null }
   const base = url.replace(/\/(videos|shorts|streams|featured)\/?$/, '')
   const json = JSON.parse(
-    await run('yt-dlp', ['--flat-playlist', '-J', '--playlist-items', '1', `${base}/videos`]),
+    await run('yt-dlp', [...ytdlpBase(), '--flat-playlist', '-J', '--playlist-items', '1', `${base}/videos`]),
   )
   const channelId = json.channel_id || (json.id?.startsWith('UC') ? json.id : null)
   if (!channelId) throw new Error(`could not resolve a channel id for ${url}`)
@@ -49,6 +49,7 @@ export async function listRecent(channelId) {
   // The feed occasionally 404s or 5xxs for hours; fall back to a flat listing.
   const json = JSON.parse(
     await run('yt-dlp', [
+      ...ytdlpBase(),
       '--flat-playlist',
       '-J',
       '--playlist-items',

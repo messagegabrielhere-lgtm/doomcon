@@ -1,11 +1,11 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { run } from './proc.mjs'
+import { run, ytdlpBase } from './proc.mjs'
 
 // Video metadata without downloading anything: used to skip Shorts, live
 // streams and premieres before paying for a full download.
 export async function probe(url) {
-  return JSON.parse(await run('yt-dlp', ['-J', '--no-playlist', '--skip-download', url]))
+  return JSON.parse(await run('yt-dlp', [...ytdlpBase(), '-J', '--no-playlist', '--skip-download', url]))
 }
 
 // Downloads up to 1080p as mp4, plus captions in json3 (manual if present,
@@ -13,6 +13,7 @@ export async function probe(url) {
 export async function download(url, dir, lang) {
   fs.mkdirSync(dir, { recursive: true })
   await run('yt-dlp', [
+    ...ytdlpBase(),
     '--no-playlist',
     '-f', 'bv*[height<=1080][ext=mp4]+ba[ext=m4a]/b[height<=1080][ext=mp4]/bv*[height<=1080]+ba/b',
     '--merge-output-format', 'mp4',
