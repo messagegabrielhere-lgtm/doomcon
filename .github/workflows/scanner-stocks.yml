@@ -40,6 +40,11 @@ jobs:
       - name: Fetch candles
         run: node scanner/collect-stocks.mjs "$RUNNER_TEMP/scanner-out"
 
+      - name: Fetch sentiment
+        # optional sources; a failure here must not block the stock snapshot
+        continue-on-error: true
+        run: node scanner/collect-sentiment.mjs "$RUNNER_TEMP/scanner-out"
+
       - name: Publish to scanner-data
         env:
           GH_TOKEN: ${{ github.token }}

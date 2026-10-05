@@ -230,6 +230,29 @@ tr.whyrow.sel td{background:color-mix(in srgb,var(--accent) 12%,transparent);box
 .trend.dnt{background:color-mix(in srgb,var(--down) 15%,transparent);color:var(--down)}
 .trend.mix{border:1px solid var(--line);color:var(--mute)}
 
+/* sentiment */
+.sent-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;padding:12px}
+.scard{border:1px solid var(--line);border-radius:8px;padding:10px 12px;background:var(--panel);display:flex;flex-direction:column;gap:6px;min-width:0}
+.scard h3{margin:0;font:600 12px/1.2 var(--f-display);letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+.scard .big{font:500 34px/1 var(--f-mono);font-variant-numeric:tabular-nums}
+.scard .lab{font:700 16px/1.1 var(--f-display);letter-spacing:.04em;text-transform:uppercase}
+.scale{position:relative;height:10px;border-radius:999px;background:linear-gradient(90deg,var(--down) 0%,color-mix(in srgb,var(--down) 45%,var(--sunk)) 25%,var(--sunk) 50%,color-mix(in srgb,var(--up) 45%,var(--sunk)) 75%,var(--up) 100%);border:1px solid var(--line)}
+.scale i{position:absolute;top:-4px;width:4px;height:16px;margin-left:-2px;border-radius:2px;background:var(--ink);box-shadow:0 0 0 2px var(--panel)}
+.scale-l{display:flex;justify-content:space-between;font-size:10px;color:var(--mute);letter-spacing:.04em;text-transform:uppercase}
+.spark{display:block;width:100%;height:56px}
+.prevs{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:11.5px;color:var(--mute)}
+.prevs b{font-family:var(--f-mono);color:var(--ink);font-weight:500}
+.ef{color:var(--down)} .fe{color:color-mix(in srgb,var(--down) 70%,var(--ink))} .ne{color:var(--mute)} .gr{color:color-mix(in srgb,var(--up) 70%,var(--ink))} .eg{color:var(--up)}
+.parts td{white-space:normal}
+.parts td:first-child{font-family:var(--f-body);min-width:150px}
+.parts td:nth-child(2){text-align:left;font-family:var(--f-body);font-size:12px;color:var(--mute);min-width:220px}
+.pbar{display:inline-block;width:80px;height:6px;border-radius:999px;background:var(--sunk);border:1px solid var(--line);vertical-align:middle;margin-right:6px;overflow:hidden}
+.pbar i{display:block;height:100%}
+#buzzBody tr.row{cursor:pointer}
+#buzzBody td:first-child{font-family:var(--f-body);white-space:normal}
+#buzzBody td small{display:block;color:var(--mute);font-size:11px;font-weight:400}
+@media (max-width:960px){ .sent-cards{grid-template-columns:minmax(0,1fr)} }
+
 /* Solana pools */
 .warnbox{margin:12px;padding:10px 12px;border:1px solid var(--down);border-left-width:4px;border-radius:8px;background:color-mix(in srgb,var(--down) 7%,transparent);font-size:13px}
 .warnbox b{color:var(--down)}
@@ -297,6 +320,7 @@ tr.whyrow.sel td{background:color-mix(in srgb,var(--accent) 12%,transparent);box
       <button type="button" id="aStocks" aria-pressed="true">Stocks</button>
       <button type="button" id="aAI" aria-pressed="false">AI stocks</button>
       <button type="button" id="aCrypto" aria-pressed="false">Crypto</button>
+      <button type="button" id="aSent" aria-pressed="false">Sentiment</button>
       <button type="button" id="aSol" aria-pressed="false">Solana</button>
       <button type="button" id="aOdds" aria-pressed="false">BTC odds</button>
     </div>
@@ -321,6 +345,7 @@ tr.whyrow.sel td{background:color-mix(in srgb,var(--accent) 12%,transparent);box
       <button type="button" data-q="Stocks with a golden cross in the last 10 days">Stocks: golden cross</button>
       <button type="button" data-q="Find me all BTC futures with RSI below 30 and volume +200% at the same time">Crypto: RSI &lt; 30, volume +200%</button>
       <button type="button" data-q="Show me AI stocks in an uptrend that pulled back">AI stocks</button>
+      <button type="button" data-q="Show market sentiment and fear and greed">Sentiment</button>
       <button type="button" data-q="Scan Solana liquidity pools for price gaps and rug pulls">Solana pools</button>
       <button type="button" data-q="Compare live BTC price with Polymarket odds">BTC vs Polymarket odds</button>
       <button type="button" data-q="Replay and show me where my system would have entered">Replay</button>
@@ -531,6 +556,29 @@ tr.whyrow.sel td{background:color-mix(in srgb,var(--accent) 12%,transparent);box
       </table>
     </div>
     <p class="note" style="padding:8px 12px 12px">Daily data from Yahoo Finance, delayed. "Trend" compares the price with its 50- and 200-day averages. "Setup" checks the strategy chosen above and says which conditions pass or fail. Click a row to open its chart, trade plan and research prompts. A company's AI role is a short summary, not a full picture of its business.</p>
+  </section>
+  <section class="panel odds" id="sentView" aria-label="Sentiment" hidden>
+    <div class="ph"><h2>Sentiment</h2><span class="chip" id="sentChip">–</span></div>
+    <div class="sent-cards">
+      <div class="scard" id="sOwn"></div>
+      <div class="scard" id="sCnn"></div>
+      <div class="scard" id="sCrypto"></div>
+    </div>
+    <div class="ph" style="border-top:1px solid var(--line)"><h2>What's driving this page's score</h2><span class="chip" id="partsChip">–</span></div>
+    <div class="oddswrap"><table class="parts"><thead><tr><th>Signal</th><th>Reading</th><th>Score</th></tr></thead><tbody id="sParts"></tbody></table></div>
+    <div class="ph" style="border-top:1px solid var(--line)"><h2>Social buzz</h2><span class="chip" id="buzzChip">–</span></div>
+    <p class="note" style="padding:8px 12px 0">Stocks people are talking about most on Reddit right now (via ApeWisdom), with the share of recent StockTwits posts tagged bullish. Rising chatter often comes with bigger moves in both directions. Click a row to open it in the scanner.</p>
+    <div class="oddswrap" style="margin-top:8px">
+      <table>
+        <thead><tr><th>Stock</th><th title="Reddit mentions in the last 24 hours, and change vs the 24 hours before">Reddit 24h</th><th>Rank</th><th title="Posts tagged Bullish out of those tagged Bullish or Bearish, from the latest 30 StockTwits posts">StockTwits bullish</th><th>Day</th><th>Trend</th><th>Setup</th></tr></thead>
+        <tbody id="buzzBody"></tbody>
+      </table>
+    </div>
+    <ul class="caveats">
+      <li>Sentiment is context, not a signal. Extreme fear has more often come near market lows and extreme greed near highs, so many investors read these gauges the opposite way.</li>
+      <li>This page's own score is built only from the data it already has, and each part is shown above. CNN's index adds put/call options data the page doesn't have, so the two can differ.</li>
+      <li>Reddit and StockTwits counts are small samples and easy to game. Treat sudden buzz on small stocks with suspicion.</li>
+    </ul>
   </section>
   <section class="panel odds" id="solView" aria-label="Solana pools" hidden>
     <div class="ph"><h2>Solana pools</h2><span class="chip" id="solChip">–</span></div>
@@ -1535,6 +1583,7 @@ function renderReadout(){
     `<span class="kv">RSI <b>${isF(ind.rsi[i])?ind.rsi[i].toFixed(1):"–"}</b></span>`+
     `<span class="kv">Vol <b>${isF(ind.vr[i])?ind.vr[i].toFixed(1)+"×":"–"}</b></span>`+
     `<span class="kv">vs 200 SMA <b class="${vs200>=0?"up":"down"}">${isF(vs200)?(vs200>=0?"+":"")+(vs200*100).toFixed(1)+"%":"–"}</b></span>`+
+    (buzzFor(u.sym) ? `<span class="kv" title="Social buzz from the Sentiment tab">Buzz <b>${esc(buzzFor(u.sym))}</b></span>` : "")+
     (isF(rsVsSpy(u)) && !S.replay.on ? `<span class="kv" title="3-month return relative to SPY">3M vs SPY <b class="${rsVsSpy(u)>=0?"up":"down"}">${pctS(rsVsSpy(u))}</b></span>` : "")+
     `<span class="kv">${fmtT(d.t[i])}</span>`;
 }
@@ -1549,6 +1598,7 @@ function parseLocal(q){
   else if(/pull ?back|uptrend|\bdip|above (the |its |their )?200/.test(s)) out.preset = "pullback";
   else if(/capitulat|washout|wash out|oversold|volume (spike|\+)/.test(s) || (/rsi/.test(s) && /volume/.test(s))) out.preset = "capitulation";
   if(/polymarket|prediction market|\bodds\b/.test(s)) { out.intent = "odds"; return out; }
+  if(/sentiment|fear (and|&) greed|fear.?greed|\bmood\b|buzz|reddit|stocktwits|wallstreetbets/.test(s)) { out.intent = "sent"; return out; }
   if(/solana|memecoin|meme coin|raydium|jupiter|pump\.?fun|\bdex\b|rug ?pull|liquidity pool/.test(s)) { out.intent = "sol"; return out; }
   if(/\bai (stocks?|compan|names|plays|chips?)|artificial intelligence/.test(s)) { out.intent = "ai"; out.aiQuery = (q.match(/\b(gpu|memory|hbm|power|cloud|robot\w*|quantum|security|software|chips?|network\w*|data ?cent\w*)\b/i)||[])[0]||""; }
   if(/replay/.test(s)) out.intent = "replay";
@@ -1586,6 +1636,7 @@ async function runCommand(q){
   }
   if(plan.intent==="odds"){ setMode("odds"); writeHash(); return; }
   if(plan.intent==="sol"){ setMode("sol"); writeHash(); return; }
+  if(plan.intent==="sent"){ setMode("sent"); writeHash(); return; }
   if(plan.intent==="ai"){ if(plan.preset && PRESETS[plan.preset]) setPreset(plan.preset); $("#aiQ").value = plan.aiQuery||""; setMode("ai"); writeHash(); return; }
   if(S.mode && S.mode!=="scan") setMode("scan");
   if(!plan.intent){ setStatus("I couldn't tell what to do. Try “stocks above the 200-day with RSI below 40”, “daily breakouts to a 20-day high”, “replay” or “write me an oscillator that …”."); return; }
@@ -1866,20 +1917,23 @@ function oddsAuto(on){
 function setMode(mode){
   const prev = S.mode || "scan";
   S.mode = mode;
-  const odds = mode==="odds", ai = mode==="ai", sol = mode==="sol";
+  const odds = mode==="odds", ai = mode==="ai", sol = mode==="sol", sent = mode==="sent";
   $("#oddsView").hidden = !odds;
   $("#aiView").hidden = !ai;
   $("#solView").hidden = !sol;
-  document.querySelector(".grid").hidden = odds || ai || sol;
+  $("#sentView").hidden = !sent;
+  document.querySelector(".grid").hidden = odds || ai || sol || sent;
+  $("#aSent").setAttribute("aria-pressed", String(sent));
   $("#aOdds").setAttribute("aria-pressed", String(odds));
   $("#aAI").setAttribute("aria-pressed", String(ai));
   $("#aSol").setAttribute("aria-pressed", String(sol));
-  for(const id of ["#tfWrap","#src","#linkBtn","#liveBtn"]) $(id).hidden = odds || sol || (ai && id==="#tfWrap") || (id==="#linkBtn" && inViewer);
-  $("#topnWrap").hidden = odds || ai || sol || S.asset!=="crypto";
+  for(const id of ["#tfWrap","#src","#linkBtn","#liveBtn"]) $(id).hidden = odds || sol || ((ai||sent) && id==="#tfWrap") || (id==="#linkBtn" && inViewer);
+  $("#topnWrap").hidden = odds || ai || sol || sent || S.asset!=="crypto";
   if(prev==="odds" && !odds){ $("#oAuto").checked = false; oddsAuto(false); }
   if(prev==="sol" && !sol){ $("#solAuto").checked = false; solAuto(false); }
   if(sol && !SOLX.updated && !inViewer) solLoad();
-  if(odds || ai || sol){ stopReplay(); $("#aStocks").setAttribute("aria-pressed","false"); $("#aCrypto").setAttribute("aria-pressed","false"); }
+  if(sent) openSent();
+  if(odds || ai || sol || sent){ stopReplay(); $("#aStocks").setAttribute("aria-pressed","false"); $("#aCrypto").setAttribute("aria-pressed","false"); }
   if(odds){ oddsRefresh(true); if(!inViewer){ $("#oAuto").checked = true; oddsAuto(true); } }
   else if(ai) openAI();
   else syncAssetUI();
@@ -2007,7 +2061,7 @@ function rsVsSpy(u, bars=63){
 }
 const SECTOR_ETF = {XLK:"Technology", XLC:"Communication", XLY:"Consumer", XLP:"Staples", XLV:"Health care", XLF:"Financials", XLI:"Industrials", XLE:"Energy", XLU:"Utilities", XLRE:"Real estate", XLB:"Materials"};
 function renderPulse(){
-  const show = S.asset==="stocks" && S.bar==="1D" && (S.mode==="scan"||S.mode==="ai"||!S.mode) && S.universe.length>20;
+  const show = S.asset==="stocks" && S.bar==="1D" && (S.mode==="scan"||S.mode==="ai"||S.mode==="sent"||!S.mode) && S.universe.length>20;
   $("#pulse").hidden = !show; if(!show) return;
   const by = new Map(S.universe.map(u=>[u.sym,u]));
   const idx = ["SPY","QQQ","IWM","DIA"].map(t=>by.get(t)).filter(Boolean);
@@ -2159,6 +2213,125 @@ function renderSolPools(){
 }
 function solAuto(on){ clearInterval(SOLX.timer); SOLX.timer = on ? setInterval(()=>{ if(!document.hidden && S.mode==="sol") solLoad(); }, 30000) : null; }
 
+/* ---------- sentiment ---------- */
+const SENT = {data:null, err:null, busy:false};
+const SENT_URL = "https://raw.githubusercontent.com/messagegabrielhere-lgtm/doomcon/scanner-data/sentiment.json";
+const clamp = (x, a=0, b=100) => Math.max(a, Math.min(b, x));
+const moodLabel = v => v<25 ? ["Extreme fear","ef"] : v<45 ? ["Fear","fe"] : v<=55 ? ["Neutral","ne"] : v<=75 ? ["Greed","gr"] : ["Extreme greed","eg"];
+const dayKey = ms => new Date(ms).toISOString().slice(0,10);
+async function loadSent(){
+  if(SENT.busy) return; SENT.busy = true;
+  SENT._vix = null;
+  try{ SENT.data = await getJSON(SENT_URL, 15000); SENT.err = null; }
+  catch(e){
+    SENT.err = e;
+    try{ const j = await directJSON("https://api.alternative.me/fng/?limit=90", 8000); SENT.data = {crypto:(j.data||[]).map(x=>[+x.timestamp*1000, +x.value, x.value_classification]).reverse(), errors:{}}; }catch{}
+  }
+  SENT.busy = false;
+}
+// The page's own fear/greed score, from daily stock data and VIX. Each part maps to 0-100 (higher = greedier).
+function moodAt(k){
+  const by = new Map(S.universe.map(u=>[u.sym,u]));
+  const spy = by.get("SPY"); if(!spy) return null;
+  const t = spy.d.t[k], key = dayKey(t);
+  const idx = u => { if(u===spy) return k; u._ix ||= new Map(u.d.t.map((tt,i)=>[dayKey(tt),i])); return u._ix.get(key); };
+  const ret = (u, n) => { const i = idx(u); return isF(i) && i>=n ? u.d.c[i]/u.d.c[i-n]-1 : NaN; };
+  const parts = [];
+  { const c = spy.d.c, i = k; if(i>=125){ let m = 0; for(let j=i-124;j<=i;j++) m += c[j]; m /= 125; const x = c[i]/m-1;
+    parts.push({name:"Market momentum", v:clamp(50+x/0.08*50), read:`SPY is ${pctA(x)} ${x>=0?"above":"below"} its 125-day average`}); } }
+  const stocks = S.universe.filter(u=>u.sec!=="ETF");
+  { let n = 0, a = 0; for(const u of stocks){ const i = idx(u); if(!isF(i) || !isF(u.ind.sma50[i])) continue; n++; if(u.d.c[i]>u.ind.sma50[i]) a++; }
+    if(n>20) parts.push({name:"Breadth", v:clamp(a/n*100), read:`${Math.round(a/n*100)}% of ${n} stocks are above their 50-day average`}); }
+  { let n = 0, hiN = 0, loN = 0; for(const u of stocks){ const i = idx(u); if(!isF(i) || i<120) continue; n++; let h = -Infinity, l = Infinity; for(let j=Math.max(0,i-251);j<=i;j++){ h = Math.max(h,u.d.h[j]); l = Math.min(l,u.d.l[j]); } const c = u.d.c[i]; if(c>=h*0.97) hiN++; if(c<=l*1.03) loN++; }
+    if(n>20){ const diff = (hiN-loN)/n; parts.push({name:"Highs vs lows", v:clamp(50+diff*150), read:`${hiN} stocks within 3% of a 52-week high, ${loN} within 3% of a low`}); } }
+  const vix = SENT.data?.vix;
+  if(vix){ SENT._vix ||= new Map(vix.t.map((tt,i)=>[dayKey(tt*1000), i])); let i = SENT._vix.get(key);
+    for(let back=1; !isF(i) && back<=4; back++) i = SENT._vix.get(dayKey(t-back*864e5));   // holidays and timestamp drift
+    if(isF(i) && i>=50){ let m = 0; for(let j=i-49;j<=i;j++) m += vix.c[j]; m /= 50; const r = vix.c[i]/m;
+      parts.push({name:"Volatility (VIX)", v:clamp(50-(r-1)/0.3*50), read:`VIX ${vix.c[i].toFixed(1)}, ${pctA(r-1)} ${r>=1?"above":"below"} its 50-day average`}); } }
+  const tlt = by.get("TLT"), hyg = by.get("HYG");
+  if(tlt){ const x = ret(spy,20)-ret(tlt,20); if(isF(x)) parts.push({name:"Safe-haven demand", v:clamp(50+x/0.08*50), read:`Stocks ${x>=0?"beat":"trailed"} Treasuries (TLT) by ${pctA(x)} over 20 days`}); }
+  if(hyg && tlt){ const x = ret(hyg,20)-ret(tlt,20); if(isF(x)) parts.push({name:"Junk bond demand", v:clamp(50+x/0.04*50), read:`High-yield bonds (HYG) ${x>=0?"beat":"trailed"} Treasuries by ${pctA(x)} over 20 days`}); }
+  if(parts.length<3) return null;
+  return {t, v:parts.reduce((a,p)=>a+p.v,0)/parts.length, parts};
+}
+function spark(points, opts={}){
+  if(!points || points.length<2) return "";
+  const W = 300, H = 56, ys = points.map(p=>p[1]);
+  const lo = opts.lo ?? Math.min(...ys), hi = opts.hi ?? Math.max(...ys);
+  const X = i => i/(points.length-1)*W, Y = v => 3 + (hi-v)/((hi-lo)||1)*(H-6);
+  const line = points.map((p,i)=>`${X(i).toFixed(1)},${Y(p[1]).toFixed(1)}`).join(" ");
+  const bands = opts.lo===0 && opts.hi===100 ? `<line x1="0" x2="${W}" y1="${Y(25)}" y2="${Y(25)}" stroke="var(--down)" stroke-dasharray="3 3" opacity=".5" vector-effect="non-scaling-stroke"/><line x1="0" x2="${W}" y1="${Y(75)}" y2="${Y(75)}" stroke="var(--up)" stroke-dasharray="3 3" opacity=".5" vector-effect="non-scaling-stroke"/>` : "";
+  return `<svg class="spark" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true">${bands}<polyline points="${line}" fill="none" stroke="var(--accent)" stroke-width="1.8" vector-effect="non-scaling-stroke"/><circle cx="${X(points.length-1)}" cy="${Y(ys.at(-1))}" r="3" fill="var(--accent)"/></svg>`;
+}
+const gaugeCard = (title, v, sub, history, extra) => { const [lab, cls] = moodLabel(v);
+  return `<h3>${title}</h3><div style="display:flex;align-items:baseline;gap:10px"><span class="big">${Math.round(v)}</span><span class="lab ${cls}">${lab}</span></div>
+    <div class="scale" role="img" aria-label="${Math.round(v)} out of 100"><i style="left:${clamp(v)}%"></i></div><div class="scale-l"><span>Fear</span><span>Neutral</span><span>Greed</span></div>
+    ${extra||""}${spark(history,{lo:0,hi:100})}<span class="note">${sub}</span>`; };
+async function openSent(){
+  if(!(S.asset==="stocks" && S.bar==="1D" && S.source==="live")){
+    S.asset = "stocks"; S.bar = "1D"; syncAssetUI(); $("#aStocks").setAttribute("aria-pressed","false");
+    renderSent();
+    await loadStocks(inViewer);
+    if(S.mode!=="sent") return;
+    $("#aStocks").setAttribute("aria-pressed","false");
+  }
+  if(!SENT.data) await loadSent();
+  renderSent();
+}
+function renderSent(){
+  const D = SENT.data;
+  // page's own score, today and the last 90 sessions
+  const spy = S.universe.find(u=>u.sym==="SPY");
+  let now = null, hist = [];
+  if(spy){ const n = spy.d.c.length; now = moodAt(n-1); for(let k=Math.max(126,n-90);k<n;k++){ const m = moodAt(k); if(m) hist.push([m.t, m.v]); } }
+  $("#sOwn").innerHTML = now ? gaugeCard("This page's read", now.v, `${now.parts.length} signals from the scanner's own data, last ${hist.length} sessions shown. ${S.source==="demo"?"<b>Simulated demo data.</b>":""}`, hist,
+      hist.length>5 ? `<div class="prevs"><span>5 sessions ago <b>${Math.round(hist.at(-6)[1])}</b></span><span>${hist.length} sessions ago <b>${Math.round(hist[0][1])}</b></span></div>` : "")
+    : `<h3>This page's read</h3><p class="note">${S.source==="live"||S.source==="demo" ? "Needs SPY and daily stock data." : "Loading stock data…"}</p>`;
+  $("#sParts").innerHTML = now ? now.parts.map(p=>{ const [lab,cls] = moodLabel(p.v); return `<tr><td>${esc(p.name)}</td><td>${esc(p.read)}</td><td><span class="pbar"><i style="width:${p.v.toFixed(0)}%;background:${p.v<45?"var(--down)":p.v>55?"var(--up)":"var(--mute)"}"></i></span><b class="mono ${cls}">${Math.round(p.v)}</b> <span class="${cls}">${lab}</span></td></tr>`; }).join("") : `<tr class="empty"><td colspan="3">No data yet.</td></tr>`;
+  $("#partsChip").textContent = now ? `Average of ${now.parts.length} · ${moodLabel(now.v)[0]}` : "–";
+  // CNN
+  const c = D?.cnn;
+  $("#sCnn").innerHTML = c ? gaugeCard("CNN Fear &amp; Greed (stocks)", c.score, `Published by CNN Business. Updated ${esc(new Date(c.ts).toLocaleString("en-US",{month:"short",day:"numeric",hour:"2-digit",minute:"2-digit"}))}.`, c.history,
+      `<div class="prevs"><span>Prev close <b>${Math.round(c.prev.close)}</b></span><span>1 week <b>${Math.round(c.prev.week)}</b></span><span>1 month <b>${Math.round(c.prev.month)}</b></span><span>1 year <b>${Math.round(c.prev.year)}</b></span></div>`+
+      `<div class="prevs">${Object.entries(c.parts).filter(([,v])=>v).map(([k,v])=>`<span>${esc(k)} <b class="${moodLabel(v.score)[1]}">${esc(String(v.rating||"").replace(/^./,x=>x.toUpperCase()))}</b></span>`).join("")}</div>`)
+    : `<h3>CNN Fear &amp; Greed (stocks)</h3><p class="note">${D ? "CNN didn't answer the last data refresh" + (D.errors?.cnn ? ` (${esc(D.errors.cnn)})` : "") + ". This page's own score covers most of the same ground." : SENT.busy ? "Loading…" : "Not loaded."}</p>`;
+  // crypto
+  const cr = D?.crypto;
+  $("#sCrypto").innerHTML = cr?.length ? gaugeCard("Crypto Fear &amp; Greed", cr.at(-1)[1], `From alternative.me, built from Bitcoin volatility, momentum, social media and dominance. Last ${cr.length} days shown.`, cr,
+      cr.length>30 ? `<div class="prevs"><span>Yesterday <b>${cr.at(-2)[1]}</b></span><span>1 week <b>${cr.at(-8)[1]}</b></span><span>1 month <b>${cr.at(-31)[1]}</b></span></div>` : "")
+    : `<h3>Crypto Fear &amp; Greed</h3><p class="note">${SENT.busy ? "Loading…" : "Not available right now."}</p>`;
+  // buzz
+  const by = new Map(S.universe.map(u=>[u.sym,u]));
+  const st = D?.stocktwits || {};
+  const rows = (D?.reddit||[]).slice(0,40);
+  $("#buzzChip").textContent = rows.length ? `Top ${rows.length} on Reddit · ${D.generated ? "updated "+new Date(D.generated).toLocaleTimeString("en-US",{hour:"2-digit",minute:"2-digit"}) : ""}` : "–";
+  $("#buzzBody").innerHTML = rows.map(r=>{
+    const u = by.get(r.t), m = u ? aiMetrics(u) : null, x = st[r.t];
+    const dn = r.n0 ? r.n/r.n0-1 : NaN, tagged = x ? x.bull+x.bear : 0;
+    const rising = isF(dn) && dn>=1 && r.n>=10;
+    return `<tr class="${u?"row":""}" data-s="${esc(r.t)}" ${u?'tabindex="0" title="Open in the scanner"':""}>
+      <td><b>${esc(r.t)}</b>${rising?' <span class="pill" style="background:var(--accent);color:var(--accent-ink);border-radius:4px;padding:0 5px;font:600 10px/1.6 var(--f-body)">BUZZ RISING</span>':""}<small>${esc(r.name||"")}</small></td>
+      <td>${r.n}${isF(dn)?` <span class="${dn>=0?"up":"down"}">${pctS(dn)}</span>`:""}</td>
+      <td>#${r.r}${isF(r.r0)&&r.r0!==r.r?` <span class="${r.r0>r.r?"up":"down"}">${r.r0>r.r?"▲":"▼"}${Math.abs(r.r0-r.r)}</span>`:""}</td>
+      <td>${tagged>=3?`<span class="${x.bull/tagged>=0.6?"up":x.bull/tagged<=0.4?"down":""}">${Math.round(x.bull/tagged*100)}%</span> <small>${x.bull} bull · ${x.bear} bear of last ${x.n}</small>`:x?`<small>too few tagged posts</small>`:"–"}</td>
+      <td>${u?`<span class="${u.chg>=0?"up":"down"}">${pctS(u.chg)}</span>`:"–"}</td>
+      <td>${m?`<span class="trend ${m.trend}" title="${esc(m.tw)}">${m.tl}</span>`:`<small>not in scanner data</small>`}</td>
+      <td>${u?`<span class="mk ${u.status}"></span>${u.status==="match"?"Match":u.status==="near"?"Near":"–"}`:""}</td></tr>`;
+  }).join("") || `<tr class="empty"><td colspan="7">${SENT.busy?"Loading…":D?"Reddit data wasn't available in the last refresh.":"Not loaded."}</td></tr>`;
+  $("#buzzBody").querySelectorAll("tr.row").forEach(tr=>{ const go = () => openInScanner(tr.dataset.s); tr.addEventListener("click", go); tr.addEventListener("keydown", e=>{ if(e.key==="Enter"){ e.preventDefault(); go(); } }); });
+  const parts = [now?`Page: ${Math.round(now.v)} ${moodLabel(now.v)[0].toLowerCase()}`:null, c?`CNN: ${Math.round(c.score)}`:null, cr?.length?`Crypto: ${cr.at(-1)[1]}`:null].filter(Boolean);
+  $("#sentChip").textContent = parts.join(" · ") || "–";
+}
+function buzzFor(sym){
+  const D = SENT.data; if(!D) return "";
+  const r = (D.reddit||[]).find(x=>x.t===sym), x = D.stocktwits?.[sym];
+  const out = [];
+  if(r) out.push(`Reddit #${r.r} · ${r.n} mentions`);
+  if(x && x.bull+x.bear>=3) out.push(`StockTwits ${Math.round(x.bull/(x.bull+x.bear)*100)}% bullish`);
+  return out.join(" · ");
+}
+
 /* ---------- AI stocks ---------- */
 const AI_THEMES = {
   "Chips":"Design the GPUs, accelerators and memory that train and run AI models.",
@@ -2300,7 +2473,7 @@ async function openAI(){
 /* ---------- share links (GitHub Pages only; the Claude viewer drops hash state) ---------- */
 function writeHash(){
   if(inViewer) return;
-  if(S.mode==="odds" || S.mode==="ai" || S.mode==="sol"){ try{ history.replaceState(null, "", "#"+S.mode); }catch{} return; }
+  if(S.mode==="odds" || S.mode==="ai" || S.mode==="sol" || S.mode==="sent"){ try{ history.replaceState(null, "", "#"+S.mode); }catch{} return; }
   const q = new URLSearchParams({a:S.asset, tf:S.bar, p:S.preset});
   for(const k of PRESETS[S.preset].params) q.set(k, S.p[k]);
   if(S.sel) q.set("s", S.sel);
@@ -2308,7 +2481,7 @@ function writeHash(){
   try{ history.replaceState(null, "", "#"+q.toString()); }catch{}
 }
 function readHash(){
-  const h = location.hash.slice(1); if(h==="odds"||h==="ai"||h==="sol"){ S.wantMode = h; return; } if(!h.includes("=")) return;
+  const h = location.hash.slice(1); if(h==="odds"||h==="ai"||h==="sol"||h==="sent"){ S.wantMode = h; return; } if(!h.includes("=")) return;
   const q = new URLSearchParams(h);
   if(TFS[q.get("a")]) S.asset = q.get("a");
   S.bar = TFS[S.asset].includes(q.get("tf")) ? q.get("tf") : DEFAULT_TF[S.asset];
@@ -2319,7 +2492,7 @@ function readHash(){
 }
 
 /* ---------- glue ---------- */
-function refreshAll(){ cmpOptions(); renderAlerts(); renderDigest(); if(S.mode==="ai") renderAI(); renderReadout(); renderPlan(); if(S.tab==="res") renderResearch(); renderBacktest(); renderReplay(); renderPine(); draw(); writeHash(); if(!S.osc || S.osc.sym!==S.sel) runIndicator(); }
+function refreshAll(){ if(S.mode==="sent") renderSent(); cmpOptions(); renderAlerts(); renderDigest(); if(S.mode==="ai") renderAI(); renderReadout(); renderPlan(); if(S.tab==="res") renderResearch(); renderBacktest(); renderReplay(); renderPine(); draw(); writeHash(); if(!S.osc || S.osc.sym!==S.sel) runIndicator(); }
 function syncAssetUI(){
   $("#aStocks").setAttribute("aria-pressed", String(S.asset==="stocks"));
   $("#aCrypto").setAttribute("aria-pressed", String(S.asset==="crypto"));
@@ -2410,6 +2583,7 @@ $("#aOdds").addEventListener("click", ()=>{ if(S.mode!=="odds"){ setMode("odds")
 }
 $("#aAI").addEventListener("click", ()=>{ if(S.mode!=="ai"){ setMode("ai"); writeHash(); } });
 $("#aSol").addEventListener("click", ()=>{ if(S.mode!=="sol"){ setMode("sol"); writeHash(); } });
+$("#aSent").addEventListener("click", ()=>{ if(S.mode!=="sent"){ setMode("sent"); writeHash(); } });
 $("#solGo").addEventListener("click", solLoad);
 $("#solQ").addEventListener("keydown", e=>{ if(e.key==="Enter"){ e.preventDefault(); solLoad(); } });
 $("#solMin").addEventListener("change", renderSolPools);
@@ -2455,6 +2629,7 @@ readHash();
 renderParams(); syncAssetUI();
 loadDemo(); runScan(true, "Showing the simulated demo feed while real data loads.");
 loadData(inViewer);
+if(!inViewer) loadSent().then(()=>{ renderReadout(); if(S.mode==="sent") renderSent(); });
 if(S.wantMode) setMode(S.wantMode);
 </script>
 </body>
