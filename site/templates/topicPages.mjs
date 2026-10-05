@@ -134,7 +134,7 @@ export function homeCards(ctx) {
   const cards = ['jobs', 'medicine'].filter((k) => hasTopic(ctx, k)).map((k) => {
     const t = TOPICS[k]; const l = lead(ctx, k);
     const q = k === 'jobs' ? 'Is AI taking jobs?' : 'Is AI curing anything?';
-    return `<a class="tq__c tq__c--ph" href="${esc(ctx.href(t.path))}" style="--ph:url('${esc(ctx.href(`/img/page-${k}.jpg`))}')">
+    return `<a class="tq__c tq__c--ph" href="${esc(ctx.href(t.path))}" style="--ph:url('${esc(ctx.href(`/img/page-${k}.jpg`))}');--ph-set:image-set(url('${esc(ctx.href(`/img/page-${k}.avif`))}') type('image/avif'), url('${esc(ctx.href(`/img/page-${k}.jpg`))}') type('image/jpeg'))">
       <span class="tq__q">${esc(q)}</span>
       ${l ? `<b class="tq__n num">${esc(l.value)}</b><span class="tq__u">${esc(l.unit)} · ${esc(l.date)}</span>` : ''}
       <span class="tq__to">${esc(N(entries(ctx, k).length))} results on the record, with caveats →</span>
@@ -157,6 +157,7 @@ export function topicCss() {
 .tq__c--ph { position: relative; isolation: isolate; min-height: clamp(220px, 30vw, 340px); align-content: end; overflow: hidden; border: 0; border-radius: 16px;
   --ink: #eef0f4; --ink-dim: #b3bac4; color: #eef0f4; background: #06070b; }
 .tq__c--ph::before { content: ""; position: absolute; inset: 0; z-index: -2; background: var(--ph) center / cover no-repeat; transition: transform .6s ease; }
+@supports (background-image: image-set(url("a.avif") type("image/avif"))) { .tq__c--ph::before { background-image: var(--ph-set); } }
 .tq__c--ph::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(0deg, rgba(6,7,11,.94) 8%, rgba(6,7,11,.35) 70%, rgba(6,7,11,.1)); }
 @media (prefers-reduced-motion: no-preference) { .tq__c--ph:hover::before { transform: scale(1.04); } }
 .tq__q { font: 400 clamp(26px, 4vw, 38px)/1.02 var(--poster); text-transform: uppercase; letter-spacing: .012em; }

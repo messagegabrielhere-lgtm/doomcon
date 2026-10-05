@@ -334,6 +334,7 @@ main.wrap > .hero { padding: 0; border: 0; background: none; box-shadow: none; o
 .stage::after { content: ""; position: absolute; inset: 0; z-index: -1;
   background: linear-gradient(90deg, rgba(6,7,11,.9) 0%, rgba(6,7,11,.62) 46%, rgba(6,7,11,.08) 78%),
     linear-gradient(0deg, rgba(6,7,11,.85) 0%, rgba(6,7,11,0) 34%); }
+@supports (background-image: image-set(url("a.avif") type("image/avif"))) { .stage::before { background-image: var(--stage-set); } }
 .stage > * { max-width: min(100%, 720px); }
 .stage__credit { margin: var(--s-3) 0 0; font: 500 var(--t-2xs)/1.3 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-faint); }
 .stage .hero__lang button { color: var(--ink-dim); border-color: var(--rule); }
@@ -742,7 +743,7 @@ ${gauge.styleTag()}
        The text sits on the dark sky to its left, so the answer is still the
        first thing read, and the stage keeps a dark palette in both themes
        because the picture is dark in both. -->
-  <div class="stage" style="--stage:url('${esc(ctx.href('/img/hero-siren.jpg'))}')">
+  <div class="stage" style="--stage:url('${esc(ctx.href('/img/hero-siren.jpg'))}');--stage-set:image-set(url('${esc(ctx.href('/img/hero-siren.avif'))}') type('image/avif'), url('${esc(ctx.href('/img/hero-siren.jpg'))}') type('image/jpeg'))">
   ${answer(ctx)}
   <p class="hero__headline">${headline(ctx)}</p>
   ${Number.isFinite(state.score) ? langStrip(state) : ''}
@@ -907,7 +908,7 @@ ${style}`;
       `${brand.NAME} is at level ${state.level} (${state.level_name}), score ${scoreTxt} of 100, ` +
       `as of ${utc(state.generated_at)}. A recomputable index of AI activity tempo across five pillars.`,
     ogImage: ctx.cardFor(state.receipt_id),
-    head: `<link rel="preload" as="image" href="${esc(ctx.href('/img/hero-siren.jpg'))}" fetchpriority="high">`,
+    head: `<link rel="preload" as="image" type="image/avif" href="${esc(ctx.href('/img/hero-siren.avif'))}" fetchpriority="high">`,
     ogImageAlt: `${brand.NAME} ${state.level}, ${state.level_name}, score ${scoreTxt} of 100`,
     showDegraded: true,
     jsonld: [webApplication(ctx), dataset(ctx), faq.jsonLd(ctx)],
@@ -1470,7 +1471,8 @@ function homeMap(ctx) {
   <p class="lede"><b>${esc(n(t.sites))}</b> datacentre sites in <b>${esc(n(t.countries_with_sites))}</b> countries, ${esc(q)}.
     ${esc(n(t.countries_with_none))} countries have none mapped, which means nobody has mapped one there, not that none exists.</p>
   <figure class="hmap__ph">
-    <img src="${esc(ctx.href('/img/datacentre-night.jpg'))}" width="1920" height="1080" loading="lazy" decoding="async" alt="A large data centre campus lit up at night, seen from the air">
+    <picture><source type="image/avif" srcset="${esc(ctx.href('/img/datacentre-night.avif'))}">
+    <img src="${esc(ctx.href('/img/datacentre-night.jpg'))}" width="1920" height="1080" loading="lazy" decoding="async" alt="A large data centre campus lit up at night, seen from the air"></picture>
     <figcaption><b class="num">${esc(n(t.sites))}</b><span>of these, mapped so far. Illustration: generated image, not a real site.</span></figcaption>
   </figure>
   <a class="hmap__a" href="${esc(ctx.href('/world.html'))}" aria-label="Open the world map of datacentre sites">

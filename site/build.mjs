@@ -1267,7 +1267,7 @@ async function main() {
   // illustrations, credited as such where they are shown); copied through.
   const imgDir = path.join(ROOT, 'assets', 'img');
   if (existsSync(imgDir)) {
-    for (const name of (await readdir(imgDir)).filter((f) => /\.(jpe?g|png|webp)$/i.test(f)).sort()) {
+    for (const name of (await readdir(imgDir)).filter((f) => /\.(jpe?g|png|webp|avif)$/i.test(f)).sort()) {
       written.push(await write(args.out, `img/${name}`, await readFile(path.join(imgDir, name))));
     }
   }

@@ -757,7 +757,9 @@ const PAGE_BANNERS = {
 function pageBanner(ctx, path) {
   const file = PAGE_BANNERS[path];
   if (!file) return '';
-  return `<figure class="pgph"><img src="${esc(ctx.href(`/img/${file}`))}" width="1600" height="600" alt="" decoding="async"><figcaption>Illustration: generated image</figcaption></figure>\n`;
+  // AVIF first: the same picture at about a sixth of the bytes. The JPEG stays
+  // as the <img> for any browser that cannot decode it.
+  return `<figure class="pgph"><picture><source type="image/avif" srcset="${esc(ctx.href(`/img/${file.replace(/\.jpg$/, '.avif')}`))}"><img src="${esc(ctx.href(`/img/${file}`))}" width="1600" height="600" alt="" decoding="async" fetchpriority="high"></picture><figcaption>Illustration: generated image</figcaption></figure>\n`;
 }
 
 /* WHAT A SEARCH RESULT CAN SHOW. A result page cuts a title near 65 characters
