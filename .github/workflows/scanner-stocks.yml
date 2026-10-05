@@ -1,0 +1,53 @@
+# Stock snapshot for the Capitulation Scanner page (/scanner.html).
+#
+# Separate from the SIREN workflows on purpose: it reads only scanner/, writes
+# only the scanner-data branch (one orphan commit, force-pushed, so it never
+# accumulates history), and never touches main. The page fetches the JSON from
+# raw.githubusercontent.com, so a run is visible within a few minutes without
+# waiting for a gh-pages publish.
+
+name: scanner-stocks
+
+on:
+  schedule:
+    - cron: '12,42 13-20 * * 1-5'   # every 30 min through the US session (UTC)
+    - cron: '25 21 * * 1-5'         # once after the close
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: scanner-stocks
+  cancel-in-progress: true
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: scanner
+          fetch-depth: 1
+
+      - name: Set up Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Fetch candles
+        run: node scanner/collect-stocks.mjs "$RUNNER_TEMP/scanner-out"
+
+      - name: Publish to scanner-data
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cd "$RUNNER_TEMP/scanner-out"
+          git init -q -b scanner-data
+          git config user.name "github-actions[bot]"
+          git config user.email "41898699+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -q -m "Stock snapshot $(date -u +%Y-%m-%dT%H:%MZ)"
+          git push -q -f "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git" scanner-data

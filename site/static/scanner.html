@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Capitulation Scanner</title>
-<meta name="description" content="Scan crypto perpetual futures for RSI washouts on heavy volume. Supports, entry zones, backtest, week replay and Pine Script export.">
+<meta name="description" content="Scan US stocks, ETFs and crypto futures for washouts, pullbacks, breakouts and golden crosses. Supports, entry zones, trade plans, backtests, replay and Pine Script export.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
@@ -25,15 +25,16 @@
   --accent:#f0b44c; --accent-ink:#1a1206; --up:#33c1a1; --down:#f0645a; --zone:rgba(240,180,76,.12); color-scheme:dark}
 
 *{box-sizing:border-box}
-body{background:var(--bg);color:var(--ink);font:14px/1.45 var(--f-body);padding-inline:16px;padding-block:14px 28px}
-.wrap{max-width:1360px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 var(--f-body);padding-inline:16px;padding-block:14px 28px}
+.wrap{max-width:1400px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
 button,input,select,textarea{font:inherit;color:inherit}
 button{cursor:pointer}
+[hidden]{display:none!important}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .mono,.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
 
 /* header */
-.top{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px}
+.top{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px}
 .brand{display:flex;align-items:baseline;gap:10px;margin-right:auto}
 .brand h1{margin:0;font:700 26px/1 var(--f-display);letter-spacing:.02em;text-transform:uppercase}
 .brand h1 b{color:var(--accent);font-weight:700}
@@ -42,12 +43,17 @@ button{cursor:pointer}
 .chip i{width:7px;height:7px;border-radius:50%;background:var(--mute);display:inline-block}
 .chip.live i{background:var(--up);box-shadow:0 0 0 3px color-mix(in srgb,var(--up) 25%,transparent)}
 .chip.demo i{background:var(--accent)}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:7px;overflow:hidden;background:var(--panel)}
+.seg button{border:0;background:transparent;padding:6px 13px;font:600 13px/1 var(--f-display);letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+.seg button[aria-pressed=true]{background:var(--ink);color:var(--bg)}
 .ctl{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--mute)}
 select,input[type=number],input[type=text]{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:5px 8px}
-input[type=number]{width:70px}
+input[type=number]{width:74px}
 .btn{border:1px solid var(--line);background:var(--panel);border-radius:6px;padding:6px 12px;font-weight:500}
 .btn:hover{border-color:var(--mute)}
 .btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
+.btn.small{padding:3px 9px;font-size:12px}
+.btn[aria-pressed=true]{border-color:var(--accent);color:var(--accent)}
 .btn:disabled{opacity:.55;cursor:default}
 
 /* command bar */
@@ -62,35 +68,44 @@ input[type=number]{width:70px}
 .status b{color:var(--ink);font-weight:600}
 
 /* main grid */
-.grid{display:grid;grid-template-columns:minmax(270px,330px) minmax(0,1fr);gap:12px;align-items:start}
+.grid{display:grid;grid-template-columns:minmax(300px,370px) minmax(0,1fr);gap:12px;align-items:start}
 .panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;min-width:0}
-.ph{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 12px;border-bottom:1px solid var(--line)}
+.ph{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;padding:10px 12px;border-bottom:1px solid var(--line)}
 .ph h2{margin:0;font:600 15px/1 var(--f-display);letter-spacing:.1em;text-transform:uppercase}
+.ph .acts{display:flex;gap:6px;align-items:center}
+.strat{padding:10px 12px 0;display:flex;flex-direction:column;gap:4px}
+.strat select{width:100%;font-weight:500}
+.strat p{margin:0;font-size:12px;color:var(--mute)}
 .rules{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;padding:10px 12px;border-bottom:1px solid var(--line)}
-.rules label{display:flex;flex-direction:column;gap:3px;font-size:11px;color:var(--mute);letter-spacing:.04em;text-transform:uppercase}
+.rules label,.filters label{display:flex;flex-direction:column;gap:3px;font-size:11px;color:var(--mute);letter-spacing:.04em;text-transform:uppercase}
 .rules input{width:100%}
-.scanwrap{max-height:560px;overflow:auto}
+.filters{display:flex;flex-wrap:wrap;gap:8px;align-items:end;padding:8px 12px;border-bottom:1px solid var(--line)}
+.filters select{min-width:140px}
+.keyline{display:flex;gap:12px;padding:6px 12px;font-size:11px;color:var(--mute);border-bottom:1px solid var(--line)}
+.scanwrap{max-height:540px;overflow:auto}
 table{width:100%;border-collapse:collapse}
-th{font:600 11px/1.2 var(--f-body);color:var(--mute);text-transform:uppercase;letter-spacing:.05em;text-align:right;padding:8px 8px;position:sticky;top:0;background:var(--panel);border-bottom:1px solid var(--line)}
+th{font:600 11px/1.2 var(--f-body);color:var(--mute);text-transform:uppercase;letter-spacing:.05em;text-align:right;padding:0;position:sticky;top:0;background:var(--panel);border-bottom:1px solid var(--line);z-index:1}
+th button{all:unset;cursor:pointer;display:block;width:100%;box-sizing:border-box;padding:8px 8px;text-align:inherit}
+th button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+th button[data-dir]::after{content:attr(data-dir);margin-left:3px;color:var(--accent)}
 th:first-child,td:first-child{text-align:left}
 td{padding:7px 8px;text-align:right;border-bottom:1px solid color-mix(in srgb,var(--line) 60%,transparent);font-family:var(--f-mono);font-size:12.5px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.tblwrap th{padding:8px;background:var(--sunk)}
 tr.row{cursor:pointer}
 tr.row:hover td{background:var(--sunk)}
 tr.row.sel td{background:color-mix(in srgb,var(--accent) 12%,transparent)}
 tr.row.sel td:first-child{box-shadow:inset 3px 0 0 var(--accent)}
 .sym{font-family:var(--f-body);font-weight:600}
-.sym small{color:var(--mute);font-weight:400;font-size:11px}
-.pill{display:inline-block;border-radius:4px;padding:1px 6px;font:600 10.5px/1.5 var(--f-body);letter-spacing:.05em;text-transform:uppercase}
-.pill.match{background:var(--accent);color:var(--accent-ink)}
-.pill.near{border:1px solid var(--accent);color:var(--accent)}
-.pill.none{color:var(--mute)}
-.hot{color:var(--accent)}
+.star{all:unset;cursor:pointer;color:var(--line);font-size:13px;padding:0 5px 0 0;line-height:1}
+.star[aria-pressed=true]{color:var(--accent)}
+.star:focus-visible{outline:2px solid var(--accent)}
 .mk{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:7px;vertical-align:0;border:1.5px solid transparent}
 .mk.match{background:var(--accent);border-color:var(--accent)}
 .mk.near{border-color:var(--accent)}
 .mk.none{border-color:var(--line)}
-.keyline{display:flex;gap:12px;padding:6px 12px;font-size:11px;color:var(--mute);border-bottom:1px solid var(--line)}
+.hot{color:var(--accent)}
 .up{color:var(--up)} .down{color:var(--down)}
+.empty td{font-family:var(--f-body);color:var(--mute);text-align:left;white-space:normal}
 
 /* chart */
 .readout{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 16px;padding:10px 12px;border-bottom:1px solid var(--line)}
@@ -106,6 +121,7 @@ canvas#chart{display:block;width:100%;height:500px;touch-action:pan-y}
 .legend i.z{height:9px;border:1px dashed var(--accent);background:var(--zone)}
 .legend i.t{width:0;height:0;border:5px solid transparent;border-bottom:8px solid var(--accent);border-top:0}
 .legend i.r{border-top-color:var(--down)}
+.legend i.m{border-top:2px solid var(--mute)}
 
 /* tabs */
 .tabs{display:flex;gap:2px;padding:0 8px;border-bottom:1px solid var(--line);overflow-x:auto}
@@ -115,14 +131,13 @@ canvas#chart{display:block;width:100%;height:500px;touch-action:pan-y}
 .row-ctl{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:end}
 .row-ctl label{display:flex;flex-direction:column;gap:3px;font-size:11px;color:var(--mute);text-transform:uppercase;letter-spacing:.04em}
 .stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden}
-.stat{background:var(--panel);padding:9px 11px}
+.stat{background:var(--panel);padding:9px 11px;min-width:0}
 .stat > span{display:block;font-size:10.5px;color:var(--mute);text-transform:uppercase;letter-spacing:.06em}
-.stat b{display:block;font:500 18px/1.3 var(--f-mono);font-variant-numeric:tabular-nums}
+.stat b{display:block;font:500 18px/1.3 var(--f-mono);font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
 .two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px}
 .two h3,.tabpane h3{margin:0 0 6px;font:600 13px/1.2 var(--f-display);letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
 .tblwrap{overflow-x:auto;max-height:260px;overflow-y:auto;border:1px solid var(--line);border-radius:8px}
-.tblwrap th{background:var(--sunk)}
-.note{font-size:12px;color:var(--mute);margin:0;max-width:80ch}
+.note{font-size:12px;color:var(--mute);margin:0;max-width:85ch}
 .note b{color:var(--ink);font-weight:500}
 textarea{width:100%;min-height:240px;background:var(--sunk);border:1px solid var(--line);border-radius:8px;padding:10px;font:12.5px/1.5 var(--f-mono);resize:vertical;tab-size:2}
 .err{color:var(--down);font:12px/1.4 var(--f-mono);white-space:pre-wrap;margin:0}
@@ -133,65 +148,102 @@ textarea{width:100%;min-height:240px;background:var(--sunk);border:1px solid var
 .rp-bar .btn{min-width:40px}
 .prog{flex:1;min-width:140px;height:6px;background:var(--sunk);border:1px solid var(--line);border-radius:999px;overflow:hidden}
 .prog i{display:block;height:100%;width:0;background:var(--accent)}
-.foot{font-size:11.5px;color:var(--mute);text-align:center}
 
-@media (max-width:900px){
+/* trade plan */
+.verdict{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--sunk)}
+.verdict .pill{flex:none;border-radius:4px;padding:2px 7px;font:600 11px/1.5 var(--f-body);letter-spacing:.06em;text-transform:uppercase}
+.pill.on{background:var(--accent);color:var(--accent-ink)}
+.pill.off{border:1px solid var(--line);color:var(--mute)}
+.plan{display:grid;grid-template-columns:max-content max-content minmax(0,1fr);gap:0;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.plan > div{padding:8px 12px;border-bottom:1px solid var(--line);background:var(--panel)}
+.plan > div:nth-last-child(-n+3){border-bottom:0}
+.plan .k{font-size:11px;color:var(--mute);text-transform:uppercase;letter-spacing:.06em;align-self:center}
+.plan .v{font:500 15px/1.3 var(--f-mono);font-variant-numeric:tabular-nums;text-align:right}
+.plan .w{font-size:12px;color:var(--mute);align-self:center}
+.foot{font-size:11.5px;color:var(--mute);text-align:center;max-width:110ch;margin:0 auto}
+.foot a{color:inherit}
+
+@media (max-width:960px){
   .grid{grid-template-columns:minmax(0,1fr)}
-  .scanwrap{max-height:300px}
+  .scanwrap{max-height:320px}
   canvas#chart{height:430px}
   .two{grid-template-columns:minmax(0,1fr)}
 }
-@media (max-width:520px){
+@media (max-width:560px){
   .cmd form{flex-wrap:wrap}
   .cmd label.prompt{display:none}
   .brand span{display:none}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .plan{grid-template-columns:max-content minmax(0,1fr)}
+  .plan .w{grid-column:1 / -1;padding-top:0}
+  .plan > div:nth-last-child(-n+3){border-bottom:1px solid var(--line)}
+  .plan > div:last-child{border-bottom:0}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
 <body>
-
 <div class="wrap">
   <header class="top">
-    <div class="brand"><h1>Capitulation <b>Scanner</b></h1><span>Perpetual futures: RSI washouts on heavy volume</span></div>
-    <span id="src" class="chip demo"><i></i><span id="srcText">Demo data (simulated)</span></span>
-    <label class="ctl" for="tf">Timeframe
-      <select id="tf"><option value="15m">15m</option><option value="1H" selected>1H</option><option value="4H">4H</option></select>
-    </label>
-    <label class="ctl" for="topn">Contracts
+    <div class="brand"><h1>Capitulation <b>Scanner</b></h1><span>Stocks, ETFs and crypto futures</span></div>
+    <div class="seg" role="group" aria-label="Market">
+      <button type="button" id="aStocks" aria-pressed="true">Stocks</button>
+      <button type="button" id="aCrypto" aria-pressed="false">Crypto</button>
+    </div>
+    <span id="src" class="chip demo"><i></i><span id="srcText">Loading…</span></span>
+    <label class="ctl" for="tf">Timeframe <select id="tf"></select></label>
+    <label class="ctl" for="topn" id="topnWrap" hidden>Contracts
       <select id="topn"><option>20</option><option selected>40</option><option>60</option><option>100</option></select>
     </label>
-    <button class="btn" id="liveBtn" type="button">Load live OKX data</button>
-    <button class="btn" id="demoBtn" type="button" hidden>Back to demo</button>
+    <button class="btn" id="liveBtn" type="button">Reload</button>
+    <button class="btn" id="linkBtn" type="button" title="Copy a link to this exact scan">Copy link</button>
   </header>
 
   <section class="cmd" aria-label="Ask the scanner">
     <form id="cmdForm">
       <label class="prompt" for="cmd">Ask</label>
-      <input id="cmd" type="text" autocomplete="off" value="Find me all BTC futures with RSI below 30 and volume +200% at the same time">
+      <input id="cmd" type="text" autocomplete="off" value="Find stocks above their 200-day average with RSI below 40">
       <button class="btn primary" type="submit" id="cmdGo">Run</button>
     </form>
     <div class="examples">
-      <button type="button" data-q="Find me all BTC futures with RSI below 30 and volume +200% at the same time">RSI &lt; 30 and volume +200%</button>
-      <button type="button" data-q="Replay last week and show me where my system would have entered">Replay last week</button>
-      <button type="button" data-q="Write me a momentum oscillator that crosses whale activity with price trend">Write a whale momentum oscillator</button>
-      <button type="button" data-q="Scan 4h for RSI under 35 with 2x volume in the last 5 bars">4H, RSI &lt; 35, 2× volume</button>
+      <button type="button" data-q="Find stocks above their 200-day average with RSI below 40">Stocks: pullback in uptrend</button>
+      <button type="button" data-q="Daily stock breakouts to a 20-day high on +50% volume">Stocks: volume breakouts</button>
+      <button type="button" data-q="Stocks with a golden cross in the last 10 days">Stocks: golden cross</button>
+      <button type="button" data-q="Find me all BTC futures with RSI below 30 and volume +200% at the same time">Crypto: RSI &lt; 30, volume +200%</button>
+      <button type="button" data-q="Replay and show me where my system would have entered">Replay</button>
+      <button type="button" data-q="Write me a momentum oscillator that crosses whale activity with price trend">Write an oscillator</button>
     </div>
     <div class="status" id="status" role="status" aria-live="polite"></div>
   </section>
 
   <div class="grid">
     <section class="panel" aria-label="Scanner">
-      <div class="ph"><h2>Scanner</h2><span class="chip" id="countChip">–</span></div>
-      <div class="rules">
-        <label for="rRsi">RSI below<input id="rRsi" type="number" min="5" max="60" step="1" value="30"></label>
-        <label for="rVol">Volume +%<input id="rVol" type="number" min="0" max="2000" step="25" value="200"></label>
-        <label for="rWin">Last bars<input id="rWin" type="number" min="1" max="50" step="1" value="3"></label>
+      <div class="ph"><h2>Scanner</h2>
+        <div class="acts">
+          <span class="chip" id="countChip">–</span>
+          <button class="btn small" id="watchBtn" type="button" aria-pressed="false" title="Show only starred symbols">★ Watchlist</button>
+          <button class="btn small" id="csvBtn" type="button" title="Copy the scan results as CSV">Copy CSV</button>
+        </div>
       </div>
-      <div class="keyline"><span><span class="mk match"></span>Match</span><span><span class="mk near"></span>Near</span><span>Sorted by closeness to the rule</span></div>
+      <div class="strat">
+        <label class="note" for="preset">Strategy</label>
+        <select id="preset"></select>
+        <p id="presetBlurb"></p>
+      </div>
+      <div class="rules" id="params"></div>
+      <div class="filters" id="filters">
+        <label for="sector">Sector<select id="sector"><option value="all">All sectors</option></select></label>
+      </div>
+      <div class="keyline"><span><span class="mk match"></span>Match</span><span><span class="mk near"></span>Near</span><span id="pinfo">Click a column to sort</span></div>
       <div class="scanwrap">
         <table>
-          <thead><tr><th>Contract</th><th>Last</th><th title="Lowest RSI(14) in the last N bars">RSI low</th><th title="Highest volume vs. its 20-bar average in the last N bars">Vol×</th></tr></thead>
+          <thead><tr>
+            <th><button type="button" data-k="sym">Symbol</button></th>
+            <th><button type="button" data-k="last">Last</button></th>
+            <th><button type="button" data-k="chg" id="chgHead">Day</button></th>
+            <th><button type="button" data-k="rsi" title="Lowest RSI(14) in the last N bars">RSI low</button></th>
+            <th><button type="button" data-k="vr" title="Highest volume vs. its 20-bar average in the last N bars">Vol×</button></th>
+          </tr></thead>
           <tbody id="scanBody"></tbody>
         </table>
       </div>
@@ -199,21 +251,34 @@ textarea{width:100%;min-height:240px;background:var(--sunk);border:1px solid var
 
     <section class="panel" aria-label="Chart and tools">
       <div class="readout" id="readout"></div>
-      <div class="chartbox"><canvas id="chart" aria-label="Price chart with support levels, entry zone, RSI and indicator panes" role="img"></canvas></div>
+      <div class="chartbox"><canvas id="chart" aria-label="Price chart with support levels, entry zone, moving averages, RSI and indicator panes" role="img"></canvas></div>
       <div class="legend">
-        <span><i></i>Support (pivot-low clusters)</span>
+        <span><i></i>Support</span>
         <span><i class="r"></i>Resistance</span>
         <span><i class="z"></i>Entry zone</span>
+        <span><i class="m"></i>50 / 200 SMA</span>
         <span><i class="t"></i>System entry</span>
       </div>
       <div class="tabs" role="tablist">
-        <button role="tab" id="tab-bt" aria-selected="true" aria-controls="pane-bt">Backtest</button>
+        <button role="tab" id="tab-plan" aria-selected="true" aria-controls="pane-plan">Trade plan</button>
+        <button role="tab" id="tab-bt" aria-selected="false" aria-controls="pane-bt">Backtest</button>
         <button role="tab" id="tab-rp" aria-selected="false" aria-controls="pane-rp">Replay</button>
         <button role="tab" id="tab-ind" aria-selected="false" aria-controls="pane-ind">Indicator</button>
         <button role="tab" id="tab-pine" aria-selected="false" aria-controls="pane-pine">Pine Script</button>
       </div>
 
-      <div class="tabpane" id="pane-bt" role="tabpanel" aria-labelledby="tab-bt">
+      <div class="tabpane" id="pane-plan" role="tabpanel" aria-labelledby="tab-plan">
+        <div class="verdict" id="verdict"></div>
+        <div class="row-ctl">
+          <label for="aAcct">Account ($)<input id="aAcct" type="number" step="1000" min="100" value="25000" style="width:100px"></label>
+          <label for="aRisk">Risk per trade (%)<input id="aRisk" type="number" step="0.25" min="0.1" max="10" value="1"></label>
+        </div>
+        <div class="plan" id="planBox"></div>
+        <div class="row-ctl"><button class="btn" id="planCopy" type="button">Copy plan</button><span class="status" id="planMsg"></span></div>
+        <p class="note">Entry, stop and target come from the entry zone, support and resistance on the chart and the 14-bar ATR. Position size is the number of units whose loss at the stop equals your risk per trade. The plan lines are drawn on the chart while this tab is open. <b>It is a starting point for your own analysis, not a recommendation.</b></p>
+      </div>
+
+      <div class="tabpane" id="pane-bt" role="tabpanel" aria-labelledby="tab-bt" hidden>
         <div class="row-ctl">
           <label for="bStop">Stop (ATR)<input id="bStop" type="number" step="0.25" min="0.25" value="1.5"></label>
           <label for="bTp">Target (ATR)<input id="bTp" type="number" step="0.25" min="0.25" value="2.5"></label>
@@ -222,31 +287,25 @@ textarea{width:100%;min-height:240px;background:var(--sunk);border:1px solid var
           <label for="bSize">Size per trade ($)<input id="bSize" type="number" step="500" min="100" value="10000" style="width:90px"></label>
         </div>
         <div class="two">
-          <div>
-            <h3 id="btSymTitle">This contract</h3>
-            <div class="stats" id="btSym"></div>
-          </div>
-          <div>
-            <h3>All scanned contracts</h3>
-            <div class="stats" id="btAll"></div>
-          </div>
+          <div><h3 id="btSymTitle">This symbol</h3><div class="stats" id="btSym"></div></div>
+          <div><h3 id="btAllTitle">Everything scanned</h3><div class="stats" id="btAll"></div></div>
         </div>
         <div class="two">
           <div>
-            <h3>Trades on this contract</h3>
+            <h3>Trades on this symbol</h3>
             <div class="tblwrap"><table><thead><tr><th>Entry</th><th>Price</th><th>Exit</th><th>Why</th><th>PnL</th></tr></thead><tbody id="btTrades"></tbody></table></div>
           </div>
           <div>
-            <h3>Best and worst contracts</h3>
-            <div class="tblwrap"><table><thead><tr><th>Contract</th><th>Trades</th><th>Hit</th><th>PnL</th></tr></thead><tbody id="btRank"></tbody></table></div>
+            <h3>Best and worst symbols</h3>
+            <div class="tblwrap"><table><thead><tr><th>Symbol</th><th>Trades</th><th>Hit</th><th>PnL</th></tr></thead><tbody id="btRank"></tbody></table></div>
           </div>
         </div>
-        <p class="note">System: go long when RSI(14) is below the scan threshold and volume is at least the scan multiple of its 20-bar average. Fill at the next bar's open, stop and target set in ATR from the signal close, exit early when RSI recovers or the time limit hits. 0.05% fee per side. If stop and target fall inside the same bar, the stop counts. <b>These are hypothetical results and no orders are placed.</b></p>
+        <p class="note" id="btNote"></p>
       </div>
 
       <div class="tabpane" id="pane-rp" role="tabpanel" aria-labelledby="tab-rp" hidden>
         <div class="rp-bar">
-          <button class="btn" id="rpStart" type="button" title="Back to week start">⏮</button>
+          <button class="btn" id="rpStart" type="button" title="Back to the start">⏮</button>
           <button class="btn primary" id="rpPlay" type="button">Play</button>
           <button class="btn" id="rpStep" type="button" title="Next candle">Step ▸</button>
           <label class="ctl" for="rpSpeed">Speed
@@ -276,19 +335,20 @@ textarea{width:100%;min-height:240px;background:var(--sunk);border:1px solid var
       </div>
 
       <div class="tabpane" id="pane-pine" role="tabpanel" aria-labelledby="tab-pine" hidden>
-        <p class="note">The same system as a TradingView strategy, using your current thresholds. Open the Pine Editor, paste this, then click <b>Add to chart</b> and check the Strategy Tester.</p>
+        <p class="note">The selected strategy as a TradingView strategy, using your current settings. Open the Pine Editor, paste this, then click <b>Add to chart</b> and check the Strategy Tester.</p>
         <textarea id="pine" readonly spellcheck="false"></textarea>
         <div class="row-ctl"><button class="btn primary" id="pineCopy" type="button">Copy Pine Script</button><span class="status" id="pineMsg"></span></div>
       </div>
     </section>
   </div>
-  <p class="foot">Market data: OKX public API, fetched directly or through your TinyFish connector. The demo feed is simulated and contains no real prices. This is not financial advice.</p>
+  <p class="foot">Stock data: Yahoo Finance chart API, delayed, saved by a GitHub Action every 30 minutes in US market hours (<a href="https://github.com/messagegabrielhere-lgtm/doomcon/blob/main/scanner/collect-stocks.mjs" target="_blank" rel="noopener">collector</a>). Crypto data: OKX public API. The demo feed is simulated and contains no real prices. Backtests are hypothetical. Nothing here is financial advice.</p>
 </div>
 
 <script>
 "use strict";
 const $ = s => document.querySelector(s);
 const isF = Number.isFinite;
+const inViewer = !!window.claude;
 
 /* ---------- technical analysis (shared with the indicator worker) ---------- */
 function makeTA(){
@@ -306,40 +366,93 @@ function makeTA(){
 }
 const ta = makeTA();
 
-/* ---------- state ---------- */
-const S = {
-  source:"demo", via:null, bar:"1H", top:40,
-  rsiBelow:30, volPct:200, within:3, rsiLen:14, volLen:20,
-  stopAtr:1.5, tpAtr:2.5, exitRsi:50, maxBars:48, size:10000, fee:0.05,
-  universe:[], sel:null, view:140, hover:-1,
-  replay:{on:false,start:0,cursor:0,timer:null},
-  osc:null, tab:"bt"
+/* ---------- strategies ---------- */
+const pos = x => isF(x) ? Math.max(0,x) : Infinity;
+function priorHigh(u,i){ const n = S.p.lookback; if(i<n) return NaN; let m = -Infinity; for(let k=i-n;k<i;k++) m = Math.max(m,u.d.h[k]); return m; }
+const PRESETS = {
+  pullback:{
+    label:"Pullback in uptrend", blurb:"Close above the 200-bar SMA while RSI dips below the line. Buys weakness inside a longer uptrend.",
+    params:["rsiBelow","within"], defaults:{rsiBelow:40, within:3}, meanRev:true,
+    sig:(u,i)=> u.d.c[i]>u.ind.sma200[i] && u.ind.rsi[i]<S.p.rsiBelow,
+    dist:(u,i)=> !(u.d.c[i]>u.ind.sma200[i]) ? (isF(u.ind.sma200[i]) ? 0.5+pos((u.ind.sma200[i]-u.d.c[i])/u.d.c[i]*10) : Infinity) : pos((u.ind.rsi[i]-S.p.rsiBelow)/S.p.rsiBelow),
+    pine:p=>({inputs:`rsiBelow = input.float(${p.rsiBelow}, "RSI below")\ntrendLen = input.int(200, "Trend SMA length")`, sig:`close > ta.sma(close, trendLen) and r < rsiBelow`, title:`Pullback in uptrend: RSI < ${p.rsiBelow} above the 200 SMA`})
+  },
+  capitulation:{
+    label:"Capitulation", blurb:"RSI below the line on a volume spike. Catches washouts; often early, so size small.",
+    params:["rsiBelow","volPct","within"], defaults:{rsiBelow:30, volPct:200, within:3}, meanRev:true,
+    sig:(u,i)=> u.ind.rsi[i]<S.p.rsiBelow && u.ind.vr[i]>=1+S.p.volPct/100,
+    dist:(u,i)=>{ const m = 1+S.p.volPct/100; return pos((u.ind.rsi[i]-S.p.rsiBelow)/S.p.rsiBelow) + pos((m-u.ind.vr[i])/m); },
+    pine:p=>({inputs:`rsiBelow = input.float(${p.rsiBelow}, "RSI below")\nvolMult  = input.float(${(1+p.volPct/100).toFixed(2)}, "Volume at least x average")`, sig:`r < rsiBelow and volume >= volMult * ta.sma(volume, volLen)[1]`, title:`Capitulation: RSI < ${p.rsiBelow} and volume +${p.volPct}%`})
+  },
+  breakout:{
+    label:"Volume breakout", blurb:"Close above the highest high of the prior N bars on above-average volume.",
+    params:["lookback","volPct","within"], defaults:{lookback:20, volPct:50, within:3}, meanRev:false,
+    sig:(u,i)=> u.d.c[i]>priorHigh(u,i) && u.ind.vr[i]>=1+S.p.volPct/100,
+    dist:(u,i)=>{ const hh = priorHigh(u,i), m = 1+S.p.volPct/100; return pos((hh-u.d.c[i])/u.d.c[i]*10) + pos((m-u.ind.vr[i])/m); },
+    pine:p=>({inputs:`lookback = input.int(${p.lookback}, "Breakout above high of last N bars")\nvolMult  = input.float(${(1+p.volPct/100).toFixed(2)}, "Volume at least x average")`, sig:`close > ta.highest(high, lookback)[1] and volume >= volMult * ta.sma(volume, volLen)[1]`, title:`Volume breakout: ${p.lookback}-bar high on +${p.volPct}% volume`})
+  },
+  golden:{
+    label:"Golden cross", blurb:"The 50-bar SMA crosses above the 200-bar SMA. A slow trend-change signal.",
+    params:["within"], defaults:{within:10}, meanRev:false,
+    sig:(u,i)=> i>0 && u.ind.sma50[i]>u.ind.sma200[i] && u.ind.sma50[i-1]<=u.ind.sma200[i-1],
+    dist:(u,i)=>{ const a = u.ind.sma50[i], b = u.ind.sma200[i]; if(!isF(a)||!isF(b)) return Infinity; return a>b ? 0.4 : pos((b-a)/b*15); },
+    pine:()=>({inputs:`fastLen = input.int(50, "Fast SMA")\nslowLen = input.int(200, "Slow SMA")`, sig:`ta.crossover(ta.sma(close, fastLen), ta.sma(close, slowLen))`, title:"Golden cross: 50 SMA over 200 SMA"})
+  }
 };
-const BAR_MS = {"15m":9e5,"1H":36e5,"4H":144e5};
-const WEEK_BARS = {"15m":250,"1H":168,"4H":42};
+const PARAM_META = {
+  rsiBelow:{label:"RSI below",min:5,max:80,step:1},
+  volPct:{label:"Volume +%",min:0,max:2000,step:25},
+  within:{label:"Last bars",min:1,max:60,step:1},
+  lookback:{label:"High of last",min:5,max:200,step:1}
+};
 
-/* ---------- demo feed (simulated, seeded so it is stable for the day) ---------- */
-const DEMO = [["BTC",86600],["ETH",3150],["SOL",142],["XRP",2.05],["DOGE",0.162],["BNB",612],["ADA",0.61],["AVAX",21.4],["LINK",14.2],["TON",3.1],["SUI",2.6],["LTC",88],["DOT",4.1],["TRX",0.27],["BCH",395],["NEAR",2.7],["APT",5.3],["ARB",0.38],["OP",0.71],["INJ",11.8],["FIL",2.9],["ATOM",4.6],["UNI",7.9],["AAVE",168],["ETC",17.6],["HBAR",0.18],["PEPE",0.0000098],["WIF",0.74],["TIA",3.2],["SEI",0.23],["RENDER",3.9],["FET",0.62],["ORDI",8.4],["JUP",0.52],["STX",0.71],["IMX",0.55],["LDO",1.05],["CRV",0.64],["ENA",0.41],["ONDO",0.88],["WLD",1.2],["POL",0.24],["ICP",5.1],["ALGO",0.19],["GALA",0.021],["SAND",0.29],["MANA",0.31],["AXS",3.4],["XLM",0.27],["VET",0.025],["THETA",0.95],["EGLD",18.5],["KAS",0.085],["RUNE",1.4],["PYTH",0.16],["JTO",2.1],["BONK",0.000021],["FLOKI",0.000095],["SHIB",0.0000135],["NOT",0.0024],["W",0.11],["ZRO",2.2],["STRK",0.14],["BLUR",0.12],["DYDX",0.66],["GMX",15.2],["SNX",0.72],["COMP",42],["MKR",1350],["YFI",5200],["SUSHI",0.68],["1INCH",0.26],["ENS",19.5],["APE",0.62],["CHZ",0.041],["EOS",0.58],["NEO",6.2],["IOTA",0.19],["ZIL",0.013],["KSM",16],["CFX",0.09],["MINA",0.31],["ROSE",0.035],["CELO",0.38],["AR",7.1],["GRT",0.11],["LRC",0.12],["MASK",1.6],["OM",0.42],["PENDLE",3.6],["TRB",44],["SSV",8.1],["ACE",0.9],["BOME",0.0021],["MEME",0.0035],["PEOPLE",0.021],["ZETA",0.24],["ALT",0.04],["AEVO",0.13],["ETHFI",1.1]];
+/* ---------- state ---------- */
+const TFS = {stocks:["1D","1H"], crypto:["15m","1H","4H"]};
+const DEFAULT_TF = {stocks:"1D", crypto:"1H"};
+const BAR_MS = {"15m":9e5,"1H":36e5,"4H":144e5,"1D":864e5};
+const S = {
+  asset:"stocks", source:"demo", via:null, asOf:null, bar:"1D", top:40,
+  preset:"pullback", p:{...PRESETS.pullback.defaults, volPct:200, lookback:20},
+  rsiLen:14, volLen:20,
+  stopAtr:1.5, tpAtr:2.5, exitRsi:50, maxBars:48, size:10000, fee:0.05,
+  acct:25000, riskPct:1,
+  universe:[], sel:null, view:140, hover:-1,
+  sortKey:null, sortDir:1, sector:"all", watchOnly:false, watch:new Set(),
+  replay:{on:false,start:0,cursor:0,timer:null},
+  osc:null, tab:"plan"
+};
+try{ S.watch = new Set(JSON.parse(localStorage.getItem("capscan.watch")||"[]")); }catch{}
+const saveWatch = () => { try{ localStorage.setItem("capscan.watch", JSON.stringify([...S.watch])); }catch{} };
+const dayBars = () => S.asset==="stocks" ? (S.bar==="1D"?1:7) : Math.round(864e5/BAR_MS[S.bar]);
+const replayBars = () => S.asset==="stocks" ? (S.bar==="1D"?63:70) : ({"15m":250,"1H":168,"4H":42})[S.bar];
+const replayName = () => S.asset==="stocks" ? (S.bar==="1D"?"last quarter":"last two weeks") : (S.bar==="15m"?"last 2½ days":"last week");
+const disp = u => u.sym.replace(/-USDT-SWAP$/,"");
+const visible = () => S.universe.filter(u => (S.sector==="all" || u.sec===S.sector) && (!S.watchOnly || S.watch.has(u.sym)));
+
+/* ---------- demo feeds (simulated, seeded so they are stable for the day) ---------- */
+const CRYPTO_DEMO = [["BTC",86600],["ETH",3150],["SOL",142],["XRP",2.05],["DOGE",0.162],["BNB",612],["ADA",0.61],["AVAX",21.4],["LINK",14.2],["TON",3.1],["SUI",2.6],["LTC",88],["DOT",4.1],["TRX",0.27],["BCH",395],["NEAR",2.7],["APT",5.3],["ARB",0.38],["OP",0.71],["INJ",11.8],["FIL",2.9],["ATOM",4.6],["UNI",7.9],["AAVE",168],["ETC",17.6],["HBAR",0.18],["PEPE",0.0000098],["WIF",0.74],["TIA",3.2],["SEI",0.23],["RENDER",3.9],["FET",0.62],["ORDI",8.4],["JUP",0.52],["STX",0.71],["IMX",0.55],["LDO",1.05],["CRV",0.64],["ENA",0.41],["ONDO",0.88],["WLD",1.2],["POL",0.24],["ICP",5.1],["ALGO",0.19],["GALA",0.021],["SAND",0.29],["MANA",0.31],["AXS",3.4],["XLM",0.27],["VET",0.025],["THETA",0.95],["EGLD",18.5],["KAS",0.085],["RUNE",1.4],["PYTH",0.16],["JTO",2.1],["BONK",0.000021],["FLOKI",0.000095],["SHIB",0.0000135],["NOT",0.0024],["W",0.11],["ZRO",2.2],["STRK",0.14],["BLUR",0.12],["DYDX",0.66],["GMX",15.2],["SNX",0.72],["COMP",42],["MKR",1350],["YFI",5200],["SUSHI",0.68],["1INCH",0.26],["ENS",19.5],["APE",0.62],["CHZ",0.041],["EOS",0.58],["NEO",6.2],["IOTA",0.19],["ZIL",0.013],["KSM",16],["CFX",0.09],["MINA",0.31],["ROSE",0.035],["CELO",0.38],["AR",7.1],["GRT",0.11],["LRC",0.12],["MASK",1.6],["OM",0.42],["PENDLE",3.6],["TRB",44],["SSV",8.1],["ACE",0.9],["BOME",0.0021],["MEME",0.0035],["PEOPLE",0.021],["ZETA",0.24],["ALT",0.04],["AEVO",0.13],["ETHFI",1.1]];
+const STOCK_DEMO = [["AAPL",333,"Technology"],["MSFT",510,"Technology"],["NVDA",180,"Technology"],["AMZN",225,"Consumer"],["GOOGL",245,"Communication"],["META",720,"Communication"],["TSLA",430,"Consumer"],["AVGO",340,"Technology"],["JPM",300,"Financials"],["V",345,"Financials"],["LLY",800,"Health care"],["UNH",340,"Health care"],["XOM",115,"Energy"],["WMT",102,"Staples"],["COST",930,"Staples"],["HD",400,"Consumer"],["NFLX",1200,"Communication"],["AMD",165,"Technology"],["CRM",245,"Technology"],["ORCL",290,"Technology"],["BAC",50,"Financials"],["KO",68,"Staples"],["PEP",145,"Staples"],["CAT",470,"Industrials"],["GE",300,"Industrials"],["PLTR",180,"Technology"],["COIN",330,"Crypto-linked"],["SPY",665,"ETF"],["QQQ",600,"ETF"],["IWM",240,"ETF"]];
 function hash(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return h>>>0}
 function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
-function genDemo(sym, base, bar, n=300){
+function genDemo(sym, base, bar, kind, n=300){
   const day = Math.floor(Date.now()/864e5);
   const rnd = mulberry32(hash(sym+"|"+bar+"|"+day));
   const g = () => {let u=0;while(!u)u=rnd();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*rnd())};
-  const tf = {"15m":0.5,"1H":1,"4H":2}[bar];
-  const baseSig = (sym==="BTC"?0.0045:sym==="ETH"?0.006:0.0085+rnd()*0.004)*tf;
+  const tf = {"15m":0.5,"1H":1,"4H":2,"1D":3.2}[bar];
+  const baseSig = (kind==="stocks" ? 0.0042+rnd()*0.003 : sym==="BTC"?0.0045:sym==="ETH"?0.006:0.0085+rnd()*0.004)*tf;
   const ms = BAR_MS[bar], end = Math.floor(Date.now()/ms)*ms - ms;
+  const drift = kind==="stocks" ? (rnd()-0.35)*0.0012*tf : 0.00004;
   const events = [];
   const k = 1+Math.floor(rnd()*3);
-  for(let e=0;e<k;e++) events.push({at:30+Math.floor(rnd()*(n-70)), len:3+Math.floor(rnd()*4), depth:0.05+rnd()*0.09});
-  if(rnd()<0.16){const len=4+Math.floor(rnd()*3);events.push({at:n-len-Math.floor(rnd()*2), len, depth:0.07+rnd()*0.07})}
+  for(let e=0;e<k;e++) events.push({at:30+Math.floor(rnd()*(n-70)), len:3+Math.floor(rnd()*4), depth:(kind==="stocks"?0.04:0.05)+rnd()*0.08});
+  if(rnd()<0.16){const len=4+Math.floor(rnd()*3);events.push({at:n-len-Math.floor(rnd()*2), len, depth:0.06+rnd()*0.06})}
   const d = {t:[],o:[],h:[],l:[],c:[],v:[]};
-  let p = base*(0.88+0.24*rnd()), sig = baseSig;
-  const vbase = 1e6*(sym==="BTC"?380:sym==="ETH"?160:4+rnd()*45)*tf;
+  let p = base*(0.8+0.3*rnd()), sig = baseSig;
+  const vbase = kind==="stocks" ? 1e6*(3+rnd()*40) : 1e6*(sym==="BTC"?380:sym==="ETH"?160:4+rnd()*45)*tf;
   for(let i=0;i<n;i++){
     const ev = events.find(e=>i>=e.at&&i<e.at+e.len);
     sig = 0.93*sig + 0.07*baseSig*(0.55+rnd()*0.9);
-    const r = g()*sig + (ev ? -ev.depth/ev.len : 0.00004);
+    const r = g()*sig + (ev ? -ev.depth/ev.len : drift);
     const o = p, c = p*Math.exp(r);
     const h = Math.max(o,c)*Math.exp(Math.abs(g())*sig*0.55);
     const l = Math.min(o,c)*Math.exp(-Math.abs(g())*sig*0.55 - (ev ? 0.25*ev.depth/ev.len*rnd() : 0));
@@ -349,14 +462,21 @@ function genDemo(sym, base, bar, n=300){
   }
   return d;
 }
+function loadDemo(){
+  stopReplay();
+  S.source = "demo"; S.via = null; S.asOf = null;
+  if(S.asset==="stocks") setUniverse(STOCK_DEMO.map(([s,b,sec])=>({sym:s, name:s, sec, d:genDemo(s,b,S.bar,"stocks")})));
+  else setUniverse(CRYPTO_DEMO.slice(0,S.top).map(([s,b])=>({sym:s+"-USDT-SWAP", sec:"Crypto", d:genDemo(s,b,S.bar,"crypto")})));
+  setSource();
+}
 
-/* ---------- live data: OKX, directly or through the TinyFish connector ---------- */
+/* ---------- live data ---------- */
 let mcpP = null, sampleP = null;
 const getMcp = () => mcpP ??= (window.claude?.use ? window.claude.use("mcp").catch(()=>null) : Promise.resolve(null));
 const getSample = () => sampleP ??= (window.claude?.use ? window.claude.use("sample").catch(()=>null) : Promise.resolve(null));
 
-async function directJSON(url){
-  const ctl = new AbortController(); const t = setTimeout(()=>ctl.abort(), 6000);
+async function directJSON(url, ms=6000){
+  const ctl = new AbortController(); const t = setTimeout(()=>ctl.abort(), ms);
   try{ const r = await fetch(url,{signal:ctl.signal}); if(!r.ok) throw new Error("HTTP "+r.status); return await r.json(); }
   finally{ clearTimeout(t); }
 }
@@ -377,15 +497,34 @@ async function tinyFish(urls){
 }
 function mcpCopy(e){
   switch(e?.code){
-    case "no_mcp": return "Live data needs this page opened in Claude with the TinyFish connector, or the file opened directly in a browser.";
+    case "no_mcp": return "This browser couldn't reach the data source, so the simulated demo feed is shown.";
     case "server_not_connected": case "selection_required": return "Add the TinyFish connector in claude.ai Settings → Connectors, then try again.";
     case "needs_reauth": return "Reconnect TinyFish in claude.ai Settings → Connectors, then try again.";
     case "not_in_manifest": case "consent_required": return "TinyFish is turned off for this page. Allow it from the page's Permissions menu to load live data.";
     case "blocked_by_policy": case "approval_required": return "Your organization blocks TinyFish for this page.";
     case "server_unavailable": return "TinyFish didn't answer in time. Try again in a minute.";
-    case "tool_error": return "TinyFish couldn't fetch OKX: "+(e.message||"unknown error");
+    case "tool_error": return "TinyFish couldn't fetch the data: "+(e.message||"unknown error");
     default: return "Couldn't load live data: "+(e?.message||e?.code||e);
   }
+}
+const STOCK_URL = f => `https://raw.githubusercontent.com/messagegabrielhere-lgtm/doomcon/scanner-data/stocks-${f}.json`;
+async function loadStocks(auto){
+  const url = STOCK_URL(S.bar==="1D"?"1d":"1h");
+  setStatus("Loading the stock snapshot…");
+  let j = null, via = null, err = null;
+  try{ j = await directJSON(url, 20000); via = "direct"; }catch{}
+  if(!j && inViewer && !auto){ try{ const r = await tinyFish([url]); j = r[url]; via = "tinyfish"; }catch(e){ err = e; } }
+  if(!j?.symbols?.length){
+    loadDemo();
+    runScan(true, err ? mcpCopy(err)+" Showing the simulated demo feed." : inViewer && auto ? "Showing the simulated demo feed. Press Reload to fetch the real stock snapshot." : "Couldn't load the stock snapshot, so this is the simulated demo feed.");
+    return false;
+  }
+  stopReplay();
+  const uni = j.symbols.filter(x=>x.c?.length>=60).map(x=>({sym:x.s, name:x.n||x.s, sec:x.sec||"Other", d:{t:x.t.map(s=>s*1000),o:x.o,h:x.h,l:x.l,c:x.c,v:x.v}}));
+  S.source = "live"; S.via = via; S.asOf = j.generated;
+  setUniverse(uni); setSource();
+  runScan(takeSel(uni), `Loaded ${uni.length} stocks and ETFs.`);
+  return true;
 }
 function okxCandles(json){
   const rows = (json?.data||[]).slice().reverse().filter(r=>r[8]==="1");
@@ -393,23 +532,26 @@ function okxCandles(json){
   for(const r of rows){ d.t.push(+r[0]); d.o.push(+r[1]); d.h.push(+r[2]); d.l.push(+r[3]); d.c.push(+r[4]); d.v.push(+r[7]); }
   return d;
 }
-async function loadLive(){
-  stopReplay();
+async function loadCrypto(auto){
   const btn = $("#liveBtn"); btn.disabled = true;
   setStatus("Fetching the OKX perpetuals list…");
   const tickUrl = "https://www.okx.com/api/v5/market/tickers?instType=SWAP";
-  let via = null, tick = null;
+  let via = null, tick = null, err = null;
   try{ tick = await directJSON(tickUrl); via = "direct"; }catch{}
-  if(!via){
+  if(!via && inViewer && !auto){
     try{ const r = await tinyFish([tickUrl]); tick = r[tickUrl]; if(!tick?.data) throw {code:"tool_error",message:"no ticker data came back"}; via = "tinyfish"; }
-    catch(e){ setStatus(mcpCopy(e)); btn.disabled = false; return; }
+    catch(e){ err = e; }
+  }
+  if(!via){
+    btn.disabled = false; loadDemo();
+    runScan(true, err ? mcpCopy(err) : auto && inViewer ? "Demo feed loaded. Press Reload to fetch live OKX data." : "Couldn't reach OKX from this browser, so this is the simulated demo feed.");
+    return false;
   }
   const list = tick.data.filter(x=>/-USDT-SWAP$/.test(x.instId))
     .map(x=>({id:x.instId, turnover:(+x.volCcy24h)*(+x.last)}))
     .sort((a,b)=>b.turnover-a.turnover).slice(0,S.top);
   const urls = list.map(x=>`https://www.okx.com/api/v5/market/candles?instId=${x.id}&bar=${S.bar}&limit=300`);
-  const got = {};
-  let done = 0;
+  const got = {}; let done = 0;
   try{
     if(via==="direct"){
       for(let i=0;i<urls.length;i+=8){
@@ -425,83 +567,140 @@ async function loadLive(){
         setStatus(`Fetched ${done} of ${urls.length} contracts through TinyFish…`);
       }
     }
-  }catch(e){ setStatus(mcpCopy(e)); btn.disabled = false; return; }
+  }catch(e){ setStatus(mcpCopy(e)); btn.disabled = false; return false; }
   const uni = [];
-  list.forEach((x,i)=>{ const d = okxCandles(got[urls[i]]); if(d.c.length>=80) uni.push({sym:x.id, d}); });
+  list.forEach((x,i)=>{ const d = okxCandles(got[urls[i]]); if(d.c.length>=80) uni.push({sym:x.id, sec:"Crypto", d}); });
   btn.disabled = false;
-  if(!uni.length){ setStatus("OKX returned no candles. Try again, or pick another timeframe."); return; }
-  S.source = "live"; S.via = via;
-  setUniverse(uni);
-  setSource();
-  runScan(true, `Loaded ${uni.length} live contracts.`);
-}
-function loadDemo(){
+  if(!uni.length){ setStatus("OKX returned no candles. Try again, or pick another timeframe."); return false; }
   stopReplay();
-  S.source = "demo"; S.via = null;
-  setUniverse(DEMO.slice(0,S.top).map(([s,b])=>({sym:s+"-USDT-SWAP", d:genDemo(s,b,S.bar)})));
-  setSource();
+  S.source = "live"; S.via = via; S.asOf = new Date().toISOString();
+  setUniverse(uni); setSource();
+  runScan(takeSel(uni), `Loaded ${uni.length} live contracts.`);
+  return true;
 }
+// A symbol from a shared link wins once; otherwise a fresh load selects the top result.
+function takeSel(uni){ const p = S.pinned; S.pinned = null; if(p && uni.find(u=>u.sym===p)){ S.sel = p; return false; } return true; }
+const loadData = auto => S.asset==="stocks" ? loadStocks(auto) : loadCrypto(auto);
+
 function setSource(){
   const live = S.source==="live";
   $("#src").className = "chip "+(live?"live":"demo");
-  $("#srcText").textContent = live ? `Live · OKX ${S.via==="tinyfish"?"via TinyFish":"direct"} · ${S.bar}` : "Demo data (simulated)";
-  $("#demoBtn").hidden = !live;
-  $("#liveBtn").textContent = live ? "Refresh live data" : "Load live OKX data";
+  let txt = "Demo data (simulated)";
+  if(live && S.asset==="stocks") txt = `Stocks · Yahoo snapshot · ${fmtAsOf(S.asOf)}`;
+  else if(live) txt = `Live · OKX ${S.via==="tinyfish"?"via TinyFish":"direct"} · ${S.bar}`;
+  $("#srcText").textContent = txt;
+  $("#liveBtn").textContent = S.asset==="stocks" ? "Reload snapshot" : live ? "Refresh live data" : "Load live OKX data";
+  $("#topnWrap").hidden = S.asset!=="crypto";
+  $("#filters").hidden = S.asset!=="stocks";
+  $("#chgHead").textContent = S.asset==="stocks" ? "Day" : "24h";
+  const secs = [...new Set(S.universe.map(u=>u.sec))].sort();
+  if(!secs.includes(S.sector)) S.sector = "all";
+  $("#sector").innerHTML = `<option value="all">All sectors</option>`+secs.map(s=>`<option${s===S.sector?" selected":""}>${esc(s)}</option>`).join("");
 }
 function setUniverse(list){
   for(const u of list) computeInd(u);
   S.universe = list;
+  S.osc = null;
   if(!list.find(u=>u.sym===S.sel)) S.sel = list[0]?.sym ?? null;
 }
 function computeInd(u){
   const d = u.d;
   const avg = ta.sma(d.v, S.volLen);
-  u.ind = { rsi: ta.rsi(d.c, S.rsiLen), atr: ta.atr(d, 14), vr: d.v.map((v,i)=> i>0 && isF(avg[i-1]) ? v/avg[i-1] : NaN) };
+  u.ind = { rsi: ta.rsi(d.c, S.rsiLen), atr: ta.atr(d, 14), sma50: ta.sma(d.c, 50), sma200: ta.sma(d.c, 200),
+    vr: d.v.map((v,i)=> i>0 && isF(avg[i-1]) && avg[i-1]>0 ? v/avg[i-1] : NaN) };
 }
 const cur = () => S.universe.find(u=>u.sym===S.sel);
 
 /* ---------- scanner ---------- */
 function evalSym(u){
-  const {d,ind} = u, n = d.c.length, mult = 1+S.volPct/100;
+  const P = PRESETS[S.preset], {d,ind} = u, n = d.c.length;
   let hit = -1, best = Infinity, rMin = Infinity, vMax = 0;
-  for(let i=n-1;i>=Math.max(0,n-S.within);i--){
+  for(let i=n-1;i>=Math.max(1,n-S.p.within);i--){
     const r = ind.rsi[i], v = ind.vr[i];
-    if(!isF(r)||!isF(v)) continue;
-    rMin = Math.min(rMin,r); vMax = Math.max(vMax,v);
-    if(r<S.rsiBelow && v>=mult && hit<0) hit = i;
-    best = Math.min(best, Math.max(0,(r-S.rsiBelow)/S.rsiBelow) + Math.max(0,(mult-v)/mult));
+    if(isF(r)) rMin = Math.min(rMin,r);
+    if(isF(v)) vMax = Math.max(vMax,v);
+    if(hit<0 && P.sig(u,i)) hit = i;
+    const ds = P.dist(u,i); if(isF(ds)) best = Math.min(best,ds);
   }
   u.hit = hit; u.rMin = rMin; u.vMax = vMax;
   u.status = hit>=0 ? "match" : best<0.3 ? "near" : "none";
-  u.score = hit>=0 ? -1 : best;
+  u.score = hit>=0 ? -1+(n-1-hit)*0.01 : best;
+  u.last = d.c[n-1];
+  u.chg = d.c[n-1]/d.c[Math.max(0,n-1-dayBars())]-1;
 }
 function runScan(selectTop, prefix){
   const t0 = performance.now();
   for(const u of S.universe) evalSym(u);
-  S.universe.sort((a,b)=>a.score-b.score);
+  const vis = visible();
+  sortUniverse();
   const ms = performance.now()-t0;
-  const k = S.universe.filter(u=>u.status==="match").length;
-  if(selectTop && S.universe.length) S.sel = S.universe[0].sym;
-  $("#countChip").textContent = `${k} of ${S.universe.length} match`;
-  const mult = (1+S.volPct/100);
-  setStatus(`${prefix?prefix+" ":""}Swept <b>${S.universe.length}</b> contracts on ${S.bar} in ${ms<1?"<1":ms.toFixed(0)} ms. <b>${k} found</b> with RSI below ${S.rsiBelow} and volume at least ${fmtX(mult)} its average (+${S.volPct}%) in the last ${S.within} bar${S.within>1?"s":""}.${k?"":" Nothing matches right now; the closest ones are listed first."}`, true);
+  const k = vis.filter(u=>u.status==="match").length;
+  if(selectTop){ const first = sorted(vis)[0]; if(first) S.sel = first.sym; }
+  $("#countChip").textContent = `${k} of ${vis.length} match`;
+  const P = PRESETS[S.preset];
+  setStatus(`${prefix?esc(prefix)+" ":""}Swept <b>${vis.length}</b> ${S.asset==="stocks"?"stocks and ETFs":"contracts"} on ${S.bar} in ${ms<1?"<1":ms.toFixed(0)} ms. <b>${k} found</b> for ${esc(P.label.toLowerCase())}: ${esc(ruleText())}.${k?"":" Nothing matches right now; the closest ones are listed first."}`, true);
   renderTable(); refreshAll();
+}
+function ruleText(){
+  const p = S.p, w = `in the last ${p.within} bar${p.within>1?"s":""}`;
+  switch(S.preset){
+    case "pullback": return `close above the 200 SMA with RSI below ${p.rsiBelow} ${w}`;
+    case "capitulation": return `RSI below ${p.rsiBelow} with volume at least ${fmtX(1+p.volPct/100)} its average ${w}`;
+    case "breakout": return `close above the prior ${p.lookback}-bar high on volume at least ${fmtX(1+p.volPct/100)} average ${w}`;
+    case "golden": return `50 SMA crossed above the 200 SMA ${w}`;
+  }
+}
+function sortUniverse(){ S.universe.sort((a,b)=>a.score-b.score); }
+function sorted(list){
+  if(!S.sortKey) return list.slice().sort((a,b)=>a.score-b.score);
+  const k = S.sortKey, dir = S.sortDir;
+  const val = u => k==="sym" ? disp(u) : k==="last" ? u.last : k==="chg" ? u.chg : k==="rsi" ? u.rMin : u.vMax;
+  return list.slice().sort((a,b)=>{ const x = val(a), y = val(b); return (typeof x==="string" ? x.localeCompare(y) : (isF(x)?x:Infinity)-(isF(y)?y:Infinity))*dir; });
 }
 function renderTable(){
   const body = $("#scanBody"); body.textContent = "";
-  for(const u of S.universe){
+  document.querySelectorAll("th button[data-k]").forEach(b=>{ if(b.dataset.k===S.sortKey) b.dataset.dir = S.sortDir>0?"▲":"▼"; else delete b.dataset.dir; });
+  const rows = sorted(visible());
+  if(!rows.length){
+    body.innerHTML = `<tr class="empty"><td colspan="5">${S.watchOnly ? "Your watchlist is empty here. Star symbols with ★ to add them." : "No symbols in this filter."}</td></tr>`;
+    return;
+  }
+  for(const u of rows){
     const tr = document.createElement("tr");
     tr.className = "row"+(u.sym===S.sel?" sel":""); tr.tabIndex = 0;
-    const base = u.sym.replace(/-USDT-SWAP$/,"");
-    const n = u.d.c.length;
-    tr.innerHTML = `<td class="sym"><span class="mk ${u.status}" title="${u.status==="match"?"Match":u.status==="near"?"Near match":"No match"}"></span>${esc(base)}</td><td>${fmtP(u.d.c[n-1])}</td>`+
-      `<td class="${u.rMin<S.rsiBelow?"hot":""}">${isF(u.rMin)?u.rMin.toFixed(1):"–"}</td>`+
-      `<td class="${u.vMax>=1+S.volPct/100?"hot":""}">${isF(u.vMax)?u.vMax.toFixed(1)+"×":"–"}</td>`;
+    const starred = S.watch.has(u.sym);
+    tr.innerHTML = `<td class="sym"><button type="button" class="star" aria-pressed="${starred}" aria-label="${starred?"Remove from":"Add to"} watchlist">${starred?"★":"☆"}</button><span class="mk ${u.status}" title="${u.status==="match"?"Match":u.status==="near"?"Near match":"No match"}"></span><span title="${esc(u.name||disp(u))}${u.sec&&u.sec!=="Crypto"?" · "+esc(u.sec):""}">${esc(disp(u))}</span></td>`+
+      `<td>${fmtP(u.last)}</td>`+
+      `<td class="${u.chg>=0?"up":"down"}">${isF(u.chg)?(u.chg*100).toFixed(1)+"%":"–"}</td>`+
+      `<td class="${u.rMin<(S.p.rsiBelow??30)?"hot":""}">${isF(u.rMin)?u.rMin.toFixed(1):"–"}</td>`+
+      `<td class="${u.vMax>=1+(S.p.volPct??100)/100?"hot":""}">${isF(u.vMax)?u.vMax.toFixed(1)+"×":"–"}</td>`;
     const pick = () => { stopReplay(); S.sel = u.sym; renderTable(); refreshAll(); };
-    tr.addEventListener("click", pick);
-    tr.addEventListener("keydown", e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); pick(); } });
+    tr.addEventListener("click", e=>{ if(e.target.closest(".star")) return; pick(); });
+    tr.addEventListener("keydown", e=>{ if((e.key==="Enter"||e.key===" ") && !e.target.closest(".star")){ e.preventDefault(); pick(); } });
+    tr.querySelector(".star").addEventListener("click", ()=>{ S.watch.has(u.sym) ? S.watch.delete(u.sym) : S.watch.add(u.sym); saveWatch(); runScan(false); });
     body.appendChild(tr);
   }
+}
+function renderParams(){
+  const P = PRESETS[S.preset];
+  $("#preset").innerHTML = Object.entries(PRESETS).map(([k,v])=>`<option value="${k}"${k===S.preset?" selected":""}>${v.label}</option>`).join("");
+  $("#presetBlurb").textContent = P.blurb;
+  $("#params").innerHTML = P.params.map(k=>{ const m = PARAM_META[k]; return `<label for="p_${k}">${m.label}<input id="p_${k}" type="number" min="${m.min}" max="${m.max}" step="${m.step}" value="${S.p[k]}"></label>`; }).join("");
+  for(const k of P.params){
+    $("#p_"+k).addEventListener("change", e=>{
+      const m = PARAM_META[k], v = +e.target.value;
+      if(isF(v) && v>=m.min && v<=m.max){ S.p[k] = k==="rsiBelow"||k==="volPct" ? v : Math.round(v); stopReplay(); runScan(false); }
+      else e.target.value = S.p[k];
+    });
+  }
+  $("#bExit").disabled = !P.meanRev;
+  $("#bExit").title = P.meanRev ? "" : "Trend strategies exit on stop, target or time only";
+}
+function setPreset(key, keepParams){
+  if(!PRESETS[key]) return;
+  S.preset = key;
+  if(!keepParams) Object.assign(S.p, PRESETS[key].defaults);
+  renderParams();
 }
 
 /* ---------- support / resistance and entry zone (only uses bars up to `end`) ---------- */
@@ -522,29 +721,80 @@ function levels(u, end){
   const res = lv.filter(x=>x.p>price).sort((x,y)=>x.p-y.p).slice(0,2);
   let zone = sup[0] ? {lo:sup[0].p-0.25*a, hi:sup[0].p+0.35*a, src:"support"} : null;
   if(!zone || price-zone.hi > 3*a){
-    // no support close below: mark the capitulation low itself
     let low = Infinity; for(let i=Math.max(0,end-5);i<=end;i++) low = Math.min(low,d.l[i]);
     zone = {lo:low-0.3*a, hi:low+0.25*a, src:"low"};
   }
   return {sup,res,zone};
 }
 
+/* ---------- trade plan ---------- */
+function tradePlan(u){
+  const {d,ind} = u, end = S.replay.on ? S.replay.cursor : d.c.length-1;
+  const a = ind.atr[end], last = d.c[end], lv = levels(u,end), P = PRESETS[S.preset];
+  if(!isF(a)) return null;
+  let entry = last, entryWhy = "Last close";
+  if(P.meanRev && lv.zone && last>lv.zone.hi){ entry = lv.zone.hi; entryWhy = `Limit at the top of the entry zone (${lv.zone.src==="low"?"recent low":"support S1"})`; }
+  else if(P.meanRev && lv.zone && last>=lv.zone.lo){ entryWhy = "Price is inside the entry zone"; }
+  else if(!P.meanRev){ entryWhy = "Trend setup: near the last close"; }
+  let stop = entry - S.stopAtr*a, stopWhy = `${S.stopAtr} ATR below entry`;
+  if(P.meanRev && lv.zone){ const s2 = lv.zone.lo-0.25*a; if(s2<entry && entry-s2<=3*a && entry-s2>=0.5*a){ stop = s2; stopWhy = "Just under the entry zone"; } }
+  else if(!P.meanRev){ const s = lv.sup.find(x=>x.p<entry); if(s){ const s2 = s.p-0.25*a; if(entry-s2<=3*a && entry-s2>=0.5*a){ stop = s2; stopWhy = "Just under support S1"; } } }
+  const risk = entry-stop;
+  const r1 = lv.res.find(x=>x.p>=entry+risk);
+  const target = r1 ? r1.p : entry+S.tpAtr*a, targetWhy = r1 ? "Resistance R1" : `${S.tpAtr} ATR above entry`;
+  const rr = (target-entry)/risk;
+  const riskUsd = S.acct*S.riskPct/100;
+  const round = x => S.asset==="stocks" ? Math.floor(x) : +x.toPrecision(4);
+  let units = round(riskUsd/risk), capped = false;
+  if(units*entry > S.acct){ units = round(S.acct/entry); capped = true; }
+  return {end, a, entry, entryWhy, stop, stopWhy, target, targetWhy, risk, rr, units, notional:units*entry, atRisk:units*risk, capped};
+}
+function renderPlan(){
+  const u = cur(); if(!u) return;
+  const pl = tradePlan(u); u.plan = pl;
+  const P = PRESETS[S.preset];
+  const ago = u.hit>=0 ? u.d.c.length-1-u.hit : -1;
+  $("#verdict").innerHTML = u.status==="match"
+    ? `<span class="pill on">Active</span><span><b>${esc(disp(u))}</b> matched the ${esc(P.label.toLowerCase())} rule ${ago===0?"on the last bar":ago+" bar"+(ago>1?"s":"")+" ago"}.</span>`
+    : `<span class="pill off">Waiting</span><span><b>${esc(disp(u))}</b> doesn't match the ${esc(P.label.toLowerCase())} rule right now${u.status==="near"?", but it's close":""}. The plan below shows what a trade would look like from here.</span>`;
+  if(!pl){ $("#planBox").innerHTML = ""; return; }
+  const unitName = S.asset==="stocks" ? "shares" : "units";
+  const rows = [
+    ["Entry", fmtP(pl.entry), pl.entryWhy],
+    ["Stop", `<span class="down">${fmtP(pl.stop)}</span>`, `${pl.stopWhy} · ${(pl.risk/pl.entry*100).toFixed(1)}% away`],
+    ["Target", `<span class="up">${fmtP(pl.target)}</span>`, `${pl.targetWhy} · ${((pl.target/pl.entry-1)*100).toFixed(1)}% away`],
+    ["Reward : risk", `<span class="${pl.rr>=2?"up":pl.rr>=1?"hot":"down"}">${pl.rr.toFixed(2)}</span>`, pl.rr<1 ? "The target pays less than the stop costs. Consider skipping it." : pl.rr<2 ? "Thin. Needs a high hit rate to pay off." : "Healthy if the setup is valid"],
+    ["Position", `${pl.units.toLocaleString("en-US")} ${unitName}`, `${fmtUsd2(pl.notional)} notional${pl.capped?" · capped at the account size":""}`],
+    ["At risk", `<span class="down">${fmtUsd2(pl.atRisk)}</span>`, `${(pl.atRisk/S.acct*100).toFixed(2)}% of the account · ATR ${fmtP(pl.a)}`],
+  ];
+  $("#planBox").innerHTML = rows.map(([k,v,w])=>`<div class="k">${k}</div><div class="v">${v}</div><div class="w">${w}</div>`).join("");
+}
+function planText(){
+  const u = cur(), pl = u?.plan; if(!pl) return "";
+  return `${disp(u)} ${S.bar} · ${PRESETS[S.preset].label}
+Entry  ${fmtP(pl.entry)}  (${pl.entryWhy})
+Stop   ${fmtP(pl.stop)}  (${pl.stopWhy})
+Target ${fmtP(pl.target)}  (${pl.targetWhy})
+R:R    ${pl.rr.toFixed(2)}
+Size   ${pl.units} ${S.asset==="stocks"?"shares":"units"} (${fmtUsd2(pl.notional)}), risking ${fmtUsd2(pl.atRisk)}`;
+}
+
 /* ---------- backtest ---------- */
 function backtest(u, from, to){
-  const {d,ind} = u, mult = 1+S.volPct/100, trades = [];
+  const P = PRESETS[S.preset], {d,ind} = u, trades = [];
   let pos = null, pend = null;
-  from = Math.max(from, S.rsiLen+S.volLen);
+  from = Math.max(from, S.rsiLen+S.volLen, 1);
   for(let i=from;i<=to;i++){
     if(pend && !pos){ pos = {si:pend.si, ei:i, entry:d.o[i], stop:pend.stop, tp:pend.tp}; pend = null; }
     if(pos){
       let ex = null, why = "";
       if(d.l[i]<=pos.stop){ ex = Math.min(pos.stop, d.o[i]); why = "Stop"; }
       else if(d.h[i]>=pos.tp){ ex = i>pos.ei ? Math.max(pos.tp, d.o[i]) : pos.tp; why = "Target"; }
-      else if(ind.rsi[i]>=S.exitRsi){ ex = d.c[i]; why = "RSI exit"; }
+      else if(P.meanRev && ind.rsi[i]>=S.exitRsi){ ex = d.c[i]; why = "RSI exit"; }
       else if(i-pos.ei>=S.maxBars){ ex = d.c[i]; why = "Time"; }
       if(ex!==null){ trades.push(closeTrade(pos,i,ex,why)); pos = null; }
     }
-    if(!pos && !pend && ind.rsi[i]<S.rsiBelow && ind.vr[i]>=mult && isF(ind.atr[i])){
+    if(!pos && !pend && isF(ind.atr[i]) && P.sig(u,i)){
       pend = {si:i, stop:d.c[i]-S.stopAtr*ind.atr[i], tp:d.c[i]+S.tpAtr*ind.atr[i]};
     }
   }
@@ -576,27 +826,30 @@ function tradeRows(el, u, res){
   const {d} = u;
   const rows = res.trades.slice().reverse().map(t=>`<tr><td>${fmtT(d.t[t.ei])}</td><td>${fmtP(t.entry)}</td><td>${fmtP(t.exit)}</td><td style="font-family:var(--f-body)">${t.why}</td><td class="${t.pnl>=0?"up":"down"}">${fmtUsd(t.pnl)}</td></tr>`);
   if(res.open) rows.unshift(`<tr><td>${fmtT(d.t[res.open.ei])}</td><td>${fmtP(res.open.entry)}</td><td>${fmtP(res.open.mark)}</td><td style="font-family:var(--f-body)">Open</td><td class="${res.open.pnl>=0?"up":"down"}">${fmtUsd(res.open.pnl)}</td></tr>`);
-  el.innerHTML = rows.join("") || `<tr><td colspan="5" style="text-align:left;font-family:var(--f-body);color:var(--mute)">No signals in this window. Loosen the RSI or volume threshold to see trades.</td></tr>`;
+  el.innerHTML = rows.join("") || `<tr class="empty"><td colspan="5">No signals in this window. Loosen the strategy settings to see trades.</td></tr>`;
 }
 function renderBacktest(){
   const u = cur(); if(!u) return;
-  const res = backtest(u, 0, u.d.c.length-1); u.bt = res;
-  $("#btSymTitle").textContent = `${u.sym.replace(/-USDT-SWAP$/,"")} · ${u.d.c.length} bars`;
+  const res = backtest(u, 0, u.d.c.length-1);
+  $("#btSymTitle").textContent = `${disp(u)} · ${u.d.c.length} bars`;
   statTiles($("#btSym"), statsOf(res.trades,res.open));
   tradeRows($("#btTrades"), u, res);
-  const all = []; const per = [];
-  for(const x of S.universe){ const r = backtest(x,0,x.d.c.length-1); all.push(...r.trades); const s = statsOf(r.trades); if(s.n) per.push({sym:x.sym,...s}); }
-  statTiles($("#btAll"), statsOf(all), [["Contracts traded", per.length]], ["Avg trade"]);
+  const all = [], per = [], vis = visible();
+  for(const x of vis){ const r = backtest(x,0,x.d.c.length-1); all.push(...r.trades); const s = statsOf(r.trades); if(s.n) per.push({sym:disp(x),...s}); }
+  $("#btAllTitle").textContent = `Everything scanned · ${vis.length} symbols`;
+  statTiles($("#btAll"), statsOf(all), [["Symbols traded", per.length]], ["Avg trade"]);
   per.sort((a,b)=>b.pnl-a.pnl);
   const pick = per.length>8 ? [...per.slice(0,4), ...per.slice(-4)] : per;
-  $("#btRank").innerHTML = pick.map(p=>`<tr><td class="sym">${esc(p.sym.replace(/-USDT-SWAP$/,""))}</td><td>${p.n}</td><td>${(p.hit*100).toFixed(0)}%</td><td class="${p.pnl>=0?"up":"down"}">${fmtUsd(p.pnl)}</td></tr>`).join("")
-    || `<tr><td colspan="4" style="text-align:left;font-family:var(--f-body);color:var(--mute)">No contract produced a signal with these thresholds.</td></tr>`;
+  $("#btRank").innerHTML = pick.map(p=>`<tr><td class="sym">${esc(p.sym)}</td><td>${p.n}</td><td>${(p.hit*100).toFixed(0)}%</td><td class="${p.pnl>=0?"up":"down"}">${fmtUsd(p.pnl)}</td></tr>`).join("")
+    || `<tr class="empty"><td colspan="4">No symbol produced a signal with these settings.</td></tr>`;
+  const P = PRESETS[S.preset];
+  $("#btNote").innerHTML = `System: go long when the ${esc(P.label.toLowerCase())} rule fires. Fill at the next bar's open, stop and target in ATR from the signal close${P.meanRev?", exit early when RSI recovers":""} or when the time limit hits. 0.05% fee per side. If stop and target fall inside the same bar, the stop counts. <b>These are hypothetical results on ${S.source==="demo"?"simulated":"recent"} data, and no orders are placed.</b>`;
 }
 
 /* ---------- replay ---------- */
 function startReplay(autoplay){
   const u = cur(); if(!u) return;
-  const n = u.d.c.length, wk = Math.min(WEEK_BARS[S.bar], n-60);
+  const n = u.d.c.length, wk = Math.min(replayBars(), n-60);
   S.replay.on = true; S.replay.start = n-wk; S.replay.cursor = n-wk;
   setTab("rp"); renderReplay(); draw();
   if(autoplay) playReplay();
@@ -614,20 +867,20 @@ function stepReplay(){
   const u = cur(); if(!u||!S.replay.on) return;
   if(S.replay.cursor<u.d.c.length-1) S.replay.cursor++;
   if(S.replay.cursor>=u.d.c.length-1) pauseReplay();
-  renderReplay(); draw();
+  renderReplay(); renderPlan(); draw();
 }
-function stopReplay(){ pauseReplay(); if(S.replay.on){ S.replay.on = false; draw(); renderReadout(); } $("#rpLabel").textContent = ""; }
+function stopReplay(){ pauseReplay(); if(S.replay.on){ S.replay.on = false; draw(); renderReadout(); renderPlan(); } $("#rpLabel").textContent = ""; }
 function renderReplay(){
   const u = cur(); if(!u) return;
   if(!S.replay.on){
-    $("#rpLabel").innerHTML = `Press <b>Play</b> to replay the last ${Math.min(WEEK_BARS[S.bar],u.d.c.length-60)} candles of ${esc(u.sym.replace(/-USDT-SWAP$/,""))} one at a time.`;
+    $("#rpLabel").innerHTML = `Press <b>Play</b> to replay the ${replayName()} of ${esc(disp(u))} (${Math.min(replayBars(),u.d.c.length-60)} candles) one at a time.`;
     $("#rpStats").innerHTML = ""; $("#rpTrades").innerHTML = ""; $("#rpProg").style.width = "0"; return;
   }
   const {start,cursor} = S.replay, n = u.d.c.length;
-  const res = backtest(u, start, cursor); u.rp = res;
+  const res = backtest(u, start, cursor);
   const st = statsOf(res.trades, res.open);
   $("#rpProg").style.width = ((cursor-start)/(n-1-start)*100).toFixed(1)+"%";
-  $("#rpLabel").innerHTML = `Replaying <b>${esc(u.sym.replace(/-USDT-SWAP$/,""))}</b> ${fmtT(u.d.t[start])} → ${fmtT(u.d.t[n-1])} · candle ${cursor-start+1} of ${n-start} · now at <b>${fmtT(u.d.t[cursor])}</b>${res.pend?" · <b class=\"hot\">signal, entering next candle</b>":""}`;
+  $("#rpLabel").innerHTML = `Replaying <b>${esc(disp(u))}</b> ${fmtT(u.d.t[start])} → ${fmtT(u.d.t[n-1])} · candle ${cursor-start+1} of ${n-start} · now at <b>${fmtT(u.d.t[cursor])}</b>${res.pend?" · <b class=\"hot\">signal, entering next candle</b>":""}`;
   statTiles($("#rpStats"), st, [["Open position", res.open?`<span class="${res.open.pnl>=0?"up":"down"}">${fmtUsd(res.open.pnl)}</span>`:"–"], ["Total incl. open", `<span class="${st.pnl+st.open>=0?"up":"down"}">${fmtUsd(st.pnl+st.open)}</span>`]], ["Profit factor","Avg trade"]);
   tradeRows($("#rpTrades"), u, res);
   renderReadout();
@@ -666,15 +919,15 @@ function runIndicator(){
   const u = cur(); if(!u) return;
   const code = $("#indCode").value;
   $("#indErr").textContent = "";
-  try{ workerUrl ??= URL.createObjectURL(new Blob([WORKER_SRC],{type:"text/javascript"})); }catch(e){ $("#indErr").textContent = "This browser can't run indicator code here."; return; }
+  try{ workerUrl ??= URL.createObjectURL(new Blob([WORKER_SRC],{type:"text/javascript"})); }catch{ $("#indErr").textContent = "This browser can't run indicator code here."; return; }
   const w = new Worker(workerUrl);
-  const sym = u.sym;
+  const sym = u.sym, len = u.d.c.length;
   const t = setTimeout(()=>{ w.terminate(); $("#indErr").textContent = "The indicator took longer than 3 seconds and was stopped."; }, 3000);
   w.onmessage = e => {
     clearTimeout(t); w.terminate();
     if(!e.data.ok){ $("#indErr").textContent = "Error: "+e.data.err; return; }
     const r = e.data.r;
-    if(r.line.length!==u.d.c.length){ $("#indErr").textContent = `The line has ${r.line.length} values but there are ${u.d.c.length} candles.`; return; }
+    if(r.line.length!==len){ $("#indErr").textContent = `The line has ${r.line.length} values but there are ${len} candles.`; return; }
     if(cur()?.sym!==sym) return;
     S.osc = {sym, name:$("#indName").textContent, ...r};
     draw();
@@ -687,14 +940,14 @@ async function writeIndicator(){
   const req = $("#indReq").value.trim(); if(!req) return;
   const sample = await getSample();
   if(!sample){
-    $("#indStatus").innerHTML = "Writing new indicators needs Claude, which isn't available in this view. The Whale Momentum preset matches the example request; edit its code below.";
+    $("#indStatus").innerHTML = "Writing new indicators needs Claude, which is only available when this page is opened inside Claude. You can still edit and run the code below.";
     return;
   }
   indCtl?.abort(); indCtl = new AbortController();
   $("#indWrite").disabled = true; $("#indStop").hidden = false;
   $("#indStatus").textContent = "Claude is writing the indicator…";
-  const prompt = `Write a technical indicator for a crypto price chart as the BODY of a JavaScript function with parameters (d, ta).
-d has arrays of equal length, oldest first: d.o, d.h, d.l, d.c (prices), d.v (volume in USDT), d.t (ms timestamps).
+  const prompt = `Write a technical indicator for a price chart as the BODY of a JavaScript function with parameters (d, ta).
+d has arrays of equal length, oldest first: d.o, d.h, d.l, d.c (prices), d.v (volume), d.t (ms timestamps).
 ta has helpers that return arrays of the same length with NaN during warm-up: ta.sma(arr,n), ta.ema(arr,n), ta.rsi(arr,n), ta.atr(d,n), ta.stdev(arr,n), ta.highest(arr,n), ta.lowest(arr,n), ta.change(arr,n).
 The body must return { line: number[], signal: number[] (optional), levels: number[] (optional horizontal reference lines) } with line the same length as d.c. Plain JavaScript only: no imports, no network, no DOM, no async. Keep it under 40 lines with short comments.
 Reply with only JSON: {"name": "short indicator name", "summary": "one sentence on what it measures and how to read it", "code": "the function body"}
@@ -715,23 +968,20 @@ Request: ${req}`;
 
 /* ---------- Pine Script export ---------- */
 function renderPine(){
-  const mult = (1+S.volPct/100).toFixed(2);
+  const P = PRESETS[S.preset], pp = P.pine(S.p);
   $("#pine").value = `//@version=5
-strategy("Capitulation scan: RSI < ${S.rsiBelow} and volume +${S.volPct}%", overlay=true, initial_capital=${S.size}, default_qty_type=strategy.cash, default_qty_value=${S.size}, commission_type=strategy.commission.percent, commission_value=${S.fee})
+strategy("${pp.title}", overlay=true, initial_capital=${S.size}, default_qty_type=strategy.cash, default_qty_value=${S.size}, commission_type=strategy.commission.percent, commission_value=${S.fee})
 
 rsiLen   = input.int(${S.rsiLen}, "RSI length")
-rsiBelow = input.float(${S.rsiBelow}, "RSI below")
-volMult  = input.float(${mult}, "Volume at least x average")
 volLen   = input.int(${S.volLen}, "Volume average length")
+${pp.inputs}
 stopAtr  = input.float(${S.stopAtr}, "Stop (ATR)")
 tpAtr    = input.float(${S.tpAtr}, "Target (ATR)")
-exitRsi  = input.float(${S.exitRsi}, "Exit when RSI reaches")
-maxBars  = input.int(${S.maxBars}, "Max bars in trade")
+${P.meanRev?`exitRsi  = input.float(${S.exitRsi}, "Exit when RSI reaches")\n`:""}maxBars  = input.int(${S.maxBars}, "Max bars in trade")
 
-r      = ta.rsi(close, rsiLen)
-volAvg = ta.sma(volume, volLen)[1]
-a      = ta.atr(14)
-sig    = r < rsiBelow and volume >= volMult * volAvg
+r   = ta.rsi(close, rsiLen)
+a   = ta.atr(14)
+sig = ${pp.sig}
 
 var float stopPx = na
 var float tpPx   = na
@@ -745,11 +995,12 @@ if sig and strategy.position_size == 0
 
 if strategy.position_size > 0
     strategy.exit("Stop/Target", "Long", stop=stopPx, limit=tpPx)
-    if r >= exitRsi or bar_index - entryBar >= maxBars
-        strategy.close("Long", comment="RSI/Time")
+    if ${P.meanRev?"r >= exitRsi or ":""}bar_index - entryBar >= maxBars
+        strategy.close("Long", comment="${P.meanRev?"RSI/Time":"Time"}")
 
+plot(ta.sma(close, 50), "SMA 50", color.new(color.gray, 30))
+plot(ta.sma(close, 200), "SMA 200", color.new(color.gray, 0), 2)
 plotshape(sig, "Signal", shape.triangleup, location.belowbar, color.new(color.orange, 0), size=size.tiny)
-bgcolor(sig ? color.new(color.orange, 88) : na)
 `;
 }
 
@@ -763,7 +1014,8 @@ function draw(){
   const ctx = cv.getContext("2d"); ctx.setTransform(dpr,0,0,dpr,0,0); ctx.clearRect(0,0,W,H);
   const C = {ink:tok("--ink"), mute:tok("--mute"), line:tok("--line"), acc:tok("--accent"), up:tok("--up"), dn:tok("--down"), zone:tok("--zone"), panel:tok("--panel")};
   const mono = `11px ${tok("--f-mono")}`;
-  if(!u){ ctx.fillStyle=C.mute; ctx.font=mono; ctx.fillText("No data loaded.",12,24); return; }
+  ctx.font = mono;
+  if(!u){ ctx.fillStyle=C.mute; ctx.fillText("No data loaded.",12,24); return; }
   const {d,ind} = u, n = d.c.length;
   const end = S.replay.on ? S.replay.cursor : n-1;
   const view = W<560 ? Math.min(S.view, 80) : S.view;
@@ -774,21 +1026,21 @@ function draw(){
   const pTop = 6, rTop = pTop+priceH+gap, oTop = rTop+rsiH+gap;
   const X = i => padL + (i-start+0.5)*slot;
   const lv = levels(u, end);
-  const mult = 1+S.volPct/100;
+  const P = PRESETS[S.preset];
+  const plan = S.tab==="plan" ? u.plan : null;
 
-  // price range
   let lo = Infinity, hi = -Infinity;
   for(let i=start;i<=end;i++){ lo=Math.min(lo,d.l[i]); hi=Math.max(hi,d.h[i]); }
   for(const s of [...lv.sup,...lv.res]) if(s.p>lo-(hi-lo)*0.25 && s.p<hi+(hi-lo)*0.25){ lo=Math.min(lo,s.p); hi=Math.max(hi,s.p); }
-  if(lv.zone){ lo=Math.min(lo,lv.zone.lo); }
+  if(lv.zone) lo = Math.min(lo,lv.zone.lo);
+  if(plan){ lo = Math.min(lo,plan.stop); hi = Math.max(hi,plan.target); }
   const padP = (hi-lo)*0.06||hi*0.01; lo-=padP; hi+=padP;
   const volH = priceH*0.2;
   const Y = p => pTop + (hi-p)/(hi-lo)*(priceH-volH*0.35);
 
-  // pane frames + grid
-  ctx.lineWidth = 1; ctx.strokeStyle = C.line; ctx.font = mono; ctx.textBaseline = "middle";
-  for(const [top,h] of [[pTop,priceH],[rTop,rsiH],[oTop,oscH]]){ ctx.strokeRect(padL+0.5, top+0.5, plotW, h); }
-  ctx.fillStyle = C.mute;
+  ctx.lineWidth = 1; ctx.strokeStyle = C.line; ctx.textBaseline = "middle";
+  for(const [top,h] of [[pTop,priceH],[rTop,rsiH],[oTop,oscH]]) ctx.strokeRect(padL+0.5, top+0.5, plotW, h);
+  ctx.fillStyle = C.mute; ctx.textAlign = "left";
   for(let k=0;k<=4;k++){
     const p = lo + (hi-lo)*k/4, y = Math.round(Y(p))+0.5;
     if(y<pTop+6||y>pTop+priceH-4) continue;
@@ -798,156 +1050,177 @@ function draw(){
 
   // volume
   let vmax = 0; for(let i=start;i<=end;i++) vmax = Math.max(vmax,d.v[i]);
+  const vMult = 1+(S.p.volPct??100)/100;
   for(let i=start;i<=end;i++){
-    const h = d.v[i]/vmax*volH, x = X(i);
-    ctx.fillStyle = ind.vr[i]>=mult ? C.acc : (d.c[i]>=d.o[i]?C.up:C.dn);
-    ctx.globalAlpha = ind.vr[i]>=mult ? .55 : .2;
+    const h = d.v[i]/vmax*volH, x = X(i), spike = ind.vr[i]>=vMult;
+    ctx.fillStyle = spike ? C.acc : (d.c[i]>=d.o[i]?C.up:C.dn);
+    ctx.globalAlpha = spike ? .55 : .2;
     ctx.fillRect(x-slot*0.35, pTop+priceH-h, Math.max(1,slot*0.7), h);
   }
   ctx.globalAlpha = 1;
 
-  // entry zone
-  if(lv.zone){
+  // entry zone (mean-reversion strategies)
+  if(lv.zone && P.meanRev){
     const y1 = Y(lv.zone.hi), y2 = Y(lv.zone.lo), x1 = X(Math.max(start,end-Math.round(view*0.22)));
     ctx.fillStyle = C.zone; ctx.fillRect(x1, y1, padL+plotW-x1, y2-y1);
     ctx.setLineDash([4,3]); ctx.strokeStyle = C.acc; ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(padL+plotW,y1); ctx.moveTo(x1,y2); ctx.lineTo(padL+plotW,y2); ctx.stroke(); ctx.setLineDash([]);
-    ctx.fillStyle = C.acc; ctx.textAlign = "left"; ctx.fillText(lv.zone.src==="low"?"ENTRY ZONE · CAPITULATION LOW":"ENTRY ZONE · S1", x1+4, Math.max(pTop+8,y1-8));
+    ctx.fillStyle = C.acc; ctx.fillText(lv.zone.src==="low"?"ENTRY ZONE · RECENT LOW":"ENTRY ZONE · S1", x1+4, Math.max(pTop+8,y1-8));
   }
+  // moving averages
+  plotLine(ctx, ind.sma50, start, end, X, Y, C.mute, 1, .55);
+  plotLine(ctx, ind.sma200, start, end, X, Y, C.mute, 1.8, .8);
   // levels
   const drawLevel = (lvl, col, tag) => {
     const y = Math.round(Y(lvl.p))+0.5; if(y<pTop||y>pTop+priceH) return;
     ctx.strokeStyle = col; ctx.lineWidth = Math.min(2.5, 0.8+lvl.n*0.45); ctx.setLineDash([6,4]);
     ctx.beginPath(); ctx.moveTo(Math.max(padL, X(Math.max(start,lvl.first))), y); ctx.lineTo(padL+plotW, y); ctx.stroke(); ctx.setLineDash([]); ctx.lineWidth = 1;
     const label = `${tag} ${fmtP(lvl.p)}${lvl.n>1?" ×"+lvl.n:""}`;
-    ctx.font = mono; const tw = ctx.measureText(label).width;
+    const tw = ctx.measureText(label).width;
     ctx.fillStyle = C.panel; ctx.fillRect(padL+plotW-tw-10, y-8, tw+8, 16);
-    ctx.fillStyle = col; ctx.textAlign = "left"; ctx.fillText(label, padL+plotW-tw-6, y);
+    ctx.fillStyle = col; ctx.fillText(label, padL+plotW-tw-6, y);
   };
   lv.sup.forEach((s,k)=>drawLevel(s, C.up, "S"+(k+1)));
   lv.res.forEach((s,k)=>drawLevel(s, C.dn, "R"+(k+1)));
 
   // candles
   for(let i=start;i<=end;i++){
-    const x = Math.round(X(i))+0.5, upc = d.c[i]>=d.o[i], col = upc?C.up:C.dn;
+    const x = Math.round(X(i))+0.5, col = d.c[i]>=d.o[i]?C.up:C.dn;
     ctx.strokeStyle = col; ctx.fillStyle = col;
     ctx.beginPath(); ctx.moveTo(x, Y(d.h[i])); ctx.lineTo(x, Y(d.l[i])); ctx.stroke();
     const y1 = Y(Math.max(d.o[i],d.c[i])), y2 = Y(Math.min(d.o[i],d.c[i]));
     const bw = Math.max(1, slot*0.62);
     ctx.fillRect(x-bw/2, y1, bw, Math.max(1,y2-y1));
   }
-  // last price tag
-  { const y = Y(d.c[end]); const lbl = fmtP(d.c[end]); ctx.fillStyle = d.c[end]>=d.o[end]?C.up:C.dn; ctx.fillRect(padL+plotW+1, y-9, padR-2, 18); ctx.fillStyle = C.panel; ctx.textAlign = "left"; ctx.fillText(lbl, padL+plotW+5, y); }
+  // trade plan lines
+  if(plan){
+    const x1 = X(Math.max(start,end-Math.round(view*0.45)));
+    for(const [p,col,tag] of [[plan.target,C.up,"TARGET"],[plan.entry,C.acc,"ENTRY"],[plan.stop,C.dn,"STOP"]]){
+      const y = Math.round(Y(p))+0.5;
+      ctx.strokeStyle = col; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(x1,y); ctx.lineTo(padL+plotW,y); ctx.stroke(); ctx.lineWidth = 1;
+      const label = `${tag} ${fmtP(p)}`, tw = ctx.measureText(label).width;
+      ctx.fillStyle = C.panel; ctx.fillRect(x1, y-8, tw+8, 16);
+      ctx.fillStyle = col; ctx.fillText(label, x1+4, y);
+    }
+  }
+  { const y = Y(d.c[end]); ctx.fillStyle = d.c[end]>=d.o[end]?C.up:C.dn; ctx.fillRect(padL+plotW+1, y-9, padR-2, 18); ctx.fillStyle = C.panel; ctx.fillText(fmtP(d.c[end]), padL+plotW+5, y); }
 
   // trades
   const res = S.replay.on ? backtest(u, S.replay.start, end) : backtest(u, 0, end);
-  const all = [...res.trades, ...(res.open?[{...res.open, xi:null}]:[])];
-  for(const t of all){
+  for(const t of [...res.trades, ...(res.open?[{...res.open, xi:null}]:[])]){
     if(t.ei<start && (t.xi??end)<start) continue;
     const xe = X(t.ei), ye = Y(d.l[t.ei]) + 12;
-    if(t.ei>=start){
-      ctx.fillStyle = C.acc; ctx.beginPath(); ctx.moveTo(xe, ye-8); ctx.lineTo(xe-6, ye+3); ctx.lineTo(xe+6, ye+3); ctx.closePath(); ctx.fill();
-    }
+    if(t.ei>=start){ ctx.fillStyle = C.acc; ctx.beginPath(); ctx.moveTo(xe, ye-8); ctx.lineTo(xe-6, ye+3); ctx.lineTo(xe+6, ye+3); ctx.closePath(); ctx.fill(); }
     const xx = t.xi!=null ? X(t.xi) : X(end), yy = Y(t.xi!=null ? t.exit : d.c[end]);
     ctx.strokeStyle = t.pnl>=0 ? C.up : C.dn; ctx.setLineDash([3,3]);
     ctx.beginPath(); ctx.moveTo(Math.max(padL,xe), Y(t.entry)); ctx.lineTo(xx, yy); ctx.stroke(); ctx.setLineDash([]);
     if(t.xi!=null && t.xi>=start){ ctx.fillStyle = t.pnl>=0?C.up:C.dn; ctx.beginPath(); ctx.arc(xx, yy, 3.5, 0, 7); ctx.fill(); }
   }
-  // replay boundary
   if(S.replay.on && S.replay.start>=start){
     const x = Math.round(X(S.replay.start)-slot/2)+0.5;
     ctx.strokeStyle = C.acc; ctx.globalAlpha = .7; ctx.setLineDash([2,3]); ctx.beginPath(); ctx.moveTo(x,pTop); ctx.lineTo(x,oTop+oscH); ctx.stroke(); ctx.setLineDash([]); ctx.globalAlpha = 1;
-    ctx.fillStyle = C.acc; ctx.textAlign = "left"; ctx.fillText("REPLAY START", x+4, pTop+10);
+    ctx.fillStyle = C.acc; ctx.fillText("REPLAY START", x+4, pTop+10);
   }
 
   // RSI pane
   const RY = v => rTop + (100-v)/100*rsiH;
-  ctx.fillStyle = C.zone; ctx.fillRect(padL, RY(S.rsiBelow), plotW, rTop+rsiH-RY(S.rsiBelow));
-  for(const [v,dash] of [[70,[2,4]],[S.rsiBelow,[5,3]]]){ ctx.strokeStyle = v===70?C.mute:C.acc; ctx.globalAlpha = v===70?.5:.9; ctx.setLineDash(dash); ctx.beginPath(); ctx.moveTo(padL,RY(v)); ctx.lineTo(padL+plotW,RY(v)); ctx.stroke(); }
+  const rLine = P.params.includes("rsiBelow") ? S.p.rsiBelow : 30;
+  ctx.fillStyle = C.zone; ctx.fillRect(padL, RY(rLine), plotW, rTop+rsiH-RY(rLine));
+  for(const [v,dash] of [[70,[2,4]],[rLine,[5,3]]]){ ctx.strokeStyle = v===70?C.mute:C.acc; ctx.globalAlpha = v===70?.5:.9; ctx.setLineDash(dash); ctx.beginPath(); ctx.moveTo(padL,RY(v)); ctx.lineTo(padL+plotW,RY(v)); ctx.stroke(); }
   ctx.setLineDash([]); ctx.globalAlpha = 1;
   plotLine(ctx, ind.rsi, start, end, X, RY, C.ink, 1.3);
-  for(let i=start;i<=end;i++) if(ind.rsi[i]<S.rsiBelow && ind.vr[i]>=mult){ ctx.fillStyle = C.acc; ctx.beginPath(); ctx.arc(X(i), rTop+rsiH-5, 2.5, 0, 7); ctx.fill(); }
-  ctx.fillStyle = C.mute; ctx.textAlign = "left"; ctx.fillText(`RSI ${S.rsiLen}  ${isF(ind.rsi[end])?ind.rsi[end].toFixed(1):"–"}`, padL+6, rTop+10);
-  ctx.fillText(String(S.rsiBelow), padL+plotW+6, RY(S.rsiBelow)); ctx.fillText("70", padL+plotW+6, RY(70));
+  for(let i=start;i<=end;i++) if(P.sig(u,i)){ ctx.fillStyle = C.acc; ctx.beginPath(); ctx.arc(X(i), rTop+rsiH-5, 2.5, 0, 7); ctx.fill(); }
+  ctx.fillStyle = C.mute;
+  ctx.fillText(`RSI ${S.rsiLen}  ${isF(ind.rsi[end])?ind.rsi[end].toFixed(1):"–"}`, padL+6, rTop+10);
+  ctx.fillText(String(rLine), padL+plotW+6, RY(rLine)); ctx.fillText("70", padL+plotW+6, RY(70));
 
-  // oscillator pane
+  // indicator pane
   const osc = S.osc && S.osc.sym===u.sym ? S.osc : null;
   if(osc){
     let a = Infinity, b = -Infinity;
-    for(let i=start;i<=end;i++){ for(const arr of [osc.line, osc.signal]){ const v = arr?.[i]; if(isF(v)){ a=Math.min(a,v); b=Math.max(b,v); } } }
-    for(const l of osc.levels) { a=Math.min(a,l); b=Math.max(b,l); }
+    for(let i=start;i<=end;i++) for(const arr of [osc.line, osc.signal]){ const v = arr?.[i]; if(isF(v)){ a=Math.min(a,v); b=Math.max(b,v); } }
+    for(const l of osc.levels){ a=Math.min(a,l); b=Math.max(b,l); }
     if(!isF(a)){ a=-1; b=1; } if(a===b){ a-=1; b+=1; }
     const pad = (b-a)*0.08; a-=pad; b+=pad;
     const OY = v => oTop + (b-v)/(b-a)*oscH;
     for(const l of osc.levels){ ctx.strokeStyle = C.mute; ctx.globalAlpha = .6; ctx.setLineDash([2,4]); ctx.beginPath(); ctx.moveTo(padL,OY(l)); ctx.lineTo(padL+plotW,OY(l)); ctx.stroke(); ctx.setLineDash([]); ctx.globalAlpha = 1; }
     if(osc.signal) plotLine(ctx, osc.signal, start, end, X, OY, C.mute, 1);
     plotLine(ctx, osc.line, start, end, X, OY, C.acc, 1.5);
-    ctx.fillStyle = C.mute; ctx.textAlign = "left";
+    ctx.fillStyle = C.mute;
     const lastV = osc.line[end];
     ctx.fillText(`${osc.name}  ${isF(lastV)?(+lastV).toFixed(2):"–"}`, padL+6, oTop+10);
     ctx.fillText(fmtNum(b-pad), padL+plotW+6, oTop+8); ctx.fillText(fmtNum(a+pad), padL+plotW+6, oTop+oscH-8);
   }else{
-    ctx.fillStyle = C.mute; ctx.textAlign = "left"; ctx.fillText("Indicator pane: open the Indicator tab", padL+6, oTop+oscH/2);
+    ctx.fillStyle = C.mute; ctx.fillText("Indicator pane: open the Indicator tab", padL+6, oTop+oscH/2);
   }
 
   // time axis
   ctx.fillStyle = C.mute; ctx.textAlign = "center";
   const every = Math.max(1, Math.round(110/slot));
   for(let i=start;i<=end;i+=every){ const x = X(i); if(x<padL+30||x>padL+plotW-30) continue; ctx.fillText(fmtT(d.t[i], true), x, H-axisH/2); }
+  ctx.textAlign = "left";
 
-  // crosshair
   if(S.hover>=start && S.hover<=end){
     const x = Math.round(X(S.hover))+0.5;
     ctx.strokeStyle = C.mute; ctx.globalAlpha = .6; ctx.setLineDash([3,3]); ctx.beginPath(); ctx.moveTo(x,pTop); ctx.lineTo(x,oTop+oscH); ctx.stroke(); ctx.setLineDash([]); ctx.globalAlpha = 1;
   }
-  draw.geom = {start, end, X, slot, padL};
+  draw.geom = {start, end, slot, padL};
 }
-function plotLine(ctx, arr, s, e, X, Yf, col, w){
-  ctx.strokeStyle = col; ctx.lineWidth = w; ctx.beginPath(); let on = false;
+function plotLine(ctx, arr, s, e, X, Yf, col, w, alpha=1){
+  ctx.strokeStyle = col; ctx.lineWidth = w; ctx.globalAlpha = alpha; ctx.beginPath(); let on = false;
   for(let i=s;i<=e;i++){ const v = arr[i]; if(!isF(v)){ on=false; continue; } const x = X(i), y = Yf(v); if(on) ctx.lineTo(x,y); else { ctx.moveTo(x,y); on = true; } }
-  ctx.stroke(); ctx.lineWidth = 1;
+  ctx.stroke(); ctx.lineWidth = 1; ctx.globalAlpha = 1;
 }
 function renderReadout(){
   const u = cur(); if(!u){ $("#readout").textContent = ""; return; }
   const {d,ind} = u, n = d.c.length;
   const end = S.replay.on ? S.replay.cursor : n-1;
   const i = S.hover>=0 && S.hover<=end ? S.hover : end;
-  const per = Math.round(864e5/BAR_MS[S.bar]);
-  const ref = d.c[Math.max(0,i-per)], chg = d.c[i]/ref-1;
-  const lv = levels(u, end);
+  const chg = d.c[i]/d.c[Math.max(0,i-dayBars())]-1;
+  const s200 = ind.sma200[i];
+  const vs200 = isF(s200) ? d.c[i]/s200-1 : NaN;
+  const sub = S.asset==="stocks" ? `${u.name&&u.name!==u.sym?esc(u.name)+" · ":""}${esc(u.sec||"")} · ${S.bar}` : `USDT perp · ${S.bar}`;
   $("#readout").innerHTML =
-    `<span class="name">${esc(u.sym.replace(/-USDT-SWAP$/,""))}<span class="kv"> USDT perp · ${S.bar}</span></span>`+
+    `<span class="name">${esc(disp(u))}<span class="kv"> ${sub}</span></span>`+
     `<span class="px">${fmtP(d.c[i])}</span>`+
-    `<span class="kv">24h <b class="${chg>=0?"up":"down"}">${(chg*100).toFixed(2)}%</b></span>`+
+    `<span class="kv">${S.asset==="stocks"?"Day":"24h"} <b class="${chg>=0?"up":"down"}">${(chg*100).toFixed(2)}%</b></span>`+
     `<span class="kv">O <b>${fmtP(d.o[i])}</b> H <b>${fmtP(d.h[i])}</b> L <b>${fmtP(d.l[i])}</b></span>`+
-    `<span class="kv">RSI <b class="${ind.rsi[i]<S.rsiBelow?"hot":""}">${isF(ind.rsi[i])?ind.rsi[i].toFixed(1):"–"}</b></span>`+
-    `<span class="kv">Vol <b class="${ind.vr[i]>=1+S.volPct/100?"hot":""}">${isF(ind.vr[i])?ind.vr[i].toFixed(1)+"×":"–"}</b></span>`+
-    (lv.zone?`<span class="kv">Entry zone <b>${fmtP(lv.zone.lo)} to ${fmtP(lv.zone.hi)}</b></span>`:"")+
+    `<span class="kv">RSI <b>${isF(ind.rsi[i])?ind.rsi[i].toFixed(1):"–"}</b></span>`+
+    `<span class="kv">Vol <b>${isF(ind.vr[i])?ind.vr[i].toFixed(1)+"×":"–"}</b></span>`+
+    `<span class="kv">vs 200 SMA <b class="${vs200>=0?"up":"down"}">${isF(vs200)?(vs200>=0?"+":"")+(vs200*100).toFixed(1)+"%":"–"}</b></span>`+
     `<span class="kv">${fmtT(d.t[i])}</span>`;
 }
 
 /* ---------- commands ---------- */
 function parseLocal(q){
   const s = q.toLowerCase(), out = {};
+  if(/\b(stocks?|shares|equit\w*|s&p|nasdaq|dow|etfs?|spy|qqq)\b/.test(s)) out.asset = "stocks";
+  else if(/\b(crypto|btc|eth|perps?|futures|coins?|altcoins?)\b/.test(s)) out.asset = "crypto";
+  if(/golden cross/.test(s)) out.preset = "golden";
+  else if(/break ?outs?|new high|\d+[- ]?(day|bar|week) high/.test(s)) out.preset = "breakout";
+  else if(/pull ?back|uptrend|\bdip|above (the |its |their )?200/.test(s)) out.preset = "pullback";
+  else if(/capitulat|washout|wash out|oversold|volume (spike|\+)/.test(s) || (/rsi/.test(s) && /volume/.test(s))) out.preset = "capitulation";
   if(/replay/.test(s)) out.intent = "replay";
   else if(/(indicator|oscillator|write me|script for)/.test(s)) { out.intent = "indicator"; out.indicatorRequest = q; }
-  else if(/backtest/.test(s) && !/rsi|volume/.test(s)) out.intent = "backtest";
+  else if(/(trade plan|position size|how many shares|stop loss)/.test(s)) out.intent = "plan";
+  else if(/backtest/.test(s) && !out.preset) out.intent = "backtest";
   let m = s.match(/rsi[^0-9]{0,24}?(?:below|under|<|less than|lower than)\s*(\d+(?:\.\d+)?)/);
-  if(m){ out.rsiBelow = +m[1]; out.intent ??= "scan"; }
+  if(m){ out.rsiBelow = +m[1]; out.preset ??= "capitulation"; }
   m = s.match(/(?:volume|vol)[^0-9%x×]{0,20}?\+?\s*(\d+(?:\.\d+)?)\s*%/) || s.match(/\+\s*(\d+(?:\.\d+)?)\s*%\s*(?:volume|vol)/);
-  if(m){ out.volPct = +m[1]; out.intent ??= "scan"; }
+  if(m) out.volPct = +m[1];
   m = s.match(/(\d+(?:\.\d+)?)\s*(?:x|×|times)\s*(?:the\s*)?(?:average\s*)?(?:volume|vol)/) || s.match(/(?:volume|vol)\s*(?:of\s*)?(\d+(?:\.\d+)?)\s*(?:x|×)/);
-  if(m){ out.volPct = Math.round((+m[1]-1)*100); out.intent ??= "scan"; }
-  m = s.match(/\b(15\s?m(?:in)?|1\s?h|hourly|4\s?h)\b/);
-  if(m){ const t = m[1].replace(/\s/g,""); out.bar = /^15/.test(t)?"15m":/^4/.test(t)?"4H":"1H"; }
-  m = s.match(/last\s*(\d+)\s*(?:bars|candles)/); if(m) out.within = +m[1];
-  if(!out.intent && /(scan|find|show|screen)/.test(s)) out.intent = "scan";
+  if(m) out.volPct = Math.round((+m[1]-1)*100);
+  m = s.match(/(\d+)[- ]?(?:day|bar) high/); if(m) out.lookback = +m[1];
+  m = s.match(/\b(15\s?m(?:in)?|1\s?h|hourly|4\s?h|daily|1\s?d)\b/);
+  if(m){ const t = m[1].replace(/\s/g,""); out.bar = /^15/.test(t)?"15m":/^4/.test(t)?"4H":/^(daily|1d)/.test(t)?"1D":"1H"; }
+  m = s.match(/(?:last|past)\s*(\d+)\s*(?:bars|candles|days|sessions)/); if(m) out.within = +m[1];
+  if(!out.intent && (out.preset || /(scan|find|show|screen)/.test(s))) out.intent = "scan";
   return out;
 }
 async function askClaude(q){
   const sample = await getSample(); if(!sample) return null;
-  const prompt = `You turn a trader's request into settings for a crypto perpetual-futures scanner and chart tool.
-Reply with only JSON: {"intent": "scan" | "replay" | "indicator" | "backtest", "rsiBelow": number or null, "volPct": number or null, "bar": "15m" | "1H" | "4H" | null, "within": number or null, "indicatorRequest": string or null}
-volPct is the volume increase in percent over the 20-bar average (+200% gives 200, "3x volume" gives 200). within is how many recent bars to check. Use null for anything not mentioned. indicatorRequest restates the indicator to write, if any.
+  const prompt = `You turn a trader's request into settings for a stock and crypto scanner.
+Reply with only JSON: {"intent": "scan" | "replay" | "indicator" | "backtest" | "plan", "asset": "stocks" | "crypto" | null, "preset": "pullback" | "capitulation" | "breakout" | "golden" | null, "rsiBelow": number or null, "volPct": number or null, "lookback": number or null, "bar": "15m" | "1H" | "4H" | "1D" | null, "within": number or null, "indicatorRequest": string or null}
+pullback = above the 200 SMA with RSI dipping; capitulation = RSI low on a volume spike; breakout = close above the prior N-bar high on volume; golden = 50 SMA crossing above 200 SMA. volPct is the volume increase in percent over the 20-bar average (+200% gives 200, "3x volume" gives 200). Use null for anything not mentioned.
 Request: ${q}`;
   try{ return await sample.json(prompt, {modelTier:"quick"}); }catch{ return null; }
 }
@@ -959,27 +1232,55 @@ async function runCommand(q){
     const c = await askClaude(q);
     if(c && c.intent) plan = Object.fromEntries(Object.entries(c).filter(([,v])=>v!==null && v!==undefined));
   }
-  if(!plan.intent){ setStatus("I couldn't tell what to do. Try “RSI below 30 and volume +200%”, “replay last week” or “write me an oscillator that …”."); return; }
+  if(!plan.intent){ setStatus("I couldn't tell what to do. Try “stocks above the 200-day with RSI below 40”, “daily breakouts to a 20-day high”, “replay” or “write me an oscillator that …”."); return; }
   stopReplay();
   let reload = false;
-  if(isF(+plan.rsiBelow) && plan.rsiBelow>0){ S.rsiBelow = +plan.rsiBelow; }
-  if(isF(+plan.volPct) && plan.volPct>=0){ S.volPct = +plan.volPct; }
-  if(isF(+plan.within) && plan.within>0){ S.within = Math.min(50, Math.round(plan.within)); }
-  if(plan.bar && BAR_MS[plan.bar] && plan.bar!==S.bar){ S.bar = plan.bar; $("#tf").value = S.bar; reload = true; }
-  syncInputs();
-  if(reload){ if(S.source==="live"){ await loadLive(); } else loadDemo(); }
-  if(plan.intent==="scan"){ runScan(true); setTab("bt"); }
+  if(plan.asset && plan.asset!==S.asset){ S.asset = plan.asset; reload = true; }
+  const tfs = TFS[S.asset];
+  if(plan.bar && tfs.includes(plan.bar) && plan.bar!==S.bar){ S.bar = plan.bar; reload = true; }
+  if(!tfs.includes(S.bar)){ S.bar = DEFAULT_TF[S.asset]; reload = true; }
+  if(plan.preset && PRESETS[plan.preset] && plan.preset!==S.preset) setPreset(plan.preset);
+  for(const k of ["rsiBelow","volPct","lookback","within"]){ const v = +plan[k]; if(plan[k]!=null && isF(v) && v>=PARAM_META[k].min && v<=PARAM_META[k].max) S.p[k] = v; }
+  renderParams(); syncAssetUI();
+  if(reload) await loadData(false);
+  if(plan.intent==="scan"){ runScan(true); setTab("plan"); }
+  else if(plan.intent==="plan"){ setTab("plan"); refreshAll(); }
   else if(plan.intent==="backtest"){ setTab("bt"); refreshAll(); }
-  else if(plan.intent==="replay"){ if(!S.universe.length) return; runScan(false); startReplay(true); setStatus(`Replaying the last week of <b>${esc(cur().sym.replace(/-USDT-SWAP$/,""))}</b> candle by candle. Entries are marked as the system takes them.`, true); }
+  else if(plan.intent==="replay"){ if(!S.universe.length) return; runScan(false); startReplay(true); setStatus(`Replaying the ${replayName()} of <b>${esc(disp(cur()))}</b> candle by candle. Entries are marked as the system takes them.`, true); }
   else if(plan.intent==="indicator"){ setTab("ind"); $("#indReq").value = plan.indicatorRequest || q; writeIndicator(); }
 }
 
+/* ---------- share links (GitHub Pages only; the Claude viewer drops hash state) ---------- */
+function writeHash(){
+  if(inViewer) return;
+  const q = new URLSearchParams({a:S.asset, tf:S.bar, p:S.preset});
+  for(const k of PRESETS[S.preset].params) q.set(k, S.p[k]);
+  if(S.sel) q.set("s", S.sel);
+  if(S.sector!=="all") q.set("sec", S.sector);
+  try{ history.replaceState(null, "", "#"+q.toString()); }catch{}
+}
+function readHash(){
+  const h = location.hash.slice(1); if(!h.includes("=")) return;
+  const q = new URLSearchParams(h);
+  if(TFS[q.get("a")]) S.asset = q.get("a");
+  S.bar = TFS[S.asset].includes(q.get("tf")) ? q.get("tf") : DEFAULT_TF[S.asset];
+  if(PRESETS[q.get("p")]) setPreset(q.get("p"));
+  for(const k of Object.keys(PARAM_META)){ const v = +q.get(k); if(q.has(k) && isF(v) && v>=PARAM_META[k].min && v<=PARAM_META[k].max) S.p[k] = v; }
+  if(q.get("s")) S.sel = S.pinned = q.get("s");
+  if(q.get("sec")) S.sector = q.get("sec");
+}
+
 /* ---------- glue ---------- */
-function refreshAll(){ renderReadout(); renderBacktest(); renderReplay(); renderPine(); draw(); if(!S.osc || S.osc.sym!==S.sel) runIndicator(); }
-function syncInputs(){ $("#rRsi").value = S.rsiBelow; $("#rVol").value = S.volPct; $("#rWin").value = S.within; }
+function refreshAll(){ renderReadout(); renderPlan(); renderBacktest(); renderReplay(); renderPine(); draw(); writeHash(); if(!S.osc || S.osc.sym!==S.sel) runIndicator(); }
+function syncAssetUI(){
+  $("#aStocks").setAttribute("aria-pressed", String(S.asset==="stocks"));
+  $("#aCrypto").setAttribute("aria-pressed", String(S.asset==="crypto"));
+  $("#tf").innerHTML = TFS[S.asset].map(t=>`<option${t===S.bar?" selected":""}>${t}</option>`).join("");
+}
 function setTab(t){
   S.tab = t;
-  for(const k of ["bt","rp","ind","pine"]){ $("#tab-"+k).setAttribute("aria-selected", String(k===t)); $("#pane-"+k).hidden = k!==t; }
+  for(const k of ["plan","bt","rp","ind","pine"]){ $("#tab-"+k).setAttribute("aria-selected", String(k===t)); $("#pane-"+k).hidden = k!==t; }
+  draw();
 }
 function setStatus(html, isHtml){ const el = $("#status"); if(isHtml) el.innerHTML = html; else el.textContent = html; }
 function esc(s){ return String(s).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
@@ -987,45 +1288,64 @@ function fmtP(p){ if(!isF(p)) return "–"; const a = Math.abs(p); const dp = a>
 function fmtNum(v){ return Math.abs(v)>=100 ? v.toFixed(0) : Math.abs(v)>=1 ? v.toFixed(1) : v.toFixed(3); }
 function fmtX(m){ return (Math.round(m*100)/100)+"×"; }
 function fmtUsd(x){ if(!isF(x)) return "–"; const s = Math.round(Math.abs(x)).toLocaleString("en-US"); return (x>=0?"+$":"−$")+s; }
+function fmtUsd2(x){ return isF(x) ? "$"+Math.round(x).toLocaleString("en-US") : "–"; }
 function fmtT(t, short){
-  const dt = new Date(t);
-  if(short && S.bar==="4H") return dt.toLocaleDateString("en-US",{month:"short",day:"numeric"});
-  return dt.toLocaleString("en-US",{month:"short",day:"numeric",hour:"2-digit",minute:"2-digit",hour12:false});
+  const dt = new Date(t), tz = S.asset==="stocks" ? {timeZone:"America/New_York"} : {};
+  if(S.bar==="1D") return dt.toLocaleDateString("en-US",{month:"short",day:"numeric",...(short?{}:{year:"numeric"}),...tz});
+  if(short && S.bar==="4H") return dt.toLocaleDateString("en-US",{month:"short",day:"numeric",...tz});
+  return dt.toLocaleString("en-US",{month:"short",day:"numeric",hour:"2-digit",minute:"2-digit",hour12:false,...tz})+(S.asset==="stocks"&&!short?" ET":"");
+}
+function fmtAsOf(iso){ if(!iso) return ""; return new Date(iso).toLocaleString("en-US",{month:"short",day:"numeric",hour:"2-digit",minute:"2-digit",hour12:false,timeZone:"America/New_York"})+" ET"; }
+async function copyText(text, msgEl, fallbackEl){
+  try{ await navigator.clipboard.writeText(text); msgEl.textContent = "Copied."; }
+  catch{ if(fallbackEl){ fallbackEl.focus(); fallbackEl.select(); msgEl.textContent = "Selected. Press Ctrl+C or ⌘C to copy."; } else msgEl.textContent = "Copy isn't available here."; }
 }
 
 $("#cmdForm").addEventListener("submit", e=>{ e.preventDefault(); runCommand($("#cmd").value); });
 document.querySelectorAll(".examples button").forEach(b=>b.addEventListener("click", ()=>{ $("#cmd").value = b.dataset.q; runCommand(b.dataset.q); }));
-$("#liveBtn").addEventListener("click", loadLive);
-$("#demoBtn").addEventListener("click", ()=>{ loadDemo(); runScan(true, "Switched to the demo feed."); });
-$("#tf").addEventListener("change", async e=>{ S.bar = e.target.value; S.osc = null; if(S.source==="live") await loadLive(); else { loadDemo(); runScan(true); } });
-$("#topn").addEventListener("change", async e=>{ S.top = +e.target.value; if(S.source==="live") await loadLive(); else { loadDemo(); runScan(true); } });
-for(const [id,key,min] of [["#rRsi","rsiBelow",1],["#rVol","volPct",0],["#rWin","within",1]]){
-  $(id).addEventListener("change", e=>{ const v = +e.target.value; if(isF(v) && v>=min){ S[key] = key==="within"?Math.round(v):v; stopReplay(); runScan(false); } else syncInputs(); });
+$("#aStocks").addEventListener("click", ()=>{ if(S.asset==="stocks") return; S.asset = "stocks"; S.bar = "1D"; if(S.preset==="capitulation") setPreset("pullback"); syncAssetUI(); loadData(!inViewer ? false : true); });
+$("#aCrypto").addEventListener("click", ()=>{ if(S.asset==="crypto") return; S.asset = "crypto"; S.bar = "1H"; if(S.preset==="pullback"||S.preset==="golden") setPreset("capitulation"); syncAssetUI(); loadData(true); });
+$("#liveBtn").addEventListener("click", ()=>loadData(false));
+$("#tf").addEventListener("change", async e=>{ S.bar = e.target.value; if(S.source==="demo" && S.asset==="crypto"){ loadDemo(); runScan(true); } else await loadData(false); });
+$("#topn").addEventListener("change", async e=>{ S.top = +e.target.value; if(S.source==="live") await loadData(false); else { loadDemo(); runScan(true); } });
+$("#sector").addEventListener("change", e=>{ S.sector = e.target.value; stopReplay(); runScan(true); });
+$("#preset").addEventListener("change", e=>{ setPreset(e.target.value); stopReplay(); runScan(true); });
+$("#watchBtn").addEventListener("click", ()=>{ S.watchOnly = !S.watchOnly; $("#watchBtn").setAttribute("aria-pressed", String(S.watchOnly)); runScan(true); });
+$("#csvBtn").addEventListener("click", ()=>{
+  const rows = [["symbol","name","sector","last","day_change_pct","rsi_low","volume_x","status"], ...sorted(visible()).map(u=>[disp(u), u.name||"", u.sec||"", u.last, (u.chg*100).toFixed(2), isF(u.rMin)?u.rMin.toFixed(1):"", isF(u.vMax)?u.vMax.toFixed(2):"", u.status])];
+  copyText(rows.map(r=>r.map(x=>/[",\n]/.test(String(x))?`"${String(x).replace(/"/g,'""')}"`:x).join(",")).join("\n"), $("#countChip"));
+  setTimeout(()=>{ $("#countChip").textContent = `${visible().filter(u=>u.status==="match").length} of ${visible().length} match`; }, 1500);
+});
+$("#linkBtn").hidden = inViewer;
+$("#linkBtn").addEventListener("click", ()=>{ writeHash(); const b = $("#linkBtn"); copyText(location.href, {set textContent(v){ b.textContent = v==="Copied."?"Link copied":"Copy link"; setTimeout(()=>b.textContent="Copy link",1500); }}); });
+document.querySelectorAll("th button[data-k]").forEach(b=>b.addEventListener("click", ()=>{
+  const k = b.dataset.k;
+  if(S.sortKey===k){ if(S.sortDir>0) S.sortDir = -1; else { S.sortKey = null; S.sortDir = 1; } }
+  else { S.sortKey = k; S.sortDir = k==="sym"||k==="rsi" ? 1 : -1; }
+  renderTable();
+}));
+for(const [id,key,min] of [["#bStop","stopAtr",0.1],["#bTp","tpAtr",0.1],["#bExit","exitRsi",1],["#bMax","maxBars",1],["#bSize","size",1],["#aAcct","acct",1],["#aRisk","riskPct",0.01]]){
+  $(id).addEventListener("change", e=>{ const v = +e.target.value; if(isF(v) && v>=min){ S[key] = v; renderPlan(); renderBacktest(); renderReplay(); renderPine(); draw(); } });
 }
-for(const [id,key,min] of [["#bStop","stopAtr",0.1],["#bTp","tpAtr",0.1],["#bExit","exitRsi",1],["#bMax","maxBars",1],["#bSize","size",1]]){
-  $(id).addEventListener("change", e=>{ const v = +e.target.value; if(isF(v) && v>=min){ S[key] = v; renderBacktest(); renderReplay(); renderPine(); draw(); } });
-}
-for(const k of ["bt","rp","ind","pine"]) $("#tab-"+k).addEventListener("click", ()=>{ setTab(k); if(k==="rp") renderReplay(); });
+for(const k of ["plan","bt","rp","ind","pine"]) $("#tab-"+k).addEventListener("click", ()=>{ setTab(k); if(k==="rp") renderReplay(); });
 $("#rpPlay").addEventListener("click", ()=>{ S.replay.timer ? pauseReplay() : playReplay(); });
 $("#rpStep").addEventListener("click", ()=>{ if(!S.replay.on) startReplay(false); else { pauseReplay(); stepReplay(); } });
 $("#rpStart").addEventListener("click", ()=>{ pauseReplay(); startReplay(false); });
 $("#rpExit").addEventListener("click", ()=>{ stopReplay(); renderReplay(); });
 $("#rpSpeed").addEventListener("change", ()=>{ if(S.replay.timer) playReplay(); });
-$("#indRun").addEventListener("click", ()=>{ $("#indName").textContent ||= "Custom indicator"; runIndicator(); });
+$("#indRun").addEventListener("click", ()=>{ if(!$("#indName").textContent) $("#indName").textContent = "Custom indicator"; runIndicator(); });
 $("#indReset").addEventListener("click", ()=>{ $("#indName").textContent = DEFAULT_IND.name; $("#indSum").textContent = DEFAULT_IND.summary; $("#indCode").value = DEFAULT_IND.code; runIndicator(); });
 $("#indWrite").addEventListener("click", writeIndicator);
 $("#indStop").addEventListener("click", ()=>indCtl?.abort());
-$("#pineCopy").addEventListener("click", async ()=>{
-  const ta2 = $("#pine");
-  try{ await navigator.clipboard.writeText(ta2.value); $("#pineMsg").textContent = "Copied."; }
-  catch{ ta2.focus(); ta2.select(); $("#pineMsg").textContent = "Selected. Press Ctrl+C or ⌘C to copy."; }
-});
+$("#pineCopy").addEventListener("click", ()=>copyText($("#pine").value, $("#pineMsg"), $("#pine")));
+$("#planCopy").addEventListener("click", ()=>copyText(planText(), $("#planMsg")));
 const cv = $("#chart");
 cv.addEventListener("mousemove", e=>{
   const g = draw.geom; if(!g) return;
   const r = cv.getBoundingClientRect();
   const i = g.start + Math.floor((e.clientX-r.left-g.padL)/g.slot);
-  if(i!==S.hover){ S.hover = (i>=g.start && i<=g.end) ? i : -1; draw(); renderReadout(); }
+  const h = (i>=g.start && i<=g.end) ? i : -1;
+  if(h!==S.hover){ S.hover = h; draw(); renderReadout(); }
 });
 cv.addEventListener("mouseleave", ()=>{ S.hover = -1; draw(); renderReadout(); });
 let rz; window.addEventListener("resize", ()=>{ clearTimeout(rz); rz = setTimeout(draw, 80); });
@@ -1033,11 +1353,12 @@ window.matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change", d
 new MutationObserver(draw).observe(document.documentElement, {attributes:true, attributeFilter:["data-theme"]});
 document.fonts?.ready?.then(draw);
 
-// boot: demo feed, run the post's own query
+// boot: demo first so the page is complete at rest, then the real data
 $("#indCode").value = DEFAULT_IND.code;
-loadDemo();
-runScan(true, "Demo feed loaded.");
-getSample().then(s=>{ if(!s){ $("#indWrite").title = "Needs Claude in the viewer"; } });
+readHash();
+renderParams(); syncAssetUI();
+loadDemo(); runScan(true, "Showing the simulated demo feed while real data loads.");
+loadData(inViewer);
 </script>
 </body>
 </html>
