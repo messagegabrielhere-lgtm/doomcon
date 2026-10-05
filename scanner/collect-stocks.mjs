@@ -52,6 +52,14 @@ export const UNIVERSE = [
   ['CEG','Utilities'],['VST','Utilities'],
   ['EQIX','Real estate'],['DLR','Real estate'],
   ['BOTZ','ETF'],['AIQ','ETF'],['IGV','ETF'],
+  // Country, currency and commodity ETFs for the World Monitor page (site/static/monitor.html):
+  // one US-listed fund per national market stands in for that exchange.
+  ['EWJ','ETF'],['EWG','ETF'],['EWU','ETF'],['EWQ','ETF'],['EWI','ETF'],['EWP','ETF'],['EWL','ETF'],['EWN','ETF'],
+  ['EWD','ETF'],['EPOL','ETF'],['GREK','ETF'],['EWC','ETF'],['EWW','ETF'],['EWZ','ETF'],['ECH','ETF'],['ARGT','ETF'],
+  ['FXI','ETF'],['EWH','ETF'],['EWT','ETF'],['EWY','ETF'],['INDA','ETF'],['EWA','ETF'],['EWS','ETF'],['EIDO','ETF'],
+  ['EWM','ETF'],['THD','ETF'],['EPHE','ETF'],['VNM','ETF'],['TUR','ETF'],['EIS','ETF'],['KSA','ETF'],['UAE','ETF'],
+  ['QAT','ETF'],['EZA','ETF'],
+  ['UUP','ETF'],['UNG','ETF'],['CPER','ETF'],['URA','ETF'],['WEAT','ETF'],['DBA','ETF'],
 ];
 
 const FRAMES = [
