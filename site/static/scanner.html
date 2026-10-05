@@ -179,6 +179,29 @@ tr.whyrow.sel td{background:color-mix(in srgb,var(--accent) 12%,transparent);box
 .finds b{color:var(--ink);font-weight:600}
 .checks{margin:6px 0 0;padding:0;list-style:none;display:grid;gap:2px;font-size:12.5px}
 
+/* market pulse */
+.pulse-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.8fr) minmax(0,1.5fr);gap:12px 18px;padding:12px}
+.pulse h3{margin:0 0 6px;font:600 12px/1.2 var(--f-display);letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+.idx{display:grid;grid-template-columns:auto auto 1fr;gap:4px 10px;align-items:baseline;font-size:12.5px}
+.idx b{font-family:var(--f-body)}
+.idx .num{text-align:right}
+.meter{height:7px;border-radius:999px;background:var(--sunk);border:1px solid var(--line);overflow:hidden;margin:3px 0 9px}
+.meter i{display:block;height:100%;background:var(--up)}
+.breadth{font-size:12.5px}
+.sect{display:grid;grid-template-columns:minmax(84px,auto) minmax(0,1fr) 52px;gap:3px 8px;align-items:center;font-size:12px}
+.sect button{all:unset;cursor:pointer;color:var(--ink);white-space:nowrap}
+.sect button:hover,.sect button:focus-visible{color:var(--accent);text-decoration:underline}
+.sect button[aria-pressed=true]{color:var(--accent);font-weight:600}
+.sbar{position:relative;height:9px}
+.sbar::before{content:"";position:absolute;left:50%;top:-2px;bottom:-2px;border-left:1px solid var(--line)}
+.sbar i{position:absolute;top:0;height:100%;border-radius:2px}
+.read{font-weight:600}
+.read.on{color:var(--up)} .read.off{color:var(--down)} .read.mixed{color:var(--accent)}
+.curve{position:relative;border:1px solid var(--line);border-radius:8px;padding:8px 10px 6px;background:var(--panel)}
+.curve svg{display:block;width:100%;height:140px}
+.curve .cap{display:flex;justify-content:space-between;gap:8px;font-size:11px;color:var(--mute);font-family:var(--f-mono)}
+@media (max-width:960px){ .pulse-grid{grid-template-columns:minmax(0,1fr)} }
+
 /* AI stocks */
 .tag{display:inline-block;border:1px solid var(--line);border-radius:4px;padding:0 6px;margin-right:6px;font:600 10.5px/1.6 var(--f-body);color:var(--mute);letter-spacing:.03em;white-space:nowrap}
 #aiView td{vertical-align:top}
@@ -273,6 +296,18 @@ tr.whyrow.sel td{background:color-mix(in srgb,var(--accent) 12%,transparent);box
     <div class="status" id="status" role="status" aria-live="polite"></div>
   </section>
 
+  <section class="panel pulse" id="pulse" aria-label="Market pulse" hidden>
+    <div class="ph"><h2>Market pulse</h2><div class="acts"><span class="chip" id="pulseChip">–</span><button class="btn small" id="pulseToggle" type="button" aria-expanded="true" aria-controls="pulseBody">Hide</button></div></div>
+    <div id="pulseBody">
+    <div class="pulse-grid">
+      <div><h3>Indexes</h3><div class="idx" id="pulseIdx"></div></div>
+      <div class="breadth"><h3>Breadth</h3><div id="pulseBreadth"></div></div>
+      <div><h3>Sectors, last month <span style="text-transform:none;letter-spacing:0;font-family:var(--f-body)">· click to filter</span></h3><div class="sect" id="pulseSect"></div></div>
+    </div>
+    <p class="note" id="pulseWhy" style="padding:0 12px 12px"></p>
+    </div>
+  </section>
+
   <div class="grid">
     <section class="panel" aria-label="Scanner">
       <div class="ph"><h2>Scanner</h2>
@@ -347,6 +382,10 @@ tr.whyrow.sel td{background:color-mix(in srgb,var(--accent) 12%,transparent);box
         <div class="two">
           <div><h3 id="btSymTitle">This symbol</h3><div class="stats" id="btSym"></div></div>
           <div><h3 id="btAllTitle">Everything scanned</h3><div class="stats" id="btAll"></div></div>
+        </div>
+        <div>
+          <h3 id="curveTitle">Equity curve</h3>
+          <div class="curve" id="btCurve"></div>
         </div>
         <div class="two">
           <div>
@@ -429,6 +468,7 @@ tr.whyrow.sel td{background:color-mix(in srgb,var(--accent) 12%,transparent);box
           <th><button type="button" data-ak="last">Price</button></th>
           <th><button type="button" data-ak="m1" title="Change over the last 21 trading days">1M</button></th>
           <th><button type="button" data-ak="m3" title="Change over the last 63 trading days">3M</button></th>
+          <th><button type="button" data-ak="rs" title="3-month return compared with SPY">vs SPY</button></th>
           <th><button type="button" data-ak="hi" title="Distance from the 52-week high">From high</button></th>
           <th><button type="button" data-ak="trend" title="Price vs the 50- and 200-day averages">Trend</button></th>
           <th><button type="button" data-ak="rsi">RSI</button></th>
@@ -815,7 +855,7 @@ function runScan(selectTop, prefix){
   $("#countChip").textContent = `${k} of ${vis.length} match`;
   const P = PRESETS[S.preset];
   setStatus(`${prefix?esc(prefix)+" ":""}Swept <b>${vis.length}</b> ${S.asset==="stocks"?"stocks and ETFs":"contracts"} on ${S.bar} in ${ms<1?"<1":ms.toFixed(0)} ms. <b>${k} found</b> for ${esc(P.label.toLowerCase())}: ${esc(ruleText())}.${k?"":" Nothing matches right now; the closest ones are listed first."}`, true);
-  renderTable(); refreshAll();
+  renderTable(); refreshAll(); renderPulse();
 }
 function ruleText(){
   const p = S.p, w = `in the last ${p.within} bar${p.within>1?"s":""}`;
@@ -1023,15 +1063,40 @@ function renderBacktest(){
   statTiles($("#btSym"), statsOf(res.trades,res.open));
   tradeRows($("#btTrades"), u, res);
   const all = [], per = [], vis = visible();
-  for(const x of vis){ const r = backtest(x,0,x.d.c.length-1); all.push(...r.trades); const s = statsOf(r.trades); if(s.n) per.push({sym:disp(x),...s}); }
+  const pts = [];
+  for(const x of vis){ const r = backtest(x,0,x.d.c.length-1); all.push(...r.trades); for(const t of r.trades) pts.push([x.d.t[t.xi], t.pnl]); const s = statsOf(r.trades); if(s.n) per.push({sym:disp(x),...s}); }
   $("#btAllTitle").textContent = `Everything scanned · ${vis.length} symbols`;
   statTiles($("#btAll"), statsOf(all), [["Symbols traded", per.length]], ["Avg trade"]);
+  renderCurve(pts);
   per.sort((a,b)=>b.pnl-a.pnl);
   const pick = per.length>8 ? [...per.slice(0,4), ...per.slice(-4)] : per;
   $("#btRank").innerHTML = pick.map(p=>`<tr><td class="sym">${esc(p.sym)}</td><td>${p.n}</td><td>${(p.hit*100).toFixed(0)}%</td><td class="${p.pnl>=0?"up":"down"}">${fmtUsd(p.pnl)}</td></tr>`).join("")
     || `<tr class="empty"><td colspan="4">No symbol produced a signal with these settings.</td></tr>`;
   const P = PRESETS[S.preset];
   $("#btNote").innerHTML = `System: go long when the ${esc(P.label.toLowerCase())} rule fires. Fill at the next bar's open, stop and target in ATR from the signal close${P.meanRev?", exit early when RSI recovers":""} or when the time limit hits. 0.05% fee per side. If stop and target fall inside the same bar, the stop counts. <b>These are hypothetical results on ${S.source==="demo"?"simulated":"recent"} data, and no orders are placed.</b>`;
+}
+
+// Cumulative hypothetical PnL of every trade across the scanned symbols, in exit order.
+function renderCurve(pts){
+  pts.sort((a,b)=>a[0]-b[0]);
+  $("#curveTitle").textContent = `Equity curve · ${pts.length} trades across everything scanned, in the order they closed`;
+  if(pts.length<2){ $("#btCurve").innerHTML = `<p class="note">Not enough trades to draw a curve. Loosen the strategy settings.</p>`; return; }
+  let eq = 0; const ys = [0], ts = [pts[0][0]];
+  for(const [t,p] of pts){ eq += p; ys.push(eq); ts.push(t); }
+  const lo = Math.min(0,...ys), hi = Math.max(0,...ys), W = 600, H = 140, pad = 6;
+  const X = i => i/(ys.length-1)*W, Y = v => pad + (hi-v)/((hi-lo)||1)*(H-2*pad);
+  const line = ys.map((v,i)=>`${X(i).toFixed(1)},${Y(v).toFixed(1)}`).join(" ");
+  const col = eq>=0 ? "var(--up)" : "var(--down)";
+  let peak = -Infinity, dd = 0; for(const v of ys){ peak = Math.max(peak,v); dd = Math.max(dd, peak-v); }
+  const top3 = pts.map(p=>p[1]).sort((a,b)=>b-a).slice(0,3).reduce((a,b)=>a+Math.max(0,b),0);
+  const dep = eq>0 && top3>eq ? ` The three best trades made ${fmtUsd(top3)}, more than the total, so the result leans on a few winners.` : "";
+  $("#btCurve").innerHTML = `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="Equity curve ending at ${fmtUsd(eq)}">
+      <line x1="0" x2="${W}" y1="${Y(0)}" y2="${Y(0)}" stroke="var(--line)" stroke-width="1" vector-effect="non-scaling-stroke" stroke-dasharray="4 3"/>
+      <polygon points="0,${Y(0)} ${line} ${W},${Y(0)}" fill="${col}" opacity=".12"/>
+      <polyline points="${line}" fill="none" stroke="${col}" stroke-width="2" vector-effect="non-scaling-stroke"/>
+    </svg>
+    <div class="cap"><span>${fmtT(ts[0])}</span><span>Ends ${fmtUsd(eq)} · worst drawdown ${fmtUsd(-dd)}</span><span>${fmtT(ts[ts.length-1])}</span></div>
+    ${dep?`<p class="note" style="margin-top:6px">${esc(dep.trim())}</p>`:""}`;
 }
 
 /* ---------- replay ---------- */
@@ -1375,6 +1440,7 @@ function renderReadout(){
     `<span class="kv">RSI <b>${isF(ind.rsi[i])?ind.rsi[i].toFixed(1):"–"}</b></span>`+
     `<span class="kv">Vol <b>${isF(ind.vr[i])?ind.vr[i].toFixed(1)+"×":"–"}</b></span>`+
     `<span class="kv">vs 200 SMA <b class="${vs200>=0?"up":"down"}">${isF(vs200)?(vs200>=0?"+":"")+(vs200*100).toFixed(1)+"%":"–"}</b></span>`+
+    (isF(rsVsSpy(u)) && !S.replay.on ? `<span class="kv" title="3-month return relative to SPY">3M vs SPY <b class="${rsVsSpy(u)>=0?"up":"down"}">${pctS(rsVsSpy(u))}</b></span>` : "")+
     `<span class="kv">${fmtT(d.t[i])}</span>`;
 }
 
@@ -1464,6 +1530,7 @@ function researchPrompt(u){
   if(S.bar==="1D"){ const k = Math.max(0,n-252); const hi = Math.max(...d.h.slice(k)), lo = Math.min(...d.l.slice(k)); lines.push(`- 52-week range: ${fmtP(lo)} to ${fmtP(hi)}; price is ${((d.c[i]/hi-1)*100).toFixed(1)}% from the high`); }
   if(isF(ind.sma50[i])) lines.push(`- 50-bar SMA ${fmtP(ind.sma50[i])} (${((d.c[i]/ind.sma50[i]-1)*100).toFixed(1)}%)${isF(ind.sma200[i])?`, 200-bar SMA ${fmtP(ind.sma200[i])} (${((d.c[i]/ind.sma200[i]-1)*100).toFixed(1)}%)`:""}`);
   lines.push(`- RSI(14) ${isF(ind.rsi[i])?ind.rsi[i].toFixed(1):"n/a"}; ATR(14) ${fmtP(ind.atr[i])} (${(ind.atr[i]/d.c[i]*100).toFixed(1)}% of price); volume ${isF(ind.vr[i])?ind.vr[i].toFixed(1)+"×":"n/a"} its 20-bar average`);
+  if(isF(rsVsSpy(u))) lines.push(`- 3-month return ${pctS(perf(u,63))}, which is ${pctS(rsVsSpy(u))} relative to SPY`);
   lines.push(`- Sector: ${u.sec||"n/a"}. Scanner strategy "${PRESETS[S.preset].label}": ${u.status==="match"?"matches now":u.status==="near"?"close to matching":"no match"}`);
   if(u.plan) lines.push(`- My draft trade plan: entry ${fmtP(u.plan.entry)}, stop ${fmtP(u.plan.stop)}, target ${fmtP(u.plan.target)}, reward to risk ${u.plan.rr.toFixed(2)}`);
   return R.p.replace("{T}", who) + `\n\nMarket data from my scanner (Yahoo Finance, delayed${S.source==="demo"?"; NOTE: this is simulated demo data, ignore the numbers":""}):\n${lines.join("\n")}\n\nUse this data as context. Your knowledge of filings and news may be out of date, so say which facts I should verify in the latest reports, and don't invent figures. This is for my own research, not a request for personal financial advice.`;
@@ -1715,6 +1782,46 @@ function setMode(mode){
   if(odds){ oddsRefresh(true); if(!inViewer){ $("#oAuto").checked = true; oddsAuto(true); } }
   else if(ai) openAI();
   else syncAssetUI();
+  renderPulse();
+}
+
+/* ---------- relative strength and market pulse (daily stock data) ---------- */
+const perf = (u, bars) => { const c = u.d.c, n = c.length; return n>bars ? c[n-1]/c[n-1-bars]-1 : NaN; };
+function rsVsSpy(u, bars=63){
+  if(S.asset!=="stocks" || S.bar!=="1D" || u.sym==="SPY") return NaN;
+  const spy = S.universe.find(x=>x.sym==="SPY"); if(!spy) return NaN;
+  return (1+perf(u,bars))/(1+perf(spy,bars))-1;
+}
+const SECTOR_ETF = {XLK:"Technology", XLC:"Communication", XLY:"Consumer", XLP:"Staples", XLV:"Health care", XLF:"Financials", XLI:"Industrials", XLE:"Energy", XLU:"Utilities", XLRE:"Real estate", XLB:"Materials"};
+function renderPulse(){
+  const show = S.asset==="stocks" && S.bar==="1D" && (S.mode==="scan"||S.mode==="ai"||!S.mode) && S.universe.length>20;
+  $("#pulse").hidden = !show; if(!show) return;
+  const by = new Map(S.universe.map(u=>[u.sym,u]));
+  const idx = ["SPY","QQQ","IWM","DIA"].map(t=>by.get(t)).filter(Boolean);
+  $("#pulseIdx").innerHTML = idx.map(u=>{ const m = aiMetrics(u); return `<b>${u.sym}</b><span class="num">${fmtP(m.last)}</span><span><span class="${u.chg>=0?"up":"down"} mono">${pctS(u.chg)}</span> · 1M <span class="${m.m1>=0?"up":"down"} mono">${pctS(m.m1)}</span> <span class="trend ${m.trend}" title="${esc(m.tw)}">${m.tl}</span></span>`; }).join("")
+    || `<span class="note">Index ETFs aren't in this data.</span>`;
+  const stocks = S.universe.filter(u=>u.sec!=="ETF" && isF(u.ind.sma200[u.d.c.length-1]));
+  const above = k => stocks.filter(u=>u.d.c[u.d.c.length-1] > u.ind[k][u.d.c.length-1]).length;
+  const a200 = above("sma200"), a50 = above("sma50"), n = stocks.length || 1;
+  const p200 = a200/n, p50 = a50/n;
+  $("#pulseBreadth").innerHTML = `Above their 200-day average: <b class="mono">${Math.round(p200*100)}%</b> <span class="note">(${a200} of ${stocks.length})</span><div class="meter"><i style="width:${(p200*100).toFixed(0)}%"></i></div>
+    Above their 50-day average: <b class="mono">${Math.round(p50*100)}%</b> <span class="note">(${a50} of ${stocks.length})</span><div class="meter"><i style="width:${(p50*100).toFixed(0)}%"></i></div>`;
+  const secs = Object.entries(SECTOR_ETF).map(([t,name])=>({t,name,u:by.get(t)})).filter(x=>x.u).map(x=>({...x, m1:perf(x.u,21)})).filter(x=>isF(x.m1)).sort((a,b)=>b.m1-a.m1);
+  const mx = Math.max(0.01, ...secs.map(x=>Math.abs(x.m1)));
+  $("#pulseSect").innerHTML = secs.map(x=>{ const w = Math.abs(x.m1)/mx*50; return `<button type="button" data-sec="${esc(x.name)}" aria-pressed="${S.sector===x.name}" title="${x.t}: filter the scanner to ${esc(x.name)}">${esc(x.name)}</button><div class="sbar"><i style="${x.m1>=0?`left:50%;width:${w}%;background:var(--up)`:`right:50%;width:${w}%;background:var(--down)`}"></i></div><span class="mono ${x.m1>=0?"up":"down"}" style="text-align:right">${pctS(x.m1)}</span>`; }).join("");
+  $("#pulseSect").querySelectorAll("button").forEach(b=>b.addEventListener("click", ()=>{
+    S.sector = S.sector===b.dataset.sec ? "all" : b.dataset.sec;
+    if(S.mode==="ai") setMode("scan");
+    setSource(); stopReplay(); runScan(true);
+  }));
+  const spy = by.get("SPY"), st = spy ? aiMetrics(spy).trend : "mix";
+  let read, cls, why;
+  if(st==="upt" && p200>=0.6){ read = "Risk-on"; cls = "on"; why = `SPY is above its 50- and 200-day averages and ${Math.round(p200*100)}% of stocks are above their 200-day. Pullback and breakout setups have the market behind them.`; }
+  else if(st==="dnt" || p200<0.4){ read = "Risk-off"; cls = "off"; why = `${st==="dnt"?"SPY is below its 200-day average":"Most stocks are below their 200-day average"} (${Math.round(p200*100)}% above). Long setups fail more often in this backdrop, so smaller size or patience makes sense.`; }
+  else { read = "Mixed"; cls = "mixed"; why = `SPY's trend reads "${spy?aiMetrics(spy).tl.toLowerCase():"unknown"}" and ${Math.round(p200*100)}% of stocks are above their 200-day. Be selective: favor stocks that are stronger than SPY.`; }
+  const best = secs[0], worst = secs[secs.length-1];
+  $("#pulseChip").innerHTML = `<span class="read ${cls}">${read}</span>`;
+  $("#pulseWhy").innerHTML = `<b class="read ${cls}">${read}.</b> ${esc(why)}${best&&worst?` Strongest sector over the last month: ${esc(best.name)} (${pctS(best.m1)}); weakest: ${esc(worst.name)} (${pctS(worst.m1)}).`:""} ${S.source==="demo"?"<b>Simulated demo data.</b>":""}`;
 }
 
 /* ---------- AI stocks ---------- */
@@ -1800,7 +1907,7 @@ function aiMetrics(u){
     else if(c<s200 && s50<s200){ trend = "dnt"; tl = "Downtrend"; }
   }
   return {last:c, m1:c/d.c[Math.max(0,n-22)]-1, m3:c/d.c[Math.max(0,n-64)]-1, hi:c/hi-1, trend, tl,
-    tw:isF(s200) ? `Price ${pctS(c/s50-1)} vs 50-day, ${pctS(c/s200-1)} vs 200-day` : "Under 200 days of data", rsi:ind.rsi[i]};
+    tw:isF(s200) ? `Price ${pctS(c/s50-1)} vs 50-day, ${pctS(c/s200-1)} vs 200-day` : "Under 200 days of data", rsi:ind.rsi[i], rs:rsVsSpy(u)};
 }
 function renderAI(){
   const by = new Map(S.universe.map(u=>[u.sym,u]));
@@ -1814,7 +1921,7 @@ function renderAI(){
   let rows = all.filter(r=>(AI.theme==="All"||r.th===AI.theme) && (!q || [r.t, r.u?.name||"", r.th, r.role].some(x=>x.toLowerCase().includes(q))));
   const missing = rows.filter(r=>!r.u).length;
   rows = rows.filter(r=>r.u).map(r=>({...r, m:aiMetrics(r.u)}));
-  const val = r => ({sym:r.t, last:r.m.last, m1:r.m.m1, m3:r.m.m3, hi:r.m.hi, trend:{upt:3,pb:2,mix:1,dnt:0}[r.m.trend], rsi:r.m.rsi, setup:-r.u.score})[AI.sortK];
+  const val = r => ({sym:r.t, last:r.m.last, m1:r.m.m1, m3:r.m.m3, rs:r.m.rs, hi:r.m.hi, trend:{upt:3,pb:2,mix:1,dnt:0}[r.m.trend], rsi:r.m.rsi, setup:-r.u.score})[AI.sortK];
   if(AI.sortK) rows.sort((a,b)=>{ const x = val(a), y = val(b); return (typeof x==="string" ? x.localeCompare(y) : (isF(x)?x:-Infinity)-(isF(y)?y:-Infinity))*AI.sortDir; });
   else rows.sort((a,b)=>a.u.score-b.u.score);
   document.querySelectorAll("#aiView th button[data-ak]").forEach(b=>{ if(b.dataset.ak===AI.sortK) b.dataset.dir = AI.sortDir>0?"▲":"▼"; else delete b.dataset.dir; });
@@ -1824,11 +1931,11 @@ function renderAI(){
   $("#aiBody").innerHTML = rows.map(r=>`<tr class="row" data-s="${esc(r.t)}" tabindex="0" title="Open ${esc(r.t)} in the scanner">
     <td><b>${esc(r.t)}</b><small>${esc(r.u.name||"")}</small></td>
     <td><span class="tag">${esc(r.th)}</span>${esc(r.role)}</td>
-    <td>${fmtP(r.m.last)}</td><td>${pc(r.m.m1)}</td><td>${pc(r.m.m3)}</td><td>${pc(r.m.hi)}</td>
+    <td>${fmtP(r.m.last)}</td><td>${pc(r.m.m1)}</td><td>${pc(r.m.m3)}</td><td title="3-month return relative to SPY">${isF(r.m.rs)?pc(r.m.rs):"–"}</td><td>${pc(r.m.hi)}</td>
     <td><span class="trend ${r.m.trend}" title="${esc(r.m.tw)}">${r.m.tl}</span></td>
     <td class="${r.m.rsi<30?"hot":""}">${f1(r.m.rsi)}</td>
     <td><span class="mk ${r.u.status}"></span>${r.u.status==="match"?"<b>Match</b>":r.u.status==="near"?"Near":"No setup"}<small>${reasonText(r.u, true)}</small></td></tr>`).join("")
-    || `<tr class="empty"><td colspan="9">${S.source!=="live" ? "Loading the stock data…" : "No AI stocks match that search."}</td></tr>`;
+    || `<tr class="empty"><td colspan="10">${S.source!=="live" ? "Loading the stock data…" : "No AI stocks match that search."}</td></tr>`;
   if(missing && S.source==="live") $("#aiChip").textContent += ` · ${missing} waiting for the next data refresh`;
   $("#aiBody").querySelectorAll("tr.row").forEach(tr=>{
     const go = () => openInScanner(tr.dataset.s);
@@ -1960,6 +2067,12 @@ new MutationObserver(draw).observe(document.documentElement, {attributes:true, a
 document.fonts?.ready?.then(draw);
 
 $("#aOdds").addEventListener("click", ()=>{ if(S.mode!=="odds"){ setMode("odds"); writeHash(); } });
+{
+  const setPulse = open => { $("#pulseBody").hidden = !open; $("#pulseToggle").textContent = open ? "Hide" : "Show"; $("#pulseToggle").setAttribute("aria-expanded", String(open)); };
+  let open = true; try{ open = localStorage.getItem("capscan.pulse")!=="0"; }catch{}
+  setPulse(open);
+  $("#pulseToggle").addEventListener("click", ()=>{ const o = $("#pulseBody").hidden; setPulse(o); try{ localStorage.setItem("capscan.pulse", o?"1":"0"); }catch{} });
+}
 $("#aAI").addEventListener("click", ()=>{ if(S.mode!=="ai"){ setMode("ai"); writeHash(); } });
 $("#aiQ").addEventListener("input", renderAI);
 $("#aiPreset").addEventListener("change", e=>{ setPreset(e.target.value); runScan(false); renderAI(); });
