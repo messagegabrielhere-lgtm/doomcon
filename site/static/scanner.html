@@ -172,7 +172,12 @@ a.btn{text-decoration:none;display:inline-block}
 
 /* BTC odds */
 .odds{display:flex;flex-direction:column;gap:12px}
-.odds .stats{grid-template-columns:repeat(4,minmax(0,1fr))}
+.odds .stats{grid-template-columns:repeat(3,minmax(0,1fr))}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--mute);margin-right:6px;vertical-align:1px}
+.dot.on{background:var(--up);box-shadow:0 0 0 3px color-mix(in srgb,var(--up) 25%,transparent)}
+.dot.warn{background:var(--accent)}
+.logwrap{overflow:auto;max-height:260px;border-block:1px solid var(--line)}
+.logwrap td:nth-child(2){white-space:normal;min-width:220px;font-family:var(--f-body)}
 .odds-ctl{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:end;padding:10px 12px;border-bottom:1px solid var(--line)}
 .odds-ctl label{display:flex;flex-direction:column;gap:3px;font-size:11px;color:var(--mute);text-transform:uppercase;letter-spacing:.04em}
 .odds-ctl label.inline{flex-direction:row;align-items:center;gap:6px;text-transform:none;letter-spacing:0;font-size:12.5px}
@@ -390,7 +395,8 @@ a.btn{text-decoration:none;display:inline-block}
       <label for="oVol">Volatility (annual %)<input id="oVol" type="number" min="5" max="300" step="1" placeholder="auto"></label>
       <label for="oThresh">Flag edges above (pts)<input id="oThresh" type="number" min="1" max="50" step="1" value="5"></label>
       <label class="inline" for="oHide"><input id="oHide" type="checkbox" checked> Hide markets priced under 2% or over 98%</label>
-      <label class="inline" for="oAuto"><input id="oAuto" type="checkbox"> Auto-refresh (BTC every 20 s, odds every 60 s)</label>
+      <label class="inline" for="oAuto"><input id="oAuto" type="checkbox"> Live: stream BTC every second and Polymarket odds as they change</label>
+      <label class="inline" for="oBeep"><input id="oBeep" type="checkbox"> Beep on a new gap</label>
       <button class="btn primary" id="oRefresh" type="button">Refresh</button>
     </div>
     <div style="padding:0 12px"><div class="stats" id="oddsStats"></div></div>
@@ -401,7 +407,15 @@ a.btn{text-decoration:none;display:inline-block}
         <tbody id="oddsBody"></tbody>
       </table>
     </div>
+    <div class="ph"><h2>Gap log</h2><span class="chip" id="logChip">–</span></div>
+    <div class="logwrap">
+      <table>
+        <thead><tr><th>Opened</th><th>Market</th><th>Side</th><th title="Largest edge while the gap was open">Peak edge</th><th>Lasted</th></tr></thead>
+        <tbody id="logBody"></tbody>
+      </table>
+    </div>
     <ul class="caveats">
+      <li>The gap log records every time a market's edge crosses your threshold while this page is open: when it opened, how big it got and how long it lasted. Gaps that close in a few seconds are usually stale quotes or the model lagging, and they're gone before a person could act.</li>
       <li>This is the "compare live BTC with Polymarket odds" idea as a read-only monitor. It never places orders.</li>
       <li>Model: BTC follows a random walk with the volatility above (by default, the last 7 days of hourly OKX returns). Real prices have fatter tails, so a big "edge" on a far-away strike usually means the model is wrong, not the market.</li>
       <li>Polymarket settles on Binance BTC/USDT or Chainlink; this page uses the OKX price, which can differ by a few dollars. Spreads, fees and slippage come out of any edge.</li>
@@ -1366,7 +1380,8 @@ async function askResearch(){
 }
 
 /* ---------- BTC odds: Polymarket prices vs a price model (read-only) ---------- */
-const O = {btc:NaN, hist:[], vol:NaN, events:null, s0:{}, updated:0, busy:false, err:null, tB:null, tO:null};
+const O = {btc:NaN, hist:[], vol:NaN, events:null, s0:{}, updated:0, busy:false, err:null, tB:null, tO:null, tR:null,
+  src:"OKX", tick:0, wsBtc:null, wsPm:null, pmTokens:"", pmState:"off", pmUpdates:0, live:{}, open:{}, log:[], audio:null};
 const PM_URL = "https://gamma-api.polymarket.com/events?closed=false&tag_slug=bitcoin&limit=40&order=volume24hr&ascending=false";
 function Ncdf(x){ const t = 1/(1+0.2316419*Math.abs(x)), d = 0.3989423*Math.exp(-x*x/2); const p = d*t*(0.3193815+t*(-0.3565638+t*(1.781478+t*(-1.821256+t*1.330274)))); return x>0 ? 1-p : p; }
 const arr = v => { try{ return Array.isArray(v) ? v : JSON.parse(v||"[]"); }catch{ return []; } };
@@ -1401,9 +1416,11 @@ async function oddsRefresh(full){
   if(O.busy) return; O.busy = true;
   $("#oRefresh").disabled = true; $("#oddsStatus").textContent = "Refreshing…";
   try{
-    const t = await getJSON("https://www.okx.com/api/v5/market/ticker?instId=BTC-USDT", 8000);
-    const px = +t?.data?.[0]?.last; if(!isF(px)) throw new Error("OKX returned no BTC price");
-    O.btc = px; O.hist.push([Date.now(), px]); O.hist = O.hist.filter(h=>h[0]>Date.now()-36e5);
+    if(Date.now()-O.tick > 5000){
+      const t = await getJSON("https://www.okx.com/api/v5/market/ticker?instId=BTC-USDT", 8000);
+      const px = +t?.data?.[0]?.last; if(!isF(px)) throw new Error("OKX returned no BTC price");
+      setBtc(px, "OKX");
+    }
     if(full || !isF(O.vol)){
       const c = await getJSON("https://www.okx.com/api/v5/market/candles?instId=BTC-USDT&bar=1H&limit=168", 8000);
       const cl = (c?.data||[]).map(r=>+r[4]).reverse(), lr = [];
@@ -1411,7 +1428,7 @@ async function oddsRefresh(full){
       const m = lr.reduce((a,b)=>a+b,0)/lr.length;
       O.vol = Math.sqrt(lr.reduce((a,b)=>a+(b-m)**2,0)/(lr.length-1))*Math.sqrt(8760);
     }
-    if(full || !O.events){ O.events = await getJSON(PM_URL, 20000); O.updated = Date.now(); }
+    if(full || !O.events){ O.events = await getJSON(PM_URL, 20000); O.updated = Date.now(); if(O.wsPm) pmSubscribe(); }
     const need = new Set();
     for(const ev of O.events||[]) for(const m of ev.markets||[]){ const c = classify(m, ev); if(c?.kind==="updown" && !c.twap && isF(c.t0) && c.t0<=Date.now() && !isF(O.s0[c.t0])) need.add(c.t0); }
     for(const t0 of [...need].slice(0,8)){
@@ -1422,7 +1439,82 @@ async function oddsRefresh(full){
   O.busy = false; $("#oRefresh").disabled = false;
   renderOdds();
 }
+function setBtc(px, src){
+  const now = Date.now();
+  O.btc = px; O.src = src; O.tick = now;
+  const last = O.hist[O.hist.length-1];
+  if(!last || now-last[0]>=1000) O.hist.push([now, px]);
+  if(O.hist.length>4000) O.hist = O.hist.filter(h=>h[0]>now-36e5);
+}
+
+/* live streams: BTC from Binance (Polymarket settles on Binance BTC/USDT), OKX as fallback; odds from Polymarket */
+function btcStream(on){
+  if(O.wsBtc){ O.wsBtc.onclose = null; try{ O.wsBtc.close(); }catch{} O.wsBtc = null; clearInterval(O.wsBtcPing); }
+  if(!on) return;
+  const connect = (venue) => {
+    let ws; try{ ws = new WebSocket(venue==="Binance" ? "wss://stream.binance.com:9443/ws/btcusdt@aggTrade" : "wss://ws.okx.com:8443/ws/v5/public"); }catch{ return venue==="Binance" ? connect("OKX") : null; }
+    let got = false;
+    ws.onopen = () => { if(venue==="OKX"){ ws.send(JSON.stringify({op:"subscribe",args:[{channel:"tickers",instId:"BTC-USDT"}]})); O.wsBtcPing = setInterval(()=>{ try{ ws.send("ping"); }catch{} }, 20000); } };
+    ws.onmessage = e => {
+      if(e.data==="pong") return;
+      let j; try{ j = JSON.parse(e.data); }catch{ return; }
+      const px = venue==="Binance" ? +j.p : +j?.data?.[0]?.last;
+      if(isF(px)){ got = true; setBtc(px, venue+" live"); }
+    };
+    ws.onerror = () => {};
+    ws.onclose = () => { clearInterval(O.wsBtcPing); if(O.wsBtc!==ws) return; O.wsBtc = null; setTimeout(()=>{ if($("#oAuto").checked && !O.wsBtc) O.wsBtc = connect(venue==="Binance" && !got ? "OKX" : venue); }, got ? 2000 : 0); };
+    return ws;
+  };
+  O.wsBtc = connect("Binance");
+}
+function yesToken(m){ return String(arr(m.clobTokenIds)[0]||""); }
+function pmSubscribe(){
+  const ids = [];
+  for(const ev of O.events||[]) for(const m of ev.markets||[]) if(!m.closed && m.active!==false){ const t = yesToken(m); if(t) ids.push(t); }
+  const key = ids.join(",");
+  if(!O.wsPm || O.wsPm.readyState!==1 || key===O.pmTokens) return;
+  O.pmTokens = key;
+  O.wsPm.send(JSON.stringify({assets_ids:ids, type:"market"}));
+}
+function pmStream(on){
+  if(O.wsPm){ O.wsPm.onclose = null; try{ O.wsPm.close(); }catch{} O.wsPm = null; clearInterval(O.wsPmPing); }
+  O.pmState = on ? "connecting" : "off"; O.pmTokens = "";
+  if(!on) return;
+  let ws; try{ ws = new WebSocket("wss://ws-subscriptions-clob.polymarket.com/ws/market"); }catch{ O.pmState = "unavailable"; return; }
+  O.wsPm = ws;
+  ws.onopen = () => { O.pmState = "connected"; pmSubscribe(); O.wsPmPing = setInterval(()=>{ try{ ws.send("PING"); }catch{} }, 10000); };
+  ws.onmessage = e => {
+    if(e.data==="PONG") return;
+    let j; try{ j = JSON.parse(e.data); }catch{ return; }
+    const now = Date.now();
+    const put = (id, bid, ask) => { if(!id) return; const L = O.live[id] ||= {}; if(isF(bid)) L.bid = bid; if(isF(ask)) L.ask = ask; L.ts = now; O.pmUpdates++; };
+    for(const ev of (Array.isArray(j) ? j : [j])){
+      const type = ev.event_type || ev.type;
+      if(type==="book"){
+        const bids = (ev.bids||ev.buys||[]).map(x=>+x.price).filter(isF), asks = (ev.asks||ev.sells||[]).map(x=>+x.price).filter(isF);
+        put(ev.asset_id, bids.length?Math.max(...bids):NaN, asks.length?Math.min(...asks):NaN);
+      }else if(type==="price_change" && Array.isArray(ev.price_changes)){
+        for(const pc of ev.price_changes) put(pc.asset_id, +pc.best_bid, +pc.best_ask);
+      }else if(type==="best_bid_ask"){
+        put(ev.asset_id, +ev.best_bid, +ev.best_ask);
+      }
+    }
+  };
+  ws.onerror = () => {};
+  ws.onclose = () => { clearInterval(O.wsPmPing); if(O.wsPm!==ws) return; O.wsPm = null; O.pmState = "reconnecting"; setTimeout(()=>{ if($("#oAuto").checked && !O.wsPm) pmStream(true); }, 3000); };
+}
+function beep(){
+  if(!$("#oBeep").checked) return;
+  try{
+    O.audio ||= new (window.AudioContext||window.webkitAudioContext)();
+    const o = O.audio.createOscillator(), g = O.audio.createGain();
+    o.frequency.value = 880; g.gain.value = 0.06; o.connect(g); g.connect(O.audio.destination);
+    o.start(); o.stop(O.audio.currentTime+0.12);
+  }catch{}
+}
+
 function fmtLeft(ms){ if(ms<=0) return "ended"; const m = Math.round(ms/6e4); if(m<60) return m+" min"; const h = m/60; if(h<48) return h.toFixed(h<10?1:0)+" h"; return Math.round(h/24)+" d"; }
+function fmtDur(ms){ const s = Math.round(ms/1000); if(s<60) return s+" s"; const m = Math.floor(s/60); return m<60 ? `${m} min ${s%60} s` : `${Math.floor(m/60)} h ${m%60} min`; }
 function renderOdds(){
   const sig = +$("#oVol").value>0 ? +$("#oVol").value/100 : O.vol;
   const th = (+$("#oThresh").value||5)/100, hide = $("#oHide").checked, now = Date.now();
@@ -1432,24 +1524,44 @@ function renderOdds(){
     const c = classify(m, ev); if(!c) continue;
     const end = Date.parse(m.endDate), tau = (end-now)/(365.25*864e5); if(!(tau>0)) continue;
     const prices = arr(m.outcomePrices).map(Number);
-    const bid = isF(+m.bestBid) && m.bestBid!==null ? +m.bestBid : NaN, ask = isF(+m.bestAsk) && m.bestAsk!==null ? +m.bestAsk : NaN;
+    let bid = isF(+m.bestBid) && m.bestBid!==null ? +m.bestBid : NaN, ask = isF(+m.bestAsk) && m.bestAsk!==null ? +m.bestAsk : NaN, live = false;
+    const L = O.live[yesToken(m)];
+    if(L && L.ts>O.updated){ if(isF(L.bid)) bid = L.bid; if(isF(L.ask)) ask = L.ask; live = true; }
     const mid = isF(bid)&&isF(ask) ? (bid+ask)/2 : prices[0];
     if(hide && (mid<0.02 || mid>0.98)) continue;
     const fair = fairProb(c, O.btc, tau, sig);
     const eYes = isF(ask) ? fair-ask : fair-mid, eNo = isF(bid) ? bid-fair : mid-fair;
-    rows.push({ev, m, c, end, bid, ask, mid, fair, eYes, eNo, best:Math.max(eYes,eNo)});
+    rows.push({ev, m, c, end, bid, ask, mid, fair, eYes, eNo, live, best:Math.max(eYes,eNo)});
   }
   rows.sort((a,b)=>(isF(b.best)?b.best:-9)-(isF(a.best)?a.best:-9));
+  // gap log: open on crossing the threshold, close when it falls back
+  const seen = new Set();
+  for(const r of rows){
+    // one point of hysteresis so an edge hovering at the threshold doesn't flicker open and shut
+    if(!(r.best>=th || (O.open[r.m.id] && r.best>=th-0.01))) continue;
+    const id = r.m.id; seen.add(id);
+    const side = r.eYes>=r.eNo ? (r.c.kind==="updown"?"Up":"Yes") : (r.c.kind==="updown"?"Down":"No");
+    const g = O.open[id];
+    if(!g){ O.open[id] = {id, q:r.m.question, slug:r.ev.slug, side, start:now, peak:r.best}; beep(); }
+    else { g.peak = Math.max(g.peak, r.best); g.side = side; }
+  }
+  for(const id of Object.keys(O.open)) if(!seen.has(id)){ const g = O.open[id]; delete O.open[id]; O.log.unshift({...g, end:now}); }
+  O.log = O.log.slice(0,100);
   const flagged = rows.filter(r=>r.best>=th).length;
   $("#oddsChip").textContent = `${flagged} of ${rows.length} flagged`;
-  const h5 = O.hist.find(h=>h[0]>=now-5*6e4), mv = h5 && isF(O.btc) ? O.btc/h5[1]-1 : NaN;
+  const h1 = O.hist.find(h=>h[0]>=now-6e4), mv = h1 && isF(O.btc) ? O.btc/h1[1]-1 : NaN;
+  const age = O.tick ? (now-O.tick)/1000 : NaN;
+  const liveOn = $("#oAuto").checked;
+  const pmTxt = !liveOn ? "Off (polling)" : O.pmState==="connected" ? `Streaming · ${O.pmUpdates.toLocaleString("en-US")} updates` : O.pmState[0].toUpperCase()+O.pmState.slice(1);
   $("#oddsStats").innerHTML = [
-    ["BTC (OKX)", isF(O.btc)?"$"+O.btc.toLocaleString("en-US",{maximumFractionDigits:1}):"–"],
-    ["Move since earliest refresh (≤5 min)", isF(mv)?`<span class="${mv>=0?"up":"down"}">${(mv*100).toFixed(2)}%</span>`:"–"],
+    [`BTC (${O.src})`, isF(O.btc)?`<span class="dot ${age<3?"on":age<30?"warn":""}"></span>$`+O.btc.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2}):"–"],
+    ["Last tick", isF(age)?(age<1?"<1 s ago":age.toFixed(0)+" s ago"):"–"],
+    ["1-minute move", isF(mv)?`<span class="${mv>=0?"up":"down"}">${(mv*100).toFixed(3)}%</span>`:"–"],
+    ["Polymarket odds", `<span class="dot ${O.pmState==="connected"&&liveOn?"on":""}"></span>${pmTxt}`],
     ["Volatility used", isF(sig)?(sig*100).toFixed(0)+"% a year":"–"],
-    ["Odds updated", O.updated?new Date(O.updated).toLocaleTimeString("en-US",{hour:"2-digit",minute:"2-digit",second:"2-digit"}):"–"],
+    ["Gaps open now", `${Object.keys(O.open).length} <span style="font-size:12px;color:var(--mute)">· ${O.log.length} closed</span>`],
   ].map(([k,v])=>`<div class="stat"><span>${k}</span><b>${v}</b></div>`).join("");
-  $("#oddsStatus").textContent = O.err ? ("Couldn't refresh: "+(O.err.code ? mcpCopy(O.err) : (O.err.message||O.err))+(String(O.err.message||"").match(/fetch|Failed|abort/i)?" Your browser may be blocking requests to Polymarket or OKX from this page.":"")) : rows.length ? `${rows.length} open Bitcoin markets. Sorted by the larger of the two edges.` : (O.events ? "No open Bitcoin markets matched." : "Press Refresh to load Polymarket's Bitcoin markets.");
+  $("#oddsStatus").textContent = O.err ? ("Couldn't refresh: "+(O.err.code ? mcpCopy(O.err) : (O.err.message||O.err))+(String(O.err.message||"").match(/fetch|Failed|abort/i)?" Your browser may be blocking requests to Polymarket or OKX from this page.":"")) : rows.length ? `${rows.length} open Bitcoin markets${O.updated?`, list refreshed ${new Date(O.updated).toLocaleTimeString("en-US",{hour:"2-digit",minute:"2-digit",second:"2-digit"})}`:""}. Sorted by the larger of the two edges.` : (O.events ? "No open Bitcoin markets matched." : "Press Refresh to load Polymarket's Bitcoin markets.");
   const pc = x => isF(x) ? (x*100).toFixed(1) : "–";
   $("#oddsBody").innerHTML = rows.map(r=>{
     const yesLabel = r.c.kind==="updown" ? "Up" : "Yes", noLabel = r.c.kind==="updown" ? "Down" : "No";
@@ -1458,14 +1570,26 @@ function renderOdds(){
     else if(r.eYes>=th) read = `<span class="edge yes">${yesLabel} looks cheap</span>`;
     else if(r.eNo>=th) read = `<span class="edge no">${noLabel} looks cheap</span>`;
     else read = `<span class="edge flat">In line</span>`;
+    const g = O.open[r.m.id];
     return `<tr><td><a href="https://polymarket.com/event/${encodeURIComponent(r.ev.slug)}" target="_blank" rel="noopener">${esc(r.m.question)}</a><small>${esc(r.ev.title)} · $${Math.round(+r.m.volume24hr||0).toLocaleString("en-US")} traded 24h</small></td>`+
-      `<td>${fmtLeft(r.end-now)}</td><td>${pc(r.bid)} / ${pc(r.ask)}</td><td>${pc(r.fair)}</td>`+
-      `<td class="${r.best>=th?(r.eYes>=r.eNo?"up":"down"):""}">${isF(r.best)?(r.best>=0?"+":"")+(r.best*100).toFixed(1):"–"}</td><td>${read}</td></tr>`;
+      `<td>${fmtLeft(r.end-now)}</td><td title="${r.live?"Live from the Polymarket stream":"From the last market list refresh"}">${r.live?'<span class="dot on"></span>':""}${pc(r.bid)} / ${pc(r.ask)}</td><td>${pc(r.fair)}</td>`+
+      `<td class="${r.best>=th?(r.eYes>=r.eNo?"up":"down"):""}">${isF(r.best)?(r.best>=0?"+":"")+(r.best*100).toFixed(1):"–"}</td><td>${read}${g?`<small>open ${fmtDur(now-g.start)}</small>`:""}</td></tr>`;
   }).join("") || `<tr class="empty"><td colspan="6">${O.events?"Nothing to show with these filters.":"No data yet."}</td></tr>`;
+  const openRows = Object.values(O.open).sort((a,b)=>a.start-b.start).map(g=>({...g, end:null}));
+  $("#logChip").textContent = O.log.length ? `${O.log.length} closed · median ${fmtDur([...O.log].map(g=>g.end-g.start).sort((a,b)=>a-b)[Math.floor(O.log.length/2)])}` : "No gaps closed yet";
+  $("#logBody").innerHTML = [...openRows, ...O.log].slice(0,100).map(g=>`<tr><td>${new Date(g.start).toLocaleTimeString("en-US",{hour:"2-digit",minute:"2-digit",second:"2-digit"})}</td><td><a href="https://polymarket.com/event/${encodeURIComponent(g.slug)}" target="_blank" rel="noopener">${esc(g.q)}</a></td><td>${g.side}</td><td>+${(g.peak*100).toFixed(1)}</td><td>${g.end?fmtDur(g.end-g.start):`<span class="hot">open ${fmtDur(now-g.start)}</span>`}</td></tr>`).join("")
+    || `<tr class="empty"><td colspan="5">Gaps above ${(th*100).toFixed(0)} points show up here as they open and close.</td></tr>`;
 }
 function oddsAuto(on){
-  clearInterval(O.tB); clearInterval(O.tO); O.tB = O.tO = null;
-  if(on){ O.tB = setInterval(()=>{ if(!document.hidden) oddsRefresh(false); }, 20000); O.tO = setInterval(()=>{ if(!document.hidden) oddsRefresh(true); }, 60000); }
+  clearInterval(O.tB); clearInterval(O.tO); clearInterval(O.tR); O.tB = O.tO = O.tR = null;
+  const streams = on && !inViewer;
+  btcStream(streams); pmStream(streams);
+  if(on){
+    O.tB = setInterval(()=>{ if(!document.hidden && Date.now()-O.tick>5000) oddsRefresh(false); }, 20000);
+    O.tO = setInterval(()=>{ if(!document.hidden) oddsRefresh(true); }, 60000);
+    if(streams) O.tR = setInterval(()=>{ if(!document.hidden && S.mode==="odds") renderOdds(); }, 1000);
+  }
+  renderOdds();
 }
 function setMode(mode){
   S.mode = mode;
@@ -1479,7 +1603,7 @@ function setMode(mode){
     $("#aStocks").setAttribute("aria-pressed","false"); $("#aCrypto").setAttribute("aria-pressed","false");
     stopReplay(); oddsRefresh(true);
     if(!inViewer){ $("#oAuto").checked = true; oddsAuto(true); }
-  }else{ oddsAuto(false); $("#oAuto").checked = false; syncAssetUI(); }
+  }else{ $("#oAuto").checked = false; oddsAuto(false); syncAssetUI(); }
 }
 
 /* ---------- share links (GitHub Pages only; the Claude viewer drops hash state) ---------- */
