@@ -452,6 +452,11 @@ main.wrap:has(.stage) > section.sec, main.wrap:has(.stage) > section.sw { margin
   .stage .ans__cta { margin: var(--s-3) 0; }
   .wr { margin-top: var(--s-3); }
 }
+.wr__bars--race { margin-top: 2px; } .wr__bars--race li { grid-template-columns: 84px minmax(0, 1fr) 46px; }
+.wr__p:focus { outline: none; box-shadow: 0 0 0 2px var(--ph); }
+.wr__new { margin-left: auto; padding: 7px 12px; border-radius: 999px; background: var(--ok); color: #06070b; font: 800 var(--t-2xs)/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; text-decoration: none; }
+.wr__new[hidden] { display: none; }
+@media (hover: none), (max-width: 899px) { .wr__keys { display: none; } }
 @media (min-width: 1100px) { .wr__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } #wr-news { grid-row: span 2; } #wr-bets { grid-column: span 2; } }
 .wr { margin-bottom: var(--s-3); }
 .srcs { margin: 0 0 var(--s-5); }
@@ -844,6 +849,29 @@ ${switcher.render(ctx)}
 </section>
 
 ${closer(ctx)}
+
+<script>(function(){
+/* The war room, live. Three small things, none of them needed to read it:
+   the age of the reading ticks, the number keys jump between panels, and the
+   wall says so when a newer reading has been published. */
+var age=document.querySelector('.wr__age'),pill=document.querySelector('.wr__new');
+if(!age)return;
+var at=Date.parse(age.getAttribute('data-at'));
+function tick(){var m=Math.max(0,Math.round((Date.now()-at)/60000));
+age.textContent=' · read '+(m<1?'just now':m<60?m+' min ago':Math.floor(m/60)+'h '+(m%60)+'m ago');}
+if(isFinite(at)){tick();setInterval(tick,30000);}
+var ps=[].slice.call(document.querySelectorAll('.wr__p'));
+document.addEventListener('keydown',function(e){
+if(e.metaKey||e.ctrlKey||e.altKey)return;var t=e.target&&e.target.tagName;
+if(t==='INPUT'||t==='TEXTAREA'||t==='SELECT'||(e.target&&e.target.isContentEditable))return;
+var n=parseInt(e.key,10);if(!(n>=1&&n<=9)||!ps[n-1])return;
+ps[n-1].scrollIntoView({block:'center',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
+ps[n-1].focus({preventScroll:true});});
+function check(){if(document.hidden||!window.fetch)return;
+fetch('${esc(ctx.href('/api/state.json'))}',{cache:'no-store'}).then(function(r){return r.ok?r.json():null;}).then(function(j){
+if(j&&j.generated_at&&Date.parse(j.generated_at)>at&&pill){pill.hidden=false;}}).catch(function(){});}
+setInterval(check,300000);document.addEventListener('visibilitychange',check);
+})();</script>
 
 <script>(function(){
 if(!('IntersectionObserver' in window)||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
@@ -1239,7 +1267,7 @@ function warRoom(ctx) {
   if (!Number.isFinite(st.score)) return '';
   const panels = [];
   const panel = (id, name, href, body, { wide = false, meta = '' } = {}) => panels.push({ id, name,
-    html: `<article class="wr__p${wide ? ' wr__p--w' : ''}" id="wr-${esc(id)}" style="--ph:${WR_HUE[id] || 'var(--accent)'}">
+    html: `<article class="wr__p${wide ? ' wr__p--w' : ''}" id="wr-${esc(id)}" tabindex="-1" style="--ph:${WR_HUE[id] || 'var(--accent)'}">
     <header class="wr__ph"><span class="wr__dot" aria-hidden="true"></span><h3 class="wr__pn">${esc(name)}</h3>${meta ? `<span class="wr__pm">${esc(meta)}</span>` : ''}<a class="wr__go" href="${esc(href)}" aria-label="Open ${esc(name)}">Open →</a></header>
     <div class="wr__pb">${body}</div></article>` });
 
@@ -1286,7 +1314,14 @@ function warRoom(ctx) {
     const body = c.state === 'live'
       ? `<p class="wr__big wr__big--c"><b class="num">${esc(c.num)}</b></p><p class="wr__s">${esc(claims.sentenceOf(c))}</p>`
       : `<p class="wr__s wr__s--dark">${esc(c.text)}</p>`;
-    panel(c.id === 'news' ? 'corrob' : c.id, WR_NAME[c.id] || c.id, c.href, body);
+    let extra = '';
+    if (c.id === 'race' && c.state === 'live' && ctx.race && Array.isArray(ctx.race.players)) {
+      // The market's own ranking, top four live legs, on one 0-100% scale.
+      const legs = ctx.race.players.filter((p) => p && p.market && p.market.state === 'live' && Number.isFinite(p.market.probability))
+        .sort((x, y) => y.market.probability - x.market.probability || String(x.id).localeCompare(String(y.id))).slice(0, 4);
+      if (legs.length >= 2) extra = `<ul class="wr__bars wr__bars--race">${legs.map((p) => `<li><span class="wr__bn">${esc(p.name)}</span><span class="wr__bt"><i style="width:${(p.market.probability * 100).toFixed(1)}%"></i></span><b class="num">${esc(num(p.market.probability * 100, 1))}%</b></li>`).join('')}</ul>`;
+    }
+    panel(c.id === 'news' ? 'corrob' : c.id, WR_NAME[c.id] || c.id, c.href, body + extra);
   }
 
   // PEOPLE: the two questions everyone asks, as the registers record them.
@@ -1307,7 +1342,8 @@ function warRoom(ctx) {
   return `<section class="wr" id="war-room" aria-labelledby="wr-h" style="--lvl:var(--heat-${esc(st.level)})">
   <div class="wr__top">
     <h2 class="wr__h" id="wr-h"><span class="wr__live" aria-hidden="true"></span>War room</h2>
-    <p class="wr__k">${n ? `Reading no. ${esc(n)} · ` : ''}${panels.length} panels · every number opens its page</p>
+    <p class="wr__k">${n ? `Reading no. ${esc(n)} · ` : ''}${panels.length} panels<span class="wr__age" data-at="${esc(st.generated_at)}"></span><span class="wr__keys"> · keys 1–${Math.min(9, panels.length)} jump</span></p>
+    <a class="wr__new" href="${esc(ctx.href('/'))}" hidden>New reading in · reload</a>
     <nav class="wr__nav" aria-label="Jump to a panel">${panels.map((p) => `<a href="#wr-${esc(p.id)}" style="--ph:${WR_HUE[p.id] || 'var(--accent)'}">${esc(p.name)}</a>`).join('')}</nav>
   </div>
   <div class="wr__grid">
