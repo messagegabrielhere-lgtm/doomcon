@@ -170,6 +170,28 @@ textarea{width:100%;min-height:240px;background:var(--sunk);border:1px solid var
 .res-out{white-space:pre-wrap;background:var(--sunk);border:1px solid var(--line);border-radius:8px;padding:12px;font-size:13.5px;line-height:1.55;max-height:520px;overflow:auto}
 a.btn{text-decoration:none;display:inline-block}
 
+/* reasons */
+tr.whyrow td{padding:0 8px 8px 30px;border-bottom:1px solid color-mix(in srgb,var(--line) 60%,transparent);font:11.5px/1.45 var(--f-body);color:var(--mute);white-space:normal;text-align:left;cursor:pointer}
+tr.row.has-why td{border-bottom:0}
+tr.whyrow.sel td{background:color-mix(in srgb,var(--accent) 12%,transparent);box-shadow:inset 3px 0 0 var(--accent)}
+.ok{color:var(--up)} .no-ok{color:var(--down)}
+.finds{margin:0;font-size:12px;color:var(--mute);display:grid;gap:3px}
+.finds b{color:var(--ink);font-weight:600}
+.checks{margin:6px 0 0;padding:0;list-style:none;display:grid;gap:2px;font-size:12.5px}
+
+/* AI stocks */
+.tag{display:inline-block;border:1px solid var(--line);border-radius:4px;padding:0 6px;margin-right:6px;font:600 10.5px/1.6 var(--f-body);color:var(--mute);letter-spacing:.03em;white-space:nowrap}
+#aiView td{vertical-align:top}
+#aiView td:first-child{font-family:var(--f-body);white-space:normal;min-width:150px}
+#aiView td:first-child small,#aiView td:last-child small{display:block;color:var(--mute);font-size:11px;font-weight:400}
+#aiView td:nth-child(2),#aiView td:last-child{white-space:normal;text-align:left;font-family:var(--f-body);font-size:12.5px;min-width:210px}
+#aiView tr.row td{cursor:pointer}
+.trend{display:inline-block;border-radius:4px;padding:0 6px;font:600 10.5px/1.6 var(--f-body)}
+.trend.upt{background:color-mix(in srgb,var(--up) 18%,transparent);color:var(--up)}
+.trend.pb{background:color-mix(in srgb,var(--accent) 18%,transparent);color:var(--accent)}
+.trend.dnt{background:color-mix(in srgb,var(--down) 15%,transparent);color:var(--down)}
+.trend.mix{border:1px solid var(--line);color:var(--mute)}
+
 /* BTC odds */
 .odds{display:flex;flex-direction:column;gap:12px}
 .odds .stats{grid-template-columns:repeat(3,minmax(0,1fr))}
@@ -219,6 +241,7 @@ a.btn{text-decoration:none;display:inline-block}
     <div class="brand"><h1>Capitulation <b>Scanner</b></h1><span>Stocks, ETFs and crypto futures</span></div>
     <div class="seg" role="group" aria-label="Market">
       <button type="button" id="aStocks" aria-pressed="true">Stocks</button>
+      <button type="button" id="aAI" aria-pressed="false">AI stocks</button>
       <button type="button" id="aCrypto" aria-pressed="false">Crypto</button>
       <button type="button" id="aOdds" aria-pressed="false">BTC odds</button>
     </div>
@@ -242,6 +265,7 @@ a.btn{text-decoration:none;display:inline-block}
       <button type="button" data-q="Daily stock breakouts to a 20-day high on +50% volume">Stocks: volume breakouts</button>
       <button type="button" data-q="Stocks with a golden cross in the last 10 days">Stocks: golden cross</button>
       <button type="button" data-q="Find me all BTC futures with RSI below 30 and volume +200% at the same time">Crypto: RSI &lt; 30, volume +200%</button>
+      <button type="button" data-q="Show me AI stocks in an uptrend that pulled back">AI stocks</button>
       <button type="button" data-q="Compare live BTC price with Polymarket odds">BTC vs Polymarket odds</button>
       <button type="button" data-q="Replay and show me where my system would have entered">Replay</button>
       <button type="button" data-q="Write me a momentum oscillator that crosses whale activity with price trend">Write an oscillator</button>
@@ -261,7 +285,7 @@ a.btn{text-decoration:none;display:inline-block}
       <div class="strat">
         <label class="note" for="preset">Strategy</label>
         <select id="preset"></select>
-        <p id="presetBlurb"></p>
+        <div class="finds" id="presetBlurb"></div>
       </div>
       <div class="rules" id="params"></div>
       <div class="filters" id="filters">
@@ -389,6 +413,32 @@ a.btn{text-decoration:none;display:inline-block}
       </div>
     </section>
   </div>
+  <section class="panel odds" id="aiView" aria-label="AI stocks" hidden>
+    <div class="ph"><h2>AI stocks</h2><span class="chip" id="aiChip">–</span></div>
+    <div class="odds-ctl">
+      <label for="aiQ" style="flex:1;min-width:220px">Search<input id="aiQ" type="text" autocomplete="off" placeholder="Ticker, company or what it does: GPU, memory, power, cloud, robots…"></label>
+      <label for="aiPreset">Setup check<select id="aiPreset"></select></label>
+    </div>
+    <div class="res-list" id="aiThemes" role="group" aria-label="AI themes" style="padding:10px 12px 0"></div>
+    <p class="note" id="aiThemeNote" style="padding:8px 12px 0"></p>
+    <div class="oddswrap" style="margin-top:10px">
+      <table>
+        <thead><tr>
+          <th><button type="button" data-ak="sym">Company</button></th>
+          <th>What it does in AI</th>
+          <th><button type="button" data-ak="last">Price</button></th>
+          <th><button type="button" data-ak="m1" title="Change over the last 21 trading days">1M</button></th>
+          <th><button type="button" data-ak="m3" title="Change over the last 63 trading days">3M</button></th>
+          <th><button type="button" data-ak="hi" title="Distance from the 52-week high">From high</button></th>
+          <th><button type="button" data-ak="trend" title="Price vs the 50- and 200-day averages">Trend</button></th>
+          <th><button type="button" data-ak="rsi">RSI</button></th>
+          <th><button type="button" data-ak="setup">Setup and why</button></th>
+        </tr></thead>
+        <tbody id="aiBody"></tbody>
+      </table>
+    </div>
+    <p class="note" style="padding:8px 12px 12px">Daily data from Yahoo Finance, delayed. "Trend" compares the price with its 50- and 200-day averages. "Setup" checks the strategy chosen above and says which conditions pass or fail. Click a row to open its chart, trade plan and research prompts. A company's AI role is a short summary, not a full picture of its business.</p>
+  </section>
   <section class="panel odds" id="oddsView" aria-label="Bitcoin odds" hidden>
     <div class="ph"><h2>BTC odds vs price</h2><span class="chip" id="oddsChip">–</span></div>
     <div class="odds-ctl">
@@ -487,6 +537,49 @@ const PARAM_META = {
   within:{label:"Last bars",min:1,max:60,step:1},
   lookback:{label:"High of last",min:5,max:200,step:1}
 };
+const unitWord = () => S.bar==="1D" ? "day" : S.bar==="1H" ? "hour" : S.bar+" bar";
+const avgName = n => `${n}-${unitWord()} average`;
+const pctS = x => isF(x) ? (x>=0?"+":"")+(x*100).toFixed(1)+"%" : "–";
+const f1 = x => isF(x) ? x.toFixed(1) : "–";
+const pctA = x => isF(x) ? (Math.abs(x)*100).toFixed(1)+"%" : "–";
+const EXPLAIN = {
+  pullback:{finds:()=>`Prices above their ${avgName(200)} whose RSI(14) dipped below ${S.p.rsiBelow} in the last ${S.p.within} ${unitWord()}s.`,
+    why:"The long-term trend is up but the price is briefly oversold. Buying a dip inside an uptrend gets a better price than chasing strength.",
+    risk:"Some dips are the start of a trend change. The plan's stop goes under support."},
+  capitulation:{finds:()=>`RSI(14) below ${S.p.rsiBelow} on volume at least ${fmtX(1+S.p.volPct/100)} normal, in the last ${S.p.within} ${unitWord()}s.`,
+    why:"Heavy selling with a very low RSI often marks a washout where sellers run out, and bounces from there can be sharp.",
+    risk:"The riskiest setup here: falling prices can keep falling. Keep size small."},
+  breakout:{finds:()=>`Closes above the highest high of the prior ${S.p.lookback} ${unitWord()}s on volume at least ${fmtX(1+S.p.volPct/100)} normal, in the last ${S.p.within} ${unitWord()}s.`,
+    why:"A new high on strong volume shows buyers in control, and those moves often keep going.",
+    risk:"False breakouts slip back into the old range. The stop goes under the breakout area."},
+  golden:{finds:()=>`The ${avgName(50)} crossing above the ${avgName(200)} in the last ${S.p.within} ${unitWord()}s.`,
+    why:"Shows the medium-term trend turning up through the long-term one. Slow, but it often marks the start of a longer advance.",
+    risk:"It lags: part of the move has usually happened already."}
+};
+// The conditions behind a match, with the actual numbers, at bar i.
+function checks(u, i){
+  const {d,ind} = u, c = d.c[i], p = S.p, m = 1+(p.volPct??0)/100, r = ind.rsi[i], v = ind.vr[i];
+  const rsiCheck = {ok:r<p.rsiBelow, t:r<p.rsiBelow ? `RSI ${f1(r)}, below ${p.rsiBelow}` : `RSI ${f1(r)}, needs to be below ${p.rsiBelow}`};
+  const volCheck = {ok:v>=m, t:v>=m ? `Volume ${f1(v)}× normal` : `Volume ${f1(v)}× normal, needs ${fmtX(m)}`};
+  switch(S.preset){
+    case "pullback": { const a = ind.sma200[i];
+      return [isF(a) ? {ok:c>a, t:c>a ? `${pctA(c/a-1)} above the ${avgName(200)}` : `${pctA(c/a-1)} below the ${avgName(200)}, needs to be above`} : {ok:false, t:`Not enough history for the ${avgName(200)}`}, rsiCheck]; }
+    case "capitulation": return [rsiCheck, volCheck];
+    case "breakout": { const hh = priorHigh(u,i);
+      return [isF(hh) ? {ok:c>hh, t:c>hh ? `Closed ${pctA(c/hh-1)} above the ${p.lookback}-${unitWord()} high of ${fmtP(hh)}` : `${pctA(c/hh-1)} below the ${p.lookback}-${unitWord()} high of ${fmtP(hh)}`} : {ok:false, t:"Not enough history"}, volCheck]; }
+    case "golden": { const a = ind.sma50[i], b = ind.sma200[i], cross = PRESETS.golden.sig(u,i);
+      if(!isF(a)||!isF(b)) return [{ok:false, t:`Not enough history for the ${avgName(200)}`}];
+      return [{ok:a>b, t:a>b ? `50-${unitWord()} average ${pctA(a/b-1)} above the 200` : `50-${unitWord()} average ${pctA(a/b-1)} below the 200, needs to cross above`}, {ok:cross, t:cross ? "Crossed on this bar" : "No fresh cross"}]; }
+  }
+  return [];
+}
+function reasonText(u, html){
+  const i = u.hit>=0 ? u.hit : u.whyI;
+  if(!isF(i)) return "";
+  const cs = checks(u, i);
+  const when = i===u.d.c.length-1 ? (S.bar==="1D"?"latest close":"latest bar") : fmtT(u.d.t[i]);
+  return cs.map(x=> html ? `<span class="${x.ok?"ok":"no-ok"}">${x.ok?"✓":"✗"}</span> ${esc(x.t)}` : `${x.ok?"✓":"✗"} ${x.t}`).join(html?" · ":"; ") + (html?` · <span>${esc(when)}</span>`:` (${when})`);
+}
 
 /* ---------- state ---------- */
 const TFS = {stocks:["1D","1H"], crypto:["15m","1H","4H"]};
@@ -696,14 +789,15 @@ const cur = () => S.universe.find(u=>u.sym===S.sel);
 /* ---------- scanner ---------- */
 function evalSym(u){
   const P = PRESETS[S.preset], {d,ind} = u, n = d.c.length;
-  let hit = -1, best = Infinity, rMin = Infinity, vMax = 0;
+  let hit = -1, best = Infinity, rMin = Infinity, vMax = 0; u.whyI = n-1;
   for(let i=n-1;i>=Math.max(1,n-S.p.within);i--){
     const r = ind.rsi[i], v = ind.vr[i];
     if(isF(r)) rMin = Math.min(rMin,r);
     if(isF(v)) vMax = Math.max(vMax,v);
     if(hit<0 && P.sig(u,i)) hit = i;
-    const ds = P.dist(u,i); if(isF(ds)) best = Math.min(best,ds);
+    const ds = P.dist(u,i); if(isF(ds) && ds<best){ best = ds; u.whyI = i; }
   }
+  if(!isF(best)) u.whyI = n-1;
   u.hit = hit; u.rMin = rMin; u.vMax = vMax;
   u.status = hit>=0 ? "match" : best<0.3 ? "near" : "none";
   u.score = hit>=0 ? -1+(n-1-hit)*0.01 : best;
@@ -761,17 +855,27 @@ function renderTable(){
     tr.addEventListener("keydown", e=>{ if((e.key==="Enter"||e.key===" ") && !e.target.closest(".star")){ e.preventDefault(); pick(); } });
     tr.querySelector(".star").addEventListener("click", ()=>{ S.watch.has(u.sym) ? S.watch.delete(u.sym) : S.watch.add(u.sym); saveWatch(); runScan(false); });
     body.appendChild(tr);
+    if(u.status!=="none" || u.sym===S.sel){
+      tr.classList.add("has-why");
+      const wr = document.createElement("tr");
+      wr.className = "whyrow"+(u.sym===S.sel?" sel":"");
+      wr.innerHTML = `<td colspan="5">${reasonText(u, true)}</td>`;
+      wr.addEventListener("click", pick);
+      body.appendChild(wr);
+    }
   }
 }
 function renderParams(){
   const P = PRESETS[S.preset];
   $("#preset").innerHTML = Object.entries(PRESETS).map(([k,v])=>`<option value="${k}"${k===S.preset?" selected":""}>${v.label}</option>`).join("");
-  $("#presetBlurb").textContent = P.blurb;
+  const E = EXPLAIN[S.preset];
+  $("#presetBlurb").innerHTML = `<span><b>Finds:</b> ${esc(E.finds())}</span><span><b>Why it can work:</b> ${esc(E.why)}</span><span><b>Risk:</b> ${esc(E.risk)}</span>`;
+  if($("#aiPreset")) $("#aiPreset").innerHTML = $("#preset").innerHTML;
   $("#params").innerHTML = P.params.map(k=>{ const m = PARAM_META[k]; return `<label for="p_${k}">${m.label}<input id="p_${k}" type="number" min="${m.min}" max="${m.max}" step="${m.step}" value="${S.p[k]}"></label>`; }).join("");
   for(const k of P.params){
     $("#p_"+k).addEventListener("change", e=>{
       const m = PARAM_META[k], v = +e.target.value;
-      if(isF(v) && v>=m.min && v<=m.max){ S.p[k] = k==="rsiBelow"||k==="volPct" ? v : Math.round(v); stopReplay(); runScan(false); }
+      if(isF(v) && v>=m.min && v<=m.max){ S.p[k] = k==="rsiBelow"||k==="volPct" ? v : Math.round(v); stopReplay(); $("#presetBlurb").firstChild.innerHTML = `<b>Finds:</b> ${esc(EXPLAIN[S.preset].finds())}`; runScan(false); }
       else e.target.value = S.p[k];
     });
   }
@@ -839,6 +943,8 @@ function renderPlan(){
   $("#verdict").innerHTML = u.status==="match"
     ? `<span class="pill on">Active</span><span><b>${esc(disp(u))}</b> matched the ${esc(P.label.toLowerCase())} rule ${ago===0?"on the last bar":ago+" bar"+(ago>1?"s":"")+" ago"}.</span>`
     : `<span class="pill off">Waiting</span><span><b>${esc(disp(u))}</b> doesn't match the ${esc(P.label.toLowerCase())} rule right now${u.status==="near"?", but it's close":""}. The plan below shows what a trade would look like from here.</span>`;
+  { const i = u.hit>=0 ? u.hit : u.d.c.length-1;
+    $("#verdict").lastElementChild.insertAdjacentHTML("beforeend", `<ul class="checks">${checks(u,i).map(x=>`<li><span class="${x.ok?"ok":"no-ok"}">${x.ok?"✓":"✗"}</span> ${esc(x.t)}</li>`).join("")}</ul>`); }
   if(!pl){ $("#planBox").innerHTML = ""; return; }
   const unitName = S.asset==="stocks" ? "shares" : "units";
   const rows = [
@@ -1282,6 +1388,7 @@ function parseLocal(q){
   else if(/pull ?back|uptrend|\bdip|above (the |its |their )?200/.test(s)) out.preset = "pullback";
   else if(/capitulat|washout|wash out|oversold|volume (spike|\+)/.test(s) || (/rsi/.test(s) && /volume/.test(s))) out.preset = "capitulation";
   if(/polymarket|prediction market|\bodds\b/.test(s)) { out.intent = "odds"; return out; }
+  if(/\bai (stocks?|compan|names|plays|chips?)|artificial intelligence/.test(s)) { out.intent = "ai"; out.aiQuery = (q.match(/\b(gpu|memory|hbm|power|cloud|robot\w*|quantum|security|software|chips?|network\w*|data ?cent\w*)\b/i)||[])[0]||""; }
   if(/replay/.test(s)) out.intent = "replay";
   else if(/(indicator|oscillator|write me|script for)/.test(s)) { out.intent = "indicator"; out.indicatorRequest = q; }
   else if(/(trade plan|position size|how many shares|stop loss)/.test(s)) out.intent = "plan";
@@ -1316,7 +1423,8 @@ async function runCommand(q){
     if(c && c.intent) plan = Object.fromEntries(Object.entries(c).filter(([,v])=>v!==null && v!==undefined));
   }
   if(plan.intent==="odds"){ setMode("odds"); writeHash(); return; }
-  if(S.mode==="odds") setMode("scan");
+  if(plan.intent==="ai"){ if(plan.preset && PRESETS[plan.preset]) setPreset(plan.preset); $("#aiQ").value = plan.aiQuery||""; setMode("ai"); writeHash(); return; }
+  if(S.mode && S.mode!=="scan") setMode("scan");
   if(!plan.intent){ setStatus("I couldn't tell what to do. Try “stocks above the 200-day with RSI below 40”, “daily breakouts to a 20-day high”, “replay” or “write me an oscillator that …”."); return; }
   stopReplay();
   let reload = false;
@@ -1592,24 +1700,165 @@ function oddsAuto(on){
   renderOdds();
 }
 function setMode(mode){
+  const prev = S.mode || "scan";
   S.mode = mode;
-  const odds = mode==="odds";
+  const odds = mode==="odds", ai = mode==="ai";
   $("#oddsView").hidden = !odds;
-  document.querySelector(".grid").hidden = odds;
+  $("#aiView").hidden = !ai;
+  document.querySelector(".grid").hidden = odds || ai;
   $("#aOdds").setAttribute("aria-pressed", String(odds));
-  for(const id of ["#tfWrap","#src","#linkBtn","#liveBtn"]) $(id).hidden = odds || (id==="#linkBtn" && inViewer);
-  $("#topnWrap").hidden = odds || S.asset!=="crypto";
-  if(odds){
-    $("#aStocks").setAttribute("aria-pressed","false"); $("#aCrypto").setAttribute("aria-pressed","false");
-    stopReplay(); oddsRefresh(true);
-    if(!inViewer){ $("#oAuto").checked = true; oddsAuto(true); }
-  }else{ $("#oAuto").checked = false; oddsAuto(false); syncAssetUI(); }
+  $("#aAI").setAttribute("aria-pressed", String(ai));
+  for(const id of ["#tfWrap","#src","#linkBtn","#liveBtn"]) $(id).hidden = odds || (ai && id==="#tfWrap") || (id==="#linkBtn" && inViewer);
+  $("#topnWrap").hidden = odds || ai || S.asset!=="crypto";
+  if(prev==="odds" && !odds){ $("#oAuto").checked = false; oddsAuto(false); }
+  if(odds || ai){ stopReplay(); $("#aStocks").setAttribute("aria-pressed","false"); $("#aCrypto").setAttribute("aria-pressed","false"); }
+  if(odds){ oddsRefresh(true); if(!inViewer){ $("#oAuto").checked = true; oddsAuto(true); } }
+  else if(ai) openAI();
+  else syncAssetUI();
+}
+
+/* ---------- AI stocks ---------- */
+const AI_THEMES = {
+  "Chips":"Design the GPUs, accelerators and memory that train and run AI models.",
+  "Chipmaking tools":"Make the machines and design software used to build AI chips.",
+  "Cloud & Big Tech":"Rent out AI computing, build frontier models and put AI into products used by billions.",
+  "AI software":"Sell AI-powered apps, agents and data platforms to businesses.",
+  "Servers & networking":"Build the servers, switches and links inside AI data centers.",
+  "Power & data centers":"Supply the electricity, cooling and buildings that AI data centers need.",
+  "Security":"Protect AI workloads and use AI to catch attacks.",
+  "Robotics & autonomy":"Put AI into machines: cars, warehouses and operating rooms.",
+  "Quantum":"Early-stage quantum computing. Speculative and very volatile.",
+  "AI ETFs":"Funds that hold baskets of AI, chip and software stocks."
+};
+const AI_LIST = [
+  ["NVDA","Chips","GPUs and the CUDA software that most AI training runs on"],
+  ["AMD","Chips","Instinct AI GPUs and EPYC server CPUs"],
+  ["AVGO","Chips","Custom AI accelerators for big cloud companies, plus data-center networking chips"],
+  ["TSM","Chips","Manufactures most of the world's advanced AI chips"],
+  ["MU","Chips","High-bandwidth memory (HBM) that sits next to AI GPUs"],
+  ["MRVL","Chips","Custom AI chips and optical links between servers"],
+  ["ARM","Chips","CPU designs licensed into data-center and on-device AI chips"],
+  ["INTC","Chips","Server CPUs, Gaudi AI accelerators and a contract chip factory"],
+  ["QCOM","Chips","AI that runs on phones, PCs and cars"],
+  ["ASML","Chipmaking tools","The only maker of the EUV machines needed for leading-edge chips"],
+  ["AMAT","Chipmaking tools","Deposition and etch equipment for chip factories"],
+  ["LRCX","Chipmaking tools","Etch and deposition tools, important for HBM memory"],
+  ["KLAC","Chipmaking tools","Inspection tools that catch defects in chip factories"],
+  ["TER","Chipmaking tools","Testers for AI chips and memory"],
+  ["SNPS","Chipmaking tools","Chip design software and IP"],
+  ["CDNS","Chipmaking tools","Chip design software, increasingly AI-assisted"],
+  ["MSFT","Cloud & Big Tech","Azure AI cloud and Copilot; a major OpenAI partner"],
+  ["GOOGL","Cloud & Big Tech","Gemini models, TPU chips and Google Cloud"],
+  ["AMZN","Cloud & Big Tech","AWS cloud, Trainium chips and Bedrock model hosting"],
+  ["META","Cloud & Big Tech","Llama models and AI across its apps and ads"],
+  ["ORCL","Cloud & Big Tech","Oracle Cloud GPU capacity rented for AI training"],
+  ["PLTR","AI software","AI platforms (AIP) for governments and companies"],
+  ["NOW","AI software","AI agents for IT and business workflows"],
+  ["CRM","AI software","Agentforce AI agents built on its CRM"],
+  ["ADBE","AI software","Firefly generative AI inside its creative tools"],
+  ["SNOW","AI software","Data cloud where companies run AI on their own data"],
+  ["MDB","AI software","Database many AI apps are built on"],
+  ["DDOG","AI software","Monitoring for cloud and AI applications"],
+  ["IBM","AI software","watsonx AI platform and AI consulting"],
+  ["PATH","AI software","Automation software adding AI agents"],
+  ["AI","AI software","Enterprise AI applications (C3.ai)"],
+  ["SOUN","AI software","Voice AI for restaurants, cars and devices"],
+  ["ANET","Servers & networking","Ethernet switches that connect AI clusters"],
+  ["SMCI","Servers & networking","AI servers and liquid-cooled racks"],
+  ["DELL","Servers & networking","AI servers for companies and clouds"],
+  ["HPE","Servers & networking","AI servers and supercomputers"],
+  ["CSCO","Servers & networking","Networking and security gear for AI data centers"],
+  ["VRT","Power & data centers","Power and liquid-cooling systems for AI data centers"],
+  ["ETN","Power & data centers","Electrical equipment that powers data centers"],
+  ["CEG","Power & data centers","Nuclear power, increasingly sold to data centers"],
+  ["VST","Power & data centers","Power plants serving growing data-center demand"],
+  ["EQIX","Power & data centers","Data-center space and network connections"],
+  ["DLR","Power & data centers","Data-center buildings leased to clouds and companies"],
+  ["CRWD","Security","AI-driven endpoint security"],
+  ["PANW","Security","Network and cloud security with AI features"],
+  ["ZS","Security","Zero-trust cloud security"],
+  ["NET","Security","Global edge network that also runs AI models near users"],
+  ["TSLA","Robotics & autonomy","Self-driving software and Optimus humanoid robots"],
+  ["ISRG","Robotics & autonomy","Surgical robots"],
+  ["SYM","Robotics & autonomy","AI-powered warehouse robots"],
+  ["IONQ","Quantum","Trapped-ion quantum computers"],
+  ["RGTI","Quantum","Superconducting quantum computers"],
+  ["SMH","AI ETFs","Semiconductor ETF"],
+  ["BOTZ","AI ETFs","Robotics and AI ETF"],
+  ["AIQ","AI ETFs","AI and big-data ETF"],
+  ["IGV","AI ETFs","Software ETF"],
+];
+const AI = {theme:"All", sortK:null, sortDir:-1};
+function aiMetrics(u){
+  const {d,ind} = u, n = d.c.length, i = n-1, c = d.c[i];
+  const k = Math.max(0, n-252); const hi = Math.max(...d.h.slice(k));
+  const s50 = ind.sma50[i], s200 = ind.sma200[i];
+  let trend = "mix", tl = "Mixed";
+  if(isF(s200)){
+    if(c>s200 && s50>s200 && c>=s50){ trend = "upt"; tl = "Uptrend"; }
+    else if(c>s200 && c<s50){ trend = "pb"; tl = "Pullback"; }
+    else if(c<s200 && s50<s200){ trend = "dnt"; tl = "Downtrend"; }
+  }
+  return {last:c, m1:c/d.c[Math.max(0,n-22)]-1, m3:c/d.c[Math.max(0,n-64)]-1, hi:c/hi-1, trend, tl,
+    tw:isF(s200) ? `Price ${pctS(c/s50-1)} vs 50-day, ${pctS(c/s200-1)} vs 200-day` : "Under 200 days of data", rsi:ind.rsi[i]};
+}
+function renderAI(){
+  const by = new Map(S.universe.map(u=>[u.sym,u]));
+  const q = $("#aiQ").value.trim().toLowerCase();
+  const counts = {};
+  const all = AI_LIST.map(([t,th,role])=>({t,th,role,u:by.get(t)}));
+  for(const r of all) counts[r.th] = (counts[r.th]||0)+1;
+  $("#aiThemes").innerHTML = [["All",all.length],...Object.keys(AI_THEMES).map(t=>[t,counts[t]||0])].map(([t,n])=>`<button type="button" data-t="${esc(t)}" aria-pressed="${AI.theme===t}">${esc(t)} · ${n}</button>`).join("");
+  $("#aiThemes").querySelectorAll("button").forEach(b=>b.addEventListener("click", ()=>{ AI.theme = b.dataset.t; renderAI(); }));
+  $("#aiThemeNote").textContent = AI.theme==="All" ? "Companies whose business is tied to AI: the chips, the tools to make them, the clouds and software that use them, and the power and buildings behind them." : AI_THEMES[AI.theme];
+  let rows = all.filter(r=>(AI.theme==="All"||r.th===AI.theme) && (!q || [r.t, r.u?.name||"", r.th, r.role].some(x=>x.toLowerCase().includes(q))));
+  const missing = rows.filter(r=>!r.u).length;
+  rows = rows.filter(r=>r.u).map(r=>({...r, m:aiMetrics(r.u)}));
+  const val = r => ({sym:r.t, last:r.m.last, m1:r.m.m1, m3:r.m.m3, hi:r.m.hi, trend:{upt:3,pb:2,mix:1,dnt:0}[r.m.trend], rsi:r.m.rsi, setup:-r.u.score})[AI.sortK];
+  if(AI.sortK) rows.sort((a,b)=>{ const x = val(a), y = val(b); return (typeof x==="string" ? x.localeCompare(y) : (isF(x)?x:-Infinity)-(isF(y)?y:-Infinity))*AI.sortDir; });
+  else rows.sort((a,b)=>a.u.score-b.u.score);
+  document.querySelectorAll("#aiView th button[data-ak]").forEach(b=>{ if(b.dataset.ak===AI.sortK) b.dataset.dir = AI.sortDir>0?"▲":"▼"; else delete b.dataset.dir; });
+  const k = rows.filter(r=>r.u.status==="match").length;
+  $("#aiChip").textContent = `${rows.length} shown · ${k} match ${PRESETS[S.preset].label.toLowerCase()}`;
+  const pc = x => `<span class="${x>=0?"up":"down"}">${pctS(x)}</span>`;
+  $("#aiBody").innerHTML = rows.map(r=>`<tr class="row" data-s="${esc(r.t)}" tabindex="0" title="Open ${esc(r.t)} in the scanner">
+    <td><b>${esc(r.t)}</b><small>${esc(r.u.name||"")}</small></td>
+    <td><span class="tag">${esc(r.th)}</span>${esc(r.role)}</td>
+    <td>${fmtP(r.m.last)}</td><td>${pc(r.m.m1)}</td><td>${pc(r.m.m3)}</td><td>${pc(r.m.hi)}</td>
+    <td><span class="trend ${r.m.trend}" title="${esc(r.m.tw)}">${r.m.tl}</span></td>
+    <td class="${r.m.rsi<30?"hot":""}">${f1(r.m.rsi)}</td>
+    <td><span class="mk ${r.u.status}"></span>${r.u.status==="match"?"<b>Match</b>":r.u.status==="near"?"Near":"No setup"}<small>${reasonText(r.u, true)}</small></td></tr>`).join("")
+    || `<tr class="empty"><td colspan="9">${S.source!=="live" ? "Loading the stock data…" : "No AI stocks match that search."}</td></tr>`;
+  if(missing && S.source==="live") $("#aiChip").textContent += ` · ${missing} waiting for the next data refresh`;
+  $("#aiBody").querySelectorAll("tr.row").forEach(tr=>{
+    const go = () => openInScanner(tr.dataset.s);
+    tr.addEventListener("click", go);
+    tr.addEventListener("keydown", e=>{ if(e.key==="Enter"){ e.preventDefault(); go(); } });
+  });
+}
+function openInScanner(sym){
+  setMode("scan");
+  S.sector = "all"; S.watchOnly = false; $("#watchBtn").setAttribute("aria-pressed","false");
+  S.sel = sym; setSource(); runScan(false); setTab("plan");
+  document.querySelector("#scanBody tr.sel")?.scrollIntoView({block:"nearest"});
+  $("#readout").scrollIntoView({behavior:"smooth", block:"start"});
+}
+async function openAI(){
+  if(!(S.asset==="stocks" && S.bar==="1D" && S.source==="live")){
+    S.asset = "stocks"; S.bar = "1D"; if(S.preset==="capitulation") setPreset("pullback");
+    syncAssetUI(); $("#aStocks").setAttribute("aria-pressed","false");
+    renderAI();
+    await loadStocks(inViewer);
+    if(S.mode!=="ai") return;
+    $("#aStocks").setAttribute("aria-pressed","false");
+  }
+  renderAI();
 }
 
 /* ---------- share links (GitHub Pages only; the Claude viewer drops hash state) ---------- */
 function writeHash(){
   if(inViewer) return;
-  if(S.mode==="odds"){ try{ history.replaceState(null, "", "#odds"); }catch{} return; }
+  if(S.mode==="odds" || S.mode==="ai"){ try{ history.replaceState(null, "", "#"+S.mode); }catch{} return; }
   const q = new URLSearchParams({a:S.asset, tf:S.bar, p:S.preset});
   for(const k of PRESETS[S.preset].params) q.set(k, S.p[k]);
   if(S.sel) q.set("s", S.sel);
@@ -1617,7 +1866,7 @@ function writeHash(){
   try{ history.replaceState(null, "", "#"+q.toString()); }catch{}
 }
 function readHash(){
-  const h = location.hash.slice(1); if(h==="odds"){ S.wantOdds = true; return; } if(!h.includes("=")) return;
+  const h = location.hash.slice(1); if(h==="odds"||h==="ai"){ S.wantMode = h; return; } if(!h.includes("=")) return;
   const q = new URLSearchParams(h);
   if(TFS[q.get("a")]) S.asset = q.get("a");
   S.bar = TFS[S.asset].includes(q.get("tf")) ? q.get("tf") : DEFAULT_TF[S.asset];
@@ -1628,7 +1877,7 @@ function readHash(){
 }
 
 /* ---------- glue ---------- */
-function refreshAll(){ renderReadout(); renderPlan(); if(S.tab==="res") renderResearch(); renderBacktest(); renderReplay(); renderPine(); draw(); writeHash(); if(!S.osc || S.osc.sym!==S.sel) runIndicator(); }
+function refreshAll(){ if(S.mode==="ai") renderAI(); renderReadout(); renderPlan(); if(S.tab==="res") renderResearch(); renderBacktest(); renderReplay(); renderPine(); draw(); writeHash(); if(!S.osc || S.osc.sym!==S.sel) runIndicator(); }
 function syncAssetUI(){
   $("#aStocks").setAttribute("aria-pressed", String(S.asset==="stocks"));
   $("#aCrypto").setAttribute("aria-pressed", String(S.asset==="crypto"));
@@ -1660,8 +1909,8 @@ async function copyText(text, msgEl, fallbackEl){
 
 $("#cmdForm").addEventListener("submit", e=>{ e.preventDefault(); runCommand($("#cmd").value); });
 document.querySelectorAll(".examples button").forEach(b=>b.addEventListener("click", ()=>{ $("#cmd").value = b.dataset.q; runCommand(b.dataset.q); }));
-$("#aStocks").addEventListener("click", ()=>{ const wasOdds = S.mode==="odds"; if(wasOdds) setMode("scan"); if(S.asset==="stocks"){ if(wasOdds) draw(); return; } S.asset = "stocks"; S.bar = "1D"; if(S.preset==="capitulation") setPreset("pullback"); syncAssetUI(); loadData(!inViewer ? false : true); });
-$("#aCrypto").addEventListener("click", ()=>{ const wasOdds = S.mode==="odds"; if(wasOdds) setMode("scan"); if(S.asset==="crypto"){ if(wasOdds) draw(); return; } S.asset = "crypto"; S.bar = "1H"; if(S.preset==="pullback"||S.preset==="golden") setPreset("capitulation"); syncAssetUI(); loadData(true); });
+$("#aStocks").addEventListener("click", ()=>{ const wasOdds = S.mode && S.mode!=="scan"; if(wasOdds){ setMode("scan"); writeHash(); } if(S.asset==="stocks"){ if(wasOdds){ runScan(false); } return; } S.asset = "stocks"; S.bar = "1D"; if(S.preset==="capitulation") setPreset("pullback"); syncAssetUI(); loadData(!inViewer ? false : true); });
+$("#aCrypto").addEventListener("click", ()=>{ const wasOdds = S.mode && S.mode!=="scan"; if(wasOdds){ setMode("scan"); writeHash(); } if(S.asset==="crypto"){ if(wasOdds){ runScan(false); } return; } S.asset = "crypto"; S.bar = "1H"; if(S.preset==="pullback"||S.preset==="golden") setPreset("capitulation"); syncAssetUI(); loadData(true); });
 $("#liveBtn").addEventListener("click", ()=>loadData(false));
 $("#tf").addEventListener("change", async e=>{ S.bar = e.target.value; if(S.source==="demo" && S.asset==="crypto"){ loadDemo(); runScan(true); } else await loadData(false); });
 $("#topn").addEventListener("change", async e=>{ S.top = +e.target.value; if(S.source==="live") await loadData(false); else { loadDemo(); runScan(true); } });
@@ -1669,7 +1918,7 @@ $("#sector").addEventListener("change", e=>{ S.sector = e.target.value; stopRepl
 $("#preset").addEventListener("change", e=>{ setPreset(e.target.value); stopReplay(); runScan(true); });
 $("#watchBtn").addEventListener("click", ()=>{ S.watchOnly = !S.watchOnly; $("#watchBtn").setAttribute("aria-pressed", String(S.watchOnly)); runScan(true); });
 $("#csvBtn").addEventListener("click", ()=>{
-  const rows = [["symbol","name","sector","last","day_change_pct","rsi_low","volume_x","status"], ...sorted(visible()).map(u=>[disp(u), u.name||"", u.sec||"", u.last, (u.chg*100).toFixed(2), isF(u.rMin)?u.rMin.toFixed(1):"", isF(u.vMax)?u.vMax.toFixed(2):"", u.status])];
+  const rows = [["symbol","name","sector","last","day_change_pct","rsi_low","volume_x","status","why"], ...sorted(visible()).map(u=>[disp(u), u.name||"", u.sec||"", u.last, (u.chg*100).toFixed(2), isF(u.rMin)?u.rMin.toFixed(1):"", isF(u.vMax)?u.vMax.toFixed(2):"", u.status, reasonText(u,false)])];
   copyText(rows.map(r=>r.map(x=>/[",\n]/.test(String(x))?`"${String(x).replace(/"/g,'""')}"`:x).join(",")).join("\n"), $("#countChip"));
   setTimeout(()=>{ $("#countChip").textContent = `${visible().filter(u=>u.status==="match").length} of ${visible().length} match`; }, 1500);
 });
@@ -1711,6 +1960,15 @@ new MutationObserver(draw).observe(document.documentElement, {attributes:true, a
 document.fonts?.ready?.then(draw);
 
 $("#aOdds").addEventListener("click", ()=>{ if(S.mode!=="odds"){ setMode("odds"); writeHash(); } });
+$("#aAI").addEventListener("click", ()=>{ if(S.mode!=="ai"){ setMode("ai"); writeHash(); } });
+$("#aiQ").addEventListener("input", renderAI);
+$("#aiPreset").addEventListener("change", e=>{ setPreset(e.target.value); runScan(false); renderAI(); });
+document.querySelectorAll("#aiView th button[data-ak]").forEach(b=>b.addEventListener("click", ()=>{
+  const k = b.dataset.ak;
+  if(AI.sortK===k){ if(AI.sortDir<0) AI.sortDir = 1; else { AI.sortK = null; AI.sortDir = -1; } }
+  else { AI.sortK = k; AI.sortDir = k==="sym" ? 1 : -1; }
+  renderAI();
+}));
 $("#oRefresh").addEventListener("click", ()=>oddsRefresh(true));
 $("#oAuto").addEventListener("change", e=>oddsAuto(e.target.checked));
 for(const id of ["#oVol","#oThresh","#oHide"]) $(id).addEventListener("change", renderOdds);
@@ -1726,7 +1984,7 @@ readHash();
 renderParams(); syncAssetUI();
 loadDemo(); runScan(true, "Showing the simulated demo feed while real data loads.");
 loadData(inViewer);
-if(S.wantOdds) setMode("odds");
+if(S.wantMode) setMode(S.wantMode);
 </script>
 </body>
 </html>

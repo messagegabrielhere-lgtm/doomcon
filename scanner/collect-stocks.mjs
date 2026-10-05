@@ -42,6 +42,16 @@ export const UNIVERSE = [
   ['XLV','ETF'],['XLY','ETF'],['XLP','ETF'],['XLI','ETF'],['XLU','ETF'],['XLB','ETF'],['XLRE','ETF'],
   ['XLC','ETF'],['SMH','ETF'],['ARKK','ETF'],['TLT','ETF'],['GLD','ETF'],['SLV','ETF'],['USO','ETF'],
   ['HYG','ETF'],['EEM','ETF'],
+  // AI names not covered above, for the page's AI stocks tab
+  ['TSM','Technology'],['ASML','Technology'],['ARM','Technology'],['MRVL','Technology'],['LRCX','Technology'],
+  ['KLAC','Technology'],['SNPS','Technology'],['CDNS','Technology'],['TER','Technology'],['SMCI','Technology'],
+  ['DELL','Technology'],['HPE','Technology'],['SNOW','Technology'],['MDB','Technology'],['DDOG','Technology'],
+  ['NET','Technology'],['CRWD','Technology'],['ZS','Technology'],['PATH','Technology'],['AI','Technology'],
+  ['SOUN','Technology'],['IONQ','Technology'],['RGTI','Technology'],
+  ['VRT','Industrials'],['ETN','Industrials'],['SYM','Industrials'],
+  ['CEG','Utilities'],['VST','Utilities'],
+  ['EQIX','Real estate'],['DLR','Real estate'],
+  ['BOTZ','ETF'],['AIQ','ETF'],['IGV','ETF'],
 ];
 
 const FRAMES = [
