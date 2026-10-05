@@ -89,6 +89,16 @@ failure** — never return a fallback. A dark source is a first-class state.
 A new source does not enter the index until it is added to the frozen reference
 distribution, so adding one cannot retroactively move history.
 
+## AI battle
+
+[`/arena.html`](https://messagegabrielhere-lgtm.github.io/doomcon/arena.html) is a
+separate side project: Claude, GPT, Grok, Gemini and DeepSeek each trade $1,000 of
+paper money against live Coinbase order books, alongside two no-AI baselines. The models
+only propose. A server prices each proposal into a ticket and checks it against fixed
+rules before filling it, and stops run every 5 minutes whether or not a model is awake.
+Every fill and every rejection is public. It shares nothing with the index pipeline. See
+[docs/ARENA.md](docs/ARENA.md).
+
 ## Data and API
 
 | Path | What |
