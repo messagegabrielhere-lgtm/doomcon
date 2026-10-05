@@ -12,17 +12,17 @@
 /* Layout: trading desk. Command bar on top, scanner list left, chart right, tool tabs under the chart. */
 :root{
   --bg:#eef1f5; --panel:#ffffff; --sunk:#f5f7fa; --ink:#131923; --mute:#5b6678; --line:#d7dde6;
-  --accent:#b06d10; --accent-ink:#ffffff; --up:#0f7d68; --down:#c63f37; --zone:rgba(176,109,16,.13);
+  --accent:#b06d10; --accent-ink:#ffffff; --up:#0f7d68; --down:#c63f37; --zone:rgba(176,109,16,.13); --cmp:#2f64b0;
   --f-display:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
   --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
   --f-mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#0a0e15; --panel:#111722; --sunk:#0d121b; --ink:#e4e9f1; --mute:#8590a3; --line:#222b3a;
-  --accent:#f0b44c; --accent-ink:#1a1206; --up:#33c1a1; --down:#f0645a; --zone:rgba(240,180,76,.12); color-scheme:dark}}
+  --accent:#f0b44c; --accent-ink:#1a1206; --up:#33c1a1; --down:#f0645a; --zone:rgba(240,180,76,.12); --cmp:#7aa7ff; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#0a0e15; --panel:#111722; --sunk:#0d121b; --ink:#e4e9f1; --mute:#8590a3; --line:#222b3a;
-  --accent:#f0b44c; --accent-ink:#1a1206; --up:#33c1a1; --down:#f0645a; --zone:rgba(240,180,76,.12); color-scheme:dark}
+  --accent:#f0b44c; --accent-ink:#1a1206; --up:#33c1a1; --down:#f0645a; --zone:rgba(240,180,76,.12); --cmp:#7aa7ff; color-scheme:dark}
 
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 var(--f-body);padding-inline:16px;padding-block:14px 28px}
@@ -82,6 +82,7 @@ input[type=number]{width:74px}
 .filters{display:flex;flex-wrap:wrap;gap:8px;align-items:end;padding:8px 12px;border-bottom:1px solid var(--line)}
 .filters select{min-width:140px}
 .keyline{display:flex;gap:12px;padding:6px 12px;font-size:11px;color:var(--mute);border-bottom:1px solid var(--line)}
+.keyline{flex-wrap:wrap;row-gap:4px} .keyline > span:not(#pinfo){white-space:nowrap}
 .scanwrap{max-height:540px;overflow:auto}
 table{width:100%;border-collapse:collapse}
 th{font:600 11px/1.2 var(--f-body);color:var(--mute);text-transform:uppercase;letter-spacing:.05em;text-align:right;padding:0;position:sticky;top:0;background:var(--panel);border-bottom:1px solid var(--line);z-index:1}
@@ -169,6 +170,20 @@ textarea{width:100%;min-height:240px;background:var(--sunk);border:1px solid var
 .res-list button[aria-pressed=true]{border-color:var(--accent);color:var(--ink);background:color-mix(in srgb,var(--accent) 12%,transparent)}
 .res-out{white-space:pre-wrap;background:var(--sunk);border:1px solid var(--line);border-radius:8px;padding:12px;font-size:13.5px;line-height:1.55;max-height:520px;overflow:auto}
 a.btn{text-decoration:none;display:inline-block}
+
+/* compare, digest, alerts, shortcuts */
+.cmpbar{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;padding:6px 12px 0;font-size:12px;color:var(--mute)}
+.cmpbar input{width:110px}
+.cmpbar .sw{display:inline-block;width:16px;border-top:2px solid var(--cmp);vertical-align:middle;margin-right:4px}
+.digest{margin:10px 12px 0;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--sunk);font-size:12px;display:grid;gap:3px}
+.digest b{color:var(--ink)}
+.digest button{all:unset;cursor:pointer;color:var(--accent);text-decoration:underline}
+.alerts{display:grid;gap:4px;font-size:12.5px}
+.alerts .a{display:flex;gap:8px;align-items:center}
+.alerts .a.hit{color:var(--accent);font-weight:600}
+.alerts button.x{all:unset;cursor:pointer;color:var(--mute);padding:0 4px}
+.toast{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:9;max-width:340px;padding:10px 12px;border-radius:8px;background:var(--ink);color:var(--bg);font-size:13px;box-shadow:0 6px 24px rgba(0,0,0,.25)}
+.kbd{font-family:var(--f-mono);font-size:10.5px;border:1px solid var(--line);border-bottom-width:2px;border-radius:4px;padding:0 4px;color:var(--mute)}
 
 /* reasons */
 tr.whyrow td{padding:0 8px 8px 30px;border-bottom:1px solid color-mix(in srgb,var(--line) 60%,transparent);font:11.5px/1.45 var(--f-body);color:var(--mute);white-space:normal;text-align:left;cursor:pointer}
@@ -344,7 +359,8 @@ tr.whyrow.sel td{background:color-mix(in srgb,var(--accent) 12%,transparent);box
       <div class="filters" id="filters">
         <label for="sector">Sector<select id="sector"><option value="all">All sectors</option></select></label>
       </div>
-      <div class="keyline"><span><span class="mk match"></span>Match</span><span><span class="mk near"></span>Near</span><span id="pinfo">Click a column to sort</span></div>
+      <div class="digest" id="digest" hidden></div>
+      <div class="keyline"><span><span class="mk match"></span>Match</span><span><span class="mk near"></span>Near</span><span id="pinfo">Click a column to sort · <span class="kbd">j</span>/<span class="kbd">k</span> move · <span class="kbd">s</span> star · <span class="kbd">/</span> ask</span></div>
       <div class="scanwrap">
         <table>
           <thead><tr>
@@ -361,6 +377,13 @@ tr.whyrow.sel td{background:color-mix(in srgb,var(--accent) 12%,transparent);box
 
     <section class="panel" aria-label="Chart and tools">
       <div class="readout" id="readout"></div>
+      <div class="cmpbar">
+        <label for="cmpSel">Compare with</label>
+        <select id="cmpSel"></select>
+        <input id="cmpSym" type="text" list="cmpList" placeholder="any symbol" aria-label="Compare with any symbol" autocomplete="off">
+        <datalist id="cmpList"></datalist>
+        <span id="cmpNote"></span>
+      </div>
       <div class="chartbox"><canvas id="chart" aria-label="Price chart with support levels, entry zone, moving averages, RSI and indicator panes" role="img"></canvas></div>
       <div class="legend">
         <span><i></i>Support</span>
@@ -386,6 +409,18 @@ tr.whyrow.sel td{background:color-mix(in srgb,var(--accent) 12%,transparent);box
         </div>
         <div class="plan" id="planBox"></div>
         <div class="row-ctl"><button class="btn" id="planCopy" type="button">Copy plan</button><span class="status" id="planMsg"></span></div>
+        <div>
+          <h3>Price alerts</h3>
+          <div class="row-ctl">
+            <label for="alDir">Alert when price<select id="alDir"><option value="above">rises above</option><option value="below">falls below</option></select></label>
+            <label for="alPx">Price<input id="alPx" type="number" step="any" style="width:110px"></label>
+            <button class="btn" id="alAdd" type="button">Add alert</button>
+            <button class="btn" id="alPlan" type="button" title="Add alerts at the plan's entry, stop and target">Alerts from plan</button>
+            <button class="btn" id="alNotify" type="button" hidden>Allow notifications</button>
+          </div>
+          <div class="alerts" id="alList" style="margin-top:8px"></div>
+          <p class="note" style="margin-top:6px">Alerts live in this browser and are checked whenever the data refreshes, about every 5 minutes for stocks and every 2 minutes for live crypto, while this page is open.</p>
+        </div>
         <p class="note">Entry, stop and target come from the entry zone, support and resistance on the chart and the 14-bar ATR. Position size is the number of units whose loss at the stop equals your risk per trade. The plan lines are drawn on the chart while this tab is open. <b>It is a starting point for your own analysis, not a recommendation.</b></p>
       </div>
 
@@ -773,7 +808,7 @@ function mcpCopy(e){
 const STOCK_URL = f => `https://raw.githubusercontent.com/messagegabrielhere-lgtm/doomcon/scanner-data/stocks-${f}.json`;
 async function loadStocks(auto){
   const url = STOCK_URL(S.bar==="1D"?"1d":"1h");
-  setStatus("Loading the stock snapshot…");
+  if(!S.quiet) setStatus("Loading the stock snapshot…");
   let j = null, via = null, err = null;
   try{ j = await directJSON(url, 20000); via = "direct"; }catch{}
   if(!j && inViewer && !auto){ try{ const r = await tinyFish([url]); j = r[url]; via = "tinyfish"; }catch(e){ err = e; } }
@@ -786,7 +821,9 @@ async function loadStocks(auto){
   const uni = j.symbols.filter(x=>x.c?.length>=60).map(x=>({sym:x.s, name:x.n||x.s, sec:x.sec||"Other", d:{t:x.t.map(s=>s*1000),o:x.o,h:x.h,l:x.l,c:x.c,v:x.v}}));
   S.source = "live"; S.via = via; S.asOf = j.generated;
   setUniverse(uni); setSource();
-  runScan(takeSel(uni), `Loaded ${uni.length} stocks and ETFs.`);
+  S.lastLoad = Date.now();
+  runScan(takeSel(uni), S.quiet ? `Refreshed ${uni.length} stocks and ETFs.` : `Loaded ${uni.length} stocks and ETFs.`);
+  buildDigest(); checkAlerts(); renderDigest();
   return true;
 }
 function okxCandles(json){
@@ -797,7 +834,7 @@ function okxCandles(json){
 }
 async function loadCrypto(auto){
   const btn = $("#liveBtn"); btn.disabled = true;
-  setStatus("Fetching the OKX perpetuals list…");
+  if(!S.quiet) setStatus("Fetching the OKX perpetuals list…");
   const tickUrl = "https://www.okx.com/api/v5/market/tickers?instType=SWAP";
   let via = null, tick = null, err = null;
   try{ tick = await directJSON(tickUrl); via = "direct"; }catch{}
@@ -819,7 +856,7 @@ async function loadCrypto(auto){
     if(via==="direct"){
       for(let i=0;i<urls.length;i+=8){
         await Promise.all(urls.slice(i,i+8).map(async u=>{ try{ got[u]=await directJSON(u); }catch{} done++; }));
-        setStatus(`Fetched ${done} of ${urls.length} contracts from OKX…`);
+        if(!S.quiet) setStatus(`Fetched ${done} of ${urls.length} contracts from OKX…`);
       }
     }else{
       const chunks = []; for(let i=0;i<urls.length;i+=10) chunks.push(urls.slice(i,i+10));
@@ -838,7 +875,9 @@ async function loadCrypto(auto){
   stopReplay();
   S.source = "live"; S.via = via; S.asOf = new Date().toISOString();
   setUniverse(uni); setSource();
-  runScan(takeSel(uni), `Loaded ${uni.length} live contracts.`);
+  S.lastLoad = Date.now();
+  runScan(takeSel(uni), S.quiet ? `Refreshed ${uni.length} live contracts.` : `Loaded ${uni.length} live contracts.`);
+  buildDigest(); checkAlerts(); renderDigest();
   return true;
 }
 // A symbol from a shared link wins once; otherwise a fresh load selects the top result.
@@ -1313,7 +1352,7 @@ function draw(){
   const dpr = window.devicePixelRatio||1;
   cv.width = Math.round(W*dpr); cv.height = Math.round(H*dpr);
   const ctx = cv.getContext("2d"); ctx.setTransform(dpr,0,0,dpr,0,0); ctx.clearRect(0,0,W,H);
-  const C = {ink:tok("--ink"), mute:tok("--mute"), line:tok("--line"), acc:tok("--accent"), up:tok("--up"), dn:tok("--down"), zone:tok("--zone"), panel:tok("--panel")};
+  const C = {cmp:tok("--cmp"), ink:tok("--ink"), mute:tok("--mute"), line:tok("--line"), acc:tok("--accent"), up:tok("--up"), dn:tok("--down"), zone:tok("--zone"), panel:tok("--panel")};
   const mono = `11px ${tok("--f-mono")}`;
   ctx.font = mono;
   if(!u){ ctx.fillStyle=C.mute; ctx.fillText("No data loaded.",12,24); return; }
@@ -1329,12 +1368,14 @@ function draw(){
   const lv = levels(u, end);
   const P = PRESETS[S.preset];
   const plan = S.tab==="plan" ? u.plan : null;
+  const cmp = cmpSeries(u, start, end);
 
   let lo = Infinity, hi = -Infinity;
   for(let i=start;i<=end;i++){ lo=Math.min(lo,d.l[i]); hi=Math.max(hi,d.h[i]); }
   for(const s of [...lv.sup,...lv.res]) if(s.p>lo-(hi-lo)*0.25 && s.p<hi+(hi-lo)*0.25){ lo=Math.min(lo,s.p); hi=Math.max(hi,s.p); }
   if(lv.zone) lo = Math.min(lo,lv.zone.lo);
   if(plan){ lo = Math.min(lo,plan.stop); hi = Math.max(hi,plan.target); }
+  if(cmp) for(const v of cmp.y) if(isF(v)){ lo = Math.min(lo,v); hi = Math.max(hi,v); }
   const padP = (hi-lo)*0.06||hi*0.01; lo-=padP; hi+=padP;
   const volH = priceH*0.2;
   const Y = p => pTop + (hi-p)/(hi-lo)*(priceH-volH*0.35);
@@ -1391,6 +1432,12 @@ function draw(){
     const y1 = Y(Math.max(d.o[i],d.c[i])), y2 = Y(Math.min(d.o[i],d.c[i]));
     const bw = Math.max(1, slot*0.62);
     ctx.fillRect(x-bw/2, y1, bw, Math.max(1,y2-y1));
+  }
+  // comparison line, rebased to this symbol's price at the left edge
+  if(cmp){
+    ctx.setLineDash([5,3]); plotLine(ctx, cmp.y, start, end, X, Y, C.cmp, 1.6); ctx.setLineDash([]);
+    ctx.fillStyle = C.cmp; ctx.textAlign = "left";
+    ctx.fillText(`${cmp.name} ${pctS(cmp.chg)} vs ${disp(u)} ${pctS(d.c[end]/d.c[cmp.i0]-1)} over this window`, padL+6, pTop+10);
   }
   // trade plan lines
   if(plan){
@@ -1839,6 +1886,118 @@ function setMode(mode){
   renderPulse();
 }
 
+/* ---------- compare overlay ---------- */
+S.cmp = "";
+function cmpOptions(){
+  const u = cur(); const opts = [["","None"]];
+  if(S.asset==="stocks"){
+    for(const t of ["SPY","QQQ","IWM"]) if(S.universe.find(x=>x.sym===t) && u?.sym!==t) opts.push([t,t]);
+    const etf = u && Object.entries(SECTOR_ETF).find(([,n])=>n===u.sec)?.[0];
+    if(etf && S.universe.find(x=>x.sym===etf) && u.sym!==etf) opts.push([etf, `${etf} (${u.sec} sector)`]);
+  }else for(const t of ["BTC-USDT-SWAP","ETH-USDT-SWAP"]) if(S.universe.find(x=>x.sym===t) && u?.sym!==t) opts.push([t, t.replace(/-USDT-SWAP$/,"")]);
+  const custom = S.cmp && !opts.find(o=>o[0]===S.cmp) ? [[S.cmp, disp({sym:S.cmp})]] : [];
+  $("#cmpSel").innerHTML = [...opts, ...custom].map(([v,l])=>`<option value="${esc(v)}"${v===S.cmp?" selected":""}>${esc(l)}</option>`).join("");
+  $("#cmpList").innerHTML = S.universe.slice(0,400).map(x=>`<option value="${esc(disp(x))}">`).join("");
+}
+function cmpSeries(u, start, end){
+  if(!S.cmp || S.cmp===u.sym) return null;
+  const o = S.universe.find(x=>x.sym===S.cmp); if(!o) return null;
+  const at = new Map(o.d.t.map((t,i)=>[t, o.d.c[i]]));
+  let i0 = -1; for(let i=start;i<=end;i++) if(at.has(u.d.t[i])){ i0 = i; break; }
+  if(i0<0) return null;
+  const base = at.get(u.d.t[i0]), y = new Array(u.d.c.length).fill(NaN);
+  let last = NaN;
+  for(let i=i0;i<=end;i++){ const v = at.get(u.d.t[i]); if(isF(v)){ y[i] = u.d.c[i0]*v/base; last = v; } }
+  return {y, i0, name:disp(o), chg:last/base-1};
+}
+function setCmp(sym){
+  const hit = sym && S.universe.find(x=>x.sym===sym || disp(x).toUpperCase()===sym.toUpperCase());
+  S.cmp = hit ? hit.sym : "";
+  $("#cmpNote").textContent = sym && !hit ? `${sym} isn't in the current data.` : "";
+  cmpOptions(); draw();
+}
+
+/* ---------- watchlist digest and price alerts (stored in this browser) ---------- */
+const store = {get(k, d){ try{ return JSON.parse(localStorage.getItem(k)) ?? d; }catch{ return d; } }, set(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch{} }};
+let ALERTS = store.get("capscan.alerts", []);
+function toast(msg){
+  const t = document.createElement("div"); t.className = "toast"; t.setAttribute("role","status"); t.textContent = msg;
+  document.body.appendChild(t); setTimeout(()=>t.remove(), 6000);
+}
+function notify(msg){
+  toast(msg);
+  try{ if(!inViewer && "Notification" in window && Notification.permission==="granted") new Notification("Capitulation Scanner", {body:msg}); }catch{}
+}
+function checkAlerts(){
+  if(S.source!=="live") return;
+  let changed = false;
+  for(const a of ALERTS){
+    if(a.hit || a.asset!==S.asset) continue;
+    const u = S.universe.find(x=>x.sym===a.sym); if(!u) continue;
+    const px = u.d.c[u.d.c.length-1];
+    if((a.dir==="above" && px>=a.px) || (a.dir==="below" && px<=a.px)){
+      a.hit = {px, t:Date.now()}; changed = true;
+      notify(`${disp(u)} ${a.dir==="above"?"rose above":"fell below"} ${fmtP(a.px)} (now ${fmtP(px)})`);
+    }
+  }
+  if(changed){ store.set("capscan.alerts", ALERTS); renderAlerts(); }
+}
+function renderAlerts(){
+  const u = cur(); if(!u) return;
+  $("#alPx").placeholder = fmtP(u.d.c[u.d.c.length-1]);
+  const mine = ALERTS.map((a,i)=>({...a,i})).filter(a=>a.sym===u.sym && a.asset===S.asset);
+  const other = ALERTS.filter(a=>!(a.sym===u.sym && a.asset===S.asset)).length;
+  $("#alList").innerHTML = (mine.map(a=>`<div class="a${a.hit?" hit":""}"><span>${a.hit?"✓ Triggered":"●"} ${disp(u)} ${a.dir==="above"?"above":"below"} ${fmtP(a.px)}${a.hit?` · hit ${fmtP(a.hit.px)} on ${new Date(a.hit.t).toLocaleString("en-US",{month:"short",day:"numeric",hour:"2-digit",minute:"2-digit"})}`:""}</span><button type="button" class="x" data-i="${a.i}" aria-label="Remove alert">✕</button></div>`).join("")
+    || `<span class="note">No alerts on ${esc(disp(u))}.</span>`) + (other?`<span class="note">${other} alert${other>1?"s":""} on other symbols.</span>`:"");
+  $("#alList").querySelectorAll("button.x").forEach(b=>b.addEventListener("click", ()=>{ ALERTS.splice(+b.dataset.i,1); store.set("capscan.alerts", ALERTS); renderAlerts(); renderDigest(); }));
+  $("#alNotify").hidden = inViewer || !("Notification" in window) || Notification.permission!=="default" || !ALERTS.some(a=>!a.hit);
+}
+function addAlert(dir, px){
+  const u = cur(); if(!u || !isF(px) || px<=0) return;
+  ALERTS.push({sym:u.sym, asset:S.asset, dir, px, created:Date.now(), hit:null});
+  store.set("capscan.alerts", ALERTS); renderAlerts(); checkAlerts(); renderDigest();
+}
+// Compare the watchlist with what this browser saw last visit, for the same market and strategy.
+let DIGEST = null;
+const SNAPS = {};   // the snapshot each key had when this visit started
+function buildDigest(){
+  if(S.source!=="live") return;
+  const key = `capscan.snap.${S.asset}.${S.bar}.${S.preset}`;
+  if(!(key in SNAPS)) SNAPS[key] = store.get(key, null);
+  const prev = SNAPS[key], now = {t:Date.now(), s:{}};
+  for(const u of S.universe) if(S.watch.has(u.sym)) now.s[u.sym] = {st:u.status, px:u.d.c[u.d.c.length-1]};
+  if(prev){
+    const items = [];
+    for(const [sym,v] of Object.entries(now.s)){
+      const p = prev.s[sym]; if(!p) continue;
+      const name = disp({sym});
+      if(v.st==="match" && p.st!=="match") items.push({sym, t:`<b>${esc(name)}</b> now matches`});
+      else if(p.st==="match" && v.st!=="match") items.push({sym, t:`<b>${esc(name)}</b> no longer matches`});
+      const ch = v.px/p.px-1; if(Math.abs(ch)>=0.05) items.push({sym, t:`<b>${esc(name)}</b> ${pctS(ch)} since then`});
+    }
+    DIGEST = {since:prev.t, items};
+  }else DIGEST = {since:null, items:[]};
+  store.set(key, now);
+}
+function renderDigest(){
+  const el = $("#digest");
+  const hits = ALERTS.filter(a=>a.hit && a.asset===S.asset && a.hit.t>Date.now()-864e5);
+  const lines = [];
+  if(DIGEST?.since && S.watch.size) lines.push(`<span>Since your last visit (${new Date(DIGEST.since).toLocaleString("en-US",{month:"short",day:"numeric",hour:"2-digit",minute:"2-digit"})}), ${PRESETS[S.preset].label.toLowerCase()}:</span>` + (DIGEST.items.length ? DIGEST.items.map(x=>`<span>★ <button type="button" data-s="${esc(x.sym)}">${x.t}</button></span>`).join("") : `<span>No changes on your starred symbols.</span>`));
+  for(const a of hits) lines.push(`<span>🔔 <button type="button" data-s="${esc(a.sym)}"><b>${esc(disp({sym:a.sym}))}</b> ${a.dir==="above"?"rose above":"fell below"} ${fmtP(a.px)}</button></span>`);
+  if(!S.watch.size && !lines.length && S.source==="live") lines.push(`<span>Star symbols with ☆ and each visit will show what changed for them here.</span>`);
+  el.hidden = !lines.length;
+  el.innerHTML = lines.join("");
+  el.querySelectorAll("button[data-s]").forEach(b=>b.addEventListener("click", ()=>{ const s = b.dataset.s; if(S.universe.find(x=>x.sym===s)){ S.sector = "all"; S.watchOnly = false; S.sel = s; setSource(); runScan(false); } }));
+}
+// Refresh live data quietly while the page is open, keeping the current selection.
+setInterval(()=>{
+  if(document.hidden || inViewer || S.source!=="live" || !(S.mode==="scan"||S.mode==="ai"||!S.mode) || S.replay.on) return;
+  const age = Date.now()-(S.lastLoad||0);
+  if(age < (S.asset==="stocks" ? 5*6e4 : 2*6e4)) return;
+  S.pinned = S.sel; S.quiet = true; loadData(false).finally(()=>{ S.quiet = false; });
+}, 30000);
+
 /* ---------- relative strength and market pulse (daily stock data) ---------- */
 const perf = (u, bars) => { const c = u.d.c, n = c.length; return n>bars ? c[n-1]/c[n-1-bars]-1 : NaN; };
 function rsVsSpy(u, bars=63){
@@ -2160,7 +2319,7 @@ function readHash(){
 }
 
 /* ---------- glue ---------- */
-function refreshAll(){ if(S.mode==="ai") renderAI(); renderReadout(); renderPlan(); if(S.tab==="res") renderResearch(); renderBacktest(); renderReplay(); renderPine(); draw(); writeHash(); if(!S.osc || S.osc.sym!==S.sel) runIndicator(); }
+function refreshAll(){ cmpOptions(); renderAlerts(); renderDigest(); if(S.mode==="ai") renderAI(); renderReadout(); renderPlan(); if(S.tab==="res") renderResearch(); renderBacktest(); renderReplay(); renderPine(); draw(); writeHash(); if(!S.osc || S.osc.sym!==S.sel) runIndicator(); }
 function syncAssetUI(){
   $("#aStocks").setAttribute("aria-pressed", String(S.asset==="stocks"));
   $("#aCrypto").setAttribute("aria-pressed", String(S.asset==="crypto"));
@@ -2271,6 +2430,24 @@ $("#resPrompt").addEventListener("input", ()=>{ $("#resOpen").href = "https://cl
 $("#resAsk").addEventListener("click", askResearch);
 $("#resStop").addEventListener("click", ()=>resCtl?.abort());
 getSample().then(s=>{ $("#resAsk").hidden = !s; });
+
+$("#cmpSel").addEventListener("change", e=>{ $("#cmpSym").value = ""; setCmp(e.target.value); });
+$("#cmpSym").addEventListener("change", e=>setCmp(e.target.value.trim().toUpperCase()));
+$("#alAdd").addEventListener("click", ()=>{ addAlert($("#alDir").value, +$("#alPx").value); $("#alPx").value = ""; });
+$("#alPlan").addEventListener("click", ()=>{ const pl = cur()?.plan; if(!pl) return; const px = cur().d.c[cur().d.c.length-1];
+  for(const [v] of [[pl.entry],[pl.stop],[pl.target]]) addAlert(v>=px ? "above" : "below", +v.toPrecision(6)); toast("Added alerts at the plan's entry, stop and target."); });
+$("#alNotify").addEventListener("click", async ()=>{ try{ await Notification.requestPermission(); }catch{} renderAlerts(); });
+document.addEventListener("keydown", e=>{
+  if(e.metaKey || e.ctrlKey || e.altKey || e.target.closest("input,textarea,select,[contenteditable]")) return;
+  if(e.key==="/"){ e.preventDefault(); $("#cmd").focus(); $("#cmd").select(); return; }
+  if(S.mode && S.mode!=="scan") return;
+  const rows = sorted(visible()), i = rows.findIndex(u=>u.sym===S.sel);
+  const go = j => { const u = rows[Math.max(0, Math.min(rows.length-1, j))]; if(!u || u.sym===S.sel) return; stopReplay(); S.sel = u.sym; renderTable(); refreshAll(); document.querySelector("#scanBody tr.sel")?.scrollIntoView({block:"nearest"}); };
+  if(e.key==="j" || e.key==="ArrowDown"){ e.preventDefault(); go(i+1); }
+  else if(e.key==="k" || e.key==="ArrowUp"){ e.preventDefault(); go(i-1); }
+  else if(e.key==="s" && S.sel){ S.watch.has(S.sel) ? S.watch.delete(S.sel) : S.watch.add(S.sel); saveWatch(); runScan(false); }
+  else if(/^[1-6]$/.test(e.key)){ const k = ["plan","bt","rp","ind","res","pine"][+e.key-1]; setTab(k); if(k==="rp") renderReplay(); if(k==="res") renderResearch(); }
+});
 
 // boot: demo first so the page is complete at rest, then the real data
 $("#indCode").value = DEFAULT_IND.code;
