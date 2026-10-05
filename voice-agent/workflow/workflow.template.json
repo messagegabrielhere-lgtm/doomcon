@@ -1,0 +1,495 @@
+{
+  "name": "Real Estate Voice Agent (__AGENT_NAME__)",
+  "nodes": [
+    {
+      "id": "note-lead",
+      "name": "Note: Speed to lead",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [-60, -260],
+      "parameters": {
+        "width": 1500,
+        "height": 600,
+        "color": 4,
+        "content": "## 1. Speed to lead\nYour website / Zillow / Facebook lead form POSTs to **/webhook/new-lead**. The lead is saved to the Leads sheet and the AI calls them within seconds. Leads that arrive outside calling hours are queued and dialled by the morning run below."
+      }
+    },
+    {
+      "id": "note-queue",
+      "name": "Note: Morning queue",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [-60, 380],
+      "parameters": {
+        "width": 700,
+        "height": 300,
+        "color": 4,
+        "content": "## 2. Morning queue\nCalls the overnight leads (status = queued) when calling hours open."
+      }
+    },
+    {
+      "id": "note-vapi",
+      "name": "Note: Vapi server",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [-60, 740],
+      "parameters": {
+        "width": 1500,
+        "height": 860,
+        "color": 6,
+        "content": "## 3. Vapi server URL (/webhook/vapi)\nDuring a call the assistant calls tools here: **search_listings** (Listings sheet), **check_availability** and **book_showing** (Google Calendar). When the call ends Vapi posts the **end-of-call report**: the lead is updated in the sheet and hot leads are emailed to the agent."
+      }
+    },
+
+    {
+      "id": "new-lead-webhook",
+      "name": "New Lead Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [0, 0],
+      "webhookId": "6f1c2a4e-3b7d-4c55-9a51-7c0e2d1b9a01",
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "new-lead",
+        "responseMode": "onReceived",
+        "options": {}
+      }
+    },
+    {
+      "id": "normalize-lead",
+      "name": "Normalize Lead",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [220, 0],
+      "parameters": { "jsCode": "@file:code/normalize-lead.js" }
+    },
+    {
+      "id": "lead-row",
+      "name": "Lead Row",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [440, -140],
+      "parameters": {
+        "jsCode": "// Only the columns that belong in the Leads sheet.\nreturn $input.all().filter((i) => i.json.ok).map((i) => ({ json: i.json.lead }));"
+      }
+    },
+    {
+      "id": "save-new-lead",
+      "name": "Save New Lead",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [660, -140],
+      "onError": "continueRegularOutput",
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": { "__rl": true, "mode": "url", "value": "__GOOGLE_SHEET_URL__" },
+        "sheetName": { "__rl": true, "mode": "name", "value": "Leads" },
+        "columns": { "mappingMode": "autoMapInputData", "value": {}, "matchingColumns": ["phone"], "schema": [] },
+        "options": { "cellFormat": "RAW" }
+      }
+    },
+    {
+      "id": "call-now",
+      "name": "Call Now?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [440, 80],
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "loose", "version": 2 },
+          "conditions": [
+            {
+              "id": "c1",
+              "leftValue": "={{ $json.callNow }}",
+              "rightValue": "",
+              "operator": { "type": "boolean", "operation": "true", "singleValue": true }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "morning-queue",
+      "name": "Morning Queue",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [0, 500],
+      "parameters": {
+        "rule": { "interval": [{ "field": "cronExpression", "expression": "5 __CALL_WINDOW_START__ * * *" }] }
+      }
+    },
+    {
+      "id": "read-leads",
+      "name": "Read Leads",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [220, 500],
+      "alwaysOutputData": true,
+      "onError": "continueRegularOutput",
+      "parameters": {
+        "documentId": { "__rl": true, "mode": "url", "value": "__GOOGLE_SHEET_URL__" },
+        "sheetName": { "__rl": true, "mode": "name", "value": "Leads" },
+        "options": {}
+      }
+    },
+    {
+      "id": "pick-queued",
+      "name": "Pick Queued Leads",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [440, 500],
+      "parameters": { "jsCode": "@file:code/pick-queued.js" }
+    },
+    {
+      "id": "build-vapi-call",
+      "name": "Build Vapi Call",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [700, 80],
+      "parameters": { "jsCode": "@file:code/build-vapi-call.js" }
+    },
+    {
+      "id": "call-lead",
+      "name": "Call Lead (Vapi)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [920, 80],
+      "onError": "continueRegularOutput",
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.vapi.ai/call",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json.vapiCall) }}",
+        "options": {}
+      }
+    },
+    {
+      "id": "mark-called",
+      "name": "Mark Called",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1140, 80],
+      "parameters": { "jsCode": "@file:code/mark-called.js" }
+    },
+    {
+      "id": "save-call-status",
+      "name": "Save Call Status",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [1340, 80],
+      "onError": "continueRegularOutput",
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": { "__rl": true, "mode": "url", "value": "__GOOGLE_SHEET_URL__" },
+        "sheetName": { "__rl": true, "mode": "name", "value": "Leads" },
+        "columns": { "mappingMode": "autoMapInputData", "value": {}, "matchingColumns": ["phone"], "schema": [] },
+        "options": { "cellFormat": "RAW" }
+      }
+    },
+
+    {
+      "id": "vapi-webhook",
+      "name": "Vapi Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [0, 1100],
+      "webhookId": "0d4b8e2f-91a3-4f6e-b0c7-5e2a7d3c8b02",
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "vapi",
+        "authentication": "headerAuth",
+        "responseMode": "responseNode",
+        "options": {}
+      }
+    },
+    {
+      "id": "parse-vapi",
+      "name": "Parse Vapi Request",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [220, 1100],
+      "parameters": { "jsCode": "@file:code/parse-vapi.js" }
+    },
+    {
+      "id": "route",
+      "name": "Route",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [440, 1100],
+      "parameters": {
+        "mode": "expression",
+        "numberOutputs": 5,
+        "output": "={{ ({ search_listings: 0, check_availability: 1, book_showing: 2, 'end-of-call-report': 3 })[$json.route] ?? 4 }}"
+      }
+    },
+    {
+      "id": "read-listings",
+      "name": "Read Listings",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [700, 860],
+      "alwaysOutputData": true,
+      "onError": "continueRegularOutput",
+      "parameters": {
+        "documentId": { "__rl": true, "mode": "url", "value": "__GOOGLE_SHEET_URL__" },
+        "sheetName": { "__rl": true, "mode": "name", "value": "Listings" },
+        "options": {}
+      }
+    },
+    {
+      "id": "match-listings",
+      "name": "Match Listings",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [920, 860],
+      "parameters": { "jsCode": "@file:code/filter-listings.js" }
+    },
+    {
+      "id": "get-events",
+      "name": "Get Calendar Events",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [700, 1000],
+      "alwaysOutputData": true,
+      "onError": "continueRegularOutput",
+      "parameters": {
+        "operation": "getAll",
+        "calendar": { "__rl": true, "mode": "id", "value": "__GOOGLE_CALENDAR_ID__" },
+        "returnAll": true,
+        "timeMin": "={{ $json.timeMin || $now.startOf('day').toISO() }}",
+        "timeMax": "={{ $json.timeMax || $now.endOf('day').toISO() }}",
+        "options": { "singleEvents": true }
+      }
+    },
+    {
+      "id": "free-slots",
+      "name": "Find Free Slots",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [920, 1000],
+      "parameters": { "jsCode": "@file:code/free-slots.js" }
+    },
+    {
+      "id": "prepare-booking",
+      "name": "Prepare Booking",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [700, 1160],
+      "parameters": { "jsCode": "@file:code/prepare-booking.js" }
+    },
+    {
+      "id": "booking-ok",
+      "name": "Booking Valid?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [900, 1160],
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "loose", "version": 2 },
+          "conditions": [
+            {
+              "id": "b1",
+              "leftValue": "={{ $json.ok }}",
+              "rightValue": "",
+              "operator": { "type": "boolean", "operation": "true", "singleValue": true }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "create-event",
+      "name": "Create Showing",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [1100, 1120],
+      "onError": "continueRegularOutput",
+      "parameters": {
+        "calendar": { "__rl": true, "mode": "id", "value": "__GOOGLE_CALENDAR_ID__" },
+        "start": "={{ $json.start }}",
+        "end": "={{ $json.end }}",
+        "useDefaultReminders": true,
+        "additionalFields": {
+          "summary": "={{ $json.summary }}",
+          "description": "={{ $json.description }}",
+          "location": "={{ $json.location }}"
+        }
+      }
+    },
+    {
+      "id": "booking-confirmed",
+      "name": "Booking Reply",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1300, 1120],
+      "parameters": { "jsCode": "@file:code/booking-confirmed.js" }
+    },
+    {
+      "id": "fallback-reply",
+      "name": "Fallback Reply",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [700, 1480],
+      "parameters": {
+        "jsCode": "// Unknown tool name, or a server message type we do not handle.\nconst r = $input.first().json;\nif (!r.toolCallId) return [{ json: { response: {} } }];\nreturn [{ json: { response: { results: [{ toolCallId: r.toolCallId, result: `The ${r.route} tool is not available. Carry on without it and tell the caller the agent will follow up.` }] } } }];"
+      }
+    },
+    {
+      "id": "respond-vapi",
+      "name": "Respond to Vapi",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [1300, 1300],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify($json.response || {}) }}",
+        "options": {}
+      }
+    },
+    {
+      "id": "ack-report",
+      "name": "Ack Report",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [700, 1320],
+      "parameters": { "respondWith": "json", "responseBody": "{ \"ok\": true }", "options": {} }
+    },
+    {
+      "id": "call-report",
+      "name": "Call Report",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [880, 1320],
+      "parameters": { "jsCode": "@file:code/call-report.js" }
+    },
+    {
+      "id": "report-row",
+      "name": "Report Row",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1060, 1260],
+      "parameters": {
+        "jsCode": "// Browser test calls have no phone number, so there is no row to update.\nreturn $input.all().filter((i) => i.json.row && i.json.row.phone).map((i) => ({ json: i.json.row }));"
+      }
+    },
+    {
+      "id": "save-outcome",
+      "name": "Save Call Outcome",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [1240, 1460],
+      "onError": "continueRegularOutput",
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": { "__rl": true, "mode": "url", "value": "__GOOGLE_SHEET_URL__" },
+        "sheetName": { "__rl": true, "mode": "name", "value": "Leads" },
+        "columns": { "mappingMode": "autoMapInputData", "value": {}, "matchingColumns": ["phone"], "schema": [] },
+        "options": { "cellFormat": "RAW" }
+      }
+    },
+    {
+      "id": "is-hot",
+      "name": "Hot Lead?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [1060, 1420],
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "loose", "version": 2 },
+          "conditions": [
+            {
+              "id": "h1",
+              "leftValue": "={{ $json.hot }}",
+              "rightValue": "",
+              "operator": { "type": "boolean", "operation": "true", "singleValue": true }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "alert-agent",
+      "name": "Email Agent",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [1240, 1560],
+      "webhookId": "a3c9d7e1-2f4b-4e8a-9c6d-1b5e8f2a7c03",
+      "onError": "continueRegularOutput",
+      "parameters": {
+        "sendTo": "__AGENT_EMAIL__",
+        "subject": "={{ $json.subject }}",
+        "emailType": "text",
+        "message": "={{ $json.text }}",
+        "options": { "appendAttribution": false }
+      }
+    }
+  ],
+  "connections": {
+    "New Lead Webhook": { "main": [[{ "node": "Normalize Lead", "type": "main", "index": 0 }]] },
+    "Normalize Lead": {
+      "main": [
+        [
+          { "node": "Lead Row", "type": "main", "index": 0 },
+          { "node": "Call Now?", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Lead Row": { "main": [[{ "node": "Save New Lead", "type": "main", "index": 0 }]] },
+    "Call Now?": { "main": [[{ "node": "Build Vapi Call", "type": "main", "index": 0 }], []] },
+    "Morning Queue": { "main": [[{ "node": "Read Leads", "type": "main", "index": 0 }]] },
+    "Read Leads": { "main": [[{ "node": "Pick Queued Leads", "type": "main", "index": 0 }]] },
+    "Pick Queued Leads": { "main": [[{ "node": "Build Vapi Call", "type": "main", "index": 0 }]] },
+    "Build Vapi Call": { "main": [[{ "node": "Call Lead (Vapi)", "type": "main", "index": 0 }]] },
+    "Call Lead (Vapi)": { "main": [[{ "node": "Mark Called", "type": "main", "index": 0 }]] },
+    "Mark Called": { "main": [[{ "node": "Save Call Status", "type": "main", "index": 0 }]] },
+
+    "Vapi Webhook": { "main": [[{ "node": "Parse Vapi Request", "type": "main", "index": 0 }]] },
+    "Parse Vapi Request": { "main": [[{ "node": "Route", "type": "main", "index": 0 }]] },
+    "Route": {
+      "main": [
+        [{ "node": "Read Listings", "type": "main", "index": 0 }],
+        [{ "node": "Get Calendar Events", "type": "main", "index": 0 }],
+        [{ "node": "Prepare Booking", "type": "main", "index": 0 }],
+        [{ "node": "Ack Report", "type": "main", "index": 0 }],
+        [{ "node": "Fallback Reply", "type": "main", "index": 0 }]
+      ]
+    },
+    "Read Listings": { "main": [[{ "node": "Match Listings", "type": "main", "index": 0 }]] },
+    "Match Listings": { "main": [[{ "node": "Respond to Vapi", "type": "main", "index": 0 }]] },
+    "Get Calendar Events": { "main": [[{ "node": "Find Free Slots", "type": "main", "index": 0 }]] },
+    "Find Free Slots": { "main": [[{ "node": "Respond to Vapi", "type": "main", "index": 0 }]] },
+    "Prepare Booking": { "main": [[{ "node": "Booking Valid?", "type": "main", "index": 0 }]] },
+    "Booking Valid?": {
+      "main": [
+        [{ "node": "Create Showing", "type": "main", "index": 0 }],
+        [{ "node": "Respond to Vapi", "type": "main", "index": 0 }]
+      ]
+    },
+    "Create Showing": { "main": [[{ "node": "Booking Reply", "type": "main", "index": 0 }]] },
+    "Booking Reply": { "main": [[{ "node": "Respond to Vapi", "type": "main", "index": 0 }]] },
+    "Fallback Reply": { "main": [[{ "node": "Respond to Vapi", "type": "main", "index": 0 }]] },
+    "Ack Report": { "main": [[{ "node": "Call Report", "type": "main", "index": 0 }]] },
+    "Call Report": {
+      "main": [
+        [
+          { "node": "Report Row", "type": "main", "index": 0 },
+          { "node": "Hot Lead?", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Report Row": { "main": [[{ "node": "Save Call Outcome", "type": "main", "index": 0 }]] },
+    "Hot Lead?": { "main": [[{ "node": "Email Agent", "type": "main", "index": 0 }], []] }
+  },
+  "settings": { "executionOrder": "v1", "timezone": "__TIMEZONE__" },
+  "pinData": {},
+  "active": false
+}

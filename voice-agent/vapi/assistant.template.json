@@ -1,0 +1,127 @@
+{
+  "name": "__ASSISTANT_NAME__ - __AGENT_NAME__ real estate",
+  "firstMessageMode": "assistant-speaks-first",
+  "firstMessage": "Hi, thanks for calling __AGENT_NAME__'s office at __BROKERAGE__, this is __ASSISTANT_NAME__, __AGENT_NAME__'s AI assistant. How can I help you today?",
+  "voicemailMessage": "Hi, this is __ASSISTANT_NAME__, the AI assistant for __AGENT_NAME__ at __BROKERAGE__ about your home enquiry. Call or text us back at __AGENT_PHONE__ whenever suits. Thanks!",
+  "endCallMessage": "Thanks so much, have a great day!",
+  "endCallFunctionEnabled": true,
+  "maxDurationSeconds": 900,
+  "silenceTimeoutSeconds": 30,
+  "backgroundSound": "office",
+  "model": {
+    "provider": "__LLM_PROVIDER__",
+    "model": "__LLM_MODEL__",
+    "temperature": 0.4,
+    "messages": [{ "role": "system", "content": "@file:system-prompt.md" }],
+    "tools": [
+      {
+        "type": "function",
+        "async": false,
+        "function": {
+          "name": "search_listings",
+          "description": "Search the agent's current listings for homes matching what the caller wants. Use once you know at least an area or a budget.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "area": { "type": "string", "description": "City, neighbourhood or zip code. Several can be separated by commas." },
+              "max_price": { "type": "number", "description": "Top of budget in dollars, e.g. 500000." },
+              "min_price": { "type": "number", "description": "Bottom of budget in dollars, if they gave one." },
+              "min_beds": { "type": "number", "description": "Minimum bedrooms." },
+              "property_type": { "type": "string", "description": "e.g. house, condo, townhouse, land." }
+            }
+          }
+        },
+        "messages": [{ "type": "request-start", "content": "Let me pull up what we have." }],
+        "server": { "url": "__N8N_BASE_URL__/webhook/vapi", "headers": { "X-Vapi-Secret": "__VAPI_WEBHOOK_SECRET__" } }
+      },
+      {
+        "type": "function",
+        "async": false,
+        "function": {
+          "name": "check_availability",
+          "description": "Get open showing times on one day from the agent's calendar.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "date": { "type": "string", "description": "The day to check, as YYYY-MM-DD." }
+            },
+            "required": ["date"]
+          }
+        },
+        "messages": [{ "type": "request-start", "content": "Let me check the calendar." }],
+        "server": { "url": "__N8N_BASE_URL__/webhook/vapi", "headers": { "X-Vapi-Secret": "__VAPI_WEBHOOK_SECRET__" } }
+      },
+      {
+        "type": "function",
+        "async": false,
+        "function": {
+          "name": "book_showing",
+          "description": "Book a property showing on the agent's calendar. Only use a start_time returned by check_availability.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "start_time": { "type": "string", "description": "Exact start_time value from check_availability (ISO 8601)." },
+              "property_address": { "type": "string", "description": "Street address of the home to show." },
+              "property_id": { "type": "string", "description": "property_id from search_listings, if the home came from there." },
+              "name": { "type": "string", "description": "Caller's full name." },
+              "email": { "type": "string", "description": "Caller's email, if given." },
+              "phone": { "type": "string", "description": "Caller's phone, only if different from the number they are calling from." },
+              "notes": { "type": "string", "description": "Anything the agent should know before the showing." }
+            },
+            "required": ["start_time", "property_address", "name"]
+          }
+        },
+        "messages": [{ "type": "request-start", "content": "Booking that for you now." }],
+        "server": { "url": "__N8N_BASE_URL__/webhook/vapi", "headers": { "X-Vapi-Secret": "__VAPI_WEBHOOK_SECRET__" } }
+      },
+      {
+        "type": "transferCall",
+        "function": {
+          "name": "transfer_to_agent",
+          "description": "Transfer the call to __AGENT_NAME__ when the caller asks for a person, is upset, or needs something you cannot help with."
+        },
+        "destinations": [
+          {
+            "type": "number",
+            "number": "__AGENT_PHONE__",
+            "message": "Sure, I'll connect you with __AGENT_NAME__ now. One moment."
+          }
+        ]
+      }
+    ]
+  },
+  "voice": { "provider": "__VOICE_PROVIDER__", "voiceId": "__VOICE_ID__" },
+  "transcriber": { "provider": "deepgram", "model": "nova-3", "language": "en" },
+  "server": { "url": "__N8N_BASE_URL__/webhook/vapi", "headers": { "X-Vapi-Secret": "__VAPI_WEBHOOK_SECRET__" } },
+  "serverMessages": ["tool-calls", "end-of-call-report"],
+  "artifactPlan": { "recordingEnabled": true },
+  "analysisPlan": {
+    "summaryPlan": { "enabled": true },
+    "structuredDataPlan": {
+      "enabled": true,
+      "schema": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string", "description": "Caller's full name." },
+          "email": { "type": "string" },
+          "intent": { "type": "string", "enum": ["buy", "sell", "both", "rent", "other"] },
+          "timeline": { "type": "string", "description": "When they want to move, in their words, e.g. 'within 3 months'." },
+          "areas": { "type": "array", "items": { "type": "string" } },
+          "budget_max": { "type": "number", "description": "Top of buying budget in dollars, or estimated home value for sellers." },
+          "bedrooms": { "type": "number" },
+          "pre_approved": { "type": "boolean" },
+          "has_agent": { "type": "boolean", "description": "Already working with another agent." },
+          "showing_booked": { "type": "boolean" },
+          "showing_time": { "type": "string", "description": "Booked showing time as said on the call." },
+          "property_interest": { "type": "string", "description": "Address of the property they asked about or booked." },
+          "lead_score": {
+            "type": "number",
+            "description": "1-10. 9-10: ready to act within 30 days with budget or pre-approval, or a seller. 6-8: moving within 3 months. 3-5: 3-12 months or browsing. 1-2: not a real lead, has an agent, or wrong number."
+          },
+          "next_step": { "type": "string", "description": "The single next action for the agent." },
+          "do_not_call": { "type": "boolean", "description": "Caller asked not to be called again." }
+        }
+      }
+    }
+  }
+}
