@@ -215,6 +215,22 @@ tr.whyrow.sel td{background:color-mix(in srgb,var(--accent) 12%,transparent);box
 .trend.dnt{background:color-mix(in srgb,var(--down) 15%,transparent);color:var(--down)}
 .trend.mix{border:1px solid var(--line);color:var(--mute)}
 
+/* Solana pools */
+.warnbox{margin:12px;padding:10px 12px;border:1px solid var(--down);border-left-width:4px;border-radius:8px;background:color-mix(in srgb,var(--down) 7%,transparent);font-size:13px}
+.warnbox b{color:var(--down)}
+#solView td{vertical-align:top}
+#solView td:first-child{font-family:var(--f-body);white-space:normal;min-width:130px}
+#solView td small{display:block;color:var(--mute);font-size:11px;font-weight:400;white-space:normal}
+#solTokens td:last-child{white-space:normal;text-align:left;font-family:var(--f-body);font-size:12px;min-width:220px}
+#solTokens tr.row{cursor:pointer}
+#solTokens tr.row.sel td{background:color-mix(in srgb,var(--accent) 12%,transparent)}
+.risk{display:inline-block;border-radius:4px;padding:0 6px;font:600 10.5px/1.6 var(--f-body)}
+.risk.hi{background:var(--down);color:var(--panel)}
+.risk.md{background:color-mix(in srgb,var(--accent) 22%,transparent);color:var(--accent)}
+.risk.lo{border:1px solid var(--line);color:var(--mute)}
+.gapcard{margin:0 12px 12px;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--sunk);font-size:13px;display:grid;gap:6px}
+.addr{font-family:var(--f-mono);font-size:11px;color:var(--mute);word-break:break-all}
+
 /* BTC odds */
 .odds{display:flex;flex-direction:column;gap:12px}
 .odds .stats{grid-template-columns:repeat(3,minmax(0,1fr))}
@@ -266,6 +282,7 @@ tr.whyrow.sel td{background:color-mix(in srgb,var(--accent) 12%,transparent);box
       <button type="button" id="aStocks" aria-pressed="true">Stocks</button>
       <button type="button" id="aAI" aria-pressed="false">AI stocks</button>
       <button type="button" id="aCrypto" aria-pressed="false">Crypto</button>
+      <button type="button" id="aSol" aria-pressed="false">Solana</button>
       <button type="button" id="aOdds" aria-pressed="false">BTC odds</button>
     </div>
     <span id="src" class="chip demo"><i></i><span id="srcText">Loading…</span></span>
@@ -289,6 +306,7 @@ tr.whyrow.sel td{background:color-mix(in srgb,var(--accent) 12%,transparent);box
       <button type="button" data-q="Stocks with a golden cross in the last 10 days">Stocks: golden cross</button>
       <button type="button" data-q="Find me all BTC futures with RSI below 30 and volume +200% at the same time">Crypto: RSI &lt; 30, volume +200%</button>
       <button type="button" data-q="Show me AI stocks in an uptrend that pulled back">AI stocks</button>
+      <button type="button" data-q="Scan Solana liquidity pools for price gaps and rug pulls">Solana pools</button>
       <button type="button" data-q="Compare live BTC price with Polymarket odds">BTC vs Polymarket odds</button>
       <button type="button" data-q="Replay and show me where my system would have entered">Replay</button>
       <button type="button" data-q="Write me a momentum oscillator that crosses whale activity with price trend">Write an oscillator</button>
@@ -478,6 +496,36 @@ tr.whyrow.sel td{background:color-mix(in srgb,var(--accent) 12%,transparent);box
       </table>
     </div>
     <p class="note" style="padding:8px 12px 12px">Daily data from Yahoo Finance, delayed. "Trend" compares the price with its 50- and 200-day averages. "Setup" checks the strategy chosen above and says which conditions pass or fail. Click a row to open its chart, trade plan and research prompts. A company's AI role is a short summary, not a full picture of its business.</p>
+  </section>
+  <section class="panel odds" id="solView" aria-label="Solana pools" hidden>
+    <div class="ph"><h2>Solana pools</h2><span class="chip" id="solChip">–</span></div>
+    <div class="warnbox"><b>Never run a "bot setup script" sent by DM, and never paste a seed phrase or private key into one.</b> "Comment SWAP and I'll send you the bot" is a common way Solana wallets get drained. This view only reads public DexScreener data and can't touch a wallet.</div>
+    <div class="odds-ctl">
+      <label for="solQ" style="flex:1;min-width:220px">Search<input id="solQ" type="text" autocomplete="off" placeholder="Leave empty for trending, or type a name, symbol or token address"></label>
+      <label for="solMin">Gap pools need at least ($)<input id="solMin" type="number" min="0" step="1000" value="10000" style="width:100px"></label>
+      <label class="inline" for="solAuto"><input id="solAuto" type="checkbox"> Refresh every 30 s</label>
+      <button class="btn primary" id="solGo" type="button">Load</button>
+    </div>
+    <div class="status" id="solStatus" style="padding:8px 12px 0"></div>
+    <div class="oddswrap" style="margin-top:8px">
+      <table id="solTokens">
+        <thead><tr><th>Token</th><th>Price</th><th>1h</th><th>24h</th><th title="Total USD liquidity across its pools">Liquidity</th><th>24h volume</th><th title="Age of its oldest pool">Age</th><th>Pools</th><th>Rug screen</th></tr></thead>
+        <tbody id="solBody"></tbody>
+      </table>
+    </div>
+    <div class="ph" style="border-top:1px solid var(--line)"><h2 id="solPoolsTitle">Pools</h2><span class="chip" id="solPoolsChip">Pick a token</span></div>
+    <div class="gapcard" id="solGap" hidden></div>
+    <div class="oddswrap">
+      <table>
+        <thead><tr><th>Pool</th><th>Price (USD)</th><th title="Difference from the liquidity-weighted median price across pools">vs median</th><th>Liquidity</th><th>24h volume</th><th>Age</th><th></th></tr></thead>
+        <tbody id="solPools"></tbody>
+      </table>
+    </div>
+    <ul class="caveats">
+      <li>Gaps compare DexScreener's USD prices. Pools quoted in SOL, USDC or other tokens are converted at slightly different moments, so small gaps are often noise.</li>
+      <li>"Best case" assumes a simple constant-product pool, 0.6% in swap and network fees for the round trip, and no competition. Real gaps get taken in milliseconds by bots that pay priority fees, and concentrated-liquidity pools can move faster than this estimate.</li>
+      <li>The rug screen uses only market data. Mint and freeze authority, holder concentration and locked liquidity need an on-chain check: use the RugCheck and Solscan links.</li>
+    </ul>
   </section>
   <section class="panel odds" id="oddsView" aria-label="Bitcoin odds" hidden>
     <div class="ph"><h2>BTC odds vs price</h2><span class="chip" id="oddsChip">–</span></div>
@@ -1454,6 +1502,7 @@ function parseLocal(q){
   else if(/pull ?back|uptrend|\bdip|above (the |its |their )?200/.test(s)) out.preset = "pullback";
   else if(/capitulat|washout|wash out|oversold|volume (spike|\+)/.test(s) || (/rsi/.test(s) && /volume/.test(s))) out.preset = "capitulation";
   if(/polymarket|prediction market|\bodds\b/.test(s)) { out.intent = "odds"; return out; }
+  if(/solana|memecoin|meme coin|raydium|jupiter|pump\.?fun|\bdex\b|rug ?pull|liquidity pool/.test(s)) { out.intent = "sol"; return out; }
   if(/\bai (stocks?|compan|names|plays|chips?)|artificial intelligence/.test(s)) { out.intent = "ai"; out.aiQuery = (q.match(/\b(gpu|memory|hbm|power|cloud|robot\w*|quantum|security|software|chips?|network\w*|data ?cent\w*)\b/i)||[])[0]||""; }
   if(/replay/.test(s)) out.intent = "replay";
   else if(/(indicator|oscillator|write me|script for)/.test(s)) { out.intent = "indicator"; out.indicatorRequest = q; }
@@ -1489,6 +1538,7 @@ async function runCommand(q){
     if(c && c.intent) plan = Object.fromEntries(Object.entries(c).filter(([,v])=>v!==null && v!==undefined));
   }
   if(plan.intent==="odds"){ setMode("odds"); writeHash(); return; }
+  if(plan.intent==="sol"){ setMode("sol"); writeHash(); return; }
   if(plan.intent==="ai"){ if(plan.preset && PRESETS[plan.preset]) setPreset(plan.preset); $("#aiQ").value = plan.aiQuery||""; setMode("ai"); writeHash(); return; }
   if(S.mode && S.mode!=="scan") setMode("scan");
   if(!plan.intent){ setStatus("I couldn't tell what to do. Try “stocks above the 200-day with RSI below 40”, “daily breakouts to a 20-day high”, “replay” or “write me an oscillator that …”."); return; }
@@ -1769,16 +1819,20 @@ function oddsAuto(on){
 function setMode(mode){
   const prev = S.mode || "scan";
   S.mode = mode;
-  const odds = mode==="odds", ai = mode==="ai";
+  const odds = mode==="odds", ai = mode==="ai", sol = mode==="sol";
   $("#oddsView").hidden = !odds;
   $("#aiView").hidden = !ai;
-  document.querySelector(".grid").hidden = odds || ai;
+  $("#solView").hidden = !sol;
+  document.querySelector(".grid").hidden = odds || ai || sol;
   $("#aOdds").setAttribute("aria-pressed", String(odds));
   $("#aAI").setAttribute("aria-pressed", String(ai));
-  for(const id of ["#tfWrap","#src","#linkBtn","#liveBtn"]) $(id).hidden = odds || (ai && id==="#tfWrap") || (id==="#linkBtn" && inViewer);
-  $("#topnWrap").hidden = odds || ai || S.asset!=="crypto";
+  $("#aSol").setAttribute("aria-pressed", String(sol));
+  for(const id of ["#tfWrap","#src","#linkBtn","#liveBtn"]) $(id).hidden = odds || sol || (ai && id==="#tfWrap") || (id==="#linkBtn" && inViewer);
+  $("#topnWrap").hidden = odds || ai || sol || S.asset!=="crypto";
   if(prev==="odds" && !odds){ $("#oAuto").checked = false; oddsAuto(false); }
-  if(odds || ai){ stopReplay(); $("#aStocks").setAttribute("aria-pressed","false"); $("#aCrypto").setAttribute("aria-pressed","false"); }
+  if(prev==="sol" && !sol){ $("#solAuto").checked = false; solAuto(false); }
+  if(sol && !SOLX.updated && !inViewer) solLoad();
+  if(odds || ai || sol){ stopReplay(); $("#aStocks").setAttribute("aria-pressed","false"); $("#aCrypto").setAttribute("aria-pressed","false"); }
   if(odds){ oddsRefresh(true); if(!inViewer){ $("#oAuto").checked = true; oddsAuto(true); } }
   else if(ai) openAI();
   else syncAssetUI();
@@ -1823,6 +1877,128 @@ function renderPulse(){
   $("#pulseChip").innerHTML = `<span class="read ${cls}">${read}</span>`;
   $("#pulseWhy").innerHTML = `<b class="read ${cls}">${read}.</b> ${esc(why)}${best&&worst?` Strongest sector over the last month: ${esc(best.name)} (${pctS(best.m1)}); weakest: ${esc(worst.name)} (${pctS(worst.m1)}).`:""} ${S.source==="demo"?"<b>Simulated demo data.</b>":""}`;
 }
+
+/* ---------- Solana pools: cross-pool gaps and rug screening (read-only) ---------- */
+const DS = "https://api.dexscreener.com";
+const SOLX = {tokens:[], sel:null, pools:null, busy:false, err:null, updated:0, timer:null};
+const fmtK = x => !isF(x) ? "–" : x>=1e9 ? "$"+(x/1e9).toFixed(1)+"B" : x>=1e6 ? "$"+(x/1e6).toFixed(1)+"M" : x>=1e3 ? "$"+(x/1e3).toFixed(1)+"K" : "$"+Math.round(x);
+const fmtAge = ms => { const h = (Date.now()-ms)/36e5; return !isF(h) ? "–" : h<1 ? Math.round(h*60)+" min" : h<48 ? h.toFixed(h<10?1:0)+" h" : h<24*60 ? Math.round(h/24)+" d" : (h/24/365).toFixed(1)+" y"; };
+const fmtUsdP = p => !isF(p) ? "–" : p>=1 ? "$"+p.toLocaleString("en-US",{maximumFractionDigits:4}) : "$"+p.toPrecision(4);
+function groupTokens(pairs){
+  const by = new Map();
+  for(const p of pairs||[]){
+    if(p.chainId!=="solana" || !p.baseToken?.address) continue;
+    const a = p.baseToken.address;
+    if(!by.has(a)) by.set(a, []);
+    by.get(a).push(p);
+  }
+  return [...by.entries()].map(([addr, ps])=>{
+    ps.sort((x,y)=>(y.liquidity?.usd||0)-(x.liquidity?.usd||0));
+    const m = ps[0], sum = k => ps.reduce((a,p)=>a+(+p[k]?.h24||0),0);
+    const t = {addr, sym:m.baseToken.symbol, name:m.baseToken.name, url:m.url, price:+m.priceUsd, ch1:+m.priceChange?.h1, ch24:+m.priceChange?.h24,
+      liq:ps.reduce((a,p)=>a+(+p.liquidity?.usd||0),0), vol:sum("volume"), age:Math.min(...ps.map(p=>p.pairCreatedAt||Infinity)), pools:ps.length,
+      fdv:+m.fdv, buys1:ps.reduce((a,p)=>a+(p.txns?.h1?.buys||0),0), sells1:ps.reduce((a,p)=>a+(p.txns?.h1?.sells||0),0),
+      hasInfo:!!(m.info?.websites?.length || m.info?.socials?.length)};
+    t.flags = riskFlags(t);
+    t.level = t.flags.length>=3 ? "hi" : t.flags.length ? "md" : "lo";
+    return t;
+  }).sort((a,b)=>b.vol-a.vol);
+}
+function riskFlags(t){
+  const f = [], ageH = (Date.now()-t.age)/36e5;
+  if(t.liq<20000) f.push(`Thin liquidity: ${fmtK(t.liq)} in pools, so a $1,000 trade moves the price roughly ${Math.min(99,2000/Math.max(t.liq,1)*100).toFixed(0)}%`);
+  if(ageH<24) f.push(`Brand new: first pool is ${fmtAge(t.age)} old`);
+  if(t.fdv>0 && t.liq>0 && t.liq<250000 && t.fdv/t.liq>50) f.push(`Valued at ${fmtK(t.fdv)}, ${Math.round(t.fdv/t.liq)}× its liquidity: the price can't absorb real selling`);
+  if(t.ch1>100) f.push(`Vertical pump: +${t.ch1.toFixed(0)}% in the last hour`);
+  if(t.ch1<-50) f.push(`Crashing: ${t.ch1.toFixed(0)}% in the last hour`);
+  if(t.sells1===0 && t.buys1>=20) f.push(`${t.buys1} buys and no sells in the last hour: possible honeypot (buyers can't sell)`);
+  else if(t.sells1>=20 && t.sells1>2*t.buys1) f.push(`Heavy selling: ${t.sells1} sells vs ${t.buys1} buys in the last hour`);
+  if(!t.hasInfo) f.push("No website or social links on DexScreener");
+  return f;
+}
+async function solLoad(){
+  if(SOLX.busy) return; SOLX.busy = true; $("#solGo").disabled = true;
+  $("#solStatus").textContent = "Loading from DexScreener…";
+  const q = $("#solQ").value.trim();
+  try{
+    let pairs;
+    if(/^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(q)) pairs = await getJSON(`${DS}/token-pairs/v1/solana/${q}`, 15000);
+    else if(q){ const r = await getJSON(`${DS}/latest/dex/search?q=${encodeURIComponent(q)}`, 15000); pairs = r?.pairs||[]; }
+    else {
+      const [b, pr] = await Promise.all([getJSON(`${DS}/token-boosts/top/v1`,15000).catch(()=>[]), getJSON(`${DS}/token-profiles/latest/v1`,15000).catch(()=>[])]);
+      const addrs = [...new Set([...(b||[]),...(pr||[])].filter(x=>x.chainId==="solana").map(x=>x.tokenAddress))].slice(0,30);
+      if(!addrs.length) throw new Error("DexScreener returned no Solana tokens");
+      pairs = await getJSON(`${DS}/tokens/v1/solana/${addrs.join(",")}`, 15000);
+    }
+    SOLX.tokens = groupTokens(Array.isArray(pairs) ? pairs : pairs?.pairs);
+    SOLX.updated = Date.now(); SOLX.err = null;
+    if(!SOLX.sel || !SOLX.tokens.find(t=>t.addr===SOLX.sel)) SOLX.sel = SOLX.tokens[0]?.addr || null;
+  }catch(e){ SOLX.err = e; }
+  SOLX.busy = false; $("#solGo").disabled = false;
+  renderSol();
+  if(SOLX.sel) solPools(SOLX.sel);
+}
+async function solPools(addr){
+  SOLX.sel = addr; renderSol();
+  $("#solPoolsChip").textContent = "Loading pools…";
+  try{ SOLX.pools = {addr, list:(await getJSON(`${DS}/token-pairs/v1/solana/${addr}`, 15000))||[]}; }
+  catch(e){ SOLX.pools = {addr, list:[], err:e}; }
+  renderSolPools();
+}
+function renderSol(){
+  const ts = SOLX.tokens;
+  const hi = ts.filter(t=>t.level==="hi").length;
+  $("#solChip").textContent = ts.length ? `${ts.length} tokens · ${hi} high risk` : "–";
+  $("#solStatus").textContent = SOLX.err ? `Couldn't load: ${SOLX.err.code ? mcpCopy(SOLX.err) : (SOLX.err.message||SOLX.err)}${String(SOLX.err.message||"").match(/fetch|Failed|abort/i)?" Your browser may be blocking requests to DexScreener from this page.":""}`
+    : SOLX.updated ? `${$("#solQ").value.trim() ? "Search results" : "Trending and newly listed Solana tokens on DexScreener"}, sorted by 24h volume. Updated ${new Date(SOLX.updated).toLocaleTimeString("en-US",{hour:"2-digit",minute:"2-digit",second:"2-digit"})}. Click a token to see its pools.` : "Press Load to fetch trending Solana tokens.";
+  const pc = x => isF(x) ? `<span class="${x>=0?"up":"down"}">${x>=0?"+":""}${x.toFixed(1)}%</span>` : "–";
+  $("#solBody").innerHTML = ts.map(t=>`<tr class="row${t.addr===SOLX.sel?" sel":""}" data-a="${esc(t.addr)}" tabindex="0">
+    <td><b>${esc(t.sym)}</b><small>${esc(t.name)}</small></td><td>${fmtUsdP(t.price)}</td><td>${pc(t.ch1)}</td><td>${pc(t.ch24)}</td>
+    <td>${fmtK(t.liq)}</td><td>${fmtK(t.vol)}</td><td>${fmtAge(t.age)}</td><td>${t.pools}</td>
+    <td><span class="risk ${t.level}">${t.level==="hi"?"High risk":t.level==="md"?"Caution":"No flags"}</span>${t.flags.length?`<small>${t.flags.map(esc).join("<br>")}</small>`:`<small>No market-data red flags. Still check on-chain.</small>`}</td></tr>`).join("")
+    || `<tr class="empty"><td colspan="9">${SOLX.updated?"Nothing found.":"No data yet."}</td></tr>`;
+  $("#solBody").querySelectorAll("tr.row").forEach(tr=>{
+    const go = () => solPools(tr.dataset.a);
+    tr.addEventListener("click", go); tr.addEventListener("keydown", e=>{ if(e.key==="Enter"){ e.preventDefault(); go(); } });
+  });
+}
+// Best-case arbitrage between two constant-product pools: buy in the cheap one, sell in the rich one.
+// Trading Q dollars into a pool holding L dollars (half per side) moves its price by about 2Q/L, so the
+// average cost is about Q/L per pool. Profit(Q) = Q(g - f) - Q^2 (1/La + 1/Lb), which peaks at
+// Q* = (g - f) / (2 (1/La + 1/Lb)).
+function arb(g, la, lb, fee=0.006){
+  const k = 1/la + 1/lb, e = g-fee;
+  if(!(e>0) || !(k>0)) return {q:0, profit:0};
+  const q = e/(2*k); return {q, profit:e*e/(4*k)};
+}
+function renderSolPools(){
+  const P = SOLX.pools, t = SOLX.tokens.find(x=>x.addr===P?.addr);
+  const list = (P?.list||[]).filter(p=>isF(+p.priceUsd)).sort((a,b)=>(b.liquidity?.usd||0)-(a.liquidity?.usd||0));
+  const sym = t?.sym || list[0]?.baseToken?.symbol || "Token";
+  $("#solPoolsTitle").textContent = `${sym} pools`;
+  if(!list.length){ $("#solPoolsChip").textContent = P?.err ? "Couldn't load pools" : "No pools"; $("#solPools").innerHTML = ""; $("#solGap").hidden = true; return; }
+  // liquidity-weighted median price
+  const ws = list.map(p=>({p:+p.priceUsd, w:+p.liquidity?.usd||0})).sort((a,b)=>a.p-b.p);
+  const tw = ws.reduce((a,x)=>a+x.w,0); let acc = 0, med = ws[0].p; for(const x of ws){ acc += x.w; if(acc>=tw/2){ med = x.p; break; } }
+  const min = +$("#solMin").value||0;
+  const dex = p => `${p.dexId}${p.labels?.length?" "+p.labels.join("/"):""}`;
+  const gapOf = arr => { if(arr.length<2) return null; let lo = arr[0], hi = arr[0]; for(const p of arr){ if(+p.priceUsd<+lo.priceUsd) lo = p; if(+p.priceUsd>+hi.priceUsd) hi = p; } return {lo, hi, g:+hi.priceUsd/+lo.priceUsd-1}; };
+  const all = gapOf(list), deep = gapOf(list.filter(p=>(+p.liquidity?.usd||0)>=min));
+  const line = (G, label) => { if(!G || G.g<=0) return `<span><b>${label}:</b> none.</span>`;
+    const la = +G.lo.liquidity?.usd||0, lb = +G.hi.liquidity?.usd||0, a = arb(G.g, la, lb);
+    return `<span><b>${label}:</b> ${(G.g*100).toFixed(2)}% between ${esc(dex(G.lo))} (${fmtK(la)} liquidity) and ${esc(dex(G.hi))} (${fmtK(lb)}). `+
+      (a.profit>0 ? `Best case ≈ <b>${fmtUsd2(a.profit)}</b> profit on a ${fmtUsd2(a.q)} trade, before priority fees, failed transactions and bots racing for the same gap.` : `After ~0.6% in fees there's nothing left to take.`)+`</span>`; };
+  $("#solGap").hidden = false;
+  $("#solGap").innerHTML = line(all, "Largest gap, any pool") + line(deep, `Largest gap, pools with at least ${fmtK(min)}`) +
+    `<span class="note">Big gaps almost always sit in tiny pools. Pricing them at their real size is what turns a "15% risk-free spread" into a few dollars, or nothing.</span>` +
+    `<span class="addr">${esc(P.addr)} · <a href="https://rugcheck.xyz/tokens/${encodeURIComponent(P.addr)}" target="_blank" rel="noopener">RugCheck</a> · <a href="https://solscan.io/token/${encodeURIComponent(P.addr)}" target="_blank" rel="noopener">Solscan</a>${t?.url?` · <a href="${esc(t.url)}" target="_blank" rel="noopener">DexScreener</a>`:""}</span>`;
+  $("#solPoolsChip").textContent = `${list.length} pools · median ${fmtUsdP(med)}`;
+  $("#solPools").innerHTML = list.map(p=>{ const dv = +p.priceUsd/med-1, l = +p.liquidity?.usd||0;
+    return `<tr><td><b>${esc(dex(p))}</b><small>${esc(p.baseToken?.symbol||"")}/${esc(p.quoteToken?.symbol||"")} · ${esc((p.pairAddress||"").slice(0,6))}…</small></td><td>${fmtUsdP(+p.priceUsd)}</td>`+
+      `<td class="${Math.abs(dv)>=0.02?(dv>0?"up":"down"):""}">${dv>=0?"+":""}${(dv*100).toFixed(2)}%</td><td class="${l<min?"hot":""}">${fmtK(l)}</td><td>${fmtK(+p.volume?.h24)}</td><td>${fmtAge(p.pairCreatedAt)}</td>`+
+      `<td><a href="${esc(p.url)}" target="_blank" rel="noopener">Chart</a></td></tr>`; }).join("");
+}
+function solAuto(on){ clearInterval(SOLX.timer); SOLX.timer = on ? setInterval(()=>{ if(!document.hidden && S.mode==="sol") solLoad(); }, 30000) : null; }
 
 /* ---------- AI stocks ---------- */
 const AI_THEMES = {
@@ -1965,7 +2141,7 @@ async function openAI(){
 /* ---------- share links (GitHub Pages only; the Claude viewer drops hash state) ---------- */
 function writeHash(){
   if(inViewer) return;
-  if(S.mode==="odds" || S.mode==="ai"){ try{ history.replaceState(null, "", "#"+S.mode); }catch{} return; }
+  if(S.mode==="odds" || S.mode==="ai" || S.mode==="sol"){ try{ history.replaceState(null, "", "#"+S.mode); }catch{} return; }
   const q = new URLSearchParams({a:S.asset, tf:S.bar, p:S.preset});
   for(const k of PRESETS[S.preset].params) q.set(k, S.p[k]);
   if(S.sel) q.set("s", S.sel);
@@ -1973,7 +2149,7 @@ function writeHash(){
   try{ history.replaceState(null, "", "#"+q.toString()); }catch{}
 }
 function readHash(){
-  const h = location.hash.slice(1); if(h==="odds"||h==="ai"){ S.wantMode = h; return; } if(!h.includes("=")) return;
+  const h = location.hash.slice(1); if(h==="odds"||h==="ai"||h==="sol"){ S.wantMode = h; return; } if(!h.includes("=")) return;
   const q = new URLSearchParams(h);
   if(TFS[q.get("a")]) S.asset = q.get("a");
   S.bar = TFS[S.asset].includes(q.get("tf")) ? q.get("tf") : DEFAULT_TF[S.asset];
@@ -2074,6 +2250,11 @@ $("#aOdds").addEventListener("click", ()=>{ if(S.mode!=="odds"){ setMode("odds")
   $("#pulseToggle").addEventListener("click", ()=>{ const o = $("#pulseBody").hidden; setPulse(o); try{ localStorage.setItem("capscan.pulse", o?"1":"0"); }catch{} });
 }
 $("#aAI").addEventListener("click", ()=>{ if(S.mode!=="ai"){ setMode("ai"); writeHash(); } });
+$("#aSol").addEventListener("click", ()=>{ if(S.mode!=="sol"){ setMode("sol"); writeHash(); } });
+$("#solGo").addEventListener("click", solLoad);
+$("#solQ").addEventListener("keydown", e=>{ if(e.key==="Enter"){ e.preventDefault(); solLoad(); } });
+$("#solMin").addEventListener("change", renderSolPools);
+$("#solAuto").addEventListener("change", e=>solAuto(e.target.checked));
 $("#aiQ").addEventListener("input", renderAI);
 $("#aiPreset").addEventListener("change", e=>{ setPreset(e.target.value); runScan(false); renderAI(); });
 document.querySelectorAll("#aiView th button[data-ak]").forEach(b=>b.addEventListener("click", ()=>{
