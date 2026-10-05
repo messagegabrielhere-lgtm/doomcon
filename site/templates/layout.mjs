@@ -783,6 +783,106 @@ function serpDescription(description) {
   return head.slice(0, head.lastIndexOf(' ')).replace(/[,;:—-]+$/, '') + '…';
 }
 
+
+/* ---------------------------------------------------------------------------
+   THE NAV KIT. Three ways to get anywhere, none of which the page needs in
+   order to be read:
+     - a jump palette (press / or Ctrl/Cmd-K, or the Jump button) listing every
+       room with its live number, filtered as you type;
+     - on a phone, a fixed bar of the four busiest rooms plus the palette, so
+       the way out of any page is under the thumb rather than at the top;
+     - at the foot of every inner page, the previous and next room and the way
+       back to the war room, so no page is a dead end.
+   The palette is a native <dialog>; with scripts off it never opens and the
+   masthead tiles and footer are the navigation, exactly as before.
+--------------------------------------------------------------------------- */
+const PAL_EXTRA = [
+  { href: '/about.html', label: 'About', blurb: 'Who runs this and how it is paid for.' },
+  { href: '/guide.html', label: 'Guide to the levels', blurb: 'What each of the five levels means.' },
+  { href: '/p-doom.html', label: 'What is p(doom)?', blurb: 'The number nobody can check, explained.' },
+  { href: '/ai-doomsday-clock.html', label: 'AI doomsday clock', blurb: 'What exists, and the one you can verify.' },
+  { href: '/moves/', label: 'Every reading', blurb: 'The full record, each with its receipt.' },
+  { href: '/sponsor.html', label: 'Sponsor', blurb: 'One named sponsor at a time.' },
+  { href: '/privacy.html', label: 'Privacy', blurb: 'No cookies, no analytics.' },
+];
+const TAB_ROOMS = [['/', 'War room'], ['/news.html', 'News'], ['/race.html', 'Race'], ['/world.html', 'World']];
+function navKit(ctx, tiles, path) {
+  const have = new Set(tiles.map((t) => t.href));
+  const rows = [...tiles.map((t) => {
+    const c = typeof t.count === 'function' ? t.count(ctx) : null;
+    return { href: t.href, label: t.href === '/' ? 'War room' : t.label, blurb: t.blurb || '', v: c ? c.v : '' };
+  }), ...PAL_EXTRA.filter((e) => !have.has(e.href)).map((e) => ({ ...e, v: '' }))];
+  const palette = `<dialog class="pal" id="pal" aria-label="Jump to a page"><div class="pal__box">
+  <input class="pal__q" type="search" placeholder="Jump to… type a page name" aria-label="Filter pages" autocomplete="off" spellcheck="false">
+  <ul class="pal__l">${rows.map((r) => `<li><a class="pal__i" href="${esc(ctx.href(r.href))}" data-k="${esc(`${r.label} ${r.blurb}`.toLowerCase())}"${r.href === path ? ' aria-current="page"' : ''}><span class="pal__n">${esc(r.label)}</span><span class="pal__b">${esc(r.blurb)}</span>${r.v ? `<b class="pal__v num">${esc(r.v)}</b>` : ''}</a></li>`).join('')}</ul>
+  <p class="pal__k">↑ ↓ to move · Enter to open · Esc to close</p></div></dialog>`;
+  const tabs = TAB_ROOMS.filter(([h]) => have.has(h)).map(([h, label]) => {
+    const art = FEATURE_ART[h] || { mark: '' };
+    return `<a class="tab__t" href="${esc(ctx.href(h))}"${h === path ? ' aria-current="page"' : ''}><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">${art.mark}</svg><span>${esc(label)}</span></a>`;
+  }).join('');
+  const tabbar = `<nav class="tab" aria-label="Quick navigation">${tabs}<a class="tab__t" href="#foot-rooms" data-pal><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M2.5 4h11M2.5 8h11M2.5 12h11" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span>All pages</span></a></nav>`;
+  let next = '';
+  const at = tiles.findIndex((t) => t.href === path);
+  if (path !== '/' && at > 0) {
+    const rooms = tiles.filter((t) => t.href !== '/');
+    const i = rooms.findIndex((t) => t.href === path);
+    const prev = rooms[(i - 1 + rooms.length) % rooms.length]; const nxt = rooms[(i + 1) % rooms.length];
+    next = `<nav class="wrap nxt" aria-label="More rooms"><a class="nxt__a" href="${esc(ctx.href(prev.href))}"><span>← Previous</span><b>${esc(prev.label)}</b></a><a class="nxt__a nxt__a--home" href="${esc(ctx.href('/'))}#war-room"><span>Back to</span><b>The war room</b></a><a class="nxt__a nxt__a--n" href="${esc(ctx.href(nxt.href))}"><span>Next →</span><b>${esc(nxt.label)}</b></a></nav>`;
+  }
+  return { button: '<button class="pal__open" type="button" data-pal hidden aria-haspopup="dialog">Jump <kbd>/</kbd></button>', palette, tabbar, next };
+}
+const NAV_KIT_CSS = `<style>
+.pal__open { margin-left: auto; display: inline-flex; align-items: center; gap: 8px; padding: 6px 10px; border: 1px solid var(--rule); border-radius: 7px; background: transparent; color: var(--ink-dim); font: 700 var(--t-2xs)/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; cursor: pointer; }
+.pal__open[hidden] { display: none; }
+.pal__open:hover, .pal__open:focus-visible { color: var(--ink); border-color: var(--accent); }
+.pal__open kbd { padding: 2px 6px; border: 1px solid var(--rule); border-radius: 4px; font: inherit; color: var(--ink); }
+@media (max-width: 699px) { .pal__open { display: none; } }
+.pal { width: min(640px, calc(100vw - 24px)); max-height: min(76vh, 640px); margin: 9vh auto auto; padding: 0; border: 1px solid var(--rule); border-radius: 14px; background: var(--bg-raised); color: var(--ink); box-shadow: 0 30px 90px rgba(0,0,0,.6); overflow: hidden; }
+.pal::backdrop { background: rgba(4,5,9,.72); backdrop-filter: blur(3px); }
+.pal__box { display: flex; flex-direction: column; max-height: min(76vh, 640px); }
+.pal__q { width: 100%; padding: 16px 18px; border: 0; border-bottom: 1px solid var(--rule); background: transparent; color: var(--ink); font: 500 17px/1.3 var(--sans); outline: none; }
+.pal__l { list-style: none; margin: 0; padding: 6px; overflow-y: auto; flex: 1 1 auto; }
+.pal__l li:has(> [hidden]) { display: none; }
+.pal__i { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 1px 12px; padding: 9px 12px; border-radius: 8px; text-decoration: none; color: var(--ink); }
+.pal__i[hidden] { display: none; }
+.pal__i[data-on="1"], .pal__i:hover { background: color-mix(in srgb, var(--accent) 14%, transparent); }
+.pal__i[aria-current="page"] .pal__n::after { content: " · you are here"; color: var(--ink-faint); font-weight: 400; }
+.pal__n { font: 650 var(--t-base)/1.3 var(--sans); }
+.pal__b { grid-column: 1; font: 400 var(--t-xs)/1.35 var(--sans); color: var(--ink-dim); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pal__v { grid-column: 2; grid-row: 1 / span 2; align-self: center; font: 700 var(--t-sm)/1 var(--mono); color: var(--accent-2); }
+.pal__k { margin: 0; padding: 9px 16px; border-top: 1px solid var(--rule); font: 500 var(--t-2xs)/1.3 var(--mono); letter-spacing: .08em; color: var(--ink-faint); }
+.tab { display: none; }
+@media (max-width: 699px) {
+  .tab { position: fixed; left: 0; right: 0; bottom: 0; z-index: 60; display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; padding: 6px 4px calc(6px + env(safe-area-inset-bottom)); border-top: 1px solid var(--rule); background: color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter: blur(10px); }
+  .tab__t { display: grid; justify-items: center; gap: 3px; padding: 5px 2px; border-radius: 8px; text-decoration: none; color: var(--ink-dim); font: 700 10px/1.1 var(--mono); letter-spacing: .06em; text-transform: uppercase; }
+  .tab__t svg { width: 19px; height: 19px; }
+  .tab__t[aria-current="page"] { color: var(--accent); }
+  body { padding-bottom: calc(60px + env(safe-area-inset-bottom)); }
+  .pal__k { display: none; }
+}
+@media print { .tab, .pal, .nxt { display: none !important; } }
+.nxt { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-block: var(--s-6) var(--s-5); }
+.nxt__a { display: grid; gap: 4px; padding: 14px 16px; border: 1px solid var(--rule); border-radius: 12px; background: var(--bg-raised); text-decoration: none; min-width: 0; }
+.nxt__a:hover, .nxt__a:focus-visible { border-color: var(--accent); }
+.nxt__a span { font: 700 var(--t-2xs)/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--ink-faint); }
+.nxt__a b { font: 650 var(--t-base)/1.25 var(--sans); color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.nxt__a--home { text-align: center; } .nxt__a--n { text-align: right; }
+@media (max-width: 560px) { .nxt { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } .nxt__a--home { grid-column: 1 / -1; grid-row: 1; } }
+</style>`;
+const NAV_KIT_JS = `(function(){var d=document,p=d.getElementById('pal');if(!p||!p.showModal)return;
+var q=p.querySelector('input'),items=[].slice.call(p.querySelectorAll('.pal__i')),sel=0;
+function vis(){return items.filter(function(i){return !i.hidden;});}
+function mark(){var v=vis();items.forEach(function(i){i.removeAttribute('data-on');});if(v.length){sel=Math.max(0,Math.min(sel,v.length-1));v[sel].setAttribute('data-on','1');v[sel].scrollIntoView({block:'nearest'});}}
+function filt(){var t=q.value.toLowerCase().trim();items.forEach(function(i){i.hidden=!!t&&i.getAttribute('data-k').indexOf(t)<0;});sel=0;mark();}
+function open(){q.value='';filt();p.showModal();q.focus();}
+[].forEach.call(d.querySelectorAll('[data-pal]'),function(b){b.hidden=false;b.addEventListener('click',function(e){e.preventDefault();open();});});
+d.addEventListener('keydown',function(e){var t=e.target,tag=t&&t.tagName;var typing=tag==='INPUT'||tag==='TEXTAREA'||tag==='SELECT'||(t&&t.isContentEditable);
+if((e.key==='k'&&(e.metaKey||e.ctrlKey))||(e.key==='/'&&!typing&&!e.metaKey&&!e.ctrlKey&&!e.altKey)){e.preventDefault();if(p.open)p.close();else open();}});
+q.addEventListener('input',filt);
+q.addEventListener('keydown',function(e){var v=vis(),n=Math.max(1,v.length);if(e.key==='ArrowDown'){e.preventDefault();sel=(sel+1)%n;mark();}else if(e.key==='ArrowUp'){e.preventDefault();sel=(sel-1+n)%n;mark();}else if(e.key==='Enter'){e.preventDefault();if(v[sel])location.href=v[sel].href;}});
+p.addEventListener('click',function(e){if(e.target===p)p.close();});
+})();`;
+
 const FB_PRIMARY = 6;
 const FB_NARROW = 6;
 
@@ -1082,6 +1182,7 @@ export function page(o) {
   // route gives up its TILE while that route exists, and keeps its footer
   // row. Today that is Upside yielding to Balance.
   const tiles = sections.filter((s) => !s.yieldsTo || !hasSection(ctx, s.yieldsTo));
+  const kit = navKit(ctx, tiles, o.path);
 
   // Data pages get the wide measure; prose pages keep the 66ch reading column.
   // A methodology page at 1240px is a worse methodology page; a dashboard at
@@ -1125,16 +1226,19 @@ ${brand.X_URL ? `<p class="give">${esc(brand.NAME)} is free and carries no ads. 
 <header class="masthead"><div class="wrap masthead__in">
   ${marks.mastheadLockup(ctx.state.level, { href: ctx.href('/'), current: o.path === '/', logos: ctx.logos, logoHref: (n) => ctx.href(`/logos/${n}`) })}
   <p class="masthead__tag">${esc(brand.SLOGAN)}</p>
+  ${kit.button}
   ${featureBar(ctx, tiles, o.path, { inline: true })}
-</div></header>${FEATURE_BAR_CSS}
+</div></header>${FEATURE_BAR_CSS}${NAV_KIT_CSS}
 ${rail(ctx, o.path)}
 ${visitSlot(ctx)}
 ${o.showDegraded ? degradedBanner(ctx.state) : ''}${motion.beforeMain}
 <main class="wrap" id="main" data-level="${esc(ctx.state && Number.isFinite(ctx.state.level) ? String(ctx.state.level) : '')}">
 ${pageBanner(ctx, o.path)}${withJumpIndex(o.main)}
 </main>
-${footer(ctx, sections, o.path)}${bodyEndExtra}
+${kit.next}
+${footer(ctx, sections, o.path)}${kit.palette}${kit.tabbar}${bodyEndExtra}
 <script>${CHROME_JS}</script>
+<script>${NAV_KIT_JS}</script>
 </body>
 </html>
 `;
@@ -1464,7 +1568,7 @@ function footer(ctx, sections, path) {
       <a href="${esc(exSrc.nvd.url)}" rel="noopener">${esc(exSrc.nvd.label)}</a>.</p>`
     : '';
 
-  return `<footer class="foot">
+  return `<footer class="foot" id="foot-rooms">
   <p class="foot__bcast">${mascot({ size: 40, level: ctx.state && Number.isFinite(ctx.state.level) ? ctx.state.level : null })}<span>This is not a test. It is not an emergency either. It is a count.</span></p>
   <div class="wrap">
     <div class="foot__top">

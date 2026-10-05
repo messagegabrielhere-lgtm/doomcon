@@ -461,7 +461,13 @@ main.wrap:has(.stage) > section.sec, main.wrap:has(.stage) > section.sw { margin
 .wr__new { margin-left: auto; padding: 7px 12px; border-radius: 999px; background: var(--ok); color: #06070b; font: 800 var(--t-2xs)/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; text-decoration: none; }
 .wr__new[hidden] { display: none; }
 @media (hover: none), (max-width: 899px) { .wr__keys { display: none; } }
-@media (min-width: 1100px) { .wr__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } #wr-news { grid-row: span 2; } #wr-bets { grid-column: span 2; } }
+@media (min-width: 1100px) { .wr__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } #wr-news { grid-row: span 2; } #wr-bets, #wr-pillars, #wr-people { grid-column: span 2; } }
+.wr__brief { list-style: none; padding: 0; display: grid; gap: 9px; }
+.wr__brief li { position: relative; padding-left: 16px; font: 400 var(--t-sm)/1.45 var(--sans); color: var(--ink-dim); }
+.wr__brief li::before { content: ""; position: absolute; left: 0; top: .55em; width: 6px; height: 6px; border-radius: 50%; background: var(--ph); }
+.wr__brief b { color: var(--ink); font-weight: 650; }
+.wr__brief a { color: var(--ink); text-decoration: underline; text-decoration-color: color-mix(in srgb, var(--ph) 60%, transparent); text-underline-offset: 3px; }
+.wr__brief span { color: var(--ink-faint); }
 .wr { margin-bottom: var(--s-3); }
 .srcs { margin: 0 0 var(--s-5); }
 /* TWO PANELS, NOT TWO HALF-EMPTY ROWS. "Check it" and "follow it" each ran in
@@ -1276,7 +1282,7 @@ function sourceStrip(st) {
 // top jumps to any panel and each panel's header opens its page. A panel
 // whose data is absent is not drawn; nothing here is a placeholder, and no
 // number is computed here that its own page does not also print.
-const WR_HUE = { signal: 'var(--lvl, var(--accent))', pillars: '#ff7a00', news: '#00a3ff', race: '#00e676', flock: '#00e5ff', datacenters: '#c9a0ff', exploits: '#ff5f56', leaders: '#ffb020', people: '#ff73c8', bets: '#8b9cff', corrob: '#5fd08a' };
+const WR_HUE = { signal: 'var(--lvl, var(--accent))', pillars: '#ff7a00', news: '#00a3ff', race: '#00e676', flock: '#00e5ff', datacenters: '#c9a0ff', exploits: '#ff5f56', leaders: '#ffb020', people: '#ff73c8', bets: '#8b9cff', corrob: '#5fd08a', brief: '#ffd166' };
 const WR_NAME = { race: 'The race', flock: 'Cameras', datacenters: 'Machines', exploits: 'Exploits', news: 'Corroboration', leaders: 'Leaders' };
 function warRoom(ctx) {
   const st = ctx.state;
@@ -1302,6 +1308,40 @@ function warRoom(ctx) {
   panel('signal', 'Signal', ctx.href('/instruments.html#record'),
     `<p class="wr__big"><b class="num">${esc(num(st.score, 1))}</b><span>/ 100 · ${esc(brand.NAME)} ${esc(st.level)} · ${esc(st.level_name)}</span></p>${delta ? `<p class="wr__d">${esc(delta)}</p>` : ''}${spark}`,
     { wide: true, meta: `observed ${utc(st.generated_at)}` });
+
+  // THE BRIEF: what a reader would be told if they asked "anything I should
+  // know?" - each line a number this page already prints, with the comparison
+  // spelled out. Lines whose data is absent are left out, not padded.
+  {
+    const lines = [];
+    const sinceDay = st.level_since && Number.isFinite(Date.parse(st.level_since)) ? String(st.level_since).slice(0, 10) : null;
+    lines.push(`<b>Level ${esc(st.level)}, ${esc(st.level_name)}.</b> ${esc(num(st.score, 1))} of 100${sinceDay ? `, at this level since ${esc(sinceDay)}` : ''}.`);
+    if (d && Number.isFinite(d.delta)) {
+      const mag = Math.abs(d.delta);
+      lines.push(`<b>${mag < 1 ? 'Barely moved' : d.delta > 0 ? 'Louder' : 'Quieter'}.</b> ${mag < 1 ? 'Within a point of' : `${esc(num(mag, 1))} ${d.delta > 0 ? 'above' : 'below'}`} the reading ${esc(d.basis === 'previous' ? `at ${d.label}` : d.label)}.`);
+    }
+    const hist = Array.isArray(ctx.history) ? ctx.history : [];
+    const ref = d && d.reference_at ? hist.find((r) => r.generated_at === d.reference_at) : null;
+    const now = hist.length ? hist[hist.length - 1] : null;
+    if (ref && ref.pillars && now && now.pillars) {
+      let best = null;
+      for (const p of brand.PILLARS) {
+        const a0 = ref.pillars[p.id]; const a1 = now.pillars[p.id];
+        if (!Number.isFinite(a0) || !Number.isFinite(a1)) continue;
+        if (!best || Math.abs(a1 - a0) > Math.abs(best.dv)) best = { p, dv: a1 - a0, v: a1 };
+      }
+      if (best && Math.abs(best.dv) >= 0.1) lines.push(`<b>${esc(best.p.name)} moved most.</b> Now ${esc(num(best.v, 1))}, ${best.dv > 0 ? 'up' : 'down'} ${esc(num(Math.abs(best.dv), 1))} over the same span.`);
+    }
+    const all = ctx.news && Array.isArray(ctx.news.items) ? ctx.news.items : [];
+    if (all.length) {
+      const lead = [...all].sort((x, y) => Number(y.score) - Number(x.score) || String(x.id).localeCompare(String(y.id)))[0];
+      lines.push(`<b>Top story.</b> <a href="${esc(lead.url)}" rel="noopener">${esc(lead.title)}</a> <span>(${esc(lead.source)})</span>`);
+    }
+    const lead2 = ctx.race && Array.isArray(ctx.race.players)
+      ? ctx.race.players.filter((p) => p && p.market && p.market.state === 'live' && Number.isFinite(p.market.probability)).sort((x, y) => y.market.probability - x.market.probability || String(x.id).localeCompare(String(y.id)))[0] : null;
+    if (lead2) lines.push(`<b>The race.</b> ${esc(lead2.name)} leads the market at ${esc(num(lead2.market.probability * 100, 1))}%.`);
+    if (lines.length >= 3) panel('brief', 'The brief', ctx.href('/digest.html'), `<ul class="wr__brief">${lines.map((l) => `<li>${l}</li>`).join('')}</ul>`, { wide: true, meta: 'thirty seconds' });
+  }
 
   // PILLARS: the five, as bars on the same 0-100 scale.
   const last = Array.isArray(ctx.history) && ctx.history.length ? ctx.history[ctx.history.length - 1] : null;
