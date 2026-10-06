@@ -197,4 +197,22 @@ export const STEPS = {
     'For your own channel, prefer downloading originals from YouTube Studio or Google Takeout, which needs no cookies at all.',
     'Rotate the cookie secret if that account was ever your main one.',
   ],
+  'security-policy': [
+    'Add SECURITY.md at the repository root: how to report, what is in scope, and where secrets must live.',
+    'Link the GitHub private vulnerability reporting form (…/security/advisories/new).',
+    'Publish /.well-known/security.txt from the site build so scanners can find the same contact.',
+  ],
+  'dependabot-config': [
+    'Add .github/dependabot.yml with an npm ecosystem entry for every directory that has a package.json with dependencies.',
+    'Also cover github-actions so Actions version bumps arrive as PRs.',
+    'Enable Dependabot alerts under Settings → Code security.',
+  ],
+  'workflow-permissions': [
+    'Add a top-level `permissions:` block to the workflow YAML.',
+    'Default to `contents: read`. Raise to `contents: write` or `actions: write` only when that job must push or re-arm workflows.',
+  ],
+  'workflow-secret-echo': [
+    'Delete any echo/printf/cat of `${{ secrets.* }}`.',
+    'Pass the secret only as an environment variable on the step that needs it; never interpolate it into a shell string that is logged.',
+  ],
 };

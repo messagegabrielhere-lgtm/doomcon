@@ -42,3 +42,8 @@ jobs:
         run: node compliance/audit.mjs --strict
       - name: Chart SVG self-test
         run: node site/test-charts.mjs
+      - name: npm audit (root lockfile)
+        run: npm audit --package-lock-only --omit=dev --audit-level=high
+      - name: npm audit (clipper lockfile)
+        working-directory: clipper
+        run: npm audit --package-lock-only --omit=dev --audit-level=high

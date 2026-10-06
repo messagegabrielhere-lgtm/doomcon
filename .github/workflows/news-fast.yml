@@ -73,6 +73,14 @@ jobs:
           CHAIN: ${{ vars.NEWS_FAST_CHAIN }}
         run: |
           set -uo pipefail
+          # workflow_dispatch input is a free string; refuse anything that is
+          # not a positive integer so it cannot break the arithmetic below.
+          case "$MINUTES" in
+            ''|*[!0-9]*) echo "::error::MINUTES must be a positive integer (got: $MINUTES)"; exit 1 ;;
+          esac
+          if [ "$MINUTES" -lt 1 ] || [ "$MINUTES" -gt 55 ]; then
+            echo "::error::MINUTES must be between 1 and 55 (got: $MINUTES)"; exit 1
+          fi
           END=$(( $(date +%s) + MINUTES * 60 ))
           PUBLISHED=0
           TICK=0
