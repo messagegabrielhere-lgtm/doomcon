@@ -82,8 +82,25 @@ Spot only, long only, 24 USD pairs, a 0.6% fee per fill.
 | rsi | baseline: buy hourly RSI < 30, sell > 70, stops at 2 ATR | none |
 
 Keys are repository secrets (Settings → Secrets and variables → Actions). A
-model without its key **sleeps**: it appears on the board as a sleeping slime
-and never trades. Add a key and it wakes up on the next hourly turn. The
+model without its key trades a **stand-in** instead (`arena/standins.mjs`): a
+plain rule-based strategy with its own style, under the same rule gate and the
+same live prices, so every slot is in the race from the first hour. Stand-ins
+are not the model and the board never says they are: each card reads
+"stand-in · <style>", every stand-in trade carries a stand-in badge and a
+reason starting "Stand-in:", and a notice above the scoreboard lists them.
+Add a key and that slot switches to its real model on the next hourly turn;
+its wallet carries on from where the stand-in left it. Set the repository
+variable `ARENA_STANDINS=off` to make keyless models sleep instead.
+
+| slot | stand-in style |
+|---|---|
+| opus | trend follower: above its 50-hour average on a rising day, trailing stop |
+| sonnet | breakout chaser: strongest 24-hour movers not yet overbought, 3-ATR target |
+| haiku | scalper: short-term dips on liquid coins, small target, tight stop |
+| gpt | steady majors: pullbacks in an uptrend on the deepest markets, small size |
+| grok | contrarian: biggest 24-hour losers once RSI says the selling is exhausted |
+| gemini | momentum rider: best 7-day performers, rotates out of laggards |
+| deepseek | value dip buyer: large coins well under their 50-hour average, oversold | The
 baselines play under the same rules through the same gate; a model that
 can't beat them isn't adding much.
 
@@ -111,6 +128,8 @@ browser:
   a dot for each agent holding the coin.
 - **Why trades get rejected**: rejections grouped by the rule that blocked them.
 - **Equity chart**: hover for every agent's value at that time.
+- **Who led**: a bar under the chart coloured by the leader at each hourly
+  mark, with each agent's share of time in front and the number of lead changes.
 
 Ledger-based numbers come from `trades.json`, the newest 500 entries; the page
 says so once there are more than that.

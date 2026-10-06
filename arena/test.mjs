@@ -147,7 +147,7 @@ function fakeClient(px = (s) => (s.startsWith('BTC') ? 60000 : 10), at = NOW) {
 test('a full tick: baselines trade, keyless models sleep, state round-trips', async () => {
   const dir = await mkdtemp(path.join(tmpdir(), 'arena-'));
   const logs = [];
-  const { state, ledger } = await tick({ dir, client: fakeClient(), env: {}, now: NOW, log: (m) => logs.push(m) });
+  const { state, ledger } = await tick({ dir, client: fakeClient(), env: { ARENA_STANDINS: 'off' }, now: NOW, log: (m) => logs.push(m) });
   assert.equal(state.wallets.opus.status, 'asleep');
   assert.match(state.wallets.opus.note, /ANTHROPIC_API_KEY/);
   const hodl = ledger.filter((e) => e.agent === 'hodl');
@@ -162,7 +162,7 @@ test('a full tick: baselines trade, keyless models sleep, state round-trips', as
   assert.equal(trades.length, ledger.length);
 
   // Guard-only tick on a crash: every stop fires, nobody gets a turn.
-  const { ledger: l2, state: s2 } = await tick({ dir, guardOnly: true, client: fakeClient((s) => (s.startsWith('BTC') ? 30000 : 5), NOW + 5 * 60e3), env: {}, now: NOW + 5 * 60e3, log: () => {} });
+  const { ledger: l2, state: s2 } = await tick({ dir, guardOnly: true, client: fakeClient((s) => (s.startsWith('BTC') ? 30000 : 5), NOW + 5 * 60e3), env: { ARENA_STANDINS: 'off' }, now: NOW + 5 * 60e3, log: () => {} });
   assert.ok(l2.length > 0 && l2.every((e) => e.outcome === 'stopped'));
   assert.equal(Object.keys(s2.wallets.hodl.positions).length, 0);
   assert.ok(s2.wallets.hodl.equity < 1000);
@@ -174,4 +174,32 @@ test('equity marks positions at the given prices', () => {
   const w = wallet();
   execute(w, preview(w, buy(), deepBook(100), NOW));
   assert.ok(equity(w, { 'BTC-USD': 200 }) > equity(w, { 'BTC-USD': 100 }));
+});
+
+test('stand-ins: keyless agents trade, labelled, through the same gate', async () => {
+  const dir = await mkdtemp(path.join(tmpdir(), 'arena-'));
+  // A market with something for every style: trends, dips, a crash, a week-long winner.
+  const shape = { 'BTC-USD': 0.004, 'ETH-USD': -0.004, 'SOL-USD': 0.012, 'DOGE-USD': -0.02, 'LINK-USD': 0.008 };
+  const client = {
+    async candles(sym, g) {
+      const n = g === 60 ? 10 : 200, k = shape[sym] ?? 0, p0 = 100;
+      return Array.from({ length: n }, (_, i) => { const c = p0 * (1 + k * Math.sin(i / 9) + k * i / 20); return { t: NOW - (n - i) * g * 1000, o: c, h: c * 1.002, l: c * 0.998, c, v: 1 }; });
+    },
+    async stats(sym) { const c = (await this.candles(sym, 3600)).at(-1).c; return { open: c * (1 - (shape[sym] ?? 0) * 3), high: c * 1.05, low: c * 0.95, last: c, volume: 3e8 / c }; },
+    async book(sym) { const c = (await this.candles(sym, 3600)).at(-1).c; return deepBook(c, Date.now()); },
+  };
+  const { state, ledger } = await tick({ dir, client, env: {}, now: NOW, log: () => {} });
+  for (const id of ['opus', 'sonnet', 'haiku', 'gpt', 'grok', 'gemini', 'deepseek']) {
+    assert.notEqual(state.wallets[id].status, 'asleep', id);
+    assert.equal(state.wallets[id].standin, true, id);
+    assert.equal(state.wallets[id].servedBy, 'stand-in', id);
+    assert.ok(state.roster.find((r) => r.id === id).standin.label, id);
+  }
+  const mine = ledger.filter((e) => e.model === 'stand-in');
+  assert.ok(mine.length > 0, 'stand-ins proposed trades');
+  assert.ok(mine.every((e) => e.reason.startsWith('Stand-in:')), 'every stand-in trade says so');
+  assert.ok(mine.some((e) => e.outcome === 'filled'), 'and some passed the gate');
+  // With a key, the real model plays instead (no network here, so it errors rather than standing in).
+  const { state: s2 } = await tick({ dir, client, env: { OPENAI_API_KEY: 'x' }, now: NOW + 3600e3, only: ['gpt'], log: () => {} });
+  assert.equal(s2.wallets.gpt.standin, false);
 });
