@@ -13,7 +13,9 @@ the current reading.
 | [GO-LIVE.md](GO-LIVE.md) | First-run checklist for the operator |
 | [POSTING.md](POSTING.md) | Daily X / Bluesky posting rules and secrets |
 | [../SECURITY.md](../SECURITY.md) | Vulnerability reporting and secrets policy |
+| [../CONTRIBUTING.md](../CONTRIBUTING.md) | Add a source, run locally, open a PR |
 | [../compliance/README.md](../compliance/README.md) | Legal / secret tripwire scanner |
+| [../CITATION.cff](../CITATION.cff) | How to cite the index |
 
 ## Product surfaces
 
