@@ -16,7 +16,8 @@ import { AGENTS, UNIVERSE, RULES, LEDGER_KEEP, START_CASH, modelFor } from './co
 import { makeClient, snapshot } from './market.mjs';
 import { newWallet, equity, rollDay, preview, execute, ledgerEntry, checkExits } from './broker.mjs';
 import { gate } from './rules.mjs';
-import { think, hasKey, KEYS } from './agents.mjs';
+import { think, hasKey, usesStandin, KEYS } from './agents.mjs';
+import { STYLES } from './standins.mjs';
 
 const r2 = (x) => Math.round(x * 100) / 100;
 const HISTORY_KEEP = 24 * 90; // about 90 days of hourly points
@@ -63,7 +64,7 @@ export async function tick({ dir, guardOnly = false, only = null, client = makeC
       const w = state.wallets[a.id];
       rollDay(w, prices, now);
       const eq = equity(w, prices);
-      if (!hasKey(a, env)) return { a, sleep: `no ${KEYS[a.provider]} set` };
+      if (!hasKey(a, env) && !usesStandin(a, env)) return { a, sleep: `no ${KEYS[a.provider]} set` };
       if (eq < RULES.minOrderUsd && !Object.keys(w.positions).length) return { a, sleep: 'out of money' };
       const recent = state.recent?.[a.id] || [];
       try { return { a, res: await think(a, { w, eq, rows: market.rows, prices, recent, now }, env) }; }
@@ -72,6 +73,7 @@ export async function tick({ dir, guardOnly = false, only = null, client = makeC
     for (const { a, res, sleep, err } of thoughts) {
       const w = state.wallets[a.id];
       w.lastTurnAt = now; w.model = modelFor(a, env);
+      w.standin = usesStandin(a, env);
       if (sleep) { w.status = 'asleep'; w.note = sleep; w.error = null; continue; }
       if (err) { w.status = 'error'; w.error = err; log(`${a.id}: ${err}`); continue; }
       w.turns++; w.status = 'awake'; w.error = null; w.note = res.thoughts; w.servedBy = res.servedBy;
@@ -99,7 +101,7 @@ export async function tick({ dir, guardOnly = false, only = null, client = makeC
   for (const e of ledger) { const q = (state.recent[e.agent] ??= []); q.push(e); if (q.length > 8) q.shift(); }
   state.updatedAt = now;
   if (!guardOnly) state.lastTurnAt = now;
-  state.roster = AGENTS.map((a) => ({ id: a.id, name: a.name, provider: a.provider, color: a.color, model: modelFor(a, env) }));
+  state.roster = AGENTS.map((a) => ({ id: a.id, name: a.name, provider: a.provider, color: a.color, model: modelFor(a, env), ...(usesStandin(a, env) ? { standin: STYLES[a.id] } : {}) }));
   state.rules = RULES; state.startCash = START_CASH; state.universe = UNIVERSE;
 
   await writeFile(statePath, JSON.stringify(state) + '\n');

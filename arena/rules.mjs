@@ -63,7 +63,8 @@ export function gate(w, t, { prices, rows, now, rules = RULES, universe = UNIVER
   add('open positions', held || open < rules.maxOpenPositions, `${open} of ${rules.maxOpenPositions}`);
   const drop = (1 - eq / w.day.equity) * 100;
   add('daily loss halt', drop < rules.dailyLossHaltPct, `${pct(Math.max(drop, 0))} down today, halt at ${rules.dailyLossHaltPct}%`);
-  const since = w.cooldowns[t.sym] ? (now - w.cooldowns[t.sym]) / 60e3 : Infinity;
+  // Measured from the ticket's own time, the same clock the cooldown was stamped with.
+  const since = w.cooldowns[t.sym] ? Math.max((t.at ?? now) - w.cooldowns[t.sym], 0) / 60e3 : Infinity;
   add('cooldown', since >= rules.cooldownMin, since === Infinity ? 'none' : `closed ${Math.round(since)} min ago, wait ${rules.cooldownMin}`);
 
   return { ok: checks.every((c) => c.ok), checks };

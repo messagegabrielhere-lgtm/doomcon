@@ -58,6 +58,13 @@ h2{margin:0;font:600 16px/1 var(--f-display);letter-spacing:.1em;text-transform:
 .eq b{font:500 17px/1.1 var(--f-mono)}
 .eq small{font:12px/1.2 var(--f-mono)}
 .card.sleeping{opacity:.82}
+.badge{display:inline-block;font:600 10.5px/1 var(--f-display);letter-spacing:.1em;text-transform:uppercase;padding:3px 6px;border-radius:4px;border:1px dashed var(--mute);color:var(--mute);vertical-align:1px;margin-left:6px}
+.notice{background:var(--panel);border:1px dashed var(--line);border-radius:10px;padding:10px 12px;font-size:13px;color:var(--mute)}
+.notice b{color:var(--ink)}
+.leadbar{display:flex;height:12px;border-radius:6px;overflow:hidden;margin:0 12px 6px;background:var(--sunk)}
+.leadbar i{display:block;height:100%}
+.leadtxt{padding:0 12px 10px;font-size:12.5px;color:var(--mute)}
+.leadtxt b{color:var(--ink)}
 .slime{width:76px;height:64px;flex:none}
 .spark{width:100%;height:34px;display:block}
 .pos{display:flex;flex-wrap:wrap;gap:4px}
@@ -113,8 +120,70 @@ select{background:var(--panel);border:1px solid var(--line);border-radius:6px;pa
 .empty{padding:28px 16px;text-align:center;color:var(--mute)}
 .foot{font-size:12px;color:var(--mute);margin:0}
 
+/* scoreboard */
+.score{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.tile{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 12px;min-width:0}
+.tile small{display:block;font:600 11.5px/1.2 var(--f-display);letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+.tile b{display:block;font:500 20px/1.25 var(--f-mono);margin-top:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tile span{display:block;font-size:12px;color:var(--mute);margin-top:2px}
+
+/* cards open the agent panel */
+.card{cursor:pointer;transition:border-color .15s,transform .15s}
+.card:hover{border-color:var(--mute)}
+.card:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* market table */
+.tbl-wrap{overflow-x:auto}
+table.mk{width:100%;border-collapse:collapse;font-size:13px}
+table.mk th,table.mk td{padding:6px 10px;text-align:right;white-space:nowrap;border-bottom:1px solid var(--line)}
+table.mk th:first-child,table.mk td:first-child,table.mk th:last-child,table.mk td:last-child{text-align:left}
+table.mk th{font:600 11.5px/1.2 var(--f-display);letter-spacing:.08em;text-transform:uppercase;color:var(--mute);position:sticky;top:0;background:var(--panel)}
+table.mk th button{all:unset;cursor:pointer}
+table.mk th button:focus-visible{outline:2px solid var(--accent)}
+table.mk th[aria-sort] button::after{content:" ↓";color:var(--accent)}
+table.mk th[aria-sort=ascending] button::after{content:" ↑"}
+table.mk td{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+table.mk tr:last-child td{border-bottom:0}
+.holders{display:inline-flex;gap:3px;vertical-align:middle}
+.holders i{width:9px;height:9px;border-radius:50%;display:inline-block}
+
+/* rejection reasons */
+.bars{list-style:none;margin:0;padding:10px 12px 12px;display:flex;flex-direction:column;gap:6px}
+.bars li{display:grid;grid-template-columns:150px minmax(0,1fr) 40px;gap:10px;align-items:center;font-size:13px}
+.bars .bar{height:10px;border-radius:5px;background:var(--sunk);overflow:hidden}
+.bars .bar i{display:block;height:100%;background:var(--down);border-radius:5px}
+.bars .n{font-family:var(--f-mono);text-align:right;color:var(--mute)}
+
+/* chart hover */
+.chart-wrap{position:relative}
+.tip{position:absolute;pointer-events:none;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:7px 9px;font-size:12px;box-shadow:0 4px 14px rgba(0,0,0,.12);min-width:170px;z-index:2}
+.tip time{display:block;color:var(--mute);font:11px/1.4 var(--f-mono);margin-bottom:3px}
+.tip div{display:flex;justify-content:space-between;gap:12px}
+.tip div span{display:flex;align-items:center;gap:6px}
+.tip div b{font:500 12px var(--f-mono)}
+
+/* agent panel */
+dialog.agent{border:1px solid var(--line);border-radius:14px;background:var(--bg);color:var(--ink);padding:0;width:min(860px,calc(100vw - 24px));max-height:calc(100vh - 32px)}
+dialog.agent::backdrop{background:rgba(5,8,14,.55)}
+.ag-head{display:flex;gap:12px;align-items:center;padding:14px 16px;border-bottom:1px solid var(--line);background:var(--panel);position:sticky;top:0;z-index:1}
+.ag-head .slime{width:64px;height:54px}
+.ag-head h2{font-size:22px;letter-spacing:.06em}
+.ag-head small{display:block;color:var(--mute);font:12px var(--f-mono);margin-top:3px}
+.ag-head .x{margin-left:auto;border:1px solid var(--line);background:var(--panel);border-radius:8px;width:34px;height:34px;font-size:18px;line-height:1;cursor:pointer}
+.ag-body{padding:14px 16px 18px;display:flex;flex-direction:column;gap:12px}
+.ag-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.ag-body h3{margin:0 0 6px;font:600 14px/1 var(--f-display);letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+.ag-body .thought{-webkit-line-clamp:unset}
+.ag-body .feed li{padding:8px 0}
+.dist{font-size:11px;color:var(--mute)}
+
 @media (max-width:760px){
   .how{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .score,.ag-stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .ag-body .wide{display:none}
+  .ag-body table.mk th,.ag-body table.mk td{padding:6px 7px}
+  .ag-body .dist{display:block}
+  .bars li{grid-template-columns:110px minmax(0,1fr) 32px}
   .feed li{grid-template-columns:1fr}
   .feed .why,.feed .fail,.feed details{grid-column:1}
   h1{font-size:26px}
@@ -137,14 +206,24 @@ select{background:var(--panel);border:1px solid var(--line);border-radius:6px;pa
     <div><b>No honeypots</b>Before any buy, the server works out what selling the same size straight back would return. Below the floor, the buy is refused.</div>
   </section>
 
+  <p class="notice" id="standinNote" hidden></p>
+
+  <section class="score" id="score" aria-label="Scoreboard" hidden></section>
+
   <section aria-label="Agents">
     <div class="slimes" id="slimes"></div>
   </section>
 
   <section class="panel" aria-label="Equity">
     <div class="ph"><h2>Equity</h2><span class="mute" style="font-size:12px" id="chartNote"></span></div>
-    <svg class="chart" id="chart" role="img" aria-label="Equity of each agent over time"></svg>
+    <div class="chart-wrap"><svg class="chart" id="chart" role="img" aria-label="Equity of each agent over time"></svg><div class="tip" id="tip" hidden></div></div>
     <div class="legend" id="legend"></div>
+    <div id="lead" hidden><div class="leadbar" id="leadbar" role="img"></div><p class="leadtxt" id="leadtxt"></p></div>
+  </section>
+
+  <section class="panel" aria-label="Market" id="mkPanel" hidden>
+    <div class="ph"><h2>What the models saw</h2><span class="mute" style="font-size:12px" id="mkNote"></span></div>
+    <div class="tbl-wrap"><table class="mk" id="mk"></table></div>
   </section>
 
   <section class="panel" aria-label="Trades">
@@ -162,6 +241,11 @@ select{background:var(--panel);border:1px solid var(--line);border-radius:6px;pa
     <div style="padding:8px 12px 12px" id="more" hidden><button class="btn" type="button" id="moreBtn">Show more</button></div>
   </section>
 
+  <section class="panel" aria-label="Rejections" id="rejPanel" hidden>
+    <div class="ph"><h2>Why trades get rejected</h2><span class="mute" style="font-size:12px" id="rejNote"></span></div>
+    <ul class="bars" id="rej"></ul>
+  </section>
+
   <section class="panel" aria-label="Rules">
     <div class="ph"><h2>The rules every ticket must pass</h2></div>
     <ul class="rules" id="rules"></ul>
@@ -169,6 +253,11 @@ select{background:var(--panel);border:1px solid var(--line);border-radius:6px;pa
 
   <p class="foot">Simulated trading. Prices and order books are live from the Coinbase Exchange public API; fills are simulated by walking the real book, with a 0.6% fee each way. No wallet here holds real funds and nothing here is financial advice. Code: <a href="https://github.com/messagegabrielhere-lgtm/doomcon/tree/main/arena" target="_blank" rel="noopener">arena/</a>. Raw data: the <a href="https://github.com/messagegabrielhere-lgtm/doomcon/tree/arena-data" target="_blank" rel="noopener">arena-data</a> branch.</p>
 </div>
+
+<dialog class="agent" id="agent" aria-labelledby="agName">
+  <div class="ag-head"><span id="agSlime"></span><div><h2 id="agName"></h2><small id="agModel"></small></div><button class="x" type="button" id="agClose" aria-label="Close">×</button></div>
+  <div class="ag-body" id="agBody"></div>
+</dialog>
 
 <p class="legal-note" style="margin:24px auto;max-width:72ch;padding:0 16px;font:400 12px/1.5 system-ui,sans-serif;opacity:.75">For information and entertainment only. Not investment, financial or trading advice, and not a recommendation to buy or sell any security or crypto asset. Signals and simulated results do not predict future returns. Do your own research or talk to a licensed professional.</p>
 
@@ -183,7 +272,9 @@ const px = (x) => x == null ? "-" : x >= 100 ? (+x).toFixed(2) : x >= 1 ? (+x).t
 const ago = (t) => { const m = Math.round((Date.now() - t) / 60e3); return m < 1 ? "just now" : m < 60 ? `${m} min ago` : m < 1440 ? `${Math.round(m/60)} h ago` : `${Math.round(m/1440)} d ago`; };
 const when = (t) => new Date(t).toLocaleString([], {month:"short", day:"numeric", hour:"2-digit", minute:"2-digit"});
 
-let S = null, T = [];
+let S = null, T = [], M = null;
+const BASELINES = new Set(["hodl", "rsi"]);
+const rule = (f) => String(f).split(":")[0];
 
 async function getJSON(name){
   const r = await fetch(`${BASE}/${name}?t=${Math.floor(Date.now()/60e3)}`, {cache:"no-store"});
@@ -235,15 +326,15 @@ function renderSlimes(){
       const last = p.last ?? p.avg, r = (last / p.avg - 1) * 100;
       return `<span title="avg ${px(p.avg)} · stop ${px(p.stop)}${p.tp ? " · target " + px(p.tp) : ""}">${esc(s.replace("-USD",""))} <b class="${r >= 0 ? "up" : "down"}">${pctTxt(r)}</b></span>`;
     }).join("");
-    const served = w.servedBy && w.servedBy !== "baseline" && w.servedBy !== w.model ? ` · answered by ${esc(w.servedBy)}` : "";
+    const served = w.servedBy && !["baseline", "stand-in"].includes(w.servedBy) && w.servedBy !== w.model ? ` · answered by ${esc(w.servedBy)}` : "";
     const st = w.status === "error" ? `<div class="state err">Last turn failed: ${esc(w.error)}</div>`
       : w.status === "asleep" ? `<div class="state">Asleep: ${esc(w.note)}</div>`
       : `<div class="state">${w.turns} turns · ${Object.keys(w.positions||{}).length} open · cash ${money(w.cash)}${served}</div>`;
-    return `<article class="card${m === "asleep" ? " sleeping" : ""}">
+    return `<article class="card${m === "asleep" ? " sleeping" : ""}" data-id="${esc(a.id)}" tabindex="0" role="button" aria-label="${esc(a.name)}: ${money(w.equity)}, details">
       <div class="top">
         <span class="rank">${i + 1}</span>
         ${slimeSVG(a.color, m)}
-        <div class="who"><b>${esc(a.name)}</b><small title="${esc(a.model)}">${esc(a.model)}</small>
+        <div class="who"><b>${esc(a.name)}</b><small title="${esc(a.standin ? `Rule-based stand-in for ${a.model}, which has no API key yet` : a.model)}">${a.standin ? `stand-in · ${esc(a.standin.label)}` : esc(a.model)}</small>
           <div class="eq"><b class="num">${money(w.equity)}</b><small class="${d >= 0 ? "up" : "down"}">${pctTxt(d)}</small></div></div>
       </div>
       ${traded(w) ? spark(w.history || [], a.color, start) : ""}
@@ -258,7 +349,7 @@ function renderChart(){
   const svg = $("#chart"), W = svg.clientWidth || 800, H = 260, L = 52, R = 10, Tp = 10, B = 24;
   const series = S.roster.map((a) => ({a, w:S.wallets[a.id]})).filter((s) => s.w && traded(s.w)).map(({a, w}) => ({a, h:w.history || []}));
   const all = series.flatMap((s) => s.h);
-  if(all.length < 2){ svg.innerHTML = `<text x="16" y="30" fill="var(--mute)" font-size="13">The chart fills in after a few hourly turns.</text>`; $("#legend").innerHTML = ""; return; }
+  if(all.length < 2){ chartGeo = null; svg.innerHTML = `<text x="16" y="30" fill="var(--mute)" font-size="13">The chart fills in after a few hourly turns.</text>`; $("#legend").innerHTML = ""; return; }
   const t0 = Math.min(...all.map((p) => p[0])), t1 = Math.max(...all.map((p) => p[0]));
   const vs = all.map((p) => p[1]).concat(S.startCash);
   let lo = Math.min(...vs), hi = Math.max(...vs); const pad = (hi - lo) * 0.08 || 10; lo -= pad; hi += pad;
@@ -269,7 +360,9 @@ function renderChart(){
   const lines = series.map(({a, h}) => `<path d="${h.map((p, i) => `${i ? "L" : "M"}${x(p[0]).toFixed(1)} ${y(p[1]).toFixed(1)}`).join("")}" fill="none" stroke="${a.color}" stroke-width="1.8"><title>${esc(a.name)}</title></path>`).join("");
   const days = `<text x="${L}" y="${H-6}" font-size="11" fill="var(--mute)">${when(t0)}</text><text x="${W-R}" y="${H-6}" text-anchor="end" font-size="11" fill="var(--mute)">${when(t1)}</text>`;
   svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
-  svg.innerHTML = grid.join("") + base + lines + days;
+  const hover = `<line id="hoverLine" y1="${Tp}" y2="${H - B}" stroke="var(--mute)" stroke-width="1" style="display:none"/>`;
+  svg.innerHTML = grid.join("") + base + lines + days + hover;
+  chartGeo = {x, W, series, xs:[...new Set(all.map((p) => p[0]))].sort((a, b) => a - b)};
   $("#legend").innerHTML = series.map(({a}) => `<span><i style="background:${a.color}"></i>${esc(a.name)}</span>`).join("");
   const idle = S.roster.length - series.length;
   $("#chartNote").textContent = `Dashed line: the $${S.startCash} start` + (idle ? ` · ${idle} agent${idle > 1 ? "s" : ""} not trading yet` : "");
@@ -284,7 +377,10 @@ function renderFeed(){
   const rows = match.slice(0, feedN);
   $("#more").hidden = match.length <= feedN;
   if(!rows.length){ $("#feed").innerHTML = `<li class="empty" style="display:block">No trades yet${fa || fo ? " for this filter" : ""}.</li>`; return; }
-  $("#feed").innerHTML = rows.map((e) => {
+  $("#feed").innerHTML = rows.map((e) => feedItem(e, byId)).join("");
+}
+
+function feedItem(e, byId){
     const a = byId[e.agent] || {name:e.agent, color:"#888"};
     const what = e.side === "stop" ? `moves the ${esc(e.sym)} stop to ${px(e.stop)}${e.tp ? `, target ${px(e.tp)}` : ""}`
       : `${e.side} ${esc(e.sym)}${e.usd != null ? ` · ${money(e.usd)}` : ""}${e.price ? ` @ ${px(e.price)}` : ""}${e.side === "buy" && e.stop ? ` · stop ${px(e.stop)}` : ""}`;
@@ -292,8 +388,8 @@ function renderFeed(){
     const t = e.ticket || {};
     return `<li>
       <time datetime="${new Date(e.at).toISOString()}">${when(e.at)}</time>
-      <div class="line"><span class="tag ${e.outcome}">${VERB[e.outcome] || esc(e.outcome)}</span><span class="dot" style="background:${a.color}"></span><b>${esc(a.name)}</b> ${what}${pnl}</div>
-      <p class="why">${esc(e.reason)}</p>
+      <div class="line"><span class="tag ${e.outcome}">${VERB[e.outcome] || esc(e.outcome)}</span><span class="dot" style="background:${a.color}"></span><b>${esc(a.name)}</b>${e.model === "stand-in" ? `<span class="badge" title="A rule-based stand-in made this trade, not the model">stand-in</span>` : ""} ${what}${pnl}</div>
+      <p class="why">${esc(String(e.reason || "").replace(/^Stand-in: /, ""))}</p>
       ${e.failed?.length ? `<p class="fail">${e.failed.map(esc).join("<br>")}</p>` : ""}
       <details><summary>ticket</summary><dl>
         <dt>payer</dt><dd>${esc(t.payer)}</dd><dt>venue</dt><dd>${esc(t.venue)}</dd>
@@ -308,7 +404,6 @@ function renderFeed(){
         <dt>id</dt><dd>${esc(e.id)}</dd>
       </dl></details>
     </li>`;
-  }).join("");
 }
 
 function renderRules(){
@@ -331,10 +426,199 @@ function renderFresh(){
   el.querySelector("span").textContent = `Updated ${ago(S.updatedAt)}` + (S.lastTurnAt ? ` · last turn ${ago(S.lastTurnAt)}` : "");
 }
 
+function renderNotice(){
+  const sub = S.roster.filter((a) => a.standin);
+  $("#standinNote").hidden = !sub.length;
+  if(!sub.length) return;
+  $("#standinNote").innerHTML = `<b>${sub.length} of ${S.roster.length - BASELINES.size} AI slots are trading with stand-ins.</b> Their models have no API key yet, so each runs its own rule-based strategy instead: ${sub.map((a) => `${esc(a.name)} as a ${esc(a.standin.label.toLowerCase())}`).join(", ")}. Same live prices, same rule gate, same $${S.startCash}; every stand-in trade is marked. A slot switches to its real model the hour its key is added.`;
+}
+
+// Who was in front at each hourly mark, among agents that had moved off the start.
+function renderLead(){
+  const ids = S.roster.map((a) => a.id).filter((id) => S.wallets[id]);
+  const times = [...new Set(ids.flatMap((id) => (S.wallets[id].history || []).map((p) => p[0])))].sort((a, b) => a - b);
+  const at = (h, t) => { let v = null; for(const p of h){ if(p[0] <= t) v = p[1]; else break; } return v; };
+  const leaders = times.map((t) => {
+    let best = null, bv = -Infinity;
+    for(const id of ids){ const v = at(S.wallets[id].history || [], t); if(v != null && Math.abs(v - S.startCash) > 0.005 && v > bv){ bv = v; best = id; } }
+    return best;
+  }).filter(Boolean);
+  $("#lead").hidden = leaders.length < 2;
+  if(leaders.length < 2) return;
+  const byId = Object.fromEntries(S.roster.map((a) => [a.id, a]));
+  const runs = []; for(const id of leaders){ if(runs.length && runs.at(-1).id === id) runs.at(-1).n++; else runs.push({id, n:1}); }
+  $("#leadbar").innerHTML = runs.map((r) => `<i style="width:${(r.n / leaders.length * 100).toFixed(3)}%;background:${byId[r.id].color}" title="${esc(byId[r.id].name)} led for ${r.n} hour${r.n > 1 ? "s" : ""}"></i>`).join("");
+  $("#leadbar").setAttribute("aria-label", `Leader at each hour, oldest on the left. ${runs.length - 1} lead changes.`);
+  const share = {}; for(const id of leaders) share[id] = (share[id] || 0) + 1;
+  const top = Object.entries(share).sort((a, b) => b[1] - a[1]).slice(0, 3);
+  $("#leadtxt").innerHTML = `Who led, hour by hour. ${top.map(([id, n]) => `<b>${esc(byId[id].name)}</b> ${Math.round(n / leaders.length * 100)}%`).join(" · ")} · ${runs.length - 1} lead change${runs.length === 2 ? "" : "s"} over ${leaders.length} hours.`;
+}
+
+// Per-agent numbers from the ledger the page has (the newest LEDGER_KEEP entries).
+function statsFor(id){
+  const es = T.filter((e) => e.agent === id);
+  const closed = es.filter((e) => e.pnl != null && e.outcome !== "rejected");
+  const broke = {};
+  for(const e of es) if(e.outcome === "rejected") for(const f of e.failed || []) broke[rule(f)] = (broke[rule(f)] || 0) + 1;
+  return {
+    es, closed,
+    fills: es.filter((e) => e.outcome === "filled").length,
+    rejected: es.filter((e) => e.outcome === "rejected").length,
+    stops: es.filter((e) => e.outcome === "stopped").length,
+    wins: closed.filter((e) => e.pnl > 0).length,
+    realized: closed.reduce((a, e) => a + e.pnl, 0),
+    broke: Object.entries(broke).sort((a, b) => b[1] - a[1]),
+  };
+}
+const partial = () => T.length >= 500 ? " in the newest 500 ledger entries" : "";
+const signed = (x) => `${x >= 0 ? "+" : "-"}${money(Math.abs(x))}`;
+
+function renderScore(){
+  const start = S.startCash, rows = S.roster.map((a) => ({a, w:S.wallets[a.id]})).filter((r) => r.w);
+  const ret = (w) => (w.equity / start - 1) * 100;
+  // An agent that never traded is still sitting on its $1,000; it isn't leading anything.
+  const live = rows.filter((r) => traded(r.w));
+  const lead = live.slice().sort((p, q) => q.w.equity - p.w.equity)[0];
+  const ais = rows.filter((r) => !BASELINES.has(r.a.id) && traded(r.w));
+  const bases = rows.filter((r) => BASELINES.has(r.a.id));
+  const best = (xs) => xs.slice().sort((p, q) => q.w.equity - p.w.equity)[0];
+  const ai = best(ais), base = best(bases);
+  const fills = T.filter((e) => e.outcome === "filled").length, rej = T.filter((e) => e.outcome === "rejected").length;
+  const stops = T.filter((e) => e.outcome === "stopped").length, targets = T.filter((e) => e.outcome === "target").length;
+  const tile = (k, v, sub, cls = "") => `<div class="tile"><small>${k}</small><b class="${cls}">${v}</b><span>${sub}</span></div>`;
+  $("#score").hidden = false;
+  $("#score").innerHTML =
+    (lead ? tile("Leader", esc(lead.a.name), `${money(lead.w.equity)} · <span class="${ret(lead.w) >= 0 ? "up" : "down"}" style="display:inline">${pctTxt(ret(lead.w))}</span>`)
+      : tile("Leader", "No trades yet", "Everyone is on the $" + start + " start")) +
+    (ai && base
+      ? tile(ai.a.standin || ais.some((r) => r.a.standin) ? "Best agent vs best baseline" : "Best AI vs best baseline", `${ret(ai.w) - ret(base.w) >= 0 ? "+" : ""}${(ret(ai.w) - ret(base.w)).toFixed(2)} pts`, `${esc(ai.a.name)} ${pctTxt(ret(ai.w))} vs ${esc(base.a.name)} ${pctTxt(ret(base.w))}`, ret(ai.w) >= ret(base.w) ? "up" : "down")
+      : tile("Best AI vs best baseline", rows.some((r) => !BASELINES.has(r.a.id) && r.w.status !== "asleep") ? "No AI trades yet" : "No AI awake",
+          rows.some((r) => !BASELINES.has(r.a.id) && r.w.status !== "asleep") ? "Awake models haven't traded yet" : "Every model sleeps until its API key is set")) +
+    tile("Fills / rejections", `${fills} / ${rej}`, fills + rej ? `${Math.round(rej / (fills + rej) * 100)}% of proposals blocked by a rule` : "Nothing proposed yet") +
+    tile("Stops / targets hit", `${stops} / ${targets}`, "Closed by the server, not the model");
+}
+
+let mkSort = {k:"vol24hUsd", dir:-1};
+const MK_COLS = [["sym","Coin"],["last","Last"],["chg1h","1h %"],["chg24h","24h %"],["chg7d","7d %"],["rsi14h","RSI 1h"],["vol24hUsd","24h vol"],["held","Held by"]];
+function renderMarket(){
+  if(!M?.rows?.length){ $("#mkPanel").hidden = true; return; }
+  $("#mkPanel").hidden = false;
+  const holders = {};
+  for(const a of S.roster) for(const sym of Object.keys(S.wallets[a.id]?.positions || {})) (holders[sym] ??= []).push(a);
+  const rows = M.rows.map((r) => ({...r, held:(holders[r.sym] || []).length}));
+  const {k, dir} = mkSort;
+  rows.sort((a, b) => k === "sym" ? dir * a.sym.localeCompare(b.sym) : dir * ((a[k] ?? -Infinity) - (b[k] ?? -Infinity)));
+  const cell = (v) => v == null ? `<td class="mute">-</td>` : `<td class="${v > 0 ? "up" : v < 0 ? "down" : ""}">${v > 0 ? "+" : ""}${v.toFixed(2)}</td>`;
+  $("#mk").innerHTML = `<thead><tr>${MK_COLS.map(([c, l]) => `<th scope="col"${c === k ? ` aria-sort="${dir > 0 ? "ascending" : "descending"}"` : ""}><button type="button" data-k="${c}">${l}</button></th>`).join("")}</tr></thead><tbody>` +
+    rows.map((r) => `<tr><td>${esc(r.sym.replace("-USD",""))}</td><td>${px(r.last)}</td>${cell(r.chg1h)}${cell(r.chg24h)}${cell(r.chg7d)}<td class="${r.rsi14h < 30 ? "up" : r.rsi14h > 70 ? "down" : ""}">${r.rsi14h == null ? "-" : r.rsi14h.toFixed(1)}</td><td>$${(r.vol24hUsd / 1e6).toFixed(1)}M</td><td><span class="holders">${(holders[r.sym] || []).map((a) => `<i style="background:${a.color}" title="${esc(a.name)}"></i>`).join("")}</span></td></tr>`).join("") + "</tbody>";
+  $("#mkNote").textContent = `Coinbase, as of the last turn ${ago(M.at)} · RSI under 30 green, over 70 red`;
+}
+
+function renderRejections(){
+  const counts = {};
+  for(const e of T) if(e.outcome === "rejected") for(const f of e.failed || []) counts[rule(f)] = (counts[rule(f)] || 0) + 1;
+  const rows = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+  $("#rejPanel").hidden = !rows.length;
+  if(!rows.length) return;
+  const max = rows[0][1];
+  $("#rej").innerHTML = rows.map(([r, n]) => `<li><span>${esc(r)}</span><span class="bar"><i style="width:${(n / max * 100).toFixed(1)}%"></i></span><span class="n">${n}</span></li>`).join("");
+  $("#rejNote").textContent = `Rules broken by rejected proposals${partial()}. One proposal can break several.`;
+}
+
+// Hover the equity chart: every agent's equity at the nearest recorded time.
+let chartGeo = null;
+function chartHover(ev){
+  if(!chartGeo) return;
+  const {x, xs, series, W} = chartGeo, rect = $("#chart").getBoundingClientRect();
+  const mx = (ev.clientX - rect.left) * (W / rect.width);
+  let best = xs[0]; for(const t of xs) if(Math.abs(x(t) - mx) < Math.abs(x(best) - mx)) best = t;
+  const at = (h) => { let v = null; for(const p of h){ if(p[0] <= best) v = p[1]; else break; } return v; };
+  const vals = series.map(({a, h}) => ({a, v:at(h)})).filter((r) => r.v != null).sort((p, q) => q.v - p.v);
+  const tip = $("#tip");
+  tip.innerHTML = `<time>${when(best)}</time>` + vals.map(({a, v}) => `<div><span><span class="dot" style="background:${a.color}"></span>${esc(a.name)}</span><b>${money(v)}</b></div>`).join("");
+  tip.hidden = false;
+  const left = (x(best) / W) * rect.width;
+  tip.style.left = `${Math.min(Math.max(left + 12, 0), rect.width - tip.offsetWidth)}px`;
+  tip.style.top = "8px";
+  const g = $("#chart").querySelector("#hoverLine");
+  if(g){ g.setAttribute("x1", x(best)); g.setAttribute("x2", x(best)); g.style.display = ""; }
+}
+function chartLeave(){ $("#tip").hidden = true; const g = $("#chart").querySelector("#hoverLine"); if(g) g.style.display = "none"; }
+
+// The agent panel. Its address is #agent=<id>, so a link opens it.
+let openId = null;
+function renderAgent(id){
+  const a = S.roster.find((r) => r.id === id), w = S.wallets[id];
+  if(!a || !w) return false;
+  openId = id;
+  const start = S.startCash, d = (w.equity / start - 1) * 100, st = statsFor(id);
+  const byId = Object.fromEntries(S.roster.map((r) => [r.id, r]));
+  $("#agSlime").innerHTML = slimeSVG(a.color, mood(w, start));
+  $("#agName").textContent = a.name;
+  $("#agModel").textContent = a.standin ? `Stand-in strategy: ${a.standin.label}. Rules, not ${a.model}; the model takes over once its API key is set.`
+    : a.model + (w.servedBy && !["baseline", "stand-in"].includes(w.servedBy) && w.servedBy !== a.model ? ` · last answered by ${w.servedBy}` : "");
+  const tile = (k, v, sub, cls = "") => `<div class="tile"><small>${k}</small><b class="${cls}">${v}</b><span>${sub}</span></div>`;
+  const pos = Object.entries(w.positions || {});
+  const posRows = pos.map(([sym, p]) => {
+    const last = p.last ?? p.avg, pnl = p.qty * (last - p.avg), r = (last / p.avg - 1) * 100;
+    const toStop = p.stop ? (1 - p.stop / last) * 100 : null;
+    return `<tr><td>${esc(sym.replace("-USD",""))}</td><td>${money(p.qty * last)}</td><td class="wide">${px(p.avg)}</td><td>${px(last)}</td><td class="${pnl >= 0 ? "up" : "down"}">${signed(pnl)} <span class="dist">${pctTxt(r)}</span></td><td>${px(p.stop)}${toStop != null ? ` <span class="dist">${toStop.toFixed(1)}% away</span>` : ""}</td><td class="wide">${p.tp ? px(p.tp) : "-"}</td></tr>`;
+  }).join("");
+  const status = w.status === "error" ? `<p class="state err">Last turn failed: ${esc(w.error)}</p>`
+    : w.status === "asleep" ? `<p class="state">Asleep: ${esc(w.note)}</p>`
+    : w.note ? `<p class="thought">“${esc(w.note)}”</p>` : "";
+  $("#agBody").innerHTML = `
+    ${status}
+    <div class="ag-stats">
+      ${tile("Equity", money(w.equity), `${pctTxt(d)} since the $${start} start`, d >= 0 ? "up" : "down")}
+      ${tile("Realized P&L", signed(st.realized), `${st.closed.length} closed trade${st.closed.length === 1 ? "" : "s"}${partial()}`, st.realized >= 0 ? "up" : "down")}
+      ${tile("Win rate", st.closed.length ? `${Math.round(st.wins / st.closed.length * 100)}%` : "-", `${st.wins} of ${st.closed.length} closed trades in profit`)}
+      ${tile("Fills / rejected", `${st.fills} / ${st.rejected}`, `${st.stops} stopped out · ${w.turns} turns · cash ${money(w.cash)}`)}
+    </div>
+    <div class="panel"><svg class="chart" id="agChart" style="height:160px" role="img" aria-label="${esc(a.name)} equity over time"></svg></div>
+    <div><h3>Open positions</h3>${pos.length ? `<div class="panel tbl-wrap"><table class="mk"><thead><tr><th>Coin</th><th>Value</th><th class="wide">Entry</th><th>Last</th><th>P&amp;L</th><th>Stop</th><th class="wide">Target</th></tr></thead><tbody>${posRows}</tbody></table></div>` : `<p class="mute" style="margin:0">None. All ${money(w.cash)} is in cash.</p>`}</div>
+    ${st.broke.length ? `<div><h3>Rules it broke</h3><p class="mute" style="margin:0;font-size:13px">${st.broke.map(([r, n]) => `${esc(r)} ×${n}`).join(" · ")}</p></div>` : ""}
+    <div><h3>Recent activity</h3>${st.es.length ? `<ul class="feed">${st.es.slice(0, 25).map((e) => feedItem(e, byId)).join("")}</ul>` : `<p class="mute" style="margin:0">No trades yet.</p>`}</div>`;
+  drawAgentChart(a, w);
+  return true;
+}
+function drawAgentChart(a, w){
+  const svg = $("#agChart"), W = svg.clientWidth || 800, H = 160, L = 48, R = 8, Tp = 8, B = 20, h = w.history || [];
+  svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+  if(h.length < 2){ svg.innerHTML = `<text x="14" y="28" fill="var(--mute)" font-size="13">The chart fills in after a few hourly turns.</text>`; return; }
+  const t0 = h[0][0], t1 = h.at(-1)[0], vs = h.map((p) => p[1]).concat(S.startCash);
+  let lo = Math.min(...vs), hi = Math.max(...vs); const pad = (hi - lo) * 0.1 || 5; lo -= pad; hi += pad;
+  const x = (t) => L + ((t - t0) / ((t1 - t0) || 1)) * (W - L - R), y = (v) => Tp + (1 - (v - lo) / (hi - lo)) * (H - Tp - B);
+  const line = h.map((p, i) => `${i ? "L" : "M"}${x(p[0]).toFixed(1)} ${y(p[1]).toFixed(1)}`).join("");
+  const area = `${line}L${x(t1).toFixed(1)} ${y(lo)}L${x(t0).toFixed(1)} ${y(lo)}Z`;
+  const labels = [S.startCash, lo + pad, hi - pad].filter((v, i, xs) => xs.slice(0, i).every((u) => Math.abs(y(u) - y(v)) > 14));
+  svg.innerHTML = labels.map((v) => `<text x="${L - 6}" y="${y(v) + 4}" text-anchor="end" font-size="11" fill="var(--mute)" font-family="var(--f-mono)">${Math.round(v)}</text>`).join("") +
+    `<line x1="${L}" x2="${W - R}" y1="${y(S.startCash)}" y2="${y(S.startCash)}" stroke="var(--mute)" stroke-dasharray="4 4"/>` +
+    `<path d="${area}" fill="${a.color}" opacity=".12"/><path d="${line}" fill="none" stroke="${a.color}" stroke-width="2"/>` +
+    `<text x="${L}" y="${H - 5}" font-size="11" fill="var(--mute)">${when(t0)}</text><text x="${W - R}" y="${H - 5}" text-anchor="end" font-size="11" fill="var(--mute)">${when(t1)}</text>`;
+}
+function openAgent(id, push = true){
+  if(!S || !renderAgent(id)) return;
+  const dlg = $("#agent");
+  if(!dlg.open) dlg.showModal();
+  drawAgentChart(S.roster.find((r) => r.id === id), S.wallets[id]); // now it has a width
+  if(push && location.hash !== `#agent=${id}`) history.pushState(null, "", `#agent=${encodeURIComponent(id)}`);
+}
+function closeAgent(){
+  openId = null;
+  if($("#agent").open) $("#agent").close();
+  if(location.hash.startsWith("#agent=")) history.pushState(null, "", location.pathname + location.search);
+}
+function routeHash(){
+  const m = location.hash.match(/^#agent=([\w-]+)/);
+  if(m) openAgent(decodeURIComponent(m[1]), false);
+  else if($("#agent").open){ openId = null; $("#agent").close(); }
+}
+
 async function load(){
   try{
-    const [s, t] = await Promise.all([getJSON("state.json"), getJSON("trades.json").catch(() => [])]);
-    S = s; T = t;
+    const [s, t, m] = await Promise.all([getJSON("state.json"), getJSON("trades.json").catch(() => []), getJSON("market.json").catch(() => null)]);
+    S = s; T = t; M = m;
   }catch(e){
     if(!S){
       $("#fresh").querySelector("span").textContent = "Not started";
@@ -346,12 +630,22 @@ async function load(){
   sel.innerHTML = `<option value="">All agents</option>` + S.roster.map((a) => `<option value="${esc(a.id)}">${esc(a.name)}</option>`).join("");
   sel.value = cur;
   $("#ledgerLink").href = `${BASE}/ledger.ndjson`;
-  renderFresh(); renderSlimes(); renderChart(); renderFeed(); renderRules();
+  renderFresh(); renderNotice(); renderScore(); renderSlimes(); renderChart(); renderLead(); renderMarket(); renderRejections(); renderFeed(); renderRules();
+  if($("#agent").open) renderAgent(openId); else routeHash();
 }
 
 $("#fAgent").addEventListener("change", () => { feedN = 40; renderFeed(); });
 $("#fOutcome").addEventListener("change", () => { feedN = 40; renderFeed(); });
 $("#moreBtn").addEventListener("click", () => { feedN += 80; renderFeed(); });
+$("#chart").addEventListener("pointermove", chartHover);
+$("#chart").addEventListener("pointerleave", chartLeave);
+$("#slimes").addEventListener("click", (e) => { const c = e.target.closest(".card[data-id]"); if(c) openAgent(c.dataset.id); });
+$("#slimes").addEventListener("keydown", (e) => { const c = e.target.closest(".card[data-id]"); if(c && (e.key === "Enter" || e.key === " ")){ e.preventDefault(); openAgent(c.dataset.id); } });
+$("#agClose").addEventListener("click", closeAgent);
+$("#agent").addEventListener("cancel", (e) => { e.preventDefault(); closeAgent(); });
+$("#agent").addEventListener("click", (e) => { if(e.target === $("#agent")) closeAgent(); }); // backdrop
+$("#mk").addEventListener("click", (e) => { const b = e.target.closest("button[data-k]"); if(!b) return; const k = b.dataset.k; mkSort = {k, dir: mkSort.k === k ? -mkSort.dir : (k === "sym" ? 1 : -1)}; renderMarket(); });
+addEventListener("popstate", () => S && routeHash());
 let rz; addEventListener("resize", () => { clearTimeout(rz); rz = setTimeout(() => S && renderChart(), 150); });
 load();
 setInterval(load, 60e3);

@@ -3,6 +3,7 @@
 // run.mjs prices each one into a ticket and rules.mjs decides.
 
 import { RULES, MAX_ACTIONS, START_CASH, FEE_RATE, modelFor } from './config.mjs';
+import { standin, hasStandin } from './standins.mjs';
 
 export const KEYS = {
   anthropic: 'ANTHROPIC_API_KEY', openai: 'OPENAI_API_KEY', xai: 'XAI_API_KEY',
@@ -10,6 +11,9 @@ export const KEYS = {
 };
 export const isBaseline = (a) => a.provider === 'hodl' || a.provider === 'rsi';
 export const hasKey = (a, env = process.env) => isBaseline(a) || !!env[KEYS[a.provider]];
+// No key: trade a labelled rule-based stand-in instead of sleeping, unless
+// ARENA_STANDINS=off. The model takes over the turn its key is set.
+export const usesStandin = (a, env = process.env) => !hasKey(a, env) && hasStandin(a.id) && env.ARENA_STANDINS !== 'off';
 
 const num = { type: ['number', 'null'] };
 export const SCHEMA = {
@@ -178,6 +182,7 @@ export async function think(a, ctx, env = process.env) {
   const model = modelFor(a, env);
   if (a.provider === 'hodl') return { ...hodl(ctx), servedBy: 'baseline' };
   if (a.provider === 'rsi') return { ...rsiBot(ctx), servedBy: 'baseline' };
+  if (usesStandin(a, env)) return { ...standin(a.id, ctx), servedBy: 'stand-in' };
   const user = turnPrompt(ctx);
   let res;
   if (a.provider === 'anthropic') res = await anthropic(a, model, user, env);
