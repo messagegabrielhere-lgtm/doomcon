@@ -25,6 +25,10 @@
     "pipeline": "npm run collect && npm run score && npm run build",
     "posts": "node collector/posts.mjs",
     "cards": "node collector/card.mjs",
-    "test:posts": "node collector/posts.mjs --test"
+    "test:posts": "node collector/posts.mjs --test",
+    "test:arena": "node --test arena/test.mjs"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.131.0"
   }
 }
