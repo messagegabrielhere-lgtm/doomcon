@@ -26,7 +26,7 @@ struct RedeemView: View {
                 } label: {
                     if working { ProgressView() } else { Text("Continue") }
                 }
-                .disabled(code.filter(\.isLetterOrDigit).count < 16 || working)
+                .disabled(code.filter { $0.isLetter || $0.isNumber }.count < 16 || working)
                 if let error { Text(error).foregroundStyle(.red) }
             }
         }
