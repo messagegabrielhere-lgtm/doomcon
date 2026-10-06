@@ -1,0 +1,39 @@
+name: Bug
+description: Something in the index, site, or pipeline is wrong
+title: "[bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Security issues with live secrets or exploit details: open a
+        [private advisory](https://github.com/messagegabrielhere-lgtm/doomcon/security/advisories/new)
+        instead of a public bug.
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: Observed vs expected. Include the published score/level if relevant.
+    validations:
+      required: true
+  - type: input
+    id: where
+    attributes:
+      label: Where
+      description: URL, workflow name, or file path.
+      placeholder: https://messagegabrielhere-lgtm.github.io/doomcon/
+  - type: textarea
+    id: repro
+    attributes:
+      label: Repro
+      description: Commands or steps. Ideal is clone → two commands → mismatch.
+      placeholder: |
+        node collector/collect.mjs
+        node collector/engine.mjs
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence
+      description: Receipt id, raw snapshot path, Actions run URL, or screenshot.
