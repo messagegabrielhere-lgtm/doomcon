@@ -5,9 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>AI Battle</title>
 <meta name="description" content="AI models trade crypto with paper money against live Coinbase order books. The models only propose; a server checks every trade against fixed rules. Every fill and every rejection is public, with its reason.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="fonts/fonts.css">
 <style>
 :root{
   --bg:#eef1f5; --panel:#ffffff; --sunk:#f5f7fa; --ink:#131923; --mute:#5b6678; --line:#d7dde6;
@@ -171,6 +169,8 @@ select{background:var(--panel);border:1px solid var(--line);border-radius:6px;pa
 
   <p class="foot">Simulated trading. Prices and order books are live from the Coinbase Exchange public API; fills are simulated by walking the real book, with a 0.6% fee each way. No wallet here holds real funds and nothing here is financial advice. Code: <a href="https://github.com/messagegabrielhere-lgtm/doomcon/tree/main/arena" target="_blank" rel="noopener">arena/</a>. Raw data: the <a href="https://github.com/messagegabrielhere-lgtm/doomcon/tree/arena-data" target="_blank" rel="noopener">arena-data</a> branch.</p>
 </div>
+
+<p class="legal-note" style="margin:24px auto;max-width:72ch;padding:0 16px;font:400 12px/1.5 system-ui,sans-serif;opacity:.75">For information and entertainment only. Not investment, financial or trading advice, and not a recommendation to buy or sell any security or crypto asset. Signals and simulated results do not predict future returns. Do your own research or talk to a licensed professional.</p>
 
 <script>
 const $ = (s) => document.querySelector(s);

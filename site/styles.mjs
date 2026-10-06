@@ -12,8 +12,11 @@
 //                     Inter, which suits a dense dashboard without going
 //                     condensed-and-shouty.
 // display=swap so a slow or blocked Google Fonts never hides the score.
-export const FONT_HREF =
-  'https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700;800&display=swap';
+// Self-hosted since 2026-10-06 (compliance audit): serving fonts from Google
+// sends every visitor's IP to Google, which a German court has held to be a
+// GDPR breach. The files live in assets/fonts/ and build.mjs copies them to
+// /fonts/. Path is site-relative; layout.mjs resolves it with ctx.href.
+export const FONT_HREF = '/fonts/fonts.css';
 
 // Colour is dark-native: this is instrumentation, and the brand lives at night.
 // Light is a full first-class theme, not an inverted afterthought. Amber over

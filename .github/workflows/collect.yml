@@ -309,6 +309,15 @@ jobs:
           echo '::error::could not push after 3 attempts'
           exit 1
 
+      - name: Compliance gate
+        # compliance/audit.mjs: blocks publishing if a HIGH-severity legal
+        # tripwire (third-party fonts, session replay, undisclosed affiliate
+        # links, leaked secrets, private info, banned X automation) reached
+        # the built site. Medium findings are reported, not blocking here.
+        env:
+          COMPLIANCE_PII_TERMS: ${{ secrets.COMPLIANCE_PII_TERMS }}
+        run: node compliance/audit.mjs --dir public
+
       - name: Publish to gh-pages
         if: steps.gate.outputs.changed == 'true'
         env:
@@ -649,6 +658,15 @@ jobs:
           done
           echo '::error::could not push after 3 attempts'
           exit 1
+
+      - name: Compliance gate
+        # compliance/audit.mjs: blocks publishing if a HIGH-severity legal
+        # tripwire (third-party fonts, session replay, undisclosed affiliate
+        # links, leaked secrets, private info, banned X automation) reached
+        # the built site. Medium findings are reported, not blocking here.
+        env:
+          COMPLIANCE_PII_TERMS: ${{ secrets.COMPLIANCE_PII_TERMS }}
+        run: node compliance/audit.mjs --dir public
 
       - name: Publish to gh-pages
         env:

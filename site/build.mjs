@@ -1271,6 +1271,13 @@ async function main() {
       written.push(await write(args.out, `img/${name}`, await readFile(path.join(imgDir, name))));
     }
   }
+  // Self-hosted fonts (see styles.mjs FONT_HREF): copied through as-is.
+  const fontDir = path.join(ROOT, 'assets', 'fonts');
+  if (existsSync(fontDir)) {
+    for (const name of (await readdir(fontDir)).filter((f) => /\.(woff2|css|txt)$/i.test(f)).sort()) {
+      written.push(await write(args.out, `fonts/${name}`, await readFile(path.join(fontDir, name))));
+    }
+  }
   for (const [name, size] of [['favicon-32.png', 32], ['apple-touch-icon.png', 180], ['icon-192.png', 192], ['icon-512.png', 512]]) {
     written.push(await writeBinary(args.out, name, marks.iconPng(state.level, { size })));
   }
