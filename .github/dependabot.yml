@@ -1,0 +1,39 @@
+# Keep the two declared npm surfaces current. The index pipeline itself has
+# zero dependencies; these lockfiles cover the arena (root) and clipper only.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    labels:
+      - dependencies
+      - security
+    ignore:
+      # Arena only needs the SDK; leave major bumps for a deliberate review.
+      - dependency-name: '@anthropic-ai/sdk'
+        update-types: ['version-update:semver-major']
+
+  - package-ecosystem: npm
+    directory: /clipper
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    labels:
+      - dependencies
+      - security
+    ignore:
+      - dependency-name: '@anthropic-ai/sdk'
+        update-types: ['version-update:semver-major']
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    open-pull-requests-limit: 5
+    labels:
+      - dependencies
+      - security

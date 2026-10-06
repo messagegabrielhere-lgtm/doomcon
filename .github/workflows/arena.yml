@@ -51,6 +51,9 @@ jobs:
             package-lock.json
           sparse-checkout-cone-mode: false
           fetch-depth: 1
+          # Push uses an explicit GH_TOKEN below; do not leave the job token
+          # in the local git credential helper.
+          persist-credentials: false
 
       - name: Set up Node 20
         uses: actions/setup-node@v4
@@ -58,6 +61,8 @@ jobs:
           node-version: '20'
 
       - name: Install
+        # --ignore-scripts: root deps are only for arena; never run package
+        # lifecycle scripts from the registry on a token-bearing runner.
         run: npm ci --omit=dev --ignore-scripts --no-audit --no-fund
 
       - name: Load state

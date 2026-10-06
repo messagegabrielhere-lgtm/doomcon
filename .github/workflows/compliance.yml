@@ -29,6 +29,8 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -38,3 +40,5 @@ jobs:
         env:
           COMPLIANCE_PII_TERMS: ${{ secrets.COMPLIANCE_PII_TERMS }}
         run: node compliance/audit.mjs --strict
+      - name: Chart SVG self-test
+        run: node site/test-charts.mjs

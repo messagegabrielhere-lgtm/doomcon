@@ -61,10 +61,14 @@ collector/receipts.mjs     hash-chained, append-only audit trail
 collector/card.mjs         share cards as dependency-free SVG
 collector/posts.mjs        post text, with URL and future-tense guards
 site/build.mjs             static site generator -> public/
+compliance/                legal / secret tripwire scanner (CI on every push)
+docs/                      operator notes — start at docs/README.md
 ```
 
-**Zero npm dependencies.** Node 20 built-ins only. There is no `node_modules`,
-no lockfile, and no supply chain.
+**Index pipeline: zero npm dependencies.** `collector/`, `site/`, `scanner/`,
+and `compliance/` use Node 20 built-ins only. Two optional side projects declare
+deps (`arena/` via the root lockfile, `clipper/` via its own). See
+[docs/CONTRACT.md](docs/CONTRACT.md) and [SECURITY.md](SECURITY.md).
 
 ## Adding a source
 
@@ -132,6 +136,13 @@ Index proved that a single named scalar plus a distribution channel beats a
 better dashboard with neither. The full teardown is in
 [docs/TEARDOWN.md](docs/TEARDOWN.md).
 
+## Security
+
+Secrets never belong in git. Optional posting / arena / clipper credentials live
+in GitHub Actions secrets only. How to report a vulnerability:
+[SECURITY.md](SECURITY.md). The compliance gate runs on every push
+(`npm run compliance`).
+
 ## Licence
 
-Code MIT. Data and index values CC-BY 4.0.
+Code MIT ([LICENSE](LICENSE)). Data and index values CC-BY 4.0.
