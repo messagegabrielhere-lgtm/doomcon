@@ -2,6 +2,7 @@ node_modules/
 .env
 .env.*
 !.env.example
+!.env.*.example
 *.log
 .DS_Store
 site/.cache/
@@ -19,5 +20,11 @@ public/
 .tmp-cards/
 .brand-candidates/
 .tmp-world/
-.dcfix-data/
-.dcfix-out/
+.dc.test-data/
+.dc.test-out/
+
+# One-off root harnesses (use site/test-charts.mjs instead)
+_*.html
+_focus.mjs
+_base.mjs
+_charts-harness.mjs

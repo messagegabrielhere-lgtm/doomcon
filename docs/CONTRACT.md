@@ -5,11 +5,16 @@ here without changing it everywhere. Agents building in parallel rely on it.
 
 ## Hard constraints
 
-1. **Zero npm dependencies.** Node 20 built-ins only (`fetch`, `node:fs`,
-   `node:crypto`, …). No `package.json` dependencies, no `node_modules`.
-   Reason: the operator has no Node installed locally — everything runs as
+1. **Zero npm dependencies for the index pipeline.** `collector/`, `site/`,
+   `scanner/`, and `compliance/` use Node 20 built-ins only (`fetch`, `node:fs`,
+   `node:crypto`, …). Reason: the operator has no Node installed locally —
+   everything runs as
    `docker run --rm -v "$PWD":/app -w /app node:20-alpine node <script>` —
-   and GitHub Actions stays dependency-free and fast.
+   and the index workflows stay dependency-free and fast.
+   Two **opt-in side projects** declare npm deps and must never leak into the
+   index path:
+   - `arena/` — root `package.json` / `package-lock.json` (`@anthropic-ai/sdk`)
+   - `clipper/` — its own `clipper/package.json` / lockfile
 2. **ES modules, `.mjs` extension** throughout.
 3. **No secrets in the repository, and none required to build.** Posting was
    manual in v1. Since 2026-09-28 `.github/workflows/post-daily.yml` can post one
@@ -17,7 +22,7 @@ here without changing it everywhere. Agents building in parallel rely on it.
    GitHub Actions secrets. They reach the one step that posts and nothing else,
    and with none configured the workflow is a green no-op. The site, the
    collectors and every build must keep working with no secret present.
-   docs/POSTING.md §6 has the details.
+   docs/POSTING.md §6 has the details. See also [SECURITY.md](../SECURITY.md).
 4. **Never `Math.random()` or unseeded time in output** beyond the explicit
    `generated_at` field. Output must be reproducible from inputs.
 5. **Every network call** goes through `collector/fetch.mjs` (timeout, retry,
@@ -41,8 +46,14 @@ collector/posts.mjs          index state -> post text variants
 collector/card.mjs           index state -> share-card SVG
 site/build.mjs               data/ -> public/  (static site generator)
 site/templates/*.mjs         page templates, each exporting render(ctx)
-public/                      BUILD OUTPUT. Never hand-edit. Gitignored? NO -
-                             committed, because GitHub Pages serves it.
+site/test-charts.mjs         chart SVG self-test (no network)
+compliance/                  legal / secret tripwire scanner (CI gate)
+arena/                       optional AI battle side project (has npm deps)
+clipper/                     optional Shorts clipper (own package.json)
+scanner/                     stock snapshot for /scanner.html
+docs/                        operator + design notes (see docs/README.md)
+public/                      BUILD OUTPUT. Never hand-edit. Gitignored —
+                             published to the gh-pages branch by CI / deploy.sh.
 data/raw/<iso>.json          one snapshot per collector run
 data/state.json              current index state (single source of truth)
 data/receipts/<id>.json      hash-chained receipts, append-only
