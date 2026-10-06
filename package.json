@@ -34,7 +34,8 @@
     "test:posts": "node collector/posts.mjs --test",
     "test:arena": "node --test arena/test.mjs",
     "compliance": "node compliance/selftest.mjs && node compliance/audit.mjs --strict",
-    "test:compliance": "node compliance/selftest.mjs"
+    "test:compliance": "node compliance/selftest.mjs",
+    "compliance:fix": "node compliance/audit.mjs --fix --report"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.131.0"

@@ -6,10 +6,31 @@ deploy to GitHub Pages.
 
 ```bash
 npm run compliance            # self-test the rules, then audit (strict)
+npm run compliance:fix        # apply safe auto-fixes, then write REMEDIATION.md
 node compliance/audit.mjs     # fails on HIGH only
 node compliance/audit.mjs --strict --dir public   # also scan the built site
+node compliance/audit.mjs --verbose               # step-by-step for manual checks
 node compliance/audit.mjs --json
 ```
+
+## Remediation
+
+Every finding prints a numbered playbook (`compliance/remediate.mjs`), and
+`--report` writes the whole plan as a checklist to `compliance/REMEDIATION.md`.
+
+`--fix` applies the fixes that are safe to automate, then re-audits:
+
+| Rule | What `--fix` does |
+|---|---|
+| `fonts-third-party` | Swaps a Google Fonts link for `fonts/fonts.css` in standalone pages, once the families exist in `assets/fonts/` |
+| `finance-disclaimer` | Appends a "Not investment advice" notice |
+| `affiliate-disclosure` | Appends an Amazon Associates disclosure |
+| `email-capture` | Adds a privacy link right after the email form |
+| `dmca-agent` | Creates `dmca.html` with TODO placeholders for your registered agent |
+
+Anything that removes behaviour (a tracker, a mailer, a checkout) is left to a
+person on purpose. The self-test proves each auto-fix clears its own finding.
+It never edits a build folder passed with `--dir`.
 
 ## What it checks
 
@@ -32,9 +53,13 @@ node compliance/audit.mjs --json
 | `finance-disclaimer` | medium | Trading signals with no "not investment advice" notice |
 | `cookie-consent` | medium | ePrivacy cookie consent |
 | `privacy-page` | medium | CalOPPA requires a linked privacy policy |
+| `social-mention-guard` | high | X/Bluesky spam rules: an automated poster must refuse @mentions |
+| `social-affiliate` | high | FTC + Amazon: affiliate links in posts need #ad |
+| `ytdlp-cookies` | low | YouTube ToS: logged-in cookies put that Google account at risk |
 
 `compliance/selftest.mjs` plants a violation and a fix for every rule and fails CI
-if any rule stops catching its violation or starts flagging the fix.
+if any rule stops catching its violation, starts flagging the fix, or if an
+auto-fix stops resolving its finding.
 
 ## Accepting a finding
 
@@ -47,9 +72,11 @@ required. After the date the finding comes back.
 
 ## Things a scan can't see
 
-`compliance/manual.json` lists checks only you can do (X "Automated" label, bio
-disclosure, Amazon Associates profile, DMCA agent, clipper channel rights, key
-rotation). Each run prints the open ones. Add an id to `done` once it's true.
+`rules.mjs` (MANUAL) lists checks only you can do, each with steps: X
+"Automated" label, bio disclosure, AI-media labels, Amazon Associates profile,
+clipper channel rights, key rotation, the PII secret. Each run prints the open
+ones. In `compliance/manual.json`, add an id to `done` once it's true, or to `na`
+if it doesn't apply yet.
 
 ## Keeping your name out of the repo
 

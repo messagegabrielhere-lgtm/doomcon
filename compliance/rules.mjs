@@ -339,6 +339,51 @@ export const RULES = [
         ? []
         : [{ file: '(repo)', line: 0, detail: 'no privacy page found' }],
   },
+  // ── 17. Automated social posters must refuse @mentions ─────────────────
+  {
+    id: 'social-mention-guard',
+    severity: 'high',
+    title: 'Automated social poster with no @mention guard',
+    law: 'X Automation Rules (no unsolicited mentions); Bluesky Community Guidelines (spam)',
+    fix: 'Reject any automated post text that contains an @handle before it is sent.',
+    check: ({ files }) =>
+      files.filter((f) => CODE.test(f.path)).flatMap((f) => {
+        const c = codeOnly(f.text);
+        const post = hits(c, /(api\.(x|twitter)\.com\/2\/tweets|com\.atproto\.repo\.createRecord)/);
+        if (!post.length) return [];
+        return /findMention|assertNoMention|@mention/i.test(c)
+          ? [] : [{ file: f.path, line: post[0].line, detail: `${post[0].match} with no mention check in the same file` }];
+      }),
+  },
+
+  // ── 18. Affiliate links inside automated social posts ──────────────────
+  {
+    id: 'social-affiliate',
+    severity: 'high',
+    title: 'Affiliate link in an automated social post without #ad',
+    law: 'FTC Endorsement Guides 16 CFR 255; Amazon Associates Operating Agreement (social posts must disclose)',
+    fix: 'Start the post with "#ad" or "(affiliate link)".',
+    check: ({ files }) =>
+      files.filter((f) => CODE.test(f.path) && /(post|tweet|social|bsky|bluesky)/i.test(f.path)).flatMap((f) => {
+        const c = codeOnly(f.text);
+        const aff = hits(c, /(amzn\.to\/|amazon\.[a-z.]+\/[^\s"'`]*[?&]tag=)/i);
+        if (!aff.length || /#ad\b|affiliate link|paid link/i.test(c)) return [];
+        return [{ file: f.path, line: aff[0].line, detail: aff[0].match }];
+      }),
+  },
+
+  // ── 19. Logged-in cookies used to download from YouTube ────────────────
+  {
+    id: 'ytdlp-cookies',
+    severity: 'low',
+    title: 'YouTube downloads can run with a logged-in account\'s cookies',
+    law: 'YouTube Terms of Service (no downloading outside YouTube features) — risk is termination of that Google account',
+    fix: 'Use a throwaway Google account for the cookies, or download your own videos from YouTube Studio instead.',
+    check: ({ files }) =>
+      files.filter((f) => /\.ya?ml$/i.test(f.path)).flatMap((f) =>
+        hits(f.text, /secrets\.YTDLP_COOKIES|--cookies\b/).slice(0, 1)
+          .map((h) => ({ file: f.path, line: h.line, detail: 'yt-dlp cookies wired into CI' }))),
+  },
 ];
 
 /**
@@ -346,12 +391,20 @@ export const RULES = [
  * Tick them off in compliance/manual.json once done.
  */
 export const MANUAL = [
-  { id: 'x-automated-label', text: 'X account: "Automated" label turned on (Settings → Your account → Account information → Automation).' },
-  { id: 'x-bio-disclosure', text: 'X bio says it is an automated account and links a human-run account for accountability.' },
-  { id: 'x-opt-out', text: 'Anyone who asks the X account to stop mentioning or replying to them is honoured the same day.' },
-  { id: 'x-ai-media', text: 'AI-generated images or video posted to X are labelled as AI-made, and none depict real people saying or doing things they did not.' },
-  { id: 'amazon-associates', text: 'Amazon Associates: the X account and any other place affiliate links appear is listed in the Associates Central profile, with the disclosure in the post.' },
-  { id: 'dmca-agent-registered', text: 'If any feature ever accepts uploads: DMCA agent registered at dmca.copyright.gov (renew every 3 years).' },
-  { id: 'clipper-env-channels', text: 'GitHub variables CLIPPER_CHANNEL_URLS / CLIPPER_CHANNEL_RIGHTS point only at channels you own or are licensed to clip.' },
-  { id: 'secrets-rotated', text: 'API keys in GitHub secrets rotated in the last 12 months; old ones revoked.' },
+  { id: 'x-automated-label', text: 'X account: the "Automated" label is on.',
+    steps: ['Log in to the bot account on x.com.', 'Settings and privacy → Your account → Account information → Automation.', 'Choose "Managing account" and pick the human account that runs it, then confirm with that account\'s password.', 'Check the label shows under the bot\'s name on its profile.'] },
+  { id: 'x-bio-disclosure', text: 'X bio says it is automated and links a human-run account.',
+    steps: ['Edit profile → Bio.', 'Add a line such as: "Automated account · data posts daily · run by @<human account>".', 'The human account need not use your real name; it must be one you actually read.'] },
+  { id: 'x-ai-media', text: 'AI-generated images posted anywhere are labelled, and none show real people doing things they did not.',
+    steps: ['Caption AI-made images "AI-generated" or "illustration".', 'Never post AI images or video of real, identifiable people (X synthetic media policy; state deepfake laws).', 'The daily data cards are drawn from data, not generated, so they need no label.'] },
+  { id: 'amazon-associates', text: 'Amazon Associates lists every site and account where affiliate links appear.',
+    steps: ['Associates Central → Account settings → Edit your website and mobile app list.', 'Add the GitHub Pages site URL and any social account that posts your links.', 'Make your first 3 qualifying sales within 180 days of signing up, or the account is closed.'] },
+  { id: 'dmca-agent-registered', text: 'Only if the site ever accepts uploads: DMCA agent registered.',
+    steps: ['Not needed today: nothing on the site accepts uploads.', 'If that changes: https://dmca.copyright.gov → register ($6) → put the details on a dmca.html page (`audit.mjs --fix` creates the template).'] },
+  { id: 'clipper-env-channels', text: 'Clipper channels in GitHub settings are ones you own or are licensed to clip.',
+    steps: ['GitHub repo → Settings → Secrets and variables → Actions → Variables.', 'Open CLIPPER_CHANNEL_URLS: every URL must be your own channel or an approved clipping campaign.', 'CLIPPER_CHANNEL_RIGHTS must be "own" or "licensed".'] },
+  { id: 'secrets-rotated', text: 'API keys rotated in the last 12 months; old ones revoked.',
+    steps: ['For each secret in repo Settings → Secrets (X, Bluesky, Anthropic, OpenAI, xAI, Gemini, DeepSeek, YouTube): create a new key at the provider.', 'Paste it into the GitHub secret, run the workflow once, then revoke the old key.', 'Set a calendar reminder for next year.'] },
+  { id: 'pii-secret', text: 'COMPLIANCE_PII_TERMS secret is set, so your private details can never land in the public repo.',
+    steps: ['GitHub repo → Settings → Secrets and variables → Actions → New repository secret.', 'Name: COMPLIANCE_PII_TERMS. Value: your real name, personal email and phone, comma-separated.', 'Run the "compliance" workflow once to confirm it passes.'] },
 ];
