@@ -10,6 +10,8 @@ SIREN is an open, recomputable index. Contributions that keep it that way are we
 
 Security reports: prefer a [private advisory](https://github.com/messagegabrielhere-lgtm/doomcon/security/advisories/new). Details are in [SECURITY.md](SECURITY.md). Do not paste live secrets into a public issue.
 
+Operator map for Actions schedules, secrets, and red-run triage: [docs/GITHUB.md](docs/GITHUB.md). Support channels: [SUPPORT.md](SUPPORT.md).
+
 ## Run the pipeline
 
 Node 20+. No install is required for the index path.

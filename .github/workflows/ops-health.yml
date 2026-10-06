@@ -1,0 +1,84 @@
+# Weekly (and on-demand) digest of recent Actions outcomes.
+# Writes a job summary only — no commits, no secrets printed.
+
+name: ops-health
+
+on:
+  schedule:
+    - cron: '0 15 * * 1'   # Mondays 15:00 UTC, after compliance's 13:17
+  workflow_dispatch:
+    inputs:
+      hours:
+        description: 'Look-back window in hours'
+        required: false
+        default: '24'
+
+permissions:
+  actions: read
+  contents: read
+
+concurrency:
+  group: ops-health
+  cancel-in-progress: true
+
+jobs:
+  summary:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Summarize recent workflow runs
+        env:
+          GH_TOKEN: ${{ github.token }}
+          HOURS: ${{ github.event.inputs.hours || '24' }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          hours="${HOURS}"
+          case "$hours" in
+            ''|*[!0-9]*) hours=24 ;;
+          esac
+          if [ "$hours" -lt 1 ] || [ "$hours" -gt 168 ]; then
+            hours=24
+          fi
+          since=$(date -u -d "-${hours} hours" +%Y-%m-%dT%H:%M:%SZ)
+          echo "Look-back: last ${hours}h (since ${since} UTC)"
+
+          json=$(gh api --paginate \
+            "repos/${REPO}/actions/runs?created=>=${since}&per_page=100" \
+            --jq '[.workflow_runs[] | {name,conclusion,status,event,html_url,created_at}]')
+
+          {
+            echo "## Actions health (last ${hours}h)"
+            echo
+            echo "| Workflow | Last conclusion | Event | When (UTC) | Link |"
+            echo "|---|---|---|---|---|"
+            echo "$json" | jq -r '
+              group_by(.name)
+              | map(sort_by(.created_at) | reverse | .[0])
+              | sort_by(.name)
+              | .[]
+              | "| \(.name) | \(.conclusion // .status // "?") | \(.event) | \(.created_at) | [run](\(.html_url)) |"
+            '
+            echo
+            echo "### Counts by conclusion"
+            echo
+            echo "$json" | jq -r '
+              group_by(.conclusion // .status)
+              | map({k: (.[0].conclusion // .[0].status // "unknown"), n: length})
+              | sort_by(-.n)
+              | .[]
+              | "- **\(.k)**: \(.n)"
+            '
+            echo
+            echo "### Failures / cancels"
+            echo
+            fails=$(echo "$json" | jq '[.[] | select((.conclusion // "") == "failure" or (.conclusion // "") == "cancelled" or (.conclusion // "") == "timed_out")]')
+            count=$(echo "$fails" | jq 'length')
+            if [ "$count" = "0" ]; then
+              echo "_None in this window._"
+            else
+              echo "$fails" | jq -r '.[] | "- [\(.name)](\(.html_url)) — \(.conclusion) @ \(.created_at)"'
+            fi
+            echo
+            echo "Runbook: \`docs/GITHUB.md\`"
+          } >> "$GITHUB_STEP_SUMMARY"

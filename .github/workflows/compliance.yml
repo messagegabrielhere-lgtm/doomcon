@@ -23,6 +23,11 @@ on:
 permissions:
   contents: read
 
+# Drop superseded PR/push audits so the Actions list stays readable.
+concurrency:
+  group: compliance-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' || github.event_name == 'push' }}
+
 jobs:
   audit:
     runs-on: ubuntu-latest

@@ -140,8 +140,10 @@ better dashboard with neither. The full teardown is in
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md). Bug and source ideas use the issue forms
-under **New issue**.
+See [CONTRIBUTING.md](CONTRIBUTING.md). Bug, source, docs, and ops ideas use the
+issue forms under **New issue**. Day-to-day GitHub operation (schedules, secrets
+map, failure playbook): [docs/GITHUB.md](docs/GITHUB.md). Where to ask for help:
+[SUPPORT.md](SUPPORT.md).
 
 ## Security
 

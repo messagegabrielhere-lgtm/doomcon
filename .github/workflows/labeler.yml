@@ -1,0 +1,93 @@
+# Apply path-based labels on pull requests, and ensure the label catalog exists.
+#
+# Uses pull_request (not pull_request_target) so untrusted fork code cannot run
+# with a write token. Fork PRs may need a maintainer to re-run or label by hand.
+
+name: labeler
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, ready_for_review]
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
+concurrency:
+  group: labeler-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  label:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
+          sparse-checkout: .github
+
+      - name: Ensure labels from catalog
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7.1.0
+        with:
+          script: |
+            const fs = require('fs');
+            const raw = fs.readFileSync('.github/labels.yml', 'utf8');
+            // Minimal YAML subset: "- name:", "  color:", "  description:" blocks.
+            const labels = [];
+            let cur = null;
+            for (const line of raw.split(/\r?\n/)) {
+              const name = line.match(/^- name:\s*"?([^"#]+?)"?\s*$/);
+              if (name) {
+                if (cur) labels.push(cur);
+                cur = { name: name[1].trim(), color: 'ededed', description: '' };
+                continue;
+              }
+              if (!cur) continue;
+              const color = line.match(/^\s+color:\s*"?([0-9a-fA-F]{6})"?\s*$/);
+              if (color) { cur.color = color[1]; continue; }
+              const desc = line.match(/^\s+description:\s*(.+)\s*$/);
+              if (desc) {
+                cur.description = desc[1].replace(/^"|"$/g, '').trim();
+              }
+            }
+            if (cur) labels.push(cur);
+
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const existing = await github.paginate(github.rest.issues.listLabelsForRepo, {
+              owner, repo, per_page: 100,
+            });
+            const byName = new Map(existing.map((l) => [l.name, l]));
+
+            for (const want of labels) {
+              const have = byName.get(want.name);
+              if (!have) {
+                await github.rest.issues.createLabel({
+                  owner, repo,
+                  name: want.name,
+                  color: want.color,
+                  description: want.description.slice(0, 100),
+                });
+                core.info(`created label ${want.name}`);
+                continue;
+              }
+              if (have.color.toLowerCase() !== want.color.toLowerCase()
+                  || (have.description || '') !== want.description) {
+                await github.rest.issues.updateLabel({
+                  owner, repo,
+                  name: want.name,
+                  color: want.color,
+                  description: want.description.slice(0, 100),
+                });
+                core.info(`updated label ${want.name}`);
+              }
+            }
+
+      - name: Label by path
+        uses: actions/labeler@bf12e9b00b37c5c0ca2b87b79b2daf7891dbda13 # v7.0.0
+        with:
+          configuration-path: .github/labeler.yml
+          sync-labels: false

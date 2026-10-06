@@ -1,0 +1,59 @@
+name: Ops / workflow
+description: A scheduled job is red, stuck, or publishing the wrong branch.
+title: "ops: "
+labels: ["ops"]
+body:
+  - type: dropdown
+    id: workflow
+    attributes:
+      label: Workflow
+      description: Which Actions workflow is involved?
+      options:
+        - collect
+        - news-fast
+        - post-daily
+        - arena
+        - scanner-stocks
+        - clipper
+        - compliance
+        - labeler
+        - ops-health
+        - pages-build-deployment
+        - other / unclear
+    validations:
+      required: true
+  - type: dropdown
+    id: symptom
+    attributes:
+      label: Symptom
+      options:
+        - Failed run (red)
+        - Stuck / queued too long
+        - Published wrong or stale data
+        - Secret / variable misconfigured
+        - Unexpected no-op (secrets missing?)
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: run_url
+    attributes:
+      label: Failed run URL
+      description: Paste the Actions run link if you have one.
+      placeholder: https://github.com/messagegabrielhere-lgtm/doomcon/actions/runs/…
+    validations:
+      required: false
+  - type: textarea
+    id: what
+    attributes:
+      label: What you already tried
+      description: Re-run? Dry-run? Checked docs/GITHUB.md?
+      placeholder: Re-ran collect once; gh-pages still shows yesterday's score.
+    validations:
+      required: true
+  - type: textarea
+    id: expect
+    attributes:
+      label: Expected vs actual
+    validations:
+      required: true
