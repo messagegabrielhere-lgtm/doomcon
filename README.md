@@ -136,6 +136,11 @@ Index proved that a single named scalar plus a distribution channel beats a
 better dashboard with neither. The full teardown is in
 [docs/TEARDOWN.md](docs/TEARDOWN.md).
 
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md). Bug and source ideas use the issue forms
+under **New issue**.
+
 ## Security
 
 Secrets never belong in git. Optional posting / arena / clipper credentials live
