@@ -3,6 +3,8 @@
 *Superintelligence Real-time Early Notice. Formerly DOOMCON; the repository and the web address keep the old name.*
 
 [![SIREN](https://messagegabrielhere-lgtm.github.io/doomcon/badge.svg)](https://messagegabrielhere-lgtm.github.io/doomcon/)
+[![compliance](https://github.com/messagegabrielhere-lgtm/doomcon/actions/workflows/compliance.yml/badge.svg)](https://github.com/messagegabrielhere-lgtm/doomcon/actions/workflows/compliance.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 **Live: https://messagegabrielhere-lgtm.github.io/doomcon/** · [verify the readings in your browser](https://messagegabrielhere-lgtm.github.io/doomcon/#vfy) · [method](https://messagegabrielhere-lgtm.github.io/doomcon/methodology.html)
 
@@ -147,6 +149,10 @@ Secrets never belong in git. Optional posting / arena / clipper credentials live
 in GitHub Actions secrets only. How to report a vulnerability:
 [SECURITY.md](SECURITY.md). The compliance gate runs on every push
 (`npm run compliance`).
+
+## Cite
+
+See [CITATION.cff](CITATION.cff).
 
 ## Licence
 

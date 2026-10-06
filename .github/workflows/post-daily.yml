@@ -86,14 +86,14 @@ jobs:
 
       - name: Checkout
         if: env.HAS_X == 'true' || env.HAS_BSKY == 'true' || env.DRY_RUN == 'true'
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
         with:
           # Full history: the ledger commit rebases if a data run landed first.
           fetch-depth: 0
 
       - name: Set up Node 20
         if: env.HAS_X == 'true' || env.HAS_BSKY == 'true' || env.DRY_RUN == 'true'
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: '20'
           # Index/posting path has zero npm deps (CONTRACT.md §1): nothing to install.
