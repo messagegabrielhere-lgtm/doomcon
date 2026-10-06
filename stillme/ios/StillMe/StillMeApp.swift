@@ -2,11 +2,22 @@ import SwiftUI
 
 @main
 struct StillMeApp: App {
-    @State private var archive = ArchiveStore()
-    @State private var recipient = RecipientStore()
+    @State private var archive: ArchiveStore
+    @State private var recipient: RecipientStore
 
     init() {
         Theme.configureAppearance()
+        let archive = ArchiveStore()
+        let recipient = RecipientStore()
+        #if DEBUG
+        // Launch with `-StillMeDemo 1` to fill the app with sample data
+        // (used by CI to take screenshots).
+        if UserDefaults.standard.bool(forKey: "StillMeDemo") {
+            DemoData.seed(archive: archive, recipient: recipient)
+        }
+        #endif
+        _archive = State(initialValue: archive)
+        _recipient = State(initialValue: recipient)
     }
 
     var body: some Scene {
@@ -51,18 +62,26 @@ struct RootView: View {
 }
 
 struct OwnerTabs: View {
+    // `-StillMeTab N` opens a specific tab (used for screenshots).
+    @State private var tab = UserDefaults.standard.integer(forKey: "StillMeTab")
+
     var body: some View {
-        TabView {
+        TabView(selection: $tab) {
             InterviewView()
                 .tabItem { Label("Record", systemImage: "mic") }
+                .tag(0)
             MemoriesView()
                 .tabItem { Label("Memories", systemImage: "books.vertical") }
+                .tag(1)
             RehearseView()
                 .tabItem { Label("Rehearse", systemImage: "bubble.left.and.bubble.right") }
+                .tag(2)
             LegacyView()
                 .tabItem { Label("Legacy", systemImage: "envelope.badge.shield.half.filled") }
+                .tag(3)
             YouView()
                 .tabItem { Label("You", systemImage: "person.crop.circle") }
+                .tag(4)
         }
     }
 }

@@ -235,6 +235,13 @@ final class RecipientStore {
         APIClient(credential: Keychain.get(Self.codeKey).map { .legacy($0) }).chat(messages)
     }
 
+    #if DEBUG
+    func loadDemo(grant: LegacyGrant, conversation: [ChatMessage]) {
+        self.grant = grant
+        self.conversation = conversation
+    }
+    #endif
+
     func forget() {
         Keychain.set(Self.codeKey, nil)
         LocalFiles.remove(Self.grantFile)
