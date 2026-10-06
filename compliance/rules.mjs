@@ -301,14 +301,20 @@ export const RULES = [
     title: 'Clipper channel without stated rights',
     law: 'Copyright infringement (17 U.S.C. 504, up to $150,000 per work) and platform strikes',
     fix: 'Every channel must have "rights": "own" or "licensed". Only clip your own videos or an approved clipping campaign.',
-    check: ({ files }) =>
-      files.filter((f) => /clipper\/config.*\.json$/i.test(f.path) && !/example/i.test(f.path)).flatMap((f) => {
+    check: ({ files }) => [
+      // A workflow that hardcodes the rights value vouches for whatever URL is
+      // configured later. Rights must be asserted alongside the channel.
+      ...files.filter((f) => /\.ya?ml$/i.test(f.path)).flatMap((f) =>
+        hits(codeOnly(f.text), /CLIPPER_CHANNEL_RIGHTS:\s*["']?(own|licensed)\b/)
+          .map((h) => ({ file: f.path, line: h.line, detail: 'rights hardcoded in the workflow instead of asserted per channel' }))),
+      ...files.filter((f) => /clipper\/config.*\.json$/i.test(f.path) && !/example/i.test(f.path)).flatMap((f) => {
         let cfg;
         try { cfg = JSON.parse(f.text); } catch { return [{ file: f.path, line: 1, detail: 'invalid JSON' }]; }
         return (cfg.channels || [])
           .filter((ch) => !['own', 'licensed'].includes(ch.rights))
           .map((ch) => ({ file: f.path, line: lineOf(f.text, f.text.indexOf(ch.url || '')), detail: `${ch.url || '(no url)'} has rights=${ch.rights ?? 'unset'}` }));
       }),
+    ],
   },
 
   // ── 15. Cookies set without a consent mechanism ────────────────────────

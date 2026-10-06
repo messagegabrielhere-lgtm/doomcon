@@ -70,8 +70,8 @@ const CASES = {
     good: [F('bot.mjs', "await fetch('https://api.x.com/2/tweets', { method: 'POST' })")],
   },
   'clip-rights': {
-    bad: [F('clipper/config.json', '{"channels":[{"url":"https://youtube.com/@someone","rights":"none"}]}')],
-    good: [F('clipper/config.json', '{"channels":[{"url":"https://youtube.com/@me","rights":"own"}]}')],
+    bad: [F('clipper/config.json', '{"channels":[{"url":"https://youtube.com/@someone","rights":"none"}]}'), F('.github/workflows/clipper.yml', 'env:\n  CLIPPER_CHANNEL_RIGHTS: own')],
+    good: [F('clipper/config.json', '{"channels":[{"url":"https://youtube.com/@me","rights":"own"}]}'), F('.github/workflows/clipper.yml', 'env:\n  CLIPPER_CHANNEL_RIGHTS: ${{ vars.CLIPPER_CHANNEL_RIGHTS }}')],
   },
   'cookie-consent': {
     bad: [F('a.html', '<script>document.cookie = "id=1"</script>')],
