@@ -103,7 +103,8 @@ export function standin(id, { w, eq, rows, now = Date.now() }) {
   const cashFree = w.cash - eq * RULES.minCashPct / 100;
   const usd = Math.floor(Math.min(eq * P.size, cashFree / 1.01));
   const cooling = (sym) => w.cooldowns?.[sym] && now - w.cooldowns[sym] < RULES.cooldownMin * 60e3;
-  const picks = rows.filter((r) => !w.positions[r.sym] && !cooling(r.sym))
+  // Skip coins the liquidity rule would refuse anyway.
+  const picks = rows.filter((r) => !w.positions[r.sym] && !cooling(r.sym) && r.vol24hUsd >= RULES.minVolumeUsd24h)
     .map((r) => ({ r, s: P.score(r) })).filter((x) => x.s != null && Number.isFinite(x.s))
     .sort((a, b) => b.s - a.s);
   for (const { r } of picks) {
