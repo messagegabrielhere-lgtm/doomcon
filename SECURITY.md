@@ -60,8 +60,11 @@ when possible so package lifecycle scripts cannot run untrusted code.
 
 - `compliance/` — blocks common legal and secret-leak mistakes on every push
 - `.github/workflows/compliance.yml` — strict audit gate, chart self-test, npm audit
+- `.github/workflows/labeler.yml` — path labels from `.github/labeler.yml`
+- `.github/workflows/ops-health.yml` — weekly Actions digest in the job summary
 - `.github/dependabot.yml` — weekly/monthly dependency and Actions bumps
 - Workflows pin third-party Actions to release SHAs (with version comments)
+- `docs/GITHUB.md` — operator schedule / secrets / failure playbook
 - `SECURITY.md` / `/.well-known/security.txt` — how to reach us
 - Footer and privacy page link here so visitors can find the same path
 

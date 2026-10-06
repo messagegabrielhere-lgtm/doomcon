@@ -11,8 +11,10 @@ the current reading.
 | [CONTRACT.md](CONTRACT.md) | Shapes every module is written against |
 | [AUTOUPDATE.md](AUTOUPDATE.md) | Collector cadence, failure modes, freshness |
 | [GO-LIVE.md](GO-LIVE.md) | First-run checklist for the operator |
+| [GITHUB.md](GITHUB.md) | Workflows, secrets map, labels, failure playbook |
 | [POSTING.md](POSTING.md) | Daily X / Bluesky posting rules and secrets |
 | [../SECURITY.md](../SECURITY.md) | Vulnerability reporting and secrets policy |
+| [../SUPPORT.md](../SUPPORT.md) | Where to file bugs, ops, and security reports |
 | [../CONTRIBUTING.md](../CONTRIBUTING.md) | Add a source, run locally, open a PR |
 | [../compliance/README.md](../compliance/README.md) | Legal / secret tripwire scanner |
 | [../CITATION.cff](../CITATION.cff) | How to cite the index |

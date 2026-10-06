@@ -1,0 +1,78 @@
+# Path → label rules for actions/labeler (v5+ match object shape).
+# Labels are created from .github/labels.yml by the labeler workflow.
+
+area:collector:
+  - changed-files:
+      - any-glob-to-any-file:
+          - collector/**
+
+area:site:
+  - changed-files:
+      - any-glob-to-any-file:
+          - site/**
+          - assets/**
+
+area:workflows:
+  - changed-files:
+      - any-glob-to-any-file:
+          - .github/workflows/**
+          - .github/dependabot.yml
+          - .github/labeler.yml
+          - .github/labels.yml
+
+area:compliance:
+  - changed-files:
+      - any-glob-to-any-file:
+          - compliance/**
+
+area:arena:
+  - changed-files:
+      - any-glob-to-any-file:
+          - arena/**
+
+area:clipper:
+  - changed-files:
+      - any-glob-to-any-file:
+          - clipper/**
+
+area:scanner:
+  - changed-files:
+      - any-glob-to-any-file:
+          - scanner/**
+
+area:docs:
+  - changed-files:
+      - any-glob-to-any-file:
+          - docs/**
+          - README.md
+          - CONTRIBUTING.md
+          - CODE_OF_CONDUCT.md
+          - SECURITY.md
+          - SUPPORT.md
+          - LICENSE
+          - CITATION.cff
+          - .github/ISSUE_TEMPLATE/**
+          - .github/PULL_REQUEST_TEMPLATE.md
+          - .github/CODEOWNERS
+
+area:data:
+  - changed-files:
+      - any-glob-to-any-file:
+          - data/**
+
+dependencies:
+  - changed-files:
+      - any-glob-to-any-file:
+          - package.json
+          - package-lock.json
+          - clipper/package.json
+          - clipper/package-lock.json
+  - head-branch:
+      - '^dependabot/'
+
+security:
+  - changed-files:
+      - any-glob-to-any-file:
+          - SECURITY.md
+          - compliance/**
+          - .github/dependabot.yml
