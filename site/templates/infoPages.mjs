@@ -106,7 +106,10 @@ export function privacy(ctx) {
   <h2>The embed and the badge</h2>
   <p>The iframe embed and the README badge are static files. They set no cookies and run no tracking on the pages that use them.</p>
   <h2>Questions</h2>
-  <p>See the <a href="${esc(ctx.href('/about.html'))}">about page</a> for how to get in touch.</p>
+  <p>See the <a href="${esc(ctx.href('/about.html'))}">about page</a> for how to get in touch.
+    To report a security issue, use
+    <a href="${esc(brand.REPO_URL)}/security/advisories/new" rel="noopener">private vulnerability reporting</a>
+    or read <a href="${esc(brand.REPO_URL)}/blob/main/SECURITY.md" rel="noopener">SECURITY.md</a>.</p>
 </section>`;
   return page({
     ctx, path: '/privacy.html',

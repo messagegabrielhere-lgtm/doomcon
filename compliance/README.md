@@ -55,6 +55,16 @@ It never edits a build folder passed with `--dir`.
 | `privacy-page` | medium | CalOPPA requires a linked privacy policy |
 | `social-mention-guard` | high | X/Bluesky spam rules: an automated poster must refuse @mentions |
 | `social-affiliate` | high | FTC + Amazon: affiliate links in posts need #ad |
+| `workflow-permissions` | high | Workflows without `permissions:` inherit overly broad GITHUB_TOKEN rights |
+| `workflow-secret-echo` | high | Secrets printed into Actions logs |
+| `tracking-pixel` | medium | GDPR/CCPA consent for analytics and ad pixels |
+| `email-capture` | medium | Email field with no privacy link (CalOPPA, GDPR) |
+| `dmca-agent` | medium | Losing DMCA safe harbor for user uploads ($150k per work) |
+| `finance-disclaimer` | medium | Trading signals with no "not investment advice" notice |
+| `cookie-consent` | medium | ePrivacy cookie consent |
+| `privacy-page` | medium | CalOPPA requires a linked privacy policy |
+| `security-policy` | medium | No SECURITY.md for responsible disclosure |
+| `dependabot-config` | medium | Declared npm deps with no Dependabot coverage |
 | `ytdlp-cookies` | low | YouTube ToS: logged-in cookies put that Google account at risk |
 
 `compliance/selftest.mjs` plants a violation and a fix for every rule and fails CI
@@ -74,8 +84,9 @@ required. After the date the finding comes back.
 
 `rules.mjs` (MANUAL) lists checks only you can do, each with steps: X
 "Automated" label, bio disclosure, AI-media labels, Amazon Associates profile,
-clipper channel rights, key rotation, the PII secret. Each run prints the open
-ones. In `compliance/manual.json`, add an id to `done` once it's true, or to `na`
+clipper channel rights, key rotation, the PII secret, private vulnerability
+reporting, and Dependabot alerts. Each run prints the open ones. In
+`compliance/manual.json`, add an id to `done` once it's true, or to `na`
 if it doesn't apply yet.
 
 ## Keeping your name out of the repo

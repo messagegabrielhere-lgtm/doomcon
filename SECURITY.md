@@ -59,7 +59,9 @@ when possible so package lifecycle scripts cannot run untrusted code.
 ## Related automation
 
 - `compliance/` — blocks common legal and secret-leak mistakes on every push
-- `.github/workflows/compliance.yml` — strict audit gate
+- `.github/workflows/compliance.yml` — strict audit gate, chart self-test, npm audit
+- `.github/dependabot.yml` — weekly/monthly dependency and Actions bumps
 - `SECURITY.md` / `/.well-known/security.txt` — how to reach us
+- Footer and privacy page link here so visitors can find the same path
 
 Not a bug bounty program. Thanks for helping keep a public index honest.
