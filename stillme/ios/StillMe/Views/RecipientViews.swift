@@ -49,7 +49,7 @@ struct RedeemView: View {
 struct RecipientHome: View {
     @Binding var mode: AppMode
     @Environment(RecipientStore.self) private var recipient
-    @State private var showIntro = false
+    @State private var showIntro = LaunchScreen.value == "intro"
     @State private var confirmForget = false
 
     var body: some View {
@@ -60,15 +60,11 @@ struct RecipientHome: View {
                     messages: $recipient.conversation,
                     personaName: grant.name,
                     send: { recipient.chat($0) },
-                    onChange: { recipient.saveConversation() }
+                    onChange: { recipient.saveConversation() },
+                    intro: "Say anything. Take your time.",
+                    suggestions: ["Tell me a story about you.", "What were you like at my age?",
+                                  "What would you tell me on a hard day?", "I miss you."]
                 )
-                .overlay(alignment: .top) {
-                    if recipient.conversation.isEmpty {
-                        Text("Say anything. Take your time.")
-                            .foregroundStyle(.secondary)
-                            .padding(40)
-                    }
-                }
                 .safeAreaInset(edge: .top) {
                     Text("An AI built from what \(grant.name) chose to share — not \(grant.name).")
                         .font(.caption)

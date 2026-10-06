@@ -219,7 +219,7 @@ struct ReplySamplesView: View {
                             if let existing {
                                 Text(existing.text)
                                     .padding(.horizontal, 12).padding(.vertical, 7)
-                                    .background(Color.accentColor, in: RoundedRectangle(cornerRadius: 14))
+                                    .background(Color.pulse, in: RoundedRectangle(cornerRadius: 14))
                                     .foregroundStyle(Color.onAccent)
                                     .frame(maxWidth: .infinity, alignment: .trailing)
                                     .lineLimit(3)

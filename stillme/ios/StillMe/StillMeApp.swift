@@ -23,10 +23,16 @@ struct StillMeApp: App {
     var body: some Scene {
         WindowGroup {
             RootView()
+                .tint(Color.pulse)
                 .environment(archive)
                 .environment(recipient)
         }
     }
+}
+
+/// `-StillMeScreen <name>` opens a specific screen at launch (used for screenshots).
+enum LaunchScreen {
+    static let value = UserDefaults.standard.string(forKey: "StillMeScreen")
 }
 
 enum AppMode: String {

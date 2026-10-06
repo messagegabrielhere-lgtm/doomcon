@@ -55,7 +55,7 @@ struct MemoryEditor: View {
                         Label(recorder.isRecording ? "Stop recording" : "Speak instead",
                               systemImage: recorder.isRecording ? "stop.circle.fill" : "mic.circle")
                     }
-                    .tint(recorder.isRecording ? Color.red : Color.accentColor)
+                    .tint(recorder.isRecording ? Color.red : Color.pulse)
                     if let error = recorder.error {
                         Text(error).font(.footnote).foregroundStyle(.red)
                     }

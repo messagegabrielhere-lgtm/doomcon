@@ -2,7 +2,7 @@ import SwiftUI
 
 struct WelcomeView: View {
     @Binding var mode: AppMode
-    @State private var path: [Step] = []
+    @State private var path: [Step] = LaunchScreen.value == "consent" ? [.consent] : []
 
     enum Step: Hashable { case consent, redeem }
 

@@ -48,17 +48,10 @@ struct RehearseView: View {
                                 text: "",
                                 restrictedTo: asBeneficiaryId.map { [$0] } ?? []
                             )
-                        }
+                        },
+                        intro: "This is your AI as the people you chose will meet it. Ask it anything. Long-press a reply that doesn't sound like you to correct it.",
+                        suggestions: rehearsalSuggestions
                     )
-                    .overlay(alignment: .top) {
-                        if messages.isEmpty {
-                            Text("This is your AI as the people you chose will meet it. Ask it anything. Long-press a reply that doesn't sound like you to correct it.")
-                                .font(.callout)
-                                .foregroundStyle(.secondary)
-                                .multilineTextAlignment(.center)
-                                .padding(32)
-                        }
-                    }
                 }
             }
             .brandBackground()
@@ -89,6 +82,18 @@ struct RehearseView: View {
                 MemoryEditor(memory: memory, isNew: true)
             }
         }
+    }
+
+    private var rehearsalSuggestions: [String] {
+        func first(_ name: String) -> String { name.split(separator: " ").first.map(String.init) ?? name }
+        var list = ["What was your first job like?", "What would you tell me on a really bad day?"]
+        if let person = store.archive.people.first(where: { $0.beneficiaryId == nil }) {
+            list.insert("Tell me about \(first(person.name)).", at: 0)
+        }
+        if let id = asBeneficiaryId, let b = store.archive.legacy.beneficiaries.first(where: { $0.id == id }) {
+            list.append("It's \(first(b.name)). I miss you.")
+        }
+        return list
     }
 
     private var listenerName: String {

@@ -14,11 +14,19 @@ struct YouView: View {
         NavigationStack {
             Form {
                 Section("About you") {
-                    TextField("Full name", text: $store.archive.profile.name).textContentType(.name)
-                    TextField("What people call you", text: optional($store.archive.profile.preferredName))
-                    TextField("Hometown", text: optional($store.archive.profile.hometown))
-                    TextField("Birth year", value: $store.archive.profile.birthYear, format: .number.grouping(.never))
-                        .keyboardType(.numberPad)
+                    field("Full name") {
+                        TextField("Required", text: $store.archive.profile.name).textContentType(.name)
+                    }
+                    field("Goes by") {
+                        TextField("Nickname", text: optional($store.archive.profile.preferredName))
+                    }
+                    field("Hometown") {
+                        TextField("City", text: optional($store.archive.profile.hometown))
+                    }
+                    field("Born") {
+                        TextField("Year", value: $store.archive.profile.birthYear, format: .number.grouping(.never))
+                            .keyboardType(.numberPad)
+                    }
                 }
 
                 longText("How you talk", $store.archive.profile.speakingStyle,
@@ -72,6 +80,14 @@ struct YouView: View {
             } message: {
                 Text("Your memories, your AI and your legacy settings will be permanently erased. No one will receive anything.")
             }
+        }
+    }
+
+    private func field<Content: View>(_ label: String, @ViewBuilder _ content: () -> Content) -> some View {
+        LabeledContent {
+            content().multilineTextAlignment(.trailing)
+        } label: {
+            Text(label).foregroundStyle(Color.slate)
         }
     }
 

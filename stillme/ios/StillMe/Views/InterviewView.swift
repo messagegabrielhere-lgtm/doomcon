@@ -3,6 +3,8 @@ import SwiftUI
 struct InterviewView: View {
     @Environment(ArchiveStore.self) private var store
     @State private var newMemory: Memory?
+    @State private var openPeople = LaunchScreen.value == "people"
+    @State private var openReplies = LaunchScreen.value == "replies"
 
     var body: some View {
         let replies = store.archive.memories.filter { $0.kind == .reply }.count
@@ -61,6 +63,8 @@ struct InterviewView: View {
             }
             .brandBackground()
             .navigationTitle("Record")
+            .navigationDestination(isPresented: $openPeople) { PeopleView() }
+            .navigationDestination(isPresented: $openReplies) { ReplySamplesView() }
             .sheet(item: $newMemory) { memory in
                 MemoryEditor(memory: memory, isNew: true)
             }
@@ -93,7 +97,7 @@ struct TopicView: View {
                 } label: {
                     HStack(alignment: .top, spacing: 12) {
                         Image(systemName: answers.isEmpty ? "circle" : "checkmark.circle.fill")
-                            .foregroundStyle(answers.isEmpty ? Color.secondary : Color.accentColor)
+                            .foregroundStyle(answers.isEmpty ? Color.secondary : Color.pulse)
                         VStack(alignment: .leading, spacing: 4) {
                             Text(question).foregroundStyle(.primary)
                             if let first = answers.first {

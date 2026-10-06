@@ -9,6 +9,9 @@ struct ChatView: View {
     /// When set, assistant messages get a "That's not me" action.
     var onCorrect: (@MainActor (_ question: String, _ reply: String) -> Void)?
     var onChange: @MainActor () -> Void = {}
+    /// Shown, with tappable starter messages, before the first message.
+    var intro: String?
+    var suggestions: [String] = []
 
     @State private var draft = ""
     @State private var isReplying = false
@@ -19,6 +22,7 @@ struct ChatView: View {
         ScrollViewReader { proxy in
             ScrollView {
                 LazyVStack(spacing: 10) {
+                    if messages.isEmpty { emptyState }
                     ForEach(Array(messages.enumerated()), id: \.element.id) { index, message in
                         Bubble(message: message, personaName: personaName)
                             .contextMenu {
@@ -65,6 +69,42 @@ struct ChatView: View {
         .background(Color.canvas.ignoresSafeArea())
     }
 
+    @ViewBuilder private var emptyState: some View {
+        VStack(spacing: 16) {
+            PulseMark().frame(width: 56)
+            if let intro {
+                Text(intro)
+                    .font(.callout)
+                    .foregroundStyle(Color.slate)
+                    .multilineTextAlignment(.center)
+            }
+            if !suggestions.isEmpty {
+                VStack(spacing: 8) {
+                    ForEach(suggestions, id: \.self) { suggestion in
+                        Button {
+                            draft = suggestion
+                            Task { await submit() }
+                        } label: {
+                            Text(suggestion)
+                                .font(.subheadline.weight(.medium))
+                                .foregroundStyle(Color.ink)
+                                .padding(.horizontal, 14)
+                                .padding(.vertical, 9)
+                                .frame(maxWidth: .infinity)
+                                .background(Color.card, in: Capsule())
+                                .overlay(Capsule().strokeBorder(Color.slate.opacity(0.25)))
+                        }
+                        .buttonStyle(.plain)
+                        .disabled(isReplying)
+                    }
+                }
+                .padding(.top, 4)
+            }
+        }
+        .padding(.horizontal, 24)
+        .padding(.top, 48)
+    }
+
     private func submit() async {
         let text = draft.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !text.isEmpty else { return }
@@ -109,7 +149,7 @@ private struct Bubble: View {
             }
             .padding(.horizontal, 14)
             .padding(.vertical, 10)
-            .background(mine ? Color.accentColor : Color.card,
+            .background(mine ? Color.pulse : Color.card,
                         in: RoundedRectangle(cornerRadius: 18))
             .overlay {
                 if !mine { RoundedRectangle(cornerRadius: 18).strokeBorder(Color.slate.opacity(0.25)) }

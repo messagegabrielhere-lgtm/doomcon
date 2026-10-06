@@ -95,6 +95,11 @@ struct LegacyView: View {
                 if let backup = status.archiveUpdatedAt {
                     LabeledContent("Last backup", value: backup.formatted(.relative(presentation: .named)))
                 }
+            } else {
+                Label("Not backed up yet. Your first check-in backs everything up and starts the clock.",
+                      systemImage: "icloud.slash")
+                    .font(.subheadline)
+                    .foregroundStyle(Color.slate)
             }
 
             if store.status?.status == .released {
