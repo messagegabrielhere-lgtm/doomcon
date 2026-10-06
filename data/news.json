@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated_at": "2026-10-06T08:16:15.283Z",
+  "generated_at": "2026-10-06T08:25:54.018Z",
   "scoring_version": "1.1.0",
   "window_days": 7,
   "max_items": 200,
@@ -18,15 +18,115 @@
     "COVERAGE_MAX": 15
   },
   "run": {
-    "mode": "incremental",
+    "mode": "full",
     "adapters": 16,
-    "fetched": 15,
-    "skipped": 1,
+    "fetched": 16,
+    "skipped": 0,
     "arrived": 3,
     "departed": 3,
     "items_changed": true
   },
   "items": [
+    {
+      "id": "05f9af330bd34366",
+      "source": "techmeme",
+      "kind": "press",
+      "title": "South Korean officials are probing whether AI agents were used in recent bank hacks, after President Lee Jae Myung said \"signs\" suggest AI models were involved (New York Times)",
+      "summary": "New York Times : South Korean officials are probing whether AI agents were used in recent bank hacks, after President Lee Jae Myung said “signs” suggest AI models were involved — The president said there were signs that such models were used in recent attacks on several banks involving customer data.",
+      "url": "https://techmeme.com/261006/p6",
+      "published_at": "2026-10-06T08:20:01.000Z",
+      "pillar": "attention",
+      "score": 52.5,
+      "entities": [],
+      "meta": {
+        "feed": "https://www.techmeme.com/feed.xml",
+        "locally_ai_filtered": true,
+        "rejected_off_topic": 1,
+        "source_weight": 0.7,
+        "pillar_reason": "source default",
+        "entity_kinds": {
+          "labs": [],
+          "models": []
+        },
+        "score_components": {
+          "source_weight": 17.5,
+          "recency": 20,
+          "corroboration": 0,
+          "entities": 0,
+          "engagement": 0,
+          "severity": 15,
+          "coverage": 0
+        },
+        "age_hours_at_score": 0.1,
+        "engagement": null,
+        "corroboration": {
+          "count": 1,
+          "sources": [
+            "techmeme"
+          ],
+          "first_source": "techmeme",
+          "first_seen_published_at": "2026-10-06T08:20:01.000Z",
+          "last_published_at": "2026-10-06T08:20:01.000Z",
+          "lead_minutes": 0,
+          "primary_published_at": "2026-10-06T08:20:01.000Z",
+          "also": []
+        },
+        "first_seen_at": "2026-10-06T08:25:54.018Z",
+        "incident": {
+          "severity": 1,
+          "band": "A",
+          "strong_signal": false,
+          "terms": [
+            {
+              "term": "hacks",
+              "matched": "hacks",
+              "tier": "a",
+              "field": "title",
+              "weight": 1
+            },
+            {
+              "term": "hacks",
+              "matched": "hacks",
+              "tier": "a",
+              "field": "summary",
+              "weight": 0.35
+            },
+            {
+              "term": "attacks",
+              "matched": "attacks",
+              "tier": "b",
+              "field": "summary",
+              "weight": 0.21
+            }
+          ],
+          "excluded": null
+        },
+        "story": {
+          "id": "6b49f817361c",
+          "lead": "92f6b887ebd6242d",
+          "is_lead": false,
+          "members": [
+            "05f9af330bd34366",
+            "92f6b887ebd6242d",
+            "f978bf0c289392ab"
+          ],
+          "source_count": 1,
+          "sources": [
+            "techmeme"
+          ],
+          "severity": 1,
+          "linked_by": [
+            {
+              "with": "f978bf0c289392ab",
+              "rule": "escalation-signal",
+              "words": [
+                "president"
+              ]
+            }
+          ]
+        }
+      }
+    },
     {
       "id": "10f178b21f33bece",
       "source": "techmeme",
@@ -64,7 +164,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 0.2,
+        "age_hours_at_score": 0.3,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -119,7 +219,7 @@
           "severity": 0,
           "coverage": 5
         },
-        "age_hours_at_score": 0.4,
+        "age_hours_at_score": 0.6,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -170,6 +270,70 @@
       }
     },
     {
+      "id": "14521ea2b00330df",
+      "source": "hn-ai",
+      "kind": "forum",
+      "title": "German Bundeswehr Uses AI to Screen Applicants for Right-Wing Extremism",
+      "summary": "17 points, 8 comments on Hacker News.",
+      "url": "https://news.osna.fm/german-military-intelligence-uses-ai-to-screen-bundeswehr-applicants-for-right-wing-extremism",
+      "published_at": "2026-10-06T07:49:07.000Z",
+      "pillar": "attention",
+      "score": 43.2,
+      "entities": [],
+      "meta": {
+        "hn_id": "49975484",
+        "points": 17,
+        "comments": 8,
+        "discussion_url": "https://news.ycombinator.com/item?id=49975484",
+        "window_hours": 72,
+        "min_points": 8,
+        "locally_ai_filtered": true,
+        "rejected_off_topic": 1,
+        "source_weight": 0.6,
+        "pillar_reason": "source default",
+        "entity_kinds": {
+          "labs": [],
+          "models": []
+        },
+        "score_components": {
+          "source_weight": 15,
+          "recency": 19.8,
+          "corroboration": 0,
+          "entities": 0,
+          "engagement": 8.4,
+          "severity": 0,
+          "coverage": 0
+        },
+        "age_hours_at_score": 0.6,
+        "engagement": {
+          "metric": "hn_points",
+          "value": 17,
+          "full_scale": 500
+        },
+        "corroboration": {
+          "count": 1,
+          "sources": [
+            "hn-ai"
+          ],
+          "first_source": "hn-ai",
+          "first_seen_published_at": "2026-10-06T07:49:07.000Z",
+          "last_published_at": "2026-10-06T07:49:07.000Z",
+          "lead_minutes": 0,
+          "primary_published_at": "2026-10-06T07:49:07.000Z",
+          "also": []
+        },
+        "first_seen_at": "2026-10-06T08:25:54.018Z",
+        "incident": {
+          "severity": 0,
+          "band": null,
+          "strong_signal": false,
+          "terms": [],
+          "excluded": null
+        },
+        "story": null
+      }
+    },
+    {
       "id": "fe424883c3cacf66",
       "source": "huggingface-blog",
       "kind": "lab",
@@ -197,7 +361,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 1.5,
+        "age_hours_at_score": 1.7,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -258,7 +422,7 @@
           "severity": 15,
           "coverage": 0
         },
-        "age_hours_at_score": 1.8,
+        "age_hours_at_score": 1.9,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -296,10 +460,11 @@
           "excluded": null
         },
         "story": {
-          "id": "bdf33ec665d1",
+          "id": "6b49f817361c",
           "lead": "92f6b887ebd6242d",
           "is_lead": true,
           "members": [
+            "05f9af330bd34366",
             "92f6b887ebd6242d",
             "f978bf0c289392ab"
           ],
@@ -357,7 +522,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 2.6,
+        "age_hours_at_score": 2.8,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -391,7 +556,7 @@
       "url": "https://techmeme.com/261006/p1",
       "published_at": "2026-10-06T05:00:14.000Z",
       "pillar": "compute",
-      "score": 36.3,
+      "score": 36.2,
       "entities": [],
       "meta": {
         "feed": "https://www.techmeme.com/feed.xml",
@@ -405,14 +570,14 @@
         },
         "score_components": {
           "source_weight": 17.5,
-          "recency": 18.8,
+          "recency": 18.7,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 3.3,
+        "age_hours_at_score": 3.4,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -446,7 +611,7 @@
       "url": "https://github.com/anthropics/claude-code/releases/tag/v2.1.291",
       "published_at": "2026-10-06T03:55:19.000Z",
       "pillar": "capability",
-      "score": 40.2,
+      "score": 40.1,
       "entities": [
         "Claude"
       ],
@@ -466,14 +631,14 @@
         },
         "score_components": {
           "source_weight": 18.8,
-          "recency": 18.4,
+          "recency": 18.3,
           "corroboration": 0,
           "entities": 3,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 4.3,
+        "age_hours_at_score": 4.5,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -507,7 +672,7 @@
       "url": "https://techmeme.com/261005/p36",
       "published_at": "2026-10-06T03:50:00.000Z",
       "pillar": "compute",
-      "score": 35.9,
+      "score": 35.8,
       "entities": [],
       "meta": {
         "feed": "https://www.techmeme.com/feed.xml",
@@ -521,14 +686,14 @@
         },
         "score_components": {
           "source_weight": 17.5,
-          "recency": 18.4,
+          "recency": 18.3,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 4.4,
+        "age_hours_at_score": 4.6,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -587,7 +752,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 5.1,
+        "age_hours_at_score": 5.3,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -621,7 +786,7 @@
       "url": "https://github.com/ollama/ollama/releases/tag/v0.40.0-rc5",
       "published_at": "2026-10-06T01:53:06.000Z",
       "pillar": "capability",
-      "score": 36.5,
+      "score": 36.4,
       "entities": [],
       "meta": {
         "repo": "ollama/ollama",
@@ -637,14 +802,14 @@
         },
         "score_components": {
           "source_weight": 18.8,
-          "recency": 17.7,
+          "recency": 17.6,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 6.4,
+        "age_hours_at_score": 6.5,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -678,7 +843,7 @@
       "url": "https://github.com/ollama/ollama/releases/tag/v0.40.0-rc4",
       "published_at": "2026-10-06T00:41:51.000Z",
       "pillar": "capability",
-      "score": 36.1,
+      "score": 36,
       "entities": [],
       "meta": {
         "repo": "ollama/ollama",
@@ -694,14 +859,14 @@
         },
         "score_components": {
           "source_weight": 18.8,
-          "recency": 17.3,
+          "recency": 17.2,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 7.6,
+        "age_hours_at_score": 7.7,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -735,7 +900,7 @@
       "url": "https://edworkingpapers.com/ai26-1551",
       "published_at": "2026-10-06T00:00:45.000Z",
       "pillar": "attention",
-      "score": 44,
+      "score": 43.9,
       "entities": [],
       "meta": {
         "hn_id": "49972419",
@@ -754,14 +919,14 @@
         },
         "score_components": {
           "source_weight": 15,
-          "recency": 17.1,
+          "recency": 17,
           "corroboration": 0,
           "entities": 0,
           "engagement": 11.9,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 8.3,
+        "age_hours_at_score": 8.4,
         "engagement": {
           "metric": "hn_points",
           "value": 61,
@@ -803,7 +968,7 @@
       "entities": [],
       "meta": {
         "arxiv_id": "2610.05608",
-        "upvotes": 68,
+        "upvotes": 70,
         "comments": 2,
         "github_repo": "https://github.com/kandinskylab/kandinsky-6",
         "arxiv_published_at": "2026-10-04T00:00:00.000Z",
@@ -815,17 +980,17 @@
         },
         "score_components": {
           "source_weight": 20,
-          "recency": 17.1,
+          "recency": 17,
           "corroboration": 0,
           "entities": 0,
-          "engagement": 15.2,
+          "engagement": 15.3,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 8.3,
+        "age_hours_at_score": 8.4,
         "engagement": {
           "metric": "hf_upvotes",
-          "value": 68,
+          "value": 70,
           "full_scale": 150
         },
         "corroboration": {
@@ -860,7 +1025,7 @@
       "url": "https://huggingface.co/papers/2610.04198",
       "published_at": "2026-10-06T00:00:00.000Z",
       "pillar": "capability",
-      "score": 50.1,
+      "score": 50,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.04198",
@@ -876,14 +1041,14 @@
         },
         "score_components": {
           "source_weight": 20,
-          "recency": 17.1,
+          "recency": 17,
           "corroboration": 0,
           "entities": 0,
           "engagement": 13,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 8.3,
+        "age_hours_at_score": 8.4,
         "engagement": {
           "metric": "hf_upvotes",
           "value": 36,
@@ -921,7 +1086,7 @@
       "url": "https://huggingface.co/papers/2610.05303",
       "published_at": "2026-10-06T00:00:00.000Z",
       "pillar": "capability",
-      "score": 46,
+      "score": 45.9,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.05303",
@@ -937,14 +1102,14 @@
         },
         "score_components": {
           "source_weight": 20,
-          "recency": 17.1,
+          "recency": 17,
           "corroboration": 0,
           "entities": 0,
           "engagement": 8.9,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 8.3,
+        "age_hours_at_score": 8.4,
         "engagement": {
           "metric": "hf_upvotes",
           "value": 11,
@@ -982,7 +1147,7 @@
       "url": "https://huggingface.co/papers/2610.00923",
       "published_at": "2026-10-06T00:00:00.000Z",
       "pillar": "capability",
-      "score": 45.7,
+      "score": 45.6,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.00923",
@@ -998,14 +1163,14 @@
         },
         "score_components": {
           "source_weight": 20,
-          "recency": 17.1,
+          "recency": 17,
           "corroboration": 0,
           "entities": 0,
           "engagement": 8.6,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 8.3,
+        "age_hours_at_score": 8.4,
         "engagement": {
           "metric": "hf_upvotes",
           "value": 10,
@@ -1043,7 +1208,7 @@
       "url": "https://huggingface.co/papers/2610.04318",
       "published_at": "2026-10-06T00:00:00.000Z",
       "pillar": "capability",
-      "score": 45,
+      "score": 44.9,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.04318",
@@ -1059,14 +1224,14 @@
         },
         "score_components": {
           "source_weight": 20,
-          "recency": 17.1,
+          "recency": 17,
           "corroboration": 0,
           "entities": 0,
           "engagement": 7.9,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 8.3,
+        "age_hours_at_score": 8.4,
         "engagement": {
           "metric": "hf_upvotes",
           "value": 8,
@@ -1104,7 +1269,7 @@
       "url": "https://huggingface.co/papers/2610.05894",
       "published_at": "2026-10-06T00:00:00.000Z",
       "pillar": "capability",
-      "score": 44.6,
+      "score": 44.5,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.05894",
@@ -1120,14 +1285,14 @@
         },
         "score_components": {
           "source_weight": 20,
-          "recency": 17.1,
+          "recency": 17,
           "corroboration": 0,
           "entities": 0,
           "engagement": 7.5,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 8.3,
+        "age_hours_at_score": 8.4,
         "engagement": {
           "metric": "hf_upvotes",
           "value": 7,
@@ -1165,7 +1330,7 @@
       "url": "https://huggingface.co/papers/2609.24890",
       "published_at": "2026-10-06T00:00:00.000Z",
       "pillar": "capability",
-      "score": 44.6,
+      "score": 44.5,
       "entities": [],
       "meta": {
         "arxiv_id": "2609.24890",
@@ -1181,14 +1346,14 @@
         },
         "score_components": {
           "source_weight": 20,
-          "recency": 17.1,
+          "recency": 17,
           "corroboration": 0,
           "entities": 0,
           "engagement": 7.5,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 8.3,
+        "age_hours_at_score": 8.4,
         "engagement": {
           "metric": "hf_upvotes",
           "value": 7,
@@ -1226,7 +1391,7 @@
       "url": "https://huggingface.co/papers/2610.05162",
       "published_at": "2026-10-06T00:00:00.000Z",
       "pillar": "capability",
-      "score": 44.1,
+      "score": 44,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.05162",
@@ -1242,14 +1407,14 @@
         },
         "score_components": {
           "source_weight": 20,
-          "recency": 17.1,
+          "recency": 17,
           "corroboration": 0,
           "entities": 0,
           "engagement": 7,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 8.3,
+        "age_hours_at_score": 8.4,
         "engagement": {
           "metric": "hf_upvotes",
           "value": 6,
@@ -1287,7 +1452,7 @@
       "url": "https://huggingface.co/papers/2610.05870",
       "published_at": "2026-10-06T00:00:00.000Z",
       "pillar": "capability",
-      "score": 44.1,
+      "score": 44,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.05870",
@@ -1303,14 +1468,14 @@
         },
         "score_components": {
           "source_weight": 20,
-          "recency": 17.1,
+          "recency": 17,
           "corroboration": 0,
           "entities": 0,
           "engagement": 7,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 8.3,
+        "age_hours_at_score": 8.4,
         "engagement": {
           "metric": "hf_upvotes",
           "value": 6,
@@ -1348,7 +1513,7 @@
       "url": "https://huggingface.co/papers/2610.05719",
       "published_at": "2026-10-06T00:00:00.000Z",
       "pillar": "capability",
-      "score": 44.1,
+      "score": 44,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.05719",
@@ -1364,14 +1529,14 @@
         },
         "score_components": {
           "source_weight": 20,
-          "recency": 17.1,
+          "recency": 17,
           "corroboration": 0,
           "entities": 0,
           "engagement": 7,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 8.3,
+        "age_hours_at_score": 8.4,
         "engagement": {
           "metric": "hf_upvotes",
           "value": 6,
@@ -1409,7 +1574,7 @@
       "url": "https://huggingface.co/papers/2610.06617",
       "published_at": "2026-10-06T00:00:00.000Z",
       "pillar": "capability",
-      "score": 44.1,
+      "score": 44,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.06617",
@@ -1425,14 +1590,14 @@
         },
         "score_components": {
           "source_weight": 20,
-          "recency": 17.1,
+          "recency": 17,
           "corroboration": 0,
           "entities": 0,
           "engagement": 7,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 8.3,
+        "age_hours_at_score": 8.4,
         "engagement": {
           "metric": "hf_upvotes",
           "value": 6,
@@ -1470,11 +1635,11 @@
       "url": "https://huggingface.co/papers/2610.04929",
       "published_at": "2026-10-06T00:00:00.000Z",
       "pillar": "capability",
-      "score": 42.9,
+      "score": 43.4,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.04929",
-        "upvotes": 4,
+        "upvotes": 5,
         "comments": 1,
         "github_repo": "https://github.com/robotuse-team/RobotUse",
         "arxiv_published_at": "2026-10-04T00:00:00.000Z",
@@ -1486,17 +1651,17 @@
         },
         "score_components": {
           "source_weight": 20,
-          "recency": 17.1,
+          "recency": 17,
           "corroboration": 0,
           "entities": 0,
-          "engagement": 5.8,
+          "engagement": 6.4,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 8.3,
+        "age_hours_at_score": 8.4,
         "engagement": {
           "metric": "hf_upvotes",
-          "value": 4,
+          "value": 5,
           "full_scale": 150
         },
         "corroboration": {
@@ -1523,6 +1688,67 @@
       }
     },
     {
+      "id": "32435b632e970cc3",
+      "source": "hf-daily-papers",
+      "kind": "paper",
+      "title": "QuantCode Model: Specializing Language Models for Executable Algorithmic Trading Code",
+      "summary": "Large language models are strong general-purpose code generators, but executable algorithmic trading remains a demanding specialization target: a model must translate a natural-language strategy specification into correct program logic for a specialized trading framework, execute on historical data, produce trades, and",
+      "url": "https://huggingface.co/papers/2609.39420",
+      "published_at": "2026-10-06T00:00:00.000Z",
+      "pillar": "capability",
+      "score": 42.8,
+      "entities": [],
+      "meta": {
+        "arxiv_id": "2609.39420",
+        "upvotes": 4,
+        "comments": 1,
+        "github_repo": null,
+        "arxiv_published_at": "2026-09-30T00:00:00.000Z",
+        "source_weight": 0.8,
+        "pillar_reason": "primary artefact (research output / model release)",
+        "entity_kinds": {
+          "labs": [],
+          "models": []
+        },
+        "score_components": {
+          "source_weight": 20,
+          "recency": 17,
+          "corroboration": 0,
+          "entities": 0,
+          "engagement": 5.8,
+          "severity": 0,
+          "coverage": 0
+        },
+        "age_hours_at_score": 8.4,
+        "engagement": {
+          "metric": "hf_upvotes",
+          "value": 4,
+          "full_scale": 150
+        },
+        "corroboration": {
+          "count": 1,
+          "sources": [
+            "hf-daily-papers"
+          ],
+          "first_source": "hf-daily-papers",
+          "first_seen_published_at": "2026-10-06T00:00:00.000Z",
+          "last_published_at": "2026-10-06T00:00:00.000Z",
+          "lead_minutes": 0,
+          "primary_published_at": "2026-10-06T00:00:00.000Z",
+          "also": []
+        },
+        "first_seen_at": "2026-10-06T06:22:30.575Z",
+        "incident": {
+          "severity": 0,
+          "band": null,
+          "strong_signal": false,
+          "terms": [],
+          "excluded": "paper"
+        },
+        "story": null
+      }
+    },
+    {
       "id": "d5d1c8799e180c11",
       "source": "hf-daily-papers",
       "kind": "paper",
@@ -1531,7 +1757,7 @@
       "url": "https://huggingface.co/papers/2610.05416",
       "published_at": "2026-10-06T00:00:00.000Z",
       "pillar": "capability",
-      "score": 42.9,
+      "score": 42.8,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.05416",
@@ -1547,14 +1773,14 @@
         },
         "score_components": {
           "source_weight": 20,
-          "recency": 17.1,
+          "recency": 17,
           "corroboration": 0,
           "entities": 0,
           "engagement": 5.8,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 8.3,
+        "age_hours_at_score": 8.4,
         "engagement": {
           "metric": "hf_upvotes",
           "value": 4,
@@ -1584,67 +1810,6 @@
       }
     },
     {
-      "id": "32435b632e970cc3",
-      "source": "hf-daily-papers",
-      "kind": "paper",
-      "title": "QuantCode Model: Specializing Language Models for Executable Algorithmic Trading Code",
-      "summary": "Large language models are strong general-purpose code generators, but executable algorithmic trading remains a demanding specialization target: a model must translate a natural-language strategy specification into correct program logic for a specialized trading framework, execute on historical data, produce trades, and",
-      "url": "https://huggingface.co/papers/2609.39420",
-      "published_at": "2026-10-06T00:00:00.000Z",
-      "pillar": "capability",
-      "score": 42.1,
-      "entities": [],
-      "meta": {
-        "arxiv_id": "2609.39420",
-        "upvotes": 3,
-        "comments": 1,
-        "github_repo": null,
-        "arxiv_published_at": "2026-09-30T00:00:00.000Z",
-        "source_weight": 0.8,
-        "pillar_reason": "primary artefact (research output / model release)",
-        "entity_kinds": {
-          "labs": [],
-          "models": []
-        },
-        "score_components": {
-          "source_weight": 20,
-          "recency": 17.1,
-          "corroboration": 0,
-          "entities": 0,
-          "engagement": 5,
-          "severity": 0,
-          "coverage": 0
-        },
-        "age_hours_at_score": 8.3,
-        "engagement": {
-          "metric": "hf_upvotes",
-          "value": 3,
-          "full_scale": 150
-        },
-        "corroboration": {
-          "count": 1,
-          "sources": [
-            "hf-daily-papers"
-          ],
-          "first_source": "hf-daily-papers",
-          "first_seen_published_at": "2026-10-06T00:00:00.000Z",
-          "last_published_at": "2026-10-06T00:00:00.000Z",
-          "lead_minutes": 0,
-          "primary_published_at": "2026-10-06T00:00:00.000Z",
-          "also": []
-        },
-        "first_seen_at": "2026-10-06T06:22:30.575Z",
-        "incident": {
-          "severity": 0,
-          "band": null,
-          "strong_signal": false,
-          "terms": [],
-          "excluded": "paper"
-        },
-        "story": null
-      }
-    },
-    {
       "id": "929e383cfbc232c9",
       "source": "hf-daily-papers",
       "kind": "paper",
@@ -1653,7 +1818,7 @@
       "url": "https://huggingface.co/papers/2610.04137",
       "published_at": "2026-10-06T00:00:00.000Z",
       "pillar": "capability",
-      "score": 42.1,
+      "score": 42,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.04137",
@@ -1669,14 +1834,14 @@
         },
         "score_components": {
           "source_weight": 20,
-          "recency": 17.1,
+          "recency": 17,
           "corroboration": 0,
           "entities": 0,
           "engagement": 5,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 8.3,
+        "age_hours_at_score": 8.4,
         "engagement": {
           "metric": "hf_upvotes",
           "value": 3,
@@ -1714,7 +1879,7 @@
       "url": "https://huggingface.co/papers/2610.03872",
       "published_at": "2026-10-06T00:00:00.000Z",
       "pillar": "capability",
-      "score": 42.1,
+      "score": 42,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.03872",
@@ -1730,14 +1895,14 @@
         },
         "score_components": {
           "source_weight": 20,
-          "recency": 17.1,
+          "recency": 17,
           "corroboration": 0,
           "entities": 0,
           "engagement": 5,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 8.3,
+        "age_hours_at_score": 8.4,
         "engagement": {
           "metric": "hf_upvotes",
           "value": 3,
@@ -1775,7 +1940,7 @@
       "url": "https://huggingface.co/papers/2610.04226",
       "published_at": "2026-10-06T00:00:00.000Z",
       "pillar": "capability",
-      "score": 42.1,
+      "score": 42,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.04226",
@@ -1791,14 +1956,14 @@
         },
         "score_components": {
           "source_weight": 20,
-          "recency": 17.1,
+          "recency": 17,
           "corroboration": 0,
           "entities": 0,
           "engagement": 5,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 8.3,
+        "age_hours_at_score": 8.4,
         "engagement": {
           "metric": "hf_upvotes",
           "value": 3,
@@ -1836,7 +2001,7 @@
       "url": "https://huggingface.co/papers/2610.04616",
       "published_at": "2026-10-06T00:00:00.000Z",
       "pillar": "capability",
-      "score": 42.1,
+      "score": 42,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.04616",
@@ -1852,14 +2017,14 @@
         },
         "score_components": {
           "source_weight": 20,
-          "recency": 17.1,
+          "recency": 17,
           "corroboration": 0,
           "entities": 0,
           "engagement": 5,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 8.3,
+        "age_hours_at_score": 8.4,
         "engagement": {
           "metric": "hf_upvotes",
           "value": 3,
@@ -1897,7 +2062,7 @@
       "url": "https://huggingface.co/papers/2610.02150",
       "published_at": "2026-10-06T00:00:00.000Z",
       "pillar": "capability",
-      "score": 41,
+      "score": 40.9,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.02150",
@@ -1913,14 +2078,14 @@
         },
         "score_components": {
           "source_weight": 20,
-          "recency": 17.1,
+          "recency": 17,
           "corroboration": 0,
           "entities": 0,
           "engagement": 3.9,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 8.3,
+        "age_hours_at_score": 8.4,
         "engagement": {
           "metric": "hf_upvotes",
           "value": 2,
@@ -1958,7 +2123,7 @@
       "url": "https://huggingface.co/papers/2610.02191",
       "published_at": "2026-10-06T00:00:00.000Z",
       "pillar": "capability",
-      "score": 41,
+      "score": 40.9,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.02191",
@@ -1974,14 +2139,14 @@
         },
         "score_components": {
           "source_weight": 20,
-          "recency": 17.1,
+          "recency": 17,
           "corroboration": 0,
           "entities": 0,
           "engagement": 3.9,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 8.3,
+        "age_hours_at_score": 8.4,
         "engagement": {
           "metric": "hf_upvotes",
           "value": 2,
@@ -2019,7 +2184,7 @@
       "url": "https://huggingface.co/papers/2610.06648",
       "published_at": "2026-10-06T00:00:00.000Z",
       "pillar": "capability",
-      "score": 41,
+      "score": 40.9,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.06648",
@@ -2035,14 +2200,14 @@
         },
         "score_components": {
           "source_weight": 20,
-          "recency": 17.1,
+          "recency": 17,
           "corroboration": 0,
           "entities": 0,
           "engagement": 3.9,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 8.3,
+        "age_hours_at_score": 8.4,
         "engagement": {
           "metric": "hf_upvotes",
           "value": 2,
@@ -2080,7 +2245,7 @@
       "url": "https://huggingface.co/papers/2610.05033",
       "published_at": "2026-10-06T00:00:00.000Z",
       "pillar": "capability",
-      "score": 41,
+      "score": 40.9,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.05033",
@@ -2096,14 +2261,14 @@
         },
         "score_components": {
           "source_weight": 20,
-          "recency": 17.1,
+          "recency": 17,
           "corroboration": 0,
           "entities": 0,
           "engagement": 3.9,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 8.3,
+        "age_hours_at_score": 8.4,
         "engagement": {
           "metric": "hf_upvotes",
           "value": 2,
@@ -2141,7 +2306,7 @@
       "url": "https://huggingface.co/papers/2605.21318",
       "published_at": "2026-10-06T00:00:00.000Z",
       "pillar": "capability",
-      "score": 41,
+      "score": 40.9,
       "entities": [],
       "meta": {
         "arxiv_id": "2605.21318",
@@ -2157,14 +2322,14 @@
         },
         "score_components": {
           "source_weight": 20,
-          "recency": 17.1,
+          "recency": 17,
           "corroboration": 0,
           "entities": 0,
           "engagement": 3.9,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 8.3,
+        "age_hours_at_score": 8.4,
         "engagement": {
           "metric": "hf_upvotes",
           "value": 2,
@@ -2202,7 +2367,7 @@
       "url": "https://huggingface.co/papers/2609.32423",
       "published_at": "2026-10-06T00:00:00.000Z",
       "pillar": "capability",
-      "score": 41,
+      "score": 40.9,
       "entities": [],
       "meta": {
         "arxiv_id": "2609.32423",
@@ -2218,14 +2383,14 @@
         },
         "score_components": {
           "source_weight": 20,
-          "recency": 17.1,
+          "recency": 17,
           "corroboration": 0,
           "entities": 0,
           "engagement": 3.9,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 8.3,
+        "age_hours_at_score": 8.4,
         "engagement": {
           "metric": "hf_upvotes",
           "value": 2,
@@ -2263,7 +2428,7 @@
       "url": "https://huggingface.co/papers/2610.04047",
       "published_at": "2026-10-06T00:00:00.000Z",
       "pillar": "capability",
-      "score": 39.6,
+      "score": 39.5,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.04047",
@@ -2279,14 +2444,14 @@
         },
         "score_components": {
           "source_weight": 20,
-          "recency": 17.1,
+          "recency": 17,
           "corroboration": 0,
           "entities": 0,
           "engagement": 2.5,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 8.3,
+        "age_hours_at_score": 8.4,
         "engagement": {
           "metric": "hf_upvotes",
           "value": 1,
@@ -2324,7 +2489,7 @@
       "url": "https://huggingface.co/papers/2610.06184",
       "published_at": "2026-10-06T00:00:00.000Z",
       "pillar": "capability",
-      "score": 39.6,
+      "score": 39.5,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.06184",
@@ -2340,14 +2505,14 @@
         },
         "score_components": {
           "source_weight": 20,
-          "recency": 17.1,
+          "recency": 17,
           "corroboration": 0,
           "entities": 0,
           "engagement": 2.5,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 8.3,
+        "age_hours_at_score": 8.4,
         "engagement": {
           "metric": "hf_upvotes",
           "value": 1,
@@ -2385,7 +2550,7 @@
       "url": "https://huggingface.co/papers/2610.06850",
       "published_at": "2026-10-06T00:00:00.000Z",
       "pillar": "capability",
-      "score": 37.1,
+      "score": 37,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.06850",
@@ -2401,14 +2566,14 @@
         },
         "score_components": {
           "source_weight": 20,
-          "recency": 17.1,
+          "recency": 17,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 8.3,
+        "age_hours_at_score": 8.4,
         "engagement": {
           "metric": "hf_upvotes",
           "value": 0,
@@ -2446,7 +2611,7 @@
       "url": "https://huggingface.co/papers/2610.02999",
       "published_at": "2026-10-06T00:00:00.000Z",
       "pillar": "capability",
-      "score": 37.1,
+      "score": 37,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.02999",
@@ -2462,14 +2627,14 @@
         },
         "score_components": {
           "source_weight": 20,
-          "recency": 17.1,
+          "recency": 17,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 8.3,
+        "age_hours_at_score": 8.4,
         "engagement": {
           "metric": "hf_upvotes",
           "value": 0,
@@ -2488,6 +2653,67 @@
           "also": []
         },
         "first_seen_at": "2026-10-06T05:19:13.029Z",
+        "incident": {
+          "severity": 0,
+          "band": null,
+          "strong_signal": false,
+          "terms": [],
+          "excluded": "paper"
+        },
+        "story": null
+      }
+    },
+    {
+      "id": "ebabf414b0259ce2",
+      "source": "hf-daily-papers",
+      "kind": "paper",
+      "title": "OpenRUA: Robot-Use Agents Are Zero-Shot Visuomotor Policies",
+      "summary": "Coding agents are extending their reach into the physical world by writing and executing robot control programs. One might expect the agents to use the existing mature software stack that engineers have developed over decades to access sensors and control motion. Yet prior work primarily engineers complex custom harnes",
+      "url": "https://huggingface.co/papers/2610.02459",
+      "published_at": "2026-10-06T00:00:00.000Z",
+      "pillar": "capability",
+      "score": 37,
+      "entities": [],
+      "meta": {
+        "arxiv_id": "2610.02459",
+        "upvotes": 0,
+        "comments": 1,
+        "github_repo": "https://github.com/terminalworld/OpenRUA",
+        "arxiv_published_at": "2026-10-01T00:00:00.000Z",
+        "source_weight": 0.8,
+        "pillar_reason": "primary artefact (research output / model release)",
+        "entity_kinds": {
+          "labs": [],
+          "models": []
+        },
+        "score_components": {
+          "source_weight": 20,
+          "recency": 17,
+          "corroboration": 0,
+          "entities": 0,
+          "engagement": 0,
+          "severity": 0,
+          "coverage": 0
+        },
+        "age_hours_at_score": 8.4,
+        "engagement": {
+          "metric": "hf_upvotes",
+          "value": 0,
+          "full_scale": 150
+        },
+        "corroboration": {
+          "count": 1,
+          "sources": [
+            "hf-daily-papers"
+          ],
+          "first_source": "hf-daily-papers",
+          "first_seen_published_at": "2026-10-06T00:00:00.000Z",
+          "last_published_at": "2026-10-06T00:00:00.000Z",
+          "lead_minutes": 0,
+          "primary_published_at": "2026-10-06T00:00:00.000Z",
+          "also": []
+        },
+        "first_seen_at": "2026-10-06T08:25:54.018Z",
         "incident": {
           "severity": 0,
           "band": null,
@@ -2534,7 +2760,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 8.7,
+        "age_hours_at_score": 8.9,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -2568,7 +2794,7 @@
       "url": "https://techmeme.com/261005/p34",
       "published_at": "2026-10-05T23:25:02.000Z",
       "pillar": "compute",
-      "score": 34.4,
+      "score": 34.3,
       "entities": [],
       "meta": {
         "feed": "https://www.techmeme.com/feed.xml",
@@ -2582,14 +2808,14 @@
         },
         "score_components": {
           "source_weight": 17.5,
-          "recency": 16.9,
+          "recency": 16.8,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 8.9,
+        "age_hours_at_score": 9,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -2623,7 +2849,7 @@
       "url": "https://theverge.com/ai-artificial-intelligence/1005177/google-gemini-call-for-me-expansion-rumors",
       "published_at": "2026-10-05T23:09:55.000Z",
       "pillar": "attention",
-      "score": 33.6,
+      "score": 33.5,
       "entities": [
         "Gemini"
       ],
@@ -2645,14 +2871,14 @@
         },
         "score_components": {
           "source_weight": 13.8,
-          "recency": 16.8,
+          "recency": 16.7,
           "corroboration": 0,
           "entities": 3,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 9.1,
+        "age_hours_at_score": 9.3,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -2686,7 +2912,7 @@
       "url": "https://arstechnica.com/security/2026/10/vulnerability-in-agents-from-google-and-others-exposes-structural-flaw-in-mcp",
       "published_at": "2026-10-05T22:26:35.000Z",
       "pillar": "attention",
-      "score": 31.6,
+      "score": 31.5,
       "entities": [],
       "meta": {
         "feed": "https://arstechnica.com/ai/feed/",
@@ -2707,14 +2933,14 @@
         },
         "score_components": {
           "source_weight": 15,
-          "recency": 16.6,
+          "recency": 16.5,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 9.8,
+        "age_hours_at_score": 10,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -2784,7 +3010,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 9.9,
+        "age_hours_at_score": 10.1,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -2818,7 +3044,7 @@
       "url": "https://theverge.com/ai-artificial-intelligence/1005075/nolla-health-acne-ai-prescriptions",
       "published_at": "2026-10-05T20:14:57.000Z",
       "pillar": "attention",
-      "score": 29.7,
+      "score": 29.6,
       "entities": [],
       "meta": {
         "feed": "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml",
@@ -2836,14 +3062,14 @@
         },
         "score_components": {
           "source_weight": 13.8,
-          "recency": 15.9,
+          "recency": 15.8,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 12,
+        "age_hours_at_score": 12.2,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -2907,7 +3133,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 12.2,
+        "age_hours_at_score": 12.3,
         "engagement": {
           "metric": "hn_points",
           "value": 12,
@@ -2966,7 +3192,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 12.2,
+        "age_hours_at_score": 12.3,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -3026,7 +3252,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 12.8,
+        "age_hours_at_score": 12.9,
         "engagement": {
           "metric": "hn_points",
           "value": 66,
@@ -3092,7 +3318,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 12.8,
+        "age_hours_at_score": 12.9,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -3153,7 +3379,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 12.9,
+        "age_hours_at_score": 13,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -3175,31 +3401,7 @@
           "terms": [],
           "excluded": null
         },
-        "story": {
-          "id": "1fa693b83332",
-          "lead": "1b25355b5e944af3",
-          "is_lead": true,
-          "members": [
-            "1b25355b5e944af3",
-            "cfdfd64341a7c6d2"
-          ],
-          "source_count": 1,
-          "sources": [
-            "techmeme"
-          ],
-          "severity": 0,
-          "linked_by": [
-            {
-              "with": "cfdfd64341a7c6d2",
-              "rule": "shared-words",
-              "words": [
-                "open",
-                "reflection",
-                "rival"
-              ]
-            }
-          ]
-        }
+        "story": null
       }
     },
     {
@@ -3211,7 +3413,7 @@
       "url": "https://arstechnica.com/apple/2026/10/command-line-tool-quickly-removes-apple-intelligence-from-macos-27",
       "published_at": "2026-10-05T19:14:44.000Z",
       "pillar": "attention",
-      "score": 33.6,
+      "score": 33.5,
       "entities": [
         "Apple"
       ],
@@ -3235,14 +3437,14 @@
         },
         "score_components": {
           "source_weight": 15,
-          "recency": 15.6,
+          "recency": 15.5,
           "corroboration": 0,
           "entities": 3,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 13,
+        "age_hours_at_score": 13.2,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -3304,7 +3506,7 @@
           "severity": 15,
           "coverage": 0
         },
-        "age_hours_at_score": 13.2,
+        "age_hours_at_score": 13.3,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -3360,7 +3562,7 @@
       "url": "https://endsdontjustifythemeans.com/p/6-questions-for-believers-in-ai-consciousness",
       "published_at": "2026-10-05T18:59:28.000Z",
       "pillar": "attention",
-      "score": 41.5,
+      "score": 41.4,
       "entities": [],
       "meta": {
         "hn_id": "49968964",
@@ -3379,14 +3581,14 @@
         },
         "score_components": {
           "source_weight": 15,
-          "recency": 15.5,
+          "recency": 15.4,
           "corroboration": 0,
           "entities": 0,
           "engagement": 11,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 13.3,
+        "age_hours_at_score": 13.4,
         "engagement": {
           "metric": "hn_points",
           "value": 43,
@@ -3454,7 +3656,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 13.8,
+        "age_hours_at_score": 13.9,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -3488,7 +3690,7 @@
       "url": "https://techmeme.com/261005/p28",
       "published_at": "2026-10-05T18:20:01.000Z",
       "pillar": "compute",
-      "score": 32.8,
+      "score": 32.7,
       "entities": [],
       "meta": {
         "feed": "https://www.techmeme.com/feed.xml",
@@ -3502,14 +3704,14 @@
         },
         "score_components": {
           "source_weight": 17.5,
-          "recency": 15.3,
+          "recency": 15.2,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 13.9,
+        "age_hours_at_score": 14.1,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -3543,7 +3745,7 @@
       "url": "https://arxiv.org/abs/2610.06852",
       "published_at": "2026-10-05T17:59:54.000Z",
       "pillar": "capability",
-      "score": 31.5,
+      "score": 31.4,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.06852",
@@ -3561,14 +3763,14 @@
         },
         "score_components": {
           "source_weight": 16.3,
-          "recency": 15.2,
+          "recency": 15.1,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 14.3,
+        "age_hours_at_score": 14.4,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -3602,7 +3804,7 @@
       "url": "https://arxiv.org/abs/2610.06851",
       "published_at": "2026-10-05T17:59:52.000Z",
       "pillar": "capability",
-      "score": 50.4,
+      "score": 50.3,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.06851",
@@ -3620,14 +3822,14 @@
         },
         "score_components": {
           "source_weight": 16.3,
-          "recency": 15.2,
+          "recency": 15.1,
           "corroboration": 12.5,
           "entities": 0,
           "engagement": 6.4,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 14.3,
+        "age_hours_at_score": 14.4,
         "engagement": {
           "metric": "hf_upvotes",
           "value": 5,
@@ -3681,7 +3883,7 @@
       "url": "https://arxiv.org/abs/2610.06846",
       "published_at": "2026-10-05T17:59:28.000Z",
       "pillar": "capability",
-      "score": 31.5,
+      "score": 31.4,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.06846",
@@ -3699,14 +3901,14 @@
         },
         "score_components": {
           "source_weight": 16.3,
-          "recency": 15.2,
+          "recency": 15.1,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 14.3,
+        "age_hours_at_score": 14.4,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -3740,7 +3942,7 @@
       "url": "https://arxiv.org/abs/2610.06844",
       "published_at": "2026-10-05T17:59:17.000Z",
       "pillar": "capability",
-      "score": 31.5,
+      "score": 31.4,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.06844",
@@ -3758,14 +3960,14 @@
         },
         "score_components": {
           "source_weight": 16.3,
-          "recency": 15.2,
+          "recency": 15.1,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 14.3,
+        "age_hours_at_score": 14.4,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -3799,7 +4001,7 @@
       "url": "https://arxiv.org/abs/2610.06843",
       "published_at": "2026-10-05T17:59:11.000Z",
       "pillar": "capability",
-      "score": 31.5,
+      "score": 31.4,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.06843",
@@ -3817,14 +4019,14 @@
         },
         "score_components": {
           "source_weight": 16.3,
-          "recency": 15.2,
+          "recency": 15.1,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 14.3,
+        "age_hours_at_score": 14.4,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -3858,7 +4060,7 @@
       "url": "https://arxiv.org/abs/2610.06834",
       "published_at": "2026-10-05T17:58:18.000Z",
       "pillar": "capability",
-      "score": 31.5,
+      "score": 31.4,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.06834",
@@ -3876,14 +4078,14 @@
         },
         "score_components": {
           "source_weight": 16.3,
-          "recency": 15.2,
+          "recency": 15.1,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 14.3,
+        "age_hours_at_score": 14.5,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -3917,7 +4119,7 @@
       "url": "https://arxiv.org/abs/2610.06833",
       "published_at": "2026-10-05T17:58:15.000Z",
       "pillar": "capability",
-      "score": 51.5,
+      "score": 51.4,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.06833",
@@ -3935,14 +4137,14 @@
         },
         "score_components": {
           "source_weight": 16.3,
-          "recency": 15.2,
+          "recency": 15.1,
           "corroboration": 12.5,
           "entities": 0,
           "engagement": 7.5,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 14.3,
+        "age_hours_at_score": 14.5,
         "engagement": {
           "metric": "hf_upvotes",
           "value": 7,
@@ -3996,7 +4198,7 @@
       "url": "https://arxiv.org/abs/2610.06831",
       "published_at": "2026-10-05T17:58:11.000Z",
       "pillar": "capability",
-      "score": 31.5,
+      "score": 31.4,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.06831",
@@ -4014,14 +4216,14 @@
         },
         "score_components": {
           "source_weight": 16.3,
-          "recency": 15.2,
+          "recency": 15.1,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 14.3,
+        "age_hours_at_score": 14.5,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -4055,7 +4257,7 @@
       "url": "https://arxiv.org/abs/2610.06830",
       "published_at": "2026-10-05T17:58:06.000Z",
       "pillar": "capability",
-      "score": 31.5,
+      "score": 31.4,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.06830",
@@ -4073,14 +4275,14 @@
         },
         "score_components": {
           "source_weight": 16.3,
-          "recency": 15.2,
+          "recency": 15.1,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 14.3,
+        "age_hours_at_score": 14.5,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -4114,7 +4316,7 @@
       "url": "https://arxiv.org/abs/2610.06829",
       "published_at": "2026-10-05T17:57:51.000Z",
       "pillar": "capability",
-      "score": 31.5,
+      "score": 31.4,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.06829",
@@ -4132,14 +4334,14 @@
         },
         "score_components": {
           "source_weight": 16.3,
-          "recency": 15.2,
+          "recency": 15.1,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 14.3,
+        "age_hours_at_score": 14.5,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -4173,7 +4375,7 @@
       "url": "https://arxiv.org/abs/2610.06825",
       "published_at": "2026-10-05T17:57:19.000Z",
       "pillar": "capability",
-      "score": 31.5,
+      "score": 31.4,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.06825",
@@ -4191,14 +4393,14 @@
         },
         "score_components": {
           "source_weight": 16.3,
-          "recency": 15.2,
+          "recency": 15.1,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 14.3,
+        "age_hours_at_score": 14.5,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -4232,7 +4434,7 @@
       "url": "https://arxiv.org/abs/2610.06824",
       "published_at": "2026-10-05T17:57:15.000Z",
       "pillar": "capability",
-      "score": 31.5,
+      "score": 31.4,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.06824",
@@ -4250,14 +4452,14 @@
         },
         "score_components": {
           "source_weight": 16.3,
-          "recency": 15.2,
+          "recency": 15.1,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 14.3,
+        "age_hours_at_score": 14.5,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -4291,7 +4493,7 @@
       "url": "https://arxiv.org/abs/2610.06823",
       "published_at": "2026-10-05T17:56:57.000Z",
       "pillar": "capability",
-      "score": 31.5,
+      "score": 31.4,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.06823",
@@ -4309,14 +4511,14 @@
         },
         "score_components": {
           "source_weight": 16.3,
-          "recency": 15.2,
+          "recency": 15.1,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 14.3,
+        "age_hours_at_score": 14.5,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -4350,7 +4552,7 @@
       "url": "https://arxiv.org/abs/2610.06822",
       "published_at": "2026-10-05T17:56:47.000Z",
       "pillar": "capability",
-      "score": 31.5,
+      "score": 31.4,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.06822",
@@ -4368,14 +4570,14 @@
         },
         "score_components": {
           "source_weight": 16.3,
-          "recency": 15.2,
+          "recency": 15.1,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 14.3,
+        "age_hours_at_score": 14.5,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -4409,7 +4611,7 @@
       "url": "https://arxiv.org/abs/2610.06817",
       "published_at": "2026-10-05T17:56:07.000Z",
       "pillar": "capability",
-      "score": 31.5,
+      "score": 31.4,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.06817",
@@ -4427,14 +4629,14 @@
         },
         "score_components": {
           "source_weight": 16.3,
-          "recency": 15.2,
+          "recency": 15.1,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 14.3,
+        "age_hours_at_score": 14.5,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -4468,7 +4670,7 @@
       "url": "https://arxiv.org/abs/2610.06814",
       "published_at": "2026-10-05T17:55:21.000Z",
       "pillar": "capability",
-      "score": 31.5,
+      "score": 31.4,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.06814",
@@ -4486,14 +4688,14 @@
         },
         "score_components": {
           "source_weight": 16.3,
-          "recency": 15.2,
+          "recency": 15.1,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 14.3,
+        "age_hours_at_score": 14.5,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -4527,7 +4729,7 @@
       "url": "https://arxiv.org/abs/2610.06810",
       "published_at": "2026-10-05T17:54:36.000Z",
       "pillar": "capability",
-      "score": 31.5,
+      "score": 31.4,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.06810",
@@ -4545,14 +4747,14 @@
         },
         "score_components": {
           "source_weight": 16.3,
-          "recency": 15.2,
+          "recency": 15.1,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 14.4,
+        "age_hours_at_score": 14.5,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -4586,7 +4788,7 @@
       "url": "https://arxiv.org/abs/2610.06809",
       "published_at": "2026-10-05T17:54:25.000Z",
       "pillar": "capability",
-      "score": 31.5,
+      "score": 31.4,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.06809",
@@ -4604,14 +4806,14 @@
         },
         "score_components": {
           "source_weight": 16.3,
-          "recency": 15.2,
+          "recency": 15.1,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 14.4,
+        "age_hours_at_score": 14.5,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -4664,17 +4866,17 @@
         },
         "score_components": {
           "source_weight": 15,
-          "recency": 15.2,
+          "recency": 15.1,
           "corroboration": 0,
           "entities": 0,
-          "engagement": 8.4,
+          "engagement": 8.5,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 14.4,
+        "age_hours_at_score": 14.5,
         "engagement": {
           "metric": "hn_points",
-          "value": 17,
+          "value": 18,
           "full_scale": 500
         },
         "corroboration": {
@@ -4698,7 +4900,7 @@
               "dedup_key": null,
               "engagement": {
                 "metric": "hn_points",
-                "value": 17,
+                "value": 18,
                 "full_scale": 500
               }
             }
@@ -4724,7 +4926,7 @@
       "url": "https://arxiv.org/abs/2610.06805",
       "published_at": "2026-10-05T17:53:34.000Z",
       "pillar": "capability",
-      "score": 31.5,
+      "score": 31.4,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.06805",
@@ -4742,14 +4944,14 @@
         },
         "score_components": {
           "source_weight": 16.3,
-          "recency": 15.2,
+          "recency": 15.1,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 14.4,
+        "age_hours_at_score": 14.5,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -4783,7 +4985,7 @@
       "url": "https://arxiv.org/abs/2610.06804",
       "published_at": "2026-10-05T17:53:30.000Z",
       "pillar": "capability",
-      "score": 31.5,
+      "score": 31.4,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.06804",
@@ -4801,14 +5003,14 @@
         },
         "score_components": {
           "source_weight": 16.3,
-          "recency": 15.2,
+          "recency": 15.1,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 14.4,
+        "age_hours_at_score": 14.5,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -4842,7 +5044,7 @@
       "url": "https://arxiv.org/abs/2610.06801",
       "published_at": "2026-10-05T17:51:42.000Z",
       "pillar": "capability",
-      "score": 31.5,
+      "score": 31.4,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.06801",
@@ -4860,14 +5062,14 @@
         },
         "score_components": {
           "source_weight": 16.3,
-          "recency": 15.2,
+          "recency": 15.1,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 14.4,
+        "age_hours_at_score": 14.6,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -4901,7 +5103,7 @@
       "url": "https://arxiv.org/abs/2610.06798",
       "published_at": "2026-10-05T17:51:23.000Z",
       "pillar": "capability",
-      "score": 31.5,
+      "score": 31.4,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.06798",
@@ -4919,14 +5121,14 @@
         },
         "score_components": {
           "source_weight": 16.3,
-          "recency": 15.2,
+          "recency": 15.1,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 14.4,
+        "age_hours_at_score": 14.6,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -4960,7 +5162,7 @@
       "url": "https://techmeme.com/261005/p27",
       "published_at": "2026-10-05T17:51:09.000Z",
       "pillar": "attention",
-      "score": 38.7,
+      "score": 38.6,
       "entities": [
         "Anthropic",
         "OpenAI"
@@ -4980,14 +5182,14 @@
         },
         "score_components": {
           "source_weight": 17.5,
-          "recency": 15.2,
+          "recency": 15.1,
           "corroboration": 0,
           "entities": 6,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 14.4,
+        "age_hours_at_score": 14.6,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -5033,7 +5235,8 @@
               ]
             }
           ]
-        }
+        },
+        "retained": true
       }
     },
     {
@@ -5070,7 +5273,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 14.4,
+        "age_hours_at_score": 14.6,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -5129,7 +5332,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 14.5,
+        "age_hours_at_score": 14.6,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -5188,7 +5391,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 14.5,
+        "age_hours_at_score": 14.7,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -5247,7 +5450,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 14.5,
+        "age_hours_at_score": 14.7,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -5306,7 +5509,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 14.5,
+        "age_hours_at_score": 14.7,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -5365,7 +5568,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 14.6,
+        "age_hours_at_score": 14.7,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -5424,7 +5627,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 14.6,
+        "age_hours_at_score": 14.8,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -5458,7 +5661,7 @@
       "url": "https://arxiv.org/abs/2610.06765",
       "published_at": "2026-10-05T17:38:13.000Z",
       "pillar": "capability",
-      "score": 31.4,
+      "score": 31.3,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.06765",
@@ -5476,14 +5679,14 @@
         },
         "score_components": {
           "source_weight": 16.3,
-          "recency": 15.1,
+          "recency": 15,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 14.6,
+        "age_hours_at_score": 14.8,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -5542,7 +5745,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 14.8,
+        "age_hours_at_score": 15,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -5601,7 +5804,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 14.8,
+        "age_hours_at_score": 15,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -5660,7 +5863,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 14.8,
+        "age_hours_at_score": 15,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -5719,7 +5922,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 14.9,
+        "age_hours_at_score": 15,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -5778,7 +5981,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 14.9,
+        "age_hours_at_score": 15.1,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -5812,7 +6015,7 @@
       "url": "https://arxiv.org/abs/2610.06729",
       "published_at": "2026-10-05T17:16:29.000Z",
       "pillar": "capability",
-      "score": 31.3,
+      "score": 31.2,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.06729",
@@ -5830,14 +6033,14 @@
         },
         "score_components": {
           "source_weight": 16.3,
-          "recency": 15,
+          "recency": 14.9,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 15,
+        "age_hours_at_score": 15.2,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -5871,7 +6074,7 @@
       "url": "https://arxiv.org/abs/2610.06726",
       "published_at": "2026-10-05T17:15:47.000Z",
       "pillar": "capability",
-      "score": 31.3,
+      "score": 31.2,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.06726",
@@ -5889,14 +6092,14 @@
         },
         "score_components": {
           "source_weight": 16.3,
-          "recency": 15,
+          "recency": 14.9,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 15,
+        "age_hours_at_score": 15.2,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -5930,7 +6133,7 @@
       "url": "https://arxiv.org/abs/2610.06725",
       "published_at": "2026-10-05T17:15:19.000Z",
       "pillar": "capability",
-      "score": 31.3,
+      "score": 31.2,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.06725",
@@ -5948,14 +6151,14 @@
         },
         "score_components": {
           "source_weight": 16.3,
-          "recency": 15,
+          "recency": 14.9,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 15,
+        "age_hours_at_score": 15.2,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -6014,7 +6217,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 15.2,
+        "age_hours_at_score": 15.3,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -6073,7 +6276,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 15.2,
+        "age_hours_at_score": 15.4,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -6132,7 +6335,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 15.2,
+        "age_hours_at_score": 15.4,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -6191,7 +6394,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 15.2,
+        "age_hours_at_score": 15.4,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -6250,7 +6453,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 15.3,
+        "age_hours_at_score": 15.4,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -6284,7 +6487,7 @@
       "url": "https://spacebar.ai/waitlist",
       "published_at": "2026-10-05T16:56:24.000Z",
       "pillar": "attention",
-      "score": 36.8,
+      "score": 36.7,
       "entities": [],
       "meta": {
         "hn_id": "49967380",
@@ -6303,14 +6506,14 @@
         },
         "score_components": {
           "source_weight": 15,
-          "recency": 14.9,
+          "recency": 14.8,
           "corroboration": 0,
           "entities": 0,
           "engagement": 6.9,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 15.3,
+        "age_hours_at_score": 15.5,
         "engagement": {
           "metric": "hn_points",
           "value": 10,
@@ -6348,7 +6551,7 @@
       "url": "https://arxiv.org/abs/2610.06695",
       "published_at": "2026-10-05T16:55:58.000Z",
       "pillar": "capability",
-      "score": 31.2,
+      "score": 31.1,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.06695",
@@ -6366,14 +6569,14 @@
         },
         "score_components": {
           "source_weight": 16.3,
-          "recency": 14.9,
+          "recency": 14.8,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 15.3,
+        "age_hours_at_score": 15.5,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -6407,7 +6610,7 @@
       "url": "https://theverge.com/ai-artificial-intelligence/1004827/openai-sam-altman-vanity-fair-interview-pr",
       "published_at": "2026-10-05T16:55:42.000Z",
       "pillar": "attention",
-      "score": 39.4,
+      "score": 39.3,
       "entities": [
         "GPT",
         "Meta AI",
@@ -6434,14 +6637,14 @@
         },
         "score_components": {
           "source_weight": 13.8,
-          "recency": 14.9,
+          "recency": 14.8,
           "corroboration": 0,
           "entities": 9,
           "engagement": 0,
           "severity": 1.7,
           "coverage": 0
         },
-        "age_hours_at_score": 15.3,
+        "age_hours_at_score": 15.5,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -6483,7 +6686,7 @@
       "url": "https://arxiv.org/abs/2610.06694",
       "published_at": "2026-10-05T16:55:05.000Z",
       "pillar": "capability",
-      "score": 31.2,
+      "score": 31.1,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.06694",
@@ -6501,14 +6704,14 @@
         },
         "score_components": {
           "source_weight": 16.3,
-          "recency": 14.9,
+          "recency": 14.8,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 15.4,
+        "age_hours_at_score": 15.5,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -6542,7 +6745,7 @@
       "url": "https://arxiv.org/abs/2610.06693",
       "published_at": "2026-10-05T16:54:50.000Z",
       "pillar": "capability",
-      "score": 31.2,
+      "score": 31.1,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.06693",
@@ -6560,14 +6763,14 @@
         },
         "score_components": {
           "source_weight": 16.3,
-          "recency": 14.9,
+          "recency": 14.8,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 15.4,
+        "age_hours_at_score": 15.5,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -6601,7 +6804,7 @@
       "url": "https://arxiv.org/abs/2610.06691",
       "published_at": "2026-10-05T16:53:39.000Z",
       "pillar": "capability",
-      "score": 31.2,
+      "score": 31.1,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.06691",
@@ -6619,14 +6822,14 @@
         },
         "score_components": {
           "source_weight": 16.3,
-          "recency": 14.9,
+          "recency": 14.8,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 15.4,
+        "age_hours_at_score": 15.5,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -6660,7 +6863,7 @@
       "url": "https://arxiv.org/abs/2610.06689",
       "published_at": "2026-10-05T16:52:57.000Z",
       "pillar": "capability",
-      "score": 31.2,
+      "score": 31.1,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.06689",
@@ -6678,14 +6881,14 @@
         },
         "score_components": {
           "source_weight": 16.3,
-          "recency": 14.9,
+          "recency": 14.8,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 15.4,
+        "age_hours_at_score": 15.5,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -6719,7 +6922,7 @@
       "url": "https://arxiv.org/abs/2610.06686",
       "published_at": "2026-10-05T16:51:21.000Z",
       "pillar": "capability",
-      "score": 31.2,
+      "score": 31.1,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.06686",
@@ -6737,14 +6940,14 @@
         },
         "score_components": {
           "source_weight": 16.3,
-          "recency": 14.9,
+          "recency": 14.8,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 15.4,
+        "age_hours_at_score": 15.6,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -6778,7 +6981,7 @@
       "url": "https://arxiv.org/abs/2610.06685",
       "published_at": "2026-10-05T16:51:11.000Z",
       "pillar": "capability",
-      "score": 31.2,
+      "score": 31.1,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.06685",
@@ -6796,14 +6999,14 @@
         },
         "score_components": {
           "source_weight": 16.3,
-          "recency": 14.9,
+          "recency": 14.8,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 15.4,
+        "age_hours_at_score": 15.6,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -6862,7 +7065,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 15.5,
+        "age_hours_at_score": 15.6,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -6921,7 +7124,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 15.5,
+        "age_hours_at_score": 15.6,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -6980,7 +7183,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 15.5,
+        "age_hours_at_score": 15.6,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -7039,7 +7242,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 15.5,
+        "age_hours_at_score": 15.6,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -7098,7 +7301,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 15.5,
+        "age_hours_at_score": 15.7,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -7157,7 +7360,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 15.5,
+        "age_hours_at_score": 15.7,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -7220,7 +7423,7 @@
           "severity": 5.3,
           "coverage": 0
         },
-        "age_hours_at_score": 15.5,
+        "age_hours_at_score": 15.7,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -7323,7 +7526,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 15.5,
+        "age_hours_at_score": 15.7,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -7382,7 +7585,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 15.5,
+        "age_hours_at_score": 15.7,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -7441,7 +7644,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 15.5,
+        "age_hours_at_score": 15.7,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -7500,7 +7703,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 15.6,
+        "age_hours_at_score": 15.7,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -7534,7 +7737,7 @@
       "url": "https://techmeme.com/261005/p25",
       "published_at": "2026-10-05T16:30:01.000Z",
       "pillar": "attention",
-      "score": 38.3,
+      "score": 38.2,
       "entities": [
         "Anthropic",
         "Claude"
@@ -7555,14 +7758,14 @@
         },
         "score_components": {
           "source_weight": 17.5,
-          "recency": 14.8,
+          "recency": 14.7,
           "corroboration": 0,
           "entities": 6,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 15.8,
+        "age_hours_at_score": 15.9,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -7625,7 +7828,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 15.9,
+        "age_hours_at_score": 16.1,
         "engagement": null,
         "corroboration": {
           "count": 2,
@@ -7672,7 +7875,7 @@
       "url": "https://techmeme.com/261005/p23",
       "published_at": "2026-10-05T16:10:01.000Z",
       "pillar": "attention",
-      "score": 32.2,
+      "score": 32.1,
       "entities": [],
       "meta": {
         "feed": "https://www.techmeme.com/feed.xml",
@@ -7686,14 +7889,14 @@
         },
         "score_components": {
           "source_weight": 17.5,
-          "recency": 14.7,
+          "recency": 14.6,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 16.1,
+        "age_hours_at_score": 16.3,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -7754,7 +7957,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 17.1,
+        "age_hours_at_score": 17.2,
         "engagement": {
           "metric": "hn_points",
           "value": 50,
@@ -7819,7 +8022,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 17.3,
+        "age_hours_at_score": 17.4,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -7881,7 +8084,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 17.8,
+        "age_hours_at_score": 17.9,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -7969,7 +8172,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 18.1,
+        "age_hours_at_score": 18.3,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -8028,7 +8231,7 @@
       "url": "https://youtube.com/watch?v=RFTfANuLBF4",
       "published_at": "2026-10-05T14:02:38.000Z",
       "pillar": "attention",
-      "score": 39.3,
+      "score": 39.2,
       "entities": [],
       "meta": {
         "hn_id": "49965042",
@@ -8047,14 +8250,14 @@
         },
         "score_components": {
           "source_weight": 15,
-          "recency": 14.1,
+          "recency": 14,
           "corroboration": 0,
           "entities": 0,
           "engagement": 10.2,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 18.2,
+        "age_hours_at_score": 18.4,
         "engagement": {
           "metric": "hn_points",
           "value": 33,
@@ -8117,7 +8320,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 18.4,
+        "age_hours_at_score": 18.5,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -8182,7 +8385,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 18.5,
+        "age_hours_at_score": 18.6,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -8216,7 +8419,7 @@
       "url": "https://techmeme.com/261005/p18",
       "published_at": "2026-10-05T13:40:03.000Z",
       "pillar": "attention",
-      "score": 34.5,
+      "score": 34.4,
       "entities": [
         "Cohere"
       ],
@@ -8234,14 +8437,14 @@
         },
         "score_components": {
           "source_weight": 17.5,
-          "recency": 14,
+          "recency": 13.9,
           "corroboration": 0,
           "entities": 3,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 18.6,
+        "age_hours_at_score": 18.8,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -8276,7 +8479,7 @@
       "url": "https://arstechnica.com/ai/2026/10/ai-glasses-face-their-first-major-government-crackdown",
       "published_at": "2026-10-05T13:39:30.000Z",
       "pillar": "attention",
-      "score": 29,
+      "score": 28.9,
       "entities": [],
       "meta": {
         "feed": "https://arstechnica.com/ai/feed/",
@@ -8294,14 +8497,14 @@
         },
         "score_components": {
           "source_weight": 15,
-          "recency": 14,
+          "recency": 13.9,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 18.6,
+        "age_hours_at_score": 18.8,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -8361,7 +8564,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 18.9,
+        "age_hours_at_score": 19.1,
         "engagement": {
           "metric": "hn_points",
           "value": 59,
@@ -8426,7 +8629,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 18.9,
+        "age_hours_at_score": 19.1,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -8493,7 +8696,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 19.1,
+        "age_hours_at_score": 19.3,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -8527,7 +8730,7 @@
       "url": "https://theguardian.com/technology/2026/oct/05/sam-altman-open-ai-chatgpt-benefits-risks",
       "published_at": "2026-10-05T12:56:18.000Z",
       "pillar": "attention",
-      "score": 45.7,
+      "score": 45.6,
       "entities": [],
       "meta": {
         "hn_id": "49964248",
@@ -8546,14 +8749,14 @@
         },
         "score_components": {
           "source_weight": 15,
-          "recency": 13.8,
+          "recency": 13.7,
           "corroboration": 0,
           "entities": 0,
           "engagement": 11.9,
           "severity": 0,
           "coverage": 5
         },
-        "age_hours_at_score": 19.3,
+        "age_hours_at_score": 19.5,
         "engagement": {
           "metric": "hn_points",
           "value": 61,
@@ -8642,7 +8845,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 19.6,
+        "age_hours_at_score": 19.8,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -8707,7 +8910,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 19.9,
+        "age_hours_at_score": 20.1,
         "engagement": {
           "metric": "hn_points",
           "value": 28,
@@ -8766,7 +8969,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 20.4,
+        "age_hours_at_score": 20.6,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -8801,7 +9004,7 @@
       "url": "https://techmeme.com/261005/p13",
       "published_at": "2026-10-05T11:40:01.000Z",
       "pillar": "governance",
-      "score": 37,
+      "score": 36.9,
       "entities": [
         "Meta AI",
         "OpenAI"
@@ -8821,14 +9024,14 @@
         },
         "score_components": {
           "source_weight": 17.5,
-          "recency": 13.5,
+          "recency": 13.4,
           "corroboration": 0,
           "entities": 6,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 20.6,
+        "age_hours_at_score": 20.8,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -8851,10 +9054,11 @@
           "excluded": null
         },
         "story": {
-          "id": "bdf33ec665d1",
+          "id": "6b49f817361c",
           "lead": "92f6b887ebd6242d",
           "is_lead": false,
           "members": [
+            "05f9af330bd34366",
             "92f6b887ebd6242d",
             "f978bf0c289392ab"
           ],
@@ -8864,6 +9068,13 @@
           ],
           "severity": 1,
           "linked_by": [
+            {
+              "with": "05f9af330bd34366",
+              "rule": "escalation-signal",
+              "words": [
+                "president"
+              ]
+            },
             {
               "with": "92f6b887ebd6242d",
               "rule": "escalation-signal",
@@ -8916,7 +9127,7 @@
           "severity": 5.3,
           "coverage": 0
         },
-        "age_hours_at_score": 20.8,
+        "age_hours_at_score": 20.9,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -8959,7 +9170,7 @@
       "url": "https://techmeme.com/261005/p11",
       "published_at": "2026-10-05T10:55:01.000Z",
       "pillar": "governance",
-      "score": 38.3,
+      "score": 38.2,
       "entities": [
         "NVIDIA"
       ],
@@ -8977,14 +9188,14 @@
         },
         "score_components": {
           "source_weight": 17.5,
-          "recency": 13.3,
+          "recency": 13.2,
           "corroboration": 0,
           "entities": 3,
           "engagement": 0,
           "severity": 4.5,
           "coverage": 0
         },
-        "age_hours_at_score": 21.4,
+        "age_hours_at_score": 21.5,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -9062,7 +9273,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 21.6,
+        "age_hours_at_score": 21.8,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -9118,7 +9329,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 22.3,
+        "age_hours_at_score": 22.4,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -9183,7 +9394,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 22.3,
+        "age_hours_at_score": 22.4,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -9241,7 +9452,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 22.3,
+        "age_hours_at_score": 22.4,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -9276,7 +9487,7 @@
       "url": "https://techmeme.com/261005/p7",
       "published_at": "2026-10-05T09:45:01.000Z",
       "pillar": "attention",
-      "score": 30.5,
+      "score": 30.4,
       "entities": [],
       "meta": {
         "feed": "https://www.techmeme.com/feed.xml",
@@ -9290,14 +9501,14 @@
         },
         "score_components": {
           "source_weight": 17.5,
-          "recency": 13,
+          "recency": 12.9,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 22.5,
+        "age_hours_at_score": 22.7,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -9353,7 +9564,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 23.5,
+        "age_hours_at_score": 23.7,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -9388,7 +9599,7 @@
       "url": "https://techmeme.com/261005/p5",
       "published_at": "2026-10-05T08:10:01.000Z",
       "pillar": "attention",
-      "score": 33.1,
+      "score": 33,
       "entities": [
         "Claude"
       ],
@@ -9406,14 +9617,14 @@
         },
         "score_components": {
           "source_weight": 17.5,
-          "recency": 12.6,
+          "recency": 12.5,
           "corroboration": 0,
           "entities": 3,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 24.1,
+        "age_hours_at_score": 24.3,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -9473,7 +9684,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 25.6,
+        "age_hours_at_score": 25.8,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -9533,7 +9744,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 25.7,
+        "age_hours_at_score": 25.8,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -9568,7 +9779,7 @@
       "url": "https://arxiv.org/abs/2610.05865",
       "published_at": "2026-10-05T06:31:38.000Z",
       "pillar": "capability",
-      "score": 28.5,
+      "score": 28.4,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.05865",
@@ -9586,14 +9797,14 @@
         },
         "score_components": {
           "source_weight": 16.3,
-          "recency": 12.2,
+          "recency": 12.1,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 25.7,
+        "age_hours_at_score": 25.9,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -9628,7 +9839,7 @@
       "url": "https://arxiv.org/abs/2610.05863",
       "published_at": "2026-10-05T06:30:09.000Z",
       "pillar": "capability",
-      "score": 28.5,
+      "score": 28.4,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.05863",
@@ -9646,14 +9857,14 @@
         },
         "score_components": {
           "source_weight": 16.3,
-          "recency": 12.2,
+          "recency": 12.1,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 25.8,
+        "age_hours_at_score": 25.9,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -9688,7 +9899,7 @@
       "url": "https://arxiv.org/abs/2610.05861",
       "published_at": "2026-10-05T06:28:58.000Z",
       "pillar": "capability",
-      "score": 28.5,
+      "score": 28.4,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.05861",
@@ -9706,14 +9917,14 @@
         },
         "score_components": {
           "source_weight": 16.3,
-          "recency": 12.2,
+          "recency": 12.1,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 25.8,
+        "age_hours_at_score": 25.9,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -9748,7 +9959,7 @@
       "url": "https://arxiv.org/abs/2610.05860",
       "published_at": "2026-10-05T06:26:22.000Z",
       "pillar": "capability",
-      "score": 28.5,
+      "score": 28.4,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.05860",
@@ -9766,14 +9977,14 @@
         },
         "score_components": {
           "source_weight": 16.3,
-          "recency": 12.2,
+          "recency": 12.1,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 25.8,
+        "age_hours_at_score": 26,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -9833,7 +10044,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 26,
+        "age_hours_at_score": 26.1,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -9893,7 +10104,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 26,
+        "age_hours_at_score": 26.2,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -9953,7 +10164,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 26,
+        "age_hours_at_score": 26.2,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -10013,7 +10224,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 26,
+        "age_hours_at_score": 26.2,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -10075,7 +10286,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 26.1,
+        "age_hours_at_score": 26.3,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -10110,7 +10321,7 @@
       "url": "https://arxiv.org/abs/2610.05845",
       "published_at": "2026-10-05T06:02:28.000Z",
       "pillar": "capability",
-      "score": 28.4,
+      "score": 28.3,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.05845",
@@ -10128,14 +10339,14 @@
         },
         "score_components": {
           "source_weight": 16.3,
-          "recency": 12.1,
+          "recency": 12,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 26.2,
+        "age_hours_at_score": 26.4,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -10195,7 +10406,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 26.4,
+        "age_hours_at_score": 26.5,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -10255,7 +10466,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 26.4,
+        "age_hours_at_score": 26.5,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -10315,7 +10526,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 26.4,
+        "age_hours_at_score": 26.6,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -10350,7 +10561,7 @@
       "url": "https://arxiv.org/abs/2610.05835",
       "published_at": "2026-10-05T05:38:18.000Z",
       "pillar": "capability",
-      "score": 28.3,
+      "score": 28.2,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.05835",
@@ -10368,14 +10579,14 @@
         },
         "score_components": {
           "source_weight": 16.3,
-          "recency": 12,
+          "recency": 11.9,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 26.6,
+        "age_hours_at_score": 26.8,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -10410,7 +10621,7 @@
       "url": "https://arxiv.org/abs/2610.05834",
       "published_at": "2026-10-05T05:37:40.000Z",
       "pillar": "capability",
-      "score": 28.3,
+      "score": 28.2,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.05834",
@@ -10428,14 +10639,14 @@
         },
         "score_components": {
           "source_weight": 16.3,
-          "recency": 12,
+          "recency": 11.9,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 26.6,
+        "age_hours_at_score": 26.8,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -10470,7 +10681,7 @@
       "url": "https://arxiv.org/abs/2610.05833",
       "published_at": "2026-10-05T05:37:22.000Z",
       "pillar": "capability",
-      "score": 28.3,
+      "score": 28.2,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.05833",
@@ -10488,14 +10699,14 @@
         },
         "score_components": {
           "source_weight": 16.3,
-          "recency": 12,
+          "recency": 11.9,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 26.6,
+        "age_hours_at_score": 26.8,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -10530,7 +10741,7 @@
       "url": "https://arxiv.org/abs/2610.05831",
       "published_at": "2026-10-05T05:35:28.000Z",
       "pillar": "capability",
-      "score": 28.3,
+      "score": 28.2,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.05831",
@@ -10548,14 +10759,14 @@
         },
         "score_components": {
           "source_weight": 16.3,
-          "recency": 12,
+          "recency": 11.9,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 26.7,
+        "age_hours_at_score": 26.8,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -10590,7 +10801,7 @@
       "url": "https://arxiv.org/abs/2610.05830",
       "published_at": "2026-10-05T05:34:18.000Z",
       "pillar": "capability",
-      "score": 28.3,
+      "score": 28.2,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.05830",
@@ -10608,14 +10819,14 @@
         },
         "score_components": {
           "source_weight": 16.3,
-          "recency": 12,
+          "recency": 11.9,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 26.7,
+        "age_hours_at_score": 26.9,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -10675,7 +10886,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 26.8,
+        "age_hours_at_score": 26.9,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -10735,7 +10946,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 26.8,
+        "age_hours_at_score": 27,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -10795,7 +11006,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 26.9,
+        "age_hours_at_score": 27.1,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -10856,7 +11067,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 27,
+        "age_hours_at_score": 27.1,
         "engagement": {
           "metric": "hn_points",
           "value": 40,
@@ -10936,7 +11147,7 @@
       "url": "https://arxiv.org/abs/2610.05819",
       "published_at": "2026-10-05T05:13:04.000Z",
       "pillar": "capability",
-      "score": 28.2,
+      "score": 28.1,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.05819",
@@ -10954,14 +11165,14 @@
         },
         "score_components": {
           "source_weight": 16.3,
-          "recency": 11.9,
+          "recency": 11.8,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 27.1,
+        "age_hours_at_score": 27.2,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -10996,7 +11207,7 @@
       "url": "https://arxiv.org/abs/2610.05817",
       "published_at": "2026-10-05T05:11:42.000Z",
       "pillar": "capability",
-      "score": 28.2,
+      "score": 28.1,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.05817",
@@ -11014,14 +11225,14 @@
         },
         "score_components": {
           "source_weight": 16.3,
-          "recency": 11.9,
+          "recency": 11.8,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 27.1,
+        "age_hours_at_score": 27.2,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -11056,7 +11267,7 @@
       "url": "https://arxiv.org/abs/2610.05816",
       "published_at": "2026-10-05T05:11:12.000Z",
       "pillar": "capability",
-      "score": 28.2,
+      "score": 28.1,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.05816",
@@ -11074,14 +11285,14 @@
         },
         "score_components": {
           "source_weight": 16.3,
-          "recency": 11.9,
+          "recency": 11.8,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 27.1,
+        "age_hours_at_score": 27.2,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -11116,7 +11327,7 @@
       "url": "https://arxiv.org/abs/2610.05815",
       "published_at": "2026-10-05T05:11:04.000Z",
       "pillar": "capability",
-      "score": 28.2,
+      "score": 28.1,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.05815",
@@ -11134,14 +11345,14 @@
         },
         "score_components": {
           "source_weight": 16.3,
-          "recency": 11.9,
+          "recency": 11.8,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 27.1,
+        "age_hours_at_score": 27.2,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -11176,7 +11387,7 @@
       "url": "https://arxiv.org/abs/2610.05812",
       "published_at": "2026-10-05T05:08:10.000Z",
       "pillar": "capability",
-      "score": 28.2,
+      "score": 28.1,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.05812",
@@ -11194,14 +11405,14 @@
         },
         "score_components": {
           "source_weight": 16.3,
-          "recency": 11.9,
+          "recency": 11.8,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 27.1,
+        "age_hours_at_score": 27.3,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -11236,7 +11447,7 @@
       "url": "https://arxiv.org/abs/2610.05810",
       "published_at": "2026-10-05T05:05:24.000Z",
       "pillar": "capability",
-      "score": 28.2,
+      "score": 28.1,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.05810",
@@ -11254,14 +11465,14 @@
         },
         "score_components": {
           "source_weight": 16.3,
-          "recency": 11.9,
+          "recency": 11.8,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 27.2,
+        "age_hours_at_score": 27.3,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -11321,7 +11532,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 27.2,
+        "age_hours_at_score": 27.4,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -11381,7 +11592,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 27.2,
+        "age_hours_at_score": 27.4,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -11441,7 +11652,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 27.3,
+        "age_hours_at_score": 27.4,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -11476,7 +11687,7 @@
       "url": "https://arxiv.org/abs/2610.05800",
       "published_at": "2026-10-05T04:43:53.000Z",
       "pillar": "capability",
-      "score": 28.1,
+      "score": 28,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.05800",
@@ -11494,14 +11705,14 @@
         },
         "score_components": {
           "source_weight": 16.3,
-          "recency": 11.8,
+          "recency": 11.7,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 27.5,
+        "age_hours_at_score": 27.7,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -11536,7 +11747,7 @@
       "url": "https://arxiv.org/abs/2610.05794",
       "published_at": "2026-10-05T04:40:24.000Z",
       "pillar": "capability",
-      "score": 28.1,
+      "score": 28,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.05794",
@@ -11554,14 +11765,14 @@
         },
         "score_components": {
           "source_weight": 16.3,
-          "recency": 11.8,
+          "recency": 11.7,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 27.6,
+        "age_hours_at_score": 27.8,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -11596,7 +11807,7 @@
       "url": "https://arxiv.org/abs/2610.05793",
       "published_at": "2026-10-05T04:38:58.000Z",
       "pillar": "capability",
-      "score": 31.1,
+      "score": 31,
       "entities": [
         "Qwen"
       ],
@@ -11618,14 +11829,14 @@
         },
         "score_components": {
           "source_weight": 16.3,
-          "recency": 11.8,
+          "recency": 11.7,
           "corroboration": 0,
           "entities": 3,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 27.6,
+        "age_hours_at_score": 27.8,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -11685,7 +11896,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 27.7,
+        "age_hours_at_score": 27.8,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -11745,7 +11956,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 27.7,
+        "age_hours_at_score": 27.9,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -11805,7 +12016,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 27.7,
+        "age_hours_at_score": 27.9,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -11865,7 +12076,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 27.9,
+        "age_hours_at_score": 28,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -11925,7 +12136,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 27.9,
+        "age_hours_at_score": 28.1,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -11960,7 +12171,7 @@
       "url": "https://arxiv.org/abs/2610.05777",
       "published_at": "2026-10-05T04:21:42.000Z",
       "pillar": "capability",
-      "score": 28,
+      "score": 27.9,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.05777",
@@ -11978,14 +12189,14 @@
         },
         "score_components": {
           "source_weight": 16.3,
-          "recency": 11.7,
+          "recency": 11.6,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 27.9,
+        "age_hours_at_score": 28.1,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -12020,7 +12231,7 @@
       "url": "https://arxiv.org/abs/2610.05774",
       "published_at": "2026-10-05T04:18:43.000Z",
       "pillar": "capability",
-      "score": 28,
+      "score": 27.9,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.05774",
@@ -12038,14 +12249,14 @@
         },
         "score_components": {
           "source_weight": 16.3,
-          "recency": 11.7,
+          "recency": 11.6,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 28,
+        "age_hours_at_score": 28.1,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -12080,7 +12291,7 @@
       "url": "https://arxiv.org/abs/2610.05768",
       "published_at": "2026-10-05T04:14:08.000Z",
       "pillar": "capability",
-      "score": 28,
+      "score": 27.9,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.05768",
@@ -12098,14 +12309,14 @@
         },
         "score_components": {
           "source_weight": 16.3,
-          "recency": 11.7,
+          "recency": 11.6,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 28,
+        "age_hours_at_score": 28.2,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -12165,7 +12376,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 28.4,
+        "age_hours_at_score": 28.5,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -12200,7 +12411,7 @@
       "url": "https://arxiv.org/abs/2610.05745",
       "published_at": "2026-10-05T03:51:21.000Z",
       "pillar": "capability",
-      "score": 27.9,
+      "score": 27.8,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.05745",
@@ -12218,14 +12429,14 @@
         },
         "score_components": {
           "source_weight": 16.3,
-          "recency": 11.6,
+          "recency": 11.5,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 28.4,
+        "age_hours_at_score": 28.6,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -12260,7 +12471,7 @@
       "url": "https://arxiv.org/abs/2610.05744",
       "published_at": "2026-10-05T03:51:17.000Z",
       "pillar": "capability",
-      "score": 27.9,
+      "score": 27.8,
       "entities": [],
       "meta": {
         "arxiv_id": "2610.05744",
@@ -12278,14 +12489,14 @@
         },
         "score_components": {
           "source_weight": 16.3,
-          "recency": 11.6,
+          "recency": 11.5,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 28.4,
+        "age_hours_at_score": 28.6,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -12310,213 +12521,79 @@
         "story": null,
         "retained": true
       }
-    },
-    {
-      "id": "d5e2204d82de790d",
-      "source": "arxiv-newest",
-      "kind": "paper",
-      "title": "HLA-WM: Hybrid Linear Attention for Long-Horizon Video World Models",
-      "summary": "Long-horizon video world models require persistent memory to preserve scene consistency over extended rollouts. Softmax attention retains the full generation history through a growing KV cache, whereas recurrent linear attention compresses history into fixed-size states with substantially lower memory cost. However,…",
-      "url": "https://arxiv.org/abs/2610.05739",
-      "published_at": "2026-10-05T03:44:00.000Z",
-      "pillar": "capability",
-      "score": 27.8,
-      "entities": [],
-      "meta": {
-        "arxiv_id": "2610.05739",
-        "categories": [
-          "cs.AI",
-          "cs.LG",
-          "cs.CL"
-        ],
-        "query_url": "https://export.arxiv.org/api/query?search_query=cat:cs.AI+OR+cat:cs.LG+OR+cat:cs.CL&sortBy=submittedDate&sortOrder=descending&start=0&max_results=60",
-        "source_weight": 0.65,
-        "pillar_reason": "primary artefact (research output / model release)",
-        "entity_kinds": {
-          "labs": [],
-          "models": []
-        },
-        "score_components": {
-          "source_weight": 16.3,
-          "recency": 11.5,
-          "corroboration": 0,
-          "entities": 0,
-          "engagement": 0,
-          "severity": 0,
-          "coverage": 0
-        },
-        "age_hours_at_score": 28.5,
-        "engagement": null,
-        "corroboration": {
-          "count": 1,
-          "sources": [
-            "arxiv-newest"
-          ],
-          "first_source": "arxiv-newest",
-          "first_seen_published_at": "2026-10-05T03:44:00.000Z",
-          "last_published_at": "2026-10-05T03:44:00.000Z",
-          "lead_minutes": 0,
-          "primary_published_at": "2026-10-05T03:44:00.000Z",
-          "also": []
-        },
-        "first_seen_at": "2026-10-06T02:23:20.743Z",
-        "incident": {
-          "severity": 0,
-          "band": null,
-          "strong_signal": false,
-          "terms": [],
-          "excluded": "paper"
-        },
-        "story": null,
-        "retained": true
-      }
-    },
-    {
-      "id": "67af1a303599a25e",
-      "source": "arxiv-newest",
-      "kind": "paper",
-      "title": "PACMI: Provenance-Aware Cascading Memory Invalidation for Long-Term LLM Agents",
-      "summary": "LLM agents rely on long-term memory to retain and reuse information when performing tasks over long horizons. Existing methods provide limited support for handling memories that become outdated as new observations or domain evidence arrive. Such outdated memories may remain semantically relevant, continue to affect…",
-      "url": "https://arxiv.org/abs/2610.05732",
-      "published_at": "2026-10-05T03:31:51.000Z",
-      "pillar": "capability",
-      "score": 27.8,
-      "entities": [],
-      "meta": {
-        "arxiv_id": "2610.05732",
-        "categories": [
-          "cs.AI",
-          "cs.LG",
-          "cs.CL"
-        ],
-        "query_url": "https://export.arxiv.org/api/query?search_query=cat:cs.AI+OR+cat:cs.LG+OR+cat:cs.CL&sortBy=submittedDate&sortOrder=descending&start=0&max_results=60",
-        "source_weight": 0.65,
-        "pillar_reason": "primary artefact (research output / model release)",
-        "entity_kinds": {
-          "labs": [],
-          "models": []
-        },
-        "score_components": {
-          "source_weight": 16.3,
-          "recency": 11.5,
-          "corroboration": 0,
-          "entities": 0,
-          "engagement": 0,
-          "severity": 0,
-          "coverage": 0
-        },
-        "age_hours_at_score": 28.7,
-        "engagement": null,
-        "corroboration": {
-          "count": 1,
-          "sources": [
-            "arxiv-newest"
-          ],
-          "first_source": "arxiv-newest",
-          "first_seen_published_at": "2026-10-05T03:31:51.000Z",
-          "last_published_at": "2026-10-05T03:31:51.000Z",
-          "lead_minutes": 0,
-          "primary_published_at": "2026-10-05T03:31:51.000Z",
-          "also": []
-        },
-        "first_seen_at": "2026-10-06T02:23:20.743Z",
-        "incident": {
-          "severity": 0,
-          "band": null,
-          "strong_signal": false,
-          "terms": [],
-          "excluded": "paper"
-        },
-        "story": null,
-        "retained": true
-      }
-    },
-    {
-      "id": "cfdfd64341a7c6d2",
-      "source": "techmeme",
-      "kind": "press",
-      "title": "Sources: several Western open-weight models are set to launch this month, including Reflection AI's first model, which will rival top Chinese open-weight models (Bradley Olson/Axios)",
-      "summary": "Bradley Olson / Axios : Sources: several Western open-weight models are set to launch this month, including Reflection AI's first model, which will rival top Chinese open-weight models — A closely watched Nvidia-backed startup called Reflection is preparing to shake up the AI race with a powerful open-weight system …",
-      "url": "https://techmeme.com/261004/p24",
-      "published_at": "2026-10-05T03:30:01.000Z",
-      "pillar": "attention",
-      "score": 32,
-      "entities": [
-        "NVIDIA"
-      ],
-      "meta": {
-        "feed": "https://www.techmeme.com/feed.xml",
-        "locally_ai_filtered": true,
-        "rejected_off_topic": 4,
-        "source_weight": 0.7,
-        "pillar_reason": "source default",
-        "entity_kinds": {
-          "labs": [
-            "NVIDIA"
-          ],
-          "models": []
-        },
-        "score_components": {
-          "source_weight": 17.5,
-          "recency": 11.5,
-          "corroboration": 0,
-          "entities": 3,
-          "engagement": 0,
-          "severity": 0,
-          "coverage": 0
-        },
-        "age_hours_at_score": 28.8,
-        "engagement": null,
-        "corroboration": {
-          "count": 1,
-          "sources": [
-            "techmeme"
-          ],
-          "first_source": "techmeme",
-          "first_seen_published_at": "2026-10-05T03:30:01.000Z",
-          "last_published_at": "2026-10-05T03:30:01.000Z",
-          "lead_minutes": 0,
-          "primary_published_at": "2026-10-05T03:30:01.000Z",
-          "also": []
-        },
-        "first_seen_at": "2026-10-05T03:46:04.116Z",
-        "incident": {
-          "severity": 0,
-          "band": null,
-          "strong_signal": false,
-          "terms": [],
-          "excluded": null
-        },
-        "story": {
-          "id": "1fa693b83332",
-          "lead": "1b25355b5e944af3",
-          "is_lead": false,
-          "members": [
-            "1b25355b5e944af3",
-            "cfdfd64341a7c6d2"
-          ],
-          "source_count": 1,
-          "sources": [
-            "techmeme"
-          ],
-          "severity": 0,
-          "linked_by": [
-            {
-              "with": "1b25355b5e944af3",
-              "rule": "shared-words",
-              "words": [
-                "open",
-                "reflection",
-                "rival"
-              ]
-            }
-          ]
-        },
-        "retained": true
-      }
     }
   ],
   "stories": [
+    {
+      "id": "6b49f817361c",
+      "members": [
+        "05f9af330bd34366",
+        "92f6b887ebd6242d",
+        "f978bf0c289392ab"
+      ],
+      "sources": [
+        "techmeme"
+      ],
+      "source_count": 1,
+      "severity": 1,
+      "severity_terms": [
+        {
+          "term": "hacks",
+          "tier": "a",
+          "field": "title",
+          "weight": 1,
+          "item": "05f9af330bd34366"
+        },
+        {
+          "term": "attacks",
+          "tier": "b",
+          "field": "summary",
+          "weight": 0.21,
+          "item": "05f9af330bd34366"
+        },
+        {
+          "term": "rogue",
+          "tier": "a",
+          "field": "title",
+          "weight": 1,
+          "item": "92f6b887ebd6242d"
+        }
+      ],
+      "first_published_at": "2026-10-05T11:40:01.000Z",
+      "last_published_at": "2026-10-06T08:20:01.000Z",
+      "span_hours": 20.7,
+      "links": [
+        {
+          "a": "05f9af330bd34366",
+          "b": "f978bf0c289392ab",
+          "rule": "escalation-signal",
+          "words": [
+            "president"
+          ],
+          "non_entity_words": [
+            "president"
+          ],
+          "severity_a": 1,
+          "severity_b": 0
+        },
+        {
+          "a": "92f6b887ebd6242d",
+          "b": "f978bf0c289392ab",
+          "rule": "escalation-signal",
+          "words": [
+            "altman",
+            "sam"
+          ],
+          "non_entity_words": [
+            "altman",
+            "sam"
+          ],
+          "severity_a": 1,
+          "severity_b": 0
+        }
+      ],
+      "lead": "92f6b887ebd6242d"
+    },
     {
       "id": "20ab05ff1e22",
       "members": [
@@ -12553,84 +12630,6 @@
         }
       ],
       "lead": "8703e6b3a00385c6"
-    },
-    {
-      "id": "bdf33ec665d1",
-      "members": [
-        "92f6b887ebd6242d",
-        "f978bf0c289392ab"
-      ],
-      "sources": [
-        "techmeme"
-      ],
-      "source_count": 1,
-      "severity": 1,
-      "severity_terms": [
-        {
-          "term": "rogue",
-          "tier": "a",
-          "field": "title",
-          "weight": 1,
-          "item": "92f6b887ebd6242d"
-        }
-      ],
-      "first_published_at": "2026-10-05T11:40:01.000Z",
-      "last_published_at": "2026-10-06T06:30:00.000Z",
-      "span_hours": 18.8,
-      "links": [
-        {
-          "a": "92f6b887ebd6242d",
-          "b": "f978bf0c289392ab",
-          "rule": "escalation-signal",
-          "words": [
-            "altman",
-            "sam"
-          ],
-          "non_entity_words": [
-            "altman",
-            "sam"
-          ],
-          "severity_a": 1,
-          "severity_b": 0
-        }
-      ],
-      "lead": "92f6b887ebd6242d"
-    },
-    {
-      "id": "1fa693b83332",
-      "members": [
-        "1b25355b5e944af3",
-        "cfdfd64341a7c6d2"
-      ],
-      "sources": [
-        "techmeme"
-      ],
-      "source_count": 1,
-      "severity": 0,
-      "severity_terms": [],
-      "first_published_at": "2026-10-05T03:30:01.000Z",
-      "last_published_at": "2026-10-05T19:25:01.000Z",
-      "span_hours": 15.9,
-      "links": [
-        {
-          "a": "1b25355b5e944af3",
-          "b": "cfdfd64341a7c6d2",
-          "rule": "shared-words",
-          "words": [
-            "open",
-            "reflection",
-            "rival"
-          ],
-          "non_entity_words": [
-            "open",
-            "reflection",
-            "rival"
-          ],
-          "severity_a": 0,
-          "severity_b": 0
-        }
-      ],
-      "lead": "1b25355b5e944af3"
     },
     {
       "id": "387cc4bbbbd4",
@@ -12849,15 +12848,15 @@
       "COVERAGE_MAX": 15
     },
     "counts": {
-      "clusterable_items": 65,
-      "papers_excluded": 135,
-      "stories": 5,
-      "clustered_items": 11,
+      "clusterable_items": 66,
+      "papers_excluded": 134,
+      "stories": 4,
+      "clustered_items": 10,
       "links": 6,
       "rejected": {
         "span": 0,
         "entity_only": 17,
-        "near_miss": 35
+        "near_miss": 34
       }
     },
     "near_misses": [
@@ -12938,23 +12937,6 @@
         "non_entity_words": [
           "busi",
           "spend"
-        ],
-        "reason": "2 shared words, and not both items are incidents",
-        "severity_a": 0,
-        "severity_b": 0
-      },
-      {
-        "a": "0ef6c5a1974a71e8",
-        "b": "cfdfd64341a7c6d2",
-        "a_title": "Ghost, which makes a $3,499 computer designed for AI agents and includes an RTX Pro 4000 SFF Blackwell GPU, emerges from stealth with an $11M seed led by a16z (Dominic-Madori Davis/TechCrunch)",
-        "b_title": "Sources: several Western open-weight models are set to launch this month, including Reflection AI's first model, which will rival top Chinese open-weight models (Bradley Olson/Axios)",
-        "shared_words": [
-          "includ",
-          "which"
-        ],
-        "non_entity_words": [
-          "includ",
-          "which"
         ],
         "reason": "2 shared words, and not both items are incidents",
         "severity_a": 0,
@@ -13050,6 +13032,23 @@
         "reason": "2 shared words, and not both items are incidents",
         "severity_a": 0,
         "severity_b": 0
+      },
+      {
+        "a": "6035dd882e33adb8",
+        "b": "f978bf0c289392ab",
+        "a_title": "Sen. Adam Schiff on AI regulation, free speech, and impeaching Trump one more time",
+        "b_title": "Q&A with Sam Altman on President Trump, the midterms, AI extinction risk, Xi Jinping's state visit, self-policing vs. regulation, and Greg Brockman's donations (Vanity Fair)",
+        "shared_words": [
+          "regulat",
+          "trump"
+        ],
+        "non_entity_words": [
+          "regulat",
+          "trump"
+        ],
+        "reason": "2 shared words, and not both items are incidents",
+        "severity_a": 0,
+        "severity_b": 0
       }
     ]
   },
@@ -13065,8 +13064,8 @@
       "raw_items": 20,
       "newest_item_at": "2026-10-05T13:21:37.000Z",
       "error": null,
-      "ms": 655,
-      "fetched_at": "2026-10-06T08:16:15.283Z",
+      "ms": 271,
+      "fetched_at": "2026-10-06T08:25:54.018Z",
       "cadence_ms": 300000
     },
     {
@@ -13080,8 +13079,8 @@
       "raw_items": 20,
       "newest_item_at": "2026-10-05T22:26:35.000Z",
       "error": null,
-      "ms": 260,
-      "fetched_at": "2026-10-06T08:16:15.283Z",
+      "ms": 438,
+      "fetched_at": "2026-10-06T08:25:54.018Z",
       "cadence_ms": 300000
     },
     {
@@ -13095,8 +13094,8 @@
       "raw_items": 60,
       "newest_item_at": "2026-10-05T17:59:54.000Z",
       "error": null,
-      "ms": 545,
-      "fetched_at": "2026-10-06T08:16:15.283Z",
+      "ms": 321,
+      "fetched_at": "2026-10-06T08:25:54.018Z",
       "cadence_ms": 3600000
     },
     {
@@ -13110,8 +13109,8 @@
       "raw_items": 25,
       "newest_item_at": "2026-09-30T20:01:45.000Z",
       "error": null,
-      "ms": 352,
-      "fetched_at": "2026-10-06T08:16:15.283Z",
+      "ms": 287,
+      "fetched_at": "2026-10-06T08:25:54.018Z",
       "cadence_ms": 900000
     },
     {
@@ -13125,8 +13124,8 @@
       "raw_items": 42,
       "newest_item_at": "2026-10-06T03:55:19.000Z",
       "error": null,
-      "ms": 287,
-      "fetched_at": "2026-10-06T08:16:15.283Z",
+      "ms": 430,
+      "fetched_at": "2026-10-06T08:25:54.018Z",
       "cadence_ms": 900000
     },
     {
@@ -13140,8 +13139,8 @@
       "raw_items": 20,
       "newest_item_at": "2026-10-02T15:00:00.000Z",
       "error": null,
-      "ms": 583,
-      "fetched_at": "2026-10-06T08:16:15.283Z",
+      "ms": 447,
+      "fetched_at": "2026-10-06T08:25:54.018Z",
       "cadence_ms": 900000
     },
     {
@@ -13155,8 +13154,8 @@
       "raw_items": 40,
       "newest_item_at": "2026-10-06T00:00:00.000Z",
       "error": null,
-      "ms": 293,
-      "fetched_at": "2026-10-06T08:16:15.283Z",
+      "ms": 282,
+      "fetched_at": "2026-10-06T08:25:54.018Z",
       "cadence_ms": 3600000
     },
     {
@@ -13170,10 +13169,9 @@
       "raw_items": 50,
       "newest_item_at": "2026-10-02T05:54:02.000Z",
       "error": null,
-      "ms": 237,
-      "fetched_at": "2026-10-06T07:56:51.807Z",
-      "cadence_ms": 1800000,
-      "skipped_this_run": true
+      "ms": 272,
+      "fetched_at": "2026-10-06T08:25:54.018Z",
+      "cadence_ms": 1800000
     },
     {
       "id": "hn-ai",
@@ -13182,12 +13180,12 @@
       "weight": 0.6,
       "ok": true,
       "state": "live",
-      "count": 35,
-      "raw_items": 35,
-      "newest_item_at": "2026-10-06T04:37:17.000Z",
+      "count": 36,
+      "raw_items": 36,
+      "newest_item_at": "2026-10-06T07:49:07.000Z",
       "error": null,
-      "ms": 527,
-      "fetched_at": "2026-10-06T08:16:15.283Z",
+      "ms": 502,
+      "fetched_at": "2026-10-06T08:25:54.018Z",
       "cadence_ms": 300000
     },
     {
@@ -13201,8 +13199,8 @@
       "raw_items": 25,
       "newest_item_at": "2026-10-06T06:44:39.000Z",
       "error": null,
-      "ms": 303,
-      "fetched_at": "2026-10-06T08:16:15.283Z",
+      "ms": 388,
+      "fetched_at": "2026-10-06T08:25:54.018Z",
       "cadence_ms": 900000
     },
     {
@@ -13216,8 +13214,8 @@
       "raw_items": 25,
       "newest_item_at": "2026-09-28T15:57:59.000Z",
       "error": null,
-      "ms": 572,
-      "fetched_at": "2026-10-06T08:16:15.283Z",
+      "ms": 360,
+      "fetched_at": "2026-10-06T08:25:54.018Z",
       "cadence_ms": 900000
     },
     {
@@ -13231,8 +13229,8 @@
       "raw_items": 20,
       "newest_item_at": "2026-10-02T19:30:00.000Z",
       "error": null,
-      "ms": 410,
-      "fetched_at": "2026-10-06T08:16:15.283Z",
+      "ms": 251,
+      "fetched_at": "2026-10-06T08:25:54.018Z",
       "cadence_ms": 300000
     },
     {
@@ -13246,8 +13244,8 @@
       "raw_items": 25,
       "newest_item_at": "2026-10-05T15:00:00.000Z",
       "error": null,
-      "ms": 385,
-      "fetched_at": "2026-10-06T08:16:15.283Z",
+      "ms": 295,
+      "fetched_at": "2026-10-06T08:25:54.018Z",
       "cadence_ms": 900000
     },
     {
@@ -13261,8 +13259,8 @@
       "raw_items": 25,
       "newest_item_at": "2025-09-22T20:00:00.000Z",
       "error": null,
-      "ms": 334,
-      "fetched_at": "2026-10-06T08:16:15.283Z",
+      "ms": 309,
+      "fetched_at": "2026-10-06T08:25:54.018Z",
       "cadence_ms": 900000
     },
     {
@@ -13274,10 +13272,10 @@
       "state": "live",
       "count": 14,
       "raw_items": 14,
-      "newest_item_at": "2026-10-06T08:05:03.000Z",
+      "newest_item_at": "2026-10-06T08:20:01.000Z",
       "error": null,
-      "ms": 646,
-      "fetched_at": "2026-10-06T08:16:15.283Z",
+      "ms": 277,
+      "fetched_at": "2026-10-06T08:25:54.018Z",
       "cadence_ms": 300000
     },
     {
@@ -13291,8 +13289,8 @@
       "raw_items": 10,
       "newest_item_at": "2026-10-05T23:09:55.000Z",
       "error": null,
-      "ms": 510,
-      "fetched_at": "2026-10-06T08:16:15.283Z",
+      "ms": 286,
+      "fetched_at": "2026-10-06T08:25:54.018Z",
       "cadence_ms": 300000
     }
   ]
