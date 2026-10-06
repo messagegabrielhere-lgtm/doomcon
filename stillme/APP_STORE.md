@@ -26,7 +26,7 @@
    - A **working access code** for a demo legacy. Create a test account, release it from the executor link printed in your server console, and paste one of the codes.
    - A note that the owner flow needs no login: an account is created on the first backup.
 7. **Screenshots** for 6.9" and 6.5" iPhones.
-8. **Test on a real device.** This project was written without access to Xcode, so expect a round of compiler fixes on first build. Then exercise these paths:
+8. **Test on a real device.** CI compiles the app with Xcode 26 and screenshots it in the simulator (see the README), but nothing has run on a physical iPhone yet. Exercise these paths:
    - Voice recording (permissions, long stories)
    - Background backup when leaving the app
    - Check-in reminders (try a short interval)

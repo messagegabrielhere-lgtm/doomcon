@@ -69,7 +69,7 @@ set -a; . ./.env; set +a; npm run dev
 
 Without `RESEND_API_KEY`, emails (executor links, access codes) are printed to the console, so you can walk through the whole flow locally.
 
-**iOS app** (requires a Mac with Xcode 16 or later)
+**iOS app** (requires a Mac with Xcode 26 or later)
 
 ```bash
 brew install xcodegen
@@ -78,6 +78,23 @@ open StillMe.xcodeproj
 ```
 
 The app talks to `http://localhost:8787` by default (set in `project.yml` → `StillMeServerURL`). You can change it at runtime under **You → Server URL**. The simulator reaches your Mac's localhost directly. A physical phone needs your Mac's LAN IP or a deployed server.
+
+### Build and screenshots in CI
+
+You don't need a Mac to check the app. `.github/workflows/stillme-ios.yml` runs on every push to this branch, on a GitHub macOS runner:
+- compiles the app with Xcode 26
+- runs the server tests
+- launches the app in the iPhone simulator with sample data
+- pushes light and dark screenshots of 11 screens to the `stillme-screens` branch
+
+Debug builds take these launch arguments:
+
+| Argument | What it does |
+|---|---|
+| `-StillMeDemo 1` | Fills the app with a fictional person's archive |
+| `-mode owner` / `-mode recipient` | Picks which side of the app opens |
+| `-StillMeTab N` | Opens owner tab N (0 to 4) |
+| `-StillMeScreen consent\|people\|replies\|intro` | Opens a specific screen |
 
 ## Before production
 
