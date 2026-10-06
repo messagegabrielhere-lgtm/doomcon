@@ -57,7 +57,10 @@ const CASES = {
     good: [F('a.html', 'RSI below 30, golden cross, stop-loss hit. Not investment advice.')],
   },
   'secret-in-repo': {
-    bad: [F('a.mjs', "const k = 'sk-ant-api03-ABCDEFGHIJKLMNOPQRSTUVWX'")],
+    bad: [
+      F('a.mjs', "const k = 'sk-ant-api03-ABCDEFGHIJKLMNOPQRSTUVWX'"),
+      F('b.mjs', "const t = 'npm_ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcd'"),
+    ],
     good: [F('a.mjs', 'const k = process.env.ANTHROPIC_API_KEY')],
   },
   'owner-pii': {
@@ -92,6 +95,22 @@ const CASES = {
   'privacy-page': {
     bad: [F('a.html', '<p>hi</p>')],
     good: [F('a.html', '<a href="/privacy.html">Privacy</a>')],
+  },
+  'security-policy': {
+    bad: [F('README.md', '# hi')],
+    good: [F('SECURITY.md', '# Security\n\nReport via advisories.')],
+  },
+  'dependabot-config': {
+    bad: [F('package.json', '{"dependencies":{"left-pad":"1.0.0"}}')],
+    good: [F('package.json', '{"dependencies":{"left-pad":"1.0.0"}}'), F('.github/dependabot.yml', 'version: 2\nupdates: []')],
+  },
+  'workflow-permissions': {
+    bad: [F('.github/workflows/x.yml', 'name: x\non: push\njobs:\n  a:\n    runs-on: ubuntu-latest\n    steps: []\n')],
+    good: [F('.github/workflows/x.yml', 'name: x\non: push\npermissions:\n  contents: read\njobs:\n  a:\n    runs-on: ubuntu-latest\n    steps: []\n')],
+  },
+  'workflow-secret-echo': {
+    bad: [F('.github/workflows/x.yml', 'run: echo "key=${{ secrets.ANTHROPIC_API_KEY }}"')],
+    good: [F('.github/workflows/x.yml', 'env:\n  ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}\nrun: node script.mjs')],
   },
 };
 

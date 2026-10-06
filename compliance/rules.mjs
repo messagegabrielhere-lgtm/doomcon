@@ -253,7 +253,7 @@ export const RULES = [
     fix: 'Revoke and rotate the key now, then move it to a GitHub Actions secret. Removing it from the file does not remove it from git history.',
     check: ({ files }) =>
       files.filter((f) => !/\.example$|example\./i.test(f.path)).flatMap((f) =>
-        hits(f.text, /(sk-ant-[A-Za-z0-9_-]{20,}|sk-(proj-)?[A-Za-z0-9]{32,}|AKIA[0-9A-Z]{16}|ghp_[A-Za-z0-9]{36}|github_pat_[A-Za-z0-9_]{50,}|xox[baprs]-[A-Za-z0-9-]{10,}|AIza[0-9A-Za-z_-]{35}|-----BEGIN (RSA |EC )?PRIVATE KEY-----)/)
+        hits(f.text, /(sk-ant-[A-Za-z0-9_-]{20,}|sk-(proj-)?[A-Za-z0-9]{32,}|xai-[A-Za-z0-9_]{20,}|npm_[A-Za-z0-9]{36,}|hf_[A-Za-z0-9]{20,}|sk_live_[A-Za-z0-9]{20,}|rk_live_[A-Za-z0-9]{20,}|AKIA[0-9A-Z]{16}|ghp_[A-Za-z0-9]{36}|github_pat_[A-Za-z0-9_]{50,}|gho_[A-Za-z0-9]{36}|ghu_[A-Za-z0-9]{36}|ghs_[A-Za-z0-9]{36}|ghr_[A-Za-z0-9]{36}|xox[baprs]-[A-Za-z0-9-]{10,}|hooks\.slack\.com\/services\/T[A-Z0-9]+\/B[A-Z0-9]+\/[A-Za-z0-9]+|AIza[0-9A-Za-z_-]{35}|-----BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY-----)/)
           .map((h) => ({ file: f.path, line: h.line, detail: `${h.match.slice(0, 8)}… (redacted)` }))),
   },
 
@@ -390,6 +390,68 @@ export const RULES = [
         hits(f.text, /secrets\.YTDLP_COOKIES|--cookies\b/).slice(0, 1)
           .map((h) => ({ file: f.path, line: h.line, detail: 'yt-dlp cookies wired into CI' }))),
   },
+
+  // ── 20. Security policy must exist once the repo holds CI secrets ──────
+  {
+    id: 'security-policy',
+    severity: 'medium',
+    title: 'No SECURITY.md reporting policy',
+    law: 'Responsible-disclosure hygiene; GitHub private vulnerability reporting works best with a published policy',
+    fix: 'Add SECURITY.md at the repo root describing how to report issues and where secrets must live.',
+    check: ({ files }) =>
+      files.some((f) => /(^|\/)SECURITY\.md$/i.test(f.path))
+        ? []
+        : [{ file: '(repo)', line: 0, detail: 'no SECURITY.md at the repository root' }],
+  },
+
+  // ── 21. Declared npm deps need Dependabot watching the lockfile ────────
+  {
+    id: 'dependabot-config',
+    severity: 'medium',
+    title: 'npm dependencies without Dependabot',
+    law: 'Unpatched transitive CVEs in declared lockfiles are a supply-chain exposure',
+    fix: 'Add .github/dependabot.yml covering every package.json that declares dependencies (root and clipper/).',
+    check: ({ files }) => {
+      const pkgFiles = files.filter((f) => /(^|\/)package\.json$/i.test(f.path));
+      const hasDeps = pkgFiles.some((f) => {
+        try {
+          const j = JSON.parse(f.text);
+          return Object.keys(j.dependencies || {}).length + Object.keys(j.devDependencies || {}).length > 0;
+        } catch { return false; }
+      });
+      if (!hasDeps) return [];
+      const hasBot = files.some((f) => /(^|\/)\.github\/dependabot\.ya?ml$/i.test(f.path));
+      return hasBot ? [] : [{ file: '(repo)', line: 0, detail: 'package.json declares dependencies but .github/dependabot.yml is missing' }];
+    },
+  },
+
+  // ── 22. Every workflow must declare top-level permissions ──────────────
+  {
+    id: 'workflow-permissions',
+    severity: 'high',
+    title: 'GitHub Actions workflow with no permissions block',
+    law: 'Default GITHUB_TOKEN is write-all on many repos; least privilege stops a compromised step from rewriting main',
+    fix: 'Add a top-level `permissions:` block (contents: read is the safe default; raise only what the job needs).',
+    check: ({ files }) =>
+      files.filter((f) => /\.github\/workflows\/.+\.ya?ml$/i.test(f.path)).flatMap((f) => {
+        // Top-level only: a line that starts with "permissions:" (not indented).
+        if (/^permissions\s*:/m.test(f.text)) return [];
+        return [{ file: f.path, line: 1, detail: 'workflow has no top-level permissions: block' }];
+      }),
+  },
+
+  // ── 23. Workflows must not echo secret values into logs ────────────────
+  {
+    id: 'workflow-secret-echo',
+    severity: 'high',
+    title: 'Workflow prints a secret into the log',
+    law: 'GitHub Actions logs are retained and often readable by anyone with repo read access',
+    fix: 'Never echo, printf, or cat a secrets.* value. Pass it only as an env var to the tool that needs it.',
+    check: ({ files }) =>
+      files.filter((f) => /\.github\/workflows\/.+\.ya?ml$/i.test(f.path)).flatMap((f) =>
+        hits(f.text, /\b(echo|printf|printenv|env\s*\||cat)\b[^\n]{0,120}\$\{\{\s*secrets\.[A-Z0-9_]+\s*\}\}/i)
+          .map((h) => ({ file: f.path, line: h.line, detail: h.match.slice(0, 80) }))),
+  },
 ];
 
 /**
@@ -413,4 +475,8 @@ export const MANUAL = [
     steps: ['For each secret in repo Settings → Secrets (X, Bluesky, Anthropic, OpenAI, xAI, Gemini, DeepSeek, YouTube): create a new key at the provider.', 'Paste it into the GitHub secret, run the workflow once, then revoke the old key.', 'Set a calendar reminder for next year.'] },
   { id: 'pii-secret', text: 'COMPLIANCE_PII_TERMS secret is set, so your private details can never land in the public repo.',
     steps: ['GitHub repo → Settings → Secrets and variables → Actions → New repository secret.', 'Name: COMPLIANCE_PII_TERMS. Value: your real name, personal email and phone, comma-separated.', 'Run the "compliance" workflow once to confirm it passes.'] },
+  { id: 'private-vulnerability-reporting', text: 'GitHub private vulnerability reporting is enabled on this repo.',
+    steps: ['Repo → Settings → Code security → Private vulnerability reporting → Enable.', 'Confirm SECURITY.md links the advisory form (Contact: …/security/advisories/new).'] },
+  { id: 'dependabot-alerts', text: 'Dependabot alerts (and security updates) are enabled.',
+    steps: ['Repo → Settings → Code security → Dependabot alerts → Enable.', 'Enable Dependabot security updates so high/critical lockfile CVEs open PRs automatically.', 'Confirm .github/dependabot.yml covers root and clipper/.'] },
 ];
