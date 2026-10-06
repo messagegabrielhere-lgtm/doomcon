@@ -31,6 +31,8 @@ jobs:
         with:
           sparse-checkout: scanner
           fetch-depth: 1
+          # Publish step uses an explicit GH_TOKEN; do not persist the job token.
+          persist-credentials: false
 
       - name: Set up Node 20
         uses: actions/setup-node@v4

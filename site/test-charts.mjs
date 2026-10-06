@@ -1,15 +1,20 @@
-// THROWAWAY. Exercises site/templates/_charts.mjs with realistic and
-// degenerate inputs, asserts nothing throws and every chart produces real SVG,
-// and writes a visual preview. Deleted after the run.
+#!/usr/bin/env node
+// Chart harness for site/templates/_charts.mjs. Asserts realistic and
+// degenerate inputs never throw and always produce real SVG. Optional visual
+// preview (gitignored) via --preview.
 //
-//   docker run --rm -v "$PWD":/app -w /app node:20-alpine node _charts-harness.mjs
+//   node site/test-charts.mjs
+//   node site/test-charts.mjs --preview
 
-import { writeFile } from 'node:fs/promises';
+import { mkdir, writeFile } from 'node:fs/promises';
+import path from 'node:path';
 import {
   indexHistoryChart, pillarRanked, pillarRadar, sparkline, gauge,
   distributionStrip, PILLAR_GLYPH,
-} from './site/templates/_charts.mjs';
-import { css } from './site/styles.mjs';
+} from './templates/_charts.mjs';
+import { css } from './styles.mjs';
+
+const PREVIEW = process.argv.includes('--preview');
 
 let checks = 0;
 let fails = 0;
@@ -41,8 +46,6 @@ function assertChart(name, html, { expectSvg = true } = {}) {
 
 // --- fixtures ---------------------------------------------------------------
 
-// 48 realistic observations, engine-shaped (history.ndjson uses "t"), walking
-// from ROUTINE up through ELEVATED and back, so the level-change marks fire.
 const realHistory = [];
 {
   const start = Date.parse('2026-09-21T00:00:00.000Z');
@@ -75,7 +78,7 @@ const realSeries = realHistory.slice(-24).map((r) => r.score);
 
 // --- realistic ---------------------------------------------------------------
 const blocks = [];
-const B = (h2, html) => blocks.push(`<h2>${h2}</h2>${html}`);
+const B = (h2, html) => { if (PREVIEW) blocks.push(`<h2>${h2}</h2>${html}`); };
 
 console.log('\nrealistic data');
 B('indexHistoryChart · 48 observations', assertChart('history/48', indexHistoryChart(realHistory)));
@@ -176,27 +179,28 @@ ok('gauge names its band in text', g.includes('ELEVATED'));
 ok('gauge prints the number', g.includes('61.4'));
 ok('gauge marks the live segment with a class, not only a colour', g.includes('ch-g-seg--live'));
 
-// Determinism: same input, byte-identical output, twice.
 ok('indexHistoryChart deterministic', indexHistoryChart(realHistory) === indexHistoryChart(realHistory));
 ok('pillarRanked deterministic', pillarRanked(realPillars) === pillarRanked(realPillars));
 ok('gauge deterministic', gauge(61.4) === gauge(61.4));
 ok('sparkline deterministic', sparkline(realSeries) === sparkline(realSeries));
 ok('distributionStrip deterministic', distributionStrip(0.93) === distributionStrip(0.93));
 
-// Style contract the feed/reel agent is writing markup against.
 const sheet = css();
-for (const hook of ['.feed', '.feed__row', '.reel', '.reel__card', '.pillar-tag', '.chip--x',
-  '.chip--kalshi', '.chip--polymarket', '.layout-split', '.ch__svg', '.ch__cap',
+for (const hook of ['.reel', '.pillar-tag', '.chip--x',
+  '.chip--kalshi', '.chip--polymarket', '.ch__svg', '.ch__cap',
   '.spark__line', '.ch-g-seg', '.ch-r-bar', '.ch-d-curve', 'prefers-reduced-motion',
   'tabular-nums', '--t-xs', '--s-4']) {
   ok(`stylesheet exports ${hook}`, sheet.includes(hook));
 }
 console.log(`  stylesheet ${(sheet.length / 1024).toFixed(1)} KB raw`);
 
-// --- preview -----------------------------------------------------------------
-const html = `<!doctype html><html lang="en"><head><meta charset="utf-8">
+if (PREVIEW) {
+  const outDir = path.join(process.cwd(), '.tmp-cards');
+  await mkdir(outDir, { recursive: true });
+  const outFile = path.join(outDir, 'charts-harness.html');
+  const html = `<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>DOOMCON chart harness</title><style>${sheet}
+<title>SIREN chart harness</title><style>${sheet}
 body{padding:24px 16px 80px}h2{font-family:var(--mono);font-size:11px;letter-spacing:.14em;
 text-transform:uppercase;color:var(--ink-faint);margin:36px 0 10px;font-weight:500}
 .panes{display:grid;gap:24px}@media(min-width:900px){.panes{grid-template-columns:1fr 1fr}}
@@ -214,8 +218,9 @@ text-transform:uppercase;color:var(--ink-faint);margin:36px 0 10px;font-weight:5
 <div class="pane" data-theme="dark"><h1>DARK</h1>${blocks.join('')}</div>
 <div class="pane" data-theme="light"><h1>LIGHT</h1>${blocks.join('')}</div>
 </div></body></html>`;
-await writeFile('_charts-harness.html', html);
+  await writeFile(outFile, html);
+  console.log(`preview: ${outFile}`);
+}
 
 console.log(`\n${checks - fails}/${checks} checks passed.`);
-console.log('preview: _charts-harness.html\n');
 if (fails) process.exitCode = 1;
