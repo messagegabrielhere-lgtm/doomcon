@@ -88,7 +88,7 @@ struct TopicView: View {
     var body: some View {
         List {
             Section {
-                Text(topic.purpose).font(.callout).foregroundStyle(.secondary)
+                Text(topic.purpose).font(.callout).foregroundStyle(Color.slate)
             }
             ForEach(topic.questions, id: \.self) { question in
                 let answers = store.answers(to: question)
@@ -97,11 +97,11 @@ struct TopicView: View {
                 } label: {
                     HStack(alignment: .top, spacing: 12) {
                         Image(systemName: answers.isEmpty ? "circle" : "checkmark.circle.fill")
-                            .foregroundStyle(answers.isEmpty ? Color.secondary : Color.pulse)
+                            .foregroundStyle(answers.isEmpty ? Color.slate : Color.pulse)
                         VStack(alignment: .leading, spacing: 4) {
-                            Text(question).foregroundStyle(.primary)
+                            Text(question).foregroundStyle(Color.ink)
                             if let first = answers.first {
-                                Text(first.text).lineLimit(2).font(.footnote).foregroundStyle(.secondary)
+                                Text(first.text).lineLimit(2).font(.footnote).foregroundStyle(Color.slate)
                             }
                         }
                     }

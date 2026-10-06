@@ -68,7 +68,7 @@ struct RecipientHome: View {
                 .safeAreaInset(edge: .top) {
                     Text("An AI built from what \(grant.name) chose to share — not \(grant.name).")
                         .font(.caption)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Color.slate)
                         .frame(maxWidth: .infinity)
                         .padding(8)
                         .background(.bar)
@@ -114,12 +114,12 @@ private struct IntroSheet: View {
                         .font(.title2.weight(.bold))
                     if let note = grant.personalNote {
                         Text(note).font(.body)
-                        Text("— \(grant.name)").foregroundStyle(.secondary)
+                        Text("— \(grant.name)").foregroundStyle(Color.slate)
                     }
                     Divider()
                     Text("Before \(grant.name) died, they recorded their stories and way of speaking so you could keep talking with them. What you'll talk with is an AI built from those memories. It can be a comfort, and it can also get things wrong or not know something.")
                     Text("Go at your own pace. If it ever feels like too much, it's okay to close the app and reach out to someone you love.")
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Color.slate)
                 }
                 .padding(24)
             }

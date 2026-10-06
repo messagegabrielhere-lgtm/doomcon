@@ -7,7 +7,7 @@ import Foundation
 enum DemoData {
     static func seed(archive store: ArchiveStore, recipient: RecipientStore) {
         let ana = Beneficiary(name: "Ana Torres", email: "ana@example.com", relationship: "daughter",
-                              personalNote: "Ana, you were the best thing I ever made. Go easy on yourself. Love, Dad")
+                              personalNote: "You were the best thing I ever made. Go easy on yourself, kiddo.")
         let leo = Beneficiary(name: "Leo Torres", email: "leo@example.com", relationship: "son")
         let day: TimeInterval = 86_400
         func ago(_ days: Double) -> Date { Date.now.addingTimeInterval(-days * day) }

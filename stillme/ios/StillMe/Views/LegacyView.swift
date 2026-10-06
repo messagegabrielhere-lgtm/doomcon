@@ -17,7 +17,7 @@ struct LegacyView: View {
                         Button { editing = person } label: {
                             LabeledContent(person.name, value: person.relationship)
                         }
-                        .foregroundStyle(.primary)
+                        .foregroundStyle(Color.ink)
                     }
                     .onDelete { store.archive.legacy.beneficiaries.remove(atOffsets: $0) }
                     Button("Add someone", systemImage: "person.badge.plus") {

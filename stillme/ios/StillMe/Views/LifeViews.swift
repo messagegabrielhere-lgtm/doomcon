@@ -11,13 +11,13 @@ struct PeopleView: View {
             Section {
                 Text("Everyone your AI might be asked about or talk with: family, partners, friends, people you've lost. Recipients are added here automatically.")
                     .font(.callout)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Color.slate)
             }
             ForEach(store.archive.people) { person in
                 Button { editing = person } label: {
                     VStack(alignment: .leading, spacing: 4) {
                         HStack {
-                            Text(person.name).foregroundStyle(.primary)
+                            Text(person.name).foregroundStyle(Color.ink)
                             if person.beneficiaryId != nil {
                                 Image(systemName: "envelope.badge.shield.half.filled").foregroundStyle(.tint).font(.caption)
                             }
@@ -28,7 +28,7 @@ struct PeopleView: View {
                         }
                         Text([person.relationship, person.status].compactMap { $0 }.filter { !$0.isEmpty }.joined(separator: " · "))
                             .font(.caption)
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(Color.slate)
                     }
                 }
             }
@@ -106,7 +106,7 @@ struct TimelineView: View {
             Section {
                 Text("The big dates: born, schools, moves, jobs, relationships, kids, losses, health, trips. Approximate years are fine.")
                     .font(.callout)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Color.slate)
             }
             ForEach(store.archive.timeline) { event in
                 Button { editing = event } label: {
@@ -115,9 +115,9 @@ struct TimelineView: View {
                             .font(.headline.monospacedDigit())
                             .foregroundStyle(.tint)
                         VStack(alignment: .leading, spacing: 2) {
-                            Text(event.title).foregroundStyle(.primary)
+                            Text(event.title).foregroundStyle(Color.ink)
                             if let details = event.details, !details.isEmpty {
-                                Text(details).font(.caption).foregroundStyle(.secondary).lineLimit(2)
+                                Text(details).font(.caption).foregroundStyle(Color.slate).lineLimit(2)
                             }
                         }
                     }
@@ -203,7 +203,7 @@ struct ReplySamplesView: View {
             Section {
                 Text("Reply to each message exactly the way you'd text back. Same spelling, emoji, and length. This teaches your AI your real voice better than anything else.")
                     .font(.callout)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Color.slate)
             }
             Section("Messages") {
                 ForEach(InterviewPrompts.replyScenarios, id: \.self) { message in
@@ -215,7 +215,7 @@ struct ReplySamplesView: View {
                             Text(message)
                                 .padding(.horizontal, 12).padding(.vertical, 7)
                                 .background(Color.canvas, in: RoundedRectangle(cornerRadius: 14))
-                                .foregroundStyle(.primary)
+                                .foregroundStyle(Color.ink)
                             if let existing {
                                 Text(existing.text)
                                     .padding(.horizontal, 12).padding(.vertical, 7)
@@ -232,7 +232,7 @@ struct ReplySamplesView: View {
                 Section("Your own") {
                     ForEach(custom) { memory in
                         Button { editing = memory } label: {
-                            LabeledContent(memory.prompt ?? "", value: memory.text).foregroundStyle(.primary)
+                            LabeledContent(memory.prompt ?? "", value: memory.text).foregroundStyle(Color.ink)
                         }
                     }
                 }
@@ -260,12 +260,12 @@ struct DepthCard: View {
                 Text("\(depth.overall)%")
                     .font(.system(size: 44, weight: .heavy))
                     .contentTransition(.numericText())
-                Text("of you recorded").foregroundStyle(.secondary)
+                Text("of you recorded").foregroundStyle(Color.slate)
             }
             Text(depth.summary).font(.callout)
             ForEach(Depth.Area.allCases) { area in
                 HStack(spacing: 10) {
-                    Image(systemName: area.symbol).frame(width: 22).foregroundStyle(.secondary)
+                    Image(systemName: area.symbol).frame(width: 22).foregroundStyle(Color.slate)
                     Text(area.title).font(.caption).frame(width: 120, alignment: .leading)
                     ProgressView(value: depth.scores[area] ?? 0)
                 }
@@ -294,8 +294,8 @@ struct FollowUpsSection: View {
                     answering = Memory(kind: .interview, prompt: item.question, text: "")
                 } label: {
                     VStack(alignment: .leading, spacing: 4) {
-                        Text(item.question).foregroundStyle(.primary)
-                        Text(item.why).font(.caption).foregroundStyle(.secondary)
+                        Text(item.question).foregroundStyle(Color.ink)
+                        Text(item.why).font(.caption).foregroundStyle(Color.slate)
                     }
                 }
                 .swipeActions {

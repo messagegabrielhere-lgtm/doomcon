@@ -22,7 +22,7 @@ struct MemoriesView: View {
             List {
                 ForEach(shown) { memory in
                     Button { editing = memory } label: { MemoryRow(memory: memory, people: store.archive.legacy.beneficiaries) }
-                        .foregroundStyle(.primary)
+                        .foregroundStyle(Color.ink)
                 }
                 .onDelete { offsets in
                     let doomed = offsets.map { shown[$0] }
@@ -71,7 +71,7 @@ private struct MemoryRow: View {
                 Text(memory.createdAt, format: .dateTime.day().month().year())
             }
             .font(.caption)
-            .foregroundStyle(.secondary)
+            .foregroundStyle(Color.slate)
             if let prompt = memory.prompt {
                 Text(prompt).font(.subheadline.weight(.semibold))
             }
@@ -80,7 +80,7 @@ private struct MemoryRow: View {
                 let names = people.filter { memory.restrictedTo.contains($0.id) }.map(\.name)
                 Label(names.isEmpty ? "No one" : "Only " + names.formatted(.list(type: .and)), systemImage: "lock")
                     .font(.caption)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Color.slate)
             }
         }
         .padding(.vertical, 2)
