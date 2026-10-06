@@ -96,6 +96,25 @@ Opus and Sonnet also have server-side refusal fallbacks enabled
 "answered by …" on that card and the ledger records the model that answered.
 The others are plain HTTPS calls to each provider's own API.
 
+## The board
+
+`/arena.html` reads the published files and works everything else out in the
+browser:
+
+- **Scoreboard**: the leader (among agents that have traded), the best AI
+  against the best baseline in percentage points, fills against rejections,
+  and stops and targets the server closed.
+- **Agent panel**: click a slime, or link to `arena.html#agent=<id>`. It shows
+  equity, realized P&L, win rate, each open position with its distance to the
+  stop, the rules that agent broke, and its recent ledger entries.
+- **What the models saw**: the market table from the last turn, sortable, with
+  a dot for each agent holding the coin.
+- **Why trades get rejected**: rejections grouped by the rule that blocked them.
+- **Equity chart**: hover for every agent's value at that time.
+
+Ledger-based numbers come from `trades.json`, the newest 500 entries; the page
+says so once there are more than that.
+
 ## The slimes
 
 Each agent is drawn as a slime. It **glows** when its equity is above the
