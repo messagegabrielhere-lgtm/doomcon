@@ -1200,12 +1200,17 @@ async function main() {
   // NEWS-ONLY FAST PATH. Used by the minute newsroom loop. Rewrites the pages
   // and JSON the open-tab poller and newsroom HTML need, leaves move pages,
   // methodology, fonts, PNGs and standalone apps untouched, and stamps only
-  // the HTML it wrote. Measured ~1–2s vs ~9s for a full wipe rebuild.
+  // the HTML it wrote. Item briefs are rewritten only when the item, its
+  // pillar neighbour set, or the index as-of stamp changed — so a one-story
+  // tick does not rewrite ~400 mostly-identical files. Measured ~1–2s vs ~9s
+  // for a full wipe rebuild; incremental item skips cut I/O further on hot ticks.
   if (newsOnly) {
     written.push(await write(args.out, 'instruments.html', indexPage.render(ctx, { view: 'instruments' })));
     if (newsPage.hasNews(ctx)) {
       written.push(await write(args.out, 'news.html', newsPage.render(ctx)));
     }
+    let itemRewritten = 0;
+    let itemSkipped = 0;
     if (itemPage.hasItems(ctx)) {
       const items = ctx.news.items;
       const byPillar = new Map();
@@ -1213,11 +1218,53 @@ async function main() {
         if (!byPillar.has(it.pillar)) byPillar.set(it.pillar, []);
         byPillar.get(it.pillar).push(it);
       }
+      // Compare against the previous newsroom on disk (read before we overwrite
+      // api/news.json below) so unchanged briefs keep their bytes and mtimes —
+      // that lets the overlay rsync skip them on publish.
+      let prevItems = [];
+      try {
+        prevItems = JSON.parse(await readFile(path.join(args.out, 'api/news.json'), 'utf8')).items || [];
+      } catch { /* first news-only pass, or corrupt prior */ }
+      let prevAsOf = null;
+      try {
+        prevAsOf = JSON.parse(await readFile(path.join(args.out, 'api/state.json'), 'utf8')).generated_at;
+      } catch { /* absent */ }
+      const asOfChanged = prevAsOf !== state.generated_at;
+      const prevById = new Map(prevItems.map((it) => [it.id, it]));
+      const pillarKey = (list, pillar) => list
+        .filter((it) => it.pillar === pillar)
+        .map((it) => it.id)
+        .sort()
+        .join('\0');
+      const prevPillarKeys = new Map();
+      for (const p of new Set(prevItems.map((it) => it.pillar))) {
+        prevPillarKeys.set(p, pillarKey(prevItems, p));
+      }
+      const keep = new Set(['index.html']);
       for (const it of items) {
+        const slug = itemPage.slugFor(it);
+        keep.add(`${slug}.html`);
+        const rel = `item/${slug}.html`;
+        const abs = path.join(args.out, rel);
+        const prev = prevById.get(it.id);
+        const pillarChanged = prevPillarKeys.get(it.pillar) !== pillarKey(items, it.pillar);
+        const itemChanged = !prev || stableJson(it) !== stableJson(prev);
+        if (!asOfChanged && !pillarChanged && !itemChanged && existsSync(abs)) {
+          itemSkipped += 1;
+          continue;
+        }
         const related = (byPillar.get(it.pillar) || [])
           .filter((r) => r.id !== it.id)
           .slice(0, 5);
-        written.push(await write(args.out, `item/${itemPage.slugFor(it)}.html`, itemPage.render(ctx, it, related)));
+        written.push(await write(args.out, rel, itemPage.render(ctx, it, related)));
+        itemRewritten += 1;
+      }
+      const itemDir = path.join(args.out, 'item');
+      if (existsSync(itemDir)) {
+        for (const name of await readdir(itemDir)) {
+          if (!name.endsWith('.html') || keep.has(name)) continue;
+          await rm(path.join(itemDir, name), { force: true });
+        }
       }
       written.push(await write(args.out, 'item/index.html', itemPage.renderIndex(ctx)));
     }
@@ -1247,6 +1294,7 @@ async function main() {
     log(`  out          ${args.out}`);
     log(`  level        ${brand.NAME} ${state.level} (${state.level_name}), score ${score}`);
     log(`  files        ${written.length}`);
+    log(`  items        ${itemRewritten} rewritten, ${itemSkipped} unchanged`);
     log(`  sitebar      ${stamped} pages`);
     for (const w of warnings) log(`  WARNING      ${w}`);
     return;

@@ -135,20 +135,39 @@ jobs:
                 || { echo "::warning::news-only build failed on tick $TICK; trying full build"; node site/build.mjs --quiet || { echo "::warning::build failed on tick $TICK"; sleep 45; continue; }; }
 
               # Overlay onto the live gh-pages tip instead of re-tarring the
-              # whole 90MB+ site. Falls back to a full orphan publish if the
-              # shallow clone or push fails (first deploy, non-fast-forward).
+              # whole 90MB+ site. Keep .pages across ticks: a fresh shallow
+              # clone is ~100MB / ~2–3s every publish; fetch+reset is seconds
+              # cheaper once the working copy exists. rsync then skips the
+              # ~31MB of item briefs whose bytes/mtimes did not move.
+              # Falls back to a full orphan publish if refresh or push fails.
               PUB_OK=0
-              rm -rf .pages
-              if git clone -q --depth 1 --branch gh-pages \
-                  "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" .pages; then
+              PAGES_REMOTE="https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
+              if [ -d .pages/.git ]; then
+                if ! git -C .pages fetch -q origin gh-pages 2>/dev/null \
+                  || ! git -C .pages reset -q --hard FETCH_HEAD 2>/dev/null; then
+                  echo "tick $TICK: could not refresh .pages; recloning"
+                  rm -rf .pages
+                fi
+              fi
+              if [ ! -d .pages/.git ]; then
+                rm -rf .pages
+                git clone -q --depth 1 --branch gh-pages "$PAGES_REMOTE" .pages \
+                  || rm -rf .pages
+              fi
+              if [ -d .pages/.git ]; then
                 for rel in api/news.json api/state.json news.html index.html classic.html instruments.html feed.xml; do
                   if [ -e "public/$rel" ]; then
                     mkdir -p ".pages/$(dirname "$rel")"
                     cp -a "public/$rel" ".pages/$rel"
                   fi
                 done
-                if [ -d public/news ]; then rm -rf .pages/news && cp -a public/news .pages/news; fi
-                if [ -d public/item ]; then rm -rf .pages/item && cp -a public/item .pages/item; fi
+                if command -v rsync >/dev/null 2>&1; then
+                  if [ -d public/news ]; then mkdir -p .pages/news && rsync -a --delete public/news/ .pages/news/; fi
+                  if [ -d public/item ]; then mkdir -p .pages/item && rsync -a --delete public/item/ .pages/item/; fi
+                else
+                  if [ -d public/news ]; then rm -rf .pages/news && cp -a public/news .pages/news; fi
+                  if [ -d public/item ]; then rm -rf .pages/item && cp -a public/item .pages/item; fi
+                fi
                 git -C .pages config user.name  'github-actions[bot]'
                 git -C .pages config user.email '41898282+github-actions[bot]@users.noreply.github.com'
                 git -C .pages add -A
@@ -156,7 +175,7 @@ jobs:
                   echo "tick $TICK: overlay had nothing new to commit"
                   PUB_OK=1
                 elif git -C .pages commit -q -m "newsroom refresh — $(date -u +%Y-%m-%dT%H:%M:%SZ)" \
-                  && git -C .pages push -q "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" HEAD:gh-pages; then
+                  && git -C .pages push -q "$PAGES_REMOTE" HEAD:gh-pages; then
                   PUB_OK=1
                 fi
               fi
@@ -172,7 +191,7 @@ jobs:
                 git -C .pages config user.email '41898282+github-actions[bot]@users.noreply.github.com'
                 git -C .pages add -A
                 git -C .pages commit -q -m "newsroom refresh — $(date -u +%Y-%m-%dT%H:%M:%SZ)"
-                if git -C .pages push -q -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" gh-pages; then
+                if git -C .pages push -q -f "$PAGES_REMOTE" gh-pages; then
                   PUB_OK=1
                 fi
               fi
