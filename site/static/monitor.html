@@ -208,6 +208,50 @@ canvas#globe.drag{cursor:grabbing}
 
 footer{font-size:11.5px;color:var(--mute);display:flex;flex-wrap:wrap;gap:4px 14px}
 
+/* navigation: regions, timeline, palette, help, watchlist, keyboard cursor, phone bar */
+.regions{display:flex;flex-wrap:wrap;gap:4px;width:100%}
+.regions button{border:1px solid var(--line);background:color-mix(in srgb,var(--panel) 88%,transparent);backdrop-filter:blur(4px);border-radius:999px;padding:1px 9px;font-size:11.5px;color:var(--mute)}
+.regions button:hover,.regions button[aria-pressed=true]{color:var(--ink);border-color:var(--accent)}
+.timeline{position:absolute;left:10px;right:250px;bottom:10px;display:flex;align-items:center;gap:8px;background:color-mix(in srgb,var(--panel) 90%,transparent);border:1px solid var(--line);border-radius:8px;padding:5px 9px;font-size:11.5px;color:var(--mute);backdrop-filter:blur(4px);z-index:3}
+.timeline input{flex:1;min-width:60px;accent-color:var(--accent)}
+.timeline .when{font-family:var(--f-mono);white-space:nowrap;min-width:92px;text-align:right}
+.stage.past{box-shadow:inset 0 0 0 2px var(--warn)}
+.stage.past .timeline .when{color:var(--warn)}
+.drawer{bottom:54px}
+.since{display:flex;gap:8px;align-items:flex-start;padding:8px 12px;border-bottom:1px solid var(--line);font-size:12.5px;background:color-mix(in srgb,var(--accent) 8%,transparent)}
+.since p{margin:0;flex:1}
+.since button{all:unset;cursor:pointer;color:var(--mute);padding:0 4px}
+.since a{cursor:pointer;text-decoration:underline dotted}
+.stress .star{all:unset;cursor:pointer;color:var(--line);font-size:13px;line-height:1;padding:0 2px}
+.stress .star[aria-pressed=true]{color:var(--accent)}
+.stress .star:focus-visible{outline:2px solid var(--accent)}
+.stress li{grid-template-columns:18px 22px minmax(0,1fr) 38px 46px}
+.stress .bar{grid-column:3/4}
+.stress .grp{display:block;padding:6px 12px 3px;font:600 10.5px/1 var(--f-body);letter-spacing:.08em;text-transform:uppercase;color:var(--mute);cursor:default;border-bottom:0}
+.stress .grp:hover{background:none}
+.feed li.cur{background:var(--sunk);box-shadow:inset 3px 0 0 var(--ink)}
+.feed li .go{all:unset;cursor:pointer;color:var(--mute);margin-left:auto;font-size:11px}
+.feed li .go:hover{color:var(--ink)}
+dialog.modal{border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--ink);padding:0;width:min(560px,calc(100vw - 32px));box-shadow:0 20px 60px rgba(0,0,0,.6)}
+dialog.modal::backdrop{background:rgba(0,0,0,.55)}
+.pal input{width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;padding:14px 16px;font-size:16px;outline:none}
+.pal ul{list-style:none;margin:0;padding:6px;max-height:min(420px,60vh);overflow:auto}
+.pal li{display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:7px;cursor:pointer;font-size:14px}
+.pal li[aria-selected=true]{background:var(--sunk);box-shadow:inset 2px 0 0 var(--accent)}
+.pal li .k{margin-left:auto;font-size:11.5px;color:var(--mute);white-space:nowrap}
+.pal li .ty{font:600 10px/1 var(--f-body);letter-spacing:.08em;text-transform:uppercase;color:var(--mute);width:62px;flex:none}
+.pal .foot{padding:7px 14px;border-top:1px solid var(--line);font-size:11.5px;color:var(--mute)}
+.help{padding:16px 18px;font-size:13.5px}
+.help h2{margin:0 0 10px;font:700 20px/1 var(--f-display);letter-spacing:.06em;text-transform:uppercase}
+.help h3{margin:14px 0 6px;font:600 11px/1.2 var(--f-body);letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
+.help p{margin:0 0 8px}
+.help dl{display:grid;grid-template-columns:max-content 1fr;gap:4px 14px;margin:0}
+.help dt{font-family:var(--f-mono);font-size:12px}
+.help dt kbd,.pal kbd{border:1px solid var(--line);border-bottom-width:2px;border-radius:4px;padding:0 5px;font:500 11.5px var(--f-mono);background:var(--sunk)}
+.help dd{margin:0;color:var(--mute)}
+.help .row{display:flex;justify-content:flex-end;margin-top:14px}
+.mnav{display:none}
+
 @media (max-width:1180px){
   .grid{grid-template-columns:260px minmax(0,1fr)}
   .right{grid-column:1/-1;max-height:none}
@@ -224,6 +268,12 @@ footer{font-size:11.5px;color:var(--mute);display:flex;flex-wrap:wrap;gap:4px 14
   .hud input{width:110px}
   .right{order:3}
   .brand span{display:none}
+  .timeline{right:10px}
+  body{padding-bottom:72px}
+  .mnav{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:55;background:var(--panel);border-top:1px solid var(--line);padding:6px 8px calc(6px + env(safe-area-inset-bottom))}
+  .mnav button{flex:1;border:0;background:transparent;color:var(--mute);font:600 12px/1.1 var(--f-display);letter-spacing:.08em;text-transform:uppercase;padding:6px 0;display:flex;flex-direction:column;align-items:center;gap:2px}
+  .mnav button span{font-size:16px;line-height:1}
+  .toasts{bottom:76px}
 }
 </style>
 </head>
@@ -236,9 +286,11 @@ footer{font-size:11.5px;color:var(--mute);display:flex;flex-wrap:wrap;gap:4px 14
     </div>
     <span class="clock" id="clock" aria-live="off">--:--:-- UTC</span>
     <select class="sel" id="win" aria-label="Time window" title="Time window for the stories, hotspots and brief"><option value="6">6 h</option><option value="24" selected>24 h</option><option value="72">72 h</option></select>
-    <button class="btn" id="alerts" type="button" aria-pressed="false" title="Notify on big quakes, red disaster alerts and fast-rising countries">Alerts</button>
+    <button class="btn" id="palBtn" type="button" title="Jump to a country, region, layer or action (Ctrl+K or /)">Jump… <kbd style="font:500 10.5px var(--f-mono);color:var(--mute)">⌘K</kbd></button>
+    <button class="btn" id="alerts" type="button" aria-pressed="false" title="Notify on big quakes, red disaster alerts, fast-rising countries and news about countries you watch">Alerts</button>
     <button class="btn" id="share" type="button" title="Copy a link to this exact view">Share</button>
     <button class="btn" id="refresh" type="button" title="Refetch every source (R)">Refresh</button>
+    <button class="btn" id="helpBtn" type="button" title="How this works and keyboard shortcuts (?)" aria-label="Help">?</button>
   </header>
   <div class="sources" id="sources" aria-label="Source status"></div>
 
@@ -270,8 +322,15 @@ footer{font-size:11.5px;color:var(--mute);display:flex;flex-wrap:wrap;gap:4px 14
         <button class="btn small" type="button" id="zin" aria-label="Zoom in">+</button>
         <button class="btn small" type="button" id="zout" aria-label="Zoom out">−</button>
         <button class="btn small" type="button" id="home" title="Reset view (0)">Reset</button>
-        <input id="find" list="countryList" placeholder="Find a country (/)" aria-label="Find a country">
+        <input id="find" list="countryList" placeholder="Find a country" aria-label="Find a country">
         <datalist id="countryList"></datalist>
+        <div class="regions" id="regions" aria-label="Regions"></div>
+      </div>
+      <div class="timeline" id="timeline">
+        <button class="btn small" type="button" id="play" title="Replay the last 72 hours (P)" aria-label="Replay the last 72 hours">▶</button>
+        <input type="range" id="scrub" min="-72" max="0" step="1" value="0" aria-label="Time: hours before now">
+        <span class="when" id="when">Live</span>
+        <button class="btn small" type="button" id="live" hidden>Live</button>
       </div>
       <div class="legend" id="legend"></div>
       <div class="tip" id="tip" hidden></div>
@@ -287,10 +346,12 @@ footer{font-size:11.5px;color:var(--mute);display:flex;flex-wrap:wrap;gap:4px 14
         <button role="tab" aria-selected="false" data-tab="cyber">Cyber<span class="ct" id="ctCyber"></span></button>
       </div>
       <div class="pane" data-pane="feed">
+        <div class="since" id="since" hidden></div>
         <div class="cats" id="cats"></div>
         <div class="search">
           <input type="text" id="q" placeholder="Filter, e.g. Taiwan, drone, tariff" aria-label="Filter stories">
           <select class="sel" id="sort" aria-label="Sort stories"><option value="new">Newest</option><option value="big">Most outlets</option></select>
+          <button class="btn small" type="button" id="csv" title="Download the stories shown as a CSV file">CSV</button>
         </div>
         <ul class="feed scroll" id="feed"></ul>
       </div>
@@ -306,10 +367,43 @@ footer{font-size:11.5px;color:var(--mute);display:flex;flex-wrap:wrap;gap:4px 14
 
   <footer>
     <span>News: <a href="https://www.gdeltproject.org/" target="_blank" rel="noopener">GDELT</a>, 27 world and specialist feeds, and SIREN's newsroom. Hazards: <a href="https://earthquake.usgs.gov/" target="_blank" rel="noopener">USGS</a>, <a href="https://eonet.gsfc.nasa.gov/" target="_blank" rel="noopener">NASA EONET</a>, <a href="https://www.gdacs.org/" target="_blank" rel="noopener">GDACS</a>. Military aircraft: <a href="https://adsb.lol/" target="_blank" rel="noopener">adsb.lol</a> (ODbL), public ADS-B broadcasts shown only as regional counts; no callsigns, registrations or exact positions. Cyber: <a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank" rel="noopener">CISA KEV</a>. Markets: Yahoo (delayed, via the scanner snapshot), OKX. Map: Natural Earth. <a href="https://github.com/messagegabrielhere-lgtm/doomcon/blob/main/docs/MONITOR.md" target="_blank" rel="noopener">How it works</a>.</span>
-    <span>Keys: 1–4 tabs · M map · / find · Space rotate · R refresh · 0 reset · Esc close</span>
+    <span>Keys: ⌘K or / jump · ? help · j/k stories · 1–4 tabs · M map · P replay · R refresh · 0 reset · Esc close</span>
   </footer>
 </div>
 <div class="toasts" id="toasts" aria-live="polite"></div>
+<nav class="mnav" aria-label="Sections">
+  <button type="button" data-go=".stage"><span>◍</span>Map</button>
+  <button type="button" data-go=".right"><span>≡</span>Stories</button>
+  <button type="button" data-go="#hStress"><span>▲</span>Index</button>
+  <button type="button" data-go="#hLayers"><span>☰</span>Layers</button>
+  <button type="button" data-go="pal"><span>⌕</span>Jump</button>
+</nav>
+<dialog class="modal pal" id="pal" aria-label="Jump to">
+  <input id="palQ" type="text" placeholder="Country, region, layer, preset or action…" autocomplete="off" spellcheck="false" aria-controls="palList" aria-label="Search">
+  <ul id="palList" role="listbox"></ul>
+  <div class="foot"><kbd>↑</kbd> <kbd>↓</kbd> move · <kbd>Enter</kbd> go · <kbd>Esc</kbd> close</div>
+</dialog>
+<dialog class="modal" id="help" aria-labelledby="helpTitle">
+  <div class="help">
+    <h2 id="helpTitle">World Monitor</h2>
+    <p>A live map of what the world's newsrooms and hazard feeds are reporting. News from 27 outlets and GDELT is grouped into <b>stories</b> (one event, many outlets). Each country gets a <b>stress index</b>, 0–100, from the stories naming it, natural hazards near it and its stock market. It counts coverage. It is not a forecast.</p>
+    <h3>Getting around</h3>
+    <p><b>Jump</b> (⌘K or /) finds any country, region, layer, preset or action. The region chips on the map fly there and narrow the stories and the index to that region. Click a country for its panel: score, 7-day trend, hazards and stories. ★ a country to watch it: it stays at the top of the index, and with Alerts on you hear when it moves or a big story breaks.</p>
+    <p>The slider under the map replays the last 72 hours. Drag it, or press ▶. Stories, hotspots, hazards and the index all rewind with it.</p>
+    <h3>Keys</h3>
+    <dl>
+      <dt><kbd>⌘K</kbd> <kbd>/</kbd></dt><dd>Jump to anything</dd>
+      <dt><kbd>j</kbd> <kbd>k</kbd></dt><dd>Next / previous story</dd>
+      <dt><kbd>Enter</kbd> <kbd>o</kbd> <kbd>x</kbd></dt><dd>Open story · show its country · show other outlets</dd>
+      <dt><kbd>1</kbd>–<kbd>4</kbd></dt><dd>Stories, Brief, Markets, Cyber</dd>
+      <dt><kbd>M</kbd> <kbd>0</kbd> <kbd>Space</kbd></dt><dd>Globe or flat map · reset view · rotate</dd>
+      <dt><kbd>P</kbd> <kbd>L</kbd></dt><dd>Replay 72 hours · back to live</dd>
+      <dt><kbd>W</kbd></dt><dd>Watch or unwatch the open country</dd>
+      <dt><kbd>R</kbd> <kbd>Esc</kbd></dt><dd>Refresh every source · close</dd>
+    </dl>
+    <div class="row"><button class="btn primary" type="button" data-close>Got it</button></div>
+  </div>
+</dialog>
 
 <!-- Categories, country matching, story grouping and the stress formula. The build pastes monitor/core.mjs in here
      as `Core`: the same file monitor/collect.mjs scores the history with. -->
@@ -417,9 +511,17 @@ const S = {
   catOn: new Set(store.get("cats", CATS.filter((c) => c.id !== "world").map((c) => c.id))),
   win: store.get("win", 24), sort: "new", q: "", tab: "feed", sel: null, hover: null, open: new Set(), preset: null,
   alerts: store.get("alerts", false), seen: new Set(store.get("seen", [])),
+  watch: new Set(store.get("watch", [])), region: null, asOf: null, hl: null, cursor: -1,
   ai: store.get("ai", { url: "http://localhost:11434", model: "llama3.2", auto: false }), aiOk: false, aiSummaries: {},
 };
-const inWin = (t) => Date.now() - t <= S.win * 3600e3;
+/** "Now" for everything on screen: the clock, or the moment the timeline is set to. */
+const nowT = () => S.asOf ?? Date.now();
+const inWin = (t) => t <= nowT() && nowT() - t <= S.win * 3600e3;
+/** A story counts from its first report when replaying, from its latest when live. */
+const inS = (s) => inWin(S.asOf ? s.first : s.t);
+const inRegion = (isos) => !S.region || isos.some((i) => S.byIso.get(i)?.region === S.region);
+/** Hazards as they stood at nowT(). */
+const atTime = (list, maxAgeMs = Infinity) => S.asOf ? list.filter((x) => x.t <= S.asOf && S.asOf - x.t <= maxAgeMs) : list;
 
 /* ------------------------------------------------------------------ */
 /* Layers and presets                                                 */
@@ -477,7 +579,7 @@ function renderLayers() {
 function layerCounts() {
   const c = {};
   for (const cat of CATS) c["news:" + cat.id] = 0;
-  for (const s of S.stories) if (inWin(s.t)) c["news:" + s.cat]++;
+  for (const s of S.stories) if (inS(s)) c["news:" + s.cat]++;
   c.quakes = S.quakes.length; c.gdacs = S.gdacs.length; c.mil = milTotal(); c.flights = 0;
   c.dc = S.dcs.length; c.choke = CHOKE.length; c.lanes = LANES.length;
   for (const k of Object.keys(EONET_CATS)) c["eonet:" + k] = S.eonet.filter((e) => e.cat === k).length;
@@ -551,8 +653,9 @@ function recluster() {
   S.stories = clusterStories([...S.items.values()]);
   afterData();
   throttle("news", () => {
-    renderCats(); renderTicker(); $("#ctFeed").textContent = S.stories.filter((s) => inWin(s.t)).length || "";
+    renderCats(); renderTicker(); $("#ctFeed").textContent = S.stories.filter(inS).length || "";
     if (S.tab === "feed") renderFeed(); if (S.tab === "brief") renderBrief(); if (S.tab === "cyber") renderCyber();
+    if (S.booted) renderSince();
   }, 200);
 }
 function onNews(catId, added) {
@@ -784,17 +887,28 @@ function historyFor(iso) {
   const M = mOf(iso);
   return h.t.map((hour, i) => { const p = h.c[iso][i]; return { t: hour * 3600e3, v: p ? stressScore(p[0], p[1], M) : 0 }; });
 }
+/** Score from the hourly history at time t (null when the history does not reach). */
+function histScore(iso, t) {
+  const h = S.hist;
+  if (!h?.t?.length) return null;
+  const target = Math.floor(t / 3600e3);
+  const i = h.t.findIndex((x) => x >= target);
+  if (i < 0 || h.t[i] - target > 2) return null;
+  const p = h.c[iso]?.[i];
+  return p ? stressScore(p[0], p[1], mOf(iso)) : 0;
+}
 function change24(iso, now) {
   const h = S.hist;
   if (!h?.t?.length) return null;
-  const target = Math.floor(Date.now() / 3600e3) - 24;
+  const target = Math.floor(nowT() / 3600e3) - 24;
   const i = h.t.findIndex((x) => x >= target);
   if (i < 0 || h.t[i] - target > 2) return null; // history does not reach back a day yet
   const p = h.c[iso]?.[i];
   return now - (p ? stressScore(p[0], p[1], mOf(iso)) : 0);
 }
 function computeStress() {
-  const inp = countryInputs({ stories: S.stories, quakes: S.quakes, gdacs: S.gdacs, eonet: S.eonet });
+  const stories = S.asOf ? S.stories.filter((s) => s.first <= S.asOf).map((s) => ({ ...s, t: s.first })) : S.stories;
+  const inp = countryInputs({ stories, quakes: atTime(S.quakes, 7 * 86400e3), gdacs: atTime(S.gdacs), eonet: atTime(S.eonet), now: nowT() });
   const isos = new Set([...inp.w.keys(), ...inp.hz.keys(), ...Object.values(ETF).filter((i) => mOf(i) != null)]);
   const out = new Map();
   for (const iso of isos) {
@@ -812,17 +926,35 @@ function stressColor(v, a = 1) {
   const c = c0.map((x, k) => Math.round(x + (c1[k] - x) * f));
   return `rgba(${c[0]},${c[1]},${c[2]},${a})`;
 }
-function renderStress() {
-  const rows = [...S.stress.values()].filter((s) => s.score >= 1).sort((a, b) => b.score - a.score).slice(0, 40);
-  $("#stress").innerHTML = rows.length ? rows.map((s, i) => {
-    const c = S.byIso.get(s.iso), d = s.d24;
-    const dl = d == null ? `<span class="dl" title="No 24-hour history yet">·</span>` : `<span class="dl ${d > 1.5 ? "up" : d < -1.5 ? "dn" : ""}" title="Change over 24 hours">${Math.abs(d) < 1.5 ? "=" : (d > 0 ? "▲" : "▼") + Math.abs(d).toFixed(0)}</span>`;
-    return `<li data-iso="${s.iso}" class="${S.sel === s.iso ? "sel" : ""}" title="News ${s.N.toFixed(0)} · Hazard ${s.H.toFixed(0)}${s.M != null ? " · Market " + s.M.toFixed(0) : ""}">
-      <span class="rk">${i + 1}</span><span class="nm">${esc(c.name)}</span><span class="sc" style="color:${stressColor(s.score)}">${s.score.toFixed(0)}</span>${dl}
-      <span class="bar"><i style="width:${s.score}%;background:${stressColor(s.score)}"></i></span></li>`;
-  }).join("") : `<li class="empty" style="display:block">Waiting for sources…</li>`;
+function stressRow(s, rank) {
+  const c = S.byIso.get(s.iso), d = s.d24, w = S.watch.has(s.iso);
+  const dl = d == null ? `<span class="dl" title="No 24-hour history yet">·</span>` : `<span class="dl ${d > 1.5 ? "up" : d < -1.5 ? "dn" : ""}" title="Change over 24 hours">${Math.abs(d) < 1.5 ? "=" : (d > 0 ? "▲" : "▼") + Math.abs(d).toFixed(0)}</span>`;
+  return `<li data-iso="${s.iso}" class="${S.sel === s.iso ? "sel" : ""}" title="News ${s.N.toFixed(0)} · Hazard ${s.H.toFixed(0)}${s.M != null ? " · Market " + s.M.toFixed(0) : ""}">
+    <button type="button" class="star" data-watch="${s.iso}" aria-pressed="${w}" aria-label="${w ? "Stop watching" : "Watch"} ${esc(c.name)}">${w ? "★" : "☆"}</button>
+    <span class="rk">${rank}</span><span class="nm">${esc(c.name)}</span><span class="sc" style="color:${stressColor(s.score)}">${s.score.toFixed(0)}</span>${dl}
+    <span class="bar"><i style="width:${s.score}%;background:${stressColor(s.score)}"></i></span></li>`;
 }
-$("#stress").addEventListener("click", (e) => { const li = e.target.closest("li[data-iso]"); if (li) selectCountry(li.dataset.iso, true); });
+function renderStress() {
+  const blank = (iso) => ({ iso, score: 0, N: 0, H: 0, M: null, d24: null });
+  const watched = [...S.watch].filter((i) => S.byIso.has(i)).map((i) => S.stress.get(i) || blank(i)).sort((a, b) => b.score - a.score);
+  const rows = [...S.stress.values()].filter((s) => s.score >= 1 && inRegion([s.iso])).sort((a, b) => b.score - a.score).slice(0, 40);
+  const reg = S.region ? Core.REGIONS.find((r) => r.id === S.region) : null;
+  $("#stress").innerHTML = (watched.length ? `<li class="grp">Watching</li>${watched.map((s) => stressRow(s, "")).join("")}<li class="grp">${reg ? esc(reg.label) : "All countries"}</li>` : reg ? `<li class="grp">${esc(reg.label)}</li>` : "")
+    + (rows.length ? rows.map((s, i) => stressRow(s, i + 1)).join("") : `<li class="empty" style="display:block">${S.stress.size ? "Nothing scored here yet." : "Waiting for sources…"}</li>`);
+}
+$("#stress").addEventListener("click", (e) => {
+  const st = e.target.closest("[data-watch]");
+  if (st) { toggleWatch(st.dataset.watch); return; }
+  const li = e.target.closest("li[data-iso]"); if (li) selectCountry(li.dataset.iso, true);
+});
+function toggleWatch(iso) {
+  if (!iso || !S.byIso.has(iso)) return;
+  const name = S.byIso.get(iso).name;
+  if (S.watch.has(iso)) { S.watch.delete(iso); toast(`Stopped watching ${name}`, "", "info"); }
+  else { S.watch.add(iso); toast(`Watching ${name}`, S.alerts ? "You'll get an alert when it rises 8+ in a day or a story about it is carried by 3+ outlets." : "It stays at the top of the index. Turn on Alerts to hear when it moves.", "info", S.alerts ? null : () => setAlerts(true)); }
+  store.set("watch", [...S.watch]);
+  renderStress(); if (S.sel === iso) selectCountry(iso);
+}
 $("#stressHow").addEventListener("click", (e) => { const n = $("#stressNote"); n.hidden = !n.hidden; e.currentTarget.setAttribute("aria-expanded", String(!n.hidden)); });
 
 /* ------------------------------------------------------------------ */
@@ -830,7 +962,7 @@ $("#stressHow").addEventListener("click", (e) => { const n = $("#stressNote"); n
 /* ------------------------------------------------------------------ */
 function renderCats() {
   const counts = {};
-  for (const s of S.stories) if (inWin(s.t)) counts[s.cat] = (counts[s.cat] || 0) + 1;
+  for (const s of S.stories) if (inS(s) && inRegion(s.iso)) counts[s.cat] = (counts[s.cat] || 0) + 1;
   $("#cats").innerHTML = CATS.map((c) => `<button type="button" class="cat" data-cat="${c.id}" aria-pressed="${S.catOn.has(c.id)}"><i style="background:${c.color}"></i>${esc(c.label)} <span class="mono">${counts[c.id] || 0}</span></button>`).join("")
     + `<button type="button" class="cat" data-cat="*" aria-pressed="false">All / none</button>`;
 }
@@ -844,7 +976,7 @@ $("#cats").addEventListener("click", (e) => {
 });
 function feedStories() {
   const q = S.q.trim().toLowerCase();
-  const list = S.stories.filter((s) => inWin(s.t) && S.catOn.has(s.cat) && (!S.sel || s.iso.includes(S.sel))
+  const list = S.stories.filter((s) => inS(s) && S.catOn.has(s.cat) && (S.sel ? s.iso.includes(S.sel) : inRegion(s.iso))
     && (!q || s.items.some((it) => it.title.toLowerCase().includes(q)) || s.iso.some((i) => S.byIso.get(i)?.name.toLowerCase().includes(q))));
   return S.sort === "big" ? list.sort((a, b) => b.sources - a.sources || b.t - a.t) : list;
 }
@@ -852,32 +984,62 @@ function storyRow(s) {
   const c = CAT[s.cat], open = S.open.has(s.id);
   const others = s.items.filter((it) => it.url !== s.url);
   const fresh = S.booted && Date.now() - Math.max(...s.items.map((it) => it.seen || 0)) < 180000;
-  return `<li class="${fresh ? "fresh" : ""}">
-    <div class="meta"><span class="tag" style="color:${c.color}"><i style="background:${c.color}"></i>${esc(c.label)}</span><span>${esc(s.src || "")}</span><span class="mono">${ago(s.t)}</span>
+  return `<li class="${fresh ? "fresh" : ""}" data-id="${esc(s.id)}" data-isos="${s.iso.join(",")}">
+    <div class="meta"><span class="tag" style="color:${c.color}"><i style="background:${c.color}"></i>${esc(c.label)}</span><span>${esc(s.src || "")}</span><span class="mono">${ago(S.asOf ? s.first : s.t)}</span>
     ${s.sources > 1 ? `<button type="button" class="srcs" data-story="${esc(s.id)}" aria-expanded="${open}" title="Other outlets reporting this">${s.sources} outlets</button>` : ""}
-    ${s.iso.map((i) => `<button type="button" data-iso="${i}">${esc(S.byIso.get(i)?.name || i)}</button>`).join("")}</div>
+    ${s.iso.map((i) => `<button type="button" data-iso="${i}">${esc(S.byIso.get(i)?.name || i)}</button>`).join("")}${s.iso.length ? `<button type="button" class="go" data-fly="${s.iso[0]}" title="Show on the map (o)" aria-label="Show on the map">◎ map</button>` : ""}</div>
     <a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.title)}</a>
     ${open && others.length ? `<ul class="more">${others.slice(0, 12).map((it) => `<li><span>${esc(it.src || "")}</span><a href="${esc(it.url)}" target="_blank" rel="noopener">${esc(it.title)}</a></li>`).join("")}</ul>` : ""}</li>`;
 }
 function renderFeed() {
   const list = feedStories(), sel = S.sel ? S.byIso.get(S.sel) : null;
-  const head = sel ? `<li class="empty">Stories naming <b>${esc(sel.name)}</b>. <button class="btn small" type="button" data-act="unsel">Show all</button></li>` : "";
+  const reg = !sel && S.region ? Core.REGIONS.find((r) => r.id === S.region) : null;
+  const head = sel ? `<li class="empty">Stories naming <b>${esc(sel.name)}</b>. <button class="btn small" type="button" data-act="unsel">Show all</button></li>`
+    : reg ? `<li class="empty">Stories in <b>${esc(reg.label)}</b>. <button class="btn small" type="button" data-act="unreg">All regions</button></li>` : "";
+  S.cursor = -1;
+  const keep = S.curId;
   $("#feed").innerHTML = head + (list.length ? list.slice(0, 250).map(storyRow).join("")
     : `<li class="empty">${S.stories.length ? "No stories match." : "Loading stories…"}</li>`);
+  if (keep) { const rows = $$("#feed > li[data-id]"); const i = rows.findIndex((r) => r.dataset.id === keep); if (i >= 0) { S.cursor = i; rows[i].classList.add("cur"); } }
 }
 function onStoryClick(e, rerender) {
   const st = e.target.closest("button[data-story]");
   if (st) { const id = st.dataset.story; S.open.has(id) ? S.open.delete(id) : S.open.add(id); rerender(); return; }
+  const fly = e.target.closest("[data-fly]"); if (fly) { selectCountry(fly.dataset.fly, true); return; }
   const b = e.target.closest("button[data-iso]"); if (b) selectCountry(b.dataset.iso, true);
   if (e.target.closest("[data-act=unsel]")) selectCountry(null);
+  if (e.target.closest("[data-act=unreg]")) setRegion(null);
 }
+/* Hovering a story outlines its countries on the map. */
+for (const id of ["#feed", "#cyber"]) {
+  $(id).addEventListener("mouseover", (e) => { const li = e.target.closest("li[data-isos]"); const v = li ? li.dataset.isos : ""; if ((S.hl || "") !== v) { S.hl = v || null; dirty(); } });
+  $(id).addEventListener("mouseleave", () => { if (S.hl) { S.hl = null; dirty(); } });
+}
+function moveCursor(d) {
+  const rows = $$("#feed > li[data-id]");
+  if (!rows.length) return;
+  rows[S.cursor]?.classList.remove("cur");
+  S.cursor = clamp(S.cursor + d, 0, rows.length - 1);
+  const li = rows[S.cursor];
+  li.classList.add("cur"); li.scrollIntoView({ block: "nearest" }); S.curId = li.dataset.id;
+  S.hl = li.dataset.isos || null; dirty();
+}
+const curRow = () => $$("#feed > li[data-id]")[S.cursor];
+$("#csv").addEventListener("click", () => {
+  const q = (v) => `"${String(v ?? "").replace(/"/g, '""')}"`;
+  const rows = [["first_seen_utc", "latest_utc", "category", "outlets", "countries", "title", "url"],
+    ...feedStories().map((s) => [new Date(s.first).toISOString(), new Date(s.t).toISOString(), CAT[s.cat].label, s.sources, s.iso.map((i) => S.byIso.get(i)?.name || i).join("; "), s.title, s.url])];
+  const blob = new Blob([rows.map((r) => r.map(q).join(",")).join("\n") + "\n"], { type: "text/csv" });
+  const a = Object.assign(document.createElement("a"), { href: URL.createObjectURL(blob), download: `world-monitor-stories-${new Date().toISOString().slice(0, 16).replace(":", "")}.csv` });
+  document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+});
 $("#feed").addEventListener("click", (e) => onStoryClick(e, renderFeed));
 $("#q").addEventListener("input", (e) => { S.q = e.target.value; renderFeed(); });
 $("#sort").addEventListener("change", (e) => { S.sort = e.target.value; renderFeed(); });
 $("#win").addEventListener("change", (e) => { S.win = +e.target.value; store.set("win", S.win); writeHash(); renderLegend(); recluster(); renderLayers(); if (S.sel) selectCountry(S.sel); dirty(); });
 
 function renderTicker() {
-  const items = S.stories.filter((s) => inWin(s.t) && s.cat !== "world").sort((a, b) => b.sources - a.sources || b.t - a.t).slice(0, 30);
+  const items = S.stories.filter((s) => inS(s) && s.cat !== "world" && inRegion(s.iso)).sort((a, b) => b.sources - a.sources || b.t - a.t).slice(0, 30);
   $("#ticker").innerHTML = items.map((s) => `<span><b>${esc(CAT[s.cat].label)}</b>${esc(s.title)}${s.sources > 1 ? ` <span class="mono" style="color:var(--mute)">×${s.sources}</span>` : ""}</span>`).join("") || "<span>Waiting for stories…</span>";
 }
 
@@ -885,7 +1047,7 @@ function renderTicker() {
 /* Brief and local AI                                                 */
 /* ------------------------------------------------------------------ */
 function digest(catId) {
-  const stories = S.stories.filter((s) => s.cat === catId && inWin(s.t)).sort((a, b) => b.sources - a.sources || b.t - a.t);
+  const stories = S.stories.filter((s) => s.cat === catId && inS(s) && inRegion(s.iso)).sort((a, b) => b.sources - a.sources || b.t - a.t);
   const cc = new Map();
   for (const s of stories) for (const iso of s.iso) cc.set(iso, (cc.get(iso) || 0) + s.sources);
   const top = [...cc].sort((a, b) => b[1] - a[1]).slice(0, 5).map(([iso, n]) => `${S.byIso.get(iso)?.name || iso} (${n})`);
@@ -1029,7 +1191,7 @@ function renderMarkets() {
 $("#markets").addEventListener("click", (e) => { const tr = e.target.closest("tr[data-iso]"); if (tr) selectCountry(tr.dataset.iso, true); });
 
 function renderCyber() {
-  const stories = S.stories.filter((s) => s.cat === "cyber" && inWin(s.t)).sort((a, b) => b.sources - a.sources || b.t - a.t).slice(0, 15);
+  const stories = S.stories.filter((s) => s.cat === "cyber" && inS(s)).sort((a, b) => b.sources - a.sources || b.t - a.t).slice(0, 15);
   $("#ctCyber").textContent = S.kev.filter((k) => Date.now() - Date.parse(k.dateAdded) < 7 * 86400000).length || "";
   $("#cyber").innerHTML = `<div class="mkt"><h3><span>Newly exploited vulnerabilities</span><span>CISA KEV${S.kevTotal ? ` · ${S.kevTotal.toLocaleString()} total` : ""}</span></h3></div>
     <ul class="kev">${S.kev.slice(0, 30).map((k) => `<li><div class="meta"><span class="mono">${esc(k.dateAdded)}</span><a href="https://nvd.nist.gov/vuln/detail/${esc(k.cveID)}" target="_blank" rel="noopener" class="mono">${esc(k.cveID)}</a>${k.knownRansomwareCampaignUse === "Known" ? `<span class="rw">ransomware</span>` : ""}<span>due ${esc(k.dueDate)}</span></div><b>${esc(k.vendorProject)} ${esc(k.product)}</b>: ${esc(k.vulnerabilityName)}</li>`).join("") || `<li class="empty">${S.sources.get("kev")?.state === "dark" ? "KEV feed did not load." : "Loading…"}</li>`}</ul>
@@ -1072,12 +1234,13 @@ function selectCountry(iso, fly) {
   if (fly) flyTo(c.lon, c.lat);
   const s = S.stress.get(iso) || { score: 0, N: 0, H: 0, M: null, hz: [], d24: null };
   const etf = etfOf(iso), st = etf && S.stocks.get(etf);
-  const stories = S.stories.filter((x) => x.iso.includes(iso) && inWin(x.t)).sort((a, b) => b.sources - a.sources || b.t - a.t);
+  const stories = S.stories.filter((x) => x.iso.includes(iso) && inS(x)).sort((a, b) => b.sources - a.sources || b.t - a.t);
   const mil = S.mil.reduce((t, c) => t + ((c.isos || {})[iso] || 0), 0);
   const ser = historyFor(iso);
   const peak = ser ? Math.max(...ser.map((p) => p.v)) : null;
   const part = (l, v) => v == null ? `<span>${l}</span><span class="pb"></span><span class="v" style="color:var(--mute)">n/a</span>` : `<span>${l}</span><span class="pb"><i style="width:${v}%"></i></span><span class="v">${v.toFixed(0)}</span>`;
-  dr.innerHTML = `<div class="ph"><h2>${esc(c.name)}</h2><button class="btn small" type="button" data-act="close" aria-label="Close">✕</button></div>
+  const w = S.watch.has(iso);
+  dr.innerHTML = `<div class="ph"><h2>${esc(c.name)}</h2><span style="display:flex;gap:6px"><button class="btn small" type="button" data-act="watch" aria-pressed="${w}" title="Watch (W)">${w ? "★ Watching" : "☆ Watch"}</button><button class="btn small" type="button" data-act="close" aria-label="Close">✕</button></span></div>
     <div class="body">
       <div class="score"><span class="big" style="color:${stressColor(s.score)}">${s.score.toFixed(0)}</span><span style="color:var(--mute)">stress, 0–100${s.d24 != null ? ` · <span class="${s.d24 > 1.5 ? "down" : s.d24 < -1.5 ? "up" : ""}">${s.d24 >= 0 ? "+" : ""}${s.d24.toFixed(0)} in 24 h</span>` : ""}${isF(peak) ? ` · 7-day peak ${Math.max(peak, s.score).toFixed(0)}` : ""}</span></div>
       ${ser && ser.length > 1 ? trendSvg([...ser, { t: Date.now(), v: s.score }]) : `<p style="margin:0;color:var(--mute);font-size:12px">The trend line builds hour by hour from the snapshot job.</p>`}
@@ -1090,7 +1253,7 @@ function selectCountry(iso, fly) {
   dr.hidden = false;
   dirty();
 }
-$("#drawer").addEventListener("click", (e) => { if (e.target.closest("[data-act=close]")) selectCountry(null); });
+$("#drawer").addEventListener("click", (e) => { if (e.target.closest("[data-act=close]")) selectCountry(null); if (e.target.closest("[data-act=watch]")) toggleWatch(S.sel); });
 $("#find").addEventListener("change", (e) => {
   const v = e.target.value.trim().toLowerCase();
   if (!v) return;
@@ -1267,6 +1430,8 @@ function draw(now) {
     if (s && s.score >= 1) { ctx.fillStyle = stressColor(s.score, 0.25 + 0.55 * (s.score / 100)); ctx.fill("evenodd"); }
     ctx.stroke();
     if (S.sel === c.iso2 || S.hover?.iso === c.iso2) { ctx.save(); ctx.lineWidth = S.sel === c.iso2 ? 2 : 1.2; ctx.strokeStyle = COL.accent; ctx.stroke(); ctx.restore(); }
+    else if (S.hl && S.hl.split(",").includes(c.iso2)) { ctx.save(); ctx.lineWidth = 2; ctx.setLineDash([4, 3]); ctx.strokeStyle = COL.ink; ctx.stroke(); ctx.restore(); }
+    else if (S.watch.has(c.iso2)) { ctx.save(); ctx.lineWidth = 1.2; ctx.strokeStyle = COL.accent; ctx.globalAlpha = 0.6; ctx.stroke(); ctx.restore(); }
   }
   if (on("night")) drawNight();
 
@@ -1285,7 +1450,7 @@ function draw(now) {
     for (const f of S.flights) { const p = vis(f.lon, f.lat); if (!p) continue; const hd = (f.hdg || 0) * RAD; ctx.moveTo(p[0], p[1]); ctx.lineTo(p[0] - Math.sin(hd) * 3, p[1] + Math.cos(hd) * 3); HIT.push({ x: p[0], y: p[1], r: 3, kind: "flight", title: f.cs || "Aircraft", sub: [f.from, isF(f.alt) ? Math.round(f.alt * 3.281).toLocaleString() + " ft" : "", isF(f.v) ? Math.round(f.v * 1.944) + " kt" : ""].filter(Boolean).join(" · ") }); }
     ctx.stroke(); ctx.globalAlpha = 1;
   }
-  for (const e of S.eonet) {
+  for (const e of atTime(S.eonet)) {
     if (!on("eonet:" + e.cat)) continue;
     const col = EONET_CATS[e.cat]?.[1] || "#999";
     if (e.track && e.cat === "severeStorms") { ctx.save(); ctx.strokeStyle = col; ctx.globalAlpha = 0.6; ctx.lineWidth = 1.2; ctx.beginPath(); strokeLine(e.track.map(([lo, la]) => [la, lo])); ctx.stroke(); ctx.restore(); }
@@ -1294,14 +1459,14 @@ function draw(now) {
     marker(p[0], p[1], e.cat === "wildfires" ? 2.5 : 4.5, col, null, { kind: "eonet", title: e.title, sub: `${EONET_CATS[e.cat]?.[0] || e.cat} · ${ago(e.t)} ago${e.mag ? ` · ${e.mag} ${e.unit || ""}` : ""}`, url: e.url, iso: e.iso });
     ctx.globalAlpha = 1;
   }
-  if (on("gdacs")) for (const a of S.gdacs) {
+  if (on("gdacs")) for (const a of atTime(S.gdacs)) {
     const p = vis(a.lon, a.lat); if (!p) continue;
     const col = a.level === "Red" ? "#e53935" : a.level === "Orange" ? "#fb8c00" : "#43a047";
     ctx.lineWidth = 2; marker(p[0], p[1], a.level === "Red" ? 9 + 3 * pulse : a.level === "Orange" ? 7 : 4, null, col, { kind: "gdacs", title: a.title || `${a.type} alert`, sub: `GDACS ${a.level} · ${a.type}${a.country ? " · " + a.country : ""}`, url: a.url, iso: a.iso });
   }
-  if (on("quakes")) for (const q of S.quakes) {
+  if (on("quakes")) for (const q of atTime(S.quakes, 7 * 86400e3)) {
     const p = vis(q.lon, q.lat); if (!p) continue;
-    const r = 1.5 + (q.mag - 4) * 2.2, fresh = Date.now() - q.t < 6 * 3600000;
+    const r = 1.5 + (q.mag - 4) * 2.2, fresh = nowT() - q.t < 6 * 3600000;
     ctx.globalAlpha = fresh ? 0.95 : 0.55; ctx.lineWidth = 1;
     marker(p[0], p[1], r, "rgba(255,167,38,.45)", "#ffa726", { kind: "quake", title: `M${q.mag.toFixed(1)} · ${q.place}`, sub: `${ago(q.t)} ago · ${Math.round(q.depth)} km deep${q.tsunami ? " · tsunami flag" : ""}`, url: q.url, iso: q.iso });
     if (fresh && pulse) { ctx.globalAlpha = 0.5 * (1 - pulse); ctx.beginPath(); ctx.arc(p[0], p[1], r + 10 * pulse, 0, 2 * Math.PI); ctx.strokeStyle = "#ffa726"; ctx.stroke(); }
@@ -1310,7 +1475,7 @@ function draw(now) {
   // Hotspots: one bubble per country, sized by stories in the window, coloured by its dominant category.
   const hot = new Map();
   for (const s of S.stories) {
-    if (!inWin(s.t) || !on("news:" + s.cat)) continue;
+    if (!inS(s) || !on("news:" + s.cat)) continue;
     for (const iso of s.iso) { const h = hot.get(iso) || { n: 0, by: {} }; h.n++; h.by[s.cat] = (h.by[s.cat] || 0) + 1; hot.set(iso, h); }
   }
   ctx.font = "600 10px " + COL.mono; ctx.textAlign = "center"; ctx.textBaseline = "middle";
@@ -1322,7 +1487,7 @@ function draw(now) {
     ctx.globalAlpha = 1; ctx.lineWidth = 1.5; marker(p[0], p[1], r, null, col, { kind: "news", iso, title: c.name, sub: by.map(([k, n]) => `${CAT[k].label} ${n}`).join(" · ") });
     if (h.n >= 4) { ctx.fillStyle = COL.ink; ctx.fillText(String(h.n), p[0], p[1]); }
   }
-  if (on("mil")) for (const c of S.mil) {
+  if (on("mil") && !S.asOf) for (const c of S.mil) {
     const p = vis(c.lon, c.lat); if (!p) continue;
     const r = 4 + Math.sqrt(c.n) * 2.2, col = LAYERS.get("mil").color;
     ctx.save(); ctx.globalAlpha = 0.22; ctx.fillStyle = col; ctx.beginPath(); ctx.arc(p[0], p[1], r, 0, 2 * Math.PI); ctx.fill();
@@ -1445,6 +1610,7 @@ function writeHash() {
     if (S.sel) p.set("c", S.sel);
     if (S.tab !== "feed") p.set("t", S.tab);
     if (S.win !== 24) p.set("w", S.win);
+    if (S.region) p.set("r", S.region);
     history.replaceState(null, "", "#" + p.toString());
   }, 400);
 }
@@ -1454,6 +1620,7 @@ function readHash() {
   if (v.length >= 3 && v.slice(0, 3).every((x) => x !== "" && isF(+x))) { S.view.lon = wrap180(+v[0]); S.view.lat = clamp(+v[1], -85, 85); S.view.zoom = clamp(+v[2], 0.7, 10); S.lastInteract = performance.now(); }
   if (v[3] === "flat" || v[3] === "globe") S.view.mode = v[3];
   if (["6", "24", "72"].includes(p.get("w"))) S.win = +p.get("w");
+  if (Core.REGIONS.some((r) => r.id === p.get("r"))) S.region = p.get("r");
   return { country: p.get("c"), tab: p.get("t") };
 }
 $("#share").addEventListener("click", async () => {
@@ -1479,6 +1646,12 @@ function alertCandidates() {
   for (const g of S.gdacs) if (g.level === "Red") out.push({ id: "g:" + g.id, title: `GDACS red alert: ${g.type}`, sub: g.title || g.country || "", iso: g.iso, url: g.url });
   const slot = Math.floor(Date.now() / (6 * 3600e3));
   for (const s of S.stress.values()) if (s.d24 != null && s.d24 >= 15 && s.score >= 40) out.push({ id: `s:${s.iso}:${slot}`, title: `${S.byIso.get(s.iso).name}: stress ${s.score.toFixed(0)}`, sub: `Up ${s.d24.toFixed(0)} in 24 hours`, iso: s.iso });
+  // countries you watch: a smaller rise, or a story carried by three or more outlets
+  for (const iso of S.watch) {
+    const s = S.stress.get(iso), name = S.byIso.get(iso)?.name || iso;
+    if (s && s.d24 != null && s.d24 >= 8 && !(s.d24 >= 15 && s.score >= 40)) out.push({ id: `ws:${iso}:${slot}`, title: `★ ${name}: stress ${s.score.toFixed(0)}`, sub: `Up ${s.d24.toFixed(0)} in 24 hours`, iso });
+    for (const st of S.stories) if (st.sources >= 3 && st.iso.includes(iso) && Date.now() - st.t < 3 * 3600e3) out.push({ id: `wn:${st.id}`, title: `★ ${name}: ${st.sources} outlets`, sub: st.title, iso, url: st.url });
+  }
   return out;
 }
 function checkAlerts() {
@@ -1530,15 +1703,164 @@ async function refreshAll(force) {
 }
 $("#refresh").addEventListener("click", () => refreshAll(true));
 document.addEventListener("keydown", (e) => {
-  if (e.target.matches("input,textarea,select") || e.metaKey || e.ctrlKey || e.altKey) return;
-  if (e.key >= "1" && e.key <= "4") setTab(["feed", "brief", "markets", "cyber"][+e.key - 1]);
-  else if (e.key === " ") { e.preventDefault(); $("#spin").click(); }
-  else if (e.key === "r" || e.key === "R") refreshAll(true);
-  else if (e.key === "m" || e.key === "M") $("#mode").click();
-  else if (e.key === "/") { e.preventDefault(); $("#find").focus(); }
-  else if (e.key === "0") $("#home").click();
-  else if (e.key === "Escape") selectCountry(null);
+  if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") { e.preventDefault(); openPalette(); return; }
+  // the timeline slider keeps focus after a drag; it takes no letters, so shortcuts still apply
+  if (e.target.matches("input:not([type=range]),textarea,select") || e.metaKey || e.ctrlKey || e.altKey || document.querySelector("dialog[open]")) return;
+  const k = e.key;
+  if (k >= "1" && k <= "4") setTab(["feed", "brief", "markets", "cyber"][+k - 1]);
+  else if (k === " ") { e.preventDefault(); $("#spin").click(); }
+  else if (k === "r" || k === "R") refreshAll(true);
+  else if (k === "m" || k === "M") $("#mode").click();
+  else if (k === "/") { e.preventDefault(); openPalette(); }
+  else if (k === "?") $("#help").showModal();
+  else if (k === "0") $("#home").click();
+  else if (k === "p" || k === "P") togglePlay();
+  else if (k === "l" || k === "L") setAsOf(null);
+  else if (k === "w" || k === "W") { if (S.sel) toggleWatch(S.sel); }
+  else if ((k === "j" || k === "k") && S.tab === "feed") { e.preventDefault(); moveCursor(k === "j" ? 1 : -1); }
+  else if (k === "Enter" && S.tab === "feed" && curRow()) curRow().querySelector("a")?.click();
+  else if (k === "o" && curRow()) { const iso = curRow().dataset.isos.split(",")[0]; if (iso) selectCountry(iso, true); }
+  else if (k === "x" && curRow()) curRow().querySelector("[data-story]")?.click();
+  else if (k === "Escape") { if (S.asOf) setAsOf(null); else selectCountry(null); }
 });
+
+/* ------------------------------------------------------------------ */
+/* Regions                                                            */
+/* ------------------------------------------------------------------ */
+function renderRegions() {
+  $("#regions").innerHTML = `<button type="button" data-region="" aria-pressed="${!S.region}">World</button>`
+    + Core.REGIONS.map((r) => `<button type="button" data-region="${r.id}" aria-pressed="${S.region === r.id}" title="${esc(r.label)}">${esc(r.short || r.label)}</button>`).join("");
+}
+function setRegion(id, fly = true) {
+  S.region = id || null;
+  const r = Core.REGIONS.find((x) => x.id === S.region);
+  if (fly) { S.sel = null; $("#drawer").hidden = true; const to = r || { lon: 20, lat: 22, zoom: 1 }; flight = { t0: performance.now(), from: [S.view.lon, S.view.lat, S.view.zoom], to: [S.view.lon + wrap180(to.lon - S.view.lon), to.lat, S.view.mode === "flat" ? to.zoom * 1.2 : to.zoom] }; S.lastInteract = performance.now(); }
+  renderRegions(); renderStress(); renderFeed(); renderCats(); renderTicker(); writeHash();
+  if (S.tab === "brief") renderBrief();
+}
+$("#regions").addEventListener("click", (e) => { const b = e.target.closest("[data-region]"); if (b) setRegion(b.dataset.region); });
+
+/* ------------------------------------------------------------------ */
+/* Timeline: replay the last 72 hours                                 */
+/* ------------------------------------------------------------------ */
+let playTimer = null;
+function setAsOf(t) {
+  const live = t == null || t >= Date.now() - 30 * 60e3;
+  S.asOf = live ? null : t;
+  const h = live ? 0 : -Math.round((Date.now() - t) / 3600e3);
+  $("#scrub").value = String(h);
+  $(".stage").classList.toggle("past", !live);
+  $("#live").hidden = live;
+  $("#when").textContent = live ? "Live" : `${new Date(S.asOf).toISOString().slice(5, 13).replace("-", "/").replace("T", " ")}:00 UTC · ${-h} h ago`;
+  if (live && playTimer) { clearInterval(playTimer); playTimer = null; $("#play").textContent = "▶"; }
+  computeStress(); renderStress(); renderCats(); renderFeed(); renderTicker(); renderLayers(); renderLegend();
+  if (S.sel) selectCountry(S.sel);
+  dirty();
+}
+$("#scrub").addEventListener("input", (e) => { if (playTimer) togglePlay(); const h = +e.target.value; setAsOf(h >= 0 ? null : Math.floor(Date.now() / 3600e3) * 3600e3 + h * 3600e3); });
+$("#live").addEventListener("click", () => setAsOf(null));
+function togglePlay() {
+  if (playTimer) { clearInterval(playTimer); playTimer = null; $("#play").textContent = "▶"; return; }
+  let h = S.asOf ? +$("#scrub").value : -72;
+  $("#play").textContent = "❚❚";
+  const step = () => { h += 1; if (h >= 0) { setAsOf(null); return; } setAsOf(Math.floor(Date.now() / 3600e3) * 3600e3 + h * 3600e3); };
+  step();
+  playTimer = setInterval(step, REDUCED ? 900 : 350);
+}
+$("#play").addEventListener("click", togglePlay);
+
+/* ------------------------------------------------------------------ */
+/* Jump palette (Ctrl/Cmd+K or /)                                     */
+/* ------------------------------------------------------------------ */
+let palItems = [], palSel = 0;
+function palCommands() {
+  const cmds = [];
+  for (const c of S.countries) {
+    const s = S.stress.get(c.iso2);
+    cmds.push({ ty: "Country", label: c.name, hint: s ? `stress ${s.score.toFixed(0)}${S.watch.has(c.iso2) ? " · ★" : ""}` : S.watch.has(c.iso2) ? "★" : "", boost: (s?.score || 0) / 25 + (S.watch.has(c.iso2) ? 2 : 0), run: () => selectCountry(c.iso2, true) });
+  }
+  cmds.push({ ty: "Region", label: "World", hint: "all regions", run: () => setRegion(null) });
+  for (const r of Core.REGIONS) cmds.push({ ty: "Region", label: r.label, hint: "fly there and filter", boost: 1, run: () => setRegion(r.id) });
+  for (const [t, l] of [["feed", "Stories"], ["brief", "Brief"], ["markets", "Markets"], ["cyber", "Cyber"]]) cmds.push({ ty: "Tab", label: l, run: () => setTab(t) });
+  for (const n of Object.keys(PRESETS)) cmds.push({ ty: "Preset", label: n, hint: "layers", run: () => applyPreset(n) });
+  for (const c of CATS) cmds.push({ ty: "Stories", label: `Only ${c.label}`, hint: "category", run: () => { S.catOn = new Set([c.id]); for (const x of CATS) LAYERS.get("news:" + x.id).on = x.id === c.id; saveLayers(); renderCats(); renderLayers(); setTab("feed"); dirty(); } });
+  for (const L of LAYERS.values()) if (!L.id.startsWith("news:")) cmds.push({ ty: "Layer", label: L.label, hint: L.on ? "on · hide" : "off · show", run: () => { L.on = !L.on; saveLayers(); renderLayers(); renderLegend(); if (L.id === "dc" && L.on && !S.dcs.length) loadDCs(); dirty(); } });
+  for (const w of [6, 24, 72]) cmds.push({ ty: "Window", label: `Last ${w} hours`, hint: S.win === w ? "current" : "", run: () => { $("#win").value = String(w); $("#win").dispatchEvent(new Event("change")); } });
+  const acts = [
+    ["Replay the last 72 hours", "P", togglePlay], ["Back to live", "L", () => setAsOf(null)],
+    [S.view.mode === "flat" ? "Switch to globe" : "Switch to flat map", "M", () => $("#mode").click()], ["Reset the view", "0", () => $("#home").click()],
+    [S.alerts ? "Turn alerts off" : "Turn alerts on", "", () => setAlerts(!S.alerts)], ["Copy a link to this view", "", () => $("#share").click()],
+    ["Refresh every source", "R", () => refreshAll(true)], ["Download stories as CSV", "", () => $("#csv").click()],
+    ["Help and keyboard shortcuts", "?", () => $("#help").showModal()],
+  ];
+  if (S.sel) acts.unshift([S.watch.has(S.sel) ? `Stop watching ${S.byIso.get(S.sel).name}` : `Watch ${S.byIso.get(S.sel).name}`, "W", () => toggleWatch(S.sel)]);
+  for (const [label, key, run] of acts) cmds.push({ ty: "Action", label, hint: key ? `key ${key}` : "", boost: 0.5, run });
+  return cmds;
+}
+function palScore(cmd, q) {
+  if (!q) return cmd.ty === "Action" || cmd.ty === "Region" ? 2 + (cmd.boost || 0) : cmd.ty === "Country" && (cmd.boost || 0) > 1 ? cmd.boost : -1;
+  const l = cmd.label.toLowerCase(), words = q.split(/\s+/).filter(Boolean);
+  let sc = 0;
+  for (const w of words) {
+    const i = l.indexOf(w);
+    if (i < 0) { if (cmd.ty.toLowerCase().startsWith(w)) { sc += 0.5; continue; } return -1; }
+    sc += i === 0 ? 4 : /[\s(-]/.test(l[i - 1]) ? 2.5 : 1;
+  }
+  return sc + (cmd.boost || 0) * 0.4 - l.length / 80;
+}
+function renderPalette() {
+  const q = $("#palQ").value.trim().toLowerCase();
+  palItems = palCommands().map((c) => [palScore(c, q), c]).filter(([s]) => s >= 0).sort((a, b) => b[0] - a[0]).slice(0, 14).map(([, c]) => c);
+  palSel = clamp(palSel, 0, Math.max(0, palItems.length - 1));
+  $("#palList").innerHTML = palItems.map((c, i) => `<li role="option" data-i="${i}" aria-selected="${i === palSel}"><span class="ty">${esc(c.ty)}</span><span>${esc(c.label)}</span><span class="k">${esc(c.hint || "")}</span></li>`).join("")
+    || `<li aria-disabled="true"><span class="k" style="margin:0">No match. Try a country, a region, “wildfires” or “replay”.</span></li>`;
+  $("#palList").querySelector("[aria-selected=true]")?.scrollIntoView({ block: "nearest" });
+}
+function openPalette() {
+  const d = $("#pal");
+  if (d.open) return;
+  $("#palQ").value = ""; palSel = 0; renderPalette(); d.showModal(); $("#palQ").focus();
+}
+function runPalette(i) { const c = palItems[i]; if (!c) return; $("#pal").close(); c.run(); }
+$("#palQ").addEventListener("input", () => { palSel = 0; renderPalette(); });
+$("#palQ").addEventListener("keydown", (e) => {
+  if (e.key === "ArrowDown") { e.preventDefault(); palSel = Math.min(palItems.length - 1, palSel + 1); renderPalette(); }
+  else if (e.key === "ArrowUp") { e.preventDefault(); palSel = Math.max(0, palSel - 1); renderPalette(); }
+  else if (e.key === "Enter") { e.preventDefault(); runPalette(palSel); }
+});
+$("#palList").addEventListener("click", (e) => { const li = e.target.closest("li[data-i]"); if (li) runPalette(+li.dataset.i); });
+$("#pal").addEventListener("click", (e) => { if (e.target === $("#pal")) $("#pal").close(); });
+$("#palBtn").addEventListener("click", openPalette);
+$("#helpBtn").addEventListener("click", () => $("#help").showModal());
+$("#help").addEventListener("click", (e) => { if (e.target === $("#help") || e.target.closest("[data-close]")) $("#help").close(); });
+document.querySelector(".mnav").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-go]"); if (!b) return;
+  if (b.dataset.go === "pal") return openPalette();
+  document.querySelector(b.dataset.go)?.scrollIntoView({ behavior: REDUCED ? "auto" : "smooth", block: "start" });
+});
+
+/* ------------------------------------------------------------------ */
+/* Since your last visit                                              */
+/* ------------------------------------------------------------------ */
+const LAST_VISIT = store.get("lastVisit", null);
+function renderSince() {
+  const el = $("#since");
+  if (!LAST_VISIT || Date.now() - LAST_VISIT < 30 * 60e3 || store.get("sinceDismissed", 0) > LAST_VISIT) { el.hidden = true; return; }
+  const fresh = S.stories.filter((s) => s.first > LAST_VISIT && s.cat !== "world");
+  const big = fresh.filter((s) => s.sources >= 3).length;
+  const risers = [...S.stress.values()].map((s) => { const then = histScore(s.iso, LAST_VISIT); return then == null ? null : { iso: s.iso, d: s.score - then }; })
+    .filter((x) => x && x.d >= 5).sort((a, b) => b.d - a.d).slice(0, 4);
+  if (!fresh.length && !risers.length) { el.hidden = true; return; }
+  el.innerHTML = `<p><b>Since your last visit</b> ${ago(LAST_VISIT)} ago: ${fresh.length} new stor${fresh.length === 1 ? "y" : "ies"}${big ? `, ${big} carried by 3+ outlets` : ""}.${risers.length ? ` Rising: ${risers.map((r) => `<a data-iso="${r.iso}">${esc(S.byIso.get(r.iso).name)} +${r.d.toFixed(0)}</a>`).join(", ")}.` : ""}</p><button type="button" aria-label="Dismiss">✕</button>`;
+  el.hidden = false;
+}
+$("#since").addEventListener("click", (e) => {
+  const a = e.target.closest("[data-iso]"); if (a) return selectCountry(a.dataset.iso, true);
+  if (e.target.closest("button")) { store.set("sinceDismissed", Date.now()); $("#since").hidden = true; }
+});
+const markVisit = () => store.set("lastVisit", Date.now());
+addEventListener("pagehide", markVisit);
+document.addEventListener("visibilitychange", () => { if (document.hidden) markVisit(); });
 
 /* Cadence per source. The snapshot changes every 15 minutes; GitHub's raw CDN holds a copy for about 5. */
 setInterval(loadQuakes, 5 * 60000);
@@ -1555,6 +1877,7 @@ setInterval(() => { if (S.tab === "feed") renderFeed(); }, 60000);
   readColors(); setMode(S.view.mode); renderPresets(); renderLayers(); renderLegend(); renderCats(); renderFeed(); renderStress(); renderMarkets(); renderTicker();
   $("#win").value = String(S.win);
   $("#alerts").setAttribute("aria-pressed", String(S.alerts));
+  renderRegions();
   if (h.tab && ["brief", "markets", "cyber"].includes(h.tab)) setTab(h.tab);
   requestAnimationFrame(frame);
   await loadOutline();
@@ -1563,6 +1886,9 @@ setInterval(() => { if (S.tab === "feed") renderFeed(); }, 60000);
   for (const a of alertCandidates()) S.seen.add(a.id); // what is already on the map when the page opens is the baseline
   store.set("seen", [...S.seen].slice(-400));
   S.booted = true;
+  renderSince();
+  setInterval(markVisit, 5 * 60e3);
+  if (!store.get("helpSeen", false)) { store.set("helpSeen", true); toast("New here?", "Press ? for a one-minute tour, or ⌘K / to jump anywhere.", "info", () => $("#help").showModal()); }
   if (S.ai.auto || store.get("aiSeen", false)) aiConnect();
 })();
 </script>

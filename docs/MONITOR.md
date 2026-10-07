@@ -71,6 +71,35 @@ history with today's Market part held fixed. That gives the 24-hour arrow and
 the trend line in each country's panel. A country missing from an hour scored
 zero that hour.
 
+## Getting around
+
+- **Jump** (⌘K, Ctrl+K or /): one search box for every country, region, tab,
+  layer, preset, time window, category and action. With nothing typed it lists
+  the regions, the common actions and the countries scoring above 25.
+- **Regions**: chips on the map for the Americas, Europe, the Middle East and
+  North Africa, Sub-Saharan Africa and Asia-Pacific. A chip flies the map
+  there and narrows the stories, ticker, brief and stress list to that region.
+  Regions come from Natural Earth continents (`REGIONS` and `regionOf()` in
+  core.mjs). Iran is placed in MENA, and the Caucasus and Cyprus in Europe.
+- **Watchlist** (☆ in the stress list, the country panel, or W): watched
+  countries stay at the top of the index and are outlined on the map. With
+  Alerts on, a watched country alerts at a rise of 8 or more in 24 hours (15
+  for everyone else), and when a story naming it is carried by 3 or more
+  outlets.
+- **Timeline**: the slider under the map rewinds up to 72 hours, an hour at a
+  time; ▶ (or P) replays to now, and L or Esc returns to live. While replaying,
+  stories count from their first report, hazards show as they stood then, and
+  the stress index is rescored for that hour. Military aircraft counts are live
+  only, so they hide while replaying.
+- **Stories**: hovering a story outlines its countries on the map, and ◎ map
+  flies there. j and k move through the list, Enter opens a story, o shows its
+  country and x lists the other outlets. CSV downloads the stories shown.
+- **Since your last visit**: after 30 minutes away, a strip counts the new
+  stories and names the countries that rose by 5 or more, scored from the
+  hourly history.
+- **Phones**: a bottom bar jumps between Map, Stories, Index, Layers and Jump.
+- **Help** (?): a one-screen tour. First-time visitors are offered it once.
+
 ## Page features
 
 - Globe or flat map (M), country search (/), and layer presets (Conflict, Disasters, Movement, Markets).
