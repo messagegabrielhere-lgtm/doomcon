@@ -7,7 +7,9 @@ import { parseInfoTable, aggregate, compare, latestTwo, parseArk, arkTrades, par
 const Z = '\u0000\u0000\u0000';
 // The text layer of a real two-page House PTR (Filing ID 20033725), trimmed.
 // Section labels come out garbled ("F S: New") in some extractors; both forms must work.
-const PTR = `P${Z} T${Z} R${Z}
+const PTR = `P T R
+F I T
+P${Z} T${Z} R${Z}
 Clerk of the House of Representatives • Legislative Resource Center • B81 Cannon Building • Washington, DC 20515
 F${Z} I${Z}
 Name: Hon. Nancy Pelosi
@@ -61,6 +63,7 @@ SP Walt Disney Company (DIS) [ST] S 12/30/2025 12/30/2025 $1,000,001 -
 $5,000,000
 F${Z} S${Z}: New
 D${Z}: Sold 10,000 shares.
+T
 Apple Inc. - Common Stock (AAPL)
 [ST]
 P 02/02/2026 02/03/2026 $1,001 - $15,000

@@ -72,7 +72,7 @@ async function get(url, { as = 'text', ua = UA, tries = 2 } = {}) {
   for (let k = 0; k < tries; k++) {
     try {
       const r = await fetch(url, { headers: { 'User-Agent': ua, Accept: '*/*' }, signal: AbortSignal.timeout(30000) });
-      if (!r.ok) throw new Error(`HTTP ${r.status}`);
+      if (!r.ok) throw new Error(`HTTP ${r.status}${r.status === 403 ? ` ${(await r.text().catch(() => '')).replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 140)}` : ''}`);
       return as === 'json' ? await r.json() : as === 'bytes' ? new Uint8Array(await r.arrayBuffer()) : await r.text();
     } catch (e) { err = e; await sleep(800 * (k + 1)); }
   }
@@ -265,6 +265,7 @@ export async function pdfLines(bytes) {
   return lines;
 }
 
+export const PTR_PARSER = 2;
 const TX = String.raw`(P|S \(partial\)|S|E)\s+(\d{2}\/\d{2}\/\d{4})\s+(\d{2}\/\d{2}\/\d{4})\s+(\$[\d,]+(?:\.\d+)?)`;
 const LABEL = /^(?:F\S*\s+S\S*|D\S*|S\S*\s+O\S*|C\S*|L\S*)\s?:/;
 
@@ -283,6 +284,8 @@ export function parsePtr(lines) {
       if (/^(SP|JT|DC)\s/.test(l) || /\[[A-Z0-9]{2}\]/.test(l) || /\(([A-Z][A-Z.]{0,5})\)/.test(l) || !l) skipDesc = false;
       else continue;
     }
+    // Section headings set in a font whose text layer keeps only capitals: "P T R", "F I", "T".
+    if (/^[A-Z](?: [A-Z]){0,5}$/.test(l)) continue;
     if (/^(\* For the complete|Filing ID|I CERTIFY|Digitally Signed|Clerk of the House|Name:|Status:|State\/District:)/.test(l)) continue;
     keep.push(l);
   }
@@ -311,18 +314,23 @@ export async function congress(state, log, { now = Date.now() } = {}) {
   const ptrs = index.filter((x) => x.type === 'P' && x.docId && x.filed);
   const featured = (x) => FEATURED_MEMBERS.some((f) => f.match.test(x.name));
   const want = ptrs.filter((x) => daysAgo(x.filed, now) <= CONGRESS_DAYS || featured(x)).sort((a, b) => b.filed.localeCompare(a.filed));
-  // Downloads that failed last time are tried again.
-  for (const [id, d] of Object.entries(docs)) if (d.retry) delete docs[id];
+  // Downloads that failed last time are tried again, and so are reports a
+  // previous version of the parser couldn't fully read.
+  for (const [id, d] of Object.entries(docs)) if (d.retry || (d.error && d.v !== PTR_PARSER)) delete docs[id];
   let fresh = 0;
   for (const x of want) {
     if (docs[x.docId] || fresh >= MAX_NEW_PDFS) continue;
     fresh++;
     const url = `${HOUSE}/ptr-pdfs/${x.year}/${x.docId}.pdf`;
-    const rec = { member: x.name, prefix: x.prefix, state: x.state, filed: x.filed, url, rows: [], error: null };
+    const rec = { member: x.name, prefix: x.prefix, state: x.state, filed: x.filed, url, rows: [], error: null, v: PTR_PARSER };
     try {
       const lines = await pdfLines(await get(url, { as: 'bytes' }));
       if (!lines.some((l) => /\d{2}\/\d{2}\/\d{4}/.test(l))) rec.error = 'scanned paper filing, no text to read';
-      else { const p = parsePtr(lines); rec.rows = p.rows; if (p.unparsed) rec.error = `${p.unparsed} row(s) could not be read`; else if (!p.rows.length) rec.error = 'no transactions found'; }
+      else {
+        const p = parsePtr(lines); rec.rows = p.rows;
+        if (p.unparsed) rec.error = `${p.unparsed} row(s) could not be read`; else if (!p.rows.length) rec.error = 'no transactions found';
+        if (rec.error) rec.sample = lines.slice(0, 120); // kept in state.json to improve the parser
+      }
     } catch (e) { rec.error = String(e.message || e).slice(0, 160); rec.retry = true; }
     docs[x.docId] = rec;
     await sleep(250);
