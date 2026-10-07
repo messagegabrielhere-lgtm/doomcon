@@ -56,6 +56,7 @@ export function about(ctx) {
     <li>Third-party data is shown under its own licence, credited on the page that uses it. The site's own text and data are ${esc(brand.LICENSE)}.</li>
     <li>The joke pages (Tally's desk, the game, the Bunker Kit) are jokes. Their numbers are still real counts.</li>
   </ul>
+  <p>The full version is on the <a href="${esc(ctx.href('/terms.html'))}">terms &amp; disclaimers</a> page.</p>
   <p><a href="${esc(ctx.href('/privacy.html'))}">Privacy →</a> · <a href="${esc(ctx.href('/guide.html'))}">How it compares with DEFCON and the Doomsday Clock →</a></p>
 </section>`;
   return page({
@@ -98,6 +99,145 @@ export function privacy(ctx) {
     ctx, path: '/privacy.html',
     title: `Privacy · ${brand.NAME}`,
     description: `${brand.NAME} sets no cookies and runs no analytics. What a visit touches: GitHub Pages and the sites you choose to click through to.`,
+    main,
+  });
+}
+
+// TERMS AND DISCLAIMERS. One page that every other page can point at, so the
+// protections do not depend on a reader finding the right footnote. Plain
+// words, numbered sections, and nothing that names or locates the person who
+// runs the site: contact goes through the project account and the repository,
+// the same as the about page. Not a substitute for a lawyer's review.
+export const TERMS_UPDATED = '7 October 2026';
+
+export function terms(ctx) {
+  const x = brand.X_URL ? `<a href="${esc(brand.X_URL)}" rel="noopener">${esc(brand.X_HANDLE)}</a> on X` : 'the project account';
+  const repo = `<a href="${esc(brand.REPO_URL)}/issues" rel="noopener">an issue on the repository</a>`;
+  const main = `${CSS}
+<style>
+.inf__box { border: 1px solid var(--rule); border-left: 4px solid var(--accent, #4ADE80); padding: var(--s-3) var(--s-4); margin: var(--s-4) 0; }
+.inf__box p { margin: 0 0 8px; } .inf__box p:last-child { margin: 0; }
+.inf ol > li { margin-bottom: 6px; }
+.inf__caps { font: 400 var(--t-sm)/1.6 var(--sans); }
+</style>
+<section class="inf">
+  <p class="eyebrow">Terms &amp; disclaimers</p>
+  <div class="inf__top"><h1 class="bp__h1">Terms of use and disclaimers</h1></div>
+  <p class="lede">Last updated ${esc(TERMS_UPDATED)}. By using ${esc(brand.NAME)} — this website, its data files, feeds, embeds, badge,
+    share cards and posts — you agree to these terms. If you do not agree, please do not use it.</p>
+
+  <div class="inf__box">
+    <p><b>The short version.</b> ${esc(brand.NAME)} is an automated, independent publication for information, commentary and
+      entertainment. It counts public activity; it does not predict the future or measure danger. Nothing here is financial,
+      investment, legal, security, safety, medical or any other professional advice. The data can be wrong, late or missing,
+      and the site is provided as is, with no warranty. Use it at your own risk.</p>
+  </div>
+
+  <h2>1. Information and entertainment only</h2>
+  <p>Everything on the site is general information, commentary and, in places, satire. It is not advice of any kind and does
+    not create any professional, advisory or fiduciary relationship with you. Do not make financial, investment, legal,
+    security, safety, medical, emergency, travel or policy decisions based on it. Talk to a qualified professional first.</p>
+
+  <h2>2. What the index is, and is not</h2>
+  <ul>
+    <li>${esc(brand.DISCLAIMER)}</li>
+    <li>It is not a forecast, a warning system, an emergency alert or a statement that any harm is likely or imminent.
+      It is not affiliated with, and does not speak for, any military, civil-defence or government alert system.</li>
+    <li>Names, levels and language borrowed from other scales (such as DEFCON or the Doomsday Clock) are used for
+      comparison and commentary only. ${esc(brand.NAME)} is not connected with the organisations behind them.</li>
+  </ul>
+
+  <h2>3. Not financial or investment advice</h2>
+  <p>The stock picks, screens, scores, prediction-market readings, forecasts, investor and congressional trade disclosures,
+    AI trading competition and any other market content are automated, simulated or hypothetical, and are published for
+    information and entertainment only. ${esc(brand.NAME)} and its operator are not a broker-dealer, a registered investment
+    adviser, a financial planner or a tax adviser. Nothing on the site is a recommendation or solicitation to buy, sell or hold
+    any security, crypto asset, contract or other instrument. Past, simulated and hypothetical results do not predict future
+    results. Trading involves risk, including the loss of more than you invest. Do your own research and consult a licensed
+    professional. The forecasts page is a public scoring exercise, not betting: no money is taken or paid.</p>
+
+  <h2>4. Security, surveillance and safety pages</h2>
+  <ul>
+    <li><b>Vulnerability data</b> is summarised from public government catalogues. The site publishes no exploit code and gives
+      no security advice; follow your vendors' guidance and a qualified security professional.</li>
+    <li><b>Camera and infrastructure maps</b> (licence-plate readers, data centres, power) are built from crowd-sourced and
+      public records that can be incomplete, outdated or wrong. A location is not a claim about who operates it or what it
+      does. Do not use these maps to trespass, harass anyone, tamper with or damage equipment, or evade lawful enforcement.</li>
+    <li><b>The Bunker Kit, the game and the mascot's desk</b> are jokes. They are not emergency-preparedness, survival or
+      safety guidance. For real preparedness, use your local emergency-management authority.</li>
+  </ul>
+
+  <h2>5. People, companies and other people's words</h2>
+  <ul>
+    <li>Companies, AI labs, products, public figures and officials are named only to report public information, comment on it
+      or identify it. Names, logos and trademarks belong to their owners. Their appearance does not mean they endorse, sponsor
+      or are affiliated with ${esc(brand.NAME)}, or that ${esc(brand.NAME)} endorses them.</li>
+    <li>Rankings, scores and "race" standings are mechanical outputs of a published formula applied to public data. They are
+      not statements of fact about anyone's conduct, character, safety record or intentions.</li>
+    <li>Trade disclosures by members of Congress and investors are reproduced from public filings and may be delayed or
+      incomplete. Showing a trade implies no wrongdoing.</li>
+    <li>Headlines, posts, quotes and excerpts from news outlets, X and other sources are attributed and linked to where they
+      came from. They are the words and opinions of their authors, not of ${esc(brand.NAME)}, and are shown for reporting and
+      commentary.</li>
+    <li>Humour and exaggeration on the site, including anything said by the mascot, are satire and not literal statements of fact.</li>
+  </ul>
+
+  <h2>6. Accuracy and availability</h2>
+  <p>The site is assembled automatically by code that reads third-party sources on a schedule. Sources change, fail, rate-limit
+    and publish errors; scheduled runs are often late. Figures may therefore be inaccurate, incomplete, stale or temporarily
+    missing, and the site may be unavailable or change without notice. Each reading has a public receipt so you can check it,
+    and corrections are made in the open, but no figure is guaranteed.</p>
+
+  <h2>7. Links, paid links and third-party services</h2>
+  <p>The site links to other websites and services that ${esc(brand.NAME)} does not control and is not responsible for. Visiting them
+    is at your own risk and under their own terms and privacy policies. Some links are paid links: as an Amazon Associate,
+    ${esc(brand.NAME)} earns from qualifying purchases. A sponsor, if there is one, is labelled and has no say over any number.
+    Listing a product is not a guarantee of it; check it yourself before you buy.</p>
+
+  <h2>8. Your use of the site and its data</h2>
+  <ul>
+    <li>The site's own text and data are ${esc(brand.LICENSE)}; reuse them with credit. Third-party data stays under its own
+      licence, as credited on the page that uses it. Nothing here grants rights in anyone else's content or trademarks.</li>
+    <li>Do not use the site or its data to break the law, harass or target anyone, or misrepresent ${esc(brand.NAME)} — for example
+      by presenting a reading as an official alert or as the operator's endorsement.</li>
+    <li>Please be reasonable with automated access to the data files so the site stays up for everyone.</li>
+  </ul>
+
+  <h2>9. No warranty</h2>
+  <p class="inf__caps">THE SITE AND EVERYTHING ON IT ARE PROVIDED "AS IS" AND "AS AVAILABLE", WITHOUT WARRANTIES OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING WARRANTIES OF ACCURACY, COMPLETENESS, TIMELINESS, MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+    NON-INFRINGEMENT, TO THE FULLEST EXTENT THE LAW ALLOWS.</p>
+
+  <h2>10. Limitation of liability</h2>
+  <p class="inf__caps">TO THE FULLEST EXTENT THE LAW ALLOWS, ${esc(brand.NAME.toUpperCase())}, ITS OPERATOR AND CONTRIBUTORS ARE NOT LIABLE FOR
+    ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, EXEMPLARY OR PUNITIVE DAMAGES, OR ANY LOSS OF PROFITS, MONEY, DATA OR
+    GOODWILL, ARISING FROM OR RELATED TO YOUR USE OF, OR INABILITY TO USE, THE SITE, ITS DATA OR ANY LINKED SITE, WHETHER IN
+    CONTRACT, TORT OR OTHERWISE, EVEN IF ADVISED OF THE POSSIBILITY. WHERE LIABILITY CANNOT BE EXCLUDED, IT IS LIMITED TO ZERO
+    DOLLARS (US$0), THE AMOUNT YOU PAID TO USE THE SITE.</p>
+
+  <h2>11. Indemnity</h2>
+  <p>If you misuse the site or its data, or break these terms or the law in connection with them, you agree to cover any claims,
+    losses and reasonable costs that result for ${esc(brand.NAME)} and its operator.</p>
+
+  <h2>12. Children</h2>
+  <p>The site is meant for a general adult audience and is not directed at children under 13. It collects no personal
+    information from anyone; see the <a href="${esc(ctx.href('/privacy.html'))}">privacy page</a>.</p>
+
+  <h2>13. Copyright concerns and corrections</h2>
+  <p>If you believe something on the site infringes your rights, is inaccurate, or should be removed, contact ${x} or open
+    ${repo} with the page address and what you would like changed. Valid requests are handled promptly.</p>
+
+  <h2>14. Changes, severability and your rights</h2>
+  <p>These terms may be updated at any time; the date at the top shows the latest version, and continuing to use the site means
+    you accept it. If any part is found unenforceable, the rest still applies. Nothing in these terms limits any right you have
+    that the law does not allow to be limited.</p>
+
+  <p><a href="${esc(ctx.href('/privacy.html'))}">Privacy →</a> · <a href="${esc(ctx.href('/about.html'))}">About →</a> · <a href="${esc(ctx.href('/methodology.html'))}">Method →</a></p>
+</section>`;
+  return page({
+    ctx, path: '/terms.html',
+    title: `Terms & disclaimers · ${brand.NAME}`,
+    description: `${brand.NAME} is information and commentary, not advice. Terms of use, the no-warranty and liability terms, and what the index does and does not claim.`,
     main,
   });
 }

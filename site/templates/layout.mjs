@@ -825,6 +825,7 @@ const PAL_EXTRA = [
   { href: '/moves/', label: 'Every reading', blurb: 'The full record, each with its receipt.' },
   { href: '/sponsor.html', label: 'Sponsor', blurb: 'One named sponsor at a time.' },
   { href: '/privacy.html', label: 'Privacy', blurb: 'No cookies, no analytics.' },
+  { href: '/terms.html', label: 'Terms & disclaimers', blurb: 'Information, not advice. No warranty.' },
 ];
 const TAB_ROOMS = [['/', 'War room'], ['/news.html', 'News'], ['/race.html', 'Race'], ['/world.html', 'World']];
 function navKit(ctx, tiles, path) {
@@ -1471,6 +1472,7 @@ function footer(ctx, sections, path) {
     { href: '/brand.html', label: 'Brand', blurb: 'Name, colours, type, voice and Tally to download.' },
     { href: '/press.html', label: 'Press kit', blurb: 'Facts, a paragraph to lift, images and a contact.' },
     { href: '/privacy.html', label: 'Privacy', blurb: 'No cookies, no analytics. Every trace a visit can leave.' },
+    { href: '/terms.html', label: 'Terms & disclaimers', blurb: 'Information and commentary, not advice. No warranty, no liability.' },
     { href: brand.REPO_URL, label: 'Source code', blurb: `Every line that produced these numbers. ${brand.LICENSE}.` },
   ];
   if (brand.X_URL) {
@@ -1610,6 +1612,9 @@ function footer(ctx, sections, path) {
       Every value on this site is computed from public data by published code, and each observation is written to a
       hash-chained receipt carrying its full inputs — so anyone can recompute the number and get the same answer.
       Data and code: ${esc(brand.LICENSE)}.</p>
+    <p class="foot__fine"><b>Not advice.</b> Information, commentary and satire only — not financial, investment, legal, security or safety advice.
+      Data is automated and may be wrong or late; provided as is, with no warranty. Not affiliated with any company, lab, person or agency named here.
+      Use of this site means you accept the <a href="${esc(ctx.href('/terms.html'))}">terms &amp; disclaimers</a>. <a href="${esc(ctx.href('/privacy.html'))}">Privacy</a>.</p>
   </div>
 </footer>`;
 }
