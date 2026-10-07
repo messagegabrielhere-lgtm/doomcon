@@ -23,8 +23,10 @@
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import path from 'node:path';
 
-// SEC asks automated clients to identify themselves. SEC_UA overrides this.
-const SEC_UA = process.env.SEC_UA || 'doomcon-investors/1.0 (+https://github.com/messagegabrielhere-lgtm/doomcon)';
+// SEC refuses automated clients (HTTP 403) unless the User-Agent names who is
+// asking with a contact address. The default is this repository's bot address;
+// the repository variable SEC_UA overrides it.
+const SEC_UA = process.env.SEC_UA || 'doomcon-investors github.com/messagegabrielhere-lgtm/doomcon 41898699+github-actions[bot]@users.noreply.github.com';
 const UA = 'Mozilla/5.0 (compatible; doomcon-investors/1.0; +https://github.com/messagegabrielhere-lgtm/doomcon)';
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
