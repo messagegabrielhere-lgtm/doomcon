@@ -1410,7 +1410,7 @@ ${iconSprite({ only: SPRITE })}
 
 <section class="flk__hero">
   <p class="flk__eyebrow">Plate readers · a ${esc(brand.NAME)} register · does not feed the main number</p>
-  <h1 class="flk__h1">Number-plate cameras, mapped</h1>
+  <h1 class="flk__h1">Flock license-plate cameras, mapped</h1>
   <p class="flk__sub">Flock Safety automated licence-plate-reader cameras, as OpenStreetMap has them</p>
   <p class="flk__lede">An ALPR is a camera pointed at a road that reads every number plate that passes
     it. Flock Safety builds them and sells them to police departments, sheriffs' offices, homeowners'
@@ -1475,7 +1475,11 @@ ${methodSection(ctx, f, m)}
   return page({
     ctx,
     path: PATH,
-    title: `Number-plate cameras, mapped — ${headline} · ${brand.NAME}`,
+    // "Flock camera map" is what people type; "number-plate" is what nobody in
+    // the US does. The full headline still rides on og:title for the share card.
+    title: `Flock Camera Map: US License-Plate Readers by County · ${brand.NAME}`,
+    metaDescription: `${N(t.mapped_worldwide)} Flock Safety license-plate readers ${q}, `
+      + `ranked by state and county, with the direction each faces. Sourced and free.`,
     ogTitle: `${brand.NAME}: ${headline}`,
     description,
     ogImage: ctx.cardFor ? ctx.cardFor('flock') : null,
@@ -1491,11 +1495,11 @@ function emptyPage(ctx) {
     ctx,
     path: PATH,
     noindex: true,
-    title: `Number-plate cameras · ${brand.NAME}`,
+    title: `Flock camera map · ${brand.NAME}`,
     description: 'The Flock ALPR register is not in this build.',
     main: `<div class="flk"><section class="flk__hero">
   <p class="flk__eyebrow">Plate readers · a ${esc(brand.NAME)} register</p>
-  <h1 class="flk__h1">Number-plate cameras, mapped</h1>
+  <h1 class="flk__h1">Flock license-plate cameras, mapped</h1>
   <p class="flk__lede">This build carries no <code>data/flock.json</code>, so there is nothing to
     draw. The page exists and says so rather than inventing a map. Run
     <code>collector/flock.mjs</code> and rebuild.</p>

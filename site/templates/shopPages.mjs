@@ -76,7 +76,7 @@ ${books.map(([asin, title, by, blurb]) => `    <li class="shp__b"><a href="${esc
 </section>`;
   return page({
     ctx, path: '/library.html',
-    title: `The AI reading list: ${BOOK_COUNT} books from every side of the argument · ${brand.NAME}`,
+    title: `Best Books on AI Risk: ${BOOK_COUNT} From Every Side · ${brand.NAME}`,
     description: `Books on AI risk, AI scepticism and AI optimism, side by side: Bostrom, Russell, Narayanan and Kapoor, Hao, Suleyman, Mollick, Kurzweil and more. Paid Amazon links.`,
     main,
   });

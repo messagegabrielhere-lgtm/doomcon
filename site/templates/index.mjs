@@ -913,7 +913,7 @@ ${style}`;
     return page({
       ctx,
       path: '/instruments.html',
-      title: `The instruments: score history, source health, pillars and API · ${brand.NAME}`,
+      title: `${brand.NAME} Instruments: Score History, Source Health and API`,
       description: `Everything behind the ${brand.NAME} reading: the score over time, per-source health, the five pillars, recent moves, the embed and the public JSON API.`,
       main: instruments,
     });
@@ -923,9 +923,13 @@ ${style}`;
     ctx,
     motion: true,
     path: '/',
-    title: Number.isFinite(state.score) && LEVEL_LINE[state.level]
-      ? `${brand.NAME} ${state.level}: ${LEVEL_LINE[state.level].replace(/\.$/, '')} · ${scoreTxt}`
-      : `${brand.NAME} · the AI Siren Index`,
+    // The search result leads with the words people type ("AI alert level
+    // today") and keeps the live reading after them, so the title is both a
+    // match and an answer. LEVEL_LINE stays in og:title, where it is the joke
+    // on the share card; in a results page it matched nothing anyone searches.
+    title: Number.isFinite(state.score) && state.level_name
+      ? `AI Alert Level Today: ${brand.NAME} ${state.level} · ${titleCase(state.level_name)} (${scoreTxt}/100)`
+      : `AI Alert Level Today · ${brand.NAME}, the AI Siren Index`,
     ogTitle: `${brand.NAME} ${state.level} · ${state.level_name} · ${scoreTxt}/100 — ${LEVEL_LINE[state.level] || ''}`.replace(/ — $/, ''),
     description:
       `The AI Siren Index is at level ${state.level} of 5 (${state.level_name}), ${scoreTxt} of 100. ` +
@@ -955,6 +959,12 @@ ${style}`;
  * rendering the homepage on its own — hasBalance() stands by itself, as it
  * does for the route gates in layout.mjs.
  */
+/** "ROUTINE" → "Routine", for a search title; the dial keeps its capitals. */
+function titleCase(s) {
+  const t = String(s || '').toLowerCase();
+  return t.charAt(0).toUpperCase() + t.slice(1);
+}
+
 function balanceModule(ctx) {
   if (!balance) return '';
   if (ctx.routes && ctx.routes.balance === false) return '';

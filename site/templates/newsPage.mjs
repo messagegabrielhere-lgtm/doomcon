@@ -133,7 +133,10 @@ ${corpusSection(news, corpus)}
     ctx,
     motion: true,
     path: PATH,
-    title: `The newsroom — ${total} scored items · ${brand.NAME}`,
+    title: `AI News Today: ${total} Stories Ranked by Signal · ${brand.NAME}`,
+    metaDescription:
+      `Today's AI news, ranked: ${total} stories from the last ${days} days, scored for recency, source and ` +
+      `corroboration, and linked to the original. Updated hourly.`,
     ogTitle: `${brand.NAME} signal feed — ${total} scored items`,
     description:
       `Every AI news item ${brand.NAME} scored in the current window: ${total} items across ` +

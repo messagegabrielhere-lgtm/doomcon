@@ -1,4 +1,5 @@
 import { slugFor } from './itemPage.mjs';
+import { hasLeaders } from './leadersPage.mjs';
 // sitemap.xml. Head pages always; move pages only when substantive, matching
 // the noindex decision in move.mjs exactly. Submitting thin pages you have
 // already told Google not to index is a way of looking like you do not know
@@ -81,6 +82,13 @@ export function render(ctx) {
     // everything else here.
     ...(ctx.routes && ctx.routes.exploits && ctx.exploits && ctx.exploits.generated_at
       ? [{ loc: '/exploits.html', changefreq: 'daily', priority: '0.8', lastmod: ctx.exploits.generated_at }]
+      : []),
+    // /leaders. Gated on hasLeaders(), the very predicate build.mjs calls before
+    // writing the file, so the entry cannot name a page that was not built. It
+    // was missing here entirely: an indexable page with a live headline every
+    // day, absent from the one list crawlers are handed.
+    ...(hasLeaders(ctx) && ctx.leaders && ctx.leaders.generated_at
+      ? [{ loc: '/leaders.html', changefreq: 'daily', priority: '0.8', lastmod: ctx.leaders.generated_at }]
       : []),
     { loc: '/moves/', changefreq: 'hourly', priority: '0.6', lastmod: ctx.state.generated_at },
   ];

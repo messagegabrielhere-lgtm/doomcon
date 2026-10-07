@@ -94,6 +94,18 @@ function prerenderStatic(html, name, ctx) {
 <meta property="og:image" content="${x(ctx.url('/cards/state.png'))}">
 <meta name="twitter:card" content="summary_large_image">`;
   let out = html;
+  // A hand-built page writes its own description, and four of them ran past
+  // 250 characters, so a results page cut them mid-word. Same rule the layout
+  // applies to every templated page (serpDescription): end at the last full
+  // sentence inside 160 characters, else at a word with an ellipsis. The full
+  // text still goes to og:description above, where cards show more.
+  if (desc.length > 160) {
+    const head = desc.slice(0, 160);
+    const stop = Math.max(head.lastIndexOf('. '), head.lastIndexOf('? '));
+    const short = stop >= 80 ? head.slice(0, stop + 1)
+      : `${head.slice(0, head.lastIndexOf(' ')).replace(/[,;:—-]+$/, '')}…`;
+    out = out.replace(/(<meta name="description" content=")[^"]*(")/, (m, a, b) => `${a}${short}${b}`);
+  }
   const data = html.match(/<script>\n(const CRATES = [\s\S]*?)\nconst packed = /);
   if (data && out.includes('<main id="manifest"></main>')) {
     const { CRATES, TOOLS } = new Function(`${data[1]}\nreturn { CRATES, TOOLS };`)();
@@ -1294,6 +1306,17 @@ async function main() {
 
   written.push(await write(args.out, 'sitemap.xml', sitemap(ctx)));
   written.push(await write(args.out, 'robots.txt', robots(ctx)));
+  // THE CUSTOM DOMAIN HAS TO SURVIVE EVERY DEPLOY. Pages reads the domain from a
+  // CNAME file at the root of gh-pages, and the publish step force-pushes that
+  // branch from public/ every run. So a domain typed into Settings → Pages
+  // would be wiped by the next hourly deploy unless the build writes the file
+  // itself. It is derived from brand.CANONICAL_URL, so switching domains stays
+  // the one-line change brand.mjs promises; on a *.github.io address no file is
+  // written, because there it would point Pages at a host it cannot serve.
+  {
+    const host = new URL(brand.CANONICAL_URL).hostname;
+    if (!/\.github\.io$/i.test(host)) written.push(await write(args.out, 'CNAME', `${host}\n`));
+  }
   written.push(await write(args.out, 'feed.xml', feed.render(ctx)));
   // The quiet one: an entry only when the level itself changes.
   written.push(await write(args.out, 'feed-level.xml', feed.render(ctx, { levelOnly: true })));

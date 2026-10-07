@@ -110,6 +110,18 @@ export const DOMAIN = 'messagegabrielhere-lgtm.github.io/doomcon';
 // automatically.
 export const CANONICAL_URL = 'https://messagegabrielhere-lgtm.github.io/doomcon';
 
+// SEARCH CONSOLE OWNERSHIP. Paste the bare token each console gives you for
+// its "HTML tag" method — only the content="…" value, not the whole tag — and
+// layout.mjs writes the matching <meta> into every page's <head>. Null means
+// no tag at all. Once the site moves to its own domain, prefer the console's
+// DNS (TXT record) method instead: it covers every page under the domain,
+// survives redesigns, and needs nothing here. These tokens are public by
+// design; they prove control of the site and grant nothing to anyone else.
+export const SITE_VERIFICATION = {
+  google: null, // Google Search Console → Add property → URL prefix → HTML tag
+  bing: null,   // Bing Webmaster Tools → Add site → HTML Meta Tag (msvalidate.01)
+};
+
 // pizzint ships twitter:site="@pizzint" while their account is @pizzintwatch —
 // the card is misattributed on every share. The fix is not "be careful", it is
 // "have no default". It stayed null until an account genuinely existed and was

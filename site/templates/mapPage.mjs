@@ -1368,7 +1368,7 @@ ${iconSprite({ only: SPRITE })}
 <div class="usm-scope bld">
 <section class="bldhero">
   <p class="bldhero__eyebrow">${esc(copy.name || 'The Build')} · a ${esc(brand.NAME)} sub-index · does not feed the main number</p>
-  <h1 class="bldhero__h1">Every mapped US datacentre</h1>
+  <h1 class="bldhero__h1">Every mapped US data center</h1>
   <p class="bldhero__sub">${esc(copy.question || '')}</p>
   <p class="bldhero__lede">${esc(copy.standfirst || '')}</p>
   <p class="bldhero__plain">${plainSentence(dc, model)}</p>
@@ -1411,7 +1411,12 @@ ${siblingCard(ctx)}
   return page({
     ctx,
     path: PATH,
-    title: `Every mapped US datacentre — ${headline} · ${brand.NAME}`,
+    // US spelling in the parts a search engine reads: "data center map" has the
+    // volume, "datacentre" has none. Body copy keeps the house spelling.
+    title: `US Data Center Map: Every Site, With Drought and Grid · ${brand.NAME}`,
+    metaDescription: `US data center map: ${N(c.sites)} sites from OpenStreetMap, `
+      + `${N((c.by_status || {}).under_construction)} under construction, each joined to its county's drought level, `
+      + `nearest river gauge and power grid.`,
     ogTitle: `${brand.NAME}: ${headline}`,
     description,
     ogImage: ctx.cardFor ? ctx.cardFor('map') : null,
@@ -1428,12 +1433,12 @@ function emptyPage(ctx) {
     ctx,
     path: PATH,
     noindex: true,
-    title: `Every mapped US datacentre — the map · ${brand.NAME}`,
+    title: `US data center map · ${brand.NAME}`,
     description: `${brand.NAME}'s datacentre map has not published a run yet.`,
     main: `<style>${mapCss()}</style>
 <section class="bldhero">
   <p class="bldhero__eyebrow">The Build · a ${esc(brand.NAME)} sub-index</p>
-  <h1 class="bldhero__h1">Every mapped US datacentre</h1>
+  <h1 class="bldhero__h1">Every mapped US data center</h1>
   <p class="bldhero__sub">Where the datacentres are, and what the power and the water around them are doing.</p>
   <p class="bldhero__lede">No run has been published in this build. This is not an empty map — it is the
      absence of a map, and the two are different states. An empty map would be a finding, and it is not one

@@ -1181,7 +1181,11 @@ ${instrumentStrip(race)}
   return page({
     ctx,
     path: PATH,
-    title: `The AI race — ${headline} · ${brand.NAME}`,
+    title: leader ? `Best AI Model Odds: ${headline} · ${brand.NAME}` : `Best AI Model Odds · ${brand.NAME}`,
+    metaDescription: leader
+      ? `Which lab has the best AI model? Live Polymarket odds, checked against Kalshi: ${headline}. `
+        + `Plus each lab's 30-day releases and news share.`
+      : undefined,
     ogTitle: `${brand.NAME}: the AI race — ${headline}`,
     description,
     // ctx.cardFor('race') prefers data/cards/race.png when the card generator

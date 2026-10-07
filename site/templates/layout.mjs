@@ -787,6 +787,65 @@ function v2StatusBar(ctx) {
 </div></div>`;
 }
 
+/* WHO WE ARE, TO A SEARCH ENGINE. The homepage names the site and its
+   publisher once (WebSite + Organization, with the X account as sameAs), which
+   is what a brand result and a sitelinks box are built from. Every other
+   indexable page carries a two-step breadcrumb back to the war room, so a
+   result reads "SIREN › The Race" instead of a bare github.io path. A noindex
+   page gets neither: describing a page we have asked not to be shown is noise.
+   The breadcrumb name is the page's own title up to its first separator, so it
+   can never disagree with what the tab says. */
+function siteJsonLd(ctx, o, canonical) {
+  if (o.noindex) return [];
+  const home = ctx.url('/');
+  const org = {
+    '@type': 'Organization',
+    '@id': `${home}#org`,
+    name: brand.NAME,
+    alternateName: brand.PUBLICATION,
+    url: home,
+    logo: ctx.url('/icon-512.png'),
+    ...(brand.X_URL ? { sameAs: [brand.X_URL] } : {}),
+  };
+  if (o.path === '/') {
+    return [{
+      '@context': 'https://schema.org',
+      '@graph': [
+        org,
+        {
+          '@type': 'WebSite',
+          '@id': `${home}#site`,
+          name: brand.NAME,
+          alternateName: [brand.PUBLICATION, 'AI Siren Index', 'DOOMCON'],
+          url: home,
+          inLanguage: 'en',
+          publisher: { '@id': `${home}#org` },
+        },
+      ],
+    }];
+  }
+  const name = String(o.breadcrumb || o.title || '')
+    .split(/ · | — | \| /)[0].replace(/:.*$/, '').trim();
+  if (!name) return [];
+  return [{
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: brand.NAME, item: home },
+      { '@type': 'ListItem', position: 2, name, item: canonical },
+    ],
+  }];
+}
+
+/** <meta> ownership tags for the search consoles named in brand.SITE_VERIFICATION. */
+function siteVerification() {
+  const v = brand.SITE_VERIFICATION || {};
+  const tags = [];
+  if (v.google) tags.push(`<meta name="google-site-verification" content="${esc(v.google)}">`);
+  if (v.bing) tags.push(`<meta name="msvalidate.01" content="${esc(v.bing)}">`);
+  return tags.length ? `\n${tags.join('\n')}` : '';
+}
+
 /* WHAT A SEARCH RESULT CAN SHOW. A result page cuts a title near 65 characters
    and a description near 160, mid-word, wherever that falls. Eleven pages ran
    past both, so the number that made the title worth reading was the part that
@@ -1146,7 +1205,9 @@ function jumpIndex(mainHtml) {
 export function page(o) {
   const { ctx } = o;
   const canonical = ctx.url(o.path);
-  const jsonld = (o.jsonld || []).map((block) => jsonScript(block)).join('\n');
+  const jsonld = [...(o.jsonld || []), ...siteJsonLd(ctx, o, canonical)]
+    .map((block) => jsonScript(block)).join('\n');
+  const verify = siteVerification();
 
   // Absent -> the empty string, and every interpolation site below is written
   // so that the empty string changes nothing. A page() caller that does not ask
@@ -1221,9 +1282,9 @@ export function page(o) {
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>${esc(serpTitle(o.title))}</title>
-<meta name="description" content="${esc(serpDescription(o.description))}">
+<meta name="description" content="${esc(serpDescription(o.metaDescription || o.description))}">
 <link rel="canonical" href="${esc(canonical)}">
-${o.noindex ? '<meta name="robots" content="noindex,follow">' : '<meta name="robots" content="index,follow,max-image-preview:large">'}
+${o.noindex ? '<meta name="robots" content="noindex,follow">' : '<meta name="robots" content="index,follow,max-image-preview:large">'}${verify}
 <meta name="color-scheme" content="dark light">
 <meta name="theme-color" content="#faf9f6" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0b0c0e" media="(prefers-color-scheme: dark)">

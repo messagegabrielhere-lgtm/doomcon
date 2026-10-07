@@ -344,8 +344,8 @@ export function pdoom(ctx) {
 </section>`;
   return page({
     ctx, path: '/p-doom.html',
-    title: `What is p(doom)? The probability-of-doom number, explained · ${brand.NAME}`,
-    description: `p(doom) is one person's estimate of the probability that AI ends catastrophically. Where the term comes from, why the figures differ so widely, and what it cannot tell you.`,
+    title: `What Is p(doom)? AI's Probability of Doom, Explained · ${brand.NAME}`,
+    description: `p(doom) is one person's estimate of the chance AI ends in catastrophe. Where the term comes from, why the numbers differ so widely, and what it cannot tell you.`,
     jsonld: [{ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: [
       { '@type': 'Question', name: 'What is p(doom)?', acceptedAnswer: { '@type': 'Answer', text: 'p(doom) is shorthand for "probability of doom": one person\'s estimate, as a percentage, that advanced AI leads to a catastrophic outcome for humanity. It is an opinion expressed as a number, with no agreed method behind it.' } },
       { '@type': 'Question', name: 'Why do p(doom) estimates differ so much?', acceptedAnswer: { '@type': 'Answer', text: 'Because "doom" is not defined the same way by everyone, the time frame varies, and the figure is a judgement rather than a measurement.' } },
@@ -368,6 +368,11 @@ export function aiClock(ctx) {
     It began as a warning about nuclear weapons and has since widened to include climate change and disruptive technologies, AI among them. It is a considered judgement, not a calculation, and it is not updated between announcements.</p>
   <h2>AI-specific clocks and scores</h2>
   <p>A number of sites publish an AI risk clock, countdown or score. What they share is the method: a person, a panel or a language model decides the setting. That makes them statements of opinion. Useful ones, sometimes, but not something a reader can recompute.</p>
+  <h2>The IMD AI Safety Clock</h2>
+  <p>The best known is the <a href="https://www.imd.org/centers/tonomus/digital-ai-transformation-center/aisafetyclock/" rel="noopener">AI Safety Clock</a>, published since 2024 by IMD, the business school in Lausanne.
+    It sets a number of minutes to “midnight” from three things: how sophisticated AI systems are, how autonomously they act, and how far they reach into the physical world.
+    Its team combines a monitoring dashboard of websites and news feeds with expert judgement and desk research, and moves the hands when it decides developments warrant it rather than on a fixed schedule.
+    That makes it a considered, well-sourced judgement. It is still a judgement: the inputs and weights behind a given setting are not published in a form a reader can recompute.</p>
   <h2>What ${esc(brand.NAME)} does instead</h2>
   <ul>
     <li><b>It counts.</b> Releases, compute and capital, attention, governance and markets, from public sources, every hour.</li>
@@ -382,8 +387,15 @@ export function aiClock(ctx) {
 </section>`;
   return page({
     ctx, path: '/ai-doomsday-clock.html',
-    title: `Is there an AI doomsday clock? What exists, and one you can verify · ${brand.NAME}`,
-    description: `The Doomsday Clock is set by a board once a year and is not AI-specific. AI risk clocks are set by judgement. ${brand.NAME} is an hourly count of AI activity that anyone can verify.`,
+    title: `AI Doomsday Clock: What Exists, and One You Can Check · ${brand.NAME}`,
+    description: `Is there a doomsday clock for AI? The Bulletin's clock, IMD's AI Safety Clock and other AI risk clocks, set against ${brand.NAME}'s hourly count you can verify.`,
+    // Every answer below is said in the visible page above; FAQ markup that the
+    // page does not itself show is what search engines penalise.
+    jsonld: [{ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: [
+      { '@type': 'Question', name: 'Is there a doomsday clock for AI?', acceptedAnswer: { '@type': 'Answer', text: `Not an AI-only one from the Bulletin of the Atomic Scientists: its Doomsday Clock, set by a board usually once a year, now takes AI into account alongside nuclear weapons and climate. Several AI-specific clocks exist, and all of them are set by judgement. ${brand.NAME} is an hourly count of AI activity that anyone can verify.` } },
+      { '@type': 'Question', name: 'What is the AI Safety Clock?', acceptedAnswer: { '@type': 'Answer', text: 'A clock published since 2024 by IMD, the business school in Lausanne. It sets minutes to midnight from how sophisticated AI systems are, how autonomously they act and how far they reach into the physical world, combining a monitoring dashboard with expert judgement. Its team moves it when it decides developments warrant it.' } },
+      { '@type': 'Question', name: `How is ${brand.NAME} different from a doomsday clock?`, acceptedAnswer: { '@type': 'Answer', text: `${brand.NAME} does not estimate danger or time to catastrophe. It counts how much is happening in AI every hour, across releases, compute and capital, attention, governance and markets, and reports a level from 5 (quietest) to 1 (loudest). Each reading has a receipt anyone can check.` } },
+    ] }],
     main,
   });
 }
@@ -566,8 +578,8 @@ ${bands.map((l) => `      <tr><td><b>${esc(l.level)}</b></td><td>${esc(l.name)}<
 </section>`;
   return page({
     ctx, path: '/guide.html',
-    title: `SIREN vs DEFCON vs the Doomsday Clock vs p(doom): what each measures`,
-    description: `A plain guide to four doom numbers. DEFCON is military readiness, the Doomsday Clock is a board's judgement, p(doom) is an opinion, and ${brand.NAME} is an hourly count of AI activity you can recompute.`,
+    title: `Doomsday Clock vs DEFCON vs p(doom) vs ${brand.NAME}, Compared`,
+    description: `DEFCON is military readiness, the Doomsday Clock a board's yearly judgement, p(doom) a personal opinion. ${brand.NAME} is an hourly AI activity count you can recompute.`,
     main,
   });
 }
