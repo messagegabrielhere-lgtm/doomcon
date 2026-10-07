@@ -1,9 +1,11 @@
-// Clip index for the Real Elon page (site/static/elon.html).
+// Clip index for the Real Clips page (site/static/elon.html): Elon Musk and
+// superintelligence (TOPICS below).
 //
 // The page only lists videos uploaded by the channels in elon/sources.json:
-// Elon Musk's own companies and outlets that filmed him themselves. A clip found
-// here is real because of WHERE it was uploaded, not because of what it looks
-// like, which is the one test a deepfake can't pass.
+// Elon Musk's own companies, the AI labs, and the hosts and newsrooms that
+// filmed their own footage. A clip found here is real because of WHERE it was
+// uploaded, not because of what it looks like, which is the one test a
+// deepfake can't pass.
 //
 // Each run:
 //   1. loads the previous clips.json (the archive grows; a video seen once stays)
@@ -12,7 +14,7 @@
 //   4. searches each channel once for older Elon videos: through the Data API
 //      when YOUTUBE_API_KEY is set (about 200 quota units per channel, once),
 //      otherwise by reading the channel's own search results page
-//   5. keeps the uploads that name him, merges, writes <outdir>/clips.json
+//   5. keeps the uploads that match a topic, merges, writes <outdir>/clips.json
 //
 // Browsers can't read YouTube feeds (no CORS), so this runs in a GitHub Action
 // and the page reads the result from the elon-data branch, like the scanner.
@@ -34,6 +36,9 @@ const NAME_RE = /\b(elon|musk)(?:'s|’s)?\b/i;
 // Events his companies hold where he is the presenter, so an official upload
 // titled "Tesla Shareholder Meeting" counts even without his name in it.
 const EVENT_RE = /\b(shareholder meeting|annual meeting|earnings call|ai day|battery day|autonomy day|we,? robot|starship update|neuralink update|show and tell|summer update|grok \d)\b/i;
+// Superintelligence, superintelligent, super-intelligence, "Safe Superintelligence".
+// Not bare "ASI": too many other things share those three letters.
+const SI_RE = /\bsuper[\s-]?intelligen(?:ce|t)\b/i;
 
 const decode = (s) => String(s ?? '')
   .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, '$1')
@@ -73,6 +78,26 @@ export function matchElon(video, tier) {
   if (tier === 'official' && NAME_RE.test(video.description)) return 'name';
   if (tier === 'official' && EVENT_RE.test(video.title)) return 'event';
   return null;
+}
+
+/**
+ * Superintelligence: the title must say it, except on an AI lab's or his
+ * companies' own channel, where the description saying it is enough.
+ */
+export function matchSI(video, tier) {
+  if (SI_RE.test(video.title)) return true;
+  return (tier === 'official' || tier === 'lab') && SI_RE.test(video.description);
+}
+
+/** The topics this index covers. `query` is what each channel is searched for once. */
+export const TOPICS = {
+  elon: { query: 'Elon Musk', match: (v, tier) => !!matchElon(v, tier) },
+  si: { query: 'superintelligence', match: matchSI },
+};
+
+/** Video -> the topics it belongs to, in TOPICS order. */
+export function topicsFor(video, tier) {
+  return Object.keys(TOPICS).filter((t) => TOPICS[t].match(video, tier));
 }
 
 /** Channel page HTML -> channel id, or null. */
@@ -116,7 +141,9 @@ export function parseChannelSearch(html, now = Date.now()) {
       videos.push({
         id: v.videoId,
         title: runsText(v.title),
-        published: relativeToIso(runsText(v.publishedTimeText), now),
+        // publishedTimeText when the page has it; otherwise the age is still in
+        // the accessibility label ("… by Tesla 10 years ago 4 minutes …").
+        published: relativeToIso(runsText(v.publishedTimeText), now) || relativeToIso(JSON.stringify(v), now),
         approxDate: true,
         description: (v.detailedMetadataSnippets || []).map((d) => runsText(d.snippetText)).join(' ') || runsText(v.descriptionSnippet),
         views: Number(runsText(v.viewCountText).replace(/[^\d]/g, '')) || null,
@@ -176,12 +203,14 @@ async function resolveHandle(handle, key) {
   return channelIdFromPage(await get(`https://www.youtube.com/${handle}`));
 }
 
-async function searchChannel(channelId, key) {
+// One page of 50 per topic per channel: 100 quota units each, so with two
+// topics and ~30 channels a full backfill stays well inside the free 10,000.
+async function searchChannel(channelId, key, query) {
   const out = [];
   let pageToken = '';
-  for (let page = 0; page < 2; page++) {
+  for (let page = 0; page < 1; page++) {
     const u = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=50&order=relevance`
-      + `&q=${encodeURIComponent('Elon Musk')}&channelId=${channelId}&key=${key}${pageToken ? `&pageToken=${pageToken}` : ''}`;
+      + `&q=${encodeURIComponent(query)}&channelId=${channelId}&key=${key}${pageToken ? `&pageToken=${pageToken}` : ''}`;
     const j = await get(u, { json: true });
     for (const it of j.items || []) {
       out.push({
@@ -211,35 +240,40 @@ async function main() {
   const report = [];
   for (const src of sources) {
     const old = prevSources.get(src.handle.toLowerCase());
-    const row = { handle: src.handle, name: src.name, tier: src.tier, channelId: old?.channelId || null, backfilled: !!old?.backfilled, scraped: !!old?.scraped, ok: false, found: 0 };
+    // searched[topic] = 'api' | 'page': how that topic's one-time search was done.
+    // Files written before topics existed carry backfilled/scraped for Elon only.
+    // (A page search from that era found no dates, so it is not carried over: it runs again.)
+    const searched = old?.searched || { ...(old?.backfilled ? { elon: 'api' } : {}) };
+    const row = { handle: src.handle, name: src.name, tier: src.tier, channelId: old?.channelId || null, searched, ok: false, found: 0 };
     try {
       row.channelId ||= await resolveHandle(src.handle, key);
       if (!row.channelId) throw new Error('handle did not resolve to a channel');
       let videos = parseFeed(await get(`https://www.youtube.com/feeds/videos.xml?channel_id=${row.channelId}`));
-      if (key && !row.backfilled) {
+      for (const [topic, { query }] of Object.entries(TOPICS)) {
         try {
-          videos = videos.concat(await searchChannel(row.channelId, key));
-          row.backfilled = true;
-        } catch (err) { row.backfillError = err.message; }
-      } else if (!key && !row.scraped) {
-        // No key: read the channel's own search page once instead.
-        try {
-          const r = parseChannelSearch(await get(`https://www.youtube.com/channel/${row.channelId}/search?query=${encodeURIComponent('Elon Musk')}`));
-          if (!r.parsed) throw new Error('search page had no ytInitialData');
-          videos = videos.concat(r.videos);
-          row.scraped = true;
-        } catch (err) { row.backfillError = err.message; }
+          if (key && row.searched[topic] !== 'api') {
+            videos = videos.concat(await searchChannel(row.channelId, key, query));
+            row.searched[topic] = 'api';
+          } else if (!key && !row.searched[topic]) {
+            // No key: read the channel's own search page once instead.
+            const r = parseChannelSearch(await get(`https://www.youtube.com/channel/${row.channelId}/search?query=${encodeURIComponent(query)}`));
+            if (!r.parsed) throw new Error('search page had no ytInitialData');
+            videos = videos.concat(r.videos);
+            row.searched[topic] = 'page';
+          }
+        } catch (err) { row.backfillError = `${topic}: ${err.message}`; }
       }
       const seen = new Set();
       for (const v of videos) {
         if (seen.has(v.id)) continue;
         seen.add(v.id);
+        const topics = topicsFor(v, src.tier);
+        if (!topics.length) continue;
         const match = matchElon(v, src.tier);
-        if (!match) continue;
         fresh.push({
           id: v.id, title: v.title, published: v.published,
           description: v.description.slice(0, 400), views: v.views, ...(v.approxDate ? { approxDate: true } : {}),
-          handle: src.handle, channel: src.name, channelId: row.channelId, tier: src.tier, match,
+          handle: src.handle, channel: src.name, channelId: row.channelId, tier: src.tier, topics, ...(match ? { match } : {}),
         });
         row.found++;
       }
@@ -254,9 +288,13 @@ async function main() {
   // Sources that dropped out of sources.json take their clips with them, and
   // archived clips are re-checked so a tightened rule applies to the past too.
   const tierOf = new Map(sources.map((s) => [s.handle.toLowerCase(), s.tier]));
-  const kept = (prev?.clips || []).filter((c) => {
+  const kept = (prev?.clips || []).flatMap((c) => {
     const tier = tierOf.get(c.handle.toLowerCase());
-    return tier && matchElon(c, tier);
+    const topics = tier ? topicsFor(c, tier) : [];
+    if (!topics.length) return [];
+    const match = matchElon(c, tier);
+    const { match: _m, ...rest } = c;
+    return [{ ...rest, tier, topics, ...(match ? { match } : {}) }];
   });
   const clips = merge(kept, fresh, now);
 

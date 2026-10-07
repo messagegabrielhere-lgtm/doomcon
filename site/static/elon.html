@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Real Elon</title>
-<meta name="description" content="Search real video clips of Elon Musk, taken only from the channels that filmed him: Tesla, SpaceX, xAI, long-form interviews and major newsrooms. Paste any link to check where it came from.">
+<title>Real Clips</title>
+<meta name="description" content="Search real video clips of Elon Musk and of the people building and debating superintelligence, taken only from the channels that filmed them: his companies, the AI labs, long-form interviews and major newsrooms. Paste any link to check where it came from.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap">
@@ -48,6 +48,12 @@ h1 span{color:var(--accent)}
 .panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px}
 h2{margin:0 0 10px;font:600 18px/1.2 var(--f-display)}
 
+/* topic switch */
+.topics{display:flex;gap:8px;flex-wrap:wrap}
+.topics button{border:1px solid var(--line);background:var(--panel);border-radius:99px;padding:8px 16px;font:600 15px var(--f-display);color:var(--mute)}
+.topics button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.topics button span{font:500 12px var(--f-body);opacity:.8;margin-left:4px}
+
 /* checker */
 .check form{display:flex;gap:8px;flex-wrap:wrap}
 .check input{flex:1 1 280px;min-width:0;border:1px solid var(--line);background:var(--sunk);border-radius:10px;padding:10px 12px}
@@ -88,7 +94,7 @@ select{border:1px solid var(--line);background:var(--panel);border-radius:10px;p
 .meta{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:12.5px;color:var(--mute);margin-top:auto}
 .src{display:inline-flex;align-items:center;gap:5px;font-weight:600;color:var(--ink)}
 .dot{width:8px;height:8px;border-radius:50%;flex:none}
-.t-official{background:var(--official)} .t-interview{background:var(--interview)} .t-news{background:var(--news)}
+.t-official,.t-lab{background:var(--official)} .t-interview{background:var(--interview)} .t-news{background:var(--news)}
 .pill{font-size:11px;font-weight:600;padding:1px 6px;border-radius:99px;background:var(--sunk);color:var(--mute)}
 .more{align-self:center}
 .empty{text-align:center;color:var(--mute);padding:40px 16px}
@@ -122,13 +128,18 @@ footer{color:var(--mute);font-size:12.5px;text-align:center}
 <div class="wrap">
   <header>
     <div class="brand">
-      <h1>Real <span>Elon</span></h1>
-      <p class="tag">Clips of Elon Musk, only from the channels that filmed him. No reuploads, no AI voices, no "giveaway" livestreams.</p>
+      <h1>Real <span id="h-topic">Elon</span></h1>
+      <p class="tag" id="tagline">Clips of Elon Musk, only from the channels that filmed him. No reuploads, no AI voices, no "giveaway" livestreams.</p>
     </div>
     <div class="stats" id="stats"><span>Loading the index…</span></div>
     <a class="theme" href="./" style="text-decoration:none">← SIREN</a>
     <button class="theme" id="theme" type="button" aria-label="Toggle theme">◐ Theme</button>
   </header>
+
+  <nav class="topics" role="group" aria-label="Topic" id="topics">
+    <button type="button" data-topic="elon" aria-pressed="true">Elon Musk<span id="n-elon"></span></button>
+    <button type="button" data-topic="si" aria-pressed="false">Superintelligence<span id="n-si"></span></button>
+  </nav>
 
   <section class="panel check" aria-labelledby="chk-h">
     <h2 id="chk-h">Got a clip? Check where it came from.</h2>
@@ -146,7 +157,7 @@ footer{color:var(--mute);font-size:12.5px;text-align:center}
     </label>
     <div class="seg" role="group" aria-label="Source type" id="tiers">
       <button type="button" data-tier="" aria-pressed="true">All</button>
-      <button type="button" data-tier="official" aria-pressed="false">His companies</button>
+      <button type="button" data-tier="official" aria-pressed="false">Official</button>
       <button type="button" data-tier="interview" aria-pressed="false">Interviews</button>
       <button type="button" data-tier="news" aria-pressed="false">News</button>
     </div>
@@ -169,8 +180,8 @@ footer{color:var(--mute);font-size:12.5px;text-align:center}
     <div class="cols">
       <div>
         <h2 id="how-h">How we know it's real</h2>
-        <p>Deepfakes of Elon are good enough that you can't judge one by looking at it. So this index doesn't look. It only lists videos uploaded by the channel that recorded them: his companies, hosts who interviewed him, and newsrooms with their own cameras.</p>
-        <p>A video is listed when its title or description names him, or when it's an official company event he presents (shareholder meetings, product unveils, Starship updates). The index refreshes every hour and keeps everything it has seen.</p>
+        <p>Deepfakes are good enough that you can't judge a clip by looking at it. So this index doesn't look. It only lists videos uploaded by the channel that recorded them: Elon's companies, the AI labs, hosts who filmed their own interviews, and newsrooms with their own cameras.</p>
+        <p><b>Elon Musk:</b> the title names him, or it's an event one of his companies held that he presents (shareholder meetings, AI Day, Starship updates). <b>Superintelligence:</b> the title says superintelligence, or, on an AI lab's own channel, the description does. The index refreshes every hour and keeps everything it has seen.</p>
       </div>
       <div>
         <h2>Signs of a fake</h2>
@@ -209,12 +220,23 @@ footer{color:var(--mute);font-size:12.5px;text-align:center}
 <script>
 const DATA_URL = 'https://raw.githubusercontent.com/messagegabrielhere-lgtm/doomcon/elon-data/clips.json';
 const PAGE = 48;
-const TIER_LABEL = { official: 'Official', interview: 'Interview', news: 'News' };
+const TIER_LABEL = { official: 'Official', lab: 'AI lab', interview: 'Interview', news: 'News' };
+// The "Official" filter covers Elon's companies and the AI labs: both are the
+// subject's own channel.
+const tierIs = (c, t) => !t || c.tier === t || (t === 'official' && c.tier === 'lab');
+const TOPIC = {
+  elon: { h: 'Elon', placeholder: 'Search: Starship, Grok, Optimus, Rogan…',
+    tag: 'Clips of Elon Musk, only from the channels that filmed him. No reuploads, no AI voices, no "giveaway" livestreams.' },
+  si: { h: 'Superintelligence', placeholder: 'Search: Sutskever, Altman, alignment, Bostrom…',
+    tag: 'Talks, interviews and reports on superintelligence, only from the labs, hosts and newsrooms that filmed them. No AI-narrated explainers, no reupload channels.' },
+};
+// Clips collected before topics existed are all about Elon.
+const topicsOf = (c) => c.topics || ['elon'];
 const SCAM_RE = /\b(giveaway|double|doubl(e|ing) your|btc|bitcoin|eth|ethereum|crypto|airdrop|send \d|claim|qr code|free (btc|eth|crypto|tesla)|live now|xrp|doge|presale|token launch)\b/i;
 
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-const state = { all: [], sources: [], q: '', tier: '', chan: '', sort: 'new', shown: PAGE, byId: new Map(), open: null };
+const state = { all: [], sources: [], topic: 'elon', q: '', tier: '', chan: '', sort: 'new', shown: PAGE, byId: new Map(), open: null };
 
 // ---------- theme
 (function () {
@@ -257,7 +279,8 @@ const channelUrl = (c) => c.channelId ? `https://www.youtube.com/channel/${c.cha
 function filtered() {
   const words = state.q.toLowerCase().split(/\s+/).filter(Boolean);
   let list = state.all.filter((c) =>
-    (!state.tier || c.tier === state.tier) &&
+    topicsOf(c).includes(state.topic) &&
+    tierIs(c, state.tier) &&
     (!state.chan || c.handle === state.chan) &&
     words.every((w) => c._hay.includes(w)));
   if (state.sort === 'old') list = list.slice().reverse();
@@ -272,7 +295,7 @@ function card(c) {
     <div class="body">
       <span class="title">${esc(c.title)}</span>
       <span class="meta"><span class="src"><span class="dot t-${esc(c.tier)}"></span>${esc(c.channel)}</span>
-        <span>· ${esc(clipDate(c))}</span>${c.views != null ? `<span>· ${esc(fmtViews(c.views))}</span>` : ''}
+        ${clipDate(c) ? `<span>· ${esc(clipDate(c))}</span>` : ''}${c.views != null ? `<span>· ${esc(fmtViews(c.views))}</span>` : ''}
         ${c.match === 'event' ? '<span class="pill" title="Official event he presents; his name is not in the title">event</span>' : ''}</span>
     </div></button>`;
 }
@@ -285,9 +308,10 @@ function render() {
     ? `${list.length.toLocaleString()} clip${list.length === 1 ? '' : 's'}${state.q || state.tier || state.chan ? ' match' : ''}`
     : '';
   const e = $('empty');
-  if (state.loaded && !state.all.length) {
+  const inTopic = state.all.some((c) => topicsOf(c).includes(state.topic));
+  if (state.loaded && !inTopic) {
     e.hidden = false;
-    e.innerHTML = `<b>No clips yet.</b>The index checks every source hourly and adds each new video that names him. The link checker above works for any YouTube link meanwhile.`;
+    e.innerHTML = `<b>No clips yet.</b>The index checks every source hourly and adds each new video on this topic. The link checker above works for any YouTube link meanwhile.`;
   } else if (state.all.length && !list.length) {
     e.hidden = false;
     e.innerHTML = `<b>No clips match.</b>Try fewer words, or switch the source filter back to All.`;
@@ -298,6 +322,7 @@ function render() {
 // ---------- url state: #q=starship&tier=official&v=VIDEOID
 function syncHash() {
   const p = new URLSearchParams();
+  if (state.topic !== 'elon') p.set('t', state.topic);
   if (state.q) p.set('q', state.q);
   if (state.tier) p.set('tier', state.tier);
   if (state.chan) p.set('ch', state.chan);
@@ -308,6 +333,7 @@ function syncHash() {
 }
 function readHash() {
   const p = new URLSearchParams(location.hash.slice(1));
+  state.topic = TOPIC[p.get('t')] ? p.get('t') : 'elon';
   state.q = p.get('q') || '';
   state.tier = p.get('tier') || '';
   state.chan = p.get('ch') || '';
@@ -322,7 +348,7 @@ function openClip(c) {
   $('p-badge').textContent = `✓ Uploaded by ${c.channel} (${c.handle})`;
   $('p-title').textContent = c.title;
   $('p-meta').innerHTML = `<span class="src"><span class="dot t-${esc(c.tier)}"></span>${esc(TIER_LABEL[c.tier] || c.tier)}</span>
-    <span>· ${esc(clipDate(c))}</span>${c.views != null ? `<span>· ${esc(fmtViews(c.views))}</span>` : ''}
+    ${clipDate(c) ? `<span>· ${esc(clipDate(c))}</span>` : ''}${c.views != null ? `<span>· ${esc(fmtViews(c.views))}</span>` : ''}
     <span>· <a href="${esc(channelUrl(c))}" target="_blank" rel="noopener">channel</a></span>`;
   $('p-desc').textContent = c.description || '';
   $('p-desc').hidden = !c.description;
@@ -356,6 +382,17 @@ $('q').addEventListener('input', () => {
   clearTimeout(qTimer);
   qTimer = setTimeout(() => { state.q = $('q').value.trim(); state.shown = PAGE; render(); }, 120);
 });
+$('topics').addEventListener('click', (e) => {
+  const b = e.target.closest('button');
+  if (!b || b.dataset.topic === state.topic) return;
+  state.topic = b.dataset.topic;
+  state.q = '';
+  state.chan = '';
+  state.shown = PAGE;
+  syncControls();
+  fillChannels();
+  render();
+});
 $('tiers').addEventListener('click', (e) => {
   const b = e.target.closest('button');
   if (!b) return;
@@ -370,13 +407,22 @@ $('sort').onchange = () => { state.sort = $('sort').value; state.shown = PAGE; r
 $('more').onclick = () => { state.shown += PAGE; render(); };
 
 function syncControls() {
+  const t = TOPIC[state.topic];
+  for (const b of $('topics').querySelectorAll('button')) b.setAttribute('aria-pressed', String(b.dataset.topic === state.topic));
+  $('h-topic').textContent = t.h;
+  $('tagline').textContent = t.tag;
+  $('q').placeholder = t.placeholder;
+  for (const k of Object.keys(TOPIC)) {
+    const n = state.all.filter((c) => topicsOf(c).includes(k)).length;
+    $(`n-${k}`).textContent = state.loaded ? n.toLocaleString() : '';
+  }
   $('q').value = state.q;
   for (const b of $('tiers').querySelectorAll('button')) b.setAttribute('aria-pressed', String(b.dataset.tier === state.tier));
   $('sort').value = state.sort;
 }
 function fillChannels() {
   const counts = new Map();
-  for (const c of state.all) if (!state.tier || c.tier === state.tier) counts.set(c.handle, (counts.get(c.handle) || 0) + 1);
+  for (const c of state.all) if (topicsOf(c).includes(state.topic) && tierIs(c, state.tier)) counts.set(c.handle, (counts.get(c.handle) || 0) + 1);
   const rows = state.sources.filter((s) => counts.has(s.handle)).sort((a, b) => counts.get(b.handle) - counts.get(a.handle));
   if (state.chan && !counts.has(state.chan)) state.chan = '';
   $('chan').innerHTML = `<option value="">All channels</option>` + rows.map((s) =>
@@ -436,7 +482,7 @@ $('chk').addEventListener('submit', async (e) => {
   const scam = SCAM_RE.test(info.title || '');
   const who = `${esc(info.author_name || 'an unknown channel')}${handle ? ` (${esc(handle)})` : ''}`;
   if (src && !scam) {
-    verdict('ok', `<p><b>Trusted channel.</b> Uploaded by ${who}, one of the sources this index follows.</p><p>“${esc(info.title)}” isn't in the index, usually because the title and description don't name Elon.</p><a class="btn ghost" href="https://www.youtube.com/watch?v=${esc(id)}" target="_blank" rel="noopener">Open on YouTube</a>`);
+    verdict('ok', `<p><b>Trusted channel.</b> Uploaded by ${who}, one of the sources this index follows.</p><p>“${esc(info.title)}” isn't in the index, usually because its title doesn't name Elon or superintelligence.</p><a class="btn ghost" href="https://www.youtube.com/watch?v=${esc(id)}" target="_blank" rel="noopener">Open on YouTube</a>`);
   } else if (scam) {
     verdict('bad', `<p><b>Looks like a scam.</b> “${esc(info.title)}”, uploaded by ${who}.</p><p>The title has the marks of a crypto giveaway stream. Elon and his companies have never asked anyone to send money. Don't scan its QR codes or visit its links, and report it on YouTube.</p>`);
   } else {

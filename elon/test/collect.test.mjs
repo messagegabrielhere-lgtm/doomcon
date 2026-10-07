@@ -104,3 +104,28 @@ test('merge: an approximate date never overwrites an exact one, and an exact one
   assert.equal(out.approxDate, undefined);
   assert.equal(JSON.parse(JSON.stringify(merge(exact, [{ id: 'z', published: 'x', approxDate: true }], 'T1')[0])).approxDate, undefined);
 });
+
+test('parseChannelSearch dates a result from its accessibility label when publishedTimeText is absent', () => {
+  const v = { videoId: 'EEEEEEEEEEE', title: { runs: [{ text: 'Elon Musk at TED' }], accessibility: { accessibilityData: { label: 'Elon Musk at TED by TED 7 years ago 45 minutes 2,000,000 views' } } } };
+  const now = Date.UTC(2026, 9, 7);
+  const r = parseChannelSearch(`<script>var ytInitialData = ${JSON.stringify({ a: [{ videoRenderer: v }] })};</script>`, now);
+  assert.equal(r.videos[0].published, new Date(now - 7 * 31536e6).toISOString());
+});
+
+import { matchSI, topicsFor } from '../collect.mjs';
+
+test('matchSI: title anywhere, description only on labs and his companies', () => {
+  assert.equal(matchSI({ title: 'Ilya Sutskever on Safe Superintelligence', description: '' }, 'interview'), true);
+  assert.equal(matchSI({ title: 'The road to super-intelligent AI', description: '' }, 'news'), true);
+  assert.equal(matchSI({ title: 'Sam Altman interview', description: 'we discuss superintelligence' }, 'news'), false);
+  assert.equal(matchSI({ title: 'Research update', description: 'our approach to superintelligence' }, 'lab'), true);
+  assert.equal(matchSI({ title: 'ASI and you', description: '' }, 'news'), false);
+});
+
+test('topicsFor tags a clip with every topic it matches', () => {
+  assert.deepEqual(topicsFor({ title: 'Elon Musk: superintelligence is coming', description: '' }, 'news'), ['elon', 'si']);
+  assert.deepEqual(topicsFor({ title: 'Superintelligence explained', description: '' }, 'interview'), ['si']);
+  assert.deepEqual(topicsFor({ title: 'Markets today', description: '' }, 'news'), []);
+  // Event keywords are for his companies only, never for an AI lab.
+  assert.deepEqual(topicsFor({ title: 'Summer update', description: '' }, 'lab'), []);
+});
