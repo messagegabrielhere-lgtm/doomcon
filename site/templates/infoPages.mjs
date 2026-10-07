@@ -91,7 +91,11 @@ export function privacy(ctx) {
       the <b>world monitor</b> (USGS, NASA EONET, GDACS, GDELT, OpenSky, ADSB.lol, airplanes.live, OKX, alternative.me),
       the <b>scanner</b> (OKX, Polymarket, DEX Screener, alternative.me), and the <b>stock picks and AI battle</b> page.
       All three also read this project's own data files from GitHub (raw.githubusercontent.com).
-      Every other page loads only files from this site.</li>
+      Every other page loads only files from this site, except the one below.</li>
+    <li><b>Real Clips.</b> The clips page shows video thumbnails served by YouTube (i.ytimg.com), so Google receives your IP
+      address when the page loads. Playing a clip opens YouTube's privacy-enhanced player (youtube-nocookie.com), which sets
+      no tracking cookies until you play, under Google's policy. The link checker looks up the link you paste through
+      noembed.com. The clip list itself is read from GitHub.</li>
     <li><b>Optional local AI.</b> The monitor can talk to an Ollama model running on your own computer if you turn it on. That
       connection stays on your machine; nothing is sent to this site.</li>
     <li><b>Links out.</b> Clicking a link to X, Amazon, a news source or a data source takes you to that site under its own
@@ -188,7 +192,7 @@ export function terms(ctx) {
       not statements of fact about anyone's conduct, character, safety record or intentions.</li>
     <li>Trade disclosures by members of Congress and investors are reproduced from public filings and may be delayed or
       incomplete. Showing a trade implies no wrongdoing.</li>
-    <li>Headlines, posts, quotes and excerpts from news outlets, X and other sources are attributed and linked to where they
+    <li>Headlines, posts, videos, quotes and excerpts from news outlets, X, YouTube and other sources are attributed and linked to where they
       came from. They are the words and opinions of their authors, not of ${esc(brand.NAME)}, and are shown for reporting and
       commentary.</li>
     <li>Illustrated portraits of public figures are generated artwork, not photographs. They are used to identify the person in
