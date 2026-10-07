@@ -278,7 +278,10 @@ function render() {
     ? `${list.length.toLocaleString()} clip${list.length === 1 ? '' : 's'}${state.q || state.tier || state.chan ? ' match' : ''}`
     : '';
   const e = $('empty');
-  if (state.all.length && !list.length) {
+  if (state.loaded && !state.all.length) {
+    e.hidden = false;
+    e.innerHTML = `<b>No clips yet.</b>The index checks every source hourly and adds each new video that names him. The link checker above works for any YouTube link meanwhile.`;
+  } else if (state.all.length && !list.length) {
     e.hidden = false;
     e.innerHTML = `<b>No clips match.</b>Try fewer words, or switch the source filter back to All.`;
   } else if (state.all.length) e.hidden = true;
@@ -464,6 +467,7 @@ async function load() {
   state.sources = data.sources || [];
   state.all = (data.clips || []).map((c) => ({ ...c, _hay: `${c.title} ${c.channel} ${c.handle} ${c.description || ''}`.toLowerCase() }));
   state.byId = new Map(state.all.map((c) => [c.id, c]));
+  state.loaded = true;
   renderSources(data.generated);
   fillChannels();
   syncControls();
