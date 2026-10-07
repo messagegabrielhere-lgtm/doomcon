@@ -46,6 +46,10 @@ test('matchElon: name anywhere, events only on official channels, no muskrats', 
   assert.equal(matchElon(b, 'news'), null);
   assert.equal(matchElon(c, 'official'), null);
   assert.equal(matchElon({ title: "Musk's plan", description: '' }, 'news'), 'name');
+  // Passing mention in an interview description is not a clip of him; in his own company's it is.
+  assert.equal(matchElon({ title: 'Jensen Huang: NVIDIA', description: '01:02:03 - Elon Musk' }, 'interview'), null);
+  assert.equal(matchElon({ title: 'Optimus update', description: 'Elon Musk walks through Optimus' }, 'official'), 'name');
+  assert.equal(matchElon({ title: 'POV Hailing a Cybercab', description: '' }, 'official'), null);
 });
 
 test('channelIdFromPage', () => {
