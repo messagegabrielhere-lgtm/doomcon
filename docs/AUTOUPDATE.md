@@ -38,8 +38,12 @@ once.
 
 `news.mjs` → if items changed → `build.mjs --only news` → overlay-publish
 newsroom files onto `gh-pages`. Measured ~1.2s for the news-only build vs
-~9s for a full wipe rebuild; the overlay push avoids re-tarring ~90MB when
-only the newsroom moved. Cards and the posting sheet stay on the hourly lane.
+~9s for a full wipe rebuild; unchanged item briefs keep their bytes so a
+one-story tick does not rewrite ~400 pages. The overlay keeps a persistent
+`.pages` clone across the hour (fetch+reset, not a fresh ~100MB clone each
+publish) and rsyncs `item/` / `news/` so only moved files transfer — avoiding
+a full ~90MB retar when only the newsroom moved. Cards and the posting sheet
+stay on the hourly lane.
 
 It does **not** run the index engine. That is a correctness rule, not a saving.
 Receipts are append-only and the anti-flap machinery measures dwell in hours; an
@@ -54,7 +58,7 @@ GitHub keeps only one pending run per group, so the extra ones are cancelled
 anyway. Fifteen minutes gives a late run room to land before the next one is
 due, and it keeps the publish rate inside what GitHub Pages is comfortable
 serving. The marginal freshness 5 would buy is in any case already covered by
-layer 3, which is polling every sixty seconds from the reader's own browser.
+layer 3, which is polling every thirty seconds from the reader's own browser.
 
 **Why it commits `data/news.json` on every pass, even a pass that changed
 nothing.** That file carries the per-source cadence ledger
