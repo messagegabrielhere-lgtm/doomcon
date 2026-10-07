@@ -1233,8 +1233,6 @@ ${ogImage}
 <link rel="alternate" type="application/rss+xml" title="${esc(brand.NAME)} index moves" href="${esc(ctx.href('/feed.xml'))}">
 <link rel="alternate" type="application/rss+xml" title="${esc(brand.NAME)} level changes only" href="${esc(ctx.href('/feed-level.xml'))}">
 <link rel="stylesheet" href="${esc(ctx.href(FONT_HREF))}">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
 ${marks.headLinks({ href: ctx.href })}
 ${ctx.cssHref
   ? `<link rel="stylesheet" href="${esc(ctx.cssHref)}">`
