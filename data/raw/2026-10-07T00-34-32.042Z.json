@@ -1,0 +1,720 @@
+{
+  "schema": 1,
+  "generated_at": "2026-10-07T00:34:32.042Z",
+  "readings": [
+    {
+      "source": "arxiv",
+      "pillar": "capability",
+      "ok": true,
+      "value": 2749,
+      "unit": "papers/7d",
+      "observed_at": "2026-10-07T00:34:32.060Z",
+      "meta": {
+        "window_days": 7,
+        "window_from": "202609300034",
+        "window_to": "202610070034",
+        "categories": [
+          "cs.AI",
+          "cs.LG",
+          "cs.CL"
+        ]
+      }
+    },
+    {
+      "source": "github-releases",
+      "pillar": "capability",
+      "ok": true,
+      "value": 78,
+      "unit": "releases/30d",
+      "observed_at": "2026-10-07T00:34:32.061Z",
+      "meta": {
+        "window_days": 30,
+        "repos": 13,
+        "feed_cap": 10,
+        "truncated_repos": [
+          "openai/openai-python",
+          "vllm-project/vllm",
+          "ollama/ollama",
+          "unslothai/unsloth",
+          "langchain-ai/langchain"
+        ],
+        "per_repo": {
+          "openai/openai-python": 10,
+          "openai/openai-agents-python": 5,
+          "anthropics/anthropic-sdk-python": 7,
+          "googleapis/python-genai": 6,
+          "vllm-project/vllm": 10,
+          "sgl-project/sglang": 2,
+          "ollama/ollama": 10,
+          "huggingface/transformers": 3,
+          "huggingface/diffusers": 1,
+          "unslothai/unsloth": 10,
+          "langchain-ai/langchain": 10,
+          "run-llama/llama_index": 1,
+          "modelcontextprotocol/python-sdk": 3
+        }
+      }
+    },
+    {
+      "source": "huggingface",
+      "pillar": "capability",
+      "ok": true,
+      "value": 3701,
+      "unit": "models/24h",
+      "observed_at": "2026-10-07T00:34:32.061Z",
+      "meta": {
+        "window_hours": 24,
+        "pages_fetched": 4,
+        "page_size": 1000,
+        "oldest_scanned": "2026-10-05T22:51:26.000Z"
+      }
+    },
+    {
+      "source": "openrouter",
+      "pillar": "capability",
+      "ok": true,
+      "value": 53,
+      "unit": "models/30d",
+      "observed_at": "2026-10-07T00:34:32.061Z",
+      "meta": {
+        "window_days": 30,
+        "catalogue_size": 466,
+        "newest_listed_at": "2026-10-06T15:33:45.000Z"
+      }
+    },
+    {
+      "source": "sec-fts",
+      "pillar": "compute",
+      "ok": false,
+      "error": "HTTP 403 Forbidden from https://efts.sec.gov/LATEST/search-index?q=%22artificial+intelligence%22&dateRange=custom&startdt=2026-09-07&enddt=2026-10-07 — <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\"> <html xmlns=\"http://www.w3.org/1999/xhtml\"> <head> <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" /> <title>SEC.gov | Your Request Originates from an Undeclar…",
+      "value": null
+    },
+    {
+      "source": "stockanalysis",
+      "pillar": "compute",
+      "ok": true,
+      "value": 1.8325,
+      "unit": "mean_abs_percent_change",
+      "observed_at": "2026-10-07T00:34:32.718Z",
+      "meta": {
+        "basket": [
+          "NVDA",
+          "AMD",
+          "TSM",
+          "AVGO"
+        ],
+        "quotes": [
+          {
+            "ticker": "NVDA",
+            "cp": 0.14,
+            "price": 239.24,
+            "trade_date": "2026-10-06",
+            "market_state": "closed"
+          },
+          {
+            "ticker": "AMD",
+            "cp": 2.8,
+            "price": 649.42,
+            "trade_date": "2026-10-06",
+            "market_state": "closed"
+          },
+          {
+            "ticker": "TSM",
+            "cp": -0.72,
+            "price": 482.3,
+            "trade_date": "2026-10-06",
+            "market_state": "closed"
+          },
+          {
+            "ticker": "AVGO",
+            "cp": 3.67,
+            "price": 375.81,
+            "trade_date": "2026-10-06",
+            "market_state": "closed"
+          }
+        ],
+        "signed_mean_percent": 1.4725,
+        "direction": "higher = larger AI-equity repricing, in either direction",
+        "source_status": "UNOFFICIAL, Cloudflare-fronted, optional — index must never depend on it"
+      }
+    },
+    {
+      "source": "vastai",
+      "pillar": "compute",
+      "ok": true,
+      "value": 0.4285185185185185,
+      "unit": "usd/gpu/hour",
+      "observed_at": "2026-10-07T00:34:32.652Z",
+      "meta": {
+        "gpu_name": "RTX 4090",
+        "offers_returned": 64,
+        "offers_used": 64,
+        "cheapest": 0.1362962962962963,
+        "dearest": 0.4955555555555555,
+        "direction": "higher = tighter GPU spot market",
+        "source_note": "page is hard-capped at 64 offers, sorted cheapest-first; this is the market floor"
+      }
+    },
+    {
+      "source": "hn",
+      "pillar": "attention",
+      "ok": true,
+      "value": 1262,
+      "unit": "points/24h",
+      "observed_at": "2026-10-07T00:34:32.062Z",
+      "meta": {
+        "stories": 166,
+        "comments": 924,
+        "exhaustive_count": true,
+        "window_seconds": 86400,
+        "window_start": "2026-10-06T00:34:32.000Z",
+        "window_end": "2026-10-07T00:34:32.062Z",
+        "query": "AI (title only, tags=story)"
+      }
+    },
+    {
+      "source": "wikipedia",
+      "pillar": "attention",
+      "ok": true,
+      "value": 92164.28571428571,
+      "unit": "pageviews/day",
+      "observed_at": "2026-10-05T23:59:59.999Z",
+      "meta": {
+        "per_article_mean": {
+          "Artificial_intelligence": 20810.14285714286,
+          "Large_language_model": 3669.8571428571427,
+          "Artificial_general_intelligence": 1709.5714285714287,
+          "OpenAI": 9031.142857142857,
+          "ChatGPT": 44369.28571428572,
+          "Anthropic": 9085.42857142857,
+          "Machine_learning": 1991.857142857143,
+          "Google_DeepMind": 1192,
+          "Generative_artificial_intelligence": 305
+        },
+        "articles": 9,
+        "window_days": 7,
+        "window_start": "2026092900",
+        "window_end": "2026100500",
+        "fetched_at": "2026-10-07T00:34:32.063Z"
+      }
+    },
+    {
+      "source": "federal-register",
+      "pillar": "governance",
+      "ok": true,
+      "value": 31,
+      "unit": "documents/30d",
+      "observed_at": "2026-10-07T00:34:32.063Z",
+      "meta": {
+        "window_days": 30,
+        "window_start": "2026-09-08",
+        "window_end": "2026-10-07",
+        "term": "artificial intelligence",
+        "api_description": "Documents matching 'artificial intelligence' and published from 09/08/2026 to 10/07/2026"
+      }
+    },
+    {
+      "source": "govuk",
+      "pillar": "governance",
+      "ok": true,
+      "value": 145,
+      "unit": "documents/30d",
+      "observed_at": "2026-10-07T00:34:32.063Z",
+      "meta": {
+        "window_days": 30,
+        "window_start": "2026-09-08",
+        "window_end": "2026-10-07",
+        "query": "\"artificial intelligence\""
+      }
+    },
+    {
+      "source": "kalshi",
+      "pillar": "markets",
+      "ok": true,
+      "value": 0.01812394563280982,
+      "unit": "prob_points/day",
+      "observed_at": "2026-10-07T00:34:41.906Z",
+      "meta": {
+        "endpoint": "trade-api/v2",
+        "series_probed": 30,
+        "series_ok": 30,
+        "series_failed": 0,
+        "series_failures": [],
+        "events_open": 34,
+        "markets_screened": 141,
+        "markets_in_basket": 113,
+        "rejected": {
+          "not_active": 18,
+          "no_24h_reference": 10
+        },
+        "rejected_off_topic": 0,
+        "text_gate_misses": 35,
+        "total_volume_contracts": 3861601.8099999996,
+        "max_single_market_weight": 0.10235744373654104,
+        "legacy_integer_fields_seen": 0,
+        "unweighted_mean_yes_price": 0.2974159292035399,
+        "discovery": {
+          "ok": true,
+          "category": "Science and Technology",
+          "freeze_date": "2026-09-23",
+          "series_in_category": 375,
+          "ai_tagged_now": 154,
+          "basket_members_ai_tagged_here": 18,
+          "ai_tagged_not_in_basket": 136,
+          "ai_tagged_not_in_basket_updated_since_freeze": 66,
+          "ai_tagged_refreeze_candidates": [
+            "KXA100MAX",
+            "KXA100MON",
+            "KXA100Q",
+            "KXA100W",
+            "KXAIOPEN",
+            "KXALTMAN",
+            "KXANTHPERSONALAGENT",
+            "KXAPPLEAI",
+            "KXARCAGI2",
+            "KXARENASCORE",
+            "KXB200MAX",
+            "KXB200MON"
+          ]
+        },
+        "top_contributors": [
+          {
+            "question": "When will OpenAI achieve AGI? — Before 2030",
+            "ticker": "OAIAGI-29",
+            "move": 0.05400000000000005,
+            "volume": 197586.03
+          },
+          {
+            "question": "Will OpenAI increase the cost of ChatGPT? — Before 2027",
+            "ticker": "KXGPTCOST-27",
+            "move": 0.05000000000000002,
+            "volume": 174055.97
+          },
+          {
+            "question": "Tesla Optimus released this year? — Before 2027",
+            "ticker": "TESLAOPTIMUS-26DEC31",
+            "move": 0.020000000000000004,
+            "volume": 395263.69
+          },
+          {
+            "question": "When will OpenAI achieve AGI? — Before 2027",
+            "ticker": "OAIAGI-26",
+            "move": 0.01899999999999999,
+            "volume": 358479.56
+          },
+          {
+            "question": "Will a Chinese AI model be #1 this year? — Before 2027",
+            "ticker": "KXBESTLLMCHINA-27",
+            "move": 0.039999999999999994,
+            "volume": 139027.89
+          },
+          {
+            "question": "Where will Waymo operate in 2026? — Denver, CO",
+            "ticker": "KXWAYMOCITY-26DEC-DEN",
+            "move": 0.039999999999999925,
+            "volume": 121969.33
+          },
+          {
+            "question": "When will Anthropic release Mythos? — Before Nov 1, 2026",
+            "ticker": "KXCLAUDE-MYTH-26NOV01",
+            "move": 0.019999999999999997,
+            "volume": 217052.91
+          },
+          {
+            "question": "When will Google release Gemini 4? — Before Oct 16, 2026",
+            "ticker": "KXGEMINI-GEM4-26OCT16",
+            "move": 0.05999999999999994,
+            "volume": 43194.24
+          }
+        ],
+        "top_markets": [
+          {
+            "question": "Tesla Optimus released this year? — Before 2027",
+            "url": "https://kalshi.com/markets/kxteslaoptimus",
+            "probability": 0.08,
+            "volume": 395263.69,
+            "volume_unit": "contracts",
+            "close_time": "2026-12-31T04:59:00Z",
+            "source": "kalshi"
+          },
+          {
+            "question": "When will OpenAI achieve AGI? — Before 2027",
+            "url": "https://kalshi.com/markets/kxoaiagi",
+            "probability": 0.1,
+            "volume": 358479.56,
+            "volume_unit": "contracts",
+            "close_time": "2027-01-01T04:59:00Z",
+            "source": "kalshi"
+          },
+          {
+            "question": "When will Anthropic release Mythos? — Before Jan 1, 2027",
+            "url": "https://kalshi.com/markets/kxclaude",
+            "probability": 0.09,
+            "volume": 278816.1,
+            "volume_unit": "contracts",
+            "close_time": "2027-01-01T04:59:00Z",
+            "source": "kalshi"
+          },
+          {
+            "question": "Will OpenAI increase the cost of ChatGPT? — Before 2027",
+            "url": "https://kalshi.com/markets/kxgptcost",
+            "probability": 0.17,
+            "volume": 174055.97,
+            "volume_unit": "contracts",
+            "close_time": "2027-01-01T15:00:00Z",
+            "source": "kalshi"
+          },
+          {
+            "question": "Which companies will have a top-ranked AI model this year? — OpenAI",
+            "url": "https://kalshi.com/markets/kxtopai",
+            "probability": 0.17,
+            "volume": 154053.05,
+            "volume_unit": "contracts",
+            "close_time": "2027-01-01T15:00:00Z",
+            "source": "kalshi"
+          },
+          {
+            "question": "Will a Chinese AI model be #1 this year? — Before 2027",
+            "url": "https://kalshi.com/markets/kxbestllmchina",
+            "probability": 0.11,
+            "volume": 139027.89,
+            "volume_unit": "contracts",
+            "close_time": "2027-01-01T15:00:00Z",
+            "source": "kalshi"
+          },
+          {
+            "question": "Where will Waymo operate in 2026? — Denver, CO",
+            "url": "https://kalshi.com/markets/kxwaymocity",
+            "probability": 0.85,
+            "volume": 121969.33,
+            "volume_unit": "contracts",
+            "close_time": "2026-12-31T15:00:00Z",
+            "source": "kalshi"
+          },
+          {
+            "question": "Will Meta release Llama 5 this year? — Before 2027",
+            "url": "https://kalshi.com/markets/kxllama5",
+            "probability": 0.03,
+            "volume": 80314.78,
+            "volume_unit": "contracts",
+            "close_time": "2027-01-01T15:00:00Z",
+            "source": "kalshi"
+          }
+        ],
+        "direction": "higher = regulated real-money AI markets repricing harder",
+        "definition": "volume-weighted mean |24h YES price change| across live independent non-ladder binary AI markets on Kalshi, weights = lifetime contract volume"
+      }
+    },
+    {
+      "source": "manifold",
+      "pillar": "markets",
+      "ok": true,
+      "value": 31578.133597488828,
+      "unit": "mana/24h",
+      "observed_at": "2026-10-07T00:34:33.457Z",
+      "meta": {
+        "terms": [
+          "AGI",
+          "artificial general intelligence",
+          "superintelligence",
+          "AI capabilities",
+          "OpenAI",
+          "Anthropic"
+        ],
+        "markets_in_basket": 232,
+        "markets_screened": 300,
+        "rejected": {
+          "off_topic": 17
+        },
+        "rejected_off_topic": 17,
+        "total_volume_lifetime_mana": 3195693.7671853555,
+        "mean_probability": 0.4038834377212517,
+        "top_contributors": [
+          {
+            "question": "Will Anthropic announce a solution to the Navier-Stokes Millennium problem before IPO? ",
+            "slug": "did-claude-just-solve-navier-stokes",
+            "volume_24h": 20156.453841201557
+          },
+          {
+            "question": "Anthropic flips Apple before 2030?",
+            "slug": "anthropic-laps-apple-in-2030",
+            "volume_24h": 1994.2042128278051
+          },
+          {
+            "question": "8. AI a central issue in the 2026 U.S. midterms. Politics get complex, especially  regarding job loss [See full title!]",
+            "slug": "8-ai-a-central-issue-in-the-2026-us",
+            "volume_24h": 1249.9999999999998
+          },
+          {
+            "question": "Will we get AGI before 2027?",
+            "slug": "will-we-get-agi-before-2027-d7b5f2b00ace",
+            "volume_24h": 1184.861588920764
+          },
+          {
+            "question": "OpenAI discovers the first proof of the Riemann Hypothesis before 2027?",
+            "slug": "openai-discovers-the-first-proof-of",
+            "volume_24h": 1158.9
+          },
+          {
+            "question": "Will Anthropic release a new Claude Fable model before October 12, 2026?",
+            "slug": "will-anthropic-release-a-new-claude-8sCn2czguE",
+            "volume_24h": 817.6096663680648
+          },
+          {
+            "question": "Will we get AGI before July 1st 2031?",
+            "slug": "will-we-get-agi-before-july-1st-203-18f65a39a6d2",
+            "volume_24h": 665.1839479273902
+          },
+          {
+            "question": "Will Anthropic’s IPO S-1 be public by 16 October 2026?",
+            "slug": "will-anthropics-ipo-s1-be-public-by",
+            "volume_24h": 568.5582199616006
+          }
+        ],
+        "top_markets": [
+          {
+            "question": "Anthropic flips Apple before 2030?",
+            "url": "https://manifold.markets/Bayesian/anthropic-laps-apple-in-2030",
+            "probability": 0.436,
+            "volume": 484367.76175141573,
+            "volume_unit": "mana",
+            "close_time": "2030-12-31T23:59:00.000Z",
+            "source": "manifold"
+          },
+          {
+            "question": "Will Anthropic announce a solution to the Navier-Stokes Millennium problem before IPO? ",
+            "url": "https://manifold.markets/Bayesian/did-claude-just-solve-navier-stokes",
+            "probability": 0.026,
+            "volume": 430380.33411708835,
+            "volume_unit": "mana",
+            "close_time": "2026-11-30T06:47:00.000Z",
+            "source": "manifold"
+          },
+          {
+            "question": "Will we get AGI before 2027?",
+            "url": "https://manifold.markets/RemNi/will-we-get-agi-before-2027-d7b5f2b00ace",
+            "probability": 0.024,
+            "volume": 279446.6092895375,
+            "volume_unit": "mana",
+            "close_time": "2027-03-01T22:59:00.000Z",
+            "source": "manifold"
+          },
+          {
+            "question": "Will we get AGI before 2028?",
+            "url": "https://manifold.markets/RemNi/will-we-get-agi-before-2028-ff560f9e9346",
+            "probability": 0.23,
+            "volume": 172101.3100006177,
+            "volume_unit": "mana",
+            "close_time": "2028-03-03T22:59:00.000Z",
+            "source": "manifold"
+          },
+          {
+            "question": "Will we get AGI before 2030?",
+            "url": "https://manifold.markets/RemNi/will-we-get-agi-before-2030",
+            "probability": 0.487,
+            "volume": 139039.02057916956,
+            "volume_unit": "mana",
+            "close_time": "2030-03-01T22:59:00.000Z",
+            "source": "manifold"
+          },
+          {
+            "question": "Will we get AGI before 2029?",
+            "url": "https://manifold.markets/RemNi/will-we-get-agi-before-2029-ef1c187271ed",
+            "probability": 0.418,
+            "volume": 109293.9369309986,
+            "volume_unit": "mana",
+            "close_time": "2029-03-01T22:59:00.000Z",
+            "source": "manifold"
+          },
+          {
+            "question": "Will artificial superintelligence exist by 2030?  [resolves N/A in 2027]",
+            "url": "https://manifold.markets/EliezerYudkowsky/will-artificial-superintelligence-e",
+            "probability": 0.273,
+            "volume": 106669.74032679183,
+            "volume_unit": "mana",
+            "close_time": "2027-01-02T07:59:00.000Z",
+            "source": "manifold"
+          },
+          {
+            "question": "Conditional on no existential catastrophe, will there be a superintelligence by 2040?",
+            "url": "https://manifold.markets/IsaacKing/will-there-be-a-superintelligence-b-ebf6057128a0",
+            "probability": 0.75,
+            "volume": 96094.3119417515,
+            "volume_unit": "mana",
+            "close_time": "2040-01-01T08:00:00.000Z",
+            "source": "manifold"
+          }
+        ],
+        "direction": "higher = more play-money volume on live AI questions",
+        "definition": "sum of 24h MANA volume across live binary AI markets matching fixed terms"
+      }
+    },
+    {
+      "source": "polymarket",
+      "pillar": "markets",
+      "ok": true,
+      "value": 0.0170781277103168,
+      "unit": "prob_points/day",
+      "observed_at": "2026-10-07T00:34:35.627Z",
+      "meta": {
+        "terms": [
+          "AGI",
+          "artificial general intelligence",
+          "superintelligence",
+          "AI model",
+          "AI safety",
+          "AI regulation",
+          "OpenAI",
+          "Anthropic",
+          "Google DeepMind",
+          "xAI",
+          "DeepSeek",
+          "ChatGPT"
+        ],
+        "markets_screened": 4213,
+        "markets_passing_screen": 250,
+        "markets_in_basket": 72,
+        "events_in_basket": 72,
+        "rejected": {
+          "off_topic": 410,
+          "ladder_leg_collapsed": 178,
+          "no_1d_reference": 111,
+          "neg_risk": 1918,
+          "not_tradeable": 1500,
+          "not_binary": 21,
+          "never_traded": 3
+        },
+        "rejected_off_topic": 410,
+        "total_volume_usd": 7366748.379790001,
+        "max_single_market_weight": 0.1785412769562375,
+        "unweighted_mean_yes_price": 0.28204861111111107,
+        "top_contributors": [
+          {
+            "question": "Will Anthropic's valuation hit (HIGH) $3.0T by December 31?",
+            "slug": "will-anthropics-valuation-hit-high-3pt0t-by-december-31",
+            "move": 0.035,
+            "volume": 1315268.6627430003
+          },
+          {
+            "question": "OpenAI IPO closing market cap above $1T?",
+            "slug": "openai-ipo-closing-market-cap-above-1t",
+            "move": 0.025,
+            "volume": 1055599.453426
+          },
+          {
+            "question": "Will OpenAI announce another Millennium Prize solution by December 31, 2026?",
+            "slug": "will-openai-announce-another-millennium-prize-solution-by-december-31-2026",
+            "move": 0.07,
+            "volume": 251935.97130499996
+          },
+          {
+            "question": "Will OpenAI announce earbuds or headphones in 2026?",
+            "slug": "will-openai-announce-earbuds-or-headphones-in-2026",
+            "move": 0.055,
+            "volume": 125020.264165
+          },
+          {
+            "question": "Will Anthropic flip BTC by December 31?",
+            "slug": "will-anthropic-flip-btc-by-december-31",
+            "move": 0.03,
+            "volume": 201676.769368
+          },
+          {
+            "question": "Will the next Google Gemini Pro model debut with a Humanity’s Last Exam score of 50% or higher?",
+            "slug": "will-the-next-google-gemini-pro-model-debut-with-a-humanitys-last-exam-score-of-50-or-higher-20260729192434647",
+            "move": 0.11,
+            "volume": 32529.122127
+          },
+          {
+            "question": "Will any AI model reach 1560 Coding Arena Score by December 31, 2026?",
+            "slug": "will-any-ai-model-reach-1560-coding-arena-score-by-december-31-2026",
+            "move": 0.015,
+            "volume": 121379.99631399997
+          },
+          {
+            "question": "OpenAI announces it has achieved AGI before 2027?",
+            "slug": "openai-announces-it-has-achieved-agi-before-2027",
+            "move": 0.005,
+            "volume": 312032.448691
+          }
+        ],
+        "top_markets": [
+          {
+            "question": "Will Anthropic's valuation hit (HIGH) $3.0T by December 31?",
+            "url": "https://polymarket.com/event/will-anthropics-valuation-hit-by-december-31",
+            "probability": 0.265,
+            "volume": 1315268.6627430003,
+            "volume_unit": "usd",
+            "close_time": "2027-01-05T04:59:00Z",
+            "source": "polymarket"
+          },
+          {
+            "question": "Will Anthropic IPO by October 31, 2026?",
+            "url": "https://polymarket.com/event/anthropic-ipo-by",
+            "probability": 0.013,
+            "volume": 1154827.2928259997,
+            "volume_unit": "usd",
+            "close_time": "2026-11-01T03:59:00Z",
+            "source": "polymarket"
+          },
+          {
+            "question": "OpenAI IPO closing market cap above $1T?",
+            "url": "https://polymarket.com/event/openai-ipo-closing-market-cap-above",
+            "probability": 0.71,
+            "volume": 1055599.453426,
+            "volume_unit": "usd",
+            "close_time": "2028-01-01T04:59:00Z",
+            "source": "polymarket"
+          },
+          {
+            "question": "Will OpenAI IPO by December 31 2026?",
+            "url": "https://polymarket.com/event/openai-ipo-by",
+            "probability": 0.038,
+            "volume": 1043376.77312,
+            "volume_unit": "usd",
+            "close_time": "2027-01-01T04:59:00Z",
+            "source": "polymarket"
+          },
+          {
+            "question": "OpenAI IPO before 2027?",
+            "url": "https://polymarket.com/event/ipos-before-2027",
+            "probability": 0.029,
+            "volume": 591217.8646040002,
+            "volume_unit": "usd",
+            "close_time": "2027-01-01T04:59:00Z",
+            "source": "polymarket"
+          },
+          {
+            "question": "OpenAI announces it has achieved AGI before 2027?",
+            "url": "https://polymarket.com/event/openai-announces-it-has-achieved-agi-before-2027",
+            "probability": 0.155,
+            "volume": 312032.448691,
+            "volume_unit": "usd",
+            "close_time": "2027-01-01T04:59:00Z",
+            "source": "polymarket"
+          },
+          {
+            "question": "Will OpenAI announce another Millennium Prize solution by December 31, 2026?",
+            "url": "https://polymarket.com/event/openai-announces-another-millennium-prize-solution-by",
+            "probability": 0.265,
+            "volume": 251935.97130499996,
+            "volume_unit": "usd",
+            "close_time": "2027-01-01T04:59:00Z",
+            "source": "polymarket"
+          },
+          {
+            "question": "Will Anthropic flip BTC by December 31?",
+            "url": "https://polymarket.com/event/will-anthropic-flip-btc-by-december-31",
+            "probability": 0.67,
+            "volume": 201676.769368,
+            "volume_unit": "usd",
+            "close_time": "2027-01-01T04:59:00Z",
+            "source": "polymarket"
+          }
+        ],
+        "direction": "higher = live-money AI markets repricing harder",
+        "definition": "volume-weighted mean |1-day YES price change| across live independent binary AI questions, one member per event (deepest-traded leg), negRisk excluded"
+      }
+    }
+  ]
+}
