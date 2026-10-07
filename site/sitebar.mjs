@@ -82,7 +82,7 @@ export function sitebar(asOf) {
 </div>`;
 }
 
-export const disclosureHtml = () => `\n<aside class="site-disclosure" ${MARK} role="note"><b>Disclosure:</b> ${DISCLOSURE}</aside>`;
+export const disclosureHtml = () => `\n<aside class="site-disclosure" ${MARK} role="note"><b>Disclosure:</b> ${DISCLOSURE} <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a></aside>`;
 
 // Add the bar and, unless the page carries its own, the disclosure.
 export function stamp(html, asOf) {

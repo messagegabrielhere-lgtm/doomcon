@@ -825,6 +825,7 @@ const PAL_EXTRA = [
   { href: '/moves/', label: 'Every reading', blurb: 'The full record, each with its receipt.' },
   { href: '/sponsor.html', label: 'Sponsor', blurb: 'One named sponsor at a time.' },
   { href: '/privacy.html', label: 'Privacy', blurb: 'No cookies, no analytics.' },
+  { href: '/terms.html', label: 'Terms', blurb: 'How to read and reuse this site.' },
 ];
 const TAB_ROOMS = [['/', 'War room'], ['/news.html', 'News'], ['/race.html', 'Race'], ['/world.html', 'World']];
 function navKit(ctx, tiles, path) {
@@ -1471,7 +1472,8 @@ function footer(ctx, sections, path) {
     { href: '/brand.html', label: 'Brand', blurb: 'Name, colours, type, voice and Tally to download.' },
     { href: '/press.html', label: 'Press kit', blurb: 'Facts, a paragraph to lift, images and a contact.' },
     { href: '/privacy.html', label: 'Privacy', blurb: 'No cookies, no analytics. Every trace a visit can leave.' },
-    { href: brand.REPO_URL, label: 'Source code', blurb: `Every line that produced these numbers. ${brand.LICENSE}.` },
+    { href: '/terms.html', label: 'Terms', blurb: 'Information not advice; licences for code and data; no warranties.' },
+    { href: brand.REPO_URL, label: 'Source code', blurb: `Every line that produced these numbers. Code MIT; data ${brand.LICENSE}.` },
   ];
   if (brand.X_URL) {
     source.push({

@@ -25,6 +25,7 @@ export function render(ctx) {
     { loc: '/press.html', changefreq: 'weekly', priority: '0.6', lastmod: ctx.state.generated_at },
     { loc: '/about.html', changefreq: 'monthly', priority: '0.5', lastmod: ctx.state.generated_at },
     { loc: '/privacy.html', changefreq: 'monthly', priority: '0.3', lastmod: ctx.state.generated_at },
+    { loc: '/terms.html', changefreq: 'monthly', priority: '0.3', lastmod: ctx.state.generated_at },
     { loc: '/bets.html', changefreq: 'daily', priority: '0.8', lastmod: ctx.state.generated_at },
     { loc: '/desk.html', changefreq: 'hourly', priority: '0.7', lastmod: ctx.state.generated_at },
     { loc: '/game.html', changefreq: 'monthly', priority: '0.6', lastmod: ctx.state.generated_at },

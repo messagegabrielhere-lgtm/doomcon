@@ -34,7 +34,8 @@ const CASES = {
   },
   'email-capture': {
     bad: [F('a.html', '<form><input type="email" name="email"></form>')],
-    good: [F('a.html', '<form><input type="email" name="email"> <a href="/privacy.html">Privacy</a></form>')],
+    // RSS feed URLs on newsletter hosts are news sources, not email capture.
+    good: [F('a.html', '<form><input type="email" name="email"> <a href="/privacy.html">Privacy</a></form>'), F('src.mjs', "url: 'https://importai.substack.com/feed'")],
   },
   'can-spam': {
     bad: [F('send.mjs', "import nodemailer from 'nodemailer'; nodemailer.createTransport({}).sendMail({ html: 'We launched!' })")],
@@ -92,6 +93,14 @@ const CASES = {
   'privacy-page': {
     bad: [F('a.html', '<p>hi</p>')],
     good: [F('a.html', '<a href="/privacy.html">Privacy</a>')],
+  },
+  'terms-page': {
+    bad: [F('a.html', '<p>hi</p>')],
+    good: [F('a.html', '<a href="/terms.html">Terms</a>')],
+  },
+  'finance-legal-links': {
+    bad: [F('a.html', '<p class="legal-note">Not financial advice.</p>')],
+    good: [F('a.html', '<p class="legal-note">Not financial advice. <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a></p>')],
   },
 };
 
