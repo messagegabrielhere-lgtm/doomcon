@@ -7,9 +7,9 @@
 # holds yesterday's ARK holdings (to diff against) and the House reports
 # already parsed; delete the branch to start over.
 #
-# SEC asks automated clients to identify themselves in the User-Agent. Set the
-# repository variable SEC_UA (for example "yoursite admin@example.com") to use
-# your own; the default names this repository and its bot address.
+# SEC refuses automated clients unless the User-Agent names who is asking with
+# a contact email. The default below is the repository owner's; the repository
+# variable SEC_UA (for example "yoursite admin@example.com") overrides it.
 
 name: investors
 
@@ -57,7 +57,8 @@ jobs:
 
       - name: Collect
         env:
-          SEC_UA: ${{ vars.SEC_UA }}
+          # The owner's contact, at their request; the variable overrides it.
+          SEC_UA: ${{ vars.SEC_UA || 'doomcon messagegabrielhere@gmail.com' }}
         run: node investors/collect.mjs --dir "$RUNNER_TEMP/investors"
 
       - name: Publish to investors-data
