@@ -747,7 +747,9 @@ ${oven.render(ctx)}
     <li><code>${esc(ctx.url('/api/state.json'))}</code> <span>current level, score, pillars and per-source health</span></li>
     <li><code>${esc(ctx.url('/api/history.json'))}</code> <span>every scored observation</span></li>
     <li><code>${esc(ctx.url('/api/health.json'))}</code> <span>per-source success, honestly reported</span></li>
+    <li><code>${esc(ctx.url('/api/receipts/'))}</code> <span>index of every receipt, HTML and JSON</span></li>
     <li><code>${esc(ctx.url('/api/receipts/'))}&lt;id&gt;.json</code> <span>the hash-chained receipt behind one observation</span></li>
+    <li><code>${esc(ctx.url('/openapi.json'))}</code> <span>OpenAPI 3.1 discovery document</span></li>
   </ul>
   <p class="fresh__key">Static files. No key, no rate limit, ${esc(brand.LICENSE)}. Attribution: ${esc(brand.DOMAIN)}.</p>
 </section>
@@ -919,17 +921,21 @@ ${style}`;
     });
   }
 
+  // Head-term title: pizzint wins "current DEFCON level" by putting the query
+  // in <title>. Ours names a term nobody searches. "Live AI activity index /
+  // AI activity level today" are queries we can honestly answer — activity
+  // tempo, not risk — without claiming a doomsday clock we do not own.
   return page({
     ctx,
     motion: true,
     path: '/',
     title: Number.isFinite(state.score) && LEVEL_LINE[state.level]
-      ? `${brand.NAME} ${state.level}: ${LEVEL_LINE[state.level].replace(/\.$/, '')} · ${scoreTxt}`
-      : `${brand.NAME} · the AI Siren Index`,
+      ? `${brand.NAME} ${state.level} ${state.level_name} — Live AI activity index today · ${scoreTxt}/100`
+      : `${brand.NAME} — Live AI activity index today`,
     ogTitle: `${brand.NAME} ${state.level} · ${state.level_name} · ${scoreTxt}/100 — ${LEVEL_LINE[state.level] || ''}`.replace(/ — $/, ''),
     description:
-      `The AI Siren Index is at level ${state.level} of 5 (${state.level_name}), ${scoreTxt} of 100. ` +
-      `${LEVEL_LINE[state.level] || ''} Counted hourly from public data, as of ${utc(state.generated_at)}.`,
+      `Live AI activity level today: ${brand.NAME} ${state.level} of 5 (${state.level_name}), ${scoreTxt} of 100. ` +
+      `${LEVEL_LINE[state.level] || ''} How much is happening in AI — not how bad it is — counted hourly from public data, as of ${utc(state.generated_at)}.`,
     ogImage: ctx.cardFor(state.receipt_id),
     head: `<link rel="preload" as="image" type="image/avif" href="${esc(ctx.href('/img/hero-siren.avif'))}" fetchpriority="high">`,
     ogImageAlt: `${brand.NAME} ${state.level}, ${state.level_name}, score ${scoreTxt} of 100`,

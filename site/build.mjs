@@ -143,6 +143,8 @@ function llmsTxt(ctx) {
 
 - [Current reading (JSON)](${ctx.url('/api/state.json')})
 - [Every reading (JSON)](${ctx.url('/api/history.json')})
+- [OpenAPI](${ctx.url('/openapi.json')})
+- [Receipt index](${ctx.url('/api/receipts/')})
 - [Method](${ctx.url('/methodology.html')})
 - [Guide: SIREN vs DEFCON vs the Doomsday Clock vs p(doom)](${ctx.url('/guide.html')})
 - [About](${ctx.url('/about.html')})
@@ -150,6 +152,8 @@ function llmsTxt(ctx) {
 - [Is there an AI doomsday clock?](${ctx.url('/ai-doomsday-clock.html')})
 - [AI and jobs: what has been measured](${ctx.url('/jobs.html')})
 - [AI in medicine: results on the record](${ctx.url('/medicine.html')})
+- [Browse by pillar or lab](${ctx.url('/facets.html')})
+- [News sitemap](${ctx.url('/news-sitemap.xml')})
 - [Feed](${ctx.url('/feed.xml')})
 - [Bunker Kit: free tools and gear checklist](${ctx.url('/bunker-kit.html')})
 `;
@@ -162,9 +166,14 @@ import * as wattsPage from './templates/wattsPage.mjs';
 import * as digestPage from './templates/digestPage.mjs';
 import * as blissPage from './templates/blissPage.mjs';
 import * as itemPage from './templates/itemPage.mjs';
+import * as facetPages from './templates/facetPages.mjs';
+import * as newsSitemap from './templates/newsSitemap.mjs';
+import * as openapi from './templates/openapi.mjs';
 import * as mapPage from './templates/mapPage.mjs';
 import * as leadersPage from './templates/leadersPage.mjs';
 import { render as sitemap, robots } from './templates/sitemap.mjs';
+import { page as layoutPage } from './templates/layout.mjs';
+import { esc as escHtml } from './templates/_html.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -1280,6 +1289,16 @@ async function main() {
       written.push(await write(args.out, `item/${itemPage.slugFor(it)}.html`, itemPage.render(ctx, it, related)));
     }
     written.push(await write(args.out, 'item/index.html', itemPage.renderIndex(ctx)));
+
+    // Faceted landing pages — COMPETITIVE Phase 2.3. Both sides had chips and
+    // neither emitted a URL; these turn the same queries into crawlable pages.
+    for (const p of facetPages.pillarsToWrite(ctx)) {
+      written.push(await write(args.out, `pillar/${p.id}.html`, facetPages.renderPillar(ctx, p.id)));
+    }
+    for (const lab of facetPages.labsToWrite(ctx)) {
+      written.push(await write(args.out, `lab/${lab.id}.html`, facetPages.renderLab(ctx, lab)));
+    }
+    written.push(await write(args.out, 'facets.html', facetPages.renderPillarIndex(ctx)));
   }
   for (const m of moves) {
     written.push(await write(args.out, `moves/${m.id}.html`, movePage.render(ctx, m)));
@@ -1293,7 +1312,11 @@ async function main() {
   );
 
   written.push(await write(args.out, 'sitemap.xml', sitemap(ctx)));
+  // Google News channel. pizzint's is rolling (re-fetched 2026-10-07); ours
+  // was absent. Empty file is still valid XML so crawlers never 404.
+  written.push(await write(args.out, 'news-sitemap.xml', newsSitemap.render(ctx)));
   written.push(await write(args.out, 'robots.txt', robots(ctx)));
+  written.push(await write(args.out, 'openapi.json', openapi.render(ctx)));
   written.push(await write(args.out, 'feed.xml', feed.render(ctx)));
   // The quiet one: an entry only when the level itself changes.
   written.push(await write(args.out, 'feed-level.xml', feed.render(ctx, { levelOnly: true })));
@@ -1411,17 +1434,63 @@ async function main() {
     description: brand.DESCRIPTION,
     license: brand.LICENSE,
     generated_at: state.generated_at,
+    openapi: ctx.url('/openapi.json'),
     endpoints: {
       state: ctx.url('/api/state.json'),
       history: ctx.url('/api/history.json'),
       health: ctx.url('/api/health.json'),
       receipt: `${ctx.url('/api/receipts/')}{id}.json`,
+      receipts: ctx.url('/api/receipts/'),
+      news: ctx.news ? ctx.url('/api/news.json') : undefined,
       embed: ctx.url('/embed.html'),
       feed: ctx.url('/feed.xml'),
+      openapi: ctx.url('/openapi.json'),
     },
   })));
   for (const r of receipts) {
     written.push(await write(args.out, `api/receipts/${r.id}.json`, stableJson(r)));
+  }
+  // Receipt index — COMPETITIVE §1.2: /api/receipts/ 404'd, so the hash chain
+  // had nowhere for a stranger to start. Newest first; HTML for humans, JSON
+  // for machines. GitHub Pages serves index.html for the directory URL.
+  {
+    const sorted = [...receipts].sort((a, b) => String(b.id).localeCompare(String(a.id)));
+    const indexJson = {
+      schema: 1,
+      generated_at: state.generated_at,
+      count: sorted.length,
+      receipts: sorted.map((r) => ({
+        id: r.id,
+        generated_at: r.generated_at,
+        score: r.score,
+        level: r.level,
+        level_name: r.level_name,
+        hash: r.hash,
+        prev_hash: r.prev_hash,
+        url: ctx.url(`/api/receipts/${r.id}.json`),
+      })),
+    };
+    written.push(await write(args.out, 'api/receipts/index.json', stableJson(indexJson)));
+    const rows = sorted.slice(0, 200).map((r) => `<li>
+      <a href="${escHtml(ctx.href(`/api/receipts/${r.id}.json`))}"><code>${escHtml(r.id)}</code></a>
+      <span class="num">${escHtml(Number.isFinite(r.score) ? num(r.score, 1) : '—')}</span>
+      <span>${escHtml(brand.NAME)} ${escHtml(String(r.level ?? ''))} ${escHtml(r.level_name || '')}</span>
+    </li>`).join('');
+    written.push(await write(args.out, 'api/receipts/index.html', layoutPage({
+      ctx,
+      path: '/api/receipts/',
+      title: `Receipt index — every scored observation · ${brand.NAME}`,
+      description: `${sorted.length} hash-chained receipts behind the ${brand.NAME} index. Each one is independently recomputable.`,
+      main: `<article>
+        <p class="eyebrow">Receipts</p>
+        <h1>Every scored observation</h1>
+        <p class="lede">${escHtml(String(sorted.length))} hash-chained receipts. Same code, same public inputs, same number — on your machine as on ours.
+          Machine-readable: <a href="${escHtml(ctx.href('/api/receipts/index.json'))}"><code>index.json</code></a> ·
+          <a href="${escHtml(ctx.href('/openapi.json'))}"><code>openapi.json</code></a>.</p>
+        <ol style="list-style:none;padding:0;font:400 var(--t-sm)/1.5 var(--mono)">${rows}</ol>
+        ${sorted.length > 200 ? `<p>${escHtml(String(sorted.length - 200))} older receipts are in <a href="${escHtml(ctx.href('/api/receipts/index.json'))}">index.json</a>.</p>` : ''}
+      </article>`,
+    })));
   }
 
   await selfCheck(args.out, state, ctx);

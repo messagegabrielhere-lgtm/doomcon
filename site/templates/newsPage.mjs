@@ -101,7 +101,9 @@ export function render(ctx) {
      ${esc(total)} item${total === 1 ? '' : 's'} across ${esc(days)} day${days === 1 ? '' : 's'},
      ranked by score and tagged to the pillar each one feeds. These are the inputs behind the
      Attention pillar, published rather than summarised. Nothing here is rewritten: every headline
-     links to the source that carried it.</p>
+     links to the source that carried it.
+     Browse the same window <a href="${esc(ctx.href('/facets.html'))}">by pillar or lab</a>,
+     or open <a href="${esc(ctx.href('/item/'))}">every item’s permanent page</a>.</p>
   ${liveHead(news, 'Collection window', 'arch-live')}
   ${legend(news)}
 </section>

@@ -1,4 +1,5 @@
 import { slugFor } from './itemPage.mjs';
+import { pillarsToWrite, labsToWrite } from './facetPages.mjs';
 // sitemap.xml. Head pages always; move pages only when substantive, matching
 // the noindex decision in move.mjs exactly. Submitting thin pages you have
 // already told Google not to index is a way of looking like you do not know
@@ -7,6 +8,7 @@ import { slugFor } from './itemPage.mjs';
 import { esc } from './_html.mjs';
 
 export function render(ctx) {
+  const facetStamp = (ctx.news && ctx.news.generated_at) || ctx.state.generated_at;
   const entries = [
     { loc: '/', changefreq: 'hourly', priority: '1.0', lastmod: ctx.state.generated_at },
     { loc: '/methodology.html', changefreq: 'monthly', priority: '0.8', lastmod: ctx.state.generated_at },
@@ -30,8 +32,18 @@ export function render(ctx) {
     { loc: '/desk.html', changefreq: 'hourly', priority: '0.7', lastmod: ctx.state.generated_at },
     { loc: '/game.html', changefreq: 'monthly', priority: '0.6', lastmod: ctx.state.generated_at },
     { loc: '/bunker-kit.html', changefreq: 'monthly', priority: '0.7', lastmod: ctx.state.generated_at },
+    // Machine surfaces. Directory scrapers and citation tools look here; the
+    // human docs already link them from /instruments, but sitemap omission
+    // left the only CORS-enabled API in the category invisible to crawlers.
+    { loc: '/openapi.json', changefreq: 'weekly', priority: '0.4', lastmod: ctx.state.generated_at },
+    { loc: '/api/index.json', changefreq: 'hourly', priority: '0.4', lastmod: ctx.state.generated_at },
+    { loc: '/api/state.json', changefreq: 'hourly', priority: '0.5', lastmod: ctx.state.generated_at },
+    { loc: '/api/receipts/', changefreq: 'hourly', priority: '0.4', lastmod: ctx.state.generated_at },
     ...(ctx.news && Array.isArray(ctx.news.items) && ctx.news.items.length
-      ? [{ loc: '/news.html', changefreq: 'hourly', priority: '0.9', lastmod: ctx.news.generated_at }]
+      ? [
+        { loc: '/news.html', changefreq: 'hourly', priority: '0.9', lastmod: ctx.news.generated_at },
+        { loc: '/facets.html', changefreq: 'hourly', priority: '0.7', lastmod: facetStamp },
+      ]
       : []),
     ...(ctx.race && Array.isArray(ctx.race.players) && ctx.race.players.length
       ? [{ loc: '/race.html', changefreq: 'daily', priority: '0.9', lastmod: ctx.race.generated_at }]
@@ -85,6 +97,13 @@ export function render(ctx) {
     { loc: '/moves/', changefreq: 'hourly', priority: '0.6', lastmod: ctx.state.generated_at },
   ];
 
+  for (const p of pillarsToWrite(ctx)) {
+    entries.push({ loc: `/pillar/${p.id}.html`, changefreq: 'hourly', priority: '0.7', lastmod: facetStamp });
+  }
+  for (const lab of labsToWrite(ctx)) {
+    entries.push({ loc: `/lab/${lab.id}.html`, changefreq: 'hourly', priority: '0.7', lastmod: facetStamp });
+  }
+
   // Every scored item is an indexable page. This is the long tail — it takes
   // the sitemap from ten URLs to two hundred and ten, and it grows daily.
   if (ctx.news && Array.isArray(ctx.news.items)) {
@@ -133,5 +152,6 @@ export function robots(ctx) {
   return `User-agent: *
 Allow: /
 Sitemap: ${ctx.url('/sitemap.xml')}
+Sitemap: ${ctx.url('/news-sitemap.xml')}
 `;
 }
