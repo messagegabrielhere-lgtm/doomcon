@@ -63,13 +63,16 @@ disclosure made after the fact; nothing is real time.
   median change across the fund, which takes out creations and redemptions.
   Changes under 1% or $250K are ignored.
 - **House reports** are read with pdf.js (installed only in that workflow).
-  Up to 60 new reports a run, newest first; parsed reports are cached in
+  Up to 120 reports a run, newest first; parsed reports are cached in
   `state.json`. A report that can't be read (a scanned paper filing, a row the
   parser doesn't recognise) is listed with a link to its PDF rather than
   guessed. Senate reports sit behind a search form and are not included.
-- SEC asks automated clients to identify themselves: set the repository
-  variable `SEC_UA` to use your own User-Agent; the default names this
-  repository.
+- SEC refuses automated clients (HTTP 403, "Undeclared Automated Tool")
+  unless the User-Agent names who is asking with a contact email. Set the
+  repository variable `SEC_UA` (Settings → Secrets and variables → Actions →
+  Variables), for example `doomcon you@example.com`. Until it is set, the fund
+  cards say the 13F couldn't be loaded and link to EDGAR; the ARK and Congress
+  sections don't use SEC.
 
 ```bash
 node --test investors/test.mjs                  # offline, fixed inputs

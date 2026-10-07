@@ -54,7 +54,7 @@ const ARK_BASE = 'https://assets.ark-funds.com/fund-documents/funds-etf-csv/';
 export const FEATURED_MEMBERS = [{ id: 'pelosi', name: 'Nancy Pelosi', match: /pelosi/i }];
 const HOUSE = 'https://disclosures-clerk.house.gov/public_disc';
 const CONGRESS_DAYS = 60;      // reports filed in the last 60 days
-const MAX_NEW_PDFS = 60;       // new reports parsed per run; the rest wait for the next run
+const MAX_NEW_PDFS = 120;      // reports parsed per run; the rest wait for the next run
 
 // A few CUSIPs that 13F filers hold most, so the common names show a ticker.
 // ARK's daily files add many more on every run (state.cusips).
@@ -335,9 +335,9 @@ export async function congress(state, log, { now = Date.now() } = {}) {
   const ptrs = index.filter((x) => x.type === 'P' && x.docId && x.filed);
   const featured = (x) => FEATURED_MEMBERS.some((f) => f.match.test(x.name));
   const want = ptrs.filter((x) => daysAgo(x.filed, now) <= CONGRESS_DAYS || featured(x)).sort((a, b) => b.filed.localeCompare(a.filed));
-  // Downloads that failed last time are tried again, and so are reports a
-  // previous version of the parser couldn't fully read.
-  for (const [id, d] of Object.entries(docs)) if (d.retry || (d.error && d.v !== PTR_PARSER)) delete docs[id];
+  // Downloads that failed last time are tried again, and every report read by
+  // an older version of the parser is read again.
+  for (const [id, d] of Object.entries(docs)) if (d.retry || d.v !== PTR_PARSER) delete docs[id];
   let fresh = 0;
   for (const x of want) {
     if (docs[x.docId] || fresh >= MAX_NEW_PDFS) continue;
@@ -433,7 +433,9 @@ async function main() {
       try { out.push(await fund13f(f, state.cusips, log)); }
       catch (e) {
         errors[`13f:${f.id}`] = String(e.message || e); log(`13F ${f.id}: ${errors[`13f:${f.id}`]}`);
-        const old = funds.find((x) => x.id === f.id); if (old) out.push(old); // keep the last good read
+        // Keep the last good read; with none, say what failed and link the filings.
+        const old = funds.find((x) => x.id === f.id && !x.error);
+        out.push(old || { ...f, error: errors[`13f:${f.id}`].slice(0, 160), url: `https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=${f.cik}&type=13F-HR` });
       }
       await sleep(300);
     }

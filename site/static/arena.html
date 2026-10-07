@@ -1114,6 +1114,7 @@ function renderInvestors(){
   const cards = [];
   const card = (target, who, org, what, when, tag = "", stale = false) => cards.push(`<button type="button" class="iv-card" data-go="${esc(target)}"><span class="tag${stale ? " stale" : ""}">${esc(tag)}</span><span class="who">${esc(who)}</span><span class="org">${esc(org)}</span><span class="what">${what}</span><span class="when">${esc(when)}</span></button>`);
   const fundCard = (f) => {
+    if(f.error){ card(`fund-${f.id}`, f.person, f.fund, "This quarter's 13F couldn't be loaded; the SEC filings are linked", "Not loaded yet", "13F holdings"); return; }
     const top = f.changes?.[0];
     const what = top ? `Biggest move: ${kindTag(top.kind)} <b>${esc(top.ticker || top.name)}</b> ${usd(Math.abs(top.dValue))}` : `Top holding: <b>${esc(f.top?.[0]?.ticker || f.top?.[0]?.name || "-")}</b>`;
     card(`fund-${f.id}`, f.person, f.fund, what, `${quarter(f.period)} 13F · filed ${isoDay(f.filed)}${f.stale ? " · no newer filing" : ""}`, f.stale ? "Old filing" : "13F holdings", f.stale);
@@ -1157,7 +1158,10 @@ function renderInvestors(){
   }else $("#ivArk").hidden = true;
 
   // Funds
-  $("#ivFunds").innerHTML = F.map((f) => `<details class="panel iv-fund" id="fund-${esc(f.id)}">
+  $("#ivFunds").innerHTML = F.map((f) => f.error ? `<details class="panel iv-fund" id="fund-${esc(f.id)}">
+    <summary><h2>${esc(f.person)}</h2><span class="mute">${esc(f.fund)} · 13F not loaded</span></summary>
+    <p class="note">The collector couldn't fetch this fund's 13F from SEC EDGAR on its last run${/403/.test(f.error) ? " (SEC refused the request; it asks automated tools to identify themselves with a contact address)" : ""}. It tries again on every run. Meanwhile, the filings are on EDGAR: <a href="${esc(f.url)}" rel="noopener" target="_blank">${esc(f.fund)}'s 13F filings</a>.</p>
+  </details>` : `<details class="panel iv-fund" id="fund-${esc(f.id)}">
     <summary><h2>${esc(f.person)}</h2><span class="mute">${esc(f.fund)} · ${quarter(f.period)} 13F filed ${isoDay(f.filed)} · ${f.count} positions, ${usd(f.total)}</span>
       <span class="mute" style="font-size:12px">${f.counts ? `${f.counts.new} new · ${f.counts.add} added · ${f.counts.trim} trimmed · ${f.counts.exit} sold out vs ${quarter(f.prevPeriod)}` : ""}</span></summary>
     ${f.stale ? `<p class="note"><b>This is an old filing.</b> ${esc(f.fund)} hasn't filed a 13F for a quarter after ${quarter(f.period)}, so these holdings may be long out of date.</p>` : ""}
