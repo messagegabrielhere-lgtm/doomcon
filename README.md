@@ -52,6 +52,9 @@ distribution is frozen on purpose and must not be regenerated casually.
 
 ## Architecture
 
+**New here?** Start with the novice map: **[docs/README.md](docs/README.md)** —
+what every folder does, side projects vs the index, and which workflow to look at.
+
 ```
 collector/fetch.mjs        shared HTTP: timeout, retry, User-Agent, structured errors
 collector/sources/*.mjs    one adapter per source — drop a file in, it is discovered
@@ -63,8 +66,9 @@ collector/posts.mjs        post text, with URL and future-tense guards
 site/build.mjs             static site generator -> public/
 ```
 
-**Zero npm dependencies.** Node 20 built-ins only. There is no `node_modules`,
-no lockfile, and no supply chain.
+**Core pipeline is npm-free** (Node 20+ built-ins only). Side projects may use
+npm: Arena and clipper depend on `@anthropic-ai/sdk`; investors CI installs
+`pdfjs-dist` for that job alone. See [docs/CONTRACT.md](docs/CONTRACT.md).
 
 ## Adding a source
 
@@ -89,15 +93,21 @@ failure** — never return a fallback. A dark source is a first-class state.
 A new source does not enter the index until it is added to the frozen reference
 distribution, so adding one cannot retroactively move history.
 
-## AI battle
+## Side projects
 
-[`/arena.html`](https://messagegabrielhere-lgtm.github.io/doomcon/arena.html) is a
-separate side project: Claude, GPT, Grok, Gemini and DeepSeek each trade $1,000 of
-paper money against live Coinbase order books, alongside two no-AI baselines. The models
-only propose. A server prices each proposal into a ticket and checks it against fixed
-rules before filling it, and stops run every 5 minutes whether or not a model is awake.
-Every fill and every rejection is public. It shares nothing with the index pipeline. See
-[docs/ARENA.md](docs/ARENA.md).
+These share hosting and brand, **not** the index formula. Each folder has a short
+README for novices.
+
+| Path | Page | One-line |
+|---|---|---|
+| [`arena/`](arena/) | [`/arena.html`](https://messagegabrielhere-lgtm.github.io/doomcon/arena.html) | AI paper-trading battle + picks / investors tabs |
+| [`scanner/`](scanner/) | `/scanner.html` | Stock scanner and crypto gap monitor |
+| [`monitor/`](monitor/) | `/monitor.html` | World news / hazards map |
+| [`elon/`](elon/) | `/elon.html` | Directory of Elon-clip YouTube channels |
+| [`clipper/`](clipper/) | — | Optional Shorts pipeline (needs rights + keys) |
+| [`compliance/`](compliance/) | — | Legal/policy auditor (`npm run compliance`) |
+
+Arena detail: [docs/ARENA.md](docs/ARENA.md). World Monitor: [docs/MONITOR.md](docs/MONITOR.md).
 
 ## Data and API
 

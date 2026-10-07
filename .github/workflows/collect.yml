@@ -104,14 +104,14 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           # Full history: the push step rebases onto main if anything landed
           # while we were collecting, and a shallow clone cannot rebase.
           fetch-depth: 0
 
       - name: Set up Node 20
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: '20'
           # No cache key and no install step on purpose. Zero dependencies
@@ -365,12 +365,12 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
       - name: Set up Node 20
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: '20'
 

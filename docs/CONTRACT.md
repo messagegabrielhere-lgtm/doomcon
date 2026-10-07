@@ -5,11 +5,13 @@ here without changing it everywhere. Agents building in parallel rely on it.
 
 ## Hard constraints
 
-1. **Zero npm dependencies.** Node 20 built-ins only (`fetch`, `node:fs`,
-   `node:crypto`, …). No `package.json` dependencies, no `node_modules`.
-   Reason: the operator has no Node installed locally — everything runs as
-   `docker run --rm -v "$PWD":/app -w /app node:20-alpine node <script>` —
-   and GitHub Actions stays dependency-free and fast.
+1. **Zero npm dependencies in the core pipeline.** `collector/` and `site/`
+   use Node 20+ built-ins only (`fetch`, `node:fs`, `node:crypto`, …). Reason:
+   the operator can run everything as
+   `docker run --rm -v "$PWD":/app -w /app node:20-alpine node <script>`
+   with no install step. **Exceptions (opt-in side projects only):** root and
+   `clipper/` may depend on `@anthropic-ai/sdk`; `investors` CI may install
+   `pdfjs-dist` for that job alone. Never add npm deps to collector or site.
 2. **ES modules, `.mjs` extension** throughout.
 3. **No secrets in the repository, and none required to build.** Posting was
    manual in v1. Since 2026-09-28 `.github/workflows/post-daily.yml` can post one
@@ -31,6 +33,8 @@ here without changing it everywhere. Agents building in parallel rely on it.
 
 ## Directory ownership
 
+Core pipeline:
+
 ```
 collector/fetch.mjs          shared HTTP helper
 collector/sources/*.mjs      one file per source adapter
@@ -41,13 +45,26 @@ collector/posts.mjs          index state -> post text variants
 collector/card.mjs           index state -> share-card SVG
 site/build.mjs               data/ -> public/  (static site generator)
 site/templates/*.mjs         page templates, each exporting render(ctx)
-public/                      BUILD OUTPUT. Never hand-edit. Gitignored? NO -
-                             committed, because GitHub Pages serves it.
 data/raw/<iso>.json          one snapshot per collector run
 data/state.json              current index state (single source of truth)
 data/receipts/<id>.json      hash-chained receipts, append-only
 data/history.ndjson          one line per scored observation, append-only
+public/                      BUILD OUTPUT (gitignored on main; published to gh-pages)
 ```
+
+Side projects (do not change the index score). Each has a short README:
+
+```
+arena/                       AI paper-trading battle + tests  → arena-data
+scanner/                     stock candles / scanner UI       → scanner-data
+investors/                   13F / ARK / House PTR            → investors-data
+monitor/                     world map + stress index         → monitor-data
+elon/                        Elon-clip channel index          → elon-data
+clipper/                     optional Shorts pipeline (npm)
+compliance/                  legal/policy auditor
+```
+
+Novice map of the whole repo: [`docs/README.md`](README.md).
 
 ## The five pillars
 

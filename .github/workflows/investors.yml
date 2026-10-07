@@ -32,20 +32,20 @@ jobs:
     timeout-minutes: 30
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           sparse-checkout: investors
           fetch-depth: 1
 
       - name: Set up Node 22
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: '22'
 
       - name: Install the PDF reader
         # Only this job needs it, so it isn't in package.json. Its optional
         # @napi-rs/canvas supplies DOMMatrix, which pdf.js needs under Node.
-        run: npm install --no-save --no-package-lock --ignore-scripts --no-audit --no-fund pdfjs-dist@5.6.205
+        run: npm install --no-save --no-package-lock --ignore-scripts --no-audit --no-fund pdfjs-dist@5.7.284
 
       - name: Load state
         env:

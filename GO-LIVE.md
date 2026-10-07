@@ -4,6 +4,9 @@ The site builds and deploys itself. What is left needs your identity, your
 judgement and your hands on the keyboard. Budget **20 minutes**, most of it on
 the X account rather than the site.
 
+**New to the codebase?** Read [docs/README.md](docs/README.md) first — a plain
+map of every folder and workflow.
+
 ---
 
 ## First, the honest version of "go viral"

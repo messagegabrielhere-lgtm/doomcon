@@ -67,10 +67,10 @@ jobs:
           fi
         working-directory: .
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         if: steps.ready.outputs.ok == 'true'
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         if: steps.ready.outputs.ok == 'true'
         with:
           node-version: 22
@@ -95,7 +95,7 @@ jobs:
 
       - name: Restore state
         if: steps.ready.outputs.ok == 'true'
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v6
         with:
           path: clipper/data
           key: clipper-data-${{ github.run_id }}-${{ github.run_attempt }}
@@ -126,7 +126,7 @@ jobs:
 
       - name: Save state
         if: always() && steps.ready.outputs.ok == 'true'
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v6
         with:
           path: clipper/data
           key: clipper-data-${{ github.run_id }}-${{ github.run_attempt }}
