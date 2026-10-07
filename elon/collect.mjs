@@ -155,45 +155,39 @@ export function parseChannelSearch(html, now = Date.now()) {
   return { parsed: true, videos };
 }
 
-/** Watch page HTML -> exact ISO upload date, or ''. */
-export function uploadDateFromWatchPage(html) {
-  const m = String(html).match(/<meta itemprop="(?:uploadDate|datePublished)" content="([^"]+)"/)
-    || String(html).match(/"(?:publishDate|uploadDate)":"([^"]+)"/);
-  if (!m) return '';
-  const d = new Date(m[1]);
-  return isNaN(d) ? '' : d.toISOString();
-}
+// Clips from a channel's search page arrive without a date. With a key, the
+// Data API's videos.list fills them in: 50 videos per call at 1 quota unit,
+// so even thousands of clips cost a few dozen units. Without a key nothing
+// is attempted: YouTube answers watch-page reads from GitHub's runners with
+// a bot check or HTTP 429 (measured 2026-10-07: 161 and 89 of 250), and
+// hammering it risks the RSS reads the index depends on.
+const DATE_BUDGET = 2000;
 
-// Clips from a channel's search page arrive without a usable date. Each run
-// reads the watch pages of up to this many of them and stores the exact
-// upload date, so the backlog clears over a few hourly runs.
-const DATE_BUDGET = 250;
-
-// Returns { dated, tried, outcomes } so the published file says why dating
-// failed: the Action's logs are not always readable, clips.json is.
-async function dateClips(clips) {
-  const todo = clips.filter((c) => c.approxDate || !c.published).slice(0, DATE_BUDGET);
-  const tried = todo.length;
-  const outcomes = {};
-  const note = (k) => { outcomes[k] = (outcomes[k] || 0) + 1; };
+// Returns a summary that goes into clips.json, so a run's outcome can be
+// read without the Action logs.
+async function dateClips(clips, key) {
+  const todo = clips.filter((c) => c.approxDate || !c.published);
+  if (!todo.length) return { dated: 0, undated: 0 };
+  if (!key) return { dated: 0, undated: todo.length, skipped: 'no YOUTUBE_API_KEY' };
+  const byId = new Map(todo.slice(0, DATE_BUDGET).map((c) => [c.id, c]));
+  const ids = [...byId.keys()];
   let dated = 0;
-  let sample = '';
-  const work = async () => {
-    for (let c; (c = todo.shift());) {
-      try {
-        const html = await get(`https://www.youtube.com/watch?v=${c.id}`);
-        const iso = uploadDateFromWatchPage(html);
-        if (iso) { c.published = iso; delete c.approxDate; dated++; note('ok'); }
-        else {
-          note(/confirm you.re not a bot/i.test(html) ? 'bot-check' : /consent\.youtube|before you continue/i.test(html) ? 'consent' : 'no-date-in-page');
-          sample ||= (html.match(/<title>([^<]*)<\/title>/) || [])[1] || html.slice(0, 120);
-        }
-      } catch (err) { note(err.status ? `HTTP ${err.status}` : err.name || 'error'); }
-      await new Promise((r) => setTimeout(r, 400));
-    }
-  };
-  await Promise.all(Array.from({ length: 2 }, work));
-  return { dated, tried, outcomes, ...(sample ? { sample: sample.slice(0, 160) } : {}) };
+  const errors = [];
+  for (let i = 0; i < ids.length; i += 50) {
+    try {
+      const j = await get(`https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&id=${ids.slice(i, i + 50).join(',')}&key=${key}`, { json: true });
+      for (const it of j.items || []) {
+        const c = byId.get(it.id);
+        if (!c || !it.snippet?.publishedAt) continue;
+        c.published = it.snippet.publishedAt;
+        delete c.approxDate;
+        const v = Number(it.statistics?.viewCount);
+        if (Number.isFinite(v)) c.views = v;
+        dated++;
+      }
+    } catch (err) { errors.push(err.message); }
+  }
+  return { dated, undated: todo.length - dated, ...(errors.length ? { errors: errors.slice(0, 3) } : {}) };
 }
 
 /** Previous clips + fresh clips -> one list, newest first, deduped by video id. */
@@ -338,7 +332,7 @@ async function main() {
     return [{ ...rest, tier, topics, ...(match ? { match } : {}) }];
   });
   let clips = merge(kept, fresh, now);
-  const dating = await dateClips(clips);
+  const dating = await dateClips(clips, key);
   const { dated } = dating;
   if (dated) clips = merge(clips, [], now);   // re-sort now that they have dates
 

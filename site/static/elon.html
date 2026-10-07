@@ -280,7 +280,8 @@ function filtered() {
     tierIs(c, state.tier) &&
     (!state.chan || c.handle === state.chan) &&
     words.every((w) => c._hay.includes(w)));
-  if (state.sort === 'old') list = list.slice().reverse();
+  // Undated clips (found before they could be dated) stay last either way.
+  if (state.sort === 'old') list = list.filter((c) => c.published).reverse().concat(list.filter((c) => !c.published));
   if (state.sort === 'views') list = list.slice().sort((a, b) => (b.views ?? -1) - (a.views ?? -1));
   return list;
 }
