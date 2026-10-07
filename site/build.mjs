@@ -19,7 +19,7 @@ import { cardAssets } from './cardpng.mjs';
 import { createHash } from 'node:crypto';
 import { gzipSync } from 'node:zlib';
 import { css as siteCss } from './styles.mjs';
-import { stableJson, num, secondsBetween } from './templates/_html.mjs';
+import { stableJson, num, secondsBetween, serpTitle, serpDescription } from './templates/_html.mjs';
 import * as indexPage from './templates/index.mjs';
 import * as homeV2 from './templates/homeV2.mjs';
 import { pixelText, roomArt } from './templates/_pixel.mjs';
@@ -87,22 +87,66 @@ function selfHostFonts(html) {
     .replace(/@import\s+url\(\s*["']?https?:\/\/fonts\.googleapis\.com\/[^)]*\)\s*;?/gi, '');
 }
 
+function decodeEntities(s) {
+  return String(s)
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'");
+}
+
 function prerenderStatic(html, name, ctx) {
   const x = (v) => String(v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
   const loc = ctx.url(`/${name}`);
-  const title = (html.match(/<title>([^<]*)<\/title>/) || [])[1] || brand.NAME;
-  const desc = (html.match(/<meta name="description" content="([^"]*)"/) || [])[1] || '';
+  const title = decodeEntities((html.match(/<title>([^<]*)<\/title>/) || [])[1] || brand.NAME);
+  const desc = decodeEntities((html.match(/<meta name="description" content="([^"]*)"/) || [])[1] || '');
+  const ogImage = ctx.url('/cards/state.png') + (ctx.state && ctx.state.receipt_id
+    ? `?v=${encodeURIComponent(ctx.state.receipt_id)}` : '');
+  const twitterSite = brand.X_HANDLE
+    ? `\n<meta name="twitter:site" content="${x(brand.X_HANDLE)}">`
+    : '';
+  // Match layout.mjs: SERP-safe title/description, full strings for Open Graph,
+  // robots + share-card dimensions, and a WebPage crumb so hand-built pages are
+  // not invisible to structured-data crawlers.
   let head = `<link rel="canonical" href="${x(loc)}">
 <link rel="icon" href="${x(ctx.href('/favicon.svg'))}" type="image/svg+xml">
+<meta name="robots" content="index,follow,max-image-preview:large">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="${x(brand.NAME)}">
-<meta property="og:title" content="${title}">
-<meta property="og:description" content="${desc}">
+<meta property="og:site_name" content="${x(brand.PUBLICATION)}">
+<meta property="og:title" content="${x(title)}">
+<meta property="og:description" content="${x(desc)}">
 <meta property="og:url" content="${x(loc)}">
-<meta property="og:image" content="${x(ctx.url('/cards/state.png'))}">
-<meta name="twitter:card" content="summary_large_image">`;
-  let out = html;
-  const data = html.match(/<script>\n(const CRATES = [\s\S]*?)\nconst packed = /);
+<meta property="og:image" content="${x(ogImage)}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="675">
+<meta property="og:image:alt" content="${x(`${brand.NAME} share card`)}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="${x(ogImage)}">${twitterSite}
+<script type="application/ld+json">${JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: title,
+    description: desc,
+    url: loc,
+    isPartOf: { '@type': 'WebSite', name: brand.NAME, url: ctx.url('/') },
+    breadcrumb: {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: brand.NAME, item: ctx.url('/') },
+        { '@type': 'ListItem', position: 2, name: title.split(/\s*[·|—:]\s*/)[0].trim(), item: loc },
+      ],
+    },
+  }).replace(/</g, '\\u003c')}</script>`;
+  // Rewrite the authored <title> / description to the SERP-safe lengths so the
+  // snippet Google shows matches what layout.mjs already does for templated pages.
+  let out = html
+    .replace(/<title>[^<]*<\/title>/, `<title>${x(serpTitle(title))}</title>`)
+    .replace(
+      /<meta name="description" content="[^"]*"/,
+      `<meta name="description" content="${x(serpDescription(desc))}"`,
+    );
+  const data = out.match(/<script>\n(const CRATES = [\s\S]*?)\nconst packed = /);
   if (data && out.includes('<main id="manifest"></main>')) {
     const { CRATES, TOOLS } = new Function(`${data[1]}\nreturn { CRATES, TOOLS };`)();
     const link = (t) => t[7] || `https://${t[2]}`;

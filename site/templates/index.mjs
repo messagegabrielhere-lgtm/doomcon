@@ -923,18 +923,24 @@ ${style}`;
     ctx,
     motion: true,
     path: '/',
-    title: Number.isFinite(state.score) && LEVEL_LINE[state.level]
-      ? `${brand.NAME} ${state.level}: ${LEVEL_LINE[state.level].replace(/\.$/, '')} · ${scoreTxt}`
+    // SERP title names the category ("AI activity index") before the level line,
+    // so a cold search result still says what this is. The vivid LEVEL_LINE stays
+    // on og:title, where share cards have room and context.
+    title: Number.isFinite(state.score)
+      ? `${brand.NAME} ${state.level}: live AI activity index · ${scoreTxt}/100`
+      : `${brand.NAME} · live AI activity index`,
+    ogTitle: Number.isFinite(state.score) && LEVEL_LINE[state.level]
+      ? `${brand.NAME} ${state.level} · ${state.level_name} · ${scoreTxt}/100 — ${LEVEL_LINE[state.level]}`
       : `${brand.NAME} · the AI Siren Index`,
-    ogTitle: `${brand.NAME} ${state.level} · ${state.level_name} · ${scoreTxt}/100 — ${LEVEL_LINE[state.level] || ''}`.replace(/ — $/, ''),
     description:
       `The AI Siren Index is at level ${state.level} of 5 (${state.level_name}), ${scoreTxt} of 100. ` +
-      `${LEVEL_LINE[state.level] || ''} Counted hourly from public data, as of ${utc(state.generated_at)}.`,
+      `${LEVEL_LINE[state.level] || ''} Counted hourly from public data, as of ${utc(state.generated_at)}. ` +
+      `Not a forecast — every number ships with a receipt you can recompute.`,
     ogImage: ctx.cardFor(state.receipt_id),
     head: `<link rel="preload" as="image" type="image/avif" href="${esc(ctx.href('/img/hero-siren.avif'))}" fetchpriority="high">`,
     ogImageAlt: `${brand.NAME} ${state.level}, ${state.level_name}, score ${scoreTxt} of 100`,
     showDegraded: true,
-    jsonld: [webApplication(ctx), dataset(ctx), faq.jsonLd(ctx)],
+    jsonld: [webSite(ctx), webApplication(ctx), dataset(ctx), faq.jsonLd(ctx)],
     main,
   });
 }
@@ -1802,6 +1808,19 @@ function webApplication(ctx) {
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
     isAccessibleForFree: true,
     license: 'https://creativecommons.org/licenses/by/4.0/',
+  };
+}
+
+function webSite(ctx) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: brand.NAME,
+    alternateName: [brand.PUBLICATION, brand.FORMERLY].filter(Boolean),
+    url: ctx.url('/'),
+    description: brand.DESCRIPTION,
+    publisher: { '@type': 'Organization', name: brand.NAME, url: ctx.url('/') },
+    inLanguage: 'en',
   };
 }
 

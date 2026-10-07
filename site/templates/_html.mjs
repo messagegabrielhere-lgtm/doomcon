@@ -118,3 +118,24 @@ export function duration(seconds) {
 export function secondsBetween(laterIso, earlierIso) {
   return (parseIso(laterIso).getTime() - parseIso(earlierIso).getTime()) / 1000;
 }
+
+/* WHAT A SEARCH RESULT CAN SHOW. A result page cuts a title near 65 characters
+   and a description near 160, mid-word, wherever that falls. Keep the full
+   strings for og:title / og:description — social cards do not truncate the
+   same way. */
+export function serpTitle(title) {
+  const t = String(title || '');
+  if (t.length <= 65 || !t.includes(' — ')) return t;
+  const brandAt = t.lastIndexOf(' · ');
+  const suffix = brandAt > 0 ? t.slice(brandAt) : '';
+  return t.slice(0, t.indexOf(' — ')) + suffix;
+}
+
+export function serpDescription(description) {
+  const d = String(description || '');
+  if (d.length <= 160) return d;
+  const head = d.slice(0, 160);
+  const stop = Math.max(head.lastIndexOf('. '), head.lastIndexOf('? '));
+  if (stop >= 80) return head.slice(0, stop + 1);
+  return head.slice(0, head.lastIndexOf(' ')).replace(/[,;:—-]+$/, '') + '…';
+}

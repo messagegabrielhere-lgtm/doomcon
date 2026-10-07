@@ -30,11 +30,21 @@ export function render(ctx) {
     { loc: '/desk.html', changefreq: 'hourly', priority: '0.7', lastmod: ctx.state.generated_at },
     { loc: '/game.html', changefreq: 'monthly', priority: '0.6', lastmod: ctx.state.generated_at },
     { loc: '/bunker-kit.html', changefreq: 'monthly', priority: '0.7', lastmod: ctx.state.generated_at },
+    // Hand-built rooms under site/static/. Always published by the build, so
+    // always listed — unlike gated data pages that can 404 when their JSON is
+    // absent. Priorities sit under the index and the live data rooms.
+    { loc: '/arena.html', changefreq: 'hourly', priority: '0.8', lastmod: ctx.state.generated_at },
+    { loc: '/scanner.html', changefreq: 'hourly', priority: '0.7', lastmod: ctx.state.generated_at },
+    { loc: '/elon.html', changefreq: 'daily', priority: '0.7', lastmod: ctx.state.generated_at },
+    { loc: '/monitor.html', changefreq: 'hourly', priority: '0.7', lastmod: ctx.state.generated_at },
     ...(ctx.news && Array.isArray(ctx.news.items) && ctx.news.items.length
       ? [{ loc: '/news.html', changefreq: 'hourly', priority: '0.9', lastmod: ctx.news.generated_at }]
       : []),
     ...(ctx.race && Array.isArray(ctx.race.players) && ctx.race.players.length
       ? [{ loc: '/race.html', changefreq: 'daily', priority: '0.9', lastmod: ctx.race.generated_at }]
+      : []),
+    ...(ctx.leaders && Array.isArray(ctx.leaders.leaders) && ctx.leaders.leaders.length
+      ? [{ loc: '/leaders.html', changefreq: 'daily', priority: '0.8', lastmod: ctx.leaders.generated_at || ctx.state.generated_at }]
       : []),
     ...(ctx.infra && ctx.infra.generated_at
       ? [{ loc: '/watts.html', changefreq: 'hourly', priority: '0.8', lastmod: ctx.infra.generated_at }]

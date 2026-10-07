@@ -33,7 +33,7 @@
 
 import { seal } from './_seal.mjs';
 import { mascot } from './_mascot.mjs';
-import { esc, num, utc, utcClock, jsonScript } from './_html.mjs';
+import { esc, num, utc, utcClock, jsonScript, serpTitle, serpDescription } from './_html.mjs';
 import { degradedBanner, deltaChip } from './_parts.mjs';
 import { motionBlock } from './_motion.mjs';
 import { css, FONT_HREF } from '../styles.mjs';
@@ -787,28 +787,6 @@ function v2StatusBar(ctx) {
 </div></div>`;
 }
 
-/* WHAT A SEARCH RESULT CAN SHOW. A result page cuts a title near 65 characters
-   and a description near 160, mid-word, wherever that falls. Eleven pages ran
-   past both, so the number that made the title worth reading was the part that
-   got cut. The full strings still go to og:title and og:description, which
-   social cards do not truncate the same way. */
-function serpTitle(title) {
-  const t = String(title || '');
-  if (t.length <= 65 || !t.includes(' — ')) return t;
-  const brandAt = t.lastIndexOf(' · ');
-  const suffix = brandAt > 0 ? t.slice(brandAt) : '';
-  return t.slice(0, t.indexOf(' — ')) + suffix;
-}
-function serpDescription(description) {
-  const d = String(description || '');
-  if (d.length <= 160) return d;
-  const head = d.slice(0, 160);
-  const stop = Math.max(head.lastIndexOf('. '), head.lastIndexOf('? '));
-  if (stop >= 80) return head.slice(0, stop + 1);
-  return head.slice(0, head.lastIndexOf(' ')).replace(/[,;:—-]+$/, '') + '…';
-}
-
-
 /* ---------------------------------------------------------------------------
    THE NAV KIT. Three ways to get anywhere, none of which the page needs in
    order to be read:
@@ -1143,10 +1121,33 @@ function jumpIndex(mainHtml) {
 </nav>`;
 }
 
+/** Two-crumb trail: home → this page. Skipped on the homepage and on noindex
+ *  shells so we do not ask Google to index a breadcrumb into a dead end. */
+function breadcrumbLd(ctx, path, title) {
+  if (!path || path === '/' || path === '/index.html') return null;
+  const section = SECTIONS.find((s) => s.href === path);
+  const crumb = section
+    ? section.label
+    : String(title || path).split(/\s*[·|—]\s*/)[0].trim() || path;
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: brand.NAME, item: ctx.url('/') },
+      { '@type': 'ListItem', position: 2, name: crumb, item: ctx.url(path) },
+    ],
+  };
+}
+
 export function page(o) {
   const { ctx } = o;
   const canonical = ctx.url(o.path);
-  const jsonld = (o.jsonld || []).map((block) => jsonScript(block)).join('\n');
+  const blocks = [...(o.jsonld || [])];
+  if (!o.noindex) {
+    const crumbs = breadcrumbLd(ctx, o.path, o.title);
+    if (crumbs) blocks.push(crumbs);
+  }
+  const jsonld = blocks.map((block) => jsonScript(block)).join('\n');
 
   // Absent -> the empty string, and every interpolation site below is written
   // so that the empty string changes nothing. A page() caller that does not ask
