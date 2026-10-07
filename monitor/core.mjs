@@ -9,58 +9,48 @@
 //
 // So: no imports, no Node or browser APIs, plain functions over plain data.
 
-export const CORE_VERSION = 2;
+export const CORE_VERSION = 3; // bump when a change moves scores; the history restarts on a new version
 
-/* News categories. `q` is the GDELT query; `re` classifies headlines from RSS
- * feeds, which arrive without a category. `w` is the stress weight. */
+/* News categories. `re` classifies each headline (RSS feeds and GDELT both
+ * arrive without one). `w` is the stress weight. */
 export const CATS = [
   { id: 'conflict', label: 'Military', color: '#e0453a', w: 3,
-    q: '(military OR troops OR airstrike OR missile OR shelling OR "armed forces" OR warship OR "drone strike")',
     re: /\b(military|troops?|soldiers?|army|air ?strikes?|missiles?|shelling|warships?|navy|naval|offensive|front ?line|artillery|invasion|invade[sd]?|drone (strike|attack)s?|airstrikes?|strikes? (on|against)|bombard\w*|fighter jets?|shelled|war|warfare|fighting|clash(es|ed)?|frontline|ceasefire breach)\b/i },
   { id: 'security', label: 'Security', color: '#c2185b', w: 3,
-    q: '(terrorist OR bombing OR gunmen OR hostage OR assassination OR insurgents)',
     re: /\b(terror\w*|bomb(ing|ings|er|ers)?|gunm[ae]n|hostages?|assassinat\w*|insurgen\w*|militants?|jihadists?|mass shooting|suicide attack|kidnapp\w*)\b/i },
   { id: 'nuclear', label: 'Nuclear', color: '#ab47bc', w: 2.5,
-    q: '(nuclear OR uranium OR IAEA OR "enrichment" OR warhead)',
     re: /\b(nuclear|uranium|IAEA|enrichment|warheads?|ICBM)\b/i },
   { id: 'unrest', label: 'Unrest', color: '#f57c00', w: 2,
-    q: '(protest OR protesters OR riot OR coup OR curfew OR "state of emergency")',
     re: /\b(protests?|protesters?|riots?|rioting|coup|curfew|state of emergency|demonstrators?|uprising|unrest|crackdown|martial law|general strike|workers'? strike|strike action|walkouts?)\b/i },
   { id: 'disaster', label: 'Disasters', color: '#ff7043', w: 2,
-    q: '(earthquake OR flood OR wildfire OR hurricane OR typhoon OR cyclone OR landslide OR tsunami OR eruption)',
     re: /\b(earthquakes?|quakes?|floods?|flooding|wildfires?|bushfires?|hurricanes?|typhoons?|cyclones?|landslides?|mudslides?|tsunamis?|eruptions?|volcan\w*|tornado(es)?|storm surge|avalanche)\b/i },
   { id: 'cyber', label: 'Cyber', color: '#42a5f5', w: 1,
-    q: '(cyberattack OR ransomware OR "data breach" OR hackers OR malware OR "zero-day")',
     re: /\b(cyber\w*|ransomware|data breach|breach(ed)?|hack(s|ers?|ed|ing)?|malware|zero-day|CVE-\d+|phishing|botnet|spyware|exploit(ed)?|vulnerabilit\w*)\b/i },
   { id: 'health', label: 'Health', color: '#26a69a', w: 1.5,
-    q: '(outbreak OR epidemic OR pandemic OR cholera OR "bird flu" OR ebola OR mpox OR measles)',
     re: /\b(outbreaks?|epidemic|pandemic|cholera|bird flu|H5N1|ebola|mpox|measles|dengue|marburg|polio|virus|infections?)\b/i },
   { id: 'shipping', label: 'Shipping', color: '#00acc1', w: 1,
-    q: '("container ship" OR tanker OR "shipping lane" OR "Red Sea" OR "Strait of Hormuz" OR "Suez Canal" OR "supply chain")',
     re: /\b(container ships?|tankers?|shipping|freighters?|bulk carriers?|vessels?|Red Sea|Hormuz|Suez|Panama Canal|supply chains?|maritime|seafarers?)\b/i },
   { id: 'energy', label: 'Energy', color: '#d4a017', w: 1,
-    q: '(OPEC OR "oil prices" OR "natural gas" OR pipeline OR refinery OR blackout OR "power outage")',
     re: /\b(OPEC\+?|oil prices?|crude|natural gas|LNG|pipelines?|refiner(y|ies)|blackouts?|power outages?|power grid|electricity)\b/i },
   { id: 'economy', label: 'Economy', color: '#2e9e6b', w: 1,
-    q: '(inflation OR recession OR "central bank" OR tariff OR "interest rates" OR "debt default")',
     re: /\b(inflation|recession|central bank|tariffs?|interest rates?|default(s|ed)?|GDP|unemployment|stock markets?|bond yields?|currency|devaluation|trade war|economy|economic)\b/i },
   { id: 'migration', label: 'Humanitarian', color: '#8d6e63', w: 1.5,
-    q: '(refugees OR migrants OR famine OR "humanitarian aid" OR displaced)',
     re: /\b(refugees?|migrants?|asylum|famine|starvation|humanitarian|displaced|aid convoy|food insecurity)\b/i },
   { id: 'diplomacy', label: 'Diplomacy', color: '#5c6bc0', w: 0.5,
-    q: '(sanctions OR summit OR ceasefire OR treaty OR "foreign minister" OR embassy)',
     re: /\b(sanctions?|summit|ceasefire|truce|treaty|foreign ministers?|embass(y|ies)|diplomat\w*|peace talks|negotiat\w*|envoy|bilateral)\b/i },
   { id: 'climate', label: 'Climate', color: '#7cb342', w: 0.5,
-    q: '(heatwave OR drought OR "climate change" OR "extreme heat" OR emissions)',
     re: /\b(heat ?waves?|droughts?|climate|emissions|extreme heat|glaciers?|record temperatures?)\b/i },
   { id: 'space', label: 'Space', color: '#90a4ae', w: 0.3,
-    q: '(satellite OR "rocket launch" OR spacecraft OR "space station")',
     re: /\b(satellites?|rockets?|spacecraft|space station|orbit(al)?|NASA|SpaceX|lunar|moon landing)\b/i },
   { id: 'ai', label: 'AI', color: '#f0b44c', w: 0.3, siren: true,
     re: /\b(artificial intelligence|AI|OpenAI|Anthropic|chatbots?|LLMs?|GPT-\d|Gemini|deepfakes?)\b/ },
   { id: 'world', label: 'World', color: '#78909c', w: 0.4, re: null },
 ];
 export const CAT = Object.fromEntries(CATS.map((c) => [c.id, c]));
+
+/* One GDELT query for the high-signal terms; results are sorted with categorize().
+ * One call instead of fourteen: GDELT asks for one request every five seconds. */
+export const GDELT_QUERY = '(military OR missile OR airstrike OR troops OR shelling OR terrorist OR bombing OR protest OR coup OR nuclear OR earthquake OR flood OR wildfire OR hurricane OR typhoon OR cyberattack OR ransomware OR outbreak OR epidemic OR sanctions OR ceasefire OR tanker OR refugees OR famine)';
 
 /** First category whose pattern matches, in CATS order; `fallback` otherwise. */
 export function categorize(text, fallback = 'world') {
@@ -276,6 +266,13 @@ export function clusterStories(items) {
 
 /* ---------------------------------------------------------- stress index */
 
+/* An outlet covering its own country is routine, not a signal: France 24 and RFI
+ * on France put France first on the first live run. Those mentions count 30%. */
+export const HOME = {
+  'bbc.co.uk': 'GB', 'theguardian.com': 'GB', 'news.sky.com': 'GB', 'npr.org': 'US', 'nytimes.com': 'US', 'washingtonpost.com': 'US',
+  'cnbc.com': 'US', 'dw.com': 'DE', 'france24.com': 'FR', 'rfi.fr': 'FR', 'abc.net.au': 'AU', 'scmp.com': 'HK', 'japantimes.co.jp': 'JP',
+  'defensenews.com': 'US', 'twz.com': 'US', 'therecord.media': 'US', 'krebsonsecurity.com': 'US', 'aljazeera.com': 'QA',
+};
 export const EONET_WEIGHT = { volcanoes: 30, severeStorms: 40, floods: 25, wildfires: 6, landslides: 15, tempExtremes: 10, drought: 8 };
 export const STRESS_WINDOW_MS = 24 * 3600e3;
 
@@ -288,7 +285,10 @@ export function countryInputs({ stories = [], quakes = [], gdacs = [], eonet = [
   for (const s of stories) {
     if (now - s.t > STRESS_WINDOW_MS || !s.iso.length) continue;
     const cw = (CAT[s.cat]?.w ?? 0.4) * Math.min(2, 1 + 0.25 * ((s.sources || 1) - 1));
-    for (const iso of s.iso) w.set(iso, (w.get(iso) || 0) + cw / Math.sqrt(s.iso.length));
+    for (const iso of s.iso) {
+      const home = s.items.filter((it) => HOME[domainOf(it)] === iso).length / s.items.length;
+      w.set(iso, (w.get(iso) || 0) + (cw / Math.sqrt(s.iso.length)) * (1 - 0.7 * home));
+    }
   }
   const addH = (iso, v, label) => { if (!iso) return; hz.set(iso, (hz.get(iso) || 0) + v); const l = why.get(iso) || []; l.push(label); why.set(iso, l); };
   for (const q of quakes) addH(q.iso, 10 ** (1.5 * (q.mag - 4.5)) * (q.tsunami ? 2 : 1), `M${q.mag.toFixed(1)} ${q.place}`);
@@ -296,7 +296,8 @@ export function countryInputs({ stories = [], quakes = [], gdacs = [], eonet = [
   for (const e of eonet) addH(e.iso, EONET_WEIGHT[e.cat] ?? 5, e.title);
   return { w, hz, why };
 }
-export const newsPart = (w) => Math.max(0, Math.min(100, 25 * Math.log2(1 + (w || 0))));
+// 16, not 25: with 27 feeds, 25 put seven countries at 100 on the first live run.
+export const newsPart = (w) => Math.max(0, Math.min(100, 16 * Math.log2(1 + (w || 0))));
 export const hazardPart = (h) => Math.max(0, Math.min(100, 22 * Math.log10(1 + (h || 0))));
 /** Market part from a country ETF: 5-day drawdown plus volatility above its own year. */
 export const marketPart = (s) => s ? Math.max(0, Math.min(100, 8 * Math.max(0, -s.d5 * 100) + 14 * Math.max(0, s.volZ))) : null;

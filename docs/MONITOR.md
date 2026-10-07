@@ -8,7 +8,7 @@ its 7-day history and a markets panel. No libraries and no keys.
 | File | Job |
 |---|---|
 | `monitor/core.mjs` | Categories, country matching, story grouping, the stress formula. No imports. |
-| `monitor/collect.mjs` | Server side: GDELT, 28 RSS feeds, hazards, KEV → snapshot + hourly history |
+| `monitor/collect.mjs` | Server side: GDELT, 27 RSS feeds, hazards, KEV → snapshot + hourly history |
 | `.github/workflows/monitor-data.yml` | Runs the collector every 15 minutes, force-pushes to the `monitor-data` branch |
 | `site/static/monitor.html` | The page. `site/build.mjs` pastes `core.mjs` into it as `Core` |
 
@@ -19,15 +19,16 @@ The page loads the snapshot from `raw.githubusercontent.com/…/monitor-data/`
 first. It then calls the fast sources itself (quakes, military aircraft, NASA,
 GDACS, KEV, crypto). When a live call fails, that source falls back to the
 snapshot's copy, and its chip turns amber instead of red. GDELT is called from
-the browser only when the snapshot is missing or more than 45 minutes old,
+the browser when the snapshot is missing, stale, or has no GDELT (GitHub's
+runners are refused with HTTP 429). It is one request, cached 15 minutes,
 because GDELT asks for one request every five seconds.
 
 ## Sources
 
 | Layer | Source | Where it is read |
 |---|---|---|
-| News | GDELT DOC 2.0, English, 24 h: one combined query on the server (GitHub runners get HTTP 429 for per-category calls), 14 per-category queries as the browser fallback | server; browser fallback |
-| World news | 28 RSS feeds: BBC, Al Jazeera, Guardian, NPR, DW, France 24, NYT, Washington Post, Euronews, RFI, ABC, Sky, UN, CNBC, Middle East Eye, The Hindu, Japan Times, SCMP, Africanews, Defense News, The War Zone, BleepingComputer, The Record, Krebs, gCaptain, Splash247, OilPrice, WHO | server only (no CORS) |
+| News | GDELT DOC 2.0, English, 24 h, one combined query sorted by `categorize()`. GitHub's runners get HTTP 429 from GDELT, so when the snapshot has no GDELT the page makes the call from the visitor's browser, cached 15 minutes | server, else browser |
+| World news | 27 RSS feeds: BBC, Al Jazeera, Guardian, NPR, DW, France 24, NYT, Washington Post, Euronews, RFI, ABC, Sky, UN, CNBC, Middle East Eye, Japan Times, SCMP, Africanews, Defense News, The War Zone, BleepingComputer, The Record, Krebs, gCaptain, Splash247, OilPrice, WHO | server only (no CORS) |
 | AI news | SIREN's newsroom, `/api/news.json` | browser |
 | Earthquakes | USGS M4.5+, 7 days | both |
 | Fires, storms, volcanoes, floods… | NASA EONET v3, open events | both |
@@ -58,7 +59,7 @@ default (cyber for BleepingComputer, shipping for gCaptain), else "World".
 
 Each country gets three parts, each scored 0 to 100:
 
-- **News:** stories in the last 24 hours that name the country. Each story counts once, plus a quarter for each extra outlet, up to double. Category weights: military and security 3, nuclear 2.5, unrest and disasters 2, health and humanitarian 1.5, economy, energy, cyber and shipping 1, diplomacy and climate 0.5, other world news 0.4. The part is `min(100, 25·log₂(1+w))`.
+- **News:** stories in the last 24 hours that name the country. Each story counts once, plus a quarter for each extra outlet, up to double. Category weights: military and security 3, nuclear 2.5, unrest and disasters 2, health and humanitarian 1.5, economy, energy, cyber and shipping 1, diplomacy and climate 0.5, other world news 0.4. An outlet writing about its own country (the BBC on Britain, France 24 on France) counts 30%. The part is `min(100, 16·log₂(1+w))`.
 - **Hazard:** M4.5+ quakes (energy-weighted), GDACS orange and red alerts, and open EONET events. The part is `min(100, 22·log₁₀(1+h))`.
 - **Market:** only for countries with a country ETF. It combines the 5-day drawdown with 20-day volatility measured against the fund's own year.
 

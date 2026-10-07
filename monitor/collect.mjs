@@ -21,7 +21,7 @@ import path from 'node:path';
 import { fetchText, fetchJson } from '../collector/fetch.mjs';
 import { readFeed } from '../collector/news-sources/_feed.mjs';
 import {
-  CATS, categorize, prepCountries, countryNear, countryAt, makeMatcher, clusterStories,
+  CATS, GDELT_QUERY, categorize, prepCountries, countryNear, countryAt, makeMatcher, clusterStories,
   countryInputs, newsPart, hazardPart, CORE_VERSION,
 } from './core.mjs';
 
@@ -56,7 +56,6 @@ export const FEEDS = [
   ['un', 'news.un.org', 'https://news.un.org/feed/subscribe/en/news/all/rss.xml'],
   ['cnbc', 'cnbc.com', 'https://www.cnbc.com/id/100727362/device/rss/rss.html', 'economy'],
   ['middleeasteye', 'middleeasteye.net', 'https://www.middleeasteye.net/rss'],
-  ['hindu', 'thehindu.com', 'https://www.thehindu.com/news/international/?service=rss'],
   ['japantimes', 'japantimes.co.jp', 'https://www.japantimes.co.jp/feed/'],
   ['scmp', 'scmp.com', 'https://www.scmp.com/rss/91/feed'],
   ['africanews', 'africanews.com', 'https://www.africanews.com/feed/rss'],
@@ -92,12 +91,12 @@ async function readPrev(name) {
 
 /* GDELT answered HTTP 429 to every one of 14 per-category calls from a GitHub
  * runner, even six seconds apart (first run, 2026-10-07): shared runner IPs
- * spend its budget. So: ONE request for the high-signal terms, retried once
- * after 20 s, and the headlines are sorted into categories here. */
-const GDELT_Q = '(military OR missile OR airstrike OR troops OR shelling OR terrorist OR bombing OR protest OR coup OR nuclear OR earthquake OR flood OR wildfire OR hurricane OR typhoon OR cyberattack OR ransomware OR outbreak OR epidemic OR sanctions OR ceasefire OR tanker OR refugees OR famine)';
+ * spend its budget, and a single combined call got 429 too (second run). The
+ * call stays, retried once, in case the block lifts; when it fails the page
+ * makes the same single call from the visitor's browser instead. */
 async function gdelt(sources) {
   const out = [];
-  const url = `${GDELT}?query=${encodeURIComponent(`${GDELT_Q} sourcelang:english`)}&mode=artlist&maxrecords=250&format=json&timespan=24h&sort=datedesc`;
+  const url = `${GDELT}?query=${encodeURIComponent(`${GDELT_QUERY} sourcelang:english`)}&mode=artlist&maxrecords=250&format=json&timespan=24h&sort=datedesc`;
   let err = null;
   for (let attempt = 0; attempt < 2; attempt++) {
     try {
@@ -206,7 +205,8 @@ async function hazards(sources, countries) {
 
 /** One point per hour; a run inside the same hour replaces that hour's point. */
 export function appendHistory(prev, now, inputs) {
-  const h = prev && prev.schema === 1 ? prev : { schema: 1, t: [], c: {} };
+  // a new CORE_VERSION scores differently, so its history starts clean rather than mixing scales
+  const h = prev && prev.schema === 1 && prev.core === CORE_VERSION ? prev : { schema: 1, core: CORE_VERSION, t: [], c: {} };
   const hour = Math.floor(now / 3600e3);
   const cut = hour - HISTORY_DAYS * 24;
   let idx = h.t.length - 1;
