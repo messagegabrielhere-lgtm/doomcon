@@ -98,7 +98,12 @@ export function yahooClient({ fetchImpl = fetch, gapMs = 250 } = {}) {
       const recent = [...days.values()].slice(-5);
       const dollars = recent.length ? recent.reduce((a, x) => a + x, 0) / recent.length : 0;
       const lastPx = m.regularMarketPrice ?? b.at(-1)?.c;
-      return { last: lastPx, open: m.chartPreviousClose ?? m.previousClose, high: m.regularMarketDayHigh, low: m.regularMarketDayLow,
+      // The previous session's close, from the bars. Yahoo's chartPreviousClose
+      // is the close before the chart's range (a month ago on a 1mo chart).
+      const nyDay = (t) => new Date(t).toLocaleDateString('en-CA', { timeZone: 'America/New_York' });
+      const today = b.length ? nyDay(b.at(-1).t) : null;
+      const prevClose = [...b].reverse().find((k) => nyDay(k.t) !== today)?.c;
+      return { last: lastPx, open: prevClose ?? m.previousClose ?? m.chartPreviousClose, high: m.regularMarketDayHigh, low: m.regularMarketDayLow,
         volume: lastPx ? dollars / lastPx : 0, open_: isOpen(m) };
     },
     async book(sym) {
