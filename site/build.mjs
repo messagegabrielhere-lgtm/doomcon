@@ -1194,6 +1194,21 @@ async function main() {
   // IndexNow: the key file a search engine fetches to confirm that URL
   // submissions for this site come from this site. The key is public by design.
   written.push(await write(args.out, `${INDEXNOW_KEY}.txt`, INDEXNOW_KEY));
+  // RFC 9116 security contact. Reporting policy is SECURITY.md on main.
+  // Expiry is derived from the reading so the file stays reproducible from data/.
+  {
+    const base = Date.parse(ctx.state?.generated_at || '2026-10-06T00:00:00.000Z');
+    const expires = new Date(base + 365 * 24 * 3600 * 1000).toISOString();
+    const securityTxt = [
+      `Contact: ${brand.REPO_URL}/security/advisories/new`,
+      `Expires: ${expires}`,
+      'Preferred-Languages: en',
+      `Canonical: ${brand.CANONICAL_URL}/.well-known/security.txt`,
+      `Policy: ${brand.REPO_URL}/blob/main/SECURITY.md`,
+      '',
+    ].join('\n');
+    written.push(await write(args.out, '.well-known/security.txt', securityTxt));
+  }
   for (const lv of [1, 2, 3, 4, 5]) {
     written.push(await write(args.out, `brand/tally-${lv}.svg`, mascotFile(lv, marks.HEAT[lv])));
   }

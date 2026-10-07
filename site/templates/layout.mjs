@@ -1477,7 +1477,7 @@ function footer(ctx, sections, path) {
     { href: '/press.html', label: 'Press kit', blurb: 'Facts, a paragraph to lift, images and a contact.' },
     { href: '/privacy.html', label: 'Privacy', blurb: 'No cookies, no analytics. Every trace a visit can leave.' },
     { href: '/terms.html', label: 'Terms & disclaimers', blurb: 'Information and commentary, not advice. No warranty, no liability.' },
-    { href: brand.REPO_URL, label: 'Source code', blurb: `Every line that produced these numbers. ${brand.LICENSE}.` },
+    { href: brand.REPO_URL, label: 'Source code', blurb: `Every line that produced these numbers. Code MIT; data ${brand.LICENSE}.` },
   ];
   if (brand.X_URL) {
     source.push({

@@ -132,6 +132,17 @@ Index proved that a single named scalar plus a distribution channel beats a
 better dashboard with neither. The full teardown is in
 [docs/TEARDOWN.md](docs/TEARDOWN.md).
 
+## Privacy, terms and compliance
+
+- [Privacy](https://messagegabrielhere-lgtm.github.io/doomcon/privacy.html) —
+  no cookies, no analytics, what a visit can touch.
+- [Terms of use](https://messagegabrielhere-lgtm.github.io/doomcon/terms.html) —
+  information not advice, licences, no warranties.
+- [SECURITY.md](SECURITY.md) — how to report a vulnerability.
+- Local gate: `npm run compliance` (also runs on every push and before Pages
+  publish). Operator checklist: [GO-LIVE.md](GO-LIVE.md#step-5--legal-and-compliance-10-minutes-once)
+  and `compliance/REMEDIATION.md`.
+
 ## Licence
 
-Code MIT. Data and index values CC-BY 4.0.
+Code MIT. Data and index values CC BY 4.0. See [LICENSE](LICENSE).

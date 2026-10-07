@@ -145,6 +145,36 @@ In rough order of return on your time:
 
 ---
 
+## Step 5 — Legal and compliance *(10 minutes, once)*
+
+The repo ships a compliance auditor that blocks expensive mistakes (undisclosed
+affiliates, third-party fonts, missing finance disclaimers, leaked secrets). Run
+it locally any time:
+
+```bash
+npm run compliance
+```
+
+It also runs on every push/PR and as a **strict gate before every GitHub Pages
+publish**. Open manual items still need your hands:
+
+1. **Privacy and terms are live** at `/privacy.html` and `/terms.html`. Skim them
+   once so you know what the site claims (no cookies, no analytics, not advice).
+2. **X account** — turn on the "Automated" label and put a bio line that names
+   the human account that runs it (`compliance/manual.json`: `x-automated-label`,
+   `x-bio-disclosure`).
+3. **Amazon Associates** — list this GitHub Pages URL (and any social account that
+   posts paid links) under your website list in Associates Central.
+4. **Repo secret `COMPLIANCE_PII_TERMS`** — comma-separated real name, personal
+   email and phone, so the audit fails if any of them land in a tracked file.
+5. **Rotate API keys** at least yearly; tick `secrets-rotated` in
+   `compliance/manual.json` when done.
+
+Reporting a vulnerability: see [SECURITY.md](SECURITY.md). Licence: code MIT,
+published index data CC BY 4.0 — see [LICENSE](LICENSE).
+
+---
+
 ## What I could not do, and why
 
 - **Buy the domain.** Entering payment details is off-limits to me regardless of
@@ -157,6 +187,8 @@ In rough order of return on your time:
 - **Backtest the index against outcomes.** Deliberately. It does not predict
   outcomes, so there is nothing to backtest against. Anyone who says it "called"
   an event is misusing it, and you should say so.
+- **Complete the manual compliance checks.** The X label, Associates website list
+  and PII secret need your accounts. The auditor prints the open list every run.
 
 One piece of housekeeping: `stockanalysis.com` is an unofficial endpoint and will
 go dark intermittently behind bot protection. That is expected and handled — it

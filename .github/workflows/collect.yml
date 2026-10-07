@@ -310,13 +310,11 @@ jobs:
           exit 1
 
       - name: Compliance gate
-        # compliance/audit.mjs: blocks publishing if a HIGH-severity legal
-        # tripwire (third-party fonts, session replay, undisclosed affiliate
-        # links, leaked secrets, private info, banned X automation) reached
-        # the built site. Medium findings are reported, not blocking here.
+        # compliance/audit.mjs: blocks publishing on HIGH or MEDIUM findings in
+        # the built site (same bar as the push/PR compliance workflow).
         env:
           COMPLIANCE_PII_TERMS: ${{ secrets.COMPLIANCE_PII_TERMS }}
-        run: node compliance/audit.mjs --dir public
+        run: node compliance/audit.mjs --strict --dir public
 
       - name: Publish to gh-pages
         if: steps.gate.outputs.changed == 'true'
@@ -660,13 +658,11 @@ jobs:
           exit 1
 
       - name: Compliance gate
-        # compliance/audit.mjs: blocks publishing if a HIGH-severity legal
-        # tripwire (third-party fonts, session replay, undisclosed affiliate
-        # links, leaked secrets, private info, banned X automation) reached
-        # the built site. Medium findings are reported, not blocking here.
+        # compliance/audit.mjs: blocks publishing on HIGH or MEDIUM findings in
+        # the built site (same bar as the push/PR compliance workflow).
         env:
           COMPLIANCE_PII_TERMS: ${{ secrets.COMPLIANCE_PII_TERMS }}
-        run: node compliance/audit.mjs --dir public
+        run: node compliance/audit.mjs --strict --dir public
 
       - name: Publish to gh-pages
         env:

@@ -54,11 +54,11 @@ export function about(ctx) {
     <li>The site is information, commentary and satire — not advice. Do not use it as the basis for financial, legal, safety or policy decisions.</li>
     <li>It measures activity, not danger. ${esc(brand.DISCLAIMER_SHORT)}</li>
     <li>${esc(brand.SATIRE)}</li>
-    <li>Third-party data is shown under its own licence, credited on the page that uses it. The site's own text and data are ${esc(brand.LICENSE)}.</li>
+    <li>Third-party data is shown under its own licence, credited on the page that uses it. Code is MIT; index values and published data are ${esc(brand.LICENSE)}.</li>
     <li>The joke pages (Tally's desk, the game, the Bunker Kit) are satire. Their index numbers, when shown, are still real counts.</li>
   </ul>
   <p>The full version is on the <a href="${esc(ctx.href('/terms.html'))}">terms &amp; disclaimers</a> page.</p>
-  <p><a href="${esc(ctx.href('/privacy.html'))}">Privacy →</a> · <a href="${esc(ctx.href('/guide.html'))}">How it compares with DEFCON and the Doomsday Clock →</a></p>
+  <p><a href="${esc(ctx.href('/terms.html'))}">Full terms of use →</a> · <a href="${esc(ctx.href('/privacy.html'))}">Privacy →</a> · <a href="${esc(ctx.href('/guide.html'))}">How it compares with DEFCON and the Doomsday Clock →</a></p>
 </section>`;
   return page({
     ctx, path: '/about.html',
@@ -79,13 +79,15 @@ export function privacy(ctx) {
     <li><b>No cookies.</b> The site sets none.</li>
     <li><b>No analytics.</b> There is no tracking script, pixel or visitor counter. Nobody here knows you visited.</li>
     <li><b>No accounts and no forms.</b> There is nothing to sign up for and nowhere to type personal details.</li>
+    <li><b>No sale of data.</b> There is nothing personal here to sell or share for advertising.</li>
     <li><b>Browser storage.</b> A few preferences are kept in your own browser's local storage: the last reading you saw, your
       language choice, your best score in the game, and the panel settings on the live monitor and scanner pages. They never
       leave your device, and clearing site data removes them.</li>
   </ul>
   <h2>Third parties a visit touches</h2>
   <ul>
-    <li><b>GitHub Pages</b> hosts the site, so GitHub's servers receive your IP address and browser details, as any web host does.</li>
+    <li><b>GitHub Pages</b> hosts the site, so GitHub's servers receive your IP address and browser details, as any web host does.
+      See <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" rel="noopener">GitHub's privacy statement</a>.</li>
     <li><b>Fonts</b> are served from this site. No font request goes to Google or any other third party.</li>
     <li><b>Live data pages.</b> Three hand-built pages fetch public data straight from your browser, so those providers receive
       your IP address and browser details when you open them, under their own policies:
@@ -106,8 +108,15 @@ export function privacy(ctx) {
   </ul>
   <h2>The embed and the badge</h2>
   <p>The iframe embed and the README badge are static files. They set no cookies and run no tracking on the pages that use them.</p>
+  <h2>Children</h2>
+  <p>The site is not directed at children under 13, and it does not knowingly collect personal information from them. There is nowhere on the site to submit personal details.</p>
+  <h2>Your choices</h2>
+  <p>Because the site keeps no accounts and no server-side visitor profiles, there is nothing here to access, correct or delete beyond what your own browser stores. Clear this site's data in your browser to remove local preferences. Questions about GitHub's hosting logs go to GitHub.</p>
   <h2>Questions</h2>
-  <p>See the <a href="${esc(ctx.href('/about.html'))}">about page</a> for how to get in touch.</p>
+  <p>See the <a href="${esc(ctx.href('/about.html'))}">about page</a> for how to get in touch. Related:
+    <a href="${esc(ctx.href('/terms.html'))}">terms of use</a> ·
+    <a href="${esc(brand.REPO_URL)}/blob/main/SECURITY.md" rel="noopener">security policy</a>.</p>
+  <p class="fine" style="margin-top:var(--s-6);font:500 var(--t-xs)/1.45 var(--mono);color:var(--ink-faint)">Last updated 7 October 2026. If this page changes, the date here changes with it.</p>
 </section>`;
   return page({
     ctx, path: '/privacy.html',
@@ -217,8 +226,9 @@ export function terms(ctx) {
 
   <h2>8. Your use of the site and its data</h2>
   <ul>
-    <li>The site's own text and data are ${esc(brand.LICENSE)}; reuse them with credit. Third-party data stays under its own
-      licence, as credited on the page that uses it. Nothing here grants rights in anyone else's content or trademarks.</li>
+    <li><b>Code</b> in the repository is MIT, unless a file says otherwise. <b>Index values, receipts and other data</b> published
+      from this project are ${esc(brand.LICENSE)} — reuse with credit. Third-party data stays under its own licence, as credited
+      on the page that uses it. Nothing here grants rights in anyone else's content or trademarks.</li>
     <li>Do not use the site or its data to break the law, harass or target anyone, or misrepresent ${esc(brand.NAME)} — for example
       by presenting a reading as an official alert or as the operator's endorsement.</li>
     <li>Please be reasonable with automated access to the data files so the site stays up for everyone.</li>
@@ -244,9 +254,11 @@ export function terms(ctx) {
   <p>The site is meant for a general adult audience and is not directed at children under 13. It collects no personal
     information from anyone; see the <a href="${esc(ctx.href('/privacy.html'))}">privacy page</a>.</p>
 
-  <h2>13. Copyright concerns and corrections</h2>
+  <h2>13. Copyright concerns, corrections and security</h2>
   <p>If you believe something on the site infringes your rights, is inaccurate, or should be removed, contact ${x} or open
-    ${repo} with the page address and what you would like changed. Valid requests are handled promptly.</p>
+    ${repo} with the page address and what you would like changed. Valid requests are handled promptly. For security reports,
+    prefer a <a href="${esc(brand.REPO_URL)}/security/advisories/new" rel="noopener">private advisory</a>; see
+    <a href="${esc(brand.REPO_URL)}/blob/main/SECURITY.md" rel="noopener">SECURITY.md</a>.</p>
 
   <h2>14. Changes, severability and your rights</h2>
   <p>These terms may be updated at any time; the date at the top shows the latest version, and continuing to use the site means
@@ -258,8 +270,7 @@ export function terms(ctx) {
   return page({
     ctx, path: '/terms.html',
     title: `Terms & disclaimers · ${brand.NAME}`,
-    description: `${brand.NAME} is information and commentary, not advice. Terms of use, the no-warranty and liability terms, and what the index does and does not claim.`,
-    main,
+    description: `${brand.NAME} is information and commentary, not advice. Terms of use, the no-warranty and liability terms, and what the index does and does not claim.`,    main,
   });
 }
 

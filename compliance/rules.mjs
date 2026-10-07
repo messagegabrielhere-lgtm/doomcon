@@ -152,7 +152,9 @@ export const RULES = [
     check: ({ files }) =>
       files.filter(shipped).flatMap((f) => {
         const c = codeOnly(f.text);
-        const em = hits(c, /type=["']email["']|name=["']email["']|(buttondown|beehiiv|convertkit|mailchimp|substack|formspree|kit\.com)\.[a-z]+\/[^\s"']*/i);
+        // Newsletter-platform hosts only when the path looks like a signup
+        // embed — not an RSS/Atom feed URL we pull as a news source.
+        const em = hits(c, /type=["']email["']|name=["']email["']|(buttondown|beehiiv|convertkit|mailchimp|substack|formspree|kit\.com)\.[a-z.]+\/(?!(feed|rss|atom)\b)[^\s"']*/i);
         if (!em.length || /privacy/i.test(c)) return [];
         return [{ file: f.path, line: em[0].line, detail: em[0].match }];
       }),
@@ -344,6 +346,42 @@ export const RULES = [
       files.some((f) => /privacy/i.test(f.path) || /privacy\.html/.test(f.text))
         ? []
         : [{ file: '(repo)', line: 0, detail: 'no privacy page found' }],
+  },
+
+  // ── 16b. Terms of use for a public site that shows finance toys ────────
+  {
+    id: 'terms-page',
+    severity: 'medium',
+    title: 'No terms of use page',
+    law: 'UDAP / consumer-protection posture for sites offering trading signals, affiliates and reusable data; clear licence terms for MIT + CC-BY reuse',
+    fix: 'Publish /terms.html covering not-advice, no warranties, licences and contact, and link it next to Privacy.',
+    check: ({ files }) =>
+      files.some((f) => /(^|\/)terms(\.html)?$/i.test(f.path) || /terms\.html/.test(f.text) || /export function terms\b/.test(f.text))
+        ? []
+        : [{ file: '(repo)', line: 0, detail: 'no terms page found' }],
+  },
+
+  // ── 16c. Finance / affiliate pages must not be a privacy dead-end ──────
+  {
+    id: 'finance-legal-links',
+    severity: 'medium',
+    title: 'Finance or affiliate page with no Privacy/Terms links',
+    law: 'CalOPPA linked privacy policy; FTC Endorsement Guides / Associates rules expect disclosures reachable from the page that earns',
+    fix: 'Add relative links to privacy.html and terms.html in the page footer or legal-note.',
+    check: ({ files }) =>
+      files.filter((f) => /\.html?$/i.test(f.path)).flatMap((f) => {
+        const c = f.text;
+        const needs =
+          /class=["']legal-note["']/i.test(c) ||
+          /not (an? )?(investment|financial|trading)[\w\s,/]{0,30}advice/i.test(c) ||
+          /(amzn\.to\/|amazon\.[a-z.]+\/[^\s"'`]*[?&]tag=)/i.test(c);
+        if (!needs) return [];
+        const hasPrivacy = /privacy\.html/i.test(c);
+        const hasTerms = /terms\.html/i.test(c);
+        if (hasPrivacy && hasTerms) return [];
+        const missing = [!hasPrivacy && 'privacy.html', !hasTerms && 'terms.html'].filter(Boolean).join(' + ');
+        return [{ file: f.path, line: 1, detail: `missing ${missing}` }];
+      }),
   },
   // ── 17. Automated social posters must refuse @mentions ─────────────────
   {

@@ -21,11 +21,13 @@ export const FINANCE_NOTE =
   '<p class="legal-note" style="margin:24px auto;max-width:72ch;padding:0 16px;font:400 12px/1.5 system-ui,sans-serif;opacity:.75">' +
   'For information, entertainment and satire only. Not investment, financial or trading advice, and not a recommendation to buy or sell any security or crypto asset. ' +
   'Signals and simulated results do not predict future returns. Parts of this site are satire, parody and humour — not literal statements of fact. ' +
-  'Do your own research or talk to a licensed professional.</p>';
+  'Do your own research or talk to a licensed professional. ' +
+  '<a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a></p>';
 
 export const AFFILIATE_NOTE =
   '<p class="legal-note" style="margin:24px auto;max-width:72ch;padding:0 16px;font:400 12px/1.5 system-ui,sans-serif;opacity:.75">' +
-  'Some links on this page are affiliate links. As an Amazon Associate we earn from qualifying purchases, at no extra cost to you.</p>';
+  'Some links on this page are affiliate links. As an Amazon Associate we earn from qualifying purchases, at no extra cost to you. ' +
+  '<a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a></p>';
 
 const PRIVACY_LINK = ' <a href="/privacy.html" class="legal-note">How we use your email (privacy)</a>';
 
@@ -184,6 +186,14 @@ export const STEPS = {
   'privacy-page': [
     'Publish /privacy.html: what you collect, why, which third parties receive it, how long you keep it, and how to contact you.',
     'Link it from every page footer.',
+  ],
+  'terms-page': [
+    'Publish /terms.html: not advice, no warranties, limitation of liability, licences (code MIT; data CC BY), third-party content, and contact.',
+    'Link it next to Privacy in the site footer and on standalone finance pages.',
+  ],
+  'finance-legal-links': [
+    'On every HTML page with a finance disclaimer, Amazon tag or legal-note, add links to privacy.html and terms.html (relative paths so GitHub Pages base paths still work).',
+    'Keep the existing disclosure text; the links are in addition to it, not a replacement.',
   ],
   'social-mention-guard': [
     'Before any automated post is sent, reject text containing an @handle (see findMention in collector/post-x.mjs).',

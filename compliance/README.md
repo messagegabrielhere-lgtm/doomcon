@@ -1,8 +1,8 @@
 # Compliance auditor
 
 A zero-dependency scanner that blocks the expensive legal mistakes AI-built sites
-tend to ship with. It runs on every push, weekly, and as a gate before every
-deploy to GitHub Pages.
+tend to ship with. It runs on every push, weekly, and as a **strict** gate
+(HIGH and MEDIUM) before every deploy to GitHub Pages.
 
 ```bash
 npm run compliance            # self-test the rules, then audit (strict)
@@ -53,6 +53,8 @@ It never edits a build folder passed with `--dir`.
 | `finance-disclaimer` | medium | Trading signals with no "not investment advice" notice |
 | `cookie-consent` | medium | ePrivacy cookie consent |
 | `privacy-page` | medium | CalOPPA requires a linked privacy policy |
+| `terms-page` | medium | Terms of use for not-advice, licences and liability posture |
+| `finance-legal-links` | medium | Finance/affiliate pages must link Privacy and Terms |
 | `social-mention-guard` | high | X/Bluesky spam rules: an automated poster must refuse @mentions |
 | `social-affiliate` | high | FTC + Amazon: affiliate links in posts need #ad |
 | `ytdlp-cookies` | low | YouTube ToS: logged-in cookies put that Google account at risk |
