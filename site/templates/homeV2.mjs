@@ -603,14 +603,21 @@ body.v2-body{margin:0;background:#000;color:#F3F4F6}
 .v2 .bob{animation:v2bob 1.4s steps(2,start) infinite}
 @keyframes v2bob{50%{transform:translateY(-4px)}}
 @media (max-width:720px){
+  /* Room for the sticky phone tab bar + sitebar refresh chip so the score
+     and scale rail are not covered on the fold. */
+  .v2-main{padding-bottom:160px}
   .v2-sub{padding-left:0;font-size:14px}
-  .v2-banner .v2-score{margin-left:0;align-items:flex-start}
+  .v2-banner{padding:18px 16px;gap:14px}
+  .v2-banner .v2-score{margin-left:0;align-items:flex-start;width:100%}
+  .v2-banner .v2-score .v2-ptext{max-width:100%}
+  .v2-banner .v2-score .v2-ptext svg{max-height:56px;width:auto}
   .v2-brand .v2-art{width:72px;height:72px}
   .v2-dock .tile{width:calc(33.33% - 7px);height:100px}
   .v2-bar.wide{grid-template-columns:120px minmax(0,1fr) 56px}
   .v2-scale{grid-template-columns:repeat(5,minmax(0,1fr));gap:3px}
   .v2-scale__st{padding:6px 2px 8px}
   .v2-scale__n{font-size:16px}
+  .v2-scale__name{font-size:7px;letter-spacing:0}
   .v2-plain{font-size:15px}
 }
 @media (prefers-reduced-motion:reduce){.v2 *{animation:none!important}}
