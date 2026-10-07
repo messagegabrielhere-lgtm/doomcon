@@ -148,6 +148,27 @@ select{background:var(--panel);border:1px solid var(--line);border-radius:6px;pa
 .res.open{background:var(--sunk);color:var(--mute);border:1px solid var(--line)}
 .res.pending{color:var(--mute);border:1px dashed var(--line)}
 
+.potd{margin:10px 12px 0;display:grid;grid-template-columns:minmax(0,1.4fr) minmax(220px,1fr);gap:14px;padding:14px 16px;border-radius:12px;border:2px solid var(--accent);background:linear-gradient(135deg,color-mix(in srgb,var(--accent) 16%,var(--panel)),var(--panel) 65%)}
+.potd-k{font:700 12px/1 var(--f-display);letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+.potd-t{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin:6px 0 4px}
+.potd-t b{font:700 42px/1 var(--f-display);letter-spacing:.03em}
+.potd-t span{color:var(--mute);font-size:13px}
+.potd ul{margin:8px 0 0;padding-left:18px;font-size:13px;color:var(--mute)}
+.potd-live,.pick .live{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.lv{font:12px var(--f-mono);color:var(--mute)}
+.potd .res{font-size:12px;padding:4px 8px}
+.potd-side{display:flex;flex-direction:column;gap:8px;justify-content:center}
+.pspark{width:100%;height:48px;display:block}
+.potd dl{display:grid;grid-template-columns:auto 1fr;gap:3px 12px;margin:0;font-size:13px}
+.potd dt{color:var(--mute)} .potd dd{margin:0;text-align:right;font-family:var(--f-mono)}
+.pv-panel{margin:0 12px 12px;padding:10px 12px;border:1px dashed var(--line);border-radius:10px}
+.pv-panel h3{margin:0 0 6px;font:600 13px/1 var(--f-display);letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+.pv-list{display:flex;flex-wrap:wrap;gap:6px}
+.pv{border:1px solid var(--line);border-radius:999px;padding:3px 10px;font:12px var(--f-mono);background:var(--sunk)}
+.pv b{font-family:var(--f-display);font-size:14px;letter-spacing:.04em;margin-right:4px}
+.pv-panel p{margin:6px 0 0;font-size:12px}
+@media (max-width:640px){.potd{grid-template-columns:1fr}.potd-t b{font-size:34px}}
+
 /* scoreboard */
 .score{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
 .tile{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 12px;min-width:0}
@@ -243,7 +264,9 @@ dialog.agent::backdrop{background:rgba(5,8,14,.55)}
     <section class="panel" aria-label="Today's picks">
       <div class="ph"><h2 id="pkHead">Picks</h2><span class="mute" style="font-size:12px" id="pkAsOf"></span></div>
       <p class="pk-plan" id="pkPlan"></p>
+      <div class="potd" id="potd" hidden></div>
       <div class="picks" id="picks"><p class="empty">Loading the latest stock data…</p></div>
+      <div class="pv-panel" id="pvPanel" hidden><h3 id="pvHead">Tomorrow's picks so far</h3><div class="pv-list" id="pvList"></div><p class="mute" id="pvNote"></p></div>
     </section>
 
     <section class="score" id="pkScore" aria-label="Track record summary" hidden></section>
@@ -807,11 +830,38 @@ function pkStats(hist){
     equity: eq, bench: sp, maxDD: dd * 100, curve,
   };
 }
+// Where today's trade stands, from the live quote (quotes.json): the entry is
+// today's open, and the day's high and low say whether the target or stop has
+// been touched. Both touched counts as the stop, as in the track record.
+function pkLive(pick, q){
+  const day = q && q.day;
+  if(!day || !(day.o > 0)) return {state: "waiting"};
+  const entry = day.o, a = pick.atr * PK.atrK * (entry / pick.close);
+  const target = entry + a, stop = entry - a, px = q.px ?? entry;
+  const base = {entry, target, stop, px, now: (px / entry - 1) * 100, gap: (entry / pick.close - 1) * 100};
+  if(day.l <= stop) return {...base, state: "stop", ret: (stop / entry - 1) * 100 - PK.costPct};
+  if(day.h >= target) return {...base, state: "target", ret: (target / entry - 1) * 100 - PK.costPct};
+  return {...base, state: q.open ? "running" : "closed"};
+}
+
+// Each series with today's session so far appended as a bar (close = the live
+// price), for symbols whose quote has a session newer than their last bar.
+// The screen run on this is a preview of tomorrow's picks, final at the close.
+function pkAppendToday(symbols, quotes){
+  let t = null;
+  const out = symbols.map((s) => {
+    const q = quotes[s.s], d = q && q.day;
+    if(!d || !(q.px > 0) || d.t <= s.t.at(-1)) return s;
+    t = d.t;
+    return {...s, t: [...s.t, d.t], o: [...s.o, d.o], h: [...s.h, Math.max(d.h, q.px)], l: [...s.l, Math.min(d.l, q.px)], c: [...s.c, q.px], v: [...s.v, d.v]};
+  });
+  return {symbols: out, t};
+}
 /* picks:end */
 
 // ---- the picks tab ----
 const SCAN = (qs.get("scan") || "https://raw.githubusercontent.com/messagegabrielhere-lgtm/doomcon/scanner-data").replace(/\/$/, "");
-let PKD = null, PKH = null, PKLIVE = {}, pkDaysN = 5;
+let PKD = null, PKH = null, PKQ = null, pkDaysN = 5;
 const nyDate = (t) => new Date(t).toLocaleDateString("en-US", {timeZone:"America/New_York", weekday:"short", month:"short", day:"numeric"});
 const nyKey = (t) => new Date(t).toLocaleDateString("en-CA", {timeZone:"America/New_York"});
 // The next weekday after a session (holidays aren't known here; a holiday just moves the trade a day).
@@ -821,49 +871,96 @@ const sgn = (x, d = 2) => x == null ? "-" : `${x >= 0 ? "+" : ""}${x.toFixed(d)}
 async function loadPicks(){
   const get = async (f) => { const r = await fetch(`${SCAN}/${f}?t=${Math.floor(Date.now() / 60e3)}`, {cache:"no-store"}); if(!r.ok) throw new Error(`${f}: HTTP ${r.status}`); return r.json(); };
   try{
-    const [d, h] = await Promise.all([get("stocks-1d.json"), get("stocks-1h.json").catch(() => null)]);
-    const prepped = d.symbols.filter((s) => s.c?.length >= PK.minBars).map(pkPrep);
+    const [d, q] = await Promise.all([get("stocks-1d.json"), get("quotes.json").catch(() => null)]);
+    const raw = d.symbols.filter((s) => s.c?.length >= PK.minBars);
+    const prepped = raw.map(pkPrep);
     const spy = prepped.find((s) => s.s === "SPY");
     if(!spy) throw new Error("no SPY series");
-    PKD = {gen:Date.parse(d.generated), prepped, spy};
+    PKD = {gen:Date.parse(d.generated), prepped, spy, raw};
     PKH = pkHistory(prepped, spy);
-    // Latest hourly close, to show where today's picks trade now.
-    PKLIVE = {};
-    for(const s of h?.symbols || []) if(s.c?.length) PKLIVE[s.s] = {px:s.c.at(-1), t:s.t.at(-1) * 1000};
+    PKQ = q;
     renderPicks();
   }catch(e){
     if(!PKD) $("#picks").innerHTML = `<p class="empty">Couldn't load the stock data (${esc(e.message)}). Try Refresh in a minute.</p>`;
   }
-  if(view === "picks" && PKD) announce(PKD.gen);
+  if(view === "picks" && PKD) announce(Math.max(PKD.gen, Date.parse(PKQ?.generated) || 0));
 }
+
+// Live status line for one pick, from today's session in quotes.json.
+function liveBadge(L, tradeDay){
+  if(L.state === "waiting") return `<span class="res pending">${Date.now() < tradeDay ? `Opens ${nyDate(tradeDay)}` : "Waiting for the open"}</span>`;
+  const gap = Math.abs(L.gap) >= 0.05 ? ` · opened ${sgn(L.gap, 1)} vs close` : "";
+  if(L.state === "target") return `<span class="res target">Target hit ${sgn(L.ret)}</span><span class="lv">Bought at the open $${px(L.entry)}${gap}</span>`;
+  if(L.state === "stop") return `<span class="res stop">Stop hit ${sgn(L.ret)}</span><span class="lv">Bought at the open $${px(L.entry)}${gap}</span>`;
+  return `<span class="res ${L.now >= 0 ? "target" : "stop"}">${L.state === "running" ? "Now" : "Closed"} ${sgn(L.now)}</span><span class="lv">Open $${px(L.entry)} → $${px(L.px)}${gap}</span>`;
+}
+const pickSpark = (S, n = 40) => {
+  const c = S.c.slice(-n), lo = Math.min(...c), hi = Math.max(...c), W = 160, H = 40;
+  return `<svg class="pspark" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true"><path d="${c.map((v, i) => `${i ? "L" : "M"}${(i / (c.length - 1) * W).toFixed(1)} ${(H - 3 - (v - lo) / ((hi - lo) || 1) * (H - 6)).toFixed(1)}`).join("")}" fill="none" stroke="var(--accent)" stroke-width="2" vector-effect="non-scaling-stroke"/></svg>`;
+};
 
 function renderPicks(){
   const last = PKH.at(-1), lastT = last.t * 1000, tradeDay = nextWeekday(lastT), exitDay = nextWeekday(tradeDay);
+  // Quotes only count for the session these picks are for.
+  const qFor = (sym) => { const x = PKQ?.quotes?.[sym]; return x?.day && nyKey(x.day.t * 1000) === nyKey(tradeDay) ? {...x, open: PKQ.marketOpen && x.open} : null; };
+  const quoteAt = PKQ?.generated ? ` · prices ${new Date(PKQ.generated).toLocaleTimeString([], {hour:"numeric", minute:"2-digit"})} (delayed)` : "";
   $("#pkHead").textContent = `Picks for ${nyDate(tradeDay)}`;
-  $("#pkAsOf").textContent = `From the close of ${nyDate(lastT)} · data saved ${ago(PKD.gen)}`;
+  $("#pkAsOf").textContent = `From the close of ${nyDate(lastT)}${quoteAt}`;
   $("#pkPlan").innerHTML = last.picks.length
-    ? `The screen's plan: buy at the open on <b>${nyDate(tradeDay)}</b>, sell at the open on <b>${nyDate(exitDay)}</b>, or earlier if the price reaches the target or the stop. This is exactly what the track record below replays.`
+    ? `The screen's plan: buy at the open on <b>${nyDate(tradeDay)}</b>, sell at the open on <b>${nyDate(exitDay)}</b>, or earlier if the price reaches the target or the stop. The picks are fixed at the close so the track record can score them; the live status below shows how each is doing since the open.`
     : `No stock passed the screen at the close of ${nyDate(lastT)}, so there are no picks for ${nyDate(tradeDay)}. Sitting out is part of the rule.`;
   const names = Object.fromEntries(PKD.prepped.map((s) => [s.s, s]));
-  $("#picks").innerHTML = last.picks.length ? last.picks.map((p, i) => {
-    const a = p.atr * PK.atrK, tPct = a / p.close * 100;
-    const live = PKLIVE[p.S.s], liveToday = live && nyKey(live.t) === nyKey(tradeDay);
+  const why = (p) => `<li>RSI(2) at ${p.rsi2.toFixed(1)}: a sharp two-day dip</li><li>${sgn(p.drop3, 1)} over the last 3 sessions</li><li>${p.above100.toFixed(1)}% above its 100-day average: still an uptrend</li>`;
+
+  // Pick of the day: the screen's strongest reading.
+  const top = last.picks[0];
+  if(top){
+    const L = pkLive(top, qFor(top.S.s)), tPct = top.atr * PK.atrK / top.close * 100;
+    const ent = L.state === "waiting" ? top.close : L.entry, a = top.atr * PK.atrK * (ent / top.close);
+    $("#potd").hidden = false;
+    $("#potd").innerHTML = `
+      <div class="potd-main">
+        <span class="potd-k">&#9733; Pick of the day</span>
+        <div class="potd-t"><b>${esc(top.S.s)}</b><span>${esc(names[top.S.s]?.n || "")}${top.S.sec ? ` · ${esc(top.S.sec)}` : ""}</span></div>
+        <div class="potd-live">${liveBadge(L, tradeDay)}</div>
+        <ul>${why(top)}<li>The lowest RSI(2) of every stock that passed today: the screen's strongest signal.</li></ul>
+      </div>
+      <div class="potd-side">
+        ${pickSpark(top.S)}
+        <dl>
+          <dt>${L.state === "waiting" ? "Last close" : "Entry (open)"}</dt><dd>$${px(ent)}</dd>
+          <dt>Target</dt><dd class="up">$${px(ent + a)} (+${tPct.toFixed(2)}%)</dd>
+          <dt>Stop</dt><dd class="down">$${px(ent - a)} (-${tPct.toFixed(2)}%)</dd>
+          <dt>Sell by</dt><dd>${nyDate(exitDay)} open</dd>
+        </dl>
+      </div>`;
+  }else $("#potd").hidden = true;
+
+  $("#picks").innerHTML = last.picks.length ? last.picks.slice(1).map((p, i) => {
+    const tPct = p.atr * PK.atrK / p.close * 100, L = pkLive(p, qFor(p.S.s));
     return `<article class="pick">
-      <span class="rank">#${i + 1}</span>
+      <span class="rank">#${i + 2}</span>
       <div class="tk"><b>${esc(p.S.s)}</b><span>$${px(p.close)}</span></div>
       <div class="nm" title="${esc(names[p.S.s]?.n || "")}">${esc(names[p.S.s]?.n || "")}${p.S.sec ? ` · ${esc(p.S.sec)}` : ""}</div>
+      <div class="live">${liveBadge(L, tradeDay)}</div>
       <dl>
         <dt>Target</dt><dd class="up">+${tPct.toFixed(2)}%</dd>
         <dt>Stop</dt><dd class="down">-${tPct.toFixed(2)}%</dd>
-        ${liveToday ? `<dt>Now</dt><dd>$${px(live.px)}</dd>` : ""}
       </dl>
-      <ul>
-        <li>RSI(2) at ${p.rsi2.toFixed(1)}: a sharp two-day dip</li>
-        <li>${sgn(p.drop3, 1)} over the last 3 sessions</li>
-        <li>${p.above100.toFixed(1)}% above its 100-day average: still an uptrend</li>
-      </ul>
+      <ul>${why(p)}</ul>
     </article>`;
   }).join("") : `<p class="empty">No picks for this session.</p>`;
+  $("#picks").hidden = last.picks.length === 1;
+
+  // Tomorrow's picks so far: the same screen on today's live prices.
+  const ext = PKQ?.quotes ? pkAppendToday(PKD.raw, PKQ.quotes) : {t: null};
+  if(ext.t && ext.t > last.t){
+    const pre = pkPicksOn(ext.symbols.map(pkPrep), ext.t), nextDay = nextWeekday(ext.t * 1000);
+    $("#pvPanel").hidden = false;
+    $("#pvNote").textContent = PKQ.marketOpen ? `Provisional: changes as prices move; final at the 4:00 PM New York close.` : `From today's close; becomes the official list when the next snapshot is saved.`;
+    $("#pvHead").textContent = `Tomorrow's picks so far (${nyDate(nextDay)})`;
+    $("#pvList").innerHTML = pre.length ? pre.map((p) => `<span class="pv"><b>${esc(p.S.s)}</b> RSI(2) ${p.rsi2.toFixed(1)}</span>`).join("") : `<span class="mute">Nothing passes the screen at current prices.</span>`;
+  }else $("#pvPanel").hidden = true;
 
   const st = pkStats(PKH);
   const tile = (k, v, sub, cls = "") => `<div class="tile"><small>${k}</small><b class="${cls}">${v}</b><span>${sub}</span></div>`;
