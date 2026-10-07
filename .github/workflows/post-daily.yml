@@ -48,6 +48,10 @@ on:
     # Keep this string exactly as written; nothing matches on it, but the time
     # is argued for above and a reformat should not move it by accident.
     - cron: '41 14 * * *'
+    # ALERT lane: hourly at :29, after the :07 full run has committed. Posts
+    # only a fresh level change (collector/post-daily.mjs --alert); every other
+    # hour it prints "no fresh level change" and exits green.
+    - cron: '29 * * * *'
   workflow_dispatch:
     inputs:
       dry_run:
@@ -78,6 +82,7 @@ jobs:
       HAS_BSKY: ${{ secrets.BSKY_HANDLE != '' && secrets.BSKY_APP_PASSWORD != '' }}
       DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}
       CHANNEL: ${{ inputs.channel || 'all' }}
+      ALERT: ${{ github.event_name == 'schedule' && github.event.schedule == '29 * * * *' }}
 
     steps:
       - name: Nothing to post with
@@ -130,6 +135,7 @@ jobs:
           set -euo pipefail
           ARGS=()
           if [ "$CHANNEL" != "all" ]; then ARGS+=("--channel=$CHANNEL"); fi
+          if [ "$ALERT" = "true" ]; then ARGS+=(--alert); fi
           node collector/post-daily.mjs "${ARGS[@]}"
 
       - name: Commit the post ledger

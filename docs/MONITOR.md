@@ -33,8 +33,7 @@ because GDELT asks for one request every five seconds.
 | Earthquakes | USGS M4.5+, 7 days | both |
 | Fires, storms, volcanoes, floods… | NASA EONET v3, open events | both |
 | Disaster alerts | GDACS | both |
-| Military aircraft | adsb.lol `/v2/mil`, airplanes.live fallback | both |
-| All flights (off by default) | OpenSky, anonymous, sampled to ~4,000 | browser |
+| Military aircraft | adsb.lol `/v2/mil` (ODbL), published only as counts per 5° cell by country: no callsign, registration, hex, type, altitude, heading or exact position is kept | both |
 | Shipping lanes, chokepoints | static, in the page | — |
 | AI datacentres (off by default) | `/api/world.json` (OSM) | browser |
 | Exploited vulnerabilities | CISA KEV via `cisagov/kev-data` | both |
@@ -84,3 +83,13 @@ zero that hour.
 
 The World Monitor in the tweet also ships native desktop apps, 25 languages
 and live AIS ship positions. AIS needs a key, so lanes here are static.
+
+## Military aircraft: what is and is not shown
+
+Retired on 2026-10-07: per-aircraft markers (callsign, registration, type,
+altitude, speed, heading, a link to the aircraft), the airplanes.live fallback
+and the OpenSky all-flights layer. airplanes.live and OpenSky license their
+APIs for non-commercial use only, and identifying individual military aircraft
+in real time adds risk without adding to what the room is for. What remains is
+a density count from adsb.lol's openly licensed (ODbL) feed: how many
+military-flagged aircraft are broadcasting in each 5° region, and per country.

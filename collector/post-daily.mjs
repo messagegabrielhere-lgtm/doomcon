@@ -58,6 +58,14 @@ export const MIN_GAP_HOURS = 20;
 // Older than this and the reading is a dead pipeline, not today's number. The
 // full lane runs hourly; six hours is five missed runs.
 export const MAX_STATE_AGE_HOURS = 6;
+// ALERT MODE (--alert). Runs hourly. Posts ONLY a fresh level change
+// (escalation / deescalation, which posts.mjs emits for CHANGE_WINDOW_MS after
+// the change), so followers hear it when it happens rather than at 14:41 the
+// next day. Its own guard: never inside ALERT_MIN_GAP_HOURS of any post on the
+// channel. Alert lines carry mode:"alert" and the daily guard ignores them, so
+// an alert never costs the account its daily reading.
+export const ALERT_KINDS = Object.freeze(['escalation', 'deescalation']);
+export const ALERT_MIN_GAP_HOURS = 3;
 
 // Kinds that may go out with nobody reviewing them: each is a reading of this
 // index's own computed data (the level, the composite, a pillar, a named
@@ -89,7 +97,7 @@ export const BIO_GUIDANCE = Object.freeze({
   bluesky: 'Automated account managed by @HUMAN_HANDLE. One reading a day of the SIREN AI tempo index, from public data. Not a prediction. A human reads the replies.',
 });
 // The use-case text for console.x.com. X's Developer Policy makes it binding.
-export const X_USE_CASE = 'Automated account that publishes one scheduled, informational post a day: a reading of the SIREN '
+export const X_USE_CASE = 'Automated account that publishes one scheduled, informational post a day, plus one when the index changes level: a reading of the SIREN '
   + 'AI activity index and its share card, computed from the project\'s own published data. No replies, no mentions, '
   + 'no likes, follows, reposts or quote posts, and no reading of other accounts\' content.';
 
@@ -168,13 +176,23 @@ const utcDay = (iso) => new Date(iso).toISOString().slice(0, 10);
 
 /** The time rule: one post per channel per UTC day, and a minimum gap. */
 export function timeGuard(ledger, { channel, now, minGapHours = MIN_GAP_HOURS }) {
-  const mine = ledger.filter((l) => l.channel === channel);
+  const mine = ledger.filter((l) => l.channel === channel && l.mode !== 'alert');
   if (mine.length === 0) return { ok: true };
   const last = mine.reduce((a, b) => (Date.parse(b.posted_at) > Date.parse(a.posted_at) ? b : a));
   const gapMs = now.getTime() - Date.parse(last.posted_at);
   if (gapMs < 0) return { ok: false, why: `the ledger holds a ${channel} post dated ${last.posted_at}, after now; refusing until the clock or the ledger is explained` };
   if (utcDay(last.posted_at) === utcDay(now.toISOString())) return { ok: false, why: `${channel} already posted on ${utcDay(now.toISOString())} UTC, at ${last.posted_at}` };
   if (gapMs < minGapHours * 3600000) return { ok: false, why: `${channel} posted ${(gapMs / 3600000).toFixed(1)} h ago (${last.posted_at}); the minimum gap is ${minGapHours} h` };
+  return { ok: true, last };
+}
+
+/** The alert rule: no alert inside ALERT_MIN_GAP_HOURS of any post on the channel. */
+export function alertGuard(ledger, { channel, now, minGapHours = ALERT_MIN_GAP_HOURS }) {
+  const mine = ledger.filter((l) => l.channel === channel);
+  if (mine.length === 0) return { ok: true };
+  const last = mine.reduce((a, b) => (Date.parse(b.posted_at) > Date.parse(a.posted_at) ? b : a));
+  const gapMs = now.getTime() - Date.parse(last.posted_at);
+  if (gapMs < minGapHours * 3600000) return { ok: false, why: `${channel} posted ${(gapMs / 3600000).toFixed(1)} h ago; alerts wait ${minGapHours} h` };
   return { ok: true, last };
 }
 
@@ -290,11 +308,12 @@ export async function cardFor(post, inputs, cache = new Map()) {
 // The receipt line
 // ---------------------------------------------------------------------------
 
-export function ledgerLine({ channel, post, result, card, state, now }) {
+export function ledgerLine({ channel, post, result, card, state, now, mode = 'daily' }) {
   const { text, variant } = channelText(channel, post);
   return {
     schema: 1,
     channel,
+    ...(mode === 'alert' ? { mode: 'alert' } : {}),
     outcome: result.outcome,
     posted_at: now.toISOString(),
     post_id: post.id,
@@ -326,7 +345,7 @@ export function channelCredentials(channel, env = process.env) {
 const say = (s) => process.stdout.write(`${s}\n`);
 const warn = (s) => process.stdout.write(`${process.env.GITHUB_ACTIONS === 'true' ? '::warning::' : 'WARNING '}${s}\n`);
 
-export async function run({ dryRun, channels, ledgerPath = LEDGER_PATH, now = new Date(), env = process.env, liveLocal = false }) {
+export async function run({ dryRun, channels, ledgerPath = LEDGER_PATH, now = new Date(), env = process.env, liveLocal = false, alert = false }) {
   const report = { posted: [], refused: [], failed: [], skipped_channels: [] };
 
   if (!dryRun && env.GITHUB_ACTIONS !== 'true' && !liveLocal) {
@@ -355,11 +374,13 @@ export async function run({ dryRun, channels, ledgerPath = LEDGER_PATH, now = ne
   const fresh = freshness(inputs.state, now);
   if (!fresh.ok) { warn(`[post-daily] not posting: ${fresh.why}`); report.refused.push({ channel: '*', why: fresh.why }); return report; }
 
-  const slate = buildPosts(inputs.state, {
+  const built = buildPosts(inputs.state, {
     brand: inputs.brand, history: inputs.history, news: inputs.news, newsRaw: inputs.newsRaw,
     race: inputs.race, datacenters: inputs.datacenters, readings: inputs.readings,
   });
-  say(`[post-daily] reading ${inputs.state.generated_at} (receipt ${inputs.state.receipt_id ?? 'none'}), `
+  const slate = alert ? { ...built, posts: built.posts.filter((p) => ALERT_KINDS.includes(p.kind)) } : built;
+  if (alert && slate.posts.length === 0) { say('[post-daily] alert: no fresh level change; nothing to post'); return report; }
+  say(`[post-daily] ${alert ? 'ALERT ' : ''}reading ${inputs.state.generated_at} (receipt ${inputs.state.receipt_id ?? 'none'}), `
     + `${fresh.ageHours.toFixed(1)} h old; slate of ${slate.posts.length}${slate.suppressed ? ` (SUPPRESSED: ${slate.reason})` : ''}: `
     + slate.posts.map((p) => `${p.rank}.${p.kind}`).join(' '));
 
@@ -367,7 +388,7 @@ export async function run({ dryRun, channels, ledgerPath = LEDGER_PATH, now = ne
   const cards = new Map();
 
   for (const { channel, creds } of active) {
-    const tg = timeGuard(ledger, { channel, now });
+    const tg = alert ? alertGuard(ledger, { channel, now }) : timeGuard(ledger, { channel, now });
     if (!tg.ok) { say(`[post-daily] ${channel}: refused — ${tg.why}`); report.refused.push({ channel, why: tg.why }); continue; }
 
     const pick = pickPost(slate.posts, { channel, ledger, now });
@@ -399,7 +420,7 @@ export async function run({ dryRun, channels, ledgerPath = LEDGER_PATH, now = ne
       const result = channel === 'x'
         ? await X.postToX({ text, png: card?.bytes ?? null, creds })
         : await BSKY.postToBluesky({ text, link, png: card?.bytes ?? null, readingIso: inputs.state.generated_at, creds });
-      const line = ledgerLine({ channel, post, result, card, state: inputs.state, now: new Date() });
+      const line = ledgerLine({ channel, post, result, card, state: inputs.state, now: new Date(), mode: alert ? 'alert' : 'daily' });
       await appendFile(ledgerPath, `${JSON.stringify(line)}\n`, { flag: 'a' });
       ledger.push(line);
       report.posted.push({ channel, post_id: post.id, outcome: result.outcome, remote_url: result.url });
@@ -589,6 +610,7 @@ async function main(argv) {
 
   const report = await run({
     dryRun, channels, now, ledgerPath: ledgerArg ? ledgerArg.slice(9) : LEDGER_PATH, liveLocal: argv.includes('--live-local'),
+    alert: argv.includes('--alert'),
   });
   say(`[post-daily] ${dryRun ? 'DRY RUN — nothing sent, nothing written. ' : ''}`
     + `${report.posted.length} ${dryRun ? 'would post' : 'posted'}, ${report.refused.length} refused, ${report.failed.length} failed, `

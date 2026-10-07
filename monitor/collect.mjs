@@ -76,7 +76,8 @@ const SRC = {
   eonet: 'https://eonet.gsfc.nasa.gov/api/v3/events?status=open&days=30',
   // the MAP list now needs one event type per call (measured 2026-10-07: "Eventtype is required.")
   gdacs: ['EQ', 'TC', 'FL', 'VO', 'WF', 'DR'].map((t) => `https://www.gdacs.org/gdacsapi/api/events/geteventlist/MAP?eventtype=${t}`),
-  mil: ['https://api.adsb.lol/v2/mil', 'https://api.airplanes.live/v2/mil'],
+  // adsb.lol only (ODbL). airplanes.live is non-commercial-use only.
+  mil: ['https://api.adsb.lol/v2/mil'],
   kev: 'https://raw.githubusercontent.com/cisagov/kev-data/develop/known_exploited_vulnerabilities.json',
 };
 
@@ -183,9 +184,9 @@ async function hazards(sources, countries) {
       let j, err;
       for (const u of SRC.mil) { try { j = await fetchJson(u, { timeoutMs: 25000 }); break; } catch (e) { err = e; } }
       if (!j) throw err;
-      res.mil = (j.ac || j.aircraft || []).filter((a) => Number.isFinite(a.lat) && Number.isFinite(a.lon)).map((a) => ({
-        hex: a.hex, cs: (a.flight || '').trim(), type: a.t || a.desc || '', reg: a.r || '', lon: a.lon, lat: a.lat, alt: a.alt_baro, gs: a.gs, hdg: a.track ?? a.true_heading ?? null,
-      }));
+      // Positions only, for the moment it takes to count them; no callsign,
+      // registration, hex, type, altitude or heading is ever kept or published.
+      res.mil = (j.ac || j.aircraft || []).filter((a) => Number.isFinite(a.lat) && Number.isFinite(a.lon)).map((a) => ({ lon: a.lon, lat: a.lat }));
     }),
     tryIt('kev', async () => {
       const j = await fetchJson(SRC.kev, { timeoutMs: 40000 });
@@ -198,6 +199,18 @@ async function hazards(sources, countries) {
   for (const e of res.eonet) e.iso = countryNear(countries, e.lon, e.lat)?.iso2 || null;
   for (const g of res.gdacs) g.iso = countryNear(countries, g.lon, g.lat)?.iso2 || null;
   for (const a of res.mil) a.iso = countryAt(countries, a.lon, a.lat)?.iso2 || null;
+  // Publish military aircraft ONLY as counts per 5-degree cell, by country.
+  {
+    const cells = new Map();
+    for (const a of res.mil) {
+      const lat = (Math.floor(a.lat / 5) + 0.5) * 5; const lon = (Math.floor(a.lon / 5) + 0.5) * 5;
+      const k = `${lat},${lon}`;
+      const c = cells.get(k) || { lat, lon, n: 0, isos: {} };
+      c.n += 1; if (a.iso) c.isos[a.iso] = (c.isos[a.iso] || 0) + 1;
+      cells.set(k, c);
+    }
+    res.mil = [...cells.values()];
+  }
   return res;
 }
 
@@ -249,7 +262,7 @@ export async function main() {
   // A source that failed this run keeps its previous data, marked stale, rather than vanishing.
   for (const k of ['quakes', 'eonet', 'gdacs', 'mil', 'kev']) {
     const sid = k === 'quakes' ? 'usgs' : k;
-    if (!sources[sid]?.ok && prevSnap?.[k]?.length) { hz[k] = prevSnap[k]; sources[sid] = { ...sources[sid], stale_from: prevSnap.generated }; }
+    if (!sources[sid]?.ok && prevSnap?.[k]?.length) { hz[k] = k === 'mil' ? prevSnap[k].filter((c) => Number.isFinite(c.n)) : prevSnap[k]; sources[sid] = { ...sources[sid], stale_from: prevSnap.generated }; }
   }
 
   const stories = clusterStories(items);

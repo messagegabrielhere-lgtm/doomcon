@@ -357,9 +357,11 @@ export async function selfTest() {
     eq(r.langs[0], 'en', 'langs');
     if (!r.embed.external.title || !r.embed.external.description) throw new Error('card has no title/description');
   });
-  await check('the link card copy passes the future-tense ban (and PUBLICATION would not)', () => {
+  await check('the link card copy passes the future-tense ban', () => {
+    // linkCardMeta() throws if its own words trip the ban. (The old DOOMCON
+    // PUBLICATION, "AI Early Warning", did; the SIREN one may not, so it is no
+    // longer asserted here.)
     linkCardMeta();
-    if (!findFutureViolation(SITE_BRAND.PUBLICATION)) throw new Error('expected "Early Warning" to trip the ban; if the list changed, revisit linkCardMeta');
   });
   await check('preflightBluesky accepts a real manual-variant post', () => { preflightBluesky(FIXTURE_MANUAL_TEXT, FIXTURE_LINK); });
   await check('preflightBluesky rejects 301 graphemes, a second URL, no link, future tense, a mention', () => {

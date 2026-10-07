@@ -503,25 +503,25 @@ one CI reads) unless given `--live-local`.
 Nothing here is done from a coding session, and no credential ever passes
 through one.
 
-1. **Create a new X account for DOOMCON.** The existing personal handle is all
+1. **Create a new X account for SIREN (@SIRENutf6).** The existing personal handle is all
    replies and reposts and cannot carry this.
 2. **Bio.** Replace `HUMAN_HANDLE` with the human account that manages it:
 
    ```text
-   Automated account managed by @HUMAN_HANDLE. One reading a day of the DOOMCON AI tempo index, from public data. Not a prediction.
+   Automated account managed by @HUMAN_HANDLE. One reading a day of the SIREN AI tempo index, from public data. Not a prediction.
    ```
 
-3. **Automated label.** Signed in as DOOMCON: Settings > Your account > Account
+3. **Automated label.** Signed in as SIREN: Settings > Your account > Account
    information > Automation > Managing account, and choose the human account.
    X describes the label as in testing; it may not render at once. The bio and
    the managing-account link are the parts that can be guaranteed.
-4. **Developer app — created while signed in AS THE DOOMCON ACCOUNT**, at
+4. **Developer app — created while signed in AS THE SIREN ACCOUNT**, at
    `https://console.x.com`. Accept the Developer Agreement and Policy. Describe
    the use case with exactly this text; X's policy makes the description
    binding, so change it before changing what the account posts:
 
    ```text
-   Automated account that publishes one scheduled, informational post a day: a reading of the DOOMCON AI activity index and its share card, computed from the project's own published data. No replies, no mentions, no likes, follows, reposts or quote posts, and no reading of other accounts' content.
+   Automated account that publishes one scheduled, informational post a day, plus one when the index changes level: a reading of the SIREN AI activity index and its share card, computed from the project's own published data. No replies, no mentions, no likes, follows, reposts or quote posts, and no reading of other accounts' content.
    ```
 
    Creating the app under the human account instead means the console's tokens
@@ -559,7 +559,7 @@ through one.
 2. **Bio:**
 
    ```text
-   Automated account managed by @HUMAN_HANDLE. One reading a day of the DOOMCON AI tempo index, from public data. Not a prediction. A human reads the replies.
+   Automated account managed by @HUMAN_HANDLE. One reading a day of the SIREN AI tempo index, from public data. Not a prediction. A human reads the replies.
    ```
 
 3. **Bot label.** Bluesky's guidance is that automated accounts self-label as a

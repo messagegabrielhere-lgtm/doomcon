@@ -37,7 +37,10 @@
 // §7 by rendering every card twice in two separate Node processes.
 
 import { tally } from './tallypng.mjs';
-import { deflateSync } from 'node:zlib';
+import { deflateSync, inflateSync } from 'node:zlib';
+import { readFileSync, existsSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { personIdFor } from './templates/_avatars.mjs';
 import {
   GROUND, GROUND_RAISED, INK, INK_DIM, INK_FAINT, HEAT, ACCENT,
   markShapes, strokeOutline, LOGO_GRID,
@@ -837,6 +840,92 @@ function rrectOutline(x, y, w, h, r) {
  * @param {string} [o.background] a hex; the card's ground. Opaque by default
  *   because the PNG has no alpha channel.
  */
+
+// ---------------------------------------------------------------------------
+// 4b. ARTWORK. The site's illustrated siren and the bosses' caricatures, as
+// small RGBA PNGs in site/cardart/ (made from assets/img/art-*.webp; webp has
+// no decoder in Node's built-ins, PNG needs only zlib). decodePng() reads the
+// one shape those files have — 8-bit RGBA or RGB, not interlaced — and THROWS
+// on anything else rather than drawing garbage. A missing file is no art,
+// never a crash: the card still carries every number.
+// ---------------------------------------------------------------------------
+
+export function decodePng(buf) {
+  if (buf.readUInt32BE(0) !== 0x89504e47) throw new Error('cardpng: not a PNG');
+  let off = 8; let W = 0; let H = 0; let ct = 0; const idat = [];
+  while (off < buf.length) {
+    const len = buf.readUInt32BE(off); const type = buf.toString('latin1', off + 4, off + 8);
+    const data = buf.subarray(off + 8, off + 8 + len);
+    if (type === 'IHDR') {
+      W = data.readUInt32BE(0); H = data.readUInt32BE(4); ct = data[9];
+      if (data[8] !== 8 || (ct !== 6 && ct !== 2) || data[12] !== 0) throw new Error('cardpng: art PNG must be 8-bit RGB(A), not interlaced');
+    } else if (type === 'IDAT') idat.push(data);
+    else if (type === 'IEND') break;
+    off += 12 + len;
+  }
+  const bpp = ct === 6 ? 4 : 3; const stride = W * bpp;
+  const raw = inflateSync(Buffer.concat(idat));
+  const out = new Uint8Array(W * H * 4);
+  const prev = new Uint8Array(stride); const cur = new Uint8Array(stride);
+  for (let y = 0; y < H; y += 1) {
+    const f = raw[y * (stride + 1)];
+    for (let i = 0; i < stride; i += 1) {
+      const x = raw[y * (stride + 1) + 1 + i];
+      const a = i >= bpp ? cur[i - bpp] : 0; const b = prev[i]; const c = i >= bpp ? prev[i - bpp] : 0;
+      let v;
+      if (f === 0) v = x;
+      else if (f === 1) v = x + a;
+      else if (f === 2) v = x + b;
+      else if (f === 3) v = x + ((a + b) >> 1);
+      else { const pp = a + b - c; const pa = Math.abs(pp - a); const pb = Math.abs(pp - b); const pc = Math.abs(pp - c); v = x + (pa <= pb && pa <= pc ? a : (pb <= pc ? b : c)); }
+      cur[i] = v & 255;
+    }
+    for (let x = 0; x < W; x += 1) {
+      const o = (y * W + x) * 4;
+      out[o] = cur[x * bpp]; out[o + 1] = cur[x * bpp + 1]; out[o + 2] = cur[x * bpp + 2];
+      out[o + 3] = bpp === 4 ? cur[x * bpp + 3] : 255;
+    }
+    prev.set(cur);
+  }
+  return { w: W, h: H, data: out };
+}
+
+const ART_DIR = fileURLToPath(new URL('./cardart/', import.meta.url));
+const ART_CACHE = new Map();
+/** site/cardart/<name>.png decoded, or null when the file is absent. */
+export function art(name) {
+  if (ART_CACHE.has(name)) return ART_CACHE.get(name);
+  const f = `${ART_DIR}${name}.png`;
+  const img = existsSync(f) ? decodePng(readFileSync(f)) : null;
+  ART_CACHE.set(name, img);
+  return img;
+}
+const FACE_FILE = Object.freeze({ zuckerberg: 'zuck' });
+/** A lab or person's round caricature, or null. */
+export function faceArt(who) {
+  const raw = String(who || '').trim();
+  const id = personIdFor(raw) || personIdFor(raw.toLowerCase().replace(/[^a-z0-9]+/g, '-'));
+  return id ? art(`face-${FACE_FILE[id] || id}`) : null;
+}
+
+// The new look: pure black like the site, and the pixel wordmark the site
+// sets in blocks. 5x7 glyphs, the same bitmaps as site/templates/_pixel.mjs.
+export const CARD_GROUND = '#000000';
+const PX_GLYPH = {
+  S: '.#### #.... #.... .###. ....# ....# ####.', I: '### .#. .#. .#. .#. .#. ###',
+  R: '####. #...# #...# ####. #.#.. #..#. #...#', E: '##### #.... #.... ####. #.... #.... #####',
+  N: '#...# ##..# #.#.# #..## #...# #...# #...#', ' ': '.. .. .. .. .. .. ..',
+  1: '.#. ##. .#. .#. .#. .#. ###', 2: '.###. #...# ....# ...#. ..#.. .#... #####',
+  3: '####. ....# ....# .###. ....# ....# ####.', 4: '...#. ..##. .#.#. #..#. ##### ...#. ...#.',
+  5: '##### #.... ####. ....# ....# #...# .###.',
+};
+/** Width in pixels of `text` set in the block face at `k` px per block. */
+export function pixelWidth(text, k) {
+  let cols = 0;
+  [...String(text).toUpperCase()].forEach((ch, i) => { cols += (i ? 1 : 0) + (PX_GLYPH[ch] || PX_GLYPH[' ']).split(' ')[0].length; });
+  return cols * k;
+}
+
 export function surface(w, h, { background = GROUND } = {}) {
   const W = Math.round(w);
   const H = Math.round(h);
@@ -1040,6 +1129,55 @@ export function surface(w, h, { background = GROUND } = {}) {
       return api;
     },
 
+    /**
+     * Draw decoded artwork (see art()) into the box, bilinear, alpha-blended.
+     * `round` clips to the inscribed circle (the faces are already round).
+     */
+    image(img, { x, y, w: dw, h: dh, alpha = 1 }) {
+      if (!img) return api;
+      const x0 = Math.max(0, Math.floor(x)); const y0 = Math.max(0, Math.floor(y));
+      const x1 = Math.min(W, Math.ceil(x + dw)); const y1 = Math.min(H, Math.ceil(y + dh));
+      const sx = img.w / dw; const sy = img.h / dh;
+      const px = (ix, iy, c) => img.data[(clamp(iy, 0, img.h - 1) * img.w + clamp(ix, 0, img.w - 1)) * 4 + c];
+      for (let py = y0; py < y1; py += 1) {
+        for (let qx = x0; qx < x1; qx += 1) {
+          const u = (qx + 0.5 - x) * sx - 0.5; const v = (py + 0.5 - y) * sy - 0.5;
+          const iu = Math.floor(u); const iv = Math.floor(v); const fu = u - iu; const fv = v - iv;
+          const s4 = (c) => (px(iu, iv, c) * (1 - fu) + px(iu + 1, iv, c) * fu) * (1 - fv)
+            + (px(iu, iv + 1, c) * (1 - fu) + px(iu + 1, iv + 1, c) * fu) * fv;
+          // premultiplied sampling so transparent edges do not fringe
+          const a = s4(3) / 255;
+          if (a <= 0) continue;
+          const pm = (c) => ((px(iu, iv, c) * px(iu, iv, 3) * (1 - fu) + px(iu + 1, iv, c) * px(iu + 1, iv, 3) * fu) * (1 - fv)
+            + (px(iu, iv + 1, c) * px(iu, iv + 1, 3) * (1 - fu) + px(iu + 1, iv + 1, c) * px(iu + 1, iv + 1, 3) * fu) * fv) / 255;
+          const k = a * alpha; const o = (py * W + qx) * 3;
+          for (let c = 0; c < 3; c += 1) buf[o + c] = buf[o + c] * (1 - k) + (pm(c) / a) * k;
+        }
+      }
+      return api;
+    },
+
+    /** The site's block wordmark: crisp squares, `k` px each, top-left at x,y. */
+    pixelText(text, { x, y, k, color }) {
+      api.strings.push({ text: String(text), size: k * 7 });
+      let cx = x;
+      [...String(text).toUpperCase()].forEach((ch, i) => {
+        const g = (PX_GLYPH[ch] || PX_GLYPH[' ']).split(' ');
+        if (i) cx += k;
+        g.forEach((row, ry) => {
+          let c0 = 0;
+          while (c0 < row.length) {
+            if (row[c0] !== '#') { c0 += 1; continue; }
+            let c1 = c0; while (c1 < row.length && row[c1] === '#') c1 += 1;
+            push({ kind: 'rrect', x: cx + c0 * k, y: y + ry * k, rw: (c1 - c0) * k, rh: k, r: 0, color, alpha: 1 });
+            c0 = c1;
+          }
+        });
+        cx += g[0].length * k;
+      });
+      return cx - x;
+    },
+
     /** @returns {Buffer} */
     png() { return encodePng(W, H, buf); },
   };
@@ -1096,9 +1234,9 @@ export function levelMeta(level) {
   return m;
 }
 
-const PANEL = mix(GROUND, '#8fa6c8', 0.07);
-const RULE = mix(GROUND, '#8fa6c8', 0.18);
-const TRACK = mix(GROUND, '#8fa6c8', 0.13);
+const PANEL = mix('#000000', '#8fa6c8', 0.07);
+const RULE = mix('#000000', '#8fa6c8', 0.18);
+const TRACK = mix('#000000', '#8fa6c8', 0.13);
 
 // ---------------------------------------------------------------------------
 // 5b. THE READING, SHARED BY BOTH RENDERERS
@@ -1348,22 +1486,26 @@ function chrome(S, { level, stamp, margin, stripe = 10, footer = true }) {
   // over a 160px band — see docs/CARDS.md §2.3.
   S.gradient({
     x: 0, y: stripe, w: S.width, h: 160, from: [0, stripe], to: [0, stripe + 160],
-    stops: [{ at: 0, color: mix(GROUND, heat, 0.13) }, { at: 1, color: GROUND }],
+    stops: [{ at: 0, color: mix(CARD_GROUND, heat, 0.10) }, { at: 1, color: CARD_GROUND }],
   });
   S.rect({ x: 0, y: 0, w: S.width, h: stripe, color: heat });
   const small = Math.max(15, Math.round(S.width / 60));
   const markSize = Math.round(small * 3.6);
   const my = stripe + Math.round(margin * 0.5);
-  S.mark(level, { x: margin, y: my, size: markSize });
+  // The illustrated siren the site wears, where the wire mark used to sit;
+  // the wire mark stays as the fallback if the art file is missing.
+  const siren = art('siren');
+  if (siren) S.image(siren, { x: margin - 4, y: my - 4, w: markSize + 8, h: markSize + 8 });
+  else S.mark(level, { x: margin, y: my, size: markSize });
   // Tally, top right, helmet in the level's colour: the mascot is the most
   // recognisable thing on a card that is seen at thumbnail size in a feed.
   const ts = Math.round(markSize * 1.25);
   tally(S, { x: S.width - margin - ts, y: my - Math.round(ts * 0.08), size: ts, hat: heat });
   const tx = margin + markSize + Math.round(small * 1.1);
-  S.text(brand.NAME, {
-    x: tx, y: my + Math.round(markSize * 0.50), size: Math.round(small * 1.5),
-    color: INK, weight: 0.115, track: 0.24,
-  });
+  // The block wordmark, as on the site, then "· 4" in the level's heat.
+  const k = Math.max(4, Math.round(markSize / 13));
+  const ww = S.pixelText(brand.NAME, { x: tx, y: my + 2, k, color: '#FFFFFF' });
+  S.pixelText(String(level), { x: tx + ww + k * 3, y: my + 2, k, color: heat });
   S.text(brand.PUBLICATION.toUpperCase(), {
     x: tx, y: my + markSize - Math.round(small * 0.2),
     size: Math.max(14, small - 4), color: INK_FAINT, weight: 0.10, track: 0.22,
@@ -1490,7 +1632,7 @@ export function stateCard(state, { format = 'landscape', generatedAt, trace } = 
   }
   const stamp = utcStamp(generatedAt || (state && state.generated_at));
 
-  const S = surface(fmt.w, fmt.h, { background: GROUND });
+  const S = surface(fmt.w, fmt.h, { background: CARD_GROUND });
   const margin = portrait ? 72 : 64;
   const col = fmt.w - margin * 2;
   const { heat, small, top } = chrome(S, { level, stamp, margin });
@@ -1637,7 +1779,7 @@ export function headlineCard(item, { level, format = 'landscape', generatedAt, t
   const title = String(req(item && item.title, 'item.title')).replace(/\s+/g, ' ').trim();
   const stamp = utcStamp(generatedAt || (item && item.published_at));
 
-  const S = surface(fmt.w, fmt.h, { background: GROUND });
+  const S = surface(fmt.w, fmt.h, { background: CARD_GROUND });
   const margin = portrait ? 72 : 64;
   const { heat, small, top } = chrome(S, { level: L, stamp, margin });
   const col = fmt.w - margin * 2;
@@ -1746,7 +1888,7 @@ export function raceCard(race, { level, format = 'landscape', generatedAt, limit
   if (!legs.length) throw new Error('cardpng: the race card needs at least one priced leg');
   const volume = legs.reduce((a, l) => a + (Number.isFinite(l.volume_usd) ? l.volume_usd : 0), 0);
 
-  const S = surface(fmt.w, fmt.h, { background: GROUND });
+  const S = surface(fmt.w, fmt.h, { background: CARD_GROUND });
   const margin = portrait ? 72 : 64;
   const { heat, small, top } = chrome(S, { level: L, stamp, margin });
   const col = fmt.w - margin * 2;
@@ -1765,7 +1907,7 @@ export function raceCard(race, { level, format = 'landscape', generatedAt, limit
 
   const rowTop = portrait ? 520 : 318;
   const step = portrait ? 86 : 44;
-  const nameW = portrait ? 340 : 250;
+  const nameW = portrait ? 420 : 310;
   const pctW = portrait ? 160 : 130;
   const barX = margin + nameW;
   const barW = col - nameW - pctW;
@@ -1774,8 +1916,11 @@ export function raceCard(race, { level, format = 'landscape', generatedAt, limit
     const y = rowTop + i * step;
     const lead = i === 0;
     const size = lead ? (portrait ? 42 : 29) : (portrait ? 32 : 22);
+    const face = faceArt(leg.title);
+    const fd = Math.round(size * 1.55);
+    if (face) S.image(face, { x: margin, y: y - fd / 2, w: fd, h: fd, alpha: lead ? 1 : 0.85 });
     S.text(String(leg.title), {
-      x: margin, y: y + size * 0.36, size, color: lead ? INK : INK_DIM, weight: lead ? 0.115 : 0.10,
+      x: margin + fd + Math.round(size * 0.45), y: y + size * 0.36, size, color: lead ? INK : INK_DIM, weight: lead ? 0.115 : 0.10,
     });
     const h = lead ? (portrait ? 26 : 18) : (portrait ? 18 : 12);
     S.rect({ x: barX, y: y - h / 2, w: barW, h, r: h / 2, color: TRACK });
@@ -1808,6 +1953,46 @@ export function raceCard(race, { level, format = 'landscape', generatedAt, limit
 
 /** The registry a caller iterates. Adding a design is adding one entry here
  *  and one function above; docs/CARDS.md §6 is the checklist. */
+/**
+ * CARD 4 — THE ROOM CARD. One per room of the site, so a shared link to
+ * /monitor.html or /bets.html previews that room rather than the generic
+ * reading: the room's illustration, its name, its one-line pitch, its live
+ * figure when it has one, and the current level in the chrome. Landscape only
+ * (it is an og:image, never a post).
+ */
+export function roomCard(room, { level, generatedAt, trace } = {}) {
+  const lv = req(level, 'level');
+  levelMeta(lv);
+  const title = req(room && room.title, 'room.title');
+  const fmt = FORMATS.landscape;
+  const S = surface(fmt.w, fmt.h, { background: CARD_GROUND });
+  const margin = 64;
+  const { heat, small, top } = chrome(S, { level: lv, stamp: utcStamp(generatedAt), margin });
+  const img = room.art ? art(`room-${room.art}`) : null;
+  const box = 300;
+  const by = top + 40;
+  if (img) S.image(img, { x: margin, y: by, w: box, h: box });
+  const tx = img ? margin + box + 48 : margin;
+  const col = fmt.w - margin - tx;
+  S.text('A SIREN ROOM', { x: tx, y: by + 24, size: small - 2, color: heat, weight: 0.11, track: 0.22 });
+  const t = fitText(title, { from: 64, to: 34, maxWidth: col, maxLines: 2, track: 0.01 });
+  let y = by + 24 + 26 + t.size;
+  for (const line of t.lines) { S.text(line, { x: tx, y, size: t.size, color: '#FFFFFF', weight: 0.11, track: 0.01 }); y += t.size * 1.3; }
+  if (room.blurb) {
+    const b = fitText(room.blurb, { from: 28, to: 18, maxWidth: col, maxLines: 3, track: 0.02 });
+    y += 6;
+    for (const line of b.lines) { S.text(line, { x: tx, y, size: b.size, color: INK_DIM, weight: 0.095 }); y += b.size * 1.45; }
+  }
+  if (room.live) {
+    y += 14;
+    const lt = fitText(String(room.live), { from: 30, to: 18, maxWidth: col, maxLines: 1, track: 0.02 });
+    S.rect({ x: tx, y: y - lt.size - 10, w: 8, h: lt.size + 18, color: heat });
+    S.text(lt.lines[0], { x: tx + 22, y, size: lt.size, color: heat, weight: 0.11 });
+  }
+  if (Array.isArray(trace)) trace.push(...S.strings);
+  return S.png();
+}
+
 export const CARDS = Object.freeze({
   state: stateCard,
   headline: headlineCard,

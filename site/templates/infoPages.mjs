@@ -88,7 +88,7 @@ export function privacy(ctx) {
     <li><b>Fonts</b> are served from this site. No font request goes to Google or any other third party.</li>
     <li><b>Live data pages.</b> Three hand-built pages fetch public data straight from your browser, so those providers receive
       your IP address and browser details when you open them, under their own policies:
-      the <b>world monitor</b> (USGS, NASA EONET, GDACS, GDELT, OpenSky, ADSB.lol, airplanes.live, OKX, alternative.me),
+      the <b>world monitor</b> (USGS, NASA EONET, GDACS, GDELT, ADSB.lol (regional counts only), OKX, alternative.me),
       the <b>scanner</b> (OKX, Polymarket, DEX Screener, alternative.me), and the <b>stock picks and AI battle</b> page.
       All three also read this project's own data files from GitHub (raw.githubusercontent.com).
       Every other page loads only files from this site, except the one below.</li>

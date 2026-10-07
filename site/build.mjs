@@ -15,7 +15,7 @@ import { fileURLToPath } from 'node:url';
 
 import * as brand from './brand.mjs';
 import * as marks from './brandmarks.mjs';
-import { cardAssets } from './cardpng.mjs';
+import { cardAssets, roomCard } from './cardpng.mjs';
 import { createHash } from 'node:crypto';
 import { gzipSync } from 'node:zlib';
 import { css as siteCss } from './styles.mjs';
@@ -1443,6 +1443,33 @@ async function main() {
   })));
   for (const r of receipts) {
     written.push(await write(args.out, `api/receipts/${r.id}.json`, stableJson(r)));
+  }
+
+  // ROOM CARDS. Each room gets its own share image (its art, name, pitch and
+  // live figure) and its page's og:image is pointed at it — but only where the
+  // page still carries the generic state card; a page with a card of its own
+  // (the race) keeps it. A card that fails to draw leaves the page on the
+  // state card, never on nothing.
+  {
+    const ver = state.receipt_id ? `?v=${encodeURIComponent(state.receipt_id)}` : '';
+    let n = 0;
+    for (const [, items] of homeV2.roomGroups(ctx)) {
+      for (const [href, artName, label, live, blurb] of items) {
+        const file = href.replace(/^\//, '');
+        const slug = file.replace(/\.html$/, '');
+        const page = path.join(args.out, file);
+        if (!existsSync(page)) continue;
+        let png;
+        try { png = roomCard({ title: label, art: artName, blurb, live }, { level: state.level, generatedAt: state.generated_at }); } catch (err) { warn(`room card for ${href}: ${err.message}`); continue; }
+        written.push(await writeBinary(args.out, `cards/room-${slug}.png`, png));
+        const html = await readFile(page, 'utf8');
+        const re = /(<meta (?:property="og:image"|name="twitter:image") content=")[^"]*\/cards\/state\.png[^"]*(")/g;
+        if (!re.test(html)) continue;
+        await writeFile(page, html.replace(re, `$1${ctx.url(`/cards/room-${slug}.png`)}${ver}$2`));
+        n += 1;
+      }
+    }
+    console.log(`[build] room share cards: ${n} pages repointed`);
   }
 
   await selfCheck(args.out, state, ctx);

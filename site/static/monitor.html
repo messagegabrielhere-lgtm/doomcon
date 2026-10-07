@@ -305,7 +305,7 @@ footer{font-size:11.5px;color:var(--mute);display:flex;flex-wrap:wrap;gap:4px 14
   <div class="ticker" aria-label="Latest stories"><span class="lab">LIVE</span><div class="run" id="ticker"></div></div>
 
   <footer>
-    <span>News: <a href="https://www.gdeltproject.org/" target="_blank" rel="noopener">GDELT</a>, 27 world and specialist feeds, and SIREN's newsroom. Hazards: <a href="https://earthquake.usgs.gov/" target="_blank" rel="noopener">USGS</a>, <a href="https://eonet.gsfc.nasa.gov/" target="_blank" rel="noopener">NASA EONET</a>, <a href="https://www.gdacs.org/" target="_blank" rel="noopener">GDACS</a>. Flights: <a href="https://opensky-network.org/" target="_blank" rel="noopener">OpenSky</a>, <a href="https://adsb.lol/" target="_blank" rel="noopener">adsb.lol</a>. Cyber: <a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank" rel="noopener">CISA KEV</a>. Markets: Yahoo (delayed, via the scanner snapshot), OKX. Map: Natural Earth. <a href="https://github.com/messagegabrielhere-lgtm/doomcon/blob/main/docs/MONITOR.md" target="_blank" rel="noopener">How it works</a>.</span>
+    <span>News: <a href="https://www.gdeltproject.org/" target="_blank" rel="noopener">GDELT</a>, 27 world and specialist feeds, and SIREN's newsroom. Hazards: <a href="https://earthquake.usgs.gov/" target="_blank" rel="noopener">USGS</a>, <a href="https://eonet.gsfc.nasa.gov/" target="_blank" rel="noopener">NASA EONET</a>, <a href="https://www.gdacs.org/" target="_blank" rel="noopener">GDACS</a>. Military aircraft: <a href="https://adsb.lol/" target="_blank" rel="noopener">adsb.lol</a> (ODbL), public ADS-B broadcasts shown only as regional counts; no callsigns, registrations or exact positions. Cyber: <a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank" rel="noopener">CISA KEV</a>. Markets: Yahoo (delayed, via the scanner snapshot), OKX. Map: Natural Earth. <a href="https://github.com/messagegabrielhere-lgtm/doomcon/blob/main/docs/MONITOR.md" target="_blank" rel="noopener">How it works</a>.</span>
     <span>Keys: 1–4 tabs · M map · / find · Space rotate · R refresh · 0 reset · Esc close</span>
   </footer>
 </div>
@@ -357,7 +357,28 @@ const USGS = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_week
 const EONET = "https://eonet.gsfc.nasa.gov/api/v3/events?status=open&days=30";
 const GDACS = ["EQ", "TC", "FL", "VO", "WF", "DR"].map((t) => `https://www.gdacs.org/gdacsapi/api/events/geteventlist/MAP?eventtype=${t}`); // one type per call
 const OPENSKY = "https://opensky-network.org/api/states/all";
-const MIL_URLS = ["https://api.adsb.lol/v2/mil", "https://api.airplanes.live/v2/mil"];
+// Military aircraft: adsb.lol only (ODbL, credited below). Shown ONLY as
+// counts per 5-degree cell — no callsigns, registrations, hex codes, exact
+// positions, headings, altitudes or links to individual aircraft. The
+// identifying fields are dropped the moment the response arrives.
+const MIL_URLS = ["https://api.adsb.lol/v2/mil"];
+const MIL_CELL = 5;
+function milCells(list) {
+  const cells = new Map();
+  for (const a of list || []) {
+    if (!isF(a.lat) || !isF(a.lon)) continue;
+    const la = (Math.floor(a.lat / MIL_CELL) + 0.5) * MIL_CELL, lo = (Math.floor(a.lon / MIL_CELL) + 0.5) * MIL_CELL;
+    const k = la + "," + lo;
+    const c = cells.get(k) || { lat: la, lon: lo, n: 0, isos: {} };
+    const n = isF(a.n) ? a.n : 1;
+    c.n += n;
+    if (a.isos) for (const [i, m] of Object.entries(a.isos)) c.isos[i] = (c.isos[i] || 0) + m;
+    else if (a.iso) c.isos[a.iso] = (c.isos[a.iso] || 0) + n;
+    cells.set(k, c);
+  }
+  return [...cells.values()];
+}
+const milTotal = () => S.mil.reduce((t, c) => t + (c.n || 0), 0);
 const KEV = "https://raw.githubusercontent.com/cisagov/kev-data/develop/known_exploited_vulnerabilities.json";
 const OKX = "https://www.okx.com/api/v5/market/tickers?instType=SPOT";
 const FNG = "https://api.alternative.me/fng/?limit=2";
@@ -414,7 +435,7 @@ const LAYER_GROUPS = [
   ["News hotspots", CATS.map((c) => ["news:" + c.id, c.label, c.color, c.id !== "world"])],
   ["Hazards", [["quakes", "Earthquakes M4.5+ (7d)", "#ffa726", true], ["gdacs", "GDACS alerts", "#e53935", true],
     ...Object.entries(EONET_CATS).map(([k, [l, c]]) => ["eonet:" + k, l, c, !QUIET_EONET.includes(k)])]],
-  ["Movement", [["mil", "Military aircraft", "#ff1744", true], ["flights", "All flights (sample)", "#64b5f6", false], ["lanes", "Shipping lanes", "#26c6da", true, "sq"], ["choke", "Chokepoints", "#00bcd4", true]]],
+  ["Movement", [["mil", "Military aircraft (regional counts)", "#ff1744", true], ["lanes", "Shipping lanes", "#26c6da", true, "sq"], ["choke", "Chokepoints", "#00bcd4", true]]],
   ["Infrastructure", [["dc", "AI datacentres (OSM)", "#f0b44c", false]]],
 ];
 const LAYERS = new Map();
@@ -427,7 +448,7 @@ const PRESETS = {
   Everything: null,
   Conflict: ["stress", "night", "grat", ...news("conflict", "security", "nuclear", "unrest", "diplomacy", "migration"), "mil", "lanes", "choke"],
   Disasters: ["stress", "night", "grat", ...news("disaster", "health", "climate", "migration"), "quakes", "gdacs", ...Object.keys(EONET_CATS).filter((k) => !QUIET_EONET.includes(k)).map((k) => "eonet:" + k)],
-  Movement: ["night", "grat", ...news("shipping", "energy", "conflict"), "mil", "flights", "lanes", "choke"],
+  Movement: ["night", "grat", ...news("shipping", "energy", "conflict"), "mil", "lanes", "choke"],
   Markets: ["stress", "grat", ...news("economy", "energy", "shipping", "ai"), "lanes", "choke", "dc"],
 };
 function applyPreset(name) {
@@ -457,7 +478,7 @@ function layerCounts() {
   const c = {};
   for (const cat of CATS) c["news:" + cat.id] = 0;
   for (const s of S.stories) if (inWin(s.t)) c["news:" + s.cat]++;
-  c.quakes = S.quakes.length; c.gdacs = S.gdacs.length; c.mil = S.mil.length; c.flights = S.flights.length;
+  c.quakes = S.quakes.length; c.gdacs = S.gdacs.length; c.mil = milTotal(); c.flights = 0;
   c.dc = S.dcs.length; c.choke = CHOKE.length; c.lanes = LANES.length;
   for (const k of Object.keys(EONET_CATS)) c["eonet:" + k] = S.eonet.filter((e) => e.cat === k).length;
   c.stress = [...S.stress.values()].filter((s) => s.score >= 1).length;
@@ -479,7 +500,7 @@ $("#layers").addEventListener("change", (e) => {
 /* ------------------------------------------------------------------ */
 /* Source status chips                                                */
 /* ------------------------------------------------------------------ */
-const SRC_ORDER = ["snap", "outline", "gdelt", "rss", "siren", "usgs", "eonet", "gdacs", "mil", "opensky", "kev", "stocks", "okx", "dc", "ollama"];
+const SRC_ORDER = ["snap", "outline", "gdelt", "rss", "siren", "usgs", "eonet", "gdacs", "mil", "kev", "stocks", "okx", "dc", "ollama"];
 const SRC_LABEL = { snap: "Snapshot", outline: "Map", gdelt: "GDELT", rss: "World feeds", siren: "AI news", usgs: "USGS", eonet: "NASA EONET", gdacs: "GDACS", opensky: "OpenSky", mil: "Military ADS-B", kev: "CISA KEV", stocks: "Markets", okx: "Crypto", dc: "Datacentres", ollama: "Ollama" };
 /** state: ok | snap (live call failed, showing the server snapshot) | wait | dark | off */
 function setSrc(id, state, short = "", detail = "") {
@@ -570,7 +591,7 @@ async function loadSnapshot() {
     // hazards: take the snapshot's copy unless a live call has already landed
     for (const [key, id] of [["quakes", "usgs"], ["eonet", "eonet"], ["gdacs", "gdacs"], ["mil", "mil"], ["kev", "kev"]]) {
       const st = S.sources.get(id)?.state;
-      if (st !== "ok" && j[key]?.length) { S[key] = j[key]; setSrc(id, "snap", `${j[key].length} · snapshot`, "From the server snapshot; the live call has not answered"); }
+      if (st !== "ok" && j[key]?.length) { S[key] = key === "mil" ? milCells(j[key]) : j[key]; setSrc(id, "snap", `${j[key].length} · snapshot`, "From the server snapshot; the live call has not answered"); }
     }
     const src = j.sources || {};
     if (src.kev_total) S.kevTotal = src.kev_total;
@@ -682,16 +703,16 @@ async function loadGdacs() {
 async function loadMil() {
   try {
     const j = await firstJSON(MIL_URLS, { timeout: 25000 });
-    S.mil = (j.ac || j.aircraft || []).filter((a) => isF(a.lat) && isF(a.lon)).map((a) => ({
-      hex: a.hex, cs: (a.flight || "").trim(), type: a.t || a.desc || "", reg: a.r || "", lon: a.lon, lat: a.lat, alt: a.alt_baro, gs: a.gs, hdg: a.track ?? a.true_heading,
-    }));
-    attach(S.mil, Core.countryAt);
-    setSrc("mil", "ok", `${S.mil.length}`, "Live: military-flagged aircraft broadcasting ADS-B");
+    const pts = (j.ac || j.aircraft || []).filter((a) => isF(a.lat) && isF(a.lon)).map((a) => ({ lon: a.lon, lat: a.lat }));
+    attach(pts, Core.countryAt);
+    S.mil = milCells(pts);
+    setSrc("mil", "ok", `${milTotal()}`, "Live: military-flagged aircraft broadcasting ADS-B, counted per region only");
   } catch (e) { liveFailed("mil", "mil", e.message); }
   afterData();
 }
 async function loadFlights() {
-  if (!on("flights")) { setSrc("opensky", "off", "", "Layer off"); return; }
+  // Retired: OpenSky's API is licensed for non-commercial research only.
+  return;
   setSrc("opensky", "wait");
   try {
     const j = await getJSON(OPENSKY, { timeout: 30000 });
@@ -1052,7 +1073,7 @@ function selectCountry(iso, fly) {
   const s = S.stress.get(iso) || { score: 0, N: 0, H: 0, M: null, hz: [], d24: null };
   const etf = etfOf(iso), st = etf && S.stocks.get(etf);
   const stories = S.stories.filter((x) => x.iso.includes(iso) && inWin(x.t)).sort((a, b) => b.sources - a.sources || b.t - a.t);
-  const mil = S.mil.filter((a) => a.iso === iso).length;
+  const mil = S.mil.reduce((t, c) => t + ((c.isos || {})[iso] || 0), 0);
   const ser = historyFor(iso);
   const peak = ser ? Math.max(...ser.map((p) => p.v)) : null;
   const part = (l, v) => v == null ? `<span>${l}</span><span class="pb"></span><span class="v" style="color:var(--mute)">n/a</span>` : `<span>${l}</span><span class="pb"><i style="width:${v}%"></i></span><span class="v">${v.toFixed(0)}</span>`;
@@ -1301,11 +1322,14 @@ function draw(now) {
     ctx.globalAlpha = 1; ctx.lineWidth = 1.5; marker(p[0], p[1], r, null, col, { kind: "news", iso, title: c.name, sub: by.map(([k, n]) => `${CAT[k].label} ${n}`).join(" · ") });
     if (h.n >= 4) { ctx.fillStyle = COL.ink; ctx.fillText(String(h.n), p[0], p[1]); }
   }
-  if (on("mil")) for (const a of S.mil) {
-    const p = vis(a.lon, a.lat); if (!p) continue;
-    ctx.save(); ctx.translate(p[0], p[1]); ctx.rotate((a.hdg || 0) * RAD); ctx.fillStyle = LAYERS.get("mil").color;
-    ctx.beginPath(); ctx.moveTo(0, -5); ctx.lineTo(3.5, 4); ctx.lineTo(0, 2.2); ctx.lineTo(-3.5, 4); ctx.closePath(); ctx.fill(); ctx.restore();
-    HIT.push({ x: p[0], y: p[1], r: 6, kind: "mil", title: `${a.cs || a.hex}${a.type ? " · " + a.type : ""}`, sub: [a.reg, isF(a.alt) ? a.alt.toLocaleString() + " ft" : a.alt, isF(a.gs) ? Math.round(a.gs) + " kt" : ""].filter(Boolean).join(" · "), url: `https://globe.adsb.lol/?icao=${a.hex}`, iso: a.iso });
+  if (on("mil")) for (const c of S.mil) {
+    const p = vis(c.lon, c.lat); if (!p) continue;
+    const r = 4 + Math.sqrt(c.n) * 2.2, col = LAYERS.get("mil").color;
+    ctx.save(); ctx.globalAlpha = 0.22; ctx.fillStyle = col; ctx.beginPath(); ctx.arc(p[0], p[1], r, 0, 2 * Math.PI); ctx.fill();
+    ctx.globalAlpha = 0.9; ctx.lineWidth = 1.2; ctx.strokeStyle = col; ctx.stroke();
+    if (c.n >= 3) { ctx.globalAlpha = 1; ctx.fillStyle = COL.ink; ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.font = "600 10px " + COL.body; ctx.fillText(String(c.n), p[0], p[1]); }
+    ctx.restore();
+    HIT.push({ x: p[0], y: p[1], r: Math.max(6, r), kind: "mil", title: `${c.n} military aircraft broadcasting`, sub: "Counted per 5° region. Individual aircraft are not shown." });
   }
   if (on("labels")) {
     ctx.font = "500 10.5px " + COL.body; ctx.fillStyle = COL.mute;
@@ -1407,7 +1431,7 @@ function renderLegend() {
   if (on("stress")) parts.push(`<span>Country stress index</span><div class="ramp"></div><div class="rl"><span>0</span><span>50</span><span>100</span></div>`);
   parts.push(`<span>Bubbles: stories naming a country in the last ${S.win} h, coloured by its top category</span>`);
   if (on("quakes")) parts.push(`<span><span style="color:#ffa726">●</span> quake, size = magnitude, ring = last 6 h</span>`);
-  if (on("mil")) parts.push(`<span><span style="color:#ff1744">▲</span> military aircraft on ADS-B (only those that broadcast)</span>`);
+  if (on("mil")) parts.push(`<span><span style="color:#ff1744">●</span> military aircraft broadcasting ADS-B, counted per 5° region (no individual aircraft)</span>`);
   $("#legend").innerHTML = parts.join("");
 }
 
@@ -1497,7 +1521,7 @@ setInterval(tickClock, 1000); tickClock();
 
 async function refreshAll(force) {
   const live = [loadQuakes(), loadEonet(), loadGdacs(), loadMil(), loadStocks(), loadCrypto(), loadKev(), loadSirenNews(), loadHistory()];
-  if (on("flights")) loadFlights(); else setSrc("opensky", "off", "", "Layer off");
+  
   if (on("dc")) loadDCs();
   const age = await loadSnapshot();
   // GDELT straight from the browser only when the server snapshot is missing or stale.

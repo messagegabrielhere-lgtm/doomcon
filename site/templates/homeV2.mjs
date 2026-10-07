@@ -28,7 +28,7 @@ function pct(p, d = 1) { return Number.isFinite(p) ? `${(p * 100).toFixed(d)}%` 
 // EVERY ROOM, promoted from the front page: one tile per feature, each with its
 // own illustration, its live number where the data has one, and a one-line
 // reason to click. Grouped so twenty-odd tiles still read at a glance.
-function roomGroups(ctx) {
+export function roomGroups(ctx) {
   const r = ctx.routes || {};
   const fmt = (n) => (Number.isFinite(n) ? n.toLocaleString('en-US') : null);
   const race = ctx.race && ctx.race.players ? ctx.race.players.slice().sort((a, b) => a.rank - b.rank)[0] : null;
