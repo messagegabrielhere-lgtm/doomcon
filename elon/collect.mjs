@@ -32,7 +32,7 @@ const UA = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Geck
 const NAME_RE = /\b(elon|musk)(?:'s|’s)?\b/i;
 // Events his companies hold where he is the presenter, so an official upload
 // titled "Tesla Shareholder Meeting" counts even without his name in it.
-const EVENT_RE = /\b(shareholder meeting|annual meeting|earnings call|ai day|battery day|autonomy day|we,? robot|cybercab|unveil|starship update|neuralink update|show and tell|summer update|grok \d)\b/i;
+const EVENT_RE = /\b(shareholder meeting|annual meeting|earnings call|ai day|battery day|autonomy day|we,? robot|starship update|neuralink update|show and tell|summer update|grok \d)\b/i;
 
 const decode = (s) => String(s ?? '')
   .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, '$1')
@@ -61,9 +61,15 @@ export function parseFeed(xml) {
   })).filter((v) => /^[\w-]{11}$/.test(v.id));
 }
 
-/** 'name' when the video names him, 'event' for an official event he presents, else null. */
+/**
+ * 'name' when the video names him, 'event' for an official event he presents,
+ * else null. Only his companies' descriptions count: an interview or news
+ * description that mentions him in passing (a timestamp, a related-video
+ * link) is not a clip of him, so there the title has to name him.
+ */
 export function matchElon(video, tier) {
-  if (NAME_RE.test(video.title) || NAME_RE.test(video.description)) return 'name';
+  if (NAME_RE.test(video.title)) return 'name';
+  if (tier === 'official' && NAME_RE.test(video.description)) return 'name';
   if (tier === 'official' && EVENT_RE.test(video.title)) return 'event';
   return null;
 }
@@ -188,9 +194,13 @@ async function main() {
     console.log(`${row.ok ? 'ok  ' : 'FAIL'} ${src.handle.padEnd(22)} ${row.ok ? `${row.found} clip(s)` : row.error}`);
   }
 
-  // Sources that dropped out of sources.json take their clips with them.
-  const allowed = new Set(sources.map((s) => s.handle.toLowerCase()));
-  const kept = (prev?.clips || []).filter((c) => allowed.has(c.handle.toLowerCase()));
+  // Sources that dropped out of sources.json take their clips with them, and
+  // archived clips are re-checked so a tightened rule applies to the past too.
+  const tierOf = new Map(sources.map((s) => [s.handle.toLowerCase(), s.tier]));
+  const kept = (prev?.clips || []).filter((c) => {
+    const tier = tierOf.get(c.handle.toLowerCase());
+    return tier && matchElon(c, tier);
+  });
   const clips = merge(kept, fresh, now);
 
   if (!report.some((r) => r.ok)) {
