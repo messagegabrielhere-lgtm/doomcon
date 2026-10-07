@@ -573,7 +573,8 @@ main.wrap { padding-top: var(--s-4); }
   border-radius: 0 0 var(--radius) var(--radius); text-decoration: none;
   transition: top 120ms ease;
 }
-.skip:focus { top: 0; }
+/* focus-visible, not :focus: a mouse click must not flash the amber pill. */
+.skip:focus-visible { top: 0; outline: none; }
 
 /* <details> is used wherever the long form of an honesty note has to stay on
    the page without owning the fold: the degraded banner, methodology asides.
@@ -2117,14 +2118,14 @@ main.wrap:not(:has(> .hero)) > .sec > .sec__h { font-size: clamp(24px, 3.2vw, 40
 main.wrap:not(:has(> .hero)) :is(.sec, .bldsec, .bp__sec, .flk__sec, .exp__sec, .isec, .wld__sec) { margin-top: clamp(44px, 6vw, 88px); }
 main.wrap:not(:has(> .hero)) :is(.lede, .bldsec__l, .bp__l) { font-size: clamp(16px, 1.35vw, 19px); line-height: 1.55; }
 /* THE TERMINAL SKIN (2026-10-04 redesign). The look is a live newsroom
-   terminal: section heads are amber label strips in the mono face, the big
-   numerals glow, the 1950s tape is gone, and pages are denser. The poster face
-   stays for page titles and the answer on the front page; everything that
-   labels or counts is mono. */
-.sec__h { font-family: var(--mono); font-weight: 700; font-size: var(--t-sm); letter-spacing: .18em; line-height: 1.3; color: var(--accent); }
+   terminal: section heads are mono label strips, the big numerals glow, the
+   1950s tape is gone, and pages are denser. Labels use ink-dim — never amber —
+   so sodium stays on the live reading (doctrine at the top of this file).
+   The poster face stays for page titles and the answer on the front page. */
+.sec__h { font-family: var(--mono); font-weight: 700; font-size: var(--t-sm); letter-spacing: .18em; line-height: 1.3; color: var(--ink-dim); }
 main.wrap :is(.bldsec__h, .wld__sec__h, .bp__h, .flk__sec__h, .exp__sec__h, .isec__h, .lore-ch__h, .bh2) {
   font-family: var(--mono); font-weight: 700; text-transform: uppercase; letter-spacing: .14em;
-  font-size: clamp(15px, 1.5vw, 19px); line-height: 1.3; color: var(--accent); text-wrap: balance;
+  font-size: clamp(15px, 1.5vw, 19px); line-height: 1.3; color: var(--ink-dim); text-wrap: balance;
 }
 main.wrap:not(:has(> .hero)) > .sec > .sec__h { font-size: var(--t-sm); line-height: 1.3; }
 main.wrap:not(:has(> .hero)) :is(.sec, .bldsec, .bp__sec, .flk__sec, .exp__sec, .isec, .wld__sec) { margin-top: clamp(28px, 4vw, 52px); }
@@ -2148,10 +2149,14 @@ main.wrap :is(.rintro__h1, .narch__h1, .dg__h1, .lwp__h1, .bp__h1, .bintro__h1, 
 :is(.inf h2, .shp h2) { font-family: var(--poster); font-weight: 650; text-transform: none; font-size: clamp(20px, 2.1vw, 28px); letter-spacing: -.02em; }
 .dclock__w { font-family: var(--poster); font-weight: 800; letter-spacing: .22em; }
 .foot__seal { display: none; }
-/* THE ASK, at the very top of every page. One line, one link. */
-.give { margin: 0; padding: 7px var(--gutter); text-align: center; background: var(--accent); color: #0b0c0e;
+/* THE ASK, at the very top of every page. One line, one link.
+   Sunken + cool rule — never a full amber bar. Amber is the live reading. */
+.give { margin: 0; padding: 7px var(--gutter); text-align: center;
+  background: var(--bg-sunken); color: var(--ink-dim);
+  border-bottom: 1px solid var(--rule);
   font: 700 var(--t-xs)/1.35 var(--mono); letter-spacing: .06em; }
-.give a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+.give a { color: var(--accent-2); text-decoration: underline; text-underline-offset: 3px; }
+.give a:hover { color: var(--ink); }
 @media print { .give { display: none; } }
 .pgph { position: relative; margin: 0 0 var(--s-4); border-radius: 16px; overflow: hidden; background: #06070b; }
 .pgph img { display: block; width: 100%; height: clamp(150px, 26vw, 360px); object-fit: cover; }
@@ -2160,12 +2165,20 @@ main.wrap :is(.rintro__h1, .narch__h1, .dg__h1, .lwp__h1, .bp__h1, .bintro__h1, 
 @media print { .pgph { display: none; } }
 /* THE RETURN NOTE IS A NOTE, NOT A STRIP. "Since you looked" was a full-width
    band between the masthead and the page on every return visit. It now sits
-   in the bottom corner, out of the way of the reading it is commenting on. */
-.rvisit { position: fixed; left: 16px; bottom: 16px; z-index: 70; max-width: min(92vw, 560px);
+   in the bottom corner, out of the way of the reading it is commenting on.
+   Shown on phones too — above the fixed tab bar — because phone traffic is
+   who the return mechanic was built for (VISITORS.md cluster K). */
+.rvisit { position: fixed; left: 16px; bottom: max(16px, env(safe-area-inset-bottom, 0px));
+  z-index: 70; max-width: min(92vw, 560px);
   border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 10px;
-  box-shadow: 0 12px 30px rgba(0,0,0,.45); }
+  box-shadow: 0 12px 30px rgba(0,0,0,.45); background: var(--bg-raised); }
 .rvisit .wrap { padding-left: 14px; padding-right: 14px; }
-@media (max-width: 719.98px) { .rvisit { display: none; } }
+@media (max-width: 699px) {
+  .rvisit {
+    left: 10px; right: 10px; max-width: none;
+    bottom: calc(68px + env(safe-area-inset-bottom, 0px));
+  }
+}
 /* The ticker is a whisper above the page, not a second header. */
 .dcmx { opacity: .8; }
 .bstamp { display: inline-block; margin: var(--s-2) 0 var(--s-3); padding: 6px 12px 4px;
@@ -2547,7 +2560,7 @@ a.chip:hover b { color: var(--accent-2); }
     font-family: var(--mono); font-size: var(--t-xs); color: var(--ink-dim);
     min-height: 24px; display: inline-flex; align-items: center;
   }
-  .jump__l a:hover { color: var(--accent); }
+  .jump__l a:hover { color: var(--accent-2); }
   /* On a phone the eight entries wrap to four lines and cost 124px of an
      812px fold — 15% of the screen, for an index read once. One scrolling
      row instead, with the same right-edge fade the tile strip uses to say
@@ -2698,12 +2711,10 @@ function swBindings() {
    the block is a parachute. Cutting a parachute because it has not opened is
    not a saving.
 
-   What IS a defect is the two files disagreeing about COLOUR, which they now
-   do: the accent doctrine at the top of this file spends amber only on the live
-   reading of the index, and the rules below were moved to --accent-2 to match.
-   _switcher.mjs:607 and :693 still say var(--accent) and they win, so the open
-   tab's count renders amber on the live page. That is two values in one file
-   and it is in the integration note.
+   Colour agreement: the accent doctrine at the top of this file spends amber
+   only on the live reading of the index. _switcher.mjs now matches — open-tab
+   chrome uses the panel hue / --accent-2; amber stays on arrivals chips and
+   live-reading badges inside panels.
    --------------------------------------------------------------------------- */
 const SWITCHER = `
 /* The densest object on the page gets the page's largest gap above it. A tab

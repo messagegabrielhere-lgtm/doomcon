@@ -10,17 +10,17 @@
 /* Layout: trading desk. Command bar on top, scanner list left, chart right, tool tabs under the chart. */
 :root{
   --bg:#eef1f5; --panel:#ffffff; --sunk:#f5f7fa; --ink:#131923; --mute:#5b6678; --line:#d7dde6;
-  --accent:#b06d10; --accent-ink:#ffffff; --up:#0f7d68; --down:#c63f37; --zone:rgba(176,109,16,.13); --cmp:#2f64b0;
+  --accent:#b06d10; --accent-ink:#ffffff; --cool:#0f6183; --up:#0f7d68; --down:#c63f37; --zone:rgba(176,109,16,.13); --cmp:#2f64b0;
   --f-display:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
   --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
   --f-mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#0a0e15; --panel:#111722; --sunk:#0d121b; --ink:#e4e9f1; --mute:#8590a3; --line:#222b3a;
-  --accent:#f0b44c; --accent-ink:#1a1206; --up:#33c1a1; --down:#f0645a; --zone:rgba(240,180,76,.12); --cmp:#7aa7ff; color-scheme:dark}}
+  --bg:#06070b; --panel:#0e1322; --sunk:#090d19; --ink:#e8eaee; --mute:#9aa2ad; --line:#1f2a44;
+  --accent:#ffb020; --accent-ink:#0b0c0e; --cool:#56b0e0; --up:#5fd08a; --down:#ff6b6b; --zone:rgba(255,176,32,.12); --cmp:#56b0e0; color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#0a0e15; --panel:#111722; --sunk:#0d121b; --ink:#e4e9f1; --mute:#8590a3; --line:#222b3a;
-  --accent:#f0b44c; --accent-ink:#1a1206; --up:#33c1a1; --down:#f0645a; --zone:rgba(240,180,76,.12); --cmp:#7aa7ff; color-scheme:dark}
+  --bg:#06070b; --panel:#0e1322; --sunk:#090d19; --ink:#e8eaee; --mute:#9aa2ad; --line:#1f2a44;
+  --accent:#ffb020; --accent-ink:#0b0c0e; --cool:#56b0e0; --up:#5fd08a; --down:#ff6b6b; --zone:rgba(255,176,32,.12); --cmp:#56b0e0; color-scheme:dark}
 
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 var(--f-body);padding-inline:16px;padding-block:14px 28px}
@@ -28,7 +28,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 var(--f-body)
 button,input,select,textarea{font:inherit;color:inherit}
 button{cursor:pointer}
 [hidden]{display:none!important}
-:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+:focus-visible{outline:2px solid var(--cool, var(--cmp, #2f64b0));outline-offset:2px}
 .mono,.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
 
 /* header */

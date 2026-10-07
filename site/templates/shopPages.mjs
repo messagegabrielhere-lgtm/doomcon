@@ -49,12 +49,12 @@ const CSS = `<style>
 .shp p, .shp li { font: 400 var(--t-base)/1.6 var(--sans); color: var(--ink-dim); }
 .shp b { color: var(--ink); }
 .shp__l { list-style: none; margin: var(--s-3) 0; padding: 0; display: grid; gap: 10px; }
-.shp__b { padding: 12px 14px; border: 1px solid var(--rule); border-left: 6px solid var(--accent); border-radius: 8px; background: var(--bg-sunken); }
+.shp__b { padding: 12px 14px; border: 1px solid var(--rule); border-left: 6px solid var(--accent-2); border-radius: 8px; background: var(--bg-sunken); }
 .shp__b a { font: 650 var(--t-md)/1.25 var(--sans); color: var(--ink); }
 .shp__by { display: block; margin: 2px 0 4px; font: 500 var(--t-xs)/1.3 var(--mono); letter-spacing: .04em; color: var(--ink-faint); }
-.shp__go { display: inline-block; margin-top: var(--s-2); padding: 10px 16px; border: 2px solid var(--accent); border-radius: 4px; color: var(--ink); text-decoration: none;
+.shp__go { display: inline-block; margin-top: var(--s-2); padding: 10px 16px; border: 2px solid var(--accent-2); border-radius: 4px; color: var(--ink); text-decoration: none;
   font: 700 var(--t-sm)/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; }
-.shp__go:hover, .shp__go:focus-visible { background: var(--accent); color: #0b0c0e; }
+.shp__go:hover, .shp__go:focus-visible { background: var(--accent-2); color: var(--accent-ink); }
 </style>`;
 
 const level = (ctx) => (ctx.state && Number.isFinite(ctx.state.level) ? ctx.state.level : null);

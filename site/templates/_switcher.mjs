@@ -1233,9 +1233,9 @@ export function render(ctx, o = {}) {
   const rules = list.map((p) => `
 #${uid}-${p.key}:checked ~ .sw__tabs [for="${uid}-${p.key}"] { color: var(--ink); background: var(--bg-sunken); border-color: var(--rule); border-bottom-color: var(--bg-sunken); font-weight: 700; }
 #${uid}-${p.key}:checked ~ .sw__tabs [for="${uid}-${p.key}"]::after { opacity: 1; }
-#${uid}-${p.key}:checked ~ .sw__tabs [for="${uid}-${p.key}"] .sw__tn { color: var(--accent); border-color: var(--accent); }
-#${uid}-${p.key}:checked ~ .sw__tabs [for="${uid}-${p.key}"] .sw__tg { color: var(--accent); }
-#${uid}-${p.key}:focus-visible ~ .sw__tabs [for="${uid}-${p.key}"] { outline: 2px solid var(--accent); outline-offset: -2px; }
+#${uid}-${p.key}:checked ~ .sw__tabs [for="${uid}-${p.key}"] .sw__tn { color: var(--sw-h, var(--accent-2)); border-color: var(--sw-h, var(--accent-2)); }
+#${uid}-${p.key}:checked ~ .sw__tabs [for="${uid}-${p.key}"] .sw__tg { color: var(--sw-h, var(--accent-2)); }
+#${uid}-${p.key}:focus-visible ~ .sw__tabs [for="${uid}-${p.key}"] { outline: 2px solid var(--accent-2); outline-offset: -2px; }
 #${uid}-${p.key}:checked ~ .sw__panels > [data-panel="${p.key}"] { visibility: visible; opacity: 1; max-height: none; overflow: visible; padding-top: var(--s-3); padding-bottom: 14px; }
 #${uid}-${p.key}:checked ~ .sw__panels { --sw-a: ${PANEL_HUE[p.key] || 'var(--accent-2)'}; }`).join('');
 
@@ -1320,12 +1320,11 @@ export function styleTag(rules = '') {
   -webkit-user-select:none;user-select:none;transition:color 120ms ease,background-color 120ms ease}
 .sw__tab:hover{color:var(--ink);background:var(--bg-raised)}
 .sw__tab::after{content:'';position:absolute;left:-1px;right:-1px;top:-1px;height:2px;
-  background:var(--accent);border-radius:var(--radius) var(--radius) 0 0;opacity:0;transition:opacity 120ms ease}
+  background:var(--sw-h,var(--accent-2));border-radius:var(--radius) var(--radius) 0 0;opacity:0;transition:opacity 120ms ease}
 /* THE IDENTITY HUE. See PANEL_HUE at the top of this file for the table, the
    three rules it obeys and the forty-eight contrast readings behind it. The
-   glyph and the closed tab's figure carry it; the OPEN tab overrides both to
-   amber in the generated rules, so the strip reads as eight coloured
-   destinations with one live one, rather than eight grey ones. */
+   glyph and the count carry the panel hue on open and closed tabs; amber is
+   reserved for live-reading badges inside panels (e.g. .sw__mlvl[data-changed]). */
 .sw__tg{font-style:normal;font-size: var(--t-xs);line-height:1;color:var(--sw-h,var(--ink-faint))}
 .sw__tk{white-space:nowrap}
 /* THE LIVE COUNT. Without it the strip is a menu; with it the strip is also a
@@ -1336,9 +1335,10 @@ export function styleTag(rules = '') {
   color:var(--sw-h,var(--accent-2));border:1px solid var(--rule);
   border-color:color-mix(in srgb,var(--sw-h,var(--accent-2)) 38%,var(--rule));
   border-radius:2px;padding:0 4px;min-width:3.4ch;text-align:center;line-height:1.5}
-/* THE ARRIVALS CHIP, and the only delta any tab carries. ENGAGEMENT.md §1.3
-   names the pending-arrivals counter as the competitor's real reward loop and
-   §8 asks for ours; this is the build-time half of it, counting items whose
+/* THE ARRIVALS CHIP keeps amber: it is a live delta on the index corpus, the
+   same job as the return line. ENGAGEMENT.md §1.3 names the pending-arrivals
+   counter as the competitor's real reward loop and §8 asks for ours; this is
+   the build-time half of it, counting items whose
    publication stamp is later than the previous observation in the log. It is
    emitted only when that count is a positive integer — no chip for zero, and
    no chip at all when there is no previous observation to be "since", because
@@ -1406,7 +1406,7 @@ export function styleTag(rules = '') {
   font-family:var(--mono);font-size:var(--t-xs);letter-spacing:.1em;text-transform:uppercase;
   color:var(--ink-dim);text-decoration:none;border-bottom:1px solid var(--rule)}
 .sw__more::after{content:'\\2192';color:var(--ink-faint)}
-.sw__more:hover{color:var(--ink);border-bottom-color:var(--accent)}
+.sw__more:hover{color:var(--ink);border-bottom-color:var(--accent-2)}
 
 /* At 375px, five folder tabs measure 620px against a 343px strip, so two of
    the five datasets are off-screen until the reader thinks to swipe a strip

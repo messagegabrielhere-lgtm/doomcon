@@ -716,7 +716,7 @@ function loreCss() {
   return `
 .lore-hat { font-family: var(--mono); font-size: var(--t-xs); letter-spacing: 0.14em;
   text-transform: uppercase; color: var(--ink-faint); margin: 0 0 var(--s-3); }
-.lore-strap { font-family: var(--mono); font-size: var(--t-sm); color: var(--accent);
+.lore-strap { font-family: var(--mono); font-size: var(--t-sm); color: var(--ink-dim);
   margin: 0 0 var(--s-5); max-width: var(--measure); }
 
 .lore-nav { margin: var(--s-5) 0 var(--s-7); border-top: 1px solid var(--rule);
@@ -726,14 +726,14 @@ function loreCss() {
   text-decoration: none; min-height: 34px; }
 .lore-nav a:hover, .lore-nav a:focus-visible { color: var(--ink); }
 .lore-nav__n { display: inline-block; min-width: 2.4em; font-family: var(--mono);
-  font-size: var(--t-xs); letter-spacing: 0.1em; color: var(--accent); }
+  font-size: var(--t-xs); letter-spacing: 0.1em; color: var(--accent-2); }
 @media (min-width: 720px) { .lore-nav ol { grid-template-columns: 1fr 1fr; gap: 2px var(--s-5); } }
 
 .lore-ch { margin: var(--s-7) 0 0; }
 .lore-ch__head { display: flex; align-items: baseline; gap: var(--s-3);
   border-top: 1px solid var(--rule); padding-top: var(--s-3); }
 .lore-ch__n { font-family: var(--mono); font-weight: 700; font-size: var(--t-sm);
-  letter-spacing: 0.1em; color: var(--accent); flex: 0 0 auto; }
+  letter-spacing: 0.1em; color: var(--accent-2); flex: 0 0 auto; }
 .lore-ch__h { font-size: var(--t-xl); letter-spacing: -0.02em; margin: 0; }
 .lore-ch__s { font-size: var(--t-sm); color: var(--ink-dim); margin: var(--s-2) 0 var(--s-5);
   max-width: var(--measure); }
@@ -750,7 +750,7 @@ function loreCss() {
 .lore-dec__k { font-family: var(--mono); font-size: var(--t-xs); color: var(--ink-dim); }
 .lore-dec__track { height: 10px; background: var(--bg-sunken); border: 1px solid var(--rule-soft);
   border-radius: 2px; overflow: hidden; }
-.lore-dec__track i { display: block; height: 100%; background: var(--accent); }
+.lore-dec__track i { display: block; height: 100%; background: var(--accent-2); }
 .lore-dec__n { font-family: var(--mono); font-size: var(--t-xs); color: var(--ink);
   text-align: right; }
 /* A decade with no entries gets a dashed track as well as a printed 0, so the
@@ -761,7 +761,7 @@ function loreCss() {
   max-width: var(--measure); }
 
 .lore-call { margin: var(--s-6) 0; padding: var(--s-4); border: 1px solid var(--rule);
-  border-left: 3px solid var(--accent); border-radius: var(--radius); background: var(--bg-raised); }
+  border-left: 3px solid var(--accent-2); border-radius: var(--radius); background: var(--bg-raised); }
 .lore-call h2 { margin-top: 0; }
 .lore-call p:last-child { margin-bottom: 0; }
 
@@ -775,7 +775,7 @@ function loreCss() {
 .lore-lv__band { font-family: var(--mono); font-size: var(--t-xs); color: var(--ink-faint);
   margin-left: 6px; font-weight: 400; }
 .lore-lv__ep { font-family: var(--mono); font-size: var(--t-xs); letter-spacing: 0.08em;
-  text-transform: uppercase; color: var(--accent); margin: 0 0 5px; }
+  text-transform: uppercase; color: var(--ink-dim); margin: 0 0 5px; }
 .lore-lv__d { font-size: var(--t-sm); color: var(--ink-dim); margin: 0; max-width: var(--measure); }
 
 .lore-pl { list-style: none; margin: var(--s-4) 0 0; padding: 0; display: grid; gap: var(--s-4); }

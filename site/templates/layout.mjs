@@ -523,6 +523,13 @@ try{var cv=d.getElementById('dc-visit'),cs=cv?cv.dataset:{};
   if(navigator.share){navigator.share({text:t,url:u}).catch(function(){});return;}
   navigator.clipboard.writeText(t+' '+u).then(function(){b.textContent='Copied';});});
 });
+[].forEach.call(d.querySelectorAll('.copylink'),function(b){
+ if(!(navigator.clipboard&&navigator.clipboard.writeText))return;
+ b.hidden=false;
+ b.addEventListener('click',function(){var u=location.href,label=b.getAttribute('data-label')||'Copy link';
+  navigator.clipboard.writeText(u).then(function(){b.textContent='Copied';
+   setTimeout(function(){b.textContent=label;},1600);});});
+});
 
 if(window.__dcSince)return;window.__dcSince=1;
 try{
@@ -802,6 +809,9 @@ function serpDescription(description) {
 --------------------------------------------------------------------------- */
 const PAL_EXTRA = [
   { href: '/about.html', label: 'About', blurb: 'Who runs this and how it is paid for.' },
+  { href: '/methodology.html', label: 'Methodology', blurb: 'Every formula and constant. Recompute the number yourself.' },
+  { href: '/history.html', label: 'History', blurb: 'The observation record and the lore behind the instrument.' },
+  { href: '/library.html', label: 'Reading list', blurb: 'Books from every side of the AI argument.' },
   { href: '/guide.html', label: 'Guide to the levels', blurb: 'What each of the five levels means.' },
   { href: '/p-doom.html', label: 'What is p(doom)?', blurb: 'The number nobody can check, explained.' },
   { href: '/ai-doomsday-clock.html', label: 'AI doomsday clock', blurb: 'What exists, and the one you can verify.' },
@@ -810,6 +820,38 @@ const PAL_EXTRA = [
   { href: '/privacy.html', label: 'Privacy', blurb: 'No cookies, no analytics.' },
 ];
 const TAB_ROOMS = [['/', 'War room'], ['/news.html', 'News'], ['/race.html', 'Race'], ['/world.html', 'World']];
+
+/* Chrome actions on every page(): copy this URL, and the level-change RSS that
+   used to live only on the homepage CTA. COMPETITIVE.md §3.4–3.5. */
+const CHROME_ACT_CSS = `<style>
+.chrome-act { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center;
+  flex: 1 0 100%; margin: 4px 0 var(--s-2); order: 5; }
+.chrome-act .copylink, .chrome-act a {
+  appearance: none; -webkit-appearance: none; display: inline-flex; align-items: center;
+  padding: 5px 10px; border: 1px solid var(--rule); border-radius: 6px;
+  background: transparent; color: var(--ink-dim); cursor: pointer; text-decoration: none;
+  font: 700 var(--t-2xs)/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+.chrome-act .copylink:hover, .chrome-act a:hover,
+.chrome-act .copylink:focus-visible, .chrome-act a:focus-visible {
+  color: var(--ink); border-color: var(--accent-2); }
+.chrome-act .copylink[hidden] { display: none; }
+@media (max-width: 699px) { .chrome-act { margin-bottom: var(--s-3); } }
+@media print { .chrome-act { display: none !important; } }
+</style>`;
+
+function chromeActions(ctx, o) {
+  const st = ctx.state;
+  const reading = st && Number.isFinite(st.score) && Number.isFinite(st.level)
+    ? `${brand.NAME} ${st.level}, ${st.level_name}. ${num(st.score, 1)} of 100.`
+    : `${brand.NAME}`;
+  return `<div class="chrome-act" role="group" aria-label="Page actions">` +
+    `<button type="button" class="copylink" hidden data-label="Copy link">Copy link</button>` +
+    `<a href="${esc(ctx.href('/feed-level.xml'))}" title="RSS that fires only when the level changes">Level alerts</a>` +
+    (o.path === '/' ? '' :
+      `<button type="button" class="sharebtn" hidden data-t="${esc(reading)}">Share reading</button>`) +
+    `</div>`;
+}
+
 function navKit(ctx, tiles, path) {
   const have = new Set(tiles.map((t) => t.href));
   const rows = [...tiles.map((t) => {
@@ -838,7 +880,7 @@ function navKit(ctx, tiles, path) {
 const NAV_KIT_CSS = `<style>
 .pal__open { margin-left: auto; display: inline-flex; align-items: center; gap: 8px; padding: 6px 10px; border: 1px solid var(--rule); border-radius: 7px; background: transparent; color: var(--ink-dim); font: 700 var(--t-2xs)/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; cursor: pointer; }
 .pal__open[hidden] { display: none; }
-.pal__open:hover, .pal__open:focus-visible { color: var(--ink); border-color: var(--accent); }
+.pal__open:hover, .pal__open:focus-visible { color: var(--ink); border-color: var(--accent-2); }
 .pal__open kbd { padding: 2px 6px; border: 1px solid var(--rule); border-radius: 4px; font: inherit; color: var(--ink); }
 @media (max-width: 699px) { .pal__open { display: none; } }
 .pal { width: min(640px, calc(100vw - 24px)); max-height: min(76vh, 640px); margin: 9vh auto auto; padding: 0; border: 1px solid var(--rule); border-radius: 14px; background: var(--bg-raised); color: var(--ink); box-shadow: 0 30px 90px rgba(0,0,0,.6); overflow: hidden; }
@@ -849,7 +891,7 @@ const NAV_KIT_CSS = `<style>
 .pal__l li:has(> [hidden]) { display: none; }
 .pal__i { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 1px 12px; padding: 9px 12px; border-radius: 8px; text-decoration: none; color: var(--ink); }
 .pal__i[hidden] { display: none; }
-.pal__i[data-on="1"], .pal__i:hover { background: color-mix(in srgb, var(--accent) 14%, transparent); }
+.pal__i[data-on="1"], .pal__i:hover { background: color-mix(in srgb, var(--accent-2) 14%, transparent); }
 .pal__i[aria-current="page"] .pal__n::after { content: " · you are here"; color: var(--ink-faint); font-weight: 400; }
 .pal__n { font: 650 var(--t-base)/1.3 var(--sans); }
 .pal__b { grid-column: 1; font: 400 var(--t-xs)/1.35 var(--sans); color: var(--ink-dim); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -860,14 +902,14 @@ const NAV_KIT_CSS = `<style>
   .tab { position: fixed; left: 0; right: 0; bottom: 0; z-index: 60; display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; padding: 6px 4px calc(6px + env(safe-area-inset-bottom)); border-top: 1px solid var(--rule); background: color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter: blur(10px); }
   .tab__t { display: grid; justify-items: center; gap: 3px; padding: 5px 2px; border-radius: 8px; text-decoration: none; color: var(--ink-dim); font: 700 10px/1.1 var(--mono); letter-spacing: .06em; text-transform: uppercase; }
   .tab__t svg { width: 19px; height: 19px; }
-  .tab__t[aria-current="page"] { color: var(--accent); }
+  .tab__t[aria-current="page"] { color: var(--accent-2); }
   body { padding-bottom: calc(60px + env(safe-area-inset-bottom)); }
   .pal__k { display: none; }
 }
 @media print { .tab, .pal, .nxt { display: none !important; } }
 .nxt { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-block: var(--s-6) var(--s-5); }
 .nxt__a { display: grid; gap: 4px; padding: 14px 16px; border: 1px solid var(--rule); border-radius: 12px; background: var(--bg-raised); text-decoration: none; min-width: 0; }
-.nxt__a:hover, .nxt__a:focus-visible { border-color: var(--accent); }
+.nxt__a:hover, .nxt__a:focus-visible { border-color: var(--accent-2); }
 .nxt__a span { font: 700 var(--t-2xs)/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--ink-faint); }
 .nxt__a b { font: 650 var(--t-base)/1.25 var(--sans); color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .nxt__a--home { text-align: center; } .nxt__a--n { text-align: right; }
@@ -1204,7 +1246,7 @@ export function page(o) {
 ${o.noindex ? '<meta name="robots" content="noindex,follow">' : '<meta name="robots" content="index,follow,max-image-preview:large">'}
 <meta name="color-scheme" content="dark light">
 <meta name="theme-color" content="#faf9f6" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#0b0c0e" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#06070b" media="(prefers-color-scheme: dark)">
 <meta property="og:type" content="${esc(o.ogType || 'website')}">
 <meta property="og:site_name" content="${esc(brand.PUBLICATION)}">
 <meta property="og:title" content="${esc(o.ogTitle || o.title)}">
@@ -1223,14 +1265,15 @@ ${ctx.cssHref
 ${jsonld}
 </head>
 <body${wide ? ' data-wide="1"' : ''}>
-<a class="skip" href="#main">Skip to the index</a>
+<a class="skip" href="#main">Skip to content</a>
 ${brand.X_URL ? `<p class="give">${esc(brand.NAME)} is free and carries no ads. <a href="${esc(brand.X_URL)}" rel="noopener">Keep it running: donate with X Money →</a></p>` : ''}
 <header class="masthead"><div class="wrap masthead__in">
   ${marks.mastheadLockup(ctx.state.level, { href: ctx.href('/'), current: o.path === '/', logos: ctx.logos, logoHref: (n) => ctx.href(`/logos/${n}`) })}
   <p class="masthead__tag">${esc(brand.SLOGAN)}</p>
   ${kit.button}
+  ${chromeActions(ctx, o)}
   ${featureBar(ctx, tiles, o.path, { inline: true })}
-</div></header>${FEATURE_BAR_CSS}${NAV_KIT_CSS}
+</div></header>${FEATURE_BAR_CSS}${NAV_KIT_CSS}${CHROME_ACT_CSS}
 ${rail(ctx, o.path)}
 ${visitSlot(ctx)}
 ${o.showDegraded ? degradedBanner(ctx.state) : ''}${motion.beforeMain}

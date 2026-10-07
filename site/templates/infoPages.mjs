@@ -268,17 +268,17 @@ ${levels.map((l) => `    <li class="br__t" style="--lvl:var(--heat-${l.level})">
   </ol>
 
   <h2>Colour</h2>
-  <p>The five level colours carry meaning and are never used as decoration for something else. Amber is the brand accent.</p>
+  <p>The five level colours carry meaning and are never used as decoration for something else. Sodium amber (<code>#ffb020</code>) is spent only on the live reading of the index — the level digit, heat scale, deltas, return line — never on labels, links or chrome. Cool cyan (<code>#56b0e0</code>) is for interactive affordances and scalars that belong to another page.</p>
   <ul class="br__row">
-    ${sw('Level 5', '#56b0e0', 'quietest')}${sw('Level 4', '#5fd08a', '')}${sw('Level 3 · accent', '#ffb020', 'also the brand amber')}${sw('Level 2', '#ff8b3d', '')}${sw('Level 1', '#ff5f56', 'loudest')}${sw('Ground', '#0b0c0e', 'page background')}${sw('Ink', '#e8eaee', 'text')}
+    ${sw('Level 5', '#56b0e0', 'quietest')}${sw('Level 4', '#5fd08a', '')}${sw('Level 3 · live amber', '#ffb020', 'live reading only')}${sw('Level 2', '#ff8b3d', '')}${sw('Level 1', '#ff5f56', 'loudest')}${sw('Ground', '#06070b', 'page background')}${sw('Ink', '#e8eaee', 'text')}${sw('Cool', '#56b0e0', 'links, nav figures, focus')}
   </ul>
 
   <h2>Type</h2>
   <div class="br__type">
-    <p style="font:400 44px/1 var(--poster);text-transform:uppercase">Anton, for headlines</p>
-    <p style="font:400 18px/1.5 var(--sans)">Inter Tight, for reading. Sentences, explanations, anything longer than a label.</p>
+    <p style="font:650 44px/1.04 var(--poster);letter-spacing:-.025em">Inter Tight, for titles and reading. Display size is the same face, heavier and tighter — not a separate poster font.</p>
+    <p style="font:400 18px/1.5 var(--sans)">Inter Tight, for sentences, explanations, anything longer than a label.</p>
     <p style="font:600 14px/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase">JetBrains Mono, for labels and numbers 52.4</p>
-    <p style="font:700 20px/1.2 var(--stencil);letter-spacing:.14em;text-transform:uppercase">Stardos Stencil, for the wordmark and stamps only</p>
+    <p style="font:700 20px/1.2 var(--stencil);letter-spacing:.14em;text-transform:uppercase">Stencil face, for the wordmark and stamps only</p>
   </div>
 
   <h2>Voice</h2>
