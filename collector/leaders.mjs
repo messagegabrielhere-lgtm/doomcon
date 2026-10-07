@@ -242,6 +242,34 @@ const ROSTER = Object.freeze([
     blocks: [],
     race_player: 'deepseek',
   },
+  {
+    id: 'sutskever', name: 'Ilya Sutskever', initials: 'IS',
+    org: 'Safe Superintelligence', org_id: 'ssi', role: 'Co-founder',
+    aliases: ['Ilya Sutskever', 'Sutskever'],
+    blocks: [],
+    race_player: null,
+  },
+  {
+    id: 'murati', name: 'Mira Murati', initials: 'MM',
+    org: 'Thinking Machines Lab', org_id: 'thinking-machines', role: 'CEO',
+    aliases: ['Mira Murati', 'Murati'],
+    blocks: [],
+    race_player: null,
+  },
+  {
+    id: 'karpathy', name: 'Andrej Karpathy', initials: 'AK',
+    org: 'Eureka Labs', org_id: 'eureka-labs', role: 'Founder',
+    aliases: ['Andrej Karpathy', 'Karpathy'],
+    blocks: [],
+    race_player: null,
+  },
+  {
+    id: 'brockman', name: 'Greg Brockman', initials: 'GB',
+    org: 'OpenAI', org_id: 'openai', role: 'President',
+    aliases: ['Greg Brockman', 'Brockman'],
+    blocks: [],
+    race_player: 'openai',
+  },
 ]);
 
 // ---------------------------------------------------------------------------
