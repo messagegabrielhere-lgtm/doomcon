@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Bunker Kit: 50 free online tools and an emergency gear checklist · SIREN</title>
-<meta name="description" content="A checklist of 50 free online tools for research, privacy, design, coding and PDFs, plus a crate of emergency gear: radio, water filter, power, maps. A SIREN field manual.">
+<meta name="description" content="A checklist of 50 free online tools for research, privacy, design, coding and PDFs, plus six crates of emergency gear: water, food, power, radios, first aid, tools and go-bags. A SIREN field manual.">
 <link rel="stylesheet" href="fonts/fonts.css">
 <style>
 :root{
@@ -78,7 +78,7 @@ footer{max-width:1040px;margin:0 auto;padding:0 20px 40px;color:var(--dim);font-
     <div>
       <a class="back" href="./">Back to SIREN index</a>
       <h1>Bunker Kit</h1>
-      <p>50 free tools to stockpile before the machines take the internet. Check off what you've packed. Plus one crate of gear that is not free.</p>
+      <p>50 free tools to stockpile before the machines take the internet, and six supply-drop crates of real gear. Check off what you've packed. New to this? Start with the <a href="prepper-checklist.html">prepper checklist</a>.</p>
     </div>
   </div>
 </header>
@@ -86,7 +86,7 @@ footer{max-width:1040px;margin:0 auto;padding:0 20px 40px;color:var(--dim);font-
 <div class="controls">
   <div class="controls-inner">
     <div class="meter" aria-live="polite">
-      <div class="meter-label"><span>Bunker readiness</span><strong id="count">0 / 50 packed</strong></div>
+      <div class="meter-label"><span>Bunker readiness</span><strong id="count">0 packed</strong></div>
       <div class="bar"><span id="fill"></span></div>
     </div>
     <input class="search" id="q" type="search" placeholder="Search the manifest" aria-label="Search tools">
@@ -98,7 +98,7 @@ footer{max-width:1040px;margin:0 auto;padding:0 20px 40px;color:var(--dim);font-
 
 <footer>
   <p>The 50 tools are free to start and run by third parties, not SIREN. Stamps mark real cautions; "signal unconfirmed" means the service has changed or may be offline. Verify before you rely on it.</p>
-  <p>The Supply drop crate is the exception: its links are paid Amazon links. As an Amazon Associate, SIREN earns from qualifying purchases. Listing there is not a review; read the product page before you buy.</p>
+  <p>The Supply drop crates are the exception: their links are paid Amazon links (some to a single product, some to an Amazon search for that kind of item). As an Amazon Associate, SIREN earns from qualifying purchases. Listing there is not a review; read the product page before you buy.</p>
 </footer>
 
 <script>
@@ -111,11 +111,18 @@ const CRATES = [
  {id:"signal", name:"Signal monitoring", why:"Know when the grid flickers, and where to go when an app dies."},
  {id:"morale", name:"Morale", why:"The apocalypse is long. Bring something to listen to."},
  {id:"paper", name:"Paperwork", why:"Even after the end of the world, someone will ask for a signed PDF."},
- {id:"supply", name:"Supply drop", why:"The one crate that costs money: physical gear, sold on Amazon. These are paid links. As an Amazon Associate, SIREN earns from qualifying purchases."}
+ {id:"s-water", name:"Supply drop: water & food", why:"Two weeks of water and food is the first thing every emergency agency asks for. Paid Amazon links: as an Amazon Associate, SIREN earns from qualifying purchases."},
+ {id:"s-power", name:"Supply drop: power & light", why:"When the grid flickers, light and a charged phone are morale and safety. Paid Amazon links: as an Amazon Associate, SIREN earns from qualifying purchases."},
+ {id:"s-comms", name:"Supply drop: comms & navigation", why:"Hear the warnings, reach your people, find your way without a signal. Paid Amazon links: as an Amazon Associate, SIREN earns from qualifying purchases."},
+ {id:"s-med", name:"Supply drop: medical & hygiene", why:"The unglamorous crate that matters most. Paid Amazon links: as an Amazon Associate, SIREN earns from qualifying purchases."},
+ {id:"s-tools", name:"Supply drop: tools & shelter", why:"Fix it, cut it, tie it down, stay warm. Paid Amazon links: as an Amazon Associate, SIREN earns from qualifying purchases."},
+ {id:"s-docs", name:"Supply drop: bags, documents & security", why:"Grab-and-go: the bag, the papers, the backups. Paid Amazon links: as an Amazon Associate, SIREN earns from qualifying purchases."}
 ];
 
 const TAG = "buyusa0d-20";
 const amz = asin => "https://www.amazon.com/dp/" + asin + "?tag=" + TAG;
+// A tagged Amazon search for items picked by type rather than one listing.
+const azs = q => "https://www.amazon.com/s?k=" + encodeURIComponent(q).replace(/%20/g, "+") + "&tag=" + TAG;
 
 const TOOLS = [
  ["vault","Unpaywall","unpaywall.org","Free research papers","Liberate the papers before the paywalls become firewalls."],
@@ -168,17 +175,64 @@ const TOOLS = [
  ["morale","JustWatch","justwatch.com","Where to stream movies","Find every AI-uprising movie for research purposes."],
  ["paper","Smallpdf","smallpdf.com","All-in-one PDF tools","Fill out the post-apocalyptic paperwork."],
  ["paper","iLovePDF","ilovepdf.com","Merge, split and convert PDFs","Bureaucracy will outlive us all."],
- ["supply","Hand-crank weather radio","amazon.com","FosPower NOAA emergency radio with solar panel and hand crank","When the feeds go quiet, AM still works.","Paid link",null,amz("B07FKYHTWP")],
- ["supply","Offline voice translator","amazon.com","Two-way translator device that also works without WiFi","For negotiating with the neighbours once the translation apps are gone.","Paid link",null,amz("B0HD5WJW31")],
- ["supply","LifeStraw water filter","amazon.com","Personal water filter for hiking, travel and emergencies","The cloud is down. The puddle is up.","Paid link",null,amz("B006QF3TW4")],
- ["supply","Solar power bank","amazon.com","BLAVOR 20,000mAh solar power bank with wireless charging","The sun has no terms of service.","Paid link",null,amz("B0D4Z7VJ43")],
- ["supply","Portable power station","amazon.com","ALLWEI 300W, 256Wh LiFePO4 power station","Keep one laptop alive. Choose which one carefully.","Paid link",null,amz("B08CXN4TZR")],
- ["supply","Faraday bags","amazon.com","Signal-blocking pouches for phones and car keys, 2 pack","Put the phone in the bag. Enjoy the silence.","Paid link",null,amz("B0BZCFXN8X")],
- ["supply","Paper road atlas","amazon.com","Rand McNally 2027 Road Atlas","Maps that do not reroute you.","Paid link",null,amz("0528029487")],
- ["supply","Two-way radios","amazon.com","Rechargeable FRS walkie talkies, 2 pack","Group chat, but with a range limit and no read receipts.","Paid link",null,amz("B0DG87NKLM")],
- ["supply","Rechargeable headlamp","amazon.com","Blukar LED rechargeable headlamp","For reading the manual after the grid flickers.","Paid link",null,amz("B0BLVT2Y9N")],
- ["supply","All-weather notebooks","amazon.com","Rite in the Rain weatherproof 3 x 5 notebooks, 3 pack","Notes no model was trained on.","Paid link",null,amz("B0CWSB1N8F")],
- ["supply","First aid kit","amazon.com","First Aid Only 298-piece family first aid kit","The one item on this page that is not a joke.","Paid link",null,amz("B000069EYA")]
+ ["s-comms","Hand-crank weather radio","amazon.com","FosPower NOAA emergency radio with solar panel and hand crank","When the feeds go quiet, AM still works.","Paid link",null,amz("B07FKYHTWP")],
+ ["s-comms","Offline voice translator","amazon.com","Two-way translator device that also works without WiFi","For negotiating with the neighbours once the translation apps are gone.","Paid link",null,amz("B0HD5WJW31")],
+ ["s-water","LifeStraw water filter","amazon.com","Personal water filter for hiking, travel and emergencies","The cloud is down. The puddle is up.","Paid link",null,amz("B006QF3TW4")],
+ ["s-power","Solar power bank","amazon.com","BLAVOR 20,000mAh solar power bank with wireless charging","The sun has no terms of service.","Paid link",null,amz("B0D4Z7VJ43")],
+ ["s-power","Portable power station","amazon.com","ALLWEI 300W, 256Wh LiFePO4 power station","Keep one laptop alive. Choose which one carefully.","Paid link",null,amz("B08CXN4TZR")],
+ ["s-docs","Faraday bags","amazon.com","Signal-blocking pouches for phones and car keys, 2 pack","Put the phone in the bag. Enjoy the silence.","Paid link",null,amz("B0BZCFXN8X")],
+ ["s-comms","Paper road atlas","amazon.com","Rand McNally 2027 Road Atlas","Maps that do not reroute you.","Paid link",null,amz("0528029487")],
+ ["s-comms","Two-way radios","amazon.com","Rechargeable FRS walkie talkies, 2 pack","Group chat, but with a range limit and no read receipts.","Paid link",null,amz("B0DG87NKLM")],
+ ["s-power","Rechargeable headlamp","amazon.com","Blukar LED rechargeable headlamp","For reading the manual after the grid flickers.","Paid link",null,amz("B0BLVT2Y9N")],
+ ["s-docs","All-weather notebooks","amazon.com","Rite in the Rain weatherproof 3 x 5 notebooks, 3 pack","Notes no model was trained on.","Paid link",null,amz("B0CWSB1N8F")],
+ ["s-med","First aid kit","amazon.com","First Aid Only 298-piece family first aid kit","The one item on this page that is not a joke.","Paid link",null,amz("B000069EYA")],
+ ["s-water","Water storage containers","amazon.com","Stackable 7-gallon jugs with spigots","The cloud stores your photos. You store the water.","Paid link",null,azs("7 gallon water storage container BPA free")],
+ ["s-water","Water purification tablets","amazon.com","Chlorine dioxide tablets, treat a litre each","Tiny, light, and unimpressed by firmware updates.","Paid link",null,azs("water purification tablets emergency")],
+ ["s-water","Sawyer Squeeze filter","amazon.com","Reusable squeeze filter, rated to 100,000 gallons","Outlasts most startups.","Paid link",null,azs("Sawyer Squeeze water filtration system")],
+ ["s-water","WaterBOB bathtub bladder","amazon.com","Fills your tub with 100 gallons of sealed drinking water","Fill it when the alert sounds, not after.","Paid link",null,azs("WaterBOB bathtub emergency water storage")],
+ ["s-water","Emergency food bars","amazon.com","Coast Guard-approved ration bars, 5-year shelf life","Tastes like a shortbread that has given up.","Paid link",null,azs("Datrex emergency food ration bars 3600")],
+ ["s-water","Freeze-dried food bucket","amazon.com","Long-shelf-life meals in a sealed bucket","Dinner, decades from now.","Paid link",null,azs("freeze dried emergency food bucket 25 year")],
+ ["s-water","Manual can opener","amazon.com","A can opener that needs no electricity","The most important appliance nobody thinks about.","Paid link",null,azs("manual can opener heavy duty")],
+ ["s-water","Portable butane stove","amazon.com","Single-burner stove for indoors-safe cooking with ventilation","Hot food is a mood stabiliser.","Use with ventilation · Paid link",null,azs("portable butane camping stove")],
+ ["s-water","Butane fuel canisters","amazon.com","Spare fuel for the stove","A stove with no fuel is a paperweight.","Paid link",null,azs("butane fuel canisters 8 oz 4 pack")],
+ ["s-water","Mylar bags and oxygen absorbers","amazon.com","Seal rice and beans for long storage","Vacuum-sealed against the future.","Paid link",null,azs("mylar bags oxygen absorbers food storage")],
+ ["s-power","Folding solar panel","amazon.com","100-watt folding panel for a power station","Free electricity, sun permitting.","Paid link",null,azs("100W foldable solar panel portable")],
+ ["s-power","Hand-crank flashlight","amazon.com","Flashlight you can wind up, no batteries","Arm-powered lumens.","Paid link",null,azs("hand crank flashlight rechargeable")],
+ ["s-power","LED camping lanterns","amazon.com","Collapsible battery lanterns that light a room","A room you can read in beats a phone torch.","Paid link",null,azs("LED camping lantern battery 4 pack")],
+ ["s-power","Rechargeable AA/AAA batteries","amazon.com","NiMH cells and a charger","Everything still runs on AA.","Paid link",null,azs("rechargeable AA batteries with charger")],
+ ["s-power","Car jump starter","amazon.com","Jump-starts a car and charges phones","Two problems, one brick.","Paid link",null,azs("portable car jump starter power bank")],
+ ["s-power","Emergency candles","amazon.com","Long-burning candles in tins","Analogue lighting, version 1.0.","Never leave burning · Paid link",null,azs("emergency candles long burning")],
+ ["s-power","Surge protector","amazon.com","Protect the electronics when power comes back","The grid’s comeback tour can fry things.","Paid link",null,azs("surge protector power strip heavy duty")],
+ ["s-comms","Lensatic compass","amazon.com","Waterproof sighting compass","GPS for people who read maps.","Paid link",null,azs("lensatic military compass")],
+ ["s-comms","Emergency whistle","amazon.com","Loud pea-less whistle, heard further than a voice","Low tech, high decibel.","Paid link",null,azs("emergency survival whistle loud")],
+ ["s-comms","Signal mirror","amazon.com","Mirror for signalling aircraft and rescuers","Reflects sunlight and poor decisions.","Paid link",null,azs("survival signal mirror")],
+ ["s-comms","GMRS radios","amazon.com","Longer-range family radios","An FCC GMRS licence (no exam) covers your whole family.","Licence needed to transmit · Paid link",null,azs("GMRS two way radio long range")],
+ ["s-comms","Shortwave receiver","amazon.com","AM/FM/shortwave receiver for distant broadcasts","Hear the other side of the planet.","Paid link",null,azs("portable shortwave radio receiver")],
+ ["s-comms","Waterproof phone pouch","amazon.com","Keeps a phone dry and usable","Water and phones do not negotiate.","Paid link",null,azs("waterproof phone pouch")],
+ ["s-med","Tourniquet","amazon.com","Combat Application Tourniquet; buy genuine, take a class","Stop the Bleed training is free. Take it.","Get trained · Paid link",null,azs("CAT tourniquet genuine")],
+ ["s-med","Trauma kit","amazon.com","Individual first aid kit for serious bleeding","For when the small first aid kit is too small.","Paid link",null,azs("trauma kit IFAK first aid")],
+ ["s-med","N95 respirators","amazon.com","NIOSH-approved respirators for smoke and dust","Wildfire smoke does not care about the news cycle.","Paid link",null,azs("N95 mask NIOSH approved")],
+ ["s-med","Emergency blankets","amazon.com","Mylar blankets that reflect body heat","Shiny, crinkly, life-saving.","Paid link",null,azs("mylar emergency blankets 10 pack")],
+ ["s-med","Pill organiser","amazon.com","Keep a week of regular medication ready to grab","Ask your pharmacist about an emergency supply.","Paid link",null,azs("weekly pill organizer large")],
+ ["s-med","Burn gel and dressings","amazon.com","Water-based gel and sterile dressings for burns","Stove plus panic equals burns.","Paid link",null,azs("burn gel dressing first aid")],
+ ["s-med","Hygiene kit","amazon.com","Toothbrushes, soap, wipes in one pouch","Morale is mostly brushed teeth.","Paid link",null,azs("personal hygiene kit travel")],
+ ["s-med","Portable toilet bags","amazon.com","Waste bags with gelling powder","Nobody talks about this until they need it.","Paid link",null,azs("emergency toilet bags waste kit")],
+ ["s-tools","Multitool","amazon.com","Pliers, knife, screwdrivers in one","A toolbox that fits a pocket.","Paid link",null,azs("multitool pliers stainless")],
+ ["s-tools","Fixed-blade knife","amazon.com","Full-tang knife with a sheath","The original multitool.","Check local laws · Paid link",null,azs("fixed blade survival knife")],
+ ["s-tools","Paracord","amazon.com","100 feet of 550-pound cord","Ties down tarps, tempers and tents.","Paid link",null,azs("550 paracord 100 ft")],
+ ["s-tools","Duct tape","amazon.com","Heavy-duty tape","If it can’t be fixed with this, it was AI-generated.","Paid link",null,azs("duct tape heavy duty")],
+ ["s-tools","Heavy-duty tarp","amazon.com","Waterproof tarp with grommets","Instant roof, instant floor.","Paid link",null,azs("heavy duty waterproof tarp")],
+ ["s-tools","Emergency bivvy","amazon.com","Thermal sleeping bag that packs to fist size","Warmth in a pocket.","Paid link",null,azs("emergency bivvy sack thermal")],
+ ["s-tools","Fire starter kit","amazon.com","Ferro rod and waterproof matches","Fire, without asking an app.","Paid link",null,azs("ferro rod fire starter")],
+ ["s-tools","Work gloves","amazon.com","Cut-resistant work gloves","Debris is sharp.","Paid link",null,azs("leather work gloves")],
+ ["s-tools","Fire extinguisher","amazon.com","ABC extinguisher for the kitchen","Cheap insurance on the wall.","Paid link",null,azs("home fire extinguisher ABC")],
+ ["s-tools","Utility shut-off wrench","amazon.com","Turns off gas and water at the main","Know where your mains are before you need to.","Paid link",null,azs("gas water shut off wrench 4 in 1")],
+ ["s-docs","72-hour go bag","amazon.com","Pre-packed bag for three days away from home","Grab it, go, sort it out later.","Paid link",null,azs("72 hour emergency survival kit backpack")],
+ ["s-docs","Fireproof document bag","amazon.com","Fire- and water-resistant pouch for papers","Passports outlive houses when they are in this.","Paid link",null,azs("fireproof document bag waterproof")],
+ ["s-docs","Encrypted USB drive","amazon.com","Hardware-encrypted drive for scans of your documents","Your documents, offline, locked.","Paid link",null,azs("encrypted USB flash drive hardware")],
+ ["s-docs","Car emergency kit","amazon.com","Jumper cables, flares, tools for the car","The car is half the plan.","Paid link",null,azs("car emergency roadside kit")],
+ ["s-docs","Spare reading glasses","amazon.com","Cheap backups for the bag","Can’t read the manual without them.","Paid link",null,azs("reading glasses multipack")],
+ ["s-docs","Laminated family contact cards","amazon.com","Write numbers down; phones die","Nobody remembers phone numbers anymore.","Paid link",null,azs("laminated emergency contact cards")]
 ];
 
 const packed = new Set();

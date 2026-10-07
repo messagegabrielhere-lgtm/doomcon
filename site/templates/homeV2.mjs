@@ -62,7 +62,8 @@ export function roomGroups(ctx) {
       ['/bets.html', 'dice', 'Tally’s Bets', null, 'Daily forecasts about the index, scored in public.'],
       ['/game.html', 'joystick', 'Game', null, 'Thirty seconds: count signals, ignore predictions.'],
       ['/desk.html', 'canary', 'Tally’s Desk', null, 'The unserious counts: robots and godfathers.'],
-      ['/bunker-kit.html', 'bunker', 'Bunker Kit', null, '50 free tools and one crate of gear.'],
+      ['/bunker-kit.html', 'bunker', 'Bunker Kit', null, '50 free tools and six crates of emergency gear.'],
+      ['/prepper-checklist.html', 'clipboard', 'Prepper Checklist', null, 'A 72-hour kit and two weeks at home, sized for you.'],
       ['/library.html', 'books', 'Reading List', null, 'Books from every side of the AI argument.'],
     ]],
     ['THE RECORD', [

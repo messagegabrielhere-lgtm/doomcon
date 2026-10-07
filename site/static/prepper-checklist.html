@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Prepper Checklist: a 72-hour kit and two weeks at home · SIREN</title>
+<meta name="description" content="A free, printable prepper checklist: water, food, power, radios, first aid, documents, tools and a family plan. Tick items off, size your water by household, and save progress in your browser.">
+<link rel="stylesheet" href="fonts/fonts.css">
+<style>
+:root{--bg:#000;--raised:#0E131D;--rule:#232C3B;--ink:#E6EAF0;--dim:#AEB7C3;--faint:#6B7686;--green:#4ADE80;--amber:#FFB020;--indigo:#818CF8;--red:#FF5F56;
+  --mono:"IBM Plex Mono",ui-monospace,monospace;--sans:"IBM Plex Sans","Inter Tight",system-ui,-apple-system,"Segoe UI",sans-serif}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.55 var(--sans)}
+a{color:var(--green)}
+:focus-visible{outline:2px solid var(--green);outline-offset:2px}
+.wrap{max-width:980px;margin:0 auto;padding:0 16px}
+header.pc{padding:36px 0 24px;border-bottom:1px solid var(--rule)}
+.pc-top{display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:center}
+.pc-top img{width:120px;height:120px}
+.eyebrow{font:600 12px/1 var(--mono);letter-spacing:.16em;color:var(--green);margin:0 0 10px}
+h1{font:700 clamp(2rem,6vw,3.4rem)/1.02 var(--sans);margin:0;letter-spacing:-.02em}
+.lede{color:var(--dim);max-width:60ch;margin:12px 0 0;font-size:1.05rem}
+@media (max-width:560px){.pc-top{grid-template-columns:1fr}.pc-top img{width:88px;height:88px}}
+.panel{display:grid;grid-template-columns:1.2fr 1fr;gap:16px;margin:20px 0}
+@media (max-width:760px){.panel{grid-template-columns:1fr}}
+.card{background:var(--raised);border:1px solid var(--rule);border-radius:4px;padding:16px}
+.card h2{font:600 12px/1 var(--mono);letter-spacing:.14em;color:var(--dim);margin:0 0 12px;text-transform:uppercase}
+.calc{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:end}
+.calc label{font:600 11px/1.3 var(--mono);letter-spacing:.1em;color:var(--faint);display:grid;gap:6px;text-transform:uppercase}
+.calc input,.calc select{width:92px;padding:8px 10px;background:#000;color:var(--ink);border:1px solid var(--rule);border-radius:4px;font:500 16px/1 var(--mono)}
+.calc select{width:auto}
+.need{margin:14px 0 0;display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.need div{border-left:3px solid var(--green);padding:2px 10px}
+.need b{display:block;font:700 22px/1.1 var(--mono)}
+.need span{font-size:12px;color:var(--dim)}
+.meter-row{display:flex;justify-content:space-between;align-items:baseline;font:600 13px/1 var(--mono)}
+.meter-row b{font-size:28px;color:var(--green)}
+.bar{height:12px;background:#000;border:1px solid var(--rule);margin:10px 0 14px;border-radius:2px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--green);transition:width .3s}
+.tools{display:flex;flex-wrap:wrap;gap:8px}
+.tools button,.tabs button{all:unset;cursor:pointer;padding:8px 12px;border:1px solid var(--rule);border-radius:4px;font:600 12px/1 var(--mono);letter-spacing:.06em;color:var(--ink)}
+.tools button:hover,.tabs button:hover{border-color:var(--green)}
+.tools button:focus-visible,.tabs button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 18px;position:sticky;top:0;background:var(--bg);padding:10px 0;z-index:3;border-bottom:1px solid var(--rule)}
+.tabs button[aria-pressed=true]{background:var(--green);color:#000;border-color:var(--green)}
+section.sec{margin:0 0 28px}
+.sec-h{display:flex;justify-content:space-between;align-items:baseline;gap:12px;border-bottom:1px solid var(--rule);padding-bottom:8px;margin-bottom:6px}
+.sec-h h3{font:700 1.3rem/1.2 var(--sans);margin:0}
+.sec-h span{font:600 12px/1 var(--mono);color:var(--faint);white-space:nowrap}
+.sec-why{color:var(--dim);font-size:14px;margin:6px 0 8px;max-width:70ch}
+ul.items{list-style:none;margin:0;padding:0}
+ul.items li{display:grid;grid-template-columns:28px 1fr auto;gap:10px;align-items:start;padding:10px 4px;border-bottom:1px solid #121824}
+ul.items li.done .t{color:var(--faint);text-decoration:line-through}
+ul.items input{width:20px;height:20px;margin:2px 0 0;accent-color:var(--green)}
+.t{font-weight:500}
+.t small{display:block;color:var(--dim);font-weight:400;font-size:13px;margin-top:2px}
+.tag{font:600 10px/1 var(--mono);letter-spacing:.08em;padding:4px 6px;border-radius:3px;border:1px solid var(--rule);color:var(--dim);white-space:nowrap}
+.tag.k72{color:var(--amber);border-color:#5a4410}
+.buy{font:600 11px/1 var(--mono);white-space:nowrap;margin-left:8px}
+.right{display:flex;align-items:center;gap:6px}
+footer.pc{border-top:1px solid var(--rule);margin-top:24px;padding:20px 0 90px;color:var(--dim);font-size:13px}
+@media print{.tabs,.tools,.calc,.buy,#sitebar,.site-disclosure,.v2sh{display:none!important}body{background:#fff;color:#000}.card,.sec-h,ul.items li{border-color:#ccc}.t small,.sec-why{color:#333}a{color:#000}}
+</style>
+</head>
+<body>
+<header class="pc">
+  <div class="wrap pc-top">
+    <img src="img/art-clipboard.webp" width="120" height="120" alt="">
+    <div>
+      <p class="eyebrow">A SIREN FIELD MANUAL · FREE AND PRINTABLE</p>
+      <h1>Prepper Checklist</h1>
+      <p class="lede">Everything a household needs for a 72-hour grab-and-go kit and two weeks at home without power, water or the internet. Tick things off as you go; your progress stays in this browser. Based on the U.S. government's <a href="https://www.ready.gov/kit" rel="noopener" target="_blank">Ready.gov</a> guidance.</p>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="panel">
+    <div class="card">
+      <h2>Size it for your household</h2>
+      <div class="calc">
+        <label>People<input id="people" type="number" min="1" max="20" value="2" inputmode="numeric"></label>
+        <label>Pets<input id="pets" type="number" min="0" max="20" value="0" inputmode="numeric"></label>
+        <label>Plan for<select id="days"><option value="3">72 hours (3 days)</option><option value="14" selected>2 weeks at home</option></select></label>
+      </div>
+      <div class="need" aria-live="polite">
+        <div><b id="n-water">—</b><span>gallons of water</span></div>
+        <div><b id="n-meals">—</b><span>meals of food</span></div>
+        <div><b id="n-meds">—</b><span>days of medicine</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Readiness</h2>
+      <div class="meter-row"><span id="m-label">0 of 0 done</span><b id="m-pct">0%</b></div>
+      <div class="bar"><i id="m-fill"></i></div>
+      <div class="tools">
+        <button type="button" id="print">PRINT</button>
+        <button type="button" id="hide">HIDE DONE</button>
+        <button type="button" id="reset">RESET</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="tabs" role="toolbar" aria-label="Which list">
+    <button type="button" data-f="all" aria-pressed="true">EVERYTHING</button>
+    <button type="button" data-f="k72" aria-pressed="false">72-HOUR KIT ONLY</button>
+  </div>
+
+  <div id="list"></div>
+
+  <p class="sec-why">Want the gear? Every crate is in the <a href="bunker-kit.html">Bunker Kit's supply drop</a>.</p>
+</main>
+
+<footer class="pc wrap">
+  <p>General preparedness information, not professional advice. Follow your local emergency managers' instructions first. Water, food and medicine amounts follow Ready.gov and FEMA: at least one gallon of water per person per day, a supply for several days, and two weeks for staying at home.</p>
+  <p>"Gear" links go to Amazon and are paid links: as an Amazon Associate, SIREN earns from qualifying purchases. Nothing on this page is a product review.</p>
+</footer>
+
+<script>
+const TAG = "buyusa0d-20";
+const azs = q => "https://www.amazon.com/s?k=" + encodeURIComponent(q).replace(/%20/g, "+") + "&tag=" + TAG;
+// [section id, title, why, items: [id, text, detail, in72hKit, amazon search or null]]
+const SECTIONS = [
+ ["water","Water","The first thing to run out. Store it before you need it; rotate it every six months.",[
+  ["w1","Drinking water, 1 gallon per person per day","Use the calculator above for your total. More in hot weather, for nursing mothers and the sick.",1,"water storage container 7 gallon"],
+  ["w2","Water for pets","About an ounce per pound of pet a day.",0,null],
+  ["w3","A way to treat water","Filter, purification tablets, or unscented bleach and a dropper.",1,"water purification tablets"],
+  ["w4","Know how to fill the bathtub with sealed storage","A tub liner holds about 100 gallons for washing and flushing.",0,"WaterBOB bathtub water storage"],
+  ["w5","Date your water and set a reminder to rotate it","Every six months for water you bottled yourself.",0,null]]],
+ ["food","Food","Non-perishable, no cooking needed, and things your household will actually eat.",[
+  ["f1","Ready-to-eat canned and packaged food","Three days in the kit, two weeks at home.",1,null],
+  ["f2","Manual can opener","Electric ones do not help here.",1,"manual can opener"],
+  ["f3","High-calorie bars for the go-bag","Long shelf life, light, no prep.",1,"emergency food bars 3600"],
+  ["f4","Food for infants, special diets and pets","Formula, allergy-safe foods, pet food.",1,null],
+  ["f5","A safe way to heat food","Camp stove plus fuel, used with ventilation; never charcoal or a generator indoors.",0,"portable butane camping stove"],
+  ["f6","Plates, cups, utensils, trash bags","Disposable saves water.",0,null]]],
+ ["power","Light & power","Light keeps people calm and safe. Batteries are the quiet failure point.",[
+  ["p1","Flashlight or headlamp for each person","Plus spare batteries.",1,"LED headlamp rechargeable"],
+  ["p2","Spare batteries in the sizes you use","Check them twice a year.",1,"rechargeable AA batteries with charger"],
+  ["p3","Phone power bank, charged","Keep it topped up; a solar one recharges in daylight.",1,"solar power bank"],
+  ["p4","Lanterns for the house","Battery lanterns light a room safely; avoid candles where you can.",0,"LED camping lantern"],
+  ["p5","Backup power for medical devices","If anyone relies on powered equipment, plan this first.",0,"portable power station"],
+  ["p6","Car charger for phones","",1,null]]],
+ ["comms","Information & communication","Hear the warnings and reach your people when phones and the internet fail.",[
+  ["c1","Battery or hand-crank NOAA weather radio","Gets emergency broadcasts without power or signal.",1,"NOAA weather radio hand crank"],
+  ["c2","Turn on emergency alerts on every phone","Settings → Notifications → Emergency alerts. Sign up for your county's alerts too.",0,null],
+  ["c3","Written list of phone numbers","Phones die; paper does not.",1,null],
+  ["c4","An out-of-area contact everyone checks in with","Long-distance calls often get through when local ones don't. Texts are better than calls.",0,null],
+  ["c5","Whistle to signal for help","",1,"emergency whistle"],
+  ["c6","Paper map of your area and a compass","Mark two ways out of your neighbourhood.",1,"road atlas"]]],
+ ["med","First aid & medicine","Most emergencies are ordinary injuries without a doctor nearby.",[
+  ["m1","First aid kit, and know how to use it","A free Stop the Bleed or first-aid class is worth more than the kit.",1,"first aid kit family"],
+  ["m2","Prescription medicines","A week or more. Ask your pharmacist or doctor about an emergency supply.",1,null],
+  ["m3","Glasses, contact lenses and solution","",1,null],
+  ["m4","Over-the-counter basics","Pain relief, antihistamine, anti-diarrhoea, electrolytes.",1,null],
+  ["m5","Masks for smoke and dust","NIOSH-approved N95s.",1,"N95 mask NIOSH"],
+  ["m6","Emergency blankets","",1,"mylar emergency blankets"]]],
+ ["san","Sanitation & hygiene","When water stops, toilets stop. Plan for that.",[
+  ["s1","Moist towelettes, soap, hand sanitiser","",1,null],
+  ["s2","Heavy trash bags and ties","",1,null],
+  ["s3","Emergency toilet bags or a bucket toilet","",0,"emergency toilet bags"],
+  ["s4","Toilet paper, menstrual and incontinence supplies","",1,null],
+  ["s5","Unscented household bleach and a dropper","For disinfecting, and for treating water if needed.",0,null]]],
+ ["docs","Documents & money","Getting help afterwards depends on proving who you are and what you had.",[
+  ["d1","Copies of IDs, insurance policies, deeds, medical records","In a waterproof bag, plus encrypted scans.",1,"fireproof document bag"],
+  ["d2","Cash in small bills","Card machines need power and networks.",1,null],
+  ["d3","Photos of your home and belongings","For insurance claims. Update yearly.",0,null],
+  ["d4","Spare keys for house and car","",1,null],
+  ["d5","Encrypted backup of important files","",0,"encrypted USB flash drive"]]],
+ ["tools","Tools & safety","",[
+  ["t1","Multi-tool or basic toolkit","",1,"multitool"],
+  ["t2","Wrench or pliers to turn off utilities","Know where your gas, water and electric shut-offs are. Turn gas off only if you smell it or are told to.",0,"gas water shut off wrench"],
+  ["t3","Fire extinguisher, and everyone knows where it is","",0,"home fire extinguisher ABC"],
+  ["t4","Working smoke and carbon monoxide alarms","Test monthly. CO alarms matter most when generators come out.",0,null],
+  ["t5","Duct tape and plastic sheeting","",1,"duct tape heavy duty"],
+  ["t6","Work gloves and sturdy shoes by the bed","",1,"leather work gloves"]]],
+ ["shelter","Warmth & shelter","",[
+  ["h1","Change of clothes and sturdy shoes per person","",1,null],
+  ["h2","Sleeping bag or warm blanket per person","",1,null],
+  ["h3","Rain gear","",1,null],
+  ["h4","Tarp and rope","",0,"heavy duty tarp"]]],
+ ["plan","The plan","Gear without a plan is clutter. These cost nothing.",[
+  ["x1","Two meeting places: outside your home, and outside your neighbourhood","",0,null],
+  ["x2","Know your evacuation routes and where local shelters are","",0,null],
+  ["x3","A plan for pets, children at school, and anyone who needs help moving","",0,null],
+  ["x4","Pack the 72-hour kit in a bag by the door","",0,"72 hour emergency kit backpack"],
+  ["x5","A smaller kit in the car and at work","",0,"car emergency roadside kit"],
+  ["x6","Practise once a year, and review this list","",0,null]]],
+];
+
+const K = "siren:prepper";
+let done = new Set(), filter = "all", hideDone = false;
+try { done = new Set(JSON.parse(localStorage.getItem(K) || "[]")); } catch (e) {}
+const save = () => { try { localStorage.setItem(K, JSON.stringify([...done])); } catch (e) {} };
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+function render() {
+  const out = [];
+  for (const [sid, title, why, items] of SECTIONS) {
+    const rows = items.filter(i => (filter === "all" || i[3]) && !(hideDone && done.has(i[0])));
+    if (!rows.length) continue;
+    const n = items.filter(i => filter === "all" || i[3]).length, d = items.filter(i => (filter === "all" || i[3]) && done.has(i[0])).length;
+    out.push(`<section class="sec" id="${sid}"><div class="sec-h"><h3>${esc(title)}</h3><span>${d} / ${n}</span></div>${why ? `<p class="sec-why">${esc(why)}</p>` : ""}<ul class="items">` +
+      rows.map(([id, text, detail, k72, q]) => `<li class="${done.has(id) ? "done" : ""}"><input type="checkbox" id="i-${id}" data-id="${id}" ${done.has(id) ? "checked" : ""}><label class="t" for="i-${id}">${esc(text)}${detail ? `<small>${esc(detail)}</small>` : ""}</label><span class="right">${k72 ? `<span class="tag k72">72-HR KIT</span>` : ""}${q ? `<a class="buy" href="${azs(q)}" target="_blank" rel="sponsored noopener">GEAR ↗</a>` : ""}</span></li>`).join("") + `</ul></section>`);
+  }
+  $("#list").innerHTML = out.join("") || `<p class="sec-why">Everything here is done. Check it again in six months.</p>`;
+  document.querySelectorAll("#list input[type=checkbox]").forEach(cb => cb.onchange = () => {
+    cb.checked ? done.add(cb.dataset.id) : done.delete(cb.dataset.id); save(); render(); meter();
+  });
+}
+function meter() {
+  const all = SECTIONS.flatMap(s => s[3]).filter(i => filter === "all" || i[3]);
+  const d = all.filter(i => done.has(i[0])).length;
+  const pct = all.length ? Math.round(d / all.length * 100) : 0;
+  $("#m-label").textContent = `${d} of ${all.length} done`;
+  $("#m-pct").textContent = pct + "%";
+  $("#m-fill").style.width = pct + "%";
+}
+function calc() {
+  const p = Math.max(1, Math.min(20, +$("#people").value || 1)), pets = Math.max(0, Math.min(20, +$("#pets").value || 0)), days = +$("#days").value;
+  // Ready.gov: 1 gallon per person per day. Pets: about 1/2 gallon a day for a mid-size dog.
+  $("#n-water").textContent = Math.ceil(p * days + pets * days * 0.5);
+  $("#n-meals").textContent = p * days * 3;
+  $("#n-meds").textContent = Math.max(7, days);
+}
+document.querySelectorAll(".tabs button").forEach(b => b.onclick = () => {
+  filter = b.dataset.f; document.querySelectorAll(".tabs button").forEach(x => x.setAttribute("aria-pressed", x === b)); render(); meter();
+});
+$("#hide").onclick = e => { hideDone = !hideDone; e.target.textContent = hideDone ? "SHOW DONE" : "HIDE DONE"; render(); };
+$("#reset").onclick = () => { if (done.size && !window.confirm("Clear every tick on this checklist?")) return; done.clear(); save(); render(); meter(); };
+$("#print").onclick = () => window.print();
+["people", "pets", "days"].forEach(id => $("#" + id).addEventListener("input", calc));
+calc(); render(); meter();
+</script>
+</body>
+</html>
