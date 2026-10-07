@@ -1572,6 +1572,7 @@ function picksBand(ctx) {
 .mkb__list a{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;border-radius:8px;border:1px solid var(--line, rgba(127,127,127,.3));text-decoration:none;color:inherit;font-family:var(--mono);font-size:13px}
 .mkb__list a:hover{border-color:#e2a03b}
 .mkb__two{display:grid;gap:14px;grid-template-columns:1fr 1fr;margin-top:14px}
+.mkb__two>*{min-width:0} /* a grid item would otherwise grow to its longest nowrap line: 714px on a 390px phone */
 .mkb__card{display:flex;flex-direction:column;gap:8px;text-decoration:none;color:inherit;padding:14px 16px;border-radius:8px;border:1px solid var(--line, rgba(127,127,127,.3))}
 .mkb__card h3{margin:0;font-size:18px;line-height:1.15}
 .mkb__rows{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:5px;font-size:13.5px}

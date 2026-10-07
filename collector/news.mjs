@@ -28,6 +28,7 @@ import { createHash } from 'node:crypto';
 import { fetchText, fetchJson } from './fetch.mjs';
 import { extractEntities, entityKinds, classifyPillar } from './news-sources/_entities.mjs';
 import { storyPass, STORY_SCORE } from './news-stories.mjs';
+import { toPlainText } from './news-sources/_feed.mjs';
 
 const SCHEMA_VERSION = 1;
 // 1.1.0 adds the two story terms — severity and coverage — on top of the five
@@ -1085,6 +1086,10 @@ async function main() {
   //
   // Both sides are pure functions of the previous file and this run's fetches,
   // so this stays reproducible: no clock, no randomness (CONTRACT.md §4).
+  // Items carried forward from earlier runs were summarised by an older
+  // parser; clean any that still hold markup so it never reaches a reader.
+  for (const it of items) if (typeof it.summary === 'string' && /<\/?[a-z][^>]*(>|$)/i.test(it.summary)) it.summary = toPlainText(it.summary);
+
   const currentIds = new Set(items.map((i) => i.id));
   const arrived = items.filter((i) => !knownIds.has(i.id)).map((i) => i.id).sort();
   const departed = [...knownIds].filter((id) => !currentIds.has(id)).sort();

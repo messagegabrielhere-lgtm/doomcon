@@ -395,7 +395,7 @@ const feedCss = `
   font-family: var(--mono); font-size: var(--t-2xs); font-weight: 700; letter-spacing: 0.14em;
   color: var(--accent-ink); background: var(--accent); border-radius: 2px; padding: 1px 4px;
 }
-.nrow__sub { margin: 3px 0 0; padding: 0 10px; font-size: var(--t-xs); color: var(--ink-faint); }
+.nrow__sub { margin: 3px 0 0; padding: 0 10px; font-size: var(--t-xs); color: var(--ink-faint); overflow-wrap: anywhere; }
 
 /* 375px: the pill keeps everything - rank, mark, headline, chip, value - and
    gives up only the word on the chip; the ×N and the screen-reader sentence
