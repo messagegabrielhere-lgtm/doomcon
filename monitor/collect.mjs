@@ -47,18 +47,19 @@ export const FEEDS = [
   ['npr', 'npr.org', 'https://feeds.npr.org/1004/rss.xml'],
   ['dw', 'dw.com', 'https://rss.dw.com/rdf/rss-en-world'],
   ['france24', 'france24.com', 'https://www.france24.com/en/rss'],
-  ['cbc', 'cbc.ca', 'https://www.cbc.ca/webfeed/rss/rss-world'],
+  ['nyt', 'nytimes.com', 'https://rss.nytimes.com/services/xml/rss/nyt/World.xml'],
+  ['wapo', 'washingtonpost.com', 'https://feeds.washingtonpost.com/rss/world'],
+  ['euronews', 'euronews.com', 'https://www.euronews.com/rss?level=theme&name=news'],
+  ['rfi', 'rfi.fr', 'https://www.rfi.fr/en/rss'],
   ['abc-au', 'abc.net.au', 'https://www.abc.net.au/news/feed/2942460/rss.xml'],
   ['sky', 'news.sky.com', 'https://feeds.skynews.com/feeds/rss/world.xml'],
   ['un', 'news.un.org', 'https://news.un.org/feed/subscribe/en/news/all/rss.xml'],
   ['cnbc', 'cnbc.com', 'https://www.cnbc.com/id/100727362/device/rss/rss.html', 'economy'],
-  ['kyivindependent', 'kyivindependent.com', 'https://kyivindependent.com/rss/'],
-  ['timesofisrael', 'timesofisrael.com', 'https://www.timesofisrael.com/feed/'],
-  ['hindu', 'thehindu.com', 'https://www.thehindu.com/news/international/feeder/default.rss'],
+  ['middleeasteye', 'middleeasteye.net', 'https://www.middleeasteye.net/rss'],
+  ['hindu', 'thehindu.com', 'https://www.thehindu.com/news/international/?service=rss'],
   ['japantimes', 'japantimes.co.jp', 'https://www.japantimes.co.jp/feed/'],
   ['scmp', 'scmp.com', 'https://www.scmp.com/rss/91/feed'],
   ['africanews', 'africanews.com', 'https://www.africanews.com/feed/rss'],
-  ['mercopress', 'mercopress.com', 'https://en.mercopress.com/rss/'],
   ['defensenews', 'defensenews.com', 'https://www.defensenews.com/arc/outboundfeeds/rss/', 'conflict'],
   ['twz', 'twz.com', 'https://www.twz.com/feed', 'conflict'],
   ['bleeping', 'bleepingcomputer.com', 'https://www.bleepingcomputer.com/feed/', 'cyber'],
@@ -68,14 +69,14 @@ export const FEEDS = [
   ['splash247', 'splash247.com', 'https://splash247.com/feed/', 'shipping'],
   ['oilprice', 'oilprice.com', 'https://oilprice.com/rss/main', 'energy'],
   ['who', 'who.int', 'https://www.who.int/rss-feeds/news-english.xml', 'health'],
-  ['reliefweb', 'reliefweb.int', 'https://reliefweb.int/updates/rss.xml', 'migration'],
 ];
 
 const GDELT = 'https://api.gdeltproject.org/api/v2/doc/doc';
 const SRC = {
   usgs: 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_week.geojson',
   eonet: 'https://eonet.gsfc.nasa.gov/api/v3/events?status=open&days=30',
-  gdacs: 'https://www.gdacs.org/gdacsapi/api/events/geteventlist/MAP',
+  // the MAP list now needs one event type per call (measured 2026-10-07: "Eventtype is required.")
+  gdacs: ['EQ', 'TC', 'FL', 'VO', 'WF', 'DR'].map((t) => `https://www.gdacs.org/gdacsapi/api/events/geteventlist/MAP?eventtype=${t}`),
   mil: ['https://api.adsb.lol/v2/mil', 'https://api.airplanes.live/v2/mil'],
   kev: 'https://raw.githubusercontent.com/cisagov/kev-data/develop/known_exploited_vulnerabilities.json',
 };
@@ -89,25 +90,29 @@ async function readPrev(name) {
 
 /* ------------------------------------------------------------- collectors */
 
+/* GDELT answered HTTP 429 to every one of 14 per-category calls from a GitHub
+ * runner, even six seconds apart (first run, 2026-10-07): shared runner IPs
+ * spend its budget. So: ONE request for the high-signal terms, retried once
+ * after 20 s, and the headlines are sorted into categories here. */
+const GDELT_Q = '(military OR missile OR airstrike OR troops OR shelling OR terrorist OR bombing OR protest OR coup OR nuclear OR earthquake OR flood OR wildfire OR hurricane OR typhoon OR cyberattack OR ransomware OR outbreak OR epidemic OR sanctions OR ceasefire OR tanker OR refugees OR famine)';
 async function gdelt(sources) {
   const out = [];
-  let ok = 0; const errs = [];
-  for (const [i, c] of CATS.filter((c) => c.q).entries()) {
-    if (i) await sleep(6000);
+  const url = `${GDELT}?query=${encodeURIComponent(`${GDELT_Q} sourcelang:english`)}&mode=artlist&maxrecords=250&format=json&timespan=24h&sort=datedesc`;
+  let err = null;
+  for (let attempt = 0; attempt < 2; attempt++) {
     try {
-      const url = `${GDELT}?query=${encodeURIComponent(`${c.q} sourcelang:english`)}&mode=artlist&maxrecords=75&format=json&timespan=24h&sort=datedesc`;
-      const body = await fetchText(url, { retries: 1, timeoutMs: 30000 });
+      const body = await fetchText(url, { retries: 0, timeoutMs: 40000 });
       let j; try { j = JSON.parse(body); } catch { throw new Error(body.slice(0, 100)); }
       for (const a of j.articles || []) {
         const m = /^(\d{4})(\d\d)(\d\d)T(\d\d)(\d\d)(\d\d)Z$/.exec(a.seendate || '');
         if (!a.title || !a.url || !m) continue;
-        out.push({ id: a.url, title: a.title.trim(), url: a.url, src: a.domain, cat: c.id, t: Date.UTC(+m[1], m[2] - 1, +m[3], +m[4], +m[5], +m[6]), via: 'gdelt' });
+        out.push({ id: a.url, title: a.title.trim(), url: a.url, src: a.domain, cat: categorize(a.title), t: Date.UTC(+m[1], m[2] - 1, +m[3], +m[4], +m[5], +m[6]), via: 'gdelt' });
       }
-      ok++;
-    } catch (e) { errs.push(`${c.id}: ${e.message.slice(0, 80)}`); }
+      err = null; break;
+    } catch (e) { err = e; if (!attempt) await sleep(20000); }
   }
-  sources.gdelt = { ok: ok > 0, n: out.length, cats: ok, errors: errs };
-  log(`gdelt ${ok} categories, ${out.length} articles${errs.length ? `, ${errs.length} failed` : ''}`);
+  sources.gdelt = { ok: !err, n: out.length, cats: err ? 0 : 1, errors: err ? [String(err.message).slice(0, 140)] : [] };
+  log(`gdelt ${err ? 'FAILED ' + err.message.slice(0, 80) : out.length + ' articles'}`);
   return out;
 }
 
@@ -165,12 +170,15 @@ async function hazards(sources, countries) {
       }
     }),
     tryIt('gdacs', async () => {
-      const j = await fetchJson(SRC.gdacs, { timeoutMs: 30000 });
-      res.gdacs = (j.features || []).filter((f) => f.geometry?.type === 'Point' && f.properties?.alertlevel).map((f) => ({
+      const feats = [];
+      let okN = 0, last;
+      for (const u of SRC.gdacs) { try { feats.push(...((await fetchJson(u, { timeoutMs: 30000, retries: 1 })).features || [])); okN++; } catch (e) { last = e; } }
+      if (!okN) throw last;
+      res.gdacs = feats.filter((f) => f.geometry?.type === 'Point' && f.properties?.alertlevel).map((f) => ({
         id: `${f.properties.eventtype}${f.properties.eventid}`, lon: f.geometry.coordinates[0], lat: f.geometry.coordinates[1],
         level: f.properties.alertlevel, type: f.properties.eventtype, title: f.properties.name || f.properties.description || '',
         country: f.properties.country, t: Date.parse(f.properties.fromdate) || Date.now(), url: f.properties.url?.report || f.properties.url?.details || null,
-      })).filter((g) => g.level !== 'Green' || Date.now() - g.t < 3 * 86400e3);
+      })).filter((g, i, all) => (g.level !== 'Green' || Date.now() - g.t < 3 * 86400e3) && all.findIndex((x) => x.id === g.id) === i);
     }),
     tryIt('mil', async () => {
       let j, err;

@@ -26,8 +26,8 @@ because GDELT asks for one request every five seconds.
 
 | Layer | Source | Where it is read |
 |---|---|---|
-| News, 14 categories | GDELT DOC 2.0, English, 24 h | server; browser fallback |
-| World news | 28 RSS feeds: BBC, Al Jazeera, Guardian, NPR, DW, France 24, CBC, ABC, Sky, UN, CNBC, Kyiv Independent, Times of Israel, The Hindu, Japan Times, SCMP, Africanews, MercoPress, Defense News, The War Zone, BleepingComputer, The Record, Krebs, gCaptain, Splash247, OilPrice, WHO, ReliefWeb | server only (no CORS) |
+| News | GDELT DOC 2.0, English, 24 h: one combined query on the server (GitHub runners get HTTP 429 for per-category calls), 14 per-category queries as the browser fallback | server; browser fallback |
+| World news | 28 RSS feeds: BBC, Al Jazeera, Guardian, NPR, DW, France 24, NYT, Washington Post, Euronews, RFI, ABC, Sky, UN, CNBC, Middle East Eye, The Hindu, Japan Times, SCMP, Africanews, Defense News, The War Zone, BleepingComputer, The Record, Krebs, gCaptain, Splash247, OilPrice, WHO | server only (no CORS) |
 | AI news | SIREN's newsroom, `/api/news.json` | browser |
 | Earthquakes | USGS M4.5+, 7 days | both |
 | Fires, storms, volcanoes, floods… | NASA EONET v3, open events | both |

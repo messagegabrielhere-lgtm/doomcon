@@ -355,7 +355,7 @@ const STOCKS_URL = `${RAW}/scanner-data/stocks-1d.json`;
 const GDELT = "https://api.gdeltproject.org/api/v2/doc/doc";
 const USGS = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_week.geojson";
 const EONET = "https://eonet.gsfc.nasa.gov/api/v3/events?status=open&days=30";
-const GDACS = "https://www.gdacs.org/gdacsapi/api/events/geteventlist/MAP";
+const GDACS = ["EQ", "TC", "FL", "VO", "WF", "DR"].map((t) => `https://www.gdacs.org/gdacsapi/api/events/geteventlist/MAP?eventtype=${t}`); // one type per call
 const OPENSKY = "https://opensky-network.org/api/states/all";
 const MIL_URLS = ["https://api.adsb.lol/v2/mil", "https://api.airplanes.live/v2/mil"];
 const KEV = "https://raw.githubusercontent.com/cisagov/kev-data/develop/known_exploited_vulnerabilities.json";
@@ -574,7 +574,7 @@ async function loadSnapshot() {
     }
     const src = j.sources || {};
     if (src.kev_total) S.kevTotal = src.kev_total;
-    if (src.gdelt && !gdeltRunning) setSrc("gdelt", src.gdelt.ok ? "ok" : "dark", src.gdelt.ok ? `${src.gdelt.cats}/${CATS.filter((c) => c.q).length}` : "", src.gdelt.ok ? `${src.gdelt.n} articles in ${src.gdelt.cats} categories, via the snapshot${src.gdelt.errors?.length ? ". Failed: " + src.gdelt.errors.join("; ") : ""}` : (src.gdelt.errors || []).join("; "));
+    if (src.gdelt && !gdeltRunning) setSrc("gdelt", src.gdelt.ok ? "ok" : "dark", src.gdelt.ok ? `${src.gdelt.n}` : "", src.gdelt.ok ? `${src.gdelt.n} articles via the snapshot${src.gdelt.errors?.length ? ". Failed: " + src.gdelt.errors.join("; ") : ""}` : (src.gdelt.errors || []).join("; "));
     if (src.rss) {
       const bad = Object.entries(src.rss.per || {}).filter(([, p]) => !p.ok).map(([k, p]) => `${k} (${p.error})`);
       setSrc("rss", src.rss.ok ? "ok" : "dark", `${src.rss.feeds}/${src.rss.of}`, `${src.rss.n} headlines from ${src.rss.feeds} of ${src.rss.of} feeds${bad.length ? ". Not answering: " + bad.join("; ") : ""}`);
@@ -674,12 +674,14 @@ async function loadEonet() {
 }
 async function loadGdacs() {
   try {
-    const j = await getJSON(GDACS);
-    S.gdacs = (j.features || []).filter((f) => f.geometry?.type === "Point" && f.properties?.alertlevel).map((f) => ({
+    const parts = await Promise.allSettled(GDACS.map((u) => getJSON(u)));
+    const ok = parts.filter((p) => p.status === "fulfilled");
+    if (!ok.length) throw new Error(parts[0].reason?.message || "no answer");
+    S.gdacs = ok.flatMap((p) => p.value.features || []).filter((f) => f.geometry?.type === "Point" && f.properties?.alertlevel).map((f) => ({
       id: f.properties.eventtype + f.properties.eventid, lon: f.geometry.coordinates[0], lat: f.geometry.coordinates[1],
       level: f.properties.alertlevel, type: f.properties.eventtype, title: f.properties.name || f.properties.description || "",
       country: f.properties.country, t: Date.parse(f.properties.fromdate) || Date.now(), url: f.properties.url?.report || f.properties.url?.details,
-    })).filter((g) => g.level !== "Green" || Date.now() - g.t < 3 * 86400000);
+    })).filter((g, i, all) => (g.level !== "Green" || Date.now() - g.t < 3 * 86400000) && all.findIndex((x) => x.id === g.id) === i);
     attach(S.gdacs, Core.countryNear);
     setSrc("gdacs", "ok", `${S.gdacs.length}`, "Live: GDACS alerts");
   } catch (e) { liveFailed("gdacs", "gdacs", e.message); }
