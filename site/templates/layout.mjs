@@ -68,6 +68,10 @@ const SECTIONS = [
   // arena-data), so no count here: its numbers load in the page itself.
   { href: '/arena.html', label: 'Stock picks', short: 'Picks',
     blurb: 'Today\'s rule-based stock picks with their track record, big investors\' disclosed trades, and the AI trading battle.' },
+  // A side project on its own data track (elon-data), like Stock picks above: no
+  // count here, the clip index loads in the page itself.
+  { href: '/elon.html', label: 'Real Elon', short: 'Elon',
+    blurb: 'Real clips of Elon Musk, only from the channels that filmed him. Paste a link to check a clip.' },
   { href: '/race.html', label: 'The Race', short: 'Race', needs: 'race',
     blurb: 'Frontier labs ranked on live prediction-market odds.',
     count: raceCount },
