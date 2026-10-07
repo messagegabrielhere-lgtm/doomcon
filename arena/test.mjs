@@ -317,3 +317,11 @@ test('picks: stats compound daily averages against the benchmark', async () => {
   assert.ok(Math.abs(st.equity - 1005) < 1e-9, 'day 1 averages +0.5%, day 2 sits in cash');
   assert.ok(Math.abs(st.bench - 1000 * 1.01 * 0.99) < 1e-9);
 });
+
+test('picks: the scanner page runs the same engine as the arena page', async () => {
+  const { readFile } = await import('node:fs/promises');
+  const block = async (f) => { const h = await readFile(new URL(`../site/static/${f}`, import.meta.url), 'utf8'); return h.slice(h.indexOf('/* picks:begin'), h.indexOf('/* picks:end */')); };
+  const [a, s] = await Promise.all([block('arena.html'), block('scanner.html')]);
+  assert.ok(a.length > 1000);
+  assert.equal(s, a, 'copy the picks block from arena.html into scanner.html when the rule changes');
+});
