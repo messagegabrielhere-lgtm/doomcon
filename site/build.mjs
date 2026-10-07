@@ -21,6 +21,7 @@ import { gzipSync } from 'node:zlib';
 import { css as siteCss } from './styles.mjs';
 import { stableJson, num, secondsBetween } from './templates/_html.mjs';
 import * as indexPage from './templates/index.mjs';
+import * as homeV2 from './templates/homeV2.mjs';
 import * as methodologyPage from './templates/methodology.mjs';
 import * as historyPage from './templates/history.mjs';
 import * as movePage from './templates/move.mjs';
@@ -1115,7 +1116,14 @@ async function main() {
   }
 
   const written = [];
-  written.push(await write(args.out, 'index.html', indexPage.render(ctx)));
+  // The homepage is the PizzINT-style front page (templates/homeV2.mjs). It
+  // borrows the classic page's <head> so the title, card, canonical and
+  // structured data stay exactly as they were. The classic page still builds,
+  // in full, at /classic.html, and the new front page links to it.
+  const classicHtml = indexPage.render(ctx);
+  const classicHead = (classicHtml.match(/<head>[\s\S]*?<\/head>/) || ['<head><meta charset="utf-8"></head>'])[0];
+  written.push(await write(args.out, 'index.html', homeV2.render(ctx, { head: classicHead })));
+  written.push(await write(args.out, 'classic.html', classicHtml));
   written.push(await write(args.out, 'instruments.html', indexPage.render(ctx, { view: 'instruments' })));
   written.push(await write(args.out, 'methodology.html', methodologyPage.render(ctx)));
   written.push(await write(args.out, 'history.html', historyPage.render(ctx)));
