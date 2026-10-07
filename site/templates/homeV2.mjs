@@ -76,7 +76,7 @@ function roomGroups(ctx) {
 
 function roomsGrid(ctx, href, img) {
   const groups = roomGroups(ctx);
-  return `<section class="v2-rooms" id="rooms" aria-labelledby="v2-rooms-h">
+  return `<section class="v2-rooms" id="rooms" data-sec="Every room" aria-labelledby="v2-rooms-h">
   <h2 id="v2-rooms-h" class="v2-sr">Every room</h2>
   ${groups.map(([g, list]) => {
     return `<div class="v2-rgroup"><span class="v2-rgh">${esc(g)}</span><div class="v2-rgrid">${list.map(([p, art, label, n, blurb]) => `<a class="v2-room" href="${href(p)}"><img src="${img(art)}" width="56" height="56" alt="" loading="lazy"><span class="v2-room__t"><b>${esc(label.toUpperCase())}</b>${n ? `<i>${esc(n)}</i>` : ''}<small>${esc(blurb)}</small></span></a>`).join('')}</div></div>`;
@@ -97,7 +97,7 @@ function roomNav(ctx, href, img) {
 </div></nav>`;
   const palette = `<dialog class="v2-pal" id="v2-pal" aria-label="Jump to a room"><div class="v2-pal__box">
   <input class="v2-pal__q" id="v2-pal-q" type="search" placeholder="Jump to… type a room name" aria-label="Filter rooms" autocomplete="off" spellcheck="false">
-  <ul class="v2-pal__l">${all.map(([p, art, label, n, blurb, g]) => `<li><a class="v2-pal__i" href="${href(p)}" data-k="${esc(`${label} ${blurb} ${g}`.toLowerCase())}"><img src="${img(art)}" width="36" height="36" alt="" loading="lazy"><span><b>${esc(label)}</b><small>${esc(blurb)}</small></span>${n ? `<i>${esc(n)}</i>` : ''}</a></li>`).join('')}</ul>
+  <ul class="v2-pal__l">${[['#signal', 'Signal', 'The level, the score and the trend'], ['#breaking', 'Breaking', 'The top story right now'], ['#rooms', 'Every room', 'All features, grouped'], ['#bosses', 'Bosses', 'The AI leaders on watch'], ['#labs', 'Labs', 'The labs as monitored locations'], ['#readings', 'Readings', 'The score trend and what is loud'], ['#tally', 'Tally', 'Follow the alerts on X']].map(([h, l, b], i) => `<li><a class="v2-pal__i v2-pal__i--sec" href="${h}" data-k="${esc(`${l} ${b} section on this page`.toLowerCase())}"><span class="v2-pal__num">${i + 1}</span><span><b>${esc(l)}</b><small>On this page · ${esc(b)} · key ${i + 1}</small></span></a></li>`).join('')}${all.map(([p, art, label, n, blurb, g]) => `<li><a class="v2-pal__i" href="${href(p)}" data-k="${esc(`${label} ${blurb} ${g}`.toLowerCase())}"><img src="${img(art)}" width="36" height="36" alt="" loading="lazy"><span><b>${esc(label)}</b><small>${esc(blurb)}</small></span>${n ? `<i>${esc(n)}</i>` : ''}</a></li>`).join('')}</ul>
   <p class="v2-pal__hint">↑ ↓ to move · Enter to open · Esc to close</p>
 </div></dialog>`;
   const tab = [['/news.html', 'news', 'NEWS'], ['/race.html', 'radar', 'RACE'], ['/leaders.html', 'mic', 'LEADERS'], ['/monitor.html', 'satellite', 'MONITOR']];
@@ -112,8 +112,19 @@ function open(){q.value='';items.forEach(function(a){a.parentNode.style.display=
 [].slice.call(document.querySelectorAll('[data-v2-jump]')).forEach(function(b){b.addEventListener('click',open)});
 document.addEventListener('keydown',function(e){var t=e.target;var typing=t&&(t.tagName==='INPUT'||t.tagName==='TEXTAREA'||t.isContentEditable);if(((e.key==='/'&&!typing)||((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'))&&!d.open){e.preventDefault();open()}});
 q.addEventListener('input',function(){var k=q.value.trim().toLowerCase();items.forEach(function(a){a.parentNode.style.display=!k||a.getAttribute('data-k').indexOf(k)>=0?'':'none'});cur=0;mark()});
-q.addEventListener('keydown',function(e){var v=vis();if(e.key==='ArrowDown'){e.preventDefault();cur++;mark()}else if(e.key==='ArrowUp'){e.preventDefault();cur--;mark()}else if(e.key==='Enter'&&v[cur]){e.preventDefault();location.href=v[cur].href}});
-d.addEventListener('click',function(e){if(e.target===d)d.close()})})();`;
+q.addEventListener('keydown',function(e){var v=vis();if(e.key==='ArrowDown'){e.preventDefault();cur++;mark()}else if(e.key==='ArrowUp'){e.preventDefault();cur--;mark()}else if(e.key==='Enter'&&v[cur]){e.preventDefault();d.close();location.href=v[cur].href}});
+d.addEventListener('click',function(e){if(e.target===d||(e.target.closest&&e.target.closest('.v2-pal__i--sec')))d.close()})})();`;
+
+const WAR_JS = `(function(){
+var secs=[].slice.call(document.querySelectorAll('[data-sec]'));var l=document.getElementById('v2-rail-l');
+if(l){secs.forEach(function(s,i){var li=document.createElement('li');var a=document.createElement('a');a.href='#'+s.id;a.innerHTML='<kbd>'+(i+1)+'</kbd>'+s.getAttribute('data-sec').toUpperCase();li.appendChild(a);l.appendChild(li)});}
+var links=l?[].slice.call(l.querySelectorAll('a')):[];
+if('IntersectionObserver' in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){var i=secs.indexOf(e.target);links.forEach(function(a,j){a.classList.toggle('on',j===i)})}})},{rootMargin:'-30% 0px -60% 0px'});secs.forEach(function(s){io.observe(s)})}
+document.addEventListener('keydown',function(e){var t=e.target;if(e.metaKey||e.ctrlKey||e.altKey||(t&&(t.tagName==='INPUT'||t.tagName==='TEXTAREA'||t.isContentEditable)))return;var d=document.getElementById('v2-pal');if(d&&d.open)return;
+var n=parseInt(e.key,10);if(n>=1&&n<=secs.length){e.preventDefault();secs[n-1].scrollIntoView({behavior:'smooth',block:'start'});history.replaceState(null,'','#'+secs[n-1].id)}
+else if(e.key==='t'||e.key==='Home'&&!e.shiftKey){if(e.key==='t'){e.preventDefault();window.scrollTo({top:0,behavior:'smooth'})}}});
+var f=document.getElementById('v2-fresh');if(f){var at=Date.parse(f.getAttribute('data-at'));var h=(Date.now()-at)/36e5;if(h>2){f.classList.add('stale');f.title='The newest reading is '+Math.round(h)+' hours old. The site normally refreshes every hour.';f.insertAdjacentHTML('beforeend',' · '+Math.round(h)+'H OLD')}}
+})();`;
 
 export function render(ctx, { head }) {
   const { state } = ctx;
@@ -202,7 +213,7 @@ export function render(ctx, { head }) {
 <div class="v2">
 <div class="v2-top"><div class="v2-wrap">
   <span class="v2-chip">${icon('clock', 2)}<span id="v2-clock" class="tnum">${esc(String(state.generated_at).slice(0, 10))} ${esc(hhmm(state.generated_at))}</span></span>
-  <span class="tag red">LAST READING <b>${esc(hhmm(state.generated_at))}</b></span>
+  <span class="tag red" id="v2-fresh" data-at="${esc(state.generated_at)}">LAST READING <b>${esc(hhmm(state.generated_at))}</b></span>
   <span class="v2-chip">${icon('eye', 2)}${ok}/${sources.length} SOURCES REPORTING</span>
   <span class="right">
     <a class="tag green" href="#rooms">ALL ROOMS ↓</a>
@@ -220,7 +231,7 @@ ${nav.strip}
   <div class="v2-sub"><span>Superintelligence, watched hourly</span><span class="sep">|</span><a class="v2-btn sm" href="https://x.com/SIRENutf6">FOLLOW @SIRENutf6</a></div>
 
   <section class="hero">
-    <div class="v2-banner" style="--lv:${L.color};--lvg:${L.ground}">
+    <div class="v2-banner" id="signal" data-sec="Signal" style="--lv:${L.color};--lvg:${L.ground}">
       ${icon('shield', 5, L.color)}
       <div class="col">
         ${pixelText(`SIREN ${state.level}`, 8, L.color, 'fit')}
@@ -233,19 +244,19 @@ ${nav.strip}
     </div>
   </section>
 
-  ${top ? `<div class="v2-breaking"><span class="badge"><span class="blink">${icon('bolt', 2)}</span>BREAKING</span><a href="${esc(top.url)}" rel="noopener">${esc(top.title)}</a><span class="src">${esc(hhmm(top.published_at))} · ${esc(String(top.source).toUpperCase())}</span></div>` : ''}
+  ${top ? `<div class="v2-breaking" id="breaking" data-sec="Breaking"><span class="badge"><span class="blink">${icon('bolt', 2)}</span>BREAKING</span><a href="${esc(top.url)}" rel="noopener">${esc(top.title)}</a><span class="src">${esc(hhmm(top.published_at))} · ${esc(String(top.source).toUpperCase())}</span></div>` : ''}
 
 ${roomsGrid(ctx, href, img)}
 
-  <div class="v2-sec"><h2>${pixelText('THE BOSSES ON WATCH', 4, '#FFFFFF', 'fit')}</h2><span>ON THE RECORD THIS WEEK · ${totals.on_record ?? 0} OF ${totals.leaders ?? 15}</span></div>
+  <div class="v2-sec" id="bosses" data-sec="Bosses"><h2>${pixelText('THE BOSSES ON WATCH', 4, '#FFFFFF', 'fit')}</h2><span>ON THE RECORD THIS WEEK · ${totals.on_record ?? 0} OF ${totals.leaders ?? 15}</span></div>
   <div class="v2-bosses">
     ${leaders.map((l) => { const s = bossStatus(l); return `<a class="boss" href="${href('/leaders.html')}"><img class="v2-face" src="${img(FACE_BY_LEADER[l.id])}" width="96" height="96" alt=""><span class="nm">${esc(l.name.toUpperCase())}</span><span class="co">${esc(String(l.org).toUpperCase())}</span><span class="st ${s.cls}">${s.t}</span></a>`; }).join('')}
   </div>
 
-  <div class="v2-sec"><h2>${pixelText(`${players.length} LABS MONITORED`, 4, '#FFFFFF', 'fit')}</h2><span>ODDS OF BEST MODEL IN 2026 · POLYMARKET</span></div>
+  <div class="v2-sec" id="labs" data-sec="Labs"><h2>${pixelText(`${players.length} LABS MONITORED`, 4, '#FFFFFF', 'fit')}</h2><span>ODDS OF BEST MODEL IN 2026 · POLYMARKET</span></div>
   <div class="v2-labs">${players.map(lab).join('')}</div>
 
-  <div class="v2-two">
+  <div class="v2-two" id="readings" data-sec="Readings">
     <div class="v2-card">
       <div class="row sb"><h3>${icon('shield', 3, '#4ADE80')}${pixelText('READINGS', 3, '#FFFFFF')}</h3><span class="live">LIVE</span></div>
       <div class="v2-cols" role="img" aria-label="Last ${hist.length} composite readings, ${scores.map((s) => num(s, 1)).join(', ')}">${cols}</div>
@@ -257,7 +268,7 @@ ${roomsGrid(ctx, href, img)}
     </div>
   </div>
 
-  <div class="v2-cta">
+  <div class="v2-cta" id="tally" data-sec="Tally">
     <img class="v2-art bob" src="${img('canary')}" width="88" height="88" alt="">
     <div class="col">${pixelText('TALLY IS STILL SINGING', 4, '#FFFFFF', 'fit')}<span>Our duty canary posts on X the hour the level moves. Nothing in between.</span></div>
     <a class="v2-btn" href="https://x.com/intent/follow?screen_name=SIRENutf6">FOLLOW @SIRENutf6 →</a>
@@ -268,8 +279,10 @@ ${roomsGrid(ctx, href, img)}
   <p class="v2-foot"><b>Not advice.</b> Information, commentary and satire only — not financial, investment, legal, security or safety advice. Data is automated and may be wrong or late; provided as is, with no warranty. Not affiliated with any company, lab, person or agency named here. Use of this site means you accept the <a href="${href('/terms.html')}">terms &amp; disclaimers</a>. <a href="${href('/privacy.html')}">Privacy</a>.</p>
 </main>
 ${nav.palette}${nav.tabbar}
+<nav class="v2-rail" aria-label="On this page"><span class="v2-rail__h">ON THIS PAGE</span><ol id="v2-rail-l"></ol><a class="v2-rail__top" href="#main">↑ TOP</a></nav>
 </div>
 <script>${NAV_JS}</script>
+<script>${WAR_JS}</script>
 <script>(function(){var el=document.getElementById('v2-clock');if(!el)return;function p(n){return(n<10?'0':'')+n}function t(){var d=new Date();el.textContent=d.getUTCFullYear()+'-'+p(d.getUTCMonth()+1)+'-'+p(d.getUTCDate())+' '+p(d.getUTCHours())+':'+p(d.getUTCMinutes())+':'+p(d.getUTCSeconds())+'Z'}t();setInterval(t,1000)})();</script>`;
 
   return `<!doctype html>
@@ -281,6 +294,22 @@ ${head.replace('</head>', `<style>${CSS}</style>\n</head>`)}
 }
 
 const CSS = `
+.v2 [data-sec]{scroll-margin-top:76px}
+.v2 .tag.red.stale{border-color:#B45309;background:#241505;color:#FDE68A}
+.v2-pal__i--sec{border-left:2px solid #14532D!important}
+.v2-pal__num{flex:none;width:28px;height:28px;display:grid;place-items:center;border:2px solid #2A3446;font-weight:700;color:#86EFAC}
+.v2-rail{display:none}
+@media (min-width:1500px){
+  .v2-rail{display:flex;flex-direction:column;gap:8px;position:fixed;right:24px;top:50%;transform:translateY(-50%);z-index:30;font-size:11px;font-weight:700;letter-spacing:.08em}
+  .v2-rail__h{color:#AEB7C3;font-size:10px;letter-spacing:.16em}
+  .v2-rail ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px}
+  .v2-rail a{display:flex;align-items:center;gap:8px;padding:5px 8px;border-left:2px solid #2A3446;color:#AEB7C3!important}
+  .v2-rail a:hover{color:#fff!important;border-color:#6366F1}
+  .v2-rail a.on{color:#fff!important;border-color:#4ADE80;background:#03130A}
+  .v2-rail kbd{font:inherit;min-width:18px;text-align:center;border:1px solid #2A3446;color:#86EFAC}
+  .v2-rail__top{margin-top:6px}
+}
+
 .v2 .tag.green{border-color:#14532D;background:#03130A;color:#86EFAC}
 .v2-nav{position:sticky;top:0;z-index:40;background:rgba(0,0,0,.92);backdrop-filter:blur(6px);border-bottom:1px solid #232C3B}
 .v2-nav__in{display:flex;align-items:center;gap:10px;padding-block:8px}

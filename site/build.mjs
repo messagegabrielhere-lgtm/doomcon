@@ -79,6 +79,14 @@ async function inlineModules(html) {
   return out;
 }
 
+
+function selfHostFonts(html) {
+  return html
+    .replace(/<link[^>]+rel=["']preconnect["'][^>]+fonts\.(googleapis|gstatic)\.com[^>]*>\s*/gi, '')
+    .replace(/<link[^>]+href=["']https?:\/\/fonts\.googleapis\.com\/[^"']*["'][^>]*>/gi, '<link rel="stylesheet" href="fonts/fonts.css">')
+    .replace(/@import\s+url\(\s*["']?https?:\/\/fonts\.googleapis\.com\/[^)]*\)\s*;?/gi, '');
+}
+
 function prerenderStatic(html, name, ctx) {
   const x = (v) => String(v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
   const loc = ctx.url(`/${name}`);
@@ -1172,7 +1180,20 @@ async function main() {
   const staticDir = path.join(ROOT, 'site', 'static');
   if (existsSync(staticDir)) {
     for (const name of (await readdir(staticDir)).filter((n) => n.endsWith('.html')).sort()) {
-      const raw = await inlineModules(await readFile(path.join(staticDir, name), 'utf8'));
+      let src = await readFile(path.join(staticDir, name), 'utf8');
+      // KEEP PUBLISHING. A hand-built page that loads Google Fonts trips the
+      // compliance gate (visitor IPs to Google) and freezes the WHOLE site,
+      // which happened twice on 2026-10-07. Rewrite such links to the
+      // self-hosted sheet, on disk as well, so the gate (which scans the
+      // source tree too) passes and the build publishes. A family missing
+      // from assets/fonts falls back to the page's own font stack.
+      const selfHosted = selfHostFonts(src);
+      if (selfHosted !== src) {
+        warn(`site/static/${name} loaded fonts from Google; rewritten to /fonts/fonts.css. Self-host any family it needs that is missing from assets/fonts.`);
+        src = selfHosted;
+        await writeFile(path.join(staticDir, name), src);
+      }
+      const raw = await inlineModules(src);
       written.push(await write(args.out, name, prerenderStatic(raw, name, ctx)));
     }
   }
