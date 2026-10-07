@@ -1,13 +1,13 @@
 {
   "schema": 1,
   "engine_version": "1.0.0",
-  "generated_at": "2026-10-07T09:25:48.830Z",
+  "generated_at": "2026-10-07T10:25:29.218Z",
   "index": {
     "name": "SUBSTRATE",
     "question": "How loaded is the physical substrate the models are being built on?",
     "feeds_main_index": false
   },
-  "score": 53.6,
+  "score": 54,
   "level": 4,
   "level_name": "STEADY",
   "level_gloss": "Ordinary. This is where most observations sit.",
@@ -19,8 +19,8 @@
     "level": 4,
     "level_name": "STEADY",
     "level_since": "2026-09-24T03:20:33.302Z",
-    "score": 53.6,
-    "generated_at": "2026-10-07T09:25:48.830Z"
+    "score": 54,
+    "generated_at": "2026-10-07T10:25:29.218Z"
   },
   "degraded": true,
   "dark_pillars": [],
@@ -87,7 +87,7 @@
       "id": "water",
       "name": "The water",
       "blurb": "The state of the rivers and the ground the clusters were built beside.",
-      "score": 50.3,
+      "score": 51.7,
       "state": "live",
       "dark": false,
       "sources_live": 2,
@@ -128,9 +128,9 @@
       "baseline_span": null,
       "baseline_note": null,
       "observed_at": null,
-      "error": "caiso-baseload: overnight window incomplete — 29 of 72 intervals present (need 68), 44 still blank. CAISO publishes the current Pacific day only, so this is the normal state between 00:00 and 06:00 Pacific and an outage at any other hour.",
+      "error": "caiso-baseload: overnight window incomplete — 41 of 72 intervals present (need 68), 32 still blank. CAISO publishes the current Pacific day only, so this is the normal state between 00:00 and 06:00 Pacific and an outage at any other hour.",
       "meta": {},
-      "ms": 282
+      "ms": 611
     },
     {
       "id": "ercot-baseload",
@@ -165,11 +165,11 @@
           "2026-10-07",
           "2026-10-06"
         ],
-        "feed_last_updated": "2026-10-07 04:21:00-0500",
+        "feed_last_updated": "2026-10-07 05:21:00-0500",
         "direction": "higher = more always-on load",
         "source_note": "net generation summed across all fuel categories, five-minute resolution; Power Storage is negative while batteries charge and that sign is kept"
       },
-      "ms": 179
+      "ms": 175
     },
     {
       "id": "ercot-tightness",
@@ -181,7 +181,7 @@
       "cadence": "every 5 minutes",
       "direction": "higher = less slack between load and the committed fleet",
       "state": "awaiting-baseline",
-      "value": 64.506,
+      "value": 66.59,
       "score": null,
       "percentile": null,
       "baseline_n": 14,
@@ -189,24 +189,24 @@
       "baseline_source": null,
       "baseline_span": null,
       "baseline_note": "14 of 30 points needed before this source can be scored",
-      "observed_at": "2026-10-07T09:20:00.000Z",
+      "observed_at": "2026-10-07T10:25:00.000Z",
       "error": null,
       "meta": {
-        "demand_mw": 47421,
-        "committed_capacity_mw": 73514,
-        "headroom_mw": 26093,
-        "interval_local": "2026-10-07 04:20:00-0500",
-        "intervals_today": 53,
+        "demand_mw": 48320,
+        "committed_capacity_mw": 72563,
+        "headroom_mw": 24243,
+        "interval_local": "2026-10-07 05:25:00-0500",
+        "intervals_today": 66,
         "intervals_in_feed": 289,
-        "intervals_dropped_forecast": 236,
+        "intervals_dropped_forecast": 223,
         "today_high_pct": 72.007,
-        "today_low_pct": 64.408,
-        "feed_last_updated": "2026-10-07 04:20:00-0500",
+        "today_low_pct": 64.226,
+        "feed_last_updated": "2026-10-07 05:25:00-0500",
         "prc": {
-          "current_mw": 15022,
+          "current_mw": 15242,
           "day_low_mw": 10366,
           "day_low_at_local": "2026-10-07 00:04:45-0500",
-          "samples": 1591,
+          "samples": 1950,
           "ercot_state": "normal",
           "ercot_title": "Normal Conditions",
           "ercot_note": "There is enough power for current demand.",
@@ -215,7 +215,7 @@
         "direction": "higher = tighter",
         "source_note": "capacity is COMMITTED capacity, which follows expected load, so this ratio understates the swing in physical margin; PRC is enrichment and never scored; rows ERCOT flags as forecast, and any row stamped after the run clock, are dropped before the ratio and the day high and low are computed"
       },
-      "ms": 198
+      "ms": 199
     },
     {
       "id": "nyiso-baseload",
@@ -227,33 +227,31 @@
       "cadence": "daily, settles at 06:00 Eastern",
       "direction": "higher = more load that never switches off",
       "state": "awaiting-baseline",
-      "value": 12360.7,
+      "value": 12504.6,
       "score": null,
       "percentile": null,
-      "baseline_n": 14,
+      "baseline_n": 15,
       "baseline_origin": "accumulated",
       "baseline_source": null,
       "baseline_span": null,
-      "baseline_note": "14 of 30 points needed before this source can be scored",
-      "observed_at": "2026-10-06T07:45:00.000Z",
+      "baseline_note": "15 of 30 points needed before this source can be scored",
+      "observed_at": "2026-10-07T07:45:00.000Z",
       "error": null,
       "meta": {
-        "local_day": "2026-10-06",
+        "local_day": "2026-10-07",
         "window_local": "00:00–06:00 ET",
         "intervals_used": 72,
         "intervals_expected": 72,
         "intervals_dropped_incomplete": 0,
         "blank_load_cells": 0,
         "zones": 11,
-        "floor_at_local": "10/06/2026 03:45:00",
+        "floor_at_local": "10/07/2026 03:45:00",
         "time_zone": "EDT",
-        "attempts": [
-          "20261007pal.csv: 63 complete intervals (need 66)"
-        ],
+        "attempts": [],
         "direction": "higher = more always-on load",
         "source_note": "statewide sum of all eleven NYISO load zones; a timestamp missing any zone is discarded rather than summed short"
       },
-      "ms": 474
+      "ms": 406
     },
     {
       "id": "usdm-drought",
@@ -407,7 +405,7 @@
         "direction": "higher = drier",
         "source_note": "US Drought Monitor, produced weekly by NDMC, USDA and NOAA; an expert assessment, not an instrument reading, and averaged here without area or population weighting"
       },
-      "ms": 1086,
+      "ms": 968,
       "z": 0.045481,
       "baseline_min": 1.539,
       "baseline_median": 19.049,
@@ -423,9 +421,9 @@
       "cadence": "daily, one day in arrears",
       "direction": "higher = less water in the rivers these clusters draw on",
       "state": "live",
-      "value": 11.26,
-      "score": 50,
-      "percentile": 0.5009,
+      "value": 14.12,
+      "score": 52.7,
+      "percentile": 0.5869,
       "baseline_n": 1095,
       "baseline_origin": "feed",
       "baseline_source": "the same nine-gauge median recomputed for every earlier day in the window",
@@ -435,11 +433,9 @@
       "error": null,
       "meta": {
         "reading_day": "2026-10-06",
-        "gauges_reporting": 8,
+        "gauges_reporting": 9,
         "gauges_total": 9,
-        "gauges_missing": [
-          "14105700 Columbia Rv at The Dalles"
-        ],
+        "gauges_missing": [],
         "gauges": [
           {
             "site": "08158000",
@@ -536,10 +532,22 @@
             "percent_of_normal": 79.5,
             "deficit_pct": 20.5,
             "record_years": "1922–2026"
+          },
+          {
+            "site": "14105700",
+            "name": "Columbia Rv at The Dalles",
+            "state": "OR",
+            "cluster": "The Dalles",
+            "note": "the Oregon cluster sits on this river",
+            "flow_cfs": 85000,
+            "normal_cfs": 99900,
+            "percent_of_normal": 85.1,
+            "deficit_pct": 14.9,
+            "record_years": "1879–2025"
           }
         ],
-        "median_deficit_pct": 11.26,
-        "mean_deficit_pct": -39.33,
+        "median_deficit_pct": 14.12,
+        "mean_deficit_pct": -33.31,
         "aggregator": "median across gauges; the mean is reported but never scored",
         "driest": "Colorado Rv at Austin",
         "wettest": "Trinity Rv at Dallas",
@@ -549,8 +557,8 @@
         "direction": "higher = drier",
         "source_note": "denominator is the USGS published median for that gauge on that day of the year, over the gauge’s full period of record; it is not computed by this project"
       },
-      "ms": 972,
-      "z": 0.002284,
+      "ms": 802,
+      "z": 0.219496,
       "baseline_min": -139.437,
       "baseline_median": 11.229,
       "baseline_max": 57.167
@@ -573,7 +581,7 @@
       "baseline_source": "the same 180-day rolling count taken at weekly anchors across the fetched corpus",
       "baseline_span": "2022-04-05 to 2026-09-30",
       "baseline_note": "windows overlap, so these points are strongly autocorrelated and the effective sample size is much smaller than the count",
-      "observed_at": "2026-10-07T09:25:48.856Z",
+      "observed_at": "2026-10-07T10:25:29.244Z",
       "error": null,
       "meta": {
         "term": "data center",
@@ -588,7 +596,7 @@
         "direction": "higher = more federal documents mention datacentres",
         "source_note": "the noisiest source in this index: \"data center\" also matches the National Climatic Data Center, federal facility consolidation notices and every agency building with the words in its name"
       },
-      "ms": 1305,
+      "ms": 1710,
       "z": 0.423536,
       "baseline_min": 93,
       "baseline_median": 126,
@@ -615,7 +623,7 @@
       "observed_at": null,
       "error": "HTTP 403 Forbidden from https://efts.sec.gov/LATEST/search-index?q=%22data+centers%22&dateRange=custom&startdt=2026-09-07&enddt=2026-10-07 — <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\"> <html xmlns=\"http://www.w3.org/1999/xhtml\"> <head> <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" /> <title>SEC.gov | Your Request Originates from an Undeclar…",
       "meta": {},
-      "ms": 436
+      "ms": 536
     },
     {
       "id": "sec-power-contracts",
@@ -638,7 +646,7 @@
       "observed_at": null,
       "error": "HTTP 403 Forbidden from https://efts.sec.gov/LATEST/search-index?q=%22power+purchase+agreement%22&dateRange=custom&startdt=2026-07-09&enddt=2026-10-07 — <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\"> <html xmlns=\"http://www.w3.org/1999/xhtml\"> <head> <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" /> <title>SEC.gov | Your Request Originates from an Undeclar…",
       "meta": {},
-      "ms": 426
+      "ms": 538
     }
   ],
   "thresholds": {
@@ -2099,6 +2107,11 @@
       "generated_at": "2026-10-07T09:25:48.830Z",
       "score": 53.6,
       "level": 4
+    },
+    {
+      "generated_at": "2026-10-07T10:25:29.218Z",
+      "score": 54,
+      "level": 4
     }
   ],
   "baselines": {
@@ -2274,7 +2287,7 @@
         },
         {
           "d": "2026-10-07",
-          "v": 64.506
+          "v": 66.59
         }
       ]
     },
@@ -2335,6 +2348,10 @@
         {
           "d": "2026-10-06",
           "v": 12360.7
+        },
+        {
+          "d": "2026-10-07",
+          "v": 12504.6
         }
       ]
     },
@@ -2414,7 +2431,7 @@
         },
         {
           "d": "2026-10-06",
-          "v": 11.26
+          "v": 14.12
         }
       ]
     },
