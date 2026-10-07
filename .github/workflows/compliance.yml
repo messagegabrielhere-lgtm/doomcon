@@ -1,10 +1,12 @@
 # Compliance audit (compliance/audit.mjs).
 #
-# Runs on every push and pull request, and weekly so new rules and expiring
-# allow-list entries are re-checked even when nothing changed.
+# Runs on every push and pull request, and DAILY so market-regime checks,
+# new rules, and expiring allow-list entries are re-checked even when nothing
+# changed.
 #   1. selftest: every rule must catch a planted violation and clear on the fix,
 #      so a rule that silently breaks fails here instead of giving a false PASS.
-#   2. audit --strict: fails on HIGH or MEDIUM findings in the repo.
+#   2. audit --strict: fails on HIGH or MEDIUM findings in the repo, and prints
+#      the daily multi-market / multi-jurisdiction checklist (compliance/markets.mjs).
 # The deploy in collect.yml has its own gate (HIGH only) on the built site.
 #
 # Optional secret COMPLIANCE_PII_TERMS: comma-separated private terms (real
@@ -17,7 +19,8 @@ on:
   push:
   pull_request:
   schedule:
-    - cron: '17 13 * * 1'   # Mondays 13:17 UTC
+    # Daily 13:17 UTC ≈ 09:17 America/New_York (EDT) / 08:17 (EST).
+    - cron: '17 13 * * *'
   workflow_dispatch:
 
 permissions:
@@ -34,7 +37,14 @@ jobs:
           node-version: 20
       - name: Rule self-test
         run: node compliance/selftest.mjs
-      - name: Audit
+      - name: Audit (strict + daily market regimes)
         env:
           COMPLIANCE_PII_TERMS: ${{ secrets.COMPLIANCE_PII_TERMS }}
-        run: node compliance/audit.mjs --strict
+        run: node compliance/audit.mjs --strict --report
+      - name: Upload remediation plan
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: compliance-remediation
+          path: compliance/REMEDIATION.md
+          if-no-files-found: ignore

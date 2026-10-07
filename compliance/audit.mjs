@@ -22,6 +22,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { RULES, MANUAL } from './rules.mjs';
 import { STEPS, AUTOFIX } from './remediate.mjs';
+import { DAILY_CHECKS, REGIMES, SURFACES, marketsReportMarkdown } from './markets.mjs';
 
 const ROOT = path.resolve(process.env.COMPLIANCE_ROOT || path.join(path.dirname(fileURLToPath(import.meta.url)), '..'));
 const args = process.argv.slice(2);
@@ -168,6 +169,14 @@ if (flag('json')) {
     if (!flag('verbose')) console.log('   (--verbose for step-by-step, or --report for compliance/REMEDIATION.md)');
     console.log('');
   }
+  console.log(`Daily market-regime checks: ${DAILY_CHECKS.length} across ${REGIMES.length} markets (${SURFACES.length} surfaces)`);
+  for (const r of REGIMES) {
+    const items = DAILY_CHECKS.filter((d) => d.regime === r.id);
+    if (!items.length) continue;
+    console.log(`   ▸ ${r.label}`);
+    for (const d of items) console.log(`       ☐ ${d.text}  [${d.id}]`);
+  }
+  console.log('');
   console.log(`High ${count('high')} · Medium ${count('medium')} · Low ${count('low')} → ${failed ? 'FAIL' : 'PASS'}`);
   console.log('Not legal advice. Have a lawyer review anything that takes money or user data.');
 }
@@ -197,6 +206,7 @@ if (flag('report')) {
     if (!isDone) (m.steps || []).forEach((s) => md.push(`- [ ] ${s}`));
     md.push('');
   }
+  md.push(marketsReportMarkdown());
   md.push('---', 'Not legal advice. These are tripwires for common, costly mistakes, not a substitute for a lawyer.', '');
   writeFileSync(path.join(ROOT, 'compliance', 'REMEDIATION.md'), md.join('\n'));
   if (!flag('json')) console.log('\n📝 Wrote compliance/REMEDIATION.md');
@@ -213,6 +223,7 @@ if (process.env.GITHUB_STEP_SUMMARY) {
     rows.length ? '| Severity | Rule | Where | Detail | Remedy |\n|---|---|---|---|---|\n' + rows.join('\n') : 'No open findings.', '',
     steps ? '### Remediation\n' + steps : '', '',
     manualOpen.length ? '### Manual checks still open\n' + manualOpen.map((m) => `- [ ] ${m.text}`).join('\n') : '', '',
+    marketsReportMarkdown(),
   ].join('\n'));
 }
 

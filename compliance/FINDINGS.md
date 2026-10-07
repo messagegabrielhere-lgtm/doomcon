@@ -98,11 +98,21 @@ heavily via Amazon.
 
 ---
 
+## Daily audit (all markets)
+
+As of 2026-10-08:
+
+- GitHub Actions `compliance` runs **daily** (13:17 UTC)
+- `compliance/markets.mjs` covers US, California, EU/EEA, UK, prediction-market geo, Amazon across scanner / arena / monitor / shop
+- Local: `npm run compliance:daily`
+- Ops calendar event + Notion checklist created for the human pass
+
 ## Suggested next actions (operator)
 
 1. Complete the five open **manual** checks.
 2. Decide policy on **AI face caricatures**.
 3. Decide whether **Yahoo/exchange republishing** needs a licensed feed.
+4. Keep the daily market-regime checklist (calendar / Notion) — do not mark those ids `done` in `manual.json`.
 
 ---
 

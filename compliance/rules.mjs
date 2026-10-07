@@ -17,6 +17,8 @@
 // Not legal advice. These are tripwires that catch the common, expensive
 // mistakes; they do not replace a lawyer reviewing a real launch.
 
+import { MARKET_RULES } from './markets.mjs';
+
 const PAGE = /\.(html?|mjs|js|jsx|tsx|ts|vue|svelte|astro)$/i;
 const CODE = /\.(mjs|cjs|js|jsx|ts|tsx|py|sh|ya?ml)$/i;
 
@@ -390,6 +392,9 @@ export const RULES = [
         hits(f.text, /secrets\.YTDLP_COOKIES|--cookies\b/).slice(0, 1)
           .map((h) => ({ file: f.path, line: h.line, detail: 'yt-dlp cookies wired into CI' }))),
   },
+
+  // ── 20+. Market surfaces & multi-jurisdiction coverage ─────────────────
+  ...MARKET_RULES,
 ];
 
 /**

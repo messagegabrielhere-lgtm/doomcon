@@ -93,6 +93,26 @@ const CASES = {
     bad: [F('a.html', '<p>hi</p>')],
     good: [F('a.html', '<a href="/privacy.html">Privacy</a>')],
   },
+  'market-surface-disclaimer': {
+    bad: [F('site/static/scanner.html', '<h1>Capitulation Scanner</h1><p>RSI and breakouts</p>'), F('site/sitebar.mjs', 'export const DISCLOSURE = "hello";')],
+    good: [F('site/static/scanner.html', '<h1>Capitulation Scanner</h1><p>Not investment advice.</p>'), F('site/sitebar.mjs', 'export const DISCLOSURE = "Not financial advice. We are not financial advisors.";')],
+  },
+  'polymarket-geo': {
+    bad: [F('site/static/scanner.html', '<p>Compare live BTC with Polymarket odds via gamma-api.polymarket.com</p>')],
+    good: [F('site/static/scanner.html', '<p>Compare live BTC with Polymarket odds via gamma-api.polymarket.com. Not available to people in the US and some other countries.</p>')],
+  },
+  'markets-privacy-coverage': {
+    bad: [
+      F('site/static/scanner.html', '<p>scanner</p>'),
+      F('site/static/arena.html', '<p>arena</p>'),
+      F('site/templates/privacy.mjs', '<p>No analytics. GitHub Pages hosts the site.</p>'),
+    ],
+    good: [
+      F('site/static/scanner.html', '<p>scanner</p>'),
+      F('site/static/arena.html', '<p>arena</p>'),
+      F('site/templates/privacy.mjs', '<p>Yahoo, OKX, Binance, Polymarket, Coinbase. No analytics.</p>'),
+    ],
+  },
 };
 
 let failed = 0;

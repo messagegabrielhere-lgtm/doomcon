@@ -6,12 +6,29 @@ deploy to GitHub Pages.
 
 ```bash
 npm run compliance            # self-test the rules, then audit (strict)
+npm run compliance:daily      # same + verbose daily market-regime checklist + REMEDIATION.md
 npm run compliance:fix        # apply safe auto-fixes, then write REMEDIATION.md
 node compliance/audit.mjs     # fails on HIGH only
 node compliance/audit.mjs --strict --dir public   # also scan the built site
 node compliance/audit.mjs --verbose               # step-by-step for manual checks
 node compliance/audit.mjs --json
 ```
+
+## Daily schedule (all markets)
+
+GitHub Actions runs this audit **every day** at 13:17 UTC (see
+`.github/workflows/compliance.yml`). Each run:
+
+1. Self-tests every rule (including market-surface rules).
+2. Audits the repo under `--strict`.
+3. Prints the recurring **daily market-regime checklist** from
+   [`markets.mjs`](markets.mjs) — US federal, California, EU/EEA, UK,
+   prediction-market geo, and Amazon Associates — across scanner, arena,
+   monitor, terms, sitebar, and shop surfaces.
+4. Writes `REMEDIATION.md` and uploads it as a workflow artifact.
+
+Those daily regime checks reset every day; do **not** mark them `done` in
+`manual.json`. One-time operator setup items stay in `manual.json`.
 
 ## Human audit findings
 
@@ -62,6 +79,9 @@ It never edits a build folder passed with `--dir`.
 | `social-mention-guard` | high | X/Bluesky spam rules: an automated poster must refuse @mentions |
 | `social-affiliate` | high | FTC + Amazon: affiliate links in posts need #ad |
 | `ytdlp-cookies` | low | YouTube ToS: logged-in cookies put that Google account at risk |
+| `market-surface-disclaimer` | high | Advisers Act / UDAP / FCA tone — finance surfaces without “not advice” |
+| `polymarket-geo` | medium | Polymarket UI without US/geo availability notice |
+| `markets-privacy-coverage` | medium | Market APIs (Yahoo, OKX, Binance, Polymarket, Coinbase) missing from privacy |
 
 `compliance/selftest.mjs` plants a violation and a fix for every rule and fails CI
 if any rule stops catching its violation, starts flagging the fix, or if an
