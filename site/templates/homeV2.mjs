@@ -28,7 +28,7 @@ function pct(p, d = 1) { return Number.isFinite(p) ? `${(p * 100).toFixed(d)}%` 
 // EVERY ROOM, promoted from the front page: one tile per feature, each with its
 // own illustration, its live number where the data has one, and a one-line
 // reason to click. Grouped so twenty-odd tiles still read at a glance.
-function roomsGrid(ctx, href, img) {
+function roomGroups(ctx) {
   const r = ctx.routes || {};
   const fmt = (n) => (Number.isFinite(n) ? n.toLocaleString('en-US') : null);
   const race = ctx.race && ctx.race.players ? ctx.race.players.slice().sort((a, b) => a.rank - b.rank)[0] : null;
@@ -71,15 +71,49 @@ function roomsGrid(ctx, href, img) {
       ['/classic.html', 'siren', 'Full Panel', null, 'The full instrument panel, receipts and API.'],
     ]],
   ];
-  return `<section class="v2-rooms" aria-labelledby="v2-rooms-h">
+  return groups.map(([g, items]) => [g, items.filter(Boolean)]).filter(([, l]) => l.length);
+}
+
+function roomsGrid(ctx, href, img) {
+  const groups = roomGroups(ctx);
+  return `<section class="v2-rooms" id="rooms" aria-labelledby="v2-rooms-h">
   <h2 id="v2-rooms-h" class="v2-sr">Every room</h2>
-  ${groups.map(([g, items]) => {
-    const list = items.filter(Boolean);
-    if (!list.length) return '';
+  ${groups.map(([g, list]) => {
     return `<div class="v2-rgroup"><span class="v2-rgh">${esc(g)}</span><div class="v2-rgrid">${list.map(([p, art, label, n, blurb]) => `<a class="v2-room" href="${href(p)}"><img src="${img(art)}" width="56" height="56" alt="" loading="lazy"><span class="v2-room__t"><b>${esc(label.toUpperCase())}</b>${n ? `<i>${esc(n)}</i>` : ''}<small>${esc(blurb)}</small></span></a>`).join('')}</div></div>`;
   }).join('')}
 </section>`;
 }
+
+// THE WAY AROUND. Three routes to every room, none needed to read the page:
+// a sticky strip of every room's icon that stays on screen while you scroll;
+// a Jump search (press / or Ctrl/Cmd-K, type a few letters, Enter); and on a
+// phone, a thumb bar along the bottom with the busiest rooms and "All rooms".
+function roomNav(ctx, href, img) {
+  const all = roomGroups(ctx).flatMap(([g, l]) => l.map((x) => [...x, g]));
+  const strip = `<nav class="v2-nav" aria-label="Every room"><div class="v2-wrap v2-nav__in">
+  <a class="v2-nav__home" href="${href('/')}" aria-current="page"><img src="${img('siren')}" width="26" height="26" alt="">INDEX</a>
+  <div class="v2-nav__scroll">${all.map(([p, art, label]) => `<a class="v2-nav__t" href="${href(p)}"><img src="${img(art)}" width="26" height="26" alt="" loading="lazy">${esc(label.toUpperCase())}</a>`).join('')}</div>
+  <button class="v2-nav__jump" type="button" data-v2-jump aria-haspopup="dialog">JUMP <kbd>/</kbd></button>
+</div></nav>`;
+  const palette = `<dialog class="v2-pal" id="v2-pal" aria-label="Jump to a room"><div class="v2-pal__box">
+  <input class="v2-pal__q" id="v2-pal-q" type="search" placeholder="Jump to… type a room name" aria-label="Filter rooms" autocomplete="off" spellcheck="false">
+  <ul class="v2-pal__l">${all.map(([p, art, label, n, blurb, g]) => `<li><a class="v2-pal__i" href="${href(p)}" data-k="${esc(`${label} ${blurb} ${g}`.toLowerCase())}"><img src="${img(art)}" width="36" height="36" alt="" loading="lazy"><span><b>${esc(label)}</b><small>${esc(blurb)}</small></span>${n ? `<i>${esc(n)}</i>` : ''}</a></li>`).join('')}</ul>
+  <p class="v2-pal__hint">↑ ↓ to move · Enter to open · Esc to close</p>
+</div></dialog>`;
+  const tab = [['/news.html', 'news', 'NEWS'], ['/race.html', 'radar', 'RACE'], ['/leaders.html', 'mic', 'LEADERS'], ['/monitor.html', 'satellite', 'MONITOR']];
+  const tabbar = `<nav class="v2-tab" aria-label="Quick rooms">${tab.map(([p, a, l]) => `<a href="${href(p)}"><img src="${img(a)}" width="24" height="24" alt="">${l}</a>`).join('')}<button type="button" data-v2-jump><span class="v2-tab__grid" aria-hidden="true">▦</span>ALL</button></nav>`;
+  return { strip, palette, tabbar };
+}
+
+const NAV_JS = `(function(){var d=document.getElementById('v2-pal');if(!d||!d.showModal)return;var q=document.getElementById('v2-pal-q');var items=[].slice.call(d.querySelectorAll('.v2-pal__i'));var cur=0;
+function vis(){return items.filter(function(a){return a.parentNode.style.display!=='none'})}
+function mark(){var v=vis();items.forEach(function(a){a.classList.remove('on')});if(v.length){cur=Math.max(0,Math.min(cur,v.length-1));v[cur].classList.add('on');v[cur].scrollIntoView({block:'nearest'})}}
+function open(){q.value='';items.forEach(function(a){a.parentNode.style.display=''});cur=0;d.showModal();q.focus();mark()}
+[].slice.call(document.querySelectorAll('[data-v2-jump]')).forEach(function(b){b.addEventListener('click',open)});
+document.addEventListener('keydown',function(e){var t=e.target;var typing=t&&(t.tagName==='INPUT'||t.tagName==='TEXTAREA'||t.isContentEditable);if(((e.key==='/'&&!typing)||((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'))&&!d.open){e.preventDefault();open()}});
+q.addEventListener('input',function(){var k=q.value.trim().toLowerCase();items.forEach(function(a){a.parentNode.style.display=!k||a.getAttribute('data-k').indexOf(k)>=0?'':'none'});cur=0;mark()});
+q.addEventListener('keydown',function(e){var v=vis();if(e.key==='ArrowDown'){e.preventDefault();cur++;mark()}else if(e.key==='ArrowUp'){e.preventDefault();cur--;mark()}else if(e.key==='Enter'&&v[cur]){e.preventDefault();location.href=v[cur].href}});
+d.addEventListener('click',function(e){if(e.target===d)d.close()})})();`;
 
 export function render(ctx, { head }) {
   const { state } = ctx;
@@ -163,6 +197,7 @@ export function render(ctx, { head }) {
     return `<div class="v2-bar wide"><span class="pn">${esc(p.name.toUpperCase())}</span><span class="t"><i style="width:${live ? p.score.toFixed(1) : 0}%;background:${loud ? '#F87171' : '#3B5BFF'}"></i></span><b class="${live ? '' : 'mute'}">${live ? num(p.score, 1) : (p.dark ? 'DARK' : 'CALIB')}</b></div>`;
   }).join('');
 
+  const nav = roomNav(ctx, href, img);
   const body = `
 <div class="v2">
 <div class="v2-top"><div class="v2-wrap">
@@ -170,12 +205,13 @@ export function render(ctx, { head }) {
   <span class="tag red">LAST READING <b>${esc(hhmm(state.generated_at))}</b></span>
   <span class="v2-chip">${icon('eye', 2)}${ok}/${sources.length} SOURCES REPORTING</span>
   <span class="right">
+    <a class="tag green" href="#rooms">ALL ROOMS ↓</a>
     <a class="tag blue" href="${href('/history.html')}">HISTORY</a>
     <a class="tag violet" href="${href('/race.html')}">MARKETS</a>
     <span>STATUS: <b class="${state.degraded ? 'amber' : 'green'}">${state.degraded ? 'DEGRADED' : 'OPERATIONAL'}</b></span>
   </span>
 </div></div>
-
+${nav.strip}
 <main class="v2-wrap v2-main" id="main">
   <div class="v2-brand">
     <img class="v2-art bob" src="${img('siren')}" width="112" height="112" alt="">
@@ -231,7 +267,9 @@ ${roomsGrid(ctx, href, img)}
   <a href="${href('/methodology.html')}">How it works</a> · <a href="${href('/classic.html#vfy')}">Verify a reading</a> · <a href="${href('/classic.html')}">Full instrument panel</a> · <a href="${href('/about.html')}">About</a></p>
   <p class="v2-foot"><b>Not advice.</b> Information, commentary and satire only — not financial, investment, legal, security or safety advice. Data is automated and may be wrong or late; provided as is, with no warranty. Not affiliated with any company, lab, person or agency named here. Use of this site means you accept the <a href="${href('/terms.html')}">terms &amp; disclaimers</a>. <a href="${href('/privacy.html')}">Privacy</a>.</p>
 </main>
+${nav.palette}${nav.tabbar}
 </div>
+<script>${NAV_JS}</script>
 <script>(function(){var el=document.getElementById('v2-clock');if(!el)return;function p(n){return(n<10?'0':'')+n}function t(){var d=new Date();el.textContent=d.getUTCFullYear()+'-'+p(d.getUTCMonth()+1)+'-'+p(d.getUTCDate())+' '+p(d.getUTCHours())+':'+p(d.getUTCMinutes())+':'+p(d.getUTCSeconds())+'Z'}t();setInterval(t,1000)})();</script>`;
 
   return `<!doctype html>
@@ -243,6 +281,38 @@ ${head.replace('</head>', `<style>${CSS}</style>\n</head>`)}
 }
 
 const CSS = `
+.v2 .tag.green{border-color:#14532D;background:#03130A;color:#86EFAC}
+.v2-nav{position:sticky;top:0;z-index:40;background:rgba(0,0,0,.92);backdrop-filter:blur(6px);border-bottom:1px solid #232C3B}
+.v2-nav__in{display:flex;align-items:center;gap:10px;padding-block:8px}
+.v2-nav__home,.v2-nav__t{display:inline-flex;align-items:center;gap:7px;flex:0 0 auto;padding:5px 10px 5px 6px;border:2px solid #2A3446;background:#111827;color:#D7DCE3!important;font-size:11px;font-weight:700;letter-spacing:.05em;white-space:nowrap}
+.v2-nav__home{border-color:#6366F1;background:#1E1B4B;color:#fff!important}
+.v2-nav__t:hover{border-color:#6366F1;color:#fff!important;background:#161D33}
+.v2-nav__home img,.v2-nav__t img{display:block}
+.v2-nav__scroll{display:flex;gap:6px;overflow-x:auto;scrollbar-width:thin;min-width:0;flex:1 1 auto;padding-bottom:2px;mask-image:linear-gradient(90deg,#000 92%,transparent)}
+.v2-nav__jump{flex:0 0 auto;font:inherit;font-size:12px;font-weight:700;letter-spacing:.06em;color:#fff;background:#4F46E5;border:0;padding:8px 12px;cursor:pointer;min-height:40px}
+.v2-nav__jump kbd{font:inherit;border:1px solid rgba(255,255,255,.5);padding:0 5px;margin-left:4px}
+.v2-pal{border:2px solid #4338CA;background:#0A0E16;color:#F3F4F6;padding:0;width:min(640px,calc(100vw - 32px));max-height:min(78vh,720px)}
+.v2-pal::backdrop{background:rgba(0,0,0,.7)}
+.v2-pal__box{display:flex;flex-direction:column;max-height:min(78vh,720px)}
+.v2-pal__q{font:inherit;font-size:16px;padding:14px 16px;background:#000;color:#fff;border:0;border-bottom:1px solid #232C3B;outline:none}
+.v2-pal__l{list-style:none;margin:0;padding:6px;overflow:auto}
+.v2-pal__i{display:flex;align-items:center;gap:12px;padding:8px 10px;color:#fff!important;border:2px solid transparent}
+.v2-pal__i span{display:flex;flex-direction:column;min-width:0;flex:1}
+.v2-pal__i b{font-size:14px}.v2-pal__i small{font-size:12px;color:#AEB7C3}
+.v2-pal__i i{font-style:normal;font-size:12px;font-weight:700;color:#A5B4FC;white-space:nowrap}
+.v2-pal__i.on,.v2-pal__i:hover{border-color:#6366F1;background:#161D33}
+.v2-pal__hint{margin:0;padding:8px 16px;font-size:11px;color:#AEB7C3;border-top:1px solid #232C3B}
+.v2-tab{display:none}
+@media (max-width:720px){
+  .v2-nav__home{display:none}
+  .v2-tab{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:45;background:#0A0E16;border-top:2px solid #232C3B;padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px))}
+  .v2-tab a,.v2-tab button{flex:1 1 0;display:flex;flex-direction:column;align-items:center;gap:3px;font:inherit;font-size:10px;font-weight:700;letter-spacing:.05em;color:#D7DCE3!important;background:none;border:0;padding:4px 0;min-height:48px;cursor:pointer}
+  .v2-tab img{display:block}
+  .v2-tab__grid{font-size:20px;line-height:24px;color:#A5B4FC}
+  .v2-main{padding-bottom:110px}
+  body.v2-body #sitebar{bottom:calc(76px + env(safe-area-inset-bottom,0px))}
+}
+
 .v2-rooms{display:flex;flex-direction:column;gap:16px}
 .v2-rgroup{display:flex;flex-direction:column;gap:10px}
 .v2-rgh{font-size:12px;font-weight:700;letter-spacing:.16em;color:#AEB7C3;display:flex;align-items:center;gap:10px}
