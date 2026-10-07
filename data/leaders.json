@@ -1,10 +1,10 @@
 {
   "schema": 1,
-  "generated_at": "2026-10-07T14:26:19.500Z",
-  "news_generated_at": "2026-10-07T14:26:19.500Z",
+  "generated_at": "2026-10-07T15:36:03.424Z",
+  "news_generated_at": "2026-10-07T15:36:03.424Z",
   "matcher_version": "1.0.0",
   "window_days": 7,
-  "window_start": "2026-09-30T14:26:19.500Z",
+  "window_start": "2026-09-30T15:36:03.424Z",
   "rule": {
     "headline_only": true,
     "statement": "Only the headline is ever reproduced, exactly as the publication printed it. No quotation is generated, paraphrased, summarised or reconstructed anywhere in this file.",
@@ -132,23 +132,25 @@
     "scanned": 200,
     "max_items": 200,
     "window_binds": true,
-    "oldest_item_at": "2026-10-06T10:45:43.000Z",
-    "newest_item_at": "2026-10-07T14:15:05.000Z",
-    "named_without_cue": 2
+    "oldest_item_at": "2026-10-06T11:55:07.000Z",
+    "newest_item_at": "2026-10-07T15:35:02.000Z",
+    "named_without_cue": 3
   },
   "cross_check": {
     "source": "data/race.json",
     "present": true,
-    "race_generated_at": "2026-10-07T14:26:20.604Z",
+    "race_generated_at": "2026-10-07T15:36:04.353Z",
     "players_matched": 7,
-    "wire_fills_gap": []
+    "wire_fills_gap": [
+      "musk"
+    ]
   },
   "totals": {
     "leaders": 15,
-    "on_record": 0,
-    "no_line": 15,
-    "lines": 0,
-    "distinct_items": 0
+    "on_record": 1,
+    "no_line": 14,
+    "lines": 1,
+    "distinct_items": 1
   },
   "leaders": [
     {
@@ -246,11 +248,59 @@
         "Elon Musk",
         "Musk"
       ],
-      "state": "no_line",
-      "count": 0,
-      "sources": [],
-      "latest": null,
-      "lines": [],
+      "state": "on_record",
+      "count": 1,
+      "sources": [
+        "techmeme"
+      ],
+      "latest": {
+        "item_id": "2f1c6f8a109a13ce",
+        "headline": "Elon Musk says Grok Bot will use the \"best back end model for any given task, including Claude Opus 5.5, MidJourney, Suno\" (Grace Kay/The Information)",
+        "source": "techmeme",
+        "kind": "press",
+        "url": "https://techmeme.com/261007/p23",
+        "published_at": "2026-10-07T14:40:01.000Z",
+        "score": 43.1,
+        "pillar": "attention",
+        "matched_alias": "Elon Musk",
+        "cue": "says",
+        "cue_group": "core",
+        "cue_class": "verb",
+        "cue_text": "says",
+        "cues": [
+          "quoted text",
+          "says"
+        ],
+        "corroboration": 1,
+        "also_sources": [
+          "techmeme"
+        ]
+      },
+      "lines": [
+        {
+          "item_id": "2f1c6f8a109a13ce",
+          "headline": "Elon Musk says Grok Bot will use the \"best back end model for any given task, including Claude Opus 5.5, MidJourney, Suno\" (Grace Kay/The Information)",
+          "source": "techmeme",
+          "kind": "press",
+          "url": "https://techmeme.com/261007/p23",
+          "published_at": "2026-10-07T14:40:01.000Z",
+          "score": 43.1,
+          "pillar": "attention",
+          "matched_alias": "Elon Musk",
+          "cue": "says",
+          "cue_group": "core",
+          "cue_class": "verb",
+          "cue_text": "says",
+          "cues": [
+            "quoted text",
+            "says"
+          ],
+          "corroboration": 1,
+          "also_sources": [
+            "techmeme"
+          ]
+        }
+      ],
       "watch_floor": {
         "tracked": true,
         "player_id": "xai",
@@ -259,8 +309,8 @@
         "reason": "Posts on X. Scraping X carries an explicit permanent-suspension penalty under its developer terms, so this cell is empty by policy, not by accident.",
         "feed": null,
         "posts_30d": null,
-        "verdict": "both_quiet",
-        "note": "The watch floor reads no feed and no headline in this window named Elon Musk beside a speech cue. Two separate silences, neither imputed from the other."
+        "verdict": "wire_fills_gap",
+        "note": "The watch floor reads no feed for Elon Musk and that reading stands: it is about feeds we can fetch. The one line on the wire came from the press instead — techmeme — and links to the publication that printed it."
       }
     },
     {
