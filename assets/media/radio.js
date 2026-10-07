@@ -1,0 +1,157 @@
+// SIREN Radio — an original soundtrack generated live in the browser with the
+// Web Audio API. No audio files, no third party, no licence questions. It is
+// OFF until the visitor presses the button, and the mood follows the index:
+// level 5 is a slow, quiet pad; level 1 is fast, tense and loud.
+(function () {
+  'use strict';
+  var KEY = 'siren:radio';
+  var BPM = { 5: 70, 4: 84, 3: 96, 2: 110, 1: 124 };
+  // A minor: i - VI - III - VII, as MIDI roots with triads.
+  var PROG = [[57, 60, 64], [53, 57, 60], [48, 52, 55], [55, 59, 62]];
+  var ctx = null, master = null, wet = null, timer = null, playing = false;
+  var level = 4, step = 0, next = 0;
+
+  var hz = function (m) { return 440 * Math.pow(2, (m - 69) / 12); };
+
+  function build(given) {
+    ctx = given || new (window.AudioContext || window.webkitAudioContext)();
+    noiseBuf = null;
+    var comp = ctx.createDynamicsCompressor();
+    comp.threshold.value = -18; comp.ratio.value = 4;
+    master = ctx.createGain(); master.gain.value = 0;
+    master.connect(comp); comp.connect(ctx.destination);
+    // A dark echo for space.
+    var delay = ctx.createDelay(1.5); delay.delayTime.value = 0.375;
+    var fb = ctx.createGain(); fb.gain.value = 0.32;
+    var lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 1800;
+    wet = ctx.createGain(); wet.gain.value = 0.28;
+    wet.connect(delay); delay.connect(lp); lp.connect(fb); fb.connect(delay); lp.connect(master);
+  }
+
+  function voice(type, freq, t, dur, vol, cutoff, toWet) {
+    var o = ctx.createOscillator(), g = ctx.createGain(), f = ctx.createBiquadFilter();
+    o.type = type; o.frequency.value = freq;
+    f.type = 'lowpass'; f.frequency.value = cutoff || 2000;
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(vol, t + Math.min(0.02, dur / 4));
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.connect(f); f.connect(g); g.connect(master); if (toWet) g.connect(wet);
+    o.start(t); o.stop(t + dur + 0.05);
+    return o;
+  }
+  function pad(chord, t, dur) {
+    chord.forEach(function (m) {
+      [-6, 6].forEach(function (cents) {
+        var o = voice('sawtooth', hz(m - 12), t, dur, 0.035, 900 + (5 - level) * 250, true);
+        o.detune.value = cents;
+      });
+    });
+  }
+  function kick(t, vol) {
+    var o = ctx.createOscillator(), g = ctx.createGain();
+    o.frequency.setValueAtTime(140, t); o.frequency.exponentialRampToValueAtTime(42, t + 0.18);
+    g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.3);
+    o.connect(g); g.connect(master); o.start(t); o.stop(t + 0.35);
+  }
+  var noiseBuf = null;
+  function hat(t, vol) {
+    if (!noiseBuf) {
+      noiseBuf = ctx.createBuffer(1, ctx.sampleRate * 0.1, ctx.sampleRate);
+      var d = noiseBuf.getChannelData(0); for (var i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+    }
+    var s = ctx.createBufferSource(), f = ctx.createBiquadFilter(), g = ctx.createGain();
+    s.buffer = noiseBuf; f.type = 'highpass'; f.frequency.value = 7000;
+    g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.05);
+    s.connect(f); f.connect(g); g.connect(master); s.start(t);
+  }
+  function siren(t, dur) {
+    var o = ctx.createOscillator(), g = ctx.createGain();
+    o.type = 'triangle';
+    o.frequency.setValueAtTime(hz(69), t);
+    o.frequency.linearRampToValueAtTime(hz(76), t + dur / 2);
+    o.frequency.linearRampToValueAtTime(hz(69), t + dur);
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.03, t + dur / 2); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.connect(g); g.connect(wet); g.connect(master); o.start(t); o.stop(t + dur + 0.05);
+  }
+
+  // One 16th-note step. 16 steps a bar, one chord a bar.
+  function play(t) {
+    var s16 = 60 / BPM[level] / 4;
+    var bar = Math.floor(step / 16), pos = step % 16;
+    var chord = PROG[bar % 4];
+    var heat = 5 - level; // 0 calm .. 4 loud
+    if (pos === 0) pad(chord, t, s16 * 16);
+    if (pos % 4 === 0 && heat >= 1) kick(t, 0.25 + heat * 0.08);
+    if (pos % 2 === 0) voice('triangle', hz(chord[0] - 24), t, s16 * 1.8, 0.09, 400, false);
+    var arpEvery = heat >= 3 ? 1 : heat >= 1 ? 2 : 4;
+    if (pos % arpEvery === 0) {
+      var note = chord[(pos / arpEvery) % 3] + (pos >= 8 ? 12 : 0);
+      voice('square', hz(note), t, s16 * 0.9, 0.022 + heat * 0.006, 1400 + heat * 500, true);
+    }
+    if (heat >= 2 && pos % 2 === 1) hat(t, 0.04 + heat * 0.01);
+    if (heat >= 3 && pos === 0 && bar % 4 === 3) siren(t, s16 * 16);
+    step++;
+    return s16;
+  }
+  function tick() {
+    while (next < ctx.currentTime + 0.12) next += play(next);
+  }
+
+  function start(lv) {
+    if (lv) level = Math.min(5, Math.max(1, lv | 0));
+    if (!ctx) build();
+    if (ctx.state === 'suspended') ctx.resume();
+    next = ctx.currentTime + 0.05; step = 0;
+    master.gain.cancelScheduledValues(ctx.currentTime);
+    master.gain.setTargetAtTime(0.8, ctx.currentTime, 0.6);
+    timer = setInterval(tick, 25); playing = true;
+  }
+  function stop() {
+    if (!ctx) return;
+    master.gain.setTargetAtTime(0, ctx.currentTime, 0.25);
+    clearInterval(timer); timer = null; playing = false;
+  }
+
+  function wire() {
+    var btn = document.getElementById('siren-radio');
+    if (!btn) return;
+    var lv = +btn.getAttribute('data-level') || 4;
+    var paint = function () {
+      btn.setAttribute('aria-pressed', String(playing));
+      btn.textContent = playing ? '♪ RADIO ON' : '♪ RADIO';
+    };
+    btn.addEventListener('click', function () {
+      if (playing) stop(); else start(lv);
+      try { localStorage.setItem(KEY, playing ? '1' : '0'); } catch (e) {}
+      paint();
+    });
+    // Remembered "on": browsers forbid sound before a gesture, so resume on the
+    // visitor's first tap or key press rather than autoplaying.
+    var want = false; try { want = localStorage.getItem(KEY) === '1'; } catch (e) {}
+    if (want) {
+      btn.classList.add('armed');
+      var go = function (e) {
+        if (e.target === btn || playing) return;
+        start(lv); paint();
+      };
+      addEventListener('pointerdown', go, { once: true });
+      addEventListener('keydown', go, { once: true });
+    }
+    paint();
+  }
+  // Render a stretch of the soundtrack offline (used to score the explainer
+  // video). `levelAt(seconds)` picks the level at each moment.
+  function renderOffline(seconds, levelAt) {
+    var saved = [ctx, master, wet, level, step];
+    var sr = 44100, off = new OfflineAudioContext(2, Math.ceil(sr * seconds), sr);
+    build(off); master.gain.value = 0.8; step = 0;
+    var t = 0.05;
+    while (t < seconds - 0.5) { level = levelAt(t); t += play(t); }
+    master.gain.setValueAtTime(0.8, seconds - 2.5); master.gain.linearRampToValueAtTime(0, seconds - 0.2);
+    var done = off.startRendering();
+    ctx = saved[0]; master = saved[1]; wet = saved[2]; level = saved[3]; step = saved[4];
+    return done;
+  }
+  window.SirenRadio = { start: start, stop: stop, renderOffline: renderOffline, get playing() { return playing; } };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', wire); else wire();
+})();

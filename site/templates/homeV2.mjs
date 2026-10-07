@@ -240,6 +240,7 @@ export function render(ctx, { head }) {
   <span class="v2-chip">${icon('eye', 2)}${ok}/${sources.length} SOURCES REPORTING</span>
   <span class="right">
     <a class="tag green" href="#rooms">ALL ROOMS ↓</a>
+    <button type="button" class="tag radio" id="siren-radio" data-level="${state.level}" aria-pressed="false" title="Play SIREN Radio: an original soundtrack generated in your browser. Its mood follows the level.">♪ RADIO</button>
     <a class="tag blue" href="${href('/history.html')}">HISTORY</a>
     <a class="tag violet" href="${href('/race.html')}">MARKETS</a>
     <span>STATUS: <b class="${state.degraded ? 'amber' : 'green'}">${state.degraded ? 'DEGRADED' : 'OPERATIONAL'}</b></span>
@@ -271,6 +272,15 @@ ${nav.strip}
   <script>window.SIREN_NOW=${JSON.stringify(sinceNow).replace(/</g, '\\u003c')}</script>
 
   ${top ? `<div class="v2-breaking" id="breaking" data-sec="Breaking"><span class="badge"><span class="blink">${icon('bolt', 2)}</span>BREAKING</span><a href="${esc(top.url)}" rel="noopener">${esc(top.title)}</a><span class="src">${esc(hhmm(top.published_at))} · ${esc(String(top.source).toUpperCase())}</span></div>` : ''}
+
+<section class="v2-video" aria-labelledby="v2-video-h">
+    <div class="txt"><h2 id="v2-video-h">${pixelText('WHAT IS SIREN?', 4, '#FFFFFF', 'fit')}</h2><p>A 42-second tour: the hourly reading, the five levels, and the rooms worth opening. Sound on: the soundtrack is SIREN Radio, generated from the same code as the ♪ button.</p></div>
+    <video controls preload="none" playsinline width="1280" height="720" poster="${href('/media/siren-explainer-poster.jpg')}">
+      <source src="${href('/media/siren-explainer.webm')}" type="video/webm">
+      <source src="${href('/media/siren-explainer.mp4')}" type="video/mp4">
+    </video>
+  </section>
+  <script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', '@type': 'VideoObject', name: 'What is SIREN? A 42-second tour of the AI Siren Index', description: 'How SIREN counts how loud AI is every hour, what its five levels mean, and the rooms on the site: the race, the newsroom, the AI bosses, real clips, the world monitor, the AI battle and the prepper kit.', thumbnailUrl: [ctx.url('/media/siren-explainer-poster.jpg')], uploadDate: '2026-10-07', duration: 'PT42S', contentUrl: ctx.url('/media/siren-explainer.mp4'), embedUrl: ctx.url('/') }).replace(/</g, '\\u003c')}</script>
 
 ${roomsGrid(ctx, href, img)}
 
@@ -316,6 +326,7 @@ ${nav.palette}${nav.tabbar}
 <html lang="en">
 ${head.replace('</head>', `<style>${CSS}</style>${MZ_CSS}\n</head>`)}
 <body class="v2-body"><a class="v2-skip" href="#signal">Skip to the reading</a>${body}
+<script src="${href('/media/radio.js')}" defer></script>
 </body>
 </html>`;
 }
@@ -338,6 +349,11 @@ const CSS = `
 }
 
 .v2 .tag.green{border-color:#14532D;background:#03130A;color:#86EFAC}
+.v2 .tag.radio{border-color:#3730A3;background:#0B0A1F;color:#A5B4FC;cursor:pointer;font:inherit;font-weight:700}
+.v2 .tag.radio[aria-pressed=true]{background:#818CF8;color:#000;border-color:#818CF8;animation:v2-pulse 1.6s ease-in-out infinite}
+.v2 .tag.radio.armed{border-color:#818CF8}
+@keyframes v2-pulse{50%{box-shadow:0 0 0 4px rgba(129,140,248,.25)}}
+@media (prefers-reduced-motion:reduce){.v2 .tag.radio[aria-pressed=true]{animation:none}}
 .v2-nav{position:sticky;top:0;z-index:40;background:rgba(0,0,0,.92);backdrop-filter:blur(6px);border-bottom:1px solid #232C3B}
 .v2-nav__in{display:flex;align-items:center;gap:10px;padding-block:8px}
 .v2-nav__home,.v2-nav__t{display:inline-flex;align-items:center;gap:7px;flex:0 0 auto;padding:5px 10px 5px 6px;border:2px solid #2A3446;background:#111827;color:#D7DCE3!important;font-size:11px;font-weight:700;letter-spacing:.05em;white-space:nowrap}
@@ -473,6 +489,10 @@ body.v2-body{margin:0;background:#000;color:#F3F4F6}
 .v2-cta{border:2px solid #4338CA;background:#0E1033;padding:24px 28px;display:flex;align-items:center;gap:22px;flex-wrap:wrap}
 .v2-cta .col{display:flex;flex-direction:column;gap:10px;flex:1 1 300px;min-width:0;color:#C7D2FE}
 .v2-foot{margin:0;font-size:13px;color:#AEB7C3}
+.v2-video{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:24px;align-items:center;margin:28px 0;padding:18px;border:1px solid #232C3B;border-radius:4px;background:#0E131D}
+.v2-video h2{margin:0 0 10px}.v2-video p{margin:0;color:#AEB7C3;font-size:15px;line-height:1.5}
+.v2-video video{width:100%;height:auto;aspect-ratio:16/9;background:#000;border-radius:3px;display:block}
+@media (max-width:860px){.v2-video{grid-template-columns:1fr}}
 .v2-skip{position:absolute;left:-9999px;top:8px;z-index:10000;padding:8px 12px;background:#4ADE80;color:#000;font:700 13px 'IBM Plex Mono',monospace}.v2-skip:focus{left:8px}
 .v2-sponsor{margin:10px 0 0;text-align:right}.v2-nl{margin:18px 0 0;padding:16px;border:1px solid #232C3B;border-radius:4px;background:#0E131D}
 .v2-since{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;margin:12px 0 0;padding:10px 14px;border:1px solid #232C3B;border-left:4px solid #818CF8;border-radius:4px;background:#0E131D;font:500 14px/1.4 'IBM Plex Sans',sans-serif;color:#E6EAF0}
