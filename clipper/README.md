@@ -84,6 +84,8 @@ a notice and exits.
    Sign in with the Google account that owns the channel you post to.
 3. **Repo settings → Secrets and variables → Actions:**
    - variable `CLIPPER_CHANNEL_URL`: the channel to watch, e.g. `https://www.youtube.com/@yourhandle`
+   - variable `CLIPPER_CHANNEL_RIGHTS`: `own` if it is your channel, `licensed` if
+     you have written permission to repost it. The workflow will not run without it.
    - secrets `ANTHROPIC_API_KEY`, `YT_CLIENT_ID`, `YT_CLIENT_SECRET`, `YT_REFRESH_TOKEN`
 4. **Actions → clipper → Run workflow** for the first run. The run summary shows
    the channel, any clips and the queue.
@@ -94,7 +96,8 @@ export a `cookies.txt` from a browser logged in to YouTube and save its contents
 as the secret `YTDLP_COOKIES`. While the Google project is unverified, YouTube
 keeps API uploads private; submit the project for an audit to post publicly.
 
-The workflow posts as the channel owner (`CLIPPER_CHANNEL_RIGHTS: own`).
+Changing `CLIPPER_CHANNEL_URL` to another channel does not carry the rights over;
+set `CLIPPER_CHANNEL_RIGHTS` for the new channel too.
 
 ## Config
 
