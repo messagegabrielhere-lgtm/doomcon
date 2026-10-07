@@ -97,6 +97,15 @@ export function render(ctx) {
     ...(hasLeaders(ctx) && ctx.leaders && ctx.leaders.generated_at
       ? [{ loc: '/leaders.html', changefreq: 'daily', priority: '0.8', lastmod: ctx.leaders.generated_at }]
       : []),
+    // Per-state data center pages and per-lab pages: exactly the files
+    // build.mjs wrote, as it recorded them.
+    ...(Array.isArray(ctx.entityPaths)
+      ? ctx.entityPaths.map((e) => ({ loc: e.loc, changefreq: e.changefreq || 'daily', priority: '0.7', lastmod: e.lastmod }))
+      : []),
+    // Hand-built tool pages in site/static, which the sitemap never named.
+    ...['/arena.html', '/elon.html', '/monitor.html', '/scanner.html']
+      .filter((p) => Array.isArray(ctx.staticPages) && ctx.staticPages.includes(p))
+      .map((loc) => ({ loc, changefreq: 'daily', priority: '0.5', lastmod: ctx.state.generated_at })),
     { loc: '/moves/', changefreq: 'hourly', priority: '0.6', lastmod: ctx.state.generated_at },
   ];
 

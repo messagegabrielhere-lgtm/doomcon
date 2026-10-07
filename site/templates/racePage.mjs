@@ -38,6 +38,7 @@
 
 import { esc, utc, utcDay, num } from './_html.mjs';
 import { page } from './layout.mjs';
+import { labIndex } from './entityPages.mjs';
 import { avatarSprite, personIdFor, PEOPLE, faceHref } from './_avatars.mjs';
 import * as brand from '../brand.mjs';
 
@@ -1172,6 +1173,8 @@ ${partitionBar(race)}
 ${raceGraphics(race)}
 
 ${leaderboard(race)}
+
+${labIndex(ctx)}
 
 ${howComputed(ctx, race)}
 

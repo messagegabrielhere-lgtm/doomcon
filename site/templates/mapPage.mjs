@@ -42,6 +42,7 @@
 
 import { esc, utc, num } from './_html.mjs';
 import { page } from './layout.mjs';
+import { dcStateIndex } from './entityPages.mjs';
 import * as brand from '../brand.mjs';
 // mapTable is deliberately NOT imported. _usmap.mjs still exports it and it is
 // still correct; this page now renders its own jurisdiction table instead,
@@ -1404,6 +1405,8 @@ ${powerSection(dc, model)}
 ${largestSection(dc, model)}
 
 ${methodSection(ctx, dc, model)}
+
+${dcStateIndex(ctx)}
 
 ${siblingCard(ctx)}
 </div>`;

@@ -94,6 +94,31 @@ function prerenderStatic(html, name, ctx) {
 <meta property="og:image" content="${x(ctx.url('/cards/state.png'))}">
 <meta name="twitter:card" content="summary_large_image">`;
   let out = html;
+  // A hand-built page that ships no structured data of its own still gets the
+  // two blocks every templated page carries: what the page is, and the
+  // breadcrumb back to the war room. A page that brings its own (bunker-kit's
+  // ItemList) keeps it, and gets the breadcrumb beside it.
+  {
+    const crumb = String(title).replace(/&amp;/g, '&').split(/ · | — | \| /)[0].replace(/:.*$/, '').trim() || brand.NAME;
+    const blocks = [{
+      '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: brand.NAME, item: ctx.url('/') },
+        { '@type': 'ListItem', position: 2, name: crumb, item: loc },
+      ],
+    }];
+    // bunker-kit's ItemList is added further down, from its CRATES data.
+    if (!/application\/ld\+json/.test(html) && !/const CRATES = /.test(html)) {
+      blocks.unshift({
+        '@context': 'https://schema.org', '@type': 'WebApplication',
+        name: String(title).replace(/&amp;/g, '&'), url: loc, description: desc,
+        applicationCategory: 'ReferenceApplication', operatingSystem: 'Any',
+        isAccessibleForFree: true, offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+        publisher: { '@type': 'Organization', name: brand.NAME, url: ctx.url('/') },
+      });
+    }
+    head += blocks.map((b) => `\n<script type="application/ld+json">${JSON.stringify(b).replace(/</g, '\\u003c')}</script>`).join('');
+  }
   // A hand-built page writes its own description, and four of them ran past
   // 250 characters, so a results page cut them mid-word. Same rule the layout
   // applies to every templated page (serpDescription): end at the last full
@@ -176,6 +201,7 @@ import * as blissPage from './templates/blissPage.mjs';
 import * as itemPage from './templates/itemPage.mjs';
 import * as mapPage from './templates/mapPage.mjs';
 import * as leadersPage from './templates/leadersPage.mjs';
+import * as entityPages from './templates/entityPages.mjs';
 import { render as sitemap, robots } from './templates/sitemap.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -1183,9 +1209,11 @@ async function main() {
   // that draws a manifest from its own script, the same rows as static HTML.
   const staticDir = path.join(ROOT, 'site', 'static');
   if (existsSync(staticDir)) {
+    ctx.staticPages = [];
     for (const name of (await readdir(staticDir)).filter((n) => n.endsWith('.html')).sort()) {
       const raw = await inlineModules(await readFile(path.join(staticDir, name), 'utf8'));
       written.push(await write(args.out, name, prerenderStatic(raw, name, ctx)));
+      ctx.staticPages.push(`/${name}`);
     }
   }
   written.push(await write(args.out, 'moves/index.html', movesIndexPage.render(ctx)));
@@ -1218,6 +1246,12 @@ async function main() {
   }
   if (racePage.hasRace(ctx)) {
     written.push(await write(args.out, 'race.html', racePage.render(ctx)));
+    // /race/<lab>.html, one per lab on the board; listed in the sitemap below.
+    ctx.entityPaths = ctx.entityPaths || [];
+    for (const lp of entityPages.labPages(ctx)) {
+      written.push(await write(args.out, lp.rel, lp.html));
+      ctx.entityPaths.push({ loc: `/${lp.rel}`, lastmod: ctx.race.generated_at, changefreq: 'hourly' });
+    }
   }
   if (wattsPage.hasWatts ? wattsPage.hasWatts(ctx) : wattsPage.hasInfra(ctx)) {
     written.push(await write(args.out, 'watts.html', wattsPage.render(ctx)));
@@ -1232,6 +1266,13 @@ async function main() {
   // resources_index, because a map of pins with no resource join is just dots.
   if (mapPage.hasDatacenters(ctx)) {
     written.push(await write(args.out, 'map.html', mapPage.render(ctx)));
+    // /map/<state>.html for every state with enough sites to be a page. The
+    // sitemap lists exactly what was written here (ctx.entityPaths).
+    ctx.entityPaths = ctx.entityPaths || [];
+    for (const sp of entityPages.dcStatePages(ctx)) {
+      written.push(await write(args.out, sp.rel, sp.html));
+      ctx.entityPaths.push({ loc: `/${sp.rel}`, lastmod: ctx.datacenters.generated_at, changefreq: 'daily' });
+    }
   }
   if (leadersPage.hasLeaders(ctx)) {
     written.push(await write(args.out, 'leaders.html', leadersPage.render(ctx)));
