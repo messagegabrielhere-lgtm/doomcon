@@ -11,7 +11,7 @@ says what a reader sees when any of them stops.
 |---|---|---|---|
 | **1. schedule** | `.github/workflows/collect.yml` | 15 min / 1 h | fetches, rebuilds, deploys |
 | **2. collector** | `collector/news.mjs` | per source, 5 min – 1 h | which feeds get asked at all |
-| **3. page** | `site/templates/_motion.mjs` | 60 s in the browser | an already-open tab |
+| **3. page** | `site/templates/_motion.mjs` | 30 s in the browser | an already-open tab |
 
 Layer 3 is the one people actually experience. A build every fifteen minutes
 means nothing to someone who opened the page fourteen minutes ago; the poller is
@@ -34,10 +34,12 @@ Both lanes live in one workflow file and select themselves on
 `cancel-in-progress: false`, so no two data-writing runs are ever in flight at
 once.
 
-### The fast lane — every 15 minutes, ~1–2 minutes
+### The minute loop — `news-fast.yml`, ~1 minute ticks
 
-`news.mjs` → gate → `build.mjs` + cards → commit `data/news.json` → publish
-`public/` to `gh-pages`.
+`news.mjs` → if items changed → `build.mjs --only news` → overlay-publish
+newsroom files onto `gh-pages`. Measured ~1.2s for the news-only build vs
+~9s for a full wipe rebuild; the overlay push avoids re-tarring ~90MB when
+only the newsroom moved. Cards and the posting sheet stay on the hourly lane.
 
 It does **not** run the index engine. That is a correctness rule, not a saving.
 Receipts are append-only and the anti-flap machinery measures dwell in hours; an
@@ -158,10 +160,14 @@ zero duplicate ids; zero duplicate source rows.
 
 ## 3. The page, between builds
 
-`_motion.mjs` polls `api/state.json` and `api/news.json` every 60 s. Its whole
+`_motion.mjs` polls `api/state.json` and `api/news.json` every 30 s. Its whole
 discipline is one rule: **if nothing changed, do nothing visible.** A page that
 churns while saying nothing is lying about activity, which is the failure mode
 this project exists not to commit.
+
+The newsroom loop publishes with `site/build.mjs --only news` so a changed
+feed does not rebuild the whole site (~9s wipe) before `api/news.json` is
+live — that is what keeps the 30 s poll from staring at yesterday's room.
 
 - **New items are offered, never inserted.** Arrivals are buffered and counted —
   *"3 new stories since you arrived · newest 4m ago"* — and the reader presses a

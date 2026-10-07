@@ -7,7 +7,7 @@
 // against a fixture without writing anything into the real data directory,
 // which belongs to the collector.
 
-import { stampAll } from './sitebar.mjs';
+import { stampAll, stampFiles } from './sitebar.mjs';
 import { readFile, writeFile, mkdir, readdir, copyFile, rm } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import path from 'node:path';
@@ -201,12 +201,19 @@ const DAY_MAX_AGE_S = 40 * 3600;
 const SPARK_POINTS = 48;
 
 function parseArgs(argv) {
-  const out = { data: 'data', docs: 'docs', out: 'public', quiet: false };
+  const out = { data: 'data', docs: 'docs', out: 'public', quiet: false, only: null };
   for (let i = 0; i < argv.length; i += 1) {
     const a = argv[i];
     if (a === '--data' || a === '--docs' || a === '--out') { out[a.slice(2)] = argv[i + 1]; i += 1; }
+    else if (a === '--only') {
+      out.only = argv[i + 1];
+      i += 1;
+      if (out.only !== 'news') {
+        throw new Error(`build: --only supports "news" (got ${JSON.stringify(out.only)}). Usage: node site/build.mjs [--only news] [--data DIR] [--docs DIR] [--out DIR] [--quiet]`);
+      }
+    }
     else if (a === '--quiet') out.quiet = true;
-    else throw new Error(`build: unknown argument "${a}". Usage: node site/build.mjs [--data DIR] [--docs DIR] [--out DIR] [--quiet]`);
+    else throw new Error(`build: unknown argument "${a}". Usage: node site/build.mjs [--only news] [--data DIR] [--docs DIR] [--out DIR] [--quiet]`);
   }
   for (const k of ['data', 'docs', 'out']) {
     if (!out[k]) throw new Error(`build: --${k} needs a directory path`);
@@ -793,11 +800,23 @@ async function main() {
   const receipts = await loadReceipts(path.join(args.data, 'receipts'));
   const moves = deriveMoves(receipts);
 
-  // Start from an empty directory so a deleted move page actually disappears
-  // instead of lingering in the deployed site forever.
-  if (existsSync(args.out)) await rm(args.out, { recursive: true, force: true });
-  await mkdir(args.out, { recursive: true });
-  const cardCount = await copyCards(args.data, args.out);
+  // --only news keeps the existing public/ tree and rewrites the newsroom
+  // surfaces the minute loop actually needs. A full wipe would throw away
+  // ~1,200 static files and cost ~9s just to republish api/news.json.
+  // Fall through to a full build when there is nothing to patch.
+  let newsOnly = args.only === 'news';
+  if (newsOnly && !existsSync(path.join(args.out, 'index.html'))) {
+    log('build --only news: no prior public/index.html; running a full build instead');
+    newsOnly = false;
+  }
+  let cardCount = 0;
+  if (!newsOnly) {
+    // Start from an empty directory so a deleted move page actually disappears
+    // instead of lingering in the deployed site forever.
+    if (existsSync(args.out)) await rm(args.out, { recursive: true, force: true });
+    await mkdir(args.out, { recursive: true });
+    cardCount = await copyCards(args.data, args.out);
+  }
 
   const stamps = [...history.map((h) => h.generated_at), ...receipts.map((r) => r.generated_at)]
     .sort((a, b) => Date.parse(a) - Date.parse(b));
@@ -1177,6 +1196,62 @@ async function main() {
   const classicHead = (classicHtml.match(/<head>[\s\S]*?<\/head>/) || ['<head><meta charset="utf-8"></head>'])[0];
   written.push(await write(args.out, 'index.html', homeV2.render(ctx, { head: classicHead })));
   written.push(await write(args.out, 'classic.html', classicHtml));
+
+  // NEWS-ONLY FAST PATH. Used by the minute newsroom loop. Rewrites the pages
+  // and JSON the open-tab poller and newsroom HTML need, leaves move pages,
+  // methodology, fonts, PNGs and standalone apps untouched, and stamps only
+  // the HTML it wrote. Measured ~1–2s vs ~9s for a full wipe rebuild.
+  if (newsOnly) {
+    written.push(await write(args.out, 'instruments.html', indexPage.render(ctx, { view: 'instruments' })));
+    if (newsPage.hasNews(ctx)) {
+      written.push(await write(args.out, 'news.html', newsPage.render(ctx)));
+    }
+    if (itemPage.hasItems(ctx)) {
+      const items = ctx.news.items;
+      const byPillar = new Map();
+      for (const it of items) {
+        if (!byPillar.has(it.pillar)) byPillar.set(it.pillar, []);
+        byPillar.get(it.pillar).push(it);
+      }
+      for (const it of items) {
+        const related = (byPillar.get(it.pillar) || [])
+          .filter((r) => r.id !== it.id)
+          .slice(0, 5);
+        written.push(await write(args.out, `item/${itemPage.slugFor(it)}.html`, itemPage.render(ctx, it, related)));
+      }
+      written.push(await write(args.out, 'item/index.html', itemPage.renderIndex(ctx)));
+    }
+    await writeDirectoryAliases(args.out, ['news'], write, written);
+    written.push(await write(args.out, 'feed.xml', feed.render(ctx)));
+    if (news) written.push(await write(args.out, 'api/news.json', stableJson(news)));
+    // Keep state.json's poll surface current so the motion layer's dual fetch
+    // does not mix a fresh newsroom with a stale compile stamp.
+    written.push(await write(args.out, 'api/state.json', stableJson({
+      ...state,
+      _about: `${brand.NAME}: ${brand.DESCRIPTION}`,
+      _disclaimer: brand.DISCLAIMER,
+      _license: brand.LICENSE,
+      _docs: ctx.url('/methodology.html'),
+    })));
+    const htmlWritten = written.filter((f) => f.endsWith('.html'));
+    const stamped = await stampFiles(htmlWritten, args.out, state.generated_at);
+    const score = num(state.score, 1);
+    const idx = await readFile(path.join(args.out, 'index.html'), 'utf8');
+    if (!idx.includes(score)) {
+      throw new Error(`build --only news: self-check failed - score "${score}" missing from index.html`);
+    }
+    if (news && !existsSync(path.join(args.out, 'api/news.json'))) {
+      throw new Error('build --only news: self-check failed - api/news.json was not written');
+    }
+    log(`${brand.NAME} news-only build complete.`);
+    log(`  out          ${args.out}`);
+    log(`  level        ${brand.NAME} ${state.level} (${state.level_name}), score ${score}`);
+    log(`  files        ${written.length}`);
+    log(`  sitebar      ${stamped} pages`);
+    for (const w of warnings) log(`  WARNING      ${w}`);
+    return;
+  }
+
   written.push(await write(args.out, 'instruments.html', indexPage.render(ctx, { view: 'instruments' })));
   written.push(await write(args.out, 'methodology.html', methodologyPage.render(ctx)));
   written.push(await write(args.out, 'history.html', historyPage.render(ctx)));

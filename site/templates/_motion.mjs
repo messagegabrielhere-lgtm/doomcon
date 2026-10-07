@@ -74,7 +74,10 @@ const SEC_PER_ITEM = 11.5;
 const TICKER_MIN_S = 130;
 const TICKER_MAX_S = 190;
 
-const POLL_MS = 60000;
+// 30s: the newsroom loop can land a change inside a minute; waiting a full
+// minute after that made open tabs feel a beat behind. Backoff on failure
+// still climbs 30 → 120 → 300.
+const POLL_MS = 30000;
 const ARRIVAL_CAP = 8;
 
 // The arrivals buffer. A tab left open for a day against a wire that prints a
