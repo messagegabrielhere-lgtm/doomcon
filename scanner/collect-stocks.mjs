@@ -100,11 +100,15 @@ export function pack(res, frame, nowSec = Date.now() / 1000) {
     if (![o, h, l, c, v].every(Number.isFinite)) continue;
     rows.push([ts[i], o, h, l, c, v]);
   }
+  const sessionStart = res?.meta?.currentTradingPeriod?.regular?.start;
   const sessionEnd = res?.meta?.currentTradingPeriod?.regular?.end;
   const lastRow = rows[rows.length - 1];
   if (lastRow) {
+    // A daily bar is forming only if it belongs to the current session. Before
+    // the open, the current session is today's and yesterday's bar is complete;
+    // the old "within 24 hours" test dropped it every morning until the open.
     const forming = frame.interval === '1d'
-      ? Number.isFinite(sessionEnd) && nowSec < sessionEnd && lastRow[0] > nowSec - 86400
+      ? Number.isFinite(sessionEnd) && nowSec < sessionEnd && (Number.isFinite(sessionStart) ? lastRow[0] >= sessionStart - 3600 : lastRow[0] > nowSec - 86400)
       : nowSec < lastRow[0] + frame.barSec && (!Number.isFinite(sessionEnd) || nowSec < sessionEnd);
     if (forming) rows.pop();
   }
