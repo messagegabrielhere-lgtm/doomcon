@@ -203,3 +203,40 @@ test('stand-ins: keyless agents trade, labelled, through the same gate', async (
   const { state: s2 } = await tick({ dir, client, env: { OPENAI_API_KEY: 'x' }, now: NOW + 3600e3, only: ['gpt'], log: () => {} });
   assert.equal(s2.wallets.gpt.standin, false);
 });
+
+test('stocks: market hours gate, no commission, spread-only round trip', async () => {
+  const { yahooClient } = await import('./market.mjs');
+  const { feeFor, isStock } = await import('./config.mjs');
+  assert.equal(isStock('NVDA'), true); assert.equal(isStock('BTC-USD'), false);
+  assert.equal(feeFor('NVDA'), 0); assert.ok(feeFor('BTC-USD') > 0);
+
+  const nowS = Math.floor(Date.now() / 1000);
+  const fakeYahoo = (open) => async (url) => {
+    const one = url.includes('interval=1m');
+    const n = one ? 30 : 140, step = one ? 60 : 3600;
+    const ts = Array.from({ length: n }, (_, i) => nowS - (n - i) * step);
+    const c = ts.map((_, i) => 180 + i * 0.1);
+    const meta = { regularMarketPrice: 194, chartPreviousClose: 190, regularMarketTime: open ? nowS : nowS - 6 * 3600,
+      currentTradingPeriod: { regular: open ? { start: nowS - 3600, end: nowS + 3600 } : { start: nowS - 30 * 3600, end: nowS - 6 * 3600 } } };
+    return new Response(JSON.stringify({ chart: { result: [{ meta, timestamp: ts, indicators: { quote: [{ open: c, high: c, low: c, close: c, volume: c.map(() => 1e6) }] } }] } }));
+  };
+  for (const open of [true, false]) {
+    const y = yahooClient({ fetchImpl: fakeYahoo(open), gapMs: 0 });
+    const hourly = await y.candles('NVDA', 3600), stats = await y.stats('NVDA'), book = await y.book('NVDA');
+    assert.ok(hourly.length >= 100);
+    assert.equal(stats.last, 194); assert.equal(stats.open_, open);
+    assert.ok(stats.volume * stats.last > 5e6, 'daily dollar volume clears the liquidity floor');
+    const { summarize } = await import('./market.mjs');
+    const row = summarize('NVDA', hourly, stats);
+    assert.equal(row.type, 'stock'); assert.equal(row.open, open);
+    assert.ok(Math.abs(row.chg24h - (194 / 190 - 1) * 100) < 0.01, '24h change is since the previous close');
+
+    const w = wallet();
+    const t = preview(w, buy({ sym: 'NVDA', stop: 185 }), book, Date.now());
+    assert.equal(t.fee, 0);
+    assert.ok(t.sellbackPct > 99.9, `round trip costs only the spread (${t.sellbackPct})`);
+    const g = gate(w, t, ctx([row]));
+    if (open) assert.deepEqual(failed(g), []);
+    else assert.ok(failed(g).includes('market open') && failed(g).includes('fresh quote'));
+  }
+});

@@ -2,7 +2,7 @@
 // replies with up to MAX_ACTIONS proposals. Proposals are only proposals:
 // run.mjs prices each one into a ticket and rules.mjs decides.
 
-import { RULES, MAX_ACTIONS, START_CASH, FEE_RATE, modelFor } from './config.mjs';
+import { RULES, MAX_ACTIONS, START_CASH, FEE_RATE, STOCK_SPREAD_BPS, modelFor, isStock } from './config.mjs';
 import { standin, hasStandin } from './standins.mjs';
 
 export const KEYS = {
@@ -39,14 +39,16 @@ export const SCHEMA = {
   },
 };
 
-export const SYSTEM = `You are one of several AI models trading in a public paper-money crypto competition. You started with $${START_CASH}. Prices and order books are live from Coinbase; fills are simulated against the real book, with a ${FEE_RATE * 100}% fee per fill. Every trade you make and your reason for it are shown publicly the moment it executes.
+export const SYSTEM = `You are one of several AI models trading in a public paper-money competition across crypto and US stocks. You started with $${START_CASH}. Every trade you make and your reason for it are shown publicly the moment it executes.
+- Crypto (symbols like BTC-USD): live Coinbase order books, fills simulated against the real book, ${FEE_RATE * 100}% fee per fill. Trades around the clock.
+- US stocks and ETFs (symbols like NVDA, SPY): live Yahoo Finance prices, filled at the last price plus a ${STOCK_SPREAD_BPS / 2} bps half-spread, no commission. They trade only while the US market is open (9:30-16:00 New York, weekdays); the "open" column says whether it is open now. A stock's stop is still enforced at the next open, and a gap through it fills at the opening price.
 
 You only propose. A server prices each proposal into a ticket and checks it against these rules before executing; a proposal that breaks any rule is rejected and the rejection is shown publicly too:
-- Spot only, long only: buy, or sell what you hold. Symbols must come from the market table.
+- Spot only, long only: buy, or sell what you hold. Symbols must come from the market table. Stocks only while the market is open.
 - Every buy needs a stop-loss between ${RULES.minStopPct}% and ${RULES.maxStopPct}% below the fill price. A take-profit is optional.
 - One position may not exceed ${RULES.maxPositionPct}% of equity after the buy. At most ${RULES.maxOpenPositions} open positions. Keep at least ${RULES.minCashPct}% of equity in cash.
-- Minimum order $${RULES.minOrderUsd}. Slippage against mid at most ${RULES.maxSlippagePct}%. Buying the size and selling it straight back must return at least ${RULES.minSellbackPct}% after fees. The coin must have traded at least $${RULES.minVolumeUsd24h / 1e6}M in 24 hours.
-- At most ${RULES.maxTradesPerDay} trades per UTC day. No new buys once equity is ${RULES.dailyLossHaltPct}% below the day's open. No rebuying a coin within ${RULES.cooldownMin} minutes of closing it.
+- Minimum order $${RULES.minOrderUsd}. Slippage against mid at most ${RULES.maxSlippagePct}%. Buying the size and selling it straight back must return at least ${RULES.minSellbackPct}% after fees. The asset must have traded at least $${RULES.minVolumeUsd24h / 1e6}M in 24 hours (stocks: average daily dollar volume).
+- At most ${RULES.maxTradesPerDay} trades per UTC day. No new buys once equity is ${RULES.dailyLossHaltPct}% below the day's open. No rebuying an asset within ${RULES.cooldownMin} minutes of closing it.
 - "stop" actions move a stop or target on a position you hold. Stops can only be raised, never lowered.
 
 The server checks stops and targets every few minutes against 1-minute candles, whether or not you are awake. You get a turn about once an hour.
@@ -62,15 +64,15 @@ export function turnPrompt({ w, eq, rows, prices, recent, now }) {
     const last = prices[sym] ?? p.avg;
     return `${sym} qty ${+p.qty.toPrecision(8)} avg ${px(p.avg)} last ${px(last)} value $${f(p.qty * last)} pnl ${f((last / p.avg - 1) * 100)}% stop ${px(p.stop)} target ${px(p.tp)}`;
   });
-  const table = rows.map((r) => [r.sym, px(r.last), f(r.chg1h), f(r.chg24h), f(r.chg7d), f(r.rsi14h, 1), f(r.vsSma20hPct), f(r.vsSma50hPct), f(r.atr14hPct), (r.vol24hUsd / 1e6).toFixed(1)].join(','));
+  const table = rows.map((r) => [r.sym, r.type || (isStock(r.sym) ? 'stock' : 'crypto'), r.open === false ? 'closed' : 'open', px(r.last), f(r.chg1h), f(r.chg24h), f(r.chg7d), f(r.rsi14h, 1), f(r.vsSma20hPct), f(r.vsSma50hPct), f(r.atr14hPct), (r.vol24hUsd / 1e6).toFixed(1)].join(','));
   const hist = recent.map((e) => `${new Date(e.at).toISOString().slice(5, 16)} ${e.outcome} ${e.side} ${e.sym}${e.usd != null ? ' $' + e.usd : ''}${e.pnl != null ? ' pnl $' + e.pnl : ''}${e.failed ? ' -- ' + e.failed.join('; ') : ''}`);
   return `Time: ${new Date(now).toISOString()}
 Wallet: cash $${f(w.cash)}, equity $${f(eq)} (${f((eq / START_CASH - 1) * 100)}% since start), day open $${f(w.day.equity)}, trades today ${w.day.trades}/${RULES.maxTradesPerDay}.
 Positions:
 ${pos.join('\n') || '(none)'}
 
-Market (hourly candles; chg in %, rsi14 on 1h, vs SMA in %, atr14 as % of price, vol in $M over 24h):
-sym,last,chg1h,chg24h,chg7d,rsi14h,vsSma20h,vsSma50h,atr14h,vol24h
+Market (hourly candles, regular session only for stocks; chg in %, for stocks chg24h is since the previous close; rsi14 on 1h, vs SMA in %, atr14 as % of price, vol in $M over 24h):
+sym,type,open,last,chg1h,chg24h,chg7d,rsi14h,vsSma20h,vsSma50h,atr14h,vol24h
 ${table.join('\n')}
 
 Your recent activity:
@@ -167,9 +169,9 @@ function rsiBot({ w, eq, rows }) {
   const actions = [];
   for (const sym of Object.keys(w.positions)) {
     const r = rows.find((x) => x.sym === sym);
-    if (r && r.rsi14h > 70 && actions.length < MAX_ACTIONS) actions.push({ side: 'sell', sym, usd: null, fraction: 1, stop: null, tp: null, reason: `Baseline: RSI ${r.rsi14h} is above 70, take the bounce.` });
+    if (r && r.open !== false && r.rsi14h > 70 && actions.length < MAX_ACTIONS) actions.push({ side: 'sell', sym, usd: null, fraction: 1, stop: null, tp: null, reason: `Baseline: RSI ${r.rsi14h} is above 70, take the bounce.` });
   }
-  const dips = rows.filter((r) => r.rsi14h != null && r.rsi14h < 30 && !w.positions[r.sym]).sort((a, b) => a.rsi14h - b.rsi14h);
+  const dips = rows.filter((r) => r.open !== false && r.rsi14h != null && r.rsi14h < 30 && !w.positions[r.sym]).sort((a, b) => a.rsi14h - b.rsi14h);
   for (const r of dips) {
     if (actions.length >= MAX_ACTIONS) break;
     actions.push({ side: 'buy', sym: r.sym, usd: Math.floor(eq * 0.2), fraction: null, stop: clampStop(r.last, r.atr14hPct, 2), tp: r.last * (1 + Math.max((r.atr14hPct || 2) * 3, 2) / 100),
