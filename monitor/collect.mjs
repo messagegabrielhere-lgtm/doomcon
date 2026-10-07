@@ -251,7 +251,20 @@ export async function main() {
 
   // Carry items forward so the window is 72 h even though GDELT answers for 24 h.
   const byUrl = new Map();
-  const fresh = [...gd, ...feeds];
+  // SIREN's own AI newsroom, read from the checkout: the page used to download
+  // the whole 900 KB news.json for the ~120 headlines it shows.
+  const siren = [];
+  try {
+    const nj = JSON.parse(await readFile(new URL('../data/news.json', import.meta.url), 'utf8'));
+    for (const it of (nj.items || []).slice(0, 160)) {
+      const t = Date.parse(it.published_at);
+      if (!it.url || !it.title || !Number.isFinite(t) || Date.now() - t > KEEP_MS) continue;
+      siren.push({ id: it.url, title: it.title, url: it.url, src: it.source, cat: 'ai', t, via: 'siren' });
+    }
+    sources.siren = { ok: true, n: siren.length };
+  } catch (e) { sources.siren = { ok: false, error: String(e.message).slice(0, 120) }; }
+  log(`siren ${sources.siren.ok ? siren.length : 'FAILED ' + sources.siren.error}`);
+  const fresh = [...gd, ...feeds, ...siren];
   for (const it of [...(prevSnap?.items || []), ...fresh]) {
     if (!it.url || !it.title || Date.now() - it.t > KEEP_MS) continue;
     const old = byUrl.get(it.url);
