@@ -117,3 +117,17 @@ export async function stampAll(outDir, asOf) {
   await walk(outDir);
   return n;
 }
+
+/** Stamp only the listed absolute HTML paths (used by --only news builds). */
+export async function stampFiles(files, outDir, asOf) {
+  let n = 0;
+  for (const abs of files) {
+    if (!abs.endsWith('.html')) continue;
+    const rel = path.relative(outDir, abs).split(path.sep).join('/');
+    if (SKIP.has(rel)) continue;
+    const html = await readFile(abs, 'utf8');
+    const out = stamp(html, asOf, rel);
+    if (out !== html) { await writeFile(abs, out); n++; }
+  }
+  return n;
+}
