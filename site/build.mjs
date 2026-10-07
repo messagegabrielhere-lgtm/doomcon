@@ -1204,6 +1204,7 @@ async function main() {
   written.push(await write(args.out, 'about.html', infoPages.about(ctx)));
   written.push(await write(args.out, 'privacy.html', infoPages.privacy(ctx)));
   written.push(await write(args.out, 'terms.html', infoPages.terms(ctx)));
+  written.push(await write(args.out, 'feedback.html', infoPages.feedback(ctx)));
   written.push(await write(args.out, 'press.html', infoPages.press(ctx)));
   if (betsPage.hasBets(ctx)) {
     written.push(await write(args.out, 'bets.html', betsPage.render(ctx)));

@@ -77,7 +77,7 @@ export function privacy(ctx) {
   <ul>
     <li><b>No cookies.</b> The site sets none.</li>
     <li><b>No analytics.</b> There is no tracking script, pixel or visitor counter. Nobody here knows you visited.</li>
-    <li><b>No accounts and no forms.</b> There is nothing to sign up for and nowhere to type personal details.</li>
+    <li><b>No accounts.</b> There is nothing to sign up for. The <a href="${esc(ctx.href('/feedback.html'))}">feedback form</a> stores and sends nothing itself: it opens a pre-filled, <b>public</b> issue on GitHub that you choose whether to submit, under GitHub's privacy policy.</li>
     <li><b>Browser storage.</b> A few preferences are kept in your own browser's local storage: the last reading you saw, your
       language choice, your best score in the game, and the panel settings on the live monitor and scanner pages. They never
       leave your device, and clearing site data removes them.</li>
@@ -112,6 +112,72 @@ export function privacy(ctx) {
     ctx, path: '/privacy.html',
     title: `Privacy · ${brand.NAME}`,
     description: `${brand.NAME} sets no cookies and runs no analytics. What a visit touches: GitHub Pages and the sites you choose to click through to.`,
+    main,
+  });
+}
+
+
+// FEEDBACK. No backend and nothing stored here: the form builds a pre-filled
+// GitHub issue (one of .github/ISSUE_TEMPLATE/*.yml, fields filled by id) and
+// opens it, so every report lands in the repository's issue list to be read
+// and fixed. GitHub needs the visitor signed in to submit; the copy says so,
+// and says issues are public.
+export function feedback(ctx) {
+  const repo = brand.REPO_URL;
+  const main = `${CSS}
+<style>
+.fb form{display:grid;gap:16px;max-width:640px;margin-top:20px}
+.fb fieldset{border:0;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:8px}
+.fb legend,.fb label{font:600 12px/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-dim,#AEB7C3);margin-bottom:6px;display:block}
+.fb .kind input{position:absolute;opacity:0}
+.fb .kind span{display:inline-block;padding:9px 14px;border:1px solid var(--rule,#232C3B);border-radius:4px;cursor:pointer;font:600 14px/1 var(--sans)}
+.fb .kind input:checked+span{border-color:#4ADE80;color:#4ADE80;background:rgba(74,222,128,.08)}
+.fb .kind input:focus-visible+span{outline:2px solid #4ADE80;outline-offset:2px}
+.fb input[type=url],.fb input[type=text],.fb textarea{width:100%;box-sizing:border-box;padding:11px 12px;background:#0E131D;color:#fff;border:1px solid var(--rule,#232C3B);border-radius:4px;font:400 15px/1.45 var(--sans)}
+.fb textarea{min-height:150px;resize:vertical}
+.fb button{justify-self:start;padding:12px 18px;border:0;border-radius:4px;background:#4ADE80;color:#000;font:700 14px/1 var(--mono);letter-spacing:.08em;cursor:pointer}
+.fb .note{font-size:13px;color:var(--ink-dim,#AEB7C3);margin:0}
+</style>
+<section class="inf fb">
+  <p class="eyebrow">Feedback</p>
+  <div class="inf__top"><h1 class="bp__h1">Report a problem or send an idea</h1></div>
+  <p class="lede">Every report goes straight to the project's issue list on GitHub, where it is read and worked through.</p>
+  <form id="fb" novalidate>
+    <fieldset class="kind"><legend>What is it?</legend>
+      <label><input type="radio" name="kind" value="bug" checked><span>Something's broken</span></label>
+      <label><input type="radio" name="kind" value="data"><span>Wrong or old data</span></label>
+      <label><input type="radio" name="kind" value="feedback"><span>Idea or feedback</span></label>
+    </fieldset>
+    <div><label for="fb-title">Short summary</label><input id="fb-title" type="text" maxlength="120" placeholder="e.g. The race chart is blank on my phone" required></div>
+    <div><label for="fb-page">Page</label><input id="fb-page" type="url" placeholder="${esc(ctx.url('/'))}"></div>
+    <div><label for="fb-what">Details</label><textarea id="fb-what" placeholder="What you saw, what you expected, or what you'd like." required></textarea></div>
+    <button type="submit">OPEN ON GITHUB →</button>
+    <p class="note">Opens GitHub with this filled in; you press <b>Create</b> there (a free GitHub account is needed). Issues are <b>public</b>, so please leave out personal information. Nothing is sent to or stored by this site.</p>
+    <p class="note">Or browse <a href="${esc(repo)}/issues" rel="noopener">open issues</a>.</p>
+  </form>
+</section>
+<script>
+(function(){
+  var f=document.getElementById('fb'), q=new URLSearchParams(location.search);
+  var pg=document.getElementById('fb-page'); if(q.get('page')) pg.value=q.get('page'); else if(document.referrer.indexOf(location.origin)===0) pg.value=document.referrer;
+  if(q.get('kind')){var r=f.querySelector('input[value="'+q.get('kind')+'"]'); if(r) r.checked=true;}
+  f.addEventListener('submit',function(e){
+    e.preventDefault();
+    var kind=f.querySelector('input[name=kind]:checked').value, t=document.getElementById('fb-title'), w=document.getElementById('fb-what');
+    if(!t.value.trim()){t.focus();return;} if(!w.value.trim()){w.focus();return;}
+    var pre={bug:'[Bug] ',data:'[Data] ',feedback:'[Feedback] '}[kind];
+    var u=new URL(${JSON.stringify(repo + '/issues/new')});
+    u.searchParams.set('template',kind+'.yml'); u.searchParams.set('title',pre+t.value.trim());
+    u.searchParams.set('page',pg.value.trim()); u.searchParams.set('what',w.value.trim().slice(0,5000));
+    if(kind==='bug') u.searchParams.set('device',navigator.userAgent.slice(0,180));
+    window.open(u.toString(),'_blank','noopener');
+  });
+})();
+</script>`;
+  return page({
+    ctx, path: '/feedback.html',
+    title: `Feedback · ${brand.NAME}`,
+    description: `Report a problem, wrong data or an idea for ${brand.NAME}. Reports go straight to the project's public issue list on GitHub.`,
     main,
   });
 }

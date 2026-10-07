@@ -1,0 +1,19 @@
+name: Wrong or outdated data
+description: A number, story, quote, person or source that is wrong, stale or misattributed.
+title: "[Data] "
+labels: [data, from-site]
+body:
+  - type: markdown
+    attributes:
+      value: "Issues are **public**. Please don't include personal information."
+  - type: input
+    id: page
+    attributes:
+      label: Page
+  - type: textarea
+    id: what
+    attributes:
+      label: What is wrong, and what is right?
+      description: A link to a source that shows the correct figure helps most.
+    validations:
+      required: true

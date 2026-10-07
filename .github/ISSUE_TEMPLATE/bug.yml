@@ -1,0 +1,26 @@
+name: Something is broken
+description: A page, chart, link or number that does not work or looks wrong.
+title: "[Bug] "
+labels: [bug, from-site]
+body:
+  - type: markdown
+    attributes:
+      value: "Issues are **public**. Please don't include personal information."
+  - type: input
+    id: page
+    attributes:
+      label: Page
+      description: The address of the page with the problem.
+      placeholder: https://messagegabrielhere-lgtm.github.io/doomcon/...
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What you saw, and what you expected instead.
+    validations:
+      required: true
+  - type: input
+    id: device
+    attributes:
+      label: Device and browser
+      placeholder: e.g. iPhone, Safari

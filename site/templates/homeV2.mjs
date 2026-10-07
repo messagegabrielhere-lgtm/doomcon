@@ -56,7 +56,8 @@ export function roomGroups(ctx) {
       ['/bliss.html', 'sun', 'Upside', null, 'The direction we would be glad to see move.'],
     ]],
     ['PLAY & PREP', [
-      ['/arena.html', 'stocks', 'Stock Picks', null, 'Daily rule-based picks and the AI trading battle.'],
+      ['/arena.html#battle', 'stocks', 'AI Battle', null, 'AI models trade stocks and crypto against live prices.'],
+      ['/arena.html', 'clipboard', 'Stock Picks', null, 'Daily rule-based stock picks, scored in public.'],
       ['/scanner.html', 'magnifier', 'Scanner', null, 'Screen stocks, ETFs and crypto in plain English.'],
       ['/bets.html', 'dice', 'Tally’s Bets', null, 'Daily forecasts about the index, scored in public.'],
       ['/game.html', 'joystick', 'Game', null, 'Thirty seconds: count signals, ignore predictions.'],
@@ -69,6 +70,7 @@ export function roomGroups(ctx) {
       ['/history.html', 'archive', 'History', ctx.history ? `${ctx.history.length} readings` : null, 'Sixty years of the argument, and every reading.'],
       ['/methodology.html', 'magnifier', 'Methodology', null, 'Every formula. Recompute the number yourself.'],
       ['/classic.html', 'siren', 'Full Panel', null, 'The full instrument panel, receipts and API.'],
+      ['/feedback.html', 'mic', 'Feedback', null, 'Report a problem or send an idea. We read every one.'],
     ]],
   ];
   return groups.map(([g, items]) => [g, items.filter(Boolean)]).filter(([, l]) => l.length);
@@ -123,6 +125,15 @@ if('IntersectionObserver' in window){var io=new IntersectionObserver(function(es
 document.addEventListener('keydown',function(e){var t=e.target;if(e.metaKey||e.ctrlKey||e.altKey||(t&&(t.tagName==='INPUT'||t.tagName==='TEXTAREA'||t.isContentEditable)))return;var d=document.getElementById('v2-pal');if(d&&d.open)return;
 var n=parseInt(e.key,10);if(n>=1&&n<=secs.length){e.preventDefault();secs[n-1].scrollIntoView({behavior:'smooth',block:'start'});history.replaceState(null,'','#'+secs[n-1].id)}
 else if(e.key==='t'||e.key==='Home'&&!e.shiftKey){if(e.key==='t'){e.preventDefault();window.scrollTo({top:0,behavior:'smooth'})}}});
+(function(){var N=window.SIREN_NOW,box=document.getElementById('v2-since');if(!N||!box)return;var K='siren:visit',P=null;try{P=JSON.parse(localStorage.getItem(K)||'null')}catch(e){}
+try{localStorage.setItem(K,JSON.stringify({seen:Date.now(),score:N.score,level:N.level,leader:N.leader,lp:N.lp}))}catch(e){}
+if(!P||!P.seen||Date.now()-P.seen<20*60000)return;var out=[],h=(Date.now()-P.seen)/36e5;
+if(P.level!==N.level)out.push('<b>Level moved</b> SIREN '+P.level+' → <b>SIREN '+N.level+'</b>');
+if(P.score!=null&&N.score!=null){var d=Math.round((N.score-P.score)*10)/10;out.push('Score '+P.score.toFixed(1)+' → <b>'+N.score.toFixed(1)+'</b>'+(d?' ('+(d>0?'▲':'▼')+Math.abs(d).toFixed(1)+')':' (no change)'))}
+var nn=(N.news||[]).filter(function(t){return t>P.seen}).length;if(nn)out.push('<a href="news.html"><b>'+nn+'</b> new '+(nn===1?'story':'stories')+'</a>');
+if(N.leader&&P.leader&&N.leader!==P.leader)out.push('<a href="race.html"><b>'+N.leader+'</b> took the lead from '+P.leader+'</a>');else if(N.leader&&P.lp!=null&&N.lp!=null&&Math.abs(N.lp-P.lp)>=0.5)out.push('<a href="race.html">'+N.leader+' '+P.lp.toFixed(1)+'% → <b>'+N.lp.toFixed(1)+'%</b></a>');
+if(!out.length)return;var ago=h<1?Math.round(h*60)+' MIN':h<48?Math.round(h)+' H':Math.round(h/24)+' DAYS';
+box.innerHTML='<span class="k">SINCE YOUR LAST VISIT · '+ago+' AGO</span><span class="v">'+out.join('<i>·</i>')+'</span><button type="button" aria-label="Dismiss">×</button>';box.hidden=false;box.querySelector('button').onclick=function(){box.hidden=true}})();
 var f=document.getElementById('v2-fresh');if(f){var at=Date.parse(f.getAttribute('data-at'));var h=(Date.now()-at)/36e5;if(h>2){f.classList.add('stale');f.title='The newest reading is '+Math.round(h)+' hours old. The site normally refreshes every hour.';f.insertAdjacentHTML('beforeend',' · '+Math.round(h)+'H OLD')}}
 })();`;
 
@@ -165,6 +176,16 @@ export function render(ctx, { head }) {
   };
 
   const players = ((ctx.race && ctx.race.players) || []).slice().sort((a, b) => a.rank - b.rank).slice(0, 6);
+  // What the "since your last visit" strip compares against (WAR_JS).
+  const lead0 = players[0];
+  const weekAgo = Date.parse(state.generated_at) - 7 * 864e5;
+  const sinceNow = {
+    score: Number.isFinite(state.score) ? Math.round(state.score * 10) / 10 : null,
+    level: state.level,
+    leader: lead0 ? lead0.name : null,
+    lp: lead0 && lead0.market && Number.isFinite(lead0.market.probability) ? Math.round(lead0.market.probability * 1000) / 10 : null,
+    news: items.map((i) => Date.parse(i.published_at)).filter((t) => Number.isFinite(t) && t > weekAgo),
+  };
   const maxRel = Math.max(1, ...players.map((p) => (p.shipping && p.shipping.github && p.shipping.github.releases_30d) || 0));
   const maxMs = Math.max(0.01, ...players.map((p) => (p.mindshare && p.mindshare.share) || 0));
   const lab = (p) => {
@@ -243,6 +264,8 @@ ${nav.strip}
       </div>
     </div>
   </section>
+  <div class="v2-since" id="v2-since" hidden role="status"></div>
+  <script>window.SIREN_NOW=${JSON.stringify(sinceNow).replace(/</g, '\\u003c')}</script>
 
   ${top ? `<div class="v2-breaking" id="breaking" data-sec="Breaking"><span class="badge"><span class="blink">${icon('bolt', 2)}</span>BREAKING</span><a href="${esc(top.url)}" rel="noopener">${esc(top.title)}</a><span class="src">${esc(hhmm(top.published_at))} · ${esc(String(top.source).toUpperCase())}</span></div>` : ''}
 
@@ -276,7 +299,7 @@ ${roomsGrid(ctx, href, img)}
 
   <p class="v2-foot">SIREN counts how loud AI is, every hour, from public data. A count, not a forecast. Portraits and icons are generated illustrations, not photographs.
   <a href="${href('/methodology.html')}">How it works</a> · <a href="${href('/classic.html#vfy')}">Verify a reading</a> · <a href="${href('/classic.html')}">Full instrument panel</a> · <a href="${href('/about.html')}">About</a></p>
-  <p class="v2-foot"><b>Not advice.</b> Information, commentary and satire only — not financial, investment, legal, security or safety advice. Data is automated and may be wrong or late; provided as is, with no warranty. Not affiliated with any company, lab, person or agency named here. Use of this site means you accept the <a href="${href('/terms.html')}">terms &amp; disclaimers</a>. <a href="${href('/privacy.html')}">Privacy</a>.</p>
+  <p class="v2-foot"><b>Not advice.</b> Information, commentary and satire only — not financial, investment, legal, security or safety advice. Data is automated and may be wrong or late; provided as is, with no warranty. Not affiliated with any company, lab, person or agency named here. Use of this site means you accept the <a href="${href('/terms.html')}">terms &amp; disclaimers</a>. <a href="${href('/privacy.html')}">Privacy</a>. <a href="${href('/feedback.html')}">Report a problem or send feedback</a>.</p>
 </main>
 ${nav.palette}${nav.tabbar}
 <nav class="v2-rail" aria-label="On this page"><span class="v2-rail__h">ON THIS PAGE</span><ol id="v2-rail-l"></ol><a class="v2-rail__top" href="#main">↑ TOP</a></nav>
@@ -446,6 +469,12 @@ body.v2-body{margin:0;background:#000;color:#F3F4F6}
 .v2-cta{border:2px solid #4338CA;background:#0E1033;padding:24px 28px;display:flex;align-items:center;gap:22px;flex-wrap:wrap}
 .v2-cta .col{display:flex;flex-direction:column;gap:10px;flex:1 1 300px;min-width:0;color:#C7D2FE}
 .v2-foot{margin:0;font-size:13px;color:#AEB7C3}
+.v2-since{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;margin:12px 0 0;padding:10px 14px;border:1px solid #232C3B;border-left:4px solid #818CF8;border-radius:4px;background:#0E131D;font:500 14px/1.4 'IBM Plex Sans',sans-serif;color:#E6EAF0}
+.v2-since[hidden]{display:none}
+.v2-since .k{font:600 11px/1 'IBM Plex Mono',monospace;letter-spacing:.14em;color:#818CF8}
+.v2-since .v{flex:1;min-width:220px}.v2-since i{font-style:normal;color:#5B6676;margin:0 8px}
+.v2-since a{color:inherit;text-decoration:underline;text-underline-offset:2px}
+.v2-since button{all:unset;cursor:pointer;color:#AEB7C3;font-size:18px;line-height:1;padding:2px 6px}.v2-since button:focus-visible{outline:2px solid #818CF8}
 .v2 .bob{animation:v2bob 1.4s steps(2,start) infinite}
 @keyframes v2bob{50%{transform:translateY(-4px)}}
 @media (max-width:720px){
