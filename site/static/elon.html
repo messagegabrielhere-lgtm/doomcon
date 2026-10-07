@@ -236,6 +236,13 @@ const fmtDate = (iso) => {
   const d = new Date(iso);
   return isNaN(d) ? '' : d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
 };
+// Clips found through a channel's search page only know "3 years ago", so
+// their date is approximate: show the month, never a precise-looking day.
+const clipDate = (c) => {
+  if (!c.approxDate) return fmtDate(c.published);
+  const d = new Date(c.published);
+  return isNaN(d) ? '' : `≈ ${d.toLocaleDateString(undefined, { year: 'numeric', month: 'short' })}`;
+};
 const ago = (iso) => {
   const s = (Date.now() - new Date(iso)) / 1000;
   if (!(s >= 0)) return '';
@@ -265,7 +272,7 @@ function card(c) {
     <div class="body">
       <span class="title">${esc(c.title)}</span>
       <span class="meta"><span class="src"><span class="dot t-${esc(c.tier)}"></span>${esc(c.channel)}</span>
-        <span>· ${esc(fmtDate(c.published))}</span>${c.views != null ? `<span>· ${esc(fmtViews(c.views))}</span>` : ''}
+        <span>· ${esc(clipDate(c))}</span>${c.views != null ? `<span>· ${esc(fmtViews(c.views))}</span>` : ''}
         ${c.match === 'event' ? '<span class="pill" title="Official event he presents; his name is not in the title">event</span>' : ''}</span>
     </div></button>`;
 }
@@ -315,7 +322,7 @@ function openClip(c) {
   $('p-badge').textContent = `✓ Uploaded by ${c.channel} (${c.handle})`;
   $('p-title').textContent = c.title;
   $('p-meta').innerHTML = `<span class="src"><span class="dot t-${esc(c.tier)}"></span>${esc(TIER_LABEL[c.tier] || c.tier)}</span>
-    <span>· ${esc(fmtDate(c.published))}</span>${c.views != null ? `<span>· ${esc(fmtViews(c.views))}</span>` : ''}
+    <span>· ${esc(clipDate(c))}</span>${c.views != null ? `<span>· ${esc(fmtViews(c.views))}</span>` : ''}
     <span>· <a href="${esc(channelUrl(c))}" target="_blank" rel="noopener">channel</a></span>`;
   $('p-desc').textContent = c.description || '';
   $('p-desc').hidden = !c.description;
@@ -409,7 +416,7 @@ $('chk').addEventListener('submit', async (e) => {
 
   const hit = state.byId.get(id);
   if (hit) {
-    verdict('ok', `<p><b>Real source.</b> Uploaded by ${esc(hit.channel)} (${esc(hit.handle)}), ${esc(fmtDate(hit.published))}.</p><p>${esc(hit.title)}</p><button class="btn ghost" type="button" data-play="${esc(id)}">Watch it here</button>`);
+    verdict('ok', `<p><b>Real source.</b> Uploaded by ${esc(hit.channel)} (${esc(hit.handle)}), ${esc(clipDate(hit))}.</p><p>${esc(hit.title)}</p><button class="btn ghost" type="button" data-play="${esc(id)}">Watch it here</button>`);
     return;
   }
   verdict('wait', `<p>Looking up who uploaded it…</p>`);

@@ -67,3 +67,40 @@ test('merge keeps firstSeen and old views, sorts newest first', () => {
   assert.equal(out[1].description, 'd');
   assert.equal(out[0].firstSeen, 'T1');
 });
+
+import { parseChannelSearch, relativeToIso } from '../collect.mjs';
+
+test('relativeToIso', () => {
+  const now = Date.UTC(2026, 9, 7);
+  assert.equal(relativeToIso('Streamed 2 years ago', now), new Date(now - 2 * 31536e6).toISOString());
+  assert.equal(relativeToIso('1 day ago', now), new Date(now - 864e5).toISOString());
+  assert.equal(relativeToIso('Premieres soon', now), '');
+});
+
+test('parseChannelSearch finds videoRenderers at any depth', () => {
+  const data = { contents: { tabs: [{ expandableTabRenderer: { content: { sectionListRenderer: { contents: [{ itemSectionRenderer: { contents: [
+    { videoRenderer: { videoId: 'DDDDDDDDDDD', title: { runs: [{ text: 'Elon Musk: ' }, { text: 'Mars' }] }, publishedTimeText: { simpleText: '3 years ago' }, viewCountText: { simpleText: '1,234,567 views' },
+      detailedMetadataSnippets: [{ snippetText: { runs: [{ text: 'We talk to ' }, { text: 'Elon' }] } }] } },
+    { channelRenderer: { channelId: 'x' } },
+    { videoRenderer: { videoId: 'bad' } },
+  ] } }] } } } }] } };
+  const html = `<script nonce="n">var ytInitialData = ${JSON.stringify(data)};</script><script>x</script>`;
+  const r = parseChannelSearch(html, Date.UTC(2026, 9, 7));
+  assert.equal(r.parsed, true);
+  assert.equal(r.videos.length, 1);
+  assert.equal(r.videos[0].title, 'Elon Musk: Mars');
+  assert.equal(r.videos[0].views, 1234567);
+  assert.equal(r.videos[0].approxDate, true);
+  assert.equal(r.videos[0].description, 'We talk to Elon');
+  assert.equal(parseChannelSearch('<html>consent</html>').parsed, false);
+});
+
+test('merge: an approximate date never overwrites an exact one, and an exact one replaces it', () => {
+  const exact = [{ id: 'z', published: '2023-04-01T00:00:00Z', firstSeen: 'T0' }];
+  assert.equal(merge(exact, [{ id: 'z', published: '2023-05-01T00:00:00Z', approxDate: true }], 'T1')[0].published, '2023-04-01T00:00:00Z');
+  const approx = [{ id: 'z', published: '2023-05-01T00:00:00Z', approxDate: true, firstSeen: 'T0' }];
+  const out = merge(approx, [{ id: 'z', published: '2023-04-01T00:00:00Z' }], 'T1')[0];
+  assert.equal(out.published, '2023-04-01T00:00:00Z');
+  assert.equal(out.approxDate, undefined);
+  assert.equal(JSON.parse(JSON.stringify(merge(exact, [{ id: 'z', published: 'x', approxDate: true }], 'T1')[0])).approxDate, undefined);
+});

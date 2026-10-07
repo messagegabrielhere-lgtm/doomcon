@@ -9,8 +9,9 @@
 //   1. loads the previous clips.json (the archive grows; a video seen once stays)
 //   2. resolves each @handle to a channel id (cached in clips.json after the first run)
 //   3. reads each channel's RSS feed (its latest 15 uploads; no key needed)
-//   4. if YOUTUBE_API_KEY is set, searches each channel once for older Elon
-//      videos (100 quota units per channel, done once per channel, ever)
+//   4. searches each channel once for older Elon videos: through the Data API
+//      when YOUTUBE_API_KEY is set (about 200 quota units per channel, once),
+//      otherwise by reading the channel's own search results page
 //   5. keeps the uploads that name him, merges, writes <outdir>/clips.json
 //
 // Browsers can't read YouTube feeds (no CORS), so this runs in a GitHub Action
@@ -82,13 +83,61 @@ export function channelIdFromPage(html) {
   return m ? m[1] : null;
 }
 
+const UNIT_MS = { second: 1e3, minute: 6e4, hour: 36e5, day: 864e5, week: 6048e5, month: 2592e6, year: 31536e6 };
+
+/** "Streamed 3 years ago" -> an approximate ISO date, or '' if unreadable. */
+export function relativeToIso(text, now = Date.now()) {
+  const m = String(text || '').match(/(\d+)\s+(second|minute|hour|day|week|month|year)s?\s+ago/i);
+  return m ? new Date(now - Number(m[1]) * UNIT_MS[m[2].toLowerCase()]).toISOString() : '';
+}
+
+const runsText = (t) => (t ? t.simpleText ?? (t.runs || []).map((r) => r.text).join('') : '');
+
+/**
+ * A channel's own search results page (youtube.com/channel/<id>/search?query=)
+ * -> { parsed, videos }. `parsed` is false when the page carried no
+ * ytInitialData at all (a consent wall, a layout change), so the caller can
+ * tell "searched and found nothing" from "could not read the page".
+ * Dates on this page are relative ("3 years ago"), so they are approximate
+ * and marked; a later RSS sighting of the same video replaces them.
+ */
+export function parseChannelSearch(html, now = Date.now()) {
+  const m = String(html).match(/var ytInitialData\s*=\s*(\{[\s\S]*?\});\s*<\/script>/)
+    || String(html).match(/window\["ytInitialData"\]\s*=\s*(\{[\s\S]*?\});/);
+  if (!m) return { parsed: false, videos: [] };
+  let data;
+  try { data = JSON.parse(m[1]); } catch { return { parsed: false, videos: [] }; }
+  const videos = [];
+  const walk = (o) => {
+    if (!o || typeof o !== 'object') return;
+    if (Array.isArray(o)) { o.forEach(walk); return; }
+    const v = o.videoRenderer;
+    if (v && /^[\w-]{11}$/.test(v.videoId || '')) {
+      videos.push({
+        id: v.videoId,
+        title: runsText(v.title),
+        published: relativeToIso(runsText(v.publishedTimeText), now),
+        approxDate: true,
+        description: (v.detailedMetadataSnippets || []).map((d) => runsText(d.snippetText)).join(' ') || runsText(v.descriptionSnippet),
+        views: Number(runsText(v.viewCountText).replace(/[^\d]/g, '')) || null,
+      });
+    }
+    for (const k in o) if (k !== 'videoRenderer') walk(o[k]);
+  };
+  walk(data);
+  return { parsed: true, videos };
+}
+
 /** Previous clips + fresh clips -> one list, newest first, deduped by video id. */
 export function merge(prevClips, fresh, now = new Date().toISOString()) {
   const byId = new Map((prevClips || []).map((c) => [c.id, c]));
   for (const c of fresh) {
     const old = byId.get(c.id);
     byId.set(c.id, old
-      ? { ...old, ...c, firstSeen: old.firstSeen, views: c.views ?? old.views, description: c.description || old.description }
+      ? { ...old, ...c, firstSeen: old.firstSeen, views: c.views ?? old.views, description: c.description || old.description,
+          // An exact date (RSS, API) always wins over an approximate one (search page).
+          ...(c.approxDate && !old.approxDate ? { published: old.published, approxDate: undefined } : {}),
+          ...(!c.approxDate ? { approxDate: undefined } : {}) }
       : { ...c, firstSeen: now });
   }
   return [...byId.values()]
@@ -162,7 +211,7 @@ async function main() {
   const report = [];
   for (const src of sources) {
     const old = prevSources.get(src.handle.toLowerCase());
-    const row = { handle: src.handle, name: src.name, tier: src.tier, channelId: old?.channelId || null, backfilled: !!old?.backfilled, ok: false, found: 0 };
+    const row = { handle: src.handle, name: src.name, tier: src.tier, channelId: old?.channelId || null, backfilled: !!old?.backfilled, scraped: !!old?.scraped, ok: false, found: 0 };
     try {
       row.channelId ||= await resolveHandle(src.handle, key);
       if (!row.channelId) throw new Error('handle did not resolve to a channel');
@@ -171,6 +220,14 @@ async function main() {
         try {
           videos = videos.concat(await searchChannel(row.channelId, key));
           row.backfilled = true;
+        } catch (err) { row.backfillError = err.message; }
+      } else if (!key && !row.scraped) {
+        // No key: read the channel's own search page once instead.
+        try {
+          const r = parseChannelSearch(await get(`https://www.youtube.com/channel/${row.channelId}/search?query=${encodeURIComponent('Elon Musk')}`));
+          if (!r.parsed) throw new Error('search page had no ytInitialData');
+          videos = videos.concat(r.videos);
+          row.scraped = true;
         } catch (err) { row.backfillError = err.message; }
       }
       const seen = new Set();
@@ -181,7 +238,7 @@ async function main() {
         if (!match) continue;
         fresh.push({
           id: v.id, title: v.title, published: v.published,
-          description: v.description.slice(0, 400), views: v.views,
+          description: v.description.slice(0, 400), views: v.views, ...(v.approxDate ? { approxDate: true } : {}),
           handle: src.handle, channel: src.name, channelId: row.channelId, tier: src.tier, match,
         });
         row.found++;
