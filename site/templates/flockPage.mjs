@@ -1451,6 +1451,8 @@ ${jumpNav(present)}
 
   <h3 class="flk__sec__h3">The counties with the most in them</h3>
   ${countyTable(f, m)}
+
+  ${stateIndex(ctx, m)}
 </section>
 
 ${secDirection}
@@ -1908,4 +1910,162 @@ ${rampRules()}
   .flk__j a,.flk__wedge{transition:none}
 }
 `;
+}
+
+// ---------------------------------------------------------------------------
+// ONE PAGE PER STATE. "Flock cameras in Ohio" is a question people type, and
+// the national page answers it in row 5 of a 56-row table. Each state with at
+// least one mapped camera gets its own indexable page built from the same
+// file: every county in that state, mapped or not, its rank among the states,
+// and the same caveat the national page leads with. A state with none mapped
+// gets no page — "nobody has mapped this" is one row on /flock, not a page.
+// ---------------------------------------------------------------------------
+
+/** "New Hampshire" → "new-hampshire". Stable, so URLs survive rebuilds. */
+export function stateSlug(name) {
+  return String(name || '').toLowerCase().normalize('NFKD').replace(/[̀-ͯ]/g, '')
+    .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+}
+
+/** States with at least one mapped camera, ranked as /flock ranks them. */
+export function mappedStates(ctx) {
+  if (!hasFlock(ctx)) return [];
+  return model(ctx.flock).states.filter((s) => Number(s.cameras_mapped) > 0 && stateSlug(s.name));
+}
+
+export function statePath(s) { return `/flock/${stateSlug(s.name)}.html`; }
+
+/** Every state page this build writes, as { rel, html }. Empty without data. */
+export function statePages(ctx) {
+  const states = mappedStates(ctx);
+  return states.map((s, i) => ({ rel: statePath(s).slice(1), html: renderState(ctx, s, i, states) }));
+}
+
+/** The national page's link block: every state page, alphabetical. */
+function stateIndex(ctx, m) {
+  const list = m.states.filter((s) => Number(s.cameras_mapped) > 0 && stateSlug(s.name))
+    .slice().sort((a, b) => String(a.name).localeCompare(String(b.name)));
+  if (!list.length) return '';
+  return `<h3 class="flk__sec__h3" id="flk-by-state">Flock cameras by state</h3>
+  <p class="flk__tcap">A page for each state with any camera mapped: every county in it, mapped or not.</p>
+  <ul class="flk__states">${list.map((s) => `<li><a href="${esc(ctx.href(statePath(s)))}">${esc(s.name)}</a> <span class="num">${N(s.cameras_mapped)}</span></li>`).join('')}</ul>
+  <style>.flk__states{list-style:none;padding:0;margin:var(--s-3,12px) 0;display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px 18px}.flk__states li{display:flex;justify-content:space-between;gap:8px;border-bottom:1px solid var(--rule,#232C3B);padding:4px 0}.flk__states .num{opacity:.75}</style>`;
+}
+
+function renderState(ctx, s, rankIdx, ranked) {
+  const f = ctx.flock;
+  const q = String(f.copy.headline_qualifier || '');
+  const when = q.replace(/^as mapped in OpenStreetMap /, '');
+  const n = Number(s.cameras_mapped);
+  const national = Number(f.totals.in_a_us_county) || ranked.reduce((a, x) => a + Number(x.cameras_mapped), 0);
+  const share = national > 0 ? n / national : null;
+  const rows = (Array.isArray(f.counties) ? f.counties : []).filter((r) => r[2] === s.state);
+  const mapped = rows.filter((r) => Number(r[3]) > 0)
+    .sort((a, b) => Number(b[3]) - Number(a[3]) || String(a[1]).localeCompare(String(b[1])));
+  const none = rows.filter((r) => !(Number(r[3]) > 0))
+    .sort((a, b) => String(a[1]).localeCompare(String(b[1])));
+  const top = mapped[0];
+  const prev = ranked[rankIdx - 1];
+  const next = ranked[rankIdx + 1];
+  // What the Census calls a county-equivalent is called something else in two
+  // places with pages here; the page uses the local word.
+  const [unit, units] = s.state === 'LA' ? ['parish', 'parishes']
+    : s.state === 'PR' ? ['municipio', 'municipios'] : ['county', 'counties'];
+  const Unit = unit.charAt(0).toUpperCase() + unit.slice(1);
+  const single = rows.length <= 1; // DC: the state is its own only county
+  const asOf = when ? when.replace(/^on /, 'as of ') : '';
+
+  const lede = `${N(n)} Flock Safety license-plate reader cameras are mapped in OpenStreetMap in ${s.name}${asOf ? ` ${asOf}` : ''}`
+    + (single ? '. ' : `, in ${N(s.counties_with_mapped_cameras)} of its ${N(s.counties_total)} ${units}. `)
+    + `That ranks ${s.name} ${ordinal(rankIdx + 1)} of ${N(ranked.length)} states and territories by cameras mapped`
+    + (share !== null ? `, with ${pct(share)} of all those mapped in a US county.` : '.');
+
+  const countyRows = mapped.map((r, i) => `
+      <tr><td class="flk__rank">${i + 1}</td><th scope="row">${esc(r[1])}</th>
+        <td>${N(r[3])}</td><td>${n > 0 ? pct(Number(r[3]) / n) : '—'}</td></tr>`).join('');
+
+  const main = `<style>${flockCss()}</style>
+<div class="flk">
+<section class="flk__hero">
+  <p class="flk__eyebrow">Plate readers · ${esc(s.name)} · a ${esc(brand.NAME)} register</p>
+  <h1 class="flk__h1">Flock cameras in ${esc(s.name)}</h1>
+  <p class="flk__lede">${esc(lede)}</p>
+  ${top && !single ? `<p class="flk__plain">The most are mapped in <b>${esc(top[1])}</b>, with ${N(top[3])}.
+    ${none.length ? `${N(none.length)} ${none.length === 1 ? unit : units} have none mapped, which means nobody has mapped them yet, not that there are none.` : `Every ${unit} in ${esc(s.name)} has at least one mapped.`}</p>` : ''}
+  <p class="flk__plain"><a href="${esc(ctx.href(PATH))}#the-map">See ${esc(s.name)} on the national map →</a></p>
+</section>
+
+${theCaveat(f)}
+
+<section class="flk__sec" id="counties" aria-labelledby="flk-st-h">
+  <h2 class="flk__sec__h" id="flk-st-h">${icon('sec-substrate')} ${esc(s.name)} ${esc(units)}, ranked
+    <span class="flk__count num">${N(mapped.length)}/${N(rows.length)}</span></h2>
+  <p class="flk__tcap" id="flk-cap-st">Every ${esc(unit)} in ${esc(s.name)} with at least one Flock camera
+    mapped, ${esc(q)}, and its share of the state's ${N(n)}.</p>
+  <div class="flk__tw">
+    <table class="flk__t" aria-describedby="flk-cap-st">
+      <thead><tr><th scope="col">#</th><th scope="col">${esc(Unit)}</th>
+        <th scope="col">Cameras mapped</th><th scope="col">Share of state</th></tr></thead>
+      <tbody>${countyRows}</tbody>
+    </table>
+  </div>
+  ${none.length ? `<h3 class="flk__sec__h3">${esc(units.charAt(0).toUpperCase() + units.slice(1))} with none mapped</h3>
+  <p class="flk__sec__l">${none.map((r) => esc(r[1])).join(', ')}.</p>
+  <p class="flk__sec__n">${esc(f.coverage.what_zero_means || '')}</p>` : ''}
+  ${Number(s.direction_present) > 0 ? `<p class="flk__sec__n">${N(s.direction_present)} of the ${N(n)} carry a compass bearing
+    for the way the lens faces (${pct(Number(s.direction_present) / n)}).</p>` : ''}
+</section>
+
+<section class="flk__sec" id="limits" aria-labelledby="flk-lim-h">
+  <h2 class="flk__sec__h" id="flk-lim-h">${icon('sec-signal')} What this is not</h2>
+  ${limits(f)}
+  <p class="flk__sec__n">Data: ${esc(f.copy.attribution_required || '© OpenStreetMap contributors')},
+    <a href="${esc(f.copy.attribution_url || 'https://www.openstreetmap.org/copyright')}" rel="noopener">ODbL</a>. Compiled ${esc(utc(f.generated_at))}.</p>
+  <p class="flk__sec__n">${prev ? `<a href="${esc(ctx.href(statePath(prev)))}">← ${esc(prev.name)} (${N(prev.cameras_mapped)})</a> · ` : ''}<a href="${esc(ctx.href(PATH))}#flk-by-state">All states</a>${next ? ` · <a href="${esc(ctx.href(statePath(next)))}">${esc(next.name)} (${N(next.cameras_mapped)}) →</a>` : ''}</p>
+</section>
+</div>`;
+
+  const sl = s.name.length;
+  return page({
+    ctx,
+    path: statePath(s),
+    title: single || sl > 14
+      ? `Flock Cameras in ${s.name}: ${N(n)} Mapped · ${brand.NAME}`
+      : `Flock Cameras in ${s.name}: ${N(n)} Mapped, by ${Unit} · ${brand.NAME}`,
+    ogTitle: `${brand.NAME}: ${N(n)} Flock cameras mapped in ${s.name}`,
+    description: `${N(n)} Flock license-plate readers mapped in ${s.name}${asOf ? ` ${asOf}` : ''}`
+      + (single ? '' : `, ${unit} by ${unit}${top ? `; ${top[1]} has the most (${N(top[3])})` : ''}`)
+      + '. Sourced from OpenStreetMap, free to use.',
+    breadcrumb: `Flock cameras in ${s.name}`,
+    crumbParent: { name: 'Flock Camera Map', path: PATH },
+    ogImage: ctx.cardFor ? ctx.cardFor('flock') : null,
+    ogImageAlt: `${brand.NAME}: Flock ALPR cameras mapped in ${s.name}`,
+    jsonld: [{
+      '@context': 'https://schema.org',
+      '@type': 'Dataset',
+      name: `Flock Safety ALPR cameras mapped in ${s.name}, by ${unit}`,
+      description: `Automated license-plate-reader cameras attributed to Flock Safety in OpenStreetMap within ${s.name}, `
+        + `counted by ${unit}. A count of map objects, not of cameras that exist; a ${unit} with none mapped is one nobody has mapped.`,
+      url: ctx.url(statePath(s)),
+      license: (f.source && f.source.licence && f.source.licence.url) || 'https://www.openstreetmap.org/copyright',
+      creditText: f.copy.attribution_required || '© OpenStreetMap contributors',
+      creator: { '@type': 'Organization', name: brand.NAME, url: ctx.url('/') },
+      isPartOf: { '@type': 'Dataset', url: ctx.url(PATH) },
+      spatialCoverage: { '@type': 'Place', name: `${s.name}, United States` },
+      dateModified: f.generated_at,
+      isAccessibleForFree: true,
+      variableMeasured: [
+        { '@type': 'PropertyValue', name: 'cameras mapped', value: n },
+        { '@type': 'PropertyValue', name: `${units} with at least one mapped camera`, value: Number(s.counties_with_mapped_cameras) },
+        { '@type': 'PropertyValue', name: `${units} with none mapped`, value: Number(s.counties_with_none_mapped) },
+      ],
+    }],
+    main,
+  });
+}
+
+function ordinal(k) {
+  const v = k % 100;
+  const sfx = (v >= 11 && v <= 13) ? 'th' : ({ 1: 'st', 2: 'nd', 3: 'rd' }[k % 10] || 'th');
+  return `${k}${sfx}`;
 }

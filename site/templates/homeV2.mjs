@@ -6,6 +6,7 @@
 //
 // The full instrument panel this replaced still builds, at /classic.html.
 import { esc, num } from './_html.mjs';
+import * as faq from './_faq.mjs';
 
 import { blocks, pixelText, icon } from './_pixel.mjs';
 
@@ -227,6 +228,12 @@ ${roomsGrid(ctx, href, img)}
     <a class="v2-btn" href="https://x.com/intent/follow?screen_name=SIRENutf6">FOLLOW @SIRENutf6 →</a>
   </div>
 
+  <section class="v2-faq" aria-labelledby="v2-faq-h">
+    <h2 id="v2-faq-h" class="v2-faq__h">Questions people ask</h2>
+    ${faq.items(ctx).map(([q, a]) => `<details class="v2-faq__i"><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join('\n    ')}
+    <p class="v2-faq__more"><a href="${href('/ai-doomsday-clock.html')}">Is there an AI doomsday clock?</a> · <a href="${href('/p-doom.html')}">What is p(doom)?</a> · <a href="${href('/guide.html')}">SIREN vs DEFCON vs the Doomsday Clock</a></p>
+  </section>
+
   <p class="v2-foot">SIREN counts how loud AI is, every hour, from public data. A count, not a forecast. Portraits and icons are generated illustrations, not photographs.
   <a href="${href('/methodology.html')}">How it works</a> · <a href="${href('/classic.html#vfy')}">Verify a reading</a> · <a href="${href('/classic.html')}">Full instrument panel</a> · <a href="${href('/about.html')}">About</a></p>
   <p class="v2-foot"><b>Not advice.</b> Information, commentary and satire only — not financial, investment, legal, security or safety advice. Data is automated and may be wrong or late; provided as is, with no warranty. Not affiliated with any company, lab, person or agency named here. Use of this site means you accept the <a href="${href('/terms.html')}">terms &amp; disclaimers</a>. <a href="${href('/privacy.html')}">Privacy</a>.</p>
@@ -347,6 +354,13 @@ body.v2-body{margin:0;background:#000;color:#F3F4F6}
 .v2-cta{border:2px solid #4338CA;background:#0E1033;padding:24px 28px;display:flex;align-items:center;gap:22px;flex-wrap:wrap}
 .v2-cta .col{display:flex;flex-direction:column;gap:10px;flex:1 1 300px;min-width:0;color:#C7D2FE}
 .v2-foot{margin:0;font-size:13px;color:#AEB7C3}
+.v2-faq{margin-top:22px;display:grid;gap:8px}
+.v2-faq__h{margin:0 0 4px;font:700 18px/1.2 'IBM Plex Mono',ui-monospace,Menlo,monospace;letter-spacing:.06em;text-transform:uppercase;color:#fff}
+.v2-faq__i{border:2px solid #232C3B;background:#0E131D}
+.v2-faq__i summary{cursor:pointer;padding:12px 14px;font-weight:700;color:#F3F4F6}
+.v2-faq__i[open] summary{border-bottom:1px solid #232C3B}
+.v2-faq__i p{margin:0;padding:12px 14px;line-height:1.6;color:#C3CAD4}
+.v2-faq__more{margin:6px 0 0;font-size:13px;color:#AEB7C3}
 .v2 .bob{animation:v2bob 1.4s steps(2,start) infinite}
 @keyframes v2bob{50%{transform:translateY(-4px)}}
 @media (max-width:720px){

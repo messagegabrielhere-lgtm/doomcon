@@ -1247,6 +1247,16 @@ async function main() {
   // a 404 in the navigation.
   if (ctx.routes.flock) {
     written.push(await write(args.out, 'flock.html', flockPage.render(ctx)));
+    // One page per state with any camera mapped (flock/<state>.html). Only when
+    // the module that renders them is present, so an older flockPage.mjs on its
+    // own track still builds /flock alone. The sitemap lists exactly these.
+    if (typeof flockPage.statePages === 'function') {
+      ctx.flockStatePaths = [];
+      for (const sp of flockPage.statePages(ctx)) {
+        written.push(await write(args.out, sp.rel, sp.html));
+        ctx.flockStatePaths.push(`/${sp.rel}`);
+      }
+    }
   }
   // /exploits. Days from a CVE record being published to CISA cataloguing it
   // as exploited — the measurement that came back NEGATIVE and is published

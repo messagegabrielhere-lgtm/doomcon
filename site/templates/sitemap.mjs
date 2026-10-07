@@ -75,6 +75,13 @@ export function render(ctx) {
     ...(ctx.routes && ctx.routes.flock && ctx.flock && ctx.flock.generated_at
       ? [{ loc: '/flock.html', changefreq: 'weekly', priority: '0.8', lastmod: ctx.flock.generated_at }]
       : []),
+    // The per-state pages, read from the list build.mjs filled as it wrote them
+    // (ctx.flockStatePaths). Not imported from flockPage.mjs: that module is
+    // loaded dynamically on purpose, and a static import here would make a
+    // broken flock template take the whole sitemap down with it.
+    ...(Array.isArray(ctx.flockStatePaths) && ctx.flock && ctx.flock.generated_at
+      ? ctx.flockStatePaths.map((loc) => ({ loc, changefreq: 'weekly', priority: '0.7', lastmod: ctx.flock.generated_at }))
+      : []),
     // /exploits. Gated on ctx.routes.exploits, the same flag build.mjs uses to
     // decide whether to write the file, so this entry cannot name a URL the
     // build did not produce. daily, because CISA adds entries on most working

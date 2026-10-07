@@ -824,16 +824,26 @@ function siteJsonLd(ctx, o, canonical) {
       ],
     }];
   }
-  const name = String(o.breadcrumb || o.title || '')
-    .split(/ · | — | \| /)[0].replace(/:.*$/, '').trim();
+  // An explicit o.breadcrumb is used as given. Otherwise the title is cut at
+  // its first separator and at a colon, which turns "Flock Camera Map: US
+  // License-Plate Readers by County · SIREN" into "Flock Camera Map". The colon
+  // rule is only safe on titles this site wrote; a page titled with somebody
+  // else's headline ("Sources: Lambda is raising…") passes its own breadcrumb.
+  // o.crumbParent ({ name, path }) adds the room a page lives under, so a news
+  // item reads SIREN › Newsroom › the story.
+  const name = o.breadcrumb
+    ? String(o.breadcrumb).trim()
+    : String(o.title || '').split(/ · | — | \| /)[0].replace(/:.*$/, '').trim();
   if (!name) return [];
+  const trail = [{ name: brand.NAME, item: home }];
+  if (o.crumbParent && o.crumbParent.name && o.crumbParent.path) {
+    trail.push({ name: o.crumbParent.name, item: ctx.url(o.crumbParent.path) });
+  }
+  trail.push({ name, item: canonical });
   return [{
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
-    itemListElement: [
-      { '@type': 'ListItem', position: 1, name: brand.NAME, item: home },
-      { '@type': 'ListItem', position: 2, name, item: canonical },
-    ],
+    itemListElement: trail.map((t, i) => ({ '@type': 'ListItem', position: i + 1, name: t.name, item: t.item })),
   }];
 }
 

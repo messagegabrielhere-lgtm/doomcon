@@ -218,7 +218,13 @@ export function render(ctx, item, related = []) {
   return page({
     ctx,
     path: `/item/${slugFor(item)}.html`,
-    title: `${item.title} — ${brand.PUBLICATION}`,
+    // Somebody else's headline, trimmed for a results page: the Techmeme-style
+    // "(Author/Outlet)" tail goes (the page credits the source in full), and
+    // what is left is cut at a word inside 56 characters so the brand survives.
+    // og:title keeps the headline exactly as published.
+    title: `${serpHeadline(item.title, 56)} · ${brand.NAME}`,
+    breadcrumb: serpHeadline(item.title, 90),
+    crumbParent: { name: 'Newsroom', path: '/news.html' },
     description: `${clipX(String(item.summary || item.title), 140)} ${hasScore(item)
       ? `Scored ${num(item.score, 1)} of 100 by the ${brand.NAME} index.`
       : `Indexed by ${brand.NAME}; ${UNSCORED}.`}`,
@@ -246,7 +252,8 @@ export function renderIndex(ctx) {
   return page({
     ctx,
     path: '/item/index.html',
-    title: `Every scored item — ${brand.PUBLICATION}`,
+    title: `Every scored AI news item · ${brand.NAME}`,
+    crumbParent: { name: 'Newsroom', path: '/news.html' },
     description: `All ${items.length} items in the current window, each with its score decomposition and corroboration set.`,
     main: `${styleTag()}
 <h1>Every scored item</h1>
@@ -257,6 +264,15 @@ export function renderIndex(ctx) {
   ${scoreCell(i, 'it__rm num')}
 </li>`).join('')}</ol>`,
   });
+}
+
+/** A headline as a results page can show it: byline tail dropped, cut at a word. */
+export function serpHeadline(title, max) {
+  const t = String(title || '').replace(/\s*\([^()]*\/[^()]*\)\s*$/, '').replace(/\s+/g, ' ').trim();
+  if (t.length <= max) return t;
+  const cut = t.slice(0, max);
+  const at = cut.lastIndexOf(' ');
+  return `${(at > max * 0.6 ? cut.slice(0, at) : cut).replace(/[\s,;:—–-]+$/, '')}…`;
 }
 
 export function styleTag() {

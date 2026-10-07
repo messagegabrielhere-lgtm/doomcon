@@ -109,6 +109,8 @@ export function render(ctx, move) {
     ctx,
     path: `/moves/${move.id}.html`,
     title: `${headline} — ${utc(move.generated_at)} · ${brand.NAME}`,
+    breadcrumb: `${headline} — ${utc(move.generated_at)}`,
+    crumbParent: { name: 'Archive', path: '/moves/' },
     description:
       `${brand.NAME} moved from ${num(move.previous_score, 1)} to ${num(move.score, 1)} ` +
       `(${signed(move.delta, 1)}) at ${utc(move.generated_at)}. ${rationale(move)}`,

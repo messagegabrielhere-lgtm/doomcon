@@ -10,7 +10,18 @@ export function items(ctx) {
   const bands = [...brand.LEVELS].sort((a, b) => b.level - a.level)
     .map((l) => `${l.level} ${l.name} (${l.band[0]}–${l.band[1]})`).join(', ');
   const pillars = brand.PILLARS.map((p) => p.name.toLowerCase()).join(', ');
+  const st = (ctx && ctx.state) || {};
+  const now = Number.isFinite(st.score) && st.level_name
+    ? ` Right now ${brand.NAME} reads level ${st.level} (${st.level_name}), ${Number(st.score).toFixed(1)} of 100.`
+    : '';
   return [
+    // The two questions people actually type, first. Each answer is a claim the
+    // rest of the site already makes, and the reading in the first is the live
+    // one, so the visible text and the structured data say the same thing.
+    ['Is AI dangerous right now?',
+      `Nobody can measure that directly, and ${brand.NAME} does not try. What it measures is how much is happening in AI, every hour, from public data.${now} A loud reading means a lot is happening, not that things are going badly; for people's estimates of the risk itself, see the p(doom) explainer, and for harm and benefit counted side by side, the Balance page.`],
+    ['Is there an AI doomsday clock?',
+      `The Bulletin of the Atomic Scientists' Doomsday Clock now takes AI into account, and IMD publishes an AI Safety Clock; both are set by expert judgement. ${brand.NAME} is the counted alternative: an hourly reading of AI activity, published with the receipt anyone needs to recompute it.`],
     ['What is SIREN, and what does the name stand for?',
       `${brand.NAME} is an hourly index of how much is happening in AI. SI is superintelligence and REN is Real-time Early Notice: a siren for the road to superintelligence. It counts public activity across five pillars (${pillars}), turns it into one score from 0 to 100, and reports a level from 5 (quietest) to 1 (loudest). It was called ${brand.FORMERLY} until October 2026; the method and the record are unchanged.`],
     ['Does SIREN say superintelligence is here, or coming?',
