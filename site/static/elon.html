@@ -1,0 +1,480 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Real Elon</title>
+<meta name="description" content="Search real video clips of Elon Musk, taken only from the channels that filmed him: Tesla, SpaceX, xAI, long-form interviews and major newsrooms. Paste any link to check where it came from.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap">
+<style>
+:root{
+  --bg:#f4f5f7; --panel:#ffffff; --sunk:#eceef2; --ink:#12151b; --mute:#5d6573; --line:#d9dde4;
+  --accent:#d0342c; --accent-ink:#ffffff; --ok:#11805f; --ok-bg:#e3f4ed; --warn:#a95c00; --warn-bg:#fdf0dc; --bad:#c0362d; --bad-bg:#fbe5e3;
+  --official:#d0342c; --interview:#5a4fcf; --news:#1f6fb2;
+  --f-display:"Space Grotesk",system-ui,sans-serif;
+  --f-body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0c0e12; --panel:#15181e; --sunk:#1b1f27; --ink:#e8ebf0; --mute:#8e96a4; --line:#262b35;
+  --accent:#ff5a4f; --accent-ink:#1a0605; --ok:#3fcf9c; --ok-bg:#0f2a21; --warn:#f2a93b; --warn-bg:#2d2110; --bad:#ff6b61; --bad-bg:#311513;
+  --official:#ff5a4f; --interview:#9c92ff; --news:#5fb0f0; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0c0e12; --panel:#15181e; --sunk:#1b1f27; --ink:#e8ebf0; --mute:#8e96a4; --line:#262b35;
+  --accent:#ff5a4f; --accent-ink:#1a0605; --ok:#3fcf9c; --ok-bg:#0f2a21; --warn:#f2a93b; --warn-bg:#2d2110; --bad:#ff6b61; --bad-bg:#311513;
+  --official:#ff5a4f; --interview:#9c92ff; --news:#5fb0f0; color-scheme:dark}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 var(--f-body);padding:20px 16px 48px}
+.wrap{max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+a{color:inherit}
+[hidden]{display:none!important}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+header{display:flex;flex-wrap:wrap;align-items:flex-end;gap:8px 20px}
+.brand{margin-right:auto}
+h1{margin:0;font:700 clamp(30px,6vw,44px)/1 var(--f-display);letter-spacing:-.02em}
+h1 span{color:var(--accent)}
+.tag{margin:6px 0 0;color:var(--mute);max-width:60ch}
+.stats{color:var(--mute);font-size:13px;display:flex;gap:6px 14px;flex-wrap:wrap;align-items:center}
+.stats b{color:var(--ink);font-weight:600}
+.theme{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:5px 10px;font-size:13px}
+
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px}
+h2{margin:0 0 10px;font:600 18px/1.2 var(--f-display)}
+
+/* checker */
+.check form{display:flex;gap:8px;flex-wrap:wrap}
+.check input{flex:1 1 280px;min-width:0;border:1px solid var(--line);background:var(--sunk);border-radius:10px;padding:10px 12px}
+.btn{border:0;border-radius:10px;padding:10px 16px;background:var(--accent);color:var(--accent-ink);font-weight:600}
+.btn.ghost{background:var(--sunk);color:var(--ink);border:1px solid var(--line)}
+.verdict{margin-top:12px;border-radius:10px;padding:12px 14px;display:flex;gap:12px;align-items:flex-start}
+.verdict .ico{font:700 18px/1 var(--f-display);flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center}
+.verdict p{margin:0}
+.verdict p+p{margin-top:4px;color:var(--mute);font-size:14px}
+.verdict.ok{background:var(--ok-bg)} .verdict.ok .ico{background:var(--ok);color:var(--panel)}
+.verdict.warn{background:var(--warn-bg)} .verdict.warn .ico{background:var(--warn);color:var(--panel)}
+.verdict.bad{background:var(--bad-bg)} .verdict.bad .ico{background:var(--bad);color:var(--panel)}
+.verdict.wait{background:var(--sunk)} .verdict.wait .ico{background:var(--line)}
+.verdict button{margin-top:8px}
+
+/* controls */
+.controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.search{flex:1 1 260px;position:relative;min-width:0}
+.search input{width:100%;border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:10px 12px 10px 36px}
+.search svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--mute)}
+.seg{display:flex;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:3px;overflow-x:auto;max-width:100%}
+.seg button{border:0;background:none;border-radius:7px;padding:6px 11px;font-size:14px;white-space:nowrap;color:var(--mute)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+select{border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:9px 10px;max-width:100%}
+.count{color:var(--mute);font-size:13px;margin:-8px 0 0}
+
+/* grid */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;text-align:left;padding:0;transition:transform .12s,border-color .12s}
+.card:hover{transform:translateY(-2px);border-color:var(--mute)}
+.thumb{position:relative;aspect-ratio:16/9;background:var(--sunk)}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.thumb .play{position:absolute;inset:0;display:grid;place-items:center;opacity:0;transition:opacity .12s;background:rgba(0,0,0,.25)}
+.card:hover .play,.card:focus-visible .play{opacity:1}
+.play i{width:48px;height:48px;border-radius:50%;background:rgba(0,0,0,.7);display:grid;place-items:center}
+.body{padding:10px 12px 12px;display:flex;flex-direction:column;gap:6px;flex:1}
+.title{font-weight:600;font-size:14.5px;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.meta{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:12.5px;color:var(--mute);margin-top:auto}
+.src{display:inline-flex;align-items:center;gap:5px;font-weight:600;color:var(--ink)}
+.dot{width:8px;height:8px;border-radius:50%;flex:none}
+.t-official{background:var(--official)} .t-interview{background:var(--interview)} .t-news{background:var(--news)}
+.pill{font-size:11px;font-weight:600;padding:1px 6px;border-radius:99px;background:var(--sunk);color:var(--mute)}
+.more{align-self:center}
+.empty{text-align:center;color:var(--mute);padding:40px 16px}
+.empty b{display:block;color:var(--ink);font:600 18px var(--f-display);margin-bottom:4px}
+
+/* player */
+dialog{border:0;padding:0;background:var(--panel);color:var(--ink);border-radius:14px;width:min(960px,calc(100vw - 32px));max-height:calc(100vh - 32px);overflow:auto}
+dialog::backdrop{background:rgba(5,7,10,.75)}
+.frame{aspect-ratio:16/9;background:#000}
+.frame iframe{width:100%;height:100%;border:0;display:block}
+.dlg-body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:8px}
+.dlg-body h3{margin:0;font:600 18px/1.3 var(--f-display)}
+.dlg-body .desc{color:var(--mute);font-size:14px;white-space:pre-line;margin:0}
+.dlg-actions{display:flex;gap:8px;flex-wrap:wrap}
+.dlg-actions a{text-decoration:none}
+.close{position:absolute;top:8px;right:8px;border:0;width:34px;height:34px;border-radius:50%;background:rgba(0,0,0,.6);color:#fff;font-size:18px;line-height:1}
+.badge{display:inline-flex;align-items:center;gap:6px;background:var(--ok-bg);color:var(--ok);font-weight:600;font-size:13px;padding:4px 10px;border-radius:99px;align-self:flex-start}
+
+/* about */
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+.cols p,.cols li{color:var(--mute);font-size:14px}
+.cols ul{margin:0;padding-left:18px}
+.srcs{display:flex;flex-wrap:wrap;gap:6px}
+.srcs a{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:99px;padding:4px 10px;font-size:13px;text-decoration:none;background:var(--sunk)}
+.srcs a.down{opacity:.5}
+footer{color:var(--mute);font-size:12.5px;text-align:center}
+@media (max-width:520px){.controls select{flex:1 1 45%}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <h1>Real <span>Elon</span></h1>
+      <p class="tag">Clips of Elon Musk, only from the channels that filmed him. No reuploads, no AI voices, no "giveaway" livestreams.</p>
+    </div>
+    <div class="stats" id="stats"><span>Loading the index…</span></div>
+    <a class="theme" href="./" style="text-decoration:none">← SIREN</a>
+    <button class="theme" id="theme" type="button" aria-label="Toggle theme">◐ Theme</button>
+  </header>
+
+  <section class="panel check" aria-labelledby="chk-h">
+    <h2 id="chk-h">Got a clip? Check where it came from.</h2>
+    <form id="chk">
+      <input id="chk-url" type="text" inputmode="url" autocomplete="off" placeholder="Paste a YouTube link, e.g. https://youtu.be/…" aria-label="YouTube link to check" required>
+      <button class="btn" type="submit">Check</button>
+    </form>
+    <div id="verdict" hidden></div>
+  </section>
+
+  <section class="controls" aria-label="Filter clips">
+    <label class="search">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="Search: Starship, Grok, Optimus, Rogan…" aria-label="Search clips" autocomplete="off">
+    </label>
+    <div class="seg" role="group" aria-label="Source type" id="tiers">
+      <button type="button" data-tier="" aria-pressed="true">All</button>
+      <button type="button" data-tier="official" aria-pressed="false">His companies</button>
+      <button type="button" data-tier="interview" aria-pressed="false">Interviews</button>
+      <button type="button" data-tier="news" aria-pressed="false">News</button>
+    </div>
+    <select id="chan" aria-label="Channel"><option value="">All channels</option></select>
+    <select id="sort" aria-label="Sort">
+      <option value="new">Newest</option>
+      <option value="old">Oldest</option>
+      <option value="views">Most viewed</option>
+    </select>
+  </section>
+  <p class="count" id="count" aria-live="polite"></p>
+
+  <main>
+    <div class="grid" id="grid"></div>
+    <div class="empty" id="empty" hidden></div>
+  </main>
+  <button class="btn ghost more" id="more" type="button" hidden>Show more</button>
+
+  <section class="panel" aria-labelledby="how-h">
+    <div class="cols">
+      <div>
+        <h2 id="how-h">How we know it's real</h2>
+        <p>Deepfakes of Elon are good enough that you can't judge one by looking at it. So this index doesn't look. It only lists videos uploaded by the channel that recorded them: his companies, hosts who interviewed him, and newsrooms with their own cameras.</p>
+        <p>A video is listed when its title or description names him, or when it's an official company event he presents (shareholder meetings, product unveils, Starship updates). The index refreshes every hour and keeps everything it has seen.</p>
+      </div>
+      <div>
+        <h2>Signs of a fake</h2>
+        <ul>
+          <li>A "live" stream promising to double crypto you send, or a QR code to claim a giveaway. Elon has never run one.</li>
+          <li>A channel renamed to "Tesla" or "SpaceX" with a different handle than the real one.</li>
+          <li>A clip only posted by a fan, "news" or compilation account, with no original source linked.</li>
+          <li>Lip movements that drift from the words, or a voice that's flat on emotional lines.</li>
+        </ul>
+      </div>
+    </div>
+    <h2 style="margin-top:16px">Sources</h2>
+    <div class="srcs" id="srcs"></div>
+  </section>
+
+  <footer>Videos play from YouTube's privacy-enhanced player and stay the property of their channels. This site isn't affiliated with Elon Musk or any of his companies.</footer>
+</div>
+
+<dialog id="player" aria-labelledby="p-title">
+  <div style="position:relative">
+    <div class="frame" id="p-frame"></div>
+    <button class="close" id="p-close" type="button" aria-label="Close">✕</button>
+  </div>
+  <div class="dlg-body">
+    <span class="badge" id="p-badge"></span>
+    <h3 id="p-title"></h3>
+    <div class="meta" id="p-meta"></div>
+    <p class="desc" id="p-desc"></p>
+    <div class="dlg-actions">
+      <a class="btn" id="p-yt" target="_blank" rel="noopener">Open on YouTube</a>
+      <button class="btn ghost" id="p-copy" type="button">Copy link</button>
+    </div>
+  </div>
+</dialog>
+
+<script>
+const DATA_URL = 'https://raw.githubusercontent.com/messagegabrielhere-lgtm/doomcon/elon-data/clips.json';
+const PAGE = 48;
+const TIER_LABEL = { official: 'Official', interview: 'Interview', news: 'News' };
+const SCAM_RE = /\b(giveaway|double|doubl(e|ing) your|btc|bitcoin|eth|ethereum|crypto|airdrop|send \d|claim|qr code|free (btc|eth|crypto|tesla)|live now|xrp|doge|presale|token launch)\b/i;
+
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const state = { all: [], sources: [], q: '', tier: '', chan: '', sort: 'new', shown: PAGE, byId: new Map(), open: null };
+
+// ---------- theme
+(function () {
+  let saved = null;
+  try { saved = localStorage.getItem('realelon-theme'); } catch {}
+  if (saved) document.documentElement.dataset.theme = saved;
+  $('theme').onclick = () => {
+    const dark = document.documentElement.dataset.theme
+      ? document.documentElement.dataset.theme === 'dark'
+      : matchMedia('(prefers-color-scheme: dark)').matches;
+    const next = dark ? 'light' : 'dark';
+    document.documentElement.dataset.theme = next;
+    try { localStorage.setItem('realelon-theme', next); } catch {}
+  };
+})();
+
+// ---------- formatting
+const fmtDate = (iso) => {
+  const d = new Date(iso);
+  return isNaN(d) ? '' : d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+};
+const ago = (iso) => {
+  const s = (Date.now() - new Date(iso)) / 1000;
+  if (!(s >= 0)) return '';
+  if (s < 3600) return `${Math.max(1, Math.round(s / 60))} min ago`;
+  if (s < 86400) return `${Math.round(s / 3600)} h ago`;
+  return `${Math.round(s / 86400)} d ago`;
+};
+const fmtViews = (n) => n == null ? '' : n >= 1e6 ? `${(n / 1e6).toFixed(n >= 1e7 ? 0 : 1)}M views` : n >= 1e3 ? `${Math.round(n / 1e3)}K views` : `${n} views`;
+const channelUrl = (c) => c.channelId ? `https://www.youtube.com/channel/${c.channelId}` : `https://www.youtube.com/${c.handle}`;
+
+// ---------- filtering
+function filtered() {
+  const words = state.q.toLowerCase().split(/\s+/).filter(Boolean);
+  let list = state.all.filter((c) =>
+    (!state.tier || c.tier === state.tier) &&
+    (!state.chan || c.handle === state.chan) &&
+    words.every((w) => c._hay.includes(w)));
+  if (state.sort === 'old') list = list.slice().reverse();
+  if (state.sort === 'views') list = list.slice().sort((a, b) => (b.views ?? -1) - (a.views ?? -1));
+  return list;
+}
+
+function card(c) {
+  return `<button class="card" type="button" data-id="${esc(c.id)}">
+    <div class="thumb"><img loading="lazy" alt="" onerror="this.style.visibility='hidden'" src="https://i.ytimg.com/vi/${esc(c.id)}/mqdefault.jpg">
+      <span class="play"><i><svg width="18" height="18" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></i></span></div>
+    <div class="body">
+      <span class="title">${esc(c.title)}</span>
+      <span class="meta"><span class="src"><span class="dot t-${esc(c.tier)}"></span>${esc(c.channel)}</span>
+        <span>· ${esc(fmtDate(c.published))}</span>${c.views != null ? `<span>· ${esc(fmtViews(c.views))}</span>` : ''}
+        ${c.match === 'event' ? '<span class="pill" title="Official event he presents; his name is not in the title">event</span>' : ''}</span>
+    </div></button>`;
+}
+
+function render() {
+  const list = filtered();
+  $('grid').innerHTML = list.slice(0, state.shown).map(card).join('');
+  $('more').hidden = list.length <= state.shown;
+  $('count').textContent = state.all.length
+    ? `${list.length.toLocaleString()} clip${list.length === 1 ? '' : 's'}${state.q || state.tier || state.chan ? ' match' : ''}`
+    : '';
+  const e = $('empty');
+  if (state.loaded && !state.all.length) {
+    e.hidden = false;
+    e.innerHTML = `<b>No clips yet.</b>The index checks every source hourly and adds each new video that names him. The link checker above works for any YouTube link meanwhile.`;
+  } else if (state.all.length && !list.length) {
+    e.hidden = false;
+    e.innerHTML = `<b>No clips match.</b>Try fewer words, or switch the source filter back to All.`;
+  } else if (state.all.length) e.hidden = true;
+  syncHash();
+}
+
+// ---------- url state: #q=starship&tier=official&v=VIDEOID
+function syncHash() {
+  const p = new URLSearchParams();
+  if (state.q) p.set('q', state.q);
+  if (state.tier) p.set('tier', state.tier);
+  if (state.chan) p.set('ch', state.chan);
+  if (state.sort !== 'new') p.set('sort', state.sort);
+  if (state.open) p.set('v', state.open);
+  const h = p.toString();
+  history.replaceState(null, '', h ? `#${h}` : location.pathname + location.search);
+}
+function readHash() {
+  const p = new URLSearchParams(location.hash.slice(1));
+  state.q = p.get('q') || '';
+  state.tier = p.get('tier') || '';
+  state.chan = p.get('ch') || '';
+  state.sort = p.get('sort') || 'new';
+  return p.get('v');
+}
+
+// ---------- player
+function openClip(c) {
+  state.open = c.id;
+  $('p-frame').innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${esc(c.id)}?autoplay=1&rel=0" title="${esc(c.title)}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>`;
+  $('p-badge').textContent = `✓ Uploaded by ${c.channel} (${c.handle})`;
+  $('p-title').textContent = c.title;
+  $('p-meta').innerHTML = `<span class="src"><span class="dot t-${esc(c.tier)}"></span>${esc(TIER_LABEL[c.tier] || c.tier)}</span>
+    <span>· ${esc(fmtDate(c.published))}</span>${c.views != null ? `<span>· ${esc(fmtViews(c.views))}</span>` : ''}
+    <span>· <a href="${esc(channelUrl(c))}" target="_blank" rel="noopener">channel</a></span>`;
+  $('p-desc').textContent = c.description || '';
+  $('p-desc').hidden = !c.description;
+  $('p-yt').href = `https://www.youtube.com/watch?v=${c.id}`;
+  $('p-copy').textContent = 'Copy link';
+  const dlg = $('player');
+  if (!dlg.open) dlg.showModal();
+  syncHash();
+}
+function closeClip() {
+  $('p-frame').innerHTML = '';
+  state.open = null;
+  syncHash();
+}
+$('p-close').onclick = () => $('player').close();
+$('player').addEventListener('close', closeClip);
+$('player').addEventListener('click', (e) => { if (e.target === $('player')) $('player').close(); });
+$('p-copy').onclick = async () => {
+  try { await navigator.clipboard.writeText($('p-yt').href); $('p-copy').textContent = 'Copied'; }
+  catch { $('p-copy').textContent = 'Copy failed'; }
+};
+$('grid').addEventListener('click', (e) => {
+  const b = e.target.closest('.card');
+  const c = b && state.byId.get(b.dataset.id);
+  if (c) openClip(c);
+});
+
+// ---------- controls
+let qTimer;
+$('q').addEventListener('input', () => {
+  clearTimeout(qTimer);
+  qTimer = setTimeout(() => { state.q = $('q').value.trim(); state.shown = PAGE; render(); }, 120);
+});
+$('tiers').addEventListener('click', (e) => {
+  const b = e.target.closest('button');
+  if (!b) return;
+  state.tier = b.dataset.tier;
+  state.shown = PAGE;
+  syncControls();
+  fillChannels();
+  render();
+});
+$('chan').onchange = () => { state.chan = $('chan').value; state.shown = PAGE; render(); };
+$('sort').onchange = () => { state.sort = $('sort').value; state.shown = PAGE; render(); };
+$('more').onclick = () => { state.shown += PAGE; render(); };
+
+function syncControls() {
+  $('q').value = state.q;
+  for (const b of $('tiers').querySelectorAll('button')) b.setAttribute('aria-pressed', String(b.dataset.tier === state.tier));
+  $('sort').value = state.sort;
+}
+function fillChannels() {
+  const counts = new Map();
+  for (const c of state.all) if (!state.tier || c.tier === state.tier) counts.set(c.handle, (counts.get(c.handle) || 0) + 1);
+  const rows = state.sources.filter((s) => counts.has(s.handle)).sort((a, b) => counts.get(b.handle) - counts.get(a.handle));
+  if (state.chan && !counts.has(state.chan)) state.chan = '';
+  $('chan').innerHTML = `<option value="">All channels</option>` + rows.map((s) =>
+    `<option value="${esc(s.handle)}"${s.handle === state.chan ? ' selected' : ''}>${esc(s.name)} (${counts.get(s.handle)})</option>`).join('');
+}
+
+// ---------- checker
+function videoId(input) {
+  const s = input.trim();
+  if (/^[\w-]{11}$/.test(s)) return s;
+  let u;
+  try { u = new URL(/^https?:/i.test(s) ? s : `https://${s}`); } catch { return null; }
+  const host = u.hostname.replace(/^(www|m|music)\./, '');
+  if (host === 'youtu.be') return u.pathname.slice(1, 12) || null;
+  if (host === 'youtube.com' || host === 'youtube-nocookie.com') {
+    if (u.searchParams.get('v')) return u.searchParams.get('v').slice(0, 11);
+    const m = u.pathname.match(/^\/(?:shorts|live|embed|v)\/([\w-]{11})/);
+    if (m) return m[1];
+  }
+  return null;
+}
+function verdict(kind, html) {
+  const icon = { ok: '✓', warn: '!', bad: '✕', wait: '…' }[kind];
+  const v = $('verdict');
+  v.hidden = false;
+  v.innerHTML = `<div class="verdict ${kind}" role="status"><span class="ico" aria-hidden="true">${icon}</span><div>${html}</div></div>`;
+}
+$('chk').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const raw = $('chk-url').value;
+  if (/^(https?:\/\/)?(www\.|mobile\.)?(x|twitter)\.com\//i.test(raw.trim())) {
+    verdict('warn', `<p>Only YouTube links can be checked here.</p><p>On X, a clip is first-hand when it's posted by @elonmusk or by @Tesla, @SpaceX, @xai or @neuralink. Anything else is a repost: look for where it was originally uploaded.</p>`);
+    return;
+  }
+  const id = videoId(raw);
+  if (!id) { verdict('bad', `<p>That doesn't look like a YouTube video link.</p><p>Paste a link like youtube.com/watch?v=…, youtu.be/…, or youtube.com/shorts/….</p>`); return; }
+
+  const hit = state.byId.get(id);
+  if (hit) {
+    verdict('ok', `<p><b>Real source.</b> Uploaded by ${esc(hit.channel)} (${esc(hit.handle)}), ${esc(fmtDate(hit.published))}.</p><p>${esc(hit.title)}</p><button class="btn ghost" type="button" data-play="${esc(id)}">Watch it here</button>`);
+    return;
+  }
+  verdict('wait', `<p>Looking up who uploaded it…</p>`);
+  let info;
+  try {
+    const r = await fetch(`https://noembed.com/embed?url=${encodeURIComponent(`https://www.youtube.com/watch?v=${id}`)}`);
+    info = await r.json();
+  } catch { info = null; }
+  if (!info || info.error) {
+    verdict('warn', `<p>Couldn't look this video up.</p><p>It may be private, deleted, or the lookup service is down. If it was taken down, that's often what happens to scam streams.</p>`);
+    return;
+  }
+  const authorUrl = String(info.author_url || '');
+  const handle = (authorUrl.match(/\/(@[\w.-]+)/) || [])[1] || '';
+  const chId = (authorUrl.match(/\/channel\/(UC[\w-]{22})/) || [])[1] || '';
+  const src = state.sources.find((s) => (handle && s.handle.toLowerCase() === handle.toLowerCase()) || (chId && s.channelId === chId));
+  const scam = SCAM_RE.test(info.title || '');
+  const who = `${esc(info.author_name || 'an unknown channel')}${handle ? ` (${esc(handle)})` : ''}`;
+  if (src && !scam) {
+    verdict('ok', `<p><b>Trusted channel.</b> Uploaded by ${who}, one of the sources this index follows.</p><p>“${esc(info.title)}” isn't in the index, usually because the title and description don't name Elon.</p><a class="btn ghost" href="https://www.youtube.com/watch?v=${esc(id)}" target="_blank" rel="noopener">Open on YouTube</a>`);
+  } else if (scam) {
+    verdict('bad', `<p><b>Looks like a scam.</b> “${esc(info.title)}”, uploaded by ${who}.</p><p>The title has the marks of a crypto giveaway stream. Elon and his companies have never asked anyone to send money. Don't scan its QR codes or visit its links, and report it on YouTube.</p>`);
+  } else {
+    verdict('warn', `<p><b>Not a source we can vouch for.</b> “${esc(info.title)}” was uploaded by ${who}.</p><p>That doesn't make it fake, but it's a repost at best. Search this page for the same moment from the original channel before you share it.</p>`);
+  }
+});
+$('verdict').addEventListener('click', (e) => {
+  const b = e.target.closest('[data-play]');
+  const c = b && state.byId.get(b.dataset.play);
+  if (c) openClip(c);
+});
+
+// ---------- load
+function renderSources(gen) {
+  $('srcs').innerHTML = state.sources.map((s) =>
+    `<a href="${esc(channelUrl(s))}" target="_blank" rel="noopener" class="${s.ok === false ? 'down' : ''}" title="${s.ok === false ? esc(`Not reachable on the last run: ${s.error || 'unknown'}`) : esc(`${TIER_LABEL[s.tier] || s.tier} source`)}"><span class="dot t-${esc(s.tier)}"></span>${esc(s.name)}</a>`).join('');
+  const live = state.sources.filter((s) => s.ok !== false).length;
+  $('stats').innerHTML = `<span><b>${state.all.length.toLocaleString()}</b> clips</span><span><b>${live}</b> sources</span>${gen ? `<span>updated ${esc(ago(gen))}</span>` : ''}`;
+}
+
+async function load() {
+  const want = readHash();
+  syncControls();
+  let data;
+  try {
+    const r = await fetch(DATA_URL, { cache: 'no-cache' });
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    data = await r.json();
+  } catch (err) {
+    $('stats').innerHTML = '<span>Index unavailable</span>';
+    $('empty').hidden = false;
+    $('empty').innerHTML = `<b>The clip index isn't available yet.</b>It's built hourly by the elon-clips workflow. The link checker above still works for any YouTube link.`;
+    return;
+  }
+  state.sources = data.sources || [];
+  state.all = (data.clips || []).map((c) => ({ ...c, _hay: `${c.title} ${c.channel} ${c.handle} ${c.description || ''}`.toLowerCase() }));
+  state.byId = new Map(state.all.map((c) => [c.id, c]));
+  state.loaded = true;
+  renderSources(data.generated);
+  fillChannels();
+  syncControls();
+  render();
+  if (want && state.byId.has(want)) openClip(state.byId.get(want));
+}
+load();
+</script>
+</body>
+</html>

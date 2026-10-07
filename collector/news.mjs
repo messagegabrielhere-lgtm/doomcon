@@ -40,7 +40,7 @@ const SCORING_VERSION = '1.1.0';
 // thinks in, and 200 items is about as much as a phone on a cellular connection
 // should be asked to download from an X link (CONTRACT: mobile first).
 const WINDOW_DAYS = 7;
-const MAX_ITEMS = 200;
+const MAX_ITEMS = 400;
 
 // Per-adapter watchdog, on top of whatever timeout fetch.mjs applies to a single
 // request. Same reasoning as collect.mjs: fetch.mjs guards one request, this

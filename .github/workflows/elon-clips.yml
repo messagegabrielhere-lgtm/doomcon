@@ -1,0 +1,61 @@
+# Clip index for the Real Elon page (/elon.html).
+#
+# Same shape as scanner-stocks.yml: reads only elon/, writes only the elon-data
+# branch (one orphan commit, force-pushed), never touches main. The page reads
+# clips.json from raw.githubusercontent.com. The archive survives the orphan
+# push because elon/collect.mjs loads the previous clips.json from that branch
+# first, and refuses to publish if it can't.
+#
+# Optional secret YOUTUBE_API_KEY: resolves handles through the Data API and
+# backfills each channel's older Elon videos once (about 200 quota units per
+# channel, one time). Without it the index grows from RSS only.
+
+name: elon-clips
+
+on:
+  schedule:
+    - cron: '23 * * * *'   # hourly
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: elon-clips
+  cancel-in-progress: false
+
+jobs:
+  index:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: elon
+          fetch-depth: 1
+
+      - name: Set up Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Test
+        run: node --test elon/test/collect.test.mjs
+
+      - name: Collect
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+        run: node elon/collect.mjs "$RUNNER_TEMP/elon-out"
+
+      - name: Publish to elon-data
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cd "$RUNNER_TEMP/elon-out"
+          git init -q -b elon-data
+          git config user.name "github-actions[bot]"
+          git config user.email "41898699+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -q -m "Elon clip index $(date -u +%Y-%m-%dT%H:%MZ)"
+          git push -q -f "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git" elon-data

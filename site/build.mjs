@@ -108,6 +108,10 @@ function prerenderStatic(html, name, ctx) {
   out = out.replace(/<html([^>]*)>/, (m, a) => (/data-theme=/.test(a) ? m : `<html${a} data-theme="dark">`));
   const brandVars = `<style>html:root,html:root[data-theme="dark"]{--bg:#000;--panel:#0E131D;--sunk:#0A0E16;--line:#232C3B;--ink:#F3F4F6;--mute:#AEB7C3;--accent:#4ADE80;--accent-ink:#03130A;--cmp:#818CF8;--zone:rgba(74,222,128,.12);color-scheme:dark}</style>`;
   out = out.replace(/<body([^>]*)>/, (m) => `${m}\n${brandVars}\n${strip}`);
+  // Hand-built pages have no shared footer, so they get the same legal line
+  // the templated footer carries, pointing at the full terms page.
+  const legal = `<p class="v2legal" style="max-width:72ch;margin:24px auto;padding:0 16px 24px;font:400 12px/1.5 system-ui,sans-serif;color:#AEB7C3"><b>Not advice.</b> Information, commentary and satire only — not financial, investment, legal, security or safety advice. Data is automated and may be wrong or late; provided as is, with no warranty. Not affiliated with any company, lab, person or agency named here. Use of this site means you accept the <a href="${x(ctx.href('/terms.html'))}" style="color:#D7DCE3">terms &amp; disclaimers</a>. <a href="${x(ctx.href('/privacy.html'))}" style="color:#D7DCE3">Privacy</a>.</p>`;
+  out = out.replace(/<\/body>/, `${legal}\n</body>`);
   head += `\n<link rel="stylesheet" href="${x(ctx.href('/fonts/fonts.css'))}">`;
   return out.replace('</head>', `${head}\n</head>`);
 }
@@ -1159,6 +1163,7 @@ async function main() {
   }
   written.push(await write(args.out, 'about.html', infoPages.about(ctx)));
   written.push(await write(args.out, 'privacy.html', infoPages.privacy(ctx)));
+  written.push(await write(args.out, 'terms.html', infoPages.terms(ctx)));
   written.push(await write(args.out, 'press.html', infoPages.press(ctx)));
   if (betsPage.hasBets(ctx)) {
     written.push(await write(args.out, 'bets.html', betsPage.render(ctx)));
