@@ -8,8 +8,9 @@
 # already parsed; delete the branch to start over.
 #
 # SEC refuses automated clients unless the User-Agent names who is asking with
-# a contact email. The default below is the repository owner's; the repository
-# variable SEC_UA (for example "yoursite admin@example.com") overrides it.
+# a contact email, and it 403s any User-Agent containing "github". The default
+# below is the repository owner's; the repository variable SEC_UA overrides it.
+# Do not put a GitHub noreply address in that variable.
 
 name: investors
 

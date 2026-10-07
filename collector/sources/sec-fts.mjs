@@ -6,6 +6,8 @@
 // Endpoint is keyless and undocumented-but-stable. Verified 2026-09-22:
 // a trailing-30-day window returns hits.total.value = 3585, relation "eq".
 
+import { SEC_UA } from '../infra-sources/_sec.mjs';
+
 const ENDPOINT = 'https://efts.sec.gov/LATEST/search-index';
 
 // The phrase is quoted so EDGAR matches it as a phrase, not as two loose terms.
@@ -40,26 +42,14 @@ export default {
       enddt,
     });
 
-    // TWO TRAPS IN ONE LINE. Both were found by watching this request 403 in
-    // Docker, and both will bite the next person who touches it.
-    //
-    // 1. SEC's WAF rejects any User-Agent containing a URL. Bisected against
-    //    the live endpoint on 2026-09-22: "doomcon/1.0", "doomcon/1.0 <email>"
-    //    and "doomcon/1.0 (<email>)" all return 200; add "(+https://github…)"
-    //    and the byte-identical request returns 403 "Your Request Originates
-    //    from an Undeclared Automated Tool". fetch.mjs's default USER_AGENT
-    //    carries the repo URL, so this source cannot use the default — it has
-    //    to send a contact-only UA, which is what SEC's policy asks for anyway.
-    //
-    // 2. The key must be lowercase 'user-agent'. fetch.mjs builds its headers
-    //    as { 'user-agent': USER_AGENT, ...opts.headers }, and JS object keys
-    //    are case-sensitive: 'User-Agent' does not overwrite 'user-agent', it
-    //    survives next to it and undici joins the pair with a comma. The joined
-    //    value still contains the URL, so it still 403s — the bug looks like
-    //    "my override was ignored". Matching the helper's casing makes this a
-    //    replacement rather than an append.
+    // The header key must be lowercase 'user-agent'. fetch.mjs sets
+    // { 'user-agent': DEFAULT, ...opts.headers }, and JS keys are
+    // case-sensitive, so 'User-Agent' does not replace the default. undici
+    // then joins both values, the default still carries a URL, and SEC 403s.
+    // SEC_UA itself must not contain a URL or the substring "github". See
+    // collector/infra-sources/_sec.mjs.
     const body = await fetchJson(`${ENDPOINT}?${qs}`, {
-      headers: { 'user-agent': 'doomcon.watch collector (331486973+messagegabrielhere-lgtm@users.noreply.github.com)' },
+      headers: { 'user-agent': SEC_UA },
     });
 
     const total = body?.hits?.total;
