@@ -829,7 +829,7 @@ const PAL_EXTRA = [
   { href: '/ai-doomsday-clock.html', label: 'AI doomsday clock', blurb: 'What exists, and the one you can verify.' },
   { href: '/moves/', label: 'Every reading', blurb: 'The full record, each with its receipt.' },
   { href: '/sponsor.html', label: 'Sponsor', blurb: 'One named sponsor at a time.' },
-  { href: '/privacy.html', label: 'Privacy', blurb: 'No cookies, no analytics.' },
+  { href: '/privacy.html', label: 'Privacy', blurb: 'No cookies, no project analytics.' },
   { href: '/terms.html', label: 'Terms & disclaimers', blurb: 'Information, not advice. No warranty.' },
 ];
 const TAB_ROOMS = [['/', 'War room'], ['/news.html', 'News'], ['/race.html', 'Race'], ['/world.html', 'World']];
@@ -1476,9 +1476,9 @@ function footer(ctx, sections, path) {
     { href: '/sponsor.html', label: 'Sponsor', blurb: 'One labelled sponsor at a time, with no say over the number.' },
     { href: '/brand.html', label: 'Brand', blurb: 'Name, colours, type, voice and Tally to download.' },
     { href: '/press.html', label: 'Press kit', blurb: 'Facts, a paragraph to lift, images and a contact.' },
-    { href: '/privacy.html', label: 'Privacy', blurb: 'No cookies, no analytics. Every trace a visit can leave.' },
+    { href: '/privacy.html', label: 'Privacy', blurb: 'No cookies, no project analytics. Every trace a visit can leave.' },
     { href: '/terms.html', label: 'Terms & disclaimers', blurb: 'Information and commentary, not advice. No warranty, no liability.' },
-    { href: brand.REPO_URL, label: 'Source code', blurb: `Every line that produced these numbers. ${brand.LICENSE}.` },
+    { href: brand.REPO_URL, label: 'Source code', blurb: `Every line that produced these numbers. ${brand.LICENSE_SUMMARY}.` },
   ];
   if (brand.X_URL) {
     source.push({
@@ -1616,7 +1616,7 @@ function footer(ctx, sections, path) {
       are routinely late, which is why the rail above says <b>overdue</b> rather than counting down into fiction.
       Every value on this site is computed from public data by published code, and each observation is written to a
       hash-chained receipt carrying its full inputs — so anyone can recompute the number and get the same answer.
-      Data and code: ${esc(brand.LICENSE)}.</p>
+      ${esc(brand.LICENSE_SUMMARY)}.</p>
     <p class="foot__fine"><b>Not advice.</b> Information, commentary and satire only — not financial, investment, legal, security or safety advice.
       Data is automated and may be wrong or late; provided as is, with no warranty. Not affiliated with any company, lab, person or agency named here.
       Use of this site means you accept the <a href="${esc(ctx.href('/terms.html'))}">terms &amp; disclaimers</a>. <a href="${esc(ctx.href('/privacy.html'))}">Privacy</a>.</p>

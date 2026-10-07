@@ -341,7 +341,11 @@ export const NOT_CLAIMS = [
   },
 ];
 
+// Site/data reuse grant shown in footers and press copy. Code is MIT; see
+// LICENSE, LICENSE-MIT and LICENSE-CC-BY-4.0 at the repo root.
 export const LICENSE = 'CC BY 4.0';
+export const CODE_LICENSE = 'MIT';
+export const LICENSE_SUMMARY = 'Code MIT · Data CC BY 4.0';
 export const REPO_URL = 'https://github.com/messagegabrielhere-lgtm/doomcon';
 
 // Derived. Empty string for an apex domain, '/doomcon' for the Pages project site.

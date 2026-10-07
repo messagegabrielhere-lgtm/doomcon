@@ -41,7 +41,8 @@ export function about(ctx) {
     <a href="${esc(brand.REPO_URL)}" rel="noopener">source code</a> is public.</p>
   <h2>Who runs it</h2>
   <p>One person, independently. It is not affiliated with any AI lab, government body or the organisations whose scales it
-    borrows its grammar from. It is free to read, carries no advertising and has no investors.</p>
+    borrows its grammar from. It is free to read, runs no ad network and has no investors. Labelled Amazon paid links
+    and an optional named sponsor are the only monetisation; see below.</p>
   <h2>How it is paid for</h2>
   <p>Hosting is free. The <a href="${esc(ctx.href('/bunker-kit.html'))}">Bunker Kit</a> and the
     <a href="${esc(ctx.href('/library.html'))}">reading list</a> carry Amazon links that are paid links: as an Amazon Associate,
@@ -73,15 +74,19 @@ export function privacy(ctx) {
 <section class="inf">
   <p class="eyebrow">Privacy</p>
   <div class="inf__top"><h1 class="bp__h1">What this site knows about you</h1></div>
-  <p class="lede">Very little, and nothing it keeps. This page lists every way a visit can leave a trace.</p>
+  <p class="lede">Very little, and nothing this project keeps. This page lists every way a visit can leave a trace.</p>
   <h2>What the site itself does</h2>
   <ul>
     <li><b>No cookies.</b> The site sets none.</li>
-    <li><b>No analytics.</b> There is no tracking script, pixel or visitor counter. Nobody here knows you visited.</li>
+    <li><b>No analytics.</b> There is no tracking script, pixel or visitor counter run by this project. The operator does not
+      see who visited. The host and any third-party APIs a page calls still see ordinary request metadata (below).</li>
     <li><b>No accounts.</b> There is nothing to sign up for. The <a href="${esc(ctx.href('/feedback.html'))}">feedback form</a> stores and sends nothing itself: it opens a pre-filled, <b>public</b> issue on GitHub that you choose whether to submit, under GitHub's privacy policy.</li>
     <li><b>Browser storage.</b> A few preferences are kept in your own browser's local storage: the last reading you saw, your
       language choice, your best score in the game, and the panel settings on the live monitor and scanner pages. They never
       leave your device, and clearing site data removes them.</li>
+    <li><b>No sale or sharing of personal information.</b> This project does not sell or share personal information as those
+      terms are used under the California Consumer Privacy Act (CCPA/CPRA). There is no advertising cookie or data broker
+      relationship. Following an Amazon paid link may let Amazon attribute a purchase under Amazon's own policy.</li>
   </ul>
   <h2>Third parties a visit touches</h2>
   <ul>
@@ -89,8 +94,11 @@ export function privacy(ctx) {
     <li><b>Fonts</b> are served from this site. No font request goes to Google or any other third party.</li>
     <li><b>Live data pages.</b> Three hand-built pages fetch public data straight from your browser, so those providers receive
       your IP address and browser details when you open them, under their own policies:
-      the <b>world monitor</b> (USGS, NASA EONET, GDACS, GDELT, ADSB.lol (regional counts only), OKX, alternative.me),
-      the <b>scanner</b> (OKX, Polymarket, DEX Screener, alternative.me), and the <b>stock picks and AI battle</b> page.
+      the <b>world monitor</b> (USGS, NASA EONET, GDACS, GDELT, ADSB.lol (regional counts only), OKX, alternative.me; market
+      figures that come from a Yahoo Finance snapshot are loaded from this project's GitHub data files, not from Yahoo in your browser),
+      the <b>scanner</b> (OKX, Binance public WebSocket for live BTC when odds live-mode is on, Polymarket, DEX Screener,
+      alternative.me; stock bars from a Yahoo Finance snapshot on GitHub), and the <b>stock picks and AI battle</b> page
+      (Yahoo Finance snapshot and Coinbase-derived arena data from GitHub; the page itself does not open a Coinbase socket in your browser).
       All three also read this project's own data files from GitHub (raw.githubusercontent.com).
       Every other page loads only files from this site, except the one below.</li>
     <li><b>Real Clips.</b> The clips page shows video thumbnails served by YouTube (i.ytimg.com), so Google receives your IP
@@ -192,7 +200,7 @@ export function feedback(ctx) {
 // words, numbered sections, and nothing that names or locates the person who
 // runs the site: contact goes through the project account and the repository,
 // the same as the about page. Not a substitute for a lawyer's review.
-export const TERMS_UPDATED = '7 October 2026';
+export const TERMS_UPDATED = '8 October 2026';
 
 export function terms(ctx) {
   const x = brand.X_URL ? `<a href="${esc(brand.X_URL)}" rel="noopener">${esc(brand.X_HANDLE)}</a> on X` : 'the project account';
@@ -309,14 +317,20 @@ export function terms(ctx) {
     losses and reasonable costs that result for ${esc(brand.NAME)} and its operator.</p>
 
   <h2>12. Children</h2>
-  <p>The site is meant for a general adult audience and is not directed at children under 13. It collects no personal
-    information from anyone; see the <a href="${esc(ctx.href('/privacy.html'))}">privacy page</a>.</p>
+  <p>The site is meant for a general adult audience. It is not directed at children under 13 (COPPA) and is not intended for
+    children under 16. It collects no personal information from anyone through accounts or forms on this site; see the
+    <a href="${esc(ctx.href('/privacy.html'))}">privacy page</a>.</p>
 
   <h2>13. Copyright concerns and corrections</h2>
   <p>If you believe something on the site infringes your rights, is inaccurate, or should be removed, contact ${x} or open
     ${repo} with the page address and what you would like changed. Valid requests are handled promptly.</p>
 
-  <h2>14. Changes, severability and your rights</h2>
+  <h2>14. Governing law</h2>
+  <p>These terms are governed by the laws of the United States and the State of California, without regard to conflict-of-law
+    rules, except where a mandatory consumer-protection law in your country says otherwise. Where the law allows a venue to
+    be chosen, the courts of California have exclusive jurisdiction. Nothing here limits rights that cannot be waived.</p>
+
+  <h2>15. Changes, severability and your rights</h2>
   <p>These terms may be updated at any time; the date at the top shows the latest version, and continuing to use the site means
     you accept it. If any part is found unenforceable, the rest still applies. Nothing in these terms limits any right you have
     that the law does not allow to be limited.</p>
@@ -504,10 +518,10 @@ ${levels.map((l) => `    <li class="br__t" style="--lvl:var(--heat-${l.level})">
 
   <h2>Type</h2>
   <div class="br__type">
-    <p style="font:400 44px/1 var(--poster);text-transform:uppercase">Anton, for headlines</p>
+    <p style="font:650 44px/1 var(--poster);text-transform:uppercase">Inter Tight, for headlines</p>
     <p style="font:400 18px/1.5 var(--sans)">Inter Tight, for reading. Sentences, explanations, anything longer than a label.</p>
     <p style="font:600 14px/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase">JetBrains Mono, for labels and numbers 52.4</p>
-    <p style="font:700 20px/1.2 var(--stencil);letter-spacing:.14em;text-transform:uppercase">Stardos Stencil, for the wordmark and stamps only</p>
+    <p style="font:700 20px/1.2 var(--stencil);letter-spacing:.14em;text-transform:uppercase">JetBrains Mono, for the wordmark and stamps</p>
   </div>
 
   <h2>Voice</h2>
@@ -558,7 +572,7 @@ export function press(ctx) {
   <h2>A paragraph you can lift</h2>
   <p>${esc(brand.NAME)} counts public AI activity across five pillars (${brand.PILLARS.map((p) => esc(p.name.toLowerCase())).join(', ')}) and turns it into one score from 0 to 100 and a level from 5 to 1.
     It measures tempo, not danger, and it does not forecast. Each reading is published with a receipt containing its inputs and the hash of the receipt before it,
-    and a button on the home page lets any visitor re-check the last twelve readings in their own browser. It is run by one person, carries no advertising and sets no cookies.</p>
+    and a button on the home page lets any visitor re-check the last twelve readings in their own browser. It is run by one person, runs no ad network or analytics, sets no cookies, and discloses any Amazon paid links where they appear.</p>
   <h2>Facts</h2>
   <ul>
     ${now ? `<li><b>Current reading:</b> ${esc(now)}. <a href="${esc(ctx.href('/'))}">Live page</a>.</li>` : ''}

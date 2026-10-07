@@ -134,4 +134,5 @@ better dashboard with neither. The full teardown is in
 
 ## Licence
 
-Code MIT. Data and index values CC-BY 4.0.
+Code MIT (`LICENSE-MIT`). Data and index values CC-BY 4.0 (`LICENSE-CC-BY-4.0`).
+See `LICENSE` for the split.
