@@ -169,19 +169,31 @@ export function uploadDateFromWatchPage(html) {
 // upload date, so the backlog clears over a few hourly runs.
 const DATE_BUDGET = 250;
 
+// Returns { dated, tried, outcomes } so the published file says why dating
+// failed: the Action's logs are not always readable, clips.json is.
 async function dateClips(clips) {
   const todo = clips.filter((c) => c.approxDate || !c.published).slice(0, DATE_BUDGET);
-  let done = 0;
+  const tried = todo.length;
+  const outcomes = {};
+  const note = (k) => { outcomes[k] = (outcomes[k] || 0) + 1; };
+  let dated = 0;
+  let sample = '';
   const work = async () => {
     for (let c; (c = todo.shift());) {
       try {
-        const iso = uploadDateFromWatchPage(await get(`https://www.youtube.com/watch?v=${c.id}`));
-        if (iso) { c.published = iso; delete c.approxDate; done++; }
-      } catch { /* try again next run */ }
+        const html = await get(`https://www.youtube.com/watch?v=${c.id}`);
+        const iso = uploadDateFromWatchPage(html);
+        if (iso) { c.published = iso; delete c.approxDate; dated++; note('ok'); }
+        else {
+          note(/confirm you.re not a bot/i.test(html) ? 'bot-check' : /consent\.youtube|before you continue/i.test(html) ? 'consent' : 'no-date-in-page');
+          sample ||= (html.match(/<title>([^<]*)<\/title>/) || [])[1] || html.slice(0, 120);
+        }
+      } catch (err) { note(err.status ? `HTTP ${err.status}` : err.name || 'error'); }
+      await new Promise((r) => setTimeout(r, 400));
     }
   };
-  await Promise.all(Array.from({ length: 5 }, work));
-  return done;
+  await Promise.all(Array.from({ length: 2 }, work));
+  return { dated, tried, outcomes, ...(sample ? { sample: sample.slice(0, 160) } : {}) };
 }
 
 /** Previous clips + fresh clips -> one list, newest first, deduped by video id. */
@@ -326,7 +338,8 @@ async function main() {
     return [{ ...rest, tier, topics, ...(match ? { match } : {}) }];
   });
   let clips = merge(kept, fresh, now);
-  const dated = await dateClips(clips);
+  const dating = await dateClips(clips);
+  const { dated } = dating;
   if (dated) clips = merge(clips, [], now);   // re-sort now that they have dates
 
   if (!report.some((r) => r.ok)) {
@@ -334,7 +347,7 @@ async function main() {
     process.exit(1);
   }
   await mkdir(outDir, { recursive: true });
-  await writeFile(path.join(outDir, 'clips.json'), JSON.stringify({ generated: now, sources: report, clips }) + '\n');
+  await writeFile(path.join(outDir, 'clips.json'), JSON.stringify({ generated: now, dating, sources: report, clips }) + '\n');
   const undated = clips.filter((c) => c.approxDate || !c.published).length;
   console.log(`${clips.length} clips in the index (${fresh.length} seen this run, ${dated} dated, ${undated} still undated).`);
 }
