@@ -229,7 +229,11 @@ test('stocks: market hours gate, no commission, spread-only round trip', async (
     const { summarize } = await import('./market.mjs');
     const row = summarize('NVDA', hourly, stats);
     assert.equal(row.type, 'stock'); assert.equal(row.open, open);
-    assert.ok(Math.abs(row.chg24h - (194 / 190 - 1) * 100) < 0.01, '24h change is since the previous close');
+    // The bars rise 0.1 an hour; the previous session's last bar is the reference,
+    // not chartPreviousClose (190), which on a 1mo chart is a month old.
+    const nyDay = (t) => new Date(t).toLocaleDateString('en-CA', { timeZone: 'America/New_York' });
+    const prev = hourly.slice().reverse().find((k) => nyDay(k.t) !== nyDay(hourly.at(-1).t)).c;
+    assert.ok(Math.abs(row.chg24h - (194 / prev - 1) * 100) < 0.01, '24h change is since the previous session close');
 
     const w = wallet();
     const t = preview(w, buy({ sym: 'NVDA', stop: 185 }), book, Date.now());
