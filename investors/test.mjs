@@ -2,7 +2,7 @@
 //   node --test investors/test.mjs
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { inDollars, parseInfoTable, aggregate, compare, latestTwo, parseArk, arkTrades, parseHouseIndex, parsePtr, pdfLines } from './collect.mjs';
+import { highlights, inDollars, parseInfoTable, aggregate, compare, latestTwo, parseArk, arkTrades, parseHouseIndex, parsePtr, pdfLines } from './collect.mjs';
 
 const Z = '\u0000\u0000\u0000';
 // The text layer of a real two-page House PTR (Filing ID 20033725), trimmed.
@@ -201,4 +201,14 @@ test('13F: a filer reporting thousands is scaled to dollars, one in dollars is l
   assert.deepEqual(inDollars(k).map((r) => r.value), [864923000, 281613000, 232375000]);
   const d = [{ value: 65950296923, shares: 227917808, unit: 'SH' }];
   assert.equal(inDollars(d)[0].value, 65950296923);
+});
+
+test('highlights: biggest stock trades, one per member and ticker, no exchanges', () => {
+  const t = (member, ticker, type, amount, assetType = 'ST') => ({ member, ticker, type, amount, assetType, asset: ticker, date: '2026-09-01', filed: '2026-09-10' });
+  const h = highlights({ generated: 'x', funds: [{ id: 'a', person: 'A', fund: 'F', changes: [{ kind: 'new', ticker: 'Z', dValue: 5.4 }] }, { id: 'b', error: 'HTTP 403' }],
+    congress: { trades: [t('M', 'AAA', 'buy', '$1,001 - $15,000'), t('M', 'BBB', 'buy', '$500,001 - $1,000,000'), t('M', 'BBB', 'sell', '$250,001 - $500,000'), t('N', 'CCC', 'exchange', '$1,000,001 - $5,000,000'), t('N', '', 'buy', '$5,000,001 - $25,000,000', 'GS')],
+      featured: [{ id: 'pelosi', trades: [t('Nancy Pelosi', 'NVDA', 'buy', '$1,000,001 - $5,000,000', 'OP')] }] } });
+  assert.deepEqual(h.congress.map((x) => x.ticker), ['BBB', 'AAA']);
+  assert.equal(h.pelosi[0].options, true);
+  assert.deepEqual(h.funds.map((f) => [f.id, f.kind, f.dValue]), [['a', 'new', 5]]);
 });

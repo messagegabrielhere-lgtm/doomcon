@@ -1553,7 +1553,7 @@ function homeMap(ctx) {
 // the scanner workflow). Without the script the links still go everywhere.
 function picksBand(ctx) {
   const arena = ctx.href('/arena.html');
-  const src = 'https://raw.githubusercontent.com/messagegabrielhere-lgtm/doomcon/scanner-data/picks.json';
+  const RAW = 'https://raw.githubusercontent.com/messagegabrielhere-lgtm/doomcon';
   return `<section class="sec mkb" id="picks" aria-labelledby="mkb-h">
 <style>
 .mkb{border:1px solid var(--line, rgba(127,127,127,.3));border-left:5px solid #e2a03b;border-radius:10px;padding:var(--s-4, 18px);margin-block:var(--s-4, 18px)}
@@ -1562,24 +1562,34 @@ function picksBand(ctx) {
 .mkb__k{font-family:var(--mono);font-size:var(--t-2xs, 11px);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint, #888);margin:0}
 .mkb__top{display:grid;gap:14px;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);margin-top:12px}
 .mkb__potd{display:block;text-decoration:none;color:inherit;padding:14px 16px;border-radius:8px;background:color-mix(in srgb,#e2a03b 12%,transparent);border:1px solid color-mix(in srgb,#e2a03b 45%,transparent)}
-.mkb__potd:hover{border-color:#e2a03b}
-.mkb__potd small{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#b06d10}
+.mkb__potd:hover,.mkb__card:hover{border-color:#e2a03b}
+.mkb__potd small,.mkb__card small{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#b06d10}
 .mkb__potd b.tk{display:block;font-size:clamp(34px,5vw,52px);line-height:1;margin:6px 0 2px;letter-spacing:.01em}
 .mkb__potd .nm{opacity:.8}
 .mkb__potd .st{margin-top:8px;font-family:var(--mono);font-size:13px}
 .mkb__list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
 .mkb__list a{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;border-radius:8px;border:1px solid var(--line, rgba(127,127,127,.3));text-decoration:none;color:inherit;font-family:var(--mono);font-size:13px}
 .mkb__list a:hover{border-color:#e2a03b}
+.mkb__two{display:grid;gap:14px;grid-template-columns:1fr 1fr;margin-top:14px}
+.mkb__card{display:flex;flex-direction:column;gap:8px;text-decoration:none;color:inherit;padding:14px 16px;border-radius:8px;border:1px solid var(--line, rgba(127,127,127,.3))}
+.mkb__card h3{margin:0;font-size:18px;line-height:1.15}
+.mkb__rows{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:5px;font-size:13.5px}
+.mkb__rows li{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.mkb__rows li span:first-child{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mkb__rows li span:last-child{font-family:var(--mono);font-size:12.5px;white-space:nowrap}
+.mkb__rows b{font-family:var(--mono)}
+.mkb__card .ft{font-size:12px;opacity:.72;margin-top:auto}
+.mkb__card .cta{font-weight:600;font-size:13.5px}
 .mkb__up{color:#0f9d7a}.mkb__dn{color:#d2483f}
 .mkb__go{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
 .mkb__go a{padding:8px 14px;border-radius:999px;border:1px solid var(--line, rgba(127,127,127,.35));text-decoration:none;color:inherit;font-weight:600;font-size:14px}
 .mkb__go a.pri{background:#e2a03b;border-color:#e2a03b;color:#14110a}
 .mkb__note{margin:12px 0 0;font-size:12px;opacity:.75}
-@media (max-width:720px){.mkb__top{grid-template-columns:1fr}}
+@media (max-width:720px){.mkb__top,.mkb__two{grid-template-columns:1fr}}
 </style>
   <div class="mkb__hd">
-    <h2 class="sec__h" id="mkb-h">Today's stock picks<span class="sec__eb">Markets</span></h2>
-    <p class="mkb__k" id="mkb-as">Daily screen · big investors · AI battle</p>
+    <h2 class="sec__h" id="mkb-h">Markets: today's picks, big investors, AI battle<span class="sec__eb">Markets</span></h2>
+    <p class="mkb__k" id="mkb-as">Daily screen · disclosed trades · paper-money AI battle</p>
   </div>
   <div class="mkb__top">
     <a class="mkb__potd" id="mkb-potd" href="${esc(arena)}">
@@ -1590,19 +1600,38 @@ function picksBand(ctx) {
     </a>
     <ul class="mkb__list" id="mkb-list" aria-label="The other picks"></ul>
   </div>
+  <div class="mkb__two">
+    <a class="mkb__card" href="${esc(arena)}#investors">
+      <small>Big investors</small>
+      <h3>What Pelosi, Burry, Cathie Wood and Buffett disclosed</h3>
+      <ul class="mkb__rows" id="mkb-inv"><li><span>13F holdings, ARK's daily trades and House trade reports, from the filings.</span></li></ul>
+      <span class="cta">All disclosed trades →</span>
+      <span class="ft">Filings are delayed: up to 45 days after a trade or a quarter.</span>
+    </a>
+    <a class="mkb__card" href="${esc(arena)}#battle">
+      <small>AI battle</small>
+      <h3 id="mkb-bt">AI models trading paper money</h3>
+      <ul class="mkb__rows" id="mkb-bat"><li><span>Crypto and US stocks at live prices; a server checks every trade against fixed rules.</span></li></ul>
+      <span class="cta">The standings and every trade →</span>
+      <span class="ft" id="mkb-bft">Paper money: prices are real, fills and wallets are simulated.</span>
+    </a>
+  </div>
   <div class="mkb__go">
     <a class="pri" href="${esc(arena)}">All picks and the track record →</a>
-    <a href="${esc(arena)}#investors">Big investors: Pelosi, Burry, Cathie Wood, Buffett…</a>
-    <a href="${esc(arena)}#battle">AI trading battle</a>
+    <a href="${esc(arena)}#investors">Big investors</a>
+    <a href="${esc(arena)}#battle">AI battle</a>
     <a href="${esc(ctx.href('/scanner.html'))}">Scanner</a>
   </div>
   <p class="mkb__note" id="mkb-rec">Picks come from an automated, hypothetical screen. Not financial advice; we are not financial advisors.</p>
 <script>
 (function(){
+  var RAW = ${JSON.stringify(RAW)}, arena = ${JSON.stringify(arena)};
   var $ = function(id){ return document.getElementById(id); };
   var esc = function(s){ return String(s == null ? "" : s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); };
-  var sg = function(x){ return (x >= 0 ? "+" : "") + x.toFixed(2) + "%"; };
+  var sg = function(x, d){ return (x >= 0 ? "+" : "") + x.toFixed(d == null ? 2 : d) + "%"; };
   var day = function(d){ return new Date(d + "T12:00:00Z").toLocaleDateString("en-US", {weekday:"short", month:"short", day:"numeric", timeZone:"UTC"}); };
+  var usd = function(x){ var a = Math.abs(x); return (x < 0 ? "-" : "+") + "$" + (a >= 1e9 ? (a / 1e9).toFixed(1) + "B" : a >= 1e6 ? (a / 1e6).toFixed(0) + "M" : (a / 1e3).toFixed(0) + "K"); };
+  var get = function(path){ return fetch(RAW + path + "?t=" + Math.floor(Date.now() / 60e3), {cache:"no-store"}).then(function(r){ return r.ok ? r.json() : null; }).catch(function(){ return null; }); };
   function live(p){
     var L = p.live || {};
     if(L.state === "target") return '<span class="mkb__up">Target hit ' + sg(L.ret) + '</span>';
@@ -1610,9 +1639,9 @@ function picksBand(ctx) {
     if(L.state === "running" || L.state === "closed") return '<span class="' + (L.now >= 0 ? "mkb__up" : "mkb__dn") + '">' + (L.state === "running" ? "Now " : "Closed ") + sg(L.now) + ' since the open</span>';
     return '<span>Buy at the open · target +' + p.targetPct.toFixed(2) + '%</span>';
   }
-  fetch(${JSON.stringify(src)} + "?t=" + Math.floor(Date.now() / 60e3), {cache:"no-store"}).then(function(r){ return r.ok ? r.json() : null; }).then(function(d){
+  get("/scanner-data/picks.json").then(function(d){
     if(!d) return;
-    var P = d.picks || [], top = P[0], arena = ${JSON.stringify(arena)};
+    var P = d.picks || [], top = P[0];
     $("mkb-as").textContent = "Picks for " + day(d.tradeDay) + " · from the close of " + day(d.closeOf);
     if(top){
       $("mkb-tk").textContent = top.s;
@@ -1624,8 +1653,31 @@ function picksBand(ctx) {
     }
     $("mkb-list").innerHTML = P.slice(1).map(function(p){ return '<li><a href="' + esc(arena) + '"><b>' + esc(p.s) + '</b>' + live(p) + '</a></li>'; }).join("");
     var s = d.stats || {};
-    if(s.sessions) $("mkb-rec").textContent = "Track record over " + s.sessions + " sessions, hypothetical: " + s.winRate.toFixed(1) + "% of picks won, " + (s.avgRet >= 0 ? "+" : "") + s.avgRet.toFixed(2) + "% a pick after costs; $1,000 following every pick became $" + s.equity.toLocaleString("en-US") + " vs $" + s.bench.toLocaleString("en-US") + " holding SPY. Automated screen, not financial advice.";
-  }).catch(function(){});
+    if(s.sessions) $("mkb-rec").textContent = "Picks track record over " + s.sessions + " sessions, hypothetical: " + s.winRate.toFixed(1) + "% of picks won, " + (s.avgRet >= 0 ? "+" : "") + s.avgRet.toFixed(2) + "% a pick after costs; $1,000 following every pick became $" + s.equity.toLocaleString("en-US") + " vs $" + s.bench.toLocaleString("en-US") + " holding SPY. Automated screen, not financial advice.";
+  });
+  get("/investors-data/highlights.json").then(function(h){
+    if(!h) return;
+    var rows = [], kind = {buy:"bought", sell:"sold", "sell (partial)":"sold some", new:"new", add:"added", trim:"trimmed", exit:"sold out of"};
+    var tk = function(t){ return '<b>' + esc(t.ticker || t.name || t.asset) + '</b>' + (t.options ? " options" : t.putCall ? " " + esc(t.putCall.toLowerCase()) + "s" : ""); };
+    var p = (h.pelosi || []).filter(function(t){ return t.ticker; })[0];
+    if(p) rows.push('<li><span>Pelosi ' + esc(kind[p.type] || p.type) + ' ' + tk(p) + '</span><span>' + esc(p.amount.replace(/,000,000/g, "M").replace(/,000/g, "K").replace(/,001/g, "K")) + '</span></li>');
+    (h.funds || []).filter(function(f){ return ["burry", "wood", "buffett"].indexOf(f.id) >= 0; }).forEach(function(f){
+      rows.push('<li><span>' + esc(f.person.split(" ").slice(-1)[0]) + ' ' + esc(kind[f.kind] || f.kind) + ' ' + tk(f) + '</span><span class="' + (f.dValue >= 0 ? "mkb__up" : "mkb__dn") + '">' + usd(f.dValue) + (f.stale ? " · old" : "") + '</span></li>');
+    });
+    var c = (h.congress || [])[0];
+    if(c) rows.push('<li><span>' + esc(c.member.split(" ").slice(-1)[0]) + ' ' + esc(kind[c.type] || c.type) + ' ' + tk(c) + '</span><span>Congress</span></li>');
+    if(rows.length) $("mkb-inv").innerHTML = rows.slice(0, 5).join("");
+  });
+  get("/arena-data/state.json").then(function(S){
+    if(!S || !S.wallets || !S.roster) return;
+    var start = S.startCash || 1000, base = {hodl:1, rsi:1};
+    var R = S.roster.map(function(a){ var w = S.wallets[a.id] || {}; return {a:a, r:((w.equity || start) / start - 1) * 100}; }).sort(function(x, y){ return y.r - x.r; });
+    var lead = R[0];
+    $("mkb-bt").textContent = lead ? lead.a.name + (lead.a.standin ? " (stand-in)" : base[lead.a.id] ? " (baseline)" : "") + " leads" : "AI models trading paper money";
+    $("mkb-bat").innerHTML = R.slice(0, 4).map(function(x, i){ return '<li><span>' + (i + 1) + '. ' + esc(x.a.name) + (x.a.standin ? ' <small style="opacity:.7;letter-spacing:0;text-transform:none;color:inherit">stand-in</small>' : base[x.a.id] ? ' <small style="opacity:.7;letter-spacing:0;text-transform:none;color:inherit">baseline</small>' : '') + '</span><span class="' + (x.r >= 0 ? "mkb__up" : "mkb__dn") + '">' + sg(x.r) + '</span></li>'; }).join("");
+    var n = S.roster.filter(function(a){ return a.standin; }).length;
+    if(n) $("mkb-bft").textContent = "Paper money. " + n + " AI slots have no API key yet and trade a labelled rule-based stand-in, not the model.";
+  });
 })();
 </script>
 </section>`;

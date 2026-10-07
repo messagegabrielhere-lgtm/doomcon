@@ -396,6 +396,31 @@ export const TRUMP = {
   ],
 };
 
+// A few lines for pages that only feature the tab (the homepage band).
+const AMOUNT_LOW = (a) => Number(String(a || '').split('-')[0].replace(/[$,\s]/g, '')) || 0;
+export function highlights(out) {
+  const pick = (t) => ({ member: t.member, type: t.type, ticker: t.ticker, asset: t.asset, amount: t.amount, date: t.date, filed: t.filed, options: t.assetType === 'OP' });
+  const c = out.congress;
+  const pel = c?.featured?.find((f) => f.id === 'pelosi');
+  // The biggest stock trades reported recently, by the low end of the range.
+  const seen = new Set();
+  const big = (c?.trades || []).filter((t) => t.ticker && ['ST', 'OP'].includes(t.assetType) && t.type !== 'exchange')
+    .sort((a, b) => AMOUNT_LOW(b.amount) - AMOUNT_LOW(a.amount) || (b.filed || '').localeCompare(a.filed || ''))
+    .filter((t) => { const k = `${t.member}|${t.ticker}`; if (seen.has(k)) return false; seen.add(k); return true; })
+    .slice(0, 4).map(pick);
+  const funds = (out.funds || []).filter((f) => !f.error && f.changes?.length).map((f) => {
+    const x = f.changes[0];
+    return { id: f.id, person: f.person, fund: f.fund, period: f.period, stale: !!f.stale, kind: x.kind, ticker: x.ticker, name: x.name, putCall: x.putCall, dValue: Math.round(x.dValue) };
+  });
+  return {
+    generated: out.generated,
+    pelosi: (pel?.trades || []).slice(0, 3).map(pick),
+    congress: big,
+    funds,
+    ark: (out.ark?.trades || []).slice(0, 3).map((t) => ({ date: t.date, fund: t.fund, ticker: t.ticker, kind: t.kind, usd: t.usd })),
+  };
+}
+
 async function main() {
   const args = process.argv.slice(2);
   const dir = args[args.indexOf('--dir') + 1] || 'investors-out';
@@ -460,6 +485,7 @@ async function main() {
   const out = { generated: new Date().toISOString(), funds, ark, congress: house, trump: TRUMP, errors };
   await writeFile(path.join(dir, 'state.json'), JSON.stringify(state));
   await writeFile(path.join(dir, 'investors.json'), JSON.stringify(out));
+  await writeFile(path.join(dir, 'highlights.json'), JSON.stringify(highlights(out)));
   log(`wrote ${path.join(dir, 'investors.json')} (${Object.keys(errors).length} errors)`);
 }
 
