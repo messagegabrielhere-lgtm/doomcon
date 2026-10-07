@@ -60,6 +60,25 @@ function badgeSvg(state) {
  * <main id="manifest"> as plain HTML; the page's script then redraws the
  * same markup and takes over. One source of truth, the file itself.
  */
+// A static page can share code with a Node script:
+//   <script data-inline="monitor/core.mjs" data-ns="Core"></script>
+// becomes a classic script defining `const Core = { ...that module's exports }`.
+// The module is wrapped in a function so its private names cannot clash with
+// the page's own. It must have no imports.
+async function inlineModules(html) {
+  const re = /<script data-inline="([\w./-]+\.mjs)" data-ns="([A-Za-z_$][\w$]*)"><\/script>/g;
+  let out = html;
+  for (const [tag, rel, ns] of html.matchAll(re)) {
+    const src = await readFile(path.join(ROOT, rel), 'utf8');
+    if (/^\s*import\s/m.test(src)) throw new Error(`${rel}: an inlined module cannot import`);
+    const names = [...src.matchAll(/^export\s+(?:async\s+)?(?:const|let|function|class)\s+([A-Za-z_$][\w$]*)/gm)].map((m) => m[1]);
+    const body = src.replace(/^export\s+(?=(const|let|function|async|class)\b)/gm, '');
+    const js = `const ${ns} = (() => {\n${body}\nreturn { ${names.join(', ')} };\n})();`;
+    out = out.replace(tag, () => `<script>\n${js.replace(/<\/script/gi, '<\\/script')}\n</script>`);
+  }
+  return out;
+}
+
 function prerenderStatic(html, name, ctx) {
   const x = (v) => String(v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
   const loc = ctx.url(`/${name}`);
@@ -1153,7 +1172,7 @@ async function main() {
   const staticDir = path.join(ROOT, 'site', 'static');
   if (existsSync(staticDir)) {
     for (const name of (await readdir(staticDir)).filter((n) => n.endsWith('.html')).sort()) {
-      const raw = await readFile(path.join(staticDir, name), 'utf8');
+      const raw = await inlineModules(await readFile(path.join(staticDir, name), 'utf8'));
       written.push(await write(args.out, name, prerenderStatic(raw, name, ctx)));
     }
   }

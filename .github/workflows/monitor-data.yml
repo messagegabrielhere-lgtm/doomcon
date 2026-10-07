@@ -1,0 +1,61 @@
+# World Monitor snapshot (/monitor.html).
+#
+# Same shape as scanner-stocks.yml: reads monitor/, collector/fetch.mjs, the
+# feed parser and data/world-outline.json; writes only the monitor-data branch
+# (one orphan commit, force-pushed, so it never accumulates history); never
+# touches main. The page reads the JSON from raw.githubusercontent.com.
+#
+# Each run reads the previous snapshot and history back from that branch, so a
+# skipped or failed run loses nothing: news carries forward 72 hours and the
+# stress history keeps its week. A failed run publishes nothing at all.
+#
+# Minutes 4/19/34/49 keep clear of collect.yml's */15 grid and its :07 pass.
+
+name: monitor-data
+
+on:
+  schedule:
+    - cron: '4,19,34,49 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: monitor-data
+  cancel-in-progress: false
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            monitor
+            collector
+            data/world-outline.json
+          sparse-checkout-cone-mode: false
+          fetch-depth: 1
+
+      - name: Set up Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Collect
+        run: node monitor/collect.mjs "$RUNNER_TEMP/monitor-out"
+
+      - name: Publish to monitor-data
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cd "$RUNNER_TEMP/monitor-out"
+          git init -q -b monitor-data
+          git config user.name "github-actions[bot]"
+          git config user.email "41898699+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -q -m "Monitor snapshot $(date -u +%Y-%m-%dT%H:%MZ)"
+          git push -q -f "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git" monitor-data
