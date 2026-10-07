@@ -223,11 +223,9 @@ footer{font-size:11.5px;color:var(--mute);display:flex;flex-wrap:wrap;gap:4px 14
     <div class="brand">
       <h1>World <b>Monitor</b></h1>
       <span>live globe · public keyless sources · runs in your browser</span>
-      <a href="./">SIREN</a>
     </div>
     <span class="clock" id="clock" aria-live="off">--:--:-- UTC</span>
     <button class="btn" id="refresh" type="button" title="Refetch every source (R)">Refresh</button>
-    <button class="btn" id="theme" type="button" aria-label="Switch colour theme">Theme</button>
   </header>
   <div class="sources" id="sources" aria-label="Source status"></div>
 
@@ -1480,11 +1478,6 @@ function onNews(catId, added) {
 function tickClock() { $("#clock").textContent = new Date().toISOString().slice(11, 19) + " UTC"; }
 setInterval(tickClock, 1000); tickClock();
 
-$("#theme").addEventListener("click", () => {
-  const cur = document.documentElement.dataset.theme || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
-  document.documentElement.dataset.theme = cur === "dark" ? "light" : "dark"; store.set("theme", document.documentElement.dataset.theme); readColors();
-});
-{ const t = store.get("theme", null); if (t) document.documentElement.dataset.theme = t; }
 
 function refreshAll(force) {
   loadQuakes(); loadEonet(); loadGdacs(); loadMil(); loadStocks(); loadCrypto(); loadKev(); loadSirenNews();
