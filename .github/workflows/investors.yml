@@ -4,8 +4,9 @@
 #
 # Like the scanner and the arena, this never touches main. Output lives on the
 # investors-data branch as one orphan commit, force-pushed. state.json there
-# holds yesterday's ARK holdings (to diff against) and the House reports
-# already parsed; delete the branch to start over.
+# holds today's ARK holdings, yesterday's (arkPrev, so same-day re-runs don't
+# erase the prior date), recent estimated trades, and the House reports already
+# parsed; delete the branch to start over.
 #
 # SEC refuses automated clients unless the User-Agent names who is asking with
 # a contact email. The default below is the repository owner's; the repository

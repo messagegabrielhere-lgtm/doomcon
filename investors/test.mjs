@@ -2,7 +2,7 @@
 //   node --test investors/test.mjs
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { highlights, inDollars, parseInfoTable, aggregate, compare, latestTwo, parseArk, arkTrades, parseHouseIndex, parsePtr, pdfLines } from './collect.mjs';
+import { advanceArk, highlights, inDollars, parseInfoTable, aggregate, compare, latestTwo, parseArk, arkTrades, parseHouseIndex, parsePtr, pdfLines } from './collect.mjs';
 
 const Z = '\u0000\u0000\u0000';
 // The text layer of a real two-page House PTR (Filing ID 20033725), trimmed.
@@ -205,10 +205,41 @@ test('13F: a filer reporting thousands is scaled to dollars, one in dollars is l
 
 test('highlights: biggest stock trades, one per member and ticker, no exchanges', () => {
   const t = (member, ticker, type, amount, assetType = 'ST') => ({ member, ticker, type, amount, assetType, asset: ticker, date: '2026-09-01', filed: '2026-09-10' });
-  const h = highlights({ generated: 'x', funds: [{ id: 'a', person: 'A', fund: 'F', changes: [{ kind: 'new', ticker: 'Z', dValue: 5.4 }] }, { id: 'b', error: 'HTTP 403' }],
+  const h = highlights({ generated: 'x', funds: [
+    { id: 'stale', person: 'Old', fund: 'O', stale: true, changes: [{ kind: 'new', ticker: 'OLD', dValue: 9e9 }] },
+    { id: 'a', person: 'A', fund: 'F', changes: [{ kind: 'new', ticker: '', name: 'NoTicker', dValue: 1 }, { kind: 'new', ticker: 'Z', dValue: 5.4 }] },
+    { id: 'b', error: 'HTTP 403' },
+  ],
     congress: { trades: [t('M', 'AAA', 'buy', '$1,001 - $15,000'), t('M', 'BBB', 'buy', '$500,001 - $1,000,000'), t('M', 'BBB', 'sell', '$250,001 - $500,000'), t('N', 'CCC', 'exchange', '$1,000,001 - $5,000,000'), t('N', '', 'buy', '$5,000,001 - $25,000,000', 'GS')],
-      featured: [{ id: 'pelosi', trades: [t('Nancy Pelosi', 'NVDA', 'buy', '$1,000,001 - $5,000,000', 'OP')] }] } });
+      featured: [{ id: 'pelosi', trades: [
+        { member: 'Nancy Pelosi', ticker: '', type: 'buy', amount: '$500,001 - $1,000,000', assetType: 'ST', asset: 'REOF XXX, LLC', date: '2026-09-08', filed: '2026-10-02' },
+        t('Nancy Pelosi', 'NVDA', 'buy', '$1,000,001 - $5,000,000', 'OP'),
+      ] }] } });
   assert.deepEqual(h.congress.map((x) => x.ticker), ['BBB', 'AAA']);
+  assert.equal(h.pelosi[0].ticker, 'NVDA');
   assert.equal(h.pelosi[0].options, true);
-  assert.deepEqual(h.funds.map((f) => [f.id, f.kind, f.dValue]), [['a', 'new', 5]]);
+  assert.deepEqual(h.funds.map((f) => [f.id, f.kind, f.ticker, f.dValue]), [['a', 'new', 'Z', 5], ['stale', 'new', 'OLD', 9e9]]);
+});
+
+test('ARK: same-day re-run keeps yesterday for the next comparison', () => {
+  // Dollar sizes clear arkTrades' $250k floor (price $10).
+  const snap = (date, rows) => ({ date, rows: Object.fromEntries(rows.map(([t, sh]) => [t, { ticker: t, company: t, shares: sh, value: sh * 10, weight: 1 }])) });
+  const state = {};
+  const d1 = snap('2026-10-06', [['AAA', 100000], ['BBB', 200000], ['CCC', 300000]]);
+  assert.equal(advanceArk(state, 'ARKK', d1).trades.length, 0);
+  // Same-day refresh: holdings can move; the dated snapshot stays "yesterday".
+  const d1b = snap('2026-10-06', [['AAA', 100000], ['BBB', 200000], ['CCC', 310000]]);
+  assert.equal(advanceArk(state, 'ARKK', d1b).trades.length, 0);
+  assert.equal(state.ark.ARKK.date, '2026-10-06');
+  assert.equal(state.arkPrev.ARKK, undefined);
+  // Fund flat (+0%); BBB bought; OLD exited; NEW added.
+  const d2 = snap('2026-10-07', [['AAA', 100000], ['BBB', 240000], ['CCC', 300000], ['NEW', 40000]]);
+  const { prev, trades } = advanceArk(state, 'ARKK', d2);
+  assert.equal(prev.date, '2026-10-06');
+  assert.deepEqual(trades.map((t) => [t.ticker, t.kind]), [['BBB', 'buy'], ['NEW', 'new']]);
+  assert.equal(state.arkPrev.ARKK.date, '2026-10-06');
+  assert.equal(state.ark.ARKK.date, '2026-10-07');
+  // Another same-day run must not erase Oct 6 from arkPrev.
+  advanceArk(state, 'ARKK', snap('2026-10-07', [['AAA', 100000], ['BBB', 240000], ['CCC', 300000], ['NEW', 40000]]));
+  assert.equal(state.arkPrev.ARKK.date, '2026-10-06');
 });

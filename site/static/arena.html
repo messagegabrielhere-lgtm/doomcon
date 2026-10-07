@@ -799,12 +799,25 @@ function closeAgent(){
   if($("#agent").open) $("#agent").close();
   if(location.hash.startsWith("#agent=")) history.pushState(null, "", "#battle");
 }
+function investorsHash(h){
+  return h === "#investors" || /^#fund-[\w-]+$/.test(h) || h === "#ivArk" || h === "#ivCongress" || h === "#ivTrump" || h === "#ivPeople";
+}
+function focusInvestorsTarget(){
+  const id = location.hash.slice(1);
+  if(!id || id === "investors") return;
+  const el = document.getElementById(id);
+  if(!el) return;
+  if(el.tagName === "DETAILS") el.open = true;
+  requestAnimationFrame(() => el.scrollIntoView({behavior: "smooth", block: "start"}));
+}
 function routeHash(){
-  const want = location.hash.startsWith("#agent=") || location.hash === "#battle" ? "battle" : location.hash === "#investors" ? "investors" : "picks";
+  const h = location.hash;
+  const want = h.startsWith("#agent=") || h === "#battle" ? "battle" : investorsHash(h) ? "investors" : "picks";
   if(want !== view) setView(want);
-  const m = location.hash.match(/^#agent=([\w-]+)/);
+  const m = h.match(/^#agent=([\w-]+)/);
   if(m) openAgent(decodeURIComponent(m[1]), false);
   else if($("#agent").open){ openId = null; $("#agent").close(); }
+  if(want === "investors") focusInvestorsTarget();
 }
 
 /* picks:begin -- the screen. Pure functions of daily bars; arena/test.mjs runs this same block. */
@@ -1139,8 +1152,8 @@ function renderInvestors(){
   };
   const order = ["burry", "buffett", "wood"];
   for(const id of order){ const f = F.find((x) => x.id === id); if(f) fundCard(f); if(id === "buffett" && pel) {
-    const t = pel.trades[0];
-    card("ivCongress", "Nancy Pelosi", "House of Representatives (CA-11)", t ? `Latest: ${kindTag(t.type)} <b>${esc(t.ticker || t.asset)}</b> ${esc(t.amount)}` : "No trades read yet", t ? `Trade ${isoDay(t.date)} · reported ${isoDay(t.filed)}` : "", "Congress");
+    const t = pel.trades.find((x) => x.ticker) || pel.trades[0];
+    card("ivCongress", "Nancy Pelosi", "House of Representatives (CA-11)", t ? `Latest: ${kindTag(t.type)} <b>${esc(t.ticker || t.asset)}</b>${t.assetType === "OP" ? " options" : ""} ${esc(t.amount)}` : "No trades read yet", t ? `Trade ${isoDay(t.date)} · reported ${isoDay(t.filed)}` : "", "Congress");
   } }
   if(A?.trades?.length){ const t = A.trades[0]; card("ivArk", "Cathie Wood", "ARK ETFs, daily", `Latest: ${kindTag(t.kind)} <b>${esc(t.ticker)}</b> ${usd(Math.abs(t.usd))} in ${esc(t.fund)}`, `As of ${isoDay(t.date)}`, "Daily trades"); }
   card("ivTrump", "Donald Trump", "President, OGE Form 278-T", "Reports are scanned images; linked, not read", "See the official filings", "Links only");
@@ -1152,7 +1165,8 @@ function renderInvestors(){
   if(C){
     $("#ivCgNote").textContent = `${C.reports} House reports filed in the last ${C.days} days${C.pending ? ` · ${C.pending} still being read` : ""}`;
     if(pel){
-      const t = pel.trades.slice(0, 12);
+      // Named stocks first; private LLC / bond rows without a ticker follow.
+      const t = [...pel.trades].sort((a, b) => Number(!!b.ticker) - Number(!!a.ticker)).slice(0, 12);
       $("#ivPelosi").innerHTML = `<h3>Nancy Pelosi's disclosed trades</h3><p class="mute" style="margin:0;font-size:12.5px">Mostly held by her husband, Paul Pelosi (owner SP). Reported up to 45 days after the trade; amounts are ranges.</p>` +
         (t.length ? `<div class="chips">${t.map((x) => `<span class="chip2">${kindTag(x.type)} <b>${esc(x.ticker || x.asset)}</b>${x.assetType === "OP" ? " options" : ""} · ${esc(x.amount)} · ${isoDay(x.date)}</span>`).join("")}</div>` : `<p class="mute">No reports read yet this year.</p>`);
     }else $("#ivPelosi").hidden = true;
@@ -1235,11 +1249,16 @@ function renderHL(){
   }
   if(IV){
     const pel = IV.congress?.featured?.find((f) => f.id === "pelosi")?.trades?.find((t) => t.ticker);
-    const f = (IV.funds || []).find((x) => !x.error && x.changes?.length && !x.stale);
-    const verb = {buy:"bought", sell:"sold", "sell (partial)":"sold some", exchange:"exchanged"};
+    const ark = IV.ark?.trades?.[0];
+    const f = (IV.funds || []).find((x) => !x.error && x.changes?.length && !x.stale && x.changes.some((c) => c.ticker))
+      || (IV.funds || []).find((x) => !x.error && x.changes?.length && !x.stale);
+    const ch = f && (f.changes.find((c) => c.ticker) || f.changes[0]);
+    const verb = {buy:"bought", sell:"sold", "sell (partial)":"sold some", exchange:"exchanged", new:"new", add:"added", trim:"trimmed", exit:"sold out of"};
     if(pel){ $("#hlInv").textContent = `Pelosi ${verb[pel.type] || pel.type} ${pel.ticker}${pel.assetType === "OP" ? " options" : ""}`; $("#hlInvS").textContent = `${pel.amount} · traded ${isoDay(pel.date)}`; }
-    else if(f){ const c = f.changes[0]; $("#hlInv").textContent = `${f.person}: ${c.kind} ${c.ticker || c.name}`; $("#hlInvS").textContent = `${quarter(f.period)} 13F`; }
-    if(f && pel) $("#hlInvS").textContent += ` · ${f.person.split(" ").pop()} ${f.changes[0].kind} ${f.changes[0].ticker || f.changes[0].name}`;
+    else if(ark){ $("#hlInv").textContent = `Wood ${verb[ark.kind] || ark.kind} ${ark.ticker}`; $("#hlInvS").textContent = `${usd(ark.usd)} in ${ark.fund} · ${isoDay(ark.date)}`; }
+    else if(ch){ $("#hlInv").textContent = `${f.person}: ${ch.kind} ${ch.ticker || ch.name}`; $("#hlInvS").textContent = `${quarter(f.period)} 13F`; }
+    if(pel && ark) $("#hlInvS").textContent += ` · Wood ${ark.kind} ${ark.ticker}`;
+    else if(pel && ch) $("#hlInvS").textContent += ` · ${f.person.split(" ").pop()} ${ch.kind} ${ch.ticker || ch.name}`;
   }
   for(const b of document.querySelectorAll(".hl-c")) b.setAttribute("aria-current", String(b.dataset.v === view));
 }
@@ -1300,11 +1319,12 @@ $("#agent").addEventListener("cancel", (e) => { e.preventDefault(); closeAgent()
 $("#agent").addEventListener("click", (e) => { if(e.target === $("#agent")) closeAgent(); }); // backdrop
 $("#mkSeg").addEventListener("click", (e) => { const b = e.target.closest("button[data-t]"); if(!b) return; mkType = b.dataset.t; for(const x of $("#mkSeg").children) x.setAttribute("aria-pressed", String(x === b)); renderMarket(); });
 $("#mk").addEventListener("click", (e) => { const b = e.target.closest("button[data-k]"); if(!b) return; const k = b.dataset.k; mkSort = {k, dir: mkSort.k === k ? -mkSort.dir : (k === "sym" ? 1 : -1)}; renderMarket(); });
-addEventListener("popstate", () => S ? routeHash() : setView(location.hash === "#investors" ? "investors" : location.hash === "#battle" ? "battle" : "picks"));
+addEventListener("popstate", () => S ? routeHash() : setView(location.hash.startsWith("#agent=") || location.hash === "#battle" ? "battle" : investorsHash(location.hash) ? "investors" : "picks"));
+addEventListener("hashchange", () => { if(S || IV || PKH) routeHash(); });
 let rz; addEventListener("resize", () => { clearTimeout(rz); rz = setTimeout(() => S && renderChart(), 150); });
-setView(location.hash.startsWith("#agent=") || location.hash === "#battle" ? "battle" : location.hash === "#investors" ? "investors" : "picks");
+setView(location.hash.startsWith("#agent=") || location.hash === "#battle" ? "battle" : investorsHash(location.hash) ? "investors" : "picks");
 loadPicks();
-loadInvestors();
+loadInvestors().then(() => { if(investorsHash(location.hash)) focusInvestorsTarget(); });
 load();
 setInterval(load, 60e3);
 setInterval(loadPicks, 5 * 60e3);

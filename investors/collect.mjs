@@ -237,6 +237,25 @@ export function arkTrades(fund, prev, cur, { minPct = 1, minUsd = 250e3 } = {}) 
   return out.sort((a, b) => Math.abs(b.usd) - Math.abs(a.usd));
 }
 
+// Keep the latest snapshot and the previous distinct date, so same-day
+// re-runs refresh today's holdings without erasing yesterday (needed for
+// the next day's trade estimate). Returns the snapshot used as "prev" and
+// the trades vs that snapshot.
+export function advanceArk(state, fund, cur) {
+  state.ark ||= {};
+  state.arkPrev ||= {};
+  const latest = state.ark[fund] || null;
+  const prior = state.arkPrev[fund] || null;
+  let prev = null;
+  if (latest?.date && latest.date < cur.date) prev = latest;
+  else if (prior?.date && prior.date < cur.date) prev = prior;
+  const trades = arkTrades(fund, prev, cur);
+  if (!latest) state.ark[fund] = cur;
+  else if (cur.date > latest.date) { state.arkPrev[fund] = latest; state.ark[fund] = cur; }
+  else if (cur.date === latest.date) state.ark[fund] = cur;
+  return { prev, trades };
+}
+
 // ---------------------------------------------------------------- House PTRs
 
 // The Clerk's yearly index: one <Member> per filing.
@@ -398,23 +417,27 @@ export const TRUMP = {
 
 // A few lines for pages that only feature the tab (the homepage band).
 const AMOUNT_LOW = (a) => Number(String(a || '').split('-')[0].replace(/[$,\s]/g, '')) || 0;
+const isEquityTrade = (t) => t.ticker && ['ST', 'OP'].includes(t.assetType || 'ST') && t.type !== 'exchange';
 export function highlights(out) {
   const pick = (t) => ({ member: t.member, type: t.type, ticker: t.ticker, asset: t.asset, amount: t.amount, date: t.date, filed: t.filed, options: t.assetType === 'OP' });
   const c = out.congress;
   const pel = c?.featured?.find((f) => f.id === 'pelosi');
   // The biggest stock trades reported recently, by the low end of the range.
   const seen = new Set();
-  const big = (c?.trades || []).filter((t) => t.ticker && ['ST', 'OP'].includes(t.assetType) && t.type !== 'exchange')
+  const big = (c?.trades || []).filter(isEquityTrade)
     .sort((a, b) => AMOUNT_LOW(b.amount) - AMOUNT_LOW(a.amount) || (b.filed || '').localeCompare(a.filed || ''))
     .filter((t) => { const k = `${t.member}|${t.ticker}`; if (seen.has(k)) return false; seen.add(k); return true; })
     .slice(0, 4).map(pick);
+  // Prefer a tickered change; demote stale filings so the band isn't led by
+  // a quarter-old put while fresher books sit below.
   const funds = (out.funds || []).filter((f) => !f.error && f.changes?.length).map((f) => {
-    const x = f.changes[0];
+    const x = f.changes.find((ch) => ch.ticker) || f.changes[0];
     return { id: f.id, person: f.person, fund: f.fund, period: f.period, stale: !!f.stale, kind: x.kind, ticker: x.ticker, name: x.name, putCall: x.putCall, dValue: Math.round(x.dValue) };
-  });
+  }).sort((a, b) => Number(a.stale) - Number(b.stale) || Number(!a.ticker) - Number(!b.ticker));
   return {
     generated: out.generated,
-    pelosi: (pel?.trades || []).slice(0, 3).map(pick),
+    // Skip LLC / bond rows with no ticker — the homepage band is for named stocks.
+    pelosi: (pel?.trades || []).filter(isEquityTrade).slice(0, 3).map(pick),
     congress: big,
     funds,
     ark: (out.ark?.trades || []).slice(0, 3).map((t) => ({ date: t.date, fund: t.fund, ticker: t.ticker, kind: t.kind, usd: t.usd })),
@@ -438,17 +461,14 @@ async function main() {
   // ARK first: its files carry tickers for CUSIPs the 13F tables need.
   let ark = prevOut.ark || null;
   if (run('ark')) {
-    state.ark ||= {};
     const trades = (state.arkTrades || []).filter((t) => daysAgo(t.date) <= 45);
     const funds = [];
     for (const [fund, file] of ARK_FUNDS) {
       try {
         const cur = parseArk(await get(ARK_BASE + encodeURIComponent(file).replace(/%26/g, '&')));
         for (const x of Object.values(cur.rows)) if (x.cusip && /^[0-9A-Z]{9}$/.test(x.cusip)) state.cusips[x.cusip] = x.ticker;
-        const prev = state.ark[fund];
-        const t = arkTrades(fund, prev, cur);
+        const { prev, trades: t } = advanceArk(state, fund, cur);
         for (const x of t) if (!trades.some((y) => y.date === x.date && y.fund === x.fund && y.ticker === x.ticker)) trades.push(x);
-        if (!prev || cur.date >= prev.date) state.ark[fund] = cur;
         const top = Object.values(cur.rows).sort((a, b) => b.value - a.value).slice(0, 10).map((x) => ({ ticker: x.ticker, company: x.company, weight: x.weight, value: x.value }));
         funds.push({ fund, date: cur.date, prevDate: prev?.date || null, stale: daysAgo(cur.date) > 5, top, trades: t.length });
         log(`ark ${fund}: ${cur.date}, ${Object.keys(cur.rows).length} holdings, ${t.length} trades vs ${prev?.date || 'none'}`);

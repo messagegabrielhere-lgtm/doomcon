@@ -768,7 +768,6 @@ ${gauge.styleTag()}
   ${Number.isFinite(state.score) ? langStrip(state) : ''}
   <p class="stage__credit">Background: a generated illustration, not a photograph.</p>
   </div>
-  ${picksBand(ctx)}
   ${warRoom(ctx)}
   ${sourceStrip(state)}
   <div class="hero__grid">
@@ -823,6 +822,9 @@ ${gauge.styleTag()}
     </div>
 
   </div>
+  <!-- Markets sits after the dial so the first viewport stays the reading.
+       The band still SSR-shells and hydrates from scanner/investors/arena data. -->
+  ${picksBand(ctx)}
 </section>
 
 <!-- THE RECENT READINGS STRIP and THE CLAIM CARDS sit directly under the
@@ -1661,7 +1663,13 @@ function picksBand(ctx) {
     var tk = function(t){ return '<b>' + esc(t.ticker || t.name || t.asset) + '</b>' + (t.options ? " options" : t.putCall ? " " + esc(t.putCall.toLowerCase()) + "s" : ""); };
     var p = (h.pelosi || []).filter(function(t){ return t.ticker; })[0];
     if(p) rows.push('<li><span>Pelosi ' + esc(kind[p.type] || p.type) + ' ' + tk(p) + '</span><span>' + esc(p.amount.replace(/,000,000/g, "M").replace(/,000/g, "K").replace(/,001/g, "K")) + '</span></li>');
-    (h.funds || []).filter(function(f){ return ["burry", "wood", "buffett"].indexOf(f.id) >= 0; }).forEach(function(f){
+    // Prefer ARK's daily estimate for Wood when we have one; else her 13F.
+    var ark = (h.ark || [])[0];
+    if(ark) rows.push('<li><span>Wood ' + esc(kind[ark.kind] || ark.kind) + ' <b>' + esc(ark.ticker) + '</b></span><span class="' + (ark.usd >= 0 ? "mkb__up" : "mkb__dn") + '">' + usd(ark.usd) + ' · ' + esc(ark.fund) + '</span></li>');
+    ["buffett", "burry", "wood"].forEach(function(id){
+      if(id === "wood" && ark) return;
+      var f = (h.funds || []).find(function(x){ return x.id === id && (x.ticker || x.name); });
+      if(!f) return;
       rows.push('<li><span>' + esc(f.person.split(" ").slice(-1)[0]) + ' ' + esc(kind[f.kind] || f.kind) + ' ' + tk(f) + '</span><span class="' + (f.dValue >= 0 ? "mkb__up" : "mkb__dn") + '">' + usd(f.dValue) + (f.stale ? " · old" : "") + '</span></li>');
     });
     var c = (h.congress || [])[0];
