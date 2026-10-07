@@ -14,6 +14,7 @@
 import { readdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { CANONICAL_URL } from './brand.mjs';
+import { on as mzOn, sponsorLine, adSlot, AD_PAGES, MZ_CSS } from './monetize.mjs';
 
 const MARK = 'data-sitebar';
 // Pages meant to be embedded in other sites keep their own chrome.
@@ -89,10 +90,15 @@ export function sitebar(asOf) {
 export const disclosureHtml = () => `\n<aside class="site-disclosure" ${MARK} role="note"><b>Disclosure:</b> ${DISCLOSURE}</aside>`;
 
 // Add the bar and, unless the page carries its own, the disclosure.
-export function stamp(html, asOf) {
+export function stamp(html, asOf, rel = '') {
   if (html.includes(MARK) || !/<\/body>/i.test(html)) return html;
   const own = html.includes('class="legal-note"');
-  return html.replace(/<\/body>(?![\s\S]*<\/body>)/i, `${own ? '' : disclosureHtml()}${sitebar(asOf)}\n</body>`);
+  // Monetisation, all off until site/monetize.mjs has an ID: one async ad on
+  // long reading pages, and the sponsor's line on every page.
+  const ad = AD_PAGES.has(rel) ? adSlot() : '';
+  const sp = mzOn.sponsor() ? `\n<p class="site-sponsor" ${MARK} style="max-width:72ch;margin:0 auto;padding:0 16px;text-align:center">${sponsorLine(`${CANONICAL_URL}/sponsor.html`, { house: false })}</p>` : '';
+  const css = ad || sp ? MZ_CSS : '';
+  return html.replace(/<\/body>(?![\s\S]*<\/body>)/i, `${css}${ad}${sp}${own ? '' : disclosureHtml()}${sitebar(asOf)}\n</body>`);
 }
 
 export async function stampAll(outDir, asOf) {
@@ -103,7 +109,7 @@ export async function stampAll(outDir, asOf) {
       if (e.isDirectory()) await walk(p);
       else if (e.name.endsWith('.html') && !SKIP.has(path.relative(outDir, p))) {
         const html = await readFile(p, 'utf8');
-        const out = stamp(html, asOf);
+        const out = stamp(html, asOf, path.relative(outDir, p).split(path.sep).join('/'));
         if (out !== html) { await writeFile(p, out); n++; }
       }
     }

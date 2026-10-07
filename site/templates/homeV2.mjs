@@ -8,6 +8,7 @@
 import { esc, num } from './_html.mjs';
 
 import { blocks, pixelText, icon } from './_pixel.mjs';
+import { sponsorLine, newsletterBox, tipLink, MZ_CSS } from '../monetize.mjs';
 
 // ---------- copy ----------
 const LEVEL = {
@@ -266,6 +267,7 @@ ${nav.strip}
     </div>
   </section>
   <div class="v2-since" id="v2-since" hidden role="status"></div>
+  <div class="v2-sponsor">${sponsorLine(href('/sponsor.html'))}</div>
   <script>window.SIREN_NOW=${JSON.stringify(sinceNow).replace(/</g, '\\u003c')}</script>
 
   ${top ? `<div class="v2-breaking" id="breaking" data-sec="Breaking"><span class="badge"><span class="blink">${icon('bolt', 2)}</span>BREAKING</span><a href="${esc(top.url)}" rel="noopener">${esc(top.title)}</a><span class="src">${esc(hhmm(top.published_at))} · ${esc(String(top.source).toUpperCase())}</span></div>` : ''}
@@ -297,9 +299,10 @@ ${roomsGrid(ctx, href, img)}
     <div class="col">${pixelText('TALLY IS STILL SINGING', 4, '#FFFFFF', 'fit')}<span>Our duty canary posts on X the hour the level moves. Nothing in between.</span></div>
     <a class="v2-btn" href="https://x.com/intent/follow?screen_name=SIRENutf6">FOLLOW @SIRENutf6 →</a>
   </div>
+  ${newsletterBox(href('/privacy.html')) ? `<div class="v2-nl">${newsletterBox(href('/privacy.html'))}</div>` : ''}
 
   <p class="v2-foot">SIREN counts how loud AI is, every hour, from public data. A count, not a forecast. Portraits and icons are generated illustrations, not photographs.
-  <a href="${href('/methodology.html')}">How it works</a> · <a href="${href('/classic.html#vfy')}">Verify a reading</a> · <a href="${href('/classic.html')}">Full instrument panel</a> · <a href="${href('/about.html')}">About</a></p>
+  <a href="${href('/methodology.html')}">How it works</a> · <a href="${href('/classic.html#vfy')}">Verify a reading</a> · <a href="${href('/classic.html')}">Full instrument panel</a> · <a href="${href('/about.html')}">About</a> · <a href="${href('/sponsor.html')}">Sponsor</a>${tipLink() ? ` · ${tipLink()}` : ''}</p>
   <p class="v2-foot"><b>Not advice.</b> Information, commentary and satire only — not financial, investment, legal, security or safety advice. Data is automated and may be wrong or late; provided as is, with no warranty. Not affiliated with any company, lab, person or agency named here. Use of this site means you accept the <a href="${href('/terms.html')}">terms &amp; disclaimers</a>. <a href="${href('/privacy.html')}">Privacy</a>. <a href="${href('/feedback.html')}">Report a problem or send feedback</a>.</p>
 </main>
 ${nav.palette}${nav.tabbar}
@@ -311,7 +314,7 @@ ${nav.palette}${nav.tabbar}
 
   return `<!doctype html>
 <html lang="en">
-${head.replace('</head>', `<style>${CSS}</style>\n</head>`)}
+${head.replace('</head>', `<style>${CSS}</style>${MZ_CSS}\n</head>`)}
 <body class="v2-body">${body}
 </body>
 </html>`;
@@ -470,6 +473,7 @@ body.v2-body{margin:0;background:#000;color:#F3F4F6}
 .v2-cta{border:2px solid #4338CA;background:#0E1033;padding:24px 28px;display:flex;align-items:center;gap:22px;flex-wrap:wrap}
 .v2-cta .col{display:flex;flex-direction:column;gap:10px;flex:1 1 300px;min-width:0;color:#C7D2FE}
 .v2-foot{margin:0;font-size:13px;color:#AEB7C3}
+.v2-sponsor{margin:10px 0 0;text-align:right}.v2-nl{margin:18px 0 0;padding:16px;border:1px solid #232C3B;border-radius:4px;background:#0E131D}
 .v2-since{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;margin:12px 0 0;padding:10px 14px;border:1px solid #232C3B;border-left:4px solid #818CF8;border-radius:4px;background:#0E131D;font:500 14px/1.4 'IBM Plex Sans',sans-serif;color:#E6EAF0}
 .v2-since[hidden]{display:none}
 .v2-since .k{font:600 11px/1 'IBM Plex Mono',monospace;letter-spacing:.14em;color:#818CF8}

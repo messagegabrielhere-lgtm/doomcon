@@ -16,6 +16,7 @@ import { fileURLToPath } from 'node:url';
 import * as brand from './brand.mjs';
 import * as marks from './brandmarks.mjs';
 import { cardAssets, roomCard } from './cardpng.mjs';
+import { MONETIZE } from './monetize.mjs';
 import { createHash } from 'node:crypto';
 import { gzipSync } from 'node:zlib';
 import { css as siteCss } from './styles.mjs';
@@ -85,6 +86,15 @@ function selfHostFonts(html) {
     .replace(/<link[^>]+rel=["']preconnect["'][^>]+fonts\.(googleapis|gstatic)\.com[^>]*>\s*/gi, '')
     .replace(/<link[^>]+href=["']https?:\/\/fonts\.googleapis\.com\/[^"']*["'][^>]*>/gi, '<link rel="stylesheet" href="fonts/fonts.css">')
     .replace(/@import\s+url\(\s*["']?https?:\/\/fonts\.googleapis\.com\/[^)]*\)\s*;?/gi, '');
+}
+
+// The Bunker Kit's paid-upgrades crate, from site/monetize.mjs. An entry with
+// an affiliate link uses it (rendered rel="sponsored" and stamped Paid link);
+// one without stays a plain link to the service.
+function injectAffiliates(html) {
+  if (!html.includes('/*MZ_AFF*/[]')) return html;
+  const rows = MONETIZE.affiliates.map((a) => ['upgrades', a.name, a.url.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, ''), a.does, a.doom, a.aff ? 'Paid link' : 'Paid service', null, a.aff || null]);
+  return html.replace('/*MZ_AFF*/[]', JSON.stringify(rows).replace(/</g, '\\u003c'));
 }
 
 function prerenderStatic(html, name, ctx) {
@@ -1194,7 +1204,7 @@ async function main() {
         await writeFile(path.join(staticDir, name), src);
       }
       const raw = await inlineModules(src);
-      written.push(await write(args.out, name, prerenderStatic(raw, name, ctx)));
+      written.push(await write(args.out, name, prerenderStatic(injectAffiliates(raw), name, ctx)));
     }
   }
   written.push(await write(args.out, 'moves/index.html', movesIndexPage.render(ctx)));

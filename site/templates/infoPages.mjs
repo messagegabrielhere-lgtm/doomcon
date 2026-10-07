@@ -6,6 +6,7 @@
 import { esc, utc } from './_html.mjs';
 import { page } from './layout.mjs';
 import * as brand from '../brand.mjs';
+import { MONETIZE, on as mzOn } from '../monetize.mjs';
 import { mascot, MOODS } from './_mascot.mjs';
 
 const CSS = `<style>
@@ -100,6 +101,10 @@ export function privacy(ctx) {
       connection stays on your machine; nothing is sent to this site.</li>
     <li><b>Links out.</b> Clicking a link to X, Amazon, a news source or a data source takes you to that site under its own
       policy. The "Post on X" links pass only the text of the card and this site's address.</li>
+${mzOn.newsletter() ? `<li><b>Email newsletter.</b> If you subscribe, your email address goes to ${MONETIZE.newsletter.provider === 'buttondown' ? 'Buttondown' : 'beehiiv'}, which sends the newsletter under its own privacy policy. It is used only to send it, and every email has an unsubscribe link.</li>` : ''}
+    ${mzOn.ads() ? `<li><b>Advertising.</b> Some reading pages show one ad from ${MONETIZE.ads.provider === 'ethicalads' ? 'EthicalAds' : 'Carbon Ads'}, chosen by the page's topic, not by tracking you. The ad network receives your IP address and browser details to serve it, under its own policy. This site sets no ad cookies.</li>` : ''}
+    ${mzOn.sponsor() ? `<li><b>Sponsor.</b> The sponsor line links to ${esc(MONETIZE.sponsor.name)}; following it takes you to their site under their policy. The sponsor receives no visitor data from this site.</li>` : ''}
+    <li><b>Affiliate links.</b> Some links to paid services in the Bunker Kit may be affiliate links; if you buy through one, ${esc(brand.NAME)} may earn a commission at no cost to you.</li>
     <li><b>Amazon paid links.</b> The reading list and the supplies crate in the Bunker Kit use Amazon Associates links. If you follow one, Amazon
       may set its own cookies to attribute a purchase. As an Amazon Associate, ${esc(brand.NAME)} earns from qualifying purchases.</li>
   </ul>

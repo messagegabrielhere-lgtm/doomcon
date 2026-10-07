@@ -116,7 +116,8 @@ const CRATES = [
  {id:"s-comms", name:"Supply drop: comms & navigation", why:"Hear the warnings, reach your people, find your way without a signal. Paid Amazon links: as an Amazon Associate, SIREN earns from qualifying purchases."},
  {id:"s-med", name:"Supply drop: medical & hygiene", why:"The unglamorous crate that matters most. Paid Amazon links: as an Amazon Associate, SIREN earns from qualifying purchases."},
  {id:"s-tools", name:"Supply drop: tools & shelter", why:"Fix it, cut it, tie it down, stay warm. Paid Amazon links: as an Amazon Associate, SIREN earns from qualifying purchases."},
- {id:"s-docs", name:"Supply drop: bags, documents & security", why:"Grab-and-go: the bag, the papers, the backups. Paid Amazon links: as an Amazon Associate, SIREN earns from qualifying purchases."}
+ {id:"s-docs", name:"Supply drop: bags, documents & security", why:"Grab-and-go: the bag, the papers, the backups. Paid Amazon links: as an Amazon Associate, SIREN earns from qualifying purchases."},
+ {id:"upgrades", name:"Paid upgrades", why:"Paid services worth it for going dark and fighting the fakes. Some of these links may be affiliate links: SIREN may earn a commission, at no cost to you."}
 ];
 
 const TAG = "buyusa0d-20";
@@ -124,6 +125,8 @@ const amz = asin => "https://www.amazon.com/dp/" + asin + "?tag=" + TAG;
 // A tagged Amazon search for items picked by type rather than one listing.
 const azs = q => "https://www.amazon.com/s?k=" + encodeURIComponent(q).replace(/%20/g, "+") + "&tag=" + TAG;
 
+// Filled at build time from site/monetize.mjs (affiliates): [crate,name,dom,does,doom,warn,null,url|null]
+const UPGRADES = /*MZ_AFF*/[];
 const TOOLS = [
  ["vault","Unpaywall","unpaywall.org","Free research papers","Liberate the papers before the paywalls become firewalls."],
  ["vault","Open Library","openlibrary.org","Borrow books online","A lending library the robots haven't foreclosed on. Yet."],
@@ -279,6 +282,7 @@ function meter(){
   $("#fill").style.width = (n / TOOLS.length * 100) + "%";
 }
 
+TOOLS.push(...UPGRADES);
 $("#q").addEventListener("input", render);
 renderCrates(); render(); meter();
 </script>
