@@ -2,12 +2,100 @@
 // bosses on watch, the labs as monitored "locations", and two small charts.
 // Everything is server-rendered: the level, the score and every count are text
 // or inline SVG in the HTML, so the build's self-check and every screenshot see
-// them without a script. The only script is the ticking UTC clock.
+// them without a script. Client scripts: UTC clock, room jump, war-room rail,
+// and the "since your last visit" strip.
 //
 // The full instrument panel this replaced still builds, at /classic.html.
 import { esc, num } from './_html.mjs';
-
+import * as brand from '../brand.mjs';
 import { blocks, pixelText, icon } from './_pixel.mjs';
+
+// Plain-language read for the largest arrival cluster (VISITORS.md §4.2 /
+// ENGAGEMENT "frightened visitor"): one sentence under the badge that answers
+// "should I be worried" without forecasting. Same wording as classic.html.
+function plainRead(state) {
+  const s = Number.isFinite(state.score) ? state.score : null;
+  if (s === null) return 'No score today — not enough sources reported to compute one.';
+  const where = s >= 85 ? 'higher than almost anything in our record'
+    : s >= 70 ? 'above the usual range of our record'
+    : s >= 55 ? 'a little above the middle of our record'
+    : s >= 35 ? 'inside the middle band of our own record'
+    : 'below the usual range of our record';
+  const mood = s >= 70 ? 'busy' : s >= 55 ? 'slightly busy' : 'ordinary';
+  return `Today reads ${mood}. ${s.toFixed(1)} of 100 sits ${where}. `
+    + 'This counts how much is happening in AI right now — it is not a claim about how it ends.';
+}
+
+// Compact five-stage scale for the fold. Full oven (gates, pin track) stays on
+// /classic.html#oven. This is the Domino's-tracker glance object VISITORS.md
+// §4.5 asked for: named stops, band edges, live stop lit, previous marked.
+// Bidirectional by construction — cooler and hotter cells both render.
+function scaleRail(state, href) {
+  const level = state.level;
+  const prev = Number.isInteger(state.previous_level) && state.previous_level !== level
+    ? state.previous_level : null;
+  const score = Number.isFinite(state.score) ? num(state.score, 1) : '—';
+  const stages = [...brand.LEVELS].sort((a, b) => b.level - a.level);
+  const cells = stages.map((s) => {
+    const live = s.level === level;
+    const was = prev === s.level;
+    const color = (LEVEL[s.level] || LEVEL[4]).color;
+    const mark = live
+      ? `<b class="v2-scale__now">${esc(score)}</b><span class="v2-scale__k">NOW</span>`
+      : (was ? `<span class="v2-scale__k was">WAS</span>` : '');
+    return `<li class="v2-scale__st${live ? ' on' : ''}${was ? ' was' : ''}"${live ? ' aria-current="true"' : ''} style="--sc:${color}">
+      <span class="v2-scale__slot">${mark}</span>
+      <span class="v2-scale__n">${esc(s.level)}</span>
+      <span class="v2-scale__name">${esc(s.name)}</span>
+      <span class="v2-scale__band">${esc(s.band[0])}–${esc(s.band[1])}</span>
+      <span class="v2-sr">${esc(brand.NAME)} ${esc(s.level)}, ${esc(s.name)}, band ${esc(s.band[0])} to ${esc(s.band[1])}.${live ? ` Current stage at ${score} of 100.` : (was ? ' Previous stage.' : '')}</span>
+    </li>`;
+  }).join('');
+  return `<ol class="v2-scale" aria-label="${esc(brand.NAME)} scale, coolest first. ${esc(brand.NAME)} ${esc(level)} is current.">${cells}</ol>
+<p class="v2-scale__note">Five stages · the mark moves both ways · <a href="${esc(href('/classic.html#oven'))}">full oven with gates →</a></p>`;
+}
+
+function raceLeaderLine(ctx, href) {
+  const players = ((ctx.race && ctx.race.players) || []).slice().sort((a, b) => a.rank - b.rank);
+  const lead = players[0];
+  if (!lead || !lead.market || !Number.isFinite(lead.market.probability)) return '';
+  const m = lead.market;
+  const ch = Number.isFinite(m.change_7d) ? m.change_7d : null;
+  const chTxt = ch === null ? '' : ` · ${ch >= 0 ? '+' : '−'}${Math.abs(ch * 100).toFixed(1)} pts / 7d`;
+  const q = (m.horizon_event && m.horizon_event.title) || 'Which company has best AI model end of 2026?';
+  return `<a class="v2-racelead" href="${href('/race.html')}">
+  <span class="k">MARKET LEADER</span>
+  <span class="v"><b>${esc(lead.name)}</b> ${pct(m.probability)}${esc(chTxt)}</span>
+  <span class="q">${esc(q)}</span>
+</a>`;
+}
+
+function shareReuse(ctx, state, href) {
+  const score = num(state.score, 1);
+  const cite = `${brand.NAME} ${state.level} (${state.level_name}), composite ${score} of 100, observed ${String(state.generated_at).slice(0, 19)}Z. Tempo, not a probability.${state.receipt_id ? ` Receipt ${state.receipt_id}.` : ''}`;
+  const badgeMd = `[![${brand.NAME}](${ctx.url('/badge.svg')})](${ctx.url('/')})`;
+  const iframe = `<iframe src="${ctx.url('/embed.html')}" width="320" height="96" style="border:0;overflow:hidden" title="${brand.NAME} reading" loading="lazy"></iframe>`;
+  return `<section class="v2-share" id="reuse" data-sec="Reuse" aria-labelledby="v2-share-h">
+  <div class="v2-sec"><h2 id="v2-share-h">${pixelText('REUSE THIS READING', 4, '#FFFFFF', 'fit')}</h2><span>BADGE · EMBED · CITE · ALERTS</span></div>
+  <div class="v2-share__grid">
+    <div class="v2-share__card">
+      <span class="cap">README BADGE</span>
+      <p><img src="${esc(href('/badge.svg'))}" alt="${esc(brand.NAME)} badge showing the current level" height="20"></p>
+      <pre class="v2-share__code" tabindex="0">${esc(badgeMd)}</pre>
+    </div>
+    <div class="v2-share__card">
+      <span class="cap">EMBED</span>
+      <pre class="v2-share__code" tabindex="0">${esc(iframe)}</pre>
+      <p class="small"><a href="${esc(href('/embed.html'))}">Open the widget</a> · no script, no key, no tracking</p>
+    </div>
+    <div class="v2-share__card">
+      <span class="cap">CITE THIS READING</span>
+      <pre class="v2-share__code" tabindex="0">${esc(cite)}</pre>
+      <p class="small"><a href="${esc(href('/api/state.json'))}">state.json</a> · <a href="${esc(href('/feed.xml'))}">RSS moves</a> · <a href="${esc(href('/feed-level.xml'))}">level-change alerts</a></p>
+    </div>
+  </div>
+</section>`;
+}
 
 // ---------- copy ----------
 const LEVEL = {
@@ -99,7 +187,7 @@ function roomNav(ctx, href, img) {
 </div></nav>`;
   const palette = `<dialog class="v2-pal" id="v2-pal" aria-label="Jump to a room"><div class="v2-pal__box">
   <input class="v2-pal__q" id="v2-pal-q" type="search" placeholder="Jump to… type a room name" aria-label="Filter rooms" autocomplete="off" spellcheck="false">
-  <ul class="v2-pal__l">${[['#signal', 'Signal', 'The level, the score and the trend'], ['#breaking', 'Breaking', 'The top story right now'], ['#rooms', 'Every room', 'All features, grouped'], ['#bosses', 'Bosses', 'The AI leaders on watch'], ['#labs', 'Labs', 'The labs as monitored locations'], ['#readings', 'Readings', 'The score trend and what is loud'], ['#tally', 'Tally', 'Follow the alerts on X']].map(([h, l, b], i) => `<li><a class="v2-pal__i v2-pal__i--sec" href="${h}" data-k="${esc(`${l} ${b} section on this page`.toLowerCase())}"><span class="v2-pal__num">${i + 1}</span><span><b>${esc(l)}</b><small>On this page · ${esc(b)} · key ${i + 1}</small></span></a></li>`).join('')}${all.map(([p, art, label, n, blurb, g]) => `<li><a class="v2-pal__i" href="${href(p)}" data-k="${esc(`${label} ${blurb} ${g}`.toLowerCase())}"><img src="${img(art)}" width="36" height="36" alt="" loading="lazy"><span><b>${esc(label)}</b><small>${esc(blurb)}</small></span>${n ? `<i>${esc(n)}</i>` : ''}</a></li>`).join('')}</ul>
+  <ul class="v2-pal__l">${[['#signal', 'Signal', 'The level, the score and the trend'], ['#breaking', 'Breaking', 'The top story right now'], ['#rooms', 'Every room', 'All features, grouped'], ['#bosses', 'Bosses', 'The AI leaders on watch'], ['#labs', 'Labs', 'The labs as monitored locations'], ['#readings', 'Readings', 'The score trend and what is loud'], ['#reuse', 'Reuse', 'Badge, embed, cite and alerts'], ['#tally', 'Tally', 'Follow the alerts on X']].map(([h, l, b], i) => `<li><a class="v2-pal__i v2-pal__i--sec" href="${h}" data-k="${esc(`${l} ${b} section on this page`.toLowerCase())}"><span class="v2-pal__num">${i + 1}</span><span><b>${esc(l)}</b><small>On this page · ${esc(b)} · key ${i + 1}</small></span></a></li>`).join('')}${all.map(([p, art, label, n, blurb, g]) => `<li><a class="v2-pal__i" href="${href(p)}" data-k="${esc(`${label} ${blurb} ${g}`.toLowerCase())}"><img src="${img(art)}" width="36" height="36" alt="" loading="lazy"><span><b>${esc(label)}</b><small>${esc(blurb)}</small></span>${n ? `<i>${esc(n)}</i>` : ''}</a></li>`).join('')}</ul>
   <p class="v2-pal__hint">↑ ↓ to move · Enter to open · Esc to close</p>
 </div></dialog>`;
   const tab = [['/news.html', 'news', 'NEWS'], ['/race.html', 'radar', 'RACE'], ['/leaders.html', 'mic', 'LEADERS'], ['/monitor.html', 'satellite', 'MONITOR']];
@@ -147,7 +235,12 @@ export function render(ctx, { head }) {
   const delta = vs && Number.isFinite(vs.delta) ? vs.delta : state.delta_from_previous;
   const deltaTxt = Number.isFinite(delta) ? `${delta >= 0 ? '▲' : '▼'} ${Math.abs(delta).toFixed(1)} ${vs && vs.basis === 'previous' ? 'SINCE LAST' : 'VS 24H AGO'}` : '';
   const sources = state.sources || [];
-  const ok = sources.filter((s) => s.ok).length;
+  // Match layout.rail: "reporting" is answered (ok or uncalibrated). Only a
+  // source that failed the request is dark. Printing ok/total under a
+  // "REPORTING" label made nine uncalibrated pipes look broken.
+  const reporting = sources.filter((s) => s.ok || s.uncalibrated).length;
+  const dark = sources.filter((s) => !s.ok && !s.uncalibrated).length;
+  const posture = (dark > 0 || state.degraded) ? 'DEGRADED' : 'OPERATIONAL';
 
   // Breaking: the highest-scoring story of the last six hours, else the newest.
   const items = (ctx.news && ctx.news.items) || [];
@@ -235,12 +328,13 @@ export function render(ctx, { head }) {
 <div class="v2-top"><div class="v2-wrap">
   <span class="v2-chip">${icon('clock', 2)}<span id="v2-clock" class="tnum">${esc(String(state.generated_at).slice(0, 10))} ${esc(hhmm(state.generated_at))}</span></span>
   <span class="tag red" id="v2-fresh" data-at="${esc(state.generated_at)}">LAST READING <b>${esc(hhmm(state.generated_at))}</b></span>
-  <span class="v2-chip">${icon('eye', 2)}${ok}/${sources.length} SOURCES REPORTING</span>
+  <span class="v2-chip" title="${dark ? `${dark} source${dark === 1 ? '' : 's'} failed this pass` : 'Every source answered'}">${icon('eye', 2)}${reporting}/${sources.length} REPORTING${dark ? ` · ${dark} DARK` : ''}</span>
   <span class="right">
     <a class="tag green" href="#rooms">ALL ROOMS ↓</a>
     <a class="tag blue" href="${href('/history.html')}">HISTORY</a>
     <a class="tag violet" href="${href('/race.html')}">MARKETS</a>
-    <span>STATUS: <b class="${state.degraded ? 'amber' : 'green'}">${state.degraded ? 'DEGRADED' : 'OPERATIONAL'}</b></span>
+    <a class="tag cool" href="${href('/feed-level.xml')}" title="RSS that fires only when the level changes">ALERTS</a>
+    <span>STATUS: <b class="${posture === 'DEGRADED' ? 'amber' : 'green'}">${posture}</b></span>
   </span>
 </div></div>
 ${nav.strip}
@@ -249,7 +343,7 @@ ${nav.strip}
     <img class="v2-art bob" src="${img('siren')}" width="112" height="112" alt="">
     <h1>${pixelText('AI SIREN INDEX', 8, '#FFFFFF', 'fit')}</h1>
   </div>
-  <div class="v2-sub"><span>Superintelligence, watched hourly</span><span class="sep">|</span><a class="v2-btn sm" href="https://x.com/SIRENutf6">FOLLOW @SIRENutf6</a></div>
+  <div class="v2-sub"><span>${esc(brand.SLOGAN)}</span><span class="sep">|</span><a class="v2-btn sm" href="https://x.com/SIRENutf6">FOLLOW @SIRENutf6</a></div>
 
   <section class="hero">
     <div class="v2-banner" id="signal" data-sec="Signal" style="--lv:${L.color};--lvg:${L.ground}">
@@ -263,6 +357,9 @@ ${nav.strip}
         <span class="lbl">OF 100${deltaTxt ? ` · ${deltaTxt}` : ''}</span>
       </div>
     </div>
+    <p class="v2-plain">${esc(plainRead(state))}</p>
+    ${scaleRail(state, href)}
+    ${raceLeaderLine(ctx, href)}
   </section>
   <div class="v2-since" id="v2-since" hidden role="status"></div>
   <script>window.SIREN_NOW=${JSON.stringify(sinceNow).replace(/</g, '\\u003c')}</script>
@@ -291,14 +388,16 @@ ${roomsGrid(ctx, href, img)}
     </div>
   </div>
 
+  ${shareReuse(ctx, state, href)}
+
   <div class="v2-cta" id="tally" data-sec="Tally">
     <img class="v2-art bob" src="${img('canary')}" width="88" height="88" alt="">
-    <div class="col">${pixelText('TALLY IS STILL SINGING', 4, '#FFFFFF', 'fit')}<span>Our duty canary posts on X the hour the level moves. Nothing in between.</span></div>
+    <div class="col">${pixelText('TALLY IS STILL SINGING', 4, '#FFFFFF', 'fit')}<span>Our duty canary posts on X the hour the level moves. Nothing in between. Or subscribe to <a href="${href('/feed-level.xml')}">level-change RSS</a> — maybe a handful of emails a year, if you pipe the feed.</span></div>
     <a class="v2-btn" href="https://x.com/intent/follow?screen_name=SIRENutf6">FOLLOW @SIRENutf6 →</a>
   </div>
 
-  <p class="v2-foot">SIREN counts how loud AI is, every hour, from public data. A count, not a forecast. Portraits and icons are generated illustrations, not photographs.
-  <a href="${href('/methodology.html')}">How it works</a> · <a href="${href('/classic.html#vfy')}">Verify a reading</a> · <a href="${href('/classic.html')}">Full instrument panel</a> · <a href="${href('/about.html')}">About</a></p>
+  <p class="v2-foot">${esc(brand.CREED)} ${esc(brand.NAME)} counts how loud AI is, every hour, from public data. A count, not a forecast. Portraits and icons are generated illustrations, not photographs.
+  <a href="${href('/methodology.html')}">How it works</a> · <a href="${href('/classic.html#vfy')}">Verify a reading</a> · <a href="${href('/classic.html')}">Full instrument panel</a> · <a href="${href('/about.html')}">About</a> · <a href="${href('/feed.xml')}">RSS</a></p>
   <p class="v2-foot"><b>Not advice.</b> Information, commentary and satire only — not financial, investment, legal, security or safety advice. Data is automated and may be wrong or late; provided as is, with no warranty. Not affiliated with any company, lab, person or agency named here. Use of this site means you accept the <a href="${href('/terms.html')}">terms &amp; disclaimers</a>. <a href="${href('/privacy.html')}">Privacy</a>. <a href="${href('/feedback.html')}">Report a problem or send feedback</a>.</p>
 </main>
 ${nav.palette}${nav.tabbar}
@@ -408,7 +507,33 @@ body.v2-body{margin:0;background:#000;color:#F3F4F6}
 .v2-btn{display:inline-flex;align-items:center;gap:8px;background:#4F46E5;color:#fff!important;font-weight:700;letter-spacing:.05em;min-height:48px;padding:0 22px}
 .v2-btn.sm{min-height:0;padding:7px 12px;font-size:13px}
 .v2-btn:hover{background:#6366F1}
-.v2 .hero{margin:0;padding:0;border:0;background:none}
+.v2 .hero{margin:0;padding:0;border:0;background:none;display:flex;flex-direction:column;gap:14px}
+.v2 .tag.cool{border-color:#155E75;background:#042F2E;color:#A5F3FC}
+.v2-plain{margin:0;max-width:62ch;font-size:16px;line-height:1.45;color:#D7DCE3}
+.v2-scale{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+.v2-scale__st{position:relative;display:flex;flex-direction:column;align-items:center;gap:2px;min-width:0;padding:8px 4px 10px;border:2px solid #2A3446;background:#0A0E16;text-align:center;border-top:3px solid color-mix(in srgb,var(--sc) 45%,#2A3446)}
+.v2-scale__st.on{border-color:var(--sc);background:color-mix(in srgb,var(--sc) 12%,#000);box-shadow:0 0 24px color-mix(in srgb,var(--sc) 25%,transparent)}
+.v2-scale__st.was{border-style:dashed}
+.v2-scale__slot{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;min-height:28px;width:100%}
+.v2-scale__now{font-size:13px;font-weight:700;color:var(--sc);font-variant-numeric:tabular-nums}
+.v2-scale__k{font-size:10px;font-weight:700;letter-spacing:.14em;color:var(--sc)}.v2-scale__k.was{color:#AEB7C3}
+.v2-scale__n{font-size:20px;font-weight:700;color:#AEB7C3;font-variant-numeric:tabular-nums}
+.v2-scale__st.on .v2-scale__n{color:#fff}
+.v2-scale__name{font-size:clamp(8px,1.8vw,11px);font-weight:700;letter-spacing:.04em;color:#AEB7C3;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.v2-scale__st.on .v2-scale__name{color:var(--sc)}
+.v2-scale__band{font-size:10px;color:#6B7280;font-variant-numeric:tabular-nums}
+.v2-scale__note{margin:0;font-size:12px;color:#AEB7C3}
+.v2-racelead{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 14px;padding:12px 14px;border:2px solid #2A3446;background:#0A0E16;color:#fff!important}
+.v2-racelead:hover{border-color:#6366F1;color:#fff!important}
+.v2-racelead .k{font-size:11px;font-weight:700;letter-spacing:.12em;color:#AEB7C3}
+.v2-racelead .v{font-size:15px;font-weight:700}.v2-racelead .v b{color:#A5B4FC}
+.v2-racelead .q{flex:1 1 220px;min-width:0;font-size:13px;color:#AEB7C3}
+.v2-share{display:flex;flex-direction:column;gap:12px;margin-top:8px}
+.v2-share__grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:12px}
+.v2-share__card{border:2px solid #232C3B;background:#0E131D;padding:16px 18px;display:flex;flex-direction:column;gap:10px}
+.v2-share__card .cap{font-size:12px;font-weight:700;letter-spacing:.14em;color:#AEB7C3}
+.v2-share__card .small{margin:0;font-size:12px;color:#AEB7C3}
+.v2-share__code{margin:0;padding:10px 12px;border:1px solid #2A3446;background:#05070C;color:#C7D2FE;font:500 11px/1.45 ui-monospace,Menlo,Consolas,monospace;white-space:pre-wrap;word-break:break-word;max-height:9.5em;overflow:auto}
 .v2-banner{border:2px solid var(--lv);background:var(--lvg);padding:26px 28px;display:flex;align-items:center;gap:22px;flex-wrap:wrap;animation:v2glow 3s ease-in-out infinite}
 .v2-banner .col{display:flex;flex-direction:column;gap:12px;flex:1 1 320px;min-width:0}
 .v2-banner .lbl{font-size:15px;font-weight:700;letter-spacing:.1em;color:var(--lv)}
@@ -483,6 +608,10 @@ body.v2-body{margin:0;background:#000;color:#F3F4F6}
   .v2-brand .v2-art{width:72px;height:72px}
   .v2-dock .tile{width:calc(33.33% - 7px);height:100px}
   .v2-bar.wide{grid-template-columns:120px minmax(0,1fr) 56px}
+  .v2-scale{grid-template-columns:repeat(5,minmax(0,1fr));gap:3px}
+  .v2-scale__st{padding:6px 2px 8px}
+  .v2-scale__n{font-size:16px}
+  .v2-plain{font-size:15px}
 }
 @media (prefers-reduced-motion:reduce){.v2 *{animation:none!important}}
 `;

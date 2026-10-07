@@ -1307,9 +1307,20 @@ async function main() {
     written.push(await write(args.out, `moves/${m.id}.html`, movePage.render(ctx, m)));
   }
 
+  // Pretty directories for hand-typed / verbally shared paths. VISITORS.md §0 found
+  // /race/ 404 while race.html worked; the same trap hits every .html room when
+  // someone says "slash jobs" or bookmarks without the extension. Static rooms
+  // (arena, scanner, …) are included once the build has copied them through.
   await writeDirectoryAliases(
     args.out,
-    ['race', 'news', 'methodology', 'history', 'digest', 'bliss', 'balance', 'watts', 'map', 'world', 'leaders', 'flock', 'exploits'],
+    [
+      'race', 'news', 'methodology', 'history', 'digest', 'bliss', 'balance',
+      'watts', 'map', 'world', 'leaders', 'flock', 'exploits', 'jobs', 'medicine',
+      'about', 'classic', 'embed', 'guide', 'library', 'press', 'brand', 'desk',
+      'bets', 'privacy', 'terms', 'feedback', 'sponsor', 'instruments',
+      'p-doom', 'ai-doomsday-clock', 'arena', 'scanner', 'monitor', 'elon',
+      'game', 'bunker-kit',
+    ],
     write,
     written,
   );
