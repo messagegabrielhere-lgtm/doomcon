@@ -155,6 +155,35 @@ export function parseChannelSearch(html, now = Date.now()) {
   return { parsed: true, videos };
 }
 
+/** Watch page HTML -> exact ISO upload date, or ''. */
+export function uploadDateFromWatchPage(html) {
+  const m = String(html).match(/<meta itemprop="(?:uploadDate|datePublished)" content="([^"]+)"/)
+    || String(html).match(/"(?:publishDate|uploadDate)":"([^"]+)"/);
+  if (!m) return '';
+  const d = new Date(m[1]);
+  return isNaN(d) ? '' : d.toISOString();
+}
+
+// Clips from a channel's search page arrive without a usable date. Each run
+// reads the watch pages of up to this many of them and stores the exact
+// upload date, so the backlog clears over a few hourly runs.
+const DATE_BUDGET = 250;
+
+async function dateClips(clips) {
+  const todo = clips.filter((c) => c.approxDate || !c.published).slice(0, DATE_BUDGET);
+  let done = 0;
+  const work = async () => {
+    for (let c; (c = todo.shift());) {
+      try {
+        const iso = uploadDateFromWatchPage(await get(`https://www.youtube.com/watch?v=${c.id}`));
+        if (iso) { c.published = iso; delete c.approxDate; done++; }
+      } catch { /* try again next run */ }
+    }
+  };
+  await Promise.all(Array.from({ length: 5 }, work));
+  return done;
+}
+
 /** Previous clips + fresh clips -> one list, newest first, deduped by video id. */
 export function merge(prevClips, fresh, now = new Date().toISOString()) {
   const byId = new Map((prevClips || []).map((c) => [c.id, c]));
@@ -296,7 +325,9 @@ async function main() {
     const { match: _m, ...rest } = c;
     return [{ ...rest, tier, topics, ...(match ? { match } : {}) }];
   });
-  const clips = merge(kept, fresh, now);
+  let clips = merge(kept, fresh, now);
+  const dated = await dateClips(clips);
+  if (dated) clips = merge(clips, [], now);   // re-sort now that they have dates
 
   if (!report.some((r) => r.ok)) {
     console.error('Every source failed; not publishing.');
@@ -304,7 +335,8 @@ async function main() {
   }
   await mkdir(outDir, { recursive: true });
   await writeFile(path.join(outDir, 'clips.json'), JSON.stringify({ generated: now, sources: report, clips }) + '\n');
-  console.log(`${clips.length} clips in the index (${fresh.length} seen this run).`);
+  const undated = clips.filter((c) => c.approxDate || !c.published).length;
+  console.log(`${clips.length} clips in the index (${fresh.length} seen this run, ${dated} dated, ${undated} still undated).`);
 }
 
 if (process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.argv[1])) {

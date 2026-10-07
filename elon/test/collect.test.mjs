@@ -129,3 +129,11 @@ test('topicsFor tags a clip with every topic it matches', () => {
   // Event keywords are for his companies only, never for an AI lab.
   assert.deepEqual(topicsFor({ title: 'Summer update', description: '' }, 'lab'), []);
 });
+
+import { uploadDateFromWatchPage } from '../collect.mjs';
+
+test('uploadDateFromWatchPage', () => {
+  assert.equal(uploadDateFromWatchPage('<meta itemprop="uploadDate" content="2019-04-22T12:00:00-07:00">'), '2019-04-22T19:00:00.000Z');
+  assert.equal(uploadDateFromWatchPage('..."publishDate":"2023-11-09T15:30:00-08:00",...'), '2023-11-09T23:30:00.000Z');
+  assert.equal(uploadDateFromWatchPage('<html>consent</html>'), '');
+});
