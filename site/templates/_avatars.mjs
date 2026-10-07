@@ -63,6 +63,7 @@ import { BASE_PATH } from '../brand.mjs';
 // Illustrated portraits (generated caricatures in assets/img) for the people
 // we have one for. Everyone else keeps the abstract monogram.
 const FACE = { altman: 'altman', amodei: 'amodei', hassabis: 'hassabis', musk: 'musk', zuckerberg: 'zuck', huang: 'huang' };
+export function faceHref(id) { return FACE[id] ? `${BASE_PATH}/img/art-${FACE[id]}.webp` : null; }
 const faceImg = (id, cls) => (FACE[id] ? `<img class="${cls}" src="${BASE_PATH}/img/art-${FACE[id]}.webp" alt="" loading="lazy" decoding="async">` : '');
 
 // ---------------------------------------------------------------------------

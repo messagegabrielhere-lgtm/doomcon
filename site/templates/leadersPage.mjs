@@ -36,7 +36,7 @@
 
 import { esc, utc, utcDay } from './_html.mjs';
 import { lineItem, wireStyles, legend } from './_leaderwire.mjs';
-import { avatarPortrait, avatarSprite, personIdFor, portraitCss, PEOPLE } from './_avatars.mjs';
+import { avatarPortrait, avatarSprite, personIdFor, portraitCss, PEOPLE, faceHref } from './_avatars.mjs';
 import { page } from './layout.mjs';
 import * as brand from '../brand.mjs';
 
@@ -418,7 +418,9 @@ function boardPlot(wire, g, idp, variantCls, title, desc) {
     // The mark. data-person carries the per-person accent rule that
     // avatarSprite() ships, and it lands on the <g> that owns `color`, so the
     // <use> inside it inherits the right hue in both schemes.
-    const mark = p
+    const mark = p && faceHref(p)
+      ? `<image class="lwb__face" href="${esc(faceHref(p))}" x="${n2(x + g.embX - 2)}" y="${n2(y + (g.cellH - g.emb) / 2 - 2)}" width="${g.emb + 4}" height="${g.emb + 4}" preserveAspectRatio="xMidYMid slice" style="clip-path:circle(50%)"/>`
+      : p
       ? `<g class="lwb__mk" data-person="${esc(p)}" data-org="${esc(l.org_id)}">`
         + `<use href="#dc-avt-${esc(PEOPLE[p].shape)}" x="${n2(x + g.embX)}" y="${n2(y + (g.cellH - g.emb) / 2)}" `
         + `width="${g.emb}" height="${g.emb}"/></g>`

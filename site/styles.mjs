@@ -3062,6 +3062,8 @@ const V2SKIN = `
   --poster: 'IBM Plex Mono', ui-monospace, Menlo, monospace;
   --stencil: 'IBM Plex Mono', ui-monospace, Menlo, monospace;
   --bar: #3B5BFF;
+  --accent: #4ADE80; --accent-ink: #03130A; --accent-2: #818CF8; --stale: #FACC15;
+  --radius: 3px; --radius-lg: 4px;
   color-scheme: dark;
 }
 body { background: #000; color: var(--ink); }
@@ -3104,6 +3106,15 @@ body { background: #000; color: var(--ink); }
 h1, h2, h3, .sec__h, .prose > h1 { font-family: var(--mono); letter-spacing: .01em; }
 a { color: #A5B4FC; } a:hover { color: #E0E7FF; }
 .foot, footer { background: #0A0E16; }
+/* section heads: white mono caps with a phosphor block, like the homepage */
+.sec__h { color: #fff !important; font-weight: 700; letter-spacing: .1em; display: flex; align-items: center; gap: 10px; }
+.sec__h::before { content: ""; width: 10px; height: 10px; background: #4ADE80; flex: none; box-shadow: 0 0 10px rgba(74,222,128,.5); }
+.sec__h .dcico { display: none; }
+/* callouts and panels: square, two-pixel frames */
+.callout, .note, .disclaim, [class*="__note"], [class*="callout"] { border-radius: 3px; }
+.rpill__mk--face { background: #000; border-radius: 50%; overflow: hidden; padding: 0 !important; }
+.rpill__mk--face img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+.pgph { display: none; }
 .avt:has(.avt__face) { background: #000; overflow: hidden; border-radius: 50%; padding: 0; }
 .avt__face { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
 .avtp--face { display: inline-flex; flex-direction: column; align-items: center; gap: 6px; width: var(--avtp-size, 112px); }
