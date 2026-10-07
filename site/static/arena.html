@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>AI Battle</title>
-<meta name="description" content="AI models trade crypto and US stocks with paper money against live prices. The models only propose; a server checks every trade against fixed rules. Every fill and every rejection is public, with its reason.">
+<title>Daily Picks &amp; AI Battle</title>
+<meta name="description" content="A rule-based daily stock screen with its full hypothetical track record, and AI models paper-trading crypto and US stocks against live prices. The models only propose; a server checks every trade against fixed rules. Every fill and every rejection is public, with its reason.">
 <link rel="stylesheet" href="fonts/fonts.css">
 <style>
 :root{
@@ -120,6 +120,34 @@ select{background:var(--panel);border:1px solid var(--line);border-radius:6px;pa
 .empty{padding:28px 16px;text-align:center;color:var(--mute)}
 .foot{font-size:12px;color:var(--mute);margin:0}
 
+/* tabs */
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line)}
+.tabs button{border:0;background:transparent;padding:10px 16px;font:600 15px/1 var(--f-display);letter-spacing:.1em;text-transform:uppercase;color:var(--mute);border-bottom:3px solid transparent;margin-bottom:-1px;cursor:pointer}
+.tabs button[aria-selected=true]{color:var(--ink);border-bottom-color:var(--accent)}
+.tabs button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.view{display:flex;flex-direction:column;gap:14px}
+.warn-box{margin:0;background:color-mix(in srgb,var(--warn) 10%,var(--panel));border:1px solid color-mix(in srgb,var(--warn) 45%,var(--line));border-radius:10px;padding:10px 12px;font-size:13px}
+.warn-box b{color:var(--warn)}
+
+/* picks */
+.pk-plan{margin:0;padding:10px 12px 0;font-size:13.5px}
+.picks{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px;padding:10px 12px 12px}
+.pick{border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--sunk);display:flex;flex-direction:column;gap:6px;min-width:0}
+.pick .tk{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.pick .tk b{font:700 22px/1 var(--f-display);letter-spacing:.04em}
+.pick .tk span{font:12px var(--f-mono);color:var(--mute)}
+.pick .nm{font-size:12px;color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pick dl{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;margin:0;font-size:12.5px}
+.pick dt{color:var(--mute)}
+.pick dd{margin:0;text-align:right;font-family:var(--f-mono)}
+.pick ul{margin:0;padding-left:16px;font-size:12px;color:var(--mute)}
+.pick .rank{font:700 12px/1 var(--f-display);letter-spacing:.1em;color:var(--accent)}
+.res{font:600 10.5px/1 var(--f-display);letter-spacing:.08em;text-transform:uppercase;padding:3px 6px;border-radius:4px}
+.res.target{background:color-mix(in srgb,var(--up) 18%,transparent);color:var(--up)}
+.res.stop{background:color-mix(in srgb,var(--down) 16%,transparent);color:var(--down)}
+.res.open{background:var(--sunk);color:var(--mute);border:1px solid var(--line)}
+.res.pending{color:var(--mute);border:1px dashed var(--line)}
+
 /* scoreboard */
 .score{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
 .tile{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 12px;min-width:0}
@@ -198,11 +226,48 @@ dialog.agent::backdrop{background:rgba(5,8,14,.55)}
 <body>
 <div class="wrap">
   <header>
-    <h1>AI <b>Battle</b></h1>
-    <span class="sub">Paper money, real order books. Every trade and every rejection, with its reason, as it happens.</span>
-    <span id="fresh" class="chip"><i></i><span>Loading…</span></span>
+    <h1 id="title">Daily <b>Picks</b></h1>
+    <span class="sub" id="subtitle">A rule-based screen for one-day stock trades, with every past pick scored.</span>
+    <span id="fresh" class="chip" hidden><i></i><span>Loading…</span></span>
     <a class="navlink" href="scanner.html">Scanner →</a>
   </header>
+
+  <nav class="tabs" role="tablist" aria-label="Sections">
+    <button role="tab" id="tab-picks" aria-controls="view-picks" aria-selected="true">Stock picks</button>
+    <button role="tab" id="tab-battle" aria-controls="view-battle" aria-selected="false">AI battle</button>
+  </nav>
+
+  <div id="view-picks" role="tabpanel" aria-labelledby="tab-picks" class="view">
+    <p class="warn-box"><b>Not advice.</b> These are the output of a fixed, automated screen, shown with its own hypothetical track record. We are not financial advisors. Nothing here tells you to buy or sell anything, and a past pattern can stop working at any time. Read the disclosure at the bottom of the page.</p>
+
+    <section class="panel" aria-label="Today's picks">
+      <div class="ph"><h2 id="pkHead">Picks</h2><span class="mute" style="font-size:12px" id="pkAsOf"></span></div>
+      <p class="pk-plan" id="pkPlan"></p>
+      <div class="picks" id="picks"><p class="empty">Loading the latest stock data…</p></div>
+    </section>
+
+    <section class="score" id="pkScore" aria-label="Track record summary" hidden></section>
+
+    <section class="panel" aria-label="Track record">
+      <div class="ph"><h2>Track record</h2><span class="mute" style="font-size:12px" id="pkTrackNote"></span></div>
+      <div class="chart-wrap"><svg class="chart" id="pkChart" role="img" aria-label="Growth of $1,000 following every pick, against the S&amp;P 500 ETF"></svg></div>
+      <div class="legend" id="pkLegend"></div>
+    </section>
+
+    <section class="panel" aria-label="Recent picks and results">
+      <div class="ph"><h2>Recent picks and how they did</h2>
+        <div class="seg" role="group" aria-label="How many sessions" id="pkDays"><button type="button" data-n="5" aria-pressed="true">5 days</button><button type="button" data-n="20" aria-pressed="false">20</button><button type="button" data-n="60" aria-pressed="false">60</button></div>
+      </div>
+      <div class="tbl-wrap"><table class="mk" id="pkHist"></table></div>
+    </section>
+
+    <section class="panel" aria-label="How the picks are made">
+      <div class="ph"><h2>How the picks are made</h2></div>
+      <ul class="rules" id="pkRules"></ul>
+    </section>
+  </div>
+
+  <div id="view-battle" role="tabpanel" aria-labelledby="tab-battle" class="view" hidden>
 
   <section class="how" aria-label="How it works">
     <div><b>The AI only proposes</b>Each model gets the market and its wallet about once an hour and replies with trades it wants. It can't execute anything itself.</div>
@@ -259,7 +324,9 @@ dialog.agent::backdrop{background:rgba(5,8,14,.55)}
     <ul class="rules" id="rules"></ul>
   </section>
 
-  <p class="foot">Simulated trading. Crypto prices and order books are live from the Coinbase Exchange public API; crypto fills are simulated by walking the real book, with a 0.6% fee each way. Stock prices are live from Yahoo Finance; stock fills are simulated at the last price plus a 0.025% half-spread, with no commission, and only while the US market is open. No wallet here holds real funds and nothing here is financial advice. Code: <a href="https://github.com/messagegabrielhere-lgtm/doomcon/tree/main/arena" target="_blank" rel="noopener">arena/</a>. Raw data: the <a href="https://github.com/messagegabrielhere-lgtm/doomcon/tree/arena-data" target="_blank" rel="noopener">arena-data</a> branch.</p>
+  </div>
+
+  <p class="foot">Daily picks: computed in your browser from daily bars for about 150 large US stocks and ETFs (Yahoo Finance, delayed), saved by the scanner's GitHub Action every 30 minutes in market hours; the track record replays the same rule on past days and is hypothetical. AI battle: simulated trading. Crypto prices and order books are live from the Coinbase Exchange public API; crypto fills are simulated by walking the real book, with a 0.6% fee each way. Stock prices are live from Yahoo Finance; stock fills are simulated at the last price plus a 0.025% half-spread, with no commission, and only while the US market is open. No wallet here holds real funds and nothing here is financial advice. Code: <a href="https://github.com/messagegabrielhere-lgtm/doomcon/tree/main/arena" target="_blank" rel="noopener">arena/</a>. Raw data: the <a href="https://github.com/messagegabrielhere-lgtm/doomcon/tree/arena-data" target="_blank" rel="noopener">arena-data</a> branch.</p>
 </div>
 
 <dialog class="agent" id="agent" aria-labelledby="agName">
@@ -267,7 +334,7 @@ dialog.agent::backdrop{background:rgba(5,8,14,.55)}
   <div class="ag-body" id="agBody"></div>
 </dialog>
 
-<p class="legal-note" style="margin:24px auto;max-width:72ch;padding:0 16px;font:400 12px/1.5 system-ui,sans-serif;opacity:.75">For information and entertainment only. Not investment, financial or trading advice, and not a recommendation to buy or sell any security or crypto asset. Signals and simulated results do not predict future returns. Do your own research or talk to a licensed professional.</p>
+<p class="legal-note" style="margin:24px auto;max-width:72ch;padding:0 16px;font:400 12px/1.5 system-ui,sans-serif;opacity:.75"><b>Disclosure:</b> Not financial advice. We are not financial advisors, brokers, or a registered investment adviser, and nothing on this site is investment, financial, legal, tax or trading advice, or a recommendation to buy, sell or hold any stock, crypto asset or other instrument. Stock picks, signals, scores and AI trades shown here are automated, simulated or hypothetical, for information and entertainment only. Past and simulated performance does not predict future results, and trading can lose money, including more than you expect. Do your own research and talk to a licensed financial professional before you invest.</p>
 
 <script>
 const $ = (s) => document.querySelector(s);
@@ -609,6 +676,7 @@ function drawAgentChart(a, w){
 }
 function openAgent(id, push = true){
   if(!S || !renderAgent(id)) return;
+  if(view !== "battle") setView("battle");
   const dlg = $("#agent");
   if(!dlg.open) dlg.showModal();
   drawAgentChart(S.roster.find((r) => r.id === id), S.wallets[id]); // now it has a width
@@ -617,13 +685,254 @@ function openAgent(id, push = true){
 function closeAgent(){
   openId = null;
   if($("#agent").open) $("#agent").close();
-  if(location.hash.startsWith("#agent=")) history.pushState(null, "", location.pathname + location.search);
+  if(location.hash.startsWith("#agent=")) history.pushState(null, "", "#battle");
 }
 function routeHash(){
+  const want = location.hash.startsWith("#agent=") || location.hash === "#battle" ? "battle" : "picks";
+  if(want !== view) setView(want);
   const m = location.hash.match(/^#agent=([\w-]+)/);
   if(m) openAgent(decodeURIComponent(m[1]), false);
   else if($("#agent").open){ openId = null; $("#agent").close(); }
 }
+
+/* picks:begin -- the screen. Pure functions of daily bars; arena/test.mjs runs this same block. */
+const PK = { n: 5, maxPerSector: 2, minBars: 100, rsi2Max: 10, atrK: 1, costPct: 0.05, days: 250 };
+
+// Indicators for one symbol, computed once: simple moving averages of close,
+// 20-day average volume (excluding the day itself), Wilder ATR14, RSI14 and RSI2.
+function pkPrep(sym){
+  const {c, h, l, v} = sym, n = c.length;
+  const pc = [0], pv = [0];
+  for(let i = 0; i < n; i++){ pc.push(pc[i] + c[i]); pv.push(pv[i] + v[i]); }
+  const avg = (p, a, b) => (p[b] - p[a]) / (b - a); // mean of [a, b)
+  const atr = new Array(n).fill(null), rsi = new Array(n).fill(null), rsi2 = new Array(n).fill(null);
+  let tr = 0, g = 0, ls = 0, g2 = 0, l2 = 0;
+  for(let i = 1; i < n; i++){
+    const t = Math.max(h[i] - l[i], Math.abs(h[i] - c[i-1]), Math.abs(l[i] - c[i-1]));
+    const d = c[i] - c[i-1], up = Math.max(d, 0), dn = Math.max(-d, 0);
+    if(i <= 2){ g2 += up / 2; l2 += dn / 2; } else { g2 = (g2 + up) / 2; l2 = (l2 + dn) / 2; }
+    if(i >= 2) rsi2[i] = l2 === 0 ? 100 : 100 - 100 / (1 + g2 / l2);
+    if(i <= 14){ tr += t; g += up; ls += dn; if(i === 14){ atr[i] = tr / 14; g /= 14; ls /= 14; rsi[i] = ls === 0 ? 100 : 100 - 100 / (1 + g / ls); } }
+    else { atr[i] = (atr[i-1] * 13 + t) / 14; g = (g * 13 + up) / 14; ls = (ls * 13 + dn) / 14; rsi[i] = ls === 0 ? 100 : 100 - 100 / (1 + g / ls); }
+  }
+  return {
+    ...sym, atr, rsi, rsi2,
+    sma: (k, i) => (i + 1 >= k ? avg(pc, i + 1 - k, i + 1) : null),
+    avgVol: (i) => (i >= 20 ? avg(pv, i - 20, i) : null),
+    at: new Map(sym.t.map((t, i) => [t, i])),
+  };
+}
+
+// The rule, judged at the close of day i using nothing after it. It is the
+// published RSI(2) pullback (Larry Connors): in an uptrend, buy a sharp
+// two-day dip and hold briefly. Picked because it is a known rule, not because
+// it was tuned on this data; the track record below says how it has done here.
+function pkScore(S, i){
+  if(i < PK.minBars) return null;
+  const {c} = S, s100 = S.sma(100, i), s20 = S.sma(20, i), atr = S.atr[i], r2 = S.rsi2[i];
+  if(!s100 || !atr || r2 == null || !S.avgVol(i)) return null;
+  const atrPct = atr / c[i] * 100;
+  if(!(c[i] > s100 && r2 < PK.rsi2Max && atrPct >= 0.8 && atrPct <= 6)) return null;
+  return {
+    score: PK.rsi2Max - r2,
+    rsi2: r2, above100: (c[i] / s100 - 1) * 100, vs20: s20 ? (c[i] / s20 - 1) * 100 : null,
+    drop3: i >= 3 ? (c[i] / c[i-3] - 1) * 100 : null, atrPct, close: c[i], atr,
+  };
+}
+
+// The top picks for the session after day t: best scores, at most two per sector.
+function pkPicksOn(prepped, t){
+  const out = [], per = {};
+  const cands = [];
+  for(const S of prepped){
+    const i = S.at.get(t); if(i == null) continue;
+    const sc = pkScore(S, i); if(sc) cands.push({S, i, ...sc});
+  }
+  cands.sort((a, b) => b.score - a.score);
+  for(const x of cands){
+    const sec = x.S.sec || "?";
+    if((per[sec] || 0) >= PK.maxPerSector) continue;
+    per[sec] = (per[sec] || 0) + 1; out.push(x);
+    if(out.length >= PK.n) break;
+  }
+  return out;
+}
+
+// What following one pick would have done: buy at the next open, target and
+// stop one ATR away; a day that touches both counts as the stop. Otherwise
+// sell at the open after. Costs come off every trade.
+function pkOutcome(x){
+  const {S, i} = x, {o, h, l, c} = S;
+  if(i + 1 >= o.length) return {status: "pending"};
+  const entry = o[i+1], a = x.atr * PK.atrK * (entry / x.close);
+  const target = entry + a, stop = entry - a;
+  let exit, how;
+  if(l[i+1] <= stop){ exit = stop; how = "stop"; }
+  else if(h[i+1] >= target){ exit = target; how = "target"; }
+  else if(i + 2 < o.length){ exit = o[i+2]; how = "open"; }
+  else return {status: "live", entry, target, stop, mark: c[i+1], ret: (c[i+1] / entry - 1) * 100};
+  return {status: "done", entry, target, stop, exit, how, ret: (exit / entry - 1) * 100 - PK.costPct};
+}
+
+// Replay the rule on every past day the data allows.
+function pkHistory(prepped, spy, days = PK.days){
+  const cal = spy.t, out = [];
+  for(let k = Math.max(PK.minBars, cal.length - days - 2); k < cal.length; k++){
+    const t = cal[k], picks = pkPicksOn(prepped, t).map((x) => ({...x, out: pkOutcome(x)}));
+    const bench = k + 2 < spy.o.length ? (spy.o[k+2] / spy.o[k+1] - 1) * 100 : null;
+    out.push({t, k, picks, bench});
+  }
+  return out;
+}
+
+function pkStats(hist){
+  const done = hist.filter((d) => d.bench != null);
+  const trades = done.flatMap((d) => d.picks.map((p) => p.out)).filter((o) => o.status === "done");
+  let eq = 1000, sp = 1000, peak = 1000, dd = 0;
+  const curve = [];
+  for(const d of done){
+    const rs = d.picks.map((p) => p.out).filter((o) => o.status === "done").map((o) => o.ret);
+    eq *= 1 + (rs.length ? rs.reduce((a, b) => a + b, 0) / rs.length : 0) / 100;
+    sp *= 1 + d.bench / 100;
+    peak = Math.max(peak, eq); dd = Math.min(dd, eq / peak - 1);
+    curve.push([d.t, eq, sp]);
+  }
+  const mean = (xs) => (xs.length ? xs.reduce((a, b) => a + b, 0) / xs.length : null);
+  return {
+    sessions: done.length, trades: trades.length,
+    winRate: trades.length ? trades.filter((o) => o.ret > 0).length / trades.length * 100 : null,
+    avgRet: mean(trades.map((o) => o.ret)), avgBench: mean(done.map((d) => d.bench)),
+    targetPct: trades.length ? trades.filter((o) => o.how === "target").length / trades.length * 100 : null,
+    stopPct: trades.length ? trades.filter((o) => o.how === "stop").length / trades.length * 100 : null,
+    equity: eq, bench: sp, maxDD: dd * 100, curve,
+  };
+}
+/* picks:end */
+
+// ---- the picks tab ----
+const SCAN = (qs.get("scan") || "https://raw.githubusercontent.com/messagegabrielhere-lgtm/doomcon/scanner-data").replace(/\/$/, "");
+let PKD = null, PKH = null, PKLIVE = {}, pkDaysN = 5;
+const nyDate = (t) => new Date(t).toLocaleDateString("en-US", {timeZone:"America/New_York", weekday:"short", month:"short", day:"numeric"});
+const nyKey = (t) => new Date(t).toLocaleDateString("en-CA", {timeZone:"America/New_York"});
+// The next weekday after a session (holidays aren't known here; a holiday just moves the trade a day).
+const nextWeekday = (t) => { let d = t + 86400e3; while([0, 6].includes(new Date(d).getUTCDay())) d += 86400e3; return d; };
+const sgn = (x, d = 2) => x == null ? "-" : `${x >= 0 ? "+" : ""}${x.toFixed(d)}%`;
+
+async function loadPicks(){
+  const get = async (f) => { const r = await fetch(`${SCAN}/${f}?t=${Math.floor(Date.now() / 60e3)}`, {cache:"no-store"}); if(!r.ok) throw new Error(`${f}: HTTP ${r.status}`); return r.json(); };
+  try{
+    const [d, h] = await Promise.all([get("stocks-1d.json"), get("stocks-1h.json").catch(() => null)]);
+    const prepped = d.symbols.filter((s) => s.c?.length >= PK.minBars).map(pkPrep);
+    const spy = prepped.find((s) => s.s === "SPY");
+    if(!spy) throw new Error("no SPY series");
+    PKD = {gen:Date.parse(d.generated), prepped, spy};
+    PKH = pkHistory(prepped, spy);
+    // Latest hourly close, to show where today's picks trade now.
+    PKLIVE = {};
+    for(const s of h?.symbols || []) if(s.c?.length) PKLIVE[s.s] = {px:s.c.at(-1), t:s.t.at(-1) * 1000};
+    renderPicks();
+  }catch(e){
+    if(!PKD) $("#picks").innerHTML = `<p class="empty">Couldn't load the stock data (${esc(e.message)}). Try Refresh in a minute.</p>`;
+  }
+  if(view === "picks" && PKD) announce(PKD.gen);
+}
+
+function renderPicks(){
+  const last = PKH.at(-1), lastT = last.t * 1000, tradeDay = nextWeekday(lastT), exitDay = nextWeekday(tradeDay);
+  $("#pkHead").textContent = `Picks for ${nyDate(tradeDay)}`;
+  $("#pkAsOf").textContent = `From the close of ${nyDate(lastT)} · data saved ${ago(PKD.gen)}`;
+  $("#pkPlan").innerHTML = last.picks.length
+    ? `The screen's plan: buy at the open on <b>${nyDate(tradeDay)}</b>, sell at the open on <b>${nyDate(exitDay)}</b>, or earlier if the price reaches the target or the stop. This is exactly what the track record below replays.`
+    : `No stock passed the screen at the close of ${nyDate(lastT)}, so there are no picks for ${nyDate(tradeDay)}. Sitting out is part of the rule.`;
+  const names = Object.fromEntries(PKD.prepped.map((s) => [s.s, s]));
+  $("#picks").innerHTML = last.picks.length ? last.picks.map((p, i) => {
+    const a = p.atr * PK.atrK, tPct = a / p.close * 100;
+    const live = PKLIVE[p.S.s], liveToday = live && nyKey(live.t) === nyKey(tradeDay);
+    return `<article class="pick">
+      <span class="rank">#${i + 1}</span>
+      <div class="tk"><b>${esc(p.S.s)}</b><span>$${px(p.close)}</span></div>
+      <div class="nm" title="${esc(names[p.S.s]?.n || "")}">${esc(names[p.S.s]?.n || "")}${p.S.sec ? ` · ${esc(p.S.sec)}` : ""}</div>
+      <dl>
+        <dt>Target</dt><dd class="up">+${tPct.toFixed(2)}%</dd>
+        <dt>Stop</dt><dd class="down">-${tPct.toFixed(2)}%</dd>
+        ${liveToday ? `<dt>Now</dt><dd>$${px(live.px)}</dd>` : ""}
+      </dl>
+      <ul>
+        <li>RSI(2) at ${p.rsi2.toFixed(1)}: a sharp two-day dip</li>
+        <li>${sgn(p.drop3, 1)} over the last 3 sessions</li>
+        <li>${p.above100.toFixed(1)}% above its 100-day average: still an uptrend</li>
+      </ul>
+    </article>`;
+  }).join("") : `<p class="empty">No picks for this session.</p>`;
+
+  const st = pkStats(PKH);
+  const tile = (k, v, sub, cls = "") => `<div class="tile"><small>${k}</small><b class="${cls}">${v}</b><span>${sub}</span></div>`;
+  const beat = st.equity - st.bench;
+  $("#pkScore").hidden = false;
+  $("#pkScore").innerHTML =
+    tile("Win rate", st.winRate == null ? "-" : `${st.winRate.toFixed(1)}%`, `${st.trades} past picks closed, after costs`) +
+    tile("Average per pick", sgn(st.avgRet), `vs ${sgn(st.avgBench)} a day for SPY, same days`, st.avgRet >= 0 ? "up" : "down") +
+    tile("$1,000 following every pick", money(st.equity), `${money(st.bench)} in SPY over the same ${st.sessions} sessions`, beat >= 0 ? "up" : "down") +
+    tile("Worst drawdown", `${st.maxDD.toFixed(1)}%`, `Targets hit ${st.targetPct?.toFixed(0)}% · stops hit ${st.stopPct?.toFixed(0)}%`, "down");
+  $("#pkTrackNote").textContent = `${st.sessions} sessions replayed from ${nyDate(st.curve[0]?.[0] * 1000)}. Hypothetical: no real trades. ${beat >= 0 ? "Ahead of" : "Behind"} simply holding SPY by ${money(Math.abs(beat))}.`;
+  drawPkChart(st);
+  renderPkHist();
+  $("#pkRules").innerHTML = [
+    `Universe: about ${PKD.prepped.length} large US stocks and ETFs, the scanner's list. Daily bars from Yahoo Finance (delayed).`,
+    `At each close, a stock qualifies if it closed above its 100-day average (an uptrend) and its 2-day RSI is under ${PK.rsi2Max} (a sharp short dip), with a daily range (ATR) between 0.8% and 6% of its price. This is the published RSI(2) pullback rule.`,
+    `The ${PK.n} lowest RSI(2) readings are the picks, at most ${PK.maxPerSector} from one sector.`,
+    `Plan: buy at the next open; target and stop ${PK.atrK} ATR above and below the entry; if neither is hit that day, sell at the following open. A day that touches both counts as the stop.`,
+    `The track record replays exactly this, using only data available at each close. ${PK.costPct}% comes off every trade for costs. Each day's picks share the money equally; no picks means cash.`,
+    `Limits: today's list of stocks is used for the past too (survivorship bias); open prices assume you get filled at the open; holidays aren't known, so a holiday shifts a trade a day.`,
+  ].map((x) => `<li>${esc(x)}</li>`).join("");
+}
+
+function drawPkChart(st){
+  const svg = $("#pkChart"), W = svg.clientWidth || 800, H = 260, L = 56, R = 10, Tp = 10, B = 24, cv = st.curve;
+  svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+  if(cv.length < 2){ svg.innerHTML = ""; return; }
+  const t0 = cv[0][0], t1 = cv.at(-1)[0], vs = cv.flatMap((p) => [p[1], p[2]]).concat(1000);
+  let lo = Math.min(...vs), hi = Math.max(...vs); const pad = (hi - lo) * 0.08 || 10; lo -= pad; hi += pad;
+  const x = (t) => L + (t - t0) / ((t1 - t0) || 1) * (W - L - R), y = (v) => Tp + (1 - (v - lo) / (hi - lo)) * (H - Tp - B);
+  const line = (k) => cv.map((p, i) => `${i ? "L" : "M"}${x(p[0]).toFixed(1)} ${y(p[k]).toFixed(1)}`).join("");
+  const grid = [0, 1, 2, 3, 4].map((i) => { const v = lo + (hi - lo) * i / 4; return `<line x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)"/><text x="${L - 6}" y="${y(v) + 4}" text-anchor="end" font-size="11" fill="var(--mute)" font-family="var(--f-mono)">$${Math.round(v)}</text>`; }).join("");
+  svg.innerHTML = grid + `<line x1="${L}" x2="${W - R}" y1="${y(1000)}" y2="${y(1000)}" stroke="var(--mute)" stroke-dasharray="4 4"/>` +
+    `<path d="${line(2)}" fill="none" stroke="var(--mute)" stroke-width="1.8"/><path d="${line(1)}" fill="none" stroke="var(--accent)" stroke-width="2.2"/>` +
+    `<text x="${L}" y="${H - 6}" font-size="11" fill="var(--mute)">${nyDate(t0 * 1000)}</text><text x="${W - R}" y="${H - 6}" text-anchor="end" font-size="11" fill="var(--mute)">${nyDate(t1 * 1000)}</text>`;
+  $("#pkLegend").innerHTML = `<span><i style="background:var(--accent)"></i>Following every pick</span><span><i style="background:var(--mute)"></i>Holding SPY</span>`;
+}
+
+function renderPkHist(){
+  const days = PKH.slice(0, -1).filter((d) => d.picks.length).slice(-pkDaysN).reverse();
+  const tag = {target:"Target", stop:"Stop", open:"Sold at open"};
+  $("#pkHist").innerHTML = `<thead><tr><th>Bought</th><th>Stock</th><th>Entry</th><th>Exit</th><th>Result</th><th>Return</th><th>SPY that day</th></tr></thead><tbody>` +
+    (days.flatMap((d) => d.picks.map((p, i) => {
+      const o = p.out, bought = nyDate(nextWeekday(d.t * 1000));
+      const res = o.status === "done" ? `<span class="res ${o.how}">${tag[o.how]}</span>` : o.status === "live" ? `<span class="res pending">Holding</span>` : `<span class="res pending">Not yet</span>`;
+      const r = o.status === "done" ? o.ret : o.status === "live" ? o.ret : null;
+      return `<tr><td>${i ? "" : bought}</td><td>${esc(p.S.s)}</td><td>${o.entry ? px(o.entry) : "-"}</td><td>${o.exit ? px(o.exit) : o.mark ? px(o.mark) + " now" : "-"}</td><td>${res}</td><td class="${r == null ? "" : r >= 0 ? "up" : "down"}">${sgn(r)}</td><td class="${d.bench == null ? "" : d.bench >= 0 ? "up" : "down"}">${i ? "" : sgn(d.bench)}</td></tr>`;
+    })).join("") || `<tr><td colspan="7" class="mute">No picks in this window.</td></tr>`) + "</tbody>";
+}
+
+// ---- tabs, freshness, refresh ----
+let view = "picks";
+function announce(at){ if(at) window.dispatchEvent(new CustomEvent("site:data", {detail:{at}})); }
+function setView(v){
+  view = v;
+  for(const k of ["picks", "battle"]){ $(`#tab-${k}`).setAttribute("aria-selected", String(k === v)); $(`#view-${k}`).hidden = k !== v; }
+  $("#title").innerHTML = v === "picks" ? "Daily <b>Picks</b>" : "AI <b>Battle</b>";
+  $("#subtitle").textContent = v === "picks" ? "A rule-based screen for one-day stock trades, with every past pick scored." : "Paper money, real prices. Every trade and every rejection, with its reason, as it happens.";
+  $("#fresh").hidden = v !== "battle";
+  if(v === "battle" && S){ renderChart(); announce(S.updatedAt); }
+  if(v === "picks" && PKD){ drawPkChart(pkStats(PKH)); announce(PKD.gen); }
+}
+for(const k of ["picks", "battle"]) $(`#tab-${k}`).addEventListener("click", () => {
+  setView(k);
+  if(k === "battle") history.pushState(null, "", "#battle");
+  else history.pushState(null, "", location.pathname + location.search);
+});
+$("#pkDays").addEventListener("click", (e) => { const b = e.target.closest("button[data-n]"); if(!b || !PKH) return; pkDaysN = +b.dataset.n; for(const x of $("#pkDays").children) x.setAttribute("aria-pressed", String(x === b)); renderPkHist(); });
+window.siteRefresh = () => Promise.all([loadPicks(), load()]);
 
 async function load(){
   try{
@@ -642,6 +951,7 @@ async function load(){
   $("#ledgerLink").href = `${BASE}/ledger.ndjson`;
   renderFresh(); renderNotice(); renderScore(); renderSlimes(); renderChart(); renderLead(); renderMarket(); renderRejections(); renderFeed(); renderRules();
   if($("#agent").open) renderAgent(openId); else routeHash();
+  if(view === "battle") announce(S.updatedAt);
 }
 
 $("#fAgent").addEventListener("change", () => { feedN = 40; renderFeed(); });
@@ -658,8 +968,11 @@ $("#mkSeg").addEventListener("click", (e) => { const b = e.target.closest("butto
 $("#mk").addEventListener("click", (e) => { const b = e.target.closest("button[data-k]"); if(!b) return; const k = b.dataset.k; mkSort = {k, dir: mkSort.k === k ? -mkSort.dir : (k === "sym" ? 1 : -1)}; renderMarket(); });
 addEventListener("popstate", () => S && routeHash());
 let rz; addEventListener("resize", () => { clearTimeout(rz); rz = setTimeout(() => S && renderChart(), 150); });
+setView(location.hash.startsWith("#agent=") || location.hash === "#battle" ? "battle" : "picks");
+loadPicks();
 load();
 setInterval(load, 60e3);
+setInterval(loadPicks, 5 * 60e3);
 </script>
 </body>
 </html>

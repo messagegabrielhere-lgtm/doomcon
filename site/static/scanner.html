@@ -689,7 +689,7 @@ tr.whyrow.sel td{background:color-mix(in srgb,var(--accent) 12%,transparent);box
   <p class="foot">Stock data: Yahoo Finance chart API, delayed, saved by a GitHub Action every 30 minutes in US market hours (<a href="https://github.com/messagegabrielhere-lgtm/doomcon/blob/main/scanner/collect-stocks.mjs" target="_blank" rel="noopener">collector</a>). Crypto data: OKX public API. The demo feed is simulated and contains no real prices. Backtests are hypothetical. Nothing here is financial advice.</p>
 </div>
 
-<p class="legal-note" style="margin:24px auto;max-width:72ch;padding:0 16px;font:400 12px/1.5 system-ui,sans-serif;opacity:.75">For information and entertainment only. Not investment, financial or trading advice, and not a recommendation to buy or sell any security or crypto asset. Signals and simulated results do not predict future returns. Do your own research or talk to a licensed professional.</p>
+<p class="legal-note" style="margin:24px auto;max-width:72ch;padding:0 16px;font:400 12px/1.5 system-ui,sans-serif;opacity:.75"><b>Disclosure:</b> Not financial advice. We are not financial advisors, brokers, or a registered investment adviser, and nothing on this site is investment, financial, legal, tax or trading advice, or a recommendation to buy, sell or hold any stock, crypto asset or other instrument. Stock picks, signals, scores and AI trades shown here are automated, simulated or hypothetical, for information and entertainment only. Past and simulated performance does not predict future results, and trading can lose money, including more than you expect. Do your own research and talk to a licensed financial professional before you invest.</p>
 
 <script>
 "use strict";
@@ -988,6 +988,8 @@ const loadData = auto => S.asset==="stocks" ? loadStocks(auto) : loadCrypto(auto
 
 function setSource(){
   const live = S.source==="live";
+  // Tell the site's refresh bar how fresh this data is.
+  if(live && S.asOf) window.dispatchEvent(new CustomEvent("site:data", {detail:{at: Date.parse(S.asOf)}}));
   $("#src").className = "chip "+(live?"live":"demo");
   let txt = "Demo data (simulated)";
   if(live && S.asset==="stocks") txt = `Stocks · Yahoo snapshot · ${fmtAsOf(S.asOf)}`;
@@ -2693,6 +2695,7 @@ document.querySelectorAll(".examples button").forEach(b=>b.addEventListener("cli
 $("#aStocks").addEventListener("click", ()=>{ const wasOdds = S.mode && S.mode!=="scan"; if(wasOdds){ setMode("scan"); writeHash(); } if(S.asset==="stocks"){ if(wasOdds){ runScan(false); } return; } S.asset = "stocks"; S.bar = "1D"; if(S.preset==="capitulation") setPreset("pullback"); syncAssetUI(); loadData(!inViewer ? false : true); });
 $("#aCrypto").addEventListener("click", ()=>{ const wasOdds = S.mode && S.mode!=="scan"; if(wasOdds){ setMode("scan"); writeHash(); } if(S.asset==="crypto"){ if(wasOdds){ runScan(false); } return; } S.asset = "crypto"; S.bar = "1H"; if(S.preset==="pullback"||S.preset==="golden") setPreset("capitulation"); syncAssetUI(); loadData(true); });
 $("#liveBtn").addEventListener("click", ()=>loadData(false));
+window.siteRefresh = () => loadData(false);
 $("#tf").addEventListener("change", async e=>{ S.bar = e.target.value; if(S.source==="demo" && S.asset==="crypto"){ loadDemo(); runScan(true); } else await loadData(false); });
 $("#topn").addEventListener("change", async e=>{ S.top = +e.target.value; if(S.source==="live") await loadData(false); else { loadDemo(); runScan(true); } });
 $("#sector").addEventListener("change", e=>{ S.sector = e.target.value; stopReplay(); runScan(true); });

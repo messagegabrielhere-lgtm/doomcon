@@ -244,3 +244,76 @@ test('stocks: market hours gate, no commission, spread-only round trip', async (
     else assert.ok(failed(g).includes('market open') && failed(g).includes('fresh quote'));
   }
 });
+
+// The picks engine lives inline in the page; test the very block it runs.
+async function picksEngine() {
+  const { readFile } = await import('node:fs/promises');
+  const html = await readFile(new URL('../site/static/arena.html', import.meta.url), 'utf8');
+  const src = html.slice(html.indexOf('/* picks:begin'), html.indexOf('/* picks:end */'));
+  return new Function(`${src}; return { PK, pkPrep, pkScore, pkPicksOn, pkOutcome, pkHistory, pkStats };`)();
+}
+// 140 sessions drifting up (an uptrend), then two sharp down days: an RSI(2) pullback.
+function series(s, sec = 'Tech', { dip = true, base = 100 } = {}) {
+  const n = 140, t = [], o = [], h = [], l = [], c = [], v = [];
+  for (let i = 0; i < n; i++) {
+    let px = base * (1 + i * 0.002) * (1 + 0.004 * Math.sin(i));
+    if (dip && i >= n - 2) px = c[i - 1] * 0.97;
+    t.push(1.7e9 + i * 86400); c.push(px); o.push(px * 0.999); h.push(px * 1.01); l.push(px * 0.99); v.push(1e6);
+  }
+  return { s, n: s, sec, t, o, h, l, c, v };
+}
+
+test('picks: the rule finds a pullback in an uptrend, and only that', async () => {
+  const E = await picksEngine();
+  const P = [series('DIP'), series('FLAT', 'Tech', { dip: false })].map(E.pkPrep);
+  const last = P[0].t.at(-1);
+  const picks = E.pkPicksOn(P, last);
+  assert.deepEqual(picks.map((p) => p.S.s), ['DIP']);
+  assert.ok(picks[0].rsi2 < E.PK.rsi2Max && picks[0].above100 > 0);
+});
+
+test('picks: no look-ahead, sector cap, every exit path', async () => {
+  const E = await picksEngine();
+  const raw = series('AAA');
+  const cut = raw.t.length - 1;
+  // Changing anything after the decision day must not change that day's pick.
+  const a = E.pkPrep(raw), b = E.pkPrep({ ...raw, c: raw.c.map((x, i) => (i > cut ? x * 5 : x)) });
+  assert.equal(E.pkScore(a, cut)?.score, E.pkScore(b, cut)?.score);
+
+  // Six dips in one sector: only two get picked.
+  const many = Array.from({ length: 6 }, (_, k) => E.pkPrep(series('S' + k, 'Energy', { base: 100 + k })));
+  assert.equal(E.pkPicksOn(many, many[0].t.at(-1)).length, E.PK.maxPerSector);
+
+  // Exits: build a pick on day i, then shape days i+1 and i+2.
+  const mk = (o1, h1, l1, c1, o2) => {
+    const S = E.pkPrep(series('X'));
+    const i = S.c.length - 1;
+    S.o.push(o1, ...(o2 == null ? [] : [o2])); S.h.push(h1, ...(o2 == null ? [] : [o2])); S.l.push(l1, ...(o2 == null ? [] : [o2])); S.c.push(c1, ...(o2 == null ? [] : [o2]));
+    return E.pkOutcome({ S, i, atr: 2, close: 100 });
+  };
+  const cost = E.PK.costPct;
+  let r = mk(100, 103, 99, 101, 102);           // target 102 hit
+  assert.equal(r.how, 'target'); assert.ok(Math.abs(r.ret - (2 - cost)) < 1e-9);
+  r = mk(100, 101, 97, 99, 100);                // stop 98 hit
+  assert.equal(r.how, 'stop'); assert.ok(Math.abs(r.ret - (-2 - cost)) < 1e-9);
+  r = mk(100, 103, 97, 100, 100);               // both touched: stop wins
+  assert.equal(r.how, 'stop');
+  r = mk(100, 101, 99, 100.5, 101.2);           // neither: sell at the next open
+  assert.equal(r.how, 'open'); assert.ok(Math.abs(r.ret - (1.2 - cost)) < 1e-9);
+  r = mk(100, 101, 99, 100.5);                  // trade day done, exit day not yet
+  assert.equal(r.status, 'live');
+  assert.equal(E.pkOutcome({ S: E.pkPrep(series('Y')), i: 139, atr: 2, close: 100 }).status, 'pending');
+});
+
+test('picks: stats compound daily averages against the benchmark', async () => {
+  const E = await picksEngine();
+  const hist = [
+    { t: 1, bench: 1, picks: [{ out: { status: 'done', ret: 2, how: 'target' } }, { out: { status: 'done', ret: -1, how: 'stop' } }] },
+    { t: 2, bench: -1, picks: [] },
+    { t: 3, bench: null, picks: [{ out: { status: 'pending' } }] },
+  ];
+  const st = E.pkStats(hist);
+  assert.equal(st.sessions, 2); assert.equal(st.trades, 2); assert.equal(st.winRate, 50);
+  assert.ok(Math.abs(st.equity - 1005) < 1e-9, 'day 1 averages +0.5%, day 2 sits in cash');
+  assert.ok(Math.abs(st.bench - 1000 * 1.01 * 0.99) < 1e-9);
+});

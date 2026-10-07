@@ -7,6 +7,7 @@
 // against a fixture without writing anything into the real data directory,
 // which belongs to the collector.
 
+import { stampAll } from './sitebar.mjs';
 import { readFile, writeFile, mkdir, readdir, copyFile, rm } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import path from 'node:path';
@@ -1380,6 +1381,8 @@ async function main() {
   }
 
   await selfCheck(args.out, state, ctx);
+  // Last: the refresh bar and disclosure on every page, dated by the data.
+  const stamped = await stampAll(args.out, state.generated_at);
 
   log(`${brand.NAME} build complete.`);
   log(`  out          ${args.out}`);
@@ -1388,6 +1391,7 @@ async function main() {
   log(`  observations ${history.length}   receipts ${receipts.length}   cards ${cardCount}`);
   log(`  indexable    ${moves.filter((m) => m.indexable).length} of ${moves.length} move pages`);
   log(`  files        ${written.length}`);
+  log(`  sitebar      ${stamped} pages`);
   for (const w of warnings) log(`  WARNING      ${w}`);
 }
 

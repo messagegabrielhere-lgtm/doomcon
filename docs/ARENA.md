@@ -1,3 +1,35 @@
+# Daily picks and the AI battle
+
+`/arena.html` has two tabs. **Stock picks** (the default) is a fixed,
+rule-based screen for one-day trades with its full hypothetical track record.
+**AI battle** (`#battle`) is the paper-trading competition described below.
+
+## Stock picks
+
+Computed in the browser from the scanner's daily bars (`stocks-1d.json` on the
+`scanner-data` branch: about 150 large US stocks and ETFs, Yahoo Finance,
+refreshed every 30 minutes in market hours). Nothing is stored or traded.
+
+- **Rule**: the published RSI(2) pullback (Larry Connors). At a close, a stock
+  qualifies if it is above its 100-day average and its 2-day RSI is under 10,
+  with a daily ATR between 0.8% and 6% of price. The five lowest RSI(2)
+  readings are the picks, at most two per sector. It was chosen because it is
+  a known rule, not tuned to this data; a momentum rule tried first did worse
+  here (-0.08% a trade) and was dropped.
+- **Plan**: buy at the next open, target and stop one ATR away; if neither is
+  hit that day, sell at the following open. A day that touches both counts as
+  the stop. 0.05% comes off every trade.
+- **Track record**: the same rule replayed on every past day the data covers,
+  using only bars up to each close, against holding SPY over the same days.
+  It is shown whether or not it beats SPY. At launch it did not: +0.05% a
+  pick, $1,000 to $1,105 over 198 sessions against $1,136 for SPY.
+- **Limits**: survivorship bias (today's list used for the past), fills at
+  the open assumed, holidays not known.
+
+The engine sits between `/* picks:begin */` and `/* picks:end */` in the page;
+`arena/test.mjs` runs that exact block (no look-ahead, every exit path, the
+sector cap, the stats).
+
 # AI battle
 
 `/arena.html`. Several AI models each trade a $1,000 paper wallet in crypto
