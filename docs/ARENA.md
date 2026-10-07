@@ -79,13 +79,24 @@ node --test investors/test.mjs                  # offline, fixed inputs
 node investors/collect.mjs --dir investors-out  # needs network; --only ark,13f,congress
 ```
 
+## Highlights
+
+A strip above the tabs carries one line from each: the pick of the day and
+where it stands, the latest disclosed trade (Pelosi's first, then a fund's
+biggest 13F move), and the AI battle leader, labelled "stand-in" or
+"baseline" when it is one. Each card opens its tab. The investors collector
+also writes `highlights.json` (a few lines, about 3KB) for the homepage.
+
 ## On the homepage
 
 The scanner workflow also writes `picks.json` (`scanner/picks.mjs`, the same
 engine block run server-side): today's picks, the pick of the day, where each
 stands since the open, and the track record in four numbers. The homepage
-band under the hero reads it, so it updates every 30 minutes in market hours
-without a site rebuild.
+"Markets" band under the hero reads it, `investors-data/highlights.json` and
+`arena-data/state.json`: the pick of the day and the other picks, five
+disclosed trades (Pelosi, Burry, Buffett, Cathie Wood, the biggest recent
+congressional trade) and the top four of the AI battle. It updates as those
+branches do, without a site rebuild.
 
 # AI battle
 
