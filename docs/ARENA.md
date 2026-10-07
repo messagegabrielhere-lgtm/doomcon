@@ -23,6 +23,15 @@ refreshed every 30 minutes in market hours). Nothing is stored or traded.
   using only bars up to each close, against holding SPY over the same days.
   It is shown whether or not it beats SPY. At launch it did not: +0.05% a
   pick, $1,000 to $1,105 over 198 sessions against $1,136 for SPY.
+- **Pick of the day**: the screen's strongest reading (lowest RSI(2)),
+  featured on the picks tab and the scanner.
+- **Live status**: picks stay fixed at the close (that is what the track
+  record scores). Through the session each one shows where it stands from
+  `quotes.json` (the scanner collector's live price and today's open, high and
+  low, saved every 30 minutes): not open yet, now +x% since the open, target
+  hit, or stop hit (both touched counts as the stop).
+- **Tomorrow's picks so far**: the same screen run on today's live prices,
+  provisional until the close.
 - **Limits**: survivorship bias (today's list used for the past), fills at
   the open assumed, holidays not known.
 

@@ -123,8 +123,27 @@ export function pack(res, frame, nowSec = Date.now() / 1000) {
   };
 }
 
+// The live quote and today's session so far, from the daily chart response we
+// already have: the last price, and the open/high/low/volume of the current
+// session's bar (the one pack() drops while it is still forming).
+export function liveQuote(res, nowSec = Date.now() / 1000) {
+  const m = res?.meta || {}, q = res?.indicators?.quote?.[0] || {}, ts = res?.timestamp || [];
+  const p = m.currentTradingPeriod?.regular;
+  const i = ts.length - 1;
+  const today = i >= 0 && p && ts[i] >= p.start - 3600 && ts[i] < p.end;
+  const day = today && [q.open?.[i], q.high?.[i], q.low?.[i]].every(Number.isFinite)
+    ? { t: ts[i], o: round(q.open[i]), h: round(Math.max(q.high[i], m.regularMarketDayHigh ?? -Infinity)), l: round(Math.min(q.low[i], m.regularMarketDayLow ?? Infinity)), v: Math.round(m.regularMarketVolume ?? q.volume?.[i] ?? 0) }
+    : null;
+  return {
+    px: Number.isFinite(m.regularMarketPrice) ? round(m.regularMarketPrice) : null,
+    at: m.regularMarketTime ?? null,
+    open: !!p && nowSec >= p.start && nowSec < p.end,
+    day,
+  };
+}
+
 export async function collect({ fetchImpl = fetch, universe = UNIVERSE, gapMs = 150 } = {}) {
-  const out = {};
+  const out = {}, quotes = {};
   for (const frame of FRAMES) {
     const symbols = [];
     const failed = [];
@@ -134,6 +153,7 @@ export async function collect({ fetchImpl = fetch, universe = UNIVERSE, gapMs = 
         const [s, sec] = universe[next++];
         try {
           const res = await chart(s, frame.interval, frame.range, fetchImpl);
+          if (frame.interval === '1d') quotes[s] = liveQuote(res);
           const d = pack(res, frame);
           if (d.c.length < 60) throw new Error(`only ${d.c.length} bars`);
           symbols.push({ s, n: res.meta?.shortName || res.meta?.longName || s, sec, ...d });
@@ -147,6 +167,7 @@ export async function collect({ fetchImpl = fetch, universe = UNIVERSE, gapMs = 
     symbols.sort((a, b) => universe.findIndex((u) => u[0] === a.s) - universe.findIndex((u) => u[0] === b.s));
     out[frame.file] = { generated: new Date().toISOString(), interval: frame.interval, source: 'Yahoo Finance chart API (delayed)', symbols, failed };
   }
+  out['quotes.json'] = { generated: new Date().toISOString(), source: 'Yahoo Finance chart API (delayed)', marketOpen: Object.values(quotes).some((x) => x.open), quotes };
   return out;
 }
 
@@ -154,6 +175,7 @@ async function main() {
   const out = await collect();
   let ok = true;
   for (const [file, body] of Object.entries(out)) {
+    if (!body.symbols) { console.log(`${file}: ${Object.keys(body.quotes).length} quotes`); continue; }
     console.log(`${file}: ${body.symbols.length} of ${UNIVERSE.length} symbols${body.failed.length ? `; failed: ${body.failed.slice(0, 8).join(', ')}` : ''}`);
     // Refuse to publish a mostly-empty snapshot; the branch keeps the last good one.
     if (body.symbols.length < UNIVERSE.length * 0.5) ok = false;

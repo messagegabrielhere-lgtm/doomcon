@@ -250,7 +250,7 @@ async function picksEngine() {
   const { readFile } = await import('node:fs/promises');
   const html = await readFile(new URL('../site/static/arena.html', import.meta.url), 'utf8');
   const src = html.slice(html.indexOf('/* picks:begin'), html.indexOf('/* picks:end */'));
-  return new Function(`${src}; return { PK, pkPrep, pkScore, pkPicksOn, pkOutcome, pkHistory, pkStats };`)();
+  return new Function(`${src}; return { PK, pkPrep, pkScore, pkPicksOn, pkOutcome, pkHistory, pkStats, pkLive, pkAppendToday };`)();
 }
 // 140 sessions drifting up (an uptrend), then two sharp down days: an RSI(2) pullback.
 function series(s, sec = 'Tech', { dip = true, base = 100 } = {}) {
@@ -324,4 +324,28 @@ test('picks: the scanner page runs the same engine as the arena page', async () 
   const [a, s] = await Promise.all([block('arena.html'), block('scanner.html')]);
   assert.ok(a.length > 1000);
   assert.equal(s, a, 'copy the picks block from arena.html into scanner.html when the rule changes');
+});
+
+test('picks: live status from today\'s session, and tomorrow\'s preview', async () => {
+  const E = await picksEngine();
+  const pick = { atr: 2, close: 100 };   // target and stop 2% from the entry
+  const q = (o, h, l, px, open = true) => ({ px, open, day: { t: 1, o, h, l, v: 1 } });
+  assert.equal(E.pkLive(pick, null).state, 'waiting');
+  assert.equal(E.pkLive(pick, { px: 101, day: null }).state, 'waiting');
+  let L = E.pkLive(pick, q(101, 101.5, 100.5, 101.2));
+  assert.equal(L.state, 'running'); assert.ok(Math.abs(L.now - (101.2 / 101 - 1) * 100) < 1e-9); assert.ok(Math.abs(L.gap - 1) < 1e-9);
+  L = E.pkLive(pick, q(100, 102.5, 99.5, 102.4));           // up through the target
+  assert.equal(L.state, 'target'); assert.ok(Math.abs(L.ret - (2 - E.PK.costPct)) < 1e-9);
+  assert.equal(E.pkLive(pick, q(100, 101, 97.5, 98)).state, 'stop');
+  assert.equal(E.pkLive(pick, q(100, 103, 97, 100)).state, 'stop', 'both touched counts as the stop');
+  assert.equal(E.pkLive(pick, q(100, 101, 99.5, 100.4, false)).state, 'closed');
+
+  // The preview appends today's bar only where the quote's session is newer.
+  const base = series('DIP'), last = base.t.at(-1);
+  const quotes = { DIP: { px: 90, day: { t: last + 86400, o: 95, h: 96, l: 89, v: 1e6 } }, OLD: { px: 5, day: { t: last, o: 5, h: 5, l: 5, v: 1 } } };
+  const ext = E.pkAppendToday([base, series('OLD', 'Tech', { dip: false })], quotes);
+  assert.equal(ext.t, last + 86400);
+  assert.equal(ext.symbols[0].c.at(-1), 90); assert.equal(ext.symbols[0].c.length, base.c.length + 1);
+  assert.equal(ext.symbols[1].c.length, base.c.length, 'a quote for a session already in the data adds nothing');
+  assert.equal(E.pkAppendToday([base], {}).t, null);
 });
