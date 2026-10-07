@@ -79,12 +79,21 @@ export function privacy(ctx) {
     <li><b>No analytics.</b> There is no tracking script, pixel or visitor counter. Nobody here knows you visited.</li>
     <li><b>No accounts and no forms.</b> There is nothing to sign up for and nowhere to type personal details.</li>
     <li><b>Browser storage.</b> A few preferences are kept in your own browser's local storage: the last reading you saw, your
-      language choice, and your best score in the game. They never leave your device, and clearing site data removes them.</li>
+      language choice, your best score in the game, and the panel settings on the live monitor and scanner pages. They never
+      leave your device, and clearing site data removes them.</li>
   </ul>
   <h2>Third parties a visit touches</h2>
   <ul>
     <li><b>GitHub Pages</b> hosts the site, so GitHub's servers receive your IP address and browser details, as any web host does.</li>
     <li><b>Fonts</b> are served from this site. No font request goes to Google or any other third party.</li>
+    <li><b>Live data pages.</b> Three hand-built pages fetch public data straight from your browser, so those providers receive
+      your IP address and browser details when you open them, under their own policies:
+      the <b>world monitor</b> (USGS, NASA EONET, GDACS, GDELT, OpenSky, ADSB.lol, airplanes.live, OKX, alternative.me),
+      the <b>scanner</b> (OKX, Polymarket, DEX Screener, alternative.me), and the <b>stock picks and AI battle</b> page.
+      All three also read this project's own data files from GitHub (raw.githubusercontent.com).
+      Every other page loads only files from this site.</li>
+    <li><b>Optional local AI.</b> The monitor can talk to an Ollama model running on your own computer if you turn it on. That
+      connection stays on your machine; nothing is sent to this site.</li>
     <li><b>Links out.</b> Clicking a link to X, Amazon, a news source or a data source takes you to that site under its own
       policy. The "Post on X" links pass only the text of the card and this site's address.</li>
     <li><b>Amazon paid links.</b> The reading list and the supplies crate in the Bunker Kit use Amazon Associates links. If you follow one, Amazon
@@ -163,6 +172,9 @@ export function terms(ctx) {
     <li><b>Camera and infrastructure maps</b> (licence-plate readers, data centres, power) are built from crowd-sourced and
       public records that can be incomplete, outdated or wrong. A location is not a claim about who operates it or what it
       does. Do not use these maps to trespass, harass anyone, tamper with or damage equipment, or evade lawful enforcement.</li>
+    <li><b>Live world data</b> on the monitor (earthquakes, storms, fires, flights, military aircraft, shipping, news) comes from
+      third-party feeds that can be delayed, incomplete or wrong. It is not for navigation, aviation, emergency response or
+      evacuation decisions. In an emergency, follow official alerts and local authorities.</li>
     <li><b>The Bunker Kit, the game and the mascot's desk</b> are jokes. They are not emergency-preparedness, survival or
       safety guidance. For real preparedness, use your local emergency-management authority.</li>
   </ul>
@@ -179,6 +191,8 @@ export function terms(ctx) {
     <li>Headlines, posts, quotes and excerpts from news outlets, X and other sources are attributed and linked to where they
       came from. They are the words and opinions of their authors, not of ${esc(brand.NAME)}, and are shown for reporting and
       commentary.</li>
+    <li>Illustrated portraits of public figures are generated artwork, not photographs. They are used to identify the person in
+      reporting and commentary and say nothing about their views, conduct or approval of this site.</li>
     <li>Humour and exaggeration on the site, including anything said by the mascot, are satire and not literal statements of fact.</li>
   </ul>
 

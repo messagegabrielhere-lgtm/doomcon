@@ -23,6 +23,15 @@ import { esc, num, utc } from './_html.mjs';
 import { page } from './layout.mjs';
 import * as brand from '../brand.mjs';
 
+// Third-party summaries are shown as short, attributed excerpts, never in full.
+function clipX(text, max) {
+  const t = String(text).replace(/\s+/g, ' ').trim();
+  if (t.length <= max) return t;
+  const cut = t.slice(0, max);
+  const at = cut.lastIndexOf(' ');
+  return `${(at > max * 0.6 ? cut.slice(0, at) : cut).replace(/[\s,.;:–—-]+$/, '')}…`;
+}
+
 /**
  * Source pairs where one feed derives from the other, so a time difference
  * between them measures pipeline latency rather than anybody being first.
@@ -173,7 +182,7 @@ export function render(ctx, item, related = []) {
   </p>
 
   <h1 class="it__h">${esc(item.title)}</h1>
-  ${item.summary ? `<p class="lede">${esc(item.summary)}</p>` : ''}
+  ${item.summary ? `<blockquote class="lede" cite="${esc(item.url)}"><p>${esc(clipX(item.summary, 200))}</p><footer>— excerpt from ${esc(item.source)}; the full story and its rights belong to them.</footer></blockquote>` : ''}
 
   <p class="it__src">
     Source: <a href="${esc(item.url)}" rel="nofollow noopener">${esc(item.source)}</a>
@@ -210,7 +219,7 @@ export function render(ctx, item, related = []) {
     ctx,
     path: `/item/${slugFor(item)}.html`,
     title: `${item.title} — ${brand.PUBLICATION}`,
-    description: `${String(item.summary || item.title).slice(0, 150)} ${hasScore(item)
+    description: `${clipX(String(item.summary || item.title), 140)} ${hasScore(item)
       ? `Scored ${num(item.score, 1)} of 100 by the ${brand.NAME} index.`
       : `Indexed by ${brand.NAME}; ${UNSCORED}.`}`,
     ogTitle: item.title,
@@ -219,13 +228,14 @@ export function render(ctx, item, related = []) {
       : `${brand.NAME} indexed this item without a score`,
     jsonld: [{
       '@context': 'https://schema.org',
-      '@type': 'NewsArticle',
-      headline: item.title,
-      datePublished: item.published_at,
+      // A WebPage ABOUT someone else's story, not a NewsArticle: this index
+      // did not write the headline, and structured data must not say it did.
+      '@type': 'WebPage',
+      name: item.title,
       url: ctx.url(`/item/${slugFor(item)}.html`),
       isBasedOn: item.url,
       publisher: { '@type': 'Organization', name: brand.PUBLICATION },
-      description: item.summary || item.title,
+      description: clipX(String(item.summary || item.title), 200),
     }],
     main,
   });
@@ -254,6 +264,7 @@ export function styleTag() {
 .it__k{font-family:var(--mono);font-size: var(--t-xs);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint)}
 .it__h{margin:var(--s-2) 0;max-width:24ch;font-size:clamp(22px,4vw,34px);line-height:1.15}
 .it__src{font-family:var(--mono);font-size: var(--t-xs);color:var(--ink-dim)}
+.it blockquote.lede{margin:var(--s-2) 0;padding-left:var(--s-3);border-left:3px solid var(--rule)}.it blockquote.lede p{margin:0}.it blockquote.lede footer{margin-top:6px;font-family:var(--mono);font-size:var(--t-xs);color:var(--ink-faint)}
 .it__s{margin-top:var(--s-5);border-top:1px solid var(--rule);padding-top:var(--s-3)}
 .it__s h2{font-family:var(--mono);font-size: var(--t-xs);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 var(--s-2)}
 .it__t{width:100%;border-collapse:collapse;font-family:var(--mono);font-size: var(--t-xs)}

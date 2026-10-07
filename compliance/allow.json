@@ -4,5 +4,11 @@
     "file": ".github/workflows/clipper.yml",
     "reason": "Cookie step is optional and has never run: the clipper is unconfigured, so every run skips before it. If you ever add YTDLP_COOKIES, export it from a throwaway Google account, never your personal one.",
     "until": "2027-01-06"
+  },
+  {
+    "rule": "email-capture",
+    "file": "collector/news-sources/import-ai.mjs",
+    "reason": "False positive: this is the URL of a newsletter's public RSS feed that the collector reads. The site has no email field and collects no addresses.",
+    "until": "2027-10-07"
   }
 ]
