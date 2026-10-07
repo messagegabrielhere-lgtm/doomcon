@@ -1,0 +1,72 @@
+# Big investors (/arena.html#investors): disclosed trades of well-known fund
+# managers (SEC 13F), Cathie Wood's ARK ETFs (daily holdings) and members of
+# Congress (House periodic transaction reports).
+#
+# Like the scanner and the arena, this never touches main. Output lives on the
+# investors-data branch as one orphan commit, force-pushed. state.json there
+# holds yesterday's ARK holdings (to diff against) and the House reports
+# already parsed; delete the branch to start over.
+#
+# SEC asks automated clients to identify themselves in the User-Agent. Set the
+# repository variable SEC_UA (for example "yoursite admin@example.com") to use
+# your own; the default names this repository.
+
+name: investors
+
+on:
+  schedule:
+    - cron: '17 12 * * 1-5'   # morning: House reports filed overnight
+    - cron: '47 23 * * 1-5'   # evening: after ARK posts the day's holdings
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: investors
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: investors
+          fetch-depth: 1
+
+      - name: Set up Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install the PDF reader
+        # Only this job needs it, so it isn't in package.json.
+        run: npm install --no-save --no-package-lock --ignore-scripts --no-audit --no-fund --omit=optional pdfjs-dist@5.6.205
+
+      - name: Load state
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git clone -q --depth 1 --branch investors-data "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git" "$RUNNER_TEMP/investors" \
+            || mkdir -p "$RUNNER_TEMP/investors"
+          rm -rf "$RUNNER_TEMP/investors/.git"
+
+      - name: Collect
+        env:
+          SEC_UA: ${{ vars.SEC_UA }}
+        run: node investors/collect.mjs --dir "$RUNNER_TEMP/investors"
+
+      - name: Publish to investors-data
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cd "$RUNNER_TEMP/investors"
+          git init -q -b investors-data
+          git config user.name "github-actions[bot]"
+          git config user.email "41898699+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -q -m "Investors $(date -u +%Y-%m-%dT%H:%MZ)"
+          git push -q -f "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git" investors-data

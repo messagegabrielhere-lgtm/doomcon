@@ -39,6 +39,51 @@ The engine sits between `/* picks:begin */` and `/* picks:end */` in the page;
 `arena/test.mjs` runs that exact block (no look-ahead, every exit path, the
 sector cap, the stats).
 
+## Big investors
+
+`/arena.html#investors`. What well-known investors and politicians have
+disclosed buying and selling, read from the public filings by
+`investors/collect.mjs` (`.github/workflows/investors.yml`, weekday mornings
+and evenings, output on the `investors-data` branch). Everything is a
+disclosure made after the fact; nothing is real time.
+
+| who | source | delay |
+|---|---|---|
+| Michael Burry (Scion), Warren Buffett (Berkshire), Bill Ackman (Pershing Square), Stanley Druckenmiller (Duquesne), David Tepper (Appaloosa), Bridgewater (founded by Ray Dalio), ARK | SEC Form 13F-HR on EDGAR: the latest filing against the one before | up to 45 days after the quarter |
+| Cathie Wood | ARK's daily ETF holdings files (ARKK, ARKW, ARKG, ARKQ, ARKF, ARKX), each day against the last | a day |
+| Nancy Pelosi and every House member | House periodic transaction reports (STOCK Act), the Clerk's index and the report PDFs | up to 45 days after the trade |
+| Donald Trump | OGE Form 278-T: scanned images, so linked, not read | |
+
+- **13F changes** count shares, so a price move alone isn't a trade: new,
+  added (2%+ more shares), trimmed, sold out. Dollar sizes use the quarter-end
+  price. A 13F covers US-listed stocks, ETFs and options only. A fund with no
+  13F for a quarter more than about 200 days back is marked as an old filing
+  (Scion's last 13F is for Q3 2025).
+- **ARK trades** are estimates: each position against its old size times the
+  median change across the fund, which takes out creations and redemptions.
+  Changes under 1% or $250K are ignored.
+- **House reports** are read with pdf.js (installed only in that workflow).
+  Up to 60 new reports a run, newest first; parsed reports are cached in
+  `state.json`. A report that can't be read (a scanned paper filing, a row the
+  parser doesn't recognise) is listed with a link to its PDF rather than
+  guessed. Senate reports sit behind a search form and are not included.
+- SEC asks automated clients to identify themselves: set the repository
+  variable `SEC_UA` to use your own User-Agent; the default names this
+  repository.
+
+```bash
+node --test investors/test.mjs                  # offline, fixed inputs
+node investors/collect.mjs --dir investors-out  # needs network; --only ark,13f,congress
+```
+
+## On the homepage
+
+The scanner workflow also writes `picks.json` (`scanner/picks.mjs`, the same
+engine block run server-side): today's picks, the pick of the day, where each
+stands since the open, and the track record in four numbers. The homepage
+band under the hero reads it, so it updates every 30 minutes in market hours
+without a site rebuild.
+
 # AI battle
 
 `/arena.html`. Several AI models each trade a $1,000 paper wallet in crypto
