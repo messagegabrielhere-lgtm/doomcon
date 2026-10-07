@@ -123,10 +123,18 @@ test('matchSI: title anywhere, description only on labs and his companies', () =
 });
 
 test('topicsFor tags a clip with every topic it matches', () => {
-  assert.deepEqual(topicsFor({ title: 'Elon Musk: superintelligence is coming', description: '' }, 'news'), ['elon', 'si']);
-  assert.deepEqual(topicsFor({ title: 'Superintelligence explained', description: '' }, 'interview'), ['si']);
+  assert.deepEqual(topicsFor({ title: 'Elon Musk: superintelligence is coming', description: '' }, 'news'), ['elon', 'si', 'ai']);
+  assert.deepEqual(topicsFor({ title: 'Superintelligence explained', description: '' }, 'interview'), ['si', 'ai']);
   assert.deepEqual(topicsFor({ title: 'Markets today', description: '' }, 'news'), []);
-  // Event keywords are for his companies only, never for an AI lab.
-  assert.deepEqual(topicsFor({ title: 'Summer update', description: '' }, 'lab'), []);
+  // Event keywords are for his companies only, never for an AI lab (whose uploads are all AI).
+  assert.deepEqual(topicsFor({ title: 'Summer update', description: '' }, 'lab'), ['ai']);
+});
+
+test('leader topics need the name in the title, or the description on their own channel', () => {
+  assert.deepEqual(topicsFor({ title: 'Sam Altman on GPT-6', description: '' }, 'interview'), ['ai', 'altman']);
+  assert.deepEqual(topicsFor({ title: 'Markets today', description: 'with Sam Altman' }, 'news'), []);
+  assert.deepEqual(topicsFor({ title: 'Keynote', description: 'Jensen Huang keynote' }, 'company'), ['huang']);
+  assert.deepEqual(topicsFor({ title: 'Brockman wins the match', description: '' }, 'news'), []);
+  assert.deepEqual(topicsFor({ title: 'AI stocks rally', description: '' }, 'news'), []);
 });
 

@@ -40,7 +40,7 @@ export function roomGroups(ctx) {
       ['/leaders.html', 'mic', 'Leaders', Number.isFinite(lt.leaders) ? `${lt.on_record ?? 0} of ${lt.leaders} on record` : null, 'What the people running AI said this week.'],
       ctx.digest ? ['/digest.html', 'clipboard', 'Digest', null, 'The day in a few corroborated items.'] : null,
       ['/monitor.html', 'satellite', 'World Monitor', null, 'Live globe: news, hazards, flights, chokepoints.'],
-      ['/elon.html', 'musk', 'Real Elon', null, 'A searchable index of real Elon Musk clips.'],
+      ['/elon.html', 'musk', 'Real Clips', null, 'Verified clips of Elon, Altman, Amodei and the AI bosses.'],
     ]],
     ['THE MACHINES', [
       ['/watts.html', 'power', 'Power', ctx.infra && Number.isFinite(ctx.infra.score) ? `${ctx.infra.score.toFixed(1)} / 100` : null, 'Grid load, drought and build-out under the models.'],

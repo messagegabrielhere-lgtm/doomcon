@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Real Clips</title>
-<meta name="description" content="Search real video clips of Elon Musk and of the people building and debating superintelligence, taken only from the channels that filmed them: his companies, the AI labs, long-form interviews and major newsrooms. Paste any link to check where it came from.">
+<meta name="description" content="Search real video clips of Elon Musk, Sam Altman, Dario Amodei, Demis Hassabis, Jensen Huang and the other people building AI, taken only from the channels that filmed them: his companies, the AI labs, long-form interviews and major newsrooms. Paste any link to check where it came from.">
 <style>
 :root{
   --bg:#f4f5f7; --panel:#ffffff; --sunk:#eceef2; --ink:#12151b; --mute:#5d6573; --line:#d9dde4;
@@ -50,6 +50,7 @@ h2{margin:0 0 10px;font:600 18px/1.2 var(--f-display)}
 .topics button{border:1px solid var(--line);background:var(--panel);border-radius:99px;padding:8px 16px;font:600 15px var(--f-display);color:var(--mute)}
 .topics button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
 .topics button span{font:500 12px var(--f-body);opacity:.8;margin-left:4px}
+.topics.leaders{margin-top:8px}.topics.leaders button{padding:6px 12px;font-size:13.5px}.topics button[hidden]{display:none}
 
 /* checker */
 .check form{display:flex;gap:8px;flex-wrap:wrap}
@@ -135,8 +136,10 @@ footer{color:var(--mute);font-size:12.5px;text-align:center}
 
   <nav class="topics" role="group" aria-label="Topic" id="topics">
     <button type="button" data-topic="elon" aria-pressed="true">Elon Musk<span id="n-elon"></span></button>
+    <button type="button" data-topic="ai" aria-pressed="false">All AI<span id="n-ai"></span></button>
     <button type="button" data-topic="si" aria-pressed="false">Superintelligence<span id="n-si"></span></button>
   </nav>
+  <nav class="topics leaders" role="group" aria-label="AI leaders" id="leaders"></nav>
 
   <section class="panel check" aria-labelledby="chk-h">
     <h2 id="chk-h">Got a clip? Check where it came from.</h2>
@@ -178,7 +181,7 @@ footer{color:var(--mute);font-size:12.5px;text-align:center}
       <div>
         <h2 id="how-h">How we know it's real</h2>
         <p>Deepfakes are good enough that you can't judge a clip by looking at it. So this index doesn't look. It only lists videos uploaded by the channel that recorded them: Elon's companies, the AI labs, hosts who filmed their own interviews, and newsrooms with their own cameras.</p>
-        <p><b>Elon Musk:</b> the title names him, or it's an event one of his companies held that he presents (shareholder meetings, AI Day, Starship updates). <b>Superintelligence:</b> the title says superintelligence, or, on an AI lab's own channel, the description does. The index refreshes every hour and keeps everything it has seen.</p>
+        <p><b>Elon Musk:</b> the title names him, or it's an event one of his companies held that he presents (shareholder meetings, AI Day, Starship updates). <b>Superintelligence:</b> the title says superintelligence, or, on an AI lab's own channel, the description does. <b>AI leaders</b> (Altman, Amodei, Hassabis, Huang and others): the title names them, or, on their own company's channel, the description does. <b>All AI:</b> every upload from an AI lab, and anything elsewhere whose title is unmistakably about AI. The index refreshes every hour and keeps everything it has seen.</p>
       </div>
       <div>
         <h2>Signs of a fake</h2>
@@ -217,16 +220,22 @@ footer{color:var(--mute);font-size:12.5px;text-align:center}
 <script>
 const DATA_URL = 'https://raw.githubusercontent.com/messagegabrielhere-lgtm/doomcon/elon-data/clips.json';
 const PAGE = 48;
-const TIER_LABEL = { official: 'Official', lab: 'AI lab', interview: 'Interview', news: 'News' };
+const TIER_LABEL = { official: 'Official', lab: 'AI lab', company: 'Company', interview: 'Interview', news: 'News' };
 // The "Official" filter covers Elon's companies and the AI labs: both are the
 // subject's own channel.
-const tierIs = (c, t) => !t || c.tier === t || (t === 'official' && c.tier === 'lab');
+const tierIs = (c, t) => !t || c.tier === t || (t === 'official' && (c.tier === 'lab' || c.tier === 'company'));
 const TOPIC = {
   elon: { h: 'Elon', placeholder: 'Search: Starship, Grok, Optimus, Rogan…',
     tag: 'Clips of Elon Musk, only from the channels that filmed him. No reuploads, no AI voices, no "giveaway" livestreams.' },
   si: { h: 'Superintelligence', placeholder: 'Search: Sutskever, Altman, alignment, Bostrom…',
     tag: 'Talks, interviews and reports on superintelligence, only from the labs, hosts and newsrooms that filmed them. No AI-narrated explainers, no reupload channels.' },
+  ai: { h: 'AI', placeholder: 'Search: AGI, Claude, GPT, chips, safety…',
+    tag: 'Every AI clip in the index: the labs’ own uploads, plus interviews and news reports about AI, only from the channels that filmed them.' },
 };
+// The people running AI. Each gets a topic; buttons appear once they have clips.
+const LEADERS = [['altman','Sam Altman'],['amodei','Dario Amodei'],['hassabis','Demis Hassabis'],['huang','Jensen Huang'],['zuckerberg','Mark Zuckerberg'],['nadella','Satya Nadella'],['pichai','Sundar Pichai'],['suleyman','Mustafa Suleyman'],['sutskever','Ilya Sutskever'],['murati','Mira Murati'],['karpathy','Andrej Karpathy'],['brockman','Greg Brockman'],['lecun','Yann LeCun'],['hinton','Geoffrey Hinton'],['bengio','Yoshua Bengio'],['mensch','Arthur Mensch'],['liang','Liang Wenfeng']];
+for (const [id, name] of LEADERS) TOPIC[id] = { h: name, placeholder: `Search clips of ${name.split(' ')[0]}…`, tag: `Clips of ${name}, only from the channels that filmed them: their own company, the AI labs, long-form interviews and newsrooms.`, leader: true };
+document.getElementById('leaders').innerHTML = LEADERS.map(([id, name]) => `<button type="button" data-topic="${id}" aria-pressed="false" hidden>${name}<span id="n-${id}"></span></button>`).join('');
 // Clips collected before topics existed are all about Elon.
 const topicsOf = (c) => c.topics || ['elon'];
 const SCAM_RE = /\b(giveaway|double|doubl(e|ing) your|btc|bitcoin|eth|ethereum|crypto|airdrop|send \d|claim|qr code|free (btc|eth|crypto|tesla)|live now|xrp|doge|presale|token launch)\b/i;
@@ -380,7 +389,7 @@ $('q').addEventListener('input', () => {
   clearTimeout(qTimer);
   qTimer = setTimeout(() => { state.q = $('q').value.trim(); state.shown = PAGE; render(); }, 120);
 });
-$('topics').addEventListener('click', (e) => {
+const onTopic = (e) => {
   const b = e.target.closest('button');
   if (!b || b.dataset.topic === state.topic) return;
   state.topic = b.dataset.topic;
@@ -390,7 +399,10 @@ $('topics').addEventListener('click', (e) => {
   syncControls();
   fillChannels();
   render();
-});
+  if (TOPIC[state.topic].leader) document.title = `Real clips of ${TOPIC[state.topic].h} · SIREN`;
+};
+$('topics').addEventListener('click', onTopic);
+$('leaders').addEventListener('click', onTopic);
 $('tiers').addEventListener('click', (e) => {
   const b = e.target.closest('button');
   if (!b) return;
@@ -406,13 +418,14 @@ $('more').onclick = () => { state.shown += PAGE; render(); };
 
 function syncControls() {
   const t = TOPIC[state.topic];
-  for (const b of $('topics').querySelectorAll('button')) b.setAttribute('aria-pressed', String(b.dataset.topic === state.topic));
+  for (const b of document.querySelectorAll('#topics button, #leaders button')) b.setAttribute('aria-pressed', String(b.dataset.topic === state.topic));
   $('h-topic').textContent = t.h;
   $('tagline').textContent = t.tag;
   $('q').placeholder = t.placeholder;
   for (const k of Object.keys(TOPIC)) {
     const n = state.all.filter((c) => topicsOf(c).includes(k)).length;
     $(`n-${k}`).textContent = state.loaded ? n.toLocaleString() : '';
+    if (TOPIC[k].leader) $(`n-${k}`).parentElement.hidden = !(state.loaded && n > 0) && state.topic !== k;
   }
   $('q').value = state.q;
   for (const b of $('tiers').querySelectorAll('button')) b.setAttribute('aria-pressed', String(b.dataset.tier === state.tier));

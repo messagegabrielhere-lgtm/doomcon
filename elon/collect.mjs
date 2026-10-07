@@ -89,10 +89,54 @@ export function matchSI(video, tier) {
   return (tier === 'official' || tier === 'lab') && SI_RE.test(video.description);
 }
 
-/** The topics this index covers. `query` is what each channel is searched for once. */
+// The other people running and arguing about AI. A clip counts when the
+// TITLE names them, or, on their own lab's or company's channel, the
+// description does. Surnames are matched only where they are distinctive;
+// common ones need the first name too.
+export const LEADERS = [
+  ['altman', 'Sam Altman', /\b(sam altman|altman)\b/i],
+  ['amodei', 'Dario Amodei', /\b(dario|daniela) amodei\b|\bamodei\b/i],
+  ['hassabis', 'Demis Hassabis', /\b(demis )?hassabis\b/i],
+  ['zuckerberg', 'Mark Zuckerberg', /\bzuckerberg\b/i],
+  ['huang', 'Jensen Huang', /\bjensen( huang)?\b/i],
+  ['nadella', 'Satya Nadella', /\b(satya )?nadella\b/i],
+  ['pichai', 'Sundar Pichai', /\b(sundar )?pichai\b/i],
+  ['suleyman', 'Mustafa Suleyman', /\bmustafa suleyman\b|\bsuleyman\b/i],
+  ['lecun', 'Yann LeCun', /\b(yann )?le ?cun\b/i],
+  ['hinton', 'Geoffrey Hinton', /\bgeoffrey hinton\b|\bhinton\b/i],
+  ['bengio', 'Yoshua Bengio', /\b(yoshua )?bengio\b/i],
+  ['sutskever', 'Ilya Sutskever', /\b(ilya )?sutskever\b/i],
+  ['murati', 'Mira Murati', /\b(mira )?murati\b/i],
+  ['karpathy', 'Andrej Karpathy', /\b(andrej )?karpathy\b/i],
+  ['brockman', 'Greg Brockman', /\bgreg brockman\b/i],
+  ['mensch', 'Arthur Mensch', /\barthur mensch\b/i],
+  ['liang', 'Liang Wenfeng', /\bliang wenfeng\b/i],
+];
+const OWN_TIERS = new Set(['official', 'lab', 'company']);
+export function matchLeader(re) {
+  return (v, tier) => re.test(v.title) || (OWN_TIERS.has(tier) && re.test(v.description));
+}
+// AI in general. An AI lab's own upload is always about AI; elsewhere the
+// title has to use a term that only means AI (bare "AI" is in too many
+// unrelated headlines to count on a news channel).
+const AI_RE = /\b(AGI|artificial (general )?intelligence|AI (safety|risk|race|bubble|agents?|models?|jobs?|regulation|chips?|act)|superintelligen\w*|ChatGPT|OpenAI|Anthropic|DeepMind|Claude|Gemini|GPT-?\d|Grok|Llama|LLMs?|large language models?|machine learning|deep learning|neural networks?)\b/i;
+export function matchAI(v, tier) {
+  if (tier === 'lab') return true;
+  if (AI_RE.test(v.title)) return true;
+  return tier === 'company' && AI_RE.test(v.description);
+}
+
+/**
+ * The topics this index covers. `query` is what each channel is searched for
+ * once; null means the topic grows from each channel's RSS feed only (a
+ * one-time search per topic per channel would cost 100 API units each, and the
+ * leader topics alone would blow the free daily quota).
+ */
 export const TOPICS = {
   elon: { query: 'Elon Musk', match: (v, tier) => !!matchElon(v, tier) },
   si: { query: 'superintelligence', match: matchSI },
+  ai: { query: null, match: matchAI },
+  ...Object.fromEntries(LEADERS.map(([id, , re]) => [id, { query: null, match: matchLeader(re) }])),
 };
 
 /** Video -> the topics it belongs to, in TOPICS order. */
@@ -285,6 +329,7 @@ async function main() {
       if (!row.channelId) throw new Error('handle did not resolve to a channel');
       let videos = parseFeed(await get(`https://www.youtube.com/feeds/videos.xml?channel_id=${row.channelId}`));
       for (const [topic, { query }] of Object.entries(TOPICS)) {
+        if (!query) continue;
         try {
           if (key && row.searched[topic] !== 'api') {
             videos = videos.concat(await searchChannel(row.channelId, key, query));
