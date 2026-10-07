@@ -62,7 +62,7 @@ import { BASE_PATH } from '../brand.mjs';
 
 // Illustrated portraits (generated caricatures in assets/img) for the people
 // we have one for. Everyone else keeps the abstract monogram.
-const FACE = { altman: 'altman', amodei: 'amodei', hassabis: 'hassabis', musk: 'musk', zuckerberg: 'zuck', huang: 'huang' };
+const FACE = { altman: 'altman', amodei: 'amodei', hassabis: 'hassabis', musk: 'musk', zuckerberg: 'zuck', huang: 'huang', nadella: 'nadella', pichai: 'pichai', suleyman: 'suleyman', lecun: 'lecun', hinton: 'hinton', bengio: 'bengio', mensch: 'mensch', liang: 'liang', kavukcuoglu: 'kavukcuoglu', sutskever: 'sutskever', murati: 'murati', karpathy: 'karpathy', brockman: 'brockman' };
 export function faceHref(id) { return FACE[id] ? `${BASE_PATH}/img/art-${FACE[id]}.webp` : null; }
 const faceImg = (id, cls) => (FACE[id] ? `<img class="${cls}" src="${BASE_PATH}/img/art-${FACE[id]}.webp" alt="" loading="lazy" decoding="async">` : '');
 
@@ -79,6 +79,16 @@ const faceImg = (id, cls) => (FACE[id] ? `<img class="${cls}" src="${BASE_PATH}/
 // these eight are still eight. A set that needed colour to be told apart would
 // have failed the rule it exists to satisfy.
 const SHAPE = {
+  // 2026-10-07 additions for the wider roster (each also has a portrait).
+  // Hexagon: Safe Superintelligence / Sutskever.
+  hexa: '<path d="M12 2.6 20.1 7.3v9.4L12 21.4 3.9 16.7V7.3Z"/>',
+  // Ring with a centre dot: Thinking Machines / Murati.
+  target: '<circle cx="12" cy="12" r="8.7"/><circle cx="12" cy="12" r="2.6" fill="currentColor" stroke="none"/>',
+  // Up-pointing triangle: Eureka Labs / Karpathy.
+  delta: '<path d="M12 3.2 21 19.6H3Z"/>',
+  // Square with a cut corner: OpenAI / Brockman.
+  notch: '<path d="M4 4h11l5 5v11H4Z"/>',
+
   // OpenAI / Altman. A ring with a bead on it — a node on an orbit. The bead
   // is the only filled element in the set that is not a vertex dot, which is
   // what makes this one findable in a column of eight at 20px.
@@ -300,6 +310,24 @@ const PEOPLE = {
     name: 'Yoshua Bengio', initials: 'YB', org: 'academia', orgName: 'Mila, Université de Montréal',
     role: 'Professor', shape: 'rhombus', tag: 'MILA',
   },
+  // Added 2026-10-07 with the wider leaders roster. Each has a generated
+  // caricature (FACE), so the shape is only a fallback.
+  sutskever: {
+    name: 'Ilya Sutskever', initials: 'IS', org: 'ssi', orgName: 'Safe Superintelligence',
+    role: 'Co-founder', shape: 'hexa', tag: 'SSI',
+  },
+  murati: {
+    name: 'Mira Murati', initials: 'MM', org: 'thinking-machines', orgName: 'Thinking Machines Lab',
+    role: 'CEO', shape: 'target', tag: 'THINKING MCH',
+  },
+  karpathy: {
+    name: 'Andrej Karpathy', initials: 'AK', org: 'eureka-labs', orgName: 'Eureka Labs',
+    role: 'Founder', shape: 'delta', tag: 'EUREKA LABS',
+  },
+  brockman: {
+    name: 'Greg Brockman', initials: 'GB', org: 'openai', orgName: 'OpenAI',
+    role: 'President', shape: 'notch', tag: 'OPENAI',
+  },
 };
 
 /**
@@ -341,6 +369,10 @@ const ACCENT = {
   kavukcuoglu:       ['#ffb0a6', '#7a1f14'],
   hinton:            ['#7fb3b0', '#2d6360'],
   bengio:            ['#b9d6d4', '#387470'],
+  sutskever:         ['#c4b5fd', '#5b21b6'],
+  murati:            ['#f9a8d4', '#9d174d'],
+  karpathy:          ['#fde68a', '#854d0e'],
+  brockman:          ['#6ee7b7', '#0a6e55'],
 };
 
 for (const [id, p] of Object.entries(PEOPLE)) {

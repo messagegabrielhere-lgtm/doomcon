@@ -70,12 +70,12 @@ export const icon = (name, k, tint) => {
 
 // Which generated illustration (assets/img/art-<name>.webp) stands for which room.
 export const ROOM_ART = {
-  '/': 'siren', '/arena.html': 'dice', '/race.html': 'radar', '/news.html': 'news',
+  '/': 'siren', '/arena.html': 'stocks', '/scanner.html': 'magnifier', '/monitor.html': 'satellite', '/race.html': 'radar', '/news.html': 'news',
   '/watts.html': 'power', '/map.html': 'server', '/world.html': 'globe', '/flock.html': 'camera',
   '/exploits.html': 'bug', '/leaders.html': 'mic', '/elon.html': 'camera', '/digest.html': 'clipboard', '/jobs.html': 'case',
-  '/medicine.html': 'pill', '/balance.html': 'scales', '/bliss.html': 'scales',
+  '/medicine.html': 'pill', '/balance.html': 'scales', '/bliss.html': 'sun',
   '/methodology.html': 'magnifier', '/instruments.html': 'magnifier', '/bets.html': 'dice',
-  '/ai-doomsday-clock.html': 'clock', '/desk.html': 'canary', '/game.html': 'dice',
+  '/ai-doomsday-clock.html': 'clock', '/desk.html': 'canary', '/game.html': 'joystick',
   '/library.html': 'books', '/bunker-kit.html': 'bunker', '/history.html': 'archive', '/moves/': 'archive',
   '/about.html': 'canary', '/guide.html': 'siren', '/p-doom.html': 'clock', '/sponsor.html': 'case',
   '/privacy.html': 'camera', '/press.html': 'news', '/brand.html': 'siren',

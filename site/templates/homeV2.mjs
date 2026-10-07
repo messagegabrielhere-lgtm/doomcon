@@ -24,6 +24,63 @@ const BOSSES = ['altman', 'amodei', 'hassabis', 'musk', 'zuckerberg', 'huang'];
 function hhmm(iso) { return String(iso || '').slice(11, 16) + 'Z'; }
 function pct(p, d = 1) { return Number.isFinite(p) ? `${(p * 100).toFixed(d)}%` : '—'; }
 
+
+// EVERY ROOM, promoted from the front page: one tile per feature, each with its
+// own illustration, its live number where the data has one, and a one-line
+// reason to click. Grouped so twenty-odd tiles still read at a glance.
+function roomsGrid(ctx, href, img) {
+  const r = ctx.routes || {};
+  const fmt = (n) => (Number.isFinite(n) ? n.toLocaleString('en-US') : null);
+  const race = ctx.race && ctx.race.players ? ctx.race.players.slice().sort((a, b) => a.rank - b.rank)[0] : null;
+  const lt = (ctx.leaders && ctx.leaders.totals) || {};
+  const groups = [
+    ['LIVE INTEL', [
+      ['/race.html', 'radar', 'The Race', race && race.market ? `${race.name} ${(race.market.probability * 100).toFixed(1)}%` : null, 'Labs ranked on live prediction-market odds.'],
+      ['/news.html', 'news', 'Newsroom', ctx.news && ctx.news.items ? `${ctx.news.items.length} stories` : null, 'Every AI story, scored and corroborated.'],
+      ['/leaders.html', 'mic', 'Leaders', Number.isFinite(lt.leaders) ? `${lt.on_record ?? 0} of ${lt.leaders} on record` : null, 'What the people running AI said this week.'],
+      ctx.digest ? ['/digest.html', 'clipboard', 'Digest', null, 'The day in a few corroborated items.'] : null,
+      ['/monitor.html', 'satellite', 'World Monitor', null, 'Live globe: news, hazards, flights, chokepoints.'],
+      ['/elon.html', 'musk', 'Real Elon', null, 'A searchable index of real Elon Musk clips.'],
+    ]],
+    ['THE MACHINES', [
+      ['/watts.html', 'power', 'Power', ctx.infra && Number.isFinite(ctx.infra.score) ? `${ctx.infra.score.toFixed(1)} / 100` : null, 'Grid load, drought and build-out under the models.'],
+      ['/map.html', 'server', 'Map', ctx.datacenters && ctx.datacenters.sites ? `${fmt(ctx.datacenters.sites.length)} US sites` : null, 'Where the compute sits, against the water it needs.'],
+      r.world ? ['/world.html', 'globe', 'World', ctx.world && ctx.world.totals ? `${fmt(ctx.world.totals.sites)} sites` : null, 'Every mapped datacentre on Earth, then orbit.'] : null,
+      r.flock ? ['/flock.html', 'camera', 'Cameras', ctx.flock && ctx.flock.totals ? `${fmt(ctx.flock.totals.mapped_worldwide)} mapped` : null, 'Licence-plate readers volunteers have mapped.'] : null,
+      r.exploits ? ['/exploits.html', 'bug', 'Exploits', null, 'Days from disclosure to exploited in the wild.'] : null,
+    ]],
+    ['PEOPLE', [
+      r.balance ? ['/jobs.html', 'case', 'Jobs', null, 'Is AI taking jobs? What has been counted.'] : null,
+      r.balance ? ['/medicine.html', 'pill', 'Medicine', null, 'Is AI curing anything? Trials and approvals.'] : null,
+      r.balance ? ['/balance.html', 'scales', 'Balance', null, 'Harm and benefit, counted side by side.'] : null,
+      ['/bliss.html', 'sun', 'Upside', null, 'The direction we would be glad to see move.'],
+    ]],
+    ['PLAY & PREP', [
+      ['/arena.html', 'stocks', 'Stock Picks', null, 'Daily rule-based picks and the AI trading battle.'],
+      ['/scanner.html', 'magnifier', 'Scanner', null, 'Screen stocks, ETFs and crypto in plain English.'],
+      ['/bets.html', 'dice', 'Tally’s Bets', null, 'Daily forecasts about the index, scored in public.'],
+      ['/game.html', 'joystick', 'Game', null, 'Thirty seconds: count signals, ignore predictions.'],
+      ['/desk.html', 'canary', 'Tally’s Desk', null, 'The unserious counts: robots and godfathers.'],
+      ['/bunker-kit.html', 'bunker', 'Bunker Kit', null, '50 free tools and one crate of gear.'],
+      ['/library.html', 'books', 'Reading List', null, 'Books from every side of the AI argument.'],
+    ]],
+    ['THE RECORD', [
+      ['/ai-doomsday-clock.html', 'clock', 'The Clock', null, 'The reading as a clock face you can verify.'],
+      ['/history.html', 'archive', 'History', ctx.history ? `${ctx.history.length} readings` : null, 'Sixty years of the argument, and every reading.'],
+      ['/methodology.html', 'magnifier', 'Methodology', null, 'Every formula. Recompute the number yourself.'],
+      ['/classic.html', 'siren', 'Full Panel', null, 'The full instrument panel, receipts and API.'],
+    ]],
+  ];
+  return `<section class="v2-rooms" aria-labelledby="v2-rooms-h">
+  <h2 id="v2-rooms-h" class="v2-sr">Every room</h2>
+  ${groups.map(([g, items]) => {
+    const list = items.filter(Boolean);
+    if (!list.length) return '';
+    return `<div class="v2-rgroup"><span class="v2-rgh">${esc(g)}</span><div class="v2-rgrid">${list.map(([p, art, label, n, blurb]) => `<a class="v2-room" href="${href(p)}"><img src="${img(art)}" width="56" height="56" alt="" loading="lazy"><span class="v2-room__t"><b>${esc(label.toUpperCase())}</b>${n ? `<i>${esc(n)}</i>` : ''}<small>${esc(blurb)}</small></span></a>`).join('')}</div></div>`;
+  }).join('')}
+</section>`;
+}
+
 export function render(ctx, { head }) {
   const { state } = ctx;
   const href = ctx.href;
@@ -142,10 +199,7 @@ export function render(ctx, { head }) {
 
   ${top ? `<div class="v2-breaking"><span class="badge"><span class="blink">${icon('bolt', 2)}</span>BREAKING</span><a href="${esc(top.url)}" rel="noopener">${esc(top.title)}</a><span class="src">${esc(hhmm(top.published_at))} · ${esc(String(top.source).toUpperCase())}</span></div>` : ''}
 
-  <nav class="v2-dock" aria-label="Rooms">
-    ${dock.map(([n, label, p, on]) => `<a class="tile${on ? ' on' : ''}" href="${href(p)}"${on ? ' aria-current="page"' : ''}><img src="${img(n)}" width="56" height="56" alt="">${label}</a>`).join('')}
-    <a class="tile" href="${href('/classic.html')}">${icon('speaker', 4)}FULL PANEL</a>
-  </nav>
+${roomsGrid(ctx, href, img)}
 
   <div class="v2-sec"><h2>${pixelText('THE BOSSES ON WATCH', 4, '#FFFFFF', 'fit')}</h2><span>ON THE RECORD THIS WEEK · ${totals.on_record ?? 0} OF ${totals.leaders ?? 15}</span></div>
   <div class="v2-bosses">
@@ -189,6 +243,19 @@ ${head.replace('</head>', `<style>${CSS}</style>\n</head>`)}
 }
 
 const CSS = `
+.v2-rooms{display:flex;flex-direction:column;gap:16px}
+.v2-rgroup{display:flex;flex-direction:column;gap:10px}
+.v2-rgh{font-size:12px;font-weight:700;letter-spacing:.16em;color:#AEB7C3;display:flex;align-items:center;gap:10px}
+.v2-rgh::before{content:"";width:10px;height:10px;background:#4ADE80;box-shadow:0 0 10px rgba(74,222,128,.5)}
+.v2-rgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
+.v2-room{display:flex;align-items:center;gap:14px;padding:12px 14px;border:2px solid #2A3446;background:#111827;color:#fff!important;min-height:84px}
+.v2-room:hover{border-color:#6366F1;background:#161D33}
+.v2-room img{display:block;flex:none}
+.v2-room__t{display:flex;flex-direction:column;gap:2px;min-width:0}
+.v2-room__t b{font-size:14px;letter-spacing:.06em}
+.v2-room__t i{font-style:normal;font-size:12px;font-weight:700;color:#A5B4FC}
+.v2-room__t small{font-size:12px;color:#AEB7C3;line-height:1.35}
+
 body.v2-body{margin:0;background:#000;color:#F3F4F6}
 .v2{font-family:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;font-weight:500;font-size:16px;line-height:1.5;background:#000;color:#F3F4F6;min-height:100vh}
 .v2 *{box-sizing:border-box}

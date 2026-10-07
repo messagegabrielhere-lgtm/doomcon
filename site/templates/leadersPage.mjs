@@ -91,10 +91,9 @@ ${avatarSprite()}
 ${legend(wire)}
 <section class="sec lw" aria-labelledby="lwp-wire-h">
   <h2 class="sec__h" id="lwp-wire-h">The roster</h2>
-  <p class="lwp__marks">Six of the faces below are <b>generated caricatures</b>, drawn for this site
-     in a retro game style: illustrations, not photographs, and not a claim about anyone. Everyone
-     else carries an abstract monogram keyed to their initials and organisation. Either way,
-     <b>the name printed beside it is the identification</b>.</p>
+  <p class="lwp__marks">The faces below are <b>generated caricatures</b>, drawn for this site in a
+     retro game style: illustrations, not photographs, and not a claim about anyone.
+     <b>The name printed beside each one is the identification</b>.</p>
   <ol class="lwr">${wire.leaders.map((l) => card(l)).join('')}</ol>
 </section>
 
