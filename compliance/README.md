@@ -13,6 +13,12 @@ node compliance/audit.mjs --verbose               # step-by-step for manual chec
 node compliance/audit.mjs --json
 ```
 
+## Human audit findings
+
+Beyond the automated rules, operator and residual legal risks are tracked in
+[`FINDINGS.md`](FINDINGS.md) (last full pass 2026-10-07). Re-read that file
+when shipping a new finance surface, likeness art, or third-party data feed.
+
 ## Remediation
 
 Every finding prints a numbered playbook (`compliance/remediate.mjs`), and
