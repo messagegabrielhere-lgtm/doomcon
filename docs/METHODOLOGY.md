@@ -6,11 +6,11 @@ IMD's AI Safety Clock "blends quantitative metrics with qualitative insights and
 expert opinion." None of them can be independently recomputed by a stranger.
 
 **This one can.** Same code, same public data, same number. That is the only
-claim DOOMCON makes, and this page exists so you can falsify it.
+claim SIREN makes, and this page exists so you can falsify it.
 
 ## What the index measures — and what it does not
 
-DOOMCON measures the **observable activity tempo of the AI field relative to its
+SIREN measures the **observable activity tempo of the AI field relative to its
 own history**: how fast models are shipping, how much compute and capital is
 moving, how loudly the world is talking, how much governments are writing, and
 how actively prediction markets are repricing AI questions.

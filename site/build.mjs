@@ -1382,6 +1382,12 @@ async function main() {
   // beginning with an underscore and adds a build step we do not want.
   written.push(await write(args.out, cssName, sheet));
   written.push(await write(args.out, '.nojekyll', ''));
+  // CUSTOM DOMAIN. When brand.CANONICAL_URL moves off github.io (see the two
+  // lines in brand.mjs), GitHub Pages needs a CNAME file at the site root.
+  {
+    const host = new URL(brand.CANONICAL_URL).host;
+    if (!host.endsWith('github.io')) written.push(await write(args.out, 'CNAME', `${host}\n`));
+  }
 
   written.push(await write(args.out, 'api/state.json', stableJson({
     ...state,
