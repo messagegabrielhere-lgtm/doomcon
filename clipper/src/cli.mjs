@@ -6,6 +6,7 @@ import { processVideo, tick } from './pipeline.mjs'
 import { log } from './proc.mjs'
 import { publishDue } from './publish/index.mjs'
 import { authorize } from './publish/youtube.mjs'
+import { setupGithub } from './setup.mjs'
 import { loadState, saveState } from './state.mjs'
 
 const HELP = `clipper - turn new YouTube uploads into captioned Shorts, Reels and TikToks
@@ -20,6 +21,8 @@ const HELP = `clipper - turn new YouTube uploads into captioned Shorts, Reels an
   approve <id|all>       release clips held by publish.requireApproval
   retry <id>             re-queue a failed post
   auth youtube           one-time OAuth flow that prints YT_REFRESH_TOKEN
+  setup                  on your own computer: sign in to YouTube, store every key the
+                         GitHub workflow needs as repo secrets, and start the first run
 
 config.json (copy config.example.json) and .env sit next to package.json.`
 
@@ -105,7 +108,10 @@ switch (cmd) {
   }
   case 'auth':
     if (args[0] !== 'youtube') throw new Error('only "auth youtube" is interactive; see README for TikTok and Instagram tokens')
-    await authorize()
+    console.log(`\nAdd this to clipper/.env:\nYT_REFRESH_TOKEN=${await authorize()}`)
+    break
+  case 'setup':
+    await setupGithub()
     break
   default:
     console.log(HELP)

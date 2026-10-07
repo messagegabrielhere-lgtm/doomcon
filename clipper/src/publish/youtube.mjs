@@ -61,21 +61,20 @@ export async function publish({ file, post, cfg }) {
   return { id: json.id, url: `https://www.youtube.com/shorts/${json.id}` }
 }
 
-// One-time helper: opens a loopback listener, prints the consent URL, and
-// prints the refresh token once the browser redirects back.
-export async function authorize() {
-  const id = process.env.YT_CLIENT_ID
-  const secret = process.env.YT_CLIENT_SECRET
+// One-time OAuth flow: opens a loopback listener, prints the consent URL, and
+// resolves with the refresh token once the browser redirects back.
+export async function authorize({ id = process.env.YT_CLIENT_ID, secret = process.env.YT_CLIENT_SECRET } = {}) {
   if (!id || !secret) throw new Error('set YT_CLIENT_ID and YT_CLIENT_SECRET first (Desktop app OAuth client)')
   const port = 8085
   const redirect = `http://127.0.0.1:${port}`
   const url =
     'https://accounts.google.com/o/oauth2/v2/auth?' +
     new URLSearchParams({ client_id: id, redirect_uri: redirect, response_type: 'code', scope: SCOPE, access_type: 'offline', prompt: 'consent' })
-  console.log(`Open this URL, approve, and come back:\n\n${url}\n`)
+  console.log(`\nOpen this URL, sign in with the account that owns the channel, and approve:\n\n${url}\n`)
   const code = await new Promise((resolve, reject) => {
     const server = http.createServer((req, res) => {
       const q = new URL(req.url, redirect).searchParams
+      if (!q.get('code') && !q.get('error')) return res.end()
       res.end(q.get('code') ? 'Done - you can close this tab.' : `Error: ${q.get('error')}`)
       server.close()
       q.get('code') ? resolve(q.get('code')) : reject(new Error(q.get('error')))
@@ -88,5 +87,5 @@ export async function authorize() {
   })
   const json = await res.json()
   if (!json.refresh_token) throw new Error(`no refresh token returned: ${JSON.stringify(json)}`)
-  console.log(`\nAdd this to clipper/.env:\nYT_REFRESH_TOKEN=${json.refresh_token}`)
+  return json.refresh_token
 }

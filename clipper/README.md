@@ -73,22 +73,28 @@ existing videos.
 carried between runs in the Actions cache. Until it is configured, each run logs
 a notice and exits.
 
-1. **Google Cloud:** create a project, enable *YouTube Data API v3*, set up the
-   OAuth consent screen (add yourself as a test user), and create an OAuth
-   client of type *Desktop app*.
-2. **Refresh token, on your own computer:**
+1. **Google Cloud (once, about 5 minutes):** create a project, enable
+   *YouTube Data API v3*, set up the OAuth consent screen (External, add
+   yourself as a test user), and create an OAuth client of type *Desktop app*.
+2. **One command on your own computer** (needs Node 20+ and the GitHub CLI,
+   signed in with `gh auth login`):
    ```bash
-   cd clipper && npm install
-   YT_CLIENT_ID=... YT_CLIENT_SECRET=... node src/cli.mjs auth youtube
+   git clone https://github.com/messagegabrielhere-lgtm/doomcon && cd doomcon/clipper
+   npm install
+   node src/cli.mjs setup
    ```
-   Sign in with the Google account that owns the channel you post to.
-3. **Repo settings → Secrets and variables → Actions:**
-   - variable `CLIPPER_CHANNEL_URL`: the channel to watch, e.g. `https://www.youtube.com/@yourhandle`
-   - variable `CLIPPER_CHANNEL_RIGHTS`: `own` if it is your channel, `licensed` if
-     you have written permission to repost it. The workflow will not run without it.
-   - secrets `ANTHROPIC_API_KEY`, `YT_CLIENT_ID`, `YT_CLIENT_SECRET`, `YT_REFRESH_TOKEN`
-4. **Actions → clipper → Run workflow** for the first run. The run summary shows
-   the channel, any clips and the queue.
+   It asks for the channel URL, whether it is yours (`own`) or licensed, your
+   Anthropic API key and the OAuth client ID and secret; opens the Google
+   sign-in (use the account that owns the channel); checks both keys work;
+   stores everything as repo variables and secrets; and starts the first run.
+   Secrets are typed hidden and handed to `gh` on stdin, never saved to disk.
+
+To do it by hand instead: get the refresh token with
+`node src/cli.mjs auth youtube`, then in **Settings → Secrets and variables →
+Actions** set the variables `CLIPPER_CHANNEL_URL` and `CLIPPER_CHANNEL_RIGHTS`
+(`own` or `licensed`) and the secrets `ANTHROPIC_API_KEY`, `YT_CLIENT_ID`,
+`YT_CLIENT_SECRET` and `YT_REFRESH_TOKEN`, then **Actions → clipper → Run
+workflow**. The run summary shows the channel, any clips and the queue.
 
 The first run only baselines the channel; the next upload after that is the
 first one clipped. If runs fail with "Sign in to confirm you're not a bot",
