@@ -63,6 +63,10 @@ const SECTIONS = [
     blurb: 'The composite, the five pillars, the live signal feed.',
     count: (ctx) => (ctx.state && Number.isFinite(ctx.state.score)
       ? { v: num(ctx.state.score, 1), k: 'composite score' } : null) },
+  // A side project on its own data track (scanner-data, investors-data,
+  // arena-data), so no count here: its numbers load in the page itself.
+  { href: '/arena.html', label: 'Stock picks', short: 'Picks',
+    blurb: 'Today\'s rule-based stock picks with their track record, big investors\' disclosed trades, and the AI trading battle.' },
   { href: '/race.html', label: 'The Race', short: 'Race', needs: 'race',
     blurb: 'Frontier labs ranked on live prediction-market odds.',
     count: raceCount },

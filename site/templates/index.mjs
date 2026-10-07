@@ -768,6 +768,7 @@ ${gauge.styleTag()}
   ${Number.isFinite(state.score) ? langStrip(state) : ''}
   <p class="stage__credit">Background: a generated illustration, not a photograph.</p>
   </div>
+  ${picksBand(ctx)}
   ${warRoom(ctx)}
   ${sourceStrip(state)}
   <div class="hero__grid">
@@ -1544,6 +1545,92 @@ function homeMap(ctx) {
 // with no accounts and no notifications. The X account is the only channel
 // that reaches a reader who is not looking, so this band says exactly what is
 // posted there and nothing it does not do.
+// THE MARKETS BAND. The stock picks, the big-investor tracker and the AI
+// battle live on /arena.html, on their own data branches, refreshed through the
+// trading day, which is faster than this page is rebuilt. So the band is a
+// server-rendered shell with working links that a small script fills from
+// scanner-data/picks.json (the same engine the picks page runs, summarized by
+// the scanner workflow). Without the script the links still go everywhere.
+function picksBand(ctx) {
+  const arena = ctx.href('/arena.html');
+  const src = 'https://raw.githubusercontent.com/messagegabrielhere-lgtm/doomcon/scanner-data/picks.json';
+  return `<section class="sec mkb" id="picks" aria-labelledby="mkb-h">
+<style>
+.mkb{border:1px solid var(--line, rgba(127,127,127,.3));border-left:5px solid #e2a03b;border-radius:10px;padding:var(--s-4, 18px);margin-block:var(--s-4, 18px)}
+.mkb__hd{display:flex;flex-wrap:wrap;gap:6px 16px;align-items:baseline;justify-content:space-between}
+.mkb__hd h2{margin:0}
+.mkb__k{font-family:var(--mono);font-size:var(--t-2xs, 11px);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint, #888);margin:0}
+.mkb__top{display:grid;gap:14px;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);margin-top:12px}
+.mkb__potd{display:block;text-decoration:none;color:inherit;padding:14px 16px;border-radius:8px;background:color-mix(in srgb,#e2a03b 12%,transparent);border:1px solid color-mix(in srgb,#e2a03b 45%,transparent)}
+.mkb__potd:hover{border-color:#e2a03b}
+.mkb__potd small{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#b06d10}
+.mkb__potd b.tk{display:block;font-size:clamp(34px,5vw,52px);line-height:1;margin:6px 0 2px;letter-spacing:.01em}
+.mkb__potd .nm{opacity:.8}
+.mkb__potd .st{margin-top:8px;font-family:var(--mono);font-size:13px}
+.mkb__list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.mkb__list a{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;border-radius:8px;border:1px solid var(--line, rgba(127,127,127,.3));text-decoration:none;color:inherit;font-family:var(--mono);font-size:13px}
+.mkb__list a:hover{border-color:#e2a03b}
+.mkb__up{color:#0f9d7a}.mkb__dn{color:#d2483f}
+.mkb__go{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.mkb__go a{padding:8px 14px;border-radius:999px;border:1px solid var(--line, rgba(127,127,127,.35));text-decoration:none;color:inherit;font-weight:600;font-size:14px}
+.mkb__go a.pri{background:#e2a03b;border-color:#e2a03b;color:#14110a}
+.mkb__note{margin:12px 0 0;font-size:12px;opacity:.75}
+@media (max-width:720px){.mkb__top{grid-template-columns:1fr}}
+</style>
+  <div class="mkb__hd">
+    <h2 class="sec__h" id="mkb-h">Today's stock picks<span class="sec__eb">Markets</span></h2>
+    <p class="mkb__k" id="mkb-as">Daily screen · big investors · AI battle</p>
+  </div>
+  <div class="mkb__top">
+    <a class="mkb__potd" id="mkb-potd" href="${esc(arena)}">
+      <small>&#9733; Pick of the day</small>
+      <b class="tk" id="mkb-tk">See today's picks</b>
+      <span class="nm" id="mkb-nm">A fixed RSI(2) pullback screen of about 150 large US stocks, with every past pick scored.</span>
+      <div class="st" id="mkb-st"></div>
+    </a>
+    <ul class="mkb__list" id="mkb-list" aria-label="The other picks"></ul>
+  </div>
+  <div class="mkb__go">
+    <a class="pri" href="${esc(arena)}">All picks and the track record →</a>
+    <a href="${esc(arena)}#investors">Big investors: Pelosi, Burry, Cathie Wood, Buffett…</a>
+    <a href="${esc(arena)}#battle">AI trading battle</a>
+    <a href="${esc(ctx.href('/scanner.html'))}">Scanner</a>
+  </div>
+  <p class="mkb__note" id="mkb-rec">Picks come from an automated, hypothetical screen. Not financial advice; we are not financial advisors.</p>
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var esc = function(s){ return String(s == null ? "" : s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); };
+  var sg = function(x){ return (x >= 0 ? "+" : "") + x.toFixed(2) + "%"; };
+  var day = function(d){ return new Date(d + "T12:00:00Z").toLocaleDateString("en-US", {weekday:"short", month:"short", day:"numeric", timeZone:"UTC"}); };
+  function live(p){
+    var L = p.live || {};
+    if(L.state === "target") return '<span class="mkb__up">Target hit ' + sg(L.ret) + '</span>';
+    if(L.state === "stop") return '<span class="mkb__dn">Stop hit ' + sg(L.ret) + '</span>';
+    if(L.state === "running" || L.state === "closed") return '<span class="' + (L.now >= 0 ? "mkb__up" : "mkb__dn") + '">' + (L.state === "running" ? "Now " : "Closed ") + sg(L.now) + ' since the open</span>';
+    return '<span>Buy at the open · target +' + p.targetPct.toFixed(2) + '%</span>';
+  }
+  fetch(${JSON.stringify(src)} + "?t=" + Math.floor(Date.now() / 60e3), {cache:"no-store"}).then(function(r){ return r.ok ? r.json() : null; }).then(function(d){
+    if(!d) return;
+    var P = d.picks || [], top = P[0], arena = ${JSON.stringify(arena)};
+    $("mkb-as").textContent = "Picks for " + day(d.tradeDay) + " · from the close of " + day(d.closeOf);
+    if(top){
+      $("mkb-tk").textContent = top.s;
+      $("mkb-nm").textContent = (top.n || "") + (top.sec ? " · " + top.sec : "") + " · RSI(2) " + top.rsi2.toFixed(1) + ", in an uptrend";
+      $("mkb-st").innerHTML = live(top) + " · sell by " + esc(day(d.sellBy)) + " open";
+    }else{
+      $("mkb-tk").textContent = "No picks today";
+      $("mkb-nm").textContent = "Nothing passed the screen at the close of " + day(d.closeOf) + ". Sitting out is part of the rule.";
+    }
+    $("mkb-list").innerHTML = P.slice(1).map(function(p){ return '<li><a href="' + esc(arena) + '"><b>' + esc(p.s) + '</b>' + live(p) + '</a></li>'; }).join("");
+    var s = d.stats || {};
+    if(s.sessions) $("mkb-rec").textContent = "Track record over " + s.sessions + " sessions, hypothetical: " + s.winRate.toFixed(1) + "% of picks won, " + (s.avgRet >= 0 ? "+" : "") + s.avgRet.toFixed(2) + "% a pick after costs; $1,000 following every pick became $" + s.equity.toLocaleString("en-US") + " vs $" + s.bench.toLocaleString("en-US") + " holding SPY. Automated screen, not financial advice.";
+  }).catch(function(){});
+})();
+</script>
+</section>`;
+}
+
 function followBand(ctx) {
   if (!brand.X_URL) return '';
   const handle = brand.X_HANDLE.replace(/^@/, '');
