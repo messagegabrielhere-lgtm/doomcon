@@ -80,6 +80,9 @@ select{border:1px solid var(--line);background:var(--panel);border-radius:10px;p
 
 /* grid */
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+.group{grid-column:1/-1;margin:10px 0 -4px;font:600 15px/1.2 var(--f-display);display:flex;align-items:baseline;gap:8px;border-bottom:1px solid var(--line);padding-bottom:6px}
+.group:first-child{margin-top:0}
+.group small{font:500 12px var(--f-body);color:var(--mute)}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;text-align:left;padding:0;transition:transform .12s,border-color .12s}
 .card:hover{transform:translateY(-2px);border-color:var(--mute)}
 .thumb{position:relative;aspect-ratio:16/9;background:var(--sunk)}
@@ -163,7 +166,7 @@ footer{color:var(--mute);font-size:12.5px;text-align:center}
     </div>
     <select id="chan" aria-label="Channel"><option value="">All channels</option></select>
     <select id="sort" aria-label="Sort">
-      <option value="new">Newest</option>
+      <option value="new">Latest first</option>
       <option value="old">Oldest</option>
       <option value="views">Most viewed</option>
     </select>
@@ -289,10 +292,27 @@ function filtered() {
     tierIs(c, state.tier) &&
     (!state.chan || c.handle === state.chan) &&
     words.every((w) => c._hay.includes(w)));
-  // Undated clips (found before they could be dated) stay last either way.
-  if (state.sort === 'old') list = list.filter((c) => c.published).reverse().concat(list.filter((c) => !c.published));
-  if (state.sort === 'views') list = list.slice().sort((a, b) => (b.views ?? -1) - (a.views ?? -1));
-  return list;
+  // By date, newest or oldest first. Undated clips (found before they could
+  // be dated) stay last either way.
+  if (state.sort === 'views') return list.slice().sort((a, b) => (b.views ?? -1) - (a.views ?? -1));
+  const dir = state.sort === 'old' ? 1 : -1;
+  const dated = list.filter((c) => c.published).sort((a, b) => dir * a.published.localeCompare(b.published));
+  return dated.concat(list.filter((c) => !c.published));
+}
+
+// The heading a clip sits under when sorted by date: this week, this month,
+// each earlier month of this year, then whole years. An approximate date
+// ("3 years ago") is only ever placed by year or by this year's month.
+const MONTH = { month: 'long' };
+function groupOf(c, now = new Date()) {
+  if (!c.published) return 'Date not known yet';
+  const d = new Date(c.published);
+  if (isNaN(d)) return 'Date not known yet';
+  const days = (now - d) / 864e5;
+  if (days < 7) return 'This week';
+  if (days < 31 && d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear()) return 'This month';
+  if (d.getFullYear() === now.getFullYear()) return d.toLocaleDateString(undefined, MONTH);
+  return String(d.getFullYear());
 }
 
 function card(c) {
@@ -309,7 +329,22 @@ function card(c) {
 
 function render() {
   const list = filtered();
-  $('grid').innerHTML = list.slice(0, state.shown).map(card).join('');
+  const page = list.slice(0, state.shown);
+  if (state.sort === 'views') {
+    $('grid').innerHTML = page.map(card).join('');
+  } else {
+    // Count each group over the whole filtered list, so a heading says how
+    // many clips it holds even when "Show more" hasn't revealed them all.
+    const sizes = new Map();
+    for (const c of list) { const g = groupOf(c); sizes.set(g, (sizes.get(g) || 0) + 1); }
+    let last = null;
+    $('grid').innerHTML = page.map((c) => {
+      const g = groupOf(c);
+      const head = g !== last ? `<h3 class="group">${esc(g)} <small>${sizes.get(g).toLocaleString()}</small></h3>` : '';
+      last = g;
+      return head + card(c);
+    }).join('');
+  }
   $('more').hidden = list.length <= state.shown;
   $('count').textContent = state.all.length
     ? `${list.length.toLocaleString()} clip${list.length === 1 ? '' : 's'}${state.q || state.tier || state.chan ? ' match' : ''}`

@@ -207,6 +207,41 @@ export function parseChannelSearch(html, now = Date.now()) {
 // hammering it risks the RSS reads the index depends on.
 const DATE_BUDGET = 2000;
 
+/**
+ * Without a key: approximate dates from YouTube's main search results, which,
+ * unlike a channel's own search page, print each video's age. One request per
+ * channel and searchable topic ("Elon Musk Lex Fridman"), done once per pair,
+ * paced; a result only dates a clip already in the index (same video id), so
+ * nothing new gets in this way. A pair is marked done only when the page was
+ * readable, so a bot check is retried next run instead of forgotten.
+ */
+async function dateFromSearch(clips, report) {
+  const undated = new Map(clips.filter((c) => !c.published).map((c) => [c.id, c]));
+  const out = { dated: 0, requests: 0, unreadable: 0 };
+  for (const row of report) {
+    if (!undated.size) break;
+    if (!row.ok || ![...undated.values()].some((c) => c.handle === row.handle)) continue;
+    row.dateSearched ||= {};
+    for (const [topic, { query }] of Object.entries(TOPICS)) {
+      if (!query || row.dateSearched[topic]) continue;
+      out.requests++;
+      try {
+        // sp=EgIQAQ%3D%3D: videos only.
+        const html = await get(`https://www.youtube.com/results?search_query=${encodeURIComponent(`${query} ${row.name}`)}&sp=EgIQAQ%253D%253D`);
+        const r = parseChannelSearch(html);
+        if (!r.parsed) { out.unreadable++; continue; }
+        for (const v of r.videos) {
+          const c = undated.get(v.id);
+          if (c && v.published) { c.published = v.published; c.approxDate = true; undated.delete(v.id); out.dated++; }
+        }
+        row.dateSearched[topic] = true;
+      } catch (err) { out.unreadable++; out.error ||= err.status ? `HTTP ${err.status}` : err.message; }
+      await new Promise((r) => setTimeout(r, 600));
+    }
+  }
+  return out;
+}
+
 // Returns a summary that goes into clips.json, so a run's outcome can be
 // read without the Action logs.
 async function dateClips(clips, key) {
@@ -323,7 +358,7 @@ async function main() {
     // Files written before topics existed carry backfilled/scraped for Elon only.
     // (A page search from that era found no dates, so it is not carried over: it runs again.)
     const searched = old?.searched || { ...(old?.backfilled ? { elon: 'api' } : {}) };
-    const row = { handle: src.handle, name: src.name, tier: src.tier, channelId: old?.channelId || null, searched, ok: false, found: 0 };
+    const row = { handle: src.handle, name: src.name, tier: src.tier, channelId: old?.channelId || null, searched, ...(old?.dateSearched ? { dateSearched: old.dateSearched } : {}), ok: false, found: 0 };
     try {
       row.channelId ||= await resolveHandle(src.handle, key);
       if (!row.channelId) throw new Error('handle did not resolve to a channel');
@@ -378,7 +413,8 @@ async function main() {
   });
   let clips = merge(kept, fresh, now);
   const dating = await dateClips(clips, key);
-  const { dated } = dating;
+  if (!key) dating.fromSearch = await dateFromSearch(clips, report);
+  const dated = dating.dated + (dating.fromSearch?.dated || 0);
   if (dated) clips = merge(clips, [], now);   // re-sort now that they have dates
 
   if (!report.some((r) => r.ok)) {
@@ -387,7 +423,7 @@ async function main() {
   }
   await mkdir(outDir, { recursive: true });
   await writeFile(path.join(outDir, 'clips.json'), JSON.stringify({ generated: now, dating, sources: report, clips }) + '\n');
-  const undated = clips.filter((c) => c.approxDate || !c.published).length;
+  const undated = clips.filter((c) => !c.published).length;
   console.log(`${clips.length} clips in the index (${fresh.length} seen this run, ${dated} dated, ${undated} still undated).`);
 }
 
