@@ -139,9 +139,10 @@ export function preflightBluesky(text, link) {
   return text;
 }
 
-// The link card's words. TAGLINE and STRAPLINE, not PUBLICATION: "AI Early
-// Warning System" trips the future-tense list on "warning", and the card title
-// is post copy in everything but name.
+// The link card's words. TAGLINE and STRAPLINE only — the card title is post
+// copy in everything but name, so it must clear the future-tense ban. (The old
+// publication name contained "Warning" and tripped it; today's PUBLICATION is
+// safe, but the card still stays on TAGLINE/STRAPLINE on purpose.)
 export function linkCardMeta(brand = SITE_BRAND) {
   const title = `${brand.NAME} — ${brand.TAGLINE}`;
   const description = brand.STRAPLINE;
@@ -357,9 +358,12 @@ export async function selfTest() {
     eq(r.langs[0], 'en', 'langs');
     if (!r.embed.external.title || !r.embed.external.description) throw new Error('card has no title/description');
   });
-  await check('the link card copy passes the future-tense ban (and PUBLICATION would not)', () => {
-    linkCardMeta();
-    if (!findFutureViolation(SITE_BRAND.PUBLICATION)) throw new Error('expected "Early Warning" to trip the ban; if the list changed, revisit linkCardMeta');
+  await check('the link card copy passes the future-tense ban', () => {
+    const meta = linkCardMeta();
+    for (const s of [meta.title, meta.description, SITE_BRAND.PUBLICATION]) {
+      const v = findFutureViolation(s);
+      if (v) throw new Error(`"${s}" trips the ban on "${v.match}"`);
+    }
   });
   await check('preflightBluesky accepts a real manual-variant post', () => { preflightBluesky(FIXTURE_MANUAL_TEXT, FIXTURE_LINK); });
   await check('preflightBluesky rejects 301 graphemes, a second URL, no link, future tense, a mention', () => {

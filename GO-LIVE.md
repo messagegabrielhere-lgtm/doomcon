@@ -160,11 +160,12 @@ publish**. Open manual items still need your hands:
 
 1. **Privacy and terms are live** at `/privacy.html` and `/terms.html`. Skim them
    once so you know what the site claims (no cookies, no analytics, not advice).
-2. **X account** — turn on the "Automated" label and put a bio line that names
-   the human account that runs it (`compliance/manual.json`: `x-automated-label`,
-   `x-bio-disclosure`).
-3. **Amazon Associates** — list this GitHub Pages URL (and any social account that
-   posts paid links) under your website list in Associates Central.
+2. **X account `@SIRENutf6`** — exact before/after bio, Automated label steps, and
+   `#ad` rules for Amazon posts: **[docs/X-OPERATOR.md](docs/X-OPERATOR.md)**.
+   Mark `x-automated-label` and `x-bio-disclosure` done in `compliance/manual.json`
+   only after the live profile matches.
+3. **Amazon Associates** — list the GitHub Pages URL **and** `x.com/SIRENutf6` in
+   Associates Central (the account already posts `amzn.to` links).
 4. **Repo secret `COMPLIANCE_PII_TERMS`** — comma-separated real name, personal
    email and phone, so the audit fails if any of them land in a tracked file.
 5. **Rotate API keys** at least yearly; tick `secrets-rotated` in
