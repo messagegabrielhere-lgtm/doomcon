@@ -57,6 +57,7 @@
 //   4. THE RECORD then source health, the pillars, the archive, the machine
 //                 surfaces.
 
+import { LEVEL_LINE } from './_pixel.mjs';
 import { esc, num, signed, utc } from './_html.mjs';
 import { mascot, MOODS } from './_mascot.mjs';
 import * as faq from './_faq.mjs';
@@ -922,13 +923,13 @@ ${style}`;
     ctx,
     motion: true,
     path: '/',
-    title: Number.isFinite(state.score) && VERDICT[state.level]
-      ? `Should you care about AI today? ${VERDICT[state.level][0]} ${VERDICT[state.level][1]} · ${brand.NAME} ${state.level}`
-      : `Should you care about AI today? · ${brand.NAME}`,
-    ogTitle: `${brand.NAME} ${state.level} · ${state.level_name} — ${scoreTxt}/100`,
+    title: Number.isFinite(state.score) && LEVEL_LINE[state.level]
+      ? `${brand.NAME} ${state.level}: ${LEVEL_LINE[state.level].replace(/\.$/, '')} · ${scoreTxt}`
+      : `${brand.NAME} · the AI Siren Index`,
+    ogTitle: `${brand.NAME} ${state.level} · ${state.level_name} · ${scoreTxt}/100 — ${LEVEL_LINE[state.level] || ''}`.replace(/ — $/, ''),
     description:
-      `${brand.NAME} is at level ${state.level} (${state.level_name}), score ${scoreTxt} of 100, ` +
-      `as of ${utc(state.generated_at)}. A recomputable index of AI activity tempo across five pillars.`,
+      `The AI Siren Index is at level ${state.level} of 5 (${state.level_name}), ${scoreTxt} of 100. ` +
+      `${LEVEL_LINE[state.level] || ''} Counted hourly from public data, as of ${utc(state.generated_at)}.`,
     ogImage: ctx.cardFor(state.receipt_id),
     head: `<link rel="preload" as="image" type="image/avif" href="${esc(ctx.href('/img/hero-siren.avif'))}" fetchpriority="high">`,
     ogImageAlt: `${brand.NAME} ${state.level}, ${state.level_name}, score ${scoreTxt} of 100`,

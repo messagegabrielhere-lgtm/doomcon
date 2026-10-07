@@ -22,6 +22,7 @@ import { css as siteCss } from './styles.mjs';
 import { stableJson, num, secondsBetween } from './templates/_html.mjs';
 import * as indexPage from './templates/index.mjs';
 import * as homeV2 from './templates/homeV2.mjs';
+import { pixelText, roomArt } from './templates/_pixel.mjs';
 import * as methodologyPage from './templates/methodology.mjs';
 import * as historyPage from './templates/history.mjs';
 import * as movePage from './templates/move.mjs';
@@ -97,6 +98,15 @@ function prerenderStatic(html, name, ctx) {
     };
     head += `\n<script type="application/ld+json">${JSON.stringify(ld).replace(/</g, '\\u003c')}</script>`;
   }
+  // The shared PizzINT-style strip, so a hand-built page still has the siren,
+  // the wordmark, the live level and a way home. Self-contained styles: these
+  // pages do not load the site sheet.
+  const st = ctx.state || {};
+  const art = roomArt(`/${name}`);
+  const strip = `<style>.v2sh{background:#000;border-bottom:2px solid #232C3B;font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace;position:relative;z-index:50}.v2sh__in{max-width:1200px;margin:0 auto;padding:10px 20px;display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px}.v2sh a{text-decoration:none}.v2sh__b{display:inline-flex;align-items:center;gap:10px}.v2sh__b img,.v2sh__r img{display:block}.v2sh .v2-px{display:block}.v2sh .v2-ptext{display:block;line-height:0}.v2sh .v2-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}.v2sh__lv{padding:4px 10px;border:1px solid #14532D;background:#03130A;color:#86EFAC;font-weight:700;font-size:12px;letter-spacing:.04em}.v2sh__r{margin-left:auto;display:inline-flex;align-items:center;gap:10px;color:#C3CAD4;font-size:12px;font-weight:700;letter-spacing:.06em}.v2sh__home{padding:7px 12px;border:2px solid #2A3446;background:#111827;color:#D7DCE3;font-size:12px;font-weight:700}.v2sh__home:hover{border-color:#6366F1;color:#fff}@media(max-width:560px){.v2sh__b svg{width:136px;height:auto}.v2sh__r span{display:none}}</style>
+<header class="v2sh"><div class="v2sh__in"><a class="v2sh__b" href="${x(ctx.href('/'))}"><img src="${x(ctx.href('/img/art-siren.webp'))}" width="40" height="40" alt="">${pixelText('AI SIREN INDEX', 3, '#FFFFFF')}</a><span class="v2sh__lv">SIREN ${x(String(st.level ?? ''))} · ${x(String(st.level_name || ''))} · ${x(Number.isFinite(st.score) ? st.score.toFixed(1) : '')}</span><span class="v2sh__r">${art ? `<img src="${x(ctx.href(`/img/art-${art}.webp`))}" width="32" height="32" alt=""><span>${x(title.split(/[·:|—]/)[0].trim().toUpperCase())}</span>` : ''}<a class="v2sh__home" href="${x(ctx.href('/'))}">← WAR ROOM</a></span></div></header>`;
+  out = out.replace(/<body([^>]*)>/, (m) => `${m}\n${strip}`);
+  head += `\n<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;700&display=swap">`;
   return out.replace('</head>', `${head}\n</head>`);
 }
 

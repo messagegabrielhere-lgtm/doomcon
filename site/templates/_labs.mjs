@@ -205,10 +205,8 @@ export function render(ctx) {
      ${esc(named)} of ${esc(players.length)} labs publish a principal, and ${esc(feeds)} of those
      ${esc(named)} ${feeds === 1 ? 'has a personal feed that answers' : 'have a personal feed that answers'};
      the line under each name is what that feed actually did rather than a job title.
-     The marks are abstract monograms, not
-     likenesses: every one of these people has a computed rank and a posture word beside them
-     on this page, and a drawn face next to a computed label reads as a claim about the person.
-     The name in text is the identification; the shape is not.</p>
+     The faces are generated caricatures, not photographs, and the posture word describes the
+     lab's visible output, not the person. The name in text is the identification.</p>
 </section>`;
 }
 

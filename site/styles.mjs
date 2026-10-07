@@ -3048,6 +3048,69 @@ const OPS = `
 }
 `;
 
+
+/* ---- V2 SKIN (2026-10-07): the PizzINT-style look from the new homepage,
+   carried to every inner page. Last in the sheet so it wins ties. Tokens
+   first, so every existing component repaints without being renamed. ---- */
+const V2SKIN = `
+:root, :root[data-theme="dark"] {
+  --bg: #000000; --bg-raised: #0E131D; --bg-sunken: #0A0E16;
+  --ink: #F3F4F6; --ink-dim: #C3CAD4; --ink-faint: #9AA4B2;
+  --rule: #232C3B; --rule-soft: #182030;
+  --mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --sans: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+  --poster: 'IBM Plex Mono', ui-monospace, Menlo, monospace;
+  --stencil: 'IBM Plex Mono', ui-monospace, Menlo, monospace;
+  --bar: #3B5BFF;
+  color-scheme: dark;
+}
+body { background: #000; color: var(--ink); }
+.give { background: #0A0E16; border-bottom: 1px solid var(--rule); color: var(--ink-dim); }
+/* masthead */
+.masthead.v2m { background: #000; border-bottom: 1px solid var(--rule); }
+.masthead.v2m::before, .masthead.v2m::after { display: none; }
+.v2m-top { background: #0A0E16; border-bottom: 1px solid var(--rule); }
+.v2m-top__in { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 18px; padding-block: 7px; font-family: var(--mono); font-size: 12px; color: #D7DCE3; letter-spacing: .03em; }
+.v2m-chip { display: inline-flex; align-items: center; gap: 7px; }
+.v2m-tag--lv { padding: 3px 9px; border: 1px solid #14532D; background: #03130A; color: #86EFAC; font-weight: 700; }
+.v2m-tag--lv b { color: #4ADE80; }
+.v2m-right { margin-left: auto; }
+.v2m-green { color: #4ADE80; } .v2m-amber { color: #FACC15; }
+.v2m .masthead__in { gap: 12px 18px; padding-block: 12px; }
+.v2m-brand { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; flex: 0 0 auto; }
+.v2m-brand img { display: block; }
+.v2m-word { display: block; line-height: 0; }
+.v2-px { display: block; flex: none; }
+.v2-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+/* nav tiles as PizzINT dock buttons */
+.fb, .fb--inline { background: transparent; border: 0; }
+.fb__t { border: 2px solid #2A3446; border-radius: 0; background: #111827; color: #D7DCE3;
+  font-family: var(--mono); font-weight: 700; padding: 6px 10px; gap: 8px; }
+.fb__t:hover { border-color: #6366F1; background: #161D33; color: #fff; }
+.fb__t[aria-current="page"] { border-color: #6366F1; background: #1E1B4B; color: #fff; box-shadow: none; }
+.fb__img { display: block; width: 30px; height: 30px; flex: none; }
+.fb__n { color: #A5B4FC; font-weight: 700; }
+.fb__menu { background: #0A0E16; border: 2px solid #2A3446; border-radius: 0; }
+/* room header band */
+.v2pt { display: flex; align-items: center; gap: 22px; margin: 6px 0 22px; padding: 20px 22px;
+  border: 2px solid #232C3B; background: #0A0E16; }
+.v2pt img { display: block; flex: none; }
+.v2pt__t { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.v2pt__h { display: block; line-height: 0; max-width: 100%; }
+.v2pt__h svg { max-width: 100%; height: auto; }
+.v2pt p { margin: 0; font-family: var(--mono); font-size: 15px; color: #C3CAD4; }
+@media (max-width: 640px) { .v2pt { gap: 14px; padding: 14px; } .v2pt img { width: 64px; height: 64px; } .v2m-word svg { width: 168px; height: auto; } }
+/* panels and type */
+h1, h2, h3, .sec__h, .prose > h1 { font-family: var(--mono); letter-spacing: .01em; }
+a { color: #A5B4FC; } a:hover { color: #E0E7FF; }
+.foot, footer { background: #0A0E16; }
+.avt:has(.avt__face) { background: #000; overflow: hidden; border-radius: 50%; padding: 0; }
+.avt__face { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+.avtp--face { display: inline-flex; flex-direction: column; align-items: center; gap: 6px; width: var(--avtp-size, 112px); }
+.avtp__face { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 50%; border: 2px solid #2A3446; background: #000; }
+.avtp__tag { font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: .1em; color: var(--ink-faint); }
+`;
+
 export function css() {
   return lean([
     TOKENS, BASE, CHROME, WORDMARK, OPS, PLAIN, HERO,
@@ -3063,7 +3126,7 @@ export function css() {
     // CHROMA is last on purpose: every rule in it restyles a selector an
     // existing template already emits, and last is how it wins the tie without
     // any of those templates being renamed.
-    AVATARS, ICONS, CHROMA,
+    AVATARS, ICONS, CHROMA, V2SKIN,
   ].join('\n'));
 }
 

@@ -91,11 +91,10 @@ ${avatarSprite()}
 ${legend(wire)}
 <section class="sec lw" aria-labelledby="lwp-wire-h">
   <h2 class="sec__h" id="lwp-wire-h">The roster</h2>
-  <p class="lwp__marks">The mark beside each name is an <b>abstract monogram</b> — a geometric
-     emblem keyed to the person's initials and their organisation. It is not a portrait, not a
-     likeness and not a caricature, and no photograph of any person appears anywhere on this site.
-     The shape tells you which organisation; <b>the name printed beside it is the
-     identification</b>, and you are never asked to recognise a face.</p>
+  <p class="lwp__marks">Six of the faces below are <b>generated caricatures</b>, drawn for this site
+     in a retro game style: illustrations, not photographs, and not a claim about anyone. Everyone
+     else carries an abstract monogram keyed to their initials and organisation. Either way,
+     <b>the name printed beside it is the identification</b>.</p>
   <ol class="lwr">${wire.leaders.map((l) => card(l)).join('')}</ol>
 </section>
 

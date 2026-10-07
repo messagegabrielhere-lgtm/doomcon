@@ -37,6 +37,7 @@ import { esc, num, utc, utcClock, jsonScript } from './_html.mjs';
 import { degradedBanner, deltaChip } from './_parts.mjs';
 import { motionBlock } from './_motion.mjs';
 import { css, FONT_HREF } from '../styles.mjs';
+import { pixelText, icon, roomArt } from './_pixel.mjs';
 import * as brand from '../brand.mjs';
 import * as marks from '../brandmarks.mjs';
 
@@ -759,11 +760,27 @@ const PAGE_BANNERS = {
 };
 
 function pageBanner(ctx, path) {
-  const file = PAGE_BANNERS[path];
-  if (!file) return '';
-  // AVIF first: the same picture at about a sixth of the bytes. The JPEG stays
-  // as the <img> for any browser that cannot decode it.
-  return `<figure class="pgph"><picture><source type="image/avif" srcset="${esc(ctx.href(`/img/${file.replace(/\.jpg$/, '.avif')}`))}"><img src="${esc(ctx.href(`/img/${file}`))}" width="1600" height="600" alt="" decoding="async" fetchpriority="high"></picture><figcaption>Illustration: generated image</figcaption></figure>\n`;
+  // The PizzINT-style room header: the room's generated icon and its name in
+  // the pixel face. Decorative (aria-hidden): every page still carries its own
+  // real <h1> below, so nothing is said twice to a screen reader.
+  const art = roomArt(path);
+  const sec = SECTIONS.find((x) => x.href === path) || PAL_EXTRA.find((x) => x.href === path);
+  if (!art || !sec || path === '/') return '';
+  const label = String(sec.label).replace(/[‘’]/g, "'").replace(/[()?]/g, ' ').replace(/\s+/g, ' ').trim();
+  return `<div class="v2pt" aria-hidden="true"><img src="${esc(ctx.href(`/img/art-${art}.webp`))}" width="96" height="96" alt=""><div class="v2pt__t">${pixelText(label, 5, '#FFFFFF', 'v2pt__h')}${sec.blurb ? `<p>${esc(sec.blurb)}</p>` : ''}</div></div>\n`;
+}
+
+function v2StatusBar(ctx) {
+  const st = ctx.state || {};
+  const src = Array.isArray(st.sources) ? st.sources : [];
+  const ok = src.filter((x) => x.ok).length;
+  const t = String(st.generated_at || '');
+  return `<div class="v2m-top"><div class="wrap v2m-top__in">
+  <span class="v2m-chip">${icon('clock', 2)}<span class="num">${esc(t.slice(0, 10))} ${esc(t.slice(11, 16))}Z</span></span>
+  <span class="v2m-tag v2m-tag--lv">SIREN ${esc(String(st.level ?? '–'))} · <b>${esc(String(st.level_name || ''))}</b> · ${esc(Number.isFinite(st.score) ? st.score.toFixed(1) : '–')}</span>
+  <span class="v2m-chip">${icon('eye', 2)}${ok}/${src.length} SOURCES REPORTING</span>
+  <span class="v2m-right">STATUS: <b class="${st.degraded ? 'v2m-amber' : 'v2m-green'}">${st.degraded ? 'DEGRADED' : 'OPERATIONAL'}</b></span>
+</div></div>`;
 }
 
 /* WHAT A SEARCH RESULT CAN SHOW. A result page cuts a title near 65 characters
@@ -907,7 +924,7 @@ function featureBar(ctx, sections, path, { inline = false } = {}) {
     const unit = c && c.k ? `${c.v} ${c.k}` : '';
     const named = unit ? ` aria-label="${esc(`${item.label}: ${unit}`)}" title="${esc(unit)}"` : '';
     return `<a class="fb__t" href="${esc(ctx.href(item.href))}"${current}${named} style="--fb-hue:${esc(art.hue)}">
-      <svg class="fb__m" viewBox="0 0 16 16" aria-hidden="true" focusable="false">${art.mark}</svg>
+      ${roomArt(item.href) ? `<img class="fb__img" src="${esc(ctx.href(`/img/art-${roomArt(item.href)}.webp`))}" width="30" height="30" alt="" loading="lazy">` : `<svg class="fb__m" viewBox="0 0 16 16" aria-hidden="true" focusable="false">${art.mark}</svg>`}
       <span class="fb__l">${esc(item.label)}</span>
       ${c ? `<b class="fb__n num">${esc(c.v)}</b>` : '<span class="fb__n fb__n--none" aria-hidden="true">·</span>'}
     </a>`;
@@ -1194,7 +1211,7 @@ export function page(o) {
   const wide = o.path === '/' || o.path === '/race.html' || o.path === '/news.html';
 
   return `<!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -1216,6 +1233,8 @@ ${ogImage}
 <link rel="alternate" type="application/rss+xml" title="${esc(brand.NAME)} index moves" href="${esc(ctx.href('/feed.xml'))}">
 <link rel="alternate" type="application/rss+xml" title="${esc(brand.NAME)} level changes only" href="${esc(ctx.href('/feed-level.xml'))}">
 <link rel="stylesheet" href="${esc(ctx.href(FONT_HREF))}">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
 ${marks.headLinks({ href: ctx.href })}
 ${ctx.cssHref
   ? `<link rel="stylesheet" href="${esc(ctx.cssHref)}">`
@@ -1225,9 +1244,8 @@ ${jsonld}
 <body${wide ? ' data-wide="1"' : ''}>
 <a class="skip" href="#main">Skip to the index</a>
 ${brand.X_URL ? `<p class="give">${esc(brand.NAME)} is free and carries no ads. <a href="${esc(brand.X_URL)}" rel="noopener">Keep it running: donate with X Money →</a></p>` : ''}
-<header class="masthead"><div class="wrap masthead__in">
-  ${marks.mastheadLockup(ctx.state.level, { href: ctx.href('/'), current: o.path === '/', logos: ctx.logos, logoHref: (n) => ctx.href(`/logos/${n}`) })}
-  <p class="masthead__tag">${esc(brand.SLOGAN)}</p>
+<header class="masthead v2m"><div class="wrap masthead__in">
+  <a class="v2m-brand" href="${esc(ctx.href('/'))}"${o.path === '/' ? ' aria-current="page"' : ''}><img src="${esc(ctx.href('/img/art-siren.webp'))}" width="52" height="52" alt="">${pixelText('AI SIREN INDEX', 4, '#FFFFFF', 'v2m-word')}</a>
   ${kit.button}
   ${featureBar(ctx, tiles, o.path, { inline: true })}
 </div></header>${FEATURE_BAR_CSS}${NAV_KIT_CSS}
