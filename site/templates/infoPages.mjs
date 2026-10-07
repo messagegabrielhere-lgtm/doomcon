@@ -51,10 +51,11 @@ export function about(ctx) {
     <a href="${esc(brand.REPO_URL)}" rel="noopener">repository</a>. A correction that changes a number is recorded in the open.</p>
   <h2>Terms, in plain words</h2>
   <ul>
-    <li>The site is information, not advice. Do not use it as the basis for financial, legal, safety or policy decisions.</li>
+    <li>The site is information, commentary and satire — not advice. Do not use it as the basis for financial, legal, safety or policy decisions.</li>
     <li>It measures activity, not danger. ${esc(brand.DISCLAIMER_SHORT)}</li>
+    <li>${esc(brand.SATIRE)}</li>
     <li>Third-party data is shown under its own licence, credited on the page that uses it. The site's own text and data are ${esc(brand.LICENSE)}.</li>
-    <li>The joke pages (Tally's desk, the game, the Bunker Kit) are jokes. Their numbers are still real counts.</li>
+    <li>The joke pages (Tally's desk, the game, the Bunker Kit) are satire. Their index numbers, when shown, are still real counts.</li>
   </ul>
   <p>The full version is on the <a href="${esc(ctx.href('/terms.html'))}">terms &amp; disclaimers</a> page.</p>
   <p><a href="${esc(ctx.href('/privacy.html'))}">Privacy →</a> · <a href="${esc(ctx.href('/guide.html'))}">How it compares with DEFCON and the Doomsday Clock →</a></p>
@@ -140,16 +141,18 @@ export function terms(ctx) {
     share cards and posts — you agree to these terms. If you do not agree, please do not use it.</p>
 
   <div class="inf__box">
-    <p><b>The short version.</b> ${esc(brand.NAME)} is an automated, independent publication for information, commentary and
-      entertainment. It counts public activity; it does not predict the future or measure danger. Nothing here is financial,
-      investment, legal, security, safety, medical or any other professional advice. The data can be wrong, late or missing,
-      and the site is provided as is, with no warranty. Use it at your own risk.</p>
+    <p><b>The short version.</b> ${esc(brand.NAME)} is an automated, independent publication for information, commentary,
+      entertainment and satire. It counts public activity; it does not predict the future or measure danger. Nothing here is
+      financial, investment, legal, security, safety, medical or any other professional advice. The data can be wrong, late or
+      missing, and the site is provided as is, with no warranty. Use it at your own risk.</p>
+    <p style="margin-top:8px">${esc(brand.SATIRE)}</p>
   </div>
 
-  <h2>1. Information and entertainment only</h2>
-  <p>Everything on the site is general information, commentary and, in places, satire. It is not advice of any kind and does
-    not create any professional, advisory or fiduciary relationship with you. Do not make financial, investment, legal,
-    security, safety, medical, emergency, travel or policy decisions based on it. Talk to a qualified professional first.</p>
+  <h2>1. Information, entertainment and satire only</h2>
+  <p>Everything on the site is general information, commentary, entertainment and, in places, satire or parody. It is not
+    advice of any kind and does not create any professional, advisory or fiduciary relationship with you. Do not make
+    financial, investment, legal, security, safety, medical, emergency, travel or policy decisions based on it. Talk to a
+    qualified professional first. ${esc(brand.SATIRE)}</p>
 
   <h2>2. What the index is, and is not</h2>
   <ul>
@@ -163,11 +166,11 @@ export function terms(ctx) {
   <h2>3. Not financial or investment advice</h2>
   <p>The stock picks, screens, scores, prediction-market readings, forecasts, investor and congressional trade disclosures,
     AI trading competition and any other market content are automated, simulated or hypothetical, and are published for
-    information and entertainment only. ${esc(brand.NAME)} and its operator are not a broker-dealer, a registered investment
-    adviser, a financial planner or a tax adviser. Nothing on the site is a recommendation or solicitation to buy, sell or hold
-    any security, crypto asset, contract or other instrument. Past, simulated and hypothetical results do not predict future
-    results. Trading involves risk, including the loss of more than you invest. Do your own research and consult a licensed
-    professional. The forecasts page is a public scoring exercise, not betting: no money is taken or paid.</p>
+    information, entertainment and satire only. ${esc(brand.NAME)} and its operator are not a broker-dealer, a registered
+    investment adviser, a financial planner or a tax adviser. Nothing on the site is a recommendation or solicitation to buy,
+    sell or hold any security, crypto asset, contract or other instrument. Past, simulated and hypothetical results do not
+    predict future results. Trading involves risk, including the loss of more than you invest. Do your own research and consult
+    a licensed professional. The forecasts page is a public scoring exercise, not betting: no money is taken or paid.</p>
 
   <h2>4. Security, surveillance and safety pages</h2>
   <ul>
@@ -179,8 +182,8 @@ export function terms(ctx) {
     <li><b>Live world data</b> on the monitor (earthquakes, storms, fires, flights, military aircraft, shipping, news) comes from
       third-party feeds that can be delayed, incomplete or wrong. It is not for navigation, aviation, emergency response or
       evacuation decisions. In an emergency, follow official alerts and local authorities.</li>
-    <li><b>The Bunker Kit, the game and the mascot's desk</b> are jokes. They are not emergency-preparedness, survival or
-      safety guidance. For real preparedness, use your local emergency-management authority.</li>
+    <li><b>The Bunker Kit, the game and the mascot's desk</b> are satire and jokes. They are not emergency-preparedness,
+      survival or safety guidance. For real preparedness, use your local emergency-management authority.</li>
   </ul>
 
   <h2>5. People, companies and other people's words</h2>
@@ -197,7 +200,7 @@ export function terms(ctx) {
       commentary.</li>
     <li>Illustrated portraits of public figures are generated artwork, not photographs. They are used to identify the person in
       reporting and commentary and say nothing about their views, conduct or approval of this site.</li>
-    <li>Humour and exaggeration on the site, including anything said by the mascot, are satire and not literal statements of fact.</li>
+    <li>${esc(brand.SATIRE)}</li>
   </ul>
 
   <h2>6. Accuracy and availability</h2>

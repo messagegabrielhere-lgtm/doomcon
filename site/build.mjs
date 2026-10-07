@@ -129,7 +129,7 @@ function prerenderStatic(html, name, ctx) {
   out = out.replace(/<body([^>]*)>/, (m) => `${m}\n${brandVars}\n${strip}`);
   // Hand-built pages have no shared footer, so they get the same legal line
   // the templated footer carries, pointing at the full terms page.
-  const legal = `<p class="v2legal" style="max-width:72ch;margin:24px auto;padding:0 16px 24px;font:400 12px/1.5 system-ui,sans-serif;color:#AEB7C3"><b>Not advice.</b> Information, commentary and satire only — not financial, investment, legal, security or safety advice. Data is automated and may be wrong or late; provided as is, with no warranty. Not affiliated with any company, lab, person or agency named here. Use of this site means you accept the <a href="${x(ctx.href('/terms.html'))}" style="color:#D7DCE3">terms &amp; disclaimers</a>. <a href="${x(ctx.href('/privacy.html'))}" style="color:#D7DCE3">Privacy</a>.</p>`;
+  const legal = `<p class="v2legal" style="max-width:72ch;margin:24px auto;padding:0 16px 24px;font:400 12px/1.5 system-ui,sans-serif;color:#AEB7C3"><b>Not advice.</b> ${x(brand.LEGAL_FINE)} ${x(brand.SATIRE)} Use of this site means you accept the <a href="${x(ctx.href('/terms.html'))}" style="color:#D7DCE3">terms &amp; disclaimers</a>. <a href="${x(ctx.href('/privacy.html'))}" style="color:#D7DCE3">Privacy</a>.</p>`;
   out = out.replace(/<\/body>/, `${legal}\n</body>`);
   head += `\n<link rel="stylesheet" href="${x(ctx.href('/fonts/fonts.css'))}">`;
   return out.replace('</head>', `${head}\n</head>`);

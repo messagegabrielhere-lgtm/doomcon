@@ -309,6 +309,23 @@ export const DISCLAIMER =
 // Never a substitute for DISCLAIMER anywhere DISCLAIMER fits.
 export const DISCLAIMER_SHORT = 'Activity tempo, not probability of harm.';
 
+// Satire / parody framing. Kept as data so the footer, terms, about page and
+// sitewide disclosure all deny the same things in the same words: humour is
+// not a literal claim, not an official alert, and not advice.
+export const SATIRE =
+  'Parts of this site — including the mascot, joke pages, exaggerated language ' +
+  'and some commentary — are satire, parody and humour. They are not literal ' +
+  'statements of fact, not official alerts, and not advice of any kind.';
+
+// The short legal line on every templated footer and every hand-built page
+// (after a bold "Not advice."). Points at /terms.html for the full text.
+// Names satire in the same breath as commentary so a skim still hits it.
+export const LEGAL_FINE =
+  'Information, commentary and satire only — not financial, investment, legal, ' +
+  'security or safety advice. Data is automated and may be wrong or late; ' +
+  'provided as is, with no warranty. Not affiliated with any company, lab, ' +
+  'person or agency named here.';
+
 // The three denials, kept as data so the history page, the methodology page and
 // any future FAQ state them identically. DoomBench runs an FAQ explaining that
 // its 67.8 "does not mean a 60 percent probability" — that FAQ exists because

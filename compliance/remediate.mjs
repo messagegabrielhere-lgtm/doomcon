@@ -19,8 +19,9 @@ import path from 'node:path';
 
 export const FINANCE_NOTE =
   '<p class="legal-note" style="margin:24px auto;max-width:72ch;padding:0 16px;font:400 12px/1.5 system-ui,sans-serif;opacity:.75">' +
-  'For information and entertainment only. Not investment, financial or trading advice, and not a recommendation to buy or sell any security or crypto asset. ' +
-  'Signals and simulated results do not predict future returns. Do your own research or talk to a licensed professional.</p>';
+  'For information, entertainment and satire only. Not investment, financial or trading advice, and not a recommendation to buy or sell any security or crypto asset. ' +
+  'Signals and simulated results do not predict future returns. Parts of this site are satire, parody and humour — not literal statements of fact. ' +
+  'Do your own research or talk to a licensed professional.</p>';
 
 export const AFFILIATE_NOTE =
   '<p class="legal-note" style="margin:24px auto;max-width:72ch;padding:0 16px;font:400 12px/1.5 system-ui,sans-serif;opacity:.75">' +

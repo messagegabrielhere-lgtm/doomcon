@@ -1616,8 +1616,8 @@ function footer(ctx, sections, path) {
       Every value on this site is computed from public data by published code, and each observation is written to a
       hash-chained receipt carrying its full inputs — so anyone can recompute the number and get the same answer.
       Data and code: ${esc(brand.LICENSE)}.</p>
-    <p class="foot__fine"><b>Not advice.</b> Information, commentary and satire only — not financial, investment, legal, security or safety advice.
-      Data is automated and may be wrong or late; provided as is, with no warranty. Not affiliated with any company, lab, person or agency named here.
+    <p class="foot__fine"><b>Not advice.</b> ${esc(brand.LEGAL_FINE)}
+      ${esc(brand.SATIRE)}
       Use of this site means you accept the <a href="${esc(ctx.href('/terms.html'))}">terms &amp; disclaimers</a>. <a href="${esc(ctx.href('/privacy.html'))}">Privacy</a>.</p>
   </div>
 </footer>`;

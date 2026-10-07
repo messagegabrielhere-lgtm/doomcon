@@ -18,7 +18,15 @@ const MARK = 'data-sitebar';
 // Pages meant to be embedded in other sites keep their own chrome.
 const SKIP = new Set(['embed.html']);
 
-export const DISCLOSURE = 'Not financial advice. We are not financial advisors, brokers, or a registered investment adviser, and nothing on this site is investment, financial, legal, tax or trading advice, or a recommendation to buy, sell or hold any stock, crypto asset or other instrument. Stock picks, signals, scores and AI trades shown here are automated, simulated or hypothetical, for information and entertainment only. Past and simulated performance does not predict future results, and trading can lose money, including more than you expect. Do your own research and talk to a licensed financial professional before you invest.';
+export const DISCLOSURE =
+  'Not financial advice. We are not financial advisors, brokers, or a registered investment adviser, ' +
+  'and nothing on this site is investment, financial, legal, tax or trading advice, or a recommendation ' +
+  'to buy, sell or hold any stock, crypto asset or other instrument. Stock picks, signals, scores and ' +
+  'AI trades shown here are automated, simulated or hypothetical, for information, entertainment and ' +
+  'satire only. Past and simulated performance does not predict future results, and trading can lose ' +
+  'money, including more than you expect. Parts of this site are satire, parody and humour — not ' +
+  'literal statements of fact and not official alerts. Do your own research and talk to a licensed ' +
+  'financial professional before you invest.';
 
 export function sitebar(asOf) {
   const at = Number.isFinite(Date.parse(asOf)) ? Date.parse(asOf) : Date.now();
@@ -82,7 +90,7 @@ export function sitebar(asOf) {
 </div>`;
 }
 
-export const disclosureHtml = () => `\n<aside class="site-disclosure" ${MARK} role="note"><b>Disclosure:</b> ${DISCLOSURE}</aside>`;
+export const disclosureHtml = () => `\n<aside class="site-disclosure" ${MARK} role="note"><b>Disclosure:</b> ${DISCLOSURE}</aside>\n`;
 
 // Add the bar and, unless the page carries its own, the disclosure.
 export function stamp(html, asOf) {
