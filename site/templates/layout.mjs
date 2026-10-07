@@ -818,6 +818,8 @@ const PAL_EXTRA = [
   { href: '/moves/', label: 'Every reading', blurb: 'The full record, each with its receipt.' },
   { href: '/sponsor.html', label: 'Sponsor', blurb: 'One named sponsor at a time.' },
   { href: '/privacy.html', label: 'Privacy', blurb: 'No cookies, no analytics.' },
+  { href: '/terms.html', label: 'Terms', blurb: 'Not advice, licence, acceptable use.' },
+  { href: '/security.html', label: 'Security', blurb: 'How to report a vulnerability.' },
 ];
 const TAB_ROOMS = [['/', 'War room'], ['/news.html', 'News'], ['/race.html', 'Race'], ['/world.html', 'World']];
 
@@ -1247,6 +1249,8 @@ ${o.noindex ? '<meta name="robots" content="noindex,follow">' : '<meta name="rob
 <meta name="color-scheme" content="dark light">
 <meta name="theme-color" content="#faf9f6" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#06070b" media="(prefers-color-scheme: dark)">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="Permissions-Policy" content="interest-cohort=(), browsing-topics=(), attribution-reporting=()">
 <meta property="og:type" content="${esc(o.ogType || 'website')}">
 <meta property="og:site_name" content="${esc(brand.PUBLICATION)}">
 <meta property="og:title" content="${esc(o.ogTitle || o.title)}">
@@ -1498,6 +1502,8 @@ function footer(ctx, sections, path) {
     { href: '/brand.html', label: 'Brand', blurb: 'Name, colours, type, voice and Tally to download.' },
     { href: '/press.html', label: 'Press kit', blurb: 'Facts, a paragraph to lift, images and a contact.' },
     { href: '/privacy.html', label: 'Privacy', blurb: 'No cookies, no analytics. Every trace a visit can leave.' },
+    { href: '/terms.html', label: 'Terms', blurb: 'Not advice, licence, acceptable use, no warranty.' },
+    { href: '/security.html', label: 'Security', blurb: 'How to report a vulnerability privately.' },
     { href: brand.REPO_URL, label: 'Source code', blurb: `Every line that produced these numbers. ${brand.LICENSE}.` },
   ];
   if (brand.X_URL) {

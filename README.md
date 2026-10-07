@@ -132,6 +132,19 @@ Index proved that a single named scalar plus a distribution channel beats a
 better dashboard with neither. The full teardown is in
 [docs/TEARDOWN.md](docs/TEARDOWN.md).
 
-## Licence
+## Licence and security
 
-Code MIT. Data and index values CC-BY 4.0.
+The repository is licensed **[CC BY 4.0](LICENSE)** (see `package.json` and
+`site/brand.mjs`). OpenStreetMap-derived pages keep ODbL attribution on the page.
+
+Privacy, terms and vulnerability reporting:
+
+- Site: [privacy](https://messagegabrielhere-lgtm.github.io/doomcon/privacy.html) ·
+  [terms](https://messagegabrielhere-lgtm.github.io/doomcon/terms.html) ·
+  [security](https://messagegabrielhere-lgtm.github.io/doomcon/security.html)
+- Repo: [SECURITY.md](SECURITY.md) · [compliance auditor](compliance/README.md)
+- Machine-readable: `/.well-known/security.txt` on every deploy
+
+`npm run compliance` is gated in CI. Five operator checks (X Automated label,
+Amazon Associates listing, key rotation, `COMPLIANCE_PII_TERMS`) still need a
+human — see `compliance/manual.json`.

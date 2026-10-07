@@ -260,7 +260,7 @@ ${brand.X_URL ? `<p class="v2-give">${esc(brand.NAME)} is free and carries no ad
   </div>
 
   <p class="v2-foot">${esc(brand.NAME)} counts how loud AI is, every hour, from public data. A count, not a forecast. Portraits and icons are generated illustrations, not photographs.
-  <a href="${href('/methodology.html')}">How it works</a> · <a href="${href('/classic.html#vfy')}">Verify a reading</a> · <a href="${href('/classic.html')}">Full instrument panel</a> · <a href="${href('/about.html')}">About</a></p>
+  <a href="${href('/methodology.html')}">How it works</a> · <a href="${href('/classic.html#vfy')}">Verify a reading</a> · <a href="${href('/classic.html')}">Full instrument panel</a> · <a href="${href('/about.html')}">About</a> · <a href="${href('/privacy.html')}">Privacy</a> · <a href="${href('/terms.html')}">Terms</a> · <a href="${href('/security.html')}">Security</a></p>
 </main>
 </div>
 <script>${HOME_JS}</script>`;

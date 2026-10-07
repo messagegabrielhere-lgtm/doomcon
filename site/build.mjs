@@ -111,6 +111,9 @@ function llmsTxt(ctx) {
 - [Method](${ctx.url('/methodology.html')})
 - [Guide: SIREN vs DEFCON vs the Doomsday Clock vs p(doom)](${ctx.url('/guide.html')})
 - [About](${ctx.url('/about.html')})
+- [Privacy](${ctx.url('/privacy.html')})
+- [Terms of use](${ctx.url('/terms.html')})
+- [Security](${ctx.url('/security.html')})
 - [What is p(doom)?](${ctx.url('/p-doom.html')})
 - [Is there an AI doomsday clock?](${ctx.url('/ai-doomsday-clock.html')})
 - [AI and jobs: what has been measured](${ctx.url('/jobs.html')})
@@ -1147,6 +1150,26 @@ async function main() {
   }
   written.push(await write(args.out, 'about.html', infoPages.about(ctx)));
   written.push(await write(args.out, 'privacy.html', infoPages.privacy(ctx)));
+  written.push(await write(args.out, 'terms.html', infoPages.terms(ctx)));
+  written.push(await write(args.out, 'security.html', infoPages.securityPage(ctx)));
+  // RFC 9116 security.txt — contact for vulnerability reports. Expires in one
+  // year so a stale file is obvious; renew by shipping any build after that date.
+  {
+    const expires = new Date();
+    expires.setUTCFullYear(expires.getUTCFullYear() + 1);
+    const securityTxt = [
+      `Contact: ${brand.X_URL || brand.REPO_URL}`,
+      `Contact: ${brand.REPO_URL}/security/advisories/new`,
+      `Expires: ${expires.toISOString()}`,
+      'Preferred-Languages: en',
+      `Canonical: ${brand.CANONICAL_URL}/.well-known/security.txt`,
+      `Policy: ${brand.REPO_URL}/blob/main/SECURITY.md`,
+      `Acknowledgments: ${brand.CANONICAL_URL}/security.html`,
+      '',
+    ].join('\n');
+    written.push(await write(args.out, '.well-known/security.txt', securityTxt));
+    written.push(await write(args.out, 'security.txt', securityTxt));
+  }
   written.push(await write(args.out, 'press.html', infoPages.press(ctx)));
   if (betsPage.hasBets(ctx)) {
     written.push(await write(args.out, 'bets.html', betsPage.render(ctx)));

@@ -1,0 +1,44 @@
+# Secret scan + dependency review hygiene. Complements compliance/audit.mjs
+# (legal/product tripwires) with a classic leak scanner on every PR and push.
+
+name: security
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: '41 9 * * 1'   # Mondays 09:41 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  security-events: write
+  pull-requests: read
+
+jobs:
+  gitleaks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_ENABLE_COMMENTS: false
+
+  npm-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Audit production dependencies
+        # Only the declared dependency tree. Fail on high/critical; low noise
+        # from optional arena tooling should not block the static site.
+        run: npm audit --omit=dev --audit-level=high

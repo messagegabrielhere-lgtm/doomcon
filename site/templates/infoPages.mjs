@@ -56,7 +56,7 @@ export function about(ctx) {
     <li>Third-party data is shown under its own licence, credited on the page that uses it. The site's own text and data are ${esc(brand.LICENSE)}.</li>
     <li>The joke pages (Tally's desk, the game, the Bunker Kit) are jokes. Their numbers are still real counts.</li>
   </ul>
-  <p><a href="${esc(ctx.href('/privacy.html'))}">Privacy →</a> · <a href="${esc(ctx.href('/guide.html'))}">How it compares with DEFCON and the Doomsday Clock →</a></p>
+  <p><a href="${esc(ctx.href('/terms.html'))}">Full terms →</a> · <a href="${esc(ctx.href('/privacy.html'))}">Privacy →</a> · <a href="${esc(ctx.href('/security.html'))}">Security →</a> · <a href="${esc(ctx.href('/guide.html'))}">How it compares with DEFCON and the Doomsday Clock →</a></p>
 </section>`;
   return page({
     ctx, path: '/about.html',
@@ -67,37 +67,130 @@ export function about(ctx) {
 }
 
 export function privacy(ctx) {
+  const updated = ctx.state && ctx.state.generated_at ? utc(ctx.state.generated_at) : 'the latest build';
+  const contact = brand.X_URL
+    ? `<a href="${esc(brand.X_URL)}" rel="noopener">${esc(brand.X_HANDLE)}</a> on X, or an issue on the <a href="${esc(brand.REPO_URL)}" rel="noopener">repository</a>`
+    : `an issue on the <a href="${esc(brand.REPO_URL)}" rel="noopener">repository</a>`;
   const main = `${CSS}
 <section class="inf">
-  <p class="eyebrow">Privacy</p>
+  <p class="eyebrow">Privacy · last reviewed with the ${esc(updated)} build</p>
   <div class="inf__top"><h1 class="bp__h1">What this site knows about you</h1></div>
-  <p class="lede">Very little, and nothing it keeps. This page lists every way a visit can leave a trace.</p>
+  <p class="lede">Very little, and nothing it keeps on a server of its own. This page lists every way a visit can leave a trace.</p>
   <h2>What the site itself does</h2>
   <ul>
-    <li><b>No cookies.</b> The site sets none.</li>
-    <li><b>No analytics.</b> There is no tracking script, pixel or visitor counter. Nobody here knows you visited.</li>
-    <li><b>No accounts and no forms.</b> There is nothing to sign up for and nowhere to type personal details.</li>
-    <li><b>Browser storage.</b> A few preferences are kept in your own browser's local storage: the last reading you saw, your
-      language choice, and your best score in the game. They never leave your device, and clearing site data removes them.</li>
+    <li><b>No cookies.</b> The site sets none. There is no cookie banner because there is nothing to consent to on this origin.</li>
+    <li><b>No analytics.</b> There is no tracking script, pixel, session replay or visitor counter. Nobody here knows you visited.</li>
+    <li><b>No accounts and no forms.</b> There is nothing to sign up for and nowhere to type personal details. We do not collect email addresses.</li>
+    <li><b>Browser storage only on your device.</b> A few keys may be written to <code>localStorage</code> in your browser:
+      the last ${esc(brand.NAME)} reading you saw (<code>doomcon.visit.v1</code>), language or theme preferences on tool pages, and your best score in the game.
+      They never leave your device, are not sent to our servers, and clearing site data removes them.</li>
   </ul>
+  <h2>Children</h2>
+  <p>The site is not directed at children under 13, and it does not knowingly collect personal information from anyone.
+    There is no registration, chat or upload path that could take a child's details.</p>
   <h2>Third parties a visit touches</h2>
   <ul>
-    <li><b>GitHub Pages</b> hosts the site, so GitHub's servers receive your IP address and browser details, as any web host does.</li>
-    <li><b>Fonts</b> are served from this site. No font request goes to Google or any other third party.</li>
+    <li><b>GitHub Pages</b> hosts the site, so GitHub's servers receive your IP address, User-Agent and the URL you requested, as any web host does.
+      See <a href="https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement" rel="noopener">GitHub's privacy statement</a>.</li>
+    <li><b>Fonts</b> are self-hosted under <code>/fonts/</code>. No font request goes to Google or any other third party.</li>
     <li><b>Links out.</b> Clicking a link to X, Amazon, a news source or a data source takes you to that site under its own
-      policy. The "Post on X" links pass only the text of the card and this site's address.</li>
+      policy. The "Post on X" / share links pass only the text of the card and this site's address.</li>
     <li><b>Amazon paid links.</b> The reading list and the supplies crate in the Bunker Kit use Amazon Associates links. If you follow one, Amazon
       may set its own cookies to attribute a purchase. As an Amazon Associate, ${esc(brand.NAME)} earns from qualifying purchases.</li>
+    <li><b>Market data on tool pages.</b> The stock scanner and arena pages fetch public market data (for example Yahoo Finance or exchange APIs)
+      in your browser or via our published JSON. Those requests go to those providers under their terms; we do not place a tracker on them.</li>
   </ul>
-  <h2>The embed and the badge</h2>
-  <p>The iframe embed and the README badge are static files. They set no cookies and run no tracking on the pages that use them.</p>
-  <h2>Questions</h2>
-  <p>See the <a href="${esc(ctx.href('/about.html'))}">about page</a> for how to get in touch.</p>
+  <h2>The embed, the badge and the JSON API</h2>
+  <p>The iframe embed, the README badge and the files under <code>/api/</code> are static. They set no cookies and run no tracking on the pages that use them.
+    The API is CORS-open on purpose so strangers can recompute the number.</p>
+  <h2>Your choices</h2>
+  <ul>
+    <li>Clear this site's data in your browser to wipe localStorage preferences and the return-visit note.</li>
+    <li>Use a tracking-protection browser or VPN if you want to reduce what the host (GitHub) sees — we cannot change that from the static files.</li>
+    <li>Do not send secrets or personal data in public GitHub issues; use the process on the <a href="${esc(ctx.href('/security.html'))}">security</a> page for vulnerability reports.</li>
+  </ul>
+  <h2>Questions and changes</h2>
+  <p>Contact: ${contact}. If this policy changes in a material way, the date at the top of the page moves with the next build that ships the change.</p>
+  <p><a href="${esc(ctx.href('/terms.html'))}">Terms of use →</a> · <a href="${esc(ctx.href('/about.html'))}">About →</a> · <a href="${esc(ctx.href('/security.html'))}">Security →</a></p>
 </section>`;
   return page({
     ctx, path: '/privacy.html',
     title: `Privacy · ${brand.NAME}`,
-    description: `${brand.NAME} sets no cookies and runs no analytics. What a visit touches: GitHub Pages and the sites you choose to click through to.`,
+    description: `${brand.NAME} sets no cookies and runs no analytics. What a visit touches: GitHub Pages, optional Amazon clicks, and the sites you choose to open.`,
+    main,
+  });
+}
+
+export function terms(ctx) {
+  const main = `${CSS}
+<section class="inf">
+  <p class="eyebrow">Terms of use</p>
+  <div class="inf__top"><h1 class="bp__h1">How you may use this publication</h1></div>
+  <p class="lede">Plain terms for a static index. They are not a substitute for reading the methodology.</p>
+  <h2>The service</h2>
+  <p>${esc(brand.NAME)} publishes a recomputable index of AI activity tempo, related pages, and public JSON.
+    Hosting is best-effort on GitHub Pages. Collection runs on a published cron and may be delayed or skipped under platform load.</p>
+  <h2>Not advice</h2>
+  <ul>
+    <li>Nothing on this site is financial, investment, trading, legal, tax, medical, safety or policy advice.</li>
+    <li>${esc(brand.DISCLAIMER)}</li>
+    <li>Stock picks, scanners, paper-trading arenas and investor disclosures are automated or delayed public data for information and entertainment only.
+      Past or simulated performance does not predict future results.</li>
+  </ul>
+  <h2>Licence</h2>
+  <p>Site prose, collector code and our published scores are licensed <b>${esc(brand.LICENSE)}</b>
+    (<a href="${esc(brand.REPO_URL + '/blob/main/LICENSE')}" rel="noopener">LICENSE in the repository</a>),
+    except where a page credits a different licence (for example OpenStreetMap data under ODbL).
+    Give attribution if you reuse the work. Third-party headlines, trademarks and API data remain with their owners.</p>
+  <h2>Acceptable use</h2>
+  <ul>
+    <li>Do not overload the collector's upstream sources or GitHub Pages with abusive automated traffic.</li>
+    <li>Do not present the index as an official government warning, a probability of catastrophe, or a product of any AI lab.</li>
+    <li>Do not strip required attributions from map or data pages that name their source licence.</li>
+  </ul>
+  <h2>No warranty</h2>
+  <p>The site is provided “as is”, without warranty of any kind. Sources go dark, schedules slip, and bugs happen.
+    If a number matters to you, recompute it from the published receipt and code.</p>
+  <h2>Contact</h2>
+  <p>See the <a href="${esc(ctx.href('/about.html'))}">about</a> page. Security reports: <a href="${esc(ctx.href('/security.html'))}">security</a>.</p>
+  <p><a href="${esc(ctx.href('/privacy.html'))}">Privacy →</a></p>
+</section>`;
+  return page({
+    ctx, path: '/terms.html',
+    title: `Terms of use · ${brand.NAME}`,
+    description: `Terms for using ${brand.NAME}: not advice, ${brand.LICENSE} licence, acceptable use, and no warranty.`,
+    main,
+  });
+}
+
+export function securityPage(ctx) {
+  const advisory = `${brand.REPO_URL}/security/advisories/new`;
+  const main = `${CSS}
+<section class="inf">
+  <p class="eyebrow">Security</p>
+  <div class="inf__top"><h1 class="bp__h1">How to report a vulnerability</h1></div>
+  <p class="lede">If something here could leak secrets, inject script, or make the privacy page false, tell us privately first.</p>
+  <h2>Report</h2>
+  <p>Preferred: open a <a href="${esc(advisory)}" rel="noopener">private GitHub security advisory</a> on this repository.
+    If that form is unavailable, open a public issue titled <code>security:</code> with no secrets or exploit details in the first message.</p>
+  <h2>In scope</h2>
+  <ul>
+    <li>Credentials or private data committed to the repo or shipped in the build</li>
+    <li>XSS or injection in generated HTML, the embed, or JSON consumed by the site</li>
+    <li>GitHub Actions or dependency supply-chain issues</li>
+    <li>Anything that would contradict the <a href="${esc(ctx.href('/privacy.html'))}">privacy</a> claims</li>
+  </ul>
+  <h2>Out of scope</h2>
+  <p>Methodology disputes, score disagreements, and copy edits belong in ordinary issues.</p>
+  <h2>Machine-readable contact</h2>
+  <p>A <a href="${esc(ctx.href('/.well-known/security.txt'))}"><code>security.txt</code></a> file is published for automated discovery.
+    The full maintainer policy lives in <a href="${esc(brand.REPO_URL + '/blob/main/SECURITY.md')}" rel="noopener"><code>SECURITY.md</code></a>.</p>
+  <p><a href="${esc(ctx.href('/terms.html'))}">Terms →</a> · <a href="${esc(ctx.href('/privacy.html'))}">Privacy →</a></p>
+</section>`;
+  return page({
+    ctx, path: '/security.html',
+    title: `Security · ${brand.NAME}`,
+    description: `How to report a security vulnerability in ${brand.NAME}: private advisory preferred, scope, and security.txt.`,
     main,
   });
 }

@@ -1,0 +1,22 @@
+# Keep GitHub Actions on current patches. This repo has almost no npm runtime
+# surface (collector is Node built-ins; @anthropic-ai/sdk is optional for arena),
+# so Actions are the main supply-chain moving part.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    labels:
+      - dependencies
+      - security
+
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: monthly
+    open-pull-requests-limit: 3
+    labels:
+      - dependencies
