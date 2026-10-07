@@ -140,8 +140,9 @@ better dashboard with neither. The full teardown is in
   information not advice, licences, no warranties.
 - [SECURITY.md](SECURITY.md) — how to report a vulnerability.
 - Local gate: `npm run compliance` (also runs on every push and before Pages
-  publish). Operator checklist: [GO-LIVE.md](GO-LIVE.md#step-5--legal-and-compliance-10-minutes-once)
-  and `compliance/REMEDIATION.md`.
+  publish). Operator checklists: [GO-LIVE.md](GO-LIVE.md#step-5--legal-and-compliance-10-minutes-once),
+  [docs/X-OPERATOR.md](docs/X-OPERATOR.md) for `@SIRENutf6`, and
+  `compliance/REMEDIATION.md`.
 
 ## Licence
 

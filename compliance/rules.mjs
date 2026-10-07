@@ -436,13 +436,13 @@ export const RULES = [
  */
 export const MANUAL = [
   { id: 'x-automated-label', text: 'X account: the "Automated" label is on.',
-    steps: ['Log in to the bot account on x.com.', 'Settings and privacy → Your account → Account information → Automation.', 'Choose "Managing account" and pick the human account that runs it, then confirm with that account\'s password.', 'Check the label shows under the bot\'s name on its profile.'] },
+    steps: ['Log in as @SIRENutf6 on x.com.', 'Settings and privacy → Your account → Account information → Automation.', 'Choose "Managing account" and pick the human account that runs it, then confirm with that account\'s password.', 'Check the label shows under the bot\'s name on its profile. Full checklist: docs/X-OPERATOR.md.'] },
   { id: 'x-bio-disclosure', text: 'X bio says it is automated and links a human-run account.',
-    steps: ['Edit profile → Bio.', 'Add a line such as: "Automated account · data posts daily · run by @<human account>".', 'The human account need not use your real name; it must be one you actually read.'] },
+    steps: ['Edit profile → Bio on @SIRENutf6.', 'Replace the bio with BIO_GUIDANCE.x from collector/post-daily.mjs (starts with "Automated account managed by @…").', 'The human handle need not be a real name; it must be an account you actually read. See docs/X-OPERATOR.md.'] },
+  { id: 'amazon-associates', text: 'Amazon Associates lists every site and account where affiliate links appear.',
+    steps: ['Associates Central → Account settings → Edit your website and mobile app list.', 'Add the GitHub Pages site URL and https://x.com/SIRENutf6 (that account posts amzn.to links).', 'Start every social post with an Amazon link with "#ad" or "(affiliate link)".', 'Make your first 3 qualifying sales within 180 days of signing up, or the account is closed.'] },
   { id: 'x-ai-media', text: 'AI-generated images posted anywhere are labelled, and none show real people doing things they did not.',
     steps: ['Caption AI-made images "AI-generated" or "illustration".', 'Never post AI images or video of real, identifiable people (X synthetic media policy; state deepfake laws).', 'The daily data cards are drawn from data, not generated, so they need no label.'] },
-  { id: 'amazon-associates', text: 'Amazon Associates lists every site and account where affiliate links appear.',
-    steps: ['Associates Central → Account settings → Edit your website and mobile app list.', 'Add the GitHub Pages site URL and any social account that posts your links.', 'Make your first 3 qualifying sales within 180 days of signing up, or the account is closed.'] },
   { id: 'dmca-agent-registered', text: 'Only if the site ever accepts uploads: DMCA agent registered.',
     steps: ['Not needed today: nothing on the site accepts uploads.', 'If that changes: https://dmca.copyright.gov → register ($6) → put the details on a dmca.html page (`audit.mjs --fix` creates the template).'] },
   { id: 'clipper-env-channels', text: 'Clipper channels in GitHub settings are ones you own or are licensed to clip.',
