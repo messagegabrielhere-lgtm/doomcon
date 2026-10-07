@@ -40,7 +40,7 @@ export function roomGroups(ctx) {
       ['/news.html', 'news', 'Newsroom', ctx.news && ctx.news.items ? `${ctx.news.items.length} stories` : null, 'Every AI story, scored and corroborated.'],
       ['/leaders.html', 'mic', 'Leaders', Number.isFinite(lt.leaders) ? `${lt.on_record ?? 0} of ${lt.leaders} on record` : null, 'What the people running AI said this week.'],
       ctx.digest ? ['/digest.html', 'clipboard', 'Digest', null, 'The day in a few corroborated items.'] : null,
-      ['/monitor.html', 'satellite', 'World Monitor', null, 'Live globe: news, hazards, flights, chokepoints.'],
+      ['/monitor.html', 'satellite', 'World Monitor', null, 'Live globe: stories from 27 outlets, hazards, a country stress index, 72-hour replay.'],
       ['/elon.html', 'musk', 'Real Clips', null, 'Verified clips of Elon, Altman, Amodei and the AI bosses.'],
     ]],
     ['THE MACHINES', [
