@@ -1,10 +1,10 @@
 {
   "schema": 1,
-  "generated_at": "2026-10-07T20:18:01.914Z",
-  "news_generated_at": "2026-10-07T20:18:01.914Z",
+  "generated_at": "2026-10-07T21:24:29.897Z",
+  "news_generated_at": "2026-10-07T21:24:29.897Z",
   "matcher_version": "1.0.0",
   "window_days": 7,
-  "window_start": "2026-09-30T20:18:01.914Z",
+  "window_start": "2026-09-30T21:24:29.897Z",
   "rule": {
     "headline_only": true,
     "statement": "Only the headline is ever reproduced, exactly as the publication printed it. No quotation is generated, paraphrased, summarised or reconstructed anywhere in this file.",
@@ -127,30 +127,31 @@
   },
   "corpus": {
     "source": "data/news.json",
-    "items": 200,
-    "items_in_window": 200,
-    "scanned": 200,
-    "max_items": 200,
+    "items": 400,
+    "items_in_window": 400,
+    "scanned": 400,
+    "max_items": 400,
     "window_binds": true,
-    "oldest_item_at": "2026-10-06T16:40:58.000Z",
-    "newest_item_at": "2026-10-07T20:10:00.000Z",
-    "named_without_cue": 2
+    "oldest_item_at": "2026-10-02T04:01:31.000Z",
+    "newest_item_at": "2026-10-07T21:23:29.000Z",
+    "named_without_cue": 4
   },
   "cross_check": {
     "source": "data/race.json",
     "present": true,
-    "race_generated_at": "2026-10-07T20:18:03.200Z",
-    "players_matched": 7,
+    "race_generated_at": "2026-10-07T21:24:31.688Z",
+    "players_matched": 8,
     "wire_fills_gap": [
+      "altman",
       "musk"
     ]
   },
   "totals": {
-    "leaders": 15,
-    "on_record": 1,
-    "no_line": 14,
-    "lines": 1,
-    "distinct_items": 1
+    "leaders": 19,
+    "on_record": 2,
+    "no_line": 17,
+    "lines": 3,
+    "distinct_items": 3
   },
   "leaders": [
     {
@@ -164,11 +165,80 @@
         "Sam Altman",
         "Altman"
       ],
-      "state": "no_line",
-      "count": 0,
-      "sources": [],
-      "latest": null,
-      "lines": [],
+      "state": "on_record",
+      "count": 2,
+      "sources": [
+        "guardian-ai",
+        "hn-ai"
+      ],
+      "latest": {
+        "item_id": "6d8d4e84a7d79a44",
+        "headline": "Stop worrying about my AI, says multibillionaire Sam Altman. So we bear the risks and he keeps the money | Chris Stokel-Walker",
+        "source": "guardian-ai",
+        "kind": "press",
+        "url": "https://theguardian.com/commentisfree/2026/oct/06/ai-sam-altman-billionaire-risks-openai",
+        "published_at": "2026-10-06T15:30:17.000Z",
+        "score": 29.2,
+        "pillar": "attention",
+        "matched_alias": "Sam Altman",
+        "cue": "says",
+        "cue_group": "core",
+        "cue_class": "verb",
+        "cue_text": "says",
+        "cues": [
+          "says"
+        ],
+        "corroboration": 1,
+        "also_sources": [
+          "guardian-ai"
+        ]
+      },
+      "lines": [
+        {
+          "item_id": "6d8d4e84a7d79a44",
+          "headline": "Stop worrying about my AI, says multibillionaire Sam Altman. So we bear the risks and he keeps the money | Chris Stokel-Walker",
+          "source": "guardian-ai",
+          "kind": "press",
+          "url": "https://theguardian.com/commentisfree/2026/oct/06/ai-sam-altman-billionaire-risks-openai",
+          "published_at": "2026-10-06T15:30:17.000Z",
+          "score": 29.2,
+          "pillar": "attention",
+          "matched_alias": "Sam Altman",
+          "cue": "says",
+          "cue_group": "core",
+          "cue_class": "verb",
+          "cue_text": "says",
+          "cues": [
+            "says"
+          ],
+          "corroboration": 1,
+          "also_sources": [
+            "guardian-ai"
+          ]
+        },
+        {
+          "item_id": "d17b9acf080e94e1",
+          "headline": "Accept 'bad things' in return for benefits of AI, says Sam Altman",
+          "source": "hn-ai",
+          "kind": "forum",
+          "url": "https://theguardian.com/technology/2026/oct/05/sam-altman-open-ai-chatgpt-benefits-risks",
+          "published_at": "2026-10-05T12:56:18.000Z",
+          "score": 33.7,
+          "pillar": "attention",
+          "matched_alias": "Sam Altman",
+          "cue": "says",
+          "cue_group": "core",
+          "cue_class": "verb",
+          "cue_text": "says",
+          "cues": [
+            "says"
+          ],
+          "corroboration": 1,
+          "also_sources": [
+            "hn-ai"
+          ]
+        }
+      ],
       "watch_floor": {
         "tracked": true,
         "player_id": "openai",
@@ -177,8 +247,8 @@
         "reason": null,
         "feed": "blog.samaltman.com",
         "posts_30d": 0,
-        "verdict": "both_quiet",
-        "note": "The watch floor reads dormant and no headline in this window named Sam Altman beside a speech cue. Two separate silences, neither imputed from the other."
+        "verdict": "wire_fills_gap",
+        "note": "The watch floor reads dormant for Sam Altman and that reading stands: it is about feeds we can fetch. All 2 lines on the wire came from the press instead — guardian-ai, hn-ai — each linked to the publication that printed it."
       }
     },
     {
@@ -255,12 +325,12 @@
       ],
       "latest": {
         "item_id": "2f1c6f8a109a13ce",
-        "headline": "Elon Musk says Grok Bot will use the \"best back end model for any given task, including Claude Opus 5.5, MidJourney, Suno\" (Grace Kay/The Information)",
+        "headline": "Elon Musk says Grok Bot going forward will use the \"best back-end model for any given task, including Claude Opus 5.5, MidJourney, Suno, and other leading APIs\" (Grace Kay/The Information)",
         "source": "techmeme",
         "kind": "press",
         "url": "https://techmeme.com/261007/p23",
         "published_at": "2026-10-07T14:40:01.000Z",
-        "score": 41.4,
+        "score": 41.1,
         "pillar": "attention",
         "matched_alias": "Elon Musk",
         "cue": "says",
@@ -279,12 +349,12 @@
       "lines": [
         {
           "item_id": "2f1c6f8a109a13ce",
-          "headline": "Elon Musk says Grok Bot will use the \"best back end model for any given task, including Claude Opus 5.5, MidJourney, Suno\" (Grace Kay/The Information)",
+          "headline": "Elon Musk says Grok Bot going forward will use the \"best back-end model for any given task, including Claude Opus 5.5, MidJourney, Suno, and other leading APIs\" (Grace Kay/The Information)",
           "source": "techmeme",
           "kind": "press",
           "url": "https://techmeme.com/261007/p23",
           "published_at": "2026-10-07T14:40:01.000Z",
-          "score": 41.4,
+          "score": 41.1,
           "pillar": "attention",
           "matched_alias": "Elon Musk",
           "cue": "says",
@@ -616,6 +686,115 @@
         "posts_30d": null,
         "verdict": "both_quiet",
         "note": "The watch floor reads no feed and no headline in this window named Liang Wenfeng beside a speech cue. Two separate silences, neither imputed from the other."
+      }
+    },
+    {
+      "id": "sutskever",
+      "name": "Ilya Sutskever",
+      "initials": "IS",
+      "org": "Safe Superintelligence",
+      "org_id": "ssi",
+      "role": "Co-founder",
+      "aliases": [
+        "Ilya Sutskever",
+        "Sutskever"
+      ],
+      "state": "no_line",
+      "count": 0,
+      "sources": [],
+      "latest": null,
+      "lines": [],
+      "watch_floor": {
+        "tracked": false,
+        "player_id": null,
+        "state": null,
+        "reason": null,
+        "feed": null,
+        "posts_30d": null,
+        "verdict": "not_tracked",
+        "note": "Ilya Sutskever is not a principal on the watch floor, so there is no loudness reading to contradict. These lines are the only reading we have."
+      }
+    },
+    {
+      "id": "murati",
+      "name": "Mira Murati",
+      "initials": "MM",
+      "org": "Thinking Machines Lab",
+      "org_id": "thinking-machines",
+      "role": "CEO",
+      "aliases": [
+        "Mira Murati",
+        "Murati"
+      ],
+      "state": "no_line",
+      "count": 0,
+      "sources": [],
+      "latest": null,
+      "lines": [],
+      "watch_floor": {
+        "tracked": false,
+        "player_id": null,
+        "state": null,
+        "reason": null,
+        "feed": null,
+        "posts_30d": null,
+        "verdict": "not_tracked",
+        "note": "Mira Murati is not a principal on the watch floor, so there is no loudness reading to contradict. These lines are the only reading we have."
+      }
+    },
+    {
+      "id": "karpathy",
+      "name": "Andrej Karpathy",
+      "initials": "AK",
+      "org": "Eureka Labs",
+      "org_id": "eureka-labs",
+      "role": "Founder",
+      "aliases": [
+        "Andrej Karpathy",
+        "Karpathy"
+      ],
+      "state": "no_line",
+      "count": 0,
+      "sources": [],
+      "latest": null,
+      "lines": [],
+      "watch_floor": {
+        "tracked": false,
+        "player_id": null,
+        "state": null,
+        "reason": null,
+        "feed": null,
+        "posts_30d": null,
+        "verdict": "not_tracked",
+        "note": "Andrej Karpathy is not a principal on the watch floor, so there is no loudness reading to contradict. These lines are the only reading we have."
+      }
+    },
+    {
+      "id": "brockman",
+      "name": "Greg Brockman",
+      "initials": "GB",
+      "org": "OpenAI",
+      "org_id": "openai",
+      "role": "President",
+      "aliases": [
+        "Greg Brockman",
+        "Brockman"
+      ],
+      "state": "no_line",
+      "count": 0,
+      "sources": [],
+      "latest": null,
+      "lines": [],
+      "watch_floor": {
+        "tracked": true,
+        "player_id": "openai",
+        "player_name": "OpenAI",
+        "state": "dormant",
+        "reason": null,
+        "feed": "blog.samaltman.com",
+        "posts_30d": 0,
+        "verdict": "both_quiet",
+        "note": "The watch floor reads dormant and no headline in this window named Greg Brockman beside a speech cue. Two separate silences, neither imputed from the other."
       }
     }
   ]
