@@ -24,7 +24,7 @@ the current reading.
 | Doc | Surface |
 |---|---|
 | [NEWS.md](NEWS.md) | Newsroom |
-| [ARENA.md](ARENA.md) | Paper-money AI battle |
+| [ARENA.md](ARENA.md) | Paper-money AI battle (+ big investors panel) |
 | [RACE.md](RACE.md) | Lab race leaderboard |
 | [FLOCK.md](FLOCK.md) | ALPR camera map |
 | [EXPLOITS.md](EXPLOITS.md) | CVE → KEV lag |

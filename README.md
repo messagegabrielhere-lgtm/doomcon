@@ -68,9 +68,10 @@ docs/                      operator notes — start at docs/README.md
 ```
 
 **Index pipeline: zero npm dependencies.** `collector/`, `site/`, `scanner/`,
-and `compliance/` use Node 20 built-ins only. Two optional side projects declare
-deps (`arena/` via the root lockfile, `clipper/` via its own). See
-[docs/CONTRACT.md](docs/CONTRACT.md) and [SECURITY.md](SECURITY.md).
+and `compliance/` use Node 20 built-ins only. Optional side projects declare
+deps (`arena/` via the root lockfile, `clipper/` via its own, `investors/` only
+inside its Actions job). See [docs/CONTRACT.md](docs/CONTRACT.md) and
+[SECURITY.md](SECURITY.md). Operator map: [docs/GITHUB.md](docs/GITHUB.md).
 
 ## Adding a source
 

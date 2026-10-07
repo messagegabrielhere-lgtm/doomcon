@@ -11,10 +11,11 @@ here without changing it everywhere. Agents building in parallel rely on it.
    everything runs as
    `docker run --rm -v "$PWD":/app -w /app node:20-alpine node <script>` —
    and the index workflows stay dependency-free and fast.
-   Two **opt-in side projects** declare npm deps and must never leak into the
+   **Opt-in side projects** may declare npm deps and must never leak into the
    index path:
    - `arena/` — root `package.json` / `package-lock.json` (`@anthropic-ai/sdk`)
    - `clipper/` — its own `clipper/package.json` / lockfile
+   - `investors/` — installs `pdfjs-dist` only inside its Actions job (not on main)
 2. **ES modules, `.mjs` extension** throughout.
 3. **No secrets in the repository, and none required to build.** Posting was
    manual in v1. Since 2026-09-28 `.github/workflows/post-daily.yml` can post one
@@ -51,6 +52,7 @@ compliance/                  legal / secret tripwire scanner (CI gate)
 arena/                       optional AI battle side project (has npm deps)
 clipper/                     optional Shorts clipper (own package.json)
 scanner/                     stock snapshot for /scanner.html
+investors/                   fund / ARK / Congress trades (orphan investors-data)
 docs/                        operator + design notes (see docs/README.md)
 public/                      BUILD OUTPUT. Never hand-edit. Gitignored —
                              published to the gh-pages branch by CI / deploy.sh.

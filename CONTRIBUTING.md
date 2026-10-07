@@ -66,7 +66,7 @@ Receipts are hash-chained under `data/receipts/`. `verifyChain()` in `collector/
 
 ## Pull requests
 
-- Keep the index pipeline dependency-free. Optional npm surfaces (`arena/`, `clipper/`) stay in their own lockfiles.
+- Keep the index pipeline dependency-free. Optional npm surfaces (`arena/`, `clipper/`, `investors/` job install) stay out of the collector/site path.
 - Prefer one concern per PR.
 - Say whether the change touches scoring, the reference, workflows, or the static site.
 - Run `npm run compliance` (and any relevant tests) before you ask for review.

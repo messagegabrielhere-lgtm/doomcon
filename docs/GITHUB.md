@@ -18,9 +18,10 @@ For first-time setup see [GO-LIVE.md](GO-LIVE.md). For posting credentials see
 | `gh-pages` | What GitHub Pages serves (orphan, force-pushed) | `collect`, `news-fast` |
 | `arena-data` | Paper-trading state (orphan, force-pushed) | `arena` |
 | `scanner-data` | Stock snapshot for `/scanner.html` (orphan, force-pushed) | `scanner-stocks` |
+| `investors-data` | Fund / ARK / Congress trade snapshot (orphan, force-pushed) | `investors` |
 
-Never merge `gh-pages`, `arena-data`, or `scanner-data` into `main`. They are
-publish targets, not history.
+Never merge `gh-pages`, `arena-data`, `scanner-data`, or `investors-data` into
+`main`. They are publish targets, not history.
 
 ---
 
@@ -33,6 +34,7 @@ publish targets, not history.
 | `post-daily` | `14:41` daily | `post-daily` | `main` (`data/posted.ndjson`) | X and/or Bluesky (no-op if absent) |
 | `arena` | `*/5` | `arena` | `arena-data` | optional model keys |
 | `scanner-stocks` | US session + after close | `scanner-stocks` (cancel ok) | `scanner-data` | none |
+| `investors` | weekdays `12:17` + `23:47` | `investors` | `investors-data` | none (`SEC_UA` variable optional) |
 | `clipper` | `:04,:19,:34,:49` | `clipper` | Actions cache only | YouTube + Anthropic |
 | `compliance` | every push/PR; Mondays `13:17` | PR runs cancel stale | none | optional `COMPLIANCE_PII_TERMS` |
 | `labeler` | pull requests | — | PR labels | none |
@@ -50,6 +52,7 @@ tick is harmless.
 | News-only loop for N minutes | Actions → `news-fast` → Run workflow (`minutes`) |
 | Post today's reading (dry by default) | Actions → `post-daily` → Run workflow |
 | Force an arena guard/turn | Actions → `arena` → Run workflow |
+| Refresh investors snapshot | Actions → `investors` → Run workflow |
 | Re-audit the tree | Actions → `compliance` → Run workflow |
 | Last-day Actions health | Actions → `ops-health` → Run workflow |
 
@@ -82,6 +85,7 @@ values. Local templates: [`.env.example`](../.env.example),
 | `NEWS_FAST_CHAIN` | `news-fast` | Set to `off` to stop the hourly self-rearm |
 | `BSKY_SERVICE` | `post-daily` | Optional Bluesky PDS override |
 | `ARENA_MODEL_*` / `ARENA_STANDINS` | `arena` | Optional model id / stand-in toggles |
+| `SEC_UA` | `investors` | Override SEC User-Agent (`name email`); default is in the workflow |
 
 Rotate provider keys at least annually (`secrets-rotated` in
 `compliance/manual.json`).
@@ -102,6 +106,7 @@ colours live in `.github/labels.yml` and are ensured by the labeler workflow.
 | `area:arena` | AI battle |
 | `area:clipper` | YouTube clipper |
 | `area:scanner` | Capitulation scanner |
+| `area:investors` | Big-investors / 13F / ARK / Congress trades |
 | `area:docs` | Docs / community files |
 | `area:data` | Committed JSON under `data/` |
 | `dependencies` | Dependabot / lockfile bumps |
@@ -122,8 +127,9 @@ paper trail beyond the Actions log.
    re-run with `dry_run` first if unsure.
 4. `compliance` red on a PR: run `npm run compliance` locally, fix findings,
    push. Do not widen `compliance/allow.json` without reading the rule.
-5. Arena / scanner publish failures: check the orphan branch still exists and
-   that the workflow has `contents: write`.
+5. Arena / scanner / investors publish failures: check the orphan branch still
+   exists and that the workflow has `contents: write`. For investors, SEC 403s
+   usually mean the User-Agent contact is missing — set variable `SEC_UA`.
 6. For a Monday digest of the last day of runs, open the latest `ops-health`
    summary (Actions → ops-health → job summary).
 
