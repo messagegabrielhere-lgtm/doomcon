@@ -22,12 +22,15 @@ here without changing it everywhere. Agents building in parallel rely on it.
    `generated_at` field. Output must be reproducible from inputs.
 5. **Every network call** goes through `collector/fetch.mjs` (timeout, retry,
    User-Agent, per-source error capture). Never call `fetch()` directly.
-   One exception, since 2026-09-28: the paid posting writes in
-   `collector/post-x.mjs` and `collector/post-bluesky.mjs` use a single-attempt
-   `sendOnce()` that carries fetch.mjs's User-Agent and error type. fetch.mjs
-   cannot send a request body, and its retries could post the same paid write
-   twice. Folding it back needs a `body` option and a no-retry switch in
-   fetch.mjs.
+   `fetchText` / `fetchJson` accept `body` and `retries`. A one-shot POST passes
+   `retries: 0` so a webhook is not delivered twice. One exception, since
+   2026-09-28: the paid posting writes in `collector/post-x.mjs` and
+   `collector/post-bluesky.mjs` use a single-attempt `sendOnce()` that carries
+   fetch.mjs's User-Agent and error type. Their retries could post the same
+   paid write twice, and a failure must not print a credential. The Slack
+   webhook in `collector/visitors.mjs` uses `fetchText` with `retries: 0` and
+   replaces any thrown error before logging so the webhook URL never reaches
+   the Actions log.
 
 ## Directory ownership
 
@@ -38,6 +41,7 @@ collector/collect.mjs        runs all adapters -> data/raw/<ts>.json
 collector/engine.mjs         raw -> score, level, anti-flap state machine
 collector/receipts.mjs       hash-chained receipt writer
 collector/posts.mjs          index state -> post text variants
+collector/visitors.mjs       page-view ledger, hourly Slack report, alert text
 collector/card.mjs           index state -> share-card SVG
 site/build.mjs               data/ -> public/  (static site generator)
 site/templates/*.mjs         page templates, each exporting render(ctx)

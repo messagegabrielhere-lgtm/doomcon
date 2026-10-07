@@ -6,6 +6,7 @@
 //
 // The full instrument panel this replaced still builds, at /classic.html.
 import { esc, num } from './_html.mjs';
+import { injectBeacon } from '../../collector/visitors.mjs';
 
 import { blocks, pixelText, icon } from './_pixel.mjs';
 import { sponsorLine, newsletterBox, tipLink, MZ_CSS } from '../monetize.mjs';
@@ -322,13 +323,13 @@ ${nav.palette}${nav.tabbar}
 <script>${WAR_JS}</script>
 <script>(function(){var el=document.getElementById('v2-clock');if(!el)return;function p(n){return(n<10?'0':'')+n}function t(){var d=new Date();el.textContent=d.getUTCFullYear()+'-'+p(d.getUTCMonth()+1)+'-'+p(d.getUTCDate())+' '+p(d.getUTCHours())+':'+p(d.getUTCMinutes())+':'+p(d.getUTCSeconds())+'Z'}t();setInterval(t,1000)})();</script>`;
 
-  return `<!doctype html>
+  return injectBeacon(`<!doctype html>
 <html lang="en">
 ${head.replace('</head>', `<style>${CSS}</style>${MZ_CSS}\n</head>`)}
 <body class="v2-body"><a class="v2-skip" href="#signal">Skip to the reading</a>${body}
 <script src="${href('/media/radio.js')}" defer></script>
 </body>
-</html>`;
+</html>`);
 }
 
 const CSS = `

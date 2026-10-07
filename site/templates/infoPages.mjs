@@ -73,11 +73,11 @@ export function privacy(ctx) {
 <section class="inf">
   <p class="eyebrow">Privacy</p>
   <div class="inf__top"><h1 class="bp__h1">What this site knows about you</h1></div>
-  <p class="lede">Very little, and nothing it keeps. This page lists every way a visit can leave a trace.</p>
+  <p class="lede">Very little. This page lists every way a visit can leave a trace.</p>
   <h2>What the site itself does</h2>
   <ul>
     <li><b>No cookies.</b> The site sets none.</li>
-    <li><b>No analytics.</b> There is no tracking script, pixel or visitor counter. Nobody here knows you visited.</li>
+    <li><b>Page views, and nothing else.</b> Each page except the embed and the badge sends the path of that page, once an hour per tab, to a counter. There is no advertising pixel and no session replay. The operator gets the totals in Slack once an hour. The counter address is in the page source, so the number counts requests, not people.</li>
     <li><b>No accounts.</b> There is nothing to sign up for. The <a href="${esc(ctx.href('/feedback.html'))}">feedback form</a> stores and sends nothing itself: it opens a pre-filled, <b>public</b> issue on GitHub that you choose whether to submit, under GitHub's privacy policy.</li>
     <li><b>Browser storage.</b> A few preferences are kept in your own browser's local storage: the last reading you saw, your
       language choice, your best score in the game, and the panel settings on the live monitor and scanner pages. They never
@@ -86,13 +86,14 @@ export function privacy(ctx) {
   <h2>Third parties a visit touches</h2>
   <ul>
     <li><b>GitHub Pages</b> hosts the site, so GitHub's servers receive your IP address and browser details, as any web host does.</li>
+    <li><b>The page-view counter</b> is ntfy.sh. The request carries the page path and nothing the site added about you. ntfy.sh still sees your IP address and browser details, because that is how a request works. The site reads back only the path and the time. A flag in this browser tab (session storage, not a cookie) remembers that the page was already counted this hour, so a refresh is not a second count. The flag never leaves the tab. The embed and the badge do not send this request.</li>
     <li><b>Fonts</b> are served from this site. No font request goes to Google or any other third party.</li>
     <li><b>Live data pages.</b> Three hand-built pages fetch public data straight from your browser, so those providers receive
       your IP address and browser details when you open them, under their own policies:
       the <b>world monitor</b> (USGS, NASA EONET, GDACS, GDELT, ADSB.lol (regional counts only), OKX, alternative.me),
       the <b>scanner</b> (OKX, Polymarket, DEX Screener, alternative.me), and the <b>stock picks and AI battle</b> page.
       All three also read this project's own data files from GitHub (raw.githubusercontent.com).
-      Every other page loads only files from this site, except the one below.</li>
+      Every other page loads its content from this site, plus the page-view count above. The clips page, below, also loads images from YouTube.</li>
     <li><b>Real Clips.</b> The clips page shows video thumbnails served by YouTube (i.ytimg.com), so Google receives your IP
       address when the page loads. Playing a clip opens YouTube's privacy-enhanced player (youtube-nocookie.com), which sets
       no tracking cookies until you play, under Google's policy. The link checker looks up the link you paste through
@@ -116,7 +117,7 @@ ${mzOn.newsletter() ? `<li><b>Email newsletter.</b> If you subscribe, your email
   return page({
     ctx, path: '/privacy.html',
     title: `Privacy · ${brand.NAME}`,
-    description: `${brand.NAME} sets no cookies and runs no analytics. What a visit touches: GitHub Pages and the sites you choose to click through to.`,
+    description: `${brand.NAME} sets no cookies. It counts which pages were opened and nothing else. A visit touches GitHub Pages, the page-view counter, and the sites you choose to click through to.`,
     main,
   });
 }

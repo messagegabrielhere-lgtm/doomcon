@@ -1,0 +1,116 @@
+# Operator Slack: one hourly report, and an alert when collect itself fails.
+#
+# THE HOURLY REPORT. Page views land on a public ntfy.sh topic from the beacon
+# in site/templates/layout.mjs (path only, once per tab per hour, not on the
+# embed or the badge). This job polls that topic, rolls the paths into hour
+# buckets on the visits-data branch, reads the live index, and posts one Slack
+# message: last hour's views, today's total, the top pages, and whether the
+# index is degraded. A level change or a pillar going dark is an extra line in
+# that message. A pillar that stays dark is repeated in the digest, not paged
+# as a new incident every hour.
+#
+# visits-data is one orphan commit, force-pushed, same shape as monitor-data.
+# It never touches main. ntfy keeps a message for about twelve hours, so a few
+# skipped Actions runs still land in the next poll; a gap longer than that
+# loses the views, not the index alert.
+#
+# THE FAILURE ALERT. workflow_run on collect posts immediately when that
+# workflow's conclusion is failure. A cancelled run is not an alert: the
+# concurrency group drops queued runs on purpose.
+#
+# WITHOUT SLACK_WEBHOOK_URL both jobs log the text and exit 0. Add the secret
+# under Settings -> Secrets and variables -> Actions. It is an incoming webhook
+# URL. The job never prints it.
+
+name: slack-alerts
+
+on:
+  schedule:
+    - cron: '11 * * * *'
+  workflow_dispatch:
+  workflow_run:
+    workflows: ["collect"]
+    types: [completed]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: slack-alerts
+  cancel-in-progress: false
+
+jobs:
+  hourly:
+    if: github.event_name != 'workflow_run'
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            collector
+            site/brand.mjs
+          sparse-checkout-cone-mode: false
+          fetch-depth: 1
+
+      - name: Set up Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Load the visit ledger
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          git clone -q --depth 1 --branch visits-data "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git" "$RUNNER_TEMP/visits" \
+            || mkdir -p "$RUNNER_TEMP/visits"
+          rm -rf "$RUNNER_TEMP/visits/.git"
+
+      - name: Build the report
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          REPORT_FORCE: ${{ github.event_name == 'workflow_dispatch' && '1' || '0' }}
+        run: node collector/visitors.mjs --ledger "$RUNNER_TEMP/visits/visits.json"
+
+      - name: Publish the ledger
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          cd "$RUNNER_TEMP/visits"
+          git init -q -b visits-data
+          git config user.name "github-actions[bot]"
+          git config user.email "41898699+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --quiet && { echo 'ledger unchanged'; exit 0; }
+          git commit -q -m "Visit ledger $(date -u +%Y-%m-%dT%H:%MZ)"
+          git push -q -f "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git" visits-data
+
+  collect-failed:
+    if: github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'failure'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            collector
+            site/brand.mjs
+          sparse-checkout-cone-mode: false
+          fetch-depth: 1
+
+      - name: Set up Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Alert
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          WORKFLOW_NAME: ${{ github.event.workflow_run.name }}
+          WORKFLOW_CONCLUSION: ${{ github.event.workflow_run.conclusion }}
+          WORKFLOW_URL: ${{ github.event.workflow_run.html_url }}
+        run: node collector/visitors.mjs --workflow-failure

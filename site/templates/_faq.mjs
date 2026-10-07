@@ -24,7 +24,7 @@ export function items(ctx) {
     ['Can I check the number myself?',
       `Yes. Each reading ships with a receipt holding its inputs, its score and the hash of the receipt before it, and the state, history and receipts are open JSON. If a source did not report, the page says so and no value is filled in for it.`],
     ['Who runs SIREN, and how is it paid for?',
-      `One person runs it. It is free, carries no advertising, sets no cookies and runs no analytics. The paid links are the Amazon links on the reading list and in the Bunker Kit's supplies crate, which are labelled; there is room for one named sponsor with no say over the number, and a donate link to the project's X account.`],
+      `One person runs it. It is free, carries no advertising and sets no cookies. It counts which pages were opened, and nothing else: no account and no advertising profile. The paid links are the Amazon links on the reading list and in the Bunker Kit's supplies crate, which are labelled; there is room for one named sponsor with no say over the number, and a donate link to the project's X account.`],
     ['How can I cite, embed or share it?',
       `The site's text and data are licensed ${brand.LICENSE}. There is an iframe embed and a README badge on the home page, a public JSON API, two RSS feeds, and a "Post on X" link on every card.`],
     ['Who is Tally?',

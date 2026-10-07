@@ -41,6 +41,7 @@ import { pixelText, icon, roomArt } from './_pixel.mjs';
 import * as brand from '../brand.mjs';
 import { MONETIZE, on as mzOn } from '../monetize.mjs';
 import * as marks from '../brandmarks.mjs';
+import { beaconScript } from '../../collector/visitors.mjs';
 
 /**
  * The publication. Order is the nav order and the footer order, so a reader who
@@ -829,7 +830,7 @@ const PAL_EXTRA = [
   { href: '/ai-doomsday-clock.html', label: 'AI doomsday clock', blurb: 'What exists, and the one you can verify.' },
   { href: '/moves/', label: 'Every reading', blurb: 'The full record, each with its receipt.' },
   { href: '/sponsor.html', label: 'Sponsor', blurb: 'One named sponsor at a time.' },
-  { href: '/privacy.html', label: 'Privacy', blurb: 'No cookies, no analytics.' },
+  { href: '/privacy.html', label: 'Privacy', blurb: 'No cookies. Page views are counted, nothing else.' },
   { href: '/terms.html', label: 'Terms & disclaimers', blurb: 'Information, not advice. No warranty.' },
 ];
 const TAB_ROOMS = [['/', 'War room'], ['/news.html', 'News'], ['/race.html', 'Race'], ['/world.html', 'World']];
@@ -1263,6 +1264,7 @@ ${kit.next}
 ${footer(ctx, sections, o.path)}${kit.palette}${kit.tabbar}${bodyEndExtra}
 <script>${CHROME_JS}</script>
 <script>${NAV_KIT_JS}</script>
+<script>${beaconScript({ basePath: brand.BASE_PATH })}</script>
 </body>
 </html>
 `;
@@ -1476,7 +1478,7 @@ function footer(ctx, sections, path) {
     { href: '/sponsor.html', label: 'Sponsor', blurb: 'One labelled sponsor at a time, with no say over the number.' },
     { href: '/brand.html', label: 'Brand', blurb: 'Name, colours, type, voice and Tally to download.' },
     { href: '/press.html', label: 'Press kit', blurb: 'Facts, a paragraph to lift, images and a contact.' },
-    { href: '/privacy.html', label: 'Privacy', blurb: 'No cookies, no analytics. Every trace a visit can leave.' },
+    { href: '/privacy.html', label: 'Privacy', blurb: 'No cookies. Page views are counted, and every other trace a visit can leave.' },
     { href: '/terms.html', label: 'Terms & disclaimers', blurb: 'Information and commentary, not advice. No warranty, no liability.' },
     { href: brand.REPO_URL, label: 'Source code', blurb: `Every line that produced these numbers. ${brand.LICENSE}.` },
   ];

@@ -8,6 +8,7 @@
 // which belongs to the collector.
 
 import { stampAll } from './sitebar.mjs';
+import { injectBeacon } from '../collector/visitors.mjs';
 import { readFile, writeFile, mkdir, readdir, copyFile, rm } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import path from 'node:path';
@@ -1204,7 +1205,7 @@ async function main() {
         await writeFile(path.join(staticDir, name), src);
       }
       const raw = await inlineModules(src);
-      written.push(await write(args.out, name, prerenderStatic(injectAffiliates(raw), name, ctx)));
+      written.push(await write(args.out, name, injectBeacon(prerenderStatic(injectAffiliates(raw), name, ctx))));
     }
   }
   written.push(await write(args.out, 'moves/index.html', movesIndexPage.render(ctx)));

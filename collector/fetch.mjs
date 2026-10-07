@@ -115,19 +115,23 @@ function hostGate(url) {
   return next;
 }
 
-async function attemptOnce(url, { method, headers, timeoutMs }) {
+async function attemptOnce(url, { method, headers, timeoutMs, body: requestBody }) {
   // Wait our turn on hosts that ask us to. Costs seconds; saves a source.
   await hostGate(url);
   let res;
   try {
-    res = await fetch(url, {
+    const init = {
       method,
       redirect: 'follow',
       headers: { 'user-agent': USER_AGENT, ...headers },
       // AbortSignal.timeout covers the whole request, including a server that
       // accepts the connection and then dribbles bytes forever.
       signal: AbortSignal.timeout(timeoutMs),
-    });
+    };
+    // Omit body on GET. Passing `body: undefined` is harmless in Node, but a
+    // caller who set retries: 0 for a one-shot POST needs the bytes to leave.
+    if (requestBody != null) init.body = requestBody;
+    res = await fetch(url, init);
   } catch (cause) {
     // Node raises TimeoutError for AbortSignal.timeout and AbortError for an
     // external abort; both mean "we never got an answer", which is retryable.
@@ -195,6 +199,7 @@ function normaliseOpts(opts = {}) {
     headers: opts.headers ?? {},
     timeoutMs: opts.timeoutMs ?? DEFAULT_TIMEOUT_MS,
     retries: opts.retries,
+    body: opts.body,
   };
 }
 

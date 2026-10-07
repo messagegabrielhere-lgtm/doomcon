@@ -89,7 +89,7 @@ export function sponsor(ctx) {
 <section class="shp">
   <p class="eyebrow">Sponsorship</p>
   <div class="shp__top">${mascot({ size: 76, level: level(ctx) })}<h1 class="bp__h1">Sponsor the index</h1></div>
-  <p class="lede">${esc(brand.NAME)} has no advertising network, no tracking and no investors. It has room for one named sponsor at a time, shown plainly, with no say over the number.</p>
+  <p class="lede">${esc(brand.NAME)} has no advertising network and no investors. It has room for one named sponsor at a time, shown plainly, with no say over the number.</p>
   <h2>What a sponsor gets</h2>
   <ul>
     <li><b>One line, everywhere.</b> “Supported by [name]” with a link, in the masthead and footer of every page.</li>
@@ -100,7 +100,7 @@ export function sponsor(ctx) {
   <h2>What a sponsor does not get</h2>
   <ul>
     <li><b>No influence on the number.</b> The level comes from a published formula over public data, and every reading has a receipt anyone can verify. A sponsor cannot move it and neither can the operator.</li>
-    <li><b>No tracking.</b> No pixels, no scripts, no visitor data. The site collects none to share.</li>
+    <li><b>No visitor data for a sponsor.</b> The site counts which pages were opened and reports the totals to the operator. A sponsor does not receive that count, and there is no advertising pixel.</li>
     <li><b>No editorial say.</b> Not over the jobs and medicine pages, the registers, or what the X account posts.</li>
     <li><b>No disguise.</b> The sponsorship is labelled as one wherever it appears.</li>
   </ul>
@@ -113,7 +113,7 @@ export function sponsor(ctx) {
   return page({
     ctx, path: '/sponsor.html',
     title: `Sponsor ${brand.NAME}: one named sponsor, no say over the number`,
-    description: `${brand.NAME} takes one labelled sponsor at a time. What a sponsor gets, and what it does not: no influence on the index, no tracking, no editorial say.`,
+    description: `${brand.NAME} takes one labelled sponsor at a time. What a sponsor gets, and what it does not: no influence on the index, no visitor data, no editorial say.`,
     main,
   });
 }
