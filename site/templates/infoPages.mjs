@@ -83,7 +83,7 @@ export function privacy(ctx) {
   <h2>Third parties a visit touches</h2>
   <ul>
     <li><b>GitHub Pages</b> hosts the site, so GitHub's servers receive your IP address and browser details, as any web host does.</li>
-    <li><b>Google Fonts</b> serves the typefaces, so Google receives the same when a page loads.</li>
+    <li><b>Fonts</b> are served from this site. No font request goes to Google or any other third party.</li>
     <li><b>Links out.</b> Clicking a link to X, Amazon, a news source or a data source takes you to that site under its own
       policy. The "Post on X" links pass only the text of the card and this site's address.</li>
     <li><b>Amazon paid links.</b> The reading list and the supplies crate in the Bunker Kit use Amazon Associates links. If you follow one, Amazon
@@ -97,7 +97,7 @@ export function privacy(ctx) {
   return page({
     ctx, path: '/privacy.html',
     title: `Privacy · ${brand.NAME}`,
-    description: `${brand.NAME} sets no cookies and runs no analytics. What a visit touches: GitHub Pages, Google Fonts, and the sites you choose to click through to.`,
+    description: `${brand.NAME} sets no cookies and runs no analytics. What a visit touches: GitHub Pages and the sites you choose to click through to.`,
     main,
   });
 }

@@ -1,36 +1,36 @@
 {
   "schema": 1,
   "engine_version": "1.0.0",
-  "generated_at": "2026-10-06T01:23:58.891Z",
+  "generated_at": "2026-10-07T20:18:07.201Z",
   "index": {
     "name": "SUBSTRATE",
     "question": "How loaded is the physical substrate the models are being built on?",
     "feeds_main_index": false
   },
-  "score": 54.2,
+  "score": 54,
   "level": 4,
   "level_name": "STEADY",
   "level_gloss": "Ordinary. This is where most observations sit.",
   "previous_level": 4,
   "level_since": "2026-09-24T03:20:33.302Z",
-  "rule_fired": "deadband: 54.2 within 3 of 85",
-  "raw_level": 1,
+  "rule_fired": "none",
+  "raw_level": 4,
   "last_known": {
     "level": 4,
     "level_name": "STEADY",
     "level_since": "2026-09-24T03:20:33.302Z",
-    "score": 54.2,
-    "generated_at": "2026-10-06T01:23:58.891Z"
+    "score": 54,
+    "generated_at": "2026-10-07T20:18:07.201Z"
   },
-  "degraded": false,
+  "degraded": true,
   "dark_pillars": [],
   "awaiting_pillars": [
     "grid"
   ],
   "counts": {
     "live": 3,
-    "awaiting_baseline": 6,
-    "dark": 0,
+    "awaiting_baseline": 4,
+    "dark": 2,
     "total": 9
   },
   "levels": [
@@ -87,7 +87,7 @@
       "id": "water",
       "name": "The water",
       "blurb": "The state of the rivers and the ground the clusters were built beside.",
-      "score": 51.9,
+      "score": 51.7,
       "state": "live",
       "dark": false,
       "sources_live": 2,
@@ -99,12 +99,12 @@
       "id": "buildout",
       "name": "The build-out",
       "blurb": "What companies had to write down, and what the government had to publish.",
-      "score": 55.5,
+      "score": 55.3,
       "state": "live",
       "dark": false,
       "sources_live": 1,
-      "sources_awaiting": 2,
-      "sources_dark": 0,
+      "sources_awaiting": 0,
+      "sources_dark": 2,
       "sources_total": 3
     }
   ],
@@ -119,31 +119,31 @@
       "cadence": "daily, settles at 06:00 Pacific",
       "direction": "higher = more load that never switches off",
       "state": "awaiting-baseline",
-      "value": 24934,
+      "value": 25440,
       "score": null,
       "percentile": null,
-      "baseline_n": 12,
+      "baseline_n": 14,
       "baseline_origin": "accumulated",
       "baseline_source": null,
       "baseline_span": null,
-      "baseline_note": "12 of 30 points needed before this source can be scored",
-      "observed_at": "2026-10-06T01:23:59.107Z",
+      "baseline_note": "14 of 30 points needed before this source can be scored",
+      "observed_at": "2026-10-07T20:18:07.615Z",
       "error": null,
       "meta": {
-        "baseline_day": "2026-10-05",
-        "local_day_derived": "2026-10-05",
+        "baseline_day": "2026-10-07",
+        "local_day_derived": "2026-10-07",
         "floor_at_local": "04:00 PT",
-        "floor_local_naive_iso": "2026-10-05T04:00:00",
+        "floor_local_naive_iso": "2026-10-07T04:00:00",
         "window_local": "00:00–06:00 PT",
         "intervals_used": 72,
         "intervals_expected": 72,
         "blank_intervals": 1,
-        "window_high_mw": 30038,
-        "window_range_mw": 5104,
+        "window_high_mw": 31053,
+        "window_range_mw": 5613,
         "direction": "higher = more always-on load",
         "source_note": "CAISO publishes the current Pacific day only and carries no offset in the file; the calendar day is derived from the run clock and observed_at is the run instant"
       },
-      "ms": 199
+      "ms": 397
     },
     {
       "id": "ercot-baseload",
@@ -155,34 +155,34 @@
       "cadence": "daily, settles at 06:00 Central",
       "direction": "higher = more load that never switches off",
       "state": "awaiting-baseline",
-      "value": 46135.2,
+      "value": 42916.1,
       "score": null,
       "percentile": null,
-      "baseline_n": 13,
+      "baseline_n": 15,
       "baseline_origin": "accumulated",
       "baseline_source": null,
       "baseline_span": null,
-      "baseline_note": "13 of 30 points needed before this source can be scored",
-      "observed_at": "2026-10-05T08:55:00.000Z",
+      "baseline_note": "15 of 30 points needed before this source can be scored",
+      "observed_at": "2026-10-07T08:15:00.000Z",
       "error": null,
       "meta": {
-        "local_day": "2026-10-05",
+        "local_day": "2026-10-07",
         "window_local": "00:00–06:00 CT",
         "intervals_used": 72,
         "intervals_expected": 72,
         "fuel_categories": 10,
-        "floor_at_local": "2026-10-05 03:55:00-0500",
-        "window_high_mw": 52729.1,
-        "window_range_mw": 6593.9,
+        "floor_at_local": "2026-10-07 03:15:00-0500",
+        "window_high_mw": 52215.1,
+        "window_range_mw": 9299,
         "days_available": [
-          "2026-10-05",
-          "2026-10-04"
+          "2026-10-07",
+          "2026-10-06"
         ],
-        "feed_last_updated": "2026-10-05 20:21:00-0500",
+        "feed_last_updated": "2026-10-07 15:16:00-0500",
         "direction": "higher = more always-on load",
         "source_note": "net generation summed across all fuel categories, five-minute resolution; Power Storage is negative while batteries charge and that sign is kept"
       },
-      "ms": 303
+      "ms": 186
     },
     {
       "id": "ercot-tightness",
@@ -194,32 +194,32 @@
       "cadence": "every 5 minutes",
       "direction": "higher = less slack between load and the committed fleet",
       "state": "awaiting-baseline",
-      "value": 83.266,
+      "value": 73.797,
       "score": null,
       "percentile": null,
-      "baseline_n": 13,
+      "baseline_n": 14,
       "baseline_origin": "accumulated",
       "baseline_source": null,
       "baseline_span": null,
-      "baseline_note": "13 of 30 points needed before this source can be scored",
-      "observed_at": "2026-10-06T01:20:00.000Z",
+      "baseline_note": "14 of 30 points needed before this source can be scored",
+      "observed_at": "2026-10-07T20:15:00.000Z",
       "error": null,
       "meta": {
-        "demand_mw": 62780,
-        "committed_capacity_mw": 75397,
-        "headroom_mw": 12617,
-        "interval_local": "2026-10-05 20:20:00-0500",
-        "intervals_today": 245,
+        "demand_mw": 71233,
+        "committed_capacity_mw": 96526,
+        "headroom_mw": 25293,
+        "interval_local": "2026-10-07 15:15:00-0500",
+        "intervals_today": 184,
         "intervals_in_feed": 289,
-        "intervals_dropped_forecast": 44,
-        "today_high_pct": 85.98,
-        "today_low_pct": 64.733,
-        "feed_last_updated": "2026-10-05 20:20:00-0500",
+        "intervals_dropped_forecast": 105,
+        "today_high_pct": 73.797,
+        "today_low_pct": 61.488,
+        "feed_last_updated": "2026-10-07 15:15:00-0500",
         "prc": {
-          "current_mw": 8402,
-          "day_low_mw": 8402,
-          "day_low_at_local": "2026-10-05 20:23:45-0500",
-          "samples": 7343,
+          "current_mw": 18319,
+          "day_low_mw": 10366,
+          "day_low_at_local": "2026-10-07 00:04:45-0500",
+          "samples": 5506,
           "ercot_state": "normal",
           "ercot_title": "Normal Conditions",
           "ercot_note": "There is enough power for current demand.",
@@ -228,7 +228,7 @@
         "direction": "higher = tighter",
         "source_note": "capacity is COMMITTED capacity, which follows expected load, so this ratio understates the swing in physical margin; PRC is enrichment and never scored; rows ERCOT flags as forecast, and any row stamped after the run clock, are dropped before the ratio and the day high and low are computed"
       },
-      "ms": 319
+      "ms": 221
     },
     {
       "id": "nyiso-baseload",
@@ -240,31 +240,31 @@
       "cadence": "daily, settles at 06:00 Eastern",
       "direction": "higher = more load that never switches off",
       "state": "awaiting-baseline",
-      "value": 12310.4,
+      "value": 12504.6,
       "score": null,
       "percentile": null,
-      "baseline_n": 13,
+      "baseline_n": 15,
       "baseline_origin": "accumulated",
       "baseline_source": null,
       "baseline_span": null,
-      "baseline_note": "13 of 30 points needed before this source can be scored",
-      "observed_at": "2026-10-05T07:45:00.000Z",
+      "baseline_note": "15 of 30 points needed before this source can be scored",
+      "observed_at": "2026-10-07T07:45:00.000Z",
       "error": null,
       "meta": {
-        "local_day": "2026-10-05",
+        "local_day": "2026-10-07",
         "window_local": "00:00–06:00 ET",
         "intervals_used": 72,
         "intervals_expected": 72,
         "intervals_dropped_incomplete": 0,
         "blank_load_cells": 0,
         "zones": 11,
-        "floor_at_local": "10/05/2026 03:45:00",
+        "floor_at_local": "10/07/2026 03:45:00",
         "time_zone": "EDT",
         "attempts": [],
         "direction": "higher = more always-on load",
         "source_note": "statewide sum of all eleven NYISO load zones; a timestamp missing any zone is discarded rather than summed short"
       },
-      "ms": 798
+      "ms": 539
     },
     {
       "id": "usdm-drought",
@@ -418,7 +418,7 @@
         "direction": "higher = drier",
         "source_note": "US Drought Monitor, produced weekly by NDMC, USDA and NOAA; an expert assessment, not an instrument reading, and averaged here without area or population weighting"
       },
-      "ms": 1173,
+      "ms": 1210,
       "z": 0.045481,
       "baseline_min": 1.539,
       "baseline_median": 19.049,
@@ -434,18 +434,18 @@
       "cadence": "daily, one day in arrears",
       "direction": "higher = less water in the rivers these clusters draw on",
       "state": "live",
-      "value": 14.63,
-      "score": 53.2,
-      "percentile": 0.6005,
-      "baseline_n": 1094,
+      "value": 14.12,
+      "score": 52.7,
+      "percentile": 0.5869,
+      "baseline_n": 1095,
       "baseline_origin": "feed",
       "baseline_source": "the same nine-gauge median recomputed for every earlier day in the window",
-      "baseline_span": "2023-10-06 to 2026-10-03",
+      "baseline_span": "2023-10-07 to 2026-10-05",
       "baseline_note": "3 years of USGS daily values; the current reading is excluded",
-      "observed_at": "2026-10-04T12:00:00.000Z",
+      "observed_at": "2026-10-06T12:00:00.000Z",
       "error": null,
       "meta": {
-        "reading_day": "2026-10-04",
+        "reading_day": "2026-10-06",
         "gauges_reporting": 9,
         "gauges_total": 9,
         "gauges_missing": [],
@@ -456,10 +456,10 @@
             "state": "TX",
             "cluster": "Austin–San Antonio",
             "note": "central Texas build-out; ERCOT South",
-            "flow_cfs": 357,
-            "normal_cfs": 797,
-            "percent_of_normal": 44.8,
-            "deficit_pct": 55.2,
+            "flow_cfs": 277,
+            "normal_cfs": 681,
+            "percent_of_normal": 40.7,
+            "deficit_pct": 59.3,
             "record_years": "1899–2026"
           },
           {
@@ -468,10 +468,10 @@
             "state": "TX",
             "cluster": "Dallas–Fort Worth",
             "note": "ERCOT North; the densest Texas cluster",
-            "flow_cfs": 2280,
-            "normal_cfs": 358,
-            "percent_of_normal": 636.9,
-            "deficit_pct": -536.9,
+            "flow_cfs": 1290,
+            "normal_cfs": 366,
+            "percent_of_normal": 352.5,
+            "deficit_pct": -252.5,
             "record_years": "1914–2026"
           },
           {
@@ -480,10 +480,10 @@
             "state": "VA",
             "cluster": "Loudoun County",
             "note": "Data Center Alley itself; a small local stream",
-            "flow_cfs": 64.6,
-            "normal_cfs": 39,
-            "percent_of_normal": 165.6,
-            "deficit_pct": -65.6,
+            "flow_cfs": 65.7,
+            "normal_cfs": 40,
+            "percent_of_normal": 164.3,
+            "deficit_pct": -64.2,
             "record_years": "1910–2025"
           },
           {
@@ -492,10 +492,10 @@
             "state": "MD",
             "cluster": "Northern Virginia",
             "note": "the regional supply gauge for the DC metro",
-            "flow_cfs": 2100,
-            "normal_cfs": 2460,
-            "percent_of_normal": 85.4,
-            "deficit_pct": 14.6,
+            "flow_cfs": 1700,
+            "normal_cfs": 2390,
+            "percent_of_normal": 71.1,
+            "deficit_pct": 28.9,
             "record_years": "1931–2026"
           },
           {
@@ -504,10 +504,10 @@
             "state": "OH",
             "cluster": "Central Ohio",
             "note": "New Albany and the Columbus corridor",
-            "flow_cfs": 477,
-            "normal_cfs": 159,
-            "percent_of_normal": 300,
-            "deficit_pct": -200,
+            "flow_cfs": 385,
+            "normal_cfs": 168,
+            "percent_of_normal": 229.2,
+            "deficit_pct": -129.2,
             "record_years": "1921–2026"
           },
           {
@@ -516,10 +516,10 @@
             "state": "NE",
             "cluster": "Council Bluffs–Omaha",
             "note": "the Iowa–Nebraska river cluster",
-            "flow_cfs": 31500,
-            "normal_cfs": 35100,
-            "percent_of_normal": 89.7,
-            "deficit_pct": 10.3,
+            "flow_cfs": 29800,
+            "normal_cfs": 34700,
+            "percent_of_normal": 85.9,
+            "deficit_pct": 14.1,
             "record_years": "1953–2026"
           },
           {
@@ -528,10 +528,10 @@
             "state": "GA",
             "cluster": "Atlanta metro",
             "note": "metro Atlanta water supply",
-            "flow_cfs": 971,
-            "normal_cfs": 1510,
-            "percent_of_normal": 64.3,
-            "deficit_pct": 35.7,
+            "flow_cfs": 1310,
+            "normal_cfs": 1430,
+            "percent_of_normal": 91.6,
+            "deficit_pct": 8.4,
             "record_years": "1957–2026"
           },
           {
@@ -540,10 +540,10 @@
             "state": "AZ",
             "cluster": "Phoenix metro",
             "note": "the accounting point for Lower Basin deliveries, which is how Central Arizona Project water reaches Phoenix; it is 300 miles upstream of the datacentres and is a supply gauge, not a local one",
-            "flow_cfs": 6580,
-            "normal_cfs": 8230,
-            "percent_of_normal": 80,
-            "deficit_pct": 20,
+            "flow_cfs": 6630,
+            "normal_cfs": 8340,
+            "percent_of_normal": 79.5,
+            "deficit_pct": 20.5,
             "record_years": "1922–2026"
           },
           {
@@ -552,28 +552,28 @@
             "state": "OR",
             "cluster": "The Dalles",
             "note": "the Oregon cluster sits on this river",
-            "flow_cfs": 80900,
-            "normal_cfs": 100000,
-            "percent_of_normal": 80.9,
-            "deficit_pct": 19.1,
+            "flow_cfs": 85000,
+            "normal_cfs": 99900,
+            "percent_of_normal": 85.1,
+            "deficit_pct": 14.9,
             "record_years": "1879–2025"
           }
         ],
-        "median_deficit_pct": 14.63,
-        "mean_deficit_pct": -71.95,
+        "median_deficit_pct": 14.12,
+        "mean_deficit_pct": -33.31,
         "aggregator": "median across gauges; the mean is reported but never scored",
         "driest": "Colorado Rv at Austin",
         "wettest": "Trinity Rv at Dallas",
-        "baseline_days": 1094,
+        "baseline_days": 1095,
         "no_data_points_dropped": 5,
         "lag_note": "USGS daily values settle the following morning, so this reads one day behind",
         "direction": "higher = drier",
         "source_note": "denominator is the USGS published median for that gauge on that day of the year, over the gauge’s full period of record; it is not computed by this project"
       },
-      "ms": 925,
-      "z": 0.254688,
+      "ms": 731,
+      "z": 0.219496,
       "baseline_min": -139.437,
-      "baseline_median": 11.19,
+      "baseline_median": 11.229,
       "baseline_max": 57.167
     },
     {
@@ -587,21 +587,21 @@
       "direction": "higher = more federal paperwork touching datacentres",
       "state": "live",
       "value": 157,
-      "score": 55.5,
-      "percentile": 0.67,
+      "score": 55.3,
+      "percentile": 0.664,
       "baseline_n": 235,
       "baseline_origin": "feed",
       "baseline_source": "the same 180-day rolling count taken at weekly anchors across the fetched corpus",
-      "baseline_span": "2022-04-04 to 2026-09-29",
+      "baseline_span": "2022-04-05 to 2026-09-30",
       "baseline_note": "windows overlap, so these points are strongly autocorrelated and the effective sample size is much smaller than the count",
-      "observed_at": "2026-10-06T01:23:58.918Z",
+      "observed_at": "2026-10-07T20:18:07.228Z",
       "error": null,
       "meta": {
         "term": "data center",
         "window_days": 180,
-        "window_start": "2026-04-09",
-        "window_end": "2026-10-06",
-        "corpus_since": "2021-10-06",
+        "window_start": "2026-04-10",
+        "window_end": "2026-10-07",
+        "corpus_since": "2021-10-07",
         "corpus_documents": 1494,
         "corpus_reported_count": 1494,
         "pages_fetched": 2,
@@ -609,73 +609,57 @@
         "direction": "higher = more federal documents mention datacentres",
         "source_note": "the noisiest source in this index: \"data center\" also matches the National Climatic Data Center, federal facility consolidation notices and every agency building with the words in its name"
       },
-      "ms": 1474,
-      "z": 0.439913,
-      "baseline_min": 94,
+      "ms": 1589,
+      "z": 0.423536,
+      "baseline_min": 93,
       "baseline_median": 126,
-      "baseline_max": 262
+      "baseline_max": 258
     },
     {
       "id": "sec-datacenter",
       "pillar": "buildout",
       "label": "SEC filings saying \"data centers\"",
       "region": "US public companies",
-      "unit": "filings/30d",
+      "unit": null,
       "unit_label": "filings / 30d",
       "cadence": "continuous; EDGAR indexes on filing",
       "direction": "higher = more disclosed datacentre activity",
-      "state": "awaiting-baseline",
-      "value": 1622,
+      "state": "dark",
+      "value": null,
       "score": null,
       "percentile": null,
-      "baseline_n": 13,
-      "baseline_origin": "accumulated",
+      "baseline_n": 0,
+      "baseline_origin": null,
       "baseline_source": null,
       "baseline_span": null,
-      "baseline_note": "13 of 30 points needed before this source can be scored",
-      "observed_at": "2026-10-06T01:24:00.292Z",
-      "error": null,
-      "meta": {
-        "phrase": "data centers",
-        "window_days": 30,
-        "startdt": "2026-09-06",
-        "enddt": "2026-10-06",
-        "relation": "eq",
-        "direction": "higher = more filings mention datacentres",
-        "source_note": "efts.sec.gov full-text search; a count of matching filings, not of dollars, and it carries EDGAR’s own filing calendar — 10-K season lifts every phrase"
-      },
-      "ms": 1374
+      "baseline_note": null,
+      "observed_at": null,
+      "error": "HTTP 403 Forbidden from https://efts.sec.gov/LATEST/search-index?q=%22data+centers%22&dateRange=custom&startdt=2026-09-07&enddt=2026-10-07 — <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\"> <html xmlns=\"http://www.w3.org/1999/xhtml\"> <head> <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" /> <title>SEC.gov | Your Request Originates from an Undeclar…",
+      "meta": {},
+      "ms": 435
     },
     {
       "id": "sec-power-contracts",
       "pillar": "buildout",
       "label": "SEC filings saying \"power purchase agreement\"",
       "region": "US public companies",
-      "unit": "filings/90d",
+      "unit": null,
       "unit_label": "filings / 90d",
       "cadence": "continuous; EDGAR indexes on filing",
       "direction": "higher = more bulk electricity being contracted for",
-      "state": "awaiting-baseline",
-      "value": 304,
+      "state": "dark",
+      "value": null,
       "score": null,
       "percentile": null,
-      "baseline_n": 13,
-      "baseline_origin": "accumulated",
+      "baseline_n": 0,
+      "baseline_origin": null,
       "baseline_source": null,
       "baseline_span": null,
-      "baseline_note": "13 of 30 points needed before this source can be scored",
-      "observed_at": "2026-10-06T01:24:00.375Z",
-      "error": null,
-      "meta": {
-        "phrase": "power purchase agreement",
-        "window_days": 90,
-        "startdt": "2026-07-08",
-        "enddt": "2026-10-06",
-        "relation": "eq",
-        "direction": "higher = more bulk power contracted",
-        "source_note": "efts.sec.gov full-text search; PPAs are signed by every heavy industry, and nothing in a phrase count separates a datacentre’s from a smelter’s"
-      },
-      "ms": 1457
+      "baseline_note": null,
+      "observed_at": null,
+      "error": "HTTP 403 Forbidden from https://efts.sec.gov/LATEST/search-index?q=%22power+purchase+agreement%22&dateRange=custom&startdt=2026-07-09&enddt=2026-10-07 — <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\"> <html xmlns=\"http://www.w3.org/1999/xhtml\"> <head> <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" /> <title>SEC.gov | Your Request Originates from an Undeclar…",
+      "meta": {},
+      "ms": 436
     }
   ],
   "thresholds": {
@@ -1971,6 +1955,241 @@
       "generated_at": "2026-10-06T01:23:58.891Z",
       "score": 54.2,
       "level": 4
+    },
+    {
+      "generated_at": "2026-10-06T02:23:27.134Z",
+      "score": 54.2,
+      "level": 4
+    },
+    {
+      "generated_at": "2026-10-06T03:23:30.628Z",
+      "score": 54.2,
+      "level": 4
+    },
+    {
+      "generated_at": "2026-10-06T04:25:18.974Z",
+      "score": 54.2,
+      "level": 4
+    },
+    {
+      "generated_at": "2026-10-06T05:23:58.566Z",
+      "score": 54.2,
+      "level": 4
+    },
+    {
+      "generated_at": "2026-10-06T06:29:27.266Z",
+      "score": 54.2,
+      "level": 4
+    },
+    {
+      "generated_at": "2026-10-06T07:25:50.399Z",
+      "score": 54.2,
+      "level": 4
+    },
+    {
+      "generated_at": "2026-10-06T08:25:58.850Z",
+      "score": 54.3,
+      "level": 4
+    },
+    {
+      "generated_at": "2026-10-06T09:25:54.389Z",
+      "score": 54.4,
+      "level": 4
+    },
+    {
+      "generated_at": "2026-10-06T10:24:44.197Z",
+      "score": 54.5,
+      "level": 4
+    },
+    {
+      "generated_at": "2026-10-06T11:23:33.374Z",
+      "score": 54.5,
+      "level": 4
+    },
+    {
+      "generated_at": "2026-10-06T12:29:38.033Z",
+      "score": 54.5,
+      "level": 4
+    },
+    {
+      "generated_at": "2026-10-06T13:26:11.166Z",
+      "score": 54.5,
+      "level": 4
+    },
+    {
+      "generated_at": "2026-10-06T14:26:19.769Z",
+      "score": 54.5,
+      "level": 4
+    },
+    {
+      "generated_at": "2026-10-06T15:24:37.002Z",
+      "score": 54.5,
+      "level": 4
+    },
+    {
+      "generated_at": "2026-10-06T16:26:39.229Z",
+      "score": 54.5,
+      "level": 4
+    },
+    {
+      "generated_at": "2026-10-06T17:23:22.888Z",
+      "score": 54.5,
+      "level": 4
+    },
+    {
+      "generated_at": "2026-10-06T18:26:23.972Z",
+      "score": 54.5,
+      "level": 4
+    },
+    {
+      "generated_at": "2026-10-06T19:22:23.049Z",
+      "score": 54.5,
+      "level": 4
+    },
+    {
+      "generated_at": "2026-10-06T20:24:56.909Z",
+      "score": 54.5,
+      "level": 4
+    },
+    {
+      "generated_at": "2026-10-06T21:22:53.100Z",
+      "score": 54.5,
+      "level": 4
+    },
+    {
+      "generated_at": "2026-10-06T22:23:05.571Z",
+      "score": 54.5,
+      "level": 4
+    },
+    {
+      "generated_at": "2026-10-06T23:22:27.070Z",
+      "score": 54.5,
+      "level": 4
+    },
+    {
+      "generated_at": "2026-10-07T00:33:53.801Z",
+      "score": 54.2,
+      "level": 4
+    },
+    {
+      "generated_at": "2026-10-07T00:34:47.016Z",
+      "score": 54.2,
+      "level": 4
+    },
+    {
+      "generated_at": "2026-10-07T01:24:23.778Z",
+      "score": 54.2,
+      "level": 4
+    },
+    {
+      "generated_at": "2026-10-07T02:35:31.485Z",
+      "score": 54.2,
+      "level": 4
+    },
+    {
+      "generated_at": "2026-10-07T03:26:18.305Z",
+      "score": 54.2,
+      "level": 4
+    },
+    {
+      "generated_at": "2026-10-07T04:25:56.377Z",
+      "score": 54.2,
+      "level": 4
+    },
+    {
+      "generated_at": "2026-10-07T05:25:09.913Z",
+      "score": 54.2,
+      "level": 4
+    },
+    {
+      "generated_at": "2026-10-07T06:28:59.576Z",
+      "score": 54.2,
+      "level": 4
+    },
+    {
+      "generated_at": "2026-10-07T07:26:41.574Z",
+      "score": 53.7,
+      "level": 4
+    },
+    {
+      "generated_at": "2026-10-07T08:27:09.835Z",
+      "score": 53.1,
+      "level": 4
+    },
+    {
+      "generated_at": "2026-10-07T09:25:48.830Z",
+      "score": 53.6,
+      "level": 4
+    },
+    {
+      "generated_at": "2026-10-07T10:25:29.218Z",
+      "score": 54,
+      "level": 4
+    },
+    {
+      "generated_at": "2026-10-07T11:24:25.144Z",
+      "score": 54,
+      "level": 4
+    },
+    {
+      "generated_at": "2026-10-07T12:32:03.544Z",
+      "score": 54,
+      "level": 4
+    },
+    {
+      "generated_at": "2026-10-07T13:27:13.361Z",
+      "score": 54,
+      "level": 4
+    },
+    {
+      "generated_at": "2026-10-07T14:26:24.552Z",
+      "score": 54,
+      "level": 4
+    },
+    {
+      "generated_at": "2026-10-07T15:36:08.883Z",
+      "score": 54,
+      "level": 4
+    },
+    {
+      "generated_at": "2026-10-07T16:27:44.398Z",
+      "score": 54,
+      "level": 4
+    },
+    {
+      "generated_at": "2026-10-07T17:26:05.899Z",
+      "score": 54,
+      "level": 4
+    },
+    {
+      "generated_at": "2026-10-07T18:28:42.507Z",
+      "score": 54,
+      "level": 4
+    },
+    {
+      "generated_at": "2026-10-07T19:05:50.328Z",
+      "score": 54,
+      "level": 4
+    },
+    {
+      "generated_at": "2026-10-07T19:24:49.672Z",
+      "score": 54,
+      "level": 4
+    },
+    {
+      "generated_at": "2026-10-07T19:53:58.767Z",
+      "score": 54,
+      "level": 4
+    },
+    {
+      "generated_at": "2026-10-07T19:56:38.974Z",
+      "score": 53.7,
+      "level": 4
+    },
+    {
+      "generated_at": "2026-10-07T20:18:07.201Z",
+      "score": 54,
+      "level": 4
     }
   ],
   "baselines": {
@@ -2022,7 +2241,15 @@
         },
         {
           "d": "2026-10-05",
-          "v": 24934
+          "v": 24935
+        },
+        {
+          "d": "2026-10-06",
+          "v": 25834
+        },
+        {
+          "d": "2026-10-07",
+          "v": 25440
         }
       ]
     },
@@ -2079,6 +2306,14 @@
         {
           "d": "2026-10-05",
           "v": 46135.2
+        },
+        {
+          "d": "2026-10-06",
+          "v": 43874.4
+        },
+        {
+          "d": "2026-10-07",
+          "v": 42916.1
         }
       ]
     },
@@ -2134,7 +2369,11 @@
         },
         {
           "d": "2026-10-06",
-          "v": 83.266
+          "v": 82.508
+        },
+        {
+          "d": "2026-10-07",
+          "v": 73.797
         }
       ]
     },
@@ -2191,6 +2430,14 @@
         {
           "d": "2026-10-05",
           "v": 12310.4
+        },
+        {
+          "d": "2026-10-06",
+          "v": 12360.7
+        },
+        {
+          "d": "2026-10-07",
+          "v": 12504.6
         }
       ]
     },
@@ -2263,6 +2510,14 @@
         {
           "d": "2026-10-04",
           "v": 14.63
+        },
+        {
+          "d": "2026-10-05",
+          "v": 15.45
+        },
+        {
+          "d": "2026-10-06",
+          "v": 14.12
         }
       ]
     },
@@ -2318,6 +2573,10 @@
         },
         {
           "d": "2026-10-06",
+          "v": 158
+        },
+        {
+          "d": "2026-10-07",
           "v": 157
         }
       ]

@@ -29,7 +29,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          sparse-checkout: scanner
+          sparse-checkout: |
+            scanner
+            site/static
           fetch-depth: 1
 
       - name: Set up Node 20
@@ -44,6 +46,11 @@ jobs:
         # optional sources; a failure here must not block the stock snapshot
         continue-on-error: true
         run: node scanner/collect-sentiment.mjs "$RUNNER_TEMP/scanner-out"
+
+      - name: Summarize the daily picks
+        # picks.json for the homepage band; runs the engine from site/static/arena.html
+        continue-on-error: true
+        run: node scanner/picks.mjs "$RUNNER_TEMP/scanner-out"
 
       - name: Publish to scanner-data
         env:

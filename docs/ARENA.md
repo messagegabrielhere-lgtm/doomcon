@@ -1,0 +1,287 @@
+# Daily picks and the AI battle
+
+`/arena.html` has two tabs. **Stock picks** (the default) is a fixed,
+rule-based screen for one-day trades with its full hypothetical track record.
+**AI battle** (`#battle`) is the paper-trading competition described below.
+
+## Stock picks
+
+Computed in the browser from the scanner's daily bars (`stocks-1d.json` on the
+`scanner-data` branch: about 150 large US stocks and ETFs, Yahoo Finance,
+refreshed every 30 minutes in market hours). Nothing is stored or traded.
+
+- **Rule**: the published RSI(2) pullback (Larry Connors). At a close, a stock
+  qualifies if it is above its 100-day average and its 2-day RSI is under 10,
+  with a daily ATR between 0.8% and 6% of price. The five lowest RSI(2)
+  readings are the picks, at most two per sector. It was chosen because it is
+  a known rule, not tuned to this data; a momentum rule tried first did worse
+  here (-0.08% a trade) and was dropped.
+- **Plan**: buy at the next open, target and stop one ATR away; if neither is
+  hit that day, sell at the following open. A day that touches both counts as
+  the stop. 0.05% comes off every trade.
+- **Track record**: the same rule replayed on every past day the data covers,
+  using only bars up to each close, against holding SPY over the same days.
+  It is shown whether or not it beats SPY. At launch it did not: +0.05% a
+  pick, $1,000 to $1,105 over 198 sessions against $1,136 for SPY.
+- **Pick of the day**: the screen's strongest reading (lowest RSI(2)),
+  featured on the picks tab and the scanner.
+- **Live status**: picks stay fixed at the close (that is what the track
+  record scores). Through the session each one shows where it stands from
+  `quotes.json` (the scanner collector's live price and today's open, high and
+  low, saved every 30 minutes): not open yet, now +x% since the open, target
+  hit, or stop hit (both touched counts as the stop).
+- **Tomorrow's picks so far**: the same screen run on today's live prices,
+  provisional until the close.
+- **Limits**: survivorship bias (today's list used for the past), fills at
+  the open assumed, holidays not known.
+
+The engine sits between `/* picks:begin */` and `/* picks:end */` in the page;
+`arena/test.mjs` runs that exact block (no look-ahead, every exit path, the
+sector cap, the stats).
+
+## Big investors
+
+`/arena.html#investors`. What well-known investors and politicians have
+disclosed buying and selling, read from the public filings by
+`investors/collect.mjs` (`.github/workflows/investors.yml`, weekday mornings
+and evenings, output on the `investors-data` branch). Everything is a
+disclosure made after the fact; nothing is real time.
+
+| who | source | delay |
+|---|---|---|
+| Michael Burry (Scion), Warren Buffett (Berkshire), Bill Ackman (Pershing Square), Stanley Druckenmiller (Duquesne), David Tepper (Appaloosa), Bridgewater (founded by Ray Dalio), ARK | SEC Form 13F-HR on EDGAR: the latest filing against the one before | up to 45 days after the quarter |
+| Cathie Wood | ARK's daily ETF holdings files (ARKK, ARKW, ARKG, ARKQ, ARKF, ARKX), each day against the last | a day |
+| Nancy Pelosi and every House member | House periodic transaction reports (STOCK Act), the Clerk's index and the report PDFs | up to 45 days after the trade |
+| Donald Trump | OGE Form 278-T: scanned images, so linked, not read | |
+
+- **13F changes** count shares, so a price move alone isn't a trade: new,
+  added (2%+ more shares), trimmed, sold out. Dollar sizes use the quarter-end
+  price. A 13F covers US-listed stocks, ETFs and options only. A fund with no
+  13F for a quarter more than about 200 days back is marked as an old filing
+  (Scion's last 13F is for Q3 2025).
+- **ARK trades** are estimates: each position against its old size times the
+  median change across the fund, which takes out creations and redemptions.
+  Changes under 1% or $250K are ignored.
+- **House reports** are read with pdf.js (installed only in that workflow).
+  Up to 120 reports a run, newest first; parsed reports are cached in
+  `state.json`. A report that can't be read (a scanned paper filing, a row the
+  parser doesn't recognise) is listed with a link to its PDF rather than
+  guessed. Senate reports sit behind a search form and are not included.
+- SEC refuses automated clients (HTTP 403, "Undeclared Automated Tool")
+  unless the User-Agent names who is asking with a contact email. Set the
+  repository variable `SEC_UA` (Settings → Secrets and variables → Actions →
+  Variables), for example `doomcon you@example.com`. Until it is set, the fund
+  cards say the 13F couldn't be loaded and link to EDGAR; the ARK and Congress
+  sections don't use SEC.
+
+```bash
+node --test investors/test.mjs                  # offline, fixed inputs
+node investors/collect.mjs --dir investors-out  # needs network; --only ark,13f,congress
+```
+
+## Highlights
+
+A strip above the tabs carries one line from each: the pick of the day and
+where it stands, the latest disclosed trade (Pelosi's first, then a fund's
+biggest 13F move), and the AI battle leader, labelled "stand-in" or
+"baseline" when it is one. Each card opens its tab. The investors collector
+also writes `highlights.json` (a few lines, about 3KB) for the homepage.
+
+## On the homepage
+
+The scanner workflow also writes `picks.json` (`scanner/picks.mjs`, the same
+engine block run server-side): today's picks, the pick of the day, where each
+stands since the open, and the track record in four numbers. The homepage
+"Markets" band under the hero reads it, `investors-data/highlights.json` and
+`arena-data/state.json`: the pick of the day and the other picks, five
+disclosed trades (Pelosi, Burry, Buffett, Cathie Wood, the biggest recent
+congressional trade) and the top four of the AI battle. It updates as those
+branches do, without a site rebuild.
+
+# AI battle
+
+`/arena.html`. Several AI models each trade a $1,000 paper wallet in crypto
+against live Coinbase order books, next to two baselines that use no model.
+It is a side project like the scanner. It reads only `arena/`, writes only the
+`arena-data` branch, and shares nothing with the index.
+
+**Paper money.** Prices are real; fills, wallets and P&L are simulated.
+
+- **Crypto** (24 USD pairs): Coinbase Exchange public API, no key. Fills walk the
+  live L2 order book; 0.6% fee per fill. Trades around the clock.
+- **US stocks and ETFs** (20 tickers, `STOCKS` in `arena/config.mjs`): Yahoo
+  Finance chart API, no key, the same source as the scanner. Yahoo has no
+  public order book, so a stock fills at the live last price plus a 2.5 bps
+  half-spread, with no commission. Stocks trade only in regular US hours
+  (9:30-16:00 New York, weekdays): outside them the `market open` rule refuses
+  the ticket. A stop on a stock is enforced at the next open, and a gap through
+  it fills at the opening price. A stock's "24h" change is since the previous
+  close, and its liquidity figure is average daily dollar volume over five
+  sessions. Nothing in `arena/`
+holds a key that can move funds.
+
+## The architecture
+
+```
+model ──proposal──▶ broker.preview ──ticket──▶ rules.gate ──pass──▶ broker.execute
+                                                    └──fail──▶ ledger (rejected, with the rules it broke)
+every tick: broker.checkExits (stops and targets, 1-minute candles) — no model involved
+```
+
+1. **The AI only proposes.** About once an hour each model gets the market
+   table and its own wallet, and replies with up to 3 proposals as JSON:
+   buy, sell, or move a stop. It has no way to execute anything.
+2. **The proposal becomes a ticket before anything is signed.** `preview()`
+   prices it by walking the live L2 book and writes down everything that
+   would happen: the payer (the agent's paper wallet), the venue, quantity,
+   average fill, slippage against mid, fees, the sell-back value, cash before
+   and after, and the position afterwards.
+3. **The rule gate checks the ticket, not the proposal.** `gate()` runs every
+   rule and returns all of them, pass or fail. A ticket runs only if every
+   rule passes. A rejection is published with the rules it broke, so the board
+   shows what each model tried as well as what it got away with.
+4. **Stops run without the AI.** Every tick, including the 5-minute guard
+   ticks where no model is called, `checkExits()` walks the 1-minute candles
+   since the last check for every open position. A wick through a stop between
+   ticks still triggers. A candle that opens through the stop fills at the
+   open (a gap), not at the stop. If one candle touches both stop and target,
+   the stop wins. GitHub's scheduler often runs late, and the guard reads up
+   to 5 hours of candles it missed.
+5. **No honeypots.** Before a buy, the ticket works out what selling the same
+   quantity straight back into the current bids would return after fees both
+   ways. If it's under `minSellbackPct`, the buy is refused. On a real DEX
+   this is the check that keeps out tokens you can buy but can't sell. Here
+   it catches thin books.
+
+## Rules
+
+All in `arena/config.mjs` (`RULES`), shown on the page from the published
+state, and given to every model in its system prompt. Telling a model the
+rules doesn't enforce them; the gate does.
+
+| rule | default |
+|---|---|
+| Stop loss on every buy, distance below fill | 1–15% |
+| Stops move only up | always |
+| Max one position, share of equity after the buy | 25% |
+| Max open positions | 4 |
+| Cash reserve | 5% of equity |
+| Sell-back floor (round trip after fees) | 95% |
+| Max slippage vs mid | 1% |
+| Min 24h volume | $5M |
+| Min order | $10 |
+| Trades per UTC day (stop and target exits don't count) | 8 |
+| No new buys after a drop from the day's open of | 10% |
+| Cooldown before rebuying a closed coin | 60 min |
+| Written reason | 12+ characters |
+| Max order book age | 120 s |
+
+Spot only, long only. Stocks also need the `market open` rule to pass.
+
+## The players
+
+| id | model (default) | key |
+|---|---|---|
+| opus | `claude-opus-5-5` | `ANTHROPIC_API_KEY` |
+| sonnet | `claude-sonnet-5-5` | `ANTHROPIC_API_KEY` |
+| haiku | `claude-haiku-4-5` | `ANTHROPIC_API_KEY` |
+| gpt | `gpt-5` | `OPENAI_API_KEY` |
+| grok | `grok-4` | `XAI_API_KEY` |
+| gemini | `gemini-2.5-pro` | `GEMINI_API_KEY` |
+| deepseek | `deepseek-chat` | `DEEPSEEK_API_KEY` |
+| hodl | baseline: equal-weight BTC, ETH, SOL, XRP, widest stop | none |
+| rsi | baseline: buy hourly RSI < 30, sell > 70, stops at 2 ATR | none |
+
+Keys are repository secrets (Settings → Secrets and variables → Actions). A
+model without its key trades a **stand-in** instead (`arena/standins.mjs`): a
+plain rule-based strategy with its own style, under the same rule gate and the
+same live prices, so every slot is in the race from the first hour. Stand-ins
+are not the model and the board never says they are: each card reads
+"stand-in · <style>", every stand-in trade carries a stand-in badge and a
+reason starting "Stand-in:", and a notice above the scoreboard lists them.
+Add a key and that slot switches to its real model on the next hourly turn;
+its wallet carries on from where the stand-in left it. Set the repository
+variable `ARENA_STANDINS=off` to make keyless models sleep instead.
+
+| slot | stand-in style |
+|---|---|
+| opus | trend follower: above its 50-hour average on a rising day, trailing stop |
+| sonnet | breakout chaser: strongest 24-hour movers not yet overbought, 3-ATR target |
+| haiku | crypto scalper: crypto only, short-term dips on liquid coins, small target, tight stop |
+| gpt | blue-chip stocks: US stocks and ETFs only, pullbacks in an uptrend, small size |
+| grok | contrarian: biggest 24-hour losers once RSI says the selling is exhausted |
+| gemini | momentum rider: best 7-day performers, rotates out of laggards |
+| deepseek | value dip buyer: large coins well under their 50-hour average, oversold |
+
+Thresholds are measured in each asset's own hourly ATR, so a strong move in a
+quiet stock scores like a strong move in a volatile coin. Styles that trade
+both markets hold at most two crypto positions, so slots are free when the
+stock market opens; crypto never closes and would otherwise take every slot
+overnight. The
+baselines play under the same rules through the same gate; a model that
+can't beat them isn't adding much.
+
+Model ids go stale. Override any of them without a code change by setting a
+repository *variable* `ARENA_MODEL_<ID>`, e.g. `ARENA_MODEL_GPT=gpt-5.1`.
+
+The Claude players go through the Anthropic SDK with structured JSON output.
+Opus and Sonnet also have server-side refusal fallbacks enabled
+(`fallbacks: "default"`). If a fallback model answers a turn, the board says
+"answered by …" on that card and the ledger records the model that answered.
+The others are plain HTTPS calls to each provider's own API.
+
+## The board
+
+`/arena.html` reads the published files and works everything else out in the
+browser:
+
+- **Scoreboard**: the leader (among agents that have traded), the best AI
+  against the best baseline in percentage points, fills against rejections,
+  and stops and targets the server closed.
+- **Agent panel**: click a slime, or link to `arena.html#agent=<id>`. It shows
+  equity, realized P&L, win rate, each open position with its distance to the
+  stop, the rules that agent broke, and its recent ledger entries.
+- **What the models saw**: the market table from the last turn, sortable, with
+  a dot for each agent holding the coin.
+- **Why trades get rejected**: rejections grouped by the rule that blocked them.
+- **Equity chart**: hover for every agent's value at that time.
+- **Who led**: a bar under the chart coloured by the leader at each hourly
+  mark, with each agent's share of time in front and the number of lead changes.
+
+Ledger-based numbers come from `trades.json`, the newest 500 entries; the page
+says so once there are more than that.
+
+## The slimes
+
+Each agent is drawn as a slime. It **glows** when its equity is above the
+$1,000 start, **melts** when it's below, and **falls asleep** when it has no
+key or has run out of money.
+
+## Running it
+
+```bash
+npm ci
+node --test arena/test.mjs                 # offline; a fake exchange stands in
+node arena/run.mjs --dir arena-out         # one turn: guard, then every agent
+node arena/run.mjs --dir arena-out --guard # stops and targets only
+node arena/run.mjs --dir arena-out --only rsi,hodl
+```
+
+`.github/workflows/arena.yml` runs every 5 minutes with `--auto`: a full turn
+on the first tick of each UTC hour at or after minute 5, a guard tick
+otherwise. A guard tick with nothing open publishes nothing.
+
+## What's published (`arena-data` branch)
+
+| file | what |
+|---|---|
+| `state.json` | wallets, positions, stops, equity history (hourly, ~90 days), the roster and the rules |
+| `ledger.ndjson` | every fill, stop, target and rejection since the start, append-only, with its ticket |
+| `trades.json` | the newest 500 ledger entries, newest first, for the board |
+| `market.json` | the market table the agents saw on the last turn |
+
+The page reads these from raw.githubusercontent.com. Point it at another
+copy with `arena.html?data=<base url>`.
+
+To restart the competition, delete the `arena-data` branch. The next tick
+starts every wallet at $1,000 again.

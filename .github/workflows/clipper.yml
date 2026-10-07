@@ -12,6 +12,10 @@
 #
 # Configure once in Settings -> Secrets and variables -> Actions:
 #   variable  CLIPPER_CHANNEL_URL   e.g. https://www.youtube.com/@yourhandle
+#   variable  CLIPPER_CHANNEL_RIGHTS  "own" or "licensed" — you assert this per
+#                                   channel; it is no longer assumed (compliance
+#                                   audit 2026-10-06), so changing the URL to
+#                                   someone else's channel cannot inherit "own".
 #   secrets   ANTHROPIC_API_KEY, YT_CLIENT_ID, YT_CLIENT_SECRET, YT_REFRESH_TOKEN
 #   optional  YTDLP_COOKIES         contents of a cookies.txt, if YouTube starts
 #                                   asking the runner to sign in
@@ -42,7 +46,7 @@ jobs:
     env:
       CLIPPER_CONFIG: config.live.json
       CLIPPER_CHANNEL_URL: ${{ vars.CLIPPER_CHANNEL_URL }}
-      CLIPPER_CHANNEL_RIGHTS: own
+      CLIPPER_CHANNEL_RIGHTS: ${{ vars.CLIPPER_CHANNEL_RIGHTS }}
       ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
       YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
       YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
@@ -52,7 +56,7 @@ jobs:
         id: ready
         run: |
           missing=""
-          for v in CLIPPER_CHANNEL_URL ANTHROPIC_API_KEY YT_CLIENT_ID YT_CLIENT_SECRET YT_REFRESH_TOKEN; do
+          for v in CLIPPER_CHANNEL_URL CLIPPER_CHANNEL_RIGHTS ANTHROPIC_API_KEY YT_CLIENT_ID YT_CLIENT_SECRET YT_REFRESH_TOKEN; do
             [ -n "${!v}" ] || missing="$missing $v"
           done
           if [ -n "$missing" ]; then

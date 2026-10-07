@@ -38,7 +38,7 @@
 
 import { esc, utc, utcDay, num } from './_html.mjs';
 import { page } from './layout.mjs';
-import { avatarSprite, personIdFor, PEOPLE } from './_avatars.mjs';
+import { avatarSprite, personIdFor, PEOPLE, faceHref } from './_avatars.mjs';
 import * as brand from '../brand.mjs';
 
 const PATH = '/race.html';
@@ -234,7 +234,7 @@ function figure(cls, svgs, caption) {
 function markFor(p) {
   const pid = personIdFor(p.principal) || personIdFor(p.id);
   const person = pid ? PEOPLE[pid] : null;
-  return { shape: person ? person.shape : 'frame', person: person ? person.name : null };
+  return { shape: person ? person.shape : 'frame', person: person ? person.name : null, face: pid ? faceHref(pid) : null };
 }
 
 function emblem(shape, x, y, size) {
@@ -269,6 +269,7 @@ function chartRows(race) {
       d7,
       then,
       shape: mk.shape,
+      face: mk.face,
       state: prob === null ? (m.state === 'dark' ? 'dark' : 'no_market') : 'live',
       d7state: d7 === null ? (m.change_7d_state === 'no_market' ? 'no_market' : 'no_reference') : 'live',
     };
@@ -355,7 +356,9 @@ function fieldPlot(rows, g, tid, did, variantCls) {
     const valX = g.twoLine ? g.w - 2 : g.w - 2;
 
     out += `<g class="rfc__r" data-org="${esc(r.id)}">`;
-    out += emblem(r.shape, g.markX, (g.twoLine ? y0 + 2 : mid - g.markS / 2), g.markS);
+    out += r.face
+      ? `<image href="${esc(r.face)}" x="${f2(g.markX - 2)}" y="${f2((g.twoLine ? y0 + 2 : mid - g.markS / 2) - 2)}" width="${f2(g.markS + 4)}" height="${f2(g.markS + 4)}" preserveAspectRatio="xMidYMid slice" style="clip-path:circle(50%)"/>`
+      : emblem(r.shape, g.markX, (g.twoLine ? y0 + 2 : mid - g.markS / 2), g.markS);
     out += tx('rfc__rank', g.rankX, nameY, 'end', g.fsRank, r.rank === null ? '—' : String(r.rank));
     out += tx('rfc__name', g.nameX, nameY, 'start', g.fsName, r.name);
 
@@ -952,7 +955,7 @@ function playerRow(p, race) {
     <div class="rpill"${live ? ` style="--fill:${fill.toFixed(3)}%"` : ' data-fill="none"'}>
       <i class="rpill__fill" aria-hidden="true"></i>${tick}
       ${rank}
-      <span class="rpill__mk" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><use href="#dc-avt-${esc(markFor(p).shape)}"/></svg></span>
+      <span class="rpill__mk${markFor(p).face ? ' rpill__mk--face' : ''}" aria-hidden="true">${markFor(p).face ? `<img src="${esc(markFor(p).face)}" alt="" loading="lazy">` : `<svg viewBox="0 0 24 24" focusable="false"><use href="#dc-avt-${esc(markFor(p).shape)}"/></svg>`}</span>
       <span class="rpill__lab"><b class="rpill__name">${esc(p.name)}</b>${principal}</span>
       <span class="rpill__right">${delta}${value}</span>
     </div>

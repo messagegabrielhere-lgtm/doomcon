@@ -1,0 +1,40 @@
+# Compliance audit (compliance/audit.mjs).
+#
+# Runs on every push and pull request, and weekly so new rules and expiring
+# allow-list entries are re-checked even when nothing changed.
+#   1. selftest: every rule must catch a planted violation and clear on the fix,
+#      so a rule that silently breaks fails here instead of giving a false PASS.
+#   2. audit --strict: fails on HIGH or MEDIUM findings in the repo.
+# The deploy in collect.yml has its own gate (HIGH only) on the built site.
+#
+# Optional secret COMPLIANCE_PII_TERMS: comma-separated private terms (real
+# name, personal email, phone) that must never appear in this public repo.
+# Matches are reported by file and line only; the terms are never printed.
+
+name: compliance
+
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: '17 13 * * 1'   # Mondays 13:17 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Rule self-test
+        run: node compliance/selftest.mjs
+      - name: Audit
+        env:
+          COMPLIANCE_PII_TERMS: ${{ secrets.COMPLIANCE_PII_TERMS }}
+        run: node compliance/audit.mjs --strict

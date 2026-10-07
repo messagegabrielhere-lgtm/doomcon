@@ -5,9 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Capitulation Scanner</title>
 <meta name="description" content="Scan US stocks, ETFs and crypto futures for washouts, pullbacks, breakouts and golden crosses. Supports, entry zones, trade plans, backtests, replay and Pine Script export.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="fonts/fonts.css">
 <style>
 /* Layout: trading desk. Command bar on top, scanner list left, chart right, tool tabs under the chart. */
 :root{
@@ -55,6 +53,36 @@ input[type=number]{width:74px}
 .btn.small{padding:3px 9px;font-size:12px}
 .btn[aria-pressed=true]{border-color:var(--accent);color:var(--accent)}
 .btn:disabled{opacity:.55;cursor:default}
+
+/* daily picks band */
+.pband{background:linear-gradient(135deg,color-mix(in srgb,var(--accent) 14%,var(--panel)),var(--panel) 60%);border:1px solid color-mix(in srgb,var(--accent) 45%,var(--line));border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:10px}
+.pb-head{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:flex-start;justify-content:space-between}
+.pb-kicker{font:600 11.5px/1 var(--f-display);letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+.pband h2{margin:4px 0 0;font:700 24px/1.05 var(--f-display);letter-spacing:.03em;text-transform:uppercase}
+.pb-plan{margin:4px 0 0;font-size:13px;color:var(--mute);max-width:70ch}
+.pb-plan b{color:var(--ink)}
+.pb-links{display:flex;gap:8px;flex-wrap:wrap}
+.pb-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(205px,1fr));gap:8px}
+.pb-pick{all:unset;box-sizing:border-box;cursor:pointer;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:9px 11px;display:flex;flex-direction:column;gap:3px;min-width:0}
+.pb-pick:hover{border-color:var(--accent)}
+.pb-pick:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.pb-pick .t{display:flex;justify-content:space-between;align-items:baseline;gap:6px}
+.pb-pick b{font:700 20px/1 var(--f-display);letter-spacing:.04em}
+.pb-pick .n{font-size:11.5px;color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pb-pick .m{font:12px/1.4 var(--f-mono);color:var(--mute)}
+.pb-pick .m .u{color:var(--up)} .pb-pick .m .d{color:var(--down)}
+.pb-pick .go{font-size:11.5px;color:var(--accent)}
+a.btn{color:inherit;text-decoration:none;display:inline-flex;align-items:center}
+.pb-note{margin:0;font-size:12px;color:var(--mute)}
+.pb-pick.top{border:2px solid var(--accent);background:color-mix(in srgb,var(--accent) 10%,var(--panel));grid-column:span 2}
+.pb-pick.top b{font-size:28px}
+.pb-k{font:700 11px/1 var(--f-display);letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+.pb-st{font:600 11.5px/1.3 var(--f-mono);color:var(--mute)}
+.pb-st.u{color:var(--up)} .pb-st.d{color:var(--down)}
+.pb-pv{display:block;margin-top:4px}
+@media (max-width:640px){.pb-pick.top{grid-column:1 / -1}}
+.pb-note b{color:var(--ink)}
+@media (max-width:640px){.pband h2{font-size:20px}.pb-row{grid-template-columns:repeat(2,minmax(0,1fr))}}
 
 /* command bar */
 .cmd{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px;display:flex;flex-direction:column;gap:8px}
@@ -343,7 +371,27 @@ tr.whyrow.sel td{background:color-mix(in srgb,var(--accent) 12%,transparent);box
     </label>
     <button class="btn" id="liveBtn" type="button">Reload</button>
     <button class="btn" id="linkBtn" type="button" title="Copy a link to this exact scan">Copy link</button>
+    <a class="btn primary" href="arena.html" title="Today's rule-based stock picks and their full track record">Daily picks</a>
+    <a class="btn" href="arena.html#investors" title="Disclosed trades of Pelosi, Burry, Cathie Wood, Buffett and others, from the filings">Big investors</a>
+    <a class="btn" href="arena.html#battle" title="AI models trading paper money under server-enforced rules">AI battle</a>
   </header>
+
+  <section class="pband" id="pband" aria-labelledby="pbTitle" hidden>
+    <div class="pb-head">
+      <div>
+        <span class="pb-kicker">Today's picks</span>
+        <h2 id="pbTitle">Daily picks</h2>
+        <p class="pb-plan" id="pbPlan"></p>
+      </div>
+      <div class="pb-links">
+        <a class="btn primary" href="arena.html">Full picks &amp; track record &rarr;</a>
+        <a class="btn" href="arena.html#investors">Big investors &rarr;</a>
+        <a class="btn" href="arena.html#battle">AI battle &rarr;</a>
+      </div>
+    </div>
+    <div class="pb-row" id="pbPicks"></div>
+    <p class="pb-note" id="pbNote"></p>
+  </section>
 
   <section class="cmd" aria-label="Ask the scanner">
     <form id="cmdForm">
@@ -690,6 +738,8 @@ tr.whyrow.sel td{background:color-mix(in srgb,var(--accent) 12%,transparent);box
   <p class="foot">Stock data: Yahoo Finance chart API, delayed, saved by a GitHub Action every 30 minutes in US market hours (<a href="https://github.com/messagegabrielhere-lgtm/doomcon/blob/main/scanner/collect-stocks.mjs" target="_blank" rel="noopener">collector</a>). Crypto data: OKX public API. The demo feed is simulated and contains no real prices. Backtests are hypothetical. Nothing here is financial advice.</p>
 </div>
 
+<p class="legal-note" style="margin:24px auto;max-width:72ch;padding:0 16px;font:400 12px/1.5 system-ui,sans-serif;opacity:.75"><b>Disclosure:</b> Not financial advice. We are not financial advisors, brokers, or a registered investment adviser, and nothing on this site is investment, financial, legal, tax or trading advice, or a recommendation to buy, sell or hold any stock, crypto asset or other instrument. Stock picks, signals, scores and AI trades shown here are automated, simulated or hypothetical, for information and entertainment only. Past and simulated performance does not predict future results, and trading can lose money, including more than you expect. Do your own research and talk to a licensed financial professional before you invest.</p>
+
 <script>
 "use strict";
 const $ = s => document.querySelector(s);
@@ -987,6 +1037,8 @@ const loadData = auto => S.asset==="stocks" ? loadStocks(auto) : loadCrypto(auto
 
 function setSource(){
   const live = S.source==="live";
+  // Tell the site's refresh bar how fresh this data is.
+  if(live && S.asOf) window.dispatchEvent(new CustomEvent("site:data", {detail:{at: Date.parse(S.asOf)}}));
   $("#src").className = "chip "+(live?"live":"demo");
   let txt = "Demo data (simulated)";
   if(live && S.asset==="stocks") txt = `Stocks · Yahoo snapshot · ${fmtAsOf(S.asOf)}`;
@@ -2616,6 +2668,207 @@ function renderAI(){
     tr.addEventListener("keydown", e=>{ if(e.key==="Enter"){ e.preventDefault(); go(); } });
   });
 }
+/* picks:begin -- the screen. Pure functions of daily bars; arena/test.mjs runs this same block. */
+const PK = { n: 5, maxPerSector: 2, minBars: 100, rsi2Max: 10, atrK: 1, costPct: 0.05, days: 250 };
+
+// Indicators for one symbol, computed once: simple moving averages of close,
+// 20-day average volume (excluding the day itself), Wilder ATR14, RSI14 and RSI2.
+function pkPrep(sym){
+  const {c, h, l, v} = sym, n = c.length;
+  const pc = [0], pv = [0];
+  for(let i = 0; i < n; i++){ pc.push(pc[i] + c[i]); pv.push(pv[i] + v[i]); }
+  const avg = (p, a, b) => (p[b] - p[a]) / (b - a); // mean of [a, b)
+  const atr = new Array(n).fill(null), rsi = new Array(n).fill(null), rsi2 = new Array(n).fill(null);
+  let tr = 0, g = 0, ls = 0, g2 = 0, l2 = 0;
+  for(let i = 1; i < n; i++){
+    const t = Math.max(h[i] - l[i], Math.abs(h[i] - c[i-1]), Math.abs(l[i] - c[i-1]));
+    const d = c[i] - c[i-1], up = Math.max(d, 0), dn = Math.max(-d, 0);
+    if(i <= 2){ g2 += up / 2; l2 += dn / 2; } else { g2 = (g2 + up) / 2; l2 = (l2 + dn) / 2; }
+    if(i >= 2) rsi2[i] = l2 === 0 ? 100 : 100 - 100 / (1 + g2 / l2);
+    if(i <= 14){ tr += t; g += up; ls += dn; if(i === 14){ atr[i] = tr / 14; g /= 14; ls /= 14; rsi[i] = ls === 0 ? 100 : 100 - 100 / (1 + g / ls); } }
+    else { atr[i] = (atr[i-1] * 13 + t) / 14; g = (g * 13 + up) / 14; ls = (ls * 13 + dn) / 14; rsi[i] = ls === 0 ? 100 : 100 - 100 / (1 + g / ls); }
+  }
+  return {
+    ...sym, atr, rsi, rsi2,
+    sma: (k, i) => (i + 1 >= k ? avg(pc, i + 1 - k, i + 1) : null),
+    avgVol: (i) => (i >= 20 ? avg(pv, i - 20, i) : null),
+    at: new Map(sym.t.map((t, i) => [t, i])),
+  };
+}
+
+// The rule, judged at the close of day i using nothing after it. It is the
+// published RSI(2) pullback (Larry Connors): in an uptrend, buy a sharp
+// two-day dip and hold briefly. Picked because it is a known rule, not because
+// it was tuned on this data; the track record below says how it has done here.
+function pkScore(S, i){
+  if(i < PK.minBars) return null;
+  const {c} = S, s100 = S.sma(100, i), s20 = S.sma(20, i), atr = S.atr[i], r2 = S.rsi2[i];
+  if(!s100 || !atr || r2 == null || !S.avgVol(i)) return null;
+  const atrPct = atr / c[i] * 100;
+  if(!(c[i] > s100 && r2 < PK.rsi2Max && atrPct >= 0.8 && atrPct <= 6)) return null;
+  return {
+    score: PK.rsi2Max - r2,
+    rsi2: r2, above100: (c[i] / s100 - 1) * 100, vs20: s20 ? (c[i] / s20 - 1) * 100 : null,
+    drop3: i >= 3 ? (c[i] / c[i-3] - 1) * 100 : null, atrPct, close: c[i], atr,
+  };
+}
+
+// The top picks for the session after day t: best scores, at most two per sector.
+function pkPicksOn(prepped, t){
+  const out = [], per = {};
+  const cands = [];
+  for(const S of prepped){
+    const i = S.at.get(t); if(i == null) continue;
+    const sc = pkScore(S, i); if(sc) cands.push({S, i, ...sc});
+  }
+  cands.sort((a, b) => b.score - a.score);
+  for(const x of cands){
+    const sec = x.S.sec || "?";
+    if((per[sec] || 0) >= PK.maxPerSector) continue;
+    per[sec] = (per[sec] || 0) + 1; out.push(x);
+    if(out.length >= PK.n) break;
+  }
+  return out;
+}
+
+// What following one pick would have done: buy at the next open, target and
+// stop one ATR away; a day that touches both counts as the stop. Otherwise
+// sell at the open after. Costs come off every trade.
+function pkOutcome(x){
+  const {S, i} = x, {o, h, l, c} = S;
+  if(i + 1 >= o.length) return {status: "pending"};
+  const entry = o[i+1], a = x.atr * PK.atrK * (entry / x.close);
+  const target = entry + a, stop = entry - a;
+  let exit, how;
+  if(l[i+1] <= stop){ exit = stop; how = "stop"; }
+  else if(h[i+1] >= target){ exit = target; how = "target"; }
+  else if(i + 2 < o.length){ exit = o[i+2]; how = "open"; }
+  else return {status: "live", entry, target, stop, mark: c[i+1], ret: (c[i+1] / entry - 1) * 100};
+  return {status: "done", entry, target, stop, exit, how, ret: (exit / entry - 1) * 100 - PK.costPct};
+}
+
+// Replay the rule on every past day the data allows.
+function pkHistory(prepped, spy, days = PK.days){
+  const cal = spy.t, out = [];
+  for(let k = Math.max(PK.minBars, cal.length - days - 2); k < cal.length; k++){
+    const t = cal[k], picks = pkPicksOn(prepped, t).map((x) => ({...x, out: pkOutcome(x)}));
+    const bench = k + 2 < spy.o.length ? (spy.o[k+2] / spy.o[k+1] - 1) * 100 : null;
+    out.push({t, k, picks, bench});
+  }
+  return out;
+}
+
+function pkStats(hist){
+  const done = hist.filter((d) => d.bench != null);
+  const trades = done.flatMap((d) => d.picks.map((p) => p.out)).filter((o) => o.status === "done");
+  let eq = 1000, sp = 1000, peak = 1000, dd = 0;
+  const curve = [];
+  for(const d of done){
+    const rs = d.picks.map((p) => p.out).filter((o) => o.status === "done").map((o) => o.ret);
+    eq *= 1 + (rs.length ? rs.reduce((a, b) => a + b, 0) / rs.length : 0) / 100;
+    sp *= 1 + d.bench / 100;
+    peak = Math.max(peak, eq); dd = Math.min(dd, eq / peak - 1);
+    curve.push([d.t, eq, sp]);
+  }
+  const mean = (xs) => (xs.length ? xs.reduce((a, b) => a + b, 0) / xs.length : null);
+  return {
+    sessions: done.length, trades: trades.length,
+    winRate: trades.length ? trades.filter((o) => o.ret > 0).length / trades.length * 100 : null,
+    avgRet: mean(trades.map((o) => o.ret)), avgBench: mean(done.map((d) => d.bench)),
+    targetPct: trades.length ? trades.filter((o) => o.how === "target").length / trades.length * 100 : null,
+    stopPct: trades.length ? trades.filter((o) => o.how === "stop").length / trades.length * 100 : null,
+    equity: eq, bench: sp, maxDD: dd * 100, curve,
+  };
+}
+// Where today's trade stands, from the live quote (quotes.json): the entry is
+// today's open, and the day's high and low say whether the target or stop has
+// been touched. Both touched counts as the stop, as in the track record.
+function pkLive(pick, q){
+  const day = q && q.day;
+  if(!day || !(day.o > 0)) return {state: "waiting"};
+  const entry = day.o, a = pick.atr * PK.atrK * (entry / pick.close);
+  const target = entry + a, stop = entry - a, px = q.px ?? entry;
+  const base = {entry, target, stop, px, now: (px / entry - 1) * 100, gap: (entry / pick.close - 1) * 100};
+  if(day.l <= stop) return {...base, state: "stop", ret: (stop / entry - 1) * 100 - PK.costPct};
+  if(day.h >= target) return {...base, state: "target", ret: (target / entry - 1) * 100 - PK.costPct};
+  return {...base, state: q.open ? "running" : "closed"};
+}
+
+// Each series with today's session so far appended as a bar (close = the live
+// price), for symbols whose quote has a session newer than their last bar.
+// The screen run on this is a preview of tomorrow's picks, final at the close.
+function pkAppendToday(symbols, quotes){
+  let t = null;
+  const out = symbols.map((s) => {
+    const q = quotes[s.s], d = q && q.day;
+    if(!d || !(q.px > 0) || d.t <= s.t.at(-1)) return s;
+    t = d.t;
+    return {...s, t: [...s.t, d.t], o: [...s.o, d.o], h: [...s.h, Math.max(d.h, q.px)], l: [...s.l, Math.min(d.l, q.px)], c: [...s.c, q.px], v: [...s.v, d.v]};
+  });
+  return {symbols: out, t};
+}
+/* picks:end */
+
+// ---- the daily picks band: the same engine as arena.html (a test keeps them identical) ----
+const nyDay = (t) => new Date(t).toLocaleDateString("en-US", {timeZone:"America/New_York", weekday:"short", month:"short", day:"numeric"});
+const nextWeekday = (t) => { let d = t + 86400e3; while([0, 6].includes(new Date(d).getUTCDay())) d += 86400e3; return d; };
+async function loadPicksBand(){
+  const base = "https://raw.githubusercontent.com/messagegabrielhere-lgtm/doomcon/scanner-data";
+  const get = async (f) => { const r = await fetch(`${base}/${f}?t=${Math.floor(Date.now() / 60e3)}`, {cache:"no-store"}); if(!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); };
+  try{
+    const [d, Q] = await Promise.all([get("stocks-1d.json"), get("quotes.json").catch(() => null)]);
+    const raw = d.symbols.filter((x) => x.c?.length >= PK.minBars);
+    const P = raw.map(pkPrep), spy = P.find((x) => x.s === "SPY");
+    if(!spy) throw new Error("no SPY");
+    const H = pkHistory(P, spy), st = pkStats(H), last = H.at(-1);
+    const lastT = last.t * 1000, buy = nextWeekday(lastT), sell = nextWeekday(buy);
+    const nyKey = (t) => new Date(t).toLocaleDateString("en-CA", {timeZone:"America/New_York"});
+    const qFor = (sym) => { const x = Q?.quotes?.[sym]; return x?.day && nyKey(x.day.t * 1000) === nyKey(buy) ? {...x, open: Q.marketOpen && x.open} : null; };
+    const sg = (x) => `${x >= 0 ? "+" : ""}${x.toFixed(2)}%`;
+    const status = (p) => {
+      const L = pkLive(p, qFor(p.S.s));
+      if(L.state === "waiting") return `<span class="pb-st">Opens ${nyDay(buy)}</span>`;
+      if(L.state === "target") return `<span class="pb-st u">Target hit ${sg(L.ret)}</span>`;
+      if(L.state === "stop") return `<span class="pb-st d">Stop hit ${sg(L.ret)}</span>`;
+      return `<span class="pb-st ${L.now >= 0 ? "u" : "d"}">${L.state === "running" ? "Now" : "Closed"} ${sg(L.now)} since the open</span>`;
+    };
+    $("#pbTitle").textContent = `Picks for ${nyDay(buy)}`;
+    $("#pbPlan").innerHTML = last.picks.length
+      ? `A fixed screen's plan: buy at the open on <b>${nyDay(buy)}</b>, sell at the open on <b>${nyDay(sell)}</b>, or earlier at the target or stop. Live status updates through the day${Q?.generated ? ` (prices ${new Date(Q.generated).toLocaleTimeString([], {hour:"numeric", minute:"2-digit"})}, delayed)` : ""}. Click a pick to chart it.`
+      : `Nothing passed the screen at the close of ${nyDay(lastT)}, so there are no picks for ${nyDay(buy)}. Sitting out is part of the rule.`;
+    $("#pbPicks").innerHTML = last.picks.map((p, i) => {
+      const pct = p.atr * PK.atrK / p.close * 100;
+      return `<button type="button" class="pb-pick${i ? "" : " top"}" data-s="${esc(p.S.s)}" aria-label="${esc(p.S.s)}${i ? "" : ", pick of the day"}: open in the scanner">
+        ${i ? "" : `<span class="pb-k">&#9733; Pick of the day</span>`}
+        <span class="t"><b>${esc(p.S.s)}</b><span class="m">$${p.close.toFixed(2)}</span></span>
+        <span class="n">${esc(p.S.n || "")}</span>
+        ${status(p)}
+        <span class="m">RSI(2) ${p.rsi2.toFixed(1)}: a sharp dip</span>
+        <span class="m">Target <span class="u">+${pct.toFixed(1)}%</span> · Stop <span class="d">-${pct.toFixed(1)}%</span></span>
+        <span class="go">Chart it &rarr;</span>
+      </button>`;
+    }).join("");
+    // Tomorrow's picks so far, from today's live prices.
+    const ext = Q?.quotes ? pkAppendToday(raw, Q.quotes) : {t: null};
+    let pv = "";
+    if(ext.t && ext.t > last.t){
+      const pre = pkPicksOn(ext.symbols.map(pkPrep), ext.t);
+      pv = ` <span class="pb-pv">Tomorrow's picks so far${Q.marketOpen ? " (provisional, final at the close)" : ""}: <b>${pre.length ? pre.map((p) => esc(p.S.s)).join(", ") : "none yet"}</b>.</span>`;
+    }
+    const ahead = st.equity >= st.bench;
+    $("#pbNote").innerHTML = `Track record, ${st.sessions} sessions replayed: <b>${st.winRate.toFixed(0)}%</b> of picks won, <b>${st.avgRet >= 0 ? "+" : ""}${st.avgRet.toFixed(2)}%</b> a pick after costs; $1,000 became <b>$${Math.round(st.equity).toLocaleString()}</b> against $${Math.round(st.bench).toLocaleString()} holding SPY (${ahead ? "ahead" : "behind"}). Hypothetical, from a fixed rule, not advice. <a href="arena.html">See every pick &rarr;</a>${pv}`;
+    $("#pband").hidden = false;
+  }catch{ $("#pband").hidden = true; }
+}
+async function openPick(sym){
+  if(!(S.asset === "stocks" && S.bar === "1D" && S.source === "live")){
+    if(S.mode && S.mode !== "scan") setMode("scan");
+    S.asset = "stocks"; S.bar = "1D"; syncAssetUI();
+    await loadStocks(false);
+  }
+  openInScanner(sym);
+}
+
 function openInScanner(sym){
   setMode("scan");
   S.sector = "all"; S.watchOnly = false; $("#watchBtn").setAttribute("aria-pressed","false");
@@ -2692,6 +2945,8 @@ document.querySelectorAll(".examples button").forEach(b=>b.addEventListener("cli
 $("#aStocks").addEventListener("click", ()=>{ const wasOdds = S.mode && S.mode!=="scan"; if(wasOdds){ setMode("scan"); writeHash(); } if(S.asset==="stocks"){ if(wasOdds){ runScan(false); } return; } S.asset = "stocks"; S.bar = "1D"; if(S.preset==="capitulation") setPreset("pullback"); syncAssetUI(); loadData(!inViewer ? false : true); });
 $("#aCrypto").addEventListener("click", ()=>{ const wasOdds = S.mode && S.mode!=="scan"; if(wasOdds){ setMode("scan"); writeHash(); } if(S.asset==="crypto"){ if(wasOdds){ runScan(false); } return; } S.asset = "crypto"; S.bar = "1H"; if(S.preset==="pullback"||S.preset==="golden") setPreset("capitulation"); syncAssetUI(); loadData(true); });
 $("#liveBtn").addEventListener("click", ()=>loadData(false));
+window.siteRefresh = () => Promise.all([loadData(false), loadPicksBand()]);
+$("#pbPicks").addEventListener("click", (e) => { const b = e.target.closest(".pb-pick[data-s]"); if(b) openPick(b.dataset.s); });
 $("#tf").addEventListener("change", async e=>{ S.bar = e.target.value; if(S.source==="demo" && S.asset==="crypto"){ loadDemo(); runScan(true); } else await loadData(false); });
 $("#topn").addEventListener("change", async e=>{ S.top = +e.target.value; if(S.source==="live") await loadData(false); else { loadDemo(); runScan(true); } });
 $("#sector").addEventListener("change", e=>{ S.sector = e.target.value; stopReplay(); runScan(true); });
@@ -2804,6 +3059,8 @@ readHash();
 renderParams(); syncAssetUI();
 loadDemo(); runScan(true, "Showing the simulated demo feed while real data loads.");
 loadData(inViewer);
+loadPicksBand();
+setInterval(loadPicksBand, 5 * 60e3);
 if(!inViewer) loadSent().then(()=>{ renderReadout(); if(S.mode==="sent") renderSent(); });
 if(S.wantMode) setMode(S.wantMode);
 </script>

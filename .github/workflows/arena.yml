@@ -1,0 +1,106 @@
+# AI battle (/arena.html): paper-money crypto trading, one wallet per model.
+#
+# Two kinds of tick:
+#   - guard (every 5 minutes): the server checks every stop and target against
+#     1-minute candles since the last check. No model is called.
+#   - turn (hourly, minute 7): the guard, then every agent proposes trades and
+#     the rule gate decides which execute.
+# GitHub's scheduler often runs late; the guard reads the candles it missed
+# (up to 5 hours back), so a late tick still catches a wick through a stop.
+#
+# Like the scanner, this never touches main. State lives on the arena-data
+# branch as one orphan commit, force-pushed; ledger.ndjson inside it is the
+# full, append-only record of every fill and every rejection.
+#
+# Keys are optional repository secrets. A model without its key trades a
+# labelled rule-based stand-in (ARENA_STANDINS=off makes it sleep instead);
+# the two baselines need none:
+#   ANTHROPIC_API_KEY, OPENAI_API_KEY, XAI_API_KEY, GEMINI_API_KEY, DEEPSEEK_API_KEY
+# Model ids can be overridden with repository variables, e.g. ARENA_MODEL_GPT.
+
+name: arena
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+    inputs:
+      guard_only:
+        description: 'Only check stops and targets'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: arena
+  cancel-in-progress: false   # never drop a tick that holds the state
+
+jobs:
+  tick:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            arena
+            package.json
+            package-lock.json
+          sparse-checkout-cone-mode: false
+          fetch-depth: 1
+
+      - name: Set up Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install
+        run: npm ci --omit=dev --ignore-scripts --no-audit --no-fund
+
+      - name: Load state
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git clone -q --depth 1 --branch arena-data "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git" "$RUNNER_TEMP/arena" \
+            || mkdir -p "$RUNNER_TEMP/arena"
+          rm -rf "$RUNNER_TEMP/arena/.git"
+
+      - name: Tick
+        id: tick
+        env:
+          # The turn runs once an hour, on the first scheduled tick at or after minute 5.
+          GUARD_ONLY: ${{ github.event_name == 'workflow_dispatch' && inputs.guard_only || github.event_name == 'schedule' && 'auto' || 'false' }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+          ARENA_MODEL_OPUS: ${{ vars.ARENA_MODEL_OPUS }}
+          ARENA_MODEL_SONNET: ${{ vars.ARENA_MODEL_SONNET }}
+          ARENA_MODEL_HAIKU: ${{ vars.ARENA_MODEL_HAIKU }}
+          ARENA_MODEL_GPT: ${{ vars.ARENA_MODEL_GPT }}
+          ARENA_MODEL_GROK: ${{ vars.ARENA_MODEL_GROK }}
+          ARENA_MODEL_GEMINI: ${{ vars.ARENA_MODEL_GEMINI }}
+          ARENA_MODEL_DEEPSEEK: ${{ vars.ARENA_MODEL_DEEPSEEK }}
+          ARENA_STANDINS: ${{ vars.ARENA_STANDINS }}
+        run: |
+          flag=""
+          if [ "$GUARD_ONLY" = "true" ]; then flag="--guard"; fi
+          if [ "$GUARD_ONLY" = "auto" ]; then flag="--auto"; fi
+          node arena/run.mjs --dir "$RUNNER_TEMP/arena" $flag
+
+      - name: Publish to arena-data
+        if: steps.tick.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cd "$RUNNER_TEMP/arena"
+          git init -q -b arena-data
+          git config user.name "github-actions[bot]"
+          git config user.email "41898699+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -q -m "Arena tick $(date -u +%Y-%m-%dT%H:%MZ)"
+          git push -q -f "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git" arena-data

@@ -58,6 +58,13 @@
 // themes these for light and dark the same way it themes every chart.
 
 import { esc, utcDay } from './_html.mjs';
+import { BASE_PATH } from '../brand.mjs';
+
+// Illustrated portraits (generated caricatures in assets/img) for the people
+// we have one for. Everyone else keeps the abstract monogram.
+const FACE = { altman: 'altman', amodei: 'amodei', hassabis: 'hassabis', musk: 'musk', zuckerberg: 'zuck', huang: 'huang' };
+export function faceHref(id) { return FACE[id] ? `${BASE_PATH}/img/art-${FACE[id]}.webp` : null; }
+const faceImg = (id, cls) => (FACE[id] ? `<img class="${cls}" src="${BASE_PATH}/img/art-${FACE[id]}.webp" alt="" loading="lazy" decoding="async">` : '');
 
 // ---------------------------------------------------------------------------
 // The shapes
@@ -480,8 +487,8 @@ function mark(p, size) {
   // --avt-a directly on [data-org] here, and a direct set beats an inherited
   // one no matter how specific the ancestor's selector is.
   return `<span class="avt avt--${esc(size)}" data-person="${esc(p.id)}" data-org="${esc(p.org)}" data-shape="${esc(p.shape)}" aria-hidden="true">` +
-    `<svg class="avt__m" viewBox="0 0 24 24" focusable="false"><use href="#dc-avt-${esc(p.shape)}"/></svg>` +
-    `<span class="avt__i">${esc(p.initials)}</span>` +
+    (FACE[p.id] ? faceImg(p.id, 'avt__face') : `<svg class="avt__m" viewBox="0 0 24 24" focusable="false"><use href="#dc-avt-${esc(p.shape)}"/></svg>` +
+    `<span class="avt__i">${esc(p.initials)}</span>`) +
     `</span>`;
 }
 
@@ -813,6 +820,9 @@ export function avatarPortrait(personId, opts = {}) {
     : `<title id="${esc(tid)}">${esc(p.name)} — ${esc(p.role)}, ${esc(p.orgName)}. `
       + 'An abstract monogram, not a likeness.</title>';
 
+  if (FACE[id]) {
+    return `<span class="avtp avtp--face" data-person="${esc(id)}" data-org="${esc(p.org)}"${decorative ? ' aria-hidden="true"' : ` role="img" aria-label="${esc(p.name)}, ${esc(p.role)}, ${esc(p.orgName)}. A generated caricature."`}>${faceImg(id, 'avtp__face')}<span class="avtp__tag">${esc(p.tag)}</span></span>`;
+  }
   return `<svg class="avtp" viewBox="0 0 120 136"${a11y} data-person="${esc(id)}" data-org="${esc(p.org)}" data-shape="${esc(p.shape)}">`
     + title
     + '<rect class="avtp__bg" x="0.75" y="0.75" width="118.5" height="134.5" rx="9"/>'
