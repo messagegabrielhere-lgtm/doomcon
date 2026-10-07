@@ -100,6 +100,15 @@ export function parseInfoTable(xml) {
   return rows;
 }
 
+// 13F values have been in dollars since 2023, but some filers still report
+// thousands. A median price per share under $2 across the share positions
+// means thousands, and the values are scaled up.
+export function inDollars(rows) {
+  const px = rows.filter((r) => r.shares > 0 && (r.unit || 'SH') === 'SH' && !r.putCall).map((r) => r.value / r.shares).sort((a, b) => a - b);
+  const med = px.length ? px[Math.floor(px.length / 2)] : 100;
+  return med < 2 ? rows.map((r) => ({ ...r, value: r.value * 1000 })) : rows;
+}
+
 // One line per security (a filer lists a stock once per manager or account).
 export function aggregate(rows, cusips = {}) {
   const by = new Map();
@@ -146,7 +155,7 @@ async function infoTableFor(cik, acc) {
   const best = xmls.find((i) => /info/i.test(i.name)) || xmls.sort((a, b) => num(b.size) - num(a.size))[0];
   if (!best) throw new Error(`no information table in ${acc}`);
   await sleep(150);
-  return { rows: parseInfoTable(await get(`${dir}/${best.name}`, { ua: SEC_UA })), url: `${dir}/${best.name}` };
+  return { rows: inDollars(parseInfoTable(await get(`${dir}/${best.name}`, { ua: SEC_UA }))), url: `${dir}/${best.name}` };
 }
 
 export async function fund13f(f, cusips, log) {

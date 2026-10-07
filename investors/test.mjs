@@ -2,7 +2,7 @@
 //   node --test investors/test.mjs
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { parseInfoTable, aggregate, compare, latestTwo, parseArk, arkTrades, parseHouseIndex, parsePtr, pdfLines } from './collect.mjs';
+import { inDollars, parseInfoTable, aggregate, compare, latestTwo, parseArk, arkTrades, parseHouseIndex, parsePtr, pdfLines } from './collect.mjs';
 
 const Z = '\u0000\u0000\u0000';
 // The text layer of a real two-page House PTR (Filing ID 20033725), trimmed.
@@ -194,4 +194,11 @@ test('ARK: a creation scales every line; only real trades come out', () => {
   const t = arkTrades('ARKK', a, b);
   assert.deepEqual(t.map((x) => [x.ticker, x.kind, x.dShares]), [['OLD', 'exit', -50000], ['NEW', 'new', 40000], ['BBB', 'buy', 20000]]);
   assert.deepEqual(arkTrades('ARKK', b, b), [], 'same day: nothing');
+});
+
+test('13F: a filer reporting thousands is scaled to dollars, one in dollars is left alone', () => {
+  const k = [{ value: 864923, shares: 3186306, unit: 'SH' }, { value: 281613, shares: 589680, unit: 'SH' }, { value: 232375, shares: 3102880, unit: 'SH' }];
+  assert.deepEqual(inDollars(k).map((r) => r.value), [864923000, 281613000, 232375000]);
+  const d = [{ value: 65950296923, shares: 227917808, unit: 'SH' }];
+  assert.equal(inDollars(d)[0].value, 65950296923);
 });
