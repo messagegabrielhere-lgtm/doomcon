@@ -86,6 +86,43 @@ test('PTR: every row, page breaks, wrapped amounts, exchanges, no owner code', (
   assert.equal(rows[6].asset, 'Apple Inc. - Common Stock (AAPL)');
 });
 
+// pdf.js's order: the type, dates and amount on a row's first line, the rest of
+// the asset name and the high end of the amount on the lines after.
+test('PTR: pdf.js line order, bonds, rows without an owner code', () => {
+  const L = (x) => x.split('\n');
+  const { rows, unparsed } = parsePtr(L(`P${Z} T${Z} R${Z}
+ID Owner Asset Transaction Date Notification Amount Cap.
+Type Date Gains >
+$200?
+DC Apple Inc. - Common Stock (AAPL) S (partial) 09/08/2026 09/15/2026 $1,001 - $15,000
+[ST]
+F${Z} S${Z}: New
+S${Z} O${Z}: Kelby Austin Hern Trust
+JT ARBUCKLE MEM HOSP AUTH P 09/08/2026 09/15/2026 $15,001 -
+OKLA SALES TAX 03.00000% $50,000
+01/01/2027 REV BDS SER. 2018 [GS]
+F${Z} S${Z}: New
+Microsoft Corporation - Common S (partial) 09/28/2026 09/28/2026 $1,001 - $15,000
+Stock (MSFT) [ST]
+F${Z} S${Z}: New
+
+ID Owner Asset Transaction Date Notification Amount Cap.
+Type Date Gains >
+$200?
+JT Boston Scientific Corporation S 09/09/2026 09/15/2026 $50,001 -
+Common Stock (BSX) [ST] $100,000
+F${Z} S${Z}: New`));
+  assert.equal(unparsed, 0);
+  assert.deepEqual(rows.map((r) => [r.owner, r.ticker, r.assetType, r.type, r.amount]), [
+    ['DC', 'AAPL', 'ST', 'sell (partial)', '$1,001 - $15,000'],
+    ['JT', '', 'GS', 'buy', '$15,001 - $50,000'],
+    ['', 'MSFT', 'ST', 'sell (partial)', '$1,001 - $15,000'],
+    ['JT', 'BSX', 'ST', 'sell', '$50,001 - $100,000'],
+  ]);
+  assert.equal(rows[1].asset, 'ARBUCKLE MEM HOSP AUTH OKLA SALES TAX 03.00000% 01/01/2027 REV BDS SER. 2018');
+  assert.equal(rows[2].asset, 'Microsoft Corporation - Common Stock (MSFT)');
+});
+
 test('PTR: a row the parser cannot read is counted, not dropped silently', () => {
   const { rows, unparsed } = parsePtr(['SP Something odd', 'P 01/16/2026 01/16/2026 $1,001 - $15,000']);
   assert.equal(rows.length, 0); assert.equal(unparsed, 1);

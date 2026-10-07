@@ -26,7 +26,7 @@ import path from 'node:path';
 // SEC refuses automated clients (HTTP 403) unless the User-Agent names who is
 // asking with a contact address. The default is this repository's bot address;
 // the repository variable SEC_UA overrides it.
-const SEC_UA = process.env.SEC_UA || 'doomcon-investors github.com/messagegabrielhere-lgtm/doomcon 41898699+github-actions[bot]@users.noreply.github.com';
+const SEC_UA = process.env.SEC_UA || 'doomcon-investors github-actions@users.noreply.github.com';
 const UA = 'Mozilla/5.0 (compatible; doomcon-investors/1.0; +https://github.com/messagegabrielhere-lgtm/doomcon)';
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -265,44 +265,65 @@ export async function pdfLines(bytes) {
   return lines;
 }
 
-export const PTR_PARSER = 2;
+export const PTR_PARSER = 3;
 const TX = String.raw`(P|S \(partial\)|S|E)\s+(\d{2}\/\d{2}\/\d{4})\s+(\d{2}\/\d{2}\/\d{4})\s+(\$[\d,]+(?:\.\d+)?)`;
 const LABEL = /^(?:F\S*\s+S\S*|D\S*|S\S*\s+O\S*|C\S*|L\S*)\s?:/;
 
 // The transactions in a PTR's text. Works on lines from pdf.js or any other
-// text extractor that keeps the table's reading order.
+// text extractor that keeps the table's reading order. Every row is followed by
+// labelled lines ("Filing Status: New", "Description: ..."), so the text between
+// labels is one row, whichever order its pieces come out in: pdf.js puts the
+// type, dates and amount on the row's first line, others after the asset name.
 export function parsePtr(lines) {
-  const keep = [];
+  const blocks = [[]];
   let skip = false, skipDesc = false;
+  const brk = () => { if (blocks.at(-1).length) blocks.push([]); };
   for (const raw of lines) {
     const l = raw.replace(/\u0000/g, '').trim();
     // The repeated table header on every page.
     if (/^ID\s+Owner\s+Asset/.test(l)) { skip = true; continue; }
-    if (skip) { if (/^\$200\?/.test(l)) skip = false; continue; }
-    if (LABEL.test(raw.replace(/\u0000/g, '\u0001'))) { skipDesc = /^D/.test(l); continue; }
+    if (skip) { if (/\$200\?/.test(l)) skip = false; continue; }
+    if (LABEL.test(raw.replace(/\u0000/g, '\u0001'))) { brk(); skipDesc = /^D/.test(l); continue; }
     if (skipDesc) {
-      if (/^(SP|JT|DC)\s/.test(l) || /\[[A-Z0-9]{2}\]/.test(l) || /\(([A-Z][A-Z.]{0,5})\)/.test(l) || !l) skipDesc = false;
+      if (/^(SP|JT|DC)\s/.test(l) || /\[[A-Z0-9]{2}\]/.test(l) || /\(([A-Z][A-Z.]{0,5})\)/.test(l) || new RegExp(TX).test(l) || !l) skipDesc = false;
       else continue;
     }
     // Section headings set in a font whose text layer keeps only capitals: "P T R", "F I", "T".
-    if (/^[A-Z](?: [A-Z]){0,5}$/.test(l)) continue;
-    if (/^(\* For the complete|Filing ID|I CERTIFY|Digitally Signed|Clerk of the House|Name:|Status:|State\/District:)/.test(l)) continue;
-    keep.push(l);
+    if (/^[A-Z](?: [A-Z]){0,5}$/.test(l)) { brk(); continue; }
+    if (/^(\* For the complete|Filing ID|I CERTIFY|my knowledge|Digitally Signed|Clerk of the House|Name:|Status:|State\/District:|Yes No)/.test(l)) { brk(); continue; }
+    if (l) blocks.at(-1).push(l);
   }
-  let text = keep.join('\n');
-  // A row split by a page break: "... Common P 01/16/2026 01/16/2026 $50,001 -" then "Stock (TEM) [ST] $100,000".
-  text = text.replace(new RegExp(String.raw`\s${TX}\s*-\s*\n+([^\n$]*\[[A-Z0-9]{2}\])\s*(\$[\d,]+)`, 'g'),
-    (m, t, d1, d2, lo, tail, hi) => ` ${tail}\n${t} ${d1} ${d2} ${lo} - ${hi}`);
-  const re = new RegExp(String.raw`(?:^|\n)(?:(SP|JT|DC)\s+)?((?:(?!\n(?:SP|JT|DC)\s)[\s\S])*?\[([A-Z0-9]{2})\])\s+${TX}(?:\s*-\s*(\$[\d,]+))?`, 'g');
   const out = [];
-  for (const m of text.matchAll(re)) {
-    const asset = m[2].replace(/\s+/g, ' ').replace(/\s*\[[A-Z0-9]{2}\]$/, '').trim();
-    const tk = /\(([A-Z][A-Z0-9.]{0,6})\)\s*$/.exec(asset) || /\(([A-Z][A-Z0-9.]{0,6})\)/.exec(asset);
-    const type = m[4] === 'P' ? 'buy' : m[4] === 'E' ? 'exchange' : m[4] === 'S' ? 'sell' : 'sell (partial)';
-    out.push({ owner: m[1] || '', asset, ticker: tk ? tk[1] : '', assetType: m[3], type, date: usDate(m[5]), notified: usDate(m[6]), amount: m[8] ? `${m[7]} - ${m[8]}` : m[7] });
+  let unparsed = 0;
+  for (const blk of blocks) {
+    const text = blk.join(' ').replace(/\s+/g, ' ').trim();
+    const ms = [...text.matchAll(new RegExp(TX, 'g'))];
+    if (!ms.length) { if (/\d{2}\/\d{2}\/\d{4}\s+\d{2}\/\d{2}\/\d{4}/.test(text)) unparsed++; continue; }
+    // Rarely two rows run together with no label between: split at each owner code.
+    const parts = ms.length === 1 ? [text] : text.split(/\s(?=(?:SP|JT|DC)\s)/);
+    for (const part of parts) {
+      const m = new RegExp(TX).exec(part);
+      if (!m) { if (/\d{2}\/\d{2}\/\d{4}/.test(part)) unparsed++; continue; }
+      const before = part.slice(0, m.index);
+      let after = part.slice(m.index + m[0].length), hi = null;
+      const dash = /^\s*-\s*/.exec(after);
+      if (dash) {
+        after = after.slice(dash[0].length);
+        const h = /\$[\d,]+/.exec(after);
+        if (h) { hi = h[0]; after = after.slice(0, h.index) + after.slice(h.index + h[0].length); }
+      }
+      let asset = `${before} ${after}`.replace(/\s+/g, ' ').trim();
+      const own = /^(SP|JT|DC)\s+/.exec(asset);
+      if (own) asset = asset.slice(own[0].length);
+      const at = /\[([A-Z0-9]{2})\]/.exec(asset);
+      if (!at) { unparsed++; continue; }
+      asset = asset.replace(/\s*\[[A-Z0-9]{2}\]\s*/g, ' ').replace(/\s+/g, ' ').trim();
+      const tk = /\(([A-Z][A-Z0-9.]{0,6})\)/.exec(asset);
+      const type = m[1] === 'P' ? 'buy' : m[1] === 'E' ? 'exchange' : m[1] === 'S' ? 'sell' : 'sell (partial)';
+      out.push({ owner: own ? own[1] : '', asset, ticker: tk ? tk[1] : '', assetType: at[1], type, date: usDate(m[2]), notified: usDate(m[3]), amount: hi ? `${m[4]} - ${hi}` : m[4] });
+    }
   }
-  const seen = (text.match(new RegExp(TX, 'g')) || []).length;
-  return { rows: out, unparsed: Math.max(0, seen - out.length) };
+  return { rows: out, unparsed };
 }
 
 export async function congress(state, log, { now = Date.now() } = {}) {
