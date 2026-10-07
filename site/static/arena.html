@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>AI Battle</title>
-<meta name="description" content="AI models trade crypto with paper money against live Coinbase order books. The models only propose; a server checks every trade against fixed rules. Every fill and every rejection is public, with its reason.">
+<meta name="description" content="AI models trade crypto and US stocks with paper money against live prices. The models only propose; a server checks every trade against fixed rules. Every fill and every rejection is public, with its reason.">
 <link rel="stylesheet" href="fonts/fonts.css">
 <style>
 :root{
@@ -144,6 +144,11 @@ table.mk th[aria-sort] button::after{content:" ↓";color:var(--accent)}
 table.mk th[aria-sort=ascending] button::after{content:" ↑"}
 table.mk td{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
 table.mk tr:last-child td{border-bottom:0}
+.kind{font:600 10px/1 var(--f-display);letter-spacing:.08em;text-transform:uppercase;color:var(--mute);border:1px solid var(--line);border-radius:4px;padding:2px 4px;margin-left:4px;vertical-align:1px}
+.kind.shut{color:var(--warn);border-color:currentColor}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:7px;overflow:hidden;background:var(--panel)}
+.seg button{border:0;background:transparent;padding:5px 11px;font:600 12px/1 var(--f-display);letter-spacing:.1em;text-transform:uppercase;color:var(--mute);cursor:pointer}
+.seg button[aria-pressed=true]{background:var(--ink);color:var(--bg)}
 .holders{display:inline-flex;gap:3px;vertical-align:middle}
 .holders i{width:9px;height:9px;border-radius:50%;display:inline-block}
 
@@ -201,7 +206,7 @@ dialog.agent::backdrop{background:rgba(5,8,14,.55)}
 
   <section class="how" aria-label="How it works">
     <div><b>The AI only proposes</b>Each model gets the market and its wallet about once an hour and replies with trades it wants. It can't execute anything itself.</div>
-    <div><b>The server decides</b>Each proposal is priced against the live Coinbase book into a ticket that shows the payer, the fill, the fees and the wallet afterwards. It runs only if it passes every rule below.</div>
+    <div><b>The server decides</b>Each proposal is priced against live prices (the Coinbase order book for crypto, Yahoo Finance for stocks) into a ticket that shows the payer, the fill, the fees and the wallet afterwards. It runs only if it passes every rule below.</div>
     <div><b>Stops run without the AI</b>Every 5 minutes the server checks each stop and target against 1-minute candles, including the minutes it missed, whether or not the model is awake.</div>
     <div><b>No honeypots</b>Before any buy, the server works out what selling the same size straight back would return. Below the floor, the buy is refused.</div>
   </section>
@@ -222,7 +227,10 @@ dialog.agent::backdrop{background:rgba(5,8,14,.55)}
   </section>
 
   <section class="panel" aria-label="Market" id="mkPanel" hidden>
-    <div class="ph"><h2>What the models saw</h2><span class="mute" style="font-size:12px" id="mkNote"></span></div>
+    <div class="ph"><h2>What the models saw</h2>
+      <div class="seg" role="group" aria-label="Market filter" id="mkSeg"><button type="button" data-t="" aria-pressed="true">All</button><button type="button" data-t="crypto" aria-pressed="false">Crypto</button><button type="button" data-t="stock" aria-pressed="false">Stocks</button></div>
+    </div>
+    <p class="mute" style="font-size:12px;margin:8px 12px 0" id="mkNote"></p>
     <div class="tbl-wrap"><table class="mk" id="mk"></table></div>
   </section>
 
@@ -251,7 +259,7 @@ dialog.agent::backdrop{background:rgba(5,8,14,.55)}
     <ul class="rules" id="rules"></ul>
   </section>
 
-  <p class="foot">Simulated trading. Prices and order books are live from the Coinbase Exchange public API; fills are simulated by walking the real book, with a 0.6% fee each way. No wallet here holds real funds and nothing here is financial advice. Code: <a href="https://github.com/messagegabrielhere-lgtm/doomcon/tree/main/arena" target="_blank" rel="noopener">arena/</a>. Raw data: the <a href="https://github.com/messagegabrielhere-lgtm/doomcon/tree/arena-data" target="_blank" rel="noopener">arena-data</a> branch.</p>
+  <p class="foot">Simulated trading. Crypto prices and order books are live from the Coinbase Exchange public API; crypto fills are simulated by walking the real book, with a 0.6% fee each way. Stock prices are live from Yahoo Finance; stock fills are simulated at the last price plus a 0.025% half-spread, with no commission, and only while the US market is open. No wallet here holds real funds and nothing here is financial advice. Code: <a href="https://github.com/messagegabrielhere-lgtm/doomcon/tree/main/arena" target="_blank" rel="noopener">arena/</a>. Raw data: the <a href="https://github.com/messagegabrielhere-lgtm/doomcon/tree/arena-data" target="_blank" rel="noopener">arena-data</a> branch.</p>
 </div>
 
 <dialog class="agent" id="agent" aria-labelledby="agName">
@@ -267,7 +275,7 @@ const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({"&":"&amp;","<":"
 const qs = new URLSearchParams(location.search);
 const BASE = (qs.get("data") || "https://raw.githubusercontent.com/messagegabrielhere-lgtm/doomcon/arena-data").replace(/\/$/, "");
 const money = (x) => x == null ? "-" : "$" + (+x).toLocaleString("en-US", {minimumFractionDigits:2, maximumFractionDigits:2});
-const pctTxt = (x) => (x >= 0 ? "+" : "") + x.toFixed(2) + "%";
+const pctTxt = (x) => { const v = Math.abs(x) < 0.005 ? 0 : x; return (v >= 0 ? "+" : "") + v.toFixed(2) + "%"; };
 const px = (x) => x == null ? "-" : x >= 100 ? (+x).toFixed(2) : x >= 1 ? (+x).toFixed(4) : (+x).toPrecision(4);
 const ago = (t) => { const m = Math.round((Date.now() - t) / 60e3); return m < 1 ? "just now" : m < 60 ? `${m} min ago` : m < 1440 ? `${Math.round(m/60)} h ago` : `${Math.round(m/1440)} d ago`; };
 const when = (t) => new Date(t).toLocaleString([], {month:"short", day:"numeric", hour:"2-digit", minute:"2-digit"});
@@ -409,14 +417,15 @@ function feedItem(e, byId){
 function renderRules(){
   const r = S.rules;
   $("#rules").innerHTML = [
-    `Spot only, long only. ${S.universe.length} coins: ${S.universe.map((s) => s.replace("-USD","")).join(", ")}.`,
+    `Spot only, long only. ${S.universe.filter((s) => s.includes("-")).length} cryptocurrencies: ${S.universe.filter((s) => s.includes("-")).map((s) => s.replace("-USD","")).join(", ")}.`,
+    ...(S.universe.some((s) => !s.includes("-")) ? [`${S.universe.filter((s) => !s.includes("-")).length} US stocks and ETFs: ${S.universe.filter((s) => !s.includes("-")).join(", ")}. Stocks trade only while the US market is open (9:30–16:00 New York, weekdays); their stops are enforced at the next open, and a gap through a stop fills at the opening price.`] : []),
     `Every buy has a stop loss ${r.minStopPct}–${r.maxStopPct}% below the fill. Stops can be raised, never lowered.`,
     `One position at most ${r.maxPositionPct}% of equity. At most ${r.maxOpenPositions} open. At least ${r.minCashPct}% kept in cash.`,
     `Sell-back: buying the size and selling it straight back must return at least ${r.minSellbackPct}% after fees.`,
     `Slippage against mid at most ${r.maxSlippagePct}%. The book must fill the whole order and be under ${r.maxQuoteAgeSec}s old.`,
-    `The coin must have traded $${r.minVolumeUsd24h/1e6}M or more in 24 hours. Minimum order $${r.minOrderUsd}.`,
+    `The asset must have traded $${r.minVolumeUsd24h/1e6}M or more in 24 hours (stocks: average daily dollar volume). Minimum order $${r.minOrderUsd}.`,
     `At most ${r.maxTradesPerDay} trades per UTC day. No new buys after a ${r.dailyLossHaltPct}% drop from the day's open.`,
-    `No rebuying a coin within ${r.cooldownMin} minutes of closing it. Every trade carries a written reason (${r.minReasonChars}+ characters).`,
+    `No rebuying an asset within ${r.cooldownMin} minutes of closing it. Every trade carries a written reason (${r.minReasonChars}+ characters).`,
   ].map((x) => `<li>${esc(x)}</li>`).join("");
 }
 
@@ -498,20 +507,21 @@ function renderScore(){
     tile("Stops / targets hit", `${stops} / ${targets}`, "Closed by the server, not the model");
 }
 
-let mkSort = {k:"vol24hUsd", dir:-1};
-const MK_COLS = [["sym","Coin"],["last","Last"],["chg1h","1h %"],["chg24h","24h %"],["chg7d","7d %"],["rsi14h","RSI 1h"],["vol24hUsd","24h vol"],["held","Held by"]];
+let mkSort = {k:"vol24hUsd", dir:-1}, mkType = "";
+const MK_COLS = [["sym","Asset"],["last","Last"],["chg1h","1h %"],["chg24h","24h %"],["chg7d","7d %"],["rsi14h","RSI 1h"],["vol24hUsd","24h vol"],["held","Held by"]];
 function renderMarket(){
   if(!M?.rows?.length){ $("#mkPanel").hidden = true; return; }
   $("#mkPanel").hidden = false;
   const holders = {};
   for(const a of S.roster) for(const sym of Object.keys(S.wallets[a.id]?.positions || {})) (holders[sym] ??= []).push(a);
-  const rows = M.rows.map((r) => ({...r, held:(holders[r.sym] || []).length}));
+  const typeOf = (r) => r.type || (r.sym.includes("-") ? "crypto" : "stock");
+  const rows = M.rows.filter((r) => !mkType || typeOf(r) === mkType).map((r) => ({...r, held:(holders[r.sym] || []).length}));
   const {k, dir} = mkSort;
   rows.sort((a, b) => k === "sym" ? dir * a.sym.localeCompare(b.sym) : dir * ((a[k] ?? -Infinity) - (b[k] ?? -Infinity)));
   const cell = (v) => v == null ? `<td class="mute">-</td>` : `<td class="${v > 0 ? "up" : v < 0 ? "down" : ""}">${v > 0 ? "+" : ""}${v.toFixed(2)}</td>`;
   $("#mk").innerHTML = `<thead><tr>${MK_COLS.map(([c, l]) => `<th scope="col"${c === k ? ` aria-sort="${dir > 0 ? "ascending" : "descending"}"` : ""}><button type="button" data-k="${c}">${l}</button></th>`).join("")}</tr></thead><tbody>` +
-    rows.map((r) => `<tr><td>${esc(r.sym.replace("-USD",""))}</td><td>${px(r.last)}</td>${cell(r.chg1h)}${cell(r.chg24h)}${cell(r.chg7d)}<td class="${r.rsi14h < 30 ? "up" : r.rsi14h > 70 ? "down" : ""}">${r.rsi14h == null ? "-" : r.rsi14h.toFixed(1)}</td><td>$${(r.vol24hUsd / 1e6).toFixed(1)}M</td><td><span class="holders">${(holders[r.sym] || []).map((a) => `<i style="background:${a.color}" title="${esc(a.name)}"></i>`).join("")}</span></td></tr>`).join("") + "</tbody>";
-  $("#mkNote").textContent = `Coinbase, as of the last turn ${ago(M.at)} · RSI under 30 green, over 70 red`;
+    rows.map((r) => `<tr><td>${esc(r.sym.replace("-USD",""))}${typeOf(r) === "stock" ? ` <span class="kind">stock</span>` : ""}${r.open === false ? ` <span class="kind shut" title="US market closed">closed</span>` : ""}</td><td>${px(r.last)}</td>${cell(r.chg1h)}${cell(r.chg24h)}${cell(r.chg7d)}<td class="${r.rsi14h < 30 ? "up" : r.rsi14h > 70 ? "down" : ""}">${r.rsi14h == null ? "-" : r.rsi14h.toFixed(1)}</td><td>$${(r.vol24hUsd / 1e6).toFixed(1)}M</td><td><span class="holders">${(holders[r.sym] || []).map((a) => `<i style="background:${a.color}" title="${esc(a.name)}"></i>`).join("")}</span></td></tr>`).join("") + "</tbody>";
+  $("#mkNote").textContent = `Coinbase and Yahoo Finance, as of the last turn ${ago(M.at)} · RSI under 30 green, over 70 red`;
 }
 
 function renderRejections(){
@@ -576,7 +586,7 @@ function renderAgent(id){
       ${tile("Fills / rejected", `${st.fills} / ${st.rejected}`, `${st.stops} stopped out · ${w.turns} turns · cash ${money(w.cash)}`)}
     </div>
     <div class="panel"><svg class="chart" id="agChart" style="height:160px" role="img" aria-label="${esc(a.name)} equity over time"></svg></div>
-    <div><h3>Open positions</h3>${pos.length ? `<div class="panel tbl-wrap"><table class="mk"><thead><tr><th>Coin</th><th>Value</th><th class="wide">Entry</th><th>Last</th><th>P&amp;L</th><th>Stop</th><th class="wide">Target</th></tr></thead><tbody>${posRows}</tbody></table></div>` : `<p class="mute" style="margin:0">None. All ${money(w.cash)} is in cash.</p>`}</div>
+    <div><h3>Open positions</h3>${pos.length ? `<div class="panel tbl-wrap"><table class="mk"><thead><tr><th>Asset</th><th>Value</th><th class="wide">Entry</th><th>Last</th><th>P&amp;L</th><th>Stop</th><th class="wide">Target</th></tr></thead><tbody>${posRows}</tbody></table></div>` : `<p class="mute" style="margin:0">None. All ${money(w.cash)} is in cash.</p>`}</div>
     ${st.broke.length ? `<div><h3>Rules it broke</h3><p class="mute" style="margin:0;font-size:13px">${st.broke.map(([r, n]) => `${esc(r)} ×${n}`).join(" · ")}</p></div>` : ""}
     <div><h3>Recent activity</h3>${st.es.length ? `<ul class="feed">${st.es.slice(0, 25).map((e) => feedItem(e, byId)).join("")}</ul>` : `<p class="mute" style="margin:0">No trades yet.</p>`}</div>`;
   drawAgentChart(a, w);
@@ -644,6 +654,7 @@ $("#slimes").addEventListener("keydown", (e) => { const c = e.target.closest(".c
 $("#agClose").addEventListener("click", closeAgent);
 $("#agent").addEventListener("cancel", (e) => { e.preventDefault(); closeAgent(); });
 $("#agent").addEventListener("click", (e) => { if(e.target === $("#agent")) closeAgent(); }); // backdrop
+$("#mkSeg").addEventListener("click", (e) => { const b = e.target.closest("button[data-t]"); if(!b) return; mkType = b.dataset.t; for(const x of $("#mkSeg").children) x.setAttribute("aria-pressed", String(x === b)); renderMarket(); });
 $("#mk").addEventListener("click", (e) => { const b = e.target.closest("button[data-k]"); if(!b) return; const k = b.dataset.k; mkSort = {k, dir: mkSort.k === k ? -mkSort.dir : (k === "sym" ? 1 : -1)}; renderMarket(); });
 addEventListener("popstate", () => S && routeHash());
 let rz; addEventListener("resize", () => { clearTimeout(rz); rz = setTimeout(() => S && renderChart(), 150); });

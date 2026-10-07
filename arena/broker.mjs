@@ -6,7 +6,7 @@
 // ticket that passes every check is executed. Nothing is filled from the
 // proposal directly.
 
-import { FEE_RATE, START_CASH } from './config.mjs';
+import { feeFor, START_CASH } from './config.mjs';
 import { walk, qtyForUsd, mid } from './market.mjs';
 
 const r = (x, d = 2) => Math.round(x * 10 ** d) / 10 ** d;
@@ -42,19 +42,20 @@ const ticketId = (agentId, now) => `${agentId}-${now.toString(36)}-${(seq++).toS
 export function preview(w, p, book, now) {
   const base = {
     id: ticketId(w.id, now), at: now, agent: w.id, side: p.side, sym: p.sym, reason: String(p.reason || '').trim(),
-    payer: `${w.id} paper wallet`, venue: 'Coinbase order book, simulated fill',
+    payer: `${w.id} paper wallet`, venue: book?.venue || 'Coinbase order book, simulated fill', marketOpen: book ? book.open !== false : null,
     cashBefore: r(w.cash), quoteAgeSec: book ? Math.round((now - book.at) / 1000) : null,
   };
   const held = w.positions[p.sym];
   const m = book ? mid(book) : null;
+  const FEE = feeFor(p.sym);
   if (p.side === 'buy') {
     const usd = +p.usd;
     const q = book && usd > 0 ? qtyForUsd(book.asks, usd) : { qty: 0, full: false };
     const avg = q.qty > 0 ? usd / q.qty : null;
-    const fee = usd * FEE_RATE;
+    const fee = usd * FEE;
     // What selling the same quantity straight back would return, fees both ways.
     const back = q.qty > 0 ? walk(book.bids, q.qty) : { avg: null, full: false };
-    const sellback = back.avg ? (q.qty * back.avg * (1 - FEE_RATE)) / (usd + fee) * 100 : 0;
+    const sellback = back.avg ? (q.qty * back.avg * (1 - FEE)) / (usd + fee) * 100 : 0;
     return {
       ...base, qty: q.qty, avgPrice: avg, mid: m, notional: r(usd), fee: r(fee, 4),
       cashAfter: r(w.cash - usd - fee), depthOk: q.full, sellbackPct: r(sellback),
@@ -68,7 +69,7 @@ export function preview(w, p, book, now) {
     const qty = held ? held.qty * frac : 0;
     const f = qty > 0 && book ? walk(book.bids, qty) : { avg: null, full: false };
     const proceeds = f.avg ? qty * f.avg : 0;
-    const fee = proceeds * FEE_RATE;
+    const fee = proceeds * FEE;
     return {
       ...base, qty, fraction: frac, avgPrice: f.avg, mid: m, notional: r(proceeds), fee: r(fee, 4),
       cashAfter: r(w.cash + proceeds - fee), depthOk: f.full,
@@ -112,7 +113,7 @@ export function ledgerEntry(w, t, outcome, checks) {
     usd: t.notional ?? null, fee: t.fee ?? null, pnl: t.pnl ?? null,
     stop: t.stop ?? null, tp: t.tp ?? null, reason: t.reason,
     ...(checks ? { failed: checks.filter((c) => !c.ok).map((c) => `${c.rule}: ${c.detail}`) } : {}),
-    ticket: { payer: t.payer, venue: t.venue, mid: t.mid, slippagePct: t.slippagePct, sellbackPct: t.sellbackPct, cashBefore: t.cashBefore, cashAfter: t.cashAfter, quoteAgeSec: t.quoteAgeSec },
+    ticket: { payer: t.payer, venue: t.venue, marketOpen: t.marketOpen, mid: t.mid, slippagePct: t.slippagePct, sellbackPct: t.sellbackPct, cashBefore: t.cashBefore, cashAfter: t.cashAfter, quoteAgeSec: t.quoteAgeSec },
   };
 }
 
@@ -130,7 +131,7 @@ export function checkExits(w, sym, candles, since) {
     if (h.stop && k.l <= h.stop) { kind = 'stop'; px = Math.min(h.stop, k.o) * (1 - EXIT_SLIP); }
     else if (h.tp && k.h >= h.tp) { kind = 'target'; px = Math.max(h.tp, k.o) * (1 - EXIT_SLIP); }
     if (!kind) continue;
-    const proceeds = h.qty * px, fee = proceeds * FEE_RATE;
+    const proceeds = h.qty * px, fee = proceeds * feeFor(sym);
     const t = {
       id: ticketId(w.id, k.t), at: Math.max(k.t, since), side: 'sell', sym, qty: h.qty, fraction: 1, avgPrice: px, mid: k.o,
       notional: r(proceeds), fee: r(fee, 4), pnl: r(h.qty * (px - h.avg) - fee),

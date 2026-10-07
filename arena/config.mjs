@@ -5,16 +5,31 @@
 // arena/ holds a key that can move funds.
 
 export const START_CASH = 1000;          // USD per agent
-export const FEE_RATE = 0.006;           // per fill, Coinbase's taker fee at the lowest tier
+export const FEE_RATE = 0.006;           // crypto, per fill: Coinbase's taker fee at the lowest tier
 export const MAX_ACTIONS = 3;            // proposals an agent may make per turn
 export const LEDGER_KEEP = 500;          // trades kept in trades.json for the board
 
 // Spot USD pairs. Long-only: an agent can buy, and sell what it holds.
-export const UNIVERSE = [
+export const CRYPTO = [
   'BTC-USD', 'ETH-USD', 'SOL-USD', 'XRP-USD', 'DOGE-USD', 'ADA-USD', 'AVAX-USD', 'LINK-USD',
   'DOT-USD', 'LTC-USD', 'BCH-USD', 'NEAR-USD', 'SUI-USD', 'APT-USD', 'ARB-USD', 'OP-USD',
   'UNI-USD', 'AAVE-USD', 'HBAR-USD', 'XLM-USD', 'FET-USD', 'RENDER-USD', 'INJ-USD', 'PEPE-USD',
 ];
+
+// US stocks and ETFs, from Yahoo Finance. They trade only in regular US market
+// hours (9:30-16:00 New York, weekdays); outside them a stock ticket is refused.
+// Yahoo gives a last price, not an order book, so a stock fills at the live
+// price plus half of STOCK_SPREAD_BPS each way, with no commission.
+export const STOCKS = [
+  'SPY', 'QQQ', 'AAPL', 'MSFT', 'NVDA', 'AMZN', 'GOOGL', 'META', 'TSLA', 'AVGO',
+  'AMD', 'NFLX', 'PLTR', 'COIN', 'MSTR', 'JPM', 'LLY', 'XOM', 'COST', 'WMT',
+];
+export const STOCK_SPREAD_BPS = 5;
+export const STOCK_FEE_RATE = 0;
+
+export const UNIVERSE = [...CRYPTO, ...STOCKS];
+export const isStock = (sym) => !String(sym).includes('-');
+export const feeFor = (sym) => (isStock(sym) ? STOCK_FEE_RATE : FEE_RATE);
 
 // The rules the server enforces on every proposal before it is "signed".
 // An agent is told these rules, but telling it is not what enforces them.

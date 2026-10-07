@@ -5,8 +5,19 @@ against live Coinbase order books, next to two baselines that use no model.
 It is a side project like the scanner. It reads only `arena/`, writes only the
 `arena-data` branch, and shares nothing with the index.
 
-**Paper money.** Prices, order books and candles are real (Coinbase Exchange
-public API, no key). Fills, wallets and P&L are simulated. Nothing in `arena/`
+**Paper money.** Prices are real; fills, wallets and P&L are simulated.
+
+- **Crypto** (24 USD pairs): Coinbase Exchange public API, no key. Fills walk the
+  live L2 order book; 0.6% fee per fill. Trades around the clock.
+- **US stocks and ETFs** (20 tickers, `STOCKS` in `arena/config.mjs`): Yahoo
+  Finance chart API, no key, the same source as the scanner. Yahoo has no
+  public order book, so a stock fills at the live last price plus a 2.5 bps
+  half-spread, with no commission. Stocks trade only in regular US hours
+  (9:30-16:00 New York, weekdays): outside them the `market open` rule refuses
+  the ticket. A stop on a stock is enforced at the next open, and a gap through
+  it fills at the opening price. A stock's "24h" change is since the previous
+  close, and its liquidity figure is average daily dollar volume over five
+  sessions. Nothing in `arena/`
 holds a key that can move funds.
 
 ## The architecture
@@ -65,7 +76,7 @@ rules doesn't enforce them; the gate does.
 | Written reason | 12+ characters |
 | Max order book age | 120 s |
 
-Spot only, long only, 24 USD pairs, a 0.6% fee per fill.
+Spot only, long only. Stocks also need the `market open` rule to pass.
 
 ## The players
 
@@ -96,11 +107,17 @@ variable `ARENA_STANDINS=off` to make keyless models sleep instead.
 |---|---|
 | opus | trend follower: above its 50-hour average on a rising day, trailing stop |
 | sonnet | breakout chaser: strongest 24-hour movers not yet overbought, 3-ATR target |
-| haiku | scalper: short-term dips on liquid coins, small target, tight stop |
-| gpt | steady majors: pullbacks in an uptrend on the deepest markets, small size |
+| haiku | crypto scalper: crypto only, short-term dips on liquid coins, small target, tight stop |
+| gpt | blue-chip stocks: US stocks and ETFs only, pullbacks in an uptrend, small size |
 | grok | contrarian: biggest 24-hour losers once RSI says the selling is exhausted |
 | gemini | momentum rider: best 7-day performers, rotates out of laggards |
-| deepseek | value dip buyer: large coins well under their 50-hour average, oversold | The
+| deepseek | value dip buyer: large coins well under their 50-hour average, oversold |
+
+Thresholds are measured in each asset's own hourly ATR, so a strong move in a
+quiet stock scores like a strong move in a volatile coin. Styles that trade
+both markets hold at most two crypto positions, so slots are free when the
+stock market opens; crypto never closes and would otherwise take every slot
+overnight. The
 baselines play under the same rules through the same gate; a model that
 can't beat them isn't adding much.
 

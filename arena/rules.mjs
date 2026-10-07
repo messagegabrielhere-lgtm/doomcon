@@ -4,7 +4,7 @@
 // against the rules in config.mjs and returns every check with its result, so
 // a rejection on the board says exactly which rule stopped it.
 
-import { RULES, UNIVERSE } from './config.mjs';
+import { RULES, UNIVERSE, isStock } from './config.mjs';
 import { equity } from './broker.mjs';
 
 const pct = (x) => `${Math.round(x * 100) / 100}%`;
@@ -32,6 +32,8 @@ export function gate(w, t, { prices, rows, now, rules = RULES, universe = UNIVER
     return { ok: checks.every((c) => c.ok), checks };
   }
 
+  // Stocks trade only while the US market is open; crypto never closes.
+  if (isStock(t.sym)) add('market open', t.marketOpen === true, t.marketOpen ? 'US market open' : 'the US stock market is closed (9:30-16:00 New York, weekdays)');
   add('fresh quote', t.quoteAgeSec != null && t.quoteAgeSec <= rules.maxQuoteAgeSec, t.quoteAgeSec == null ? 'no order book' : `${t.quoteAgeSec}s old`);
   add('book depth', t.depthOk, t.depthOk ? 'fills in full' : 'the book is too thin to fill this size');
   add('trades today', w.day.trades < rules.maxTradesPerDay, `${w.day.trades} of ${rules.maxTradesPerDay} used`);
