@@ -9,9 +9,9 @@ says what a reader sees when any of them stops.
 
 | layer | file | beat | what it moves |
 |---|---|---|---|
-| **1. schedule** | `.github/workflows/collect.yml` | 15 min / 1 h | fetches, rebuilds, deploys |
-| **2. collector** | `collector/news.mjs` | per source, 5 min – 1 h | which feeds get asked at all |
-| **3. page** | `site/templates/_motion.mjs` | 60 s in the browser | an already-open tab |
+| **1. schedule** | `news-fast.yml` + `collect.yml` | 1 min / 15 min / 1 h | fetches, rebuilds, deploys |
+| **2. collector** | `collector/news.mjs` | per source, 1 min – 1 h | which feeds get asked at all |
+| **3. page** | `site/templates/_motion.mjs` | 30 s in the browser | an already-open tab |
 
 Layer 3 is the one people actually experience. A build every fifteen minutes
 means nothing to someone who opened the page fourteen minutes ago; the poller is
@@ -34,10 +34,16 @@ Both lanes live in one workflow file and select themselves on
 `cancel-in-progress: false`, so no two data-writing runs are ever in flight at
 once.
 
-### The fast lane — every 15 minutes, ~1–2 minutes
+### The minute loop — `news-fast.yml`, ~1 minute ticks
 
-`news.mjs` → gate → `build.mjs` + cards → commit `data/news.json` → publish
-`public/` to `gh-pages`.
+`news.mjs` → if items changed → `build.mjs --only news` → overlay-publish
+newsroom files onto `gh-pages`. Measured ~1.2s for the news-only build vs
+~9s for a full wipe rebuild; unchanged item briefs keep their bytes so a
+one-story tick does not rewrite ~400 pages. The overlay keeps a persistent
+`.pages` clone across the hour (fetch+reset, not a fresh ~100MB clone each
+publish) and rsyncs `item/` / `news/` so only moved files transfer — avoiding
+a full ~90MB retar when only the newsroom moved. Cards and the posting sheet
+stay on the hourly lane.
 
 It does **not** run the index engine. That is a correctness rule, not a saving.
 Receipts are append-only and the anti-flap machinery measures dwell in hours; an
@@ -52,7 +58,7 @@ GitHub keeps only one pending run per group, so the extra ones are cancelled
 anyway. Fifteen minutes gives a late run room to land before the next one is
 due, and it keeps the publish rate inside what GitHub Pages is comfortable
 serving. The marginal freshness 5 would buy is in any case already covered by
-layer 3, which is polling every sixty seconds from the reader's own browser.
+layer 3, which is polling every thirty seconds from the reader's own browser.
 
 **Why it commits `data/news.json` on every pass, even a pass that changed
 nothing.** That file carries the per-source cadence ledger
@@ -102,15 +108,21 @@ coverage — only latency on that one feed.
 
 | kind | interval | why |
 |---|---|---|
-| `forum`, `press`, `status` | 5 min | HN, Techmeme, Verge, Ars and incident feeds genuinely turn over inside a quarter hour |
-| `release`, `lab` | 15 min | GitHub tags and lab blogs land in bursts, a few times a week |
+| `forum`, `press`, `status` | 1 min | The news-fast loop ticks every minute. HN, Techmeme, Verge, Ars and incident feeds move inside that window |
+| `reddit-*` | 3 min | Same `forum` kind, slower on purpose: eight subreddits a minute gets a shared Actions IP throttled |
+| `lab` | 5 min | Lab blogs publish a few times a week. Five minutes is the useful beat |
+| `release` | 15 min | GitHub tags land in bursts, not continuously |
 | `model` | 30 min | HF trending is a rolling average; it cannot move in fifteen minutes |
 | `paper` | 60 min | arXiv and HF Daily Papers publish in daily batches, and arXiv throttles |
 
-Anything at or under 15 minutes is effectively "every fast run". The two `paper`
-sources and the one `model` source are the ones that actually get held back —
-which is deliberate, because they are the expensive, rate-limited, slowest-moving
-feeds in the set.
+Anything at 60 seconds is asked on every tick of the minute loop. Slower kinds
+are carried forward between ticks. The `paper` and `model` sources are the ones
+held back on purpose: they are the expensive, rate-limited, slowest-moving feeds
+in the set.
+
+When the hourly index cron is dropped by GitHub, `news-fast.yml` wakes a full
+pass once the newest reading is more than **50 minutes** old (at most every
+15 minutes), so a missed `:07` does not leave the page on last hour's number.
 
 **The 20% slack matters more than the intervals do.** Cron does not keep time,
 and it runs a little *early* relative to the previous run's own clock as often as
@@ -158,10 +170,14 @@ zero duplicate ids; zero duplicate source rows.
 
 ## 3. The page, between builds
 
-`_motion.mjs` polls `api/state.json` and `api/news.json` every 60 s. Its whole
+`_motion.mjs` polls `api/state.json` and `api/news.json` every 30 s. Its whole
 discipline is one rule: **if nothing changed, do nothing visible.** A page that
 churns while saying nothing is lying about activity, which is the failure mode
 this project exists not to commit.
+
+The newsroom loop publishes with `site/build.mjs --only news` so a changed
+feed does not rebuild the whole site (~9s wipe) before `api/news.json` is
+live — that is what keeps the 30 s poll from staring at yesterday's room.
 
 - **New items are offered, never inserted.** Arrivals are buffered and counted —
   *"3 new stories since you arrived · newest 4m ago"* — and the reader presses a

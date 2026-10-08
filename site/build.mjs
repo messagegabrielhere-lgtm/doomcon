@@ -7,7 +7,7 @@
 // against a fixture without writing anything into the real data directory,
 // which belongs to the collector.
 
-import { stampAll } from './sitebar.mjs';
+import { stampAll, stampFiles } from './sitebar.mjs';
 import { readFile, writeFile, mkdir, readdir, copyFile, rm } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import path from 'node:path';
@@ -213,12 +213,19 @@ const DAY_MAX_AGE_S = 40 * 3600;
 const SPARK_POINTS = 48;
 
 function parseArgs(argv) {
-  const out = { data: 'data', docs: 'docs', out: 'public', quiet: false };
+  const out = { data: 'data', docs: 'docs', out: 'public', quiet: false, only: null };
   for (let i = 0; i < argv.length; i += 1) {
     const a = argv[i];
     if (a === '--data' || a === '--docs' || a === '--out') { out[a.slice(2)] = argv[i + 1]; i += 1; }
+    else if (a === '--only') {
+      out.only = argv[i + 1];
+      i += 1;
+      if (out.only !== 'news') {
+        throw new Error(`build: --only supports "news" (got ${JSON.stringify(out.only)}). Usage: node site/build.mjs [--only news] [--data DIR] [--docs DIR] [--out DIR] [--quiet]`);
+      }
+    }
     else if (a === '--quiet') out.quiet = true;
-    else throw new Error(`build: unknown argument "${a}". Usage: node site/build.mjs [--data DIR] [--docs DIR] [--out DIR] [--quiet]`);
+    else throw new Error(`build: unknown argument "${a}". Usage: node site/build.mjs [--only news] [--data DIR] [--docs DIR] [--out DIR] [--quiet]`);
   }
   for (const k of ['data', 'docs', 'out']) {
     if (!out[k]) throw new Error(`build: --${k} needs a directory path`);
@@ -808,11 +815,23 @@ async function main() {
   const receipts = await loadReceipts(path.join(args.data, 'receipts'));
   const moves = deriveMoves(receipts);
 
-  // Start from an empty directory so a deleted move page actually disappears
-  // instead of lingering in the deployed site forever.
-  if (existsSync(args.out)) await rm(args.out, { recursive: true, force: true });
-  await mkdir(args.out, { recursive: true });
-  const cardCount = await copyCards(args.data, args.out);
+  // --only news keeps the existing public/ tree and rewrites the newsroom
+  // surfaces the minute loop actually needs. A full wipe would throw away
+  // ~1,200 static files and cost ~9s just to republish api/news.json.
+  // Fall through to a full build when there is nothing to patch.
+  let newsOnly = args.only === 'news';
+  if (newsOnly && !existsSync(path.join(args.out, 'index.html'))) {
+    log('build --only news: no prior public/index.html; running a full build instead');
+    newsOnly = false;
+  }
+  let cardCount = 0;
+  if (!newsOnly) {
+    // Start from an empty directory so a deleted move page actually disappears
+    // instead of lingering in the deployed site forever.
+    if (existsSync(args.out)) await rm(args.out, { recursive: true, force: true });
+    await mkdir(args.out, { recursive: true });
+    cardCount = await copyCards(args.data, args.out);
+  }
 
   const stamps = [...history.map((h) => h.generated_at), ...receipts.map((r) => r.generated_at)]
     .sort((a, b) => Date.parse(a) - Date.parse(b));
@@ -1216,6 +1235,123 @@ async function main() {
   try { ctx.molt = JSON.parse(await readFile(path.join(args.data, 'moltbook.json'), 'utf8')); } catch { ctx.molt = null; }
   written.push(await write(args.out, 'index.html', homeV2.render(ctx, { head: classicHead })));
   written.push(await write(args.out, 'classic.html', classicHtml));
+
+  // NEWS-ONLY FAST PATH. Used by the minute newsroom loop. Rewrites the pages
+  // and JSON the open-tab poller and newsroom HTML need, leaves move pages,
+  // methodology, fonts, PNGs and standalone apps untouched, and stamps only
+  // the HTML it wrote. Item briefs are rewritten only when the item, its
+  // pillar neighbour set, or the index as-of stamp changed — so a one-story
+  // tick does not rewrite ~400 mostly-identical files. Measured ~1–2s vs ~9s
+  // for a full wipe rebuild; incremental item skips cut I/O further on hot ticks.
+  if (newsOnly) {
+    written.push(await write(args.out, 'instruments.html', indexPage.render(ctx, { view: 'instruments' })));
+    if (newsPage.hasNews(ctx)) {
+      written.push(await write(args.out, 'news.html', newsPage.render(ctx)));
+    }
+    let itemRewritten = 0;
+    let itemSkipped = 0;
+    if (itemPage.hasItems(ctx)) {
+      const items = ctx.news.items;
+      const byPillar = new Map();
+      for (const it of items) {
+        if (!byPillar.has(it.pillar)) byPillar.set(it.pillar, []);
+        byPillar.get(it.pillar).push(it);
+      }
+      // Compare against the previous newsroom on disk (read before we overwrite
+      // api/news.json below) so unchanged briefs keep their bytes and mtimes —
+      // that lets the overlay rsync skip them on publish.
+      let prevItems = [];
+      try {
+        prevItems = JSON.parse(await readFile(path.join(args.out, 'api/news.json'), 'utf8')).items || [];
+      } catch { /* first news-only pass, or corrupt prior */ }
+      let prevAsOf = null;
+      try {
+        prevAsOf = JSON.parse(await readFile(path.join(args.out, 'api/state.json'), 'utf8')).generated_at;
+      } catch { /* absent */ }
+      const asOfChanged = prevAsOf !== state.generated_at;
+      const prevById = new Map(prevItems.map((it) => [it.id, it]));
+      const pillarKey = (list, pillar) => list
+        .filter((it) => it.pillar === pillar)
+        .map((it) => it.id)
+        .sort()
+        .join('\0');
+      const prevPillarKeys = new Map();
+      for (const p of new Set(prevItems.map((it) => it.pillar))) {
+        prevPillarKeys.set(p, pillarKey(prevItems, p));
+      }
+      const keep = new Set(['index.html']);
+      for (const it of items) {
+        const slug = itemPage.slugFor(it);
+        keep.add(`${slug}.html`);
+        const rel = `item/${slug}.html`;
+        const abs = path.join(args.out, rel);
+        const prev = prevById.get(it.id);
+        const pillarChanged = prevPillarKeys.get(it.pillar) !== pillarKey(items, it.pillar);
+        const itemChanged = !prev || stableJson(it) !== stableJson(prev);
+        if (!asOfChanged && !pillarChanged && !itemChanged && existsSync(abs)) {
+          itemSkipped += 1;
+          continue;
+        }
+        const related = (byPillar.get(it.pillar) || [])
+          .filter((r) => r.id !== it.id)
+          .slice(0, 5);
+        written.push(await write(args.out, rel, itemPage.render(ctx, it, related)));
+        itemRewritten += 1;
+      }
+      const itemDir = path.join(args.out, 'item');
+      if (existsSync(itemDir)) {
+        for (const name of await readdir(itemDir)) {
+          if (!name.endsWith('.html') || keep.has(name)) continue;
+          await rm(path.join(itemDir, name), { force: true });
+        }
+      }
+      written.push(await write(args.out, 'item/index.html', itemPage.renderIndex(ctx)));
+    }
+    await writeDirectoryAliases(args.out, ['news'], write, written);
+    written.push(await write(args.out, 'feed.xml', feed.render(ctx)));
+    if (news) written.push(await write(args.out, 'api/news.json', stableJson(news)));
+    // Keep state.json's poll surface current so the motion layer's dual fetch
+    // does not mix a fresh newsroom with a stale compile stamp.
+    written.push(await write(args.out, 'api/state.json', stableJson({
+      ...state,
+      _about: `${brand.NAME}: ${brand.DESCRIPTION}`,
+      _disclaimer: brand.DISCLAIMER,
+      _license: brand.LICENSE,
+      _docs: ctx.url('/methodology.html'),
+    })));
+    // Same two-timestamp file the full build ships — open tabs and the
+    // sitebar watch this instead of re-downloading news.json every poll.
+    written.push(await write(args.out, 'api/fresh.json', stableJson({
+      schema: 1,
+      state: state.generated_at,
+      news: news && typeof news.generated_at === 'string' ? news.generated_at : null,
+    })));
+    const htmlWritten = written.filter((f) => f.endsWith('.html'));
+    const stamped = await stampFiles(htmlWritten, args.out, state.generated_at, {
+      level: state.level,
+      newsAt: news && news.generated_at,
+    });
+    const score = num(state.score, 1);
+    const idx = await readFile(path.join(args.out, 'index.html'), 'utf8');
+    if (!idx.includes(score)) {
+      throw new Error(`build --only news: self-check failed - score "${score}" missing from index.html`);
+    }
+    if (news && !existsSync(path.join(args.out, 'api/news.json'))) {
+      throw new Error('build --only news: self-check failed - api/news.json was not written');
+    }
+    if (!existsSync(path.join(args.out, 'api/fresh.json'))) {
+      throw new Error('build --only news: self-check failed - api/fresh.json was not written');
+    }
+    log(`${brand.NAME} news-only build complete.`);
+    log(`  out          ${args.out}`);
+    log(`  level        ${brand.NAME} ${state.level} (${state.level_name}), score ${score}`);
+    log(`  files        ${written.length}`);
+    log(`  items        ${itemRewritten} rewritten, ${itemSkipped} unchanged`);
+    log(`  sitebar      ${stamped} pages`);
+    for (const w of warnings) log(`  WARNING      ${w}`);
+    return;
+  }
+
   written.push(await write(args.out, 'instruments.html', indexPage.render(ctx, { view: 'instruments' })));
   written.push(await write(args.out, 'methodology.html', methodologyPage.render(ctx)));
   written.push(await write(args.out, 'history.html', historyPage.render(ctx)));
@@ -1500,6 +1636,13 @@ async function main() {
   // not run: the client detects the 404, disables news polling and keeps
   // polling state, rather than pretending the newsroom is empty.
   if (news) written.push(await write(args.out, 'api/news.json', stableJson(news)));
+  // The open-tab poll. news.json is ~900KB; this is the two timestamps a
+  // reader needs to know whether that download is worth making.
+  written.push(await write(args.out, 'api/fresh.json', stableJson({
+    schema: 1,
+    state: state.generated_at,
+    news: news && typeof news.generated_at === 'string' ? news.generated_at : null,
+  })));
   if (race) written.push(await write(args.out, 'api/race.json', stableJson(race)));
   if (xwire) written.push(await write(args.out, 'api/x-surface.json', stableJson(xwire)));
   if (infra) written.push(await write(args.out, 'api/infra.json', stableJson(infra)));
@@ -1584,7 +1727,11 @@ async function main() {
 
   await selfCheck(args.out, state, ctx);
   // Last: the refresh bar and disclosure on every page, dated by the data.
-  const stamped = await stampAll(args.out, state.generated_at, { level: state.level, intro: mediaPages.INTRO_FOR });
+  const stamped = await stampAll(args.out, state.generated_at, {
+    level: state.level,
+    intro: mediaPages.INTRO_FOR,
+    newsAt: news && news.generated_at,
+  });
 
   log(`${brand.NAME} build complete.`);
   log(`  out          ${args.out}`);

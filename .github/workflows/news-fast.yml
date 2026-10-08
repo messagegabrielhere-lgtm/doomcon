@@ -104,14 +104,16 @@ jobs:
             # WAKE THE INDEX PASS IF THE CRON DID NOT. Measured 2026-10-04: the
             # hourly schedule in collect.yml fired at 05:15, then not again
             # until 10:49. GitHub drops scheduled runs under load and says so.
-            # A reading five hours old is the opposite of early, so when the
-            # newest state on main is more than 70 minutes old this loop asks
-            # for a full pass itself, at most once every 20 minutes.
+            # A reading that is already past its hour is overdue: when the
+            # newest state on main is more than 50 minutes old this loop asks
+            # for a full pass itself, at most once every 15 minutes, so a
+            # dropped :07 cron does not leave the page sitting on last hour's
+            # number for another twenty minutes of slack.
             # workflow_dispatch is one of the two events GITHUB_TOKEN is
             # allowed to raise.
             AGE=$(node -e "try{const s=require('./data/state.json');process.stdout.write(String(Math.round((Date.now()-Date.parse(s.generated_at))/60000)))}catch(e){process.stdout.write('0')}")
             NOW=$(date +%s)
-            if [ "$AGE" -gt 70 ] && [ $(( NOW - LAST_WAKE )) -gt 1200 ] && [ "${CHAIN:-on}" != "off" ]; then
+            if [ "$AGE" -gt 50 ] && [ $(( NOW - LAST_WAKE )) -gt 900 ] && [ "${CHAIN:-on}" != "off" ]; then
               echo "tick $TICK: newest reading is ${AGE} min old — dispatching the full index pass"
               gh workflow run collect.yml --repo "$GITHUB_REPOSITORY" || echo "::warning::could not dispatch collect.yml"
               LAST_WAKE=$NOW
@@ -127,26 +129,75 @@ jobs:
             AFTER=$(node -e "try{const d=require('./data/news.json');process.stdout.write(require('crypto').createHash('sha256').update(JSON.stringify(d.items.map(i=>i.id))).digest('hex'))}catch{process.stdout.write('none')}")
 
             if [ "$BEFORE" != "$AFTER" ]; then
-              echo "tick $TICK: newsroom changed — rebuilding and publishing"
-              node site/build.mjs || { echo "::warning::build failed on tick $TICK"; sleep 45; continue; }
-              node collector/card.mjs   || true
-              node collector/posts.mjs  || true
-              node site/post-sheet.mjs  || true
+              echo "tick $TICK: newsroom changed — fast rebuild and publish"
+              # --only news: patch the live tree instead of wiping ~1,200 files.
+              # Cards / posts / post-sheet are hourly (collect.yml); they are not
+              # what makes the newsroom feel current.
+              node site/build.mjs --only news --quiet \
+                || { echo "::warning::news-only build failed on tick $TICK; trying full build"; node site/build.mjs --quiet || { echo "::warning::build failed on tick $TICK"; sleep 45; continue; }; }
 
-              rm -rf .pages && mkdir .pages
-              echo '.pages/' > .git/info/exclude.tmp && cat .git/info/exclude >> .git/info/exclude.tmp 2>/dev/null || true
-              mv .git/info/exclude.tmp .git/info/exclude
-              tar cf - -C public . | (cd .pages && tar xf -)
-              (
-                cd .pages
-                git init -q
-                git checkout -q -b gh-pages
-                git config user.name  'github-actions[bot]'
-                git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-                git add -A
-                git commit -q -m "newsroom refresh — $(date -u +%Y-%m-%dT%H:%M:%SZ)"
-                git push -q -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" gh-pages
-              ) && PUBLISHED=$((PUBLISHED + 1))
+              # Overlay onto the live gh-pages tip instead of re-tarring the
+              # whole 90MB+ site. Keep .pages across ticks: a fresh shallow
+              # clone is ~100MB / ~2–3s every publish; fetch+reset is seconds
+              # cheaper once the working copy exists. rsync then skips the
+              # ~31MB of item briefs whose bytes/mtimes did not move.
+              # Falls back to a full orphan publish if refresh or push fails.
+              PUB_OK=0
+              PAGES_REMOTE="https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
+              if [ -d .pages/.git ]; then
+                if ! git -C .pages fetch -q origin gh-pages 2>/dev/null \
+                  || ! git -C .pages reset -q --hard FETCH_HEAD 2>/dev/null; then
+                  echo "tick $TICK: could not refresh .pages; recloning"
+                  rm -rf .pages
+                fi
+              fi
+              if [ ! -d .pages/.git ]; then
+                rm -rf .pages
+                git clone -q --depth 1 --branch gh-pages "$PAGES_REMOTE" .pages \
+                  || rm -rf .pages
+              fi
+              if [ -d .pages/.git ]; then
+                for rel in api/news.json api/state.json api/fresh.json news.html index.html classic.html instruments.html feed.xml; do
+                  if [ -e "public/$rel" ]; then
+                    mkdir -p ".pages/$(dirname "$rel")"
+                    cp -a "public/$rel" ".pages/$rel"
+                  fi
+                done
+                if command -v rsync >/dev/null 2>&1; then
+                  if [ -d public/news ]; then mkdir -p .pages/news && rsync -a --delete public/news/ .pages/news/; fi
+                  if [ -d public/item ]; then mkdir -p .pages/item && rsync -a --delete public/item/ .pages/item/; fi
+                else
+                  if [ -d public/news ]; then rm -rf .pages/news && cp -a public/news .pages/news; fi
+                  if [ -d public/item ]; then rm -rf .pages/item && cp -a public/item .pages/item; fi
+                fi
+                git -C .pages config user.name  'github-actions[bot]'
+                git -C .pages config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+                git -C .pages add -A
+                if git -C .pages diff --cached --quiet; then
+                  echo "tick $TICK: overlay had nothing new to commit"
+                  PUB_OK=1
+                elif git -C .pages commit -q -m "newsroom refresh — $(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+                  && git -C .pages push -q "$PAGES_REMOTE" HEAD:gh-pages; then
+                  PUB_OK=1
+                fi
+              fi
+              if [ "$PUB_OK" -ne 1 ]; then
+                echo "tick $TICK: overlay publish missed; full orphan publish"
+                rm -rf .pages && mkdir .pages
+                echo '.pages/' > .git/info/exclude.tmp && cat .git/info/exclude >> .git/info/exclude.tmp 2>/dev/null || true
+                mv .git/info/exclude.tmp .git/info/exclude
+                tar cf - -C public . | (cd .pages && tar xf -)
+                git -C .pages init -q
+                git -C .pages checkout -q -b gh-pages
+                git -C .pages config user.name  'github-actions[bot]'
+                git -C .pages config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+                git -C .pages add -A
+                git -C .pages commit -q -m "newsroom refresh — $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+                if git -C .pages push -q -f "$PAGES_REMOTE" gh-pages; then
+                  PUB_OK=1
+                fi
+              fi
+              [ "$PUB_OK" -eq 1 ] && PUBLISHED=$((PUBLISHED + 1))
             else
               echo "tick $TICK: no change"
             fi

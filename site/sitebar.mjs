@@ -23,15 +23,17 @@ const SKIP = new Set(['embed.html']);
 
 export const DISCLOSURE = 'Not financial advice. We are not financial advisors, brokers, or a registered investment adviser, and nothing on this site is investment, financial, legal, tax or trading advice, or a recommendation to buy, sell or hold any stock, crypto asset or other instrument. Stock picks, signals, scores and AI trades shown here are automated, simulated or hypothetical, for information and entertainment only. Past and simulated performance does not predict future results, and trading can lose money, including more than you expect. Do your own research and talk to a licensed financial professional before you invest.';
 
-export function sitebar(asOf, { level = 4, rel = '', intro = {} } = {}) {
+export function sitebar(asOf, { level = 4, rel = '', intro = {}, newsAt = '' } = {}) {
   const introFile = (intro && intro[rel]) || 'siren-explainer';
   const introLabel = introFile === 'siren-explainer' ? 'WHAT IS SIREN?' : ({ 'siren-tally': 'MEET TALLY', 'siren-skynet': 'SKYNET STATUS', 'siren-si-ready': 'READY FOR SI?', 'siren-ai-proof-job': 'AI-PROOF YOUR JOB', 'siren-supply-drop': 'SUPPLY DROP' })[introFile] || 'SIREN';
   const at = Number.isFinite(Date.parse(asOf)) ? Date.parse(asOf) : Date.now();
+  const newsMs = Number.isFinite(Date.parse(newsAt)) ? Date.parse(newsAt) : 0;
   return `
-<div id="sitebar" ${MARK} data-at="${at}" role="region" aria-label="Page freshness">
+<div id="sitebar" ${MARK} data-at="${at}" data-news="${newsMs}" role="region" aria-label="Page freshness">
 <style>
 #sitebar{position:fixed;right:12px;bottom:12px;z-index:9999;display:flex;align-items:center;gap:8px;padding:5px 6px 5px 12px;border-radius:999px;background:rgba(255,255,255,.94);color:#1b2230;border:1px solid rgba(0,0,0,.14);box-shadow:0 4px 18px rgba(0,0,0,.14);font:500 12px/1.2 system-ui,-apple-system,"Segoe UI",sans-serif;backdrop-filter:blur(6px)}
 #sitebar button{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:999px;background:#1b2230;color:#fff;font:600 12px/1 system-ui,-apple-system,"Segoe UI",sans-serif}
+#sitebar button.due{background:#b45309;color:#fff}
 #sitebar button:focus-visible{outline:2px solid #e2a03b;outline-offset:2px}
 #sitebar button[aria-busy=true] svg{animation:sitebar-spin .8s linear infinite}
 #sitebar time{white-space:nowrap}
@@ -55,7 +57,7 @@ export function sitebar(asOf, { level = 4, rel = '', intro = {} } = {}) {
 <a class="fb" id="sitebar-fb" href="${CANONICAL_URL}/feedback.html" title="Report a problem or send feedback">Feedback</a>
 ${MONETIZE.tips && MONETIZE.tips.url ? `<a class="fb kofi" href="${MONETIZE.tips.url}" target="_blank" rel="noopener" title="${MONETIZE.tips.label}">☕ Support</a>` : ''}<a class="fb" id="sitebar-x" href="https://x.com/intent/post?via=SIRENutf6" target="_blank" rel="noopener" title="Post this page on X">𝕏 Post</a>
 <button type="button" class="rad" data-siren-radio data-level="${level}" aria-pressed="false" title="Turn SIREN Radio on">♪ OFF</button><button type="button" class="rad st" data-siren-station="" aria-label="Next radio station" title="Next station (6 stations)">📻</button>
-<button type="button" id="sitebar-btn" aria-label="Refresh this page's data"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/></svg>Refresh</button>
+<button type="button" id="sitebar-btn" aria-label="Refresh this page's data"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/></svg><span id="sitebar-lbl">Refresh</span></button>
 <script>
 (function(){
   var bar = document.getElementById("sitebar"), at = +bar.dataset.at;
@@ -136,6 +138,19 @@ ${MONETIZE.tips && MONETIZE.tips.url ? `<a class="fb kofi" href="${MONETIZE.tips
     bar.style.bottom = off + "px";
   }
   paint(); setInterval(paint, 60000);
+  // A tiny file, not news.json (~900KB). The label changes; the page does not reload itself.
+  var newsMark = +bar.getAttribute("data-news") || 0, lbl = document.getElementById("sitebar-lbl");
+  function watch(){
+    if (document.hidden) return;
+    fetch("${BASE}/api/fresh.json?m=" + Math.floor(Date.now() / 60000), { cache: "no-store" }).then(function(r){ return r.ok ? r.json() : null; }).then(function(f){
+      if (!f) return;
+      var ns = Date.parse(f.news), st = Date.parse(f.state);
+      if (newsMark && ns > newsMark + 1500) { btn.classList.add("due"); if (lbl) lbl.textContent = "New stories"; }
+      else if (st > at + 1500) { btn.classList.add("due"); if (lbl) lbl.textContent = "New reading"; }
+    }).catch(function(){});
+  }
+  setInterval(watch, 60000);
+  document.addEventListener("visibilitychange", function(){ if (!document.hidden) watch(); });
   lift(); addEventListener("resize", lift); addEventListener("load", lift); setTimeout(lift, 1500);
 })();
 </script>
@@ -175,5 +190,20 @@ export async function stampAll(outDir, asOf, opts = {}) {
     }
   }
   await walk(outDir);
+  return n;
+}
+
+/** Stamp only the listed absolute HTML paths (used by --only news builds). */
+export async function stampFiles(files, outDir, asOf, opts = {}) {
+  stampOpts = opts;
+  let n = 0;
+  for (const abs of files) {
+    if (!abs.endsWith('.html')) continue;
+    const rel = path.relative(outDir, abs).split(path.sep).join('/');
+    if (SKIP.has(rel)) continue;
+    const html = await readFile(abs, 'utf8');
+    const out = stamp(html, asOf, rel);
+    if (out !== html) { await writeFile(abs, out); n++; }
+  }
   return n;
 }
