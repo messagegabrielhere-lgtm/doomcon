@@ -845,6 +845,18 @@ async function main() {
     warn('data/race.json is absent; building without /race. Run collector/race.mjs first.');
   }
 
+  // Hand-picked stories for the homepage "Desk picks" strip. Optional and its
+  // own failure domain: a bad file drops the strip, never the build.
+  let deskPicks = null;
+  const deskFile = path.join(args.data, 'desk-picks.json');
+  if (existsSync(deskFile)) {
+    try {
+      deskPicks = JSON.parse(await readFile(deskFile, 'utf8'));
+    } catch (err) {
+      warn(`data/desk-picks.json is present but unreadable (${err.message}); building without desk picks.`);
+    }
+  }
+
   let xwire = null;
   const xFile = path.join(args.data, 'x-surface.json');
   if (existsSync(xFile)) {
@@ -1089,6 +1101,7 @@ async function main() {
     state,
     logos,
     news,
+    deskPicks,
     race,
     infra,
     digest,

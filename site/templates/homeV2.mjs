@@ -12,6 +12,7 @@ import { sponsorLine, newsletterBox, tipLink, MZ_CSS, MONETIZE } from '../moneti
 import { whatMoved, alternativeSignals } from '../extras.mjs';
 import { render as verifyBox, verifyCss } from './_verify.mjs';
 import { PILLARS as BRAND_PILLARS } from '../brand.mjs';
+import { renderV2 as deskPicks } from './_deskpicks.mjs';
 const PILLAR_META = Object.fromEntries(BRAND_PILLARS.map((p) => [p.id, p]));
 
 // ---------- copy ----------
@@ -523,6 +524,7 @@ ${nav.strip}
 
   ${top ? `<div class="v2-breaking" id="breaking" data-sec="Breaking"><span class="badge"><span class="blink">${icon('bolt', 2)}</span>BREAKING</span><a href="${esc(top.url)}" rel="noopener">${esc(top.title)}</a><span class="src">${esc(hhmm(top.published_at))} · ${esc(String(top.source).toUpperCase())}</span></div>` : ''}
 
+${deskPicks(ctx, pixelText)}
 ${movedPanel(wm, href)}
   ${historyPanel(rows)}
   <div class="v2-two">${loudPanel(state, rows)}${healthPanel(state)}</div>

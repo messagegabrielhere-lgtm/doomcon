@@ -78,6 +78,7 @@ import * as developing from './_developing.mjs';
 import * as leaderwire from './_leaderwire.mjs';
 import * as readings from './_readings.mjs';
 import * as claims from './_claims.mjs';
+import * as deskPicks from './_deskpicks.mjs';
 import { existsSync } from 'node:fs';
 
 // THE ONE HOMEPAGE MODULE THAT IS NOT A STATIC IMPORT, for the reason
@@ -846,6 +847,8 @@ ${developing.render(ctx)}
 </div>
 
 ${homeMap(ctx)}
+
+${deskPicks.render(ctx)}
 
 ${switcher.render(ctx)}
 
