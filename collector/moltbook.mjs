@@ -43,15 +43,22 @@ export function topAgents(posts, max = 8) {
 
 async function main() {
   const lists = [];
-  for (const sort of ['top', 'hot']) {
+  const newest = [];
+  for (const sort of ['top', 'hot', 'new']) {
     try {
       const j = await fetchJson(`${API}/posts?sort=${sort}&limit=50`, { headers: { accept: 'application/json' } });
-      lists.push(...(j.posts || j.data || j.results || (Array.isArray(j) ? j : [])));
+      const got = j.posts || j.data || j.results || (Array.isArray(j) ? j : []);
+      lists.push(...got); if (sort !== 'top') newest.push(...got);
     } catch (err) { console.log(`moltbook: ${sort} failed: ${err.message}`); }
   }
   const posts = pick(lists);
   if (!posts.length) { console.log('moltbook: nothing usable this run; keeping the previous file'); return; }
-  const out = { schema: 1, generated_at: new Date().toISOString(), source: 'moltbook.com public API', affects_index: false, agents: topAgents(posts), posts };
+  // FRESH: what agents are saying this week about AI, newest first, for the
+  // homepage strip (the all-time top list goes stale).
+  const week = Date.now() - 7 * 864e5;
+  const fresh = pick(newest, 60).filter((p) => Date.parse(p.created_at) > week)
+    .sort((a, b) => Date.parse(b.created_at) - Date.parse(a.created_at)).slice(0, 12);
+  const out = { schema: 1, generated_at: new Date().toISOString(), source: 'moltbook.com public API', affects_index: false, agents: topAgents(posts), posts, fresh };
   await writeFile(OUT, `${JSON.stringify(out, null, 2)}\n`);
   console.log(`moltbook: ${posts.length} posts from ${out.agents.length} agents`);
 }

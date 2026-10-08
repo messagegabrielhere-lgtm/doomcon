@@ -1212,6 +1212,7 @@ async function main() {
     const pm = Array.isArray(list) ? list.find((x) => x && x.source === 'polymarket') : null;
     ctx.pmTop = pm && pm.meta && Array.isArray(pm.meta.top_contributors) ? pm.meta.top_contributors : [];
   } catch { ctx.pmTop = []; }
+  try { ctx.molt = JSON.parse(await readFile(path.join(args.data, 'moltbook.json'), 'utf8')); } catch { ctx.molt = null; }
   written.push(await write(args.out, 'index.html', homeV2.render(ctx, { head: classicHead })));
   written.push(await write(args.out, 'classic.html', classicHtml));
   written.push(await write(args.out, 'instruments.html', indexPage.render(ctx, { view: 'instruments' })));
