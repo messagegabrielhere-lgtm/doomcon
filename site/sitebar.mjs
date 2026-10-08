@@ -102,6 +102,16 @@ ${MONETIZE.tips && MONETIZE.tips.url ? `<a class="fb kofi" href="${MONETIZE.tips
     v.addEventListener("ended", function(){ setTimeout(close, 1500); });
     var p = v.play(); if (p && p.catch) p.catch(close);
   })();
+  // OUTSIDE LINKS OPEN IN A NEW TAB, so a visitor who follows a story, a clip
+  // or a market comes back to SIREN instead of losing it. Same-site links
+  // stay in the tab. Runs on links added later too (clicks are delegated).
+  document.addEventListener("click", function(e){
+    var a = e.target && e.target.closest ? e.target.closest("a[href]") : null;
+    if (!a || a.target || a.hasAttribute("download") || e.defaultPrevented) return;
+    var u; try { u = new URL(a.href, location.href); } catch (err) { return; }
+    if (!/^https?:$/.test(u.protocol) || u.host === location.host) return;
+    a.target = "_blank"; var r = (a.rel || "").split(/\s+/); if (r.indexOf("noopener") < 0) r.push("noopener"); a.rel = r.join(" ").trim();
+  }, true);
   window.addEventListener("site:data", function(e){ var t = +(e.detail && e.detail.at); if (t > 0) { at = t; paint(); } });
   btn.addEventListener("click", function(){
     if (typeof window.siteRefresh === "function") {
