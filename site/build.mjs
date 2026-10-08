@@ -1498,7 +1498,7 @@ async function main() {
 
   await selfCheck(args.out, state, ctx);
   // Last: the refresh bar and disclosure on every page, dated by the data.
-  const stamped = await stampAll(args.out, state.generated_at);
+  const stamped = await stampAll(args.out, state.generated_at, { level: state.level });
 
   log(`${brand.NAME} build complete.`);
   log(`  out          ${args.out}`);

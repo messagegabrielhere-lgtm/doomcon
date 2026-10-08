@@ -4,10 +4,34 @@
 // level 5 is a slow, quiet pad; level 1 is fast, tense and loud.
 (function () {
   'use strict';
+  if (window.SirenRadio) return; // loaded twice (homepage + the bar on every page)
   var KEY = 'siren:radio';
   var BPM = { 5: 70, 4: 84, 3: 96, 2: 110, 1: 124 };
   // A minor: i - VI - III - VII, as MIDI roots with triads.
   var PROG = [[57, 60, 64], [53, 57, 60], [48, 52, 55], [55, 59, 62]];
+  // EVERY PAGE HAS ITS OWN TUNE. The page's path picks a key, a progression,
+  // a lead sound and a small tempo offset, so the Race does not sound like the
+  // Newsroom. The homepage keeps the original theme (A minor, no offset).
+  var LEAD = 'square', BPM_SHIFT = 0;
+  (function seed() {
+    var path = (location.pathname.replace(/\/(index\.html)?$/, '/') || '/');
+    if (/\/doomcon\/?$|^\/$/.test(path)) return;
+    var h = 2166136261;
+    for (var i = 0; i < path.length; i++) { h ^= path.charCodeAt(i); h = Math.imul(h, 16777619) >>> 0; }
+    // Minor-key progressions as scale-degree triads (semitones from the root).
+    var SHAPES = [
+      [[0, 3, 7], [-4, 0, 3], [-9, -5, -2], [-2, 2, 5]],   // i VI III VII
+      [[0, 3, 7], [5, 8, 12], [-2, 2, 5], [-4, 0, 3]],     // i iv VII VI
+      [[0, 3, 7], [-2, 2, 5], [-4, 0, 3], [-5, -1, 2]],    // i VII VI V (Andalusian)
+      [[0, 3, 7], [-4, 0, 3], [5, 8, 12], [7, 11, 14]],    // i VI iv V
+      [[0, 3, 7], [1, 5, 8], [0, 3, 7], [-2, 2, 5]],       // i bII i VII (phrygian dread)
+    ];
+    var root = 52 + (h % 9);                    // E3 .. C4
+    var shape = SHAPES[(h >>> 4) % SHAPES.length];
+    PROG = shape.map(function (c) { return c.map(function (n) { return root + n; }); });
+    LEAD = ['square', 'sawtooth', 'triangle', 'square'][(h >>> 8) % 4];
+    BPM_SHIFT = ((h >>> 12) % 13) - 6;          // -6 .. +6 bpm
+  })();
   var ctx = null, master = null, wet = null, timer = null, playing = false;
   var level = 4, step = 0, next = 0;
 
@@ -84,7 +108,7 @@
 
   // One 16th-note step. 16 steps a bar, one chord a bar.
   function play(t) {
-    var s16 = 60 / BPM[level] / 4;
+    var s16 = 60 / (BPM[level] + BPM_SHIFT) / 4;
     var bar = Math.floor(step / 16), pos = step % 16;
     var chord = PROG[bar % 4];
     var heat = 5 - level; // 0 calm .. 4 loud
@@ -98,7 +122,7 @@
     var arpEvery = heat >= 3 ? 1 : heat >= 1 ? 2 : 4;
     if (pos % arpEvery === 0) {
       var note = chord[(pos / arpEvery) % 3] + (pos >= 8 ? 12 : 0);
-      voice('square', hz(note), t, s16 * 0.9, 0.045 + heat * 0.008, 2200 + heat * 500, true);
+      voice(LEAD, hz(note), t, s16 * 0.9, 0.045 + heat * 0.008, 2200 + heat * 500, true);
     }
     if (heat >= 2 && pos % 2 === 1) hat(t, 0.04 + heat * 0.01);
     if (heat >= 3 && pos === 0 && bar % 4 === 3) siren(t, s16 * 16);
@@ -148,33 +172,40 @@
   }
 
   function wire() {
-    var btn = document.getElementById('siren-radio');
-    if (!btn) return;
-    var lv = +btn.getAttribute('data-level') || 4;
+    // Every radio button on the page: the homepage's top-bar one (#siren-radio)
+    // and the one in the bar at the foot of every page ([data-siren-radio]).
+    var btns = [].slice.call(document.querySelectorAll('#siren-radio, [data-siren-radio]'));
+    if (!btns.length) return;
+    var lv = +(btns[0].getAttribute('data-level')) || 4;
     var paint = function () {
-      btn.setAttribute('aria-pressed', String(playing));
-      btn.textContent = playing ? '♪ RADIO ON' : '♪ RADIO';
+      btns.forEach(function (b) {
+        b.setAttribute('aria-pressed', String(playing));
+        var short = b.hasAttribute('data-siren-radio');
+        b.textContent = playing ? (short ? '♪ ON' : '♪ RADIO ON') : (short ? '♪ OFF' : '♪ RADIO');
+        b.title = playing ? 'Turn SIREN Radio off' : 'Turn SIREN Radio on: an original soundtrack for this page, generated in your browser';
+      });
     };
-    // If the browser still holds the audio back, say so instead of looking on and silent.
     var check = function () {
       setTimeout(function () {
         if (!playing || !ctx) return;
-        if (ctx.state !== 'running') { btn.textContent = '♪ TAP AGAIN'; btn.title = 'Your browser blocked the sound. Tap again; on a phone, check the volume.'; }
+        if (ctx.state !== 'running') btns.forEach(function (b) { b.textContent = '♪ TAP AGAIN'; b.title = 'Your browser blocked the sound. Tap again; on a phone, check the volume.'; });
       }, 700);
     };
-    btn.addEventListener('click', function () {
-      if (playing && ctx && ctx.state !== 'running') { ctx.resume(); unlockIOS(); paint(); check(); return; }
-      if (playing) stop(); else start(lv);
-      try { localStorage.setItem(KEY, playing ? '1' : '0'); } catch (e) {}
-      paint(); check();
+    btns.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        if (playing && ctx && ctx.state !== 'running') { ctx.resume(); unlockIOS(); paint(); check(); return; }
+        if (playing) stop(); else start(lv);
+        try { localStorage.setItem(KEY, playing ? '1' : '0'); } catch (e) {}
+        paint(); check();
+      });
     });
     // Remembered "on": browsers forbid sound before a gesture, so resume on the
     // visitor's first tap or key press rather than autoplaying.
     var want = false; try { want = localStorage.getItem(KEY) === '1'; } catch (e) {}
     if (want) {
-      btn.classList.add('armed');
+      btns.forEach(function (b) { b.classList.add('armed'); });
       var go = function (e) {
-        if (e.target === btn || playing) return;
+        if (btns.indexOf(e.target) >= 0 || playing) return;
         start(lv); paint();
       };
       addEventListener('pointerdown', go, { once: true });

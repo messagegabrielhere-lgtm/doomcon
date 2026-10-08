@@ -16,6 +16,10 @@ export const MONETIZE = {
   // provider 'beehiiv' + your publication's subscribe URL.
   newsletter: { provider: null, username: null, url: null, pitch: 'One email when the level moves, and a short weekly reading. No spam.' },
 
+  // Visitor analytics: your GoatCounter site code (the part before
+  // .goatcounter.com). Cookieless; no consent banner needed. null = off.
+  analytics: { goatcounter: null },
+
   // Tip jar: your Buy Me a Coffee or Ko-fi page URL.
   tips: { url: null, label: 'Buy SIREN a coffee' },
 

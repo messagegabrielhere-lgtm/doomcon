@@ -14,7 +14,8 @@
 import { readdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { CANONICAL_URL } from './brand.mjs';
-import { on as mzOn, sponsorLine, adSlot, AD_PAGES, MZ_CSS } from './monetize.mjs';
+import { on as mzOn, sponsorLine, adSlot, AD_PAGES, MZ_CSS, MONETIZE } from './monetize.mjs';
+const BASE = new URL(CANONICAL_URL).pathname.replace(/\/$/, '');
 
 const MARK = 'data-sitebar';
 // Pages meant to be embedded in other sites keep their own chrome.
@@ -22,7 +23,7 @@ const SKIP = new Set(['embed.html']);
 
 export const DISCLOSURE = 'Not financial advice. We are not financial advisors, brokers, or a registered investment adviser, and nothing on this site is investment, financial, legal, tax or trading advice, or a recommendation to buy, sell or hold any stock, crypto asset or other instrument. Stock picks, signals, scores and AI trades shown here are automated, simulated or hypothetical, for information and entertainment only. Past and simulated performance does not predict future results, and trading can lose money, including more than you expect. Do your own research and talk to a licensed financial professional before you invest.';
 
-export function sitebar(asOf) {
+export function sitebar(asOf, { level = 4, rel = '' } = {}) {
   const at = Number.isFinite(Date.parse(asOf)) ? Date.parse(asOf) : Date.now();
   return `
 <div id="sitebar" ${MARK} data-at="${at}" role="region" aria-label="Page freshness">
@@ -34,6 +35,12 @@ export function sitebar(asOf) {
 #sitebar time{white-space:nowrap}
 #sitebar .fb{all:unset;cursor:pointer;color:inherit;opacity:.8;text-decoration:underline;text-underline-offset:2px;white-space:nowrap;font:600 12px/1.2 system-ui,-apple-system,"Segoe UI",sans-serif}#sitebar .fb:hover{opacity:1}#sitebar .fb:focus-visible{outline:2px solid #e2a03b;outline-offset:2px}
 #sitebar .ago{opacity:.65}
+#sitebar button.rad{background:transparent;color:inherit;border:1px solid currentColor;padding:4px 9px;opacity:.85}#sitebar button.rad[aria-pressed=true]{background:#818CF8;border-color:#818CF8;color:#000;opacity:1}
+#siren-intro{position:fixed;left:12px;bottom:12px;z-index:9998;width:300px;border-radius:8px;overflow:hidden;background:#000;border:1px solid #232C3B;box-shadow:0 10px 30px rgba(0,0,0,.5)}
+#siren-intro video{display:block;width:100%;height:auto}
+#siren-intro .bar{display:flex;justify-content:space-between;align-items:center;padding:6px 8px;font:600 11px/1 system-ui,sans-serif;color:#AEB7C3;letter-spacing:.06em}
+#siren-intro button{all:unset;cursor:pointer;padding:4px 8px;border-radius:4px;color:#E6EAF0}#siren-intro button:hover{background:#1b2230}
+@media (max-width:560px){#siren-intro{width:200px;left:auto;right:10px;bottom:auto;top:10px}}
 @keyframes sitebar-spin{to{transform:rotate(360deg)}}
 @media (prefers-color-scheme:dark){#sitebar{background:rgba(20,24,32,.94);color:#e6e9ef;border-color:rgba(255,255,255,.16)}#sitebar button{background:#e6e9ef;color:#141820}}
 @media (max-width:560px){#sitebar{left:50%;right:auto;transform:translateX(-50%);bottom:10px}#sitebar .ago{display:none}}
@@ -43,6 +50,8 @@ export function sitebar(asOf) {
 </style>
 <span>Updated <time id="sitebar-at"></time> <span class="ago" id="sitebar-ago"></span></span>
 <a class="fb" id="sitebar-fb" href="${CANONICAL_URL}/feedback.html" title="Report a problem or send feedback">Feedback</a>
+<a class="fb" id="sitebar-x" href="https://x.com/intent/post?via=SIRENutf6" target="_blank" rel="noopener" title="Post this page on X">𝕏 Post</a>
+<button type="button" class="rad" data-siren-radio data-level="${level}" aria-pressed="false" title="Turn SIREN Radio on">♪ OFF</button>
 <button type="button" id="sitebar-btn" aria-label="Refresh this page's data"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/></svg>Refresh</button>
 <script>
 (function(){
@@ -57,6 +66,37 @@ export function sitebar(asOf) {
     agoEl.textContent = ago(at);
   }
   var fb = document.getElementById("sitebar-fb"); if (fb) fb.href += "?page=" + encodeURIComponent(location.href.split("#")[0]);
+  // Post this page on X: its own title and canonical address.
+  var xl = document.getElementById("sitebar-x");
+  if (xl) {
+    var can = document.querySelector('link[rel=canonical]'), u = (can && can.href) || location.href.split("#")[0];
+    var t = (document.querySelector('meta[property="og:title"]') || {}).content || document.title;
+    xl.href = "https://x.com/intent/post?text=" + encodeURIComponent(t) + "&url=" + encodeURIComponent(u) + "&via=SIRENutf6";
+  }
+  // THE INTRO. Once per visit, on the first page opened (never on the clips
+  // page, which plays its own videos): the 42-second explainer, silent, in a
+  // corner, with sound one tap away. Skipped for reduced-motion visitors.
+  (function intro(){
+    try {
+      if (/elon\.html$/.test(location.pathname) || sessionStorage.getItem("siren:intro")) return;
+      sessionStorage.setItem("siren:intro", "1");
+    } catch (e) { return; }
+    if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    var m = "${BASE}/media/siren-explainer";
+    var box = document.createElement("div"); box.id = "siren-intro"; box.setAttribute("role", "complementary"); box.setAttribute("aria-label", "Intro video");
+    box.innerHTML = '<video muted autoplay playsinline preload="metadata" poster="' + m + '-poster.jpg"><source src="' + m + '.webm" type="video/webm"><source src="' + m + '.mp4" type="video/mp4"></video>'
+      + '<div class="bar"><span>WHAT IS SIREN?</span><span><button type="button" data-a="snd" aria-label="Turn sound on">🔊 Sound</button><button type="button" data-a="x" aria-label="Close intro">✕</button></span></div>';
+    document.body.appendChild(box);
+    var v = box.querySelector("video");
+    var close = function(){ try { v.pause(); } catch (e) {} box.remove(); };
+    box.addEventListener("click", function(e){
+      var a = e.target.getAttribute && e.target.getAttribute("data-a");
+      if (a === "x") close();
+      else if (a === "snd") { v.muted = !v.muted; e.target.textContent = v.muted ? "🔊 Sound" : "🔇 Mute"; if (v.paused) v.play(); }
+    });
+    v.addEventListener("ended", function(){ setTimeout(close, 1500); });
+    var p = v.play(); if (p && p.catch) p.catch(close);
+  })();
   window.addEventListener("site:data", function(e){ var t = +(e.detail && e.detail.at); if (t > 0) { at = t; paint(); } });
   btn.addEventListener("click", function(){
     if (typeof window.siteRefresh === "function") {
@@ -98,10 +138,15 @@ export function stamp(html, asOf, rel = '') {
   const ad = AD_PAGES.has(rel) ? adSlot() : '';
   const sp = mzOn.sponsor() ? `\n<p class="site-sponsor" ${MARK} style="max-width:72ch;margin:0 auto;padding:0 16px;text-align:center">${sponsorLine(`${CANONICAL_URL}/sponsor.html`, { house: false })}</p>` : '';
   const css = ad || sp ? MZ_CSS : '';
-  return html.replace(/<\/body>(?![\s\S]*<\/body>)/i, `${css}${ad}${sp}${own ? '' : disclosureHtml()}${sitebar(asOf)}\n</body>`);
+  const gc = MONETIZE.analytics && MONETIZE.analytics.goatcounter;
+  const analytics = gc ? `\n<script data-goatcounter="https://${gc}.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>` : '';
+  const radio = `\n<script src="${BASE}/media/radio.js" defer></script>`;
+  return html.replace(/<\/body>(?![\s\S]*<\/body>)/i, `${css}${ad}${sp}${own ? '' : disclosureHtml()}${sitebar(asOf, stampOpts)}${radio}${analytics}\n</body>`);
 }
+let stampOpts = {};
 
-export async function stampAll(outDir, asOf) {
+export async function stampAll(outDir, asOf, opts = {}) {
+  stampOpts = opts;
   let n = 0;
   async function walk(dir) {
     for (const e of await readdir(dir, { withFileTypes: true })) {
