@@ -1,0 +1,198 @@
+{
+  "schema": 1,
+  "kind": "reference-addenda",
+  "shadow": true,
+  "addendum_version": "1.0.0",
+  "built_at": "2026-10-08T03:08:24.187Z",
+  "builder": "collector/calibrate.mjs",
+  "note": "SHADOW ADDENDA to data/reference.json (v1). Never used for the official score, level or receipts. The engine scores each run against v1 + these entries as state.shadow. Promotion to a v2 reference is governed by docs/REFERENCE-VERSIONING.md. `hash` is sha256 over the canonical JSON of this object without `hash`.",
+  "base_reference": {
+    "built_at": "2026-09-23T20:03:56.869Z",
+    "hash": "sha256:f91658b2dc572ae2b5a74ff21e869dd9aa6f814ff68f1b66462708b91dfaf6e7"
+  },
+  "supersedes": null,
+  "reference_window_days": 365,
+  "reference_window": {
+    "from": "2025-10-08",
+    "to": "2026-10-07"
+  },
+  "min_coverage_days": 300,
+  "quantile_knots": 101,
+  "quantile_definition": "linear interpolation between order statistics (type 7, the numpy/R default)",
+  "sources": {
+    "stockanalysis": {
+      "label": "stockanalysis",
+      "pillar": "compute",
+      "aliases": [],
+      "unit": "mean_abs_percent_change",
+      "accepted_units": [
+        "mean_abs_percent_change"
+      ],
+      "method": "mean of |daily % change| across NVDA, AMD, TSM, AVGO on the latest trade day <= D (as the live adapter reads at end of UTC day D; weekends/holidays read the last session, refused past 7 days), from Yahoo Finance v8 chart daily closes",
+      "params": {
+        "basket": [
+          "NVDA",
+          "AMD",
+          "TSM",
+          "AVGO"
+        ],
+        "provider": "yahoo-chart",
+        "range": "2y",
+        "interval": "1d",
+        "max_stale_days": 7,
+        "trade_dates_in_window": 251
+      },
+      "n": 365,
+      "coverage": {
+        "from": "2025-10-08",
+        "to": "2026-10-07",
+        "days_in_window": 365,
+        "days_observed": 365,
+        "gaps": 0
+      },
+      "min": 0.265869,
+      "max": 7.917162,
+      "median": 1.928691,
+      "quantiles": [
+        0.265869,
+        0.315002,
+        0.526386,
+        0.581501,
+        0.604773,
+        0.731693,
+        0.782562,
+        0.853175,
+        0.872614,
+        0.883561,
+        0.899179,
+        0.903567,
+        0.928222,
+        0.973258,
+        0.977247,
+        1.014334,
+        1.043517,
+        1.088757,
+        1.098495,
+        1.11674,
+        1.119635,
+        1.155641,
+        1.192816,
+        1.212409,
+        1.214919,
+        1.227434,
+        1.279626,
+        1.290957,
+        1.304811,
+        1.313483,
+        1.350397,
+        1.358899,
+        1.364167,
+        1.381471,
+        1.407255,
+        1.429653,
+        1.455687,
+        1.481987,
+        1.515939,
+        1.562887,
+        1.589715,
+        1.61225,
+        1.631374,
+        1.659942,
+        1.692104,
+        1.736695,
+        1.749922,
+        1.782107,
+        1.81252,
+        1.834149,
+        1.928691,
+        1.960453,
+        1.99405,
+        2.007927,
+        2.019352,
+        2.036022,
+        2.090891,
+        2.121582,
+        2.148603,
+        2.204807,
+        2.30203,
+        2.35759,
+        2.378485,
+        2.415843,
+        2.455125,
+        2.473097,
+        2.493269,
+        2.551046,
+        2.582275,
+        2.604546,
+        2.648726,
+        2.703311,
+        2.749915,
+        2.804841,
+        2.840767,
+        2.866214,
+        2.944547,
+        3.050701,
+        3.116622,
+        3.327642,
+        3.365836,
+        3.545854,
+        3.562424,
+        3.655098,
+        3.692472,
+        3.75664,
+        3.892839,
+        4.063708,
+        4.158321,
+        4.256409,
+        4.448421,
+        4.503403,
+        4.708436,
+        4.859777,
+        5.002123,
+        5.513986,
+        5.967821,
+        6.232561,
+        6.971255,
+        7.422918,
+        7.917162
+      ],
+      "addendum_version": "1.0.0",
+      "built_at": "2026-10-08T03:08:24.187Z"
+    }
+  },
+  "unavailable": [
+    {
+      "id": "govuk",
+      "reason": "NOT the same definition historically. The live adapter counts documents whose public_timestamp falls in the trailing 30 days, as indexed NOW. Re-running that query for a past window counts documents as they are indexed today: GOV.UK re-stamps public_timestamp when a page is materially updated and drops withdrawn/unpublished pages from search, so past windows are systematically depleted and recent ones inflated. That is the same survivor bias that keeps openrouter out of v1; a distribution built from it would bias the live score upward. Revisit only by snapshotting the live count daily for 365 days (a forward-built reference)."
+    },
+    {
+      "id": "vastai",
+      "reason": "spot offers are a live snapshot with no history endpoint; only a forward-built reference (365 days of our own readings) is honest."
+    },
+    {
+      "id": "polymarket",
+      "reason": "no historical 1-day-change series for the whole screened basket on the keyless API; basket membership itself is time-dependent."
+    },
+    {
+      "id": "kalshi",
+      "reason": "per-market candlesticks exist, but the frozen series basket and its open-event screen cannot be evaluated at past instants without survivorship (resolved markets drop out)."
+    },
+    {
+      "id": "manifold",
+      "reason": "24h volume is a current aggregate; per-bet history would have to be re-aggregated across a search result set that is itself time-dependent."
+    },
+    {
+      "id": "huggingface",
+      "reason": "as in v1: no keyless historical endpoint for the live statistic."
+    },
+    {
+      "id": "openrouter",
+      "reason": "as in v1: the model catalogue is a survivor set."
+    },
+    {
+      "id": "github-releases",
+      "reason": "as in v1: releases.atom has no date-range parameter."
+    }
+  ],
+  "hash": "sha256:6f85af30f82e79df9bfbdc1b71271264368468c4bb297ac6acd1c01c651d1225"
+}
