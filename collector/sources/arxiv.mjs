@@ -5,6 +5,7 @@
 // exact population count rather than a sample, so this source has no estimation
 // error at all. That is rare enough to be worth the XML.
 
+import { setTimeout as sleep } from 'node:timers/promises';
 import { fetchText as defaultFetchText } from '../fetch.mjs';
 
 const WINDOW_DAYS = 7;
@@ -17,6 +18,37 @@ const WINDOW_MS = WINDOW_DAYS * 24 * 60 * 60 * 1000;
 
 // http:// 301s to https:// (verified 2026-09-23). Skip the hop.
 const ENDPOINT = 'https://export.arxiv.org/api/query';
+
+// A 429 from this query comes back in about a second. The ban after it often
+// lasts longer than the old 15s retry, which is why 03:50, 04:05 and 04:25 UTC
+// on 2026-10-08 all went dark and took Capability with them. Two further
+// attempts, 30s then 60s later, stay inside collect.mjs's arxiv watchdog.
+export const ARXIV_ATTEMPT_TIMEOUT_MS = 75_000;
+export const ARXIV_RATE_LIMIT_WAITS_MS = Object.freeze([30_000, 60_000]);
+
+export function isArxivRateLimit(err) {
+  return /\b429\b|rate exceeded/i.test(String(err && err.message));
+}
+
+export async function fetchArxivWindow(fetchText, url, {
+  waits = ARXIV_RATE_LIMIT_WAITS_MS,
+  sleepFn = sleep,
+  timeoutMs = ARXIV_ATTEMPT_TIMEOUT_MS,
+} = {}) {
+  const attempts = waits.length + 1;
+  let lastErr;
+  for (let attempt = 0; attempt < attempts; attempt++) {
+    try {
+      return await fetchText(url, { timeoutMs, retries: 0 });
+    } catch (err) {
+      lastErr = err;
+      const wait = waits[attempt];
+      if (!isArxivRateLimit(err) || wait == null) throw err;
+      await sleepFn(wait);
+    }
+  }
+  throw lastErr;
+}
 
 /** arXiv's submittedDate filter takes UTC YYYYMMDDHHMM. */
 function stamp(date) {
@@ -51,22 +83,10 @@ export default {
     //   timeoutMs  a windowed submittedDate query is a range scan on arXiv's side
     //              and regularly runs past the 15s default; the unwindowed form
     //              answers in well under a second.
-    //   retries    ZERO. Measured 2026-09-23: 20s x 2 attempts overran collect.mjs's
-    //              45s watchdog, so arxiv went dark on every run. arXiv is slow here
-    //              rather than flaky, so a second attempt buys nothing and costs the
-    //              entire budget. One long attempt inside a widened watchdog instead.
-    // arXiv also throttles hard and keeps throttling: expect 429s in bursts, and
-    // expect them to be reported dark rather than retried into a longer ban.
-    // One exception, added 2026-10-08: a 429 comes back in under a second, so a
-    // single polite retry after 15s fits the watchdog (fast 429 + 15s + 60s).
-    let xml;
-    try {
-      xml = await fetchText(url, { timeoutMs: 75_000, retries: 0 });
-    } catch (err) {
-      if (!/\b429\b|rate exceeded/i.test(String(err && err.message))) throw err;
-      await new Promise((r) => setTimeout(r, 15_000));
-      xml = await fetchText(url, { timeoutMs: 60_000, retries: 0 });
-    }
+    //   retries    ZERO inside fetch.mjs. A 429 retry there is a few hundred
+    //              milliseconds, which is what turned a soft throttle into a ban.
+    //              The waits below are the exception, and only for 429.
+    const xml = await fetchArxivWindow(fetchText, url);
 
     // arXiv answers a malformed query with HTTP 200 and an error entry, so a
     // non-error status proves nothing. Check the payload.

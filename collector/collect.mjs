@@ -24,6 +24,11 @@ const PILLAR_ORDER = Object.freeze(['capability', 'compute', 'attention', 'gover
 // job's own limit kills it — and a killed job writes no snapshot at all, which
 // loses the other live sources too.
 const ADAPTER_TIMEOUT_MS = 90_000; // arXiv's windowed range scan has needed up to 75s; see sources/arxiv.mjs
+// arXiv answers a burst with "Rate exceeded" and keeps saying it for a minute
+// or two. sources/arxiv.mjs waits that out (30s, then 60s) and tries again.
+// 75s + 30s + 75s + 60s + 75s = 315s, plus a little slack so the watchdog does
+// not kill a retry that would have landed.
+const ADAPTER_TIMEOUT_OVERRIDES_MS = Object.freeze({ arxiv: 330_000 });
 
 const SOURCES_DIR = new URL('./sources/', import.meta.url);
 const RAW_DIR = new URL('../data/raw/', import.meta.url);
@@ -203,7 +208,8 @@ async function runAdapter(adapter, fetchJson, generatedAt) {
 
   let result;
   try {
-    result = await withTimeout(adapter.collect(fetchJson), ADAPTER_TIMEOUT_MS, adapter.id);
+    const timeoutMs = ADAPTER_TIMEOUT_OVERRIDES_MS[adapter.id] ?? ADAPTER_TIMEOUT_MS;
+    result = await withTimeout(adapter.collect(fetchJson), timeoutMs, adapter.id);
   } catch (err) {
     return fail(errorMessage(err));
   }
