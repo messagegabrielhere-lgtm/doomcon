@@ -131,6 +131,66 @@ UTC on 27 Sep, then a gap to 02:22 on 28 Sep `[REPO]`), so the slate on
 `/post-sheet.html` at 14:00 UTC is usually about an hour old, and every post
 prints its own reading time.
 
+### 1.5 How to maximize the X algorithm
+
+The ranker is open source. Maximising it is not a growth trick — it is reading
+`param.rs` and refusing every behaviour that optimises for a weak signal. The
+weights and filters in §1.1–1.2 are the inputs; this section is the playbook.
+
+**Optimise for the top of the weight table, not for likes.**
+
+| Do this | Because | Weight |
+|---|---|---:|
+| Write a post people copy-link from the feed | copy-link is the strongest positive signal | **20.0** |
+| Earn replies and quotes; answer every substantive reply inside 48 h | reply and quote sit just under copy-link | 5.0 each |
+| Follow back accounts that reply with data | mutual follow lifts the reply term to **20.0** on the next post in their feed | +15.0 boost |
+| Attach the card; keep the number, UTC stamp, domain and receipt on it | the image is not scored; the *share of it* is | photo expand 0.05 |
+| Put any URL in reply 1, never in the head | open-link is near the floor; non-Premium link posts earn ~0% engagement | 0.2 / `[BUF-LINK]` |
+| One original post a day in the 13:00–16:00 UTC window | 48 h age filter; author diversity makes a second post worth **0.625** of the first | AgeFilter / diversity |
+| Lead with an original post, never a reply | only the head travels out-of-network; cold-start slots require an original | OON filter / cold start |
+
+**Refuse the bottom of the table, and the negatives.**
+
+| Never do this | Why |
+|---|---|
+| Chase likes | weight 0.5 — forty times weaker than a copy-link |
+| Put a URL in the head post | pays 13.3× via the API *and* ranks as a click-out |
+| Thread the argument into replies | strangers never see reply tails in For You |
+| Post two or three times to "stay active" | second post ≈ 0.625×, third ≈ 0.44×, floored at 0.25 |
+| Buy followers past 1,000 | cold-start eligibility ends at `ColdStartFollowerCap` |
+| Automate likes, follows, quotes or unsolicited @mentions | policy bans; permanent suspension for non-API automation |
+| Engagement bait ("reply if…", "repost if…") | creator-programme removal after three solicitations; VOICE.md §4 |
+| Treat a screenshot in a group chat as a ranking win | only the copy-link tap *from the feed* scores; chat forwards do not |
+
+**The post shape the weights demand** — every spreading analogue in §2 shares it:
+
+1. One number, with its denominator, readable without a click.
+2. One comparison or threshold against a stated baseline.
+3. One exact UTC clock.
+4. The card image (number + stamp + domain burned in).
+5. No link in the head.
+6. Nothing else.
+
+That is already what `collector/posts.mjs` emits. The daily job is to ship it,
+answer the people who argue with it, and leave the weak signals alone.
+
+**Cadence that matches the filters.** One post a day keeps two posts live inside
+the 48-hour window. A second post only when a level actually changed, at least
+three hours later (`SLATE_SPACING_MS`). Reply 1 (the page link) goes out by hand
+within minutes and does not count as a competing original. Fifteen minutes a day
+on substantive replies is worth more than a second original — replies weigh 5.0
+and mutual-follow replies weigh 20.0.
+
+**What "maximize" does not mean here.** It does not mean posting more, farming
+likes, riding trends, or buying reach. Those either hit a decay floor, a policy
+ban, or a negative weight large enough to erase a good day. The index's advantage
+is a self-contained number that survives a quote-post asking "how did you compute
+that". Optimise for being pasted and argued with. Everything else in this file
+is downstream of that.
+
+Cross-refs: posting rules in `POSTING.md` §3; refusals in §6 below; the fourteen-day
+schedule in `X-14-DAYS.md`; costs and compliance in `X-STRATEGY.md` §5.
+
 ---
 
 ## 2. Post formats, ranked for this account
