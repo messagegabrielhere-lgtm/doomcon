@@ -2,6 +2,8 @@
 
 Written 2026-10-03 for @DoomConin0, a zero-follower account posted by hand.
 `docs/VIRAL.md` and `docs/POSTING.md` still govern; this is the schedule.
+For why these rules match the open-source For You ranker, see
+`docs/VIRAL.md` §1.5 (How to maximize the X algorithm).
 
 ## Rules
 
@@ -10,6 +12,7 @@ Written 2026-10-03 for @DoomConin0, a zero-follower account posted by hand.
 - The link goes in reply 1, by hand, within five minutes, to the page that holds the number.
 - If the API publisher is ever switched on, keep reply 1 manual: a URL through the API costs about 13x a plain post.
 - Fifteen minutes a day: answer people who asked a countable question with the number and its stamp, no link.
+- Optimise for copy-link shares and replies, not likes (`VIRAL.md` §1.5).
 - Do not drop the number under large accounts (`VIRAL.md` §6).
 - A level change pre-empts any day and goes out within 90 minutes, using the escalation or de-escalation template.
 - Never paste "Early warning bulletin" into a post: "warning" is on the pre-flight's banned list.

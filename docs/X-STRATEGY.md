@@ -409,6 +409,25 @@ decay with the same 0.25 floor when ranking the reel, so no single account can
 dominate the panel. If it is good enough for X's own feed it is good enough for
 a sidebar.
 
+### 5.4 How to maximize the X algorithm (playbook)
+
+The weights above are the design signal. The operational playbook that turns
+them into daily behaviour lives in **`docs/VIRAL.md` §1.5** — what to optimise
+for (copy-link, replies, quotes), what to refuse (likes-chasing, head-post
+links, multi-post spam), the post shape the ranker rewards, and the cadence that
+matches the 48-hour age filter and author-diversity decay.
+
+Short version for anyone posting today:
+
+1. **Self-contained head post + card, no URL.** Link goes in reply 1.
+2. **One original a day** (two only on a level change), 13:00–16:00 UTC.
+3. **Answer every substantive reply** inside the post's 48-hour life.
+4. **Never chase likes, buy followers, automate engagement, or bait replies.**
+
+Author-diversity numbers in VIRAL.md (§1.2) are the corrected ones: a second
+post in one slate is worth **0.625** of the first, not half. Prefer that file
+when the two disagree.
+
 ---
 
 ## 6. What we refuse, and why
