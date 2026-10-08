@@ -254,7 +254,7 @@ export function render(ctx, { head }) {
 ${nav.strip}
 <main class="v2-wrap v2-main" id="main">
   <div class="v2-brand">
-    <img class="v2-art bob" src="${img('siren')}" width="112" height="112" alt="">
+    <span class="v2-3d" data-siren3d data-level="${state.level}"><img class="v2-art bob" src="${img('siren')}" width="112" height="112" alt=""></span>
     <h1>${pixelText('AI SIREN INDEX', 8, '#FFFFFF', 'fit')}</h1>
   </div>
   <div class="v2-sub"><span>Superintelligence, watched hourly</span><span class="sep">|</span><a class="v2-btn sm" href="https://x.com/SIRENutf6">FOLLOW @SIRENutf6</a></div>
@@ -331,6 +331,7 @@ ${nav.palette}${nav.tabbar}
 <html lang="en">
 ${head.replace('</head>', `<style>${CSS}</style>${MZ_CSS}\n</head>`)}
 <body class="v2-body"><a class="v2-skip" href="#signal">Skip to the reading</a>${body}
+<script type="module" src="${href('/media/siren3d.js')}"></script>
 <script src="${href('/media/radio.js')}" defer></script>
 </body>
 </html>`;
@@ -494,6 +495,7 @@ body.v2-body{margin:0;background:#000;color:#F3F4F6}
 .v2-cta{border:2px solid #4338CA;background:#0E1033;padding:24px 28px;display:flex;align-items:center;gap:22px;flex-wrap:wrap}
 .v2-cta .col{display:flex;flex-direction:column;gap:10px;flex:1 1 300px;min-width:0;color:#C7D2FE}
 .v2-foot{margin:0;font-size:13px;color:#AEB7C3}
+.v2-3d{display:inline-flex;width:140px;height:140px;align-items:center;justify-content:center;flex:none}.v2-3d canvas{width:140px!important;height:140px!important}
 .v2-video{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:24px;align-items:center;margin:28px 0;padding:18px;border:1px solid #232C3B;border-radius:4px;background:#0E131D}
 .v2-video h2{margin:0 0 10px}.v2-video p{margin:0;color:#AEB7C3;font-size:15px;line-height:1.5}
 .v2-video video{width:100%;height:auto;aspect-ratio:16/9;background:#000;border-radius:3px;display:block}
