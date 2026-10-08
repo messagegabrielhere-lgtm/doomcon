@@ -89,11 +89,13 @@ export function privacy(ctx) {
   <ul>
     <li><b>GitHub Pages</b> hosts the site, so GitHub's servers receive your IP address and browser details, as any web host does.</li>
     <li><b>Fonts</b> are served from this site. No font request goes to Google or any other third party.</li>
-    <li><b>Live data pages.</b> Three hand-built pages fetch public data straight from your browser, so those providers receive
+    <li><b>Live data pages.</b> Hand-built pages that fetch public data straight from your browser, so those providers receive
       your IP address and browser details when you open them, under their own policies:
       the <b>world monitor</b> (USGS, NASA EONET, GDACS, GDELT, ADSB.lol (regional counts only), OKX, alternative.me),
       the <b>scanner</b> (OKX, Polymarket, DEX Screener, alternative.me), and the <b>stock picks and AI battle</b> page.
-      All three also read this project's own data files from GitHub (raw.githubusercontent.com).
+      The <b>dispatch</b> page reads only this project's dispatch snapshot and country outline from GitHub
+      (raw.githubusercontent.com), not third-party APIs from the browser.
+      The monitor, scanner and battle pages also read this project's own data files from GitHub.
       Every other page loads only files from this site, except the one below.</li>
     <li><b>Real Clips.</b> The clips page shows video thumbnails served by YouTube (i.ytimg.com), so Google receives your IP
       address when the page loads. Playing a clip opens YouTube's privacy-enhanced player (youtube-nocookie.com), which holds off on tracking cookies until you play, under Google's policy. The link checker looks up the link you paste through
@@ -251,6 +253,9 @@ export function terms(ctx) {
     <li><b>Live world data</b> on the monitor (earthquakes, storms, fires, flights, military aircraft, shipping, news) comes from
       third-party feeds that can be delayed, incomplete or wrong. It is not for navigation, aviation, emergency response or
       evacuation decisions. In an emergency, follow official alerts and local authorities.</li>
+    <li><b>Dispatch</b> (911 CAD calls, NWS emergency alerts and police-call chatter) is delayed public open data for ambient
+      awareness only. It is not a warning system, not complete coverage of the United States, and not for emergency response.
+      In an emergency, call your local emergency number and follow official alerts.</li>
     <li><b>The Bunker Kit, the game and the mascot's desk</b> are jokes. They are not emergency-preparedness, survival or
       safety guidance. For real preparedness, use your local emergency-management authority.</li>
   </ul>

@@ -1,0 +1,55 @@
+# Dispatch snapshot (/dispatch.html): 911 CAD, NWS alerts, police-call blather.
+#
+# Same shape as monitor-data.yml / scanner-stocks.yml: reads dispatch/ and
+# collector/fetch.mjs; writes only the dispatch-data branch (one orphan commit,
+# force-pushed); never touches main. The page reads the JSON from
+# raw.githubusercontent.com.
+
+name: dispatch-data
+
+on:
+  schedule:
+    # Offset from monitor-data (4/19/34/49) and collect.yml.
+    - cron: '9,24,39,54 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: dispatch-data
+  cancel-in-progress: false
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            dispatch
+            collector/fetch.mjs
+          sparse-checkout-cone-mode: false
+          fetch-depth: 1
+
+      - name: Set up Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Collect
+        run: node dispatch/collect.mjs "$RUNNER_TEMP/dispatch-out"
+
+      - name: Publish to dispatch-data
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cd "$RUNNER_TEMP/dispatch-out"
+          git init -q -b dispatch-data
+          git config user.name "github-actions[bot]"
+          git config user.email "41898699+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -q -m "Dispatch snapshot $(date -u +%Y-%m-%dT%H:%MZ)"
+          git push -q -f "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git" dispatch-data

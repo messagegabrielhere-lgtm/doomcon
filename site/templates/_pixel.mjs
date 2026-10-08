@@ -71,7 +71,7 @@ export const icon = (name, k, tint) => {
 
 // Which generated illustration (assets/img/art-<name>.webp) stands for which room.
 export const ROOM_ART = {
-  '/': 'siren', '/arena.html': 'stocks', '/scanner.html': 'magnifier', '/monitor.html': 'satellite', '/race.html': 'radar', '/news.html': 'news',
+  '/': 'siren', '/arena.html': 'stocks', '/scanner.html': 'magnifier', '/monitor.html': 'satellite', '/dispatch.html': 'radar', '/race.html': 'radar', '/news.html': 'news',
   '/watts.html': 'power', '/map.html': 'server', '/world.html': 'globe', '/flock.html': 'camera',
   '/exploits.html': 'bug', '/leaders.html': 'mic', '/elon.html': 'camera', '/digest.html': 'clipboard', '/jobs.html': 'case',
   '/medicine.html': 'pill', '/balance.html': 'scales', '/bliss.html': 'sun', '/prepper-checklist.html': 'clipboard', '/feedback.html': 'mic', '/si-ready.html': 'scales', '/ai-proof-job.html': 'case', '/breakthroughs.html': 'sun', '/live-x.html': 'satellite', '/staff.html': 'server', '/tally.html': 'canary', '/careers.html': 'case', '/agents.html': 'globe', '/bug-out-land.html': 'globe',
