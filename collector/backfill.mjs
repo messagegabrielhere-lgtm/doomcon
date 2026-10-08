@@ -26,6 +26,7 @@ import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { fetchJson, fetchText } from './fetch.mjs';
+import { SEC_UA } from './infra-sources/_sec.mjs';
 import { normalise, nowcast, composite, levelFor, LEVEL_NAMES, PILLARS, round } from './engine.mjs';
 
 export const BACKFILL_VERSION = '1.0.0';
@@ -313,11 +314,12 @@ async function buildHn(days) {
  * 10000 and flips relation to "gte", which would pin the series flat.
  *
  * The contact-only User-Agent is not optional. SEC's WAF 403s any UA containing
- * a URL, and fetch.mjs's default carries the repo URL - the header key must be
- * lowercase to replace it rather than sit beside it.
+ * a URL or the substring "github", and fetch.mjs's default carries the repo
+ * URL. The header key must be lowercase to replace it rather than sit beside
+ * it. SEC_UA lives in infra-sources/_sec.mjs so the live adapter and this
+ * reconstruction send the same contact.
  */
 const SEC_WINDOW_DAYS = 30;
-const SEC_UA = 'doomcon.watch backfill (331486973+messagegabrielhere-lgtm@users.noreply.github.com)';
 
 async function buildSecFts(days) {
   return walkDays('sec-fts', days, async (d) => {

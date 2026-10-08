@@ -2,9 +2,8 @@
 // adapters. Leading underscore: not an adapter, skipped by discovery.
 //
 // This endpoint is keyless and undocumented-but-stable, and collector/sources/
-// sec-fts.mjs has been running against it since 2026-09-22. Two traps carried
-// over from that file verbatim, because both are silent and both cost an
-// afternoon to find:
+// sec-fts.mjs has been running against it since 2026-09-22. The traps below
+// are silent and each one costs an afternoon to find:
 //
 //   1. SEC's WAF returns 403 for any User-Agent containing a URL. fetch.mjs's
 //      default UA carries the repo link, so every SEC call must override it
@@ -16,10 +15,15 @@
 //      beside it and undici joins the pair with a comma. The joined value still
 //      contains the URL, so it still 403s, and the bug presents as "my header
 //      was ignored".
+//   3. As of 2026-10-07 the same WAF also 403s any User-Agent containing the
+//      substring "github". The previous contact was a GitHub noreply address,
+//      which tripped it, and the compute pillar went dark. The contact below
+//      is the one the investors workflow already sends. It must not grow a
+//      URL or the word "github".
 
 const ENDPOINT = 'https://efts.sec.gov/LATEST/search-index';
 
-export const SEC_UA = 'doomcon.watch collector (331486973+messagegabrielhere-lgtm@users.noreply.github.com)';
+export const SEC_UA = 'doomcon messagegabrielhere@gmail.com';
 
 function isoDate(ms) {
   // Slicing the ISO string keeps the window in UTC. toLocaleDateString would
