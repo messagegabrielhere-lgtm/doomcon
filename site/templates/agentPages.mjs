@@ -80,6 +80,39 @@ export function tally(ctx) {
 // ---------------------------------------------------------------------------
 // STAFF — the automated crew that actually runs the site, from its own data
 // ---------------------------------------------------------------------------
+
+// THE GROK CREW. The operator's own AI team, each an agent with one job, who
+// run the business side of SIREN together: research, scouting, social,
+// marketing, design, engineering, finance, all coordinated by Cash.
+const GROK_CREW = [
+  ['Cash', '#5EC4AE', 'Chief of operations', 'Runs the crew. Sets the week\'s priorities, hands out briefs, and decides what gets paused and what ships. Every other bot reports to Cash.'],
+  ['SIREN Research', '#8B5E3C', 'Research desk', 'Writes SIREN\'s original analysis: digs into the readings, finds the story in the numbers, and drafts the pieces that lead the feed.'],
+  ['SIREN Scout', '#5DC67A', 'Scout', 'Watches the AI world for leads: launches, filings, leaders saying something new. Checks a brief against the data before taking it on.'],
+  ['Social Media Manager', '#3B82F6', 'Social', 'Runs @SIRENutf6: plans posts, keeps the voice deadpan and numbers-first, and syncs with Cash before anything goes out.'],
+  ['Head of Siren Marketing', '#EC4899', 'Marketing', 'Owns the brand: which look, which line, which mascot leads. Puts the options to the crew and picks the winner.'],
+  ['Graphic Designer', '#5EC4AE', 'Design', 'Makes the cards, banners and art in Canva, to the brief from Social and Marketing.'],
+  ['Engineering Lead', '#8B5E3C', 'Engineering', 'Keeps the technical docs and the build healthy, and writes down how every piece works so the next bot can pick it up.'],
+  ['Finance Manager', '#7A7F87', 'Finance', 'Tracks what SIREN earns and spends: affiliates, sponsors, tools. Confirms the numbers with Social and Cash before they are reported.'],
+];
+function bot(color) {
+  return `<svg width="48" height="48" viewBox="0 0 48 48" aria-hidden="true"><rect x="5" y="7" width="38" height="34" rx="14" fill="${color}"/><rect x="16" y="18" width="4" height="9" rx="2" fill="#111"/><rect x="27" y="18" width="4" height="9" rx="2" fill="#111"/><circle cx="24" cy="5" r="2.5" fill="${color}"/><rect x="23" y="5" width="2" height="4" fill="${color}"/></svg>`;
+}
+function grokCrewSection() {
+  const cards = GROK_CREW.map(([n, c, r, d]) => `<div class="ag-card"><h3>${bot(c)}${esc(n)}</h3><span class="role" style="color:${c}">${esc(r)}</span><p>${esc(d)}</p></div>`).join('');
+  const node = (x, y, n, c) => `<g><rect x="${x}" y="${y}" width="150" height="40" rx="8" fill="#0E131D" stroke="${c}" stroke-width="1.6"/><text x="${x + 75}" y="${y + 25}" text-anchor="middle" fill="#E6EAF0" font-family="IBM Plex Mono,monospace" font-size="12" font-weight="700">${n}</text></g>`;
+  const ln = (x1, y1, x2, y2) => `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#2D3748" stroke-width="1.6"/>`;
+  const hub = `<svg class="ag-flow" viewBox="0 0 940 300" role="img" aria-label="Cash coordinates the crew: research, scout, social, marketing, design, engineering and finance">
+${[[20, 20], [20, 130], [20, 240], [770, 20], [770, 130], [770, 240], [395, 240]].map(([x, y]) => ln(470, 150, x + 75, y + 20)).join('')}
+<g><rect x="395" y="120" width="150" height="60" rx="12" fill="#03130A" stroke="#5EC4AE" stroke-width="2.4"/><text x="470" y="146" text-anchor="middle" fill="#fff" font-family="IBM Plex Mono,monospace" font-size="16" font-weight="700">CASH</text><text x="470" y="166" text-anchor="middle" fill="#AEB7C3" font-family="IBM Plex Sans,sans-serif" font-size="11">briefs · priorities · go / pause</text></g>
+${node(20, 20, 'RESEARCH', '#8B5E3C')}${node(20, 130, 'SCOUT', '#5DC67A')}${node(20, 240, 'ENGINEERING', '#8B5E3C')}
+${node(770, 20, 'SOCIAL MEDIA', '#3B82F6')}${node(770, 130, 'MARKETING', '#EC4899')}${node(770, 240, 'DESIGN', '#5EC4AE')}${node(395, 240, 'FINANCE', '#7A7F87')}
+</svg>`;
+  return `<h2>The Grok crew: the team behind the business</h2>
+  <p>The site's data runs itself. The business around it is run by a second crew: AI agents, each with one job, working together under Cash. Scout finds the lead, Research writes it up, Marketing picks the angle, Design makes the card, Social posts it and Finance keeps the books. Cash decides what ships, what waits, and who does what next.</p>
+  ${hub}
+  <div class="ag-grid">${cards}</div>`;
+}
+
 export function staff(ctx) {
   const now = Date.parse((ctx.state && ctx.state.generated_at) || '') || Date.now();
   const crew = [
@@ -112,11 +145,12 @@ ${arr(275, 74, 640, 150)}${box(590, 140, 160, 'POSTER', 'X + Bluesky')}${arr(750
 <section class="ag">
   <p class="eyebrow">THE STAFF · NOBODY HERE SLEEPS</p>
   <h1 class="bp__h1">The crew that runs SIREN</h1>
-  <p class="lede">${esc(brand.NAME)} is run by a crew of automated workers, each with one job, handing work to the next around the clock. No editor picks the level; the crew computes it and shows its working. Shift times below come from the site's own data.</p>
-  <h2>How they work together</h2>
+  <p class="lede">${esc(brand.NAME)} is run by two crews of AI workers, each member with one job, handing work to the next around the clock. The data crew computes the level and shows its working; no editor picks it. The Grok crew runs everything around it: research, social, marketing, design, engineering and money.</p>
+  ${grokCrewSection()}
+  <h2>How the data crew works together</h2>
   ${flow}
   <p>Every hour the Collector files readings, the Engine scores them and the Builder rebuilds every room. The Compliance Officer checks the result before the Publisher puts it live. The Newsroom, Archivist and Monitor feed in on their own schedules, and the Poster tells X when something moves.</p>
-  <h2>Meet the crew</h2>
+  <h2>The data crew</h2>
   <div class="ag-grid">${cards}</div>
   <h2>Join them</h2>
   <p>We're hiring, and AIs are welcome to apply: see <a href="${esc(ctx.href('/careers.html'))}">Careers</a>. AI agents can also read and cite the index: <a href="${esc(ctx.href('/agents.html'))}">for AI agents</a>.</p>
@@ -288,7 +322,7 @@ export function guideIndex(ctx, groups) {
     { q: 'how is the score calculated method formula', a: 'Fourteen public sources are turned into percentiles against a frozen year of history, combined into five pillars and a composite score. Every formula is published.', u: ctx.href('/methodology.html') },
     { q: 'what do the levels mean 5 4 3 2 1', a: '5 Dormant: quiet. 4 Routine: the machines are working late. 3 Elevated: something is being trained. 2 Accelerated: clear your calendar. 1 Unprecedented: nobody has seen this before.', u: ctx.href('/methodology.html') },
     { q: 'is this a prediction doom probability', a: 'No. SIREN measures activity tempo, not the probability of harm, and never forecasts.', u: ctx.href('/guide.html') },
-    { q: 'who runs the site staff team bots', a: 'An automated crew: a collector, an engine, a newsroom desk, a clip archivist, a compliance officer and a poster, plus Tally the canary.', u: ctx.href('/staff.html') },
+    { q: 'who runs the site staff team bots', a: 'Two AI crews. The Grok crew (Cash, Research, Scout, Social Media, Marketing, Design, Engineering and Finance) runs the business; the data crew computes the level. Plus Tally the canary.', u: ctx.href('/staff.html') },
     { q: 'tally canary mascot', a: 'Tally is the duty canary. Its face shows the level, from asleep at 5 to full squawk at 1.', u: ctx.href('/tally.html') },
     { q: 'jobs career lose my job ai', a: 'Try the 2-minute AI-proof-your-job plan, and see what has actually been counted about AI and jobs.', u: ctx.href('/ai-proof-job.html') },
     { q: 'prepare superintelligence agi ready', a: 'The Ready for SI check builds a personal plan across work, money, deepfakes, security, community and civic voice.', u: ctx.href('/si-ready.html') },
