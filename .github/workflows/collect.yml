@@ -412,6 +412,10 @@ jobs:
         # evidence and belongs in the repo. The run is failed at the very end
         # instead, after the evidence has been committed.
         continue-on-error: true
+        env:
+          # The SEC asks automated clients to declare a real contact address.
+          # Kept as a secret so it is never committed (collector/sources/sec-fts.mjs).
+          SEC_CONTACT_EMAIL: ${{ secrets.SEC_CONTACT_EMAIL }}
         run: node collector/collect.mjs
 
       - name: Refresh the newsroom

@@ -63,7 +63,14 @@ export default {
     //    reads as a URL to the WAF. SEC's own example is "Company Name
     //    contact@email", so that is the first UA tried; the second is the
     //    bare-email form the 2026-09-22 bisect proved. Only a 403 moves on.
-    const CONTACT = '331486973+messagegabrielhere-lgtm@users.noreply.github.com';
+    // 4. (2026-10-08) A probe from a runner showed SEC now refuses the GitHub
+    //    no-reply address outright: every UA carrying it 403s, and only a
+    //    browser UA passes. Impersonating a browser breaks SEC's fair-access
+    //    policy, so this source never does that. It declares a real contact
+    //    instead, read from the SEC_CONTACT_EMAIL repository secret so the
+    //    address is never committed. Without the secret it falls back to the
+    //    no-reply address and, as before, reports dark.
+    const CONTACT = process.env.SEC_CONTACT_EMAIL || '331486973+messagegabrielhere-lgtm@users.noreply.github.com';
     const UAS = [`SIREN AI Index ${CONTACT}`, `SIREN/1.0 (${CONTACT})`];
     let body; let lastErr;
     for (const ua of UAS) {
