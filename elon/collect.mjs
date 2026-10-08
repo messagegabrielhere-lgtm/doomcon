@@ -191,6 +191,8 @@ export function parseChannelSearch(html, now = Date.now()) {
         approxDate: true,
         description: (v.detailedMetadataSnippets || []).map((d) => runsText(d.snippetText)).join(' ') || runsText(v.descriptionSnippet),
         views: Number(runsText(v.viewCountText).replace(/[^\d]/g, '')) || null,
+        channel: runsText(v.ownerText) || runsText(v.longBylineText) || '',
+        channelId: v.ownerText?.runs?.[0]?.navigationEndpoint?.browseEndpoint?.browseId || '',
       });
     }
     for (const k in o) if (k !== 'videoRenderer') walk(o[k]);
@@ -308,6 +310,42 @@ async function searchChannel(channelId, key, query) {
   return out.filter((v) => /^[\w-]{11}$/.test(v.id || ''));
 }
 
+// TRENDS. What YouTube as a whole is uploading about superintelligence right
+// now, newest first: the search results page sorted by upload date, for a few
+// queries. These come from ANY channel, so they are kept apart from the
+// verified clips and the page labels them "unverified". Scam patterns (crypto
+// giveaways, "live now" doubling streams) are dropped here as well as on the page.
+export const TREND_QUERIES = ['superintelligence', 'AGI artificial general intelligence', 'AI safety', 'AI 2027', 'Skynet AI', 'AI takeover'];
+const TREND_SCAM = /\b(giveaway|double your|airdrop|claim|presale|token launch|free (btc|eth|crypto))\b/i;
+const TREND_MAX = 400;
+const TREND_DAYS = 60;
+export function mergeTrends(prev, fresh, now = Date.now()) {
+  const byId = new Map((prev || []).map((t) => [t.id, t]));
+  for (const t of fresh) {
+    const old = byId.get(t.id);
+    byId.set(t.id, old ? { ...old, views: t.views ?? old.views, queries: [...new Set([...(old.queries || []), ...t.queries])] } : t);
+  }
+  return [...byId.values()]
+    .filter((t) => !t.published || now - Date.parse(t.published) < TREND_DAYS * 864e5)
+    .sort((a, b) => String(b.published).localeCompare(String(a.published)))
+    .slice(0, TREND_MAX);
+}
+async function trends(prevTrends) {
+  const fresh = []; const errors = [];
+  for (const q of TREND_QUERIES) {
+    try {
+      // sp=CAI%3D: sort by upload date.
+      const r = parseChannelSearch(await get(`https://www.youtube.com/results?search_query=${encodeURIComponent(q)}&sp=CAI%253D`));
+      if (!r.parsed) throw new Error('no ytInitialData');
+      for (const v of r.videos) {
+        if (!v.published || TREND_SCAM.test(v.title)) continue;
+        fresh.push({ id: v.id, title: v.title, channel: v.channel, channelId: v.channelId, published: v.published, approxDate: true, views: v.views, queries: [q] });
+      }
+    } catch (err) { errors.push(`${q}: ${err.message}`); }
+  }
+  return { items: mergeTrends(prevTrends, fresh), seen: fresh.length, errors };
+}
+
 async function main() {
   const outDir = process.argv[2] || 'elon-out';
   const prevSrc = process.argv[3] || process.env.ELON_PREV || PREV_DEFAULT;
@@ -388,7 +426,10 @@ async function main() {
     process.exit(1);
   }
   await mkdir(outDir, { recursive: true });
-  await writeFile(path.join(outDir, 'clips.json'), JSON.stringify({ generated: now, dating, sources: report, clips }) + '\n');
+  const tr = await trends(prev?.trends?.items);
+  console.log(`trends: ${tr.items.length} kept, ${tr.seen} seen this run${tr.errors.length ? `; errors: ${tr.errors.join('; ')}` : ''}`);
+  await writeFile(path.join(outDir, 'clips.json'), JSON.stringify({ generated: now, dating, sources: report, clips,
+    trends: { generated: now, queries: TREND_QUERIES, errors: tr.errors, items: tr.items } }) + '\n');
   const undated = clips.filter((c) => !c.published).length;
   console.log(`${clips.length} clips in the index (${fresh.length} seen this run, ${dated} dated, ${undated} still undated).`);
 }

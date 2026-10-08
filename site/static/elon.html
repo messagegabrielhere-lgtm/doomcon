@@ -95,7 +95,7 @@ select{border:1px solid var(--line);background:var(--panel);border-radius:10px;p
 .meta{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:12.5px;color:var(--mute);margin-top:auto}
 .src{display:inline-flex;align-items:center;gap:5px;font-weight:600;color:var(--ink)}
 .dot{width:8px;height:8px;border-radius:50%;flex:none}
-.t-official,.t-lab{background:var(--official)} .t-interview{background:var(--interview)} .t-news{background:var(--news)}
+.t-official,.t-lab,.t-company{background:var(--official)} .t-interview{background:var(--interview)} .t-news{background:var(--news)} .t-trend{background:#FF8A2B}
 .pill{font-size:11px;font-weight:600;padding:1px 6px;border-radius:99px;background:var(--sunk);color:var(--mute)}
 .more{align-self:center}
 .empty{text-align:center;color:var(--mute);padding:40px 16px}
@@ -138,7 +138,9 @@ footer{color:var(--mute);font-size:12.5px;text-align:center}
   </header>
 
   <nav class="topics" role="group" aria-label="Topic" id="topics">
-    <button type="button" data-topic="elon" aria-pressed="true">Elon Musk<span id="n-elon"></span></button>
+    <button type="button" data-topic="all" aria-pressed="true">All clips<span id="n-all"></span></button>
+    <button type="button" data-topic="trends" aria-pressed="false">🔥 YouTube trends<span id="n-trends"></span></button>
+    <button type="button" data-topic="elon" aria-pressed="false">Elon Musk<span id="n-elon"></span></button>
     <button type="button" data-topic="ai" aria-pressed="false">All AI<span id="n-ai"></span></button>
     <button type="button" data-topic="si" aria-pressed="false">Superintelligence<span id="n-si"></span></button>
   </nav>
@@ -178,6 +180,7 @@ footer{color:var(--mute);font-size:12.5px;text-align:center}
     <div class="empty" id="empty" hidden></div>
   </main>
   <button class="btn ghost more" id="more" type="button" hidden>Show more</button>
+  <button class="btn ghost more" id="undated" type="button" hidden></button>
 
   <section class="panel" aria-labelledby="how-h">
     <div class="cols">
@@ -223,11 +226,15 @@ footer{color:var(--mute);font-size:12.5px;text-align:center}
 <script>
 const DATA_URL = 'https://raw.githubusercontent.com/messagegabrielhere-lgtm/doomcon/elon-data/clips.json';
 const PAGE = 48;
-const TIER_LABEL = { official: 'Official', lab: 'AI lab', company: 'Company', interview: 'Interview', news: 'News' };
+const TIER_LABEL = { official: 'Official', lab: 'AI lab', company: 'Company', interview: 'Interview', news: 'News', trend: 'Unverified' };
 // The "Official" filter covers Elon's companies and the AI labs: both are the
 // subject's own channel.
 const tierIs = (c, t) => !t || c.tier === t || (t === 'official' && (c.tier === 'lab' || c.tier === 'company'));
 const TOPIC = {
+  all: { h: 'Clips', placeholder: 'Search every clip: GPT, Grok, Starship, Altman…',
+    tag: 'Every verified clip in the index: Elon, the AI bosses and the labs, only from the channels that filmed them.' },
+  trends: { h: 'YouTube trends', placeholder: 'Search what YouTube is posting about AGI…',
+    tag: 'What all of YouTube is uploading about superintelligence, AGI and AI takeover right now, newest first. From ANY channel: unverified, so check the source before you share.' },
   elon: { h: 'Elon', placeholder: 'Search: Starship, Grok, Optimus, Rogan…',
     tag: 'Clips of Elon Musk, only from the channels that filmed him. No reuploads, no AI voices, no "giveaway" livestreams.' },
   si: { h: 'Superintelligence', placeholder: 'Search: Sutskever, Altman, alignment, Bostrom…',
@@ -241,11 +248,12 @@ for (const [id, name] of LEADERS) TOPIC[id] = { h: name, placeholder: `Search cl
 document.getElementById('leaders').innerHTML = LEADERS.map(([id, name]) => `<button type="button" data-topic="${id}" aria-pressed="false" hidden>${name}<span id="n-${id}"></span></button>`).join('');
 // Clips collected before topics existed are all about Elon.
 const topicsOf = (c) => c.topics || ['elon'];
+const inTopic = (c, t) => t === 'all' ? c.tier !== 'trend' : topicsOf(c).includes(t);
 const SCAM_RE = /\b(giveaway|double|doubl(e|ing) your|btc|bitcoin|eth|ethereum|crypto|airdrop|send \d|claim|qr code|free (btc|eth|crypto|tesla)|live now|xrp|doge|presale|token launch)\b/i;
 
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-const state = { all: [], sources: [], topic: 'elon', q: '', tier: '', chan: '', sort: 'new', shown: PAGE, byId: new Map(), open: null };
+const state = { showUndated: false, all: [], sources: [], topic: 'all', q: '', tier: '', chan: '', sort: 'new', shown: PAGE, byId: new Map(), open: null };
 
 // ---------- theme
 (function () {
@@ -288,7 +296,7 @@ const channelUrl = (c) => c.channelId ? `https://www.youtube.com/channel/${c.cha
 function filtered() {
   const words = state.q.toLowerCase().split(/\s+/).filter(Boolean);
   let list = state.all.filter((c) =>
-    topicsOf(c).includes(state.topic) &&
+    inTopic(c, state.topic) &&
     tierIs(c, state.tier) &&
     (!state.chan || c.handle === state.chan) &&
     words.every((w) => c._hay.includes(w)));
@@ -297,7 +305,11 @@ function filtered() {
   if (state.sort === 'views') return list.slice().sort((a, b) => (b.views ?? -1) - (a.views ?? -1));
   const dir = state.sort === 'old' ? 1 : -1;
   const dated = list.filter((c) => c.published).sort((a, b) => dir * a.published.localeCompare(b.published));
-  return dated.concat(list.filter((c) => !c.published));
+  // Clips whose upload date is not known yet are hidden from a date sort
+  // unless asked for: shown after the dated ones they made "latest first"
+  // look like it was serving 2014 videos.
+  state.undatedCount = list.length - dated.length;
+  return state.showUndated ? dated.concat(list.filter((c) => !c.published)) : dated;
 }
 
 // The heading a clip sits under when sorted by date: this week, this month,
@@ -346,12 +358,14 @@ function render() {
     }).join('');
   }
   $('more').hidden = list.length <= state.shown;
+  const und = $('undated');
+  if (und) { und.hidden = state.sort === 'views' || !state.undatedCount; und.textContent = state.showUndated ? `Hide ${state.undatedCount.toLocaleString()} clips with unknown dates` : `Show ${state.undatedCount.toLocaleString()} more clips whose upload date isn't known yet`; }
   $('count').textContent = state.all.length
     ? `${list.length.toLocaleString()} clip${list.length === 1 ? '' : 's'}${state.q || state.tier || state.chan ? ' match' : ''}`
     : '';
   const e = $('empty');
-  const inTopic = state.all.some((c) => topicsOf(c).includes(state.topic));
-  if (state.loaded && !inTopic) {
+  const hasTopic = state.all.some((c) => inTopic(c, state.topic));
+  if (state.loaded && !hasTopic) {
     e.hidden = false;
     e.innerHTML = `<b>No clips yet.</b>The index checks every source hourly and adds each new video on this topic. The link checker above works for any YouTube link meanwhile.`;
   } else if (state.all.length && !list.length) {
@@ -364,7 +378,7 @@ function render() {
 // ---------- url state: #q=starship&tier=official&v=VIDEOID
 function syncHash() {
   const p = new URLSearchParams();
-  if (state.topic !== 'elon') p.set('t', state.topic);
+  if (state.topic !== 'all') p.set('t', state.topic);
   if (state.q) p.set('q', state.q);
   if (state.tier) p.set('tier', state.tier);
   if (state.chan) p.set('ch', state.chan);
@@ -375,7 +389,7 @@ function syncHash() {
 }
 function readHash() {
   const p = new URLSearchParams(location.hash.slice(1));
-  state.topic = TOPIC[p.get('t')] ? p.get('t') : 'elon';
+  state.topic = TOPIC[p.get('t')] ? p.get('t') : 'all';
   state.q = p.get('q') || '';
   state.tier = p.get('tier') || '';
   state.chan = p.get('ch') || '';
@@ -387,7 +401,7 @@ function readHash() {
 function openClip(c) {
   state.open = c.id;
   $('p-frame').innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${esc(c.id)}?autoplay=1&rel=0" title="${esc(c.title)}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>`;
-  $('p-badge').textContent = `✓ Uploaded by ${c.channel} (${c.handle})`;
+  $('p-badge').textContent = c.tier === 'trend' ? `⚠ Unverified: uploaded by ${c.channel}, a channel this index does not vouch for` : `✓ Uploaded by ${c.channel} (${c.handle})`;
   $('p-title').textContent = c.title;
   $('p-meta').innerHTML = `<span class="src"><span class="dot t-${esc(c.tier)}"></span>${esc(TIER_LABEL[c.tier] || c.tier)}</span>
     ${clipDate(c) ? `<span>· ${esc(clipDate(c))}</span>` : ''}${c.views != null ? `<span>· ${esc(fmtViews(c.views))}</span>` : ''}
@@ -450,6 +464,7 @@ $('tiers').addEventListener('click', (e) => {
 $('chan').onchange = () => { state.chan = $('chan').value; state.shown = PAGE; render(); };
 $('sort').onchange = () => { state.sort = $('sort').value; state.shown = PAGE; render(); };
 $('more').onclick = () => { state.shown += PAGE; render(); };
+$('undated').onclick = () => { state.showUndated = !state.showUndated; render(); };
 
 function syncControls() {
   const t = TOPIC[state.topic];
@@ -458,7 +473,7 @@ function syncControls() {
   $('tagline').textContent = t.tag;
   $('q').placeholder = t.placeholder;
   for (const k of Object.keys(TOPIC)) {
-    const n = state.all.filter((c) => topicsOf(c).includes(k)).length;
+    const n = state.all.filter((c) => inTopic(c, k)).length;
     $(`n-${k}`).textContent = state.loaded ? n.toLocaleString() : '';
     if (TOPIC[k].leader) $(`n-${k}`).parentElement.hidden = !(state.loaded && n > 0) && state.topic !== k;
   }
@@ -468,7 +483,7 @@ function syncControls() {
 }
 function fillChannels() {
   const counts = new Map();
-  for (const c of state.all) if (topicsOf(c).includes(state.topic) && tierIs(c, state.tier)) counts.set(c.handle, (counts.get(c.handle) || 0) + 1);
+  for (const c of state.all) if (inTopic(c, state.topic) && tierIs(c, state.tier)) counts.set(c.handle, (counts.get(c.handle) || 0) + 1);
   const rows = state.sources.filter((s) => counts.has(s.handle)).sort((a, b) => counts.get(b.handle) - counts.get(a.handle));
   if (state.chan && !counts.has(state.chan)) state.chan = '';
   $('chan').innerHTML = `<option value="">All channels</option>` + rows.map((s) =>
@@ -564,7 +579,9 @@ async function load() {
     return;
   }
   state.sources = data.sources || [];
-  state.all = (data.clips || []).map((c) => ({ ...c, _hay: `${c.title} ${c.channel} ${c.handle} ${c.description || ''}`.toLowerCase() }));
+  const trendItems = ((data.trends && data.trends.items) || []).map((t) => ({ ...t, tier: 'trend', handle: t.channelId ? `yt:${t.channelId}` : `yt:${t.channel}`, topics: ['trends'], description: `Unverified: found by searching YouTube for ${(t.queries || []).join(', ')}.` }));
+  const verified = new Set((data.clips || []).map((c) => c.id));
+  state.all = (data.clips || []).concat(trendItems.filter((t) => !verified.has(t.id))).map((c) => ({ ...c, _hay: `${c.title} ${c.channel} ${c.handle} ${c.description || ''}`.toLowerCase() }));
   state.byId = new Map(state.all.map((c) => [c.id, c]));
   state.loaded = true;
   renderSources(data.generated);
