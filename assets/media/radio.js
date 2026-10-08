@@ -32,6 +32,19 @@
     LEAD = ['square', 'sawtooth', 'triangle', 'square'][(h >>> 8) % 4];
     BPM_SHIFT = ((h >>> 12) % 13) - 6;          // -6 .. +6 bpm
   })();
+  // STATIONS. Five genres, all generated live. The page still picks the key
+  // and progression, so every page sounds different on every station.
+  var SKEY = 'siren:station';
+  var STATIONS = [
+    { id: 'siren', name: 'SIREN FM', tag: 'Dark synth that follows the level' },
+    { id: 'synthwave', name: 'SKYNET SYNTHWAVE', tag: 'Neon drive music for the machine age' },
+    { id: 'ambient', name: 'BUNKER AMBIENT', tag: 'Slow drones for the long wait underground' },
+    { id: 'chip', name: 'CANARY CHIPTUNE', tag: '8-bit bleeps from Tally\u2019s perch' },
+    { id: 'industrial', name: 'JUDGMENT DAY', tag: 'Industrial march. Metal on metal.' },
+    { id: 'lofi', name: 'DATA RAIN LO-FI', tag: 'Beats to watch the index to' },
+  ];
+  var station = 0;
+  try { var sv = localStorage.getItem(SKEY); STATIONS.forEach(function (x, i) { if (x.id === sv) station = i; }); } catch (e) {}
   var ctx = null, master = null, wet = null, timer = null, playing = false;
   var level = 4, step = 0, next = 0;
 
@@ -106,8 +119,31 @@
     o.connect(g); g.connect(wet); g.connect(master); o.start(t); o.stop(t + dur + 0.05);
   }
 
+  function snare(t, vol, tone) {
+    if (!noiseBuf) hat(t, 0.0001);
+    var s = ctx.createBufferSource(), f = ctx.createBiquadFilter(), g = ctx.createGain();
+    s.buffer = noiseBuf; s.loop = true; f.type = 'bandpass'; f.frequency.value = tone || 1800; f.Q.value = 0.7;
+    g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.18);
+    s.connect(f); f.connect(g); g.connect(master); g.connect(wet); s.start(t); s.stop(t + 0.2);
+    voice('triangle', 190, t, 0.08, vol * 0.5, 2000, false);
+  }
+  function bell(freq, t, vol) {
+    var o = ctx.createOscillator(), o2 = ctx.createOscillator(), g = ctx.createGain();
+    o.type = 'sine'; o.frequency.value = freq; o2.type = 'sine'; o2.frequency.value = freq * 2.76;
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + 0.01); g.gain.exponentialRampToValueAtTime(0.0001, t + 3.5);
+    o.connect(g); o2.connect(g); g.connect(master); g.connect(wet);
+    o.start(t); o2.start(t); o.stop(t + 3.6); o2.stop(t + 3.6);
+  }
+  function clang(t, vol) {
+    [1, 1.47, 2.09, 2.83].forEach(function (r) { voice('square', 220 * r, t, 0.25, vol / 4, 5000, true); });
+    hat(t, vol * 0.8);
+  }
+  function rnd(n) { return (Math.sin(n * 12.9898) * 43758.5453) % 1 + 1 > 1.5; }
+
   // One 16th-note step. 16 steps a bar, one chord a bar.
   function play(t) {
+    var st = STATIONS[station].id;
+    if (st !== 'siren') return STYLE[st](t);
     var s16 = 60 / (BPM[level] + BPM_SHIFT) / 4;
     var bar = Math.floor(step / 16), pos = step % 16;
     var chord = PROG[bar % 4];
@@ -129,6 +165,65 @@
     step++;
     return s16;
   }
+
+  // The other stations. Each returns the length of one 16th note, like play().
+  var STYLE = {
+    synthwave: function (t) {
+      var heat = 5 - level, s16 = 60 / (100 + heat * 4 + BPM_SHIFT) / 4;
+      var bar = Math.floor(step / 16), pos = step % 16, chord = PROG[bar % 4];
+      if (pos === 0) pad(chord.map(function (n) { return n + 12; }), t, s16 * 16);
+      if (pos % 4 === 0) kick(t, 0.42);
+      if (pos === 4 || pos === 12) snare(t, 0.22, 1500);
+      if (pos % 2 === 1) hat(t, 0.05);
+      voice('sawtooth', hz(chord[0] - 24 + (pos % 2 ? 12 : 0)), t, s16 * 0.9, 0.07, 700, false);
+      var mel = [0, 2, 1, 2, 0, 1, 2, 1];
+      if (pos % 2 === 0) voice('sawtooth', hz(chord[mel[(pos / 2 + bar) % 8]] + 12), t, s16 * 1.8, 0.035, 2600, true);
+      step++; return s16;
+    },
+    ambient: function (t) {
+      var s16 = 60 / (56 + BPM_SHIFT) / 4;
+      var bar = Math.floor(step / 16), pos = step % 16, chord = PROG[bar % 4];
+      if (pos === 0) {
+        pad(chord, t, s16 * 18);
+        voice('sine', hz(chord[0] - 24), t, s16 * 17, 0.12, 300, false);
+      }
+      if (pos % 4 === 2 && rnd(step + bar * 7)) bell(hz(chord[(step >> 2) % 3] + 24), t, 0.05);
+      if (pos === 8 && bar % 2 === 1) bell(hz(chord[2] + 12), t, 0.04);
+      step++; return s16;
+    },
+    chip: function (t) {
+      var heat = 5 - level, s16 = 60 / (132 + heat * 6 + BPM_SHIFT) / 4;
+      var bar = Math.floor(step / 16), pos = step % 16, chord = PROG[bar % 4];
+      voice('square', hz(chord[pos % 3] + 12 + (pos >= 8 ? 12 : 0)), t, s16 * 0.7, 0.04, 6000, false);
+      if (pos % 4 === 0) voice('triangle', hz(chord[0] - 12), t, s16 * 3, 0.14, 3000, false);
+      if (pos % 8 === 4) snare(t, 0.12, 4000);
+      if (pos % 8 === 0) kick(t, 0.25);
+      if (pos === 0 && bar % 2 === 0) voice('square', hz(chord[2] + 24), t, s16 * 4, 0.025, 6000, true);
+      step++; return s16;
+    },
+    industrial: function (t) {
+      var heat = 5 - level, s16 = 60 / (92 + heat * 5 + BPM_SHIFT) / 4;
+      var bar = Math.floor(step / 16), pos = step % 16, chord = PROG[bar % 4];
+      if ([0, 3, 6, 10].indexOf(pos) >= 0) kick(t, 0.5);
+      if (pos === 4 || pos === 12) clang(t, 0.16);
+      if (pos % 2 === 0) voice('sawtooth', hz(chord[0] - 24), t, s16 * 1.5, 0.09, 500 + heat * 120, false);
+      if (pos === 0) { voice('sawtooth', hz(chord[0] - 12), t, s16 * 16, 0.04, 900, true); voice('sawtooth', hz(chord[1] - 12), t, s16 * 16, 0.03, 900, true); }
+      if (pos === 14 && bar % 2 === 1) snare(t, 0.2, 900);
+      step++; return s16;
+    },
+    lofi: function (t) {
+      var s16 = 60 / (74 + BPM_SHIFT) / 4;
+      var bar = Math.floor(step / 16), pos = step % 16, chord = PROG[bar % 4];
+      var swing = pos % 2 ? s16 * 0.18 : 0, tt = t + swing;
+      if (pos === 0 || pos === 7 || pos === 10) kick(tt, 0.3);
+      if (pos === 4 || pos === 12) snare(tt, 0.13, 1200);
+      if (pos % 2 === 0) hat(tt, 0.025);
+      if (pos === 0 || pos === 6) chord.concat([chord[0] + 10]).forEach(function (n, i) { voice('sine', hz(n), tt + i * 0.012, s16 * 5, 0.05, 1600, true); voice('triangle', hz(n + 12), tt + i * 0.012, s16 * 2, 0.012, 2000, false); });
+      if (pos % 4 === 0) voice('sine', hz(chord[0] - 24), tt, s16 * 3, 0.15, 400, false);
+      if (pos % 3 === 0) hat(t + s16 * 0.5, 0.006);
+      step++; return s16;
+    },
+  };
   function tick() {
     while (next < ctx.currentTime + 0.12) next += play(next);
   }
@@ -171,6 +266,20 @@
     if (keepAlive) try { keepAlive.pause(); } catch (e) {}
   }
 
+  function setStation(i) {
+    station = i; step = 0;
+    try { localStorage.setItem(SKEY, STATIONS[i].id); } catch (e) {}
+  }
+  function toast() {
+    var el = document.getElementById('siren-radio-toast');
+    if (!el) {
+      el = document.createElement('div'); el.id = 'siren-radio-toast'; el.setAttribute('role', 'status');
+      el.style.cssText = 'position:fixed;left:50%;bottom:64px;transform:translateX(-50%);z-index:10000;padding:10px 16px;border-radius:8px;background:#0B0F16;color:#E6EAF0;border:1px solid #818CF8;font:600 13px/1.35 system-ui,sans-serif;box-shadow:0 8px 24px rgba(0,0,0,.5);text-align:center;transition:opacity .4s;pointer-events:none';
+      document.body.appendChild(el);
+    }
+    el.innerHTML = '\ud83d\udcfb <b>' + STATIONS[station].name + '</b><br><span style="font-weight:400;opacity:.8">' + STATIONS[station].tag + ' \u00b7 station ' + (station + 1) + ' of ' + STATIONS.length + '</span>';
+    el.style.opacity = '1'; clearTimeout(toast.t); toast.t = setTimeout(function () { el.style.opacity = '0'; }, 2600);
+  }
   function wire() {
     // Every radio button on the page: the homepage's top-bar one (#siren-radio)
     // and the one in the bar at the foot of every page ([data-siren-radio]).
@@ -182,7 +291,12 @@
         b.setAttribute('aria-pressed', String(playing));
         var short = b.hasAttribute('data-siren-radio');
         b.textContent = playing ? (short ? '♪ ON' : '♪ RADIO ON') : (short ? '♪ OFF' : '♪ RADIO');
-        b.title = playing ? 'Turn SIREN Radio off' : 'Turn SIREN Radio on: an original soundtrack for this page, generated in your browser';
+        b.title = playing ? 'Turn SIREN Radio off (now playing: ' + STATIONS[station].name + ')' : 'Turn SIREN Radio on: an original soundtrack for this page, generated in your browser';
+      });
+      [].slice.call(document.querySelectorAll('[data-siren-now]')).forEach(function (n) { n.textContent = STATIONS[station].name; });
+      [].slice.call(document.querySelectorAll('[data-siren-station]')).forEach(function (sb) {
+        var id = sb.getAttribute('data-siren-station');
+        if (id) sb.setAttribute('aria-pressed', String(playing && id === STATIONS[station].id));
       });
     };
     var check = function () {
@@ -191,6 +305,18 @@
         if (ctx.state !== 'running') btns.forEach(function (b) { b.textContent = '♪ TAP AGAIN'; b.title = 'Your browser blocked the sound. Tap again; on a phone, check the volume.'; });
       }, 700);
     };
+    // Station buttons: [data-siren-station] steps to the next station, and
+    // [data-siren-station="synthwave"] (on the radio page) tunes straight to one.
+    [].slice.call(document.querySelectorAll('[data-siren-station]')).forEach(function (sb) {
+      sb.addEventListener('click', function () {
+        var want = sb.getAttribute('data-siren-station'), i = -1;
+        STATIONS.forEach(function (x, k) { if (x.id === want) i = k; });
+        setStation(i >= 0 ? i : (station + 1) % STATIONS.length);
+        if (!playing) start(lv);
+        try { localStorage.setItem(KEY, '1'); } catch (e) {}
+        paint(); check(); toast();
+      });
+    });
     btns.forEach(function (btn) {
       btn.addEventListener('click', function () {
         if (playing && ctx && ctx.state !== 'running') { ctx.resume(); unlockIOS(); paint(); check(); return; }
@@ -227,17 +353,18 @@
   }
   // Render a stretch of the soundtrack offline (used to score the explainer
   // video). `levelAt(seconds)` picks the level at each moment.
-  function renderOffline(seconds, levelAt) {
-    var saved = [ctx, master, wet, level, step];
+  function renderOffline(seconds, levelAt, st) {
+    var saved = [ctx, master, wet, level, step, station];
+    if (st != null) station = st;
     var sr = 44100, off = new OfflineAudioContext(2, Math.ceil(sr * seconds), sr);
     build(off); master.gain.value = 0.8; step = 0;
     var t = 0.05;
     while (t < seconds - 0.5) { level = levelAt(t); t += play(t); }
     master.gain.setValueAtTime(0.8, seconds - 2.5); master.gain.linearRampToValueAtTime(0, seconds - 0.2);
     var done = off.startRendering();
-    ctx = saved[0]; master = saved[1]; wet = saved[2]; level = saved[3]; step = saved[4];
+    ctx = saved[0]; master = saved[1]; wet = saved[2]; level = saved[3]; step = saved[4]; station = saved[5];
     return done;
   }
-  window.SirenRadio = { start: start, stop: stop, renderOffline: renderOffline, get playing() { return playing; } };
+  window.SirenRadio = { start: start, stop: stop, renderOffline: renderOffline, stations: STATIONS, setStation: setStation, get station() { return station; }, get playing() { return playing; } };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', wire); else wire();
 })();

@@ -1247,7 +1247,7 @@ ${jsonld}
 </head>
 <body${wide ? ' data-wide="1"' : ''}>
 <a class="skip" href="#main">Skip to the index</a>
-${brand.X_URL || mzOn.tips() ? `<p class="give">${esc(brand.NAME)} is free${mzOn.ads() ? '' : ' and carries no ads'}. <a href="${esc(mzOn.tips() ? MONETIZE.tips.url : brand.X_URL)}" rel="noopener">Keep it running: ${mzOn.tips() ? esc(MONETIZE.tips.label.toLowerCase()) : 'donate with X Money'} →</a></p>` : ''}
+${brand.X_URL || mzOn.tips() ? `<p class="give">${esc(brand.NAME)} is free${mzOn.ads() ? '' : ' and carries no ads'}. <a href="${esc(mzOn.tips() ? MONETIZE.tips.url : brand.X_URL)}" rel="noopener">Keep it running: ${mzOn.tips() ? esc(MONETIZE.tips.label) : 'donate with X Money'} →</a></p>` : ''}
 <header class="masthead v2m"><div class="wrap masthead__in">
   <a class="v2m-brand" href="${esc(ctx.href('/'))}"${o.path === '/' ? ' aria-current="page"' : ''}><img src="${esc(ctx.href('/img/art-siren.webp'))}" width="52" height="52" alt="">${pixelText('AI SIREN INDEX', 4, '#FFFFFF', 'v2m-word')}</a>
   ${kit.button}

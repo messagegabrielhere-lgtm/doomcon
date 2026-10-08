@@ -216,6 +216,55 @@ happens the honest fix is a versioned `v2` reference with both series published
 side by side, not a quiet re-baseline. We commit to that in advance, here, where
 it can be held against us.
 
+## Reference versions and the shadow index
+
+The reference distribution in `data/reference.json` is **v1, frozen**. Sources
+it does not calibrate (today: the equity basket, GPU rents, GOV.UK, the three
+prediction markets) are collected and published but not scored. New
+calibrations are added as **addenda** in `data/reference-addenda.json`, built by
+`collector/calibrate.mjs`, and scored only in a **shadow** (`state.shadow`)
+beside the official number — never in place of it, and never in a receipt.
+Promotion to a `v2` reference needs at least 14 days of shadow, 95% source
+uptime and a published official-vs-shadow diff; v1 stays in the repo so every
+old receipt still verifies. The full procedure, including how a permanent
+baseline shift is handled, is in
+[REFERENCE-VERSIONING.md](REFERENCE-VERSIONING.md).
+
+## Known biases
+
+The sources are **English-language and US-centric**, and the index inherits
+that:
+
+| source | bias |
+|---|---|
+| arXiv `cs.AI`/`cs.LG`/`cs.CL` | English-language preprints; Chinese labs publish heavily on arXiv, but domestic venues and Chinese-language reports are invisible |
+| Hacker News | US/European tech audience, startup-weighted |
+| en.wikipedia pageviews | English-reading readership only |
+| Federal Register | US federal executive branch only (GOV.UK, uncalibrated, is the UK) |
+| SEC EDGAR full text | US-listed filers only |
+| equity basket (NVDA, AMD, TSM, AVGO) | US-listed; TSM is an ADR |
+| Polymarket / Kalshi / Manifold | US-centric bettors and question writers |
+
+**Possible additions that would not break recomputability** — proposals only,
+none is implemented, and each would enter through the addenda process above
+with its own backfill test:
+
+- **Other-language Wikipedia pageviews** (zh, ja, de, fr, es, ko) for the same
+  frozen article set via Wikidata sitelinks — same Wikimedia REST endpoint,
+  backfillable exactly like the English series.
+- **EUR-Lex** — count of EU legal acts and preparatory documents mentioning
+  artificial intelligence over a trailing window, from the public search
+  service (needs a check that historical windows are not survivor-biased).
+- **China's MIIT and CAC notices** — counts of AI-related notices on the
+  ministries' public notice lists; would need a fixed keyword set in Chinese and
+  an archived-page source to be backfillable honestly.
+- **Non-US equities** — a separate, fixed basket (e.g. Hong Kong/Shenzhen and
+  Korean AI-hardware names) as its own source rather than a change to the US
+  basket, so neither series is redefined.
+
+Adding a source changes what the index measures, so each one is a reference
+version event, not a silent improvement.
+
 ## Reproduce it yourself
 
 No Node installation required:
@@ -247,3 +296,7 @@ AI](https://epoch.ai/)**, used under CC-BY 4.0.
   predict outcomes. Anyone claiming it "called" an event is misusing it.
 
 **We don't know anything. We just count.**
+
+## Engine change log
+
+- **2026-10-08.** Fixed a bug where a pillar that was not dark but had no scored source (Markets, whose sources are all still calibrating) reached the composite as a zero and pulled the mean down. Such a pillar is now left out, exactly as this document always said ("a pillar with no live sources … is excluded from the composite"). The quorum check gets the same fix. Readings before this date were published under the old arithmetic, and their receipts still verify against it; the history chart shows the step on this date.

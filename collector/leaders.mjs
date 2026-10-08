@@ -70,23 +70,38 @@
 // on the object as `no_line_means` so no caller has to remember it.
 //
 // ---------------------------------------------------------------------------
-// NO NETWORK
+// NETWORK: DIRECT SOURCES ONLY, AND EVERY ONE OF THEM IS ALLOWED TO FAIL
 // ---------------------------------------------------------------------------
 //
-// This module makes no HTTP request at all. It reads data/news.json and
-// data/race.json off disk and writes data/leaders.json. CONTRACT.md §1.5
-// ("every network call goes through collector/fetch.mjs") is satisfied
-// vacuously and deliberately: the fetching was already done, lawfully, by
-// collector/news.mjs. If a future version needs a byline or a transcript it
-// MUST import fetchText/fetchJson from './fetch.mjs' and never call fetch().
+// The press half of this module makes no HTTP request: it reads data/news.json
+// and data/race.json off disk. The press corpus is capped by item count, so on
+// a busy week it reaches back a day and a half, and a leader who published an
+// essay on Monday read "no line" by Wednesday. So since matcher 1.1.0 the CLI
+// also reads a short table of OFFICIAL feeds — the person's own blog or
+// channel, or their organisation's newsroom — listed with their verification
+// status in collector/leader-sources.mjs.
+//
+// Every request goes through collector/fetch.mjs (CONTRACT.md §1.5). Every
+// feed is fetched independently, with no retries and a short timeout, and a
+// feed that fails is recorded on the leader's row as unreachable — it never
+// fails the run and it is never silently dropped. `--offline` skips the
+// network entirely (the rows then say the direct sources were not checked).
+//
+// buildLeaders() itself stays PURE: the fetched feeds and the previous
+// data/leaders.json are passed in as arguments, so a test can drive it with
+// fixtures and two runs over the same inputs produce the same bytes.
 //
 // Writes data/leaders.json only. It touches nothing in public/, so it is
 // order-independent with respect to site/build.mjs.
 
+import { createHash } from 'node:crypto';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { fetchText } from './fetch.mjs';
+import { assertXmlFeed, parseFeed } from './news-sources/_feed.mjs';
+import { LEADER_SOURCES, NO_SOURCE_REASON } from './leader-sources.mjs';
 
 const SCHEMA_VERSION = 1;
-const MATCHER_VERSION = '1.0.0';
+const MATCHER_VERSION = '1.1.0';
 
 // 7 days, matching docs/NEWS.md's collection window. The corpus is capped at
 // 200 items, so on a busy week the cap binds long before the window does —
@@ -96,6 +111,25 @@ const WINDOW_DAYS = 7;
 const NEWS_URL = new URL('../data/news.json', import.meta.url);
 const RACE_URL = new URL('../data/race.json', import.meta.url);
 const OUTPUT_URL = new URL('../data/leaders.json', import.meta.url);
+
+const DAY_MS = 86_400_000;
+// A feed entry stamped more than this far past the clock is a broken date,
+// not a statement from the future, and is ignored.
+const FUTURE_SKEW_MS = DAY_MS;
+// Per-feed politeness and patience. No retries: a feed that is down this hour
+// is reported down this hour, and the next hourly run asks again.
+const FEED_TIMEOUT_MS = 12_000;
+const FEED_CONCURRENCY = 4;
+const FEED_ENTRY_LIMIT = 60;
+
+// Why a leader with nothing in the window has nothing in the window.
+//   quiet                at least one direct source answered and none of them,
+//                        nor the press, carried anything in the window
+//   sources_unreachable  the person has direct sources and NONE answered, so
+//                        the silence is ours, not theirs
+//   no_sources           there is no official feed for this person at all;
+//                        the press wire is the only reading
+const SILENCE_REASONS = Object.freeze(['quiet', 'sources_unreachable', 'no_sources']);
 
 // ---------------------------------------------------------------------------
 // The roster
@@ -352,6 +386,10 @@ const CUE_CLASS = Object.freeze({
   ],
   document: ['letter', 'letters', 'memo', 'memos'],
   quote: ['quoted text'],
+  // Not a headline cue at all: the line came from the person's own feed or
+  // their organisation's official channel (collector/leader-sources.mjs), so
+  // the act of publishing IS the statement. Never matched against press text.
+  official: ['own post', 'own video', 'byline', 'official post', 'official video'],
 });
 
 const CLASS_OF = new Map();
@@ -488,6 +526,195 @@ export function speechCue(headline) {
 }
 
 // ---------------------------------------------------------------------------
+// Direct sources (collector/leader-sources.mjs)
+// ---------------------------------------------------------------------------
+
+const ROSTER_IDS = new Set(ROSTER.map((l) => l.id));
+
+// Validate the source table at import time, the same way the cue table is
+// validated: a row naming a leader who is not on the roster is a typo that
+// would otherwise just never match.
+for (const src of LEADER_SOURCES) {
+  for (const id of src.leaders) {
+    if (!ROSTER_IDS.has(id)) throw new Error(`leaders: source ${src.id} names unknown leader ${JSON.stringify(id)}`);
+  }
+  if (src.kind !== 'personal' && src.kind !== 'org') throw new Error(`leaders: source ${src.id} has unknown kind ${src.kind}`);
+}
+
+/** The direct sources configured for one leader, in table order. */
+export function sourcesFor(leaderId, sources = LEADER_SOURCES) {
+  return sources.filter((s) => s.leaders.includes(leaderId));
+}
+
+function firstTagText(block, names) {
+  for (const n of names) {
+    const m = block.match(new RegExp(`<${n}(?:\\s[^>]*)?>([\\s\\S]*?)</${n}\\s*>`, 'i'));
+    if (m) {
+      const v = m[1].replace(/^<!\[CDATA\[([\s\S]*)\]\]>$/, '$1').trim();
+      if (v) return v;
+    }
+  }
+  return null;
+}
+
+/**
+ * Entries of one RSS/Atom/YouTube feed: { title, url, published_at, author }.
+ *
+ * Title and link come from the shared news parser (collector/news-sources/
+ * _feed.mjs) so entity decoding is identical to the press wire's. The DATE
+ * does not: that parser falls back to <updated>, and on Posthaven <updated>
+ * is "the CDN touched it" (collector/race.mjs, THE POSTHAVEN TRAP). Here an
+ * entry with no <published>/<pubDate>/<dc:date> is dropped instead.
+ *
+ * A title the shared parser had to clip is dropped too: a clipped title is
+ * not the headline the person published, and this module prints headlines
+ * whole or not at all.
+ */
+export function parseLeaderFeed(xml, { limit = FEED_ENTRY_LIMIT } = {}) {
+  const out = [];
+  const blockRe = /<(entry|item)(?:\s[^>]*)?>([\s\S]*?)<\/\1\s*>/gi;
+  for (const m of String(xml).matchAll(blockRe)) {
+    if (out.length >= limit) break;
+    const block = m[0];
+    const [parsed] = parseFeed(block, { limit: 1 });
+    if (!parsed || !parsed.title || !parsed.url) continue;
+    if (parsed.title.endsWith('…') && parsed.title.length >= 190) continue;
+
+    const rawDate = firstTagText(block, ['published', 'pubDate', 'dc:date']);
+    const ms = rawDate ? Date.parse(rawDate) : NaN;
+    if (!Number.isFinite(ms)) continue;
+
+    // <author><name>X</name></author> (Atom/YouTube), <dc:creator> (WordPress),
+    // <author>email (Name)</author> (RSS 2.0).
+    let author = firstTagText(block, ['dc:creator', 'name']);
+    if (!author) {
+      const a = firstTagText(block, ['author']);
+      if (a) author = (a.match(/\(([^)]+)\)/) || [null, a])[1];
+    }
+
+    out.push({
+      title: parsed.title,
+      url: parsed.url,
+      published_at: new Date(ms).toISOString(),
+      author: author ? author.replace(/<[^>]+>/g, '').trim() || null : null,
+    });
+  }
+  return out;
+}
+
+/**
+ * Fetch every direct source once. NEVER throws: each source resolves to
+ * { ok, fetched_at, entries, error }, and a failure is a value.
+ *
+ * `fetcher` is injectable for tests; production passes collector/fetch.mjs's
+ * fetchText, which is the only HTTP path this repo allows.
+ */
+export async function fetchLeaderFeeds(sources = LEADER_SOURCES, { fetcher = fetchText, now = () => new Date() } = {}) {
+  const results = {};
+  const queue = [...sources];
+  async function worker() {
+    while (queue.length) {
+      const src = queue.shift();
+      const fetched_at = now().toISOString();
+      try {
+        const { data, headers } = await fetcher(src.url, { withMeta: true, retries: 0, timeoutMs: FEED_TIMEOUT_MS });
+        assertXmlFeed(data, src.url, (headers && headers['content-type']) || '');
+        const entries = parseLeaderFeed(data);
+        if (!entries.length) throw new Error('feed parsed but carried no dated entries');
+        results[src.id] = { ok: true, fetched_at, entries, error: null };
+      } catch (err) {
+        const msg = err && err.message ? err.message : String(err);
+        results[src.id] = { ok: false, fetched_at, entries: [], error: msg.slice(0, 200) };
+      }
+    }
+  }
+  await Promise.all(Array.from({ length: Math.min(FEED_CONCURRENCY, sources.length) }, worker));
+  return results;
+}
+
+function shortHash(text) {
+  return createHash('sha1').update(String(text)).digest('hex').slice(0, 12);
+}
+
+/**
+ * Does this feed entry count as a statement BY this leader, and how?
+ * Returns { cue, matched_alias } or null. See leader-sources.mjs for the rule.
+ */
+function feedAttribution(leader, src, entry) {
+  const video = src.format === 'youtube';
+  if (src.kind === 'personal') {
+    return { cue: video ? 'own video' : 'own post', matched_alias: null };
+  }
+  if (entry.author) {
+    const byline = namedLeaders(entry.author).find((n) => n.id === leader.id);
+    if (byline) return { cue: 'byline', matched_alias: byline.alias };
+  }
+  const named = namedLeaders(entry.title).find((n) => n.id === leader.id);
+  if (!named) return null;
+  if (video) return { cue: 'official video', matched_alias: named.alias };
+  if (speechCue(entry.title)) return { cue: 'official post', matched_alias: named.alias };
+  return null;
+}
+
+/** Every entry, across this leader's direct sources, that counts as theirs. */
+function feedLinesFor(leader, sources, feeds, clockMs) {
+  const lines = [];
+  for (const src of sources) {
+    const res = feeds && feeds[src.id];
+    if (!res || !res.ok) continue;
+    for (const entry of res.entries) {
+      const ms = isoMs(entry.published_at);
+      if (ms === null || ms > clockMs + FUTURE_SKEW_MS) continue;
+      const attr = feedAttribution(leader, src, entry);
+      if (!attr) continue;
+      lines.push({
+        item_id: `feed-${src.id}-${shortHash(entry.url)}`,
+        headline: entry.title,
+        source: src.label,
+        kind: 'official_feed',
+        url: entry.url,
+        published_at: entry.published_at,
+        score: null,
+        pillar: null,
+        matched_alias: attr.matched_alias,
+        cue: attr.cue,
+        cue_group: 'direct',
+        cue_class: 'official',
+        cue_text: src.label,
+        cues: [attr.cue],
+        corroboration: 1,
+        also_sources: [],
+        via: 'feed',
+        source_id: src.id,
+      });
+    }
+  }
+  return lines;
+}
+
+/** The remembered last statement from the previous data/leaders.json, if sane. */
+function priorLast(prior, id, clockMs) {
+  if (!prior || !Array.isArray(prior.leaders)) return null;
+  const row = prior.leaders.find((l) => l && l.id === id);
+  const last = row && row.last_statement;
+  if (!last || typeof last !== 'object') return null;
+  const ms = isoMs(last.published_at);
+  if (ms === null || ms > clockMs + FUTURE_SKEW_MS) return null;
+  if (typeof last.headline !== 'string' || typeof last.url !== 'string') return null;
+  return {
+    headline: last.headline, url: last.url, source: last.source ?? null,
+    published_at: last.published_at, via: last.via ?? null, remembered: true,
+  };
+}
+
+function lastFromLine(line) {
+  return {
+    headline: line.headline, url: line.url, source: line.source,
+    published_at: line.published_at, via: line.via ?? 'press', remembered: false,
+  };
+}
+
+// ---------------------------------------------------------------------------
 // Build
 // ---------------------------------------------------------------------------
 
@@ -526,6 +753,7 @@ function lineFrom(item, named, cue) {
     cues: cue.all,
     corroboration: Number.isFinite(corr.count) ? corr.count : 1,
     also_sources: Array.isArray(corr.sources) ? [...corr.sources].sort() : [],
+    via: 'press',
   };
 }
 
@@ -608,7 +836,7 @@ function watchFloorFor(leader, lines, racePlayers) {
  * the news actually changed. `news_generated_at` is published separately so
  * the provenance is explicit rather than implied.
  */
-export function buildLeaders(news, race = null) {
+export function buildLeaders(news, race = null, { feeds = null, prior = null, sources = LEADER_SOURCES } = {}) {
   if (!news || !Array.isArray(news.items)) {
     throw new Error('leaders: news.json has no items array');
   }
@@ -641,16 +869,72 @@ export function buildLeaders(news, race = null) {
     for (const n of named) byLeader.get(n.id).push(lineFrom(item, n, cue));
   }
 
+  const byNewest = (a, b) =>
+    (isoMs(b.published_at) ?? 0) - (isoMs(a.published_at) ?? 0) ||
+    (b.score ?? 0) - (a.score ?? 0) ||
+    a.item_id.localeCompare(b.item_id);
+
   const leaders = ROSTER.map((leader) => {
     // Newest first. Score then id break the tie, both immutable for a given
     // item, so the ordering is total and stable across runs — the same cut key
     // discipline docs/NEWS.md §"Rolling window" settled on.
-    const lines = byLeader.get(leader.id).sort((a, b) =>
-      (isoMs(b.published_at) ?? 0) - (isoMs(a.published_at) ?? 0) ||
-      (b.score ?? 0) - (a.score ?? 0) ||
-      a.item_id.localeCompare(b.item_id));
+    const pressLines = byLeader.get(leader.id).sort(byNewest);
 
-    const sources = [...new Set(lines.map((l) => l.source))].sort();
+    // Direct sources: every attributable entry ever seen in the feed (for the
+    // last-statement memory), and the ones inside the window (for the wire).
+    const direct = sourcesFor(leader.id, sources);
+    const feedAll = feedLinesFor(leader, direct, feeds, clockMs).sort(byNewest);
+    const pressUrls = new Set(pressLines.map((l) => l.url));
+    const feedInWindow = feedAll.filter((l) => isoMs(l.published_at) > windowStartMs && !pressUrls.has(l.url));
+    const lines = [...pressLines, ...feedInWindow].sort(byNewest);
+
+    const sourcesOut = [...new Set(lines.map((l) => l.source))].sort();
+
+    // --- what "nothing this week" actually means for this person ----------
+    const feedStatus = direct.map((src) => {
+      const res = feeds ? feeds[src.id] : null;
+      const mine = feedAll.filter((l) => l.source_id === src.id);
+      return {
+        id: src.id,
+        label: src.label,
+        kind: src.kind,
+        format: src.format,
+        url: src.url,
+        verified: Boolean(src.verified),
+        checked: Boolean(res),
+        ok: Boolean(res && res.ok),
+        error: res ? res.error : 'not checked this run',
+        entries: res && res.ok ? res.entries.length : null,
+        attributed: res && res.ok ? mine.length : null,
+        newest_attributed_at: mine.length ? mine[0].published_at : null,
+      };
+    });
+    const directOk = feedStatus.filter((f) => f.ok).length;
+    // The press wire is always one of the sources checked: data/news.json was
+    // read, or this function would have thrown above.
+    const sourcesChecked = direct.length + 1;
+    const sourcesOk = directOk + 1;
+
+    // The newest statement we know of, from the window, the feeds' full
+    // history, or the previous run's memory — whichever is newest.
+    const candidates = [];
+    if (lines.length) candidates.push(lastFromLine(lines[0]));
+    if (feedAll.length) candidates.push(lastFromLine(feedAll[0]));
+    const remembered = priorLast(prior, leader.id, clockMs);
+    if (remembered) candidates.push(remembered);
+    candidates.sort((a, b) => (isoMs(b.published_at) ?? 0) - (isoMs(a.published_at) ?? 0) || a.url.localeCompare(b.url));
+    const last = candidates.length ? candidates[0] : null;
+    const lastMs = last ? isoMs(last.published_at) : null;
+    const daysSilent = lastMs === null ? null : Math.max(0, Math.floor((clockMs - lastMs) / DAY_MS));
+
+    let reason = null;
+    if (!lines.length) {
+      if (!direct.length) reason = 'no_sources';
+      else if (!directOk) reason = 'sources_unreachable';
+      else reason = 'quiet';
+    }
+    const group = lines.length ? 'on_record' : reason === 'sources_unreachable' ? 'unreachable' : 'quiet';
+
     return {
       id: leader.id,
       name: leader.name,
@@ -661,14 +945,32 @@ export function buildLeaders(news, race = null) {
       aliases: [...leader.aliases],
       state: lines.length ? 'on_record' : 'no_line',
       count: lines.length,
-      sources,
+      sources: sourcesOut,
       latest: lines.length ? lines[0] : null,
       lines,
-      watch_floor: watchFloorFor(leader, lines, racePlayers),
+      // The reconciliation is against THE PRESS, as it always was: the watch
+      // floor measures feeds, so a line from a feed cannot "fill its gap".
+      watch_floor: watchFloorFor(leader, pressLines, racePlayers),
+      // ---- additive since matcher 1.1.0 ------------------------------------
+      group,
+      reason,
+      press_count: pressLines.length,
+      direct_count: feedInWindow.length,
+      press_sources: [...new Set(pressLines.map((l) => l.source))].sort(),
+      last_statement_at: last ? last.published_at : null,
+      last_statement: last,
+      days_silent: daysSilent,
+      sources_checked: sourcesChecked,
+      sources_ok: sourcesOk,
+      direct_sources: feedStatus,
+      no_source_reason: direct.length ? null : (NO_SOURCE_REASON[leader.id] ?? 'No official feed is known for this person.'),
     };
   });
 
   const onRecord = leaders.filter((l) => l.state === 'on_record');
+  const feedIds = new Set(sources.filter((s) => s.leaders.some((id) => ROSTER_IDS.has(id))).map((s) => s.id));
+  const feedsChecked = feeds ? [...feedIds].filter((id) => feeds[id]).length : 0;
+  const feedsOk = feeds ? [...feedIds].filter((id) => feeds[id] && feeds[id].ok).length : 0;
   const times = inWindow.map((it) => isoMs(it.published_at)).filter((ms) => ms !== null);
   const oldest = times.length ? new Date(Math.min(...times)).toISOString() : null;
   const newest = times.length ? new Date(Math.max(...times)).toISOString() : null;
@@ -690,6 +992,9 @@ export function buildLeaders(news, race = null) {
         'Only the headline is ever reproduced, exactly as the publication printed it. ' +
         'No quotation is generated, paraphrased, summarised or reconstructed anywhere in this file.',
       match: 'The headline names a roster member (whole word, published alias table) AND carries a speech cue.',
+      match_direct:
+        'Or: the entry was published on the person\'s own feed, or on their organisation\'s official feed ' +
+        'with them as the author or named in the title (with a speech cue, or as an official video upload).',
       no_line_means:
         'No headline in this corpus named this person beside a speech cue. It is not a claim ' +
         'that the person said nothing.',
@@ -704,6 +1009,7 @@ export function buildLeaders(news, race = null) {
         appearance: 'the headline names a venue or a format — interview, podcast, keynote, testimony',
         document: 'a document names the person. It may be by them or about them; the headline is the only thing that can tell you, and it is printed in full',
         quote: 'the publication put words in quotation marks in its own headline',
+        official: 'not a press headline: the title of an entry on the person\'s own feed, or on their organisation\'s official feed under their name',
       },
     },
     corpus: {
@@ -732,6 +1038,28 @@ export function buildLeaders(news, race = null) {
       no_line: leaders.length - onRecord.length,
       lines: leaders.reduce((n, l) => n + l.count, 0),
       distinct_items: new Set(leaders.flatMap((l) => l.lines.map((x) => x.item_id))).size,
+      // additive since matcher 1.1.0
+      quiet: leaders.filter((l) => l.group === 'quiet').length,
+      unreachable: leaders.filter((l) => l.group === 'unreachable').length,
+      no_sources: leaders.filter((l) => l.reason === 'no_sources').length,
+      press_lines: leaders.reduce((n, l) => n + l.press_count, 0),
+      direct_lines: leaders.reduce((n, l) => n + l.direct_count, 0),
+    },
+    direct: {
+      source: 'collector/leader-sources.mjs',
+      ran: Boolean(feeds),
+      feeds_configured: feedIds.size,
+      feeds_checked: feedsChecked,
+      feeds_ok: feedsOk,
+      reasons: [...SILENCE_REASONS],
+      reason_means: {
+        quiet: 'At least one official source answered, and neither it nor the press carried anything from this person in the window.',
+        sources_unreachable: 'This person has official sources and none of them answered this run, so the silence may be ours rather than theirs.',
+        no_sources: 'No official feed is known for this person; the press wire is the only reading.',
+      },
+      last_statement_means:
+        'The newest dated statement this wire has ever attributed to the person — from the press window, ' +
+        'the full history of their official feeds, or the memory carried forward from previous runs.',
     },
     leaders,
   };
@@ -760,6 +1088,11 @@ function clip(text, max) {
   return t.length <= max ? t : `${t.slice(0, max - 1).trimEnd()}…`;
 }
 
+function silenceText(l) {
+  const last = l.last_statement_at ? `last ${l.last_statement_at.slice(0, 10)}` : 'never seen';
+  return `${l.reason} · ${last} · ${l.sources_ok}/${l.sources_checked} sources answered`;
+}
+
 function printTable(out) {
   const head = ['leader', 'org', 'n', 'cue', 'class', 'src', 'latest headline (verbatim)'];
   const w = [22, 16, 3, 11, 10, 12, 58];
@@ -776,20 +1109,44 @@ function printTable(out) {
       pad(latest ? clip(latest.cue, w[3]) : '—', w[3]),
       pad(latest ? clip(latest.cue_class, w[4]) : '—', w[4]),
       pad(latest ? clip(latest.source, w[5]) : '—', w[5]),
-      latest ? clip(latest.headline, w[6]) : 'Nothing on the record this week',
+      latest ? clip(latest.headline, w[6]) : silenceText(l),
     ];
     console.log(row.join('  '));
   }
 }
 
+function parseArgs(argv) {
+  const args = { offline: false, out: OUTPUT_URL, prior: OUTPUT_URL };
+  for (let i = 0; i < argv.length; i += 1) {
+    const a = argv[i];
+    if (a === '--offline') args.offline = true;
+    else if (a === '--out' || a === '--prior') {
+      const v = argv[i + 1];
+      if (!v) throw new Error(`${a} needs a path`);
+      args[a.slice(2)] = new URL(v, `file://${process.cwd()}/`);
+      i += 1;
+    } else throw new Error(`unknown argument ${JSON.stringify(a)}. Usage: node collector/leaders.mjs [--offline] [--out FILE] [--prior FILE]`);
+  }
+  return args;
+}
+
 async function main() {
+  const args = parseArgs(process.argv.slice(2));
   const news = await readJson(NEWS_URL);
   const race = await readJson(RACE_URL, { optional: true });
 
-  const out = buildLeaders(news, race);
+  // The previous output is the rolling memory of each person's last statement.
+  // Unreadable or absent is fine: the memory starts again from the feeds.
+  let prior = null;
+  try { prior = await readJson(args.prior, { optional: true }); }
+  catch (err) { console.warn(`leaders: previous output unreadable (${err.message}); starting memory fresh`); }
 
-  await mkdir(new URL('../data/', import.meta.url), { recursive: true });
-  await writeFile(OUTPUT_URL, `${JSON.stringify(out, null, 2)}\n`, 'utf8');
+  const feeds = args.offline ? null : await fetchLeaderFeeds(LEADER_SOURCES);
+
+  const out = buildLeaders(news, race, { feeds, prior });
+
+  await mkdir(new URL('./', args.out), { recursive: true });
+  await writeFile(args.out, `${JSON.stringify(out, null, 2)}\n`, 'utf8');
 
   printTable(out);
 
@@ -812,7 +1169,13 @@ async function main() {
     console.log(`cross-check: ${out.cross_check.players_matched}/${out.totals.leaders} leaders are watch-floor principals; ` +
                 `the wire fills the gap for ${gap.length}${gap.length ? ` (${gap.join(', ')})` : ''}`);
   }
-  console.log(`wrote data/leaders.json — ${out.totals.leaders} rows, roster order, never pruned`);
+  console.log(out.direct.ran
+    ? `direct sources: ${out.direct.feeds_ok}/${out.direct.feeds_configured} official feeds answered; ` +
+      `${out.totals.direct_lines} line(s) in the window came from them`
+    : 'direct sources: skipped (--offline)');
+  console.log(`groups: ${out.totals.on_record} on record, ${out.totals.quiet} quiet, ${out.totals.unreachable} unreachable ` +
+              `(${out.totals.no_sources} with no official source at all)`);
+  console.log(`wrote ${args.out.pathname} — ${out.totals.leaders} rows, roster order, never pruned`);
 
   // Exit zero on an empty week. A week in which nobody quotable said anything
   // quotable is a real reading and the file is still the right file; failing
@@ -826,4 +1189,4 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   });
 }
 
-export { ROSTER, CUES_CORE, CUES_EXTENDED, CUE_CLASS, WINDOW_DAYS, MATCHER_VERSION };
+export { ROSTER, CUES_CORE, CUES_EXTENDED, CUE_CLASS, WINDOW_DAYS, MATCHER_VERSION, SILENCE_REASONS };

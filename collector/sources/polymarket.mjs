@@ -33,6 +33,125 @@ const ENDPOINT = 'https://gamma-api.polymarket.com/public-search';
 export const AI_QUESTION =
   /\b(a\.?i\.?|agi|llm|gpt|openai|anthropic|deepmind|deepseek|mistral|chatgpt|claude|gemini|grok|superintelligence|artificial\s+(general\s+)?intelligence)\b/i;
 
+// ───────────────────────────────────────────────────────────────────────────
+// matchAiQuestion — the gate all three markets adapters use (2026-10-08).
+//
+// AI_QUESTION above is kept, unchanged, as the CORE vocabulary. On its own it
+// failed in both directions:
+//
+//   * too narrow: "xAI" has no word boundary before the A, so every xAI market
+//     the 'xAI' search term retrieved was rejected unless it also said "Grok";
+//     "large language model", "machine learning", "Sam Altman" did not match;
+//   * too broad: Gemini is also a crypto exchange (GEMI) and a zodiac sign,
+//     Claude is also a first name (Claude Giroux), Mistral is a wind, "Ai" is
+//     also Ai Weiwei — and a "Will Powell say 'AI' at the presser?" mention
+//     market is a bet on a speech, not on AI.
+//
+// So the gate is now three explicit layers, in this order:
+//
+//   1. ALLOW-LIST of event-slug prefixes / tickers curated by hand. A member
+//      passes regardless of its wording (but still faces every other screen —
+//      tradeable, binary, priced, traded).
+//   2. EXCLUSIONS. A mention market is rejected outright. An ambiguous token
+//      (gemini, claude, mistral, grok, ai, llama, sora…) scores nothing when
+//      its exclusion context is present in the same text.
+//   3. KEYWORD SCORE. Strong tokens score 2, weak tokens 1; pass at >= 2. Every
+//      token AI_QUESTION matches is strong or ambiguous-strong, so anything the
+//      old regex passed still passes unless an exclusion fires.
+//
+// The result carries which layer decided and which tokens hit, so the reject
+// tallies in meta stay auditable. Units and scalars are unchanged; only basket
+// membership is affected, and no markets source has a frozen reference yet
+// (see docs/REFERENCE-VERSIONING.md before changing this once one does).
+// ───────────────────────────────────────────────────────────────────────────
+
+// Prefixes of Polymarket event slugs (and Manifold slugs) that are AI questions
+// by construction. Prefix, not exact slug, because ladders share a stem
+// ("anthropic-ipo-by" is seven dated legs).
+export const AI_SLUG_ALLOW = Object.freeze([
+  'anthropic-ipo',
+  'will-anthropics-valuation',
+  'openai-ipo',
+  'openai-announces-agi',
+  'which-company-has-best-ai-model',
+  'which-company-has-the-best-ai-model',
+  'best-ai-model',
+  'top-ai-model',
+  'xai-',
+  'grok-',
+  'gpt-5',
+  'gpt-6',
+  'gemini-3',
+  'claude-5',
+  'deepseek-',
+  'agi-',
+]);
+
+const AMBIG = true;
+// [name, regex, weight, ambiguous?, exclusion-context regex]
+const AI_TERMS = [
+  ['agi', /\bagi\b/i, 2],
+  ['llm', /\bllms?\b/i, 2],
+  ['gpt', /\bgpt(?:-?\d+(?:\.\d+)?[a-z]?)?\b/i, 2],
+  ['openai', /\bopen\s?ai\b/i, 2],
+  ['anthropic', /\banthropic\b/i, 2, AMBIG, /\banthropic\s+principle\b/i],
+  ['deepmind', /\bdeepmind\b/i, 2],
+  ['deepseek', /\bdeepseek\b/i, 2],
+  ['chatgpt', /\bchatgpt\b/i, 2],
+  ['superintelligence', /\bsuper\s?intelligen(?:ce|t)\b/i, 2],
+  ['artificial-intelligence', /\bartificial\s+(?:general\s+)?intelligence\b/i, 2],
+  ['large-language-model', /\blarge\s+language\s+models?\b/i, 2],
+  ['machine-learning', /\bmachine\s+learning\b/i, 2],
+  ['xai', /(?:^|[^a-z0-9])xai\b/i, 2],
+  ['ai-lab-ceo', /\b(?:sam\s+altman|dario\s+amodei|demis\s+hassabis|ilya\s+sutskever|mustafa\s+suleyman)\b/i, 2],
+  ['ai', /\b(?:a\.i\.?|ai)\b/i, 2, AMBIG, /\bai\s+weiwei\b|\bai\s+(?:yazawa|uehara|otsuka)\b/i],
+  ['gemini', /\bgemini\b/i, 2, AMBIG,
+    /\bgemini\b[^.?!]{0,40}\b(?:exchange|trust|space\s+station|winklevoss|crypto|bitcoin|stablecoin|zodiac|horoscope|capsule|astronaut|spacecraft)\b|\b(?:winklevoss|crypto|bitcoin|zodiac|horoscope|nasa)\b[^.?!]{0,40}\bgemini\b|\bGEMI\b/i],
+  ['claude', /\bclaude\b/i, 2, AMBIG,
+    /\bclaude\s+(?:giroux|julien|lemieux|monet|debussy|makelele|puel|van\s+damme|rains|nobs)\b|\bjean[-\s]claude\b/i],
+  ['grok', /\bgrok\b/i, 2, AMBIG, /\bgrok(?:king)?\s+(?:fest|festival)\b/i],
+  ['mistral', /\bmistral\b/i, 2, AMBIG, /\bmistral\s+(?:wind|class|amphibious|ship|helicopter\s+carrier)\b/i],
+  ['llama', /\bllama\s?\d/i, 2],
+  ['sora', /\bsora\b/i, 1, AMBIG, /\bsora\s+(?:aoi|no\s+oto)\b/i],
+  ['copilot', /\bcopilot\b/i, 1],
+  ['ai-context', /\b(?:chatbot|lmarena|chatbot\s+arena|frontier\s+model|neural\s+net(?:work)?s?|model\s+release|benchmark|humanity'?s\s+last\s+exam|swe-?bench|turing\s+test)\b/i, 1],
+];
+
+// "Will X say 'AI' / mention AI during …" — bets on a speech's word count. The
+// quote characters or the verb + "during|at|in" frame is what marks them.
+const MENTION_MARKET =
+  /\b(?:say|says|said|mention|mentions|mentioned|tweet|tweets|post|posts)\b[^?]{0,30}["“”'‘’][^"“”'‘’]{1,40}["“”'‘’]|\bhow\s+many\s+times\b[^?]{0,60}\b(?:say|mention)/i;
+
+export const AI_MATCH_THRESHOLD = 2;
+
+/**
+ * Decide whether a market question is about AI.
+ * @param {string} text            the question (title) text
+ * @param {object} [ids]           { slug, eventSlug, ticker } — any may be absent
+ * @returns {{ match:boolean, via:'allow'|'score'|'excluded'|'below_threshold', score:number, hits:string[], excluded:string[] }}
+ */
+export function matchAiQuestion(text, ids = {}) {
+  const t = String(text ?? '');
+  const keys = [ids.eventSlug, ids.slug, ids.ticker].filter((k) => typeof k === 'string' && k.length > 0).map((k) => k.toLowerCase());
+  if (keys.some((k) => AI_SLUG_ALLOW.some((p) => k.startsWith(p)))) {
+    return { match: true, via: 'allow', score: AI_MATCH_THRESHOLD, hits: [], excluded: [] };
+  }
+  if (MENTION_MARKET.test(t)) {
+    return { match: false, via: 'excluded', score: 0, hits: [], excluded: ['mention_market'] };
+  }
+  let score = 0;
+  const hits = [];
+  const excluded = [];
+  for (const [name, re, w, ambiguous, exclude] of AI_TERMS) {
+    if (!re.test(t)) continue;
+    if (ambiguous && exclude && exclude.test(t)) { excluded.push(name); continue; }
+    score += w;
+    hits.push(name);
+  }
+  if (score >= AI_MATCH_THRESHOLD) return { match: true, via: 'score', score, hits, excluded };
+  return { match: false, via: excluded.length && hits.length === 0 ? 'excluded' : 'below_threshold', score, hits, excluded };
+}
+
 // Hard-coded search terms. Fixed on purpose: a basket whose selection rule
 // changes is not a time series.
 //
@@ -155,6 +274,7 @@ export default {
     const basket = new Map();
     let screened = 0;
     let passedScreen = 0;
+    let allowListed = 0;
     const rejected = Object.create(null);
     const reject = (reason) => {
       rejected[reason] = (rejected[reason] ?? 0) + 1;
@@ -227,10 +347,12 @@ export default {
           // Netanyahu would say "Israel" in a speech. The API is the
           // untrustworthy part, so we re-filter locally and keep only markets
           // whose QUESTION is about AI. On the run above this rejected 261.
-          if (!AI_QUESTION.test(m.question ?? '')) {
-            reject('off_topic');
+          const verdict = matchAiQuestion(m.question, { slug: m.slug, eventSlug: event?.slug });
+          if (!verdict.match) {
+            reject(verdict.via === 'excluded' ? 'off_topic_excluded' : 'off_topic');
             continue;
           }
+          if (verdict.via === 'allow') allowListed++;
 
           // null means Polymarket has no prior-day reference for this market
           // (usually brand new). Skipped, never coerced to 0 — a zero would be
@@ -352,7 +474,10 @@ export default {
         // Kept as a top-level field because it is the headline auditability
         // number: how many markets Polymarket's own search handed us that were
         // not about AI at all.
-        rejected_off_topic: rejected.off_topic ?? 0,
+        rejected_off_topic: (rejected.off_topic ?? 0) + (rejected.off_topic_excluded ?? 0),
+        // Members admitted by AI_SLUG_ALLOW rather than by keyword score.
+        allow_listed: allowListed,
+        match_rule: 'matchAiQuestion v1: slug allow-list, then exclusions, then keyword score >= 2',
         total_volume_usd: totalVolume,
         max_single_market_weight: Math.max(...members.map((m) => m.volume)) / totalVolume,
         // Context only. This is the number we deliberately do NOT score on.

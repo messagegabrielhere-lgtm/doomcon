@@ -21,7 +21,7 @@ export const MONETIZE = {
   analytics: { goatcounter: 'messagegabriel' },
 
   // Tip jar: your Buy Me a Coffee or Ko-fi page URL.
-  tips: { url: null, label: 'Buy SIREN a coffee' },
+  tips: { url: 'https://ko-fi.com/I0R828E7LP', label: 'Support SIREN on Ko-fi' },
 
   // Privacy-friendly ads. provider 'ethicalads' + publisher id, or
   // provider 'carbon' + serve code and placement. Never AdSense: it needs a
@@ -30,6 +30,11 @@ export const MONETIZE = {
 
   // One sponsor at a time. Shown on every page and on the homepage strip.
   sponsor: { name: null, url: null, line: null, until: null },
+
+  // Polymarket links on the markets strip. `ref` is your referral query string
+  // from polymarket.com (Profile → Referrals), e.g. 'via=yourname'. null = plain
+  // links with UTM tags only.
+  polymarket: { ref: null },
 
   // Paid upgrades shown in the Bunker Kit. Plain links until you add your
   // affiliate link in `aff`; then the affiliate link is used, marked sponsored.

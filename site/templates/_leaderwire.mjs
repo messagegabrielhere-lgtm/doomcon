@@ -142,8 +142,10 @@ export function row(leader, { compact = false, anchor = null } = {}) {
   const body = onRecord
     ? `<ol class="lw__ll">${lines.map(lineItem).join('')}</ol>${rest}`
     // The empty state is a sentence, not a dash. A dash in a cell is what a
-    // missing value looks like; this is a measured absence and it says so.
-    : `<p class="lw__none">Nothing on the record this week.</p>`;
+    // missing value looks like; this is a measured absence and it says so —
+    // and since matcher 1.1.0 it also says WHICH absence, how long, and how
+    // many of the person's sources actually answered.
+    : silenceBlock(leader, { compact });
 
   return `<li class="lw__r"${compact ? '' : ` id="lw-${esc(leader.id)}"`} data-state="${esc(leader.state)}" data-org="${esc(leader.org_id)}">
   <span class="lwm" data-state="${esc(leader.state)}" aria-hidden="true">${esc(leader.initials)}</span>
@@ -207,11 +209,85 @@ function floorNote(leader) {
   const wf = leader.watch_floor;
   if (!wf || wf.verdict !== 'wire_fills_gap') return '';
   const state = String(wf.state || '').replace(/_/g, ' ');
-  const from = leader.sources.join(', ');
+  // The verdict is computed against press lines only, so name press outlets
+  // only; an official-feed line did not "fill" the watch floor's gap.
+  const from = (leader.press_sources || leader.sources).join(', ');
   return `<p class="lw__wf" title="${esc(wf.reason || wf.note)}">
     <span class="lw__wfk">WATCH FLOOR</span>
     <span>${esc(state)}${wf.feed ? ` · ${esc(wf.feed)}` : ''} — the line came from ${esc(from)} instead.</span>
   </p>`;
+}
+
+// ---------------------------------------------------------------------------
+// Silence, made informative
+// ---------------------------------------------------------------------------
+
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+/** "Sep 25", or "Sep 25, 2025" when the year differs from the wire's clock. */
+export function shortDate(iso, asOf = null) {
+  const ms = Date.parse(iso);
+  if (!Number.isFinite(ms)) return null;
+  const d = new Date(ms);
+  const sameYear = asOf && Number.isFinite(Date.parse(asOf)) && new Date(asOf).getUTCFullYear() === d.getUTCFullYear();
+  return `${MONTHS[d.getUTCMonth()]} ${d.getUTCDate()}${sameYear ? '' : `, ${d.getUTCFullYear()}`}`;
+}
+
+/**
+ * Which group a row belongs in: on_record | quiet | unreachable. Falls back
+ * to `state` for a leaders.json written before matcher 1.1.0.
+ */
+export function groupOf(leader) {
+  if (leader.group) return leader.group;
+  return leader.state === 'on_record' ? 'on_record' : 'quiet';
+}
+
+/**
+ * The silence as three short facts, e.g.
+ *   ["Quiet 12 days", "last on record Sep 25", "4 of 4 sources answered"]
+ * Returns null for a leaders.json that predates these fields, so callers can
+ * fall back to the old sentence rather than print "undefined".
+ */
+export function silenceParts(leader, asOf = null) {
+  if (!leader || leader.state === 'on_record' || !leader.reason) return null;
+  const days = Number.isFinite(leader.days_silent) ? leader.days_silent : null;
+  const dayWord = (n) => `${n} day${n === 1 ? '' : 's'}`;
+  const head = leader.reason === 'quiet'
+    ? (days === null ? 'Quiet' : `Quiet ${dayWord(days)}`)
+    : leader.reason === 'sources_unreachable'
+      ? 'Sources unreachable'
+      : (days === null ? 'No official feed' : `No official feed · quiet ${dayWord(days)}`);
+  const last = leader.last_statement_at
+    ? `last on record ${shortDate(leader.last_statement_at, asOf)}`
+    : 'nothing on file yet';
+  // sources_checked counts the press wire, which is always read. For an
+  // unreachable row say the official count alone, or "1 of 4" would read as
+  // if one of the person's own feeds had answered.
+  const official = Math.max(0, (leader.sources_checked ?? 1) - 1);
+  const src = leader.reason === 'no_sources'
+    ? 'press wire only'
+    : leader.reason === 'sources_unreachable'
+      ? `0 of ${official} official source${official === 1 ? '' : 's'} answered`
+      : `${leader.sources_ok} of ${leader.sources_checked} sources answered`;
+  return [head, last, src];
+}
+
+/**
+ * The empty state for one person. The last statement, when we have one, is
+ * its own title VERBATIM and linked — the same headline-only rule as a line.
+ */
+export function silenceBlock(leader, { compact = false, asOf = null } = {}) {
+  const parts = silenceParts(leader, asOf);
+  if (!parts) return '<p class="lw__none">Nothing on the record this week.</p>';
+  const ls = leader.last_statement;
+  const lastLink = !compact && ls && ls.url && ls.headline
+    ? `<p class="lw__last"><span class="lw__lastk">LAST ON RECORD</span>
+      <time class="lw__t num" datetime="${esc(ls.published_at)}" title="${esc(utc(ls.published_at))}">${esc(String(ls.published_at).slice(0, 10))}</time>
+      ${ls.source ? `<span class="lw__src">${esc(ls.source)}</span>` : ''}
+      <a class="lw__a" href="${esc(ls.url)}" rel="noopener nofollow">${esc(ls.headline)}</a></p>`
+    : '';
+  return `<p class="lw__none lw__sil" data-reason="${esc(leader.reason)}">${parts.map((p, i) =>
+    i === 0 ? `<b>${esc(p)}</b>` : `<span>${esc(p)}</span>`).join('<span aria-hidden="true"> · </span>')}</p>${lastLink}`;
 }
 
 /** UTC day and clock. Never relative: these pages are static and cached. */
@@ -225,12 +301,15 @@ function stamp(iso) {
  */
 export function legend(wire) {
   const ext = wire.cues && wire.cues.extended ? wire.cues.extended.length : 0;
-  return `<p class="lw__key">A line is a headline that <b>names one of these fifteen people</b> and
-     <b>carries a speech cue</b> — said, told, interview, keynote, letter, or words in quotation
-     marks. The cue is printed on every line, and its class matters: a <b>document</b> cue means a
-     letter or a memo named the person, which may be by them or about them.
-     <b>NO LINE</b> means no headline in this ${esc(wire.corpus.items)}-item corpus named that
-     person beside a cue. It is not a claim that the person said nothing${ext ? `, and the matching
+  const direct = wire.direct && wire.direct.ran;
+  return `<p class="lw__key">A line is a headline that <b>names one of these
+     ${esc(wire.totals.leaders)} people</b> and <b>carries a speech cue</b> — said, told, interview,
+     keynote, letter, or words in quotation marks${direct ? `, or the title of a post or video on the
+     person's <b>own official feed</b> (or their organisation's, under their name), marked
+     <b>official</b>` : ''}. The cue is printed on every line, and its class matters: a
+     <b>document</b> cue means a letter or a memo named the person, which may be by them or about them.
+     <b>NO LINE</b> means nothing in this ${esc(wire.corpus.items)}-item corpus${direct ? ' or those feeds' : ''}
+     named that person beside a cue. It is not a claim that the person said nothing${ext ? `, and the matching
      vocabulary — including the ${esc(ext)} near-synonyms added beyond the published list — is in
      the data file` : ''}.</p>`;
 }
@@ -332,6 +411,17 @@ const wireCss = `
 /* An anchored row has to clear the sticky rail, or #lw-altman lands under it. */
 .lw__r[id] { scroll-margin-top: calc(var(--rail-h) + var(--s-5)); }
 .lw__none { margin: 3px 0 0; font-size: var(--t-sm); color: var(--ink-faint); }
+/* The informative empty state: what kind of silence, since when, and how many
+   of the person's sources answered. The KIND is the bold word; an unreachable
+   row is dashed, because that silence is ours rather than theirs. */
+.lw__sil { font-family: var(--mono); font-size: var(--t-2xs); letter-spacing: 0.04em; line-height: 1.6; }
+.lw__sil b { color: var(--ink-dim); font-weight: 600; }
+.lw__sil[data-reason="sources_unreachable"] b { border-bottom: 1px dashed var(--ink-faint); }
+.lw__last { margin: 4px 0 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 6px;
+  font-size: var(--t-xs); line-height: 1.45; color: var(--ink-dim); overflow-wrap: anywhere; }
+.lw__lastk { font-family: var(--mono); font-size: var(--t-2xs); letter-spacing: 0.12em; color: var(--ink-faint); }
+/* An official-feed line: the person's own channel, not a press headline. */
+.lw__cue[data-class="official"] { border-color: var(--ink-faint); font-weight: 600; }
 
 .lw__wf {
   margin: var(--s-2) 0 0; display: flex; flex-wrap: wrap; gap: 0 6px; align-items: baseline;

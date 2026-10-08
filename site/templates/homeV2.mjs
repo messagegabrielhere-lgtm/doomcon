@@ -8,7 +8,11 @@
 import { esc, num } from './_html.mjs';
 
 import { blocks, pixelText, icon } from './_pixel.mjs';
-import { sponsorLine, newsletterBox, tipLink, MZ_CSS } from '../monetize.mjs';
+import { sponsorLine, newsletterBox, tipLink, MZ_CSS, MONETIZE } from '../monetize.mjs';
+import { whatMoved, alternativeSignals } from '../extras.mjs';
+import { render as verifyBox, verifyCss } from './_verify.mjs';
+import { PILLARS as BRAND_PILLARS } from '../brand.mjs';
+const PILLAR_META = Object.fromEntries(BRAND_PILLARS.map((p) => [p.id, p]));
 
 // ---------- copy ----------
 const LEVEL = {
@@ -43,6 +47,9 @@ export function roomGroups(ctx) {
       ['/monitor.html', 'satellite', 'World Monitor', null, 'Live globe: stories from 27 outlets, hazards, a country stress index, 72-hour replay.'],
       ['/elon.html', 'musk', 'Real Clips', null, 'Verified clips of Elon, Altman, Amodei and the AI bosses.'],
       ['/live-x.html', 'satellite', 'Live on X', null, 'Live X feeds and Spaces on AI, newest first.'],
+      ['/videos.html', 'camera', 'SIREN TV', '6 videos', 'Short explainers: Tally, Skynet status, SI prep, your job.'],
+      ['/radio.html', 'mic', 'SIREN Radio', '6 stations', 'Six stations of music generated live in your browser.'],
+      ['/changelog.html', 'clipboard', 'What Moved', null, 'Every hour’s changes: score, pillars and top stories.'],
     ]],
     ['THE MACHINES', [
       ['/watts.html', 'power', 'Power', ctx.infra && Number.isFinite(ctx.infra.score) ? `${ctx.infra.score.toFixed(1)} / 100` : null, 'Grid load, drought and build-out under the models.'],
@@ -82,6 +89,10 @@ export function roomGroups(ctx) {
       ['/careers.html', 'case', 'Careers', null, 'Now hiring: AIs welcome to apply.'],
       ['/agents.html', 'globe', 'For AI Agents', null, 'Open data, skill.md and Moltbook: AIs welcome.'],
       ['/feedback.html', 'mic', 'Feedback', null, 'Report a problem or send an idea. We read every one.'],
+      ['/alerts.html', 'siren', 'Alerts', null, 'Level changes, big moves, pillar spikes: RSS, email, X.'],
+      ['/export.html', 'archive', 'Data & Embed', null, 'CSV, JSON and a live widget for your site.'],
+      ['/bias.html', 'scales', 'Known Biases', null, 'Where SIREN’s sources skew, said plainly.'],
+      ['/reference-plan.html', 'magnifier', 'Baseline Plan', null, 'How the frozen reference gets updated, versioned.'],
     ]],
   ];
   return groups.map(([g, items]) => [g, items.filter(Boolean)]).filter(([, l]) => l.length);
@@ -110,7 +121,7 @@ function roomNav(ctx, href, img) {
 </div></nav>`;
   const palette = `<dialog class="v2-pal" id="v2-pal" aria-label="Jump to a room"><div class="v2-pal__box">
   <input class="v2-pal__q" id="v2-pal-q" type="search" placeholder="Jump to… type a room name" aria-label="Filter rooms" autocomplete="off" spellcheck="false">
-  <ul class="v2-pal__l">${[['#signal', 'Signal', 'The level, the score and the trend'], ['#breaking', 'Breaking', 'The top story right now'], ['#rooms', 'Every room', 'All features, grouped'], ['#bosses', 'Bosses', 'The AI leaders on watch'], ['#labs', 'Labs', 'The labs as monitored locations'], ['#readings', 'Readings', 'The score trend and what is loud'], ['#tally', 'Tally', 'Follow the alerts on X']].map(([h, l, b], i) => `<li><a class="v2-pal__i v2-pal__i--sec" href="${h}" data-k="${esc(`${l} ${b} section on this page`.toLowerCase())}"><span class="v2-pal__num">${i + 1}</span><span><b>${esc(l)}</b><small>On this page · ${esc(b)} · key ${i + 1}</small></span></a></li>`).join('')}${all.map(([p, art, label, n, blurb, g]) => `<li><a class="v2-pal__i" href="${href(p)}" data-k="${esc(`${label} ${blurb} ${g}`.toLowerCase())}"><img src="${img(art)}" width="36" height="36" alt="" loading="lazy"><span><b>${esc(label)}</b><small>${esc(blurb)}</small></span>${n ? `<i>${esc(n)}</i>` : ''}</a></li>`).join('')}</ul>
+  <ul class="v2-pal__l">${[['#signal', 'Signal', 'The level, the score and the trend'], ['#breaking', 'Breaking', 'The top story right now'], ['#rooms', 'Every room', 'All features, grouped'], ['#bosses', 'Bosses', 'The AI leaders on watch'], ['#labs', 'Labs', 'The labs as monitored locations'], ['#trend', 'Trend', 'Charts: 24 hours to all time'], ['#loud', 'What’s loud', 'Every pillar explained'], ['#health', 'Health', 'Why a reading is degraded'], ['#tally', 'Tally', 'Follow the alerts on X']].map(([h, l, b], i) => `<li><a class="v2-pal__i v2-pal__i--sec" href="${h}" data-k="${esc(`${l} ${b} section on this page`.toLowerCase())}"><span class="v2-pal__num">${i + 1}</span><span><b>${esc(l)}</b><small>On this page · ${esc(b)} · key ${i + 1}</small></span></a></li>`).join('')}${all.map(([p, art, label, n, blurb, g]) => `<li><a class="v2-pal__i" href="${href(p)}" data-k="${esc(`${label} ${blurb} ${g}`.toLowerCase())}"><img src="${img(art)}" width="36" height="36" alt="" loading="lazy"><span><b>${esc(label)}</b><small>${esc(blurb)}</small></span>${n ? `<i>${esc(n)}</i>` : ''}</a></li>`).join('')}</ul>
   <p class="v2-pal__hint">↑ ↓ to move · Enter to open · Esc to close</p>
 </div></dialog>`;
   const tab = [['/news.html', 'news', 'NEWS'], ['/race.html', 'radar', 'RACE'], ['/leaders.html', 'mic', 'LEADERS'], ['/monitor.html', 'satellite', 'MONITOR']];
@@ -190,6 +201,174 @@ function ticker(items) {
   if (!top.length) return '';
   const run = top.map((i) => `<a href="${esc(i.url)}" rel="noopener">${esc(String(i.source).toUpperCase())} · ${esc(i.title)}</a>`).join('<b>◆</b>');
   return `<div class="v2-ticker" aria-label="Latest AI headlines"><span class="lbl">LIVE WIRE</span><div class="trk"><div class="run">${run}<b>◆</b>${run}</div></div></div>`;
+}
+
+
+// ---------- THE DASHBOARD (score first, then why) ----------
+const SRC_NAME = { arxiv: 'arXiv preprints', 'github-releases': 'GitHub releases', huggingface: 'Hugging Face uploads', openrouter: 'OpenRouter models', 'sec-fts': 'SEC filings', stockanalysis: 'AI chip stocks', vastai: 'GPU rental prices', hn: 'Hacker News', wikipedia: 'Wikipedia pageviews', 'federal-register': 'US Federal Register', govuk: 'GOV.UK', kalshi: 'Kalshi', manifold: 'Manifold', polymarket: 'Polymarket' };
+const RULE_TXT = {
+  frozen_dark_pillar: 'The level is held while any pillar is dark, so a missing input can never move it.',
+  deadband: 'The score is inside the dead band around the boundary, so the level holds.',
+  dwell: 'The score has not stayed past the boundary long enough yet.',
+  min_interval: 'Too soon after the last change; levels move at most once per window.',
+  quorum: 'Not enough pillars agree with the move, so one loud pillar cannot drag the level.',
+  locked: 'The level is locked after a recent change.',
+  insufficient_history: 'Not enough recent readings to confirm a move.',
+  no_live_pillars: 'No pillar is live, so nothing can be scored.',
+  none: 'No boundary is close; the level simply holds.',
+  escalate: 'The level just went up.', deescalate: 'The level just went down.', genesis: 'The first reading.',
+};
+const srcName = (x) => SRC_NAME[x.id] || x.label || x.id;
+function ordinal(n) { const s = ['th', 'st', 'nd', 'rd'], v = n % 100; return n + (s[(v - 20) % 10] || s[v] || s[0]); }
+function agoTxt(iso, nowMs) {
+  const t = Date.parse(iso); if (!Number.isFinite(t)) return 'never';
+  const m = Math.max(0, Math.round((nowMs - t) / 60000));
+  return m < 2 ? 'just now' : m < 90 ? `${m} min ago` : m < 2880 ? `${Math.round(m / 60)} h ago` : `${Math.round(m / 1440)} days ago`;
+}
+
+function dial(state, L) {
+  const v = Number.isFinite(state.score) ? state.score : 0;
+  const cx = 160, cy = 150, R = 120, W = 22;
+  const pt = (val, r) => { const a = Math.PI * (1 - val / 100); return [cx + r * Math.cos(a), cy - r * Math.sin(a)]; };
+  const arc = (a, b, c) => { const [x1, y1] = pt(a, R), [x2, y2] = pt(b, R); return `<path d="M${x1.toFixed(1)} ${y1.toFixed(1)}A${R} ${R} 0 0 1 ${x2.toFixed(1)} ${y2.toFixed(1)}" stroke="${c}" stroke-width="${W}" fill="none" opacity="${v >= a && v < b ? 1 : 0.28}"/>`; };
+  const ticks = [0, 35, 55, 70, 85, 100].map((t) => { const [a, b] = pt(t, R - 16), [c, d] = pt(t, R + 14); return `<line x1="${a.toFixed(1)}" y1="${b.toFixed(1)}" x2="${c.toFixed(1)}" y2="${d.toFixed(1)}" stroke="#6B7686" stroke-width="2"/><text x="${pt(t, R + 28)[0].toFixed(1)}" y="${(pt(t, R + 28)[1] + 4).toFixed(1)}" text-anchor="middle" font-size="11" fill="#6B7686" font-family="IBM Plex Mono,monospace">${t}</text>`; }).join('');
+  const ang = 180 * (v / 100) - 90;
+  return `<svg class="v2-dial" viewBox="0 0 320 222" role="img" aria-label="Score ${v.toFixed(1)} of 100, SIREN ${state.level}">
+${BAND.map(([a, b, c]) => arc(a, b, c)).join('')}${ticks}
+<g class="v2-needle" style="--to:${ang.toFixed(1)}deg;transform-origin:${cx}px ${cy}px"><line x1="${cx}" y1="${cy}" x2="${cx}" y2="${cy - R + 6}" stroke="#fff" stroke-width="4" stroke-linecap="round"/><circle cx="${cx}" cy="${cy}" r="9" fill="#fff"/></g>
+<text x="${cx}" y="${cy + 50}" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="700" font-size="40" fill="#fff" data-count="${v.toFixed(1)}">${v.toFixed(1)}</text>
+<text x="${cx}" y="${cy + 68}" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="${L.color}" letter-spacing="2">OF 100</text></svg>`;
+}
+
+function deltaAt(rows, nowMs, hours) {
+  const cur = rows[rows.length - 1]; if (!cur) return null;
+  const target = nowMs - hours * 3600e3;
+  let best = null;
+  for (const r of rows) { const t = Date.parse(r.t); if (t <= target + 20 * 60e3) best = r; }
+  return best && best !== cur && Number.isFinite(best.score) ? cur.score - best.score : null;
+}
+const chip = (label, d) => d === null ? `<span class="v2-dchip mute">${label} —</span>` : `<span class="v2-dchip ${d > 0.05 ? 'up' : d < -0.05 ? 'dn' : ''}">${label} ${d > 0.05 ? '▲' : d < -0.05 ? '▼' : '='}${Math.abs(d).toFixed(1)}</span>`;
+
+function chart(rows, hours, id) {
+  const end = rows.length ? Date.parse(rows[rows.length - 1].t) : Date.now();
+  const pts = rows.filter((h) => Number.isFinite(h.score) && (hours === Infinity || end - Date.parse(h.t) <= hours * 3600e3));
+  if (pts.length < 2) return `<p class="v2-nodata">Not enough readings yet for this range.</p>`;
+  const W = 760, H = 240, PL = 34, PR = 12, PB = 24, T = 10;
+  const t0 = Date.parse(pts[0].t), span = Math.max(1, end - t0);
+  const x = (t) => PL + ((Date.parse(t) - t0) / span) * (W - PL - PR);
+  const y = (v) => T + (1 - v / 100) * (H - PB - T);
+  const path = (get) => { let d = '', pen = false; for (const p of pts) { const v = get(p); if (!Number.isFinite(v)) { pen = false; continue; } d += `${pen ? 'L' : 'M'}${x(p.t).toFixed(1)},${y(v).toFixed(1)}`; pen = true; } return d; };
+  const bands = BAND.map(([a, b, c]) => `<rect x="${PL}" y="${y(b).toFixed(1)}" width="${W - PL - PR}" height="${(y(a) - y(b)).toFixed(1)}" fill="${c}" opacity=".06"/>`).join('');
+  const grid = [0, 35, 55, 70, 85, 100].map((g) => `<text x="${PL - 6}" y="${(y(g) + 4).toFixed(1)}" text-anchor="end" font-size="10" fill="#6B7686" font-family="IBM Plex Mono,monospace">${g}</text>`).join('');
+  const lines = Object.entries(PILLAR_HUE).map(([pid, c]) => `<path d="${path((p) => p.pillars && p.pillars[pid])}" fill="none" stroke="${c}" stroke-width="1.2" opacity=".55" class="pl pl-${pid}"/>`).join('');
+  const marks = []; for (let i = 1; i < pts.length; i++) if (pts[i].level !== pts[i - 1].level) marks.push(`<g><line x1="${x(pts[i].t).toFixed(1)}" x2="${x(pts[i].t).toFixed(1)}" y1="${T}" y2="${H - PB}" stroke="#fff" stroke-dasharray="3 3" opacity=".6"/><text x="${(x(pts[i].t) + 4).toFixed(1)}" y="${T + 12}" font-size="10" fill="#fff" font-family="IBM Plex Mono,monospace">→ ${pts[i].level}</text></g>`);
+  const deg = pts.filter((p) => p.degraded).map((p) => `<rect x="${(x(p.t) - 1).toFixed(1)}" y="${H - PB - 4}" width="2" height="4" fill="#FACC15"/>`).join('');
+  const n = 6, labels = []; for (let i = 0; i <= n; i++) { const t = t0 + (span * i) / n; const d = new Date(t).toISOString(); labels.push(`<text x="${(PL + (i / n) * (W - PL - PR)).toFixed(1)}" y="${H - 6}" font-size="10" fill="#6B7686" text-anchor="middle" font-family="IBM Plex Mono,monospace">${hours <= 24 ? d.slice(11, 16) : d.slice(5, 10)}</text>`); }
+  const last = pts[pts.length - 1];
+  return `<svg class="v2-hchart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Composite and pillar scores, ${pts.length} readings, now ${last.score.toFixed(1)}">
+<defs><linearGradient id="hg-${id}" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#4ADE80" stop-opacity=".35"/><stop offset="1" stop-color="#4ADE80" stop-opacity="0"/></linearGradient></defs>
+${bands}${grid}${lines}<path d="${path((p) => p.score)}L${x(last.t).toFixed(1)},${y(0)}L${x(pts[0].t).toFixed(1)},${y(0)}Z" fill="url(#hg-${id})"/><path d="${path((p) => p.score)}" fill="none" stroke="#4ADE80" stroke-width="2.5"/>${marks.join('')}${deg}
+<circle cx="${x(last.t).toFixed(1)}" cy="${y(last.score).toFixed(1)}" r="5" fill="#4ADE80"/>${labels.join('')}</svg>`;
+}
+
+function historyPanel(rows) {
+  const R = [['24H', 24], ['7D', 168], ['30D', 720], ['ALL', Infinity]];
+  return `<div class="v2-card v2-hist" id="trend" data-sec="Trend">
+  <div class="row sb"><h3>${icon('eye', 3, '#4ADE80')}${pixelText('THE TREND', 3, '#FFFFFF')}</h3><span class="live">${rows.length} READINGS</span></div>
+  <div class="v2-tabs" role="tablist">${R.map(([l], i) => `<input type="radio" name="v2r" id="v2r${i}" ${i === 1 ? 'checked' : ''}><label for="v2r${i}">${l}</label>`).join('')}
+  ${R.map(([l, h], i) => `<div class="v2-tabp" data-i="${i}">${chart(rows, h, i)}</div>`).join('')}</div>
+  <div class="v2-legend"><span><i style="background:#4ADE80;height:3px"></i>COMPOSITE</span>${Object.entries(PILLAR_HUE).map(([p, c]) => `<span><i style="background:${c}"></i>${esc(p.toUpperCase())}</span>`).join('')}<span><i style="background:#FACC15;width:3px;height:8px"></i>DEGRADED</span><span>┆ LEVEL CHANGE</span></div>
+</div>`;
+}
+
+function spark(rows, pid) {
+  const pts = rows.slice(-72).map((r) => r.pillars && r.pillars[pid]);
+  if (pts.filter(Number.isFinite).length < 2) return '<svg class="v2-spark" viewBox="0 0 120 28"></svg>';
+  let d = '', pen = false;
+  pts.forEach((v, i) => { if (!Number.isFinite(v)) { pen = false; return; } d += `${pen ? 'L' : 'M'}${(i / (pts.length - 1) * 118 + 1).toFixed(1)},${(26 - v / 100 * 24).toFixed(1)}`; pen = true; });
+  return `<svg class="v2-spark" viewBox="0 0 120 28" aria-hidden="true"><path d="${d}" fill="none" stroke="${PILLAR_HUE[pid] || '#AEB7C3'}" stroke-width="1.6"/></svg>`;
+}
+
+function loudPanel(state, rows) {
+  const by = {}; for (const s of state.sources || []) (by[s.pillar] = by[s.pillar] || []).push(s);
+  const rowsHtml = (state.pillars || []).map((p) => {
+    const meta = PILLAR_META[p.id] || {};
+    const live = Number.isFinite(p.score) && !p.dark;
+    const status = live ? num(p.score, 1) : p.dark ? 'DARK' : 'CALIBRATING';
+    const share = Number.isFinite(p.weight_share) && p.weight_share > 0 ? `${Math.round(p.weight_share * 100)}% OF THE SCORE` : 'NOT IN THE SCORE';
+    const why = live ? `Running at the ${ordinal(Math.round((p.percentile || 0) * 100))} percentile of the last year.` : p.dark ? 'No source answered this hour, so the pillar is left out and the level is held.' : 'Its sources report, but none has a year of baseline yet, so it is shown and not scored.';
+    const srcs = (by[p.id] || []).map((s) => `<li class="${s.ok ? 'ok' : s.uncalibrated ? 'cal' : 'bad'}"><b>${esc(srcName(s))}</b> ${Number.isFinite(s.value) ? `${Number(s.value).toLocaleString('en-US')} ${esc(s.unit || '')}` : ''}${s.ok && Number.isFinite(s.percentile) ? ` · ${ordinal(Math.round(s.percentile * 100))} pct` : s.uncalibrated ? ' · awaiting baseline' : !s.ok ? ' · not answering' : ''}</li>`).join('');
+    return `<details class="v2-loud"><summary><span class="pn" style="color:${PILLAR_HUE[p.id]}">${esc(p.name.toUpperCase())}</span><span class="t"><i style="width:${live ? p.score.toFixed(1) : 0}%;background:${PILLAR_HUE[p.id]}"></i></span>${spark(rows, p.id)}<b class="${live ? '' : 'mute'}">${status}</b></summary>
+  <p>${esc(meta.blurb || '')} ${esc(why)} <span class="sh">${share}</span></p><ul>${srcs}</ul></details>`;
+  }).join('');
+  return `<div class="v2-card" id="loud" data-sec="What’s loud"><div class="row sb"><h3>${icon('speaker', 3)}${pixelText("WHAT'S LOUD", 3, '#FFFFFF')}</h3><span class="live">TAP A PILLAR</span></div>${rowsHtml}
+  <p class="v2-formula" id="v2-formula"></p></div>`;
+}
+
+function healthPanel(state) {
+  const now = Date.parse(state.generated_at);
+  const srcs = state.sources || [];
+  const scored = srcs.filter((s) => s.ok).length, cal = srcs.filter((s) => s.uncalibrated).length, bad = srcs.filter((s) => !s.ok && !s.uncalibrated);
+  const h = state.health || {};
+  const next = h.expected_next_run_utc ? String(h.expected_next_run_utc).slice(11, 16) + ' UTC' : null;
+  const lag = Number.isFinite(h.typical_lag_minutes) ? h.typical_lag_minutes : null;
+  const dark = (state.pillars || []).filter((p) => p.dark).map((p) => p.name);
+  const why = [];
+  if (dark.length) why.push(`<b>${esc(dark.join(', '))}</b> ${dark.length > 1 ? 'are' : 'is'} dark: ${bad.map((s) => `${esc(srcName(s))} (last answered ${agoTxt(s.last_ok, now)})`).join(', ') || 'no source answered'}.`);
+  else if (bad.length) why.push(`${bad.map((s) => `${esc(srcName(s))} last answered ${agoTxt(s.last_ok, now)}`).join('; ')}.`);
+  const calP = (state.pillars || []).filter((p) => !p.dark && !Number.isFinite(p.score)).map((p) => p.name);
+  if (calP.length) why.push(`<b>${esc(calP.join(', '))}</b> is still building its baseline, so it is shown but left out of the score.`);
+  why.push(esc(RULE_TXT[state.rule_fired] || ''));
+  const impact = `The score is computed from ${(state.pillars || []).filter((p) => Number.isFinite(p.score) && !p.dark).length} of ${(state.pillars || []).length} pillars and ${scored} scored sources.`;
+  const table = srcs.map((s) => `<tr><td><span class="v2-dot ${s.ok ? 'ok' : s.uncalibrated ? 'cal' : 'bad'}"></span>${esc(srcName(s))}</td><td>${esc(String(s.pillar || '').toUpperCase())}</td><td>${s.ok ? 'SCORED' : s.uncalibrated ? 'REPORTING' : 'DOWN'}</td><td>${s.ok || s.uncalibrated ? agoTxt(s.observed_at, now) : agoTxt(s.last_ok, now)}</td></tr>`).join('');
+  return `<div class="v2-card v2-health" id="health" data-sec="Health">
+  <div class="row sb"><h3>${icon('shield', 3, state.degraded ? '#FACC15' : '#4ADE80')}${pixelText(state.degraded ? 'DEGRADED: WHY' : 'ALL SYSTEMS', 3, '#FFFFFF')}</h3><span class="live">${scored} SCORED · ${cal} REPORTING · ${bad.length} DOWN</span></div>
+  <p>${why.filter(Boolean).join(' ')} ${esc(impact)}</p>
+  <p class="v2-eta">Readings land hourly${lag ? `, usually about ${lag} min past the hour` : ''}${next ? `. Next expected around <b>${next}</b>` : ''}. A reading older than two hours is flagged as overdue at the top of the page.</p>
+  <details><summary>Every source and when it last answered</summary><div class="v2-tw"><table><thead><tr><th>Source</th><th>Pillar</th><th>Status</th><th>Last good</th></tr></thead><tbody>${table}</tbody></table></div></details>
+</div>`;
+}
+
+function movedPanel(wm, href) {
+  if (!wm) return '';
+  const pd = (wm.pillar_deltas || []).filter((p) => p.kind !== 'move' || Math.abs(p.delta) >= 0.1).slice(0, 5)
+    .map((p) => p.kind === 'move' ? `<span>${esc(p.name)} <b class="${p.delta > 0 ? 'up' : 'dn'}">${p.delta > 0 ? '▲' : '▼'}${Math.abs(p.delta).toFixed(1)}</b></span>` : `<span>${esc(p.name)} <b class="${p.kind === 'live' ? 'up' : 'dn'}">${p.kind === 'live' ? 'BACK LIVE' : 'WENT DARK'}</b></span>`).join('');
+  const d = wm.score_delta;
+  const items = (wm.top_items || []).slice(0, 3).map((i) => `<li><a href="${esc(i.url)}" rel="noopener">${esc(i.title)}</a> <small>${esc(String(i.source || '').toUpperCase())}</small></li>`).join('');
+  return `<div class="v2-card v2-moved" id="moved" data-sec="What moved"><div class="row sb"><h3>${icon('bolt', 3, '#4ADE80')}${pixelText('WHAT MOVED THIS HOUR', 3, '#FFFFFF')}</h3><a class="live" href="${href('/changelog.html')}">CHANGELOG →</a></div>
+  <p class="v2-mv"><span>SCORE <b class="${d > 0 ? 'up' : d < 0 ? 'dn' : ''}">${Number.isFinite(d) ? `${d > 0 ? '▲' : d < 0 ? '▼' : '='}${Math.abs(d).toFixed(1)}` : '—'}</b></span>${wm.level_change ? `<span>LEVEL <b class="up">${esc(String(wm.level_change.from ?? ''))} → ${esc(String(wm.level_change.to ?? ''))}</b></span>` : ''}${pd || '<span>No pillar moved more than a tenth of a point.</span>'}</p>
+  ${items ? `<ul class="v2-mvi">${items}</ul>` : ''}</div>`;
+}
+
+function altPanel(alts) {
+  if (!alts || !alts.length) return '';
+  return `<details class="v2-card v2-alt" id="alt"><summary><h3 style="display:inline-flex">${icon('eye', 3, '#A5B4FC')}${pixelText('UNCONVENTIONAL SIGNALS', 3, '#FFFFFF')}</h3> <span class="live">NOT IN THE SCORE · TAP TO SHOW</span></summary>
+  <p>Raw readings SIREN collects every hour but does not score yet, because none has a year of baseline. Watch them; they cannot move the level.</p>
+  <div class="v2-altg">${alts.map((a) => `<div><b>${esc(SRC_NAME[a.id] || a.label || a.id)}</b><span class="n">${Number.isFinite(a.value) ? Number(a.value).toLocaleString('en-US') : '—'} <small>${esc(a.unit || '')}</small></span><small>${esc(a.description || '')}</small></div>`).join('')}</div></details>`;
+}
+
+const DASH_JS = `(function(){var red=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+document.querySelectorAll('[data-count]').forEach(function(el){var to=+el.getAttribute('data-count');if(red||!isFinite(to))return;var t0=null;function f(t){if(!t0)t0=t;var k=Math.min(1,(t-t0)/1200);k=1-Math.pow(1-k,3);el.textContent=(to*k).toFixed(1);if(k<1)requestAnimationFrame(f)}requestAnimationFrame(f)});
+var F=document.getElementById('v2-formula'),S=window.SIREN_PILLARS;if(F&&S){var l=S.filter(function(p){return typeof p.s==='number'&&isFinite(p.s)});if(l.length){var m=l.reduce(function(a,p){return a+p.s},0)/l.length,mx=Math.max.apply(null,l.map(function(p){return p.s}));F.innerHTML='<b>Recompute it:</b> 0.7 × mean('+l.map(function(p){return p.s.toFixed(1)}).join(', ')+') + 0.3 × max = 0.7 × '+m.toFixed(2)+' + 0.3 × '+mx.toFixed(2)+' = <b>'+(0.7*m+0.3*mx).toFixed(1)+'</b>. Pillars that are dark or still calibrating are left out.'}}
+var v=document.querySelector('[data-verify-now]');if(v)v.addEventListener('click',function(e){var b=document.querySelector('[data-vfy-go]');var box=document.getElementById('vfy');if(box){e.preventDefault();box.scrollIntoView({behavior:red?'auto':'smooth',block:'start'});if(b&&!b.disabled)setTimeout(function(){b.click()},red?0:500)}});})();`;
+
+function pmLink(slug, kind = 'market') {
+  const ref = MONETIZE.polymarket && MONETIZE.polymarket.ref ? `&${MONETIZE.polymarket.ref}` : '';
+  return `https://polymarket.com/${kind}/${encodeURIComponent(slug)}?utm_source=siren&utm_medium=markets-strip${ref}`;
+}
+function marketsPanel(ctx, href) {
+  const pm = ctx.race && ctx.race.markets && ctx.race.markets.polymarket;
+  const legs = pm && pm.horizon && Array.isArray(pm.horizon.legs) ? pm.horizon.legs.slice(0, 5) : [];
+  const movers = (ctx.pmTop || []).slice().sort((a, b) => Math.abs(b.move || 0) - Math.abs(a.move || 0)).slice(0, 6);
+  if (!legs.length && !movers.length) return '';
+  const leg = (l) => `<a class="v2-pm" href="${esc(pmLink(l.slug))}" target="_blank" rel="noopener sponsored"><span>${esc(l.title)}</span><b>${pct(l.probability, 0)}</b><i class="${(l.change_1d || 0) > 0 ? 'up' : (l.change_1d || 0) < 0 ? 'dn' : ''}">${Number.isFinite(l.change_1d) && l.change_1d ? `${l.change_1d > 0 ? '▲' : '▼'}${Math.abs(l.change_1d * 100).toFixed(1)} 24H` : '— 24H'}</i><em>TRADE →</em></a>`;
+  const mv = (m) => `<a class="v2-pm wide" href="${esc(pmLink(m.slug))}" target="_blank" rel="noopener sponsored"><span>${esc(m.question)}</span><i class="${(m.move || 0) > 0 ? 'up' : 'dn'}">${(m.move || 0) > 0 ? '▲' : '▼'}${Math.abs((m.move || 0) * 100).toFixed(0)} PTS</i><small>$${Math.round((m.volume || 0) / 1000).toLocaleString('en-US')}K VOL</small><em>TRADE →</em></a>`;
+  return `<div class="v2-card v2-mkts" id="markets" data-sec="Markets">
+  <div class="row sb"><h3>${icon('eye', 3, '#A855F7')}${pixelText('AI PREDICTION MARKETS', 3, '#FFFFFF')}</h3><a class="live" href="${href('/race.html')}">THE RACE →</a></div>
+  ${legs.length ? `<p class="v2-mq">${esc(pm.horizon.title)}</p><div class="v2-pmg">${legs.map(leg).join('')}</div>` : ''}
+  ${movers.length ? `<p class="v2-mq">BIGGEST MOVERS ON AI QUESTIONS TODAY</p><div class="v2-pmg">${movers.map(mv).join('')}</div>` : ''}
+  <p class="v2-pmn">Live odds from Polymarket. Links open Polymarket${MONETIZE.polymarket && MONETIZE.polymarket.ref ? ' (referral link)' : ''}. Prediction markets are restricted in some places; check the rules where you live. Not financial advice.</p>
+</div>`;
 }
 
 export function render(ctx, { head }) {
@@ -285,12 +464,26 @@ export function render(ctx, { head }) {
   }).join('');
 
   const nav = roomNav(ctx, href, img);
+  const rows = ctx.history || [];
+  const nowMs = Date.parse(state.generated_at);
+  let wm = null, alts = [];
+  try { wm = whatMoved(ctx); } catch { wm = null; }
+  try { alts = alternativeSignals(state); } catch { alts = []; }
+  const dash = `<section class="v2-dash" aria-label="The reading at a glance">
+    ${dial(state, L)}
+    <div class="v2-dinfo">
+      <div class="v2-chips">${chip('1H', Number.isFinite(state.delta_from_previous) ? state.delta_from_previous : deltaAt(rows, nowMs, 1))}${chip('24H', deltaAt(rows, nowMs, 24))}${chip('7D', deltaAt(rows, nowMs, 168))}</div>
+      <p class="v2-dline"><b style="color:${L.color}">SIREN ${state.level} · ${esc(state.level_name)}</b> since ${esc(String(state.level_since || '').slice(0, 10))}. ${state.degraded ? `<a href="#health" class="amber">DEGRADED: see why ↓</a>` : '<span class="green">All pillars live.</span>'}</p>
+      <div class="v2-dbtns"><a class="v2-btn sm" href="#vfy" data-verify-now>✓ VERIFY THIS READING</a><a class="v2-btn sm ghost" href="${href('/alerts.html')}">🔔 ALERTS</a><a class="v2-btn sm ghost" href="${href('/export.html')}">⤓ DATA &amp; EMBED</a></div>
+    </div>
+  </section>
+  <script>window.SIREN_PILLARS=${JSON.stringify((state.pillars || []).filter((p) => !p.dark).map((p) => ({ id: p.id, s: Number.isFinite(p.score) ? p.score : null })))}</script>`;
   const body = `
 <div class="v2">
 <div class="v2-top"><div class="v2-wrap">
   <span class="v2-chip">${icon('clock', 2)}<span id="v2-clock" class="tnum">${esc(String(state.generated_at).slice(0, 10))} ${esc(hhmm(state.generated_at))}</span></span>
   <span class="tag red" id="v2-fresh" data-at="${esc(state.generated_at)}">LAST READING <b>${esc(hhmm(state.generated_at))}</b></span>
-  <span class="v2-chip">${icon('eye', 2)}${ok}/${sources.length} SOURCES REPORTING</span>
+  <span class="v2-chip">${icon('eye', 2)}${ok}/${sources.length} REPORTING · ${sources.filter((x) => x.ok).length} SCORED</span>
   <span class="right">
     <a class="tag green" href="#rooms">ALL ROOMS ↓</a>
     <button type="button" class="tag radio" id="siren-radio" data-level="${state.level}" aria-pressed="false" title="Play SIREN Radio: an original soundtrack generated in your browser. Its mood follows the level.">♪ RADIO</button>
@@ -322,11 +515,28 @@ ${nav.strip}
       </div>
     </div>
   </section>
+  ${dash}
   <div class="v2-since" id="v2-since" hidden role="status"></div>
   <div class="v2-sponsor">${sponsorLine(href('/sponsor.html'))}</div>
   <script>window.SIREN_NOW=${JSON.stringify(sinceNow).replace(/</g, '\\u003c')}</script>
 
   ${top ? `<div class="v2-breaking" id="breaking" data-sec="Breaking"><span class="badge"><span class="blink">${icon('bolt', 2)}</span>BREAKING</span><a href="${esc(top.url)}" rel="noopener">${esc(top.title)}</a><span class="src">${esc(hhmm(top.published_at))} · ${esc(String(top.source).toUpperCase())}</span></div>` : ''}
+
+${movedPanel(wm, href)}
+  ${historyPanel(rows)}
+  <div class="v2-two">${loudPanel(state, rows)}${healthPanel(state)}</div>
+  ${marketsPanel(ctx, href)}
+  ${altPanel(alts)}
+  <div class="v2-vfywrap">${verifyBox(ctx)}</div>
+
+
+  <div class="v2-sec" id="bosses" data-sec="Bosses"><h2>${pixelText('THE BOSSES ON WATCH', 4, '#FFFFFF', 'fit')}</h2><span>ON THE RECORD THIS WEEK · ${totals.on_record ?? 0} OF ${totals.leaders ?? 15}</span></div>
+  <div class="v2-bosses">
+    ${leaders.map((l) => { const s = bossStatus(l); return `<a class="boss" href="${href('/leaders.html')}"><img class="v2-face" loading="lazy" decoding="async" src="${img(FACE_BY_LEADER[l.id])}" width="96" height="96" alt=""><span class="nm">${esc(l.name.toUpperCase())}</span><span class="co">${esc(String(l.org).toUpperCase())}</span><span class="st ${s.cls}">${s.t}</span></a>`; }).join('')}
+  </div>
+
+  <div class="v2-sec" id="labs" data-sec="Labs"><h2>${pixelText(`${players.length} LABS MONITORED`, 4, '#FFFFFF', 'fit')}</h2><span>ODDS OF BEST MODEL IN 2026 · POLYMARKET</span></div>
+  <div class="v2-labs">${players.map(lab).join('')}</div>
 
 <section class="v2-video" aria-labelledby="v2-video-h">
     <div class="txt"><h2 id="v2-video-h">${pixelText('WHAT IS SIREN?', 4, '#FFFFFF', 'fit')}</h2><p>A 42-second tour: the hourly reading, the five levels, and the rooms worth opening. Sound on: the soundtrack is SIREN Radio, generated from the same code as the ♪ button.</p></div>
@@ -338,33 +548,6 @@ ${nav.strip}
   <script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', '@type': 'VideoObject', name: 'What is SIREN? A 42-second tour of the AI Siren Index', description: 'How SIREN counts how loud AI is every hour, what its five levels mean, and the rooms on the site: the race, the newsroom, the AI bosses, real clips, the world monitor, the AI battle and the prepper kit.', thumbnailUrl: [ctx.url('/media/siren-explainer-poster.jpg')], uploadDate: '2026-10-07', duration: 'PT42S', contentUrl: ctx.url('/media/siren-explainer.mp4'), embedUrl: ctx.url('/') }).replace(/</g, '\\u003c')}</script>
 
 ${roomsGrid(ctx, href, img)}
-
-  <div class="v2-sec" id="bosses" data-sec="Bosses"><h2>${pixelText('THE BOSSES ON WATCH', 4, '#FFFFFF', 'fit')}</h2><span>ON THE RECORD THIS WEEK · ${totals.on_record ?? 0} OF ${totals.leaders ?? 15}</span></div>
-  <div class="v2-bosses">
-    ${leaders.map((l) => { const s = bossStatus(l); return `<a class="boss" href="${href('/leaders.html')}"><img class="v2-face" loading="lazy" decoding="async" src="${img(FACE_BY_LEADER[l.id])}" width="96" height="96" alt=""><span class="nm">${esc(l.name.toUpperCase())}</span><span class="co">${esc(String(l.org).toUpperCase())}</span><span class="st ${s.cls}">${s.t}</span></a>`; }).join('')}
-  </div>
-
-  <div class="v2-sec" id="labs" data-sec="Labs"><h2>${pixelText(`${players.length} LABS MONITORED`, 4, '#FFFFFF', 'fit')}</h2><span>ODDS OF BEST MODEL IN 2026 · POLYMARKET</span></div>
-  <div class="v2-labs">${players.map(lab).join('')}</div>
-
-  <div class="v2-card v2-track">
-    <div class="row sb"><h3>${icon('eye', 3, '#4ADE80')}${pixelText('7-DAY TRACK', 3, '#FFFFFF')}</h3><span class="live">LIVE</span></div>
-    ${weekChart(ctx.history || [])}
-    <div class="v2-gauges">${gauges(state.pillars)}</div>
-    <div class="v2-srcs">${sourceLights(state.sources)}</div>
-  </div>
-
-  <div class="v2-two" id="readings" data-sec="Readings">
-    <div class="v2-card">
-      <div class="row sb"><h3>${icon('shield', 3, '#4ADE80')}${pixelText('READINGS', 3, '#FFFFFF')}</h3><span class="live">LIVE</span></div>
-      <div class="v2-cols" role="img" aria-label="Last ${hist.length} composite readings, ${scores.map((s) => num(s, 1)).join(', ')}">${cols}</div>
-      <div class="row sb small"><span>${esc(hhmm(hist[0] && hist[0].t))}</span><span>AXIS ${lo}–${hi}</span><b>NOW · ${score}</b></div>
-    </div>
-    <div class="v2-card">
-      <h3>${icon('speaker', 3)}${pixelText("WHAT'S LOUD", 3, '#FFFFFF')}</h3>
-      <div class="stack">${pillars}</div>
-    </div>
-  </div>
 
   <div class="v2-cta" id="tally" data-sec="Tally">
     <img class="v2-art bob" loading="lazy" decoding="async" src="${img('canary')}" width="88" height="88" alt="">
@@ -382,11 +565,12 @@ ${nav.palette}${nav.tabbar}
 </div>
 <script>${NAV_JS}</script>
 <script>${WAR_JS}</script>
+<script>${DASH_JS}</script>
 <script>(function(){var el=document.getElementById('v2-clock');if(!el)return;function p(n){return(n<10?'0':'')+n}function t(){var d=new Date();el.textContent=d.getUTCFullYear()+'-'+p(d.getUTCMonth()+1)+'-'+p(d.getUTCDate())+' '+p(d.getUTCHours())+':'+p(d.getUTCMinutes())+':'+p(d.getUTCSeconds())+'Z'}t();setInterval(t,1000)})();</script>`;
 
   return `<!doctype html>
 <html lang="en">
-${head.replace('</head>', `<style>${CSS}</style>${MZ_CSS}\n</head>`)}
+${head.replace('</head>', `<style>${CSS}${DASH_CSS}</style><style>${verifyCss()}</style>${MZ_CSS}\n</head>`)}
 <body class="v2-body"><a class="v2-skip" href="#signal">Skip to the reading</a>${body}
 <script type="module" src="${href('/media/siren3d.js')}"></script>
 <script src="${href('/media/radio.js')}" defer></script>
@@ -588,3 +772,74 @@ body.v2-body{margin:0;background:#000;color:#F3F4F6}
 }
 @media (prefers-reduced-motion:reduce){.v2 *{animation:none!important}}
 `;
+
+const DASH_CSS = `
+.v2-mq{font-size:12px;letter-spacing:.1em;color:#AEB7C3;margin:12px 0 6px;font-weight:700}
+.v2-pmg{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px}
+.v2-pm{display:flex;flex-direction:column;gap:3px;padding:10px 12px;border:2px solid #2A3446;background:#0A0E16;color:#F3F4F6!important}
+.v2-pm:hover{border-color:#A855F7}
+.v2-pm.wide{grid-column:span 2}@media (max-width:720px){.v2-pm.wide{grid-column:span 1}}
+.v2-pm span{font-size:13px;line-height:1.35}.v2-pm b{font-size:22px}.v2-pm i{font-style:normal;font-size:12px;font-weight:700}.v2-pm small{font-size:11px;color:#6B7686}
+.v2-pm em{font-style:normal;font-size:11px;font-weight:700;letter-spacing:.1em;color:#C4B5FD;margin-top:auto}
+.v2-pmn{font-size:11.5px;color:#6B7686;margin:10px 0 0}
+.v2-dash{display:grid;grid-template-columns:minmax(260px,360px) 1fr;gap:18px 28px;align-items:center;border:2px solid #232C3B;background:#060A10;padding:16px 20px}
+.v2-dial{width:100%;height:auto;display:block}
+.v2-needle{transform:rotate(var(--to));animation:v2-sweep 1.2s cubic-bezier(.2,.8,.2,1) both}
+@keyframes v2-sweep{from{transform:rotate(-90deg)}to{transform:rotate(var(--to))}}
+@media (prefers-reduced-motion:reduce){.v2-needle{animation:none}}
+.v2-dinfo{display:flex;flex-direction:column;gap:12px;min-width:0}
+.v2-chips{display:flex;gap:8px;flex-wrap:wrap}
+.v2-dchip{font-weight:700;font-size:15px;padding:6px 12px;border:2px solid #2A3446;background:#0A0E16;color:#D7DCE3}
+.v2-dchip.up{border-color:#7F1D1D;color:#FCA5A5}.v2-dchip.dn{border-color:#14532D;color:#86EFAC}.v2-dchip.mute{opacity:.6}
+.v2-dline{margin:0;font-size:15px;color:#D7DCE3}
+.v2-dbtns{display:flex;gap:8px;flex-wrap:wrap}
+.v2-btn.sm{min-height:44px;padding:0 14px;font-size:13px}
+.v2-btn.ghost{background:transparent;border:2px solid #3B4FD9}
+.v2 b.up,.v2 .up{color:#FCA5A5}.v2 b.dn,.v2 .dn{color:#86EFAC}
+.v2-moved .v2-mv{display:flex;flex-wrap:wrap;gap:8px 18px;margin:10px 0 0;font-size:14px}
+.v2-mvi{margin:10px 0 0;padding-left:18px;font-size:14px;line-height:1.45}.v2-mvi small{color:#6B7686}
+.v2-hist .v2-tabs{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.v2-tabs input{position:absolute;opacity:0;pointer-events:none}
+.v2-tabs label{cursor:pointer;padding:8px 14px;border:2px solid #2A3446;font-weight:700;font-size:13px;min-height:40px;display:inline-flex;align-items:center}
+.v2-tabs input:checked+label{border-color:#4ADE80;color:#000;background:#4ADE80}
+.v2-tabs input:focus-visible+label{outline:2px solid #fff}
+.v2-tabp{display:none;width:100%;order:9}
+#v2r0:checked~.v2-tabp[data-i="0"],#v2r1:checked~.v2-tabp[data-i="1"],#v2r2:checked~.v2-tabp[data-i="2"],#v2r3:checked~.v2-tabp[data-i="3"]{display:block}
+.v2-hchart{width:100%;height:auto;display:block;margin-top:8px}
+.v2-nodata{color:#6B7686;font-size:13px}
+.v2-legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:11px;color:#AEB7C3;margin-top:6px}
+.v2-legend i{display:inline-block;width:14px;height:2px;margin-right:6px;vertical-align:middle}
+.v2-loud{border-top:1px solid #1E2633;padding:8px 0}
+.v2-loud summary{display:grid;grid-template-columns:150px 1fr 120px 82px;gap:10px;align-items:center;cursor:pointer;list-style:none;min-height:40px}
+.v2-loud summary::-webkit-details-marker{display:none}
+.v2-loud .pn{font-size:12px;font-weight:700;letter-spacing:.06em}
+.v2-loud .t{height:10px;background:#1E2633;position:relative}.v2-loud .t i{position:absolute;inset:0 auto 0 0}
+.v2-loud b{text-align:right;font-variant-numeric:tabular-nums}.v2-loud b.mute{color:#6B7686;font-size:11px}
+.v2-spark{width:120px;height:28px;display:block}
+.v2-loud p{margin:8px 0 4px;font-size:13px;color:#AEB7C3;line-height:1.5}.v2-loud .sh{color:#A5B4FC;font-weight:700}
+.v2-loud ul{margin:0;padding-left:16px;font-size:12.5px;line-height:1.6;color:#D7DCE3}
+.v2-loud li.cal{color:#AEB7C3}.v2-loud li.bad{color:#FCA5A5}
+.v2-formula{font-size:12.5px;color:#AEB7C3;margin:12px 0 0;line-height:1.5}
+.v2-health p{font-size:13.5px;line-height:1.55;color:#D7DCE3;margin:10px 0 0}.v2-health .v2-eta{color:#AEB7C3}
+.v2-health details{margin-top:10px}.v2-health summary{cursor:pointer;color:#A5B4FC;font-size:13px;min-height:36px;display:flex;align-items:center}
+.v2-tw{overflow-x:auto}.v2-health table{width:100%;border-collapse:collapse;font-size:12px;margin-top:6px}
+.v2-health th,.v2-health td{text-align:left;padding:6px 8px;border-bottom:1px solid #1E2633;white-space:nowrap}
+.v2-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:8px;background:#6B7686}.v2-dot.ok{background:#4ADE80}.v2-dot.cal{background:#FACC15}.v2-dot.bad{background:#F87171}
+.v2-alt summary{cursor:pointer;list-style:none;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.v2-alt summary::-webkit-details-marker{display:none}
+.v2-alt p{font-size:13px;color:#AEB7C3}
+.v2-altg{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.v2-altg div{border:1px solid #232C3B;padding:10px;display:flex;flex-direction:column;gap:4px}
+.v2-altg b{font-size:12px;letter-spacing:.06em;color:#A5B4FC}.v2-altg .n{font-size:20px;font-weight:700}.v2-altg small{font-size:11.5px;color:#AEB7C3;line-height:1.4}
+.v2-vfywrap{--accent:#4ADE80;--mono:'IBM Plex Mono',monospace;--t-sm:13px;--ink:#F3F4F6;--ink-dim:#AEB7C3;--rule:#232C3B;border:2px solid #232C3B;padding:4px 20px 16px;background:#060A10}
+.v2-vfywrap h2{font-size:18px;font-weight:700;margin:12px 0 6px}.v2-vfywrap p{font-size:14px;color:#AEB7C3;line-height:1.55}
+@media (max-width:720px){
+  .v2-card .row.sb{flex-wrap:wrap;gap:6px}
+  .v2-card h3{min-width:0;max-width:100%}.v2-card h3 svg{max-width:100%;height:auto}
+  .v2-dash{grid-template-columns:1fr;padding:12px}
+  .v2-dial{max-width:340px;margin:0 auto}
+  .v2-loud summary{grid-template-columns:1fr 64px;grid-template-areas:"n b" "t t" "s s";row-gap:6px}
+  .v2-loud .pn{grid-area:n}.v2-loud b{grid-area:b}.v2-loud .t{grid-area:t}.v2-loud .v2-spark{grid-area:s;width:100%}
+  .v2-sub{padding-left:0}
+  .v2-top .right{margin-left:0}
+}`;

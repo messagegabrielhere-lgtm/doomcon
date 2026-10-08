@@ -34,6 +34,8 @@ import * as deskPage from './templates/deskPage.mjs';
 import * as infoPages from './templates/infoPages.mjs';
 import * as featurePages from './templates/featurePages.mjs';
 import * as agentPages from './templates/agentPages.mjs';
+import * as mediaPages from './templates/mediaPages.mjs';
+import { writeExtras, EXTRAS_PAGES } from './extras.mjs';
 import * as topicPages from './templates/topicPages.mjs';
 import * as shopPages from './templates/shopPages.mjs';
 import * as betsPage from './templates/betsPage.mjs';
@@ -1183,6 +1185,16 @@ async function main() {
   // in full, at /classic.html, and the new front page links to it.
   const classicHtml = indexPage.render(ctx);
   const classicHead = (classicHtml.match(/<head>[\s\S]*?<\/head>/) || ['<head><meta charset="utf-8"></head>'])[0];
+  // The AI prediction markets that moved most this hour, for the homepage's
+  // markets strip: read from the newest raw collector file (polymarket meta).
+  try {
+    const rawDir = path.join(args.data, 'raw');
+    const newest = (await readdir(rawDir)).filter((f) => f.endsWith('.json')).sort().pop();
+    const raw = newest ? JSON.parse(await readFile(path.join(rawDir, newest), 'utf8')) : null;
+    const list = raw ? (Array.isArray(raw) ? raw : raw.readings || raw.sources || []) : [];
+    const pm = Array.isArray(list) ? list.find((x) => x && x.source === 'polymarket') : null;
+    ctx.pmTop = pm && pm.meta && Array.isArray(pm.meta.top_contributors) ? pm.meta.top_contributors : [];
+  } catch { ctx.pmTop = []; }
   written.push(await write(args.out, 'index.html', homeV2.render(ctx, { head: classicHead })));
   written.push(await write(args.out, 'classic.html', classicHtml));
   written.push(await write(args.out, 'instruments.html', indexPage.render(ctx, { view: 'instruments' })));
@@ -1223,10 +1235,25 @@ async function main() {
   written.push(await write(args.out, 'privacy.html', infoPages.privacy(ctx)));
   written.push(await write(args.out, 'terms.html', infoPages.terms(ctx)));
   written.push(await write(args.out, 'feedback.html', infoPages.feedback(ctx)));
-  written.push(await write(args.out, 'si-ready.html', featurePages.siReady(ctx)));
-  written.push(await write(args.out, 'ai-proof-job.html', featurePages.jobProof(ctx)));
+  // Feature pages carry their own explainer video, just under the heading.
+  const withVideo = (html, id) => html.replace(/(<\/h1>[\s\S]*?<\/p>)/, `$1${mediaPages.videoBlock(ctx, id)}`);
+  written.push(await write(args.out, 'si-ready.html', withVideo(featurePages.siReady(ctx), 'si-ready')));
+  written.push(await write(args.out, 'ai-proof-job.html', withVideo(featurePages.jobProof(ctx), 'ai-proof-job')));
+  // SIREN Radio and SIREN TV. Tally's recorded voice update, when the hourly
+  // lane has made one (collector/tally-voice.mjs, needs XAI_API_KEY), plays on
+  // the radio page; otherwise the browser reads the same words aloud.
+  {
+    let voice = null;
+    try { voice = JSON.parse(await readFile(path.join(args.data, 'tally-voice.json'), 'utf8')); } catch { voice = null; }
+    if (voice && voice.audio && existsSync(path.join(args.data, voice.audio))) {
+      written.push(await write(args.out, `media/${voice.audio}`, await readFile(path.join(args.data, voice.audio))));
+    } else if (voice) voice.audio = null;
+    ctx.tallyVoice = voice;
+    written.push(await write(args.out, 'radio.html', mediaPages.radio(ctx, voice)));
+  }
+  written.push(await write(args.out, 'videos.html', mediaPages.videos(ctx)));
   written.push(await write(args.out, 'live-x.html', featurePages.liveX(ctx)));
-  written.push(await write(args.out, 'tally.html', agentPages.tally(ctx)));
+  written.push(await write(args.out, 'tally.html', withVideo(agentPages.tally(ctx), 'tally')));
   written.push(await write(args.out, 'staff.html', agentPages.staff(ctx)));
   written.push(await write(args.out, 'careers.html', agentPages.careers(ctx)));
   {
@@ -1362,6 +1389,9 @@ async function main() {
   written.push(await write(args.out, 'feed.xml', feed.render(ctx)));
   // The quiet one: an entry only when the level itself changes.
   written.push(await write(args.out, 'feed-level.xml', feed.render(ctx, { levelOnly: true })));
+  // Alerts feeds, CSV exports, and the alerts / export / bias / reference-plan /
+  // changelog pages (site/extras.mjs).
+  written.push(...await writeExtras(ctx, write, args.out, { dataDir: args.data }));
   // THE BRAND MARKS. A smoke-detector mark whose five grille slots stand for
   // the five SIREN levels, and whose FAVICON LIGHTS THE SLOTS UP TO THE
   // CURRENT LEVEL in heat colours — so the browser tab itself carries the
@@ -1531,7 +1561,7 @@ async function main() {
 
   await selfCheck(args.out, state, ctx);
   // Last: the refresh bar and disclosure on every page, dated by the data.
-  const stamped = await stampAll(args.out, state.generated_at, { level: state.level });
+  const stamped = await stampAll(args.out, state.generated_at, { level: state.level, intro: mediaPages.INTRO_FOR });
 
   log(`${brand.NAME} build complete.`);
   log(`  out          ${args.out}`);

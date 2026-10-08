@@ -1,0 +1,80 @@
+# Build the SHADOW reference addenda (data/reference-addenda.json).
+#
+# Manual only. data/reference.json (v1) is frozen and this workflow never
+# touches it; it (re)builds the addenda that the engine scores in parallel as
+# state.shadow. Rebuilding the addenda changes the shadow only — never the
+# official score, level or any receipt. docs/REFERENCE-VERSIONING.md.
+name: calibrate
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  # Shares the data/ branch with collect.yml's pushes; never two calibrations at once.
+  group: calibrate
+  cancel-in-progress: false
+
+jobs:
+  calibrate:
+    name: build shadow addenda
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Build addenda
+        run: node collector/calibrate.mjs
+
+      - name: Validate
+        run: |
+          set -euo pipefail
+          node --input-type=module -e '
+            import { readFileSync } from "node:fs";
+            import { addendaHash } from "./collector/calibrate.mjs";
+            const f = JSON.parse(readFileSync("data/reference-addenda.json", "utf8"));
+            if (addendaHash(f) !== f.hash) { console.error("hash mismatch"); process.exit(1); }
+            console.log(`addenda ${f.hash} sources=[${Object.keys(f.sources).join(",")}]`);
+          '
+          # v1 must be byte-identical to what was checked out.
+          git diff --exit-code -- data/reference.json
+
+      - name: Commit and push
+        run: |
+          set -euo pipefail
+          git config user.name  'SIREN'
+          git config user.email 'messagegabrielhere-lgtm@users.noreply.github.com'
+          git add data/reference-addenda.json
+          if git diff --cached --quiet; then
+            echo 'addenda unchanged; not committing'
+            exit 0
+          fi
+          # shellcheck disable=SC2016
+          MSG="$(node --input-type=module -e '
+            import { readFileSync } from "node:fs";
+            const f = JSON.parse(readFileSync("data/reference-addenda.json", "utf8"));
+            process.stdout.write(`data: shadow reference addenda ${f.addendum_version} [${Object.keys(f.sources).join(", ")}] ${f.hash.slice(0, 19)}`);
+          ')"
+          git commit -m "$MSG"
+          # The hourly collector pushes to main too. Only data/reference-addenda.json
+          # is in this commit and no other workflow writes it, so a rebase onto the
+          # new tip cannot conflict; retry a few times if the tip moves under us.
+          for attempt in 1 2 3; do
+            git pull --rebase -q origin main
+            if git push origin HEAD:main; then exit 0; fi
+            echo "push rejected (attempt $attempt); rebasing onto the new tip"
+            sleep $((attempt * 5))
+          done
+          echo '::error::could not push after 3 attempts'
+          exit 1

@@ -45,7 +45,7 @@ import { setTimeout as sleep } from 'node:timers/promises';
 // the other two markets adapters. Three copies of one regex is three chances
 // to fix a false positive in two places. See the note above its definition
 // there for why this adapter uses it as an AUDIT rather than as a gate.
-import { AI_QUESTION } from './polymarket.mjs';
+import { matchAiQuestion } from './polymarket.mjs';
 
 const API = 'https://api.elections.kalshi.com/trade-api/v2';
 
@@ -493,7 +493,7 @@ export default {
           // 2026?" and "Will a 1-megawatt data center go live in orbit?",
           // which Kalshi tags AI and which plainly belong. So the count is
           // published instead, and you can decide whether you believe the tag.
-          if (!AI_QUESTION.test(question)) textGateMisses++;
+          if (!matchAiQuestion(question).match) textGateMisses++;
 
           basket.set(ticker, {
             ticker,

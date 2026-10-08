@@ -35,7 +35,7 @@
 // only protects us.
 
 import { esc, utc, utcDay } from './_html.mjs';
-import { lineItem, wireStyles, legend } from './_leaderwire.mjs';
+import { lineItem, wireStyles, legend, silenceBlock, groupOf } from './_leaderwire.mjs';
 import { avatarPortrait, avatarSprite, personIdFor, portraitCss, PEOPLE, faceHref } from './_avatars.mjs';
 import { page } from './layout.mjs';
 import * as brand from '../brand.mjs';
@@ -69,7 +69,9 @@ ${avatarSprite()}
      ${esc(wire.window_days)} days, in the words their publications printed.
      ${esc(t.on_record)} of ${esc(t.leaders)} are on the record this week across
      ${esc(t.lines)} line${t.lines === 1 ? '' : 's'}; the other ${esc(t.no_line)} are listed too,
-     because a name missing from a list and a name with nothing beside it are different facts.
+     because a name missing from a list and a name with nothing beside it are different facts${
+     Number.isFinite(t.quiet) ? ` — ${esc(t.quiet)} quiet, with the date they were last on the record, and
+     ${esc(t.unreachable)} whose official sources did not answer this run, so their silence may be ours` : ''}.
      Compiled ${esc(utc(wire.generated_at))} from the same
      ${esc(wire.corpus.items)}-item corpus as the signal feed.</p>
   ${recordBoard(wire)}
@@ -94,7 +96,7 @@ ${legend(wire)}
   <p class="lwp__marks">The faces below are <b>generated caricatures</b>, drawn for this site in a
      retro game style: illustrations, not photographs, and not a claim about anyone.
      <b>The name printed beside each one is the identification</b>.</p>
-  <ol class="lwr">${wire.leaders.map((l) => card(l)).join('')}</ol>
+  ${rosterGroups(wire)}
 </section>
 
 ${crossCheck(wire)}
@@ -166,7 +168,54 @@ function emptyPage(ctx) {
  * person, documented in _leaderwire.row(), and a redesign that silently
  * renumbered the fragments would break every link anyone has sent.
  */
-function card(l) {
+// The roster in three groups, each in fixed roster order. A silent person is
+// never dropped; they move to the group that says WHICH silence it is.
+const GROUPS = [
+  ['on_record', 'On the record', 'At least one line in the window, from the press or from their own official feed.'],
+  ['quiet', 'Quiet', 'Nothing in the window. Their sources answered (or they have none but the press), so this is a reading of them.'],
+  ['unreachable', 'Unreachable', 'Nothing in the window, and none of their official sources answered this run — this silence may be ours, not theirs.'],
+];
+
+function rosterGroups(wire) {
+  const asOf = wire.generated_at;
+  return GROUPS.map(([key, label, blurb]) => {
+    const rows = wire.leaders.filter((l) => groupOf(l) === key);
+    if (!rows.length) return '';
+    return `<h3 class="lwg__h" id="lwg-${esc(key)}" data-group="${esc(key)}">${esc(label)}
+      <span class="lwg__n num">${esc(rows.length)}</span></h3>
+  <p class="lwg__b">${esc(blurb)}</p>
+  <ol class="lwr" aria-labelledby="lwg-${esc(key)}">${rows.map((l) => card(l, asOf)).join('')}</ol>`;
+  }).join('\n');
+}
+
+/** The badge under the name for a person with nothing in the window. */
+function silenceBadge(l) {
+  if (!l.reason) return 'no line this week';
+  const d = Number.isFinite(l.days_silent) ? ` ${l.days_silent}d` : '';
+  if (l.reason === 'quiet') return `quiet${d}`;
+  if (l.reason === 'sources_unreachable') return 'sources unreachable';
+  return `press only${d ? ` · quiet${d}` : ''}`;
+}
+
+/** Each direct source and whether it answered — the "4 of 4" made checkable. */
+function sourceList(l) {
+  const list = Array.isArray(l.direct_sources) ? l.direct_sources : null;
+  if (!list) return '';
+  if (!list.length) {
+    return l.no_source_reason ? `<p class="lwc__ns">No official feed: ${esc(l.no_source_reason)}</p>` : '';
+  }
+  const ok = list.filter((f) => f.ok).length;
+  return `<details class="lwc__src"><summary>${esc(ok)} of ${esc(list.length)} official
+    source${list.length === 1 ? '' : 's'} answered, plus the press wire</summary>
+    <ul>${list.map((f) => `<li data-ok="${f.ok ? 'yes' : 'no'}">
+      <span class="lwc__sk">${f.ok ? 'OK' : 'DOWN'}</span>
+      <a href="${esc(f.url)}" rel="noopener nofollow">${esc(f.label)}</a>
+      <span class="lwc__sm">${esc(f.kind)}${f.verified ? '' : ' · unverified'}${
+        f.ok ? ` · ${esc(f.attributed)} attributed of ${esc(f.entries)}${f.newest_attributed_at ? ` · newest ${esc(String(f.newest_attributed_at).slice(0, 10))}` : ''}`
+             : f.error ? ` · ${esc(f.error)}` : ''}</span></li>`).join('')}</ul></details>`;
+}
+
+function card(l, asOf = null) {
   const onRecord = l.state === 'on_record';
   const pid = personIdFor(l.id);
 
@@ -183,13 +232,13 @@ function card(l) {
       `<span>line${l.count === 1 ? '' : 's'} on the record</span></p>`
     // A sentence, not a dash. The rule _leaderwire.row() states: a dash in a
     // cell is what a missing value looks like, and this is a measured absence.
-    : '<p class="lwc__st"><span>no line this week</span></p>';
+    : `<p class="lwc__st"><span>${esc(silenceBadge(l))}</span></p>`;
 
   const body = onRecord
     ? `<ol class="lw__ll">${l.lines.map(lineItem).join('')}</ol>`
-    : '<p class="lw__none">Nothing on the record this week.</p>';
+    : silenceBlock(l, { asOf });
 
-  return `<li class="lwr__i lwc" id="lw-${esc(l.id)}" data-state="${esc(l.state)}"` +
+  return `<li class="lwr__i lwc" id="lw-${esc(l.id)}" data-state="${esc(l.state)}" data-group="${esc(groupOf(l))}"` +
     `${pid ? ` data-person="${esc(pid)}"` : ''} data-org="${esc(l.org_id)}">
   <div class="lwc__hd">
     ${portrait}
@@ -199,7 +248,7 @@ function card(l) {
       ${state}
     </div>
   </div>
-  <div class="lwc__body">${body}${floorNote(l)}</div>
+  <div class="lwc__body">${body}${floorNote(l)}${sourceList(l)}</div>
 </li>`;
 }
 
@@ -219,7 +268,7 @@ function floorNote(l) {
   return `<p class="lw__wf" title="${esc(wf.reason || wf.note)}">
     <span class="lw__wfk">WATCH FLOOR</span>
     <span>${esc(String(wf.state || '').replace(/_/g, ' '))}${wf.feed ? ` · ${esc(wf.feed)}` : ''} —
-      the line came from ${esc(l.sources.join(', '))} instead.</span>
+      the line came from ${esc((l.press_sources || l.sources).join(', '))} instead.</span>
   </p>`;
 }
 
@@ -456,9 +505,14 @@ function boardPlot(wire, g, idp, variantCls, title, desc) {
  * rather than a copy of it that can drift.
  */
 function cellSub(l) {
-  return l.state === 'on_record'
-    ? `${l.count} line${l.count === 1 ? '' : 's'} · ${l.sources.length} source${l.sources.length === 1 ? '' : 's'}`
-    : 'no line this window';
+  if (l.state === 'on_record') {
+    return `${l.count} line${l.count === 1 ? '' : 's'} · ${l.sources.length} source${l.sources.length === 1 ? '' : 's'}`;
+  }
+  const d = Number.isFinite(l.days_silent) ? `${l.days_silent}d` : null;
+  if (l.reason === 'quiet') return d ? `quiet · ${d} silent` : 'quiet · none on file';
+  if (l.reason === 'sources_unreachable') return `unreachable · 0/${Math.max(0, l.sources_checked - 1)} feeds`;
+  if (l.reason === 'no_sources') return d ? `press only · ${d} silent` : 'press only';
+  return 'no line this window';
 }
 
 // Two decimals, and the trailing zeros trimmed, so a rebuild with identical
@@ -527,6 +581,23 @@ function crossCheck(wire) {
 </section>`;
 }
 
+/** The official-feed half of the wire, and what each silence reason means. */
+function directMethod(wire) {
+  const d = wire.direct;
+  if (!d) return '';
+  const means = d.reason_means || {};
+  return `<div><dt>Official feeds</dt><dd>Beside the press corpus, the wire reads
+      ${esc(d.feeds_configured)} official feeds — personal blogs, organisation newsrooms and official
+      YouTube channels, all public and keyless, never X. ${d.ran
+        ? `${esc(d.feeds_ok)} of ${esc(d.feeds_checked)} answered this run.`
+        : 'They were not checked in this build.'}
+      A personal feed counts every post; an organisation's feed counts only entries bylined to the
+      person or naming them. Every row lists its sources and which ones answered.</dd></div>
+    <div><dt>Three kinds of silence</dt><dd>${['quiet', 'sources_unreachable', 'no_sources']
+      .filter((k) => means[k]).map((k) => `<b>${esc(k.replace(/_/g, ' '))}</b> — ${esc(means[k])}`).join('<br>')}
+      ${d.last_statement_means ? `<br><b>last on record</b> — ${esc(d.last_statement_means)}` : ''}</dd></div>`;
+}
+
 /** The published vocabulary: how a line gets here, and what it cost. */
 function method(ctx, wire, onRecord, quiet) {
   const c = wire.corpus;
@@ -549,7 +620,8 @@ function method(ctx, wire, onRecord, quiet) {
       <code>${esc(cues.extended.join(' · '))}</code>. Every line records which list caught it.</dd></div>
     ${classes.length ? `<div><dt>Cue classes</dt><dd>${classes.map(([k, v]) =>
       `<b>${esc(k)}</b> — ${esc(v)}`).join('<br>')}</dd></div>` : ''}
-    <div><dt>The roster</dt><dd>Fifteen people, fixed order, never pruned. The matching vocabulary
+    ${directMethod(wire)}
+    <div><dt>The roster</dt><dd>${esc(wire.totals.leaders)} people, fixed order, never pruned. The matching vocabulary
       is data, not a heuristic: no fuzzy matching, no edit distance, no initial inference. If a
       spelling is not in the table it does not match.
       <ul class="lwp__al">${wire.leaders.map((l) =>
@@ -567,7 +639,7 @@ function method(ctx, wire, onRecord, quiet) {
       ${c.window_binds ? `The corpus is capped at ${esc(c.max_items)} items and on a busy week
       <b>the cap binds long before the window does</b>, so this is the last
       ${esc(c.items)} items rather than a full seven days of everything published.` : ''}</dd></div>
-    <div><dt>What it cannot see</dt><dd>Everything these fifteen people said that no outlet in our
+    <div><dt>What it cannot see</dt><dd>Everything these people said that no outlet in our
       source list put in a <em>headline</em>. A podcast nobody wrote up, a post on X, a remark in a
       filing — all invisible here. ${esc(quiet.length)} of ${esc(wire.totals.leaders)} rows read
       <b>no line</b> this week, and that is a statement about this corpus, not about those
@@ -679,7 +751,21 @@ function pageCss() {
   color: var(--ink-dim); margin: 0 0 var(--s-4); }
 .lwp__marks b { color: var(--ink); font-weight: 600; }
 
-.lwr { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s-3); }
+.lwr { list-style: none; margin: 0 0 var(--s-5); padding: 0; display: grid; gap: var(--s-3); }
+.lwg__h { margin: var(--s-5) 0 var(--s-1); display: flex; align-items: baseline; gap: var(--s-2);
+  font-family: var(--mono); font-size: var(--t-xs); letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink); }
+.lwg__n { font-weight: 700; color: var(--ink-dim); }
+.lwg__h[data-group="unreachable"] { color: var(--ink-dim); }
+.lwg__b { margin: 0 0 var(--s-3); max-width: var(--measure); font-size: var(--t-xs); line-height: 1.6; color: var(--ink-faint); }
+.lwc[data-group="unreachable"] { border-style: dashed; }
+.lwc__src { margin: var(--s-2) 0 0; font-family: var(--mono); font-size: var(--t-2xs); color: var(--ink-faint); }
+.lwc__src summary { cursor: pointer; letter-spacing: 0.04em; }
+.lwc__src ul { list-style: none; margin: 4px 0 0; padding: 0; display: grid; gap: 3px; }
+.lwc__src li { display: flex; flex-wrap: wrap; gap: 0 6px; align-items: baseline; overflow-wrap: anywhere; }
+.lwc__src a { color: var(--ink-dim); }
+.lwc__sk { min-width: 4ch; letter-spacing: 0.1em; color: var(--ink-dim); }
+.lwc__src li[data-ok="no"] .lwc__sk { color: var(--ink-faint); text-decoration: line-through; }
+.lwc__ns { margin: var(--s-2) 0 0; font-family: var(--mono); font-size: var(--t-2xs); line-height: 1.6; color: var(--ink-faint); }
 /* Two columns only once a column is wide enough for a 112px mark AND a
    250-character Techmeme headline beside it. Below that it is one column, which
    is the 375px case the whole layout is designed from. */
@@ -802,5 +888,7 @@ function pageCss() {
 //   sitemap.mjs  add /leaders.html, changefreq hourly, priority 0.8.
 //   collector    run collector/leaders.mjs after collector/news.mjs in the
 //                workflow; it reads data/news.json and data/race.json and
-//                writes data/leaders.json, and makes no network call.
+//                writes data/leaders.json. Since matcher 1.1.0 it also reads
+//                the official feeds in collector/leader-sources.mjs (each one
+//                allowed to fail); --offline skips them.
 // ---------------------------------------------------------------------------

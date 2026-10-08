@@ -17,7 +17,7 @@
 // per-adapter is HOW the matcher is applied, not the token list itself, and
 // three copies of one regex is three places to fix a false positive. The
 // application is documented at the call site below.
-import { AI_QUESTION } from './polymarket.mjs';
+import { matchAiQuestion } from './polymarket.mjs';
 
 const ENDPOINT = 'https://api.manifold.markets/v0/search-markets';
 
@@ -173,8 +173,9 @@ export default {
         // question-text gate applies. Applied as a filter here — unlike in
         // kalshi.mjs, where the retrieval mechanism is a curated editorial tag
         // and the regex is only advisory.
-        if (!AI_QUESTION.test(m.question ?? '')) {
-          reject('off_topic');
+        const verdict = matchAiQuestion(m.question, { slug: m.slug });
+        if (!verdict.match) {
+          reject(verdict.via === 'excluded' ? 'off_topic_excluded' : 'off_topic');
           continue;
         }
 
@@ -264,7 +265,8 @@ export default {
         markets_in_basket: basket.size,
         markets_screened: screened,
         rejected,
-        rejected_off_topic: rejected.off_topic ?? 0,
+        rejected_off_topic: (rejected.off_topic ?? 0) + (rejected.off_topic_excluded ?? 0),
+        match_rule: 'matchAiQuestion v1: slug allow-list, then exclusions, then keyword score >= 2',
         total_volume_lifetime_mana: members.reduce((s, m) => s + m.volume_lifetime, 0),
         mean_probability: members.reduce((s, m) => s + m.probability, 0) / members.length,
         top_contributors: topContributors,

@@ -1,3 +1,6 @@
+// FROZEN COPY of collector/engine.mjs as of engine v1.0.0 (before the shadow/health
+// additions), used only by engine-shadow.test.mjs to prove the official
+// receipt, history line and state fields are byte-for-byte unchanged. Do not edit.
 // collector/engine.mjs
 //
 // raw readings -> normalised scores -> pillars -> composite -> level,
@@ -16,7 +19,7 @@ import { readFileSync, writeFileSync, appendFileSync, readdirSync, existsSync, m
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
-import { writeReceipt, latestReceipt, receiptIdFor, canonicalJson, GENESIS_PREV_HASH } from './receipts.mjs';
+import { writeReceipt, latestReceipt, receiptIdFor, canonicalJson, GENESIS_PREV_HASH } from '../../receipts.mjs';
 
 export const ENGINE_VERSION = '1.0.0';
 export const STATE_SCHEMA = 1;
@@ -390,7 +393,7 @@ export function decideLevel(ctx) {
  * @param prevReceipt    the last receipt, or null
  * @param nowIso         generated_at for this run
  */
-export function runEngine({ raw, reference, history, previousState, prevReceipt, nowIso, addenda = null, schedule = null }) {
+export function runEngine({ raw, reference, history, previousState, prevReceipt, nowIso }) {
   if (!raw || !Array.isArray(raw.readings)) {
     throw new Error('runEngine: raw snapshot must have a readings array (see CONTRACT.md data/raw shape)');
   }
@@ -617,202 +620,7 @@ export function runEngine({ raw, reference, history, previousState, prevReceipt,
     sources: Object.fromEntries(sources.map((s) => [s.id, s.ok ? s.score_raw : null])),
   };
 
-  // ---- additive, presentation-only fields ---------------------------------
-  // Everything below is attached to `state` ONLY. The receipt body and the
-  // history line above are already final and are never touched from here on,
-  // which is what keeps every official number byte-for-byte what it was before
-  // these fields existed (collector/test/engine-shadow.test.mjs proves it).
-  const shares = weightShares(pillars);
-  state.pillars = pillars.map((p) => ({ ...p, ...shares.get(p.id) }));
-  state.health = healthFor({ pillars, sources, darkPillars, history: liveHistory, nowMs, schedule });
-  if (addenda) {
-    state.shadow = shadowFor({ raw, reference, addenda, history, previousState, prevReceipt, nowIso, officialScore: score });
-  }
-
   return { state, receiptBody, historyLine, pillars, sources, decision };
-}
-
-// ---------------------------------------------------------------------------
-// Weight shares: how much of the composite each pillar carries right now.
-//
-// composite = 0.7*mean(P) + 0.3*max(P) over P = the pillars that are not dark,
-// so a pillar's share is 0.7/|P|, plus 0.3 if it is the max (split evenly on a
-// tie). This mirrors composite() EXACTLY, including its treatment of a pillar
-// that is not dark but has no score (an uncalibrated pillar): composite() is
-// handed that null, and JavaScript arithmetic reads it as 0, so such a pillar
-// is reported as in_composite with its share — the UI can then show that it is
-// pulling the mean toward zero rather than pretending it is excluded.
-// ---------------------------------------------------------------------------
-export function weightShares(pillars) {
-  const out = new Map();
-  const inComp = pillars.filter((p) => !p.dark && Number.isFinite(p.score));
-  const k = inComp.length;
-  const anyScore = inComp.some((p) => p.score !== null);
-  if (k === 0 || !anyScore) {
-    for (const p of pillars) out.set(p.id, { in_composite: !p.dark && k > 0, weight_share: 0 });
-    return out;
-  }
-  const vals = inComp.map((p) => (p.score === null ? 0 : p.score));
-  const max = Math.max(...vals);
-  const tied = vals.filter((v) => v === max).length;
-  for (const p of pillars) {
-    if (p.dark || !Number.isFinite(p.score)) { out.set(p.id, { in_composite: false, weight_share: 0 }); continue; }
-    const v = p.score === null ? 0 : p.score;
-    const share = 0.7 / k + (v === max ? 0.3 / tied : 0);
-    out.set(p.id, { in_composite: true, weight_share: round(share, PCT_DP) });
-  }
-  return out;
-}
-
-// ---------------------------------------------------------------------------
-// Health: counts the UI can render without parsing error strings.
-// ---------------------------------------------------------------------------
-export const DEFAULT_SCHEDULE = Object.freeze({ cron: '7 * * * *', typical_lag_minutes: 15 });
-
-/** Minute-of-hour of an hourly cron like '7 * * * *', else null. */
-export function hourlyCronMinute(cron) {
-  const m = /^\s*(\d{1,2})\s+\*\s+\*\s+\*\s+\*\s*$/.exec(String(cron ?? ''));
-  if (!m) return null;
-  const minute = Number(m[1]);
-  return minute >= 0 && minute < 60 ? minute : null;
-}
-
-function median(xs) {
-  const s = [...xs].sort((a, b) => a - b);
-  const mid = s.length >> 1;
-  return s.length % 2 ? s[mid] : (s[mid - 1] + s[mid]) / 2;
-}
-
-export function healthFor({ pillars, sources, darkPillars, history, nowMs, schedule }) {
-  const cron = schedule?.cron ?? DEFAULT_SCHEDULE.cron;
-  const minute = hourlyCronMinute(cron);
-
-  // Typical lag = median minutes between the scheduled minute and when runs
-  // actually landed, over the last 24 live runs plus this one. GitHub's cron
-  // is routinely 5-20 minutes late, so the expectation is measured, not assumed.
-  let lag = schedule?.typical_lag_minutes ?? DEFAULT_SCHEDULE.typical_lag_minutes;
-  if (minute !== null && schedule?.typical_lag_minutes === undefined) {
-    const stamps = [...history.slice(-24).map((h) => new Date(h.t).getTime()), nowMs].filter(Number.isFinite);
-    const lags = stamps.map((t) => {
-      const d = new Date(t);
-      return ((d.getUTCMinutes() + d.getUTCSeconds() / 60 - minute) % 60 + 60) % 60;
-    });
-    if (lags.length) lag = round(median(lags), 1);
-  }
-
-  let expected = null;
-  if (minute !== null) {
-    const d = new Date(nowMs);
-    let slot = Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate(), d.getUTCHours(), minute, 0, 0);
-    if (slot <= nowMs) slot += 3600_000;
-    expected = new Date(slot + Math.round(lag * 60_000)).toISOString();
-  }
-
-  return {
-    pillars_live: pillars.filter((p) => p.score !== null).length,
-    pillars_dark: darkPillars.length,
-    pillars_uncalibrated: pillars.filter((p) => p.uncalibrated).length,
-    pillars_total: pillars.length,
-    sources_scored: sources.filter((s) => s.ok).length,
-    // Reporting = the pipe answered with a finite value, scored or not.
-    sources_reporting: sources.filter((s) => s.ok || (s.uncalibrated && s.value !== null)).length,
-    sources_failed: sources.filter((s) => !s.ok && !s.uncalibrated).length,
-    sources_total: sources.length,
-    schedule_cron: cron,
-    typical_lag_minutes: lag,
-    expected_next_run_utc: expected,
-  };
-}
-
-// ---------------------------------------------------------------------------
-// SHADOW: the index as it would read against reference v1 + addenda.
-//
-// docs/REFERENCE-VERSIONING.md. data/reference.json (v1) is frozen and stays
-// the only thing the official score, level and receipt are computed against.
-// data/reference-addenda.json adds distributions for sources v1 never
-// calibrated; this function scores the same raw snapshot against v1 PLUS
-// those, so the two can run side by side until a promotion decision. It never
-// writes a receipt, never touches history.ndjson, and its level is an
-// ESTIMATE (the band its score falls in) because the anti-flap machine has no
-// shadow history to act on.
-//
-// Shadow NowCast history lives in state.shadow.series (the addenda sources'
-// raw scores for the last NOWCAST_WINDOW runs), keyed by the same timestamps
-// as history.ndjson, because history.ndjson records those sources as null.
-// ---------------------------------------------------------------------------
-export const SHADOW_REFERENCE_LABEL = 'v1+addenda';
-
-export function addendaHash(addenda) {
-  const { hash: _ignored, ...body } = addenda;
-  return 'sha256:' + createHash('sha256').update(canonicalJson(body), 'utf8').digest('hex');
-}
-
-export function referenceHash(reference) {
-  return 'sha256:' + createHash('sha256').update(canonicalJson(reference), 'utf8').digest('hex');
-}
-
-/** v1 entries win; an addendum may only ADD a source v1 does not know (by key or alias). */
-export function mergeReference(reference, addenda) {
-  const known = new Set();
-  for (const [k, e] of Object.entries(reference.sources)) {
-    known.add(k);
-    for (const a of e.aliases ?? []) known.add(a);
-  }
-  const added = [];
-  const sources = { ...reference.sources };
-  for (const [k, e] of Object.entries(addenda?.sources ?? {})) {
-    if (known.has(k) || (e.aliases ?? []).some((a) => known.has(a))) continue;
-    sources[k] = e;
-    added.push(k);
-  }
-  return { merged: { ...reference, sources }, added };
-}
-
-function shadowFor({ raw, reference, addenda, history, previousState, prevReceipt, nowIso, officialScore }) {
-  const base = { reference: SHADOW_REFERENCE_LABEL, reference_v1_hash: referenceHash(reference) };
-  try {
-    const declared = addenda.hash ?? null;
-    const actual = addendaHash(addenda);
-    if (declared !== actual) {
-      return { ...base, addenda_hash: declared, error: `addenda_hash_mismatch: file declares ${declared}, content hashes to ${actual}; shadow not computed`,
-               score: null, level_estimate: null, pillars: [], dark_pillars: [], addenda_sources: [], series: [] };
-    }
-    const { merged, added } = mergeReference(reference, addenda);
-    const addedSet = new Set(added);
-
-    const prevSeries = Array.isArray(previousState?.shadow?.series) ? previousState.shadow.series : [];
-    const byT = new Map(prevSeries.filter((e) => e && typeof e.t === 'string').map((e) => [e.t, e.sources ?? {}]));
-    const shadowHistory = history.map((h) => (byT.has(h.t) ? { ...h, sources: { ...(h.sources ?? {}), ...byT.get(h.t) } } : h));
-
-    const r = runEngine({ raw, reference: merged, history: shadowHistory, previousState, prevReceipt, nowIso });
-    const score = r.state.score;
-    const level = levelFor(score);
-
-    const shadowSources = r.sources.filter((s) => addedSet.has(s.id));
-    const entry = { t: nowIso, sources: Object.fromEntries(shadowSources.map((s) => [s.id, s.ok ? s.score_raw : null])) };
-
-    return {
-      ...base,
-      addenda_hash: actual,
-      addenda_version: addenda.addendum_version ?? null,
-      addenda_built_at: addenda.built_at ?? null,
-      addenda_sources: added,
-      score,
-      level_estimate: level,
-      level_name_estimate: level === null ? null : LEVEL_NAMES[level],
-      delta_vs_official: score !== null && officialScore !== null ? round(score - officialScore, SCORE_DP) : null,
-      pillars: r.pillars.map((p) => ({ id: p.id, score: p.score, dark: p.dark, uncalibrated: p.uncalibrated })),
-      dark_pillars: r.state.dark_pillars,
-      uncalibrated_pillars: r.state.uncalibrated_pillars,
-      sources: shadowSources.map((s) => ({ id: s.id, ok: s.ok, score: s.score ?? null, percentile: s.percentile ?? null, error: s.ok ? null : (s.error ?? null) })),
-      note: 'SHADOW. Scored against data/reference.json (v1, frozen) plus data/reference-addenda.json. ' +
-            'Not the official index: no receipt, no level change, level is the band the shadow score falls in. ' +
-            'See docs/REFERENCE-VERSIONING.md for the promotion rule.',
-      series: [entry, ...prevSeries.filter((e) => e && e.t !== nowIso)].slice(0, NOWCAST_WINDOW),
-    };
-  } catch (e) {
-    return { ...base, error: `shadow_failed: ${e.message}`, score: null, level_estimate: null, pillars: [], dark_pillars: [], addenda_sources: [], series: [] };
-  }
 }
 
 function lastOkFor(previousState, id) {
@@ -846,8 +654,6 @@ const ROOT = join(HERE, '..');
 const P = {
   raw: join(ROOT, 'data', 'raw'),
   reference: join(ROOT, 'data', 'reference.json'),
-  addenda: join(ROOT, 'data', 'reference-addenda.json'),
-  workflow: join(ROOT, '.github', 'workflows', 'collect.yml'),
   history: join(ROOT, 'data', 'history.ndjson'),
   state: join(ROOT, 'data', 'state.json'),
   receipts: join(ROOT, 'data', 'receipts'),
@@ -877,28 +683,6 @@ function newestRawFile(dir) {
   return join(dir, files[files.length - 1]);
 }
 
-/** The shadow addenda, or null. A broken file disables the shadow, never the index. */
-export function readAddenda(path = P.addenda) {
-  if (!existsSync(path)) return null;
-  try {
-    return JSON.parse(readFileSync(path, 'utf8'));
-  } catch (e) {
-    console.warn(`engine: ignoring ${path} for the shadow (${e.message}); the official index is unaffected`);
-    return null;
-  }
-}
-
-/** The hourly full-pass cron from collect.yml, so health.expected_next_run_utc tracks the real schedule. */
-export function readSchedule(path = P.workflow) {
-  try {
-    const text = readFileSync(path, 'utf8');
-    for (const m of text.matchAll(/cron:\s*['"]([^'"]+)['"]/g)) {
-      if (hourlyCronMinute(m[1]) !== null) return { cron: m[1] };
-    }
-  } catch { /* fall through to the default */ }
-  return null;
-}
-
 export function main(argv = process.argv.slice(2)) {
   const rawPath = argv[0] ?? newestRawFile(P.raw);
   if (!existsSync(P.reference)) {
@@ -910,11 +694,9 @@ export function main(argv = process.argv.slice(2)) {
   const previousState = existsSync(P.state) ? JSON.parse(readFileSync(P.state, 'utf8')) : null;
   const prevReceipt = latestReceipt(P.receipts);
   const nowIso = raw.generated_at ?? new Date().toISOString();
-  const addenda = readAddenda(P.addenda);
-  const schedule = readSchedule(P.workflow);
 
   const { state, receiptBody, historyLine } = runEngine({
-    raw, reference, history, previousState, prevReceipt, nowIso, addenda, schedule,
+    raw, reference, history, previousState, prevReceipt, nowIso,
   });
 
   const receipt = writeReceipt(P.receipts, receiptBody);
@@ -931,6 +713,6 @@ export function main(argv = process.argv.slice(2)) {
   return state;
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (false) {
   main();
 }

@@ -424,6 +424,16 @@ jobs:
         continue-on-error: true
         run: node collector/moltbook.mjs
 
+      - name: Tally's voice update
+        # Tally reads a short update aloud through the xAI voice agent, every
+        # 6 hours or when the level moves. Off until the XAI_API_KEY secret is
+        # set; a failure keeps the previous recording.
+        continue-on-error: true
+        env:
+          XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
+        run: |
+          if [ -n "$XAI_API_KEY" ]; then npm install --no-save --no-audit --no-fund ws@8.18.0 >/dev/null && node collector/tally-voice.mjs; else echo "no XAI_API_KEY"; fi
+
       - name: Refresh the newsroom
         # --force ignores the per-source cadence ledger, so the hourly pass asks
         # every feed no matter how recently the fast lane did. That is the point
