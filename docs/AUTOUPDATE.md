@@ -9,8 +9,8 @@ says what a reader sees when any of them stops.
 
 | layer | file | beat | what it moves |
 |---|---|---|---|
-| **1. schedule** | `.github/workflows/collect.yml` | 15 min / 1 h | fetches, rebuilds, deploys |
-| **2. collector** | `collector/news.mjs` | per source, 5 min – 1 h | which feeds get asked at all |
+| **1. schedule** | `news-fast.yml` + `collect.yml` | 1 min / 15 min / 1 h | fetches, rebuilds, deploys |
+| **2. collector** | `collector/news.mjs` | per source, 1 min – 1 h | which feeds get asked at all |
 | **3. page** | `site/templates/_motion.mjs` | 30 s in the browser | an already-open tab |
 
 Layer 3 is the one people actually experience. A build every fifteen minutes
@@ -115,10 +115,14 @@ coverage — only latency on that one feed.
 | `model` | 30 min | HF trending is a rolling average; it cannot move in fifteen minutes |
 | `paper` | 60 min | arXiv and HF Daily Papers publish in daily batches, and arXiv throttles |
 
-Anything at or under 15 minutes is effectively "every fast run". The two `paper`
-sources and the one `model` source are the ones that actually get held back —
-which is deliberate, because they are the expensive, rate-limited, slowest-moving
-feeds in the set.
+Anything at 60 seconds is asked on every tick of the minute loop. Slower kinds
+are carried forward between ticks. The `paper` and `model` sources are the ones
+held back on purpose: they are the expensive, rate-limited, slowest-moving feeds
+in the set.
+
+When the hourly index cron is dropped by GitHub, `news-fast.yml` wakes a full
+pass once the newest reading is more than **50 minutes** old (at most every
+15 minutes), so a missed `:07` does not leave the page on last hour's number.
 
 **The 20% slack matters more than the intervals do.** Cron does not keep time,
 and it runs a little *early* relative to the previous run's own clock as often as

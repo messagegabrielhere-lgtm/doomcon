@@ -194,7 +194,8 @@ export async function stampAll(outDir, asOf, opts = {}) {
 }
 
 /** Stamp only the listed absolute HTML paths (used by --only news builds). */
-export async function stampFiles(files, outDir, asOf) {
+export async function stampFiles(files, outDir, asOf, opts = {}) {
+  stampOpts = opts;
   let n = 0;
   for (const abs of files) {
     if (!abs.endsWith('.html')) continue;

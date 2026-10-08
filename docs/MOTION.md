@@ -90,7 +90,8 @@ The dense vertical list below the reel.
 
 This is the genuinely addictive part, and pizzint does not do it.
 
-- Every 30s, fetch `api/state.json` and `api/news.json`.
+- Every 30s, fetch `api/state.json` and `api/fresh.json` (two timestamps). Only
+  download `api/news.json` (~900KB) when the news timestamp moved.
 - If `generated_at` changed: fade the changed values, animate the score to its
   new number, prepend new feed items with the arrival animation, and flash the
   "LAST UPDATE" stamp.
@@ -99,7 +100,7 @@ This is the genuinely addictive part, and pizzint does not do it.
   which is precisely the pizzint failure mode in a different costume.
 - Back off on failure (30s → 120s → 300s) and stop after 3 consecutive errors.
 - Pause polling entirely when the tab is hidden (`visibilitychange`). Nobody
-  needs a background tab burning a request a minute.
+  needs a background tab burning a request every half-minute.
 
 ---
 

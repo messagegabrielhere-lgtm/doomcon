@@ -457,7 +457,7 @@ export function motionCss() {
 //                              when the newest-N id list actually changes, so an
 //                              unchanged newsroom never interrupts the crawl.
 //   pl/bf/box/row/ago/ofr/mg   the arrivals buffer and its pill. See newPill().
-//   run/plan                   the poll loop: 60s, backoff 120s then 300s, dead
+//   run/plan                   the poll loop: 30s, backoff 120s then 300s, dead
 //                              after three, no timer at all while hidden. On
 //                              giving up it SAYS SO in the note — a page that
 //                              has silently stopped updating while still looking

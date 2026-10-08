@@ -1319,8 +1319,18 @@ async function main() {
       _license: brand.LICENSE,
       _docs: ctx.url('/methodology.html'),
     })));
+    // Same two-timestamp file the full build ships — open tabs and the
+    // sitebar watch this instead of re-downloading news.json every poll.
+    written.push(await write(args.out, 'api/fresh.json', stableJson({
+      schema: 1,
+      state: state.generated_at,
+      news: news && typeof news.generated_at === 'string' ? news.generated_at : null,
+    })));
     const htmlWritten = written.filter((f) => f.endsWith('.html'));
-    const stamped = await stampFiles(htmlWritten, args.out, state.generated_at);
+    const stamped = await stampFiles(htmlWritten, args.out, state.generated_at, {
+      level: state.level,
+      newsAt: news && news.generated_at,
+    });
     const score = num(state.score, 1);
     const idx = await readFile(path.join(args.out, 'index.html'), 'utf8');
     if (!idx.includes(score)) {
@@ -1328,6 +1338,9 @@ async function main() {
     }
     if (news && !existsSync(path.join(args.out, 'api/news.json'))) {
       throw new Error('build --only news: self-check failed - api/news.json was not written');
+    }
+    if (!existsSync(path.join(args.out, 'api/fresh.json'))) {
+      throw new Error('build --only news: self-check failed - api/fresh.json was not written');
     }
     log(`${brand.NAME} news-only build complete.`);
     log(`  out          ${args.out}`);

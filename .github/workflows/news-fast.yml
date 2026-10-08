@@ -104,14 +104,16 @@ jobs:
             # WAKE THE INDEX PASS IF THE CRON DID NOT. Measured 2026-10-04: the
             # hourly schedule in collect.yml fired at 05:15, then not again
             # until 10:49. GitHub drops scheduled runs under load and says so.
-            # A reading five hours old is the opposite of early, so when the
-            # newest state on main is more than 70 minutes old this loop asks
-            # for a full pass itself, at most once every 20 minutes.
+            # A reading that is already past its hour is overdue: when the
+            # newest state on main is more than 50 minutes old this loop asks
+            # for a full pass itself, at most once every 15 minutes, so a
+            # dropped :07 cron does not leave the page sitting on last hour's
+            # number for another twenty minutes of slack.
             # workflow_dispatch is one of the two events GITHUB_TOKEN is
             # allowed to raise.
             AGE=$(node -e "try{const s=require('./data/state.json');process.stdout.write(String(Math.round((Date.now()-Date.parse(s.generated_at))/60000)))}catch(e){process.stdout.write('0')}")
             NOW=$(date +%s)
-            if [ "$AGE" -gt 70 ] && [ $(( NOW - LAST_WAKE )) -gt 1200 ] && [ "${CHAIN:-on}" != "off" ]; then
+            if [ "$AGE" -gt 50 ] && [ $(( NOW - LAST_WAKE )) -gt 900 ] && [ "${CHAIN:-on}" != "off" ]; then
               echo "tick $TICK: newest reading is ${AGE} min old — dispatching the full index pass"
               gh workflow run collect.yml --repo "$GITHUB_REPOSITORY" || echo "::warning::could not dispatch collect.yml"
               LAST_WAKE=$NOW
@@ -155,7 +157,7 @@ jobs:
                   || rm -rf .pages
               fi
               if [ -d .pages/.git ]; then
-                for rel in api/news.json api/state.json news.html index.html classic.html instruments.html feed.xml; do
+                for rel in api/news.json api/state.json api/fresh.json news.html index.html classic.html instruments.html feed.xml; do
                   if [ -e "public/$rel" ]; then
                     mkdir -p ".pages/$(dirname "$rel")"
                     cp -a "public/$rel" ".pages/$rel"
