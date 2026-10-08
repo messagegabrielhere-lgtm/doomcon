@@ -425,6 +425,14 @@ jobs:
         continue-on-error: true
         run: node collector/moltbook.mjs
 
+      - name: Post the reading to Moltbook
+        # At most every 6 hours, or when the level moves. Off until the owner
+        # registers and claims the agent and adds MOLTBOOK_API_KEY.
+        continue-on-error: true
+        env:
+          MOLTBOOK_API_KEY: ${{ secrets.MOLTBOOK_API_KEY }}
+        run: node collector/post-moltbook.mjs
+
       - name: Tally's voice update
         # Tally reads a short update aloud through the xAI voice agent, every
         # 6 hours or when the level moves. Off until the XAI_API_KEY secret is
