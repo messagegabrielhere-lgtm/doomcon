@@ -18,7 +18,7 @@ export const MONETIZE = {
 
   // Visitor analytics: your GoatCounter site code (the part before
   // .goatcounter.com). Cookieless; no consent banner needed. null = off.
-  analytics: { goatcounter: null },
+  analytics: { goatcounter: 'messagegabriel' },
 
   // Tip jar: your Buy Me a Coffee or Ko-fi page URL.
   tips: { url: null, label: 'Buy SIREN a coffee' },

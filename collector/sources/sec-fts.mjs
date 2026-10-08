@@ -71,7 +71,9 @@ export default {
     //    address is never committed. Without the secret it falls back to the
     //    no-reply address and, as before, reports dark.
     const CONTACT = process.env.SEC_CONTACT_EMAIL || '331486973+messagegabrielhere-lgtm@users.noreply.github.com';
-    const UAS = [`SIREN AI Index ${CONTACT}`, `SIREN/1.0 (${CONTACT})`];
+    // Probe 2026-10-08: "SIREN/1.0 (<x>)" passes where "SIREN AI Index <x>"
+    // does not, and the no-reply address fails in any form. Order accordingly.
+    const UAS = [`SIREN/1.0 (${CONTACT})`, `Siren Index ${CONTACT}`];
     let body; let lastErr;
     for (const ua of UAS) {
       try { body = await fetchJson(`${ENDPOINT}?${qs}`, { headers: { 'user-agent': ua } }); break; }

@@ -96,8 +96,7 @@ export function privacy(ctx) {
       All three also read this project's own data files from GitHub (raw.githubusercontent.com).
       Every other page loads only files from this site, except the one below.</li>
     <li><b>Real Clips.</b> The clips page shows video thumbnails served by YouTube (i.ytimg.com), so Google receives your IP
-      address when the page loads. Playing a clip opens YouTube's privacy-enhanced player (youtube-nocookie.com), which sets
-      no tracking cookies until you play, under Google's policy. The link checker looks up the link you paste through
+      address when the page loads. Playing a clip opens YouTube's privacy-enhanced player (youtube-nocookie.com), which holds off on tracking cookies until you play, under Google's policy. The link checker looks up the link you paste through
       noembed.com. The clip list itself is read from GitHub.</li>
     <li><b>Optional local AI.</b> The monitor can talk to an Ollama model running on your own computer if you turn it on. That
       connection stays on your machine; nothing is sent to this site.</li>
@@ -111,14 +110,14 @@ ${mzOn.newsletter() ? `<li><b>Email newsletter.</b> If you subscribe, your email
       may set its own cookies to attribute a purchase. As an Amazon Associate, ${esc(brand.NAME)} earns from qualifying purchases.</li>
   </ul>
   <h2>The embed and the badge</h2>
-  <p>The iframe embed and the README badge are static files. They set no cookies and run no tracking on the pages that use them.</p>
+  <p>The iframe embed and the README badge are static files. They set no cookies and load nothing from third parties on the pages that use them.</p>
   <h2>Questions</h2>
   <p>See the <a href="${esc(ctx.href('/about.html'))}">about page</a> for how to get in touch.</p>
 </section>`;
   return page({
     ctx, path: '/privacy.html',
     title: `Privacy · ${brand.NAME}`,
-    description: `${brand.NAME} sets no cookies and runs no analytics. What a visit touches: GitHub Pages and the sites you choose to click through to.`,
+    description: `${brand.NAME} sets no cookies and keeps no personal data; it counts visits without cookies. What a visit touches: GitHub Pages, GoatCounter and the sites you choose to click through to.`,
     main,
   });
 }
