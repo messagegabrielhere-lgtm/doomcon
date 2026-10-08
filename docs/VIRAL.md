@@ -678,7 +678,8 @@ five are the ones a growth script reaches for by default.
    week and compare.
 4. Audit the refusals: was any post edited in the console, and was it re-run
    through the guards? Is a correction owed?
-5. Search Console: branded queries and per-page clicks, week over week.
+5. Search Console: branded queries and per-page clicks, week over week
+   (`FINDABILITY.md` §4).
 6. Re-read `param.rs` (its git log) and the X pricing page. If either moved,
    update §0 and §1 of this file.
 
@@ -723,7 +724,7 @@ five are the ones a growth script reaches for by default.
       tester, a long-lived token as a secret.
 - [ ] Mastodon (optional): account, `bot` flag, a token from Settings ›
       Development as a secret.
-- [ ] Verify the Pages URL in Google Search Console.
+- [ ] Verify the Pages URL in Google Search Console (`FINDABILITY.md` §1.1 / §3.1).
 - [ ] Decide on a cookieless counter for the site's pages (not the embed).
 - [ ] Hacker News: an account in good standing; six clear hours after each
       submission.
