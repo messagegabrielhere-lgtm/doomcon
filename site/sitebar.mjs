@@ -44,6 +44,7 @@ export function sitebar(asOf, { level = 4, rel = '' } = {}) {
 @keyframes sitebar-spin{to{transform:rotate(360deg)}}
 @media (prefers-color-scheme:dark){#sitebar{background:rgba(20,24,32,.94);color:#e6e9ef;border-color:rgba(255,255,255,.16)}#sitebar button{background:#e6e9ef;color:#141820}}
 @media (max-width:560px){#sitebar{left:50%;right:auto;transform:translateX(-50%);bottom:10px}#sitebar .ago{display:none}}
+@media (max-width:440px){#sitebar{gap:6px;padding:4px 4px 4px 10px;max-width:calc(100vw - 16px)}#sitebar>span:first-of-type{display:none}#sitebar button{padding:5px 8px}}
 @media print{#sitebar{display:none}}
 .site-disclosure{max-width:72ch;margin:28px auto 72px;padding:12px 16px;font:400 12px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif;opacity:.8;border-top:1px solid rgba(127,127,127,.3)}
 .site-disclosure b{font-weight:600}
