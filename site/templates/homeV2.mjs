@@ -157,7 +157,7 @@ var nn=(N.news||[]).filter(function(t){return t>P.seen}).length;if(nn)out.push('
 if(N.leader&&P.leader&&N.leader!==P.leader)out.push('<a href="race.html"><b>'+N.leader+'</b> took the lead from '+P.leader+'</a>');else if(N.leader&&P.lp!=null&&N.lp!=null&&Math.abs(N.lp-P.lp)>=0.5)out.push('<a href="race.html">'+N.leader+' '+P.lp.toFixed(1)+'% → <b>'+N.lp.toFixed(1)+'%</b></a>');
 if(!out.length)return;var ago=h<1?Math.round(h*60)+' MIN':h<48?Math.round(h)+' H':Math.round(h/24)+' DAYS';
 box.innerHTML='<span class="k">SINCE YOUR LAST VISIT · '+ago+' AGO</span><span class="v">'+out.join('<i>·</i>')+'</span><button type="button" aria-label="Dismiss">×</button>';box.hidden=false;box.querySelector('button').onclick=function(){box.hidden=true}})();
-var f=document.getElementById('v2-fresh');if(f){var at=Date.parse(f.getAttribute('data-at'));var h=(Date.now()-at)/36e5;if(h>2){f.classList.add('stale');f.title='The newest reading is '+Math.round(h)+' hours old. The site normally refreshes every hour.';f.insertAdjacentHTML('beforeend',' · '+Math.round(h)+'H OLD')}}
+var f=document.getElementById('v2-fresh');if(f){var at=Date.parse(f.getAttribute('data-at'));var h=(Date.now()-at)/36e5;var lb=f.querySelector('b');if(lb){var mm=Math.max(0,Math.round(h*60));lb.textContent=new Date(at).toLocaleTimeString([],{hour:'numeric',minute:'2-digit'})+' · '+(mm<60?mm+' MIN AGO':Math.round(h)+' H AGO');}f.title='Readings land hourly, usually 15–30 minutes past the hour. The newsroom refreshes every 15 minutes.';if(h>2){f.classList.add('stale');f.title='The newest reading is '+Math.round(h)+' hours old. The site normally refreshes every hour.';f.insertAdjacentHTML('beforeend',' · OVERDUE')}}
 })();`;
 
 

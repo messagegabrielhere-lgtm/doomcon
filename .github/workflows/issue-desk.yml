@@ -1,0 +1,41 @@
+name: issue-desk
+# Answers reports filed from the site (feedback.html) within a minute: checks
+# the reading and the page, starts a fresh data run for data reports, and
+# labels anything that needs a person. collect.yml closes data reports once a
+# newer reading is live. See collector/issue-bot.mjs.
+on:
+  issues:
+    types: [opened]
+  issue_comment:
+    types: [created]
+permissions:
+  contents: read
+  issues: write
+  actions: write
+jobs:
+  triage:
+    if: github.event_name == 'issues'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Triage
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node collector/issue-bot.mjs triage ${{ github.event.issue.number }}
+  reopen:
+    # A visitor replying on an issue the desk closed reopens it for a person.
+    if: >-
+      github.event_name == 'issue_comment' && github.event.issue.state == 'closed' &&
+      github.event.comment.user.type != 'Bot' && !github.event.issue.pull_request
+    runs-on: ubuntu-latest
+    steps:
+      - name: Reopen
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh api -X PATCH repos/${{ github.repository }}/issues/${{ github.event.issue.number }} -f state=open >/dev/null
+          gh api -X POST repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/labels -f 'labels[]=needs-human' >/dev/null
