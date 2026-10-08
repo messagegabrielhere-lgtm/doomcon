@@ -21,11 +21,13 @@
 # the newsroom only.
 #
 # It does not poll every source every minute either. collector/news.mjs carries
-# a per-source cadence: the wires (Hacker News, Techmeme, Verge, Ars) are asked
-# every minute because they genuinely move that fast; lab blogs every five;
-# arXiv and the daily-paper feeds every thirty, because they publish in daily
-# batches and throttle hard when pushed. Polling arXiv sixty times an hour buys
-# no news and earns a ban.
+# a per-source cadence: the wires, forums and status pages are asked every
+# tick because they move that fast; lab blogs and release feeds every five
+# minutes; model feeds every fifteen; arXiv and the daily-paper feeds every
+# hour, because they publish in daily batches and throttle hard when pushed.
+# A weekly newsletter sets its own longer minIntervalMs so it does not inherit
+# the wire cadence. Polling arXiv sixty times an hour buys no news and earns
+# a ban.
 
 name: news-fast
 

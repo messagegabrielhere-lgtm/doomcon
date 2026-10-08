@@ -273,26 +273,28 @@ export function titleOverlap(a, b) {
 // for being polled. arXiv asks for ~3 seconds between requests, throttles hard
 // when pushed, and publishes in daily batches; asking it every quarter hour
 // earns a ban in exchange for zero extra news. Hacker News and the press wires
-// genuinely do turn over inside fifteen minutes.
+// genuinely do turn over inside a minute.
 //
 // So every adapter declares how often it is worth asking. A source that is not
 // due is SKIPPED, and its items are carried forward from the previous run
 // unchanged — which is why skipping costs nothing in coverage, only in latency
 // on that one feed. Adapters may override with their own `minIntervalMs`.
 //
-// The numbers below are set against the FAST LANE's ~15 minute beat
-// (docs/AUTOUPDATE.md). Anything at or under 900s is effectively "every fast
-// run"; anything above it deliberately gets asked on a subset of runs. The
-// hourly full pass runs with --force and ignores all of it, so no feed can
-// ever hide behind its own interval for longer than an hour.
+// The numbers below are set against the 60-second loop in news-fast.yml.
+// collect.yml's 15-minute lane is the fallback when that loop is down, and
+// the hourly full pass runs with --force, so no feed can hide behind its
+// own interval for longer than an hour.
+//
+// Anything at 60s is asked on every tick of that loop. Slower kinds, and any
+// adapter that sets its own minIntervalMs, are carried forward in between.
 // ---------------------------------------------------------------------------
 const CADENCE_BY_KIND = {
-  forum: 300_000,       // HN front page turns over in minutes
-  press: 300_000,       // Techmeme, Verge, Ars — the actual wire
-  status: 300_000,      // incident feeds are rare, but matter immediately
-  release: 900_000,     // GitHub releases land in bursts, not continuously
-  lab: 900_000,         // lab blogs publish a few times a week
-  model: 1_800_000,     // HF trending is a rolling average; it cannot move in 15m
+  forum: 60_000,        // HN turns over in minutes; ask every tick
+  press: 60_000,        // Techmeme, Verge, Ars, the wires
+  status: 60_000,       // an incident should not wait for the next quarter hour
+  release: 300_000,     // GitHub releases land in bursts, not continuously
+  lab: 300_000,         // a launch is worth five minutes, not fifteen
+  model: 900_000,       // HF trending is a rolling average; it cannot move in a minute
   paper: 3_600_000,     // arXiv and HF daily papers are daily batches. Do not hammer.
 };
 const DEFAULT_CADENCE_MS = 900_000;
