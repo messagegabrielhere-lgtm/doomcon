@@ -35,6 +35,7 @@ import * as infoPages from './templates/infoPages.mjs';
 import * as featurePages from './templates/featurePages.mjs';
 import * as agentPages from './templates/agentPages.mjs';
 import * as mediaPages from './templates/mediaPages.mjs';
+import { TILE_ICONS, tileSvg } from './tileicons.mjs';
 import { writeExtras, EXTRAS_PAGES } from './extras.mjs';
 import * as topicPages from './templates/topicPages.mjs';
 import * as shopPages from './templates/shopPages.mjs';
@@ -1427,6 +1428,8 @@ async function main() {
       written.push(await write(args.out, `img/${name}`, await readFile(path.join(imgDir, name))));
     }
   }
+  // Pixel icons for rooms without an illustration of their own (site/tileicons.mjs).
+  for (const name of Object.keys(TILE_ICONS)) written.push(await write(args.out, `img/px-${name}.svg`, tileSvg(name)));
   // Media: the explainer video and its poster, and the radio script.
   const mediaDir = path.join(ROOT, 'assets', 'media');
   if (existsSync(mediaDir)) {
