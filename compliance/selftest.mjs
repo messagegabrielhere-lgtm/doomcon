@@ -34,7 +34,11 @@ const CASES = {
   },
   'email-capture': {
     bad: [F('a.html', '<form><input type="email" name="email"></form>')],
-    good: [F('a.html', '<form><input type="email" name="email"> <a href="/privacy.html">Privacy</a></form>')],
+    good: [
+      F('a.html', '<form><input type="email" name="email"> <a href="/privacy.html">Privacy</a></form>'),
+      // Public RSS URLs on newsletter hosts are not email capture.
+      F('feed.mjs', "export const FEED = 'https://epochai.substack.com/feed';\n"),
+    ],
   },
   'can-spam': {
     bad: [F('send.mjs', "import nodemailer from 'nodemailer'; nodemailer.createTransport({}).sendMail({ html: 'We launched!' })")],
