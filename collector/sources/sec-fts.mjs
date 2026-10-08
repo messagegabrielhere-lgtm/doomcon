@@ -6,7 +6,7 @@
 // Endpoint is keyless and undocumented-but-stable. Verified 2026-09-22:
 // a trailing-30-day window returns hits.total.value = 3585, relation "eq".
 
-import { SEC_UA } from '../infra-sources/_sec.mjs';
+import { secFetchJson } from '../infra-sources/_sec.mjs';
 
 const ENDPOINT = 'https://efts.sec.gov/LATEST/search-index';
 
@@ -42,15 +42,10 @@ export default {
       enddt,
     });
 
-    // The header key must be lowercase 'user-agent'. fetch.mjs sets
-    // { 'user-agent': DEFAULT, ...opts.headers }, and JS keys are
-    // case-sensitive, so 'User-Agent' does not replace the default. undici
-    // then joins both values, the default still carries a URL, and SEC 403s.
-    // SEC_UA itself must not contain a URL or the substring "github". See
-    // collector/infra-sources/_sec.mjs.
-    const body = await fetchJson(`${ENDPOINT}?${qs}`, {
-      headers: { 'user-agent': SEC_UA },
-    });
+    // Contact, header casing, and the 403 retry live in _sec.mjs. An unset
+    // SEC_CONTACT_EMAIL (the Actions secret arrives as "") must not fall
+    // through to a GitHub noreply address: that string is what 403s.
+    const body = await secFetchJson(fetchJson, `${ENDPOINT}?${qs}`);
 
     const total = body?.hits?.total;
     if (!total || typeof total.value !== 'number') {

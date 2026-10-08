@@ -138,3 +138,15 @@ test('leader topics need the name in the title, or the description on their own 
   assert.deepEqual(topicsFor({ title: 'AI stocks rally', description: '' }, 'news'), []);
 });
 
+
+test('mergeTrends keeps newest first, merges queries, drops old', async () => {
+  const { mergeTrends } = await import('../collect.mjs');
+  const now = Date.parse('2026-10-08T00:00:00Z');
+  const out = mergeTrends(
+    [{ id: 'a', published: '2026-10-01T00:00:00Z', queries: ['AGI'] }, { id: 'old', published: '2026-01-01T00:00:00Z', queries: ['AGI'] }],
+    [{ id: 'a', published: '2026-10-01T00:00:00Z', queries: ['AI safety'] }, { id: 'b', published: '2026-10-07T00:00:00Z', queries: ['AGI'] }],
+    now,
+  );
+  assert.deepEqual(out.map((t) => t.id), ['b', 'a']);
+  assert.deepEqual(out[1].queries, ['AGI', 'AI safety']);
+});

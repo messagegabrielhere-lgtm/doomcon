@@ -96,10 +96,10 @@ export const ALIAS = {
   SG: ['Singapore', 'Singaporean'], HK: ['Hong Kong'], BH: ['Bahrain', 'Bahraini'], MT: ['Malta', 'Maltese'],
 };
 export const POINT_COUNTRIES = [
-  { iso2: 'SG', name: 'Singapore', lat: 1.35, lon: 103.82 },
-  { iso2: 'HK', name: 'Hong Kong', lat: 22.32, lon: 114.17 },
-  { iso2: 'BH', name: 'Bahrain', lat: 26.07, lon: 50.55 },
-  { iso2: 'MT', name: 'Malta', lat: 35.94, lon: 14.38 },
+  { iso2: 'SG', name: 'Singapore', lat: 1.35, lon: 103.82, continent: 'Asia', subregion: 'South-Eastern Asia' },
+  { iso2: 'HK', name: 'Hong Kong', lat: 22.32, lon: 114.17, continent: 'Asia', subregion: 'Eastern Asia' },
+  { iso2: 'BH', name: 'Bahrain', lat: 26.07, lon: 50.55, continent: 'Asia', subregion: 'Western Asia' },
+  { iso2: 'MT', name: 'Malta', lat: 35.94, lon: 14.38, continent: 'Europe', subregion: 'Southern Europe' },
 ];
 export const SKIP_NAME = new Set(['GE', 'JO', 'TD']);
 export const NAME_FIX = { US: 'United States', TZ: 'Tanzania', RS: 'Serbia', CD: 'DR Congo', CG: 'Congo-Brazzaville', SZ: 'Eswatini', BS: 'Bahamas', TL: 'Timor-Leste' };
@@ -138,7 +138,27 @@ export function gcDist(lat1, lon1, lat2, lon2) {
   return Math.acos(Math.max(-1, Math.min(1, Math.sin(p1) * Math.sin(p2) + Math.cos(p1) * Math.cos(p2) * Math.cos(dl)))) * 6371;
 }
 
-/** data/world-outline.json -> country records with bbox, label point and size. */
+/* Regions for navigation. The Middle East and North Africa are one region because
+ * that is how the news reports them; the rest follow Natural Earth's continents. */
+export const REGIONS = [
+  { id: 'americas', label: 'Americas', lon: -75, lat: 12, zoom: 1.25 },
+  { id: 'europe', label: 'Europe', lon: 18, lat: 52, zoom: 2.3 },
+  { id: 'mena', label: 'Middle East & N. Africa', short: 'MENA', lon: 38, lat: 28, zoom: 2.1 },
+  { id: 'africa', label: 'Sub-Saharan Africa', short: 'Africa', lon: 20, lat: -2, zoom: 1.8 },
+  { id: 'asia', label: 'Asia-Pacific', short: 'Asia-Pac', lon: 112, lat: 12, zoom: 1.3 },
+];
+const REGION_FIX = { IR: 'mena', CY: 'europe', GE: 'europe', AM: 'europe', AZ: 'europe' };
+export function regionOf(c) {
+  if (REGION_FIX[c.iso2]) return REGION_FIX[c.iso2];
+  if (c.subregion === 'Western Asia' || c.subregion === 'Northern Africa') return 'mena';
+  if (c.continent === 'North America' || c.continent === 'South America') return 'americas';
+  if (c.continent === 'Europe') return 'europe';
+  if (c.continent === 'Africa') return 'africa';
+  if (c.continent === 'Asia' || c.continent === 'Oceania') return 'asia';
+  return null;
+}
+
+/** data/world-outline.json -> country records with bbox, label point, size and region. */
 export function prepCountries(outline) {
   const out = [];
   for (const c of outline.countries) {
@@ -152,10 +172,10 @@ export function prepCountries(outline) {
     }
     let [lon, lat] = ringCentroid(big);
     if (LABEL_FIX[c.iso2]) [lon, lat] = LABEL_FIX[c.iso2];
-    out.push({ iso2: c.iso2, name: NAME_FIX[c.iso2] || c.name, raw: c.name, rings: c.rings, bbox, lon, lat, span: Math.sqrt(ba) });
+    out.push({ iso2: c.iso2, name: NAME_FIX[c.iso2] || c.name, raw: c.name, continent: c.continent, subregion: c.subregion, region: regionOf(c), rings: c.rings, bbox, lon, lat, span: Math.sqrt(ba) });
   }
   for (const p of POINT_COUNTRIES) {
-    if (!out.some((k) => k.iso2 === p.iso2)) out.push({ ...p, raw: p.name, rings: null, bbox: [p.lon - 0.5, p.lat - 0.5, p.lon + 0.5, p.lat + 0.5], span: 0.5 });
+    if (!out.some((k) => k.iso2 === p.iso2)) out.push({ ...p, raw: p.name, region: regionOf(p), rings: null, bbox: [p.lon - 0.5, p.lat - 0.5, p.lon + 0.5, p.lat + 0.5], span: 0.5 });
   }
   return out;
 }

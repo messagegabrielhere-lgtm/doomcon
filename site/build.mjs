@@ -32,6 +32,8 @@ import * as embedPage from './templates/embed.mjs';
 import * as notFoundPage from './templates/notFound.mjs';
 import * as deskPage from './templates/deskPage.mjs';
 import * as infoPages from './templates/infoPages.mjs';
+import * as featurePages from './templates/featurePages.mjs';
+import * as agentPages from './templates/agentPages.mjs';
 import * as topicPages from './templates/topicPages.mjs';
 import * as shopPages from './templates/shopPages.mjs';
 import * as betsPage from './templates/betsPage.mjs';
@@ -159,6 +161,8 @@ function llmsTxt(ctx) {
   return `# ${brand.NAME}
 > Hourly index of AI activity tempo. Levels run from 5 (quietest) to 1 (loudest). It counts how much is happening. It is not a probability of harm and not a forecast.
 
+- [skill.md: instructions for AI agents](${ctx.url('/skill.md')})
+- [For AI agents (and Moltbook)](${ctx.url('/agents.html')})
 - [Current reading (JSON)](${ctx.url('/api/state.json')})
 - [Every reading (JSON)](${ctx.url('/api/history.json')})
 - [Method](${ctx.url('/methodology.html')})
@@ -168,6 +172,10 @@ function llmsTxt(ctx) {
 - [Is there an AI doomsday clock?](${ctx.url('/ai-doomsday-clock.html')})
 - [AI and jobs: what has been measured](${ctx.url('/jobs.html')})
 - [AI in medicine: results on the record](${ctx.url('/medicine.html')})
+- [Prepare for superintelligence](${ctx.url('/si-ready.html')})
+- [AI-proof your job](${ctx.url('/ai-proof-job.html')})
+- [AI breakthroughs](${ctx.url('/breakthroughs.html')})
+- [The staff: the automated crew](${ctx.url('/staff.html')})
 - [Feed](${ctx.url('/feed.xml')})
 - [Bunker Kit: free tools and gear checklist](${ctx.url('/bunker-kit.html')})
 `;
@@ -1215,6 +1223,31 @@ async function main() {
   written.push(await write(args.out, 'privacy.html', infoPages.privacy(ctx)));
   written.push(await write(args.out, 'terms.html', infoPages.terms(ctx)));
   written.push(await write(args.out, 'feedback.html', infoPages.feedback(ctx)));
+  written.push(await write(args.out, 'si-ready.html', featurePages.siReady(ctx)));
+  written.push(await write(args.out, 'ai-proof-job.html', featurePages.jobProof(ctx)));
+  written.push(await write(args.out, 'live-x.html', featurePages.liveX(ctx)));
+  written.push(await write(args.out, 'tally.html', agentPages.tally(ctx)));
+  written.push(await write(args.out, 'staff.html', agentPages.staff(ctx)));
+  written.push(await write(args.out, 'careers.html', agentPages.careers(ctx)));
+  {
+    let molt = null;
+    try { molt = JSON.parse(await readFile(path.join(args.data, 'moltbook.json'), 'utf8')); } catch { molt = null; }
+    written.push(await write(args.out, 'agents.html', agentPages.agents(ctx, molt)));
+  }
+  written.push(await write(args.out, 'bug-out-land.html', agentPages.land(ctx)));
+  written.push(await write(args.out, 'skill.md', agentPages.skillMd(ctx)));
+  written.push(await write(args.out, 'api/guide.json', JSON.stringify(agentPages.guideIndex(ctx, homeV2.roomGroups(ctx)))));
+  // BREAKTHROUGHS. Picked from the newsroom window and merged into an archive
+  // in data/ (the hourly full lane commits data/, so the archive outlives the
+  // 400-item window). A failed read starts a fresh archive rather than failing.
+  {
+    const btFile = path.join(args.data, 'breakthroughs.json');
+    let prev = [];
+    try { prev = JSON.parse(await readFile(btFile, 'utf8')).items || []; } catch { prev = []; }
+    const items = featurePages.mergeBreakthroughs(prev, featurePages.pickBreakthroughs(news && news.items));
+    try { await writeFile(btFile, `${JSON.stringify({ schema: 1, generated_at: state.generated_at, items }, null, 2)}\n`); } catch (err) { warn(`breakthroughs archive not written: ${err.message}`); }
+    written.push(await write(args.out, 'breakthroughs.html', featurePages.breakthroughs(ctx, items)));
+  }
   written.push(await write(args.out, 'press.html', infoPages.press(ctx)));
   if (betsPage.hasBets(ctx)) {
     written.push(await write(args.out, 'bets.html', betsPage.render(ctx)));
@@ -1351,7 +1384,7 @@ async function main() {
   // Media: the explainer video and its poster, and the radio script.
   const mediaDir = path.join(ROOT, 'assets', 'media');
   if (existsSync(mediaDir)) {
-    for (const name of (await readdir(mediaDir)).filter((f) => /\.(mp4|webm|jpg|webp|vtt|js)$/i.test(f)).sort()) {
+    for (const name of (await readdir(mediaDir)).filter((f) => /\.(mp4|webm|jpg|png|webp|vtt|js)$/i.test(f)).sort()) {
       written.push(await write(args.out, `media/${name}`, await readFile(path.join(mediaDir, name))));
     }
   }
@@ -1498,7 +1531,7 @@ async function main() {
 
   await selfCheck(args.out, state, ctx);
   // Last: the refresh bar and disclosure on every page, dated by the data.
-  const stamped = await stampAll(args.out, state.generated_at);
+  const stamped = await stampAll(args.out, state.generated_at, { level: state.level });
 
   log(`${brand.NAME} build complete.`);
   log(`  out          ${args.out}`);

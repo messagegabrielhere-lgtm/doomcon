@@ -44,6 +44,7 @@ export function render(ctx) {
   <p class="eyebrow">Page status · dark</p>
   <div class="nf__top"><p class="nf__code num">404</p>${seal(ctx, { size: 150, id: 'seal-nf' })}${mascot({ size: 96, level: 5 })}</div>
   <h1 class="nf__h">Nothing detected at this address.</h1>
+  <p class="lede"><b>This page won't be back.</b> The rest of the site will.</p>
   <p class="lede">This site never imputes a missing value, and it will not impute a missing page.
     There is no reading here, so none is printed. ${reading}</p>
   <ul class="nf__rows">

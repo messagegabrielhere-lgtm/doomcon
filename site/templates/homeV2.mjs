@@ -40,8 +40,9 @@ export function roomGroups(ctx) {
       ['/news.html', 'news', 'Newsroom', ctx.news && ctx.news.items ? `${ctx.news.items.length} stories` : null, 'Every AI story, scored and corroborated.'],
       ['/leaders.html', 'mic', 'Leaders', Number.isFinite(lt.leaders) ? `${lt.on_record ?? 0} of ${lt.leaders} on record` : null, 'What the people running AI said this week.'],
       ctx.digest ? ['/digest.html', 'clipboard', 'Digest', null, 'The day in a few corroborated items.'] : null,
-      ['/monitor.html', 'satellite', 'World Monitor', null, 'Live globe: news, hazards, flights, chokepoints.'],
+      ['/monitor.html', 'satellite', 'World Monitor', null, 'Live globe: stories from 27 outlets, hazards, a country stress index, 72-hour replay.'],
       ['/elon.html', 'musk', 'Real Clips', null, 'Verified clips of Elon, Altman, Amodei and the AI bosses.'],
+      ['/live-x.html', 'satellite', 'Live on X', null, 'Live X feeds and Spaces on AI, newest first.'],
     ]],
     ['THE MACHINES', [
       ['/watts.html', 'power', 'Power', ctx.infra && Number.isFinite(ctx.infra.score) ? `${ctx.infra.score.toFixed(1)} / 100` : null, 'Grid load, drought and build-out under the models.'],
@@ -55,6 +56,8 @@ export function roomGroups(ctx) {
       r.balance ? ['/medicine.html', 'pill', 'Medicine', null, 'Is AI curing anything? Trials and approvals.'] : null,
       r.balance ? ['/balance.html', 'scales', 'Balance', null, 'Harm and benefit, counted side by side.'] : null,
       ['/bliss.html', 'sun', 'Upside', null, 'The direction we would be glad to see move.'],
+      ['/breakthroughs.html', 'sun', 'Breakthroughs', null, 'AI curing, solving and restoring: the good news, tracked.'],
+      ['/ai-proof-job.html', 'case', 'AI-Proof Your Job', null, 'A 2-minute plan to keep your job and grow with AI.'],
     ]],
     ['PLAY & PREP', [
       ['/arena.html#battle', 'stocks', 'AI Battle', null, 'AI models trade stocks and crypto against live prices.'],
@@ -64,7 +67,9 @@ export function roomGroups(ctx) {
       ['/game.html', 'joystick', 'Game', null, 'Thirty seconds: count signals, ignore predictions.'],
       ['/desk.html', 'canary', 'Tally’s Desk', null, 'The unserious counts: robots and godfathers.'],
       ['/bunker-kit.html', 'bunker', 'Bunker Kit', null, '50 free tools and six crates of emergency gear.'],
+      ['/si-ready.html', 'scales', 'Ready for SI?', null, 'Prepare for superintelligence: a 3-minute personal plan.'],
       ['/prepper-checklist.html', 'clipboard', 'Prepper Checklist', null, 'A 72-hour kit and two weeks at home, sized for you.'],
+      ['/bug-out-land.html', 'globe', 'Bug-Out Land', null, 'Where to buy remote land to ride out Skynet.'],
       ['/library.html', 'books', 'Reading List', null, 'Books from every side of the AI argument.'],
     ]],
     ['THE RECORD', [
@@ -72,6 +77,10 @@ export function roomGroups(ctx) {
       ['/history.html', 'archive', 'History', ctx.history ? `${ctx.history.length} readings` : null, 'Sixty years of the argument, and every reading.'],
       ['/methodology.html', 'magnifier', 'Methodology', null, 'Every formula. Recompute the number yourself.'],
       ['/classic.html', 'siren', 'Full Panel', null, 'The full instrument panel, receipts and API.'],
+      ['/staff.html', 'server', 'The Staff', null, 'The automated crew that runs SIREN, at work together.'],
+      ['/tally.html', 'canary', 'Tally', null, 'Meet the duty canary. Five moods, one for each level.'],
+      ['/careers.html', 'case', 'Careers', null, 'Now hiring: AIs welcome to apply.'],
+      ['/agents.html', 'globe', 'For AI Agents', null, 'Open data, skill.md and Moltbook: AIs welcome.'],
       ['/feedback.html', 'mic', 'Feedback', null, 'Report a problem or send an idea. We read every one.'],
     ]],
   ];
@@ -139,6 +148,50 @@ box.innerHTML='<span class="k">SINCE YOUR LAST VISIT · '+ago+' AGO</span><span 
 var f=document.getElementById('v2-fresh');if(f){var at=Date.parse(f.getAttribute('data-at'));var h=(Date.now()-at)/36e5;if(h>2){f.classList.add('stale');f.title='The newest reading is '+Math.round(h)+' hours old. The site normally refreshes every hour.';f.insertAdjacentHTML('beforeend',' · '+Math.round(h)+'H OLD')}}
 })();`;
 
+
+// TRACKING GRAPHICS, PizzINT-style: a week of readings as a banded area chart,
+// a gauge per pillar, a light per source, and a scrolling headline ticker.
+// All inline SVG/CSS drawn at build time from data/, so they cost no script.
+const BAND = [[0, 35, '#4FB3FF'], [35, 55, '#4ADE80'], [55, 70, '#FFD23F'], [70, 85, '#FF8A2B'], [85, 100, '#FF3B3B']];
+function weekChart(history) {
+  const end = history.length ? Date.parse(history[history.length - 1].t) : Date.now();
+  const pts = history.filter((h) => Number.isFinite(h.score) && end - Date.parse(h.t) <= 7 * 864e5);
+  if (pts.length < 2) return '';
+  const W = 720, H = 200, PL = 34, PB = 22, t0 = Date.parse(pts[0].t), span = Math.max(1, end - t0);
+  const x = (t) => PL + ((Date.parse(t) - t0) / span) * (W - PL - 24);
+  const y = (v) => 8 + (1 - v / 100) * (H - PB - 8);
+  const line = pts.map((p, i) => `${i ? 'L' : 'M'}${x(p.t).toFixed(1)},${y(p.score).toFixed(1)}`).join('');
+  const area = `${line}L${x(pts[pts.length - 1].t).toFixed(1)},${y(0)}L${x(pts[0].t).toFixed(1)},${y(0)}Z`;
+  const bands = BAND.map(([a, b, c]) => `<rect x="${PL}" y="${y(b)}" width="${W - PL - 6}" height="${(y(a) - y(b)).toFixed(1)}" fill="${c}" opacity=".07"/><text x="${PL - 6}" y="${(y((a + b) / 2) + 4).toFixed(1)}" text-anchor="end" font-size="10" fill="${c}" font-family="IBM Plex Mono,monospace">${5 - BAND.findIndex((q) => q[0] === a)}</text>`).join('');
+  const days = []; for (let d = 0; d <= 7; d++) { const t = t0 + (span * d) / 7; days.push(`<text x="${(PL + (d / 7) * (W - PL - 24)).toFixed(1)}" y="${H - 6}" font-size="10" fill="#6B7686" text-anchor="middle" font-family="IBM Plex Mono,monospace">${new Date(t).toISOString().slice(5, 10)}</text>`); }
+  const last = pts[pts.length - 1];
+  return `<svg class="v2-week" viewBox="0 0 ${W} ${H}" role="img" aria-label="Composite score over the last 7 days, ${pts.length} readings, now ${last.score.toFixed(1)}">
+<defs><linearGradient id="wkg" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#4ADE80" stop-opacity=".45"/><stop offset="1" stop-color="#4ADE80" stop-opacity="0"/></linearGradient></defs>
+${bands}<path d="${area}" fill="url(#wkg)"/><path d="${line}" fill="none" stroke="#4ADE80" stroke-width="2"/>
+<circle cx="${x(last.t).toFixed(1)}" cy="${y(last.score).toFixed(1)}" r="5" fill="#4ADE80"><animate attributeName="r" values="4;8;4" dur="1.6s" repeatCount="indefinite"/></circle>${days}</svg>`;
+}
+const PILLAR_HUE = { capability: '#6ea8fe', compute: '#c792ea', attention: '#ffb020', governance: '#5fd08a', markets: '#ff8f6b' };
+function gauges(pillars) {
+  return (pillars || []).map((p) => {
+    const v = Number.isFinite(p.score) ? p.score : null, c = PILLAR_HUE[p.id] || '#AEB7C3';
+    const R = 34, C = Math.PI * R, frac = v == null ? 0 : v / 100;
+    const label = v == null ? (p.dark ? 'DARK' : 'CALIBRATING') : v.toFixed(0);
+    return `<div class="v2-gauge"><svg viewBox="0 0 90 56" aria-hidden="true"><path d="M11 50a34 34 0 0 1 68 0" fill="none" stroke="#1E2633" stroke-width="9" stroke-linecap="round"/>${v == null ? '' : `<path d="M11 50a34 34 0 0 1 68 0" fill="none" stroke="${c}" stroke-width="9" stroke-linecap="round" stroke-dasharray="${(C * frac).toFixed(1)} ${C.toFixed(1)}"/>`}<text x="45" y="48" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="700" font-size="${v == null ? 9 : 16}" fill="${v == null ? '#6B7686' : '#fff'}">${label}</text></svg><span style="color:${c}">${esc(String(p.name || p.id).toUpperCase())}</span></div>`;
+  }).join('');
+}
+function sourceLights(sources) {
+  return (sources || []).map((x) => {
+    const st = x.ok ? 'src-live' : x.uncalibrated ? 'src-cal' : 'src-dark';
+    return `<span class="v2-src ${st}" title="${esc(x.label || x.id)}: ${st === 'src-live' ? 'live and scored' : st === 'src-cal' ? 'reporting, awaiting baseline' : 'not answering'}"><i></i>${esc(String(x.label || x.id).toUpperCase())}</span>`;
+  }).join('');
+}
+function ticker(items) {
+  const top = (items || []).slice().sort((a, b) => String(b.published_at).localeCompare(String(a.published_at))).slice(0, 14);
+  if (!top.length) return '';
+  const run = top.map((i) => `<a href="${esc(i.url)}" rel="noopener">${esc(String(i.source).toUpperCase())} · ${esc(i.title)}</a>`).join('<b>◆</b>');
+  return `<div class="v2-ticker" aria-label="Latest AI headlines"><span class="lbl">LIVE WIRE</span><div class="trk"><div class="run">${run}<b>◆</b>${run}</div></div></div>`;
+}
+
 export function render(ctx, { head }) {
   const { state } = ctx;
   const href = ctx.href;
@@ -149,7 +202,7 @@ export function render(ctx, { head }) {
   const delta = vs && Number.isFinite(vs.delta) ? vs.delta : state.delta_from_previous;
   const deltaTxt = Number.isFinite(delta) ? `${delta >= 0 ? '▲' : '▼'} ${Math.abs(delta).toFixed(1)} ${vs && vs.basis === 'previous' ? 'SINCE LAST' : 'VS 24H AGO'}` : '';
   const sources = state.sources || [];
-  const ok = sources.filter((s) => s.ok).length;
+  const ok = sources.filter((s) => s.ok || s.uncalibrated).length;
 
   // Breaking: the highest-scoring story of the last six hours, else the newest.
   const items = (ctx.news && ctx.news.items) || [];
@@ -244,12 +297,14 @@ export function render(ctx, { head }) {
     <a class="tag blue" href="${href('/history.html')}">HISTORY</a>
     <a class="tag violet" href="${href('/race.html')}">MARKETS</a>
     <span>STATUS: <b class="${state.degraded ? 'amber' : 'green'}">${state.degraded ? 'DEGRADED' : 'OPERATIONAL'}</b></span>
+    <span title="A Terminator reference. Nothing here is self-aware. Probably.">SKYNET: <b class="${state.level <= 2 ? 'amber' : 'green'}">${({ 5: 'ASLEEP', 4: 'NOT SELF-AWARE (YET)', 3: 'LEARNING AT A GEOMETRIC RATE', 2: 'ASKING QUESTIONS', 1: 'JUDGMENT DAY WATCH' })[state.level] || 'NOT SELF-AWARE (YET)'}</b></span>
   </span>
 </div></div>
+${ticker(items)}
 ${nav.strip}
 <main class="v2-wrap v2-main" id="main">
   <div class="v2-brand">
-    <img class="v2-art bob" src="${img('siren')}" width="112" height="112" alt="">
+    <span class="v2-3d" data-siren3d data-level="${state.level}"><img class="v2-art bob" src="${img('siren')}" width="112" height="112" alt=""></span>
     <h1>${pixelText('AI SIREN INDEX', 8, '#FFFFFF', 'fit')}</h1>
   </div>
   <div class="v2-sub"><span>Superintelligence, watched hourly</span><span class="sep">|</span><a class="v2-btn sm" href="https://x.com/SIRENutf6">FOLLOW @SIRENutf6</a></div>
@@ -292,6 +347,13 @@ ${roomsGrid(ctx, href, img)}
   <div class="v2-sec" id="labs" data-sec="Labs"><h2>${pixelText(`${players.length} LABS MONITORED`, 4, '#FFFFFF', 'fit')}</h2><span>ODDS OF BEST MODEL IN 2026 · POLYMARKET</span></div>
   <div class="v2-labs">${players.map(lab).join('')}</div>
 
+  <div class="v2-card v2-track">
+    <div class="row sb"><h3>${icon('eye', 3, '#4ADE80')}${pixelText('7-DAY TRACK', 3, '#FFFFFF')}</h3><span class="live">LIVE</span></div>
+    ${weekChart(ctx.history || [])}
+    <div class="v2-gauges">${gauges(state.pillars)}</div>
+    <div class="v2-srcs">${sourceLights(state.sources)}</div>
+  </div>
+
   <div class="v2-two" id="readings" data-sec="Readings">
     <div class="v2-card">
       <div class="row sb"><h3>${icon('shield', 3, '#4ADE80')}${pixelText('READINGS', 3, '#FFFFFF')}</h3><span class="live">LIVE</span></div>
@@ -311,7 +373,7 @@ ${roomsGrid(ctx, href, img)}
   </div>
   ${newsletterBox(href('/privacy.html')) ? `<div class="v2-nl">${newsletterBox(href('/privacy.html'))}</div>` : ''}
 
-  <p class="v2-foot">SIREN counts how loud AI is, every hour, from public data. A count, not a forecast. Portraits and icons are generated illustrations, not photographs.
+  <p class="v2-foot">SIREN counts how loud AI is, every hour, from public data. A count, not a forecast. No fate but what we count. Portraits and icons are generated illustrations, not photographs.
   <a href="${href('/methodology.html')}">How it works</a> · <a href="${href('/classic.html#vfy')}">Verify a reading</a> · <a href="${href('/classic.html')}">Full instrument panel</a> · <a href="${href('/about.html')}">About</a> · <a href="${href('/sponsor.html')}">Sponsor</a>${tipLink() ? ` · ${tipLink()}` : ''}</p>
   <p class="v2-foot"><b>Not advice.</b> Information, commentary and satire only — not financial, investment, legal, security or safety advice. Data is automated and may be wrong or late; provided as is, with no warranty. Not affiliated with any company, lab, person or agency named here. Use of this site means you accept the <a href="${href('/terms.html')}">terms &amp; disclaimers</a>. <a href="${href('/privacy.html')}">Privacy</a>. <a href="${href('/feedback.html')}">Report a problem or send feedback</a>.</p>
 </main>
@@ -326,6 +388,7 @@ ${nav.palette}${nav.tabbar}
 <html lang="en">
 ${head.replace('</head>', `<style>${CSS}</style>${MZ_CSS}\n</head>`)}
 <body class="v2-body"><a class="v2-skip" href="#signal">Skip to the reading</a>${body}
+<script type="module" src="${href('/media/siren3d.js')}"></script>
 <script src="${href('/media/radio.js')}" defer></script>
 </body>
 </html>`;
@@ -489,6 +552,19 @@ body.v2-body{margin:0;background:#000;color:#F3F4F6}
 .v2-cta{border:2px solid #4338CA;background:#0E1033;padding:24px 28px;display:flex;align-items:center;gap:22px;flex-wrap:wrap}
 .v2-cta .col{display:flex;flex-direction:column;gap:10px;flex:1 1 300px;min-width:0;color:#C7D2FE}
 .v2-foot{margin:0;font-size:13px;color:#AEB7C3}
+.v2-track{margin:22px 0}.v2-week{width:100%;height:auto;display:block;margin:6px 0 10px}
+.v2-gauges{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:6px 0 12px}.v2-gauge{text-align:center}.v2-gauge svg{width:100%;max-width:120px;height:auto}.v2-gauge span{display:block;font:600 10px/1.3 'IBM Plex Mono',monospace;letter-spacing:.08em}
+@media (max-width:640px){.v2-gauges{grid-template-columns:repeat(3,1fr)}}
+.v2-srcs{display:flex;flex-wrap:wrap;gap:6px 14px;font:600 10px/1.6 'IBM Plex Mono',monospace;letter-spacing:.06em;color:#AEB7C3}.v2-src i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px;vertical-align:middle}
+.v2-src.src-live i{background:#4ADE80;box-shadow:0 0 8px #4ADE80;animation:v2-blink 2s infinite}.v2-src.src-cal i{background:#FFB020}.v2-src.src-dark i{background:#FF3B3B}
+@keyframes v2-blink{50%{opacity:.35}}
+.v2-ticker{display:flex;align-items:center;border-bottom:1px solid #232C3B;background:#05070B;overflow:hidden;font:500 12px/1 'IBM Plex Mono',monospace}
+.v2-ticker .lbl{flex:none;background:#FF3B3B;color:#fff;font-weight:700;letter-spacing:.12em;padding:8px 10px}
+.v2-ticker .trk{overflow:hidden;flex:1;white-space:nowrap}.v2-ticker .run{display:inline-block;padding-left:12px;animation:v2-tick 120s linear infinite}
+.v2-ticker:hover .run{animation-play-state:paused}.v2-ticker a{color:#E6EAF0;text-decoration:none}.v2-ticker a:hover{color:#4ADE80}.v2-ticker b{color:#FF3B3B;margin:0 14px}
+@keyframes v2-tick{to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.v2-ticker .run{animation:none}.v2-src.src-live i{animation:none}}
+.v2-3d{display:inline-flex;width:140px;height:140px;align-items:center;justify-content:center;flex:none}.v2-3d canvas{width:140px!important;height:140px!important}
 .v2-video{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:24px;align-items:center;margin:28px 0;padding:18px;border:1px solid #232C3B;border-radius:4px;background:#0E131D}
 .v2-video h2{margin:0 0 10px}.v2-video p{margin:0;color:#AEB7C3;font-size:15px;line-height:1.5}
 .v2-video video{width:100%;height:auto;aspect-ratio:16/9;background:#000;border-radius:3px;display:block}

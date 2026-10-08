@@ -78,17 +78,24 @@ function safeCodePoint(n) {
 }
 
 /** Feed prose is HTML. Flatten it to one line of text. */
+const stripTags = (h) => h
+  .replace(/<(script|style)\b[^>]*>[\s\S]*?<\/\1>/gi, ' ')
+  .replace(/<br\s*\/?>/gi, ' ')
+  .replace(/<\/(p|div|li|h[1-6])>/gi, ' ')
+  .replace(/<[^>]+>/g, ' ');
+
 export function toPlainText(html, max = SUMMARY_MAX) {
   if (!html) return '';
-  const text = decodeEntities(
-    stripCdata(String(html))
-      .replace(/<(script|style)\b[^>]*>[\s\S]*?<\/\1>/gi, ' ')
-      .replace(/<br\s*\/?>/gi, ' ')
-      .replace(/<\/(p|div|li|h[1-6])>/gi, ' ')
-      .replace(/<[^>]+>/g, ' '),
-  )
-    .replace(/\s+/g, ' ')
-    .trim();
+  let text = decodeEntities(stripTags(stripCdata(String(html))));
+  // Atom feeds (GitHub releases, Blogger) carry their HTML entity-escaped, so
+  // the first pass DECODES "&lt;h2&gt;" into a real tag instead of removing
+  // it. Measured 2026-10-07: 53 of 400 newsroom summaries showed readers
+  // literal "<h2><a href=…>" text. A second pass removes what the first
+  // revealed.
+  if (/<\/?[a-z][^>]*>/i.test(text)) text = decodeEntities(stripTags(text));
+  // a summary clipped mid-tag ("… by @user in <a…") leaves an opening with no ">"
+  text = text.replace(/<\/?[a-z][^>]*$/i, '…');
+  text = text.replace(/\s+/g, ' ').trim();
 
   if (text.length <= max) return text;
   const cut = text.slice(0, max);

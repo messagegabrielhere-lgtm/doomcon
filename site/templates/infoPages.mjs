@@ -77,7 +77,9 @@ export function privacy(ctx) {
   <h2>What the site itself does</h2>
   <ul>
     <li><b>No cookies.</b> The site sets none.</li>
-    <li><b>No analytics.</b> There is no tracking script, pixel or visitor counter. Nobody here knows you visited.</li>
+    ${MONETIZE.analytics && MONETIZE.analytics.goatcounter
+      ? `<li><b>Visitor counts, without cookies.</b> Pages load GoatCounter, which counts visits: the page, the referring site, your country (worked out from your IP address, which is not stored), browser, screen size and language. It sets no cookies, does not track you across sites, and keeps no personal data. Turn on your browser's Do Not Track to be left out.</li>`
+      : `<li><b>No analytics.</b> There is no tracking script, pixel or visitor counter. Nobody here knows you visited.</li>`}
     <li><b>No accounts.</b> There is nothing to sign up for. The <a href="${esc(ctx.href('/feedback.html'))}">feedback form</a> stores and sends nothing itself: it opens a pre-filled, <b>public</b> issue on GitHub that you choose whether to submit, under GitHub's privacy policy.</li>
     <li><b>Browser storage.</b> A few preferences are kept in your own browser's local storage: the last reading you saw, your
       language choice, your best score in the game, and the panel settings on the live monitor and scanner pages. They never

@@ -152,6 +152,12 @@ if (flag('json')) {
     console.log(`${icon[rule.severity]} [${rule.severity.toUpperCase()}] ${rule.title}  (${rule.id})${AUTOFIX[rule.id] && !flag('fix') ? '  — run with --fix' : ''}`);
     console.log(`   Law: ${rule.law}`);
     for (const f of fs.slice(0, 20)) console.log(`   - ${f.file}:${f.line}  ${f.detail}`);
+    // In Actions, also as annotations: they are readable through the API and
+    // the run page even where the raw log is not. File and line only (a
+    // private term is never printed, the detail text says which rule).
+    if (process.env.GITHUB_ACTIONS === 'true' && rule.severity === 'high') {
+      for (const f of fs.slice(0, 10)) console.log(`::error file=${f.file},line=${f.line}::${rule.id}: ${String(f.detail).replace(/[\r\n]/g, ' ').slice(0, 140)}`);
+    }
     if (fs.length > 20) console.log(`   … and ${fs.length - 20} more`);
     console.log('   Remediation:');
     (STEPS[rule.id] || [rule.fix]).forEach((s, i) => console.log(`     ${i + 1}. ${s}`));

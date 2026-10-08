@@ -16,14 +16,72 @@
 //      contains the URL, so it still 403s, and the bug presents as "my header
 //      was ignored".
 //   3. As of 2026-10-07 the same WAF also 403s any User-Agent containing the
-//      substring "github". The previous contact was a GitHub noreply address,
-//      which tripped it, and the compute pillar went dark. The contact below
-//      is the one the investors workflow already sends. It must not grow a
-//      URL or the word "github".
+//      substring "github". The GitHub noreply address trips it, and that 403
+//      is what took the compute pillar dark. A dotted product name such as
+//      "doomcon.watch" is read as a URL and 403s the same way. The contact
+//      below is the one the investors workflow already sends.
 
 const ENDPOINT = 'https://efts.sec.gov/LATEST/search-index';
 
-export const SEC_UA = 'doomcon messagegabrielhere@gmail.com';
+// Published on the investors workflow. Used whenever SEC_CONTACT_EMAIL is
+// unset, blank, or itself a string the WAF refuses.
+const FALLBACK_CONTACT = 'messagegabrielhere@gmail.com';
+
+/**
+ * A contact SEC will accept. `SEC_CONTACT_EMAIL` may override the fallback,
+ * but an empty value, a URL, whitespace, or the substring "github" is ignored:
+ * those are exactly the strings that 403, and an unset Actions secret arrives
+ * as an empty string.
+ */
+export function secContact(raw = process.env.SEC_CONTACT_EMAIL) {
+  const value = String(raw ?? '').trim();
+  if (!value || /github/i.test(value) || /https?:\/\//i.test(value) || /\s/.test(value)) {
+    return FALLBACK_CONTACT;
+  }
+  return value;
+}
+
+/**
+ * User-Agents tried in order. The first is the string a live probe returned
+ * 200 for on 2026-10-07. The later two are the shapes SEC's own example and
+ * the 2026-09-22 bisect accepted. Only a 403 advances to the next one.
+ */
+export function secUserAgents(contact = secContact()) {
+  return [
+    `doomcon ${contact}`,
+    `SIREN AI Index ${contact}`,
+    `SIREN/1.0 (${contact})`,
+  ];
+}
+
+export const SEC_UA = secUserAgents()[0];
+
+function isSecForbidden(err) {
+  if (err && err.status === 403) return true;
+  return /\b403\b/.test(String(err && err.message));
+}
+
+/**
+ * GET JSON from EDGAR, replacing the User-Agent on each attempt. A caller
+ * header named user-agent is overwritten so the default repo URL cannot leak
+ * back in beside it.
+ */
+export async function secFetchJson(fetchJson, url, opts = {}) {
+  const { headers: extra = {}, ...rest } = opts;
+  let lastErr;
+  for (const ua of secUserAgents()) {
+    try {
+      return await fetchJson(url, {
+        ...rest,
+        headers: { ...extra, 'user-agent': ua },
+      });
+    } catch (err) {
+      lastErr = err;
+      if (!isSecForbidden(err)) throw err;
+    }
+  }
+  throw lastErr;
+}
 
 function isoDate(ms) {
   // Slicing the ISO string keeps the window in UTC. toLocaleDateString would
@@ -50,7 +108,7 @@ export async function secFullTextCount(net, { id, phrase, windowDays }) {
     enddt,
   });
 
-  const body = await net.json(`${ENDPOINT}?${qs}`, { headers: { 'user-agent': SEC_UA } });
+  const body = await secFetchJson((url, opts) => net.json(url, opts), `${ENDPOINT}?${qs}`);
 
   const total = body?.hits?.total;
   if (!total || typeof total.value !== 'number' || !Number.isFinite(total.value)) {
