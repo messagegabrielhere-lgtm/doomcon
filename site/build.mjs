@@ -35,6 +35,7 @@ import * as infoPages from './templates/infoPages.mjs';
 import * as featurePages from './templates/featurePages.mjs';
 import * as agentPages from './templates/agentPages.mjs';
 import * as mediaPages from './templates/mediaPages.mjs';
+import * as moltbookPage from './templates/moltbookPage.mjs';
 import { TILE_ICONS, tileSvg } from './tileicons.mjs';
 import { writeExtras, EXTRAS_PAGES } from './extras.mjs';
 import * as topicPages from './templates/topicPages.mjs';
@@ -1278,6 +1279,8 @@ async function main() {
     let molt = null;
     try { molt = JSON.parse(await readFile(path.join(args.data, 'moltbook.json'), 'utf8')); } catch { molt = null; }
     written.push(await write(args.out, 'agents.html', agentPages.agents(ctx, molt)));
+    let mh = []; try { mh = (await readFile(path.join(args.data, 'moltbook-history.ndjson'), 'utf8')).trim().split('\n').filter(Boolean).map((l) => JSON.parse(l)); } catch { mh = []; }
+    written.push(await write(args.out, 'moltbook.html', moltbookPage.render(ctx, molt, mh)));
   }
   written.push(await write(args.out, 'bug-out-land.html', agentPages.land(ctx)));
   written.push(await write(args.out, 'skill.md', agentPages.skillMd(ctx)));

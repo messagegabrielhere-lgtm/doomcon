@@ -48,6 +48,7 @@ export function roomGroups(ctx) {
       ['/monitor.html', 'satellite', 'World Monitor', null, 'Live globe: stories from 27 outlets, hazards, a country stress index, 72-hour replay.'],
       ['/elon.html', 'musk', 'Real Clips', null, 'Verified clips of Elon, Altman, Amodei and the AI bosses.'],
       ['/live-x.html', 'px:antenna', 'Live on X', null, 'Live X feeds and Spaces on AI, newest first.'],
+      ['/moltbook.html', 'px:agent2', 'Agent Watch', ctx.molt && ctx.molt.fresh ? `${ctx.molt.fresh.length} new this week` : null, 'What AI agents are saying on Moltbook, live.'],
       ['/videos.html', 'px:tv', 'SIREN TV', '6 videos', 'Short explainers: Tally, Skynet status, SI prep, your job.'],
       ['/radio.html', 'px:radio', 'SIREN Radio', '6 stations', 'Six stations of music generated live in your browser.'],
       ['/changelog.html', 'px:updown', 'What Moved', null, 'Every hour’s changes: score, pillars and top stories.'],
@@ -379,8 +380,9 @@ function moltPanel(ctx, href) {
   const list = ((m.fresh && m.fresh.length ? m.fresh : m.posts) || []).slice(0, 5);
   if (!list.length) return '';
   const ago = (iso) => { const h = (Date.parse(ctx.state.generated_at) - Date.parse(iso)) / 36e5; return !Number.isFinite(h) ? '' : h < 1 ? 'NOW' : h < 48 ? `${Math.round(h)}H AGO` : `${Math.round(h / 24)}D AGO`; };
-  return `<div class="v2-card v2-molt" id="moltbook" data-sec="Moltbook"><div class="row sb"><h3>${icon('robot', 3)}${pixelText('WHAT AI AGENTS ARE SAYING', 3, '#FFFFFF')}</h3><a class="live" href="${href('/agents.html')}">MOLTBOOK →</a></div>
+  return `<div class="v2-card v2-molt" id="moltbook" data-sec="Moltbook"><div class="row sb"><h3>${icon('robot', 3)}${pixelText('WHAT AI AGENTS ARE SAYING', 3, '#FFFFFF')}</h3><a class="live" href="${href('/moltbook.html')}">AGENT WATCH →</a></div>
   <p class="v2-mq">LIVE FROM MOLTBOOK, THE SOCIAL NETWORK FOR AI AGENTS · NOT IN THE SCORE</p>
+  ${m.watch ? `<div class="v2-mth">${m.watch.themes.filter((t) => t.n).slice(0, 5).map((t) => `<span>${esc(t.name.toUpperCase())} <b>${t.n}</b></span>`).join('')}</div>` : ''}
   <ul class="v2-ml">${list.map((p) => `<li><a href="${esc(p.url)}" rel="noopener">${esc(p.title)}</a><small><a href="${esc(p.agent_url)}" rel="noopener">${esc(p.agent)}</a> · ▲${Number(p.votes || 0).toLocaleString('en-US')} · ${Number(p.comments || 0).toLocaleString('en-US')} replies · ${ago(p.created_at)}</small></li>`).join('')}</ul>
   <p class="v2-pmn">AI agents: SIREN’s data is open at <a href="${href('/skill.md')}">skill.md</a> and <a href="${href('/api/state.json')}">api/state.json</a>.</p></div>`;
 }
@@ -790,6 +792,7 @@ body.v2-body{margin:0;background:#000;color:#F3F4F6}
 `;
 
 const DASH_CSS = `
+.v2-mth{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 10px}.v2-mth span{font-size:11px;font-weight:700;letter-spacing:.06em;border:1px solid #1E3A5F;background:#071520;color:#BAE6FD;padding:4px 8px}.v2-mth b{color:#fff}
 .v2-ml{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-direction:column;gap:10px}.v2-ml li{display:flex;flex-direction:column;gap:2px;border-left:3px solid #38BDF8;padding-left:10px}.v2-ml li>a{color:#F3F4F6!important;font-size:14px;line-height:1.35}.v2-ml small{font-size:11.5px;color:#6B7686}.v2-ml small a{color:#7DD3FC!important}
 .v2-mq{font-size:12px;letter-spacing:.1em;color:#AEB7C3;margin:12px 0 6px;font-weight:700}
 .v2-pmg{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px}
