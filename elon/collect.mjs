@@ -330,8 +330,26 @@ export function mergeTrends(prev, fresh, now = Date.now()) {
     .sort((a, b) => String(b.published).localeCompare(String(a.published)))
     .slice(0, TREND_MAX);
 }
-async function trends(prevTrends) {
+async function trends(prevTrends, key, prevGenerated) {
   const fresh = []; const errors = [];
+  // With an API key: search.list sorted by date (100 units a query), at most
+  // every 4 hours so six queries stay well inside the free 10,000 a day.
+  if (key) {
+    const age = Date.now() - Date.parse(prevGenerated || 0);
+    if (Number.isFinite(age) && age < 4 * 36e5 && (prevTrends || []).length) return { items: prevTrends, seen: 0, errors, skipped: 'api trends refresh every 4 h' };
+    const after = new Date(Date.now() - 14 * 864e5).toISOString();
+    for (const q of TREND_QUERIES) {
+      try {
+        const j = await get(`https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&order=date&maxResults=25&relevanceLanguage=en&publishedAfter=${encodeURIComponent(after)}&q=${encodeURIComponent(q)}&key=${key}`, { json: true });
+        for (const it of j.items || []) {
+          const id = it.id?.videoId; const title = decode(it.snippet?.title);
+          if (!/^[\w-]{11}$/.test(id || '') || TREND_SCAM.test(title)) continue;
+          fresh.push({ id, title, channel: decode(it.snippet?.channelTitle), channelId: it.snippet?.channelId || '', published: it.snippet?.publishedAt || '', views: null, queries: [q] });
+        }
+      } catch (err) { errors.push(`${q}: ${err.message}`); }
+    }
+    return { items: mergeTrends(prevTrends, fresh), seen: fresh.length, errors };
+  }
   for (const q of TREND_QUERIES) {
     try {
       // sp=CAI%3D: sort by upload date.
@@ -426,10 +444,10 @@ async function main() {
     process.exit(1);
   }
   await mkdir(outDir, { recursive: true });
-  const tr = await trends(prev?.trends?.items);
+  const tr = await trends(prev?.trends?.items, key, prev?.trends?.generated);
   console.log(`trends: ${tr.items.length} kept, ${tr.seen} seen this run${tr.errors.length ? `; errors: ${tr.errors.join('; ')}` : ''}`);
   await writeFile(path.join(outDir, 'clips.json'), JSON.stringify({ generated: now, dating, sources: report, clips,
-    trends: { generated: now, queries: TREND_QUERIES, errors: tr.errors, items: tr.items } }) + '\n');
+    trends: { generated: tr.skipped ? (prev?.trends?.generated || now) : now, queries: TREND_QUERIES, errors: tr.errors, items: tr.items } }) + '\n');
   const undated = clips.filter((c) => !c.published).length;
   console.log(`${clips.length} clips in the index (${fresh.length} seen this run, ${dated} dated, ${undated} still undated).`);
 }
