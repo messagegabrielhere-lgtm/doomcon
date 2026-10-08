@@ -240,6 +240,7 @@ ${BAND.map(([a, b, c]) => arc(a, b, c)).join('')}${ticks}
 <text x="${cx}" y="${cy + 68}" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="${L.color}" letter-spacing="2">OF 100</text></svg>`;
 }
 
+function levelFromScore(v) { if (!Number.isFinite(v)) return null; const i = BAND.findIndex(([a, b]) => v >= a && v < b); return i < 0 ? 1 : 5 - i; }
 function deltaAt(rows, nowMs, hours) {
   const cur = rows[rows.length - 1]; if (!cur) return null;
   const target = nowMs - hours * 3600e3;
@@ -473,7 +474,7 @@ export function render(ctx, { head }) {
     ${dial(state, L)}
     <div class="v2-dinfo">
       <div class="v2-chips">${chip('1H', Number.isFinite(state.delta_from_previous) ? state.delta_from_previous : deltaAt(rows, nowMs, 1))}${chip('24H', deltaAt(rows, nowMs, 24))}${chip('7D', deltaAt(rows, nowMs, 168))}</div>
-      <p class="v2-dline"><b style="color:${L.color}">SIREN ${state.level} · ${esc(state.level_name)}</b> since ${esc(String(state.level_since || '').slice(0, 10))}. ${state.degraded ? `<a href="#health" class="amber">DEGRADED: see why ↓</a>` : '<span class="green">All pillars live.</span>'}</p>
+      <p class="v2-dline"><b style="color:${L.color}">SIREN ${state.level} · ${esc(state.level_name)}</b> since ${esc(String(state.level_since || '').slice(0, 10))}. ${levelFromScore(state.score) !== state.level ? `<span class="amber">The score alone reads SIREN ${levelFromScore(state.score)}; the level is held: ${esc(RULE_TXT[state.rule_fired] || '')}</span> ` : ''}${state.degraded ? `<a href="#health" class="amber">DEGRADED: see why ↓</a>` : '<span class="green">All pillars live.</span>'}</p>
       <div class="v2-dbtns"><a class="v2-btn sm" href="#vfy" data-verify-now>✓ VERIFY THIS READING</a><a class="v2-btn sm ghost" href="${href('/alerts.html')}">🔔 ALERTS</a><a class="v2-btn sm ghost" href="${href('/export.html')}">⤓ DATA &amp; EMBED</a></div>
     </div>
   </section>

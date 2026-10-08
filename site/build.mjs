@@ -524,7 +524,10 @@ function validateState(s, file) {
   // legitimately sit just outside its level's nominal band while the level is
   // held. Wider than that means the engine and the band table disagree.
   const [lo, hi] = meta.band;
-  if (s.score < lo - 3.001 || s.score > hi + 3.001) {
+  // A level the engine is deliberately HOLDING (a dark pillar, the dwell or
+  // quorum test, the post-change lock) can sit further out; the homepage says so.
+  const HOLDS = new Set(['frozen_dark_pillar', 'dwell', 'quorum', 'min_interval', 'locked', 'insufficient_history']);
+  if (!HOLDS.has(s.rule_fired) && (s.score < lo - 3.001 || s.score > hi + 3.001)) {
     bad(`.score ${s.score} is more than the 3-point deadband outside the ${meta.name} band ${lo}-${hi}`);
   }
 
