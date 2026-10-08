@@ -11,6 +11,9 @@ every one of them, because two of them change what the plan should be.
 The operator's goal is the only rubric used here: **more traffic and more repeat
 users than them.** Craft that does not serve that goal is called out as craft.
 
+How to turn the URL-count and schema advantages into Google + AI-engine
+findability is in `docs/FINDABILITY.md`.
+
 Prior repo work corrected in this file: `docs/TEARDOWN.md` §2.3, §2.4, §3.1 and
 the "no public API" row in §5; `docs/ENGAGEMENT.md` §0 (two rows);
 `docs/VISITORS.md` §3 (cluster K). Each correction is marked **CORRECTION**

@@ -8,6 +8,10 @@ search-console numbers, no user tests. Read the priorities as hypotheses to test
 not as findings. Ship moves 01 and 02, then let two weeks of real numbers reorder
 the rest.
 
+For **Google Search and AI answer-engine findability** (Search Console, sitemaps,
+`llms.txt`, structured data, what Google's generative features actually use), see
+`docs/FINDABILITY.md`.
+
 ---
 
 ## The core finding
