@@ -343,9 +343,21 @@ table.mk.iv td.asset small{display:block;color:var(--mute)}
   </div>
 
   <div id="view-investors" role="tabpanel" aria-labelledby="tab-investors" class="view" hidden>
-    <p class="warn-box"><b>Disclosures, not live trades.</b> Everything here comes from public filings that are made after the fact: fund holdings (SEC Form 13F) up to 45 days after each quarter ends, and congressional trades up to 45 days after the trade, with amounts as ranges. A position may have changed since. This is not advice, and copying a disclosed trade is not the same as making it at the time. Read the disclosure at the bottom of the page.</p>
+    <p class="warn-box"><b>Disclosures, not live trades.</b> Everything here comes from public filings that are made after the fact: corporate Form&nbsp;4 insider trades (usually within two business days), fund holdings (SEC Form&nbsp;13F) up to 45 days after each quarter ends, and congressional trades up to 45 days after the trade, with amounts as ranges. A position may have changed since. This is not advice, and copying a disclosed trade is not the same as making it at the time. Read the disclosure at the bottom of the page.</p>
 
     <section aria-label="Who's tracked"><div class="iv-grid" id="ivPeople"><p class="empty">Loading the latest filings…</p></div></section>
+
+    <section class="panel" aria-label="Corporate Form 4 insider trades" id="ivForm4" hidden>
+      <div class="ph"><h2>Corporate insiders: Form 4</h2><span class="mute" style="font-size:12px" id="ivF4Note"></span></div>
+      <p class="mute" style="margin:0 0 10px;font-size:12.5px">Open-market buys and sells from officers and directors at a fixed AI-equity watchlist, straight from EDGAR. Most Form&nbsp;4s must be filed within two business days of the trade — the freshest path on this page. Rule&nbsp;10b5-1 plans are marked when the filing says so.</p>
+      <div class="iv-filters">
+        <input type="search" id="ivF4Q" placeholder="Filter by ticker or insider" aria-label="Filter Form 4 by ticker or insider">
+        <div class="seg" role="group" aria-label="Form 4 trade type" id="ivF4Type"><button type="button" data-t="" aria-pressed="true">All</button><button type="button" data-t="buy" aria-pressed="false">Buys</button><button type="button" data-t="sell" aria-pressed="false">Sells</button></div>
+      </div>
+      <div class="tbl-wrap"><table class="mk iv" id="ivF4T"></table></div>
+      <button type="button" class="more" id="ivF4More" hidden>Show more</button>
+      <details class="iv-fail" id="ivF4Fail" hidden><summary></summary><ul></ul></details>
+    </section>
 
     <section class="panel" aria-label="Congress" id="ivCongress" hidden>
       <div class="ph"><h2>Congress: disclosed stock trades</h2><span class="mute" style="font-size:12px" id="ivCgNote"></span></div>
@@ -371,6 +383,7 @@ table.mk.iv td.asset small{display:block;color:var(--mute)}
     <section class="panel" aria-label="Where this comes from">
       <div class="ph"><h2>Where this comes from</h2><span class="mute" style="font-size:12px" id="ivAsOf"></span></div>
       <ul class="rules">
+        <li>Corporate insiders: SEC Form 4 ownership filings from EDGAR for a fixed AI-equity watchlist (NVDA, AMD, AVGO, META, GOOGL, MSFT, AMZN, TSLA, AAPL, PLTR, SMCI, ORCL, CRM, NOW). Open-market codes P and S are listed as trades; awards, option exercises and tax withholds stay in the collector output but are not the default table. Filed up to two business days after the trade.</li>
         <li>Fund managers: each fund's two latest SEC Form 13F-HR filings from EDGAR. A 13F lists US-listed stocks, ETFs and options held at the end of a quarter. It leaves out short sales, cash, bonds and non-US holdings, so it is part of the picture, not all of it. "Added" and "trimmed" count shares, so a price move alone isn't a trade; dollar figures use the quarter-end price.</li>
         <li>Cathie Wood: ARK publishes every ETF's holdings each day. Trades here are estimated from the change in each position since the last snapshot, net of the whole fund growing or shrinking. Small changes are ignored. ARK's own daily trade notices are the exact record.</li>
         <li>Congress: House members' periodic transaction reports (STOCK Act) from the Clerk of the House, read from the report PDFs. Owner codes: SP spouse, JT joint, DC dependent child, blank the member. Senate reports are not included yet. A report that couldn't be read is listed with a link instead of being guessed.</li>
@@ -438,7 +451,7 @@ table.mk.iv td.asset small{display:block;color:var(--mute)}
 
   </div>
 
-  <p class="foot">Big investors: SEC 13F filings, ARK's daily holdings files and House periodic transaction reports, collected by a GitHub Action each weekday; disclosures are delayed by up to 45 days. Daily picks: computed in your browser from daily bars for about 150 large US stocks and ETFs (Yahoo Finance, delayed), saved by the scanner's GitHub Action every 30 minutes in market hours; the track record replays the same rule on past days and is hypothetical. AI battle: simulated trading. Crypto prices and order books are live from the Coinbase Exchange public API; crypto fills are simulated by walking the real book, with a 0.6% fee each way. Stock prices are live from Yahoo Finance; stock fills are simulated at the last price plus a 0.025% half-spread, with no commission, and only while the US market is open. No wallet here holds real funds and nothing here is financial advice. Code: <a href="https://github.com/messagegabrielhere-lgtm/doomcon/tree/main/arena" target="_blank" rel="noopener">arena/</a>. Raw data: the <a href="https://github.com/messagegabrielhere-lgtm/doomcon/tree/arena-data" target="_blank" rel="noopener">arena-data</a> branch.</p>
+  <p class="foot">Big investors: SEC Form 4 insider filings (AI-equity watchlist, usually within two business days), SEC 13F filings, ARK's daily holdings files and House periodic transaction reports, collected by a GitHub Action each weekday; 13F and Congress disclosures are delayed by up to 45 days. Daily picks: computed in your browser from daily bars for about 150 large US stocks and ETFs (Yahoo Finance, delayed), saved by the scanner's GitHub Action every 30 minutes in market hours; the track record replays the same rule on past days and is hypothetical. AI battle: simulated trading. Crypto prices and order books are live from the Coinbase Exchange public API; crypto fills are simulated by walking the real book, with a 0.6% fee each way. Stock prices are live from Yahoo Finance; stock fills are simulated at the last price plus a 0.025% half-spread, with no commission, and only while the US market is open. No wallet here holds real funds and nothing here is financial advice. Code: <a href="https://github.com/messagegabrielhere-lgtm/doomcon/tree/main/arena" target="_blank" rel="noopener">arena/</a>. Raw data: the <a href="https://github.com/messagegabrielhere-lgtm/doomcon/tree/arena-data" target="_blank" rel="noopener">arena-data</a> branch.</p>
 </div>
 
 <dialog class="agent" id="agent" aria-labelledby="agName">
@@ -799,12 +812,25 @@ function closeAgent(){
   if($("#agent").open) $("#agent").close();
   if(location.hash.startsWith("#agent=")) history.pushState(null, "", "#battle");
 }
+function investorsHash(h){
+  return h === "#investors" || /^#fund-[\w-]+$/.test(h) || h === "#ivArk" || h === "#ivCongress" || h === "#ivTrump" || h === "#ivPeople" || h === "#ivForm4";
+}
+function focusInvestorsTarget(){
+  const id = location.hash.slice(1);
+  if(!id || id === "investors") return;
+  const el = document.getElementById(id);
+  if(!el) return;
+  if(el.tagName === "DETAILS") el.open = true;
+  requestAnimationFrame(() => el.scrollIntoView({behavior: "smooth", block: "start"}));
+}
 function routeHash(){
-  const want = location.hash.startsWith("#agent=") || location.hash === "#battle" ? "battle" : location.hash === "#investors" ? "investors" : "picks";
+  const h = location.hash;
+  const want = h.startsWith("#agent=") || h === "#battle" ? "battle" : investorsHash(h) ? "investors" : "picks";
   if(want !== view) setView(want);
-  const m = location.hash.match(/^#agent=([\w-]+)/);
+  const m = h.match(/^#agent=([\w-]+)/);
   if(m) openAgent(decodeURIComponent(m[1]), false);
   else if($("#agent").open){ openId = null; $("#agent").close(); }
+  if(want === "investors") focusInvestorsTarget();
 }
 
 /* picks:begin -- the screen. Pure functions of daily bars; arena/test.mjs runs this same block. */
@@ -1104,12 +1130,12 @@ function renderPkHist(){
 
 // ---- the big investors tab ----
 const INV = (qs.get("inv") || "https://raw.githubusercontent.com/messagegabrielhere-lgtm/doomcon/investors-data").replace(/\/$/, "");
-let IV = null, ivCgN = 60, ivCgType = "";
+let IV = null, ivCgN = 60, ivCgType = "", ivF4N = 60, ivF4Type = "";
 const usd = (x) => { if(x == null) return "-"; const a = Math.abs(x), s = x < 0 ? "-" : ""; return a >= 1e9 ? `${s}$${(a / 1e9).toFixed(2)}B` : a >= 1e6 ? `${s}$${(a / 1e6).toFixed(1)}M` : a >= 1e3 ? `${s}$${(a / 1e3).toFixed(0)}K` : `${s}$${a.toFixed(0)}`; };
 const shs = (x) => (x == null ? "-" : `${x > 0 ? "+" : ""}${Math.round(x).toLocaleString("en-US")}`);
 const isoDay = (d) => d ? new Date(d + "T12:00:00Z").toLocaleDateString("en-US", {month:"short", day:"numeric", year:"numeric", timeZone:"UTC"}) : "-";
 const quarter = (d) => { if(!d) return "-"; const [y, m] = d.split("-").map(Number); return `Q${Math.ceil(m / 3)} ${y}`; };
-const kindTag = (k) => { const c = /^(buy|new|add)/.test(k) ? "buy" : /^(sell|exit|trim)/.test(k) ? "sell" : "other"; const label = {buy:"Buy", sell:"Sell", "sell (partial)":"Sell part", exchange:"Exch.", new:"New", add:"Added", trim:"Trimmed", exit:"Sold out"}[k] || k; return `<span class="kind ${c} ${esc(k.split(" ")[0])}">${esc(label)}</span>`; };
+const kindTag = (k) => { const c = /^(buy|new|add)/.test(k) ? "buy" : /^(sell|exit|trim)/.test(k) ? "sell" : "other"; const label = {buy:"Buy", sell:"Sell", "sell (partial)":"Sell part", exchange:"Exch.", new:"New", add:"Added", trim:"Trimmed", exit:"Sold out", award:"Award", exercise:"Exercise", "tax withhold":"Tax", gift:"Gift"}[k] || k; return `<span class="kind ${c} ${esc(String(k).split(" ")[0])}">${esc(label)}</span>`; };
 const secName = (x) => `${esc(x.ticker || "")}${x.ticker ? " · " : ""}${esc(x.name || x.company || "")}${x.putCall ? ` <small>${esc(x.putCall)} options</small>` : ""}`;
 
 async function loadInvestors(){
@@ -1120,39 +1146,58 @@ async function loadInvestors(){
     renderInvestors();
     renderHL();
   }catch(e){
-    if(!IV) $("#ivPeople").innerHTML = `<p class="empty">The investor data hasn't been published yet (${esc(e.message)}). It comes from the <b>investors</b> workflow, which runs each weekday morning and evening.</p>`;
+    if(!IV) $("#ivPeople").innerHTML = `<p class="empty">The investor data hasn't been published yet (${esc(e.message)}). It comes from the <b>investors</b> workflow, which runs each weekday morning, afternoon and evening.</p>`;
   }
   if(view === "investors" && IV) announce(Date.parse(IV.generated));
 }
 
 function renderInvestors(){
-  const F = IV.funds || [], A = IV.ark, C = IV.congress;
+  const F = IV.funds || [], A = IV.ark, C = IV.congress, F4 = IV.form4;
   $("#ivAsOf").textContent = `Collected ${new Date(IV.generated).toLocaleString([], {month:"short", day:"numeric", hour:"numeric", minute:"2-digit"})}`;
   const pel = C?.featured?.find((f) => f.id === "pelosi");
   const cards = [];
   const card = (target, who, org, what, when, tag = "", stale = false) => cards.push(`<button type="button" class="iv-card" data-go="${esc(target)}"><span class="tag${stale ? " stale" : ""}">${esc(tag)}</span><span class="who">${esc(who)}</span><span class="org">${esc(org)}</span><span class="what">${what}</span><span class="when">${esc(when)}</span></button>`);
   const fundCard = (f) => {
     if(f.error){ card(`fund-${f.id}`, f.person, f.fund, "This quarter's 13F couldn't be loaded; the SEC filings are linked", "Not loaded yet", "13F holdings"); return; }
-    const top = f.changes?.[0];
+    const top = f.changes?.find((c) => c.ticker) || f.changes?.[0];
     const what = top ? `Biggest move: ${kindTag(top.kind)} <b>${esc(top.ticker || top.name)}</b> ${usd(Math.abs(top.dValue))}` : `Top holding: <b>${esc(f.top?.[0]?.ticker || f.top?.[0]?.name || "-")}</b>`;
     card(`fund-${f.id}`, f.person, f.fund, what, `${quarter(f.period)} 13F · filed ${isoDay(f.filed)}${f.stale ? " · no newer filing" : ""}`, f.stale ? "Old filing" : "13F holdings", f.stale);
   };
+  if(F4?.trades?.length){
+    const t = F4.trades[0];
+    card("ivForm4", t.owner, `${t.ticker} · Form 4`, `Latest: ${kindTag(t.kind)} <b>${esc(t.ticker)}</b> ${t.usd != null ? usd(Math.abs(t.usd)) : shs(t.shares) + " sh"}${t.plan ? " · 10b5-1" : ""}`, `Trade ${isoDay(t.date)} · filed ${isoDay(t.filed)}`, "Form 4 · ≤2 days");
+  }else if(F4){
+    card("ivForm4", "Corporate insiders", (F4.issuers || []).slice(0, 6).join(", "), "Watching EDGAR for open-market Form 4s", `Last ${F4.days || 21} days`, "Form 4");
+  }
   const order = ["burry", "buffett", "wood"];
   for(const id of order){ const f = F.find((x) => x.id === id); if(f) fundCard(f); if(id === "buffett" && pel) {
-    const t = pel.trades[0];
-    card("ivCongress", "Nancy Pelosi", "House of Representatives (CA-11)", t ? `Latest: ${kindTag(t.type)} <b>${esc(t.ticker || t.asset)}</b> ${esc(t.amount)}` : "No trades read yet", t ? `Trade ${isoDay(t.date)} · reported ${isoDay(t.filed)}` : "", "Congress");
+    const t = pel.trades.find((x) => x.ticker) || pel.trades[0];
+    card("ivCongress", "Nancy Pelosi", "House of Representatives (CA-11)", t ? `Latest: ${kindTag(t.type)} <b>${esc(t.ticker || t.asset)}</b>${t.assetType === "OP" ? " options" : ""} ${esc(t.amount)}` : "No trades read yet", t ? `Trade ${isoDay(t.date)} · reported ${isoDay(t.filed)}` : "", "Congress");
   } }
   if(A?.trades?.length){ const t = A.trades[0]; card("ivArk", "Cathie Wood", "ARK ETFs, daily", `Latest: ${kindTag(t.kind)} <b>${esc(t.ticker)}</b> ${usd(Math.abs(t.usd))} in ${esc(t.fund)}`, `As of ${isoDay(t.date)}`, "Daily trades"); }
   card("ivTrump", "Donald Trump", "President, OGE Form 278-T", "Reports are scanned images; linked, not read", "See the official filings", "Links only");
   for(const f of F) if(!order.includes(f.id)) fundCard(f);
   $("#ivPeople").innerHTML = cards.join("");
 
+  // Form 4
+  $("#ivForm4").hidden = !F4;
+  if(F4){
+    $("#ivF4Note").textContent = `${F4.trades?.length || 0} open-market trades in the last ${F4.days} days · ${(F4.issuers || []).length} issuers${F4.pending ? ` · ${F4.pending} filings waiting` : ""}`;
+    renderForm4();
+    const fl = F4.failures || [];
+    $("#ivF4Fail").hidden = !fl.length;
+    if(fl.length){
+      $("#ivF4Fail summary").textContent = `${fl.length} Form 4 filing${fl.length > 1 ? "s" : ""} couldn't be read`;
+      $("#ivF4Fail ul").innerHTML = fl.map((x) => `<li>${esc(x.ticker)}, filed ${isoDay(x.filed)}: ${esc(x.error)} · <a href="${esc(x.url)}" rel="noopener" target="_blank">EDGAR</a></li>`).join("");
+    }
+  }
+
   // Congress
   $("#ivCongress").hidden = !C; $("#ivArk").hidden = !A;
   if(C){
     $("#ivCgNote").textContent = `${C.reports} House reports filed in the last ${C.days} days${C.pending ? ` · ${C.pending} still being read` : ""}`;
     if(pel){
-      const t = pel.trades.slice(0, 12);
+      const t = [...pel.trades].sort((a, b) => Number(!!b.ticker) - Number(!!a.ticker)).slice(0, 12);
       $("#ivPelosi").innerHTML = `<h3>Nancy Pelosi's disclosed trades</h3><p class="mute" style="margin:0;font-size:12.5px">Mostly held by her husband, Paul Pelosi (owner SP). Reported up to 45 days after the trade; amounts are ranges.</p>` +
         (t.length ? `<div class="chips">${t.map((x) => `<span class="chip2">${kindTag(x.type)} <b>${esc(x.ticker || x.asset)}</b>${x.assetType === "OP" ? " options" : ""} · ${esc(x.amount)} · ${isoDay(x.date)}</span>`).join("")}</div>` : `<p class="mute">No reports read yet this year.</p>`);
     }else $("#ivPelosi").hidden = true;
@@ -1206,9 +1251,21 @@ function renderCongress(){
     `<tr><td colspan="7" class="mute">No trades match.</td></tr>`) + "</tbody>";
   $("#ivCgMore").hidden = all.length <= ivCgN;
 }
+function renderForm4(){
+  const q = $("#ivF4Q").value.trim().toLowerCase();
+  const all = (IV.form4?.trades || []).filter((t) => (!ivF4Type || t.kind === ivF4Type) && (!q || `${t.ticker} ${t.owner} ${t.role}`.toLowerCase().includes(q)));
+  const rows = all.slice(0, ivF4N);
+  $("#ivF4T").innerHTML = `<thead><tr><th>Insider</th><th>Trade</th><th>Stock</th><th>Shares</th><th>About</th><th>Traded</th><th>Filed</th><th>Filing</th></tr></thead><tbody>` +
+    (rows.map((t) => `<tr><td class="nw">${esc(t.owner)} <small class="mute">${esc(t.role)}${t.plan ? " · 10b5-1" : ""}</small></td><td>${kindTag(t.kind)}</td><td class="asset"><b>${esc(t.ticker)}</b>${t.derivative ? " <small>derivative</small>" : ""}</td><td class="num">${shs(t.shares)}</td><td class="num ${t.kind === "buy" ? "up" : t.kind === "sell" ? "down" : ""}">${t.usd != null ? usd(t.kind === "sell" ? -Math.abs(t.usd) : t.usd) : (t.price ? "$" + t.price.toFixed(2) + "/sh" : "-")}</td><td class="nw">${isoDay(t.date)}</td><td class="nw">${isoDay(t.filed)}</td><td><a href="${esc(t.url)}" rel="noopener" target="_blank">Form 4</a></td></tr>`).join("") ||
+    `<tr><td colspan="8" class="mute">No open-market Form 4 trades match yet. The collector reads EDGAR on each weekday run.</td></tr>`) + "</tbody>";
+  $("#ivF4More").hidden = all.length <= ivF4N;
+}
 $("#ivCgQ").addEventListener("input", () => { ivCgN = 60; IV && renderCongress(); });
 $("#ivCgType").addEventListener("click", (e) => { const b = e.target.closest("button[data-t]"); if(!b) return; ivCgType = b.dataset.t; for(const x of $("#ivCgType").children) x.setAttribute("aria-pressed", String(x === b)); ivCgN = 60; IV && renderCongress(); });
 $("#ivCgMore").addEventListener("click", () => { ivCgN += 100; renderCongress(); });
+$("#ivF4Q").addEventListener("input", () => { ivF4N = 60; IV && renderForm4(); });
+$("#ivF4Type").addEventListener("click", (e) => { const b = e.target.closest("button[data-t]"); if(!b) return; ivF4Type = b.dataset.t; for(const x of $("#ivF4Type").children) x.setAttribute("aria-pressed", String(x === b)); ivF4N = 60; IV && renderForm4(); });
+$("#ivF4More").addEventListener("click", () => { ivF4N += 100; renderForm4(); });
 $("#ivPeople").addEventListener("click", (e) => {
   const c = e.target.closest(".iv-card[data-go]"); if(!c) return;
   const el = document.getElementById(c.dataset.go); if(!el) return;
@@ -1234,12 +1291,20 @@ function renderHL(){
     }
   }
   if(IV){
+    const f4 = IV.form4?.trades?.[0];
     const pel = IV.congress?.featured?.find((f) => f.id === "pelosi")?.trades?.find((t) => t.ticker);
-    const f = (IV.funds || []).find((x) => !x.error && x.changes?.length && !x.stale);
-    const verb = {buy:"bought", sell:"sold", "sell (partial)":"sold some", exchange:"exchanged"};
-    if(pel){ $("#hlInv").textContent = `Pelosi ${verb[pel.type] || pel.type} ${pel.ticker}${pel.assetType === "OP" ? " options" : ""}`; $("#hlInvS").textContent = `${pel.amount} · traded ${isoDay(pel.date)}`; }
-    else if(f){ const c = f.changes[0]; $("#hlInv").textContent = `${f.person}: ${c.kind} ${c.ticker || c.name}`; $("#hlInvS").textContent = `${quarter(f.period)} 13F`; }
-    if(f && pel) $("#hlInvS").textContent += ` · ${f.person.split(" ").pop()} ${f.changes[0].kind} ${f.changes[0].ticker || f.changes[0].name}`;
+    const ark = IV.ark?.trades?.[0];
+    const f = (IV.funds || []).find((x) => !x.error && x.changes?.length && !x.stale && x.changes.some((c) => c.ticker))
+      || (IV.funds || []).find((x) => !x.error && x.changes?.length && !x.stale);
+    const ch = f && (f.changes.find((c) => c.ticker) || f.changes[0]);
+    const verb = {buy:"bought", sell:"sold", "sell (partial)":"sold some", exchange:"exchanged", new:"new", add:"added", trim:"trimmed", exit:"sold out of"};
+    if(f4){ $("#hlInv").textContent = `${f4.owner.split(" ")[0]} ${verb[f4.kind] || f4.kind} ${f4.ticker}`; $("#hlInvS").textContent = `${f4.usd != null ? usd(f4.usd) : shs(f4.shares) + " sh"} · Form 4 ${isoDay(f4.filed)}`; }
+    else if(pel){ $("#hlInv").textContent = `Pelosi ${verb[pel.type] || pel.type} ${pel.ticker}${pel.assetType === "OP" ? " options" : ""}`; $("#hlInvS").textContent = `${pel.amount} · traded ${isoDay(pel.date)}`; }
+    else if(ark){ $("#hlInv").textContent = `Wood ${verb[ark.kind] || ark.kind} ${ark.ticker}`; $("#hlInvS").textContent = `${usd(ark.usd)} in ${ark.fund} · ${isoDay(ark.date)}`; }
+    else if(ch){ $("#hlInv").textContent = `${f.person}: ${ch.kind} ${ch.ticker || ch.name}`; $("#hlInvS").textContent = `${quarter(f.period)} 13F`; }
+    if(f4 && pel) $("#hlInvS").textContent += ` · Pelosi ${pel.ticker}`;
+    else if(pel && ark) $("#hlInvS").textContent += ` · Wood ${ark.kind} ${ark.ticker}`;
+    else if(pel && ch) $("#hlInvS").textContent += ` · ${f.person.split(" ").pop()} ${ch.kind} ${ch.ticker || ch.name}`;
   }
   for(const b of document.querySelectorAll(".hl-c")) b.setAttribute("aria-current", String(b.dataset.v === view));
 }
@@ -1253,7 +1318,7 @@ function setView(v){
   view = v;
   for(const k of TABS){ $(`#tab-${k}`).setAttribute("aria-selected", String(k === v)); $(`#view-${k}`).hidden = k !== v; }
   $("#title").innerHTML = v === "picks" ? "Daily <b>Picks</b>" : v === "investors" ? "Big <b>Investors</b>" : "AI <b>Battle</b>";
-  $("#subtitle").textContent = v === "picks" ? "A rule-based screen for one-day stock trades, with every past pick scored." : v === "investors" ? "What famous investors and politicians have disclosed buying and selling, straight from the filings." : "Paper money, real prices. Every trade and every rejection, with its reason, as it happens.";
+  $("#subtitle").textContent = v === "picks" ? "A rule-based screen for one-day stock trades, with every past pick scored." : v === "investors" ? "Form 4 insider trades, fund 13Fs, ARK daily moves and Congress disclosures — straight from the filings." : "Paper money, real prices. Every trade and every rejection, with its reason, as it happens.";
   $("#fresh").hidden = v !== "battle";
   if(v === "battle" && S){ renderChart(); announce(S.updatedAt); }
   if(v === "picks" && PKD){ drawPkChart(pkStats(PKH)); announce(PKD.gen); }
@@ -1300,11 +1365,12 @@ $("#agent").addEventListener("cancel", (e) => { e.preventDefault(); closeAgent()
 $("#agent").addEventListener("click", (e) => { if(e.target === $("#agent")) closeAgent(); }); // backdrop
 $("#mkSeg").addEventListener("click", (e) => { const b = e.target.closest("button[data-t]"); if(!b) return; mkType = b.dataset.t; for(const x of $("#mkSeg").children) x.setAttribute("aria-pressed", String(x === b)); renderMarket(); });
 $("#mk").addEventListener("click", (e) => { const b = e.target.closest("button[data-k]"); if(!b) return; const k = b.dataset.k; mkSort = {k, dir: mkSort.k === k ? -mkSort.dir : (k === "sym" ? 1 : -1)}; renderMarket(); });
-addEventListener("popstate", () => S ? routeHash() : setView(location.hash === "#investors" ? "investors" : location.hash === "#battle" ? "battle" : "picks"));
+addEventListener("popstate", () => S ? routeHash() : setView(location.hash.startsWith("#agent=") || location.hash === "#battle" ? "battle" : investorsHash(location.hash) ? "investors" : "picks"));
+addEventListener("hashchange", () => { if(S || IV || PKH) routeHash(); });
 let rz; addEventListener("resize", () => { clearTimeout(rz); rz = setTimeout(() => S && renderChart(), 150); });
-setView(location.hash.startsWith("#agent=") || location.hash === "#battle" ? "battle" : location.hash === "#investors" ? "investors" : "picks");
+setView(location.hash.startsWith("#agent=") || location.hash === "#battle" ? "battle" : investorsHash(location.hash) ? "investors" : "picks");
 loadPicks();
-loadInvestors();
+loadInvestors().then(() => { if(investorsHash(location.hash)) focusInvestorsTarget(); });
 load();
 setInterval(load, 60e3);
 setInterval(loadPicks, 5 * 60e3);

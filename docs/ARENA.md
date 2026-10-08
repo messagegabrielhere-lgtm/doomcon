@@ -43,17 +43,23 @@ sector cap, the stats).
 
 `/arena.html#investors`. What well-known investors and politicians have
 disclosed buying and selling, read from the public filings by
-`investors/collect.mjs` (`.github/workflows/investors.yml`, weekday mornings
-and evenings, output on the `investors-data` branch). Everything is a
+`investors/collect.mjs` (`.github/workflows/investors.yml`, weekday morning,
+mid-day and evening, output on the `investors-data` branch). Everything is a
 disclosure made after the fact; nothing is real time.
 
 | who | source | delay |
 |---|---|---|
+| Officers/directors at NVDA, AMD, AVGO, META, GOOGL, MSFT, AMZN, TSLA, AAPL, PLTR, SMCI, ORCL, CRM, NOW | SEC Form 4 ownership XML on EDGAR (`#ivForm4`) | usually within **two business days** |
 | Michael Burry (Scion), Warren Buffett (Berkshire), Bill Ackman (Pershing Square), Stanley Druckenmiller (Duquesne), David Tepper (Appaloosa), Bridgewater (founded by Ray Dalio), ARK | SEC Form 13F-HR on EDGAR: the latest filing against the one before | up to 45 days after the quarter |
 | Cathie Wood | ARK's daily ETF holdings files (ARKK, ARKW, ARKG, ARKQ, ARKF, ARKX), each day against the last | a day |
 | Nancy Pelosi and every House member | House periodic transaction reports (STOCK Act), the Clerk's index and the report PDFs | up to 45 days after the trade |
 | Donald Trump | OGE Form 278-T: scanned images, so linked, not read | |
 
+- **Form 4** is the freshest path. Submissions JSON per issuer → ownership
+  XML per accession, cached in `state.form4.docs`. Open-market codes `P`/`S`
+  are the default table; awards, exercises and tax withholds stay in
+  `form4.all`. Cap is 100 new XMLs per run; the mid-day cron exists so EDGAR
+  filings posted during US hours land the same day.
 - **13F changes** count shares, so a price move alone isn't a trade: new,
   added (2%+ more shares), trimmed, sold out. Dollar sizes use the quarter-end
   price. A 13F covers US-listed stocks, ETFs and options only. A fund with no
@@ -61,29 +67,30 @@ disclosure made after the fact; nothing is real time.
   (Scion's last 13F is for Q3 2025).
 - **ARK trades** are estimates: each position against its old size times the
   median change across the fund, which takes out creations and redemptions.
-  Changes under 1% or $250K are ignored.
+  Changes under 1% or $250K are ignored. Same-day re-runs keep yesterday in
+  `state.arkPrev` so the next distinct date still produces a diff.
 - **House reports** are read with pdf.js (installed only in that workflow).
   Up to 120 reports a run, newest first; parsed reports are cached in
   `state.json`. A report that can't be read (a scanned paper filing, a row the
   parser doesn't recognise) is listed with a link to its PDF rather than
   guessed. Senate reports sit behind a search form and are not included.
 - SEC refuses automated clients (HTTP 403, "Undeclared Automated Tool")
-  unless the User-Agent names who is asking with a contact email. Set the
-  repository variable `SEC_UA` (Settings → Secrets and variables → Actions →
-  Variables), for example `doomcon you@example.com`. Until it is set, the fund
-  cards say the 13F couldn't be loaded and link to EDGAR; the ARK and Congress
-  sections don't use SEC.
+  unless the User-Agent names who is asking with a contact email, and it
+  rejects any UA containing `github`. Default is
+  `doomcon messagegabrielhere@gmail.com`; override with repository variable
+  `SEC_UA`. Do not put a GitHub noreply address there.
 
 ```bash
-node --test investors/test.mjs                  # offline, fixed inputs
-node investors/collect.mjs --dir investors-out  # needs network; --only ark,13f,congress
+node --test investors/test.mjs                       # offline, fixed inputs
+node investors/collect.mjs --dir investors-out       # needs network
+node investors/collect.mjs --dir out --only form4    # Form 4 path alone
 ```
 
 ## Highlights
 
 A strip above the tabs carries one line from each: the pick of the day and
-where it stands, the latest disclosed trade (Pelosi's first, then a fund's
-biggest 13F move), and the AI battle leader, labelled "stand-in" or
+where it stands, the latest disclosed trade (Form 4 first, then Pelosi, ARK,
+or a fund's biggest 13F move), and the AI battle leader, labelled "stand-in" or
 "baseline" when it is one. Each card opens its tab. The investors collector
 also writes `highlights.json` (a few lines, about 3KB) for the homepage.
 

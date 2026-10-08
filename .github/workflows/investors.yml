@@ -1,21 +1,25 @@
-# Big investors (/arena.html#investors): disclosed trades of well-known fund
-# managers (SEC 13F), Cathie Wood's ARK ETFs (daily holdings) and members of
-# Congress (House periodic transaction reports).
+# Big investors (/arena.html#investors): disclosed trades from
+#   - SEC Form 4 (AI-equity insider watchlist; ≤2 business days)
+#   - SEC 13F (fund managers; quarterly)
+#   - ARK daily ETF holdings
+#   - House periodic transaction reports (Congress)
 #
 # Like the scanner and the arena, this never touches main. Output lives on the
 # investors-data branch as one orphan commit, force-pushed. state.json there
-# holds yesterday's ARK holdings (to diff against) and the House reports
-# already parsed; delete the branch to start over.
+# holds yesterday's ARK holdings (to diff against), cached Form 4 ownership
+# docs, and the House reports already parsed; delete the branch to start over.
 #
 # SEC refuses automated clients unless the User-Agent names who is asking with
-# a contact email. The default below is the repository owner's; the repository
-# variable SEC_UA (for example "yoursite admin@example.com") overrides it.
+# a contact email, and it 403s any User-Agent containing "github". The default
+# below is the repository owner's; the repository variable SEC_UA overrides it.
+# Do not put a GitHub noreply address in that variable.
 
 name: investors
 
 on:
   schedule:
-    - cron: '17 12 * * 1-5'   # morning: House reports filed overnight
+    - cron: '17 12 * * 1-5'   # morning: House reports + overnight Form 4s
+    - cron: '17 16 * * 1-5'   # mid-US-day: newer Form 4s as EDGAR posts them
     - cron: '47 23 * * 1-5'   # evening: after ARK posts the day's holdings
   workflow_dispatch:
 
@@ -29,7 +33,7 @@ concurrency:
 jobs:
   collect:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 40
     steps:
       - name: Checkout
         uses: actions/checkout@v4
