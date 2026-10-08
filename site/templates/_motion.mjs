@@ -338,7 +338,7 @@ export function motionCss() {
 
 /* The arrivals pill. It sits in the same strip band as the note, so the top of
    the page has exactly one place where the live layer is allowed to speak. */
-.dcmx-new{display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin:0;
+.dcmx-new{position:sticky;top:0;z-index:30;display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin:0;
   padding:6px var(--gutter);border-bottom:1px solid var(--rule);background:var(--bg-sunken);
   font-family:var(--mono);font-size: var(--t-xs);color:var(--ink-dim)}
 .dcmx-new[hidden]{display:none}
@@ -487,12 +487,16 @@ function dur(s){s=Math.round(s);if(s<90)return s+'s';var m=Math.round(s/60);if(m
 function el(t,c,x){var e=d.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e;}
 function A(e,k,v){e.setAttribute(k,v);}
 function L(e,t,f,o){e.addEventListener(t,f,o);}
-var sc=q('[data-dc-score]')||q('.score__val'),sh=C.score;
+var sc=q('[data-dc-score]')||q('.score__val'),sh=C.score,anim=0,want=C.score;
 function pt(v){if(sc)sc.textContent=v.toFixed(C.decimals);}
-function ct(to,ms){var f=sh;sh=to;if(!sc||rm||f===to){pt(to);return;}var t0=0;
-requestAnimationFrame(function s(t){if(!t0)t0=t;var p=Math.min(1,(t-t0)/ms);
-pt(f+(to-f)*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(s);});}
-if(sc&&C.prevScore!==null&&C.prevScore!==C.score&&!rm){sh=C.prevScore;pt(C.prevScore);ct(C.score,600);}
+function ct(to,ms){want=to;var f=sh;sh=to;if(!sc||rm||f===to||d.hidden){pt(to);anim=0;return;}
+var t0=0,id=++anim;
+requestAnimationFrame(function s(t){if(id!==anim)return;if(d.hidden){pt(want);anim=0;return;}
+if(!t0)t0=t;var p=Math.min(1,(t-t0)/ms);
+pt(f+(to-f)*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(s);else anim=0;});}
+// Background tabs throttle rAF — never leave the SSR score overwritten by prevScore.
+if(sc&&C.prevScore!==null&&C.prevScore!==C.score&&!rm&&!d.hidden){sh=C.prevScore;pt(C.prevScore);ct(C.score,600);}
+else if(sc)pt(C.score);
 var lv=q('[data-dc-level]')||q('.level__digit');
 if(lv&&C.levelChanged&&!rm)lv.classList.add('dcmx-pulse');
 function arr(n){if(rm)return;for(var i=0;i<n.length&&i<C.arrivalCap;i++){
@@ -593,7 +597,7 @@ return gj(C.freshUrl).then(function(f){if(f&&f.news===nAt)return null;return gj(
 if(fl>=3){off=true;if(nt)q('.dcmx-note__k',nt).textContent='REFRESH STOPPED';
 say('refresh gave up; reload the page');return;}
 plan(BO[fl]);});}
-L(d,'visibilitychange',function(){if(d.hidden)return;ago();if(wt&&!off)run();});
+L(d,'visibilitychange',function(){if(d.hidden)return;if(sc)pt(want);ago();if(wt&&!off)run();});
 setInterval(function(){if(!d.hidden)ago();},C.tickMs);
 plan(C.pollMs);
 })();`;

@@ -149,16 +149,30 @@ if('IntersectionObserver' in window){var io=new IntersectionObserver(function(es
 document.addEventListener('keydown',function(e){var t=e.target;if(e.metaKey||e.ctrlKey||e.altKey||(t&&(t.tagName==='INPUT'||t.tagName==='TEXTAREA'||t.isContentEditable)))return;var d=document.getElementById('v2-pal');if(d&&d.open)return;
 var n=parseInt(e.key,10);if(n>=1&&n<=secs.length){e.preventDefault();secs[n-1].scrollIntoView({behavior:'smooth',block:'start'});history.replaceState(null,'','#'+secs[n-1].id)}
 else if(e.key==='t'||e.key==='Home'&&!e.shiftKey){if(e.key==='t'){e.preventDefault();window.scrollTo({top:0,behavior:'smooth'})}}});
-(function(){var N=window.SIREN_NOW,box=document.getElementById('v2-since');if(!N||!box)return;var K='siren:visit',P=null;try{P=JSON.parse(localStorage.getItem(K)||'null')}catch(e){}
-try{localStorage.setItem(K,JSON.stringify({seen:Date.now(),score:N.score,level:N.level,leader:N.leader,lp:N.lp}))}catch(e){}
-if(!P||!P.seen||Date.now()-P.seen<20*60000)return;var out=[],h=(Date.now()-P.seen)/36e5;
+(function(){var N=window.SIREN_NOW,box=document.getElementById('v2-since');if(!N||!box)return;
+// Shared with classic chrome (doomcon.visit.v1) so return state survives / ↔ /classic.
+var K='doomcon.visit.v1',LEGACY='siren:visit',P=null;
+try{P=JSON.parse(localStorage.getItem(K)||'null')}catch(e){}
+if(!P){try{var L=JSON.parse(localStorage.getItem(LEGACY)||'null');if(L){P={t:L.seen,score:L.score,level:L.level,leader:L.leader,lp:L.lp,at:L.at};}}catch(e){}}
+var cur={t:Date.now(),score:N.score,level:N.level,name:N.name||'',leader:N.leader,lp:N.lp,at:N.at||null};
+try{localStorage.setItem(K,JSON.stringify(cur));localStorage.removeItem(LEGACY)}catch(e){}
+var seen=P&&(P.t||P.seen);if(!P||!seen||Date.now()-seen<20*60000)return;var out=[],h=(Date.now()-seen)/36e5;
 if(P.level!==N.level)out.push('<b>Level moved</b> SIREN '+P.level+' → <b>SIREN '+N.level+'</b>');
 if(P.score!=null&&N.score!=null){var d=Math.round((N.score-P.score)*10)/10;out.push('Score '+P.score.toFixed(1)+' → <b>'+N.score.toFixed(1)+'</b>'+(d?' ('+(d>0?'▲':'▼')+Math.abs(d).toFixed(1)+')':' (no change)'))}
-var nn=(N.news||[]).filter(function(t){return t>P.seen}).length;if(nn)out.push('<a href="news.html"><b>'+nn+'</b> new '+(nn===1?'story':'stories')+'</a>');
+var nn=(N.news||[]).filter(function(t){return t>seen}).length;if(nn)out.push('<a href="news.html"><b>'+nn+'</b> new '+(nn===1?'story':'stories')+'</a>');
 if(N.leader&&P.leader&&N.leader!==P.leader)out.push('<a href="race.html"><b>'+N.leader+'</b> took the lead from '+P.leader+'</a>');else if(N.leader&&P.lp!=null&&N.lp!=null&&Math.abs(N.lp-P.lp)>=0.5)out.push('<a href="race.html">'+N.leader+' '+P.lp.toFixed(1)+'% → <b>'+N.lp.toFixed(1)+'%</b></a>');
 if(!out.length)return;var ago=h<1?Math.round(h*60)+' MIN':h<48?Math.round(h)+' H':Math.round(h/24)+' DAYS';
 box.innerHTML='<span class="k">SINCE YOUR LAST VISIT · '+ago+' AGO</span><span class="v">'+out.join('<i>·</i>')+'</span><button type="button" aria-label="Dismiss">×</button>';box.hidden=false;box.querySelector('button').onclick=function(){box.hidden=true}})();
 var f=document.getElementById('v2-fresh');if(f){var at=Date.parse(f.getAttribute('data-at'));var h=(Date.now()-at)/36e5;var lb=f.querySelector('b');if(lb){var mm=Math.max(0,Math.round(h*60));lb.textContent=new Date(at).toLocaleTimeString([],{hour:'numeric',minute:'2-digit'})+' · '+(mm<60?mm+' MIN AGO':Math.round(h)+' H AGO');}f.title='Readings land hourly, usually 15–30 minutes past the hour. The newsroom refreshes every 15 minutes.';if(h>2){f.classList.add('stale');f.title='The newest reading is '+Math.round(h)+' hours old. The site normally refreshes every hour.';f.insertAdjacentHTML('beforeend',' · OVERDUE')}}
+// Sticky jump when fresh.json advances while this tab stays open.
+(function(){var pill=document.getElementById('v2-new');if(!pill)return;
+var bar=document.getElementById('sitebar');
+var mark=+(bar&&bar.getAttribute('data-news'))||Date.now();
+var base='';try{var can=document.querySelector('link[rel=canonical]');var p=new URL((can&&can.href)||location.href).pathname.replace(/\\/+$/,'');base=p.replace(/\\/index\\.html$/,'')||''}catch(e){}
+function watch(){if(document.hidden||pill.getAttribute('data-due'))return;
+fetch(base+'/api/fresh.json?m='+Math.floor(Date.now()/60000),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(f){if(!f||!f.news)return;if(Date.parse(f.news)>mark+1500){pill.hidden=false;pill.setAttribute('data-due','1')}}).catch(function(){})}
+pill.querySelector('button').addEventListener('click',function(){var u=new URL(location.href);u.searchParams.set('r',Date.now().toString(36));u.hash='breaking';location.replace(u.toString())});
+setInterval(watch,60000);document.addEventListener('visibilitychange',function(){if(!document.hidden)watch()});setTimeout(watch,4000)})();
 })();`;
 
 
@@ -510,6 +524,7 @@ export function render(ctx, { head }) {
   </span>
 </div></div>
 ${ticker(items)}
+<p class="v2-new" id="v2-new" role="status" hidden><button type="button">New stories since you arrived — jump</button></p>
 ${nav.strip}
 <main class="v2-wrap v2-main" id="main">
   <div class="v2-brand">
@@ -763,9 +778,14 @@ body.v2-body{margin:0;background:#000;color:#F3F4F6}
 .v2-ticker{display:flex;align-items:center;border-bottom:1px solid #232C3B;background:#05070B;overflow:hidden;font:500 12px/1 'IBM Plex Mono',monospace}
 .v2-ticker .lbl{flex:none;background:#FF3B3B;color:#fff;font-weight:700;letter-spacing:.12em;padding:8px 10px}
 .v2-ticker .trk{overflow:hidden;flex:1;white-space:nowrap}.v2-ticker .run{display:inline-block;padding-left:12px;animation:v2-tick 120s linear infinite}
-.v2-ticker:hover .run{animation-play-state:paused}.v2-ticker a{color:#E6EAF0;text-decoration:none}.v2-ticker a:hover{color:#4ADE80}.v2-ticker b{color:#FF3B3B;margin:0 14px}
+.v2-ticker:hover .run,.v2-ticker:focus-within .run{animation-play-state:paused}.v2-ticker a{color:#E6EAF0;text-decoration:none}.v2-ticker a:hover,.v2-ticker a:focus-visible{color:#4ADE80}.v2-ticker b{color:#FF3B3B;margin:0 14px}
 @keyframes v2-tick{to{transform:translateX(-50%)}}
 @media (prefers-reduced-motion:reduce){.v2-ticker .run{animation:none}.v2-src.src-live i{animation:none}}
+.v2-new{position:sticky;top:0;z-index:40;display:flex;justify-content:center;margin:0;padding:8px 12px;background:rgba(14,19,29,.94);border-bottom:1px solid #232C3B;backdrop-filter:blur(8px)}
+.v2-new[hidden]{display:none}
+.v2-new button{appearance:none;-webkit-appearance:none;cursor:pointer;border:1px solid #4ADE80;border-radius:999px;background:#0E131D;color:#4ADE80;font:700 12px/1.4 'IBM Plex Mono',monospace;letter-spacing:.04em;padding:6px 14px}
+.v2-new button:hover,.v2-new button:focus-visible{background:#4ADE80;color:#05070B;outline:none}
+.v2-new b{font-variant-numeric:tabular-nums}
 .v2-3d{display:inline-flex;width:140px;height:140px;align-items:center;justify-content:center;flex:none}.v2-3d canvas{width:140px!important;height:140px!important}
 .v2-video{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:24px;align-items:center;margin:28px 0;padding:18px;border:1px solid #232C3B;border-radius:4px;background:#0E131D}
 .v2-video h2{margin:0 0 10px}.v2-video p{margin:0;color:#AEB7C3;font-size:15px;line-height:1.5}
