@@ -1,14 +1,15 @@
 {
   "schema": 1,
-  "generated_at": "2026-10-08T02:23:00.127Z",
-  "news_generated_at": "2026-10-08T02:23:00.127Z",
-  "matcher_version": "1.0.0",
+  "generated_at": "2026-10-08T03:15:03.298Z",
+  "news_generated_at": "2026-10-08T03:15:03.298Z",
+  "matcher_version": "1.1.0",
   "window_days": 7,
-  "window_start": "2026-10-01T02:23:00.127Z",
+  "window_start": "2026-10-01T03:15:03.298Z",
   "rule": {
     "headline_only": true,
     "statement": "Only the headline is ever reproduced, exactly as the publication printed it. No quotation is generated, paraphrased, summarised or reconstructed anywhere in this file.",
     "match": "The headline names a roster member (whole word, published alias table) AND carries a speech cue.",
+    "match_direct": "Or: the entry was published on the person's own feed, or on their organisation's official feed with them as the author or named in the title (with a speech cue, or as an official video upload).",
     "no_line_means": "No headline in this corpus named this person beside a speech cue. It is not a claim that the person said nothing."
   },
   "cues": {
@@ -116,13 +117,21 @@
       ],
       "quote": [
         "quoted text"
+      ],
+      "official": [
+        "own post",
+        "own video",
+        "byline",
+        "official post",
+        "official video"
       ]
     },
     "class_means": {
       "verb": "the headline's own verb is an act of speech",
       "appearance": "the headline names a venue or a format — interview, podcast, keynote, testimony",
       "document": "a document names the person. It may be by them or about them; the headline is the only thing that can tell you, and it is printed in full",
-      "quote": "the publication put words in quotation marks in its own headline"
+      "quote": "the publication put words in quotation marks in its own headline",
+      "official": "not a press headline: the title of an entry on the person's own feed, or on their organisation's official feed under their name"
     }
   },
   "corpus": {
@@ -132,14 +141,14 @@
     "scanned": 400,
     "max_items": 400,
     "window_binds": true,
-    "oldest_item_at": "2026-10-06T17:13:53.000Z",
-    "newest_item_at": "2026-10-08T02:09:43.000Z",
+    "oldest_item_at": "2026-10-06T17:56:54.000Z",
+    "newest_item_at": "2026-10-08T02:22:10.000Z",
     "named_without_cue": 3
   },
   "cross_check": {
     "source": "data/race.json",
     "present": true,
-    "race_generated_at": "2026-10-08T02:23:05.172Z",
+    "race_generated_at": "2026-10-08T03:15:05.954Z",
     "players_matched": 8,
     "wire_fills_gap": [
       "musk"
@@ -150,7 +159,30 @@
     "on_record": 1,
     "no_line": 18,
     "lines": 1,
-    "distinct_items": 1
+    "distinct_items": 1,
+    "quiet": 17,
+    "unreachable": 1,
+    "no_sources": 3,
+    "press_lines": 1,
+    "direct_lines": 0
+  },
+  "direct": {
+    "source": "collector/leader-sources.mjs",
+    "ran": true,
+    "feeds_configured": 24,
+    "feeds_checked": 24,
+    "feeds_ok": 13,
+    "reasons": [
+      "quiet",
+      "sources_unreachable",
+      "no_sources"
+    ],
+    "reason_means": {
+      "quiet": "At least one official source answered, and neither it nor the press carried anything from this person in the window.",
+      "sources_unreachable": "This person has official sources and none of them answered this run, so the silence may be ours rather than theirs.",
+      "no_sources": "No official feed is known for this person; the press wire is the only reading."
+    },
+    "last_statement_means": "The newest dated statement this wire has ever attributed to the person — from the press window, the full history of their official feeds, or the memory carried forward from previous runs."
   },
   "leaders": [
     {
@@ -179,7 +211,69 @@
         "posts_30d": 0,
         "verdict": "both_quiet",
         "note": "The watch floor reads dormant and no headline in this window named Sam Altman beside a speech cue. Two separate silences, neither imputed from the other."
-      }
+      },
+      "group": "quiet",
+      "reason": "quiet",
+      "press_count": 0,
+      "direct_count": 0,
+      "press_sources": [],
+      "last_statement_at": "2026-09-23T12:00:00.000Z",
+      "last_statement": {
+        "headline": "Sam Altman’s remarks at the United Nations Security Council",
+        "url": "https://openai.com/index/sam-altman-un-security-council-remarks",
+        "source": "openai.com/news",
+        "published_at": "2026-09-23T12:00:00.000Z",
+        "via": "feed",
+        "remembered": false
+      },
+      "days_silent": 14,
+      "sources_checked": 4,
+      "sources_ok": 2,
+      "direct_sources": [
+        {
+          "id": "samaltman-blog",
+          "label": "blog.samaltman.com",
+          "kind": "personal",
+          "format": "atom",
+          "url": "https://blog.samaltman.com/posts.atom",
+          "verified": true,
+          "checked": true,
+          "ok": false,
+          "error": "https://blog.samaltman.com/posts.atom: served content-type \"text/html; charset=utf-8\" — this is an HTML page, not a feed (first 120 chars: <?xml version=\"1.0\" encoding=\"UTF-8\"?> <feed xml:lang=\"en-US\"",
+          "entries": null,
+          "attributed": null,
+          "newest_attributed_at": null
+        },
+        {
+          "id": "openai-news",
+          "label": "openai.com/news",
+          "kind": "org",
+          "format": "rss",
+          "url": "https://openai.com/news/rss.xml",
+          "verified": true,
+          "checked": true,
+          "ok": true,
+          "error": null,
+          "entries": 60,
+          "attributed": 1,
+          "newest_attributed_at": "2026-09-23T12:00:00.000Z"
+        },
+        {
+          "id": "yt-openai",
+          "label": "YouTube · OpenAI",
+          "kind": "org",
+          "format": "youtube",
+          "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCXZCJLdBC09xxGZ6gcdrc6A",
+          "verified": false,
+          "checked": true,
+          "ok": false,
+          "error": "HTTP 404 Not Found from https://www.youtube.com/feeds/videos.xml?channel_id=UCXZCJLdBC09xxGZ6gcdrc6A — <!DOCTYPE html> <html lang=en> <meta charset=utf-8> <meta name=viewport content=\"initial-scale=1,",
+          "entries": null,
+          "attributed": null,
+          "newest_attributed_at": null
+        }
+      ],
+      "no_source_reason": null
     },
     {
       "id": "amodei",
@@ -207,7 +301,34 @@
         "posts_30d": null,
         "verdict": "both_quiet",
         "note": "The watch floor reads no feed and no headline in this window named Dario Amodei beside a speech cue. Two separate silences, neither imputed from the other."
-      }
+      },
+      "group": "unreachable",
+      "reason": "sources_unreachable",
+      "press_count": 0,
+      "direct_count": 0,
+      "press_sources": [],
+      "last_statement_at": null,
+      "last_statement": null,
+      "days_silent": null,
+      "sources_checked": 2,
+      "sources_ok": 1,
+      "direct_sources": [
+        {
+          "id": "yt-anthropic",
+          "label": "YouTube · Anthropic",
+          "kind": "org",
+          "format": "youtube",
+          "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCrDwWp7EBBv4NwvScIpBDOA",
+          "verified": true,
+          "checked": true,
+          "ok": false,
+          "error": "HTTP 404 Not Found from https://www.youtube.com/feeds/videos.xml?channel_id=UCrDwWp7EBBv4NwvScIpBDOA — <!DOCTYPE html> <html lang=en> <meta charset=utf-8> <meta name=viewport content=\"initial-scale=1,",
+          "entries": null,
+          "attributed": null,
+          "newest_attributed_at": null
+        }
+      ],
+      "no_source_reason": null
     },
     {
       "id": "hassabis",
@@ -235,7 +356,62 @@
         "posts_30d": null,
         "verdict": "both_quiet",
         "note": "The watch floor reads no feed and no headline in this window named Demis Hassabis beside a speech cue. Two separate silences, neither imputed from the other."
-      }
+      },
+      "group": "quiet",
+      "reason": "quiet",
+      "press_count": 0,
+      "direct_count": 0,
+      "press_sources": [],
+      "last_statement_at": null,
+      "last_statement": null,
+      "days_silent": null,
+      "sources_checked": 4,
+      "sources_ok": 3,
+      "direct_sources": [
+        {
+          "id": "deepmind-blog",
+          "label": "deepmind.google/blog",
+          "kind": "org",
+          "format": "rss",
+          "url": "https://deepmind.google/blog/rss.xml",
+          "verified": true,
+          "checked": true,
+          "ok": true,
+          "error": null,
+          "entries": 60,
+          "attributed": 0,
+          "newest_attributed_at": null
+        },
+        {
+          "id": "google-ai-blog",
+          "label": "blog.google",
+          "kind": "org",
+          "format": "rss",
+          "url": "https://blog.google/technology/ai/rss/",
+          "verified": true,
+          "checked": true,
+          "ok": true,
+          "error": null,
+          "entries": 20,
+          "attributed": 0,
+          "newest_attributed_at": null
+        },
+        {
+          "id": "yt-deepmind",
+          "label": "YouTube · Google DeepMind",
+          "kind": "org",
+          "format": "youtube",
+          "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCP7jMXSY2xbc3KCAE0MHQ-A",
+          "verified": true,
+          "checked": true,
+          "ok": false,
+          "error": "HTTP 404 Not Found from https://www.youtube.com/feeds/videos.xml?channel_id=UCP7jMXSY2xbc3KCAE0MHQ-A — <!DOCTYPE html> <html lang=en> <meta charset=utf-8> <meta name=viewport content=\"initial-scale=1,",
+          "entries": null,
+          "attributed": null,
+          "newest_attributed_at": null
+        }
+      ],
+      "no_source_reason": null
     },
     {
       "id": "musk",
@@ -260,7 +436,7 @@
         "kind": "press",
         "url": "https://techmeme.com/261007/p23",
         "published_at": "2026-10-07T14:40:01.000Z",
-        "score": 39.5,
+        "score": 39.2,
         "pillar": "attention",
         "matched_alias": "Elon Musk",
         "cue": "says",
@@ -274,7 +450,8 @@
         "corroboration": 1,
         "also_sources": [
           "techmeme"
-        ]
+        ],
+        "via": "press"
       },
       "lines": [
         {
@@ -284,7 +461,7 @@
           "kind": "press",
           "url": "https://techmeme.com/261007/p23",
           "published_at": "2026-10-07T14:40:01.000Z",
-          "score": 39.5,
+          "score": 39.2,
           "pillar": "attention",
           "matched_alias": "Elon Musk",
           "cue": "says",
@@ -298,7 +475,8 @@
           "corroboration": 1,
           "also_sources": [
             "techmeme"
-          ]
+          ],
+          "via": "press"
         }
       ],
       "watch_floor": {
@@ -311,7 +489,57 @@
         "posts_30d": null,
         "verdict": "wire_fills_gap",
         "note": "The watch floor reads no feed for Elon Musk and that reading stands: it is about feeds we can fetch. The one line on the wire came from the press instead — techmeme — and links to the publication that printed it."
-      }
+      },
+      "group": "on_record",
+      "reason": null,
+      "press_count": 1,
+      "direct_count": 0,
+      "press_sources": [
+        "techmeme"
+      ],
+      "last_statement_at": "2026-10-07T14:40:01.000Z",
+      "last_statement": {
+        "headline": "Elon Musk says Grok Bot going forward will use the \"best back-end model for any given task, including Claude Opus 5.5, MidJourney, Suno, and other leading APIs\" (Grace Kay/The Information)",
+        "url": "https://techmeme.com/261007/p23",
+        "source": "techmeme",
+        "published_at": "2026-10-07T14:40:01.000Z",
+        "via": "press",
+        "remembered": false
+      },
+      "days_silent": 0,
+      "sources_checked": 3,
+      "sources_ok": 1,
+      "direct_sources": [
+        {
+          "id": "yt-xai",
+          "label": "YouTube · xAI",
+          "kind": "org",
+          "format": "youtube",
+          "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCo2ri0cvAs8Lxbp18UHZsgg",
+          "verified": false,
+          "checked": true,
+          "ok": false,
+          "error": "HTTP 404 Not Found from https://www.youtube.com/feeds/videos.xml?channel_id=UCo2ri0cvAs8Lxbp18UHZsgg — <!DOCTYPE html> <html lang=en> <meta charset=utf-8> <meta name=viewport content=\"initial-scale=1,",
+          "entries": null,
+          "attributed": null,
+          "newest_attributed_at": null
+        },
+        {
+          "id": "yt-tesla",
+          "label": "YouTube · Tesla",
+          "kind": "org",
+          "format": "youtube",
+          "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UC5WjFrtBdufl6CZojX3D8dQ",
+          "verified": true,
+          "checked": true,
+          "ok": false,
+          "error": "HTTP 404 Not Found from https://www.youtube.com/feeds/videos.xml?channel_id=UC5WjFrtBdufl6CZojX3D8dQ — <!DOCTYPE html> <html lang=en> <meta charset=utf-8> <meta name=viewport content=\"initial-scale=1,",
+          "entries": null,
+          "attributed": null,
+          "newest_attributed_at": null
+        }
+      ],
+      "no_source_reason": null
     },
     {
       "id": "zuckerberg",
@@ -340,7 +568,48 @@
         "posts_30d": null,
         "verdict": "both_quiet",
         "note": "The watch floor reads no feed and no headline in this window named Mark Zuckerberg beside a speech cue. Two separate silences, neither imputed from the other."
-      }
+      },
+      "group": "quiet",
+      "reason": "quiet",
+      "press_count": 0,
+      "direct_count": 0,
+      "press_sources": [],
+      "last_statement_at": null,
+      "last_statement": null,
+      "days_silent": null,
+      "sources_checked": 3,
+      "sources_ok": 2,
+      "direct_sources": [
+        {
+          "id": "meta-newsroom",
+          "label": "about.fb.com/news",
+          "kind": "org",
+          "format": "rss",
+          "url": "https://about.fb.com/news/feed/",
+          "verified": false,
+          "checked": true,
+          "ok": true,
+          "error": null,
+          "entries": 10,
+          "attributed": 0,
+          "newest_attributed_at": null
+        },
+        {
+          "id": "yt-meta-ai",
+          "label": "YouTube · AI at Meta",
+          "kind": "org",
+          "format": "youtube",
+          "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UC5qxlwEKM7-5YZudb24l0bg",
+          "verified": false,
+          "checked": true,
+          "ok": false,
+          "error": "HTTP 404 Not Found from https://www.youtube.com/feeds/videos.xml?channel_id=UC5qxlwEKM7-5YZudb24l0bg — <!DOCTYPE html> <html lang=en> <meta charset=utf-8> <meta name=viewport content=\"initial-scale=1,",
+          "entries": null,
+          "attributed": null,
+          "newest_attributed_at": null
+        }
+      ],
+      "no_source_reason": null
     },
     {
       "id": "huang",
@@ -367,7 +636,48 @@
         "posts_30d": null,
         "verdict": "not_tracked",
         "note": "Jensen Huang is not a principal on the watch floor, so there is no loudness reading to contradict. These lines are the only reading we have."
-      }
+      },
+      "group": "quiet",
+      "reason": "quiet",
+      "press_count": 0,
+      "direct_count": 0,
+      "press_sources": [],
+      "last_statement_at": null,
+      "last_statement": null,
+      "days_silent": null,
+      "sources_checked": 3,
+      "sources_ok": 2,
+      "direct_sources": [
+        {
+          "id": "nvidia-blog",
+          "label": "blogs.nvidia.com",
+          "kind": "org",
+          "format": "rss",
+          "url": "https://blogs.nvidia.com/feed/",
+          "verified": true,
+          "checked": true,
+          "ok": true,
+          "error": null,
+          "entries": 18,
+          "attributed": 0,
+          "newest_attributed_at": null
+        },
+        {
+          "id": "yt-nvidia",
+          "label": "YouTube · NVIDIA",
+          "kind": "org",
+          "format": "youtube",
+          "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCHuiy8bXnmK5nisYHUd1J5g",
+          "verified": true,
+          "checked": true,
+          "ok": false,
+          "error": "HTTP 404 Not Found from https://www.youtube.com/feeds/videos.xml?channel_id=UCHuiy8bXnmK5nisYHUd1J5g — <!DOCTYPE html> <html lang=en> <meta charset=utf-8> <meta name=viewport content=\"initial-scale=1,",
+          "entries": null,
+          "attributed": null,
+          "newest_attributed_at": null
+        }
+      ],
+      "no_source_reason": null
     },
     {
       "id": "nadella",
@@ -394,7 +704,48 @@
         "posts_30d": null,
         "verdict": "not_tracked",
         "note": "Satya Nadella is not a principal on the watch floor, so there is no loudness reading to contradict. These lines are the only reading we have."
-      }
+      },
+      "group": "quiet",
+      "reason": "quiet",
+      "press_count": 0,
+      "direct_count": 0,
+      "press_sources": [],
+      "last_statement_at": null,
+      "last_statement": null,
+      "days_silent": null,
+      "sources_checked": 3,
+      "sources_ok": 2,
+      "direct_sources": [
+        {
+          "id": "microsoft-blog",
+          "label": "blogs.microsoft.com",
+          "kind": "org",
+          "format": "rss",
+          "url": "https://blogs.microsoft.com/feed/",
+          "verified": false,
+          "checked": true,
+          "ok": true,
+          "error": null,
+          "entries": 10,
+          "attributed": 0,
+          "newest_attributed_at": null
+        },
+        {
+          "id": "yt-microsoft",
+          "label": "YouTube · Microsoft",
+          "kind": "org",
+          "format": "youtube",
+          "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCFtEEv80fQVKkD4h1PF-Xqw",
+          "verified": false,
+          "checked": true,
+          "ok": false,
+          "error": "HTTP 404 Not Found from https://www.youtube.com/feeds/videos.xml?channel_id=UCFtEEv80fQVKkD4h1PF-Xqw — <!DOCTYPE html> <html lang=en> <meta charset=utf-8> <meta name=viewport content=\"initial-scale=1,",
+          "entries": null,
+          "attributed": null,
+          "newest_attributed_at": null
+        }
+      ],
+      "no_source_reason": null
     },
     {
       "id": "pichai",
@@ -421,7 +772,62 @@
         "posts_30d": null,
         "verdict": "not_tracked",
         "note": "Sundar Pichai is not a principal on the watch floor, so there is no loudness reading to contradict. These lines are the only reading we have."
-      }
+      },
+      "group": "quiet",
+      "reason": "quiet",
+      "press_count": 0,
+      "direct_count": 0,
+      "press_sources": [],
+      "last_statement_at": null,
+      "last_statement": null,
+      "days_silent": null,
+      "sources_checked": 4,
+      "sources_ok": 3,
+      "direct_sources": [
+        {
+          "id": "google-ai-blog",
+          "label": "blog.google",
+          "kind": "org",
+          "format": "rss",
+          "url": "https://blog.google/technology/ai/rss/",
+          "verified": true,
+          "checked": true,
+          "ok": true,
+          "error": null,
+          "entries": 20,
+          "attributed": 0,
+          "newest_attributed_at": null
+        },
+        {
+          "id": "google-company-news",
+          "label": "blog.google · company news",
+          "kind": "org",
+          "format": "rss",
+          "url": "https://blog.google/inside-google/company-announcements/rss/",
+          "verified": false,
+          "checked": true,
+          "ok": true,
+          "error": null,
+          "entries": 20,
+          "attributed": 0,
+          "newest_attributed_at": null
+        },
+        {
+          "id": "yt-google",
+          "label": "YouTube · Google",
+          "kind": "org",
+          "format": "youtube",
+          "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCK8sQmJBp8GCxrOtXWBpyEA",
+          "verified": false,
+          "checked": true,
+          "ok": false,
+          "error": "HTTP 404 Not Found from https://www.youtube.com/feeds/videos.xml?channel_id=UCK8sQmJBp8GCxrOtXWBpyEA — <!DOCTYPE html> <html lang=en> <meta charset=utf-8> <meta name=viewport content=\"initial-scale=1,",
+          "entries": null,
+          "attributed": null,
+          "newest_attributed_at": null
+        }
+      ],
+      "no_source_reason": null
     },
     {
       "id": "suleyman",
@@ -448,7 +854,48 @@
         "posts_30d": null,
         "verdict": "not_tracked",
         "note": "Mustafa Suleyman is not a principal on the watch floor, so there is no loudness reading to contradict. These lines are the only reading we have."
-      }
+      },
+      "group": "quiet",
+      "reason": "quiet",
+      "press_count": 0,
+      "direct_count": 0,
+      "press_sources": [],
+      "last_statement_at": null,
+      "last_statement": null,
+      "days_silent": null,
+      "sources_checked": 3,
+      "sources_ok": 2,
+      "direct_sources": [
+        {
+          "id": "microsoft-blog",
+          "label": "blogs.microsoft.com",
+          "kind": "org",
+          "format": "rss",
+          "url": "https://blogs.microsoft.com/feed/",
+          "verified": false,
+          "checked": true,
+          "ok": true,
+          "error": null,
+          "entries": 10,
+          "attributed": 0,
+          "newest_attributed_at": null
+        },
+        {
+          "id": "yt-microsoft",
+          "label": "YouTube · Microsoft",
+          "kind": "org",
+          "format": "youtube",
+          "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCFtEEv80fQVKkD4h1PF-Xqw",
+          "verified": false,
+          "checked": true,
+          "ok": false,
+          "error": "HTTP 404 Not Found from https://www.youtube.com/feeds/videos.xml?channel_id=UCFtEEv80fQVKkD4h1PF-Xqw — <!DOCTYPE html> <html lang=en> <meta charset=utf-8> <meta name=viewport content=\"initial-scale=1,",
+          "entries": null,
+          "attributed": null,
+          "newest_attributed_at": null
+        }
+      ],
+      "no_source_reason": null
     },
     {
       "id": "kavukcuoglu",
@@ -476,7 +923,62 @@
         "posts_30d": null,
         "verdict": "not_tracked",
         "note": "Koray Kavukcuoglu is not a principal on the watch floor, so there is no loudness reading to contradict. These lines are the only reading we have."
-      }
+      },
+      "group": "quiet",
+      "reason": "quiet",
+      "press_count": 0,
+      "direct_count": 0,
+      "press_sources": [],
+      "last_statement_at": null,
+      "last_statement": null,
+      "days_silent": null,
+      "sources_checked": 4,
+      "sources_ok": 3,
+      "direct_sources": [
+        {
+          "id": "deepmind-blog",
+          "label": "deepmind.google/blog",
+          "kind": "org",
+          "format": "rss",
+          "url": "https://deepmind.google/blog/rss.xml",
+          "verified": true,
+          "checked": true,
+          "ok": true,
+          "error": null,
+          "entries": 60,
+          "attributed": 0,
+          "newest_attributed_at": null
+        },
+        {
+          "id": "google-ai-blog",
+          "label": "blog.google",
+          "kind": "org",
+          "format": "rss",
+          "url": "https://blog.google/technology/ai/rss/",
+          "verified": true,
+          "checked": true,
+          "ok": true,
+          "error": null,
+          "entries": 20,
+          "attributed": 0,
+          "newest_attributed_at": null
+        },
+        {
+          "id": "yt-deepmind",
+          "label": "YouTube · Google DeepMind",
+          "kind": "org",
+          "format": "youtube",
+          "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCP7jMXSY2xbc3KCAE0MHQ-A",
+          "verified": true,
+          "checked": true,
+          "ok": false,
+          "error": "HTTP 404 Not Found from https://www.youtube.com/feeds/videos.xml?channel_id=UCP7jMXSY2xbc3KCAE0MHQ-A — <!DOCTYPE html> <html lang=en> <meta charset=utf-8> <meta name=viewport content=\"initial-scale=1,",
+          "entries": null,
+          "attributed": null,
+          "newest_attributed_at": null
+        }
+      ],
+      "no_source_reason": null
     },
     {
       "id": "lecun",
@@ -505,7 +1007,48 @@
         "posts_30d": null,
         "verdict": "not_tracked",
         "note": "Yann LeCun is not a principal on the watch floor, so there is no loudness reading to contradict. These lines are the only reading we have."
-      }
+      },
+      "group": "quiet",
+      "reason": "quiet",
+      "press_count": 0,
+      "direct_count": 0,
+      "press_sources": [],
+      "last_statement_at": null,
+      "last_statement": null,
+      "days_silent": null,
+      "sources_checked": 3,
+      "sources_ok": 2,
+      "direct_sources": [
+        {
+          "id": "meta-newsroom",
+          "label": "about.fb.com/news",
+          "kind": "org",
+          "format": "rss",
+          "url": "https://about.fb.com/news/feed/",
+          "verified": false,
+          "checked": true,
+          "ok": true,
+          "error": null,
+          "entries": 10,
+          "attributed": 0,
+          "newest_attributed_at": null
+        },
+        {
+          "id": "yt-meta-ai",
+          "label": "YouTube · AI at Meta",
+          "kind": "org",
+          "format": "youtube",
+          "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UC5qxlwEKM7-5YZudb24l0bg",
+          "verified": false,
+          "checked": true,
+          "ok": false,
+          "error": "HTTP 404 Not Found from https://www.youtube.com/feeds/videos.xml?channel_id=UC5qxlwEKM7-5YZudb24l0bg — <!DOCTYPE html> <html lang=en> <meta charset=utf-8> <meta name=viewport content=\"initial-scale=1,",
+          "entries": null,
+          "attributed": null,
+          "newest_attributed_at": null
+        }
+      ],
+      "no_source_reason": null
     },
     {
       "id": "hinton",
@@ -533,7 +1076,19 @@
         "posts_30d": null,
         "verdict": "not_tracked",
         "note": "Geoffrey Hinton is not a principal on the watch floor, so there is no loudness reading to contradict. These lines are the only reading we have."
-      }
+      },
+      "group": "quiet",
+      "reason": "no_sources",
+      "press_count": 0,
+      "direct_count": 0,
+      "press_sources": [],
+      "last_statement_at": null,
+      "last_statement": null,
+      "days_silent": null,
+      "sources_checked": 1,
+      "sources_ok": 1,
+      "direct_sources": [],
+      "no_source_reason": "Publishes no blog or feed of his own; speaks through interviews and lectures hosted by others."
     },
     {
       "id": "bengio",
@@ -560,7 +1115,41 @@
         "posts_30d": null,
         "verdict": "not_tracked",
         "note": "Yoshua Bengio is not a principal on the watch floor, so there is no loudness reading to contradict. These lines are the only reading we have."
-      }
+      },
+      "group": "quiet",
+      "reason": "quiet",
+      "press_count": 0,
+      "direct_count": 0,
+      "press_sources": [],
+      "last_statement_at": "2026-09-23T19:00:00.000Z",
+      "last_statement": {
+        "headline": "Professor Yoshua Bengio’s speech at the UN Security Council",
+        "url": "https://yoshuabengio.org/en/blog/professor-yoshua-bengios-speech-un-security-council",
+        "source": "yoshuabengio.org",
+        "published_at": "2026-09-23T19:00:00.000Z",
+        "via": "feed",
+        "remembered": false
+      },
+      "days_silent": 14,
+      "sources_checked": 2,
+      "sources_ok": 2,
+      "direct_sources": [
+        {
+          "id": "bengio-blog",
+          "label": "yoshuabengio.org",
+          "kind": "personal",
+          "format": "rss",
+          "url": "https://yoshuabengio.org/feed/",
+          "verified": true,
+          "checked": true,
+          "ok": true,
+          "error": null,
+          "entries": 10,
+          "attributed": 10,
+          "newest_attributed_at": "2026-09-23T19:00:00.000Z"
+        }
+      ],
+      "no_source_reason": null
     },
     {
       "id": "mensch",
@@ -588,7 +1177,34 @@
         "posts_30d": null,
         "verdict": "both_quiet",
         "note": "The watch floor reads no feed and no headline in this window named Arthur Mensch beside a speech cue. Two separate silences, neither imputed from the other."
-      }
+      },
+      "group": "quiet",
+      "reason": "quiet",
+      "press_count": 0,
+      "direct_count": 0,
+      "press_sources": [],
+      "last_statement_at": null,
+      "last_statement": null,
+      "days_silent": null,
+      "sources_checked": 2,
+      "sources_ok": 2,
+      "direct_sources": [
+        {
+          "id": "mistral-news",
+          "label": "mistral.ai/news",
+          "kind": "org",
+          "format": "rss",
+          "url": "https://mistral.ai/rss.xml",
+          "verified": true,
+          "checked": true,
+          "ok": true,
+          "error": null,
+          "entries": 60,
+          "attributed": 0,
+          "newest_attributed_at": null
+        }
+      ],
+      "no_source_reason": null
     },
     {
       "id": "liang",
@@ -616,7 +1232,19 @@
         "posts_30d": null,
         "verdict": "both_quiet",
         "note": "The watch floor reads no feed and no headline in this window named Liang Wenfeng beside a speech cue. Two separate silences, neither imputed from the other."
-      }
+      },
+      "group": "quiet",
+      "reason": "no_sources",
+      "press_count": 0,
+      "direct_count": 0,
+      "press_sources": [],
+      "last_statement_at": null,
+      "last_statement": null,
+      "days_silent": null,
+      "sources_checked": 1,
+      "sources_ok": 1,
+      "direct_sources": [],
+      "no_source_reason": "DeepSeek publishes release notes without a feed, and Liang Wenfeng keeps no public channel."
     },
     {
       "id": "sutskever",
@@ -643,7 +1271,19 @@
         "posts_30d": null,
         "verdict": "not_tracked",
         "note": "Ilya Sutskever is not a principal on the watch floor, so there is no loudness reading to contradict. These lines are the only reading we have."
-      }
+      },
+      "group": "quiet",
+      "reason": "no_sources",
+      "press_count": 0,
+      "direct_count": 0,
+      "press_sources": [],
+      "last_statement_at": null,
+      "last_statement": null,
+      "days_silent": null,
+      "sources_checked": 1,
+      "sources_ok": 1,
+      "direct_sources": [],
+      "no_source_reason": "ssi.inc is a single static page with no feed, and SSI publishes nothing else."
     },
     {
       "id": "murati",
@@ -670,7 +1310,34 @@
         "posts_30d": null,
         "verdict": "not_tracked",
         "note": "Mira Murati is not a principal on the watch floor, so there is no loudness reading to contradict. These lines are the only reading we have."
-      }
+      },
+      "group": "quiet",
+      "reason": "quiet",
+      "press_count": 0,
+      "direct_count": 0,
+      "press_sources": [],
+      "last_statement_at": null,
+      "last_statement": null,
+      "days_silent": null,
+      "sources_checked": 2,
+      "sources_ok": 2,
+      "direct_sources": [
+        {
+          "id": "thinkingmachines-blog",
+          "label": "thinkingmachines.ai/blog",
+          "kind": "org",
+          "format": "rss",
+          "url": "https://thinkingmachines.ai/blog/index.xml",
+          "verified": false,
+          "checked": true,
+          "ok": true,
+          "error": null,
+          "entries": 7,
+          "attributed": 0,
+          "newest_attributed_at": null
+        }
+      ],
+      "no_source_reason": null
     },
     {
       "id": "karpathy",
@@ -697,7 +1364,69 @@
         "posts_30d": null,
         "verdict": "not_tracked",
         "note": "Andrej Karpathy is not a principal on the watch floor, so there is no loudness reading to contradict. These lines are the only reading we have."
-      }
+      },
+      "group": "quiet",
+      "reason": "quiet",
+      "press_count": 0,
+      "direct_count": 0,
+      "press_sources": [],
+      "last_statement_at": "2026-04-30T16:00:00.000Z",
+      "last_statement": {
+        "headline": "Sequoia Ascent 2026 summary",
+        "url": "https://karpathy.bearblog.dev/sequoia-ascent-2026/",
+        "source": "karpathy.bearblog.dev",
+        "published_at": "2026-04-30T16:00:00.000Z",
+        "via": "feed",
+        "remembered": false
+      },
+      "days_silent": 160,
+      "sources_checked": 4,
+      "sources_ok": 4,
+      "direct_sources": [
+        {
+          "id": "karpathy-bearblog",
+          "label": "karpathy.bearblog.dev",
+          "kind": "personal",
+          "format": "rss",
+          "url": "https://karpathy.bearblog.dev/feed/",
+          "verified": false,
+          "checked": true,
+          "ok": true,
+          "error": null,
+          "entries": 10,
+          "attributed": 10,
+          "newest_attributed_at": "2026-04-30T16:00:00.000Z"
+        },
+        {
+          "id": "karpathy-github",
+          "label": "karpathy.github.io",
+          "kind": "personal",
+          "format": "atom",
+          "url": "https://karpathy.github.io/feed.xml",
+          "verified": false,
+          "checked": true,
+          "ok": true,
+          "error": null,
+          "entries": 10,
+          "attributed": 10,
+          "newest_attributed_at": "2026-02-12T07:00:00.000Z"
+        },
+        {
+          "id": "karpathy-youtube",
+          "label": "YouTube · Andrej Karpathy",
+          "kind": "personal",
+          "format": "youtube",
+          "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCXUPKJO5MZQN11PqgIvyuvQ",
+          "verified": false,
+          "checked": true,
+          "ok": true,
+          "error": null,
+          "entries": 15,
+          "attributed": 15,
+          "newest_attributed_at": "2025-02-27T22:29:56.000Z"
+        }
+      ],
+      "no_source_reason": null
     },
     {
       "id": "brockman",
@@ -725,7 +1454,62 @@
         "posts_30d": 0,
         "verdict": "both_quiet",
         "note": "The watch floor reads dormant and no headline in this window named Greg Brockman beside a speech cue. Two separate silences, neither imputed from the other."
-      }
+      },
+      "group": "quiet",
+      "reason": "quiet",
+      "press_count": 0,
+      "direct_count": 0,
+      "press_sources": [],
+      "last_statement_at": null,
+      "last_statement": null,
+      "days_silent": null,
+      "sources_checked": 4,
+      "sources_ok": 2,
+      "direct_sources": [
+        {
+          "id": "brockman-blog",
+          "label": "blog.gregbrockman.com",
+          "kind": "personal",
+          "format": "atom",
+          "url": "https://blog.gregbrockman.com/posts.atom",
+          "verified": false,
+          "checked": true,
+          "ok": false,
+          "error": "HTTP 404 Not Found from https://blog.gregbrockman.com/posts.atom — <!doctype html> <html lang=\"en\"> <head> <meta charset=\"utf-8\"> <title>404 - Not found</title> <script>(function(d) {var config = {kit",
+          "entries": null,
+          "attributed": null,
+          "newest_attributed_at": null
+        },
+        {
+          "id": "openai-news",
+          "label": "openai.com/news",
+          "kind": "org",
+          "format": "rss",
+          "url": "https://openai.com/news/rss.xml",
+          "verified": true,
+          "checked": true,
+          "ok": true,
+          "error": null,
+          "entries": 60,
+          "attributed": 0,
+          "newest_attributed_at": null
+        },
+        {
+          "id": "yt-openai",
+          "label": "YouTube · OpenAI",
+          "kind": "org",
+          "format": "youtube",
+          "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCXZCJLdBC09xxGZ6gcdrc6A",
+          "verified": false,
+          "checked": true,
+          "ok": false,
+          "error": "HTTP 404 Not Found from https://www.youtube.com/feeds/videos.xml?channel_id=UCXZCJLdBC09xxGZ6gcdrc6A — <!DOCTYPE html> <html lang=en> <meta charset=utf-8> <meta name=viewport content=\"initial-scale=1,",
+          "entries": null,
+          "attributed": null,
+          "newest_attributed_at": null
+        }
+      ],
+      "no_source_reason": null
     }
   ]
 }
