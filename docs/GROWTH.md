@@ -153,6 +153,11 @@ claim is wasted if reusing the number takes more than thirty seconds.
 
 ## 90-day sequence
 
+> **Superseded for scheduling.** The living Oct–Dec 2026 site-upgrade queue is
+> [`docs/SITE-UPGRADES-90.md`](SITE-UPGRADES-90.md). The table below is the
+> original 2026-09-25 sketch and is kept for history; several rows (badge,
+> state API, move schema) have already shipped.
+
 | Window | Ship | Should move |
 |---|---|---|
 | Days 1–14 | Number-first hero · nav collapsed to three · domain moved with redirects | Five-second comprehension; first-session bounce |
