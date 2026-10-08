@@ -20,7 +20,7 @@ import { MONETIZE } from './monetize.mjs';
 import { createHash } from 'node:crypto';
 import { gzipSync } from 'node:zlib';
 import { css as siteCss } from './styles.mjs';
-import { stableJson, num, secondsBetween } from './templates/_html.mjs';
+import { stableJson, num, secondsBetween, esc as escHtml } from './templates/_html.mjs';
 import * as indexPage from './templates/index.mjs';
 import * as homeV2 from './templates/homeV2.mjs';
 import { pixelText, roomArt } from './templates/_pixel.mjs';
@@ -169,6 +169,8 @@ function llmsTxt(ctx) {
 - [For AI agents (and Moltbook)](${ctx.url('/agents.html')})
 - [Current reading (JSON)](${ctx.url('/api/state.json')})
 - [Every reading (JSON)](${ctx.url('/api/history.json')})
+- [OpenAPI](${ctx.url('/openapi.json')})
+- [Receipt index](${ctx.url('/api/receipts/')})
 - [Method](${ctx.url('/methodology.html')})
 - [Guide: SIREN vs DEFCON vs the Doomsday Clock vs p(doom)](${ctx.url('/guide.html')})
 - [About](${ctx.url('/about.html')})
@@ -180,6 +182,7 @@ function llmsTxt(ctx) {
 - [AI-proof your job](${ctx.url('/ai-proof-job.html')})
 - [AI breakthroughs](${ctx.url('/breakthroughs.html')})
 - [The staff: the automated crew](${ctx.url('/staff.html')})
+- [News sitemap](${ctx.url('/news-sitemap.xml')})
 - [Feed](${ctx.url('/feed.xml')})
 - [Bunker Kit: free tools and gear checklist](${ctx.url('/bunker-kit.html')})
 `;
@@ -194,6 +197,9 @@ import * as blissPage from './templates/blissPage.mjs';
 import * as itemPage from './templates/itemPage.mjs';
 import * as mapPage from './templates/mapPage.mjs';
 import * as leadersPage from './templates/leadersPage.mjs';
+import * as newsSitemap from './templates/newsSitemap.mjs';
+import * as openapi from './templates/openapi.mjs';
+import { page as layoutPage } from './templates/layout.mjs';
 import { render as sitemap, robots } from './templates/sitemap.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -1398,15 +1404,29 @@ async function main() {
     written.push(await write(args.out, `moves/${m.id}.html`, movePage.render(ctx, m)));
   }
 
+  // Pretty directories for hand-typed / verbally shared paths. VISITORS.md §0
+  // found /race/ 404 while race.html worked; the same trap hits every .html
+  // room when someone says "slash jobs" or bookmarks without the extension.
   await writeDirectoryAliases(
     args.out,
-    ['race', 'news', 'methodology', 'history', 'digest', 'bliss', 'balance', 'watts', 'map', 'world', 'leaders', 'flock', 'exploits'],
+    [
+      'race', 'news', 'methodology', 'history', 'digest', 'bliss', 'balance',
+      'watts', 'map', 'world', 'leaders', 'flock', 'exploits', 'jobs', 'medicine',
+      'about', 'classic', 'embed', 'guide', 'library', 'press', 'brand', 'desk',
+      'bets', 'privacy', 'terms', 'feedback', 'sponsor', 'instruments',
+      'p-doom', 'ai-doomsday-clock', 'arena', 'scanner', 'monitor', 'elon',
+      'game', 'bunker-kit', 'alerts', 'export', 'moltbook', 'staff', 'careers',
+      'agents', 'tally', 'changelog',
+    ],
     write,
     written,
   );
 
   written.push(await write(args.out, 'sitemap.xml', sitemap(ctx)));
+  // Google News channel. Empty file is still valid XML so crawlers never 404.
+  written.push(await write(args.out, 'news-sitemap.xml', newsSitemap.render(ctx)));
   written.push(await write(args.out, 'robots.txt', robots(ctx)));
+  written.push(await write(args.out, 'openapi.json', openapi.render(ctx)));
   written.push(await write(args.out, 'feed.xml', feed.render(ctx)));
   // The quiet one: an entry only when the level itself changes.
   written.push(await write(args.out, 'feed-level.xml', feed.render(ctx, { levelOnly: true })));
@@ -1542,17 +1562,61 @@ async function main() {
     description: brand.DESCRIPTION,
     license: brand.LICENSE,
     generated_at: state.generated_at,
+    openapi: ctx.url('/openapi.json'),
     endpoints: {
       state: ctx.url('/api/state.json'),
       history: ctx.url('/api/history.json'),
       health: ctx.url('/api/health.json'),
       receipt: `${ctx.url('/api/receipts/')}{id}.json`,
+      receipts: ctx.url('/api/receipts/'),
+      news: ctx.news ? ctx.url('/api/news.json') : undefined,
       embed: ctx.url('/embed.html'),
       feed: ctx.url('/feed.xml'),
+      openapi: ctx.url('/openapi.json'),
     },
   })));
   for (const r of receipts) {
     written.push(await write(args.out, `api/receipts/${r.id}.json`, stableJson(r)));
+  }
+  // Receipt index — /api/receipts/ 404'd, so the hash chain had nowhere for a
+  // stranger to start. Newest first; HTML for humans, JSON for machines.
+  // GitHub Pages serves index.html for the directory URL.
+  {
+    const sorted = [...receipts].sort((a, b) => String(b.id).localeCompare(String(a.id)));
+    const indexJson = {
+      schema: 1,
+      generated_at: state.generated_at,
+      count: sorted.length,
+      receipts: sorted.map((r) => ({
+        id: r.id,
+        generated_at: r.generated_at,
+        score: r.score,
+        level: r.level,
+        level_name: r.level_name,
+        hash: r.hash,
+        prev_hash: r.prev_hash,
+        url: ctx.url(`/api/receipts/${r.id}.json`),
+      })),
+    };
+    written.push(await write(args.out, 'api/receipts/index.json', stableJson(indexJson)));
+    const rows = sorted.slice(0, 200).map((r) => `<li>
+      <a href="${escHtml(ctx.href(`/api/receipts/${r.id}.json`))}"><code>${escHtml(r.id)}</code></a>
+      <span class="num">${escHtml(Number.isFinite(r.score) ? num(r.score, 1) : '—')}</span>
+      <span>${escHtml(brand.NAME)} ${escHtml(String(r.level ?? ''))} ${escHtml(r.level_name || '')}</span>
+    </li>`).join('');
+    written.push(await write(args.out, 'api/receipts/index.html', layoutPage({
+      ctx,
+      path: '/api/receipts/',
+      title: `Receipt index — every scored observation · ${brand.NAME}`,
+      description: `${sorted.length} hash-chained receipts behind the ${brand.NAME} index. Each one is independently recomputable.`,
+      body: `<article class="prose">
+  <h1>Receipt index</h1>
+  <p>${sorted.length.toLocaleString('en-US')} hash-chained observations. Newest first. Machine-readable: <a href="${escHtml(ctx.href('/api/receipts/index.json'))}">index.json</a>. Spec: <a href="${escHtml(ctx.href('/openapi.json'))}">openapi.json</a>.</p>
+  <ol class="receipt-index">${rows}</ol>
+  ${sorted.length > 200 ? `<p class="muted">Showing the newest 200. The full list is in <a href="${escHtml(ctx.href('/api/receipts/index.json'))}">index.json</a>.</p>` : ''}
+</article>
+<style>.receipt-index{list-style:none;padding:0;margin:1.5rem 0;display:flex;flex-direction:column;gap:.5rem}.receipt-index li{display:flex;flex-wrap:wrap;gap:.75rem 1.25rem;align-items:baseline;padding:.55rem 0;border-bottom:1px solid var(--rule,#232C3B)}.receipt-index .num{font-variant-numeric:tabular-nums;font-weight:700}</style>`,
+    })));
   }
 
   // ROOM CARDS. Each room gets its own share image (its art, name, pitch and
@@ -1647,6 +1711,17 @@ async function selfCheck(outDir, state, ctx = null) {
   const embed = await readFile(path.join(outDir, 'embed.html'), 'utf8');
   if (!embed.includes(score)) {
     throw new Error(`build: self-check failed - the widget does not contain the score "${score}" as text.`);
+  }
+  if (/all sources live/i.test(embed)) {
+    throw new Error('build: self-check failed - embed still claims "all sources live".');
+  }
+  for (const file of ['news-sitemap.xml', 'openapi.json', 'api/receipts/index.json', 'api/receipts/index.html']) {
+    if (!existsSync(path.join(outDir, file))) {
+      throw new Error(`build: self-check failed - missing ${file}`);
+    }
+  }
+  if (!html.includes('v2-plain') || !html.includes('v2-scale') || !html.includes('REUSE THIS READING')) {
+    throw new Error('build: self-check failed - homepage fold is missing plain read, scale rail, or reuse block.');
   }
 
   // /world makes two claims this build can check, so it does. The count is in
