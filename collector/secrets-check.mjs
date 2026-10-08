@@ -20,7 +20,20 @@ async function x() {
     if (r.ok && body.data) {
       const acc = r.headers.get('x-access-level') || 'unknown';
       note(/write/.test(acc), 'X', `signed in as @${body.data.username}; token access level: ${acc}${/write/.test(acc) ? '' : ' — needs Read and write: change it in User authentication settings, then regenerate the Access Token'}`);
-    } else note(false, 'X', `HTTP ${r.status} ${JSON.stringify(body).slice(0, 180)}`);
+    } else {
+      // Shape hints only, never values: OAuth 1.0a consumer keys are ~25 chars,
+      // secrets ~50, access tokens look like "<digits>-<letters>" (~50).
+      const L = (k) => process.env[k].trim().length;
+      const tok = process.env.X_ACCESS_TOKEN.trim();
+      const shape = `key ${L('X_API_KEY')} chars, key secret ${L('X_API_SECRET')}, token ${L('X_ACCESS_TOKEN')} (${/^\d+-/.test(tok) ? 'looks like an OAuth 1.0 token' : 'does NOT look like an OAuth 1.0 access token: expected digits-dash-letters'}), token secret ${L('X_ACCESS_SECRET')}`;
+      let v11 = '';
+      try {
+        const u = 'https://api.x.com/1.1/account/verify_credentials.json';
+        const r2 = await fetch(u, { headers: { authorization: oauthSign({ method: 'GET', url: u, creds }).header }, signal: t(15000) });
+        v11 = ` · v1.1 check HTTP ${r2.status}`;
+      } catch {}
+      note(false, 'X', `HTTP ${r.status} ${JSON.stringify(body).slice(0, 120)}${v11} · ${shape}`);
+    }
   } catch (e) { note(false, 'X', e.message); }
 }
 async function sec() {
