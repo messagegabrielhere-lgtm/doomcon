@@ -257,6 +257,8 @@ export function motionConfig(ctx, opts = {}) {
     // Nullable on purpose. build.mjs does not write api/news.json today; a URL
     // that is known not to exist is a configuration fact, not a fetch to retry.
     newsUrl: opts.newsUrl === null ? null : ctx.href(opts.newsUrl || '/api/news.json'),
+    // Two timestamps. The poll reads this instead of news.json (~900KB) until one moves.
+    freshUrl: ctx.href('/api/fresh.json'),
     pollMs: Number.isFinite(opts.pollMs) ? opts.pollMs : POLL_MS,
     generatedAt: s.generated_at,
     score: s.score,
@@ -411,7 +413,7 @@ export function motionCss() {
 // ---------------------------------------------------------------------------
 
 // THE PAYLOAD. MOTION.md budgets 8KB uncompressed for this string and it is
-// currently 8147 bytes, so the reasoning lives HERE rather than inside it. Check
+// currently 8184 bytes, so the reasoning lives HERE rather than inside it. Check
 // the budget after any edit:
 //
 //   docker run --rm -v "$PWD":/app -w /app node:20-alpine node -e \
@@ -435,12 +437,10 @@ export function motionCss() {
 //                              rearmed; 'scroll' is deliberately not a trigger,
 //                              because the auto-advance itself scrolls.
 //   gj                         fetch with `cache:'no-cache'`, NOT 'no-store'.
-//                              no-store forbids caching, so every poll drags
-//                              the whole of api/news.json (~350KB) down a phone
-//                              connection. no-cache still revalidates on every
-//                              poll but lets an unchanged file answer 304 with
-//                              no body at all — which, between builds, is what
-//                              almost every poll gets.
+//                              The poll reads api/fresh.json first (two
+//                              timestamps) and only then downloads news.json
+//                              (~900KB) when the news timestamp moved. no-cache
+//                              still lets an unchanged file answer 304.
 //   aS                         state.json -> score and observed-at stamp only.
 //                              See decision 2 above for what it refuses to touch.
 //   rt                         ages, recomputed against the LIVE compile stamp.
@@ -472,8 +472,8 @@ export function motionCss() {
 // pattern-matching the source.
 export const MOTION_JS = `(function(){
 var d=document,cf=d.getElementById('dcmx-cfg');
-if(!cf){console.error('dcmx: no #dcmx-cfg');return;}
-var C;try{C=JSON.parse(cf.textContent);}catch(e){console.error('dcmx: bad cfg',e);return;}
+if(!cf){console.error('dcmx: no cfg');return;}
+var C;try{C=JSON.parse(cf.textContent);}catch(e){console.error(e);return;}
 var rm=!!(window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches);
 function q(s,r){return (r||d).querySelector(s);}
 function qa(s,r){return [].slice.call((r||d).querySelectorAll(s));}
@@ -585,9 +585,8 @@ fr.forEach(function(it){mem[it.id]=1;});nw=fr[0].published_at;bf=fr.concat(bf).s
 function run(){
 if(d.hidden){wt=true;return;}
 wt=false;gj(C.stateUrl).then(function(s){aS(s);if(noN)return null;
-return gj(C.newsUrl).then(aN,function(e){if(!e||!e.missing)throw e;noN=true;console.warn('dcmx news 404');});
+return gj(C.freshUrl).then(function(f){if(f&&f.news===nAt)return null;return gj(C.newsUrl).then(aN);},function(e){if(!e||!e.missing)throw e;return gj(C.newsUrl).then(aN,function(e2){if(!e2||!e2.missing)throw e2;noN=true;});});
 }).then(function(){fl=0;plan(C.pollMs);},function(e){fl++;
-console.warn('dcmx poll '+fl+': '+((e&&e.message)||e));
 if(fl>=3){off=true;if(nt)q('.dcmx-note__k',nt).textContent='REFRESH STOPPED';
 say('refresh gave up; reload the page');return;}
 plan(BO[fl]);});}
