@@ -57,7 +57,16 @@ export default {
     //              entire budget. One long attempt inside a widened watchdog instead.
     // arXiv also throttles hard and keeps throttling: expect 429s in bursts, and
     // expect them to be reported dark rather than retried into a longer ban.
-    const xml = await fetchText(url, { timeoutMs: 75_000, retries: 0 });
+    // One exception, added 2026-10-08: a 429 comes back in under a second, so a
+    // single polite retry after 15s fits the watchdog (fast 429 + 15s + 60s).
+    let xml;
+    try {
+      xml = await fetchText(url, { timeoutMs: 75_000, retries: 0 });
+    } catch (err) {
+      if (!/\b429\b|rate exceeded/i.test(String(err && err.message))) throw err;
+      await new Promise((r) => setTimeout(r, 15_000));
+      xml = await fetchText(url, { timeoutMs: 60_000, retries: 0 });
+    }
 
     // arXiv answers a malformed query with HTTP 200 and an error entry, so a
     // non-error status proves nothing. Check the payload.
