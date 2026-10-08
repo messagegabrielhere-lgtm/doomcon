@@ -285,7 +285,17 @@ jobs:
 
             CHANGED="$(git diff --name-only HEAD~1 HEAD || true)"
             if echo "$CHANGED" | grep -qE 'data/(history\.ndjson|receipts/)'; then
-              echo '::error::append-only ledger conflicted with a concurrent run; not auto-resolving'
+              # Only a real conflict if the OTHER side also appended. A code
+              # push (or any commit that leaves the ledger alone) landing
+              # mid-run is replayed onto cleanly with a plain rebase.
+              git fetch -q origin main
+              if [ -n "$(git diff --name-only HEAD~1 origin/main -- data/history.ndjson data/receipts)" ]; then
+                echo '::error::append-only ledger conflicted with a concurrent run; not auto-resolving'
+                exit 1
+              fi
+              if git rebase -q origin/main; then continue; fi
+              git rebase --abort || true
+              echo '::error::rebase onto a ledger-free tip failed; not auto-resolving'
               exit 1
             fi
 
@@ -432,6 +442,14 @@ jobs:
         # Presentation only; a failure keeps the previous data/moltbook.json.
         continue-on-error: true
         run: node collector/moltbook.mjs
+
+      - name: Post the reading to Moltbook
+        # At most every 6 hours, or when the level moves. Off until the owner
+        # registers and claims the agent and adds MOLTBOOK_API_KEY.
+        continue-on-error: true
+        env:
+          MOLTBOOK_API_KEY: ${{ secrets.MOLTBOOK_API_KEY }}
+        run: node collector/post-moltbook.mjs
 
       - name: Tally's voice update
         # Tally reads a short update aloud through the xAI voice agent, every
@@ -659,7 +677,17 @@ jobs:
 
             CHANGED="$(git diff --name-only HEAD~1 HEAD || true)"
             if echo "$CHANGED" | grep -qE 'data/(history\.ndjson|receipts/)'; then
-              echo '::error::append-only ledger conflicted with a concurrent run; not auto-resolving'
+              # Only a real conflict if the OTHER side also appended. A code
+              # push (or any commit that leaves the ledger alone) landing
+              # mid-run is replayed onto cleanly with a plain rebase.
+              git fetch -q origin main
+              if [ -n "$(git diff --name-only HEAD~1 origin/main -- data/history.ndjson data/receipts)" ]; then
+                echo '::error::append-only ledger conflicted with a concurrent run; not auto-resolving'
+                exit 1
+              fi
+              if git rebase -q origin/main; then continue; fi
+              git rebase --abort || true
+              echo '::error::rebase onto a ledger-free tip failed; not auto-resolving'
               exit 1
             fi
 

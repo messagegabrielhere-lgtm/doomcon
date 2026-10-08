@@ -47,10 +47,10 @@ export function roomGroups(ctx) {
       ctx.digest ? ['/digest.html', 'clipboard', 'Digest', null, 'The day in a few corroborated items.'] : null,
       ['/monitor.html', 'satellite', 'World Monitor', null, 'Live globe: stories from 27 outlets, hazards, a country stress index, 72-hour replay.'],
       ['/elon.html', 'musk', 'Real Clips', null, 'Verified clips of Elon, Altman, Amodei and the AI bosses.'],
-      ['/live-x.html', 'satellite', 'Live on X', null, 'Live X feeds and Spaces on AI, newest first.'],
-      ['/videos.html', 'camera', 'SIREN TV', '6 videos', 'Short explainers: Tally, Skynet status, SI prep, your job.'],
-      ['/radio.html', 'mic', 'SIREN Radio', '6 stations', 'Six stations of music generated live in your browser.'],
-      ['/changelog.html', 'clipboard', 'What Moved', null, 'Every hour’s changes: score, pillars and top stories.'],
+      ['/live-x.html', 'px:antenna', 'Live on X', null, 'Live X feeds and Spaces on AI, newest first.'],
+      ['/videos.html', 'px:tv', 'SIREN TV', '6 videos', 'Short explainers: Tally, Skynet status, SI prep, your job.'],
+      ['/radio.html', 'px:radio', 'SIREN Radio', '6 stations', 'Six stations of music generated live in your browser.'],
+      ['/changelog.html', 'px:updown', 'What Moved', null, 'Every hour’s changes: score, pillars and top stories.'],
     ]],
     ['THE MACHINES', [
       ['/watts.html', 'power', 'Power', ctx.infra && Number.isFinite(ctx.infra.score) ? `${ctx.infra.score.toFixed(1)} / 100` : null, 'Grid load, drought and build-out under the models.'],
@@ -64,20 +64,20 @@ export function roomGroups(ctx) {
       r.balance ? ['/medicine.html', 'pill', 'Medicine', null, 'Is AI curing anything? Trials and approvals.'] : null,
       r.balance ? ['/balance.html', 'scales', 'Balance', null, 'Harm and benefit, counted side by side.'] : null,
       ['/bliss.html', 'sun', 'Upside', null, 'The direction we would be glad to see move.'],
-      ['/breakthroughs.html', 'sun', 'Breakthroughs', null, 'AI curing, solving and restoring: the good news, tracked.'],
-      ['/ai-proof-job.html', 'case', 'AI-Proof Your Job', null, 'A 2-minute plan to keep your job and grow with AI.'],
+      ['/breakthroughs.html', 'px:bulb', 'Breakthroughs', null, 'AI curing, solving and restoring: the good news, tracked.'],
+      ['/ai-proof-job.html', 'px:rocket', 'AI-Proof Your Job', null, 'A 2-minute plan to keep your job and grow with AI.'],
     ]],
     ['PLAY & PREP', [
       ['/arena.html#battle', 'stocks', 'AI Battle', null, 'AI models trade stocks and crypto against live prices.'],
-      ['/arena.html', 'clipboard', 'Stock Picks', null, 'Daily rule-based stock picks, scored in public.'],
-      ['/scanner.html', 'magnifier', 'Scanner', null, 'Screen stocks, ETFs and crypto in plain English.'],
+      ['/arena.html', 'px:candles', 'Stock Picks', null, 'Daily rule-based stock picks, scored in public.'],
+      ['/scanner.html', 'px:crosshair', 'Scanner', null, 'Screen stocks, ETFs and crypto in plain English.'],
       ['/bets.html', 'dice', 'Tally’s Bets', null, 'Daily forecasts about the index, scored in public.'],
       ['/game.html', 'joystick', 'Game', null, 'Thirty seconds: count signals, ignore predictions.'],
-      ['/desk.html', 'canary', 'Tally’s Desk', null, 'The unserious counts: robots and godfathers.'],
+      ['/desk.html', 'px:notebook', 'Tally’s Desk', null, 'The unserious counts: robots and godfathers.'],
       ['/bunker-kit.html', 'bunker', 'Bunker Kit', null, '50 free tools and six crates of emergency gear.'],
-      ['/si-ready.html', 'scales', 'Ready for SI?', null, 'Prepare for superintelligence: a 3-minute personal plan.'],
-      ['/prepper-checklist.html', 'clipboard', 'Prepper Checklist', null, 'A 72-hour kit and two weeks at home, sized for you.'],
-      ['/bug-out-land.html', 'globe', 'Bug-Out Land', null, 'Where to buy remote land to ride out Skynet.'],
+      ['/si-ready.html', 'px:backpack', 'Ready for SI?', null, 'Prepare for superintelligence: a 3-minute personal plan.'],
+      ['/prepper-checklist.html', 'px:doc', 'Prepper Checklist', null, 'A 72-hour kit and two weeks at home, sized for you.'],
+      ['/bug-out-land.html', 'px:cabin', 'Bug-Out Land', null, 'Where to buy remote land to ride out Skynet.'],
       ['/library.html', 'books', 'Reading List', null, 'Books from every side of the AI argument.'],
     ]],
     ['THE RECORD', [
@@ -85,15 +85,15 @@ export function roomGroups(ctx) {
       ['/history.html', 'archive', 'History', ctx.history ? `${ctx.history.length} readings` : null, 'Sixty years of the argument, and every reading.'],
       ['/methodology.html', 'magnifier', 'Methodology', null, 'Every formula. Recompute the number yourself.'],
       ['/classic.html', 'siren', 'Full Panel', null, 'The full instrument panel, receipts and API.'],
-      ['/staff.html', 'server', 'The Staff', null, 'The automated crew that runs SIREN, at work together.'],
+      ['/staff.html', 'px:team', 'The Staff', null, 'The automated crew that runs SIREN, at work together.'],
       ['/tally.html', 'canary', 'Tally', null, 'Meet the duty canary. Five moods, one for each level.'],
-      ['/careers.html', 'case', 'Careers', null, 'Now hiring: AIs welcome to apply.'],
-      ['/agents.html', 'globe', 'For AI Agents', null, 'Open data, skill.md and Moltbook: AIs welcome.'],
-      ['/feedback.html', 'mic', 'Feedback', null, 'Report a problem or send an idea. We read every one.'],
-      ['/alerts.html', 'siren', 'Alerts', null, 'Level changes, big moves, pillar spikes: RSS, email, X.'],
-      ['/export.html', 'archive', 'Data & Embed', null, 'CSV, JSON and a live widget for your site.'],
-      ['/bias.html', 'scales', 'Known Biases', null, 'Where SIREN’s sources skew, said plainly.'],
-      ['/reference-plan.html', 'magnifier', 'Baseline Plan', null, 'How the frozen reference gets updated, versioned.'],
+      ['/careers.html', 'px:badge', 'Careers', null, 'Now hiring: AIs welcome to apply.'],
+      ['/agents.html', 'px:agent', 'For AI Agents', null, 'Open data, skill.md and Moltbook: AIs welcome.'],
+      ['/feedback.html', 'px:chat', 'Feedback', null, 'Report a problem or send an idea. We read every one.'],
+      ['/alerts.html', 'px:bell', 'Alerts', null, 'Level changes, big moves, pillar spikes: RSS, email, X.'],
+      ['/export.html', 'px:code', 'Data & Embed', null, 'CSV, JSON and a live widget for your site.'],
+      ['/bias.html', 'px:scalebias', 'Known Biases', null, 'Where SIREN’s sources skew, said plainly.'],
+      ['/reference-plan.html', 'px:ruler', 'Baseline Plan', null, 'How the frozen reference gets updated, versioned.'],
     ]],
   ];
   return groups.map(([g, items]) => [g, items.filter(Boolean)]).filter(([, l]) => l.length);
@@ -376,7 +376,7 @@ function marketsPanel(ctx, href) {
 export function render(ctx, { head }) {
   const { state } = ctx;
   const href = ctx.href;
-  const img = (n) => href(`/img/art-${n}.webp`);
+  const img = (n) => (String(n).startsWith('px:') ? href(`/img/px-${n.slice(3)}.svg`) : href(`/img/art-${n}.webp`));
   const L = LEVEL[state.level] || LEVEL[4];
   const score = num(state.score, 1);
   const vs = ctx.vsYesterday;
