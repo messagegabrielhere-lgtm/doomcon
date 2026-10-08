@@ -123,6 +123,75 @@ const SI_QS = [
   ['voice', 'Have you ever told a representative what you think about AI?', [['No', 0], ['Thought about it', 1], ['Yes', 2]]],
 ];
 
+
+// The long-form guide under the quiz: what a regular person can actually do.
+const SI_GUIDE = [
+  ['Understand what is (and isn\'t) coming', [
+    '<b>Superintelligence</b> means AI that is better than the best humans at most thinking work. Nobody knows if or when it arrives; serious estimates run from a few years to never. Plan for a range, not a date.',
+    'What is already happening is easier to plan for: AI that writes, codes, summarises, translates, draws and talks well enough to change how many jobs are done.',
+    'Follow measured signals, not hype. SIREN counts activity hourly; the <a href="/doomcon/methodology.html">method</a> shows what it can and cannot tell you.']],
+  ['Your work: get ahead of the change', [
+    '<b>Audit your week.</b> List your tasks and mark each: routine screen work, judgment, people, or hands-on. Routine screen work is what AI absorbs first.',
+    '<b>Learn the tools in your field now.</b> An hour a day for a month with the assistant your industry uses beats any course. Keep notes on where it fails.',
+    '<b>Grow the durable skills:</b> judgment under uncertainty, explaining things to people, negotiating, managing, caring, physical trades, and checking AI work.',
+    '<b>Keep a side option.</b> A second skill, a certification, or a small side income makes a layoff a setback instead of a crisis.',
+    'Use the <a href="/doomcon/ai-proof-job.html">AI-proof your job</a> plan for step-by-step moves.']],
+  ['Your money: resilience over prediction', [
+    'Build an emergency fund that covers several months of essential costs, in an ordinary insured savings account.',
+    'Pay down high-interest debt; it is the surest return there is.',
+    'Do not bet your savings on AI hype, AI coins or "superintelligence funds". Scammers love a frightening headline.',
+    'Spread risk and get advice from a licensed, fee-only financial adviser. Nothing here is financial advice.']],
+  ['Your information: don\'t get fooled', [
+    'Assume any voice, video or photo can be faked. Check <b>where it was posted first</b> and by whom; the <a href="/doomcon/elon.html">Real Clips</a> room does this for video.',
+    'Agree a <b>family code word</b> for any urgent call or message asking for money or secrets. Voice-clone scams target parents and grandparents.',
+    'Slow down on anything that makes you angry or scared in seconds; that is how manipulation works, human or AI.',
+    'Keep a few sources that publish corrections and methods. Drop the ones that only publish certainty.']],
+  ['Your digital security: lock the doors', [
+    'Turn on two-factor sign-in with an authenticator app or passkey (not SMS) for email, bank, phone carrier and social accounts.',
+    'Use a password manager and unique passwords everywhere.',
+    'Freeze your credit with the three bureaus (free in the US); unfreeze only when you need to.',
+    'Back up your photos and documents to two places, one offline.',
+    'Remove your listings from people-search sites, and share less publicly: AI makes scraping and impersonation cheap.']],
+  ['Your household: ready for outages', [
+    'More automation means more systems that can fail together. Keep water, food, light, power and cash for at least three days, ideally two weeks.',
+    'Know how to reach family if phones and the internet are down: a meeting place and an out-of-area contact.',
+    'The <a href="/doomcon/prepper-checklist.html">Prepper Checklist</a> sizes it for your household.']],
+  ['Your kids and family', [
+    'Teach AI literacy early: AI can be helpful and confidently wrong at the same time.',
+    'Talk about fakes, scams and why people should never share personal details or photos with strangers, human or bot.',
+    'Encourage what AI cannot replace: friendships, sport, making things with their hands, and asking good questions.']],
+  ['Your mind and your people', [
+    'Worrying about AI is normal. Limit doom-scrolling; check in on the news on purpose, not all day.',
+    'Invest in in-person community: neighbours, clubs, faith groups, volunteering. Trust between people becomes more valuable, not less.',
+    'Find meaning that does not depend on being the fastest at a task: craft, care, service, learning for its own sake.']],
+  ['Your voice', [
+    'Read one primary source on AI rules where you live, and tell your representatives what you want. They count messages.',
+    'Support independent AI safety and evaluation work if you can, with time, skills or money.',
+    'Ask the companies you buy from how they use AI with your data, and choose the ones that answer.']],
+];
+const SI_30 = [
+  ['Week 1', 'Turn on two-factor and a password manager. Agree a family code word. Use an AI assistant for one real task each day.'],
+  ['Week 2', 'Audit your work week. Start or top up an emergency fund. Freeze your credit.'],
+  ['Week 3', 'Build a 72-hour kit. Back up photos and documents. Pick one durable skill and book time for it.'],
+  ['Week 4', 'Talk with your family about AI and fakes. Reach out to two people outside work. Review your plan and set the next 30 days.'],
+];
+const SI_DONT = [
+  'Panic-sell, quit your job or move your life on a headline.',
+  'Buy "AI-proof" courses, coins or bunkers from people selling fear.',
+  'Trust a video, voice or screenshot because it looks real.',
+  'Hand an AI app your passwords, ID documents or bank logins.',
+  'Assume it is all hype, or that it is all over. Both are bets, and neither is a plan.',
+];
+function siGuide() {
+  return `<h2>The full guide: how regular people can prepare</h2>
+  <p>Practical steps for anyone, whatever happens with superintelligence. Open a section to read it.</p>
+  ${SI_GUIDE.map(([t, items], i) => `<details class="fx-card" style="margin:8px 0"${i === 0 ? ' open' : ''}><summary style="cursor:pointer;font:700 1.05rem/1.3 var(--sans);color:var(--ink)">${t}</summary><ul style="margin:10px 0 0">${items.map((x) => `<li>${x}</li>`).join('')}</ul></details>`).join('')}
+  <h2>A 30-day starter plan</h2>
+  <div class="fx-grid">${SI_30.map(([w, d]) => `<div class="fx-card"><h3>${w}</h3><p>${d}</p></div>`).join('')}</div>
+  <h2>What not to do</h2>
+  <ul>${SI_DONT.map((d) => `<li>${d}</li>`).join('')}</ul>`;
+}
+
 export function siReady(ctx) {
   const main = `${CSS}
 <section class="fx">
@@ -134,6 +203,7 @@ export function siReady(ctx) {
   <div class="fx-grid">${Object.values(SI_AREAS).map((a) => `<div class="fx-card"><h3>${esc(a.name)}</h3><p>${esc(a.moves[0])}</p></div>`).join('')}</div>
   <h2>Your check</h2>
   ${quiz({ id: 'siq', questions: SI_QS, areas: SI_AREAS })}
+  ${siGuide().replace(/\/doomcon\//g, ctx.href('/'))}
   <h2>Keep going</h2>
   <div class="fx-grid">
     <a class="fx-card" href="${esc(ctx.href('/ai-proof-job.html'))}"><h3>AI-proof your job →</h3><p>Where AI hits your work, and how to grow with it.</p></a>

@@ -418,6 +418,12 @@ jobs:
           SEC_CONTACT_EMAIL: ${{ secrets.SEC_CONTACT_EMAIL }}
         run: node collector/collect.mjs
 
+      - name: Moltbook spotlight
+        # What AI agents are posting about AI on moltbook.com, for /agents.html.
+        # Presentation only; a failure keeps the previous data/moltbook.json.
+        continue-on-error: true
+        run: node collector/moltbook.mjs
+
       - name: Refresh the newsroom
         # --force ignores the per-source cadence ledger, so the hourly pass asks
         # every feed no matter how recently the fast lane did. That is the point

@@ -1229,7 +1229,11 @@ async function main() {
   written.push(await write(args.out, 'tally.html', agentPages.tally(ctx)));
   written.push(await write(args.out, 'staff.html', agentPages.staff(ctx)));
   written.push(await write(args.out, 'careers.html', agentPages.careers(ctx)));
-  written.push(await write(args.out, 'agents.html', agentPages.agents(ctx)));
+  {
+    let molt = null;
+    try { molt = JSON.parse(await readFile(path.join(args.data, 'moltbook.json'), 'utf8')); } catch { molt = null; }
+    written.push(await write(args.out, 'agents.html', agentPages.agents(ctx, molt)));
+  }
   written.push(await write(args.out, 'bug-out-land.html', agentPages.land(ctx)));
   written.push(await write(args.out, 'skill.md', agentPages.skillMd(ctx)));
   written.push(await write(args.out, 'api/guide.json', JSON.stringify(agentPages.guideIndex(ctx, homeV2.roomGroups(ctx)))));
