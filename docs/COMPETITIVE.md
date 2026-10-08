@@ -616,6 +616,10 @@ finding in this document: we are not losing on anything structural.**
 
 ## 7. THE PLAN
 
+> **Scheduling after 2026-10-08:** use [`docs/SITE-UPGRADES-90.md`](SITE-UPGRADES-90.md)
+> as the merge queue. This section remains the research plan and falsifiers from
+> the 2026-09-24 competitive inventory.
+
 Two tracks, kept separate on purpose. Acquisition brings strangers; retention
 brings the same people back. Conflating them is the usual mistake and it is why
 a site ends up with seven switcher panels and no newsletter.

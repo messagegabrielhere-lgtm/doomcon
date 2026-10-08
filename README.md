@@ -50,6 +50,11 @@ docker run --rm --network host -v "$PWD":/app -w /app node:20-alpine node collec
 Prefix each with the Docker wrapper above. Backfill runs **once** — the reference
 distribution is frozen on purpose and must not be regenerated casually.
 
+## Site upgrade plan
+
+Next 90 days of site work (merge queue, retention, SEO, operator handoffs):
+[docs/SITE-UPGRADES-90.md](docs/SITE-UPGRADES-90.md).
+
 ## Architecture
 
 ```
