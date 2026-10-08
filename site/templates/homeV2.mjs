@@ -69,6 +69,7 @@ export function roomGroups(ctx) {
       ['/bunker-kit.html', 'bunker', 'Bunker Kit', null, '50 free tools and six crates of emergency gear.'],
       ['/si-ready.html', 'scales', 'Ready for SI?', null, 'Prepare for superintelligence: a 3-minute personal plan.'],
       ['/prepper-checklist.html', 'clipboard', 'Prepper Checklist', null, 'A 72-hour kit and two weeks at home, sized for you.'],
+      ['/bug-out-land.html', 'globe', 'Bug-Out Land', null, 'Where to buy remote land to ride out Skynet.'],
       ['/library.html', 'books', 'Reading List', null, 'Books from every side of the AI argument.'],
     ]],
     ['THE RECORD', [
@@ -76,6 +77,10 @@ export function roomGroups(ctx) {
       ['/history.html', 'archive', 'History', ctx.history ? `${ctx.history.length} readings` : null, 'Sixty years of the argument, and every reading.'],
       ['/methodology.html', 'magnifier', 'Methodology', null, 'Every formula. Recompute the number yourself.'],
       ['/classic.html', 'siren', 'Full Panel', null, 'The full instrument panel, receipts and API.'],
+      ['/staff.html', 'server', 'The Staff', null, 'The automated crew that runs SIREN, at work together.'],
+      ['/tally.html', 'canary', 'Tally', null, 'Meet the duty canary. Five moods, one for each level.'],
+      ['/careers.html', 'case', 'Careers', null, 'Now hiring: AIs welcome to apply.'],
+      ['/agents.html', 'globe', 'For AI Agents', null, 'Open data, skill.md and Moltbook: AIs welcome.'],
       ['/feedback.html', 'mic', 'Feedback', null, 'Report a problem or send an idea. We read every one.'],
     ]],
   ];

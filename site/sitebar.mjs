@@ -141,7 +141,7 @@ export function stamp(html, asOf, rel = '') {
   const css = ad || sp ? MZ_CSS : '';
   const gc = MONETIZE.analytics && MONETIZE.analytics.goatcounter;
   const analytics = gc ? `\n<script data-goatcounter="https://${gc}.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>` : '';
-  const radio = `\n<script src="${BASE}/media/radio.js" defer></script>`;
+  const radio = `\n<script src="${BASE}/media/radio.js" defer></script>\n<script src="${BASE}/media/guide.js" defer></script>`;
   return html.replace(/<\/body>(?![\s\S]*<\/body>)/i, `${css}${ad}${sp}${own ? '' : disclosureHtml()}${sitebar(asOf, stampOpts)}${radio}${analytics}\n</body>`);
 }
 let stampOpts = {};
