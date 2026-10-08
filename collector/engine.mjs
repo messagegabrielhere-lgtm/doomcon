@@ -17,6 +17,7 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
 import { writeReceipt, latestReceipt, receiptIdFor, canonicalJson, GENESIS_PREV_HASH } from './receipts.mjs';
+import { attachBaselineProgress, baselineProgressFromDir } from './forward-coverage.mjs';
 
 export const ENGINE_VERSION = '1.0.0';
 export const STATE_SCHEMA = 1;
@@ -919,6 +920,15 @@ export function main(argv = process.argv.slice(2)) {
 
   const receipt = writeReceipt(P.receipts, receiptBody);
   state.receipt_hash = receipt.hash;
+
+  // After the receipt is sealed. These fields are how far an uncalibrated
+  // source is toward the 300-day bar. They are not an input to the score.
+  const asOfDay = String(nowIso).slice(0, 10);
+  attachBaselineProgress(state, baselineProgressFromDir(dirname(rawPath), { asOfDay }));
+  const counted = state.sources.filter((s) => Number.isInteger(s.baseline_days));
+  if (counted.length) {
+    console.log(`baseline ${counted.map((s) => `${s.id} ${s.baseline_days}/${s.baseline_required}`).join(', ')}`);
+  }
 
   mkdirSync(dirname(P.state), { recursive: true });
   writeFileSync(P.state, JSON.stringify(state, null, 2) + '\n', 'utf8');

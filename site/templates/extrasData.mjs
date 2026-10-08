@@ -199,7 +199,7 @@ const SIGNAL_LABELS = {
 
 /**
  * The uncalibrated sources: collected every hour, published, not in the score.
- * [{id, label, pillar, value, unit, observed_at, description}]
+ * [{id, label, pillar, value, unit, observed_at, baseline_days, baseline_required, description}]
  */
 export function alternativeSignals(state) {
   const src = state && Array.isArray(state.sources) ? state.sources : [];
@@ -212,6 +212,8 @@ export function alternativeSignals(state) {
       value: isNum(s.value) ? s.value : null,
       unit: s.unit ?? null,
       observed_at: s.observed_at ?? null,
+      baseline_days: Number.isInteger(s.baseline_days) ? s.baseline_days : null,
+      baseline_required: Number.isInteger(s.baseline_required) ? s.baseline_required : null,
       description: SIGNAL_DESCRIPTIONS[s.id] || 'Collected and published hourly; not yet calibrated against the frozen reference, so not in the score.',
     }));
 }

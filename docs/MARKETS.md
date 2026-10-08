@@ -17,7 +17,9 @@ activity**. None of them publishes a probability of anything.
 > dashboard reports this pillar as *awaiting baseline*, which is a different
 > state from *dark* and must stay different — dark means the pipe is dead,
 > awaiting baseline means the pipe works and we have not yet earned the right
-> to say whether today's number is high. Everything in this document is
+> to say whether today's number is high. The page also prints how many days of
+> the current definition are already on file, out of the 300 required. That
+> count is not a score. Everything in this document is
 > written on the assumption that the baseline has not been frozen yet, which is
 > precisely why the selection rules were revised now rather than later.
 
