@@ -1,10 +1,10 @@
 {
   "schema": 1,
-  "generated_at": "2026-10-08T09:26:06.158Z",
-  "news_generated_at": "2026-10-08T09:26:06.158Z",
+  "generated_at": "2026-10-08T10:26:58.107Z",
+  "news_generated_at": "2026-10-08T10:26:58.107Z",
   "matcher_version": "1.1.0",
   "window_days": 7,
-  "window_start": "2026-10-01T09:26:06.158Z",
+  "window_start": "2026-10-01T10:26:58.107Z",
   "rule": {
     "headline_only": true,
     "statement": "Only the headline is ever reproduced, exactly as the publication printed it. No quotation is generated, paraphrased, summarised or reconstructed anywhere in this file.",
@@ -142,28 +142,29 @@
     "max_items": 400,
     "window_binds": true,
     "oldest_item_at": "2026-10-07T00:00:00.000Z",
-    "newest_item_at": "2026-10-08T09:00:16.000Z",
+    "newest_item_at": "2026-10-08T10:20:00.000Z",
     "named_without_cue": 3
   },
   "cross_check": {
     "source": "data/race.json",
     "present": true,
-    "race_generated_at": "2026-10-08T09:26:08.912Z",
+    "race_generated_at": "2026-10-08T10:27:00.159Z",
     "players_matched": 8,
     "wire_fills_gap": [
+      "altman",
       "musk"
     ]
   },
   "totals": {
     "leaders": 19,
-    "on_record": 1,
-    "no_line": 18,
-    "lines": 1,
-    "distinct_items": 1,
-    "quiet": 18,
+    "on_record": 2,
+    "no_line": 17,
+    "lines": 2,
+    "distinct_items": 2,
+    "quiet": 17,
     "unreachable": 0,
     "no_sources": 3,
-    "press_lines": 1,
+    "press_lines": 2,
     "direct_lines": 0
   },
   "direct": {
@@ -196,11 +197,59 @@
         "Sam Altman",
         "Altman"
       ],
-      "state": "no_line",
-      "count": 0,
-      "sources": [],
-      "latest": null,
-      "lines": [],
+      "state": "on_record",
+      "count": 1,
+      "sources": [
+        "guardian-ai"
+      ],
+      "latest": {
+        "item_id": "80d6747e6ccbe95d",
+        "headline": "Sam Altman says AI will make ‘bad things’ happen. Exhibit A: needless death | Moustafa Bayoumi",
+        "source": "guardian-ai",
+        "kind": "press",
+        "url": "https://theguardian.com/commentisfree/2026/oct/08/ai-death-war-sam-altman",
+        "published_at": "2026-10-08T10:00:16.000Z",
+        "score": 37.8,
+        "pillar": "attention",
+        "matched_alias": "Sam Altman",
+        "cue": "says",
+        "cue_group": "core",
+        "cue_class": "verb",
+        "cue_text": "says",
+        "cues": [
+          "says"
+        ],
+        "corroboration": 1,
+        "also_sources": [
+          "guardian-ai"
+        ],
+        "via": "press"
+      },
+      "lines": [
+        {
+          "item_id": "80d6747e6ccbe95d",
+          "headline": "Sam Altman says AI will make ‘bad things’ happen. Exhibit A: needless death | Moustafa Bayoumi",
+          "source": "guardian-ai",
+          "kind": "press",
+          "url": "https://theguardian.com/commentisfree/2026/oct/08/ai-death-war-sam-altman",
+          "published_at": "2026-10-08T10:00:16.000Z",
+          "score": 37.8,
+          "pillar": "attention",
+          "matched_alias": "Sam Altman",
+          "cue": "says",
+          "cue_group": "core",
+          "cue_class": "verb",
+          "cue_text": "says",
+          "cues": [
+            "says"
+          ],
+          "corroboration": 1,
+          "also_sources": [
+            "guardian-ai"
+          ],
+          "via": "press"
+        }
+      ],
       "watch_floor": {
         "tracked": true,
         "player_id": "openai",
@@ -209,24 +258,26 @@
         "reason": null,
         "feed": "blog.samaltman.com",
         "posts_30d": 0,
-        "verdict": "both_quiet",
-        "note": "The watch floor reads dormant and no headline in this window named Sam Altman beside a speech cue. Two separate silences, neither imputed from the other."
+        "verdict": "wire_fills_gap",
+        "note": "The watch floor reads dormant for Sam Altman and that reading stands: it is about feeds we can fetch. The one line on the wire came from the press instead — guardian-ai — and links to the publication that printed it."
       },
-      "group": "quiet",
-      "reason": "quiet",
-      "press_count": 0,
+      "group": "on_record",
+      "reason": null,
+      "press_count": 1,
       "direct_count": 0,
-      "press_sources": [],
-      "last_statement_at": "2026-09-23T12:00:00.000Z",
+      "press_sources": [
+        "guardian-ai"
+      ],
+      "last_statement_at": "2026-10-08T10:00:16.000Z",
       "last_statement": {
-        "headline": "Sam Altman’s remarks at the United Nations Security Council",
-        "url": "https://openai.com/index/sam-altman-un-security-council-remarks",
-        "source": "openai.com/news",
-        "published_at": "2026-09-23T12:00:00.000Z",
-        "via": "feed",
+        "headline": "Sam Altman says AI will make ‘bad things’ happen. Exhibit A: needless death | Moustafa Bayoumi",
+        "url": "https://theguardian.com/commentisfree/2026/oct/08/ai-death-war-sam-altman",
+        "source": "guardian-ai",
+        "published_at": "2026-10-08T10:00:16.000Z",
+        "via": "press",
         "remembered": false
       },
-      "days_silent": 14,
+      "days_silent": 0,
       "sources_checked": 4,
       "sources_ok": 3,
       "direct_sources": [
@@ -436,7 +487,7 @@
         "kind": "press",
         "url": "https://techmeme.com/261007/p23",
         "published_at": "2026-10-07T14:40:01.000Z",
-        "score": 37.4,
+        "score": 37.2,
         "pillar": "attention",
         "matched_alias": "Elon Musk",
         "cue": "says",
@@ -461,7 +512,7 @@
           "kind": "press",
           "url": "https://techmeme.com/261007/p23",
           "published_at": "2026-10-07T14:40:01.000Z",
-          "score": 37.4,
+          "score": 37.2,
           "pillar": "attention",
           "matched_alias": "Elon Musk",
           "cue": "says",
