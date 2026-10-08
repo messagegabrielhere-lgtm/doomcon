@@ -204,6 +204,18 @@
     var want = false; try { want = localStorage.getItem(KEY) === '1'; } catch (e) {}
     if (want) {
       btns.forEach(function (b) { b.classList.add('armed'); });
+      // KEEP PLAYING ACROSS PAGES. The radio was on on the last page, so try
+      // to carry straight on. Browsers that remember the visitor has been
+      // interacting with the site allow it; the rest need one tap, which the
+      // listeners below catch anywhere on the page.
+      try {
+        start(lv);
+        setTimeout(function () {
+          if (ctx && ctx.state === 'running') { paint(); return; }
+          stop(); playing = false;
+          btns.forEach(function (b) { b.textContent = b.hasAttribute('data-siren-radio') ? '♪ TAP' : '♪ TAP TO RESUME'; b.title = 'SIREN Radio was on: tap anywhere to keep it playing'; });
+        }, 350);
+      } catch (e) {}
       var go = function (e) {
         if (btns.indexOf(e.target) >= 0 || playing) return;
         start(lv); paint();
