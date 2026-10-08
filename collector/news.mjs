@@ -49,11 +49,10 @@ const MAX_ITEMS = 400;
 // whole basket).
 const ADAPTER_TIMEOUT_MS = 60_000;
 
-// The fast lane runs on a ~15 minute cron and must never be the reason a run
-// overruns its own beat. A hung adapter cannot be allowed to hold the whole run
-// for a minute when the only thing at stake is one feed's latency: it is dark
-// for this pass and asked again on the next one, ~15 minutes later. The hourly
-// full pass keeps the generous timeout, because there the point is completeness.
+// news-fast.yml ticks every minute, and collect.yml's 15-minute cron is the
+// fallback. A hung adapter cannot hold that tick: it is dark for this pass and
+// asked again on the next one. The hourly full pass keeps the generous
+// timeout, because there the point is completeness.
 const ADAPTER_TIMEOUT_FAST_MS = 25_000;
 
 const VALID_SOURCE_ID = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
@@ -280,21 +279,24 @@ export function titleOverlap(a, b) {
 // unchanged — which is why skipping costs nothing in coverage, only in latency
 // on that one feed. Adapters may override with their own `minIntervalMs`.
 //
-// The numbers below are set against the FAST LANE's ~15 minute beat
-// (docs/AUTOUPDATE.md). Anything at or under 900s is effectively "every fast
-// run"; anything above it deliberately gets asked on a subset of runs. The
-// hourly full pass runs with --force and ignores all of it, so no feed can
-// ever hide behind its own interval for longer than an hour.
+// The numbers below are set against news-fast.yml's sixty-second loop, which
+// is the binding beat. collect.yml's 15-minute lane is the fallback when that
+// loop is down. The hourly full pass runs with --force and ignores all of it,
+// so no feed can hide behind its own interval for longer than an hour.
+// Reddit is the exception inside `forum`: eight feeds every minute is how a
+// shared Actions IP gets told to slow down, and a 429 there delays the wires
+// that actually move. Three minutes is still inside a conversation.
 // ---------------------------------------------------------------------------
 const CADENCE_BY_KIND = {
-  forum: 300_000,       // HN front page turns over in minutes
-  press: 300_000,       // Techmeme, Verge, Ars — the actual wire
-  status: 300_000,      // incident feeds are rare, but matter immediately
+  forum: 60_000,        // HN front page turns over in minutes
+  press: 60_000,        // Techmeme, Verge, Ars — the actual wire
+  status: 60_000,       // incident feeds are rare, but matter immediately
   release: 900_000,     // GitHub releases land in bursts, not continuously
-  lab: 900_000,         // lab blogs publish a few times a week
+  lab: 300_000,         // lab blogs publish a few times a week; five minutes is enough
   model: 1_800_000,     // HF trending is a rolling average; it cannot move in 15m
   paper: 3_600_000,     // arXiv and HF daily papers are daily batches. Do not hammer.
 };
+const REDDIT_CADENCE_MS = 180_000;
 const DEFAULT_CADENCE_MS = 900_000;
 
 // Cron does not keep time. GitHub's scheduler is documented at a 5-minute floor
@@ -307,8 +309,9 @@ const DEFAULT_CADENCE_MS = 900_000;
 // early and removes the doubling entirely.
 const DUE_SLACK = 0.2;
 
-function cadenceFor(a) {
+export function cadenceFor(a) {
   if (Number.isFinite(a.minIntervalMs)) return a.minIntervalMs;
+  if (typeof a.id === 'string' && a.id.startsWith('reddit-')) return REDDIT_CADENCE_MS;
   return CADENCE_BY_KIND[a.kind] ?? DEFAULT_CADENCE_MS;
 }
 

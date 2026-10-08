@@ -108,8 +108,10 @@ coverage — only latency on that one feed.
 
 | kind | interval | why |
 |---|---|---|
-| `forum`, `press`, `status` | 5 min | HN, Techmeme, Verge, Ars and incident feeds genuinely turn over inside a quarter hour |
-| `release`, `lab` | 15 min | GitHub tags and lab blogs land in bursts, a few times a week |
+| `forum`, `press`, `status` | 1 min | The news-fast loop ticks every minute. HN, Techmeme, Verge, Ars and incident feeds move inside that window |
+| `reddit-*` | 3 min | Same `forum` kind, slower on purpose: eight subreddits a minute gets a shared Actions IP throttled |
+| `lab` | 5 min | Lab blogs publish a few times a week. Five minutes is the useful beat |
+| `release` | 15 min | GitHub tags land in bursts, not continuously |
 | `model` | 30 min | HF trending is a rolling average; it cannot move in fifteen minutes |
 | `paper` | 60 min | arXiv and HF Daily Papers publish in daily batches, and arXiv throttles |
 

@@ -1623,6 +1623,13 @@ async function main() {
   // not run: the client detects the 404, disables news polling and keeps
   // polling state, rather than pretending the newsroom is empty.
   if (news) written.push(await write(args.out, 'api/news.json', stableJson(news)));
+  // The open-tab poll. news.json is ~900KB; this is the two timestamps a
+  // reader needs to know whether that download is worth making.
+  written.push(await write(args.out, 'api/fresh.json', stableJson({
+    schema: 1,
+    state: state.generated_at,
+    news: news && typeof news.generated_at === 'string' ? news.generated_at : null,
+  })));
   if (race) written.push(await write(args.out, 'api/race.json', stableJson(race)));
   if (xwire) written.push(await write(args.out, 'api/x-surface.json', stableJson(xwire)));
   if (infra) written.push(await write(args.out, 'api/infra.json', stableJson(infra)));
@@ -1707,7 +1714,11 @@ async function main() {
 
   await selfCheck(args.out, state, ctx);
   // Last: the refresh bar and disclosure on every page, dated by the data.
-  const stamped = await stampAll(args.out, state.generated_at, { level: state.level, intro: mediaPages.INTRO_FOR });
+  const stamped = await stampAll(args.out, state.generated_at, {
+    level: state.level,
+    intro: mediaPages.INTRO_FOR,
+    newsAt: news && news.generated_at,
+  });
 
   log(`${brand.NAME} build complete.`);
   log(`  out          ${args.out}`);
