@@ -1351,7 +1351,7 @@ async function main() {
   // Media: the explainer video and its poster, and the radio script.
   const mediaDir = path.join(ROOT, 'assets', 'media');
   if (existsSync(mediaDir)) {
-    for (const name of (await readdir(mediaDir)).filter((f) => /\.(mp4|webm|jpg|webp|vtt|js)$/i.test(f)).sort()) {
+    for (const name of (await readdir(mediaDir)).filter((f) => /\.(mp4|webm|jpg|png|webp|vtt|js)$/i.test(f)).sort()) {
       written.push(await write(args.out, `media/${name}`, await readFile(path.join(mediaDir, name))));
     }
   }
