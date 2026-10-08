@@ -58,9 +58,19 @@ export default {
     //    value still contains the URL, so it still 403s — the bug looks like
     //    "my override was ignored". Matching the helper's casing makes this a
     //    replacement rather than an append.
-    const body = await fetchJson(`${ENDPOINT}?${qs}`, {
-      headers: { 'user-agent': 'doomcon.watch collector (331486973+messagegabrielhere-lgtm@users.noreply.github.com)' },
-    });
+    // 3. (2026-10-08) From 2026-10-06 the old UA, which named "doomcon.watch",
+    //    started drawing the same 403 from Actions runners: a dotted hostname
+    //    reads as a URL to the WAF. SEC's own example is "Company Name
+    //    contact@email", so that is the first UA tried; the second is the
+    //    bare-email form the 2026-09-22 bisect proved. Only a 403 moves on.
+    const CONTACT = '331486973+messagegabrielhere-lgtm@users.noreply.github.com';
+    const UAS = [`SIREN AI Index ${CONTACT}`, `SIREN/1.0 (${CONTACT})`];
+    let body; let lastErr;
+    for (const ua of UAS) {
+      try { body = await fetchJson(`${ENDPOINT}?${qs}`, { headers: { 'user-agent': ua } }); break; }
+      catch (err) { lastErr = err; if (!/\b403\b/.test(String(err && err.message))) throw err; }
+    }
+    if (!body) throw lastErr;
 
     const total = body?.hits?.total;
     if (!total || typeof total.value !== 'number') {
