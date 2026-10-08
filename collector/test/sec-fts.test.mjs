@@ -29,8 +29,8 @@ test('never sends a browser UA; declared contact only; fetch.mjs retries disable
   const fetchJson = async (url, opts) => { seen = opts; clock.tick(); return OK; };
   const r = await sec.collect(fetchJson, clock);
   assert.equal(r.value, 3585);
-  assert.match(seen.headers['user-agent'], /^SIREN\/1\.0 \(/);
-  assert.doesNotMatch(seen.headers['user-agent'], /Mozilla|Chrome|Safari|https?:\/\//);
+  assert.match(seen.headers['user-agent'], /^doomcon /);
+  assert.doesNotMatch(seen.headers['user-agent'], /Mozilla|Chrome|Safari|https?:\/\/|github/i);
   assert.equal(seen.retries, 0);
   assert.ok(seen.timeoutMs <= 15_000);
 });

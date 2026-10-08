@@ -14,7 +14,7 @@
 // operator, and attaching it to their sites tells a reader something the map
 // otherwise cannot. It adds no pins and moves no pin.
 
-import { secFullTextCount, SEC_UA } from '../infra-sources/_sec.mjs';
+import { secFetchJson, secFullTextCount } from '../infra-sources/_sec.mjs';
 
 const ENDPOINT = 'https://efts.sec.gov/LATEST/search-index';
 const PHRASE = 'data centers';
@@ -41,10 +41,8 @@ export default {
       enddt: counted.enddt,
       from: '0',
     });
-    // Both traps from collector/infra-sources/_sec.mjs apply: the User-Agent
-    // must not contain a URL, and the header key must be lowercase or undici
-    // joins it to the default instead of replacing it.
-    const body = await net.json(`${ENDPOINT}?${qs}`, { headers: { 'user-agent': SEC_UA } });
+    // Same contact and 403 retry as the count above. See _sec.mjs.
+    const body = await secFetchJson((url, opts) => net.json(url, opts), `${ENDPOINT}?${qs}`);
     const hits = Array.isArray(body?.hits?.hits) ? body.hits.hits.slice(0, MAX_HITS) : [];
 
     const filers = new Map();

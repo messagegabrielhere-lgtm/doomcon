@@ -272,12 +272,16 @@ export { isAiRelevant, SUMMARY_MAX };
 export function feedAdapter({
   id, kind, label, weight, url, defaultPillar, aiFilter = false, limit = 30,
   titlePrefix = '', timeoutMs, extraMeta = {}, categoryWeights = null,
+  minIntervalMs = null,
 }) {
   return {
     id,
     kind,
     label,
     weight,
+    // A newsletter published weekly must not inherit the wire cadence just
+    // because its kind is `press`. Absent means "use the kind default".
+    ...(Number.isFinite(minIntervalMs) ? { minIntervalMs } : {}),
     async collect(fetchText) {
       const entries = requireDated(await readFeed(fetchText, url, { limit, ...(timeoutMs ? { timeoutMs } : {}) }), id);
 
