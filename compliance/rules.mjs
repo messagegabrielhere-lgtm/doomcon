@@ -152,7 +152,12 @@ export const RULES = [
     check: ({ files }) =>
       files.filter(shipped).flatMap((f) => {
         const c = codeOnly(f.text);
-        const em = hits(c, /type=["']email["']|name=["']email["']|(buttondown|beehiiv|convertkit|mailchimp|substack|formspree|kit\.com)\.[a-z]+\/[^\s"']*/i);
+        // Newsletter hostnames in collector RSS URLs (…/feed, .rss, .xml) are
+        // not email capture — only flag real email fields or signup endpoints.
+        const em = hits(
+          c,
+          /type=["']email["']|name=["']email["']|(buttondown|beehiiv|convertkit|mailchimp|substack|formspree|kit\.com)\.[a-z]+\/(?!feed\b)[^\s"']*/i,
+        ).filter((h) => !/\.(rss|xml|atom)\b|\/(rss|atom)(\/|$|\?)/i.test(h.match));
         if (!em.length || /privacy/i.test(c)) return [];
         return [{ file: f.path, line: em[0].line, detail: em[0].match }];
       }),

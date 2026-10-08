@@ -533,9 +533,21 @@ function validateState(s, file) {
   // legitimately sit just outside its level's nominal band while the level is
   // held. Wider than that means the engine and the band table disagree.
   const [lo, hi] = meta.band;
-  // A level the engine is deliberately HOLDING (a dark pillar, the dwell or
-  // quorum test, the post-change lock) can sit further out; the homepage says so.
-  const HOLDS = new Set(['frozen_dark_pillar', 'dwell', 'quorum', 'min_interval', 'locked', 'insufficient_history']);
+  // A level the engine is deliberately HOLDING (deadband, dwell, quorum, a dark
+  // pillar, the post-change lock, …) can sit further out; the homepage says so.
+  // `deadband` must be here: escalate from ROUTINE needs score > BOUNDARY[4]+3
+  // (=58), so scores in (54, 58] are held with rule_fired=deadband and sit more
+  // than hi+3 (=57) outside the printed band — that is the gate working, not a
+  // contradiction.
+  const HOLDS = new Set([
+    'deadband',
+    'frozen_dark_pillar',
+    'dwell',
+    'quorum',
+    'min_interval',
+    'locked',
+    'insufficient_history',
+  ]);
   if (!HOLDS.has(s.rule_fired) && (s.score < lo - 3.001 || s.score > hi + 3.001)) {
     bad(`.score ${s.score} is more than the 3-point deadband outside the ${meta.name} band ${lo}-${hi}`);
   }

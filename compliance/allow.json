@@ -6,12 +6,6 @@
     "until": "2027-01-06"
   },
   {
-    "rule": "email-capture",
-    "file": "collector/news-sources/import-ai.mjs",
-    "reason": "False positive: this is the URL of a newsletter's public RSS feed that the collector reads. The site has no email field and collects no addresses.",
-    "until": "2027-10-07"
-  },
-  {
     "rule": "privacy-claims",
     "file": "site/sitebar.mjs",
     "reason": "The GoatCounter loader is gated on MONETIZE.analytics.goatcounter (null = off) and the privacy page swaps its 'No analytics' line for a disclosure in the same build that turns it on. While it is off, no page loads it. Re-check when the site code is set.",
