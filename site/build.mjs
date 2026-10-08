@@ -1270,6 +1270,18 @@ async function main() {
     }
     await writeDirectoryAliases(args.out, ['news'], write, written);
     written.push(await write(args.out, 'feed.xml', feed.render(ctx)));
+    // Aggregated info surfaces derived from the newsroom. The minute loop
+    // regenerates data/digest.json and data/leaders.json before this build,
+    // so rewriting these pages is what makes the aggregated brief and leader
+    // wire land with the same tick as the reel — not an hour later.
+    if (digestPage.hasDigest(ctx)) {
+      written.push(await write(args.out, 'digest.html', digestPage.render(ctx)));
+      written.push(await write(args.out, 'api/digest.json', stableJson(digest)));
+    }
+    if (leadersPage.hasLeaders(ctx)) {
+      written.push(await write(args.out, 'leaders.html', leadersPage.render(ctx)));
+      written.push(await write(args.out, 'api/leaders.json', stableJson(leaders)));
+    }
     if (news) written.push(await write(args.out, 'api/news.json', stableJson(news)));
     // Keep state.json's poll surface current so the motion layer's dual fetch
     // does not mix a fresh newsroom with a stale compile stamp.
@@ -1295,6 +1307,8 @@ async function main() {
     log(`  level        ${brand.NAME} ${state.level} (${state.level_name}), score ${score}`);
     log(`  files        ${written.length}`);
     log(`  items        ${itemRewritten} rewritten, ${itemSkipped} unchanged`);
+    log(`  digest       ${digestPage.hasDigest(ctx) ? 'rewritten' : 'absent'}`);
+    log(`  leaders      ${leadersPage.hasLeaders(ctx) ? 'rewritten' : 'absent'}`);
     log(`  sitebar      ${stamped} pages`);
     for (const w of warnings) log(`  WARNING      ${w}`);
     return;

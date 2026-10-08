@@ -134,8 +134,10 @@ jobs:
           # it. Every run rewrites data/news.json — generated_at moves and the
           # recency term re-decays every score by a tenth of a point — so "the
           # file differs" is true on every single pass and is useless as a deploy
-          # trigger. `run.items_changed` is true only when the SET of items
-          # moved, which is the only difference a reader can see.
+          # trigger. `run.surface_changed` is true when the reader-visible
+          # surface moved (item set, titles, corroboration, story membership),
+          # not when scores alone re-decayed. Falls back to `items_changed` for
+          # files written before that field existed.
           # Two answers, not one. `usable` says the file can be trusted at all;
           # `changed` says it is worth a deploy. They are separate because the
           # commit below must never persist a file it could not parse, and
@@ -147,10 +149,11 @@ jobs:
               const n = JSON.parse(readFileSync("data/news.json", "utf8"));
               const r = n.run ?? {};
               const count = Array.isArray(n.items) ? n.items.length : 0;
-              const changed = r.items_changed === true && count > 0;
+              const surface = r.surface_changed === true || (r.surface_changed == null && r.items_changed === true);
+              const changed = surface && count > 0;
               if (count === 0) console.error("::warning::data/news.json parsed but carries no items; refusing to publish an empty newsroom");
               process.stdout.write(`true ${changed ? "true" : "false"}`);
-              console.error(`news: ${count} items, ${r.arrived ?? "?"} arrived, ${r.departed ?? "?"} departed, ${r.fetched ?? "?"}/${r.adapters ?? "?"} sources asked`);
+              console.error(`news: ${count} items, ${r.arrived ?? "?"} arrived, ${r.departed ?? "?"} departed, surface_changed=${r.surface_changed ?? "?"}, ${r.fetched ?? "?"}/${r.adapters ?? "?"} sources asked`);
             } catch (err) {
               process.stdout.write("false false");
               console.error(`::warning::data/news.json unreadable (${err.message}); nothing to commit or publish this pass`);
@@ -158,7 +161,7 @@ jobs:
           ')"
           echo "usable=$USABLE"   >> "$GITHUB_OUTPUT"
           echo "changed=$CHANGED" >> "$GITHUB_OUTPUT"
-          echo "usable=$USABLE items_changed=$CHANGED"
+          echo "usable=$USABLE surface_changed=$CHANGED"
 
       - name: Recount harm and benefit
         # AFTER the newsroom and BEFORE the build, and only when the newsroom
@@ -192,6 +195,17 @@ jobs:
             echo "::warning::collector/balance.mjs did not finish cleanly (exit $?); keeping the previous data/balance.json"
             rm -f "$NEXT"
           fi
+
+      - name: Aggregate digest and leader wire
+        # Offline: leaders.mjs and digest.mjs read the fresh newsroom (and
+        # existing state/race) with no network. Running them here means the
+        # 15-minute lane publishes aggregated info with the same news.json
+        # the reel just wrote, instead of waiting for the hourly full pass.
+        if: steps.gate.outputs.changed == 'true'
+        continue-on-error: true
+        run: |
+          node collector/leaders.mjs
+          node collector/digest.mjs
 
       - name: Rebuild the site
         if: steps.gate.outputs.changed == 'true'
@@ -243,6 +257,10 @@ jobs:
           # not assumed, because before the first recount there is no file and
           # `git add` of a missing path is fatal under set -e.
           if [ -f data/balance.json ]; then git add data/balance.json; fi
+          # Aggregated info from the same newsroom tick. Present only when the
+          # surface changed and the offline aggregators finished cleanly.
+          if [ -f data/digest.json ]; then git add data/digest.json; fi
+          if [ -f data/leaders.json ]; then git add data/leaders.json; fi
           if git diff --cached --quiet; then
             echo 'newsroom unchanged; nothing to commit'
             exit 0

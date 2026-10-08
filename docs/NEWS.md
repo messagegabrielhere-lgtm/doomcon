@@ -361,6 +361,24 @@ abstract, it does not belong in a governance keyword list.**
 
 ---
 
+## What counts as a change
+
+Every run writes `run` onto `data/news.json`:
+
+| field | true when |
+|---|---|
+| `items_changed` | the set of item ids arrived or departed |
+| `surface_changed` | the reader-visible surface moved — item set, titles, corroboration counts, or story membership |
+| `surface` | sha256 of that surface (stable across score-only decay) |
+
+Workflows publish on `surface_changed`. Score decay alone never flips it: the
+recency term moves every pass and would otherwise force a deploy every minute.
+When the surface moves, the minute loop and the 15-minute lane also re-run
+`leaders.mjs` and `digest.mjs` so the aggregated brief and leader wire land
+with the same newsroom tick.
+
+---
+
 ## Rolling window and idempotency
 
 - 7 days, newest first, capped at **200 items** — `MAX_ITEMS` is a mobile-first

@@ -36,19 +36,30 @@ once.
 
 ### The minute loop — `news-fast.yml`, ~1 minute ticks
 
-`news.mjs` → if items changed → `build.mjs --only news` → overlay-publish
-newsroom files onto `gh-pages`. Measured ~1.2s for the news-only build vs
-~9s for a full wipe rebuild; unchanged item briefs keep their bytes so a
-one-story tick does not rewrite ~400 pages. The overlay keeps a persistent
-`.pages` clone across the hour (fetch+reset, not a fresh ~100MB clone each
-publish) and rsyncs `item/` / `news/` so only moved files transfer — avoiding
-a full ~90MB retar when only the newsroom moved. Cards and the posting sheet
-stay on the hourly lane.
+`news.mjs` → if `run.surface_changed` → `leaders.mjs` + `digest.mjs` →
+`build.mjs --only news` → overlay-publish newsroom and aggregated-info files
+onto `gh-pages`. The publish trigger is the reader-visible surface (item set,
+titles, corroboration, story membership), not score decay and not item ids
+alone — so a story that gains a second outlet still lands without waiting for
+a new URL. Measured ~1.2s for the news-only build vs ~9s for a full wipe
+rebuild; unchanged item briefs keep their bytes so a one-story tick does not
+rewrite ~400 pages. The overlay keeps a persistent `.pages` clone across the
+hour (fetch+reset, not a fresh ~100MB clone each publish) and rsyncs `item/` /
+`news/` so only moved files transfer — avoiding a full ~90MB retar when only
+the newsroom moved. Cards and the posting sheet stay on the hourly lane.
 
 It does **not** run the index engine. That is a correctness rule, not a saving.
 Receipts are append-only and the anti-flap machinery measures dwell in hours; an
 engine run every fifteen minutes would write ~96 receipts a day, silently
 re-weight the NowCast and change what the number means.
+
+### The 15-minute lane — `collect.yml` news job
+
+Same surface gate, same offline aggregators (`leaders` + `digest`), then a
+full `build.mjs` + cards and a publish of `public/` to `gh-pages`. This is the
+fallback when the minute loop is down, and the path that still rebuilds the
+whole site when the newsroom moved. It commits `data/news.json` every pass
+(cadence ledger) and `data/digest.json` / `data/leaders.json` when rewritten.
 
 **Why 15 and not 5.** GitHub's documented cron floor is five minutes, but the
 floor is not the problem — the variance is. Scheduled runs are routinely late by

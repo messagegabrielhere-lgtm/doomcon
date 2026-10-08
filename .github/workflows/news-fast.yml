@@ -95,7 +95,12 @@ jobs:
             # hourly commit below would then carry a tick-old copy of main and
             # conflict when it rebases onto the real one.
             if git fetch -q --depth=1 origin main 2>/dev/null; then
-              git restore --source=FETCH_HEAD --worktree -- . ':(exclude)data/news.json' ':(exclude)data/x-surface.json' \
+              # Carry the newsroom and its offline aggregates across ticks.
+              # digest/leaders are rewritten only when the surface changes;
+              # restoring them from main mid-hour would discard that work.
+              git restore --source=FETCH_HEAD --worktree -- . \
+                ':(exclude)data/news.json' ':(exclude)data/x-surface.json' \
+                ':(exclude)data/digest.json' ':(exclude)data/leaders.json' \
                 || echo "::warning::tick $TICK could not refresh from main; building from the previous tick's tree"
             else
               echo "::warning::tick $TICK could not fetch main; building from the previous tick's tree"
@@ -117,17 +122,23 @@ jobs:
               LAST_WAKE=$NOW
             fi
 
-            # Hash before/after. news.mjs rewrites the file every run (the
-            # timestamp alone changes), so comparing the whole file would
-            # publish every minute regardless. Compare the ITEMS only.
-            BEFORE=$(node -e "try{const d=require('./data/news.json');process.stdout.write(require('crypto').createHash('sha256').update(JSON.stringify(d.items.map(i=>i.id))).digest('hex'))}catch{process.stdout.write('none')}")
-
+            # news.mjs publishes run.surface_changed — item set, titles,
+            # corroboration, and story membership — not score decay alone.
+            # Reading that flag keeps the publish trigger next to the rules
+            # that define it (collector/news.mjs), instead of a second hash
+            # of ids that misses story regrouping.
             node collector/news.mjs || echo "::warning::news pass $TICK failed; continuing"
 
-            AFTER=$(node -e "try{const d=require('./data/news.json');process.stdout.write(require('crypto').createHash('sha256').update(JSON.stringify(d.items.map(i=>i.id))).digest('hex'))}catch{process.stdout.write('none')}")
+            CHANGED=$(node -e "try{const r=require('./data/news.json').run||{};process.stdout.write(r.surface_changed===true?'true':'false')}catch{process.stdout.write('false')}")
 
-            if [ "$BEFORE" != "$AFTER" ]; then
-              echo "tick $TICK: newsroom changed — fast rebuild and publish"
+            if [ "$CHANGED" = "true" ]; then
+              echo "tick $TICK: newsroom surface changed — aggregate info, fast rebuild, publish"
+              # Offline aggregators over the fresh newsroom. No network: they
+              # read data/news.json (+ race/state for digest) and write the
+              # brief and leader wire so those land with the same tick.
+              node collector/leaders.mjs || echo "::warning::leaders pass $TICK failed; continuing with previous leaders.json"
+              node collector/digest.mjs || echo "::warning::digest pass $TICK failed; continuing with previous digest.json"
+
               # --only news: patch the live tree instead of wiping ~1,200 files.
               # Cards / posts / post-sheet are hourly (collect.yml); they are not
               # what makes the newsroom feel current.
@@ -155,7 +166,11 @@ jobs:
                   || rm -rf .pages
               fi
               if [ -d .pages/.git ]; then
-                for rel in api/news.json api/state.json news.html index.html classic.html instruments.html feed.xml; do
+                for rel in \
+                  api/news.json api/state.json api/digest.json api/leaders.json \
+                  news.html digest.html leaders.html \
+                  index.html classic.html instruments.html feed.xml
+                do
                   if [ -e "public/$rel" ]; then
                     mkdir -p ".pages/$(dirname "$rel")"
                     cp -a "public/$rel" ".pages/$rel"
@@ -222,12 +237,15 @@ jobs:
           # next, and committing it here would collide with collect.yml.
           git checkout -- public 2>/dev/null || true
           # The loop refreshed the working tree from main every tick. Put
-          # everything except the newsroom's own two files back to this job's
+          # everything except the newsroom's own files back to this job's
           # HEAD, so the commit and the rebase below see exactly what they
-          # always saw: two data files changed, nothing else.
-          git restore --source=HEAD --worktree -- . ':(exclude)data/news.json' ':(exclude)data/x-surface.json' 2>/dev/null || true
+          # always saw: newsroom data changed, nothing else.
+          git restore --source=HEAD --worktree -- . \
+            ':(exclude)data/news.json' ':(exclude)data/x-surface.json' \
+            ':(exclude)data/digest.json' ':(exclude)data/leaders.json' \
+            2>/dev/null || true
           rm -rf .pages
-          git add data/news.json data/x-surface.json 2>/dev/null || true
+          git add data/news.json data/x-surface.json data/digest.json data/leaders.json 2>/dev/null || true
           if git diff --cached --quiet; then
             echo "nothing to persist"
             exit 0

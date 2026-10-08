@@ -216,6 +216,31 @@ export function itemId(canonical) {
   return createHash('sha256').update(canonical).digest('hex').slice(0, 16);
 }
 
+/**
+ * Reader-visible surface of the newsroom, excluding score decay.
+ *
+ * The workflows publish when this changes. Scores move every run because the
+ * recency term re-decays; that must not force a deploy. Titles, corroboration
+ * counts, and story membership do change what a reader sees on the reel, the
+ * digest, and the leader wire — so they belong in the fingerprint.
+ */
+export function surfaceSignature(items, stories) {
+  const itemLines = (Array.isArray(items) ? items : []).map((it) => {
+    const corr = Number(it?.meta?.corroboration?.count) || 1;
+    const storyId = it?.meta?.story?.id ?? '';
+    const title = typeof it?.title === 'string' ? it.title : '';
+    return `${it.id}\t${title}\t${corr}\t${storyId}`;
+  }).sort();
+  const storyLines = (Array.isArray(stories) ? stories : []).map((s) => {
+    const members = Array.isArray(s?.members) ? [...s.members].sort().join(',') : '';
+    const sources = Array.isArray(s?.sources) ? [...s.sources].sort().join(',') : '';
+    return `${s.id}\t${members}\t${sources}\t${Number(s?.severity) || 0}`;
+  }).sort();
+  return createHash('sha256')
+    .update(`${itemLines.join('\n')}\n--\n${storyLines.join('\n')}`)
+    .digest('hex');
+}
+
 // ---------------------------------------------------------------------------
 // Near-duplicate titles
 // ---------------------------------------------------------------------------
@@ -1076,13 +1101,12 @@ async function main() {
     a.id.localeCompare(b.id));
 
   // WHAT CHANGED, as a published field rather than as something the caller has
-  // to derive. The fast lane rebuilds and publishes only when the SET of items
-  // moved, because every other difference between two consecutive runs is the
-  // recency term re-decaying — which changes every score by a tenth of a point,
-  // changes no content a reader would notice, and would otherwise trigger a
-  // deploy every fifteen minutes forever. Computing this here rather than by
-  // hashing the file in bash keeps the definition of "the newsroom changed" in
-  // one auditable place, next to the rules that produced it.
+  // to derive. The fast lane rebuilds and publishes when the READER-VISIBLE
+  // surface moves — item set, titles, corroboration, or story membership —
+  // not when scores alone re-decay. Recency re-decays every run and would
+  // otherwise force a deploy every minute forever. Computing this here rather
+  // than by hashing item ids in bash keeps the definition of "the newsroom
+  // changed" in one auditable place, next to the rules that produced it.
   //
   // Both sides are pure functions of the previous file and this run's fetches,
   // so this stays reproducible: no clock, no randomness (CONTRACT.md §4).
@@ -1093,6 +1117,10 @@ async function main() {
   const currentIds = new Set(items.map((i) => i.id));
   const arrived = items.filter((i) => !knownIds.has(i.id)).map((i) => i.id).sort();
   const departed = [...knownIds].filter((id) => !currentIds.has(id)).sort();
+  const itemsChanged = arrived.length > 0 || departed.length > 0;
+  const prevSurface = surfaceSignature(previous.items, previous.stories);
+  const nextSurface = surfaceSignature(items, story.stories);
+  const surfaceChanged = itemsChanged || prevSurface !== nextSurface;
 
   const output = {
     schema: SCHEMA_VERSION,
@@ -1108,8 +1136,12 @@ async function main() {
       skipped: skipped.length,
       arrived: arrived.length,
       departed: departed.length,
-      // The single flag the workflow reads. See docs/AUTOUPDATE.md.
-      items_changed: arrived.length > 0 || departed.length > 0,
+      // Item-set change. Kept for callers that only care about arrivals.
+      items_changed: itemsChanged,
+      // What the workflows publish on. Includes story/corroboration/title
+      // moves that leave the id set alone. See docs/AUTOUPDATE.md.
+      surface_changed: surfaceChanged,
+      surface: nextSurface,
     },
     items,
     // One entry per multi-item event, with the words that linked each pair.
@@ -1150,7 +1182,8 @@ async function main() {
   console.log(
     `run: ${output.run.mode}, ${due.length}/${adapters.length} sources fetched, ` +
     `${arrived.length} item${arrived.length === 1 ? '' : 's'} arrived, ${departed.length} left the window, ` +
-    `items_changed=${output.run.items_changed}, ${Date.now() - runStartedMs}ms`,
+    `items_changed=${output.run.items_changed}, surface_changed=${output.run.surface_changed}, ` +
+    `${Date.now() - runStartedMs}ms`,
   );
   if (skipped.length) {
     console.log(`not due this run (carried forward unchanged): ${skipped.map((a) => a.id).sort().join(', ')}`);
