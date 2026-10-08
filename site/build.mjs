@@ -32,6 +32,7 @@ import * as embedPage from './templates/embed.mjs';
 import * as notFoundPage from './templates/notFound.mjs';
 import * as deskPage from './templates/deskPage.mjs';
 import * as infoPages from './templates/infoPages.mjs';
+import * as featurePages from './templates/featurePages.mjs';
 import * as topicPages from './templates/topicPages.mjs';
 import * as shopPages from './templates/shopPages.mjs';
 import * as betsPage from './templates/betsPage.mjs';
@@ -1215,6 +1216,20 @@ async function main() {
   written.push(await write(args.out, 'privacy.html', infoPages.privacy(ctx)));
   written.push(await write(args.out, 'terms.html', infoPages.terms(ctx)));
   written.push(await write(args.out, 'feedback.html', infoPages.feedback(ctx)));
+  written.push(await write(args.out, 'si-ready.html', featurePages.siReady(ctx)));
+  written.push(await write(args.out, 'ai-proof-job.html', featurePages.jobProof(ctx)));
+  written.push(await write(args.out, 'live-x.html', featurePages.liveX(ctx)));
+  // BREAKTHROUGHS. Picked from the newsroom window and merged into an archive
+  // in data/ (the hourly full lane commits data/, so the archive outlives the
+  // 400-item window). A failed read starts a fresh archive rather than failing.
+  {
+    const btFile = path.join(args.data, 'breakthroughs.json');
+    let prev = [];
+    try { prev = JSON.parse(await readFile(btFile, 'utf8')).items || []; } catch { prev = []; }
+    const items = featurePages.mergeBreakthroughs(prev, featurePages.pickBreakthroughs(news && news.items));
+    try { await writeFile(btFile, `${JSON.stringify({ schema: 1, generated_at: state.generated_at, items }, null, 2)}\n`); } catch (err) { warn(`breakthroughs archive not written: ${err.message}`); }
+    written.push(await write(args.out, 'breakthroughs.html', featurePages.breakthroughs(ctx, items)));
+  }
   written.push(await write(args.out, 'press.html', infoPages.press(ctx)));
   if (betsPage.hasBets(ctx)) {
     written.push(await write(args.out, 'bets.html', betsPage.render(ctx)));

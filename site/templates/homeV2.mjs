@@ -42,6 +42,7 @@ export function roomGroups(ctx) {
       ctx.digest ? ['/digest.html', 'clipboard', 'Digest', null, 'The day in a few corroborated items.'] : null,
       ['/monitor.html', 'satellite', 'World Monitor', null, 'Live globe: stories from 27 outlets, hazards, a country stress index, 72-hour replay.'],
       ['/elon.html', 'musk', 'Real Clips', null, 'Verified clips of Elon, Altman, Amodei and the AI bosses.'],
+      ['/live-x.html', 'satellite', 'Live on X', null, 'Live X feeds and Spaces on AI, newest first.'],
     ]],
     ['THE MACHINES', [
       ['/watts.html', 'power', 'Power', ctx.infra && Number.isFinite(ctx.infra.score) ? `${ctx.infra.score.toFixed(1)} / 100` : null, 'Grid load, drought and build-out under the models.'],
@@ -55,6 +56,8 @@ export function roomGroups(ctx) {
       r.balance ? ['/medicine.html', 'pill', 'Medicine', null, 'Is AI curing anything? Trials and approvals.'] : null,
       r.balance ? ['/balance.html', 'scales', 'Balance', null, 'Harm and benefit, counted side by side.'] : null,
       ['/bliss.html', 'sun', 'Upside', null, 'The direction we would be glad to see move.'],
+      ['/breakthroughs.html', 'sun', 'Breakthroughs', null, 'AI curing, solving and restoring: the good news, tracked.'],
+      ['/ai-proof-job.html', 'case', 'AI-Proof Your Job', null, 'A 2-minute plan to keep your job and grow with AI.'],
     ]],
     ['PLAY & PREP', [
       ['/arena.html#battle', 'stocks', 'AI Battle', null, 'AI models trade stocks and crypto against live prices.'],
@@ -64,6 +67,7 @@ export function roomGroups(ctx) {
       ['/game.html', 'joystick', 'Game', null, 'Thirty seconds: count signals, ignore predictions.'],
       ['/desk.html', 'canary', 'Tally’s Desk', null, 'The unserious counts: robots and godfathers.'],
       ['/bunker-kit.html', 'bunker', 'Bunker Kit', null, '50 free tools and six crates of emergency gear.'],
+      ['/si-ready.html', 'scales', 'Ready for SI?', null, 'Prepare for superintelligence: a 3-minute personal plan.'],
       ['/prepper-checklist.html', 'clipboard', 'Prepper Checklist', null, 'A 72-hour kit and two weeks at home, sized for you.'],
       ['/library.html', 'books', 'Reading List', null, 'Books from every side of the AI argument.'],
     ]],
