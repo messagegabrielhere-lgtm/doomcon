@@ -1,21 +1,27 @@
-# Security Policy
+# Security
 
-## Supported Versions
+The live site is whatever is on `main` and published to `gh-pages`. There are no versioned releases. The index pipeline (`collector/`, `site/`) uses Node built-ins only. Credentials exist only for optional side jobs (posting, the AI battle, the clipper).
 
-Use this section to tell people about which versions of your project are
-currently being supported with security updates.
+## Reporting a vulnerability
 
-| Version | Supported          |
-| ------- | ------------------ |
-| 5.1.x   | :white_check_mark: |
-| 5.0.x   | :x:                |
-| 4.0.x   | :white_check_mark: |
-| < 4.0   | :x:                |
+Report privately. Do not open a public issue for a security problem, and do not include live API keys or tokens.
 
-## Reporting a Vulnerability
+1. Open a [private security advisory](https://github.com/messagegabrielhere-lgtm/doomcon/security/advisories/new) on this repository.
+2. If that page is unavailable, email messagegabrielhere@gmail.com. Include the affected path and what an attacker can do.
 
-Use this section to tell people how to report a vulnerability.
+You should get an acknowledgement within 7 days. A fix lands on `main` before any public write-up.
 
-Tell them where to go, how often they can expect to get an update on a
-reported vulnerability, what to expect if the vulnerability is accepted or
-declined, etc.
+## In scope
+
+- A secret committed to this repository or printed in a workflow log
+- Supply-chain risk in the declared npm dependencies (`package.json`, `clipper/package.json`) or in a GitHub Action
+- Cross-site scripting or an open redirect introduced by the static site
+- A workflow token that can do more than its job needs
+
+## Out of scope
+
+- Denial of service against a third-party feed this repo polls
+- A finding that already requires a GitHub Actions secret
+- Account takeover of the operator's X, Bluesky, or YouTube accounts
+
+This is not a bug bounty.

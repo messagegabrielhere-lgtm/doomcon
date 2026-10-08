@@ -73,6 +73,8 @@ on:
 
 # The built-in token, not a PAT. Nothing here touches another repo, so a PAT
 # would be a secret to rotate in exchange for no capability at all.
+# This block is the workflow maximum. Each job narrows it: the news lane only
+# pushes, and only the full lane closes issues.
 permissions:
   contents: write
   issues: write
@@ -97,6 +99,8 @@ jobs:
   # ---------------------------------------------------------------------------
   news:
     name: newsroom
+    permissions:
+      contents: write
     if: >-
       (github.event_name == 'schedule' && github.event.schedule == '*/15 * * * *') ||
       (github.event_name == 'workflow_dispatch' && inputs.mode == 'news')
@@ -105,14 +109,14 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
         with:
           # Full history: the push step rebases onto main if anything landed
           # while we were collecting, and a shallow clone cannot rebase.
           fetch-depth: 0
 
       - name: Set up Node 20
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: '20'
           # No cache key and no install step on purpose. Zero dependencies
@@ -343,7 +347,8 @@ jobs:
           git add -A
           git commit -q -m "$SUBJECT" \
             -m "Build output from ${{ github.repository }}@${{ github.sha }} (collect/news). Do not hand-edit."
-          git push -q -f "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git" gh-pages
+          # Header, not the remote URL, so a failed push cannot store the token in .git/config.
+          git -c "http.extraheader=AUTHORIZATION: bearer ${GH_TOKEN}" push -q -f "https://github.com/${GITHUB_REPOSITORY}.git" gh-pages
           cd ..
           rm -rf .pages
           echo "published: $SUBJECT"
@@ -358,6 +363,9 @@ jobs:
   # ---------------------------------------------------------------------------
   full:
     name: full index pass
+    permissions:
+      contents: write
+      issues: write
     if: >-
       (github.event_name == 'schedule' && github.event.schedule == '7 * * * *') ||
       (github.event_name == 'workflow_dispatch' && inputs.mode == 'full')
@@ -366,12 +374,12 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
         with:
           fetch-depth: 0
 
       - name: Set up Node 20
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: '20'
 
@@ -433,7 +441,7 @@ jobs:
         env:
           XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
         run: |
-          if [ -n "$XAI_API_KEY" ]; then npm install --no-save --no-audit --no-fund ws@8.18.0 >/dev/null && node collector/tally-voice.mjs; else echo "no XAI_API_KEY"; fi
+          if [ -n "$XAI_API_KEY" ]; then npm install --no-save --ignore-scripts --no-audit --no-fund ws@8.18.0 >/dev/null && node collector/tally-voice.mjs; else echo "no XAI_API_KEY"; fi
 
       - name: Refresh the newsroom
         # --force ignores the per-source cadence ledger, so the hourly pass asks
@@ -711,7 +719,8 @@ jobs:
           git add -A
           git commit -q -m "$SUBJECT" \
             -m "Build output from ${{ github.repository }}@${{ github.sha }} (collect/full). Do not hand-edit."
-          git push -q -f "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git" gh-pages
+          # Header, not the remote URL, so a failed push cannot store the token in .git/config.
+          git -c "http.extraheader=AUTHORIZATION: bearer ${GH_TOKEN}" push -q -f "https://github.com/${GITHUB_REPOSITORY}.git" gh-pages
           cd ..
           rm -rf .pages
           echo "published: $SUBJECT"

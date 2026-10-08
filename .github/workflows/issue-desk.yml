@@ -8,26 +8,38 @@ on:
     types: [opened]
   issue_comment:
     types: [created]
+# Workflow maximum. The comment job only reopens an issue; it must not be able
+# to dispatch workflows. Triage is the only job that starts collect.yml.
 permissions:
   contents: read
   issues: write
   actions: write
 jobs:
   triage:
+    permissions:
+      contents: read
+      issues: write
+      actions: write
     if: github.event_name == 'issues'
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: 20
       - name: Triage
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: node collector/issue-bot.mjs triage ${{ github.event.issue.number }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: node collector/issue-bot.mjs triage "$ISSUE_NUMBER"
   reopen:
     # A visitor replying on an issue the desk closed reopens it for a person.
+    # issues: write only. A comment must not inherit actions: write.
+    permissions:
+      issues: write
     if: >-
       github.event_name == 'issue_comment' && github.event.issue.state == 'closed' &&
       github.event.comment.user.type != 'Bot' && !github.event.issue.pull_request
@@ -36,6 +48,7 @@ jobs:
       - name: Reopen
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
         run: |
-          gh api -X PATCH repos/${{ github.repository }}/issues/${{ github.event.issue.number }} -f state=open >/dev/null
-          gh api -X POST repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/labels -f 'labels[]=needs-human' >/dev/null
+          gh api -X PATCH "repos/${GITHUB_REPOSITORY}/issues/${ISSUE_NUMBER}" -f state=open >/dev/null
+          gh api -X POST "repos/${GITHUB_REPOSITORY}/issues/${ISSUE_NUMBER}/labels" -f 'labels[]=needs-human' >/dev/null

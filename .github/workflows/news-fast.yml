@@ -59,10 +59,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
 
       - name: Set up Node 20
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: '20'
 
@@ -145,7 +145,9 @@ jobs:
                 git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
                 git add -A
                 git commit -q -m "newsroom refresh — $(date -u +%Y-%m-%dT%H:%M:%SZ)"
-                git push -q -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" gh-pages
+                # Header, not the remote URL, so a failed push cannot store the token in .git/config.
+                # GH_TOKEN is this step's env (github.token). Do not interpolate the secret into the script.
+                git -c "http.extraheader=AUTHORIZATION: bearer ${GH_TOKEN}" push -q -f "https://github.com/${GITHUB_REPOSITORY}.git" gh-pages
               ) && PUBLISHED=$((PUBLISHED + 1))
             else
               echo "tick $TICK: no change"
