@@ -293,13 +293,18 @@ One phrasing each. They fire rarely enough that repetition is not the risk.
 
 ## 3. Cadence
 
+The open-source For You playbook — which signals to chase, which to refuse, and
+the post shape the weights demand — is in `docs/VIRAL.md` §1.5. This section is
+only the cadence that follows from it.
+
 ### The two numbers that set everything else
 
 **A post hard-expires from For You at 48 hours.** Nothing you posted on Monday
 is working for you on Thursday. There is no back catalogue and no compounding —
 reach is whatever the last 48 hours produced.
 
-**A second post from one author in the same slate is worth about half.** The
+**A second post from one author in the same slate is worth about 0.625 of the
+first** (author-diversity decay 0.5, floor 0.25 — see `VIRAL.md` §1.2). The
 ranker de-duplicates by author. Two posts in one window do not double reach;
 they split it, and the second one usually gets the worse half.
 
