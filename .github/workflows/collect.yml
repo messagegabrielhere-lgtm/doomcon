@@ -459,6 +459,7 @@ jobs:
         env:
           XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
         run: |
+          if [ -n "$XAI_API_KEY" ] && ! command -v ffmpeg >/dev/null; then sudo apt-get install -y -qq ffmpeg >/dev/null 2>&1 || true; fi
           if [ -n "$XAI_API_KEY" ]; then npm install --no-save --ignore-scripts --no-audit --no-fund ws@8.18.0 >/dev/null && node collector/tally-voice.mjs; else echo "no XAI_API_KEY"; fi
 
       - name: Refresh the newsroom
