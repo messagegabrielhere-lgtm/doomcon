@@ -1,9 +1,11 @@
-# Dispatch snapshot (/dispatch.html): 911 CAD, NWS alerts, police-call blather.
+# Dispatch snapshot (/dispatch.html): 911 CAD, multi-system alerts, blather,
+# emergency banner, and optional X posts for fresh high-severity triggers.
 #
 # Same shape as monitor-data.yml / scanner-stocks.yml: reads dispatch/ and
-# collector/fetch.mjs; writes only the dispatch-data branch (one orphan commit,
-# force-pushed); never touches main. The page reads the JSON from
-# raw.githubusercontent.com.
+# collector helpers; writes only the dispatch-data branch (one orphan commit,
+# force-pushed); never touches main. The page reads JSON from
+# raw.githubusercontent.com. X posting reuses the same secrets as post-daily
+# and is a no-op (green) when they are absent.
 
 name: dispatch-data
 
@@ -12,6 +14,11 @@ on:
     # Offset from monitor-data (4/19/34/49) and collect.yml.
     - cron: '9,24,39,54 * * * *'
   workflow_dispatch:
+    inputs:
+      dry_run_x:
+        description: 'Dry-run X posts (print requests, send nothing)'
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -23,7 +30,10 @@ concurrency:
 jobs:
   snapshot:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 12
+    env:
+      HAS_X: ${{ secrets.X_API_KEY != '' && secrets.X_API_SECRET != '' && secrets.X_ACCESS_TOKEN != '' && secrets.X_ACCESS_SECRET != '' }}
+      DRY_RUN_X: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run_x }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -31,6 +41,8 @@ jobs:
           sparse-checkout: |
             dispatch
             collector/fetch.mjs
+            collector/post-x.mjs
+            collector/posts.mjs
           sparse-checkout-cone-mode: false
           fetch-depth: 1
 
@@ -39,14 +51,54 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Restore prior X ledger from dispatch-data
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/dispatch-out"
+          # Orphan branch is force-pushed each run; carry the ledger forward.
+          git fetch -q origin dispatch-data 2>/dev/null || true
+          if git show origin/dispatch-data:posted-alerts.ndjson > "$RUNNER_TEMP/dispatch-out/posted-alerts.ndjson" 2>/dev/null; then
+            echo "restored posted-alerts.ndjson ($(wc -l < "$RUNNER_TEMP/dispatch-out/posted-alerts.ndjson") lines)"
+          else
+            echo "no prior ledger"
+            : > "$RUNNER_TEMP/dispatch-out/posted-alerts.ndjson"
+          fi
+
       - name: Collect
         run: node dispatch/collect.mjs "$RUNNER_TEMP/dispatch-out"
+
+      - name: Post emergency alerts to X (dry-run)
+        if: env.DRY_RUN_X == 'true'
+        run: |
+          node dispatch/post-alerts.mjs --selftest
+          node dispatch/post-alerts.mjs --dry-run \
+            --snap="$RUNNER_TEMP/dispatch-out/dispatch.json" \
+            --ledger="$RUNNER_TEMP/dispatch-out/posted-alerts.ndjson"
+
+      - name: Post emergency alerts to X
+        if: env.HAS_X == 'true' && env.DRY_RUN_X != 'true'
+        env:
+          X_API_KEY: ${{ secrets.X_API_KEY }}
+          X_API_SECRET: ${{ secrets.X_API_SECRET }}
+          X_ACCESS_TOKEN: ${{ secrets.X_ACCESS_TOKEN }}
+          X_ACCESS_SECRET: ${{ secrets.X_ACCESS_SECRET }}
+        run: |
+          node dispatch/post-alerts.mjs \
+            --snap="$RUNNER_TEMP/dispatch-out/dispatch.json" \
+            --ledger="$RUNNER_TEMP/dispatch-out/posted-alerts.ndjson"
+
+      - name: Skip X (no secrets)
+        if: env.HAS_X != 'true' && env.DRY_RUN_X != 'true'
+        run: echo "No X secrets configured; snapshot only. Emergency banner still publishes."
 
       - name: Publish to dispatch-data
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           cd "$RUNNER_TEMP/dispatch-out"
+          # Drop an empty ledger so the branch stays tidy when nothing has posted.
+          if [ ! -s posted-alerts.ndjson ]; then rm -f posted-alerts.ndjson; fi
           git init -q -b dispatch-data
           git config user.name "github-actions[bot]"
           git config user.email "41898699+github-actions[bot]@users.noreply.github.com"

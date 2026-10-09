@@ -253,8 +253,9 @@ export function terms(ctx) {
     <li><b>Live world data</b> on the monitor (earthquakes, storms, fires, flights, military aircraft, shipping, news) comes from
       third-party feeds that can be delayed, incomplete or wrong. It is not for navigation, aviation, emergency response or
       evacuation decisions. In an emergency, follow official alerts and local authorities.</li>
-    <li><b>Dispatch</b> (911 CAD calls, NWS emergency alerts and police-call chatter) is delayed public open data for ambient
-      awareness only. It is not a warning system, not complete coverage of the United States, and not for emergency response.
+    <li><b>Dispatch</b> (911 CAD calls, NWS/USGS/GDACS/NHC/EONET alerts and police-call chatter) is delayed public open data for ambient
+      awareness only. High-severity triggers may mark an emergency banner on this site and post once to X; that is still not a
+      warning system, not complete coverage of the United States, and not for emergency response.
       In an emergency, call your local emergency number and follow official alerts.</li>
     <li><b>The Bunker Kit, the game and the mascot's desk</b> are jokes. They are not emergency-preparedness, survival or
       safety guidance. For real preparedness, use your local emergency-management authority.</li>

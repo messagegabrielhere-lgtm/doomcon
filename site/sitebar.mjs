@@ -52,7 +52,16 @@ export function sitebar(asOf, { level = 4, rel = '', intro = {}, newsAt = '' } =
 @media print{#sitebar{display:none}}
 .site-disclosure{max-width:72ch;margin:28px auto 72px;padding:12px 16px;font:400 12px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif;opacity:.8;border-top:1px solid rgba(127,127,127,.3)}
 .site-disclosure b{font-weight:600}
+#site-em{display:none;position:fixed;left:0;right:0;top:0;z-index:10000;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;padding:8px 14px;background:#b91c1c;color:#fff;font:600 13px/1.3 system-ui,-apple-system,"Segoe UI",sans-serif;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,.25)}
+#site-em.on{display:flex}
+#site-em[data-level="3"]{background:#b45309}
+#site-em a{color:#fff;text-decoration:underline;text-underline-offset:2px;font-weight:700}
+#site-em .x{all:unset;cursor:pointer;margin-left:8px;opacity:.85;padding:2px 6px}
+#site-em .x:hover{opacity:1}
+body.site-em-pad{padding-top:40px}
+@media print{#site-em{display:none}}
 </style>
+<div id="site-em" ${MARK} role="status" aria-live="polite" hidden><span id="site-em-txt"></span><a id="site-em-go" href="${BASE}/dispatch.html">Open Dispatch</a><button type="button" class="x" id="site-em-x" aria-label="Dismiss">✕</button></div>
 <span>Updated <time id="sitebar-at"></time> <span class="ago" id="sitebar-ago"></span></span>
 <a class="fb" id="sitebar-fb" href="${CANONICAL_URL}/feedback.html" title="Report a problem or send feedback">Feedback</a>
 ${MONETIZE.tips && MONETIZE.tips.url ? `<a class="fb kofi" href="${MONETIZE.tips.url}" target="_blank" rel="noopener" title="${MONETIZE.tips.label}">☕ Support</a>` : ''}<a class="fb" id="sitebar-x" href="https://x.com/intent/post?via=SIRENutf6" target="_blank" rel="noopener" title="Post this page on X">𝕏 Post</a>
@@ -152,6 +161,40 @@ ${MONETIZE.tips && MONETIZE.tips.url ? `<a class="fb kofi" href="${MONETIZE.tips
   setInterval(watch, 60000);
   document.addEventListener("visibilitychange", function(){ if (!document.hidden) watch(); });
   lift(); addEventListener("resize", lift); addEventListener("load", lift); setTimeout(lift, 1500);
+
+  // Dispatch emergency mark: poll the orphan dispatch-data branch. Quiet when
+  // CLEAR. Dismiss lasts one session so a visitor can keep reading.
+  (function emergencyMark(){
+    var el = document.getElementById("site-em"), txt = document.getElementById("site-em-txt");
+    var go = document.getElementById("site-em-go"), x = document.getElementById("site-em-x");
+    if (!el || !txt) return;
+    var KEY = "siren:em-dismiss";
+    function hide(){ el.classList.remove("on"); el.hidden = true; document.body.classList.remove("site-em-pad"); }
+    function show(em){
+      try { if (sessionStorage.getItem(KEY) === (em.as_of || em.generated || "1")) return; } catch (e) {}
+      var label = em.label || "ALERT";
+      var head = (em.primary && (em.primary.event || em.primary.headline)) || "Active emergency trigger";
+      txt.textContent = label + " · " + head + " · public delayed feed";
+      el.dataset.level = String(em.level || 2);
+      el.classList.add("on"); el.hidden = false;
+      document.body.classList.add("site-em-pad");
+    }
+    if (x) x.addEventListener("click", function(){
+      try { sessionStorage.setItem(KEY, el.dataset.as || "1"); } catch (e) {}
+      hide();
+    });
+    function poll(){
+      if (document.hidden) return;
+      var u = "https://raw.githubusercontent.com/messagegabrielhere-lgtm/doomcon/dispatch-data/emergency.json?m=" + Math.floor(Date.now() / 120000);
+      fetch(u, { cache: "no-store" }).then(function(r){ return r.ok ? r.json() : null; }).then(function(em){
+        if (!em || !em.active) { hide(); return; }
+        el.dataset.as = em.as_of || em.generated || "1";
+        show(em);
+      }).catch(function(){});
+    }
+    poll(); setInterval(poll, 120000);
+    document.addEventListener("visibilitychange", function(){ if (!document.hidden) poll(); });
+  })();
 })();
 </script>
 </div>`;
