@@ -1002,7 +1002,7 @@ body.v2-body{margin:0;background:#000;color:#F3F4F6}
   .v2-brand .v2-art{width:72px;height:72px}
   .v2-dock .tile{width:calc(33.33% - 7px);height:100px}
   .v2-bar.wide{grid-template-columns:120px minmax(0,1fr) 56px}
-  .v2-more__sum{display:flex}
+  .v2-more__sum{display:flex;position:relative;z-index:46;margin:6px 0 12px}
   .v2-more:not(.is-open)>.v2-more__body{display:none}
   .v2-more.is-open>.v2-more__sum{display:none}
   .v2-more__body{gap:16px}
@@ -1091,16 +1091,12 @@ const DASH_CSS = `
   .v2-top .right{margin-left:auto;flex-wrap:nowrap}
   .v2-top .v2-top__x{display:none!important}
   .v2 .tag{min-height:32px;display:inline-flex;align-items:center}
-  /* Fold budget: header + numeral + claim + spark + 3 movers + evidence must fit
-     a ~390×844 phone without scrolling. Slogan, five-stage rail and race lead
-     stay in the HTML (self-check / desktop) but leave the phone fold. */
-  .v2-main{padding-top:10px;gap:10px}
-  .v2-brand{flex-wrap:nowrap;gap:10px}
-  .v2-brand .v2-art{width:44px;height:44px}
-  .v2-brand .v2-3d,.v2-brand .v2-3d canvas{width:48px!important;height:48px!important}
-  .v2-brand h1{flex:1 1 auto;min-width:0}
-  .v2-brand h1 .v2-ptext svg{max-height:22px;width:auto;max-width:100%}
-  .v2-sub{display:none}
+  /* Fold budget: numeral + claim + spark + 3 movers + evidence must clear the
+     sticky tab bar on a ~390×844 phone. The shared site header already carries
+     the brand; slogan / five-stage rail / race lead stay in the HTML for
+     desktop and self-check but leave the phone fold. */
+  .v2-main{padding-top:8px;gap:8px}
+  .v2-brand,.v2-sub{display:none}
   .v2-top .tag{gap:6px}
   .v2-banner{padding:10px 12px;gap:8px}
   .v2-banner>:first-child{display:none}
