@@ -293,8 +293,10 @@ rigorous.
 releases and nothing else; `?page=2` returns page 1 again. When all ten fall
 inside the 30-day window the true count is `≥ 10` and the feed cannot say more.
 `is_floor` is set, the JSON names the truncated repositories, and the page
-renders a `≥`. On 2026-09-24: Anthropic `≥38`, OpenAI `≥33`, Google `≥24`,
-Qwen `≥10`.
+renders a `≥`. A partial basket (some repos failed to fetch) is **not** a floor
+— that is `incomplete`, with `repos_answered` / `repos_total` — so the tooltip
+never claims a feed-cap when a repo simply 404'd. On 2026-09-24: Anthropic
+`≥38`, OpenAI `≥33`, Google `≥24`, Qwen `≥10`.
 
 **TRAP — parse `<updated>` inside `<entry>` only.** The feed carries a
 document-level `<updated>` before the first entry; a global match counts the feed
