@@ -54,7 +54,7 @@ jobs:
         if: ${{ github.event_name == 'workflow_dispatch' && inputs.probe || github.event_name == 'workflow_run' }}
         run: |
           set -e
-          URL="https://messagegabrielhere-lgtm.github.io/doomcon/"
+          URL="https://siren.watch/"
           CODE=$(curl -sS -o /tmp/siren-home.html -w "%{http_code}" --max-time 25 "$URL" || echo 000)
           BYTES=$(wc -c </tmp/siren-home.html | tr -d ' ')
           echo "homepage HTTP ${CODE}, ${BYTES} bytes"
