@@ -38,7 +38,7 @@ export function sitebar(asOf, { level = 4, rel = '', intro = {}, newsAt = '' } =
 #sitebar button:focus-visible{outline:2px solid #e2a03b;outline-offset:2px}
 #sitebar button[aria-busy=true] svg{animation:sitebar-spin .8s linear infinite}
 #sitebar time{white-space:nowrap;display:inline;font:inherit;color:inherit;letter-spacing:normal;margin:0;padding:0}
-#sitebar .sb-fresh{white-space:nowrap;display:inline-flex;align-items:center;gap:4px;line-height:1.2}#sitebar .sb-fresh .dot{margin-right:1px}#sitebar .sb-fresh b{font-weight:700;letter-spacing:.04em}
+#sitebar .sb-fresh{white-space:nowrap;display:inline-flex;align-items:center;gap:4px;line-height:1.2}#sitebar .sb-fresh .dot{margin-right:1px}#sitebar .sb-fresh b{font-weight:700;color:#15803d}#sitebar .sb-score{opacity:.75}
 #sitebar .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#16a34a;margin-right:5px;vertical-align:1px;box-shadow:0 0 0 0 rgba(22,163,74,.5);animation:sb-live 2s infinite}
 @keyframes sb-live{70%{box-shadow:0 0 0 6px rgba(22,163,74,0)}100%{box-shadow:0 0 0 0 rgba(22,163,74,0)}}
 @media (prefers-reduced-motion:reduce){#sitebar .dot{animation:none}}
@@ -77,7 +77,7 @@ body.site-em-pad{padding-top:40px}
 @media print{#site-em{display:none}}
 </style>
 <div id="site-em" ${MARK} role="status" aria-live="polite" hidden><span id="site-em-txt"></span><a id="site-em-go" href="${BASE}/dispatch.html">Open Dispatch</a><button type="button" class="x" id="site-em-x" aria-label="Dismiss">✕</button></div>
-<span class="sb-fresh" title="The newsroom checks its sources every minute. The SIREN reading itself is computed once an hour, a little after the hour, from the full set of sources."><i class="dot" aria-hidden="true"></i><b>LIVE</b> · news <span id="sitebar-news">–</span> · reading <time id="sitebar-at"></time></span>
+<span class="sb-fresh" title="News is checked every minute and Dispatch alerts refresh through the hour, so both are live. The SIREN score is recalculated once an hour from every source."><i class="dot" aria-hidden="true"></i><b>News &amp; alerts live</b> · news <span id="sitebar-news">–</span> · <span class="sb-score">SIREN score <time id="sitebar-at"></time> (hourly)</span></span>
 <a class="fb" id="sitebar-fb" href="${CANONICAL_URL}/feedback.html" title="Report a problem or send feedback">Feedback</a>
 ${MONETIZE.tips && MONETIZE.tips.url ? `<a class="fb kofi" href="${MONETIZE.tips.url}" target="_blank" rel="noopener" title="${MONETIZE.tips.label}">☕ Support</a>` : ''}<a class="fb" id="sitebar-x" href="https://x.com/intent/post?via=SIRENutf6" target="_blank" rel="noopener" title="Post this page on X">𝕏 Post</a>
 <button type="button" class="rad" data-siren-radio data-level="${level}" aria-pressed="false" title="Turn SIREN Radio on">♪ OFF</button><button type="button" class="rad st" data-siren-station="" aria-label="Next radio station" title="Next station (6 stations)">📻</button>
@@ -92,7 +92,7 @@ ${MONETIZE.tips && MONETIZE.tips.url ? `<a class="fb kofi" href="${MONETIZE.tips
     var d = new Date(at);
     tEl.dateTime = d.toISOString();
     tEl.textContent = ago(at);
-    tEl.title = "SIREN reading computed " + d.toLocaleString([], { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }) + ". Readings run hourly.";
+    tEl.title = "SIREN score computed " + d.toLocaleString([], { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }) + ". The score updates hourly; news and alerts are live.";
     if (newsEl) { newsEl.textContent = liveNews ? ago(liveNews) : "–"; }
     // Amber when the hourly reading is overdue (GitHub sometimes runs late).
     bar.classList.toggle("stale", Date.now() - at > 90 * 60000);
