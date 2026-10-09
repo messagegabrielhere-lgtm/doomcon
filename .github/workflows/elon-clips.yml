@@ -30,13 +30,14 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
         with:
+          persist-credentials: false
           sparse-checkout: elon
           fetch-depth: 1
 
       - name: Set up Node 20
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: '20'
 
@@ -58,4 +59,5 @@ jobs:
           git config user.email "41898699+github-actions[bot]@users.noreply.github.com"
           git add -A
           git commit -q -m "Elon clip index $(date -u +%Y-%m-%dT%H:%MZ)"
-          git push -q -f "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git" elon-data
+          # Header, not the remote URL, so a failed push cannot store the token in .git/config.
+          git -c "http.extraheader=AUTHORIZATION: bearer ${GH_TOKEN}" push -q -f "https://github.com/${GITHUB_REPOSITORY}.git" elon-data

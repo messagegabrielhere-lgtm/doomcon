@@ -1,0 +1,46 @@
+# Version updates for the two lockfiles and for Actions.
+# The index pipeline has no npm dependencies. Root package.json is the arena
+# SDK; clipper/package.json is the clipper SDK.
+# Vulnerability alerts and grouped security updates are repository settings
+# (Settings → Advanced Security) and are not turned on by this file.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    labels:
+      - dependencies
+      - security
+    ignore:
+      # Arena only needs the SDK. Major bumps stay a deliberate review.
+      - dependency-name: "@anthropic-ai/sdk"
+        update-types: ["version-update:semver-major"]
+
+  - package-ecosystem: npm
+    directory: /clipper
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    labels:
+      - dependencies
+      - security
+    ignore:
+      - dependency-name: "@anthropic-ai/sdk"
+        update-types: ["version-update:semver-major"]
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    labels:
+      - dependencies
+      - security
+    groups:
+      actions:
+        patterns: ["*"]
