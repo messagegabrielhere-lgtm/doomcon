@@ -1,10 +1,10 @@
 {
   "schema": 1,
-  "generated_at": "2026-10-09T00:36:52.841Z",
-  "news_generated_at": "2026-10-09T00:36:52.841Z",
+  "generated_at": "2026-10-09T01:25:29.021Z",
+  "news_generated_at": "2026-10-09T01:25:29.021Z",
   "matcher_version": "1.1.0",
   "window_days": 7,
-  "window_start": "2026-10-02T00:36:52.841Z",
+  "window_start": "2026-10-02T01:25:29.021Z",
   "rule": {
     "headline_only": true,
     "statement": "Only the headline is ever reproduced, exactly as the publication printed it. No quotation is generated, paraphrased, summarised or reconstructed anywhere in this file.",
@@ -141,30 +141,29 @@
     "scanned": 400,
     "max_items": 400,
     "window_binds": true,
-    "oldest_item_at": "2026-10-07T13:21:03.000Z",
-    "newest_item_at": "2026-10-09T00:20:01.000Z",
-    "named_without_cue": 5
+    "oldest_item_at": "2026-10-07T16:56:56.000Z",
+    "newest_item_at": "2026-10-09T00:40:03.000Z",
+    "named_without_cue": 3
   },
   "cross_check": {
     "source": "data/race.json",
     "present": true,
-    "race_generated_at": "2026-10-09T00:36:55.533Z",
+    "race_generated_at": "2026-10-09T01:25:32.083Z",
     "players_matched": 8,
     "wire_fills_gap": [
-      "altman",
-      "musk"
+      "altman"
     ]
   },
   "totals": {
     "leaders": 19,
-    "on_record": 3,
-    "no_line": 16,
-    "lines": 4,
-    "distinct_items": 4,
-    "quiet": 16,
+    "on_record": 2,
+    "no_line": 17,
+    "lines": 3,
+    "distinct_items": 3,
+    "quiet": 17,
     "unreachable": 0,
     "no_sources": 3,
-    "press_lines": 2,
+    "press_lines": 1,
     "direct_lines": 2
   },
   "direct": {
@@ -209,7 +208,7 @@
         "kind": "press",
         "url": "https://theguardian.com/commentisfree/2026/oct/08/ai-death-war-sam-altman",
         "published_at": "2026-10-08T10:00:16.000Z",
-        "score": 33.1,
+        "score": 32.9,
         "pillar": "attention",
         "matched_alias": "Sam Altman",
         "cue": "says",
@@ -233,7 +232,7 @@
           "kind": "press",
           "url": "https://theguardian.com/commentisfree/2026/oct/08/ai-death-war-sam-altman",
           "published_at": "2026-10-08T10:00:16.000Z",
-          "score": 33.1,
+          "score": 32.9,
           "pillar": "attention",
           "matched_alias": "Sam Altman",
           "cue": "says",
@@ -475,61 +474,11 @@
         "Elon Musk",
         "Musk"
       ],
-      "state": "on_record",
-      "count": 1,
-      "sources": [
-        "techmeme"
-      ],
-      "latest": {
-        "item_id": "2f1c6f8a109a13ce",
-        "headline": "Elon Musk says Grok Bot going forward will use the \"best back-end model for any given task, including Claude Opus 5.5, MidJourney, Suno, and other leading APIs\" (Grace Kay/The Information)",
-        "source": "techmeme",
-        "kind": "press",
-        "url": "https://techmeme.com/261007/p23",
-        "published_at": "2026-10-07T14:40:01.000Z",
-        "score": 33.9,
-        "pillar": "attention",
-        "matched_alias": "Elon Musk",
-        "cue": "says",
-        "cue_group": "core",
-        "cue_class": "verb",
-        "cue_text": "says",
-        "cues": [
-          "quoted text",
-          "says"
-        ],
-        "corroboration": 1,
-        "also_sources": [
-          "techmeme"
-        ],
-        "via": "press"
-      },
-      "lines": [
-        {
-          "item_id": "2f1c6f8a109a13ce",
-          "headline": "Elon Musk says Grok Bot going forward will use the \"best back-end model for any given task, including Claude Opus 5.5, MidJourney, Suno, and other leading APIs\" (Grace Kay/The Information)",
-          "source": "techmeme",
-          "kind": "press",
-          "url": "https://techmeme.com/261007/p23",
-          "published_at": "2026-10-07T14:40:01.000Z",
-          "score": 33.9,
-          "pillar": "attention",
-          "matched_alias": "Elon Musk",
-          "cue": "says",
-          "cue_group": "core",
-          "cue_class": "verb",
-          "cue_text": "says",
-          "cues": [
-            "quoted text",
-            "says"
-          ],
-          "corroboration": 1,
-          "also_sources": [
-            "techmeme"
-          ],
-          "via": "press"
-        }
-      ],
+      "state": "no_line",
+      "count": 0,
+      "sources": [],
+      "latest": null,
+      "lines": [],
       "watch_floor": {
         "tracked": true,
         "player_id": "xai",
@@ -538,16 +487,14 @@
         "reason": "Posts on X. Scraping X carries an explicit permanent-suspension penalty under its developer terms, so this cell is empty by policy, not by accident.",
         "feed": null,
         "posts_30d": null,
-        "verdict": "wire_fills_gap",
-        "note": "The watch floor reads no feed for Elon Musk and that reading stands: it is about feeds we can fetch. The one line on the wire came from the press instead — techmeme — and links to the publication that printed it."
+        "verdict": "both_quiet",
+        "note": "The watch floor reads no feed and no headline in this window named Elon Musk beside a speech cue. Two separate silences, neither imputed from the other."
       },
-      "group": "on_record",
-      "reason": null,
-      "press_count": 1,
+      "group": "quiet",
+      "reason": "quiet",
+      "press_count": 0,
       "direct_count": 0,
-      "press_sources": [
-        "techmeme"
-      ],
+      "press_sources": [],
       "last_statement_at": "2026-10-07T14:40:01.000Z",
       "last_statement": {
         "headline": "Elon Musk says Grok Bot going forward will use the \"best back-end model for any given task, including Claude Opus 5.5, MidJourney, Suno, and other leading APIs\" (Grace Kay/The Information)",
@@ -555,7 +502,7 @@
         "source": "techmeme",
         "published_at": "2026-10-07T14:40:01.000Z",
         "via": "press",
-        "remembered": false
+        "remembered": true
       },
       "days_silent": 1,
       "sources_checked": 3,
