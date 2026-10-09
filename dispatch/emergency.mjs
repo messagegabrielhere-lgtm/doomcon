@@ -16,7 +16,7 @@ export const QUAKE_WINDOW_H = 6;
 export const POST_CHAR_LIMIT = 270;
 
 export const DEFAULT_SITE_SPELL =
-  'messagegabrielhere dash lgtm dot github dot io slash doomcon slash dispatch';
+  'siren dot watch slash dispatch';
 
 /** Same cycle as collector/posts.mjs — preferred phrasing half the days. */
 export const PHRASING_CYCLE = Object.freeze([0, 1, 0, 2]);
@@ -112,12 +112,14 @@ export function evaluateEmergency(snap, { now = Date.now() } = {}) {
 
   // NWS is US-only by construction. Global systems (NHC east Pacific, GDACS,
   // USGS) count at full weight only near the US; elsewhere they drop to a
-  // Dispatch-page WATCH and are not posted to X (a world M7+ still posts).
+  // Dispatch-page WATCH and are not posted to X. A world M7+ quake keeps full weight.
   for (const t of triggers) {
     const a = t.alert;
     t.us = a.system === 'nws' || nearUS(a.lon, a.lat);
     t.post = t.us || t.weight >= 4;
-    if (!t.us) t.weight = Math.min(t.weight, t.weight >= 4 ? 3 : 2);
+    // A great quake (M7+) is world news wherever it strikes: it keeps full
+    // weight and leads the board. Everything else far from the US is a WATCH.
+    if (!t.us && t.weight < 4) t.weight = 2;
   }
   // Prefer highest weight, then newest.
   triggers.sort((a, b) => (b.weight - a.weight) || ((b.alert.t || 0) - (a.alert.t || 0)));

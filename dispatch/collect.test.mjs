@@ -168,3 +168,15 @@ test('balancePerCity keeps every city and plausibleUS drops placeholder pins', a
   assert.equal(plausibleUS(-1, -1), false);
   assert.equal(plausibleUS(-122.4, 37.8), true);
 });
+
+test('evaluateEmergency: a great quake anywhere leads the board and posts', async () => {
+  const { evaluateEmergency, freshTriggers } = await import('./emergency.mjs');
+  const now = Date.parse('2026-10-09T19:00:00Z');
+  const e = evaluateEmergency({ alerts: [
+    { id: 'nhc:al1', system: 'nhc', event: 'HU Gulf', severity: 'Extreme', lon: -87.6, lat: 27, t: now - 600e3 },
+    { id: 'usgs:pan', system: 'usgs', event: 'M7.7 earthquake', severity: 'Extreme', mag: 7.7, lon: -80.77, lat: 7.59, t: now - 3600e3 },
+  ] }, { now });
+  assert.equal(e.label, 'EMERGENCY');
+  assert.equal(e.primary.id, 'usgs:pan');
+  assert.ok(freshTriggers(e, []).includes('usgs:pan'));
+});
