@@ -31,9 +31,9 @@ import { dirname } from 'node:path';
 // loadBrand() is the single impure edge that goes looking for the real one.
 export const DEFAULT_BRAND = Object.freeze({
   name: 'SIREN',
-  domain: 'doomcon.watch',
+  domain: 'siren.watch',
   tagline: "We don't know anything. We just count.",
-  canonicalUrl: 'https://doomcon.watch',
+  canonicalUrl: 'https://siren.watch',
 });
 
 // The spelled domain exists so a post can name the site without X charging the

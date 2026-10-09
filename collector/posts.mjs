@@ -1799,7 +1799,7 @@ function post(c, spec) {
     );
   }
   const manualText = `${text.slice(0, text.length - api.length)}${manual}`;
-  preflightManual(manualText, link, c.limit);
+  preflightManual(manualText, link, c.fullLimit);
 
   const idStamp = c.state.generated_at.replace(/[:.]/g, '-');
   return {
@@ -1860,7 +1860,14 @@ export function buildPosts(state, opts = {}) {
   const tailSlack = Math.max(0, charCount(tails.manual) - charCount(tails.api));
   const c = {
     state, brand, history, notable, skips, tails,
+    // The body is written against the longer tail. The api variant is checked
+    // against that tighter budget. The manual variant is the same body with the
+    // longer tail swapped in, so it is checked against the real ceiling. Checking
+    // it against the tighter budget counts the slack twice, and the all-dark
+    // post is the one that lands on the wrong side of that (280 against 277)
+    // the day the clickable URL is longer than the spelled domain.
     limit: limit - tailSlack,
+    fullLimit: limit,
     usedNewsItemId: null,
     news: { generated_at: allNews.generated_at, items: freshItems },
     newsMaxAgeHours: maxAge,

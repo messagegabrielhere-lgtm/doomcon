@@ -219,7 +219,7 @@ export function renderAlertCard(alert, { generatedAt } = {}) {
     x: S.width - margin, y: fy - 28, size: small - 2, color: INK_FAINT, weight: 0.10,
     track: 0.06, align: 'right',
   });
-  const domain = `${(brand.DOMAIN || 'doomcon.watch').toLowerCase()}/dispatch`;
+  const domain = `${(brand.DOMAIN || 'siren.watch').toLowerCase()}/dispatch`;
   let domSize = small - 1;
   while (domSize > 11 && measureText(domain, { size: domSize, track: 0.04 }) > S.width - margin * 2) {
     domSize -= 1;
