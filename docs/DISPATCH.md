@@ -10,7 +10,8 @@ moves the SIREN score.
 | `dispatch/collect.mjs` | Cities + alert systems → `dispatch.json` + `emergency.json` |
 | `dispatch/cities.mjs` | CAD adapters (Seattle, SF, NYC, Austin, LA, Dallas, KC, MoCo) |
 | `dispatch/alerts.mjs` | NWS, USGS, GDACS, NASA EONET, NHC |
-| `dispatch/emergency.mjs` | Emergency level + X post text |
+| `dispatch/emergency.mjs` | Emergency level + per-system X post text (3 phrasings each) |
+| `dispatch/card.mjs` | Custom PNG per alert (system art, severity, facts) |
 | `dispatch/post-alerts.mjs` | Rate-limited X posts for fresh triggers |
 | `.github/workflows/dispatch-data.yml` | Every ~15 minutes, force-pushes `dispatch-data` |
 | `site/static/dispatch.html` | Map, layers, emergency banner, blather ticker |
@@ -56,9 +57,12 @@ When active:
    `post-daily`), with a 3-hour gap and a durable `posted-alerts.ndjson` ledger
    carried across force-pushes. No secrets → snapshot only, still green.
 
-Post text is link-free (address spelled), passes `preflightX`, and never carries
-`!`, `@mentions`, or `BREAKING`. NWS “Warning” wording is rewritten so the
-future-tense guard does not reject the post.
+Each post is custom: text is per alert system (USGS / NWS / NHC / GDACS / EONET)
+with three deterministic phrasings, and the image is a `dispatch/card.mjs` PNG
+built from that same alert (system art, severity heat, headline, magnitude or
+wind when present, coordinates). Link-free (address spelled), passes
+`preflightX`, never carries `!`, `@mentions`, or `BREAKING`. NWS “Warning”
+wording is rewritten so the future-tense guard does not reject the post.
 
 ## Not for emergencies
 
