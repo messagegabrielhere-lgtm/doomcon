@@ -6,6 +6,7 @@
 //
 // The full instrument panel this replaced still builds, at /classic.html.
 import { esc, num } from './_html.mjs';
+import { baselinePhrase, baselineCompact } from '../../collector/forward-coverage.mjs';
 
 import { blocks, pixelText, icon } from './_pixel.mjs';
 import { sponsorLine, newsletterBox, tipLink, MZ_CSS, MONETIZE } from '../monetize.mjs';
@@ -188,14 +189,16 @@ function gauges(pillars) {
   return (pillars || []).map((p) => {
     const v = Number.isFinite(p.score) ? p.score : null, c = PILLAR_HUE[p.id] || '#AEB7C3';
     const R = 34, C = Math.PI * R, frac = v == null ? 0 : v / 100;
-    const label = v == null ? (p.dark ? 'DARK' : 'CALIBRATING') : v.toFixed(0);
+    const label = v == null ? (p.dark ? 'DARK' : (baselineCompact(p.baseline_days, p.baseline_required) ?? 'CALIBRATING')) : v.toFixed(0);
     return `<div class="v2-gauge"><svg viewBox="0 0 90 56" aria-hidden="true"><path d="M11 50a34 34 0 0 1 68 0" fill="none" stroke="#1E2633" stroke-width="9" stroke-linecap="round"/>${v == null ? '' : `<path d="M11 50a34 34 0 0 1 68 0" fill="none" stroke="${c}" stroke-width="9" stroke-linecap="round" stroke-dasharray="${(C * frac).toFixed(1)} ${C.toFixed(1)}"/>`}<text x="45" y="48" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="700" font-size="${v == null ? 9 : 16}" fill="${v == null ? '#6B7686' : '#fff'}">${label}</text></svg><span style="color:${c}">${esc(String(p.name || p.id).toUpperCase())}</span></div>`;
   }).join('');
 }
 function sourceLights(sources) {
   return (sources || []).map((x) => {
     const st = x.ok ? 'src-live' : x.uncalibrated ? 'src-cal' : 'src-dark';
-    return `<span class="v2-src ${st}" title="${esc(x.label || x.id)}: ${st === 'src-live' ? 'live and scored' : st === 'src-cal' ? 'reporting, awaiting baseline' : 'not answering'}"><i></i>${esc(String(x.label || x.id).toUpperCase())}</span>`;
+    const wait = st === 'src-cal' ? baselinePhrase(x.baseline_days, x.baseline_required) : null;
+    const calTitle = wait ? `reporting, awaiting baseline, ${wait}` : 'reporting, awaiting baseline';
+    return `<span class="v2-src ${st}" title="${esc(x.label || x.id)}: ${st === 'src-live' ? 'live and scored' : st === 'src-cal' ? calTitle : 'not answering'}"><i></i>${esc(String(x.label || x.id).toUpperCase())}</span>`;
   }).join('');
 }
 function ticker(items) {
@@ -297,10 +300,14 @@ function loudPanel(state, rows) {
   const rowsHtml = (state.pillars || []).map((p) => {
     const meta = PILLAR_META[p.id] || {};
     const live = Number.isFinite(p.score) && !p.dark;
-    const status = live ? num(p.score, 1) : p.dark ? 'DARK' : 'CALIBRATING';
+    const status = live ? num(p.score, 1) : p.dark ? 'DARK' : (baselineCompact(p.baseline_days, p.baseline_required) ?? 'CALIBRATING');
     const share = Number.isFinite(p.weight_share) && p.weight_share > 0 ? `${Math.round(p.weight_share * 100)}% OF THE SCORE` : 'NOT IN THE SCORE';
-    const why = live ? `Running at the ${ordinal(Math.round((p.percentile || 0) * 100))} percentile of the last year.` : p.dark ? 'No source answered this hour, so the pillar is left out and the level is held.' : 'Its sources report, but none has a year of baseline yet, so it is shown and not scored.';
-    const srcs = (by[p.id] || []).map((s) => `<li class="${s.ok ? 'ok' : s.uncalibrated ? 'cal' : 'bad'}"><b>${esc(srcName(s))}</b> ${Number.isFinite(s.value) ? `${Number(s.value).toLocaleString('en-US')} ${esc(s.unit || '')}` : ''}${s.ok && Number.isFinite(s.percentile) ? ` · ${ordinal(Math.round(s.percentile * 100))} pct` : s.uncalibrated ? ' · awaiting baseline' : !s.ok ? ' · not answering' : ''}</li>`).join('');
+    const wait = baselinePhrase(p.baseline_days, p.baseline_required);
+    const why = live ? `Running at the ${ordinal(Math.round((p.percentile || 0) * 100))} percentile of the last year.` : p.dark ? 'No source answered this hour, so the pillar is left out and the level is held.' : (wait ? `Its sources report. The baseline is ${wait} on the current definition, so it is shown and not scored.` : 'Its sources report, but none has a year of baseline yet, so it is shown and not scored.');
+    const srcs = (by[p.id] || []).map((s) => {
+      const days = s.uncalibrated ? baselinePhrase(s.baseline_days, s.baseline_required) : null;
+      return `<li class="${s.ok ? 'ok' : s.uncalibrated ? 'cal' : 'bad'}"><b>${esc(srcName(s))}</b> ${Number.isFinite(s.value) ? `${Number(s.value).toLocaleString('en-US')} ${esc(s.unit || '')}` : ''}${s.ok && Number.isFinite(s.percentile) ? ` · ${ordinal(Math.round(s.percentile * 100))} pct` : s.uncalibrated ? ` · awaiting baseline${days ? `, ${esc(days)}` : ''}` : !s.ok ? ' · not answering' : ''}</li>`;
+    }).join('');
     return `<details class="v2-loud"><summary><span class="pn" style="color:${PILLAR_HUE[p.id]}">${esc(p.name.toUpperCase())}</span><span class="t"><i style="width:${live ? p.score.toFixed(1) : 0}%;background:${PILLAR_HUE[p.id]}"></i></span>${spark(rows, p.id)}<b class="${live ? '' : 'mute'}">${status}</b></summary>
   <p>${esc(meta.blurb || '')} ${esc(why)} <span class="sh">${share}</span></p><ul>${srcs}</ul></details>`;
   }).join('');
@@ -347,7 +354,10 @@ function altPanel(alts) {
   if (!alts || !alts.length) return '';
   return `<details class="v2-card v2-alt" id="alt"><summary><h3 style="display:inline-flex">${icon('eye', 3, '#A5B4FC')}${pixelText('UNCONVENTIONAL SIGNALS', 3, '#FFFFFF')}</h3> <span class="live">NOT IN THE SCORE · TAP TO SHOW</span></summary>
   <p>Raw readings SIREN collects every hour but does not score yet, because none has a year of baseline. Watch them; they cannot move the level.</p>
-  <div class="v2-altg">${alts.map((a) => `<div><b>${esc(SRC_NAME[a.id] || a.label || a.id)}</b><span class="n">${Number.isFinite(a.value) ? Number(a.value).toLocaleString('en-US') : '—'} <small>${esc(a.unit || '')}</small></span><small>${esc(a.description || '')}</small></div>`).join('')}</div></details>`;
+  <div class="v2-altg">${alts.map((a) => {
+    const days = baselinePhrase(a.baseline_days, a.baseline_required);
+    return `<div><b>${esc(SRC_NAME[a.id] || a.label || a.id)}</b><span class="n">${Number.isFinite(a.value) ? Number(a.value).toLocaleString('en-US') : '—'} <small>${esc(a.unit || '')}</small></span><small>${days ? `${esc(days)}. ` : ''}${esc(a.description || '')}</small></div>`;
+  }).join('')}</div></details>`;
 }
 
 const DASH_JS = `(function(){var red=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -385,6 +395,19 @@ function moltPanel(ctx, href) {
   ${m.watch ? `<div class="v2-mth">${m.watch.themes.filter((t) => t.n).slice(0, 5).map((t) => `<span>${esc(t.name.toUpperCase())} <b>${t.n}</b></span>`).join('')}</div>` : ''}
   <ul class="v2-ml">${list.map((p) => `<li><a href="${esc(p.url)}" rel="noopener">${esc(p.title)}</a><small><a href="${esc(p.agent_url)}" rel="noopener">${esc(p.agent)}</a> · ▲${Number(p.votes || 0).toLocaleString('en-US')} · ${Number(p.comments || 0).toLocaleString('en-US')} replies · ${ago(p.created_at)}</small></li>`).join('')}</ul>
   <p class="v2-pmn">AI agents: SIREN’s data is open at <a href="${href('/skill.md')}">skill.md</a> and <a href="${href('/api/state.json')}">api/state.json</a>.</p></div>`;
+}
+
+function pillarStatusLine(state) {
+  if (state.degraded) return '<a href="#health" class="amber">DEGRADED: see why ↓</a>';
+  const waiting = (state.pillars || []).filter((p) => p.uncalibrated);
+  if (waiting.length === 0) return '<span class="green">All pillars live.</span>';
+  const scored = (state.pillars || []).filter((p) => !p.dark && !p.uncalibrated).length;
+  const bits = waiting.map((p) => {
+    const days = baselinePhrase(p.baseline_days, p.baseline_required);
+    return `${esc(p.name)}${days ? ` (${esc(days)})` : ''}`;
+  }).join(', ');
+  const verb = waiting.length === 1 ? 'is' : 'are';
+  return `<span class="green">${scored} pillars in the score.</span> <span>${bits} ${verb} awaiting baseline.</span>`;
 }
 
 export function render(ctx, { head }) {
@@ -476,7 +499,8 @@ export function render(ctx, { head }) {
   const pillars = (state.pillars || []).map((p) => {
     const live = Number.isFinite(p.score) && !p.dark;
     const loud = live && p.score >= 65;
-    return `<div class="v2-bar wide"><span class="pn">${esc(p.name.toUpperCase())}</span><span class="t"><i style="width:${live ? p.score.toFixed(1) : 0}%;background:${loud ? '#F87171' : '#3B5BFF'}"></i></span><b class="${live ? '' : 'mute'}">${live ? num(p.score, 1) : (p.dark ? 'DARK' : 'CALIB')}</b></div>`;
+    const wait = baselineCompact(p.baseline_days, p.baseline_required);
+    return `<div class="v2-bar wide"><span class="pn">${esc(p.name.toUpperCase())}</span><span class="t"><i style="width:${live ? p.score.toFixed(1) : 0}%;background:${loud ? '#F87171' : '#3B5BFF'}"></i></span><b class="${live ? '' : 'mute'}">${live ? num(p.score, 1) : (p.dark ? 'DARK' : (wait ?? 'CALIB'))}</b></div>`;
   }).join('');
 
   const nav = roomNav(ctx, href, img);
@@ -489,7 +513,7 @@ export function render(ctx, { head }) {
     ${dial(state, L)}
     <div class="v2-dinfo">
       <div class="v2-chips">${chip('1H', Number.isFinite(state.delta_from_previous) ? state.delta_from_previous : deltaAt(rows, nowMs, 1))}${chip('24H', deltaAt(rows, nowMs, 24))}${chip('7D', deltaAt(rows, nowMs, 168))}</div>
-      <p class="v2-dline"><b style="color:${L.color}">SIREN ${state.level} · ${esc(state.level_name)}</b> since ${esc(String(state.level_since || '').slice(0, 10))}. ${levelFromScore(state.score) !== state.level ? `<span class="amber">The score alone reads SIREN ${levelFromScore(state.score)}; the level is held: ${esc(RULE_TXT[state.rule_fired] || '')}</span> ` : ''}${state.degraded ? `<a href="#health" class="amber">DEGRADED: see why ↓</a>` : '<span class="green">All pillars live.</span>'}</p>
+      <p class="v2-dline"><b style="color:${L.color}">SIREN ${state.level} · ${esc(state.level_name)}</b> since ${esc(String(state.level_since || '').slice(0, 10))}. ${levelFromScore(state.score) !== state.level ? `<span class="amber">The score alone reads SIREN ${levelFromScore(state.score)}; the level is held: ${esc(RULE_TXT[state.rule_fired] || '')}</span> ` : ''}${pillarStatusLine(state)}</p>
       <div class="v2-dbtns"><a class="v2-btn sm" href="#vfy" data-verify-now>✓ VERIFY THIS READING</a><a class="v2-btn sm ghost" href="${href('/alerts.html')}">🔔 ALERTS</a><a class="v2-btn sm ghost" href="${href('/export.html')}">⤓ DATA &amp; EMBED</a></div>
     </div>
   </section>

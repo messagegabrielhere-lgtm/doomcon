@@ -3,6 +3,7 @@
 // data/ produce byte-identical HTML (CONTRACT.md hard constraint 4).
 
 import { esc, num, signed, utc, utcClock, duration, secondsBetween } from './_html.mjs';
+import { baselinePhrase } from '../../collector/forward-coverage.mjs';
 import { sparkline, PILLAR_GLYPH } from './_charts.mjs';
 import * as brand from '../brand.mjs';
 
@@ -195,9 +196,10 @@ export function pillarCard(pillar, series, sourceRows) {
   const glyph = PILLAR_GLYPH[pillar.id] || '▪';
   const counts = countSources(sourceRows);
 
+  const days = uncal ? baselinePhrase(pillar.baseline_days, pillar.baseline_required) : null;
   const body = noScore
     ? (uncal
-        ? `<p class="pillar__dark">AWAITING BASELINE · ${esc(counts ? counts.total : (pillar.sources_total ?? '?'))} sources collecting, not yet scored</p>`
+        ? `<p class="pillar__dark">AWAITING BASELINE · ${days ? esc(days) : `${esc(counts ? counts.total : (pillar.sources_total ?? '?'))} sources collecting, not yet scored`}</p>`
         : `<p class="pillar__dark">DARK · 0 of ${esc(counts ? counts.total : (pillar.sources_total ?? '?'))} sources answered</p>`)
     : `${sparkline(series, { id: pillar.id, label: `${meta.name} score history` })}
        <p class="pillar__foot">${esc(footLine(pillar, counts))}</p>`;
