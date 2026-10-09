@@ -651,6 +651,7 @@ ${ticker(items)}
     <span class="v2-3d" data-siren3d data-level="${state.level}"><img class="v2-art bob" src="${img('siren')}" width="112" height="112" alt="" fetchpriority="high" decoding="async"></span>
     <h1>${pixelText('AI SIREN INDEX', 8, '#FFFFFF', 'fit')}</h1>
   </div>
+  <p class="v2-acro" title="What SIREN stands for"><b>S</b>uper<b>I</b>ntelligence <b>R</b>eal-time <b>E</b>arly <b>N</b>otice<span> · an hourly count of how loud AI is, read by Tally the duty canary</span></p>
   <div class="v2-sub"><span>${esc(brand.SLOGAN)}</span><span class="sep">|</span><a class="v2-btn sm" href="https://x.com/SIRENutf6">FOLLOW @SIRENutf6</a></div>
 
   <section class="hero">
@@ -801,6 +802,7 @@ body.v2-body{margin:0;background:#000;color:#F3F4F6}
 .v2 .v2-chip{display:inline-flex;align-items:center;gap:8px}
 .v2 .v2-xp{all:unset;cursor:pointer;margin-left:10px;padding:3px 8px;border:1px solid currentColor;font:700 11px/1.3 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.06em;white-space:nowrap}.v2 .v2-xp:hover{background:#fff;color:#000}
 .v2 .v2-whatsnew{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin:10px 0 0;padding:2px 0 4px;align-items:center}.v2 .v2-whatsnew::-webkit-scrollbar{display:none}.v2 .v2-whatsnew .lbl{flex:none;font:700 12px/1 'IBM Plex Mono',monospace;letter-spacing:.12em;color:#FACC15}.v2 .v2-whatsnew a{flex:none;display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:4px 12px 4px 6px;border:1px solid #3F3A12;background:#14120A;color:#FDE68A;text-decoration:none;font:600 13px/1.2 'IBM Plex Sans',system-ui,sans-serif;white-space:nowrap}.v2 .v2-whatsnew a:hover{border-color:#FACC15;color:#fff}.v2 .v2-whatsnew img{display:block}
+.v2 .v2-acro{margin:6px 0 2px;font:600 clamp(13px,1.6vw,16px)/1.35 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.06em;text-transform:uppercase;color:#D7DCE3}.v2 .v2-acro b{color:#F87171;font-size:1.25em}.v2 .v2-acro span{text-transform:none;letter-spacing:0;color:#AEB7C3;font-weight:500;font-family:'IBM Plex Sans',system-ui,sans-serif}
 .v2 .v2-live{color:#4ADE80;border-color:#166534;text-decoration:none}.v2 .v2-live i{width:8px;height:8px;border-radius:50%;background:#4ADE80;box-shadow:0 0 0 0 rgba(74,222,128,.6);animation:v2live 2s infinite}@keyframes v2live{70%{box-shadow:0 0 0 7px rgba(74,222,128,0)}100%{box-shadow:0 0 0 0 rgba(74,222,128,0)}}@media (prefers-reduced-motion:reduce){.v2 .v2-live i{animation:none}}
 .v2 .tag{padding:5px 10px;border:1px solid;font-weight:700}
 .v2 .tag.red{border-color:#7F1D1D;background:#1A0707;color:#FCA5A5}.v2 .tag.red b{color:#fff}

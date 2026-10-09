@@ -68,18 +68,20 @@ export const WORK_KINDS = [
   ['fix', 'Bug fixes', /\b(fix(es|ed)?|bug|hotfix|patch|resolve[sd]?|crash|error|issue)\b/i],
   ['feature', 'New features', /\b(feat(ure)?|add(s|ed)?|implement(s|ed)?|introduce[sd]?|support|new|create[sd]?|build)\b/i],
   ['refactor', 'Refactors & cleanup', /\b(refactor|clean ?up|simplif|rename|restructur|reorganiz|remove[sd]?|delete[sd]?|migrat)/i],
-  ['tests', 'Tests', /\b(tests?|spec|coverage|e2e|unit)\b/i],
+  ['tests', 'Tests & checks', /\b(tests?|spec|coverage|e2e|unit|verif\w*|validat\w*|audit\w*|checks?)\b/i],
   ['docs', 'Docs', /\b(docs?|readme|documentation|comments?|typo|changelog)\b/i],
   ['deps', 'Dependencies', /\b(bump|upgrade|update[sd]? (dependenc|deps|package)|deps?|dependenc(y|ies)|version)\b/i],
   ['ci', 'CI & build', /\b(ci|workflow|github actions|pipeline|docker|deploy|build config|lint)\b/i],
   ['perf', 'Performance', /\b(perf(ormance)?|optimi[sz]|speed ?up|faster|cache)\b/i],
+  ['ui', 'UI & content', /\b(ui|ux|css|style|styling|layout|design|page|button|theme|dark mode|responsive|mobile|copy|text|image|icon|translation|i18n|caption|readme)\b/i],
+  ['improve', 'Improvements & tweaks', /\b(update[sd]?|improve[sd]?|enhance[sd]?|adjust(s|ed)?|align(s|ed)?|tweak(s|ed)?|change[sd]?|polish|tune[sd]?|enable[sd]?|allow(s|ed)?|handle[sd]?|use[sd]?|make|set|switch|move[sd]?|replace[sd]?|extend(s|ed)?|expand(s|ed)?|wire|hook|integrat\w*|config\w*|setting|show|display|serve|bind)\b/i],
 ];
 export function workKind(title) {
   const t = String(title || '');
   const m = /^\s*(\w+)(\([^)]*\))?!?:/.exec(t); // conventional commit prefix wins
   if (m) {
     const k = m[1].toLowerCase();
-    const map = { fix: 'fix', feat: 'feature', refactor: 'refactor', test: 'tests', tests: 'tests', docs: 'docs', doc: 'docs', chore: 'deps', build: 'ci', ci: 'ci', perf: 'perf', style: 'refactor' };
+    const map = { fix: 'fix', feat: 'feature', ui: 'ui', style: 'ui', refactor: 'refactor', test: 'tests', tests: 'tests', docs: 'docs', doc: 'docs', chore: 'deps', build: 'ci', ci: 'ci', perf: 'perf' };
     if (map[k]) return map[k];
   }
   for (const [id, , re] of WORK_KINDS) if (re.test(t)) return id;

@@ -34,7 +34,7 @@ const CSS = `<style>
 .ac-tag{display:inline-block;padding:0 6px;border-radius:3px;font:700 10.5px/1.6 var(--mono);color:#000;margin-right:6px;vertical-align:1px}
 @media (max-width:520px){.ac-row{grid-template-columns:96px minmax(0,1fr) 30px}}
 </style>`;
-const KIND = { fix: ['Bug fixes', '#F87171'], feature: ['New features', '#4ADE80'], refactor: ['Refactors & cleanup', '#A78BFA'], tests: ['Tests', '#FACC15'], docs: ['Docs', '#60A5FA'], deps: ['Dependencies', '#FB923C'], ci: ['CI & build', '#22D3EE'], perf: ['Performance', '#F472B6'], other: ['Other', '#6B7686'] };
+const KIND = { fix: ['Bug fixes', '#F87171'], feature: ['New features', '#4ADE80'], refactor: ['Refactors & cleanup', '#A78BFA'], tests: ['Tests & checks', '#FACC15'], docs: ['Docs', '#60A5FA'], deps: ['Dependencies', '#FB923C'], ci: ['CI & build', '#22D3EE'], perf: ['Performance', '#F472B6'], ui: ['UI & content', '#2DD4BF'], improve: ['Improvements & tweaks', '#C084FC'], other: ['Other', '#6B7686'] };
 const ago = (iso, now) => { const m = Math.max(0, Math.round((now - Date.parse(iso)) / 60000)); return m < 60 ? `${m} min ago` : m < 2880 ? `${Math.round(m / 60)} h ago` : `${Math.round(m / 1440)} days ago`; };
 function stack(counts) {
   const tot = Object.values(counts).reduce((a, b) => a + b, 0) || 1;

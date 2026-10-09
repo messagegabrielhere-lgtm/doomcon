@@ -68,6 +68,10 @@ export const HEADER_CSS = `<style ${HEADER_MARK}-css>
 .sh__in{max-width:1240px;margin:0 auto;padding:0 16px;display:flex;align-items:center;gap:12px;min-height:60px}
 .sh__brand{display:inline-flex;align-items:center;gap:10px;flex:0 0 auto;min-height:44px}
 .sh__brand img{display:block;width:36px;height:36px}
+.sh__wm{display:flex;flex-direction:column;gap:4px;min-width:0}
+.sh__exp{display:block;font:500 9.5px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.03em;color:#AEB7C3;white-space:nowrap;text-transform:uppercase}
+.sh__exp b{color:#F87171;font-weight:700}
+@media (max-width:560px){.sh__exp{font-size:7.5px;letter-spacing:0;white-space:normal;max-width:100px;line-height:1.15}}
 .sh .v2-ptext{display:block;line-height:0}.sh .v2-px{display:block}
 .sh .v2-sr,.sh__sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .sh__lv{flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;min-height:30px;padding:4px 9px;border:1px solid var(--sh-lv);background:#03130A;color:var(--sh-lv);font-weight:700;font-size:12px;white-space:nowrap}
@@ -163,7 +167,7 @@ export function headerHtml(o = {}) {
   const nav = PRIMARY.map(([h, l]) => `<a href="${esc(base + h)}"${h === cur ? ' aria-current="page"' : ''}>${esc(l)}</a>`).join('');
   return `${HEADER_CSS}
 <header class="sh" ${HEADER_MARK} role="banner"><div class="sh__in">
-<a class="sh__brand" href="${esc(`${base}/`)}" aria-label="AI SIREN Index, home"><img src="${esc(`${base}/img/art-siren.webp`)}" width="36" height="36" alt="">${pixelText('AI SIREN INDEX', 3, '#FFFFFF')}</a>
+<a class="sh__brand" href="${esc(`${base}/`)}" aria-label="AI SIREN Index: Superintelligence Real-time Early Notice. Home" title="SIREN = Superintelligence Real-time Early Notice"><img src="${esc(`${base}/img/art-siren.webp`)}" width="36" height="36" alt=""><span class="sh__wm">${pixelText('AI SIREN INDEX', 3, '#FFFFFF')}<span class="sh__exp" aria-hidden="true"><b>S</b>uper<b>I</b>ntelligence <b>R</b>eal-time <b>E</b>arly <b>N</b>otice</span></span></a>
 <a class="sh__lv" href="${esc(`${base}/#signal`)}" style="--sh-lv:${color}" title="Current reading: SIREN ${esc(lv ?? '')}${o.levelName ? ` (${esc(o.levelName)})` : ''}, score ${esc(score)} of 100"><i aria-hidden="true"></i><span><em class="sh__lvw">SIREN </em>${esc(lv ?? '–')}${o.levelName ? `<b> · ${esc(String(o.levelName).toUpperCase())}</b>` : ''} · ${esc(score || '–')}</span></a>
 <nav class="sh__nav" aria-label="Primary">${nav}</nav>
 <button type="button" class="sh__new" data-sh-rooms-group="NEW ON SIREN" aria-haspopup="dialog" aria-controls="sh-rooms" title="What’s new on SIREN">✦<span> New</span></button>
