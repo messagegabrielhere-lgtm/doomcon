@@ -1625,7 +1625,8 @@ function raceCss(race) {
   text-transform: uppercase; color: var(--accent); margin-right: 6px; }
 .rwhy__more { margin-top: 8px; }
 .rwhy__more summary { font-family: var(--mono); font-size: var(--t-xs); color: var(--ink-faint);
-  cursor: pointer; letter-spacing: 0.04em; }
+  cursor: pointer; letter-spacing: 0.04em; min-height: 44px; display: inline-flex; align-items: center;
+  touch-action: manipulation; }
 .rwhy__more summary:hover, .rwhy__more summary:focus-visible { color: var(--ink); }
 .rwhy__list { margin: 8px 0 0; padding-left: 18px; font-size: var(--t-sm); color: var(--ink-dim); }
 .rwhy__list li { margin-bottom: 3px; }
@@ -1662,6 +1663,14 @@ function raceCss(race) {
   .rpill { transition: border-color 140ms ease-out; }
 }
 .rrow:hover .rpill, .rrow:focus-within .rpill { border-color: var(--ink-faint); }
+
+/* ---- phones: thumb-sized pills, names wrap instead of crushing ---- */
+@media (max-width: 400px) {
+  .rpill { min-height: 44px; padding: 6px 8px; flex-wrap: wrap; gap: 6px 8px; }
+  .rpill__who { white-space: normal; overflow-wrap: anywhere; }
+  .rpill__lab { flex: 1 1 12rem; }
+  .rpill__right { margin-left: 0; }
+}
 
 /* ---- 720px and up: the strip and the board get room ---- */
 @media (min-width: 720px) {

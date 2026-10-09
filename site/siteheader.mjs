@@ -59,7 +59,7 @@ export const HEADER_CSS = `<style ${HEADER_MARK}-css>
 .sh__brand img{display:block;width:36px;height:36px}
 .sh .v2-ptext{display:block;line-height:0}.sh .v2-px{display:block}
 .sh .v2-sr,.sh__sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-.sh__lv{flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;min-height:30px;padding:4px 9px;border:1px solid var(--sh-lv);background:#03130A;color:var(--sh-lv);font-weight:700;font-size:12px;white-space:nowrap}
+.sh__lv{flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:4px 9px;border:1px solid var(--sh-lv);background:#03130A;color:var(--sh-lv);font-weight:700;font-size:12px;white-space:nowrap}
 .sh__lv i{width:8px;height:8px;border-radius:50%;background:var(--sh-lv);box-shadow:0 0 8px var(--sh-lv)}
 .sh__nav{flex:1 1 auto;min-width:0;display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
 .sh__nav::-webkit-scrollbar{display:none}
@@ -73,7 +73,7 @@ export const HEADER_CSS = `<style ${HEADER_MARK}-css>
 .sh__srch:hover{border-color:var(--sh-acc2);color:#fff}
 .sh-rooms__chips{flex:0 0 auto;display:flex;gap:6px;overflow-x:auto;padding:8px 12px;border-bottom:1px solid #232C3B;scrollbar-width:none}
 .sh-rooms__chips::-webkit-scrollbar{display:none}
-.sh-rooms__chips button{flex:0 0 auto;min-height:32px;padding:0 10px;border:1px solid #2A3446;background:#0E131D;color:#D7DCE3;font:600 11px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
+.sh-rooms__chips button{flex:0 0 auto;min-height:44px;padding:0 10px;border:1px solid #2A3446;background:#0E131D;color:#D7DCE3;font:600 11px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;touch-action:manipulation}
 .sh-rooms__chips button:hover{border-color:#818CF8;color:#fff}
 .sh-rooms__g--rec{color:#FACC15}
 .sh-pn{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 18px}
@@ -88,9 +88,9 @@ export const HEADER_CSS = `<style ${HEADER_MARK}-css>
 @media (max-width:1360px){.sh__lv b{display:none}.sh__all kbd{display:none}.sh__nav a{padding:0 7px}}
 @media (max-width:1180px){.sh__nav{mask-image:linear-gradient(90deg,#000 90%,transparent)}}
 @media (max-width:900px){.sh__nav{display:none}.sh__lv{margin-left:auto}}
-@media (max-width:560px){.sh__in{gap:8px;padding:0 12px;min-height:56px}.sh__brand svg{width:118px;height:auto}.sh__brand img{width:32px;height:32px}.sh__lv{padding:4px 7px;font-size:11px}.sh__all{padding:0 12px}.sh__all kbd,.sh__all span{display:none}.sh__lvw{display:none}.sh__srch{width:42px}}
+@media (max-width:560px){.sh__in{gap:8px;padding:0 12px;min-height:56px}.sh__brand svg{width:118px;height:auto}.sh__brand img{width:32px;height:32px}.sh__lv{padding:4px 7px;font-size:11px;min-height:40px}.sh__all{padding:0 12px;min-width:48px;justify-content:center}.sh__all kbd,.sh__all span{display:none}.sh__lvw{display:none}.sh__srch{width:42px;touch-action:manipulation}.sh__all,.sh__brand,.sh__lv{touch-action:manipulation}.sh__brand svg{max-width:min(118px,42vw)}.sh-top{left:auto;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px))}}
 .sh__lvw{font-style:normal}
-@media (max-width:360px){.sh__brand svg{display:none}}
+@media (max-width:360px){.sh__brand svg{display:none}.sh__in{padding:0 10px;gap:6px}}
 .sh-rooms{width:min(720px,calc(100vw - 20px));max-height:min(82vh,760px);margin:7vh auto auto;padding:0;border:2px solid #2A3446;background:#0A0E16;color:#E6EAF0;box-shadow:0 30px 90px rgba(0,0,0,.7);font:500 14px/1.35 system-ui,-apple-system,'Segoe UI',sans-serif}
 .sh-rooms::backdrop{background:rgba(0,0,0,.72);backdrop-filter:blur(3px)}
 .sh-rooms__box{display:flex;flex-direction:column;max-height:min(82vh,760px)}
@@ -110,7 +110,7 @@ export const HEADER_CSS = `<style ${HEADER_MARK}-css>
 .sh-rooms__i--x b{color:#A5B4FC}
 .sh-rooms__i mark{background:rgba(250,204,21,.28);color:inherit}
 .sh-rooms__k{margin:0;padding:8px 16px;border-top:1px solid #232C3B;color:#AEB7C3;font:500 11px/1.3 'IBM Plex Mono',ui-monospace,monospace}
-@media (max-width:560px){.sh-rooms{margin:10px auto auto;max-height:calc(100vh - 20px)}.sh-rooms__box{max-height:calc(100vh - 20px)}.sh-rooms__k{display:none}}
+@media (max-width:560px){.sh-rooms{margin:max(10px,env(safe-area-inset-top,0px)) auto max(10px,env(safe-area-inset-bottom,0px));max-height:calc(100vh - 20px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));width:min(720px,calc(100vw - 16px))}.sh-rooms__box{max-height:inherit}.sh-rooms__k{display:none}}
 .sh-rel{max-width:1240px;margin:40px auto 0;padding:0 16px;color:#E6EAF0;font:500 14px/1.4 system-ui,-apple-system,'Segoe UI',sans-serif}
 .sh-rel *{box-sizing:border-box}
 .sh-crumb{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;margin:0 0 12px;padding:0;list-style:none;color:#AEB7C3;font:600 12px/1.3 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.06em;text-transform:uppercase}

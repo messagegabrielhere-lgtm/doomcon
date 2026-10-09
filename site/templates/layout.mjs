@@ -858,10 +858,11 @@ const NAV_KIT_CSS = `<style>
 .tab { display: none; }
 @media (max-width: 699px) {
   .tab { position: fixed; left: 0; right: 0; bottom: 0; z-index: 60; display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; padding: 6px 4px calc(6px + env(safe-area-inset-bottom)); border-top: 1px solid var(--rule); background: color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter: blur(10px); }
-  .tab__t { display: grid; justify-items: center; gap: 3px; padding: 5px 2px; border-radius: 8px; text-decoration: none; color: var(--ink-dim); font: 700 11px/1.1 var(--mono); letter-spacing: .04em; text-transform: uppercase; min-height: 44px; align-content: center; }
+  .tab__t { display: grid; justify-items: center; gap: 3px; padding: 5px 2px; border-radius: 8px; text-decoration: none; color: var(--ink-dim); font: 700 12px/1.1 var(--mono); letter-spacing: .04em; text-transform: uppercase; min-height: 44px; align-content: center; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
   .tab__t svg { width: 19px; height: 19px; }
   .tab__t[aria-current="page"] { color: var(--accent); }
-  body { padding-bottom: calc(60px + env(safe-area-inset-bottom)); }
+  /* Clear the tab bar plus the floating freshness sitebar above it. */
+  body { padding-bottom: calc(130px + env(safe-area-inset-bottom)); }
 }
 @media print { .tab, .nxt { display: none !important; } }
 .nxt { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-block: var(--s-6) var(--s-5); }

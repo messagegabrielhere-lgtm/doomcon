@@ -1369,11 +1369,9 @@ function archiveCss(present = brand.PILLARS) {
   position: relative; display: inline-flex; align-items: center; gap: 6px;
   font-family: var(--mono); font-size: var(--t-xs); letter-spacing: 0.06em;
   border: 1px solid var(--rule); border-radius: var(--radius);
-  padding: 5px 9px; background: transparent; color: var(--ink-dim);
+  padding: 8px 11px; background: transparent; color: var(--ink-dim);
   cursor: pointer; user-select: none; white-space: nowrap;
-  /* 44px of thumb is the whole point on a phone; the chip is 30px tall, so the
-     rest comes from the row gap plus this. */
-  min-height: 30px;
+  min-height: 44px; touch-action: manipulation;
 }
 .nfchip:hover { color: var(--ink); border-color: var(--ink-faint); }
 .nfchip svg { width: 12px; height: 12px; color: var(--p, var(--accent)); flex: 0 0 auto; }

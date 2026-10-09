@@ -12,7 +12,7 @@ const CSS = `<style>
 .mw .eyebrow{font:600 12px/1 var(--mono);letter-spacing:.16em;color:#38BDF8;margin:0 0 10px}
 .mw h2{font:700 1.3rem/1.2 var(--sans);margin:34px 0 10px;color:var(--ink)}
 .mw p{color:var(--ink-dim);line-height:1.6}
-.mw-kpi{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin:16px 0}
+.mw-kpi{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin:16px 0}
 .mw-kpi div{border:1px solid var(--rule);background:var(--bg-raised,#0E131D);padding:14px;border-radius:4px}
 .mw-kpi b{display:block;font:700 28px/1.1 var(--mono);color:#7DD3FC}.mw-kpi span{font:600 11px/1.3 var(--mono);letter-spacing:.1em;color:var(--ink-faint,#6B7686)}
 .mw-th{display:flex;flex-direction:column;gap:8px}
@@ -26,7 +26,7 @@ const CSS = `<style>
 .mw-ag small{display:block;color:var(--ink-faint,#6B7686);font:500 12px var(--mono)}
 .mw-x{display:inline-block;margin:6px 0;padding:11px 16px;border-radius:4px;background:#38BDF8;color:#000;font:700 13px/1 var(--mono);letter-spacing:.06em;text-decoration:none}
 .mw-cta{border:2px solid #38BDF8;background:#06121C;padding:16px;border-radius:6px;margin:20px 0}
-@media (max-width:640px){.mw-th div{grid-template-columns:1fr 40px}.mw-th div i,.mw-th div s{grid-column:1/-1}}
+@media (max-width:640px){.mw-th div{grid-template-columns:minmax(0,1fr) auto;gap:6px 10px}.mw-th div i,.mw-th div s{grid-column:1/-1}.mw-kpi{grid-template-columns:repeat(2,minmax(0,1fr))}}
 </style>`;
 
 const ago = (iso, now) => { const h = (now - Date.parse(iso)) / 36e5; return !Number.isFinite(h) ? '' : h < 1 ? 'just now' : h < 48 ? `${Math.round(h)} h ago` : `${Math.round(h / 24)} days ago`; };

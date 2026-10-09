@@ -57,14 +57,14 @@ export function sitebar(asOf, { level = 4, rel = '', intro = {}, newsAt = '' } =
 /* Phones: a small picture docked bottom-right, just above the freshness bar and the guide button
    (their offset comes from --sb-off, set by lift() below), so it never covers the header, the level
    or the score at the top of the page. */
-@media (max-width:560px){#siren-intro.playing{width:140px;left:auto;right:8px;top:auto;bottom:calc(var(--sb-off,10px) + 54px)}#siren-intro.chip{left:auto;right:8px;top:auto;bottom:calc(var(--sb-off,10px) + 54px)}#siren-intro .bar{padding:2px 4px}#siren-intro.playing .bar>span:first-child{display:none}#siren-intro.playing .bar>span:last-child{display:flex;width:100%;justify-content:space-between}#siren-intro button{min-height:32px;display:inline-flex;align-items:center}}
+@media (max-width:560px){#siren-intro.playing{width:140px;left:auto;right:8px;top:auto;bottom:calc(var(--sb-off,10px) + 54px)}#siren-intro.chip{left:auto;right:8px;top:auto;bottom:calc(var(--sb-off,10px) + 54px)}#siren-intro .bar{padding:2px 4px}#siren-intro.playing .bar>span:first-child{display:none}#siren-intro.playing .bar>span:last-child{display:flex;width:100%;justify-content:space-between}#siren-intro button{min-height:44px;display:inline-flex;align-items:center;touch-action:manipulation}}
 @keyframes sitebar-spin{to{transform:rotate(360deg)}}
 @media (prefers-color-scheme:dark){#sitebar{background:rgba(20,24,32,.94);color:#e6e9ef;border-color:rgba(255,255,255,.16)}#sitebar button{background:#e6e9ef;color:#141820}#sitebar .kofi{color:#93b8f5}}
 /* Phones: the bar sits left and the round Ask SIREN button (media/guide.js) takes the same row on
    the right, so the two never stack on each other or on the reading. */
-@media (max-width:560px){#sitebar{left:8px;right:auto;bottom:10px;max-width:calc(100vw - 68px)}#sitebar .ago{display:none}#sitebar button{min-height:30px;box-sizing:border-box}#sitebar .fb{display:inline-flex;align-items:center;min-height:30px}}
+@media (max-width:560px){#sitebar{left:8px;right:auto;bottom:calc(10px + env(safe-area-inset-bottom,0px));max-width:calc(100vw - 68px)}#sitebar .ago{display:none}#sitebar button{min-height:44px;box-sizing:border-box;touch-action:manipulation}#sitebar .fb{display:inline-flex;align-items:center;min-height:44px;touch-action:manipulation}}
 @media (max-width:360px){#sitebar #sitebar-x{display:none}}
-@media (max-width:440px){#sitebar{gap:6px;padding:3px 3px 3px 10px;max-width:calc(100vw - 68px)}#sitebar>span:first-of-type{display:none}#sitebar button{padding:5px 8px}}
+@media (max-width:440px){#sitebar{gap:6px;padding:3px 3px 3px 10px;max-width:calc(100vw - 68px)}#sitebar>span:first-of-type{display:none}#sitebar button{padding:8px 10px}}
 @media print{#sitebar{display:none}}
 .site-disclosure{max-width:72ch;margin:28px auto 72px;padding:12px 16px;font:400 12px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif;opacity:.8;border-top:1px solid rgba(127,127,127,.3)}
 .site-disclosure b{font-weight:600}
