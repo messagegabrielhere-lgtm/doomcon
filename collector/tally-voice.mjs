@@ -55,9 +55,12 @@ export async function speak(text) {
     let sent = false;
     const send = () => {
       if (sent) return; sent = true;
+      // No tools for this job: an agent that reaches for a tool mid-sentence
+      // is cancelled by the server ("unimplemented") and the audio stops.
+      ws.send(JSON.stringify({ type: 'session.update', session: { tools: [], tool_choice: 'none', turn_detection: null } }));
       ws.send(JSON.stringify({ type: 'conversation.item.create', item: { type: 'message', role: 'user',
         content: [{ type: 'input_text', text: `Read this hourly update aloud exactly as written, in your Tally voice. Add nothing before or after it:\n\n${text}` }] } }));
-      ws.send(JSON.stringify({ type: 'response.create' }));
+      ws.send(JSON.stringify({ type: 'response.create', response: { instructions: `You are Tally. Read the user's update aloud word for word, then stop. Do not call tools.` } }));
     };
     ws.on('open', () => { setTimeout(send, 4000); });
     ws.on('message', (raw) => {
