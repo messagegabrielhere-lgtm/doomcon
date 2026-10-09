@@ -2,7 +2,8 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { geomCentroid } from './geo.mjs';
-import { evaluateEmergency, sanitizeAlertText, formatAlertPost, freshTriggers } from './emergency.mjs';
+import { evaluateEmergency, sanitizeAlertText, formatAlertPost, freshTriggers, phrasingIndex } from './emergency.mjs';
+import { renderAlertCard, cardFacts, SYSTEM_LOOK } from './card.mjs';
 import { CITIES } from './cities.mjs';
 
 test('geomCentroid: Point', () => {
@@ -59,15 +60,63 @@ test('evaluateEmergency: quiet Moderate is clear', () => {
   assert.equal(e.label, 'CLEAR');
 });
 
-test('formatAlertPost passes preflightX', () => {
-  const text = formatAlertPost({
+test('formatAlertPost passes preflightX and is system-specific', () => {
+  const t = Date.parse('2026-10-08T15:45:00Z');
+  const usgs = formatAlertPost({
     id: 'usgs:x', system: 'usgs', event: 'M6.4 earthquake', severity: 'Severe',
-    headline: 'M6.4 - offshore', area: 'Pacific',
-    t: Date.parse('2026-10-08T15:45:00Z'), mag: 6.4,
+    headline: 'M6.4 - offshore', area: 'Pacific', t, mag: 6.4,
   });
-  assert.match(text, /15:45 UTC/);
-  assert.match(text, /DISPATCH/);
-  assert.doesNotMatch(text, /https?:\/\//);
+  assert.match(usgs, /15:45 UTC/);
+  assert.match(usgs, /USGS|quake/i);
+  assert.doesNotMatch(usgs, /https?:\/\//);
+
+  const nws = formatAlertPost({
+    id: 'nws:tornado-1', system: 'nws', event: 'Tornado Warning',
+    severity: 'Extreme', headline: 'Tornado Warning for Test County',
+    area: 'Test County', t,
+  }, { phrasing: 0 });
+  assert.match(nws, /tornado/i);
+  assert.doesNotMatch(nws, /\bWarning\b/);
+
+  const a = formatAlertPost({
+    id: 'usgs:a', system: 'usgs', event: 'M6.1 earthquake', severity: 'Severe',
+    headline: 'M6.1', area: 'Chile', t, mag: 6.1,
+  }, { phrasing: 0 });
+  const b = formatAlertPost({
+    id: 'usgs:a', system: 'usgs', event: 'M6.1 earthquake', severity: 'Severe',
+    headline: 'M6.1', area: 'Chile', t, mag: 6.1,
+  }, { phrasing: 1 });
+  assert.notEqual(a, b);
+});
+
+test('phrasingIndex is deterministic', () => {
+  assert.equal(
+    phrasingIndex('usgs:x', '2026-10-08T15:45:00Z', 3),
+    phrasingIndex('usgs:x', '2026-10-08T15:45:00Z', 3),
+  );
+});
+
+test('renderAlertCard: custom PNG per system', () => {
+  const t = Date.parse('2026-10-08T15:45:00Z');
+  const usgs = {
+    id: 'usgs:x', system: 'usgs', event: 'M6.4 earthquake', severity: 'Severe',
+    headline: 'M6.4 - offshore Pacific', area: 'Pacific', t, mag: 6.4,
+    lat: 10.2, lon: -90.5,
+  };
+  const nws = {
+    id: 'nws:1', system: 'nws', event: 'Tornado Warning', severity: 'Extreme',
+    headline: 'Tornado alert for Test County', area: 'Test County', t,
+    lat: 35.2, lon: -97.5,
+  };
+  assert.ok(SYSTEM_LOOK.usgs && SYSTEM_LOOK.nws);
+  assert.ok(cardFacts(usgs).some((f) => /Magnitude/.test(f)));
+  const pngU = renderAlertCard(usgs);
+  const pngN = renderAlertCard(nws);
+  assert.equal(pngU[0], 0x89);
+  assert.equal(pngN[0], 0x89);
+  assert.ok(pngU.length > 1000);
+  assert.ok(pngN.length > 1000);
+  assert.notEqual(Buffer.compare(pngU, pngN), 0);
 });
 
 test('freshTriggers filters posted ids', () => {

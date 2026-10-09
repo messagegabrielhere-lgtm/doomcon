@@ -7,6 +7,8 @@
 //   - never re-posts the same alert id (ledger: posted-alerts.ndjson)
 //   - minimum gap between dispatch X posts (MIN_GAP_HOURS)
 //   - text always passes preflightX (no URL, mention, BREAKING, !)
+//   - each post carries a custom PNG from dispatch/card.mjs (system art +
+//     severity + headline), rendered in-process from the same alert object
 //   - --dry-run never reads credentials
 //
 // Usage:
@@ -17,8 +19,9 @@
 import { createHash } from 'node:crypto';
 import { appendFile, readFile, mkdir } from 'node:fs/promises';
 import path from 'node:path';
-import { dryRun, postToX, preflightX, readCredentials, printResults } from '../collector/post-x.mjs';
+import { dryRun, postToX, preflightX, readCredentials, printResults, sha256, assertPng } from '../collector/post-x.mjs';
 import { evaluateEmergency, formatAlertPost, freshTriggers } from './emergency.mjs';
+import { renderAlertCard } from './card.mjs';
 
 export const MIN_GAP_HOURS = 3;
 export const LEDGER_NAME = 'posted-alerts.ndjson';
@@ -63,8 +66,18 @@ export function gapOk(ledger, { now = Date.now(), minGapHours = MIN_GAP_HOURS } 
 }
 
 /**
+ * Build the custom card for one alert. Throws if the renderer cannot set a
+ * glyph or a required figure is missing — caller skips that alert.
+ */
+export function cardForAlert(alert) {
+  const bytes = renderAlertCard(alert);
+  assertPng(bytes);
+  return { bytes, sha256: sha256(bytes), name: `dispatch-${alert.system || 'alert'}` };
+}
+
+/**
  * Pick the single best fresh trigger to post, or null.
- * @returns {{ alert: object, text: string } | null}
+ * @returns {{ pick: { alert, text, sha, card } | null, emergency, why }}
  */
 export function pickAlertPost(snap, ledger, { now = Date.now() } = {}) {
   const emergency = evaluateEmergency(snap, { now });
@@ -86,7 +99,8 @@ export function pickAlertPost(snap, ledger, { now = Date.now() } = {}) {
       // Also refuse if this exact text already went out.
       const sha = textHash(text);
       if (ledger.some((r) => r.text_sha256 === sha)) continue;
-      return { pick: { alert, text, sha }, emergency, why: null };
+      const card = cardForAlert(alert);
+      return { pick: { alert, text, sha, card }, emergency, why: null };
     } catch (err) {
       say(`[post-alerts] skip ${id}: ${err.message}`);
     }
@@ -115,11 +129,12 @@ export async function run({
 
   say(`[post-alerts] candidate ${pick.alert.id}`);
   say(pick.text.split('\n').map((l) => `    | ${l}`).join('\n'));
+  say(`[post-alerts] card ${pick.card.name} ${pick.card.bytes.length} B ${pick.card.sha256.slice(0, 19)}…`);
 
   if (isDry) {
-    const req = dryRun({ text: pick.text, png: null });
+    const req = dryRun({ text: pick.text, png: pick.card.bytes });
     say(JSON.stringify(req, null, 2));
-    return { outcome: 'dry_run', alert_id: pick.alert.id, emergency };
+    return { outcome: 'dry_run', alert_id: pick.alert.id, emergency, card: pick.card.name };
   }
 
   const creds = readCredentials(env);
@@ -128,7 +143,7 @@ export async function run({
     return { outcome: 'no_creds', missing: creds.missing, emergency };
   }
 
-  const result = await postToX({ text: pick.text, png: null, creds: creds.creds });
+  const result = await postToX({ text: pick.text, png: pick.card.bytes, creds: creds.creds });
   const line = {
     channel: 'x',
     mode: 'dispatch',
@@ -137,6 +152,8 @@ export async function run({
     event: pick.alert.event,
     severity: pick.alert.severity,
     text_sha256: pick.sha,
+    card_sha256: pick.card.sha256,
+    card_bytes: pick.card.bytes.length,
     posted_at: new Date().toISOString(),
     outcome: result.outcome,
     remote_id: result.id,
@@ -170,18 +187,22 @@ export async function selfTest() {
     eq(gapOk(ledger, { now: Date.parse('2026-10-08T20:00:00Z') }).ok, true, 'after gap');
   });
 
-  await check('pickAlertPost posts a fresh Extreme NWS once', () => {
+  await check('pickAlertPost posts a fresh Extreme NWS once with a custom card', () => {
     const now = Date.parse('2026-10-08T18:00:00Z');
     const alert = {
       id: 'nws:tornado-1', system: 'nws', event: 'Tornado Warning',
       severity: 'Extreme', headline: 'Tornado Warning issued for Test County',
-      area: 'Test County', t: now - 600000,
+      area: 'Test County', t: now - 600000, lat: 35.2, lon: -97.5,
     };
     const snap = { alerts: [alert] };
     const r1 = pickAlertPost(snap, [], { now });
     if (!r1.pick) throw new Error(`expected pick, got ${r1.why}`);
     preflightX(r1.pick.text);
     if (/\bWarning\b/i.test(r1.pick.text)) throw new Error('Warning leaked into post text');
+    if (!/tornado/i.test(r1.pick.text)) throw new Error('tornado angle missing from NWS post');
+    if (!r1.pick.card?.bytes?.length) throw new Error('missing custom card bytes');
+    assertPng(r1.pick.card.bytes);
+    eq(r1.pick.card.name, 'dispatch-nws', 'card name');
     const ledger = [{ alert_id: alert.id, posted_at: '2026-10-08T12:00:00Z', text_sha256: 'old' }];
     const r2 = pickAlertPost(snap, ledger, { now });
     eq(r2.pick, null, 'already posted');
@@ -194,6 +215,34 @@ export async function selfTest() {
     }] }, []);
     eq(r.pick, null, 'no pick');
     eq(r.emergency.active, false, 'inactive');
+  });
+
+  await check('USGS and NHC posts use different skeletons and cards', () => {
+    const t = Date.parse('2026-10-08T15:45:00Z');
+    const quake = formatAlertPost({
+      id: 'usgs:x', system: 'usgs', event: 'M6.4 earthquake', severity: 'Severe',
+      headline: 'M6.4 - offshore', area: 'Pacific', t, mag: 6.4,
+    });
+    const storm = formatAlertPost({
+      id: 'nhc:al092026', system: 'nhc', event: 'HU Isaias', severity: 'Extreme',
+      headline: 'Isaias: HU, 120 kt', area: 'AL', t, wind_kt: 120,
+    });
+    preflightX(quake);
+    preflightX(storm);
+    if (!/USGS|quake/i.test(quake)) throw new Error('usgs voice missing');
+    if (!/NHC|Storm|Tropical|kt/i.test(storm)) throw new Error('nhc voice missing');
+    if (quake === storm) throw new Error('systems must not share identical text');
+    const qc = cardForAlert({
+      id: 'usgs:x', system: 'usgs', event: 'M6.4 earthquake', severity: 'Severe',
+      headline: 'M6.4 - offshore', area: 'Pacific', t, mag: 6.4, lat: 10, lon: -90,
+    });
+    const sc = cardForAlert({
+      id: 'nhc:al092026', system: 'nhc', event: 'HU Isaias', severity: 'Extreme',
+      headline: 'Isaias: HU, 120 kt', area: 'AL', t, wind_kt: 120, lat: 25, lon: -70,
+    });
+    if (qc.sha256 === sc.sha256) throw new Error('cards must differ by system');
+    eq(qc.name, 'dispatch-usgs', 'usgs card');
+    eq(sc.name, 'dispatch-nhc', 'nhc card');
   });
 
   return results;
