@@ -24,15 +24,17 @@ a{color:var(--signal)}
 
 /* Hero: the shelter sign */
 .sign{background:var(--signal);color:var(--soot);padding:clamp(28px,6vw,64px) 20px;border-bottom:10px solid transparent;border-image:repeating-linear-gradient(-45deg,#ffb020 0 12px,#0b0c0e 12px 24px) 10}
+.sign a{color:var(--soot);font-weight:700;text-decoration:underline;text-underline-offset:3px}
 .sign-inner{max-width:1040px;margin:0 auto;display:grid;grid-template-columns:auto 1fr;gap:clamp(18px,4vw,44px);align-items:center}
 .emblem{width:clamp(96px,18vw,180px);height:auto}
 .sign h1{font:800 clamp(3rem,10vw,6.5rem)/.95 var(--stencil);margin:0;letter-spacing:-.04em}
 .sign p{font-size:clamp(1rem,2.2vw,1.25rem);max-width:34ch;margin:.8em 0 0;font-weight:600}
-.back{display:inline-block;margin-bottom:1.2em;color:var(--soot);font-weight:600;text-decoration:none;border-bottom:2px solid}
 @media (max-width:560px){.sign-inner{grid-template-columns:1fr}}
 
 /* Readiness + controls */
 .controls{position:sticky;top:0;z-index:5;background:var(--soot);padding:14px 20px;border-bottom:1px solid #000}
+/* Phones: the readiness bar, search and crate row were ~175px pinned over a 844px screen; let them scroll away. */
+@media (max-width:560px){.controls{position:static;padding:12px 16px}}
 .controls-inner{max-width:1040px;margin:0 auto;display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center}
 .meter{flex:1 1 260px;min-width:220px}
 .meter-label{display:flex;justify-content:space-between;font-size:.9rem;color:var(--dim)}
@@ -42,7 +44,7 @@ a{color:var(--signal)}
 .search{flex:1 1 220px;background:#000;border:1px solid #2a2f38;color:var(--paper);padding:10px 12px;font:inherit}
 .search::placeholder{color:#7a828c}
 .crates{max-width:1040px;margin:12px auto 0;display:flex;gap:8px;overflow-x:auto;padding-bottom:4px}
-.crates button{flex:none;background:transparent;color:var(--paper);border:1px solid #2a2f38;padding:6px 12px;font:600 .9rem var(--body);cursor:pointer}
+.crates button{flex:none;min-height:40px;background:transparent;color:var(--paper);border:1px solid #2a2f38;padding:6px 12px;font:600 .9rem var(--body);cursor:pointer}
 .crates button[aria-pressed="true"]{background:var(--signal);color:var(--soot);border-color:var(--signal)}
 
 /* Manifest */
@@ -76,7 +78,6 @@ footer{max-width:1040px;margin:0 auto;padding:0 20px 40px;color:var(--dim);font-
   <div class="sign-inner">
     <img class="emblem" src="img/art-bunker.webp" width="180" height="180" alt="A bunker hatch">
     <div>
-      <a class="back" href="./">Back to SIREN index</a>
       <h1>Bunker Kit</h1>
       <p>50 free tools to stockpile before Skynet takes the internet, and six supply-drop crates of real gear. Check off what you've packed. New to this? Start with the <a href="prepper-checklist.html">prepper checklist</a>.</p>
     </div>

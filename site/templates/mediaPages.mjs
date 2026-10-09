@@ -52,6 +52,7 @@ const CSS = `<style>
 .md-st{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px;margin:16px 0}
 .md-st button{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;gap:8px;padding:18px;border:2px solid var(--rule);background:var(--bg-raised,#0E131D);border-radius:6px;min-height:130px}
 .md-st button:hover,.md-st button:focus-visible{border-color:var(--c)}
+.md-st button:focus-visible{outline:2px solid #E2A03B;outline-offset:2px}
 .md-st button[aria-pressed=true]{border-color:var(--c);box-shadow:0 0 0 3px color-mix(in srgb,var(--c) 30%,transparent)}
 .md-st b{font:700 15px/1.2 var(--mono);letter-spacing:.08em;color:var(--c)}
 .md-st span{color:var(--ink-dim);font-size:14px;line-height:1.45}

@@ -34,6 +34,7 @@ export const CSS = `<style>
 .xt-btn{display:inline-block;padding:10px 14px;border-radius:4px;background:var(--accent,#4ADE80);color:#000 !important;font:700 12px/1.1 var(--mono);letter-spacing:.06em;text-decoration:none;margin:4px 6px 4px 0;border:0;cursor:pointer}
 .xt-btn.ghost{background:transparent;color:var(--ink) !important;border:1px solid var(--rule)}
 .xt-btn.sm{padding:6px 9px;font-size:11px}
+@media (max-width:560px){.xt-btn{min-height:44px;display:inline-flex;align-items:center}.xt-btn.sm{min-height:40px;font-size:12px}}
 .xt pre,.xt code.blk{display:block;background:#000;border:1px solid var(--rule);border-radius:4px;padding:12px 14px;font:500 12.5px/1.5 var(--mono);color:#E6EAF0;white-space:pre-wrap;word-break:break-all;margin:8px 0;max-width:100%;overflow-x:auto}
 .xt code{font-family:var(--mono);font-size:.92em;overflow-wrap:anywhere}
 .xt-note{font-size:13px;color:var(--ink-faint,#6B7686)}
@@ -71,7 +72,8 @@ export const CSS = `<style>
 </style>`;
 
 function shell(ctx, { path, title, description, main, head, bodyEnd, jsonld }) {
-  const back = `<p class="xt-back"><a href="${esc(ctx.href('/'))}">← Back to the ${esc(brand.NAME)} index</a> · <a href="${esc(ctx.href('/methodology.html'))}">Methodology</a> · <a href="${esc(ctx.href('/feedback.html'))}">Feedback</a></p>`;
+  // No "back to the index" link: the shared header's brand does that on every page.
+  const back = `<p class="xt-back"><a href="${esc(ctx.href('/methodology.html'))}">Methodology</a> · <a href="${esc(ctx.href('/feedback.html'))}">Feedback</a></p>`;
   return page({
     ctx, path, title: `${title} · ${brand.NAME}`, description,
     main: `${CSS}\n<section class="xt">\n${main}\n${back}\n</section>`,

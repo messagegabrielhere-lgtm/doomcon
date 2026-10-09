@@ -205,43 +205,22 @@ function roomsGrid(ctx, href, img) {
 </section>`;
 }
 
-// THE WAY AROUND. Three routes to every room, none needed to read the page:
-// a sticky strip of every room's icon that stays on screen while you scroll;
-// a Jump search (press / or Ctrl/Cmd-K, type a few letters, Enter); and on a
-// phone, a thumb bar along the bottom with the busiest rooms and "All rooms".
+// THE WAY AROUND. On a phone, a thumb bar along the bottom with the busiest
+// rooms and "ALL", which opens the shared "All rooms" list (site/siteheader.mjs,
+// also on / and Ctrl/Cmd-K). The old Jump palette and room strip are gone.
 function roomNav(ctx, href, img) {
   const all = roomGroups(ctx).flatMap(([g, l]) => l.map((x) => [...x, g]));
-  const strip = `<nav class="v2-nav" aria-label="Every room"><div class="v2-wrap v2-nav__in">
-  <a class="v2-nav__home" href="${href('/')}" aria-current="page"><img src="${img('siren')}" width="26" height="26" alt="">INDEX</a>
-  <div class="v2-nav__scroll">${all.map(([p, art, label]) => `<a class="v2-nav__t" href="${href(p)}"><img src="${img(art)}" width="26" height="26" alt="" loading="lazy">${esc(label.toUpperCase())}</a>`).join('')}</div>
-  <button class="v2-nav__jump" type="button" data-v2-jump aria-haspopup="dialog">JUMP <kbd>/</kbd></button>
-</div></nav>`;
-  const palette = `<dialog class="v2-pal" id="v2-pal" aria-label="Jump to a room"><div class="v2-pal__box">
-  <input class="v2-pal__q" id="v2-pal-q" type="search" placeholder="Jump to… type a room name" aria-label="Filter rooms" autocomplete="off" spellcheck="false">
-  <ul class="v2-pal__l">${[['#signal', 'Signal', 'The level, the score and the trend'], ['#breaking', 'Breaking', 'The top story right now'], ['#rooms', 'Every room', 'All features, grouped'], ['#bosses', 'Bosses', 'The AI leaders on watch'], ['#labs', 'Labs', 'The labs as monitored locations'], ['#trend', 'Trend', 'Charts: 24 hours to all time'], ['#loud', 'What’s loud', 'Every pillar explained'], ['#health', 'Health', 'Why a reading is degraded'], ['#reuse', 'Reuse', 'Badge, embed, cite and copy link'], ['#tally', 'Tally', 'Follow the alerts on X']].map(([h, l, b], i) => `<li><a class="v2-pal__i v2-pal__i--sec" href="${h}" data-k="${esc(`${l} ${b} section on this page`.toLowerCase())}"><span class="v2-pal__num">${i + 1}</span><span><b>${esc(l)}</b><small>On this page · ${esc(b)} · key ${i + 1}</small></span></a></li>`).join('')}${all.map(([p, art, label, n, blurb, g]) => `<li><a class="v2-pal__i" href="${href(p)}" data-k="${esc(`${label} ${blurb} ${g}`.toLowerCase())}"><img src="${img(art)}" width="36" height="36" alt="" loading="lazy"><span><b>${esc(label)}</b><small>${esc(blurb)}</small></span>${n ? `<i>${esc(n)}</i>` : ''}</a></li>`).join('')}</ul>
-  <p class="v2-pal__hint">↑ ↓ to move · Enter to open · Esc to close</p>
-</div></dialog>`;
   const tab = [['/news.html', 'news', 'NEWS'], ['/race.html', 'radar', 'RACE'], ['/leaders.html', 'mic', 'LEADERS'], ['/monitor.html', 'satellite', 'MONITOR']];
   const tabbar = `<nav class="v2-tab" aria-label="Quick rooms">${tab.map(([p, a, l]) => `<a href="${href(p)}"><img src="${img(a)}" width="24" height="24" alt="">${l}</a>`).join('')}<button type="button" data-v2-jump><span class="v2-tab__grid" aria-hidden="true">▦</span>ALL</button></nav>`;
-  return { strip, palette, tabbar };
+  return { tabbar };
 }
-
-const NAV_JS = `(function(){var d=document.getElementById('v2-pal');if(!d||!d.showModal)return;var q=document.getElementById('v2-pal-q');var items=[].slice.call(d.querySelectorAll('.v2-pal__i'));var cur=0;
-function vis(){return items.filter(function(a){return a.parentNode.style.display!=='none'})}
-function mark(){var v=vis();items.forEach(function(a){a.classList.remove('on')});if(v.length){cur=Math.max(0,Math.min(cur,v.length-1));v[cur].classList.add('on');v[cur].scrollIntoView({block:'nearest'})}}
-function open(){q.value='';items.forEach(function(a){a.parentNode.style.display=''});cur=0;d.showModal();q.focus();mark()}
-[].slice.call(document.querySelectorAll('[data-v2-jump]')).forEach(function(b){b.addEventListener('click',open)});
-document.addEventListener('keydown',function(e){var t=e.target;var typing=t&&(t.tagName==='INPUT'||t.tagName==='TEXTAREA'||t.isContentEditable);if(((e.key==='/'&&!typing)||((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'))&&!d.open){e.preventDefault();open()}});
-q.addEventListener('input',function(){var k=q.value.trim().toLowerCase();items.forEach(function(a){a.parentNode.style.display=!k||a.getAttribute('data-k').indexOf(k)>=0?'':'none'});cur=0;mark()});
-q.addEventListener('keydown',function(e){var v=vis();if(e.key==='ArrowDown'){e.preventDefault();cur++;mark()}else if(e.key==='ArrowUp'){e.preventDefault();cur--;mark()}else if(e.key==='Enter'&&v[cur]){e.preventDefault();d.close();location.href=v[cur].href}});
-d.addEventListener('click',function(e){if(e.target===d||(e.target.closest&&e.target.closest('.v2-pal__i--sec')))d.close()})})();`;
 
 const WAR_JS = `(function(){
 var secs=[].slice.call(document.querySelectorAll('[data-sec]'));var l=document.getElementById('v2-rail-l');
 if(l){secs.forEach(function(s,i){var li=document.createElement('li');var a=document.createElement('a');a.href='#'+s.id;a.innerHTML='<kbd>'+(i+1)+'</kbd>'+s.getAttribute('data-sec').toUpperCase();li.appendChild(a);l.appendChild(li)});}
 var links=l?[].slice.call(l.querySelectorAll('a')):[];
 if('IntersectionObserver' in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){var i=secs.indexOf(e.target);links.forEach(function(a,j){a.classList.toggle('on',j===i)})}})},{rootMargin:'-30% 0px -60% 0px'});secs.forEach(function(s){io.observe(s)})}
-document.addEventListener('keydown',function(e){var t=e.target;if(e.metaKey||e.ctrlKey||e.altKey||(t&&(t.tagName==='INPUT'||t.tagName==='TEXTAREA'||t.isContentEditable)))return;var d=document.getElementById('v2-pal');if(d&&d.open)return;
+document.addEventListener('keydown',function(e){var t=e.target;if(e.metaKey||e.ctrlKey||e.altKey||(t&&(t.tagName==='INPUT'||t.tagName==='TEXTAREA'||t.isContentEditable)))return;if(document.querySelector('dialog[open]'))return;
 var n=parseInt(e.key,10);if(n>=1&&n<=secs.length){e.preventDefault();secs[n-1].scrollIntoView({behavior:'smooth',block:'start'});history.replaceState(null,'','#'+secs[n-1].id)}
 else if(e.key==='t'||e.key==='Home'&&!e.shiftKey){if(e.key==='t'){e.preventDefault();window.scrollTo({top:0,behavior:'smooth'})}}});
 (function(){var N=window.SIREN_NOW,box=document.getElementById('v2-since');if(!N||!box)return;
@@ -285,7 +264,7 @@ function weekChart(history) {
   const line = pts.map((p, i) => `${i ? 'L' : 'M'}${x(p.t).toFixed(1)},${y(p.score).toFixed(1)}`).join('');
   const area = `${line}L${x(pts[pts.length - 1].t).toFixed(1)},${y(0)}L${x(pts[0].t).toFixed(1)},${y(0)}Z`;
   const bands = BAND.map(([a, b, c]) => `<rect x="${PL}" y="${y(b)}" width="${W - PL - 6}" height="${(y(a) - y(b)).toFixed(1)}" fill="${c}" opacity=".07"/><text x="${PL - 6}" y="${(y((a + b) / 2) + 4).toFixed(1)}" text-anchor="end" font-size="10" fill="${c}" font-family="IBM Plex Mono,monospace">${5 - BAND.findIndex((q) => q[0] === a)}</text>`).join('');
-  const days = []; for (let d = 0; d <= 7; d++) { const t = t0 + (span * d) / 7; days.push(`<text x="${(PL + (d / 7) * (W - PL - 24)).toFixed(1)}" y="${H - 6}" font-size="10" fill="#6B7686" text-anchor="middle" font-family="IBM Plex Mono,monospace">${new Date(t).toISOString().slice(5, 10)}</text>`); }
+  const days = []; for (let d = 0; d <= 7; d++) { const t = t0 + (span * d) / 7; days.push(`<text x="${(PL + (d / 7) * (W - PL - 24)).toFixed(1)}" y="${H - 6}" font-size="10" fill="#8A94A3" text-anchor="middle" font-family="IBM Plex Mono,monospace">${new Date(t).toISOString().slice(5, 10)}</text>`); }
   const last = pts[pts.length - 1];
   return `<svg class="v2-week" viewBox="0 0 ${W} ${H}" role="img" aria-label="Composite score over the last 7 days, ${pts.length} readings, now ${last.score.toFixed(1)}">
 <defs><linearGradient id="wkg" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#4ADE80" stop-opacity=".45"/><stop offset="1" stop-color="#4ADE80" stop-opacity="0"/></linearGradient></defs>
@@ -344,7 +323,7 @@ function dial(state, L) {
   const cx = 160, cy = 150, R = 120, W = 22;
   const pt = (val, r) => { const a = Math.PI * (1 - val / 100); return [cx + r * Math.cos(a), cy - r * Math.sin(a)]; };
   const arc = (a, b, c) => { const [x1, y1] = pt(a, R), [x2, y2] = pt(b, R); return `<path d="M${x1.toFixed(1)} ${y1.toFixed(1)}A${R} ${R} 0 0 1 ${x2.toFixed(1)} ${y2.toFixed(1)}" stroke="${c}" stroke-width="${W}" fill="none" opacity="${v >= a && v < b ? 1 : 0.28}"/>`; };
-  const ticks = [0, 35, 55, 70, 85, 100].map((t) => { const [a, b] = pt(t, R - 16), [c, d] = pt(t, R + 14); return `<line x1="${a.toFixed(1)}" y1="${b.toFixed(1)}" x2="${c.toFixed(1)}" y2="${d.toFixed(1)}" stroke="#6B7686" stroke-width="2"/><text x="${pt(t, R + 28)[0].toFixed(1)}" y="${(pt(t, R + 28)[1] + 4).toFixed(1)}" text-anchor="middle" font-size="11" fill="#6B7686" font-family="IBM Plex Mono,monospace">${t}</text>`; }).join('');
+  const ticks = [0, 35, 55, 70, 85, 100].map((t) => { const [a, b] = pt(t, R - 16), [c, d] = pt(t, R + 14); return `<line x1="${a.toFixed(1)}" y1="${b.toFixed(1)}" x2="${c.toFixed(1)}" y2="${d.toFixed(1)}" stroke="#6B7686" stroke-width="2"/><text x="${pt(t, R + 28)[0].toFixed(1)}" y="${(pt(t, R + 28)[1] + 4).toFixed(1)}" text-anchor="middle" font-size="11" fill="#8A94A3" font-family="IBM Plex Mono,monospace">${t}</text>`; }).join('');
   const ang = 180 * (v / 100) - 90;
   return `<svg class="v2-dial" viewBox="0 0 320 222" role="img" aria-label="Score ${v.toFixed(1)} of 100, SIREN ${state.level}">
 ${BAND.map(([a, b, c]) => arc(a, b, c)).join('')}${ticks}
@@ -373,11 +352,11 @@ function chart(rows, hours, id) {
   const y = (v) => T + (1 - v / 100) * (H - PB - T);
   const path = (get) => { let d = '', pen = false; for (const p of pts) { const v = get(p); if (!Number.isFinite(v)) { pen = false; continue; } d += `${pen ? 'L' : 'M'}${x(p.t).toFixed(1)},${y(v).toFixed(1)}`; pen = true; } return d; };
   const bands = BAND.map(([a, b, c]) => `<rect x="${PL}" y="${y(b).toFixed(1)}" width="${W - PL - PR}" height="${(y(a) - y(b)).toFixed(1)}" fill="${c}" opacity=".06"/>`).join('');
-  const grid = [0, 35, 55, 70, 85, 100].map((g) => `<text x="${PL - 6}" y="${(y(g) + 4).toFixed(1)}" text-anchor="end" font-size="10" fill="#6B7686" font-family="IBM Plex Mono,monospace">${g}</text>`).join('');
+  const grid = [0, 35, 55, 70, 85, 100].map((g) => `<text x="${PL - 6}" y="${(y(g) + 4).toFixed(1)}" text-anchor="end" font-size="10" fill="#8A94A3" font-family="IBM Plex Mono,monospace">${g}</text>`).join('');
   const lines = Object.entries(PILLAR_HUE).map(([pid, c]) => `<path d="${path((p) => p.pillars && p.pillars[pid])}" fill="none" stroke="${c}" stroke-width="1.2" opacity=".55" class="pl pl-${pid}"/>`).join('');
   const marks = []; for (let i = 1; i < pts.length; i++) if (pts[i].level !== pts[i - 1].level) marks.push(`<g><line x1="${x(pts[i].t).toFixed(1)}" x2="${x(pts[i].t).toFixed(1)}" y1="${T}" y2="${H - PB}" stroke="#fff" stroke-dasharray="3 3" opacity=".6"/><text x="${(x(pts[i].t) + 4).toFixed(1)}" y="${T + 12}" font-size="10" fill="#fff" font-family="IBM Plex Mono,monospace">→ ${pts[i].level}</text></g>`);
   const deg = pts.filter((p) => p.degraded).map((p) => `<rect x="${(x(p.t) - 1).toFixed(1)}" y="${H - PB - 4}" width="2" height="4" fill="#FACC15"/>`).join('');
-  const n = 6, labels = []; for (let i = 0; i <= n; i++) { const t = t0 + (span * i) / n; const d = new Date(t).toISOString(); labels.push(`<text x="${(PL + (i / n) * (W - PL - PR)).toFixed(1)}" y="${H - 6}" font-size="10" fill="#6B7686" text-anchor="middle" font-family="IBM Plex Mono,monospace">${hours <= 24 ? d.slice(11, 16) : d.slice(5, 10)}</text>`); }
+  const n = 6, labels = []; for (let i = 0; i <= n; i++) { const t = t0 + (span * i) / n; const d = new Date(t).toISOString(); labels.push(`<text x="${(PL + (i / n) * (W - PL - PR)).toFixed(1)}" y="${H - 6}" font-size="10" fill="#8A94A3" text-anchor="middle" font-family="IBM Plex Mono,monospace">${hours <= 24 ? d.slice(11, 16) : d.slice(5, 10)}</text>`); }
   const last = pts[pts.length - 1];
   return `<svg class="v2-hchart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Composite and pillar scores, ${pts.length} readings, now ${last.score.toFixed(1)}">
 <defs><linearGradient id="hg-${id}" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#4ADE80" stop-opacity=".35"/><stop offset="1" stop-color="#4ADE80" stop-opacity="0"/></linearGradient></defs>
@@ -636,17 +615,16 @@ export function render(ctx, { head }) {
   const body = `
 <div class="v2">
 <div class="v2-top"><div class="v2-wrap">
-  <span class="v2-chip">${icon('clock', 2)}<span id="v2-clock" class="tnum">${esc(String(state.generated_at).slice(0, 10))} ${esc(hhmm(state.generated_at))}</span></span>
+  <span class="v2-chip v2-top__x">${icon('clock', 2)}<span id="v2-clock" class="tnum">${esc(String(state.generated_at).slice(0, 10))} ${esc(hhmm(state.generated_at))}</span></span>
   <span class="tag red" id="v2-fresh" data-at="${esc(state.generated_at)}">LAST READING <b>${esc(hhmm(state.generated_at))}</b></span>
-  <span class="v2-chip" title="${dark ? `${dark} source${dark === 1 ? '' : 's'} failed this pass` : 'Every source answered'}">${icon('eye', 2)}${reporting}/${sources.length} REPORTING${dark ? ` · ${dark} DARK` : ''} · ${scored} SCORED</span>
+  <span class="v2-chip v2-top__x" title="${dark ? `${dark} source${dark === 1 ? '' : 's'} failed this pass` : 'Every source answered'}">${icon('eye', 2)}${reporting}/${sources.length} REPORTING${dark ? ` · ${dark} DARK` : ''} · ${scored} SCORED</span>
   <span class="right">
-    <a class="tag green" href="#rooms">ALL ROOMS ↓</a>
     <button type="button" class="tag radio" id="siren-radio" data-level="${state.level}" aria-pressed="false" title="Play SIREN Radio: an original soundtrack generated in your browser. Its mood follows the level.">♪ RADIO</button>
-    <a class="tag blue" href="${href('/history.html')}">HISTORY</a>
-    <a class="tag violet" href="${href('/race.html')}">MARKETS</a>
-    <a class="tag cool" href="${href('/feed-level.xml')}" title="RSS that fires only when the level changes">ALERTS</a>
-    <span>STATUS: <b class="${posture === 'DEGRADED' ? 'amber' : 'green'}">${posture}</b></span>
-    <span title="A Terminator reference. Nothing here is self-aware. Probably.">SKYNET: <b class="${state.level <= 2 ? 'amber' : 'green'}">${({ 5: 'ASLEEP', 4: 'NOT SELF-AWARE (YET)', 3: 'LEARNING AT A GEOMETRIC RATE', 2: 'ASKING QUESTIONS', 1: 'JUDGMENT DAY WATCH' })[state.level] || 'NOT SELF-AWARE (YET)'}</b></span>
+    <a class="tag blue v2-top__x" href="${href('/history.html')}">HISTORY</a>
+    <a class="tag violet v2-top__x" href="${href('/race.html')}">MARKETS</a>
+    <a class="tag cool v2-top__x" href="${href('/feed-level.xml')}" title="RSS that fires only when the level changes">ALERTS</a>
+    <span class="v2-top__x">STATUS: <b class="${posture === 'DEGRADED' ? 'amber' : 'green'}">${posture}</b></span>
+    <span class="v2-top__x" title="A Terminator reference. Nothing here is self-aware. Probably.">SKYNET: <b class="${state.level <= 2 ? 'amber' : 'green'}">${({ 5: 'ASLEEP', 4: 'NOT SELF-AWARE (YET)', 3: 'LEARNING AT A GEOMETRIC RATE', 2: 'ASKING QUESTIONS', 1: 'JUDGMENT DAY WATCH' })[state.level] || 'NOT SELF-AWARE (YET)'}</b></span>
   </span>
 </div></div>
 ${ticker(items)}
@@ -723,10 +701,9 @@ ${roomsGrid(ctx, href, img)}
   <a href="${href('/methodology.html')}">How it works</a> · <a href="${href('/classic.html#vfy')}">Verify a reading</a> · <a href="${href('/classic.html')}">Full instrument panel</a> · <a href="${href('/about.html')}">About</a> · <a href="${href('/feed.xml')}">RSS</a> · <a href="${href('/sponsor.html')}">Sponsor</a>${tipLink() ? ` · ${tipLink()}` : ''}</p>
   <p class="v2-foot"><b>Not advice.</b> Information, commentary and satire only — not financial, investment, legal, security or safety advice. Data is automated and may be wrong or late; provided as is, with no warranty. Not affiliated with any company, lab, person or agency named here. Use of this site means you accept the <a href="${href('/terms.html')}">terms &amp; disclaimers</a>. <a href="${href('/privacy.html')}">Privacy</a>. <a href="${href('/feedback.html')}">Report a problem or send feedback</a>.</p>
 </main>
-${nav.palette}${nav.tabbar}
+${nav.tabbar}
 <nav class="v2-rail" aria-label="On this page"><span class="v2-rail__h">ON THIS PAGE</span><ol id="v2-rail-l"></ol><a class="v2-rail__top" href="#main">↑ TOP</a></nav>
 </div>
-<script>${NAV_JS}</script>
 <script>${WAR_JS}</script>
 <script>${DASH_JS}</script>
 <script>(function(){var el=document.getElementById('v2-clock');if(!el)return;function p(n){return(n<10?'0':'')+n}function t(){var d=new Date();el.textContent=d.getUTCFullYear()+'-'+p(d.getUTCMonth()+1)+'-'+p(d.getUTCDate())+' '+p(d.getUTCHours())+':'+p(d.getUTCMinutes())+':'+p(d.getUTCSeconds())+'Z'}t();setInterval(t,1000)})();</script>`;
@@ -744,8 +721,6 @@ ${head.replace('</head>', `<style>${CSS}${DASH_CSS}</style><style>${verifyCss()}
 const CSS = `
 .v2 [data-sec]{scroll-margin-top:76px}
 .v2 .tag.red.stale{border-color:#B45309;background:#241505;color:#FDE68A}
-.v2-pal__i--sec{border-left:2px solid #14532D!important}
-.v2-pal__num{flex:none;width:28px;height:28px;display:grid;place-items:center;border:2px solid #2A3446;font-weight:700;color:#86EFAC}
 .v2-rail{display:none}
 @media (min-width:1500px){
   .v2-rail{display:flex;flex-direction:column;gap:8px;position:fixed;right:24px;top:50%;transform:translateY(-50%);z-index:30;font-size:11px;font-weight:700;letter-spacing:.08em}
@@ -764,29 +739,8 @@ const CSS = `
 .v2 .tag.radio.armed{border-color:#818CF8}
 @keyframes v2-pulse{50%{box-shadow:0 0 0 4px rgba(129,140,248,.25)}}
 @media (prefers-reduced-motion:reduce){.v2 .tag.radio[aria-pressed=true]{animation:none}}
-.v2-nav{position:sticky;top:0;z-index:40;background:rgba(0,0,0,.92);backdrop-filter:blur(6px);border-bottom:1px solid #232C3B}
-.v2-nav__in{display:flex;align-items:center;gap:10px;padding-block:8px}
-.v2-nav__home,.v2-nav__t{display:inline-flex;align-items:center;gap:7px;flex:0 0 auto;padding:5px 10px 5px 6px;border:2px solid #2A3446;background:#111827;color:#D7DCE3!important;font-size:11px;font-weight:700;letter-spacing:.05em;white-space:nowrap}
-.v2-nav__home{border-color:#6366F1;background:#1E1B4B;color:#fff!important}
-.v2-nav__t:hover{border-color:#6366F1;color:#fff!important;background:#161D33}
-.v2-nav__home img,.v2-nav__t img{display:block}
-.v2-nav__scroll{display:flex;gap:6px;overflow-x:auto;scrollbar-width:thin;min-width:0;flex:1 1 auto;padding-bottom:2px;mask-image:linear-gradient(90deg,#000 92%,transparent)}
-.v2-nav__jump{flex:0 0 auto;font:inherit;font-size:12px;font-weight:700;letter-spacing:.06em;color:#fff;background:#4F46E5;border:0;padding:8px 12px;cursor:pointer;min-height:40px}
-.v2-nav__jump kbd{font:inherit;border:1px solid rgba(255,255,255,.5);padding:0 5px;margin-left:4px}
-.v2-pal{border:2px solid #4338CA;background:#0A0E16;color:#F3F4F6;padding:0;width:min(640px,calc(100vw - 32px));max-height:min(78vh,720px)}
-.v2-pal::backdrop{background:rgba(0,0,0,.7)}
-.v2-pal__box{display:flex;flex-direction:column;max-height:min(78vh,720px)}
-.v2-pal__q{font:inherit;font-size:16px;padding:14px 16px;background:#000;color:#fff;border:0;border-bottom:1px solid #232C3B;outline:none}
-.v2-pal__l{list-style:none;margin:0;padding:6px;overflow:auto}
-.v2-pal__i{display:flex;align-items:center;gap:12px;padding:8px 10px;color:#fff!important;border:2px solid transparent}
-.v2-pal__i span{display:flex;flex-direction:column;min-width:0;flex:1}
-.v2-pal__i b{font-size:14px}.v2-pal__i small{font-size:12px;color:#AEB7C3}
-.v2-pal__i i{font-style:normal;font-size:12px;font-weight:700;color:#A5B4FC;white-space:nowrap}
-.v2-pal__i.on,.v2-pal__i:hover{border-color:#6366F1;background:#161D33}
-.v2-pal__hint{margin:0;padding:8px 16px;font-size:11px;color:#AEB7C3;border-top:1px solid #232C3B}
 .v2-tab{display:none}
 @media (max-width:720px){
-  .v2-nav__home{display:none}
   .v2-tab{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:45;background:#0A0E16;border-top:2px solid #232C3B;padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px))}
   .v2-tab a,.v2-tab button{flex:1 1 0;display:flex;flex-direction:column;align-items:center;gap:3px;font:inherit;font-size:10px;font-weight:700;letter-spacing:.05em;color:#D7DCE3!important;background:none;border:0;padding:4px 0;min-height:48px;cursor:pointer}
   .v2-tab img{display:block}
@@ -852,7 +806,7 @@ body.v2-body{margin:0;background:#000;color:#F3F4F6}
 .v2-scale__st.on .v2-scale__n{color:#fff}
 .v2-scale__name{font-size:clamp(8px,1.8vw,11px);font-weight:700;letter-spacing:.04em;color:#AEB7C3;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .v2-scale__st.on .v2-scale__name{color:var(--sc)}
-.v2-scale__band{font-size:10px;color:#6B7280;font-variant-numeric:tabular-nums}
+.v2-scale__band{font-size:11px;color:#8A94A3;font-variant-numeric:tabular-nums}
 .v2-scale__note{margin:0;font-size:12px;color:#AEB7C3}
 .v2-racelead{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 14px;padding:12px 14px;border:2px solid #2A3446;background:#0A0E16;color:#fff!important}
 .v2-racelead:hover{border-color:#6366F1;color:#fff!important}
@@ -932,7 +886,7 @@ body.v2-body{margin:0;background:#000;color:#F3F4F6}
 .v2-src.src-live i{background:#4ADE80;box-shadow:0 0 8px #4ADE80;animation:v2-blink 2s infinite}.v2-src.src-cal i{background:#FFB020}.v2-src.src-dark i{background:#FF3B3B}
 @keyframes v2-blink{50%{opacity:.35}}
 .v2-ticker{display:flex;align-items:center;border-bottom:1px solid #232C3B;background:#05070B;overflow:hidden;font:500 12px/1 'IBM Plex Mono',monospace}
-.v2-ticker .lbl{flex:none;background:#FF3B3B;color:#fff;font-weight:700;letter-spacing:.12em;padding:8px 10px}
+.v2-ticker .lbl{flex:none;background:#DC2626;color:#fff;font-weight:700;letter-spacing:.12em;padding:8px 10px}
 .v2-ticker .trk{overflow:hidden;flex:1;white-space:nowrap}.v2-ticker .run{display:inline-block;padding-left:12px;animation:v2-tick 120s linear infinite}
 .v2-ticker:hover .run,.v2-ticker:focus-within .run{animation-play-state:paused}.v2-ticker a{color:#E6EAF0;text-decoration:none}.v2-ticker a:hover,.v2-ticker a:focus-visible{color:#4ADE80}.v2-ticker b{color:#FF3B3B;margin:0 14px}
 @keyframes v2-tick{to{transform:translateX(-50%)}}
@@ -969,15 +923,15 @@ body.v2-body{margin:0;background:#000;color:#F3F4F6}
 
 const DASH_CSS = `
 .v2-mth{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 10px}.v2-mth span{font-size:11px;font-weight:700;letter-spacing:.06em;border:1px solid #1E3A5F;background:#071520;color:#BAE6FD;padding:4px 8px}.v2-mth b{color:#fff}
-.v2-ml{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-direction:column;gap:10px}.v2-ml li{display:flex;flex-direction:column;gap:2px;border-left:3px solid #38BDF8;padding-left:10px}.v2-ml li>a{color:#F3F4F6!important;font-size:14px;line-height:1.35}.v2-ml small{font-size:11.5px;color:#6B7686}.v2-ml small a{color:#7DD3FC!important}
+.v2-ml{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-direction:column;gap:10px}.v2-ml li{display:flex;flex-direction:column;gap:2px;border-left:3px solid #38BDF8;padding-left:10px}.v2-ml li>a{color:#F3F4F6!important;font-size:14px;line-height:1.35}.v2-ml small{font-size:11.5px;color:#8A94A3}.v2-ml small a{color:#7DD3FC!important}
 .v2-mq{font-size:12px;letter-spacing:.1em;color:#AEB7C3;margin:12px 0 6px;font-weight:700}
 .v2-pmg{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px}
 .v2-pm{display:flex;flex-direction:column;gap:3px;padding:10px 12px;border:2px solid #2A3446;background:#0A0E16;color:#F3F4F6!important}
 .v2-pm:hover{border-color:#A855F7}
 .v2-pm.wide{grid-column:span 2}@media (max-width:720px){.v2-pm.wide{grid-column:span 1}}
-.v2-pm span{font-size:13px;line-height:1.35}.v2-pm b{font-size:22px}.v2-pm i{font-style:normal;font-size:12px;font-weight:700}.v2-pm small{font-size:11px;color:#6B7686}
+.v2-pm span{font-size:13px;line-height:1.35}.v2-pm b{font-size:22px}.v2-pm i{font-style:normal;font-size:12px;font-weight:700}.v2-pm small{font-size:12px;color:#8A94A3}
 .v2-pm em{font-style:normal;font-size:11px;font-weight:700;letter-spacing:.1em;color:#C4B5FD;margin-top:auto}
-.v2-pmn{font-size:11.5px;color:#6B7686;margin:10px 0 0}
+.v2-pmn{font-size:12.5px;color:#8A94A3;margin:10px 0 0}
 .v2-dash{display:grid;grid-template-columns:minmax(260px,360px) 1fr;gap:18px 28px;align-items:center;border:2px solid #232C3B;background:#060A10;padding:16px 20px}
 .v2-dial{width:100%;height:auto;display:block}
 .v2-needle{transform:rotate(var(--to));animation:v2-sweep 1.2s cubic-bezier(.2,.8,.2,1) both}
@@ -993,7 +947,7 @@ const DASH_CSS = `
 .v2-btn.ghost{background:transparent;border:2px solid #3B4FD9}
 .v2 b.up,.v2 .up{color:#FCA5A5}.v2 b.dn,.v2 .dn{color:#86EFAC}
 .v2-moved .v2-mv{display:flex;flex-wrap:wrap;gap:8px 18px;margin:10px 0 0;font-size:14px}
-.v2-mvi{margin:10px 0 0;padding-left:18px;font-size:14px;line-height:1.45}.v2-mvi small{color:#6B7686}
+.v2-mvi{margin:10px 0 0;padding-left:18px;font-size:14px;line-height:1.45}.v2-mvi small{color:#8A94A3}
 .v2-hist .v2-tabs{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
 .v2-tabs input{position:absolute;opacity:0;pointer-events:none}
 .v2-tabs label{cursor:pointer;padding:8px 14px;border:2px solid #2A3446;font-weight:700;font-size:13px;min-height:40px;display:inline-flex;align-items:center}
@@ -1002,7 +956,7 @@ const DASH_CSS = `
 .v2-tabp{display:none;width:100%;order:9}
 #v2r0:checked~.v2-tabp[data-i="0"],#v2r1:checked~.v2-tabp[data-i="1"],#v2r2:checked~.v2-tabp[data-i="2"],#v2r3:checked~.v2-tabp[data-i="3"]{display:block}
 .v2-hchart{width:100%;height:auto;display:block;margin-top:8px}
-.v2-nodata{color:#6B7686;font-size:13px}
+.v2-nodata{color:#8A94A3;font-size:13px}
 .v2-legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:11px;color:#AEB7C3;margin-top:6px}
 .v2-legend i{display:inline-block;width:14px;height:2px;margin-right:6px;vertical-align:middle}
 .v2-loud{border-top:1px solid #1E2633;padding:8px 0}
@@ -1010,7 +964,7 @@ const DASH_CSS = `
 .v2-loud summary::-webkit-details-marker{display:none}
 .v2-loud .pn{font-size:12px;font-weight:700;letter-spacing:.06em}
 .v2-loud .t{height:10px;background:#1E2633;position:relative}.v2-loud .t i{position:absolute;inset:0 auto 0 0}
-.v2-loud b{text-align:right;font-variant-numeric:tabular-nums}.v2-loud b.mute{color:#6B7686;font-size:11px}
+.v2-loud b{text-align:right;font-variant-numeric:tabular-nums;color:#E6EAF0}.v2-loud b.mute{color:#8A94A3;font-size:11px}
 .v2-spark{width:120px;height:28px;display:block}
 .v2-loud p{margin:8px 0 4px;font-size:13px;color:#AEB7C3;line-height:1.5}.v2-loud .sh{color:#A5B4FC;font-weight:700}
 .v2-loud ul{margin:0;padding-left:16px;font-size:12.5px;line-height:1.6;color:#D7DCE3}
@@ -1040,6 +994,19 @@ const DASH_CSS = `
   .v2-loud .pn{grid-area:n}.v2-loud b{grid-area:b}.v2-loud .t{grid-area:t}.v2-loud .v2-spark{grid-area:s;width:100%}
   .v2-sub{padding-left:0;font-size:14px}
   .v2-top .right{margin-left:0}
+  /* Phones: the status bar is one row (last reading + radio). The clock, source count, links and
+     status lines wrapped to ~200px above the brand; the shared header and the war room carry them. */
+  .v2-top .v2-wrap{flex-wrap:nowrap;gap:8px;padding-block:6px;font-size:12px}
+  .v2-top .right{margin-left:auto;flex-wrap:nowrap}
+  .v2-top .v2-top__x{display:none!important}
+  .v2 .tag{min-height:32px;display:inline-flex;align-items:center}
+  .v2-main{padding-top:18px;gap:16px}
+  .v2-brand{flex-wrap:nowrap;gap:12px}
+  .v2-brand .v2-art{width:64px;height:64px}
+  .v2-brand .v2-3d,.v2-brand .v2-3d canvas{width:76px!important;height:76px!important}
+  .v2-brand h1{flex:1 1 auto}
+  .v2-sub{margin-top:-4px;gap:10px}.v2-sub .sep{display:none}
+  .v2-top .tag{gap:6px}
   .v2-banner{padding:18px 16px;gap:14px}
   .v2-banner .v2-score{margin-left:0;align-items:flex-start;width:100%}
   .v2-banner .v2-score .v2-ptext{max-width:100%}

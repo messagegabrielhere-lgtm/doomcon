@@ -39,7 +39,7 @@ export function sitebar(asOf, { level = 4, rel = '', intro = {}, newsAt = '' } =
 #sitebar button[aria-busy=true] svg{animation:sitebar-spin .8s linear infinite}
 #sitebar time{white-space:nowrap}
 #sitebar .fb{all:unset;cursor:pointer;color:inherit;opacity:.8;text-decoration:underline;text-underline-offset:2px;white-space:nowrap;font:600 12px/1.2 system-ui,-apple-system,"Segoe UI",sans-serif}#sitebar .fb:hover{opacity:1}#sitebar .fb:focus-visible{outline:2px solid #e2a03b;outline-offset:2px}
-#sitebar .ago{opacity:.65}#sitebar .kofi{color:#72a4f2;opacity:1;text-decoration:none}@media (max-width:440px){#sitebar .kofi{display:none}}
+#sitebar .ago{opacity:.65}#sitebar .kofi{color:#1d4ed8;opacity:1;text-decoration:none}@media (max-width:440px){#sitebar a.fb.kofi{display:none}}
 #sitebar button.rad{background:transparent;color:inherit;border:1px solid currentColor;padding:4px 9px;opacity:.85}#sitebar button.st{padding:4px 7px}#sitebar button.rad[aria-pressed=true]{background:#818CF8;border-color:#818CF8;color:#000;opacity:1}
 #siren-intro{position:fixed;left:12px;bottom:12px;z-index:9998;max-width:min(300px,calc(100vw - 24px));border-radius:8px;overflow:hidden;background:#000;border:1px solid #232C3B;box-shadow:0 10px 30px rgba(0,0,0,.5)}
 #siren-intro video{display:block;width:100%;height:auto}
@@ -47,12 +47,18 @@ export function sitebar(asOf, { level = 4, rel = '', intro = {}, newsAt = '' } =
 #siren-intro button{all:unset;cursor:pointer;padding:4px 8px;border-radius:4px;color:#E6EAF0}#siren-intro button:hover{background:#1b2230}#siren-intro button:focus-visible{outline:2px solid #e2a03b;outline-offset:2px}
 #siren-intro.chip{width:auto;background:rgba(0,0,0,.92)}
 #siren-intro.chip video{display:none}
-#siren-intro.playing{width:300px}
-@media (max-width:560px){#siren-intro.playing{width:min(220px,calc(100vw - 20px));left:auto;right:10px;bottom:auto;top:10px}#siren-intro.chip{left:12px;right:auto;bottom:64px;top:auto}}
+#siren-intro.playing{width:240px}
+/* Phones: a small picture docked bottom-right, just above the freshness bar and the guide button
+   (their offset comes from --sb-off, set by lift() below), so it never covers the header, the level
+   or the score at the top of the page. */
+@media (max-width:560px){#siren-intro.playing{width:140px;left:auto;right:8px;top:auto;bottom:calc(var(--sb-off,10px) + 54px)}#siren-intro.chip{left:auto;right:8px;top:auto;bottom:calc(var(--sb-off,10px) + 54px)}#siren-intro .bar{padding:2px 4px}#siren-intro.playing .bar>span:first-child{display:none}#siren-intro.playing .bar>span:last-child{display:flex;width:100%;justify-content:space-between}#siren-intro button{min-height:32px;display:inline-flex;align-items:center}}
 @keyframes sitebar-spin{to{transform:rotate(360deg)}}
-@media (prefers-color-scheme:dark){#sitebar{background:rgba(20,24,32,.94);color:#e6e9ef;border-color:rgba(255,255,255,.16)}#sitebar button{background:#e6e9ef;color:#141820}}
-@media (max-width:560px){#sitebar{left:50%;right:auto;transform:translateX(-50%);bottom:10px}#sitebar .ago{display:none}}
-@media (max-width:440px){#sitebar{gap:6px;padding:4px 4px 4px 10px;max-width:calc(100vw - 16px)}#sitebar>span:first-of-type{display:none}#sitebar button{padding:5px 8px}}
+@media (prefers-color-scheme:dark){#sitebar{background:rgba(20,24,32,.94);color:#e6e9ef;border-color:rgba(255,255,255,.16)}#sitebar button{background:#e6e9ef;color:#141820}#sitebar .kofi{color:#93b8f5}}
+/* Phones: the bar sits left and the round Ask SIREN button (media/guide.js) takes the same row on
+   the right, so the two never stack on each other or on the reading. */
+@media (max-width:560px){#sitebar{left:8px;right:auto;bottom:10px;max-width:calc(100vw - 68px)}#sitebar .ago{display:none}#sitebar button{min-height:30px;box-sizing:border-box}#sitebar .fb{display:inline-flex;align-items:center;min-height:30px}}
+@media (max-width:360px){#sitebar #sitebar-x{display:none}}
+@media (max-width:440px){#sitebar{gap:6px;padding:3px 3px 3px 10px;max-width:calc(100vw - 68px)}#sitebar>span:first-of-type{display:none}#sitebar button{padding:5px 8px}}
 @media print{#sitebar{display:none}}
 .site-disclosure{max-width:72ch;margin:28px auto 72px;padding:12px 16px;font:400 12px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif;opacity:.8;border-top:1px solid rgba(127,127,127,.3)}
 .site-disclosure b{font-weight:600}
@@ -173,6 +179,8 @@ ${MONETIZE.tips && MONETIZE.tips.url ? `<a class="fb kofi" href="${MONETIZE.tips
       });
     });
     bar.style.bottom = off + "px";
+    // The guide button and the intro read this so they line up with the bar instead of stacking on it.
+    try { document.documentElement.style.setProperty("--sb-off", off + "px"); } catch (e) {}
   }
   // A page left open should hear about a newer newsroom or a newer reading
   // within a minute. Same-origin JSON only. The button label changes; the
@@ -200,19 +208,6 @@ ${MONETIZE.tips && MONETIZE.tips.url ? `<a class="fb kofi" href="${MONETIZE.tips
   setInterval(watch, 60000);
   document.addEventListener("visibilitychange", function(){ if (!document.hidden) watch(); });
   paint(); setInterval(paint, 60000);
-  // A tiny file, not news.json (~900KB). The label changes; the page does not reload itself.
-  var newsMark = +bar.getAttribute("data-news") || 0, lbl = document.getElementById("sitebar-lbl");
-  function watch(){
-    if (document.hidden) return;
-    fetch("${BASE}/api/fresh.json?m=" + Math.floor(Date.now() / 60000), { cache: "no-store" }).then(function(r){ return r.ok ? r.json() : null; }).then(function(f){
-      if (!f) return;
-      var ns = Date.parse(f.news), st = Date.parse(f.state);
-      if (newsMark && ns > newsMark + 1500) { btn.classList.add("due"); if (lbl) lbl.textContent = "New stories"; }
-      else if (st > at + 1500) { btn.classList.add("due"); if (lbl) lbl.textContent = "New reading"; }
-    }).catch(function(){});
-  }
-  setInterval(watch, 60000);
-  document.addEventListener("visibilitychange", function(){ if (!document.hidden) watch(); });
   lift(); addEventListener("resize", lift); addEventListener("load", lift); setTimeout(lift, 1500);
 
   // Dispatch emergency mark: poll the orphan dispatch-data branch. Quiet when

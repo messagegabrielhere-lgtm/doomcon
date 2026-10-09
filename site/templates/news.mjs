@@ -344,6 +344,8 @@ const feedCss = `
   color: var(--ink); white-space: nowrap; font-variant-numeric: tabular-nums;
 }
 .npill__u { font-size: var(--t-2xs); color: var(--ink-faint); }
+/* The score link is 16px tall; on touch screens its hit area grows to ~40px without moving the row. */
+@media (pointer: coarse) { a.npill__v { position: relative; } a.npill__v::after { content: ''; position: absolute; inset: -12px -8px; } }
 .npill__v--none { color: var(--ink-faint); }
 
 /* The corroboration chip. Filled - ink on ground, in both schemes - because

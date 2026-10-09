@@ -48,7 +48,7 @@ function currentPath(rel) {
 }
 
 export const HEADER_CSS = `<style ${HEADER_MARK}-css>
-.sh{--sh-bg:#000;--sh-panel:#0E131D;--sh-line:#232C3B;--sh-btn:#2A3446;--sh-ink:#E6EAF0;--sh-mute:#AEB7C3;--sh-acc:#6366F1;--sh-acc2:#818CF8;
+.sh{--sh-bg:#000;--sh-panel:#0E131D;--sh-line:#232C3B;--sh-btn:#2A3446;--sh-ink:#E6EAF0;--sh-mute:#AEB7C3;--sh-acc:#4F46E5;--sh-acc2:#818CF8;
   position:relative;z-index:60;background:var(--sh-bg);border-bottom:2px solid var(--sh-line);color:var(--sh-ink);
   font:600 12px/1.2 'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.04em;-webkit-text-size-adjust:100%}
 .sh *,.sh *::before,.sh *::after{box-sizing:border-box}
@@ -67,10 +67,10 @@ export const HEADER_CSS = `<style ${HEADER_MARK}-css>
 .sh__nav a:hover{color:#fff}
 .sh__nav a[aria-current=page]{color:#fff;border-bottom-color:var(--sh-acc2)}
 .sh__all{flex:0 0 auto;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 14px;border:0;background:var(--sh-acc);color:#fff;font:inherit;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
-.sh__all:hover{background:#4F46E5}
+.sh__all:hover{background:#4338CA}
 .sh__all svg{display:block}
 .sh__all kbd{font:inherit;font-size:10px;border:1px solid rgba(255,255,255,.55);padding:1px 5px}
-.sh a:focus-visible,.sh button:focus-visible,.sh-rooms a:focus-visible,.sh-rel a:focus-visible,.sh-top:focus-visible{outline:2px solid #E2A03B;outline-offset:2px}
+.sh a:focus-visible,.sh button:focus-visible,.sh-rooms a:focus-visible,.sh-rel a:focus-visible,.sh-rel button:focus-visible,.sh-top:focus-visible,video:focus-visible{outline:2px solid #E2A03B;outline-offset:2px}
 @media (max-width:1360px){.sh__lv b{display:none}}
 @media (max-width:1180px){.sh__nav{mask-image:linear-gradient(90deg,#000 90%,transparent)}}
 @media (max-width:900px){.sh__nav{display:none}.sh__lv{margin-left:auto}}

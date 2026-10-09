@@ -273,7 +273,12 @@ dialog.modal::backdrop{background:rgba(0,0,0,.55)}
   .mnav{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:55;background:var(--panel);border-top:1px solid var(--line);padding:6px 8px calc(6px + env(safe-area-inset-bottom))}
   .mnav button{flex:1;border:0;background:transparent;color:var(--mute);font:600 12px/1.1 var(--f-display);letter-spacing:.08em;text-transform:uppercase;padding:6px 0;display:flex;flex-direction:column;align-items:center;gap:2px}
   .mnav button span{font-size:16px;line-height:1}
-  .toasts{bottom:76px}
+  /* Clear the freshness bar the site stamps above the tab bar (its offset is --sb-off). */
+  .toasts{bottom:calc(var(--sb-off,64px) + 52px)}
+  /* Thumb-sized controls on phones. */
+  .btn{min-height:40px}
+  .cat,.presets button{min-height:36px;padding:4px 12px;font-size:12.5px}
+  .layer{min-height:40px;padding:0}
 }
 </style>
 </head>
@@ -286,7 +291,7 @@ dialog.modal::backdrop{background:rgba(0,0,0,.55)}
     </div>
     <span class="clock" id="clock" aria-live="off">--:--:-- UTC</span>
     <select class="sel" id="win" aria-label="Time window" title="Time window for the stories, hotspots and brief"><option value="6">6 h</option><option value="24" selected>24 h</option><option value="72">72 h</option></select>
-    <button class="btn" id="palBtn" type="button" title="Jump to a country, region, layer or action (Ctrl+K or /)">Jump… <kbd style="font:500 10.5px var(--f-mono);color:var(--mute)">⌘K</kbd></button>
+    <button class="btn" id="palBtn" type="button" title="Jump to a country, region, layer or action">Jump…</button>
     <button class="btn" id="alerts" type="button" aria-pressed="false" title="Notify on big quakes, red disaster alerts, fast-rising countries and news about countries you watch">Alerts</button>
     <button class="btn" id="share" type="button" title="Copy a link to this exact view">Share</button>
     <button class="btn" id="refresh" type="button" title="Refetch every source (R)">Refresh</button>
@@ -1706,7 +1711,7 @@ async function refreshAll(force) {
 }
 $("#refresh").addEventListener("click", () => refreshAll(true));
 document.addEventListener("keydown", (e) => {
-  if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") { e.preventDefault(); openPalette(); return; }
+  // Ctrl/Cmd-K and / belong to the shared "All rooms" list (site/siteheader.mjs); the Jump… button opens this page's own finder.
   // the timeline slider keeps focus after a drag; it takes no letters, so shortcuts still apply
   if (e.target.matches("input:not([type=range]),textarea,select") || e.metaKey || e.ctrlKey || e.altKey || document.querySelector("dialog[open]")) return;
   const k = e.key;

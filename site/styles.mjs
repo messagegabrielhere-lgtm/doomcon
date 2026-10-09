@@ -2148,9 +2148,10 @@ main.wrap :is(.rintro__h1, .narch__h1, .dg__h1, .lwp__h1, .bp__h1, .bintro__h1, 
 :is(.inf h2, .shp h2) { font-family: var(--poster); font-weight: 650; text-transform: none; font-size: clamp(20px, 2.1vw, 28px); letter-spacing: -.02em; }
 .dclock__w { font-family: var(--poster); font-weight: 800; letter-spacing: .22em; }
 .foot__seal { display: none; }
-/* THE ASK, at the very top of every page. One line, one link. */
-.give { margin: 0; padding: 7px var(--gutter); text-align: center; background: var(--accent); color: #0b0c0e;
-  font: 700 var(--t-xs)/1.35 var(--mono); letter-spacing: .06em; }
+/* THE ASK, at the foot of every page, just above the footer. One quiet line, one link:
+   it used to sit over the header and push every page's first screen down. */
+.give { max-width: 72ch; margin: var(--s-5) auto 0; padding: 10px var(--gutter); text-align: center; background: none; color: var(--ink-dim);
+  font: 500 var(--t-xs)/1.5 var(--mono); letter-spacing: .04em; }
 .give a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
 @media print { .give { display: none; } }
 .pgph { position: relative; margin: 0 0 var(--s-4); border-radius: 16px; overflow: hidden; background: #06070b; }
@@ -2559,6 +2560,7 @@ a.chip:hover b { color: var(--accent-2); }
       mask-image: linear-gradient(90deg, #000 calc(100% - 26px), transparent);
     }
     .jump__l li { flex: 0 0 auto; }
+    .jump__l a { min-height: 40px; }
   }
 
 
@@ -3067,7 +3069,8 @@ const V2SKIN = `
   color-scheme: dark;
 }
 body { background: #000; color: var(--ink); }
-.give { background: #0A0E16; border-bottom: 1px solid var(--rule); color: var(--ink-dim); }
+.give { color: var(--ink-dim); }
+.give a { color: #A5B4FC; }
 /* masthead */
 .masthead.v2m { background: #000; border-bottom: 1px solid var(--rule); }
 .masthead.v2m::before, .masthead.v2m::after { display: none; }

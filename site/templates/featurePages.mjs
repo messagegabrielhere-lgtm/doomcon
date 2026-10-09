@@ -25,6 +25,7 @@ const CSS = `<style>
 .fx-q{border:1px solid var(--rule);border-radius:4px;padding:12px 14px;margin:8px 0;background:var(--bg-raised,#0E131D)}
 .fx-q legend{font:600 15px/1.4 var(--sans);color:var(--ink);padding:0 4px}
 .fx-q label{display:inline-flex;align-items:center;gap:6px;margin:6px 14px 0 0;color:var(--ink-dim);font-size:14px;cursor:pointer}
+@media (max-width:560px){.fx-q label{display:flex;min-height:44px;margin:2px 0 0;padding:0 4px}.fx-q label input{width:20px;height:20px}}
 .fx-btn{display:inline-block;padding:11px 16px;border:0;border-radius:4px;background:var(--accent,#4ADE80);color:#000;font:700 13px/1 var(--mono);letter-spacing:.08em;cursor:pointer;text-decoration:none}
 .fx-btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--rule)}
 .fx-out{margin:18px 0;padding:16px;border:1px solid var(--accent,#4ADE80);border-radius:4px;background:#03130A}
