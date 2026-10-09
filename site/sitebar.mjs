@@ -15,6 +15,7 @@ import { readdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { CANONICAL_URL } from './brand.mjs';
 import { on as mzOn, sponsorLine, adSlot, AD_PAGES, MZ_CSS, MONETIZE } from './monetize.mjs';
+import { HEADER_MARK, NAV_JS_PATH, headerHtml, relatedHtml, navJs } from './siteheader.mjs';
 const BASE = new URL(CANONICAL_URL).pathname.replace(/\/$/, '');
 
 const MARK = 'data-sitebar';
@@ -266,12 +267,39 @@ export function stamp(html, asOf, rel = '') {
   const gc = MONETIZE.analytics && MONETIZE.analytics.goatcounter;
   const analytics = gc ? `\n<script data-goatcounter="https://${gc}.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>` : '';
   const radio = `\n<script src="${BASE}/media/radio.js" defer></script>\n<script src="${BASE}/media/guide.js" defer></script>`;
-  return html.replace(/<\/body>(?![\s\S]*<\/body>)/i, `${css}${ad}${sp}${own ? '' : disclosureHtml()}${sitebar(asOf, { ...stampOpts, rel })}${radio}${analytics}\n</body>`);
+  let out = withHeader(html, rel);
+  // "You are here" and related rooms sit above the page's own foot (the
+  // prev/next strip, the footer or the legal line), or else above the disclosure.
+  const rooms = stampOpts.rooms || [];
+  const rel2 = rooms.length && !out.includes(`${HEADER_MARK}-rel`) ? relatedHtml(rooms, rel, BASE) : '';
+  let tail = '';
+  if (rel2) {
+    const at = ['<nav class="wrap nxt"', '<footer class="foot"', '<p class="v2legal"'].map((m) => out.indexOf(m)).find((i) => i >= 0);
+    if (at !== undefined) out = out.slice(0, at) + rel2.trimStart() + '\n' + out.slice(at);
+    else tail = rel2;
+  }
+  const nav = `\n<script src="${BASE}/${NAV_JS_PATH}" defer></script>`;
+  return out.replace(/<\/body>(?![\s\S]*<\/body>)/i, `${tail}${css}${ad}${sp}${own ? '' : disclosureHtml()}${sitebar(asOf, { ...stampOpts, rel })}${nav}${radio}${analytics}\n</body>`);
+}
+
+// The shared header goes right after <body>, once, on any page that does not
+// already carry it.
+function withHeader(html, rel) {
+  if (html.includes(HEADER_MARK)) return html;
+  const bar = headerHtml({ rel, base: BASE, level: stampOpts.level, levelName: stampOpts.levelName, score: stampOpts.score });
+  return html.replace(/<body([^>]*)>/i, (m) => `${m}\n${bar}`);
+}
+
+async function writeNavJs(outDir) {
+  const { mkdir } = await import('node:fs/promises');
+  await mkdir(path.join(outDir, path.dirname(NAV_JS_PATH)), { recursive: true });
+  await writeFile(path.join(outDir, NAV_JS_PATH), navJs(stampOpts.rooms || [], BASE));
 }
 let stampOpts = {};
 
 export async function stampAll(outDir, asOf, opts = {}) {
   stampOpts = opts;
+  await writeNavJs(outDir);
   let n = 0;
   async function walk(dir) {
     for (const e of await readdir(dir, { withFileTypes: true })) {
@@ -291,6 +319,7 @@ export async function stampAll(outDir, asOf, opts = {}) {
 /** Stamp only the listed absolute HTML paths (used by --only news builds). */
 export async function stampFiles(files, outDir, asOf, opts = {}) {
   stampOpts = opts;
+  await writeNavJs(outDir);
   let n = 0;
   for (const abs of files) {
     if (!abs.endsWith('.html')) continue;

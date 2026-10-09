@@ -647,7 +647,6 @@ export function render(ctx, { head }) {
 </div></div>
 ${ticker(items)}
 <p class="v2-new" id="v2-new" role="status" hidden><button type="button">New stories since you arrived — jump</button></p>
-${nav.strip}
 <main class="v2-wrap v2-main" id="main">
   <div class="v2-brand">
     <span class="v2-3d" data-siren3d data-level="${state.level}"><img class="v2-art bob" src="${img('siren')}" width="112" height="112" alt="" fetchpriority="high" decoding="async"></span>
