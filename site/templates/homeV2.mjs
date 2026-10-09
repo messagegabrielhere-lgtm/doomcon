@@ -696,7 +696,7 @@ ${movedPanel(wm, href)}
   <div class="v2-labs">${players.map(lab).join('')}</div>
 
 <section class="v2-video" aria-labelledby="v2-video-h">
-    <div class="txt"><h2 id="v2-video-h">${pixelText('WHAT IS SIREN?', 4, '#FFFFFF', 'fit')}</h2><p>A 42-second tour: the hourly reading, the five levels, and the rooms worth opening. Sound on: the soundtrack is SIREN Radio, generated from the same code as the ♪ button.</p></div>
+    <div class="txt"><h2 id="v2-video-h">${pixelText('WHAT IS SIREN?', 4, '#FFFFFF', 'fit')}</h2><p>A 42-second tour: the hourly reading, the five levels, and the rooms worth opening. Sound on: the soundtrack is SIREN Radio, generated from the same code as the ♪ button.</p><p><a class="v2-btn sm" href="${href('/videos.html')}">▶ NEW FILM: THE ROAD TO SUPERINTELLIGENCE (1:41)</a></p></div>
     <video controls preload="none" playsinline width="1280" height="720" poster="${href('/media/siren-explainer-poster.jpg')}">
       <source src="${href('/media/siren-explainer.webm')}" type="video/webm">
       <source src="${href('/media/siren-explainer.mp4')}" type="video/mp4">

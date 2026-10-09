@@ -9,6 +9,8 @@ import { page } from './layout.mjs';
 import * as brand from '../brand.mjs';
 
 export const VIDEOS = [
+  { id: 'road-to-si', file: 'siren-road-to-si', title: 'The road to superintelligence: 1950 to 2056 in 101 seconds', secs: 101, station: 'SIREN FM',
+    blurb: 'From Turing’s question to ChatGPT and AI Nobel prizes, then one plausible path to 2056. The future part is speculation, not a prediction.', page: '/history.html' },
   { id: 'explainer', file: 'siren-explainer', title: 'What is SIREN? A 42-second tour', secs: 42, station: 'SIREN FM',
     blurb: 'The hourly reading, the five levels, and the rooms worth opening.', page: '/' },
   { id: 'tally', file: 'siren-tally', title: 'Meet Tally, SIREN’s duty canary', secs: 22, station: 'CANARY CHIPTUNE',
@@ -29,7 +31,7 @@ export const INTRO_FOR = {
   'si-ready.html': 'siren-si-ready', 'breakthroughs.html': 'siren-si-ready', 'bliss.html': 'siren-si-ready',
   'ai-proof-job.html': 'siren-ai-proof-job', 'jobs.html': 'siren-ai-proof-job', 'careers.html': 'siren-ai-proof-job',
   'bunker-kit.html': 'siren-supply-drop', 'prepper-checklist.html': 'siren-supply-drop', 'bug-out-land.html': 'siren-supply-drop',
-  'methodology.html': 'siren-skynet', 'classic.html': 'siren-skynet', 'history.html': 'siren-skynet', 'ai-doomsday-clock.html': 'siren-skynet',
+  'history.html': 'siren-road-to-si', 'methodology.html': 'siren-skynet', 'classic.html': 'siren-skynet', 'ai-doomsday-clock.html': 'siren-skynet',
   'race.html': 'siren-skynet', 'monitor.html': 'siren-skynet', 'dispatch.html': 'siren-skynet', 'news.html': 'siren-skynet', 'changelog.html': 'siren-skynet',
 };
 

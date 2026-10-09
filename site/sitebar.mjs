@@ -26,7 +26,7 @@ export const DISCLOSURE = 'Not financial advice. We are not financial advisors, 
 
 export function sitebar(asOf, { level = 4, rel = '', intro = {}, newsAt = '' } = {}) {
   const introFile = (intro && intro[rel]) || 'siren-explainer';
-  const introLabel = introFile === 'siren-explainer' ? 'WHAT IS SIREN?' : ({ 'siren-tally': 'MEET TALLY', 'siren-skynet': 'SKYNET STATUS', 'siren-si-ready': 'READY FOR SI?', 'siren-ai-proof-job': 'AI-PROOF YOUR JOB', 'siren-supply-drop': 'SUPPLY DROP' })[introFile] || 'SIREN';
+  const introLabel = introFile === 'siren-explainer' ? 'WHAT IS SIREN?' : ({ 'siren-tally': 'MEET TALLY', 'siren-skynet': 'SKYNET STATUS', 'siren-si-ready': 'READY FOR SI?', 'siren-ai-proof-job': 'AI-PROOF YOUR JOB', 'siren-supply-drop': 'SUPPLY DROP', 'siren-road-to-si': 'THE ROAD TO SI' })[introFile] || 'SIREN';
   const at = Number.isFinite(Date.parse(asOf)) ? Date.parse(asOf) : Date.now();
   const newsMs = Number.isFinite(Date.parse(newsAt)) ? Date.parse(newsAt) : 0;
   return `
