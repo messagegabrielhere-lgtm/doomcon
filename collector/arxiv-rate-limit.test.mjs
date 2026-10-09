@@ -1,6 +1,12 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
-import { fetchArxivWindow, isArxivRateLimit } from './sources/arxiv.mjs';
+import {
+  ARXIV_RATE_LIMIT_WAITS_MS,
+  arxivAdapterBudgetMs,
+  fetchArxivWindow,
+  isArxivRateLimit,
+} from './arxiv-fetch.mjs';
+import { needsHeal } from './heal-degraded.mjs';
 
 const limited = () => Object.assign(new Error('HTTP 429 Unknown Error — Rate exceeded.'), { status: 429 });
 
@@ -36,6 +42,19 @@ describe('arXiv rate limit', () => {
     assert.deepEqual(waits, [30_000]);
   });
 
+  it('forwards withMeta to fetchText', async () => {
+    const out = await fetchArxivWindow(async (_url, opts) => {
+      assert.equal(opts.withMeta, true);
+      assert.equal(opts.retries, 0);
+      return { data: '<feed/>', headers: { 'content-type': 'application/atom+xml' } };
+    }, 'https://export.arxiv.org/api/query', {
+      waits: [1],
+      withMeta: true,
+      sleepFn: async () => { throw new Error('should not sleep'); },
+    });
+    assert.equal(out.data, '<feed/>');
+  });
+
   it('does not retry a non-429 failure', async () => {
     let calls = 0;
     await assert.rejects(
@@ -63,5 +82,45 @@ describe('arXiv rate limit', () => {
     );
     assert.equal(calls, 3);
     assert.deepEqual(waits, [5, 7]);
+  });
+
+  it('keeps the index adapter budget locked to the published wait ladder', () => {
+    assert.deepEqual([...ARXIV_RATE_LIMIT_WAITS_MS], [60_000, 120_000, 180_000]);
+    assert.equal(arxivAdapterBudgetMs(), 660_000);
+  });
+});
+
+describe('heal-degraded', () => {
+  it('asks for a heal when a calibrated source is rate-limited', () => {
+    const r = needsHeal({
+      degraded: true,
+      sources: [
+        { id: 'arxiv', ok: false, uncalibrated: false, error: 'HTTP 429 Too Many Requests — Rate exceeded.' },
+        { id: 'hn', ok: true, uncalibrated: false },
+      ],
+    });
+    assert.equal(r.heal, true);
+    assert.deepEqual(r.sources, ['arxiv']);
+  });
+
+  it('does not heal uncalibrated or non-rate-limit darkness', () => {
+    assert.equal(needsHeal({
+      degraded: true,
+      sources: [
+        { id: 'github-releases', ok: false, uncalibrated: true, error: 'uncalibrated: no entry' },
+        { id: 'hn', ok: false, uncalibrated: false, error: 'HTTP 500' },
+      ],
+    }).heal, false);
+  });
+
+  it('heals from a raw snapshot before the engine has run', () => {
+    const r = needsHeal(null, {
+      readings: [
+        { source: 'arxiv', ok: false, error: 'HTTP 429 Rate exceeded.' },
+        { source: 'hn', ok: true },
+      ],
+    });
+    assert.equal(r.heal, true);
+    assert.deepEqual(r.sources, ['arxiv']);
   });
 });

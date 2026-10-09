@@ -379,7 +379,11 @@ jobs:
       (github.event_name == 'schedule' && github.event.schedule == '7 * * * *') ||
       (github.event_name == 'workflow_dispatch' && inputs.mode == 'full')
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    # arXiv's 429 ladder can spend ~11 minutes waiting inside collect, and the
+    # heal step below may wait another 3 minutes and re-collect. 40 minutes
+    # leaves room for news/race/engine/build without killing a recover that
+    # would have cleared Capability.
+    timeout-minutes: 40
 
     steps:
       - name: Checkout
@@ -436,6 +440,22 @@ jobs:
           # publishes (collector/infra-sources/_sec.mjs).
           SEC_CONTACT_EMAIL: ${{ secrets.SEC_CONTACT_EMAIL }}
         run: node collector/collect.mjs
+
+      - name: Cool off before more arXiv hits
+        # collect, news --force and bliss all hit export.arxiv.org from the same
+        # Actions IP. If the index adapter just got a 429, hammering the
+        # newsroom/BLISS adapters next extends the ban. Wait out the soft
+        # throttle before the next lanes ask.
+        continue-on-error: true
+        run: |
+          set -euo pipefail
+          eval "$(node collector/heal-degraded.mjs --check-raw)"
+          if [ "$HEAL" = "true" ]; then
+            echo "rate-limited after collect ($REASON) — cooling 90s before newsroom/BLISS"
+            sleep 90
+          else
+            echo "no rate-limit cool-off needed ($REASON)"
+          fi
 
       - name: Moltbook spotlight
         # What AI agents are posting about AI on moltbook.com, for /agents.html.
@@ -503,6 +523,49 @@ jobs:
             exit 0
           fi
           node collector/engine.mjs
+
+      - name: Heal rate-limited degradation
+        # Proactive fix: when Capability is dark only because arXiv said
+        # "Rate exceeded", do not publish that as the hour's reading. Wait for
+        # the shared Actions IP to cool, re-collect, and re-score once. Still
+        # never imputes — a second failure stays dark and is published honestly.
+        id: heal
+        continue-on-error: true
+        env:
+          SEC_CONTACT_EMAIL: ${{ secrets.SEC_CONTACT_EMAIL }}
+        run: |
+          set -euo pipefail
+          if [ ! -f data/state.json ]; then
+            echo "no state.json yet; nothing to heal"
+            echo "healed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          eval "$(node collector/heal-degraded.mjs --check)"
+          if [ "$HEAL" != "true" ]; then
+            echo "no heal needed ($REASON)"
+            echo "healed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "Recoverable degradation ($REASON) — waiting 180s then re-collecting once"
+          sleep 180
+          # shellcheck disable=SC2012
+          BEFORE="$(ls -1 data/raw/*.json 2>/dev/null | sort | tail -1 || true)"
+          node collector/collect.mjs || true
+          AFTER="$(ls -1 data/raw/*.json 2>/dev/null | sort | tail -1 || true)"
+          if [ "$AFTER" = "$BEFORE" ]; then
+            echo "::warning::heal collect wrote no new snapshot"
+            echo "healed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          node collector/engine.mjs
+          eval "$(node collector/heal-degraded.mjs --check)"
+          if [ "$HEAL" = "true" ]; then
+            echo "::warning::still rate-limit degraded after heal ($REASON)"
+            echo "healed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "heal succeeded — rate-limit degradation cleared"
+            echo "healed=true" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Tally's bets
         # Settles forecasts that have fallen due and writes the day's new ones,

@@ -91,7 +91,9 @@ function isRetryable(kind, status) {
 // seconds per run and buys back a source the index depends on.
 // ---------------------------------------------------------------------------
 const HOST_MIN_INTERVAL_MS = {
-  'export.arxiv.org': 3500,
+  // arXiv asks for roughly three seconds between requests. 5s gives the shared
+  // Actions IP margin when newsroom + index + BLISS all run in one hour.
+  'export.arxiv.org': 5000,
   'overpass-api.de': 5000,
   'api.crossref.org': 1000,
   // SEC asks for a polite User-Agent and punishes bursts from cloud IPs.
