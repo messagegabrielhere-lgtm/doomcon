@@ -279,6 +279,7 @@ jobs:
         # be deleted from public/ and the next deploy would publish a site whose
         # OpenGraph images 404 on every link anyone shares.
         run: |
+          git rev-parse HEAD > "$RUNNER_TEMP/built-sha"
           node site/build.mjs
           node collector/card.mjs
           node collector/posts.mjs
@@ -424,6 +425,20 @@ jobs:
         run: |
           set -euo pipefail
           rm -rf .pages
+          # NEVER PUBLISH OVER A NEWER FULL PASS. public/ was built before the
+          # commit step; if that step had to replay onto a tip the full lane
+          # had just pushed (its index, Takeover Watch, AI on TV ...), public/
+          # still holds the older data and would overwrite the full lane's
+          # fresher site. Rebuild from what is now on disk when that happened.
+          B="$(cat "$RUNNER_TEMP/built-sha" 2>/dev/null || true)"
+          if [ -n "$B" ] && [ "$(git rev-list --count "$B"..HEAD 2>/dev/null || echo 2)" -gt 1 ]; then
+            echo "::notice title=newsroom::main moved under this run; rebuilding before publishing"
+            node site/build.mjs
+            node collector/card.mjs
+            node collector/posts.mjs
+            node site/post-sheet.mjs
+            node compliance/audit.mjs --dir public
+          fi
           test -f public/index.html || { echo '::error::public/index.html missing; refusing to publish'; exit 1; }
           SUBJECT="$(node --input-type=module -e '
             import { readFileSync } from "node:fs";
