@@ -55,6 +55,11 @@ export function render(ctx) {
     ...(ctx.bliss && ctx.bliss.generated_at
       ? [{ loc: '/bliss.html', changefreq: 'hourly', priority: '0.8', lastmod: ctx.bliss.generated_at }]
       : []),
+    // /nothing. Skeptic's counter (SUB-INDICES §4). Always built when state
+    // exists; lastmod is the observation stamp, not a separate collect file.
+    ...(ctx.state && ctx.state.generated_at
+      ? [{ loc: '/nothing.html', changefreq: 'daily', priority: '0.8', lastmod: ctx.state.generated_at }]
+      : []),
     // /balance. Gated on ctx.routes.balance, the same flag build.mjs uses to
     // decide whether to write the file, so this entry cannot name a URL the
     // build did not produce. daily, not hourly, although the newsroom counts

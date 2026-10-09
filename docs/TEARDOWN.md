@@ -252,3 +252,77 @@ be independently recomputed by a stranger.**
   HTML. An account linked only from an inner page or injected by JS would have
   been missed.
 - Polymarket may have a private partnership invisible in the markup.
+
+---
+
+## 8. Remeasurement — 2026-10-09
+
+Fresh pull of the live site (Context scrape + direct API/robots fetches). The
+Sept 22–24 teardown still holds; these are the deltas that change the plan.
+
+### 8.1 Pizza pipeline still dead (confirmed 16 days later)
+
+`GET /api/scraper-status` at 2026-10-09T22:02Z:
+
+```json
+{"status":"healthy","stats":{"totalPlaces":16,"successfulScrapesLast24h":2,
+ "lastSuccessfulScrape":"2026-10-09T21:09:46.091+00:00","recentScrapes":10}}
+```
+
+All five `recentData` rows: `puppeteer_success:false`,
+`puppeteer_error:"No popularity elements found"`, `current_popularity:null`.
+Names: Club Visions, Casa Colorada, Cheetah Premier, The Players Club,
+Pentagon Metro Station — still not the six pizzeria cards the homepage shows
+as **NO DATA**. Homepage still prints **DOUGHCON 5 · FADE OUT** over that.
+
+**Rule unchanged:** never print a confident scalar over a dead pipe.
+
+### 8.2 Product pivot: markets ate the pizza
+
+The flagship pizza grid is decorative. The live product is now:
+
+| Surface | What it is | Status on 2026-10-09 |
+|---|---|---|
+| Nothing Ever Happens Index | `max` of ~28 curated Polymarket geo contracts | Live — "Something Might Happen" ~41 |
+| ElectionHub midterms | Senate / House / Governor Polymarket maps | Live, linked from home |
+| PolyPulse (`/gdelt`) | Bilateral GDELT threat pairs | Live widget on home |
+| Polyglobe | Globe + Polymarket layers | Live |
+| MentionHub | Speech / transcript narrative vs odds | Live |
+| OSINT feed ↔ Polymarket match | Tweet → market relevance | Live column |
+| Pizza Popular Times | Google Maps scrape | **NO DATA** across cards |
+
+New lore band on home: **2026 Gentlemen's Dispatch Theory** (nightlife /
+OPSEC anecdote) after the 2025 gay-bar inverse-correlation bit.
+
+**Implication for us:** their surviving growth engine is prediction-market
+aggregation and long-tail `/intel` briefs, not pizza. Our counter that was
+still missing from SUB-INDICES §4 — `/nothing`, the skeptic's claim ledger —
+is the direct riff. Ship it as a sub-index that does **not** feed the
+composite (SITE-UPGRADES-90: no markets hero on home).
+
+### 8.3 News sitemap degraded (resolves COMPETITIVE §0.1)
+
+`/news-sitemap.xml` returned **one** URL dated 2026-10-07T22:52Z (Syria /
+Saudi / Yemen brief). Not frozen at June, not a healthy rolling 48h window —
+a near-empty channel. Our `news-sitemap.xml` on siren.watch is HTTP 200 with
+same-day item URLs.
+
+### 8.4 robots.txt still publishes the lab
+
+Disallows (and therefore discloses) still include `/auto-reply-admin`,
+`/social-admin`, `/screenshot-export`, `/video-export/`, `/neh-grid`,
+`/pizzint-vertical`. **New since Sept:** `/_polyglobe`,
+`/electionhub/midterms-debug`, `/polymy-details--market-details`.
+
+### 8.5 About page now claims API access
+
+`/about` Feature list includes "API access available". No public OpenAPI
+document found in this pass; treat as marketing until a documented endpoint
+is shown. Our `/openapi.json` remains the category differentiator we already
+ship.
+
+### 8.6 Brand (Context get-brand)
+
+PizzINT — "Intel by the Slice". Palette: `#ef4444`, `#fbba4d`, `#a7300b`,
+`#050404`. X: `@pizzint` (twitter:site still points here; live account
+identity remains muddy vs `@pizzintwatch`).

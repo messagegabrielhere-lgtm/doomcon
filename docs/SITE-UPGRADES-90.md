@@ -16,8 +16,8 @@ Brand: **SIREN** (repo + Pages path still `doomcon`).
 | Index | Level 4 · score ~48 · receipt chain present | Product works |
 | Sitemap | ~480 URLs | Up from 11 in the Sept competitive audit — URL count is no longer the emergency |
 | Badge / embed | `/badge.svg`, `/embed.html` HTTP 200 | Share loop exists; placement is the gap |
-| News sitemap | `news-sitemap.xml` **404** | Google News channel still unclaimed |
-| OpenAPI | `openapi.json` **404** | API is public JSON but undocumentable by machines |
+| News sitemap | `news-sitemap.xml` **200** (remeasure 2026-10-09) | Keep the rolling ~48h window fed; pizzint's is near-empty |
+| OpenAPI | `openapi.json` **200** (remeasure 2026-10-09) | Documented; keep in sync with `api/index.json` |
 | Newsletter / tips / ads | all `null` in `site/monetize.mjs` | Retention email and revenue switches are code-ready, operator-off |
 | Custom domain | still `github.io/doomcon` | Caps sayability and press |
 | X | handle set (`@SIRENutf6`); daily post pipeline exists | Automation secrets still the bottleneck |
@@ -26,7 +26,7 @@ Brand: **SIREN** (repo + Pages path still `doomcon`).
 
 ### Already shipped (do not rebuild)
 
-Number-first home (v2), badge + embed, move pages + NewsArticle schema, level-change feed (`feed-level.xml`), pretty URL aliases (in flight / merged variously), compliance gates, health API, 14 source adapters, arena / watts / race / newsroom side rooms, Plausible (or equivalent) path in brand/layout history.
+Number-first home (v2), badge + embed, move pages + NewsArticle schema, level-change feed (`feed-level.xml`), pretty URL aliases (in flight / merged variously), compliance gates, health API, 14 source adapters, arena / watts / race / newsroom side rooms, news sitemap + OpenAPI + receipt index, `/nothing` skeptic counter (pizzint NEH riff), Plausible (or equivalent) path in brand/layout history.
 
 ### Jobs this plan serves (unchanged from GROWTH)
 

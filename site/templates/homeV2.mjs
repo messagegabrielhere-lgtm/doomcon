@@ -163,6 +163,7 @@ export function roomGroups(ctx) {
       r.balance ? ['/medicine.html', 'pill', 'Medicine', null, 'Is AI curing anything? Trials and approvals.'] : null,
       r.balance ? ['/balance.html', 'scales', 'Balance', null, 'Harm and benefit, counted side by side.'] : null,
       ['/bliss.html', 'sun', 'Upside', null, 'The direction we would be glad to see move.'],
+      ['/nothing.html', 'px:shrug', 'Nothing Ever Happens', 'NEW', 'Dated AI claims that missed — the skeptic’s counter.'],
       ['/breakthroughs.html', 'px:bulb', 'Breakthroughs', null, 'AI curing, solving and restoring: the good news, tracked.'],
       ['/ai-proof-job.html', 'px:rocket', 'AI-Proof Your Job', null, 'A 2-minute plan to keep your job and grow with AI.'],
     ]],

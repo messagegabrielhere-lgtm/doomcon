@@ -26,22 +26,14 @@ inline.
 These are printed first because a plan built on the wrong side of #1 is the
 wrong plan.
 
-**1. Is their Google News channel alive or dead? UNRESOLVED, AND IT IS THE MOST
-IMPORTANT OPEN QUESTION IN THIS FILE.**
+**1. Is their Google News channel alive or dead? RESOLVED 2026-10-09 — DEGRADED.**
 
-- The site inventory fetched `/news-sitemap.xml` and found **14 entries, newest
-  `news:publication_date` 2026-06-25T14:50:27Z, oldest 2026-06-23** — frozen for
-  91 days.
-- The traffic inventory fetched the same file and found **19 URLs spanning
-  2026-09-22T21:31 to 2026-09-24T19:11** — a healthy rolling ~48h window with
-  `news:keywords` per entry.
-
-Both cite a direct fetch. They cannot both be true of the same minute. Either
-the file was regenerated between the two fetches, or one agent read a cached or
-stale copy. If it is frozen, their brief engine has been shouting into a dead
-channel for three months and their traffic is already collapsing. If it is
-rolling, Google News is their largest channel and the correct counter-play is a
-news sitemap of our own, urgently. **Re-fetch this file before acting on §7.**
+- Sept 24 inventories disagreed (14 June-dated entries vs a rolling ~48h window).
+- Remeasure 2026-10-09: `/news-sitemap.xml` returned **one** URL dated
+  2026-10-07T22:52Z. Not a healthy rolling channel; not the June freeze either.
+- Our counter-play shipped: `siren.watch/news-sitemap.xml` is HTTP 200 with
+  same-day `/item/` URLs. Keep it fed; do not treat their channel as the
+  reason to panic-build more brief templates.
 
 **2. Does our "since you last looked" panel actually work? DISPUTED.**
 

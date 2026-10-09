@@ -76,7 +76,7 @@ export const ROOM_ART = {
   '/exploits.html': 'bug', '/leaders.html': 'mic', '/elon.html': 'camera', '/digest.html': 'clipboard', '/jobs.html': 'case',
   '/medicine.html': 'pill', '/balance.html': 'scales', '/bliss.html': 'sun', '/prepper-checklist.html': 'clipboard', '/feedback.html': 'mic', '/si-ready.html': 'scales', '/ai-proof-job.html': 'case', '/breakthroughs.html': 'sun', '/live-x.html': 'satellite', '/staff.html': 'server', '/tally.html': 'canary', '/careers.html': 'case', '/agents.html': 'globe', '/bug-out-land.html': 'globe',
   '/methodology.html': 'magnifier', '/instruments.html': 'magnifier', '/bets.html': 'dice',
-  '/ai-doomsday-clock.html': 'clock', '/desk.html': 'canary', '/game.html': 'joystick',
+  '/ai-doomsday-clock.html': 'clock', '/nothing.html': 'clock', '/desk.html': 'canary', '/game.html': 'joystick',
   '/library.html': 'books', '/bunker-kit.html': 'bunker', '/history.html': 'archive', '/moves/': 'archive',
   '/about.html': 'canary', '/guide.html': 'siren', '/p-doom.html': 'clock', '/sponsor.html': 'case',
   '/privacy.html': 'camera', '/press.html': 'news', '/brand.html': 'siren',
