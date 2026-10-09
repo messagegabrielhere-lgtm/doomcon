@@ -13,6 +13,7 @@ import * as brand from '../brand.mjs';
 import { blocks, pixelText, icon } from './_pixel.mjs';
 import { sponsorLine, newsletterBox, tipLink, MZ_CSS, MONETIZE } from '../monetize.mjs';
 import { whatMoved, alternativeSignals } from '../extras.mjs';
+import { pulseCandidates } from '../../collector/post-pulse.mjs';
 import { render as verifyBox, verifyCss } from './_verify.mjs';
 import { renderV2 as deskPicks } from './_deskpicks.mjs';
 const PILLAR_META = Object.fromEntries(brand.PILLARS.map((p) => [p.id, p]));
@@ -620,12 +621,15 @@ export function render(ctx, { head }) {
   let wm = null, alts = [];
   try { wm = whatMoved(ctx); } catch { wm = null; }
   try { alts = alternativeSignals(state); } catch { alts = []; }
+  let shareText = `SIREN ${state.level}, ${num(state.score, 1)} of 100: how loud AI is right now.`;
+  try { const c = pulseCandidates(state, ctx.news, Date.parse(state.generated_at))[0]; if (c) shareText = c.text; } catch { /* keep the plain line */ }
+  const shareX = `https://x.com/intent/post?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(ctx.url('/'))}&via=SIRENutf6`;
   const dash = `<section class="v2-dash" aria-label="The reading at a glance">
     ${dial(state, L)}
     <div class="v2-dinfo">
       <div class="v2-chips">${chip('1H', Number.isFinite(state.delta_from_previous) ? state.delta_from_previous : deltaAt(rows, nowMs, 1))}${chip('24H', deltaAt(rows, nowMs, 24))}${chip('7D', deltaAt(rows, nowMs, 168))}</div>
       <p class="v2-dline"><b style="color:${L.color}">SIREN ${state.level} · ${esc(state.level_name)}</b> since ${esc(String(state.level_since || '').slice(0, 10))}. ${levelFromScore(state.score) !== state.level ? `<span class="amber">The score alone reads SIREN ${levelFromScore(state.score)}; the level is held: ${esc(RULE_TXT[state.rule_fired] || '')}</span> ` : ''}${pillarStatusLine(state)}</p>
-      <div class="v2-dbtns"><a class="v2-btn sm" href="#vfy" data-verify-now>✓ VERIFY THIS READING</a><a class="v2-btn sm ghost" href="${href('/alerts.html')}">🔔 ALERTS</a><a class="v2-btn sm ghost" href="${href('/export.html')}">⤓ DATA &amp; EMBED</a></div>
+      <div class="v2-dbtns"><a class="v2-btn sm" href="#vfy" data-verify-now>✓ VERIFY THIS READING</a><a class="v2-btn sm ghost" href="${esc(shareX)}" target="_blank" rel="noopener">𝕏 POST TODAY'S READING</a><a class="v2-btn sm ghost" href="${href('/alerts.html')}">🔔 ALERTS</a><a class="v2-btn sm ghost" href="${href('/export.html')}">⤓ DATA &amp; EMBED</a></div>
     </div>
   </section>
   <script>window.SIREN_PILLARS=${JSON.stringify((state.pillars || []).filter((p) => !p.dark).map((p) => ({ id: p.id, s: Number.isFinite(p.score) ? p.score : null })))}</script>`;

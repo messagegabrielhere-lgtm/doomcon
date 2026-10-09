@@ -56,10 +56,10 @@ export function sitebar(asOf, { level = 4, rel = '', intro = {}, newsAt = '' } =
 @media print{#sitebar{display:none}}
 .site-disclosure{max-width:72ch;margin:28px auto 72px;padding:12px 16px;font:400 12px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif;opacity:.8;border-top:1px solid rgba(127,127,127,.3)}
 .site-disclosure b{font-weight:600}
-#site-em{display:none;position:fixed;left:0;right:0;top:0;z-index:10000;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;padding:8px 14px;background:#b91c1c;color:#fff;font:600 13px/1.3 system-ui,-apple-system,"Segoe UI",sans-serif;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,.25)}
+#site-em{display:none;position:static;align-items:center;gap:10px;flex-wrap:wrap;padding:5px 16px;background:#1a0707;color:#FECACA;border-bottom:1px solid #3f1212;border-left:4px solid #ef4444;font:600 12px/1.3 system-ui,-apple-system,"Segoe UI",sans-serif}
 #site-em.on{display:flex}
-#site-em[data-level="3"]{background:#b45309}
-#site-em a{color:#fff;text-decoration:underline;text-underline-offset:2px;font-weight:700}
+#site-em[data-level="3"]{border-left-color:#f59e0b;background:#171004;color:#FDE68A}
+#site-em a{color:inherit;text-decoration:underline;text-underline-offset:2px;font-weight:700}
 #site-em .x{all:unset;cursor:pointer;margin-left:8px;opacity:.85;padding:2px 6px}
 #site-em .x:hover{opacity:1}
 body.site-em-pad{padding-top:40px}
@@ -222,18 +222,27 @@ ${MONETIZE.tips && MONETIZE.tips.url ? `<a class="fb kofi" href="${MONETIZE.tips
     var go = document.getElementById("site-em-go"), x = document.getElementById("site-em-x");
     if (!el || !txt) return;
     var KEY = "siren:em-dismiss";
-    function hide(){ el.classList.remove("on"); el.hidden = true; document.body.classList.remove("site-em-pad"); }
+    function hide(){ el.classList.remove("on"); el.hidden = true; }
+    // A thin strip under the header, in the page flow: it never floats over
+    // the reading, the footer bar or the score. Site-wide only for the most
+    // severe level; WATCH-level marks stay on the Dispatch page. Dismiss is
+    // remembered per alert, so the same one never comes back.
+    var onDispatch = /dispatch\.html$/.test(location.pathname);
     function show(em){
-      try { if (sessionStorage.getItem(KEY) === (em.as_of || em.generated || "1")) return; } catch (e) {}
+      var id = (em.primary && (em.primary.id || em.primary.event)) || em.as_of || "1";
+      try { if (localStorage.getItem(KEY) === id) return; } catch (e) {}
+      if (!onDispatch && Number(em.level || 2) > 2) return;
       var label = em.label || "ALERT";
       var head = (em.primary && (em.primary.event || em.primary.headline)) || "Active emergency trigger";
-      txt.textContent = label + " · " + head + " · public delayed feed";
+      txt.textContent = "⚠ " + label + " · " + head;
       el.dataset.level = String(em.level || 2);
+      el.dataset.as = id;
+      var hdr = document.querySelector("header.sh, .sh") || document.querySelector("header");
+      if (hdr && el.previousElementSibling !== hdr && hdr.parentNode) hdr.parentNode.insertBefore(el, hdr.nextSibling);
       el.classList.add("on"); el.hidden = false;
-      document.body.classList.add("site-em-pad");
     }
     if (x) x.addEventListener("click", function(){
-      try { sessionStorage.setItem(KEY, el.dataset.as || "1"); } catch (e) {}
+      try { localStorage.setItem(KEY, el.dataset.as || "1"); } catch (e) {}
       hide();
     });
     function poll(){
@@ -241,7 +250,6 @@ ${MONETIZE.tips && MONETIZE.tips.url ? `<a class="fb kofi" href="${MONETIZE.tips
       var u = "https://raw.githubusercontent.com/messagegabrielhere-lgtm/doomcon/dispatch-data/emergency.json?m=" + Math.floor(Date.now() / 120000);
       fetch(u, { cache: "no-store" }).then(function(r){ return r.ok ? r.json() : null; }).then(function(em){
         if (!em || !em.active) { hide(); return; }
-        el.dataset.as = em.as_of || em.generated || "1";
         show(em);
       }).catch(function(){});
     }

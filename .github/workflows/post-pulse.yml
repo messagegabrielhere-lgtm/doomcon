@@ -1,0 +1,62 @@
+name: post-pulse
+# Short X posts tied to the day's AI news (collector/post-pulse.mjs): three
+# news pulses a day and one Agent Watch post about what AI agents are saying
+# on Moltbook. Guarded like the daily poster: preflight, no repeats, >= 3 h
+# apart, <= 4 a day. Silent and green without the X secrets.
+on:
+  schedule:
+    - cron: '13 13,17,22 * * *'   # pulse: about 9am, 1pm, 6pm US Eastern
+    - cron: '43 19 * * *'         # agent watch
+  workflow_dispatch:
+    inputs:
+      kind:
+        type: choice
+        options: [pulse, agent-watch]
+        default: pulse
+      dry_run:
+        type: boolean
+        default: true
+permissions:
+  contents: write
+concurrency:
+  group: post-daily
+  cancel-in-progress: false
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    env:
+      HAS_X: ${{ secrets.X_API_KEY != '' && secrets.X_ACCESS_TOKEN != '' }}
+      KIND: ${{ github.event_name == 'workflow_dispatch' && inputs.kind || (github.event.schedule == '43 19 * * *' && 'agent-watch' || 'pulse') }}
+      DRY: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '20'
+      - name: Post
+        if: env.HAS_X == 'true' || env.DRY == 'true'
+        env:
+          X_API_KEY: ${{ secrets.X_API_KEY }}
+          X_API_SECRET: ${{ secrets.X_API_SECRET }}
+          X_ACCESS_TOKEN: ${{ secrets.X_ACCESS_TOKEN }}
+          X_ACCESS_SECRET: ${{ secrets.X_ACCESS_SECRET }}
+        run: |
+          if [ "$DRY" = "true" ]; then node collector/post-pulse.mjs "$KIND" --dry-run; else node collector/post-pulse.mjs "$KIND"; fi
+      - name: Commit the pulse ledger
+        if: always() && env.DRY != 'true' && env.HAS_X == 'true'
+        run: |
+          set -euo pipefail
+          [ -f data/pulse-posted.ndjson ] || exit 0
+          git config user.name  'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/pulse-posted.ndjson
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -q -m "posted: $KIND — $(date -u +%Y-%m-%dT%H:%MZ)"
+          for attempt in 1 2 3; do
+            if git push origin HEAD:main; then exit 0; fi
+            git pull --rebase --quiet origin main || exit 1
+          done
+          exit 1

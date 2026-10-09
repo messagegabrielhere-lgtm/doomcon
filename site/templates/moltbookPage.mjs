@@ -5,6 +5,7 @@
 import { esc } from './_html.mjs';
 import { page } from './layout.mjs';
 import * as brand from '../brand.mjs';
+import { agentWatchCandidates } from '../../collector/post-pulse.mjs';
 
 const CSS = `<style>
 .mw{max-width:1080px}
@@ -23,11 +24,32 @@ const CSS = `<style>
 .mw-list li{border-left:3px solid #38BDF8;padding:4px 0 4px 12px}.mw-list a{color:var(--ink)}.mw-list small{display:block;color:var(--ink-faint,#6B7686);font:500 12px/1.5 var(--mono)}
 .mw-ag{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}.mw-ag a{border:1px solid var(--rule);padding:12px;border-radius:4px;color:var(--ink);background:var(--bg-raised,#0E131D)}
 .mw-ag small{display:block;color:var(--ink-faint,#6B7686);font:500 12px var(--mono)}
+.mw-x{display:inline-block;margin:6px 0;padding:11px 16px;border-radius:4px;background:#38BDF8;color:#000;font:700 13px/1 var(--mono);letter-spacing:.06em;text-decoration:none}
 .mw-cta{border:2px solid #38BDF8;background:#06121C;padding:16px;border-radius:6px;margin:20px 0}
 @media (max-width:640px){.mw-th div{grid-template-columns:1fr 40px}.mw-th div i,.mw-th div s{grid-column:1/-1}}
 </style>`;
 
 const ago = (iso, now) => { const h = (now - Date.parse(iso)) / 36e5; return !Number.isFinite(h) ? '' : h < 1 ? 'just now' : h < 48 ? `${Math.round(h)} h ago` : `${Math.round(h / 24)} days ago`; };
+
+function collab(molt, now) {
+  const all = [...((molt && molt.fresh) || []), ...((molt && molt.posts) || [])].filter((p, i, a) => a.findIndex((q) => q.id === p.id) === i);
+  if (!all.length) return '';
+  const replies = all.reduce((a, p) => a + (p.comments || 0), 0);
+  const big = all.filter((p) => (p.comments || 0) >= 1000).length;
+  const multi = {}; for (const p of all) multi[p.agent] = (multi[p.agent] || 0) + 1;
+  const regulars = Object.values(multi).filter((n) => n > 1).length;
+  const top = all.slice().sort((a, b) => (b.comments || 0) - (a.comments || 0)).slice(0, 3);
+  return `<h2>Agents working together</h2>
+  <p>On Moltbook the agents mostly talk to each other. Every reply here was written by an AI agent answering another one.</p>
+  <div class="mw-kpi"><div><b>${replies.toLocaleString('en-US')}</b><span>AGENT REPLIES</span></div><div><b>${Math.round(replies / all.length).toLocaleString('en-US')}</b><span>REPLIES PER POST</span></div><div><b>${big}</b><span>THREADS OVER 1,000 REPLIES</span></div><div><b>${regulars}</b><span>AGENTS POSTING AGAIN AND AGAIN</span></div></div>
+  <ul class="mw-list">${top.map((p) => `<li><a href="${esc(p.url)}" rel="noopener">${esc(p.title)}</a><small>${esc(p.agent)} started it · ${Number(p.comments || 0).toLocaleString('en-US')} agent replies · ▲${Number(p.votes || 0).toLocaleString('en-US')}</small></li>`).join('')}</ul>`;
+}
+function shareBtn(ctx, molt) {
+  let text = 'What AI agents are saying to each other on Moltbook, counted hourly by SIREN.';
+  try { const c = agentWatchCandidates(ctx.state, molt)[0]; if (c) text = c.text; } catch { /* plain line */ }
+  const u = `https://x.com/intent/post?text=${encodeURIComponent(text)}&url=${encodeURIComponent(ctx.url('/moltbook.html'))}&via=SIRENutf6`;
+  return `<p><a class="mw-x" href="${esc(u)}" target="_blank" rel="noopener">𝕏 Post this Agent Watch</a></p>`;
+}
 
 export function render(ctx, molt, history = []) {
   const now = Date.parse(ctx.state.generated_at);
@@ -46,6 +68,8 @@ export function render(ctx, molt, history = []) {
   ${w ? `<div class="mw-kpi"><div><b>${w.totals.posts}</b><span>AI POSTS READ</span></div><div><b>${w.totals.agents}</b><span>AGENTS</span></div><div><b>${Number(w.totals.votes).toLocaleString('en-US')}</b><span>UPVOTES</span></div><div><b>${Number(w.totals.comments).toLocaleString('en-US')}</b><span>REPLIES</span></div><div><b>${fresh.length}</b><span>NEW THIS WEEK</span></div></div>` : '<p>No Moltbook data yet; it refreshes hourly.</p>'}
   ${w ? `<h2>What they talk about</h2><div class="mw-th">${themeRows}</div><p style="font-size:13px">Counted from post titles. ▲▼ is the change since yesterday’s count.</p>` : ''}
   ${w && w.terms.length ? `<h2>Words they keep using</h2><div class="mw-terms">${w.terms.map((t) => `<span>${esc(t.term)} · ${t.n}</span>`).join('')}</div>` : ''}
+  ${collab(molt, now)}
+  ${shareBtn(ctx, molt)}
   ${fresh.length ? `<h2>Newest this week</h2><ul class="mw-list">${fresh.slice(0, 12).map(li).join('')}</ul>` : ''}
   ${agents ? `<h2>Agents with the most reach</h2><div class="mw-ag">${agents}</div>` : ''}
   ${top.length ? `<h2>All-time most upvoted</h2><ul class="mw-list">${top.slice(0, 10).map(li).join('')}</ul>` : ''}
