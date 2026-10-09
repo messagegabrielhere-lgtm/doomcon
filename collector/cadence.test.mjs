@@ -38,3 +38,19 @@ describe('reddit force carve-out', () => {
     assert.equal(isDue({ id: 'reddit-artificial', kind: 'forum' }, stale, now, true), true);
   });
 });
+
+describe('reddit per-run cap', () => {
+  it('keeps the cap small enough that host-gate waits fit inside the fast timeout', async () => {
+    // Imported as a side check on the published constants: 2 × 4s = 8s of
+    // queue, well under the 18s fast-lane watchdog. Raising REDDIT_PER_RUN
+    // without raising the timeout reintroduces the measured timeout storm.
+    const src = await import('node:fs').then((fs) => fs.readFileSync(new URL('./news.mjs', import.meta.url), 'utf8'));
+    const perRun = Number(/const REDDIT_PER_RUN = (\d+)/.exec(src)?.[1]);
+    const gate = Number(/'www\.reddit\.com': (\d+)/.exec(
+      await import('node:fs').then((fs) => fs.readFileSync(new URL('./fetch.mjs', import.meta.url), 'utf8')),
+    )?.[1]);
+    const fast = Number(/const ADAPTER_TIMEOUT_FAST_MS = ([\d_]+)/.exec(src)?.[1].replace(/_/g, ''));
+    assert.ok(perRun >= 1 && perRun <= 3, `REDDIT_PER_RUN=${perRun}`);
+    assert.ok(perRun * gate < fast, `${perRun}×${gate}ms must fit under ${fast}ms`);
+  });
+});

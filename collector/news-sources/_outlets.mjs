@@ -132,6 +132,9 @@ export const BSKY_OUTLETS = Object.freeze({
   'platformer.news': 'platformer.news',
   'techmeme.com': 'techmeme.com',
   'simonwillison.net': 'simonwillison.net',
+  'ft.com': 'ft.com',
+  'bbc.co.uk': 'bbc.co.uk',
+  'scmp.com': 'scmp.com',
 });
 
 // Individual reporters and researchers on Bluesky whose posts count as a
@@ -140,6 +143,14 @@ export const BSKY_VETTED_PEOPLE = Object.freeze(new Set([
   'caseynewton.bsky.social',
   'emollick.bsky.social',
   'garymarcus.bsky.social',
+  'simonw.bsky.social',
+  'karpathy.bsky.social',
+  'rasbt.bsky.social',
+  'milesbrundage.bsky.social',
+  'yann-lecun.bsky.social',
+  'andrewng.bsky.social',
+  'markriedl.bsky.social',
+  'cfiesler.bsky.social',
 ]));
 
 // TIER ONE. A lab's own channel (blog, status page, official account) or a
@@ -155,6 +166,8 @@ export const TIER1_OUTLETS = Object.freeze(new Set([
   'cnbc.com', 'axios.com', 'theinformation.com',
   // the tech desks
   'theverge.com', 'techcrunch.com', 'wired.com', 'arstechnica.com',
+  // governance and non-US desks the expanded newsroom watches
+  'gov.uk', 'europa.eu', 'federalregister.gov', 'nist.gov', 'scmp.com',
 ]));
 
 /** Outlet key for an X handle, plus whether it is vetted. */
