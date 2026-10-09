@@ -1,0 +1,30 @@
+name: Docs / methodology
+description: Clarify docs, methodology, or verification steps
+title: "[docs] "
+labels: ["documentation"]
+body:
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Methodology / formula
+        - Verifying a receipt
+        - Running the pipeline
+        - API / embed / feed
+        - Posting / cards
+        - Other docs
+    validations:
+      required: true
+  - type: textarea
+    id: ask
+    attributes:
+      label: What is unclear or wrong
+      description: Quote the doc line if you can. Link the page or file path.
+    validations:
+      required: true
+  - type: textarea
+    id: suggest
+    attributes:
+      label: Suggested fix (optional)
+      description: Wording, diagram, or extra example that would have helped.

@@ -1,0 +1,47 @@
+name: Source idea
+description: Propose a new public data source for a pillar
+title: "[source] "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        New adapters go in `collector/sources/`. They do **not** enter the index
+        until they are added to the frozen reference — see CONTRIBUTING.md.
+  - type: dropdown
+    id: pillar
+    attributes:
+      label: Pillar
+      options:
+        - capability
+        - compute
+        - attention
+        - governance
+        - markets
+        - unsure
+    validations:
+      required: true
+  - type: input
+    id: url
+    attributes:
+      label: Public endpoint or docs URL
+      description: Must be fetchable without secrets for the index pipeline.
+    validations:
+      required: true
+  - type: textarea
+    id: signal
+    attributes:
+      label: What number would we take
+      description: Finite value, higher = more activity. Units and update cadence.
+    validations:
+      required: true
+  - type: textarea
+    id: failure
+    attributes:
+      label: How does it fail
+      description: Rate limits, auth walls, schema drift, geography blocks.
+  - type: textarea
+    id: why
+    attributes:
+      label: Why this source
+      description: What gap it fills vs existing adapters in collector/sources/.
