@@ -1,6 +1,6 @@
 // Extra alert-system collectors for dispatch (beyond NWS).
 import { fetchJson, fetchText } from '../collector/fetch.mjs';
-import { geomCentroid, round3 } from './geo.mjs';
+import { geomCentroid, round3, stateFromText, STATE_CENTROIDS } from './geo.mjs';
 
 function clean(s) {
   if (s == null) return null;
@@ -26,8 +26,17 @@ export async function collectNws(sources) {
   for (const f of j.features || []) {
     const p = f.properties || {};
     if (!keepNws(p)) continue;
-    const c = geomCentroid(f.geometry);
-    const t = Date.parse(p.onset || p.effective || p.sent) || Date.now();
+    let c = geomCentroid(f.geometry), approx = false;
+    if (!c) {
+      // Zone alerts ship without a polygon: pin them at the state, marked approximate.
+      const st = stateFromText((p.areaDesc || '').split(';')[0], p.headline);
+      if (st) { c = { lon: STATE_CENTROIDS[st][0], lat: STATE_CENTROIDS[st][1] }; approx = true; }
+    }
+    // t = when the alert was issued (onset can sit days ahead for river floods).
+    const t = Date.parse(p.effective || p.sent || p.onset) || Date.now();
+    const onset = Date.parse(p.onset) || null;
+    const ends = Date.parse(p.ends || p.expires) || null;
+    if (ends && ends < Date.now() && ends > t) continue; // already over
     alerts.push({
       id: p.id || f.id,
       system: 'nws',
@@ -36,8 +45,8 @@ export async function collectNws(sources) {
       urgency: clean(p.urgency),
       headline: clean(p.headline),
       area: clean((p.areaDesc || '').split(';')[0]),
-      lon: c?.lon ?? null, lat: c?.lat ?? null, t,
-      ends: Date.parse(p.ends || p.expires) || null,
+      lon: c?.lon ?? null, lat: c?.lat ?? null, t, ...(onset && onset > t ? { onset } : {}), ...(approx ? { approx: true } : {}),
+      ends,
       url: p['@id'] || f.id || null,
     });
   }
@@ -222,7 +231,9 @@ export async function collectAllAlerts(sources, log = () => {}) {
       return [];
     }
   }));
-  const alerts = parts.flat();
+  const now = Date.now();
+  // Drop anything whose own end time has passed.
+  const alerts = parts.flat().filter((a) => !(Number.isFinite(a.ends) && a.ends < now && (a.t || 0) < a.ends));
   alerts.sort((a, b) => b.t - a.t);
   return alerts.slice(0, 400);
 }

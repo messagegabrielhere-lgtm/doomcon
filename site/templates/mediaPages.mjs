@@ -97,7 +97,7 @@ function videoLd(ctx, v) {
 }
 
 export function videos(ctx) {
-  const cards = VIDEOS.map((v) => `<article class="md-vid">
+  const cards = VIDEOS.map((v) => `<article class="md-vid" id="v-${esc(v.id)}">
   <video controls preload="none" playsinline width="1280" height="720" poster="${media(ctx, `${v.file}-poster.jpg`)}"><source src="${media(ctx, `${v.file}.webm`)}" type="video/webm"><source src="${media(ctx, `${v.file}.mp4`)}" type="video/mp4"></video>
   <div><h3>${esc(v.title)}</h3><p>${esc(v.blurb)}</p><small>${v.secs} SEC · 📻 ${esc(v.station)}</small>
   <p><a href="${esc(ctx.href(v.page))}">Open the page →</a> · <a href="${esc(xShare(ctx, v.title, '/videos.html'))}" target="_blank" rel="noopener">𝕏 Post</a> · <a href="${media(ctx, `${v.file}.mp4`)}" download>Download MP4</a></p></div>

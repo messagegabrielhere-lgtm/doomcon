@@ -61,6 +61,28 @@ export function sanitizeAlertText(s) {
 }
 
 /**
+ * Does this point sit on or near US soil or US coastal waters? Rough boxes
+ * (CONUS plus the Gulf and near Atlantic, Alaska, Hawaii, Puerto Rico / USVI,
+ * Guam). A storm off Mexico or a quake in Tonga is not a US emergency.
+ */
+export const US_BOXES = Object.freeze([
+  [-126, 24, -65, 50],    // CONUS, Gulf, near Atlantic
+  [-180, 50, -129, 72],   // Alaska and the Aleutians
+  [-162, 17.5, -153, 23.5], // Hawaii
+  [-68.5, 17, -64, 19.5],   // Puerto Rico, USVI
+  [144, 12.5, 146.5, 16],   // Guam, Northern Marianas
+]);
+export function nearUS(lon, lat) {
+  if (!Number.isFinite(lon) || !Number.isFinite(lat)) return false;
+  return US_BOXES.some(([w, s, e, n]) => lon >= w && lon <= e && lat >= s && lat <= n);
+}
+
+/** True when an alert has run out (its own end time is in the past). */
+export function isExpired(a, now = Date.now()) {
+  return Number.isFinite(a?.ends) && a.ends > 0 && a.ends < now && (a.t || 0) < a.ends;
+}
+
+/**
  * @param {{ alerts?: object[], generated?: string }} snap
  * @param {{ now?: number }} [opts]
  */
@@ -69,7 +91,7 @@ export function evaluateEmergency(snap, { now = Date.now() } = {}) {
   const triggers = [];
 
   for (const a of alerts) {
-    if (!a) continue;
+    if (!a || isExpired(a, now)) continue;
     const ageH = (now - (a.t || 0)) / 3600e3;
 
     if (a.system === 'nws' && a.severity === 'Extreme') {
@@ -88,6 +110,15 @@ export function evaluateEmergency(snap, { now = Date.now() } = {}) {
     }
   }
 
+  // NWS is US-only by construction. Global systems (NHC east Pacific, GDACS,
+  // USGS) count at full weight only near the US; elsewhere they drop to a
+  // Dispatch-page WATCH and are not posted to X (a world M7+ still posts).
+  for (const t of triggers) {
+    const a = t.alert;
+    t.us = a.system === 'nws' || nearUS(a.lon, a.lat);
+    t.post = t.us || t.weight >= 4;
+    if (!t.us) t.weight = Math.min(t.weight, t.weight >= 4 ? 3 : 2);
+  }
   // Prefer highest weight, then newest.
   triggers.sort((a, b) => (b.weight - a.weight) || ((b.alert.t || 0) - (a.alert.t || 0)));
   const top = triggers[0] || null;
@@ -107,6 +138,8 @@ export function evaluateEmergency(snap, { now = Date.now() } = {}) {
     count: triggers.length,
     primary: top ? summarise(top.alert) : null,
     trigger_ids: triggers.slice(0, 20).map((t) => t.id),
+    post_ids: triggers.filter((t) => t.post).slice(0, 20).map((t) => t.id),
+    us_count: triggers.filter((t) => t.us).length,
     as_of: new Date(now).toISOString(),
   };
 }
@@ -301,5 +334,5 @@ export function formatAlertPost(alert, {
 /** Which triggers are new vs a previous emergency snapshot / posted ledger. */
 export function freshTriggers(emergency, postedIds = []) {
   const seen = new Set(postedIds);
-  return (emergency.trigger_ids || []).filter((id) => id && !seen.has(id));
+  return (emergency.post_ids || emergency.trigger_ids || []).filter((id) => id && !seen.has(id));
 }

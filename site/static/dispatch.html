@@ -87,6 +87,13 @@ a{color:inherit}
 .legend span::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px;vertical-align:middle}
 .legend .a::before{background:var(--alert)}
 .legend .c::before{background:var(--call)}
+.legend .x::before{display:none}
+.legend i{font-style:normal}
+.scope{display:flex;gap:6px;padding:8px 10px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--panel);z-index:1}
+.scope .btn{font-size:12px;padding:4px 9px}
+.scope .btn span{margin-left:4px;font:400 11px var(--f-mono);color:var(--mute)}
+.feed li[data-lon]{cursor:pointer}
+.feed li[data-lon]:hover{background:rgba(255,255,255,.03)}
 .tip{position:absolute;pointer-events:none;z-index:3;background:rgba(14,19,28,.94);border:1px solid var(--line);border-radius:6px;padding:7px 10px;font-size:12.5px;max-width:260px;box-shadow:0 8px 24px rgba(0,0,0,.45)}
 .tip b{display:block;font-weight:600;margin-bottom:2px}
 .tip small{color:var(--mute)}
@@ -121,11 +128,16 @@ footer a{color:var(--ink);text-decoration:underline;text-underline-offset:2px}
 @media (max-width:1100px){
   .grid{grid-template-columns:1fr;min-height:0}
   .left{max-height:none;display:grid;grid-template-columns:1fr 1fr;gap:10px}
-  .stage{min-height:360px}
+  .stage{min-height:360px;order:-1}
   #map{min-height:360px}
+  .right .pane{max-height:62vh}
+  .cities{max-height:240px}
 }
 @media (max-width:640px){
   .left{grid-template-columns:1fr}
+  .legend .long,.legend .x{display:none}
+  .legend{font-size:11px;padding:4px 8px}
+  .sources{flex-wrap:nowrap;overflow-x:auto;padding-bottom:2px;scrollbar-width:thin}
   .brand span{display:none}
 }
 </style>
@@ -167,11 +179,14 @@ footer a{color:var(--ink);text-decoration:underline;text-underline-offset:2px}
     <section class="panel stage" aria-label="Map">
       <canvas id="map" aria-label="United States map of 911 calls and emergency alerts"></canvas>
       <div class="hud">
-        <button class="btn" type="button" id="home" title="Reset view">Reset</button>
+        <button class="btn" type="button" id="zin" title="Zoom in (+)" aria-label="Zoom in">+</button>
+        <button class="btn" type="button" id="zout" title="Zoom out (-)" aria-label="Zoom out">−</button>
+        <button class="btn" type="button" id="home" title="Reset view (0)">Reset</button>
       </div>
       <div class="legend">
-        <span class="a">Alerts (NWS · USGS · GDACS · NHC · EONET)</span>
-        <span class="c">911 / CAD calls</span>
+        <span class="a">Alerts<i class="long"> (NWS · USGS · GDACS · NHC · EONET)</i></span>
+        <span class="c">911 calls<i class="long"> (bubbles = calls per city; zoom in for single calls)</i></span>
+        <span class="x" id="offMap"></span>
       </div>
       <div class="tip" id="tip" hidden></div>
       <div class="loading" id="loading">Loading dispatch snapshot…</div>
@@ -184,7 +199,7 @@ footer a{color:var(--ink);text-decoration:underline;text-underline-offset:2px}
         <button role="tab" aria-selected="false" data-tab="calls">Calls<span class="ct" id="ctCalls"></span></button>
       </div>
       <div class="pane scroll" data-pane="blather"><div id="blather"></div></div>
-      <div class="pane scroll" data-pane="alerts" hidden><ul class="feed" id="alerts"></ul></div>
+      <div class="pane scroll" data-pane="alerts" hidden><div class="scope" id="alertScope" role="group" aria-label="Alert area"><button type="button" class="btn" data-scope="us" aria-pressed="true">US map <span></span></button><button type="button" class="btn" data-scope="world" aria-pressed="false">World <span></span></button><button type="button" class="btn" data-scope="all" aria-pressed="false">All <span></span></button></div><ul class="feed" id="alerts"></ul></div>
       <div class="pane scroll" data-pane="calls" hidden><ul class="feed" id="calls"></ul></div>
     </section>
   </main>
@@ -199,7 +214,7 @@ footer a{color:var(--ink);text-decoration:underline;text-underline-offset:2px}
       High-severity triggers mark this page emergency and may post to X.
       This is ambient public signal, not a warning system.
     </span>
-    <span>Keys: R refresh · 1–3 tabs · ? help</span>
+    <span>Keys: R refresh · 1–3 tabs · + − 0 zoom · ? help</span>
   </footer>
 </div>
 
@@ -231,7 +246,7 @@ const S = {
   emergency: null,
   showAlerts: true, showCalls: true, cityOn: new Set(),
   us: null, view: { z: 1, x: 0, y: 0 },
-  hits: [], needDraw: true, tab: "blather",
+  hits: [], needDraw: true, tab: "blather", alertScope: "us",
 };
 
 const canvas = $("#map");
@@ -239,83 +254,179 @@ const ctx = canvas.getContext("2d");
 const tip = $("#tip");
 const REDUCED = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-/* ---------- Albers USA (USGS standard parallels) ---------- */
+/* ---------- Albers USA with Alaska and Hawaii insets ---------- */
 const D2R = Math.PI / 180;
-const PHI1 = 29.5 * D2R, PHI2 = 45.5 * D2R, PHI0 = 23 * D2R, LAM0 = -96 * D2R;
-const N = 0.5 * (Math.sin(PHI1) + Math.sin(PHI2));
-const C = Math.cos(PHI1) ** 2 + 2 * N * Math.sin(PHI1);
-const R0 = Math.sqrt(C - 2 * N * Math.sin(PHI0)) / N;
-function project(lon, lat) {
-  const lam = lon * D2R, phi = lat * D2R;
-  const r = Math.sqrt(C - 2 * N * Math.sin(phi)) / N;
-  const th = N * (lam - LAM0);
-  return [r * Math.sin(th), R0 - r * Math.cos(th)];
+function albers(lam0, p1, p2, p0) {
+  const P1 = p1 * D2R, P2 = p2 * D2R;
+  const n = 0.5 * (Math.sin(P1) + Math.sin(P2));
+  const c = Math.cos(P1) ** 2 + 2 * n * Math.sin(P1);
+  const r0 = Math.sqrt(c - 2 * n * Math.sin(p0 * D2R)) / n;
+  return (lon, lat) => {
+    const r = Math.sqrt(Math.max(0, c - 2 * n * Math.sin(lat * D2R))) / n;
+    const th = n * (lon - lam0) * D2R;
+    return [r * Math.sin(th), -(r0 - r * Math.cos(th))]; // y grows downward
+  };
 }
+const PROJ = {
+  conus: albers(-96, 29.5, 45.5, 37.5),
+  ak: albers(-154, 55, 65, 50),
+  hi: albers(-157, 8, 18, 3),
+};
+/** Which map region a point belongs to, or null if it is off the US map. */
+function region(lon, lat) {
+  if (!Number.isFinite(lon) || !Number.isFinite(lat)) return null;
+  if (lon > 170) lon -= 360; // western Aleutians
+  if (lat > 50 && lon < -129) return "ak";
+  if (lon >= -162 && lon <= -153 && lat >= 17.5 && lat <= 23.5) return "hi";
+  if (lon >= -128 && lon <= -63 && lat >= 17 && lat <= 50.5) return "conus";
+  return null;
+}
+// Inset placement, solved once the outline is in (or from fixed defaults).
+const INSET = { ak: { s: 0.36, dx: 0, dy: 0 }, hi: { s: 1, dx: 0, dy: 0 } };
+function base(lon, lat) {
+  const reg = region(lon, lat);
+  if (!reg) return null;
+  if (lon > 170) lon -= 360;
+  const p = PROJ[reg](lon, lat);
+  if (reg === "conus") return p;
+  const k = INSET[reg];
+  return [p[0] * k.s + k.dx, p[1] * k.s + k.dy];
+}
+const BOUNDS = { x0: -0.3, x1: 0.32, y0: -0.25, y1: 0.18 };
+function solveLayout(rings) {
+  const bb = () => ({ x0: Infinity, y0: Infinity, x1: -Infinity, y1: -Infinity });
+  const add = (b, p) => { b.x0 = Math.min(b.x0, p[0]); b.x1 = Math.max(b.x1, p[0]); b.y0 = Math.min(b.y0, p[1]); b.y1 = Math.max(b.y1, p[1]); };
+  const by = { conus: bb(), ak: bb(), hi: bb() };
+  const fallback = { conus: [[-124.7, 48.4], [-67, 44.8], [-80.1, 25.2], [-97.4, 25.9], [-117.1, 32.5]], ak: [[-168, 65.6], [-141, 69.6], [-130, 55], [-165, 54.4], [-176, 52]], hi: [[-160.2, 22.2], [-154.8, 19.5], [-155.9, 18.9]] };
+  const src = rings && rings.length ? rings : Object.values(fallback);
+  for (const ring of src) for (const [lo, la] of ring) {
+    const reg = region(lo, la); if (!reg) continue;
+    add(by[reg], PROJ[reg](lo > 170 ? lo - 360 : lo, la));
+  }
+  for (const k of ["conus", "ak", "hi"]) if (!Number.isFinite(by[k].x0)) for (const [lo, la] of fallback[k]) add(by[k], PROJ[k](lo, la));
+  const c = by.conus, w = c.x1 - c.x0, h = c.y1 - c.y0;
+  // Alaska: bottom-left, under California / Arizona. Hawaii: to its right.
+  const ak = INSET.ak, hi = INSET.hi;
+  ak.s = Math.min(0.36, (w * 0.28) / Math.max(1e-6, by.ak.x1 - by.ak.x0));
+  ak.dx = c.x0 - by.ak.x0 * ak.s;
+  ak.dy = c.y1 + h * 0.04 - by.ak.y1 * ak.s;
+  hi.s = Math.min(1, (w * 0.13) / Math.max(1e-6, by.hi.x1 - by.hi.x0));
+  hi.dx = c.x0 + w * 0.31 - by.hi.x0 * hi.s;
+  hi.dy = c.y1 + h * 0.04 - by.hi.y1 * hi.s;
+  const all = bb(); add(all, [c.x0, c.y0]); add(all, [c.x1, c.y1]);
+  add(all, [by.ak.x0 * ak.s + ak.dx, by.ak.y0 * ak.s + ak.dy]);
+  add(all, [by.hi.x1 * hi.s + hi.dx, by.hi.y1 * hi.s + hi.dy]);
+  Object.assign(BOUNDS, all);
+}
+solveLayout(null);
 
 function resize() {
   const dpr = Math.min(window.devicePixelRatio || 1, 2);
   const r = canvas.parentElement.getBoundingClientRect();
-  const w = Math.max(320, r.width), h = Math.max(360, r.height);
+  const w = Math.max(280, r.width), h = Math.max(320, r.height);
   canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr);
   canvas.style.width = w + "px"; canvas.style.height = h + "px";
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   S.needDraw = true;
 }
-
+/** Fit the whole US (with insets) into the canvas, then apply zoom and pan. */
+function fit() {
+  const w = canvas.clientWidth, h = canvas.clientHeight, pad = 18;
+  const bw = BOUNDS.x1 - BOUNDS.x0, bh = BOUNDS.y1 - BOUNDS.y0;
+  const k = Math.min((w - pad * 2) / bw, (h - pad * 2 - 34) / bh); // 34 px keeps the legend clear
+  return { k, ox: (w - bw * k) / 2 - BOUNDS.x0 * k, oy: (h - 34 - bh * k) / 2 - BOUNDS.y0 * k };
+}
 function toScreen(lon, lat) {
-  const [x, y] = project(lon, lat);
-  const w = canvas.clientWidth, h = canvas.clientHeight;
-  // Fit CONUS roughly into the canvas.
-  const sx = w * 0.42 * S.view.z, sy = -h * 0.55 * S.view.z;
-  return [w * 0.48 + x * sx + S.view.x, h * 0.72 + y * sy + S.view.y];
+  const b = base(lon, lat);
+  if (!b) return null;
+  const f = fit(), w = canvas.clientWidth, h = canvas.clientHeight, z = S.view.z;
+  const x = b[0] * f.k + f.ox, y = b[1] * f.k + f.oy;
+  return [(x - w / 2) * z + w / 2 + S.view.x, (y - h / 2) * z + h / 2 + S.view.y];
+}
+const SEV_RANK = { Extreme: 0, Severe: 1, Moderate: 2, Minor: 3 };
+function liveAlerts() {
+  const now = Date.now();
+  return S.alerts.filter((a) => !(Number.isFinite(a.ends) && a.ends < now && (a.t || 0) < a.ends));
 }
 
 function draw() {
   const w = canvas.clientWidth, h = canvas.clientHeight;
   ctx.clearRect(0, 0, w, h);
-  // atmosphere
   const g = ctx.createRadialGradient(w * 0.5, h * 0.4, 20, w * 0.5, h * 0.45, Math.max(w, h) * 0.7);
   g.addColorStop(0, "#122038"); g.addColorStop(1, "#09111d");
   ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
 
   if (S.us) {
-    ctx.fillStyle = "var" in CanvasRenderingContext2D.prototype ? "#233149" : "#233149";
-    ctx.strokeStyle = "#3a4c69"; ctx.lineWidth = 1;
+    ctx.fillStyle = "#233149"; ctx.strokeStyle = "#3a4c69"; ctx.lineWidth = 1;
     for (const ring of S.us) {
-      ctx.beginPath();
-      for (let i = 0; i < ring.length; i++) {
-        const p = toScreen(ring[i][0], ring[i][1]);
-        if (i === 0) ctx.moveTo(p[0], p[1]); else ctx.lineTo(p[0], p[1]);
+      ctx.beginPath(); let started = false;
+      for (const [lo, la] of ring) {
+        const p = toScreen(lo, la); if (!p) continue;
+        if (!started) { ctx.moveTo(p[0], p[1]); started = true; } else ctx.lineTo(p[0], p[1]);
       }
-      ctx.closePath(); ctx.fill(); ctx.stroke();
+      if (started) { ctx.closePath(); ctx.fill(); ctx.stroke(); }
     }
+    // Inset frames so Alaska and Hawaii read as insets, not neighbours.
+    ctx.strokeStyle = "rgba(122,140,170,.35)"; ctx.setLineDash([4, 4]);
+    for (const reg of ["ak", "hi"]) {
+      const pts = S.us.flat().filter(([lo, la]) => region(lo, la) === reg).map(([lo, la]) => toScreen(lo, la)).filter(Boolean);
+      if (!pts.length) continue;
+      const xs = pts.map((p) => p[0]), ys = pts.map((p) => p[1]);
+      ctx.strokeRect(Math.min(...xs) - 6, Math.min(...ys) - 6, Math.max(...xs) - Math.min(...xs) + 12, Math.max(...ys) - Math.min(...ys) + 12);
+    }
+    ctx.setLineDash([]);
   }
 
   S.hits = [];
   const now = Date.now();
-  if (S.showCalls) for (const c of S.calls) {
-    if (S.cityOn.size && !S.cityOn.has(cityKey(c.city))) continue;
-    const p = toScreen(c.lon, c.lat);
-    const age = (now - c.t) / 3600e3;
-    const a = age < 1 ? 0.95 : age < 6 ? 0.7 : 0.4;
-    const r = c.approx ? 3.5 : 4.2;
-    ctx.globalAlpha = a;
-    ctx.beginPath(); ctx.arc(p[0], p[1], r, 0, Math.PI * 2);
-    ctx.fillStyle = "rgba(66,165,245,.55)"; ctx.fill();
-    ctx.lineWidth = 1.2; ctx.strokeStyle = "#42a5f5"; ctx.stroke();
-    S.hits.push({ x: p[0], y: p[1], r: r + 3, kind: "call", item: c });
+  if (S.showCalls) {
+    const calls = S.calls.filter((c) => !S.cityOn.size || S.cityOn.has(cityKey(c.city)));
+    if (S.view.z < 2.4) {
+      // Zoomed out: one bubble per city, sized by call count.
+      const by = new Map();
+      for (const c of calls) {
+        const k = cityKey(c.city), o = by.get(k) || { city: c.city, n: 0, x: 0, y: 0, fresh: 0, pts: 0 };
+        o.n++; if (now - c.t < 3600e3) o.fresh++;
+        const p = toScreen(c.lon, c.lat); if (p) { o.x += p[0]; o.y += p[1]; o.pts++; }
+        by.set(k, o);
+      }
+      for (const o of [...by.values()].sort((a, b) => b.n - a.n)) {
+        if (!o.pts) continue;
+        const x = o.x / o.pts, y = o.y / o.pts, r = Math.min(17, 7 + Math.sqrt(o.n) * 0.7) * Math.min(1.25, Math.max(0.8, canvas.clientWidth / 700));
+        ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(66,165,245,.28)"; ctx.fill();
+        ctx.lineWidth = 1.5; ctx.strokeStyle = "#42a5f5"; ctx.stroke();
+        ctx.fillStyle = "#e3f2fd"; ctx.font = "600 11px ui-monospace,monospace"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+        ctx.fillText(String(o.n), x, y);
+        S.hits.push({ x, y, r: r + 2, kind: "city", item: o });
+      }
+    } else {
+      for (const c of calls) {
+        const p = toScreen(c.lon, c.lat); if (!p) continue;
+        if (p[0] < -10 || p[1] < -10 || p[0] > w + 10 || p[1] > h + 10) continue;
+        const age = (now - c.t) / 3600e3;
+        ctx.globalAlpha = age < 1 ? 0.95 : age < 6 ? 0.7 : 0.4;
+        const r = c.approx ? 3.5 : 4.2;
+        ctx.beginPath(); ctx.arc(p[0], p[1], r, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(66,165,245,.55)"; ctx.fill();
+        ctx.lineWidth = 1.2; ctx.strokeStyle = "#42a5f5"; ctx.stroke();
+        S.hits.push({ x: p[0], y: p[1], r: r + 3, kind: "call", item: c });
+      }
+      ctx.globalAlpha = 1;
+    }
   }
-  if (S.showAlerts) for (const a of S.alerts) {
-    if (!Number.isFinite(a.lon) || !Number.isFinite(a.lat)) continue;
-    const p = toScreen(a.lon, a.lat);
+  if (S.showAlerts) for (const a of liveAlerts()) {
+    const p = toScreen(a.lon, a.lat); if (!p) continue;
     const severe = a.severity === "Extreme" || a.severity === "Severe";
-    const r = severe ? 8 : 5.5;
-    const pulse = !REDUCED && severe ? 1 + 0.25 * Math.sin(now / 300) : 1;
+    const r = a.severity === "Extreme" ? 9 : severe ? 7 : 5;
+    const pulse = !REDUCED && a.severity === "Extreme" ? 1 + 0.25 * Math.sin(now / 300) : 1;
     ctx.globalAlpha = 0.9;
+    if (a.approx) ctx.setLineDash([3, 3]);
     ctx.beginPath(); ctx.arc(p[0], p[1], r * pulse, 0, Math.PI * 2);
-    ctx.strokeStyle = "#e53935"; ctx.lineWidth = severe ? 2.4 : 1.6; ctx.stroke();
+    ctx.strokeStyle = severe ? "#e53935" : "#ff8a65"; ctx.lineWidth = severe ? 2.2 : 1.5; ctx.stroke();
+    ctx.setLineDash([]);
     ctx.beginPath(); ctx.arc(p[0], p[1], 2.2, 0, Math.PI * 2);
-    ctx.fillStyle = "#e53935"; ctx.fill();
+    ctx.fillStyle = severe ? "#e53935" : "#ff8a65"; ctx.fill();
     S.hits.push({ x: p[0], y: p[1], r: r + 4, kind: "alert", item: a });
   }
   ctx.globalAlpha = 1;
@@ -323,6 +434,7 @@ function draw() {
 
 function cityKey(name) { return String(name || "").toLowerCase(); }
 function ago(t) {
+  if (t - Date.now() > 60e3) return "in " + ago(Date.now() - (t - Date.now())).replace(/^in /, "");
   const s = Math.max(0, Math.round((Date.now() - t) / 1000));
   if (s < 60) return s + "s";
   if (s < 3600) return Math.round(s / 60) + "m";
@@ -345,7 +457,7 @@ function setSrc(id, state, n, title) {
 
 function renderLayers() {
   const rows = [
-    ["alerts", "Emergency alerts", "#e53935", S.showAlerts, S.alerts.length],
+    ["alerts", "Emergency alerts", "#e53935", S.showAlerts, liveAlerts().length],
     ["calls", "911 / CAD calls", "#42a5f5", S.showCalls, S.calls.length],
   ];
   $("#layers").innerHTML = rows.map(([id, label, col, on, n]) =>
@@ -371,7 +483,7 @@ function renderEmergency() {
   $("#emHead").textContent = [p.event, p.severity].filter(Boolean).join(" · ") || "Active emergency trigger";
   $("#emSub").textContent = [
     p.headline || p.area || "",
-    `${em.count} trigger${em.count === 1 ? "" : "s"}`,
+    `${em.count} trigger${em.count === 1 ? "" : "s"}${Number.isFinite(em.us_count) ? ` (${em.us_count} near the US)` : ""}`,
     "public delayed feed · not an emergency service",
   ].filter(Boolean).join(" · ");
   document.title = `${em.label}: Dispatch`;
@@ -379,7 +491,8 @@ function renderEmergency() {
 }
 $("#emFocus").addEventListener("click", () => {
   const p = S.emergency?.primary;
-  if (p && Number.isFinite(p.lon) && Number.isFinite(p.lat)) focusLonLat(p.lon, p.lat);
+  const ok = p && focusLonLat(p.lon, p.lat);
+  S.alertScope = ok ? "us" : "world"; renderFeeds();
   S.tab = "alerts";
   $$("#tabs [role=tab]").forEach((t) => t.setAttribute("aria-selected", t.dataset.tab === "alerts" ? "true" : "false"));
   $$(".pane").forEach((pane) => { pane.hidden = pane.dataset.pane !== "alerts"; });
@@ -410,18 +523,27 @@ $("#cities").addEventListener("click", (e) => {
 
 function renderFeeds() {
   $("#ctBlather").textContent = S.blather.length || "";
-  $("#ctAlerts").textContent = S.alerts.length || "";
+  $("#ctAlerts").textContent = liveAlerts().length || "";
   $("#ctCalls").textContent = S.calls.length || "";
 
   $("#blather").innerHTML = S.blather.slice(0, 120).map((b) =>
     `<div class="bline"><div class="when">${esc(ago(b.t))}</div><div class="txt"><b>${esc(b.city)}</b>${esc(b.text)}<span>${esc(b.agency)}</span></div></div>`
   ).join("") || `<div class="note">No CAD chatter in this snapshot.</div>`;
 
-  $("#alerts").innerHTML = S.alerts.slice(0, 120).map((a) => {
-    const pin = Number.isFinite(a.lon) && Number.isFinite(a.lat);
+  const live = liveAlerts();
+  const onMap = (a) => !!region(a.lon, a.lat);
+  const shown = live.filter((a) => S.alertScope === "all" || (S.alertScope === "us" ? onMap(a) : !onMap(a)))
+    .sort((x, y) => ((SEV_RANK[x.severity] ?? 9) - (SEV_RANK[y.severity] ?? 9)) || (y.t - x.t));
+  $$("#alertScope [data-scope]").forEach((b) => {
+    const sc = b.dataset.scope, n = sc === "all" ? live.length : live.filter((a) => sc === "us" ? onMap(a) : !onMap(a)).length;
+    b.setAttribute("aria-pressed", sc === S.alertScope ? "true" : "false");
+    b.querySelector("span").textContent = n;
+  });
+  $("#alerts").innerHTML = shown.slice(0, 150).map((a) => {
+    const pin = onMap(a);
     const sys = a.system ? String(a.system).toUpperCase() : "NWS";
-    return `<li ${pin ? `data-lon="${a.lon}" data-lat="${a.lat}"` : ""}><div class="meta"><span class="tag sev-${esc(a.severity)}">${esc(a.severity)}</span><span>${esc(sys)}</span><span>${esc(a.event)}</span><span>${esc(ago(a.t))} ago</span>${pin ? "" : "<span>list only</span>"}</div><div class="title">${esc(a.headline || a.event)}</div><div class="meta">${esc(a.area || "")}</div></li>`;
-  }).join("") || `<li class="note">No severe alerts in this snapshot.</li>`;
+    return `<li ${pin ? `data-lon="${a.lon}" data-lat="${a.lat}"` : ""}><div class="meta"><span class="tag sev-${esc(a.severity)}">${esc(a.severity)}</span><span>${esc(sys)}</span><span>${esc(a.event)}</span><span>${/^in /.test(ago(a.t)) ? "starts " + esc(ago(a.t)) : esc(ago(a.t)) + " ago"}</span>${pin ? (a.approx ? "<span>~state</span>" : "") : "<span>outside US map</span>"}</div><div class="title">${esc(a.headline || a.event)}</div><div class="meta">${esc(a.area || "")}</div></li>`;
+  }).join("") || `<li class="note">${S.alertScope === "world" ? "Nothing outside the US map right now." : "No active alerts here in this snapshot."}</li>`;
 
   $("#calls").innerHTML = S.calls.slice(0, 160).map((c) =>
     `<li data-lon="${c.lon}" data-lat="${c.lat}"><div class="meta"><span class="tag">${esc(c.city)}</span><span>${esc(c.agency)}</span><span>${esc(ago(c.t))} ago</span>${c.approx ? "<span>~division</span>" : ""}${c.district ? `<span>${esc(c.district)}</span>` : ""}</div><div class="title">${esc(c.type)}</div></li>`
@@ -440,10 +562,21 @@ $("#tabs").addEventListener("click", (e) => {
 
 function focusLonLat(lon, lat) {
   const p = toScreen(lon, lat);
+  if (!p) return false;
   S.view.x += canvas.clientWidth / 2 - p[0];
   S.view.y += canvas.clientHeight / 2 - p[1];
-  S.view.z = Math.max(S.view.z, 1.6);
   S.needDraw = true;
+  zoomAt(canvas.clientWidth / 2, canvas.clientHeight / 2, 3 / S.view.z);
+  return true;
+}
+/** Zoom by factor f keeping the screen point (sx, sy) fixed. */
+function zoomAt(sx, sy, f) {
+  const z0 = S.view.z, z1 = Math.min(12, Math.max(0.8, z0 * f));
+  const w = canvas.clientWidth, h = canvas.clientHeight;
+  const k = z1 / z0;
+  S.view.x = (sx - w / 2) - k * (sx - w / 2 - S.view.x);
+  S.view.y = (sy - h / 2) - k * (sy - h / 2 - S.view.y);
+  S.view.z = z1; S.needDraw = true;
 }
 $("#alerts").addEventListener("click", (e) => {
   const li = e.target.closest("li[data-lon]"); if (!li) return;
@@ -454,46 +587,104 @@ $("#calls").addEventListener("click", (e) => {
   focusLonLat(+li.dataset.lon, +li.dataset.lat);
 });
 
-canvas.addEventListener("pointermove", (e) => {
-  const r = canvas.getBoundingClientRect();
-  const x = e.clientX - r.left, y = e.clientY - r.top;
+function hitAt(x, y) {
   let hit = null, best = 1e9;
   for (const h of S.hits) {
     const d = (h.x - x) ** 2 + (h.y - y) ** 2;
     if (d < h.r * h.r && d < best) { best = d; hit = h; }
   }
+  return hit;
+}
+function showTip(hit, x, y) {
   if (!hit) { tip.hidden = true; return; }
   const it = hit.item;
   tip.hidden = false;
-  tip.style.left = Math.min(x + 12, canvas.clientWidth - 270) + "px";
-  tip.style.top = Math.min(y + 12, canvas.clientHeight - 80) + "px";
   if (hit.kind === "alert") {
-    tip.innerHTML = `<b>${esc(it.event)} · ${esc(it.severity)}</b><small>${esc((it.system || "nws").toUpperCase())} · ${esc(it.area || "")}<br>${esc(ago(it.t))} ago</small>`;
+    tip.innerHTML = `<b>${esc(it.event)} · ${esc(it.severity)}</b><small>${esc((it.system || "nws").toUpperCase())} · ${esc(it.area || "")}${it.approx ? " · state-level pin" : ""}<br>${esc(ago(it.t))} ago</small>`;
+  } else if (hit.kind === "city") {
+    tip.innerHTML = `<b>${esc(it.city)}: ${it.n} calls</b><small>${it.fresh} in the last hour · click to zoom in</small>`;
   } else {
     tip.innerHTML = `<b>${esc(it.type)}</b><small>${esc(it.city)} · ${esc(it.agency)}${it.approx ? " · approx. pin" : ""}<br>${esc(ago(it.t))} ago</small>`;
   }
-});
-canvas.addEventListener("pointerleave", () => { tip.hidden = true; });
+  tip.style.left = Math.max(4, Math.min(x + 12, canvas.clientWidth - tip.offsetWidth - 6)) + "px";
+  tip.style.top = Math.max(4, Math.min(y + 12, canvas.clientHeight - tip.offsetHeight - 6)) + "px";
+}
+function local(e) { const r = canvas.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; }
 
-let drag = null;
+// Pointer handling: drag to pan, two fingers to pinch, tap or click to inspect.
+const ptrs = new Map();
+let drag = null, pinch = null, moved = 0;
 canvas.addEventListener("pointerdown", (e) => {
   canvas.setPointerCapture(e.pointerId);
-  drag = { x: e.clientX, y: e.clientY, vx: S.view.x, vy: S.view.y };
+  ptrs.set(e.pointerId, local(e));
+  moved = 0;
+  if (ptrs.size === 1) drag = { x: e.clientX, y: e.clientY, vx: S.view.x, vy: S.view.y };
+  if (ptrs.size === 2) {
+    const [a, b] = [...ptrs.values()];
+    pinch = { d: Math.hypot(a[0] - b[0], a[1] - b[1]), z: S.view.z };
+    drag = null;
+  }
 });
 canvas.addEventListener("pointermove", (e) => {
-  if (!drag) return;
-  S.view.x = drag.vx + (e.clientX - drag.x);
-  S.view.y = drag.vy + (e.clientY - drag.y);
-  S.needDraw = true;
+  const [x, y] = local(e);
+  if (ptrs.has(e.pointerId)) ptrs.set(e.pointerId, [x, y]);
+  if (pinch && ptrs.size === 2) {
+    const [a, b] = [...ptrs.values()];
+    const d = Math.hypot(a[0] - b[0], a[1] - b[1]);
+    zoomAt((a[0] + b[0]) / 2, (a[1] + b[1]) / 2, (pinch.z * d / Math.max(1, pinch.d)) / S.view.z);
+    moved = 99; tip.hidden = true; return;
+  }
+  if (drag) {
+    moved = Math.max(moved, Math.abs(e.clientX - drag.x) + Math.abs(e.clientY - drag.y));
+    if (moved > 4) {
+      S.view.x = drag.vx + (e.clientX - drag.x);
+      S.view.y = drag.vy + (e.clientY - drag.y);
+      S.needDraw = true; tip.hidden = true;
+      canvas.style.cursor = "grabbing";
+      return;
+    }
+  }
+  if (e.pointerType === "mouse") {
+    const hit = hitAt(x, y);
+    canvas.style.cursor = hit ? "pointer" : "grab";
+    showTip(hit, x, y);
+  }
 });
-canvas.addEventListener("pointerup", () => { drag = null; });
+function endPtr(e) {
+  const wasTap = ptrs.size === 1 && moved <= 4 && !pinch;
+  ptrs.delete(e.pointerId);
+  if (ptrs.size < 2) pinch = null;
+  if (!ptrs.size) drag = null;
+  canvas.style.cursor = "grab";
+  if (e.type !== "pointerup" || !wasTap) return;
+  const [x, y] = local(e);
+  const hit = hitAt(x, y);
+  if (hit && hit.kind === "city") {
+    // Zoom into the city so its single calls show.
+    S.view.x += canvas.clientWidth / 2 - x; S.view.y += canvas.clientHeight / 2 - y;
+    zoomAt(canvas.clientWidth / 2, canvas.clientHeight / 2, Math.max(6, S.view.z) / S.view.z);
+    tip.hidden = true; return;
+  }
+  showTip(hit, x, y);
+}
+canvas.addEventListener("pointerup", endPtr);
+canvas.addEventListener("pointercancel", endPtr);
+canvas.addEventListener("pointerleave", (e) => { if (e.pointerType === "mouse") tip.hidden = true; });
 canvas.addEventListener("wheel", (e) => {
   e.preventDefault();
-  const f = e.deltaY > 0 ? 0.9 : 1.1;
-  S.view.z = Math.min(4, Math.max(0.6, S.view.z * f));
-  S.needDraw = true;
+  const [x, y] = local(e);
+  zoomAt(x, y, e.deltaY > 0 ? 0.88 : 1.14);
 }, { passive: false });
-$("#home").addEventListener("click", () => { S.view = { z: 1, x: 0, y: 0 }; S.needDraw = true; });
+canvas.style.touchAction = "none";
+canvas.style.cursor = "grab";
+const resetView = () => { S.view = { z: 1, x: 0, y: 0 }; S.needDraw = true; tip.hidden = true; };
+$("#home").addEventListener("click", resetView);
+$("#zin").addEventListener("click", () => zoomAt(canvas.clientWidth / 2, canvas.clientHeight / 2, 1.5));
+$("#zout").addEventListener("click", () => zoomAt(canvas.clientWidth / 2, canvas.clientHeight / 2, 1 / 1.5));
+$("#alertScope").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-scope]"); if (!b) return;
+  S.alertScope = b.dataset.scope; renderFeeds();
+});
 
 async function loadOutline() {
   try {
@@ -501,6 +692,7 @@ async function loadOutline() {
     // data/world-outline.json: { countries: [{ iso2, rings: [[[lon,lat],…],…] }] }
     const us = (j.countries || []).find((c) => c.iso2 === "US");
     S.us = us?.rings || null;
+    solveLayout(S.us);
   } catch (e) {
     console.warn("outline", e);
     S.us = null;
@@ -512,7 +704,8 @@ async function loadSnap() {
   try {
     const j = await (await fetch(SNAP_URL())).json();
     S.alerts = j.alerts || [];
-    S.calls = j.calls || [];
+    // Guard against portal placeholders (0,0 or -1,-1) in older snapshots.
+    S.calls = (j.calls || []).filter((c) => c.lon <= -60 && c.lon >= -180 && c.lat >= 17 && c.lat <= 72);
     S.blather = j.blather || [];
     S.cities = j.cities || [];
     S.sources = j.sources || {};
@@ -525,6 +718,8 @@ async function loadSnap() {
     if (S.emergency?.active) setSrc("emergency", "ok", S.emergency.label, S.emergency.primary?.headline || S.emergency.label);
     else setSrc("emergency", "ok", "CLEAR", "No emergency triggers");
     $("#loading").hidden = true;
+    const off = liveAlerts().filter((a) => !region(a.lon, a.lat)).length;
+    $("#offMap").textContent = off ? `${off} world alerts are off this map: see Alerts › World` : "";
     renderEmergency(); renderLayers(); renderCities(); renderFeeds(); S.needDraw = true;
   } catch (e) {
     setSrc("snap", "dark", "", e.message);
@@ -553,6 +748,9 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "2") $$("#tabs [data-tab]")[1]?.click();
   if (e.key === "3") $$("#tabs [data-tab]")[2]?.click();
   if (e.key === "?") $("#help").showModal();
+  if (e.key === "+" || e.key === "=") $("#zin").click();
+  if (e.key === "-" || e.key === "_") $("#zout").click();
+  if (e.key === "0") $("#home").click();
 });
 
 addEventListener("resize", resize);

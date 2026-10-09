@@ -39,6 +39,8 @@ import * as agentPages from './templates/agentPages.mjs';
 import * as mediaPages from './templates/mediaPages.mjs';
 import * as moltbookPage from './templates/moltbookPage.mjs';
 import * as siWatchPage from './templates/siWatchPage.mjs';
+import * as catalogPages from './templates/catalogPages.mjs';
+import { items as faqItems } from './templates/_faq.mjs';
 import { TILE_ICONS, tileSvg } from './tileicons.mjs';
 import { writeExtras, EXTRAS_PAGES } from './extras.mjs';
 import * as topicPages from './templates/topicPages.mjs';
@@ -1343,6 +1345,7 @@ async function main() {
       state: state.generated_at,
       news: news && typeof news.generated_at === 'string' ? news.generated_at : null,
     })));
+    await writeSearchAndCatalog(ctx, args.out, write, written, { pages: false });
     const htmlWritten = written.filter((f) => f.endsWith('.html'));
     const stamped = await stampFiles(htmlWritten, args.out, state.generated_at, {
       level: state.level,
@@ -1784,6 +1787,8 @@ async function main() {
     })));
   }
 
+  await writeSearchAndCatalog(ctx, args.out, write, written);
+
   // ROOM CARDS. Each room gets its own share image (its art, name, pitch and
   // live figure) and its page's og:image is pointed at it — but only where the
   // page still carries the generic state card; a page with a card of its own
@@ -1831,6 +1836,46 @@ async function main() {
   log(`  files        ${written.length}`);
   log(`  sitebar      ${stamped} pages`);
   for (const w of warnings) log(`  WARNING      ${w}`);
+}
+
+// SEARCH AND CATALOG (site/templates/catalogPages.mjs). Reads what is on disk
+// rather than what this run wrote, so the news-only pass (which writes a
+// subset) still indexes the whole site. pages=false refreshes only the index.
+async function writeSearchAndCatalog(ctx, outDir, write, written, { pages = true } = {}) {
+  const files = [];
+  const walk = async (rel) => {
+    let names = [];
+    try { names = await readdir(path.join(outDir, rel), { withFileTypes: true }); } catch { return; }
+    for (const d of names) if (d.isFile()) files.push(rel ? `${rel}/${d.name}` : d.name);
+  };
+  await walk(''); await walk('api');
+  for (const f of ['moves/index.html', 'item/index.html', 'api/receipts/index.json', 'api/receipts/index.html']) {
+    if (existsSync(path.join(outDir, f))) files.push(f);
+  }
+  if (pages) files.push('search.html', 'catalog.html');
+  const meta = {};
+  for (const f of files.filter((x) => /^[^/]+\.html$/.test(x))) {
+    try { meta[f] = catalogPages.pageMeta(await readFile(path.join(outDir, f), 'utf8')); } catch { /* written below */ }
+  }
+  const entries = catalogPages.catalogEntries({ groups: homeV2.roomGroups(ctx), files, pages: meta, videos: mediaPages.VIDEOS });
+  let kit = [];
+  try { kit = catalogPages.bunkerTools(await readFile(path.join(ROOT, 'site', 'static', 'bunker-kit.html'), 'utf8')); } catch { kit = []; }
+  const arts = new Set();
+  try { for (const f of await readdir(path.join(ROOT, 'assets', 'img'))) { const m = f.match(/^art-(.+)\.webp$/); if (m) arts.add(m[1]); } } catch { /* no art */ }
+  const index = catalogPages.searchIndex(entries, {
+    at: (ctx.news && ctx.news.generated_at) || ctx.state.generated_at,
+    news: ctx.news, leaders: ctx.leaders, faq: faqItems(ctx), kit, arts, itemPages: itemPage.hasItems(ctx),
+  });
+  written.push(await write(outDir, 'api/search-index.json', `${JSON.stringify(index)}\n`));
+  if (!pages) return index;
+  const counts = {};
+  for (const it of index.items) counts[it[0]] = (counts[it[0]] || 0) + 1;
+  const popular = ['/race.html', '/news.html', '/moltbook.html', '/monitor.html', '/arena.html#battle', '/export.html']
+    .map((u) => entries.find((e) => e.url === u)).filter(Boolean);
+  written.push(await write(outDir, 'search.html', catalogPages.search(ctx, { counts, popular })));
+  written.push(await write(outDir, 'catalog.html', catalogPages.catalog(ctx, entries)));
+  await writeDirectoryAliases(outDir, ['search', 'catalog'], write, written);
+  return index;
 }
 
 function health(state) {

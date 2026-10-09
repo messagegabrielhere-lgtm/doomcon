@@ -71,6 +71,22 @@ export const TILE_ICONS = {
   scalebias: [{ a: '#E5E7EB', b: '#F87171', c: '#60A5FA' }, [
     '.......a........', '..aaaaaaaaaaaa..', '..a....a.....a..', '.a.a...a.....a..', 'a...a..a....a.a.', 'bbbbb..a...a...a', '.......a..ccccccc', '.......a.........',
     '.......a........', '.......a........', '.......a........', '.....aaaaa......', '....aaaaaaa.....', '................', '................', '................']],
+  // Search, Catalog, and the catalog's own cards for videos, feeds and data.
+  search: [{ a: '#A5B4FC', b: '#1E1B4B', c: '#E0E7FF', d: '#FACC15' }, [
+    '................', '....aaaaaa......', '...abbbbbba.....', '..abccbbbbba....', '.abcbbbbbbbba...', '.abcbbbbbbbba...', '.abbbbbbbbbba...', '.abbbbbbbbbba...',
+    '.abbbbbbbbbba...', '..abbbbbbbba....', '...abbbbbbadd...', '....aaaaaa.ddd..', '............ddd.', '.............ddd', '................', '................']],
+  catalog: [{ a: '#94A3B8', b: '#0F172A', c: '#4ADE80', d: '#F472B6' }, [
+    '................', '.aaaaaaaaaaaaaa.', '.abbbbbbbbbbbba.', '.abbbbccccbbbba.', '.abbbbbddbbbbba.', '.aaaaaaaaaaaaaa.', '.abbbbbbbbbbbba.', '.abbbbccccbbbba.',
+    '.abbbbbddbbbbba.', '.aaaaaaaaaaaaaa.', '.abbbbbbbbbbbba.', '.abbbbccccbbbba.', '.abbbbbddbbbbba.', '.aaaaaaaaaaaaaa.', '..a..........a..', '................']],
+  film: [{ a: '#E5E7EB', b: '#0B1020', c: '#F87171' }, [
+    '................', 'aaaaaaaaaaaaaaaa', 'a.a.a.a.a.a.a.aa', 'aaaaaaaaaaaaaaaa', 'abbbbbbbbbbbbbba', 'abbbbbcbbbbbbbba', 'abbbbbccbbbbbbba', 'abbbbbcccbbbbbba',
+    'abbbbbccccbbbbba', 'abbbbbcccbbbbbba', 'abbbbbccbbbbbbba', 'abbbbbcbbbbbbbba', 'aaaaaaaaaaaaaaaa', 'a.a.a.a.a.a.a.aa', 'aaaaaaaaaaaaaaaa', '................']],
+  rss: [{ a: '#FB923C', b: '#FFFFFF' }, [
+    '................', '.aaaaaaaaaaaaaa.', '.a............a.', '.a.bbbbb......a.', '.a......bb....a.', '.a.bbb....b...a.', '.a....bb...b..a.', '.a......b...b.a.',
+    '.a.bb....b..b.a.', '.a.bbb...b..b.a.', '.a.bbb...b..b.a.', '.a............a.', '.aaaaaaaaaaaaaa.', '................', '................', '................']],
+  db: [{ a: '#38BDF8', b: '#0C4A6E', c: '#E0F2FE' }, [
+    '................', '....aaaaaaaa....', '..aabbbbbbbbaa..', '..aaaaaaaaaaaa..', '..abbbbbbbbbba..', '..abbbbbbbbcba..', '..aabbbbbbbbaa..', '..aaaaaaaaaaaa..',
+    '..abbbbbbbbbba..', '..abbbbbbbbcba..', '..aabbbbbbbbaa..', '..aaaaaaaaaaaa..', '..abbbbbbbbbba..', '..abbbbbbbbcba..', '...aaaaaaaaaa...', '................']],
 };
 
 export function tileSvg(name, bg = '#0B1220') {

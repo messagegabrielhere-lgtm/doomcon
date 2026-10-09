@@ -223,6 +223,8 @@ ${MONETIZE.tips && MONETIZE.tips.url ? `<a class="fb kofi" href="${MONETIZE.tips
     // severe level; WATCH-level marks stay on the Dispatch page. Dismiss is
     // remembered per alert, so the same one never comes back.
     var onDispatch = /dispatch\.html$/.test(location.pathname);
+    // Dispatch carries its own, fuller banner: never stack a second one there.
+    if (onDispatch) { hide(); return; }
     function show(em){
       var id = (em.primary && (em.primary.id || em.primary.event)) || em.as_of || "1";
       try { if (localStorage.getItem(KEY) === id) return; } catch (e) {}

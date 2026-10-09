@@ -38,9 +38,16 @@ const DALLAS_DIV = {
   Southwest: [-96.900, 32.700],
 };
 
+/** A call pin inside the lower 48 / Alaska / Hawaii, not a null-island placeholder. */
+export function plausibleUS(lon, lat) {
+  return Number.isFinite(lon) && Number.isFinite(lat) && lon >= -180 && lon <= -60 && lat >= 17 && lat <= 72;
+}
+
 function pushCall(calls, blather, row) {
   if (!row || !row.type || !Number.isFinite(row.t)) return;
   if (SENSITIVE_TYPE.test(row.type)) return;
+  // Some portals ship 0,0 or -1,-1 for "no location": drop those pins.
+  if (!plausibleUS(row.lon, row.lat)) return;
   calls.push(row);
   blather.push({ t: row.t, city: row.city, agency: row.agency, text: row.type });
 }

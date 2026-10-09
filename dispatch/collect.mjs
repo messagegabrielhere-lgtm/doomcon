@@ -38,6 +38,18 @@ async function collectCity(city, sources) {
   }
 }
 
+export const CALLS_PER_CITY = 130;
+/** Newest `per` calls from each city, merged newest first. */
+export function balancePerCity(calls, per) {
+  const by = new Map();
+  for (const c of calls.slice().sort((a, b) => b.t - a.t)) {
+    const k = c.city || '?', arr = by.get(k) || [];
+    if (arr.length < per) arr.push(c);
+    by.set(k, arr);
+  }
+  return [...by.values()].flat().sort((a, b) => b.t - a.t);
+}
+
 export async function main() {
   const t0 = Date.now();
   const sources = {};
@@ -52,15 +64,21 @@ export async function main() {
   // identical Aid Response Yellow lines.
   const seen = new Set();
   const blatherDedup = [];
+  const perCityBlather = new Map();
   for (const b of blather.sort((a, b) => b.t - a.t)) {
     const key = `${b.city}|${b.text}|${Math.floor(b.t / 60000)}`;
     if (seen.has(key)) continue;
     seen.add(key);
+    // Share the ticker: no single city (often the freshest feed) fills it.
+    const n = perCityBlather.get(b.city) || 0;
+    if (n >= 60) continue;
+    perCityBlather.set(b.city, n + 1);
     blatherDedup.push(b);
     if (blatherDedup.length >= 400) break;
   }
 
-  calls.sort((a, b) => b.t - a.t);
+  // Keep every city on the map: newest CALLS_PER_CITY per city, then by time.
+  calls.splice(0, calls.length, ...balancePerCity(calls, CALLS_PER_CITY));
   const emergency = evaluateEmergency({ alerts });
 
   const snap = {
@@ -79,7 +97,7 @@ export async function main() {
     },
     emergency,
     alerts,
-    calls: calls.slice(0, 800),
+    calls: calls.slice(0, 1200),
     blather: blatherDedup,
     cities: CITIES.map((c) => ({
       id: c.id, label: c.label, city: c.city, agency: c.agency,

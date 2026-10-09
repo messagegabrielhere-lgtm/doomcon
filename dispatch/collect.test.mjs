@@ -125,3 +125,46 @@ test('freshTriggers filters posted ids', () => {
     ['a', 'c'],
   );
 });
+
+test('evaluateEmergency: storms far from the US drop to WATCH and are not posted', async () => {
+  const { evaluateEmergency, freshTriggers } = await import('./emergency.mjs');
+  const now = Date.parse('2026-10-09T12:00:00Z');
+  const e = evaluateEmergency({ alerts: [
+    { id: 'nhc:ep1', system: 'nhc', event: 'HU Simon', severity: 'Extreme', lon: -105, lat: 16, t: now },
+  ] }, { now });
+  assert.equal(e.label, 'WATCH');
+  assert.deepEqual(freshTriggers(e, []), []);
+  const g = evaluateEmergency({ alerts: [
+    { id: 'nhc:al1', system: 'nhc', event: 'HU Gulf', severity: 'Extreme', lon: -87.6, lat: 27, t: now },
+  ] }, { now });
+  assert.equal(g.label, 'ALERT');
+  assert.deepEqual(freshTriggers(g, []), ['nhc:al1']);
+});
+
+test('evaluateEmergency: expired alerts never trigger', async () => {
+  const { evaluateEmergency } = await import('./emergency.mjs');
+  const now = Date.parse('2026-10-09T12:00:00Z');
+  const e = evaluateEmergency({ alerts: [
+    { id: 'x', system: 'nws', event: 'Tornado Warning', severity: 'Extreme', lon: -97, lat: 35, t: now - 7200e3, ends: now - 3600e3 },
+  ] }, { now });
+  assert.equal(e.active, false);
+});
+
+test('stateFromText: NWS zone alerts get a state pin', async () => {
+  const { stateFromText } = await import('./geo.mjs');
+  assert.equal(stateFromText('Leon, FL', ''), 'FL');
+  assert.equal(stateFromText('Cascade County below 5000ft', 'Winter Storm Watch issued October 8 by NWS Great Falls MT'), 'MT');
+  assert.equal(stateFromText('Somewhere', 'no office'), null);
+});
+
+test('balancePerCity keeps every city and plausibleUS drops placeholder pins', async () => {
+  const { balancePerCity } = await import('./collect.mjs');
+  const { plausibleUS } = await import('./cities.mjs');
+  const calls = [...Array(10)].map((_, i) => ({ city: 'A', t: 100 + i })).concat([{ city: 'B', t: 1 }]);
+  const out = balancePerCity(calls, 3);
+  assert.equal(out.filter((c) => c.city === 'A').length, 3);
+  assert.equal(out.filter((c) => c.city === 'B').length, 1);
+  assert.equal(plausibleUS(0, 0), false);
+  assert.equal(plausibleUS(-1, -1), false);
+  assert.equal(plausibleUS(-122.4, 37.8), true);
+});

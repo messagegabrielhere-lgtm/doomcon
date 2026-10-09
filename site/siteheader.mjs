@@ -10,6 +10,7 @@
 // breadcrumb and the related rooms are plain HTML on every page.
 
 import { pixelText } from './templates/_pixel.mjs';
+import { SEARCH_CORE_JS } from './searchcore.mjs';
 
 export const HEADER_MARK = 'data-siteheader';
 export const NAV_JS_PATH = 'nav/site-nav.js';
@@ -92,6 +93,8 @@ export const HEADER_CSS = `<style ${HEADER_MARK}-css>
 .sh-rooms__i small{color:#AEB7C3;font-size:12.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .sh-rooms__i:hover,.sh-rooms__i.on{background:#161D33;border-left-color:#818CF8}
 .sh-rooms__i[aria-current=page] b::after{content:' · you are here';color:#86EFAC;font-weight:500;font-size:12px}
+.sh-rooms__i--x b{color:#A5B4FC}
+.sh-rooms__i mark{background:rgba(250,204,21,.28);color:inherit}
 .sh-rooms__k{margin:0;padding:8px 16px;border-top:1px solid #232C3B;color:#AEB7C3;font:500 11px/1.3 'IBM Plex Mono',ui-monospace,monospace}
 @media (max-width:560px){.sh-rooms{margin:10px auto auto;max-height:calc(100vh - 20px)}.sh-rooms__box{max-height:calc(100vh - 20px)}.sh-rooms__k{display:none}}
 .sh-rel{max-width:1240px;margin:40px auto 0;padding:0 16px;color:#E6EAF0;font:500 14px/1.4 system-ui,-apple-system,'Segoe UI',sans-serif}
@@ -165,6 +168,7 @@ ${pick.length ? `<p class="sh-rel__h">Related rooms · ${esc(gTitle)}</p>
 export function navJs(rooms, base = '') {
   const data = JSON.stringify({ base, rooms, primary: PRIMARY }).replace(/</g, '\\u003c');
   return `/* SIREN shared navigation: built by site/siteheader.mjs. */
+${SEARCH_CORE_JS}
 (function(){
 var D=${data};
 if(window.__shNav)return;window.__shNav=1;
@@ -172,27 +176,44 @@ function img(n){return n.indexOf('px:')===0?D.base+'/img/px-'+n.slice(3)+'.svg':
 function e(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
 var here=location.pathname.replace(/index\\.html$/,'');
 function cur(h){var p=(D.base+h).split('#')[0].replace(/index\\.html$/,'');return p===here}
-var dlg=null,q,items=[],sel=0;
+var dlg=null,q,items=[],stat=[],sel=0;
 function build(){
   dlg=document.createElement('dialog');dlg.className='sh-rooms';dlg.id='sh-rooms';dlg.setAttribute('aria-label','Every room');
-  var h='<div class="sh-rooms__box"><div class="sh-rooms__top"><input class="sh-rooms__q" type="search" placeholder="Find a room… (type to filter)" aria-label="Filter rooms" autocomplete="off" spellcheck="false"><button type="button" class="sh-rooms__x" aria-label="Close">✕</button></div><ul class="sh-rooms__l">';
+  var h='<div class="sh-rooms__box"><div class="sh-rooms__top"><input class="sh-rooms__q" type="search" placeholder="Find a room, or search everything…" aria-label="Find a room or search the site" autocomplete="off" spellcheck="false"><button type="button" class="sh-rooms__x" aria-label="Close">✕</button></div><ul class="sh-rooms__l">';
   var secs=[].slice.call(document.querySelectorAll('[data-sec][id]'));
   if(secs.length){h+='<li class="sh-rooms__g">ON THIS PAGE</li>';secs.forEach(function(s){var l=s.getAttribute('data-sec');h+='<li><a class="sh-rooms__i" href="#'+e(s.id)+'" data-k="'+e((l+' on this page section').toLowerCase())+'"><span><b>'+e(l)+'</b><small>On this page</small></span></a></li>'})}
   h+='<li class="sh-rooms__g">START HERE</li>';
   D.primary.forEach(function(p){var r=null;D.rooms.forEach(function(x){if(!r&&x[0]===p[0])r=x});h+='<li><a class="sh-rooms__i sh-rooms__i--p" href="'+e(D.base+p[0])+'" data-k="'+e((p[1]+' '+(r?r[2]+' '+r[3]:'home index war room')).toLowerCase())+'"'+(cur(p[0])?' aria-current="page"':'')+'><img src="'+e(img(r?r[1]:'siren'))+'" width="34" height="34" alt="" loading="lazy"><span><b>'+e(p[1])+'</b><small>'+e(r?r[3]:'The level, the score and the war room')+'</small></span></a></li>'});
   var g='';
   D.rooms.forEach(function(r){if(r[4]!==g){g=r[4];h+='<li class="sh-rooms__g">'+e(g)+'</li>'}h+='<li><a class="sh-rooms__i" href="'+e(D.base+r[0])+'" data-k="'+e((r[2]+' '+r[3]+' '+r[4]).toLowerCase())+'"'+(cur(r[0])?' aria-current="page"':'')+'><img src="'+e(img(r[1]))+'" width="34" height="34" alt="" loading="lazy"><span><b>'+e(r[2])+'</b><small>'+e(r[3])+'</small></span></a></li>'});
-  h+='</ul><p class="sh-rooms__k">↑ ↓ to move · Enter to open · Esc to close · press / anywhere</p></div>';
+  h+='</ul><p class="sh-rooms__k">↑ ↓ to move · Enter to open · Esc to close · press / anywhere · <a href="'+e(D.base)+'/search.html" style="color:#A5B4FC">full search</a> · <a href="'+e(D.base)+'/catalog.html" style="color:#A5B4FC">catalog</a></p></div>';
   dlg.innerHTML=h;document.body.appendChild(dlg);
-  q=dlg.querySelector('.sh-rooms__q');items=[].slice.call(dlg.querySelectorAll('.sh-rooms__i'));
+  q=dlg.querySelector('.sh-rooms__q');stat=items=[].slice.call(dlg.querySelectorAll('.sh-rooms__i'));
   q.addEventListener('input',filt);
-  q.addEventListener('keydown',function(ev){var v=vis(),n=Math.max(1,v.length);if(ev.key==='ArrowDown'){ev.preventDefault();sel=(sel+1)%n;mark()}else if(ev.key==='ArrowUp'){ev.preventDefault();sel=(sel-1+n)%n;mark()}else if(ev.key==='Enter'&&v[sel]){ev.preventDefault();dlg.close();location.href=v[sel].href}});
+  q.addEventListener('keydown',function(ev){var v=vis(),n=Math.max(1,v.length);if(ev.key==='ArrowDown'){ev.preventDefault();sel=(sel+1)%n;mark()}else if(ev.key==='ArrowUp'){ev.preventDefault();sel=(sel-1+n)%n;mark()}else if(ev.key==='Enter'&&v[sel]){ev.preventDefault();dlg.close();if(v[sel].target==='_blank')window.open(v[sel].href,'_blank','noopener');else location.href=v[sel].href}});
   dlg.querySelector('.sh-rooms__x').addEventListener('click',function(){dlg.close()});
   dlg.addEventListener('click',function(ev){if(ev.target===dlg||(ev.target.closest&&ev.target.closest('a[href^="#"]')))dlg.close()});
 }
 function vis(){return items.filter(function(a){return a.parentNode.style.display!=='none'})}
+// SEARCH EVERYTHING. Past the rooms, the same index /search.html uses
+// (api/search-index.json, loaded on the first keystroke) adds stories,
+// leaders, videos and data, and the last row always hands the query over.
+var SX=null,SXrows=null,SXwait=false,roomSet={};D.rooms.forEach(function(r){roomSet[r[0]]=1});D.primary.forEach(function(p){roomSet[p[0]]=1});
+function sxLoad(){if(SX||SXwait)return;SXwait=true;fetch(D.base+'/api/search-index.json').then(function(r){return r.json()}).then(function(d){SX=d;SXrows=window.sirenSearch.prep(d);if(dlg&&dlg.open&&q.value.trim())filt()}).catch(function(){})}
+function sxImg(it){var n=it[5]||((SX&&SX.icons&&SX.icons[it[0]])||'px:doc');return img(n)}
+function dyn(k){
+  [].slice.call(dlg.querySelectorAll('.sh-dyn')).forEach(function(n){n.parentNode.removeChild(n)});
+  var raw=q.value.trim(),ul=dlg.querySelector('.sh-rooms__l'),add=[];if(!raw)return add;
+  if(raw.length>=2)sxLoad();
+  var h='';
+  if(SXrows&&raw.length>=2){var hits=window.sirenSearch.search(SXrows,raw).filter(function(x){return !roomSet[x.it[2]]}).slice(0,6);
+    if(hits.length){h+='<li class="sh-rooms__g sh-dyn">ACROSS THE SITE</li>';hits.forEach(function(x){var it=x.it,ext=/^https?:/.test(it[2]);h+='<li class="sh-dyn"><a class="sh-rooms__i" href="'+e(ext?it[2]:D.base+it[2])+'"'+(ext?' target="_blank" rel="noopener"':'')+'><img src="'+e(sxImg(it))+'" width="34" height="34" alt="" loading="lazy"><span><b>'+window.sirenSearch.hl(it[1],raw)+'</b><small>'+e(((SX.types&&SX.types[it[0]])||it[0])+(it[3]?' · '+it[3]:''))+'</small></span></a></li>'})}}
+  h+='<li class="sh-dyn"><a class="sh-rooms__i sh-rooms__i--x" href="'+e(D.base+'/search.html?q='+encodeURIComponent(raw))+'"><span><b>Search everything for “'+e(raw)+'” →</b><small>Rooms, stories, leaders, videos, data and feeds</small></span></a></li>';
+  ul.insertAdjacentHTML('beforeend',h);
+  return [].slice.call(ul.querySelectorAll('.sh-dyn .sh-rooms__i'));
+}
 function mark(){var v=vis();items.forEach(function(a){a.classList.remove('on')});if(v.length){sel=Math.max(0,Math.min(sel,v.length-1));v[sel].classList.add('on');v[sel].scrollIntoView({block:'nearest'})}}
-function filt(){var k=q.value.trim().toLowerCase();var heads=[].slice.call(dlg.querySelectorAll('.sh-rooms__g'));items.forEach(function(a){a.parentNode.style.display=!k||(a.getAttribute('data-k').indexOf(k)>=0&&!(a.classList.contains('sh-rooms__i--p')&&a.getAttribute('href')!==D.base+'/'))?'':'none'});heads.forEach(function(hd){hd.style.display=k?'none':''});sel=0;mark()}
+function filt(){var k=q.value.trim().toLowerCase();var heads=[].slice.call(dlg.querySelectorAll('.sh-rooms__g'));stat.forEach(function(a){a.parentNode.style.display=!k||(a.getAttribute('data-k').indexOf(k)>=0&&!(a.classList.contains('sh-rooms__i--p')&&a.getAttribute('href')!==D.base+'/'))?'':'none'});heads.forEach(function(hd){hd.style.display=k?'none':''});items=stat.concat(dyn(k));sel=0;mark()}
 function open(prefill){if(!dlg)build();if(!dlg.showModal){location.href=D.base+'/#rooms';return}q.value=prefill||'';filt();if(!dlg.open)dlg.showModal();q.focus();if(prefill)q.select()}
 window.sirenRooms=open;
 // Every "all rooms" control on the site opens this one list: ours, the inner
@@ -201,6 +222,7 @@ document.addEventListener('click',function(ev){var t=ev.target&&ev.target.closes
   if(t.hasAttribute('data-sh-top')){ev.preventDefault();toTop();return}
   ev.preventDefault();ev.stopImmediatePropagation();open(t.getAttribute('data-sh-rooms-group')||'')},true);
 window.addEventListener('keydown',function(ev){var t=ev.target,tag=t&&t.tagName;var typing=tag==='INPUT'||tag==='TEXTAREA'||tag==='SELECT'||(t&&t.isContentEditable);
+  var own=document.querySelector('[data-site-search]');if(ev.key==='/'&&!typing&&!ev.metaKey&&!ev.ctrlKey&&!ev.altKey&&own&&!(dlg&&dlg.open)){ev.preventDefault();ev.stopImmediatePropagation();own.focus();own.select();return}
   if((ev.key==='/'&&!typing&&!ev.metaKey&&!ev.ctrlKey&&!ev.altKey)||((ev.metaKey||ev.ctrlKey)&&String(ev.key).toLowerCase()==='k')){if(dlg&&dlg.open&&ev.key!=='/'){dlg.close()}else{open()}ev.preventDefault();ev.stopImmediatePropagation()}},true);
 // BACK TO TOP: one button, bottom-left, after a screen and a half, clear of
 // the freshness bar on phones and the intro chip.
