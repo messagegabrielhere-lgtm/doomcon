@@ -357,7 +357,20 @@ jobs:
           git add -A
           git commit -q -m "$SUBJECT" \
             -m "Build output from ${{ github.repository }}@${{ github.sha }} (collect/news). Do not hand-edit."
-                    git push -q -f "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" gh-pages
+          # news-fast also publishes to gh-pages on its own schedule. A bare
+          # force-push loses the compare-and-swap race ("cannot lock ref") when
+          # both land in the same second; retry until ours is the tip.
+          for attempt in 1 2 3 4 5; do
+            if git push -q -f "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" gh-pages; then
+              break
+            fi
+            echo "gh-pages push rejected (attempt $attempt); retrying"
+            sleep $((attempt * 2))
+            if [ "$attempt" -eq 5 ]; then
+              echo '::error::could not publish to gh-pages after 5 attempts'
+              exit 1
+            fi
+          done
           cd ..
           rm -rf .pages
           echo "published: $SUBJECT"
@@ -748,7 +761,20 @@ jobs:
           git add -A
           git commit -q -m "$SUBJECT" \
             -m "Build output from ${{ github.repository }}@${{ github.sha }} (collect/full). Do not hand-edit."
-                    git push -q -f "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" gh-pages
+          # news-fast also publishes to gh-pages on its own schedule. A bare
+          # force-push loses the compare-and-swap race ("cannot lock ref") when
+          # both land in the same second; retry until ours is the tip.
+          for attempt in 1 2 3 4 5; do
+            if git push -q -f "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" gh-pages; then
+              break
+            fi
+            echo "gh-pages push rejected (attempt $attempt); retrying"
+            sleep $((attempt * 2))
+            if [ "$attempt" -eq 5 ]; then
+              echo '::error::could not publish to gh-pages after 5 attempts'
+              exit 1
+            fi
+          done
           cd ..
           rm -rf .pages
           echo "published: $SUBJECT"
