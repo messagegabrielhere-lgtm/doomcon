@@ -195,9 +195,14 @@ jobs:
                 git -C .pages config user.email '41898282+github-actions[bot]@users.noreply.github.com'
                 git -C .pages add -A
                 git -C .pages commit -q -m "newsroom refresh — $(date -u +%Y-%m-%dT%H:%M:%SZ)"
-                if git -C .pages push -q -f "$PAGES_REMOTE" gh-pages; then
-                  PUB_OK=1
-                fi
+                for attempt in 1 2 3; do
+                  if git -C .pages push -q -f "$PAGES_REMOTE" gh-pages; then
+                    PUB_OK=1
+                    break
+                  fi
+                  echo "tick $TICK: orphan gh-pages push rejected (attempt $attempt); retrying"
+                  sleep $((attempt * 2))
+                done
               fi
               [ "$PUB_OK" -eq 1 ] && PUBLISHED=$((PUBLISHED + 1))
             else
