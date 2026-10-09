@@ -111,7 +111,7 @@ jobs:
             MAIN_LEADERS="${RUNNER_TEMP:-/tmp}/main-leaders"
             rm -rf "$MAIN_LEADERS"; mkdir -p "$MAIN_LEADERS"
             if git fetch -q --depth=1 origin main 2>/dev/null; then
-              git restore --source=FETCH_HEAD --worktree -- . ':(exclude)data/news.json' ':(exclude)data/x-surface.json' "${OWN_X[@]}" "${LEADERS_X[@]}" \
+              git restore --source=FETCH_HEAD --worktree -- . ':(exclude)data/news.json' ':(exclude)data/x-surface.json' ':(exclude)data/bsky-surface.json' "${OWN_X[@]}" "${LEADERS_X[@]}" \
                 || echo "::warning::tick $TICK could not refresh from main; building from the previous tick's tree"
               for f in leaders-coverage.json leaders-profiles.json leaders-feeds.json; do
                 git show "FETCH_HEAD:data/$f" > "$MAIN_LEADERS/$f" 2>/dev/null || rm -f "$MAIN_LEADERS/$f"
@@ -148,7 +148,19 @@ jobs:
 
             XAI_API_KEY="$NEWS_XAI_KEY" node collector/news.mjs || echo "::warning::news pass $TICK failed; continuing"
 
+<<<<<<< HEAD
             AFTER=$(NFP)
+=======
+            # Social surfaces are slower than the newsroom tick. Refresh them
+            # every fifth minute so HN/Techmeme/Lobsters/Bluesky stay current
+            # without burning the oEmbed budget every sixty seconds.
+            if [ $(( TICK % 5 )) -eq 0 ]; then
+              node collector/x-surface.mjs || echo "::warning::x-surface pass $TICK failed; continuing"
+              node collector/bsky-surface.mjs || echo "::warning::bsky-surface pass $TICK failed; continuing"
+            fi
+
+            AFTER=$(node -e "try{const d=require('./data/news.json');process.stdout.write(require('crypto').createHash('sha256').update(JSON.stringify(d.items.map(i=>i.id))).digest('hex'))}catch{process.stdout.write('none')}")
+>>>>>>> ba4a80fc (Widen Watch news and social aggregation scope and scale.)
 
             # THE LEADER WIRE, EVERY TICK, BUT NOT EVERY TICK'S NETWORK.
             # collector/leaders.mjs re-reads news.json each tick (pure, no
@@ -266,12 +278,18 @@ jobs:
           # always saw: two data files changed, nothing else.
           # The leader wire's files are restored too: collect.yml owns them on
           # main, and committing this loop's copy would only race it.
+<<<<<<< HEAD
           git restore --source=HEAD --worktree -- . ':(exclude)data/news.json' ':(exclude)data/x-surface.json' ':(exclude)data/breaking.json' ':(exclude)data/sightings.json' ':(exclude)data/xai-usage.json' 2>/dev/null || true
           rm -rf .pages
           git add data/news.json data/x-surface.json 2>/dev/null || true
           for f in data/breaking.json data/sightings.json data/xai-usage.json; do
             if [ -f "$f" ]; then git add "$f"; fi
           done
+=======
+          git restore --source=HEAD --worktree -- . ':(exclude)data/news.json' ':(exclude)data/x-surface.json' ':(exclude)data/bsky-surface.json' 2>/dev/null || true
+          rm -rf .pages
+          git add data/news.json data/x-surface.json data/bsky-surface.json 2>/dev/null || true
+>>>>>>> ba4a80fc (Widen Watch news and social aggregation scope and scale.)
           if git diff --cached --quiet; then
             echo "nothing to persist"
             exit 0

@@ -427,9 +427,72 @@ async function discoverTechmeme(nowMs) {
   return parseTechmeme(html, nowMs);
 }
 
+// ---------------------------------------------------------------------------
+// Discovery source: Lobsters AI tag
+// ---------------------------------------------------------------------------
+//
+// Practitioner forum; lower volume than HN/Techmeme, but often carries lab
+// status permalinks hours before either of those. The RSS is already AI-tagged
+// (`/t/ai.rss`), so we only need an on-topic check for the linked post itself
+// (or the official-handle bypass). Measured 2026-10-09: valid application/rss+xml.
+
+const LOBSTERS_AI_RSS = 'https://lobste.rs/t/ai.rss';
+
+/** Split of the parse so the self-test can exercise it without the network. */
+export function parseLobstersAi(xml, nowMs) {
+  if (typeof xml !== 'string' || !/<(?:rss|feed)\b/i.test(xml.slice(0, 800))) {
+    throw new Error('lobsters: body is not an RSS/Atom feed — shape changed');
+  }
+
+  const out = [];
+  const seen = new Set();
+  const blockRe = /<(?:item|entry)(?:\s[^>]*)?>([\s\S]*?)<\/(?:item|entry)\s*>/gi;
+
+  for (const match of xml.matchAll(blockRe)) {
+    const block = match[1];
+    const title = stripTags((block.match(/<title(?:\s[^>]*)?>([\s\S]*?)<\/title\s*>/i) ?? [, ''])[1]).slice(0, 180);
+    const linkMatch = block.match(/<link(?:\s[^>]*)?>\s*([^<\s][^<]*?)\s*<\/link\s*>/i)
+      ?? block.match(/<link\b[^>]*\bhref\s*=\s*["']([^"']+)["']/i);
+    const storyUrl = linkMatch ? unescapeEntities(linkMatch[1].trim()) : LOBSTERS_AI_RSS;
+    const pubRaw = (block.match(/<(?:pubDate|published|updated)(?:\s[^>]*)?>([\s\S]*?)<\/(?:pubDate|published|updated)\s*>/i) ?? [, ''])[1];
+    const pubMs = Date.parse(unescapeEntities(pubRaw.trim()));
+    const citedAt = Number.isFinite(pubMs) ? new Date(pubMs).toISOString() : new Date(nowMs).toISOString();
+
+    // Comments and titles on Lobsters often paste x.com/status URLs; harvest
+    // every post ref in the item block (link + description).
+    for (const ref of extractPostRefs(block).values()) {
+      if (seen.has(ref.id)) continue;
+      const topic = isOnTopic({ handle: ref.handle, context: title });
+      if (!topic.on_topic) continue;
+      seen.add(ref.id);
+      out.push({
+        id: ref.id,
+        handle: ref.handle,
+        citation: {
+          source: 'lobsters',
+          label: 'Lobsters',
+          context: title || 'Lobsters — AI',
+          url: storyUrl,
+          points: null,
+          comments: null,
+          cited_at: citedAt,
+        },
+        matched_by: topic.matched_by === 'official_account' ? 'official_account' : 'lobsters_ai',
+      });
+    }
+  }
+  return out;
+}
+
+async function discoverLobsters(nowMs) {
+  const res = await fetchText(LOBSTERS_AI_RSS, { timeoutMs: HTTP_TIMEOUT_MS, withMeta: true });
+  return parseLobstersAi(res.data, nowMs);
+}
+
 const DISCOVERY = [
   { id: 'hn', label: 'Hacker News', run: discoverHackerNews },
   { id: 'techmeme', label: 'Techmeme', run: discoverTechmeme },
+  { id: 'lobsters', label: 'Lobsters', run: discoverLobsters },
 ];
 
 // ---------------------------------------------------------------------------
@@ -660,6 +723,8 @@ export function baseScore(item, nowMs) {
       citation += 2;
       hnPoints = Math.max(hnPoints, c.points ?? 0);
     }
+    // Practitioner forum: one point below HN, above an uncited drive-by.
+    if (c.source === 'lobsters') citation += 1.5;
   }
   // log10 so a 400-point story beats a 4-point one without erasing it.
   const engagement = Math.log10(1 + hnPoints) * 1.5;
@@ -1195,6 +1260,26 @@ function selftest() {
   ok('a page with too few clusters throws rather than reporting a quiet day',
     (() => { try { parseTechmeme('<html><div class="clus">x</div></html>', nowMs); return false; }
              catch (e) { return /markup has changed/.test(e.message); } })());
+
+  console.log('lobsters parser');
+  const LOB_FIXTURE =
+    '<?xml version="1.0"?><rss version="2.0"><channel>' +
+    '<item><title>Anthropic ships Claude update</title>' +
+    '<link>https://lobste.rs/s/abc123/anthropic</link>' +
+    '<description>Discussed at https://x.com/anthropicai/status/2102824959827742916</description>' +
+    '<pubDate>Tue, 23 Sep 2026 12:00:00 +0000</pubDate></item>' +
+    '<item><title>Parking garage opens in Dubai</title>' +
+    '<link>https://lobste.rs/s/def456/parking</link>' +
+    '<description>see https://x.com/someone/status/2102850037487116539</description>' +
+    '<pubDate>Tue, 23 Sep 2026 11:00:00 +0000</pubDate></item>' +
+    '</channel></rss>';
+  const lob = parseLobstersAi(LOB_FIXTURE, nowMs);
+  eq('lobsters keeps AI-cited posts', lob.map((c) => c.handle), ['anthropicai']);
+  ok('lobsters drops off-topic x.com links', !lob.some((c) => c.handle === 'someone'));
+  eq('lobsters citation source', lob[0].citation.source, 'lobsters');
+  ok('lobsters refuses non-feed bodies',
+    (() => { try { parseLobstersAi('<html>not a feed</html>', nowMs); return false; }
+             catch (e) { return /not an RSS/.test(e.message); } })());
 
   console.log('ranking');
   const mk = (id, handle, hours, cites, official = false) => ({

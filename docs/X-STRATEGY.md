@@ -116,7 +116,7 @@ it will not tell you which posts exist. So the real question was never "can we
 read X for free" — it was **"where do x.com post URLs surface publicly, for
 free, somewhere we are already allowed to read?"**
 
-Two answers, both measured, both now implemented in `collector/x-surface.mjs`:
+Three answers, all measured, all now implemented in `collector/x-surface.mjs`:
 
 **Hacker News (Algolia).** 84 distinct stories in the trailing 30 days whose
 *submitted URL is itself* an x.com status permalink — including `@claudeai`,
@@ -131,6 +131,11 @@ posts its editors considered worth reading — on 2026-09-23 that included
 `techmeme.com/robots.txt` allows `/` for `User-agent: *` (it disallows only
 `/r/`, `/goto/`, `/search/`, `/timeline/`, `/track/` and `*.jpg`).
 
+**Lobsters AI tag RSS.** Practitioner forum at `lobste.rs/t/ai.rss`. Lower
+volume than either of the above, but often carries lab status permalinks hours
+earlier. Added 2026-10-09 as a third discovery source so the reel is not
+hostage to a single HTML scrape.
+
 We parse Techmeme **per story cluster**, not with a flat regex over the page,
 and that turned out to matter more than expected. A flat regex finds the same
 URLs but can only claim "Techmeme linked this". The cluster tells us *which
@@ -140,6 +145,11 @@ characters of neighbouring markup. Measured: **149 loose candidates became 150
 headline-anchored ones, and the top of the reel went from five random
 commentators to `@AnthropicAI`, `@OpenAI`, `@GoogleDeepMind`, `@GoogleAI`,
 `@ArtificialAnlys`.**
+
+A parallel Bluesky surface (`collector/bsky-surface.mjs` →
+`data/bsky-surface.json`) watches a fixed researcher/lab handle list through
+the keyless AppView. It is presentation-only and never scored — same rule as
+the X surface.
 
 ### 2.5 What this is, stated honestly
 
@@ -554,7 +564,7 @@ because the cache is a receipt for work already done, not a claim about now.
 
 ### 7.3 Tests
 
-`node collector/x-surface.mjs --selftest` — **49 checks, no network.** Covers
+`node collector/x-surface.mjs --selftest` — **53 checks, no network.** Covers
 snowflake timestamp decoding (including the refusal to decode pre-snowflake ids
 like `jack/status/20`), URL extraction, the topic filter (*"Thailand said
 Dubai"* must not match `\bAI\b`), the Techmeme cluster parser against a fixture,
@@ -576,10 +586,10 @@ docker run --rm --network host -v "$PWD":/app -w /app node:20-alpine \
 - **oEmbed is undocumented-as-to-limits, not unlimited.** "Rate limited: No" is
   today's policy, not a contract. The budget, the candidate pool and the cache
   exist so that a future limit degrades us rather than breaks us.
-- **Discovery is two sources, and one is a scraped HTML page.** Techmeme's
+- **Discovery is three sources, and one is a scraped HTML page.** Techmeme's
   front-page markup has been stable for years, but if it changes the adapter
   throws deliberately (it requires ≥5 story clusters) rather than report a quiet
-  day. HN Algolia is a proper API and the likelier survivor.
+  day. HN Algolia and Lobsters RSS are proper feeds and the likelier survivors.
 - **We see what HN and Techmeme see.** That is an Anglophone, Western, tech-press
   lens — the same limitation METHODOLOGY.md already discloses about the index
   itself. A major Chinese lab post reaches this reel only once the Western press
