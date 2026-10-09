@@ -724,11 +724,10 @@ ${ticker(items)}
   <div class="v2-since" id="v2-since" hidden role="status"></div>
   <script>window.SIREN_NOW=${JSON.stringify(sinceNow).replace(/</g, '\\u003c')}</script>
 
-  ${top ? `<div class="v2-breaking" id="breaking" data-sec="Breaking"><span class="badge"><span class="blink">${icon('bolt', 2)}</span>BREAKING</span><a href="${esc(top.url)}" rel="noopener">${esc(top.title)}</a><span class="src">${esc(hhmm(top.published_at))} · ${esc(String(top.source).toUpperCase())}</span><button type="button" class="v2-xp" data-xpost="news" data-x-title="${esc(top.title)}" data-x-src="${esc(top.source)}" data-x-url="${esc(top.url)}" aria-label="Post this story to X">𝕏 POST</button></div>` : ''}
-
 <details class="v2-more" id="v2-more" open>
   <summary class="v2-more__sum">See the evidence →</summary>
   <div class="v2-more__body">
+  ${top ? `<div class="v2-breaking" id="breaking" data-sec="Breaking"><span class="badge"><span class="blink">${icon('bolt', 2)}</span>BREAKING</span><a href="${esc(top.url)}" rel="noopener">${esc(top.title)}</a><span class="src">${esc(hhmm(top.published_at))} · ${esc(String(top.source).toUpperCase())}</span><button type="button" class="v2-xp" data-xpost="news" data-x-title="${esc(top.title)}" data-x-src="${esc(top.source)}" data-x-url="${esc(top.url)}" aria-label="Post this story to X">𝕏 POST</button></div>` : ''}
   ${dash}
   <div class="v2-sponsor">${sponsorLine(href('/sponsor.html'))}</div>
 ${deskPicks(ctx, pixelText)}
@@ -963,7 +962,8 @@ body.v2-body{margin:0;background:#000;color:#F3F4F6}
 .v2-cols i{flex:1 1 0;background:#3B5BFF;border-top:4px solid #3B5BFF}
 .v2-cta{border:2px solid #4338CA;background:#0E1033;padding:24px 28px;display:flex;align-items:center;gap:22px;flex-wrap:wrap}
 .v2-cta .col{display:flex;flex-direction:column;gap:10px;flex:1 1 300px;min-width:0;color:#C7D2FE}
-.v2-foot{margin:0;font-size:13px;color:#AEB7C3}
+  .v2-foot{margin:0;font-size:13px;color:#AEB7C3}
+@media (max-width:720px){.v2-foot{font-size:12px;line-height:1.45}}
 .v2-track{margin:22px 0}.v2-week{width:100%;height:auto;display:block;margin:6px 0 10px}
 .v2-gauges{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:6px 0 12px}.v2-gauge{text-align:center}.v2-gauge svg{width:100%;max-width:120px;height:auto}.v2-gauge span{display:block;font:600 10px/1.3 'IBM Plex Mono',monospace;letter-spacing:.08em}
 @media (max-width:640px){.v2-gauges{grid-template-columns:repeat(3,1fr)}}
@@ -1111,7 +1111,7 @@ const DASH_CSS = `
   .v2-scale,.v2-scale__note{display:none}
   .v2-racelead{display:none}
   .v2-ticker{display:none}
-  .v2-plain{font-size:13.5px;line-height:1.35;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden}
+  .v2-plain{font-size:13.5px;line-height:1.35;overflow-wrap:anywhere}
   .v2 .hero{gap:8px}
   /* Fold: sparkline + 3 movers. Evidence control is the details summary below. */
   .v2-phone{display:flex;flex-direction:column;gap:8px;padding:10px;border:2px solid #2A3446;background:#0A0E16}
