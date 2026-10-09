@@ -56,7 +56,7 @@ export const LEADER_SOURCES = Object.freeze([
     id: 'samaltman-blog', label: 'blog.samaltman.com', kind: 'personal', format: 'atom',
     url: 'https://blog.samaltman.com/posts.atom',
     leaders: ['altman'],
-    verified: true, note: 'Posthaven Atom; probed by collector/race.mjs 2026-09-23.',
+    verified: true, note: 'Posthaven Atom; probed by collector/race.mjs 2026-09-23. Served as text/html — accepted since 2026-10-09 because _feed.mjs sniffs the body root (<feed>) before the header.',
   },
   {
     id: 'bengio-blog', label: 'yoshuabengio.org', kind: 'personal', format: 'rss',
@@ -121,6 +121,18 @@ export const LEADER_SOURCES = Object.freeze([
     verified: false, note: 'UNVERIFIED: Official Microsoft Blog, WordPress default feed path; carries dc:creator.',
   },
   {
+    id: 'microsoft-source', label: 'news.microsoft.com', kind: 'org', format: 'rss',
+    url: 'https://news.microsoft.com/feed/',
+    leaders: ['nadella', 'suleyman'],
+    verified: false, note: 'UNVERIFIED: Microsoft Source newsroom, WordPress default feed path; the sandbox (allow-listed network) could not reach it 2026-10-09.',
+  },
+  {
+    id: 'google-keyword', label: 'blog.google · all', kind: 'org', format: 'rss',
+    url: 'https://blog.google/rss/',
+    leaders: ['pichai', 'hassabis', 'kavukcuoglu'],
+    verified: false, note: 'UNVERIFIED: The Keyword site-wide feed (the per-section /rss/ paths above are its children); the sandbox could not reach it 2026-10-09.',
+  },
+  {
     id: 'nvidia-blog', label: 'blogs.nvidia.com', kind: 'org', format: 'rss',
     url: 'https://blogs.nvidia.com/feed/',
     leaders: ['huang'],
@@ -129,7 +141,8 @@ export const LEADER_SOURCES = Object.freeze([
   {
     id: 'meta-newsroom', label: 'about.fb.com/news', kind: 'org', format: 'rss',
     url: 'https://about.fb.com/news/feed/',
-    leaders: ['zuckerberg', 'lecun'],
+    // Yann LeCun left Meta at the end of 2025; Meta's channels are no longer his.
+    leaders: ['zuckerberg'],
     verified: false, note: 'UNVERIFIED: Meta Newsroom, WordPress default feed path.',
   },
   {
@@ -178,7 +191,7 @@ export const LEADER_SOURCES = Object.freeze([
   },
   {
     id: 'yt-meta-ai', label: 'YouTube · AI at Meta', kind: 'org', format: 'youtube',
-    url: YT('UC5qxlwEKM7-5YZudb24l0bg'), leaders: ['zuckerberg', 'lecun'],
+    url: YT('UC5qxlwEKM7-5YZudb24l0bg'), leaders: ['zuckerberg'],
     verified: false, note: 'Channel id resolved from @AIatMeta; last elon-data run got HTTP 500.',
   },
   {
@@ -199,4 +212,5 @@ export const NO_SOURCE_REASON = Object.freeze({
   hinton: 'Publishes no blog or feed of his own; speaks through interviews and lectures hosted by others.',
   sutskever: 'ssi.inc is a single static page with no feed, and SSI publishes nothing else.',
   liang: 'DeepSeek publishes release notes without a feed, and Liang Wenfeng keeps no public channel.',
+  lecun: 'No official feed is known: AMI Labs, his company since leaving Meta, publishes none we have verified, and his own posts go to social platforms this site does not scrape.',
 });

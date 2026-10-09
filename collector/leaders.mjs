@@ -99,9 +99,13 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { fetchText } from './fetch.mjs';
 import { assertXmlFeed, parseFeed } from './news-sources/_feed.mjs';
 import { LEADER_SOURCES, NO_SOURCE_REASON } from './leader-sources.mjs';
+import {
+  refreshCoverage, refreshProfiles, coverageView, profileView, adoptCoverage, adoptProfiles,
+  COVERAGE_MIN_INTERVAL_MS, PROFILE_MIN_INTERVAL_MS, COVERAGE_DAYS,
+} from './leader-coverage.mjs';
 
 const SCHEMA_VERSION = 1;
-const MATCHER_VERSION = '1.1.0';
+const MATCHER_VERSION = '1.2.0';
 
 // 7 days, matching docs/NEWS.md's collection window. The corpus is capped at
 // 200 items, so on a busy week the cap binds long before the window does —
@@ -111,6 +115,18 @@ const WINDOW_DAYS = 7;
 const NEWS_URL = new URL('../data/news.json', import.meta.url);
 const RACE_URL = new URL('../data/race.json', import.meta.url);
 const OUTPUT_URL = new URL('../data/leaders.json', import.meta.url);
+// Coverage memory (Google News), profile cache (Wikipedia) and the direct-feed
+// cache. All three are rewritten whole on every run and committed by the
+// workflows beside data/leaders.json, because a runner is a fresh container and
+// the committed file IS the memory — the same reasoning collect.yml gives for
+// data/news.json's cadence ledger.
+const COVERAGE_URL = new URL('../data/leaders-coverage.json', import.meta.url);
+const PROFILES_URL = new URL('../data/leaders-profiles.json', import.meta.url);
+const FEEDS_CACHE_URL = new URL('../data/leaders-feeds.json', import.meta.url);
+
+// Roles and organisations in ROSTER were last checked by hand on this date.
+// Published beside every row so a stale label is visibly stale.
+const ROLE_AS_OF = '2026-10-09';
 
 const DAY_MS = 86_400_000;
 // A feed entry stamped more than this far past the clock is a broken date,
@@ -163,6 +179,8 @@ const ROSTER = Object.freeze([
     aliases: ['Sam Altman', 'Altman'],
     blocks: [],
     race_player: 'openai',
+    news_query: { phrase: 'Sam Altman' },
+    wikipedia: 'Sam Altman',
   },
   {
     id: 'amodei', name: 'Dario Amodei', initials: 'DA',
@@ -171,6 +189,8 @@ const ROSTER = Object.freeze([
     // Daniela Amodei, Anthropic's president, is a different person.
     blocks: ['Daniela'],
     race_player: 'anthropic',
+    news_query: { phrase: 'Dario Amodei' },
+    wikipedia: 'Dario Amodei',
   },
   {
     id: 'hassabis', name: 'Demis Hassabis', initials: 'DH',
@@ -178,6 +198,8 @@ const ROSTER = Object.freeze([
     aliases: ['Demis Hassabis', 'Hassabis'],
     blocks: [],
     race_player: 'google-deepmind',
+    news_query: { phrase: 'Demis Hassabis' },
+    wikipedia: 'Demis Hassabis',
   },
   {
     id: 'musk', name: 'Elon Musk', initials: 'EM',
@@ -185,6 +207,8 @@ const ROSTER = Object.freeze([
     aliases: ['Elon Musk', 'Musk'],
     blocks: [],
     race_player: 'xai',
+    news_query: { phrase: 'Elon Musk' },
+    wikipedia: 'Elon Musk',
   },
   {
     id: 'zuckerberg', name: 'Mark Zuckerberg', initials: 'MZ',
@@ -193,6 +217,8 @@ const ROSTER = Object.freeze([
     aliases: ['Mark Zuckerberg', 'Zuckerberg', 'Zuck'],
     blocks: [],
     race_player: 'meta',
+    news_query: { phrase: 'Mark Zuckerberg' },
+    wikipedia: 'Mark Zuckerberg',
   },
   {
     id: 'huang', name: 'Jensen Huang', initials: 'JH',
@@ -206,6 +232,8 @@ const ROSTER = Object.freeze([
     aliases: ['Jensen Huang', 'Jensen'],
     blocks: [],
     race_player: null,
+    news_query: { phrase: 'Jensen Huang' },
+    wikipedia: 'Jensen Huang',
   },
   {
     id: 'nadella', name: 'Satya Nadella', initials: 'SN',
@@ -213,6 +241,8 @@ const ROSTER = Object.freeze([
     aliases: ['Satya Nadella', 'Nadella'],
     blocks: [],
     race_player: null,
+    news_query: { phrase: 'Satya Nadella' },
+    wikipedia: 'Satya Nadella',
   },
   {
     id: 'pichai', name: 'Sundar Pichai', initials: 'SP',
@@ -220,6 +250,8 @@ const ROSTER = Object.freeze([
     aliases: ['Sundar Pichai', 'Pichai'],
     blocks: [],
     race_player: null,
+    news_query: { phrase: 'Sundar Pichai' },
+    wikipedia: 'Sundar Pichai',
   },
   {
     id: 'suleyman', name: 'Mustafa Suleyman', initials: 'MS',
@@ -227,6 +259,8 @@ const ROSTER = Object.freeze([
     aliases: ['Mustafa Suleyman', 'Suleyman'],
     blocks: [],
     race_player: null,
+    news_query: { phrase: 'Mustafa Suleyman', extra: 'AI' },
+    wikipedia: 'Mustafa Suleyman',
   },
   {
     id: 'kavukcuoglu', name: 'Koray Kavukcuoglu', initials: 'KK',
@@ -234,14 +268,21 @@ const ROSTER = Object.freeze([
     aliases: ['Koray Kavukcuoglu', 'Kavukcuoglu', 'Koray'],
     blocks: [],
     race_player: null,
+    news_query: { phrase: 'Koray Kavukcuoglu' },
+    wikipedia: 'Koray Kavukcuoglu',
   },
   {
     id: 'lecun', name: 'Yann LeCun', initials: 'YL',
-    org: 'Meta', org_id: 'meta', role: 'Chief AI Scientist',
+    // Left Meta at the end of 2025 to found AMI Labs (Advanced Machine
+    // Intelligence), where he is executive chairman. Until then: Meta, Chief
+    // AI Scientist.
+    org: 'AMI Labs', org_id: 'ami-labs', role: 'Executive Chairman',
     // Three spellings are in live use across these feeds.
     aliases: ['Yann LeCun', 'Yann Le Cun', 'LeCun', 'Le Cun'],
     blocks: [],
     race_player: null,
+    news_query: { phrase: 'Yann LeCun' },
+    wikipedia: 'Yann LeCun',
   },
   {
     id: 'hinton', name: 'Geoffrey Hinton', initials: 'GH',
@@ -249,6 +290,8 @@ const ROSTER = Object.freeze([
     aliases: ['Geoffrey Hinton', 'Geoff Hinton', 'Hinton'],
     blocks: [],
     race_player: null,
+    news_query: { phrase: 'Geoffrey Hinton' },
+    wikipedia: 'Geoffrey Hinton',
   },
   {
     id: 'bengio', name: 'Yoshua Bengio', initials: 'YB',
@@ -257,6 +300,8 @@ const ROSTER = Object.freeze([
     // Samy Bengio is a different researcher at a different organisation.
     blocks: ['Samy'],
     race_player: null,
+    news_query: { phrase: 'Yoshua Bengio' },
+    wikipedia: 'Yoshua Bengio',
   },
   {
     id: 'mensch', name: 'Arthur Mensch', initials: 'AM',
@@ -266,6 +311,8 @@ const ROSTER = Object.freeze([
     // title-cased headline, where the capital carries no information.
     blocks: ['a', 'an', 'the'],
     race_player: 'mistral',
+    news_query: { phrase: 'Arthur Mensch', extra: 'Mistral' },
+    wikipedia: 'Arthur Mensch',
   },
   {
     id: 'liang', name: 'Liang Wenfeng', initials: 'LW',
@@ -275,13 +322,18 @@ const ROSTER = Object.freeze([
     aliases: ['Liang Wenfeng', 'Wenfeng'],
     blocks: [],
     race_player: 'deepseek',
+    news_query: { phrase: 'Liang Wenfeng' },
+    wikipedia: 'Liang Wenfeng',
   },
   {
     id: 'sutskever', name: 'Ilya Sutskever', initials: 'IS',
-    org: 'Safe Superintelligence', org_id: 'ssi', role: 'Co-founder',
+    // Co-founder; CEO since July 2025.
+    org: 'Safe Superintelligence', org_id: 'ssi', role: 'CEO',
     aliases: ['Ilya Sutskever', 'Sutskever'],
     blocks: [],
     race_player: null,
+    news_query: { phrase: 'Ilya Sutskever' },
+    wikipedia: 'Ilya Sutskever',
   },
   {
     id: 'murati', name: 'Mira Murati', initials: 'MM',
@@ -289,6 +341,8 @@ const ROSTER = Object.freeze([
     aliases: ['Mira Murati', 'Murati'],
     blocks: [],
     race_player: null,
+    news_query: { phrase: 'Mira Murati' },
+    wikipedia: 'Mira Murati',
   },
   {
     id: 'karpathy', name: 'Andrej Karpathy', initials: 'AK',
@@ -296,6 +350,8 @@ const ROSTER = Object.freeze([
     aliases: ['Andrej Karpathy', 'Karpathy'],
     blocks: [],
     race_player: null,
+    news_query: { phrase: 'Andrej Karpathy' },
+    wikipedia: 'Andrej Karpathy',
   },
   {
     id: 'brockman', name: 'Greg Brockman', initials: 'GB',
@@ -303,6 +359,8 @@ const ROSTER = Object.freeze([
     aliases: ['Greg Brockman', 'Brockman'],
     blocks: [],
     race_player: 'openai',
+    news_query: { phrase: 'Greg Brockman' },
+    wikipedia: 'Greg Brockman',
   },
 ]);
 
@@ -632,6 +690,50 @@ export async function fetchLeaderFeeds(sources = LEADER_SOURCES, { fetcher = fet
   return results;
 }
 
+// Personal feeds keep their newest entries; org feeds keep only entries that
+// attribute to someone on the roster. Enough to rebuild every line and the
+// last-statement memory without committing a few hundred KB of other people's
+// blog posts every hour.
+const CACHE_PERSONAL_KEEP = 20;
+
+/**
+ * The direct feeds, asked at most once per COVERAGE_MIN_INTERVAL_MS. The fast
+ * newsroom loop runs this script every minute; without the cache it would ask
+ * two dozen blogs and YouTube for their feed sixty times an hour.
+ *
+ * Returns { feeds, cache, fetched } — `fetched` false means the cached
+ * results were reused. NEVER throws.
+ */
+export async function cachedLeaderFeeds(sources, cache, { fetcher = fetchText, now = () => new Date(), force = false } = {}) {
+  const nowMs = now().getTime();
+  const ids = sources.map((s) => s.id).sort().join(',');
+  const last = cache && Date.parse(cache.attempted_at);
+  if (!force && cache && cache.sources_key === ids && cache.results && Number.isFinite(last) && nowMs - last < COVERAGE_MIN_INTERVAL_MS) {
+    return { feeds: cache.results, cache, fetched: false };
+  }
+  const raw = await fetchLeaderFeeds(sources, { fetcher, now });
+  const results = {};
+  for (const src of sources) {
+    const r = raw[src.id];
+    if (!r) continue;
+    if (!r.ok) {
+      // A failed fetch keeps nothing: the row must read unreachable THIS run.
+      results[src.id] = { ...r, entry_count: 0 };
+      continue;
+    }
+    let kept;
+    if (src.kind === 'personal') {
+      kept = [...r.entries].sort((a, b) => Date.parse(b.published_at) - Date.parse(a.published_at)).slice(0, CACHE_PERSONAL_KEEP);
+    } else {
+      const roster = ROSTER.filter((l) => src.leaders.includes(l.id));
+      kept = r.entries.filter((e) => roster.some((l) => feedAttribution(l, src, e)));
+    }
+    results[src.id] = { ok: true, fetched_at: r.fetched_at, entries: kept, entry_count: r.entries.length, error: null };
+  }
+  const next = { schema: 1, attempted_at: now().toISOString(), min_interval_ms: COVERAGE_MIN_INTERVAL_MS, sources_key: ids, results };
+  return { feeds: results, cache: next, fetched: true };
+}
+
 function shortHash(text) {
   return createHash('sha1').update(String(text)).digest('hex').slice(0, 12);
 }
@@ -836,7 +938,7 @@ function watchFloorFor(leader, lines, racePlayers) {
  * the news actually changed. `news_generated_at` is published separately so
  * the provenance is explicit rather than implied.
  */
-export function buildLeaders(news, race = null, { feeds = null, prior = null, sources = LEADER_SOURCES } = {}) {
+export function buildLeaders(news, race = null, { feeds = null, prior = null, sources = LEADER_SOURCES, coverage = null, profiles = null, coverageMeta = null } = {}) {
   if (!news || !Array.isArray(news.items)) {
     throw new Error('leaders: news.json has no items array');
   }
@@ -904,7 +1006,8 @@ export function buildLeaders(news, race = null, { feeds = null, prior = null, so
         checked: Boolean(res),
         ok: Boolean(res && res.ok),
         error: res ? res.error : 'not checked this run',
-        entries: res && res.ok ? res.entries.length : null,
+        entries: res && res.ok ? (Number.isFinite(res.entry_count) ? res.entry_count : res.entries.length) : null,
+        fetched_at: res ? res.fetched_at ?? null : null,
         attributed: res && res.ok ? mine.length : null,
         newest_attributed_at: mine.length ? mine[0].published_at : null,
       };
@@ -964,6 +1067,13 @@ export function buildLeaders(news, race = null, { feeds = null, prior = null, so
       sources_ok: sourcesOk,
       direct_sources: feedStatus,
       no_source_reason: direct.length ? null : (NO_SOURCE_REASON[leader.id] ?? 'No official feed is known for this person.'),
+      // ---- additive since matcher 1.2.0 ------------------------------------
+      // Role/org as checked by hand (ROSTER), the Wikipedia profile, and press
+      // COVERAGE — stories that mention the person. Coverage is never a
+      // statement: it does not touch state, count, lines or last_statement.
+      role_as_of: ROLE_AS_OF,
+      profile: profiles && profiles[leader.id] ? profiles[leader.id] : null,
+      coverage: coverage && coverage[leader.id] ? coverage[leader.id] : null,
     };
   });
 
@@ -1061,8 +1171,56 @@ export function buildLeaders(news, race = null, { feeds = null, prior = null, so
         'The newest dated statement this wire has ever attributed to the person — from the press window, ' +
         'the full history of their official feeds, or the memory carried forward from previous runs.',
     },
+    coverage: coverageBlock(leaders, coverageMeta),
     leaders,
   };
+}
+
+/** The top-level description of the coverage layer, and its totals. */
+function coverageBlock(leaders, meta) {
+  const rows = leaders.map((l) => l.coverage).filter(Boolean);
+  const ok = rows.filter((c) => c.state === 'ok' || c.state === 'stale');
+  const sum = (k) => ok.reduce((n, c) => n + (Number.isFinite(c[k]) ? c[k] : 0), 0);
+  return {
+    source: 'Google News search RSS (news.google.com/rss/search), one exact-phrase query per person',
+    is_statement: false,
+    means:
+      'Stories in the press that mention the person, counted as distinct (title, outlet) pairs ever ' +
+      'observed. Coverage is not a statement: it never puts anyone on the record, and only the ' +
+      'outlet\'s own headline is shown.',
+    generated_at: meta && meta.generated_at ? meta.generated_at : null,
+    min_interval_minutes: COVERAGE_MIN_INTERVAL_MS / 60_000,
+    days: COVERAGE_DAYS,
+    ran: Boolean(meta && meta.ran),
+    polled: meta && Array.isArray(meta.polled) ? meta.polled.length : 0,
+    leaders_with_data: ok.length,
+    leaders_dark: rows.filter((c) => c.state === 'dark').length,
+    total_24h: ok.length ? sum('count_24h') : null,
+    total_7d: ok.length ? sum('count_7d') : null,
+    trend_means:
+      'Week over week: this 7 days against the 7 before. Shown only once a full previous week has ' +
+      'been observed; flat inside ±10% or ±2 stories.',
+    profile_source: 'Wikipedia REST summary (en.wikipedia.org/api/rest_v1/page/summary), CC BY-SA 4.0, refreshed at most daily',
+    profile_min_interval_hours: PROFILE_MIN_INTERVAL_MS / 3_600_000,
+    role_as_of: ROLE_AS_OF,
+  };
+}
+
+/**
+ * A digest of everything a reader can see on /leaders.html, so the fast
+ * newsroom loop can tell "the leader page changed" from "news.json's clock
+ * moved" without diffing two whole files. Counts are part of it; timestamps
+ * that only move with the clock are not.
+ */
+export function leadersFingerprint(out) {
+  const visible = out.leaders.map((l) => [
+    l.id, l.state, l.lines.map((x) => x.item_id), l.last_statement && l.last_statement.url, l.reason,
+    l.direct_sources.map((f) => f.ok),
+    l.profile && [l.profile.description, l.profile.extract],
+    l.coverage && [l.coverage.state, l.coverage.count_24h, l.coverage.count_7d, l.coverage.trend && l.coverage.trend.dir,
+      (l.coverage.headlines || []).map((h) => h.url), (l.coverage.daily || []).map((d) => d.n)],
+  ]);
+  return createHash('sha256').update(JSON.stringify(visible)).digest('hex').slice(0, 16);
 }
 
 // ---------------------------------------------------------------------------
@@ -1076,6 +1234,16 @@ async function readJson(url, { optional = false } = {}) {
     if (optional && err && err.code === 'ENOENT') return null;
     throw err;
   }
+}
+
+async function writeJsonFile(url, obj, { compact = false } = {}) {
+  await mkdir(new URL('./', url), { recursive: true });
+  // The coverage memory is mostly [hash, minute] pairs: one per line keeps the
+  // hourly git diff readable without pretty-printing every pair over 4 lines.
+  const text = compact
+    ? JSON.stringify(obj).replace(/\],\[/g, '],\n[')
+    : JSON.stringify(obj, null, 2);
+  await writeFile(url, `${text}\n`, 'utf8');
 }
 
 function pad(text, width) {
@@ -1116,16 +1284,17 @@ function printTable(out) {
 }
 
 function parseArgs(argv) {
-  const args = { offline: false, out: OUTPUT_URL, prior: OUTPUT_URL };
+  const args = { offline: false, force: false, adopt: null, out: OUTPUT_URL, prior: OUTPUT_URL };
   for (let i = 0; i < argv.length; i += 1) {
     const a = argv[i];
     if (a === '--offline') args.offline = true;
+    else if (a === '--force') args.force = true;
     else if (a === '--out' || a === '--prior') {
       const v = argv[i + 1];
       if (!v) throw new Error(`${a} needs a path`);
-      args[a.slice(2)] = new URL(v, `file://${process.cwd()}/`);
+      args[a.slice(2)] = new URL(a === '--adopt' && !v.endsWith('/') ? `${v}/` : v, `file://${process.cwd()}/`);
       i += 1;
-    } else throw new Error(`unknown argument ${JSON.stringify(a)}. Usage: node collector/leaders.mjs [--offline] [--out FILE] [--prior FILE]`);
+    } else throw new Error(`unknown argument ${JSON.stringify(a)}. Usage: node collector/leaders.mjs [--offline] [--force] [--adopt DIR] [--out FILE] [--prior FILE]`);
   }
   return args;
 }
@@ -1141,10 +1310,68 @@ async function main() {
   try { prior = await readJson(args.prior, { optional: true }); }
   catch (err) { console.warn(`leaders: previous output unreadable (${err.message}); starting memory fresh`); }
 
-  const feeds = args.offline ? null : await fetchLeaderFeeds(LEADER_SOURCES);
+  // Caches: unreadable or absent is fine, the memory starts again.
+  const readCache = async (url, what) => {
+    try { return await readJson(url, { optional: true }); }
+    catch (err) { console.warn(`leaders: ${what} unreadable (${err.message}); starting fresh`); return null; }
+  };
+  let feedCache = await readCache(FEEDS_CACHE_URL, 'feed cache');
+  let covCache = await readCache(COVERAGE_URL, 'coverage memory');
+  let profCache = await readCache(PROFILES_URL, 'profile cache');
 
-  const out = buildLeaders(news, race, { feeds, prior });
+  // --adopt DIR: fold in another lane's copy of the three caches (the fast
+  // newsroom loop passes main's), so a search another lane ran minutes ago is
+  // not run again here. See adoptCoverage().
+  if (args.adopt) {
+    const other = async (name) => readCache(new URL(name, args.adopt), `adopted ${name}`);
+    covCache = adoptCoverage(covCache, await other('leaders-coverage.json'));
+    profCache = adoptProfiles(profCache, await other('leaders-profiles.json'));
+    const f = await other('leaders-feeds.json');
+    if (f && f.results && (!feedCache || Date.parse(f.attempted_at) > Date.parse(feedCache.attempted_at || 0))) feedCache = f;
+  }
 
+  const now = new Date();
+  let feeds = null;
+  let covNext = covCache;
+  let profNext = profCache;
+  let polled = [];
+  if (!args.offline) {
+    const covSpecs = ROSTER.map((l) => ({ id: l.id, ...l.news_query }));
+    const profSpecs = ROSTER.map((l) => ({ id: l.id, title: l.wikipedia }));
+    // Three independent failure domains, run side by side. None can throw.
+    const [f, c, p] = await Promise.all([
+      cachedLeaderFeeds(LEADER_SOURCES, feedCache, { force: args.force }),
+      refreshCoverage(covSpecs, covCache, { force: args.force }),
+      refreshProfiles(profSpecs, profCache, { force: args.force }),
+    ]);
+    feeds = f.feeds;
+    covNext = c.cache;
+    profNext = p;
+    polled = c.polled;
+    if (f.fetched) await writeJsonFile(FEEDS_CACHE_URL, f.cache);
+    console.log(`direct feeds: ${f.fetched ? 'fetched' : 'cached (asked < 15 min ago)'}; ` +
+                `coverage: ${c.polled.length} polled, ${c.skipped.length} skipped (asked < 15 min ago)`);
+  } else if (feedCache && feedCache.results) {
+    // Offline still shows the last known reading, labelled with its own stamps.
+    feeds = feedCache.results;
+  }
+
+  const nowMs = now.getTime();
+  const coverage = Object.fromEntries(ROSTER.map((l) => [l.id,
+    coverageView({ id: l.id, ...l.news_query }, covNext && covNext.leaders ? covNext.leaders[l.id] : null, nowMs, { checked: !args.offline })]));
+  const profiles = Object.fromEntries(ROSTER.map((l) => [l.id,
+    profileView({ id: l.id, title: l.wikipedia }, profNext && profNext.leaders ? profNext.leaders[l.id] : null)]));
+
+  const out = buildLeaders(news, race, {
+    feeds, prior, coverage, profiles,
+    coverageMeta: { generated_at: now.toISOString(), ran: !args.offline, polled },
+  });
+  out.fingerprint = leadersFingerprint(out);
+
+  if (!args.offline) {
+    if (covNext) await writeJsonFile(COVERAGE_URL, covNext, { compact: true });
+    if (profNext) await writeJsonFile(PROFILES_URL, profNext);
+  }
   await mkdir(new URL('./', args.out), { recursive: true });
   await writeFile(args.out, `${JSON.stringify(out, null, 2)}\n`, 'utf8');
 
@@ -1175,6 +1402,16 @@ async function main() {
     : 'direct sources: skipped (--offline)');
   console.log(`groups: ${out.totals.on_record} on record, ${out.totals.quiet} quiet, ${out.totals.unreachable} unreachable ` +
               `(${out.totals.no_sources} with no official source at all)`);
+  const cv = out.coverage;
+  console.log(`coverage: ${cv.leaders_with_data}/${out.totals.leaders} with data, ${cv.leaders_dark} dark` +
+              (cv.total_7d !== null ? `, ${cv.total_7d} stories in 7d` : ''));
+  for (const l of out.leaders) {
+    const c = l.coverage;
+    if (c && c.error && c.state !== 'ok') console.log(`  ${pad(l.id, 12)} coverage ${c.state}: ${c.error}`);
+    const p = l.profile;
+    if (p && p.error) console.log(`  ${pad(l.id, 12)} profile ${p.state}: ${p.error}`);
+  }
+  console.log(`fingerprint ${out.fingerprint}`);
   console.log(`wrote ${args.out.pathname} — ${out.totals.leaders} rows, roster order, never pruned`);
 
   // Exit zero on an empty week. A week in which nobody quotable said anything

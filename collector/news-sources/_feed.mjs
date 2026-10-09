@@ -30,6 +30,16 @@ const SUMMARY_MAX = 320;
 export function assertXmlFeed(body, url, contentType = '') {
   const head = String(body ?? '').slice(0, 400).replace(/^﻿/, '').trimStart();
 
+  // THE BODY OUTRANKS A WRONG CONTENT-TYPE IN BOTH DIRECTIONS. Posthaven serves
+  // blog.samaltman.com/posts.atom as `text/html` (measured 2026-10-09) while
+  // the body is a well-formed Atom document, and the old order of checks threw
+  // on the header before it ever looked at the bytes — so the one personal feed
+  // on the leader wire that verifiably works read "unreachable" every hour.
+  // A body whose ROOT element is <rss>, <feed> or <rdf:RDF> is a feed whatever
+  // its header says; an HTML page (even an XHTML one opening with <?xml) still
+  // fails, because its root element is <html> or a doctype.
+  if (looksLikeFeed(body)) return true;
+
   if (/^text\/html\b/i.test(contentType)) {
     throw new Error(
       `${url}: served content-type "${contentType}" — this is an HTML page, not a feed ` +
@@ -43,6 +53,37 @@ export function assertXmlFeed(body, url, contentType = '') {
     );
   }
   return true;
+}
+
+/**
+ * Is the ROOT element of this document an RSS, Atom or RSS 1.0 (RDF) feed?
+ *
+ * Skips a BOM, the XML declaration, processing instructions such as
+ * <?xml-stylesheet?>, comments and whitespace, then reads the first element
+ * name. A doctype counts as "not a feed": feeds do not carry one and HTML
+ * pages do. Only the first 2 KB are examined.
+ */
+export function looksLikeFeed(body) {
+  let s = String(body ?? '').slice(0, 2048).replace(/^﻿/, '');
+  for (;;) {
+    const t = s.trimStart();
+    if (t.startsWith('<?')) {
+      const end = t.indexOf('?>');
+      if (end < 0) return false;
+      s = t.slice(end + 2);
+    } else if (t.startsWith('<!--')) {
+      const end = t.indexOf('-->');
+      if (end < 0) return false;
+      s = t.slice(end + 3);
+    } else {
+      s = t;
+      break;
+    }
+  }
+  const m = /^<([A-Za-z_][\w.-]*(?::[\w.-]+)?)[\s>/]/.exec(s);
+  if (!m) return false;
+  const root = m[1].toLowerCase();
+  return root === 'rss' || root === 'feed' || root === 'rdf:rdf';
 }
 
 function stripCdata(s) {

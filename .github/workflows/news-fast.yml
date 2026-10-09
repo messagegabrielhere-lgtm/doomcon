@@ -96,9 +96,19 @@ jobs:
             # <commit> -- .` would also stage every refreshed file, and the
             # hourly commit below would then carry a tick-old copy of main and
             # conflict when it rebases onto the real one.
+            # The leader wire's four files are carried forward too (the loop
+            # refreshes them every tick, see below) — and main's copies of the
+            # three memory files are staged aside so the collector can fold
+            # them in rather than be overwritten by them.
+            LEADERS_X=(':(exclude)data/leaders.json' ':(exclude)data/leaders-coverage.json' ':(exclude)data/leaders-profiles.json' ':(exclude)data/leaders-feeds.json')
+            MAIN_LEADERS="${RUNNER_TEMP:-/tmp}/main-leaders"
+            rm -rf "$MAIN_LEADERS"; mkdir -p "$MAIN_LEADERS"
             if git fetch -q --depth=1 origin main 2>/dev/null; then
-              git restore --source=FETCH_HEAD --worktree -- . ':(exclude)data/news.json' ':(exclude)data/x-surface.json' \
+              git restore --source=FETCH_HEAD --worktree -- . ':(exclude)data/news.json' ':(exclude)data/x-surface.json' "${LEADERS_X[@]}" \
                 || echo "::warning::tick $TICK could not refresh from main; building from the previous tick's tree"
+              for f in leaders-coverage.json leaders-profiles.json leaders-feeds.json; do
+                git show "FETCH_HEAD:data/$f" > "$MAIN_LEADERS/$f" 2>/dev/null || rm -f "$MAIN_LEADERS/$f"
+              done
             else
               echo "::warning::tick $TICK could not fetch main; building from the previous tick's tree"
             fi
@@ -130,8 +140,23 @@ jobs:
 
             AFTER=$(node -e "try{const d=require('./data/news.json');process.stdout.write(require('crypto').createHash('sha256').update(JSON.stringify(d.items.map(i=>i.id))).digest('hex'))}catch{process.stdout.write('none')}")
 
-            if [ "$BEFORE" != "$AFTER" ]; then
-              echo "tick $TICK: newsroom changed — fast rebuild and publish"
+            # THE LEADER WIRE, EVERY TICK, BUT NOT EVERY TICK'S NETWORK.
+            # collector/leaders.mjs re-reads news.json each tick (pure, no
+            # network) and asks Google News, Wikipedia and the official feeds
+            # only when its own stamps say 15 minutes (profiles: a day) have
+            # passed. --adopt folds in main's memory first, so a search the
+            # 15-minute lane in collect.yml ran minutes ago is not run again
+            # here: this loop only searches when that lane is late or dropped.
+            # This loop never commits the leader files (collect.yml does); it
+            # only republishes /leaders.html when what a reader sees changed.
+            LFP() { node -e "try{process.stdout.write(String(require('./data/leaders.json').fingerprint||'none'))}catch(e){process.stdout.write('none')}"; }
+            LBEFORE=$(LFP)
+            timeout 100 node collector/leaders.mjs --adopt "$MAIN_LEADERS" >/dev/null \
+              || echo "::warning::leader wire pass $TICK failed; continuing"
+            LAFTER=$(LFP)
+
+            if [ "$BEFORE" != "$AFTER" ] || [ "$LBEFORE" != "$LAFTER" ]; then
+              echo "tick $TICK: newsroom or leader wire changed — fast rebuild and publish"
               # --only news: patch the live tree instead of wiping ~1,200 files.
               # Cards / posts / post-sheet are hourly (collect.yml); they are not
               # what makes the newsroom feel current.
@@ -159,7 +184,7 @@ jobs:
                   || rm -rf .pages
               fi
               if [ -d .pages/.git ]; then
-                for rel in api/news.json api/state.json api/fresh.json news.html index.html classic.html instruments.html feed.xml; do
+                for rel in api/news.json api/state.json api/fresh.json news.html index.html classic.html instruments.html feed.xml api/leaders.json leaders.html leaders/index.html; do
                   if [ -e "public/$rel" ]; then
                     mkdir -p ".pages/$(dirname "$rel")"
                     cp -a "public/$rel" ".pages/$rel"
@@ -229,6 +254,8 @@ jobs:
           # everything except the newsroom's own two files back to this job's
           # HEAD, so the commit and the rebase below see exactly what they
           # always saw: two data files changed, nothing else.
+          # The leader wire's files are restored too: collect.yml owns them on
+          # main, and committing this loop's copy would only race it.
           git restore --source=HEAD --worktree -- . ':(exclude)data/news.json' ':(exclude)data/x-surface.json' 2>/dev/null || true
           rm -rf .pages
           git add data/news.json data/x-surface.json 2>/dev/null || true

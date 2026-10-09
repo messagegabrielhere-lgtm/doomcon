@@ -10,7 +10,7 @@
 # finishes in about two seconds. Putting both on the same schedule means either
 # the news is slow or the markets get hammered. So: two lanes.
 #
-#   news  every 15 min   news -> balance -> build -> publish          ~1-2 min
+#   news  every 15 min   news -> leaders -> balance -> build -> publish  ~1-2 min
 #   full  hourly at :07  collect -> news -> race -> engine -> bliss -> balance
 #                        -> build -> publish
 #
@@ -165,6 +165,32 @@ jobs:
           echo "changed=$CHANGED" >> "$GITHUB_OUTPUT"
           echo "usable=$USABLE items_changed=$CHANGED"
 
+      - name: Refresh the leader wire
+        id: leaders
+        # The leader page's press coverage (Google News search per person),
+        # Wikipedia profiles and official feeds, every 15 minutes instead of
+        # hourly. collector/leaders.mjs gates its own network use from the
+        # stamps in data/leaders-coverage.json / leaders-feeds.json /
+        # leaders-profiles.json: each search at most every 15 minutes, each
+        # profile at most daily, so a doubled or late run asks nobody twice.
+        # The three files and data/leaders.json are committed below with the
+        # newsroom; a runner is a fresh container and the committed file IS
+        # the memory. Every source may fail and the file is still written.
+        #
+        # `changed` compares the published fingerprint (what a reader can see
+        # on /leaders.html), not the file: leaders.json's generated_at follows
+        # news.json's clock and moves on every pass.
+        if: steps.gate.outputs.usable == 'true'
+        continue-on-error: true
+        run: |
+          set -uo pipefail
+          fp() { node -e 'try{process.stdout.write(String(require("./data/leaders.json").fingerprint||"none"))}catch(e){process.stdout.write("none")}'; }
+          BEFORE="$(fp)"
+          timeout 150 node collector/leaders.mjs || echo "::warning::collector/leaders.mjs did not finish cleanly; keeping what it wrote"
+          AFTER="$(fp)"
+          echo "leaders fingerprint $BEFORE -> $AFTER"
+          if [ "$BEFORE" != "$AFTER" ]; then echo "changed=true" >> "$GITHUB_OUTPUT"; else echo "changed=false" >> "$GITHUB_OUTPUT"; fi
+
       - name: Recount harm and benefit
         # AFTER the newsroom and BEFORE the build, and only when the newsroom
         # changed, which is the only time this lane rebuilds. The beam on
@@ -199,7 +225,9 @@ jobs:
           fi
 
       - name: Rebuild the site
-        if: steps.gate.outputs.changed == 'true'
+        # Also when only the leader page moved (new coverage, a new official
+        # post): that is what keeps /leaders.html within 15 minutes.
+        if: steps.gate.outputs.changed == 'true' || steps.leaders.outputs.changed == 'true'
         # ORDER MATTERS. site/build.mjs CLEARS public/ before regenerating it, so
         # everything that writes into public/ has to run AFTER it. Measured the
         # hard way on 2026-09-23: cards written first vanished. Skipping the card
@@ -248,6 +276,11 @@ jobs:
           # not assumed, because before the first recount there is no file and
           # `git add` of a missing path is fatal under set -e.
           if [ -f data/balance.json ]; then git add data/balance.json; fi
+          # The leader wire and its three memory files (see "Refresh the leader
+          # wire"). Regenerated whole every run, so they replay like news.json.
+          for f in data/leaders.json data/leaders-coverage.json data/leaders-profiles.json data/leaders-feeds.json; do
+            if [ -f "$f" ]; then git add "$f"; fi
+          done
           if git diff --cached --quiet; then
             echo 'newsroom unchanged; nothing to commit'
             exit 0
@@ -334,7 +367,7 @@ jobs:
         run: node compliance/audit.mjs --dir public
 
       - name: Publish to gh-pages
-        if: steps.gate.outputs.changed == 'true'
+        if: steps.gate.outputs.changed == 'true' || steps.leaders.outputs.changed == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -607,8 +640,11 @@ jobs:
         # Reads data/news.json, so it runs AFTER the newsroom. Headline-only by
         # design: it never generates a quotation, it only reproduces what a
         # publication printed, so every line stays verifiable by clicking it.
+        # Coverage searches and feeds are gated by their own 15-minute stamps
+        # (the newsroom lane usually ran minutes ago, so this mostly reuses its
+        # memory); `timeout` keeps a hung host from eating the job budget.
         continue-on-error: true
-        run: node collector/leaders.mjs
+        run: timeout 150 node collector/leaders.mjs
 
       - name: Compile the digest
         # Runs LAST of the collectors: it reads state.json, news.json, race.json

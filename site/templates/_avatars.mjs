@@ -255,8 +255,9 @@ const PEOPLE = {
     role: 'CEO', shape: 'stadium', tag: 'META',
   },
   lecun: {
-    name: 'Yann LeCun', initials: 'YL', org: 'meta', orgName: 'Meta',
-    role: 'Chief AI Scientist', shape: 'bracket', tag: 'META',
+    // Left Meta at the end of 2025 (collector/leaders.mjs ROSTER).
+    name: 'Yann LeCun', initials: 'YL', org: 'ami-labs', orgName: 'AMI Labs',
+    role: 'Executive Chairman', shape: 'bracket', tag: 'AMI',
   },
   liang: {
     name: 'Liang Wenfeng', initials: 'LW', org: 'deepseek', orgName: 'DeepSeek',
@@ -314,7 +315,7 @@ const PEOPLE = {
   // caricature (FACE), so the shape is only a fallback.
   sutskever: {
     name: 'Ilya Sutskever', initials: 'IS', org: 'ssi', orgName: 'Safe Superintelligence',
-    role: 'Co-founder', shape: 'hexa', tag: 'SSI',
+    role: 'CEO', shape: 'hexa', tag: 'SSI',
   },
   murati: {
     name: 'Mira Murati', initials: 'MM', org: 'thinking-machines', orgName: 'Thinking Machines Lab',

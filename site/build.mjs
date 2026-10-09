@@ -1326,7 +1326,15 @@ async function main() {
       }
       written.push(await write(args.out, 'item/index.html', itemPage.renderIndex(ctx)));
     }
-    await writeDirectoryAliases(args.out, ['news'], write, written);
+    // The leader wire rides the same fast path since matcher 1.2.0: its press
+    // coverage and direct feeds refresh every 15 minutes (collector/leaders.mjs
+    // gates its own polling), so the page is rebuilt here rather than waiting
+    // for the hourly full pass. Same render, same api copy as the full build.
+    if (leadersPage.hasLeaders(ctx)) {
+      written.push(await write(args.out, 'leaders.html', leadersPage.render(ctx)));
+      if (leaders) written.push(await write(args.out, 'api/leaders.json', stableJson(leaders)));
+    }
+    await writeDirectoryAliases(args.out, ['news', 'leaders'], write, written);
     written.push(await write(args.out, 'feed.xml', feed.render(ctx)));
     if (news) written.push(await write(args.out, 'api/news.json', stableJson(news)));
     // Keep state.json's poll surface current so the motion layer's dual fetch

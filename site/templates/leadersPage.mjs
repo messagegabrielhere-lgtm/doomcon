@@ -74,6 +74,7 @@ ${avatarSprite()}
      ${esc(t.unreachable)} whose official sources did not answer this run, so their silence may be ours` : ''}.
      Compiled ${esc(utc(wire.generated_at))} from the same
      ${esc(wire.corpus.items)}-item corpus as the signal feed.</p>
+  ${coverageLede(wire)}
   ${recordBoard(wire)}
 </section>
 
@@ -96,7 +97,8 @@ ${legend(wire)}
   <p class="lwp__marks">The faces below are <b>generated caricatures</b>, drawn for this site in a
      retro game style: illustrations, not photographs, and not a claim about anyone.
      <b>The name printed beside each one is the identification</b>.</p>
-  ${rosterGroups(wire)}
+  ${filterBar(wire)}
+  ${rosterGroups(wire, ctx)}
 </section>
 
 ${crossCheck(wire)}
@@ -117,6 +119,7 @@ ${method(ctx, wire, onRecord, quiet)}`;
     ogImageAlt: `${brand.NAME} share card`,
     jsonld: [collectionPage(ctx, wire), itemList(ctx, wire)],
     main,
+    bodyEnd: `<script>${PAGE_JS}</script>`,
   });
 }
 
@@ -176,16 +179,22 @@ const GROUPS = [
   ['unreachable', 'Unreachable', 'Nothing in the window, and none of their official sources answered this run — this silence may be ours, not theirs.'],
 ];
 
-function rosterGroups(wire) {
+function rosterGroups(wire, ctx = null) {
   const asOf = wire.generated_at;
-  return GROUPS.map(([key, label, blurb]) => {
+  const covAt = (wire.coverage && wire.coverage.generated_at) || asOf;
+  const groups = GROUPS.map(([key, label, blurb]) => {
     const rows = wire.leaders.filter((l) => groupOf(l) === key);
     if (!rows.length) return '';
     return `<h3 class="lwg__h" id="lwg-${esc(key)}" data-group="${esc(key)}">${esc(label)}
       <span class="lwg__n num">${esc(rows.length)}</span></h3>
   <p class="lwg__b">${esc(blurb)}</p>
-  <ol class="lwr" aria-labelledby="lwg-${esc(key)}">${rows.map((l) => card(l, asOf)).join('')}</ol>`;
+  <ol class="lwr lwr--g" aria-labelledby="lwg-${esc(key)}">${rows.map((l) => card(l, asOf, { ctx, covAt })).join('')}</ol>`;
   }).join('\n');
+  // The sorted / filtered view. Empty and hidden until PAGE_JS moves cards into
+  // it; with scripts off the grouped roster above is the whole page.
+  return `${groups}
+  <ol class="lwr" id="lwr-flat" aria-label="Roster, sorted" hidden></ol>
+  <p class="lwf__none" id="lwf-none" hidden>Nobody on the roster is in this view right now.</p>`;
 }
 
 /** The badge under the name for a person with nothing in the window. */
@@ -215,7 +224,7 @@ function sourceList(l) {
              : f.error ? ` · ${esc(f.error)}` : ''}</span></li>`).join('')}</ul></details>`;
 }
 
-function card(l, asOf = null) {
+function card(l, asOf = null, { ctx = null, covAt = null } = {}) {
   const onRecord = l.state === 'on_record';
   const pid = personIdFor(l.id);
 
@@ -238,19 +247,201 @@ function card(l, asOf = null) {
     ? `<ol class="lw__ll">${l.lines.map(lineItem).join('')}</ol>`
     : silenceBlock(l, { asOf });
 
+  const cov = l.coverage;
+  const c7 = cov && Number.isFinite(cov.count_7d) ? cov.count_7d : null;
+  const sortAttrs = ` data-cov7d="${c7 === null ? -1 : esc(c7)}" data-count="${esc(l.count)}"` +
+    ` data-silent="${Number.isFinite(l.days_silent) ? esc(l.days_silent) : -1}"`;
+
   return `<li class="lwr__i lwc" id="lw-${esc(l.id)}" data-state="${esc(l.state)}" data-group="${esc(groupOf(l))}"` +
-    `${pid ? ` data-person="${esc(pid)}"` : ''} data-org="${esc(l.org_id)}">
+    `${pid ? ` data-person="${esc(pid)}"` : ''} data-org="${esc(l.org_id)}"${sortAttrs}>
   <div class="lwc__hd">
     ${portrait}
     <div class="lwc__who">
       <b class="lwc__n">${esc(l.name)}</b>
       <span class="lwc__o">${esc(l.role)} · ${esc(l.org)}</span>
+      ${profileLine(l)}
       ${state}
+      ${shareButton(l, ctx)}
     </div>
   </div>
-  <div class="lwc__body">${body}${floorNote(l)}${sourceList(l)}</div>
+  ${coverageBlock(l, covAt)}
+  <div class="lwc__body">
+    <p class="lwc__sh">On the record</p>
+    ${body}${floorNote(l)}${sourceList(l)}</div>
+  ${profileBlock(l)}
 </li>`;
 }
+
+// ---------------------------------------------------------------------------
+// Profile, coverage and share — additive since matcher 1.2.0. Every function
+// below returns '' for a leaders.json that predates the fields, so an older
+// data file renders exactly the page it always did.
+// ---------------------------------------------------------------------------
+
+/** Wikipedia's short description, one line under the role. */
+function profileLine(l) {
+  const p = l.profile;
+  if (!p || !p.description) return '';
+  return `<span class="lwc__d">${esc(p.description)}</span>`;
+}
+
+/** The Wikipedia extract, attributed and linked (CC BY-SA requires both). */
+function profileBlock(l) {
+  const p = l.profile;
+  if (!p || !p.extract) return '';
+  return `<p class="lwc__wp">${esc(p.extract)} <a class="lwc__wpa" href="${esc(p.url)}" target="_blank" rel="noopener nofollow">From Wikipedia</a>,
+    <span class="lwc__wpl">CC BY-SA</span>${p.state === 'stale' && p.fetched_at ? ` <span class="lwc__wpl">· as of ${esc(String(p.fetched_at).slice(0, 10))}</span>` : ''}</p>`;
+}
+
+/** "3h", "2d" — relative to the coverage clock; PAGE_JS re-ages it on load. */
+function ageText(iso, asOf) {
+  const ms = Date.parse(asOf) - Date.parse(iso);
+  if (!Number.isFinite(ms)) return '';
+  const h = Math.max(0, Math.floor(ms / 3_600_000));
+  if (h < 1) return '<1h';
+  if (h < 48) return `${h}h`;
+  return `${Math.floor(h / 24)}d`;
+}
+
+const HEADLINES_SHOWN = 4;
+
+/**
+ * "In the news": press coverage that MENTIONS the person. Never a statement —
+ * the heading, the key and the separate block all say so, and nothing here
+ * moves the person into the on-the-record group.
+ */
+function coverageBlock(l, covAt) {
+  const c = l.coverage;
+  if (!c) return '';
+  if (c.state === 'dark' || c.state === 'not_checked' || !Number.isFinite(c.count_7d)) {
+    return `<div class="lwv" data-cov="${esc(c.state)}">
+    <p class="lwc__sh">In the news</p>
+    <p class="lwv__dark">${c.state === 'dark'
+      ? `Coverage search did not answer this run${c.error ? ` (${esc(String(c.error).slice(0, 90))})` : ''}. No count is shown rather than a zero.`
+      : 'Coverage was not checked in this build.'}</p>
+  </div>`;
+  }
+  const plus = c.saturated ? '+' : '';
+  const t = c.trend || {};
+  const arrow = t.dir === 'up' ? '▲' : t.dir === 'down' ? '▼' : t.dir === 'flat' ? '▶' : '';
+  const trendTxt = t.baseline_complete
+    ? `${arrow} ${t.dir === 'flat' ? 'level with' : `${t.delta > 0 ? '+' : ''}${t.delta}${Number.isFinite(t.pct) ? ` (${t.pct > 0 ? '+' : ''}${t.pct}%)` : ''} vs`} last week`
+    : 'trend after a full week of tracking';
+  const items = (c.headlines || []).slice(0, HEADLINES_SHOWN);
+  return `<div class="lwv" data-cov="${esc(c.state)}">
+    <div class="lwv__hd">
+      <p class="lwc__sh">In the news</p>
+      <p class="lwv__n"><span><b class="num">${esc(c.count_24h)}${plus}</b> 24h</span>
+        <span><b class="num">${esc(c.count_7d)}${plus}</b> 7d</span>
+        <span class="lwv__tr" data-dir="${esc(t.dir || 'none')}">${esc(trendTxt)}</span></p>
+    </div>
+    ${sparkline(l, c)}
+    ${items.length ? `<ul class="lwv__l">${items.map((h) => `<li>
+      <span class="lwv__m"><span class="lwv__o">${esc(h.outlet || 'press')}</span>
+        <time datetime="${esc(h.published_at)}" data-age title="${esc(utc(h.published_at))}">${esc(ageText(h.published_at, covAt))}</time></span>
+      <a href="${esc(h.url)}" target="_blank" rel="noopener nofollow noreferrer">${esc(h.title)}</a></li>`).join('')}</ul>`
+      : '<p class="lwv__dark">No stories naming this person in the last 7 days.</p>'}
+    ${c.state === 'stale' ? `<p class="lwv__dark">Last search answered ${esc(utc(c.fetched_at))}; the newest attempt did not.</p>` : ''}
+  </div>`;
+}
+
+/**
+ * 14 daily bars, oldest left. A day before tracking began is drawn as a short
+ * dashed tick and labelled "not observed" — never as a zero-height bar, which
+ * would be a measurement we did not make.
+ */
+function sparkline(l, c) {
+  const days = Array.isArray(c.daily) ? c.daily : [];
+  if (!days.length) return '';
+  const W = 140; const H = 30; const gap = 2;
+  const bw = (W - gap * (days.length - 1)) / days.length;
+  const max = Math.max(1, ...days.map((d) => (Number.isFinite(d.n) ? d.n : 0)));
+  const observed = days.filter((d) => Number.isFinite(d.n));
+  const desc = `Stories per day naming ${l.name}, ${days[0].day} to ${days[days.length - 1].day}: ` +
+    days.map((d) => `${d.day.slice(5)} ${Number.isFinite(d.n) ? d.n : 'not observed'}`).join(', ') + '.';
+  const bars = days.map((d, i) => {
+    const x = n2(i * (bw + gap));
+    if (!Number.isFinite(d.n)) {
+      return `<rect class="lwv__na" x="${x}" y="${H - 2}" width="${n2(bw)}" height="2"/>`;
+    }
+    const h = d.n === 0 ? 1 : Math.max(2, (d.n / max) * (H - 2));
+    return `<rect class="lwv__b${i === days.length - 1 ? ' lwv__b--now' : ''}" x="${x}" y="${n2(H - h)}" width="${n2(bw)}" height="${n2(h)}"/>`;
+  }).join('');
+  return `<figure class="lwv__sp"><svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="${esc(desc)}">${bars}</svg>
+    <figcaption>${esc(days.length)} days${observed.length < days.length ? ` · ${esc(days.length - observed.length)} before tracking` : ''} · peak ${esc(max)}/day</figcaption></figure>`;
+}
+
+/** One share button per card, through site/xcompose.mjs (never edited here). */
+function shareButton(l, ctx) {
+  const top = l.coverage && Array.isArray(l.coverage.headlines) && l.coverage.headlines[0];
+  const last = l.latest || l.last_statement;
+  const title = top ? top.title : last ? last.headline : `${l.name}, ${l.role} at ${l.org}, on the leader wire`;
+  const src = top ? (top.outlet || '') : last ? (last.source || '') : 'SIREN leader wire';
+  const url = ctx && typeof ctx.url === 'function' ? ctx.url(`${PATH}#lw-${l.id}`) : `${PATH}#lw-${l.id}`;
+  return `<button type="button" class="lwc__x" data-xpost="news" data-x-title="${esc(title)}" data-x-src="${esc(src)}" data-x-url="${esc(url)}" aria-label="Post about ${esc(l.name)} to X">𝕏 Post</button>`;
+}
+
+function hasCoverage(wire) {
+  return Boolean(wire && wire.coverage && wire.leaders.some((l) => l.coverage && Number.isFinite(l.coverage.count_7d)));
+}
+
+/** One sentence in the intro, only when the coverage layer has data. */
+function coverageLede(wire) {
+  const c = wire.coverage;
+  if (!c || !c.leaders_with_data) return '';
+  const top = wire.leaders
+    .filter((l) => l.coverage && Number.isFinite(l.coverage.count_7d))
+    .sort((a, b) => b.coverage.count_7d - a.coverage.count_7d)
+    .slice(0, 3);
+  return `<p class="lwp__cov">Separately, and never counted as anyone being on the record: the press ran
+     <b class="num">${esc(c.total_7d)}</b> stories naming these ${esc(wire.totals.leaders)} people in the last 7 days
+     (${esc(c.total_24h)} in the last 24 hours). Most covered: ${top.map((l) =>
+       `<a href="#lw-${esc(l.id)}">${esc(l.name)}</a> <span class="num">${esc(l.coverage.count_7d)}${l.coverage.saturated ? '+' : ''}</span>`).join(', ')}.
+     Searched ${esc(utc(c.generated_at))}.</p>`;
+}
+
+/** Sort / filter. Hidden until PAGE_JS runs, so it never shows as a dead control. */
+function filterBar(wire) {
+  const covered = hasCoverage(wire);
+  return `<div class="lwf" role="group" aria-label="Sort and filter the roster" hidden>
+    <span class="lwf__k">Show</span>
+    <button type="button" data-lwf="roster" aria-pressed="true">Roster</button>
+    ${covered ? '<button type="button" data-lwf="covered" aria-pressed="false">Most covered this week</button>' : ''}
+    <button type="button" data-lwf="record" aria-pressed="false">On record</button>
+    <button type="button" data-lwf="quiet" aria-pressed="false">Quiet</button>
+  </div>`;
+}
+
+// ES5, no template literals: it ships inside a template literal and runs on
+// whatever browser a shared link lands in.
+const PAGE_JS = [
+  '(function(){',
+  'var now=Date.now();',
+  'var ts=document.querySelectorAll("time[data-age]");',
+  'for(var i=0;i<ts.length;i++){var ms=now-Date.parse(ts[i].getAttribute("datetime"));if(!(ms>=0))continue;',
+  'var h=Math.floor(ms/3600000);ts[i].textContent=h<1?"<1h":h<48?h+"h":Math.floor(h/24)+"d";}',
+  'var bar=document.querySelector(".lwf");if(!bar)return;',
+  'var cards=[].slice.call(document.querySelectorAll(".lwc"));if(!cards.length)return;',
+  'var flat=document.getElementById("lwr-flat"),none=document.getElementById("lwf-none");',
+  'var homes=cards.map(function(c){return c.parentNode;});',
+  'var grouped=[].slice.call(document.querySelectorAll(".lwg__h,.lwg__b,.lwr--g"));',
+  'function num(c,k){var v=parseFloat(c.getAttribute("data-"+k));return isNaN(v)?-1:v;}',
+  'function set(mode){',
+  ' var bs=bar.querySelectorAll("button");for(var i=0;i<bs.length;i++)bs[i].setAttribute("aria-pressed",bs[i].getAttribute("data-lwf")===mode?"true":"false");',
+  ' if(mode==="roster"){cards.forEach(function(c,i){homes[i].appendChild(c);});grouped.forEach(function(g){g.hidden=false;});flat.hidden=true;none.hidden=true;return;}',
+  ' var list=cards.map(function(c,i){return{c:c,i:i};});',
+  ' if(mode==="record")list=list.filter(function(o){return o.c.getAttribute("data-state")==="on_record";});',
+  ' if(mode==="quiet")list=list.filter(function(o){return o.c.getAttribute("data-state")!=="on_record";});',
+  ' var key=mode==="covered"?"cov7d":mode==="record"?"count":mode==="quiet"?"silent":null;',
+  ' if(key)list.sort(function(a,b){return num(b.c,key)-num(a.c,key)||a.i-b.i;});',
+  ' cards.forEach(function(c,i){homes[i].appendChild(c);});',
+  ' list.forEach(function(o){flat.appendChild(o.c);});',
+  ' grouped.forEach(function(g){g.hidden=true;});flat.hidden=!list.length;none.hidden=!!list.length;',
+  '}',
+  'bar.addEventListener("click",function(e){var b=e.target.closest?e.target.closest("button[data-lwf]"):null;if(b)set(b.getAttribute("data-lwf"));});',
+  'bar.hidden=false;',
+  '})();',
+].join('');
 
 /**
  * The watch-floor reconciliation on the row, where there is one to print.
@@ -598,6 +789,23 @@ function directMethod(wire) {
       ${d.last_statement_means ? `<br><b>last on record</b> — ${esc(d.last_statement_means)}` : ''}</dd></div>`;
 }
 
+/** Press coverage and profiles: what they are, and what they are not. */
+function coverageMethod(wire) {
+  const c = wire.coverage;
+  if (!c) return '';
+  return `<div><dt>In the news</dt><dd>Separate from everything above. One exact-phrase Google News
+      search per person (public RSS, no key), asked at most every ${esc(c.min_interval_minutes)} minutes.
+      A story counts once per outlet and title, ever; the ${esc(c.days)}-day bars count distinct stories
+      by the day they were published, and a day before tracking began is drawn as a flat dash, not a
+      zero. ${esc(c.trend_means)} <b>Coverage is not a statement</b>: a story naming someone never puts
+      them on the record, and only the outlet's own headline is shown, linked.${c.ran
+        ? ` ${esc(c.leaders_with_data)} of ${esc(wire.totals.leaders)} searches have data${c.leaders_dark ? `; ${esc(c.leaders_dark)} did not answer and show no count` : ''}.`
+        : ' The search did not run in this build.'}</dd></div>
+    <div><dt>Profiles</dt><dd>Role and organisation are checked by hand (last ${esc(c.role_as_of || '—')}).
+      The one-line description and the short summary under each card are from Wikipedia's page
+      summary, refreshed at most daily, licensed CC BY-SA and linked to the article.</dd></div>`;
+}
+
 /** The published vocabulary: how a line gets here, and what it cost. */
 function method(ctx, wire, onRecord, quiet) {
   const c = wire.corpus;
@@ -621,6 +829,7 @@ function method(ctx, wire, onRecord, quiet) {
     ${classes.length ? `<div><dt>Cue classes</dt><dd>${classes.map(([k, v]) =>
       `<b>${esc(k)}</b> — ${esc(v)}`).join('<br>')}</dd></div>` : ''}
     ${directMethod(wire)}
+    ${coverageMethod(wire)}
     <div><dt>The roster</dt><dd>${esc(wire.totals.leaders)} people, fixed order, never pruned. The matching vocabulary
       is data, not a heuristic: no fuzzy matching, no edit distance, no initial inference. If a
       spelling is not in the table it does not match.
@@ -856,6 +1065,63 @@ function pageCss() {
 .lwp__al { list-style: none; margin: var(--s-2) 0 0; padding: 0; display: grid; gap: 5px; }
 .lwp__al li { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 6px; font-size: var(--t-xs); }
 .lwp__al span { font-family: var(--mono); font-size: var(--t-2xs); color: var(--ink-faint); }
+
+.lwp__cov { max-width: var(--measure); margin: var(--s-3) 0 0; font-size: var(--t-sm); line-height: 1.6; color: var(--ink-dim); }
+.lwp__cov b { color: var(--ink); }
+.lwp__cov a { color: var(--ink); }
+
+/* ---- sort / filter ------------------------------------------------------ */
+/* The group headings and lists set their own display, which beats the UA's
+   [hidden] rule; without this the sorted view showed empty group headings. */
+.lwg__h[hidden], .lwg__b[hidden], .lwr[hidden], .lwf__none[hidden] { display: none; }
+.lwf { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 0 0 var(--s-3); }
+.lwf[hidden] { display: none; }
+.lwf__k { font-family: var(--mono); font-size: var(--t-2xs); letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-faint); margin-right: 2px; }
+.lwf button {
+  font: inherit; font-family: var(--mono); font-size: var(--t-2xs); letter-spacing: 0.04em; cursor: pointer;
+  padding: 4px 9px; border: 1px solid var(--rule); border-radius: 2px; background: var(--bg-raised); color: var(--ink-dim);
+}
+.lwf button[aria-pressed="true"] { border-color: var(--ink-faint); color: var(--ink); background: var(--wash); font-weight: 700; }
+.lwf button:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.lwf__none { font-family: var(--mono); font-size: var(--t-xs); color: var(--ink-faint); }
+
+/* ---- profile, coverage, share -------------------------------------------- */
+.lwc__d { display: block; margin-top: 4px; font-size: var(--t-xs); line-height: 1.4; color: var(--ink-dim); overflow-wrap: anywhere; }
+.lwc__x {
+  all: unset; cursor: pointer; display: inline-block; margin: var(--s-2) 0 0 6px; padding: 2px 8px;
+  border: 1px solid var(--ink-faint); border-radius: 2px; vertical-align: baseline;
+  font: 600 var(--t-2xs)/1.4 var(--mono); letter-spacing: .04em; color: var(--ink-dim);
+}
+.lwc__x:hover, .lwc__x:focus-visible { color: var(--ink); border-color: currentColor; }
+.lwc__sh { margin: 0 0 4px; font-family: var(--mono); font-size: var(--t-2xs); letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--ink-faint); }
+.lwc__wp { margin: 0; padding-top: var(--s-2); border-top: 1px dotted var(--rule-soft);
+  font-size: var(--t-xs); line-height: 1.55; color: var(--ink-faint); overflow-wrap: anywhere; }
+.lwc__wpa { color: var(--ink-dim); }
+.lwc__wpl { font-family: var(--mono); font-size: var(--t-2xs); }
+
+.lwv { min-width: 0; padding: var(--s-2) var(--s-2) var(--s-2); border: 1px solid var(--rule-soft); border-radius: var(--radius); background: var(--bg); }
+.lwv__hd { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 2px var(--s-3); }
+.lwv__hd .lwc__sh { margin: 0; }
+.lwv__n { margin: 0; display: flex; flex-wrap: wrap; gap: 2px 10px; align-items: baseline;
+  font-family: var(--mono); font-size: var(--t-2xs); color: var(--ink-faint); }
+.lwv__n b { font-size: var(--t-sm); color: var(--ink); }
+.lwv__tr { color: var(--ink-dim); }
+.lwv__tr[data-dir="up"] { color: var(--ink); font-weight: 700; }
+.lwv__tr[data-dir="none"] { color: var(--ink-faint); }
+.lwv__sp { margin: 6px 0 2px; display: flex; align-items: flex-end; flex-wrap: wrap; gap: 2px 10px; }
+.lwv__sp svg { display: block; max-width: 100%; height: auto; }
+.lwv__sp figcaption { font-family: var(--mono); font-size: var(--t-2xs); color: var(--ink-faint); }
+.lwv__b { fill: var(--avt-a, var(--accent)); opacity: .55; }
+.lwv__b--now { opacity: 1; }
+.lwv__na { fill: var(--ink-faint); opacity: .5; }
+.lwv__l { list-style: none; margin: 6px 0 0; padding: 0; display: grid; gap: 6px; }
+.lwv__l li { min-width: 0; font-size: var(--t-sm); line-height: 1.4; overflow-wrap: anywhere; }
+.lwv__l a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--rule); }
+.lwv__l a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+.lwv__m { display: flex; gap: 6px; align-items: baseline; font-family: var(--mono); font-size: var(--t-2xs); color: var(--ink-faint); }
+.lwv__o { letter-spacing: 0.08em; text-transform: uppercase; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 24ch; }
+.lwv__dark { margin: 4px 0 0; font-family: var(--mono); font-size: var(--t-2xs); line-height: 1.6; color: var(--ink-faint); overflow-wrap: anywhere; }
 
 .lwp__note { margin: var(--s-3) 0 0; font-family: var(--mono); font-size: var(--t-2xs);
   line-height: 1.7; color: var(--ink-faint); }
