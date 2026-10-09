@@ -88,8 +88,18 @@ export default {
   weight: 0.45,
   minIntervalMs: 300_000,
   maxItems: 60,
-  async collect(fetchText) {
-    const text = await fetchText(endpoint(), { retries: 0, timeoutMs: 15_000 });
+  async collect(fetchText, _fetchJson, { wait = (ms) => new Promise((r) => setTimeout(r, ms)) } = {}) {
+    // GDELT's floor is one request per five seconds PER IP, and Actions
+    // runners share IPs with strangers, so a first 429 is often someone
+    // else's. One retry after its stated interval; a second 429 is dark.
+    let text;
+    try {
+      text = await fetchText(endpoint(), { retries: 0, timeoutMs: 8_000 });
+    } catch (err) {
+      if (err?.status !== 429) throw err;
+      await wait(6_000);
+      text = await fetchText(endpoint(), { retries: 0, timeoutMs: 8_000 });
+    }
     let body;
     try {
       body = JSON.parse(text);

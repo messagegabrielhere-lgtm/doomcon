@@ -107,6 +107,18 @@ describe('gdelt-ai', () => {
   it('turns a plain-text throttle answer into a dark source with the text quoted', async () => {
     await assert.rejects(gdelt.collect(async () => 'Please limit requests to one every 5 seconds'), /non-JSON answer — Please limit/);
   });
+
+  it('retries a 429 once after the stated interval, then goes dark', async () => {
+    const throttled = Object.assign(new Error('HTTP 429'), { status: 429 });
+    let calls = 0;
+    const waits = [];
+    const wait = async (ms) => { waits.push(ms); };
+    const out = await gdelt.collect(async () => { calls += 1; if (calls === 1) throw throttled; return '{}'; }, null, { wait });
+    assert.deepEqual(out, []);
+    assert.equal(calls, 2);
+    assert.deepEqual(waits, [6000]);
+    await assert.rejects(gdelt.collect(async () => { throw throttled; }, null, { wait }), /HTTP 429/);
+  });
 });
 
 describe('gnews-ai', () => {
