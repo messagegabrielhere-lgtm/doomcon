@@ -717,8 +717,8 @@ ${ticker(items)}
       </div>
     </div>
     <p class="v2-plain">${esc(plainRead(state))}</p>
-    ${scaleRail(state, href)}
     ${phoneFold(wm, state, rows)}
+    ${scaleRail(state, href)}
     ${raceLeaderLine(ctx, href)}
   </section>
   <div class="v2-since" id="v2-since" hidden role="status"></div>
@@ -1089,38 +1089,39 @@ const DASH_CSS = `
   .v2-top .right{margin-left:auto;flex-wrap:nowrap}
   .v2-top .v2-top__x{display:none!important}
   .v2 .tag{min-height:32px;display:inline-flex;align-items:center}
-  .v2-main{padding-top:14px;gap:12px}
-  .v2-brand{flex-wrap:nowrap;gap:12px}
-  .v2-brand .v2-art{width:56px;height:56px}
-  .v2-brand .v2-3d,.v2-brand .v2-3d canvas{width:64px!important;height:64px!important}
+  /* Fold budget: header + numeral + claim + spark + 3 movers + evidence must fit
+     a ~390×844 phone without scrolling. Slogan, five-stage rail and race lead
+     stay in the HTML (self-check / desktop) but leave the phone fold. */
+  .v2-main{padding-top:10px;gap:10px}
+  .v2-brand{flex-wrap:nowrap;gap:10px}
+  .v2-brand .v2-art{width:44px;height:44px}
+  .v2-brand .v2-3d,.v2-brand .v2-3d canvas{width:48px!important;height:48px!important}
   .v2-brand h1{flex:1 1 auto;min-width:0}
-  .v2-brand h1 .v2-ptext svg{max-height:28px;width:auto;max-width:100%}
-  .v2-sub{margin-top:-4px;gap:10px}.v2-sub .sep{display:none}
-  .v2-sub .v2-btn.sm{min-height:40px}
+  .v2-brand h1 .v2-ptext svg{max-height:22px;width:auto;max-width:100%}
+  .v2-sub{display:none}
   .v2-top .tag{gap:6px}
-  .v2-banner{padding:14px 12px;gap:10px}
-  .v2-banner .v2-score{margin-left:0;align-items:flex-start;width:100%}
+  .v2-banner{padding:10px 12px;gap:8px}
+  .v2-banner>:first-child{display:none}
+  .v2-banner .v2-score{margin-left:0;align-items:flex-start;width:auto;flex:0 0 auto}
+  .v2-banner .col{flex:1 1 auto}
   .v2-banner .v2-score .v2-ptext{max-width:100%}
-  .v2-banner .v2-score .v2-ptext svg{max-height:48px;width:auto}
-  .v2-banner .col .v2-ptext svg{max-height:36px;width:auto;max-width:100%}
-  .v2-scale{gap:3px}
-  .v2-scale__st{padding:6px 2px 8px}
-  .v2-scale__n{font-size:16px}
-  .v2-scale__name{font-size:7px;letter-spacing:0}
-  .v2-scale__band{font-size:10px}
-  .v2-scale__note{display:none}
+  .v2-banner .v2-score .v2-ptext svg{max-height:40px;width:auto}
+  .v2-banner .col .v2-ptext svg{max-height:28px;width:auto;max-width:100%}
+  .v2-banner .lbl{font-size:12px}
+  .v2-scale,.v2-scale__note{display:none}
   .v2-racelead{display:none}
   .v2-ticker{display:none}
-  .v2-plain{font-size:15px;line-height:1.4}
-  .v2 .hero{gap:10px}
+  .v2-plain{font-size:13.5px;line-height:1.35;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden}
+  .v2 .hero{gap:8px}
   /* Fold: sparkline + 3 movers. Evidence control is the details summary below. */
-  .v2-phone{display:flex;flex-direction:column;gap:10px;padding:12px;border:2px solid #2A3446;background:#0A0E16}
-  .v2-phone__spark{display:block;width:100%;height:auto;max-height:56px}
+  .v2-phone{display:flex;flex-direction:column;gap:8px;padding:10px;border:2px solid #2A3446;background:#0A0E16}
+  .v2-phone__spark{display:block;width:100%;height:auto;max-height:44px}
   .v2-phone__mv{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
-  .v2-phone__mv li{display:flex;flex-direction:column;gap:4px;min-width:0;padding:8px 8px 10px;border-top:3px solid var(--pc,#6366F1);background:#060A10}
-  .v2-phone__mv span{font-size:10px;font-weight:700;letter-spacing:.06em;color:#AEB7C3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .v2-phone__mv b{font-size:16px;font-variant-numeric:tabular-nums;color:#E6EAF0}
-  .v2-phone__mv b.mute{color:#8A94A3;font-size:13px}
+  .v2-phone__mv li{display:flex;flex-direction:column;gap:2px;min-width:0;padding:6px 6px 8px;border-top:3px solid var(--pc,#6366F1);background:#060A10}
+  .v2-phone__mv span{font-size:9px;font-weight:700;letter-spacing:.05em;color:#AEB7C3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .v2-phone__mv b{font-size:14px;font-variant-numeric:tabular-nums;color:#E6EAF0}
+  .v2-phone__mv b.mute{color:#8A94A3;font-size:12px}
+  .v2-more__sum{margin-top:0;min-height:44px;font-size:13px}
   .v2-breaking{padding:8px 10px;gap:8px}
   .v2-breaking a{flex:1 1 100%;font-size:14px;line-height:1.35}
   .v2-breaking .src{margin-left:0}
