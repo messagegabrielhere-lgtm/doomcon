@@ -44,7 +44,7 @@ function wav(pcm, rate) {
   return Buffer.concat([h, pcm]);
 }
 
-async function speak(text) {
+export async function speak(text) {
   const { default: WebSocket } = await import('ws');
   return new Promise((resolve, reject) => {
     const ws = new WebSocket(`wss://api.x.ai/v1/realtime?agent_id=${encodeURIComponent(AGENT)}`, { headers: { Authorization: `Bearer ${KEY}` } });
@@ -90,5 +90,5 @@ async function main() {
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
-  main().catch((e) => { console.error('tally-voice failed:', e.message); process.exitCode = 1; });
+  main().catch((e) => { console.error('tally-voice failed:', e.message); console.log(`::warning title=tally-voice::${String(e.message).slice(0, 300)}`); process.exitCode = 1; });
 }
