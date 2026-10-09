@@ -120,3 +120,72 @@ test('skill.md tells agents to get human approval and points at the store', asyn
   assert.match(text, /https:\/\/example\.github\.io\/doomcon\/agent-tools\.html/);
   assert.match(text, /https:\/\/api\.siren\.watch\/x402\/key\?product=flight-recorder/);
 });
+
+// ---- plain USDC ----
+const USDC_BASE = '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913';
+const TOPIC = '0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef';
+const pad = a => '0x' + a.toLowerCase().replace(/^0x/, '').padStart(64, '0');
+function chain({ to, atomic, blockTs, status = '0x1', head = 0x110, block = 0x100, token = USDC_BASE }) {
+  const calls = [];
+  const fn = async (url, init) => {
+    const { method } = JSON.parse(init.body); calls.push(method);
+    const result = {
+      eth_getTransactionReceipt: { status, blockNumber: '0x' + block.toString(16), logs: [{ address: token, topics: [TOPIC, pad('0x9999999999999999999999999999999999999999'), pad(to)], data: '0x' + BigInt(atomic).toString(16) }] },
+      eth_blockNumber: '0x' + head.toString(16),
+      eth_getBlockByNumber: { timestamp: '0x' + blockTs.toString(16) },
+    }[method];
+    return new Response(JSON.stringify({ jsonrpc: '2.0', id: 1, result }));
+  };
+  fn.calls = calls; return fn;
+}
+const usdcEnv = () => ({ ...makeEnv(), USDC_NETWORK: 'base' });
+const TX = '0x' + 'ab'.repeat(32);
+const claim = (env, body, f) => call(env, '/usdc/claim', { method: 'POST', body: JSON.stringify(body) }, f);
+
+test('USDC: quote gives a unique exact amount to the seller wallet on Base mainnet', async () => {
+  const env = usdcEnv();
+  const a = await (await call(env, '/usdc/quote?product=flight-recorder')).json();
+  const b = await (await call(env, '/usdc/quote?product=flight-recorder')).json();
+  assert.equal(a.payTo, env.PAY_TO_ADDRESS);
+  assert.equal(a.network, 'base');
+  assert.equal(a.tokenContract, USDC_BASE);
+  assert.ok(Number(a.amountAtomic) > 5000000 && Number(a.amountAtomic) < 5010000);
+  assert.notEqual(a.quoteId, b.quoteId);
+});
+
+test('USDC: correct payment → working key; retry returns same key; reuse elsewhere refused', async () => {
+  const env = usdcEnv();
+  const q = await (await call(env, '/usdc/quote')).json();
+  const f = chain({ to: env.PAY_TO_ADDRESS, atomic: q.amountAtomic, blockTs: Math.floor(Date.now() / 1000) + 5 });
+  const r = await claim(env, { quoteId: q.quoteId, txHash: TX }, f);
+  assert.equal(r.status, 200);
+  const body = await r.json();
+  const v = verifyInRecorder(body.key);
+  assert.equal(v.valid, true);
+  assert.equal(v.payload.via, 'usdc');
+  const again = await (await claim(env, { quoteId: q.quoteId, txHash: TX }, f)).json();
+  assert.equal(again.key, body.key);
+  const q2 = await (await call(env, '/usdc/quote')).json();
+  assert.equal((await claim(env, { quoteId: q2.quoteId, txHash: TX }, f)).status, 409, 'same tx cannot buy twice');
+});
+
+test('USDC: wrong amount, wrong recipient, wrong token, failed tx, old payment, unconfirmed → no key', async () => {
+  const env = usdcEnv();
+  const now = Math.floor(Date.now() / 1000) + 5;
+  const cases = [
+    ['amount', q => chain({ to: env.PAY_TO_ADDRESS, atomic: '5000000', blockTs: now }), 402],
+    ['recipient', q => chain({ to: '0x2222222222222222222222222222222222222222', atomic: q.amountAtomic, blockTs: now }), 402],
+    ['token', q => chain({ to: env.PAY_TO_ADDRESS, atomic: q.amountAtomic, blockTs: now, token: '0x3333333333333333333333333333333333333333' }), 402],
+    ['failed', q => chain({ to: env.PAY_TO_ADDRESS, atomic: q.amountAtomic, blockTs: now, status: '0x0' }), 402],
+    ['before quote', q => chain({ to: env.PAY_TO_ADDRESS, atomic: q.amountAtomic, blockTs: now - 86400 }), 402],
+    ['unconfirmed', q => chain({ to: env.PAY_TO_ADDRESS, atomic: q.amountAtomic, blockTs: now, head: 0x100 }), 202],
+  ];
+  for (const [name, mk] of cases) {
+    const q = await (await call(env, '/usdc/quote')).json();
+    const res = await claim(env, { quoteId: q.quoteId, txHash: '0x' + crypto.randomBytes(32).toString('hex') }, mk(q));
+    assert.equal(res.status, cases.find(c => c[0] === name)[2], name);
+    assert.equal((await res.json()).key, undefined, name);
+  }
+  assert.equal((await claim(env, { quoteId: 'q_fake', txHash: TX }, chain({ to: env.PAY_TO_ADDRESS, atomic: 1, blockTs: now }))).status, 404);
+  assert.equal((await claim(env, { quoteId: 'x', txHash: 'nothex' })).status, 400);
+});

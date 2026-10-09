@@ -20,6 +20,10 @@ PAY_TO_ADDRESS = "0xe7306635dbb15d3aeca82eb5ede6b24b32a55815"
 # Start on testnet. Switch to "base" + a mainnet facilitator when ready (see README).
 X402_NETWORK = "base-sepolia"
 FACILITATOR_URL = "https://x402.org/facilitator"
+# Plain-USDC payments (any wallet) are verified straight from the Base blockchain, no
+# facilitator needed, so they can take real money now.
+USDC_NETWORK = "base"
+# BASE_RPC_URL = ""   # optional: your own RPC (Alchemy/Coinbase); default is the public Base endpoint
 
 # Secrets (never in this file):
 #   npx wrangler secret put LICENSE_PRIVATE_KEY_PKCS8

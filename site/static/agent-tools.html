@@ -143,9 +143,9 @@ Network: 88 connection(s) to 7 host(s), 1.4 MB sent.
         <ul>
           <li>Same product, paid by the agent itself</li>
           <li>One-time, never renews — buy again when it runs out</li>
-          <li>x402 on Base: payment and key in a single request</li>
+          <li>Pay from any wallet with USDC on Base, or with x402 in a single request</li>
         </ul>
-        <p class="terms">Agents: request the key and pay the 402 challenge.</p>
+        <p class="terms">Any wallet: get a quote, send that exact USDC amount, submit the transaction ID. x402 wallets: request the key and pay the 402 challenge.</p>
         <span class="code" id="x402snippet">GET https://api.siren.watch/x402/key?product=flight-recorder
 → 402 Payment Required (terms inside)
 → retry with X-PAYMENT → 200 { "key": "SIREN1…" }</span>
@@ -199,7 +199,7 @@ var API = 'https://api.siren.watch';
 
   document.getElementById('skilllink').href = API + '/skill.md';
   document.getElementById('x402snippet').textContent =
-    'GET ' + API + '/x402/key?product=flight-recorder\n→ 402 Payment Required (terms inside)\n→ retry with X-PAYMENT → 200 { "key": "SIREN1…" }';
+    'Any wallet:\nGET  ' + API + '/usdc/quote?product=flight-recorder\n→ send exact USDC amount on Base\nPOST ' + API + '/usdc/claim { quoteId, txHash } → { "key": "SIREN1…" }\n\nx402:\nGET  ' + API + '/x402/key?product=flight-recorder → 402 → pay → key';
 
   // After Stripe checkout, Stripe sends the buyer back here with ?session_id=cs_…
   var sid = new URLSearchParams(location.search).get('session_id');

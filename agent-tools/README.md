@@ -16,7 +16,10 @@ account you control.
 ```
  Card:  agent-tools.html ──► Stripe Payment Link ──► Stripe ──webhook──► Worker signs key
         ◄── thank-you (same page, ?session_id=) shows key ◄───────────────────┘
- USDC:  agent ──GET /x402/key──► 402 terms (pay YOUR wallet) ──X-PAYMENT──► facilitator
+ USDC (any wallet): agent ──GET /usdc/quote──► unique amount + your address
+        agent sends USDC on Base ──POST /usdc/claim {quoteId, txHash}──► Worker reads the
+        transfer from Base itself ──► signs key ──► 200 { key }
+ USDC (x402): agent ──GET /x402/key──► 402 terms (pay YOUR wallet) ──X-PAYMENT──► facilitator
         verifies + settles on-chain ──► Worker signs key ──► 200 { key }
  Use:   siren-fr activate <key>  → verified offline with the public key baked into the CLI
 ```
@@ -47,8 +50,10 @@ Do these on **your own Mac**, not in a shared or cloud machine.
    `npx wrangler kv namespace create LICENSES` and paste the id into
    `wrangler.toml`. Paste the public key into `PUBLIC_KEY_SPKI_B64`.
    `npx wrangler secret put LICENSE_PRIVATE_KEY_PKCS8` (value printed by keygen).
-3. **Your USDC wallet.** Put your Base wallet address in `PAY_TO_ADDRESS`.
-   Leave `X402_NETWORK = "base-sepolia"` and test with testnet USDC first. For
+3. **Your USDC wallet.** Already set in `PAY_TO_ADDRESS`. Plain-USDC payments
+   (`USDC_NETWORK = "base"`) take real money as soon as the Worker is deployed;
+   they need no facilitator. x402 starts on `X402_NETWORK = "base-sepolia"`
+   (test money) so you can try it first. For
    real money switch to `"base"` and a mainnet facilitator (Coinbase CDP's
    facilitator needs a free CDP API key; put its auth header in the
    `FACILITATOR_AUTH` secret).
