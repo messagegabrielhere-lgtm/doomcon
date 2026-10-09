@@ -7,7 +7,9 @@ function clean(s) {
   return t || null;
 }
 
-function round3(n) { return Number.isFinite(n) ? Math.round(n * 1000) / 1000 : NaN; }
+// Two decimals (about 1 km): enough to map a call to its neighbourhood, never
+// to a doorstep. These are people's medical and police emergencies.
+function round3(n) { return Number.isFinite(n) ? Math.round(n * 100) / 100 : NaN; }
 
 const SENSITIVE_TYPE = /\b(REDACTED|SEXUAL|RAPE|CHILD\s*-\s*ABANDONED|CHILD\s*ABUSE|SUICID|OVERDOSE|MENTAL)\b/i;
 

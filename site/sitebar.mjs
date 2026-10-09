@@ -90,8 +90,7 @@ ${MONETIZE.tips && MONETIZE.tips.url ? `<a class="fb kofi" href="${MONETIZE.tips
     var t = (document.querySelector('meta[property="og:title"]') || {}).content || document.title;
     xl.href = "https://x.com/intent/post?text=" + encodeURIComponent(t) + "&url=" + encodeURIComponent(u) + "&via=SIRENutf6";
   }
-  // THE INTRO. A quiet corner chip — tap to play. Never autoplays (mobile
-  // LCP and fold occlusion), never on the homepage (it already embeds the
+  // THE INTRO. Plays silently in a corner, once per visit; never on the homepage (it already embeds the
   // explainer), never on clips/videos/radio, skipped for reduced-motion.
   (function intro(){
     try {
@@ -137,6 +136,9 @@ ${MONETIZE.tips && MONETIZE.tips.url ? `<a class="fb kofi" href="${MONETIZE.tips
       v.addEventListener("ended", function(){ setTimeout(close, 1200); });
       var p = v.play(); if (p && p.catch) p.catch(function(){});
     });
+    // The owner's call: the page's intro plays by itself, silently, once per
+    // visit (the chip above stays as the fallback if the browser blocks it).
+    var pb = box.querySelector('[data-a="play"]'); if (pb) pb.click();
   })();
   // OUTSIDE LINKS OPEN IN A NEW TAB, so a visitor who follows a story, a clip
   // or a market comes back to SIREN instead of losing it. Same-site links
