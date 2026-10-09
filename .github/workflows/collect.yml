@@ -357,8 +357,7 @@ jobs:
           git add -A
           git commit -q -m "$SUBJECT" \
             -m "Build output from ${{ github.repository }}@${{ github.sha }} (collect/news). Do not hand-edit."
-          # Header, not the remote URL, so a failed push cannot store the token in .git/config.
-          git -c "http.extraheader=AUTHORIZATION: bearer ${GH_TOKEN}" push -q -f "https://github.com/${GITHUB_REPOSITORY}.git" gh-pages
+                    git push -q -f "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" gh-pages
           cd ..
           rm -rf .pages
           echo "published: $SUBJECT"
@@ -748,8 +747,7 @@ jobs:
           git add -A
           git commit -q -m "$SUBJECT" \
             -m "Build output from ${{ github.repository }}@${{ github.sha }} (collect/full). Do not hand-edit."
-          # Header, not the remote URL, so a failed push cannot store the token in .git/config.
-          git -c "http.extraheader=AUTHORIZATION: bearer ${GH_TOKEN}" push -q -f "https://github.com/${GITHUB_REPOSITORY}.git" gh-pages
+                    git push -q -f "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" gh-pages
           cd ..
           rm -rf .pages
           echo "published: $SUBJECT"

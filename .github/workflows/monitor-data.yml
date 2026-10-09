@@ -60,5 +60,4 @@ jobs:
           git config user.email "41898699+github-actions[bot]@users.noreply.github.com"
           git add -A
           git commit -q -m "Monitor snapshot $(date -u +%Y-%m-%dT%H:%MZ)"
-          # Header, not the remote URL, so a failed push cannot store the token in .git/config.
-          git -c "http.extraheader=AUTHORIZATION: bearer ${GH_TOKEN}" push -q -f "https://github.com/${GITHUB_REPOSITORY}.git" monitor-data
+                    git push -q -f "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" monitor-data
