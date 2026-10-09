@@ -173,6 +173,31 @@ ${MONETIZE.tips && MONETIZE.tips.url ? `<a class="fb kofi" href="${MONETIZE.tips
     });
     bar.style.bottom = off + "px";
   }
+  // A page left open should hear about a newer newsroom or a newer reading
+  // within a minute. Same-origin JSON only. The button label changes; the
+  // page does not reload until the reader asks, because a reload mid-paragraph
+  // is worse than a minute of staleness.
+  var newsAt = +bar.dataset.news || 0;
+  var api = "${BASE}";
+  function flag(label){
+    var lbl = document.getElementById("sitebar-lbl");
+    if (!lbl || btn.classList.contains("due")) return;
+    lbl.textContent = label;
+    btn.classList.add("due");
+    btn.setAttribute("aria-label", label + ". Refresh this page.");
+  }
+  function watch(){
+    if (document.hidden || !window.fetch || btn.classList.contains("due")) return;
+    fetch(api + "/api/fresh.json?m=" + Math.floor(Date.now() / 60000), { cache: "no-store" }).then(function(r){ return r.ok ? r.json() : null; }).then(function(j){
+      if (!j) return;
+      var ns = j.news && Date.parse(j.news);
+      var st = j.state && Date.parse(j.state);
+      if (newsAt > 0 && ns && ns > newsAt + 1500) flag("New stories");
+      else if (st && st > at + 1500) flag("New reading");
+    }).catch(function(){});
+  }
+  setInterval(watch, 60000);
+  document.addEventListener("visibilitychange", function(){ if (!document.hidden) watch(); });
   paint(); setInterval(paint, 60000);
   // A tiny file, not news.json (~900KB). The label changes; the page does not reload itself.
   var newsMark = +bar.getAttribute("data-news") || 0, lbl = document.getElementById("sitebar-lbl");

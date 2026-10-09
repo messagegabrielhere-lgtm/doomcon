@@ -77,7 +77,7 @@ disclosure made after the fact; nothing is real time.
 - SEC refuses automated clients (HTTP 403, "Undeclared Automated Tool")
   unless the User-Agent names who is asking with a contact email, and it
   rejects any UA containing `github`. Default is
-  `doomcon messagegabrielhere@gmail.com`; override with repository variable
+  `doomcon <SEC_CONTACT_EMAIL secret>`; override with repository variable
   `SEC_UA`. Do not put a GitHub noreply address there.
 
 ```bash

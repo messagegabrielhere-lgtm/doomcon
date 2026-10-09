@@ -1878,7 +1878,7 @@ async function selfCheck(outDir, state, ctx = null) {
   if (/all sources live/i.test(embed)) {
     throw new Error('build: self-check failed - embed still claims "all sources live".');
   }
-  for (const file of ['news-sitemap.xml', 'openapi.json', 'api/receipts/index.json', 'api/receipts/index.html']) {
+  for (const file of ['news-sitemap.xml', 'openapi.json', 'api/receipts/index.json', 'api/receipts/index.html', 'api/fresh.json']) {
     if (!existsSync(path.join(outDir, file))) {
       throw new Error(`build: self-check failed - missing ${file}`);
     }

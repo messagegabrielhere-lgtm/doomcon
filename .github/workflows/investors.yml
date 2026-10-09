@@ -63,7 +63,8 @@ jobs:
       - name: Collect
         env:
           # The owner's contact, at their request; the variable overrides it.
-          SEC_UA: ${{ vars.SEC_UA || 'doomcon messagegabrielhere@gmail.com' }}
+          SEC_UA: ${{ vars.SEC_UA }}
+          SEC_CONTACT_EMAIL: ${{ secrets.SEC_CONTACT_EMAIL }}
         run: node investors/collect.mjs --dir "$RUNNER_TEMP/investors"
 
       - name: Publish to investors-data

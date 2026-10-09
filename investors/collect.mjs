@@ -30,7 +30,9 @@ import path from 'node:path';
 // asking with a contact address, and as of 2026-10-07 it also 403s any
 // User-Agent containing the substring "github". The repository variable
 // SEC_UA overrides the default. The default matches the investors workflow.
-export const DEFAULT_SEC_UA = 'doomcon messagegabrielhere@gmail.com';
+// SEC asks for a contact in the User-Agent. It comes from the SEC_CONTACT_EMAIL
+// secret, never from the source: the owner's address stays out of the repo.
+export const DEFAULT_SEC_UA = `doomcon ${process.env.SEC_CONTACT_EMAIL || 'SIREN index collector'}`;
 const SEC_UA = process.env.SEC_UA || DEFAULT_SEC_UA;
 const UA = 'Mozilla/5.0 (compatible; doomcon-investors/1.0; +https://github.com/messagegabrielhere-lgtm/doomcon)';
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));

@@ -272,7 +272,7 @@ export function titleOverlap(a, b) {
 // for being polled. arXiv asks for ~3 seconds between requests, throttles hard
 // when pushed, and publishes in daily batches; asking it every quarter hour
 // earns a ban in exchange for zero extra news. Hacker News and the press wires
-// genuinely do turn over inside fifteen minutes.
+// genuinely do turn over inside a minute.
 //
 // So every adapter declares how often it is worth asking. A source that is not
 // due is SKIPPED, and its items are carried forward from the previous run

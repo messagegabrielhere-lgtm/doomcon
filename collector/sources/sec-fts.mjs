@@ -6,6 +6,8 @@
 // Endpoint is keyless and undocumented-but-stable. Verified 2026-09-22:
 // a trailing-30-day window returns hits.total.value = 3585, relation "eq".
 
+import { secUserAgents } from '../infra-sources/_sec.mjs';
+
 const ENDPOINT = 'https://efts.sec.gov/LATEST/search-index';
 
 // The phrase is quoted so EDGAR matches it as a phrase, not as two loose terms.
@@ -152,40 +154,11 @@ export default {
       enddt,
     });
 
-    // TWO TRAPS IN ONE LINE. Both were found by watching this request 403 in
-    // Docker, and both will bite the next person who touches it.
-    //
-    // 1. SEC's WAF rejects any User-Agent containing a URL. Bisected against
-    //    the live endpoint on 2026-09-22: "doomcon/1.0", "doomcon/1.0 <email>"
-    //    and "doomcon/1.0 (<email>)" all return 200; add "(+https://github…)"
-    //    and the byte-identical request returns 403 "Your Request Originates
-    //    from an Undeclared Automated Tool". fetch.mjs's default USER_AGENT
-    //    carries the repo URL, so this source cannot use the default — it has
-    //    to send a contact-only UA, which is what SEC's policy asks for anyway.
-    //
-    // 2. The key must be lowercase 'user-agent'. fetch.mjs builds its headers
-    //    as { 'user-agent': USER_AGENT, ...opts.headers }, and JS object keys
-    //    are case-sensitive: 'User-Agent' does not overwrite 'user-agent', it
-    //    survives next to it and undici joins the pair with a comma. The joined
-    //    value still contains the URL, so it still 403s — the bug looks like
-    //    "my override was ignored". Matching the helper's casing makes this a
-    //    replacement rather than an append.
-    // 3. (2026-10-08) From 2026-10-06 the old UA, which named "doomcon.watch",
-    //    started drawing the same 403 from Actions runners: a dotted hostname
-    //    reads as a URL to the WAF. SEC's own example is "Company Name
-    //    contact@email", so that is the first UA tried; the second is the
-    //    bare-email form the 2026-09-22 bisect proved. Only a 403 moves on.
-    // 4. (2026-10-08) A probe from a runner showed SEC now refuses the GitHub
-    //    no-reply address outright: every UA carrying it 403s, and only a
-    //    browser UA passes. Impersonating a browser breaks SEC's fair-access
-    //    policy, so this source never does that. It declares a real contact
-    //    instead, read from the SEC_CONTACT_EMAIL repository secret so the
-    //    address is never committed. Without the secret it falls back to the
-    //    no-reply address and, as before, reports dark.
-    const CONTACT = process.env.SEC_CONTACT_EMAIL || '331486973+messagegabrielhere-lgtm@users.noreply.github.com';
-    // Probe 2026-10-08: "SIREN/1.0 (<x>)" passes where "SIREN AI Index <x>"
-    // does not, and the no-reply address fails in any form. Order accordingly.
-    const UAS = [`SIREN/1.0 (${CONTACT})`, `Siren Index ${CONTACT}`];
+    // Contact + UA shapes live in infra-sources/_sec.mjs so live collect,
+    // backfill, and the datacentre readers refuse the same WAF tokens
+    // (URLs, "github", blank Actions secrets). politeFetch below still owns
+    // the multi-round backoff for flaky 403/429/503 from the runners.
+    const UAS = secUserAgents();
     const { body, attempts } = await politeFetch(fetchJson, `${ENDPOINT}?${qs}`, UAS, clock);
 
     const total = body?.hits?.total;

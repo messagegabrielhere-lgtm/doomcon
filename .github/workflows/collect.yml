@@ -432,8 +432,9 @@ jobs:
         # instead, after the evidence has been committed.
         continue-on-error: true
         env:
-          # The SEC asks automated clients to declare a real contact address.
-          # Kept as a secret so it is never committed (collector/sources/sec-fts.mjs).
+          # Optional. Blank, a URL, or any address containing "github" is ignored
+          # and the collector uses the contact the investors job already
+          # publishes (collector/infra-sources/_sec.mjs).
           SEC_CONTACT_EMAIL: ${{ secrets.SEC_CONTACT_EMAIL }}
         run: node collector/collect.mjs
 
