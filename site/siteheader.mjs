@@ -33,6 +33,7 @@ export const PRIMARY = [
 // at the top of the room finder and as a strip on the homepage. Newest first;
 // keep it to about six so it stays a highlight reel, not a second menu.
 export const WHATS_NEW = [
+  ['/live.html', 'px:onair', 'AI on TV & radio', 'Live AI streams, news-channel segments and AI talk radio.'],
   ['/si-watch.html#coding', 'px:agentcode', 'What AI agents are coding', 'Live: agent pull requests by kind of work, language and repo.'],
   ['/day-after.html', 'px:flame', 'The Day After', 'Game out the public revolt after an AI catastrophe.'],
   ['/dispatch.html', 'px:seismo', 'Live alerts', 'Big quakes and extreme weather within about a minute.'],

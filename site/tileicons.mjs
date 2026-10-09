@@ -76,6 +76,9 @@ export const TILE_ICONS = {
     '................', '...........aa...', '.........aaba...', '.......aabbba...', '.cc..aabbbbba...', '.ccaabbbbbbba..b', '.ccabbbbbbbba.b.', '.ccabbbbbbbba...',
     '.ccabbbbbbbba.bb', '.ccaabbbbbbba...', '.cc..ddabbbba.b.', '.....dd.aabba..b', '.....dd...aba...', '....ddd....aa...', '................', '................']],
   // Round 3 (2026-10-09): What's New, Dispatch.
+  onair: [{ a: '#F87171', b: '#450A0A', c: '#FECACA', d: '#FCA5A5' }, [
+    '................', '................', '.aaaaaaaaaaaaaa.', '.abbbbbbbbbbbba.', '.abccbcbbcbbcba.', '.abcbccbcbcccba.', '.abcbcbbcbcbcba.', '.abccbcbbcbbcba.',
+    '.abbbbbbbbbbbba.', '.aaaaaaaaaaaaaa.', '.......d........', '......ddd.......', '................', '..d..........d..', '.d............d.', '................']],
   agentcode: [{ a: '#60A5FA', b: '#4ADE80', c: '#64748B', d: '#F87171' }, [
     '................', '.cccccccccccccc.', '.cddddddddddddc.', '.cccccccccccccc.', '.c............c.', '.c...a....b...c.', '.c..a....b....c.', '.c.a....b..a..c.',
     '.c..a..b...a..c.', '.c...ab.....a.c.', '.c....b....a..c.', '.c...b....a...c.', '.c............c.', '.cccccccccccccc.', '................', '................']],
