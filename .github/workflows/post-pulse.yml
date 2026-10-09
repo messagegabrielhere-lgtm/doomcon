@@ -7,11 +7,12 @@ on:
   schedule:
     - cron: '13 13,17,22 * * *'   # pulse: about 9am, 1pm, 6pm US Eastern
     - cron: '43 19 * * *'         # agent watch
+    - cron: '37 15 * * *'         # takeover watch
   workflow_dispatch:
     inputs:
       kind:
         type: choice
-        options: [pulse, agent-watch]
+        options: [pulse, agent-watch, takeover]
         default: pulse
       dry_run:
         type: boolean
@@ -27,7 +28,7 @@ jobs:
     timeout-minutes: 8
     env:
       HAS_X: ${{ secrets.X_API_KEY != '' && secrets.X_ACCESS_TOKEN != '' }}
-      KIND: ${{ github.event_name == 'workflow_dispatch' && inputs.kind || (github.event.schedule == '43 19 * * *' && 'agent-watch' || 'pulse') }}
+      KIND: ${{ github.event_name == 'workflow_dispatch' && inputs.kind || (github.event.schedule == '43 19 * * *' && 'agent-watch' || (github.event.schedule == '37 15 * * *' && 'takeover' || 'pulse')) }}
       DRY: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0

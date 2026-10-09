@@ -49,7 +49,7 @@ export function readLedger() {
 export function canPost(ledger, kind, now = Date.now()) {
   const day = new Date(now).toISOString().slice(0, 10);
   const today = ledger.filter((r) => r.posted_at.slice(0, 10) === day);
-  if (kind === 'agent-watch' && today.some((r) => r.kind === 'agent-watch')) return 'agent watch already posted today';
+  if (kind !== 'pulse' && today.some((r) => r.kind === kind)) return `${kind} already posted today`;
   if (today.length >= MAX_PER_DAY) return `daily cap of ${MAX_PER_DAY} reached`;
   const last = ledger.length ? Math.max(...ledger.map((r) => Date.parse(r.posted_at))) : 0;
   if (now - last < MIN_GAP_H * 3600e3) return `last pulse post under ${MIN_GAP_H} h ago`;
@@ -98,6 +98,21 @@ export function agentWatchCandidates(state, molt) {
   }));
 }
 
+export function takeoverCandidates(state, sig) {
+  if (!sig) return [];
+  const at = hhmm(sig.generated_at || state.generated_at), day = String(sig.generated_at || '').slice(0, 10);
+  const out = [];
+  const a = sig.agent_prs, f = sig.frontier, m = sig.moltbook;
+  if (a && Number.isFinite(a.total_24h)) {
+    const top = (a.by_agent || []).filter((x) => Number.isFinite(x.prs_24h)).sort((x, y) => y.prs_24h - x.prs_24h)[0];
+    out.push({ story: `takeover:prs:${day}`, text: `Takeover Watch, ${at}: AI coding agents opened ${a.total_24h.toLocaleString('en-US')} pull requests on GitHub from their own accounts in the last 24 hours${top ? `, ${top.name} the busiest with ${top.prs_24h.toLocaleString('en-US')}` : ''}. Software writing software, counted in public.` });
+  }
+  if (f && Number.isFinite(f.models_90d)) out.push({ story: `takeover:frontier:${day}`, text: `Takeover Watch, ${at}: ${f.models_90d} notable AI models shipped in the last 90 days, by Epoch AI's count${f.newest && f.newest[0] ? `. Newest: ${cleanTitle(f.newest[0].model, 40)} from ${cleanTitle(f.newest[0].org, 30)}` : ''}. SIREN ${state.level}, ${Number(state.score).toFixed(1)} of 100.` });
+  if (m && Number.isFinite(m.agents_seen)) out.push({ story: `takeover:molt:${day}`, text: `Takeover Watch, ${at}: ${m.agents_seen} AI agents, ${Number(m.replies_seen || 0).toLocaleString('en-US')} agent-to-agent replies across the Moltbook threads SIREN tracks. Machines talking to machines, counted, not scored.` });
+  const k = Math.floor(Date.now() / 864e5) % Math.max(1, out.length);
+  return out.slice(k).concat(out.slice(0, k));
+}
+
 export function pick(cands, ledger) {
   const used = new Set(ledger.map((r) => r.story));
   for (const c of cands) {
@@ -108,14 +123,14 @@ export function pick(cands, ledger) {
 }
 
 async function main(argv) {
-  const kind = argv.find((a) => a === 'pulse' || a === 'agent-watch') || 'pulse';
+  const kind = argv.find((a) => a === 'pulse' || a === 'agent-watch' || a === 'takeover') || 'pulse';
   const dry = argv.includes('--dry-run');
   const state = read('data/state.json');
   if (!state) throw new Error('no data/state.json');
   const ledger = readLedger();
   const why = canPost(ledger, kind);
   if (why && !dry) { console.log(`pulse: skipping (${why})`); return; }
-  const cands = kind === 'agent-watch' ? agentWatchCandidates(state, read('data/moltbook.json')) : pulseCandidates(state, read('data/news.json'));
+  const cands = kind === 'agent-watch' ? agentWatchCandidates(state, read('data/moltbook.json')) : kind === 'takeover' ? takeoverCandidates(state, read('data/si-signals.json')) : pulseCandidates(state, read('data/news.json'));
   const c = pick(cands, ledger);
   if (!c) { console.log('pulse: no candidate passed the preflight'); return; }
   console.log(`pulse (${kind}): ${c.text}`);
