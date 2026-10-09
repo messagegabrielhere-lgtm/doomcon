@@ -62,7 +62,7 @@ async function xai() {
       try {
         const { speak } = await import('./tally-voice.mjs');
         const out = await speak('Tally here. Voice check.');
-        note(out.pcm.length > 1000, 'TALLY_VOICE', `${out.pcm.length} bytes of audio at ${out.rate} Hz; said: ${String(out.said || '').slice(0, 80)}`);
+        note(out.pcm.length > 1000, 'TALLY_VOICE', `${out.pcm.length} bytes of audio at ${out.rate} Hz; said: ${String(out.said || '').slice(0, 80)}; events: ${[...new Set(out.seen || [])].join(',')}; done: ${JSON.stringify(out.done && out.done.response && { status: out.done.response.status, details: out.done.response.status_details, modalities: out.done.response.modalities || out.done.response.output_modalities }).slice(0, 300)}`);
       } catch (e) { note(false, 'TALLY_VOICE', String(e.message).slice(0, 300)); }
     }
   } catch (e) { note(false, 'XAI_API_KEY', e.message); }

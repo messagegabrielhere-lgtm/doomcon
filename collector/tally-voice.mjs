@@ -48,7 +48,7 @@ export async function speak(text) {
   const { default: WebSocket } = await import('ws');
   return new Promise((resolve, reject) => {
     const ws = new WebSocket(`wss://api.x.ai/v1/realtime?agent_id=${encodeURIComponent(AGENT)}`, { headers: { Authorization: `Bearer ${KEY}` } });
-    const chunks = []; let rate = 24000, said = '';
+    const chunks = []; let rate = 24000, said = ''; const seen = [];
     const done = setTimeout(() => { ws.terminate(); reject(new Error('timed out after 60s')); }, 60000);
     ws.on('open', () => {
       ws.send(JSON.stringify({ type: 'conversation.item.create', item: { type: 'message', role: 'user',
@@ -57,11 +57,12 @@ export async function speak(text) {
     });
     ws.on('message', (raw) => {
       let e; try { e = JSON.parse(raw.toString()); } catch { return; }
+      if (seen.length < 40) seen.push(e.type);
       const fmt = e.session && (e.session.output_audio_format || (e.session.audio && e.session.audio.output && e.session.audio.output.format));
       if (fmt && typeof fmt === 'object' && Number.isFinite(fmt.rate)) rate = fmt.rate;
-      if (e.type === 'response.output_audio.delta' && e.delta) chunks.push(Buffer.from(e.delta, 'base64'));
-      else if (e.type === 'response.output_audio_transcript.delta' && e.delta) said += e.delta;
-      else if (e.type === 'response.done') { clearTimeout(done); ws.close(); resolve({ pcm: Buffer.concat(chunks), rate, said }); }
+      if ((e.type === 'response.output_audio.delta' || e.type === 'response.audio.delta') && e.delta) chunks.push(Buffer.from(e.delta, 'base64'));
+      else if ((e.type === 'response.output_audio_transcript.delta' || e.type === 'response.audio_transcript.delta' || e.type === 'response.output_text.delta' || e.type === 'response.text.delta') && e.delta) said += e.delta;
+      else if (e.type === 'response.done') { clearTimeout(done); ws.close(); resolve({ pcm: Buffer.concat(chunks), rate, said, seen, done: e }); }
       else if (e.type === 'error') { clearTimeout(done); ws.close(); reject(new Error(JSON.stringify(e.error || e).slice(0, 300))); }
     });
     ws.on('error', (err) => { clearTimeout(done); reject(err); });
