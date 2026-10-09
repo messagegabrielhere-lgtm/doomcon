@@ -443,6 +443,14 @@ jobs:
         continue-on-error: true
         run: node collector/moltbook.mjs
 
+      - name: Takeover Watch signals
+        # Unscored autonomy signals for /si-watch.html. A failure keeps the
+        # previous file; nothing here moves the index.
+        continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node collector/si-signals.mjs
+
       - name: Post the reading to Moltbook
         # At most every 6 hours, or when the level moves. Off until the owner
         # registers and claims the agent and adds MOLTBOOK_API_KEY.

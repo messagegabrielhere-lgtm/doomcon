@@ -38,6 +38,7 @@ import * as featurePages from './templates/featurePages.mjs';
 import * as agentPages from './templates/agentPages.mjs';
 import * as mediaPages from './templates/mediaPages.mjs';
 import * as moltbookPage from './templates/moltbookPage.mjs';
+import * as siWatchPage from './templates/siWatchPage.mjs';
 import { TILE_ICONS, tileSvg } from './tileicons.mjs';
 import { writeExtras, EXTRAS_PAGES } from './extras.mjs';
 import * as topicPages from './templates/topicPages.mjs';
@@ -1439,6 +1440,11 @@ async function main() {
     written.push(await write(args.out, 'agents.html', agentPages.agents(ctx, molt)));
     let mh = []; try { mh = (await readFile(path.join(args.data, 'moltbook-history.ndjson'), 'utf8')).trim().split('\n').filter(Boolean).map((l) => JSON.parse(l)); } catch { mh = []; }
     written.push(await write(args.out, 'moltbook.html', moltbookPage.render(ctx, molt, mh)));
+    let sig = null, sh = [];
+    try { sig = JSON.parse(await readFile(path.join(args.data, 'si-signals.json'), 'utf8')); } catch { sig = null; }
+    try { sh = (await readFile(path.join(args.data, 'si-signals-history.ndjson'), 'utf8')).trim().split('\n').filter(Boolean).map((l) => JSON.parse(l)); } catch { sh = []; }
+    written.push(await write(args.out, 'si-watch.html', siWatchPage.render(ctx, sig, sh)));
+    if (sig) written.push(await write(args.out, 'api/si-signals.json', JSON.stringify(sig, null, 2) + '\n'));
   }
   written.push(await write(args.out, 'bug-out-land.html', agentPages.land(ctx)));
   written.push(await write(args.out, 'skill.md', agentPages.skillMd(ctx)));

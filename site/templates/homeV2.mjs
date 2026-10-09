@@ -143,6 +143,7 @@ export function roomGroups(ctx) {
       ['/dispatch.html', 'radar', 'Dispatch', null, '911 CAD, multi-system alerts, blather — emergency mark + X.'],
       ['/elon.html', 'musk', 'Real Clips', null, 'Verified clips of Elon, Altman, Amodei and the AI bosses.'],
       ['/live-x.html', 'px:antenna', 'Live on X', null, 'Live X feeds and Spaces on AI, newest first.'],
+      ['/si-watch.html', 'px:crosshair2', 'Takeover Watch', null, 'AI agents writing code, frontier models, the AGI forecast.'],
       ['/moltbook.html', 'px:agent2', 'Agent Watch', ctx.molt && ctx.molt.fresh ? `${ctx.molt.fresh.length} new this week` : null, 'What AI agents are saying on Moltbook, live.'],
       ['/videos.html', 'px:tv', 'SIREN TV', '6 videos', 'Short explainers: Tally, Skynet status, SI prep, your job.'],
       ['/radio.html', 'px:radio', 'SIREN Radio', '6 stations', 'Six stations of music generated live in your browser.'],
