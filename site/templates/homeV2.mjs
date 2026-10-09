@@ -435,16 +435,19 @@ function phoneMovers(wm, state) {
   return fromHour.concat(fill).slice(0, 3);
 }
 
+const PHONE_PILLAR = { capability: 'CAPABILITY', compute: 'COMPUTE', attention: 'ATTENTION', governance: 'GOVERNANCE', markets: 'MARKETS' };
+
 function phoneFold(wm, state, rows) {
   const movers = phoneMovers(wm, state).map((p) => {
     const hue = PILLAR_HUE[p.id] || '#AEB7C3';
+    const label = PHONE_PILLAR[p.id] || String(p.name || p.id).toUpperCase();
     let val;
     if (p.kind === 'live') val = '<b class="up">BACK LIVE</b>';
     else if (p.kind === 'dark') val = '<b class="dn">WENT DARK</b>';
     else if (Number.isFinite(p.delta)) val = `<b class="${p.delta > 0 ? 'up' : p.delta < 0 ? 'dn' : ''}">${p.delta > 0 ? '▲' : p.delta < 0 ? '▼' : '='}${Math.abs(p.delta).toFixed(1)}</b>`;
     else if (Number.isFinite(p.score)) val = `<b>${num(p.score, 1)}</b>`;
     else val = '<b class="mute">—</b>';
-    return `<li style="--pc:${hue}"><span>${esc(String(p.name || p.id).toUpperCase())}</span>${val}</li>`;
+    return `<li style="--pc:${hue}"><span>${esc(label)}</span>${val}</li>`;
   }).join('');
   return `<section class="v2-phone" aria-label="This hour at a glance">
   ${scoreSpark(rows)}
