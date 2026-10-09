@@ -28,7 +28,7 @@ export function render(ctx, sig, hist = []) {
   const c = (title, ok, value, unit, body, why, key) => `<article class="sw-c${ok ? '' : ' sw-dark'}"><h3>${esc(title)}</h3><div class="v">${ok ? value : 'NOT ANSWERING'}</div><div class="u">${esc(unit)}</div>${key ? spark(hist, key) : ''}${body}<p class="why"><b>Why it matters:</b> ${esc(why)}</p></article>`;
   const a = (sig && sig.agent_prs) || {}, f = (sig && sig.frontier) || {}, g = (sig && sig.agi_forecast) || {}, m = (sig && sig.moltbook) || {};
   const cards = [
-    c('AI AGENTS WRITING CODE', a.ok || Number.isFinite(a.total_24h), Number(a.total_24h || 0).toLocaleString('en-US'), 'pull requests opened by AI coding agents on GitHub, last 24 h',
+    c('AI AGENTS WRITING CODE', a.ok || Number.isFinite(a.total_24h), Number(a.total_24h || 0).toLocaleString('en-US'), 'pull requests opened by AI coding agents’ own GitHub accounts, last 24 h (agents that open PRs under a person’s account are not counted)',
       `<ul>${(a.by_agent || []).filter((x) => Number.isFinite(x.prs_24h)).sort((x, y) => y.prs_24h - x.prs_24h).map((x) => `<li>${esc(x.name)}: ${x.prs_24h.toLocaleString('en-US')}</li>`).join('')}</ul>`,
       'Software that writes and submits software is the first step of AI improving its own tools. This counts it in public.', 'agent_prs'),
     c('FRONTIER MODELS', f.ok || Number.isFinite(f.models_90d), String(f.models_90d ?? '—'), 'notable AI models released in the last 90 days (Epoch AI)',

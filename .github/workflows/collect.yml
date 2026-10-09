@@ -449,6 +449,7 @@ jobs:
         continue-on-error: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          METACULUS_TOKEN: ${{ secrets.METACULUS_TOKEN }}
         run: node collector/si-signals.mjs
 
       - name: Post the reading to Moltbook

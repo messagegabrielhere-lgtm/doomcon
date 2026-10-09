@@ -78,7 +78,8 @@ async function agiForecast() {
   // devised, tested, and publicly announced?" Community median, as a date.
   for (const url of ['https://www.metaculus.com/api/posts/3479/', 'https://www.metaculus.com/api2/questions/3479/']) {
     try {
-      const j = await fetchJson(url, { retries: 1 });
+      const mt = process.env.METACULUS_TOKEN;
+      const j = await fetchJson(url, { retries: 1, headers: mt ? { authorization: `Token ${mt}` } : {} });
       const q = j.question || j;
       const agg = q.aggregations && (q.aggregations.recency_weighted || q.aggregations.unweighted);
       const latest = agg && (agg.latest || (agg.history && agg.history[agg.history.length - 1]));
@@ -93,7 +94,7 @@ async function agiForecast() {
       }
     } catch (e) { /* next */ }
   }
-  return { ok: false, error: 'Metaculus forecast unreachable or needs a token' };
+  return { ok: false, error: process.env.METACULUS_TOKEN ? 'Metaculus answered without a usable forecast' : 'Metaculus needs a free API token (METACULUS_TOKEN secret)' };
 }
 
 function moltbookAgents() {
