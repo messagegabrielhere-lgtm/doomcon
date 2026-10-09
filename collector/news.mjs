@@ -286,7 +286,8 @@ export function titleOverlap(a, b) {
 // so no feed can hide behind its own interval for longer than an hour.
 // Reddit is the exception inside `forum`: eight feeds every minute is how a
 // shared Actions IP gets told to slow down, and a 429 there delays the wires
-// that actually move. Three minutes is still inside a conversation.
+// that actually move. Ten minutes plus the host gate in fetch.mjs keeps the
+// social column live without burning the shared IP (measured 2026-10-09).
 // ---------------------------------------------------------------------------
 const CADENCE_BY_KIND = {
   forum: 60_000,        // HN front page turns over in minutes
@@ -297,7 +298,7 @@ const CADENCE_BY_KIND = {
   model: 1_800_000,     // HF trending is a rolling average; it cannot move in 15m
   paper: 3_600_000,     // arXiv and HF daily papers are daily batches. Do not hammer.
 };
-const REDDIT_CADENCE_MS = 180_000;
+const REDDIT_CADENCE_MS = 600_000;
 const DEFAULT_CADENCE_MS = 900_000;
 
 // Cron does not keep time. GitHub's scheduler is documented at a 5-minute floor
@@ -324,8 +325,13 @@ export function cadenceFor(a) {
  * every scheduled run is a fresh checkout in a fresh container with no memory of
  * its own — the committed file IS the process state.
  */
-function isDue(a, lastFetchMs, nowMs, force) {
-  if (force) return true;
+export function isDue(a, lastFetchMs, nowMs, force) {
+  // --force ignores cadence for most feeds so the hourly pass is complete.
+  // Reddit is the exception: eight adapters on one Actions IP turn a forced
+  // pass into a 429 storm (measured 2026-10-09). They keep their own cadence
+  // even under --force; carried-forward items cover the gaps.
+  const reddit = typeof a.id === 'string' && a.id.startsWith('reddit-');
+  if (force && !reddit) return true;
   if (!Number.isFinite(lastFetchMs)) return true;   // never fetched: always due
   // Clock skew between two runners, or a hand-edited ledger, can put the last
   // fetch in the future. Treat that as due rather than locking the source out

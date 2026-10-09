@@ -103,6 +103,16 @@ const HOST_MIN_INTERVAL_MS = {
   // Polymarket / public CLOB — bursty parallel adapters trip 429s.
   'gamma-api.polymarket.com': 400,
   'clob.polymarket.com': 400,
+  // Eight Reddit news adapters share one Actions IP. Fired together they
+  // earn 429s and go dark for the run (measured 2026-10-09: 7 of 8 dark).
+  // Serialising behind a 4s floor keeps the social column live; --force also
+  // respects Reddit cadence (see news.mjs isDue) so the hourly pass cannot
+  // re-burst all eight.
+  'www.reddit.com': 4000,
+  'oauth.reddit.com': 4000,
+  // Bluesky AppView: author-feed fan-out for the social surface.
+  'public.api.bsky.app': 400,
+  'api.bsky.app': 400,
 };
 
 /** host -> promise chain tail, so callers queue rather than race. */

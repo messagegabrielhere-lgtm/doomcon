@@ -66,6 +66,7 @@ const DATA = {
   'api/race.json': ['The race (JSON)', 'AI labs ranked on prediction-market odds.'],
   'api/leaders.json': ['Leaders (JSON)', 'What the people running AI said, matched to sources.'],
   'api/x-surface.json': ['X surface (JSON)', 'Posts on X the newsroom watched.'],
+  'api/bsky-surface.json': ['Bluesky surface (JSON)', 'AI posts from the Bluesky watchlist.'],
   'api/digest.json': ['Digest (JSON)', 'The day in a few corroborated items.'],
   'api/infra.json': ['Power (JSON)', 'Grid load, drought and datacentre build-out.'],
   'api/bliss.json': ['Upside (JSON)', 'The direction we would be glad to see move.'],

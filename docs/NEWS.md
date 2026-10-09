@@ -161,12 +161,14 @@ global `fetch`.
 | `huggingface-blog` | lab | 0.70 | the open-weight ecosystem's own newsroom |
 | `cset` | press | 0.65 | Georgetown security / emerging-tech policy desk |
 | `ft-ai` | press | 0.65 | capital and geopolitics; already AI-scoped |
+| `eu-digital-strategy` | press | 0.65 | EU AI Act / DSA notices; locally AI-filtered |
 | `deepmind-safety` | lab | 0.65 | alignment notes off the main DeepMind blog |
 | `arxiv-newest` | paper | 0.65 | the most upstream source here; high volume, low per-item signal |
 | `hn-ai` | forum | 0.60 | the only hard engagement numbers in the layer |
 | `arstechnica-ai` | press | 0.60 | section feed, already AI-scoped |
 | `scmp-tech` | press | 0.60 | Asia / China tech war; locally AI-filtered |
 | `bloomberg-tech` | press | 0.60 | markets wire; locally AI-filtered |
+| `nist-ai` | press | 0.60 | US standards / AI RMF; locally AI-filtered |
 | `fli` | press | 0.60 | catastrophic-risk advocacy statements |
 | `hf-trending-models` | model | 0.60 | weights actually landing, not talk about them |
 | `govuk-ai` | press | 0.55 | UK government Atom search for AI |
@@ -382,8 +384,8 @@ abstract, it does not belong in a governance keyword list.**
 
 ## Rolling window and idempotency
 
-- 7 days, newest first, capped at **200 items** — `MAX_ITEMS` is a mobile-first
-  budget, because most traffic arrives from a phone via X.
+- 7 days, newest first, capped at **400 items** — `MAX_ITEMS` is a mobile-first
+  budget, raised from 200 as the source basket grew past fifty adapters.
 - Items that have aged off their source feed but are still inside the window are
   carried forward and **re-scored against the new clock**. Only recency moves;
   every other component is reused verbatim, because only recency depends on time.
@@ -414,6 +416,10 @@ boundary, zero dropped.
 
 - Adapters run concurrently under `Promise.allSettled`; one dead feed never
   blocks the rest.
+- Shared hosts that punish bursts are serialised inside `fetch.mjs`
+  (`www.reddit.com` at 2.5s, `export.arxiv.org` at 3.5s, …). Reddit adapters
+  additionally run on a 10-minute cadence so eight forum feeds cannot 429 the
+  shared Actions IP into darkness.
 - A 60s watchdog per adapter sits on top of `fetch.mjs`'s per-request timeout,
   because an adapter may make several requests (`github-releases` fans out
   across a seven-repo basket).
@@ -446,7 +452,7 @@ boundary, zero dropped.
    `dedup_key` guard covers papers, where the risk is highest; headlines have no
    equivalent identifier.
 4. **Volume is not importance.** `arxiv-newest` and `hf-daily-papers` together
-   contribute ~100 of 200 items, so the reel skews toward research. The scoring
+   still dominate raw volume, so the reel skews toward research. The scoring
    terms rank within that pool; they do not rebalance it.
 5. **Engagement is measurable for three sources only.** Lab blogs and press
    have no public engagement number we can read without a key, so they compete
