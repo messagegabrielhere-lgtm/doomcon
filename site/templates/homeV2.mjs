@@ -194,7 +194,7 @@ function watchPanel(state, href) {
 <script>${WATCH_JS}</script>`;
 }
 
-const COPY_JS = `(function(){document.querySelectorAll('[data-copy]').forEach(function(b){b.addEventListener('click',function(){var t=b.getAttribute('data-copy');var label=b.getAttribute('data-copy-label')||'Copy link';function ok(){b.textContent='Copied';setTimeout(function(){b.textContent=label},1600)}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(ok).catch(function(){prompt('Copy this URL',t)})}else{prompt('Copy this URL',t)}})})})();`;
+const COPY_JS = `(function(){document.querySelectorAll('[data-copy]').forEach(function(b){b.addEventListener('click',function(){var t=b.getAttribute('data-copy');var label=b.getAttribute('data-copy-label')||'Copy link';function done(msg){b.textContent=msg;setTimeout(function(){b.textContent=label},1600)}function fallback(){try{var ta=document.createElement('textarea');ta.value=t;ta.setAttribute('readonly','');ta.style.cssText='position:fixed;left:-9999px;top:0';document.body.appendChild(ta);ta.select();var ok=document.execCommand('copy');document.body.removeChild(ta);done(ok?'Copied':'Copy failed')}catch(e){done('Copy failed')}}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(function(){done('Copied')}).catch(fallback)}else{fallback()}})})})();`;
 
 const WATCH_JS = `(function(){
 var K='siren.watch.v1';
