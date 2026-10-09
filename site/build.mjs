@@ -48,6 +48,7 @@ import * as shopPages from './templates/shopPages.mjs';
 import * as betsPage from './templates/betsPage.mjs';
 import { faqCss } from './templates/_faq.mjs';
 import { verifyCss } from './templates/_verify.mjs';
+import { INDEXNOW_KEY } from '../collector/indexnow.mjs';
 import { sealCss } from './templates/_seal.mjs';
 import { mascotCss, mascotFile } from './templates/_mascot.mjs';
 
@@ -160,31 +161,63 @@ function prerenderStatic(html, name, ctx) {
   return out.replace('</head>', `${head}\n</head>`);
 }
 
-const INDEXNOW_KEY = 'd00mc0n7a11yc0un75a1d0e5n07pr3d1c7';
-
 function llmsTxt(ctx) {
+  // Spec-shaped file list (llmstxt.org): H1, blockquote, then H2 sections so
+  // agents find the live number, the method, and the instrument rooms without
+  // scraping the homepage (FINDABILITY.md §2.1).
+  const r = ctx.routes || {};
+  const instruments = [
+    r.race !== false ? `- [The Race: frontier labs on live market odds](${ctx.url('/race.html')})` : null,
+    `- [Newsroom: every AI story, scored](${ctx.url('/news.html')})`,
+    r.watts !== false || ctx.infra ? `- [Power / Watts: grid, drought, build-out](${ctx.url('/watts.html')})` : null,
+    r.map !== false || ctx.datacenters ? `- [Map: US datacentres vs water](${ctx.url('/map.html')})` : null,
+    r.world ? `- [World: every mapped datacentre](${ctx.url('/world.html')})` : null,
+    r.flock ? `- [Cameras: mapped licence-plate readers](${ctx.url('/flock.html')})` : null,
+    r.exploits ? `- [Exploits: disclosure to exploitation lag](${ctx.url('/exploits.html')})` : null,
+    ctx.digest ? `- [Digest: the day in corroborated items](${ctx.url('/digest.html')})` : null,
+    r.balance ? `- [Balance: harm and benefit side by side](${ctx.url('/balance.html')})` : null,
+    ctx.bliss ? `- [Upside / BLISS](${ctx.url('/bliss.html')})` : null,
+  ].filter(Boolean).join('\n');
+
   return `# ${brand.NAME}
 > Hourly index of AI activity tempo. Levels run from 5 (quietest) to 1 (loudest). It counts how much is happening. It is not a probability of harm and not a forecast.
 
-- [skill.md: instructions for AI agents](${ctx.url('/skill.md')})
-- [For AI agents (and Moltbook)](${ctx.url('/agents.html')})
+## Canonical facts
 - [Current reading (JSON)](${ctx.url('/api/state.json')})
 - [Every reading (JSON)](${ctx.url('/api/history.json')})
+- [Health](${ctx.url('/api/health.json')})
+- [API index](${ctx.url('/api/index.json')})
 - [OpenAPI](${ctx.url('/openapi.json')})
 - [Receipt index](${ctx.url('/api/receipts/')})
 - [Method](${ctx.url('/methodology.html')})
+- [Homepage](${ctx.url('/')})
+
+## For AI agents
+- [skill.md: instructions for AI agents](${ctx.url('/skill.md')})
+- [For AI agents (and Moltbook)](${ctx.url('/agents.html')})
+
+## Explainers (search head terms)
 - [Guide: SIREN vs DEFCON vs the Doomsday Clock vs p(doom)](${ctx.url('/guide.html')})
-- [About](${ctx.url('/about.html')})
 - [What is p(doom)?](${ctx.url('/p-doom.html')})
 - [Is there an AI doomsday clock?](${ctx.url('/ai-doomsday-clock.html')})
 - [AI and jobs: what has been measured](${ctx.url('/jobs.html')})
 - [AI in medicine: results on the record](${ctx.url('/medicine.html')})
+- [About](${ctx.url('/about.html')})
+- [Press kit](${ctx.url('/press.html')})
+
+## Instruments
+${instruments}
+
+## Optional
 - [Prepare for superintelligence](${ctx.url('/si-ready.html')})
 - [AI-proof your job](${ctx.url('/ai-proof-job.html')})
 - [AI breakthroughs](${ctx.url('/breakthroughs.html')})
 - [The staff: the automated crew](${ctx.url('/staff.html')})
 - [News sitemap](${ctx.url('/news-sitemap.xml')})
 - [Feed](${ctx.url('/feed.xml')})
+- [Level-change feed](${ctx.url('/feed-level.xml')})
+- [Catalog](${ctx.url('/catalog.html')})
+- [Search](${ctx.url('/search.html')})
 - [Bunker Kit: free tools and gear checklist](${ctx.url('/bunker-kit.html')})
 `;
 }

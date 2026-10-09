@@ -461,7 +461,9 @@ export function aiClock(ctx) {
   return page({
     ctx, path: '/ai-doomsday-clock.html',
     title: `Is there an AI doomsday clock? What exists, and one you can verify · ${brand.NAME}`,
-    description: `The Doomsday Clock is set by a board once a year and is not AI-specific. AI risk clocks are set by judgement. ${brand.NAME} is an hourly count of AI activity that anyone can verify.`,
+    // Claim first within ~160 chars so serpDescription keeps the differentiator
+    // (FINDABILITY.md §1.3) instead of cutting mid-sentence on the setup.
+    description: `${brand.NAME} is an hourly AI activity index anyone can verify — unlike judgement-based AI doomsday clocks. What exists, and how they differ.`,
     main,
   });
 }

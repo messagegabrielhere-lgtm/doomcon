@@ -926,12 +926,14 @@ ${style}`;
     ctx,
     motion: true,
     path: '/',
-    title: Number.isFinite(state.score) && LEVEL_LINE[state.level]
-      ? `${brand.NAME} ${state.level}: ${LEVEL_LINE[state.level].replace(/\.$/, '')} · ${scoreTxt}`
-      : `${brand.NAME} · the AI Siren Index`,
+    // Head-term first (FINDABILITY.md §1.3): strangers search "AI activity
+    // index" / "AI activity level today", not only the brand name.
+    title: Number.isFinite(state.score) && state.level_name
+      ? `AI activity index today · ${brand.NAME} ${state.level} ${state.level_name} · ${scoreTxt}`
+      : `AI activity index · ${brand.NAME}`,
     ogTitle: `${brand.NAME} ${state.level} · ${state.level_name} · ${scoreTxt}/100 — ${LEVEL_LINE[state.level] || ''}`.replace(/ — $/, ''),
     description:
-      `The AI Siren Index is at level ${state.level} of 5 (${state.level_name}), ${scoreTxt} of 100. ` +
+      `AI activity level today: ${brand.NAME} ${state.level} of 5 (${state.level_name}), ${scoreTxt} of 100. ` +
       `${LEVEL_LINE[state.level] || ''} Counted hourly from public data, as of ${utc(state.generated_at)}.`,
     ogImage: ctx.cardFor(state.receipt_id),
     head: `<link rel="preload" as="image" type="image/avif" href="${esc(ctx.href('/img/hero-siren.avif'))}" fetchpriority="high">`,

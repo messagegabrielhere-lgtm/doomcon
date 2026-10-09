@@ -16,6 +16,7 @@ import { whatMoved, alternativeSignals } from '../extras.mjs';
 import { pulseCandidates } from '../../collector/post-pulse.mjs';
 import { render as verifyBox, verifyCss } from './_verify.mjs';
 import { renderV2 as deskPicks } from './_deskpicks.mjs';
+import { render as faqRender, faqCss } from './_faq.mjs';
 const PILLAR_META = Object.fromEntries(brand.PILLARS.map((p) => [p.id, p]));
 
 // ---------- copy ----------
@@ -703,6 +704,8 @@ ${roomsGrid(ctx, href, img)}
   </div>
   ${newsletterBox(href('/privacy.html')) ? `<div class="v2-nl">${newsletterBox(href('/privacy.html'))}</div>` : ''}
 
+  <div class="v2-faq" id="faq" data-sec="FAQ">${faqRender(ctx)}</div>
+
   <p class="v2-foot">${esc(brand.CREED)} ${esc(brand.NAME)} counts how loud AI is, every hour, from public data. A count, not a forecast. Portraits and icons are generated illustrations, not photographs.
   <a href="${href('/methodology.html')}">How it works</a> · <a href="${href('/classic.html#vfy')}">Verify a reading</a> · <a href="${href('/classic.html')}">Full instrument panel</a> · <a href="${href('/about.html')}">About</a> · <a href="${href('/feed.xml')}">RSS</a> · <a href="${href('/sponsor.html')}">Sponsor</a>${tipLink() ? ` · ${tipLink()}` : ''}</p>
   <p class="v2-foot"><b>Not advice.</b> Information, commentary and satire only — not financial, investment, legal, security or safety advice. Data is automated and may be wrong or late; provided as is, with no warranty. Not affiliated with any company, lab, person or agency named here. Use of this site means you accept the <a href="${href('/terms.html')}">terms &amp; disclaimers</a>. <a href="${href('/privacy.html')}">Privacy</a>. <a href="${href('/feedback.html')}">Report a problem or send feedback</a>.</p>
@@ -716,7 +719,7 @@ ${nav.tabbar}
 
   return `<!doctype html>
 <html lang="en">
-${head.replace('</head>', `<style>${CSS}${DASH_CSS}</style><style>${verifyCss()}</style>${MZ_CSS}\n</head>`)}
+${head.replace('</head>', `<style>${CSS}${DASH_CSS}</style><style>${verifyCss()}</style><style>${faqCss()}</style>${MZ_CSS}\n</head>`)}
 <body class="v2-body"><a class="v2-skip" href="#signal">Skip to the reading</a>${body}
 <script type="module" src="${href('/media/siren3d.js')}"></script>
 <script src="${href('/media/radio.js')}" defer></script>
