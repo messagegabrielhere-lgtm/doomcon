@@ -50,14 +50,20 @@ export async function speak(text) {
     const ws = new WebSocket(`wss://api.x.ai/v1/realtime?agent_id=${encodeURIComponent(AGENT)}`, { headers: { Authorization: `Bearer ${KEY}` } });
     const chunks = []; let rate = 24000, said = ''; const seen = [];
     const done = setTimeout(() => { ws.terminate(); reject(new Error('timed out after 60s')); }, 60000);
-    ws.on('open', () => {
+    // Send only once the agent's session is configured: a request sent on
+    // 'open' raced the agent setup and came back cancelled ("unimplemented").
+    let sent = false;
+    const send = () => {
+      if (sent) return; sent = true;
       ws.send(JSON.stringify({ type: 'conversation.item.create', item: { type: 'message', role: 'user',
         content: [{ type: 'input_text', text: `Read this hourly update aloud exactly as written, in your Tally voice. Add nothing before or after it:\n\n${text}` }] } }));
       ws.send(JSON.stringify({ type: 'response.create' }));
-    });
+    };
+    ws.on('open', () => { setTimeout(send, 4000); });
     ws.on('message', (raw) => {
       let e; try { e = JSON.parse(raw.toString()); } catch { return; }
       if (seen.length < 40) seen.push(e.type);
+      if (e.type === 'session.updated') setTimeout(send, 300);
       const fmt = e.session && (e.session.output_audio_format || (e.session.audio && e.session.audio.output && e.session.audio.output.format));
       if (fmt && typeof fmt === 'object' && Number.isFinite(fmt.rate)) rate = fmt.rate;
       if ((e.type === 'response.output_audio.delta' || e.type === 'response.audio.delta') && e.delta) chunks.push(Buffer.from(e.delta, 'base64'));
