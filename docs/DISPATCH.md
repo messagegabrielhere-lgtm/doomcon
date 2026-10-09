@@ -36,8 +36,9 @@ moves the SIREN score.
 | Kansas City 911 | data.kcmo.org `4cef-rqti` | Address never published; division pin |
 | Montgomery County MD | montgomerycountymd.gov `98cc-bc7d` | Police CAD with coordinates |
 
-Street addresses are stripped before publish. Coordinates are rounded to three
-decimal degrees (~1 km for 911 calls, ~100 m for weather and quake alerts). A source that fails is shown dark; nothing is invented.
+Street addresses are stripped before publish. CAD call pins are rounded to two
+decimal degrees (~1 km); weather and quake alerts to three (~100 m). A source
+that fails is shown dark; nothing is invented.
 
 ## Emergency mark + X
 

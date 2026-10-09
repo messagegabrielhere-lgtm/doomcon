@@ -222,9 +222,12 @@ footer a{color:var(--ink);text-decoration:underline;text-underline-offset:2px}
 const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const cssEsc = (s) => (window.CSS && CSS.escape ? CSS.escape(String(s)) : String(s).replace(/[^a-zA-Z0-9_-]/g, "\\$&"));
 const RAW = "https://raw.githubusercontent.com/messagegabrielhere-lgtm/doomcon";
 const SNAP_URL = () => `${RAW}/dispatch-data/dispatch.json?m=${Math.floor(Date.now() / 120000)}`;
 const OUTLINE_URL = `${RAW}/main/data/world-outline.json`;
+const LAND = "#233149";
+const LAND_LINE = "#3a4c69";
 
 const S = {
   alerts: [], calls: [], blather: [], cities: [], sources: {}, generated: null,
@@ -279,8 +282,8 @@ function draw() {
   ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
 
   if (S.us) {
-    ctx.fillStyle = "var" in CanvasRenderingContext2D.prototype ? "#233149" : "#233149";
-    ctx.strokeStyle = "#3a4c69"; ctx.lineWidth = 1;
+    ctx.fillStyle = LAND;
+    ctx.strokeStyle = LAND_LINE; ctx.lineWidth = 1;
     for (const ring of S.us) {
       ctx.beginPath();
       for (let i = 0; i < ring.length; i++) {
@@ -331,7 +334,7 @@ function ago(t) {
 }
 
 function setSrc(id, state, n, title) {
-  let el = $(`.src[data-id="${id}"]`);
+  let el = $(`.src[data-id="${cssEsc(id)}"]`);
   if (!el) {
     el = document.createElement("span");
     el.className = "src"; el.dataset.id = id;
@@ -341,6 +344,34 @@ function setSrc(id, state, n, title) {
   el.className = "src " + state;
   el.title = title || "";
   el.querySelector(".lbl").textContent = n ? `${id} ${n}` : id;
+}
+
+function selectTab(name) {
+  S.tab = name;
+  $$("#tabs [role=tab]").forEach((t) => t.setAttribute("aria-selected", t.dataset.tab === name ? "true" : "false"));
+  $$(".pane").forEach((pane) => { pane.hidden = pane.dataset.pane !== name; });
+}
+
+function hitAt(x, y) {
+  let hit = null, best = 1e9;
+  for (const h of S.hits) {
+    const d = (h.x - x) ** 2 + (h.y - y) ** 2;
+    if (d < h.r * h.r && d < best) { best = d; hit = h; }
+  }
+  return hit;
+}
+
+function showTip(hit, x, y) {
+  if (!hit) { tip.hidden = true; return; }
+  const it = hit.item;
+  tip.hidden = false;
+  tip.style.left = Math.min(x + 12, canvas.clientWidth - 270) + "px";
+  tip.style.top = Math.min(y + 12, canvas.clientHeight - 80) + "px";
+  if (hit.kind === "alert") {
+    tip.innerHTML = `<b>${esc(it.event)} · ${esc(it.severity)}</b><small>${esc((it.system || "nws").toUpperCase())} · ${esc(it.area || "")}<br>${esc(ago(it.t))} ago</small>`;
+  } else {
+    tip.innerHTML = `<b>${esc(it.type)}</b><small>${esc(it.city)} · ${esc(it.agency)}${it.approx ? " · approx. pin" : ""}<br>${esc(ago(it.t))} ago</small>`;
+  }
 }
 
 function renderLayers() {
@@ -380,9 +411,7 @@ function renderEmergency() {
 $("#emFocus").addEventListener("click", () => {
   const p = S.emergency?.primary;
   if (p && Number.isFinite(p.lon) && Number.isFinite(p.lat)) focusLonLat(p.lon, p.lat);
-  S.tab = "alerts";
-  $$("#tabs [role=tab]").forEach((t) => t.setAttribute("aria-selected", t.dataset.tab === "alerts" ? "true" : "false"));
-  $$(".pane").forEach((pane) => { pane.hidden = pane.dataset.pane !== "alerts"; });
+  selectTab("alerts");
 });
 $("#layers").addEventListener("change", (e) => {
   const id = e.target.dataset.layer;
@@ -420,11 +449,12 @@ function renderFeeds() {
   $("#alerts").innerHTML = S.alerts.slice(0, 120).map((a) => {
     const pin = Number.isFinite(a.lon) && Number.isFinite(a.lat);
     const sys = a.system ? String(a.system).toUpperCase() : "NWS";
-    return `<li ${pin ? `data-lon="${a.lon}" data-lat="${a.lat}"` : ""}><div class="meta"><span class="tag sev-${esc(a.severity)}">${esc(a.severity)}</span><span>${esc(sys)}</span><span>${esc(a.event)}</span><span>${esc(ago(a.t))} ago</span>${pin ? "" : "<span>list only</span>"}</div><div class="title">${esc(a.headline || a.event)}</div><div class="meta">${esc(a.area || "")}</div></li>`;
+    const focus = pin ? ` data-lon="${a.lon}" data-lat="${a.lat}" tabindex="0" role="button" aria-label="Show ${esc(a.event)} on map"` : "";
+    return `<li${focus}><div class="meta"><span class="tag sev-${esc(a.severity)}">${esc(a.severity)}</span><span>${esc(sys)}</span><span>${esc(a.event)}</span><span>${esc(ago(a.t))} ago</span>${pin ? "" : "<span>list only</span>"}</div><div class="title">${esc(a.headline || a.event)}</div><div class="meta">${esc(a.area || "")}</div></li>`;
   }).join("") || `<li class="note">No severe alerts in this snapshot.</li>`;
 
   $("#calls").innerHTML = S.calls.slice(0, 160).map((c) =>
-    `<li data-lon="${c.lon}" data-lat="${c.lat}"><div class="meta"><span class="tag">${esc(c.city)}</span><span>${esc(c.agency)}</span><span>${esc(ago(c.t))} ago</span>${c.approx ? "<span>~division</span>" : ""}${c.district ? `<span>${esc(c.district)}</span>` : ""}</div><div class="title">${esc(c.type)}</div></li>`
+    `<li data-lon="${c.lon}" data-lat="${c.lat}" tabindex="0" role="button" aria-label="Show ${esc(c.type)} in ${esc(c.city)} on map"><div class="meta"><span class="tag">${esc(c.city)}</span><span>${esc(c.agency)}</span><span>${esc(ago(c.t))} ago</span>${c.approx ? "<span>~division</span>" : ""}${c.district ? `<span>${esc(c.district)}</span>` : ""}</div><div class="title">${esc(c.type)}</div></li>`
   ).join("") || `<li class="note">No CAD calls in this snapshot.</li>`;
 
   const tick = S.blather.slice(0, 40).map((b) => `${b.city}: ${b.text}`).join("   ·   ");
@@ -433,9 +463,7 @@ function renderFeeds() {
 
 $("#tabs").addEventListener("click", (e) => {
   const b = e.target.closest("[data-tab]"); if (!b) return;
-  S.tab = b.dataset.tab;
-  $$("#tabs [role=tab]").forEach((t) => t.setAttribute("aria-selected", t === b ? "true" : "false"));
-  $$(".pane").forEach((p) => { p.hidden = p.dataset.pane !== S.tab; });
+  selectTab(b.dataset.tab);
 });
 
 function focusLonLat(lon, lat) {
@@ -445,35 +473,16 @@ function focusLonLat(lon, lat) {
   S.view.z = Math.max(S.view.z, 1.6);
   S.needDraw = true;
 }
-$("#alerts").addEventListener("click", (e) => {
+function focusFromList(e) {
   const li = e.target.closest("li[data-lon]"); if (!li) return;
+  if (e.type === "keydown" && e.key !== "Enter" && e.key !== " ") return;
+  if (e.type === "keydown") e.preventDefault();
   focusLonLat(+li.dataset.lon, +li.dataset.lat);
-});
-$("#calls").addEventListener("click", (e) => {
-  const li = e.target.closest("li[data-lon]"); if (!li) return;
-  focusLonLat(+li.dataset.lon, +li.dataset.lat);
-});
-
-canvas.addEventListener("pointermove", (e) => {
-  const r = canvas.getBoundingClientRect();
-  const x = e.clientX - r.left, y = e.clientY - r.top;
-  let hit = null, best = 1e9;
-  for (const h of S.hits) {
-    const d = (h.x - x) ** 2 + (h.y - y) ** 2;
-    if (d < h.r * h.r && d < best) { best = d; hit = h; }
-  }
-  if (!hit) { tip.hidden = true; return; }
-  const it = hit.item;
-  tip.hidden = false;
-  tip.style.left = Math.min(x + 12, canvas.clientWidth - 270) + "px";
-  tip.style.top = Math.min(y + 12, canvas.clientHeight - 80) + "px";
-  if (hit.kind === "alert") {
-    tip.innerHTML = `<b>${esc(it.event)} · ${esc(it.severity)}</b><small>${esc((it.system || "nws").toUpperCase())} · ${esc(it.area || "")}<br>${esc(ago(it.t))} ago</small>`;
-  } else {
-    tip.innerHTML = `<b>${esc(it.type)}</b><small>${esc(it.city)} · ${esc(it.agency)}${it.approx ? " · approx. pin" : ""}<br>${esc(ago(it.t))} ago</small>`;
-  }
-});
-canvas.addEventListener("pointerleave", () => { tip.hidden = true; });
+}
+$("#alerts").addEventListener("click", focusFromList);
+$("#alerts").addEventListener("keydown", focusFromList);
+$("#calls").addEventListener("click", focusFromList);
+$("#calls").addEventListener("keydown", focusFromList);
 
 let drag = null;
 canvas.addEventListener("pointerdown", (e) => {
@@ -481,12 +490,18 @@ canvas.addEventListener("pointerdown", (e) => {
   drag = { x: e.clientX, y: e.clientY, vx: S.view.x, vy: S.view.y };
 });
 canvas.addEventListener("pointermove", (e) => {
-  if (!drag) return;
-  S.view.x = drag.vx + (e.clientX - drag.x);
-  S.view.y = drag.vy + (e.clientY - drag.y);
-  S.needDraw = true;
+  if (drag) {
+    S.view.x = drag.vx + (e.clientX - drag.x);
+    S.view.y = drag.vy + (e.clientY - drag.y);
+    S.needDraw = true;
+    return;
+  }
+  const r = canvas.getBoundingClientRect();
+  const x = e.clientX - r.left, y = e.clientY - r.top;
+  showTip(hitAt(x, y), x, y);
 });
 canvas.addEventListener("pointerup", () => { drag = null; });
+canvas.addEventListener("pointerleave", () => { tip.hidden = true; });
 canvas.addEventListener("wheel", (e) => {
   e.preventDefault();
   const f = e.deltaY > 0 ? 0.9 : 1.1;
@@ -547,11 +562,11 @@ function loop() {
 $("#refresh").addEventListener("click", () => loadSnap());
 $("#helpBtn").addEventListener("click", () => $("#help").showModal());
 document.addEventListener("keydown", (e) => {
-  if (e.target.matches("input,textarea,select")) return;
+  if (e.target.matches("input,textarea,select,[contenteditable]")) return;
   if (e.key === "r" || e.key === "R") loadSnap();
-  if (e.key === "1") $$("#tabs [data-tab]")[0]?.click();
-  if (e.key === "2") $$("#tabs [data-tab]")[1]?.click();
-  if (e.key === "3") $$("#tabs [data-tab]")[2]?.click();
+  if (e.key === "1") selectTab("blather");
+  if (e.key === "2") selectTab("alerts");
+  if (e.key === "3") selectTab("calls");
   if (e.key === "?") $("#help").showModal();
 });
 
