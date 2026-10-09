@@ -16,6 +16,7 @@ import { fetchJson, fetchText } from './fetch.mjs';
 
 const OUT = 'data/si-signals.json', HIST = 'data/si-signals-history.ndjson';
 const TOKEN = process.env.GITHUB_TOKEN || process.env.GH_TOKEN || '';
+const say = (m) => { if (process.env.GITHUB_ACTIONS) console.log(`::notice title=si-signals search::${m}`); else console.log(m); };
 
 // The app accounts the big coding agents open pull requests from.
 export const AGENTS = [
@@ -44,11 +45,12 @@ export const AGENT_BRANCHES = [
  * Copilot read 1 when the true count was over 2,000). Ask up to three times
  * and keep the largest complete-looking answer.
  */
-export async function searchCount(q, { headers, fetcher = fetchJson, tries = 3, pause = 2500 } = {}) {
+export async function searchCount(q, { headers, fetcher = fetchJson, tries = 3, pause = 2500, log = () => {} } = {}) {
   let best = null, complete = false;
   for (let i = 0; i < tries; i++) {
     try {
       const j = await fetcher(`https://api.github.com/search/issues?q=${encodeURIComponent(q)}&per_page=1`, { headers, retries: 1 });
+      log(`${q} -> ${j.total_count} incomplete=${j.incomplete_results}${j.message ? ' ' + j.message : ''}`);
       if (Number.isFinite(j.total_count)) {
         if (best === null || j.total_count > best) best = j.total_count;
         if (!j.incomplete_results) { complete = true; break; }
@@ -65,14 +67,16 @@ async function agentPrs(now) {
   const per = [];
   for (const [app, name] of AGENTS) {
     try {
-      const r = await searchCount(`is:pr author:app/${app} created:>=${since}`, { headers });
+      const r = await searchCount(`is:pr author:app/${app} created:>=${since}`, { headers, log: say });
+      await new Promise((res) => setTimeout(res, 2000));
       per.push({ app, name, prs_24h: r.count, ...(r.complete ? {} : { approximate: true }) });
     } catch (e) { per.push({ app, name, prs_24h: null, error: String(e.message).slice(0, 120) }); }
   }
   const branches = [];
   for (const [prefix, name] of AGENT_BRANCHES) {
     try {
-      const r = await searchCount(`is:pr head:${prefix} created:>=${since}`, { headers });
+      const r = await searchCount(`is:pr head:${prefix} created:>=${since}`, { headers, log: say });
+      await new Promise((res) => setTimeout(res, 2000));
       branches.push({ prefix, name, prs_24h: r.count, ...(r.complete ? {} : { approximate: true }) });
     } catch (e) { branches.push({ prefix, name, prs_24h: null, error: String(e.message).slice(0, 120) }); }
   }
