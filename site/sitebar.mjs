@@ -37,7 +37,12 @@ export function sitebar(asOf, { level = 4, rel = '', intro = {}, newsAt = '' } =
 #sitebar button.due{background:#b45309;color:#fff}
 #sitebar button:focus-visible{outline:2px solid #e2a03b;outline-offset:2px}
 #sitebar button[aria-busy=true] svg{animation:sitebar-spin .8s linear infinite}
-#sitebar time{white-space:nowrap}
+#sitebar time{white-space:nowrap;display:inline;font:inherit;color:inherit;letter-spacing:normal;margin:0;padding:0}
+#sitebar .sb-fresh{white-space:nowrap;display:inline-flex;align-items:center;gap:4px;line-height:1.2}#sitebar .sb-fresh .dot{margin-right:1px}#sitebar .sb-fresh b{font-weight:700;letter-spacing:.04em}
+#sitebar .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#16a34a;margin-right:5px;vertical-align:1px;box-shadow:0 0 0 0 rgba(22,163,74,.5);animation:sb-live 2s infinite}
+@keyframes sb-live{70%{box-shadow:0 0 0 6px rgba(22,163,74,0)}100%{box-shadow:0 0 0 0 rgba(22,163,74,0)}}
+@media (prefers-reduced-motion:reduce){#sitebar .dot{animation:none}}
+#sitebar.stale .dot{background:#d97706;animation:none}
 #sitebar .fb{all:unset;cursor:pointer;color:inherit;opacity:.8;text-decoration:underline;text-underline-offset:2px;white-space:nowrap;font:600 12px/1.2 system-ui,-apple-system,"Segoe UI",sans-serif}#sitebar .fb:hover{opacity:1}#sitebar .fb:focus-visible{outline:2px solid #e2a03b;outline-offset:2px}
 #sitebar .ago{opacity:.65}#sitebar .kofi{color:#1d4ed8;opacity:1;text-decoration:none}@media (max-width:440px){#sitebar a.fb.kofi{display:none}}
 #sitebar button.rad{background:transparent;color:inherit;border:1px solid currentColor;padding:4px 9px;opacity:.85}#sitebar button.st{padding:4px 7px}#sitebar button.rad[aria-pressed=true]{background:#818CF8;border-color:#818CF8;color:#000;opacity:1}
@@ -72,7 +77,7 @@ body.site-em-pad{padding-top:40px}
 @media print{#site-em{display:none}}
 </style>
 <div id="site-em" ${MARK} role="status" aria-live="polite" hidden><span id="site-em-txt"></span><a id="site-em-go" href="${BASE}/dispatch.html">Open Dispatch</a><button type="button" class="x" id="site-em-x" aria-label="Dismiss">✕</button></div>
-<span>Updated <time id="sitebar-at"></time> <span class="ago" id="sitebar-ago"></span></span>
+<span class="sb-fresh" title="The newsroom checks its sources every minute. The SIREN reading itself is computed once an hour, a little after the hour, from the full set of sources."><i class="dot" aria-hidden="true"></i><b>LIVE</b> · news <span id="sitebar-news">–</span> · reading <time id="sitebar-at"></time></span>
 <a class="fb" id="sitebar-fb" href="${CANONICAL_URL}/feedback.html" title="Report a problem or send feedback">Feedback</a>
 ${MONETIZE.tips && MONETIZE.tips.url ? `<a class="fb kofi" href="${MONETIZE.tips.url}" target="_blank" rel="noopener" title="${MONETIZE.tips.label}">☕ Support</a>` : ''}<a class="fb" id="sitebar-x" href="https://x.com/intent/post?via=SIRENutf6" target="_blank" rel="noopener" title="Post this page on X">𝕏 Post</a>
 <button type="button" class="rad" data-siren-radio data-level="${level}" aria-pressed="false" title="Turn SIREN Radio on">♪ OFF</button><button type="button" class="rad st" data-siren-station="" aria-label="Next radio station" title="Next station (6 stations)">📻</button>
@@ -81,13 +86,16 @@ ${MONETIZE.tips && MONETIZE.tips.url ? `<a class="fb kofi" href="${MONETIZE.tips
 (function(){
   var bar = document.getElementById("sitebar"), at = +bar.dataset.at;
   var tEl = document.getElementById("sitebar-at"), agoEl = document.getElementById("sitebar-ago"), btn = document.getElementById("sitebar-btn");
-  function ago(ms){ var m = Math.round((Date.now() - ms) / 60000); return m < 1 ? "(just now)" : m < 60 ? "(" + m + " min ago)" : m < 2880 ? "(" + Math.round(m / 60) + " h ago)" : "(" + Math.round(m / 1440) + " days ago)"; }
+  function ago(ms){ var m = Math.round((Date.now() - ms) / 60000); return m < 1 ? "just now" : m < 60 ? m + " min ago" : m < 2880 ? Math.round(m / 60) + " h ago" : Math.round(m / 1440) + " days ago"; }
+  var newsEl = document.getElementById("sitebar-news"), liveNews = +bar.dataset.news || 0;
   function paint(){
     var d = new Date(at);
     tEl.dateTime = d.toISOString();
-    tEl.textContent = d.toLocaleString([], { month: "short", day: "numeric", year: "numeric", hour: "numeric", minute: "2-digit" });
-    tEl.title = d.toString();
-    agoEl.textContent = ago(at);
+    tEl.textContent = ago(at);
+    tEl.title = "SIREN reading computed " + d.toLocaleString([], { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }) + ". Readings run hourly.";
+    if (newsEl) { newsEl.textContent = liveNews ? ago(liveNews) : "–"; }
+    // Amber when the hourly reading is overdue (GitHub sometimes runs late).
+    bar.classList.toggle("stale", Date.now() - at > 90 * 60000);
   }
   var fb = document.getElementById("sitebar-fb"); if (fb) fb.href += "?page=" + encodeURIComponent(location.href.split("#")[0]);
   // Post this page on X: its own title and canonical address.
@@ -196,16 +204,17 @@ ${MONETIZE.tips && MONETIZE.tips.url ? `<a class="fb kofi" href="${MONETIZE.tips
     btn.setAttribute("aria-label", label + ". Refresh this page.");
   }
   function watch(){
-    if (document.hidden || !window.fetch || btn.classList.contains("due")) return;
+    if (document.hidden || !window.fetch) return;
     fetch(api + "/api/fresh.json?m=" + Math.floor(Date.now() / 60000), { cache: "no-store" }).then(function(r){ return r.ok ? r.json() : null; }).then(function(j){
       if (!j) return;
       var ns = j.news && Date.parse(j.news);
       var st = j.state && Date.parse(j.state);
+      if (ns && ns > liveNews) { liveNews = ns; paint(); }
       if (newsAt > 0 && ns && ns > newsAt + 1500) flag("New stories");
       else if (st && st > at + 1500) flag("New reading");
     }).catch(function(){});
   }
-  setInterval(watch, 60000);
+  setInterval(watch, 60000); setTimeout(watch, 4000);
   document.addEventListener("visibilitychange", function(){ if (!document.hidden) watch(); });
   paint(); setInterval(paint, 60000);
   lift(); addEventListener("resize", lift); addEventListener("load", lift); setTimeout(lift, 1500);
