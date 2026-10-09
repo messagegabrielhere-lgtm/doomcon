@@ -33,12 +33,11 @@ export const PRIMARY = [
 // at the top of the room finder and as a strip on the homepage. Newest first;
 // keep it to about six so it stays a highlight reel, not a second menu.
 export const WHATS_NEW = [
-  ['/si-watch.html#coding', 'px:crosshair2', 'What AI agents are coding', 'Live: agent pull requests by kind of work, language and repo.'],
-  ['/day-after.html', 'px:megaphone', 'The Day After', 'Game out the public revolt after an AI catastrophe.'],
-  ['/dispatch.html', 'radar', 'Live alerts', 'Big quakes and extreme weather within about a minute.'],
-  ['/leaders.html', 'mic', 'Leaders in the news', 'Every AI boss’s coverage, refreshed every 15 minutes.'],
-  ['/contain.html', 'px:core', 'Containment', 'Arcade: stop rogue AI processes breaching the firewall.'],
-  ['/search.html', 'px:search', 'Search everything', 'Rooms, stories, leaders, videos and data in one box.'],
+  ['/si-watch.html#coding', 'px:agentcode', 'What AI agents are coding', 'Live: agent pull requests by kind of work, language and repo.'],
+  ['/day-after.html', 'px:flame', 'The Day After', 'Game out the public revolt after an AI catastrophe.'],
+  ['/dispatch.html', 'px:seismo', 'Live alerts', 'Big quakes and extreme weather within about a minute.'],
+  ['/leaders.html', 'px:headline', 'Leaders in the news', 'Every AI boss’s coverage, refreshed every 15 minutes.'],
+  ['/contain.html', 'px:joystick', 'Containment', 'Arcade: stop rogue AI processes breaching the firewall.'],
 ];
 
 const esc = (v) => String(v ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');

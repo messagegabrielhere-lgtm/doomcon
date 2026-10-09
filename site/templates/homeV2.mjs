@@ -15,6 +15,7 @@ import { sponsorLine, newsletterBox, tipLink, MZ_CSS, MONETIZE } from '../moneti
 import { whatMoved, alternativeSignals } from '../extras.mjs';
 import { pulseCandidates } from '../../collector/post-pulse.mjs';
 import { WHATS_NEW } from '../siteheader.mjs';
+import { tempoCard, LIVEFX_CSS, LIVEFX_JS } from './_livefx.mjs';
 import { render as verifyBox, verifyCss } from './_verify.mjs';
 import { renderV2 as deskPicks } from './_deskpicks.mjs';
 import { freshCluster, breakingMeta } from './_breaking.mjs';
@@ -142,7 +143,7 @@ export function roomGroups(ctx) {
       ['/leaders.html', 'mic', 'Leaders', Number.isFinite(lt.leaders) ? `${lt.on_record ?? 0} of ${lt.leaders} on record` : null, 'What the people running AI said this week.'],
       ctx.digest ? ['/digest.html', 'clipboard', 'Digest', null, 'The day in a few corroborated items.'] : null,
       ['/monitor.html', 'satellite', 'World Monitor', null, 'Live globe: stories from 27 outlets, hazards, a country stress index, 72-hour replay.'],
-      ['/dispatch.html', 'radar', 'Dispatch', null, '911 CAD, multi-system alerts, blather — emergency mark + X.'],
+      ['/dispatch.html', 'px:beacon', 'Dispatch', null, '911 CAD, multi-system alerts, blather — emergency mark + X.'],
       ['/elon.html', 'musk', 'Real Clips', null, 'Verified clips of Elon, Altman, Amodei and the AI bosses.'],
       ['/live-x.html', 'px:antenna', 'Live on X', null, 'Live X feeds and Spaces on AI, newest first.'],
       ['/si-watch.html', 'px:crosshair2', 'Takeover Watch', null, 'What AI agents are coding, live, plus frontier models and the AGI forecast.'],
@@ -652,7 +653,7 @@ ${ticker(items)}
   <div class="v2-sub"><span>${esc(brand.SLOGAN)}</span><span class="sep">|</span><a class="v2-btn sm" href="https://x.com/SIRENutf6">FOLLOW @SIRENutf6</a></div>
 
   <section class="hero">
-    <div class="v2-banner" id="signal" data-sec="Signal" style="--lv:${L.color};--lvg:${L.ground}">
+    <div class="v2-banner" id="signal" data-sec="Signal" data-level="${esc(state.level)}" style="--lv:${L.color};--lvg:${L.ground}">
       ${icon('shield', 5, L.color)}
       <div class="col">
         ${pixelText(`SIREN ${state.level}`, 8, L.color, 'fit')}
@@ -674,6 +675,7 @@ ${ticker(items)}
 
   ${top ? `<div class="v2-breaking" id="breaking" data-sec="Breaking"><span class="badge"><span class="blink">${icon('bolt', 2)}</span>BREAKING</span><a href="${esc(top.url)}" rel="noopener">${esc(top.title)}</a><span class="src">${top._brk ? esc(breakingMeta(top._brk)) : `${esc(hhmm(top.published_at))} · ${esc(String(top.source).toUpperCase())}`}</span><button type="button" class="v2-xp" data-xpost="news" data-x-title="${esc(top.title)}" data-x-src="${esc(top.source)}" data-x-url="${esc(top.url)}" aria-label="Post this story to X">𝕏 POST</button></div>` : ''}
   <nav class="v2-whatsnew" aria-label="New on SIREN"><span class="lbl">✦ NEW</span>${WHATS_NEW.map(([h, a, l, b]) => `<a href="${href(h)}" title="${esc(b)}"><img src="${img(a)}" width="22" height="22" alt="" loading="lazy">${esc(l)}</a>`).join('')}</nav>
+  ${tempoCard(items, Date.parse(state.generated_at) || Date.now(), href)}
 
 ${deskPicks(ctx, pixelText)}
 ${movedPanel(wm, href)}
@@ -719,6 +721,7 @@ ${roomsGrid(ctx, href, img)}
   <p class="v2-foot"><b>Not advice.</b> Information, commentary and satire only — not financial, investment, legal, security or safety advice. Data is automated and may be wrong or late; provided as is, with no warranty. Not affiliated with any company, lab, person or agency named here. Use of this site means you accept the <a href="${href('/terms.html')}">terms &amp; disclaimers</a>. <a href="${href('/privacy.html')}">Privacy</a>. <a href="${href('/feedback.html')}">Report a problem or send feedback</a>.</p>
 </main>
 ${nav.tabbar}
+${LIVEFX_CSS}<script>${LIVEFX_JS}</script>
 <nav class="v2-rail" aria-label="On this page"><span class="v2-rail__h">ON THIS PAGE</span><ol id="v2-rail-l"></ol><a class="v2-rail__top" href="#main">↑ TOP</a></nav>
 </div>
 <script>${WAR_JS}</script>

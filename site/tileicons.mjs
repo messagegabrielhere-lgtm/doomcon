@@ -75,6 +75,25 @@ export const TILE_ICONS = {
   megaphone: [{ a: '#F87171', b: '#FDE68A', c: '#E5E7EB', d: '#7F1D1D' }, [
     '................', '...........aa...', '.........aaba...', '.......aabbba...', '.cc..aabbbbba...', '.ccaabbbbbbba..b', '.ccabbbbbbbba.b.', '.ccabbbbbbbba...',
     '.ccabbbbbbbba.bb', '.ccaabbbbbbba...', '.cc..ddabbbba.b.', '.....dd.aabba..b', '.....dd...aba...', '....ddd....aa...', '................', '................']],
+  // Round 3 (2026-10-09): What's New, Dispatch.
+  agentcode: [{ a: '#60A5FA', b: '#4ADE80', c: '#64748B', d: '#F87171' }, [
+    '................', '.cccccccccccccc.', '.cddddddddddddc.', '.cccccccccccccc.', '.c............c.', '.c...a....b...c.', '.c..a....b....c.', '.c.a....b..a..c.',
+    '.c..a..b...a..c.', '.c...ab.....a.c.', '.c....b....a..c.', '.c...b....a...c.', '.c............c.', '.cccccccccccccc.', '................', '................']],
+  flame: [{ a: '#F87171', b: '#FB923C', c: '#FDE68A', d: '#7F1D1D' }, [
+    '.......a........', '......aa........', '......aba.......', '.....abba....a..', '....abbbba..aa..', '....abbcbba.aba.', '...abbcccbbabba.', '...abccccccbbba.',
+    '..abbccccccbbba.', '..abccccccccbba.', '..abccccccccbba.', '..abbccccccbbba.', '...abbccccbbba..', '....aabbbbbaa...', '..dddddddddddd..', '................']],
+  seismo: [{ a: '#4ADE80', b: '#1F2937', c: '#F87171', d: '#E5E7EB' }, [
+    '................', '.bbbbbbbbbbbbbb.', '.b............b.', '.b......c.....b.', '.b.....cc.....b.', '.b.....c.c....b.', '.b....c..c....b.', '.aaaaac...c.aaa.',
+    '.b...c....c.c.b.', '.b........c.c.b.', '.b.........cc.b.', '.b..........c.b.', '.b............b.', '.bbbbbbbbbbbbbb.', '..d.d.d.d.d.d...', '................']],
+  headline: [{ a: '#E5E7EB', b: '#94A3B8', c: '#FACC15', d: '#0F172A' }, [
+    '................', '.aaaaaaaaaaaaa..', '.addddddddddda..', '.adccccccccccda.', '.addddddddddda.a', '.adbbbb.dbbbbda.', '.adb..b.dbbbbda.', '.adbbbb.ddddda.a',
+    '.adb..b.dbbbbda.', '.adddddddddddda.', '.adbbbbbbbbbbda.', '.adbbbbbbbbbbda.', '.adddddddddddda.', '.aaaaaaaaaaaaaa.', '................', '................']],
+  joystick: [{ a: '#F87171', b: '#7F1D1D', c: '#9CA3AF', d: '#1F2937' }, [
+    '................', '......aaa.......', '.....aaaaa......', '.....aabaa......', '......aaa.......', '.......c........', '.......c........', '.......c........',
+    '.......c........', '..dddddcddddd...', '.ddddddddddddd..', '.dd.a...dddddd..', '.ddaaa..dd.c.d..', '.dd.a...ddddddd.', '..ddddddddddd...', '................']],
+  beacon: [{ a: '#F87171', b: '#FCA5A5', c: '#9CA3AF', d: '#FDE68A' }, [
+    '................', '..d.........d...', '...d...a...d....', '....d.aaa.d.....', '.d...aabaa...d..', '..d.aabbbaa.d...', '....aabbbaa.....', '....aabbbaa.....',
+    '....aaaaaaa.....', '...ccccccccc....', '...ccccccccc....', '..ccccccccccc...', '..ccccccccccc...', '................', '................', '................']],
   // Search, Catalog, and the catalog's own cards for videos, feeds and data.
   search: [{ a: '#A5B4FC', b: '#1E1B4B', c: '#E0E7FF', d: '#FACC15' }, [
     '................', '....aaaaaa......', '...abbbbbba.....', '..abccbbbbba....', '.abcbbbbbbbba...', '.abcbbbbbbbba...', '.abbbbbbbbbba...', '.abbbbbbbbbba...',
