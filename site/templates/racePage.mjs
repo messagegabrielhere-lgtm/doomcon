@@ -997,9 +997,15 @@ function channelChip(key, label, channel, field) {
     return `<span class="rch" data-state="dark"><b>${esc(key)}</b>${absent('dark')}</span>`;
   }
   const floor = channel.is_floor ? '≥' : '';
-  const title = channel.is_floor
-    ? `${label}: at least ${n} in 30 days. The feed caps at ten entries per repository, so the true count is higher and cannot be read.`
-    : `${label}: ${n} in 30 days.`;
+  let title = `${label}: ${n} in 30 days.`;
+  if (channel.is_floor) {
+    // Feed-cap only. Incomplete baskets (failed repos) must not claim this.
+    title = `${label}: at least ${n} in 30 days. The feed caps at ten entries per repository, so the true count is higher and cannot be read.`;
+  } else if (channel.incomplete && Number.isFinite(channel.repos_answered) && Number.isFinite(channel.repos_total)) {
+    title = `${label}: ${n} in 30 days from ${channel.repos_answered}/${channel.repos_total} repositories that answered. Missing repos are not filled in.`;
+  } else if (channel.incomplete) {
+    title = `${label}: ${n} in 30 days. Some authors in the basket did not answer; missing reads are not filled in.`;
+  }
   return `<span class="rch" data-state="${n > 0 ? 'live' : 'zero'}" title="${esc(title)}">` +
     `<b>${esc(key)}</b><span class="num">${esc(floor)}${esc(n)}</span></span>`;
 }
