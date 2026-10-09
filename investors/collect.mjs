@@ -1,6 +1,9 @@
 // Big investors: what well-known investors and politicians have disclosed
 // buying and selling, from the public filings themselves. No keys.
 //
+//   - Corporate insiders: SEC Form 4 (EDGAR) for a fixed AI-equity watchlist.
+//     Officers and directors must report most stock trades within two business
+//     days — the freshest disclosure path on this page.
 //   - Fund managers: SEC Form 13F-HR (EDGAR). Quarterly holdings of US-listed
 //     stocks, filed up to 45 days after each quarter ends. The latest filing
 //     against the one before gives new positions, adds, trims and exits.
@@ -24,9 +27,11 @@ import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import path from 'node:path';
 
 // SEC refuses automated clients (HTTP 403) unless the User-Agent names who is
-// asking with a contact address. The default is this repository's bot address;
-// the repository variable SEC_UA overrides it.
-const SEC_UA = process.env.SEC_UA || 'doomcon-investors github-actions@users.noreply.github.com';
+// asking with a contact address, and as of 2026-10-07 it also 403s any
+// User-Agent containing the substring "github". The repository variable
+// SEC_UA overrides the default. The default matches the investors workflow.
+export const DEFAULT_SEC_UA = 'doomcon messagegabrielhere@gmail.com';
+const SEC_UA = process.env.SEC_UA || DEFAULT_SEC_UA;
 const UA = 'Mozilla/5.0 (compatible; doomcon-investors/1.0; +https://github.com/messagegabrielhere-lgtm/doomcon)';
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -55,6 +60,36 @@ export const FEATURED_MEMBERS = [{ id: 'pelosi', name: 'Nancy Pelosi', match: /p
 const HOUSE = 'https://disclosures-clerk.house.gov/public_disc';
 const CONGRESS_DAYS = 60;      // reports filed in the last 60 days
 const MAX_NEW_PDFS = 120;      // reports parsed per run; the rest wait for the next run
+
+// AI / mega-cap issuers whose Form 4s we poll. Fixed basket — same ethos as
+// the equity tempo source. CIKs are zero-padded to 10 digits for data.sec.gov.
+export const FORM4_ISSUERS = [
+  { ticker: 'NVDA', name: 'NVIDIA', cik: '0001045810' },
+  { ticker: 'AMD', name: 'Advanced Micro Devices', cik: '0000002488' },
+  { ticker: 'AVGO', name: 'Broadcom', cik: '0001730168' },
+  { ticker: 'META', name: 'Meta Platforms', cik: '0001326801' },
+  { ticker: 'GOOGL', name: 'Alphabet', cik: '0001652044' },
+  { ticker: 'MSFT', name: 'Microsoft', cik: '0000789019' },
+  { ticker: 'AMZN', name: 'Amazon', cik: '0001018724' },
+  { ticker: 'TSLA', name: 'Tesla', cik: '0001318605' },
+  { ticker: 'AAPL', name: 'Apple', cik: '0000320193' },
+  { ticker: 'PLTR', name: 'Palantir', cik: '0001321655' },
+  { ticker: 'SMCI', name: 'Super Micro Computer', cik: '0001375365' },
+  { ticker: 'ORCL', name: 'Oracle', cik: '0001341439' },
+  { ticker: 'CRM', name: 'Salesforce', cik: '0001108524' },
+  { ticker: 'NOW', name: 'ServiceNow', cik: '0001373715' },
+];
+const FORM4_DAYS = 21;         // filings dated in the last 21 days
+const MAX_NEW_FORM4 = 100;     // ownership XMLs fetched per run; rest wait
+// Open-market and similar codes people mean by "stock trades". Awards, tax
+// withholds and option exercises stay in the payload but sort below these.
+const FORM4_TRADE_CODES = new Set(['P', 'S']);
+const FORM4_CODE_KIND = {
+  P: 'buy', S: 'sell', A: 'award', D: 'sale to issuer', F: 'tax withhold',
+  M: 'exercise', G: 'gift', C: 'conversion', J: 'other', V: 'voluntary',
+  X: 'exercise', I: 'discretionary', W: 'will', U: 'tender', L: 'small acquisition',
+  H: 'expiration', O: 'out-of-money exercise', Z: 'trust', K: 'equity swap',
+};
 
 // A few CUSIPs that 13F filers hold most, so the common names show a ticker.
 // ARK's daily files add many more on every run (state.cusips).
@@ -180,6 +215,195 @@ export async function fund13f(f, cusips, log) {
   };
 }
 
+// ---------------------------------------------------------------- Form 4 (insider trades)
+
+// EDGAR ownership XML uses either <tag><value>X</value></tag> or bare <tag>X</tag>.
+function xmlVal(chunk, tag) {
+  const nested = new RegExp(`<(?:[\\w-]+:)?${tag}\\b[^>]*>\\s*<(?:[\\w-]+:)?value\\b[^>]*>([\\s\\S]*?)<\\/(?:[\\w-]+:)?value>`, 'i').exec(chunk);
+  if (nested) return decode(nested[1]);
+  const direct = new RegExp(`<(?:[\\w-]+:)?${tag}\\b[^>]*>([^<]*)<\\/(?:[\\w-]+:)?${tag}>`, 'i').exec(chunk);
+  return direct ? decode(direct[1]) : '';
+}
+function xmlFlag(chunk, tag) {
+  const v = xmlVal(chunk, tag).trim();
+  return v === '1' || /^true$/i.test(v);
+}
+
+// Recent Form 4 / 4/A rows from a company submissions JSON, newest first.
+export function recentForm4Filings(sub, { sinceDays = FORM4_DAYS, now = Date.now() } = {}) {
+  const f = sub?.filings?.recent || {};
+  const out = [];
+  for (let i = 0; i < (f.form || []).length; i++) {
+    const form = f.form[i];
+    if (form !== '4' && form !== '4/A') continue;
+    const filed = f.filingDate[i];
+    if (!filed || daysAgo(filed, now) > sinceDays) continue;
+    out.push({
+      form,
+      acc: f.accessionNumber[i],
+      filed,
+      report: f.reportDate?.[i] || '',
+      primary: f.primaryDocument?.[i] || '',
+    });
+  }
+  return out.sort((a, b) => b.filed.localeCompare(a.filed) || b.acc.localeCompare(a.acc));
+}
+
+// Pick the ownershipDocument XML from a filing directory listing.
+export function ownershipXmlName(items, primaryDocument = '') {
+  const names = (items || []).map((i) => (typeof i === 'string' ? i : i.name)).filter(Boolean);
+  const base = String(primaryDocument || '').split('/').pop();
+  if (base && /\.xml$/i.test(base) && names.includes(base)) return base;
+  return names.find((n) => /\.xml$/i.test(n) && /^(ownership|primary_doc|form4|wk-form4)/i.test(n))
+    || names.find((n) => /\.xml$/i.test(n) && !/index/i.test(n))
+    || null;
+}
+
+function ownerRole(relChunk) {
+  const parts = [];
+  if (xmlFlag(relChunk, 'isDirector')) parts.push('Director');
+  if (xmlFlag(relChunk, 'isOfficer')) parts.push(xmlVal(relChunk, 'officerTitle') || 'Officer');
+  if (xmlFlag(relChunk, 'isTenPercentOwner')) parts.push('10% owner');
+  if (xmlFlag(relChunk, 'isOther')) parts.push(xmlVal(relChunk, 'otherText') || 'Other');
+  return parts.join(', ') || 'Insider';
+}
+
+function form4Kind(code) {
+  const c = String(code || '').toUpperCase();
+  return FORM4_CODE_KIND[c] || (c ? `code ${c}` : 'unknown');
+}
+
+// One ownershipDocument → flat trade rows (non-derivative and derivative).
+export function parseForm4(xml, meta = {}) {
+  if (!/<ownershipDocument\b/i.test(xml)) throw new Error('not an ownershipDocument');
+  const ticker = xmlVal(xml, 'issuerTradingSymbol') || meta.ticker || '';
+  const issuer = xmlVal(xml, 'issuerName') || meta.name || '';
+  const ownerChunk = /<(?:[\w-]+:)?reportingOwner\b[^>]*>([\s\S]*?)<\/(?:[\w-]+:)?reportingOwner>/i.exec(xml)?.[1] || '';
+  const relChunk = /<(?:[\w-]+:)?reportingOwnerRelationship\b[^>]*>([\s\S]*?)<\/(?:[\w-]+:)?reportingOwnerRelationship>/i.exec(ownerChunk)?.[1] || ownerChunk;
+  const owner = xmlVal(ownerChunk, 'rptOwnerName') || 'Unknown';
+  const role = ownerRole(relChunk);
+  const plan = xmlFlag(xml, 'aff10b5One');
+  const period = xmlVal(xml, 'periodOfReport') || meta.report || '';
+  const base = {
+    ticker, issuer, owner, role, plan, period,
+    form: meta.form || xmlVal(xml, 'documentType') || '4',
+    filed: meta.filed || '',
+    acc: meta.acc || '',
+    url: meta.url || '',
+  };
+
+  const rows = [];
+  const pushTx = (chunk, derivative) => {
+    const code = xmlVal(chunk, 'transactionCode').toUpperCase();
+    if (!code) return;
+    const shares = num(xmlVal(chunk, 'transactionShares'));
+    const price = num(xmlVal(chunk, 'transactionPricePerShare'));
+    const ad = xmlVal(chunk, 'transactionAcquiredDisposedCode').toUpperCase();
+    const date = xmlVal(chunk, 'transactionDate') || period;
+    const security = xmlVal(chunk, 'securityTitle') || (derivative ? 'Derivative' : 'Common Stock');
+    const usd = shares && price ? Math.round(shares * price) : null;
+    // Acquired/Disposed is the ground truth for direction when present.
+    let kind = form4Kind(code);
+    if (ad === 'A' && code === 'P') kind = 'buy';
+    if (ad === 'D' && code === 'S') kind = 'sell';
+    rows.push({
+      ...base, date, code, kind, shares, price, usd, security, derivative: !!derivative,
+      acquired: ad === 'A', disposed: ad === 'D',
+      postShares: num(xmlVal(chunk, 'sharesOwnedFollowingTransaction')) || null,
+      trade: FORM4_TRADE_CODES.has(code),
+    });
+  };
+
+  const non = /<(?:[\w-]+:)?nonDerivativeTable\b[^>]*>([\s\S]*?)<\/(?:[\w-]+:)?nonDerivativeTable>/i.exec(xml)?.[1] || '';
+  for (const m of non.matchAll(/<(?:[\w-]+:)?nonDerivativeTransaction\b[^>]*>([\s\S]*?)<\/(?:[\w-]+:)?nonDerivativeTransaction>/gi)) {
+    pushTx(m[1], false);
+  }
+  const der = /<(?:[\w-]+:)?derivativeTable\b[^>]*>([\s\S]*?)<\/(?:[\w-]+:)?derivativeTable>/i.exec(xml)?.[1] || '';
+  for (const m of der.matchAll(/<(?:[\w-]+:)?derivativeTransaction\b[^>]*>([\s\S]*?)<\/(?:[\w-]+:)?derivativeTransaction>/gi)) {
+    pushTx(m[1], true);
+  }
+  return rows;
+}
+
+async function form4XmlFor(cik, acc, primaryDocument) {
+  const dir = `https://www.sec.gov/Archives/edgar/data/${Number(cik)}/${acc.replace(/-/g, '')}`;
+  const idx = await get(`${dir}/index.json`, { as: 'json', ua: SEC_UA });
+  const name = ownershipXmlName(idx?.directory?.item || [], primaryDocument);
+  if (!name) throw new Error(`no ownership XML in ${acc}`);
+  await sleep(150);
+  const xml = await get(`${dir}/${name}`, { ua: SEC_UA });
+  if (!/<ownershipDocument\b/i.test(xml)) throw new Error(`ownershipDocument missing in ${name}`);
+  return { xml, url: `${dir}/${name}` };
+}
+
+// Poll Form 4s for the watchlist. state.form4.docs[acc] caches parsed rows.
+export async function collectForm4(state, log, { now = Date.now() } = {}) {
+  const docs = (state.form4 ||= {}).docs || (state.form4.docs = {});
+  // Drop stale or previously-failed rows so the next pass retries them.
+  for (const [acc, d] of Object.entries(docs)) {
+    if (d.retry || !d.filed || daysAgo(d.filed, now) > FORM4_DAYS + 14) delete docs[acc];
+  }
+  let fresh = 0;
+  let waiting = 0;
+  const issuerStats = [];
+  for (const iss of FORM4_ISSUERS) {
+    let filings = [];
+    try {
+      const sub = await get(`https://data.sec.gov/submissions/CIK${iss.cik}.json`, { as: 'json', ua: SEC_UA });
+      filings = recentForm4Filings(sub, { now });
+      await sleep(150);
+    } catch (e) {
+      issuerStats.push({ ...iss, error: String(e.message || e).slice(0, 160), filings: 0 });
+      log(`form4 ${iss.ticker}: ${e.message || e}`);
+      continue;
+    }
+    let got = 0;
+    for (const fil of filings) {
+      if (docs[fil.acc]) continue;
+      if (fresh >= MAX_NEW_FORM4) { waiting++; continue; }
+      fresh++;
+      const rec = { ...iss, ...fil, rows: [], error: null, url: `https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=${iss.cik}&type=4` };
+      try {
+        const { xml, url } = await form4XmlFor(iss.cik, fil.acc, fil.primary);
+        rec.url = url;
+        rec.rows = parseForm4(xml, { ...iss, ...fil, url });
+        if (!rec.rows.length) rec.error = 'no transactions in filing';
+        got++;
+      } catch (e) {
+        rec.error = String(e.message || e).slice(0, 160);
+        rec.retry = true;
+      }
+      docs[fil.acc] = rec;
+      await sleep(200);
+    }
+    issuerStats.push({ ticker: iss.ticker, name: iss.name, cik: iss.cik, filings: filings.length, fetched: got });
+    log(`form4 ${iss.ticker}: ${filings.length} in window, ${got} fetched this run`);
+  }
+
+  const flat = Object.values(docs).filter((d) => !d.retry)
+    .flatMap((d) => (d.rows || []).map((r) => ({ ...r })))
+    .sort((a, b) => (b.filed || '').localeCompare(a.filed || '')
+      || (b.date || '').localeCompare(a.date || '')
+      || Number(b.trade) - Number(a.trade)
+      || Math.abs(b.usd || 0) - Math.abs(a.usd || 0));
+  const trades = flat.filter((r) => r.trade);
+  const failures = Object.values(docs).filter((d) => d.error)
+    .map((d) => ({ ticker: d.ticker, acc: d.acc, filed: d.filed, url: d.url, error: d.error }))
+    .sort((a, b) => (b.filed || '').localeCompare(a.filed || ''));
+
+  return {
+    days: FORM4_DAYS,
+    issuers: FORM4_ISSUERS.map((i) => i.ticker),
+    fetchedThisRun: fresh,
+    pending: waiting,
+    trades: trades.slice(0, 400),
+    all: flat.slice(0, 600),
+    byIssuer: issuerStats,
+    failures: failures.slice(0, 40),
+    note: 'SEC Form 4 from EDGAR for a fixed AI-equity watchlist. Most open-market trades must be filed within two business days. Awards, option exercises and tax withholds are kept in the full feed but not treated as open-market trades.',
+  };
+}
+
 // ---------------------------------------------------------------- ARK
 
 export function parseCsv(text) {
@@ -235,6 +459,25 @@ export function arkTrades(fund, prev, cur, { minPct = 1, minUsd = 250e3 } = {}) 
     if (!cur.rows[k] && p.value >= minUsd) out.push({ date: cur.date, fund, ticker: k, company: p.company, kind: 'exit', dShares: -p.shares, usd: -p.value, weight: 0 });
   }
   return out.sort((a, b) => Math.abs(b.usd) - Math.abs(a.usd));
+}
+
+// Keep the latest snapshot and the previous distinct date, so same-day
+// re-runs refresh today's holdings without erasing yesterday (needed for
+// the next day's trade estimate). Returns the snapshot used as "prev" and
+// the trades vs that snapshot.
+export function advanceArk(state, fund, cur) {
+  state.ark ||= {};
+  state.arkPrev ||= {};
+  const latest = state.ark[fund] || null;
+  const prior = state.arkPrev[fund] || null;
+  let prev = null;
+  if (latest?.date && latest.date < cur.date) prev = latest;
+  else if (prior?.date && prior.date < cur.date) prev = prior;
+  const trades = arkTrades(fund, prev, cur);
+  if (!latest) state.ark[fund] = cur;
+  else if (cur.date > latest.date) { state.arkPrev[fund] = latest; state.ark[fund] = cur; }
+  else if (cur.date === latest.date) state.ark[fund] = cur;
+  return { prev, trades };
 }
 
 // ---------------------------------------------------------------- House PTRs
@@ -398,26 +641,35 @@ export const TRUMP = {
 
 // A few lines for pages that only feature the tab (the homepage band).
 const AMOUNT_LOW = (a) => Number(String(a || '').split('-')[0].replace(/[$,\s]/g, '')) || 0;
+const isEquityTrade = (t) => t.ticker && ['ST', 'OP'].includes(t.assetType || 'ST') && t.type !== 'exchange';
 export function highlights(out) {
   const pick = (t) => ({ member: t.member, type: t.type, ticker: t.ticker, asset: t.asset, amount: t.amount, date: t.date, filed: t.filed, options: t.assetType === 'OP' });
   const c = out.congress;
   const pel = c?.featured?.find((f) => f.id === 'pelosi');
   // The biggest stock trades reported recently, by the low end of the range.
   const seen = new Set();
-  const big = (c?.trades || []).filter((t) => t.ticker && ['ST', 'OP'].includes(t.assetType) && t.type !== 'exchange')
+  const big = (c?.trades || []).filter(isEquityTrade)
     .sort((a, b) => AMOUNT_LOW(b.amount) - AMOUNT_LOW(a.amount) || (b.filed || '').localeCompare(a.filed || ''))
     .filter((t) => { const k = `${t.member}|${t.ticker}`; if (seen.has(k)) return false; seen.add(k); return true; })
     .slice(0, 4).map(pick);
+  // Prefer a tickered change; demote stale filings so the band isn't led by
+  // a quarter-old put while fresher books sit below.
   const funds = (out.funds || []).filter((f) => !f.error && f.changes?.length).map((f) => {
-    const x = f.changes[0];
+    const x = f.changes.find((ch) => ch.ticker) || f.changes[0];
     return { id: f.id, person: f.person, fund: f.fund, period: f.period, stale: !!f.stale, kind: x.kind, ticker: x.ticker, name: x.name, putCall: x.putCall, dValue: Math.round(x.dValue) };
-  });
+  }).sort((a, b) => Number(a.stale) - Number(b.stale) || Number(!a.ticker) - Number(!b.ticker));
   return {
     generated: out.generated,
-    pelosi: (pel?.trades || []).slice(0, 3).map(pick),
+    // Skip LLC / bond rows with no ticker — the homepage band is for named stocks.
+    pelosi: (pel?.trades || []).filter(isEquityTrade).slice(0, 3).map(pick),
     congress: big,
     funds,
     ark: (out.ark?.trades || []).slice(0, 3).map((t) => ({ date: t.date, fund: t.fund, ticker: t.ticker, kind: t.kind, usd: t.usd })),
+    // Freshest path: Form 4 open-market trades from the AI watchlist.
+    form4: (out.form4?.trades || []).slice(0, 4).map((t) => ({
+      ticker: t.ticker, owner: t.owner, kind: t.kind, code: t.code,
+      shares: t.shares, usd: t.usd, date: t.date, filed: t.filed, plan: !!t.plan,
+    })),
   };
 }
 
@@ -435,29 +687,33 @@ async function main() {
   const errors = {};
   state.cusips ||= {};
 
-  // ARK first: its files carry tickers for CUSIPs the 13F tables need.
+  // Form 4 first: freshest stock-trade disclosures (≤2 business days).
+  let form4 = prevOut.form4 || null;
+  if (run('form4')) {
+    try { form4 = await collectForm4(state, log); }
+    catch (e) { errors.form4 = String(e.message || e); log(`form4: ${errors.form4}`); }
+  }
+
+  // ARK next: its files carry tickers for CUSIPs the 13F tables need.
   let ark = prevOut.ark || null;
   if (run('ark')) {
-    state.ark ||= {};
     const trades = (state.arkTrades || []).filter((t) => daysAgo(t.date) <= 45);
-    const funds = [];
+    const fundsArk = [];
     for (const [fund, file] of ARK_FUNDS) {
       try {
         const cur = parseArk(await get(ARK_BASE + encodeURIComponent(file).replace(/%26/g, '&')));
         for (const x of Object.values(cur.rows)) if (x.cusip && /^[0-9A-Z]{9}$/.test(x.cusip)) state.cusips[x.cusip] = x.ticker;
-        const prev = state.ark[fund];
-        const t = arkTrades(fund, prev, cur);
+        const { prev, trades: t } = advanceArk(state, fund, cur);
         for (const x of t) if (!trades.some((y) => y.date === x.date && y.fund === x.fund && y.ticker === x.ticker)) trades.push(x);
-        if (!prev || cur.date >= prev.date) state.ark[fund] = cur;
         const top = Object.values(cur.rows).sort((a, b) => b.value - a.value).slice(0, 10).map((x) => ({ ticker: x.ticker, company: x.company, weight: x.weight, value: x.value }));
-        funds.push({ fund, date: cur.date, prevDate: prev?.date || null, stale: daysAgo(cur.date) > 5, top, trades: t.length });
+        fundsArk.push({ fund, date: cur.date, prevDate: prev?.date || null, stale: daysAgo(cur.date) > 5, top, trades: t.length });
         log(`ark ${fund}: ${cur.date}, ${Object.keys(cur.rows).length} holdings, ${t.length} trades vs ${prev?.date || 'none'}`);
       } catch (e) { errors[`ark:${fund}`] = String(e.message || e); log(`ark ${fund}: ${errors[`ark:${fund}`]}`); }
       await sleep(300);
     }
     trades.sort((a, b) => b.date.localeCompare(a.date) || Math.abs(b.usd) - Math.abs(a.usd));
     state.arkTrades = trades;
-    ark = { funds, trades: trades.slice(0, 300), note: 'Estimated from ARK\'s published daily holdings: the change in each position, net of the fund growing or shrinking.' };
+    ark = { funds: fundsArk, trades: trades.slice(0, 300), note: 'Estimated from ARK\'s published daily holdings: the change in each position, net of the fund growing or shrinking.' };
   }
 
   let funds = prevOut.funds || [];
@@ -482,7 +738,7 @@ async function main() {
     catch (e) { errors.congress = String(e.message || e); log(`congress: ${errors.congress}`); }
   }
 
-  const out = { generated: new Date().toISOString(), funds, ark, congress: house, trump: TRUMP, errors };
+  const out = { generated: new Date().toISOString(), form4, funds, ark, congress: house, trump: TRUMP, errors };
   await writeFile(path.join(dir, 'state.json'), JSON.stringify(state));
   await writeFile(path.join(dir, 'investors.json'), JSON.stringify(out));
   await writeFile(path.join(dir, 'highlights.json'), JSON.stringify(highlights(out)));

@@ -2,7 +2,11 @@
 //   node --test investors/test.mjs
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { highlights, inDollars, parseInfoTable, aggregate, compare, latestTwo, parseArk, arkTrades, parseHouseIndex, parsePtr, pdfLines } from './collect.mjs';
+import {
+  advanceArk, DEFAULT_SEC_UA, highlights, inDollars, parseInfoTable, aggregate, compare,
+  latestTwo, ownershipXmlName, parseArk, arkTrades, parseForm4, recentForm4Filings,
+  parseHouseIndex, parsePtr, pdfLines,
+} from './collect.mjs';
 
 const Z = '\u0000\u0000\u0000';
 // The text layer of a real two-page House PTR (Filing ID 20033725), trimmed.
@@ -205,10 +209,106 @@ test('13F: a filer reporting thousands is scaled to dollars, one in dollars is l
 
 test('highlights: biggest stock trades, one per member and ticker, no exchanges', () => {
   const t = (member, ticker, type, amount, assetType = 'ST') => ({ member, ticker, type, amount, assetType, asset: ticker, date: '2026-09-01', filed: '2026-09-10' });
-  const h = highlights({ generated: 'x', funds: [{ id: 'a', person: 'A', fund: 'F', changes: [{ kind: 'new', ticker: 'Z', dValue: 5.4 }] }, { id: 'b', error: 'HTTP 403' }],
+  const h = highlights({ generated: 'x', funds: [
+    { id: 'stale', person: 'Old', fund: 'O', stale: true, changes: [{ kind: 'new', ticker: 'OLD', dValue: 9e9 }] },
+    { id: 'a', person: 'A', fund: 'F', changes: [{ kind: 'new', ticker: '', name: 'NoTicker', dValue: 1 }, { kind: 'new', ticker: 'Z', dValue: 5.4 }] },
+    { id: 'b', error: 'HTTP 403' },
+  ],
     congress: { trades: [t('M', 'AAA', 'buy', '$1,001 - $15,000'), t('M', 'BBB', 'buy', '$500,001 - $1,000,000'), t('M', 'BBB', 'sell', '$250,001 - $500,000'), t('N', 'CCC', 'exchange', '$1,000,001 - $5,000,000'), t('N', '', 'buy', '$5,000,001 - $25,000,000', 'GS')],
-      featured: [{ id: 'pelosi', trades: [t('Nancy Pelosi', 'NVDA', 'buy', '$1,000,001 - $5,000,000', 'OP')] }] } });
+      featured: [{ id: 'pelosi', trades: [
+        { member: 'Nancy Pelosi', ticker: '', type: 'buy', amount: '$500,001 - $1,000,000', assetType: 'ST', asset: 'REOF XXX, LLC', date: '2026-09-08', filed: '2026-10-02' },
+        t('Nancy Pelosi', 'NVDA', 'buy', '$1,000,001 - $5,000,000', 'OP'),
+      ] }] },
+    form4: { trades: [{ ticker: 'NVDA', owner: 'Teter', kind: 'sell', code: 'S', shares: 100, usd: 20000, date: '2026-09-21', filed: '2026-09-23', plan: true }] },
+  });
   assert.deepEqual(h.congress.map((x) => x.ticker), ['BBB', 'AAA']);
+  assert.equal(h.pelosi[0].ticker, 'NVDA');
   assert.equal(h.pelosi[0].options, true);
-  assert.deepEqual(h.funds.map((f) => [f.id, f.kind, f.dValue]), [['a', 'new', 5]]);
+  assert.deepEqual(h.funds.map((f) => [f.id, f.kind, f.ticker, f.dValue]), [['a', 'new', 'Z', 5], ['stale', 'new', 'OLD', 9e9]]);
+  assert.equal(h.form4[0].ticker, 'NVDA');
+});
+
+test('SEC User-Agent default has a contact and no github / URL tokens', () => {
+  assert.match(DEFAULT_SEC_UA, /@/);
+  assert.equal(/github/i.test(DEFAULT_SEC_UA), false);
+  assert.equal(/https?:\/\//i.test(DEFAULT_SEC_UA), false);
+});
+
+test('ARK: same-day re-run keeps yesterday for the next comparison', () => {
+  const snap = (date, rows) => ({ date, rows: Object.fromEntries(rows.map(([t, sh]) => [t, { ticker: t, company: t, shares: sh, value: sh * 10, weight: 1 }])) });
+  const state = {};
+  const d1 = snap('2026-10-06', [['AAA', 100000], ['BBB', 200000], ['CCC', 300000]]);
+  assert.equal(advanceArk(state, 'ARKK', d1).trades.length, 0);
+  const d1b = snap('2026-10-06', [['AAA', 100000], ['BBB', 200000], ['CCC', 310000]]);
+  assert.equal(advanceArk(state, 'ARKK', d1b).trades.length, 0);
+  assert.equal(state.ark.ARKK.date, '2026-10-06');
+  assert.equal(state.arkPrev.ARKK, undefined);
+  const d2 = snap('2026-10-07', [['AAA', 100000], ['BBB', 240000], ['CCC', 300000], ['NEW', 40000]]);
+  const { prev, trades } = advanceArk(state, 'ARKK', d2);
+  assert.equal(prev.date, '2026-10-06');
+  assert.deepEqual(trades.map((t) => [t.ticker, t.kind]), [['BBB', 'buy'], ['NEW', 'new']]);
+  assert.equal(state.arkPrev.ARKK.date, '2026-10-06');
+  assert.equal(state.ark.ARKK.date, '2026-10-07');
+  advanceArk(state, 'ARKK', snap('2026-10-07', [['AAA', 100000], ['BBB', 240000], ['CCC', 300000], ['NEW', 40000]]));
+  assert.equal(state.arkPrev.ARKK.date, '2026-10-06');
+});
+
+test('Form 4: ownership XML parser and filing picker', () => {
+  const xml = `<?xml version="1.0"?>
+<ownershipDocument>
+  <documentType>4</documentType>
+  <periodOfReport>2026-09-21</periodOfReport>
+  <issuer><issuerCik>0001045810</issuerCik><issuerName>NVIDIA CORP</issuerName><issuerTradingSymbol>NVDA</issuerTradingSymbol></issuer>
+  <reportingOwner>
+    <reportingOwnerId><rptOwnerCik>0001696841</rptOwnerCik><rptOwnerName>Teter Timothy S.</rptOwnerName></reportingOwnerId>
+    <reportingOwnerRelationship><isDirector>0</isDirector><isOfficer>1</isOfficer><isTenPercentOwner>0</isTenPercentOwner><officerTitle>EVP, General Counsel and Sec</officerTitle></reportingOwnerRelationship>
+  </reportingOwner>
+  <aff10b5One>1</aff10b5One>
+  <nonDerivativeTable>
+    <nonDerivativeTransaction>
+      <securityTitle><value>Common Stock</value></securityTitle>
+      <transactionDate><value>2026-09-21</value></transactionDate>
+      <transactionCoding><transactionCode>S</transactionCode></transactionCoding>
+      <transactionAmounts>
+        <transactionShares><value>12483</value></transactionShares>
+        <transactionPricePerShare><value>222.1932</value></transactionPricePerShare>
+        <transactionAcquiredDisposedCode><value>D</value></transactionAcquiredDisposedCode>
+      </transactionAmounts>
+    </nonDerivativeTransaction>
+    <nonDerivativeTransaction>
+      <securityTitle><value>Common Stock</value></securityTitle>
+      <transactionDate><value>2026-09-21</value></transactionDate>
+      <transactionCoding><transactionCode>A</transactionCode></transactionCoding>
+      <transactionAmounts>
+        <transactionShares><value>500</value></transactionShares>
+        <transactionPricePerShare><value>0</value></transactionPricePerShare>
+        <transactionAcquiredDisposedCode><value>A</value></transactionAcquiredDisposedCode>
+      </transactionAmounts>
+    </nonDerivativeTransaction>
+  </nonDerivativeTable>
+</ownershipDocument>`;
+  const rows = parseForm4(xml, { filed: '2026-09-23', acc: '0001696841-26-000014' });
+  assert.equal(rows.length, 2);
+  assert.equal(rows[0].ticker, 'NVDA');
+  assert.equal(rows[0].owner, 'Teter Timothy S.');
+  assert.match(rows[0].role, /Officer|Counsel/i);
+  assert.equal(rows[0].kind, 'sell');
+  assert.equal(rows[0].trade, true);
+  assert.equal(rows[0].plan, true);
+  assert.equal(rows[0].shares, 12483);
+  assert.equal(rows[0].usd, Math.round(12483 * 222.1932));
+  assert.equal(rows[1].kind, 'award');
+  assert.equal(rows[1].trade, false);
+
+  const sub = { filings: { recent: {
+    form: ['4', '4/A', '8-K', '4'],
+    accessionNumber: ['a', 'b', 'c', 'd'],
+    filingDate: ['2026-10-07', '2026-09-20', '2026-10-06', '2025-01-01'],
+    reportDate: ['2026-10-05', '2026-09-18', '', '2024-12-30'],
+    primaryDocument: ['xslF345X06/ownership.xml', 'wk-form4.xml', '8k.htm', 'old.xml'],
+  } } };
+  const recent = recentForm4Filings(sub, { sinceDays: 21, now: Date.parse('2026-10-08T00:00:00Z') });
+  assert.deepEqual(recent.map((x) => x.acc), ['a', 'b']);
+  assert.equal(ownershipXmlName(['000-index.html', 'wk-form4_1.xml'], 'xslF345X06/wk-form4_1.xml'), 'wk-form4_1.xml');
+  assert.equal(ownershipXmlName(['ownership.xml', 'index.xml'], 'xslF345X06/ownership.xml'), 'ownership.xml');
 });
