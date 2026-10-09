@@ -378,7 +378,11 @@ function withTimeout(promise, ms, id) {
   return Promise.race([promise, watchdog]).finally(() => clearTimeout(timer));
 }
 
-const errMsg = (e) => (e instanceof Error ? e.message || e.name : String(e));
+// Error text is published (the source strip's tooltip, api/news.json). An API
+// that quotes a contact address in its error body — GDELT's 429 does — must
+// not put that address on our pages, so addresses are redacted here.
+const EMAIL = /[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)+/g;
+export const errMsg = (e) => (e instanceof Error ? e.message || e.name : String(e)).replace(EMAIL, '[address]');
 
 // ---------------------------------------------------------------------------
 // Draft -> NewsItem

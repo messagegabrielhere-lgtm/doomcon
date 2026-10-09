@@ -166,3 +166,13 @@ describe('hn-fresh-ai', () => {
     assert.throws(() => parseHits({ message: 'error' }), /no hits array/);
   });
 });
+
+describe('published error text', () => {
+  it('never carries an email address', async () => {
+    const { errMsg } = await import('../news.mjs');
+    assert.equal(
+      errMsg(new Error('HTTP 429 — Please limit requests or contact someone.name@example.com for more')),
+      'HTTP 429 — Please limit requests or contact [address] for more',
+    );
+  });
+});
