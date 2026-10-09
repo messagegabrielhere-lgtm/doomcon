@@ -93,6 +93,8 @@ a{color:inherit}
 .scope .btn{font-size:12px;padding:4px 9px}
 .scope .btn span{margin-left:4px;font:400 11px var(--f-mono);color:var(--mute)}
 .feed li[data-lon]{cursor:pointer}
+.xbtn{margin-left:auto;border:1px solid var(--line);background:transparent;color:var(--mute);border-radius:4px;padding:1px 7px;font:600 11px/1.5 var(--f-mono,ui-monospace,monospace);cursor:pointer}
+.xbtn:hover{color:var(--ink);border-color:var(--mute)}
 .feed li[data-lon]:hover{background:rgba(255,255,255,.03)}
 .tip{position:absolute;pointer-events:none;z-index:3;background:rgba(14,19,28,.94);border:1px solid var(--line);border-radius:6px;padding:7px 10px;font-size:12.5px;max-width:260px;box-shadow:0 8px 24px rgba(0,0,0,.45)}
 .tip b{display:block;font-weight:600;margin-bottom:2px}
@@ -158,6 +160,7 @@ footer a{color:var(--ink);text-decoration:underline;text-underline-offset:2px}
     <span class="tag" id="emTag">ALERT</span>
     <div class="body"><b id="emHead">—</b><small id="emSub">Public delayed feed · not an emergency service</small></div>
     <button class="btn go" type="button" id="emFocus">Show on map</button>
+    <button class="btn" type="button" id="emX" data-xpost="alert" data-x-url="https://siren.watch/dispatch.html">𝕏 Post</button>
   </div>
   <div class="sources" id="sources" aria-label="Source status"></div>
 
@@ -432,6 +435,13 @@ function draw() {
   ctx.globalAlpha = 1;
 }
 
+/** A readable one-liner for posts: no repeated storm names, no NHC shorthand. */
+function alertTitle(a) {
+  const ev = String(a.event || ""), hd = String(a.headline || "");
+  const first = (hd.split(/[:\s]/)[0] || "").toLowerCase();
+  let t = !hd ? `${ev}${a.area ? " · " + a.area : ""}` : (hd.toLowerCase().includes(ev.toLowerCase()) || (first && ev.toLowerCase().includes(first))) ? hd : `${ev}: ${hd}`;
+  return t.replace(/\bHU\b/g, "hurricane").replace(/\bTS\b/g, "tropical storm").replace(/\bTD\b/g, "tropical depression").replace(/:\s*(hurricane|tropical storm|tropical depression),/i, " ($1),");
+}
 function cityKey(name) { return String(name || "").toLowerCase(); }
 function ago(t) {
   if (t - Date.now() > 60e3) return "in " + ago(Date.now() - (t - Date.now())).replace(/^in /, "");
@@ -479,6 +489,8 @@ function renderEmergency() {
   banner.classList.add("on");
   banner.dataset.level = String(em.level || 2);
   $("#emTag").textContent = em.label || "ALERT";
+  $("#emX").setAttribute("data-x-title", em.primary ? alertTitle(em.primary) : "Active emergency trigger");
+  $("#emX").setAttribute("data-x-src", ((em.primary && em.primary.system) || "dispatch").toUpperCase());
   const p = em.primary || {};
   $("#emHead").textContent = [p.event, p.severity].filter(Boolean).join(" · ") || "Active emergency trigger";
   $("#emSub").textContent = [
@@ -542,7 +554,7 @@ function renderFeeds() {
   $("#alerts").innerHTML = shown.slice(0, 150).map((a) => {
     const pin = onMap(a);
     const sys = a.system ? String(a.system).toUpperCase() : "NWS";
-    return `<li ${pin ? `data-lon="${a.lon}" data-lat="${a.lat}"` : ""}><div class="meta"><span class="tag sev-${esc(a.severity)}">${esc(a.severity)}</span><span>${esc(sys)}</span><span>${esc(a.event)}</span><span>${/^in /.test(ago(a.t)) ? "starts " + esc(ago(a.t)) : esc(ago(a.t)) + " ago"}</span>${pin ? (a.approx ? "<span>~state</span>" : "") : "<span>outside US map</span>"}</div><div class="title">${esc(a.headline || a.event)}</div><div class="meta">${esc(a.area || "")}</div></li>`;
+    return `<li ${pin ? `data-lon="${a.lon}" data-lat="${a.lat}"` : ""}><div class="meta"><span class="tag sev-${esc(a.severity)}">${esc(a.severity)}</span><span>${esc(sys)}</span><span>${esc(a.event)}</span><span>${/^in /.test(ago(a.t)) ? "starts " + esc(ago(a.t)) : esc(ago(a.t)) + " ago"}</span>${pin ? (a.approx ? "<span>~state</span>" : "") : "<span>outside US map</span>"}<button type="button" class="xbtn" data-xpost="alert" data-x-title="${esc(alertTitle(a))}" data-x-src="${esc(sys)}" data-x-url="https://siren.watch/dispatch.html" aria-label="Post this alert to X">𝕏 Post</button></div><div class="title">${esc(a.headline || a.event)}</div><div class="meta">${esc(a.area || "")}</div></li>`;
   }).join("") || `<li class="note">${S.alertScope === "world" ? "Nothing outside the US map right now." : "No active alerts here in this snapshot."}</li>`;
 
   $("#calls").innerHTML = S.calls.slice(0, 160).map((c) =>
@@ -579,6 +591,7 @@ function zoomAt(sx, sy, f) {
   S.view.z = z1; S.needDraw = true;
 }
 $("#alerts").addEventListener("click", (e) => {
+  if (e.target.closest("[data-xpost]")) return;
   const li = e.target.closest("li[data-lon]"); if (!li) return;
   focusLonLat(+li.dataset.lon, +li.dataset.lat);
 });

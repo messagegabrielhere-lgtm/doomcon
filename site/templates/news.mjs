@@ -201,6 +201,7 @@ export function feedRow(it, opts = {}) {
         <span class="nrow__age num" title="${esc(`${it.age.label} before the compile stamp`)}">${esc(it.age.label)}</span>
         <span class="nrow__src">${esc(it.source)}</span>
         ${fresh}
+        <button type="button" class="nrow__x" data-xpost="news" data-x-title="${esc(it.title)}" data-x-src="${esc(it.source)}"${it.href ? ` data-x-url="${esc(it.href)}"` : ''} aria-label="Post this story to X">𝕏 Post</button>
       </p>
       ${sub}
     </div>
@@ -389,6 +390,11 @@ const feedCss = `
   font-family: var(--mono); font-size: var(--t-2xs); color: var(--ink-faint);
   border: 1px solid var(--rule-soft); border-radius: 2px; padding: 0 4px; white-space: nowrap;
 }
+.nrow__x {
+  all: unset; cursor: pointer; margin-left: auto; padding: 2px 8px; border: 1px solid var(--ink-faint, #556);
+  font: 600 11px/1.4 var(--f-mono, ui-monospace, monospace); letter-spacing: .04em; color: inherit; opacity: .8;
+}
+.nrow__x:hover, .nrow__x:focus-visible { opacity: 1; border-color: currentColor; outline: none; }
 .nrow__src {
   font-family: var(--mono); font-size: var(--t-2xs); letter-spacing: 0.1em; text-transform: uppercase;
   color: var(--ink-faint); overflow: hidden; text-overflow: ellipsis; max-width: 16ch; white-space: nowrap;

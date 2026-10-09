@@ -612,7 +612,7 @@ export function render(ctx, { head }) {
     <div class="v2-dinfo">
       <div class="v2-chips">${chip('1H', Number.isFinite(state.delta_from_previous) ? state.delta_from_previous : deltaAt(rows, nowMs, 1))}${chip('24H', deltaAt(rows, nowMs, 24))}${chip('7D', deltaAt(rows, nowMs, 168))}</div>
       <p class="v2-dline"><b style="color:${L.color}">SIREN ${state.level} · ${esc(state.level_name)}</b> since ${esc(String(state.level_since || '').slice(0, 10))}. ${levelFromScore(state.score) !== state.level ? `<span class="amber">The score alone reads SIREN ${levelFromScore(state.score)}; the level is held: ${esc(RULE_TXT[state.rule_fired] || '')}</span> ` : ''}${pillarStatusLine(state)}</p>
-      <div class="v2-dbtns"><a class="v2-btn sm" href="#vfy" data-verify-now>✓ VERIFY THIS READING</a><a class="v2-btn sm ghost" href="${esc(shareX)}" target="_blank" rel="noopener">𝕏 POST TODAY'S READING</a><a class="v2-btn sm ghost" href="${href('/alerts.html')}">🔔 ALERTS</a><a class="v2-btn sm ghost" href="${href('/export.html')}">⤓ DATA &amp; EMBED</a></div>
+      <div class="v2-dbtns"><a class="v2-btn sm" href="#vfy" data-verify-now>✓ VERIFY THIS READING</a><a class="v2-btn sm ghost" href="${esc(shareX)}" data-x-kind="reading" target="_blank" rel="noopener">𝕏 POST TODAY'S READING</a><a class="v2-btn sm ghost" href="${href('/alerts.html')}">🔔 ALERTS</a><a class="v2-btn sm ghost" href="${href('/export.html')}">⤓ DATA &amp; EMBED</a></div>
     </div>
   </section>
   <script>window.SIREN_PILLARS=${JSON.stringify((state.pillars || []).filter((p) => !p.dark).map((p) => ({ id: p.id, s: Number.isFinite(p.score) ? p.score : null })))}</script>`;
@@ -662,7 +662,7 @@ ${ticker(items)}
   <div class="v2-sponsor">${sponsorLine(href('/sponsor.html'))}</div>
   <script>window.SIREN_NOW=${JSON.stringify(sinceNow).replace(/</g, '\\u003c')}</script>
 
-  ${top ? `<div class="v2-breaking" id="breaking" data-sec="Breaking"><span class="badge"><span class="blink">${icon('bolt', 2)}</span>BREAKING</span><a href="${esc(top.url)}" rel="noopener">${esc(top.title)}</a><span class="src">${esc(hhmm(top.published_at))} · ${esc(String(top.source).toUpperCase())}</span></div>` : ''}
+  ${top ? `<div class="v2-breaking" id="breaking" data-sec="Breaking"><span class="badge"><span class="blink">${icon('bolt', 2)}</span>BREAKING</span><a href="${esc(top.url)}" rel="noopener">${esc(top.title)}</a><span class="src">${esc(hhmm(top.published_at))} · ${esc(String(top.source).toUpperCase())}</span><button type="button" class="v2-xp" data-xpost="news" data-x-title="${esc(top.title)}" data-x-src="${esc(top.source)}" data-x-url="${esc(top.url)}" aria-label="Post this story to X">𝕏 POST</button></div>` : ''}
 
 ${deskPicks(ctx, pixelText)}
 ${movedPanel(wm, href)}
@@ -784,6 +784,7 @@ body.v2-body{margin:0;background:#000;color:#F3F4F6}
 .v2-top{border-bottom:1px solid #232C3B;background:#0A0E16}
 .v2-top .v2-wrap{display:flex;flex-wrap:wrap;align-items:center;gap:10px 20px;padding-block:10px;font-size:13px;color:#D7DCE3}
 .v2 .v2-chip{display:inline-flex;align-items:center;gap:8px}
+.v2 .v2-xp{all:unset;cursor:pointer;margin-left:10px;padding:3px 8px;border:1px solid currentColor;font:700 11px/1.3 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.06em;white-space:nowrap}.v2 .v2-xp:hover{background:#fff;color:#000}
 .v2 .v2-live{color:#4ADE80;border-color:#166534;text-decoration:none}.v2 .v2-live i{width:8px;height:8px;border-radius:50%;background:#4ADE80;box-shadow:0 0 0 0 rgba(74,222,128,.6);animation:v2live 2s infinite}@keyframes v2live{70%{box-shadow:0 0 0 7px rgba(74,222,128,0)}100%{box-shadow:0 0 0 0 rgba(74,222,128,0)}}@media (prefers-reduced-motion:reduce){.v2 .v2-live i{animation:none}}
 .v2 .tag{padding:5px 10px;border:1px solid;font-weight:700}
 .v2 .tag.red{border-color:#7F1D1D;background:#1A0707;color:#FCA5A5}.v2 .tag.red b{color:#fff}

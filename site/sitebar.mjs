@@ -14,6 +14,7 @@
 import { readdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { CANONICAL_URL } from './brand.mjs';
+import { XCOMPOSE_JS } from './xcompose.mjs';
 import { on as mzOn, sponsorLine, adSlot, AD_PAGES, MZ_CSS, MONETIZE } from './monetize.mjs';
 import { HEADER_MARK, NAV_JS_PATH, headerHtml, relatedHtml, navJs } from './siteheader.mjs';
 const BASE = new URL(CANONICAL_URL).pathname.replace(/\/$/, '');
@@ -72,16 +73,18 @@ export function sitebar(asOf, { level = 4, rel = '', intro = {}, newsAt = '' } =
 #site-em[data-level="3"]{border-left-color:#f59e0b;background:#171004;color:#FDE68A}
 #site-em a{color:inherit;text-decoration:underline;text-underline-offset:2px;font-weight:700}
 #site-em .x{all:unset;cursor:pointer;margin-left:8px;opacity:.85;padding:2px 6px}
+#site-em .xp{border:1px solid currentColor;border-radius:3px;font-weight:600;opacity:1}
 #site-em .x:hover{opacity:1}
 body.site-em-pad{padding-top:40px}
 @media print{#site-em{display:none}}
 </style>
-<div id="site-em" ${MARK} role="status" aria-live="polite" hidden><span id="site-em-txt"></span><a id="site-em-go" href="${BASE}/dispatch.html">Open Dispatch</a><button type="button" class="x" id="site-em-x" aria-label="Dismiss">✕</button></div>
+<div id="site-em" ${MARK} role="status" aria-live="polite" hidden><span id="site-em-txt"></span><a id="site-em-go" href="${BASE}/dispatch.html">Open Dispatch</a><button type="button" class="x xp" id="site-em-xp" data-xpost="alert" data-x-url="${CANONICAL_URL}/dispatch.html" aria-label="Post this alert to X">𝕏 Post</button><button type="button" class="x" id="site-em-x" aria-label="Dismiss">✕</button></div>
 <span class="sb-fresh" title="News is checked every minute and Dispatch alerts refresh through the hour, so both are live. The SIREN score is recalculated once an hour from every source."><i class="dot" aria-hidden="true"></i><b>News &amp; alerts live</b> · news <span id="sitebar-news">–</span> · <span class="sb-score">SIREN score <time id="sitebar-at"></time> (hourly)</span></span>
 <a class="fb" id="sitebar-fb" href="${CANONICAL_URL}/feedback.html" title="Report a problem or send feedback">Feedback</a>
 ${MONETIZE.tips && MONETIZE.tips.url ? `<a class="fb kofi" href="${MONETIZE.tips.url}" target="_blank" rel="noopener" title="${MONETIZE.tips.label}">☕ Support</a>` : ''}<a class="fb" id="sitebar-x" href="https://x.com/intent/post?via=SIRENutf6" target="_blank" rel="noopener" title="Post this page on X">𝕏 Post</a>
 <button type="button" class="rad" data-siren-radio data-level="${level}" aria-pressed="false" title="Turn SIREN Radio on">♪ OFF</button><button type="button" class="rad st" data-siren-station="" aria-label="Next radio station" title="Next station (6 stations)">📻</button>
 <button type="button" id="sitebar-btn" aria-label="Refresh this page's data"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/></svg><span id="sitebar-lbl">Refresh</span></button>
+<script>${XCOMPOSE_JS}</script>
 <script>
 (function(){
   var bar = document.getElementById("sitebar"), at = +bar.dataset.at;
@@ -241,6 +244,7 @@ ${MONETIZE.tips && MONETIZE.tips.url ? `<a class="fb kofi" href="${MONETIZE.tips
       var label = em.label || "ALERT";
       var head = (em.primary && (em.primary.event || em.primary.headline)) || "Active emergency trigger";
       txt.textContent = "⚠ " + label + " · " + head;
+      var xp = document.getElementById("site-em-xp"); if (xp) { xp.setAttribute("data-x-title", label + ": " + ((em.primary && em.primary.headline) || head)); xp.setAttribute("data-x-src", ((em.primary && em.primary.system) || "dispatch").toUpperCase()); }
       el.dataset.level = String(em.level || 2);
       el.dataset.as = id;
       var hdr = document.querySelector("header.sh, .sh") || document.querySelector("header");
