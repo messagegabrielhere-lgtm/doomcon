@@ -37,7 +37,7 @@ moves the SIREN score.
 | Montgomery County MD | montgomerycountymd.gov `98cc-bc7d` | Police CAD with coordinates |
 
 Street addresses are stripped before publish. Coordinates are rounded to three
-decimal degrees (~100 m). A source that fails is shown dark; nothing is invented.
+decimal degrees (~1 km for 911 calls, ~100 m for weather and quake alerts). A source that fails is shown dark; nothing is invented.
 
 ## Emergency mark + X
 

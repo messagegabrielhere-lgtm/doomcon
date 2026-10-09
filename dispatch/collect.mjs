@@ -6,7 +6,7 @@
 // raw.githubusercontent.com. Nothing here writes to main or touches the index.
 //
 // Privacy: street addresses never leave the city adapters. Coordinates are
-// rounded to three decimal degrees (~100 m). Sensitive call types are dropped.
+// rounded to two decimal degrees (~1 km) for calls. Sensitive call types are dropped.
 //
 // Usage: node dispatch/collect.mjs <outdir>
 
