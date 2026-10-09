@@ -34,5 +34,11 @@
     "file": "site/templates/infoPages.mjs",
     "reason": "The GoatCounter loader is gated on MONETIZE.analytics.goatcounter (null = off) and the privacy page swaps its 'No analytics' line for a disclosure in the same build that turns it on. While it is off, no page loads it. Re-check when the site code is set.",
     "until": "2027-01-07"
+  },
+  {
+    "rule": "auto-renewal",
+    "file": "agent-tools/license-server/test/server.test.mjs",
+    "reason": "False positive: a unit-test fixture that simulates a Stripe webhook payload. It is never shipped or shown to customers. The real subscribe button is in site/static/agent-tools.html, which states price, monthly auto-renewal and online cancellation next to the button and requires an unticked checkbox.",
+    "until": "2027-10-09"
   }
 ]

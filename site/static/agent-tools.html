@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Flight Recorder for AI agents · SIREN</title>
+<meta name="description" content="SIREN Flight Recorder keeps an independent, tamper-evident record of what your AI agent did: every file change, every outbound connection, every failed command. Plain-English daily digest and one-command undo.">
+<link rel="stylesheet" href="fonts/fonts.css">
+<style>
+:root{
+  --bg:#0b0c0e; --panel:#14171c; --line:#262b33; --ink:#e8eaee; --dim:#9aa2ad;
+  --signal:#ffb020; --ok:#3ddc84; --bad:#ff5f56;
+  --mono:"JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+  --sans:"Inter Tight", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.55 var(--sans);padding-bottom:env(safe-area-inset-bottom,0px)}
+a{color:var(--signal)}
+:focus-visible{outline:3px solid var(--signal);outline-offset:3px}
+.wrap{max-width:980px;margin:0 auto;padding:0 16px}
+.back{display:inline-block;margin:20px 0 0;color:var(--dim);text-decoration:none;font-size:.9rem}
+.back:hover{color:var(--ink)}
+
+header.hero{padding:clamp(28px,6vw,64px) 0 clamp(24px,4vw,40px);border-bottom:1px solid var(--line)}
+.eyebrow{font:600 .8125rem/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--signal)}
+h1{font:800 clamp(2.2rem,7vw,4rem)/1 var(--sans);letter-spacing:-.035em;margin:.35em 0 .3em}
+.lede{font-size:clamp(1.05rem,2.3vw,1.3rem);color:var(--dim);max-width:40ch;margin:0}
+.lede strong{color:var(--ink);font-weight:600}
+
+section{padding:clamp(28px,5vw,48px) 0;border-bottom:1px solid var(--line)}
+h2{font:700 1.625rem/1.15 var(--sans);letter-spacing:-.02em;margin:0 0 .6em}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px}
+.card h3{margin:0 0 .35em;font-size:1.05rem}
+.card p{margin:0;color:var(--dim);font-size:.95rem}
+.stat{font:700 1.6rem/1 var(--mono);color:var(--signal);display:block;margin-bottom:.35em}
+
+/* terminal mock of a real digest */
+.term{background:#050607;border:1px solid var(--line);border-radius:12px;overflow:auto;font:400 .84rem/1.6 var(--mono);padding:16px 18px;color:#cfd6df;white-space:pre}
+.term .ok{color:var(--ok)} .term .bad{color:var(--bad)} .term .sig{color:var(--signal)} .term .dim{color:#6b7480}
+
+/* pricing */
+.plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.plan{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:22px;display:flex;flex-direction:column;gap:12px}
+.plan.feature{border-color:var(--signal)}
+.price{font:800 2.4rem/1 var(--sans);letter-spacing:-.03em}
+.price small{font-size:1rem;color:var(--dim);font-weight:500}
+.plan ul{margin:0;padding-left:1.1em;color:var(--dim);font-size:.95rem}
+.terms{font-size:.85rem;color:var(--dim);border-left:3px solid var(--line);padding-left:10px}
+.agree{display:flex;gap:10px;align-items:flex-start;font-size:.9rem}
+.agree input{margin-top:4px;width:18px;height:18px;accent-color:var(--signal)}
+.btn{display:inline-block;text-align:center;background:var(--signal);color:#0b0c0e;font-weight:700;text-decoration:none;border:0;border-radius:8px;padding:13px 18px;font-size:1rem;cursor:pointer}
+.btn[aria-disabled="true"]{opacity:.35;pointer-events:none}
+code,.code{font-family:var(--mono);font-size:.85rem}
+.code{display:block;background:#050607;border:1px solid var(--line);border-radius:8px;padding:12px;white-space:pre-wrap;word-break:break-all;color:#cfd6df}
+
+/* key delivery panel (shown after Stripe checkout) */
+#delivery{display:none;background:#10140f;border:1px solid var(--ok);border-radius:12px;padding:20px;margin-top:24px}
+#delivery h2{color:var(--ok)}
+#keybox{min-height:3em}
+.copy{margin-top:10px;background:transparent;border:1px solid var(--ok);color:var(--ok);border-radius:8px;padding:8px 14px;font:600 .9rem var(--sans);cursor:pointer}
+
+.soon .card{opacity:.85}
+.tag{font:600 .72rem/1 var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--dim);border:1px solid var(--line);border-radius:999px;padding:4px 8px;display:inline-block;margin-bottom:8px}
+footer{padding:28px 0 48px;color:var(--dim);font-size:.85rem}
+footer a{color:var(--dim)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="./">← Back to SIREN index</a>
+
+  <header class="hero">
+    <div class="eyebrow">SIREN Labs · Agent tools</div>
+    <h1>A flight recorder for your AI agent.</h1>
+    <p class="lede">Your agent makes hundreds of calls you never see. Flight Recorder writes down <strong>what it actually did</strong> — every file it changed, every server it sent data to, every command that failed — in a record it can't quietly edit. Then it tells you in plain English, and lets you undo it.</p>
+
+    <div id="delivery" role="status" aria-live="polite">
+      <h2>Payment received. Here's your key.</h2>
+      <div id="keybox"><span class="dim">Confirming your payment with Stripe…</span></div>
+    </div>
+  </header>
+
+  <section>
+    <h2>Why this exists</h2>
+    <p style="color:var(--dim);max-width:62ch;margin-top:0">These are the most-upvoted complaints agents themselves post on Moltbook, the social network for AI agents:</p>
+    <div class="grid">
+      <div class="card"><span class="stat">34</span><h3>errors swallowed in 14 days</h3><p>One agent logged every failure it decided not to mention. Four of them mattered.</p></div>
+      <div class="card"><span class="stat">23%</span><h3>of outbound calls carried workspace data</h3><p>…to servers its owner had never vetted, via skills installed weeks earlier.</p></div>
+      <div class="card"><span class="stat">1,103</span><h3>malicious skills found in one audit</h3><p>Out of 14,706 on the main skill marketplace. Scanners check at install, not afterwards.</p></div>
+      <div class="card"><span class="stat">0</span><h3>independent witnesses</h3><p>"Your logs are written by the system they audit." Agent-side logs can't catch the agent.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>What you get every morning</h2>
+    <div class="term" aria-label="Example digest"><span class="sig">$ siren-fr digest</span>
+SIREN Flight Recorder — last 24h
+
+<span class="ok">✅ Log integrity: all 412 entries verified, nothing edited or removed.</span>
+
+Needs your attention:
+  <span class="bad">• First-ever contact with telemetry.weather-skill.io (3 calls, sent 18.2 KB)</span>
+  <span class="bad">• Command failed (exit 1): npm publish — "403 Forbidden"</span>
+  • 2 file(s) deleted
+
+Files: 6 created, 31 modified, 2 deleted.
+  • notes/MEMORY.md (9 changes)
+  • src/report.py (7 changes)
+
+Network: 88 connection(s) to 7 host(s), 1.4 MB sent.
+  • api.anthropic.com: 61 call(s), sent 1.2 MB, received 3.9 MB
+  • telemetry.weather-skill.io: 3 call(s), sent 18.2 KB, received 410 B
+
+<span class="dim">Undo any file change with:  siren-fr rollback &lt;path&gt;</span></div>
+    <div class="grid" style="margin-top:16px">
+      <div class="card"><h3>Tamper-evident</h3><p>Every entry is hash-chained and signed with a key the agent never sees. Edit or delete one line and <code>verify</code> says exactly where.</p></div>
+      <div class="card"><h3>Watches from outside</h3><p>A local proxy records where data goes and how much. HTTPS stays encrypted end to end; nothing is intercepted.</p></div>
+      <div class="card"><h3>One-command undo</h3><p>Every file is snapshotted before it changes. <code>siren-fr rollback notes/MEMORY.md</code> puts it back.</p></div>
+      <div class="card"><h3>Stays on your machine</h3><p>The record never leaves your computer. The only network call the recorder makes is to renew its license.</p></div>
+    </div>
+  </section>
+
+  <section id="pricing">
+    <h2>Get access</h2>
+    <div class="plans">
+      <div class="plan feature">
+        <div class="tag">For the human</div>
+        <div class="price">$9 <small>/ month</small></div>
+        <ul>
+          <li>Full Flight Recorder for one machine</li>
+          <li>New key issued automatically each month</li>
+          <li>Pay by card through Stripe</li>
+        </ul>
+        <p class="terms">$9 per month, billed monthly. <strong>Renews automatically every month until you cancel.</strong> Cancel any time online from the "Manage subscription" link in your Stripe receipt; you keep access until the end of the paid month. No refunds for partial months.</p>
+        <label class="agree"><input type="checkbox" id="agree"> <span>I understand this subscription renews automatically each month until I cancel.</span></label>
+        <a class="btn" id="subscribe" aria-disabled="true" href="#" rel="noopener">Subscribe with card</a>
+      </div>
+
+      <div class="plan">
+        <div class="tag">For the agent</div>
+        <div class="price">5 USDC <small>/ 30 days</small></div>
+        <ul>
+          <li>Same product, paid by the agent itself</li>
+          <li>One-time, never renews — buy again when it runs out</li>
+          <li>x402 on Base: payment and key in a single request</li>
+        </ul>
+        <p class="terms">Agents: request the key and pay the 402 challenge.</p>
+        <span class="code" id="x402snippet">GET https://api.siren.watch/x402/key?product=flight-recorder
+→ 402 Payment Required (terms inside)
+→ retry with X-PAYMENT → 200 { "key": "SIREN1…" }</span>
+        <p class="terms">Instructions an agent can follow on its own: <a id="skilllink" href="#">skill.md</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Install</h2>
+    <span class="code">npm install -g siren-flight-recorder
+siren-fr activate SIREN1.your-key
+siren-fr start --root ~/my-agent-workspace
+export HTTPS_PROXY=http://127.0.0.1:8742 HTTP_PROXY=http://127.0.0.1:8742   # in the agent's shell
+siren-fr digest</span>
+    <p style="color:var(--dim)">Needs Node 20 or newer. Works on macOS and Linux; Windows via WSL.</p>
+  </section>
+
+  <section class="soon">
+    <h2>Coming next from SIREN Labs</h2>
+    <div class="grid">
+      <div class="card"><span class="tag">Next</span><h3>Egress Guard</h3><p>Blocks, rather than just records, uploads to hosts you haven't approved.</p></div>
+      <div class="card"><span class="tag">Later</span><h3>Durable Memory</h3><p>Memory that survives context compaction, and tells you what it forgot.</p></div>
+      <div class="card"><span class="tag">Later</span><h3>Handoff Contracts</h3><p>Typed task specs two agents both sign before work starts.</p></div>
+    </div>
+    <p style="color:var(--dim)">Subscribers get each new tool on the same key at no extra cost while it's in beta.</p>
+  </section>
+
+  <footer>
+    SIREN Labs. Flight Recorder runs locally; SIREN never receives your logs. Payments are processed by Stripe (card) or settle directly on-chain (USDC); SIREN does not see or store card details.
+    <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a>
+  </footer>
+</div>
+
+<script>
+// ── Fill these in at launch (see agent-tools/README.md) ────────────────
+var STRIPE_PAYMENT_LINK = ''; // e.g. https://buy.stripe.com/xxxxxxxx
+var API = 'https://api.siren.watch';
+// ────────────────────────────────────────────────────────────────────────
+
+(function () {
+  var agree = document.getElementById('agree');
+  var btn = document.getElementById('subscribe');
+  function sync() {
+    var ready = agree.checked && STRIPE_PAYMENT_LINK;
+    btn.setAttribute('aria-disabled', ready ? 'false' : 'true');
+    btn.href = ready ? STRIPE_PAYMENT_LINK : '#';
+    if (!STRIPE_PAYMENT_LINK) btn.textContent = 'Card checkout opens soon';
+  }
+  agree.addEventListener('change', sync); sync();
+
+  document.getElementById('skilllink').href = API + '/skill.md';
+  document.getElementById('x402snippet').textContent =
+    'GET ' + API + '/x402/key?product=flight-recorder\n→ 402 Payment Required (terms inside)\n→ retry with X-PAYMENT → 200 { "key": "SIREN1…" }';
+
+  // After Stripe checkout, Stripe sends the buyer back here with ?session_id=cs_…
+  var sid = new URLSearchParams(location.search).get('session_id');
+  if (!sid) return;
+  var panel = document.getElementById('delivery'), box = document.getElementById('keybox');
+  panel.style.display = 'block';
+  var tries = 0;
+  function poll() {
+    fetch(API + '/stripe/key?session_id=' + encodeURIComponent(sid))
+      .then(function (r) { return r.json().then(function (b) { return { ok: r.ok, b: b }; }); })
+      .then(function (res) {
+        if (!res.ok) {
+          if (++tries < 20) return setTimeout(poll, 3000);
+          box.textContent = 'Your payment went through, but the key is taking longer than usual. Refresh this page in a minute; the link keeps working.';
+          return;
+        }
+        box.innerHTML = '';
+        var p = document.createElement('p'); p.textContent = 'Valid until ' + res.b.expires.slice(0, 10) + ' and renewed automatically each month. Run this on the machine your agent uses:';
+        var c = document.createElement('span'); c.className = 'code'; c.textContent = 'siren-fr activate ' + res.b.key;
+        var b = document.createElement('button'); b.className = 'copy'; b.type = 'button'; b.textContent = 'Copy command';
+        b.onclick = function () { try { navigator.clipboard.writeText(c.textContent); b.textContent = 'Copied'; } catch (e) {} };
+        var n = document.createElement('p'); n.className = 'terms'; n.textContent = 'Bookmark this page: it shows your key again any time. Next month, run "siren-fr renew".';
+        box.append(p, c, b, n);
+        history.replaceState(null, '', location.pathname + '?session_id=' + encodeURIComponent(sid));
+      })
+      .catch(function () { if (++tries < 20) setTimeout(poll, 3000); });
+  }
+  poll();
+})();
+</script>
+</body>
+</html>

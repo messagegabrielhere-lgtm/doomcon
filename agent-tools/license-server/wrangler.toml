@@ -1,0 +1,27 @@
+name = "siren-license"
+main = "src/index.js"
+compatibility_date = "2026-09-01"
+
+# Route the worker to api.siren.watch once the domain is on Cloudflare:
+# routes = [{ pattern = "api.siren.watch", custom_domain = true }]
+
+[[kv_namespaces]]
+binding = "LICENSES"
+id = "REPLACE_WITH_KV_ID"   # npx wrangler kv namespace create LICENSES
+
+[vars]
+# Where the storefront lives (exact origin, for CORS). Switch to https://siren.watch after the domain move.
+SITE_ORIGIN = "https://messagegabrielhere-lgtm.github.io"
+STORE_PATH = "/doomcon/agent-tools.html"
+# Public half of the license signing key (copy from recorder/src/public-key.js)
+PUBLIC_KEY_SPKI_B64 = "REPLACE_WITH_PUBLIC_KEY"
+# Your own USDC wallet on Base — payments settle here directly
+PAY_TO_ADDRESS = "REPLACE_WITH_YOUR_BASE_WALLET"
+# Start on testnet. Switch to "base" + a mainnet facilitator when ready (see README).
+X402_NETWORK = "base-sepolia"
+FACILITATOR_URL = "https://x402.org/facilitator"
+
+# Secrets (never in this file):
+#   npx wrangler secret put LICENSE_PRIVATE_KEY_PKCS8
+#   npx wrangler secret put STRIPE_WEBHOOK_SECRET
+#   npx wrangler secret put FACILITATOR_AUTH      (only for a mainnet facilitator that needs it)
