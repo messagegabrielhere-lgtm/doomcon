@@ -7,7 +7,7 @@
 //
 // Phone fold (GROWTH §08 / SITE-UPGRADES): numeral, claim, sparkline, three
 // pillar movers, one "see the evidence" control. The rest of the board stays
-// in the HTML (SEO + self-check) but sits inside a closed <details> under 721px.
+// in the HTML (SEO + self-check) but is collapsed under 721px until that tap.
 //
 // The full instrument panel this replaced still builds, at /classic.html.
 import { esc, num } from './_html.mjs';
@@ -257,16 +257,18 @@ pill.querySelector('button').addEventListener('click',function(){var u=new URL(l
 setInterval(watch,60000);document.addEventListener('visibilitychange',function(){if(!document.hidden)watch()});setTimeout(watch,4000)})();
 // Phone fold: keep the heavy board closed under 721px; open it on wider viewports
 // and when "See the evidence" (or any in-page hash into the board) is used.
-(function(){var d=document.getElementById('v2-more');if(!d)return;
-var mq=window.matchMedia('(min-width:721px)');
-function sync(){d.open=mq.matches}
-sync();
-if(mq.addEventListener)mq.addEventListener('change',sync);else if(mq.addListener)mq.addListener(sync);
-function openMore(){d.open=true}
-d.addEventListener('toggle',function(){document.body.classList.toggle('v2-more-open',d.open)});
+// A button+panel (not <details>) so the tap target is reliable under the sticky chrome.
+(function(){var box=document.getElementById('v2-more'),btn=document.getElementById('v2-more-btn'),body=document.getElementById('v2-more-body');
+if(!box||!btn||!body)return;
+var mq=window.matchMedia('(min-width:721px)'),forced=false;
+function apply(){var show=mq.matches||forced;box.classList.toggle('is-open',show);btn.hidden=mq.matches||forced;btn.setAttribute('aria-expanded',forced?'true':'false');document.body.classList.toggle('v2-more-open',show&&!mq.matches)}
+function openMore(){forced=true;apply();try{body.scrollIntoView({block:'nearest',behavior:'smooth'})}catch(e){}}
+btn.addEventListener('click',function(e){e.preventDefault();openMore()});
 document.querySelectorAll('[data-v2-more-open]').forEach(function(a){a.addEventListener('click',openMore)});
-if(location.hash&&d.querySelector(location.hash))openMore();
-window.addEventListener('hashchange',function(){if(location.hash&&d.querySelector(location.hash))openMore()});
+if(location.hash&&body.querySelector(location.hash))openMore();
+window.addEventListener('hashchange',function(){if(location.hash&&body.querySelector(location.hash))openMore()});
+apply();
+if(mq.addEventListener)mq.addEventListener('change',apply);else if(mq.addListener)mq.addListener(apply);
 })();
 })();`;
 
@@ -724,9 +726,9 @@ ${ticker(items)}
   <div class="v2-since" id="v2-since" hidden role="status"></div>
   <script>window.SIREN_NOW=${JSON.stringify(sinceNow).replace(/</g, '\\u003c')}</script>
 
-<details class="v2-more" id="v2-more" open>
-  <summary class="v2-more__sum">See the evidence →</summary>
-  <div class="v2-more__body">
+<div class="v2-more is-open" id="v2-more">
+  <button type="button" class="v2-more__sum" id="v2-more-btn" aria-expanded="false" aria-controls="v2-more-body">See the evidence →</button>
+  <div class="v2-more__body" id="v2-more-body">
   ${top ? `<div class="v2-breaking" id="breaking" data-sec="Breaking"><span class="badge"><span class="blink">${icon('bolt', 2)}</span>BREAKING</span><a href="${esc(top.url)}" rel="noopener">${esc(top.title)}</a><span class="src">${esc(hhmm(top.published_at))} · ${esc(String(top.source).toUpperCase())}</span><button type="button" class="v2-xp" data-xpost="news" data-x-title="${esc(top.title)}" data-x-src="${esc(top.source)}" data-x-url="${esc(top.url)}" aria-label="Post this story to X">𝕏 POST</button></div>` : ''}
   ${dash}
   <div class="v2-sponsor">${sponsorLine(href('/sponsor.html'))}</div>
@@ -769,7 +771,7 @@ ${roomsGrid(ctx, href, img)}
   </div>
   ${newsletterBox(href('/privacy.html')) ? `<div class="v2-nl">${newsletterBox(href('/privacy.html'))}</div>` : ''}
   </div>
-</details>
+</div>
 
   <p class="v2-foot">${esc(brand.CREED)} ${esc(brand.NAME)} counts how loud AI is, every hour, from public data. A count, not a forecast. Portraits and icons are generated illustrations, not photographs.
   <a href="${href('/methodology.html')}">How it works</a> · <a href="${href('/classic.html#vfy')}">Verify a reading</a> · <a href="${href('/classic.html')}">Full instrument panel</a> · <a href="${href('/about.html')}">About</a> · <a href="${href('/feed.xml')}">RSS</a> · <a href="${href('/sponsor.html')}">Sponsor</a>${tipLink() ? ` · ${tipLink()}` : ''}</p>
@@ -886,11 +888,9 @@ body.v2-body{margin:0;background:#000;color:#F3F4F6}
 .v2-scale__note{margin:0;font-size:12px;color:#AEB7C3}
 /* Phone fold card — hidden on desktop; the dial + loud panel cover the same facts. */
 .v2-phone{display:none}
-.v2-more{border:0;padding:0;margin:0;background:none}
-.v2-more__sum{list-style:none;cursor:pointer;display:none;align-items:center;justify-content:center;min-height:48px;margin:4px 0 0;padding:0 16px;border:2px solid #4F46E5;background:#0E1033;color:#C7D2FE;font:700 14px/1.2 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.06em;touch-action:manipulation}
-.v2-more__sum::-webkit-details-marker{display:none}
-.v2-more__sum::marker{content:''}
-.v2-more[open]>.v2-more__sum{margin-bottom:12px;border-color:#6366F1;color:#fff}
+.v2-more{border:0;padding:0;margin:0;background:none;display:flex;flex-direction:column;gap:0}
+.v2-more__sum{appearance:none;-webkit-appearance:none;cursor:pointer;display:none;align-items:center;justify-content:center;width:100%;min-height:48px;margin:4px 0 0;padding:0 16px;border:2px solid #4F46E5;background:#0E1033;color:#C7D2FE;font:700 14px/1.2 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.06em;touch-action:manipulation}
+.v2-more__sum:hover,.v2-more__sum:focus-visible{border-color:#6366F1;color:#fff;outline:2px solid #4ADE80;outline-offset:2px}
 .v2-more__body{display:flex;flex-direction:column;gap:22px}
 .v2-racelead{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 14px;padding:12px 14px;border:2px solid #2A3446;background:#0A0E16;color:#fff!important}
 .v2-racelead:hover{border-color:#6366F1;color:#fff!important}
@@ -1003,6 +1003,8 @@ body.v2-body{margin:0;background:#000;color:#F3F4F6}
   .v2-dock .tile{width:calc(33.33% - 7px);height:100px}
   .v2-bar.wide{grid-template-columns:120px minmax(0,1fr) 56px}
   .v2-more__sum{display:flex}
+  .v2-more:not(.is-open)>.v2-more__body{display:none}
+  .v2-more.is-open>.v2-more__sum{display:none}
   .v2-more__body{gap:16px}
 }
 @media (prefers-reduced-motion:reduce){.v2 *{animation:none!important}}

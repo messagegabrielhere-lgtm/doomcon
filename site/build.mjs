@@ -1948,7 +1948,7 @@ async function selfCheck(outDir, state, ctx = null) {
   if (!html.includes('v2-plain') || !html.includes('v2-scale') || !html.includes('REUSE THIS READING')) {
     throw new Error('build: self-check failed - homepage fold is missing plain read, scale rail, or reuse block.');
   }
-  if (!html.includes('v2-phone') || !html.includes('id="v2-more"') || !html.includes('See the evidence')) {
+  if (!html.includes('v2-phone') || !html.includes('id="v2-more"') || !html.includes('id="v2-more-btn"') || !html.includes('See the evidence')) {
     throw new Error('build: self-check failed - homepage is missing the phone fold (spark/movers) or deferred evidence board.');
   }
 
