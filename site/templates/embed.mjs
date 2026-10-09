@@ -9,6 +9,17 @@ import { esc, num, utc } from './_html.mjs';
 import { embedCss } from '../styles.mjs';
 import * as brand from '../brand.mjs';
 
+// Honest posture for the widget string. "All sources live" was a lie whenever
+// uncalibrated pipes answered but scored zero — COMPETITIVE.md §0.4.
+function sourcePosture(state) {
+  const sources = Array.isArray(state.sources) ? state.sources : [];
+  if (!sources.length) return state.degraded ? 'degraded' : 'no source list';
+  const reporting = sources.filter((s) => s.ok || s.uncalibrated).length;
+  const dark = sources.filter((s) => !s.ok && !s.uncalibrated).length;
+  if (dark > 0 || state.degraded) return `${reporting}/${sources.length} reporting · degraded`;
+  return `${reporting}/${sources.length} reporting`;
+}
+
 export function render(ctx) {
   const { state } = ctx;
   const filled = 6 - state.level;
@@ -43,7 +54,7 @@ export function render(ctx) {
     <span class="w__digit" aria-hidden="true">${esc(state.level)}</span>
     <span class="w__meta">
       <span class="w__name">${esc(state.level_name)}</span>
-      <span class="w__score">${esc(num(state.score, 1))} / 100 · ${esc(state.degraded ? 'degraded' : 'all sources live')}</span>
+      <span class="w__score">${esc(num(state.score, 1))} / 100 · ${esc(sourcePosture(state))}</span>
     </span>
   </div>
   <div class="w__foot">
