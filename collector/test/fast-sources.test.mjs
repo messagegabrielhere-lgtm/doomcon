@@ -22,6 +22,8 @@ describe('outlets', () => {
     assert.equal(registrableDomain('https://www.bbc.com/news/x'), 'bbc.co.uk');
     assert.equal(registrableDomain('status.openai.com'), 'openai.com');
     assert.equal(registrableDomain('blog.google'), 'blog.google');
+    assert.equal(registrableDomain('digital-strategy.ec.europa.eu'), 'europa.eu');
+    assert.equal(registrableDomain('www.scmp.com'), 'scmp.com');
     assert.equal(registrableDomain('not a host'), null);
   });
   it('maps official accounts to their newsroom and keeps strangers unvetted', () => {
@@ -30,6 +32,15 @@ describe('outlets', () => {
     assert.deepEqual(xOutlet('randomacct'), { outlet: 'x:randomacct', vetted: false });
     assert.deepEqual(bskyOutlet('reuters.com'), { outlet: 'reuters.com', vetted: true });
     assert.equal(bskyOutlet('who.bsky.social').vetted, false);
+    assert.equal(bskyOutlet('simonw.bsky.social').vetted, true);
+  });
+  it('treats governance and Asia desks as tier-one for BREAKING', async () => {
+    const { isTier1 } = await import('../news-sources/_outlets.mjs');
+    assert.equal(isTier1('gov.uk'), true);
+    assert.equal(isTier1('europa.eu'), true);
+    assert.equal(isTier1('scmp.com'), true);
+    assert.equal(isTier1('nist.gov'), true);
+    assert.equal(isTier1('lobste.rs'), false);
   });
 });
 
@@ -122,6 +133,12 @@ describe('gdelt-ai', () => {
 });
 
 describe('gnews-ai', () => {
+  it('searches US wires plus China/EU desks', async () => {
+    const { QUERIES } = await import('../news-sources/gnews-ai.mjs');
+    assert.ok(QUERIES.length >= 4);
+    assert.ok(QUERIES.some((q) => /DeepSeek|AI Act/i.test(q.q)));
+  });
+
   it('strips the publisher suffix only when it is the publisher', () => {
     assert.equal(stripPublisher('A - B - Reuters', 'Reuters'), 'A - B');
     assert.equal(stripPublisher('A - B', 'Reuters'), 'A - B');

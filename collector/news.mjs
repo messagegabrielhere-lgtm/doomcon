@@ -54,7 +54,17 @@ const ADAPTER_TIMEOUT_MS = 60_000;
 // fallback. A hung adapter cannot hold that tick: it is dark for this pass and
 // asked again on the next one. The hourly full pass keeps the generous
 // timeout, because there the point is completeness.
-const ADAPTER_TIMEOUT_FAST_MS = 25_000;
+// Fast lane: 18s (was 25s). With ~80 adapters, a stuck newsletter was the
+// longest wall-clock on every tick; failing it sooner keeps the wires moving.
+const ADAPTER_TIMEOUT_FAST_MS = 18_000;
+
+// Sources that must win the race for connection slots on the minute loop.
+// Sorted to the front of `due` so their requests leave first; the breaking
+// pass and the speed metric both depend on them answering quickly.
+const FAST_SOURCE_IDS = Object.freeze([
+  'bluesky-ai', 'gdelt-ai', 'gnews-ai', 'hn-fresh-ai', 'x-search',
+  'hn-ai', 'techmeme', 'anthropic-status', 'openai-status',
+]);
 
 const VALID_SOURCE_ID = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const VALID_KINDS = Object.freeze(['lab', 'paper', 'model', 'release', 'forum', 'press', 'status']);
@@ -299,6 +309,11 @@ const CADENCE_BY_KIND = {
   paper: 3_600_000,     // arXiv and HF daily papers are daily batches. Do not hammer.
 };
 const REDDIT_CADENCE_MS = 600_000;
+// At most this many Reddit feeds per run. Eight × 4s host-gate waits exceed the
+// fast-lane adapter timeout, so later subs die as "timed out" without ever
+// leaving the queue (measured 2026-10-09). Two per minute rotates the basket
+// inside the 10-minute cadence without burning the shared Actions IP.
+const REDDIT_PER_RUN = 2;
 const DEFAULT_CADENCE_MS = 900_000;
 
 // Cron does not keep time. GitHub's scheduler is documented at a 5-minute floor
@@ -810,11 +825,35 @@ async function main() {
       .map((x) => [x.id, Date.parse(x.fetched_at ?? '')])
       .filter(([, t]) => Number.isFinite(t)),
   );
-  const due = adapters.filter((a) => isDue(a, lastFetch.get(a.id), generatedAtMs, force));
-  const skipped = adapters.filter((a) => !due.includes(a));
+  let due = adapters
+    .filter((a) => isDue(a, lastFetch.get(a.id), generatedAtMs, force))
+    // Fast wires first: Node schedules the Promise.allSettled workers in
+    // array order, so putting the minute-critical sources at the front means
+    // their first byte leaves before a 2MB Substack body starts transferring.
+    .sort((a, b) => {
+      const af = FAST_SOURCE_IDS.indexOf(a.id);
+      const bf = FAST_SOURCE_IDS.indexOf(b.id);
+      const ap = af === -1 ? 100 + (a.kind === 'press' || a.kind === 'forum' || a.kind === 'status' ? 0 : 10) : af;
+      const bp = bf === -1 ? 100 + (b.kind === 'press' || b.kind === 'forum' || b.kind === 'status' ? 0 : 10) : bf;
+      return ap - bp || a.id.localeCompare(b.id);
+    });
+
+  // Reddit per-run cap. Prefer the ones we asked least recently so the eight
+  // rotate; the rest stay carried-forward and are not stamped fetched_at.
+  const redditDue = due.filter((a) => a.id.startsWith('reddit-'));
+  let redditHeld = [];
+  if (redditDue.length > REDDIT_PER_RUN) {
+    redditDue.sort((a, b) => (lastFetch.get(a.id) ?? 0) - (lastFetch.get(b.id) ?? 0) || a.id.localeCompare(b.id));
+    const keep = new Set(redditDue.slice(0, REDDIT_PER_RUN).map((a) => a.id));
+    redditHeld = redditDue.filter((a) => !keep.has(a.id));
+    due = due.filter((a) => !a.id.startsWith('reddit-') || keep.has(a.id));
+  }
+
+  const skipped = adapters.filter((a) => !due.some((d) => d.id === a.id));
 
   console.log(`news: ${adapters.length} adapters, ${due.length} due, ${skipped.length} skipped by cadence` +
-    `${force ? ' (--force: cadence ignored)' : ''}, window ${WINDOW_DAYS}d, ${previous.items.length} items carried forward`);
+    `${redditHeld.length ? `, ${redditHeld.length} reddit deferred (cap ${REDDIT_PER_RUN}/run)` : ''}` +
+    `${force ? ' (--force: cadence ignored for non-reddit)' : ''}, window ${WINDOW_DAYS}d, ${previous.items.length} items carried forward`);
 
   // Promise.allSettled, never Promise.all: one dead feed must never take down
   // the rest of the run. Every adapter runs concurrently — they are independent
@@ -1252,9 +1291,8 @@ async function main() {
   // ONE annotation per run for the new fast sources, so CI can be audited
   // without downloadable logs. Only sources actually asked (or held) this run.
   if (process.env.GITHUB_ACTIONS === 'true') {
-    const FAST = ['bluesky-ai', 'gdelt-ai', 'gnews-ai', 'hn-fresh-ai', 'x-search'];
     const bits = sources
-      .filter((s) => FAST.includes(s.id) && (!s.skipped_this_run || s.held_reason))
+      .filter((s) => FAST_SOURCE_IDS.includes(s.id) && (!s.skipped_this_run || s.held_reason))
       .map((s) => s.held_reason
         ? `${s.id}=held(${s.held_reason})`
         : `${s.id}=${s.state}(${s.count}/${s.raw_items}${s.error ? ` ${String(s.error).replace(/[\r\n,]+/g, ' ').slice(0, 80)}` : ''})`);
