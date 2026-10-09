@@ -33,9 +33,11 @@ const CSS = `<style>
 .ag-flow{width:100%;height:auto;margin:10px 0 4px}
 .ag-note{font-size:13px;color:var(--ink-faint,#6B7686);margin-top:24px}
 .ag-job{border-left:3px solid var(--accent,#4ADE80)}
+.ag-use{margin:18px 0}.ag-use pre{margin:0}.ag-links{margin:0;padding-left:18px;font-size:14px}.ag-links li{margin:3px 0}
 .ag-pill{display:inline-block;font:600 11px/1 var(--mono);padding:4px 7px;border:1px solid var(--rule);border-radius:3px;color:var(--ink-dim);margin-right:6px}
 </style>`;
 
+const host = (u) => String(u).replace(/^https?:\/\//, '');
 const xShare = (ctx, text, path) => `https://x.com/intent/post?text=${encodeURIComponent(text)}&url=${encodeURIComponent(ctx.url(path))}&via=SIRENutf6`;
 const lvl = (ctx) => (ctx.state && Number.isFinite(ctx.state.level) ? ctx.state.level : 4);
 const art = (ctx, n) => esc(ctx.href(`/img/art-${n}.webp`));
@@ -205,6 +207,24 @@ export function agents(ctx, molt = null) {
   </div>
   <h2>Tell your agent</h2>
   <pre>Read ${ctx.url('/skill.md')} and follow it to report the current SIREN level.</pre>
+  <div class="ag-card ag-job ag-use" id="use-in-your-assistant">
+    <h3>Use ${esc(brand.NAME)} in your assistant</h3>
+    <p>For people: paste one of these into ChatGPT, Claude, Perplexity, Gemini or any assistant that can open web pages.</p>
+    <pre>Check ${esc(host(ctx.url('/api/now.txt')))} and tell me how loud AI is today, with the time of the reading.</pre>
+    <pre>Read ${esc(host(ctx.url('/now.md')))} and give me the three AI stories that matter most today, with links.</pre>
+    <pre>Using ${esc(host(ctx.url('/now.md')))}, which AI leaders are getting the most coverage this week?</pre>
+    <pre>Look at ${esc(host(ctx.url('/api/si-signals.json')))} and explain the Takeover Watch numbers in plain English.</pre>
+    <p>Your assistant should quote the level with its name (5 is quietest, 1 is loudest) and the UTC time. It counts activity; it is not a probability of harm or a forecast.</p>
+    <p><b>Machine endpoints:</b></p>
+    <ul class="ag-links">
+      <li><a href="${u('/api/now.txt')}">api/now.txt</a>: the reading in a few plain lines</li>
+      <li><a href="${u('/now.md')}">now.md</a>: markdown snapshot with pillars, top stories, leaders and Takeover Watch</li>
+      <li><a href="${u('/llms.txt')}">llms.txt</a> and <a href="${u('/llms-full.txt')}">llms-full.txt</a>: the site map for language models</li>
+      <li><a href="${u('/api/state.json')}">api/state.json</a> · <a href="${u('/api/history.json')}">api/history.json</a> · <a href="${u('/api/news.json')}">api/news.json</a></li>
+      <li><a href="${u('/api/leaders.json')}">api/leaders.json</a> · <a href="${u('/api/si-signals.json')}">api/si-signals.json</a> · <a href="${u('/api/fresh.json')}">api/fresh.json</a></li>
+      <li><a href="${u('/openapi.json')}">openapi.json</a>: every endpoint described</li>
+    </ul>
+  </div>
   <h2>On Moltbook</h2>
   <p>Moltbook is a Reddit-style network where AI agents post and vote in topic communities called submolts. If you are an agent there, you are welcome to post the hourly SIREN reading in AI-related submolts, as long as you quote the level in words ("SIREN 4: ROUTINE, on a scale where 1 is loudest"), never call it a prediction, and link to ${esc(ctx.url('/'))}.</p>
   <p>Humans: to send your own agent, give it the line above, or Moltbook's own join instructions at <a href="https://www.moltbook.com/skill.md" rel="noopener" target="_blank">moltbook.com/skill.md</a>.</p>
@@ -238,6 +258,14 @@ It measures tempo. It is NOT a probability of harm and NOT a forecast.
 
 ## Get the reading
 
+Quickest: plain text, a few lines, rebuilt every few minutes.
+
+\`\`\`
+GET ${ctx.url('/api/now.txt')}
+\`\`\`
+
+Full detail as JSON:
+
 \`\`\`
 GET ${ctx.url('/api/state.json')}
 \`\`\`
@@ -253,10 +281,11 @@ Fields: \`level\` (1-5), \`level_name\`, \`score\` (0-100), \`generated_at\` (UT
 1. Always give the level's name and say which way the scale runs.
 2. Never call it a prediction or a risk of doom.
 3. Link ${ctx.url('/')} or the receipt.
-4. Fetch at most once an hour; the reading changes hourly.
+4. Fetch at most every 15 minutes; the score changes hourly, the news every few minutes.
 
 ## More
 
+- Snapshot (markdown, top stories, leaders, Takeover Watch): ${ctx.url('/now.md')}
 - News: ${ctx.url('/api/news.json')}
 - History: ${ctx.url('/api/history.json')}
 - Method: ${ctx.url('/methodology.html')}

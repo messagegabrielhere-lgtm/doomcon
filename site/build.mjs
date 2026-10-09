@@ -121,7 +121,10 @@ function prerenderStatic(html, name, ctx) {
 <meta property="og:description" content="${desc}">
 <meta property="og:url" content="${x(loc)}">
 <meta property="og:image" content="${x(ctx.url('/cards/state.png'))}">
-<meta name="twitter:card" content="summary_large_image">`;
+<meta name="twitter:card" content="summary_large_image">
+<link rel="alternate" type="text/markdown" href="${x(ctx.href('/now.md'))}" title="Current reading (markdown)">
+<link rel="alternate" type="text/plain" href="${x(ctx.href('/llms.txt'))}" title="llms.txt">
+<link rel="describedby" href="${x(ctx.href('/openapi.json'))}" type="application/json">`;
   let out = html;
   const data = html.match(/<script>\n(const CRATES = [\s\S]*?)\nconst packed = /);
   if (data && out.includes('<main id="manifest"></main>')) {
@@ -162,32 +165,6 @@ function prerenderStatic(html, name, ctx) {
 
 const INDEXNOW_KEY = 'd00mc0n7a11yc0un75a1d0e5n07pr3d1c7';
 
-function llmsTxt(ctx) {
-  return `# ${brand.NAME}
-> Hourly index of AI activity tempo. Levels run from 5 (quietest) to 1 (loudest). It counts how much is happening. It is not a probability of harm and not a forecast.
-
-- [skill.md: instructions for AI agents](${ctx.url('/skill.md')})
-- [For AI agents (and Moltbook)](${ctx.url('/agents.html')})
-- [Current reading (JSON)](${ctx.url('/api/state.json')})
-- [Every reading (JSON)](${ctx.url('/api/history.json')})
-- [OpenAPI](${ctx.url('/openapi.json')})
-- [Receipt index](${ctx.url('/api/receipts/')})
-- [Method](${ctx.url('/methodology.html')})
-- [Guide: SIREN vs DEFCON vs the Doomsday Clock vs p(doom)](${ctx.url('/guide.html')})
-- [About](${ctx.url('/about.html')})
-- [What is p(doom)?](${ctx.url('/p-doom.html')})
-- [Is there an AI doomsday clock?](${ctx.url('/ai-doomsday-clock.html')})
-- [AI and jobs: what has been measured](${ctx.url('/jobs.html')})
-- [AI in medicine: results on the record](${ctx.url('/medicine.html')})
-- [Prepare for superintelligence](${ctx.url('/si-ready.html')})
-- [AI-proof your job](${ctx.url('/ai-proof-job.html')})
-- [AI breakthroughs](${ctx.url('/breakthroughs.html')})
-- [The staff: the automated crew](${ctx.url('/staff.html')})
-- [News sitemap](${ctx.url('/news-sitemap.xml')})
-- [Feed](${ctx.url('/feed.xml')})
-- [Bunker Kit: free tools and gear checklist](${ctx.url('/bunker-kit.html')})
-`;
-}
 import * as feed from './templates/feed.mjs';
 import * as newsFeed from './templates/news.mjs';
 import * as newsPage from './templates/newsPage.mjs';
@@ -200,6 +177,7 @@ import * as mapPage from './templates/mapPage.mjs';
 import * as leadersPage from './templates/leadersPage.mjs';
 import * as newsSitemap from './templates/newsSitemap.mjs';
 import * as openapi from './templates/openapi.mjs';
+import * as agentText from './templates/agentText.mjs';
 import { page as layoutPage } from './templates/layout.mjs';
 import { render as sitemap, robots } from './templates/sitemap.mjs';
 
@@ -1353,6 +1331,7 @@ async function main() {
       state: state.generated_at,
       news: news && typeof news.generated_at === 'string' ? news.generated_at : null,
     })));
+    await writeAgentText(ctx, args.data, args.out, write, written);
     await writeSearchAndCatalog(ctx, args.out, write, written, { pages: false });
     const htmlWritten = written.filter((f) => f.endsWith('.html'));
     const stamped = await stampFiles(htmlWritten, args.out, state.generated_at, {
@@ -1372,6 +1351,9 @@ async function main() {
     }
     if (!existsSync(path.join(args.out, 'api/fresh.json'))) {
       throw new Error('build --only news: self-check failed - api/fresh.json was not written');
+    }
+    if (!existsSync(path.join(args.out, 'api/now.txt'))) {
+      throw new Error('build --only news: self-check failed - api/now.txt was not written');
     }
     log(`${brand.NAME} news-only build complete.`);
     log(`  out          ${args.out}`);
@@ -1611,7 +1593,11 @@ async function main() {
   // A README badge. GitHub, Substack and most markdown strip iframes, so the
   // embed cannot go where a developer would put it; an <img> can.
   written.push(await write(args.out, 'badge.svg', badgeSvg(state)));
-  written.push(await write(args.out, 'llms.txt', llmsTxt(ctx)));
+  written.push(await write(args.out, 'llms.txt', agentText.llmsTxt(ctx)));
+  // The same file where some crawlers look first. .nojekyll (below) keeps
+  // GitHub Pages from dropping the dot-folder.
+  written.push(await write(args.out, '.well-known/llms.txt', agentText.llmsTxt(ctx)));
+  await writeAgentText(ctx, args.data, args.out, write, written);
   written.push(await write(args.out, 'manifest.webmanifest', marks.manifestJson(state.level)));
   // Pictures. assets/img holds the site's few bitmap images (generated
   // illustrations, credited as such where they are shown); copied through.
@@ -1749,6 +1735,9 @@ async function main() {
       embed: ctx.url('/embed.html'),
       feed: ctx.url('/feed.xml'),
       openapi: ctx.url('/openapi.json'),
+      now_txt: ctx.url('/api/now.txt'),
+      now_md: ctx.url('/now.md'),
+      llms_txt: ctx.url('/llms.txt'),
     },
   })));
   for (const r of receipts) {
@@ -1844,6 +1833,19 @@ async function main() {
   log(`  files        ${written.length}`);
   log(`  sitebar      ${stamped} pages`);
   for (const w of warnings) log(`  WARNING      ${w}`);
+}
+
+// THE TEXT SURFACES FOR ASSISTANTS (site/templates/agentText.mjs). Written by
+// the full build AND the news-only lane, so /api/now.txt, /now.md and
+// /llms-full.txt never lag the homepage. Takeover Watch is read from data/
+// here because the news-only lane never loads it into ctx.
+async function writeAgentText(ctx, dataDir, outDir, write, written) {
+  let siSignals = null;
+  try { siSignals = JSON.parse(await readFile(path.join(dataDir, 'si-signals.json'), 'utf8')); } catch { siSignals = null; }
+  const src = { state: ctx.state, history: ctx.history, news: ctx.news, leaders: ctx.leaders, siSignals, url: ctx.url };
+  written.push(await write(outDir, 'api/now.txt', agentText.nowTxt(src)));
+  written.push(await write(outDir, 'now.md', agentText.nowMd(src)));
+  written.push(await write(outDir, 'llms-full.txt', agentText.llmsFullTxt(ctx, src)));
 }
 
 // SEARCH AND CATALOG (site/templates/catalogPages.mjs). Reads what is on disk

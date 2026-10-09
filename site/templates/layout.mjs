@@ -1199,6 +1199,9 @@ ${twitterSite}
 ${ogImage}
 <link rel="alternate" type="application/rss+xml" title="${esc(brand.NAME)} index moves" href="${esc(ctx.href('/feed.xml'))}">
 <link rel="alternate" type="application/rss+xml" title="${esc(brand.NAME)} level changes only" href="${esc(ctx.href('/feed-level.xml'))}">
+<link rel="alternate" type="text/markdown" href="${esc(ctx.href('/now.md'))}" title="Current reading (markdown)">
+<link rel="alternate" type="text/plain" href="${esc(ctx.href('/llms.txt'))}" title="llms.txt">
+<link rel="describedby" href="${esc(ctx.href('/openapi.json'))}" type="application/json">
 <link rel="preload" as="style" href="${esc(ctx.href(FONT_HREF))}">
 <link rel="stylesheet" href="${esc(ctx.href(FONT_HREF))}">
 ${marks.headLinks({ href: ctx.href })}

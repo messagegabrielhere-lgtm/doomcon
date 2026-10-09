@@ -184,7 +184,7 @@ jobs:
                   || rm -rf .pages
               fi
               if [ -d .pages/.git ]; then
-                for rel in api/news.json api/state.json api/fresh.json news.html index.html classic.html instruments.html feed.xml api/leaders.json leaders.html leaders/index.html; do
+                for rel in api/news.json api/state.json api/fresh.json api/now.txt now.md llms-full.txt news.html index.html classic.html instruments.html feed.xml api/leaders.json leaders.html leaders/index.html; do
                   if [ -e "public/$rel" ]; then
                     mkdir -p ".pages/$(dirname "$rel")"
                     cp -a "public/$rel" ".pages/$rel"

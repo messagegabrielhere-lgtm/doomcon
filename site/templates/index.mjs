@@ -1827,11 +1827,19 @@ function dataset(ctx) {
     dateModified: state.generated_at,
     variableMeasured: [
       { '@type': 'PropertyValue', name: 'composite score', value: state.score, minValue: 0, maxValue: 100 },
-      { '@type': 'PropertyValue', name: 'level', value: state.level, minValue: 1, maxValue: 5 },
+      { '@type': 'PropertyValue', name: 'level', value: state.level, minValue: 1, maxValue: 5, description: '5 is quietest, 1 is loudest' },
+      ...(Array.isArray(state.pillars) ? state.pillars : []).map((p) => ({
+        '@type': 'PropertyValue', name: `${p.name || p.id} pillar score`, minValue: 0, maxValue: 100,
+        ...(Number.isFinite(p.score) ? { value: p.score } : {}),
+      })),
     ],
     distribution: [
-      { '@type': 'DataDownload', encodingFormat: 'application/json', contentUrl: ctx.url('/api/state.json') },
-      { '@type': 'DataDownload', encodingFormat: 'application/json', contentUrl: ctx.url('/api/history.json') },
+      { '@type': 'DataDownload', name: 'Current reading', encodingFormat: 'application/json', contentUrl: ctx.url('/api/state.json') },
+      { '@type': 'DataDownload', name: 'Every reading', encodingFormat: 'application/json', contentUrl: ctx.url('/api/history.json') },
+      { '@type': 'DataDownload', name: 'Every reading (CSV)', encodingFormat: 'text/csv', contentUrl: ctx.url('/api/history.csv') },
+      ...(ctx.news ? [{ '@type': 'DataDownload', name: 'Scored newsroom', encodingFormat: 'application/json', contentUrl: ctx.url('/api/news.json') }] : []),
+      { '@type': 'DataDownload', name: 'Current reading (plain text)', encodingFormat: 'text/plain', contentUrl: ctx.url('/api/now.txt') },
+      { '@type': 'DataDownload', name: 'Current reading (markdown)', encodingFormat: 'text/markdown', contentUrl: ctx.url('/now.md') },
     ],
   };
 }

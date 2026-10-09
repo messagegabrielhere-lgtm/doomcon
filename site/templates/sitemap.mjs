@@ -35,6 +35,9 @@ export function render(ctx) {
     { loc: '/api/index.json', changefreq: 'hourly', priority: '0.4', lastmod: ctx.state.generated_at },
     { loc: '/api/state.json', changefreq: 'hourly', priority: '0.5', lastmod: ctx.state.generated_at },
     { loc: '/api/receipts/', changefreq: 'hourly', priority: '0.4', lastmod: ctx.state.generated_at },
+    { loc: '/now.md', changefreq: 'hourly', priority: '0.5', lastmod: ctx.state.generated_at },
+    { loc: '/api/now.txt', changefreq: 'hourly', priority: '0.4', lastmod: ctx.state.generated_at },
+    { loc: '/llms.txt', changefreq: 'weekly', priority: '0.4', lastmod: ctx.state.generated_at },
     ...['/radio.html', '/videos.html', '/si-ready.html', '/ai-proof-job.html', '/breakthroughs.html', '/live-x.html', '/tally.html', '/staff.html', '/careers.html', '/agents.html', '/bug-out-land.html', '/prepper-checklist.html', '/feedback.html', '/alerts.html', '/export.html', '/bias.html', '/reference-plan.html', '/changelog.html', '/moltbook.html', '/si-watch.html', '/contain.html', '/monitor.html', '/scanner.html', '/dispatch.html', '/arena.html', '/catalog.html', '/search.html']
       .filter((loc, i, a) => a.indexOf(loc) === i).map((loc) => ({ loc, changefreq: loc === '/changelog.html' ? 'hourly' : 'weekly', priority: '0.7', lastmod: ctx.state.generated_at })),
     ...(ctx.news && Array.isArray(ctx.news.items) && ctx.news.items.length
@@ -136,9 +139,27 @@ ${body}
 // /video-export/, /marquee-lab, /internal/, /test-*, a complete list of their
 // unshipped features. A Disallow line is an announcement. This file names
 // nothing that is not already linked from the site.
+//
+// AI crawlers and assistants are welcome by name. A named group replaces the
+// * group for that agent, so each one is given Allow: / explicitly rather than
+// left to infer it.
+export const AI_AGENTS = [
+  'GPTBot', 'OAI-SearchBot', 'ChatGPT-User',
+  'ClaudeBot', 'Claude-User', 'Claude-SearchBot', 'anthropic-ai',
+  'PerplexityBot', 'Perplexity-User',
+  'Google-Extended', 'Applebot-Extended', 'Amazonbot', 'CCBot',
+  'meta-externalagent', 'DuckAssistBot', 'cohere-ai', 'MistralAI-User',
+];
+
 export function robots(ctx) {
-  return `User-agent: *
+  return `# AI crawlers and assistants welcome. Start with ${ctx.url('/llms.txt')}
+# Live reading in plain text: ${ctx.url('/api/now.txt')}
+
+User-agent: *
 Allow: /
+
+${AI_AGENTS.map((a) => `User-agent: ${a}\nAllow: /`).join('\n\n')}
+
 Sitemap: ${ctx.url('/sitemap.xml')}
 Sitemap: ${ctx.url('/news-sitemap.xml')}
 `;

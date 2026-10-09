@@ -132,6 +132,46 @@ export function render(ctx) {
           },
         },
       },
+      '/api/now.txt': {
+        get: {
+          tags: ['index'],
+          summary: 'Current reading as 3-6 plain lines: level, score, name, UTC time, top mover, meaning, URL',
+          operationId: 'getNowText',
+          responses: {
+            200: { description: 'Plain-text reading, rebuilt every build', content: { 'text/plain': { schema: { type: 'string' } } } },
+          },
+        },
+      },
+      '/now.md': {
+        get: {
+          tags: ['index'],
+          summary: 'Markdown snapshot: reading, pillars, top 10 scored stories, leaders, Takeover Watch, how to cite',
+          operationId: 'getNowMarkdown',
+          responses: {
+            200: { description: 'Markdown snapshot, rebuilt every build', content: { 'text/markdown': { schema: { type: 'string' } } } },
+          },
+        },
+      },
+      '/llms.txt': {
+        get: {
+          tags: ['index'],
+          summary: 'llms.txt site map for language models (also at /.well-known/llms.txt)',
+          operationId: 'getLlmsTxt',
+          responses: {
+            200: { description: 'llmstxt.org-format markdown', content: { 'text/plain': { schema: { type: 'string' } } } },
+          },
+        },
+      },
+      '/llms-full.txt': {
+        get: {
+          tags: ['index'],
+          summary: 'llms.txt followed by the live markdown snapshot',
+          operationId: 'getLlmsFullTxt',
+          responses: {
+            200: { description: 'Markdown', content: { 'text/plain': { schema: { type: 'string' } } } },
+          },
+        },
+      },
       '/openapi.json': {
         get: {
           tags: ['index'],
