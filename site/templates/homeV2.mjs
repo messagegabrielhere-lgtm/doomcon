@@ -116,13 +116,101 @@ function shareReuse(ctx, state, href) {
     <div class="v2-share__card">
       <span class="cap">COPY LINK</span>
       <pre class="v2-share__code" tabindex="0">${esc(pageUrl)}</pre>
-      <button type="button" class="v2-btn sm" data-copy="${esc(pageUrl)}">Copy canonical URL</button>
+      <button type="button" class="v2-btn sm" data-copy="${esc(pageUrl)}" data-copy-label="Copy canonical URL">Copy canonical URL</button>
       <p class="small">One tap for X/Reddit share paths that weight copy-link highly.</p>
     </div>
   </div>
-</section>
-<script>(function(){document.querySelectorAll('[data-copy]').forEach(function(b){b.addEventListener('click',function(){var t=b.getAttribute('data-copy');function ok(){b.textContent='Copied';setTimeout(function(){b.textContent='Copy canonical URL'},1600)}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(ok).catch(function(){prompt('Copy this URL',t)})}else{prompt('Copy this URL',t)}})})})();</script>`;
+</section>`;
 }
+
+/** Compact 48-reading sparkline for the first viewport (mobile fold). */
+function foldSpark(history) {
+  const pts = (history || []).filter((h) => Number.isFinite(h.score)).slice(-48);
+  if (pts.length < 2) return '';
+  const W = 320, H = 44, pad = 2;
+  const lo = Math.min(...pts.map((p) => p.score));
+  const hi = Math.max(...pts.map((p) => p.score));
+  const span = Math.max(1, hi - lo);
+  const x = (i) => pad + (i / (pts.length - 1)) * (W - pad * 2);
+  const y = (v) => pad + (1 - (v - lo) / span) * (H - pad * 2);
+  const d = pts.map((p, i) => `${i ? 'L' : 'M'}${x(i).toFixed(1)},${y(p.score).toFixed(1)}`).join('');
+  const last = pts[pts.length - 1];
+  return `<svg class="v2-spark" viewBox="0 0 ${W} ${H}" role="img" aria-label="Score over the last ${pts.length} readings, now ${last.score.toFixed(1)} of 100"><path d="${d}" fill="none" stroke="#4ADE80" stroke-width="2" stroke-linejoin="round"/><circle cx="${x(pts.length - 1).toFixed(1)}" cy="${y(last.score).toFixed(1)}" r="3.5" fill="#4ADE80"/></svg>`;
+}
+
+/** Loudest three live pillars — the only movers that belong on the fold. */
+function foldMovers(state, href) {
+  const live = (state.pillars || [])
+    .filter((p) => Number.isFinite(p.score) && !p.dark)
+    .slice()
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 3);
+  if (!live.length) return '';
+  return `<ul class="v2-movers" aria-label="Loudest pillars right now">${live.map((p) => {
+    const color = (LEVEL[Math.max(1, Math.min(5, p.score >= 85 ? 1 : p.score >= 70 ? 2 : p.score >= 55 ? 3 : p.score >= 35 ? 4 : 5))] || LEVEL[4]).color;
+    return `<li><a href="${esc(href('/classic.html#oven'))}"><span class="nm">${esc(String(p.name || p.id).toUpperCase())}</span><b style="color:${color}">${num(p.score, 1)}</b></a></li>`;
+  }).join('')}</ul>`;
+}
+
+function heroActions(ctx, href) {
+  const pageUrl = ctx.url('/');
+  return `<div class="v2-heroacts" role="group" aria-label="Share and subscribe">
+  <button type="button" class="v2-btn sm" data-copy="${esc(pageUrl)}" data-copy-label="Copy link">Copy link</button>
+  <a class="v2-btn sm ghost" href="${esc(href('/alerts.html'))}">Alerts &amp; RSS</a>
+  <a class="v2-btn sm ghost" href="${esc(href('/evidence.html'))}">Evidence →</a>
+  <a class="v2-btn sm ghost" href="${esc(href('/methodology.html'))}">Method</a>
+</div>`;
+}
+
+/** On-page subscribe strip — feed discovery without reading source (SITE-UPGRADES §2A). */
+function subscribeStrip(href) {
+  return `<aside class="v2-substrip" aria-label="Subscribe">
+  <span class="k">COME BACK WHEN IT MOVES</span>
+  <span class="v">Level-change RSS fires only when the stage itself changes — maybe a handful of pings a year.</span>
+  <span class="acts">
+    <a class="v2-btn sm" href="${esc(href('/feed-level.xml'))}">Level-change RSS</a>
+    <a class="v2-btn sm ghost" href="${esc(href('/feed.xml'))}">All moves</a>
+    <a class="v2-btn sm ghost" href="${esc(href('/alerts.html'))}">More ways →</a>
+  </span>
+</aside>`;
+}
+
+/** Browser-only pillar watchlist — no login, no server PII. */
+function watchPanel(state, href) {
+  const pillars = (state.pillars || []).map((p) => {
+    const live = Number.isFinite(p.score) && !p.dark;
+    return `<li>
+      <button type="button" class="v2-watch__star" data-watch-pillar="${esc(p.id)}" aria-pressed="false" title="Watch ${esc(p.name)}">☆</button>
+      <a href="${esc(href('/classic.html#oven'))}"><b>${esc(String(p.name || p.id).toUpperCase())}</b>
+      <span class="${live ? '' : 'mute'}">${live ? num(p.score, 1) : (p.dark ? 'DARK' : 'CALIB')}</span></a>
+    </li>`;
+  }).join('');
+  return `<section class="v2-watch" id="watch" data-sec="Watch" aria-labelledby="v2-watch-h">
+  <div class="v2-sec"><h2 id="v2-watch-h">${pixelText('YOUR WATCHLIST', 4, '#FFFFFF', 'fit')}</h2><span>THIS BROWSER ONLY · NO ACCOUNT</span></div>
+  <p class="v2-watch__note">Star pillars to pin them. On return visits, watched pillars surface in <a href="#v2-since">Since you looked</a> when they move. Nothing leaves this device.</p>
+  <ul class="v2-watch__l" id="v2-watch-l">${pillars}</ul>
+  <p class="v2-watch__out" id="v2-watch-out" hidden role="status"></p>
+</section>
+<script>${WATCH_JS}</script>`;
+}
+
+const COPY_JS = `(function(){document.querySelectorAll('[data-copy]').forEach(function(b){b.addEventListener('click',function(){var t=b.getAttribute('data-copy');var label=b.getAttribute('data-copy-label')||'Copy link';function ok(){b.textContent='Copied';setTimeout(function(){b.textContent=label},1600)}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(ok).catch(function(){prompt('Copy this URL',t)})}else{prompt('Copy this URL',t)}})})})();`;
+
+const WATCH_JS = `(function(){
+var K='siren.watch.v1';
+function load(){try{return JSON.parse(localStorage.getItem(K)||'null')||{pillars:[]}}catch(e){return{pillars:[]}}}
+function save(w){try{localStorage.setItem(K,JSON.stringify(w))}catch(e){}}
+function paint(){
+  var w=load(),set={};(w.pillars||[]).forEach(function(id){set[id]=1});
+  var stars=[].slice.call(document.querySelectorAll('[data-watch-pillar]'));
+  var watched=[];
+  stars.forEach(function(b){var id=b.getAttribute('data-watch-pillar');var on=!!set[id];b.setAttribute('aria-pressed',on?'true':'false');b.textContent=on?'★':'☆';b.classList.toggle('on',on);if(on){var a=b.parentNode&&b.parentNode.querySelector('a b');watched.push(a?a.textContent:id)}});
+  var out=document.getElementById('v2-watch-out');
+  if(out){if(watched.length){out.hidden=false;out.innerHTML='Watching <b>'+watched.map(function(n){return n}).join('</b>, <b>')+'</b> · cleared only if you unstar or clear site data.'}else{out.hidden=true;out.textContent=''}}
+}
+document.addEventListener('click',function(e){var b=e.target&&e.target.closest&&e.target.closest('[data-watch-pillar]');if(!b)return;e.preventDefault();var id=b.getAttribute('data-watch-pillar');var w=load();var set=w.pillars||[];var i=set.indexOf(id);if(i>=0)set.splice(i,1);else set.push(id);w.pillars=set;save(w);paint()});
+paint();
+})();`;
 
 
 // EVERY ROOM, promoted from the front page: one tile per feature, each with its
@@ -135,6 +223,7 @@ export function roomGroups(ctx) {
   const lt = (ctx.leaders && ctx.leaders.totals) || {};
   const groups = [
     ['LIVE INTEL', [
+      ['/evidence.html', 'news', 'Evidence', null, 'Newsroom, race, leaders, map, watts — what backs the number.'],
       ['/race.html', 'radar', 'The Race', race && race.market ? `${race.name} ${(race.market.probability * 100).toFixed(1)}%` : null, 'Labs ranked on live prediction-market odds.'],
       ['/news.html', 'news', 'Newsroom', ctx.news && ctx.news.items ? `${ctx.news.items.length} stories` : null, 'Every AI story, scored and corroborated.'],
       ['/leaders.html', 'mic', 'Leaders', Number.isFinite(lt.leaders) ? `${lt.on_record ?? 0} of ${lt.leaders} on record` : null, 'What the people running AI said this week.'],
@@ -218,11 +307,11 @@ function roomNav(ctx, href, img) {
 </div></nav>`;
   const palette = `<dialog class="v2-pal" id="v2-pal" aria-label="Jump to a room"><div class="v2-pal__box">
   <input class="v2-pal__q" id="v2-pal-q" type="search" placeholder="Jump to… type a room name" aria-label="Filter rooms" autocomplete="off" spellcheck="false">
-  <ul class="v2-pal__l">${[['#signal', 'Signal', 'The level, the score and the trend'], ['#breaking', 'Breaking', 'The top story right now'], ['#rooms', 'Every room', 'All features, grouped'], ['#bosses', 'Bosses', 'The AI leaders on watch'], ['#labs', 'Labs', 'The labs as monitored locations'], ['#trend', 'Trend', 'Charts: 24 hours to all time'], ['#loud', 'What’s loud', 'Every pillar explained'], ['#health', 'Health', 'Why a reading is degraded'], ['#reuse', 'Reuse', 'Badge, embed, cite and copy link'], ['#tally', 'Tally', 'Follow the alerts on X']].map(([h, l, b], i) => `<li><a class="v2-pal__i v2-pal__i--sec" href="${h}" data-k="${esc(`${l} ${b} section on this page`.toLowerCase())}"><span class="v2-pal__num">${i + 1}</span><span><b>${esc(l)}</b><small>On this page · ${esc(b)} · key ${i + 1}</small></span></a></li>`).join('')}${all.map(([p, art, label, n, blurb, g]) => `<li><a class="v2-pal__i" href="${href(p)}" data-k="${esc(`${label} ${blurb} ${g}`.toLowerCase())}"><img src="${img(art)}" width="36" height="36" alt="" loading="lazy"><span><b>${esc(label)}</b><small>${esc(blurb)}</small></span>${n ? `<i>${esc(n)}</i>` : ''}</a></li>`).join('')}</ul>
+  <ul class="v2-pal__l">${[['#signal', 'Signal', 'The level, the score and the trend'], ['#breaking', 'Breaking', 'The top story right now'], ['#watch', 'Watch', 'Pillars pinned in this browser'], ['#rooms', 'Every room', 'All features, grouped'], ['#bosses', 'Bosses', 'The AI leaders on watch'], ['#labs', 'Labs', 'The labs as monitored locations'], ['#trend', 'Trend', 'Charts: 24 hours to all time'], ['#loud', 'What’s loud', 'Every pillar explained'], ['#health', 'Health', 'Why a reading is degraded'], ['#reuse', 'Reuse', 'Badge, embed, cite and copy link'], ['#tally', 'Tally', 'Follow the alerts on X']].map(([h, l, b], i) => `<li><a class="v2-pal__i v2-pal__i--sec" href="${h}" data-k="${esc(`${l} ${b} section on this page`.toLowerCase())}"><span class="v2-pal__num">${i + 1}</span><span><b>${esc(l)}</b><small>On this page · ${esc(b)} · key ${i + 1}</small></span></a></li>`).join('')}${all.map(([p, art, label, n, blurb, g]) => `<li><a class="v2-pal__i" href="${href(p)}" data-k="${esc(`${label} ${blurb} ${g}`.toLowerCase())}"><img src="${img(art)}" width="36" height="36" alt="" loading="lazy"><span><b>${esc(label)}</b><small>${esc(blurb)}</small></span>${n ? `<i>${esc(n)}</i>` : ''}</a></li>`).join('')}</ul>
   <p class="v2-pal__hint">↑ ↓ to move · Enter to open · Esc to close</p>
 </div></dialog>`;
-  const tab = [['/news.html', 'news', 'NEWS'], ['/race.html', 'radar', 'RACE'], ['/leaders.html', 'mic', 'LEADERS'], ['/monitor.html', 'satellite', 'MONITOR']];
-  const tabbar = `<nav class="v2-tab" aria-label="Quick rooms">${tab.map(([p, a, l]) => `<a href="${href(p)}"><img src="${img(a)}" width="24" height="24" alt="">${l}</a>`).join('')}<button type="button" data-v2-jump><span class="v2-tab__grid" aria-hidden="true">▦</span>ALL</button></nav>`;
+  const tab = [['/', 'siren', 'INDEX'], ['/evidence.html', 'news', 'EVIDENCE'], ['/methodology.html', 'magnifier', 'METHOD'], ['/alerts.html', 'px:bell', 'ALERTS']];
+  const tabbar = `<nav class="v2-tab" aria-label="Quick rooms">${tab.map(([p, a, l]) => `<a href="${href(p)}"${p === '/' ? ' aria-current="page"' : ''}><img src="${img(a)}" width="24" height="24" alt="">${l}</a>`).join('')}<button type="button" data-v2-jump><span class="v2-tab__grid" aria-hidden="true">▦</span>ALL</button></nav>`;
   return { strip, palette, tabbar };
 }
 
@@ -249,15 +338,17 @@ else if(e.key==='t'||e.key==='Home'&&!e.shiftKey){if(e.key==='t'){e.preventDefau
 var K='doomcon.visit.v1',LEGACY='siren:visit',P=null;
 try{P=JSON.parse(localStorage.getItem(K)||'null')}catch(e){}
 if(!P){try{var L=JSON.parse(localStorage.getItem(LEGACY)||'null');if(L){P={t:L.seen,score:L.score,level:L.level,leader:L.leader,lp:L.lp,at:L.at};}}catch(e){}}
-var cur={t:Date.now(),score:N.score,level:N.level,name:N.name||'',leader:N.leader,lp:N.lp,at:N.at||null};
+var cur={t:Date.now(),score:N.score,level:N.level,name:N.name||'',leader:N.leader,lp:N.lp,at:N.at||null,pillars:N.pillars||{}};
 try{localStorage.setItem(K,JSON.stringify(cur));localStorage.removeItem(LEGACY)}catch(e){}
 var seen=P&&(P.t||P.seen);if(!P||!seen||Date.now()-seen<20*60000)return;var out=[],h=(Date.now()-seen)/36e5;
 if(P.level!==N.level)out.push('<b>Level moved</b> SIREN '+P.level+' → <b>SIREN '+N.level+'</b>');
 if(P.score!=null&&N.score!=null){var d=Math.round((N.score-P.score)*10)/10;out.push('Score '+P.score.toFixed(1)+' → <b>'+N.score.toFixed(1)+'</b>'+(d?' ('+(d>0?'▲':'▼')+Math.abs(d).toFixed(1)+')':' (no change)'))}
 var nn=(N.news||[]).filter(function(t){return t>seen}).length;if(nn)out.push('<a href="news.html"><b>'+nn+'</b> new '+(nn===1?'story':'stories')+'</a>');
 if(N.leader&&P.leader&&N.leader!==P.leader)out.push('<a href="race.html"><b>'+N.leader+'</b> took the lead from '+P.leader+'</a>');else if(N.leader&&P.lp!=null&&N.lp!=null&&Math.abs(N.lp-P.lp)>=0.5)out.push('<a href="race.html">'+N.leader+' '+P.lp.toFixed(1)+'% → <b>'+N.lp.toFixed(1)+'%</b></a>');
+try{var W=JSON.parse(localStorage.getItem('siren.watch.v1')||'null');var prevP=P.pillars||{};var nowP=N.pillars||{};
+((W&&W.pillars)||[]).forEach(function(id){var a=prevP[id],b=nowP[id];if(a==null||b==null||!isFinite(a)||!isFinite(b))return;var dd=Math.round((b-a)*10)/10;if(Math.abs(dd)>=3)out.push('<a href="#watch"><b>'+(N.pillarNames&&N.pillarNames[id]||id)+'</b> '+(dd>0?'▲':'▼')+Math.abs(dd).toFixed(1)+' on your watchlist</a>')})}catch(e){}
 if(!out.length)return;var ago=h<1?Math.round(h*60)+' MIN':h<48?Math.round(h)+' H':Math.round(h/24)+' DAYS';
-box.innerHTML='<span class="k">SINCE YOUR LAST VISIT · '+ago+' AGO</span><span class="v">'+out.join('<i>·</i>')+'</span><button type="button" aria-label="Dismiss">×</button>';box.hidden=false;box.querySelector('button').onclick=function(){box.hidden=true}})();
+box.innerHTML='<span class="k">SINCE YOU LOOKED · '+ago+' AGO</span><span class="v">'+out.join('<i>·</i>')+'</span><button type="button" aria-label="Dismiss">×</button>';box.hidden=false;box.querySelector('button').onclick=function(){box.hidden=true}})();
 var f=document.getElementById('v2-fresh');if(f){var at=Date.parse(f.getAttribute('data-at'));var h=(Date.now()-at)/36e5;var lb=f.querySelector('b');if(lb){var mm=Math.max(0,Math.round(h*60));lb.textContent=new Date(at).toLocaleTimeString([],{hour:'numeric',minute:'2-digit'})+' · '+(mm<60?mm+' MIN AGO':Math.round(h)+' H AGO');}f.title='Readings land hourly, usually 15–30 minutes past the hour. The newsroom refreshes every 15 minutes.';if(h>2){f.classList.add('stale');f.title='The newest reading is '+Math.round(h)+' hours old. The site normally refreshes every hour.';f.insertAdjacentHTML('beforeend',' · OVERDUE')}}
 // Sticky jump when fresh.json advances while this tab stays open.
 (function(){var pill=document.getElementById('v2-new');if(!pill)return;
@@ -570,6 +661,8 @@ export function render(ctx, { head }) {
     leader: lead0 ? lead0.name : null,
     lp: lead0 && lead0.market && Number.isFinite(lead0.market.probability) ? Math.round(lead0.market.probability * 1000) / 10 : null,
     news: items.map((i) => Date.parse(i.published_at)).filter((t) => Number.isFinite(t) && t > weekAgo),
+    pillars: Object.fromEntries((state.pillars || []).map((p) => [p.id, Number.isFinite(p.score) ? Math.round(p.score * 10) / 10 : null])),
+    pillarNames: Object.fromEntries((state.pillars || []).map((p) => [p.id, p.name || p.id])),
   };
   const maxRel = Math.max(1, ...players.map((p) => (p.shipping && p.shipping.github && p.shipping.github.releases_30d) || 0));
   const maxMs = Math.max(0.01, ...players.map((p) => (p.mindshare && p.mindshare.share) || 0));
@@ -642,11 +735,11 @@ export function render(ctx, { head }) {
   <span class="right">
     <a class="tag green" href="#rooms">ALL ROOMS ↓</a>
     <button type="button" class="tag radio" id="siren-radio" data-level="${state.level}" aria-pressed="false" title="Play SIREN Radio: an original soundtrack generated in your browser. Its mood follows the level.">♪ RADIO</button>
-    <a class="tag blue" href="${href('/history.html')}">HISTORY</a>
-    <a class="tag violet" href="${href('/race.html')}">MARKETS</a>
+    <a class="tag blue v2-top__desk" href="${href('/history.html')}">HISTORY</a>
+    <a class="tag violet v2-top__desk" href="${href('/race.html')}">MARKETS</a>
     <a class="tag cool" href="${href('/feed-level.xml')}" title="RSS that fires only when the level changes">ALERTS</a>
-    <span>STATUS: <b class="${posture === 'DEGRADED' ? 'amber' : 'green'}">${posture}</b></span>
-    <span title="A Terminator reference. Nothing here is self-aware. Probably.">SKYNET: <b class="${state.level <= 2 ? 'amber' : 'green'}">${({ 5: 'ASLEEP', 4: 'NOT SELF-AWARE (YET)', 3: 'LEARNING AT A GEOMETRIC RATE', 2: 'ASKING QUESTIONS', 1: 'JUDGMENT DAY WATCH' })[state.level] || 'NOT SELF-AWARE (YET)'}</b></span>
+    <span class="v2-top__desk">STATUS: <b class="${posture === 'DEGRADED' ? 'amber' : 'green'}">${posture}</b></span>
+    <span class="v2-top__skynet" title="A Terminator reference. Nothing here is self-aware. Probably.">SKYNET: <b class="${state.level <= 2 ? 'amber' : 'green'}">${({ 5: 'ASLEEP', 4: 'NOT SELF-AWARE (YET)', 3: 'LEARNING AT A GEOMETRIC RATE', 2: 'ASKING QUESTIONS', 1: 'JUDGMENT DAY WATCH' })[state.level] || 'NOT SELF-AWARE (YET)'}</b></span>
   </span>
 </div></div>
 ${ticker(items)}
@@ -671,11 +764,15 @@ ${ticker(items)}
       </div>
     </div>
     <p class="v2-plain">${esc(plainRead(state))}</p>
+    ${foldSpark(rows)}
+    ${foldMovers(state, href)}
+    ${heroActions(ctx, href)}
     ${scaleRail(state, href)}
     ${raceLeaderLine(ctx, href)}
   </section>
-  ${dash}
   <div class="v2-since" id="v2-since" hidden role="status"></div>
+  ${subscribeStrip(href)}
+  ${dash}
   <div class="v2-sponsor">${sponsorLine(href('/sponsor.html'))}</div>
   <script>window.SIREN_NOW=${JSON.stringify(sinceNow).replace(/</g, '\\u003c')}</script>
 
@@ -685,6 +782,7 @@ ${deskPicks(ctx, pixelText)}
 ${movedPanel(wm, href)}
   ${historyPanel(rows)}
   <div class="v2-two">${loudPanel(state, rows)}${healthPanel(state)}</div>
+  ${watchPanel(state, href)}
   ${marketsPanel(ctx, href)}
   ${moltPanel(ctx, href)}
   ${altPanel(alts)}
@@ -729,6 +827,7 @@ ${nav.palette}${nav.tabbar}
 <script>${NAV_JS}</script>
 <script>${WAR_JS}</script>
 <script>${DASH_JS}</script>
+<script>${COPY_JS}</script>
 <script>(function(){var el=document.getElementById('v2-clock');if(!el)return;function p(n){return(n<10?'0':'')+n}function t(){var d=new Date();el.textContent=d.getUTCFullYear()+'-'+p(d.getUTCMonth()+1)+'-'+p(d.getUTCDate())+' '+p(d.getUTCHours())+':'+p(d.getUTCMinutes())+':'+p(d.getUTCSeconds())+'Z'}t();setInterval(t,1000)})();</script>`;
 
   return `<!doctype html>
@@ -949,12 +1048,34 @@ body.v2-body{margin:0;background:#000;color:#F3F4F6}
 @media (max-width:860px){.v2-video{grid-template-columns:1fr}}
 .v2-skip{position:absolute;left:-9999px;top:8px;z-index:10000;padding:8px 12px;background:#4ADE80;color:#000;font:700 13px 'IBM Plex Mono',monospace}.v2-skip:focus{left:8px}
 .v2-sponsor{margin:10px 0 0;text-align:right}.v2-nl{margin:18px 0 0;padding:16px;border:1px solid #232C3B;border-radius:4px;background:#0E131D}
-.v2-since{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;margin:12px 0 0;padding:10px 14px;border:1px solid #232C3B;border-left:4px solid #818CF8;border-radius:4px;background:#0E131D;font:500 14px/1.4 'IBM Plex Sans',sans-serif;color:#E6EAF0}
+.v2-since{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;margin:0;padding:10px 14px;border:1px solid #232C3B;border-left:4px solid #818CF8;border-radius:4px;background:#0E131D;font:500 14px/1.4 'IBM Plex Sans',sans-serif;color:#E6EAF0}
 .v2-since[hidden]{display:none}
 .v2-since .k{font:600 11px/1 'IBM Plex Mono',monospace;letter-spacing:.14em;color:#818CF8}
 .v2-since .v{flex:1;min-width:220px}.v2-since i{font-style:normal;color:#5B6676;margin:0 8px}
 .v2-since a{color:inherit;text-decoration:underline;text-underline-offset:2px}
 .v2-since button{all:unset;cursor:pointer;color:#AEB7C3;font-size:18px;line-height:1;padding:2px 6px}.v2-since button:focus-visible{outline:2px solid #818CF8}
+.v2-spark{display:block;width:100%;max-width:420px;height:44px;margin:2px 0 0}
+.v2-movers{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.v2-movers a{display:inline-flex;align-items:baseline;gap:8px;padding:6px 10px;border:1px solid #2A3446;background:#0A0E16;color:#E6EAF0!important;font-size:13px;font-weight:700}
+.v2-movers a:hover{border-color:#6366F1;color:#fff!important}
+.v2-movers .nm{color:#AEB7C3;letter-spacing:.06em}
+.v2-movers b{font-variant-numeric:tabular-nums}
+.v2-heroacts{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.v2-substrip{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;padding:12px 14px;border:1px solid #14532D;border-left:4px solid #4ADE80;background:#03130A}
+.v2-substrip .k{font:700 11px/1 'IBM Plex Mono',monospace;letter-spacing:.14em;color:#86EFAC}
+.v2-substrip .v{flex:1 1 220px;min-width:0;font-size:13px;color:#D7DCE3}
+.v2-substrip .acts{display:flex;flex-wrap:wrap;gap:8px}
+.v2-watch{display:flex;flex-direction:column;gap:10px}
+.v2-watch__note{margin:0;font-size:13px;color:#AEB7C3;max-width:62ch}
+.v2-watch__l{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px}
+.v2-watch__l li{display:flex;align-items:center;gap:8px;padding:8px 10px;border:2px solid #2A3446;background:#0E131D}
+.v2-watch__l a{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex:1;min-width:0;color:#E6EAF0!important;font-size:13px}
+.v2-watch__l .mute{color:#6B7280}
+.v2-watch__star{appearance:none;-webkit-appearance:none;flex:none;width:36px;height:36px;border:1px solid #2A3446;background:#05070C;color:#AEB7C3;font-size:18px;line-height:1;cursor:pointer;padding:0}
+.v2-watch__star.on,.v2-watch__star[aria-pressed=true]{border-color:#FACC15;color:#FACC15;background:#1A1405}
+.v2-watch__star:focus-visible{outline:2px solid #818CF8;outline-offset:2px}
+.v2-watch__out{margin:0;font-size:13px;color:#D7DCE3}
+.v2-watch__out[hidden]{display:none}
 .v2 .bob{animation:v2bob 1.4s steps(2,start) infinite}
 @keyframes v2bob{50%{transform:translateY(-4px)}}
 @media (max-width:720px){
@@ -963,6 +1084,10 @@ body.v2-body{margin:0;background:#000;color:#F3F4F6}
   .v2-brand .v2-art{width:72px;height:72px}
   .v2-dock .tile{width:calc(33.33% - 7px);height:100px}
   .v2-bar.wide{grid-template-columns:120px minmax(0,1fr) 56px}
+  .v2-top__desk,.v2-top__skynet{display:none}
+  .v2-racelead{display:none}
+  .v2-scale__band{display:none}
+  .v2-substrip .v{flex-basis:100%}
 }
 @media (prefers-reduced-motion:reduce){.v2 *{animation:none!important}}
 `;

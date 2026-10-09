@@ -16,17 +16,20 @@ export const NAV_JS_PATH = 'nav/site-nav.js';
 
 const LEVEL_COLOR = { 5: '#4FB3FF', 4: '#4ADE80', 3: '#FACC15', 2: '#FB923C', 1: '#F87171' };
 
+// Three doors, not a hallway of peers (docs/GROWTH.md §05, SITE-UPGRADES-90 §1D.4).
+// Everything else stays one tap away under All rooms (/).
 export const PRIMARY = [
   ['/', 'Index'],
-  ['/race.html', 'Race'],
-  ['/news.html', 'News'],
-  ['/leaders.html', 'Leaders'],
-  ['/monitor.html', 'Monitor'],
-  ['/dispatch.html', 'Dispatch'],
-  ['/moltbook.html', 'Agent Watch'],
-  ['/videos.html', 'Videos'],
-  ['/radio.html', 'Radio'],
+  ['/evidence.html', 'Evidence'],
+  ['/methodology.html', 'Method'],
 ];
+
+/** Fallback icon + blurb when a primary path is not yet in the room catalogue. */
+export const PRIMARY_META = {
+  '/': ['siren', 'The level, the score and the war room'],
+  '/evidence.html': ['news', 'Newsroom, race, leaders, map, watts — what backs the number'],
+  '/methodology.html': ['magnifier', 'Every formula. Recompute the number yourself.'],
+};
 
 const esc = (v) => String(v ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const imgOf = (base, n) => (String(n).startsWith('px:') ? `${base}/img/px-${String(n).slice(3)}.svg` : `${base}/img/art-${n}.webp`);
@@ -163,7 +166,7 @@ ${pick.length ? `<p class="sh-rel__h">Related rooms · ${esc(gTitle)}</p>
 
 /** The script: the All rooms dialog (built from the shared list), shortcuts, back to top. */
 export function navJs(rooms, base = '') {
-  const data = JSON.stringify({ base, rooms, primary: PRIMARY }).replace(/</g, '\\u003c');
+  const data = JSON.stringify({ base, rooms, primary: PRIMARY, primaryMeta: PRIMARY_META }).replace(/</g, '\\u003c');
   return `/* SIREN shared navigation: built by site/siteheader.mjs. */
 (function(){
 var D=${data};
@@ -179,7 +182,8 @@ function build(){
   var secs=[].slice.call(document.querySelectorAll('[data-sec][id]'));
   if(secs.length){h+='<li class="sh-rooms__g">ON THIS PAGE</li>';secs.forEach(function(s){var l=s.getAttribute('data-sec');h+='<li><a class="sh-rooms__i" href="#'+e(s.id)+'" data-k="'+e((l+' on this page section').toLowerCase())+'"><span><b>'+e(l)+'</b><small>On this page</small></span></a></li>'})}
   h+='<li class="sh-rooms__g">START HERE</li>';
-  D.primary.forEach(function(p){var r=null;D.rooms.forEach(function(x){if(!r&&x[0]===p[0])r=x});h+='<li><a class="sh-rooms__i sh-rooms__i--p" href="'+e(D.base+p[0])+'" data-k="'+e((p[1]+' '+(r?r[2]+' '+r[3]:'home index war room')).toLowerCase())+'"'+(cur(p[0])?' aria-current="page"':'')+'><img src="'+e(img(r?r[1]:'siren'))+'" width="34" height="34" alt="" loading="lazy"><span><b>'+e(p[1])+'</b><small>'+e(r?r[3]:'The level, the score and the war room')+'</small></span></a></li>'});
+  var meta=D.primaryMeta||{};
+  D.primary.forEach(function(p){var r=null;D.rooms.forEach(function(x){if(!r&&x[0]===p[0])r=x});var m=meta[p[0]]||['siren','The level, the score and the war room'];h+='<li><a class="sh-rooms__i sh-rooms__i--p" href="'+e(D.base+p[0])+'" data-k="'+e((p[1]+' '+(r?r[2]+' '+r[3]:m[1])).toLowerCase())+'"'+(cur(p[0])?' aria-current="page"':'')+'><img src="'+e(img(r?r[1]:m[0]))+'" width="34" height="34" alt="" loading="lazy"><span><b>'+e(p[1])+'</b><small>'+e(r?r[3]:m[1])+'</small></span></a></li>'});
   var g='';
   D.rooms.forEach(function(r){if(r[4]!==g){g=r[4];h+='<li class="sh-rooms__g">'+e(g)+'</li>'}h+='<li><a class="sh-rooms__i" href="'+e(D.base+r[0])+'" data-k="'+e((r[2]+' '+r[3]+' '+r[4]).toLowerCase())+'"'+(cur(r[0])?' aria-current="page"':'')+'><img src="'+e(img(r[1]))+'" width="34" height="34" alt="" loading="lazy"><span><b>'+e(r[2])+'</b><small>'+e(r[3])+'</small></span></a></li>'});
   h+='</ul><p class="sh-rooms__k">↑ ↓ to move · Enter to open · Esc to close · press / anywhere</p></div>';

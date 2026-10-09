@@ -1556,6 +1556,11 @@ async function main() {
     written.push(await write(args.out, `moves/${m.id}.html`, movePage.render(ctx, m)));
   }
 
+  // Alerts feeds, CSV exports, and the evidence / alerts / export / bias /
+  // reference-plan / changelog pages (site/extras.mjs). Written before pretty
+  // directory aliases so /evidence/ and /alerts/ resolve on a clean build.
+  written.push(...await writeExtras(ctx, write, args.out, { dataDir: args.data }));
+
   // Pretty directories for hand-typed / verbally shared paths. VISITORS.md §0
   // found /race/ 404 while race.html worked; the same trap hits every .html
   // room when someone says "slash jobs" or bookmarks without the extension.
@@ -1567,8 +1572,8 @@ async function main() {
       'about', 'classic', 'embed', 'guide', 'library', 'press', 'brand', 'desk',
       'bets', 'privacy', 'terms', 'feedback', 'sponsor', 'instruments',
       'p-doom', 'ai-doomsday-clock', 'arena', 'scanner', 'monitor', 'elon',
-      'game', 'bunker-kit', 'alerts', 'export', 'moltbook', 'staff', 'careers',
-      'agents', 'tally', 'changelog',
+      'game', 'bunker-kit', 'evidence', 'alerts', 'export', 'moltbook', 'staff', 'careers',
+      'agents', 'tally', 'changelog', 'bias', 'reference-plan',
     ],
     write,
     written,
@@ -1582,9 +1587,6 @@ async function main() {
   written.push(await write(args.out, 'feed.xml', feed.render(ctx)));
   // The quiet one: an entry only when the level itself changes.
   written.push(await write(args.out, 'feed-level.xml', feed.render(ctx, { levelOnly: true })));
-  // Alerts feeds, CSV exports, and the alerts / export / bias / reference-plan /
-  // changelog pages (site/extras.mjs).
-  written.push(...await writeExtras(ctx, write, args.out, { dataDir: args.data }));
   // THE BRAND MARKS. A smoke-detector mark whose five grille slots stand for
   // the five SIREN levels, and whose FAVICON LIGHTS THE SLOTS UP TO THE
   // CURRENT LEVEL in heat colours — so the browser tab itself carries the

@@ -10,6 +10,7 @@
 //   api/pillars.csv              the current pillars
 //   api/latest.txt               the current reading as one line
 //   alerts.html export.html bias.html reference-plan.html changelog.html
+//   evidence.html
 // feed-level.xml and feed.xml are build.mjs's and are not touched.
 //
 // Also exported for the homepage: whatMoved(ctx), alternativeSignals(state).
@@ -25,7 +26,7 @@ import {
   readings, transitions, readingPath, receiptId, whatMoved, alternativeSignals,
 } from './templates/extrasData.mjs';
 import {
-  alertsPage, exportPage, biasPage, referencePlanPage, changelogPage,
+  alertsPage, exportPage, biasPage, referencePlanPage, changelogPage, evidencePage,
 } from './templates/extrasPages.mjs';
 
 export { whatMoved, alternativeSignals };
@@ -36,6 +37,7 @@ const MAX_ITEMS = 50;
 
 /** Pages this module writes, for the sitemap / nav / guide. */
 export const EXTRAS_PAGES = [
+  { path: '/evidence.html', label: 'Evidence', blurb: 'Newsroom, race, leaders, map, watts — what backs the number.' },
   { path: '/alerts.html', label: 'Alerts', blurb: 'RSS, email, webhook and X alerts for level changes and spikes.' },
   { path: '/export.html', label: 'Export and embed', blurb: 'CSV and JSON downloads, the widget, the badge, the API.' },
   { path: '/changelog.html', label: 'What moved', blurb: 'The last 48 hours, hour by hour.' },
@@ -232,6 +234,7 @@ export async function writeExtras(ctx, write, outDir, opts = {}) {
   written.push(await write(outDir, 'api/pillars.csv', pillarsCsv(ctx)));
   written.push(await write(outDir, 'api/latest.txt', latestTxt(ctx)));
 
+  written.push(await write(outDir, 'evidence.html', evidencePage(ctx)));
   written.push(await write(outDir, 'alerts.html', alertsPage(ctx)));
   written.push(await write(outDir, 'export.html', exportPage(ctx)));
   written.push(await write(outDir, 'bias.html', biasPage(ctx)));

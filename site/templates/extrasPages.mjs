@@ -486,5 +486,64 @@ ${entries.length ? `<ol class="xt-log">\n${li}\n</ol>` : '<p>Not enough readings
   });
 }
 
+// ---------------------------------------------------------------------------
+// /evidence.html — Index · Evidence · Method roof over the receipt rooms
+// ---------------------------------------------------------------------------
+export function evidencePage(ctx) {
+  const r = ctx.routes || {};
+  const fmt = (n) => (Number.isFinite(n) ? n.toLocaleString('en-US') : null);
+  const race = ctx.race && ctx.race.players ? ctx.race.players.slice().sort((a, b) => a.rank - b.rank)[0] : null;
+  const lt = (ctx.leaders && ctx.leaders.totals) || {};
+  const groups = [
+    ['Stories and people', [
+      ['/news.html', 'Newsroom', ctx.news && ctx.news.items ? `${ctx.news.items.length} stories` : null, 'Every AI story, scored and corroborated.'],
+      ['/leaders.html', 'Leaders', Number.isFinite(lt.leaders) ? `${lt.on_record ?? 0} of ${lt.leaders} on record` : null, 'What the people running AI said this week.'],
+      ctx.digest ? ['/digest.html', 'Digest', null, 'The day in a few corroborated items.'] : null,
+      ['/changelog.html', 'What moved', null, 'Hour by hour: score, pillars and top stories.'],
+    ]],
+    ['Markets and tempo', [
+      ['/race.html', 'The Race', race && race.market ? `${race.name} ${(race.market.probability * 100).toFixed(1)}%` : null, 'Labs ranked on live prediction-market odds.'],
+      ['/monitor.html', 'World Monitor', null, 'Live globe: stories, hazards, country stress.'],
+      ['/dispatch.html', 'Dispatch', null, '911 CAD, multi-system alerts, blather.'],
+      ['/moltbook.html', 'Agent Watch', ctx.molt && ctx.molt.fresh ? `${ctx.molt.fresh.length} new this week` : null, 'What AI agents are saying on Moltbook.'],
+    ]],
+    ['Compute and place', [
+      ['/watts.html', 'Power', ctx.infra && Number.isFinite(ctx.infra.score) ? `${ctx.infra.score.toFixed(1)} / 100` : null, 'Grid load, drought and build-out under the models.'],
+      ['/map.html', 'Map', ctx.datacenters && ctx.datacenters.sites ? `${fmt(ctx.datacenters.sites.length)} US sites` : null, 'Where the compute sits, against the water it needs.'],
+      r.world ? ['/world.html', 'World', ctx.world && ctx.world.totals ? `${fmt(ctx.world.totals.sites)} sites` : null, 'Every mapped datacentre on Earth, then orbit.'] : null,
+    ]],
+    ['Take it with you', [
+      ['/alerts.html', 'Alerts', null, 'Level-change RSS, email recipes, in-tab watch.'],
+      ['/export.html', 'Data & embed', null, 'CSV, JSON, badge, widget, OpenAPI.'],
+      ['/classic.html#vfy', 'Verify a reading', null, 'Recompute the number from the receipt.'],
+      ['/history.html', 'History', ctx.history ? `${ctx.history.length} readings` : null, 'Every reading on record.'],
+    ]],
+  ].map(([g, items]) => [g, items.filter(Boolean)]);
+
+  const cards = groups.map(([g, list]) => `<h2>${esc(g)}</h2>
+<div class="xt-grid">${list.map(([p, t, n, d]) => `<a class="xt-card" href="${esc(ctx.href(p))}" style="display:block;color:inherit;text-decoration:none">
+  <h3>${esc(t)}${n ? ` <span class="xt-pill live">${esc(n)}</span>` : ''}</h3>
+  <p>${esc(d)}</p>
+</a>`).join('')}</div>`).join('\n');
+
+  const main = `<p class="eyebrow">Evidence</p>
+<h1>What backs the number</h1>
+<p class="lede">The index is one score. Evidence is everything a stranger can open to see <em>why</em> it sits where it does — stories, markets, leaders, compute, and the files you can recompute yourself. Pick a room; none of them are the forecast.</p>
+<p class="xt-row">
+  <a class="xt-btn" href="${esc(ctx.href('/'))}">← Back to the Index</a>
+  <a class="xt-btn ghost" href="${esc(ctx.href('/methodology.html'))}">How it works (Method) →</a>
+  <a class="xt-btn ghost" href="${esc(ctx.href('/feed-level.xml'))}">Level-change RSS</a>
+</p>
+${cards}
+<p class="xt-note">${esc(brand.DISCLAIMER)}</p>`;
+
+  return shell(ctx, {
+    path: '/evidence.html',
+    title: 'Evidence: what backs the number',
+    description: `Newsroom, race, leaders, map, watts and verify — the rooms that show why ${brand.NAME} sits where it does.`,
+    main,
+  });
+}
+
 // Re-exported for the homepage module, which may want the descriptions inline.
 export { alternativeSignals };
