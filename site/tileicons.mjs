@@ -71,6 +71,10 @@ export const TILE_ICONS = {
   scalebias: [{ a: '#E5E7EB', b: '#F87171', c: '#60A5FA' }, [
     '.......a........', '..aaaaaaaaaaaa..', '..a....a.....a..', '.a.a...a.....a..', 'a...a..a....a.a.', 'bbbbb..a...a...a', '.......a..ccccccc', '.......a.........',
     '.......a........', '.......a........', '.......a........', '.....aaaaa......', '....aaaaaaa.....', '................', '................', '................']],
+  // The Day After: a protest megaphone.
+  megaphone: [{ a: '#F87171', b: '#FDE68A', c: '#E5E7EB', d: '#7F1D1D' }, [
+    '................', '...........aa...', '.........aaba...', '.......aabbba...', '.cc..aabbbbba...', '.ccaabbbbbbba..b', '.ccabbbbbbbba.b.', '.ccabbbbbbbba...',
+    '.ccabbbbbbbba.bb', '.ccaabbbbbbba...', '.cc..ddabbbba.b.', '.....dd.aabba..b', '.....dd...aba...', '....ddd....aa...', '................', '................']],
   // Search, Catalog, and the catalog's own cards for videos, feeds and data.
   search: [{ a: '#A5B4FC', b: '#1E1B4B', c: '#E0E7FF', d: '#FACC15' }, [
     '................', '....aaaaaa......', '...abbbbbba.....', '..abccbbbbba....', '.abcbbbbbbbba...', '.abcbbbbbbbba...', '.abbbbbbbbbba...', '.abbbbbbbbbba...',
