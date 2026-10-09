@@ -45,7 +45,7 @@ export const AGENT_BRANCHES = [
  * Copilot read 1 when the true count was over 2,000). Ask up to three times
  * and keep the largest complete-looking answer.
  */
-export async function searchCount(q, { headers, fetcher = fetchJson, tries = 3, pause = 2500, log = () => {} } = {}) {
+export async function searchCount(q, { headers, fetcher = fetchJson, tries = 3, pause = 7000, log = () => {} } = {}) {
   let best = null, complete = false;
   for (let i = 0; i < tries; i++) {
     try {
@@ -63,12 +63,18 @@ export async function searchCount(q, { headers, fetcher = fetchJson, tries = 3, 
 
 async function agentPrs(now) {
   const since = new Date(now - 864e5).toISOString().slice(0, 19) + 'Z';
-  const headers = { accept: 'application/vnd.github+json', ...(TOKEN ? { authorization: `Bearer ${TOKEN}` } : {}) };
+  // NOT the workflow's GITHUB_TOKEN: a token carrying issues:write narrows
+  // search to a sliver of results (checked 2026-10-09: Copilot read 2 with it,
+  // 2,183 without). Anonymous search is correct but limited to 10 a minute,
+  // hence the spacing below. SI_SEARCH_TOKEN (a read-only token) can lift it.
+  const st = process.env.SI_SEARCH_TOKEN || '';
+  const headers = { accept: 'application/vnd.github+json', ...(st ? { authorization: `Bearer ${st}` } : {}) };
+  const gap = st ? 2000 : 6500;
   const per = [];
   for (const [app, name] of AGENTS) {
     try {
       const r = await searchCount(`is:pr author:app/${app} created:>=${since}`, { headers, log: say });
-      await new Promise((res) => setTimeout(res, 2000));
+      await new Promise((res) => setTimeout(res, gap));
       per.push({ app, name, prs_24h: r.count, ...(r.complete ? {} : { approximate: true }) });
     } catch (e) { per.push({ app, name, prs_24h: null, error: String(e.message).slice(0, 120) }); }
   }
@@ -76,7 +82,7 @@ async function agentPrs(now) {
   for (const [prefix, name] of AGENT_BRANCHES) {
     try {
       const r = await searchCount(`is:pr head:${prefix} created:>=${since}`, { headers, log: say });
-      await new Promise((res) => setTimeout(res, 2000));
+      await new Promise((res) => setTimeout(res, gap));
       branches.push({ prefix, name, prs_24h: r.count, ...(r.complete ? {} : { approximate: true }) });
     } catch (e) { branches.push({ prefix, name, prs_24h: null, error: String(e.message).slice(0, 120) }); }
   }
