@@ -96,10 +96,13 @@ export function privacy(ctx) {
       The <b>dispatch</b> page reads only this project's dispatch snapshot and country outline from GitHub
       (raw.githubusercontent.com), not third-party APIs from the browser.
       The monitor, scanner and battle pages also read this project's own data files from GitHub.
-      Every other page loads only files from this site, except the one below.</li>
+      Every other page loads only files from this site, except the two below.</li>
     <li><b>Real Clips.</b> The clips page shows video thumbnails served by YouTube (i.ytimg.com), so Google receives your IP
       address when the page loads. Playing a clip opens YouTube's privacy-enhanced player (youtube-nocookie.com), which holds off on tracking cookies until you play, under Google's policy. The link checker looks up the link you paste through
       noembed.com. The clip list itself is read from GitHub.</li>
+    <li><b>AI on TV &amp; radio.</b> The live page shows video thumbnails served by YouTube (i.ytimg.com) and podcast artwork from
+      each show's host, so those servers receive your IP address when the page loads. A video plays in YouTube's privacy-enhanced
+      player (youtube-nocookie.com) only after you click it, and an episode's audio streams from the show's own host only after you press play.</li>
     <li><b>Optional local AI.</b> The monitor can talk to an Ollama model running on your own computer if you turn it on. That
       connection stays on your machine; nothing is sent to this site.</li>
     <li><b>Links out.</b> Clicking a link to X, Amazon, a news source or a data source takes you to that site under its own

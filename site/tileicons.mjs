@@ -110,6 +110,10 @@ export const TILE_ICONS = {
   db: [{ a: '#38BDF8', b: '#0C4A6E', c: '#E0F2FE' }, [
     '................', '....aaaaaaaa....', '..aabbbbbbbbaa..', '..aaaaaaaaaaaa..', '..abbbbbbbbbba..', '..abbbbbbbbcba..', '..aabbbbbbbbaa..', '..aaaaaaaaaaaa..',
     '..abbbbbbbbbba..', '..abbbbbbbbcba..', '..aabbbbbbbbaa..', '..aaaaaaaaaaaa..', '..abbbbbbbbbba..', '..abbbbbbbbcba..', '...aaaaaaaaaa...', '................']],
+  // LIVE: AI on TV & radio — a set with its antenna up and signal going out.
+  livetv: [{ a: '#F59E0B', b: '#0B1020', c: '#38BDF8', d: '#F87171', e: '#FFFFFF' }, [
+    '.c.....dd.....c.', 'c.c...a..a...c.c', 'c.c..a....a..c.c', '.c..a......a..c.', '...a........a...', 'aaaaaaaaaaaaaaaa', 'abbbbbbbbbbbaeea', 'abddbbbbbbbbaeea',
+    'abddbbbbbbbbaaaa', 'abbbbbbbbbbbaeea', 'abeebeebeebbaaaa', 'abbbebbebbebaeea', 'abbbbbbbbbbbaaaa', 'aaaaaaaaaaaaaaaa', '.aa..........aa.', '................']],
 };
 
 export function tileSvg(name, bg = '#0B1220') {

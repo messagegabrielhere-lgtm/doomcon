@@ -38,6 +38,7 @@ import * as featurePages from './templates/featurePages.mjs';
 import * as agentPages from './templates/agentPages.mjs';
 import * as mediaPages from './templates/mediaPages.mjs';
 import * as moltbookPage from './templates/moltbookPage.mjs';
+import * as livePage from './templates/livePage.mjs';
 import * as siWatchPage from './templates/siWatchPage.mjs';
 import * as catalogPages from './templates/catalogPages.mjs';
 import { items as faqItems } from './templates/_faq.mjs';
@@ -1244,6 +1245,7 @@ async function main() {
     ctx.pmTop = pm && pm.meta && Array.isArray(pm.meta.top_contributors) ? pm.meta.top_contributors : [];
   } catch { ctx.pmTop = []; }
   try { ctx.molt = JSON.parse(await readFile(path.join(args.data, 'moltbook.json'), 'utf8')); } catch { ctx.molt = null; }
+  try { ctx.liveMedia = JSON.parse(await readFile(path.join(args.data, 'live-media.json'), 'utf8')); } catch { ctx.liveMedia = null; }
   written.push(await write(args.out, 'index.html', homeV2.render(ctx, { head: classicHead })));
   written.push(await write(args.out, 'classic.html', classicHtml));
 
@@ -1438,6 +1440,16 @@ async function main() {
     written.push(await write(args.out, 'radio.html', mediaPages.radio(ctx, voice)));
   }
   written.push(await write(args.out, 'videos.html', mediaPages.videos(ctx)));
+  // LIVE: AI on TV & radio (collector/live-media.mjs). The API file is the
+  // verbatim text the collector wrote; a missing or unreadable file still
+  // builds the room, with its honest empty states.
+  {
+    let liveText = null, liveMedia = null;
+    try { liveText = await readFile(path.join(args.data, 'live-media.json'), 'utf8'); liveMedia = JSON.parse(liveText); } catch { liveText = null; liveMedia = null; }
+    ctx.liveMedia = liveMedia;
+    written.push(await write(args.out, 'live.html', livePage.render(ctx, liveMedia)));
+    if (liveText !== null && liveMedia) written.push(await write(args.out, 'api/live-media.json', liveText));
+  }
   written.push(await write(args.out, 'live-x.html', featurePages.liveX(ctx)));
   written.push(await write(args.out, 'tally.html', withVideo(agentPages.tally(ctx), 'tally')));
   written.push(await write(args.out, 'staff.html', agentPages.staff(ctx)));
@@ -1582,7 +1594,7 @@ async function main() {
       'bets', 'privacy', 'terms', 'feedback', 'sponsor', 'instruments',
       'p-doom', 'ai-doomsday-clock', 'arena', 'scanner', 'monitor', 'elon',
       'game', 'bunker-kit', 'alerts', 'export', 'moltbook', 'staff', 'careers',
-      'agents', 'tally', 'changelog',
+      'agents', 'tally', 'changelog', 'live',
     ],
     write,
     written,
