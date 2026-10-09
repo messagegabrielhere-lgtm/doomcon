@@ -967,7 +967,11 @@ body.v2-body{margin:0;background:#000;color:#F3F4F6}
 .v2-cta{border:2px solid #4338CA;background:#0E1033;padding:24px 28px;display:flex;align-items:center;gap:22px;flex-wrap:wrap}
 .v2-cta .col{display:flex;flex-direction:column;gap:10px;flex:1 1 300px;min-width:0;color:#C7D2FE}
   .v2-foot{margin:0;font-size:13px;color:#AEB7C3}
-@media (max-width:720px){.v2-foot{font-size:12px;line-height:1.45}}
+@media (max-width:720px){
+  /* Keep creed/links out of the phone fold until the board is open. */
+  .v2-foot{display:none;font-size:12px;line-height:1.45}
+  body.v2-more-open .v2-foot{display:block}
+}
 .v2-track{margin:22px 0}.v2-week{width:100%;height:auto;display:block;margin:6px 0 10px}
 .v2-gauges{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:6px 0 12px}.v2-gauge{text-align:center}.v2-gauge svg{width:100%;max-width:120px;height:auto}.v2-gauge span{display:block;font:600 10px/1.3 'IBM Plex Mono',monospace;letter-spacing:.08em}
 @media (max-width:640px){.v2-gauges{grid-template-columns:repeat(3,1fr)}}
