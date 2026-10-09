@@ -27,19 +27,65 @@ export const AGENTS = [
   ['google-labs-jules', 'Google Jules'],
 ];
 
+// Branch prefixes the coding agents use when they open a PR through a
+// person's own account (Codex, Claude Code, Cursor, Copilot, Jules, Devin).
+export const AGENT_BRANCHES = [
+  ['codex/', 'OpenAI Codex'],
+  ['claude/', 'Claude Code'],
+  ['cursor/', 'Cursor'],
+  ['copilot/', 'GitHub Copilot'],
+  ['jules/', 'Google Jules'],
+  ['devin/', 'Devin'],
+];
+
+/**
+ * GitHub search times out on heavy queries and then answers with
+ * incomplete_results: true and a total that can be off by 1000x (we saw
+ * Copilot read 1 when the true count was over 2,000). Ask up to three times
+ * and keep the largest complete-looking answer.
+ */
+export async function searchCount(q, { headers, fetcher = fetchJson, tries = 3, pause = 2500 } = {}) {
+  let best = null, complete = false;
+  for (let i = 0; i < tries; i++) {
+    try {
+      const j = await fetcher(`https://api.github.com/search/issues?q=${encodeURIComponent(q)}&per_page=1`, { headers, retries: 1 });
+      if (Number.isFinite(j.total_count)) {
+        if (best === null || j.total_count > best) best = j.total_count;
+        if (!j.incomplete_results) { complete = true; break; }
+      }
+    } catch (e) { if (i === tries - 1 && best === null) throw e; }
+    if (pause) await new Promise((r) => setTimeout(r, pause));
+  }
+  return { count: best, complete };
+}
+
 async function agentPrs(now) {
   const since = new Date(now - 864e5).toISOString().slice(0, 19) + 'Z';
   const headers = { accept: 'application/vnd.github+json', ...(TOKEN ? { authorization: `Bearer ${TOKEN}` } : {}) };
   const per = [];
   for (const [app, name] of AGENTS) {
     try {
-      const q = encodeURIComponent(`is:pr author:app/${app} created:>=${since}`);
-      const j = await fetchJson(`https://api.github.com/search/issues?q=${q}&per_page=1`, { headers, retries: 1 });
-      if (Number.isFinite(j.total_count)) per.push({ app, name, prs_24h: j.total_count });
+      const r = await searchCount(`is:pr author:app/${app} created:>=${since}`, { headers });
+      per.push({ app, name, prs_24h: r.count, ...(r.complete ? {} : { approximate: true }) });
     } catch (e) { per.push({ app, name, prs_24h: null, error: String(e.message).slice(0, 120) }); }
   }
+  const branches = [];
+  for (const [prefix, name] of AGENT_BRANCHES) {
+    try {
+      const r = await searchCount(`is:pr head:${prefix} created:>=${since}`, { headers });
+      branches.push({ prefix, name, prs_24h: r.count, ...(r.complete ? {} : { approximate: true }) });
+    } catch (e) { branches.push({ prefix, name, prs_24h: null, error: String(e.message).slice(0, 120) }); }
+  }
   const ok = per.filter((p) => Number.isFinite(p.prs_24h));
-  return ok.length ? { ok: true, total_24h: ok.reduce((a, p) => a + p.prs_24h, 0), by_agent: per } : { ok: false, by_agent: per };
+  const okB = branches.filter((p) => Number.isFinite(p.prs_24h));
+  return {
+    ok: ok.length > 0,
+    total_24h: ok.length ? ok.reduce((a, p) => a + p.prs_24h, 0) : null,
+    by_agent: per,
+    branch_total_24h: okB.length ? okB.reduce((a, p) => a + p.prs_24h, 0) : null,
+    by_branch: branches,
+    note: 'by_agent: PRs opened by the agents\' own GitHub app accounts. by_branch: PRs whose branch name carries an agent\'s default prefix, usually opened through a person\'s account; a person can also name a branch that way, so treat it as an upper-bound proxy.',
+  };
 }
 
 // Tiny CSV reader (quoted fields, commas inside quotes).
@@ -117,7 +163,7 @@ async function main() {
   writeFileSync(OUT, JSON.stringify(out, null, 2) + '\n');
   const day = out.generated_at.slice(0, 10);
   let last = ''; if (existsSync(HIST)) last = readFileSync(HIST, 'utf8').trim().split('\n').pop() || '';
-  if (!last.includes(`"day":"${day}"`)) appendFileSync(HIST, JSON.stringify({ day, agent_prs: agent_prs.total_24h ?? null, models_90d: frontierModels.models_90d ?? null, agi_median: agi.median_date ?? null, moltbook_agents: out.moltbook.agents_seen ?? null }) + '\n');
+  if (!last.includes(`"day":"${day}"`)) appendFileSync(HIST, JSON.stringify({ day, agent_prs: agent_prs.total_24h ?? null, agent_branch_prs: agent_prs.branch_total_24h ?? null, models_90d: frontierModels.models_90d ?? null, agi_median: agi.median_date ?? null, moltbook_agents: out.moltbook.agents_seen ?? null }) + '\n');
   console.log(`si-signals: agent PRs ${agent_prs.ok ? agent_prs.total_24h : 'dark'} · frontier ${frontierModels.ok ? frontierModels.models_90d : 'dark'} · AGI ${agi.ok ? agi.median_date : 'dark'}`);
 }
 
