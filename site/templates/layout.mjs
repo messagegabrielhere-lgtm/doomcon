@@ -533,11 +533,12 @@ try{var cv=d.getElementById('dc-visit'),cs=cv?cv.dataset:{};
 if(window.__dcSince)return;window.__dcSince=1;
 try{
  var el=d.getElementById('dc-visit');if(!el)return;
- var K='doomcon.visit.v1',ds=el.dataset;
+ var K='doomcon.visit.v1',LEGACY='siren:visit',ds=el.dataset;
  var cur={at:ds.at,score:parseFloat(ds.score),level:+ds.level,name:ds.name,obs:+ds.obs};
  var raw=null;try{raw=localStorage.getItem(K);}catch(e){return;}
- var save=function(){try{cur.t=Date.now();localStorage.setItem(K,JSON.stringify(cur));}catch(e){}};
+ var save=function(){try{cur.t=Date.now();localStorage.setItem(K,JSON.stringify(cur));localStorage.removeItem(LEGACY);}catch(e){}};
  var prev=null;try{prev=raw?JSON.parse(raw):null;}catch(e){prev=null;}
+ if(!prev){try{var L=JSON.parse(localStorage.getItem(LEGACY)||'null');if(L)prev={t:L.seen,score:L.score,level:L.level,at:L.at,name:L.name,obs:L.obs};}catch(e){}}
  save();
  if(!prev||!prev.at||prev.at===cur.at)return;
  var t=el.querySelector('.rvisit__t'),dd=el.querySelector('.rvisit__d'),x=el.querySelector('.rvisit__x');

@@ -40,11 +40,14 @@ export function sitebar(asOf, { level = 4, rel = '', intro = {}, newsAt = '' } =
 #sitebar .fb{all:unset;cursor:pointer;color:inherit;opacity:.8;text-decoration:underline;text-underline-offset:2px;white-space:nowrap;font:600 12px/1.2 system-ui,-apple-system,"Segoe UI",sans-serif}#sitebar .fb:hover{opacity:1}#sitebar .fb:focus-visible{outline:2px solid #e2a03b;outline-offset:2px}
 #sitebar .ago{opacity:.65}#sitebar .kofi{color:#72a4f2;opacity:1;text-decoration:none}@media (max-width:440px){#sitebar .kofi{display:none}}
 #sitebar button.rad{background:transparent;color:inherit;border:1px solid currentColor;padding:4px 9px;opacity:.85}#sitebar button.st{padding:4px 7px}#sitebar button.rad[aria-pressed=true]{background:#818CF8;border-color:#818CF8;color:#000;opacity:1}
-#siren-intro{position:fixed;left:12px;bottom:12px;z-index:9998;width:300px;border-radius:8px;overflow:hidden;background:#000;border:1px solid #232C3B;box-shadow:0 10px 30px rgba(0,0,0,.5)}
+#siren-intro{position:fixed;left:12px;bottom:12px;z-index:9998;max-width:min(300px,calc(100vw - 24px));border-radius:8px;overflow:hidden;background:#000;border:1px solid #232C3B;box-shadow:0 10px 30px rgba(0,0,0,.5)}
 #siren-intro video{display:block;width:100%;height:auto}
-#siren-intro .bar{display:flex;justify-content:space-between;align-items:center;padding:6px 8px;font:600 11px/1 system-ui,sans-serif;color:#AEB7C3;letter-spacing:.06em}
-#siren-intro button{all:unset;cursor:pointer;padding:4px 8px;border-radius:4px;color:#E6EAF0}#siren-intro button:hover{background:#1b2230}
-@media (max-width:560px){#siren-intro{width:200px;left:auto;right:10px;bottom:auto;top:10px}}
+#siren-intro .bar{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:6px 8px;font:600 11px/1 system-ui,sans-serif;color:#AEB7C3;letter-spacing:.06em}
+#siren-intro button{all:unset;cursor:pointer;padding:4px 8px;border-radius:4px;color:#E6EAF0}#siren-intro button:hover{background:#1b2230}#siren-intro button:focus-visible{outline:2px solid #e2a03b;outline-offset:2px}
+#siren-intro.chip{width:auto;background:rgba(0,0,0,.92)}
+#siren-intro.chip video{display:none}
+#siren-intro.playing{width:300px}
+@media (max-width:560px){#siren-intro.playing{width:min(220px,calc(100vw - 20px));left:auto;right:10px;bottom:auto;top:10px}#siren-intro.chip{left:12px;right:auto;bottom:64px;top:auto}}
 @keyframes sitebar-spin{to{transform:rotate(360deg)}}
 @media (prefers-color-scheme:dark){#sitebar{background:rgba(20,24,32,.94);color:#e6e9ef;border-color:rgba(255,255,255,.16)}#sitebar button{background:#e6e9ef;color:#141820}}
 @media (max-width:560px){#sitebar{left:50%;right:auto;transform:translateX(-50%);bottom:10px}#sitebar .ago{display:none}}
@@ -78,31 +81,53 @@ ${MONETIZE.tips && MONETIZE.tips.url ? `<a class="fb kofi" href="${MONETIZE.tips
     var t = (document.querySelector('meta[property="og:title"]') || {}).content || document.title;
     xl.href = "https://x.com/intent/post?text=" + encodeURIComponent(t) + "&url=" + encodeURIComponent(u) + "&via=SIRENutf6";
   }
-  // THE INTRO. The page's own video (or the 42-second explainer), once per
-  // visit, never on the clips, videos or radio pages: silent, in a
-  // corner, with sound one tap away. Skipped for reduced-motion visitors.
+  // THE INTRO. A quiet corner chip — tap to play. Never autoplays (mobile
+  // LCP and fold occlusion), never on the homepage (it already embeds the
+  // explainer), never on clips/videos/radio, skipped for reduced-motion.
   (function intro(){
     try {
-      // Once per video per visit: each themed page has its own intro.
       var ik = "siren:intro:${introFile}";
-      if (/(elon|videos|radio)\.html$/.test(location.pathname) || sessionStorage.getItem(ik)) return;
-      sessionStorage.setItem(ik, "1");
+      var path = location.pathname.replace(/\\/+$/, "") || "/";
+      // Homepage already embeds the explainer with preload=none — no corner chip.
+      if (document.getElementById("v2-video") || document.querySelector("section.v2-video")) return;
+      if (path === "${BASE}" || /\\/(index\\.html)?$/.test(path)) return;
+      if (/(elon|videos|radio)\\.html$/.test(path) || sessionStorage.getItem(ik)) return;
     } catch (e) { return; }
     if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     var m = "${BASE}/media/${introFile}";
-    var box = document.createElement("div"); box.id = "siren-intro"; box.setAttribute("role", "complementary"); box.setAttribute("aria-label", "Intro video");
-    box.innerHTML = '<video muted autoplay playsinline preload="metadata" poster="' + m + '-poster.jpg"><source src="' + m + '.webm" type="video/webm"><source src="' + m + '.mp4" type="video/mp4"></video>'
-      + '<div class="bar"><span>${introLabel}</span><span><button type="button" data-a="snd" aria-label="Turn sound on">🔊 Sound</button><button type="button" data-a="x" aria-label="Close intro">✕</button></span></div>';
+    var box = document.createElement("div");
+    box.id = "siren-intro";
+    box.className = "chip";
+    box.setAttribute("role", "complementary");
+    box.setAttribute("aria-label", "Intro video");
+    box.innerHTML = '<div class="bar"><button type="button" data-a="play" aria-label="Play intro video">${introLabel} ▶</button><button type="button" data-a="x" aria-label="Dismiss intro">✕</button></div>';
     document.body.appendChild(box);
-    var v = box.querySelector("video");
-    var close = function(){ try { v.pause(); } catch (e) {} box.remove(); };
+    var close = function(){
+      try { sessionStorage.setItem("siren:intro:${introFile}", "1"); } catch (e) {}
+      var v = box.querySelector("video");
+      if (v) try { v.pause(); } catch (e) {}
+      box.remove();
+    };
     box.addEventListener("click", function(e){
       var a = e.target.getAttribute && e.target.getAttribute("data-a");
-      if (a === "x") close();
-      else if (a === "snd") { v.muted = !v.muted; e.target.textContent = v.muted ? "🔊 Sound" : "🔇 Mute"; if (v.paused) v.play(); }
+      if (a === "x") { close(); return; }
+      if (a !== "play" && a !== "snd") return;
+      if (a === "snd") {
+        var v0 = box.querySelector("video");
+        if (!v0) return;
+        v0.muted = !v0.muted;
+        e.target.textContent = v0.muted ? "🔊 Sound" : "🔇 Mute";
+        if (v0.paused) v0.play();
+        return;
+      }
+      if (box.querySelector("video")) return;
+      box.className = "playing";
+      box.innerHTML = '<video muted playsinline preload="metadata" poster="' + m + '-poster.jpg" controls><source src="' + m + '.webm" type="video/webm"><source src="' + m + '.mp4" type="video/mp4"></video>'
+        + '<div class="bar"><span>${introLabel}</span><span><button type="button" data-a="snd" aria-label="Turn sound on">🔊 Sound</button><button type="button" data-a="x" aria-label="Close intro">✕</button></span></div>';
+      var v = box.querySelector("video");
+      v.addEventListener("ended", function(){ setTimeout(close, 1200); });
+      var p = v.play(); if (p && p.catch) p.catch(function(){});
     });
-    v.addEventListener("ended", function(){ setTimeout(close, 1500); });
-    var p = v.play(); if (p && p.catch) p.catch(close);
   })();
   // OUTSIDE LINKS OPEN IN A NEW TAB, so a visitor who follows a story, a clip
   // or a market comes back to SIREN instead of losing it. Same-site links
