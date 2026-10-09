@@ -2,8 +2,12 @@
 // bosses on watch, the labs as monitored "locations", and two small charts.
 // Everything is server-rendered: the level, the score and every count are text
 // or inline SVG in the HTML, so the build's self-check and every screenshot see
-// them without a script. Client scripts: UTC clock, room jump, war-room rail,
-// and the "since your last visit" strip.
+// them without a script. Client scripts: UTC clock, war-room rail, phone-fold
+// "more" sync, and the "since your last visit" strip.
+//
+// Phone fold (GROWTH §08 / SITE-UPGRADES): numeral, claim, sparkline, three
+// pillar movers, one "see the evidence" control. The rest of the board stays
+// in the HTML (SEO + self-check) but sits inside a closed <details> under 721px.
 //
 // The full instrument panel this replaced still builds, at /classic.html.
 import { esc, num } from './_html.mjs';
@@ -251,6 +255,19 @@ function watch(){if(document.hidden||pill.getAttribute('data-due'))return;
 fetch(base+'/api/fresh.json?m='+Math.floor(Date.now()/60000),{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(f){if(!f||!f.news)return;if(Date.parse(f.news)>mark+1500){pill.hidden=false;pill.setAttribute('data-due','1')}}).catch(function(){})}
 pill.querySelector('button').addEventListener('click',function(){var u=new URL(location.href);u.searchParams.set('r',Date.now().toString(36));u.hash='breaking';location.replace(u.toString())});
 setInterval(watch,60000);document.addEventListener('visibilitychange',function(){if(!document.hidden)watch()});setTimeout(watch,4000)})();
+// Phone fold: keep the heavy board closed under 721px; open it on wider viewports
+// and when "See the evidence" (or any in-page hash into the board) is used.
+(function(){var d=document.getElementById('v2-more');if(!d)return;
+var mq=window.matchMedia('(min-width:721px)');
+function sync(){d.open=mq.matches}
+sync();
+if(mq.addEventListener)mq.addEventListener('change',sync);else if(mq.addListener)mq.addListener(sync);
+function openMore(){d.open=true}
+d.addEventListener('toggle',function(){document.body.classList.toggle('v2-more-open',d.open)});
+document.querySelectorAll('[data-v2-more-open]').forEach(function(a){a.addEventListener('click',openMore)});
+if(location.hash&&d.querySelector(location.hash))openMore();
+window.addEventListener('hashchange',function(){if(location.hash&&d.querySelector(location.hash))openMore()});
+})();
 })();`;
 
 
@@ -384,6 +401,52 @@ function spark(rows, pid) {
   let d = '', pen = false;
   pts.forEach((v, i) => { if (!Number.isFinite(v)) { pen = false; return; } d += `${pen ? 'L' : 'M'}${(i / (pts.length - 1) * 118 + 1).toFixed(1)},${(26 - v / 100 * 24).toFixed(1)}`; pen = true; });
   return `<svg class="v2-spark" viewBox="0 0 120 28" aria-hidden="true"><path d="${d}" fill="none" stroke="${PILLAR_HUE[pid] || '#AEB7C3'}" stroke-width="1.6"/></svg>`;
+}
+
+/** Wide composite spark for the phone fold — last ~72 readings, no axes. */
+function scoreSpark(rows) {
+  const pts = (rows || []).slice(-72).map((r) => r.score).filter(Number.isFinite);
+  if (pts.length < 2) return '<svg class="v2-phone__spark" viewBox="0 0 280 48" role="img" aria-label="Not enough readings for a sparkline"></svg>';
+  const W = 280, H = 48, pad = 2;
+  const lo = Math.min(...pts), hi = Math.max(...pts);
+  const span = Math.max(1, hi - lo);
+  let d = '';
+  pts.forEach((v, i) => {
+    const x = pad + (i / (pts.length - 1)) * (W - pad * 2);
+    const y = pad + (1 - (v - lo) / span) * (H - pad * 2);
+    d += `${i ? 'L' : 'M'}${x.toFixed(1)},${y.toFixed(1)}`;
+  });
+  const last = pts[pts.length - 1];
+  return `<svg class="v2-phone__spark" viewBox="0 0 ${W} ${H}" role="img" aria-label="Composite score over the last ${pts.length} readings, now ${last.toFixed(1)}"><path d="${d}" fill="none" stroke="#4ADE80" stroke-width="2"/></svg>`;
+}
+
+/** Three pillar movers for the phone fold; fills from live pillars when the hour was quiet. */
+function phoneMovers(wm, state) {
+  const fromHour = (wm && wm.pillar_deltas || []).slice(0, 3);
+  const have = new Set(fromHour.map((p) => p.id));
+  const fill = (state.pillars || [])
+    .filter((p) => Number.isFinite(p.score) && !p.dark && !have.has(p.id))
+    .sort((a, b) => b.score - a.score)
+    .slice(0, Math.max(0, 3 - fromHour.length))
+    .map((p) => ({ id: p.id, name: p.name, kind: 'hold', delta: null, score: p.score }));
+  return fromHour.concat(fill).slice(0, 3);
+}
+
+function phoneFold(wm, state, rows) {
+  const movers = phoneMovers(wm, state).map((p) => {
+    const hue = PILLAR_HUE[p.id] || '#AEB7C3';
+    let val;
+    if (p.kind === 'live') val = '<b class="up">BACK LIVE</b>';
+    else if (p.kind === 'dark') val = '<b class="dn">WENT DARK</b>';
+    else if (Number.isFinite(p.delta)) val = `<b class="${p.delta > 0 ? 'up' : p.delta < 0 ? 'dn' : ''}">${p.delta > 0 ? '▲' : p.delta < 0 ? '▼' : '='}${Math.abs(p.delta).toFixed(1)}</b>`;
+    else if (Number.isFinite(p.score)) val = `<b>${num(p.score, 1)}</b>`;
+    else val = '<b class="mute">—</b>';
+    return `<li style="--pc:${hue}"><span>${esc(String(p.name || p.id).toUpperCase())}</span>${val}</li>`;
+  }).join('');
+  return `<section class="v2-phone" aria-label="This hour at a glance">
+  ${scoreSpark(rows)}
+  <ul class="v2-phone__mv">${movers || '<li><span>No pillar moved this hour</span><b class="mute">—</b></li>'}</ul>
+</section>`;
 }
 
 function loudPanel(state, rows) {
@@ -655,15 +718,19 @@ ${ticker(items)}
     </div>
     <p class="v2-plain">${esc(plainRead(state))}</p>
     ${scaleRail(state, href)}
+    ${phoneFold(wm, state, rows)}
     ${raceLeaderLine(ctx, href)}
   </section>
-  ${dash}
   <div class="v2-since" id="v2-since" hidden role="status"></div>
-  <div class="v2-sponsor">${sponsorLine(href('/sponsor.html'))}</div>
   <script>window.SIREN_NOW=${JSON.stringify(sinceNow).replace(/</g, '\\u003c')}</script>
 
   ${top ? `<div class="v2-breaking" id="breaking" data-sec="Breaking"><span class="badge"><span class="blink">${icon('bolt', 2)}</span>BREAKING</span><a href="${esc(top.url)}" rel="noopener">${esc(top.title)}</a><span class="src">${esc(hhmm(top.published_at))} · ${esc(String(top.source).toUpperCase())}</span><button type="button" class="v2-xp" data-xpost="news" data-x-title="${esc(top.title)}" data-x-src="${esc(top.source)}" data-x-url="${esc(top.url)}" aria-label="Post this story to X">𝕏 POST</button></div>` : ''}
 
+<details class="v2-more" id="v2-more" open>
+  <summary class="v2-more__sum">See the evidence →</summary>
+  <div class="v2-more__body">
+  ${dash}
+  <div class="v2-sponsor">${sponsorLine(href('/sponsor.html'))}</div>
 ${deskPicks(ctx, pixelText)}
 ${movedPanel(wm, href)}
   ${historyPanel(rows)}
@@ -702,6 +769,8 @@ ${roomsGrid(ctx, href, img)}
     <a class="v2-btn" href="https://x.com/intent/follow?screen_name=SIRENutf6">FOLLOW @SIRENutf6 →</a>
   </div>
   ${newsletterBox(href('/privacy.html')) ? `<div class="v2-nl">${newsletterBox(href('/privacy.html'))}</div>` : ''}
+  </div>
+</details>
 
   <p class="v2-foot">${esc(brand.CREED)} ${esc(brand.NAME)} counts how loud AI is, every hour, from public data. A count, not a forecast. Portraits and icons are generated illustrations, not photographs.
   <a href="${href('/methodology.html')}">How it works</a> · <a href="${href('/classic.html#vfy')}">Verify a reading</a> · <a href="${href('/classic.html')}">Full instrument panel</a> · <a href="${href('/about.html')}">About</a> · <a href="${href('/feed.xml')}">RSS</a> · <a href="${href('/sponsor.html')}">Sponsor</a>${tipLink() ? ` · ${tipLink()}` : ''}</p>
@@ -816,6 +885,14 @@ body.v2-body{margin:0;background:#000;color:#F3F4F6}
 .v2-scale__st.on .v2-scale__name{color:var(--sc)}
 .v2-scale__band{font-size:11px;color:#8A94A3;font-variant-numeric:tabular-nums}
 .v2-scale__note{margin:0;font-size:12px;color:#AEB7C3}
+/* Phone fold card — hidden on desktop; the dial + loud panel cover the same facts. */
+.v2-phone{display:none}
+.v2-more{border:0;padding:0;margin:0;background:none}
+.v2-more__sum{list-style:none;cursor:pointer;display:none;align-items:center;justify-content:center;min-height:48px;margin:4px 0 0;padding:0 16px;border:2px solid #4F46E5;background:#0E1033;color:#C7D2FE;font:700 14px/1.2 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.06em;touch-action:manipulation}
+.v2-more__sum::-webkit-details-marker{display:none}
+.v2-more__sum::marker{content:''}
+.v2-more[open]>.v2-more__sum{margin-bottom:12px;border-color:#6366F1;color:#fff}
+.v2-more__body{display:flex;flex-direction:column;gap:22px}
 .v2-racelead{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 14px;padding:12px 14px;border:2px solid #2A3446;background:#0A0E16;color:#fff!important}
 .v2-racelead:hover{border-color:#6366F1;color:#fff!important}
 .v2-racelead .k{font-size:11px;font-weight:700;letter-spacing:.12em;color:#AEB7C3}
@@ -925,6 +1002,8 @@ body.v2-body{margin:0;background:#000;color:#F3F4F6}
   .v2-brand .v2-art{width:72px;height:72px}
   .v2-dock .tile{width:calc(33.33% - 7px);height:100px}
   .v2-bar.wide{grid-template-columns:120px minmax(0,1fr) 56px}
+  .v2-more__sum{display:flex}
+  .v2-more__body{gap:16px}
 }
 @media (prefers-reduced-motion:reduce){.v2 *{animation:none!important}}
 `;
@@ -993,11 +1072,13 @@ const DASH_CSS = `
 .v2-vfywrap h2{font-size:18px;font-weight:700;margin:12px 0 6px}.v2-vfywrap p{font-size:14px;color:#AEB7C3;line-height:1.55}
 @media (max-width:720px){
   /* Room for the sticky phone tab bar + sitebar so score and scale clear the fold. */
-  .v2-main{padding-bottom:160px}
+  body.v2-body{overflow-x:hidden;-webkit-text-size-adjust:100%}
+  .v2-main{padding-bottom:calc(160px + env(safe-area-inset-bottom,0px))}
+  .v2-wrap{padding-inline:14px}
   .v2-card .row.sb{flex-wrap:wrap;gap:6px}
   .v2-card h3{min-width:0;max-width:100%}.v2-card h3 svg{max-width:100%;height:auto}
   .v2-dash{grid-template-columns:1fr;padding:12px}
-  .v2-dial{max-width:340px;margin:0 auto}
+  .v2-dial{max-width:min(340px,100%);margin:0 auto}
   .v2-loud summary{grid-template-columns:1fr 64px;grid-template-areas:"n b" "t t" "s s";row-gap:6px}
   .v2-loud .pn{grid-area:n}.v2-loud b{grid-area:b}.v2-loud .t{grid-area:t}.v2-loud .v2-spark{grid-area:s;width:100%}
   .v2-sub{padding-left:0;font-size:14px}
@@ -1008,20 +1089,44 @@ const DASH_CSS = `
   .v2-top .right{margin-left:auto;flex-wrap:nowrap}
   .v2-top .v2-top__x{display:none!important}
   .v2 .tag{min-height:32px;display:inline-flex;align-items:center}
-  .v2-main{padding-top:18px;gap:16px}
+  .v2-main{padding-top:14px;gap:12px}
   .v2-brand{flex-wrap:nowrap;gap:12px}
-  .v2-brand .v2-art{width:64px;height:64px}
-  .v2-brand .v2-3d,.v2-brand .v2-3d canvas{width:76px!important;height:76px!important}
-  .v2-brand h1{flex:1 1 auto}
+  .v2-brand .v2-art{width:56px;height:56px}
+  .v2-brand .v2-3d,.v2-brand .v2-3d canvas{width:64px!important;height:64px!important}
+  .v2-brand h1{flex:1 1 auto;min-width:0}
+  .v2-brand h1 .v2-ptext svg{max-height:28px;width:auto;max-width:100%}
   .v2-sub{margin-top:-4px;gap:10px}.v2-sub .sep{display:none}
+  .v2-sub .v2-btn.sm{min-height:40px}
   .v2-top .tag{gap:6px}
-  .v2-banner{padding:18px 16px;gap:14px}
+  .v2-banner{padding:14px 12px;gap:10px}
   .v2-banner .v2-score{margin-left:0;align-items:flex-start;width:100%}
   .v2-banner .v2-score .v2-ptext{max-width:100%}
-  .v2-banner .v2-score .v2-ptext svg{max-height:56px;width:auto}
+  .v2-banner .v2-score .v2-ptext svg{max-height:48px;width:auto}
+  .v2-banner .col .v2-ptext svg{max-height:36px;width:auto;max-width:100%}
   .v2-scale{gap:3px}
   .v2-scale__st{padding:6px 2px 8px}
   .v2-scale__n{font-size:16px}
   .v2-scale__name{font-size:7px;letter-spacing:0}
-  .v2-plain{font-size:15px}
+  .v2-scale__band{font-size:10px}
+  .v2-scale__note{display:none}
+  .v2-racelead{display:none}
+  .v2-ticker{display:none}
+  .v2-plain{font-size:15px;line-height:1.4}
+  .v2 .hero{gap:10px}
+  /* Fold: sparkline + 3 movers. Evidence control is the details summary below. */
+  .v2-phone{display:flex;flex-direction:column;gap:10px;padding:12px;border:2px solid #2A3446;background:#0A0E16}
+  .v2-phone__spark{display:block;width:100%;height:auto;max-height:56px}
+  .v2-phone__mv{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+  .v2-phone__mv li{display:flex;flex-direction:column;gap:4px;min-width:0;padding:8px 8px 10px;border-top:3px solid var(--pc,#6366F1);background:#060A10}
+  .v2-phone__mv span{font-size:10px;font-weight:700;letter-spacing:.06em;color:#AEB7C3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .v2-phone__mv b{font-size:16px;font-variant-numeric:tabular-nums;color:#E6EAF0}
+  .v2-phone__mv b.mute{color:#8A94A3;font-size:13px}
+  .v2-breaking{padding:8px 10px;gap:8px}
+  .v2-breaking a{flex:1 1 100%;font-size:14px;line-height:1.35}
+  .v2-breaking .src{margin-left:0}
+  .v2-bosses{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .v2-labs{grid-template-columns:1fr}
+  .v2-cta{padding:16px;gap:14px}
+  .v2-btn,.v2-btn.sm{touch-action:manipulation}
+  .v2-tab a,.v2-tab button{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
 }`;

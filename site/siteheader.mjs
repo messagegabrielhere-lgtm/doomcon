@@ -88,9 +88,9 @@ export const HEADER_CSS = `<style ${HEADER_MARK}-css>
 @media (max-width:1360px){.sh__lv b{display:none}.sh__all kbd{display:none}.sh__nav a{padding:0 7px}}
 @media (max-width:1180px){.sh__nav{mask-image:linear-gradient(90deg,#000 90%,transparent)}}
 @media (max-width:900px){.sh__nav{display:none}.sh__lv{margin-left:auto}}
-@media (max-width:560px){.sh__in{gap:8px;padding:0 12px;min-height:56px}.sh__brand svg{width:118px;height:auto}.sh__brand img{width:32px;height:32px}.sh__lv{padding:4px 7px;font-size:11px}.sh__all{padding:0 12px}.sh__all kbd,.sh__all span{display:none}.sh__lvw{display:none}.sh__srch{width:42px}}
+@media (max-width:560px){.sh__in{gap:8px;padding:0 12px;min-height:56px}.sh__brand svg{width:118px;height:auto}.sh__brand img{width:32px;height:32px}.sh__lv{padding:4px 7px;font-size:11px}.sh__all{padding:0 12px;min-width:48px;justify-content:center}.sh__all kbd,.sh__all span{display:none}.sh__lvw{display:none}.sh__srch{width:42px;touch-action:manipulation}.sh__all,.sh__brand,.sh__lv{touch-action:manipulation}.sh__brand svg{max-width:min(118px,42vw)}}
 .sh__lvw{font-style:normal}
-@media (max-width:360px){.sh__brand svg{display:none}}
+@media (max-width:360px){.sh__brand svg{display:none}.sh__in{padding:0 10px;gap:6px}}
 .sh-rooms{width:min(720px,calc(100vw - 20px));max-height:min(82vh,760px);margin:7vh auto auto;padding:0;border:2px solid #2A3446;background:#0A0E16;color:#E6EAF0;box-shadow:0 30px 90px rgba(0,0,0,.7);font:500 14px/1.35 system-ui,-apple-system,'Segoe UI',sans-serif}
 .sh-rooms::backdrop{background:rgba(0,0,0,.72);backdrop-filter:blur(3px)}
 .sh-rooms__box{display:flex;flex-direction:column;max-height:min(82vh,760px)}
