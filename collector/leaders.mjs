@@ -273,9 +273,10 @@ const ROSTER = Object.freeze([
     blocks: [],
     race_player: null,
     news_query: { phrase: 'Koray Kavukcuoglu' },
-    // The ASCII title answered 404 on 2026-10-09; the article, if any, would
-    // carry the Turkish spelling. A 404 here only leaves the profile dark.
-    wikipedia: 'Koray Kavukçuoğlu',
+    // No English Wikipedia article: both 'Koray Kavukcuoglu' and the Turkish
+    // spelling answered 404 on 2026-10-09. null = no profile and no request,
+    // rather than a daily 404 printed as a dark profile.
+    wikipedia: null,
   },
   {
     id: 'lecun', name: 'Yann LeCun', initials: 'YL',
@@ -1343,7 +1344,7 @@ async function main() {
   let polled = [];
   if (!args.offline) {
     const covSpecs = ROSTER.map((l) => ({ id: l.id, ...l.news_query }));
-    const profSpecs = ROSTER.map((l) => ({ id: l.id, title: l.wikipedia }));
+    const profSpecs = ROSTER.filter((l) => l.wikipedia).map((l) => ({ id: l.id, title: l.wikipedia }));
     // Three independent failure domains, run side by side. None can throw.
     const [f, c, p] = await Promise.all([
       cachedLeaderFeeds(LEADER_SOURCES, feedCache, { force: args.force }),
@@ -1365,7 +1366,7 @@ async function main() {
   const nowMs = now.getTime();
   const coverage = Object.fromEntries(ROSTER.map((l) => [l.id,
     coverageView({ id: l.id, ...l.news_query }, covNext && covNext.leaders ? covNext.leaders[l.id] : null, nowMs, { checked: !args.offline })]));
-  const profiles = Object.fromEntries(ROSTER.map((l) => [l.id,
+  const profiles = Object.fromEntries(ROSTER.filter((l) => l.wikipedia).map((l) => [l.id,
     profileView({ id: l.id, title: l.wikipedia }, profNext && profNext.leaders ? profNext.leaders[l.id] : null)]));
 
   const out = buildLeaders(news, race, {

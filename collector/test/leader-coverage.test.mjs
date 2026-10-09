@@ -325,7 +325,8 @@ test('coverage is attached per leader but never puts anyone on the record', () =
   assert.equal(out.coverage.total_24h, 1);
   assert.equal(out.totals.on_record, 0);
   assert.equal(out.leaders.find((l) => l.id === 'hinton').coverage, null);
-  assert.ok(ROSTER.every((l) => l.news_query && l.news_query.phrase && l.wikipedia));
+  assert.ok(ROSTER.every((l) => l.news_query && l.news_query.phrase && (l.wikipedia === null || typeof l.wikipedia === 'string')));
+  assert.ok(ROSTER.filter((l) => l.wikipedia).length >= 18);
   // The fingerprint moves with what a reader sees, not with the clock.
   const f1 = leadersFingerprint(out);
   const out2 = buildLeaders({ ...news, generated_at: iso(NOW + 60_000) }, null, { coverage });
