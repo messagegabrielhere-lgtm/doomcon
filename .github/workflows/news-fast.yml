@@ -114,10 +114,28 @@ jobs:
             # workflow_dispatch is one of the two events GITHUB_TOKEN is
             # allowed to raise.
             AGE=$(node -e "try{const s=require('./data/state.json');process.stdout.write(String(Math.round((Date.now()-Date.parse(s.generated_at))/60000)))}catch(e){process.stdout.write('0')}")
+            # Also wake a full pass when the newest reading is rate-limit
+            # degraded. A green collect that published DEGRADED for arXiv 429
+            # never trips the failure watchdog; without this the page sits
+            # degraded until the next :07 cron. Age floor 15 min so we do not
+            # re-hammer the same ban the heal step just waited out.
+            NEED_HEAL=$(node -e "
+              try {
+                const s = require('./data/state.json');
+                const rate = /\b429\b|rate exceeded|too many requests/i;
+                const limited = (s.sources || []).some((x) => x && !x.ok && !x.uncalibrated && rate.test(String(x.error || '')));
+                const age = (Date.now() - Date.parse(s.generated_at)) / 60000;
+                process.stdout.write(s.degraded && limited && age >= 15 ? '1' : '0');
+              } catch { process.stdout.write('0'); }
+            ")
             NOW=$(date +%s)
-            if [ "$AGE" -gt 50 ] && [ $(( NOW - LAST_WAKE )) -gt 900 ] && [ "${CHAIN:-on}" != "off" ]; then
-              echo "tick $TICK: newest reading is ${AGE} min old — dispatching the full index pass"
-              gh workflow run collect.yml --repo "$GITHUB_REPOSITORY" || echo "::warning::could not dispatch collect.yml"
+            if { [ "$AGE" -gt 50 ] || [ "$NEED_HEAL" = "1" ]; } && [ $(( NOW - LAST_WAKE )) -gt 900 ] && [ "${CHAIN:-on}" != "off" ]; then
+              if [ "$NEED_HEAL" = "1" ]; then
+                echo "tick $TICK: reading is rate-limit degraded (${AGE} min old) — dispatching a heal full pass"
+              else
+                echo "tick $TICK: newest reading is ${AGE} min old — dispatching the full index pass"
+              fi
+              gh workflow run collect.yml --repo "$GITHUB_REPOSITORY" -f mode=full || echo "::warning::could not dispatch collect.yml"
               LAST_WAKE=$NOW
             fi
 

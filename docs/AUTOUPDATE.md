@@ -228,6 +228,7 @@ harmless. Nothing here is a one-shot.
 | two runs overlap | the concurrency group queues them; the "did collect write a new snapshot" gate stops the receipt chain advancing twice on one observation |
 | a queued run is cancelled | GitHub keeps only one pending run per concurrency group, so under heavy delay a queued lane can be dropped. It simply runs at its next tick, over the same idempotent steps. Worst case: the index is two hours old instead of one |
 | some sources are dark | normal operating state. Neither lane fails. The source strip names them and the pillar goes dark rather than being imputed |
+| arXiv (or another source) answers `429 Rate exceeded` | the adapter waits out a long backoff ladder (`collector/arxiv-fetch.mjs`); if still dark, the full lane cools 90s before more arXiv hits, then after scoring runs a one-shot heal (wait 3 min → re-collect → re-score) before publish. `watchdog.yml` and `news-fast.yml` also dispatch a heal pass if the live site is still rate-limit-degraded after 15 minutes |
 | **every** index source is dark | the full lane commits the all-dark snapshot as evidence, publishes, and *then* fails — the one condition worth an email |
 | `data/news.json` is unreadable | the gate reports `usable=false`; nothing is committed and nothing is published, so one bad pass cannot be made permanent |
 | the newsroom parses but has zero items | refused as a collapse rather than a change; an empty newsroom is investigated, not deployed |

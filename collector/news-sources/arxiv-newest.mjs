@@ -12,6 +12,7 @@
 // the date range — worth knowing before anyone "simplifies" them together.
 
 import { parseFeed, assertXmlFeed, draft } from './_feed.mjs';
+import { ARXIV_SECONDARY_WAITS_MS, fetchArxivWindow } from '../arxiv-fetch.mjs';
 
 const ENDPOINT = 'https://export.arxiv.org/api/query';
 const CATEGORIES = ['cs.AI', 'cs.LG', 'cs.CL'];
@@ -45,9 +46,14 @@ export default {
       `${ENDPOINT}?search_query=${query}&sortBy=submittedDate&sortOrder=descending` +
       `&start=0&max_results=${MAX_RESULTS}`;
 
-    // retries: 0 — arXiv throttles hard and keeps throttling; a retry converts a
-    // soft 429 into a longer ban and buys nothing. Same policy as sources/arxiv.mjs.
-    const { data: xml, headers } = await fetchText(url, { timeoutMs: 30_000, retries: 0, withMeta: true });
+    // Long 429 backoff via arxiv-fetch.mjs — short retries inside fetch.mjs turn
+    // a soft throttle into a ban. Secondary ladder so a stuck newsroom cannot
+    // burn the whole job; the index adapter keeps the full waits.
+    const { data: xml, headers } = await fetchArxivWindow(fetchText, url, {
+      waits: ARXIV_SECONDARY_WAITS_MS,
+      timeoutMs: 30_000,
+      withMeta: true,
+    });
     assertXmlFeed(xml, url, headers?.['content-type'] ?? '');
 
     // arXiv answers a malformed query with HTTP 200 and an error ENTRY, so a

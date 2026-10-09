@@ -13,6 +13,7 @@
 // is the quantity this source tracks, not the absolute volume of science.
 
 import { fetchText as defaultFetchText } from '../fetch.mjs';
+import { ARXIV_SECONDARY_WAITS_MS, fetchArxivWindow } from '../arxiv-fetch.mjs';
 
 const WINDOW_DAYS = 7;
 const WINDOW_MS = WINDOW_DAYS * 24 * 60 * 60 * 1000;
@@ -80,13 +81,13 @@ export default {
     const query = `(${cats})+AND+(${phrases})+AND+submittedDate:[${from}+TO+${to}]`;
     const url = `${ENDPOINT}?search_query=${query}&start=0&max_results=1`;
 
-    // Both deviations from the fetch.mjs defaults are measured and are copied from
-    // collector/sources/arxiv.mjs, where they were established: a windowed
-    // submittedDate query is a range scan on arXiv's side and runs past the 15s
-    // default, and a retry buys nothing because arXiv is slow here rather than
-    // flaky — it throttles, and a second attempt turns a soft throttle into a
-    // longer one. One long attempt, zero retries, dark if it does not answer.
-    const xml = await fetchText(url, { timeoutMs: 40_000, retries: 0 });
+    // Windowed submittedDate query is a range scan; use the shared arXiv
+    // 429 ladder (secondary length) instead of a single shot that leaves the
+    // science pillar dark for the hour.
+    const xml = await fetchArxivWindow(fetchText, url, {
+      waits: ARXIV_SECONDARY_WAITS_MS,
+      timeoutMs: 40_000,
+    });
 
     // arXiv answers a malformed query with HTTP 200 and an error entry, so a
     // non-error status proves nothing. Check the payload.
