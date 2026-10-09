@@ -156,3 +156,32 @@ test('run() with a key: one search an hour, quota counted, key never published',
     assert.equal(searches, 2);
   } finally { globalThis.fetch = realFetch; console.log = log; }
 });
+
+test('podcast RSS title guard: a feed that is some other show yields nothing', () => {
+  assert.equal(parsePodcastFeed(fx('podcast.xml'), { id: 'x', show: 'Last Week in AI', title: /last week in ai/i }).length, 0);
+  assert.equal(parsePodcastFeed(fx('podcast.xml'), { id: 'x', show: 'Example', title: /example ai show/i }).length, 3);
+});
+
+test('run(): an empty primary live search falls back once, inside the day cap', async () => {
+  const dir = mkdtempSync(path.join(tmpdir(), 'live-media-'));
+  const out = pathToFileURL(path.join(dir, 'live-media.json'));
+  const realFetch = globalThis.fetch;
+  const queries = [];
+  const hit = JSON.parse(fx('yt-search.json'));
+  globalThis.fetch = async (url) => {
+    const u = new URL(String(url));
+    if (u.pathname.endsWith('/youtube/v3/search')) {
+      queries.push(u.searchParams.get('q'));
+      return new Response(JSON.stringify(queries.length === 1 ? { pageInfo: { totalResults: 0 }, items: [] } : hit), { status: 200 });
+    }
+    throw new TypeError('fetch failed');
+  };
+  const log = console.log; console.log = () => {};
+  try {
+    const doc = await run({ lane: 'full', key: 'k', now: NOW, out });
+    assert.equal(queries.length, 2);
+    assert.equal(doc.live.query, queries[1]);
+    assert.equal(doc.live.quota.units, 200);
+    assert.deepEqual(doc.live.items.map((v) => v.id), ['aaaaaaaaaa4', 'aaaaaaaaaa5', 'aaaaaaaaaa3']);
+  } finally { globalThis.fetch = realFetch; console.log = log; }
+});

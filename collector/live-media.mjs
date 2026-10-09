@@ -35,7 +35,12 @@ import { publicError } from './safe-error.mjs';
 
 const OUT = new URL('../data/live-media.json', import.meta.url);
 
-export const LIVE_QUERY = '"artificial intelligence" | "AI news" | OpenAI | Anthropic | "Nvidia AI"';
+// Unquoted on purpose: the quoted-phrase form ('"artificial intelligence" |
+// "AI news" | …') came back with zero live results on 2026-10-09 22:32 UTC.
+// If the primary query still finds nothing, one broader fallback search runs
+// in the same pass (another 100 units, still inside MAX_UNITS_PER_DAY).
+export const LIVE_QUERY = 'artificial intelligence|AI news|OpenAI|Anthropic|Nvidia AI';
+export const LIVE_FALLBACK_QUERY = 'AI news live';
 export const LIVE_EVERY_MS = 55 * 60 * 1000;
 export const MAX_UNITS_PER_DAY = 2500;
 const SEARCH_COST = 100;
@@ -91,7 +96,9 @@ const ALLOW_NORM = new Set(ALLOW_NAMES.map(norm));
 export const TV_CHANNELS = [
   { id: 'UCrp_UI8XtuYfpiqluWLD7Lw', name: 'CNBC Television', verified: true },
   { id: 'UCvJJ_dzjViJCoLf5uKUTwoA', name: 'CNBC', verified: true },
-  { id: 'UCdK2BueKxC9VxXh7e1Ne4oQ', name: 'Bloomberg Television', verified: true },
+  // UCdK2BueKxC9VxXh7e1Ne4oQ (what the @handle lookup returned) serves an
+  // empty feed (run 37999713211); this is Bloomberg's main TV channel id.
+  { id: 'UCIALMKvObZNtJ6AmdCLP7Lg', name: 'Bloomberg Television', verified: false },
   { id: 'UCEAZeUIeJs0IjQiqTCdVSIg', name: 'Yahoo Finance', verified: false },
   { id: 'UCupvZG-5ko_eiXAupbDfxWw', name: 'CNN', verified: true },
   { id: 'UC16niRr50-MSBwiO3YDb3RA', name: 'BBC News', verified: true },
@@ -138,7 +145,7 @@ export function isAllowlisted(channelTitle, channelId) {
 // Round-the-clock news streams. No API call: each links to the channel's
 // /live URL, which YouTube points at whatever that channel is streaming now.
 export const NEWS_247 = [
-  { id: 'UCdK2BueKxC9VxXh7e1Ne4oQ', name: 'Bloomberg Television', blurb: 'Markets and business, with the AI trade most days.' },
+  { id: 'UCIALMKvObZNtJ6AmdCLP7Lg', name: 'Bloomberg Television', blurb: 'Markets and business, with the AI trade most days.' },
   { id: 'UCoMdktPbSTixAyNGwb-UYkQ', name: 'Sky News', blurb: 'UK and world news, live around the clock.' },
   { id: 'UCBi2mrWuNuyYy4gbM6fU18Q', name: 'ABC News Live', blurb: 'US news, streaming 24/7.' },
   { id: 'UCknLrEdhRCp1aegoMqRaCZg', name: 'DW News', blurb: 'Germany’s international broadcaster, in English.' },
@@ -147,20 +154,23 @@ export const NEWS_247 = [
 ].map((c) => ({ ...c, url: `https://www.youtube.com/channel/${c.id}/live` }));
 
 // ── AI TALK RADIO: podcast feeds ────────────────────────────────────────────
-// `urls` are tried in order; the first that parses with audio wins. ai: true
-// keeps only episodes whose title is about AI (for general-interest shows).
-// verified: false — feed URL from memory, not yet confirmed from this runner.
+// `urls` are tried in order; the first that parses with audio AND whose own
+// <title> matches `title` wins, so a feed id that points at some other show
+// fails dark instead of filling AI radio with politics (that happened: the
+// megaphone id first tried for Last Week in AI was a UK politics show). ai:
+// true keeps only episodes whose title is about AI (general-interest shows).
+// verified: true — fetched and title-checked from a GitHub runner 2026-10-09.
 export const PODCASTS = [
-  { id: 'ai-daily-brief', show: 'The AI Daily Brief', urls: ['https://anchor.fm/s/f7cac464/podcast/rss'], verified: false },
-  { id: 'hard-fork', show: 'Hard Fork', urls: ['https://feeds.simplecast.com/l2i9YnTd'], ai: true, verified: false },
-  { id: 'last-week-in-ai', show: 'Last Week in AI', urls: ['https://feeds.megaphone.fm/GLT9190936013', 'https://lastweekin.ai/feed'], verified: false },
-  { id: 'latent-space', show: 'Latent Space', urls: ['https://api.substack.com/feed/podcast/1084089.rss', 'https://www.latent.space/feed'], verified: false },
-  { id: 'cognitive-revolution', show: 'The Cognitive Revolution', urls: ['https://feeds.megaphone.fm/RINTP3108857801'], verified: false },
-  { id: 'dwarkesh', show: 'Dwarkesh Podcast', urls: ['https://api.substack.com/feed/podcast/69345.rss', 'https://www.dwarkesh.com/feed'], verified: false },
-  { id: 'lex-fridman', show: 'Lex Fridman Podcast', urls: ['https://lexfridman.com/feed/podcast/'], ai: true, verified: false },
-  { id: 'practical-ai', show: 'Practical AI', urls: ['https://changelog.com/practicalai/feed'], verified: false },
-  { id: 'eye-on-ai', show: 'Eye on AI', urls: ['https://aneyeonai.libsyn.com/rss'], verified: false },
-  { id: 'twiml', show: 'The TWIML AI Podcast', urls: ['https://feeds.megaphone.fm/MLN2155636147'], verified: false },
+  { id: 'ai-daily-brief', show: 'The AI Daily Brief', title: /ai (daily brief|breakdown)/i, urls: ['https://anchor.fm/s/f7cac464/podcast/rss'], verified: true },
+  { id: 'hard-fork', show: 'Hard Fork', title: /hard fork/i, urls: ['https://feeds.simplecast.com/l2i9YnTd'], ai: true, verified: true },
+  { id: 'last-week-in-ai', show: 'Last Week in AI', title: /last week in ai/i, urls: ['https://lastweekin.ai/feed', 'https://api.substack.com/feed/podcast/1047011.rss'], verified: false },
+  { id: 'latent-space', show: 'Latent Space', title: /latent space/i, urls: ['https://api.substack.com/feed/podcast/1084089.rss', 'https://www.latent.space/feed'], verified: true },
+  { id: 'cognitive-revolution', show: 'The Cognitive Revolution', title: /cognitive revolution/i, urls: ['https://feeds.megaphone.fm/RINTP3108857801'], verified: true },
+  { id: 'dwarkesh', show: 'Dwarkesh Podcast', title: /dwarkesh/i, urls: ['https://api.substack.com/feed/podcast/69345.rss', 'https://www.dwarkesh.com/feed'], verified: true },
+  { id: 'lex-fridman', show: 'Lex Fridman Podcast', title: /lex fridman/i, urls: ['https://lexfridman.com/feed/podcast/'], ai: true, verified: true },
+  { id: 'practical-ai', show: 'Practical AI', title: /practical ai/i, urls: ['https://changelog.com/practicalai/feed'], verified: true },
+  { id: 'eye-on-ai', show: 'Eye on AI', title: /eye on a\.?i/i, urls: ['https://aneyeonai.libsyn.com/rss'], verified: true },
+  { id: 'twiml', show: 'The TWIML AI Podcast', title: /twiml|this week in machine learning/i, urls: ['https://feeds.megaphone.fm/MLN2155636147'], verified: true },
 ];
 
 // ── Parsers ─────────────────────────────────────────────────────────────────
@@ -268,7 +278,9 @@ export function parsePodcastFeed(xml, show = {}) {
   const head = body.split(/<item\b/i)[0] || '';
   const showImage = httpsUrl(attr((head.match(/<itunes:image\b[^>]*>/i) || [])[0], 'href'))
     || httpsUrl(toPlainText((head.match(/<image\b[^>]*>[\s\S]*?<url>([\s\S]*?)<\/url>/i) || [])[1] || '', 500));
-  const showName = show.show || toPlainText((head.match(/<title>([\s\S]*?)<\/title>/i) || [])[1] || '', 80);
+  const feedTitle = toPlainText((head.match(/<title>([\s\S]*?)<\/title>/i) || [])[1] || '', 80);
+  if (show.title && !show.title.test(feedTitle)) return [];
+  const showName = show.show || feedTitle;
   const out = [];
   for (const m of body.matchAll(/<item\b[^>]*>([\s\S]*?)<\/item>/gi)) {
     const b = m[1];
@@ -325,14 +337,21 @@ async function refreshLive(prev, key, now) {
   const age = now - Date.parse(p.fetched_at || 0);
   if (Number.isFinite(age) && age < LIVE_EVERY_MS) return keepPrev(p.status || 'ok', { skipped: `searched ${Math.round(age / 60000)} min ago` });
   if (quota.units + SEARCH_COST > MAX_UNITS_PER_DAY) return keepPrev(p.status || 'ok', { skipped: `daily cap of ${MAX_UNITS_PER_DAY} units reached` });
-  const url = 'https://www.googleapis.com/youtube/v3/search?part=snippet&eventType=live&type=video'
-    + `&q=${encodeURIComponent(LIVE_QUERY)}&maxResults=15&relevanceLanguage=en&safeSearch=strict&key=${encodeURIComponent(key)}`;
-  quota.units += SEARCH_COST;
+  const search = async (q) => {
+    quota.units += SEARCH_COST;
+    const json = await fetchJson('https://www.googleapis.com/youtube/v3/search?part=snippet&eventType=live&type=video'
+      + `&q=${encodeURIComponent(q)}&maxResults=15&relevanceLanguage=en&safeSearch=strict&key=${encodeURIComponent(key)}`, { timeoutMs: 15000, retries: 0 });
+    return { raw: parseLiveSearch(json), total: Number(json && json.pageInfo && json.pageInfo.totalResults) || 0 };
+  };
   try {
-    const json = await fetchJson(url, { timeoutMs: 15000, retries: 0 });
-    const raw = parseLiveSearch(json);
+    let query = LIVE_QUERY;
+    let { raw, total } = await search(query);
+    if (!raw.length && quota.units + SEARCH_COST <= MAX_UNITS_PER_DAY) {
+      query = LIVE_FALLBACK_QUERY;
+      ({ raw, total } = await search(query));
+    }
     const items = pickLive(raw);
-    return { fetched_at: new Date(now).toISOString(), status: 'ok', query: LIVE_QUERY, seen: raw.length, items, quota };
+    return { fetched_at: new Date(now).toISOString(), status: 'ok', query, seen: raw.length, total_results: total, items, quota };
   } catch (err) {
     // A failed search still spent its units. Keep last hour's list only while
     // it is fresh; a stream list two hours old is mostly finished streams.
@@ -366,7 +385,11 @@ async function refreshRadio(prev, now) {
       const [r] = await fetchAll([{ url, parse: 'text', timeoutMs: 15000, retries: 1, headers: { accept: 'application/rss+xml, application/xml, text/xml, */*' } }]);
       if (!r.ok) { errs.push(safe(r.error)); continue; }
       const episodes = parsePodcastFeed(r.value, show);
-      if (!episodes.length) { errs.push(`${url}: no audio episodes`); continue; }
+      if (!episodes.length) {
+        const t = toPlainText(((r.value || '').split(/<item\b/i)[0].match(/<title>([\s\S]*?)<\/title>/i) || [])[1] || '', 60);
+        errs.push(show.title && t && !show.title.test(t) ? `${new URL(url).hostname}: feed is "${t}", not this show` : `${new URL(url).hostname}: no audio episodes`);
+        continue;
+      }
       lists.push({ show, episodes });
       sources.push({ id: show.id, show: show.show, ok: true, url, episodes: episodes.length, latest: episodes[0].published_at });
       return;
