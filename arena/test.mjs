@@ -349,3 +349,35 @@ test('picks: live status from today\'s session, and tomorrow\'s preview', async 
   assert.equal(ext.symbols[1].c.length, base.c.length, 'a quote for a session already in the data adds nothing');
   assert.equal(E.pkAppendToday([base], {}).t, null);
 });
+
+test('spend cap: reserve refuses after daily call limit', async () => {
+  const { reserveCall, refuseReason, settleCall, readCaps } = await import('./spend-cap.mjs');
+  const spend = { day: '2099-01-01', usd: 0, tokens: 0, calls: 0, byProvider: {} };
+  const env = { ARENA_DAILY_CALLS_CAP: '2', ARENA_DAILY_USD_CAP: '5', ARENA_DAILY_TOKENS_CAP: '999999' };
+  assert.equal(reserveCall(spend, 'openai', env), null);
+  assert.equal(reserveCall(spend, 'openai', env), null);
+  assert.match(reserveCall(spend, 'openai', env), /call cap/);
+  assert.equal(spend.calls, 2);
+  settleCall(spend, { provider: 'openai', usage: { prompt_tokens: 100, completion_tokens: 50 } });
+  assert.ok(spend.usd > 0);
+  assert.ok(spend.tokens >= 150);
+  assert.equal(readCaps(env).calls, 2);
+  assert.match(
+    refuseReason(
+      { day: '2099-01-01', usd: 10, tokens: 0, calls: 0, byProvider: {} },
+      { ARENA_DAILY_CALLS_CAP: '99', ARENA_DAILY_USD_CAP: '5', ARENA_DAILY_TOKENS_CAP: '999999' },
+    ),
+    /USD cap/,
+  );
+});
+
+test('public errors in arena never carry stacks', async () => {
+  const { publicError } = await import('../collector/safe-error.mjs');
+  const fakeKey = ['sk', 'ant', 'b'.repeat(24)].join('-');
+  const err = new Error(`HTTP 401: invalid api key ${fakeKey}`);
+  err.stack = 'Error: nope\n    at ' + ['', 'workspace', 'arena', 'agents.mjs:1:1'].join('/');
+  const msg = publicError(err);
+  assert.ok(!msg.includes('at '));
+  assert.ok(!msg.includes('sk-ant-'));
+  assert.ok(!msg.includes('/workspace'));
+});

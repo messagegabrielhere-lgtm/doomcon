@@ -35,6 +35,10 @@
     "test:posts": "node collector/posts.mjs --test",
     "test:arena": "node --test arena/test.mjs",
     "test:investors": "node --test investors/test.mjs",
+    "test:backup": "node collector/tools/backup.mjs selftest",
+    "test:launch": "node collector/tools/launch-smoke.mjs",
+    "test:safe-error": "node --test collector/test/safe-error.test.mjs",
+    "backup": "node collector/tools/backup.mjs backup",
     "compliance": "node compliance/selftest.mjs && node compliance/audit.mjs --strict",
     "test:compliance": "node compliance/selftest.mjs",
     "compliance:fix": "node compliance/audit.mjs --fix --report"

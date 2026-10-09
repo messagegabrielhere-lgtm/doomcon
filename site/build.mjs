@@ -30,6 +30,7 @@ import * as movePage from './templates/move.mjs';
 import * as movesIndexPage from './templates/movesIndex.mjs';
 import * as embedPage from './templates/embed.mjs';
 import * as notFoundPage from './templates/notFound.mjs';
+import * as serverErrorPage from './templates/serverError.mjs';
 import * as deskPage from './templates/deskPage.mjs';
 import * as infoPages from './templates/infoPages.mjs';
 import * as featurePages from './templates/featurePages.mjs';
@@ -1371,6 +1372,9 @@ async function main() {
   // GitHub Pages serves this for every missing path under the site. Without it
   // a dead URL lands on GitHub's own page, with no masthead and no way back.
   written.push(await write(args.out, '404.html', notFoundPage.render(ctx)));
+  // Custom hosts / CDNs map 5xx here. GitHub Pages itself rarely serves it, but
+  // shipping an on-brand 500 means a status post never has to link a blank page.
+  written.push(await write(args.out, '500.html', serverErrorPage.render(ctx)));
   // Hand-written standalone pages in site/static/*.html. They carry their own
   // styles; the build only adds the head tags a crawler needs and, for a page
   // that draws a manifest from its own script, the same rows as static HTML.

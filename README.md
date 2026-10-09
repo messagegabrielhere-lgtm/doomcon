@@ -132,6 +132,12 @@ Index proved that a single named scalar plus a distribution channel beats a
 better dashboard with neither. The full teardown is in
 [docs/TEARDOWN.md](docs/TEARDOWN.md).
 
+## Launch / security
+
+Before you share the URL widely, walk **[docs/LAUNCH.md](docs/LAUNCH.md)**
+(the 20-point checklist) and keep **[docs/ROLLBACK.md](docs/ROLLBACK.md)**
+handy. Secrets never belong in `site/` or in git — see [SECURITY.md](SECURITY.md).
+
 ## Licence
 
 Code MIT. Data and index values CC-BY 4.0.

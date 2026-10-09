@@ -4,6 +4,11 @@ The site builds and deploys itself. What is left needs your identity, your
 judgement and your hands on the keyboard. Budget **20 minutes**, most of it on
 the X account rather than the site.
 
+Before the first public post, run the operator checklist in
+**[docs/LAUNCH.md](docs/LAUNCH.md)** (secrets, spend caps, backup selftest,
+404/500, analytics, rollback). Keep **[docs/ROLLBACK.md](docs/ROLLBACK.md)**
+open in another tab on launch day.
+
 ---
 
 ## First, the honest version of "go viral"

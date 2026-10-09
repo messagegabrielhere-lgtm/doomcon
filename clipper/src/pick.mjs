@@ -42,12 +42,23 @@ const SCHEMA = {
   additionalProperties: false,
 }
 
+// Soft ceiling on a single picker call. The provider-console monthly budget is
+// the hard stop (docs/LAUNCH.md §7); this keeps one runaway transcript from
+// asking for a novel's worth of output tokens.
+const PICKER_MAX_TOKENS = Math.min(
+  8000,
+  Math.max(1024, Number(process.env.CLIPPER_MAX_TOKENS) || 8000),
+)
+
 export async function pickWithClaude({ words, video, cfg }) {
+  if (process.env.CLIPPER_AI_DISABLED === '1' || process.env.CLIPPER_AI_DISABLED === 'true') {
+    throw new Error('clip picker paused: CLIPPER_AI_DISABLED is set')
+  }
   const client = new Anthropic()
   const want = cfg.clipsPerVideo
   const response = await client.beta.messages.create({
     model: cfg.model,
-    max_tokens: 16000,
+    max_tokens: PICKER_MAX_TOKENS,
     // On a safety-classifier decline, the API retries on a fallback model
     // chosen for the refusal category instead of returning nothing.
     betas: ['server-side-fallback-2026-07-01'],

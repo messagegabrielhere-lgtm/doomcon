@@ -86,6 +86,10 @@ jobs:
           ARENA_MODEL_GEMINI: ${{ vars.ARENA_MODEL_GEMINI }}
           ARENA_MODEL_DEEPSEEK: ${{ vars.ARENA_MODEL_DEEPSEEK }}
           ARENA_STANDINS: ${{ vars.ARENA_STANDINS }}
+          # Daily AI spend ceilings (docs/LAUNCH.md §7). Repo variables override defaults.
+          ARENA_DAILY_USD_CAP: ${{ vars.ARENA_DAILY_USD_CAP }}
+          ARENA_DAILY_TOKENS_CAP: ${{ vars.ARENA_DAILY_TOKENS_CAP }}
+          ARENA_DAILY_CALLS_CAP: ${{ vars.ARENA_DAILY_CALLS_CAP }}
         run: |
           flag=""
           if [ "$GUARD_ONLY" = "true" ]; then flag="--guard"; fi

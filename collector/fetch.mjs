@@ -94,6 +94,15 @@ const HOST_MIN_INTERVAL_MS = {
   'export.arxiv.org': 3500,
   'overpass-api.de': 5000,
   'api.crossref.org': 1000,
+  // SEC asks for a polite User-Agent and punishes bursts from cloud IPs.
+  'efts.sec.gov': 1000,
+  'data.sec.gov': 1000,
+  'www.sec.gov': 1000,
+  // Hugging Face rate-limits anonymous scrapers; keep a floor between calls.
+  'huggingface.co': 1000,
+  // Polymarket / public CLOB — bursty parallel adapters trip 429s.
+  'gamma-api.polymarket.com': 400,
+  'clob.polymarket.com': 400,
 };
 
 /** host -> promise chain tail, so callers queue rather than race. */
