@@ -14,6 +14,7 @@ import { blocks, pixelText, icon } from './_pixel.mjs';
 import { sponsorLine, newsletterBox, tipLink, MZ_CSS, MONETIZE } from '../monetize.mjs';
 import { whatMoved, alternativeSignals } from '../extras.mjs';
 import { pulseCandidates } from '../../collector/post-pulse.mjs';
+import { WHATS_NEW } from '../siteheader.mjs';
 import { render as verifyBox, verifyCss } from './_verify.mjs';
 import { renderV2 as deskPicks } from './_deskpicks.mjs';
 import { freshCluster, breakingMeta } from './_breaking.mjs';
@@ -144,7 +145,7 @@ export function roomGroups(ctx) {
       ['/dispatch.html', 'radar', 'Dispatch', null, '911 CAD, multi-system alerts, blather — emergency mark + X.'],
       ['/elon.html', 'musk', 'Real Clips', null, 'Verified clips of Elon, Altman, Amodei and the AI bosses.'],
       ['/live-x.html', 'px:antenna', 'Live on X', null, 'Live X feeds and Spaces on AI, newest first.'],
-      ['/si-watch.html', 'px:crosshair2', 'Takeover Watch', null, 'AI agents writing code, frontier models, the AGI forecast.'],
+      ['/si-watch.html', 'px:crosshair2', 'Takeover Watch', null, 'What AI agents are coding, live, plus frontier models and the AGI forecast.'],
       ['/moltbook.html', 'px:agent2', 'Agent Watch', ctx.molt && ctx.molt.fresh ? `${ctx.molt.fresh.length} new this week` : null, 'What AI agents are saying on Moltbook, live.'],
       ['/videos.html', 'px:tv', 'SIREN TV', '6 videos', 'Short explainers: Tally, Skynet status, SI prep, your job.'],
       ['/radio.html', 'px:radio', 'SIREN Radio', '6 stations', 'Six stations of music generated live in your browser.'],
@@ -672,6 +673,7 @@ ${ticker(items)}
   <script>window.SIREN_NOW=${JSON.stringify(sinceNow).replace(/</g, '\\u003c')}</script>
 
   ${top ? `<div class="v2-breaking" id="breaking" data-sec="Breaking"><span class="badge"><span class="blink">${icon('bolt', 2)}</span>BREAKING</span><a href="${esc(top.url)}" rel="noopener">${esc(top.title)}</a><span class="src">${top._brk ? esc(breakingMeta(top._brk)) : `${esc(hhmm(top.published_at))} · ${esc(String(top.source).toUpperCase())}`}</span><button type="button" class="v2-xp" data-xpost="news" data-x-title="${esc(top.title)}" data-x-src="${esc(top.source)}" data-x-url="${esc(top.url)}" aria-label="Post this story to X">𝕏 POST</button></div>` : ''}
+  <nav class="v2-whatsnew" aria-label="New on SIREN"><span class="lbl">✦ NEW</span>${WHATS_NEW.map(([h, a, l, b]) => `<a href="${href(h)}" title="${esc(b)}"><img src="${img(a)}" width="22" height="22" alt="" loading="lazy">${esc(l)}</a>`).join('')}</nav>
 
 ${deskPicks(ctx, pixelText)}
 ${movedPanel(wm, href)}
@@ -794,6 +796,7 @@ body.v2-body{margin:0;background:#000;color:#F3F4F6}
 .v2-top .v2-wrap{display:flex;flex-wrap:wrap;align-items:center;gap:10px 20px;padding-block:10px;font-size:13px;color:#D7DCE3}
 .v2 .v2-chip{display:inline-flex;align-items:center;gap:8px}
 .v2 .v2-xp{all:unset;cursor:pointer;margin-left:10px;padding:3px 8px;border:1px solid currentColor;font:700 11px/1.3 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.06em;white-space:nowrap}.v2 .v2-xp:hover{background:#fff;color:#000}
+.v2 .v2-whatsnew{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin:10px 0 0;padding:2px 0 4px;align-items:center}.v2 .v2-whatsnew::-webkit-scrollbar{display:none}.v2 .v2-whatsnew .lbl{flex:none;font:700 12px/1 'IBM Plex Mono',monospace;letter-spacing:.12em;color:#FACC15}.v2 .v2-whatsnew a{flex:none;display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:4px 12px 4px 6px;border:1px solid #3F3A12;background:#14120A;color:#FDE68A;text-decoration:none;font:600 13px/1.2 'IBM Plex Sans',system-ui,sans-serif;white-space:nowrap}.v2 .v2-whatsnew a:hover{border-color:#FACC15;color:#fff}.v2 .v2-whatsnew img{display:block}
 .v2 .v2-live{color:#4ADE80;border-color:#166534;text-decoration:none}.v2 .v2-live i{width:8px;height:8px;border-radius:50%;background:#4ADE80;box-shadow:0 0 0 0 rgba(74,222,128,.6);animation:v2live 2s infinite}@keyframes v2live{70%{box-shadow:0 0 0 7px rgba(74,222,128,0)}100%{box-shadow:0 0 0 0 rgba(74,222,128,0)}}@media (prefers-reduced-motion:reduce){.v2 .v2-live i{animation:none}}
 .v2 .tag{padding:5px 10px;border:1px solid;font-weight:700}
 .v2 .tag.red{border-color:#7F1D1D;background:#1A0707;color:#FCA5A5}.v2 .tag.red b{color:#fff}

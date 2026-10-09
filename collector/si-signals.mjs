@@ -45,11 +45,12 @@ export const AGENT_BRANCHES = [
  * Copilot read 1 when the true count was over 2,000). Ask up to three times
  * and keep the largest complete-looking answer.
  */
-export async function searchCount(q, { headers, fetcher = fetchJson, tries = 3, pause = 7000, log = () => {} } = {}) {
-  let best = null, complete = false;
+export async function searchCount(q, { headers, fetcher = fetchJson, tries = 3, pause = 7000, log = () => {}, perPage = 1 } = {}) {
+  let best = null, complete = false, items = [];
   for (let i = 0; i < tries; i++) {
     try {
-      const j = await fetcher(`https://api.github.com/search/issues?q=${encodeURIComponent(q)}&per_page=1`, { headers, retries: 1 });
+      const j = await fetcher(`https://api.github.com/search/issues?q=${encodeURIComponent(q)}&per_page=${perPage}&sort=created&order=desc`, { headers, retries: 1 });
+      if (Array.isArray(j.items) && j.items.length > items.length) items = j.items;
       log(`${q} -> ${j.total_count} incomplete=${j.incomplete_results}${j.message ? ' ' + j.message : ''}`);
       if (Number.isFinite(j.total_count)) {
         if (best === null || j.total_count > best) best = j.total_count;
@@ -58,7 +59,82 @@ export async function searchCount(q, { headers, fetcher = fetchJson, tries = 3, 
     } catch (e) { if (i === tries - 1 && best === null) throw e; }
     if (pause) await new Promise((r) => setTimeout(r, pause));
   }
-  return { count: best, complete };
+  return { count: best, complete, items };
+}
+
+// WHAT THE AGENTS ARE CODING. A sample of each agent's newest PRs, sorted
+// into kinds of work by the conventional words at the front of the title.
+export const WORK_KINDS = [
+  ['fix', 'Bug fixes', /\b(fix(es|ed)?|bug|hotfix|patch|resolve[sd]?|crash|error|issue)\b/i],
+  ['feature', 'New features', /\b(feat(ure)?|add(s|ed)?|implement(s|ed)?|introduce[sd]?|support|new|create[sd]?|build)\b/i],
+  ['refactor', 'Refactors & cleanup', /\b(refactor|clean ?up|simplif|rename|restructur|reorganiz|remove[sd]?|delete[sd]?|migrat)/i],
+  ['tests', 'Tests', /\b(tests?|spec|coverage|e2e|unit)\b/i],
+  ['docs', 'Docs', /\b(docs?|readme|documentation|comments?|typo|changelog)\b/i],
+  ['deps', 'Dependencies', /\b(bump|upgrade|update[sd]? (dependenc|deps|package)|deps?|dependenc(y|ies)|version)\b/i],
+  ['ci', 'CI & build', /\b(ci|workflow|github actions|pipeline|docker|deploy|build config|lint)\b/i],
+  ['perf', 'Performance', /\b(perf(ormance)?|optimi[sz]|speed ?up|faster|cache)\b/i],
+];
+export function workKind(title) {
+  const t = String(title || '');
+  const m = /^\s*(\w+)(\([^)]*\))?!?:/.exec(t); // conventional commit prefix wins
+  if (m) {
+    const k = m[1].toLowerCase();
+    const map = { fix: 'fix', feat: 'feature', refactor: 'refactor', test: 'tests', tests: 'tests', docs: 'docs', doc: 'docs', chore: 'deps', build: 'ci', ci: 'ci', perf: 'perf', style: 'refactor' };
+    if (map[k]) return map[k];
+  }
+  for (const [id, , re] of WORK_KINDS) if (re.test(t)) return id;
+  return 'other';
+}
+const repoOf = (it) => String(it.repository_url || '').replace('https://api.github.com/repos/', '');
+
+/** Fold sampled PRs into kinds-by-agent, repo languages and a latest list. */
+export function summariseWork(samples, langs = {}) {
+  const kinds = {}, byAgent = {}, lang = {}, repos = {};
+  const latest = [];
+  for (const { agent, items } of samples) {
+    byAgent[agent] = byAgent[agent] || {};
+    for (const it of items || []) {
+      const k = workKind(it.title);
+      kinds[k] = (kinds[k] || 0) + 1;
+      byAgent[agent][k] = (byAgent[agent][k] || 0) + 1;
+      const r = repoOf(it);
+      if (r) repos[r] = (repos[r] || 0) + 1;
+      const l = langs[r];
+      if (l) lang[l] = (lang[l] || 0) + 1;
+      latest.push({ agent, title: String(it.title || '').slice(0, 140), repo: r, url: it.html_url, at: it.created_at, kind: k, language: l || null });
+    }
+  }
+  latest.sort((a, b) => Date.parse(b.at) - Date.parse(a.at));
+  const sample = Object.values(kinds).reduce((a, b) => a + b, 0);
+  return {
+    sample_size: sample,
+    kinds: Object.entries(kinds).sort((a, b) => b[1] - a[1]).map(([id, n]) => ({ id, n })),
+    by_agent: byAgent,
+    languages: Object.entries(lang).sort((a, b) => b[1] - a[1]).slice(0, 12).map(([name, n]) => ({ name, n })),
+    top_repos: Object.entries(repos).sort((a, b) => b[1] - a[1]).slice(0, 8).map(([repo, n]) => ({ repo, n })),
+    latest: latest.slice(0, 24),
+  };
+}
+
+// Repository languages, cached across runs (a repo's main language rarely
+// changes). Uses the workflow token on the core API, which is unaffected by
+// the search quirk above; at most `limit` new lookups per run.
+const LANG_CACHE = 'data/repo-languages.json';
+async function repoLanguages(repos, { limit = 50 } = {}) {
+  let cache = {};
+  try { cache = JSON.parse(readFileSync(LANG_CACHE, 'utf8')); } catch { /* first run */ }
+  const headers = { accept: 'application/vnd.github+json', ...(TOKEN ? { authorization: `Bearer ${TOKEN}` } : {}) };
+  let n = 0;
+  for (const r of repos) {
+    if (r in cache || n >= limit) continue;
+    n++;
+    try { const j = await fetchJson(`https://api.github.com/repos/${r}`, { headers, retries: 0, timeoutMs: 10000 }); cache[r] = j.language || null; }
+    catch { cache[r] = null; }
+  }
+  const keys = Object.keys(cache);
+  if (keys.length > 5000) for (const k of keys.slice(0, keys.length - 5000)) delete cache[k];
+  try { writeFileSync(LANG_CACHE, JSON.stringify(cache) + '\n'); } catch { /* read-only checkout */ }
+  return cache;
 }
 
 async function agentPrs(now) {
@@ -70,10 +146,11 @@ async function agentPrs(now) {
   const st = process.env.SI_SEARCH_TOKEN || '';
   const headers = { accept: 'application/vnd.github+json', ...(st ? { authorization: `Bearer ${st}` } : {}) };
   const gap = st ? 2000 : 6500;
-  const per = [];
+  const per = [], samples = [];
   for (const [app, name] of AGENTS) {
     try {
-      const r = await searchCount(`is:pr author:app/${app} created:>=${since}`, { headers, log: say });
+      const r = await searchCount(`is:pr author:app/${app} created:>=${since}`, { headers, log: say, perPage: 30 });
+      samples.push({ agent: name, items: r.items });
       await new Promise((res) => setTimeout(res, gap));
       per.push({ app, name, prs_24h: r.count, ...(r.complete ? {} : { approximate: true }) });
     } catch (e) { per.push({ app, name, prs_24h: null, error: String(e.message).slice(0, 120) }); }
@@ -81,11 +158,16 @@ async function agentPrs(now) {
   const branches = [];
   for (const [prefix, name] of AGENT_BRANCHES) {
     try {
-      const r = await searchCount(`is:pr head:${prefix} created:>=${since}`, { headers, log: say });
+      const r = await searchCount(`is:pr head:${prefix} created:>=${since}`, { headers, log: say, perPage: 20 });
+      samples.push({ agent: name, items: r.items });
       await new Promise((res) => setTimeout(res, gap));
       branches.push({ prefix, name, prs_24h: r.count, ...(r.complete ? {} : { approximate: true }) });
     } catch (e) { branches.push({ prefix, name, prs_24h: null, error: String(e.message).slice(0, 120) }); }
   }
+  const uniqRepos = [...new Set(samples.flatMap((x) => (x.items || []).map(repoOf)).filter(Boolean))];
+  let langs = {};
+  try { langs = await repoLanguages(uniqRepos); } catch { /* languages are optional */ }
+  const work = summariseWork(samples, langs);
   const ok = per.filter((p) => Number.isFinite(p.prs_24h));
   const okB = branches.filter((p) => Number.isFinite(p.prs_24h));
   return {
@@ -94,6 +176,7 @@ async function agentPrs(now) {
     by_agent: per,
     branch_total_24h: okB.length ? okB.reduce((a, p) => a + p.prs_24h, 0) : null,
     by_branch: branches,
+    work,
     note: 'by_agent: PRs opened by the agents\' own GitHub app accounts. by_branch: PRs whose branch name carries an agent\'s default prefix, usually opened through a person\'s account; a person can also name a branch that way, so treat it as an upper-bound proxy.',
   };
 }

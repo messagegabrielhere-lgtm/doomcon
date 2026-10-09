@@ -29,6 +29,18 @@ export const PRIMARY = [
   ['/radio.html', 'Radio'],
 ];
 
+// WHAT'S NEW: the newest rooms and features, surfaced in the header (✦ New),
+// at the top of the room finder and as a strip on the homepage. Newest first;
+// keep it to about six so it stays a highlight reel, not a second menu.
+export const WHATS_NEW = [
+  ['/si-watch.html#coding', 'px:crosshair2', 'What AI agents are coding', 'Live: agent pull requests by kind of work, language and repo.'],
+  ['/day-after.html', 'px:megaphone', 'The Day After', 'Game out the public revolt after an AI catastrophe.'],
+  ['/dispatch.html', 'radar', 'Live alerts', 'Big quakes and extreme weather within about a minute.'],
+  ['/leaders.html', 'mic', 'Leaders in the news', 'Every AI boss’s coverage, refreshed every 15 minutes.'],
+  ['/contain.html', 'px:core', 'Containment', 'Arcade: stop rogue AI processes breaching the firewall.'],
+  ['/search.html', 'px:search', 'Search everything', 'Rooms, stories, leaders, videos and data in one box.'],
+];
+
 const esc = (v) => String(v ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const imgOf = (base, n) => (String(n).startsWith('px:') ? `${base}/img/px-${String(n).slice(3)}.svg` : `${base}/img/art-${n}.webp`);
 
@@ -69,6 +81,10 @@ export const HEADER_CSS = `<style ${HEADER_MARK}-css>
 .sh__nav a[aria-current=page]{color:#fff;border-bottom-color:var(--sh-acc2)}
 .sh__all{flex:0 0 auto;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 14px;border:0;background:var(--sh-acc);color:#fff;font:inherit;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
 .sh__all:hover{background:#4338CA}
+.sh__new{flex:0 0 auto;display:inline-flex;align-items:center;gap:4px;min-height:44px;padding:0 12px;border:2px solid #FACC15;background:transparent;color:#FACC15;font:inherit;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
+.sh__new:hover{background:#FACC15;color:#000}
+@media (max-width:560px){.sh__new{padding:0 10px}.sh__new span{display:none}}
+.sh-rooms__g.sh-rooms__g--new{color:#FACC15}
 .sh__srch{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;width:44px;min-height:44px;border:2px solid var(--sh-btn);background:transparent;color:var(--sh-ink);cursor:pointer}
 .sh__srch:hover{border-color:var(--sh-acc2);color:#fff}
 .sh-rooms__chips{flex:0 0 auto;display:flex;gap:6px;overflow-x:auto;padding:8px 12px;border-bottom:1px solid #232C3B;scrollbar-width:none}
@@ -88,9 +104,10 @@ export const HEADER_CSS = `<style ${HEADER_MARK}-css>
 @media (max-width:1360px){.sh__lv b{display:none}.sh__all kbd{display:none}.sh__nav a{padding:0 7px}}
 @media (max-width:1180px){.sh__nav{mask-image:linear-gradient(90deg,#000 90%,transparent)}}
 @media (max-width:900px){.sh__nav{display:none}.sh__lv{margin-left:auto}}
-@media (max-width:560px){.sh__in{gap:8px;padding:0 12px;min-height:56px}.sh__brand svg{width:118px;height:auto}.sh__brand img{width:32px;height:32px}.sh__lv{padding:4px 7px;font-size:11px}.sh__all{padding:0 12px}.sh__all kbd,.sh__all span{display:none}.sh__lvw{display:none}.sh__srch{width:42px}}
+@media (max-width:560px){.sh__in{gap:6px;padding:0 10px;min-height:56px}.sh__brand svg{width:96px;height:auto}.sh__brand img{width:32px;height:32px}.sh__lv{padding:4px 7px;font-size:11px}.sh__all{padding:0 12px}.sh__all kbd,.sh__all span{display:none}.sh__lvw{display:none}.sh__srch{width:42px}}
 .sh__lvw{font-style:normal}
-@media (max-width:360px){.sh__brand svg{display:none}}
+@media (max-width:400px){.sh__srch{display:none}}
+@media (max-width:340px){.sh__brand svg{display:none}}
 .sh-rooms{width:min(720px,calc(100vw - 20px));max-height:min(82vh,760px);margin:7vh auto auto;padding:0;border:2px solid #2A3446;background:#0A0E16;color:#E6EAF0;box-shadow:0 30px 90px rgba(0,0,0,.7);font:500 14px/1.35 system-ui,-apple-system,'Segoe UI',sans-serif}
 .sh-rooms::backdrop{background:rgba(0,0,0,.72);backdrop-filter:blur(3px)}
 .sh-rooms__box{display:flex;flex-direction:column;max-height:min(82vh,760px)}
@@ -150,6 +167,7 @@ export function headerHtml(o = {}) {
 <a class="sh__brand" href="${esc(`${base}/`)}" aria-label="AI SIREN Index, home"><img src="${esc(`${base}/img/art-siren.webp`)}" width="36" height="36" alt="">${pixelText('AI SIREN INDEX', 3, '#FFFFFF')}</a>
 <a class="sh__lv" href="${esc(`${base}/#signal`)}" style="--sh-lv:${color}" title="Current reading: SIREN ${esc(lv ?? '')}${o.levelName ? ` (${esc(o.levelName)})` : ''}, score ${esc(score)} of 100"><i aria-hidden="true"></i><span><em class="sh__lvw">SIREN </em>${esc(lv ?? '–')}${o.levelName ? `<b> · ${esc(String(o.levelName).toUpperCase())}</b>` : ''} · ${esc(score || '–')}</span></a>
 <nav class="sh__nav" aria-label="Primary">${nav}</nav>
+<button type="button" class="sh__new" data-sh-rooms-group="NEW ON SIREN" aria-haspopup="dialog" aria-controls="sh-rooms" title="What’s new on SIREN">✦<span> New</span></button>
 <button type="button" class="sh__srch" data-sh-rooms data-sh-search aria-haspopup="dialog" aria-controls="sh-rooms" title="Search the site (/)"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><circle cx="7.5" cy="7.5" r="5.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M11.6 11.6 16 16" stroke="currentColor" stroke-width="2.2" stroke-linecap="square"/></svg><b class="sh__sr">Search the site</b></button>
 <button type="button" class="sh__all" data-sh-rooms aria-haspopup="dialog" aria-controls="sh-rooms"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 2h5v5H2zM9 2h5v5H9zM2 9h5v5H2zM9 9h5v5H9z" fill="currentColor"/></svg><span>All rooms</span><kbd>/</kbd><b class="sh__sr">Open the list of every room</b></button>
 </div></header>
@@ -189,7 +207,7 @@ ${pick.length ? `<p class="sh-rel__h">Related rooms · ${esc(gTitle)}</p>
 
 /** The script: the All rooms dialog (built from the shared list), shortcuts, back to top. */
 export function navJs(rooms, base = '') {
-  const data = JSON.stringify({ base, rooms, primary: PRIMARY }).replace(/</g, '\\u003c');
+  const data = JSON.stringify({ base, rooms, primary: PRIMARY, news: WHATS_NEW }).replace(/</g, '\\u003c');
   return `/* SIREN shared navigation: built by site/siteheader.mjs. */
 ${SEARCH_CORE_JS}
 (function(){
@@ -211,6 +229,7 @@ function build(){
   var byP={},uniq=[],seenP={};D.rooms.forEach(function(r){var k=r[0].split('#')[0];if(!byP[r[0]])byP[r[0]]=r;if(seenP[r[0]])return;seenP[r[0]]=1;uniq.push(r)});
   var rec=recent().filter(function(p){return byP[p]&&!cur(p)}).slice(0,5);
   if(rec.length){h+='<li class="sh-rooms__g sh-rooms__g--rec">RECENT</li>';rec.forEach(function(p){var r=byP[p];h+='<li><a class="sh-rooms__i sh-rooms__i--p" href="'+e(D.base+r[0])+'" data-k="'+e((r[2]+' '+r[3]).toLowerCase())+'"><img src="'+e(img(r[1]))+'" width="34" height="34" alt="" loading="lazy"><span><b>'+e(r[2])+'</b><small>'+e(r[3])+'</small></span></a></li>'})}
+  if(D.news&&D.news.length){h+='<li class="sh-rooms__g sh-rooms__g--new">NEW ON SIREN</li>';D.news.forEach(function(r){h+='<li><a class="sh-rooms__i sh-rooms__i--p" href="'+e(D.base+r[0])+'" data-k="'+e((r[2]+' '+r[3]+' new').toLowerCase())+'"><img src="'+e(img(r[1]))+'" width="34" height="34" alt="" loading="lazy"><span><b>'+e(r[2])+'</b><small>'+e(r[3])+'</small></span></a></li>'})}
   var g='',groups=[];
   uniq.forEach(function(r){if(r[4]!==g){g=r[4];groups.push(g);h+='<li class="sh-rooms__g" id="shg-'+groups.length+'">'+e(g)+'</li>'}h+='<li><a class="sh-rooms__i" href="'+e(D.base+r[0])+'" data-k="'+e((r[2]+' '+r[3]+' '+r[4]).toLowerCase())+'"'+(cur(r[0])?' aria-current="page"':'')+'><img src="'+e(img(r[1]))+'" width="34" height="34" alt="" loading="lazy"><span><b>'+e(r[2])+'</b><small>'+e(r[3])+'</small></span></a></li>'});
   // Group chips: jump straight to a section of the list.
