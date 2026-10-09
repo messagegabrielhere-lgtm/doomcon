@@ -1,0 +1,567 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Dispatch — 911, alerts &amp; police blather</title>
+<meta name="description" content="Live US 911 CAD calls from city open data, NWS/USGS/GDACS/NHC/EONET alerts, and a ticker of police-call chatter — public feeds only, no keys, not an emergency service.">
+<link rel="stylesheet" href="fonts/fonts.css">
+<style>
+:root{
+  --bg:#070a10; --panel:#0e131c; --sunk:#0a0e15; --ink:#e4e9f1; --mute:#8590a3; --line:#1e2735;
+  --accent:#f0b44c; --accent-ink:#1a1206; --up:#33c1a1; --down:#f0645a; --warn:#facc15;
+  --alert:#e53935; --call:#42a5f5; --blather:#ce93d8;
+  --land:#233149; --land-line:#3a4c69; --ocean:#09111d;
+  --f-display:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
+  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 var(--f-body);padding:12px 16px 20px}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+a{color:inherit}
+[hidden]{display:none!important}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.wrap{max-width:1600px;margin:0 auto;display:flex;flex-direction:column;gap:10px}
+
+.top{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px}
+.brand{display:flex;align-items:baseline;gap:10px;margin-right:auto;min-width:0}
+.brand h1{margin:0;font:700 26px/1 var(--f-display);letter-spacing:.04em;text-transform:uppercase;white-space:nowrap}
+.brand h1 b{color:var(--accent)}
+.brand span{color:var(--mute);font-size:12.5px}
+.clock{font:500 13px/1 var(--f-mono);color:var(--mute)}
+.em-banner{display:none;align-items:center;gap:12px;flex-wrap:wrap;padding:10px 14px;border-radius:8px;border:1px solid var(--alert);background:linear-gradient(90deg,rgba(229,57,53,.22),rgba(14,19,28,.9));animation:em-pulse 2.4s ease-in-out infinite}
+.em-banner.on{display:flex}
+.em-banner[data-level="1"]{border-color:#ff1744;background:linear-gradient(90deg,rgba(255,23,68,.35),rgba(14,19,28,.92))}
+.em-banner[data-level="2"]{border-color:var(--alert)}
+.em-banner[data-level="3"]{border-color:var(--warn);background:linear-gradient(90deg,rgba(250,204,21,.18),rgba(14,19,28,.9))}
+.em-banner .tag{font:800 13px/1 var(--f-display);letter-spacing:.16em;padding:5px 10px;border-radius:4px;background:var(--alert);color:#fff}
+.em-banner[data-level="3"] .tag{background:var(--warn);color:#1a1206}
+.em-banner .body{flex:1;min-width:200px;font-size:13.5px}
+.em-banner .body b{font-weight:600}
+.em-banner .body small{display:block;color:var(--mute);font-size:12px;margin-top:2px}
+.em-banner .go{margin-left:auto}
+@keyframes em-pulse{0%,100%{box-shadow:0 0 0 0 rgba(229,57,53,.35)}50%{box-shadow:0 0 0 6px rgba(229,57,53,0)}}
+@media (prefers-reduced-motion:reduce){.em-banner{animation:none}}
+.btn{border:1px solid var(--line);background:var(--panel);border-radius:6px;padding:5px 11px;font-weight:500;font-size:13px;text-decoration:none;display:inline-flex;align-items:center}
+.btn:hover{border-color:var(--mute)}
+.btn[aria-pressed=true]{border-color:var(--accent);color:var(--accent)}
+.sources{display:flex;flex-wrap:wrap;gap:5px}
+.src{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:2px 9px;font-size:11.5px;color:var(--mute);white-space:nowrap;cursor:help}
+.src i{width:7px;height:7px;border-radius:50%;background:var(--line);display:inline-block}
+.src.ok i{background:var(--up)}
+.src.dark i{background:var(--down)}
+.src.wait i{background:var(--accent);animation:blink 1s infinite}
+@keyframes blink{50%{opacity:.3}}
+
+.grid{display:grid;grid-template-columns:260px minmax(0,1fr) 380px;gap:10px;min-height:calc(100vh - 140px)}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;min-width:0;display:flex;flex-direction:column;overflow:hidden}
+.ph{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 12px;border-bottom:1px solid var(--line)}
+.ph h2{margin:0;font:600 14px/1 var(--f-display);letter-spacing:.12em;text-transform:uppercase}
+.ph small{color:var(--mute);font-size:11.5px}
+.scroll{overflow:auto;min-height:0;flex:1}
+.left{display:flex;flex-direction:column;gap:10px;max-height:calc(100vh - 130px)}
+.left .panel{flex:1}
+
+.layer{display:flex;align-items:center;gap:8px;padding:4px 12px;font-size:13px;cursor:pointer}
+.layer input{margin:0;accent-color:var(--accent)}
+.layer .sw{width:10px;height:10px;border-radius:50%;flex:none}
+.layer .n{margin-left:auto;font:400 11.5px var(--f-mono);color:var(--mute)}
+.cities{padding:8px 12px 12px;display:flex;flex-direction:column;gap:4px}
+.city{display:flex;justify-content:space-between;gap:8px;padding:6px 8px;border:1px solid var(--line);border-radius:6px;background:var(--sunk);font-size:12.5px}
+.city b{font-weight:600}
+.city .st{font:400 11px var(--f-mono);color:var(--mute)}
+.city.ok .st{color:var(--up)}
+.city.dark .st{color:var(--down)}
+.note{padding:10px 12px;font-size:12.5px;color:var(--mute);border-top:1px solid var(--line)}
+.note b{color:var(--ink);font-weight:600}
+
+.stage{position:relative;min-height:420px}
+#map{display:block;width:100%;height:100%;min-height:420px;background:radial-gradient(ellipse at 50% 40%,#122038 0%,var(--ocean) 70%)}
+.hud{position:absolute;top:10px;left:10px;display:flex;flex-wrap:wrap;gap:6px;z-index:2}
+.legend{position:absolute;bottom:10px;left:10px;display:flex;flex-wrap:wrap;gap:8px;font-size:11.5px;color:var(--mute);background:rgba(7,10,16,.72);padding:6px 10px;border-radius:6px;border:1px solid var(--line);z-index:2}
+.legend span::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px;vertical-align:middle}
+.legend .a::before{background:var(--alert)}
+.legend .c::before{background:var(--call)}
+.tip{position:absolute;pointer-events:none;z-index:3;background:rgba(14,19,28,.94);border:1px solid var(--line);border-radius:6px;padding:7px 10px;font-size:12.5px;max-width:260px;box-shadow:0 8px 24px rgba(0,0,0,.45)}
+.tip b{display:block;font-weight:600;margin-bottom:2px}
+.tip small{color:var(--mute)}
+.loading{position:absolute;inset:0;display:grid;place-items:center;color:var(--mute);font-size:13px;z-index:1;background:rgba(7,10,16,.35)}
+
+.tabs{display:flex;border-bottom:1px solid var(--line)}
+.tabs button{flex:1;border:0;background:transparent;padding:9px 8px;font:600 12px/1 var(--f-display);letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+.tabs button[aria-selected=true]{color:var(--ink);box-shadow:inset 0 -2px 0 var(--accent)}
+.tabs .ct{margin-left:4px;font:400 11px var(--f-mono);color:var(--mute)}
+.feed{list-style:none;margin:0;padding:0}
+.feed li{padding:10px 12px;border-bottom:1px solid var(--line);cursor:default}
+.feed li:hover{background:var(--sunk)}
+.feed .meta{display:flex;flex-wrap:wrap;gap:6px 10px;font-size:11.5px;color:var(--mute);margin-bottom:3px}
+.feed .meta .tag{color:var(--ink)}
+.feed .meta .sev-Extreme,.feed .meta .sev-Severe{color:var(--alert)}
+.feed .title{font-size:13.5px;font-weight:500}
+.bline{padding:8px 12px;border-bottom:1px solid var(--line);font-size:13px;display:grid;grid-template-columns:64px 1fr;gap:8px}
+.bline .when{font:400 11px var(--f-mono);color:var(--mute);padding-top:2px}
+.bline .txt b{color:var(--blather);font-weight:600;margin-right:6px}
+.bline .txt span{color:var(--mute);font-size:11.5px;margin-left:6px}
+
+.ticker{display:flex;align-items:center;gap:10px;border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:7px 10px;overflow:hidden}
+.ticker .lab{font:700 11px/1 var(--f-display);letter-spacing:.14em;color:var(--blather);flex:none}
+.ticker .run{flex:1;overflow:hidden;white-space:nowrap;mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.ticker .run span{display:inline-block;padding-left:100%;animation:marquee 80s linear infinite;font:500 13px/1.4 var(--f-mono);color:var(--ink)}
+@keyframes marquee{to{transform:translateX(-100%)}}
+@media (prefers-reduced-motion:reduce){.ticker .run span{animation:none;padding-left:0;white-space:normal}}
+
+footer{display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:space-between;font-size:12px;color:var(--mute);padding:2px 2px 0}
+footer a{color:var(--ink);text-decoration:underline;text-underline-offset:2px}
+
+@media (max-width:1100px){
+  .grid{grid-template-columns:1fr;min-height:0}
+  .left{max-height:none;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .stage{min-height:360px}
+  #map{min-height:360px}
+}
+@media (max-width:640px){
+  .left{grid-template-columns:1fr}
+  .brand span{display:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <h1>911 <b>Dispatch</b></h1>
+      <span>CAD calls · NWS alerts · police blather · public open data</span>
+    </div>
+    <span class="clock" id="clock">--:--:-- UTC</span>
+    <a class="btn" href="monitor.html" title="World Monitor">World Monitor</a>
+    <button class="btn" id="refresh" type="button" title="Reload snapshot (R)">Refresh</button>
+    <button class="btn" id="helpBtn" type="button" title="What this is" aria-label="Help">?</button>
+  </header>
+  <div class="em-banner" id="emBanner" role="status" aria-live="polite" hidden>
+    <span class="tag" id="emTag">ALERT</span>
+    <div class="body"><b id="emHead">—</b><small id="emSub">Public delayed feed · not an emergency service</small></div>
+    <button class="btn go" type="button" id="emFocus">Show on map</button>
+  </div>
+  <div class="sources" id="sources" aria-label="Source status"></div>
+
+  <main class="grid">
+    <aside class="left">
+      <section class="panel" aria-labelledby="hLayers">
+        <div class="ph"><h2 id="hLayers">Layers</h2><small id="layerCount"></small></div>
+        <div id="layers"></div>
+        <div class="note">
+          <b>Not an emergency service.</b> These are delayed public open-data feeds. Street addresses are stripped; coordinates are rounded to ~100&nbsp;m. Do not use this page to respond to anything.
+        </div>
+      </section>
+      <section class="panel" aria-labelledby="hCities">
+        <div class="ph"><h2 id="hCities">Cities</h2><small>open CAD</small></div>
+        <div class="cities scroll" id="cities"></div>
+      </section>
+    </aside>
+
+    <section class="panel stage" aria-label="Map">
+      <canvas id="map" aria-label="United States map of 911 calls and emergency alerts"></canvas>
+      <div class="hud">
+        <button class="btn" type="button" id="home" title="Reset view">Reset</button>
+      </div>
+      <div class="legend">
+        <span class="a">Alerts (NWS · USGS · GDACS · NHC · EONET)</span>
+        <span class="c">911 / CAD calls</span>
+      </div>
+      <div class="tip" id="tip" hidden></div>
+      <div class="loading" id="loading">Loading dispatch snapshot…</div>
+    </section>
+
+    <section class="panel right" aria-label="Feeds">
+      <div class="tabs" role="tablist" id="tabs">
+        <button role="tab" aria-selected="true" data-tab="blather">Blather<span class="ct" id="ctBlather"></span></button>
+        <button role="tab" aria-selected="false" data-tab="alerts">Alerts<span class="ct" id="ctAlerts"></span></button>
+        <button role="tab" aria-selected="false" data-tab="calls">Calls<span class="ct" id="ctCalls"></span></button>
+      </div>
+      <div class="pane scroll" data-pane="blather"><div id="blather"></div></div>
+      <div class="pane scroll" data-pane="alerts" hidden><ul class="feed" id="alerts"></ul></div>
+      <div class="pane scroll" data-pane="calls" hidden><ul class="feed" id="calls"></ul></div>
+    </section>
+  </main>
+
+  <div class="ticker" aria-label="Police blather ticker"><span class="lab">BLATHER</span><div class="run" id="ticker"><span id="tickerText">Waiting for CAD chatter…</span></div></div>
+
+  <footer>
+    <span>
+      911 CAD: Seattle, SF, NYC, Austin, LA, Dallas, Kansas City, Montgomery County MD.
+      Alerts: <a href="https://www.weather.gov/documentation/services-web-api" target="_blank" rel="noopener">NWS</a>, USGS, GDACS, NHC, NASA EONET.
+      Snapshot every ~15 minutes on the <span class="mono">dispatch-data</span> branch.
+      High-severity triggers mark this page emergency and may post to X.
+      This is ambient public signal, not a warning system.
+    </span>
+    <span>Keys: R refresh · 1–3 tabs · ? help</span>
+  </footer>
+</div>
+
+<dialog id="help" style="max-width:520px;background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:18px 20px">
+  <h2 style="margin:0 0 8px;font:700 22px/1 var(--f-display);letter-spacing:.06em;text-transform:uppercase">Dispatch</h2>
+  <p style="margin:0 0 10px;color:var(--mute);font-size:13.5px">A US room for three public feeds the rest of the site does not carry:</p>
+  <ul style="margin:0 0 10px 18px;padding:0;color:var(--mute);font-size:13.5px">
+    <li><b style="color:var(--ink)">911 / CAD calls</b> from city open-data portals (Seattle Fire/EMS + Police, SF, NYC, Austin, LA, Dallas, Kansas City, Montgomery County MD).</li>
+    <li><b style="color:var(--ink)">Emergency alerts</b> from NWS, USGS quakes, GDACS, NHC storms, and NASA EONET.</li>
+    <li><b style="color:var(--ink)">Police blather</b> — the nature-of-call chatter from those CAD feeds, as a ticker and a list.</li>
+    <li><b style="color:var(--ink)">Emergency mark</b> — Extreme / land-severe / major-quake / hurricane triggers light a site banner and may post once to X.</li>
+  </ul>
+  <p style="margin:0 0 14px;color:var(--mute);font-size:13.5px">It never moves the SIREN score. A dark source is shown as dark. It is not for emergency response.</p>
+  <form method="dialog"><button class="btn" value="ok">Got it</button></form>
+</dialog>
+
+<script>
+(() => {
+"use strict";
+const $ = (s, el = document) => el.querySelector(s);
+const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const RAW = "https://raw.githubusercontent.com/messagegabrielhere-lgtm/doomcon";
+const SNAP_URL = () => `${RAW}/dispatch-data/dispatch.json?m=${Math.floor(Date.now() / 120000)}`;
+const OUTLINE_URL = `${RAW}/main/data/world-outline.json`;
+
+const S = {
+  alerts: [], calls: [], blather: [], cities: [], sources: {}, generated: null,
+  emergency: null,
+  showAlerts: true, showCalls: true, cityOn: new Set(),
+  us: null, view: { z: 1, x: 0, y: 0 },
+  hits: [], needDraw: true, tab: "blather",
+};
+
+const canvas = $("#map");
+const ctx = canvas.getContext("2d");
+const tip = $("#tip");
+const REDUCED = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* ---------- Albers USA (USGS standard parallels) ---------- */
+const D2R = Math.PI / 180;
+const PHI1 = 29.5 * D2R, PHI2 = 45.5 * D2R, PHI0 = 23 * D2R, LAM0 = -96 * D2R;
+const N = 0.5 * (Math.sin(PHI1) + Math.sin(PHI2));
+const C = Math.cos(PHI1) ** 2 + 2 * N * Math.sin(PHI1);
+const R0 = Math.sqrt(C - 2 * N * Math.sin(PHI0)) / N;
+function project(lon, lat) {
+  const lam = lon * D2R, phi = lat * D2R;
+  const r = Math.sqrt(C - 2 * N * Math.sin(phi)) / N;
+  const th = N * (lam - LAM0);
+  return [r * Math.sin(th), R0 - r * Math.cos(th)];
+}
+
+function resize() {
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const r = canvas.parentElement.getBoundingClientRect();
+  const w = Math.max(320, r.width), h = Math.max(360, r.height);
+  canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr);
+  canvas.style.width = w + "px"; canvas.style.height = h + "px";
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  S.needDraw = true;
+}
+
+function toScreen(lon, lat) {
+  const [x, y] = project(lon, lat);
+  const w = canvas.clientWidth, h = canvas.clientHeight;
+  // Fit CONUS roughly into the canvas.
+  const sx = w * 0.42 * S.view.z, sy = -h * 0.55 * S.view.z;
+  return [w * 0.48 + x * sx + S.view.x, h * 0.72 + y * sy + S.view.y];
+}
+
+function draw() {
+  const w = canvas.clientWidth, h = canvas.clientHeight;
+  ctx.clearRect(0, 0, w, h);
+  // atmosphere
+  const g = ctx.createRadialGradient(w * 0.5, h * 0.4, 20, w * 0.5, h * 0.45, Math.max(w, h) * 0.7);
+  g.addColorStop(0, "#122038"); g.addColorStop(1, "#09111d");
+  ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+
+  if (S.us) {
+    ctx.fillStyle = "var" in CanvasRenderingContext2D.prototype ? "#233149" : "#233149";
+    ctx.strokeStyle = "#3a4c69"; ctx.lineWidth = 1;
+    for (const ring of S.us) {
+      ctx.beginPath();
+      for (let i = 0; i < ring.length; i++) {
+        const p = toScreen(ring[i][0], ring[i][1]);
+        if (i === 0) ctx.moveTo(p[0], p[1]); else ctx.lineTo(p[0], p[1]);
+      }
+      ctx.closePath(); ctx.fill(); ctx.stroke();
+    }
+  }
+
+  S.hits = [];
+  const now = Date.now();
+  if (S.showCalls) for (const c of S.calls) {
+    if (S.cityOn.size && !S.cityOn.has(cityKey(c.city))) continue;
+    const p = toScreen(c.lon, c.lat);
+    const age = (now - c.t) / 3600e3;
+    const a = age < 1 ? 0.95 : age < 6 ? 0.7 : 0.4;
+    const r = c.approx ? 3.5 : 4.2;
+    ctx.globalAlpha = a;
+    ctx.beginPath(); ctx.arc(p[0], p[1], r, 0, Math.PI * 2);
+    ctx.fillStyle = "rgba(66,165,245,.55)"; ctx.fill();
+    ctx.lineWidth = 1.2; ctx.strokeStyle = "#42a5f5"; ctx.stroke();
+    S.hits.push({ x: p[0], y: p[1], r: r + 3, kind: "call", item: c });
+  }
+  if (S.showAlerts) for (const a of S.alerts) {
+    if (!Number.isFinite(a.lon) || !Number.isFinite(a.lat)) continue;
+    const p = toScreen(a.lon, a.lat);
+    const severe = a.severity === "Extreme" || a.severity === "Severe";
+    const r = severe ? 8 : 5.5;
+    const pulse = !REDUCED && severe ? 1 + 0.25 * Math.sin(now / 300) : 1;
+    ctx.globalAlpha = 0.9;
+    ctx.beginPath(); ctx.arc(p[0], p[1], r * pulse, 0, Math.PI * 2);
+    ctx.strokeStyle = "#e53935"; ctx.lineWidth = severe ? 2.4 : 1.6; ctx.stroke();
+    ctx.beginPath(); ctx.arc(p[0], p[1], 2.2, 0, Math.PI * 2);
+    ctx.fillStyle = "#e53935"; ctx.fill();
+    S.hits.push({ x: p[0], y: p[1], r: r + 4, kind: "alert", item: a });
+  }
+  ctx.globalAlpha = 1;
+}
+
+function cityKey(name) { return String(name || "").toLowerCase(); }
+function ago(t) {
+  const s = Math.max(0, Math.round((Date.now() - t) / 1000));
+  if (s < 60) return s + "s";
+  if (s < 3600) return Math.round(s / 60) + "m";
+  if (s < 86400) return (s / 3600).toFixed(1).replace(/\.0$/, "") + "h";
+  return Math.round(s / 86400) + "d";
+}
+
+function setSrc(id, state, n, title) {
+  let el = $(`.src[data-id="${id}"]`);
+  if (!el) {
+    el = document.createElement("span");
+    el.className = "src"; el.dataset.id = id;
+    el.innerHTML = `<i></i><span class="lbl"></span>`;
+    $("#sources").appendChild(el);
+  }
+  el.className = "src " + state;
+  el.title = title || "";
+  el.querySelector(".lbl").textContent = n ? `${id} ${n}` : id;
+}
+
+function renderLayers() {
+  const rows = [
+    ["alerts", "Emergency alerts", "#e53935", S.showAlerts, S.alerts.length],
+    ["calls", "911 / CAD calls", "#42a5f5", S.showCalls, S.calls.length],
+  ];
+  $("#layers").innerHTML = rows.map(([id, label, col, on, n]) =>
+    `<label class="layer"><input type="checkbox" data-layer="${id}" ${on ? "checked" : ""}><span class="sw" style="background:${col}"></span><span>${esc(label)}</span><span class="n">${n}</span></label>`
+  ).join("");
+  $("#layerCount").textContent = `${[S.showAlerts, S.showCalls].filter(Boolean).length} of 2 on`;
+}
+
+function renderEmergency() {
+  const em = S.emergency;
+  const banner = $("#emBanner");
+  if (!em || !em.active) {
+    banner.hidden = true;
+    banner.classList.remove("on");
+    document.title = "Dispatch — 911, alerts & police blather";
+    return;
+  }
+  banner.hidden = false;
+  banner.classList.add("on");
+  banner.dataset.level = String(em.level || 2);
+  $("#emTag").textContent = em.label || "ALERT";
+  const p = em.primary || {};
+  $("#emHead").textContent = [p.event, p.severity].filter(Boolean).join(" · ") || "Active emergency trigger";
+  $("#emSub").textContent = [
+    p.headline || p.area || "",
+    `${em.count} trigger${em.count === 1 ? "" : "s"}`,
+    "public delayed feed · not an emergency service",
+  ].filter(Boolean).join(" · ");
+  document.title = `${em.label}: Dispatch`;
+  document.body.dataset.emergency = em.label;
+}
+$("#emFocus").addEventListener("click", () => {
+  const p = S.emergency?.primary;
+  if (p && Number.isFinite(p.lon) && Number.isFinite(p.lat)) focusLonLat(p.lon, p.lat);
+  S.tab = "alerts";
+  $$("#tabs [role=tab]").forEach((t) => t.setAttribute("aria-selected", t.dataset.tab === "alerts" ? "true" : "false"));
+  $$(".pane").forEach((pane) => { pane.hidden = pane.dataset.pane !== "alerts"; });
+});
+$("#layers").addEventListener("change", (e) => {
+  const id = e.target.dataset.layer;
+  if (id === "alerts") S.showAlerts = e.target.checked;
+  if (id === "calls") S.showCalls = e.target.checked;
+  renderLayers(); S.needDraw = true;
+});
+
+function renderCities() {
+  $("#cities").innerHTML = (S.cities || []).map((c) => {
+    const on = !S.cityOn.size || S.cityOn.has(cityKey(c.city));
+    return `<button type="button" class="city ${c.ok ? "ok" : "dark"}" data-city="${esc(cityKey(c.city))}" aria-pressed="${on}" title="Filter map to ${esc(c.city)}">
+      <span><b>${esc(c.city)}</b><br><small style="color:var(--mute)">${esc(c.agency)}</small></span>
+      <span class="st">${c.ok ? c.n + " calls" : "dark"}</span>
+    </button>`;
+  }).join("");
+}
+$("#cities").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-city]"); if (!b) return;
+  const k = b.dataset.city;
+  if (S.cityOn.has(k) && S.cityOn.size === 1) S.cityOn.clear();
+  else { S.cityOn.clear(); S.cityOn.add(k); }
+  renderCities(); S.needDraw = true;
+});
+
+function renderFeeds() {
+  $("#ctBlather").textContent = S.blather.length || "";
+  $("#ctAlerts").textContent = S.alerts.length || "";
+  $("#ctCalls").textContent = S.calls.length || "";
+
+  $("#blather").innerHTML = S.blather.slice(0, 120).map((b) =>
+    `<div class="bline"><div class="when">${esc(ago(b.t))}</div><div class="txt"><b>${esc(b.city)}</b>${esc(b.text)}<span>${esc(b.agency)}</span></div></div>`
+  ).join("") || `<div class="note">No CAD chatter in this snapshot.</div>`;
+
+  $("#alerts").innerHTML = S.alerts.slice(0, 120).map((a) => {
+    const pin = Number.isFinite(a.lon) && Number.isFinite(a.lat);
+    const sys = a.system ? String(a.system).toUpperCase() : "NWS";
+    return `<li ${pin ? `data-lon="${a.lon}" data-lat="${a.lat}"` : ""}><div class="meta"><span class="tag sev-${esc(a.severity)}">${esc(a.severity)}</span><span>${esc(sys)}</span><span>${esc(a.event)}</span><span>${esc(ago(a.t))} ago</span>${pin ? "" : "<span>list only</span>"}</div><div class="title">${esc(a.headline || a.event)}</div><div class="meta">${esc(a.area || "")}</div></li>`;
+  }).join("") || `<li class="note">No severe alerts in this snapshot.</li>`;
+
+  $("#calls").innerHTML = S.calls.slice(0, 160).map((c) =>
+    `<li data-lon="${c.lon}" data-lat="${c.lat}"><div class="meta"><span class="tag">${esc(c.city)}</span><span>${esc(c.agency)}</span><span>${esc(ago(c.t))} ago</span>${c.approx ? "<span>~division</span>" : ""}${c.district ? `<span>${esc(c.district)}</span>` : ""}</div><div class="title">${esc(c.type)}</div></li>`
+  ).join("") || `<li class="note">No CAD calls in this snapshot.</li>`;
+
+  const tick = S.blather.slice(0, 40).map((b) => `${b.city}: ${b.text}`).join("   ·   ");
+  $("#tickerText").textContent = tick || "Waiting for CAD chatter…";
+}
+
+$("#tabs").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-tab]"); if (!b) return;
+  S.tab = b.dataset.tab;
+  $$("#tabs [role=tab]").forEach((t) => t.setAttribute("aria-selected", t === b ? "true" : "false"));
+  $$(".pane").forEach((p) => { p.hidden = p.dataset.pane !== S.tab; });
+});
+
+function focusLonLat(lon, lat) {
+  const p = toScreen(lon, lat);
+  S.view.x += canvas.clientWidth / 2 - p[0];
+  S.view.y += canvas.clientHeight / 2 - p[1];
+  S.view.z = Math.max(S.view.z, 1.6);
+  S.needDraw = true;
+}
+$("#alerts").addEventListener("click", (e) => {
+  const li = e.target.closest("li[data-lon]"); if (!li) return;
+  focusLonLat(+li.dataset.lon, +li.dataset.lat);
+});
+$("#calls").addEventListener("click", (e) => {
+  const li = e.target.closest("li[data-lon]"); if (!li) return;
+  focusLonLat(+li.dataset.lon, +li.dataset.lat);
+});
+
+canvas.addEventListener("pointermove", (e) => {
+  const r = canvas.getBoundingClientRect();
+  const x = e.clientX - r.left, y = e.clientY - r.top;
+  let hit = null, best = 1e9;
+  for (const h of S.hits) {
+    const d = (h.x - x) ** 2 + (h.y - y) ** 2;
+    if (d < h.r * h.r && d < best) { best = d; hit = h; }
+  }
+  if (!hit) { tip.hidden = true; return; }
+  const it = hit.item;
+  tip.hidden = false;
+  tip.style.left = Math.min(x + 12, canvas.clientWidth - 270) + "px";
+  tip.style.top = Math.min(y + 12, canvas.clientHeight - 80) + "px";
+  if (hit.kind === "alert") {
+    tip.innerHTML = `<b>${esc(it.event)} · ${esc(it.severity)}</b><small>${esc((it.system || "nws").toUpperCase())} · ${esc(it.area || "")}<br>${esc(ago(it.t))} ago</small>`;
+  } else {
+    tip.innerHTML = `<b>${esc(it.type)}</b><small>${esc(it.city)} · ${esc(it.agency)}${it.approx ? " · approx. pin" : ""}<br>${esc(ago(it.t))} ago</small>`;
+  }
+});
+canvas.addEventListener("pointerleave", () => { tip.hidden = true; });
+
+let drag = null;
+canvas.addEventListener("pointerdown", (e) => {
+  canvas.setPointerCapture(e.pointerId);
+  drag = { x: e.clientX, y: e.clientY, vx: S.view.x, vy: S.view.y };
+});
+canvas.addEventListener("pointermove", (e) => {
+  if (!drag) return;
+  S.view.x = drag.vx + (e.clientX - drag.x);
+  S.view.y = drag.vy + (e.clientY - drag.y);
+  S.needDraw = true;
+});
+canvas.addEventListener("pointerup", () => { drag = null; });
+canvas.addEventListener("wheel", (e) => {
+  e.preventDefault();
+  const f = e.deltaY > 0 ? 0.9 : 1.1;
+  S.view.z = Math.min(4, Math.max(0.6, S.view.z * f));
+  S.needDraw = true;
+}, { passive: false });
+$("#home").addEventListener("click", () => { S.view = { z: 1, x: 0, y: 0 }; S.needDraw = true; });
+
+async function loadOutline() {
+  try {
+    const j = await (await fetch(OUTLINE_URL)).json();
+    // data/world-outline.json: { countries: [{ iso2, rings: [[[lon,lat],…],…] }] }
+    const us = (j.countries || []).find((c) => c.iso2 === "US");
+    S.us = us?.rings || null;
+  } catch (e) {
+    console.warn("outline", e);
+    S.us = null;
+  }
+}
+
+async function loadSnap() {
+  setSrc("snap", "wait");
+  try {
+    const j = await (await fetch(SNAP_URL())).json();
+    S.alerts = j.alerts || [];
+    S.calls = j.calls || [];
+    S.blather = j.blather || [];
+    S.cities = j.cities || [];
+    S.sources = j.sources || {};
+    S.emergency = j.emergency || null;
+    S.generated = j.generated;
+    setSrc("snap", "ok", "", `Snapshot ${j.generated || ""}`);
+    for (const [id, s] of Object.entries(S.sources)) {
+      setSrc(id, s.ok ? "ok" : "dark", s.ok ? String(s.n ?? "") : "", s.ok ? (s.label || id) : (s.error || "failed"));
+    }
+    if (S.emergency?.active) setSrc("emergency", "ok", S.emergency.label, S.emergency.primary?.headline || S.emergency.label);
+    else setSrc("emergency", "ok", "CLEAR", "No emergency triggers");
+    $("#loading").hidden = true;
+    renderEmergency(); renderLayers(); renderCities(); renderFeeds(); S.needDraw = true;
+  } catch (e) {
+    setSrc("snap", "dark", "", e.message);
+    $("#loading").textContent = "Dispatch snapshot did not load (" + e.message + "). The dispatch-data branch may still be empty — run the workflow once.";
+  }
+}
+
+function tickClock() {
+  const d = new Date();
+  $("#clock").textContent = d.toISOString().slice(11, 19) + " UTC";
+}
+
+function loop() {
+  if (S.needDraw || (!REDUCED && S.showAlerts && S.alerts.some((a) => a.severity === "Extreme" || a.severity === "Severe"))) {
+    S.needDraw = false; draw();
+  }
+  requestAnimationFrame(loop);
+}
+
+$("#refresh").addEventListener("click", () => loadSnap());
+$("#helpBtn").addEventListener("click", () => $("#help").showModal());
+document.addEventListener("keydown", (e) => {
+  if (e.target.matches("input,textarea,select")) return;
+  if (e.key === "r" || e.key === "R") loadSnap();
+  if (e.key === "1") $$("#tabs [data-tab]")[0]?.click();
+  if (e.key === "2") $$("#tabs [data-tab]")[1]?.click();
+  if (e.key === "3") $$("#tabs [data-tab]")[2]?.click();
+  if (e.key === "?") $("#help").showModal();
+});
+
+addEventListener("resize", resize);
+resize();
+tickClock(); setInterval(tickClock, 1000);
+loadOutline().then(() => { S.needDraw = true; });
+loadSnap();
+loop();
+})();
+</script>
+</body>
+</html>

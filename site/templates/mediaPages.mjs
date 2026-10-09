@@ -30,7 +30,7 @@ export const INTRO_FOR = {
   'ai-proof-job.html': 'siren-ai-proof-job', 'jobs.html': 'siren-ai-proof-job', 'careers.html': 'siren-ai-proof-job',
   'bunker-kit.html': 'siren-supply-drop', 'prepper-checklist.html': 'siren-supply-drop', 'bug-out-land.html': 'siren-supply-drop',
   'methodology.html': 'siren-skynet', 'classic.html': 'siren-skynet', 'history.html': 'siren-skynet', 'ai-doomsday-clock.html': 'siren-skynet',
-  'race.html': 'siren-skynet', 'monitor.html': 'siren-skynet', 'news.html': 'siren-skynet', 'changelog.html': 'siren-skynet',
+  'race.html': 'siren-skynet', 'monitor.html': 'siren-skynet', 'dispatch.html': 'siren-skynet', 'news.html': 'siren-skynet', 'changelog.html': 'siren-skynet',
 };
 
 const STATIONS = [
