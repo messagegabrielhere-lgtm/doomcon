@@ -875,6 +875,19 @@ async function main() {
     }
   }
 
+  // Breaking clusters and the detection-latency table (collector/breaking.mjs).
+  // Optional, its own failure domain: absent or unreadable drops the strip.
+  let breaking = null;
+  const breakingFile = path.join(args.data, 'breaking.json');
+  if (existsSync(breakingFile)) {
+    try {
+      breaking = JSON.parse(await readFile(breakingFile, 'utf8'));
+      if (!breaking || !Array.isArray(breaking.clusters)) breaking = null;
+    } catch (err) {
+      warn(`data/breaking.json is present but unreadable (${err.message}); building without the breaking strip.`);
+    }
+  }
+
   let xwire = null;
   const xFile = path.join(args.data, 'x-surface.json');
   if (existsSync(xFile)) {
@@ -1119,6 +1132,7 @@ async function main() {
     state,
     logos,
     news,
+    breaking,
     deskPicks,
     race,
     infra,
@@ -1315,6 +1329,7 @@ async function main() {
     await writeDirectoryAliases(args.out, ['news', 'leaders'], write, written);
     written.push(await write(args.out, 'feed.xml', feed.render(ctx)));
     if (news) written.push(await write(args.out, 'api/news.json', stableJson(news)));
+    if (breaking) written.push(await write(args.out, 'api/breaking.json', stableJson(breaking)));
     // Keep state.json's poll surface current so the motion layer's dual fetch
     // does not mix a fresh newsroom with a stale compile stamp.
     written.push(await write(args.out, 'api/state.json', stableJson({
@@ -1675,6 +1690,7 @@ async function main() {
   // not run: the client detects the 404, disables news polling and keeps
   // polling state, rather than pretending the newsroom is empty.
   if (news) written.push(await write(args.out, 'api/news.json', stableJson(news)));
+  if (breaking) written.push(await write(args.out, 'api/breaking.json', stableJson(breaking)));
   // The open-tab poll. news.json is ~900KB; this is the two timestamps a
   // reader needs to know whether that download is worth making.
   written.push(await write(args.out, 'api/fresh.json', stableJson({

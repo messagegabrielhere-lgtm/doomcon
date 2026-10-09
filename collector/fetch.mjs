@@ -124,7 +124,7 @@ function hostGate(url) {
   return next;
 }
 
-async function attemptOnce(url, { method, headers, timeoutMs }) {
+async function attemptOnce(url, { method, headers, timeoutMs, body: reqBody }) {
   // Wait our turn on hosts that ask us to. Costs seconds; saves a source.
   await hostGate(url);
   let res;
@@ -133,6 +133,8 @@ async function attemptOnce(url, { method, headers, timeoutMs }) {
       method,
       redirect: 'follow',
       headers: { 'user-agent': USER_AGENT, ...headers },
+      // A request body is only ever sent by the few POST APIs (xAI search).
+      ...(reqBody !== undefined ? { body: reqBody } : {}),
       // AbortSignal.timeout covers the whole request, including a server that
       // accepts the connection and then dribbles bytes forever.
       signal: AbortSignal.timeout(timeoutMs),
@@ -204,6 +206,7 @@ function normaliseOpts(opts = {}) {
     headers: opts.headers ?? {},
     timeoutMs: opts.timeoutMs ?? DEFAULT_TIMEOUT_MS,
     retries: opts.retries,
+    body: opts.body,
   };
 }
 

@@ -29,6 +29,7 @@ import { fetchText, fetchJson } from './fetch.mjs';
 import { extractEntities, entityKinds, classifyPillar } from './news-sources/_entities.mjs';
 import { storyPass, STORY_SCORE } from './news-stories.mjs';
 import { toPlainText } from './news-sources/_feed.mjs';
+import { breakingPass } from './breaking.mjs';
 
 const SCHEMA_VERSION = 1;
 // 1.1.0 adds the two story terms — severity and coverage — on top of the five
@@ -607,6 +608,9 @@ function mergeGroup(indexes, records, knownIds, generatedAtMs) {
             weight: m.weight,
             dedup_key: m.dedup_key ?? null,
             engagement: m.engagement ?? null,
+            // Who published it, for the breaking rule's independence test.
+            outlet: m.meta?.outlet_domain ?? null,
+            ...(m.meta?.unvetted ? { unvetted: true } : {}),
           }))
           .sort((a, b) => a.source.localeCompare(b.source) || a.url.localeCompare(b.url)),
       },
@@ -811,10 +815,16 @@ async function main() {
       try {
         const drafts = await withTimeout(
           Promise.resolve(a.collect(fetchText, fetchJson)),
-          adapterTimeoutMs,
+          // An adapter may ask for a longer leash than the fast lane's default
+          // (x-search: an agentic search that is paid for once it starts).
+          Number.isFinite(a.timeoutMs) ? Math.max(adapterTimeoutMs, a.timeoutMs) : adapterTimeoutMs,
           a.id,
         );
         if (!Array.isArray(drafts)) throw new Error(`${a.id}: collect() did not return an array`);
+        // HELD: the adapter declined to ask this run (a paid source's own
+        // budget gate, a missing key). Treated exactly like "not due": the
+        // previous row and items are carried forward, and the reason is shown.
+        if (typeof drafts.held === 'string') return { adapter: a, held: drafts.held, ms: Date.now() - t0 };
         return { adapter: a, drafts, ms: Date.now() - t0 };
       } catch (err) {
         return { adapter: a, error: errMsg(err), ms: Date.now() - t0 };
@@ -824,6 +834,13 @@ async function main() {
 
   const records = [];
   const sources = [];
+  const heldThisRun = [];
+  // The first time this ledger ever saw each source. Carried forward on every
+  // row; it is what lets the speed metric ignore a new source's backlog.
+  const prevRowById = new Map(
+    (Array.isArray(previous.sources) ? previous.sources : []).map((x) => [x.id, x]),
+  );
+  const firstFetched = (id) => prevRowById.get(id)?.first_fetched_at ?? generatedAt;
 
   for (let i = 0; i < settled.length; i++) {
     const outcome = settled[i];
@@ -841,6 +858,10 @@ async function main() {
       continue;
     }
     const res = outcome.value;
+    if (res.held) {
+      heldThisRun.push({ adapter: a, reason: res.held });
+      continue;
+    }
     if (res.error) {
       // A dark source is reported dark. It is never omitted and never zeroed —
       // the same rule collect.mjs enforces for the index, for the same reason.
@@ -850,7 +871,7 @@ async function main() {
       // unstamped, a permanently dead feed is "never fetched", therefore always
       // due, and every fast run pays its full timeout — the one source that
       // gives us nothing would become the most expensive one in the file.
-      sources.push({ ...base, ok: false, state: 'dark', count: 0, raw_items: 0, newest_item_at: null, error: res.error, ms: res.ms, fetched_at: generatedAt, cadence_ms: cadenceFor(a) });
+      sources.push({ ...base, ok: false, state: 'dark', count: 0, raw_items: 0, newest_item_at: null, error: res.error, ms: res.ms, fetched_at: generatedAt, first_fetched_at: firstFetched(a.id), cadence_ms: cadenceFor(a) });
       continue;
     }
 
@@ -900,6 +921,7 @@ async function main() {
       // The cadence ledger. Written on every real fetch and read by the next
       // process, which is how a 15-minute lane knows not to re-ask arXiv.
       fetched_at: generatedAt,
+      first_fetched_at: firstFetched(a.id),
       cadence_ms: cadenceFor(a),
     });
   }
@@ -910,13 +932,18 @@ async function main() {
   const prevById = new Map(
     (Array.isArray(previous.sources) ? previous.sources : []).map((x) => [x.id, x]),
   );
-  for (const a of skipped) {
+  const heldReason = new Map(heldThisRun.map((h) => [h.adapter.id, h.reason]));
+  for (const a of [...skipped, ...heldThisRun.map((h) => h.adapter)]) {
     const prev = prevById.get(a.id);
+    const why = heldReason.has(a.id) ? { held_reason: heldReason.get(a.id) } : {};
+    // A held row keeps its previous fetched_at: the ledger records when we
+    // last really ASKED, and a held source did not ask.
+    const { held_reason: _drop, ...prevClean } = prev ?? {};
     sources.push(prev
-      ? { ...prev, state: prev.state === 'dark' ? 'dark' : prev.state, skipped_this_run: true }
+      ? { ...prevClean, state: prev.state === 'dark' ? 'dark' : prev.state, skipped_this_run: true, ...why }
       : { id: a.id, kind: a.kind, label: a.label, weight: a.weight, ok: true, state: 'dormant',
           count: 0, raw_items: 0, newest_item_at: null,
-          error: null, ms: 0, fetched_at: null, cadence_ms: cadenceFor(a), skipped_this_run: true });
+          error: null, ms: 0, fetched_at: null, cadence_ms: cadenceFor(a), skipped_this_run: true, ...why });
   }
 
   // Sorted, not "fetched first then skipped". Adapter discovery is alphabetical
@@ -1009,7 +1036,10 @@ async function main() {
         default_pillar: null,
         dedup_key: m.dedup_key ?? null,
         engagement: m.engagement ?? null,
-        meta: {},
+        meta: {
+          ...(typeof m.outlet === 'string' ? { outlet_domain: m.outlet } : {}),
+          ...(m.unvetted ? { unvetted: true } : {}),
+        },
         retained: true,
         ghost: true,
       });
@@ -1030,6 +1060,30 @@ async function main() {
       Date.parse(b.published_at) - Date.parse(a.published_at) ||
       b.score - a.score ||
       a.id.localeCompare(b.id));
+
+  // FIREHOSE CAP. A wide-net source (GDELT, Google News, Bluesky, X search)
+  // can declare `maxItems`: at most that many of ITS single-source items stay
+  // in the window, newest first. An item another source also carries is never
+  // dropped by this rule — corroboration is the point of reading the firehose.
+  // Decided on (published_at, id) only, like membership below, so it can never
+  // depend on score.
+  {
+    const capById = new Map(adapters.filter((a) => Number.isFinite(a.maxItems) && a.maxItems > 0).map((a) => [a.id, a.maxItems]));
+    if (capById.size) {
+      const kept = new Map();
+      const drop = new Set();
+      const ordered = items.slice().sort((a, b) =>
+        Date.parse(b.published_at) - Date.parse(a.published_at) || a.id.localeCompare(b.id));
+      for (const it of ordered) {
+        const cap = capById.get(it.source);
+        if (!cap || (it.meta?.corroboration?.count ?? 1) > 1) continue;
+        const n = (kept.get(it.source) ?? 0) + 1;
+        kept.set(it.source, n);
+        if (n > cap) drop.add(it.id);
+      }
+      if (drop.size) items = items.filter((i) => !drop.has(i.id));
+    }
+  }
 
   // MEMBERSHIP MUST NOT DEPEND ON SCORE, and this is not a style preference.
   //
@@ -1130,6 +1184,21 @@ async function main() {
   await mkdir(new URL('../data/', import.meta.url), { recursive: true });
   await writeFile(OUTPUT_URL, `${JSON.stringify(output, null, 2)}\n`, 'utf8');
 
+  // BREAKING DETECTION and the speed ledger. Its own failure domain: a bug
+  // there must never cost the newsroom its run, so it is caught and logged.
+  let breaking = null;
+  try {
+    breaking = await breakingPass({
+      items,
+      freshRecords: records.filter((r) => !r.retained),
+      sources,
+      previousSources: Array.isArray(previous.sources) ? previous.sources : [],
+      generatedAt,
+    });
+  } catch (err) {
+    console.error(`news: breaking pass failed — ${errMsg(err)}`);
+  }
+
   printSourceTable(sources);
 
   const live = sources.filter((s) => s.state === 'live').length;
@@ -1160,6 +1229,30 @@ async function main() {
   }
 
   printTop(items, 5);
+
+  if (breaking) {
+    console.log('');
+    console.log(`breaking: ${breaking.live} live cluster${breaking.live === 1 ? '' : 's'} of ${breaking.clusters.length} kept; ` +
+      `speed samples (24h): ${breaking.speed.overall.n}, median ${breaking.speed.overall.median_s ?? '—'}s`);
+    for (const c of breaking.clusters.slice(0, 3)) {
+      console.log(`  ⚡ ${c.title.slice(0, 80)}  [${c.outlets.join(', ')}]  first seen ${c.first_seen_at}`);
+    }
+  }
+
+  // ONE annotation per run for the new fast sources, so CI can be audited
+  // without downloadable logs. Only sources actually asked (or held) this run.
+  if (process.env.GITHUB_ACTIONS === 'true') {
+    const FAST = ['bluesky-ai', 'gdelt-ai', 'gnews-ai', 'hn-fresh-ai', 'x-search'];
+    const bits = sources
+      .filter((s) => FAST.includes(s.id) && (!s.skipped_this_run || s.held_reason))
+      .map((s) => s.held_reason
+        ? `${s.id}=held(${s.held_reason})`
+        : `${s.id}=${s.state}(${s.count}/${s.raw_items}${s.error ? ` ${String(s.error).replace(/[\r\n,]+/g, ' ').slice(0, 80)}` : ''})`);
+    if (bits.length || breaking) {
+      const b = breaking ? ` | breaking live=${breaking.live} kept=${breaking.clusters.length} speed_n=${breaking.speed.overall.n} median_s=${breaking.speed.overall.median_s ?? 'na'}` : '';
+      console.log(`::notice title=fast news sources::${bits.join(' ') || 'none asked'}${b}`);
+    }
+  }
 
   // Exit non-zero only when we learned NOTHING. Some sources dark or dormant is
   // a normal Tuesday and must not fail the workflow; the file is still useful.

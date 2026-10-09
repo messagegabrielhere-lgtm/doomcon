@@ -73,6 +73,10 @@ jobs:
           MINUTES: ${{ github.event.inputs.minutes || '50' }}
           GH_TOKEN: ${{ github.token }}
           CHAIN: ${{ vars.NEWS_FAST_CHAIN }}
+          # Handed to collector/news.mjs only (see the news pass below), under
+          # its real name there and nowhere else. x-search.mjs holds itself to
+          # one call per XAI_X_SEARCH_MINUTES and XAI_X_SEARCH_DAILY_CAP a day.
+          NEWS_XAI_KEY: ${{ secrets.XAI_API_KEY }}
         run: |
           set -uo pipefail
           END=$(( $(date +%s) + MINUTES * 60 ))
@@ -100,11 +104,14 @@ jobs:
             # refreshes them every tick, see below) — and main's copies of the
             # three memory files are staged aside so the collector can fold
             # them in rather than be overwritten by them.
+            # The breaking clusters, the speed ledger and the X-search budget
+            # ledger are this loop's own state too, carried tick to tick.
+            OWN_X=(':(exclude)data/breaking.json' ':(exclude)data/sightings.json' ':(exclude)data/xai-usage.json')
             LEADERS_X=(':(exclude)data/leaders.json' ':(exclude)data/leaders-coverage.json' ':(exclude)data/leaders-profiles.json' ':(exclude)data/leaders-feeds.json')
             MAIN_LEADERS="${RUNNER_TEMP:-/tmp}/main-leaders"
             rm -rf "$MAIN_LEADERS"; mkdir -p "$MAIN_LEADERS"
             if git fetch -q --depth=1 origin main 2>/dev/null; then
-              git restore --source=FETCH_HEAD --worktree -- . ':(exclude)data/news.json' ':(exclude)data/x-surface.json' "${LEADERS_X[@]}" \
+              git restore --source=FETCH_HEAD --worktree -- . ':(exclude)data/news.json' ':(exclude)data/x-surface.json' "${OWN_X[@]}" "${LEADERS_X[@]}" \
                 || echo "::warning::tick $TICK could not refresh from main; building from the previous tick's tree"
               for f in leaders-coverage.json leaders-profiles.json leaders-feeds.json; do
                 git show "FETCH_HEAD:data/$f" > "$MAIN_LEADERS/$f" 2>/dev/null || rm -f "$MAIN_LEADERS/$f"
@@ -134,11 +141,14 @@ jobs:
             # Hash before/after. news.mjs rewrites the file every run (the
             # timestamp alone changes), so comparing the whole file would
             # publish every minute regardless. Compare the ITEMS only.
-            BEFORE=$(node -e "try{const d=require('./data/news.json');process.stdout.write(require('crypto').createHash('sha256').update(JSON.stringify(d.items.map(i=>i.id))).digest('hex'))}catch{process.stdout.write('none')}")
+            # The breaking strip counts as a change too: a second outlet joining
+            # an existing item moves no item id but can make a story BREAKING.
+            NFP() { node -e "let k=[];try{k.push(require('./data/news.json').items.map(i=>i.id))}catch{k.push('none')}try{k.push(require('./data/breaking.json').clusters.map(c=>[c.id,c.live,c.corroboration]))}catch{}process.stdout.write(require('crypto').createHash('sha256').update(JSON.stringify(k)).digest('hex'))"; }
+            BEFORE=$(NFP)
 
-            node collector/news.mjs || echo "::warning::news pass $TICK failed; continuing"
+            XAI_API_KEY="$NEWS_XAI_KEY" node collector/news.mjs || echo "::warning::news pass $TICK failed; continuing"
 
-            AFTER=$(node -e "try{const d=require('./data/news.json');process.stdout.write(require('crypto').createHash('sha256').update(JSON.stringify(d.items.map(i=>i.id))).digest('hex'))}catch{process.stdout.write('none')}")
+            AFTER=$(NFP)
 
             # THE LEADER WIRE, EVERY TICK, BUT NOT EVERY TICK'S NETWORK.
             # collector/leaders.mjs re-reads news.json each tick (pure, no
@@ -184,7 +194,7 @@ jobs:
                   || rm -rf .pages
               fi
               if [ -d .pages/.git ]; then
-                for rel in api/news.json api/state.json api/fresh.json api/now.txt now.md llms-full.txt news.html index.html classic.html instruments.html feed.xml api/leaders.json leaders.html leaders/index.html; do
+                for rel in api/news.json api/breaking.json api/state.json api/fresh.json api/now.txt now.md llms-full.txt news.html index.html classic.html instruments.html feed.xml api/leaders.json leaders.html leaders/index.html; do
                   if [ -e "public/$rel" ]; then
                     mkdir -p ".pages/$(dirname "$rel")"
                     cp -a "public/$rel" ".pages/$rel"
@@ -256,9 +266,12 @@ jobs:
           # always saw: two data files changed, nothing else.
           # The leader wire's files are restored too: collect.yml owns them on
           # main, and committing this loop's copy would only race it.
-          git restore --source=HEAD --worktree -- . ':(exclude)data/news.json' ':(exclude)data/x-surface.json' 2>/dev/null || true
+          git restore --source=HEAD --worktree -- . ':(exclude)data/news.json' ':(exclude)data/x-surface.json' ':(exclude)data/breaking.json' ':(exclude)data/sightings.json' ':(exclude)data/xai-usage.json' 2>/dev/null || true
           rm -rf .pages
           git add data/news.json data/x-surface.json 2>/dev/null || true
+          for f in data/breaking.json data/sightings.json data/xai-usage.json; do
+            if [ -f "$f" ]; then git add "$f"; fi
+          done
           if git diff --cached --quiet; then
             echo "nothing to persist"
             exit 0

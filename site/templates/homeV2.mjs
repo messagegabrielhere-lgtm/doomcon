@@ -16,6 +16,7 @@ import { whatMoved, alternativeSignals } from '../extras.mjs';
 import { pulseCandidates } from '../../collector/post-pulse.mjs';
 import { render as verifyBox, verifyCss } from './_verify.mjs';
 import { renderV2 as deskPicks } from './_deskpicks.mjs';
+import { freshCluster, breakingMeta } from './_breaking.mjs';
 const PILLAR_META = Object.fromEntries(brand.PILLARS.map((p) => [p.id, p]));
 
 // ---------- copy ----------
@@ -522,7 +523,14 @@ export function render(ctx, { head }) {
   const items = (ctx.news && ctx.news.items) || [];
   const now = Date.parse(state.generated_at);
   const fresh = items.filter((i) => now - Date.parse(i.published_at) < 6 * 3600e3);
-  const top = (fresh.length ? fresh : items).slice().sort((a, b) => (b.score || 0) - (a.score || 0))[0];
+  const scoredTop = (fresh.length ? fresh : items).slice().sort((a, b) => (b.score || 0) - (a.score || 0))[0];
+  // A BREAKING cluster under two hours old (collector/breaking.mjs) outranks
+  // the top-scored story: two independent outlets agreeing, fast, is the
+  // definition of breaking. Otherwise the slot keeps its old rule.
+  const brk = freshCluster(ctx, 2);
+  const top = brk
+    ? { title: brk.title, url: brk.url, source: brk.outlet || brk.source, published_at: brk.first_seen_at, _brk: brk }
+    : scoredTop;
 
   const routes = ctx.routes || {};
   const dock = [
@@ -663,7 +671,7 @@ ${ticker(items)}
   <div class="v2-sponsor">${sponsorLine(href('/sponsor.html'))}</div>
   <script>window.SIREN_NOW=${JSON.stringify(sinceNow).replace(/</g, '\\u003c')}</script>
 
-  ${top ? `<div class="v2-breaking" id="breaking" data-sec="Breaking"><span class="badge"><span class="blink">${icon('bolt', 2)}</span>BREAKING</span><a href="${esc(top.url)}" rel="noopener">${esc(top.title)}</a><span class="src">${esc(hhmm(top.published_at))} · ${esc(String(top.source).toUpperCase())}</span><button type="button" class="v2-xp" data-xpost="news" data-x-title="${esc(top.title)}" data-x-src="${esc(top.source)}" data-x-url="${esc(top.url)}" aria-label="Post this story to X">𝕏 POST</button></div>` : ''}
+  ${top ? `<div class="v2-breaking" id="breaking" data-sec="Breaking"><span class="badge"><span class="blink">${icon('bolt', 2)}</span>BREAKING</span><a href="${esc(top.url)}" rel="noopener">${esc(top.title)}</a><span class="src">${top._brk ? esc(breakingMeta(top._brk)) : `${esc(hhmm(top.published_at))} · ${esc(String(top.source).toUpperCase())}`}</span><button type="button" class="v2-xp" data-xpost="news" data-x-title="${esc(top.title)}" data-x-src="${esc(top.source)}" data-x-url="${esc(top.url)}" aria-label="Post this story to X">𝕏 POST</button></div>` : ''}
 
 ${deskPicks(ctx, pixelText)}
 ${movedPanel(wm, href)}

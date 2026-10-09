@@ -66,6 +66,7 @@ import { newsCss, liveHead, legend, feedRow } from './news.mjs';
 import { PILLAR_GLYPH } from './_charts.mjs';
 import { page } from './layout.mjs';
 import * as brand from '../brand.mjs';
+import { breakingStrip, speedBox, breakingCss } from './_breaking.mjs';
 
 const PATH = '/news.html';
 const REEL_CARDS = 10;
@@ -93,7 +94,8 @@ export function render(ctx) {
   // strip, the filter chips and the rows can never disagree about a count.
   const corpus = readCorpus(news);
 
-  const main = `<style>${newsCss()}${archiveCss(pillarsPresent(news))}</style>${pillarSprite()}
+  const main = `<style>${newsCss()}${archiveCss(pillarsPresent(news))}${breakingCss()}</style>${pillarSprite()}
+${breakingStrip(ctx, { href: ctx.href })}
 <section class="narch__intro">
   <p class="eyebrow">AI signal feed</p>
   <h1 class="narch__h1">The newsroom</h1>
@@ -122,6 +124,7 @@ ${corpusSection(news, corpus)}
 <section class="sec" aria-labelledby="arch-src-h">
   <h2 class="sec__h" id="arch-src-h">Where these came from</h2>
   ${sourceYield(news, corpus)}
+  ${speedBox(ctx, { href: ctx.href })}
   ${newsSourceStrip(news.sources)}
   <p class="nkey">Scores rank items against each other inside this window; they are not a
      probability of anything and they do not move the index on their own. The composite score and

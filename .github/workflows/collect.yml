@@ -78,6 +78,9 @@ on:
 permissions:
   contents: write
   issues: write
+  # Read-only: lets the newsroom steps ask whether the minute loop
+  # (news-fast.yml) is running, so the paid X search is never called twice.
+  actions: read
 
 # Serialises every data-writing run across BOTH lanes. Not cancel-in-progress:
 # a run cancelled between "commit" and "push" would leave the rebase retry loop
@@ -101,6 +104,7 @@ jobs:
     name: newsroom
     permissions:
       contents: write
+      actions: read
     if: >-
       (github.event_name == 'schedule' && github.event.schedule == '*/15 * * * *') ||
       (github.event_name == 'workflow_dispatch' && inputs.mode == 'news')
@@ -123,12 +127,33 @@ jobs:
           # (CONTRACT.md §1) means there is nothing to restore; a cache here
           # would be ~15s of ceremony around an empty directory.
 
+      - name: Is the minute loop running?
+        # The X search (collector/news-sources/x-search.mjs) is the newsroom's
+        # one paid source. While news-fast.yml is looping it owns that budget;
+        # this lane then runs the newsroom with X search held, so the two never
+        # double-call. Any failure to ask reads as "running" (the safe answer).
+        id: loop
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          N=$(gh run list --repo "$GITHUB_REPOSITORY" --workflow news-fast.yml --status in_progress -L 1 --json databaseId -q 'length' 2>/dev/null || echo 1)
+          if [ "${N:-1}" = "0" ]; then echo "off=0" >> "$GITHUB_OUTPUT"; else echo "off=1" >> "$GITHUB_OUTPUT"; fi
+
       - name: Refresh the newsroom
         # NEVER fails the job. A dark feed is a normal operating state, and
         # news.mjs exits non-zero only when EVERY source failed — which is worth
         # a warning in the log, not a red X in the operator's inbox every time a
         # CDN has a bad minute. The full lane is the one that reports outages.
         continue-on-error: true
+        env:
+          # Only the newsroom step sees the key; x-search.mjs is gated by its
+          # own daily cap and cadence ledger (data/xai-usage.json).
+          XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
+          XAI_X_SEARCH_OFF: ${{ steps.loop.outputs.off || '1' }}
+          # The minute loop owns the speed ledger too; a lane working from main's
+          # hour-old copy would count items the loop already saw as new.
+          NEWS_LOOP_RUNNING: ${{ steps.loop.outputs.off || '1' }}
         run: node collector/news.mjs
 
       - name: Did the newsroom actually change?
@@ -269,6 +294,11 @@ jobs:
           # main still carries a build-output archive — an hour behind the live
           # site by design.
           git add data/news.json
+          # The breaking clusters, the speed ledger and the X-search budget
+          # ledger are written by the same pass and carry the same state.
+          for f in data/breaking.json data/sightings.json data/xai-usage.json; do
+            if [ -f "$f" ]; then git add "$f"; fi
+          done
           # data/balance.json rides with it: the counts made from this window
           # belong in the same commit as the window. Only a clean recount ever
           # reaches data/, so whatever is on disk is either this pass's file or
@@ -408,6 +438,7 @@ jobs:
     permissions:
       contents: write
       issues: write
+      actions: read
     if: >-
       (github.event_name == 'schedule' && github.event.schedule == '7 * * * *') ||
       (github.event_name == 'workflow_dispatch' && inputs.mode == 'full')
@@ -504,12 +535,31 @@ jobs:
           if [ -n "$XAI_API_KEY" ] && ! command -v ffmpeg >/dev/null; then sudo apt-get install -y -qq ffmpeg >/dev/null 2>&1 || true; fi
           if [ -n "$XAI_API_KEY" ]; then npm install --no-save --ignore-scripts --no-audit --no-fund ws@8.18.0 >/dev/null && node collector/tally-voice.mjs; else echo "no XAI_API_KEY"; fi
 
+      - name: Is the minute loop running?
+        # The X search (collector/news-sources/x-search.mjs) is the newsroom's
+        # one paid source. While news-fast.yml is looping it owns that budget;
+        # this lane then runs the newsroom with X search held, so the two never
+        # double-call. Any failure to ask reads as "running" (the safe answer).
+        id: loopfull
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          N=$(gh run list --repo "$GITHUB_REPOSITORY" --workflow news-fast.yml --status in_progress -L 1 --json databaseId -q 'length' 2>/dev/null || echo 1)
+          if [ "${N:-1}" = "0" ]; then echo "off=0" >> "$GITHUB_OUTPUT"; else echo "off=1" >> "$GITHUB_OUTPUT"; fi
+
       - name: Refresh the newsroom
         # --force ignores the per-source cadence ledger, so the hourly pass asks
         # every feed no matter how recently the fast lane did. That is the point
         # of having an hourly pass at all: no feed can hide behind its own
         # interval for longer than an hour.
         continue-on-error: true
+        env:
+          XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
+          XAI_X_SEARCH_OFF: ${{ steps.loopfull.outputs.off || '1' }}
+          # The minute loop owns the speed ledger too; a lane working from main's
+          # hour-old copy would count items the loop already saw as new.
+          NEWS_LOOP_RUNNING: ${{ steps.loopfull.outputs.off || '1' }}
         run: node collector/news.mjs --force
 
       - name: Refresh the AI race

@@ -1,0 +1,24 @@
+{
+  "id": "resp_abc",
+  "object": "response",
+  "model": "grok-4-fast",
+  "output": [
+    { "type": "x_search_call", "id": "xs_1", "status": "completed" },
+    {
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "```json\n[{\"url\":\"https://x.com/OpenAI/status/2108651210142658617\",\"handle\":\"OpenAI\",\"text\":\"Introducing our newest reasoning model, rolling out to all ChatGPT users next week.\"},{\"url\":\"https://twitter.com/sama/status/2108653726725058617?s=20\",\"handle\":\"sama\",\"text\":\"very proud of the team for this launch; it is a big step\"},{\"url\":\"https://x.com/fakeuser/status/2108653726725058999\",\"handle\":\"fakeuser\",\"text\":\"BREAKING: invented post the search never returned\"},{\"url\":\"https://x.com/Reuters/status/2108653726725058700\",\"handle\":\"AP\",\"text\":\"handle mismatch row should be dropped\"},{\"url\":\"https://x.com/oldnews/status/2108497698616258617\",\"handle\":\"oldnews\",\"text\":\"this post is ten hours old and should be dropped\"}]\n```",
+          "annotations": [
+            { "type": "url_citation", "url": "https://x.com/OpenAI/status/2108651210142658617", "start_index": 0, "end_index": 10 },
+            { "type": "url_citation", "url": "https://x.com/Reuters/status/2108653726725058700", "start_index": 0, "end_index": 10 }
+          ]
+        }
+      ]
+    }
+  ],
+  "citations": ["https://x.com/sama/status/2108653726725058617", "https://x.com/oldnews/status/2108497698616258617"],
+  "usage": { "input_tokens": 9000, "output_tokens": 300, "num_sources_used": 14 }
+}
