@@ -553,7 +553,7 @@ ${ticker(items)}
 ${nav.strip}
 <main class="v2-wrap v2-main" id="main">
   <div class="v2-brand">
-    <span class="v2-3d" data-siren3d data-level="${state.level}"><img class="v2-art bob" src="${img('siren')}" width="112" height="112" alt=""></span>
+    <span class="v2-3d" data-siren3d data-level="${state.level}"><img class="v2-art bob" src="${img('siren')}" width="112" height="112" alt="" fetchpriority="high" decoding="async"></span>
     <h1>${pixelText('AI SIREN INDEX', 8, '#FFFFFF', 'fit')}</h1>
   </div>
   <div class="v2-sub"><span>Superintelligence, watched hourly</span><span class="sep">|</span><a class="v2-btn sm" href="https://x.com/SIRENutf6">FOLLOW @SIRENutf6</a></div>

@@ -1,0 +1,84 @@
+# Error tracking for a static site: when the pipelines that publish the index
+# fail, shout in the run summary so an operator sees it before visitors do.
+# GitHub also emails the repo owner on workflow failure when notifications
+# are enabled (Settings → Notifications → Actions) — turn that on.
+#
+# This workflow does not page a third-party SaaS. Wire a Slack webhook later
+# if you want (secret SLACK_WEBHOOK_URL); until then the Actions failure mail
+# and this summary are the pager.
+
+name: watchdog
+
+on:
+  workflow_run:
+    workflows: [collect, news-fast, arena, post-daily, clipper]
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      probe:
+        description: 'Also probe the live homepage'
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  watch:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'failure' || github.event.workflow_run.conclusion == 'timed_out' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Report upstream failure
+        if: github.event_name == 'workflow_run'
+        env:
+          NAME: ${{ github.event.workflow_run.name }}
+          CONCLUS: ${{ github.event.workflow_run.conclusion }}
+          URL: ${{ github.event.workflow_run.html_url }}
+          BRANCH: ${{ github.event.workflow_run.head_branch }}
+        run: |
+          echo "::error title=Pipeline failed::${NAME} finished ${CONCLUS} on ${BRANCH}"
+          {
+            echo "### SIREN watchdog"
+            echo ""
+            echo "- **workflow:** ${NAME}"
+            echo "- **conclusion:** ${CONCLUS}"
+            echo "- **branch:** ${BRANCH}"
+            echo "- **run:** ${URL}"
+            echo ""
+            echo "Open the run, fix or revert (docs/ROLLBACK.md), then re-run."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Probe live homepage
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.probe || github.event_name == 'workflow_run' }}
+        run: |
+          set -e
+          URL="https://messagegabrielhere-lgtm.github.io/doomcon/"
+          CODE=$(curl -sS -o /tmp/siren-home.html -w "%{http_code}" --max-time 25 "$URL" || echo 000)
+          BYTES=$(wc -c </tmp/siren-home.html | tr -d ' ')
+          echo "homepage HTTP ${CODE}, ${BYTES} bytes"
+          if [ "$CODE" != "200" ]; then
+            echo "::error title=Homepage down::HTTP ${CODE} from ${URL}"
+            exit 1
+          fi
+          if [ "$BYTES" -lt 2000 ]; then
+            echo "::error title=Homepage empty::only ${BYTES} bytes"
+            exit 1
+          fi
+          if ! grep -q 'og:image' /tmp/siren-home.html; then
+            echo "::warning title=OG image::homepage is missing og:image"
+          fi
+          {
+            echo "### Live probe"
+            echo "- URL: ${URL}"
+            echo "- HTTP ${CODE}, ${BYTES} bytes"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Optional Slack ping
+        if: ${{ failure() && env.SLACK_WEBHOOK_URL != '' }}
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          payload=$(printf '{"text":"SIREN watchdog: a launch pipeline failed. Check Actions."}')
+          curl -sS -X POST -H 'content-type: application/json' --data "$payload" "$SLACK_WEBHOOK_URL" >/dev/null || true

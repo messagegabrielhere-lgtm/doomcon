@@ -16,8 +16,10 @@ import { AGENTS, UNIVERSE, RULES, LEDGER_KEEP, START_CASH, modelFor } from './co
 import { makeClient, snapshot } from './market.mjs';
 import { newWallet, equity, rollDay, preview, execute, ledgerEntry, checkExits } from './broker.mjs';
 import { gate } from './rules.mjs';
-import { think, hasKey, usesStandin, KEYS } from './agents.mjs';
+import { think, hasKey, usesStandin, isBaseline, KEYS } from './agents.mjs';
 import { STYLES } from './standins.mjs';
+import { loadSpend, saveSpend, reserveCall, settleCall } from './spend-cap.mjs';
+import { publicError } from '../collector/safe-error.mjs';
 
 const r2 = (x) => Math.round(x * 100) / 100;
 const HISTORY_KEEP = 24 * 90; // about 90 days of hourly points
@@ -27,6 +29,7 @@ export async function tick({ dir, guardOnly = false, only = null, client = makeC
   const statePath = path.join(dir, 'state.json');
   const state = existsSync(statePath) ? JSON.parse(await readFile(statePath, 'utf8')) : { version: 1, startedAt: now, wallets: {} };
   const ledger = [];
+  const spend = await loadSpend(dir, now);
   for (const a of AGENTS) state.wallets[a.id] ??= newWallet(a, now);
 
   // 1. The guard. Stops and targets are enforced here for every wallet,
@@ -60,22 +63,36 @@ export async function tick({ dir, guardOnly = false, only = null, client = makeC
     };
     const players = AGENTS.filter((a) => !only || only.includes(a.id));
     // Models think in parallel; tickets are priced and gated one at a time.
+    // Paid-model calls share one daily spend ledger so a runaway loop cannot
+    // burn the bill; baselines and stand-ins do not count against it.
+    // Reservations are taken synchronously before any await so parallel turns
+    // cannot all sneak under the same remaining quota.
     const thoughts = await Promise.all(players.map(async (a) => {
       const w = state.wallets[a.id];
       rollDay(w, prices, now);
       const eq = equity(w, prices);
       if (!hasKey(a, env) && !usesStandin(a, env)) return { a, sleep: `no ${KEYS[a.provider]} set` };
       if (eq < RULES.minOrderUsd && !Object.keys(w.positions).length) return { a, sleep: 'out of money' };
+      const paid = hasKey(a, env) && !isBaseline(a) && !usesStandin(a, env);
+      if (paid) {
+        const why = reserveCall(spend, a.provider, env);
+        if (why) return { a, sleep: why };
+      }
       const recent = state.recent?.[a.id] || [];
-      try { return { a, res: await think(a, { w, eq, rows: market.rows, prices, recent, now }, env) }; }
-      catch (e) { return { a, err: String(e.message || e).slice(0, 300) }; }
+      try {
+        const res = await think(a, { w, eq, rows: market.rows, prices, recent, now }, env);
+        return { a, res, paid };
+      } catch (e) {
+        return { a, err: publicError(e), paid };
+      }
     }));
-    for (const { a, res, sleep, err } of thoughts) {
+    for (const { a, res, sleep, err, paid } of thoughts) {
       const w = state.wallets[a.id];
       w.lastTurnAt = now; w.model = modelFor(a, env);
       w.standin = usesStandin(a, env);
       if (sleep) { w.status = 'asleep'; w.note = sleep; w.error = null; continue; }
       if (err) { w.status = 'error'; w.error = err; log(`${a.id}: ${err}`); continue; }
+      if (paid) settleCall(spend, { provider: a.provider, usage: res.usage });
       w.turns++; w.status = 'awake'; w.error = null; w.note = res.thoughts; w.servedBy = res.servedBy;
       for (const p of res.actions) {
         const book = UNIVERSE.includes(p.sym) ? await bookFor(p.sym) : null;
@@ -103,14 +120,16 @@ export async function tick({ dir, guardOnly = false, only = null, client = makeC
   if (!guardOnly) state.lastTurnAt = now;
   state.roster = AGENTS.map((a) => ({ id: a.id, name: a.name, provider: a.provider, color: a.color, model: modelFor(a, env), ...(usesStandin(a, env) ? { standin: STYLES[a.id] } : {}) }));
   state.rules = RULES; state.startCash = START_CASH; state.universe = UNIVERSE;
+  state.spend = { day: spend.day, usd: spend.usd, tokens: spend.tokens, calls: spend.calls };
 
   await writeFile(statePath, JSON.stringify(state) + '\n');
+  await saveSpend(dir, spend);
   if (ledger.length) await appendFile(path.join(dir, 'ledger.ndjson'), ledger.map((e) => JSON.stringify(e)).join('\n') + '\n');
   const tradesPath = path.join(dir, 'trades.json');
   const prev = existsSync(tradesPath) ? JSON.parse(await readFile(tradesPath, 'utf8')) : [];
   await writeFile(tradesPath, JSON.stringify([...ledger.slice().reverse(), ...prev].slice(0, LEDGER_KEEP)) + '\n');
   if (market) await writeFile(path.join(dir, 'market.json'), JSON.stringify(market) + '\n');
-  return { state, ledger };
+  return { state, ledger, spend };
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {

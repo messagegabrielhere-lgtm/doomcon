@@ -47,7 +47,16 @@ async function checkPage(url) {
   } catch (e) { return { status: 0, issues: [`the page did not load: ${e.message}`] }; }
 }
 
+function assertIssueNumber(n) {
+  const id = Number(n);
+  if (!Number.isInteger(id) || id < 1 || id > 1e9) {
+    throw new Error(`refusing issue id ${JSON.stringify(n)}: not a positive integer`);
+  }
+  return id;
+}
+
 async function triage(n) {
+  n = assertIssueNumber(n);
   const is = await api(`/issues/${n}`);
   const labels = is.labels.map((l) => l.name);
   if (!labels.includes('from-site') && !/^\[(Bug|Data|Feedback)\]/.test(is.title)) return console.log('not a site report; leaving it');
