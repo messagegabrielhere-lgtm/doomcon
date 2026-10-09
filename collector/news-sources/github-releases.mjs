@@ -26,6 +26,7 @@ import { parseFeed, assertXmlFeed, draft } from './_feed.mjs';
 const REPOS = [
   // Frontier-lab clients: a model launch shows up here on day zero.
   'openai/openai-python',
+  'openai/openai-agents-python',
   'anthropics/claude-code',
   'anthropics/anthropic-sdk-python',
   'googleapis/python-genai',
@@ -33,7 +34,10 @@ const REPOS = [
   'google-deepmind/gemma',
   'ollama/ollama',
   // The tool-use protocol the agent ecosystem standardised on.
+  // Deliberately EXCLUDED: ggml-org/llama.cpp — tags many times a day and
+  // would crowd the reel the same way transformers/vllm would.
   'modelcontextprotocol/python-sdk',
+  'modelcontextprotocol/servers',
 ];
 
 // releases.atom returns the 10 most recent releases and nothing more; ?page=2

@@ -153,15 +153,34 @@ global `fetch`.
 | `google-ai-blog` | lab | 0.80 | primary but product-marketing; overlaps DeepMind |
 | `hf-daily-papers` | paper | 0.80 | human-curated shortlist with a community upvote |
 | `github-releases` | release | 0.75 | a cut tag is the least ambiguous "shipped" event |
+| `bair` | lab | 0.70 | Berkeley primary research blog |
+| `microsoft-ai` | lab | 0.70 | Azure/Windows AI launches; locally AI-filtered |
+| `karpathy` | lab | 0.70 | rare personal posts; when they land they move the field |
+| `federal-register-ai` | press | 0.70 | primary US regulatory wire (FR API term search) |
 | `techmeme` | press | 0.70 | fastest aggregator in tech; locally AI-filtered |
 | `huggingface-blog` | lab | 0.70 | the open-weight ecosystem's own newsroom |
+| `cset` | press | 0.65 | Georgetown security / emerging-tech policy desk |
+| `ft-ai` | press | 0.65 | capital and geopolitics; already AI-scoped |
+| `deepmind-safety` | lab | 0.65 | alignment notes off the main DeepMind blog |
 | `arxiv-newest` | paper | 0.65 | the most upstream source here; high volume, low per-item signal |
 | `hn-ai` | forum | 0.60 | the only hard engagement numbers in the layer |
 | `arstechnica-ai` | press | 0.60 | section feed, already AI-scoped |
+| `scmp-tech` | press | 0.60 | Asia / China tech war; locally AI-filtered |
+| `bloomberg-tech` | press | 0.60 | markets wire; locally AI-filtered |
+| `fli` | press | 0.60 | catastrophic-risk advocacy statements |
 | `hf-trending-models` | model | 0.60 | weights actually landing, not talk about them |
+| `govuk-ai` | press | 0.55 | UK government Atom search for AI |
+| `restofworld` | press | 0.55 | non-US deployments; locally AI-filtered |
+| `together-ai` | lab | 0.55 | open-weight inference capacity and harnesses |
 | `verge-ai` | press | 0.55 | shortest items; mostly contributes a corroboration vote |
 | `anthropic-status` | status | 0.55 | operational load on a frontier lab's fleet |
+| `lobsters-ai` | forum | 0.45 | practitioner forum, lower volume than Reddit |
 | `mit-news-ai` | press | 0.45 | independent, but rarely first |
+
+The table above is the **primary** cut. Additional adapters (newsletters,
+Reddit, status pages, InfoQ, Quanta, Ahead of AI, Lil'Log, Last Week in AI,
+and others) live as files under `collector/news-sources/` and appear in
+`data/news.json` `sources[]` with the same weight / state fields.
 
 Weights are an **editorial judgement**, disclosed here rather than buried —
 the same treatment `docs/METHODOLOGY.md` gives the index's 70/30 AQI split.
