@@ -91,6 +91,10 @@ export const TILE_ICONS = {
   db: [{ a: '#38BDF8', b: '#0C4A6E', c: '#E0F2FE' }, [
     '................', '....aaaaaaaa....', '..aabbbbbbbbaa..', '..aaaaaaaaaaaa..', '..abbbbbbbbbba..', '..abbbbbbbbcba..', '..aabbbbbbbbaa..', '..aaaaaaaaaaaa..',
     '..abbbbbbbbbba..', '..abbbbbbbbcba..', '..aabbbbbbbbaa..', '..aaaaaaaaaaaa..', '..abbbbbbbbbba..', '..abbbbbbbbcba..', '...aaaaaaaaaa...', '................']],
+  // Nothing Ever Happens: a flatline shrug.
+  shrug: [{ a: '#94A3B8', b: '#E2E8F0', c: '#64748B' }, [
+    '................', '................', '..bb........bb..', '.b..b......b..b.', 'b....b....b....b', '......aaaa......', '................', '..cccccccccccc..',
+    '..c..........c..', '..c..bb..bb..c..', '..c..........c..', '..c...cccc...c..', '..c..........c..', '..cccccccccccc..', '................', '................']],
 };
 
 export function tileSvg(name, bg = '#0B1220') {
