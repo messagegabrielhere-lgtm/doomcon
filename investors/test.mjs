@@ -229,7 +229,10 @@ test('highlights: biggest stock trades, one per member and ticker, no exchanges'
 });
 
 test('SEC User-Agent default has a contact and no github / URL tokens', () => {
-  assert.match(DEFAULT_SEC_UA, /@/);
+  // The contact comes from the SEC_CONTACT_EMAIL secret in CI; without it the
+  // default only names the project (no personal address in the repo).
+  if (process.env.SEC_CONTACT_EMAIL) assert.match(DEFAULT_SEC_UA, /@/);
+  else assert.match(DEFAULT_SEC_UA, /SIREN/);
   assert.equal(/github/i.test(DEFAULT_SEC_UA), false);
   assert.equal(/https?:\/\//i.test(DEFAULT_SEC_UA), false);
 });
