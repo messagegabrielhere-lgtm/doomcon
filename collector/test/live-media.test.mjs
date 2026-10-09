@@ -5,7 +5,7 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import {
-  parseLiveSearch, pickLive, isAiTitle, isAllowlisted, parseYouTubeFeed, pickSegments,
+  parseLiveSearch, pickLive, PODCASTS, isAiTitle, isAllowlisted, parseYouTubeFeed, pickSegments,
   parsePodcastFeed, pickEpisodes, parseDuration, run, TV_CHANNELS, NEWS_247,
 } from '../live-media.mjs';
 
@@ -160,6 +160,8 @@ test('run() with a key: one search an hour, quota counted, key never published',
 test('podcast RSS title guard: a feed that is some other show yields nothing', () => {
   assert.equal(parsePodcastFeed(fx('podcast.xml'), { id: 'x', show: 'Last Week in AI', title: /last week in ai/i }).length, 0);
   assert.equal(parsePodcastFeed(fx('podcast.xml'), { id: 'x', show: 'Example', title: /example ai show/i }).length, 3);
+  const latent = PODCASTS.find((p) => p.id === 'latent-space');
+  assert.ok(latent.title.test('Latent.Space') && latent.title.test('Latent Space: The AI Engineer Podcast'));
 });
 
 test('run(): an empty primary live search falls back once, inside the day cap', async () => {
@@ -171,7 +173,7 @@ test('run(): an empty primary live search falls back once, inside the day cap', 
   globalThis.fetch = async (url) => {
     const u = new URL(String(url));
     if (u.pathname.endsWith('/youtube/v3/search')) {
-      queries.push(u.searchParams.get('q'));
+      queries.push(u.searchParams.get('safeSearch'));
       return new Response(JSON.stringify(queries.length === 1 ? { pageInfo: { totalResults: 0 }, items: [] } : hit), { status: 200 });
     }
     throw new TypeError('fetch failed');
@@ -180,8 +182,14 @@ test('run(): an empty primary live search falls back once, inside the day cap', 
   try {
     const doc = await run({ lane: 'full', key: 'k', now: NOW, out });
     assert.equal(queries.length, 2);
-    assert.equal(doc.live.query, queries[1]);
+    assert.deepEqual(queries, ['strict', 'moderate'], 'strict first, then the moderate fallback');
+    assert.equal(doc.live.mode, 'moderate');
     assert.equal(doc.live.quota.units, 200);
     assert.deepEqual(doc.live.items.map((v) => v.id), ['aaaaaaaaaa4', 'aaaaaaaaaa5', 'aaaaaaaaaa3']);
+    // Next hour: the mode that found streams goes first, so one call is enough.
+    const next = await run({ lane: 'full', key: 'k', now: NOW + 60 * 60e3, out });
+    assert.deepEqual(queries, ['strict', 'moderate', 'moderate']);
+    assert.equal(next.live.quota.units, 300);
+    assert.equal(next.live.mode, 'moderate');
   } finally { globalThis.fetch = realFetch; console.log = log; }
 });

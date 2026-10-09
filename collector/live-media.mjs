@@ -37,10 +37,18 @@ const OUT = new URL('../data/live-media.json', import.meta.url);
 
 // Unquoted on purpose: the quoted-phrase form ('"artificial intelligence" |
 // "AI news" | …') came back with zero live results on 2026-10-09 22:32 UTC.
-// If the primary query still finds nothing, one broader fallback search runs
-// in the same pass (another 100 units, still inside MAX_UNITS_PER_DAY).
+//
+// Two search modes. 'strict' is the safeSearch=strict, English-relevance
+// search. Measured 2026-10-09 22:39 UTC: strict answered pageInfo.totalResults
+// 337 with an EMPTY items array for both queries, i.e. strict filtering drops
+// nearly every live broadcast. 'moderate' (safeSearch=moderate, no
+// relevanceLanguage) is the fallback; the junk and AI-title filters below still
+// decide what is shown. The mode that last found streams is tried first
+// (live.mode), so a steady state costs one call (100 units) an hour; a second
+// call happens only when the first comes back empty, inside MAX_UNITS_PER_DAY.
 export const LIVE_QUERY = 'artificial intelligence|AI news|OpenAI|Anthropic|Nvidia AI';
-export const LIVE_FALLBACK_QUERY = 'AI news live';
+export const LIVE_FALLBACK_QUERY = LIVE_QUERY;
+export const LIVE_MODES = ['strict', 'moderate'];
 export const LIVE_EVERY_MS = 55 * 60 * 1000;
 export const MAX_UNITS_PER_DAY = 2500;
 const SEARCH_COST = 100;
@@ -164,7 +172,7 @@ export const PODCASTS = [
   { id: 'ai-daily-brief', show: 'The AI Daily Brief', title: /ai (daily brief|breakdown)/i, urls: ['https://anchor.fm/s/f7cac464/podcast/rss'], verified: true },
   { id: 'hard-fork', show: 'Hard Fork', title: /hard fork/i, urls: ['https://feeds.simplecast.com/l2i9YnTd'], ai: true, verified: true },
   { id: 'last-week-in-ai', show: 'Last Week in AI', title: /last week in ai/i, urls: ['https://lastweekin.ai/feed', 'https://api.substack.com/feed/podcast/1047011.rss'], verified: false },
-  { id: 'latent-space', show: 'Latent Space', title: /latent space/i, urls: ['https://api.substack.com/feed/podcast/1084089.rss', 'https://www.latent.space/feed'], verified: true },
+  { id: 'latent-space', show: 'Latent Space', title: /latent\W?space/i, urls: ['https://api.substack.com/feed/podcast/1084089.rss', 'https://www.latent.space/feed'], verified: true },
   { id: 'cognitive-revolution', show: 'The Cognitive Revolution', title: /cognitive revolution/i, urls: ['https://feeds.megaphone.fm/RINTP3108857801'], verified: true },
   { id: 'dwarkesh', show: 'Dwarkesh Podcast', title: /dwarkesh/i, urls: ['https://api.substack.com/feed/podcast/69345.rss', 'https://www.dwarkesh.com/feed'], verified: true },
   { id: 'lex-fridman', show: 'Lex Fridman Podcast', title: /lex fridman/i, urls: ['https://lexfridman.com/feed/podcast/'], ai: true, verified: true },
@@ -337,21 +345,25 @@ async function refreshLive(prev, key, now) {
   const age = now - Date.parse(p.fetched_at || 0);
   if (Number.isFinite(age) && age < LIVE_EVERY_MS) return keepPrev(p.status || 'ok', { skipped: `searched ${Math.round(age / 60000)} min ago` });
   if (quota.units + SEARCH_COST > MAX_UNITS_PER_DAY) return keepPrev(p.status || 'ok', { skipped: `daily cap of ${MAX_UNITS_PER_DAY} units reached` });
-  const search = async (q) => {
+  const search = async (q, mode) => {
     quota.units += SEARCH_COST;
+    const params = mode === 'moderate' ? '&safeSearch=moderate' : '&relevanceLanguage=en&safeSearch=strict';
     const json = await fetchJson('https://www.googleapis.com/youtube/v3/search?part=snippet&eventType=live&type=video'
-      + `&q=${encodeURIComponent(q)}&maxResults=15&relevanceLanguage=en&safeSearch=strict&key=${encodeURIComponent(key)}`, { timeoutMs: 15000, retries: 0 });
+      + `&q=${encodeURIComponent(q)}&maxResults=15${params}&key=${encodeURIComponent(key)}`, { timeoutMs: 15000, retries: 0 });
     return { raw: parseLiveSearch(json), total: Number(json && json.pageInfo && json.pageInfo.totalResults) || 0 };
   };
   try {
+    const first = LIVE_MODES.includes(p.mode) && (p.seen || 0) > 0 ? p.mode : LIVE_MODES[0];
+    const second = LIVE_MODES.find((m) => m !== first);
+    let mode = first;
     let query = LIVE_QUERY;
-    let { raw, total } = await search(query);
+    let { raw, total } = await search(query, mode);
     if (!raw.length && quota.units + SEARCH_COST <= MAX_UNITS_PER_DAY) {
-      query = LIVE_FALLBACK_QUERY;
-      ({ raw, total } = await search(query));
+      mode = second; query = LIVE_FALLBACK_QUERY;
+      ({ raw, total } = await search(query, mode));
     }
     const items = pickLive(raw);
-    return { fetched_at: new Date(now).toISOString(), status: 'ok', query, seen: raw.length, total_results: total, items, quota };
+    return { fetched_at: new Date(now).toISOString(), status: 'ok', query, mode, seen: raw.length, total_results: total, items, quota };
   } catch (err) {
     // A failed search still spent its units. Keep last hour's list only while
     // it is fresh; a stream list two hours old is mostly finished streams.
@@ -412,7 +424,7 @@ export async function run({ lane = 'full', key = process.env.YOUTUBE_API_KEY || 
   await writeFile(out, `${JSON.stringify(doc, null, 2)}\n`);
 
   const l = doc.live;
-  notice(`lane=${lane} live=${l.items.length} (${l.status}${l.skipped ? `, ${l.skipped}` : ''}${l.error ? `: ${l.error}` : ''}; seen ${l.seen ?? '-'}; quota today ${l.quota ? l.quota.units : 0} units) tv=${doc.tv.items.length} radio=${doc.radio.items.length} fp=${doc.fingerprint}`);
+  notice(`lane=${lane} live=${l.items.length} (${l.status}${l.mode ? ` ${l.mode}` : ''}${l.skipped ? `, ${l.skipped}` : ''}${l.error ? `: ${l.error}` : ''}; seen ${l.seen ?? '-'}; quota today ${l.quota ? l.quota.units : 0} units) tv=${doc.tv.items.length} radio=${doc.radio.items.length} fp=${doc.fingerprint}`);
   notice(`tv sources: ${doc.tv.sources.map((s) => `${s.name}=${s.ok ? `${s.entries}/${s.ai}ai` : `DARK(${s.error})`}`).join('; ')}`);
   if (doc.radio.sources) notice(`radio sources: ${doc.radio.sources.map((s) => `${s.show}=${s.ok ? s.episodes : `DARK(${s.error})`}`).join('; ')}`);
   return doc;
