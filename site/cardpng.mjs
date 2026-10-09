@@ -9,8 +9,8 @@
 // our largest single acquisition hole. Every post so far has gone out as text
 // only. The cards exist and have never been seen.
 //
-// So this module renders PNG. Zero npm dependencies (CONTRACT.md §1), Node 20
-// built-ins only, node:zlib and nothing else — the same bet site/brandmarks.mjs
+// So this module renders PNG. It stays on Node 20 built-ins (CONTRACT.md §1):
+// node:zlib and nothing else — the same bet site/brandmarks.mjs
 // already won for the favicon and the default OG image, generalised from "six
 // short lines on one image" into a drawing API good enough for a card that is
 // mostly words.

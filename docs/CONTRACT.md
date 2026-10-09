@@ -5,11 +5,15 @@ here without changing it everywhere. Agents building in parallel rely on it.
 
 ## Hard constraints
 
-1. **Zero npm dependencies.** Node 20 built-ins only (`fetch`, `node:fs`,
-   `node:crypto`, …). No `package.json` dependencies, no `node_modules`.
+1. **The index stays on Node built-ins.** The collector, the engine, the
+   receipts, and the site use Node 20 built-ins only (`fetch`, `node:fs`,
+   `node:crypto`, …). They must not import from `node_modules`.
    Reason: the operator has no Node installed locally — everything runs as
    `docker run --rm -v "$PWD":/app -w /app node:20-alpine node <script>` —
-   and GitHub Actions stays dependency-free and fast.
+   and the collect workflows stay free of an install step.
+   Two optional tools sit outside that path and may depend on
+   `@anthropic-ai/sdk`: `clipper/` and `arena/agents.mjs`. Do not add that
+   import to the collector or the site.
 2. **ES modules, `.mjs` extension** throughout.
 3. **No secrets in the repository, and none required to build.** Posting was
    manual in v1. Since 2026-09-28 `.github/workflows/post-daily.yml` can post one

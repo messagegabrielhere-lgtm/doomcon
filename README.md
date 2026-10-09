@@ -63,8 +63,10 @@ collector/posts.mjs        post text, with URL and future-tense guards
 site/build.mjs             static site generator -> public/
 ```
 
-**Zero npm dependencies.** Node 20 built-ins only. There is no `node_modules`,
-no lockfile, and no supply chain.
+The index, the site, and the collector use Node 20 built-ins only. That path
+does not install a package. Two optional tools do: the clipper and the arena
+agents import `@anthropic-ai/sdk`. Their lockfiles are `package-lock.json`
+and `clipper/package-lock.json`.
 
 ## Adding a source
 
