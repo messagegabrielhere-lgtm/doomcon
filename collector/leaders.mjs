@@ -194,7 +194,9 @@ const ROSTER = Object.freeze([
   },
   {
     id: 'hassabis', name: 'Demis Hassabis', initials: 'DH',
-    org: 'Google DeepMind', org_id: 'google-deepmind', role: 'CEO',
+    // CEO until August 2026, when he became Chair of Google DeepMind and
+    // Chief Scientist of Alphabet; Koray Kavukcuoglu now runs the lab as SVP.
+    org: 'Google DeepMind', org_id: 'google-deepmind', role: 'Chair · Alphabet Chief Scientist',
     aliases: ['Demis Hassabis', 'Hassabis'],
     blocks: [],
     race_player: 'google-deepmind',
@@ -264,12 +266,16 @@ const ROSTER = Object.freeze([
   },
   {
     id: 'kavukcuoglu', name: 'Koray Kavukcuoglu', initials: 'KK',
-    org: 'Google', org_id: 'google', role: 'Chief AI Architect',
+    // Runs Google DeepMind as SVP since August 2026; also Google's Chief AI
+    // Architect.
+    org: 'Google DeepMind', org_id: 'google-deepmind', role: 'SVP · Chief AI Architect',
     aliases: ['Koray Kavukcuoglu', 'Kavukcuoglu', 'Koray'],
     blocks: [],
     race_player: null,
     news_query: { phrase: 'Koray Kavukcuoglu' },
-    wikipedia: 'Koray Kavukcuoglu',
+    // The ASCII title answered 404 on 2026-10-09; the article, if any, would
+    // carry the Turkish spelling. A 404 here only leaves the profile dark.
+    wikipedia: 'Koray Kavukçuoğlu',
   },
   {
     id: 'lecun', name: 'Yann LeCun', initials: 'YL',

@@ -68,25 +68,25 @@ export const LEADER_SOURCES = Object.freeze([
     id: 'karpathy-bearblog', label: 'karpathy.bearblog.dev', kind: 'personal', format: 'rss',
     url: 'https://karpathy.bearblog.dev/feed/',
     leaders: ['karpathy'],
-    verified: false, note: 'UNVERIFIED: answered 403 to a non-browser fetch on 2026-10-07; may block bots.',
+    verified: true, note: 'Fetched OK by the collect full run of 2026-10-09 (parseable feed). Earlier: was unverified — answered 403 to a non-browser fetch on 2026-10-07; may block bots.',
   },
   {
     id: 'karpathy-github', label: 'karpathy.github.io', kind: 'personal', format: 'atom',
     url: 'https://karpathy.github.io/feed.xml',
     leaders: ['karpathy'],
-    verified: false, note: 'UNVERIFIED: Jekyll default feed path; the sandbox could not reach it.',
+    verified: true, note: 'Fetched OK by the collect full run of 2026-10-09 (parseable feed). Earlier: was unverified — Jekyll default feed path; the sandbox could not reach it.',
   },
   {
     id: 'karpathy-youtube', label: 'YouTube · Andrej Karpathy', kind: 'personal', format: 'youtube',
     url: YT('UCXUPKJO5MZQN11PqgIvyuvQ'),
     leaders: ['karpathy'],
-    verified: false, note: 'UNVERIFIED channel id for @AndrejKarpathy; the sandbox could not reach YouTube.',
+    verified: true, note: 'Fetched OK by the collect full run of 2026-10-09 (parseable feed). Earlier: UNVERIFIED channel id for @AndrejKarpathy; the sandbox could not reach YouTube.',
   },
   {
     id: 'brockman-blog', label: 'blog.gregbrockman.com', kind: 'personal', format: 'atom',
     url: 'https://blog.gregbrockman.com/posts.atom',
     leaders: ['brockman'],
-    verified: false, note: 'UNVERIFIED: assumed Posthaven (/posts.atom); the sandbox could not reach it.',
+    verified: false, note: 'UNVERIFIED: assumed Posthaven (/posts.atom); answered HTTP 404 on the collect run of 2026-10-09, so it reads unreachable until a real feed path is known.',
   },
 
   // ---- org: blogs and newsrooms -------------------------------------------
@@ -112,25 +112,25 @@ export const LEADER_SOURCES = Object.freeze([
     id: 'google-company-news', label: 'blog.google · company news', kind: 'org', format: 'rss',
     url: 'https://blog.google/inside-google/company-announcements/rss/',
     leaders: ['pichai'],
-    verified: false, note: 'UNVERIFIED: blog.google per-section /rss/ path; the sandbox could not reach it.',
+    verified: true, note: 'Fetched OK by the collect full run of 2026-10-09 (parseable feed). Earlier: was unverified — blog.google per-section /rss/ path; the sandbox could not reach it.',
   },
   {
     id: 'microsoft-blog', label: 'blogs.microsoft.com', kind: 'org', format: 'rss',
     url: 'https://blogs.microsoft.com/feed/',
     leaders: ['nadella', 'suleyman'],
-    verified: false, note: 'UNVERIFIED: Official Microsoft Blog, WordPress default feed path; carries dc:creator.',
+    verified: true, note: 'Fetched OK by the collect full run of 2026-10-09 (parseable feed). Earlier: was unverified — Official Microsoft Blog, WordPress default feed path; carries dc:creator.',
   },
   {
     id: 'microsoft-source', label: 'news.microsoft.com', kind: 'org', format: 'rss',
     url: 'https://news.microsoft.com/feed/',
     leaders: ['nadella', 'suleyman'],
-    verified: false, note: 'UNVERIFIED: Microsoft Source newsroom, WordPress default feed path; the sandbox (allow-listed network) could not reach it 2026-10-09.',
+    verified: true, note: 'Fetched OK by the collect full run of 2026-10-09 (parseable feed). Earlier: was unverified — Microsoft Source newsroom, WordPress default feed path; the sandbox (allow-listed network) could not reach it 2026-10-09.',
   },
   {
     id: 'google-keyword', label: 'blog.google · all', kind: 'org', format: 'rss',
     url: 'https://blog.google/rss/',
     leaders: ['pichai', 'hassabis', 'kavukcuoglu'],
-    verified: false, note: 'UNVERIFIED: The Keyword site-wide feed (the per-section /rss/ paths above are its children); the sandbox could not reach it 2026-10-09.',
+    verified: true, note: 'Fetched OK by the collect full run of 2026-10-09 (parseable feed). Earlier: was unverified — The Keyword site-wide feed (the per-section /rss/ paths above are its children); the sandbox could not reach it 2026-10-09.',
   },
   {
     id: 'nvidia-blog', label: 'blogs.nvidia.com', kind: 'org', format: 'rss',
@@ -143,7 +143,7 @@ export const LEADER_SOURCES = Object.freeze([
     url: 'https://about.fb.com/news/feed/',
     // Yann LeCun left Meta at the end of 2025; Meta's channels are no longer his.
     leaders: ['zuckerberg'],
-    verified: false, note: 'UNVERIFIED: Meta Newsroom, WordPress default feed path.',
+    verified: true, note: 'Fetched OK by the collect full run of 2026-10-09 (parseable feed). Earlier: was unverified — Meta Newsroom, WordPress default feed path.',
   },
   {
     id: 'mistral-news', label: 'mistral.ai/news', kind: 'org', format: 'rss',
@@ -155,14 +155,14 @@ export const LEADER_SOURCES = Object.freeze([
     id: 'thinkingmachines-blog', label: 'thinkingmachines.ai/blog', kind: 'org', format: 'rss',
     url: 'https://thinkingmachines.ai/blog/index.xml',
     leaders: ['murati'],
-    verified: false, note: 'UNVERIFIED: Connectionism blog; Hugo default feed path.',
+    verified: true, note: 'Fetched OK by the collect full run of 2026-10-09 (parseable feed). Earlier: was unverified — Connectionism blog; Hugo default feed path.',
   },
 
   // ---- org: official YouTube channels -------------------------------------
   {
     id: 'yt-openai', label: 'YouTube · OpenAI', kind: 'org', format: 'youtube',
     url: YT('UCXZCJLdBC09xxGZ6gcdrc6A'), leaders: ['altman', 'brockman'],
-    verified: false, note: 'Channel id resolved from @OpenAI; last elon-data run got HTTP 500.',
+    verified: true, note: 'Fetched OK by the collect full run of 2026-10-09 (parseable feed). Earlier: Channel id resolved from @OpenAI; last elon-data run got HTTP 500.',
   },
   {
     id: 'yt-anthropic', label: 'YouTube · Anthropic', kind: 'org', format: 'youtube',
@@ -177,12 +177,12 @@ export const LEADER_SOURCES = Object.freeze([
   {
     id: 'yt-google', label: 'YouTube · Google', kind: 'org', format: 'youtube',
     url: YT('UCK8sQmJBp8GCxrOtXWBpyEA'), leaders: ['pichai'],
-    verified: false, note: 'Channel id resolved from @Google; last elon-data run got HTTP 500.',
+    verified: true, note: 'Fetched OK by the collect full run of 2026-10-09 (parseable feed). Earlier: Channel id resolved from @Google; last elon-data run got HTTP 500.',
   },
   {
     id: 'yt-microsoft', label: 'YouTube · Microsoft', kind: 'org', format: 'youtube',
     url: YT('UCFtEEv80fQVKkD4h1PF-Xqw'), leaders: ['nadella', 'suleyman'],
-    verified: false, note: 'Channel id resolved from @Microsoft; last elon-data run got HTTP 500.',
+    verified: true, note: 'Fetched OK by the collect full run of 2026-10-09 (parseable feed). Earlier: Channel id resolved from @Microsoft; last elon-data run got HTTP 500.',
   },
   {
     id: 'yt-nvidia', label: 'YouTube · NVIDIA', kind: 'org', format: 'youtube',
@@ -192,12 +192,12 @@ export const LEADER_SOURCES = Object.freeze([
   {
     id: 'yt-meta-ai', label: 'YouTube · AI at Meta', kind: 'org', format: 'youtube',
     url: YT('UC5qxlwEKM7-5YZudb24l0bg'), leaders: ['zuckerberg'],
-    verified: false, note: 'Channel id resolved from @AIatMeta; last elon-data run got HTTP 500.',
+    verified: true, note: 'Fetched OK by the collect full run of 2026-10-09 (parseable feed). Earlier: Channel id resolved from @AIatMeta; last elon-data run got HTTP 500.',
   },
   {
     id: 'yt-xai', label: 'YouTube · xAI', kind: 'org', format: 'youtube',
     url: YT('UCo2ri0cvAs8Lxbp18UHZsgg'), leaders: ['musk'],
-    verified: false, note: 'Channel id resolved from @xai; last elon-data run got HTTP 404.',
+    verified: true, note: 'Fetched OK by the collect full run of 2026-10-09 (parseable feed). Earlier: Channel id resolved from @xai; last elon-data run got HTTP 404.',
   },
   {
     id: 'yt-tesla', label: 'YouTube · Tesla', kind: 'org', format: 'youtube',

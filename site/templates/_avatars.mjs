@@ -243,8 +243,9 @@ const PEOPLE = {
     role: 'CEO', shape: 'aegis', tag: 'ANTHROPIC',
   },
   hassabis: {
+    // Chair of Google DeepMind and Alphabet's Chief Scientist since Aug 2026.
     name: 'Demis Hassabis', initials: 'DH', org: 'google-deepmind', orgName: 'Google DeepMind',
-    role: 'CEO', shape: 'prism', tag: 'DEEPMIND',
+    role: 'Chair', shape: 'prism', tag: 'DEEPMIND',
   },
   musk: {
     name: 'Elon Musk', initials: 'EM', org: 'xai', orgName: 'xAI',
@@ -295,8 +296,9 @@ const PEOPLE = {
     role: 'CEO', shape: 'dome', tag: 'ALPHABET',
   },
   kavukcuoglu: {
-    name: 'Koray Kavukcuoglu', initials: 'KK', org: 'google', orgName: 'Google',
-    role: 'Chief AI Architect', shape: 'arcs', tag: 'GOOGLE',
+    // Runs Google DeepMind as SVP since Aug 2026; also Chief AI Architect.
+    name: 'Koray Kavukcuoglu', initials: 'KK', org: 'google-deepmind', orgName: 'Google DeepMind',
+    role: 'SVP', shape: 'arcs', tag: 'DEEPMIND',
   },
   // The two academics are the reason `tag` exists as its own field rather than
   // being derived from orgName. "Mila, Université de Montréal" is twenty-eight
