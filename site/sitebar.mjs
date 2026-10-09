@@ -255,16 +255,42 @@ ${MONETIZE.tips && MONETIZE.tips.url ? `<a class="fb kofi" href="${MONETIZE.tips
       try { localStorage.setItem(KEY, el.dataset.as || "1"); } catch (e) {}
       hide();
     });
+    // Two sources, merged: the Dispatch snapshot (every few minutes, all
+    // systems) and USGS read straight from this browser every minute, so a
+    // great quake shows here within about a minute of USGS posting it.
+    var snapEm = null, liveEm = null;
+    function render(){
+      var em = snapEm && snapEm.active ? snapEm : null;
+      if (liveEm && (!em || Number(liveEm.level) < Number(em.level || 3) || (em.primary && em.primary.id !== liveEm.primary.id && liveEm.primary.t > (em.primary.t || 0) && Number(liveEm.level) <= Number(em.level || 3)))) em = liveEm;
+      if (!em) { hide(); return; }
+      show(em);
+    }
     function poll(){
       if (document.hidden) return;
       var u = "https://raw.githubusercontent.com/messagegabrielhere-lgtm/doomcon/dispatch-data/emergency.json?m=" + Math.floor(Date.now() / 120000);
-      fetch(u, { cache: "no-store" }).then(function(r){ return r.ok ? r.json() : null; }).then(function(em){
-        if (!em || !em.active) { hide(); return; }
-        show(em);
+      fetch(u, { cache: "no-store" }).then(function(r){ return r.ok ? r.json() : null; }).then(function(em){ snapEm = em; render(); }).catch(function(){});
+    }
+    function quakes(){
+      if (document.hidden) return;
+      fetch("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_day.geojson", { cache: "no-store" }).then(function(r){ return r.ok ? r.json() : null; }).then(function(j){
+        if (!j || !j.features) return;
+        var best = null;
+        j.features.forEach(function(f){
+          var p = f.properties || {}, m = +p.mag, age = (Date.now() - p.time) / 3600e3;
+          // M7+ within a day, M6.5+ within six hours.
+          if (!(m >= 7 && age <= 24) && !(m >= 6.5 && age <= 6)) return;
+          if (!best || m > best.m || (m === best.m && p.time > best.p.time)) best = { m: m, p: p, f: f };
+        });
+        if (!best) { liveEm = null; render(); return; }
+        var c = (best.f.geometry && best.f.geometry.coordinates) || [];
+        liveEm = { active: true, level: best.m >= 7 ? 1 : 2, label: best.m >= 7 ? "EMERGENCY" : "ALERT", count: 1,
+          primary: { id: "usgs:" + best.f.id, system: "usgs", event: "M" + best.m.toFixed(1) + " earthquake", severity: best.m >= 7 ? "Extreme" : "Severe", headline: best.p.title, area: best.p.place, lon: c[0], lat: c[1], t: best.p.time } };
+        render();
       }).catch(function(){});
     }
     poll(); setInterval(poll, 120000);
-    document.addEventListener("visibilitychange", function(){ if (!document.hidden) poll(); });
+    quakes(); setInterval(quakes, 60000);
+    document.addEventListener("visibilitychange", function(){ if (!document.hidden) { poll(); quakes(); } });
   })();
 })();
 </script>

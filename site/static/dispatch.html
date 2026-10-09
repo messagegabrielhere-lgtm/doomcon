@@ -93,6 +93,7 @@ a{color:inherit}
 .scope .btn{font-size:12px;padding:4px 9px}
 .scope .btn span{margin-left:4px;font:400 11px var(--f-mono);color:var(--mute)}
 .feed li[data-lon]{cursor:pointer}
+.livetag{color:#4ade80;font-weight:700;letter-spacing:.06em}
 .xbtn{margin-left:auto;border:1px solid var(--line);background:transparent;color:var(--mute);border-radius:4px;padding:1px 7px;font:600 11px/1.5 var(--f-mono,ui-monospace,monospace);cursor:pointer}
 .xbtn:hover{color:var(--ink);border-color:var(--mute)}
 .feed li[data-lon]:hover{background:rgba(255,255,255,.03)}
@@ -554,7 +555,7 @@ function renderFeeds() {
   $("#alerts").innerHTML = shown.slice(0, 150).map((a) => {
     const pin = onMap(a);
     const sys = a.system ? String(a.system).toUpperCase() : "NWS";
-    return `<li ${pin ? `data-lon="${a.lon}" data-lat="${a.lat}"` : ""}><div class="meta"><span class="tag sev-${esc(a.severity)}">${esc(a.severity)}</span><span>${esc(sys)}</span><span>${esc(a.event)}</span><span>${/^in /.test(ago(a.t)) ? "starts " + esc(ago(a.t)) : esc(ago(a.t)) + " ago"}</span>${pin ? (a.approx ? "<span>~state</span>" : "") : "<span>outside US map</span>"}<button type="button" class="xbtn" data-xpost="alert" data-x-title="${esc(alertTitle(a))}" data-x-src="${esc(sys)}" data-x-url="https://siren.watch/dispatch.html" aria-label="Post this alert to X">𝕏 Post</button></div><div class="title">${esc(a.headline || a.event)}</div><div class="meta">${esc(a.area || "")}</div></li>`;
+    return `<li ${pin ? `data-lon="${a.lon}" data-lat="${a.lat}"` : ""}><div class="meta"><span class="tag sev-${esc(a.severity)}">${esc(a.severity)}</span><span>${esc(sys)}</span>${a.live ? '<span class="livetag">LIVE</span>' : ""}<span>${esc(a.event)}</span><span>${/^in /.test(ago(a.t)) ? "starts " + esc(ago(a.t)) : esc(ago(a.t)) + " ago"}</span>${pin ? (a.approx ? "<span>~state</span>" : "") : "<span>outside US map</span>"}<button type="button" class="xbtn" data-xpost="alert" data-x-title="${esc(alertTitle(a))}" data-x-src="${esc(sys)}" data-x-url="https://siren.watch/dispatch.html" aria-label="Post this alert to X">𝕏 Post</button></div><div class="title">${esc(a.headline || a.event)}</div><div class="meta">${esc(a.area || "")}</div></li>`;
   }).join("") || `<li class="note">${S.alertScope === "world" ? "Nothing outside the US map right now." : "No active alerts here in this snapshot."}</li>`;
 
   $("#calls").innerHTML = S.calls.slice(0, 160).map((c) =>
@@ -723,6 +724,8 @@ async function loadSnap() {
     S.cities = j.cities || [];
     S.sources = j.sources || {};
     S.emergency = j.emergency || null;
+    S.snapAlerts = S.alerts.slice();
+    mergeLive();
     S.generated = j.generated;
     setSrc("snap", "ok", "", `Snapshot ${j.generated || ""}`);
     for (const [id, s] of Object.entries(S.sources)) {
@@ -738,6 +741,61 @@ async function loadSnap() {
     setSrc("snap", "dark", "", e.message);
     $("#loading").textContent = "Dispatch snapshot did not load (" + e.message + "). The dispatch-data branch may still be empty — run the workflow once.";
   }
+}
+
+
+/* ---------- Live layer: USGS and NWS straight from this browser ---------- */
+// The snapshot lands every few minutes. These two public feeds allow browser
+// reads, so new quakes and extreme NWS alerts show here within a minute.
+S.live = { usgs: [], nws: [] };
+function centroid(g) {
+  if (!g) return null;
+  if (g.type === "Point") return g.coordinates;
+  const pts = []; const walk = (c) => { if (typeof c[0] === "number") pts.push(c); else c.forEach(walk); };
+  walk(g.coordinates || []);
+  if (!pts.length) return null;
+  return [pts.reduce((a, p) => a + p[0], 0) / pts.length, pts.reduce((a, p) => a + p[1], 0) / pts.length];
+}
+async function loadLiveUsgs() {
+  try {
+    const j = await (await fetch("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_day.geojson", { cache: "no-store" })).json();
+    S.live.usgs = (j.features || []).map((f) => {
+      const p = f.properties || {}, m = +p.mag, c = (f.geometry && f.geometry.coordinates) || [];
+      return { id: "usgs:" + f.id, system: "usgs", event: `M${m.toFixed(1)} earthquake`, mag: m,
+        severity: m >= 7 ? "Extreme" : m >= 6 ? "Severe" : m >= 5 ? "Moderate" : "Minor",
+        headline: p.title, area: p.place, lon: c[0], lat: c[1], t: p.time, url: p.url, live: true };
+    });
+    setSrc("usgs-live", "ok", String(S.live.usgs.length), "USGS read live by this browser, every minute");
+  } catch (e) { setSrc("usgs-live", "dark", "", "USGS live: " + e.message); }
+  mergeLive();
+}
+async function loadLiveNws() {
+  try {
+    const j = await (await fetch("https://api.weather.gov/alerts/active?status=actual&message_type=alert&severity=Extreme", { cache: "no-store", headers: { Accept: "application/geo+json" } })).json();
+    S.live.nws = (j.features || []).map((f) => {
+      const p = f.properties || {}, c = centroid(f.geometry);
+      return { id: p.id || f.id, system: "nws", event: p.event || "Alert", severity: p.severity || "Extreme", headline: p.headline,
+        area: String(p.areaDesc || "").split(";")[0], lon: c ? c[0] : null, lat: c ? c[1] : null,
+        t: Date.parse(p.effective || p.sent) || Date.now(), ends: Date.parse(p.ends || p.expires) || null, url: p["@id"], live: true };
+    });
+    setSrc("nws-live", "ok", String(S.live.nws.length), "NWS extreme alerts read live by this browser, every minute");
+  } catch (e) { setSrc("nws-live", "dark", "", "NWS live: " + e.message); }
+  mergeLive();
+}
+function mergeLive() {
+  const base = S.snapAlerts || S.alerts || [];
+  const seen = new Set(base.map((a) => a.id));
+  const fresh = [...S.live.usgs, ...S.live.nws].filter((a) => !seen.has(a.id));
+  S.alerts = base.concat(fresh).sort((a, b) => b.t - a.t);
+  // A great quake that the snapshot has not caught yet takes the banner now.
+  const big = S.live.usgs.filter((q) => (q.mag >= 7 && Date.now() - q.t < 24 * 3600e3) || (q.mag >= 6.5 && Date.now() - q.t < 6 * 3600e3))
+    .sort((a, b) => b.mag - a.mag || b.t - a.t)[0];
+  const em = S.emergency;
+  if (big && (!em || !em.active || (em.primary && em.primary.id !== big.id && (big.mag >= 7 ? 1 : 2) < (em.level || 3)))) {
+    S.emergency = { active: true, level: big.mag >= 7 ? 1 : 2, label: big.mag >= 7 ? "EMERGENCY" : "ALERT", count: (em && em.count || 0) + 1, us_count: em && em.us_count,
+      primary: { id: big.id, system: "usgs", event: big.event, severity: big.severity, headline: big.headline, area: big.area, lon: big.lon, lat: big.lat, t: big.t } };
+  }
+  if (S.generated) { renderEmergency(); renderLayers(); renderFeeds(); S.needDraw = true; }
 }
 
 function tickClock() {
@@ -771,6 +829,9 @@ resize();
 tickClock(); setInterval(tickClock, 1000);
 loadOutline().then(() => { S.needDraw = true; });
 loadSnap();
+loadLiveUsgs(); loadLiveNws();
+setInterval(() => { if (!document.hidden) { loadLiveUsgs(); loadLiveNws(); } }, 60000);
+setInterval(() => { if (!document.hidden) loadSnap(); }, 180000);
 loop();
 })();
 </script>
