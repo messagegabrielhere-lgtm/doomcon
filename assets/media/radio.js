@@ -249,20 +249,30 @@
     } catch (e) {}
   }
 
+  // Bumps on every start and stop. A page-load resume that finishes late
+  // must not undo a tap that already turned the radio the other way.
+  var epoch = 0;
   function start(lv) {
     if (lv) level = Math.min(5, Math.max(1, lv | 0));
     unlockIOS();
     if (!ctx) build();
     if (ctx.state !== 'running' && ctx.resume) ctx.resume();
-    next = ctx.currentTime + 0.05; step = 0;
+    if (!playing) { next = ctx.currentTime + 0.05; step = 0; }
+    if (timer) clearInterval(timer);
     master.gain.cancelScheduledValues(ctx.currentTime);
     master.gain.setTargetAtTime(0.8, ctx.currentTime, 0.6);
-    timer = setInterval(tick, 25); playing = true;
+    timer = setInterval(tick, 25); playing = true; epoch++;
   }
   function stop() {
-    if (!ctx) return;
-    master.gain.setTargetAtTime(0, ctx.currentTime, 0.25);
-    clearInterval(timer); timer = null; playing = false;
+    epoch++;
+    playing = false;
+    if (timer) { clearInterval(timer); timer = null; }
+    if (ctx && master) {
+      try {
+        master.gain.cancelScheduledValues(ctx.currentTime);
+        master.gain.setTargetAtTime(0, ctx.currentTime, 0.25);
+      } catch (e) {}
+    }
     if (keepAlive) try { keepAlive.pause(); } catch (e) {}
   }
 
@@ -299,12 +309,28 @@
         if (id) sb.setAttribute('aria-pressed', String(playing && id === STATIONS[station].id));
       });
     };
+    // A blocked start used to leave the button saying "on" and treat the next
+    // tap as a resume, so the visitor could not turn the radio off. If the
+    // context never actually runs, drop back to off and let the next tap be
+    // a real start inside their gesture.
     var check = function () {
+      var mark = epoch;
       setTimeout(function () {
-        if (!playing || !ctx) return;
-        if (ctx.state !== 'running') btns.forEach(function (b) { b.textContent = '♪ TAP AGAIN'; b.title = 'Your browser blocked the sound. Tap again; on a phone, check the volume.'; });
+        if (mark !== epoch || !playing || !ctx) return;
+        if (ctx.state === 'running') return;
+        stop();
+        paint();
+        btns.forEach(function (b) { b.title = 'The browser blocked the sound. Tap again to turn SIREN Radio on. On a phone, check the volume and the silent switch.'; });
       }, 700);
     };
+    function hitControl(e) {
+      var n = e.target;
+      while (n && n !== document) {
+        if (n.id === 'siren-radio' || (n.hasAttribute && (n.hasAttribute('data-siren-radio') || n.hasAttribute('data-siren-station')))) return true;
+        n = n.parentNode;
+      }
+      return false;
+    }
     // Station buttons: [data-siren-station] steps to the next station, and
     // [data-siren-station="synthwave"] (on the radio page) tunes straight to one.
     [].slice.call(document.querySelectorAll('[data-siren-station]')).forEach(function (sb) {
@@ -319,10 +345,12 @@
     });
     btns.forEach(function (btn) {
       btn.addEventListener('click', function () {
-        if (playing && ctx && ctx.state !== 'running') { ctx.resume(); unlockIOS(); paint(); check(); return; }
+        // Always a toggle. A suspended context used to swallow the off tap
+        // and resume instead, so on and off fought each other.
         if (playing) stop(); else start(lv);
         try { localStorage.setItem(KEY, playing ? '1' : '0'); } catch (e) {}
-        paint(); check();
+        paint();
+        if (playing) check();
       });
     });
     // Remembered "on": browsers forbid sound before a gesture, so resume on the
@@ -336,15 +364,22 @@
       // listeners below catch anywhere on the page.
       try {
         start(lv);
+        var mark = epoch;
         setTimeout(function () {
-          if (ctx && ctx.state === 'running') { paint(); return; }
-          stop(); playing = false;
-          btns.forEach(function (b) { b.textContent = b.hasAttribute('data-siren-radio') ? '♪ TAP' : '♪ TAP TO RESUME'; b.title = 'SIREN Radio was on: tap anywhere to keep it playing'; });
+          if (mark !== epoch) return;
+          if (ctx && ctx.state === 'running' && playing) { paint(); return; }
+          stop();
+          paint();
+          btns.forEach(function (b) { b.title = 'SIREN Radio was on. Tap the button, or anywhere else, to keep it playing.'; });
         }, 350);
       } catch (e) {}
       var go = function (e) {
-        if (btns.indexOf(e.target) >= 0 || playing) return;
-        start(lv); paint();
+        // The power and station buttons handle themselves on click. Starting
+        // here as well made one tap turn the radio on and straight back off.
+        if (hitControl(e) || playing) return;
+        start(lv);
+        try { localStorage.setItem(KEY, '1'); } catch (err) {}
+        paint();
       };
       addEventListener('pointerdown', go, { once: true });
       addEventListener('keydown', go, { once: true });
