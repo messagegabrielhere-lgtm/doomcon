@@ -1,6 +1,6 @@
 // Brand constants. Everything that renders a name, a URL or a level word reads
-// from here, so registering doomcon.watch is a one-line change (CANONICAL_URL)
-// rather than a grep across twelve templates.
+// from here, so the public domain is one change (CANONICAL_URL) rather than a
+// grep across twelve templates.
 //
 // THE RULE THIS FILE EXISTS TO HOLD: voice in the words, rigour in the number.
 // Every string below may be vivid. No string below may make a claim the engine
@@ -88,27 +88,15 @@ export const STRAPLINE =
   'Everyone has a p(doom). Nobody has a receipt. SIREN counts what is ' +
   'observably happening, hourly, and publishes the arithmetic.';
 
-// The address we PRINT. This was 'doomcon.watch' — the domain we intend to own —
-// on the reasoning that burning the final brand into share cards early means the
-// printed brand never has to change. That reasoning only holds if the domain
-// resolves, and on 2026-09-26 it did not: no A record, HTTP 000, unreachable,
-// and it is still unregistered. A share card is the surface most likely to be
-// seen long after it was made by somebody with no other route back to us, so an
-// address that answers nothing is the one failure it cannot survive —
-// collector/cards/_chassis.mjs had already reached that conclusion and derives
-// its own default from CANONICAL_URL. This now agrees with it.
-//
-// THE DAY doomcon.watch IS REGISTERED this goes back to 'doomcon.watch' and
-// CANONICAL_URL becomes 'https://doomcon.watch'. Two lines, and every card, OG
-// image, embed and post follows automatically. Nothing else needs to change.
-export const DOMAIN = 'messagegabrielhere-lgtm.github.io/doomcon';
+// The address we PRINT. siren.watch is registered at Hostinger. GitHub Pages
+// still builds the site; Hostinger only holds the DNS (and the mail). BASE_PATH
+// below is the pathname of CANONICAL_URL, so an apex domain serves from / and
+// a project-site URL would keep the /doomcon prefix. Do not point this back at
+// github.io while the CNAME file is being published, or every asset 404s.
+export const DOMAIN = 'siren.watch';
 
-// Where the site is actually served from today. GitHub Pages project sites are
-// served under /<repo>, NOT at the host root — every internal link has to carry
-// that prefix or the whole site 404s the moment it leaves localhost. BASE_PATH
-// below derives it, so swapping to 'https://doomcon.watch' empties the prefix
-// automatically.
-export const CANONICAL_URL = 'https://messagegabrielhere-lgtm.github.io/doomcon';
+// Apex, not www. GitHub Pages redirects www here once the www CNAME exists.
+export const CANONICAL_URL = 'https://siren.watch';
 
 // pizzint ships twitter:site="@pizzint" while their account is @pizzintwatch —
 // the card is misattributed on every share. The fix is not "be careful", it is
