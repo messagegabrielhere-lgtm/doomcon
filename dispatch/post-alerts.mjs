@@ -83,7 +83,9 @@ export function pickAlertPost(snap, ledger, { now = Date.now() } = {}) {
   const emergency = evaluateEmergency(snap, { now });
   if (!emergency.active) return { pick: null, emergency, why: 'no emergency triggers' };
 
-  const gap = gapOk(ledger, { now });
+  // An EMERGENCY (a great quake, a US extreme) does not wait three hours
+  // behind a routine post; it still keeps half an hour of spacing.
+  const gap = gapOk(ledger, { now, minGapHours: emergency.level === 1 ? 0.5 : MIN_GAP_HOURS });
   if (!gap.ok) return { pick: null, emergency, why: gap.why };
 
   const postedIds = ledger.map((r) => r.alert_id);
