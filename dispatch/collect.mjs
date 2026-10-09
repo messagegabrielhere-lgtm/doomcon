@@ -5,8 +5,8 @@
 // the dispatch-data branch; site/static/dispatch.html reads it from
 // raw.githubusercontent.com. Nothing here writes to main or touches the index.
 //
-// Privacy: street addresses never leave the city adapters. Coordinates are
-// rounded to two decimal degrees (~1 km) for calls. Sensitive call types are dropped.
+// Privacy: street addresses never leave the city adapters. CAD pins use
+// round2 (~1 km); alert systems use round3 (~100 m). Sensitive call types are dropped.
 //
 // Usage: node dispatch/collect.mjs <outdir>
 
@@ -16,10 +16,11 @@ import { fetchJson } from '../collector/fetch.mjs';
 import { CITIES } from './cities.mjs';
 import { collectAllAlerts } from './alerts.mjs';
 import { evaluateEmergency } from './emergency.mjs';
-import { geomCentroid } from './geo.mjs';
+import { geomCentroid, isMain } from './geo.mjs';
 
 export { geomCentroid };
 
+const ALERT_SYSTEMS = Object.freeze(['nws', 'usgs', 'gdacs', 'eonet', 'nhc']);
 const OUT = process.argv[2] || 'dispatch-out';
 const log = (...a) => console.log(...a);
 
@@ -74,7 +75,7 @@ export async function main() {
       blather: blatherDedup.length,
       cities_ok: CITIES.filter((c) => sources[c.id]?.ok).length,
       cities: CITIES.length,
-      alert_systems_ok: ['nws', 'usgs', 'gdacs', 'eonet', 'nhc'].filter((id) => sources[id]?.ok).length,
+      alert_systems_ok: ALERT_SYSTEMS.filter((id) => sources[id]?.ok).length,
       emergency: emergency.active,
     },
     emergency,
@@ -105,6 +106,7 @@ export async function main() {
     + `Last run: ${snap.generated}\nEmergency: ${emergency.label} (${emergency.count} triggers)\n`,
   );
   log(`wrote ${alerts.length} alerts, ${calls.length} calls, ${blatherDedup.length} blather, emergency=${emergency.label} in ${((Date.now() - t0) / 1000).toFixed(1)} s`);
+  return snap;
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) main().catch((e) => { console.error(e); process.exit(1); });
+if (isMain(import.meta.url)) main().catch((e) => { console.error(e); process.exit(1); });

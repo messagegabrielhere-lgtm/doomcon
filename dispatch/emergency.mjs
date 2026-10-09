@@ -154,7 +154,9 @@ function windBit(alert) {
   return Number.isFinite(alert.wind_kt) ? `${Math.round(alert.wind_kt)} kt` : null;
 }
 
-function nwsAngle(alert) {
+export const NWS_ANGLES = Object.freeze(['tornado', 'tropical', 'tsunami', 'flood', 'winter', 'heat', 'weather']);
+
+export function nwsAngle(alert) {
   const e = `${alert.event || ''} ${alert.headline || ''}`;
   if (/\bTornado\b/i.test(e)) return 'tornado';
   if (/\b(Hurricane|Typhoon|Tropical)\b/i.test(e)) return 'tropical';
@@ -251,7 +253,8 @@ function bodiesFor(alert) {
           `Dispatch · NWS ${sev}. ${head}${place}, ${when}.`,
         ],
       };
-      return angleLine[angle];
+      // nwsAngle always returns a NWS_ANGLES key; fall back if a new angle is added incompletely.
+      return angleLine[angle] || angleLine.weather;
     }
     default:
       return [

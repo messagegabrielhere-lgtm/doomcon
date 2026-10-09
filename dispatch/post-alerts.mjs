@@ -22,6 +22,7 @@ import path from 'node:path';
 import { dryRun, postToX, preflightX, readCredentials, printResults, sha256, assertPng } from '../collector/post-x.mjs';
 import { evaluateEmergency, formatAlertPost, freshTriggers } from './emergency.mjs';
 import { renderAlertCard } from './card.mjs';
+import { isMain } from './geo.mjs';
 
 export const MIN_GAP_HOURS = 3;
 export const LEDGER_NAME = 'posted-alerts.ndjson';
@@ -274,7 +275,7 @@ async function main(argv) {
   if (report.outcome === 'failed') process.exit(1);
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (isMain(import.meta.url)) {
   main(process.argv.slice(2)).catch((err) => {
     process.stderr.write(`post-alerts.mjs failed: ${err.message}\n`);
     process.exit(1);
