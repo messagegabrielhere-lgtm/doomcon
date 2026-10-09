@@ -257,11 +257,12 @@ pill.querySelector('button').addEventListener('click',function(){var u=new URL(l
 setInterval(watch,60000);document.addEventListener('visibilitychange',function(){if(!document.hidden)watch()});setTimeout(watch,4000)})();
 // Phone fold: keep the heavy board closed under 721px; open it on wider viewports
 // and when "See the evidence" (or any in-page hash into the board) is used.
-// A button+panel (not <details>) so the tap target is reliable under the sticky chrome.
+// Visibility is CSS-only (.is-open) — never btn.hidden — so a mismatched
+// matchMedia vs CSS viewport cannot leave the control stuck display:none.
 (function(){var box=document.getElementById('v2-more'),btn=document.getElementById('v2-more-btn'),body=document.getElementById('v2-more-body');
 if(!box||!btn||!body)return;
 var mq=window.matchMedia('(min-width:721px)'),forced=false;
-function apply(){var show=mq.matches||forced;box.classList.toggle('is-open',show);btn.hidden=mq.matches||forced;btn.setAttribute('aria-expanded',forced?'true':'false');document.body.classList.toggle('v2-more-open',show&&!mq.matches)}
+function apply(){var show=mq.matches||forced;box.classList.toggle('is-open',show);btn.setAttribute('aria-expanded',(!mq.matches&&forced)?'true':'false');document.body.classList.toggle('v2-more-open',show&&!mq.matches)}
 function openMore(){forced=true;apply();try{body.scrollIntoView({block:'nearest',behavior:'smooth'})}catch(e){}}
 btn.addEventListener('click',function(e){e.preventDefault();openMore()});
 document.querySelectorAll('[data-v2-more-open]').forEach(function(a){a.addEventListener('click',openMore)});
@@ -727,7 +728,7 @@ ${ticker(items)}
   <script>window.SIREN_NOW=${JSON.stringify(sinceNow).replace(/</g, '\\u003c')}</script>
 
 <div class="v2-more is-open" id="v2-more">
-  <button type="button" class="v2-more__sum" id="v2-more-btn" aria-expanded="false" aria-controls="v2-more-body" onclick="var b=this.closest('.v2-more');if(b){b.classList.add('is-open');this.hidden=true;this.setAttribute('aria-expanded','true')}return false;">See the evidence →</button>
+  <button type="button" class="v2-more__sum" id="v2-more-btn" aria-expanded="false" aria-controls="v2-more-body" onclick="var b=this.closest('.v2-more');if(b){b.classList.add('is-open');this.setAttribute('aria-expanded','true')}return false;">See the evidence →</button>
   <div class="v2-more__body" id="v2-more-body">
   ${top ? `<div class="v2-breaking" id="breaking" data-sec="Breaking"><span class="badge"><span class="blink">${icon('bolt', 2)}</span>BREAKING</span><a href="${esc(top.url)}" rel="noopener">${esc(top.title)}</a><span class="src">${esc(hhmm(top.published_at))} · ${esc(String(top.source).toUpperCase())}</span><button type="button" class="v2-xp" data-xpost="news" data-x-title="${esc(top.title)}" data-x-src="${esc(top.source)}" data-x-url="${esc(top.url)}" aria-label="Post this story to X">𝕏 POST</button></div>` : ''}
   ${dash}
