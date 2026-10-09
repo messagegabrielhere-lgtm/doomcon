@@ -727,7 +727,7 @@ ${ticker(items)}
   <script>window.SIREN_NOW=${JSON.stringify(sinceNow).replace(/</g, '\\u003c')}</script>
 
 <div class="v2-more is-open" id="v2-more">
-  <button type="button" class="v2-more__sum" id="v2-more-btn" aria-expanded="false" aria-controls="v2-more-body">See the evidence →</button>
+  <button type="button" class="v2-more__sum" id="v2-more-btn" aria-expanded="false" aria-controls="v2-more-body" onclick="var b=this.closest('.v2-more');if(b){b.classList.add('is-open');this.hidden=true;this.setAttribute('aria-expanded','true')}return false;">See the evidence →</button>
   <div class="v2-more__body" id="v2-more-body">
   ${top ? `<div class="v2-breaking" id="breaking" data-sec="Breaking"><span class="badge"><span class="blink">${icon('bolt', 2)}</span>BREAKING</span><a href="${esc(top.url)}" rel="noopener">${esc(top.title)}</a><span class="src">${esc(hhmm(top.published_at))} · ${esc(String(top.source).toUpperCase())}</span><button type="button" class="v2-xp" data-xpost="news" data-x-title="${esc(top.title)}" data-x-src="${esc(top.source)}" data-x-url="${esc(top.url)}" aria-label="Post this story to X">𝕏 POST</button></div>` : ''}
   ${dash}
