@@ -11,6 +11,7 @@ changes until then.
 | Ads | ethicalads.io (publishers) or carbonads.net | `ads.provider` + `publisher` (EthicalAds) or `serve` + `placement` (Carbon) | One ad on long reading pages (never the homepage), privacy page line |
 | Sponsor | sold directly (see /sponsor.html) | `sponsor.name`, `url`, `line`, `until` (ISO date, it switches off itself) | Line on every page + homepage strip; "spot is open" house line until then |
 | Affiliates | each program's partner page (Incogni, DeleteMe, Proton, NordVPN, 1Password, ElevenLabs, Descript; usually via Impact or PartnerStack) | the `aff` link on that entry | Bunker Kit "Paid upgrades" crate switches to the tracked link, marked Paid link |
+| Analytics | analytics.google.com (GA4) and/or goatcounter.com | `analytics.gtag` (`G-…`) and/or `analytics.goatcounter` | gtag in every page `<head>`; GoatCounter before `</body>`; privacy page disclosure |
 
 ## SEO rules the code keeps
 - `rel="sponsored noopener"` on every paid link.

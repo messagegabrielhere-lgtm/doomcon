@@ -864,7 +864,7 @@ ${switcher.render(ctx)}
 
 <section class="sec supp" id="support" aria-labelledby="support-h">
   <h2 class="sec__h" id="support-h">Keep the count running</h2>
-  <p class="lede">${esc(brand.NAME)} is free, sets no cookies, counts visits without cookies, and the number will never be behind a paywall:
+  <p class="lede">${esc(brand.NAME)} is free, the number will never be behind a paywall, and visit counts are disclosed on the privacy page:
     a number you have to pay to check is not a number anybody can check. It pays its way four ways, all labelled.</p>
   <div class="earn">
     <a class="earn__c" href="${esc(ctx.href('/library.html'))}"><b>The reading list</b><span>${esc(BOOK_COUNT)} books from every side of the AI argument.</span><i>Paid links</i></a>

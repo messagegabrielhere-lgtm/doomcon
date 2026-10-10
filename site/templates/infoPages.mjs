@@ -70,6 +70,9 @@ export function about(ctx) {
 }
 
 export function privacy(ctx) {
+  const hasGc = !!(MONETIZE.analytics && MONETIZE.analytics.goatcounter);
+  const hasGa = !!(MONETIZE.analytics && MONETIZE.analytics.gtag);
+  const gaId = hasGa ? esc(MONETIZE.analytics.gtag) : '';
   const main = `${CSS}
 <section class="inf">
   <p class="eyebrow">Privacy</p>
@@ -77,10 +80,18 @@ export function privacy(ctx) {
   <p class="lede">Very little, and nothing it keeps. This page lists every way a visit can leave a trace.</p>
   <h2>What the site itself does</h2>
   <ul>
-    <li><b>No cookies.</b> The site sets none.</li>
-    ${MONETIZE.analytics && MONETIZE.analytics.goatcounter
+    ${hasGa
+      ? `<li><b>Cookies from Google Analytics.</b> Pages load Google Analytics (measurement ID ${gaId}), which may set cookies Google uses to recognise returning visitors and measure traffic. This site does not set cookies of its own.</li>`
+      : `<li><b>No cookies.</b> The site sets none.</li>`}
+    ${hasGc
       ? `<li><b>Visitor counts, without cookies.</b> Pages load GoatCounter, which counts visits: the page, the referring site, your country (worked out from your IP address, which is not stored), browser, screen size and language. It sets no cookies, does not track you across sites, and keeps no personal data. Turn on your browser's Do Not Track to be left out.</li>`
-      : `<li><b>No analytics.</b> There is no tracking script, pixel or visitor counter. Nobody here knows you visited.</li>`}
+      : ''}
+    ${hasGa
+      ? `<li><b>Google Analytics.</b> Pages load Google's gtag script for ${gaId}. Google receives your IP address, browser details, the page you open and a client identifier, under <a href="https://policies.google.com/privacy" rel="noopener">Google's privacy policy</a>. SIREN uses the reports to see which pages are read; it does not sell that data or share it with sponsors.</li>`
+      : ''}
+    ${!hasGc && !hasGa
+      ? `<li><b>No analytics.</b> There is no tracking script, pixel or visitor counter. Nobody here knows you visited.</li>`
+      : ''}
     <li><b>No accounts.</b> There is nothing to sign up for. The <a href="${esc(ctx.href('/feedback.html'))}">feedback form</a> stores and sends nothing itself: it opens a pre-filled, <b>public</b> issue on GitHub that you choose whether to submit, under GitHub's privacy policy.</li>
     <li><b>Browser storage.</b> A few preferences are kept in your own browser's local storage: the last reading you saw, your
       language choice, your best score in the game, and the panel settings on the live monitor and scanner pages. They never
@@ -89,6 +100,9 @@ export function privacy(ctx) {
   <h2>Third parties a visit touches</h2>
   <ul>
     <li><b>GitHub Pages</b> hosts the site, so GitHub's servers receive your IP address and browser details, as any web host does.</li>
+    ${hasGa
+      ? `<li><b>Google Analytics</b> receives visit data as described above, under Google's privacy policy.</li>`
+      : ''}
     <li><b>Fonts</b> are served from this site. No font request goes to Google or any other third party.</li>
     <li><b>Live data pages.</b> Hand-built pages that fetch public data straight from your browser, so those providers receive
       your IP address and browser details when you open them, under their own policies:
@@ -120,10 +134,13 @@ ${mzOn.newsletter() ? `<li><b>Email newsletter.</b> If you subscribe, your email
   <h2>Questions</h2>
   <p>See the <a href="${esc(ctx.href('/about.html'))}">about page</a> for how to get in touch.</p>
 </section>`;
+  const desc = hasGa
+    ? `${brand.NAME} uses Google Analytics (${gaId}) and${hasGc ? ' cookieless GoatCounter' : ''} to count visits. What a visit touches: GitHub Pages, Google,${hasGc ? ' GoatCounter,' : ''} and the sites you choose to click through to.`
+    : `${brand.NAME} sets no cookies and keeps no personal data; it counts visits without cookies. What a visit touches: GitHub Pages, GoatCounter and the sites you choose to click through to.`;
   return page({
     ctx, path: '/privacy.html',
     title: `Privacy · ${brand.NAME}`,
-    description: `${brand.NAME} sets no cookies and keeps no personal data; it counts visits without cookies. What a visit touches: GitHub Pages, GoatCounter and the sites you choose to click through to.`,
+    description: desc,
     main,
   });
 }
@@ -580,7 +597,7 @@ export function press(ctx) {
   <h2>A paragraph you can lift</h2>
   <p>${esc(brand.NAME)} counts public AI activity across five pillars (${brand.PILLARS.map((p) => esc(p.name.toLowerCase())).join(', ')}) and turns it into one score from 0 to 100 and a level from 5 to 1.
     It measures tempo, not danger, and it does not forecast. Each reading is published with a receipt containing its inputs and the hash of the receipt before it,
-    and a button on the home page lets any visitor re-check the last twelve readings in their own browser. It is run by one person, carries no advertising and sets no cookies.</p>
+    and a button on the home page lets any visitor re-check the last twelve readings in their own browser. It is run by one person and carries no advertising.</p>
   <h2>Facts</h2>
   <ul>
     ${now ? `<li><b>Current reading:</b> ${esc(now)}. <a href="${esc(ctx.href('/'))}">Live page</a>.</li>` : ''}
