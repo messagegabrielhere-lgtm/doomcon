@@ -76,7 +76,7 @@ jobs:
           UDID: ${{ steps.sim.outputs.udid }}
         run: |
           APP=build/Build/Products/Debug-iphonesimulator/StillMe.app
-          BID=com.example.stillme
+          BID=com.messagegabrielhere.stillme
           mkdir -p shots
           xcrun simctl boot "$UDID" || true
           xcrun simctl bootstatus "$UDID" -b
