@@ -144,6 +144,7 @@ export function roomGroups(ctx) {
     ['LIVE INTEL', [
       ['/race.html', 'radar', 'The Race', race && race.market ? `${race.name} ${(race.market.probability * 100).toFixed(1)}%` : null, 'Labs ranked on live prediction-market odds.'],
       ['/news.html', 'news', 'Newsroom', ctx.news && ctx.news.items ? `${ctx.news.items.length} stories` : null, 'Every AI story, scored and corroborated.'],
+      ['/model/', 'px:db', 'Models', null, 'Stories grouped by the model family the headline names.'],
       ['/leaders.html', 'mic', 'Leaders', Number.isFinite(lt.leaders) ? `${lt.on_record ?? 0} of ${lt.leaders} on record` : null, 'What the people running AI said this week.'],
       ctx.digest ? ['/digest.html', 'clipboard', 'Digest', null, 'The day in a few corroborated items.'] : null,
       ['/monitor.html', 'satellite', 'World Monitor', null, 'Live globe: stories from 27 outlets, hazards, a country stress index, 72-hour replay.'],
@@ -162,6 +163,7 @@ export function roomGroups(ctx) {
       ['/watts.html', 'power', 'Power', ctx.infra && Number.isFinite(ctx.infra.score) ? `${ctx.infra.score.toFixed(1)} / 100` : null, 'Grid load, drought and build-out under the models.'],
       ['/map.html', 'server', 'Map', ctx.datacenters && ctx.datacenters.sites ? `${fmt(ctx.datacenters.sites.length)} US sites` : null, 'Where the compute sits, against the water it needs.'],
       r.world ? ['/world.html', 'globe', 'World', ctx.world && ctx.world.totals ? `${fmt(ctx.world.totals.sites)} sites` : null, 'Every mapped datacentre on Earth, then orbit.'] : null,
+      r.world ? ['/country/', 'globe', 'By country', null, 'Mapped datacentres, one page per country with at least three sites.'] : null,
       r.flock ? ['/flock.html', 'camera', 'Cameras', ctx.flock && ctx.flock.totals ? `${fmt(ctx.flock.totals.mapped_worldwide)} mapped` : null, 'Licence-plate readers volunteers have mapped.'] : null,
       r.exploits ? ['/exploits.html', 'bug', 'Exploits', null, 'Days from disclosure to exploited in the wild.'] : null,
     ]],

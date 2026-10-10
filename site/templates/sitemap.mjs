@@ -1,5 +1,7 @@
 import { slugFor } from './itemPage.mjs';
 import { sitemapEntries as facetEntries } from './facetPages.mjs';
+import { sitemapEntries as countryEntries } from './countryPages.mjs';
+import { sitemapEntries as modelEntries } from './modelPages.mjs';
 // sitemap.xml. Head pages always; move pages only when substantive, matching
 // the noindex decision in move.mjs exactly. Submitting thin pages you have
 // already told Google not to index is a way of looking like you do not know
@@ -100,6 +102,8 @@ export function render(ctx) {
 
   // Faceted pillar + lab landings (only when substance clears the noindex gate).
   entries.push(...facetEntries(ctx));
+  entries.push(...countryEntries(ctx));
+  entries.push(...modelEntries(ctx));
 
   // Every scored item is an indexable page. This is the long tail — it takes
   // the sitemap from ten URLs to two hundred and ten, and it grows daily.

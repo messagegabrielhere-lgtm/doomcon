@@ -44,6 +44,8 @@ const MORE_PAGES = [
   ['/moves/', 'px:updown', 'Every move', 'Each hourly reading that moved, with what moved it.'],
   ['/item/', 'news', 'Every story', 'One permanent page per scored story.'],
   ['/source/', 'news', 'Outlets', 'Scored stories grouped by the outlet that published them.'],
+  ['/model/', 'news', 'Model families', 'Scored stories grouped by the model family the headline names.'],
+  ['/country/', 'globe', 'Datacentres by country', 'Mapped datacentre sites, one page per country that clears the count.'],
   ['/pillar/capability.html', 'px:updown', 'Capability pillar', 'Stories and the live Capability reading.'],
   ['/pillar/compute.html', 'px:updown', 'Compute pillar', 'Stories and the live Compute & Capital reading.'],
   ['/pillar/attention.html', 'px:updown', 'Attention pillar', 'Stories and the live Attention reading.'],

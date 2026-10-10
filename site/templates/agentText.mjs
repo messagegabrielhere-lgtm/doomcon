@@ -310,7 +310,8 @@ ${facetLinks(ctx, u)}
 - [Catalog](${u('/catalog.html')})
 - [Search](${u('/search.html')})
 - [Outlets](${u('/source/')}): scored stories grouped by the publication that wrote them
-`;
+- [Model families](${u('/model/')}): scored stories grouped by the model the headline names
+${(ctx.routes && ctx.routes.world) ? `- [Datacentres by country](${u('/country/')}): mapped sites, one page per country with at least three\n` : ''}`;
 }
 
 /** Instrument rooms that exist for this build (FINDABILITY.md §2.1). */

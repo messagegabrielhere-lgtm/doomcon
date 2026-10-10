@@ -22,6 +22,7 @@
 import { esc, num, utc } from './_html.mjs';
 import { page } from './layout.mjs';
 import { breadcrumbs, speakable } from './_seo.mjs';
+import { modelIndexable, modelPath } from './modelPages.mjs';
 import * as brand from '../brand.mjs';
 import { sourceIndexable, sourceLabel, sourcePath } from './facetPages.mjs';
 
@@ -170,6 +171,17 @@ function corroboration(item) {
   </div>`;
 }
 
+function namedLine(ctx, item) {
+  const names = Array.isArray(item.entities) ? item.entities : [];
+  if (!names.length) return '';
+  const bits = names.map((name) => (
+    modelIndexable(ctx, name)
+      ? `<a href="${esc(ctx.href(modelPath(name)))}">${esc(name)}</a>`
+      : esc(name)
+  ));
+  return `<p class="it__src">Names in this headline: ${bits.join(', ')}. A name is a match against the published entity list, not a claim the subject wrote the story.</p>`;
+}
+
 export function render(ctx, item, related = []) {
   const meta = brand.pillarMeta ? brand.pillarMeta(item.pillar) : null;
   const pillarName = meta ? meta.name : (item.pillar || 'unclassified');
@@ -197,6 +209,7 @@ export function render(ctx, item, related = []) {
       : `<a href="${esc(item.url)}" rel="nofollow noopener">${esc(outletName || item.source)}</a>`}
     · first seen by this index at <time datetime="${esc(firstSeen)}">${esc(utc(firstSeen))}</time>
   </p>
+  ${namedLine(ctx, item)}
 
   <section class="it__s" aria-labelledby="it-score">
     <h2 id="it-score">The score</h2>

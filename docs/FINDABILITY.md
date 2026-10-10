@@ -134,12 +134,12 @@ An index that refuses to be a probability is more citable than one that
 performs certainty. That is the ranking advantage; do not sand it off for
 clickbait titles.
 
-### 1.7 News discovery
+### 1.7 News discovery (still open)
 
-`news-sitemap.xml` ships a rolling 48h Google News window (capped at 100), with
-`news:keywords`. Item pages stay `WebPage` (not `NewsArticle`) because we did
-not write the headlines — honest schema. Keep the window short; re-check
-pizzint's news sitemap monthly (`COMPETITIVE-SEO.md`).
+`news-sitemap.xml` is **404**. If/when item pages carry real `NewsArticle`
+payloads with recent dates, ship a Google News sitemap with `news:keywords`
+and keep the rolling window short. Re-check pizzint's news sitemap before
+scoping (`COMPETITIVE.md` §0.1) — frozen vs rolling changes the bet.
 
 ---
 
@@ -216,17 +216,13 @@ context.
 
 ## 3. Ranked checklist
 
-### 3.1 Operator only (Bob — Google)
+### 3.1 Operator only
 
-Property URL-prefix: `https://siren.watch/`. Build emits
-`<meta name="google-site-verification" …>` when Actions secret
-`GOOGLE_SITE_VERIFICATION` is set to the GSC content token (layout.mjs).
-
-- [ ] Verify Google Search Console on `https://siren.watch/` (HTML tag via the secret, or DNS).
-- [ ] Submit **both** `https://siren.watch/sitemap.xml` and `https://siren.watch/news-sitemap.xml`.
-- [ ] Weekly: indexed count vs sitemap count, top queries, soft-404 / crawled-not-indexed.
-- [ ] Spot-check: ask ChatGPT / Perplexity / Claude "What is the SIREN AI index right now?" and "Is there an AI doomsday clock?" — note whether they cite us.
-- [ ] Optional later: Google News publisher center only if we ever claim `NewsArticle` authorship (we currently do not).
+- [ ] Verify Google Search Console on the live URL; submit `sitemap.xml`.
+- [ ] Weekly: indexed count, top queries, pages excluded as soft-404 / crawled-not-indexed.
+- [ ] When the custom domain is live: re-verify, set preferred domain, 301 map.
+- [ ] Spot-check: ask ChatGPT / Perplexity / Claude "What is SIREN / DOOMCON AI index right now?" and "Is there an AI doomsday clock?" — record whether they cite us, and which URL.
+- [ ] Register the site in Google Merchant / News only if we ship a real news sitemap with dated `NewsArticle` pages — not before.
 
 ### 3.2 Engineering, ranked by expected findability per unit of work
 
@@ -240,9 +236,10 @@ Property URL-prefix: `https://siren.watch/`. Build emits
 | 6 | `/openapi.json` + sitemap entries for API docs | Agents + developers | **Done** |
 | 7 | Head-term homepage title + FAQ ("AI activity level today", verifiable doomsday clock) | Google | **Done** (2026-10-10) |
 | 8 | Organization JSON-LD + IndexNow ping after publish + GSC meta hook | Google + Bing | **Done** (2026-10-10) |
-| 9 | Optional markdown mirrors for methodology and guide | Agents | **Done** (`/methodology.md`, `/guide.md`) |
+| 9 | Optional markdown mirrors for methodology and guide | Agents | Open |
 | 10 | Mobile card view / less above-fold weight | Google CWV | Open |
-| 11 | Verify Search Console; submit both sitemaps | Operator | Open (Bob) |
+| 11 | Verify Search Console; submit both sitemaps | Operator | Open |
+| 12 | `/country/<iso>` for countries with ≥3 mapped datacentre sites, and `/model/<slug>` for model families named in ≥3 scored stories | Google | **Done** (2026-10-10) |
 
 ### 3.3 Refusals (search edition)
 
@@ -276,5 +273,4 @@ Property URL-prefix: `https://siren.watch/`. Build emits
 | `llms.txt` format (H1, blockquote, H2 file lists, optional markdown mirrors) | [llmstxt.org](https://llmstxt.org/) v2 | 2026-10-08 |
 | Live robots, sitemap (~480 URLs), `llms.txt`, API index, homepage title/description, news-sitemap 404 | HTTP checks against the Pages site | 2026-10-08 |
 | Rival SEO re-measure: pizzint news-sitemap empty; DoomBench 2,081 URLs; Skynet 1,237; SIREN ~530 + news-sitemap 100 | `docs/COMPETITIVE-SEO.md` | 2026-10-10 |
-| Org `@id` double-slash fix; `/methodology.md` + `/guide.md` mirrors; FINDABILITY operator checklist for GSC | this PR | 2026-10-10 |
 | URL-count strategy, news sitemap, Speakable, Search Console success metric | `docs/COMPETITIVE.md`, `docs/VIRAL.md` §7 | this repo |

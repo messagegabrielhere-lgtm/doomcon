@@ -90,17 +90,12 @@ They win social memes, not Google. Do not imitate.
 
 ---
 
-## 4. Recheck, 2026-10-10 later the same day
+## 4. Next entity axes, 2026-10-10
 
-Fetched live, no browser:
+DoomBench's lead is still entity URLs (`/countries`, `/models`), not keywords.
+Two axes we can answer from data we already publish:
 
-| Site | Result |
-|---|---|
-| pizzint `news-sitemap.xml` | HTTP 200, **0** `<loc>`. Still an empty channel. |
-| pizzint `sitemap.xml` | **1,018** `<loc>`. Unchanged. |
-| doombench.com `sitemap.xml` | **2,081** `<loc>`. Unchanged. |
-| skynetcountdown.com `sitemap.xml` | **1,237** `<loc>`. Unchanged. |
-| pdoom.ai `sitemap.xml` | HTTP 200, **0** `<loc>`. Still a shell. |
-| takeofftracker.com `sitemap.xml` | 404. |
+- `/country/<iso>.html` when OpenStreetMap has at least three datacentre sites mapped in that country. The page prints the status split and a capped site list. Countries under the gate stay on `/world.html` only. Copy stays a count of map objects (`docs/WORLD.md`).
+- `/model/<slug>.html` when at least three scored stories name that model family in the published entity list. The page lists those stories. It does not assign the model a score.
 
-Nothing in their URL counts moved. The open entity axis on our side was outlets: `/source/<id>` for any feed with at least three scored stories in the window, plus `/source/` as the index. Thin outlets stay off the sitemap. No synonym pages, no keyword meta.
+Story pages link the model when the gate clears. The world table keeps its zoom control and adds a country-page link beside it. Homepage "Where the machines live" links the country index.
