@@ -731,6 +731,20 @@ jobs:
           NEWS_LOOP_RUNNING: ${{ steps.loopfull.outputs.off || '1' }}
         run: node collector/news.mjs --force
 
+      - name: Refresh the X surface
+        # Social aggregation for the X wire. Keyless discovery (HN, Techmeme,
+        # Lobsters) plus oEmbed. Presentation only; a failure keeps the previous
+        # data/x-surface.json. Measured 2026-10-09: the file had not been
+        # refreshed since 2026-09-23 because no workflow called this collector.
+        continue-on-error: true
+        run: node collector/x-surface.mjs
+
+      - name: Refresh the Bluesky surface
+        # Fixed AI watchlist via the public AppView. Presentation only; never
+        # scored. A failure keeps the previous data/bsky-surface.json.
+        continue-on-error: true
+        run: node collector/bsky-surface.mjs
+
       - name: Refresh the AI race
         # Reads data/news.json for the mindshare column, so it runs AFTER news.
         # Exits non-zero only when the ranking market itself is dark; a dark

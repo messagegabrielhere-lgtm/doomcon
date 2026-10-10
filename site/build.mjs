@@ -912,6 +912,16 @@ async function main() {
     }
   }
 
+  let bsky = null;
+  const bskyFile = path.join(args.data, 'bsky-surface.json');
+  if (existsSync(bskyFile)) {
+    try {
+      bsky = JSON.parse(await readFile(bskyFile, 'utf8'));
+    } catch (err) {
+      warn(`data/bsky-surface.json is present but unreadable (${err.message}); building without the Bluesky surface.`);
+    }
+  }
+
   // Same separate-failure-domain rule as news and race: a dark substrate index
   // must not stop the main index building, and vice versa.
   let infra = null;
@@ -1778,6 +1788,7 @@ async function main() {
   })));
   if (race) written.push(await write(args.out, 'api/race.json', stableJson(race)));
   if (xwire) written.push(await write(args.out, 'api/x-surface.json', stableJson(xwire)));
+  if (bsky) written.push(await write(args.out, 'api/bsky-surface.json', stableJson(bsky)));
   if (infra) written.push(await write(args.out, 'api/infra.json', stableJson(infra)));
   if (digest) written.push(await write(args.out, 'api/digest.json', stableJson(digest)));
   if (bliss) written.push(await write(args.out, 'api/bliss.json', stableJson(bliss)));

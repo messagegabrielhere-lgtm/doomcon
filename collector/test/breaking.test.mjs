@@ -10,7 +10,7 @@ import { pathToFileURL } from 'node:url';
 
 import {
   outletOf, sightingsOf, clusterItems, evaluateCluster, detectBreaking,
-  updateSightings, speedTable, median, breakingPass, BREAKING_RULES,
+  updateSightings, speedTable, median, breakingPass, BREAKING_RULES, RELAYS,
 } from '../breaking.mjs';
 
 const NOW_ISO = '2026-10-09T20:30:00.000Z';
@@ -46,6 +46,24 @@ describe('outletOf', () => {
     assert.equal(outletOf({ source: 'gnews-ai', url: 'https://news.google.com/rss/articles/abc' }), null, 'an aggregator redirect names nobody');
     assert.equal(outletOf({ source: 'gnews-ai', url: 'https://news.google.com/rss/articles/abc', outlet: 'www.reuters.com' }), 'reuters.com');
     assert.equal(outletOf({ source: 'x-search', url: 'https://x.com/a/status/1', outlet: 'x:SomeOne' }), 'x:someone');
+  });
+});
+
+describe('relays and tier-one expansion', () => {
+  it('treats Lobsters like HN — a relay, not an independent outlet', () => {
+    assert.ok(RELAYS.has('lobste.rs'));
+    const a = item({ source: 'lobsters-ai', url: 'https://lobste.rs/s/abc/x', pub: at(20) });
+    const b = item({ source: 'verge-ai', url: 'https://www.theverge.com/x', pub: at(15) });
+    // One real outlet + one relay is not enough for BREAKING.
+    assert.equal(evalOne([a, b]), null);
+  });
+
+  it('lets SCMP count as tier-one with one more outlet', () => {
+    const a = item({ source: 'scmp-tech', url: 'https://www.scmp.com/tech/x', pub: at(40), outlet: 'scmp.com' });
+    const b = item({ source: 'gdelt-ai', url: 'https://one.example/b', pub: at(10), outlet: 'one.example' });
+    const ev = evalOne([a, b]);
+    assert.ok(ev);
+    assert.deepEqual(ev.tier1, ['scmp.com']);
   });
 });
 

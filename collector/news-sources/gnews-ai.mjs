@@ -21,9 +21,11 @@ import { registrableDomain } from './_outlets.mjs';
 export const QUERIES = Object.freeze([
   { q: 'OpenAI OR Anthropic OR "Google DeepMind" when:1h', needEntity: false },
   { q: '"AI model" OR "AI lab" OR AGI OR superintelligence when:1h', needEntity: false },
+  // Non-US desks the Anglophone wires lag: China lab releases and EU AI Act.
+  { q: 'DeepSeek OR Qwen OR "AI Act" OR "EU AI" when:1h', needEntity: false },
   { q: 'AI when:1h', needEntity: true },
 ]);
-const PER_QUERY = 15;
+const PER_QUERY = 12;
 
 export function searchUrl(q) {
   return `https://news.google.com/rss/search?q=${encodeURIComponent(q)}&hl=en-US&gl=US&ceid=US:en`;
@@ -75,7 +77,7 @@ export default {
   kind: 'press',
   label: 'Google News — AI searches, last hour',
   weight: 0.55,
-  // Three searches a pass; every two minutes keeps us polite to a free door.
+  // Four searches a pass; every two minutes keeps us polite to a free door.
   minIntervalMs: 120_000,
   maxItems: 60,
   async collect(fetchText) {

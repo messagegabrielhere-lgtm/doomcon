@@ -105,24 +105,49 @@ const HOST_MIN_INTERVAL_MS = {
   // Polymarket / public CLOB — bursty parallel adapters trip 429s.
   'gamma-api.polymarket.com': 400,
   'clob.polymarket.com': 400,
+  // Eight Reddit news adapters share one Actions IP. Fired together they
+  // earn 429s and go dark for the run (measured 2026-10-09: 7 of 8 dark).
+  // Serialising behind a 4s floor keeps the social column live; --force also
+  // respects Reddit cadence (see news.mjs isDue) so the hourly pass cannot
+  // re-burst all eight.
+  'www.reddit.com': 4000,
+  'oauth.reddit.com': 4000,
+  // Bluesky AppView: author-feed fan-out for the social surface.
+  'public.api.bsky.app': 400,
+  'api.bsky.app': 400,
+  // Substack Cloudflare: several newsletters share the edge; burst = 403.
+  'substack.com': 1500,
 };
+
+// Suffix rules for hosts that share one rate-limit bucket (*.substack.com).
+const HOST_SUFFIX_INTERVAL_MS = Object.freeze([
+  ['.substack.com', 1500],
+]);
 
 /** host -> promise chain tail, so callers queue rather than race. */
 const hostQueues = new Map();
 
+function gateKeyFor(host) {
+  if (HOST_MIN_INTERVAL_MS[host]) return { key: host, minMs: HOST_MIN_INTERVAL_MS[host] };
+  for (const [suffix, minMs] of HOST_SUFFIX_INTERVAL_MS) {
+    if (host.endsWith(suffix)) return { key: suffix, minMs };
+  }
+  return null;
+}
+
 function hostGate(url) {
   let host;
   try { host = new URL(url).hostname; } catch { return Promise.resolve(); }
-  const minMs = HOST_MIN_INTERVAL_MS[host];
-  if (!minMs) return Promise.resolve();
+  const gate = gateKeyFor(host);
+  if (!gate) return Promise.resolve();
 
-  const prev = hostQueues.get(host) ?? Promise.resolve(0);
+  const prev = hostQueues.get(gate.key) ?? Promise.resolve(0);
   const next = prev.then(async (lastAt) => {
-    const wait = Math.max(0, (lastAt || 0) + minMs - Date.now());
+    const wait = Math.max(0, (lastAt || 0) + gate.minMs - Date.now());
     if (wait > 0) await sleep(wait);
     return Date.now();
   });
-  hostQueues.set(host, next);
+  hostQueues.set(gate.key, next);
   return next;
 }
 

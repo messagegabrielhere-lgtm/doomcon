@@ -62,7 +62,7 @@ const AGGREGATOR_HOSTS = new Set(['news.google.com']);
 // RELAYS: places that pass along what others published. They are listed on a
 // cluster (they are often first to surface it) but never count as an
 // independent outlet: a TechCrunch story on Techmeme is still one report.
-export const RELAYS = Object.freeze(new Set(['techmeme.com', 'reddit.com', 'ycombinator.com']));
+export const RELAYS = Object.freeze(new Set(['techmeme.com', 'reddit.com', 'ycombinator.com', 'lobste.rs']));
 
 /** Who published one sighting. Null when it cannot be said. */
 export function outletOf({ source, url, outlet } = {}) {
