@@ -290,6 +290,24 @@
     el.innerHTML = '\ud83d\udcfb <b>' + STATIONS[station].name + '</b><br><span style="font-weight:400;opacity:.8">' + STATIONS[station].tag + ' \u00b7 station ' + (station + 1) + ' of ' + STATIONS.length + '</span>';
     el.style.opacity = '1'; clearTimeout(toast.t); toast.t = setTimeout(function () { el.style.opacity = '0'; }, 2600);
   }
+  // Drop a context that never started so the next start() builds one inside
+  // the visitor's gesture.
+  function fresh() {
+    if (!ctx || ctx.state === 'running') return;
+    try { if (timer) { clearInterval(timer); timer = null; } playing = false; if (ctx.close) ctx.close(); } catch (e) {}
+    ctx = null; master = null; wet = null;
+  }
+  // The reload nudge: browsers (Safari above all) will not let a page make
+  // sound after a refresh until the visitor taps. Say so plainly, once.
+  function showNudge() {
+    if (document.getElementById('siren-radio-nudge')) return;
+    var el = document.createElement('button'); el.type = 'button'; el.id = 'siren-radio-nudge';
+    el.setAttribute('aria-label', 'Resume SIREN Radio');
+    el.style.cssText = 'position:fixed;left:50%;bottom:64px;transform:translateX(-50%);z-index:10000;padding:10px 16px;border-radius:999px;background:#0B0F16;color:#E6EAF0;border:1px solid #818CF8;font:600 13px/1.3 system-ui,sans-serif;box-shadow:0 8px 24px rgba(0,0,0,.5);cursor:pointer;max-width:calc(100vw - 32px)';
+    el.innerHTML = '\u266a Tap anywhere to keep <b>SIREN Radio</b> playing';
+    document.body.appendChild(el);
+  }
+  function hideNudge() { var el = document.getElementById('siren-radio-nudge'); if (el) el.parentNode.removeChild(el); }
   function wire() {
     // Every radio button on the page: the homepage's top-bar one (#siren-radio)
     // and the one in the bar at the foot of every page ([data-siren-radio]).
@@ -347,7 +365,10 @@
       btn.addEventListener('click', function () {
         // Always a toggle. A suspended context used to swallow the off tap
         // and resume instead, so on and off fought each other.
-        if (playing) stop(); else start(lv);
+        // Straight after a reload the radio can look "on" while the browser
+        // still holds it silent. A tap then means "play", not "off".
+        if (playing && ctx && ctx.state !== 'running') { fresh(); start(lv); hideNudge(); }
+        else if (playing) stop(); else { fresh(); start(lv); hideNudge(); }
         try { localStorage.setItem(KEY, playing ? '1' : '0'); } catch (e) {}
         paint();
         if (playing) check();
@@ -371,23 +392,35 @@
           stop();
           paint();
           btns.forEach(function (b) { b.title = 'SIREN Radio was on. Tap the button, or anywhere else, to keep it playing.'; if (b.hasAttribute('data-siren-radio')) b.textContent = '♪ TAP'; });
+          showNudge();
         }, 350);
       } catch (e) {}
       // Resume on the first gesture that browsers accept as user activation.
       // iOS ignores pointerdown from a finger (only touchend/click count), so
       // listen to all of them and stay armed until the audio really runs.
       var evs = ['pointerup', 'touchend', 'click', 'keydown'];
-      var disarm = function () { evs.forEach(function (n) { removeEventListener(n, go, true); }); };
+      var disarm = function () { evs.forEach(function (n) { removeEventListener(n, go, true); }); hideNudge(); };
       var go = function (e) {
         if (hitControl(e)) { disarm(); return; }
         if (playing && ctx && ctx.state === 'running') { disarm(); return; }
         try { if (localStorage.getItem(KEY) !== '1') { disarm(); return; } } catch (err) {}
+        // SAFARI: a context made at page load (before any tap) often stays
+        // suspended even when resumed inside a later tap. Throw it away and
+        // build a new one inside this gesture, which Safari always honours.
+        // pointerup is not a user activation on iOS, so only rebuild on the
+        // events that are.
+        if (e && e.type !== 'pointerup') fresh();
         start(lv);
         paint();
         if (ctx && ctx.state === 'running') disarm();
-        else if (ctx && ctx.resume) ctx.resume().then(function () { if (ctx.state === 'running') { disarm(); paint(); } }).catch(function () {});
+        else if (ctx && ctx.resume) ctx.resume().then(function () { if (ctx && ctx.state === 'running') { disarm(); paint(); } }).catch(function () {});
       };
       evs.forEach(function (n) { addEventListener(n, go, true); });
+      // Safari's back/forward cache restores the page with audio suspended.
+      addEventListener('pageshow', function (ev) {
+        if (!ev.persisted || !playing || !ctx) return;
+        if (ctx.state !== 'running' && ctx.resume) ctx.resume().then(function () { if (ctx.state !== 'running') { stop(); paint(); showNudge(); } }).catch(function () {});
+      });
       // Coming back to a backgrounded tab (iOS suspends audio): pick up again.
       document.addEventListener('visibilitychange', function () {
         if (document.visibilityState !== 'visible' || !playing || !ctx) return;
