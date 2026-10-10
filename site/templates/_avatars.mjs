@@ -86,6 +86,8 @@ const SHAPE = {
   target: '<circle cx="12" cy="12" r="8.7"/><circle cx="12" cy="12" r="2.6" fill="currentColor" stroke="none"/>',
   // Up-pointing triangle: Eureka Labs / Karpathy.
   delta: '<path d="M12 3.2 21 19.6H3Z"/>',
+  // Two stacked chevrons: Palantir / Karp.
+  chevrons: '<path d="M4 6.5 12 11.5 20 6.5"/><path d="M4 12.5 12 17.5 20 12.5"/>',
   // Square with a cut corner: OpenAI / Brockman.
   notch: '<path d="M4 4h11l5 5v11H4Z"/>',
 
@@ -331,6 +333,10 @@ const PEOPLE = {
     name: 'Greg Brockman', initials: 'GB', org: 'openai', orgName: 'OpenAI',
     role: 'President', shape: 'notch', tag: 'OPENAI',
   },
+  karp: {
+    name: 'Alex Karp', initials: 'AK', org: 'palantir', orgName: 'Palantir',
+    role: 'CEO', shape: 'chevrons', tag: 'PALANTIR',
+  },
 };
 
 /**
@@ -376,6 +382,7 @@ const ACCENT = {
   murati:            ['#f9a8d4', '#9d174d'],
   karpathy:          ['#fde68a', '#854d0e'],
   brockman:          ['#6ee7b7', '#0a6e55'],
+  karp:              ['#cbd5e1', '#334155'],
 };
 
 for (const [id, p] of Object.entries(PEOPLE)) {

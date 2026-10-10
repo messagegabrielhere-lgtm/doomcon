@@ -25,3 +25,15 @@ test('composer: skips a wording the visitor already used', async () => {
   const second = composeX({ kind: 'alert', title: 'Tornado Warning', src: 'NWS', level: { L: '4', S: '50' }, now: 0, rand: () => (k++ % 7) / 7, used: [hash(first)] });
   assert.notEqual(first, second);
 });
+
+test('composer: X-friendly shape — at most one hashtag, 30 clicks stay unique', () => {
+  const used = [];
+  const hash = (s) => { let h = 0; for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0; return String(h); };
+  for (let i = 0; i < 30; i++) {
+    const t = composeX({ kind: 'news', title: 'Anthropic and OpenAI wargame a public revolt after an AI catastrophe', src: 'axios', level: { L: '4', S: '56.2' }, now: 0, used: used.slice() });
+    assert.ok((t.match(/#\w+/g) || []).length <= 1, t);
+    assert.ok(t.length <= 250, t);
+    assert.ok(!used.includes(hash(t)), `repeat at click ${i + 1}: ${t}`);
+    used.unshift(hash(t));
+  }
+});

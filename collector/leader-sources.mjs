@@ -91,6 +91,12 @@ export const LEADER_SOURCES = Object.freeze([
 
   // ---- org: blogs and newsrooms -------------------------------------------
   {
+    id: 'palantir-blog', label: 'blog.palantir.com', kind: 'org', format: 'rss',
+    url: 'https://blog.palantir.com/feed',
+    leaders: ['karp'],
+    verified: false, note: 'UNVERIFIED: Palantir publishes its blog on Medium (/feed). Reads unreachable until a collect run confirms it.',
+  },
+  {
     id: 'openai-news', label: 'openai.com/news', kind: 'org', format: 'rss',
     url: 'https://openai.com/news/rss.xml',
     leaders: ['altman', 'brockman'],

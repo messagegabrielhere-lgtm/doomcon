@@ -1,6 +1,6 @@
 // X COMPOSER. Every "Post to X" on the site goes through one function that
-// writes a fresh post each click: a different framing, the live SIREN score,
-// the minute it was written, and a rotating tag. The last 30 posts a visitor
+// writes a fresh post each click: a different hook, context line, closing
+// question, emoji and (sometimes) one hashtag, shaped for X's ranking. The last 30 posts a visitor
 // drafted are remembered in this browser only, so a second click never hands
 // back the same words.
 //
@@ -14,45 +14,60 @@
 
 export const XCOMPOSE_JS = String.raw`(function(){
 if (window.sirenX) return;
+// Written for how X ranks posts: the hook goes first (the line people see
+// before "show more"), short lines with breaks, one hashtag at most (often
+// none), and an open question last, because replies are the strongest signal
+// the ranking uses. Hook x context x question x emoji x tag gives hundreds of
+// combinations per kind, and the last 30 drafts are skipped.
 var HOOKS = {
   news: [
-    "Just crossed the AI wire: {t} ({s}).",
-    "{t}. Via {s}. SIREN logged it at {time}.",
-    "The AI story of the moment: {t} ({s}).",
-    "On SIREN's newsroom right now: {t}.",
-    "Worth a look before your next meeting: {t} ({s}).",
-    "Machines in the news, {time}: {t}.",
-    "{s} reports: {t}. SIREN is at {L}, {S}/100.",
-    "Counted, not hyped: {t} ({s}).",
-    "Today in AI: {t}. Score check: SIREN {L}.",
-    "Filed under 'the robots are busy': {t}."
+    "{t}",
+    "{t} ({s})",
+    "Just in: {t}",
+    "New from {s}: {t}",
+    "This one matters: {t}",
+    "The AI story everyone's about to be talking about: {t}",
+    "Quietly huge: {t}",
+    "{s} has it: {t}",
+    "Today in AI: {t}"
   ],
   alert: [
-    "Alert on the SIREN board, {time}: {t}.",
-    "{t}. Public feed, not a warning system. Logged {time}.",
-    "Dispatch flagged it: {t} ({s}).",
-    "Live alert: {t}. Stay safe out there.",
-    "Heads up: {t}. Source: {s}.",
-    "SIREN Dispatch, {time}: {t}. Check your local officials for guidance."
+    "{t}",
+    "Happening now: {t}",
+    "Live alert: {t}",
+    "Heads up: {t}",
+    "{t} ({s})"
   ],
   reading: [
-    "SIREN reads {L} today, {S} out of 100. How loud is AI right now?",
-    "AI loudness check, {time}: SIREN {L}, score {S}/100.",
-    "The canary says SIREN {L} ({S}/100). Counted from public data, every hour.",
-    "Skynet status: still a count, not a forecast. SIREN {L}, {S}/100 at {time}.",
-    "Where the AI dial sits right now: level {L}, {S} of 100."
+    "The AI SIREN reads {L} right now: {S} out of 100.",
+    "How loud is AI today? SIREN {L}, {S}/100.",
+    "AI loudness check: level {L}, score {S}/100.",
+    "SIREN is at {L} ({S}/100). Counted from public data, not vibes.",
+    "Skynet meter, honest edition: SIREN {L}, {S}/100."
   ],
   page: [
     "{t}",
-    "{t} · SIREN {L}, {S}/100",
-    "Found this on SIREN: {t}",
-    "{t} (via the AI SIREN Index, {time})",
-    "Bookmarking this: {t}",
-    "{t}. SIREN is at {L} right now."
+    "This is worth 30 seconds: {t}",
+    "Found this and can't stop looking at it: {t}",
+    "{t} 👇",
+    "Okay, this is good: {t}"
   ]
 };
-var TAGS = ["", "", "#AI", "#AGI", "#AISafety", "#AInews", "#SIREN", "#ArtificialIntelligence"];
-var ALERT_TAGS = ["", "", "#SIREN", "#Dispatch", "#StaySafe"];
+var CONTEXT = {
+  news: ["SIREN {L} · {S}/100 at {time}.", "Logged {time}.", "Source: {s}.", "", ""],
+  alert: ["Source: {s} · {time}.", "Public feed, not a warning system. Follow local officials.", "Logged {time}.", ""],
+  reading: ["Updated every hour, receipts included.", "Measured {time}.", ""],
+  page: ["SIREN {L} · {S}/100 right now.", "", ""]
+};
+var ASK = {
+  news: ["Overhyped or a big deal?", "Who wins from this?", "Good news or bad news for the rest of us?", "What's your read?", "Would you trust it?", "Does this change your timeline?", "Are we ready for this?", ""],
+  alert: ["Anyone near this? Stay safe.", "Check on your people.", "Anyone seeing it where you are?", ""],
+  reading: ["Does that feel right to you?", "Louder or quieter than you'd guess?", "What would push it to 1?", "Where would you set it?"],
+  page: ["What's your take?", "Thoughts?", "Where do you land on this?", "Would you have guessed?", ""]
+};
+var EMOJI = { news: ["", "", "🤖 ", "🧠 ", "⚡ ", "📡 "], alert: ["🚨 ", "⚠️ ", ""], reading: ["📊 ", "🔔 ", ""], page: ["", "", "👀 ", "🤖 "] };
+var TAGS = ["", "", "", "#AI", "#AI", "#AGI", "#AISafety"];
+var ALERT_TAGS = ["", "", "", "#BreakingNews"];
 var KEY = "siren:x-recent", LAST = {};
 function recent(){ try { return JSON.parse(localStorage.getItem(KEY) || "[]"); } catch (e) { return []; } }
 function remember(t){ try { var l = recent(); l.unshift(hash(t)); localStorage.setItem(KEY, JSON.stringify(l.slice(0, 30))); } catch (e) {} }
@@ -79,24 +94,35 @@ function compose(o){
   var kind = HOOKS[o.kind] ? o.kind : "page";
   var lvl = o.level || live();
   var rnd = o.rand || Math.random;
+  var pick = function(a){ return a[Math.floor(rnd() * a.length)]; };
   var d = new Date(o.now || Date.now());
   var time = ("0" + d.getUTCHours()).slice(-2) + ":" + ("0" + d.getUTCMinutes()).slice(-2) + " UTC";
   var used = o.used || recent();
-  // No live number on this page: only use wordings that do not need one.
-  var pool = HOOKS[kind].filter(function(t){ return (lvl.L && lvl.S) || !/\{[LS]\}/.test(t); });
-  if (!pool.length) pool = kind === "reading" ? ["How loud is AI right now? The SIREN index counts it every hour."] : HOOKS.page.slice(0, 1);
-  var srcName = prettySrc(o.src), best = "";
-  // A URL costs 23 of X's 280; keep the text under 250 so it always fits.
-  for (var tries = 0; tries < 40; tries++) {
-    var tpl = pool[Math.floor(rnd() * pool.length)];
-    if (pool.length > 1 && tpl === LAST[kind] && tries < 30) continue;
-    var tags = kind === "alert" ? ALERT_TAGS : TAGS;
-    var tag = tags[Math.floor(rnd() * tags.length)];
-    var room = 250 - fill(tpl, { t: "", s: srcName, time: time, L: lvl.L, S: lvl.S }).length - (tag ? tag.length + 1 : 0);
+  var hasLv = !!(lvl.L && lvl.S);
+  var ok = function(t){ return hasLv || !/\{[LS]\}/.test(t); };
+  var pool = HOOKS[kind].filter(ok);
+  if (!pool.length) pool = kind === "reading" ? ["How loud is AI right now? The SIREN index counts it every hour."] : ["{t}"];
+  var srcName = prettySrc(o.src);
+  var v = { s: srcName || "the wire", time: time, L: lvl.L, S: lvl.S };
+  var best = "";
+  // X counts a link as 23 characters; 250 of text plus the link always fits.
+  for (var tries = 0; tries < 60; tries++) {
+    var tpl = pick(pool);
+    if (pool.length > 1 && tpl === LAST[kind] && tries < 40) continue;
+    var ctx = pick(CONTEXT[kind].filter(ok).concat([""]));
+    if (!srcName && /\{s\}/.test(ctx)) ctx = "";
+    var ask = pick(ASK[kind]);
+    var emo = pick(EMOJI[kind]);
+    var tag = pick(kind === "alert" ? ALERT_TAGS : TAGS);
+    var tail = [fill(ctx, v), ask].filter(Boolean);
+    var tailTxt = tail.length ? "\n\n" + tail.join("\n\n") : "";
+    if (tag) tailTxt += (tail.length ? " " : "\n\n") + tag;
+    var room = 250 - emo.length - fill(tpl, Object.assign({ t: "" }, v)).length - tailTxt.length;
     var t = clip(o.title || "", Math.max(40, room));
-    var txt = fill(tpl, { t: t, s: srcName || "the wire", time: time, L: lvl.L, S: lvl.S }).replace(/\s+([.,])/g, "$1").replace(/\.\./g, ".");
-    if (tag && txt.indexOf(tag) < 0) txt += " " + tag;
-    txt = clip(txt, 250);
+    var head = emo + fill(tpl, Object.assign({ t: t }, v)).replace(/\s+([.,])/g, "$1").replace(/\.\./g, ".");
+    var txt = head + tailTxt;
+    if (txt.length > 250) txt = clip(head, 250 - tailTxt.length) + tailTxt;
+    if (txt.length > 250) txt = clip(head, 250);
     best = txt;
     if (used.indexOf(hash(txt)) < 0) { LAST[kind] = tpl; break; }
   }

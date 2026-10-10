@@ -369,6 +369,16 @@ const ROSTER = Object.freeze([
     news_query: { phrase: 'Greg Brockman' },
     wikipedia: 'Greg Brockman',
   },
+  {
+    id: 'karp', name: 'Alex Karp', initials: 'AK',
+    // Co-founder and CEO of Palantir since 2004.
+    org: 'Palantir', org_id: 'palantir', role: 'CEO',
+    aliases: ['Alex Karp', 'Alexander Karp', 'Palantir CEO'],
+    blocks: [],
+    race_player: null,
+    news_query: { phrase: 'Alex Karp' },
+    wikipedia: 'Alex Karp',
+  },
 ]);
 
 // ---------------------------------------------------------------------------
