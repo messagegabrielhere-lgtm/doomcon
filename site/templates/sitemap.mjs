@@ -2,6 +2,7 @@ import { slugFor } from './itemPage.mjs';
 import { sitemapEntries as facetEntries } from './facetPages.mjs';
 import { sitemapEntries as countryEntries } from './countryPages.mjs';
 import { sitemapEntries as modelEntries } from './modelPages.mjs';
+import { sitemapEntries as compareEntries } from './comparePages.mjs';
 // sitemap.xml. Head pages always; move pages only when substantive, matching
 // the noindex decision in move.mjs exactly. Submitting thin pages you have
 // already told Google not to index is a way of looking like you do not know
@@ -24,6 +25,7 @@ export function render(ctx) {
     { loc: '/ai-doomsday-clock.html', changefreq: 'weekly', priority: '0.8', lastmod: ctx.state.generated_at },
     { loc: '/guide.html', changefreq: 'weekly', priority: '0.8', lastmod: ctx.state.generated_at },
     { loc: '/guide.md', changefreq: 'weekly', priority: '0.4', lastmod: ctx.state.generated_at },
+    ...compareEntries(ctx),
     { loc: '/library.html', changefreq: 'monthly', priority: '0.7', lastmod: ctx.state.generated_at },
     { loc: '/sponsor.html', changefreq: 'monthly', priority: '0.5', lastmod: ctx.state.generated_at },
     { loc: '/brand.html', changefreq: 'monthly', priority: '0.5', lastmod: ctx.state.generated_at },

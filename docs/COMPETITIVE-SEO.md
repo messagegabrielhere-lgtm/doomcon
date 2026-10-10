@@ -99,3 +99,22 @@ Two axes we can answer from data we already publish:
 - `/model/<slug>.html` when at least three scored stories name that model family in the published entity list. The page lists those stories. It does not assign the model a score.
 
 Story pages link the model when the gate clears. The world table keeps its zoom control and adds a country-page link beside it. Homepage "Where the machines live" links the country index.
+
+---
+
+## 5. Competitor conquest pages, 2026-10-10
+
+Brand-query interception without doorway spam. Evergreen HTML with FAQPage +
+Speakable + BreadcrumbList; titles name the rival only where we honestly
+contrast measurement methods (`VOICE.md`, `CONTRACT.md`).
+
+| URL | Head-term job |
+|---|---|
+| `/compare.html` | “AI doom indexes compared” — side-by-side table |
+| `/alternatives.html` | “DoomBench / Skynet / p(doom) alternative” hub |
+| `/vs/doombench.html` | Activity count vs qualitative doom index |
+| `/vs/skynet-countdown.html` | Activity count vs AGI timeline / control-loss % |
+| `/vs/pdoom.html` | Activity count vs opinion-as-percentage clocks |
+
+Linked from homepage FAQ, `/guide.html`, catalog, `llms.txt`, and sitemap.
+Do **not** claim SIREN publishes takeover risk, AGI dates, or anyone’s p(doom).

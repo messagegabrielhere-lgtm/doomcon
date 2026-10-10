@@ -25,6 +25,8 @@ export function items(ctx) {
       `Most AI doomsday clocks are expert judgement. ${brand.NAME} is different: an hourly activity count from public data, with a receipt for every reading. The Bulletin's Doomsday Clock is not AI-specific. See the AI doomsday clock page for the comparison.`],
     ['Is SIREN like DEFCON or the Doomsday Clock?',
       `It borrows DEFCON's grammar, a scale that counts down from 5 to 1. The difference is what sits behind the number. DEFCON is set by military command and the Doomsday Clock by a board's judgement; ${brand.NAME} is arithmetic over public data, and every reading is published with the inputs needed to recompute it.`],
+    ['Is SIREN an alternative to DoomBench or Skynet Countdown?',
+      `Only if you want a recomputable activity count instead of a judgement-scored doom or timeline number. DoomBench scores takeover evidence; Skynet Countdown estimates AGI dates and control-loss odds; ${brand.NAME} counts how loud AI activity is this hour. See /compare.html and /alternatives.html for the side-by-side.`],
     ['Does a louder level mean AI is more dangerous?',
       `No. The level measures tempo: releases, compute, headlines, rule-making and market prices. A loud week means a lot happened. It says nothing about whether what happened was good or bad, and the site never sums harm and benefit into one figure.`],
     ['How is the level calculated, and how often?',
@@ -47,7 +49,9 @@ export function render(ctx) {
   <div class="faq__l">
 ${qa.map(([q, a]) => `    <details class="faq__i"><summary class="faq__q">${esc(q)}</summary><p class="faq__a">${esc(a)}</p></details>`).join('\n')}
   </div>
-  <p class="fresh__key"><a href="${esc(ctx.href('/guide.html'))}">The longer version: SIREN, DEFCON, the Doomsday Clock and p(doom) →</a></p>
+  <p class="fresh__key"><a href="${esc(ctx.href('/guide.html'))}">The longer version: SIREN, DEFCON, the Doomsday Clock and p(doom) →</a>
+     · <a href="${esc(ctx.href('/compare.html'))}">AI doom indexes compared →</a>
+     · <a href="${esc(ctx.href('/alternatives.html'))}">Alternatives hub →</a></p>
 </section>`;
 }
 

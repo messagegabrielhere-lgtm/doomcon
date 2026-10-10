@@ -282,6 +282,11 @@ Honesty rules:
 
 - [Method](${u('/methodology.html')}): every formula and constant ([markdown](${u('/methodology.md')}))
 - [Guide: SIREN vs DEFCON vs the Doomsday Clock vs p(doom)](${u('/guide.html')}) ([markdown](${u('/guide.md')}))
+- [AI doom indexes compared](${u('/compare.html')}): SIREN vs DoomBench, Skynet Countdown, p(doom)
+- [AI doom index alternatives](${u('/alternatives.html')}): when SIREN is the right substitute
+- [SIREN vs DoomBench](${u('/vs/doombench.html')})
+- [SIREN vs Skynet Countdown](${u('/vs/skynet-countdown.html')})
+- [SIREN vs p(doom) clocks](${u('/vs/pdoom.html')})
 - [What is p(doom)?](${u('/p-doom.html')})
 - [Is there an AI doomsday clock?](${u('/ai-doomsday-clock.html')})
 - [AI and jobs: what has been measured](${u('/jobs.html')})
