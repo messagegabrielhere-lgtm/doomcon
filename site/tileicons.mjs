@@ -79,6 +79,9 @@ export const TILE_ICONS = {
   waffle: [{ a: '#B45309', b: '#F59E0B', c: '#FDE68A' }, [
     '................', '..aaaaaaaaaaaa..', '.abbabbabbabbaa.', '.abbabbabbabba..', '.aaaaaaaaaaaaaa.', '.abbabbabbabbaa.', '.abbabbabbabba..', '.aaaaaaaaaaaaaa.',
     '.abbabbacccbbaa.', '.abbabbcccccba..', '.aaaaaaacccaaaa.', '.abbabbabcbabba.', '.abbabbabbabba..', '..aaaaaaaaaaaa..', '................', '................']],
+  pclock: [{ a: '#E5E7EB', b: '#0F172A', c: '#F87171', d: '#FACC15' }, [
+    '................', '.....aaaaaa.....', '...aabbcbbbaa...', '..abbbbcbbbbba..', '.abbbbbcbbbbbba.', '.abbbbbcbbbbbba.', 'abbbbbbcbbbbbbba', 'abbbbbbcbbbbbbba',
+    'abbbbbbdbbbbbbba', 'abbbbbdbbbbbbbba', '.abbbdbbbbbbbba.', '.abbdbbbbbbbbba.', '..abbbbbbbbbba..', '...aabbbbbbaa...', '.....aaaaaa.....', '................']],
   hurricane: [{ a: '#60A5FA', b: '#F87171', c: '#FFFFFF' }, [
     '................', '......aaaa......', '....aa....a.....', '...a...bb..a....', '..a...b..b......', '..a..b....b.a...', '.a...b.cc.b..a..', '.a..b.cccc.b.a..',
     '..a.b.cccc.b..a.', '..a.b..cc.b...a.', '...a.b....b..a..', '.....b..b...a...', '......bb...a....', '....a.....aa....', '.....aaaaa......', '................']],

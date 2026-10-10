@@ -8,6 +8,7 @@ import { page } from './layout.mjs';
 import * as brand from '../brand.mjs';
 import { MONETIZE, on as mzOn } from '../monetize.mjs';
 import { mascot, MOODS } from './_mascot.mjs';
+import { voicesSection } from './_pdoomVoices.mjs';
 
 const CSS = `<style>
 .inf { max-width: 74ch; }
@@ -404,6 +405,7 @@ export function pdoom(ctx) {
   <div class="inf__top">${mascot({ size: 76, level: level(ctx) })}<h1 class="bp__h1">What is p(doom)?</h1></div>
   <p class="lede"><b>p(doom) is shorthand for “probability of doom”: one person’s estimate, as a percentage, that advanced AI leads to a catastrophic outcome for humanity.</b>
     It is an opinion expressed as a number. There is no agreed method for producing it and no way to check one.</p>
+  ${voicesSection(ctx, ctx.state && ctx.state.level)}
   <h2>Where the term comes from</h2>
   <p>It started as informal slang among people who work on and argue about AI risk, as a quick way to ask “how worried are you?” It spread into interviews and headlines once prominent researchers and executives began giving their own figures in public.</p>
   <h2>Why the numbers differ so much</h2>
@@ -425,8 +427,8 @@ export function pdoom(ctx) {
 </section>`;
   return page({
     ctx, path: '/p-doom.html',
-    title: `What is p(doom)? The probability-of-doom number, explained · ${brand.NAME}`,
-    description: `p(doom) is one person's estimate of the probability that AI ends catastrophically. Where the term comes from, why the figures differ so widely, and what it cannot tell you.`,
+    title: `p(doom): what Hinton, Amodei, Musk, LeCun and 24 others say, and yours · ${brand.NAME}`,
+    description: `28 named, sourced p(doom) estimates on one chart, from 0% to 99.9%, plus a dial to set your own and see who you agree with. What p(doom) is and what it cannot tell you.`,
     jsonld: [{ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: [
       { '@type': 'Question', name: 'What is p(doom)?', acceptedAnswer: { '@type': 'Answer', text: 'p(doom) is shorthand for "probability of doom": one person\'s estimate, as a percentage, that advanced AI leads to a catastrophic outcome for humanity. It is an opinion expressed as a number, with no agreed method behind it.' } },
       { '@type': 'Question', name: 'Why do p(doom) estimates differ so much?', acceptedAnswer: { '@type': 'Answer', text: 'Because "doom" is not defined the same way by everyone, the time frame varies, and the figure is a judgement rather than a measurement.' } },
@@ -442,6 +444,7 @@ export function aiClock(ctx) {
   <div class="inf__top">${mascot({ size: 76, level: level(ctx) })}<h1 class="bp__h1">Is there a doomsday clock for AI?</h1></div>
   <p class="lede"><b>The Doomsday Clock is not an AI clock, though it now takes AI into account. Several AI-specific “clocks” exist, and all of them are set by judgement.
     ${esc(brand.NAME)} is the nearest thing that is counted instead: an hourly reading of AI activity that anyone can verify.</b></p>
+  <p><a href="${esc(ctx.href('/p-doom.html#voices'))}"><b>Set your own AI doomsday clock →</b></a> Drag a dial, see where you sit among 28 named experts from LeCun (0.01%) to Yudkowsky (95%+), and post it.</p>
   <style>${TCLK_CSS}</style>
   ${tempoClock(ctx, { size: 260 })}
   <h2>The Doomsday Clock</h2>
