@@ -183,6 +183,8 @@ import * as newsSitemap from './templates/newsSitemap.mjs';
 import * as openapi from './templates/openapi.mjs';
 import * as agentText from './templates/agentText.mjs';
 import * as facetPages from './templates/facetPages.mjs';
+import * as modelPages from './templates/modelPages.mjs';
+import * as countryPages from './templates/countryPages.mjs';
 import { page as layoutPage } from './templates/layout.mjs';
 import { render as sitemap, robots } from './templates/sitemap.mjs';
 import { INDEXNOW_KEY } from '../collector/indexnow.mjs';
@@ -703,6 +705,27 @@ function vsYesterday(state, history) {
  * directory index. It is a copy, not a redirect, so the canonical tag in the
  * page keeps search engines pointed at one URL.
  */
+async function writeModelAndCountryPages(ctx, outDir, write, written) {
+  for (const model of modelPages.indexableModels(ctx)) {
+    written.push(await write(outDir, `model/${model.slug}.html`, modelPages.renderModel(ctx, model.name)));
+  }
+  written.push(await write(outDir, 'model/index.html', modelPages.renderIndex(ctx)));
+  if (ctx.routes && ctx.routes.world && ctx.world) {
+    for (const country of countryPages.indexableCountries(ctx)) {
+      written.push(await write(outDir, `country/${String(country.iso2).toLowerCase()}.html`, countryPages.renderCountry(ctx, country.iso2)));
+    }
+    written.push(await write(outDir, 'country/index.html', countryPages.renderIndex(ctx)));
+  }
+}
+
+function modelAndCountryAliases(ctx) {
+  const names = modelPages.indexableModels(ctx).map((model) => `model/${model.slug}`);
+  if (ctx.routes && ctx.routes.world && ctx.world) {
+    names.push(...countryPages.indexableCountries(ctx).map((country) => `country/${String(country.iso2).toLowerCase()}`));
+  }
+  return names;
+}
+
 async function writeDirectoryAliases(outDir, names, write, written) {
   for (const name of names) {
     const src = path.join(outDir, `${name}.html`);
@@ -1297,6 +1320,17 @@ async function main() {
       for (const p of new Set(prevItems.map((it) => it.pillar))) {
         prevPillarKeys.set(p, pillarKey(prevItems, p));
       }
+      const cohort = (list, name) => list
+        .filter((it) => Array.isArray(it.entities) && it.entities.includes(name))
+        .map((it) => it.id)
+        .sort()
+        .join(',');
+      const prevCohort = new Map();
+      const nextCohort = new Map();
+      for (const name of modelPages.modelNames()) {
+        prevCohort.set(name, cohort(prevItems, name));
+        nextCohort.set(name, cohort(items, name));
+      }
       const keep = new Set(['index.html']);
       for (const it of items) {
         const slug = itemPage.slugFor(it);
@@ -1305,8 +1339,10 @@ async function main() {
         const abs = path.join(args.out, rel);
         const prev = prevById.get(it.id);
         const pillarChanged = prevPillarKeys.get(it.pillar) !== pillarKey(items, it.pillar);
+        const named = (Array.isArray(it.entities) ? it.entities : []).filter((name) => modelPages.isModelName(name));
+        const entityChanged = named.some((name) => prevCohort.get(name) !== nextCohort.get(name));
         const itemChanged = !prev || stableJson(it) !== stableJson(prev);
-        if (!asOfChanged && !pillarChanged && !itemChanged && existsSync(abs)) {
+        if (!asOfChanged && !pillarChanged && !entityChanged && !itemChanged && existsSync(abs)) {
           itemSkipped += 1;
           continue;
         }
@@ -1331,6 +1367,7 @@ async function main() {
     for (const player of facetPages.labsFromRace(ctx)) {
       written.push(await write(args.out, `lab/${player.id}.html`, facetPages.renderLab(ctx, player)));
     }
+    await writeModelAndCountryPages(ctx, args.out, write, written);
     // Keep the crawl surfaces in step with the newsroom window (item + facet
     // URLs change every fast pass; a stale sitemap is how Google News goes quiet).
     written.push(await write(args.out, 'sitemap.xml', sitemap(ctx)));
@@ -1343,7 +1380,7 @@ async function main() {
       written.push(await write(args.out, 'leaders.html', leadersPage.render(ctx)));
       if (leaders) written.push(await write(args.out, 'api/leaders.json', stableJson(leaders)));
     }
-    await writeDirectoryAliases(args.out, ['news', 'leaders'], write, written);
+    await writeDirectoryAliases(args.out, ['news', 'leaders', ...modelAndCountryAliases(ctx)], write, written);
     written.push(await write(args.out, 'feed.xml', feed.render(ctx)));
     if (news) written.push(await write(args.out, 'api/news.json', stableJson(news)));
     if (breaking) written.push(await write(args.out, 'api/breaking.json', stableJson(breaking)));
@@ -1632,6 +1669,7 @@ async function main() {
   for (const player of facetPages.labsFromRace(ctx)) {
     written.push(await write(args.out, `lab/${player.id}.html`, facetPages.renderLab(ctx, player)));
   }
+  await writeModelAndCountryPages(ctx, args.out, write, written);
   for (const m of moves) {
     written.push(await write(args.out, `moves/${m.id}.html`, movePage.render(ctx, m)));
   }
@@ -1651,6 +1689,7 @@ async function main() {
       'agents', 'tally', 'changelog', 'live',
       ...brand.PILLARS.map((p) => `pillar/${p.id}`),
       ...facetPages.labsFromRace(ctx).map((p) => `lab/${p.id}`),
+      ...modelAndCountryAliases(ctx),
     ],
     write,
     written,
@@ -1880,9 +1919,9 @@ async function main() {
     let n = 0;
     for (const [, items] of homeV2.roomGroups(ctx)) {
       for (const [href, artName, label, live, blurb] of items) {
-        const file = href.replace(/^\//, '');
-        const slug = file.replace(/\.html$/, '');
-        const page = path.join(args.out, file);
+        const file = href.replace(/^\//, '').replace(/\/$/, '');
+        const slug = file.replace(/\.html$/, '').replace(/\//g, '-');
+        const page = path.join(args.out, file.endsWith('.html') ? file : path.join(file, 'index.html'));
         if (!existsSync(page)) continue;
         let png;
         try { png = roomCard({ title: label, art: artName, blurb, live }, { level: state.level, generatedAt: state.generated_at }); } catch (err) { warn(`room card for ${href}: ${err.message}`); continue; }

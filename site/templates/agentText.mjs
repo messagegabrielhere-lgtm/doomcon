@@ -309,7 +309,8 @@ ${facetLinks(ctx, u)}
 - [Bunker Kit: free tools and gear checklist](${u('/bunker-kit.html')})
 - [Catalog](${u('/catalog.html')})
 - [Search](${u('/search.html')})
-`;
+- [Model families](${u('/model/')}): scored stories grouped by the model the headline names
+${(ctx.routes && ctx.routes.world) ? `- [Datacentres by country](${u('/country/')}): mapped sites, one page per country with at least three\n` : ''}`;
 }
 
 /** Instrument rooms that exist for this build (FINDABILITY.md §2.1). */

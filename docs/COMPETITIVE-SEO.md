@@ -87,3 +87,15 @@ They win social memes, not Google. Do not imitate.
 2. Spot-check `/pillar/capability.html` and `/lab/openai.html` in Rich Results test.
 3. Re-fetch pizzint `news-sitemap.xml` monthly; if it starts rolling again, treat Google News as contested again.
 4. Weekly: indexed count vs sitemap count (vanity = sitemap-only growth).
+
+---
+
+## 4. Next entity axes, 2026-10-10
+
+DoomBench's lead is still entity URLs (`/countries`, `/models`), not keywords.
+Two axes we can answer from data we already publish:
+
+- `/country/<iso>.html` when OpenStreetMap has at least three datacentre sites mapped in that country. The page prints the status split and a capped site list. Countries under the gate stay on `/world.html` only. Copy stays a count of map objects (`docs/WORLD.md`).
+- `/model/<slug>.html` when at least three scored stories name that model family in the published entity list. The page lists those stories. It does not assign the model a score.
+
+Story pages link the model when the gate clears. The world table keeps its zoom control and adds a country-page link beside it. Homepage "Where the machines live" links the country index.

@@ -43,6 +43,7 @@ import { esc, utc } from './_html.mjs';
 import { page } from './layout.mjs';
 import * as brand from '../brand.mjs';
 import { worldModel, worldFigure, worldLegend, worldTable, worldMapCss } from './_worldmap.mjs';
+import { countryIndexable, countryPath } from './countryPages.mjs';
 import { STATUS_ORDER, STATUS_MARKS } from './_usmap.mjs';
 import { iconSprite, icon as sheetIcon, dcIcon } from './_icons.mjs';
 
@@ -210,7 +211,7 @@ function mapSection(w, m) {
 // with nothing on them — named, because the blank is the finding.
 // ---------------------------------------------------------------------------
 
-function countrySection(w, m) {
+function countrySection(ctx, w, m) {
   const t = m.totals;
   const withSite = new Set(m.countries.map((c) => c.iso2));
   // Drawn outlines carrying an ISO code that no site resolved to: the land a
@@ -228,9 +229,14 @@ function countrySection(w, m) {
     ${t.sites ? pct(top.total / t.sites) : '—'} of every mapped site on Earth — and that is a fact about where
     OpenStreetMap's datacentre mappers are as much as about where datacentres are.` : ''} The
     ${count(t.countriesWithNone, '—')} countries in the roster with none mapped are not a tail of this ranking;
-    they are outside it, because nobody has looked.</p>
+    they are outside it, because nobody has looked.
+    <a href="${esc(ctx.href('/country/'))}">Countries with at least three mapped sites</a> each have a page.</p>
   <ul class="wld__cont" aria-label="Mapped sites by continent">${conts}</ul>
-  ${worldTable(m, { mapId: MAP_ID, goAttr: GO_ATTR })}
+  ${worldTable(m, {
+    mapId: MAP_ID,
+    goAttr: GO_ATTR,
+    countryHref: (c) => (countryIndexable(c) ? ctx.href(countryPath(c.iso2)) : null),
+  })}
   ${blank.length ? `<p class="wld__sec__n"><b>Drawn, with no mapped site: ${N(blank.length)} outlines.</b>
     ${esc(blank.map((l) => l.name).join(', '))}. Each is land a reader sees blank on the map above, and each
     is a place nobody has mapped, not a place with nothing in it. The roster the collector counts against
@@ -516,7 +522,7 @@ ${theCaveat(w)}
 
 ${mapSection(w, m)}
 
-${countrySection(w, m)}
+${countrySection(ctx, w, m)}
 
 ${orbital ? orbitSection(orbital) : ''}
 

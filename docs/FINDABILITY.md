@@ -239,6 +239,7 @@ context.
 | 9 | Optional markdown mirrors for methodology and guide | Agents | Open |
 | 10 | Mobile card view / less above-fold weight | Google CWV | Open |
 | 11 | Verify Search Console; submit both sitemaps | Operator | Open |
+| 12 | `/country/<iso>` for countries with ≥3 mapped datacentre sites, and `/model/<slug>` for model families named in ≥3 scored stories | Google | **Done** (2026-10-10) |
 
 ### 3.3 Refusals (search edition)
 
