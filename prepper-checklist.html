@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Prepper Checklist: a 72-hour kit and two weeks at home · SIREN</title>
+<meta name="description" content="A free, printable prepper checklist: water, food, power, radios, first aid, documents, tools and a family plan.">
+<link rel="stylesheet" href="fonts/fonts.css">
+<style>
+:root{--bg:#000;--raised:#0E131D;--rule:#232C3B;--ink:#E6EAF0;--dim:#AEB7C3;--faint:#6B7686;--green:#4ADE80;--amber:#FFB020;--indigo:#818CF8;--red:#FF5F56;
+  --mono:"IBM Plex Mono",ui-monospace,monospace;--sans:"IBM Plex Sans","Inter Tight",system-ui,-apple-system,"Segoe UI",sans-serif}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.55 var(--sans)}
+a{color:var(--green)}
+:focus-visible{outline:2px solid var(--green);outline-offset:2px}
+.wrap{max-width:980px;margin:0 auto;padding:0 16px}
+header.pc{padding:36px 0 24px;border-bottom:1px solid var(--rule)}
+.pc-top{display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:center}
+.pc-top img{width:120px;height:120px}
+.eyebrow{font:600 12px/1 var(--mono);letter-spacing:.16em;color:var(--green);margin:0 0 10px}
+h1{font:700 clamp(2rem,6vw,3.4rem)/1.02 var(--sans);margin:0;letter-spacing:-.02em}
+.lede{color:var(--dim);max-width:60ch;margin:12px 0 0;font-size:1.05rem}
+@media (max-width:560px){.pc-top{grid-template-columns:1fr}.pc-top img{width:88px;height:88px}}
+.panel{display:grid;grid-template-columns:1.2fr 1fr;gap:16px;margin:20px 0}
+@media (max-width:760px){.panel{grid-template-columns:1fr}}
+.card{background:var(--raised);border:1px solid var(--rule);border-radius:4px;padding:16px}
+.card h2{font:600 12px/1 var(--mono);letter-spacing:.14em;color:var(--dim);margin:0 0 12px;text-transform:uppercase}
+.calc{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:end}
+.calc label{font:600 11px/1.3 var(--mono);letter-spacing:.1em;color:var(--faint);display:grid;gap:6px;text-transform:uppercase}
+.calc input,.calc select{width:92px;padding:8px 10px;background:#000;color:var(--ink);border:1px solid var(--rule);border-radius:4px;font:500 16px/1 var(--mono)}
+.calc select{width:auto}
+.need{margin:14px 0 0;display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.need div{border-left:3px solid var(--green);padding:2px 10px}
+.need b{display:block;font:700 22px/1.1 var(--mono)}
+.need span{font-size:12px;color:var(--dim)}
+.meter-row{display:flex;justify-content:space-between;align-items:baseline;font:600 13px/1 var(--mono)}
+.meter-row b{font-size:28px;color:var(--green)}
+.bar{height:12px;background:#000;border:1px solid var(--rule);margin:10px 0 14px;border-radius:2px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--green);transition:width .3s}
+.tools{display:flex;flex-wrap:wrap;gap:8px}
+.tools button,.tabs button{all:unset;cursor:pointer;padding:8px 12px;border:1px solid var(--rule);border-radius:4px;font:600 12px/1 var(--mono);letter-spacing:.06em;color:var(--ink)}
+.tools button:hover,.tabs button:hover{border-color:var(--green)}
+.tools button:focus-visible,.tabs button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 18px;position:sticky;top:0;background:var(--bg);padding:10px 0;z-index:3;border-bottom:1px solid var(--rule)}
+.tabs button[aria-pressed=true]{background:var(--green);color:#000;border-color:var(--green)}
+section.sec{margin:0 0 28px}
+.sec-h{display:flex;justify-content:space-between;align-items:baseline;gap:12px;border-bottom:1px solid var(--rule);padding-bottom:8px;margin-bottom:6px}
+.sec-h h3{font:700 1.3rem/1.2 var(--sans);margin:0}
+.sec-h span{font:600 12px/1 var(--mono);color:var(--faint);white-space:nowrap}
+.sec-why{color:var(--dim);font-size:14px;margin:6px 0 8px;max-width:70ch}
+ul.items{list-style:none;margin:0;padding:0}
+ul.items li{display:grid;grid-template-columns:28px 1fr auto;gap:10px;align-items:start;padding:10px 4px;border-bottom:1px solid #121824}
+ul.items li.done .t{color:var(--faint);text-decoration:line-through}
+ul.items input{width:20px;height:20px;margin:2px 0 0;accent-color:var(--green)}
+.t{font-weight:500}
+.t small{display:block;color:var(--dim);font-weight:400;font-size:13px;margin-top:2px}
+.tag{font:600 10px/1 var(--mono);letter-spacing:.08em;padding:4px 6px;border-radius:3px;border:1px solid var(--rule);color:var(--dim);white-space:nowrap}
+.tag.k72{color:var(--amber);border-color:#5a4410}
+.buy{font:600 11px/1 var(--mono);white-space:nowrap;margin-left:8px}
+.right{display:flex;align-items:center;gap:6px}
+footer.pc{border-top:1px solid var(--rule);margin-top:24px;padding:20px 0 90px;color:var(--dim);font-size:13px}
+@media print{.tabs,.tools,.calc,.buy,#sitebar,.site-disclosure,.v2sh{display:none!important}body{background:#fff;color:#000}.card,.sec-h,ul.items li{border-color:#ccc}.t small,.sec-why{color:#333}a{color:#000}}
+</style>
+<link rel="canonical" href="https://siren.watch/prepper-checklist.html">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="SIREN">
+<meta property="og:title" content="Prepper Checklist: a 72-hour kit and two weeks at home · SIREN">
+<meta property="og:description" content="A free, printable prepper checklist: water, food, power, radios, first aid, documents, tools and a family plan.">
+<meta property="og:url" content="https://siren.watch/prepper-checklist.html">
+<meta property="og:image" content="https://siren.watch/cards/room-prepper-checklist.png?v=2026-10-10T23-21-19Z">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="alternate" type="text/markdown" href="/now.md" title="Current reading (markdown)">
+<link rel="alternate" type="text/plain" href="/llms.txt" title="llms.txt">
+<link rel="describedby" href="/openapi.json" type="application/json">
+<link rel="stylesheet" href="/fonts/fonts.css">
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-93SEVYQXY3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-93SEVYQXY3');
+</script>
+</head>
+<body>
+<style data-siteheader-css>
+.sh{--sh-bg:#000;--sh-panel:#0E131D;--sh-line:#232C3B;--sh-btn:#2A3446;--sh-ink:#E6EAF0;--sh-mute:#AEB7C3;--sh-acc:#4F46E5;--sh-acc2:#818CF8;
+  position:relative;z-index:60;background:var(--sh-bg);border-bottom:2px solid var(--sh-line);color:var(--sh-ink);
+  font:600 12px/1.2 'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.04em;-webkit-text-size-adjust:100%}
+.sh *,.sh *::before,.sh *::after{box-sizing:border-box}
+.sh a{text-decoration:none;color:inherit}
+.sh__in{max-width:1240px;margin:0 auto;padding:0 16px;display:flex;align-items:center;gap:12px;min-height:60px}
+.sh__brand{display:inline-flex;align-items:center;gap:10px;flex:0 0 auto;min-height:44px}
+.sh__brand img{display:block;width:36px;height:36px}
+.sh__wm{display:flex;flex-direction:column;gap:4px;min-width:0}
+.sh__exp{display:block;font:500 9.5px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.03em;color:#AEB7C3;white-space:nowrap;text-transform:uppercase}
+.sh__exp b{color:#F87171;font-weight:700}
+@media (max-width:560px){.sh__exp{font-size:7.5px;letter-spacing:0;white-space:normal;max-width:100px;line-height:1.15}}
+.sh .v2-ptext{display:block;line-height:0}.sh .v2-px{display:block}
+.sh .v2-sr,.sh__sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.sh__lv{flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;min-height:30px;padding:4px 9px;border:1px solid var(--sh-lv);background:#03130A;color:var(--sh-lv);font-weight:700;font-size:12px;white-space:nowrap}
+.sh__lv i{width:8px;height:8px;border-radius:50%;background:var(--sh-lv);box-shadow:0 0 8px var(--sh-lv)}
+.sh__nav{flex:1 1 auto;min-width:0;display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
+.sh__nav::-webkit-scrollbar{display:none}
+.sh__nav a:first-child{margin-left:auto}
+.sh__nav a{flex:0 0 auto;display:inline-flex;align-items:center;min-height:44px;padding:0 9px;color:var(--sh-mute);border-bottom:2px solid transparent;margin-bottom:-2px;white-space:nowrap;text-transform:uppercase;font-size:11.5px}
+.sh__nav a:hover{color:#fff}
+.sh__nav a[aria-current=page]{color:#fff;border-bottom-color:var(--sh-acc2)}
+.sh__all{flex:0 0 auto;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 14px;border:0;background:var(--sh-acc);color:#fff;font:inherit;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
+.sh__all:hover{background:#4338CA}
+.sh__new{flex:0 0 auto;display:inline-flex;align-items:center;gap:4px;min-height:44px;padding:0 12px;border:2px solid #FACC15;background:transparent;color:#FACC15;font:inherit;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
+.sh__new:hover{background:#FACC15;color:#000}
+@media (max-width:560px){.sh__new{padding:0 10px}.sh__new span{display:none}}
+.sh-rooms__g.sh-rooms__g--new{color:#FACC15}
+.sh__srch{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;width:44px;min-height:44px;border:2px solid var(--sh-btn);background:transparent;color:var(--sh-ink);cursor:pointer}
+.sh__srch:hover{border-color:var(--sh-acc2);color:#fff}
+.sh-rooms__chips{flex:0 0 auto;display:flex;gap:6px;overflow-x:auto;padding:8px 12px;border-bottom:1px solid #232C3B;scrollbar-width:none}
+.sh-rooms__chips::-webkit-scrollbar{display:none}
+.sh-rooms__chips button{flex:0 0 auto;min-height:32px;padding:0 10px;border:1px solid #2A3446;background:#0E131D;color:#D7DCE3;font:600 11px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
+.sh-rooms__chips button:hover{border-color:#818CF8;color:#fff}
+.sh-rooms__g--rec{color:#FACC15}
+.sh-pn{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 18px}
+.sh-pn a{display:flex;flex-direction:column;gap:3px;min-height:56px;padding:10px 12px;border:2px solid #2A3446;background:#0E131D;color:#E6EAF0!important;text-decoration:none!important}
+.sh-pn a:hover{border-color:#6366F1;background:#161D33}
+.sh-pn small{color:#AEB7C3;font:600 11px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase}
+.sh-pn b{font-weight:650}
+.sh-pn a[data-sh-next]{text-align:right;grid-column:2}
+.sh__all svg{display:block}
+.sh__all kbd{font:inherit;font-size:10px;border:1px solid rgba(255,255,255,.55);padding:1px 5px}
+.sh a:focus-visible,.sh button:focus-visible,.sh-rooms a:focus-visible,.sh-rel a:focus-visible,.sh-rel button:focus-visible,.sh-top:focus-visible,video:focus-visible{outline:2px solid #E2A03B;outline-offset:2px}
+@media (max-width:1360px){.sh__lv b{display:none}.sh__all kbd{display:none}.sh__nav a{padding:0 7px}}
+@media (max-width:1180px){.sh__nav{mask-image:linear-gradient(90deg,#000 90%,transparent)}}
+@media (max-width:900px){.sh__nav{display:none}.sh__lv{margin-left:auto}}
+@media (max-width:560px){.sh__in{gap:6px;padding:0 10px;min-height:56px}.sh__brand svg{width:96px;height:auto}.sh__brand img{width:32px;height:32px}.sh__lv{padding:4px 7px;font-size:11px}.sh__all{padding:0 12px}.sh__all kbd,.sh__all span{display:none}.sh__lvw{display:none}.sh__srch{width:42px}}
+.sh__lvw{font-style:normal}
+@media (max-width:400px){.sh__srch{display:none}}
+@media (max-width:340px){.sh__brand svg{display:none}}
+.sh-rooms{width:min(720px,calc(100vw - 20px));max-height:min(82vh,760px);margin:7vh auto auto;padding:0;border:2px solid #2A3446;background:#0A0E16;color:#E6EAF0;box-shadow:0 30px 90px rgba(0,0,0,.7);font:500 14px/1.35 system-ui,-apple-system,'Segoe UI',sans-serif}
+.sh-rooms::backdrop{background:rgba(0,0,0,.72);backdrop-filter:blur(3px)}
+.sh-rooms__box{display:flex;flex-direction:column;max-height:min(82vh,760px)}
+.sh-rooms__top{display:flex;align-items:center;gap:8px;border-bottom:2px solid #232C3B}
+.sh-rooms__q{flex:1 1 auto;min-width:0;min-height:52px;padding:0 16px;border:0;background:transparent;color:#fff;font:500 17px/1.3 system-ui,sans-serif;outline:none}
+.sh-rooms__x{flex:0 0 auto;min-width:48px;min-height:48px;border:0;background:transparent;color:#AEB7C3;font:600 18px/1 system-ui,sans-serif;cursor:pointer}
+.sh-rooms__x:hover{color:#fff}
+.sh-rooms__l{list-style:none;margin:0;padding:6px 8px 10px;overflow-y:auto;flex:1 1 auto}
+.sh-rooms__g{padding:12px 8px 4px;color:#86EFAC;font:700 11px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.14em}
+.sh-rooms__i{display:flex;align-items:center;gap:12px;min-height:48px;padding:6px 8px;color:#E6EAF0;text-decoration:none;border-left:2px solid transparent}
+.sh-rooms__i img{flex:0 0 auto;width:34px;height:34px;display:block}
+.sh-rooms__i span{min-width:0;display:flex;flex-direction:column}
+.sh-rooms__i b{font-weight:650}
+.sh-rooms__i small{color:#AEB7C3;font-size:12.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sh-rooms__i:hover,.sh-rooms__i.on{background:#161D33;border-left-color:#818CF8}
+.sh-rooms__i[aria-current=page] b::after{content:' · you are here';color:#86EFAC;font-weight:500;font-size:12px}
+.sh-rooms__i--x b{color:#A5B4FC}
+.sh-rooms__i mark{background:rgba(250,204,21,.28);color:inherit}
+.sh-rooms__k{margin:0;padding:8px 16px;border-top:1px solid #232C3B;color:#AEB7C3;font:500 11px/1.3 'IBM Plex Mono',ui-monospace,monospace}
+@media (max-width:560px){.sh-rooms{margin:10px auto auto;max-height:calc(100vh - 20px)}.sh-rooms__box{max-height:calc(100vh - 20px)}.sh-rooms__k{display:none}}
+.sh-rel{max-width:1240px;margin:40px auto 0;padding:0 16px;color:#E6EAF0;font:500 14px/1.4 system-ui,-apple-system,'Segoe UI',sans-serif}
+.sh-rel *{box-sizing:border-box}
+.sh-crumb{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;margin:0 0 12px;padding:0;list-style:none;color:#AEB7C3;font:600 12px/1.3 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.06em;text-transform:uppercase}
+.sh-crumb li+li::before{content:'›';margin-right:8px;color:#5B6576}
+.sh-crumb a{color:#D7DCE3;text-decoration:none;display:inline-flex;align-items:center;min-height:44px}
+.sh-crumb a:hover{color:#fff;text-decoration:underline}
+.sh-crumb [aria-current]{color:#86EFAC}
+.sh-rel__h{margin:0 0 10px;color:#AEB7C3;font:700 11px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.14em;text-transform:uppercase}
+.sh-rel__g{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.sh-rel__a{display:flex;align-items:center;gap:12px;min-height:64px;padding:10px 12px;border:2px solid #2A3446;background:#0E131D;color:#E6EAF0!important;text-decoration:none!important}
+.sh-rel__a:hover{border-color:#6366F1;background:#161D33}
+.sh-rel__a img{flex:0 0 auto;width:40px;height:40px;display:block}
+.sh-rel__a span{min-width:0;display:flex;flex-direction:column;gap:2px}
+.sh-rel__a b{font:700 12px/1.2 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.06em;text-transform:uppercase}
+.sh-rel__a small{color:#AEB7C3;font-size:12.5px;line-height:1.35}
+.sh-rel__more{margin:12px 0 0;display:flex;flex-wrap:wrap;gap:8px 16px}
+.sh-rel__more a,.sh-rel__more button{all:unset;cursor:pointer;display:inline-flex;align-items:center;min-height:44px;color:#A5B4FC;font:600 12px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.06em;text-transform:uppercase}
+.sh-rel__more a:hover,.sh-rel__more button:hover{color:#fff}
+.sh-top{position:fixed;left:12px;bottom:12px;z-index:9997;display:none;align-items:center;justify-content:center;width:44px;height:44px;border:2px solid #2A3446;background:rgba(10,14,22,.94);color:#E6EAF0;font:700 18px/1 system-ui,sans-serif;cursor:pointer;box-shadow:0 4px 18px rgba(0,0,0,.4)}
+.sh-top.on{display:inline-flex}
+.sh-top:hover{border-color:#6366F1;color:#fff}
+@media (max-width:700px){#sitebar,.sh-top{transition:transform .25s ease,opacity .25s ease}html.sh-dn #sitebar,html.sh-dn .sh-top{transform:translateY(160%);opacity:0;pointer-events:none}}
+@media (prefers-reduced-motion:reduce){#sitebar,.sh-top{transition:none}}
+@media print{.sh,.sh-rel,.sh-top{display:none}}
+</style>
+<header class="sh" data-siteheader role="banner"><div class="sh__in">
+<a class="sh__brand" href="/" aria-label="AI SIREN Index: Superintelligence Real-time Early Notice. Home" title="SIREN = Superintelligence Real-time Early Notice"><img src="/img/art-siren.webp" width="36" height="36" alt=""><span class="sh__wm"><span class="v2-ptext "><span class="v2-sr">AI SIREN INDEX</span><svg class="v2-px" width="213" height="21" viewBox="0 0 71 7" shape-rendering="crispEdges" aria-hidden="true"><rect x="1" y="0" width="3" height="1" fill="#FFFFFF"/><rect x="6" y="0" width="3" height="1" fill="#FFFFFF"/><rect x="14" y="0" width="4" height="1" fill="#FFFFFF"/><rect x="19" y="0" width="3" height="1" fill="#FFFFFF"/><rect x="23" y="0" width="4" height="1" fill="#FFFFFF"/><rect x="29" y="0" width="5" height="1" fill="#FFFFFF"/><rect x="35" y="0" width="1" height="1" fill="#FFFFFF"/><rect x="39" y="0" width="1" height="1" fill="#FFFFFF"/><rect x="44" y="0" width="3" height="1" fill="#FFFFFF"/><rect x="48" y="0" width="1" height="1" fill="#FFFFFF"/><rect x="52" y="0" width="1" height="1" fill="#FFFFFF"/><rect x="54" y="0" width="4" height="1" fill="#FFFFFF"/><rect x="60" y="0" width="5" height="1" fill="#FFFFFF"/><rect x="66" y="0" width="1" height="1" fill="#FFFFFF"/><rect x="70" y="0" width="1" height="1" fill="#FFFFFF"/><rect x="0" y="1" width="1" height="1" fill="#FFFFFF"/><rect x="4" y="1" width="1" height="1" fill="#FFFFFF"/><rect x="7" y="1" width="1" height="1" fill="#FFFFFF"/><rect x="13" y="1" width="1" height="1" fill="#FFFFFF"/><rect x="20" y="1" width="1" height="1" fill="#FFFFFF"/><rect x="23" y="1" width="1" height="1" fill="#FFFFFF"/><rect x="27" y="1" width="1" height="1" fill="#FFFFFF"/><rect x="29" y="1" width="1" height="1" fill="#FFFFFF"/><rect x="35" y="1" width="2" height="1" fill="#FFFFFF"/><rect x="39" y="1" width="1" height="1" fill="#FFFFFF"/><rect x="45" y="1" width="1" height="1" fill="#FFFFFF"/><rect x="48" y="1" width="2" height="1" fill="#FFFFFF"/><rect x="52" y="1" width="1" height="1" fill="#FFFFFF"/><rect x="54" y="1" width="1" height="1" fill="#FFFFFF"/><rect x="58" y="1" width="1" height="1" fill="#FFFFFF"/><rect x="60" y="1" width="1" height="1" fill="#FFFFFF"/><rect x="66" y="1" width="1" height="1" fill="#FFFFFF"/><rect x="70" y="1" width="1" height="1" fill="#FFFFFF"/><rect x="0" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="4" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="7" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="13" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="20" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="23" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="27" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="29" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="35" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="37" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="39" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="45" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="48" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="50" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="52" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="54" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="58" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="60" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="67" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="69" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="0" y="3" width="5" height="1" fill="#FFFFFF"/><rect x="7" y="3" width="1" height="1" fill="#FFFFFF"/><rect x="14" y="3" width="3" height="1" fill="#FFFFFF"/><rect x="20" y="3" width="1" height="1" fill="#FFFFFF"/><rect x="23" y="3" width="4" height="1" fill="#FFFFFF"/><rect x="29" y="3" width="4" height="1" fill="#FFFFFF"/><rect x="35" y="3" width="1" height="1" fill="#FFFFFF"/><rect x="38" y="3" width="2" height="1" fill="#FFFFFF"/><rect x="45" y="3" width="1" height="1" fill="#FFFFFF"/><rect x="48" y="3" width="1" height="1" fill="#FFFFFF"/><rect x="51" y="3" width="2" height="1" fill="#FFFFFF"/><rect x="54" y="3" width="1" height="1" fill="#FFFFFF"/><rect x="58" y="3" width="1" height="1" fill="#FFFFFF"/><rect x="60" y="3" width="4" height="1" fill="#FFFFFF"/><rect x="68" y="3" width="1" height="1" fill="#FFFFFF"/><rect x="0" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="4" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="7" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="17" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="20" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="23" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="25" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="29" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="35" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="39" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="45" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="48" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="52" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="54" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="58" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="60" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="67" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="69" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="0" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="4" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="7" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="17" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="20" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="23" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="26" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="29" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="35" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="39" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="45" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="48" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="52" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="54" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="58" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="60" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="66" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="70" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="0" y="6" width="1" height="1" fill="#FFFFFF"/><rect x="4" y="6" width="1" height="1" fill="#FFFFFF"/><rect x="6" y="6" width="3" height="1" fill="#FFFFFF"/><rect x="13" y="6" width="4" height="1" fill="#FFFFFF"/><rect x="19" y="6" width="3" height="1" fill="#FFFFFF"/><rect x="23" y="6" width="1" height="1" fill="#FFFFFF"/><rect x="27" y="6" width="1" height="1" fill="#FFFFFF"/><rect x="29" y="6" width="5" height="1" fill="#FFFFFF"/><rect x="35" y="6" width="1" height="1" fill="#FFFFFF"/><rect x="39" y="6" width="1" height="1" fill="#FFFFFF"/><rect x="44" y="6" width="3" height="1" fill="#FFFFFF"/><rect x="48" y="6" width="1" height="1" fill="#FFFFFF"/><rect x="52" y="6" width="1" height="1" fill="#FFFFFF"/><rect x="54" y="6" width="4" height="1" fill="#FFFFFF"/><rect x="60" y="6" width="5" height="1" fill="#FFFFFF"/><rect x="66" y="6" width="1" height="1" fill="#FFFFFF"/><rect x="70" y="6" width="1" height="1" fill="#FFFFFF"/></svg></span><span class="sh__exp" aria-hidden="true"><b>S</b>uper<b>I</b>ntelligence <b>R</b>eal-time <b>E</b>arly <b>N</b>otice</span></span></a>
+<a class="sh__lv" href="/#signal" style="--sh-lv:#4ADE80" title="Current reading: SIREN 4 (ROUTINE), score 54.1 of 100"><i aria-hidden="true"></i><span><em class="sh__lvw">SIREN </em>4<b> · ROUTINE</b> · 54.1</span></a>
+<nav class="sh__nav" aria-label="Primary"><a href="/">Index</a><a href="/race.html">Race</a><a href="/news.html">News</a><a href="/leaders.html">Leaders</a><a href="/monitor.html">Monitor</a><a href="/dispatch.html">Dispatch</a><a href="/moltbook.html">Agent Watch</a><a href="/videos.html">Videos</a><a href="/radio.html">Radio</a></nav>
+<button type="button" class="sh__new" data-sh-rooms-group="NEW ON SIREN" aria-haspopup="dialog" aria-controls="sh-rooms" title="What’s new on SIREN">✦<span> New</span></button>
+<button type="button" class="sh__srch" data-sh-rooms data-sh-search aria-haspopup="dialog" aria-controls="sh-rooms" title="Search the site (/)"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><circle cx="7.5" cy="7.5" r="5.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M11.6 11.6 16 16" stroke="currentColor" stroke-width="2.2" stroke-linecap="square"/></svg><b class="sh__sr">Search the site</b></button>
+<button type="button" class="sh__all" data-sh-rooms aria-haspopup="dialog" aria-controls="sh-rooms"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 2h5v5H2zM9 2h5v5H9zM2 9h5v5H2zM9 9h5v5H9z" fill="currentColor"/></svg><span>All rooms</span><kbd>/</kbd><b class="sh__sr">Open the list of every room</b></button>
+</div></header>
+<script>(function(){var h=document.currentScript&&document.currentScript.previousElementSibling,b=document.body;if(!h||!b)return;var s=getComputedStyle(b),px=function(v){return parseFloat(v)||0};var t=px(s.paddingTop)+px(s.marginTop),l=px(s.paddingLeft)+px(s.marginLeft),r=px(s.paddingRight)+px(s.marginRight);if(t||l||r){h.style.margin='-'+t+'px -'+r+'px '+(t?Math.min(t,16):0)+'px -'+l+'px'}})();</script>
+<style>html:root,html:root[data-theme="dark"]{--bg:#000;--panel:#0E131D;--sunk:#0A0E16;--line:#232C3B;--ink:#F3F4F6;--mute:#AEB7C3;--accent:#4ADE80;--accent-ink:#03130A;--cmp:#818CF8;--zone:rgba(74,222,128,.12);color-scheme:dark}</style>
+<header class="pc">
+  <div class="wrap pc-top">
+    <img src="img/art-clipboard.webp" width="120" height="120" alt="">
+    <div>
+      <p class="eyebrow">A SIREN FIELD MANUAL · JUDGMENT DAY PREP, MINUS THE TIME TRAVEL</p>
+      <h1>Prepper Checklist</h1>
+      <p class="lede">Everything a household needs for a 72-hour grab-and-go kit and two weeks at home without power, water or the internet. Tick things off as you go; your progress stays in this browser. Based on the U.S. government's <a href="https://www.ready.gov/kit" rel="noopener" target="_blank">Ready.gov</a> guidance.</p>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="panel">
+    <div class="card">
+      <h2>Size it for your household</h2>
+      <div class="calc">
+        <label>People<input id="people" type="number" min="1" max="20" value="2" inputmode="numeric"></label>
+        <label>Pets<input id="pets" type="number" min="0" max="20" value="0" inputmode="numeric"></label>
+        <label>Plan for<select id="days"><option value="3">72 hours (3 days)</option><option value="14" selected>2 weeks at home</option></select></label>
+      </div>
+      <div class="need" aria-live="polite">
+        <div><b id="n-water">—</b><span>gallons of water</span></div>
+        <div><b id="n-meals">—</b><span>meals of food</span></div>
+        <div><b id="n-meds">—</b><span>days of medicine</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Readiness</h2>
+      <div class="meter-row"><span id="m-label">0 of 0 done</span><b id="m-pct">0%</b></div>
+      <div class="bar"><i id="m-fill"></i></div>
+      <div class="tools">
+        <button type="button" id="print">PRINT</button>
+        <button type="button" id="hide">HIDE DONE</button>
+        <button type="button" id="reset">RESET</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="tabs" role="toolbar" aria-label="Which list">
+    <button type="button" data-f="all" aria-pressed="true">EVERYTHING</button>
+    <button type="button" data-f="k72" aria-pressed="false">72-HOUR KIT ONLY</button>
+  </div>
+
+  <div id="list"></div>
+
+  <p class="sec-why">Want the gear? Every crate is in the <a href="bunker-kit.html">Bunker Kit's supply drop</a>.</p>
+</main>
+
+<footer class="pc wrap">
+  <p>General preparedness information, not professional advice. Follow your local emergency managers' instructions first. Water, food and medicine amounts follow Ready.gov and FEMA: at least one gallon of water per person per day, a supply for several days, and two weeks for staying at home.</p>
+  <p>"Gear" links go to Amazon and are paid links: as an Amazon Associate, SIREN earns from qualifying purchases. Nothing on this page is a product review.</p>
+</footer>
+
+<script>
+const TAG = "buyusa0d-20";
+const azs = q => "https://www.amazon.com/s?k=" + encodeURIComponent(q).replace(/%20/g, "+") + "&tag=" + TAG;
+// [section id, title, why, items: [id, text, detail, in72hKit, amazon search or null]]
+const SECTIONS = [
+ ["water","Water","The first thing to run out. Store it before you need it; rotate it every six months.",[
+  ["w1","Drinking water, 1 gallon per person per day","Use the calculator above for your total. More in hot weather, for nursing mothers and the sick.",1,"water storage container 7 gallon"],
+  ["w2","Water for pets","About an ounce per pound of pet a day.",0,null],
+  ["w3","A way to treat water","Filter, purification tablets, or unscented bleach and a dropper.",1,"water purification tablets"],
+  ["w4","Know how to fill the bathtub with sealed storage","A tub liner holds about 100 gallons for washing and flushing.",0,"WaterBOB bathtub water storage"],
+  ["w5","Date your water and set a reminder to rotate it","Every six months for water you bottled yourself.",0,null]]],
+ ["food","Food","Non-perishable, no cooking needed, and things your household will actually eat.",[
+  ["f1","Ready-to-eat canned and packaged food","Three days in the kit, two weeks at home.",1,null],
+  ["f2","Manual can opener","Electric ones do not help here.",1,"manual can opener"],
+  ["f3","High-calorie bars for the go-bag","Long shelf life, light, no prep.",1,"emergency food bars 3600"],
+  ["f4","Food for infants, special diets and pets","Formula, allergy-safe foods, pet food.",1,null],
+  ["f5","A safe way to heat food","Camp stove plus fuel, used with ventilation; never charcoal or a generator indoors.",0,"portable butane camping stove"],
+  ["f6","Plates, cups, utensils, trash bags","Disposable saves water.",0,null]]],
+ ["power","Light & power","Light keeps people calm and safe. Batteries are the quiet failure point.",[
+  ["p1","Flashlight or headlamp for each person","Plus spare batteries.",1,"LED headlamp rechargeable"],
+  ["p2","Spare batteries in the sizes you use","Check them twice a year.",1,"rechargeable AA batteries with charger"],
+  ["p3","Phone power bank, charged","Keep it topped up; a solar one recharges in daylight.",1,"solar power bank"],
+  ["p4","Lanterns for the house","Battery lanterns light a room safely; avoid candles where you can.",0,"LED camping lantern"],
+  ["p5","Backup power for medical devices","If anyone relies on powered equipment, plan this first.",0,"portable power station"],
+  ["p6","Car charger for phones","",1,null]]],
+ ["comms","Information & communication","Hear the warnings and reach your people when phones and the internet fail.",[
+  ["c1","Battery or hand-crank NOAA weather radio","Gets emergency broadcasts without power or signal.",1,"NOAA weather radio hand crank"],
+  ["c2","Turn on emergency alerts on every phone","Settings → Notifications → Emergency alerts. Sign up for your county's alerts too.",0,null],
+  ["c3","Written list of phone numbers","Phones die; paper does not.",1,null],
+  ["c4","An out-of-area contact everyone checks in with","Long-distance calls often get through when local ones don't. Texts are better than calls.",0,null],
+  ["c5","Whistle to signal for help","",1,"emergency whistle"],
+  ["c6","Paper map of your area and a compass","Mark two ways out of your neighbourhood.",1,"road atlas"]]],
+ ["med","First aid & medicine","Most emergencies are ordinary injuries without a doctor nearby.",[
+  ["m1","First aid kit, and know how to use it","A free Stop the Bleed or first-aid class is worth more than the kit.",1,"first aid kit family"],
+  ["m2","Prescription medicines","A week or more. Ask your pharmacist or doctor about an emergency supply.",1,null],
+  ["m3","Glasses, contact lenses and solution","",1,null],
+  ["m4","Over-the-counter basics","Pain relief, antihistamine, anti-diarrhoea, electrolytes.",1,null],
+  ["m5","Masks for smoke and dust","NIOSH-approved N95s.",1,"N95 mask NIOSH"],
+  ["m6","Emergency blankets","",1,"mylar emergency blankets"]]],
+ ["san","Sanitation & hygiene","When water stops, toilets stop. Plan for that.",[
+  ["s1","Moist towelettes, soap, hand sanitiser","",1,null],
+  ["s2","Heavy trash bags and ties","",1,null],
+  ["s3","Emergency toilet bags or a bucket toilet","",0,"emergency toilet bags"],
+  ["s4","Toilet paper, menstrual and incontinence supplies","",1,null],
+  ["s5","Unscented household bleach and a dropper","For disinfecting, and for treating water if needed.",0,null]]],
+ ["docs","Documents & money","Getting help afterwards depends on proving who you are and what you had.",[
+  ["d1","Copies of IDs, insurance policies, deeds, medical records","In a waterproof bag, plus encrypted scans.",1,"fireproof document bag"],
+  ["d2","Cash in small bills","Card machines need power and networks.",1,null],
+  ["d3","Photos of your home and belongings","For insurance claims. Update yearly.",0,null],
+  ["d4","Spare keys for house and car","",1,null],
+  ["d5","Encrypted backup of important files","",0,"encrypted USB flash drive"]]],
+ ["tools","Tools & safety","",[
+  ["t1","Multi-tool or basic toolkit","",1,"multitool"],
+  ["t2","Wrench or pliers to turn off utilities","Know where your gas, water and electric shut-offs are. Turn gas off only if you smell it or are told to.",0,"gas water shut off wrench"],
+  ["t3","Fire extinguisher, and everyone knows where it is","",0,"home fire extinguisher ABC"],
+  ["t4","Working smoke and carbon monoxide alarms","Test monthly. CO alarms matter most when generators come out.",0,null],
+  ["t5","Duct tape and plastic sheeting","",1,"duct tape heavy duty"],
+  ["t6","Work gloves and sturdy shoes by the bed","",1,"leather work gloves"]]],
+ ["shelter","Warmth & shelter","",[
+  ["h1","Change of clothes and sturdy shoes per person","",1,null],
+  ["h2","Sleeping bag or warm blanket per person","",1,null],
+  ["h3","Rain gear","",1,null],
+  ["h4","Tarp and rope","",0,"heavy duty tarp"]]],
+ ["plan","The plan","Gear without a plan is clutter. These cost nothing.",[
+  ["x1","Two meeting places: outside your home, and outside your neighbourhood","",0,null],
+  ["x2","Know your evacuation routes and where local shelters are","",0,null],
+  ["x3","A plan for pets, children at school, and anyone who needs help moving","",0,null],
+  ["x4","Pack the 72-hour kit in a bag by the door","",0,"72 hour emergency kit backpack"],
+  ["x5","A smaller kit in the car and at work","",0,"car emergency roadside kit"],
+  ["x6","Practise once a year, and review this list","",0,null]]],
+];
+
+const K = "siren:prepper";
+let done = new Set(), filter = "all", hideDone = false;
+try { done = new Set(JSON.parse(localStorage.getItem(K) || "[]")); } catch (e) {}
+const save = () => { try { localStorage.setItem(K, JSON.stringify([...done])); } catch (e) {} };
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+function render() {
+  const out = [];
+  for (const [sid, title, why, items] of SECTIONS) {
+    const rows = items.filter(i => (filter === "all" || i[3]) && !(hideDone && done.has(i[0])));
+    if (!rows.length) continue;
+    const n = items.filter(i => filter === "all" || i[3]).length, d = items.filter(i => (filter === "all" || i[3]) && done.has(i[0])).length;
+    out.push(`<section class="sec" id="${sid}"><div class="sec-h"><h3>${esc(title)}</h3><span>${d} / ${n}</span></div>${why ? `<p class="sec-why">${esc(why)}</p>` : ""}<ul class="items">` +
+      rows.map(([id, text, detail, k72, q]) => `<li class="${done.has(id) ? "done" : ""}"><input type="checkbox" id="i-${id}" data-id="${id}" ${done.has(id) ? "checked" : ""}><label class="t" for="i-${id}">${esc(text)}${detail ? `<small>${esc(detail)}</small>` : ""}</label><span class="right">${k72 ? `<span class="tag k72">72-HR KIT</span>` : ""}${q ? `<a class="buy" href="${azs(q)}" target="_blank" rel="sponsored noopener">GEAR ↗</a>` : ""}</span></li>`).join("") + `</ul></section>`);
+  }
+  $("#list").innerHTML = out.join("") || `<p class="sec-why">Everything here is done. Check it again in six months.</p>`;
+  document.querySelectorAll("#list input[type=checkbox]").forEach(cb => cb.onchange = () => {
+    cb.checked ? done.add(cb.dataset.id) : done.delete(cb.dataset.id); save(); render(); meter();
+  });
+}
+function meter() {
+  const all = SECTIONS.flatMap(s => s[3]).filter(i => filter === "all" || i[3]);
+  const d = all.filter(i => done.has(i[0])).length;
+  const pct = all.length ? Math.round(d / all.length * 100) : 0;
+  $("#m-label").textContent = `${d} of ${all.length} done`;
+  $("#m-pct").textContent = pct + "%";
+  $("#m-fill").style.width = pct + "%";
+}
+function calc() {
+  const p = Math.max(1, Math.min(20, +$("#people").value || 1)), pets = Math.max(0, Math.min(20, +$("#pets").value || 0)), days = +$("#days").value;
+  // Ready.gov: 1 gallon per person per day. Pets: about 1/2 gallon a day for a mid-size dog.
+  $("#n-water").textContent = Math.ceil(p * days + pets * days * 0.5);
+  $("#n-meals").textContent = p * days * 3;
+  $("#n-meds").textContent = Math.max(7, days);
+}
+document.querySelectorAll(".tabs button").forEach(b => b.onclick = () => {
+  filter = b.dataset.f; document.querySelectorAll(".tabs button").forEach(x => x.setAttribute("aria-pressed", x === b)); render(); meter();
+});
+$("#hide").onclick = e => { hideDone = !hideDone; e.target.textContent = hideDone ? "SHOW DONE" : "HIDE DONE"; render(); };
+$("#reset").onclick = () => { if (done.size && !window.confirm("Clear every tick on this checklist?")) return; done.clear(); save(); render(); meter(); };
+$("#print").onclick = () => window.print();
+["people", "pets", "days"].forEach(id => $("#" + id).addEventListener("input", calc));
+calc(); render(); meter();
+</script>
+<nav class="sh-rel" data-siteheader-rel aria-label="You are here">
+<ol class="sh-crumb"><li><a href="/">Home</a></li><li><a href="/#rooms" data-sh-rooms-group="PLAY &amp; PREP">Play &amp; prep</a></li><li><span aria-current="page">Prepper Checklist</span></li></ol>
+<div class="sh-pn"><a href="/si-ready.html" data-sh-prev rel="prev"><small>← Previous · [</small><b>Ready for SI?</b></a><a href="/bug-out-land.html" data-sh-next rel="next"><small>Next · ] →</small><b>Bug-Out Land</b></a></div>
+<p class="sh-rel__h">Related rooms · Play &amp; prep</p>
+<div class="sh-rel__g"><a class="sh-rel__a" href="/bug-out-land.html"><img src="/img/px-cabin.svg" width="40" height="40" alt="" loading="lazy" decoding="async"><span><b>Bug-Out Land</b><small>Where to buy remote land to ride out Skynet.</small></span></a><a class="sh-rel__a" href="/library.html"><img src="/img/art-books.webp" width="40" height="40" alt="" loading="lazy" decoding="async"><span><b>Reading List</b><small>Books from every side of the AI argument.</small></span></a><a class="sh-rel__a" href="/arena.html#battle"><img src="/img/art-stocks.webp" width="40" height="40" alt="" loading="lazy" decoding="async"><span><b>AI Battle</b><small>AI models trade stocks and crypto against live prices.</small></span></a><a class="sh-rel__a" href="/scanner.html"><img src="/img/px-crosshair.svg" width="40" height="40" alt="" loading="lazy" decoding="async"><span><b>Scanner</b><small>Screen stocks, ETFs and crypto in plain English.</small></span></a></div>
+<p class="sh-rel__more"><button type="button" data-sh-rooms>▦ Every room</button><a href="#" data-sh-top>↑ Back to top</a></p>
+</nav>
+<p class="v2legal" style="max-width:72ch;margin:24px auto;padding:0 16px 24px;font:400 12px/1.5 system-ui,sans-serif;color:#AEB7C3"><b>Not advice.</b> Information, commentary and satire only — not financial, investment, legal, security or safety advice. Data is automated and may be wrong or late; provided as is, with no warranty. Not affiliated with any company, lab, person or agency named here. Use of this site means you accept the <a href="/terms.html" style="color:#D7DCE3">terms &amp; disclaimers</a>. <a href="/privacy.html" style="color:#D7DCE3">Privacy</a>.</p>
+
+<aside class="site-disclosure" data-sitebar role="note"><b>Disclosure:</b> Not financial advice. We are not financial advisors, brokers, or a registered investment adviser, and nothing on this site is investment, financial, legal, tax or trading advice, or a recommendation to buy, sell or hold any stock, crypto asset or other instrument. Stock picks, signals, scores and AI trades shown here are automated, simulated or hypothetical, for information and entertainment only. Past and simulated performance does not predict future results, and trading can lose money, including more than you expect. Do your own research and talk to a licensed financial professional before you invest.</aside>
+<div id="sitebar" data-sitebar data-at="1791674479578" data-news="1791674625192" role="region" aria-label="Page freshness">
+<style>
+#sitebar{position:fixed;right:12px;bottom:12px;z-index:9999;display:flex;align-items:center;gap:8px;padding:5px 6px 5px 12px;border-radius:999px;background:rgba(255,255,255,.94);color:#1b2230;border:1px solid rgba(0,0,0,.14);box-shadow:0 4px 18px rgba(0,0,0,.14);font:500 12px/1.2 system-ui,-apple-system,"Segoe UI",sans-serif;backdrop-filter:blur(6px)}
+#sitebar button{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:999px;background:#1b2230;color:#fff;font:600 12px/1 system-ui,-apple-system,"Segoe UI",sans-serif}
+#sitebar button.due{background:#b45309;color:#fff}
+#sitebar button:focus-visible{outline:2px solid #e2a03b;outline-offset:2px}
+#sitebar button[aria-busy=true] svg{animation:sitebar-spin .8s linear infinite}
+#sitebar time{white-space:nowrap;display:inline;font:inherit;color:inherit;letter-spacing:normal;margin:0;padding:0}
+#sitebar .sb-fresh{white-space:nowrap;display:inline-flex;align-items:center;gap:4px;line-height:1.2}#sitebar .sb-fresh .dot{margin-right:1px}#sitebar .sb-fresh b{font-weight:700;color:#15803d}#sitebar .sb-score{opacity:.75}
+#sitebar .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#16a34a;margin-right:5px;vertical-align:1px;box-shadow:0 0 0 0 rgba(22,163,74,.5);animation:sb-live 2s infinite}
+@keyframes sb-live{70%{box-shadow:0 0 0 6px rgba(22,163,74,0)}100%{box-shadow:0 0 0 0 rgba(22,163,74,0)}}
+@media (prefers-reduced-motion:reduce){#sitebar .dot{animation:none}}
+#sitebar.stale .dot{background:#d97706;animation:none}
+#sitebar .fb{all:unset;cursor:pointer;color:inherit;opacity:.8;text-decoration:underline;text-underline-offset:2px;white-space:nowrap;font:600 12px/1.2 system-ui,-apple-system,"Segoe UI",sans-serif}#sitebar .fb:hover{opacity:1}#sitebar .fb:focus-visible{outline:2px solid #e2a03b;outline-offset:2px}
+#sitebar .ago{opacity:.65}#sitebar .kofi{color:#1d4ed8;opacity:1;text-decoration:none}@media (max-width:440px){#sitebar a.fb.kofi{display:none}}
+#sitebar button.rad{background:transparent;color:inherit;border:1px solid currentColor;padding:4px 9px;opacity:.85}#sitebar button.st{padding:4px 7px}#sitebar button.rad[aria-pressed=true]{background:#818CF8;border-color:#818CF8;color:#000;opacity:1}
+#siren-intro{position:fixed;left:12px;bottom:12px;z-index:9998;max-width:min(300px,calc(100vw - 24px));border-radius:8px;overflow:hidden;background:#000;border:1px solid #232C3B;box-shadow:0 10px 30px rgba(0,0,0,.5)}
+#siren-intro video{display:block;width:100%;height:auto}
+#siren-intro .bar{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:6px 8px;font:600 11px/1 system-ui,sans-serif;color:#AEB7C3;letter-spacing:.06em}
+#siren-intro button{all:unset;cursor:pointer;padding:4px 8px;border-radius:4px;color:#E6EAF0}#siren-intro button:hover{background:#1b2230}#siren-intro button:focus-visible{outline:2px solid #e2a03b;outline-offset:2px}
+#siren-intro.chip{width:auto;background:rgba(0,0,0,.92)}
+#siren-intro.chip video{display:none}
+#siren-intro.playing{width:240px}
+/* Phones: a small picture docked bottom-right, just above the freshness bar and the guide button
+   (their offset comes from --sb-off, set by lift() below), so it never covers the header, the level
+   or the score at the top of the page. */
+@media (max-width:560px){#siren-intro.playing{width:140px;left:auto;right:8px;top:auto;bottom:calc(var(--sb-off,10px) + 54px)}#siren-intro.chip{left:auto;right:8px;top:auto;bottom:calc(var(--sb-off,10px) + 54px)}#siren-intro .bar{padding:2px 4px}#siren-intro.playing .bar>span:first-child{display:none}#siren-intro.playing .bar>span:last-child{display:flex;width:100%;justify-content:space-between}#siren-intro button{min-height:32px;display:inline-flex;align-items:center}}
+@keyframes sitebar-spin{to{transform:rotate(360deg)}}
+@media (prefers-color-scheme:dark){#sitebar{background:rgba(20,24,32,.94);color:#e6e9ef;border-color:rgba(255,255,255,.16)}#sitebar button{background:#e6e9ef;color:#141820}#sitebar .kofi{color:#93b8f5}}
+/* Phones: the bar sits left and the round Ask SIREN button (media/guide.js) takes the same row on
+   the right, so the two never stack on each other or on the reading. */
+@media (max-width:560px){#sitebar{left:8px;right:auto;bottom:10px;max-width:calc(100vw - 68px)}#sitebar .ago{display:none}#sitebar button{min-height:30px;box-sizing:border-box}#sitebar .fb{display:inline-flex;align-items:center;min-height:30px}}
+@media (max-width:360px){#sitebar #sitebar-x{display:none}}
+@media (max-width:440px){#sitebar{gap:6px;padding:3px 3px 3px 10px;max-width:calc(100vw - 68px)}#sitebar>span:first-of-type{display:none}#sitebar button{padding:5px 8px}}
+@media print{#sitebar{display:none}}
+.site-disclosure{max-width:72ch;margin:28px auto 72px;padding:12px 16px;font:400 12px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif;opacity:.8;border-top:1px solid rgba(127,127,127,.3)}
+.site-disclosure b{font-weight:600}
+#site-em{display:none;position:static;align-items:center;gap:10px;flex-wrap:wrap;padding:5px 16px;background:#1a0707;color:#FECACA;border-bottom:1px solid #3f1212;border-left:4px solid #ef4444;font:600 12px/1.3 system-ui,-apple-system,"Segoe UI",sans-serif}
+#site-em.on{display:flex}
+#site-em[data-level="3"]{border-left-color:#f59e0b;background:#171004;color:#FDE68A}
+#site-em a{color:inherit;text-decoration:underline;text-underline-offset:2px;font-weight:700}
+#site-em .x{all:unset;cursor:pointer;margin-left:8px;opacity:.85;padding:2px 6px}
+#site-em .xp{border:1px solid currentColor;border-radius:3px;font-weight:600;opacity:1}
+#site-em .x:hover{opacity:1}
+body.site-em-pad{padding-top:40px}
+@media print{#site-em{display:none}}
+</style>
+<div id="site-em" data-sitebar role="status" aria-live="polite" hidden><span id="site-em-txt"></span><a id="site-em-go" href="/dispatch.html">Open Dispatch</a><button type="button" class="x xp" id="site-em-xp" data-xpost="alert" data-x-url="https://siren.watch/dispatch.html" aria-label="Post this alert to X">𝕏 Post</button><button type="button" class="x" id="site-em-x" aria-label="Dismiss">✕</button></div>
+<span class="sb-fresh" title="News is checked every minute and Dispatch alerts refresh through the hour, so both are live. The SIREN score is recalculated once an hour from every source."><i class="dot" aria-hidden="true"></i><b>News &amp; alerts live</b> · news <span id="sitebar-news">–</span> · <span class="sb-score">SIREN score <time id="sitebar-at"></time> (hourly)</span></span>
+<a class="fb" id="sitebar-fb" href="https://siren.watch/feedback.html" title="Report a problem or send feedback">Feedback</a>
+<a class="fb kofi" href="https://ko-fi.com/I0R828E7LP" target="_blank" rel="noopener" title="Support SIREN on Ko-fi">☕ Support</a><a class="fb" id="sitebar-x" href="https://x.com/intent/post?via=SIRENutf6" target="_blank" rel="noopener" title="Post this page on X">𝕏 Post</a>
+<button type="button" class="rad" data-siren-radio data-level="4" aria-pressed="false" title="Turn SIREN Radio on">♪ OFF</button><button type="button" class="rad st" data-siren-station="" aria-label="Next radio station" title="Next station (6 stations)">📻</button>
+<button type="button" id="sitebar-btn" aria-label="Refresh this page's data"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/></svg><span id="sitebar-lbl">Refresh</span></button>
+<script>(function(){
+if (window.sirenX) return;
+// Written for how X ranks posts: the hook goes first (the line people see
+// before "show more"), short lines with breaks, one hashtag at most (often
+// none), and an open question last, because replies are the strongest signal
+// the ranking uses. Hook x context x question x emoji x tag gives hundreds of
+// combinations per kind, and the last 30 drafts are skipped.
+var HOOKS = {
+  news: [
+    "{t}",
+    "{t} ({s})",
+    "Just in: {t}",
+    "New from {s}: {t}",
+    "This one matters: {t}",
+    "The AI story everyone's about to be talking about: {t}",
+    "Quietly huge: {t}",
+    "{s} has it: {t}",
+    "Today in AI: {t}"
+  ],
+  alert: [
+    "{t}",
+    "Happening now: {t}",
+    "Live alert: {t}",
+    "Heads up: {t}",
+    "{t} ({s})"
+  ],
+  reading: [
+    "The AI SIREN reads {L} right now: {S} out of 100.",
+    "How loud is AI today? SIREN {L}, {S}/100.",
+    "AI loudness check: level {L}, score {S}/100.",
+    "SIREN is at {L} ({S}/100). Counted from public data, not vibes.",
+    "Skynet meter, honest edition: SIREN {L}, {S}/100."
+  ],
+  page: [
+    "{t}",
+    "This is worth 30 seconds: {t}",
+    "Found this and can't stop looking at it: {t}",
+    "{t} 👇",
+    "Okay, this is good: {t}"
+  ]
+};
+var CONTEXT = {
+  news: ["SIREN {L} · {S}/100 at {time}.", "Logged {time}.", "Source: {s}.", "", ""],
+  alert: ["Source: {s} · {time}.", "Public feed, not a warning system. Follow local officials.", "Logged {time}.", ""],
+  reading: ["Updated every hour, receipts included.", "Measured {time}.", ""],
+  page: ["SIREN {L} · {S}/100 right now.", "", ""]
+};
+var ASK = {
+  news: ["Overhyped or a big deal?", "Who wins from this?", "Good news or bad news for the rest of us?", "What's your read?", "Would you trust it?", "Does this change your timeline?", "Are we ready for this?", ""],
+  alert: ["Anyone near this? Stay safe.", "Check on your people.", "Anyone seeing it where you are?", ""],
+  reading: ["Does that feel right to you?", "Louder or quieter than you'd guess?", "What would push it to 1?", "Where would you set it?"],
+  page: ["What's your take?", "Thoughts?", "Where do you land on this?", "Would you have guessed?", ""]
+};
+var EMOJI = { news: ["", "", "🤖 ", "🧠 ", "⚡ ", "📡 "], alert: ["🚨 ", "⚠️ ", ""], reading: ["📊 ", "🔔 ", ""], page: ["", "", "👀 ", "🤖 "] };
+var TAGS = ["", "", "", "#AI", "#AI", "#AGI", "#AISafety"];
+var ALERT_TAGS = ["", "", "", "#BreakingNews"];
+var KEY = "siren:x-recent", LAST = {};
+function recent(){ try { return JSON.parse(localStorage.getItem(KEY) || "[]"); } catch (e) { return []; } }
+function remember(t){ try { var l = recent(); l.unshift(hash(t)); localStorage.setItem(KEY, JSON.stringify(l.slice(0, 30))); } catch (e) {} }
+function hash(s){ var h = 0; for (var i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0; return String(h); }
+function live(){
+  var lv = "", sc = "";
+  var chip = typeof document !== "undefined" && document.querySelector && document.querySelector(".sh__lv");
+  var txt = chip ? (chip.textContent || "") : "";
+  var a = /SIREN\s*(\d)/i.exec(txt), b = /([\d]+\.\d)\s*$/.exec(txt.trim());
+  if (a) lv = a[1]; if (b) sc = b[1];
+  return { L: lv, S: sc };
+}
+function clip(s, n){ s = String(s || "").replace(/\s+/g, " ").trim(); return s.length > n ? s.slice(0, n - 1).replace(/\s+\S*$/, "") + "…" : s; }
+var ACR = { bbc: "BBC", ap: "AP", cnn: "CNN", nyt: "NYT", wsj: "WSJ", ft: "FT", npr: "NPR", mit: "MIT", hn: "Hacker News", nhc: "NHC", nws: "NWS", usgs: "USGS", gdacs: "GDACS", eonet: "NASA EONET", sec: "SEC", ai: "AI" };
+function prettySrc(s){
+  s = String(s || "").replace(/\s*\(.*\)\s*$/, "").trim();
+  if (!/^[a-z0-9-]+$/i.test(s) || /[A-Z]/.test(s.slice(1))) return ACR[s.toLowerCase()] || s;
+  return s.toLowerCase().split("-").map(function(w){ return ACR[w] || (w.charAt(0).toUpperCase() + w.slice(1)); }).join(" ");
+}
+function fill(tpl, v){ return tpl.replace(/\{(\w+)\}/g, function(_, k){ return v[k] == null ? "" : String(v[k]); }); }
+// o: { kind, title, src, now (ms), rand (fn), level, score, used (array of hashes) }
+function compose(o){
+  o = o || {};
+  var kind = HOOKS[o.kind] ? o.kind : "page";
+  var lvl = o.level || live();
+  var rnd = o.rand || Math.random;
+  var pick = function(a){ return a[Math.floor(rnd() * a.length)]; };
+  var d = new Date(o.now || Date.now());
+  var time = ("0" + d.getUTCHours()).slice(-2) + ":" + ("0" + d.getUTCMinutes()).slice(-2) + " UTC";
+  var used = o.used || recent();
+  var hasLv = !!(lvl.L && lvl.S);
+  var ok = function(t){ return hasLv || !/\{[LS]\}/.test(t); };
+  var pool = HOOKS[kind].filter(ok);
+  if (!pool.length) pool = kind === "reading" ? ["How loud is AI right now? The SIREN index counts it every hour."] : ["{t}"];
+  var srcName = prettySrc(o.src);
+  var v = { s: srcName || "the wire", time: time, L: lvl.L, S: lvl.S };
+  var best = "";
+  // X counts a link as 23 characters; 250 of text plus the link always fits.
+  for (var tries = 0; tries < 60; tries++) {
+    var tpl = pick(pool);
+    if (pool.length > 1 && tpl === LAST[kind] && tries < 40) continue;
+    var ctx = pick(CONTEXT[kind].filter(ok).concat([""]));
+    if (!srcName && /\{s\}/.test(ctx)) ctx = "";
+    var ask = pick(ASK[kind]);
+    var emo = pick(EMOJI[kind]);
+    var tag = pick(kind === "alert" ? ALERT_TAGS : TAGS);
+    var tail = [fill(ctx, v), ask].filter(Boolean);
+    var tailTxt = tail.length ? "\n\n" + tail.join("\n\n") : "";
+    if (tag) tailTxt += (tail.length ? " " : "\n\n") + tag;
+    var room = 250 - emo.length - fill(tpl, Object.assign({ t: "" }, v)).length - tailTxt.length;
+    var t = clip(o.title || "", Math.max(40, room));
+    var head = emo + fill(tpl, Object.assign({ t: t }, v)).replace(/\s+([.,])/g, "$1").replace(/\.\./g, ".");
+    var txt = head + tailTxt;
+    if (txt.length > 250) txt = clip(head, 250 - tailTxt.length) + tailTxt;
+    if (txt.length > 250) txt = clip(head, 250);
+    best = txt;
+    if (used.indexOf(hash(txt)) < 0) { LAST[kind] = tpl; break; }
+  }
+  return best;
+}
+function intent(text, url){
+  return "https://x.com/intent/post?text=" + encodeURIComponent(text) + (url ? "&url=" + encodeURIComponent(url) : "") + "&via=SIRENutf6";
+}
+window.sirenX = { compose: compose, intent: intent, hooks: HOOKS };
+if (typeof document === "undefined" || !document.addEventListener) return;
+document.addEventListener("click", function(e){
+  var el = e.target && e.target.closest ? e.target.closest('[data-xpost],a[href^="https://x.com/intent/post"],a[href^="https://twitter.com/intent/tweet"]') : null;
+  if (!el) return;
+  var kind, title, src, url;
+  if (el.hasAttribute("data-xpost")) {
+    kind = el.getAttribute("data-xpost") || "page";
+    title = el.getAttribute("data-x-title") || document.title;
+    src = el.getAttribute("data-x-src") || "";
+    url = el.getAttribute("data-x-url") || (document.querySelector('link[rel=canonical]') || {}).href || location.href.split("#")[0];
+  } else {
+    var u; try { u = new URL(el.href); } catch (err) { return; }
+    kind = el.getAttribute("data-x-kind") || "page";
+    title = u.searchParams.get("text") || document.title;
+    url = u.searchParams.get("url") || "";
+    src = "";
+  }
+  var text = compose({ kind: kind, title: title, src: src });
+  remember(text);
+  var href = intent(text, url);
+  if (el.tagName === "A") { el.href = href; el.target = "_blank"; el.rel = "noopener"; return; }
+  e.preventDefault();
+  window.open(href, "_blank", "noopener");
+}, true);
+})();</script>
+<script>
+(function(){
+  var bar = document.getElementById("sitebar"), at = +bar.dataset.at;
+  var tEl = document.getElementById("sitebar-at"), agoEl = document.getElementById("sitebar-ago"), btn = document.getElementById("sitebar-btn");
+  function ago(ms){ var m = Math.round((Date.now() - ms) / 60000); return m < 1 ? "just now" : m < 60 ? m + " min ago" : m < 2880 ? Math.round(m / 60) + " h ago" : Math.round(m / 1440) + " days ago"; }
+  var newsEl = document.getElementById("sitebar-news"), liveNews = +bar.dataset.news || 0;
+  function paint(){
+    var d = new Date(at);
+    tEl.dateTime = d.toISOString();
+    tEl.textContent = ago(at);
+    tEl.title = "SIREN score computed " + d.toLocaleString([], { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }) + ". The score updates hourly; news and alerts are live.";
+    if (newsEl) { newsEl.textContent = liveNews ? ago(liveNews) : "–"; }
+    // Amber when the hourly reading is overdue (GitHub sometimes runs late).
+    bar.classList.toggle("stale", Date.now() - at > 90 * 60000);
+  }
+  var fb = document.getElementById("sitebar-fb"); if (fb) fb.href += "?page=" + encodeURIComponent(location.href.split("#")[0]);
+  // Post this page on X: its own title and canonical address.
+  var xl = document.getElementById("sitebar-x");
+  if (xl) {
+    var can = document.querySelector('link[rel=canonical]'), u = (can && can.href) || location.href.split("#")[0];
+    var t = (document.querySelector('meta[property="og:title"]') || {}).content || document.title;
+    xl.href = "https://x.com/intent/post?text=" + encodeURIComponent(t) + "&url=" + encodeURIComponent(u) + "&via=SIRENutf6";
+  }
+  // THE INTRO. Plays silently in a corner, once per visit; never on the homepage (it already embeds the
+  // explainer), never on clips/videos/radio, skipped for reduced-motion.
+  (function intro(){
+    try {
+      var ik = "siren:intro:siren-supply-drop";
+      var path = location.pathname.replace(/\/+$/, "") || "/";
+      // Homepage already embeds the explainer with preload=none — no corner chip.
+      if (document.getElementById("v2-video") || document.querySelector("section.v2-video")) return;
+      if (path === "" || /\/(index\.html)?$/.test(path)) return;
+      if (/(elon|videos|radio)\.html$/.test(path) || sessionStorage.getItem(ik)) return;
+    } catch (e) { return; }
+    if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    var m = "/media/siren-supply-drop";
+    var box = document.createElement("div");
+    box.id = "siren-intro";
+    box.className = "chip";
+    box.setAttribute("role", "complementary");
+    box.setAttribute("aria-label", "Intro video");
+    box.innerHTML = '<div class="bar"><button type="button" data-a="play" aria-label="Play intro video">SUPPLY DROP ▶</button><button type="button" data-a="x" aria-label="Dismiss intro">✕</button></div>';
+    document.body.appendChild(box);
+    var close = function(){
+      try { sessionStorage.setItem("siren:intro:siren-supply-drop", "1"); } catch (e) {}
+      var v = box.querySelector("video");
+      if (v) try { v.pause(); } catch (e) {}
+      box.remove();
+    };
+    box.addEventListener("click", function(e){
+      var a = e.target.getAttribute && e.target.getAttribute("data-a");
+      if (a === "x") { close(); return; }
+      if (a !== "play" && a !== "snd") return;
+      if (a === "snd") {
+        var v0 = box.querySelector("video");
+        if (!v0) return;
+        v0.muted = !v0.muted;
+        e.target.textContent = v0.muted ? "🔊 Sound" : "🔇 Mute";
+        if (v0.paused) v0.play();
+        return;
+      }
+      if (box.querySelector("video")) return;
+      box.className = "playing";
+      box.innerHTML = '<video muted playsinline preload="metadata" poster="' + m + '-poster.jpg" controls><source src="' + m + '.webm" type="video/webm"><source src="' + m + '.mp4" type="video/mp4"></video>'
+        + '<div class="bar"><span>SUPPLY DROP</span><span><button type="button" data-a="snd" aria-label="Turn sound on">🔊 Sound</button><button type="button" data-a="x" aria-label="Close intro">✕</button></span></div>';
+      var v = box.querySelector("video");
+      v.addEventListener("ended", function(){ setTimeout(close, 1200); });
+      var p = v.play(); if (p && p.catch) p.catch(function(){});
+    });
+    // The owner's call: the page's intro plays by itself, silently, once per
+    // visit (the chip above stays as the fallback if the browser blocks it).
+    var pb = box.querySelector('[data-a="play"]'); if (pb) pb.click();
+  })();
+  // OUTSIDE LINKS OPEN IN A NEW TAB, so a visitor who follows a story, a clip
+  // or a market comes back to SIREN instead of losing it. Same-site links
+  // stay in the tab. Runs on links added later too (clicks are delegated).
+  document.addEventListener("click", function(e){
+    var a = e.target && e.target.closest ? e.target.closest("a[href]") : null;
+    if (!a || a.target || a.hasAttribute("download") || e.defaultPrevented) return;
+    var u; try { u = new URL(a.href, location.href); } catch (err) { return; }
+    if (!/^https?:$/.test(u.protocol) || u.host === location.host) return;
+    a.target = "_blank"; var r = (a.rel || "").split(/s+/); if (r.indexOf("noopener") < 0) r.push("noopener"); a.rel = r.join(" ").trim();
+  }, true);
+  window.addEventListener("site:data", function(e){ var t = +(e.detail && e.detail.at); if (t > 0) { at = t; paint(); } });
+  btn.addEventListener("click", function(){
+    if (typeof window.siteRefresh === "function") {
+      btn.setAttribute("aria-busy", "true");
+      Promise.resolve().then(window.siteRefresh).catch(function(){}).then(function(){ btn.removeAttribute("aria-busy"); });
+    } else {
+      var u = new URL(location.href); u.searchParams.set("r", Date.now().toString(36)); location.replace(u.toString());
+    }
+  });
+  // Sit above any bar the page pins to the bottom (a mobile tab bar, a cookie note).
+  function lift(){
+    var off = 12, seen = [];
+    [0.5, 0.1, 0.9].forEach(function(f){
+      document.elementsFromPoint(innerWidth * f, innerHeight - 3).forEach(function(el){
+        for (var n = el; n && n !== document.body; n = n.parentElement) {
+          if (n === bar || seen.indexOf(n) >= 0) break;
+          var ps = getComputedStyle(n).position;
+          if (ps === "fixed" || ps === "sticky") { seen.push(n); var r = n.getBoundingClientRect(); if (r.bottom >= innerHeight - 4 && r.height < innerHeight / 2) off = Math.max(off, innerHeight - r.top + 8); break; }
+        }
+      });
+    });
+    bar.style.bottom = off + "px";
+    // The guide button and the intro read this so they line up with the bar instead of stacking on it.
+    try { document.documentElement.style.setProperty("--sb-off", off + "px"); } catch (e) {}
+  }
+  // A page left open should hear about a newer newsroom or a newer reading
+  // within a minute. Same-origin JSON only. The button label changes; the
+  // page does not reload until the reader asks, because a reload mid-paragraph
+  // is worse than a minute of staleness.
+  var newsAt = +bar.dataset.news || 0;
+  var api = "";
+  function flag(label){
+    var lbl = document.getElementById("sitebar-lbl");
+    if (!lbl || btn.classList.contains("due")) return;
+    lbl.textContent = label;
+    btn.classList.add("due");
+    btn.setAttribute("aria-label", label + ". Refresh this page.");
+  }
+  function watch(){
+    if (document.hidden || !window.fetch) return;
+    fetch(api + "/api/fresh.json?m=" + Math.floor(Date.now() / 60000), { cache: "no-store" }).then(function(r){ return r.ok ? r.json() : null; }).then(function(j){
+      if (!j) return;
+      var ns = j.news && Date.parse(j.news);
+      var st = j.state && Date.parse(j.state);
+      if (ns && ns > liveNews) { liveNews = ns; paint(); }
+      if (newsAt > 0 && ns && ns > newsAt + 1500) flag("New stories");
+      else if (st && st > at + 1500) flag("New reading");
+    }).catch(function(){});
+  }
+  setInterval(watch, 60000); setTimeout(watch, 4000);
+  document.addEventListener("visibilitychange", function(){ if (!document.hidden) watch(); });
+  paint(); setInterval(paint, 60000);
+  lift(); addEventListener("resize", lift); addEventListener("load", lift); setTimeout(lift, 1500);
+
+  // Dispatch emergency mark: poll the orphan dispatch-data branch. Quiet when
+  // CLEAR. Dismiss lasts one session so a visitor can keep reading.
+  (function emergencyMark(){
+    var el = document.getElementById("site-em"), txt = document.getElementById("site-em-txt");
+    var go = document.getElementById("site-em-go"), x = document.getElementById("site-em-x");
+    if (!el || !txt) return;
+    var KEY = "siren:em-dismiss";
+    function hide(){ el.classList.remove("on"); el.hidden = true; }
+    // A thin strip under the header, in the page flow: it never floats over
+    // the reading, the footer bar or the score. Site-wide only for the most
+    // severe level; WATCH-level marks stay on the Dispatch page. Dismiss is
+    // remembered per alert, so the same one never comes back.
+    var onDispatch = /dispatch.html$/.test(location.pathname);
+    // Dispatch carries its own, fuller banner: never stack a second one there.
+    if (onDispatch) { hide(); return; }
+    function show(em){
+      var id = (em.primary && (em.primary.id || em.primary.event)) || em.as_of || "1";
+      try { if (localStorage.getItem(KEY) === id) return; } catch (e) {}
+      if (!onDispatch && Number(em.level || 2) > 2) return;
+      var label = em.label || "ALERT";
+      var head = (em.primary && (em.primary.event || em.primary.headline)) || "Active emergency trigger";
+      txt.textContent = "⚠ " + label + " · " + head;
+      var xp = document.getElementById("site-em-xp"); if (xp) { xp.setAttribute("data-x-title", label + ": " + ((em.primary && em.primary.headline) || head)); xp.setAttribute("data-x-src", ((em.primary && em.primary.system) || "dispatch").toUpperCase()); }
+      el.dataset.level = String(em.level || 2);
+      el.dataset.as = id;
+      var hdr = document.querySelector("header.sh, .sh") || document.querySelector("header");
+      if (hdr && el.previousElementSibling !== hdr && hdr.parentNode) hdr.parentNode.insertBefore(el, hdr.nextSibling);
+      el.classList.add("on"); el.hidden = false;
+    }
+    if (x) x.addEventListener("click", function(){
+      try { localStorage.setItem(KEY, el.dataset.as || "1"); } catch (e) {}
+      hide();
+    });
+    // Two sources, merged: the Dispatch snapshot (every few minutes, all
+    // systems) and USGS read straight from this browser every minute, so a
+    // great quake shows here within about a minute of USGS posting it.
+    var snapEm = null, liveEm = null;
+    function render(){
+      var em = snapEm && snapEm.active ? snapEm : null;
+      if (liveEm && (!em || Number(liveEm.level) < Number(em.level || 3) || (em.primary && em.primary.id !== liveEm.primary.id && liveEm.primary.t > (em.primary.t || 0) && Number(liveEm.level) <= Number(em.level || 3)))) em = liveEm;
+      if (!em) { hide(); return; }
+      show(em);
+    }
+    function poll(){
+      if (document.hidden) return;
+      var u = "https://raw.githubusercontent.com/messagegabrielhere-lgtm/doomcon/dispatch-data/emergency.json?m=" + Math.floor(Date.now() / 120000);
+      fetch(u, { cache: "no-store" }).then(function(r){ return r.ok ? r.json() : null; }).then(function(em){ snapEm = em; render(); }).catch(function(){});
+    }
+    function quakes(){
+      if (document.hidden) return;
+      fetch("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_day.geojson", { cache: "no-store" }).then(function(r){ return r.ok ? r.json() : null; }).then(function(j){
+        if (!j || !j.features) return;
+        var best = null;
+        j.features.forEach(function(f){
+          var p = f.properties || {}, m = +p.mag, age = (Date.now() - p.time) / 3600e3;
+          // M7+ within a day, M6.5+ within six hours.
+          if (!(m >= 7 && age <= 24) && !(m >= 6.5 && age <= 6)) return;
+          if (!best || m > best.m || (m === best.m && p.time > best.p.time)) best = { m: m, p: p, f: f };
+        });
+        if (!best) { liveEm = null; render(); return; }
+        var c = (best.f.geometry && best.f.geometry.coordinates) || [];
+        liveEm = { active: true, level: best.m >= 7 ? 1 : 2, label: best.m >= 7 ? "EMERGENCY" : "ALERT", count: 1,
+          primary: { id: "usgs:" + best.f.id, system: "usgs", event: "M" + best.m.toFixed(1) + " earthquake", severity: best.m >= 7 ? "Extreme" : "Severe", headline: best.p.title, area: best.p.place, lon: c[0], lat: c[1], t: best.p.time } };
+        render();
+      }).catch(function(){});
+    }
+    poll(); setInterval(poll, 120000);
+    quakes(); setInterval(quakes, 60000);
+    document.addEventListener("visibilitychange", function(){ if (!document.hidden) { poll(); quakes(); } });
+  })();
+})();
+</script>
+</div>
+<script src="/nav/site-nav.js" defer></script>
+<script src="/media/radio.js" defer></script>
+<script src="/media/guide.js" defer></script>
+<script data-goatcounter="https://messagegabriel.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

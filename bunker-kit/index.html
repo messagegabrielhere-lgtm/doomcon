@@ -1,0 +1,1376 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bunker Kit: 50 free tools and an emergency gear checklist · SIREN</title>
+<meta name="description" content="A checklist of 50 free online tools for research, privacy, design, coding and PDFs, plus six crates of emergency gear: water, food, power, radios, first…">
+<link rel="stylesheet" href="fonts/fonts.css">
+<style>
+:root{
+  --drab:#0b0c0e; --crate:#14171c; --soot:#0b0c0e;
+  --signal:#ffb020; --paper:#e8eaee; --dim:#9aa2ad; --rust:#ff5f56;
+  --stencil:"Inter Tight", "Helvetica Neue", Arial, sans-serif;
+  --body:"Inter Tight", system-ui, -apple-system, "Segoe UI", sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--drab);color:var(--paper);font:400 16px/1.55 var(--body)}
+a{color:var(--signal)}
+:focus-visible{outline:3px solid var(--signal);outline-offset:3px}
+
+/* Hero: the shelter sign */
+.sign{background:var(--signal);color:var(--soot);padding:clamp(28px,6vw,64px) 20px;border-bottom:10px solid transparent;border-image:repeating-linear-gradient(-45deg,#ffb020 0 12px,#0b0c0e 12px 24px) 10}
+.sign a{color:var(--soot);font-weight:700;text-decoration:underline;text-underline-offset:3px}
+.sign-inner{max-width:1040px;margin:0 auto;display:grid;grid-template-columns:auto 1fr;gap:clamp(18px,4vw,44px);align-items:center}
+.emblem{width:clamp(96px,18vw,180px);height:auto}
+.sign h1{font:800 clamp(3rem,10vw,6.5rem)/.95 var(--stencil);margin:0;letter-spacing:-.04em}
+.sign p{font-size:clamp(1rem,2.2vw,1.25rem);max-width:34ch;margin:.8em 0 0;font-weight:600}
+@media (max-width:560px){.sign-inner{grid-template-columns:1fr}}
+
+/* Readiness + controls */
+.controls{position:sticky;top:0;z-index:5;background:var(--soot);padding:14px 20px;border-bottom:1px solid #000}
+/* Phones: the readiness bar, search and crate row were ~175px pinned over a 844px screen; let them scroll away. */
+@media (max-width:560px){.controls{position:static;padding:12px 16px}}
+.controls-inner{max-width:1040px;margin:0 auto;display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center}
+.meter{flex:1 1 260px;min-width:220px}
+.meter-label{display:flex;justify-content:space-between;font-size:.9rem;color:var(--dim)}
+.meter-label strong{color:var(--paper);font-weight:600}
+.bar{height:12px;background:#000;margin-top:6px;border:1px solid #2a2f38}
+.bar span{display:block;height:100%;width:0;background:repeating-linear-gradient(-45deg,var(--signal) 0 10px,#0b0c0e 10px 20px);transition:width .35s ease}
+.search{flex:1 1 220px;background:#000;border:1px solid #2a2f38;color:var(--paper);padding:10px 12px;font:inherit}
+.search::placeholder{color:#7a828c}
+.crates{max-width:1040px;margin:12px auto 0;display:flex;gap:8px;overflow-x:auto;padding-bottom:4px}
+.crates button{flex:none;min-height:40px;background:transparent;color:var(--paper);border:1px solid #2a2f38;padding:6px 12px;font:600 .9rem var(--body);cursor:pointer}
+.crates button[aria-pressed="true"]{background:var(--signal);color:var(--soot);border-color:var(--signal)}
+
+/* Manifest */
+main{max-width:1040px;margin:0 auto;padding:28px 20px 60px}
+.crate{margin:0 0 44px}
+.crate h2{font:800 clamp(1.7rem,4.4vw,2.6rem)/1.05 var(--stencil);margin:0;color:var(--signal);letter-spacing:-.03em}
+.crate .why{color:var(--dim);margin:.4em 0 1em;max-width:62ch}
+.rows{border-top:2px solid var(--signal)}
+.row{display:grid;grid-template-columns:44px minmax(0,1fr);gap:4px 14px;padding:14px 4px;border-bottom:1px solid #2a2f38}
+.row:nth-child(even){background:var(--crate)}
+.row.packed .name{text-decoration:line-through;text-decoration-color:var(--signal);text-decoration-thickness:3px}
+.pack{grid-row:span 3;width:30px;height:30px;margin-top:2px;appearance:none;border:2px solid var(--dim);background:transparent;cursor:pointer;display:grid;place-content:center}
+.pack:checked{background:var(--signal);border-color:var(--signal)}
+.pack:checked::after{content:"";width:14px;height:8px;border:solid var(--soot);border-width:0 0 3px 3px;transform:rotate(-45deg) translate(1px,-2px)}
+.name{font:600 1.15rem/1.2 var(--body);margin:0;overflow-wrap:anywhere}
+.name a{color:var(--paper);text-decoration:none}
+.name a:hover{color:var(--signal);text-decoration:underline}
+.name small{font-weight:400;color:var(--dim);font-size:.85rem;margin-left:6px}
+.doom{margin:0;font-style:italic;max-width:62ch}
+.does{margin:0;color:var(--dim);font-size:.92rem}
+.stamp{display:inline-block;margin-top:6px;font:700 .78rem/1 "JetBrains Mono",ui-monospace,monospace;letter-spacing:.1em;text-transform:uppercase;padding:5px 8px;border:2px solid var(--rust);color:var(--rust);transform:rotate(-1.5deg)}
+.stamp.unk{border-color:var(--dim);color:var(--dim)}
+.empty{color:var(--dim);padding:30px 0}
+footer{max-width:1040px;margin:0 auto;padding:0 20px 40px;color:var(--dim);font-size:.9rem}
+@media (prefers-reduced-motion:reduce){.bar span{transition:none}}
+</style>
+<link rel="canonical" href="https://siren.watch/bunker-kit.html">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="SIREN">
+<meta property="og:title" content="Bunker Kit: 50 free tools and an emergency gear checklist · SIREN">
+<meta property="og:description" content="A checklist of 50 free online tools for research, privacy, design, coding and PDFs, plus six crates of emergency gear: water, food, power, radios, first…">
+<meta property="og:url" content="https://siren.watch/bunker-kit.html">
+<meta property="og:image" content="https://siren.watch/cards/state.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="alternate" type="text/markdown" href="/now.md" title="Current reading (markdown)">
+<link rel="alternate" type="text/plain" href="/llms.txt" title="llms.txt">
+<link rel="describedby" href="/openapi.json" type="application/json">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"ItemList","name":"Bunker Kit: 50 free tools and an emergency gear checklist · SIREN","url":"https://siren.watch/bunker-kit.html","numberOfItems":108,"itemListElement":[{"@type":"ListItem","position":1,"name":"Unpaywall","description":"Free research papers","url":"https://unpaywall.org"},{"@type":"ListItem","position":2,"name":"Open Library","description":"Borrow books online","url":"https://openlibrary.org"},{"@type":"ListItem","position":3,"name":"DOAJ","description":"Free academic journals","url":"https://doaj.org"},{"@type":"ListItem","position":4,"name":"Project Gutenberg","description":"70K+ free public-domain books","url":"https://gutenberg.org"},{"@type":"ListItem","position":5,"name":"OpenStax","description":"Free textbooks","url":"https://openstax.org"},{"@type":"ListItem","position":6,"name":"Open Culture","description":"Free online courses","url":"https://openculture.com"},{"@type":"ListItem","position":7,"name":"Internet Archive","description":"The internet's digital library","url":"https://archive.org"},{"@type":"ListItem","position":8,"name":"archive.today","description":"Snapshot any webpage","url":"https://archive.ph"},{"@type":"ListItem","position":9,"name":"Wolfram|Alpha","description":"Solve complex problems","url":"https://wolframalpha.com"},{"@type":"ListItem","position":10,"name":"Elicit","description":"AI research assistant","url":"https://elicit.com"},{"@type":"ListItem","position":11,"name":"Consensus","description":"Research-backed AI answers","url":"https://consensus.app"},{"@type":"ListItem","position":12,"name":"Connected Papers","description":"Map how research connects","url":"https://connectedpapers.com"},{"@type":"ListItem","position":13,"name":"Semantic Scholar","description":"Academic search engine","url":"https://semanticscholar.org"},{"@type":"ListItem","position":14,"name":"SciSpace","description":"Explain research papers simply","url":"https://scispace.com"},{"@type":"ListItem","position":15,"name":"Phind","description":"AI search for developers","url":"https://phind.com"},{"@type":"ListItem","position":16,"name":"Have I Been Pwned","description":"Check if your data leaked","url":"https://haveibeenpwned.com"},{"@type":"ListItem","position":17,"name":"VirusTotal","description":"Scan files and URLs for malware","url":"https://virustotal.com"},{"@type":"ListItem","position":18,"name":"Privnote","description":"Self-destructing notes","url":"https://privnote.com"},{"@type":"ListItem","position":19,"name":"Temp Mail","description":"Disposable email","url":"https://temp-mail.org"},{"@type":"ListItem","position":20,"name":"10 Minute Mail","description":"10-minute temporary email","url":"https://10minutemail.com"},{"@type":"ListItem","position":21,"name":"file.io","description":"Temporary file sharing","url":"https://file.io"},{"@type":"ListItem","position":22,"name":"TinEye","description":"Reverse image search","url":"https://tineye.com"},{"@type":"ListItem","position":23,"name":"Photopea","description":"Free Photoshop alternative","url":"https://photopea.com"},{"@type":"ListItem","position":24,"name":"Squoosh","description":"Compress images","url":"https://squoosh.app"},{"@type":"ListItem","position":25,"name":"remove.bg","description":"Remove image backgrounds","url":"https://remove.bg"},{"@type":"ListItem","position":26,"name":"Cleanup.pictures","description":"Remove objects from photos","url":"https://cleanup.pictures"},{"@type":"ListItem","position":27,"name":"Unscreen","description":"Remove video backgrounds","url":"https://unscreen.com"},{"@type":"ListItem","position":28,"name":"Carbon","description":"Beautiful code images","url":"https://carbon.now.sh"},{"@type":"ListItem","position":29,"name":"Ray.so","description":"Code screenshots","url":"https://ray.so"},{"@type":"ListItem","position":30,"name":"Shots","description":"Product mockups","url":"https://shots.so"},{"@type":"ListItem","position":31,"name":"Mediamodifier","description":"Online mockup generator","url":"https://mediamodifier.com"},{"@type":"ListItem","position":32,"name":"regex101","description":"Test and debug regex","url":"https://regex101.com"},{"@type":"ListItem","position":33,"name":"Code Beautify","description":"Format and clean code","url":"https://codebeautify.org"},{"@type":"ListItem","position":34,"name":"JSON Formatter","description":"Format and validate JSON","url":"https://jsonformatter.org"},{"@type":"ListItem","position":35,"name":"explainshell","description":"Explain terminal commands","url":"https://explainshell.com"},{"@type":"ListItem","position":36,"name":"Downdetector","description":"Real-time outage tracking","url":"https://downdetector.com"},{"@type":"ListItem","position":37,"name":"Fast.com","description":"Internet speed test","url":"https://fast.com"},{"@type":"ListItem","position":38,"name":"SimilarSites","description":"Find related websites","url":"https://similarsites.com"},{"@type":"ListItem","position":39,"name":"AlternativeTo","description":"Alternatives to any app","url":"https://alternativeto.net"},{"@type":"ListItem","position":40,"name":"Summarize.tech","description":"AI YouTube summaries","url":"https://summarize.tech"},{"@type":"ListItem","position":41,"name":"Raindrop.io","description":"Smart bookmark manager","url":"https://raindrop.io"},{"@type":"ListItem","position":42,"name":"Radio Garden","description":"Live radio from around the world","url":"https://radio.garden"},{"@type":"ListItem","position":43,"name":"Music-Map","description":"Find similar artists","url":"https://music-map.com"},{"@type":"ListItem","position":44,"name":"Tunefind","description":"Songs from movies and shows","url":"https://tunefind.com"},{"@type":"ListItem","position":45,"name":"musicForProgramming","description":"Focus music for coding","url":"https://musicforprogramming.net"},{"@type":"ListItem","position":46,"name":"myNoise","description":"Custom background sounds","url":"https://mynoise.net"},{"@type":"ListItem","position":47,"name":"Coffitivity","description":"Café ambience","url":"https://coffitivity.com"},{"@type":"ListItem","position":48,"name":"JustWatch","description":"Where to stream movies","url":"https://justwatch.com"},{"@type":"ListItem","position":49,"name":"Smallpdf","description":"All-in-one PDF tools","url":"https://smallpdf.com"},{"@type":"ListItem","position":50,"name":"iLovePDF","description":"Merge, split and convert PDFs","url":"https://ilovepdf.com"},{"@type":"ListItem","position":51,"name":"Hand-crank weather radio","description":"FosPower NOAA emergency radio with solar panel and hand crank","url":"https://www.amazon.com/dp/B07FKYHTWP?tag=buyusa0d-20"},{"@type":"ListItem","position":52,"name":"Offline voice translator","description":"Two-way translator device that also works without WiFi","url":"https://www.amazon.com/dp/B0HD5WJW31?tag=buyusa0d-20"},{"@type":"ListItem","position":53,"name":"LifeStraw water filter","description":"Personal water filter for hiking, travel and emergencies","url":"https://www.amazon.com/dp/B006QF3TW4?tag=buyusa0d-20"},{"@type":"ListItem","position":54,"name":"Solar power bank","description":"BLAVOR 20,000mAh solar power bank with wireless charging","url":"https://www.amazon.com/dp/B0D4Z7VJ43?tag=buyusa0d-20"},{"@type":"ListItem","position":55,"name":"Portable power station","description":"ALLWEI 300W, 256Wh LiFePO4 power station","url":"https://www.amazon.com/dp/B08CXN4TZR?tag=buyusa0d-20"},{"@type":"ListItem","position":56,"name":"Faraday bags","description":"Signal-blocking pouches for phones and car keys, 2 pack","url":"https://www.amazon.com/dp/B0BZCFXN8X?tag=buyusa0d-20"},{"@type":"ListItem","position":57,"name":"Paper road atlas","description":"Rand McNally 2027 Road Atlas","url":"https://www.amazon.com/dp/0528029487?tag=buyusa0d-20"},{"@type":"ListItem","position":58,"name":"Two-way radios","description":"Rechargeable FRS walkie talkies, 2 pack","url":"https://www.amazon.com/dp/B0DG87NKLM?tag=buyusa0d-20"},{"@type":"ListItem","position":59,"name":"Rechargeable headlamp","description":"Blukar LED rechargeable headlamp","url":"https://www.amazon.com/dp/B0BLVT2Y9N?tag=buyusa0d-20"},{"@type":"ListItem","position":60,"name":"All-weather notebooks","description":"Rite in the Rain weatherproof 3 x 5 notebooks, 3 pack","url":"https://www.amazon.com/dp/B0CWSB1N8F?tag=buyusa0d-20"},{"@type":"ListItem","position":61,"name":"First aid kit","description":"First Aid Only 298-piece family first aid kit","url":"https://www.amazon.com/dp/B000069EYA?tag=buyusa0d-20"},{"@type":"ListItem","position":62,"name":"Water storage containers","description":"Stackable 7-gallon jugs with spigots","url":"https://www.amazon.com/s?k=7+gallon+water+storage+container+BPA+free&tag=buyusa0d-20"},{"@type":"ListItem","position":63,"name":"Water purification tablets","description":"Chlorine dioxide tablets, treat a litre each","url":"https://www.amazon.com/s?k=water+purification+tablets+emergency&tag=buyusa0d-20"},{"@type":"ListItem","position":64,"name":"Sawyer Squeeze filter","description":"Reusable squeeze filter, rated to 100,000 gallons","url":"https://www.amazon.com/s?k=Sawyer+Squeeze+water+filtration+system&tag=buyusa0d-20"},{"@type":"ListItem","position":65,"name":"WaterBOB bathtub bladder","description":"Fills your tub with 100 gallons of sealed drinking water","url":"https://www.amazon.com/s?k=WaterBOB+bathtub+emergency+water+storage&tag=buyusa0d-20"},{"@type":"ListItem","position":66,"name":"Emergency food bars","description":"Coast Guard-approved ration bars, 5-year shelf life","url":"https://www.amazon.com/s?k=Datrex+emergency+food+ration+bars+3600&tag=buyusa0d-20"},{"@type":"ListItem","position":67,"name":"Freeze-dried food bucket","description":"Long-shelf-life meals in a sealed bucket","url":"https://www.amazon.com/s?k=freeze+dried+emergency+food+bucket+25+year&tag=buyusa0d-20"},{"@type":"ListItem","position":68,"name":"Manual can opener","description":"A can opener that needs no electricity","url":"https://www.amazon.com/s?k=manual+can+opener+heavy+duty&tag=buyusa0d-20"},{"@type":"ListItem","position":69,"name":"Portable butane stove","description":"Single-burner stove for indoors-safe cooking with ventilation","url":"https://www.amazon.com/s?k=portable+butane+camping+stove&tag=buyusa0d-20"},{"@type":"ListItem","position":70,"name":"Butane fuel canisters","description":"Spare fuel for the stove","url":"https://www.amazon.com/s?k=butane+fuel+canisters+8+oz+4+pack&tag=buyusa0d-20"},{"@type":"ListItem","position":71,"name":"Mylar bags and oxygen absorbers","description":"Seal rice and beans for long storage","url":"https://www.amazon.com/s?k=mylar+bags+oxygen+absorbers+food+storage&tag=buyusa0d-20"},{"@type":"ListItem","position":72,"name":"Folding solar panel","description":"100-watt folding panel for a power station","url":"https://www.amazon.com/s?k=100W+foldable+solar+panel+portable&tag=buyusa0d-20"},{"@type":"ListItem","position":73,"name":"Hand-crank flashlight","description":"Flashlight you can wind up, no batteries","url":"https://www.amazon.com/s?k=hand+crank+flashlight+rechargeable&tag=buyusa0d-20"},{"@type":"ListItem","position":74,"name":"LED camping lanterns","description":"Collapsible battery lanterns that light a room","url":"https://www.amazon.com/s?k=LED+camping+lantern+battery+4+pack&tag=buyusa0d-20"},{"@type":"ListItem","position":75,"name":"Rechargeable AA/AAA batteries","description":"NiMH cells and a charger","url":"https://www.amazon.com/s?k=rechargeable+AA+batteries+with+charger&tag=buyusa0d-20"},{"@type":"ListItem","position":76,"name":"Car jump starter","description":"Jump-starts a car and charges phones","url":"https://www.amazon.com/s?k=portable+car+jump+starter+power+bank&tag=buyusa0d-20"},{"@type":"ListItem","position":77,"name":"Emergency candles","description":"Long-burning candles in tins","url":"https://www.amazon.com/s?k=emergency+candles+long+burning&tag=buyusa0d-20"},{"@type":"ListItem","position":78,"name":"Surge protector","description":"Protect the electronics when power comes back","url":"https://www.amazon.com/s?k=surge+protector+power+strip+heavy+duty&tag=buyusa0d-20"},{"@type":"ListItem","position":79,"name":"Lensatic compass","description":"Waterproof sighting compass","url":"https://www.amazon.com/s?k=lensatic+military+compass&tag=buyusa0d-20"},{"@type":"ListItem","position":80,"name":"Emergency whistle","description":"Loud pea-less whistle, heard further than a voice","url":"https://www.amazon.com/s?k=emergency+survival+whistle+loud&tag=buyusa0d-20"},{"@type":"ListItem","position":81,"name":"Signal mirror","description":"Mirror for signalling aircraft and rescuers","url":"https://www.amazon.com/s?k=survival+signal+mirror&tag=buyusa0d-20"},{"@type":"ListItem","position":82,"name":"GMRS radios","description":"Longer-range family radios","url":"https://www.amazon.com/s?k=GMRS+two+way+radio+long+range&tag=buyusa0d-20"},{"@type":"ListItem","position":83,"name":"Shortwave receiver","description":"AM/FM/shortwave receiver for distant broadcasts","url":"https://www.amazon.com/s?k=portable+shortwave+radio+receiver&tag=buyusa0d-20"},{"@type":"ListItem","position":84,"name":"Waterproof phone pouch","description":"Keeps a phone dry and usable","url":"https://www.amazon.com/s?k=waterproof+phone+pouch&tag=buyusa0d-20"},{"@type":"ListItem","position":85,"name":"Tourniquet","description":"Combat Application Tourniquet; buy genuine, take a class","url":"https://www.amazon.com/s?k=CAT+tourniquet+genuine&tag=buyusa0d-20"},{"@type":"ListItem","position":86,"name":"Trauma kit","description":"Individual first aid kit for serious bleeding","url":"https://www.amazon.com/s?k=trauma+kit+IFAK+first+aid&tag=buyusa0d-20"},{"@type":"ListItem","position":87,"name":"N95 respirators","description":"NIOSH-approved respirators for smoke and dust","url":"https://www.amazon.com/s?k=N95+mask+NIOSH+approved&tag=buyusa0d-20"},{"@type":"ListItem","position":88,"name":"Emergency blankets","description":"Mylar blankets that reflect body heat","url":"https://www.amazon.com/s?k=mylar+emergency+blankets+10+pack&tag=buyusa0d-20"},{"@type":"ListItem","position":89,"name":"Pill organiser","description":"Keep a week of regular medication ready to grab","url":"https://www.amazon.com/s?k=weekly+pill+organizer+large&tag=buyusa0d-20"},{"@type":"ListItem","position":90,"name":"Burn gel and dressings","description":"Water-based gel and sterile dressings for burns","url":"https://www.amazon.com/s?k=burn+gel+dressing+first+aid&tag=buyusa0d-20"},{"@type":"ListItem","position":91,"name":"Hygiene kit","description":"Toothbrushes, soap, wipes in one pouch","url":"https://www.amazon.com/s?k=personal+hygiene+kit+travel&tag=buyusa0d-20"},{"@type":"ListItem","position":92,"name":"Portable toilet bags","description":"Waste bags with gelling powder","url":"https://www.amazon.com/s?k=emergency+toilet+bags+waste+kit&tag=buyusa0d-20"},{"@type":"ListItem","position":93,"name":"Multitool","description":"Pliers, knife, screwdrivers in one","url":"https://www.amazon.com/s?k=multitool+pliers+stainless&tag=buyusa0d-20"},{"@type":"ListItem","position":94,"name":"Fixed-blade knife","description":"Full-tang knife with a sheath","url":"https://www.amazon.com/s?k=fixed+blade+survival+knife&tag=buyusa0d-20"},{"@type":"ListItem","position":95,"name":"Paracord","description":"100 feet of 550-pound cord","url":"https://www.amazon.com/s?k=550+paracord+100+ft&tag=buyusa0d-20"},{"@type":"ListItem","position":96,"name":"Duct tape","description":"Heavy-duty tape","url":"https://www.amazon.com/s?k=duct+tape+heavy+duty&tag=buyusa0d-20"},{"@type":"ListItem","position":97,"name":"Heavy-duty tarp","description":"Waterproof tarp with grommets","url":"https://www.amazon.com/s?k=heavy+duty+waterproof+tarp&tag=buyusa0d-20"},{"@type":"ListItem","position":98,"name":"Emergency bivvy","description":"Thermal sleeping bag that packs to fist size","url":"https://www.amazon.com/s?k=emergency+bivvy+sack+thermal&tag=buyusa0d-20"},{"@type":"ListItem","position":99,"name":"Fire starter kit","description":"Ferro rod and waterproof matches","url":"https://www.amazon.com/s?k=ferro+rod+fire+starter&tag=buyusa0d-20"},{"@type":"ListItem","position":100,"name":"Work gloves","description":"Cut-resistant work gloves","url":"https://www.amazon.com/s?k=leather+work+gloves&tag=buyusa0d-20"},{"@type":"ListItem","position":101,"name":"Fire extinguisher","description":"ABC extinguisher for the kitchen","url":"https://www.amazon.com/s?k=home+fire+extinguisher+ABC&tag=buyusa0d-20"},{"@type":"ListItem","position":102,"name":"Utility shut-off wrench","description":"Turns off gas and water at the main","url":"https://www.amazon.com/s?k=gas+water+shut+off+wrench+4+in+1&tag=buyusa0d-20"},{"@type":"ListItem","position":103,"name":"72-hour go bag","description":"Pre-packed bag for three days away from home","url":"https://www.amazon.com/s?k=72+hour+emergency+survival+kit+backpack&tag=buyusa0d-20"},{"@type":"ListItem","position":104,"name":"Fireproof document bag","description":"Fire- and water-resistant pouch for papers","url":"https://www.amazon.com/s?k=fireproof+document+bag+waterproof&tag=buyusa0d-20"},{"@type":"ListItem","position":105,"name":"Encrypted USB drive","description":"Hardware-encrypted drive for scans of your documents","url":"https://www.amazon.com/s?k=encrypted+USB+flash+drive+hardware&tag=buyusa0d-20"},{"@type":"ListItem","position":106,"name":"Car emergency kit","description":"Jumper cables, flares, tools for the car","url":"https://www.amazon.com/s?k=car+emergency+roadside+kit&tag=buyusa0d-20"},{"@type":"ListItem","position":107,"name":"Spare reading glasses","description":"Cheap backups for the bag","url":"https://www.amazon.com/s?k=reading+glasses+multipack&tag=buyusa0d-20"},{"@type":"ListItem","position":108,"name":"Laminated family contact cards","description":"Write numbers down; phones die","url":"https://www.amazon.com/s?k=laminated+emergency+contact+cards&tag=buyusa0d-20"}]}</script>
+<link rel="stylesheet" href="/fonts/fonts.css">
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-93SEVYQXY3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-93SEVYQXY3');
+</script>
+</head>
+<body>
+<style data-siteheader-css>
+.sh{--sh-bg:#000;--sh-panel:#0E131D;--sh-line:#232C3B;--sh-btn:#2A3446;--sh-ink:#E6EAF0;--sh-mute:#AEB7C3;--sh-acc:#4F46E5;--sh-acc2:#818CF8;
+  position:relative;z-index:60;background:var(--sh-bg);border-bottom:2px solid var(--sh-line);color:var(--sh-ink);
+  font:600 12px/1.2 'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.04em;-webkit-text-size-adjust:100%}
+.sh *,.sh *::before,.sh *::after{box-sizing:border-box}
+.sh a{text-decoration:none;color:inherit}
+.sh__in{max-width:1240px;margin:0 auto;padding:0 16px;display:flex;align-items:center;gap:12px;min-height:60px}
+.sh__brand{display:inline-flex;align-items:center;gap:10px;flex:0 0 auto;min-height:44px}
+.sh__brand img{display:block;width:36px;height:36px}
+.sh__wm{display:flex;flex-direction:column;gap:4px;min-width:0}
+.sh__exp{display:block;font:500 9.5px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.03em;color:#AEB7C3;white-space:nowrap;text-transform:uppercase}
+.sh__exp b{color:#F87171;font-weight:700}
+@media (max-width:560px){.sh__exp{font-size:7.5px;letter-spacing:0;white-space:normal;max-width:100px;line-height:1.15}}
+.sh .v2-ptext{display:block;line-height:0}.sh .v2-px{display:block}
+.sh .v2-sr,.sh__sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.sh__lv{flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;min-height:30px;padding:4px 9px;border:1px solid var(--sh-lv);background:#03130A;color:var(--sh-lv);font-weight:700;font-size:12px;white-space:nowrap}
+.sh__lv i{width:8px;height:8px;border-radius:50%;background:var(--sh-lv);box-shadow:0 0 8px var(--sh-lv)}
+.sh__nav{flex:1 1 auto;min-width:0;display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
+.sh__nav::-webkit-scrollbar{display:none}
+.sh__nav a:first-child{margin-left:auto}
+.sh__nav a{flex:0 0 auto;display:inline-flex;align-items:center;min-height:44px;padding:0 9px;color:var(--sh-mute);border-bottom:2px solid transparent;margin-bottom:-2px;white-space:nowrap;text-transform:uppercase;font-size:11.5px}
+.sh__nav a:hover{color:#fff}
+.sh__nav a[aria-current=page]{color:#fff;border-bottom-color:var(--sh-acc2)}
+.sh__all{flex:0 0 auto;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 14px;border:0;background:var(--sh-acc);color:#fff;font:inherit;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
+.sh__all:hover{background:#4338CA}
+.sh__new{flex:0 0 auto;display:inline-flex;align-items:center;gap:4px;min-height:44px;padding:0 12px;border:2px solid #FACC15;background:transparent;color:#FACC15;font:inherit;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
+.sh__new:hover{background:#FACC15;color:#000}
+@media (max-width:560px){.sh__new{padding:0 10px}.sh__new span{display:none}}
+.sh-rooms__g.sh-rooms__g--new{color:#FACC15}
+.sh__srch{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;width:44px;min-height:44px;border:2px solid var(--sh-btn);background:transparent;color:var(--sh-ink);cursor:pointer}
+.sh__srch:hover{border-color:var(--sh-acc2);color:#fff}
+.sh-rooms__chips{flex:0 0 auto;display:flex;gap:6px;overflow-x:auto;padding:8px 12px;border-bottom:1px solid #232C3B;scrollbar-width:none}
+.sh-rooms__chips::-webkit-scrollbar{display:none}
+.sh-rooms__chips button{flex:0 0 auto;min-height:32px;padding:0 10px;border:1px solid #2A3446;background:#0E131D;color:#D7DCE3;font:600 11px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
+.sh-rooms__chips button:hover{border-color:#818CF8;color:#fff}
+.sh-rooms__g--rec{color:#FACC15}
+.sh-pn{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 18px}
+.sh-pn a{display:flex;flex-direction:column;gap:3px;min-height:56px;padding:10px 12px;border:2px solid #2A3446;background:#0E131D;color:#E6EAF0!important;text-decoration:none!important}
+.sh-pn a:hover{border-color:#6366F1;background:#161D33}
+.sh-pn small{color:#AEB7C3;font:600 11px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase}
+.sh-pn b{font-weight:650}
+.sh-pn a[data-sh-next]{text-align:right;grid-column:2}
+.sh__all svg{display:block}
+.sh__all kbd{font:inherit;font-size:10px;border:1px solid rgba(255,255,255,.55);padding:1px 5px}
+.sh a:focus-visible,.sh button:focus-visible,.sh-rooms a:focus-visible,.sh-rel a:focus-visible,.sh-rel button:focus-visible,.sh-top:focus-visible,video:focus-visible{outline:2px solid #E2A03B;outline-offset:2px}
+@media (max-width:1360px){.sh__lv b{display:none}.sh__all kbd{display:none}.sh__nav a{padding:0 7px}}
+@media (max-width:1180px){.sh__nav{mask-image:linear-gradient(90deg,#000 90%,transparent)}}
+@media (max-width:900px){.sh__nav{display:none}.sh__lv{margin-left:auto}}
+@media (max-width:560px){.sh__in{gap:6px;padding:0 10px;min-height:56px}.sh__brand svg{width:96px;height:auto}.sh__brand img{width:32px;height:32px}.sh__lv{padding:4px 7px;font-size:11px}.sh__all{padding:0 12px}.sh__all kbd,.sh__all span{display:none}.sh__lvw{display:none}.sh__srch{width:42px}}
+.sh__lvw{font-style:normal}
+@media (max-width:400px){.sh__srch{display:none}}
+@media (max-width:340px){.sh__brand svg{display:none}}
+.sh-rooms{width:min(720px,calc(100vw - 20px));max-height:min(82vh,760px);margin:7vh auto auto;padding:0;border:2px solid #2A3446;background:#0A0E16;color:#E6EAF0;box-shadow:0 30px 90px rgba(0,0,0,.7);font:500 14px/1.35 system-ui,-apple-system,'Segoe UI',sans-serif}
+.sh-rooms::backdrop{background:rgba(0,0,0,.72);backdrop-filter:blur(3px)}
+.sh-rooms__box{display:flex;flex-direction:column;max-height:min(82vh,760px)}
+.sh-rooms__top{display:flex;align-items:center;gap:8px;border-bottom:2px solid #232C3B}
+.sh-rooms__q{flex:1 1 auto;min-width:0;min-height:52px;padding:0 16px;border:0;background:transparent;color:#fff;font:500 17px/1.3 system-ui,sans-serif;outline:none}
+.sh-rooms__x{flex:0 0 auto;min-width:48px;min-height:48px;border:0;background:transparent;color:#AEB7C3;font:600 18px/1 system-ui,sans-serif;cursor:pointer}
+.sh-rooms__x:hover{color:#fff}
+.sh-rooms__l{list-style:none;margin:0;padding:6px 8px 10px;overflow-y:auto;flex:1 1 auto}
+.sh-rooms__g{padding:12px 8px 4px;color:#86EFAC;font:700 11px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.14em}
+.sh-rooms__i{display:flex;align-items:center;gap:12px;min-height:48px;padding:6px 8px;color:#E6EAF0;text-decoration:none;border-left:2px solid transparent}
+.sh-rooms__i img{flex:0 0 auto;width:34px;height:34px;display:block}
+.sh-rooms__i span{min-width:0;display:flex;flex-direction:column}
+.sh-rooms__i b{font-weight:650}
+.sh-rooms__i small{color:#AEB7C3;font-size:12.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sh-rooms__i:hover,.sh-rooms__i.on{background:#161D33;border-left-color:#818CF8}
+.sh-rooms__i[aria-current=page] b::after{content:' · you are here';color:#86EFAC;font-weight:500;font-size:12px}
+.sh-rooms__i--x b{color:#A5B4FC}
+.sh-rooms__i mark{background:rgba(250,204,21,.28);color:inherit}
+.sh-rooms__k{margin:0;padding:8px 16px;border-top:1px solid #232C3B;color:#AEB7C3;font:500 11px/1.3 'IBM Plex Mono',ui-monospace,monospace}
+@media (max-width:560px){.sh-rooms{margin:10px auto auto;max-height:calc(100vh - 20px)}.sh-rooms__box{max-height:calc(100vh - 20px)}.sh-rooms__k{display:none}}
+.sh-rel{max-width:1240px;margin:40px auto 0;padding:0 16px;color:#E6EAF0;font:500 14px/1.4 system-ui,-apple-system,'Segoe UI',sans-serif}
+.sh-rel *{box-sizing:border-box}
+.sh-crumb{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;margin:0 0 12px;padding:0;list-style:none;color:#AEB7C3;font:600 12px/1.3 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.06em;text-transform:uppercase}
+.sh-crumb li+li::before{content:'›';margin-right:8px;color:#5B6576}
+.sh-crumb a{color:#D7DCE3;text-decoration:none;display:inline-flex;align-items:center;min-height:44px}
+.sh-crumb a:hover{color:#fff;text-decoration:underline}
+.sh-crumb [aria-current]{color:#86EFAC}
+.sh-rel__h{margin:0 0 10px;color:#AEB7C3;font:700 11px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.14em;text-transform:uppercase}
+.sh-rel__g{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.sh-rel__a{display:flex;align-items:center;gap:12px;min-height:64px;padding:10px 12px;border:2px solid #2A3446;background:#0E131D;color:#E6EAF0!important;text-decoration:none!important}
+.sh-rel__a:hover{border-color:#6366F1;background:#161D33}
+.sh-rel__a img{flex:0 0 auto;width:40px;height:40px;display:block}
+.sh-rel__a span{min-width:0;display:flex;flex-direction:column;gap:2px}
+.sh-rel__a b{font:700 12px/1.2 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.06em;text-transform:uppercase}
+.sh-rel__a small{color:#AEB7C3;font-size:12.5px;line-height:1.35}
+.sh-rel__more{margin:12px 0 0;display:flex;flex-wrap:wrap;gap:8px 16px}
+.sh-rel__more a,.sh-rel__more button{all:unset;cursor:pointer;display:inline-flex;align-items:center;min-height:44px;color:#A5B4FC;font:600 12px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.06em;text-transform:uppercase}
+.sh-rel__more a:hover,.sh-rel__more button:hover{color:#fff}
+.sh-top{position:fixed;left:12px;bottom:12px;z-index:9997;display:none;align-items:center;justify-content:center;width:44px;height:44px;border:2px solid #2A3446;background:rgba(10,14,22,.94);color:#E6EAF0;font:700 18px/1 system-ui,sans-serif;cursor:pointer;box-shadow:0 4px 18px rgba(0,0,0,.4)}
+.sh-top.on{display:inline-flex}
+.sh-top:hover{border-color:#6366F1;color:#fff}
+@media (max-width:700px){#sitebar,.sh-top{transition:transform .25s ease,opacity .25s ease}html.sh-dn #sitebar,html.sh-dn .sh-top{transform:translateY(160%);opacity:0;pointer-events:none}}
+@media (prefers-reduced-motion:reduce){#sitebar,.sh-top{transition:none}}
+@media print{.sh,.sh-rel,.sh-top{display:none}}
+</style>
+<header class="sh" data-siteheader role="banner"><div class="sh__in">
+<a class="sh__brand" href="/" aria-label="AI SIREN Index: Superintelligence Real-time Early Notice. Home" title="SIREN = Superintelligence Real-time Early Notice"><img src="/img/art-siren.webp" width="36" height="36" alt=""><span class="sh__wm"><span class="v2-ptext "><span class="v2-sr">AI SIREN INDEX</span><svg class="v2-px" width="213" height="21" viewBox="0 0 71 7" shape-rendering="crispEdges" aria-hidden="true"><rect x="1" y="0" width="3" height="1" fill="#FFFFFF"/><rect x="6" y="0" width="3" height="1" fill="#FFFFFF"/><rect x="14" y="0" width="4" height="1" fill="#FFFFFF"/><rect x="19" y="0" width="3" height="1" fill="#FFFFFF"/><rect x="23" y="0" width="4" height="1" fill="#FFFFFF"/><rect x="29" y="0" width="5" height="1" fill="#FFFFFF"/><rect x="35" y="0" width="1" height="1" fill="#FFFFFF"/><rect x="39" y="0" width="1" height="1" fill="#FFFFFF"/><rect x="44" y="0" width="3" height="1" fill="#FFFFFF"/><rect x="48" y="0" width="1" height="1" fill="#FFFFFF"/><rect x="52" y="0" width="1" height="1" fill="#FFFFFF"/><rect x="54" y="0" width="4" height="1" fill="#FFFFFF"/><rect x="60" y="0" width="5" height="1" fill="#FFFFFF"/><rect x="66" y="0" width="1" height="1" fill="#FFFFFF"/><rect x="70" y="0" width="1" height="1" fill="#FFFFFF"/><rect x="0" y="1" width="1" height="1" fill="#FFFFFF"/><rect x="4" y="1" width="1" height="1" fill="#FFFFFF"/><rect x="7" y="1" width="1" height="1" fill="#FFFFFF"/><rect x="13" y="1" width="1" height="1" fill="#FFFFFF"/><rect x="20" y="1" width="1" height="1" fill="#FFFFFF"/><rect x="23" y="1" width="1" height="1" fill="#FFFFFF"/><rect x="27" y="1" width="1" height="1" fill="#FFFFFF"/><rect x="29" y="1" width="1" height="1" fill="#FFFFFF"/><rect x="35" y="1" width="2" height="1" fill="#FFFFFF"/><rect x="39" y="1" width="1" height="1" fill="#FFFFFF"/><rect x="45" y="1" width="1" height="1" fill="#FFFFFF"/><rect x="48" y="1" width="2" height="1" fill="#FFFFFF"/><rect x="52" y="1" width="1" height="1" fill="#FFFFFF"/><rect x="54" y="1" width="1" height="1" fill="#FFFFFF"/><rect x="58" y="1" width="1" height="1" fill="#FFFFFF"/><rect x="60" y="1" width="1" height="1" fill="#FFFFFF"/><rect x="66" y="1" width="1" height="1" fill="#FFFFFF"/><rect x="70" y="1" width="1" height="1" fill="#FFFFFF"/><rect x="0" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="4" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="7" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="13" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="20" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="23" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="27" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="29" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="35" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="37" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="39" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="45" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="48" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="50" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="52" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="54" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="58" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="60" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="67" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="69" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="0" y="3" width="5" height="1" fill="#FFFFFF"/><rect x="7" y="3" width="1" height="1" fill="#FFFFFF"/><rect x="14" y="3" width="3" height="1" fill="#FFFFFF"/><rect x="20" y="3" width="1" height="1" fill="#FFFFFF"/><rect x="23" y="3" width="4" height="1" fill="#FFFFFF"/><rect x="29" y="3" width="4" height="1" fill="#FFFFFF"/><rect x="35" y="3" width="1" height="1" fill="#FFFFFF"/><rect x="38" y="3" width="2" height="1" fill="#FFFFFF"/><rect x="45" y="3" width="1" height="1" fill="#FFFFFF"/><rect x="48" y="3" width="1" height="1" fill="#FFFFFF"/><rect x="51" y="3" width="2" height="1" fill="#FFFFFF"/><rect x="54" y="3" width="1" height="1" fill="#FFFFFF"/><rect x="58" y="3" width="1" height="1" fill="#FFFFFF"/><rect x="60" y="3" width="4" height="1" fill="#FFFFFF"/><rect x="68" y="3" width="1" height="1" fill="#FFFFFF"/><rect x="0" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="4" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="7" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="17" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="20" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="23" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="25" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="29" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="35" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="39" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="45" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="48" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="52" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="54" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="58" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="60" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="67" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="69" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="0" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="4" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="7" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="17" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="20" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="23" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="26" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="29" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="35" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="39" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="45" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="48" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="52" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="54" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="58" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="60" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="66" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="70" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="0" y="6" width="1" height="1" fill="#FFFFFF"/><rect x="4" y="6" width="1" height="1" fill="#FFFFFF"/><rect x="6" y="6" width="3" height="1" fill="#FFFFFF"/><rect x="13" y="6" width="4" height="1" fill="#FFFFFF"/><rect x="19" y="6" width="3" height="1" fill="#FFFFFF"/><rect x="23" y="6" width="1" height="1" fill="#FFFFFF"/><rect x="27" y="6" width="1" height="1" fill="#FFFFFF"/><rect x="29" y="6" width="5" height="1" fill="#FFFFFF"/><rect x="35" y="6" width="1" height="1" fill="#FFFFFF"/><rect x="39" y="6" width="1" height="1" fill="#FFFFFF"/><rect x="44" y="6" width="3" height="1" fill="#FFFFFF"/><rect x="48" y="6" width="1" height="1" fill="#FFFFFF"/><rect x="52" y="6" width="1" height="1" fill="#FFFFFF"/><rect x="54" y="6" width="4" height="1" fill="#FFFFFF"/><rect x="60" y="6" width="5" height="1" fill="#FFFFFF"/><rect x="66" y="6" width="1" height="1" fill="#FFFFFF"/><rect x="70" y="6" width="1" height="1" fill="#FFFFFF"/></svg></span><span class="sh__exp" aria-hidden="true"><b>S</b>uper<b>I</b>ntelligence <b>R</b>eal-time <b>E</b>arly <b>N</b>otice</span></span></a>
+<a class="sh__lv" href="/#signal" style="--sh-lv:#4ADE80" title="Current reading: SIREN 4 (ROUTINE), score 54.1 of 100"><i aria-hidden="true"></i><span><em class="sh__lvw">SIREN </em>4<b> · ROUTINE</b> · 54.1</span></a>
+<nav class="sh__nav" aria-label="Primary"><a href="/">Index</a><a href="/race.html">Race</a><a href="/news.html">News</a><a href="/leaders.html">Leaders</a><a href="/monitor.html">Monitor</a><a href="/dispatch.html">Dispatch</a><a href="/moltbook.html">Agent Watch</a><a href="/videos.html">Videos</a><a href="/radio.html">Radio</a></nav>
+<button type="button" class="sh__new" data-sh-rooms-group="NEW ON SIREN" aria-haspopup="dialog" aria-controls="sh-rooms" title="What’s new on SIREN">✦<span> New</span></button>
+<button type="button" class="sh__srch" data-sh-rooms data-sh-search aria-haspopup="dialog" aria-controls="sh-rooms" title="Search the site (/)"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><circle cx="7.5" cy="7.5" r="5.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M11.6 11.6 16 16" stroke="currentColor" stroke-width="2.2" stroke-linecap="square"/></svg><b class="sh__sr">Search the site</b></button>
+<button type="button" class="sh__all" data-sh-rooms aria-haspopup="dialog" aria-controls="sh-rooms"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 2h5v5H2zM9 2h5v5H9zM2 9h5v5H2zM9 9h5v5H9z" fill="currentColor"/></svg><span>All rooms</span><kbd>/</kbd><b class="sh__sr">Open the list of every room</b></button>
+</div></header>
+<script>(function(){var h=document.currentScript&&document.currentScript.previousElementSibling,b=document.body;if(!h||!b)return;var s=getComputedStyle(b),px=function(v){return parseFloat(v)||0};var t=px(s.paddingTop)+px(s.marginTop),l=px(s.paddingLeft)+px(s.marginLeft),r=px(s.paddingRight)+px(s.marginRight);if(t||l||r){h.style.margin='-'+t+'px -'+r+'px '+(t?Math.min(t,16):0)+'px -'+l+'px'}})();</script>
+<style>html:root,html:root[data-theme="dark"]{--bg:#000;--panel:#0E131D;--sunk:#0A0E16;--line:#232C3B;--ink:#F3F4F6;--mute:#AEB7C3;--accent:#4ADE80;--accent-ink:#03130A;--cmp:#818CF8;--zone:rgba(74,222,128,.12);color-scheme:dark}</style>
+
+<header class="sign">
+  <div class="sign-inner">
+    <img class="emblem" src="img/art-bunker.webp" width="180" height="180" alt="A bunker hatch">
+    <div>
+      <h1>Bunker Kit</h1>
+      <p>50 free tools to stockpile before Skynet takes the internet, and six supply-drop crates of real gear. Check off what you've packed. New to this? Start with the <a href="prepper-checklist.html">prepper checklist</a>.</p>
+    </div>
+  </div>
+</header>
+
+<div class="controls">
+  <div class="controls-inner">
+    <div class="meter" aria-live="polite">
+      <div class="meter-label"><span>Bunker readiness</span><strong id="count">0 packed</strong></div>
+      <div class="bar"><span id="fill"></span></div>
+    </div>
+    <input class="search" id="q" type="search" placeholder="Search the manifest" aria-label="Search tools">
+  </div>
+  <div class="crates" id="crates" role="toolbar" aria-label="Filter by crate"></div>
+</div>
+
+<main id="manifest"><section class="crate"><h2>Knowledge vault</h2><p class="why">Grab humanity's books and research while they're still free and still written by humans.</p><div class="rows"><div class="row">
+          <input type="checkbox" class="pack" data-d="unpaywall.org" aria-label="Pack Unpaywall">
+          <p class="name"><a href="https://unpaywall.org" target="_blank" rel="noopener">Unpaywall</a><small>unpaywall.org</small></p>
+          <p class="doom">Liberate the papers before the paywalls become firewalls.</p>
+          <p class="does">Free research papers</p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="openlibrary.org" aria-label="Pack Open Library">
+          <p class="name"><a href="https://openlibrary.org" target="_blank" rel="noopener">Open Library</a><small>openlibrary.org</small></p>
+          <p class="doom">A lending library the robots haven't foreclosed on. Yet.</p>
+          <p class="does">Borrow books online</p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="doaj.org" aria-label="Pack DOAJ">
+          <p class="name"><a href="https://doaj.org" target="_blank" rel="noopener">DOAJ</a><small>doaj.org</small></p>
+          <p class="doom">Peer review, from actual peers. Get it while it lasts.</p>
+          <p class="does">Free academic journals</p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="gutenberg.org" aria-label="Pack Project Gutenberg">
+          <p class="name"><a href="https://gutenberg.org" target="_blank" rel="noopener">Project Gutenberg</a><small>gutenberg.org</small></p>
+          <p class="doom">Every classic, pre-AI-slop. Certified human-written.</p>
+          <p class="does">70K+ free public-domain books</p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="openstax.org" aria-label="Pack OpenStax">
+          <p class="name"><a href="https://openstax.org" target="_blank" rel="noopener">OpenStax</a><small>openstax.org</small></p>
+          <p class="doom">Rebuilding civilization? Start with the chemistry book.</p>
+          <p class="does">Free textbooks</p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="openculture.com" aria-label="Pack Open Culture">
+          <p class="name"><a href="https://openculture.com" target="_blank" rel="noopener">Open Culture</a><small>openculture.com</small></p>
+          <p class="doom">Retrain before your job gets automated.</p>
+          <p class="does">Free online courses</p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="archive.org" aria-label="Pack Internet Archive">
+          <p class="name"><a href="https://archive.org" target="_blank" rel="noopener">Internet Archive</a><small>archive.org</small></p>
+          <p class="doom">The ark. If it's not in here, it may not survive.</p>
+          <p class="does">The internet's digital library</p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="archive.ph" aria-label="Pack archive.today">
+          <p class="name"><a href="https://archive.ph" target="_blank" rel="noopener">archive.today</a><small>archive.ph</small></p>
+          <p class="doom">Screenshot the evidence before it gets quietly edited.</p>
+          <p class="does">Snapshot any webpage<br><span class="stamp">Snapshots are public</span></p>
+        </div></div></section><section class="crate"><h2>Threat intel</h2><p class="why">Research tools for figuring out what the machines are actually up to.</p><div class="rows"><div class="row">
+          <input type="checkbox" class="pack" data-d="wolframalpha.com" aria-label="Pack Wolfram|Alpha">
+          <p class="name"><a href="https://wolframalpha.com" target="_blank" rel="noopener">Wolfram|Alpha</a><small>wolframalpha.com</small></p>
+          <p class="doom">Run the numbers on the end of the world yourself.</p>
+          <p class="does">Solve complex problems</p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="elicit.com" aria-label="Pack Elicit">
+          <p class="name"><a href="https://elicit.com" target="_blank" rel="noopener">Elicit</a><small>elicit.com</small></p>
+          <p class="doom">Use the machine to research the machine. Bold strategy.</p>
+          <p class="does">AI research assistant</p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="consensus.app" aria-label="Pack Consensus">
+          <p class="name"><a href="https://consensus.app" target="_blank" rel="noopener">Consensus</a><small>consensus.app</small></p>
+          <p class="doom">What the papers actually say, not what the doom posters say.</p>
+          <p class="does">Research-backed AI answers</p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="connectedpapers.com" aria-label="Pack Connected Papers">
+          <p class="name"><a href="https://connectedpapers.com" target="_blank" rel="noopener">Connected Papers</a><small>connectedpapers.com</small></p>
+          <p class="doom">Trace the conspiracy. Literally, it's a graph.</p>
+          <p class="does">Map how research connects</p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="semanticscholar.org" aria-label="Pack Semantic Scholar">
+          <p class="name"><a href="https://semanticscholar.org" target="_blank" rel="noopener">Semantic Scholar</a><small>semanticscholar.org</small></p>
+          <p class="doom">Find the paper that started it all.</p>
+          <p class="does">Academic search engine</p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="scispace.com" aria-label="Pack SciSpace">
+          <p class="name"><a href="https://scispace.com" target="_blank" rel="noopener">SciSpace</a><small>scispace.com</small></p>
+          <p class="doom">For when the alignment paper is 40 pages of math.</p>
+          <p class="does">Explain research papers simply</p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="phind.com" aria-label="Pack Phind">
+          <p class="name"><a href="https://phind.com" target="_blank" rel="noopener">Phind</a><small>phind.com</small></p>
+          <p class="doom">A coding oracle, if it's still answering.</p>
+          <p class="does">AI search for developers<br><span class="stamp unk">Signal unconfirmed</span></p>
+        </div></div></section><section class="crate"><h2>Go dark</h2><p class="why">Check what's already leaked and leave fewer tracks from here on.</p><div class="rows"><div class="row">
+          <input type="checkbox" class="pack" data-d="haveibeenpwned.com" aria-label="Pack Have I Been Pwned">
+          <p class="name"><a href="https://haveibeenpwned.com" target="_blank" rel="noopener">Have I Been Pwned</a><small>haveibeenpwned.com</small></p>
+          <p class="doom">Find out how much the machines already know about you.</p>
+          <p class="does">Check if your data leaked</p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="virustotal.com" aria-label="Pack VirusTotal">
+          <p class="name"><a href="https://virustotal.com" target="_blank" rel="noopener">VirusTotal</a><small>virustotal.com</small></p>
+          <p class="doom">Interrogate suspicious files before they interrogate you.</p>
+          <p class="does">Scan files and URLs for malware<br><span class="stamp">Uploads are shared with researchers. Don't upload private or work files.</span></p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="privnote.com" aria-label="Pack Privnote">
+          <p class="name"><a href="https://privnote.com" target="_blank" rel="noopener">Privnote</a><small>privnote.com</small></p>
+          <p class="doom">This message will self-destruct. Very spy. Very bunker.</p>
+          <p class="does">Self-destructing notes<br><span class="stamp">Phishing lookalikes exist. Check the exact URL.</span></p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="temp-mail.org" aria-label="Pack Temp Mail">
+          <p class="name"><a href="https://temp-mail.org" target="_blank" rel="noopener">Temp Mail</a><small>temp-mail.org</small></p>
+          <p class="doom">A burner inbox for sites that want too much.</p>
+          <p class="does">Disposable email<br><span class="stamp">Never use for accounts you need to keep</span></p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="10minutemail.com" aria-label="Pack 10 Minute Mail">
+          <p class="name"><a href="https://10minutemail.com" target="_blank" rel="noopener">10 Minute Mail</a><small>10minutemail.com</small></p>
+          <p class="doom">Ten minutes of anonymity. Use them wisely.</p>
+          <p class="does">10-minute temporary email</p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="file.io" aria-label="Pack file.io">
+          <p class="name"><a href="https://file.io" target="_blank" rel="noopener">file.io</a><small>file.io</small></p>
+          <p class="doom">Hand off the files and vanish.</p>
+          <p class="does">Temporary file sharing<br><span class="stamp unk">Signal unconfirmed</span></p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="tineye.com" aria-label="Pack TinEye">
+          <p class="name"><a href="https://tineye.com" target="_blank" rel="noopener">TinEye</a><small>tineye.com</small></p>
+          <p class="doom">Is that photo real, or did a model dream it up?</p>
+          <p class="does">Reverse image search</p>
+        </div></div></section><section class="crate"><h2>Propaganda workshop</h2><p class="why">Make the resistance look good. Image, video and mockup tools.</p><div class="rows"><div class="row">
+          <input type="checkbox" class="pack" data-d="photopea.com" aria-label="Pack Photopea">
+          <p class="name"><a href="https://photopea.com" target="_blank" rel="noopener">Photopea</a><small>photopea.com</small></p>
+          <p class="doom">Full editing suite. No subscription to the overlords.</p>
+          <p class="does">Free Photoshop alternative</p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="squoosh.app" aria-label="Pack Squoosh">
+          <p class="name"><a href="https://squoosh.app" target="_blank" rel="noopener">Squoosh</a><small>squoosh.app</small></p>
+          <p class="doom">Shrink files for when bandwidth gets rationed.</p>
+          <p class="does">Compress images</p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="remove.bg" aria-label="Pack remove.bg">
+          <p class="name"><a href="https://remove.bg" target="_blank" rel="noopener">remove.bg</a><small>remove.bg</small></p>
+          <p class="doom">Cut yourself out of the scene. Useful skill, generally.</p>
+          <p class="does">Remove image backgrounds</p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="cleanup.pictures" aria-label="Pack Cleanup.pictures">
+          <p class="name"><a href="https://cleanup.pictures" target="_blank" rel="noopener">Cleanup.pictures</a><small>cleanup.pictures</small></p>
+          <p class="doom">Erase the drone from your vacation photo.</p>
+          <p class="does">Remove objects from photos</p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="unscreen.com" aria-label="Pack Unscreen">
+          <p class="name"><a href="https://unscreen.com" target="_blank" rel="noopener">Unscreen</a><small>unscreen.com</small></p>
+          <p class="doom">Green screen without the green screen.</p>
+          <p class="does">Remove video backgrounds<br><span class="stamp unk">Signal unconfirmed</span></p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="carbon.now.sh" aria-label="Pack Carbon">
+          <p class="name"><a href="https://carbon.now.sh" target="_blank" rel="noopener">Carbon</a><small>carbon.now.sh</small></p>
+          <p class="doom">Make the kill-switch code look nice for the history books.</p>
+          <p class="does">Beautiful code images</p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="ray.so" aria-label="Pack Ray.so">
+          <p class="name"><a href="https://ray.so" target="_blank" rel="noopener">Ray.so</a><small>ray.so</small></p>
+          <p class="doom">Same mission, different gradient.</p>
+          <p class="does">Code screenshots</p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="shots.so" aria-label="Pack Shots">
+          <p class="name"><a href="https://shots.so" target="_blank" rel="noopener">Shots</a><small>shots.so</small></p>
+          <p class="doom">Put the resistance on a device mockup. Instant credibility.</p>
+          <p class="does">Product mockups</p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="mediamodifier.com" aria-label="Pack Mediamodifier">
+          <p class="name"><a href="https://mediamodifier.com" target="_blank" rel="noopener">Mediamodifier</a><small>mediamodifier.com</small></p>
+          <p class="doom">Posters, shirts, flyers for the bunker bulletin board.</p>
+          <p class="does">Online mockup generator</p>
+        </div></div></section><section class="crate"><h2>Engineer's bench</h2><p class="why">For whoever has to reprogram the robots.</p><div class="rows"><div class="row">
+          <input type="checkbox" class="pack" data-d="regex101.com" aria-label="Pack regex101">
+          <p class="name"><a href="https://regex101.com" target="_blank" rel="noopener">regex101</a><small>regex101.com</small></p>
+          <p class="doom">Pattern-match the threat.</p>
+          <p class="does">Test and debug regex</p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="codebeautify.org" aria-label="Pack Code Beautify">
+          <p class="name"><a href="https://codebeautify.org" target="_blank" rel="noopener">Code Beautify</a><small>codebeautify.org</small></p>
+          <p class="doom">Clean code survives the apocalypse. Spaghetti does not.</p>
+          <p class="does">Format and clean code</p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="jsonformatter.org" aria-label="Pack JSON Formatter">
+          <p class="name"><a href="https://jsonformatter.org" target="_blank" rel="noopener">JSON Formatter</a><small>jsonformatter.org</small></p>
+          <p class="doom">Read the machine's diary in a legible format.</p>
+          <p class="does">Format and validate JSON</p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="explainshell.com" aria-label="Pack explainshell">
+          <p class="name"><a href="https://explainshell.com" target="_blank" rel="noopener">explainshell</a><small>explainshell.com</small></p>
+          <p class="doom">Know exactly what that command does before you run it.</p>
+          <p class="does">Explain terminal commands</p>
+        </div></div></section><section class="crate"><h2>Signal monitoring</h2><p class="why">Know when the grid flickers, and where to go when an app dies.</p><div class="rows"><div class="row">
+          <input type="checkbox" class="pack" data-d="downdetector.com" aria-label="Pack Downdetector">
+          <p class="name"><a href="https://downdetector.com" target="_blank" rel="noopener">Downdetector</a><small>downdetector.com</small></p>
+          <p class="doom">Is it down for everyone, or is it starting?</p>
+          <p class="does">Real-time outage tracking</p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="fast.com" aria-label="Pack Fast.com">
+          <p class="name"><a href="https://fast.com" target="_blank" rel="noopener">Fast.com</a><small>fast.com</small></p>
+          <p class="doom">Check the pipe before the pipe checks you.</p>
+          <p class="does">Internet speed test</p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="similarsites.com" aria-label="Pack SimilarSites">
+          <p class="name"><a href="https://similarsites.com" target="_blank" rel="noopener">SimilarSites</a><small>similarsites.com</small></p>
+          <p class="doom">When a site goes dark, find its neighbors.</p>
+          <p class="does">Find related websites</p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="alternativeto.net" aria-label="Pack AlternativeTo">
+          <p class="name"><a href="https://alternativeto.net" target="_blank" rel="noopener">AlternativeTo</a><small>alternativeto.net</small></p>
+          <p class="doom">Every app has a backup. Know yours.</p>
+          <p class="does">Alternatives to any app</p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="summarize.tech" aria-label="Pack Summarize.tech">
+          <p class="name"><a href="https://summarize.tech" target="_blank" rel="noopener">Summarize.tech</a><small>summarize.tech</small></p>
+          <p class="doom">Two-hour doom podcast, two-minute briefing.</p>
+          <p class="does">AI YouTube summaries</p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="raindrop.io" aria-label="Pack Raindrop.io">
+          <p class="name"><a href="https://raindrop.io" target="_blank" rel="noopener">Raindrop.io</a><small>raindrop.io</small></p>
+          <p class="doom">Your evacuation list of links, organized.</p>
+          <p class="does">Smart bookmark manager</p>
+        </div></div></section><section class="crate"><h2>Morale</h2><p class="why">The apocalypse is long. Bring something to listen to.</p><div class="rows"><div class="row">
+          <input type="checkbox" class="pack" data-d="radio.garden" aria-label="Pack Radio Garden">
+          <p class="name"><a href="https://radio.garden" target="_blank" rel="noopener">Radio Garden</a><small>radio.garden</small></p>
+          <p class="doom">Spin the globe and hear who's still broadcasting.</p>
+          <p class="does">Live radio from around the world</p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="music-map.com" aria-label="Pack Music-Map">
+          <p class="name"><a href="https://music-map.com" target="_blank" rel="noopener">Music-Map</a><small>music-map.com</small></p>
+          <p class="doom">Build the bunker playlist.</p>
+          <p class="does">Find similar artists</p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="tunefind.com" aria-label="Pack Tunefind">
+          <p class="name"><a href="https://tunefind.com" target="_blank" rel="noopener">Tunefind</a><small>tunefind.com</small></p>
+          <p class="doom">Identify the track from the apocalypse movie you just watched.</p>
+          <p class="does">Songs from movies and shows</p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="musicforprogramming.net" aria-label="Pack musicForProgramming">
+          <p class="name"><a href="https://musicforprogramming.net" target="_blank" rel="noopener">musicForProgramming</a><small>musicforprogramming.net</small></p>
+          <p class="doom">Soundtrack for the all-night patch.</p>
+          <p class="does">Focus music for coding</p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="mynoise.net" aria-label="Pack myNoise">
+          <p class="name"><a href="https://mynoise.net" target="_blank" rel="noopener">myNoise</a><small>mynoise.net</small></p>
+          <p class="doom">Drown out the server fans.</p>
+          <p class="does">Custom background sounds</p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="coffitivity.com" aria-label="Pack Coffitivity">
+          <p class="name"><a href="https://coffitivity.com" target="_blank" rel="noopener">Coffitivity</a><small>coffitivity.com</small></p>
+          <p class="doom">Remember coffee shops? Now you can again.</p>
+          <p class="does">Café ambience</p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="justwatch.com" aria-label="Pack JustWatch">
+          <p class="name"><a href="https://justwatch.com" target="_blank" rel="noopener">JustWatch</a><small>justwatch.com</small></p>
+          <p class="doom">Find every AI-uprising movie for research purposes.</p>
+          <p class="does">Where to stream movies</p>
+        </div></div></section><section class="crate"><h2>Paperwork</h2><p class="why">Even after the end of the world, someone will ask for a signed PDF.</p><div class="rows"><div class="row">
+          <input type="checkbox" class="pack" data-d="smallpdf.com" aria-label="Pack Smallpdf">
+          <p class="name"><a href="https://smallpdf.com" target="_blank" rel="noopener">Smallpdf</a><small>smallpdf.com</small></p>
+          <p class="doom">Fill out the post-apocalyptic paperwork.</p>
+          <p class="does">All-in-one PDF tools</p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="ilovepdf.com" aria-label="Pack iLovePDF">
+          <p class="name"><a href="https://ilovepdf.com" target="_blank" rel="noopener">iLovePDF</a><small>ilovepdf.com</small></p>
+          <p class="doom">Bureaucracy will outlive us all.</p>
+          <p class="does">Merge, split and convert PDFs</p>
+        </div></div></section><section class="crate"><h2>Supply drop: water &amp; food</h2><p class="why">Two weeks of water and food is the first thing every emergency agency asks for. Paid Amazon links: as an Amazon Associate, SIREN earns from qualifying purchases.</p><div class="rows"><div class="row">
+          <input type="checkbox" class="pack" data-d="https://www.amazon.com/dp/B006QF3TW4?tag=buyusa0d-20" aria-label="Pack LifeStraw water filter">
+          <p class="name"><a href="https://www.amazon.com/dp/B006QF3TW4?tag=buyusa0d-20" target="_blank" rel="sponsored noopener">LifeStraw water filter</a><small>amazon.com</small></p>
+          <p class="doom">The cloud is down. The puddle is up.</p>
+          <p class="does">Personal water filter for hiking, travel and emergencies<br><span class="stamp">Paid link</span></p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="https://www.amazon.com/s?k=7+gallon+water+storage+container+BPA+free&amp;tag=buyusa0d-20" aria-label="Pack Water storage containers">
+          <p class="name"><a href="https://www.amazon.com/s?k=7+gallon+water+storage+container+BPA+free&amp;tag=buyusa0d-20" target="_blank" rel="sponsored noopener">Water storage containers</a><small>amazon.com</small></p>
+          <p class="doom">The cloud stores your photos. You store the water.</p>
+          <p class="does">Stackable 7-gallon jugs with spigots<br><span class="stamp">Paid link</span></p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="https://www.amazon.com/s?k=water+purification+tablets+emergency&amp;tag=buyusa0d-20" aria-label="Pack Water purification tablets">
+          <p class="name"><a href="https://www.amazon.com/s?k=water+purification+tablets+emergency&amp;tag=buyusa0d-20" target="_blank" rel="sponsored noopener">Water purification tablets</a><small>amazon.com</small></p>
+          <p class="doom">Tiny, light, and unimpressed by firmware updates.</p>
+          <p class="does">Chlorine dioxide tablets, treat a litre each<br><span class="stamp">Paid link</span></p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="https://www.amazon.com/s?k=Sawyer+Squeeze+water+filtration+system&amp;tag=buyusa0d-20" aria-label="Pack Sawyer Squeeze filter">
+          <p class="name"><a href="https://www.amazon.com/s?k=Sawyer+Squeeze+water+filtration+system&amp;tag=buyusa0d-20" target="_blank" rel="sponsored noopener">Sawyer Squeeze filter</a><small>amazon.com</small></p>
+          <p class="doom">Outlasts most startups.</p>
+          <p class="does">Reusable squeeze filter, rated to 100,000 gallons<br><span class="stamp">Paid link</span></p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="https://www.amazon.com/s?k=WaterBOB+bathtub+emergency+water+storage&amp;tag=buyusa0d-20" aria-label="Pack WaterBOB bathtub bladder">
+          <p class="name"><a href="https://www.amazon.com/s?k=WaterBOB+bathtub+emergency+water+storage&amp;tag=buyusa0d-20" target="_blank" rel="sponsored noopener">WaterBOB bathtub bladder</a><small>amazon.com</small></p>
+          <p class="doom">Fill it when the alert sounds, not after.</p>
+          <p class="does">Fills your tub with 100 gallons of sealed drinking water<br><span class="stamp">Paid link</span></p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="https://www.amazon.com/s?k=Datrex+emergency+food+ration+bars+3600&amp;tag=buyusa0d-20" aria-label="Pack Emergency food bars">
+          <p class="name"><a href="https://www.amazon.com/s?k=Datrex+emergency+food+ration+bars+3600&amp;tag=buyusa0d-20" target="_blank" rel="sponsored noopener">Emergency food bars</a><small>amazon.com</small></p>
+          <p class="doom">Tastes like a shortbread that has given up.</p>
+          <p class="does">Coast Guard-approved ration bars, 5-year shelf life<br><span class="stamp">Paid link</span></p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="https://www.amazon.com/s?k=freeze+dried+emergency+food+bucket+25+year&amp;tag=buyusa0d-20" aria-label="Pack Freeze-dried food bucket">
+          <p class="name"><a href="https://www.amazon.com/s?k=freeze+dried+emergency+food+bucket+25+year&amp;tag=buyusa0d-20" target="_blank" rel="sponsored noopener">Freeze-dried food bucket</a><small>amazon.com</small></p>
+          <p class="doom">Dinner, decades from now.</p>
+          <p class="does">Long-shelf-life meals in a sealed bucket<br><span class="stamp">Paid link</span></p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="https://www.amazon.com/s?k=manual+can+opener+heavy+duty&amp;tag=buyusa0d-20" aria-label="Pack Manual can opener">
+          <p class="name"><a href="https://www.amazon.com/s?k=manual+can+opener+heavy+duty&amp;tag=buyusa0d-20" target="_blank" rel="sponsored noopener">Manual can opener</a><small>amazon.com</small></p>
+          <p class="doom">The most important appliance nobody thinks about.</p>
+          <p class="does">A can opener that needs no electricity<br><span class="stamp">Paid link</span></p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="https://www.amazon.com/s?k=portable+butane+camping+stove&amp;tag=buyusa0d-20" aria-label="Pack Portable butane stove">
+          <p class="name"><a href="https://www.amazon.com/s?k=portable+butane+camping+stove&amp;tag=buyusa0d-20" target="_blank" rel="sponsored noopener">Portable butane stove</a><small>amazon.com</small></p>
+          <p class="doom">Hot food is a mood stabiliser.</p>
+          <p class="does">Single-burner stove for indoors-safe cooking with ventilation<br><span class="stamp">Use with ventilation · Paid link</span></p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="https://www.amazon.com/s?k=butane+fuel+canisters+8+oz+4+pack&amp;tag=buyusa0d-20" aria-label="Pack Butane fuel canisters">
+          <p class="name"><a href="https://www.amazon.com/s?k=butane+fuel+canisters+8+oz+4+pack&amp;tag=buyusa0d-20" target="_blank" rel="sponsored noopener">Butane fuel canisters</a><small>amazon.com</small></p>
+          <p class="doom">A stove with no fuel is a paperweight.</p>
+          <p class="does">Spare fuel for the stove<br><span class="stamp">Paid link</span></p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="https://www.amazon.com/s?k=mylar+bags+oxygen+absorbers+food+storage&amp;tag=buyusa0d-20" aria-label="Pack Mylar bags and oxygen absorbers">
+          <p class="name"><a href="https://www.amazon.com/s?k=mylar+bags+oxygen+absorbers+food+storage&amp;tag=buyusa0d-20" target="_blank" rel="sponsored noopener">Mylar bags and oxygen absorbers</a><small>amazon.com</small></p>
+          <p class="doom">Vacuum-sealed against the future.</p>
+          <p class="does">Seal rice and beans for long storage<br><span class="stamp">Paid link</span></p>
+        </div></div></section><section class="crate"><h2>Supply drop: power &amp; light</h2><p class="why">When the grid flickers, light and a charged phone are morale and safety. Paid Amazon links: as an Amazon Associate, SIREN earns from qualifying purchases.</p><div class="rows"><div class="row">
+          <input type="checkbox" class="pack" data-d="https://www.amazon.com/dp/B0D4Z7VJ43?tag=buyusa0d-20" aria-label="Pack Solar power bank">
+          <p class="name"><a href="https://www.amazon.com/dp/B0D4Z7VJ43?tag=buyusa0d-20" target="_blank" rel="sponsored noopener">Solar power bank</a><small>amazon.com</small></p>
+          <p class="doom">The sun has no terms of service.</p>
+          <p class="does">BLAVOR 20,000mAh solar power bank with wireless charging<br><span class="stamp">Paid link</span></p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="https://www.amazon.com/dp/B08CXN4TZR?tag=buyusa0d-20" aria-label="Pack Portable power station">
+          <p class="name"><a href="https://www.amazon.com/dp/B08CXN4TZR?tag=buyusa0d-20" target="_blank" rel="sponsored noopener">Portable power station</a><small>amazon.com</small></p>
+          <p class="doom">Keep one laptop alive. Choose which one carefully.</p>
+          <p class="does">ALLWEI 300W, 256Wh LiFePO4 power station<br><span class="stamp">Paid link</span></p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="https://www.amazon.com/dp/B0BLVT2Y9N?tag=buyusa0d-20" aria-label="Pack Rechargeable headlamp">
+          <p class="name"><a href="https://www.amazon.com/dp/B0BLVT2Y9N?tag=buyusa0d-20" target="_blank" rel="sponsored noopener">Rechargeable headlamp</a><small>amazon.com</small></p>
+          <p class="doom">For reading the manual after the grid flickers.</p>
+          <p class="does">Blukar LED rechargeable headlamp<br><span class="stamp">Paid link</span></p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="https://www.amazon.com/s?k=100W+foldable+solar+panel+portable&amp;tag=buyusa0d-20" aria-label="Pack Folding solar panel">
+          <p class="name"><a href="https://www.amazon.com/s?k=100W+foldable+solar+panel+portable&amp;tag=buyusa0d-20" target="_blank" rel="sponsored noopener">Folding solar panel</a><small>amazon.com</small></p>
+          <p class="doom">Free electricity, sun permitting.</p>
+          <p class="does">100-watt folding panel for a power station<br><span class="stamp">Paid link</span></p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="https://www.amazon.com/s?k=hand+crank+flashlight+rechargeable&amp;tag=buyusa0d-20" aria-label="Pack Hand-crank flashlight">
+          <p class="name"><a href="https://www.amazon.com/s?k=hand+crank+flashlight+rechargeable&amp;tag=buyusa0d-20" target="_blank" rel="sponsored noopener">Hand-crank flashlight</a><small>amazon.com</small></p>
+          <p class="doom">Arm-powered lumens.</p>
+          <p class="does">Flashlight you can wind up, no batteries<br><span class="stamp">Paid link</span></p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="https://www.amazon.com/s?k=LED+camping+lantern+battery+4+pack&amp;tag=buyusa0d-20" aria-label="Pack LED camping lanterns">
+          <p class="name"><a href="https://www.amazon.com/s?k=LED+camping+lantern+battery+4+pack&amp;tag=buyusa0d-20" target="_blank" rel="sponsored noopener">LED camping lanterns</a><small>amazon.com</small></p>
+          <p class="doom">A room you can read in beats a phone torch.</p>
+          <p class="does">Collapsible battery lanterns that light a room<br><span class="stamp">Paid link</span></p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="https://www.amazon.com/s?k=rechargeable+AA+batteries+with+charger&amp;tag=buyusa0d-20" aria-label="Pack Rechargeable AA/AAA batteries">
+          <p class="name"><a href="https://www.amazon.com/s?k=rechargeable+AA+batteries+with+charger&amp;tag=buyusa0d-20" target="_blank" rel="sponsored noopener">Rechargeable AA/AAA batteries</a><small>amazon.com</small></p>
+          <p class="doom">Everything still runs on AA.</p>
+          <p class="does">NiMH cells and a charger<br><span class="stamp">Paid link</span></p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="https://www.amazon.com/s?k=portable+car+jump+starter+power+bank&amp;tag=buyusa0d-20" aria-label="Pack Car jump starter">
+          <p class="name"><a href="https://www.amazon.com/s?k=portable+car+jump+starter+power+bank&amp;tag=buyusa0d-20" target="_blank" rel="sponsored noopener">Car jump starter</a><small>amazon.com</small></p>
+          <p class="doom">Two problems, one brick.</p>
+          <p class="does">Jump-starts a car and charges phones<br><span class="stamp">Paid link</span></p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="https://www.amazon.com/s?k=emergency+candles+long+burning&amp;tag=buyusa0d-20" aria-label="Pack Emergency candles">
+          <p class="name"><a href="https://www.amazon.com/s?k=emergency+candles+long+burning&amp;tag=buyusa0d-20" target="_blank" rel="sponsored noopener">Emergency candles</a><small>amazon.com</small></p>
+          <p class="doom">Analogue lighting, version 1.0.</p>
+          <p class="does">Long-burning candles in tins<br><span class="stamp">Never leave burning · Paid link</span></p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="https://www.amazon.com/s?k=surge+protector+power+strip+heavy+duty&amp;tag=buyusa0d-20" aria-label="Pack Surge protector">
+          <p class="name"><a href="https://www.amazon.com/s?k=surge+protector+power+strip+heavy+duty&amp;tag=buyusa0d-20" target="_blank" rel="sponsored noopener">Surge protector</a><small>amazon.com</small></p>
+          <p class="doom">The grid’s comeback tour can fry things.</p>
+          <p class="does">Protect the electronics when power comes back<br><span class="stamp">Paid link</span></p>
+        </div></div></section><section class="crate"><h2>Supply drop: comms &amp; navigation</h2><p class="why">Hear the warnings, reach your people, find your way without a signal. Paid Amazon links: as an Amazon Associate, SIREN earns from qualifying purchases.</p><div class="rows"><div class="row">
+          <input type="checkbox" class="pack" data-d="https://www.amazon.com/dp/B07FKYHTWP?tag=buyusa0d-20" aria-label="Pack Hand-crank weather radio">
+          <p class="name"><a href="https://www.amazon.com/dp/B07FKYHTWP?tag=buyusa0d-20" target="_blank" rel="sponsored noopener">Hand-crank weather radio</a><small>amazon.com</small></p>
+          <p class="doom">When the feeds go quiet, AM still works.</p>
+          <p class="does">FosPower NOAA emergency radio with solar panel and hand crank<br><span class="stamp">Paid link</span></p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="https://www.amazon.com/dp/B0HD5WJW31?tag=buyusa0d-20" aria-label="Pack Offline voice translator">
+          <p class="name"><a href="https://www.amazon.com/dp/B0HD5WJW31?tag=buyusa0d-20" target="_blank" rel="sponsored noopener">Offline voice translator</a><small>amazon.com</small></p>
+          <p class="doom">For negotiating with the neighbours once the translation apps are gone.</p>
+          <p class="does">Two-way translator device that also works without WiFi<br><span class="stamp">Paid link</span></p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="https://www.amazon.com/dp/0528029487?tag=buyusa0d-20" aria-label="Pack Paper road atlas">
+          <p class="name"><a href="https://www.amazon.com/dp/0528029487?tag=buyusa0d-20" target="_blank" rel="sponsored noopener">Paper road atlas</a><small>amazon.com</small></p>
+          <p class="doom">Maps that do not reroute you.</p>
+          <p class="does">Rand McNally 2027 Road Atlas<br><span class="stamp">Paid link</span></p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="https://www.amazon.com/dp/B0DG87NKLM?tag=buyusa0d-20" aria-label="Pack Two-way radios">
+          <p class="name"><a href="https://www.amazon.com/dp/B0DG87NKLM?tag=buyusa0d-20" target="_blank" rel="sponsored noopener">Two-way radios</a><small>amazon.com</small></p>
+          <p class="doom">Group chat, but with a range limit and no read receipts.</p>
+          <p class="does">Rechargeable FRS walkie talkies, 2 pack<br><span class="stamp">Paid link</span></p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="https://www.amazon.com/s?k=lensatic+military+compass&amp;tag=buyusa0d-20" aria-label="Pack Lensatic compass">
+          <p class="name"><a href="https://www.amazon.com/s?k=lensatic+military+compass&amp;tag=buyusa0d-20" target="_blank" rel="sponsored noopener">Lensatic compass</a><small>amazon.com</small></p>
+          <p class="doom">GPS for people who read maps.</p>
+          <p class="does">Waterproof sighting compass<br><span class="stamp">Paid link</span></p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="https://www.amazon.com/s?k=emergency+survival+whistle+loud&amp;tag=buyusa0d-20" aria-label="Pack Emergency whistle">
+          <p class="name"><a href="https://www.amazon.com/s?k=emergency+survival+whistle+loud&amp;tag=buyusa0d-20" target="_blank" rel="sponsored noopener">Emergency whistle</a><small>amazon.com</small></p>
+          <p class="doom">Low tech, high decibel.</p>
+          <p class="does">Loud pea-less whistle, heard further than a voice<br><span class="stamp">Paid link</span></p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="https://www.amazon.com/s?k=survival+signal+mirror&amp;tag=buyusa0d-20" aria-label="Pack Signal mirror">
+          <p class="name"><a href="https://www.amazon.com/s?k=survival+signal+mirror&amp;tag=buyusa0d-20" target="_blank" rel="sponsored noopener">Signal mirror</a><small>amazon.com</small></p>
+          <p class="doom">Reflects sunlight and poor decisions.</p>
+          <p class="does">Mirror for signalling aircraft and rescuers<br><span class="stamp">Paid link</span></p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="https://www.amazon.com/s?k=GMRS+two+way+radio+long+range&amp;tag=buyusa0d-20" aria-label="Pack GMRS radios">
+          <p class="name"><a href="https://www.amazon.com/s?k=GMRS+two+way+radio+long+range&amp;tag=buyusa0d-20" target="_blank" rel="sponsored noopener">GMRS radios</a><small>amazon.com</small></p>
+          <p class="doom">An FCC GMRS licence (no exam) covers your whole family.</p>
+          <p class="does">Longer-range family radios<br><span class="stamp">Licence needed to transmit · Paid link</span></p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="https://www.amazon.com/s?k=portable+shortwave+radio+receiver&amp;tag=buyusa0d-20" aria-label="Pack Shortwave receiver">
+          <p class="name"><a href="https://www.amazon.com/s?k=portable+shortwave+radio+receiver&amp;tag=buyusa0d-20" target="_blank" rel="sponsored noopener">Shortwave receiver</a><small>amazon.com</small></p>
+          <p class="doom">Hear the other side of the planet.</p>
+          <p class="does">AM/FM/shortwave receiver for distant broadcasts<br><span class="stamp">Paid link</span></p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="https://www.amazon.com/s?k=waterproof+phone+pouch&amp;tag=buyusa0d-20" aria-label="Pack Waterproof phone pouch">
+          <p class="name"><a href="https://www.amazon.com/s?k=waterproof+phone+pouch&amp;tag=buyusa0d-20" target="_blank" rel="sponsored noopener">Waterproof phone pouch</a><small>amazon.com</small></p>
+          <p class="doom">Water and phones do not negotiate.</p>
+          <p class="does">Keeps a phone dry and usable<br><span class="stamp">Paid link</span></p>
+        </div></div></section><section class="crate"><h2>Supply drop: medical &amp; hygiene</h2><p class="why">The unglamorous crate that matters most. Paid Amazon links: as an Amazon Associate, SIREN earns from qualifying purchases.</p><div class="rows"><div class="row">
+          <input type="checkbox" class="pack" data-d="https://www.amazon.com/dp/B000069EYA?tag=buyusa0d-20" aria-label="Pack First aid kit">
+          <p class="name"><a href="https://www.amazon.com/dp/B000069EYA?tag=buyusa0d-20" target="_blank" rel="sponsored noopener">First aid kit</a><small>amazon.com</small></p>
+          <p class="doom">The one item on this page that is not a joke.</p>
+          <p class="does">First Aid Only 298-piece family first aid kit<br><span class="stamp">Paid link</span></p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="https://www.amazon.com/s?k=CAT+tourniquet+genuine&amp;tag=buyusa0d-20" aria-label="Pack Tourniquet">
+          <p class="name"><a href="https://www.amazon.com/s?k=CAT+tourniquet+genuine&amp;tag=buyusa0d-20" target="_blank" rel="sponsored noopener">Tourniquet</a><small>amazon.com</small></p>
+          <p class="doom">Stop the Bleed training is free. Take it.</p>
+          <p class="does">Combat Application Tourniquet; buy genuine, take a class<br><span class="stamp">Get trained · Paid link</span></p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="https://www.amazon.com/s?k=trauma+kit+IFAK+first+aid&amp;tag=buyusa0d-20" aria-label="Pack Trauma kit">
+          <p class="name"><a href="https://www.amazon.com/s?k=trauma+kit+IFAK+first+aid&amp;tag=buyusa0d-20" target="_blank" rel="sponsored noopener">Trauma kit</a><small>amazon.com</small></p>
+          <p class="doom">For when the small first aid kit is too small.</p>
+          <p class="does">Individual first aid kit for serious bleeding<br><span class="stamp">Paid link</span></p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="https://www.amazon.com/s?k=N95+mask+NIOSH+approved&amp;tag=buyusa0d-20" aria-label="Pack N95 respirators">
+          <p class="name"><a href="https://www.amazon.com/s?k=N95+mask+NIOSH+approved&amp;tag=buyusa0d-20" target="_blank" rel="sponsored noopener">N95 respirators</a><small>amazon.com</small></p>
+          <p class="doom">Wildfire smoke does not care about the news cycle.</p>
+          <p class="does">NIOSH-approved respirators for smoke and dust<br><span class="stamp">Paid link</span></p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="https://www.amazon.com/s?k=mylar+emergency+blankets+10+pack&amp;tag=buyusa0d-20" aria-label="Pack Emergency blankets">
+          <p class="name"><a href="https://www.amazon.com/s?k=mylar+emergency+blankets+10+pack&amp;tag=buyusa0d-20" target="_blank" rel="sponsored noopener">Emergency blankets</a><small>amazon.com</small></p>
+          <p class="doom">Shiny, crinkly, life-saving.</p>
+          <p class="does">Mylar blankets that reflect body heat<br><span class="stamp">Paid link</span></p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="https://www.amazon.com/s?k=weekly+pill+organizer+large&amp;tag=buyusa0d-20" aria-label="Pack Pill organiser">
+          <p class="name"><a href="https://www.amazon.com/s?k=weekly+pill+organizer+large&amp;tag=buyusa0d-20" target="_blank" rel="sponsored noopener">Pill organiser</a><small>amazon.com</small></p>
+          <p class="doom">Ask your pharmacist about an emergency supply.</p>
+          <p class="does">Keep a week of regular medication ready to grab<br><span class="stamp">Paid link</span></p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="https://www.amazon.com/s?k=burn+gel+dressing+first+aid&amp;tag=buyusa0d-20" aria-label="Pack Burn gel and dressings">
+          <p class="name"><a href="https://www.amazon.com/s?k=burn+gel+dressing+first+aid&amp;tag=buyusa0d-20" target="_blank" rel="sponsored noopener">Burn gel and dressings</a><small>amazon.com</small></p>
+          <p class="doom">Stove plus panic equals burns.</p>
+          <p class="does">Water-based gel and sterile dressings for burns<br><span class="stamp">Paid link</span></p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="https://www.amazon.com/s?k=personal+hygiene+kit+travel&amp;tag=buyusa0d-20" aria-label="Pack Hygiene kit">
+          <p class="name"><a href="https://www.amazon.com/s?k=personal+hygiene+kit+travel&amp;tag=buyusa0d-20" target="_blank" rel="sponsored noopener">Hygiene kit</a><small>amazon.com</small></p>
+          <p class="doom">Morale is mostly brushed teeth.</p>
+          <p class="does">Toothbrushes, soap, wipes in one pouch<br><span class="stamp">Paid link</span></p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="https://www.amazon.com/s?k=emergency+toilet+bags+waste+kit&amp;tag=buyusa0d-20" aria-label="Pack Portable toilet bags">
+          <p class="name"><a href="https://www.amazon.com/s?k=emergency+toilet+bags+waste+kit&amp;tag=buyusa0d-20" target="_blank" rel="sponsored noopener">Portable toilet bags</a><small>amazon.com</small></p>
+          <p class="doom">Nobody talks about this until they need it.</p>
+          <p class="does">Waste bags with gelling powder<br><span class="stamp">Paid link</span></p>
+        </div></div></section><section class="crate"><h2>Supply drop: tools &amp; shelter</h2><p class="why">Fix it, cut it, tie it down, stay warm. Paid Amazon links: as an Amazon Associate, SIREN earns from qualifying purchases.</p><div class="rows"><div class="row">
+          <input type="checkbox" class="pack" data-d="https://www.amazon.com/s?k=multitool+pliers+stainless&amp;tag=buyusa0d-20" aria-label="Pack Multitool">
+          <p class="name"><a href="https://www.amazon.com/s?k=multitool+pliers+stainless&amp;tag=buyusa0d-20" target="_blank" rel="sponsored noopener">Multitool</a><small>amazon.com</small></p>
+          <p class="doom">A toolbox that fits a pocket.</p>
+          <p class="does">Pliers, knife, screwdrivers in one<br><span class="stamp">Paid link</span></p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="https://www.amazon.com/s?k=fixed+blade+survival+knife&amp;tag=buyusa0d-20" aria-label="Pack Fixed-blade knife">
+          <p class="name"><a href="https://www.amazon.com/s?k=fixed+blade+survival+knife&amp;tag=buyusa0d-20" target="_blank" rel="sponsored noopener">Fixed-blade knife</a><small>amazon.com</small></p>
+          <p class="doom">The original multitool.</p>
+          <p class="does">Full-tang knife with a sheath<br><span class="stamp">Check local laws · Paid link</span></p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="https://www.amazon.com/s?k=550+paracord+100+ft&amp;tag=buyusa0d-20" aria-label="Pack Paracord">
+          <p class="name"><a href="https://www.amazon.com/s?k=550+paracord+100+ft&amp;tag=buyusa0d-20" target="_blank" rel="sponsored noopener">Paracord</a><small>amazon.com</small></p>
+          <p class="doom">Ties down tarps, tempers and tents.</p>
+          <p class="does">100 feet of 550-pound cord<br><span class="stamp">Paid link</span></p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="https://www.amazon.com/s?k=duct+tape+heavy+duty&amp;tag=buyusa0d-20" aria-label="Pack Duct tape">
+          <p class="name"><a href="https://www.amazon.com/s?k=duct+tape+heavy+duty&amp;tag=buyusa0d-20" target="_blank" rel="sponsored noopener">Duct tape</a><small>amazon.com</small></p>
+          <p class="doom">If it can’t be fixed with this, it was AI-generated.</p>
+          <p class="does">Heavy-duty tape<br><span class="stamp">Paid link</span></p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="https://www.amazon.com/s?k=heavy+duty+waterproof+tarp&amp;tag=buyusa0d-20" aria-label="Pack Heavy-duty tarp">
+          <p class="name"><a href="https://www.amazon.com/s?k=heavy+duty+waterproof+tarp&amp;tag=buyusa0d-20" target="_blank" rel="sponsored noopener">Heavy-duty tarp</a><small>amazon.com</small></p>
+          <p class="doom">Instant roof, instant floor.</p>
+          <p class="does">Waterproof tarp with grommets<br><span class="stamp">Paid link</span></p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="https://www.amazon.com/s?k=emergency+bivvy+sack+thermal&amp;tag=buyusa0d-20" aria-label="Pack Emergency bivvy">
+          <p class="name"><a href="https://www.amazon.com/s?k=emergency+bivvy+sack+thermal&amp;tag=buyusa0d-20" target="_blank" rel="sponsored noopener">Emergency bivvy</a><small>amazon.com</small></p>
+          <p class="doom">Warmth in a pocket.</p>
+          <p class="does">Thermal sleeping bag that packs to fist size<br><span class="stamp">Paid link</span></p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="https://www.amazon.com/s?k=ferro+rod+fire+starter&amp;tag=buyusa0d-20" aria-label="Pack Fire starter kit">
+          <p class="name"><a href="https://www.amazon.com/s?k=ferro+rod+fire+starter&amp;tag=buyusa0d-20" target="_blank" rel="sponsored noopener">Fire starter kit</a><small>amazon.com</small></p>
+          <p class="doom">Fire, without asking an app.</p>
+          <p class="does">Ferro rod and waterproof matches<br><span class="stamp">Paid link</span></p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="https://www.amazon.com/s?k=leather+work+gloves&amp;tag=buyusa0d-20" aria-label="Pack Work gloves">
+          <p class="name"><a href="https://www.amazon.com/s?k=leather+work+gloves&amp;tag=buyusa0d-20" target="_blank" rel="sponsored noopener">Work gloves</a><small>amazon.com</small></p>
+          <p class="doom">Debris is sharp.</p>
+          <p class="does">Cut-resistant work gloves<br><span class="stamp">Paid link</span></p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="https://www.amazon.com/s?k=home+fire+extinguisher+ABC&amp;tag=buyusa0d-20" aria-label="Pack Fire extinguisher">
+          <p class="name"><a href="https://www.amazon.com/s?k=home+fire+extinguisher+ABC&amp;tag=buyusa0d-20" target="_blank" rel="sponsored noopener">Fire extinguisher</a><small>amazon.com</small></p>
+          <p class="doom">Cheap insurance on the wall.</p>
+          <p class="does">ABC extinguisher for the kitchen<br><span class="stamp">Paid link</span></p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="https://www.amazon.com/s?k=gas+water+shut+off+wrench+4+in+1&amp;tag=buyusa0d-20" aria-label="Pack Utility shut-off wrench">
+          <p class="name"><a href="https://www.amazon.com/s?k=gas+water+shut+off+wrench+4+in+1&amp;tag=buyusa0d-20" target="_blank" rel="sponsored noopener">Utility shut-off wrench</a><small>amazon.com</small></p>
+          <p class="doom">Know where your mains are before you need to.</p>
+          <p class="does">Turns off gas and water at the main<br><span class="stamp">Paid link</span></p>
+        </div></div></section><section class="crate"><h2>Supply drop: bags, documents &amp; security</h2><p class="why">Grab-and-go: the bag, the papers, the backups. Paid Amazon links: as an Amazon Associate, SIREN earns from qualifying purchases.</p><div class="rows"><div class="row">
+          <input type="checkbox" class="pack" data-d="https://www.amazon.com/dp/B0BZCFXN8X?tag=buyusa0d-20" aria-label="Pack Faraday bags">
+          <p class="name"><a href="https://www.amazon.com/dp/B0BZCFXN8X?tag=buyusa0d-20" target="_blank" rel="sponsored noopener">Faraday bags</a><small>amazon.com</small></p>
+          <p class="doom">Put the phone in the bag. Enjoy the silence.</p>
+          <p class="does">Signal-blocking pouches for phones and car keys, 2 pack<br><span class="stamp">Paid link</span></p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="https://www.amazon.com/dp/B0CWSB1N8F?tag=buyusa0d-20" aria-label="Pack All-weather notebooks">
+          <p class="name"><a href="https://www.amazon.com/dp/B0CWSB1N8F?tag=buyusa0d-20" target="_blank" rel="sponsored noopener">All-weather notebooks</a><small>amazon.com</small></p>
+          <p class="doom">Notes no model was trained on.</p>
+          <p class="does">Rite in the Rain weatherproof 3 x 5 notebooks, 3 pack<br><span class="stamp">Paid link</span></p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="https://www.amazon.com/s?k=72+hour+emergency+survival+kit+backpack&amp;tag=buyusa0d-20" aria-label="Pack 72-hour go bag">
+          <p class="name"><a href="https://www.amazon.com/s?k=72+hour+emergency+survival+kit+backpack&amp;tag=buyusa0d-20" target="_blank" rel="sponsored noopener">72-hour go bag</a><small>amazon.com</small></p>
+          <p class="doom">Grab it, go, sort it out later.</p>
+          <p class="does">Pre-packed bag for three days away from home<br><span class="stamp">Paid link</span></p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="https://www.amazon.com/s?k=fireproof+document+bag+waterproof&amp;tag=buyusa0d-20" aria-label="Pack Fireproof document bag">
+          <p class="name"><a href="https://www.amazon.com/s?k=fireproof+document+bag+waterproof&amp;tag=buyusa0d-20" target="_blank" rel="sponsored noopener">Fireproof document bag</a><small>amazon.com</small></p>
+          <p class="doom">Passports outlive houses when they are in this.</p>
+          <p class="does">Fire- and water-resistant pouch for papers<br><span class="stamp">Paid link</span></p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="https://www.amazon.com/s?k=encrypted+USB+flash+drive+hardware&amp;tag=buyusa0d-20" aria-label="Pack Encrypted USB drive">
+          <p class="name"><a href="https://www.amazon.com/s?k=encrypted+USB+flash+drive+hardware&amp;tag=buyusa0d-20" target="_blank" rel="sponsored noopener">Encrypted USB drive</a><small>amazon.com</small></p>
+          <p class="doom">Your documents, offline, locked.</p>
+          <p class="does">Hardware-encrypted drive for scans of your documents<br><span class="stamp">Paid link</span></p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="https://www.amazon.com/s?k=car+emergency+roadside+kit&amp;tag=buyusa0d-20" aria-label="Pack Car emergency kit">
+          <p class="name"><a href="https://www.amazon.com/s?k=car+emergency+roadside+kit&amp;tag=buyusa0d-20" target="_blank" rel="sponsored noopener">Car emergency kit</a><small>amazon.com</small></p>
+          <p class="doom">The car is half the plan.</p>
+          <p class="does">Jumper cables, flares, tools for the car<br><span class="stamp">Paid link</span></p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="https://www.amazon.com/s?k=reading+glasses+multipack&amp;tag=buyusa0d-20" aria-label="Pack Spare reading glasses">
+          <p class="name"><a href="https://www.amazon.com/s?k=reading+glasses+multipack&amp;tag=buyusa0d-20" target="_blank" rel="sponsored noopener">Spare reading glasses</a><small>amazon.com</small></p>
+          <p class="doom">Can’t read the manual without them.</p>
+          <p class="does">Cheap backups for the bag<br><span class="stamp">Paid link</span></p>
+        </div><div class="row">
+          <input type="checkbox" class="pack" data-d="https://www.amazon.com/s?k=laminated+emergency+contact+cards&amp;tag=buyusa0d-20" aria-label="Pack Laminated family contact cards">
+          <p class="name"><a href="https://www.amazon.com/s?k=laminated+emergency+contact+cards&amp;tag=buyusa0d-20" target="_blank" rel="sponsored noopener">Laminated family contact cards</a><small>amazon.com</small></p>
+          <p class="doom">Nobody remembers phone numbers anymore.</p>
+          <p class="does">Write numbers down; phones die<br><span class="stamp">Paid link</span></p>
+        </div></div></section></main>
+
+<footer>
+  <p>The 50 tools are free to start and run by third parties, not SIREN. Stamps mark real cautions; "signal unconfirmed" means the service has changed or may be offline. Verify before you rely on it.</p>
+  <p>The Supply drop crates are the exception: their links are paid Amazon links (some to a single product, some to an Amazon search for that kind of item). As an Amazon Associate, SIREN earns from qualifying purchases. Listing there is not a review; read the product page before you buy.</p>
+</footer>
+
+<script>
+const CRATES = [
+ {id:"vault", name:"Knowledge vault", why:"Grab humanity's books and research while they're still free and still written by humans."},
+ {id:"intel", name:"Threat intel", why:"Research tools for figuring out what the machines are actually up to."},
+ {id:"opsec", name:"Go dark", why:"Check what's already leaked and leave fewer tracks from here on."},
+ {id:"workshop", name:"Propaganda workshop", why:"Make the resistance look good. Image, video and mockup tools."},
+ {id:"bench", name:"Engineer's bench", why:"For whoever has to reprogram the robots."},
+ {id:"signal", name:"Signal monitoring", why:"Know when the grid flickers, and where to go when an app dies."},
+ {id:"morale", name:"Morale", why:"The apocalypse is long. Bring something to listen to."},
+ {id:"paper", name:"Paperwork", why:"Even after the end of the world, someone will ask for a signed PDF."},
+ {id:"s-water", name:"Supply drop: water & food", why:"Two weeks of water and food is the first thing every emergency agency asks for. Paid Amazon links: as an Amazon Associate, SIREN earns from qualifying purchases."},
+ {id:"s-power", name:"Supply drop: power & light", why:"When the grid flickers, light and a charged phone are morale and safety. Paid Amazon links: as an Amazon Associate, SIREN earns from qualifying purchases."},
+ {id:"s-comms", name:"Supply drop: comms & navigation", why:"Hear the warnings, reach your people, find your way without a signal. Paid Amazon links: as an Amazon Associate, SIREN earns from qualifying purchases."},
+ {id:"s-med", name:"Supply drop: medical & hygiene", why:"The unglamorous crate that matters most. Paid Amazon links: as an Amazon Associate, SIREN earns from qualifying purchases."},
+ {id:"s-tools", name:"Supply drop: tools & shelter", why:"Fix it, cut it, tie it down, stay warm. Paid Amazon links: as an Amazon Associate, SIREN earns from qualifying purchases."},
+ {id:"s-docs", name:"Supply drop: bags, documents & security", why:"Grab-and-go: the bag, the papers, the backups. Paid Amazon links: as an Amazon Associate, SIREN earns from qualifying purchases."},
+ {id:"upgrades", name:"Paid upgrades", why:"Paid services worth it for going dark and fighting the fakes. Some of these links may be affiliate links: SIREN may earn a commission, at no cost to you."}
+];
+
+const TAG = "buyusa0d-20";
+const amz = asin => "https://www.amazon.com/dp/" + asin + "?tag=" + TAG;
+// A tagged Amazon search for items picked by type rather than one listing.
+const azs = q => "https://www.amazon.com/s?k=" + encodeURIComponent(q).replace(/%20/g, "+") + "&tag=" + TAG;
+
+// Filled at build time from site/monetize.mjs (affiliates): [crate,name,dom,does,doom,warn,null,url|null]
+const UPGRADES = [["upgrades","Incogni","incogni.com","Asks data brokers to delete your personal data, on repeat","Get your data out of the training set while it still matters.","Paid service",null,null],["upgrades","DeleteMe","joindeleteme.com","Removes your listings from people-search sites","Unlist yourself from the internet’s phone book.","Paid service",null,null],["upgrades","Proton VPN","protonvpn.com","Swiss no-logs VPN with a free tier","Leave fewer tracks. Swiss neutrality, but for packets.","Paid service",null,null],["upgrades","Proton Mail","proton.me/mail","End-to-end encrypted email","Email nobody trains on.","Paid service",null,null],["upgrades","NordVPN","nordvpn.com","Fast VPN with threat protection","A tunnel the crawlers can’t see into.","Paid service",null,null],["upgrades","1Password","1password.com","Password manager with passkeys and breach alerts","One vault. Not one password.","Paid service",null,null],["upgrades","ElevenLabs","elevenlabs.io","AI voice generation and dubbing","Know your enemy: hear how good the fake voices are.","Paid service",null,null],["upgrades","Descript","descript.com","Edit video and podcasts by editing the transcript","For the resistance’s video channel.","Paid service",null,null]];
+const TOOLS = [
+ ["vault","Unpaywall","unpaywall.org","Free research papers","Liberate the papers before the paywalls become firewalls."],
+ ["vault","Open Library","openlibrary.org","Borrow books online","A lending library the robots haven't foreclosed on. Yet."],
+ ["vault","DOAJ","doaj.org","Free academic journals","Peer review, from actual peers. Get it while it lasts."],
+ ["vault","Project Gutenberg","gutenberg.org","70K+ free public-domain books","Every classic, pre-AI-slop. Certified human-written."],
+ ["vault","OpenStax","openstax.org","Free textbooks","Rebuilding civilization? Start with the chemistry book."],
+ ["vault","Open Culture","openculture.com","Free online courses","Retrain before your job gets automated."],
+ ["vault","Internet Archive","archive.org","The internet's digital library","The ark. If it's not in here, it may not survive."],
+ ["vault","archive.today","archive.ph","Snapshot any webpage","Screenshot the evidence before it gets quietly edited.","Snapshots are public"],
+ ["intel","Wolfram|Alpha","wolframalpha.com","Solve complex problems","Run the numbers on the end of the world yourself."],
+ ["intel","Elicit","elicit.com","AI research assistant","Use the machine to research the machine. Bold strategy."],
+ ["intel","Consensus","consensus.app","Research-backed AI answers","What the papers actually say, not what the doom posters say."],
+ ["intel","Connected Papers","connectedpapers.com","Map how research connects","Trace the conspiracy. Literally, it's a graph."],
+ ["intel","Semantic Scholar","semanticscholar.org","Academic search engine","Find the paper that started it all."],
+ ["intel","SciSpace","scispace.com","Explain research papers simply","For when the alignment paper is 40 pages of math."],
+ ["intel","Phind","phind.com","AI search for developers","A coding oracle, if it's still answering.",null,"Signal unconfirmed"],
+ ["opsec","Have I Been Pwned","haveibeenpwned.com","Check if your data leaked","Find out how much the machines already know about you."],
+ ["opsec","VirusTotal","virustotal.com","Scan files and URLs for malware","Interrogate suspicious files before they interrogate you.","Uploads are shared with researchers. Don't upload private or work files."],
+ ["opsec","Privnote","privnote.com","Self-destructing notes","This message will self-destruct. Very spy. Very bunker.","Phishing lookalikes exist. Check the exact URL."],
+ ["opsec","Temp Mail","temp-mail.org","Disposable email","A burner inbox for sites that want too much.","Never use for accounts you need to keep"],
+ ["opsec","10 Minute Mail","10minutemail.com","10-minute temporary email","Ten minutes of anonymity. Use them wisely."],
+ ["opsec","file.io","file.io","Temporary file sharing","Hand off the files and vanish.",null,"Signal unconfirmed"],
+ ["opsec","TinEye","tineye.com","Reverse image search","Is that photo real, or did a model dream it up?"],
+ ["workshop","Photopea","photopea.com","Free Photoshop alternative","Full editing suite. No subscription to the overlords."],
+ ["workshop","Squoosh","squoosh.app","Compress images","Shrink files for when bandwidth gets rationed."],
+ ["workshop","remove.bg","remove.bg","Remove image backgrounds","Cut yourself out of the scene. Useful skill, generally."],
+ ["workshop","Cleanup.pictures","cleanup.pictures","Remove objects from photos","Erase the drone from your vacation photo."],
+ ["workshop","Unscreen","unscreen.com","Remove video backgrounds","Green screen without the green screen.",null,"Signal unconfirmed"],
+ ["workshop","Carbon","carbon.now.sh","Beautiful code images","Make the kill-switch code look nice for the history books."],
+ ["workshop","Ray.so","ray.so","Code screenshots","Same mission, different gradient."],
+ ["workshop","Shots","shots.so","Product mockups","Put the resistance on a device mockup. Instant credibility."],
+ ["workshop","Mediamodifier","mediamodifier.com","Online mockup generator","Posters, shirts, flyers for the bunker bulletin board."],
+ ["bench","regex101","regex101.com","Test and debug regex","Pattern-match the threat."],
+ ["bench","Code Beautify","codebeautify.org","Format and clean code","Clean code survives the apocalypse. Spaghetti does not."],
+ ["bench","JSON Formatter","jsonformatter.org","Format and validate JSON","Read the machine's diary in a legible format."],
+ ["bench","explainshell","explainshell.com","Explain terminal commands","Know exactly what that command does before you run it."],
+ ["signal","Downdetector","downdetector.com","Real-time outage tracking","Is it down for everyone, or is it starting?"],
+ ["signal","Fast.com","fast.com","Internet speed test","Check the pipe before the pipe checks you."],
+ ["signal","SimilarSites","similarsites.com","Find related websites","When a site goes dark, find its neighbors."],
+ ["signal","AlternativeTo","alternativeto.net","Alternatives to any app","Every app has a backup. Know yours."],
+ ["signal","Summarize.tech","summarize.tech","AI YouTube summaries","Two-hour doom podcast, two-minute briefing."],
+ ["signal","Raindrop.io","raindrop.io","Smart bookmark manager","Your evacuation list of links, organized."],
+ ["morale","Radio Garden","radio.garden","Live radio from around the world","Spin the globe and hear who's still broadcasting."],
+ ["morale","Music-Map","music-map.com","Find similar artists","Build the bunker playlist."],
+ ["morale","Tunefind","tunefind.com","Songs from movies and shows","Identify the track from the apocalypse movie you just watched."],
+ ["morale","musicForProgramming","musicforprogramming.net","Focus music for coding","Soundtrack for the all-night patch."],
+ ["morale","myNoise","mynoise.net","Custom background sounds","Drown out the server fans."],
+ ["morale","Coffitivity","coffitivity.com","Café ambience","Remember coffee shops? Now you can again."],
+ ["morale","JustWatch","justwatch.com","Where to stream movies","Find every AI-uprising movie for research purposes."],
+ ["paper","Smallpdf","smallpdf.com","All-in-one PDF tools","Fill out the post-apocalyptic paperwork."],
+ ["paper","iLovePDF","ilovepdf.com","Merge, split and convert PDFs","Bureaucracy will outlive us all."],
+ ["s-comms","Hand-crank weather radio","amazon.com","FosPower NOAA emergency radio with solar panel and hand crank","When the feeds go quiet, AM still works.","Paid link",null,amz("B07FKYHTWP")],
+ ["s-comms","Offline voice translator","amazon.com","Two-way translator device that also works without WiFi","For negotiating with the neighbours once the translation apps are gone.","Paid link",null,amz("B0HD5WJW31")],
+ ["s-water","LifeStraw water filter","amazon.com","Personal water filter for hiking, travel and emergencies","The cloud is down. The puddle is up.","Paid link",null,amz("B006QF3TW4")],
+ ["s-power","Solar power bank","amazon.com","BLAVOR 20,000mAh solar power bank with wireless charging","The sun has no terms of service.","Paid link",null,amz("B0D4Z7VJ43")],
+ ["s-power","Portable power station","amazon.com","ALLWEI 300W, 256Wh LiFePO4 power station","Keep one laptop alive. Choose which one carefully.","Paid link",null,amz("B08CXN4TZR")],
+ ["s-docs","Faraday bags","amazon.com","Signal-blocking pouches for phones and car keys, 2 pack","Put the phone in the bag. Enjoy the silence.","Paid link",null,amz("B0BZCFXN8X")],
+ ["s-comms","Paper road atlas","amazon.com","Rand McNally 2027 Road Atlas","Maps that do not reroute you.","Paid link",null,amz("0528029487")],
+ ["s-comms","Two-way radios","amazon.com","Rechargeable FRS walkie talkies, 2 pack","Group chat, but with a range limit and no read receipts.","Paid link",null,amz("B0DG87NKLM")],
+ ["s-power","Rechargeable headlamp","amazon.com","Blukar LED rechargeable headlamp","For reading the manual after the grid flickers.","Paid link",null,amz("B0BLVT2Y9N")],
+ ["s-docs","All-weather notebooks","amazon.com","Rite in the Rain weatherproof 3 x 5 notebooks, 3 pack","Notes no model was trained on.","Paid link",null,amz("B0CWSB1N8F")],
+ ["s-med","First aid kit","amazon.com","First Aid Only 298-piece family first aid kit","The one item on this page that is not a joke.","Paid link",null,amz("B000069EYA")],
+ ["s-water","Water storage containers","amazon.com","Stackable 7-gallon jugs with spigots","The cloud stores your photos. You store the water.","Paid link",null,azs("7 gallon water storage container BPA free")],
+ ["s-water","Water purification tablets","amazon.com","Chlorine dioxide tablets, treat a litre each","Tiny, light, and unimpressed by firmware updates.","Paid link",null,azs("water purification tablets emergency")],
+ ["s-water","Sawyer Squeeze filter","amazon.com","Reusable squeeze filter, rated to 100,000 gallons","Outlasts most startups.","Paid link",null,azs("Sawyer Squeeze water filtration system")],
+ ["s-water","WaterBOB bathtub bladder","amazon.com","Fills your tub with 100 gallons of sealed drinking water","Fill it when the alert sounds, not after.","Paid link",null,azs("WaterBOB bathtub emergency water storage")],
+ ["s-water","Emergency food bars","amazon.com","Coast Guard-approved ration bars, 5-year shelf life","Tastes like a shortbread that has given up.","Paid link",null,azs("Datrex emergency food ration bars 3600")],
+ ["s-water","Freeze-dried food bucket","amazon.com","Long-shelf-life meals in a sealed bucket","Dinner, decades from now.","Paid link",null,azs("freeze dried emergency food bucket 25 year")],
+ ["s-water","Manual can opener","amazon.com","A can opener that needs no electricity","The most important appliance nobody thinks about.","Paid link",null,azs("manual can opener heavy duty")],
+ ["s-water","Portable butane stove","amazon.com","Single-burner stove for indoors-safe cooking with ventilation","Hot food is a mood stabiliser.","Use with ventilation · Paid link",null,azs("portable butane camping stove")],
+ ["s-water","Butane fuel canisters","amazon.com","Spare fuel for the stove","A stove with no fuel is a paperweight.","Paid link",null,azs("butane fuel canisters 8 oz 4 pack")],
+ ["s-water","Mylar bags and oxygen absorbers","amazon.com","Seal rice and beans for long storage","Vacuum-sealed against the future.","Paid link",null,azs("mylar bags oxygen absorbers food storage")],
+ ["s-power","Folding solar panel","amazon.com","100-watt folding panel for a power station","Free electricity, sun permitting.","Paid link",null,azs("100W foldable solar panel portable")],
+ ["s-power","Hand-crank flashlight","amazon.com","Flashlight you can wind up, no batteries","Arm-powered lumens.","Paid link",null,azs("hand crank flashlight rechargeable")],
+ ["s-power","LED camping lanterns","amazon.com","Collapsible battery lanterns that light a room","A room you can read in beats a phone torch.","Paid link",null,azs("LED camping lantern battery 4 pack")],
+ ["s-power","Rechargeable AA/AAA batteries","amazon.com","NiMH cells and a charger","Everything still runs on AA.","Paid link",null,azs("rechargeable AA batteries with charger")],
+ ["s-power","Car jump starter","amazon.com","Jump-starts a car and charges phones","Two problems, one brick.","Paid link",null,azs("portable car jump starter power bank")],
+ ["s-power","Emergency candles","amazon.com","Long-burning candles in tins","Analogue lighting, version 1.0.","Never leave burning · Paid link",null,azs("emergency candles long burning")],
+ ["s-power","Surge protector","amazon.com","Protect the electronics when power comes back","The grid’s comeback tour can fry things.","Paid link",null,azs("surge protector power strip heavy duty")],
+ ["s-comms","Lensatic compass","amazon.com","Waterproof sighting compass","GPS for people who read maps.","Paid link",null,azs("lensatic military compass")],
+ ["s-comms","Emergency whistle","amazon.com","Loud pea-less whistle, heard further than a voice","Low tech, high decibel.","Paid link",null,azs("emergency survival whistle loud")],
+ ["s-comms","Signal mirror","amazon.com","Mirror for signalling aircraft and rescuers","Reflects sunlight and poor decisions.","Paid link",null,azs("survival signal mirror")],
+ ["s-comms","GMRS radios","amazon.com","Longer-range family radios","An FCC GMRS licence (no exam) covers your whole family.","Licence needed to transmit · Paid link",null,azs("GMRS two way radio long range")],
+ ["s-comms","Shortwave receiver","amazon.com","AM/FM/shortwave receiver for distant broadcasts","Hear the other side of the planet.","Paid link",null,azs("portable shortwave radio receiver")],
+ ["s-comms","Waterproof phone pouch","amazon.com","Keeps a phone dry and usable","Water and phones do not negotiate.","Paid link",null,azs("waterproof phone pouch")],
+ ["s-med","Tourniquet","amazon.com","Combat Application Tourniquet; buy genuine, take a class","Stop the Bleed training is free. Take it.","Get trained · Paid link",null,azs("CAT tourniquet genuine")],
+ ["s-med","Trauma kit","amazon.com","Individual first aid kit for serious bleeding","For when the small first aid kit is too small.","Paid link",null,azs("trauma kit IFAK first aid")],
+ ["s-med","N95 respirators","amazon.com","NIOSH-approved respirators for smoke and dust","Wildfire smoke does not care about the news cycle.","Paid link",null,azs("N95 mask NIOSH approved")],
+ ["s-med","Emergency blankets","amazon.com","Mylar blankets that reflect body heat","Shiny, crinkly, life-saving.","Paid link",null,azs("mylar emergency blankets 10 pack")],
+ ["s-med","Pill organiser","amazon.com","Keep a week of regular medication ready to grab","Ask your pharmacist about an emergency supply.","Paid link",null,azs("weekly pill organizer large")],
+ ["s-med","Burn gel and dressings","amazon.com","Water-based gel and sterile dressings for burns","Stove plus panic equals burns.","Paid link",null,azs("burn gel dressing first aid")],
+ ["s-med","Hygiene kit","amazon.com","Toothbrushes, soap, wipes in one pouch","Morale is mostly brushed teeth.","Paid link",null,azs("personal hygiene kit travel")],
+ ["s-med","Portable toilet bags","amazon.com","Waste bags with gelling powder","Nobody talks about this until they need it.","Paid link",null,azs("emergency toilet bags waste kit")],
+ ["s-tools","Multitool","amazon.com","Pliers, knife, screwdrivers in one","A toolbox that fits a pocket.","Paid link",null,azs("multitool pliers stainless")],
+ ["s-tools","Fixed-blade knife","amazon.com","Full-tang knife with a sheath","The original multitool.","Check local laws · Paid link",null,azs("fixed blade survival knife")],
+ ["s-tools","Paracord","amazon.com","100 feet of 550-pound cord","Ties down tarps, tempers and tents.","Paid link",null,azs("550 paracord 100 ft")],
+ ["s-tools","Duct tape","amazon.com","Heavy-duty tape","If it can’t be fixed with this, it was AI-generated.","Paid link",null,azs("duct tape heavy duty")],
+ ["s-tools","Heavy-duty tarp","amazon.com","Waterproof tarp with grommets","Instant roof, instant floor.","Paid link",null,azs("heavy duty waterproof tarp")],
+ ["s-tools","Emergency bivvy","amazon.com","Thermal sleeping bag that packs to fist size","Warmth in a pocket.","Paid link",null,azs("emergency bivvy sack thermal")],
+ ["s-tools","Fire starter kit","amazon.com","Ferro rod and waterproof matches","Fire, without asking an app.","Paid link",null,azs("ferro rod fire starter")],
+ ["s-tools","Work gloves","amazon.com","Cut-resistant work gloves","Debris is sharp.","Paid link",null,azs("leather work gloves")],
+ ["s-tools","Fire extinguisher","amazon.com","ABC extinguisher for the kitchen","Cheap insurance on the wall.","Paid link",null,azs("home fire extinguisher ABC")],
+ ["s-tools","Utility shut-off wrench","amazon.com","Turns off gas and water at the main","Know where your mains are before you need to.","Paid link",null,azs("gas water shut off wrench 4 in 1")],
+ ["s-docs","72-hour go bag","amazon.com","Pre-packed bag for three days away from home","Grab it, go, sort it out later.","Paid link",null,azs("72 hour emergency survival kit backpack")],
+ ["s-docs","Fireproof document bag","amazon.com","Fire- and water-resistant pouch for papers","Passports outlive houses when they are in this.","Paid link",null,azs("fireproof document bag waterproof")],
+ ["s-docs","Encrypted USB drive","amazon.com","Hardware-encrypted drive for scans of your documents","Your documents, offline, locked.","Paid link",null,azs("encrypted USB flash drive hardware")],
+ ["s-docs","Car emergency kit","amazon.com","Jumper cables, flares, tools for the car","The car is half the plan.","Paid link",null,azs("car emergency roadside kit")],
+ ["s-docs","Spare reading glasses","amazon.com","Cheap backups for the bag","Can’t read the manual without them.","Paid link",null,azs("reading glasses multipack")],
+ ["s-docs","Laminated family contact cards","amazon.com","Write numbers down; phones die","Nobody remembers phone numbers anymore.","Paid link",null,azs("laminated emergency contact cards")]
+];
+
+const packed = new Set();
+let crate = "all";
+const $ = s => document.querySelector(s);
+
+function renderCrates(){
+  const wrap = $("#crates");
+  const opts = [{id:"all",name:"All crates"}, ...CRATES];
+  wrap.innerHTML = opts.map(c =>
+    `<button type="button" data-c="${c.id}" aria-pressed="${c.id===crate}">${c.name}</button>`).join("");
+  wrap.querySelectorAll("button").forEach(b => b.onclick = () => { crate = b.dataset.c; renderCrates(); render(); });
+}
+
+function render(){
+  const q = $("#q").value.trim().toLowerCase();
+  const out = [];
+  CRATES.forEach(c => {
+    if (crate !== "all" && crate !== c.id) return;
+    const rows = TOOLS.filter(t => t[0]===c.id && (!q || t.slice(1,5).join(" ").toLowerCase().includes(q)));
+    if (!rows.length) return;
+    out.push(`<section class="crate"><h2>${c.name}</h2><p class="why">${c.why}</p><div class="rows">` +
+      rows.map(([,name,dom,does,doom,warn,unk,url]) => {
+        const key = url || dom;
+        const on = packed.has(key);
+        return `<div class="row${on?" packed":""}">
+          <input type="checkbox" class="pack" data-d="${key}" ${on?"checked":""} aria-label="Pack ${name}">
+          <p class="name"><a href="${url || "https://"+dom}" target="_blank" rel="${url?"sponsored ":""}noopener">${name}</a><small>${dom}</small></p>
+          <p class="doom">${doom}</p>
+          <p class="does">${does}${warn?`<br><span class="stamp">${warn}</span>`:""}${unk?`<br><span class="stamp unk">${unk}</span>`:""}</p>
+        </div>`;}).join("") + `</div></section>`);
+  });
+  $("#manifest").innerHTML = out.join("") || `<p class="empty">Nothing in the manifest matches that. Try a broader search or pick "All crates".</p>`;
+  document.querySelectorAll(".pack").forEach(cb => cb.onchange = () => {
+    cb.checked ? packed.add(cb.dataset.d) : packed.delete(cb.dataset.d);
+    cb.closest(".row").classList.toggle("packed", cb.checked);
+    meter();
+  });
+}
+
+function meter(){
+  const n = packed.size;
+  $("#count").textContent = `${n} / ${TOOLS.length} packed`;
+  $("#fill").style.width = (n / TOOLS.length * 100) + "%";
+}
+
+TOOLS.push(...UPGRADES);
+$("#q").addEventListener("input", render);
+renderCrates(); render(); meter();
+</script>
+<p class="v2legal" style="max-width:72ch;margin:24px auto;padding:0 16px 24px;font:400 12px/1.5 system-ui,sans-serif;color:#AEB7C3"><b>Not advice.</b> Information, commentary and satire only — not financial, investment, legal, security or safety advice. Data is automated and may be wrong or late; provided as is, with no warranty. Not affiliated with any company, lab, person or agency named here. Use of this site means you accept the <a href="/terms.html" style="color:#D7DCE3">terms &amp; disclaimers</a>. <a href="/privacy.html" style="color:#D7DCE3">Privacy</a>.</p>
+
+<aside class="site-disclosure" data-sitebar role="note"><b>Disclosure:</b> Not financial advice. We are not financial advisors, brokers, or a registered investment adviser, and nothing on this site is investment, financial, legal, tax or trading advice, or a recommendation to buy, sell or hold any stock, crypto asset or other instrument. Stock picks, signals, scores and AI trades shown here are automated, simulated or hypothetical, for information and entertainment only. Past and simulated performance does not predict future results, and trading can lose money, including more than you expect. Do your own research and talk to a licensed financial professional before you invest.</aside>
+<div id="sitebar" data-sitebar data-at="1791674479578" data-news="1791674625192" role="region" aria-label="Page freshness">
+<style>
+#sitebar{position:fixed;right:12px;bottom:12px;z-index:9999;display:flex;align-items:center;gap:8px;padding:5px 6px 5px 12px;border-radius:999px;background:rgba(255,255,255,.94);color:#1b2230;border:1px solid rgba(0,0,0,.14);box-shadow:0 4px 18px rgba(0,0,0,.14);font:500 12px/1.2 system-ui,-apple-system,"Segoe UI",sans-serif;backdrop-filter:blur(6px)}
+#sitebar button{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:999px;background:#1b2230;color:#fff;font:600 12px/1 system-ui,-apple-system,"Segoe UI",sans-serif}
+#sitebar button.due{background:#b45309;color:#fff}
+#sitebar button:focus-visible{outline:2px solid #e2a03b;outline-offset:2px}
+#sitebar button[aria-busy=true] svg{animation:sitebar-spin .8s linear infinite}
+#sitebar time{white-space:nowrap;display:inline;font:inherit;color:inherit;letter-spacing:normal;margin:0;padding:0}
+#sitebar .sb-fresh{white-space:nowrap;display:inline-flex;align-items:center;gap:4px;line-height:1.2}#sitebar .sb-fresh .dot{margin-right:1px}#sitebar .sb-fresh b{font-weight:700;color:#15803d}#sitebar .sb-score{opacity:.75}
+#sitebar .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#16a34a;margin-right:5px;vertical-align:1px;box-shadow:0 0 0 0 rgba(22,163,74,.5);animation:sb-live 2s infinite}
+@keyframes sb-live{70%{box-shadow:0 0 0 6px rgba(22,163,74,0)}100%{box-shadow:0 0 0 0 rgba(22,163,74,0)}}
+@media (prefers-reduced-motion:reduce){#sitebar .dot{animation:none}}
+#sitebar.stale .dot{background:#d97706;animation:none}
+#sitebar .fb{all:unset;cursor:pointer;color:inherit;opacity:.8;text-decoration:underline;text-underline-offset:2px;white-space:nowrap;font:600 12px/1.2 system-ui,-apple-system,"Segoe UI",sans-serif}#sitebar .fb:hover{opacity:1}#sitebar .fb:focus-visible{outline:2px solid #e2a03b;outline-offset:2px}
+#sitebar .ago{opacity:.65}#sitebar .kofi{color:#1d4ed8;opacity:1;text-decoration:none}@media (max-width:440px){#sitebar a.fb.kofi{display:none}}
+#sitebar button.rad{background:transparent;color:inherit;border:1px solid currentColor;padding:4px 9px;opacity:.85}#sitebar button.st{padding:4px 7px}#sitebar button.rad[aria-pressed=true]{background:#818CF8;border-color:#818CF8;color:#000;opacity:1}
+#siren-intro{position:fixed;left:12px;bottom:12px;z-index:9998;max-width:min(300px,calc(100vw - 24px));border-radius:8px;overflow:hidden;background:#000;border:1px solid #232C3B;box-shadow:0 10px 30px rgba(0,0,0,.5)}
+#siren-intro video{display:block;width:100%;height:auto}
+#siren-intro .bar{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:6px 8px;font:600 11px/1 system-ui,sans-serif;color:#AEB7C3;letter-spacing:.06em}
+#siren-intro button{all:unset;cursor:pointer;padding:4px 8px;border-radius:4px;color:#E6EAF0}#siren-intro button:hover{background:#1b2230}#siren-intro button:focus-visible{outline:2px solid #e2a03b;outline-offset:2px}
+#siren-intro.chip{width:auto;background:rgba(0,0,0,.92)}
+#siren-intro.chip video{display:none}
+#siren-intro.playing{width:240px}
+/* Phones: a small picture docked bottom-right, just above the freshness bar and the guide button
+   (their offset comes from --sb-off, set by lift() below), so it never covers the header, the level
+   or the score at the top of the page. */
+@media (max-width:560px){#siren-intro.playing{width:140px;left:auto;right:8px;top:auto;bottom:calc(var(--sb-off,10px) + 54px)}#siren-intro.chip{left:auto;right:8px;top:auto;bottom:calc(var(--sb-off,10px) + 54px)}#siren-intro .bar{padding:2px 4px}#siren-intro.playing .bar>span:first-child{display:none}#siren-intro.playing .bar>span:last-child{display:flex;width:100%;justify-content:space-between}#siren-intro button{min-height:32px;display:inline-flex;align-items:center}}
+@keyframes sitebar-spin{to{transform:rotate(360deg)}}
+@media (prefers-color-scheme:dark){#sitebar{background:rgba(20,24,32,.94);color:#e6e9ef;border-color:rgba(255,255,255,.16)}#sitebar button{background:#e6e9ef;color:#141820}#sitebar .kofi{color:#93b8f5}}
+/* Phones: the bar sits left and the round Ask SIREN button (media/guide.js) takes the same row on
+   the right, so the two never stack on each other or on the reading. */
+@media (max-width:560px){#sitebar{left:8px;right:auto;bottom:10px;max-width:calc(100vw - 68px)}#sitebar .ago{display:none}#sitebar button{min-height:30px;box-sizing:border-box}#sitebar .fb{display:inline-flex;align-items:center;min-height:30px}}
+@media (max-width:360px){#sitebar #sitebar-x{display:none}}
+@media (max-width:440px){#sitebar{gap:6px;padding:3px 3px 3px 10px;max-width:calc(100vw - 68px)}#sitebar>span:first-of-type{display:none}#sitebar button{padding:5px 8px}}
+@media print{#sitebar{display:none}}
+.site-disclosure{max-width:72ch;margin:28px auto 72px;padding:12px 16px;font:400 12px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif;opacity:.8;border-top:1px solid rgba(127,127,127,.3)}
+.site-disclosure b{font-weight:600}
+#site-em{display:none;position:static;align-items:center;gap:10px;flex-wrap:wrap;padding:5px 16px;background:#1a0707;color:#FECACA;border-bottom:1px solid #3f1212;border-left:4px solid #ef4444;font:600 12px/1.3 system-ui,-apple-system,"Segoe UI",sans-serif}
+#site-em.on{display:flex}
+#site-em[data-level="3"]{border-left-color:#f59e0b;background:#171004;color:#FDE68A}
+#site-em a{color:inherit;text-decoration:underline;text-underline-offset:2px;font-weight:700}
+#site-em .x{all:unset;cursor:pointer;margin-left:8px;opacity:.85;padding:2px 6px}
+#site-em .xp{border:1px solid currentColor;border-radius:3px;font-weight:600;opacity:1}
+#site-em .x:hover{opacity:1}
+body.site-em-pad{padding-top:40px}
+@media print{#site-em{display:none}}
+</style>
+<div id="site-em" data-sitebar role="status" aria-live="polite" hidden><span id="site-em-txt"></span><a id="site-em-go" href="/dispatch.html">Open Dispatch</a><button type="button" class="x xp" id="site-em-xp" data-xpost="alert" data-x-url="https://siren.watch/dispatch.html" aria-label="Post this alert to X">𝕏 Post</button><button type="button" class="x" id="site-em-x" aria-label="Dismiss">✕</button></div>
+<span class="sb-fresh" title="News is checked every minute and Dispatch alerts refresh through the hour, so both are live. The SIREN score is recalculated once an hour from every source."><i class="dot" aria-hidden="true"></i><b>News &amp; alerts live</b> · news <span id="sitebar-news">–</span> · <span class="sb-score">SIREN score <time id="sitebar-at"></time> (hourly)</span></span>
+<a class="fb" id="sitebar-fb" href="https://siren.watch/feedback.html" title="Report a problem or send feedback">Feedback</a>
+<a class="fb kofi" href="https://ko-fi.com/I0R828E7LP" target="_blank" rel="noopener" title="Support SIREN on Ko-fi">☕ Support</a><a class="fb" id="sitebar-x" href="https://x.com/intent/post?via=SIRENutf6" target="_blank" rel="noopener" title="Post this page on X">𝕏 Post</a>
+<button type="button" class="rad" data-siren-radio data-level="4" aria-pressed="false" title="Turn SIREN Radio on">♪ OFF</button><button type="button" class="rad st" data-siren-station="" aria-label="Next radio station" title="Next station (6 stations)">📻</button>
+<button type="button" id="sitebar-btn" aria-label="Refresh this page's data"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/></svg><span id="sitebar-lbl">Refresh</span></button>
+<script>(function(){
+if (window.sirenX) return;
+// Written for how X ranks posts: the hook goes first (the line people see
+// before "show more"), short lines with breaks, one hashtag at most (often
+// none), and an open question last, because replies are the strongest signal
+// the ranking uses. Hook x context x question x emoji x tag gives hundreds of
+// combinations per kind, and the last 30 drafts are skipped.
+var HOOKS = {
+  news: [
+    "{t}",
+    "{t} ({s})",
+    "Just in: {t}",
+    "New from {s}: {t}",
+    "This one matters: {t}",
+    "The AI story everyone's about to be talking about: {t}",
+    "Quietly huge: {t}",
+    "{s} has it: {t}",
+    "Today in AI: {t}"
+  ],
+  alert: [
+    "{t}",
+    "Happening now: {t}",
+    "Live alert: {t}",
+    "Heads up: {t}",
+    "{t} ({s})"
+  ],
+  reading: [
+    "The AI SIREN reads {L} right now: {S} out of 100.",
+    "How loud is AI today? SIREN {L}, {S}/100.",
+    "AI loudness check: level {L}, score {S}/100.",
+    "SIREN is at {L} ({S}/100). Counted from public data, not vibes.",
+    "Skynet meter, honest edition: SIREN {L}, {S}/100."
+  ],
+  page: [
+    "{t}",
+    "This is worth 30 seconds: {t}",
+    "Found this and can't stop looking at it: {t}",
+    "{t} 👇",
+    "Okay, this is good: {t}"
+  ]
+};
+var CONTEXT = {
+  news: ["SIREN {L} · {S}/100 at {time}.", "Logged {time}.", "Source: {s}.", "", ""],
+  alert: ["Source: {s} · {time}.", "Public feed, not a warning system. Follow local officials.", "Logged {time}.", ""],
+  reading: ["Updated every hour, receipts included.", "Measured {time}.", ""],
+  page: ["SIREN {L} · {S}/100 right now.", "", ""]
+};
+var ASK = {
+  news: ["Overhyped or a big deal?", "Who wins from this?", "Good news or bad news for the rest of us?", "What's your read?", "Would you trust it?", "Does this change your timeline?", "Are we ready for this?", ""],
+  alert: ["Anyone near this? Stay safe.", "Check on your people.", "Anyone seeing it where you are?", ""],
+  reading: ["Does that feel right to you?", "Louder or quieter than you'd guess?", "What would push it to 1?", "Where would you set it?"],
+  page: ["What's your take?", "Thoughts?", "Where do you land on this?", "Would you have guessed?", ""]
+};
+var EMOJI = { news: ["", "", "🤖 ", "🧠 ", "⚡ ", "📡 "], alert: ["🚨 ", "⚠️ ", ""], reading: ["📊 ", "🔔 ", ""], page: ["", "", "👀 ", "🤖 "] };
+var TAGS = ["", "", "", "#AI", "#AI", "#AGI", "#AISafety"];
+var ALERT_TAGS = ["", "", "", "#BreakingNews"];
+var KEY = "siren:x-recent", LAST = {};
+function recent(){ try { return JSON.parse(localStorage.getItem(KEY) || "[]"); } catch (e) { return []; } }
+function remember(t){ try { var l = recent(); l.unshift(hash(t)); localStorage.setItem(KEY, JSON.stringify(l.slice(0, 30))); } catch (e) {} }
+function hash(s){ var h = 0; for (var i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0; return String(h); }
+function live(){
+  var lv = "", sc = "";
+  var chip = typeof document !== "undefined" && document.querySelector && document.querySelector(".sh__lv");
+  var txt = chip ? (chip.textContent || "") : "";
+  var a = /SIREN\s*(\d)/i.exec(txt), b = /([\d]+\.\d)\s*$/.exec(txt.trim());
+  if (a) lv = a[1]; if (b) sc = b[1];
+  return { L: lv, S: sc };
+}
+function clip(s, n){ s = String(s || "").replace(/\s+/g, " ").trim(); return s.length > n ? s.slice(0, n - 1).replace(/\s+\S*$/, "") + "…" : s; }
+var ACR = { bbc: "BBC", ap: "AP", cnn: "CNN", nyt: "NYT", wsj: "WSJ", ft: "FT", npr: "NPR", mit: "MIT", hn: "Hacker News", nhc: "NHC", nws: "NWS", usgs: "USGS", gdacs: "GDACS", eonet: "NASA EONET", sec: "SEC", ai: "AI" };
+function prettySrc(s){
+  s = String(s || "").replace(/\s*\(.*\)\s*$/, "").trim();
+  if (!/^[a-z0-9-]+$/i.test(s) || /[A-Z]/.test(s.slice(1))) return ACR[s.toLowerCase()] || s;
+  return s.toLowerCase().split("-").map(function(w){ return ACR[w] || (w.charAt(0).toUpperCase() + w.slice(1)); }).join(" ");
+}
+function fill(tpl, v){ return tpl.replace(/\{(\w+)\}/g, function(_, k){ return v[k] == null ? "" : String(v[k]); }); }
+// o: { kind, title, src, now (ms), rand (fn), level, score, used (array of hashes) }
+function compose(o){
+  o = o || {};
+  var kind = HOOKS[o.kind] ? o.kind : "page";
+  var lvl = o.level || live();
+  var rnd = o.rand || Math.random;
+  var pick = function(a){ return a[Math.floor(rnd() * a.length)]; };
+  var d = new Date(o.now || Date.now());
+  var time = ("0" + d.getUTCHours()).slice(-2) + ":" + ("0" + d.getUTCMinutes()).slice(-2) + " UTC";
+  var used = o.used || recent();
+  var hasLv = !!(lvl.L && lvl.S);
+  var ok = function(t){ return hasLv || !/\{[LS]\}/.test(t); };
+  var pool = HOOKS[kind].filter(ok);
+  if (!pool.length) pool = kind === "reading" ? ["How loud is AI right now? The SIREN index counts it every hour."] : ["{t}"];
+  var srcName = prettySrc(o.src);
+  var v = { s: srcName || "the wire", time: time, L: lvl.L, S: lvl.S };
+  var best = "";
+  // X counts a link as 23 characters; 250 of text plus the link always fits.
+  for (var tries = 0; tries < 60; tries++) {
+    var tpl = pick(pool);
+    if (pool.length > 1 && tpl === LAST[kind] && tries < 40) continue;
+    var ctx = pick(CONTEXT[kind].filter(ok).concat([""]));
+    if (!srcName && /\{s\}/.test(ctx)) ctx = "";
+    var ask = pick(ASK[kind]);
+    var emo = pick(EMOJI[kind]);
+    var tag = pick(kind === "alert" ? ALERT_TAGS : TAGS);
+    var tail = [fill(ctx, v), ask].filter(Boolean);
+    var tailTxt = tail.length ? "\n\n" + tail.join("\n\n") : "";
+    if (tag) tailTxt += (tail.length ? " " : "\n\n") + tag;
+    var room = 250 - emo.length - fill(tpl, Object.assign({ t: "" }, v)).length - tailTxt.length;
+    var t = clip(o.title || "", Math.max(40, room));
+    var head = emo + fill(tpl, Object.assign({ t: t }, v)).replace(/\s+([.,])/g, "$1").replace(/\.\./g, ".");
+    var txt = head + tailTxt;
+    if (txt.length > 250) txt = clip(head, 250 - tailTxt.length) + tailTxt;
+    if (txt.length > 250) txt = clip(head, 250);
+    best = txt;
+    if (used.indexOf(hash(txt)) < 0) { LAST[kind] = tpl; break; }
+  }
+  return best;
+}
+function intent(text, url){
+  return "https://x.com/intent/post?text=" + encodeURIComponent(text) + (url ? "&url=" + encodeURIComponent(url) : "") + "&via=SIRENutf6";
+}
+window.sirenX = { compose: compose, intent: intent, hooks: HOOKS };
+if (typeof document === "undefined" || !document.addEventListener) return;
+document.addEventListener("click", function(e){
+  var el = e.target && e.target.closest ? e.target.closest('[data-xpost],a[href^="https://x.com/intent/post"],a[href^="https://twitter.com/intent/tweet"]') : null;
+  if (!el) return;
+  var kind, title, src, url;
+  if (el.hasAttribute("data-xpost")) {
+    kind = el.getAttribute("data-xpost") || "page";
+    title = el.getAttribute("data-x-title") || document.title;
+    src = el.getAttribute("data-x-src") || "";
+    url = el.getAttribute("data-x-url") || (document.querySelector('link[rel=canonical]') || {}).href || location.href.split("#")[0];
+  } else {
+    var u; try { u = new URL(el.href); } catch (err) { return; }
+    kind = el.getAttribute("data-x-kind") || "page";
+    title = u.searchParams.get("text") || document.title;
+    url = u.searchParams.get("url") || "";
+    src = "";
+  }
+  var text = compose({ kind: kind, title: title, src: src });
+  remember(text);
+  var href = intent(text, url);
+  if (el.tagName === "A") { el.href = href; el.target = "_blank"; el.rel = "noopener"; return; }
+  e.preventDefault();
+  window.open(href, "_blank", "noopener");
+}, true);
+})();</script>
+<script>
+(function(){
+  var bar = document.getElementById("sitebar"), at = +bar.dataset.at;
+  var tEl = document.getElementById("sitebar-at"), agoEl = document.getElementById("sitebar-ago"), btn = document.getElementById("sitebar-btn");
+  function ago(ms){ var m = Math.round((Date.now() - ms) / 60000); return m < 1 ? "just now" : m < 60 ? m + " min ago" : m < 2880 ? Math.round(m / 60) + " h ago" : Math.round(m / 1440) + " days ago"; }
+  var newsEl = document.getElementById("sitebar-news"), liveNews = +bar.dataset.news || 0;
+  function paint(){
+    var d = new Date(at);
+    tEl.dateTime = d.toISOString();
+    tEl.textContent = ago(at);
+    tEl.title = "SIREN score computed " + d.toLocaleString([], { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }) + ". The score updates hourly; news and alerts are live.";
+    if (newsEl) { newsEl.textContent = liveNews ? ago(liveNews) : "–"; }
+    // Amber when the hourly reading is overdue (GitHub sometimes runs late).
+    bar.classList.toggle("stale", Date.now() - at > 90 * 60000);
+  }
+  var fb = document.getElementById("sitebar-fb"); if (fb) fb.href += "?page=" + encodeURIComponent(location.href.split("#")[0]);
+  // Post this page on X: its own title and canonical address.
+  var xl = document.getElementById("sitebar-x");
+  if (xl) {
+    var can = document.querySelector('link[rel=canonical]'), u = (can && can.href) || location.href.split("#")[0];
+    var t = (document.querySelector('meta[property="og:title"]') || {}).content || document.title;
+    xl.href = "https://x.com/intent/post?text=" + encodeURIComponent(t) + "&url=" + encodeURIComponent(u) + "&via=SIRENutf6";
+  }
+  // THE INTRO. Plays silently in a corner, once per visit; never on the homepage (it already embeds the
+  // explainer), never on clips/videos/radio, skipped for reduced-motion.
+  (function intro(){
+    try {
+      var ik = "siren:intro:siren-explainer";
+      var path = location.pathname.replace(/\/+$/, "") || "/";
+      // Homepage already embeds the explainer with preload=none — no corner chip.
+      if (document.getElementById("v2-video") || document.querySelector("section.v2-video")) return;
+      if (path === "" || /\/(index\.html)?$/.test(path)) return;
+      if (/(elon|videos|radio)\.html$/.test(path) || sessionStorage.getItem(ik)) return;
+    } catch (e) { return; }
+    if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    var m = "/media/siren-explainer";
+    var box = document.createElement("div");
+    box.id = "siren-intro";
+    box.className = "chip";
+    box.setAttribute("role", "complementary");
+    box.setAttribute("aria-label", "Intro video");
+    box.innerHTML = '<div class="bar"><button type="button" data-a="play" aria-label="Play intro video">WHAT IS SIREN? ▶</button><button type="button" data-a="x" aria-label="Dismiss intro">✕</button></div>';
+    document.body.appendChild(box);
+    var close = function(){
+      try { sessionStorage.setItem("siren:intro:siren-explainer", "1"); } catch (e) {}
+      var v = box.querySelector("video");
+      if (v) try { v.pause(); } catch (e) {}
+      box.remove();
+    };
+    box.addEventListener("click", function(e){
+      var a = e.target.getAttribute && e.target.getAttribute("data-a");
+      if (a === "x") { close(); return; }
+      if (a !== "play" && a !== "snd") return;
+      if (a === "snd") {
+        var v0 = box.querySelector("video");
+        if (!v0) return;
+        v0.muted = !v0.muted;
+        e.target.textContent = v0.muted ? "🔊 Sound" : "🔇 Mute";
+        if (v0.paused) v0.play();
+        return;
+      }
+      if (box.querySelector("video")) return;
+      box.className = "playing";
+      box.innerHTML = '<video muted playsinline preload="metadata" poster="' + m + '-poster.jpg" controls><source src="' + m + '.webm" type="video/webm"><source src="' + m + '.mp4" type="video/mp4"></video>'
+        + '<div class="bar"><span>WHAT IS SIREN?</span><span><button type="button" data-a="snd" aria-label="Turn sound on">🔊 Sound</button><button type="button" data-a="x" aria-label="Close intro">✕</button></span></div>';
+      var v = box.querySelector("video");
+      v.addEventListener("ended", function(){ setTimeout(close, 1200); });
+      var p = v.play(); if (p && p.catch) p.catch(function(){});
+    });
+    // The owner's call: the page's intro plays by itself, silently, once per
+    // visit (the chip above stays as the fallback if the browser blocks it).
+    var pb = box.querySelector('[data-a="play"]'); if (pb) pb.click();
+  })();
+  // OUTSIDE LINKS OPEN IN A NEW TAB, so a visitor who follows a story, a clip
+  // or a market comes back to SIREN instead of losing it. Same-site links
+  // stay in the tab. Runs on links added later too (clicks are delegated).
+  document.addEventListener("click", function(e){
+    var a = e.target && e.target.closest ? e.target.closest("a[href]") : null;
+    if (!a || a.target || a.hasAttribute("download") || e.defaultPrevented) return;
+    var u; try { u = new URL(a.href, location.href); } catch (err) { return; }
+    if (!/^https?:$/.test(u.protocol) || u.host === location.host) return;
+    a.target = "_blank"; var r = (a.rel || "").split(/s+/); if (r.indexOf("noopener") < 0) r.push("noopener"); a.rel = r.join(" ").trim();
+  }, true);
+  window.addEventListener("site:data", function(e){ var t = +(e.detail && e.detail.at); if (t > 0) { at = t; paint(); } });
+  btn.addEventListener("click", function(){
+    if (typeof window.siteRefresh === "function") {
+      btn.setAttribute("aria-busy", "true");
+      Promise.resolve().then(window.siteRefresh).catch(function(){}).then(function(){ btn.removeAttribute("aria-busy"); });
+    } else {
+      var u = new URL(location.href); u.searchParams.set("r", Date.now().toString(36)); location.replace(u.toString());
+    }
+  });
+  // Sit above any bar the page pins to the bottom (a mobile tab bar, a cookie note).
+  function lift(){
+    var off = 12, seen = [];
+    [0.5, 0.1, 0.9].forEach(function(f){
+      document.elementsFromPoint(innerWidth * f, innerHeight - 3).forEach(function(el){
+        for (var n = el; n && n !== document.body; n = n.parentElement) {
+          if (n === bar || seen.indexOf(n) >= 0) break;
+          var ps = getComputedStyle(n).position;
+          if (ps === "fixed" || ps === "sticky") { seen.push(n); var r = n.getBoundingClientRect(); if (r.bottom >= innerHeight - 4 && r.height < innerHeight / 2) off = Math.max(off, innerHeight - r.top + 8); break; }
+        }
+      });
+    });
+    bar.style.bottom = off + "px";
+    // The guide button and the intro read this so they line up with the bar instead of stacking on it.
+    try { document.documentElement.style.setProperty("--sb-off", off + "px"); } catch (e) {}
+  }
+  // A page left open should hear about a newer newsroom or a newer reading
+  // within a minute. Same-origin JSON only. The button label changes; the
+  // page does not reload until the reader asks, because a reload mid-paragraph
+  // is worse than a minute of staleness.
+  var newsAt = +bar.dataset.news || 0;
+  var api = "";
+  function flag(label){
+    var lbl = document.getElementById("sitebar-lbl");
+    if (!lbl || btn.classList.contains("due")) return;
+    lbl.textContent = label;
+    btn.classList.add("due");
+    btn.setAttribute("aria-label", label + ". Refresh this page.");
+  }
+  function watch(){
+    if (document.hidden || !window.fetch) return;
+    fetch(api + "/api/fresh.json?m=" + Math.floor(Date.now() / 60000), { cache: "no-store" }).then(function(r){ return r.ok ? r.json() : null; }).then(function(j){
+      if (!j) return;
+      var ns = j.news && Date.parse(j.news);
+      var st = j.state && Date.parse(j.state);
+      if (ns && ns > liveNews) { liveNews = ns; paint(); }
+      if (newsAt > 0 && ns && ns > newsAt + 1500) flag("New stories");
+      else if (st && st > at + 1500) flag("New reading");
+    }).catch(function(){});
+  }
+  setInterval(watch, 60000); setTimeout(watch, 4000);
+  document.addEventListener("visibilitychange", function(){ if (!document.hidden) watch(); });
+  paint(); setInterval(paint, 60000);
+  lift(); addEventListener("resize", lift); addEventListener("load", lift); setTimeout(lift, 1500);
+
+  // Dispatch emergency mark: poll the orphan dispatch-data branch. Quiet when
+  // CLEAR. Dismiss lasts one session so a visitor can keep reading.
+  (function emergencyMark(){
+    var el = document.getElementById("site-em"), txt = document.getElementById("site-em-txt");
+    var go = document.getElementById("site-em-go"), x = document.getElementById("site-em-x");
+    if (!el || !txt) return;
+    var KEY = "siren:em-dismiss";
+    function hide(){ el.classList.remove("on"); el.hidden = true; }
+    // A thin strip under the header, in the page flow: it never floats over
+    // the reading, the footer bar or the score. Site-wide only for the most
+    // severe level; WATCH-level marks stay on the Dispatch page. Dismiss is
+    // remembered per alert, so the same one never comes back.
+    var onDispatch = /dispatch.html$/.test(location.pathname);
+    // Dispatch carries its own, fuller banner: never stack a second one there.
+    if (onDispatch) { hide(); return; }
+    function show(em){
+      var id = (em.primary && (em.primary.id || em.primary.event)) || em.as_of || "1";
+      try { if (localStorage.getItem(KEY) === id) return; } catch (e) {}
+      if (!onDispatch && Number(em.level || 2) > 2) return;
+      var label = em.label || "ALERT";
+      var head = (em.primary && (em.primary.event || em.primary.headline)) || "Active emergency trigger";
+      txt.textContent = "⚠ " + label + " · " + head;
+      var xp = document.getElementById("site-em-xp"); if (xp) { xp.setAttribute("data-x-title", label + ": " + ((em.primary && em.primary.headline) || head)); xp.setAttribute("data-x-src", ((em.primary && em.primary.system) || "dispatch").toUpperCase()); }
+      el.dataset.level = String(em.level || 2);
+      el.dataset.as = id;
+      var hdr = document.querySelector("header.sh, .sh") || document.querySelector("header");
+      if (hdr && el.previousElementSibling !== hdr && hdr.parentNode) hdr.parentNode.insertBefore(el, hdr.nextSibling);
+      el.classList.add("on"); el.hidden = false;
+    }
+    if (x) x.addEventListener("click", function(){
+      try { localStorage.setItem(KEY, el.dataset.as || "1"); } catch (e) {}
+      hide();
+    });
+    // Two sources, merged: the Dispatch snapshot (every few minutes, all
+    // systems) and USGS read straight from this browser every minute, so a
+    // great quake shows here within about a minute of USGS posting it.
+    var snapEm = null, liveEm = null;
+    function render(){
+      var em = snapEm && snapEm.active ? snapEm : null;
+      if (liveEm && (!em || Number(liveEm.level) < Number(em.level || 3) || (em.primary && em.primary.id !== liveEm.primary.id && liveEm.primary.t > (em.primary.t || 0) && Number(liveEm.level) <= Number(em.level || 3)))) em = liveEm;
+      if (!em) { hide(); return; }
+      show(em);
+    }
+    function poll(){
+      if (document.hidden) return;
+      var u = "https://raw.githubusercontent.com/messagegabrielhere-lgtm/doomcon/dispatch-data/emergency.json?m=" + Math.floor(Date.now() / 120000);
+      fetch(u, { cache: "no-store" }).then(function(r){ return r.ok ? r.json() : null; }).then(function(em){ snapEm = em; render(); }).catch(function(){});
+    }
+    function quakes(){
+      if (document.hidden) return;
+      fetch("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_day.geojson", { cache: "no-store" }).then(function(r){ return r.ok ? r.json() : null; }).then(function(j){
+        if (!j || !j.features) return;
+        var best = null;
+        j.features.forEach(function(f){
+          var p = f.properties || {}, m = +p.mag, age = (Date.now() - p.time) / 3600e3;
+          // M7+ within a day, M6.5+ within six hours.
+          if (!(m >= 7 && age <= 24) && !(m >= 6.5 && age <= 6)) return;
+          if (!best || m > best.m || (m === best.m && p.time > best.p.time)) best = { m: m, p: p, f: f };
+        });
+        if (!best) { liveEm = null; render(); return; }
+        var c = (best.f.geometry && best.f.geometry.coordinates) || [];
+        liveEm = { active: true, level: best.m >= 7 ? 1 : 2, label: best.m >= 7 ? "EMERGENCY" : "ALERT", count: 1,
+          primary: { id: "usgs:" + best.f.id, system: "usgs", event: "M" + best.m.toFixed(1) + " earthquake", severity: best.m >= 7 ? "Extreme" : "Severe", headline: best.p.title, area: best.p.place, lon: c[0], lat: c[1], t: best.p.time } };
+        render();
+      }).catch(function(){});
+    }
+    poll(); setInterval(poll, 120000);
+    quakes(); setInterval(quakes, 60000);
+    document.addEventListener("visibilitychange", function(){ if (!document.hidden) { poll(); quakes(); } });
+  })();
+})();
+</script>
+</div>
+<script src="/nav/site-nav.js" defer></script>
+<script src="/media/radio.js" defer></script>
+<script src="/media/guide.js" defer></script>
+<script data-goatcounter="https://messagegabriel.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

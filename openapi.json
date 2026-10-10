@@ -1,0 +1,349 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "SIREN public API",
+    "summary": "Every AI doom number is a judgement call. This one is arithmetic: how much is happening in AI, measured hourly from public data — not how bad it is. Five pillars, one 0-100 score, one level from 5 (quietest) to 1 (loudest), and every number reproducible from a published receipt.",
+    "description": "Superintelligence Real-time Early Notice publishes every reading as static JSON. No key, no account, CORS *. License CC BY 4.0. Levels run from 5 (quietest) to 1 (loudest) and measure activity tempo, not probability of harm.",
+    "version": "1.0.0",
+    "license": {
+      "name": "CC BY 4.0",
+      "identifier": "CC-BY-4.0"
+    },
+    "contact": {
+      "name": "Superintelligence Real-time Early Notice",
+      "url": "https://github.com/messagegabrielhere-lgtm/doomcon",
+      "x-twitter": "https://x.com/SIRENutf6"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://siren.watch",
+      "description": "GitHub Pages static origin"
+    }
+  ],
+  "tags": [
+    {
+      "name": "index",
+      "description": "The composite reading and its history"
+    },
+    {
+      "name": "receipts",
+      "description": "Hash-chained, recomputable observations"
+    },
+    {
+      "name": "surfaces",
+      "description": "Newsroom, race, substrate and related datasets"
+    }
+  ],
+  "paths": {
+    "/api/index.json": {
+      "get": {
+        "tags": [
+          "index"
+        ],
+        "summary": "API discovery document",
+        "operationId": "getApiIndex",
+        "responses": {
+          "200": {
+            "description": "Endpoint map and license",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/state.json": {
+      "get": {
+        "tags": [
+          "index"
+        ],
+        "summary": "Current composite score, level, pillars and per-source freshness",
+        "operationId": "getState",
+        "responses": {
+          "200": {
+            "description": "Latest scored observation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/State"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/history.json": {
+      "get": {
+        "tags": [
+          "index"
+        ],
+        "summary": "Scored observations over time",
+        "operationId": "getHistory",
+        "responses": {
+          "200": {
+            "description": "Observation list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/health.json": {
+      "get": {
+        "tags": [
+          "index"
+        ],
+        "summary": "Source-ok counts — the ratio is the status, there is no healthy/unhealthy word",
+        "operationId": "getHealth",
+        "responses": {
+          "200": {
+            "description": "Per-source and per-pillar health",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/receipts/{id}.json": {
+      "get": {
+        "tags": [
+          "receipts"
+        ],
+        "summary": "One hash-chained receipt",
+        "operationId": "getReceipt",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "2026-10-08T05-24-36Z"
+            },
+            "description": "Receipt id (UTC stamp with colons replaced by hyphens)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Full receipt: inputs, constants, decision, prev_hash, hash",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Unknown receipt id"
+          }
+        }
+      }
+    },
+    "/api/receipts/index.json": {
+      "get": {
+        "tags": [
+          "receipts"
+        ],
+        "summary": "Index of published receipt ids",
+        "operationId": "listReceipts",
+        "responses": {
+          "200": {
+            "description": "Newest-first list of receipt ids and hashes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/news.json": {
+      "get": {
+        "tags": [
+          "surfaces"
+        ],
+        "summary": "Scored newsroom window",
+        "operationId": "getNews",
+        "responses": {
+          "200": {
+            "description": "Current scored items",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/now.txt": {
+      "get": {
+        "tags": [
+          "index"
+        ],
+        "summary": "Current reading as 3-6 plain lines: level, score, name, UTC time, top mover, meaning, URL",
+        "operationId": "getNowText",
+        "responses": {
+          "200": {
+            "description": "Plain-text reading, rebuilt every build",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/now.md": {
+      "get": {
+        "tags": [
+          "index"
+        ],
+        "summary": "Markdown snapshot: reading, pillars, top 10 scored stories, leaders, Takeover Watch, how to cite",
+        "operationId": "getNowMarkdown",
+        "responses": {
+          "200": {
+            "description": "Markdown snapshot, rebuilt every build",
+            "content": {
+              "text/markdown": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/llms.txt": {
+      "get": {
+        "tags": [
+          "index"
+        ],
+        "summary": "llms.txt site map for language models (also at /.well-known/llms.txt)",
+        "operationId": "getLlmsTxt",
+        "responses": {
+          "200": {
+            "description": "llmstxt.org-format markdown",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/llms-full.txt": {
+      "get": {
+        "tags": [
+          "index"
+        ],
+        "summary": "llms.txt followed by the live markdown snapshot",
+        "operationId": "getLlmsFullTxt",
+        "responses": {
+          "200": {
+            "description": "Markdown",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/openapi.json": {
+      "get": {
+        "tags": [
+          "index"
+        ],
+        "summary": "This OpenAPI document",
+        "operationId": "getOpenApi",
+        "responses": {
+          "200": {
+            "description": "OpenAPI 3.1 document",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "State": {
+        "type": "object",
+        "properties": {
+          "schema": {
+            "type": "integer"
+          },
+          "generated_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "score": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "level": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5
+          },
+          "level_name": {
+            "type": "string"
+          },
+          "degraded": {
+            "type": "boolean"
+          },
+          "receipt_id": {
+            "type": "string"
+          },
+          "receipt_hash": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "Methodology — every formula and constant",
+    "url": "https://siren.watch/methodology.html"
+  }
+}

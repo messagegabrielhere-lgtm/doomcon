@@ -1,0 +1,483 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<!-- INTERNAL CONSOLE. Do NOT add to sitemap.xml, nav, or robots Disallow. -->
+<meta name="robots" content="noindex, nofollow, noarchive, noimageindex">
+<meta name="googlebot" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Engage console — SIREN</title>
+<style>
+:root{--bg:#07080a;--panel:#0d1117;--panel2:#11161d;--rule:#21262d;--ink:#e6edf3;--dim:#8b949e;--faint:#6e7681;--ok:#2ea043;--warn:#d29922;--bad:#f85149;--accent:#2f81f7}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 ui-sans-serif,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+code,.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.wrap{max-width:920px;margin:0 auto;padding:24px 16px 96px}
+header.top{display:flex;flex-wrap:wrap;gap:16px;align-items:baseline;justify-content:space-between;border-bottom:1px solid var(--rule);padding-bottom:16px;margin-bottom:8px}
+h1{font-size:22px;letter-spacing:3px;margin:0;font-weight:800}
+.sub{color:var(--dim);font-size:13px}
+.banner{border:1px solid var(--warn);background:rgba(210,153,34,.10);color:var(--warn);border-radius:8px;padding:10px 14px;margin:16px 0;font-size:13px;line-height:1.55}
+.banner.bad{border-color:var(--bad);background:rgba(248,81,73,.10);color:var(--bad)}
+.progress{display:flex;align-items:center;gap:12px;margin:18px 0 26px;font-size:13px;color:var(--dim)}
+.bar{flex:1;height:6px;background:var(--panel2);border-radius:3px;overflow:hidden}
+.bar span{display:block;height:100%;background:var(--ok);width:0;transition:width .2s}
+.card{border:1px solid var(--rule);border-radius:12px;background:var(--panel);margin:0 0 14px;overflow:hidden}
+.card.done{opacity:.55}
+.card.done .chead{background:rgba(46,160,67,.10)}
+.chead{display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:11px 14px;border-bottom:1px solid var(--rule);background:var(--panel2)}
+.rank{font-weight:800;font-size:13px;color:var(--faint);min-width:22px}
+.handle{font-weight:700}
+.pill{font-size:11px;letter-spacing:1px;font-weight:700;border-radius:999px;padding:3px 9px;background:var(--rule);color:var(--dim)}
+.pill.off{color:#79c0ff;background:rgba(47,129,247,.15)}
+.spacer{flex:1}
+label.tick{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--dim);cursor:pointer;user-select:none}
+label.tick input{width:18px;height:18px;accent-color:var(--ok);cursor:pointer}
+.body{padding:14px 16px 16px}
+.text{margin:0 0 10px;white-space:pre-wrap;color:var(--ink);font-size:14px;line-height:1.55}
+.why{margin:0 0 12px;font-size:12px;color:var(--faint)}
+.meta{margin:0 0 12px;font-size:12px;color:var(--dim)}
+.btns{display:flex;flex-wrap:wrap;gap:8px}
+a.btn,button{font:600 13px/1 inherit;padding:10px 14px;border-radius:8px;border:1px solid var(--rule);background:var(--panel2);color:var(--ink);cursor:pointer;text-decoration:none;display:inline-flex;align-items:center}
+a.btn:hover,button:hover{border-color:var(--faint)}
+a.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+a.btn.ghost,button.ghost{background:transparent;color:var(--dim)}
+footer{margin-top:40px;border-top:1px solid var(--rule);padding-top:16px;color:var(--faint);font-size:12px;line-height:1.8}
+.empty{border:1px dashed var(--rule);border-radius:12px;padding:40px;text-align:center;color:var(--dim)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <div>
+    <h1>SIREN ENGAGE CONSOLE</h1>
+    <div class="sub mono">SIREN 4 · 54.1 of 100 · 23:21 UTC | SAT 10 OCT 2026</div>
+  </div>
+  <div class="sub">Internal. Not linked, not indexed.<br>Use from your <b>human</b> X account — never @SIRENutf6.</div>
+</header>
+
+<div class="banner bad">
+  <b>Policy hard stop.</b> Automated likes and reposts are prohibited for @SIRENutf6
+  (X Developer Policy + the binding use-case text in POSTING.md §6). This sheet
+  only opens X <code>intent</code> URLs so <b>you</b> confirm each action while
+  signed in as the managing human account. Stay in sync with what siren.watch
+  already published — do not invent engagement outside this list.
+</div>
+
+<div class="banner">
+  Source mix: 14 from the X wire,
+  1 newsroom status URLs,
+  showing 15. Tick liked / reposted after you confirm in X.
+</div>
+
+<div class="progress">
+  <span id="pcount" class="mono">0 of 0 fully synced</span>
+  <span class="bar"><span id="pbar"></span></span>
+  <button class="ghost" id="reset" type="button">Reset</button>
+</div>
+
+
+<article class="card" data-id="041b0ba33e268d1c">
+  <div class="chead">
+    <span class="rank">1</span>
+    <span class="handle mono">@AnthropicAI</span>
+    <span class="pill off">official</span>
+    <span class="pill">x-surface</span>
+    <span class="spacer"></span>
+    <label class="tick"><input type="checkbox" data-field="liked"> liked</label>
+    <label class="tick"><input type="checkbox" data-field="reposted"> reposted</label>
+  </div>
+  <div class="body">
+    <p class="text">We’re beginning a process of publishing more frequent reports on model behavior, beyond what appears in our system cards and regular risk reports. Today’s report describes four types of behaviors we’ve identified during evaluations and int…</p>
+    <p class="why">Cited by Techmeme</p>
+    <p class="meta mono">rank 67 · 22:04 UTC | FRI 9 OCT 2026 · <a href="https://x.com/AnthropicAI/status/2108680150556737819" target="_blank" rel="noopener">open post</a> · <a href="/live-x.html" target="_blank" rel="noopener">on site</a></p>
+    <div class="btns">
+      <a class="btn primary" data-mark="liked" href="https://x.com/intent/like?tweet_id=2108680150556737819" target="_blank" rel="noopener">Like on X</a>
+      <a class="btn primary" data-mark="reposted" href="https://x.com/intent/retweet?tweet_id=2108680150556737819" target="_blank" rel="noopener">Repost on X</a>
+      <a class="btn ghost" href="https://x.com/AnthropicAI/status/2108680150556737819" target="_blank" rel="noopener">View</a>
+    </div>
+  </div>
+</article>
+
+<article class="card" data-id="b9fa079ab1cd68c9">
+  <div class="chead">
+    <span class="rank">2</span>
+    <span class="handle mono">@claudeai</span>
+    <span class="pill off">official</span>
+    <span class="pill">x-surface</span>
+    <span class="spacer"></span>
+    <label class="tick"><input type="checkbox" data-field="liked"> liked</label>
+    <label class="tick"><input type="checkbox" data-field="reposted"> reposted</label>
+  </div>
+  <div class="body">
+    <p class="text">We’ve loved seeing so many founders join the Claude Startups program. Unfortunately, we underestimated demand for the program, and we need to pause the Claude Team and $1,000 API credit offers. With hundreds of thousands of applicants, we&#39;…</p>
+    <p class="why">Cited by Hacker News (6 points)</p>
+    <p class="meta mono">rank 61.9 · 03:49 UTC | FRI 9 OCT 2026 · <a href="https://x.com/claudeai/status/2108404561413349695" target="_blank" rel="noopener">open post</a> · <a href="/live-x.html" target="_blank" rel="noopener">on site</a></p>
+    <div class="btns">
+      <a class="btn primary" data-mark="liked" href="https://x.com/intent/like?tweet_id=2108404561413349695" target="_blank" rel="noopener">Like on X</a>
+      <a class="btn primary" data-mark="reposted" href="https://x.com/intent/retweet?tweet_id=2108404561413349695" target="_blank" rel="noopener">Repost on X</a>
+      <a class="btn ghost" href="https://x.com/claudeai/status/2108404561413349695" target="_blank" rel="noopener">View</a>
+    </div>
+  </div>
+</article>
+
+<article class="card" data-id="5cf62a83ad5e838f">
+  <div class="chead">
+    <span class="rank">3</span>
+    <span class="handle mono">@StepFun_ai</span>
+    <span class="pill off">official</span>
+    <span class="pill">x-surface</span>
+    <span class="spacer"></span>
+    <label class="tick"><input type="checkbox" data-field="liked"> liked</label>
+    <label class="tick"><input type="checkbox" data-field="reposted"> reposted</label>
+  </div>
+  <div class="body">
+    <p class="text">Step 5 Preview now exists where you build. Now live on @OpenRouter. A week of free access is rolling out today across @opencode, @cline , @NousResearch, @kilocode, and more. Flagship-tier intelligence for agentic and professional work, at…</p>
+    <p class="why">Cited by Hacker News (6 points)</p>
+    <p class="meta mono">rank 57.8 · 13:08 UTC | THU 8 OCT 2026 · <a href="https://x.com/StepFun_ai/status/2108182763002278158" target="_blank" rel="noopener">open post</a> · <a href="/live-x.html" target="_blank" rel="noopener">on site</a></p>
+    <div class="btns">
+      <a class="btn primary" data-mark="liked" href="https://x.com/intent/like?tweet_id=2108182763002278158" target="_blank" rel="noopener">Like on X</a>
+      <a class="btn primary" data-mark="reposted" href="https://x.com/intent/retweet?tweet_id=2108182763002278158" target="_blank" rel="noopener">Repost on X</a>
+      <a class="btn ghost" href="https://x.com/StepFun_ai/status/2108182763002278158" target="_blank" rel="noopener">View</a>
+    </div>
+  </div>
+</article>
+
+<article class="card" data-id="d29fd245bd781606">
+  <div class="chead">
+    <span class="rank">4</span>
+    <span class="handle mono">@LaurenSHirsch</span>
+    
+    <span class="pill">x-surface</span>
+    <span class="spacer"></span>
+    <label class="tick"><input type="checkbox" data-field="liked"> liked</label>
+    <label class="tick"><input type="checkbox" data-field="reposted"> reposted</label>
+  </div>
+  <div class="body">
+    <p class="text">Worth noting the DOJ has been investigating whether Nvidia sought to avoid antitrust scrutiny in its reverse acquihire deal with Groqhttps://t.co/D0G3O0iHjD https://t.co/oGeGMjtO5k</p>
+    <p class="why">Cited by Techmeme</p>
+    <p class="meta mono">rank 33 · 19:50 UTC | SAT 10 OCT 2026 · <a href="https://x.com/LaurenSHirsch/status/2109008732977762419" target="_blank" rel="noopener">open post</a> · <a href="/live-x.html" target="_blank" rel="noopener">on site</a></p>
+    <div class="btns">
+      <a class="btn primary" data-mark="liked" href="https://x.com/intent/like?tweet_id=2109008732977762419" target="_blank" rel="noopener">Like on X</a>
+      <a class="btn primary" data-mark="reposted" href="https://x.com/intent/retweet?tweet_id=2109008732977762419" target="_blank" rel="noopener">Repost on X</a>
+      <a class="btn ghost" href="https://x.com/LaurenSHirsch/status/2109008732977762419" target="_blank" rel="noopener">View</a>
+    </div>
+  </div>
+</article>
+
+<article class="card" data-id="508ca703f65e3e73">
+  <div class="chead">
+    <span class="rank">5</span>
+    <span class="handle mono">@zephyr_z9</span>
+    
+    <span class="pill">x-surface</span>
+    <span class="spacer"></span>
+    <label class="tick"><input type="checkbox" data-field="liked"> liked</label>
+    <label class="tick"><input type="checkbox" data-field="reposted"> reposted</label>
+  </div>
+  <div class="body">
+    <p class="text">It&#39;s pretty clear that Nvidia will compete head on with the frontier labs now Jensen is pissed because labs are developing their own ASICs and undercutting Nvidia https://t.co/xvPRILeLyY</p>
+    <p class="why">Cited by Techmeme</p>
+    <p class="meta mono">rank 32.7 · 18:51 UTC | SAT 10 OCT 2026 · <a href="https://x.com/zephyr_z9/status/2108993851059048703" target="_blank" rel="noopener">open post</a> · <a href="/live-x.html" target="_blank" rel="noopener">on site</a></p>
+    <div class="btns">
+      <a class="btn primary" data-mark="liked" href="https://x.com/intent/like?tweet_id=2108993851059048703" target="_blank" rel="noopener">Like on X</a>
+      <a class="btn primary" data-mark="reposted" href="https://x.com/intent/retweet?tweet_id=2108993851059048703" target="_blank" rel="noopener">Repost on X</a>
+      <a class="btn ghost" href="https://x.com/zephyr_z9/status/2108993851059048703" target="_blank" rel="noopener">View</a>
+    </div>
+  </div>
+</article>
+
+<article class="card" data-id="98d794adff38b769">
+  <div class="chead">
+    <span class="rank">6</span>
+    <span class="handle mono">@RHouseResearch</span>
+    
+    <span class="pill">x-surface</span>
+    <span class="spacer"></span>
+    <label class="tick"><input type="checkbox" data-field="liked"> liked</label>
+    <label class="tick"><input type="checkbox" data-field="reposted"> reposted</label>
+  </div>
+  <div class="body">
+    <p class="text">*NVIDIA in talks to acquire US open model start-up Reflection AI*… Not going to hold my breath, but you’d think NVIDIA acquiring the most highly valued non-Chinese open-source model developer might put to rest the idea that open-source mod…</p>
+    <p class="why">Cited by Techmeme</p>
+    <p class="meta mono">rank 32.7 · 18:43 UTC | SAT 10 OCT 2026 · <a href="https://x.com/RHouseResearch/status/2108991951781433678" target="_blank" rel="noopener">open post</a> · <a href="/live-x.html" target="_blank" rel="noopener">on site</a></p>
+    <div class="btns">
+      <a class="btn primary" data-mark="liked" href="https://x.com/intent/like?tweet_id=2108991951781433678" target="_blank" rel="noopener">Like on X</a>
+      <a class="btn primary" data-mark="reposted" href="https://x.com/intent/retweet?tweet_id=2108991951781433678" target="_blank" rel="noopener">Repost on X</a>
+      <a class="btn ghost" href="https://x.com/RHouseResearch/status/2108991951781433678" target="_blank" rel="noopener">View</a>
+    </div>
+  </div>
+</article>
+
+<article class="card" data-id="7fb80afdd688383d">
+  <div class="chead">
+    <span class="rank">7</span>
+    <span class="handle mono">@negligible_cap</span>
+    
+    <span class="pill">x-surface</span>
+    <span class="spacer"></span>
+    <label class="tick"><input type="checkbox" data-field="liked"> liked</label>
+    <label class="tick"><input type="checkbox" data-field="reposted"> reposted</label>
+  </div>
+  <div class="body">
+    <p class="text">*NVIDIA IN TALKS TO ACQUIRE REFLECTION AI: FT What’re the odds reflection can reach the frontier with near bottomless compute? Net negative for OpenAI and Anthropic in the long run I’d imagine Jensen’s also already invested $800m into Refl…</p>
+    <p class="why">Cited by Techmeme</p>
+    <p class="meta mono">rank 32.6 · 18:22 UTC | SAT 10 OCT 2026 · <a href="https://x.com/negligible_cap/status/2108986552106066290" target="_blank" rel="noopener">open post</a> · <a href="/live-x.html" target="_blank" rel="noopener">on site</a></p>
+    <div class="btns">
+      <a class="btn primary" data-mark="liked" href="https://x.com/intent/like?tweet_id=2108986552106066290" target="_blank" rel="noopener">Like on X</a>
+      <a class="btn primary" data-mark="reposted" href="https://x.com/intent/retweet?tweet_id=2108986552106066290" target="_blank" rel="noopener">Repost on X</a>
+      <a class="btn ghost" href="https://x.com/negligible_cap/status/2108986552106066290" target="_blank" rel="noopener">View</a>
+    </div>
+  </div>
+</article>
+
+<article class="card" data-id="1327ff82647aeb6c">
+  <div class="chead">
+    <span class="rank">8</span>
+    <span class="handle mono">@ArashMassoudi</span>
+    
+    <span class="pill">x-surface</span>
+    <span class="spacer"></span>
+    <label class="tick"><input type="checkbox" data-field="liked"> liked</label>
+    <label class="tick"><input type="checkbox" data-field="reposted"> reposted</label>
+  </div>
+  <div class="body">
+    <p class="text">BIG @FT SCOOP Nvidia is in talks to acquire or deepen its investment in Reflection AI, a developer of open-weight models that President Donald Trump’s administration hopes will rival cheap Chinese alternatives w/ @GeorgeNHammond @MActon93…</p>
+    <p class="why">Cited by Techmeme</p>
+    <p class="meta mono">rank 32.6 · 18:18 UTC | SAT 10 OCT 2026 · <a href="https://x.com/ArashMassoudi/status/2108985478519075124" target="_blank" rel="noopener">open post</a> · <a href="/live-x.html" target="_blank" rel="noopener">on site</a></p>
+    <div class="btns">
+      <a class="btn primary" data-mark="liked" href="https://x.com/intent/like?tweet_id=2108985478519075124" target="_blank" rel="noopener">Like on X</a>
+      <a class="btn primary" data-mark="reposted" href="https://x.com/intent/retweet?tweet_id=2108985478519075124" target="_blank" rel="noopener">Repost on X</a>
+      <a class="btn ghost" href="https://x.com/ArashMassoudi/status/2108985478519075124" target="_blank" rel="noopener">View</a>
+    </div>
+  </div>
+</article>
+
+<article class="card" data-id="467f97157e54b3f9">
+  <div class="chead">
+    <span class="rank">9</span>
+    <span class="handle mono">@levelsio</span>
+    
+    <span class="pill">x-surface</span>
+    <span class="spacer"></span>
+    <label class="tick"><input type="checkbox" data-field="liked"> liked</label>
+    <label class="tick"><input type="checkbox" data-field="reposted"> reposted</label>
+  </div>
+  <div class="body">
+    <p class="text">💾 Two years ago I started working on these crazy nostalgia projects, kind of randomly, because I was bored and wanted to do something different than just build another SaaS or AI app/website I wanted to try to run Windows 3.1 inside a web…</p>
+    <p class="why">Cited by Techmeme</p>
+    <p class="meta mono">rank 32.1 · 16:27 UTC | SAT 10 OCT 2026 · <a href="https://x.com/levelsio/status/2108957488410161442" target="_blank" rel="noopener">open post</a> · <a href="/live-x.html" target="_blank" rel="noopener">on site</a></p>
+    <div class="btns">
+      <a class="btn primary" data-mark="liked" href="https://x.com/intent/like?tweet_id=2108957488410161442" target="_blank" rel="noopener">Like on X</a>
+      <a class="btn primary" data-mark="reposted" href="https://x.com/intent/retweet?tweet_id=2108957488410161442" target="_blank" rel="noopener">Repost on X</a>
+      <a class="btn ghost" href="https://x.com/levelsio/status/2108957488410161442" target="_blank" rel="noopener">View</a>
+    </div>
+  </div>
+</article>
+
+<article class="card" data-id="bb39c62a8dc60427">
+  <div class="chead">
+    <span class="rank">10</span>
+    <span class="handle mono">@ErikSherman</span>
+    
+    <span class="pill">x-surface</span>
+    <span class="spacer"></span>
+    <label class="tick"><input type="checkbox" data-field="liked"> liked</label>
+    <label class="tick"><input type="checkbox" data-field="reposted"> reposted</label>
+  </div>
+  <div class="body">
+    <p class="text">&quot;An Anthropic artificial intelligence model submitted a ​false homicide tip to a Philadelphia police website&quot; — Reuters. The people running the company are utterly incompetent to have this sort of stuff happening. https://t.co/kXE9TDMf9T</p>
+    <p class="why">Cited by Techmeme</p>
+    <p class="meta mono">rank 31.8 · 15:33 UTC | SAT 10 OCT 2026 · <a href="https://x.com/ErikSherman/status/2108944028452770069" target="_blank" rel="noopener">open post</a> · <a href="/live-x.html" target="_blank" rel="noopener">on site</a></p>
+    <div class="btns">
+      <a class="btn primary" data-mark="liked" href="https://x.com/intent/like?tweet_id=2108944028452770069" target="_blank" rel="noopener">Like on X</a>
+      <a class="btn primary" data-mark="reposted" href="https://x.com/intent/retweet?tweet_id=2108944028452770069" target="_blank" rel="noopener">Repost on X</a>
+      <a class="btn ghost" href="https://x.com/ErikSherman/status/2108944028452770069" target="_blank" rel="noopener">View</a>
+    </div>
+  </div>
+</article>
+
+<article class="card" data-id="e4d3bfceb801b182">
+  <div class="chead">
+    <span class="rank">11</span>
+    <span class="handle mono">@Smallzero</span>
+    
+    <span class="pill">x-surface</span>
+    <span class="spacer"></span>
+    <label class="tick"><input type="checkbox" data-field="liked"> liked</label>
+    <label class="tick"><input type="checkbox" data-field="reposted"> reposted</label>
+  </div>
+  <div class="body">
+    <p class="text">I remade your game from one screenshot on @spawn . AI vibe coded games are so easy to make now. It&#39;s fully multiplayer too. https://t.co/wTkPqdPama pic.twitter.com/RaV136Z9jA</p>
+    <p class="why">Cited by Techmeme</p>
+    <p class="meta mono">rank 31.8 · 15:23 UTC | SAT 10 OCT 2026 · <a href="https://x.com/Smallzero/status/2108941374162981259" target="_blank" rel="noopener">open post</a> · <a href="/live-x.html" target="_blank" rel="noopener">on site</a></p>
+    <div class="btns">
+      <a class="btn primary" data-mark="liked" href="https://x.com/intent/like?tweet_id=2108941374162981259" target="_blank" rel="noopener">Like on X</a>
+      <a class="btn primary" data-mark="reposted" href="https://x.com/intent/retweet?tweet_id=2108941374162981259" target="_blank" rel="noopener">Repost on X</a>
+      <a class="btn ghost" href="https://x.com/Smallzero/status/2108941374162981259" target="_blank" rel="noopener">View</a>
+    </div>
+  </div>
+</article>
+
+<article class="card" data-id="62db310b1b755eed">
+  <div class="chead">
+    <span class="rank">12</span>
+    <span class="handle mono">@samhenrigold</span>
+    
+    <span class="pill">x-surface</span>
+    <span class="spacer"></span>
+    <label class="tick"><input type="checkbox" data-field="liked"> liked</label>
+    <label class="tick"><input type="checkbox" data-field="reposted"> reposted</label>
+  </div>
+  <div class="body">
+    <p class="text">any software or hardware is open source now whether the company likes it or not https://t.co/2846HktBFY</p>
+    <p class="why">Cited by Techmeme</p>
+    <p class="meta mono">rank 31.2 · 13:09 UTC | SAT 10 OCT 2026 · <a href="https://x.com/samhenrigold/status/2108907837325726167" target="_blank" rel="noopener">open post</a> · <a href="/live-x.html" target="_blank" rel="noopener">on site</a></p>
+    <div class="btns">
+      <a class="btn primary" data-mark="liked" href="https://x.com/intent/like?tweet_id=2108907837325726167" target="_blank" rel="noopener">Like on X</a>
+      <a class="btn primary" data-mark="reposted" href="https://x.com/intent/retweet?tweet_id=2108907837325726167" target="_blank" rel="noopener">Repost on X</a>
+      <a class="btn ghost" href="https://x.com/samhenrigold/status/2108907837325726167" target="_blank" rel="noopener">View</a>
+    </div>
+  </div>
+</article>
+
+<article class="card" data-id="bc50375646b066b3">
+  <div class="chead">
+    <span class="rank">13</span>
+    <span class="handle mono">@Kotaku</span>
+    
+    <span class="pill">x-surface</span>
+    <span class="spacer"></span>
+    <label class="tick"><input type="checkbox" data-field="liked"> liked</label>
+    <label class="tick"><input type="checkbox" data-field="reposted"> reposted</label>
+  </div>
+  <div class="body">
+    <p class="text">The internet is getting flooded with vibe coded ports of Halo, Simpsons: Hit and Run, GTA: Vice City and more games that you can play in your browser and they all work shockingly well https://t.co/MttI9KvZ1S</p>
+    <p class="why">Cited by Techmeme</p>
+    <p class="meta mono">rank 30.9 · 12:23 UTC | SAT 10 OCT 2026 · <a href="https://x.com/Kotaku/status/2108896098928488481" target="_blank" rel="noopener">open post</a> · <a href="/live-x.html" target="_blank" rel="noopener">on site</a></p>
+    <div class="btns">
+      <a class="btn primary" data-mark="liked" href="https://x.com/intent/like?tweet_id=2108896098928488481" target="_blank" rel="noopener">Like on X</a>
+      <a class="btn primary" data-mark="reposted" href="https://x.com/intent/retweet?tweet_id=2108896098928488481" target="_blank" rel="noopener">Repost on X</a>
+      <a class="btn ghost" href="https://x.com/Kotaku/status/2108896098928488481" target="_blank" rel="noopener">View</a>
+    </div>
+  </div>
+</article>
+
+<article class="card" data-id="9703e163fe3f9396">
+  <div class="chead">
+    <span class="rank">14</span>
+    <span class="handle mono">@rohanpaul_ai</span>
+    
+    <span class="pill">news</span>
+    <span class="spacer"></span>
+    <label class="tick"><input type="checkbox" data-field="liked"> liked</label>
+    <label class="tick"><input type="checkbox" data-field="reposted"> reposted</label>
+  </div>
+  <div class="body">
+    <p class="text">Ben Affleck is an AI nerd</p>
+    <p class="why">Newsroom attention · score 33.2</p>
+    <p class="meta mono">rank 23.8 · 17:45 UTC | FRI 9 OCT 2026 · <a href="https://x.com/rohanpaul_ai/status/2105786881111896126" target="_blank" rel="noopener">open post</a> · <a href="/item/cf98f601f92463c7.html" target="_blank" rel="noopener">on site</a></p>
+    <div class="btns">
+      <a class="btn primary" data-mark="liked" href="https://x.com/intent/like?tweet_id=2105786881111896126" target="_blank" rel="noopener">Like on X</a>
+      <a class="btn primary" data-mark="reposted" href="https://x.com/intent/retweet?tweet_id=2105786881111896126" target="_blank" rel="noopener">Repost on X</a>
+      <a class="btn ghost" href="https://x.com/rohanpaul_ai/status/2105786881111896126" target="_blank" rel="noopener">View</a>
+    </div>
+  </div>
+</article>
+
+<article class="card" data-id="a47952e2cee73398">
+  <div class="chead">
+    <span class="rank">15</span>
+    <span class="handle mono">@danintheory</span>
+    
+    <span class="pill">x-surface</span>
+    <span class="spacer"></span>
+    <label class="tick"><input type="checkbox" data-field="liked"> liked</label>
+    <label class="tick"><input type="checkbox" data-field="reposted"> reposted</label>
+  </div>
+  <div class="body">
+    <p class="text">We&#39;ve updated our GitHub math repo with 6 new Lean formalizations, 19 modifications, and 3 withdrawals. The repo now has ~42% top-line results formalized. We will continue to update the repo with new formalizations and with any errata we n…</p>
+    <p class="why">Cited by Hacker News (377 points)</p>
+    <p class="meta mono">rank 15.6 · 05:20 UTC | THU 8 OCT 2026 · <a href="https://x.com/danintheory/status/2108065033070789090" target="_blank" rel="noopener">open post</a> · <a href="/live-x.html" target="_blank" rel="noopener">on site</a></p>
+    <div class="btns">
+      <a class="btn primary" data-mark="liked" href="https://x.com/intent/like?tweet_id=2108065033070789090" target="_blank" rel="noopener">Like on X</a>
+      <a class="btn primary" data-mark="reposted" href="https://x.com/intent/retweet?tweet_id=2108065033070789090" target="_blank" rel="noopener">Repost on X</a>
+      <a class="btn ghost" href="https://x.com/danintheory/status/2108065033070789090" target="_blank" rel="noopener">View</a>
+    </div>
+  </div>
+</article>
+
+<footer>
+  Built from <code>data/x-surface.json</code> and newsroom items whose canonical URL
+  is an x.com status. Progress is local to this browser (localStorage), same shape
+  as the posting console. Generated 23:25 UTC | SAT 10 OCT 2026.
+</footer>
+</div>
+<script>
+const ITEMS=[{"id":"041b0ba33e268d1c","status_id":"2108680150556737819"},{"id":"b9fa079ab1cd68c9","status_id":"2108404561413349695"},{"id":"5cf62a83ad5e838f","status_id":"2108182763002278158"},{"id":"d29fd245bd781606","status_id":"2109008732977762419"},{"id":"508ca703f65e3e73","status_id":"2108993851059048703"},{"id":"98d794adff38b769","status_id":"2108991951781433678"},{"id":"7fb80afdd688383d","status_id":"2108986552106066290"},{"id":"1327ff82647aeb6c","status_id":"2108985478519075124"},{"id":"467f97157e54b3f9","status_id":"2108957488410161442"},{"id":"bb39c62a8dc60427","status_id":"2108944028452770069"},{"id":"e4d3bfceb801b182","status_id":"2108941374162981259"},{"id":"62db310b1b755eed","status_id":"2108907837325726167"},{"id":"bc50375646b066b3","status_id":"2108896098928488481"},{"id":"9703e163fe3f9396","status_id":"2105786881111896126"},{"id":"a47952e2cee73398","status_id":"2108065033070789090"}];
+const SLATE_ID="2026-10-10T23-25-01Z";
+
+const KEY='siren.engagesheet.'+SLATE_ID;
+function load(){try{return JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){return {}}}
+function save(s){try{localStorage.setItem(KEY,JSON.stringify(s))}catch(e){}}
+let ticked=load();
+
+function refreshProgress(){
+  const total=ITEMS.length;
+  const liked=ITEMS.filter(p=>ticked[p.id]&&ticked[p.id].liked).length;
+  const reposted=ITEMS.filter(p=>ticked[p.id]&&ticked[p.id].reposted).length;
+  const done=ITEMS.filter(p=>ticked[p.id]&&ticked[p.id].liked&&ticked[p.id].reposted).length;
+  document.getElementById('pcount').textContent=done+' of '+total+' fully synced · '+liked+' liked · '+reposted+' reposted';
+  document.getElementById('pbar').style.width=(total?100*done/total:0)+'%';
+}
+
+function mark(id, field){
+  const row=ticked[id]||{};
+  row[field]=new Date().toISOString();
+  ticked[id]=row;
+  save(ticked);
+  const card=document.querySelector('.card[data-id="'+id+'"]');
+  if(card){
+    const box=card.querySelector('input[data-field="'+field+'"]');
+    if(box) box.checked=true;
+    const both=ticked[id].liked&&ticked[id].reposted;
+    card.classList.toggle('done',Boolean(both));
+  }
+  refreshProgress();
+}
+
+document.querySelectorAll('.card').forEach(function(card){
+  const id=card.dataset.id;
+  const row=ticked[id]||{};
+  card.querySelectorAll('input[type=checkbox]').forEach(function(box){
+    const field=box.dataset.field;
+    box.checked=Boolean(row[field]);
+    box.addEventListener('change',function(){
+      if(box.checked){
+        mark(id, field);
+      } else {
+        if(ticked[id]) { delete ticked[id][field]; if(!ticked[id].liked && !ticked[id].reposted) delete ticked[id]; }
+        save(ticked);
+        card.classList.toggle('done',Boolean(ticked[id]&&ticked[id].liked&&ticked[id].reposted));
+        refreshProgress();
+      }
+    });
+  });
+  card.classList.toggle('done',Boolean(row.liked&&row.reposted));
+  card.querySelectorAll('a[data-mark]').forEach(function(a){
+    a.addEventListener('click',function(){ mark(id, a.dataset.mark); });
+  });
+});
+
+document.getElementById('reset').addEventListener('click',function(){
+  ticked={}; save(ticked);
+  document.querySelectorAll('.card').forEach(c=>{
+    c.querySelectorAll('input[type=checkbox]').forEach(b=>b.checked=false);
+    c.classList.remove('done');
+  });
+  refreshProgress();
+});
+refreshProgress();
+
+</script>
+</body>
+</html>

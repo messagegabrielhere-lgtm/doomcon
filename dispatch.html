@@ -1,0 +1,1390 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Dispatch — 911, alerts &amp; police blather</title>
+<meta name="description" content="Live US 911 CAD calls from city open data, NWS/USGS/GDACS/NHC/EONET alerts, and a ticker of police-call chatter — public feeds only, no keys, not an…">
+<link rel="stylesheet" href="fonts/fonts.css">
+<style>
+:root{
+  --bg:#070a10; --panel:#0e131c; --sunk:#0a0e15; --ink:#e4e9f1; --mute:#8590a3; --line:#1e2735;
+  --accent:#f0b44c; --accent-ink:#1a1206; --up:#33c1a1; --down:#f0645a; --warn:#facc15;
+  --alert:#e53935; --call:#42a5f5; --blather:#ce93d8;
+  --land:#233149; --land-line:#3a4c69; --ocean:#09111d;
+  --f-display:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
+  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 var(--f-body);padding:12px 16px 20px}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+a{color:inherit}
+[hidden]{display:none!important}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.wrap{max-width:1600px;margin:0 auto;display:flex;flex-direction:column;gap:10px}
+
+.top{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px}
+.brand{display:flex;align-items:baseline;gap:10px;margin-right:auto;min-width:0}
+.brand h1{margin:0;font:700 26px/1 var(--f-display);letter-spacing:.04em;text-transform:uppercase;white-space:nowrap}
+.brand h1 b{color:var(--accent)}
+.brand span{color:var(--mute);font-size:12.5px}
+.clock{font:500 13px/1 var(--f-mono);color:var(--mute)}
+.em-banner{display:none;align-items:center;gap:12px;flex-wrap:wrap;padding:10px 14px;border-radius:8px;border:1px solid var(--alert);background:linear-gradient(90deg,rgba(229,57,53,.22),rgba(14,19,28,.9));animation:em-pulse 2.4s ease-in-out infinite}
+.em-banner.on{display:flex}
+.em-banner[data-level="1"]{border-color:#ff1744;background:linear-gradient(90deg,rgba(255,23,68,.35),rgba(14,19,28,.92))}
+.em-banner[data-level="2"]{border-color:var(--alert)}
+.em-banner[data-level="3"]{border-color:var(--warn);background:linear-gradient(90deg,rgba(250,204,21,.18),rgba(14,19,28,.9))}
+.em-banner .tag{font:800 13px/1 var(--f-display);letter-spacing:.16em;padding:5px 10px;border-radius:4px;background:var(--alert);color:#fff}
+.em-banner[data-level="3"] .tag{background:var(--warn);color:#1a1206}
+.em-banner .body{flex:1;min-width:200px;font-size:13.5px}
+.em-banner .body b{font-weight:600}
+.em-banner .body small{display:block;color:var(--mute);font-size:12px;margin-top:2px}
+.em-banner .go{margin-left:auto}
+@keyframes em-pulse{0%,100%{box-shadow:0 0 0 0 rgba(229,57,53,.35)}50%{box-shadow:0 0 0 6px rgba(229,57,53,0)}}
+@media (prefers-reduced-motion:reduce){.em-banner{animation:none}}
+.btn{border:1px solid var(--line);background:var(--panel);border-radius:6px;padding:5px 11px;font-weight:500;font-size:13px;text-decoration:none;display:inline-flex;align-items:center}
+.btn:hover{border-color:var(--mute)}
+.btn[aria-pressed=true]{border-color:var(--accent);color:var(--accent)}
+.sources{display:flex;flex-wrap:wrap;gap:5px}
+.src{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:2px 9px;font-size:11.5px;color:var(--mute);white-space:nowrap;cursor:help}
+.src i{width:7px;height:7px;border-radius:50%;background:var(--line);display:inline-block}
+.src.ok i{background:var(--up)}
+.src.dark i{background:var(--down)}
+.src.wait i{background:var(--accent);animation:blink 1s infinite}
+@keyframes blink{50%{opacity:.3}}
+
+.grid{display:grid;grid-template-columns:260px minmax(0,1fr) 380px;gap:10px;min-height:calc(100vh - 140px)}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;min-width:0;display:flex;flex-direction:column;overflow:hidden}
+.ph{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 12px;border-bottom:1px solid var(--line)}
+.ph h2{margin:0;font:600 14px/1 var(--f-display);letter-spacing:.12em;text-transform:uppercase}
+.ph small{color:var(--mute);font-size:11.5px}
+.scroll{overflow:auto;min-height:0;flex:1}
+.left{display:flex;flex-direction:column;gap:10px;max-height:calc(100vh - 130px)}
+.left .panel{flex:1}
+
+.layer{display:flex;align-items:center;gap:8px;padding:4px 12px;font-size:13px;cursor:pointer}
+.layer input{margin:0;accent-color:var(--accent)}
+.layer .sw{width:10px;height:10px;border-radius:50%;flex:none}
+.layer .n{margin-left:auto;font:400 11.5px var(--f-mono);color:var(--mute)}
+.cities{padding:8px 12px 12px;display:flex;flex-direction:column;gap:4px}
+.city{display:flex;justify-content:space-between;gap:8px;padding:6px 8px;border:1px solid var(--line);border-radius:6px;background:var(--sunk);font-size:12.5px}
+.city b{font-weight:600}
+.city .st{font:400 11px var(--f-mono);color:var(--mute)}
+.city.ok .st{color:var(--up)}
+.city.dark .st{color:var(--down)}
+.note{padding:10px 12px;font-size:12.5px;color:var(--mute);border-top:1px solid var(--line)}
+.note b{color:var(--ink);font-weight:600}
+
+.stage{position:relative;min-height:420px}
+#map{display:block;width:100%;height:100%;min-height:420px;background:radial-gradient(ellipse at 50% 40%,#122038 0%,var(--ocean) 70%)}
+.hud{position:absolute;top:10px;left:10px;display:flex;flex-wrap:wrap;gap:6px;z-index:2}
+.legend{position:absolute;bottom:10px;left:10px;display:flex;flex-wrap:wrap;gap:8px;font-size:11.5px;color:var(--mute);background:rgba(7,10,16,.72);padding:6px 10px;border-radius:6px;border:1px solid var(--line);z-index:2}
+.legend span::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px;vertical-align:middle}
+.legend .a::before{background:var(--alert)}
+.legend .c::before{background:var(--call)}
+.legend .x::before{display:none}
+.legend i{font-style:normal}
+.scope{display:flex;gap:6px;padding:8px 10px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--panel);z-index:1}
+.scope .btn{font-size:12px;padding:4px 9px}
+.scope .btn span{margin-left:4px;font:400 11px var(--f-mono);color:var(--mute)}
+.feed li[data-lon]{cursor:pointer}
+.livetag{color:#4ade80;font-weight:700;letter-spacing:.06em}
+.xbtn{margin-left:auto;border:1px solid var(--line);background:transparent;color:var(--mute);border-radius:4px;padding:1px 7px;font:600 11px/1.5 var(--f-mono,ui-monospace,monospace);cursor:pointer}
+.xbtn:hover{color:var(--ink);border-color:var(--mute)}
+.feed li[data-lon]:hover{background:rgba(255,255,255,.03)}
+.tip{position:absolute;pointer-events:none;z-index:3;background:rgba(14,19,28,.94);border:1px solid var(--line);border-radius:6px;padding:7px 10px;font-size:12.5px;max-width:260px;box-shadow:0 8px 24px rgba(0,0,0,.45)}
+.tip b{display:block;font-weight:600;margin-bottom:2px}
+.tip small{color:var(--mute)}
+.loading{position:absolute;inset:0;display:grid;place-items:center;color:var(--mute);font-size:13px;z-index:1;background:rgba(7,10,16,.35)}
+
+.tabs{display:flex;border-bottom:1px solid var(--line)}
+.tabs button{flex:1;border:0;background:transparent;padding:9px 8px;font:600 12px/1 var(--f-display);letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+.tabs button[aria-selected=true]{color:var(--ink);box-shadow:inset 0 -2px 0 var(--accent)}
+.tabs .ct{margin-left:4px;font:400 11px var(--f-mono);color:var(--mute)}
+.feed{list-style:none;margin:0;padding:0}
+.feed li{padding:10px 12px;border-bottom:1px solid var(--line);cursor:default}
+.feed li:hover{background:var(--sunk)}
+.feed .meta{display:flex;flex-wrap:wrap;gap:6px 10px;font-size:11.5px;color:var(--mute);margin-bottom:3px}
+.feed .meta .tag{color:var(--ink)}
+.feed .meta .sev-Extreme,.feed .meta .sev-Severe{color:var(--alert)}
+.feed .title{font-size:13.5px;font-weight:500}
+.bline{padding:8px 12px;border-bottom:1px solid var(--line);font-size:13px;display:grid;grid-template-columns:64px 1fr;gap:8px}
+.bline .when{font:400 11px var(--f-mono);color:var(--mute);padding-top:2px}
+.bline .txt b{color:var(--blather);font-weight:600;margin-right:6px}
+.bline .txt span{color:var(--mute);font-size:11.5px;margin-left:6px}
+
+.ticker{display:flex;align-items:center;gap:10px;border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:7px 10px;overflow:hidden}
+.ticker .lab{font:700 11px/1 var(--f-display);letter-spacing:.14em;color:var(--blather);flex:none}
+.ticker .run{flex:1;overflow:hidden;white-space:nowrap;mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.ticker .run span{display:inline-block;padding-left:100%;animation:marquee 80s linear infinite;font:500 13px/1.4 var(--f-mono);color:var(--ink)}
+@keyframes marquee{to{transform:translateX(-100%)}}
+@media (prefers-reduced-motion:reduce){.ticker .run span{animation:none;padding-left:0;white-space:normal}}
+
+footer{display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:space-between;font-size:12px;color:var(--mute);padding:2px 2px 0}
+footer a{color:var(--ink);text-decoration:underline;text-underline-offset:2px}
+
+@media (max-width:1100px){
+  .grid{grid-template-columns:1fr;min-height:0}
+  .left{max-height:none;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .stage{min-height:360px;order:-1}
+  #map{min-height:360px}
+  .right .pane{max-height:62vh}
+  .cities{max-height:240px}
+}
+@media (max-width:640px){
+  .left{grid-template-columns:1fr}
+  .legend .long,.legend .x{display:none}
+  .legend{font-size:11px;padding:4px 8px}
+  .sources{flex-wrap:nowrap;overflow-x:auto;padding-bottom:2px;scrollbar-width:thin}
+  .brand span{display:none}
+}
+</style>
+<link rel="canonical" href="https://siren.watch/dispatch.html">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="SIREN">
+<meta property="og:title" content="Dispatch — 911, alerts &amp; police blather">
+<meta property="og:description" content="Live US 911 CAD calls from city open data, NWS/USGS/GDACS/NHC/EONET alerts, and a ticker of police-call chatter — public feeds only, no keys, not an…">
+<meta property="og:url" content="https://siren.watch/dispatch.html">
+<meta property="og:image" content="https://siren.watch/cards/room-dispatch.png?v=2026-10-10T23-21-19Z">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="alternate" type="text/markdown" href="/now.md" title="Current reading (markdown)">
+<link rel="alternate" type="text/plain" href="/llms.txt" title="llms.txt">
+<link rel="describedby" href="/openapi.json" type="application/json">
+<link rel="stylesheet" href="/fonts/fonts.css">
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-93SEVYQXY3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-93SEVYQXY3');
+</script>
+</head>
+<body>
+<style data-siteheader-css>
+.sh{--sh-bg:#000;--sh-panel:#0E131D;--sh-line:#232C3B;--sh-btn:#2A3446;--sh-ink:#E6EAF0;--sh-mute:#AEB7C3;--sh-acc:#4F46E5;--sh-acc2:#818CF8;
+  position:relative;z-index:60;background:var(--sh-bg);border-bottom:2px solid var(--sh-line);color:var(--sh-ink);
+  font:600 12px/1.2 'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.04em;-webkit-text-size-adjust:100%}
+.sh *,.sh *::before,.sh *::after{box-sizing:border-box}
+.sh a{text-decoration:none;color:inherit}
+.sh__in{max-width:1240px;margin:0 auto;padding:0 16px;display:flex;align-items:center;gap:12px;min-height:60px}
+.sh__brand{display:inline-flex;align-items:center;gap:10px;flex:0 0 auto;min-height:44px}
+.sh__brand img{display:block;width:36px;height:36px}
+.sh__wm{display:flex;flex-direction:column;gap:4px;min-width:0}
+.sh__exp{display:block;font:500 9.5px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.03em;color:#AEB7C3;white-space:nowrap;text-transform:uppercase}
+.sh__exp b{color:#F87171;font-weight:700}
+@media (max-width:560px){.sh__exp{font-size:7.5px;letter-spacing:0;white-space:normal;max-width:100px;line-height:1.15}}
+.sh .v2-ptext{display:block;line-height:0}.sh .v2-px{display:block}
+.sh .v2-sr,.sh__sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.sh__lv{flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;min-height:30px;padding:4px 9px;border:1px solid var(--sh-lv);background:#03130A;color:var(--sh-lv);font-weight:700;font-size:12px;white-space:nowrap}
+.sh__lv i{width:8px;height:8px;border-radius:50%;background:var(--sh-lv);box-shadow:0 0 8px var(--sh-lv)}
+.sh__nav{flex:1 1 auto;min-width:0;display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
+.sh__nav::-webkit-scrollbar{display:none}
+.sh__nav a:first-child{margin-left:auto}
+.sh__nav a{flex:0 0 auto;display:inline-flex;align-items:center;min-height:44px;padding:0 9px;color:var(--sh-mute);border-bottom:2px solid transparent;margin-bottom:-2px;white-space:nowrap;text-transform:uppercase;font-size:11.5px}
+.sh__nav a:hover{color:#fff}
+.sh__nav a[aria-current=page]{color:#fff;border-bottom-color:var(--sh-acc2)}
+.sh__all{flex:0 0 auto;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 14px;border:0;background:var(--sh-acc);color:#fff;font:inherit;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
+.sh__all:hover{background:#4338CA}
+.sh__new{flex:0 0 auto;display:inline-flex;align-items:center;gap:4px;min-height:44px;padding:0 12px;border:2px solid #FACC15;background:transparent;color:#FACC15;font:inherit;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
+.sh__new:hover{background:#FACC15;color:#000}
+@media (max-width:560px){.sh__new{padding:0 10px}.sh__new span{display:none}}
+.sh-rooms__g.sh-rooms__g--new{color:#FACC15}
+.sh__srch{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;width:44px;min-height:44px;border:2px solid var(--sh-btn);background:transparent;color:var(--sh-ink);cursor:pointer}
+.sh__srch:hover{border-color:var(--sh-acc2);color:#fff}
+.sh-rooms__chips{flex:0 0 auto;display:flex;gap:6px;overflow-x:auto;padding:8px 12px;border-bottom:1px solid #232C3B;scrollbar-width:none}
+.sh-rooms__chips::-webkit-scrollbar{display:none}
+.sh-rooms__chips button{flex:0 0 auto;min-height:32px;padding:0 10px;border:1px solid #2A3446;background:#0E131D;color:#D7DCE3;font:600 11px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
+.sh-rooms__chips button:hover{border-color:#818CF8;color:#fff}
+.sh-rooms__g--rec{color:#FACC15}
+.sh-pn{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 18px}
+.sh-pn a{display:flex;flex-direction:column;gap:3px;min-height:56px;padding:10px 12px;border:2px solid #2A3446;background:#0E131D;color:#E6EAF0!important;text-decoration:none!important}
+.sh-pn a:hover{border-color:#6366F1;background:#161D33}
+.sh-pn small{color:#AEB7C3;font:600 11px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase}
+.sh-pn b{font-weight:650}
+.sh-pn a[data-sh-next]{text-align:right;grid-column:2}
+.sh__all svg{display:block}
+.sh__all kbd{font:inherit;font-size:10px;border:1px solid rgba(255,255,255,.55);padding:1px 5px}
+.sh a:focus-visible,.sh button:focus-visible,.sh-rooms a:focus-visible,.sh-rel a:focus-visible,.sh-rel button:focus-visible,.sh-top:focus-visible,video:focus-visible{outline:2px solid #E2A03B;outline-offset:2px}
+@media (max-width:1360px){.sh__lv b{display:none}.sh__all kbd{display:none}.sh__nav a{padding:0 7px}}
+@media (max-width:1180px){.sh__nav{mask-image:linear-gradient(90deg,#000 90%,transparent)}}
+@media (max-width:900px){.sh__nav{display:none}.sh__lv{margin-left:auto}}
+@media (max-width:560px){.sh__in{gap:6px;padding:0 10px;min-height:56px}.sh__brand svg{width:96px;height:auto}.sh__brand img{width:32px;height:32px}.sh__lv{padding:4px 7px;font-size:11px}.sh__all{padding:0 12px}.sh__all kbd,.sh__all span{display:none}.sh__lvw{display:none}.sh__srch{width:42px}}
+.sh__lvw{font-style:normal}
+@media (max-width:400px){.sh__srch{display:none}}
+@media (max-width:340px){.sh__brand svg{display:none}}
+.sh-rooms{width:min(720px,calc(100vw - 20px));max-height:min(82vh,760px);margin:7vh auto auto;padding:0;border:2px solid #2A3446;background:#0A0E16;color:#E6EAF0;box-shadow:0 30px 90px rgba(0,0,0,.7);font:500 14px/1.35 system-ui,-apple-system,'Segoe UI',sans-serif}
+.sh-rooms::backdrop{background:rgba(0,0,0,.72);backdrop-filter:blur(3px)}
+.sh-rooms__box{display:flex;flex-direction:column;max-height:min(82vh,760px)}
+.sh-rooms__top{display:flex;align-items:center;gap:8px;border-bottom:2px solid #232C3B}
+.sh-rooms__q{flex:1 1 auto;min-width:0;min-height:52px;padding:0 16px;border:0;background:transparent;color:#fff;font:500 17px/1.3 system-ui,sans-serif;outline:none}
+.sh-rooms__x{flex:0 0 auto;min-width:48px;min-height:48px;border:0;background:transparent;color:#AEB7C3;font:600 18px/1 system-ui,sans-serif;cursor:pointer}
+.sh-rooms__x:hover{color:#fff}
+.sh-rooms__l{list-style:none;margin:0;padding:6px 8px 10px;overflow-y:auto;flex:1 1 auto}
+.sh-rooms__g{padding:12px 8px 4px;color:#86EFAC;font:700 11px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.14em}
+.sh-rooms__i{display:flex;align-items:center;gap:12px;min-height:48px;padding:6px 8px;color:#E6EAF0;text-decoration:none;border-left:2px solid transparent}
+.sh-rooms__i img{flex:0 0 auto;width:34px;height:34px;display:block}
+.sh-rooms__i span{min-width:0;display:flex;flex-direction:column}
+.sh-rooms__i b{font-weight:650}
+.sh-rooms__i small{color:#AEB7C3;font-size:12.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sh-rooms__i:hover,.sh-rooms__i.on{background:#161D33;border-left-color:#818CF8}
+.sh-rooms__i[aria-current=page] b::after{content:' · you are here';color:#86EFAC;font-weight:500;font-size:12px}
+.sh-rooms__i--x b{color:#A5B4FC}
+.sh-rooms__i mark{background:rgba(250,204,21,.28);color:inherit}
+.sh-rooms__k{margin:0;padding:8px 16px;border-top:1px solid #232C3B;color:#AEB7C3;font:500 11px/1.3 'IBM Plex Mono',ui-monospace,monospace}
+@media (max-width:560px){.sh-rooms{margin:10px auto auto;max-height:calc(100vh - 20px)}.sh-rooms__box{max-height:calc(100vh - 20px)}.sh-rooms__k{display:none}}
+.sh-rel{max-width:1240px;margin:40px auto 0;padding:0 16px;color:#E6EAF0;font:500 14px/1.4 system-ui,-apple-system,'Segoe UI',sans-serif}
+.sh-rel *{box-sizing:border-box}
+.sh-crumb{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;margin:0 0 12px;padding:0;list-style:none;color:#AEB7C3;font:600 12px/1.3 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.06em;text-transform:uppercase}
+.sh-crumb li+li::before{content:'›';margin-right:8px;color:#5B6576}
+.sh-crumb a{color:#D7DCE3;text-decoration:none;display:inline-flex;align-items:center;min-height:44px}
+.sh-crumb a:hover{color:#fff;text-decoration:underline}
+.sh-crumb [aria-current]{color:#86EFAC}
+.sh-rel__h{margin:0 0 10px;color:#AEB7C3;font:700 11px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.14em;text-transform:uppercase}
+.sh-rel__g{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.sh-rel__a{display:flex;align-items:center;gap:12px;min-height:64px;padding:10px 12px;border:2px solid #2A3446;background:#0E131D;color:#E6EAF0!important;text-decoration:none!important}
+.sh-rel__a:hover{border-color:#6366F1;background:#161D33}
+.sh-rel__a img{flex:0 0 auto;width:40px;height:40px;display:block}
+.sh-rel__a span{min-width:0;display:flex;flex-direction:column;gap:2px}
+.sh-rel__a b{font:700 12px/1.2 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.06em;text-transform:uppercase}
+.sh-rel__a small{color:#AEB7C3;font-size:12.5px;line-height:1.35}
+.sh-rel__more{margin:12px 0 0;display:flex;flex-wrap:wrap;gap:8px 16px}
+.sh-rel__more a,.sh-rel__more button{all:unset;cursor:pointer;display:inline-flex;align-items:center;min-height:44px;color:#A5B4FC;font:600 12px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.06em;text-transform:uppercase}
+.sh-rel__more a:hover,.sh-rel__more button:hover{color:#fff}
+.sh-top{position:fixed;left:12px;bottom:12px;z-index:9997;display:none;align-items:center;justify-content:center;width:44px;height:44px;border:2px solid #2A3446;background:rgba(10,14,22,.94);color:#E6EAF0;font:700 18px/1 system-ui,sans-serif;cursor:pointer;box-shadow:0 4px 18px rgba(0,0,0,.4)}
+.sh-top.on{display:inline-flex}
+.sh-top:hover{border-color:#6366F1;color:#fff}
+@media (max-width:700px){#sitebar,.sh-top{transition:transform .25s ease,opacity .25s ease}html.sh-dn #sitebar,html.sh-dn .sh-top{transform:translateY(160%);opacity:0;pointer-events:none}}
+@media (prefers-reduced-motion:reduce){#sitebar,.sh-top{transition:none}}
+@media print{.sh,.sh-rel,.sh-top{display:none}}
+</style>
+<header class="sh" data-siteheader role="banner"><div class="sh__in">
+<a class="sh__brand" href="/" aria-label="AI SIREN Index: Superintelligence Real-time Early Notice. Home" title="SIREN = Superintelligence Real-time Early Notice"><img src="/img/art-siren.webp" width="36" height="36" alt=""><span class="sh__wm"><span class="v2-ptext "><span class="v2-sr">AI SIREN INDEX</span><svg class="v2-px" width="213" height="21" viewBox="0 0 71 7" shape-rendering="crispEdges" aria-hidden="true"><rect x="1" y="0" width="3" height="1" fill="#FFFFFF"/><rect x="6" y="0" width="3" height="1" fill="#FFFFFF"/><rect x="14" y="0" width="4" height="1" fill="#FFFFFF"/><rect x="19" y="0" width="3" height="1" fill="#FFFFFF"/><rect x="23" y="0" width="4" height="1" fill="#FFFFFF"/><rect x="29" y="0" width="5" height="1" fill="#FFFFFF"/><rect x="35" y="0" width="1" height="1" fill="#FFFFFF"/><rect x="39" y="0" width="1" height="1" fill="#FFFFFF"/><rect x="44" y="0" width="3" height="1" fill="#FFFFFF"/><rect x="48" y="0" width="1" height="1" fill="#FFFFFF"/><rect x="52" y="0" width="1" height="1" fill="#FFFFFF"/><rect x="54" y="0" width="4" height="1" fill="#FFFFFF"/><rect x="60" y="0" width="5" height="1" fill="#FFFFFF"/><rect x="66" y="0" width="1" height="1" fill="#FFFFFF"/><rect x="70" y="0" width="1" height="1" fill="#FFFFFF"/><rect x="0" y="1" width="1" height="1" fill="#FFFFFF"/><rect x="4" y="1" width="1" height="1" fill="#FFFFFF"/><rect x="7" y="1" width="1" height="1" fill="#FFFFFF"/><rect x="13" y="1" width="1" height="1" fill="#FFFFFF"/><rect x="20" y="1" width="1" height="1" fill="#FFFFFF"/><rect x="23" y="1" width="1" height="1" fill="#FFFFFF"/><rect x="27" y="1" width="1" height="1" fill="#FFFFFF"/><rect x="29" y="1" width="1" height="1" fill="#FFFFFF"/><rect x="35" y="1" width="2" height="1" fill="#FFFFFF"/><rect x="39" y="1" width="1" height="1" fill="#FFFFFF"/><rect x="45" y="1" width="1" height="1" fill="#FFFFFF"/><rect x="48" y="1" width="2" height="1" fill="#FFFFFF"/><rect x="52" y="1" width="1" height="1" fill="#FFFFFF"/><rect x="54" y="1" width="1" height="1" fill="#FFFFFF"/><rect x="58" y="1" width="1" height="1" fill="#FFFFFF"/><rect x="60" y="1" width="1" height="1" fill="#FFFFFF"/><rect x="66" y="1" width="1" height="1" fill="#FFFFFF"/><rect x="70" y="1" width="1" height="1" fill="#FFFFFF"/><rect x="0" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="4" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="7" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="13" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="20" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="23" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="27" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="29" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="35" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="37" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="39" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="45" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="48" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="50" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="52" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="54" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="58" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="60" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="67" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="69" y="2" width="1" height="1" fill="#FFFFFF"/><rect x="0" y="3" width="5" height="1" fill="#FFFFFF"/><rect x="7" y="3" width="1" height="1" fill="#FFFFFF"/><rect x="14" y="3" width="3" height="1" fill="#FFFFFF"/><rect x="20" y="3" width="1" height="1" fill="#FFFFFF"/><rect x="23" y="3" width="4" height="1" fill="#FFFFFF"/><rect x="29" y="3" width="4" height="1" fill="#FFFFFF"/><rect x="35" y="3" width="1" height="1" fill="#FFFFFF"/><rect x="38" y="3" width="2" height="1" fill="#FFFFFF"/><rect x="45" y="3" width="1" height="1" fill="#FFFFFF"/><rect x="48" y="3" width="1" height="1" fill="#FFFFFF"/><rect x="51" y="3" width="2" height="1" fill="#FFFFFF"/><rect x="54" y="3" width="1" height="1" fill="#FFFFFF"/><rect x="58" y="3" width="1" height="1" fill="#FFFFFF"/><rect x="60" y="3" width="4" height="1" fill="#FFFFFF"/><rect x="68" y="3" width="1" height="1" fill="#FFFFFF"/><rect x="0" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="4" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="7" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="17" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="20" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="23" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="25" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="29" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="35" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="39" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="45" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="48" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="52" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="54" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="58" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="60" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="67" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="69" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="0" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="4" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="7" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="17" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="20" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="23" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="26" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="29" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="35" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="39" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="45" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="48" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="52" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="54" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="58" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="60" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="66" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="70" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="0" y="6" width="1" height="1" fill="#FFFFFF"/><rect x="4" y="6" width="1" height="1" fill="#FFFFFF"/><rect x="6" y="6" width="3" height="1" fill="#FFFFFF"/><rect x="13" y="6" width="4" height="1" fill="#FFFFFF"/><rect x="19" y="6" width="3" height="1" fill="#FFFFFF"/><rect x="23" y="6" width="1" height="1" fill="#FFFFFF"/><rect x="27" y="6" width="1" height="1" fill="#FFFFFF"/><rect x="29" y="6" width="5" height="1" fill="#FFFFFF"/><rect x="35" y="6" width="1" height="1" fill="#FFFFFF"/><rect x="39" y="6" width="1" height="1" fill="#FFFFFF"/><rect x="44" y="6" width="3" height="1" fill="#FFFFFF"/><rect x="48" y="6" width="1" height="1" fill="#FFFFFF"/><rect x="52" y="6" width="1" height="1" fill="#FFFFFF"/><rect x="54" y="6" width="4" height="1" fill="#FFFFFF"/><rect x="60" y="6" width="5" height="1" fill="#FFFFFF"/><rect x="66" y="6" width="1" height="1" fill="#FFFFFF"/><rect x="70" y="6" width="1" height="1" fill="#FFFFFF"/></svg></span><span class="sh__exp" aria-hidden="true"><b>S</b>uper<b>I</b>ntelligence <b>R</b>eal-time <b>E</b>arly <b>N</b>otice</span></span></a>
+<a class="sh__lv" href="/#signal" style="--sh-lv:#4ADE80" title="Current reading: SIREN 4 (ROUTINE), score 54.1 of 100"><i aria-hidden="true"></i><span><em class="sh__lvw">SIREN </em>4<b> · ROUTINE</b> · 54.1</span></a>
+<nav class="sh__nav" aria-label="Primary"><a href="/">Index</a><a href="/race.html">Race</a><a href="/news.html">News</a><a href="/leaders.html">Leaders</a><a href="/monitor.html">Monitor</a><a href="/dispatch.html" aria-current="page">Dispatch</a><a href="/moltbook.html">Agent Watch</a><a href="/videos.html">Videos</a><a href="/radio.html">Radio</a></nav>
+<button type="button" class="sh__new" data-sh-rooms-group="NEW ON SIREN" aria-haspopup="dialog" aria-controls="sh-rooms" title="What’s new on SIREN">✦<span> New</span></button>
+<button type="button" class="sh__srch" data-sh-rooms data-sh-search aria-haspopup="dialog" aria-controls="sh-rooms" title="Search the site (/)"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><circle cx="7.5" cy="7.5" r="5.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M11.6 11.6 16 16" stroke="currentColor" stroke-width="2.2" stroke-linecap="square"/></svg><b class="sh__sr">Search the site</b></button>
+<button type="button" class="sh__all" data-sh-rooms aria-haspopup="dialog" aria-controls="sh-rooms"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 2h5v5H2zM9 2h5v5H9zM2 9h5v5H2zM9 9h5v5H9z" fill="currentColor"/></svg><span>All rooms</span><kbd>/</kbd><b class="sh__sr">Open the list of every room</b></button>
+</div></header>
+<script>(function(){var h=document.currentScript&&document.currentScript.previousElementSibling,b=document.body;if(!h||!b)return;var s=getComputedStyle(b),px=function(v){return parseFloat(v)||0};var t=px(s.paddingTop)+px(s.marginTop),l=px(s.paddingLeft)+px(s.marginLeft),r=px(s.paddingRight)+px(s.marginRight);if(t||l||r){h.style.margin='-'+t+'px -'+r+'px '+(t?Math.min(t,16):0)+'px -'+l+'px'}})();</script>
+<style>html:root,html:root[data-theme="dark"]{--bg:#000;--panel:#0E131D;--sunk:#0A0E16;--line:#232C3B;--ink:#F3F4F6;--mute:#AEB7C3;--accent:#4ADE80;--accent-ink:#03130A;--cmp:#818CF8;--zone:rgba(74,222,128,.12);color-scheme:dark}</style>
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <h1>911 <b>Dispatch</b></h1>
+      <span>CAD calls · NWS alerts · police blather · public open data</span>
+    </div>
+    <span class="clock" id="clock">--:--:-- UTC</span>
+    <a class="btn" href="monitor.html" title="World Monitor">World Monitor</a>
+    <button class="btn" id="refresh" type="button" title="Reload snapshot (R)">Refresh</button>
+    <button class="btn" id="helpBtn" type="button" title="What this is" aria-label="Help">?</button>
+  </header>
+  <div class="em-banner" id="emBanner" role="status" aria-live="polite" hidden>
+    <span class="tag" id="emTag">ALERT</span>
+    <div class="body"><b id="emHead">—</b><small id="emSub">Public delayed feed · not an emergency service</small></div>
+    <button class="btn go" type="button" id="emFocus">Show on map</button>
+    <button class="btn" type="button" id="emX" data-xpost="alert" data-x-url="https://siren.watch/dispatch.html">𝕏 Post</button>
+  </div>
+  <div class="sources" id="sources" aria-label="Source status"></div>
+
+  <main class="grid">
+    <aside class="left">
+      <section class="panel" aria-labelledby="hLayers">
+        <div class="ph"><h2 id="hLayers">Layers</h2><small id="layerCount"></small></div>
+        <div id="layers"></div>
+        <div class="note">
+          <b>Not an emergency service.</b> These are delayed public open-data feeds. Street addresses are stripped; call locations are rounded to about 1&nbsp;km. Do not use this page to respond to anything.
+        </div>
+      </section>
+      <section class="panel" aria-labelledby="hCities">
+        <div class="ph"><h2 id="hCities">Cities</h2><small>open CAD</small></div>
+        <div class="cities scroll" id="cities"></div>
+      </section>
+    </aside>
+
+    <section class="panel stage" aria-label="Map">
+      <canvas id="map" aria-label="United States map of 911 calls and emergency alerts"></canvas>
+      <div class="hud">
+        <button class="btn" type="button" id="zin" title="Zoom in (+)" aria-label="Zoom in">+</button>
+        <button class="btn" type="button" id="zout" title="Zoom out (-)" aria-label="Zoom out">−</button>
+        <button class="btn" type="button" id="home" title="Reset view (0)">Reset</button>
+      </div>
+      <div class="legend">
+        <span class="a">Alerts<i class="long"> (NWS · USGS · GDACS · NHC · EONET)</i></span>
+        <span class="c">911 calls<i class="long"> (bubbles = calls per city; zoom in for single calls)</i></span>
+        <span class="x" id="offMap"></span>
+      </div>
+      <div class="tip" id="tip" hidden></div>
+      <div class="loading" id="loading">Loading dispatch snapshot…</div>
+    </section>
+
+    <section class="panel right" aria-label="Feeds">
+      <div class="tabs" role="tablist" id="tabs">
+        <button role="tab" aria-selected="true" data-tab="blather">Blather<span class="ct" id="ctBlather"></span></button>
+        <button role="tab" aria-selected="false" data-tab="alerts">Alerts<span class="ct" id="ctAlerts"></span></button>
+        <button role="tab" aria-selected="false" data-tab="calls">Calls<span class="ct" id="ctCalls"></span></button>
+      </div>
+      <div class="pane scroll" data-pane="blather"><div id="blather"></div></div>
+      <div class="pane scroll" data-pane="alerts" hidden><div class="scope" id="alertScope" role="group" aria-label="Alert area"><button type="button" class="btn" data-scope="us" aria-pressed="true">US map <span></span></button><button type="button" class="btn" data-scope="world" aria-pressed="false">World <span></span></button><button type="button" class="btn" data-scope="all" aria-pressed="false">All <span></span></button></div><ul class="feed" id="alerts"></ul></div>
+      <div class="pane scroll" data-pane="calls" hidden><ul class="feed" id="calls"></ul></div>
+    </section>
+  </main>
+
+  <div class="ticker" aria-label="Police blather ticker"><span class="lab">BLATHER</span><div class="run" id="ticker"><span id="tickerText">Waiting for CAD chatter…</span></div></div>
+
+  <footer>
+    <span>
+      911 CAD: Seattle, SF, NYC, Austin, LA, Dallas, Kansas City, Montgomery County MD.
+      Alerts: <a href="https://www.weather.gov/documentation/services-web-api" target="_blank" rel="noopener">NWS</a>, USGS, GDACS, NHC, NASA EONET.
+      Snapshot every ~15 minutes on the <span class="mono">dispatch-data</span> branch.
+      High-severity triggers mark this page emergency and may post to X.
+      This is ambient public signal, not a warning system.
+    </span>
+    <span>Keys: R refresh · 1–3 tabs · + − 0 zoom · ? help</span>
+  </footer>
+</div>
+
+<dialog id="help" style="max-width:520px;background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:18px 20px">
+  <h2 style="margin:0 0 8px;font:700 22px/1 var(--f-display);letter-spacing:.06em;text-transform:uppercase">Dispatch</h2>
+  <p style="margin:0 0 10px;color:var(--mute);font-size:13.5px">A US room for three public feeds the rest of the site does not carry:</p>
+  <ul style="margin:0 0 10px 18px;padding:0;color:var(--mute);font-size:13.5px">
+    <li><b style="color:var(--ink)">911 / CAD calls</b> from city open-data portals (Seattle Fire/EMS + Police, SF, NYC, Austin, LA, Dallas, Kansas City, Montgomery County MD).</li>
+    <li><b style="color:var(--ink)">Emergency alerts</b> from NWS, USGS quakes, GDACS, NHC storms, and NASA EONET.</li>
+    <li><b style="color:var(--ink)">Police blather</b> — the nature-of-call chatter from those CAD feeds, as a ticker and a list.</li>
+    <li><b style="color:var(--ink)">Emergency mark</b> — Extreme / land-severe / major-quake / hurricane triggers light a site banner and may post once to X.</li>
+  </ul>
+  <p style="margin:0 0 14px;color:var(--mute);font-size:13.5px">It never moves the SIREN score. A dark source is shown as dark. It is not for emergency response.</p>
+  <form method="dialog"><button class="btn" value="ok">Got it</button></form>
+</dialog>
+
+<script>
+(() => {
+"use strict";
+const $ = (s, el = document) => el.querySelector(s);
+const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const RAW = "https://raw.githubusercontent.com/messagegabrielhere-lgtm/doomcon";
+const SNAP_URL = () => `${RAW}/dispatch-data/dispatch.json?m=${Math.floor(Date.now() / 120000)}`;
+const OUTLINE_URL = `${RAW}/main/data/world-outline.json`;
+
+const S = {
+  alerts: [], calls: [], blather: [], cities: [], sources: {}, generated: null,
+  emergency: null,
+  showAlerts: true, showCalls: true, cityOn: new Set(),
+  us: null, view: { z: 1, x: 0, y: 0 },
+  hits: [], needDraw: true, tab: "blather", alertScope: "us",
+};
+
+const canvas = $("#map");
+const ctx = canvas.getContext("2d");
+const tip = $("#tip");
+const REDUCED = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* ---------- Albers USA with Alaska and Hawaii insets ---------- */
+const D2R = Math.PI / 180;
+function albers(lam0, p1, p2, p0) {
+  const P1 = p1 * D2R, P2 = p2 * D2R;
+  const n = 0.5 * (Math.sin(P1) + Math.sin(P2));
+  const c = Math.cos(P1) ** 2 + 2 * n * Math.sin(P1);
+  const r0 = Math.sqrt(c - 2 * n * Math.sin(p0 * D2R)) / n;
+  return (lon, lat) => {
+    const r = Math.sqrt(Math.max(0, c - 2 * n * Math.sin(lat * D2R))) / n;
+    const th = n * (lon - lam0) * D2R;
+    return [r * Math.sin(th), -(r0 - r * Math.cos(th))]; // y grows downward
+  };
+}
+const PROJ = {
+  conus: albers(-96, 29.5, 45.5, 37.5),
+  ak: albers(-154, 55, 65, 50),
+  hi: albers(-157, 8, 18, 3),
+};
+/** Which map region a point belongs to, or null if it is off the US map. */
+function region(lon, lat) {
+  if (!Number.isFinite(lon) || !Number.isFinite(lat)) return null;
+  if (lon > 170) lon -= 360; // western Aleutians
+  if (lat > 50 && lon < -129) return "ak";
+  if (lon >= -162 && lon <= -153 && lat >= 17.5 && lat <= 23.5) return "hi";
+  if (lon >= -128 && lon <= -63 && lat >= 17 && lat <= 50.5) return "conus";
+  return null;
+}
+// Inset placement, solved once the outline is in (or from fixed defaults).
+const INSET = { ak: { s: 0.36, dx: 0, dy: 0 }, hi: { s: 1, dx: 0, dy: 0 } };
+function base(lon, lat) {
+  const reg = region(lon, lat);
+  if (!reg) return null;
+  if (lon > 170) lon -= 360;
+  const p = PROJ[reg](lon, lat);
+  if (reg === "conus") return p;
+  const k = INSET[reg];
+  return [p[0] * k.s + k.dx, p[1] * k.s + k.dy];
+}
+const BOUNDS = { x0: -0.3, x1: 0.32, y0: -0.25, y1: 0.18 };
+function solveLayout(rings) {
+  const bb = () => ({ x0: Infinity, y0: Infinity, x1: -Infinity, y1: -Infinity });
+  const add = (b, p) => { b.x0 = Math.min(b.x0, p[0]); b.x1 = Math.max(b.x1, p[0]); b.y0 = Math.min(b.y0, p[1]); b.y1 = Math.max(b.y1, p[1]); };
+  const by = { conus: bb(), ak: bb(), hi: bb() };
+  const fallback = { conus: [[-124.7, 48.4], [-67, 44.8], [-80.1, 25.2], [-97.4, 25.9], [-117.1, 32.5]], ak: [[-168, 65.6], [-141, 69.6], [-130, 55], [-165, 54.4], [-176, 52]], hi: [[-160.2, 22.2], [-154.8, 19.5], [-155.9, 18.9]] };
+  const src = rings && rings.length ? rings : Object.values(fallback);
+  for (const ring of src) for (const [lo, la] of ring) {
+    const reg = region(lo, la); if (!reg) continue;
+    add(by[reg], PROJ[reg](lo > 170 ? lo - 360 : lo, la));
+  }
+  for (const k of ["conus", "ak", "hi"]) if (!Number.isFinite(by[k].x0)) for (const [lo, la] of fallback[k]) add(by[k], PROJ[k](lo, la));
+  const c = by.conus, w = c.x1 - c.x0, h = c.y1 - c.y0;
+  // Alaska: bottom-left, under California / Arizona. Hawaii: to its right.
+  const ak = INSET.ak, hi = INSET.hi;
+  ak.s = Math.min(0.36, (w * 0.28) / Math.max(1e-6, by.ak.x1 - by.ak.x0));
+  ak.dx = c.x0 - by.ak.x0 * ak.s;
+  ak.dy = c.y1 + h * 0.04 - by.ak.y1 * ak.s;
+  hi.s = Math.min(1, (w * 0.13) / Math.max(1e-6, by.hi.x1 - by.hi.x0));
+  hi.dx = c.x0 + w * 0.31 - by.hi.x0 * hi.s;
+  hi.dy = c.y1 + h * 0.04 - by.hi.y1 * hi.s;
+  const all = bb(); add(all, [c.x0, c.y0]); add(all, [c.x1, c.y1]);
+  add(all, [by.ak.x0 * ak.s + ak.dx, by.ak.y0 * ak.s + ak.dy]);
+  add(all, [by.hi.x1 * hi.s + hi.dx, by.hi.y1 * hi.s + hi.dy]);
+  Object.assign(BOUNDS, all);
+}
+solveLayout(null);
+
+function resize() {
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const r = canvas.parentElement.getBoundingClientRect();
+  const w = Math.max(280, r.width), h = Math.max(320, r.height);
+  canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr);
+  canvas.style.width = w + "px"; canvas.style.height = h + "px";
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  S.needDraw = true;
+}
+/** Fit the whole US (with insets) into the canvas, then apply zoom and pan. */
+function fit() {
+  const w = canvas.clientWidth, h = canvas.clientHeight, pad = 18;
+  const bw = BOUNDS.x1 - BOUNDS.x0, bh = BOUNDS.y1 - BOUNDS.y0;
+  const k = Math.min((w - pad * 2) / bw, (h - pad * 2 - 34) / bh); // 34 px keeps the legend clear
+  return { k, ox: (w - bw * k) / 2 - BOUNDS.x0 * k, oy: (h - 34 - bh * k) / 2 - BOUNDS.y0 * k };
+}
+function toScreen(lon, lat) {
+  const b = base(lon, lat);
+  if (!b) return null;
+  const f = fit(), w = canvas.clientWidth, h = canvas.clientHeight, z = S.view.z;
+  const x = b[0] * f.k + f.ox, y = b[1] * f.k + f.oy;
+  return [(x - w / 2) * z + w / 2 + S.view.x, (y - h / 2) * z + h / 2 + S.view.y];
+}
+const SEV_RANK = { Extreme: 0, Severe: 1, Moderate: 2, Minor: 3 };
+function liveAlerts() {
+  const now = Date.now();
+  return S.alerts.filter((a) => !(Number.isFinite(a.ends) && a.ends < now && (a.t || 0) < a.ends));
+}
+
+function draw() {
+  const w = canvas.clientWidth, h = canvas.clientHeight;
+  ctx.clearRect(0, 0, w, h);
+  const g = ctx.createRadialGradient(w * 0.5, h * 0.4, 20, w * 0.5, h * 0.45, Math.max(w, h) * 0.7);
+  g.addColorStop(0, "#122038"); g.addColorStop(1, "#09111d");
+  ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+
+  if (S.us) {
+    ctx.fillStyle = "#233149"; ctx.strokeStyle = "#3a4c69"; ctx.lineWidth = 1;
+    for (const ring of S.us) {
+      ctx.beginPath(); let started = false;
+      for (const [lo, la] of ring) {
+        const p = toScreen(lo, la); if (!p) continue;
+        if (!started) { ctx.moveTo(p[0], p[1]); started = true; } else ctx.lineTo(p[0], p[1]);
+      }
+      if (started) { ctx.closePath(); ctx.fill(); ctx.stroke(); }
+    }
+    // Inset frames so Alaska and Hawaii read as insets, not neighbours.
+    ctx.strokeStyle = "rgba(122,140,170,.35)"; ctx.setLineDash([4, 4]);
+    for (const reg of ["ak", "hi"]) {
+      const pts = S.us.flat().filter(([lo, la]) => region(lo, la) === reg).map(([lo, la]) => toScreen(lo, la)).filter(Boolean);
+      if (!pts.length) continue;
+      const xs = pts.map((p) => p[0]), ys = pts.map((p) => p[1]);
+      ctx.strokeRect(Math.min(...xs) - 6, Math.min(...ys) - 6, Math.max(...xs) - Math.min(...xs) + 12, Math.max(...ys) - Math.min(...ys) + 12);
+    }
+    ctx.setLineDash([]);
+  }
+
+  S.hits = [];
+  const now = Date.now();
+  if (S.showCalls) {
+    const calls = S.calls.filter((c) => !S.cityOn.size || S.cityOn.has(cityKey(c.city)));
+    if (S.view.z < 2.4) {
+      // Zoomed out: one bubble per city, sized by call count.
+      const by = new Map();
+      for (const c of calls) {
+        const k = cityKey(c.city), o = by.get(k) || { city: c.city, n: 0, x: 0, y: 0, fresh: 0, pts: 0 };
+        o.n++; if (now - c.t < 3600e3) o.fresh++;
+        const p = toScreen(c.lon, c.lat); if (p) { o.x += p[0]; o.y += p[1]; o.pts++; }
+        by.set(k, o);
+      }
+      for (const o of [...by.values()].sort((a, b) => b.n - a.n)) {
+        if (!o.pts) continue;
+        const x = o.x / o.pts, y = o.y / o.pts, r = Math.min(17, 7 + Math.sqrt(o.n) * 0.7) * Math.min(1.25, Math.max(0.8, canvas.clientWidth / 700));
+        ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(66,165,245,.28)"; ctx.fill();
+        ctx.lineWidth = 1.5; ctx.strokeStyle = "#42a5f5"; ctx.stroke();
+        ctx.fillStyle = "#e3f2fd"; ctx.font = "600 11px ui-monospace,monospace"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+        ctx.fillText(String(o.n), x, y);
+        S.hits.push({ x, y, r: r + 2, kind: "city", item: o });
+      }
+    } else {
+      for (const c of calls) {
+        const p = toScreen(c.lon, c.lat); if (!p) continue;
+        if (p[0] < -10 || p[1] < -10 || p[0] > w + 10 || p[1] > h + 10) continue;
+        const age = (now - c.t) / 3600e3;
+        ctx.globalAlpha = age < 1 ? 0.95 : age < 6 ? 0.7 : 0.4;
+        const r = c.approx ? 3.5 : 4.2;
+        ctx.beginPath(); ctx.arc(p[0], p[1], r, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(66,165,245,.55)"; ctx.fill();
+        ctx.lineWidth = 1.2; ctx.strokeStyle = "#42a5f5"; ctx.stroke();
+        S.hits.push({ x: p[0], y: p[1], r: r + 3, kind: "call", item: c });
+      }
+      ctx.globalAlpha = 1;
+    }
+  }
+  if (S.showAlerts) for (const a of liveAlerts()) {
+    const p = toScreen(a.lon, a.lat); if (!p) continue;
+    const severe = a.severity === "Extreme" || a.severity === "Severe";
+    const r = a.severity === "Extreme" ? 9 : severe ? 7 : 5;
+    const pulse = !REDUCED && a.severity === "Extreme" ? 1 + 0.25 * Math.sin(now / 300) : 1;
+    ctx.globalAlpha = 0.9;
+    if (a.approx) ctx.setLineDash([3, 3]);
+    ctx.beginPath(); ctx.arc(p[0], p[1], r * pulse, 0, Math.PI * 2);
+    ctx.strokeStyle = severe ? "#e53935" : "#ff8a65"; ctx.lineWidth = severe ? 2.2 : 1.5; ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.beginPath(); ctx.arc(p[0], p[1], 2.2, 0, Math.PI * 2);
+    ctx.fillStyle = severe ? "#e53935" : "#ff8a65"; ctx.fill();
+    S.hits.push({ x: p[0], y: p[1], r: r + 4, kind: "alert", item: a });
+  }
+  ctx.globalAlpha = 1;
+}
+
+/** A readable one-liner for posts: no repeated storm names, no NHC shorthand. */
+function alertTitle(a) {
+  const ev = String(a.event || ""), hd = String(a.headline || "");
+  const first = (hd.split(/[:\s]/)[0] || "").toLowerCase();
+  let t = !hd ? `${ev}${a.area ? " · " + a.area : ""}` : (hd.toLowerCase().includes(ev.toLowerCase()) || (first && ev.toLowerCase().includes(first))) ? hd : `${ev}: ${hd}`;
+  return t.replace(/\bHU\b/g, "hurricane").replace(/\bTS\b/g, "tropical storm").replace(/\bTD\b/g, "tropical depression").replace(/:\s*(hurricane|tropical storm|tropical depression),/i, " ($1),");
+}
+function cityKey(name) { return String(name || "").toLowerCase(); }
+function ago(t) {
+  if (t - Date.now() > 60e3) return "in " + ago(Date.now() - (t - Date.now())).replace(/^in /, "");
+  const s = Math.max(0, Math.round((Date.now() - t) / 1000));
+  if (s < 60) return s + "s";
+  if (s < 3600) return Math.round(s / 60) + "m";
+  if (s < 86400) return (s / 3600).toFixed(1).replace(/\.0$/, "") + "h";
+  return Math.round(s / 86400) + "d";
+}
+
+function setSrc(id, state, n, title) {
+  let el = $(`.src[data-id="${id}"]`);
+  if (!el) {
+    el = document.createElement("span");
+    el.className = "src"; el.dataset.id = id;
+    el.innerHTML = `<i></i><span class="lbl"></span>`;
+    $("#sources").appendChild(el);
+  }
+  el.className = "src " + state;
+  el.title = title || "";
+  el.querySelector(".lbl").textContent = n ? `${id} ${n}` : id;
+}
+
+function renderLayers() {
+  const rows = [
+    ["alerts", "Emergency alerts", "#e53935", S.showAlerts, liveAlerts().length],
+    ["calls", "911 / CAD calls", "#42a5f5", S.showCalls, S.calls.length],
+  ];
+  $("#layers").innerHTML = rows.map(([id, label, col, on, n]) =>
+    `<label class="layer"><input type="checkbox" data-layer="${id}" ${on ? "checked" : ""}><span class="sw" style="background:${col}"></span><span>${esc(label)}</span><span class="n">${n}</span></label>`
+  ).join("");
+  $("#layerCount").textContent = `${[S.showAlerts, S.showCalls].filter(Boolean).length} of 2 on`;
+}
+
+function renderEmergency() {
+  const em = S.emergency;
+  const banner = $("#emBanner");
+  if (!em || !em.active) {
+    banner.hidden = true;
+    banner.classList.remove("on");
+    document.title = "Dispatch — 911, alerts & police blather";
+    return;
+  }
+  banner.hidden = false;
+  banner.classList.add("on");
+  banner.dataset.level = String(em.level || 2);
+  $("#emTag").textContent = em.label || "ALERT";
+  $("#emX").setAttribute("data-x-title", em.primary ? alertTitle(em.primary) : "Active emergency trigger");
+  $("#emX").setAttribute("data-x-src", ((em.primary && em.primary.system) || "dispatch").toUpperCase());
+  const p = em.primary || {};
+  $("#emHead").textContent = [p.event, p.severity].filter(Boolean).join(" · ") || "Active emergency trigger";
+  $("#emSub").textContent = [
+    p.headline || p.area || "",
+    `${em.count} trigger${em.count === 1 ? "" : "s"}${Number.isFinite(em.us_count) ? ` (${em.us_count} near the US)` : ""}`,
+    "public delayed feed · not an emergency service",
+  ].filter(Boolean).join(" · ");
+  document.title = `${em.label}: Dispatch`;
+  document.body.dataset.emergency = em.label;
+}
+$("#emFocus").addEventListener("click", () => {
+  const p = S.emergency?.primary;
+  const ok = p && focusLonLat(p.lon, p.lat);
+  S.alertScope = ok ? "us" : "world"; renderFeeds();
+  S.tab = "alerts";
+  $$("#tabs [role=tab]").forEach((t) => t.setAttribute("aria-selected", t.dataset.tab === "alerts" ? "true" : "false"));
+  $$(".pane").forEach((pane) => { pane.hidden = pane.dataset.pane !== "alerts"; });
+});
+$("#layers").addEventListener("change", (e) => {
+  const id = e.target.dataset.layer;
+  if (id === "alerts") S.showAlerts = e.target.checked;
+  if (id === "calls") S.showCalls = e.target.checked;
+  renderLayers(); S.needDraw = true;
+});
+
+function renderCities() {
+  $("#cities").innerHTML = (S.cities || []).map((c) => {
+    const on = !S.cityOn.size || S.cityOn.has(cityKey(c.city));
+    return `<button type="button" class="city ${c.ok ? "ok" : "dark"}" data-city="${esc(cityKey(c.city))}" aria-pressed="${on}" title="Filter map to ${esc(c.city)}">
+      <span><b>${esc(c.city)}</b><br><small style="color:var(--mute)">${esc(c.agency)}</small></span>
+      <span class="st">${c.ok ? c.n + " calls" : "dark"}</span>
+    </button>`;
+  }).join("");
+}
+$("#cities").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-city]"); if (!b) return;
+  const k = b.dataset.city;
+  if (S.cityOn.has(k) && S.cityOn.size === 1) S.cityOn.clear();
+  else { S.cityOn.clear(); S.cityOn.add(k); }
+  renderCities(); S.needDraw = true;
+});
+
+function renderFeeds() {
+  $("#ctBlather").textContent = S.blather.length || "";
+  $("#ctAlerts").textContent = liveAlerts().length || "";
+  $("#ctCalls").textContent = S.calls.length || "";
+
+  $("#blather").innerHTML = S.blather.slice(0, 120).map((b) =>
+    `<div class="bline"><div class="when">${esc(ago(b.t))}</div><div class="txt"><b>${esc(b.city)}</b>${esc(b.text)}<span>${esc(b.agency)}</span></div></div>`
+  ).join("") || `<div class="note">No CAD chatter in this snapshot.</div>`;
+
+  const live = liveAlerts();
+  const onMap = (a) => !!region(a.lon, a.lat);
+  const shown = live.filter((a) => S.alertScope === "all" || (S.alertScope === "us" ? onMap(a) : !onMap(a)))
+    .sort((x, y) => ((SEV_RANK[x.severity] ?? 9) - (SEV_RANK[y.severity] ?? 9)) || (y.t - x.t));
+  $$("#alertScope [data-scope]").forEach((b) => {
+    const sc = b.dataset.scope, n = sc === "all" ? live.length : live.filter((a) => sc === "us" ? onMap(a) : !onMap(a)).length;
+    b.setAttribute("aria-pressed", sc === S.alertScope ? "true" : "false");
+    b.querySelector("span").textContent = n;
+  });
+  $("#alerts").innerHTML = shown.slice(0, 150).map((a) => {
+    const pin = onMap(a);
+    const sys = a.system ? String(a.system).toUpperCase() : "NWS";
+    return `<li ${pin ? `data-lon="${a.lon}" data-lat="${a.lat}"` : ""}><div class="meta"><span class="tag sev-${esc(a.severity)}">${esc(a.severity)}</span><span>${esc(sys)}</span>${a.live ? '<span class="livetag">LIVE</span>' : ""}<span>${esc(a.event)}</span><span>${/^in /.test(ago(a.t)) ? "starts " + esc(ago(a.t)) : esc(ago(a.t)) + " ago"}</span>${pin ? (a.approx ? "<span>~state</span>" : "") : "<span>outside US map</span>"}<button type="button" class="xbtn" data-xpost="alert" data-x-title="${esc(alertTitle(a))}" data-x-src="${esc(sys)}" data-x-url="https://siren.watch/dispatch.html" aria-label="Post this alert to X">𝕏 Post</button></div><div class="title">${esc(a.headline || a.event)}</div><div class="meta">${esc(a.area || "")}</div></li>`;
+  }).join("") || `<li class="note">${S.alertScope === "world" ? "Nothing outside the US map right now." : "No active alerts here in this snapshot."}</li>`;
+
+  $("#calls").innerHTML = S.calls.slice(0, 160).map((c) =>
+    `<li data-lon="${c.lon}" data-lat="${c.lat}"><div class="meta"><span class="tag">${esc(c.city)}</span><span>${esc(c.agency)}</span><span>${esc(ago(c.t))} ago</span>${c.approx ? "<span>~division</span>" : ""}${c.district ? `<span>${esc(c.district)}</span>` : ""}</div><div class="title">${esc(c.type)}</div></li>`
+  ).join("") || `<li class="note">No CAD calls in this snapshot.</li>`;
+
+  const tick = S.blather.slice(0, 40).map((b) => `${b.city}: ${b.text}`).join("   ·   ");
+  $("#tickerText").textContent = tick || "Waiting for CAD chatter…";
+}
+
+$("#tabs").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-tab]"); if (!b) return;
+  S.tab = b.dataset.tab;
+  $$("#tabs [role=tab]").forEach((t) => t.setAttribute("aria-selected", t === b ? "true" : "false"));
+  $$(".pane").forEach((p) => { p.hidden = p.dataset.pane !== S.tab; });
+});
+
+function focusLonLat(lon, lat) {
+  const p = toScreen(lon, lat);
+  if (!p) return false;
+  S.view.x += canvas.clientWidth / 2 - p[0];
+  S.view.y += canvas.clientHeight / 2 - p[1];
+  S.needDraw = true;
+  zoomAt(canvas.clientWidth / 2, canvas.clientHeight / 2, 3 / S.view.z);
+  return true;
+}
+/** Zoom by factor f keeping the screen point (sx, sy) fixed. */
+function zoomAt(sx, sy, f) {
+  const z0 = S.view.z, z1 = Math.min(12, Math.max(0.8, z0 * f));
+  const w = canvas.clientWidth, h = canvas.clientHeight;
+  const k = z1 / z0;
+  S.view.x = (sx - w / 2) - k * (sx - w / 2 - S.view.x);
+  S.view.y = (sy - h / 2) - k * (sy - h / 2 - S.view.y);
+  S.view.z = z1; S.needDraw = true;
+}
+$("#alerts").addEventListener("click", (e) => {
+  if (e.target.closest("[data-xpost]")) return;
+  const li = e.target.closest("li[data-lon]"); if (!li) return;
+  focusLonLat(+li.dataset.lon, +li.dataset.lat);
+});
+$("#calls").addEventListener("click", (e) => {
+  const li = e.target.closest("li[data-lon]"); if (!li) return;
+  focusLonLat(+li.dataset.lon, +li.dataset.lat);
+});
+
+function hitAt(x, y) {
+  let hit = null, best = 1e9;
+  for (const h of S.hits) {
+    const d = (h.x - x) ** 2 + (h.y - y) ** 2;
+    if (d < h.r * h.r && d < best) { best = d; hit = h; }
+  }
+  return hit;
+}
+function showTip(hit, x, y) {
+  if (!hit) { tip.hidden = true; return; }
+  const it = hit.item;
+  tip.hidden = false;
+  if (hit.kind === "alert") {
+    tip.innerHTML = `<b>${esc(it.event)} · ${esc(it.severity)}</b><small>${esc((it.system || "nws").toUpperCase())} · ${esc(it.area || "")}${it.approx ? " · state-level pin" : ""}<br>${esc(ago(it.t))} ago</small>`;
+  } else if (hit.kind === "city") {
+    tip.innerHTML = `<b>${esc(it.city)}: ${it.n} calls</b><small>${it.fresh} in the last hour · click to zoom in</small>`;
+  } else {
+    tip.innerHTML = `<b>${esc(it.type)}</b><small>${esc(it.city)} · ${esc(it.agency)}${it.approx ? " · approx. pin" : ""}<br>${esc(ago(it.t))} ago</small>`;
+  }
+  tip.style.left = Math.max(4, Math.min(x + 12, canvas.clientWidth - tip.offsetWidth - 6)) + "px";
+  tip.style.top = Math.max(4, Math.min(y + 12, canvas.clientHeight - tip.offsetHeight - 6)) + "px";
+}
+function local(e) { const r = canvas.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; }
+
+// Pointer handling: drag to pan, two fingers to pinch, tap or click to inspect.
+const ptrs = new Map();
+let drag = null, pinch = null, moved = 0;
+canvas.addEventListener("pointerdown", (e) => {
+  canvas.setPointerCapture(e.pointerId);
+  ptrs.set(e.pointerId, local(e));
+  moved = 0;
+  if (ptrs.size === 1) drag = { x: e.clientX, y: e.clientY, vx: S.view.x, vy: S.view.y };
+  if (ptrs.size === 2) {
+    const [a, b] = [...ptrs.values()];
+    pinch = { d: Math.hypot(a[0] - b[0], a[1] - b[1]), z: S.view.z };
+    drag = null;
+  }
+});
+canvas.addEventListener("pointermove", (e) => {
+  const [x, y] = local(e);
+  if (ptrs.has(e.pointerId)) ptrs.set(e.pointerId, [x, y]);
+  if (pinch && ptrs.size === 2) {
+    const [a, b] = [...ptrs.values()];
+    const d = Math.hypot(a[0] - b[0], a[1] - b[1]);
+    zoomAt((a[0] + b[0]) / 2, (a[1] + b[1]) / 2, (pinch.z * d / Math.max(1, pinch.d)) / S.view.z);
+    moved = 99; tip.hidden = true; return;
+  }
+  if (drag) {
+    moved = Math.max(moved, Math.abs(e.clientX - drag.x) + Math.abs(e.clientY - drag.y));
+    if (moved > 4) {
+      S.view.x = drag.vx + (e.clientX - drag.x);
+      S.view.y = drag.vy + (e.clientY - drag.y);
+      S.needDraw = true; tip.hidden = true;
+      canvas.style.cursor = "grabbing";
+      return;
+    }
+  }
+  if (e.pointerType === "mouse") {
+    const hit = hitAt(x, y);
+    canvas.style.cursor = hit ? "pointer" : "grab";
+    showTip(hit, x, y);
+  }
+});
+function endPtr(e) {
+  const wasTap = ptrs.size === 1 && moved <= 4 && !pinch;
+  ptrs.delete(e.pointerId);
+  if (ptrs.size < 2) pinch = null;
+  if (!ptrs.size) drag = null;
+  canvas.style.cursor = "grab";
+  if (e.type !== "pointerup" || !wasTap) return;
+  const [x, y] = local(e);
+  const hit = hitAt(x, y);
+  if (hit && hit.kind === "city") {
+    // Zoom into the city so its single calls show.
+    S.view.x += canvas.clientWidth / 2 - x; S.view.y += canvas.clientHeight / 2 - y;
+    zoomAt(canvas.clientWidth / 2, canvas.clientHeight / 2, Math.max(6, S.view.z) / S.view.z);
+    tip.hidden = true; return;
+  }
+  showTip(hit, x, y);
+}
+canvas.addEventListener("pointerup", endPtr);
+canvas.addEventListener("pointercancel", endPtr);
+canvas.addEventListener("pointerleave", (e) => { if (e.pointerType === "mouse") tip.hidden = true; });
+canvas.addEventListener("wheel", (e) => {
+  e.preventDefault();
+  const [x, y] = local(e);
+  zoomAt(x, y, e.deltaY > 0 ? 0.88 : 1.14);
+}, { passive: false });
+canvas.style.touchAction = "none";
+canvas.style.cursor = "grab";
+const resetView = () => { S.view = { z: 1, x: 0, y: 0 }; S.needDraw = true; tip.hidden = true; };
+$("#home").addEventListener("click", resetView);
+$("#zin").addEventListener("click", () => zoomAt(canvas.clientWidth / 2, canvas.clientHeight / 2, 1.5));
+$("#zout").addEventListener("click", () => zoomAt(canvas.clientWidth / 2, canvas.clientHeight / 2, 1 / 1.5));
+$("#alertScope").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-scope]"); if (!b) return;
+  S.alertScope = b.dataset.scope; renderFeeds();
+});
+
+async function loadOutline() {
+  try {
+    const j = await (await fetch(OUTLINE_URL)).json();
+    // data/world-outline.json: { countries: [{ iso2, rings: [[[lon,lat],…],…] }] }
+    const us = (j.countries || []).find((c) => c.iso2 === "US");
+    S.us = us?.rings || null;
+    solveLayout(S.us);
+  } catch (e) {
+    console.warn("outline", e);
+    S.us = null;
+  }
+}
+
+async function loadSnap() {
+  setSrc("snap", "wait");
+  try {
+    const j = await (await fetch(SNAP_URL())).json();
+    S.alerts = j.alerts || [];
+    // Guard against portal placeholders (0,0 or -1,-1) in older snapshots.
+    S.calls = (j.calls || []).filter((c) => c.lon <= -60 && c.lon >= -180 && c.lat >= 17 && c.lat <= 72);
+    S.blather = j.blather || [];
+    S.cities = j.cities || [];
+    S.sources = j.sources || {};
+    S.emergency = j.emergency || null;
+    S.snapAlerts = S.alerts.slice();
+    mergeLive();
+    S.generated = j.generated;
+    setSrc("snap", "ok", "", `Snapshot ${j.generated || ""}`);
+    for (const [id, s] of Object.entries(S.sources)) {
+      setSrc(id, s.ok ? "ok" : "dark", s.ok ? String(s.n ?? "") : "", s.ok ? (s.label || id) : (s.error || "failed"));
+    }
+    if (S.emergency?.active) setSrc("emergency", "ok", S.emergency.label, S.emergency.primary?.headline || S.emergency.label);
+    else setSrc("emergency", "ok", "CLEAR", "No emergency triggers");
+    $("#loading").hidden = true;
+    const off = liveAlerts().filter((a) => !region(a.lon, a.lat)).length;
+    $("#offMap").textContent = off ? `${off} world alerts are off this map: see Alerts › World` : "";
+    renderEmergency(); renderLayers(); renderCities(); renderFeeds(); S.needDraw = true;
+  } catch (e) {
+    setSrc("snap", "dark", "", e.message);
+    $("#loading").textContent = "Dispatch snapshot did not load (" + e.message + "). The dispatch-data branch may still be empty — run the workflow once.";
+  }
+}
+
+
+/* ---------- Live layer: USGS and NWS straight from this browser ---------- */
+// The snapshot lands every few minutes. These two public feeds allow browser
+// reads, so new quakes and extreme NWS alerts show here within a minute.
+S.live = { usgs: [], nws: [] };
+function centroid(g) {
+  if (!g) return null;
+  if (g.type === "Point") return g.coordinates;
+  const pts = []; const walk = (c) => { if (typeof c[0] === "number") pts.push(c); else c.forEach(walk); };
+  walk(g.coordinates || []);
+  if (!pts.length) return null;
+  return [pts.reduce((a, p) => a + p[0], 0) / pts.length, pts.reduce((a, p) => a + p[1], 0) / pts.length];
+}
+async function loadLiveUsgs() {
+  try {
+    const j = await (await fetch("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_day.geojson", { cache: "no-store" })).json();
+    S.live.usgs = (j.features || []).map((f) => {
+      const p = f.properties || {}, m = +p.mag, c = (f.geometry && f.geometry.coordinates) || [];
+      return { id: "usgs:" + f.id, system: "usgs", event: `M${m.toFixed(1)} earthquake`, mag: m,
+        severity: m >= 7 ? "Extreme" : m >= 6 ? "Severe" : m >= 5 ? "Moderate" : "Minor",
+        headline: p.title, area: p.place, lon: c[0], lat: c[1], t: p.time, url: p.url, live: true };
+    });
+    setSrc("usgs-live", "ok", String(S.live.usgs.length), "USGS read live by this browser, every minute");
+  } catch (e) { setSrc("usgs-live", "dark", "", "USGS live: " + e.message); }
+  mergeLive();
+}
+async function loadLiveNws() {
+  try {
+    const j = await (await fetch("https://api.weather.gov/alerts/active?status=actual&message_type=alert&severity=Extreme", { cache: "no-store", headers: { Accept: "application/geo+json" } })).json();
+    S.live.nws = (j.features || []).map((f) => {
+      const p = f.properties || {}, c = centroid(f.geometry);
+      return { id: p.id || f.id, system: "nws", event: p.event || "Alert", severity: p.severity || "Extreme", headline: p.headline,
+        area: String(p.areaDesc || "").split(";")[0], lon: c ? c[0] : null, lat: c ? c[1] : null,
+        t: Date.parse(p.effective || p.sent) || Date.now(), ends: Date.parse(p.ends || p.expires) || null, url: p["@id"], live: true };
+    });
+    setSrc("nws-live", "ok", String(S.live.nws.length), "NWS extreme alerts read live by this browser, every minute");
+  } catch (e) { setSrc("nws-live", "dark", "", "NWS live: " + e.message); }
+  mergeLive();
+}
+function mergeLive() {
+  const base = S.snapAlerts || S.alerts || [];
+  const seen = new Set(base.map((a) => a.id));
+  const fresh = [...S.live.usgs, ...S.live.nws].filter((a) => !seen.has(a.id));
+  S.alerts = base.concat(fresh).sort((a, b) => b.t - a.t);
+  // A great quake that the snapshot has not caught yet takes the banner now.
+  const big = S.live.usgs.filter((q) => (q.mag >= 7 && Date.now() - q.t < 24 * 3600e3) || (q.mag >= 6.5 && Date.now() - q.t < 6 * 3600e3))
+    .sort((a, b) => b.mag - a.mag || b.t - a.t)[0];
+  const em = S.emergency;
+  if (big && (!em || !em.active || (em.primary && em.primary.id !== big.id && (big.mag >= 7 ? 1 : 2) < (em.level || 3)))) {
+    S.emergency = { active: true, level: big.mag >= 7 ? 1 : 2, label: big.mag >= 7 ? "EMERGENCY" : "ALERT", count: (em && em.count || 0) + 1, us_count: em && em.us_count,
+      primary: { id: big.id, system: "usgs", event: big.event, severity: big.severity, headline: big.headline, area: big.area, lon: big.lon, lat: big.lat, t: big.t } };
+  }
+  if (S.generated) { renderEmergency(); renderLayers(); renderFeeds(); S.needDraw = true; }
+}
+
+function tickClock() {
+  const d = new Date();
+  $("#clock").textContent = d.toISOString().slice(11, 19) + " UTC";
+}
+
+function loop() {
+  if (S.needDraw || (!REDUCED && S.showAlerts && S.alerts.some((a) => a.severity === "Extreme" || a.severity === "Severe"))) {
+    S.needDraw = false; draw();
+  }
+  requestAnimationFrame(loop);
+}
+
+$("#refresh").addEventListener("click", () => loadSnap());
+$("#helpBtn").addEventListener("click", () => $("#help").showModal());
+document.addEventListener("keydown", (e) => {
+  if (e.target.matches("input,textarea,select")) return;
+  if (e.key === "r" || e.key === "R") loadSnap();
+  if (e.key === "1") $$("#tabs [data-tab]")[0]?.click();
+  if (e.key === "2") $$("#tabs [data-tab]")[1]?.click();
+  if (e.key === "3") $$("#tabs [data-tab]")[2]?.click();
+  if (e.key === "?") $("#help").showModal();
+  if (e.key === "+" || e.key === "=") $("#zin").click();
+  if (e.key === "-" || e.key === "_") $("#zout").click();
+  if (e.key === "0") $("#home").click();
+});
+
+addEventListener("resize", resize);
+resize();
+tickClock(); setInterval(tickClock, 1000);
+loadOutline().then(() => { S.needDraw = true; });
+loadSnap();
+loadLiveUsgs(); loadLiveNws();
+setInterval(() => { if (!document.hidden) { loadLiveUsgs(); loadLiveNws(); } }, 60000);
+setInterval(() => { if (!document.hidden) loadSnap(); }, 180000);
+loop();
+})();
+</script>
+<nav class="sh-rel" data-siteheader-rel aria-label="You are here">
+<ol class="sh-crumb"><li><a href="/">Home</a></li><li><a href="/#rooms" data-sh-rooms-group="LIVE INTEL">Live intel</a></li><li><span aria-current="page">Dispatch</span></li></ol>
+<div class="sh-pn"><a href="/monitor.html" data-sh-prev rel="prev"><small>← Previous · [</small><b>World Monitor</b></a><a href="/waffle.html" data-sh-next rel="next"><small>Next · ] →</small><b>Waffle House Index</b></a></div>
+<p class="sh-rel__h">Related rooms · Live intel</p>
+<div class="sh-rel__g"><a class="sh-rel__a" href="/waffle.html"><img src="/img/px-waffle.svg" width="40" height="40" alt="" loading="lazy" decoding="async"><span><b>Waffle House Index</b><small>Hurricanes, Waffle Houses and the AI data centres in the path.</small></span></a><a class="sh-rel__a" href="/elon.html"><img src="/img/art-musk.webp" width="40" height="40" alt="" loading="lazy" decoding="async"><span><b>Real Clips</b><small>Verified clips of Elon, Altman, Amodei and the AI bosses.</small></span></a><a class="sh-rel__a" href="/live-x.html"><img src="/img/px-antenna.svg" width="40" height="40" alt="" loading="lazy" decoding="async"><span><b>Live on X</b><small>Live X feeds and Spaces on AI, newest first.</small></span></a><a class="sh-rel__a" href="/si-watch.html"><img src="/img/px-crosshair2.svg" width="40" height="40" alt="" loading="lazy" decoding="async"><span><b>Takeover Watch</b><small>What AI agents are coding, live, plus frontier models and the AGI forecast.</small></span></a></div>
+<p class="sh-rel__more"><button type="button" data-sh-rooms>▦ Every room</button><a href="#" data-sh-top>↑ Back to top</a></p>
+</nav>
+<p class="v2legal" style="max-width:72ch;margin:24px auto;padding:0 16px 24px;font:400 12px/1.5 system-ui,sans-serif;color:#AEB7C3"><b>Not advice.</b> Information, commentary and satire only — not financial, investment, legal, security or safety advice. Data is automated and may be wrong or late; provided as is, with no warranty. Not affiliated with any company, lab, person or agency named here. Use of this site means you accept the <a href="/terms.html" style="color:#D7DCE3">terms &amp; disclaimers</a>. <a href="/privacy.html" style="color:#D7DCE3">Privacy</a>.</p>
+
+<aside class="site-disclosure" data-sitebar role="note"><b>Disclosure:</b> Not financial advice. We are not financial advisors, brokers, or a registered investment adviser, and nothing on this site is investment, financial, legal, tax or trading advice, or a recommendation to buy, sell or hold any stock, crypto asset or other instrument. Stock picks, signals, scores and AI trades shown here are automated, simulated or hypothetical, for information and entertainment only. Past and simulated performance does not predict future results, and trading can lose money, including more than you expect. Do your own research and talk to a licensed financial professional before you invest.</aside>
+<div id="sitebar" data-sitebar data-at="1791674479578" data-news="1791674625192" role="region" aria-label="Page freshness">
+<style>
+#sitebar{position:fixed;right:12px;bottom:12px;z-index:9999;display:flex;align-items:center;gap:8px;padding:5px 6px 5px 12px;border-radius:999px;background:rgba(255,255,255,.94);color:#1b2230;border:1px solid rgba(0,0,0,.14);box-shadow:0 4px 18px rgba(0,0,0,.14);font:500 12px/1.2 system-ui,-apple-system,"Segoe UI",sans-serif;backdrop-filter:blur(6px)}
+#sitebar button{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:999px;background:#1b2230;color:#fff;font:600 12px/1 system-ui,-apple-system,"Segoe UI",sans-serif}
+#sitebar button.due{background:#b45309;color:#fff}
+#sitebar button:focus-visible{outline:2px solid #e2a03b;outline-offset:2px}
+#sitebar button[aria-busy=true] svg{animation:sitebar-spin .8s linear infinite}
+#sitebar time{white-space:nowrap;display:inline;font:inherit;color:inherit;letter-spacing:normal;margin:0;padding:0}
+#sitebar .sb-fresh{white-space:nowrap;display:inline-flex;align-items:center;gap:4px;line-height:1.2}#sitebar .sb-fresh .dot{margin-right:1px}#sitebar .sb-fresh b{font-weight:700;color:#15803d}#sitebar .sb-score{opacity:.75}
+#sitebar .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#16a34a;margin-right:5px;vertical-align:1px;box-shadow:0 0 0 0 rgba(22,163,74,.5);animation:sb-live 2s infinite}
+@keyframes sb-live{70%{box-shadow:0 0 0 6px rgba(22,163,74,0)}100%{box-shadow:0 0 0 0 rgba(22,163,74,0)}}
+@media (prefers-reduced-motion:reduce){#sitebar .dot{animation:none}}
+#sitebar.stale .dot{background:#d97706;animation:none}
+#sitebar .fb{all:unset;cursor:pointer;color:inherit;opacity:.8;text-decoration:underline;text-underline-offset:2px;white-space:nowrap;font:600 12px/1.2 system-ui,-apple-system,"Segoe UI",sans-serif}#sitebar .fb:hover{opacity:1}#sitebar .fb:focus-visible{outline:2px solid #e2a03b;outline-offset:2px}
+#sitebar .ago{opacity:.65}#sitebar .kofi{color:#1d4ed8;opacity:1;text-decoration:none}@media (max-width:440px){#sitebar a.fb.kofi{display:none}}
+#sitebar button.rad{background:transparent;color:inherit;border:1px solid currentColor;padding:4px 9px;opacity:.85}#sitebar button.st{padding:4px 7px}#sitebar button.rad[aria-pressed=true]{background:#818CF8;border-color:#818CF8;color:#000;opacity:1}
+#siren-intro{position:fixed;left:12px;bottom:12px;z-index:9998;max-width:min(300px,calc(100vw - 24px));border-radius:8px;overflow:hidden;background:#000;border:1px solid #232C3B;box-shadow:0 10px 30px rgba(0,0,0,.5)}
+#siren-intro video{display:block;width:100%;height:auto}
+#siren-intro .bar{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:6px 8px;font:600 11px/1 system-ui,sans-serif;color:#AEB7C3;letter-spacing:.06em}
+#siren-intro button{all:unset;cursor:pointer;padding:4px 8px;border-radius:4px;color:#E6EAF0}#siren-intro button:hover{background:#1b2230}#siren-intro button:focus-visible{outline:2px solid #e2a03b;outline-offset:2px}
+#siren-intro.chip{width:auto;background:rgba(0,0,0,.92)}
+#siren-intro.chip video{display:none}
+#siren-intro.playing{width:240px}
+/* Phones: a small picture docked bottom-right, just above the freshness bar and the guide button
+   (their offset comes from --sb-off, set by lift() below), so it never covers the header, the level
+   or the score at the top of the page. */
+@media (max-width:560px){#siren-intro.playing{width:140px;left:auto;right:8px;top:auto;bottom:calc(var(--sb-off,10px) + 54px)}#siren-intro.chip{left:auto;right:8px;top:auto;bottom:calc(var(--sb-off,10px) + 54px)}#siren-intro .bar{padding:2px 4px}#siren-intro.playing .bar>span:first-child{display:none}#siren-intro.playing .bar>span:last-child{display:flex;width:100%;justify-content:space-between}#siren-intro button{min-height:32px;display:inline-flex;align-items:center}}
+@keyframes sitebar-spin{to{transform:rotate(360deg)}}
+@media (prefers-color-scheme:dark){#sitebar{background:rgba(20,24,32,.94);color:#e6e9ef;border-color:rgba(255,255,255,.16)}#sitebar button{background:#e6e9ef;color:#141820}#sitebar .kofi{color:#93b8f5}}
+/* Phones: the bar sits left and the round Ask SIREN button (media/guide.js) takes the same row on
+   the right, so the two never stack on each other or on the reading. */
+@media (max-width:560px){#sitebar{left:8px;right:auto;bottom:10px;max-width:calc(100vw - 68px)}#sitebar .ago{display:none}#sitebar button{min-height:30px;box-sizing:border-box}#sitebar .fb{display:inline-flex;align-items:center;min-height:30px}}
+@media (max-width:360px){#sitebar #sitebar-x{display:none}}
+@media (max-width:440px){#sitebar{gap:6px;padding:3px 3px 3px 10px;max-width:calc(100vw - 68px)}#sitebar>span:first-of-type{display:none}#sitebar button{padding:5px 8px}}
+@media print{#sitebar{display:none}}
+.site-disclosure{max-width:72ch;margin:28px auto 72px;padding:12px 16px;font:400 12px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif;opacity:.8;border-top:1px solid rgba(127,127,127,.3)}
+.site-disclosure b{font-weight:600}
+#site-em{display:none;position:static;align-items:center;gap:10px;flex-wrap:wrap;padding:5px 16px;background:#1a0707;color:#FECACA;border-bottom:1px solid #3f1212;border-left:4px solid #ef4444;font:600 12px/1.3 system-ui,-apple-system,"Segoe UI",sans-serif}
+#site-em.on{display:flex}
+#site-em[data-level="3"]{border-left-color:#f59e0b;background:#171004;color:#FDE68A}
+#site-em a{color:inherit;text-decoration:underline;text-underline-offset:2px;font-weight:700}
+#site-em .x{all:unset;cursor:pointer;margin-left:8px;opacity:.85;padding:2px 6px}
+#site-em .xp{border:1px solid currentColor;border-radius:3px;font-weight:600;opacity:1}
+#site-em .x:hover{opacity:1}
+body.site-em-pad{padding-top:40px}
+@media print{#site-em{display:none}}
+</style>
+<div id="site-em" data-sitebar role="status" aria-live="polite" hidden><span id="site-em-txt"></span><a id="site-em-go" href="/dispatch.html">Open Dispatch</a><button type="button" class="x xp" id="site-em-xp" data-xpost="alert" data-x-url="https://siren.watch/dispatch.html" aria-label="Post this alert to X">𝕏 Post</button><button type="button" class="x" id="site-em-x" aria-label="Dismiss">✕</button></div>
+<span class="sb-fresh" title="News is checked every minute and Dispatch alerts refresh through the hour, so both are live. The SIREN score is recalculated once an hour from every source."><i class="dot" aria-hidden="true"></i><b>News &amp; alerts live</b> · news <span id="sitebar-news">–</span> · <span class="sb-score">SIREN score <time id="sitebar-at"></time> (hourly)</span></span>
+<a class="fb" id="sitebar-fb" href="https://siren.watch/feedback.html" title="Report a problem or send feedback">Feedback</a>
+<a class="fb kofi" href="https://ko-fi.com/I0R828E7LP" target="_blank" rel="noopener" title="Support SIREN on Ko-fi">☕ Support</a><a class="fb" id="sitebar-x" href="https://x.com/intent/post?via=SIRENutf6" target="_blank" rel="noopener" title="Post this page on X">𝕏 Post</a>
+<button type="button" class="rad" data-siren-radio data-level="4" aria-pressed="false" title="Turn SIREN Radio on">♪ OFF</button><button type="button" class="rad st" data-siren-station="" aria-label="Next radio station" title="Next station (6 stations)">📻</button>
+<button type="button" id="sitebar-btn" aria-label="Refresh this page's data"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/></svg><span id="sitebar-lbl">Refresh</span></button>
+<script>(function(){
+if (window.sirenX) return;
+// Written for how X ranks posts: the hook goes first (the line people see
+// before "show more"), short lines with breaks, one hashtag at most (often
+// none), and an open question last, because replies are the strongest signal
+// the ranking uses. Hook x context x question x emoji x tag gives hundreds of
+// combinations per kind, and the last 30 drafts are skipped.
+var HOOKS = {
+  news: [
+    "{t}",
+    "{t} ({s})",
+    "Just in: {t}",
+    "New from {s}: {t}",
+    "This one matters: {t}",
+    "The AI story everyone's about to be talking about: {t}",
+    "Quietly huge: {t}",
+    "{s} has it: {t}",
+    "Today in AI: {t}"
+  ],
+  alert: [
+    "{t}",
+    "Happening now: {t}",
+    "Live alert: {t}",
+    "Heads up: {t}",
+    "{t} ({s})"
+  ],
+  reading: [
+    "The AI SIREN reads {L} right now: {S} out of 100.",
+    "How loud is AI today? SIREN {L}, {S}/100.",
+    "AI loudness check: level {L}, score {S}/100.",
+    "SIREN is at {L} ({S}/100). Counted from public data, not vibes.",
+    "Skynet meter, honest edition: SIREN {L}, {S}/100."
+  ],
+  page: [
+    "{t}",
+    "This is worth 30 seconds: {t}",
+    "Found this and can't stop looking at it: {t}",
+    "{t} 👇",
+    "Okay, this is good: {t}"
+  ]
+};
+var CONTEXT = {
+  news: ["SIREN {L} · {S}/100 at {time}.", "Logged {time}.", "Source: {s}.", "", ""],
+  alert: ["Source: {s} · {time}.", "Public feed, not a warning system. Follow local officials.", "Logged {time}.", ""],
+  reading: ["Updated every hour, receipts included.", "Measured {time}.", ""],
+  page: ["SIREN {L} · {S}/100 right now.", "", ""]
+};
+var ASK = {
+  news: ["Overhyped or a big deal?", "Who wins from this?", "Good news or bad news for the rest of us?", "What's your read?", "Would you trust it?", "Does this change your timeline?", "Are we ready for this?", ""],
+  alert: ["Anyone near this? Stay safe.", "Check on your people.", "Anyone seeing it where you are?", ""],
+  reading: ["Does that feel right to you?", "Louder or quieter than you'd guess?", "What would push it to 1?", "Where would you set it?"],
+  page: ["What's your take?", "Thoughts?", "Where do you land on this?", "Would you have guessed?", ""]
+};
+var EMOJI = { news: ["", "", "🤖 ", "🧠 ", "⚡ ", "📡 "], alert: ["🚨 ", "⚠️ ", ""], reading: ["📊 ", "🔔 ", ""], page: ["", "", "👀 ", "🤖 "] };
+var TAGS = ["", "", "", "#AI", "#AI", "#AGI", "#AISafety"];
+var ALERT_TAGS = ["", "", "", "#BreakingNews"];
+var KEY = "siren:x-recent", LAST = {};
+function recent(){ try { return JSON.parse(localStorage.getItem(KEY) || "[]"); } catch (e) { return []; } }
+function remember(t){ try { var l = recent(); l.unshift(hash(t)); localStorage.setItem(KEY, JSON.stringify(l.slice(0, 30))); } catch (e) {} }
+function hash(s){ var h = 0; for (var i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0; return String(h); }
+function live(){
+  var lv = "", sc = "";
+  var chip = typeof document !== "undefined" && document.querySelector && document.querySelector(".sh__lv");
+  var txt = chip ? (chip.textContent || "") : "";
+  var a = /SIREN\s*(\d)/i.exec(txt), b = /([\d]+\.\d)\s*$/.exec(txt.trim());
+  if (a) lv = a[1]; if (b) sc = b[1];
+  return { L: lv, S: sc };
+}
+function clip(s, n){ s = String(s || "").replace(/\s+/g, " ").trim(); return s.length > n ? s.slice(0, n - 1).replace(/\s+\S*$/, "") + "…" : s; }
+var ACR = { bbc: "BBC", ap: "AP", cnn: "CNN", nyt: "NYT", wsj: "WSJ", ft: "FT", npr: "NPR", mit: "MIT", hn: "Hacker News", nhc: "NHC", nws: "NWS", usgs: "USGS", gdacs: "GDACS", eonet: "NASA EONET", sec: "SEC", ai: "AI" };
+function prettySrc(s){
+  s = String(s || "").replace(/\s*\(.*\)\s*$/, "").trim();
+  if (!/^[a-z0-9-]+$/i.test(s) || /[A-Z]/.test(s.slice(1))) return ACR[s.toLowerCase()] || s;
+  return s.toLowerCase().split("-").map(function(w){ return ACR[w] || (w.charAt(0).toUpperCase() + w.slice(1)); }).join(" ");
+}
+function fill(tpl, v){ return tpl.replace(/\{(\w+)\}/g, function(_, k){ return v[k] == null ? "" : String(v[k]); }); }
+// o: { kind, title, src, now (ms), rand (fn), level, score, used (array of hashes) }
+function compose(o){
+  o = o || {};
+  var kind = HOOKS[o.kind] ? o.kind : "page";
+  var lvl = o.level || live();
+  var rnd = o.rand || Math.random;
+  var pick = function(a){ return a[Math.floor(rnd() * a.length)]; };
+  var d = new Date(o.now || Date.now());
+  var time = ("0" + d.getUTCHours()).slice(-2) + ":" + ("0" + d.getUTCMinutes()).slice(-2) + " UTC";
+  var used = o.used || recent();
+  var hasLv = !!(lvl.L && lvl.S);
+  var ok = function(t){ return hasLv || !/\{[LS]\}/.test(t); };
+  var pool = HOOKS[kind].filter(ok);
+  if (!pool.length) pool = kind === "reading" ? ["How loud is AI right now? The SIREN index counts it every hour."] : ["{t}"];
+  var srcName = prettySrc(o.src);
+  var v = { s: srcName || "the wire", time: time, L: lvl.L, S: lvl.S };
+  var best = "";
+  // X counts a link as 23 characters; 250 of text plus the link always fits.
+  for (var tries = 0; tries < 60; tries++) {
+    var tpl = pick(pool);
+    if (pool.length > 1 && tpl === LAST[kind] && tries < 40) continue;
+    var ctx = pick(CONTEXT[kind].filter(ok).concat([""]));
+    if (!srcName && /\{s\}/.test(ctx)) ctx = "";
+    var ask = pick(ASK[kind]);
+    var emo = pick(EMOJI[kind]);
+    var tag = pick(kind === "alert" ? ALERT_TAGS : TAGS);
+    var tail = [fill(ctx, v), ask].filter(Boolean);
+    var tailTxt = tail.length ? "\n\n" + tail.join("\n\n") : "";
+    if (tag) tailTxt += (tail.length ? " " : "\n\n") + tag;
+    var room = 250 - emo.length - fill(tpl, Object.assign({ t: "" }, v)).length - tailTxt.length;
+    var t = clip(o.title || "", Math.max(40, room));
+    var head = emo + fill(tpl, Object.assign({ t: t }, v)).replace(/\s+([.,])/g, "$1").replace(/\.\./g, ".");
+    var txt = head + tailTxt;
+    if (txt.length > 250) txt = clip(head, 250 - tailTxt.length) + tailTxt;
+    if (txt.length > 250) txt = clip(head, 250);
+    best = txt;
+    if (used.indexOf(hash(txt)) < 0) { LAST[kind] = tpl; break; }
+  }
+  return best;
+}
+function intent(text, url){
+  return "https://x.com/intent/post?text=" + encodeURIComponent(text) + (url ? "&url=" + encodeURIComponent(url) : "") + "&via=SIRENutf6";
+}
+window.sirenX = { compose: compose, intent: intent, hooks: HOOKS };
+if (typeof document === "undefined" || !document.addEventListener) return;
+document.addEventListener("click", function(e){
+  var el = e.target && e.target.closest ? e.target.closest('[data-xpost],a[href^="https://x.com/intent/post"],a[href^="https://twitter.com/intent/tweet"]') : null;
+  if (!el) return;
+  var kind, title, src, url;
+  if (el.hasAttribute("data-xpost")) {
+    kind = el.getAttribute("data-xpost") || "page";
+    title = el.getAttribute("data-x-title") || document.title;
+    src = el.getAttribute("data-x-src") || "";
+    url = el.getAttribute("data-x-url") || (document.querySelector('link[rel=canonical]') || {}).href || location.href.split("#")[0];
+  } else {
+    var u; try { u = new URL(el.href); } catch (err) { return; }
+    kind = el.getAttribute("data-x-kind") || "page";
+    title = u.searchParams.get("text") || document.title;
+    url = u.searchParams.get("url") || "";
+    src = "";
+  }
+  var text = compose({ kind: kind, title: title, src: src });
+  remember(text);
+  var href = intent(text, url);
+  if (el.tagName === "A") { el.href = href; el.target = "_blank"; el.rel = "noopener"; return; }
+  e.preventDefault();
+  window.open(href, "_blank", "noopener");
+}, true);
+})();</script>
+<script>
+(function(){
+  var bar = document.getElementById("sitebar"), at = +bar.dataset.at;
+  var tEl = document.getElementById("sitebar-at"), agoEl = document.getElementById("sitebar-ago"), btn = document.getElementById("sitebar-btn");
+  function ago(ms){ var m = Math.round((Date.now() - ms) / 60000); return m < 1 ? "just now" : m < 60 ? m + " min ago" : m < 2880 ? Math.round(m / 60) + " h ago" : Math.round(m / 1440) + " days ago"; }
+  var newsEl = document.getElementById("sitebar-news"), liveNews = +bar.dataset.news || 0;
+  function paint(){
+    var d = new Date(at);
+    tEl.dateTime = d.toISOString();
+    tEl.textContent = ago(at);
+    tEl.title = "SIREN score computed " + d.toLocaleString([], { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }) + ". The score updates hourly; news and alerts are live.";
+    if (newsEl) { newsEl.textContent = liveNews ? ago(liveNews) : "–"; }
+    // Amber when the hourly reading is overdue (GitHub sometimes runs late).
+    bar.classList.toggle("stale", Date.now() - at > 90 * 60000);
+  }
+  var fb = document.getElementById("sitebar-fb"); if (fb) fb.href += "?page=" + encodeURIComponent(location.href.split("#")[0]);
+  // Post this page on X: its own title and canonical address.
+  var xl = document.getElementById("sitebar-x");
+  if (xl) {
+    var can = document.querySelector('link[rel=canonical]'), u = (can && can.href) || location.href.split("#")[0];
+    var t = (document.querySelector('meta[property="og:title"]') || {}).content || document.title;
+    xl.href = "https://x.com/intent/post?text=" + encodeURIComponent(t) + "&url=" + encodeURIComponent(u) + "&via=SIRENutf6";
+  }
+  // THE INTRO. Plays silently in a corner, once per visit; never on the homepage (it already embeds the
+  // explainer), never on clips/videos/radio, skipped for reduced-motion.
+  (function intro(){
+    try {
+      var ik = "siren:intro:siren-skynet";
+      var path = location.pathname.replace(/\/+$/, "") || "/";
+      // Homepage already embeds the explainer with preload=none — no corner chip.
+      if (document.getElementById("v2-video") || document.querySelector("section.v2-video")) return;
+      if (path === "" || /\/(index\.html)?$/.test(path)) return;
+      if (/(elon|videos|radio)\.html$/.test(path) || sessionStorage.getItem(ik)) return;
+    } catch (e) { return; }
+    if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    var m = "/media/siren-skynet";
+    var box = document.createElement("div");
+    box.id = "siren-intro";
+    box.className = "chip";
+    box.setAttribute("role", "complementary");
+    box.setAttribute("aria-label", "Intro video");
+    box.innerHTML = '<div class="bar"><button type="button" data-a="play" aria-label="Play intro video">SKYNET STATUS ▶</button><button type="button" data-a="x" aria-label="Dismiss intro">✕</button></div>';
+    document.body.appendChild(box);
+    var close = function(){
+      try { sessionStorage.setItem("siren:intro:siren-skynet", "1"); } catch (e) {}
+      var v = box.querySelector("video");
+      if (v) try { v.pause(); } catch (e) {}
+      box.remove();
+    };
+    box.addEventListener("click", function(e){
+      var a = e.target.getAttribute && e.target.getAttribute("data-a");
+      if (a === "x") { close(); return; }
+      if (a !== "play" && a !== "snd") return;
+      if (a === "snd") {
+        var v0 = box.querySelector("video");
+        if (!v0) return;
+        v0.muted = !v0.muted;
+        e.target.textContent = v0.muted ? "🔊 Sound" : "🔇 Mute";
+        if (v0.paused) v0.play();
+        return;
+      }
+      if (box.querySelector("video")) return;
+      box.className = "playing";
+      box.innerHTML = '<video muted playsinline preload="metadata" poster="' + m + '-poster.jpg" controls><source src="' + m + '.webm" type="video/webm"><source src="' + m + '.mp4" type="video/mp4"></video>'
+        + '<div class="bar"><span>SKYNET STATUS</span><span><button type="button" data-a="snd" aria-label="Turn sound on">🔊 Sound</button><button type="button" data-a="x" aria-label="Close intro">✕</button></span></div>';
+      var v = box.querySelector("video");
+      v.addEventListener("ended", function(){ setTimeout(close, 1200); });
+      var p = v.play(); if (p && p.catch) p.catch(function(){});
+    });
+    // The owner's call: the page's intro plays by itself, silently, once per
+    // visit (the chip above stays as the fallback if the browser blocks it).
+    var pb = box.querySelector('[data-a="play"]'); if (pb) pb.click();
+  })();
+  // OUTSIDE LINKS OPEN IN A NEW TAB, so a visitor who follows a story, a clip
+  // or a market comes back to SIREN instead of losing it. Same-site links
+  // stay in the tab. Runs on links added later too (clicks are delegated).
+  document.addEventListener("click", function(e){
+    var a = e.target && e.target.closest ? e.target.closest("a[href]") : null;
+    if (!a || a.target || a.hasAttribute("download") || e.defaultPrevented) return;
+    var u; try { u = new URL(a.href, location.href); } catch (err) { return; }
+    if (!/^https?:$/.test(u.protocol) || u.host === location.host) return;
+    a.target = "_blank"; var r = (a.rel || "").split(/s+/); if (r.indexOf("noopener") < 0) r.push("noopener"); a.rel = r.join(" ").trim();
+  }, true);
+  window.addEventListener("site:data", function(e){ var t = +(e.detail && e.detail.at); if (t > 0) { at = t; paint(); } });
+  btn.addEventListener("click", function(){
+    if (typeof window.siteRefresh === "function") {
+      btn.setAttribute("aria-busy", "true");
+      Promise.resolve().then(window.siteRefresh).catch(function(){}).then(function(){ btn.removeAttribute("aria-busy"); });
+    } else {
+      var u = new URL(location.href); u.searchParams.set("r", Date.now().toString(36)); location.replace(u.toString());
+    }
+  });
+  // Sit above any bar the page pins to the bottom (a mobile tab bar, a cookie note).
+  function lift(){
+    var off = 12, seen = [];
+    [0.5, 0.1, 0.9].forEach(function(f){
+      document.elementsFromPoint(innerWidth * f, innerHeight - 3).forEach(function(el){
+        for (var n = el; n && n !== document.body; n = n.parentElement) {
+          if (n === bar || seen.indexOf(n) >= 0) break;
+          var ps = getComputedStyle(n).position;
+          if (ps === "fixed" || ps === "sticky") { seen.push(n); var r = n.getBoundingClientRect(); if (r.bottom >= innerHeight - 4 && r.height < innerHeight / 2) off = Math.max(off, innerHeight - r.top + 8); break; }
+        }
+      });
+    });
+    bar.style.bottom = off + "px";
+    // The guide button and the intro read this so they line up with the bar instead of stacking on it.
+    try { document.documentElement.style.setProperty("--sb-off", off + "px"); } catch (e) {}
+  }
+  // A page left open should hear about a newer newsroom or a newer reading
+  // within a minute. Same-origin JSON only. The button label changes; the
+  // page does not reload until the reader asks, because a reload mid-paragraph
+  // is worse than a minute of staleness.
+  var newsAt = +bar.dataset.news || 0;
+  var api = "";
+  function flag(label){
+    var lbl = document.getElementById("sitebar-lbl");
+    if (!lbl || btn.classList.contains("due")) return;
+    lbl.textContent = label;
+    btn.classList.add("due");
+    btn.setAttribute("aria-label", label + ". Refresh this page.");
+  }
+  function watch(){
+    if (document.hidden || !window.fetch) return;
+    fetch(api + "/api/fresh.json?m=" + Math.floor(Date.now() / 60000), { cache: "no-store" }).then(function(r){ return r.ok ? r.json() : null; }).then(function(j){
+      if (!j) return;
+      var ns = j.news && Date.parse(j.news);
+      var st = j.state && Date.parse(j.state);
+      if (ns && ns > liveNews) { liveNews = ns; paint(); }
+      if (newsAt > 0 && ns && ns > newsAt + 1500) flag("New stories");
+      else if (st && st > at + 1500) flag("New reading");
+    }).catch(function(){});
+  }
+  setInterval(watch, 60000); setTimeout(watch, 4000);
+  document.addEventListener("visibilitychange", function(){ if (!document.hidden) watch(); });
+  paint(); setInterval(paint, 60000);
+  lift(); addEventListener("resize", lift); addEventListener("load", lift); setTimeout(lift, 1500);
+
+  // Dispatch emergency mark: poll the orphan dispatch-data branch. Quiet when
+  // CLEAR. Dismiss lasts one session so a visitor can keep reading.
+  (function emergencyMark(){
+    var el = document.getElementById("site-em"), txt = document.getElementById("site-em-txt");
+    var go = document.getElementById("site-em-go"), x = document.getElementById("site-em-x");
+    if (!el || !txt) return;
+    var KEY = "siren:em-dismiss";
+    function hide(){ el.classList.remove("on"); el.hidden = true; }
+    // A thin strip under the header, in the page flow: it never floats over
+    // the reading, the footer bar or the score. Site-wide only for the most
+    // severe level; WATCH-level marks stay on the Dispatch page. Dismiss is
+    // remembered per alert, so the same one never comes back.
+    var onDispatch = /dispatch.html$/.test(location.pathname);
+    // Dispatch carries its own, fuller banner: never stack a second one there.
+    if (onDispatch) { hide(); return; }
+    function show(em){
+      var id = (em.primary && (em.primary.id || em.primary.event)) || em.as_of || "1";
+      try { if (localStorage.getItem(KEY) === id) return; } catch (e) {}
+      if (!onDispatch && Number(em.level || 2) > 2) return;
+      var label = em.label || "ALERT";
+      var head = (em.primary && (em.primary.event || em.primary.headline)) || "Active emergency trigger";
+      txt.textContent = "⚠ " + label + " · " + head;
+      var xp = document.getElementById("site-em-xp"); if (xp) { xp.setAttribute("data-x-title", label + ": " + ((em.primary && em.primary.headline) || head)); xp.setAttribute("data-x-src", ((em.primary && em.primary.system) || "dispatch").toUpperCase()); }
+      el.dataset.level = String(em.level || 2);
+      el.dataset.as = id;
+      var hdr = document.querySelector("header.sh, .sh") || document.querySelector("header");
+      if (hdr && el.previousElementSibling !== hdr && hdr.parentNode) hdr.parentNode.insertBefore(el, hdr.nextSibling);
+      el.classList.add("on"); el.hidden = false;
+    }
+    if (x) x.addEventListener("click", function(){
+      try { localStorage.setItem(KEY, el.dataset.as || "1"); } catch (e) {}
+      hide();
+    });
+    // Two sources, merged: the Dispatch snapshot (every few minutes, all
+    // systems) and USGS read straight from this browser every minute, so a
+    // great quake shows here within about a minute of USGS posting it.
+    var snapEm = null, liveEm = null;
+    function render(){
+      var em = snapEm && snapEm.active ? snapEm : null;
+      if (liveEm && (!em || Number(liveEm.level) < Number(em.level || 3) || (em.primary && em.primary.id !== liveEm.primary.id && liveEm.primary.t > (em.primary.t || 0) && Number(liveEm.level) <= Number(em.level || 3)))) em = liveEm;
+      if (!em) { hide(); return; }
+      show(em);
+    }
+    function poll(){
+      if (document.hidden) return;
+      var u = "https://raw.githubusercontent.com/messagegabrielhere-lgtm/doomcon/dispatch-data/emergency.json?m=" + Math.floor(Date.now() / 120000);
+      fetch(u, { cache: "no-store" }).then(function(r){ return r.ok ? r.json() : null; }).then(function(em){ snapEm = em; render(); }).catch(function(){});
+    }
+    function quakes(){
+      if (document.hidden) return;
+      fetch("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_day.geojson", { cache: "no-store" }).then(function(r){ return r.ok ? r.json() : null; }).then(function(j){
+        if (!j || !j.features) return;
+        var best = null;
+        j.features.forEach(function(f){
+          var p = f.properties || {}, m = +p.mag, age = (Date.now() - p.time) / 3600e3;
+          // M7+ within a day, M6.5+ within six hours.
+          if (!(m >= 7 && age <= 24) && !(m >= 6.5 && age <= 6)) return;
+          if (!best || m > best.m || (m === best.m && p.time > best.p.time)) best = { m: m, p: p, f: f };
+        });
+        if (!best) { liveEm = null; render(); return; }
+        var c = (best.f.geometry && best.f.geometry.coordinates) || [];
+        liveEm = { active: true, level: best.m >= 7 ? 1 : 2, label: best.m >= 7 ? "EMERGENCY" : "ALERT", count: 1,
+          primary: { id: "usgs:" + best.f.id, system: "usgs", event: "M" + best.m.toFixed(1) + " earthquake", severity: best.m >= 7 ? "Extreme" : "Severe", headline: best.p.title, area: best.p.place, lon: c[0], lat: c[1], t: best.p.time } };
+        render();
+      }).catch(function(){});
+    }
+    poll(); setInterval(poll, 120000);
+    quakes(); setInterval(quakes, 60000);
+    document.addEventListener("visibilitychange", function(){ if (!document.hidden) { poll(); quakes(); } });
+  })();
+})();
+</script>
+</div>
+<script src="/nav/site-nav.js" defer></script>
+<script src="/media/radio.js" defer></script>
+<script src="/media/guide.js" defer></script>
+<script data-goatcounter="https://messagegabriel.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
