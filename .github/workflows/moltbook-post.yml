@@ -11,6 +11,10 @@ on:
         description: Answer to the pending verification challenge (leave empty to post the next item)
         type: string
         default: ''
+      status_of:
+        description: A post id to look up instead of posting
+        type: string
+        default: ''
 
 permissions:
   contents: write
@@ -31,8 +35,10 @@ jobs:
           MOLTBOOK_API_KEY: ${{ secrets.MOLTBOOK_API_KEY }}
           DRY: ${{ inputs.dry_run }}
           ANSWER: ${{ inputs.answer }}
+          STATUS: ${{ inputs.status_of }}
         run: |
-          if [ -n "$ANSWER" ]; then node collector/post-moltbook-once.mjs --verify "$ANSWER";
+          if [ -n "$STATUS" ]; then node collector/post-moltbook-once.mjs --status "$STATUS";
+          elif [ -n "$ANSWER" ]; then node collector/post-moltbook-once.mjs --verify "$ANSWER";
           elif [ "$DRY" = "true" ]; then node collector/post-moltbook-once.mjs --dry-run;
           else node collector/post-moltbook-once.mjs; fi
       - name: Record what was posted
