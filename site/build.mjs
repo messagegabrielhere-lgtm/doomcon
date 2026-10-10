@@ -41,6 +41,8 @@ import * as moltbookPage from './templates/moltbookPage.mjs';
 import * as livePage from './templates/livePage.mjs';
 import * as siWatchPage from './templates/siWatchPage.mjs';
 import * as wafflePage from './templates/wafflePage.mjs';
+import * as statusPage from './templates/statusPage.mjs';
+import { SERVICES as AI_SERVICES } from '../collector/ai-status.mjs';
 import * as catalogPages from './templates/catalogPages.mjs';
 import { items as faqItems } from './templates/_faq.mjs';
 import { TILE_ICONS, tileSvg } from './tileicons.mjs';
@@ -1469,6 +1471,14 @@ async function main() {
     try { const wo = JSON.parse(await readFile(path.join(args.data, 'world-outline.json'), 'utf8')); usRings = ((wo.countries || []).find((c) => c.iso2 === 'US') || {}).rings || null; } catch { usRings = null; }
     written.push(await write(args.out, 'waffle.html', wafflePage.render(ctx, wf, usRings)));
     if (wfText !== null && wf) written.push(await write(args.out, 'api/waffle.json', wfText));
+  }
+  {
+    // Is ChatGPT down? (collector/ai-status.mjs, every 15 min; the page polls live.)
+    let asText = null, as = null;
+    try { asText = await readFile(path.join(args.data, 'ai-status.json'), 'utf8'); as = JSON.parse(asText); } catch { asText = null; as = null; }
+    if (!as || !Array.isArray(as.services) || !as.services.length) as = { generated_at: null, services: AI_SERVICES.map(([id, name, product, pg, api, browser]) => ({ id, name, product, page: pg, api, browser, indicator: 'unknown', description: 'Checking…', degraded: [], incidents: [] })) };
+    written.push(await write(args.out, 'status.html', statusPage.render(ctx, as)));
+    if (asText !== null) written.push(await write(args.out, 'api/ai-status.json', asText));
   }
   written.push(await write(args.out, 'live-x.html', featurePages.liveX(ctx)));
   written.push(await write(args.out, 'tally.html', withVideo(agentPages.tally(ctx), 'tally')));
