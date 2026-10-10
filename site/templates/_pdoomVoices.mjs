@@ -78,8 +78,19 @@ export const VOICES_CSS = `<style>
 .vx-me svg{width:100%;max-width:180px;height:auto;display:block;margin:auto}
 .vx-hand{transition:transform .25s ease;transform-origin:60px 60px}
 @media (prefers-reduced-motion:reduce){.vx-hand{transition:none}}
+.vx-q{border-left:3px solid #F87171;margin:0 0 14px;padding:4px 0 4px 12px;font:italic 16px/1.5 var(--serif,Georgia,serif);color:#E6EAF0}.vx-q cite{display:block;font:600 12px var(--mono);font-style:normal;color:var(--ink-faint,#6B7686);margin-top:4px}
+.vx-pre{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}.vx-pre button,.vx-sh a,.vx-sh button{appearance:none;border:1px solid var(--rule);background:transparent;color:var(--ink);font:600 12px var(--mono);padding:6px 9px;cursor:pointer;border-radius:3px;text-decoration:none}
+.vx-sh{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:8px}
+.vx-news{margin-top:16px;border-top:1px solid var(--rule);padding-top:12px}.vx-news h3{margin:0 0 6px;font:700 13px var(--mono);letter-spacing:.1em;color:#FDE68A}
+.vx-news ul{margin:0;padding-left:18px;font-size:14px;line-height:1.5}.vx-news li small{color:var(--ink-faint,#6B7686);font:600 11px var(--mono);margin-left:6px}
 .vx-src{font-size:12.5px;color:var(--ink-dim)}.vx-src li{margin:2px 0}
 </style>`;
+
+const DOOM_RE = /p\(doom\)|doom|extinct|existential|catastroph|superintelligen|x-risk|ai safety|wargam|day after/i;
+const ago = (t) => { const m = Math.max(0, Math.round((Date.now() - Date.parse(t)) / 60000)); return m < 60 ? `${m} min ago` : m < 2880 ? `${Math.round(m / 60)} h ago` : `${Math.round(m / 1440)} d ago`; };
+export function doomNews(items, n = 6) {
+  return (items || []).filter((x) => x && x.url && DOOM_RE.test(`${x.title} ${x.summary || ''}`)).slice(0, n);
+}
 
 export function voicesSection(ctx, sirenLevel) {
   const rows = VOICES.slice().sort((a, b) => mid(a) - mid(b) || a[0].localeCompare(b[0]));
@@ -95,6 +106,7 @@ export function voicesSection(ctx, sirenLevel) {
   const start = 15;
   const ticks = Array.from({ length: 12 }, (_, i) => { const a = (i * 30) * Math.PI / 180; return `<line x1="${(60 + 46 * Math.sin(a)).toFixed(1)}" y1="${(60 - 46 * Math.cos(a)).toFixed(1)}" x2="${(60 + 52 * Math.sin(a)).toFixed(1)}" y2="${(60 - 52 * Math.cos(a)).toFixed(1)}" stroke="#475569" stroke-width="${i ? 1.5 : 3}"/>`; }).join('');
   return `${VOICES_CSS}<section class="vx" id="voices" aria-labelledby="vx-h">
+  <blockquote class="vx-q">“At some stage therefore we should have to expect the machines to take control.”<cite>ALAN TURING, 1951 · “INTELLIGENT MACHINERY, A HERETICAL THEORY”</cite></blockquote>
   <h2 id="vx-h">The voices: ${VOICES.length} named estimates, one ladder</h2>
   <p class="sub">Each bar is one person’s publicly stated p(doom), with where they said it. A range means they gave a range. The dashed line is the survey median (${SURVEY.median}% of ${SURVEY.n.toLocaleString('en-US')} researchers); the middle voice here says ${medianAll}%. Figures as compiled ${esc(VOICES_AS_OF)}; people revise them.</p>
   <div class="vx-chips" role="group" aria-label="Filter voices">${chips}</div>
@@ -110,11 +122,14 @@ export function voicesSection(ctx, sirenLevel) {
       <label for="vx-in" style="font:700 12px var(--mono);letter-spacing:.12em;color:#FCA5A5">SET YOUR OWN p(doom)</label>
       <div class="big"><output id="vx-out" for="vx-in">${start}%</output></div>
       <input id="vx-in" type="range" min="0" max="100" step="0.5" value="${start}" aria-describedby="vx-say">
+      <div class="vx-pre" aria-label="Jump to"><button type="button" data-p="${SURVEY.median}">Survey median ${SURVEY.median}%</button><button type="button" data-p="15">Hinton’s 10–20%</button><button type="button" data-p="${medianAll}">Middle voice ${medianAll}%</button><button type="button" data-p="0.01">LeCun</button><button type="button" data-p="95">Yudkowsky</button></div>
       <p id="vx-say">Drag to place yourself among the voices.</p>
       <p style="font-size:12.5px">On this dial 100% is midnight, so <b id="vx-min">${(60 * (1 - start / 100)).toFixed(0)}</b> minutes to go. That clock is your opinion. SIREN’s own reading, level ${esc(sirenLevel ?? '?')} right now, isn’t an opinion: it counts what’s happening in AI every hour, with receipts.</p>
-      <button type="button" id="vx-x" data-xpost="page" data-x-title="My p(doom) is ${start}%. Where do you sit among Hinton, Amodei, LeCun and Yudkowsky?" data-x-src="SIREN" data-x-url="${share}#voices" style="appearance:none;border:1px solid #F87171;background:#1A0A0A;color:#FCA5A5;padding:10px 14px;font:700 13px var(--mono);cursor:pointer">𝕏 Post my p(doom)</button>
+      <div class="vx-sh"><button type="button" id="vx-x" data-xpost="page" data-x-title="My p(doom) is ${start}%. Where do you sit among Hinton, Amodei, LeCun and Yudkowsky?" data-x-src="SIREN" data-x-url="${share}#voices" style="appearance:none;border:1px solid #F87171;background:#1A0A0A;color:#FCA5A5;padding:10px 14px;font:700 13px var(--mono);cursor:pointer">𝕏 Post my p(doom)</button><a id="vx-li" href="https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent((ctx.url ? ctx.url('/p-doom.html') : 'https://siren.watch/p-doom.html'))}" target="_blank" rel="noopener">in Share on LinkedIn</a><button type="button" id="vx-cp">Copy link</button></div>
     </div>
   </div>
+  <div class="vx-news"><h3>IN THE NEWS: AI CATASTROPHE, SAFETY, p(doom)</h3><ul id="vx-news">${doomNews(ctx.news && ctx.news.items).map((x) => `<li><a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.title)}</a><small>${esc(x.source || '')} · ${esc(ago(x.published_at))}</small></li>`).join('') || '<li>No catastrophe-risk headlines in the last few days. <a href="news.html">All AI news →</a></li>'}</ul>
+    <p style="font-size:12.5px;margin:6px 0 0">Refreshes live from SIREN’s newsroom. <a href="news.html">All AI news →</a> · <a href="live.html">Watch: AI on TV &amp; radio, live →</a> · <a href="day-after.html">Game out the day after →</a></p></div>
   <details style="margin-top:12px"><summary class="vx-src" style="cursor:pointer">Where each figure comes from</summary><ul class="vx-src">${rows.map((v) => `<li><b>${esc(v[0])}</b>: ${v[1] === v[2] ? `${v[1]}%` : `${v[1]}–${v[2]}%`} · ${esc(v[5])}</li>`).join('')}<li><b>Survey</b>: ${esc(SURVEY.label)}.</li><li>Compiled from Wikipedia’s <a href="https://en.wikipedia.org/wiki/P(doom)" target="_blank" rel="noopener">P(doom)</a> article, which cites each original. Hinton has also said his own gut figure is over 50%; we plot the 10–20% he gives “all things considered”.</li></ul></details>
 <script>(function(){var s=document.getElementById('vx-in');if(!s)return;var o=document.getElementById('vx-out'),y=document.getElementById('vx-you'),h=document.getElementById('vx-hand'),hr=document.getElementById('vx-hr'),m=document.getElementById('vx-min'),say=document.getElementById('vx-say'),x=document.getElementById('vx-x');
 var rows=[].slice.call(document.querySelectorAll('#vx-lad .vx-r'));
@@ -124,6 +139,13 @@ var nm=near?near.querySelector('.n').firstChild.textContent:'';
 say.textContent='More worried than '+below+' of '+rows.length+' voices. Closest to '+nm+'.';
 x.setAttribute('data-x-title','My p(doom) is '+p+'%: more worried than '+below+' of '+rows.length+' AI voices, closest to '+nm+'. Where do you sit?');}
 s.addEventListener('input',upd);upd();
+[].forEach.call(document.querySelectorAll('.vx-pre button'),function(b){b.addEventListener('click',function(){s.value=b.dataset.p;upd();});});
+var cp=document.getElementById('vx-cp');if(cp)cp.addEventListener('click',function(){var u=location.href.split('#')[0]+'#voices';(navigator.clipboard?navigator.clipboard.writeText(u):Promise.reject()).then(function(){cp.textContent='Copied ✓';},function(){cp.textContent=u;});});
+var RE=/p\(doom\)|doom|extinct|existential|catastroph|superintelligen|x-risk|ai safety|wargam|day after/i,ul=document.getElementById('vx-news');
+function ago(t){var m=Math.max(0,Math.round((Date.now()-Date.parse(t))/6e4));return m<60?m+' min ago':m<2880?Math.round(m/60)+' h ago':Math.round(m/1440)+' d ago';}
+function esc(t){return String(t||'').replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function news(){fetch('api/news.json',{cache:'no-store'}).then(function(r){return r.json();}).then(function(d){var it=(d.items||[]).filter(function(x){return x&&x.url&&/^https?:/.test(x.url)&&RE.test(x.title+' '+(x.summary||''));}).slice(0,6);if(it.length&&ul)ul.innerHTML=it.map(function(x){return '<li><a href="'+esc(x.url)+'" target="_blank" rel="noopener">'+esc(x.title)+'</a><small>'+esc(x.source)+' · '+ago(x.published_at)+'</small></li>';}).join('');}).catch(function(){});}
+news();setInterval(news,120000);
 [].forEach.call(document.querySelectorAll('.vx-chips button'),function(b){b.addEventListener('click',function(){var g=b.dataset.g;[].forEach.call(document.querySelectorAll('.vx-chips button'),function(c){c.setAttribute('aria-pressed',c===b?'true':'false');});rows.forEach(function(r){r.hidden=!(g==='all'||r.dataset.g===g);});});});})();</script>
 </section>`;
 }
