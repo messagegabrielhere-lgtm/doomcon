@@ -829,7 +829,7 @@ const PAL_EXTRA = [
   { href: '/ai-doomsday-clock.html', label: 'AI doomsday clock', blurb: 'What exists, and the one you can verify.' },
   { href: '/moves/', label: 'Every reading', blurb: 'The full record, each with its receipt.' },
   { href: '/sponsor.html', label: 'Sponsor', blurb: 'One named sponsor at a time.' },
-  { href: '/privacy.html', label: 'Privacy', blurb: 'No cookies; cookieless visit counts only.' },
+  { href: '/privacy.html', label: 'Privacy', blurb: 'What a visit measures: Google Analytics and GoatCounter.' },
   { href: '/terms.html', label: 'Terms & disclaimers', blurb: 'Information, not advice. No warranty.' },
 ];
 const TAB_ROOMS = [['/', 'War room'], ['/news.html', 'News'], ['/race.html', 'Race'], ['/world.html', 'World']];
@@ -1452,7 +1452,7 @@ function footer(ctx, sections, path) {
     { href: '/sponsor.html', label: 'Sponsor', blurb: 'One labelled sponsor at a time, with no say over the number.' },
     { href: '/brand.html', label: 'Brand', blurb: 'Name, colours, type, voice and Tally to download.' },
     { href: '/press.html', label: 'Press kit', blurb: 'Facts, a paragraph to lift, images and a contact.' },
-    { href: '/privacy.html', label: 'Privacy', blurb: 'No cookies. Every trace a visit can leave.' },
+    { href: '/privacy.html', label: 'Privacy', blurb: 'Every trace a visit can leave, including analytics.' },
     { href: '/terms.html', label: 'Terms & disclaimers', blurb: 'Information and commentary, not advice. No warranty, no liability.' },
     { href: brand.REPO_URL, label: 'Source code', blurb: `Every line that produced these numbers. ${brand.LICENSE}.` },
   ];

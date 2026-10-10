@@ -16,9 +16,11 @@ export const MONETIZE = {
   // provider 'beehiiv' + your publication's subscribe URL.
   newsletter: { provider: null, username: null, url: null, pitch: 'One email when the level moves, and a short weekly reading. No spam.' },
 
-  // Visitor analytics: your GoatCounter site code (the part before
-  // .goatcounter.com). Cookieless; no consent banner needed. null = off.
-  analytics: { goatcounter: 'messagegabriel' },
+  // Visitor analytics.
+  //   goatcounter: site code before .goatcounter.com. Cookieless; null = off.
+  //   gtag: Google Analytics 4 measurement ID (G-…). null = off. Loads on
+  //   every stamped page via site/sitebar.mjs and is disclosed on /privacy.
+  analytics: { goatcounter: 'messagegabriel', gtag: 'G-KHYRHKZ3CP' },
 
   // Tip jar: your Buy Me a Coffee or Ko-fi page URL.
   tips: { url: 'https://ko-fi.com/I0R828E7LP', label: 'Support SIREN on Ko-fi' },
@@ -91,6 +93,22 @@ export function newsletterBox(privacyHref) {
 
 export function tipLink() {
   return on.tips() ? `<a class="mz-tip" href="${esc(MONETIZE.tips.url)}" rel="noopener">☕ ${esc(MONETIZE.tips.label)}</a>` : '';
+}
+
+/** Google Analytics gtag snippet for <head>, or '' when analytics.gtag is off. */
+export function gtagHead() {
+  const id = MONETIZE.analytics && MONETIZE.analytics.gtag;
+  if (!id || !/^G-[A-Z0-9]+$/i.test(String(id))) return '';
+  const safe = esc(id);
+  return `
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=${safe}"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', '${safe}');
+</script>`;
 }
 
 /** One ad, async, in a box of reserved height. '' when ads are off. */

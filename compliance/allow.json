@@ -20,19 +20,31 @@
   {
     "rule": "privacy-claims",
     "file": "site/sitebar.mjs",
-    "reason": "The GoatCounter loader is gated on MONETIZE.analytics.goatcounter (null = off) and the privacy page swaps its 'No analytics' line for a disclosure in the same build that turns it on. While it is off, no page loads it. Re-check when the site code is set.",
-    "until": "2027-01-07"
+    "reason": "GoatCounter and Google Analytics loaders are gated on MONETIZE.analytics (null = off) and the privacy page swaps its 'No analytics' / 'No cookies' lines for disclosures in the same build that turns them on. While off, no page loads them.",
+    "until": "2027-10-10"
   },
   {
     "rule": "privacy-claims",
     "file": "site/monetize.mjs",
-    "reason": "The GoatCounter loader is gated on MONETIZE.analytics.goatcounter (null = off) and the privacy page swaps its 'No analytics' line for a disclosure in the same build that turns it on. While it is off, no page loads it. Re-check when the site code is set.",
-    "until": "2027-01-07"
+    "reason": "GoatCounter and Google Analytics loaders are gated on MONETIZE.analytics (null = off) and the privacy page swaps its 'No analytics' / 'No cookies' lines for disclosures in the same build that turns them on. While off, no page loads them.",
+    "until": "2027-10-10"
   },
   {
     "rule": "privacy-claims",
     "file": "site/templates/infoPages.mjs",
-    "reason": "The GoatCounter loader is gated on MONETIZE.analytics.goatcounter (null = off) and the privacy page swaps its 'No analytics' line for a disclosure in the same build that turns it on. While it is off, no page loads it. Re-check when the site code is set.",
-    "until": "2027-01-07"
+    "reason": "GoatCounter and Google Analytics loaders are gated on MONETIZE.analytics (null = off) and the privacy page swaps its 'No analytics' / 'No cookies' lines for disclosures in the same build that turns them on. While off, no page loads them.",
+    "until": "2027-10-10"
+  },
+  {
+    "rule": "tracking-pixel",
+    "file": "site/monetize.mjs",
+    "reason": "Google Analytics gtag (G-KHYRHKZ3CP) is gated on MONETIZE.analytics.gtag and disclosed on /privacy.html. Operator requested install 2026-10-10.",
+    "until": "2027-10-10"
+  },
+  {
+    "rule": "tracking-pixel",
+    "file": "site/sitebar.mjs",
+    "reason": "Google Analytics gtag (G-KHYRHKZ3CP) is gated on MONETIZE.analytics.gtag and disclosed on /privacy.html. Operator requested install 2026-10-10.",
+    "until": "2027-10-10"
   }
 ]
