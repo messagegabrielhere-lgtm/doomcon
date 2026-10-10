@@ -572,10 +572,13 @@ jobs:
 
       - name: Waffle House Index
         # Storms from NHC, Waffle Houses in the path (OpenStreetMap, weekly),
-        # open/closed from Google Places when GOOGLE_PLACES_API_KEY is set
-        # (at most GOOGLE_WAFFLE_MAX_CALLS lookups a run, default 10), AI data
-        # centres alongside. Presentation only; never moves the index.
+        # LIVE open/closed from the official locations.wafflehouse.com locator
+        # (opening_status on each store page; no key). Google Places remains an
+        # optional overlay when GOOGLE_PLACES_API_KEY is set. Presentation only;
+        # never moves the index. Limited-menu yellow is not on the public
+        # locator, so we never invent it from weather alerts.
         continue-on-error: true
+        timeout-minutes: 8
         env:
           GOOGLE_PLACES_API_KEY: ${{ secrets.GOOGLE_PLACES_API_KEY }}
         run: node collector/waffle.mjs

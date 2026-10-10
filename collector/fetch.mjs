@@ -103,6 +103,9 @@ const HOST_MIN_INTERVAL_MS = {
   // Polymarket / public CLOB — bursty parallel adapters trip 429s.
   'gamma-api.polymarket.com': 400,
   'clob.polymarket.com': 400,
+  // Waffle House SOCi locator — polite floor; the waffle collector also caps
+  // concurrency so a full-catalog scrape does not look like a flood.
+  'locations.wafflehouse.com': 40,
 };
 
 /** host -> promise chain tail, so callers queue rather than race. */
