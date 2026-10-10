@@ -84,6 +84,7 @@ export function render(ctx, dcs, usRings) {
     <li><b>Tonight’s actual reading:</b> SIREN level ${esc(L ?? '?')}, measured from public data every hour. <a href="${esc(ctx.href('/'))}">See the index →</a></li>
     <li>AI labs really are war-gaming the aftermath of an AI catastrophe. <a href="${esc(ctx.href('/day-after.html'))}">Play The Day After →</a></li>
     <li>Could you stop it? <a href="${esc(ctx.href('/contain.html'))}">Try the Containment game →</a> · <a href="${esc(ctx.href('/si-watch.html'))}">Watch what AI agents are doing right now →</a></li>
+    <li>What is actually attacking the machines tonight: <a href="${esc(ctx.href('/threats.html'))}">the live threat board →</a> · <a href="${esc(ctx.href('/status.html'))}">Is ChatGPT down? →</a></li>
     <li>What the experts think the odds are: <a href="${esc(ctx.href('/p-doom.html#voices'))}">28 named p(doom) estimates →</a></li>
   </ul><p style="font-size:12.5px;margin:10px 0 0">Every number in the animation except the data-centre locations is made up for the story. Data centres from OpenStreetMap and public filings via SIREN’s <a href="${esc(ctx.href('/map.html'))}">power map</a>. Skynet is the fictional AI from the Terminator films; this page is an homage, not affiliated.</p></div>
 </section>

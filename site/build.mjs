@@ -43,6 +43,7 @@ import * as siWatchPage from './templates/siWatchPage.mjs';
 import * as wafflePage from './templates/wafflePage.mjs';
 import * as statusPage from './templates/statusPage.mjs';
 import * as selfAwarePage from './templates/selfAwarePage.mjs';
+import * as threatsPage from './templates/threatsPage.mjs';
 import { SERVICES as AI_SERVICES } from '../collector/ai-status.mjs';
 import * as catalogPages from './templates/catalogPages.mjs';
 import { items as faqItems } from './templates/_faq.mjs';
@@ -1487,6 +1488,13 @@ async function main() {
     try { saDcs = JSON.parse(await readFile(path.join(args.data, 'datacenters.json'), 'utf8')).sites || []; } catch { saDcs = []; }
     try { const wo = JSON.parse(await readFile(path.join(args.data, 'world-outline.json'), 'utf8')); saRings = ((wo.countries || []).find((c) => c.iso2 === 'US') || {}).rings || null; } catch { saRings = null; }
     written.push(await write(args.out, 'self-aware.html', selfAwarePage.render(ctx, saDcs, saRings)));
+  }
+  {
+    // Threat board (collector/threats.mjs; source list from OSIRIS, MIT).
+    let thText = null, th = null;
+    try { thText = await readFile(path.join(args.data, 'threats.json'), 'utf8'); th = JSON.parse(thText); } catch { thText = null; th = null; }
+    written.push(await write(args.out, 'threats.html', threatsPage.render(ctx, th)));
+    if (thText !== null) written.push(await write(args.out, 'api/threats.json', thText));
   }
   written.push(await write(args.out, 'live-x.html', featurePages.liveX(ctx)));
   written.push(await write(args.out, 'tally.html', withVideo(agentPages.tally(ctx), 'tally')));

@@ -33,6 +33,7 @@ export const PRIMARY = [
 // at the top of the room finder and as a strip on the homepage. Newest first;
 // keep it to about six so it stays a highlight reel, not a second menu.
 export const WHATS_NEW = [
+  ['/threats.html', 'px:threatshield', 'Threat board', 'Exploited software, botnets, solar storms and disasters, live.'],
   ['/self-aware.html', 'px:redeye', 'The night it wakes up', 'The Skynet scenario, played out on a map of real US data centres.'],
   ['/status.html', 'px:statuspulse', 'Is ChatGPT down?', 'Live status of ChatGPT, Claude, Copilot, Cursor and more, every minute.'],
   ['/p-doom.html#voices', 'px:pclock', 'The p(doom) voices', '28 named estimates, Hinton to Yudkowsky, and a dial to set yours.'],

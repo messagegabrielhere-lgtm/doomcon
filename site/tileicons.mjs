@@ -88,6 +88,9 @@ export const TILE_ICONS = {
   redeye: [{ a: '#F87171', b: '#7F1D1D', c: '#FFFFFF', d: '#1F2937' }, [
     '................', '................', '................', '....dddddddd....', '..dddbbbbbbddd..', '.ddbbbaaaabbbdd.', 'ddbbaaaaaaaabbdd', 'dbbaaaaccaaaabbd',
     'dbbaaaaccaaaabbd', 'ddbbaaaaaaaabbdd', '.ddbbbaaaabbbdd.', '..dddbbbbbbddd..', '....dddddddd....', '................', '................', '................']],
+  threatshield: [{ a: '#FB923C', b: '#7C2D12', c: '#FFFFFF', d: '#1F2937' }, [
+    '................', '.......aa.......', '.....aaaaaa.....', '...aaabbbbaaa...', '..aabbbbbbbbaa..', '..abbbbccbbbba..', '..abbbbccbbbba..', '..abbbbccbbbba..',
+    '..abbbbccbbbba..', '..abbbbbbbbbba..', '...abbbbccbbba..', '...aabbbccbbaa..', '....aabbbbbaa...', '.....aaabaaa....', '.......aa.......', '................']],
   hurricane: [{ a: '#60A5FA', b: '#F87171', c: '#FFFFFF' }, [
     '................', '......aaaa......', '....aa....a.....', '...a...bb..a....', '..a...b..b......', '..a..b....b.a...', '.a...b.cc.b..a..', '.a..b.cccc.b.a..',
     '..a.b.cccc.b..a.', '..a.b..cc.b...a.', '...a.b....b..a..', '.....b..b...a...', '......bb...a....', '....a.....aa....', '.....aaaaa......', '................']],
