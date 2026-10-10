@@ -76,8 +76,8 @@ function emitShell(result) {
   // Safe for `eval "$(node … --check)"` in the workflow.
   const reason = String(result.reason).replace(/[^a-zA-Z0-9 _:,./+-]/g, ' ').slice(0, 200);
   process.stdout.write(`HEAL=${result.heal ? 'true' : 'false'}\n`);
-  process.stdout.write(`REASON=${reason}\n`);
-  process.stdout.write(`SOURCES=${result.sources.join(',')}\n`);
+  process.stdout.write(`REASON='${reason}'\n`);
+  process.stdout.write(`SOURCES='${result.sources.join(',').replace(/[^a-zA-Z0-9_,.-]/g, '')}'\n`);
 }
 
 function main(argv) {
