@@ -830,11 +830,11 @@ function partitionBar(race) {
 // with no leg gets a dashed track and the word, never a fill of zero.
 // ---------------------------------------------------------------------------
 
-function leaderboard(race) {
+function leaderboard(ctx, race) {
   const ranked = race.players.filter((p) => p.rank !== null);
   const unranked = race.players.filter((p) => p.rank === null);
 
-  const rows = [...ranked, ...unranked].map((p) => playerRow(p, race)).join('');
+  const rows = [...ranked, ...unranked].map((p) => playerRow(ctx, p, race)).join('');
 
   const unrankedNote = unranked.length
     ? `<p class="rnote"><b>${esc(unranked.length)}</b> player${unranked.length === 1 ? ' is' : 's are'} unranked:
@@ -864,7 +864,7 @@ function leaderboard(race) {
  * read out in the value's screen-reader text. A row with no week-old reference
  * gets no tick and the words "no ref", never a tick at the live price.
  */
-function playerRow(p, race) {
+function playerRow(ctx, p, race) {
   const m = p.market;
   const live = m.probability !== null;
 
@@ -956,7 +956,7 @@ function playerRow(p, race) {
       <i class="rpill__fill" aria-hidden="true"></i>${tick}
       ${rank}
       <span class="rpill__mk${markFor(p).face ? ' rpill__mk--face' : ''}" aria-hidden="true">${markFor(p).face ? `<img src="${esc(markFor(p).face)}" alt="" loading="lazy">` : `<svg viewBox="0 0 24 24" focusable="false"><use href="#dc-avt-${esc(markFor(p).shape)}"/></svg>`}</span>
-      <span class="rpill__lab"><b class="rpill__name">${esc(p.name)}</b>${principal}</span>
+      <span class="rpill__lab"><b class="rpill__name"><a href="${esc(ctx.href(`/lab/${p.id}.html`))}">${esc(p.name)}</a></b>${principal}</span>
       <span class="rpill__right">${delta}${value}</span>
     </div>
     <dl class="rfacts">
@@ -1171,7 +1171,7 @@ ${partitionBar(race)}
 
 ${raceGraphics(race)}
 
-${leaderboard(race)}
+${leaderboard(ctx, race)}
 
 ${howComputed(ctx, race)}
 
