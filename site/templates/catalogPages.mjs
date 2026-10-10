@@ -50,6 +50,7 @@ const MORE_PAGES = [
   ['/item/', 'news', 'Every story', 'One permanent page per scored story.'],
   ['/source/', 'news', 'Outlets', 'Scored stories grouped by the outlet that published them.'],
   ['/model/', 'news', 'Model families', 'Scored stories grouped by the model family the headline names.'],
+  ['/people/', 'mic', 'People', 'AI leaders with enough press coverage for their own page.'],
   ['/country/', 'globe', 'Datacentres by country', 'Mapped datacentre sites, one page per country that clears the count.'],
   ['/pillar/capability.html', 'px:updown', 'Capability pillar', 'Stories and the live Capability reading.'],
   ['/pillar/compute.html', 'px:updown', 'Compute pillar', 'Stories and the live Compute & Capital reading.'],

@@ -195,6 +195,8 @@ import * as facetPages from './templates/facetPages.mjs';
 import * as modelPages from './templates/modelPages.mjs';
 import * as countryPages from './templates/countryPages.mjs';
 import * as comparePages from './templates/comparePages.mjs';
+import * as peoplePages from './templates/peoplePages.mjs';
+import * as dayPages from './templates/dayPages.mjs';
 import { page as layoutPage } from './templates/layout.mjs';
 import { render as sitemap, robots } from './templates/sitemap.mjs';
 import { INDEXNOW_KEY } from '../collector/indexnow.mjs';
@@ -728,12 +730,28 @@ async function writeModelAndCountryPages(ctx, outDir, write, written) {
   }
 }
 
+async function writePeopleAndDayPages(ctx, outDir, write, written) {
+  if (peoplePages.indexablePeople(ctx).length) {
+    for (const person of peoplePages.indexablePeople(ctx)) {
+      written.push(await write(outDir, `people/${person.id}.html`, peoplePages.renderPerson(ctx, person.id)));
+    }
+    written.push(await write(outDir, 'people/index.html', peoplePages.renderIndex(ctx)));
+  }
+  for (const day of dayPages.indexableDays(ctx)) {
+    written.push(await write(outDir, `news/${day.day}.html`, dayPages.renderDay(ctx, day.day)));
+  }
+}
+
 function modelAndCountryAliases(ctx) {
   const names = modelPages.indexableModels(ctx).map((model) => `model/${model.slug}`);
   if (ctx.routes && ctx.routes.world && ctx.world) {
     names.push(...countryPages.indexableCountries(ctx).map((country) => `country/${String(country.iso2).toLowerCase()}`));
   }
   return names;
+}
+
+function peopleAliases(ctx) {
+  return peoplePages.indexablePeople(ctx).map((person) => `people/${person.id}`);
 }
 
 async function writeDirectoryAliases(outDir, names, write, written) {
@@ -1384,7 +1402,7 @@ async function main() {
     for (const p of brand.PILLARS) {
       written.push(await write(args.out, `pillar/${p.id}.html`, facetPages.renderPillar(ctx, p.id)));
     }
-    for (const player of facetPages.labsFromRace(ctx)) {
+    for (const player of facetPages.allLabs(ctx)) {
       written.push(await write(args.out, `lab/${player.id}.html`, facetPages.renderLab(ctx, player)));
     }
     for (const s of facetPages.indexableSources(ctx)) {
@@ -1392,6 +1410,7 @@ async function main() {
     }
     written.push(await write(args.out, 'source/index.html', facetPages.renderSourceIndex(ctx)));
     await writeModelAndCountryPages(ctx, args.out, write, written);
+    await writePeopleAndDayPages(ctx, args.out, write, written);
     // Keep the crawl surfaces in step with the newsroom window (item + facet
     // URLs change every fast pass; a stale sitemap is how Google News goes quiet).
     written.push(await write(args.out, 'sitemap.xml', sitemap(ctx)));
@@ -1642,6 +1661,9 @@ async function main() {
   if (leadersPage.hasLeaders(ctx)) {
     written.push(await write(args.out, 'leaders.html', leadersPage.render(ctx)));
   }
+  // People + day hubs (COMPETITIVE-SEO.md): DoomBench /people and Skynet
+  // /news/YYYY-MM-DD — gated so thin days and quiet roster rows stay off-index.
+  await writePeopleAndDayPages(ctx, args.out, write, written);
   // /flock. The ALPR camera map, from OpenStreetMap via Overpass.
   //
   // ctx.routes.flock — set immediately after ctx is built, above — is the ONE
@@ -1704,7 +1726,7 @@ async function main() {
   for (const p of brand.PILLARS) {
     written.push(await write(args.out, `pillar/${p.id}.html`, facetPages.renderPillar(ctx, p.id)));
   }
-  for (const player of facetPages.labsFromRace(ctx)) {
+  for (const player of facetPages.allLabs(ctx)) {
     written.push(await write(args.out, `lab/${player.id}.html`, facetPages.renderLab(ctx, player)));
   }
   for (const s of facetPages.indexableSources(ctx)) {
@@ -1731,9 +1753,10 @@ async function main() {
       'agents', 'tally', 'changelog', 'live', 'compare', 'alternatives',
       ...comparePages.RIVALS.map((r) => r.path.replace(/^\//, '').replace(/\.html$/, '')),
       ...brand.PILLARS.map((p) => `pillar/${p.id}`),
-      ...facetPages.labsFromRace(ctx).map((p) => `lab/${p.id}`),
+      ...facetPages.allLabs(ctx).map((p) => `lab/${p.id}`),
       ...facetPages.indexableSources(ctx).map((s) => `source/${s.id}`),
       ...modelAndCountryAliases(ctx),
+      ...peopleAliases(ctx),
     ],
     write,
     written,
