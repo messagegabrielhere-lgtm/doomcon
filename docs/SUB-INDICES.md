@@ -110,18 +110,22 @@ This is the page a journalist cites, which makes it the page that earns links.
 
 *"The index for people who think this is all nonsense."*
 
-**Route:** `/nothing`
+**Route:** `/nothing.html` (alias `/nothing/`) · **Shipped 2026-10-09**
 
 A direct, acknowledged riff on pizzint's own NEH index, pointed at AI. Tracks
 how often confident AI predictions did **not** come true: AGI dates that slipped,
-benchmark claims that failed replication, product launches that missed announced
-windows, regulation that was announced and never shipped.
+product launches that missed announced windows, regulation that was announced
+and never shipped.
 
-Strategically this is the most important page on the site. An AI-doom tracker
-that can *only* say "more doom" is a hype account with a chart. One that keeps
-public score of its own side's overconfidence is one people trust. It is also
-the page most likely to be shared by skeptics, which is a whole audience the
-competitors cannot reach.
+**Formula (v1):** `score = 100 × (misses ÷ resolved)` over a curated ledger of
+dated public claims. Pending and overdue rows do not enter the denominator;
+overdue is a queue, never an auto-miss. Does not feed the main index. Side
+panels publish the main index calm streak and quiet-share for context only.
+
+Strategically this is one of the most important pages on the site. An AI-doom
+tracker that can *only* say "more doom" is a hype account with a chart. One that
+keeps public score of overconfident calendars is one people trust — and the
+audience pizzint's panic gauge cannot reach.
 
 ---
 
@@ -173,4 +177,5 @@ people on that platform.
   frozen reference. A page can be interesting without being load-bearing, and
   conflating the two is how an index quietly becomes a vibe.
 - **Ship order:** `/race` first (most shareable, data already in hand), then
-  `/bliss` (the differentiator), then `/quiet` (the best story), then the rest.
+  `/bliss` (the differentiator), then `/nothing` (skeptic counter — shipped),
+  then `/quiet` (the best story), then the rest.

@@ -198,6 +198,13 @@ const SECTIONS = [
     blurb: 'Daily forecasts about the index, with probabilities, scored in public.' },
   { href: '/ai-doomsday-clock.html', label: 'The Clock', short: 'Clock',
     blurb: 'The reading as a clock face, and what the other clocks are.' },
+  { href: '/nothing.html', label: 'Nothing Ever Happens', short: 'Nothing', needs: 'nothing',
+    blurb: 'The skeptic’s counter: dated AI claims that missed, scored in public.',
+    count: (ctx) => {
+      // Lightweight: only whether the page can build. Score lives on the page.
+      if (!ctx || !ctx.state) return null;
+      return { v: 'NEH', k: 'skeptic counter for dated AI claims' };
+    } },
   { href: '/desk.html', label: 'Tally’s Desk', short: 'Desk', needs: 'news',
     blurb: 'The unserious counts: robots, godfathers, question marks.' },
   { href: '/game.html', label: 'Game', short: 'Game',
@@ -747,6 +754,7 @@ const FEATURE_ART = {
   // No other mark in the table puts a horizontal beam across a vertical post.
   '/balance.html': { hue: '#878700', mark: '<path d="M8 2.4v10.8M4.8 13.4h6.4M2.8 4.6h10.4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M2.8 4.6 1.5 9.3M2.8 4.6 4.1 9.3M13.2 4.6 11.9 9.3M13.2 4.6 14.5 9.3" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/><path d="M1.3 9.3h3a1.5 1.5 0 0 1-3 0zM11.7 9.3h3a1.5 1.5 0 0 1-3 0z" fill="currentColor"/>' },
   '/bliss.html': { hue: '#5fd08a', mark: '<circle cx="8" cy="8" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 1.5v2M8 12.5v2M1.5 8h2M12.5 8h2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>' },
+  '/nothing.html': { hue: '#94a3b8', mark: '<path d="M3 8h10M5 5.5h6M5 10.5h6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>' },
   '/methodology.html': { hue: '#4b59ff', mark: '<path d="M6 2v4.5L2.8 12a1.6 1.6 0 0 0 1.4 2.4h7.6A1.6 1.6 0 0 0 13.2 12L10 6.5V2z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>' },
   '/history.html': { hue: '#ffb655', mark: '<circle cx="8" cy="8" r="5.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 4.5V8l2.5 1.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>' },
   '/moves/': { hue: '#9aa4b2', mark: '<path d="M2.5 4.5h11M2.5 8h11M2.5 11.5h7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>' },
@@ -1267,6 +1275,7 @@ function hasSection(ctx, key) {
   }
   if (key === 'digest') return Boolean(ctx.digest && typeof ctx.digest === 'object');
   if (key === 'bliss') return Boolean(ctx.bliss && Array.isArray(ctx.bliss.sources) && ctx.bliss.sources.length);
+  if (key === 'nothing') return Boolean(ctx && ctx.state);
   if (key === 'leaders') {
     return Boolean(ctx.leaders && Array.isArray(ctx.leaders.leaders) && ctx.leaders.leaders.length);
   }

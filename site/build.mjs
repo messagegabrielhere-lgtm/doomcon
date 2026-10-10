@@ -184,6 +184,7 @@ import * as racePage from './templates/racePage.mjs';
 import * as wattsPage from './templates/wattsPage.mjs';
 import * as digestPage from './templates/digestPage.mjs';
 import * as blissPage from './templates/blissPage.mjs';
+import * as nothingPage from './templates/nothingPage.mjs';
 import * as itemPage from './templates/itemPage.mjs';
 import * as mapPage from './templates/mapPage.mjs';
 import * as leadersPage from './templates/leadersPage.mjs';
@@ -1630,6 +1631,9 @@ async function main() {
   if (blissPage.hasBliss(ctx)) {
     written.push(await write(args.out, 'bliss.html', blissPage.render(ctx)));
   }
+  if (nothingPage.hasNothing(ctx)) {
+    written.push(await write(args.out, 'nothing.html', nothingPage.render(ctx)));
+  }
   // hasDatacenters takes the whole ctx, not the data file — it also requires
   // resources_index, because a map of pins with no resource join is just dots.
   if (mapPage.hasDatacenters(ctx)) {
@@ -1718,7 +1722,7 @@ async function main() {
   await writeDirectoryAliases(
     args.out,
     [
-      'race', 'news', 'methodology', 'history', 'digest', 'bliss', 'balance',
+      'race', 'news', 'methodology', 'history', 'digest', 'bliss', 'nothing', 'balance',
       'watts', 'map', 'world', 'leaders', 'flock', 'exploits', 'jobs', 'medicine',
       'about', 'classic', 'embed', 'guide', 'library', 'press', 'brand', 'desk',
       'bets', 'privacy', 'terms', 'feedback', 'sponsor', 'instruments',

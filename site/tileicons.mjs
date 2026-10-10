@@ -135,6 +135,10 @@ export const TILE_ICONS = {
   livetv: [{ a: '#F59E0B', b: '#0B1020', c: '#38BDF8', d: '#F87171', e: '#FFFFFF' }, [
     '.c.....dd.....c.', 'c.c...a..a...c.c', 'c.c..a....a..c.c', '.c..a......a..c.', '...a........a...', 'aaaaaaaaaaaaaaaa', 'abbbbbbbbbbbaeea', 'abddbbbbbbbbaeea',
     'abddbbbbbbbbaaaa', 'abbbbbbbbbbbaeea', 'abeebeebeebbaaaa', 'abbbebbebbebaeea', 'abbbbbbbbbbbaaaa', 'aaaaaaaaaaaaaaaa', '.aa..........aa.', '................']],
+  // Nothing Ever Happens: a flatline shrug.
+  shrug: [{ a: '#94A3B8', b: '#E2E8F0', c: '#64748B' }, [
+    '................', '................', '..bb........bb..', '.b..b......b..b.', 'b....b....b....b', '......aaaa......', '................', '..cccccccccccc..',
+    '..c..........c..', '..c..bb..bb..c..', '..c..........c..', '..c...cccc...c..', '..c..........c..', '..cccccccccccc..', '................', '................']],
 };
 
 export function tileSvg(name, bg = '#0B1220') {
