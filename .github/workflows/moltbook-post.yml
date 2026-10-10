@@ -7,6 +7,11 @@ on:
       dry_run:
         type: boolean
         default: false
+      answer:
+        description: Answer to the pending verification challenge (leave empty to post the next item)
+        type: string
+        default: ''
+
 permissions:
   contents: write
 concurrency:
@@ -25,16 +30,19 @@ jobs:
         env:
           MOLTBOOK_API_KEY: ${{ secrets.MOLTBOOK_API_KEY }}
           DRY: ${{ inputs.dry_run }}
+          ANSWER: ${{ inputs.answer }}
         run: |
-          if [ "$DRY" = "true" ]; then node collector/post-moltbook-once.mjs --dry-run; else node collector/post-moltbook-once.mjs; fi
+          if [ -n "$ANSWER" ]; then node collector/post-moltbook-once.mjs --verify "$ANSWER";
+          elif [ "$DRY" = "true" ]; then node collector/post-moltbook-once.mjs --dry-run;
+          else node collector/post-moltbook-once.mjs; fi
       - name: Record what was posted
         if: inputs.dry_run != true
         run: |
           set -euo pipefail
-          [ -f data/moltbook-queue-posted.json ] || exit 0
+          [ -f data/moltbook-queue-posted.json ] || [ -f data/moltbook-pending.json ] || exit 0
           git config user.name  'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add data/moltbook-queue-posted.json
+          git add data/moltbook-queue-posted.json data/moltbook-pending.json 2>/dev/null || git add data/moltbook-queue-posted.json
           if git diff --cached --quiet; then exit 0; fi
           git commit -q -m "moltbook: posted from the queue — $(date -u +%Y-%m-%dT%H:%MZ)"
           for attempt in 1 2 3; do
