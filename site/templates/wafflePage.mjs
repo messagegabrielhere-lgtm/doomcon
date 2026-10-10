@@ -51,7 +51,7 @@ function boxFor(st) {
   let w = Math.min(...pts.map((p) => p.lon)) - r * 0.8, e = Math.max(...pts.map((p) => p.lon)) + r * 0.8;
   let s = Math.min(...pts.map((p) => p.lat)) - r * 0.6, n = Math.max(...pts.map((p) => p.lat)) + r * 0.6;
   // At least 9 degrees wide, 2:1-ish, so the coastline reads.
-  const cx = (w + e) / 2, cy = (s + n) / 2, half = Math.max(4.5, (e - w) / 2), halfY = Math.max(3.2, (n - s) / 2, half * 0.55);
+  const cx = (w + e) / 2, cy = (s + n) / 2, half = Math.max(4.5, (e - w) / 2, (n - s) / 2 / 0.62), halfY = Math.max(3.2, half * 0.62);
   return { w: cx - half, e: cx + half, s: cy - halfY, n: cy + halfY };
 }
 function mapSvg(st, us, W = 1000) {
