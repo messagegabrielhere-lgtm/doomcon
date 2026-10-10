@@ -11,6 +11,7 @@ export function render(ctx) {
   const entries = [
     { loc: '/', changefreq: 'hourly', priority: '1.0', lastmod: ctx.state.generated_at },
     { loc: '/methodology.html', changefreq: 'monthly', priority: '0.8', lastmod: ctx.state.generated_at },
+    { loc: '/methodology.md', changefreq: 'monthly', priority: '0.4', lastmod: ctx.state.generated_at },
     { loc: '/history.html', changefreq: 'monthly', priority: '0.8', lastmod: ctx.state.generated_at },
     ...(ctx.ledger ? [
       { loc: '/jobs.html', changefreq: 'daily', priority: '0.9', lastmod: ctx.state.generated_at },
@@ -20,6 +21,7 @@ export function render(ctx) {
     { loc: '/p-doom.html', changefreq: 'weekly', priority: '0.8', lastmod: ctx.state.generated_at },
     { loc: '/ai-doomsday-clock.html', changefreq: 'weekly', priority: '0.8', lastmod: ctx.state.generated_at },
     { loc: '/guide.html', changefreq: 'weekly', priority: '0.8', lastmod: ctx.state.generated_at },
+    { loc: '/guide.md', changefreq: 'weekly', priority: '0.4', lastmod: ctx.state.generated_at },
     { loc: '/library.html', changefreq: 'monthly', priority: '0.7', lastmod: ctx.state.generated_at },
     { loc: '/sponsor.html', changefreq: 'monthly', priority: '0.5', lastmod: ctx.state.generated_at },
     { loc: '/brand.html', changefreq: 'monthly', priority: '0.5', lastmod: ctx.state.generated_at },

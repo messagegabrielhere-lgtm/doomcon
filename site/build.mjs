@@ -1399,6 +1399,7 @@ async function main() {
 
   written.push(await write(args.out, 'instruments.html', indexPage.render(ctx, { view: 'instruments' })));
   written.push(await write(args.out, 'methodology.html', methodologyPage.render(ctx)));
+  written.push(await write(args.out, 'methodology.md', methodologyPage.methodologyMd(ctx)));
   written.push(await write(args.out, 'history.html', historyPage.render(ctx)));
   written.push(await write(args.out, 'embed.html', embedPage.render(ctx)));
   // GitHub Pages serves this for every missing path under the site. Without it
@@ -1543,6 +1544,7 @@ async function main() {
   written.push(await write(args.out, 'library.html', shopPages.library(ctx)));
   written.push(await write(args.out, 'sponsor.html', shopPages.sponsor(ctx)));
   written.push(await write(args.out, 'guide.html', infoPages.guide(ctx)));
+  written.push(await write(args.out, 'guide.md', infoPages.guideMd(ctx)));
   if (deskPage.hasDesk(ctx)) written.push(await write(args.out, 'desk.html', deskPage.render(ctx)));
   if (newsPage.hasNews(ctx)) {
     written.push(await write(args.out, 'news.html', newsPage.render(ctx)));
