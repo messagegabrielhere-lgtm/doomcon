@@ -71,3 +71,17 @@ test('indexFrom turns yellow when many stores are on short hours', () => {
   assert.equal(indexFrom(0, 100, 2).level, 'GREEN');
   assert.equal(indexFrom(40, 100, 0).level, 'RED');
 });
+
+test('rankDataCentres scores closures near a data centre and dedupes campuses', async () => {
+  const { rankDataCentres } = await import('../waffle.mjs');
+  const stores = [0, 1, 2, 3].map((i) => ({ lat: 30 + i * 0.01, lon: -86, closed: i < 3 }));
+  const dcs = [{ name: 'A', operator: 'X', lat: 30.01, lon: -86.01 }, { name: 'A2', operator: 'X', lat: 30.012, lon: -86.012 }, { name: 'Far', lat: 40, lon: -80 }];
+  const nat = rankDataCentres(dcs, stores, null);
+  assert.equal(nat.length, 1);
+  assert.equal(nat[0].wh_closed, 3);
+  assert.equal(nat[0].score, 60);
+  const storm = { wind_kt: 100, radius_km: 240, now: { lat: 30, lon: -86 }, later: { lat: 31, lon: -86 } };
+  const r = rankDataCentres(dcs, stores, storm);
+  assert.equal(r[0].tier, 'HIGH');
+  assert.ok(r[0].score > 60);
+});

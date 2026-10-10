@@ -172,6 +172,47 @@ export async function officialStatus() {
   return all.filter((x) => !x.coming_soon).map((x) => ({ ...x, closed: closedSet.has(x.id) }));
 }
 
+/**
+ * Rank data centres by likely storm impact, using the Waffle Houses around
+ * them as ground truth. Score 0-100: 45% the storm (how close to the path,
+ * how strong), 40% the share of Waffle Houses within 30 km that Waffle House
+ * itself marks closed, 15% how many Waffle Houses (people, roads) are around. With no storm, closures alone (x0.8).
+ * A heuristic for "where to look", not an outage report.
+ */
+export function rankDataCentres(dcs, stores, storm = null, { nearKm = 30, max = 25 } = {}) {
+  const kt = storm ? (storm.wind_kt || 0) : 0;
+  const wind = kt >= 96 ? 1 : kt >= 64 ? 0.75 : kt >= 34 ? 0.45 : 0.25;
+  const reach = storm ? storm.radius_km * 1.5 : 0;
+  const out = [];
+  for (const x of dcs) {
+    if (!Number.isFinite(x.lat) || !Number.isFinite(x.lon)) continue;
+    const dPath = storm ? distToPath(x, storm.now, storm.later) : null;
+    if (storm && dPath > reach) continue;
+    // Cheap box filter before the great-circle distance.
+    const near = stores.filter((w) => Math.abs(w.lat - x.lat) < 0.4 && Math.abs(w.lon - x.lon) < 0.5 && km(w, x) <= nearKm);
+    const known = near.filter((w) => w.closed === true || w.closed === false);
+    const closed = known.filter((w) => w.closed === true).length;
+    const share = known.length >= 2 ? closed / known.length : 0;
+    if (!storm && (known.length < 3 || !closed)) continue;
+    const path = storm ? Math.max(0, 1 - dPath / reach) : 0;
+    const density = Math.min(1, known.length / 20); // a busy town: more people, roads and fibre at stake
+    const score = Math.round(100 * (storm ? 0.45 * path * wind + 0.4 * share + 0.15 * density : 0.8 * share));
+    if (score <= 0) continue;
+    const reasons = [];
+    if (known.length) reasons.push(`${closed} of ${known.length} Waffle Houses within ${nearKm} km closed`);
+    else reasons.push(`no Waffle House within ${nearKm} km to check`);
+    if (storm) reasons.push(dPath < 1 ? 'on the storm track' : `${Math.round(dPath)} km from the track`);
+    out.push({ name: x.name || 'Data centre', operator: x.operator || null, city: (x.addr && x.addr.city) || x.city || x.county || null, state: x.state || (x.addr && x.addr.state) || null,
+      lat: +x.lat.toFixed(4), lon: +x.lon.toFixed(4), score, tier: score >= 60 ? 'HIGH' : score >= 30 ? 'ELEVATED' : 'WATCH',
+      wh_near: known.length, wh_closed: closed, d_path: dPath === null ? null : Math.round(dPath), reasons });
+  }
+  out.sort((a, b) => b.score - a.score || b.wh_closed - a.wh_closed);
+  // One row per campus: OSM often maps a site as several buildings.
+  const kept = [];
+  for (const r of out) if (!kept.some((k) => (k.operator || k.name) === (r.operator || r.name) && km(k, r) < 3)) kept.push(r);
+  return kept.slice(0, max);
+}
+
 /** Pick query centres so every in-path store is within `r` km of one (greedy). */
 export function coverCentres(points, r = 45, max = 25) {
   const left = points.slice(), centres = [];
@@ -264,6 +305,7 @@ async function main(argv) {
       stores: inPath.slice(0, 400).map(({ lat, lon, city, state, d }) => ({ lat, lon, city, state, d: Math.round(d) })),
       google: (googled || live) ? { source: live ? 'Waffle House locator' : 'Google Places', checked: withStatus.length, known: known.length, closed: closed.length, limited: withStatus.filter((p) => p.limited).length, places: withStatus.slice(0, 700).map((p) => ({ name: p.name, lat: p.lat, lon: p.lon, closed: p.closed, limited: !!p.limited, status: p.status, address: p.address, url: p.url || null })) } : null,
       index: indexFrom(closed.length, known.length),
+      dc_impact: live ? rankDataCentres(dcs, all, s) : [],
       datacenters_in_path: dcIn.length,
       datacenters: dcIn.slice(0, 60).map(({ name, operator, city, state, status, lat, lon, d }) => ({ name, operator, city, state, status, lat, lon, d: Math.round(d) })),
     });
@@ -280,6 +322,8 @@ async function main(argv) {
       by_state: Object.entries(all.reduce((m, w) => { if (w.closed) m[w.state] = (m[w.state] || 0) + 1; return m; }, {})).sort((a, b) => b[1] - a[1]).map(([state, n]) => ({ state, n })),
       closed_list: all.filter((w) => w.closed).slice(0, 300).map(({ no, city, state, lat, lon, url }) => ({ no, city, state, lat, lon, url })),
     } : { error: officialErr },
+    // Data centres sitting in clusters of closed Waffle Houses, storm or not.
+    dc_impact: live ? rankDataCentres(dcs, all, null, { max: 15 }) : [],
     // Every store as [lon, lat, flag] for the national map: 0 open, 1 closed, 2 limited hours.
     all_stores: all.map((w) => [+(+w.lon).toFixed(3), +(+w.lat).toFixed(3), w.closed ? 1 : (w.hours24 === false ? 2 : 0)]),
     google: { enabled: !!key, calls, cap: maxCalls },
