@@ -86,6 +86,16 @@ const ENTITY_DEFS = [
 
 const COMPILED = ENTITY_DEFS.map((d) => ({ name: d.name, kind: d.kind, re: surfaceRegex(d.forms) }));
 
+/** Canonical names and kinds, without the surface-form matchers. */
+export function publishedEntities() {
+  return ENTITY_DEFS.map(({ name, kind }) => ({ name, kind }));
+}
+
+/** Stable URL slug for a canonical entity name (`DeepSeek-R` → `deepseek-r`). */
+export function entitySlug(name) {
+  return String(name).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+}
+
 /**
  * Canonical entity names present in a piece of text, sorted and de-duplicated.
  * Sorted because NewsItem output must be byte-stable across runs
