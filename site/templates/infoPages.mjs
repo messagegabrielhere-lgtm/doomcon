@@ -8,7 +8,7 @@ import { page } from './layout.mjs';
 import * as brand from '../brand.mjs';
 import { MONETIZE, on as mzOn } from '../monetize.mjs';
 import { mascot, MOODS } from './_mascot.mjs';
-import { voicesSection } from './_pdoomVoices.mjs';
+import { voicesSection, voicesFaq, VOICES, SURVEY } from './_pdoomVoices.mjs';
 
 const CSS = `<style>
 .inf { max-width: 74ch; }
@@ -432,6 +432,7 @@ export function pdoom(ctx) {
     jsonld: [{ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: [
       { '@type': 'Question', name: 'What is p(doom)?', acceptedAnswer: { '@type': 'Answer', text: 'p(doom) is shorthand for "probability of doom": one person\'s estimate, as a percentage, that advanced AI leads to a catastrophic outcome for humanity. It is an opinion expressed as a number, with no agreed method behind it.' } },
       { '@type': 'Question', name: 'Why do p(doom) estimates differ so much?', acceptedAnswer: { '@type': 'Answer', text: 'Because "doom" is not defined the same way by everyone, the time frame varies, and the figure is a judgement rather than a measurement.' } },
+      ...voicesFaq(),
     ] }],
     main,
   });
@@ -441,7 +442,7 @@ export function aiClock(ctx) {
   const main = `${CSS}
 <section class="inf">
   <p class="eyebrow">Explainer</p>
-  <div class="inf__top">${mascot({ size: 76, level: level(ctx) })}<h1 class="bp__h1">Is there a doomsday clock for AI?</h1></div>
+  <div class="inf__top">${mascot({ size: 76, level: level(ctx) })}<h1 class="bp__h1">The AI Doomsday Clock: is there one?</h1></div>
   <p class="lede"><b>The Doomsday Clock is not an AI clock, though it now takes AI into account. Several AI-specific “clocks” exist, and all of them are set by judgement.
     ${esc(brand.NAME)} is the nearest thing that is counted instead: an hourly reading of AI activity that anyone can verify.</b></p>
   <p><a href="${esc(ctx.href('/p-doom.html#voices'))}"><b>Set your own AI doomsday clock →</b></a> Drag a dial, see where you sit among 28 named experts from LeCun (0.01%) to Yudkowsky (95%+), and post it.</p>
@@ -450,6 +451,9 @@ export function aiClock(ctx) {
   <h2>The Doomsday Clock</h2>
   <p>The Bulletin of the Atomic Scientists has published the Doomsday Clock since 1947. It is a symbol: a board of experts decides, usually once a year, how close to “midnight” to set it.
     It began as a warning about nuclear weapons and has since widened to include climate change and disruptive technologies, AI among them. It is a considered judgement, not a calculation, and it is not updated between announcements.</p>
+  <h2>The experts’ clock: where opinion sits</h2>
+  <p>Ask the people building AI how likely it is to end in catastrophe and you get a cloud, not a number. The loudest cluster sits around <b>10–20%</b> (Geoffrey Hinton; Elon Musk says 10–30%; Dario Amodei 10–25%). The largest survey of AI researchers gives a median of <b>${SURVEY.median}%</b>. The tails run from Yann LeCun’s <b>under 0.01%</b> to Eliezer Yudkowsky’s <b>over 95%</b>.
+    On a clock where 100% is midnight, 15% is about 51 minutes to go. <a href="${esc(ctx.href('/p-doom.html#voices'))}">See all ${VOICES.length} voices on one chart and set the clock to your own number →</a></p>
   <h2>AI-specific clocks and scores</h2>
   <p>A number of sites publish an AI risk clock, countdown or score. What they share is the method: a person, a panel or a language model decides the setting. That makes them statements of opinion. Useful ones, sometimes, but not something a reader can recompute.</p>
   <h2>What ${esc(brand.NAME)} does instead</h2>
@@ -466,10 +470,13 @@ export function aiClock(ctx) {
 </section>`;
   return page({
     ctx, path: '/ai-doomsday-clock.html',
-    title: `Is there an AI doomsday clock? What exists, and one you can verify · ${brand.NAME}`,
-    // Claim first within ~160 chars so serpDescription keeps the differentiator
-    // (FINDABILITY.md §1.3) instead of cutting mid-sentence on the setup.
-    description: `${brand.NAME} is an hourly AI activity index anyone can verify — unlike judgement-based AI doomsday clocks. What exists, and how they differ.`,
+    title: `AI Doomsday Clock: expert p(doom), set your own, plus a live count · ${brand.NAME}`,
+    description: `AI Doomsday Clock: expert p(doom) clusters at 10–20%. Set your own on a dial, or read ${brand.NAME}, an hourly AI index anyone can verify.`,
+    jsonld: [{ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: [
+      { '@type': 'Question', name: 'Is there an AI Doomsday Clock?', acceptedAnswer: { '@type': 'Answer', text: 'The Bulletin of the Atomic Scientists’ Doomsday Clock includes AI among its risks but is not AI-specific and is set once a year. AI-specific clocks are set by judgement. SIREN publishes an hourly, verifiable count of AI activity, and plots named experts’ p(doom) estimates on one chart.' } },
+      { '@type': 'Question', name: 'How close is the AI Doomsday Clock to midnight?', acceptedAnswer: { '@type': 'Answer', text: 'There is no official AI clock. Expert estimates of AI catastrophe cluster around 10–20%; the largest researcher survey has a median of 5%. On a clock where 100% is midnight, 15% is about 51 minutes to go.' } },
+      { '@type': 'Question', name: 'Who sets the AI Doomsday Clock?', acceptedAnswer: { '@type': 'Answer', text: 'Nobody officially. Sites that publish one set it by their own judgement. SIREN’s reading is computed hourly from public data and can be re-checked in the browser.' } },
+    ] }],
     main,
   });
 }

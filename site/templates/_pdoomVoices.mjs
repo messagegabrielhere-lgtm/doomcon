@@ -42,6 +42,18 @@ export const VOICES = [
 ];
 // Grace et al., "Thousands of AI Authors on the Future of AI" (2024): 2,778
 // researchers; median ~5% for an outcome as bad as human extinction.
+export const POLLS = [
+  ['AI researchers', '5% median, 9% mean', '2,778 authors of top AI papers asked about an outcome as bad as human extinction', 'AI Impacts / Grace et al., 2024', 'https://arxiv.org/abs/2401.02843'],
+  ['Harvard event attendees', '50% → 70% median', '89 people, before and after a talk on “If Anyone Builds It, Everyone Dies”; self-described experts didn’t move up', 'Kestin & Soares, arXiv, Mar 2026', 'https://arxiv.org/abs/2603.27785'],
+];
+export const READING = [
+  ['The Conversation', 'Does AI pose an existential risk? We asked 5 experts', 'Jul 2026', 'https://theconversation.com/does-ai-pose-an-existential-risk-we-asked-5-experts-266345'],
+  ['NPR, 1A', 'The peril and opportunity of artificial superintelligence', 'Jun 2026', 'https://www.npr.org/2026/06/25/nx-s1-5871218/ai-the-peril-and-opportunity-of-artificial-superintelligence'],
+  ['CNN', 'Decoding AI existential risk', 'Jun 2026', 'https://www.cnn.com/2026/06/02/us/video/cnn-sitroom-blitzer-brown-decoding-ai-existential-risk-technology-artificial-intelligence'],
+  ['AI and Ethics', 'Power-seeking superintelligence: possible, but improbable in the short term', '2025', 'https://link.springer.com/article/10.1007/s43681-025-00941-z'],
+  ['Yudkowsky & Soares', 'If Anyone Builds It, Everyone Dies', '2025', 'https://en.wikipedia.org/wiki/If_Anyone_Builds_It,_Everyone_Dies'],
+  ['BBC', 'Stephen Hawking warns AI could end mankind', 'Dec 2014', 'https://www.bbc.com/news/technology-30290540'],
+];
 export const SURVEY = { median: 5, n: 2778, label: 'Median of 2,778 AI researchers surveyed (Grace et al., 2024)' };
 
 const GROUPS = { lab: ['AI lab leaders & founders', '#F87171'], research: ['Researchers', '#FACC15'], other: ['Investors, writers, officials', '#60A5FA'] };
@@ -130,6 +142,8 @@ export function voicesSection(ctx, sirenLevel) {
   </div>
   <div class="vx-news"><h3>IN THE NEWS: AI CATASTROPHE, SAFETY, p(doom)</h3><ul id="vx-news">${doomNews(ctx.news && ctx.news.items).map((x) => `<li><a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.title)}</a><small>${esc(x.source || '')} · ${esc(ago(x.published_at))}</small></li>`).join('') || '<li>No catastrophe-risk headlines in the last few days. <a href="news.html">All AI news →</a></li>'}</ul>
     <p style="font-size:12.5px;margin:6px 0 0">Refreshes live from SIREN’s newsroom. <a href="news.html">All AI news →</a> · <a href="live.html">Watch: AI on TV &amp; radio, live →</a> · <a href="day-after.html">Game out the day after →</a></p></div>
+  <div class="vx-news"><h3>POLLS &amp; SURVEYS</h3><ul>${POLLS.map((p) => `<li><b>${esc(p[0])}: ${esc(p[1])}</b>. ${esc(p[2])}. <a href="${esc(p[4])}" target="_blank" rel="noopener">${esc(p[3])}</a></li>`).join('')}</ul></div>
+  <div class="vx-news"><h3>FURTHER READING, EVERY SIDE</h3><ul>${READING.map((r) => `<li><a href="${esc(r[3])}" target="_blank" rel="noopener">${esc(r[1])}</a><small>${esc(r[0])} · ${esc(r[2])}</small></li>`).join('')}<li><a href="library.html">SIREN’s library: books from every side →</a></li></ul></div>
   <details style="margin-top:12px"><summary class="vx-src" style="cursor:pointer">Where each figure comes from</summary><ul class="vx-src">${rows.map((v) => `<li><b>${esc(v[0])}</b>: ${v[1] === v[2] ? `${v[1]}%` : `${v[1]}–${v[2]}%`} · ${esc(v[5])}</li>`).join('')}<li><b>Survey</b>: ${esc(SURVEY.label)}.</li><li>Compiled from Wikipedia’s <a href="https://en.wikipedia.org/wiki/P(doom)" target="_blank" rel="noopener">P(doom)</a> article, which cites each original. Hinton has also said his own gut figure is over 50%; we plot the 10–20% he gives “all things considered”.</li></ul></details>
 <script>(function(){var s=document.getElementById('vx-in');if(!s)return;var o=document.getElementById('vx-out'),y=document.getElementById('vx-you'),h=document.getElementById('vx-hand'),hr=document.getElementById('vx-hr'),m=document.getElementById('vx-min'),say=document.getElementById('vx-say'),x=document.getElementById('vx-x');
 var rows=[].slice.call(document.querySelectorAll('#vx-lad .vx-r'));
@@ -148,4 +162,13 @@ function news(){fetch('api/news.json',{cache:'no-store'}).then(function(r){retur
 news();setInterval(news,120000);
 [].forEach.call(document.querySelectorAll('.vx-chips button'),function(b){b.addEventListener('click',function(){var g=b.dataset.g;[].forEach.call(document.querySelectorAll('.vx-chips button'),function(c){c.setAttribute('aria-pressed',c===b?'true':'false');});rows.forEach(function(r){r.hidden=!(g==='all'||r.dataset.g===g);});});});})();</script>
 </section>`;
+}
+
+/** FAQ entries for search: "What is X's p(doom)?" for the most-searched names. */
+export function voicesFaq() {
+  const pick = ['Geoffrey Hinton', 'Dario Amodei', 'Elon Musk', 'Yann LeCun', 'Eliezer Yudkowsky', 'Yoshua Bengio', 'Roman Yampolskiy', 'Max Tegmark', 'Lina Khan', 'Vitalik Buterin'];
+  const out = VOICES.filter((v) => pick.includes(v[0])).map((v) => ({ '@type': 'Question', name: `What is ${v[0]}’s p(doom)?`,
+    acceptedAnswer: { '@type': 'Answer', text: `${v[0]} (${v[4]}) has put it at ${v[1] === v[2] ? `${v[1]}%` : `${v[1]}–${v[2]}%`} (${v[5]}). People revise these figures; SIREN plots it beside ${VOICES.length - 1} other named estimates.` } }));
+  out.push({ '@type': 'Question', name: 'What do AI researchers think the chance of AI doom is?', acceptedAnswer: { '@type': 'Answer', text: 'In the largest survey, 2,778 AI researchers gave a median of 5% (mean 9%) for an outcome as bad as human extinction (Grace et al., 2024). Named public figures range from under 0.01% (Yann LeCun) to over 95% (Eliezer Yudkowsky).' } });
+  return out;
 }
