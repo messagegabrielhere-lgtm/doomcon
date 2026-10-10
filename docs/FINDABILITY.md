@@ -236,9 +236,12 @@ context.
 | 6 | `/openapi.json` + sitemap entries for API docs | Agents + developers | **Done** |
 | 7 | Head-term homepage title + FAQ ("AI activity level today", verifiable doomsday clock) | Google | **Done** (2026-10-10) |
 | 8 | Organization JSON-LD + IndexNow ping after publish + GSC meta hook | Google + Bing | **Done** (2026-10-10) |
-| 9 | Optional markdown mirrors for methodology and guide | Agents | Open |
+| 9 | Optional markdown mirrors for methodology and guide | Agents | Open (draft PR) |
 | 10 | Mobile card view / less above-fold weight | Google CWV | Open |
 | 11 | Verify Search Console; submit both sitemaps | Operator | Open |
+| 12 | `/country/*` + `/model/*` entity axes (DoomBench URL shape) | Google | **This PR** |
+| 13 | `/compare`, `/alternatives`, `/vs/*` conquest landings | Google | **This PR** |
+| 12 | `/country/<iso>` for countries with ≥3 mapped datacentre sites, and `/model/<slug>` for model families named in ≥3 scored stories | Google | **Done** (2026-10-10) |
 
 ### 3.3 Refusals (search edition)
 
