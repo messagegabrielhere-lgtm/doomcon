@@ -20,7 +20,7 @@ export const MONETIZE = {
   //   goatcounter: site code before .goatcounter.com. Cookieless; null = off.
   //   gtag: Google Analytics 4 measurement ID (G-…). null = off. Loads on
   //   every stamped page via site/sitebar.mjs and is disclosed on /privacy.
-  analytics: { goatcounter: 'messagegabriel', gtag: 'G-KHYRHKZ3CP' },
+  analytics: { goatcounter: 'messagegabriel', gtag: 'G-93SEVYQXY3' },
 
   // Tip jar: your Buy Me a Coffee or Ko-fi page URL.
   tips: { url: 'https://ko-fi.com/I0R828E7LP', label: 'Support SIREN on Ko-fi' },
