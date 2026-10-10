@@ -148,7 +148,7 @@ function tally(st, sirenLevel, off) {
   return `<div class="wf-tally" style="--c:${esc(idx.color || '#94A3B8')}"><img src="img/art-canary.webp" alt="Tally the canary" width="64" height="64"><div><p><b>Tally:</b> ${esc(line)}</p><p style="color:var(--ink-dim);font-size:13px;margin-top:6px">SIREN reads ${esc(sirenLevel ?? '?')} right now. The Waffle House Index measures how the ground is doing; SIREN measures how loud AI is. Here you can read both on one page.</p></div></div>`;
 }
 
-const AZS = (q) => `https://www.amazon.com/s?k=${encodeURIComponent(q).replace(/%20/g, '+')}&tag=${brand.AMAZON_TAG}`;
+const AZS = (q) => /^https:\/\//.test(q) ? q : `https://www.amazon.com/s?k=${encodeURIComponent(q).replace(/%20/g, '+')}&tag=${brand.AMAZON_TAG}`;
 // Storm kit: paid Amazon links (search results, so nothing goes stale), shown under the map.
 const KIT = [
   ['NOAA weather radio, hand-crank', 'Alerts when the cell towers and the power both go.', 'NOAA weather radio hand crank solar'],
@@ -157,7 +157,7 @@ const KIT = [
   ['LED lanterns', 'Safer than candles when the lights go out.', 'LED camping lantern battery'],
   ['Water storage', 'One gallon per person per day, for at least three days.', 'emergency water storage container'],
   ['Waterproof document bag', 'IDs, insurance papers, chargers.', 'waterproof document bag fireproof'],
-  ['Waffle iron', 'For when the Waffle House is closed.', 'waffle maker'],
+  ['Martha Stewart rotating waffle maker', 'For when the Waffle House is closed.', 'https://amzn.to/3UjCdQP'],
 ];
 const fmt = (n) => Number(n || 0).toLocaleString('en-US');
 

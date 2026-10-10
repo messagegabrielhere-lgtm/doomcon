@@ -42,6 +42,7 @@ import * as livePage from './templates/livePage.mjs';
 import * as siWatchPage from './templates/siWatchPage.mjs';
 import * as wafflePage from './templates/wafflePage.mjs';
 import * as statusPage from './templates/statusPage.mjs';
+import * as selfAwarePage from './templates/selfAwarePage.mjs';
 import { SERVICES as AI_SERVICES } from '../collector/ai-status.mjs';
 import * as catalogPages from './templates/catalogPages.mjs';
 import { items as faqItems } from './templates/_faq.mjs';
@@ -1479,6 +1480,13 @@ async function main() {
     if (!as || !Array.isArray(as.services) || !as.services.length) as = { generated_at: null, services: AI_SERVICES.map(([id, name, product, pg, api, browser]) => ({ id, name, product, page: pg, api, browser, indicator: 'unknown', description: 'Checking…', degraded: [], incidents: [] })) };
     written.push(await write(args.out, 'status.html', statusPage.render(ctx, as)));
     if (asText !== null) written.push(await write(args.out, 'api/ai-status.json', asText));
+  }
+  {
+    // The night it wakes up (fiction on real data-centre positions).
+    let saDcs = [], saRings = null;
+    try { saDcs = JSON.parse(await readFile(path.join(args.data, 'datacenters.json'), 'utf8')).sites || []; } catch { saDcs = []; }
+    try { const wo = JSON.parse(await readFile(path.join(args.data, 'world-outline.json'), 'utf8')); saRings = ((wo.countries || []).find((c) => c.iso2 === 'US') || {}).rings || null; } catch { saRings = null; }
+    written.push(await write(args.out, 'self-aware.html', selfAwarePage.render(ctx, saDcs, saRings)));
   }
   written.push(await write(args.out, 'live-x.html', featurePages.liveX(ctx)));
   written.push(await write(args.out, 'tally.html', withVideo(agentPages.tally(ctx), 'tally')));

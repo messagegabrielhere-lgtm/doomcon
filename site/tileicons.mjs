@@ -85,6 +85,9 @@ export const TILE_ICONS = {
   statuspulse: [{ a: '#4ADE80', b: '#1F2937', c: '#F87171', d: '#E5E7EB' }, [
     '................', '.dddddddddddddd.', '.dbbbbbbbbbbbbd.', '.dbbbbbbbbbbbbd.', '.dbbbbbbcbbbbbd.', '.dbbbbbbcbbbbbd.', '.dbbbbbcbcbbbbd.', '.daaaabcbcbaaad.',
     '.dbbbbabbbcbbbd.', '.dbbbbabbbcbbbd.', '.dbbbbbbbbbbbbd.', '.dbbbbbbbbbbbbd.', '.dddddddddddddd.', '......dddd......', '....dddddddd....', '................']],
+  redeye: [{ a: '#F87171', b: '#7F1D1D', c: '#FFFFFF', d: '#1F2937' }, [
+    '................', '................', '................', '....dddddddd....', '..dddbbbbbbddd..', '.ddbbbaaaabbbdd.', 'ddbbaaaaaaaabbdd', 'dbbaaaaccaaaabbd',
+    'dbbaaaaccaaaabbd', 'ddbbaaaaaaaabbdd', '.ddbbbaaaabbbdd.', '..dddbbbbbbddd..', '....dddddddd....', '................', '................', '................']],
   hurricane: [{ a: '#60A5FA', b: '#F87171', c: '#FFFFFF' }, [
     '................', '......aaaa......', '....aa....a.....', '...a...bb..a....', '..a...b..b......', '..a..b....b.a...', '.a...b.cc.b..a..', '.a..b.cccc.b.a..',
     '..a.b.cccc.b..a.', '..a.b..cc.b...a.', '...a.b....b..a..', '.....b..b...a...', '......bb...a....', '....a.....aa....', '.....aaaaa......', '................']],
