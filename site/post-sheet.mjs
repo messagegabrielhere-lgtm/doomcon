@@ -97,6 +97,17 @@ button.ghost{background:transparent;color:var(--dim)}
 .why{font-size:12px;color:var(--faint);padding:0 16px 14px;border-top:1px solid var(--rule);margin-top:0;padding-top:12px}
 .violation{display:none;border:1px solid var(--bad);background:rgba(248,81,73,.1);color:var(--bad);border-radius:8px;padding:9px 12px;font-size:12px;margin:0 0 10px}
 .violation.show{display:block}
+.guide{border:1px solid var(--rule);background:var(--panel);border-radius:12px;padding:14px 16px;margin:16px 0}
+.guide ol{margin:8px 0 0;padding-left:1.2em}
+.guide li{margin:4px 0}
+.guide p{margin:8px 0 0;color:var(--dim);font-size:13px}
+.steps{margin:8px 0 0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:6px}
+.steps li{font-size:11px;font-weight:700;letter-spacing:.04em;color:var(--faint);border:1px solid var(--rule);border-radius:999px;padding:3px 8px}
+.steps li.on{color:var(--ok);border-color:var(--ok)}
+.pill.post{background:rgba(46,160,67,.18);color:var(--ok)}
+.pill.hold{background:transparent}
+.pill.level{background:rgba(210,153,34,.15);color:var(--warn)}
+textarea.stash{display:none}
 footer{margin-top:40px;border-top:1px solid var(--rule);padding-top:16px;color:var(--faint);font-size:12px;line-height:1.8}
 .empty{border:1px dashed var(--rule);border-radius:12px;padding:40px;text-align:center;color:var(--dim)}
 `;
@@ -147,6 +158,7 @@ function meter(card,text){
 }
 
 async function copyText(text,btn){
+  const label=btn.dataset.label||btn.textContent;
   let ok=false;
   try{ await navigator.clipboard.writeText(text); ok=true; }
   catch(e){
@@ -157,11 +169,15 @@ async function copyText(text,btn){
     ta.select(); try{ ok=document.execCommand('copy'); }catch(e2){} ta.remove();
   }
   btn.textContent=ok?'Copied':'Copy failed - select and copy by hand';
-  setTimeout(()=>{btn.textContent='Copy text'},1600);
+  setTimeout(()=>{btn.textContent=label},1600);
   return ok;
 }
+function markStep(card,step){
+  const li=card.querySelector('.steps li[data-step="'+step+'"]');
+  if(li) li.classList.add('on');
+}
 
-function downloadPng(variant,filename,btn){
+function downloadPng(variant,filename,btn,onDone){
   const card=CARDS[variant];
   const img=new Image();
   img.onload=function(){
@@ -175,6 +191,7 @@ function downloadPng(variant,filename,btn){
       a.href=URL.createObjectURL(blob); a.download=filename; a.click();
       setTimeout(()=>URL.revokeObjectURL(a.href),4000);
       btn.textContent='Downloaded'; setTimeout(()=>{btn.textContent=btn.dataset.label},1600);
+      if(onDone) onDone();
     },'image/png');
   };
   img.onerror=function(){ btn.textContent='PNG failed'; };
@@ -184,7 +201,7 @@ function downloadPng(variant,filename,btn){
 document.querySelectorAll('.card').forEach(function(card){
   const id=card.dataset.id;
   const post=POSTS.find(p=>p.id===id);
-  const ta=card.querySelector('textarea');
+  const ta=card.querySelector('textarea.post');
   card.querySelector('.preview').src=svgUrl(post.card_variant);
   meter(card,ta.value);
   ta.addEventListener('input',()=>meter(card,ta.value));
@@ -197,14 +214,21 @@ document.querySelectorAll('.card').forEach(function(card){
     save(ticked); card.classList.toggle('done',box.checked); refreshProgress();
   });
 
+  card.querySelectorAll('.copy, .copy-reply, .copy-alt').forEach(function(b){ b.dataset.label=b.textContent; });
   card.querySelector('.copy').addEventListener('click',async function(){
     const ok=await copyText(ta.value,this);
-    // Ticking on copy is the whole fifteen-second promise: copy, paste, next.
-    if(ok && !box.checked){ box.checked=true; box.dispatchEvent(new Event('change')); }
+    if(ok) markStep(card,'head');
+  });
+  card.querySelector('.copy-reply').addEventListener('click',async function(){
+    const ok=await copyText(card.querySelector('textarea.reply').value,this);
+    if(ok) markStep(card,'reply');
+  });
+  card.querySelector('.copy-alt').addEventListener('click',function(){
+    copyText(card.querySelector('textarea.alt').value,this);
   });
   card.querySelectorAll('.png').forEach(function(b){
     b.dataset.label=b.textContent;
-    b.addEventListener('click',()=>downloadPng(b.dataset.variant,b.dataset.filename,b));
+    b.addEventListener('click',()=>downloadPng(b.dataset.variant,b.dataset.filename,b,()=>markStep(card,'image')));
   });
   card.querySelector('.unlock').addEventListener('click',function(){
     const locked=ta.hasAttribute('readonly');
@@ -221,43 +245,88 @@ document.getElementById('reset').addEventListener('click',function(){
 refreshProgress();
 `;
 
-function postCard(p, brand, stateStamp) {
+const REPLY_PATH = {
+  race: '/race.html',
+  'market-move': '/race.html',
+  drought: '/watts.html',
+  'top-news': '/news.html',
+  corroboration: '/news.html',
+  developing: '/news.html',
+};
+
+function replyLine(p, brand) {
+  let origin = 'https://siren.watch';
+  try { origin = new URL(brand.canonicalUrl).origin; } catch { /* keep the live default */ }
+  const path = REPLY_PATH[p.kind] || '/';
+  const url = path === '/' ? `${origin}/` : `${origin}${path}`;
+  return `The reading: ${url}`;
+}
+
+function altLine(brand, state) {
+  const score = Number.isFinite(state.score) ? state.score.toFixed(1) : 'no score';
+  const name = state.level_name || '';
+  return `${brand.name} ${state.level} ${name}, ${score} of 100, observed ${utcStamp(state.generated_at)}. The image says ${brand.domain}. Tempo, not a forecast.`;
+}
+
+function rolePill(p) {
+  if (p.rank === 1) return '<span class="pill post">POST THIS</span>';
+  if (p.kind === 'escalation' || p.kind === 'deescalation') return '<span class="pill level">LEVEL CHANGE</span>';
+  return '<span class="pill hold">HOLD</span>';
+}
+
+function postCard(p, brand, state, stateStamp) {
   const label = KIND_LABEL[p.kind] || p.kind;
-  const fileBase = `doomcon-${p.kind}-${stateStamp}`;
+  const fileBase = `siren-${p.kind}-${stateStamp}`;
+  const hold = p.rank === 1
+    ? '<br><b>This is the one to post.</b> Between 13:00 and 16:00 UTC. The clock above is when the reading was taken, not when to publish.'
+    : (p.kind === 'escalation' || p.kind === 'deescalation'
+      ? '<br><b>Level change.</b> Only if the first post is already up, and hours later.'
+      : '<br><b>Hold.</b> Do not post this the same day as the first card.');
   return `
 <article class="card" data-id="${escHtml(p.id)}">
   <div class="chead">
     <span class="rank">${p.rank}</span>
     <span class="kind">${escHtml(label)}</span>
+    ${rolePill(p)}
     <span class="pill">${escHtml(p.card_variant)}</span>
     <span class="spacer"></span>
-    <label class="tick"><input type="checkbox"> posted</label>
+    <label class="tick"><input type="checkbox"> posted, image attached</label>
   </div>
   <div class="body">
     <div>
-      <img class="preview" alt="${escHtml(label)} card preview">
+      <img class="preview" alt="${escHtml(altLine(brand, state))}">
+      <ol class="steps">
+        <li data-step="head">1 Head copied</li>
+        <li data-step="image">2 Image downloaded</li>
+        <li data-step="reply">3 Reply copied</li>
+      </ol>
       <div class="timing">
-        <b>Post at</b> ${escHtml(p.suggested_at_human)}<br>
+        <b>Reading taken</b> ${escHtml(p.suggested_at_human)}<br>
         <b>Off For You</b> ${escHtml(p.expires_at)}<br>
         ${escHtml(p.reach_note)}
+        ${hold}
       </div>
     </div>
     <div>
       <div class="violation"></div>
-      <textarea readonly spellcheck="false">${escHtml(p.text)}</textarea>
+      <textarea class="post" readonly spellcheck="false">${escHtml(p.text)}</textarea>
+      <textarea class="reply stash" readonly>${escHtml(replyLine(p, brand))}</textarea>
+      <textarea class="alt stash" readonly>${escHtml(altLine(brand, state))}</textarea>
       <div class="meter">
         <span class="count">0 / ${X_CHAR_LIMIT}</span>
         <span class="track"><span></span></span>
       </div>
       <div class="btns">
-        <button class="primary copy">Copy text</button>
-        <button class="png" data-variant="landscape" data-filename="${escHtml(fileBase)}-1600x900.png">PNG 1600x900</button>
-        <button class="png" data-variant="portrait" data-filename="${escHtml(fileBase)}-1080x1350.png">PNG 1080x1350</button>
+        <button class="primary copy">1. Copy head text</button>
+        <button class="primary png" data-variant="landscape" data-filename="${escHtml(fileBase)}-1600x900.png">2. PNG for the feed</button>
+        <button class="copy-reply">3. Copy the reply link</button>
+        <button class="ghost png" data-variant="portrait" data-filename="${escHtml(fileBase)}-1080x1350.png">Portrait PNG</button>
+        <button class="ghost copy-alt">Copy image alt text</button>
         <button class="ghost unlock">Edit</button>
       </div>
     </div>
   </div>
-  <p class="why">${escHtml(p.rationale)}</p>
+  <p class="why">${escHtml(p.rationale)} Head text stays link-free. The reply carries the page. Tick posted only after the image is on the post.</p>
 </article>`;
 }
 
@@ -292,7 +361,7 @@ export function renderPostSheet(ctx = {}) {
     : '';
 
   const body = built.posts.length
-    ? built.posts.map((p) => postCard(p, brand, stateStamp)).join('\n')
+    ? built.posts.map((p) => postCard(p, brand, state, stateStamp)).join('\n')
     : '<div class="empty">No posts generated for this state.</div>';
 
   return `<!doctype html>
@@ -321,11 +390,17 @@ export function renderPostSheet(ctx = {}) {
   <div class="sub">Internal. Not linked, not indexed.<br>Paste by hand from the project account.</div>
 </header>
 
-<div class="banner">
-  <b>House rules, already enforced on every post below.</b>
-  No URL in any post text — the domain is burned into the card and spelled
-  "${escHtml(brand.domain.replace(/\./g, ' dot '))}" in the copy. No future tense.
-  Every post carries an exact UTC timestamp. Editing a post re-runs all three checks.
+<div class="guide">
+  <b>How to post this so it gets seen.</b>
+  <ol>
+    <li>One original a day, between 13:00 and 16:00 UTC. Use the card marked POST THIS. A second original the same day is worth about six tenths of the first.</li>
+    <li>Head post: copy the text, download the PNG, attach the image. The text spells “${escHtml(brand.domain.replace(/\./g, ' dot '))}” and has no link. Do not add one. A post that is only a link is the format that gets buried.</li>
+    <li>Reply to that post with button 3. The reply holds the page. A reply is not a second original.</li>
+    <li>Paste the alt text onto the image if the composer asks. It is the reading, the clock, and the domain.</li>
+    <li>A level-change card can go up hours later, not instead of the daily. Hold everything else.</li>
+    <li>Answer a reply that argues with the number within 48 hours. Do not ask for likes or reposts.</li>
+  </ol>
+  <p>The profile website can be the real URL. The head post cannot. Editing a post re-checks: no URL, no future tense, an exact UTC time, and the length limit. Tick “posted” only after the image is attached.</p>
 </div>
 ${suppressedBanner}
 

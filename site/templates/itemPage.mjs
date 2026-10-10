@@ -23,6 +23,7 @@ import { esc, num, utc } from './_html.mjs';
 import { page } from './layout.mjs';
 import { breadcrumbs, speakable } from './_seo.mjs';
 import * as brand from '../brand.mjs';
+import { sourceIndexable, sourceLabel, sourcePath } from './facetPages.mjs';
 
 // Third-party summaries are shown as short, attributed excerpts, never in full.
 function clipX(text, max) {
@@ -175,6 +176,10 @@ export function render(ctx, item, related = []) {
   const firstSeen = (item.meta || {}).first_seen_at || item.published_at;
 
   const pillarHref = item.pillar ? ctx.href(`/pillar/${item.pillar}.html`) : null;
+  const outletHref = item.source && sourceIndexable(ctx, item.source)
+    ? ctx.href(sourcePath(item.source))
+    : null;
+  const outletName = item.source ? sourceLabel(item.source) : '';
   const main = `${styleTag()}
 <article class="it">
   <p class="it__k">
@@ -187,7 +192,9 @@ export function render(ctx, item, related = []) {
   ${item.summary ? `<blockquote class="lede" cite="${esc(item.url)}"><p>${esc(clipX(item.summary, 200))}</p><footer>— excerpt from ${esc(item.source)}; the full story and its rights belong to them.</footer></blockquote>` : ''}
 
   <p class="it__src">
-    Source: <a href="${esc(item.url)}" rel="nofollow noopener">${esc(item.source)}</a>
+    Source: ${outletHref
+      ? `<a href="${esc(outletHref)}">${esc(outletName)}</a> · <a href="${esc(item.url)}" rel="nofollow noopener">original</a>`
+      : `<a href="${esc(item.url)}" rel="nofollow noopener">${esc(outletName || item.source)}</a>`}
     · first seen by this index at <time datetime="${esc(firstSeen)}">${esc(utc(firstSeen))}</time>
   </p>
 

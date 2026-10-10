@@ -4,7 +4,8 @@ import * as brand from '../brand.mjs';
 import {
   itemsForPillar, pillarIndexable, renderPillar, pillarPath,
   itemsForLab, labIndexable, renderLab, labPath, labsFromRace, sitemapEntries,
-  PILLAR_INDEX_MIN,
+  PILLAR_INDEX_MIN, SOURCE_INDEX_MIN, sourceLabel, sourceIndexable, renderSource,
+  indexableSources,
 } from './facetPages.mjs';
 
 const ctx = {
@@ -103,5 +104,26 @@ describe('facet sitemap', () => {
     assert.ok(!locs.includes('/pillar/markets.html'));
     assert.ok(locs.includes('/lab/openai.html'));
     assert.ok(locs.includes('/lab/anthropic.html'));
+    assert.ok(locs.includes('/source/hn.html'));
+    assert.ok(!locs.includes('/source/techcrunch.html'));
+    assert.ok(locs.includes('/source/'));
+  });
+});
+
+describe('outlet facets', () => {
+  it('gates outlets below the story minimum and uses the adapter label', () => {
+    assert.equal(SOURCE_INDEX_MIN, 3);
+    assert.equal(sourceIndexable(ctx, 'hn'), true);
+    assert.equal(sourceIndexable(ctx, 'techcrunch'), false);
+    assert.equal(sourceLabel('techcrunch-ai'), 'TechCrunch — AI');
+    assert.equal(indexableSources(ctx).some((s) => s.id === 'hn'), true);
+  });
+
+  it('renders an outlet page that lists its stories', () => {
+    const html = renderSource(ctx, 'hn');
+    assert.match(html, /<h1>hn<\/h1>/);
+    assert.match(html, /CollectionPage/);
+    assert.doesNotMatch(html, /noindex/);
+    assert.match(html, /item\//);
   });
 });

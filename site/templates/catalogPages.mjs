@@ -43,6 +43,7 @@ const MORE_PAGES = [
   ['/p-doom.html', 'dice', 'What is p(doom)?', 'The probability-of-doom number, explained.'],
   ['/moves/', 'px:updown', 'Every move', 'Each hourly reading that moved, with what moved it.'],
   ['/item/', 'news', 'Every story', 'One permanent page per scored story.'],
+  ['/source/', 'news', 'Outlets', 'Scored stories grouped by the outlet that published them.'],
   ['/pillar/capability.html', 'px:updown', 'Capability pillar', 'Stories and the live Capability reading.'],
   ['/pillar/compute.html', 'px:updown', 'Compute pillar', 'Stories and the live Compute & Capital reading.'],
   ['/pillar/attention.html', 'px:updown', 'Attention pillar', 'Stories and the live Attention reading.'],

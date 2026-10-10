@@ -87,3 +87,20 @@ They win social memes, not Google. Do not imitate.
 2. Spot-check `/pillar/capability.html` and `/lab/openai.html` in Rich Results test.
 3. Re-fetch pizzint `news-sitemap.xml` monthly; if it starts rolling again, treat Google News as contested again.
 4. Weekly: indexed count vs sitemap count (vanity = sitemap-only growth).
+
+---
+
+## 4. Recheck, 2026-10-10 later the same day
+
+Fetched live, no browser:
+
+| Site | Result |
+|---|---|
+| pizzint `news-sitemap.xml` | HTTP 200, **0** `<loc>`. Still an empty channel. |
+| pizzint `sitemap.xml` | **1,018** `<loc>`. Unchanged. |
+| doombench.com `sitemap.xml` | **2,081** `<loc>`. Unchanged. |
+| skynetcountdown.com `sitemap.xml` | **1,237** `<loc>`. Unchanged. |
+| pdoom.ai `sitemap.xml` | HTTP 200, **0** `<loc>`. Still a shell. |
+| takeofftracker.com `sitemap.xml` | 404. |
+
+Nothing in their URL counts moved. The open entity axis on our side was outlets: `/source/<id>` for any feed with at least three scored stories in the window, plus `/source/` as the index. Thin outlets stay off the sitemap. No synonym pages, no keyword meta.
