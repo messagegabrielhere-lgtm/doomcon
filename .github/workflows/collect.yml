@@ -380,6 +380,11 @@ jobs:
               fi
               if git rebase -q origin/main; then continue; fi
               git rebase --abort || true
+              # The other side left the ledger alone (checked above), so any
+              # conflict is in a REGENERATED file both lanes rewrite whole
+              # (leaders, live media, news). Keep this run's version of those.
+              if git rebase -q -X theirs origin/main; then continue; fi
+              git rebase --abort || true
               echo '::error::rebase onto a ledger-free tip failed; not auto-resolving'
               exit 1
             fi
@@ -841,6 +846,11 @@ jobs:
                 exit 1
               fi
               if git rebase -q origin/main; then continue; fi
+              git rebase --abort || true
+              # The other side left the ledger alone (checked above), so any
+              # conflict is in a REGENERATED file both lanes rewrite whole
+              # (leaders, live media, news). Keep this run's version of those.
+              if git rebase -q -X theirs origin/main; then continue; fi
               git rebase --abort || true
               echo '::error::rebase onto a ledger-free tip failed; not auto-resolving'
               exit 1

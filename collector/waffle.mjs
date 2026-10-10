@@ -25,7 +25,9 @@ import { fetchJson, fetchText } from './fetch.mjs';
 
 const OUT = 'data/waffle.json';
 const STORES = 'data/waffle-stores.json';
-const OVERPASS = ['https://overpass-api.de/api/interpreter', 'https://overpass.kumi.systems/api/interpreter'];
+const OVERPASS = ['https://overpass-api.de/api/interpreter', 'https://overpass.private.coffee/api/interpreter', 'https://overpass.kumi.systems/api/interpreter', 'https://maps.mail.ru/osm/tools/overpass/api/interpreter'];
+// All The Places publishes a weekly scrape of every chain's own store locator.
+const ATP = ['https://data.alltheplaces.xyz/runs/latest/output/waffle_house.geojson', 'https://alltheplaces-data.openaddresses.io/runs/latest/output/waffle_house.geojson'];
 const say = (m) => { if (process.env.GITHUB_ACTIONS) console.log(`::notice title=waffle::${m}`); else console.log(m); };
 
 /** Great-circle distance in km. */
@@ -116,7 +118,21 @@ async function stores(offline) {
       if (list.length > 100) { cache = { fetched_at: new Date().toISOString(), source: ep, stores: list }; writeFileSync(STORES, JSON.stringify(cache) + '\n'); say(`stores ${list.length} from ${ep}`); return cache; }
     } catch (e) { say(`overpass ${ep}: ${String(e.message).slice(0, 120)}`); }
   }
+  for (const u of ATP) {
+    try {
+      const list = parseGeojson(JSON.parse(await fetchText(u, { timeoutMs: 60000, retries: 1 })));
+      if (list.length > 100) { cache = { fetched_at: new Date().toISOString(), source: u, stores: list }; writeFileSync(STORES, JSON.stringify(cache) + '\n'); say(`stores ${list.length} from ${u}`); return cache; }
+    } catch (e) { say(`alltheplaces ${u}: ${String(e.message).slice(0, 120)}`); }
+  }
   return cache;
+}
+
+/** All The Places GeoJSON -> stores. */
+export function parseGeojson(j) {
+  return ((j && j.features) || []).map((f, i) => {
+    const c = f.geometry && f.geometry.coordinates, p = f.properties || {};
+    return Array.isArray(c) && Number.isFinite(+c[0]) && Number.isFinite(+c[1]) ? { id: p.ref ? `wh/${p.ref}` : `atp/${i}`, lat: +(+c[1]).toFixed(5), lon: +(+c[0]).toFixed(5), city: p['addr:city'] || p.city || null, state: p['addr:state'] || p.state || null } : null;
+  }).filter(Boolean);
 }
 
 /** Pick query centres so every in-path store is within `r` km of one (greedy). */

@@ -39,3 +39,9 @@ test('index levels and geometry helpers', () => {
   assert.equal(coverCentres(pts, 45).length, 2);
   assert.equal(category(40), 'Tropical storm');
 });
+
+test('parseGeojson reads All The Places output', async () => {
+  const { parseGeojson } = await import('../waffle.mjs');
+  const s = parseGeojson({ features: [{ geometry: { coordinates: [-87.2, 30.4] }, properties: { ref: '1234', 'addr:city': 'Pensacola', 'addr:state': 'FL' } }, { geometry: null }] });
+  assert.deepEqual(s, [{ id: 'wh/1234', lat: 30.4, lon: -87.2, city: 'Pensacola', state: 'FL' }]);
+});
