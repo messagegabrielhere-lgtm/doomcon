@@ -59,4 +59,12 @@ jobs:
           git config user.email "41898699+github-actions[bot]@users.noreply.github.com"
           git add -A
           git commit -q -m "Elon clip index $(date -u +%Y-%m-%dT%H:%MZ)"
-                    git push -q -f "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" elon-data
+          for attempt in 1 2 3; do
+            if git push -q -f "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" elon-data; then
+              exit 0
+            fi
+            echo "elon-data push rejected (attempt $attempt); retrying"
+            sleep $((attempt * 2))
+          done
+          echo '::error::could not publish to elon-data after 3 attempts'
+          exit 1
