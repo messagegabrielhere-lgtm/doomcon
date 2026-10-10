@@ -235,6 +235,25 @@ jobs:
           echo "live-media fingerprint $BEFORE -> $AFTER"
           if [ "$BEFORE" != "$AFTER" ]; then echo "changed=true" >> "$GITHUB_OUTPUT"; else echo "changed=false" >> "$GITHUB_OUTPUT"; fi
 
+      - name: Refresh the Waffle House Index
+        id: waffle
+        # /waffle.html every 15 minutes, not hourly: storms move and Waffle
+        # House flips stores to temporarily_closed as they go. Two locator
+        # requests plus NHC, a few seconds. `changed` fingerprints what the page
+        # shows (closed counts, storms, closures in each path), not the stamp.
+        if: steps.gate.outputs.usable == 'true'
+        continue-on-error: true
+        env:
+          GOOGLE_PLACES_API_KEY: ${{ secrets.GOOGLE_PLACES_API_KEY }}
+        run: |
+          set -uo pipefail
+          fp() { node -e 'try{const d=require("./data/waffle.json");process.stdout.write(JSON.stringify([d.official&&d.official.closed,d.official&&d.official.limited,(d.storms||[]).map(s=>[s.name,s.wind_kt,s.waffle_in_path,s.google&&s.google.closed,s.index&&s.index.level])]))}catch(e){process.stdout.write("none")}'; }
+          BEFORE="$(fp)"
+          timeout 120 node collector/waffle.mjs || echo "::warning::collector/waffle.mjs did not finish cleanly; keeping what it wrote"
+          AFTER="$(fp)"
+          echo "waffle fingerprint $BEFORE -> $AFTER"
+          if [ "$BEFORE" != "$AFTER" ]; then echo "changed=true" >> "$GITHUB_OUTPUT"; else echo "changed=false" >> "$GITHUB_OUTPUT"; fi
+
       - name: Recount harm and benefit
         # AFTER the newsroom and BEFORE the build, and only when the newsroom
         # changed, which is the only time this lane rebuilds. The beam on
@@ -271,7 +290,7 @@ jobs:
       - name: Rebuild the site
         # Also when only the leader page moved (new coverage, a new official
         # post): that is what keeps /leaders.html within 15 minutes.
-        if: steps.gate.outputs.changed == 'true' || steps.leaders.outputs.changed == 'true' || steps.live.outputs.changed == 'true'
+        if: steps.gate.outputs.changed == 'true' || steps.leaders.outputs.changed == 'true' || steps.live.outputs.changed == 'true' || steps.waffle.outputs.changed == 'true'
         # ORDER MATTERS. site/build.mjs CLEARS public/ before regenerating it, so
         # everything that writes into public/ has to run AFTER it. Measured the
         # hard way on 2026-09-23: cards written first vanished. Skipping the card
@@ -335,6 +354,10 @@ jobs:
           done
           # The AI on TV shelf (see "Refresh AI on TV"), regenerated whole.
           if [ -f data/live-media.json ]; then git add data/live-media.json; fi
+          # The Waffle House Index (see "Refresh the Waffle House Index").
+          for f in data/waffle.json data/waffle-stores.json; do
+            if [ -f "$f" ]; then git add "$f"; fi
+          done
           if git diff --cached --quiet; then
             echo 'newsroom unchanged; nothing to commit'
             exit 0
@@ -426,7 +449,7 @@ jobs:
         run: node compliance/audit.mjs --dir public
 
       - name: Publish to gh-pages
-        if: steps.gate.outputs.changed == 'true' || steps.leaders.outputs.changed == 'true' || steps.live.outputs.changed == 'true'
+        if: steps.gate.outputs.changed == 'true' || steps.leaders.outputs.changed == 'true' || steps.live.outputs.changed == 'true' || steps.waffle.outputs.changed == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -471,7 +494,7 @@ jobs:
       - name: Notify search engines (IndexNow)
         # Bing / Yandex / Seznam. Google does not use IndexNow; the sitemaps
         # remain the Google path (docs/FINDABILITY.md). Never fails the job.
-        if: steps.gate.outputs.changed == 'true' || steps.leaders.outputs.changed == 'true' || steps.live.outputs.changed == 'true'
+        if: steps.gate.outputs.changed == 'true' || steps.leaders.outputs.changed == 'true' || steps.live.outputs.changed == 'true' || steps.waffle.outputs.changed == 'true'
         continue-on-error: true
         run: node collector/indexnow.mjs
 

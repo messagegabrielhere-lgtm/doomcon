@@ -124,6 +124,17 @@ function tally(st, sirenLevel, off) {
   return `<div class="wf-tally" style="--c:${esc(idx.color || '#94A3B8')}"><img src="img/art-canary.webp" alt="Tally the canary" width="64" height="64"><div><p><b>Tally:</b> ${esc(line)}</p><p style="color:var(--ink-dim);font-size:13px;margin-top:6px">SIREN reads ${esc(sirenLevel ?? '?')} right now. The Waffle House Index measures how the ground is doing; SIREN measures how loud AI is. Here you can read both on one page.</p></div></div>`;
 }
 
+const AZS = (q) => `https://www.amazon.com/s?k=${encodeURIComponent(q).replace(/%20/g, '+')}&tag=${brand.AMAZON_TAG}`;
+// Storm kit: paid Amazon links (search results, so nothing goes stale), shown under the map.
+const KIT = [
+  ['NOAA weather radio, hand-crank', 'Alerts when the cell towers and the power both go.', 'NOAA weather radio hand crank solar'],
+  ['Power bank, 20,000 mAh+', 'A few days of phone, and of this page.', 'power bank 20000mAh'],
+  ['Portable power station', 'Keeps a fridge, a CPAP or a router running.', 'portable power station solar generator'],
+  ['LED lanterns', 'Safer than candles when the lights go out.', 'LED camping lantern battery'],
+  ['Water storage', 'One gallon per person per day, for at least three days.', 'emergency water storage container'],
+  ['Waterproof document bag', 'IDs, insurance papers, chargers.', 'waterproof document bag fireproof'],
+  ['Waffle iron', 'For when the Waffle House is closed.', 'waffle maker'],
+];
 const fmt = (n) => Number(n || 0).toLocaleString('en-US');
 
 export function render(ctx, data, us) {
@@ -163,6 +174,12 @@ export function render(ctx, data, us) {
   <h1 class="bp__h1">Is the Waffle House open?</h1>
   <p class="lede">FEMA’s unofficial disaster gauge: if the Waffle House is open, the town is fine; short hours and a limited menu mean trouble; closed means very bad. SIREN maps every Waffle House in the country${live ? ', reads which ones Waffle House itself marks closed,' : ''} and lays each active hurricane’s rough path over them, with the AI data centres under the same storm. The restaurants that never close and the machines that never sleep.</p>
   <p class="wf-off" style="border-left:3px solid #FACC15;background:#14120A;padding:10px 14px;font-size:14px;color:#FDE68A;margin:14px 0 0">Unofficial. Waffle House has <a href="https://x.com/WaffleHouse/status/2108701286145421425" target="_blank" rel="noopener">warned</a> that some storm trackers are inaccurate and posts its own status map on <a href="https://x.com/WaffleHouse" target="_blank" rel="noopener">@WaffleHouse</a>. SIREN reads ${live ? 'Waffle House’s own store locator, not a third-party tracker' : 'public data this hour because Waffle House’s locator was unreachable'}; if the two ever disagree, Waffle House’s posted map wins.</p>
+  <p id="wf-fresh" data-gen="${esc((data && data.generated_at) || '')}" style="font:600 12px var(--mono);color:#4ADE80;margin:10px 0 0"><span aria-hidden="true">●</span> LIVE · Waffle House status checked <span id="wf-ago">${esc(String((data && data.generated_at) || '').slice(11, 16))} UTC</span> · refreshes every 15 minutes</p>
+<script>(function(){var el=document.getElementById('wf-fresh');if(!el)return;var g=el.getAttribute('data-gen'),a=document.getElementById('wf-ago');
+function ago(t){var m=Math.round((Date.now()-Date.parse(t))/6e4);return isNaN(m)?'':m<1?'just now':m<60?m+' min ago':Math.round(m/60)+' h ago';}
+function tick(){if(g)a.textContent=ago(g);}tick();setInterval(tick,30000);
+function poll(){fetch('api/waffle.json',{cache:'no-store'}).then(function(r){return r.json();}).then(function(d){if(d&&d.generated_at&&d.generated_at>g){var off=d.official||{};el.innerHTML='<span aria-hidden="true">●</span> NEW DATA'+(Number.isFinite(off.closed)?': '+off.closed+' Waffle Houses closed':'')+' · <a href="" style="color:#FACC15">refresh the map</a>';}}).catch(function(){});}
+setInterval(poll,180000);})();</script>
   <div class="wf-map">${mapSvg(st, us, 1000, all.length ? all : null)}</div>
   <div class="wf-hero">
     <div class="wf-idx" style="--c:${esc(idx.color)}"><span class="k">WAFFLE HOUSE INDEX${st ? ` · ${esc(st.name.toUpperCase())}` : ''}</span><div class="wf-lights">${lights}</div><span class="v">${esc(idx.level)}</span><span class="l">${esc(idx.label)}${st && st.google && st.google.known ? ` · ${st.google.closed} of ${st.google.known} in the path closed` : ''}</span></div>
@@ -170,6 +187,10 @@ export function render(ctx, data, us) {
       </div>${share}</div>
   </div>
   ${tally(st, L, off)}
+  <div class="wf-c" style="margin:14px 0"><h3>STORM KIT <span style="font:600 10.5px var(--mono);color:#94A3B8;border:1px solid #475569;padding:2px 6px;margin-left:6px">PAID LINKS</span></h3>
+    <ul>${KIT.map(([t, w, q]) => `<li><a href="${esc(AZS(q))}" target="_blank" rel="sponsored noopener">${esc(t)}</a>: ${esc(w)}</li>`).join('')}</ul>
+    <p style="font-size:12.5px;margin:8px 0 0">As an Amazon Associate I earn from qualifying purchases. Never changes a number on this page. Ready.gov’s <a href="https://www.ready.gov/kit" target="_blank" rel="noopener">full kit list</a> is free. <a href="bunker-kit.html">SIREN’s bunker kit →</a></p></div>
+
   <div class="wf-g">
     ${pathList}
     ${chain}

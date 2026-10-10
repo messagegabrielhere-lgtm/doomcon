@@ -12,7 +12,8 @@ import { page } from './layout.mjs';
 import * as brand from '../brand.mjs';
 import { mascot } from './_mascot.mjs';
 
-export const amazon = (asin) => `https://www.amazon.com/dp/${asin}?tag=${brand.AMAZON_TAG}`;
+export const amazon = (asin) => (/^https:\/\//.test(asin) ? asin : `https://www.amazon.com/dp/${asin}?tag=${brand.AMAZON_TAG}`);
+export const amazonSearch = (q) => `https://www.amazon.com/s?k=${encodeURIComponent(q).replace(/%20/g, '+')}&tag=${brand.AMAZON_TAG}`;
 
 const SHELVES = [
   ['The case for worry', 'Books arguing that advanced AI could go badly wrong, and what would have to be true to prevent it.', [
@@ -31,10 +32,23 @@ const SHELVES = [
     ['B08Y6FYJVY', 'The Singularity Is Nearer', 'Ray Kurzweil, 2024', 'The long-standing optimist’s case, updated.'],
     ['0316581291', 'Genesis', 'Henry Kissinger, Eric Schmidt and Craig Mundie, 2024', 'A statesman and two technologists on what AI does to politics, knowledge and security.'],
   ]],
+  ['Put AI to work', 'Practical guides for using today’s assistants on the job.', [
+    ['https://amzn.to/4y8hCwF', 'The Microsoft Copilot Bible for Beginners & Busy Professionals', 'Pierce J. Sheldon', 'A 5-in-1 guide to Copilot across Word, Excel, Outlook and Teams: prompts, automations and hours saved each week.'],
+    [amazonSearch('ChatGPT guide for beginners book'), 'ChatGPT guides for beginners', 'Search results on Amazon', 'Pick a current edition: the tools change every few months, so the newest printing matters most.'],
+    [amazonSearch('prompt engineering book'), 'Prompt engineering books', 'Search results on Amazon', 'From quick cheat-sheets to the textbook end of the shelf.'],
+  ]],
   ['The long view', 'Books that put AI inside a bigger story.', [
     ['1101970316', 'Life 3.0', 'Max Tegmark, 2017', 'A physicist walks through the futures that advanced AI could lead to, good and bad.'],
     ['B0CT3Y5LL9', 'Nexus', 'Yuval Noah Harari, 2024', 'A history of information networks, ending with AI.'],
   ]],
+];
+
+const GEAR = [
+  ['NVIDIA Jetson Orin Nano Super developer kit', 'NVIDIA Jetson Orin Nano', 'A palm-sized AI computer for running vision and small language models at home.'],
+  ['Raspberry Pi 5 AI HAT', 'Raspberry Pi 5 + AI HAT', 'The cheapest way to put a neural accelerator on your desk.'],
+  ['Google Coral USB accelerator', 'Coral USB Accelerator', 'Plug-in Edge TPU for fast on-device inference.'],
+  ['Mac mini M4', 'Mac mini (Apple silicon)', 'A popular quiet box for running open models with Ollama or LM Studio.'],
+  ['Faraday bag phone', 'Faraday bag', 'For when you want your phone off the grid for a bit.'],
 ];
 
 export const BOOK_COUNT = SHELVES.reduce((n, s) => n + s[2].length, 0);
@@ -65,12 +79,17 @@ export function library(ctx) {
   <p class="eyebrow">The reading list · paid links · does not feed the main number</p>
   <div class="shp__top">${mascot({ size: 76, level: level(ctx) })}<h1 class="bp__h1">Read the argument, both sides of it</h1></div>
   <p class="lede">${esc(brand.NAME)} counts and does not take a side. These ${BOOK_COUNT} books do take sides, and they disagree with each other, which is the point of reading more than one.</p>
-  <p><span class="shp__paid">Paid links</span> Every title links to Amazon. As an Amazon Associate, ${esc(brand.NAME)} earns from qualifying purchases, at no cost to you. Listing is not endorsement, and your library has most of these.</p>
+  <p><span class="shp__paid">Paid links</span> Every title and gadget links to Amazon. As an Amazon Associate, ${esc(brand.NAME)} earns from qualifying purchases, at no cost to you. Listing is not endorsement, and your library has most of these.</p>
 ${SHELVES.map(([name, why, books]) => `  <h2>${esc(name)}</h2>
   <p>${esc(why)}</p>
   <ul class="shp__l">
 ${books.map(([asin, title, by, blurb]) => `    <li class="shp__b"><a href="${esc(amazon(asin))}" rel="sponsored noopener" target="_blank">${esc(title)}</a><span class="shp__by">${esc(by)}</span>${esc(blurb)}</li>`).join('\n')}
   </ul>`).join('\n')}
+  <h2>Run AI at home</h2>
+  <p>Hardware people use to run models locally, off the cloud. Links go to Amazon search results, so you can compare current prices.</p>
+  <ul class="shp__l">
+${GEAR.map(([q, title, blurb]) => `    <li class="shp__b"><a href="${esc(amazonSearch(q))}" rel="sponsored noopener" target="_blank">${esc(title)}</a><span class="shp__by">Paid link · Amazon search</span>${esc(blurb)}</li>`).join('\n')}
+  </ul>
   <h2>More ways to keep this running</h2>
   <p><a href="${esc(ctx.href('/bunker-kit.html'))}">The Bunker Kit’s supply crate</a> (paid links too) · <a href="${esc(ctx.href('/sponsor.html'))}">Sponsor the index</a> · <a href="${esc(ctx.href('/#support'))}">Donate</a></p>
 </section>`;
