@@ -89,6 +89,11 @@ Each queued post gives you the card preview, the exact text, a **Copy** button
 and a **Download PNG** button. Copy, download, paste both into X. About fifteen
 seconds each. Checkboxes persist across reloads so you can stop and resume.
 
+To keep your **human** X account’s likes and reposts aligned with what
+siren.watch is showing, open **`/engage-sheet.html`** (rebuild with
+`npm run engage`). Work the list while signed in as the managing human — never
+as `@SIRENutf6`. Automated likes/reposts are refused by policy.
+
 ### The four rules that decide whether this works
 
 1. **Post the calm days.** @PenPizzaReport's credibility comes from routinely

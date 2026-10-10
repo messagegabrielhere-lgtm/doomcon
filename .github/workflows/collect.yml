@@ -335,6 +335,7 @@ jobs:
           node collector/card.mjs
           node collector/posts.mjs
           node site/post-sheet.mjs
+          node site/engage-sheet.mjs
 
       - name: Commit the newsroom
         # Only when the gate could actually parse what is on disk. Committing a
@@ -497,6 +498,7 @@ jobs:
             node collector/card.mjs
             node collector/posts.mjs
             node site/post-sheet.mjs
+            node site/engage-sheet.mjs
             node compliance/audit.mjs --dir public
           fi
           test -f public/index.html || { echo '::error::public/index.html missing; refusing to publish'; exit 1; }
@@ -839,11 +841,13 @@ jobs:
 
       - name: Render cards and posting console
         # AFTER build.mjs, which clears public/. Same measured ordering as the
-        # fast lane.
+        # fast lane. engage-sheet is the human like/repost checklist (never the
+        # bot account) — same noindex pattern as post-sheet.
         run: |
           node collector/card.mjs
           node collector/posts.mjs
           node site/post-sheet.mjs
+          node site/engage-sheet.mjs
 
       - name: Commit and push
         run: |

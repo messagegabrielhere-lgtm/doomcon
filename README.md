@@ -46,6 +46,7 @@ docker run --rm --network host -v "$PWD":/app -w /app node:20-alpine node collec
 | Generate post text | `node collector/posts.mjs` | `data/posts.json` |
 | Build the site | `node site/build.mjs` | `public/` |
 | Build the posting console | `node site/post-sheet.mjs` | `public/post-sheet.html` |
+| Build the engage console (human likes/reposts) | `npm run engage` | `public/engage-sheet.html` + `data/x-engage.json` |
 
 Prefix each with the Docker wrapper above. Backfill runs **once** — the reference
 distribution is frozen on purpose and must not be regenerated casually.
