@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "generated_at": "2026-10-10T14:12:40.963Z",
+ "generated_at": "2026-10-10T14:15:17.687Z",
  "storms": [
   {
    "id": "al092026",
@@ -1452,7 +1452,7 @@
     "source": "Waffle House locator",
     "checked": 203,
     "known": 203,
-    "closed": 3,
+    "closed": 5,
     "limited": 4,
     "places": [
      {
@@ -2749,9 +2749,9 @@
       "name": "Waffle House #1970",
       "lat": 33.39645,
       "lon": -86.96859,
-      "closed": false,
+      "closed": true,
       "limited": false,
-      "status": "open",
+      "status": "temporarily closed",
       "address": "Bessemer, AL",
       "url": "https://locations.wafflehouse.com/bessemer-al-1970/"
      },
@@ -2829,9 +2829,9 @@
       "name": "Waffle House #1340",
       "lat": 33.36671,
       "lon": -87.00386,
-      "closed": false,
+      "closed": true,
       "limited": false,
-      "status": "open",
+      "status": "temporarily closed",
       "address": "Bessemer, AL",
       "url": "https://locations.wafflehouse.com/bessemer-al-1340/"
      },
@@ -3491,9 +3491,43 @@
     "level": "GREEN",
     "label": "Open for business",
     "color": "#4ADE80",
-    "pct": 0.014778325123152709
+    "pct": 0.024630541871921183
    },
    "dc_impact": [
+    {
+     "name": "DC Blox Data Center",
+     "operator": null,
+     "city": "Birmingham",
+     "state": "AL",
+     "lat": 33.5007,
+     "lon": -86.8208,
+     "score": 27,
+     "tier": "WATCH",
+     "wh_near": 24,
+     "wh_closed": 2,
+     "d_path": 31,
+     "reasons": [
+      "2 of 24 Waffle Houses within 30 km closed",
+      "31 km from the track"
+     ]
+    },
+    {
+     "name": "Sungard Systems International",
+     "operator": null,
+     "city": "Jefferson County",
+     "state": "AL",
+     "lat": 33.4048,
+     "lon": -86.9116,
+     "score": 27,
+     "tier": "WATCH",
+     "wh_near": 18,
+     "wh_closed": 2,
+     "d_path": 38,
+     "reasons": [
+      "2 of 18 Waffle Houses within 30 km closed",
+      "38 km from the track"
+     ]
+    },
     {
      "name": "Tennessee South Data Center",
      "operator": "State of Tennessee",
@@ -3543,23 +3577,6 @@
      "reasons": [
       "0 of 30 Waffle Houses within 30 km closed",
       "13 km from the track"
-     ]
-    },
-    {
-     "name": "DC Blox Data Center",
-     "operator": null,
-     "city": "Birmingham",
-     "state": "AL",
-     "lat": 33.5007,
-     "lon": -86.8208,
-     "score": 24,
-     "tier": "WATCH",
-     "wh_near": 24,
-     "wh_closed": 0,
-     "d_path": 31,
-     "reasons": [
-      "0 of 24 Waffle Houses within 30 km closed",
-      "31 km from the track"
      ]
     },
     {
@@ -3730,23 +3747,6 @@
      "reasons": [
       "0 of 20 Waffle Houses within 30 km closed",
       "33 km from the track"
-     ]
-    },
-    {
-     "name": "Sungard Systems International",
-     "operator": null,
-     "city": "Jefferson County",
-     "state": "AL",
-     "lat": 33.4048,
-     "lon": -86.9116,
-     "score": 22,
-     "tier": "WATCH",
-     "wh_near": 18,
-     "wh_closed": 0,
-     "d_path": 38,
-     "reasons": [
-      "0 of 18 Waffle Houses within 30 km closed",
-      "38 km from the track"
      ]
     },
     {
@@ -4349,10 +4349,10 @@
  ],
  "storm_error": null,
  "stores_total": 2106,
- "stores_fetched_at": "2026-10-10T14:12:40.963Z",
+ "stores_fetched_at": "2026-10-10T14:15:17.687Z",
  "stores_source": "locations.wafflehouse.com",
  "official": {
-  "closed": 90,
+  "closed": 94,
   "limited": 20,
   "by_state": [
    {
@@ -4361,11 +4361,11 @@
    },
    {
     "state": "AL",
-    "n": 18
+    "n": 20
    },
    {
     "state": "GA",
-    "n": 7
+    "n": 9
    },
    {
     "state": "NC",
@@ -4390,6 +4390,22 @@
   ],
   "closed_list": [
    {
+    "no": "1970",
+    "city": "Bessemer",
+    "state": "AL",
+    "lat": 33.39645,
+    "lon": -86.96859,
+    "url": "https://locations.wafflehouse.com/bessemer-al-1970/"
+   },
+   {
+    "no": "1340",
+    "city": "Bessemer",
+    "state": "AL",
+    "lat": 33.36671,
+    "lon": -87.00386,
+    "url": "https://locations.wafflehouse.com/bessemer-al-1340/"
+   },
+   {
     "no": "1184",
     "city": "Tuscaloosa",
     "state": "AL",
@@ -4406,12 +4422,28 @@
     "url": "https://locations.wafflehouse.com/prattville-al-2594/"
    },
    {
+    "no": "1269",
+    "city": "Canton",
+    "state": "GA",
+    "lat": 34.22194,
+    "lon": -84.50413,
+    "url": "https://locations.wafflehouse.com/canton-ga-1269/"
+   },
+   {
     "no": "2278",
     "city": "Evergreen",
     "state": "AL",
     "lat": 31.44823,
     "lon": -86.95543,
     "url": "https://locations.wafflehouse.com/evergreen-al-2278/"
+   },
+   {
+    "no": "1722",
+    "city": "Canton",
+    "state": "GA",
+    "lat": 34.17582,
+    "lon": -84.41946,
+    "url": "https://locations.wafflehouse.com/canton-ga-1722/"
    },
    {
     "no": "898",
@@ -5145,6 +5177,38 @@
    ]
   },
   {
+   "name": "Sungard Systems International",
+   "operator": null,
+   "city": "Jefferson County",
+   "state": "AL",
+   "lat": 33.4048,
+   "lon": -86.9116,
+   "score": 9,
+   "tier": "WATCH",
+   "wh_near": 18,
+   "wh_closed": 2,
+   "d_path": null,
+   "reasons": [
+    "2 of 18 Waffle Houses within 30 km closed"
+   ]
+  },
+  {
+   "name": "DC Blox Data Center",
+   "operator": null,
+   "city": "Birmingham",
+   "state": "AL",
+   "lat": 33.5007,
+   "lon": -86.8208,
+   "score": 7,
+   "tier": "WATCH",
+   "wh_near": 24,
+   "wh_closed": 2,
+   "d_path": null,
+   "reasons": [
+    "2 of 24 Waffle Houses within 30 km closed"
+   ]
+  },
+  {
    "name": "DartPoints Asheville",
    "operator": null,
    "city": "Asheville",
@@ -5193,6 +5257,118 @@
    ]
   },
   {
+   "name": "UPS Data Center",
+   "operator": null,
+   "city": "Alpharetta",
+   "state": "GA",
+   "lat": 34.1034,
+   "lon": -84.215,
+   "score": 5,
+   "tier": "WATCH",
+   "wh_near": 73,
+   "wh_closed": 5,
+   "d_path": null,
+   "reasons": [
+    "5 of 73 Waffle Houses within 30 km closed"
+   ]
+  },
+  {
+   "name": "Flexential Atlanta - Alpharetta Data Center",
+   "operator": "Flexential",
+   "city": "Alpharetta",
+   "state": "GA",
+   "lat": 34.087,
+   "lon": -84.2518,
+   "score": 5,
+   "tier": "WATCH",
+   "wh_near": 85,
+   "wh_closed": 5,
+   "d_path": null,
+   "reasons": [
+    "5 of 85 Waffle Houses within 30 km closed"
+   ]
+  },
+  {
+   "name": "Hewlett-Packard",
+   "operator": null,
+   "city": "Fulton County",
+   "state": "GA",
+   "lat": 34.0821,
+   "lon": -84.2673,
+   "score": 5,
+   "tier": "WATCH",
+   "wh_near": 86,
+   "wh_closed": 5,
+   "d_path": null,
+   "reasons": [
+    "5 of 86 Waffle Houses within 30 km closed"
+   ]
+  },
+  {
+   "name": "Mapletree Industrial",
+   "operator": null,
+   "city": "Alpharetta",
+   "state": "GA",
+   "lat": 34.0967,
+   "lon": -84.2375,
+   "score": 5,
+   "tier": "WATCH",
+   "wh_near": 77,
+   "wh_closed": 5,
+   "d_path": null,
+   "reasons": [
+    "5 of 77 Waffle Houses within 30 km closed"
+   ]
+  },
+  {
+   "name": "Secure Data Center",
+   "operator": null,
+   "city": "Fulton County",
+   "state": "GA",
+   "lat": 34.0937,
+   "lon": -84.2509,
+   "score": 5,
+   "tier": "WATCH",
+   "wh_near": 81,
+   "wh_closed": 5,
+   "d_path": null,
+   "reasons": [
+    "5 of 81 Waffle Houses within 30 km closed"
+   ]
+  },
+  {
+   "name": "Strategic Datasphere",
+   "operator": null,
+   "city": "Alpharetta",
+   "state": "GA",
+   "lat": 34.0948,
+   "lon": -84.2357,
+   "score": 5,
+   "tier": "WATCH",
+   "wh_near": 77,
+   "wh_closed": 5,
+   "d_path": null,
+   "reasons": [
+    "5 of 77 Waffle Houses within 30 km closed"
+   ]
+  },
+  {
+   "name": "T5 Data Center",
+   "operator": null,
+   "city": "Alpharetta",
+   "state": "GA",
+   "lat": 34.0758,
+   "lon": -84.2643,
+   "score": 5,
+   "tier": "WATCH",
+   "wh_near": 87,
+   "wh_closed": 5,
+   "d_path": null,
+   "reasons": [
+    "5 of 87 Waffle Houses within 30 km closed"
+   ]
+  },
+  {
    "name": "Flexential Tampa - West",
    "operator": "Flexential",
    "city": "Tampa",
@@ -5206,150 +5382,6 @@
    "d_path": null,
    "reasons": [
     "1 of 16 Waffle Houses within 30 km closed"
-   ]
-  },
-  {
-   "name": "UPS Data Center",
-   "operator": null,
-   "city": "Alpharetta",
-   "state": "GA",
-   "lat": 34.1034,
-   "lon": -84.215,
-   "score": 3,
-   "tier": "WATCH",
-   "wh_near": 73,
-   "wh_closed": 3,
-   "d_path": null,
-   "reasons": [
-    "3 of 73 Waffle Houses within 30 km closed"
-   ]
-  },
-  {
-   "name": "Data centre",
-   "operator": null,
-   "city": "Fulton County",
-   "state": "GA",
-   "lat": 34.061,
-   "lon": -84.274,
-   "score": 3,
-   "tier": "WATCH",
-   "wh_near": 93,
-   "wh_closed": 3,
-   "d_path": null,
-   "reasons": [
-    "3 of 93 Waffle Houses within 30 km closed"
-   ]
-  },
-  {
-   "name": "Ascent - Atlanta Data Center",
-   "operator": "Ascent",
-   "city": "Fulton County",
-   "state": "GA",
-   "lat": 34.0571,
-   "lon": -84.273,
-   "score": 3,
-   "tier": "WATCH",
-   "wh_near": 93,
-   "wh_closed": 3,
-   "d_path": null,
-   "reasons": [
-    "3 of 93 Waffle Houses within 30 km closed"
-   ]
-  },
-  {
-   "name": "Flexential Atlanta - Alpharetta Data Center",
-   "operator": "Flexential",
-   "city": "Alpharetta",
-   "state": "GA",
-   "lat": 34.087,
-   "lon": -84.2518,
-   "score": 3,
-   "tier": "WATCH",
-   "wh_near": 85,
-   "wh_closed": 3,
-   "d_path": null,
-   "reasons": [
-    "3 of 85 Waffle Houses within 30 km closed"
-   ]
-  },
-  {
-   "name": "Hewlett-Packard",
-   "operator": null,
-   "city": "Fulton County",
-   "state": "GA",
-   "lat": 34.0821,
-   "lon": -84.2673,
-   "score": 3,
-   "tier": "WATCH",
-   "wh_near": 86,
-   "wh_closed": 3,
-   "d_path": null,
-   "reasons": [
-    "3 of 86 Waffle Houses within 30 km closed"
-   ]
-  },
-  {
-   "name": "Mapletree Industrial",
-   "operator": null,
-   "city": "Alpharetta",
-   "state": "GA",
-   "lat": 34.0967,
-   "lon": -84.2375,
-   "score": 3,
-   "tier": "WATCH",
-   "wh_near": 77,
-   "wh_closed": 3,
-   "d_path": null,
-   "reasons": [
-    "3 of 77 Waffle Houses within 30 km closed"
-   ]
-  },
-  {
-   "name": "Secure Data Center",
-   "operator": null,
-   "city": "Fulton County",
-   "state": "GA",
-   "lat": 34.0937,
-   "lon": -84.2509,
-   "score": 3,
-   "tier": "WATCH",
-   "wh_near": 81,
-   "wh_closed": 3,
-   "d_path": null,
-   "reasons": [
-    "3 of 81 Waffle Houses within 30 km closed"
-   ]
-  },
-  {
-   "name": "Strategic Datasphere",
-   "operator": null,
-   "city": "Alpharetta",
-   "state": "GA",
-   "lat": 34.0948,
-   "lon": -84.2357,
-   "score": 3,
-   "tier": "WATCH",
-   "wh_near": 77,
-   "wh_closed": 3,
-   "d_path": null,
-   "reasons": [
-    "3 of 77 Waffle Houses within 30 km closed"
-   ]
-  },
-  {
-   "name": "T5 Data Center",
-   "operator": null,
-   "city": "Alpharetta",
-   "state": "GA",
-   "lat": 34.0758,
-   "lon": -84.2643,
-   "score": 3,
-   "tier": "WATCH",
-   "wh_near": 87,
-   "wh_closed": 3,
-   "d_path": null,
-   "reasons": [
-    "3 of 87 Waffle Houses within 30 km closed"
    ]
   }
  ],
@@ -5427,7 +5459,7 @@
   [
    -86.969,
    33.396,
-   0
+   1
   ],
   [
    -86.917,
@@ -5452,7 +5484,7 @@
   [
    -87.004,
    33.367,
-   0
+   1
   ],
   [
    -86.682,
@@ -6782,7 +6814,7 @@
   [
    -84.504,
    34.222,
-   0
+   1
   ],
   [
    -84.412,
@@ -6922,7 +6954,7 @@
   [
    -84.419,
    34.176,
-   0
+   1
   ],
   [
    -84.352,
