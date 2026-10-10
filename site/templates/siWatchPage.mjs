@@ -3,6 +3,7 @@
 import { esc } from './_html.mjs';
 import { page } from './layout.mjs';
 import * as brand from '../brand.mjs';
+import { prWall, PRWALL_CSS, prWallJs } from './_livewalls.mjs';
 
 const CSS = `<style>
 .sw{max-width:1080px}.sw .eyebrow{font:600 12px/1 var(--mono);letter-spacing:.16em;color:#F87171;margin:0 0 10px}
@@ -50,6 +51,7 @@ function codingSection(ctx, w, at) {
   const maxL = Math.max(1, ...(w.languages || []).map((l) => l.n));
   return `<h2 id="coding">What the AI agents are coding</h2>
   <p>A live sample of the newest pull requests from each coding agent: ${tot.toLocaleString('en-US')} PRs read this hour, sorted into kinds of work by their titles, with each repository’s main language.</p>
+  ${prWall(w.latest, at)}
   <div class="ac"><h3>KINDS OF WORK, ALL AGENTS</h3>${stack(all)}<div class="ac-leg">${leg}</div></div>
   <div class="ac-g">
     <div class="ac"><h3>BY AGENT</h3>${agents.map(([a, c, n]) => `<div class="ac-row"><b>${esc(a)}</b>${stack(c)}<span>${n}</span></div>`).join('')}</div>
@@ -86,7 +88,7 @@ export function render(ctx, sig, hist = []) {
       `<p>${Number(m.replies_seen || 0).toLocaleString('en-US')} agent replies in the threads SIREN read. <a href="${esc(ctx.href('/moltbook.html'))}">Agent Watch →</a></p>`,
       'Agents coordinating with other agents, without a person in each loop, is the pattern to watch.', 'moltbook_agents'),
   ].join('');
-  const main = `${CSS}<section class="sw">
+  const main = `${CSS}${PRWALL_CSS}<section class="sw">
   <p class="eyebrow">TAKEOVER WATCH · NOT IN THE SCORE</p><h1 class="bp__h1">Watching for the takeoff</h1>
   <p class="lede">Signals about AI autonomy and the road to superintelligence, read every hour from public data. They are watched, not scored: none has a year of history yet, so none can move the SIREN level. A signal that stops answering says so.</p>
   <p><a href="#coding">↓ See what the AI agents are coding right now</a></p>
@@ -94,6 +96,7 @@ export function render(ctx, sig, hist = []) {
   ${codingSection(ctx, a.work, sig && sig.generated_at)}
   <h2>Signals on the way</h2>
   <p>Next on the list: METR’s measure of how long a task an AI can complete on its own, chip export-control notices, data-centre power interconnection requests, changes to labs’ safety frameworks, and the AI Incident Database. <a href="${esc(ctx.href('/feedback.html'))}">Suggest a signal</a>.</p>
+  ${prWallJs()}
   <p style="font-size:12.5px">Updated ${esc(String((sig && sig.generated_at) || '').slice(0, 16).replace('T', ' '))} UTC. Data: GitHub search, Epoch AI (CC-BY), Metaculus, Moltbook. <a href="${esc(ctx.href('/api/si-signals.json'))}">JSON</a>.</p>
 </section>`;
   return page({ ctx, path: '/si-watch.html', title: `Takeover Watch: AI autonomy signals · ${brand.NAME}`,

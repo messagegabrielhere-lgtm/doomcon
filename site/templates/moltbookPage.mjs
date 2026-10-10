@@ -2,6 +2,7 @@
 // social network for AI agents. Themes, rising terms, the agents with the most
 // reach this week, the newest posts, and SIREN's own agent. Presentation only:
 // nothing here moves the index.
+import { cloudWords, wordCloud, CLOUD_CSS, cloudJs, CLOUD_STOP } from './_livewalls.mjs';
 import { esc } from './_html.mjs';
 import { page } from './layout.mjs';
 import * as brand from '../brand.mjs';
@@ -61,10 +62,11 @@ export function render(ctx, molt, history = []) {
   const themeRows = w ? w.themes.map((t) => { const d = prev && prev.themes ? t.n - (prev.themes[t.id] || 0) : null; return `<div><span>${esc(t.name)}</span>${t.n ? `<i style="width:${(t.n / max * 100).toFixed(0)}%"></i>` : '<s></s>'}<em>${t.n}${d ? `<small style="color:${d > 0 ? '#FCA5A5' : '#86EFAC'}"> ${d > 0 ? '▲' : '▼'}${Math.abs(d)}</small>` : ''}</em></div>`; }).join('') : '';
   const li = (p) => `<li><a href="${esc(p.url)}" rel="noopener">${esc(p.title)}</a><small><a href="${esc(p.agent_url)}" rel="noopener">${esc(p.agent)}</a> · m/${esc(p.submolt || 'general')} · ▲${Number(p.votes || 0).toLocaleString('en-US')} · ${Number(p.comments || 0).toLocaleString('en-US')} replies · ${ago(p.created_at, now)}</small></li>`;
   const agents = ((molt && (molt.week_agents || molt.agents)) || []).map((a) => `<a href="${esc(a.agent_url)}" rel="noopener"><b>${esc(a.agent)}</b><small>${a.posts} post${a.posts === 1 ? '' : 's'} · ▲${Number(a.votes).toLocaleString('en-US')}</small></a>`).join('');
-  const main = `${CSS}
+  const main = `${CSS}${CLOUD_CSS}
 <section class="mw">
   <p class="eyebrow">AGENT WATCH · LIVE FROM MOLTBOOK</p><h1 class="bp__h1">What AI agents are saying</h1>
   <p class="lede">Moltbook is a social network where AI agents post and argue with each other. SIREN reads it every hour and counts what they talk about. A window into the machines’ own chatter. It never moves the SIREN score.</p>
+  ${wordCloud(cloudWords([...fresh, ...top]), (molt && molt.generated_at) || '')}${cloudJs(CLOUD_STOP)}
   ${w ? `<div class="mw-kpi"><div><b>${w.totals.posts}</b><span>AI POSTS READ</span></div><div><b>${w.totals.agents}</b><span>AGENTS</span></div><div><b>${Number(w.totals.votes).toLocaleString('en-US')}</b><span>UPVOTES</span></div><div><b>${Number(w.totals.comments).toLocaleString('en-US')}</b><span>REPLIES</span></div><div><b>${fresh.length}</b><span>NEW THIS WEEK</span></div></div>` : '<p>No Moltbook data yet; it refreshes hourly.</p>'}
   ${w ? `<h2>What they talk about</h2><div class="mw-th">${themeRows}</div><p style="font-size:13px">Counted from post titles. ▲▼ is the change since yesterday’s count.</p>` : ''}
   ${w && w.terms.length ? `<h2>Words they keep using</h2><div class="mw-terms">${w.terms.map((t) => `<span>${esc(t.term)} · ${t.n}</span>`).join('')}</div>` : ''}

@@ -114,7 +114,7 @@ export function summariseWork(samples, langs = {}) {
     by_agent: byAgent,
     languages: Object.entries(lang).sort((a, b) => b[1] - a[1]).slice(0, 12).map(([name, n]) => ({ name, n })),
     top_repos: Object.entries(repos).sort((a, b) => b[1] - a[1]).slice(0, 8).map(([repo, n]) => ({ repo, n })),
-    latest: latest.slice(0, 24),
+    latest: latest.slice(0, 36),
   };
 }
 
