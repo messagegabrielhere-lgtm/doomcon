@@ -649,6 +649,7 @@ ${bands.map((l) => `      <tr><td><b>${esc(l.level)}</b></td><td>${esc(l.name)}<
     ctx, path: '/guide.html',
     title: `SIREN vs DEFCON vs the Doomsday Clock vs p(doom): what each measures`,
     description: `A plain guide to four doom numbers. DEFCON is military readiness, the Doomsday Clock is a board's judgement, p(doom) is an opinion, and ${brand.NAME} is an hourly count of AI activity you can recompute.`,
+    headExtra: `<link rel="alternate" type="text/markdown" href="${esc(ctx.href('/guide.md'))}" title="Guide (markdown)">`,
     main,
   });
 }

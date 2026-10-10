@@ -189,10 +189,10 @@ export function render(ctx, item, related = []) {
     · first seen by this index at <time datetime="${esc(firstSeen)}">${esc(utc(firstSeen))}</time>
   </p>
 
-  <section class="it__s" aria-labelledby="it-score">
+  <section class="it__s" id="it-score-block" aria-labelledby="it-score">
     <h2 id="it-score">The score</h2>
     ${components(item)}
-    <p class="it__n">${hasScore(item)
+    <p class="it__n" id="it-score-note">${hasScore(item)
       ? `Every term is published and every input is public, so this number can be
        recomputed. It ranks the item inside the ${esc(ctx.news.items.length)}-item window; it is
        not a judgement about importance in the world.`
@@ -201,7 +201,7 @@ export function render(ctx, item, related = []) {
          because a zero would read as "measured, and it measured nothing".`}</p>
   </section>
 
-  <section class="it__s" aria-labelledby="it-corr">
+  <section class="it__s" id="it-corr-block" aria-labelledby="it-corr">
     <h2 id="it-corr">How many sources carried it<span class="sec__eb">Corroboration</span></h2>
     ${corroboration(item)}
   </section>
@@ -215,6 +215,38 @@ export function render(ctx, item, related = []) {
   </section>` : ''}
 </article>`;
 
+  const pageUrl = ctx.url(`/item/${slugFor(item)}.html`);
+  // Speakable points only at sections WE authored (score + corroboration),
+  // which is the content voice assistants and AI summaries can honestly quote.
+  const jsonld = [
+    {
+      '@context': 'https://schema.org',
+      // A WebPage ABOUT someone else's story, not a NewsArticle: this index
+      // did not write the headline, and structured data must not say it did.
+      '@type': 'WebPage',
+      name: item.title,
+      url: pageUrl,
+      datePublished: item.published_at,
+      dateModified: firstSeen,
+      isBasedOn: item.url,
+      publisher: { '@type': 'Organization', name: brand.PUBLICATION, url: ctx.url('/') },
+      description: clipX(String(item.summary || item.title), 200),
+      speakable: {
+        '@type': 'SpeakableSpecification',
+        cssSelector: ['#it-score-block', '#it-corr-block', '#it-score-note'],
+      },
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: ctx.url('/') },
+        { '@type': 'ListItem', position: 2, name: 'Newsroom', item: ctx.url('/news.html') },
+        { '@type': 'ListItem', position: 3, name: clipX(item.title, 80), item: pageUrl },
+      ],
+    },
+  ];
+
   return page({
     ctx,
     path: `/item/${slugFor(item)}.html`,
@@ -226,17 +258,7 @@ export function render(ctx, item, related = []) {
     ogImageAlt: hasScore(item)
       ? `${brand.NAME} scored this item ${num(item.score, 1)} of 100`
       : `${brand.NAME} indexed this item without a score`,
-    jsonld: [{
-      '@context': 'https://schema.org',
-      // A WebPage ABOUT someone else's story, not a NewsArticle: this index
-      // did not write the headline, and structured data must not say it did.
-      '@type': 'WebPage',
-      name: item.title,
-      url: ctx.url(`/item/${slugFor(item)}.html`),
-      isBasedOn: item.url,
-      publisher: { '@type': 'Organization', name: brand.PUBLICATION },
-      description: clipX(String(item.summary || item.title), 200),
-    }],
+    jsonld,
     main,
   });
 }

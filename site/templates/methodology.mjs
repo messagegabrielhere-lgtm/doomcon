@@ -24,6 +24,7 @@ export function render(ctx) {
     ogType: 'article',
     ogImage: ctx.cardFor(ctx.state.receipt_id),
     jsonld: buildJsonLd(ctx, sections),
+    headExtra: `<link rel="alternate" type="text/markdown" href="${esc(ctx.href('/methodology.md'))}" title="Methodology (markdown)">`,
     main,
   });
 }

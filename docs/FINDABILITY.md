@@ -1,7 +1,7 @@
 # Findability — Google Search and AI answer engines
 
-**Status:** playbook, measured against the live site on **2026-10-08**. Companion to
-`docs/GROWTH.md` (UX moves), `docs/COMPETITIVE.md` (URL-count war),
+**Status:** playbook, last engineering pass **2026-10-10** (AI agent surfaces).
+Companion to `docs/GROWTH.md` (UX moves), `docs/COMPETITIVE.md` (URL-count war),
 `docs/VIRAL.md` (distribution on X), and `docs/MONETIZE.md` (earning without
 losing rank).
 
@@ -23,17 +23,20 @@ agents actually read.
 
 | Asset | State | Notes |
 |---|---|---|
-| `robots.txt` | `User-agent: *` / `Allow: /` + Sitemap line | Does not name AI bots; `Allow: /` already covers them. Does not Disallow anything — correct (a Disallow is an announcement; see `sitemap.mjs`) |
-| `sitemap.xml` | **~480 URLs** | Head pages + `/item/<slug>.html` long tail. No `news-sitemap.xml` (404) |
-| `llms.txt` | Live, HTTP 200 | Spec-shaped H1 + blockquote + link list. Sparse: missing race, map, flock, exploits, watts, digest, API index, receipts |
-| `/api/index.json` | Live, documents 6 endpoints | CORS `*`. Not in `llms.txt`. No `/openapi.json` |
-| `/api/state.json`, `history.json`, `health.json`, receipts | Live | The citation unit for both journalists and agents |
-| `/feed.xml` | Live | Alternate feed; promote in `<head>` on every page if not already |
-| JSON-LD | Present on home (`VideoObject`), methodology/history (`FAQPage`), race/exploits/bliss (`Dataset`), moves/news items (`NewsArticle` / `WebPage`) | Richer types than pizzint; fewer pages carrying them at volume |
+| `robots.txt` | `User-agent: *` / `Allow: /` + named AI bots + both Sitemap lines | Names GPT/Claude/Perplexity/Google-Extended/AI2Bot/YouBot/etc. No Disallow — correct |
+| `sitemap.xml` | Head pages + `/item/` long tail + agent surfaces | Includes `/llms.txt`, `/llms-full.txt`, `/agents.md`, `/skill.md`, `/methodology.md`, `/guide.md` |
+| `news-sitemap.xml` | Live when items qualify | Rolling window; see `newsSitemap.mjs` |
+| `llms.txt` / `llms-full.txt` | Live + `/.well-known/llms.txt` | Instruments (race/map/flock/exploits/watts/digest), API map, markdown mirrors, agent entry |
+| `/agents.md`, `/skill.md` | Live | Short agent entry + skill instructions |
+| `/methodology.md`, `/guide.md` | Live | Plain-markdown mirrors for assistants that prefer text over HTML |
+| `/api/index.json` | Live | Endpoint map + `agents` block; OpenAPI at `/openapi.json` |
+| `/api/state.json`, `history.json`, `health.json`, receipts, `now.txt` | Live | The citation unit for both journalists and agents |
+| `/feed.xml` | Live | Linked from `<head>` on every page |
+| JSON-LD | Home, methodology/history FAQ, datasets, item `WebPage` + `SpeakableSpecification` + breadcrumbs | Speakable only on authored score/corroboration blocks |
 | `noindex` on thin / empty states | Wired | Empty race, bliss, digest, watts, non-substantive moves — do not submit these to the sitemap |
-| Canonical + `og:*` + `twitter:card` | Wired in `site/build.mjs` | Share cards are PNG |
-| Search Console | **Not verified** | No verification file or meta in `public/` (`VIRAL.md` §7.1) |
-| Own domain | Still on `github.io/doomcon` | Caps brand recall and domain authority (`GROWTH.md` move 07) |
+| Canonical + `og:*` + `twitter:card` | Wired in layout | Share cards are PNG |
+| Search Console | **Operator** | Verify + submit sitemap (`VIRAL.md` §7.1) |
+| Own domain | `siren.watch` | Canonical in `brand.mjs` |
 
 The product already has the hard parts of findability: server-rendered HTML, a
 growing URL count, receipts, a public API, and an honest methodology. The gap is
@@ -130,12 +133,12 @@ An index that refuses to be a probability is more citable than one that
 performs certainty. That is the ranking advantage; do not sand it off for
 clickbait titles.
 
-### 1.7 News discovery (still open)
+### 1.7 News discovery
 
-`news-sitemap.xml` is **404**. If/when item pages carry real `NewsArticle`
-payloads with recent dates, ship a Google News sitemap with `news:keywords`
-and keep the rolling window short. Re-check pizzint's news sitemap before
-scoping (`COMPETITIVE.md` §0.1) — frozen vs rolling changes the bet.
+`news-sitemap.xml` ships from `newsSitemap.mjs` with a short rolling window.
+Keep item pages honest (`WebPage` about someone else's story, not a
+`NewsArticle` we did not write). Re-check pizzint's channel if competing there
+(`COMPETITIVE.md` §0.1).
 
 ---
 
@@ -155,9 +158,10 @@ as aggressive librarians, not as Google-with-extra-steps.
 | Prefer stable permalinks with an exact UTC stamp on the page | Citations need a date they can quote |
 | Ship markdown mirrors later (`page.md` / `rel=alternate type=text/markdown`) only if maintainable from the same template | Spec recommendation; not required for Google |
 
-**Expand `llmsTxt()` in `site/build.mjs`** so the live file stops omitting the
-pages that answer the questions agents get asked ("who is winning the model
-race?", "where are the datacentres?", "is exploit lag accelerating?").
+`llmsTxt()` in `site/templates/agentText.mjs` now lists instruments, markdown
+mirrors, and query-routing for the questions agents get asked ("who is winning
+the model race?", "where are the datacentres?", "is exploit lag accelerating?").
+Keep that file honest when new rooms ship.
 
 ### 2.2 Do not block the major AI crawlers
 
@@ -222,17 +226,17 @@ context.
 
 ### 3.2 Engineering, ranked by expected findability per unit of work
 
-| # | Change | Channel |
-|---:|---|---|
-| 1 | Expand `llms.txt` to cover API index, race, map, flock, exploits, watts, digest, press/about | AI agents |
-| 2 | Keep `/item/` and substantive `/moves/` growing; never sitemap `noindex` pages | Google |
-| 3 | Faceted pillar/lab URLs with unique titles and internal links | Google + agents |
-| 4 | `SpeakableSpecification` + breadcrumb on item/move pages | Google / voice |
-| 5 | `news-sitemap.xml` once item pages qualify | Google News |
-| 6 | `/openapi.json` + sitemap entries for API docs | Agents + developers |
-| 7 | Optional markdown mirrors for methodology and guide | Agents |
-| 8 | Mobile card view / less above-fold weight | Google CWV |
-| 9 | Domain move with permanent redirects | Both |
+| # | Change | Channel | Status |
+|---:|---|---|---|
+| 1 | Expand `llms.txt` to cover API index, race, map, flock, exploits, watts, digest, press/about | AI agents | **Done** (2026-10-10) |
+| 2 | Keep `/item/` and substantive `/moves/` growing; never sitemap `noindex` pages | Google | Ongoing |
+| 3 | Faceted pillar/lab URLs with unique titles and internal links | Google + agents | Open |
+| 4 | `SpeakableSpecification` + breadcrumb on item pages | Google / voice | **Done** on `/item/` |
+| 5 | `news-sitemap.xml` once item pages qualify | Google News | **Done** (rolling) |
+| 6 | `/openapi.json` + sitemap entries for API docs | Agents + developers | **Done** |
+| 7 | Markdown mirrors for methodology and guide; `/agents.md` | Agents | **Done** |
+| 8 | Mobile card view / less above-fold weight | Google CWV | Open |
+| 9 | Domain move with permanent redirects | Both | Canonical is `siren.watch` |
 
 ### 3.3 Refusals (search edition)
 

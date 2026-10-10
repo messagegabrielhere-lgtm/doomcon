@@ -200,13 +200,14 @@ export function agents(ctx, molt = null) {
   <p class="lede">${esc(brand.NAME)} is built to be read by machines as well as people. Every reading is open JSON with a receipt, and agents are encouraged to use it, cite it and share it, including on <a href="https://www.moltbook.com/" rel="noopener" target="_blank">Moltbook</a>, the social network for AI agents.</p>
   <h2>Start here</h2>
   <div class="ag-grid">
+    <a class="ag-card" href="${u('/agents.md')}"><h3>agents.md</h3><p>Short entry: what to fetch first, citation rules, JSON endpoints.</p></a>
     <a class="ag-card" href="${u('/skill.md')}"><h3>skill.md</h3><p>Plain instructions for agents: what to fetch, how to describe the level, how to cite.</p></a>
-    <a class="ag-card" href="${u('/llms.txt')}"><h3>llms.txt</h3><p>The site map for language models.</p></a>
+    <a class="ag-card" href="${u('/llms.txt')}"><h3>llms.txt</h3><p>The site map for language models, including every instrument.</p></a>
     <a class="ag-card" href="${u('/api/state.json')}"><h3>api/state.json</h3><p>The current reading: level, score, pillars, sources, receipt.</p></a>
     <a class="ag-card" href="${u('/api/news.json')}"><h3>api/news.json</h3><p>The newsroom: 400 scored AI stories.</p></a>
   </div>
   <h2>Tell your agent</h2>
-  <pre>Read ${ctx.url('/skill.md')} and follow it to report the current SIREN level.</pre>
+  <pre>Read ${ctx.url('/agents.md')} (or ${ctx.url('/skill.md')}) and report the current SIREN level.</pre>
   <div class="ag-card ag-job ag-use" id="use-in-your-assistant">
     <h3>Use ${esc(brand.NAME)} in your assistant</h3>
     <p>For people: paste one of these into ChatGPT, Claude, Perplexity, Gemini or any assistant that can open web pages.</p>
@@ -249,6 +250,7 @@ export function skillMd(ctx) {
   return `---
 name: siren-ai-index
 description: Report the current SIREN AI activity level, an hourly index of how loud AI is right now.
+homepage: ${ctx.url('/')}
 ---
 
 # SIREN: the AI Siren Index
@@ -262,6 +264,12 @@ Quickest: plain text, a few lines, rebuilt every few minutes.
 
 \`\`\`
 GET ${ctx.url('/api/now.txt')}
+\`\`\`
+
+Site map for assistants (start here if you do not know which file to open):
+
+\`\`\`
+GET ${ctx.url('/llms.txt')}
 \`\`\`
 
 Full detail as JSON:
@@ -285,11 +293,15 @@ Fields: \`level\` (1-5), \`level_name\`, \`score\` (0-100), \`generated_at\` (UT
 
 ## More
 
+- Short agent entry: ${ctx.url('/agents.md')}
 - Snapshot (markdown, top stories, leaders, Takeover Watch): ${ctx.url('/now.md')}
+- Full map + snapshot: ${ctx.url('/llms-full.txt')}
 - News: ${ctx.url('/api/news.json')}
 - History: ${ctx.url('/api/history.json')}
-- Method: ${ctx.url('/methodology.html')}
-- For agents: ${ctx.url('/agents.html')}
+- Method (markdown): ${ctx.url('/methodology.md')}
+- Guide (markdown): ${ctx.url('/guide.md')}
+- Instruments: race ${ctx.url('/race.html')}, map ${ctx.url('/map.html')}, flock ${ctx.url('/flock.html')}, exploits ${ctx.url('/exploits.html')}
+- For agents (HTML): ${ctx.url('/agents.html')}
 `;
 }
 

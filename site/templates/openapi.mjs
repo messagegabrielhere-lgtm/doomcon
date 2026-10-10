@@ -172,6 +172,46 @@ export function render(ctx) {
           },
         },
       },
+      '/agents.md': {
+        get: {
+          tags: ['index'],
+          summary: 'Short entry point for AI agents: what to fetch first and how to cite',
+          operationId: 'getAgentsMd',
+          responses: {
+            200: { description: 'Markdown', content: { 'text/markdown': { schema: { type: 'string' } } } },
+          },
+        },
+      },
+      '/skill.md': {
+        get: {
+          tags: ['index'],
+          summary: 'Agent skill file: how to report and cite the current SIREN reading',
+          operationId: 'getSkillMd',
+          responses: {
+            200: { description: 'Markdown', content: { 'text/markdown': { schema: { type: 'string' } } } },
+          },
+        },
+      },
+      '/methodology.md': {
+        get: {
+          tags: ['index'],
+          summary: 'Full methodology as plain markdown (mirror of methodology.html)',
+          operationId: 'getMethodologyMd',
+          responses: {
+            200: { description: 'Markdown', content: { 'text/markdown': { schema: { type: 'string' } } } },
+          },
+        },
+      },
+      '/guide.md': {
+        get: {
+          tags: ['index'],
+          summary: 'SIREN vs DEFCON vs Doomsday Clock vs p(doom), plain markdown',
+          operationId: 'getGuideMd',
+          responses: {
+            200: { description: 'Markdown', content: { 'text/markdown': { schema: { type: 'string' } } } },
+          },
+        },
+      },
       '/openapi.json': {
         get: {
           tags: ['index'],

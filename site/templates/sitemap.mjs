@@ -38,6 +38,11 @@ export function render(ctx) {
     { loc: '/now.md', changefreq: 'hourly', priority: '0.5', lastmod: ctx.state.generated_at },
     { loc: '/api/now.txt', changefreq: 'hourly', priority: '0.4', lastmod: ctx.state.generated_at },
     { loc: '/llms.txt', changefreq: 'weekly', priority: '0.4', lastmod: ctx.state.generated_at },
+    { loc: '/llms-full.txt', changefreq: 'hourly', priority: '0.4', lastmod: ctx.state.generated_at },
+    { loc: '/agents.md', changefreq: 'weekly', priority: '0.4', lastmod: ctx.state.generated_at },
+    { loc: '/skill.md', changefreq: 'weekly', priority: '0.4', lastmod: ctx.state.generated_at },
+    { loc: '/methodology.md', changefreq: 'monthly', priority: '0.5', lastmod: ctx.state.generated_at },
+    { loc: '/guide.md', changefreq: 'weekly', priority: '0.5', lastmod: ctx.state.generated_at },
     ...['/radio.html', '/day-after.html', '/videos.html', '/live.html', '/si-ready.html', '/ai-proof-job.html', '/breakthroughs.html', '/live-x.html', '/tally.html', '/staff.html', '/careers.html', '/agents.html', '/bug-out-land.html', '/prepper-checklist.html', '/feedback.html', '/alerts.html', '/export.html', '/bias.html', '/reference-plan.html', '/changelog.html', '/moltbook.html', '/si-watch.html', '/contain.html', '/monitor.html', '/scanner.html', '/dispatch.html', '/arena.html', '/catalog.html', '/search.html']
       .filter((loc, i, a) => a.indexOf(loc) === i).map((loc) => ({ loc, changefreq: loc === '/changelog.html' ? 'hourly' : 'weekly', priority: '0.7', lastmod: ctx.state.generated_at })),
     ...(ctx.news && Array.isArray(ctx.news.items) && ctx.news.items.length
@@ -147,13 +152,15 @@ export const AI_AGENTS = [
   'GPTBot', 'OAI-SearchBot', 'ChatGPT-User',
   'ClaudeBot', 'Claude-User', 'Claude-SearchBot', 'anthropic-ai',
   'PerplexityBot', 'Perplexity-User',
-  'Google-Extended', 'Applebot-Extended', 'Amazonbot', 'CCBot',
+  'Google-Extended', 'GoogleOther', 'Applebot-Extended', 'Amazonbot', 'CCBot',
   'meta-externalagent', 'DuckAssistBot', 'cohere-ai', 'MistralAI-User',
+  'AI2Bot', 'YouBot', 'Bytespider',
 ];
 
 export function robots(ctx) {
-  return `# AI crawlers and assistants welcome. Start with ${ctx.url('/llms.txt')}
-# Live reading in plain text: ${ctx.url('/api/now.txt')}
+  return `# AI crawlers and assistants welcome.
+# Start with ${ctx.url('/llms.txt')} · short agent entry ${ctx.url('/agents.md')}
+# Live reading in plain text: ${ctx.url('/api/now.txt')} · markdown ${ctx.url('/now.md')}
 
 User-agent: *
 Allow: /

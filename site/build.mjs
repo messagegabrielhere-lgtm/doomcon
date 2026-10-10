@@ -1468,6 +1468,9 @@ async function main() {
   }
   written.push(await write(args.out, 'bug-out-land.html', agentPages.land(ctx)));
   written.push(await write(args.out, 'skill.md', agentPages.skillMd(ctx)));
+  written.push(await write(args.out, 'agents.md', agentText.agentsMd(ctx)));
+  written.push(await write(args.out, 'methodology.md', methodologyMd.endsWith('\n') ? methodologyMd : `${methodologyMd}\n`));
+  written.push(await write(args.out, 'guide.md', agentText.guideMd(ctx)));
   written.push(await write(args.out, 'api/guide.json', JSON.stringify(agentPages.guideIndex(ctx, homeV2.roomGroups(ctx)))));
   // BREAKTHROUGHS. Picked from the newsroom window and merged into an archive
   // in data/ (the hourly full lane commits data/, so the archive outlives the
@@ -1753,6 +1756,13 @@ async function main() {
     license: brand.LICENSE,
     generated_at: state.generated_at,
     openapi: ctx.url('/openapi.json'),
+    agents: {
+      entry: ctx.url('/agents.md'),
+      skill: ctx.url('/skill.md'),
+      llms: ctx.url('/llms.txt'),
+      llms_full: ctx.url('/llms-full.txt'),
+      welcome: ctx.url('/agents.html'),
+    },
     endpoints: {
       state: ctx.url('/api/state.json'),
       history: ctx.url('/api/history.json'),
@@ -1760,12 +1770,21 @@ async function main() {
       receipt: `${ctx.url('/api/receipts/')}{id}.json`,
       receipts: ctx.url('/api/receipts/'),
       news: ctx.news ? ctx.url('/api/news.json') : undefined,
+      leaders: ctx.url('/api/leaders.json'),
+      si_signals: ctx.url('/api/si-signals.json'),
+      fresh: ctx.url('/api/fresh.json'),
+      search_index: ctx.url('/api/search-index.json'),
       embed: ctx.url('/embed.html'),
       feed: ctx.url('/feed.xml'),
       openapi: ctx.url('/openapi.json'),
       now_txt: ctx.url('/api/now.txt'),
       now_md: ctx.url('/now.md'),
       llms_txt: ctx.url('/llms.txt'),
+      llms_full: ctx.url('/llms-full.txt'),
+      agents_md: ctx.url('/agents.md'),
+      skill_md: ctx.url('/skill.md'),
+      methodology_md: ctx.url('/methodology.md'),
+      guide_md: ctx.url('/guide.md'),
     },
   })));
   for (const r of receipts) {
