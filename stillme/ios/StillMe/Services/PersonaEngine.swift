@@ -105,12 +105,16 @@ enum PersonaEngine {
         ].compactMap { $0 }.joined(separator: "\n")
 
         // The listener first, then everyone else, trimmed to fit.
-        let people = a.people
-            .sorted { ($0.beneficiaryId != nil && $0.beneficiaryId == who?.id) && !($1.beneficiaryId != nil && $1.beneficiaryId == who?.id) }
+        func isListener(_ person: Person) -> Bool {
+            guard let id = person.beneficiaryId, let listenerId = who?.id else { return false }
+            return id == listenerId
+        }
+        let listenerFirst: [Person] = a.people.filter(isListener) + a.people.filter { !isListener($0) }
+        let people: [String] = listenerFirst
             .map { person -> String in
                 var line = "\(person.name): \(person.relationship)"
                 if let s = person.status, !s.isEmpty { line += " (\(s))" }
-                if person.beneficiaryId != nil, person.beneficiaryId == who?.id { line += " [the person you're talking with]" }
+                if isListener(person) { line += " [the person you're talking with]" }
                 if let c = person.iCallThem, !c.isEmpty { line += ". You call them \(c)" }
                 if let c = person.theyCallMe, !c.isEmpty { line += ". They call you \(c)" }
                 if !person.notes.isEmpty { line += ". \(person.notes)" }
@@ -168,11 +172,20 @@ enum PersonaEngine {
 
     /// Memories ordered by word overlap with the query, then newest first.
     private static func rank(_ memories: [Memory], for query: String) -> [Memory] {
+        struct Scored {
+            let memory: Memory
+            let score: Int
+        }
         let q = words(query)
-        return memories
-            .map { m in (m, words((m.prompt ?? "") + " " + m.text).intersection(q).count) }
-            .sorted { $0.1 != $1.1 ? $0.1 > $1.1 : $0.0.createdAt > $1.0.createdAt }
-            .map(\.0)
+        let scored: [Scored] = memories.map { memory in
+            let text = (memory.prompt ?? "") + " " + memory.text
+            return Scored(memory: memory, score: words(text).intersection(q).count)
+        }
+        let sorted = scored.sorted { (a: Scored, b: Scored) -> Bool in
+            if a.score != b.score { return a.score > b.score }
+            return a.memory.createdAt > b.memory.createdAt
+        }
+        return sorted.map { $0.memory }
     }
 
     private static let stopWords: Set<String> = ["the", "and", "you", "your", "that", "this", "with", "have", "what", "was", "were", "for", "are", "about", "when", "there", "they", "them", "just", "like", "from", "would", "could", "tell"]
