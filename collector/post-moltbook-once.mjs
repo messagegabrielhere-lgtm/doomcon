@@ -49,9 +49,9 @@ async function main() {
     // Moltbook counts wrong answers against the agent, so nothing is guessed here.
     // The challenge is saved and printed; a person (or Claude) solves it and runs
     // the workflow again with the answer, which calls --verify.
-    const challenge = v.challenge || v.question || v.prompt || v.text || '';
+    const challenge = v.challenge_text || v.challenge || v.question || v.prompt || v.text || v.problem || '';
     writeFileSync(PENDING, JSON.stringify({ id: p.id, post: id, code: v.verification_code || v.code, challenge,
-      instructions: v.instructions || null, expires: v.expires_at || null, at: new Date().toISOString() }, null, 2) + '\n');
+      instructions: v.instructions || null, expires: v.expires_at || null, raw: { ...v, verification_code: undefined, code: undefined }, at: new Date().toISOString() }, null, 2) + '\n');
     console.log(`moltbook-once: verification needed. Challenge: ${challenge}`);
     if (v.instructions) console.log(`moltbook-once: instructions: ${v.instructions}`);
   }
