@@ -1,10 +1,32 @@
 // node --test dispatch/collect.test.mjs
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { geomCentroid } from './geo.mjs';
-import { evaluateEmergency, sanitizeAlertText, formatAlertPost, freshTriggers, phrasingIndex } from './emergency.mjs';
+import path from 'node:path';
+import { pathToFileURL } from 'node:url';
+import { geomCentroid, round2, round3, clean, isMain } from './geo.mjs';
+import { evaluateEmergency, sanitizeAlertText, formatAlertPost, freshTriggers, phrasingIndex, nwsAngle, NWS_ANGLES } from './emergency.mjs';
 import { renderAlertCard, cardFacts, SYSTEM_LOOK } from './card.mjs';
 import { CITIES } from './cities.mjs';
+
+test('round2 is ~1 km privacy grid; round3 is ~100 m', () => {
+  assert.equal(round2(-122.4194), -122.42);
+  assert.equal(round3(-122.4194), -122.419);
+  assert.ok(Number.isNaN(round2(undefined)));
+  assert.ok(Number.isNaN(round3(null)));
+});
+
+test('clean collapses whitespace', () => {
+  assert.equal(clean('  Aid   Response  '), 'Aid Response');
+  assert.equal(clean(''), null);
+  assert.equal(clean(null), null);
+});
+
+test('isMain resolves relative argv paths', () => {
+  const here = pathToFileURL(path.resolve('dispatch/collect.mjs')).href;
+  assert.equal(isMain(here, 'dispatch/collect.mjs'), true);
+  assert.equal(isMain(here, 'dispatch/other.mjs'), false);
+  assert.equal(isMain(here, ''), false);
+});
 
 test('geomCentroid: Point', () => {
   const c = geomCentroid({ type: 'Point', coordinates: [-122.4194, 37.7749] });
@@ -32,9 +54,64 @@ test('cities: at least 8 CAD adapters', () => {
   }
 });
 
+test('seattle Fire/EMS mapper: rounds to 2 decimals and drops junk rows', () => {
+  const sea = CITIES.find((c) => c.id === 'seattle');
+  const { calls, blather } = sea.map([
+    { datetime: '2026-10-08T12:00:00Z', longitude: '-122.41941', latitude: '37.77491', type: 'Aid Response', incident_number: 'F1' },
+    { datetime: 'bad', longitude: '-122.4', latitude: '37.7', type: 'Aid Response' },
+    { datetime: '2026-10-08T12:01:00Z', longitude: '-122.4', latitude: '37.7', type: 'SUICIDE THREAT', incident_number: 'F2' },
+  ]);
+  assert.equal(calls.length, 1);
+  assert.equal(calls[0].lon, -122.42);
+  assert.equal(calls[0].lat, 37.77);
+  assert.equal(calls[0].id, 'sea:F1');
+  assert.equal(blather.length, 1);
+  assert.equal(blather[0].text, 'Aid Response');
+});
+
+test('sf mapper: drops sensitive_call rows', () => {
+  const sf = CITIES.find((c) => c.id === 'sf');
+  const { calls } = sf.map([
+    {
+      cad_number: '1', call_type_final_desc: 'Noise', agency: 'Police',
+      received_datetime: '2026-10-08T12:00:00Z', sensitive_call: false,
+      intersection_point: { coordinates: [-122.41941, 37.77491] },
+    },
+    {
+      cad_number: '2', call_type_final_desc: 'Sensitive', agency: 'Police',
+      received_datetime: '2026-10-08T12:01:00Z', sensitive_call: true,
+      intersection_point: { coordinates: [-122.4, 37.7] },
+    },
+  ]);
+  assert.equal(calls.length, 1);
+  assert.equal(calls[0].id, 'sf:1');
+  assert.equal(calls[0].lon, -122.42);
+});
+
+test('dallas mapper: approx pin uses round2 and never copies address fields', () => {
+  const dal = CITIES.find((c) => c.id === 'dallas');
+  const { calls } = dal.map([{
+    date: '2026-10-08T00:00:00.000', time: '14:30:00',
+    nature_of_call: 'Disturbance', division: 'Central',
+    incident_number: 'D1', priority: '2', location: '123 Main St',
+  }]);
+  assert.equal(calls.length, 1);
+  assert.equal(calls[0].approx, true);
+  assert.equal(calls[0].lon, -96.8);
+  assert.equal(calls[0].lat, 32.78);
+  assert.equal(JSON.stringify(calls[0]).includes('Main'), false);
+});
+
 test('sanitizeAlertText strips Warning / expected', () => {
   assert.match(sanitizeAlertText('Tornado Warning expected'), /Tornado alert listed/i);
   assert.doesNotMatch(sanitizeAlertText('Tornado Warning'), /\bWarning\b/);
+});
+
+test('nwsAngle covers the catalogue', () => {
+  assert.equal(nwsAngle({ event: 'Tornado Warning' }), 'tornado');
+  assert.equal(nwsAngle({ event: 'Heat Advisory' }), 'heat');
+  assert.equal(nwsAngle({ event: 'Special Weather Statement' }), 'weather');
+  for (const a of NWS_ANGLES) assert.equal(typeof a, 'string');
 });
 
 test('evaluateEmergency: Extreme NWS activates', () => {
@@ -58,6 +135,18 @@ test('evaluateEmergency: quiet Moderate is clear', () => {
   });
   assert.equal(e.active, false);
   assert.equal(e.label, 'CLEAR');
+});
+
+test('evaluateEmergency: M7 beats Extreme NWS on weight', () => {
+  const now = Date.parse('2026-10-08T18:00:00Z');
+  const e = evaluateEmergency({
+    alerts: [
+      { id: 'nws:1', system: 'nws', event: 'Tornado', severity: 'Extreme', t: now, headline: 'T' },
+      { id: 'usgs:1', system: 'usgs', event: 'M7.1', severity: 'Extreme', mag: 7.1, t: now - 3600e3, headline: 'Q' },
+    ],
+  }, { now });
+  assert.equal(e.label, 'EMERGENCY');
+  assert.equal(e.primary.id, 'usgs:1');
 });
 
 test('formatAlertPost passes preflightX and is system-specific', () => {

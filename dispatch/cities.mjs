@@ -1,17 +1,17 @@
 // City CAD adapters for dispatch/collect.mjs.
-// Privacy: never return street addresses. Coordinates are rounded by the caller.
+// Privacy: never return street addresses. Pins use round2 (~1 km).
 
-function clean(s) {
-  if (s == null) return null;
-  const t = String(s).replace(/\s+/g, ' ').trim();
-  return t || null;
+import { clean, round2 } from './geo.mjs';
+
+/** Pin a call on a known division / sector centroid (~1 km privacy grid). */
+function approxPin(pair) {
+  if (!pair) return { lon: NaN, lat: NaN };
+  return { lon: round2(pair[0]), lat: round2(pair[1]) };
 }
 
-// Two decimals (about 1 km): enough to map a call to its neighbourhood, never
-// to a doorstep. These are people's medical and police emergencies.
-function round3(n) { return Number.isFinite(n) ? Math.round(n * 100) / 100 : NaN; }
-
-const SENSITIVE_TYPE = /\b(REDACTED|SEXUAL|RAPE|CHILD\s*-\s*ABANDONED|CHILD\s*ABUSE|SUICID|OVERDOSE|MENTAL)\b/i;
+// Prefix forms (SUICID*, MENTAL*) must not use a trailing \b on the stem —
+// /\bSUICID\b/ never matches "SUICIDE" because E is still a word character.
+const SENSITIVE_TYPE = /\b(REDACTED|SEXUAL|RAPE|CHILD\s*-\s*ABANDONED|CHILD\s*ABUSE|SUICID\w*|OVERDOSE|MENTAL\w*)\b/i;
 
 const AUSTIN_SECTOR = {
   Adam: [-97.743, 30.333], Baker: [-97.720, 30.270], Charlie: [-97.690, 30.300],
@@ -64,7 +64,7 @@ export const CITIES = [
       const calls = [], blather = [];
       for (const r of rows) {
         const t = Date.parse(r.datetime);
-        const lon = round3(+r.longitude), lat = round3(+r.latitude);
+        const lon = round2(+r.longitude), lat = round2(+r.latitude);
         if (!Number.isFinite(t) || !Number.isFinite(lon) || !Number.isFinite(lat)) continue;
         pushCall(calls, blather, {
           id: `sea:${r.incident_number || `${t}:${lon},${lat}`}`,
@@ -86,7 +86,7 @@ export const CITIES = [
       const calls = [], blather = [];
       for (const r of rows) {
         const t = Date.parse(r.cad_event_original_time_queued);
-        const lon = round3(+r.dispatch_longitude), lat = round3(+r.dispatch_latitude);
+        const lon = round2(+r.dispatch_longitude), lat = round2(+r.dispatch_latitude);
         if (!Number.isFinite(t) || !Number.isFinite(lon) || !Number.isFinite(lat)) continue;
         pushCall(calls, blather, {
           id: `spd:${r.cad_event_number || `${t}:${lon},${lat}`}`,
@@ -113,7 +113,7 @@ export const CITIES = [
         if (r.sensitive_call === true || r.sensitive_call === 'true') continue;
         const t = Date.parse(r.received_datetime);
         const coords = r.intersection_point?.coordinates;
-        const lon = round3(+coords?.[0]), lat = round3(+coords?.[1]);
+        const lon = round2(+coords?.[0]), lat = round2(+coords?.[1]);
         if (!Number.isFinite(t) || !Number.isFinite(lon) || !Number.isFinite(lat)) continue;
         pushCall(calls, blather, {
           id: `sf:${r.cad_number || `${t}:${lon},${lat}`}`,
@@ -135,8 +135,8 @@ export const CITIES = [
       const calls = [], blather = [];
       for (const r of rows) {
         const t = Date.parse(r.start_time);
-        const lon = round3(+(r.longitude ?? r.geolocation?.coordinates?.[0]));
-        const lat = round3(+(r.latitude ?? r.geolocation?.coordinates?.[1]));
+        const lon = round2(+(r.longitude ?? r.geolocation?.coordinates?.[0]));
+        const lat = round2(+(r.latitude ?? r.geolocation?.coordinates?.[1]));
         if (!Number.isFinite(t) || !Number.isFinite(lon) || !Number.isFinite(lat)) continue;
         pushCall(calls, blather, {
           id: `moco:${r.incident_id || `${t}:${lon},${lat}`}`,
@@ -162,11 +162,11 @@ export const CITIES = [
         const type = clean(r.nature_of_call);
         if (!type || !Number.isFinite(t)) continue;
         const div = clean(r.division) || 'Central';
-        const c = DALLAS_DIV[div] || DALLAS_DIV.Central;
+        const { lon, lat } = approxPin(DALLAS_DIV[div] || DALLAS_DIV.Central);
         pushCall(calls, blather, {
           id: `dal:${r.incident_number || `${t}:${type}:${div}`}`,
           city: 'Dallas', agency: 'Police', type, t,
-          lon: c[0], lat: c[1], district: div, priority: clean(r.priority), approx: true,
+          lon, lat, district: div, priority: clean(r.priority), approx: true,
         });
       }
       return { calls, blather };
@@ -184,7 +184,7 @@ export const CITIES = [
       for (const r of rows) {
         const day = (r.incident_date || r.create_date || '').slice(0, 10);
         const t = Date.parse(`${day}T${r.incident_time || '12:00:00'}`);
-        const lon = round3(+r.longitude), lat = round3(+r.latitude);
+        const lon = round2(+r.longitude), lat = round2(+r.latitude);
         if (!Number.isFinite(t) || !Number.isFinite(lon) || !Number.isFinite(lat)) continue;
         pushCall(calls, blather, {
           id: `nyc:${r.cad_evnt_id || `${t}:${lon},${lat}`}`,
@@ -207,13 +207,13 @@ export const CITIES = [
       for (const r of rows) {
         const t = Date.parse(r.response_datetime);
         const sector = clean(r.sector) || 'David';
-        const c = AUSTIN_SECTOR[sector] || AUSTIN_SECTOR.David;
+        const { lon, lat } = approxPin(AUSTIN_SECTOR[sector] || AUSTIN_SECTOR.David);
         const type = clean(r.final_problem_description || r.initial_problem_description);
         if (!type || !Number.isFinite(t)) continue;
         pushCall(calls, blather, {
           id: `aus:${r.incident_number || `${t}:${type}:${sector}`}`,
           city: 'Austin', agency: 'Police', type, t,
-          lon: c[0], lat: c[1], district: sector,
+          lon, lat, district: sector,
           priority: clean(r.priority_level), approx: true,
         });
       }
@@ -232,13 +232,13 @@ export const CITIES = [
         const day = (r.dispatch_date || '').slice(0, 10);
         const t = Date.parse(`${day}T${r.dispatch_time || '12:00:00'}`);
         const area = clean(r.area_occ) || 'Central';
-        const c = LA_AREA[area] || LA_AREA.Central;
+        const { lon, lat } = approxPin(LA_AREA[area] || LA_AREA.Central);
         const type = clean(r.call_type_text);
         if (!type || !Number.isFinite(t)) continue;
         pushCall(calls, blather, {
           id: `la:${r.incident_number || `${t}:${type}:${area}`}`,
           city: 'Los Angeles', agency: 'Police', type, t,
-          lon: c[0], lat: c[1], district: area, priority: null, approx: true,
+          lon, lat, district: area, priority: null, approx: true,
         });
       }
       return { calls, blather };
@@ -257,13 +257,13 @@ export const CITIES = [
       for (const r of rows) {
         const t = Date.parse(r.incident_date);
         const div = clean(r.division) || 'CPD';
-        const c = KC_DIV[div] || KC_DIV.CPD;
+        const { lon, lat } = approxPin(KC_DIV[div] || KC_DIV.CPD);
         const type = clean([r.type_description, r.subtype].filter(Boolean).join(' · '));
         if (!type || !Number.isFinite(t)) continue;
         pushCall(calls, blather, {
           id: `kc:${r.incident_number || `${t}:${type}:${div}`}`,
           city: 'Kansas City', agency: 'Police', type, t,
-          lon: c[0], lat: c[1], district: div, priority: clean(r.priority), approx: true,
+          lon, lat, district: div, priority: clean(r.priority), approx: true,
         });
       }
       return { calls, blather };

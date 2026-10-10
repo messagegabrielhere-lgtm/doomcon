@@ -1,12 +1,6 @@
 // Extra alert-system collectors for dispatch (beyond NWS).
 import { fetchJson, fetchText } from '../collector/fetch.mjs';
-import { geomCentroid, round3, stateFromText, STATE_CENTROIDS } from './geo.mjs';
-
-function clean(s) {
-  if (s == null) return null;
-  const t = String(s).replace(/\s+/g, ' ').trim();
-  return t || null;
-}
+import { clean, geomCentroid, round3, stateFromText, STATE_CENTROIDS } from './geo.mjs';
 
 const NWS_URL = 'https://api.weather.gov/alerts/active?status=actual&message_type=alert';
 const NWS_EVENT_KEEP = /\b(Tornado|Hurricane|Typhoon|Tropical Storm|Tsunami|Flash Flood|Flood Warning|Severe Thunderstorm|Blizzard|Ice Storm|Extreme Wind|Storm Surge|Red Flag|Extreme Heat|Heat (Warning|Advisory)|Cold Warning|Wind Chill|Winter Storm|Fire Weather|Avalanche)\b/i;
@@ -143,15 +137,9 @@ export async function collectEonet(sources) {
   for (const ev of j.events || []) {
     const g = ev.geometry?.[ev.geometry.length - 1];
     if (!g) continue;
-    let lon, lat;
-    if (g.type === 'Point') [lon, lat] = g.coordinates;
-    else if (g.type === 'Polygon') {
-      const r = g.coordinates[0];
-      lon = r.reduce((s, p) => s + p[0], 0) / r.length;
-      lat = r.reduce((s, p) => s + p[1], 0) / r.length;
-    }
-    lon = round3(+lon); lat = round3(+lat);
-    if (!Number.isFinite(lon) || !Number.isFinite(lat)) continue;
+    // EONET geometry rows are { type, coordinates, date } — same shape geomCentroid expects.
+    const c = geomCentroid({ type: g.type, coordinates: g.coordinates });
+    if (!c) continue;
     const cat = ev.categories?.[0]?.id || 'event';
     const severity = /wildfire|severeStorms|volcanoes/i.test(cat) ? 'Severe' : 'Moderate';
     alerts.push({
@@ -162,7 +150,7 @@ export async function collectEonet(sources) {
       urgency: 'Expected',
       headline: clean(ev.title),
       area: null,
-      lon, lat,
+      lon: c.lon, lat: c.lat,
       t: Date.parse(g.date) || Date.now(),
       ends: null,
       url: ev.sources?.[0]?.url || ev.link || null,
