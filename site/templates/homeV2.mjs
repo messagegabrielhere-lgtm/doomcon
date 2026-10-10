@@ -11,7 +11,7 @@ import { baselinePhrase, baselineCompact } from '../../collector/forward-coverag
 import * as brand from '../brand.mjs';
 
 import { blocks, pixelText, icon } from './_pixel.mjs';
-import { sponsorLine, newsletterBox, tipLink, MZ_CSS, MONETIZE } from '../monetize.mjs';
+import { sponsorLine, newsletterBox, tipLink, MZ_CSS, MONETIZE, polymarketUrl } from '../monetize.mjs';
 import { whatMoved, alternativeSignals } from '../extras.mjs';
 import { pulseCandidates } from '../../collector/post-pulse.mjs';
 import { WHATS_NEW } from '../siteheader.mjs';
@@ -465,8 +465,7 @@ var F=document.getElementById('v2-formula'),S=window.SIREN_PILLARS;if(F&&S){var 
 var v=document.querySelector('[data-verify-now]');if(v)v.addEventListener('click',function(e){var b=document.querySelector('[data-vfy-go]');var box=document.getElementById('vfy');if(box){e.preventDefault();box.scrollIntoView({behavior:red?'auto':'smooth',block:'start'});if(b&&!b.disabled)setTimeout(function(){b.click()},red?0:500)}});})();`;
 
 function pmLink(slug, kind = 'market') {
-  const ref = MONETIZE.polymarket && MONETIZE.polymarket.ref ? `&${MONETIZE.polymarket.ref}` : '';
-  return `https://polymarket.com/${kind}/${encodeURIComponent(slug)}?utm_source=siren&utm_medium=markets-strip${ref}`;
+  return polymarketUrl(`https://polymarket.com/${kind}/${encodeURIComponent(slug)}`, 'markets-strip');
 }
 function marketsPanel(ctx, href) {
   const pm = ctx.race && ctx.race.markets && ctx.race.markets.polymarket;

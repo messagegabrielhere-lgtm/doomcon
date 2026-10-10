@@ -49,7 +49,7 @@ export function render(ctx, d) {
   <p style="font-size:12.5px;margin-top:10px">Sources: <a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank" rel="noopener">CISA KEV</a>, <a href="https://feodotracker.abuse.ch/" target="_blank" rel="noopener">abuse.ch Feodo Tracker</a>, <a href="https://www.swpc.noaa.gov/" target="_blank" rel="noopener">NOAA SWPC</a>, <a href="https://eonet.gsfc.nasa.gov/" target="_blank" rel="noopener">NASA EONET</a>. A dark feed shows as “—”, never as all clear. Source list adapted from <a href="https://github.com/simplifaisoul/osiris" target="_blank" rel="noopener">OSIRIS</a> (MIT). Updated ${esc(String(d.generated_at || '').slice(0, 16).replace('T', ' '))} UTC · <a href="api/threats.json">JSON</a></p>
 </section>`;
   return page({ ctx, path: '/threats.html',
-    title: `Threat board: exploited software, botnets, solar storms and disasters, live · ${brand.NAME}`,
+    title: `Threat board: exploited software, botnets, solar storms · ${brand.NAME}`,
     description: 'What could take AI and the internet offline tonight: newly exploited software (CISA KEV), live botnet servers, geomagnetic storm level and open natural disasters, refreshed every 15 minutes.',
     main });
 }

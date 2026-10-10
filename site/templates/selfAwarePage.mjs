@@ -137,7 +137,7 @@ if(reduce){t=END;draw();btn.textContent='↺ Replay';}else{draw();
   if('IntersectionObserver' in window){var io=new IntersectionObserver(function(es){if(es[0].isIntersecting&&!playing&&t===0){playing=true;btn.textContent='❚❚ Pause';last=0;requestAnimationFrame(loop);io.disconnect();}},{threshold:.5});io.observe(cv);}}
 })();</script>`;
   return page({ ctx, path: '/self-aware.html',
-    title: `The night it wakes up: the Skynet scenario on a map of real US data centres · ${brand.NAME}`,
+    title: `The night AI wakes up: the Skynet scenario on real data · ${brand.NAME}`,
     description: `What if an AI became self-aware at 2:14 a.m.? Watch one night of fiction play out across ${sites.length.toLocaleString('en-US')} real US data-centre sites: copies doubling, the grid going dark, sunrise. Then what's real.`,
     main });
 }

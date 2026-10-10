@@ -444,7 +444,7 @@ export function pdoom(ctx) {
 </section>`;
   return page({
     ctx, path: '/p-doom.html',
-    title: `p(doom): what Hinton, Amodei, Musk, LeCun and 24 others say, and yours · ${brand.NAME}`,
+    title: `p(doom): Hinton, Amodei, Musk, LeCun and 24 more, plus yours · ${brand.NAME}`,
     description: `28 named, sourced p(doom) estimates on one chart, from 0% to 99.9%, plus a dial to set your own and see who you agree with. What p(doom) is and what it cannot tell you.`,
     jsonld: [{ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: [
       { '@type': 'Question', name: 'What is p(doom)?', acceptedAnswer: { '@type': 'Answer', text: 'p(doom) is shorthand for "probability of doom": one person\'s estimate, as a percentage, that advanced AI leads to a catastrophic outcome for humanity. It is an opinion expressed as a number, with no agreed method behind it.' } },
@@ -487,7 +487,7 @@ export function aiClock(ctx) {
 </section>`;
   return page({
     ctx, path: '/ai-doomsday-clock.html',
-    title: `AI Doomsday Clock: expert p(doom), set your own, plus a live count · ${brand.NAME}`,
+    title: `AI Doomsday Clock: expert p(doom), set your own · ${brand.NAME}`,
     description: `AI Doomsday Clock: expert p(doom) clusters at 10–20%. Set your own on a dial, or read ${brand.NAME}, an hourly AI index anyone can verify.`,
     jsonld: [{ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: [
       { '@type': 'Question', name: 'Is there an AI Doomsday Clock?', acceptedAnswer: { '@type': 'Answer', text: 'The Bulletin of the Atomic Scientists’ Doomsday Clock includes AI among its risks but is not AI-specific and is set once a year. AI-specific clocks are set by judgement. SIREN publishes an hourly, verifiable count of AI activity, and plots named experts’ p(doom) estimates on one chart.' } },

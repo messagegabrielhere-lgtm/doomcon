@@ -36,6 +36,9 @@ export const MONETIZE = {
   // Polymarket links on the markets strip. `ref` is your referral query string
   // from polymarket.com (Profile → Referrals), e.g. 'via=yourname'. null = plain
   // links with UTM tags only.
+  // Paste the full link Polymarket's share button gives you, or just its
+  // query (e.g. 'r=yourname'); everything after '?' is kept and added to
+  // every polymarket.com link on the site.
   polymarket: { ref: null },
 
   // Paid upgrades shown in the Bunker Kit. Plain links until you add your
@@ -138,3 +141,15 @@ export const MZ_CSS = `<style>
 .mz-note{margin:0;font-size:12.5px;color:#AEB7C3}.mz-note a{color:inherit}
 .mz-tip{color:#FFB020}
 </style>`;
+
+/** Add the Polymarket referral (if set) and UTM tags to any polymarket.com URL. */
+export function polymarketUrl(url, medium = 'site') {
+  if (!/^https:\/\/(www\.)?polymarket\.com\b/.test(String(url))) return url;
+  const raw = MONETIZE.polymarket && MONETIZE.polymarket.ref ? String(MONETIZE.polymarket.ref) : '';
+  const ref = raw.includes('?') ? raw.split('?')[1] : raw.replace(/^[?&]/, '');
+  const u = new URL(url);
+  if (!u.searchParams.has('utm_source')) { u.searchParams.set('utm_source', 'siren'); u.searchParams.set('utm_medium', medium); }
+  for (const [k, v] of new URLSearchParams(ref)) if (!/^utm_/.test(k)) u.searchParams.set(k, v);
+  return u.toString();
+}
+export const polymarketHasRef = () => !!(MONETIZE.polymarket && MONETIZE.polymarket.ref);

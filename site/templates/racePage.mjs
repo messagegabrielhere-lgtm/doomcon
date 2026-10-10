@@ -40,6 +40,7 @@ import { esc, utc, utcDay, num } from './_html.mjs';
 import { page } from './layout.mjs';
 import { avatarSprite, personIdFor, PEOPLE, faceHref } from './_avatars.mjs';
 import * as brand from '../brand.mjs';
+import { polymarketUrl, polymarketHasRef } from '../monetize.mjs';
 
 const PATH = '/race.html';
 
@@ -792,12 +793,13 @@ function partitionBar(race) {
   <div class="rpart" role="img" aria-label="${esc(`${poly.horizon.title} — ${readout}.`)}">${segs}</div>
   <ul class="rpart__key">${keyItems}</ul>
   <p class="rnote">${esc(poly.horizon.legs_live)} legs are trading on
-     <a href="${esc(poly.horizon.url)}" rel="nofollow noopener">${esc(poly.horizon.title)}</a>,
+     <a href="${esc(polymarketUrl(poly.horizon.url, 'race'))}" rel="${polymarketHasRef() ? 'sponsored nofollow noopener' : 'nofollow noopener'}" target="_blank">${esc(poly.horizon.title)}</a>,
      and they are mutually exclusive: exactly one resolves YES. Their prices sum to
      <b class="num">${esc(num(poly.horizon.sum_of_live_legs, 4))}</b> rather than to 1.0000 — that
      spread is the bid/ask on ${esc(money(poly.horizon.volume_usd) ?? 'the book')} of lifetime
      volume. Segment widths above are normalised by that sum; the percentages printed are the raw
      prices.</p>
+  <p><a class="rcta" href="${esc(polymarketUrl(poly.horizon.url, 'race-cta'))}" target="_blank" rel="${polymarketHasRef() ? 'sponsored nofollow noopener' : 'nofollow noopener'}" style="display:inline-block;border:1px solid #818CF8;padding:9px 14px;font:700 13px var(--mono);text-decoration:none;color:#C7D2FE">Trade this market on Polymarket →</a>${polymarketHasRef() ? ' <small style="color:var(--ink-faint)">Referral link: SIREN may earn a share of Polymarket’s fees. Prediction markets are restricted in some places. Not financial advice.</small>' : ' <small style="color:var(--ink-faint)">Prediction markets are restricted in some places. Not financial advice.</small>'}</p>
 </section>`;
 }
 
@@ -1042,7 +1044,7 @@ function howComputed(ctx, race) {
 
   const rankBody = poly?.ok
     ? `Every player is placed by one number and one number only: the live YES price on their leg of
-       <a href="${esc(poly.horizon.url)}" rel="nofollow noopener">${esc(poly.horizon.title)}</a>,
+       <a href="${esc(polymarketUrl(poly.horizon.url, 'race'))}" rel="${polymarketHasRef() ? 'sponsored nofollow noopener' : 'nofollow noopener'}" target="_blank">${esc(poly.horizon.title)}</a>,
        resolving ${esc(utcDay(poly.horizon.end_date))}. That event is a <em>negRisk</em> market &mdash;
        ${esc(poly.horizon.legs_live)} mutually-exclusive legs, exactly one of which resolves YES &mdash;
        so a leg price is a live, money-backed probability for that lab and nothing else.
@@ -1054,7 +1056,7 @@ function howComputed(ctx, race) {
 
   const spotBody = poly?.ok && !poly.horizon_is_spot
     ? `<b>today</b> is the same question at the nearest resolution date
-       (<a href="${esc(poly.spot.url)}" rel="nofollow noopener">${esc(poly.spot.title)}</a>,
+       (<a href="${esc(polymarketUrl(poly.spot.url, 'race'))}" rel="${polymarketHasRef() ? 'sponsored nofollow noopener' : 'nofollow noopener'}" target="_blank">${esc(poly.spot.title)}</a>,
        ${esc(utcDay(poly.spot.end_date))}) &mdash; who holds the crown right now rather than at year end.
        The two disagree sharply and they are supposed to.
        <b>kalshi</b> is a different question on a CFTC-regulated venue:
@@ -1224,7 +1226,7 @@ function liveHead(race, poly) {
   const bits = [];
   bits.push(`<div class="rlive__i"><dt>Compiled</dt><dd><time datetime="${esc(race.generated_at)}">${esc(utc(race.generated_at))}</time></dd></div>`);
   if (poly?.ok) {
-    bits.push(`<div class="rlive__i"><dt>Ranking market</dt><dd><a href="${esc(poly.horizon.url)}" rel="nofollow noopener">${esc(poly.horizon.title)}</a></dd></div>`);
+    bits.push(`<div class="rlive__i"><dt>Ranking market</dt><dd><a href="${esc(polymarketUrl(poly.horizon.url, 'race'))}" rel="${polymarketHasRef() ? 'sponsored nofollow noopener' : 'nofollow noopener'}" target="_blank">${esc(poly.horizon.title)}</a></dd></div>`);
     bits.push(`<div class="rlive__i"><dt>Resolves</dt><dd><time datetime="${esc(poly.horizon.end_date)}">${esc(utcDay(poly.horizon.end_date))}</time></dd></div>`);
     bits.push(`<div class="rlive__i"><dt>Behind it</dt><dd class="num">${esc(money(poly.horizon.volume_usd))} across ${esc(poly.horizon.legs_live)} legs</dd></div>`);
   } else {
