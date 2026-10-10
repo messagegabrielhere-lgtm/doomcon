@@ -135,6 +135,43 @@ export function parseGeojson(j) {
   }).filter(Boolean);
 }
 
+// THE OFFICIAL SOURCE. Waffle House's own store locator (a SOCi/Where2GetIt
+// locator) carries an opening_status per store, and its public search can
+// filter on it: one call lists every store, one lists the temporarily
+// closed. The app key is the public one embedded in the locator page, read
+// fresh each run rather than hard-coded. Two polite calls an hour.
+const LOCATOR = 'https://locations.wafflehouse.com';
+export function appKeyFrom(html) {
+  const m = /appkey\s*:\s*['"]([A-F0-9-]{20,})['"]/i.exec(String(html || ''));
+  return m ? m[1] : null;
+}
+/** Locator POI -> store. bho = weekly hours; all "0000-0000" means 24 h. */
+export function parseLocator(j) {
+  return (((j && j.response) || {}).collection || []).map((x) => {
+    const lat = +x.latitude, lon = +x.longitude;
+    if (!Number.isFinite(lat) || !Number.isFinite(lon)) return null;
+    let hours24 = null;
+    try { const b = JSON.parse(x.bho || '[]'); hours24 = b.length ? b.every((d) => d[0] === '0000' && d[1] === '0000') : null; } catch { /* odd hours field */ }
+    return { id: `wh/${x.clientkey}`, no: String(x.clientkey || ''), lat: +lat.toFixed(5), lon: +lon.toFixed(5), city: x.city ? String(x.city).replace(/\b\w+/g, (w) => w.charAt(0) + w.slice(1).toLowerCase()) : null, state: x.state || null, url: x.website || null, hours24, coming_soon: !!x['Coming Soon'] };
+  }).filter(Boolean);
+}
+async function locatorSearch(appkey, where) {
+  const body = { request: { appkey, formdata: { geoip: false, dataview: 'store_default', limit: 5000, geolocs: { geoloc: [{ addressline: '', country: 'US', latitude: 33.5, longitude: -86.8 }] }, searchradius: '3000', ...(where ? { where } : {}) } } };
+  const t = await fetchText(`${LOCATOR}/rest/locatorsearch?like=${Math.random()}&isSOCiLocator=true`, { method: 'POST', timeoutMs: 45000, retries: 1, headers: { 'content-type': 'application/json', accept: 'application/json', referer: `${LOCATOR}/`, origin: LOCATOR }, body: JSON.stringify(body) });
+  const j = JSON.parse(t);
+  if (j.code !== 1) throw new Error(`locator code ${j.code}: ${(j.response && j.response.message) || ''}`);
+  return parseLocator(j);
+}
+export async function officialStatus() {
+  const html = await fetchText(`${LOCATOR}/`, { timeoutMs: 30000, retries: 1 });
+  const key = appKeyFrom(html);
+  if (!key) throw new Error('locator app key not found');
+  const all = await locatorSearch(key);
+  const closed = await locatorSearch(key, { opening_status: { eq: 'temporarily_closed' } });
+  const closedSet = new Set(closed.map((x) => x.id));
+  return all.filter((x) => !x.coming_soon).map((x) => ({ ...x, closed: closedSet.has(x.id) }));
+}
+
 /** Pick query centres so every in-path store is within `r` km of one (greedy). */
 export function coverCentres(points, r = 45, max = 25) {
   const left = points.slice(), centres = [];
@@ -162,11 +199,12 @@ export function closedOf(p) {
   return null;
 }
 
-export function indexFrom(closed, known) {
+export function indexFrom(closed, known, limited = 0) {
   if (!known) return { level: 'UNKNOWN', label: 'No live status', color: '#94A3B8' };
   const pct = closed / known;
   if (pct >= 0.35) return { level: 'RED', label: 'Very bad: Waffle Houses are closed', color: '#F87171', pct };
   if (pct >= 0.05) return { level: 'YELLOW', label: 'Bad: some closed, expect limited menus', color: '#FACC15', pct };
+  if (limited / known >= 0.1) return { level: 'YELLOW', label: 'Bad: many on limited hours', color: '#FACC15', pct };
   return { level: 'GREEN', label: 'Open for business', color: '#4ADE80', pct };
 }
 
@@ -193,8 +231,11 @@ async function main(argv) {
     try { storms = parseStorms(await fetchJson('https://www.nhc.noaa.gov/CurrentStorms.json', { timeoutMs: 30000, retries: 1 })); }
     catch (e) { stormErr = String(e.message).slice(0, 160); }
   }
-  const sc = await stores(offline);
+  let official = null, officialErr = null;
+  if (!offline) { try { official = await officialStatus(); } catch (e) { officialErr = String(e.message).slice(0, 160); } }
+  const sc = official && official.length > 500 ? { fetched_at: new Date(now).toISOString(), source: 'locations.wafflehouse.com', stores: official } : await stores(offline);
   const all = (sc && sc.stores) || [];
+  const live = !!(official && official.length > 500);
   let dcs = [];
   try { dcs = (JSON.parse(readFileSync('data/datacenters.json', 'utf8')).sites || []).filter((s) => Number.isFinite(s.lat) && Number.isFinite(s.lon)); } catch { /* optional */ }
 
@@ -206,21 +247,23 @@ async function main(argv) {
     const inPath = all.map((w) => ({ ...w, d: distToPath(w, s.now, s.later) })).filter((w) => w.d <= s.radius_km).sort((a, b) => a.d - b.d);
     const dcIn = dcs.map((x) => ({ name: x.name || 'Data centre', operator: x.operator || null, city: x.addr && x.addr.city, state: x.state || (x.addr && x.addr.state), status: x.status || null, lat: x.lat, lon: x.lon, d: distToPath(x, s.now, s.later) })).filter((x) => x.d <= s.radius_km).sort((a, b) => a.d - b.d);
     let places = [], googled = false;
-    if (key && inPath.length && calls < maxCalls) {
+    if (key && !live && inPath.length && calls < maxCalls) {
       const centres = coverCentres(inPath, 45, maxCalls - calls);
       calls += centres.length;
       places = await google(centres, key);
       googled = true;
     }
-    const withStatus = places.map((p) => ({ ...p, closed: closedOf(p), d: distToPath(p, s.now, s.later) })).filter((p) => p.d <= s.radius_km + 30);
+    const withStatus = live
+      ? inPath.map((w) => ({ name: `Waffle House #${w.no}`, lat: w.lat, lon: w.lon, closed: w.closed, status: w.closed ? 'temporarily closed' : (w.hours24 === false ? 'limited hours' : 'open'), limited: w.hours24 === false && !w.closed, address: [w.city, w.state].filter(Boolean).join(', '), url: w.url, d: w.d }))
+      : places.map((p) => ({ ...p, closed: closedOf(p), d: distToPath(p, s.now, s.later) })).filter((p) => p.d <= s.radius_km + 30);
     const known = withStatus.filter((p) => p.closed !== null);
     const closed = known.filter((p) => p.closed);
     outStorms.push({
       ...s,
       waffle_in_path: inPath.length,
       stores: inPath.slice(0, 400).map(({ lat, lon, city, state, d }) => ({ lat, lon, city, state, d: Math.round(d) })),
-      google: googled ? { checked: withStatus.length, known: known.length, closed: closed.length, places: withStatus.slice(0, 200).map((p) => ({ name: p.name, lat: p.lat, lon: p.lon, closed: p.closed, status: p.status, address: p.address })) } : null,
-      index: indexFrom(closed.length, known.length),
+      google: (googled || live) ? { source: live ? 'Waffle House locator' : 'Google Places', checked: withStatus.length, known: known.length, closed: closed.length, limited: withStatus.filter((p) => p.limited).length, places: withStatus.slice(0, 700).map((p) => ({ name: p.name, lat: p.lat, lon: p.lon, closed: p.closed, limited: !!p.limited, status: p.status, address: p.address, url: p.url || null })) } : null,
+      index: indexFrom(closed.length, known.length, withStatus.filter((p) => p.limited).length),
       datacenters_in_path: dcIn.length,
       datacenters: dcIn.slice(0, 60).map(({ name, operator, city, state, status, lat, lon, d }) => ({ name, operator, city, state, status, lat, lon, d: Math.round(d) })),
     });
@@ -230,12 +273,20 @@ async function main(argv) {
   const doc = {
     schema: 1, generated_at: new Date(now).toISOString(),
     storms: outStorms, storm_error: stormErr,
-    stores_total: all.length, stores_fetched_at: sc && sc.fetched_at,
+    stores_total: all.length, stores_fetched_at: sc && sc.fetched_at, stores_source: sc && sc.source,
+    official: live ? {
+      closed: all.filter((w) => w.closed).length,
+      limited: all.filter((w) => w.hours24 === false && !w.closed).length,
+      by_state: Object.entries(all.reduce((m, w) => { if (w.closed) m[w.state] = (m[w.state] || 0) + 1; return m; }, {})).sort((a, b) => b[1] - a[1]).map(([state, n]) => ({ state, n })),
+      closed_list: all.filter((w) => w.closed).slice(0, 300).map(({ no, city, state, lat, lon, url }) => ({ no, city, state, lat, lon, url })),
+    } : { error: officialErr },
+    // Every store as [lon, lat, flag] for the national map: 0 open, 1 closed, 2 limited hours.
+    all_stores: all.map((w) => [+(+w.lon).toFixed(3), +(+w.lat).toFixed(3), w.closed ? 1 : (w.hours24 === false ? 2 : 0)]),
     google: { enabled: !!key, calls, cap: maxCalls },
-    note: 'Impact zone: a capsule along the storm’s current motion for 24 h, radius by intensity. Not the NHC cone. Waffle House locations from OpenStreetMap; open/closed from Google Places when enabled.',
+    note: live ? 'Locations and open/closed from Waffle House’s own store locator (opening_status = temporarily_closed); short hours = posted hours not 24/7. Impact zone: a capsule along the storm’s current motion for 24 h, radius by intensity. Not the NHC cone.' : 'Waffle House’s locator was unreachable this run: locations from OpenStreetMap, open/closed from Google Places when enabled. Impact zone: a capsule along the storm’s current motion for 24 h, radius by intensity. Not the NHC cone.',
   };
   writeFileSync(OUT, JSON.stringify(doc, null, 1) + '\n');
-  say(`storms ${outStorms.length}${stormErr ? ' (NHC: ' + stormErr + ')' : ''} · stores ${all.length} · google ${key ? `${calls} calls` : 'off'} · ${outStorms.map((s) => `${s.name}: ${s.waffle_in_path} WH, ${s.datacenters_in_path} DC, ${s.index.level}`).join('; ')}`);
+  say(`official ${live ? 'ok' : 'dark: ' + officialErr} · storms ${outStorms.length}${stormErr ? ' (NHC: ' + stormErr + ')' : ''} · stores ${all.length} · google ${key ? `${calls} calls` : 'off'} · ${outStorms.map((s) => `${s.name}: ${s.waffle_in_path} WH, ${s.datacenters_in_path} DC, ${s.index.level}`).join('; ')}`);
 }
 
 if (process.argv[1] && process.argv[1].endsWith('waffle.mjs')) main(process.argv.slice(2)).catch((e) => { console.log(`::warning title=waffle::${String(e.message).slice(0, 200)}`); });
