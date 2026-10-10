@@ -33,6 +33,7 @@ export const PRIMARY = [
 // at the top of the room finder and as a strip on the homepage. Newest first;
 // keep it to about six so it stays a highlight reel, not a second menu.
 export const WHATS_NEW = [
+  ['/charts.html', 'px:trendchart', 'This week in charts', 'Live AI odds, the SIREN trend and the power race, each with an X post.'],
   ['/power.html', 'px:pylon', 'The power race', 'Who makes the most electricity: China vs the US, per person, fastest growing.'],
   ['/threats.html', 'px:threatshield', 'Threat board', 'Exploited software, botnets, solar storms and disasters, live.'],
   ['/self-aware.html', 'px:redeye', 'The night it wakes up', 'The Skynet scenario, played out on a map of real US data centres.'],
