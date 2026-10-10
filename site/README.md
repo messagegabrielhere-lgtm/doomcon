@@ -13,6 +13,7 @@ HTML under `public/` for GitHub Pages.
 | `brand.mjs` | Names, URLs, disclaimers, colours |
 | `styles.mjs` / `sitebar.mjs` | Shared CSS and the sitewide disclosure bar |
 | `post-sheet.mjs` | Operator console for copying daily posts |
+| `engage-sheet.mjs` | Human like/repost checklist synced to the site’s X surface |
 
 **Rules for novices**
 
