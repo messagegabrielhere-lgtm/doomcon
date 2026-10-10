@@ -280,8 +280,8 @@ Honesty rules:
 
 ## Explainers (search head terms)
 
-- [Method](${u('/methodology.html')}): every formula and constant
-- [Guide: SIREN vs DEFCON vs the Doomsday Clock vs p(doom)](${u('/guide.html')})
+- [Method](${u('/methodology.html')}): every formula and constant ([markdown](${u('/methodology.md')}))
+- [Guide: SIREN vs DEFCON vs the Doomsday Clock vs p(doom)](${u('/guide.html')}) ([markdown](${u('/guide.md')}))
 - [What is p(doom)?](${u('/p-doom.html')})
 - [Is there an AI doomsday clock?](${u('/ai-doomsday-clock.html')})
 - [AI and jobs: what has been measured](${u('/jobs.html')})

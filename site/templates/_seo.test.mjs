@@ -12,6 +12,8 @@ describe('SEO helpers', () => {
     const org = organization(ctx);
     assert.equal(org['@type'], 'Organization');
     assert.equal(org.url, 'https://siren.watch/');
+    assert.equal(org['@id'], 'https://siren.watch/#org');
+    assert.ok(!String(org['@id']).includes('//#'), 'no double-slash before fragment');
     assert.ok(Array.isArray(org.sameAs));
     assert.ok(org.sameAs.some((u) => /x\.com|twitter\.com/i.test(u) || u.includes('github.com')));
     assert.ok(org.alternateName.includes('SIREN'));

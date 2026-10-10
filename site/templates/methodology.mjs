@@ -24,8 +24,23 @@ export function render(ctx) {
     ogType: 'article',
     ogImage: ctx.cardFor(ctx.state.receipt_id),
     jsonld: buildJsonLd(ctx, sections),
+    head: `<link rel="alternate" type="text/markdown" href="${esc(ctx.href('/methodology.md'))}" title="Methodology (markdown)">`,
     main,
   });
+}
+
+/** Plain markdown mirror of docs/METHODOLOGY.md for agents (FINDABILITY.md §3.2 #9). */
+export function methodologyMd(ctx) {
+  const body = String(ctx.methodologyMd || '').trim();
+  const stamp = ctx.state && ctx.state.generated_at ? ctx.state.generated_at : null;
+  return `# ${brand.NAME} methodology
+
+> HTML: ${ctx.url('/methodology.html')}
+> Canonical formulas for the hourly AI activity index. Recompute every number from the receipt.
+
+${stamp ? `Built ${stamp}.\n` : ''}
+${body}
+`;
 }
 
 function firstParagraph(html) {
