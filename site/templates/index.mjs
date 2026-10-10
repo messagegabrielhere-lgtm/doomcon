@@ -1543,6 +1543,7 @@ function homeMap(ctx) {
     </svg>
   </a>
   <p class="fresh__key">Dots are sites grouped by area; bigger means more. <a href="${esc(ctx.href('/world.html'))}">The full map, every site and country →</a> ·
+    <a href="${esc(ctx.href('/country/'))}">By country →</a> ·
     <a href="${esc(ctx.href('/map.html'))}">US sites, drought and the grid →</a> · <a href="${esc(ctx.href('/flock.html'))}">Cameras →</a></p>
 </section>`;
 }

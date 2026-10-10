@@ -495,13 +495,16 @@ export function worldTable(model, opts = {}) {
         <i class="usm__seg usm__seg--op" style="width:${w(r.operating)}"></i><i class="usm__seg usm__seg--uc" style="width:${w(r.under_construction)}"></i><i class="usm__seg usm__seg--an" style="width:${w(r.announced)}"></i>
       </span>`;
 
+  const countryHref = typeof opts.countryHref === 'function' ? opts.countryHref : null;
   const rows = model.countries.map((c) => {
     const notes = [];
     if (c.subregion) notes.push(c.subregion);
     if (!c.outlined) notes.push('no outline at 1:110m — pins drawn, no land under them');
     if (c.boundary_risk > 0) notes.push(`${N(c.boundary_risk)} within about 2 km of a border`);
+    const pageHref = countryHref ? countryHref(c) : '';
     return `<tr>
       <th scope="row"><b><a class="usm__go" href="#${esc(mapId)}" ${goAttr}="${esc(c.iso2)}" title="Zoom the map to ${esc(c.name)}">${esc(c.name)}</a></b>
+        ${pageHref ? `<a href="${esc(pageHref)}">country page</a>` : ''}
         <span>${esc(c.iso2)}${notes.length ? ` · ${esc(notes.join(' · '))}` : ''}</span></th>
       <td>${esc(c.continent || 'no continent recorded')}</td>
       <td class="usm__barcell">${bar(c)}<b class="usm__tot num">${N(c.total)}</b></td>
