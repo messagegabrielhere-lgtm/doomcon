@@ -117,8 +117,16 @@ function injectAffiliates(html) {
 function prerenderStatic(html, name, ctx) {
   const x = (v) => String(v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
   const loc = ctx.url(`/${name}`);
-  const title = (html.match(/<title>([^<]*)<\/title>/) || [])[1] || brand.NAME;
-  const desc = (html.match(/<meta name="description" content="([^"]*)"/) || [])[1] || '';
+  const originBase = `${brand.ORIGIN}${brand.BASE_PATH}`;
+  // Hand-written pages predate siren.watch. One canonical, on this host.
+  // This function emits the tags it strips, so a leftover github.io canonical
+  // cannot outrank the apex.
+  let src = String(html).split('https://messagegabrielhere-lgtm.github.io/doomcon').join(originBase);
+  src = src.replace(/<link\s+rel="canonical"[^>]*>\s*/gi, '');
+  src = src.replace(/<meta\s+property="og:(?:url|image|title|description|type|site_name)"[^>]*>\s*/gi, '');
+  src = src.replace(/<meta\s+name="twitter:card"[^>]*>\s*/gi, '');
+  const title = (src.match(/<title>([^<]*)<\/title>/) || [])[1] || brand.NAME;
+  const desc = (src.match(/<meta name="description" content="([^"]*)"/) || [])[1] || '';
   let head = `<link rel="canonical" href="${x(loc)}">
 <link rel="icon" href="${x(ctx.href('/favicon.svg'))}" type="image/svg+xml">
 <meta property="og:type" content="website">
@@ -131,8 +139,8 @@ function prerenderStatic(html, name, ctx) {
 <link rel="alternate" type="text/markdown" href="${x(ctx.href('/now.md'))}" title="Current reading (markdown)">
 <link rel="alternate" type="text/plain" href="${x(ctx.href('/llms.txt'))}" title="llms.txt">
 <link rel="describedby" href="${x(ctx.href('/openapi.json'))}" type="application/json">`;
-  let out = html;
-  const data = html.match(/<script>\n(const CRATES = [\s\S]*?)\nconst packed = /);
+  let out = src;
+  const data = src.match(/<script>\n(const CRATES = [\s\S]*?)\nconst packed = /);
   if (data && out.includes('<main id="manifest"></main>')) {
     const { CRATES, TOOLS } = new Function(`${data[1]}\nreturn { CRATES, TOOLS };`)();
     const link = (t) => t[7] || `https://${t[2]}`;
