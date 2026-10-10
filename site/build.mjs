@@ -44,6 +44,7 @@ import * as wafflePage from './templates/wafflePage.mjs';
 import * as statusPage from './templates/statusPage.mjs';
 import * as selfAwarePage from './templates/selfAwarePage.mjs';
 import * as threatsPage from './templates/threatsPage.mjs';
+import * as powerPage from './templates/powerPage.mjs';
 import { SERVICES as AI_SERVICES } from '../collector/ai-status.mjs';
 import * as catalogPages from './templates/catalogPages.mjs';
 import { items as faqItems } from './templates/_faq.mjs';
@@ -1561,6 +1562,13 @@ async function main() {
     try { thText = await readFile(path.join(args.data, 'threats.json'), 'utf8'); th = JSON.parse(thText); } catch { thText = null; th = null; }
     written.push(await write(args.out, 'threats.html', threatsPage.render(ctx, th)));
     if (thText !== null) written.push(await write(args.out, 'api/threats.json', thText));
+  }
+  {
+    // The power race (collector/power.mjs, Our World in Data, daily).
+    let pwText = null, pw = null;
+    try { pwText = await readFile(path.join(args.data, 'power.json'), 'utf8'); pw = JSON.parse(pwText); } catch { pwText = null; pw = null; }
+    written.push(await write(args.out, 'power.html', powerPage.render(ctx, pw)));
+    if (pwText !== null) written.push(await write(args.out, 'api/power.json', pwText));
   }
   written.push(await write(args.out, 'live-x.html', featurePages.liveX(ctx)));
   written.push(await write(args.out, 'tally.html', withVideo(agentPages.tally(ctx), 'tally')));

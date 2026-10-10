@@ -675,6 +675,12 @@ jobs:
           METACULUS_TOKEN: ${{ secrets.METACULUS_TOKEN }}
         run: node collector/si-signals.mjs
 
+      - name: The power race
+        # Electricity generation by country (Our World in Data, keyless).
+        # Annual data; the collector refetches at most once a day.
+        continue-on-error: true
+        run: node collector/power.mjs
+
       - name: Waffle House Index
         # Storms from NHC, Waffle Houses in the path (OpenStreetMap, weekly),
         # open/closed from Google Places when GOOGLE_PLACES_API_KEY is set

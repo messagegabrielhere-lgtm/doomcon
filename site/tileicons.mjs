@@ -91,6 +91,9 @@ export const TILE_ICONS = {
   threatshield: [{ a: '#FB923C', b: '#7C2D12', c: '#FFFFFF', d: '#1F2937' }, [
     '................', '.......aa.......', '.....aaaaaa.....', '...aaabbbbaaa...', '..aabbbbbbbbaa..', '..abbbbccbbbba..', '..abbbbccbbbba..', '..abbbbccbbbba..',
     '..abbbbccbbbba..', '..abbbbbbbbbba..', '...abbbbccbbba..', '...aabbbccbbaa..', '....aabbbbbaa...', '.....aaabaaa....', '.......aa.......', '................']],
+  pylon: [{ a: '#FACC15', b: '#94A3B8', c: '#FDE68A' }, [
+    '.......bb.......', '......b..b......', '.bbbbbbbbbbbbbb.', '..b...b..b...b..', '......b..b......', '...bbbbbbbbbb...', '....b.b..b.b....', '......b..b......',
+    '.....b....b.....', '.....b.aa.b.....', '....b..aa..b....', '....b.aa...b....', '...b..aaaa..b...', '...b....aa..b...', '..b.....a....b..', '..b..........b..']],
   hurricane: [{ a: '#60A5FA', b: '#F87171', c: '#FFFFFF' }, [
     '................', '......aaaa......', '....aa....a.....', '...a...bb..a....', '..a...b..b......', '..a..b....b.a...', '.a...b.cc.b..a..', '.a..b.cccc.b.a..',
     '..a.b.cccc.b..a.', '..a.b..cc.b...a.', '...a.b....b..a..', '.....b..b...a...', '......bb...a....', '....a.....aa....', '.....aaaaa......', '................']],
