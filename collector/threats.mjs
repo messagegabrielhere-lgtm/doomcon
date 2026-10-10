@@ -62,7 +62,7 @@ async function main() {
     grab(async () => parseFeodo(await fetchJson('https://feodotracker.abuse.ch/downloads/ipblocklist.json', { timeoutMs: 20000, retries: 1 }), now)),
     grab(async () => { const a = await fetchJson('https://services.swpc.noaa.gov/json/planetary_k_index_1m.json', { timeoutMs: 15000, retries: 1 }); const l = a[a.length - 1] || {}; const v = parseFloat(l.kp_index ?? l.estimated_kp ?? l.Kp); const max24 = Math.max(...a.slice(-1440).map((x) => parseFloat(x.kp_index ?? x.estimated_kp)).filter(Number.isFinite)); return { kp: Number.isFinite(v) ? v : null, at: l.time_tag || null, max_24h: Number.isFinite(max24) ? max24 : null }; }),
     grab(async () => (await fetchJson('https://services.swpc.noaa.gov/json/alerts.json', { timeoutMs: 15000, retries: 1 })).slice(0, 6).map((x) => ({ at: x.issue_datetime, text: String(x.message || '').replace(/\s+/g, ' ').slice(0, 220) }))),
-    grab(async () => parseEonet(await fetchJson('https://eonet.gsfc.nasa.gov/api/v3/events?status=open&limit=200', { timeoutMs: 20000, retries: 1 }))),
+    grab(async () => parseEonet(await fetchJson('https://eonet.gsfc.nasa.gov/api/v3/events?status=open&limit=1000', { timeoutMs: 20000, retries: 1 }))),
   ]);
   const space = kp.data ? { ...kp.data, scale: gScale(kp.data.max_24h ?? kp.data.kp), alerts: alerts.data || [] } : null;
   const doc = { schema: 1, generated_at: new Date(now).toISOString(), kev: kev.data, feodo: feodo.data, space, eonet: eonet.data,
