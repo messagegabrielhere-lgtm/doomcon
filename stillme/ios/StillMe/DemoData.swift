@@ -1,14 +1,33 @@
-#if DEBUG
 import Foundation
+
+/// Sample content for screenshots. The data itself only exists in debug builds.
+enum DemoData {}
+
+extension DemoData {
+    /// A filled-in rehearsal chat for screenshots; empty in normal use.
+    static var initialRehearsal: [ChatMessage] {
+        #if DEBUG
+        guard UserDefaults.standard.bool(forKey: "StillMeDemo") else { return [] }
+        return [
+            ChatMessage(role: .user, content: "What was the best part of fixing up the Bronco?"),
+            ChatMessage(role: .assistant, content: "listen, it wasn't the truck. it was three years of sundays with leo. the day it finally started he didn't say a word, just grinned for an hour. best four hundred bucks i ever spent"),
+        ]
+        #else
+        return []
+        #endif
+    }
+}
+
+#if DEBUG
 
 /// Sample content for screenshots and previews. Debug builds only; launch with
 /// `-StillMeDemo 1`. Everyone here is fictional.
 @MainActor
-enum DemoData {
+extension DemoData {
     static func seed(archive store: ArchiveStore, recipient: RecipientStore) {
-        let ana = Beneficiary(name: "Ana Torres", email: "ana@example.com", relationship: "daughter",
+        let ana = Beneficiary(name: "Ana Torres", relationship: "daughter",
                               personalNote: "You were the best thing I ever made. Go easy on yourself, kiddo.")
-        let leo = Beneficiary(name: "Leo Torres", email: "leo@example.com", relationship: "son")
+        let leo = Beneficiary(name: "Leo Torres", relationship: "son")
         let day: TimeInterval = 86_400
         func ago(_ days: Double) -> Date { Date.now.addingTimeInterval(-days * day) }
 
@@ -19,9 +38,7 @@ enum DemoData {
             instructions: "Remind my kids I was proud of them, especially when they doubt themselves. Never pretend I'm still alive.",
             boundaries: "Don't get into my brother's divorce."
         )
-        a.legacy = LegacySettings(ownerEmail: "mike@example.com", checkInIntervalDays: 30, graceDays: 14,
-                                  executor: Executor(name: "Rosa Torres", email: "rosa@example.com"),
-                                  beneficiaries: [ana, leo])
+        a.legacy.beneficiaries = [ana, leo]
         a.people = [
             Person(name: "Ana Torres", relationship: "daughter", iCallThem: "Kiddo, Banana", theyCallMe: "Dad, Pops",
                    notes: "Stubborn like her mother, funny like me. Taught her to drive in the H-E-B parking lot. She cried at her graduation and pretended it was allergies.",
@@ -66,8 +83,7 @@ enum DemoData {
         store.persist()
 
         recipient.loadDemo(
-            grant: LegacyGrant(name: "Mike", fullName: "Michael Torres", beneficiaryName: "Ana",
-                               relationship: "daughter", personalNote: ana.personalNote),
+            package: LegacyPackage(archive: a, for: ana),
             conversation: [
                 ChatMessage(role: .user, content: "I got the job. The one in Lisbon."),
                 ChatMessage(role: .assistant, content: "thats my kiddo. never doubted it. listen, you send your mom a picture of the ocean the first day, she'll pretend she isn't crying"),

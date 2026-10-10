@@ -5,7 +5,6 @@ import UniformTypeIdentifiers
 struct YouView: View {
     @Environment(ArchiveStore.self) private var store
     @AppStorage("mode") private var mode: AppMode = .owner
-    @AppStorage(APIClient.serverURLKey) private var serverURL = ""
     @AppStorage("dailyQuestions") private var dailyQuestions = false
     @State private var confirmDelete = false
 
@@ -50,10 +49,6 @@ struct YouView: View {
                               preview: SharePreview("Still Me archive", image: Image(systemName: "doc.text"))) {
                         Label("Export my archive", systemImage: "square.and.arrow.up")
                     }
-                    TextField("Server URL", text: $serverURL, prompt: Text(APIClient.baseURL.absoluteString))
-                        .keyboardType(.URL)
-                        .textInputAutocapitalization(.never)
-                        .autocorrectionDisabled()
                 } header: {
                     Text("Your data")
                 } footer: {
@@ -62,23 +57,18 @@ struct YouView: View {
 
                 Section {
                     Button("Delete everything", role: .destructive) { confirmDelete = true }
-                } footer: {
-                    if let error = store.lastError { Text(error).foregroundStyle(.red) }
                 }
             }
             .brandBackground()
             .navigationTitle(store.archive.profile.displayName)
             .confirmationDialog("Delete everything?", isPresented: $confirmDelete, titleVisibility: .visible) {
-                Button("Delete from this phone and the server", role: .destructive) {
-                    Task {
-                        if await store.deleteEverything() {
-                            Reminders.cancel()
-                            mode = .none
-                        }
-                    }
+                Button("Delete everything on this iPhone", role: .destructive) {
+                    store.deleteEverything()
+                    Reminders.cancelDailyQuestions()
+                    mode = .none
                 }
             } message: {
-                Text("Your memories, your AI and your legacy settings will be permanently erased. No one will receive anything.")
+                Text("Your memories and your AI will be permanently erased from this iPhone. Sealed files you already shared still open with their codes.")
             }
         }
     }

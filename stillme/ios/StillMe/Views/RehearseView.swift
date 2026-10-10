@@ -3,7 +3,7 @@ import SwiftUI
 /// Talk to your own AI while you're alive, and correct it when it's off.
 struct RehearseView: View {
     @Environment(ArchiveStore.self) private var store
-    @State private var messages: [ChatMessage] = []
+    @State private var messages: [ChatMessage] = DemoData.initialRehearsal
     @State private var asBeneficiaryId: String?
     @State private var correction: Memory?
     @State private var preparing = false
@@ -21,26 +21,7 @@ struct RehearseView: View {
                     ChatView(
                         messages: $messages,
                         personaName: store.archive.profile.displayName,
-                        send: { history in
-                            AsyncThrowingStream { continuation in
-                                let task = Task { @MainActor in
-                                    await store.syncIfNeeded()
-                                    if let error = store.lastError {
-                                        continuation.finish(throwing: APIError(message: error))
-                                        return
-                                    }
-                                    do {
-                                        for try await chunk in store.chat(history, asBeneficiaryId: asBeneficiaryId) {
-                                            continuation.yield(chunk)
-                                        }
-                                        continuation.finish()
-                                    } catch {
-                                        continuation.finish(throwing: error)
-                                    }
-                                }
-                                continuation.onTermination = { _ in task.cancel() }
-                            }
-                        },
+                        send: { store.chat($0, asBeneficiaryId: asBeneficiaryId) },
                         onCorrect: { question, reply in
                             correction = Memory(
                                 kind: .correction,
@@ -49,7 +30,7 @@ struct RehearseView: View {
                                 restrictedTo: asBeneficiaryId.map { [$0] } ?? []
                             )
                         },
-                        intro: "This is your AI as the people you chose will meet it. Ask it anything. Long-press a reply that doesn't sound like you to correct it.",
+                        intro: PersonaEngine.unavailableReason ?? "This is your AI as the people you chose will meet it. Ask it anything. Long-press a reply that doesn't sound like you to correct it.",
                         suggestions: rehearsalSuggestions
                     )
                 }

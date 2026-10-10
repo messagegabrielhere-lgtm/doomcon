@@ -4,7 +4,7 @@ struct WelcomeView: View {
     @Binding var mode: AppMode
     @State private var path: [Step] = LaunchScreen.value == "consent" ? [.consent] : []
 
-    enum Step: Hashable { case consent, redeem }
+    enum Step: Hashable { case consent, unlock }
 
     private func step(_ symbol: String, _ title: String, _ detail: String) -> some View {
         HStack(alignment: .top, spacing: 14) {
@@ -35,7 +35,7 @@ struct WelcomeView: View {
                 VStack(alignment: .leading, spacing: 14) {
                     step("mic.fill", "Record yourself now", "Answer questions, tell your stories, show how you text.")
                     step("person.2.fill", "Choose who gets you", "Pick the people who can talk with you later.")
-                    step("bubble.left.and.text.bubble.right.fill", "They can talk with you", "After you die, they chat with an AI of you, built only from what you recorded.")
+                    step("bubble.left.and.text.bubble.right.fill", "They can talk with you", "After you die, they open the file you left them and talk with an AI of you.")
                 }
                 .padding(.top, 32)
                 Spacer()
@@ -48,8 +48,8 @@ struct WelcomeView: View {
                     }
                     .buttonStyle(.borderedProminent)
                     .foregroundStyle(Color.onAccent)
-                    Button { path.append(.redeem) } label: {
-                        Text("Someone left me an access code")
+                    Button { path.append(.unlock) } label: {
+                        Text("Someone left me a legacy file")
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 6)
                     }
@@ -63,46 +63,43 @@ struct WelcomeView: View {
             .navigationDestination(for: Step.self) { step in
                 switch step {
                 case .consent: ConsentView { mode = .owner }
-                case .redeem: RedeemView { mode = .recipient }
+                case .unlock: UnlockView { mode = .recipient }
                 }
             }
         }
     }
 }
 
-/// Explicit consent before any personal data leaves the device
-/// (App Store Review Guideline 5.1.2 on sharing data with third-party AI).
+/// What happens to what you record, agreed to before you start.
 struct ConsentView: View {
     var onAccept: () -> Void
     @State private var understandsAI = false
-    @State private var agreesToProcessing = false
-    @State private var understandsSwitch = false
+    @State private var understandsCode = false
 
     var body: some View {
         Form {
             Section {
-                Text("Before you start, here's exactly what Still Me does with what you share.")
+                Text("Before you start, here's exactly what Still Me does with what you record.")
             }
             Section("How it works") {
-                point("square.and.pencil", "You answer questions, tell stories, and paste things you've written. It stays on this phone and is backed up to the Still Me server.")
-                point("bubble.left.and.bubble.right", "To create replies in your voice, your archive and each conversation are sent to Anthropic's Claude AI. Under Anthropic's commercial API terms, it isn't used to train their models.")
-                point("clock.badge.checkmark", "You check in from time to time. If you stop, we remind you, then ask the person you trust to confirm before anything is shared.")
-                point("envelope", "Only the people you choose receive a private access code. You can revoke a release, export, or delete everything at any time.")
+                point("iphone", "Everything you record stays on this iPhone. Still Me has no servers and no accounts, and nothing is uploaded.")
+                point("sparkles", "Your AI runs on this iPhone with Apple Intelligence. Your words aren't sent to any AI company.")
+                point("lock.doc", "For each person you choose, you seal a file they can open only with its code. You decide who gets the file and the code.")
+                point("trash", "You can export or delete everything at any time.")
             }
             Section("Please confirm") {
-                Toggle("I understand the people I choose will talk with an AI built from what I share, not with me.", isOn: $understandsAI)
-                Toggle("I agree to my archive and conversations being sent to Still Me's server and to Anthropic to generate replies.", isOn: $agreesToProcessing)
-                Toggle("I understand that if I stop checking in and my executor confirms, my archive is shared with the people I chose.", isOn: $understandsSwitch)
+                Toggle("I understand the people I choose will talk with an AI built from what I record, not with me.", isOn: $understandsAI)
+                Toggle("I understand anyone with a sealed file and its code can open it, so I'll keep codes somewhere safe.", isOn: $understandsCode)
             }
             .font(.callout)
             Section {
                 Button("Begin", action: onAccept)
                     .frame(maxWidth: .infinity)
-                    .disabled(!(understandsAI && agreesToProcessing && understandsSwitch))
+                    .disabled(!(understandsAI && understandsCode))
             }
         }
         .brandBackground()
-        .navigationTitle("Your consent")
+        .navigationTitle("Before you start")
     }
 
     private func point(_ symbol: String, _ text: String) -> some View {

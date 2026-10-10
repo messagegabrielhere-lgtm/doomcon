@@ -1,24 +1,28 @@
 # Generate the Xcode project with XcodeGen:  brew install xcodegen && xcodegen
+# Upload to the App Store:                   scripts/release.sh
 name: StillMe
 options:
-  bundleIdPrefix: com.example
+  bundleIdPrefix: com.messagegabrielhere
+  # On-device AI uses Apple's Foundation Models framework, which needs iOS 26.
   deploymentTarget:
-    iOS: "17.0"
+    iOS: "26.0"
 settings:
   base:
     SWIFT_VERSION: "5.10"
-    MARKETING_VERSION: "1.0"
+    MARKETING_VERSION: "1.0.0"
     CURRENT_PROJECT_VERSION: "1"
-    DEVELOPMENT_TEAM: ""   # set your Apple Developer team id
+    # Apple Developer Team ID (developer.apple.com > Membership details).
+    DEVELOPMENT_TEAM: MAP974T827
 targets:
   StillMe:
     type: application
     platform: iOS
     sources: [StillMe]
-    scheme: {}
+    scheme:
+      testTargets: [StillMeTests]
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.example.stillme   # change before submitting
+        PRODUCT_BUNDLE_IDENTIFIER: com.messagegabrielhere.stillme
         TARGETED_DEVICE_FAMILY: "1"
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
@@ -26,12 +30,36 @@ targets:
       path: StillMe/Info.plist
       properties:
         CFBundleDisplayName: Still Me
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         UILaunchScreen:
           UIColorName: Canvas
         UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
+        # Uses only standard encryption (CryptoKit) to protect the user's own data.
         ITSAppUsesNonExemptEncryption: false
-        StillMeServerURL: http://localhost:8787
         NSMicrophoneUsageDescription: Still Me records your voice when you choose to tell a story out loud, so your words can be transcribed into your archive.
-        NSSpeechRecognitionUsageDescription: Still Me turns your spoken stories into text on your device so they can become part of your archive.
-        NSAppTransportSecurity:
-          NSAllowsLocalNetworking: true
+        NSSpeechRecognitionUsageDescription: Still Me turns your spoken stories into text on your iPhone so they can become part of your archive.
+        # Sealed legacy files (.stillme) open in Still Me from Messages, Mail and Files.
+        LSSupportsOpeningDocumentsInPlace: false
+        CFBundleDocumentTypes:
+          - CFBundleTypeName: Still Me Legacy
+            CFBundleTypeRole: Viewer
+            LSHandlerRank: Owner
+            LSItemContentTypes: [com.messagegabrielhere.stillme.legacy]
+        UTExportedTypeDeclarations:
+          - UTTypeIdentifier: com.messagegabrielhere.stillme.legacy
+            UTTypeDescription: Still Me Legacy
+            UTTypeConformsTo: [public.data, public.content]
+            UTTypeTagSpecification:
+              public.filename-extension: [stillme]
+              public.mime-type: [application/x-stillme-legacy]
+  StillMeTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources: [StillMeTests]
+    dependencies:
+      - target: StillMe
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        PRODUCT_BUNDLE_IDENTIFIER: com.messagegabrielhere.stillme.tests

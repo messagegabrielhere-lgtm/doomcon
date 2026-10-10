@@ -1,23 +1,43 @@
 import SwiftUI
 
-/// Who receives your legacy, who confirms your death, and the check-in clock.
+/// Who receives your legacy, and the sealed files you leave them.
 struct LegacyView: View {
     @Environment(ArchiveStore.self) private var store
     @State private var editing: Beneficiary?
-    @State private var confirmRevoke = false
+    @State private var sealing: Beneficiary?
 
     var body: some View {
         @Bindable var store = store
         NavigationStack {
             Form {
-                statusSection
+                Section {
+                    VStack(alignment: .leading, spacing: 12) {
+                        step("1", "Seal a file for each person", "It holds everything they're allowed to hear, locked with a code.")
+                        step("2", "Send them the file now", "AirDrop, Messages or email. It stays locked.")
+                        step("3", "Leave the code for later", "Put it in your will, or give it to someone you trust to hand over when you die.")
+                    }
+                    .padding(.vertical, 4)
+                } header: {
+                    Text("How it works")
+                } footer: {
+                    Text("Still Me never uploads anything. The file and its code are the only way in.")
+                }
 
                 Section {
                     ForEach(store.archive.legacy.beneficiaries) { person in
-                        Button { editing = person } label: {
-                            LabeledContent(person.name, value: person.relationship)
+                        HStack {
+                            Button { editing = person } label: {
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text(person.name).foregroundStyle(Color.ink)
+                                    Text(person.relationship).font(.caption).foregroundStyle(Color.slate)
+                                }
+                            }
+                            .buttonStyle(.plain)
+                            Spacer()
+                            Button("Seal", systemImage: "lock.doc") { sealing = person }
+                                .buttonStyle(.bordered)
+                                .controlSize(.small)
                         }
-                        .foregroundStyle(Color.ink)
                     }
                     .onDelete { store.archive.legacy.beneficiaries.remove(atOffsets: $0) }
                     Button("Add someone", systemImage: "person.badge.plus") {
@@ -26,117 +46,90 @@ struct LegacyView: View {
                 } header: {
                     Text("Who receives it")
                 } footer: {
-                    Text("Each person gets their own private access code by email, with an optional note from you.")
-                }
-
-                Section {
-                    TextField("Name", text: executorBinding(\.name))
-                        .textContentType(.name)
-                    TextField("Email", text: executorBinding(\.email))
-                        .textContentType(.emailAddress)
-                        .keyboardType(.emailAddress)
-                        .textInputAutocapitalization(.never)
-                } header: {
-                    Text("Executor")
-                } footer: {
-                    Text("Someone you trust to confirm you've died. Nothing is shared until they do. Without an executor, your legacy is released automatically after a second grace period, so we strongly recommend one.")
-                }
-
-                Section {
-                    Stepper("Check in every \(store.archive.legacy.checkInIntervalDays) days",
-                            value: $store.archive.legacy.checkInIntervalDays, in: 7...365, step: 7)
-                    Stepper("Grace period \(store.archive.legacy.graceDays) days",
-                            value: $store.archive.legacy.graceDays, in: 3...90)
-                    TextField("Your email for reminders", text: Binding(
-                        get: { store.archive.legacy.ownerEmail ?? "" },
-                        set: { store.archive.legacy.ownerEmail = $0.isEmpty ? nil : $0 }
-                    ))
-                    .textContentType(.emailAddress)
-                    .keyboardType(.emailAddress)
-                    .textInputAutocapitalization(.never)
-                } header: {
-                    Text("Check-ins")
-                } footer: {
-                    Text("If you miss a check-in, we remind you and wait out the grace period before contacting your executor.")
+                    Text("Each person only gets memories meant for everyone or for them. Seal again after recording more; the new file has a new code.")
                 }
             }
             .brandBackground()
             .navigationTitle("Legacy")
-            .refreshable { await store.refreshStatus() }
-            .task { await store.refreshStatus() }
-            .sheet(item: $editing) { person in
-                BeneficiaryEditor(person: person)
-            }
-            .confirmationDialog("You're alive?", isPresented: $confirmRevoke) {
-                Button("Revoke release and void all codes", role: .destructive) {
-                    Task { await store.revokeRelease() }
-                }
-            } message: {
-                Text("Everyone's access code will stop working and your check-in clock restarts.")
-            }
+            .sheet(item: $editing) { BeneficiaryEditor(person: $0) }
+            .sheet(item: $sealing) { SealSheet(person: $0) }
         }
     }
 
-    @ViewBuilder private var statusSection: some View {
-        Section {
-            if let status = store.status {
-                switch status.status {
-                case .active:
-                    if let due = status.nextCheckInDue {
-                        LabeledContent("Next check-in", value: due.formatted(date: .abbreviated, time: .omitted))
-                    }
-                case .overdue:
-                    Label("Check-in overdue", systemImage: "exclamationmark.triangle.fill").foregroundStyle(.orange)
-                case .awaitingExecutor:
-                    Label("Your executor has been asked to confirm", systemImage: "exclamationmark.octagon.fill").foregroundStyle(.red)
-                case .released:
-                    Label("Your legacy has been released", systemImage: "envelope.open.fill").foregroundStyle(.red)
-                }
-                if let backup = status.archiveUpdatedAt {
-                    LabeledContent("Last backup", value: backup.formatted(.relative(presentation: .named)))
-                }
-            } else {
-                Label("Not backed up yet. Your first check-in backs everything up and starts the clock.",
-                      systemImage: "icloud.slash")
-                    .font(.subheadline)
-                    .foregroundStyle(Color.slate)
+    private func step(_ number: String, _ title: String, _ detail: String) -> some View {
+        HStack(alignment: .top, spacing: 12) {
+            Text(number)
+                .font(.subheadline.weight(.heavy))
+                .foregroundStyle(Color.pulse)
+                .frame(width: 18)
+            VStack(alignment: .leading, spacing: 2) {
+                Text(title).font(.subheadline.weight(.semibold)).foregroundStyle(Color.ink)
+                Text(detail).font(.footnote).foregroundStyle(Color.slate)
             }
-
-            if store.status?.status == .released {
-                Button("I'm alive — revoke release", role: .destructive) { confirmRevoke = true }
-            } else {
-                Button {
-                    Task {
-                        await store.checkIn()
-                        if let due = store.status?.nextCheckInDue { await Reminders.schedule(due: due) }
-                        if store.lastError == nil { await store.sync() }
-                    }
-                } label: {
-                    Label("I'm still here", systemImage: "hand.wave.fill")
-                        .frame(maxWidth: .infinity)
-                }
-                .buttonStyle(.borderedProminent)
-                .disabled(store.isSyncing)
-            }
-
-            if store.isSyncing { ProgressView() }
-            if let error = store.lastError {
-                Text(error).font(.footnote).foregroundStyle(.red)
-            }
-        } footer: {
-            Text("Checking in also backs up your latest memories. Opening the app doesn't count, in case someone else opens your phone.")
         }
     }
+}
 
-    private func executorBinding(_ field: WritableKeyPath<Executor, String>) -> Binding<String> {
-        Binding(
-            get: { store.archive.legacy.executor?[keyPath: field] ?? "" },
-            set: { value in
-                var executor = store.archive.legacy.executor ?? Executor(name: "", email: "")
-                executor[keyPath: field] = value
-                store.archive.legacy.executor = executor.name.isEmpty && executor.email.isEmpty ? nil : executor
+/// Seals a file for one person and shows the code to keep.
+private struct SealSheet: View {
+    let person: Beneficiary
+    @Environment(ArchiveStore.self) private var store
+    @Environment(\.dismiss) private var dismiss
+    @State private var result: (file: SealedLegacyFile, code: String)?
+    @State private var error: String?
+    @State private var savedCode = false
+    @State private var copied = false
+
+    var body: some View {
+        NavigationStack {
+            Form {
+                if let result {
+                    Section {
+                        Text(result.code)
+                            .font(.system(.title2, design: .monospaced).weight(.bold))
+                            .foregroundStyle(Color.ink)
+                            .textSelection(.enabled)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 8)
+                        Button(copied ? "Copied" : "Copy code", systemImage: copied ? "checkmark" : "doc.on.doc") {
+                            UIPasteboard.general.string = result.code
+                            copied = true
+                        }
+                    } header: {
+                        Text("Unlock code for \(person.name)")
+                    } footer: {
+                        Text("Write this down and put it in your will, or give it to someone you trust. Don't send it with the file. Still Me can't show this code again or recover it.")
+                    }
+                    Section {
+                        Toggle("I've saved the code somewhere safe", isOn: $savedCode)
+                        ShareLink(item: result.file, preview: SharePreview(result.file.fileName, image: Image(systemName: "lock.doc"))) {
+                            Label("Send the file to \(person.name)", systemImage: "square.and.arrow.up")
+                        }
+                        .disabled(!savedCode)
+                    } footer: {
+                        Text("They can open it with Still Me any time, but it stays locked until they have the code.")
+                    }
+                } else if let error {
+                    Text(error).foregroundStyle(.red)
+                } else {
+                    HStack { ProgressView(); Text("Sealing…").foregroundStyle(Color.slate) }
+                }
             }
-        )
+            .brandBackground()
+            .navigationTitle("Seal for \(person.name.split(separator: " ").first.map(String.init) ?? person.name)")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .confirmationAction) { Button("Done") { dismiss() } }
+            }
+            .task {
+                do {
+                    result = try store.seal(for: person)
+                } catch {
+                    self.error = error.localizedDescription
+                }
+            }
+        }
+        .interactiveDismissDisabled(result != nil && !savedCode)
     }
 }
 
@@ -145,20 +138,11 @@ struct BeneficiaryEditor: View {
     @Environment(ArchiveStore.self) private var store
     @Environment(\.dismiss) private var dismiss
 
-    private var isValid: Bool {
-        !person.name.trimmingCharacters(in: .whitespaces).isEmpty
-            && person.email.contains("@") && person.email.contains(".")
-    }
-
     var body: some View {
         NavigationStack {
             Form {
                 Section {
                     TextField("Name", text: $person.name).textContentType(.name)
-                    TextField("Email", text: $person.email)
-                        .textContentType(.emailAddress)
-                        .keyboardType(.emailAddress)
-                        .textInputAutocapitalization(.never)
                     TextField("Relationship (daughter, best friend…)", text: $person.relationship)
                 }
                 Section {
@@ -170,7 +154,7 @@ struct BeneficiaryEditor: View {
                 } header: {
                     Text("A note for them")
                 } footer: {
-                    Text("Sent with their access code, in your own words. Your AI also knows who it's talking to and will speak to them the way you would.")
+                    Text("Shown when they unlock your legacy, in your own words. Your AI also knows who it's talking to and will speak to them the way you would.")
                 }
             }
             .brandBackground()
@@ -180,7 +164,6 @@ struct BeneficiaryEditor: View {
                 ToolbarItem(placement: .cancellationAction) { Button("Cancel") { dismiss() } }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save") {
-                        person.email = person.email.trimmingCharacters(in: .whitespaces)
                         if let i = store.archive.legacy.beneficiaries.firstIndex(where: { $0.id == person.id }) {
                             store.archive.legacy.beneficiaries[i] = person
                         } else {
@@ -196,7 +179,7 @@ struct BeneficiaryEditor: View {
                         }
                         dismiss()
                     }
-                    .disabled(!isValid)
+                    .disabled(person.name.trimmingCharacters(in: .whitespaces).isEmpty)
                 }
             }
         }

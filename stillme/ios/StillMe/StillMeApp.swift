@@ -42,6 +42,7 @@ enum AppMode: String {
 struct RootView: View {
     @AppStorage("mode") private var mode: AppMode = .none
     @Environment(ArchiveStore.self) private var store
+    @Environment(RecipientStore.self) private var recipient
     @Environment(\.scenePhase) private var scenePhase
 
     var body: some View {
@@ -53,11 +54,16 @@ struct RootView: View {
             }
         }
         .onChange(of: store.archive) { store.persist() }
+        // A .stillme file tapped in Messages, Mail or Files opens here.
+        .onOpenURL { url in
+            let access = url.startAccessingSecurityScopedResource()
+            defer { if access { url.stopAccessingSecurityScopedResource() } }
+            guard let data = try? Data(contentsOf: url), (try? LegacySeal.peek(data)) != nil else { return }
+            recipient.pendingFile = data
+            mode = .recipient
+        }
         .onChange(of: scenePhase) { _, phase in
-            // Back up quietly when leaving the app. This does not count as
-            // "still here" on purpose: someone else may open a phone after you die.
             if phase == .background, mode == .owner {
-                if store.hasAccount, store.needsSync { Task { await store.sync() } }
                 if UserDefaults.standard.bool(forKey: "dailyQuestions") {
                     let unanswered = InterviewPrompts.allQuestions.filter { store.answers(to: $0).isEmpty }
                     Task { await Reminders.scheduleDailyQuestions(from: unanswered) }

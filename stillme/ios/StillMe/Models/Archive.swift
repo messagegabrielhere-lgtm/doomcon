@@ -1,6 +1,7 @@
 import Foundation
 
-// Mirrors server/src/types.ts. The whole Archive is uploaded as JSON.
+// Everything stays on this iPhone. The only thing that ever leaves it is a
+// sealed legacy file (see LegacySeal.swift) that the owner chooses to share.
 
 enum MemoryKind: String, Codable, CaseIterable, Identifiable {
     case interview, story, writing, voice, correction, reply
@@ -77,25 +78,24 @@ struct LifeEvent: Codable, Identifiable, Hashable {
     var details: String?
 }
 
-struct Executor: Codable, Hashable {
-    var name: String
-    var email: String
-}
-
+/// Someone who receives a sealed legacy file.
 struct Beneficiary: Codable, Identifiable, Hashable {
     var id: String = UUID().uuidString
     var name: String = ""
-    var email: String = ""
     var relationship: String = ""
     var personalNote: String?
 }
 
 struct LegacySettings: Codable, Hashable {
-    var ownerEmail: String?
-    var checkInIntervalDays: Int = 30
-    var graceDays: Int = 14
-    var executor: Executor?
     var beneficiaries: [Beneficiary] = []
+
+    init() {}
+
+    // Tolerates archives saved by earlier versions, which had more fields here.
+    init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        beneficiaries = try c.decodeIfPresent([Beneficiary].self, forKey: .beneficiaries) ?? []
+    }
 }
 
 struct Archive: Codable, Hashable {
@@ -126,25 +126,24 @@ struct FollowUpQuestion: Codable, Hashable, Identifiable {
     var id: String { question }
 }
 
-/// What the server reports about the owner's account.
-struct AccountStatus: Codable {
-    enum State: String, Codable {
-        case active, overdue, awaitingExecutor, released
-    }
-    var status: State
-    var lastCheckInAt: Date
-    var archiveUpdatedAt: Date?
-    var nextCheckInDue: Date?
-    var memoryCount: Int
-}
+/// What a recipient unlocks: the owner's archive, filtered to what this
+/// person may hear, plus who it's for.
+struct LegacyPackage: Codable, Hashable {
+    var createdAt: Date
+    var recipient: Beneficiary
+    var archive: Archive
 
-/// What a recipient learns when redeeming an access code.
-struct LegacyGrant: Codable, Hashable {
-    var name: String
-    var fullName: String
-    var beneficiaryName: String
-    var relationship: String
-    var personalNote: String?
+    var ownerName: String { archive.profile.displayName }
+
+    /// Builds the package for one person: only memories meant for everyone or for them.
+    init(archive full: Archive, for recipient: Beneficiary, at date: Date = .now) {
+        var a = full
+        a.memories = full.memories.filter { $0.restrictedTo.isEmpty || $0.restrictedTo.contains(recipient.id) }
+        a.legacy.beneficiaries = [recipient]
+        self.createdAt = date
+        self.recipient = recipient
+        self.archive = a
+    }
 }
 
 struct ChatMessage: Codable, Identifiable, Hashable {
@@ -178,7 +177,7 @@ extension JSONEncoder {
 extension JSONDecoder {
     static let stillme: JSONDecoder = {
         let d = JSONDecoder()
-        // The server sends fractional seconds; local files don't.
+        // Accept dates with or without fractional seconds.
         d.dateDecodingStrategy = .custom { decoder in
             let s = try decoder.singleValueContainer().decode(String.self)
             if let date = try? Date(s, strategy: .iso8601) { return date }
