@@ -1331,6 +1331,10 @@ async function main() {
     for (const player of facetPages.labsFromRace(ctx)) {
       written.push(await write(args.out, `lab/${player.id}.html`, facetPages.renderLab(ctx, player)));
     }
+    for (const s of facetPages.indexableSources(ctx)) {
+      written.push(await write(args.out, `source/${s.id}.html`, facetPages.renderSource(ctx, s.id)));
+    }
+    written.push(await write(args.out, 'source/index.html', facetPages.renderSourceIndex(ctx)));
     // Keep the crawl surfaces in step with the newsroom window (item + facet
     // URLs change every fast pass; a stale sitemap is how Google News goes quiet).
     written.push(await write(args.out, 'sitemap.xml', sitemap(ctx)));
@@ -1343,7 +1347,10 @@ async function main() {
       written.push(await write(args.out, 'leaders.html', leadersPage.render(ctx)));
       if (leaders) written.push(await write(args.out, 'api/leaders.json', stableJson(leaders)));
     }
-    await writeDirectoryAliases(args.out, ['news', 'leaders'], write, written);
+    await writeDirectoryAliases(args.out, [
+      'news', 'leaders',
+      ...facetPages.indexableSources(ctx).map((s) => `source/${s.id}`),
+    ], write, written);
     written.push(await write(args.out, 'feed.xml', feed.render(ctx)));
     if (news) written.push(await write(args.out, 'api/news.json', stableJson(news)));
     if (breaking) written.push(await write(args.out, 'api/breaking.json', stableJson(breaking)));
@@ -1632,6 +1639,10 @@ async function main() {
   for (const player of facetPages.labsFromRace(ctx)) {
     written.push(await write(args.out, `lab/${player.id}.html`, facetPages.renderLab(ctx, player)));
   }
+  for (const s of facetPages.indexableSources(ctx)) {
+    written.push(await write(args.out, `source/${s.id}.html`, facetPages.renderSource(ctx, s.id)));
+  }
+  written.push(await write(args.out, 'source/index.html', facetPages.renderSourceIndex(ctx)));
   for (const m of moves) {
     written.push(await write(args.out, `moves/${m.id}.html`, movePage.render(ctx, m)));
   }
@@ -1651,6 +1662,7 @@ async function main() {
       'agents', 'tally', 'changelog', 'live',
       ...brand.PILLARS.map((p) => `pillar/${p.id}`),
       ...facetPages.labsFromRace(ctx).map((p) => `lab/${p.id}`),
+      ...facetPages.indexableSources(ctx).map((s) => `source/${s.id}`),
     ],
     write,
     written,
