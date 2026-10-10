@@ -107,26 +107,29 @@ function shareReuse(ctx, state, href) {
       <span class="cap">README BADGE</span>
       <p><img src="${esc(href('/badge.svg'))}" alt="${esc(brand.NAME)} badge showing the current level" height="20"></p>
       <pre class="v2-share__code" tabindex="0">${esc(badgeMd)}</pre>
+      <button type="button" class="v2-btn sm" data-copy="${esc(badgeMd)}">Copy badge markdown</button>
     </div>
     <div class="v2-share__card">
       <span class="cap">EMBED</span>
       <pre class="v2-share__code" tabindex="0">${esc(iframe)}</pre>
+      <button type="button" class="v2-btn sm" data-copy="${esc(iframe)}">Copy embed code</button>
       <p class="small"><a href="${esc(href('/embed.html'))}">Open the widget</a> · no script, no key, no tracking</p>
     </div>
     <div class="v2-share__card">
       <span class="cap">CITE THIS READING</span>
       <pre class="v2-share__code" tabindex="0">${esc(cite)}</pre>
+      <button type="button" class="v2-btn sm" data-copy="${esc(cite)} ${esc(pageUrl)}">Copy citation</button>
       <p class="small"><a href="${esc(href('/api/state.json'))}">state.json</a> · <a href="${esc(href('/openapi.json'))}">OpenAPI</a> · <a href="${esc(href('/feed-level.xml'))}">level-change alerts</a></p>
     </div>
     <div class="v2-share__card">
       <span class="cap">COPY LINK</span>
       <pre class="v2-share__code" tabindex="0">${esc(pageUrl)}</pre>
       <button type="button" class="v2-btn sm" data-copy="${esc(pageUrl)}">Copy canonical URL</button>
-      <p class="small">One tap for X/Reddit share paths that weight copy-link highly.</p>
+      <p class="small">One tap for X and Reddit. Paste the link in the reply, not as the whole post.</p>
     </div>
   </div>
 </section>
-<script>(function(){document.querySelectorAll('[data-copy]').forEach(function(b){b.addEventListener('click',function(){var t=b.getAttribute('data-copy');function ok(){b.textContent='Copied';setTimeout(function(){b.textContent='Copy canonical URL'},1600)}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(ok).catch(function(){prompt('Copy this URL',t)})}else{prompt('Copy this URL',t)}})})})();</script>`;
+<script>(function(){document.querySelectorAll('[data-copy]').forEach(function(b){var label=b.textContent;b.addEventListener('click',function(){var t=b.getAttribute('data-copy');function ok(){b.textContent='Copied';setTimeout(function(){b.textContent=label},1600)}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(ok).catch(function(){prompt('Copy',t)})}else{prompt('Copy',t)}})})})();</script>`;
 }
 
 
@@ -627,7 +630,7 @@ export function render(ctx, { head }) {
     <div class="v2-dinfo">
       <div class="v2-chips">${chip('1H', Number.isFinite(state.delta_from_previous) ? state.delta_from_previous : deltaAt(rows, nowMs, 1))}${chip('24H', deltaAt(rows, nowMs, 24))}${chip('7D', deltaAt(rows, nowMs, 168))}</div>
       <p class="v2-dline"><b style="color:${L.color}">SIREN ${state.level} · ${esc(state.level_name)}</b> since ${esc(String(state.level_since || '').slice(0, 10))}. ${levelFromScore(state.score) !== state.level ? `<span class="amber">The score alone reads SIREN ${levelFromScore(state.score)}; the level is held: ${esc(RULE_TXT[state.rule_fired] || '')}</span> ` : ''}${pillarStatusLine(state)}</p>
-      <div class="v2-dbtns"><a class="v2-btn sm" href="#vfy" data-verify-now>✓ VERIFY THIS READING</a><a class="v2-btn sm ghost" href="${esc(shareX)}" data-x-kind="reading" target="_blank" rel="noopener">𝕏 POST TODAY'S READING</a><a class="v2-btn sm ghost" href="${href('/alerts.html')}">🔔 ALERTS</a><a class="v2-btn sm ghost" href="${href('/export.html')}">⤓ DATA &amp; EMBED</a></div>
+      <div class="v2-dbtns"><a class="v2-btn sm" href="#vfy" data-verify-now>✓ VERIFY THIS READING</a><a class="v2-btn sm ghost" href="${esc(shareX)}" data-x-kind="reading" target="_blank" rel="noopener">𝕏 POST TODAY'S READING</a><a class="v2-btn sm ghost" href="#reuse">CITE / EMBED</a><a class="v2-btn sm ghost" href="${href('/alerts.html')}">🔔 ALERTS</a><a class="v2-btn sm ghost" href="${href('/export.html')}">⤓ DATA &amp; EMBED</a></div>
     </div>
   </section>
   <script>window.SIREN_PILLARS=${JSON.stringify((state.pillars || []).filter((p) => !p.dark).map((p) => ({ id: p.id, s: Number.isFinite(p.score) ? p.score : null })))}</script>`;
