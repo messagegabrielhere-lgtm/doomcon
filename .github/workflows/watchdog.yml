@@ -1,5 +1,9 @@
 # Error tracking for a static site: when the pipelines that publish the index
 # fail, shout in the run summary so an operator sees it before visitors do.
+# Also probe the live API after every collect — a green run that published
+# DEGRADED because of a rate limit is the failure mode visitors actually see,
+# and GitHub's "workflow failed" mail never fires for it.
+#
 # GitHub also emails the repo owner on workflow failure when notifications
 # are enabled (Settings → Notifications → Actions) — turn that on.
 #
@@ -13,25 +17,34 @@ on:
   workflow_run:
     workflows: [collect, news-fast, arena, post-daily, clipper]
     types: [completed]
+  schedule:
+    # Mid-hour probe: catch a DEGRADED reading that the full lane published
+    # before its heal ladder could clear, or a dropped :07 cron.
+    - cron: '37 * * * *'
   workflow_dispatch:
     inputs:
       probe:
-        description: 'Also probe the live homepage'
+        description: 'Also probe the live homepage and API'
         type: boolean
         default: true
 
 permissions:
   contents: read
-  actions: read
+  actions: write
 
 jobs:
   watch:
-    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'failure' || github.event.workflow_run.conclusion == 'timed_out' }}
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      github.event_name == 'schedule' ||
+      github.event.workflow_run.conclusion == 'failure' ||
+      github.event.workflow_run.conclusion == 'timed_out' ||
+      (github.event_name == 'workflow_run' && github.event.workflow_run.name == 'collect' && github.event.workflow_run.conclusion == 'success')
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
       - name: Report upstream failure
-        if: github.event_name == 'workflow_run'
+        if: github.event_name == 'workflow_run' && (github.event.workflow_run.conclusion == 'failure' || github.event.workflow_run.conclusion == 'timed_out')
         env:
           NAME: ${{ github.event.workflow_run.name }}
           CONCLUS: ${{ github.event.workflow_run.conclusion }}
@@ -51,7 +64,7 @@ jobs:
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Probe live homepage
-        if: ${{ github.event_name == 'workflow_dispatch' && inputs.probe || github.event_name == 'workflow_run' }}
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.probe || github.event_name == 'workflow_run' || github.event_name == 'schedule' }}
         run: |
           set -e
           URL="https://siren.watch/"
@@ -75,10 +88,69 @@ jobs:
             echo "- HTTP ${CODE}, ${BYTES} bytes"
           } >> "$GITHUB_STEP_SUMMARY"
 
+      - name: Probe live index health
+        id: health
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.probe || github.event_name == 'workflow_run' || github.event_name == 'schedule' }}
+        run: |
+          set -euo pipefail
+          CODE=$(curl -sS -o /tmp/siren-state.json -w "%{http_code}" --max-time 25 "https://siren.watch/api/state.json" || echo 000)
+          if [ "$CODE" != "200" ]; then
+            echo "::error title=state.json down::HTTP ${CODE}"
+            exit 1
+          fi
+          node --input-type=commonjs <<'NODE'
+          const fs = require('fs');
+          const s = JSON.parse(fs.readFileSync('/tmp/siren-state.json', 'utf8'));
+          const ageMin = Math.round((Date.now() - Date.parse(s.generated_at)) / 60000);
+          const rate = /\b429\b|rate exceeded|too many requests/i;
+          const limited = (s.sources || [])
+            .filter((x) => x && !x.ok && !x.uncalibrated && rate.test(String(x.error || '')))
+            .map((x) => x.id);
+          const degraded = s.degraded === true;
+          const out = [
+            `degraded=${degraded}`,
+            `age_min=${ageMin}`,
+            `failed=${(s.failed_sources || []).join(',') || 'none'}`,
+            `rate_limited=${limited.join(',') || 'none'}`,
+            `heal=${degraded && limited.length > 0 && ageMin >= 15 ? 'true' : 'false'}`,
+          ];
+          console.log(out.join('\n'));
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, out.join('\n') + '\n');
+          const summary = [
+            '### Index health',
+            `- generated_at: ${s.generated_at} (${ageMin} min ago)`,
+            `- degraded: ${degraded}`,
+            `- failed_sources: ${(s.failed_sources || []).join(', ') || 'none'}`,
+            `- rate_limited: ${limited.join(', ') || 'none'}`,
+            `- level: ${s.level} ${s.level_name || ''} @ ${typeof s.score === 'number' ? s.score.toFixed(1) : 'n/a'}`,
+            '',
+          ].join('\n');
+          fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, summary);
+          if (degraded && limited.length > 0) {
+            console.error(`::warning title=Live index degraded::rate-limited sources: ${limited.join(', ')} (${ageMin} min old)`);
+          }
+          NODE
+
+      - name: Dispatch heal collect
+        # Only when the live site is still rate-limit-degraded after ~15 minutes.
+        # Concurrency group doomcon-data serialises with any in-flight collect.
+        if: steps.health.outputs.heal == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          echo "Live index is rate-limit degraded (age ${{ steps.health.outputs.age_min }} min, sources ${{ steps.health.outputs.rate_limited }}) — dispatching a heal full pass"
+          gh workflow run collect.yml --repo "$GITHUB_REPOSITORY" -f mode=full
+          {
+            echo "### Heal dispatch"
+            echo "- dispatched collect.yml mode=full"
+            echo "- reason: rate-limited ${{ steps.health.outputs.rate_limited }}"
+          } >> "$GITHUB_STEP_SUMMARY"
+
       - name: Optional Slack ping
         if: ${{ failure() && env.SLACK_WEBHOOK_URL != '' }}
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: |
-          payload=$(printf '{"text":"SIREN watchdog: a launch pipeline failed. Check Actions."}')
+          payload=$(printf '{"text":"SIREN watchdog: a launch pipeline failed or the live index is degraded. Check Actions."}')
           curl -sS -X POST -H 'content-type: application/json' --data "$payload" "$SLACK_WEBHOOK_URL" >/dev/null || true

@@ -5,8 +5,13 @@
 // exact population count rather than a sample, so this source has no estimation
 // error at all. That is rare enough to be worth the XML.
 
-import { setTimeout as sleep } from 'node:timers/promises';
 import { fetchText as defaultFetchText } from '../fetch.mjs';
+import {
+  ARXIV_ATTEMPT_TIMEOUT_MS,
+  ARXIV_RATE_LIMIT_WAITS_MS,
+  fetchArxivWindow,
+  isArxivRateLimit,
+} from '../arxiv-fetch.mjs';
 
 const WINDOW_DAYS = 7;
 
@@ -19,36 +24,9 @@ const WINDOW_MS = WINDOW_DAYS * 24 * 60 * 60 * 1000;
 // http:// 301s to https:// (verified 2026-09-23). Skip the hop.
 const ENDPOINT = 'https://export.arxiv.org/api/query';
 
-// A 429 from this query comes back in about a second. The ban after it often
-// lasts longer than the old 15s retry, which is why 03:50, 04:05 and 04:25 UTC
-// on 2026-10-08 all went dark and took Capability with them. Two further
-// attempts, 30s then 60s later, stay inside collect.mjs's arxiv watchdog.
-export const ARXIV_ATTEMPT_TIMEOUT_MS = 75_000;
-export const ARXIV_RATE_LIMIT_WAITS_MS = Object.freeze([30_000, 60_000]);
-
-export function isArxivRateLimit(err) {
-  return /\b429\b|rate exceeded/i.test(String(err && err.message));
-}
-
-export async function fetchArxivWindow(fetchText, url, {
-  waits = ARXIV_RATE_LIMIT_WAITS_MS,
-  sleepFn = sleep,
-  timeoutMs = ARXIV_ATTEMPT_TIMEOUT_MS,
-} = {}) {
-  const attempts = waits.length + 1;
-  let lastErr;
-  for (let attempt = 0; attempt < attempts; attempt++) {
-    try {
-      return await fetchText(url, { timeoutMs, retries: 0 });
-    } catch (err) {
-      lastErr = err;
-      const wait = waits[attempt];
-      if (!isArxivRateLimit(err) || wait == null) throw err;
-      await sleepFn(wait);
-    }
-  }
-  throw lastErr;
-}
+// Re-export so existing tests and callers that imported from this file keep
+// working. New code should import from collector/arxiv-fetch.mjs.
+export { ARXIV_ATTEMPT_TIMEOUT_MS, ARXIV_RATE_LIMIT_WAITS_MS, fetchArxivWindow, isArxivRateLimit };
 
 /** arXiv's submittedDate filter takes UTC YYYYMMDDHHMM. */
 function stamp(date) {
@@ -85,7 +63,7 @@ export default {
     //              answers in well under a second.
     //   retries    ZERO inside fetch.mjs. A 429 retry there is a few hundred
     //              milliseconds, which is what turned a soft throttle into a ban.
-    //              The waits below are the exception, and only for 429.
+    //              The waits in arxiv-fetch.mjs are the exception, and only for 429.
     const xml = await fetchArxivWindow(fetchText, url);
 
     // arXiv answers a malformed query with HTTP 200 and an error entry, so a
