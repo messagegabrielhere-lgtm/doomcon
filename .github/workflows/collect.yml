@@ -610,6 +610,14 @@ jobs:
         continue-on-error: true
         run: node collector/moltbook.mjs
 
+      - name: Moltbook watcher
+        # Flags rising posts, safety/deception talk and agents on their humans
+        # (collector/moltbook-watch.mjs), kept 48h in data/moltbook-watch.json
+        # for the owner's twice-daily digest. Public API only, no key. Titles
+        # only. A failure keeps the previous file.
+        continue-on-error: true
+        run: node collector/moltbook-watch.mjs
+
       - name: AI on TV and radio
         # /live.html (collector/live-media.mjs). LIVE NOW is one YouTube Data
         # API search.list call (100 of the project's 10,000 daily units, shared
