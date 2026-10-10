@@ -110,7 +110,7 @@ ${breakingStrip(ctx, { href: ctx.href })}
 
 ${reel(items, { id: 'areel', limit: REEL_CARDS, heading: 'Highest-scoring items' })}
 
-${corpusSection(news, corpus)}
+${corpusSection(ctx, news, corpus)}
 
 <section class="sec narch" aria-labelledby="arch-h">
   <h2 class="sec__h" id="arch-h">All items</h2>
@@ -874,7 +874,7 @@ function yieldPlot(rows, axis, g, tid, did, variantCls) {
 // THE CORPUS SECTION
 // ---------------------------------------------------------------------------
 
-function corpusSection(news, corpus) {
+function corpusSection(ctx, news, corpus) {
   if (!corpus.total) {
     return `<section class="sec ncorp" aria-labelledby="corp-h">
   <h2 class="sec__h" id="corp-h">How the scores are spread<span class="sec__eb">The shape of this window</span></h2>
@@ -890,7 +890,7 @@ function corpusSection(news, corpus) {
      <b>score</b> those items were given. Each bar is stacked by pillar, bottom to top, in the
      order printed in the key below it.</p>
   ${scoreHistogram(corpus)}
-  ${pillarKey(corpus)}
+  ${pillarKey(ctx, corpus)}
   ${distribution(news)}
   ${tierStrip(corpus)}
 </section>`;
@@ -901,7 +901,7 @@ function corpusSection(news, corpus) {
  * its share and the real span of scores it occupies - so the stack can be read
  * without resolving a single hue, which is the whole requirement.
  */
-function pillarKey(corpus) {
+function pillarKey(ctx, corpus) {
   if (!corpus.pillars.length) return '';
   const items = corpus.pillars.map((p, i) => {
     const span = p.lo === null
@@ -911,7 +911,7 @@ function pillarKey(corpus) {
     return `<li class="nlg__i" data-pillar="${esc(p.id)}">
       <span class="nlg__ord num" aria-hidden="true">${i + 1}</span>
       ${pillarSigil(p.id)}
-      <b class="nlg__n">${esc(p.name)}</b>
+      <b class="nlg__n"><a href="${esc(ctx.href(`/pillar/${p.id}.html`))}">${esc(p.name)}</a></b>
       <span class="nlg__c num">${esc(p.count)}</span>
       <span class="nlg__pct num">${esc(pct)}%</span>
       <span class="nlg__sp num">${esc(span)}</span>
@@ -919,7 +919,7 @@ function pillarKey(corpus) {
   }).join('');
 
   return `<ul class="nlg">
-    <li class="nlg__h">Stacked bottom to top &middot; count &middot; share of window &middot; score span</li>
+    <li class="nlg__h">Stacked bottom to top &middot; count &middot; share of window &middot; score span · each name opens the pillar page</li>
     ${items}
   </ul>`;
 }

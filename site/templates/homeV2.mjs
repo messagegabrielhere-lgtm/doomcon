@@ -19,6 +19,8 @@ import { tempoCard, LIVEFX_CSS, LIVEFX_JS } from './_livefx.mjs';
 import { render as verifyBox, verifyCss } from './_verify.mjs';
 import { renderV2 as deskPicks } from './_deskpicks.mjs';
 import { freshCluster, breakingMeta } from './_breaking.mjs';
+import { render as faqRender, faqCss, jsonLd as faqJsonLd } from './_faq.mjs';
+import { organization } from './_seo.mjs';
 const PILLAR_META = Object.fromEntries(brand.PILLARS.map((p) => [p.id, p]));
 
 // ---------- copy ----------
@@ -705,6 +707,8 @@ ${movedPanel(wm, href)}
       <source src="${href('/media/siren-explainer.mp4')}" type="video/mp4">
     </video>
   </section>
+  <script type="application/ld+json">${JSON.stringify(organization(ctx)).replace(/</g, '\\u003c')}</script>
+  <script type="application/ld+json">${JSON.stringify(faqJsonLd(ctx)).replace(/</g, '\\u003c')}</script>
   <script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', '@type': 'WebSite', name: 'AI SIREN Index', url: ctx.url('/'), potentialAction: { '@type': 'SearchAction', target: { '@type': 'EntryPoint', urlTemplate: `${ctx.url('/search.html')}?q={search_term_string}` }, 'query-input': 'required name=search_term_string' } }).replace(/</g, '\\u003c')}</script>
   <script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', '@type': 'VideoObject', name: 'What is SIREN? A 42-second tour of the AI Siren Index', description: 'How SIREN counts how loud AI is every hour, what its five levels mean, and the rooms on the site: the race, the newsroom, the AI bosses, real clips, the world monitor, the AI battle and the prepper kit.', thumbnailUrl: [ctx.url('/media/siren-explainer-poster.jpg')], uploadDate: '2026-10-07', duration: 'PT42S', contentUrl: ctx.url('/media/siren-explainer.mp4'), embedUrl: ctx.url('/') }).replace(/</g, '\\u003c')}</script>
 
@@ -718,6 +722,8 @@ ${roomsGrid(ctx, href, img)}
     <a class="v2-btn" href="https://x.com/intent/follow?screen_name=SIRENutf6">FOLLOW @SIRENutf6 →</a>
   </div>
   ${newsletterBox(href('/privacy.html')) ? `<div class="v2-nl">${newsletterBox(href('/privacy.html'))}</div>` : ''}
+
+  <div class="v2-faq" id="faq" data-sec="FAQ">${faqRender(ctx)}</div>
 
   <p class="v2-foot">${esc(brand.CREED)} ${esc(brand.NAME)} counts how loud AI is, every hour, from public data. A count, not a forecast. Portraits and icons are generated illustrations, not photographs.
   <a href="${href('/methodology.html')}">How it works</a> · <a href="${href('/classic.html#vfy')}">Verify a reading</a> · <a href="${href('/classic.html')}">Full instrument panel</a> · <a href="${href('/about.html')}">About</a> · <a href="${href('/feed.xml')}">RSS</a> · <a href="${href('/sponsor.html')}">Sponsor</a>${tipLink() ? ` · ${tipLink()}` : ''}</p>
@@ -733,7 +739,7 @@ ${LIVEFX_CSS}<script>${LIVEFX_JS}</script>
 
   return `<!doctype html>
 <html lang="en">
-${head.replace('</head>', `<style>${CSS}${DASH_CSS}</style><style>${verifyCss()}</style>${MZ_CSS}\n</head>`)}
+${head.replace('</head>', `<style>${CSS}${DASH_CSS}</style><style>${verifyCss()}</style><style>${faqCss()}</style>${MZ_CSS}\n</head>`)}
 <body class="v2-body"><a class="v2-skip" href="#signal">Skip to the reading</a>${body}
 <script type="module" src="${href('/media/siren3d.js')}"></script>
 <script src="${href('/media/radio.js')}" defer></script>

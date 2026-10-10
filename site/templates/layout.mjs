@@ -36,6 +36,7 @@ import { mascot } from './_mascot.mjs';
 import { esc, num, utc, utcClock, jsonScript } from './_html.mjs';
 import { degradedBanner, deltaChip } from './_parts.mjs';
 import { motionBlock } from './_motion.mjs';
+import { organization } from './_seo.mjs';
 import { css, FONT_HREF } from '../styles.mjs';
 import { pixelText, icon, roomArt } from './_pixel.mjs';
 import * as brand from '../brand.mjs';
@@ -1108,7 +1109,11 @@ function jumpIndex(mainHtml) {
 export function page(o) {
   const { ctx } = o;
   const canonical = ctx.url(o.path);
-  const jsonld = (o.jsonld || []).map((block) => jsonScript(block)).join('\n');
+  // Organization on every indexable page so Google can join the publisher to
+  // the X account and the GitHub repo (FINDABILITY.md §1.6 E-E-A-T). Callers
+  // that already pass a richer Organization keep theirs; this is the baseline.
+  const jsonld = [organization(ctx), ...(o.jsonld || [])]
+    .map((block) => jsonScript(block)).join('\n');
 
   // Absent -> the empty string, and every interpolation site below is written
   // so that the empty string changes nothing. A page() caller that does not ask
@@ -1152,6 +1157,16 @@ export function page(o) {
     ? `<meta name="twitter:site" content="${esc(brand.X_HANDLE)}">`
     : '';
 
+  // Google Search Console HTML-tag verification. Set GOOGLE_SITE_VERIFICATION
+  // in the Actions env (or .env locally) to the content= value from GSC; omit
+  // entirely until the operator has a token (FINDABILITY.md §1.1).
+  const gsc = typeof process !== 'undefined' && process.env && process.env.GOOGLE_SITE_VERIFICATION
+    ? String(process.env.GOOGLE_SITE_VERIFICATION).trim()
+    : '';
+  const gscMeta = gsc && /^[A-Za-z0-9_-]{10,120}$/.test(gsc)
+    ? `<meta name="google-site-verification" content="${esc(gsc)}">`
+    : '';
+
   // The nav carries the number each destination holds. Two labels are emitted
   // per link, not one: the full name and the short one, and CSS swaps them at
   // phone width - so a nine-item nav with a figure on each is one wrapped row
@@ -1186,6 +1201,7 @@ export function page(o) {
 <meta name="description" content="${esc(serpDescription(o.description))}">
 <link rel="canonical" href="${esc(canonical)}">
 ${o.noindex ? '<meta name="robots" content="noindex,follow">' : '<meta name="robots" content="index,follow,max-image-preview:large">'}
+${gscMeta}
 <meta name="color-scheme" content="dark light">
 <meta name="theme-color" content="#faf9f6" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0b0c0e" media="(prefers-color-scheme: dark)">

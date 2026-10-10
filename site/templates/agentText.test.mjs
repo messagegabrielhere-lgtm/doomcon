@@ -121,7 +121,7 @@ test('llms.txt follows the llmstxt.org shape and lists the endpoints', () => {
   const lines = txt.split('\n');
   assert.match(lines[0], /^# SIREN/);
   assert.match(lines[2], /^> /);
-  assert.ok(lines.length < 160, `${lines.length} lines`);
+  assert.ok(lines.length < 200, `${lines.length} lines`);
   for (const p of ['/api/now.txt', '/now.md', '/api/state.json', '/api/history.json', '/api/news.json', '/api/leaders.json',
     '/api/si-signals.json', '/api/search-index.json', '/api/fresh.json', '/api/health.json', '/api/receipts/', '/feed.xml', '/openapi.json']) {
     assert.ok(txt.includes(`https://siren.watch${p}`), p);
@@ -129,6 +129,8 @@ test('llms.txt follows the llmstxt.org shape and lists the endpoints', () => {
   assert.ok(txt.includes(dispatchFeedUrl()));
   assert.match(dispatchFeedUrl(), /^https:\/\/raw\.githubusercontent\.com\/[^/]+\/[^/]+\/dispatch-data\/emergency\.json$/);
   assert.match(txt, /## Use SIREN with your human/);
+  assert.match(txt, /## Explainers \(search head terms\)/);
+  assert.match(txt, /## Instruments/);
   assert.doesNotMatch(txt, /@[a-z0-9-]+\.[a-z]/i, 'no email addresses');
   const full = llmsFullTxt(ctx, { state, history, url });
   assert.ok(full.startsWith(txt));
