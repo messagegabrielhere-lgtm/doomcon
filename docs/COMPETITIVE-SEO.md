@@ -83,7 +83,8 @@ They win social memes, not Google. Do not imitate.
 
 ## 3. Operator checklist after merge
 
-1. Search Console → submit `sitemap.xml` (should climb by ~5–15 facet URLs immediately).
+1. Search Console → verify `https://siren.watch/` (set `GOOGLE_SITE_VERIFICATION` secret) → submit **both** `sitemap.xml` and `news-sitemap.xml`.
 2. Spot-check `/pillar/capability.html` and `/lab/openai.html` in Rich Results test.
 3. Re-fetch pizzint `news-sitemap.xml` monthly; if it starts rolling again, treat Google News as contested again.
 4. Weekly: indexed count vs sitemap count (vanity = sitemap-only growth).
+5. Agents: confirm `/methodology.md` and `/guide.md` 200 and match the HTML pages.

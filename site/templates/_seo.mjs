@@ -15,7 +15,9 @@ export function organization(ctx) {
   return {
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    '@id': `${ctx.url('/')}/#org`,
+    // ctx.url('/') already ends with / — do not add another slash before #org
+    // (live bug was https://siren.watch//#org).
+    '@id': `${ctx.url('/')}#org`,
     name: brand.PUBLICATION,
     alternateName: [brand.NAME, brand.FORMERLY, 'AI SIREN Index'].filter(Boolean),
     url: ctx.url('/'),

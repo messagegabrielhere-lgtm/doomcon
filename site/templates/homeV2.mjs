@@ -20,7 +20,6 @@ import { render as verifyBox, verifyCss } from './_verify.mjs';
 import { renderV2 as deskPicks } from './_deskpicks.mjs';
 import { freshCluster, breakingMeta } from './_breaking.mjs';
 import { render as faqRender, faqCss, jsonLd as faqJsonLd } from './_faq.mjs';
-import { organization } from './_seo.mjs';
 const PILLAR_META = Object.fromEntries(brand.PILLARS.map((p) => [p.id, p]));
 
 // ---------- copy ----------
@@ -706,7 +705,7 @@ ${movedPanel(wm, href)}
       <source src="${href('/media/siren-explainer.mp4')}" type="video/mp4">
     </video>
   </section>
-  <script type="application/ld+json">${JSON.stringify(organization(ctx)).replace(/</g, '\\u003c')}</script>
+  <!-- Organization JSON-LD comes from layout.page() — do not duplicate here. -->
   <script type="application/ld+json">${JSON.stringify(faqJsonLd(ctx)).replace(/</g, '\\u003c')}</script>
   <script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', '@type': 'WebSite', name: 'AI SIREN Index', url: ctx.url('/'), potentialAction: { '@type': 'SearchAction', target: { '@type': 'EntryPoint', urlTemplate: `${ctx.url('/search.html')}?q={search_term_string}` }, 'query-input': 'required name=search_term_string' } }).replace(/</g, '\\u003c')}</script>
   <script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', '@type': 'VideoObject', name: 'What is SIREN? A 42-second tour of the AI Siren Index', description: 'How SIREN counts how loud AI is every hour, what its five levels mean, and the rooms on the site: the race, the newsroom, the AI bosses, real clips, the world monitor, the AI battle and the prepper kit.', thumbnailUrl: [ctx.url('/media/siren-explainer-poster.jpg')], uploadDate: '2026-10-07', duration: 'PT42S', contentUrl: ctx.url('/media/siren-explainer.mp4'), embedUrl: ctx.url('/') }).replace(/</g, '\\u003c')}</script>
