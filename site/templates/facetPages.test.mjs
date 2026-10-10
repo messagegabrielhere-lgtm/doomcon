@@ -3,7 +3,8 @@ import { describe, it } from 'node:test';
 import * as brand from '../brand.mjs';
 import {
   itemsForPillar, pillarIndexable, renderPillar, pillarPath,
-  itemsForLab, labIndexable, renderLab, labPath, labsFromRace, sitemapEntries,
+  itemsForLab, labIndexable, renderLab, labPath, labsFromRace, labsFromEntities,
+  allLabs, sitemapEntries, ENTITY_LAB_MIN,
   PILLAR_INDEX_MIN, SOURCE_INDEX_MIN, sourceLabel, sourceIndexable, renderSource,
   indexableSources,
 } from './facetPages.mjs';
@@ -44,7 +45,18 @@ const ctx = {
         url: 'https://example.test/oai',
         published_at: '2026-10-09T12:00:00Z',
         score: 70,
+        entities: ['OpenAI'],
       },
+      ...Array.from({ length: ENTITY_LAB_MIN }, (_, i) => ({
+        id: `ms${i}`,
+        title: `Microsoft AI story ${i}`,
+        pillar: 'compute',
+        source: 'hn',
+        url: `https://example.test/ms${i}`,
+        published_at: '2026-10-09T10:00:00Z',
+        score: 45,
+        entities: ['Microsoft'],
+      })),
     ],
   },
   race: {
@@ -93,6 +105,19 @@ describe('lab facets', () => {
     assert.match(html, /lab\/anthropic\.html/);
     assert.match(html, /CollectionPage/);
     assert.equal(labPath('openai'), '/lab/openai.html');
+  });
+
+  it('adds entity-only labs that clear the story gate without inventing odds', () => {
+    const entityLabs = labsFromEntities(ctx);
+    assert.ok(entityLabs.some((p) => p.id === 'microsoft'));
+    assert.ok(!entityLabs.some((p) => p.id === 'openai'), 'race labs stay on the race path');
+    const ms = allLabs(ctx).find((p) => p.id === 'microsoft');
+    assert.ok(ms);
+    assert.equal(labIndexable(ctx, ms), true);
+    const html = renderLab(ctx, ms);
+    assert.match(html, /<title>Microsoft: AI stories this index scored/);
+    assert.match(html, /does not invent market odds/);
+    assert.doesNotMatch(html, /Market odds \(best model\)/);
   });
 });
 

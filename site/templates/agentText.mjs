@@ -12,6 +12,7 @@
 // whose data is absent is left out, never filled with a placeholder number.
 
 import * as brand from '../brand.mjs';
+import { allLabs, labIndexable } from './facetPages.mjs';
 
 const NOT_CLAIM = 'It counts AI activity. It is not a probability of harm and not a forecast.';
 
@@ -307,6 +308,7 @@ ${facetLinks(ctx, u)}
 
 - [Newsroom](${u('/news.html')})
 - [AI leaders](${u('/leaders.html')})
+- [People](${u('/people/')}): one page per leader with enough press coverage
 - [Takeover Watch](${u('/si-watch.html')})
 - [Prepare for superintelligence](${u('/si-ready.html')})
 - [AI-proof your job](${u('/ai-proof-job.html')})
@@ -316,6 +318,7 @@ ${facetLinks(ctx, u)}
 - [Search](${u('/search.html')})
 - [Outlets](${u('/source/')}): scored stories grouped by the publication that wrote them
 - [Model families](${u('/model/')}): scored stories grouped by the model the headline names
+- [News by day](${u('/news.html')}): UTC day hubs under /news/YYYY-MM-DD.html when a day clears five stories
 ${(ctx.routes && ctx.routes.world) ? `- [Datacentres by country](${u('/country/')}): mapped sites, one page per country with at least three\n` : ''}`;
 }
 
@@ -338,9 +341,9 @@ function instrumentLinks(ctx, u) {
 /** Pillar + lab entity landings (COMPETITIVE-SEO.md faceted URL play). */
 function facetLinks(ctx, u) {
   const pillars = brand.PILLARS.map((p) => `- [${p.name} pillar](${u(`/pillar/${p.id}.html`)})`).join('\n');
-  const labs = ((ctx && ctx.race && ctx.race.players) || [])
-    .filter((p) => p && p.id && p.name)
-    .slice(0, 12)
+  const labs = allLabs(ctx)
+    .filter((p) => labIndexable(ctx, p))
+    .slice(0, 16)
     .map((p) => `- [${p.name}](${u(`/lab/${p.id}.html`)})`)
     .join('\n');
   return [pillars, labs || null].filter(Boolean).join('\n');

@@ -8,6 +8,7 @@
 
 import { readdirSync, readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
+import { publishedEntities, entitySlug } from '../../collector/news-sources/_entities.mjs';
 import { esc, num, utc } from './_html.mjs';
 import { page } from './layout.mjs';
 import { breadcrumbs } from './_seo.mjs';
@@ -19,6 +20,25 @@ export const PILLAR_INDEX_MIN = 3;
 
 /** Minimum title/source hits before a lab page leans on news for substance. */
 export const LAB_NEWS_MIN = 1;
+
+/**
+ * Minimum scored stories before an entity-only lab (not on the race board)
+ * gets its own /lab/<id>.html page. Race labs can clear the gate via odds;
+ * these cannot invent a market row.
+ */
+export const ENTITY_LAB_MIN = 3;
+
+/** Entity lab names that already have a race-board id — do not double-page. */
+const ENTITY_LAB_RACE_ID = {
+  OpenAI: 'openai',
+  Anthropic: 'anthropic',
+  'Google DeepMind': 'google-deepmind',
+  'Meta AI': 'meta',
+  xAI: 'xai',
+  DeepSeek: 'deepseek',
+  Mistral: 'mistral',
+  'Alibaba Qwen': 'qwen',
+};
 
 function clip(text, max) {
   const t = String(text || '').replace(/\s+/g, ' ').trim();
@@ -171,8 +191,40 @@ export function labsFromRace(ctx) {
   return players.filter((p) => p && p.id && p.name);
 }
 
+/**
+ * Labs from the published entity list that are not already on the race board.
+ * Microsoft / NVIDIA / Amazon and peers often dominate the newsroom without a
+ * Polymarket row — these pages close that DoomBench /companies gap.
+ */
+export function labsFromEntities(ctx) {
+  const raceIds = new Set(labsFromRace(ctx).map((p) => p.id));
+  const out = [];
+  for (const ent of publishedEntities().filter((e) => e.kind === 'lab')) {
+    const raceId = ENTITY_LAB_RACE_ID[ent.name];
+    if (raceId && raceIds.has(raceId)) continue;
+    const id = raceId || entitySlug(ent.name);
+    if (raceIds.has(id)) continue;
+    const player = { id, name: ent.name, entityName: ent.name, entityOnly: true };
+    if (itemsForLab(ctx, player).length < ENTITY_LAB_MIN) continue;
+    out.push(player);
+  }
+  return out.sort((a, b) => a.name.localeCompare(b.name));
+}
+
+/** Race labs plus entity-only labs that clear the substance gate. */
+export function allLabs(ctx) {
+  const seen = new Set();
+  const out = [];
+  for (const player of [...labsFromRace(ctx), ...labsFromEntities(ctx)]) {
+    if (!player || !player.id || seen.has(player.id)) continue;
+    seen.add(player.id);
+    out.push(player);
+  }
+  return out;
+}
+
 function labNeedles(player) {
-  const names = [player.name, player.id, ...(player.aliases || [])]
+  const names = [player.name, player.id, player.entityName, ...(player.aliases || [])]
     .filter(Boolean)
     .map((s) => String(s).toLowerCase());
   // Common short forms the newsroom titles use.
@@ -185,15 +237,22 @@ function labNeedles(player) {
     deepseek: ['deepseek'],
     mistral: ['mistral'],
     qwen: ['qwen', 'alibaba'],
+    microsoft: ['microsoft', 'msft', 'azure openai'],
+    nvidia: ['nvidia', 'nvda'],
+    amazon: ['amazon', 'aws', 'bedrock'],
+    'hugging-face': ['hugging face', 'huggingface'],
+    bytedance: ['bytedance', 'seed-oss'],
   };
   return [...new Set([...(extras[player.id] || []), ...names])];
 }
 
 export function itemsForLab(ctx, player) {
   const items = (ctx.news && Array.isArray(ctx.news.items)) ? ctx.news.items : [];
+  const entityName = player.entityName || player.name;
   const needles = labNeedles(player);
   return items
     .filter((it) => {
+      if (Array.isArray(it.entities) && it.entities.includes(entityName)) return true;
       const hay = `${it.title || ''} ${it.source || ''} ${it.summary || ''}`.toLowerCase();
       return needles.some((n) => n.length >= 3 && hay.includes(n));
     })
@@ -204,6 +263,10 @@ export function itemsForLab(ctx, player) {
 export function labIndexable(ctx, player) {
   // A live race row is substance even with sparse news hits; require either
   // market odds or enough news so we never sitemap a name-only shell.
+  // Entity-only labs have no odds — they need ENTITY_LAB_MIN stories.
+  if (player && player.entityOnly) {
+    return itemsForLab(ctx, player).length >= ENTITY_LAB_MIN;
+  }
   const m = player.market || {};
   const hasOdds = Number.isFinite(m.probability);
   return hasOdds || itemsForLab(ctx, player).length >= LAB_NEWS_MIN;
@@ -218,36 +281,51 @@ export function renderLab(ctx, player) {
   const items = itemsForLab(ctx, player);
   const indexable = labIndexable(ctx, player);
   const m = player.market || {};
-  const title = `${player.name} AI activity & market odds · ${brand.NAME}`;
+  const entityOnly = Boolean(player.entityOnly);
+  const title = entityOnly
+    ? `${player.name}: AI stories this index scored · ${brand.NAME}`
+    : `${player.name} AI activity & market odds · ${brand.NAME}`;
   const description = clip(
-    `${player.name} on ${brand.NAME}: live prediction-market odds ${fmtPct(m.probability)}, shipping and mindshare when reported, plus ${items.length} related scored stories.`,
+    entityOnly
+      ? `${player.name} on ${brand.NAME}: ${items.length} related scored stories in the current window. No prediction-market row for this lab — story counts only.`
+      : `${player.name} on ${brand.NAME}: live prediction-market odds ${fmtPct(m.probability)}, shipping and mindshare when reported, plus ${items.length} related scored stories.`,
     160,
   );
 
-  const labs = labsFromRace(ctx)
+  const labs = allLabs(ctx)
     .filter((p) => p.id !== player.id)
     .map((p) => `<a href="${esc(ctx.href(labPath(p.id)))}">${esc(p.name)}</a>`)
     .join('');
+
+  const stats = entityOnly
+    ? `<div class="fc__stat" role="group" aria-label="Lab signals">
+    <div><b class="num">${esc(String(items.length))}</b><span>Related scored stories</span></div>
+  </div>
+  <p class="fresh__key">Not on the <a href="${esc(ctx.href('/race.html'))}">race board</a> this build — this page is a newsroom facet only.
+     Stories match the published entity list or the lab's common name forms.</p>`
+    : `<div class="fc__stat" role="group" aria-label="Lab signals">
+    <div><b class="num">${esc(fmtPct(m.probability))}</b><span>Market odds (best model)</span></div>
+    <div><b class="num">${esc(Number.isFinite(m.change_7d) ? `${m.change_7d >= 0 ? '+' : '−'}${Math.abs(m.change_7d * 100).toFixed(1)} pts` : '—')}</b><span>7-day change</span></div>
+    <div><b class="num">${esc(String(items.length))}</b><span>Related scored stories</span></div>
+  </div>
+  <p class="fresh__key"><a href="${esc(ctx.href('/race.html'))}">Full race board →</a>
+     · Odds are prediction-market prices, not ${esc(brand.NAME)} judgements.</p>`;
 
   const main = `${STYLE}
 <article class="fc prose">
   <p class="fc__k"><a href="${esc(ctx.href('/race.html'))}">The Race</a> · Lab</p>
   <h1>${esc(player.name)}</h1>
   <p class="fc__lede">${esc(player.principal ? `${player.name}, principal ${player.principal}.` : player.name)}
-     Odds and shipping signals come from the public race board; stories are scored newsroom items that name this lab.</p>
-  <div class="fc__stat" role="group" aria-label="Lab signals">
-    <div><b class="num">${esc(fmtPct(m.probability))}</b><span>Market odds (best model)</span></div>
-    <div><b class="num">${esc(Number.isFinite(m.change_7d) ? `${m.change_7d >= 0 ? '+' : '−'}${Math.abs(m.change_7d * 100).toFixed(1)} pts` : '—')}</b><span>7-day change</span></div>
-    <div><b class="num">${esc(String(items.length))}</b><span>Related scored stories</span></div>
-  </div>
-  <p class="fresh__key"><a href="${esc(ctx.href('/race.html'))}">Full race board →</a>
-     · Odds are prediction-market prices, not ${esc(brand.NAME)} judgements.</p>
+     ${entityOnly
+    ? 'Stories are scored newsroom items that name this lab. This page does not invent market odds.'
+    : 'Odds and shipping signals come from the public race board; stories are scored newsroom items that name this lab.'}</p>
+  ${stats}
   <h2>Related stories in this window</h2>
   ${items.length
     ? `<ol class="fc__list">${itemRows(ctx, items)}</ol>`
-    : `<p>No scored story in the current window names ${esc(player.name)}. The race row above is still the addressable unit.</p>`}
+    : `<p>No scored story in the current window names ${esc(player.name)}.${entityOnly ? '' : ' The race row above is still the addressable unit.'}</p>`}
   <h2>Other labs</h2>
-  <nav class="fc__labs" aria-label="Labs on the race board">${labs}</nav>
+  <nav class="fc__labs" aria-label="Labs">${labs}</nav>
 </article>`;
 
   return page({
@@ -465,7 +543,7 @@ export function sitemapEntries(ctx) {
     });
   }
   const lastRace = (ctx.race && ctx.race.generated_at) || lastNews;
-  for (const player of labsFromRace(ctx)) {
+  for (const player of allLabs(ctx)) {
     if (!labIndexable(ctx, player)) continue;
     out.push({
       loc: labPath(player.id),
