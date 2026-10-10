@@ -73,7 +73,7 @@ describe('seo-daily measure + gaps', () => {
     assert.ok(ids.includes('news-sitemap-empty'));
     assert.ok(ids.includes('trail-doombench-urls'));
     assert.ok(ids.includes('surface-/agents.md'));
-    assert.ok(ids.includes('open-people-day-hubs'));
+    assert.ok(ids.includes('open-mobile-cwv'));
   });
 
   it('renders markdown scoreboard', () => {

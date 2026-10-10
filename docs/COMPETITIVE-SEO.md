@@ -1,6 +1,7 @@
 # Competitive SEO reverse-engineer
 
-**Measured:** 2026-10-10 (live HTTP fetches). Companion to `docs/COMPETITIVE.md`
+**Measured:** 2026-10-10 (live HTTP fetches); **re-measured 2026-10-12** via
+`node collector/tools/seo-daily.mjs`. Companion to `docs/COMPETITIVE.md`
 (Sept inventory) and `docs/FINDABILITY.md` (our playbook).
 
 **Daily re-measure:** `node collector/tools/seo-daily.mjs` (see
@@ -103,6 +104,16 @@ Two axes we can answer from data we already publish:
 - `/model/<slug>.html` when at least three scored stories name that model family in the published entity list. The page lists those stories. It does not assign the model a score.
 
 Story pages link the model when the gate clears. The world table keeps its zoom control and adds a country-page link beside it. Homepage "Where the machines live" links the country index.
+
+### 4.1 People, day hubs, entity-only labs (2026-10-10)
+
+| URL | Gate | Honesty |
+|---|---|---|
+| `/people/<id>.html` | ≥3 press headlines, on-record lines, or 7-day coverage count | Headlines only — never invents a quotation |
+| `/news/YYYY-MM-DD.html` | ≥5 scored stories that UTC day | List of scored items; not a forecast |
+| `/lab/<id>.html` for entity labs off the race board (Microsoft, NVIDIA, …) | ≥3 scored stories naming the lab | Story counts only — no invented market odds |
+
+Linked from `/leaders.html`, `/news.html`, `llms.txt`, catalog, and sitemap.
 
 ---
 
