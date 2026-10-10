@@ -25,10 +25,6 @@ export const SERVICES = [
   ['cohere', 'Cohere', 'Cohere', 'https://status.cohere.com', 'https://status.cohere.com/api/v2/summary.json', true],
   ['elevenlabs', 'ElevenLabs', 'ElevenLabs', 'https://status.elevenlabs.io', 'https://status.elevenlabs.io/api/v2/summary.json', true],
   ['vercel', 'Vercel', 'Vercel (v0, AI SDK hosting)', 'https://www.vercel-status.com', 'https://www.vercel-status.com/api/v2/summary.json', true],
-  ['huggingface', 'Hugging Face', 'Hugging Face', 'https://status.huggingface.co', 'https://status.huggingface.co/api/v2/summary.json', false],
-  ['replicate', 'Replicate', 'Replicate', 'https://www.replicatestatus.com', 'https://www.replicatestatus.com/api/v2/summary.json', false],
-  ['mistral', 'Mistral AI', 'Le Chat / Mistral API', 'https://status.mistral.ai', 'https://status.mistral.ai/api/v2/summary.json', false],
-  ['deepseek', 'DeepSeek', 'DeepSeek', 'https://status.deepseek.com', 'https://status.deepseek.com/api/v2/summary.json', false],
 ];
 
 /** Statuspage summary.json -> compact service status. */
