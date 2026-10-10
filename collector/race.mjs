@@ -39,8 +39,21 @@
 // one of them is true.
 
 import { mkdir, writeFile, readFile } from 'node:fs/promises';
+import path from 'node:path';
+import { pathToFileURL } from 'node:url';
 import { fetchJson, fetchText, fetchAll } from './fetch.mjs';
+import { publicError } from './safe-error.mjs';
 import { extractEntities } from './news-sources/_entities.mjs';
+
+/** True when this module is the process entrypoint (relative argv paths resolve). */
+export function isMain(metaUrl, argv1 = process.argv[1]) {
+  if (!argv1) return false;
+  try {
+    return metaUrl === pathToFileURL(path.resolve(argv1)).href;
+  } catch {
+    return false;
+  }
+}
 
 const SCHEMA_VERSION = 1;
 const FORMULA_VERSION = '1.0.0';
@@ -715,6 +728,32 @@ function releaseTimestamps(xml, repo) {
   return stamps;
 }
 
+/**
+ * Assemble one player's GitHub shipping row from a filled basket.
+ *
+ * `is_floor` is ONLY the Atom feed-cap case (all ten entries inside the window).
+ * A partial basket (some repos failed) is `incomplete`, not a floor — the page
+ * must not claim "the feed caps at ten" when a repo simply 404'd.
+ */
+function summarizeGithubBasket(player, bucket) {
+  const answered = Object.keys(bucket.per_repo).length;
+  const releases = Object.values(bucket.per_repo).reduce((s, n) => s + n, 0);
+  return {
+    state: answered === 0 ? 'dark' : 'live',
+    releases_30d: answered === 0 ? null : releases,
+    // A floor, not an estimate. Rendered with a ≥ on the page.
+    is_floor: bucket.truncated.length > 0,
+    incomplete: bucket.failed.length > 0,
+    repos_total: player.repos.length,
+    repos_answered: answered,
+    per_repo: bucket.per_repo,
+    truncated_repos: bucket.truncated.slice().sort(),
+    failed_repos: bucket.failed,
+    window_days: SHIP_WINDOW_DAYS,
+    unit: `releases/${SHIP_WINDOW_DAYS}d`,
+  };
+}
+
 async function collectGithub(nowMs) {
   const cutoff = nowMs - SHIP_WINDOW_DAYS * DAY_MS;
   const jobs = [];
@@ -733,7 +772,7 @@ async function collectGithub(nowMs) {
       // omission. Here the basket is per player and a partial basket only
       // damages one row, so the run continues and the row says how many of its
       // repos answered.
-      bucket.failed.push({ repo, status: r.error.status ?? null, error: r.error.message });
+      bucket.failed.push({ repo, status: r.error.status ?? null, error: publicError(r.error) });
       continue;
     }
     const stamps = releaseTimestamps(r.value, repo);
@@ -745,24 +784,7 @@ async function collectGithub(nowMs) {
   }
 
   const out = {};
-  for (const p of PLAYERS) {
-    const b = byPlayer.get(p.id);
-    const answered = Object.keys(b.per_repo).length;
-    const releases = Object.values(b.per_repo).reduce((s, n) => s + n, 0);
-    out[p.id] = {
-      state: answered === 0 ? 'dark' : 'live',
-      releases_30d: answered === 0 ? null : releases,
-      // A floor, not an estimate. Rendered with a >= on the page.
-      is_floor: b.truncated.length > 0 || b.failed.length > 0,
-      repos_total: p.repos.length,
-      repos_answered: answered,
-      per_repo: b.per_repo,
-      truncated_repos: b.truncated.slice().sort(),
-      failed_repos: b.failed,
-      window_days: SHIP_WINDOW_DAYS,
-      unit: `releases/${SHIP_WINDOW_DAYS}d`,
-    };
-  }
+  for (const p of PLAYERS) out[p.id] = summarizeGithubBasket(p, byPlayer.get(p.id));
   return out;
 }
 
@@ -793,7 +815,10 @@ async function collectHuggingFace(nowMs) {
   for (const r of results) {
     const [pid, author] = r.key.split('\u0000');
     const bucket = byPlayer.get(pid);
-    if (!r.ok) { bucket.failed.push({ author, status: r.error.status ?? null, error: r.error.message }); continue; }
+    if (!r.ok) {
+      bucket.failed.push({ author, status: r.error.status ?? null, error: publicError(r.error) });
+      continue;
+    }
     if (!Array.isArray(r.value)) throw new Error(`race: huggingface author=${author} returned ${typeof r.value}, expected an array — API shape changed`);
 
     const dated = r.value
@@ -812,38 +837,44 @@ async function collectHuggingFace(nowMs) {
   }
 
   const out = {};
-  for (const p of PLAYERS) {
-    const b = byPlayer.get(p.id);
-    const names = Object.keys(b.authors);
-    const returned = names.reduce((s, a) => s + b.authors[a].repos_returned, 0);
-    const stamps = names.map((a) => b.authors[a].newest_at).filter(Boolean).sort();
-
-    // THREE STATES, and the middle one is the point of this block.
-    //   dark    nothing answered
-    //   absent  the org answered and holds no repositories at all — the lab
-    //           does not use this channel. Anthropic has no Hub presence; a
-    //           "0" against its name would read as "published nothing this
-    //           month", which is a claim about their month rather than about
-    //           their distribution strategy.
-    //   live    the org publishes here; the count may legitimately be 0.
-    let state = 'live';
-    if (names.length === 0 || names.every((a) => b.authors[a] === undefined)) state = 'dark';
-    else if (b.failed.length === p.hf_authors.length) state = 'dark';
-    else if (returned === 0) state = 'absent';
-
-    out[p.id] = {
-      state,
-      models_30d: state === 'live' ? names.reduce((s, a) => s + b.authors[a].models_30d, 0) : null,
-      is_floor: names.some((a) => b.authors[a].is_floor),
-      newest_at: stamps.length ? stamps[stamps.length - 1] : null,
-      authors: p.hf_authors,
-      per_author: b.authors,
-      failed_authors: b.failed,
-      window_days: SHIP_WINDOW_DAYS,
-      unit: `model repos/${SHIP_WINDOW_DAYS}d`,
-    };
-  }
+  for (const p of PLAYERS) out[p.id] = summarizeHuggingFace(p, byPlayer.get(p.id));
   return out;
+}
+
+/**
+ * THREE STATES, and the middle one is the point of this block.
+ *   dark    nothing answered
+ *   absent  the org answered and holds no repositories at all — the lab
+ *           does not use this channel. Anthropic has no Hub presence; a
+ *           "0" against its name would read as "published nothing this
+ *           month", which is a claim about their month rather than about
+ *           their distribution strategy.
+ *   live    the org publishes here; the count may legitimately be 0.
+ *
+ * `names.every(a => authors[a] === undefined)` was previously dead code:
+ * `names` is Object.keys(authors), so every key is defined by construction.
+ */
+function summarizeHuggingFace(player, bucket) {
+  const names = Object.keys(bucket.authors);
+  const returned = names.reduce((s, a) => s + bucket.authors[a].repos_returned, 0);
+  const stamps = names.map((a) => bucket.authors[a].newest_at).filter(Boolean).sort();
+
+  let state = 'live';
+  if (names.length === 0) state = 'dark';
+  else if (returned === 0) state = 'absent';
+
+  return {
+    state,
+    models_30d: state === 'live' ? names.reduce((s, a) => s + bucket.authors[a].models_30d, 0) : null,
+    is_floor: names.some((a) => bucket.authors[a].is_floor),
+    incomplete: bucket.failed.length > 0,
+    newest_at: stamps.length ? stamps[stamps.length - 1] : null,
+    authors: player.hf_authors,
+    per_author: bucket.authors,
+    failed_authors: bucket.failed,
+    window_days: SHIP_WINDOW_DAYS,
+    unit: `model repos/${SHIP_WINDOW_DAYS}d`,
+  };
 }
 
 /**
@@ -963,13 +994,13 @@ async function loadNews() {
   try {
     raw = await readFile(NEWS_URL, 'utf8');
   } catch (err) {
-    return { ok: false, error: `data/news.json is not readable (${err.code ?? err.message}). Run collector/news.mjs first.` };
+    return { ok: false, error: publicError(`data/news.json is not readable (${err.code ?? err.message}). Run collector/news.mjs first.`) };
   }
   let parsed;
   try {
     parsed = JSON.parse(raw);
   } catch (err) {
-    return { ok: false, error: `data/news.json is not valid JSON: ${err.message}` };
+    return { ok: false, error: publicError(`data/news.json is not valid JSON: ${err.message}`) };
   }
   if (!Array.isArray(parsed?.items)) {
     return { ok: false, error: 'data/news.json has no items array' };
@@ -1169,7 +1200,7 @@ async function collectLoudness(nowMs) {
         posts_7d: null,
         newest_at: null,
         feed: { url: feed.url, label: feed.label, platform: feed.platform },
-        reason: errMsg(err),
+        reason: publicError(err),
       };
     }
   }
@@ -1185,6 +1216,7 @@ function round(n, places) {
   return Math.round(n * f) / f;
 }
 
+/** Operator stderr only — may include stacks. Never write this into data/. */
 function errMsg(err) {
   return err?.message ?? String(err);
 }
@@ -1305,7 +1337,11 @@ async function main() {
       sources.push({ id, label, ok: true, state: 'live', error: null, ms: Date.now() - t0 });
       return value;
     } catch (err) {
-      sources.push({ id, label, ok: false, state: 'dark', error: errMsg(err), ms: Date.now() - t0 });
+      // Visitors read data/race.json; keep the public error short and redacted.
+      // Operators still get the full Error on stderr below when the run is dark.
+      console.error(`race: ${id} dark — ${errMsg(err)}`);
+      if (err?.stack) console.error(err.stack);
+      sources.push({ id, label, ok: false, state: 'dark', error: publicError(err), ms: Date.now() - t0 });
       return null;
     }
   };
@@ -1505,7 +1541,7 @@ function printTable(out) {
 
 // Only run when invoked directly, so the pure helpers above can be imported by
 // a test without firing forty HTTP requests as a side effect.
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (isMain(import.meta.url)) {
   main().catch((err) => {
     console.error(`race: fatal — ${errMsg(err)}`);
     if (err?.stack) console.error(err.stack);
@@ -1513,4 +1549,15 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   });
 }
 
-export { PLAYERS, buildWhy, computeMindshare, readNegRiskEvent, posthavenPublishedStamps, assertEntityVocabulary };
+export {
+  PLAYERS,
+  ATOM_FEED_CAP,
+  buildWhy,
+  computeMindshare,
+  readNegRiskEvent,
+  posthavenPublishedStamps,
+  releaseTimestamps,
+  summarizeGithubBasket,
+  summarizeHuggingFace,
+  assertEntityVocabulary,
+};
