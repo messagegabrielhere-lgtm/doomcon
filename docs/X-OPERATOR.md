@@ -81,7 +81,26 @@ worse). The domain stays on the card and in the bio website field.
 
 ---
 
-## 5. After you change it
+## 5. Keep your human account in sync (likes / reposts)
+
+Automated likes and reposts are **forbidden** for `@SIRENutf6` (binding X use-case
+text in `docs/POSTING.md` §6; self-serve apps also lost those endpoints). The
+sync path is a human console, same shape as `/post-sheet.html`:
+
+1. Open **`/engage-sheet.html`** (local: `npm run engage` → `public/engage-sheet.html`).
+2. Sign into X as the **managing human** account — never as `@SIRENutf6`.
+3. Work the list top-down. Each row is an X status already on siren.watch (X wire
+   via oEmbed and/or a newsroom item whose URL is the status).
+4. Click **Like on X** / **Repost on X** (opens X intent URLs; you confirm).
+5. Tick the checkboxes so the sheet tracks what you finished. Progress is
+   localStorage only.
+
+Rebuilds with the hourly collect lane (`node site/engage-sheet.mjs` after
+`post-sheet`). Machine-readable slate: `data/x-engage.json`.
+
+---
+
+## 6. After you change it
 
 ```bash
 npm run compliance
