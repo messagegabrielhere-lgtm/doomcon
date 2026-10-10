@@ -100,6 +100,16 @@ Two axes we can answer from data we already publish:
 
 Story pages link the model when the gate clears. The world table keeps its zoom control and adds a country-page link beside it. Homepage "Where the machines live" links the country index.
 
+### 4.1 People, day hubs, entity-only labs (2026-10-10)
+
+| URL | Gate | Honesty |
+|---|---|---|
+| `/people/<id>.html` | ≥3 press headlines, on-record lines, or 7-day coverage count | Headlines only — never invents a quotation |
+| `/news/YYYY-MM-DD.html` | ≥5 scored stories that UTC day | List of scored items; not a forecast |
+| `/lab/<id>.html` for entity labs off the race board (Microsoft, NVIDIA, …) | ≥3 scored stories naming the lab | Story counts only — no invented market odds |
+
+Linked from `/leaders.html`, `/news.html`, `llms.txt`, catalog, and sitemap.
+
 ---
 
 ## 5. Competitor conquest pages, 2026-10-10

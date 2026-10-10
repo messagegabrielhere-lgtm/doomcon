@@ -38,6 +38,7 @@ import { esc, utc, utcDay } from './_html.mjs';
 import { lineItem, wireStyles, legend, silenceBlock, groupOf } from './_leaderwire.mjs';
 import { avatarPortrait, avatarSprite, personIdFor, portraitCss, PEOPLE, faceHref } from './_avatars.mjs';
 import { page } from './layout.mjs';
+import { peoplePath, personIndexable } from './peoplePages.mjs';
 import * as brand from '../brand.mjs';
 
 const PATH = '/leaders.html';
@@ -252,12 +253,20 @@ function card(l, asOf = null, { ctx = null, covAt = null } = {}) {
   const sortAttrs = ` data-cov7d="${c7 === null ? -1 : esc(c7)}" data-count="${esc(l.count)}"` +
     ` data-silent="${Number.isFinite(l.days_silent) ? esc(l.days_silent) : -1}"`;
 
+  const personHref = personIndexable(l) ? peoplePath(l.id) : '';
+  const personUrl = personHref
+    ? (ctx && typeof ctx.href === 'function' ? ctx.href(personHref) : personHref)
+    : '';
+  const nameHtml = personUrl
+    ? `<a class="lwc__n" href="${esc(personUrl)}">${esc(l.name)}</a>`
+    : `<b class="lwc__n">${esc(l.name)}</b>`;
+
   return `<li class="lwr__i lwc" id="lw-${esc(l.id)}" data-state="${esc(l.state)}" data-group="${esc(groupOf(l))}"` +
     `${pid ? ` data-person="${esc(pid)}"` : ''} data-org="${esc(l.org_id)}"${sortAttrs}>
   <div class="lwc__hd">
     ${portrait}
     <div class="lwc__who">
-      <b class="lwc__n">${esc(l.name)}</b>
+      ${nameHtml}
       <span class="lwc__o">${esc(l.role)} · ${esc(l.org)}</span>
       ${profileLine(l)}
       ${state}
@@ -997,7 +1006,8 @@ function pageCss() {
 .lwc__hd { display: flex; gap: var(--s-3); align-items: flex-start; min-width: 0; }
 .lwc__who { min-width: 0; flex: 1 1 auto; }
 .lwc__n { display: block; font-size: var(--t-lg); font-weight: 700; line-height: 1.1;
-  letter-spacing: -0.01em; color: var(--ink); overflow-wrap: anywhere; }
+  letter-spacing: -0.01em; color: var(--ink); overflow-wrap: anywhere; text-decoration: none; }
+a.lwc__n:hover { text-decoration: underline; }
 .lwc__o { display: block; margin-top: 5px; font-family: var(--mono); font-size: var(--t-2xs);
   letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); }
 .lwc__st {
