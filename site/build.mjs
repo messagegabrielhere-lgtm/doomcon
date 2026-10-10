@@ -165,8 +165,6 @@ function prerenderStatic(html, name, ctx) {
   return out.replace('</head>', `${head}\n</head>`);
 }
 
-const INDEXNOW_KEY = 'd00mc0n7a11yc0un75a1d0e5n07pr3d1c7';
-
 import * as feed from './templates/feed.mjs';
 import * as newsFeed from './templates/news.mjs';
 import * as newsPage from './templates/newsPage.mjs';
@@ -182,6 +180,7 @@ import * as openapi from './templates/openapi.mjs';
 import * as agentText from './templates/agentText.mjs';
 import { page as layoutPage } from './templates/layout.mjs';
 import { render as sitemap, robots } from './templates/sitemap.mjs';
+import { INDEXNOW_KEY } from '../collector/indexnow.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 

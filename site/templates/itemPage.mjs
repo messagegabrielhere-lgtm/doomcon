@@ -21,6 +21,7 @@
 
 import { esc, num, utc } from './_html.mjs';
 import { page } from './layout.mjs';
+import { breadcrumbs, speakable } from './_seo.mjs';
 import * as brand from '../brand.mjs';
 
 // Third-party summaries are shown as short, attributed excerpts, never in full.
@@ -215,13 +216,15 @@ export function render(ctx, item, related = []) {
   </section>` : ''}
 </article>`;
 
+  const path = `/item/${slugFor(item)}.html`;
+  const pageUrl = ctx.url(path);
   return page({
     ctx,
-    path: `/item/${slugFor(item)}.html`,
+    path,
     title: `${item.title} — ${brand.PUBLICATION}`,
     description: `${clipX(String(item.summary || item.title), 140)} ${hasScore(item)
-      ? `Scored ${num(item.score, 1)} of 100 by the ${brand.NAME} index.`
-      : `Indexed by ${brand.NAME}; ${UNSCORED}.`}`,
+      ? `Scored ${num(item.score, 1)} of 100 by the ${brand.NAME} AI activity index.`
+      : `Indexed by the ${brand.NAME} AI activity index; ${UNSCORED}.`}`,
     ogTitle: item.title,
     ogImageAlt: hasScore(item)
       ? `${brand.NAME} scored this item ${num(item.score, 1)} of 100`
@@ -232,11 +235,17 @@ export function render(ctx, item, related = []) {
       // did not write the headline, and structured data must not say it did.
       '@type': 'WebPage',
       name: item.title,
-      url: ctx.url(`/item/${slugFor(item)}.html`),
+      url: pageUrl,
       isBasedOn: item.url,
-      publisher: { '@type': 'Organization', name: brand.PUBLICATION },
+      datePublished: item.published_at || undefined,
+      publisher: { '@type': 'Organization', name: brand.PUBLICATION, url: ctx.url('/') },
       description: clipX(String(item.summary || item.title), 200),
-    }],
+      speakable: speakable(['h1.it__h', 'blockquote.lede']),
+      isPartOf: { '@type': 'WebSite', name: brand.PUBLICATION, url: ctx.url('/') },
+    }, breadcrumbs(ctx, [
+      { name: 'Newsroom', path: '/news.html' },
+      { name: item.title, path },
+    ])],
     main,
   });
 }

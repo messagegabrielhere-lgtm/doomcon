@@ -278,6 +278,8 @@ jobs:
         # steps here would be the same bug wearing a hat — the share cards would
         # be deleted from public/ and the next deploy would publish a site whose
         # OpenGraph images 404 on every link anyone shares.
+        env:
+          GOOGLE_SITE_VERIFICATION: ${{ secrets.GOOGLE_SITE_VERIFICATION }}
         run: |
           git rev-parse HEAD > "$RUNNER_TEMP/built-sha"
           node site/build.mjs
@@ -438,7 +440,7 @@ jobs:
           B="$(cat "$RUNNER_TEMP/built-sha" 2>/dev/null || true)"
           if [ -n "$B" ] && [ "$(git rev-list --count "$B"..HEAD 2>/dev/null || echo 2)" -gt 1 ]; then
             echo "::notice title=newsroom::main moved under this run; rebuilding before publishing"
-            node site/build.mjs
+            GOOGLE_SITE_VERIFICATION="${{ secrets.GOOGLE_SITE_VERIFICATION }}" node site/build.mjs
             node collector/card.mjs
             node collector/posts.mjs
             node site/post-sheet.mjs
@@ -465,6 +467,13 @@ jobs:
           cd ..
           rm -rf .pages
           echo "published: $SUBJECT"
+
+      - name: Notify search engines (IndexNow)
+        # Bing / Yandex / Seznam. Google does not use IndexNow; the sitemaps
+        # remain the Google path (docs/FINDABILITY.md). Never fails the job.
+        if: steps.gate.outputs.changed == 'true' || steps.leaders.outputs.changed == 'true' || steps.live.outputs.changed == 'true'
+        continue-on-error: true
+        run: node collector/indexnow.mjs
 
   # ---------------------------------------------------------------------------
   # THE FULL LANE. The index, the race and the newsroom, once an hour.
@@ -771,6 +780,8 @@ jobs:
         # Runs even when the engine was skipped: the generator is a pure function
         # of data/, so a rebuild on unchanged data produces byte-identical output
         # and the commit step below simply finds nothing to commit.
+        env:
+          GOOGLE_SITE_VERIFICATION: ${{ secrets.GOOGLE_SITE_VERIFICATION }}
         run: node site/build.mjs
 
       - name: Render cards and posting console
@@ -916,6 +927,12 @@ jobs:
           cd ..
           rm -rf .pages
           echo "published: $SUBJECT"
+
+      - name: Notify search engines (IndexNow)
+        # After every full publish: homepage, explainers, and the rolling news
+        # sitemap URLs. continue-on-error so a Bing blip never blocks receipts.
+        continue-on-error: true
+        run: node collector/indexnow.mjs
 
       - name: Close data reports the new reading answers
         # Visitors' "missing new data" issues filed before this reading are

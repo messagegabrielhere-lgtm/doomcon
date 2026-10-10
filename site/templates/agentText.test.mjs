@@ -129,6 +129,8 @@ test('llms.txt follows the llmstxt.org shape and lists the endpoints', () => {
   assert.ok(txt.includes(dispatchFeedUrl()));
   assert.match(dispatchFeedUrl(), /^https:\/\/raw\.githubusercontent\.com\/[^/]+\/[^/]+\/dispatch-data\/emergency\.json$/);
   assert.match(txt, /## Use SIREN with your human/);
+  assert.match(txt, /## Explainers \(search head terms\)/);
+  assert.match(txt, /## Instruments/);
   assert.doesNotMatch(txt, /@[a-z0-9-]+\.[a-z]/i, 'no email addresses');
   const full = llmsFullTxt(ctx, { state, history, url });
   assert.ok(full.startsWith(txt));

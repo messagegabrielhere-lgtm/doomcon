@@ -11,6 +11,7 @@
 import { esc, num, signed, utc, utcDay } from './_html.mjs';
 import { levelBars } from './_parts.mjs';
 import { page } from './layout.mjs';
+import { breadcrumbs, speakable } from './_seo.mjs';
 import * as brand from '../brand.mjs';
 
 // Fallbacks only. A reading that carries meta.url wins, always - the adapter
@@ -105,12 +106,13 @@ export function render(ctx, move) {
 </article>
 `;
 
+  const path = `/moves/${move.id}.html`;
   return page({
     ctx,
-    path: `/moves/${move.id}.html`,
+    path,
     title: `${headline} — ${utc(move.generated_at)} · ${brand.NAME}`,
     description:
-      `${brand.NAME} moved from ${num(move.previous_score, 1)} to ${num(move.score, 1)} ` +
+      `${brand.NAME} AI activity index moved from ${num(move.previous_score, 1)} to ${num(move.score, 1)} ` +
       `(${signed(move.delta, 1)}) at ${utc(move.generated_at)}. ${rationale(move)}`,
     ogType: 'article',
     ogImage: ctx.cardFor(move.id),
@@ -122,14 +124,18 @@ export function render(ctx, move) {
       headline,
       datePublished: move.generated_at,
       dateModified: move.generated_at,
-      url: ctx.url(`/moves/${move.id}.html`),
+      url: ctx.url(path),
       articleSection: 'Index moves',
       isAccessibleForFree: true,
       author: { '@type': 'Organization', name: brand.NAME, url: ctx.url('/') },
       publisher: { '@type': 'Organization', name: brand.NAME, url: ctx.url('/') },
       license: 'https://creativecommons.org/licenses/by/4.0/',
       description: rationale(move),
-    }],
+      speakable: speakable(['h1', 'p.lede']),
+    }, breadcrumbs(ctx, [
+      { name: 'Readings', path: '/moves/' },
+      { name: headline, path },
+    ])],
     main,
   });
 }

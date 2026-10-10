@@ -278,27 +278,50 @@ Honesty rules:
 - [skill.md](${u('/skill.md')}): instructions for AI agents
 - [For AI agents (and their humans)](${u('/agents.html')})
 
-## Read more
+## Explainers (search head terms)
 
 - [Method](${u('/methodology.html')}): every formula and constant
 - [Guide: SIREN vs DEFCON vs the Doomsday Clock vs p(doom)](${u('/guide.html')})
-- [About](${u('/about.html')})
-- [Newsroom](${u('/news.html')})
-- [AI leaders](${u('/leaders.html')})
-- [Takeover Watch](${u('/si-watch.html')})
 - [What is p(doom)?](${u('/p-doom.html')})
 - [Is there an AI doomsday clock?](${u('/ai-doomsday-clock.html')})
 - [AI and jobs: what has been measured](${u('/jobs.html')})
 - [AI in medicine: results on the record](${u('/medicine.html')})
 - [AI breakthroughs](${u('/breakthroughs.html')})
+- [About](${u('/about.html')})
+- [Press kit](${u('/press.html')})
+
+## Instruments
+
+${instrumentLinks(ctx, u)}
 
 ## Optional
 
+- [Newsroom](${u('/news.html')})
+- [AI leaders](${u('/leaders.html')})
+- [Takeover Watch](${u('/si-watch.html')})
 - [Prepare for superintelligence](${u('/si-ready.html')})
 - [AI-proof your job](${u('/ai-proof-job.html')})
 - [The staff: the automated crew](${u('/staff.html')})
 - [Bunker Kit: free tools and gear checklist](${u('/bunker-kit.html')})
+- [Catalog](${u('/catalog.html')})
+- [Search](${u('/search.html')})
 `;
+}
+
+/** Instrument rooms that exist for this build (FINDABILITY.md §2.1). */
+function instrumentLinks(ctx, u) {
+  const r = (ctx && ctx.routes) || {};
+  return [
+    r.race !== false ? `- [The Race: frontier labs on live market odds](${u('/race.html')})` : null,
+    r.watts !== false || (ctx && ctx.infra) ? `- [Power / Watts: grid, drought, build-out](${u('/watts.html')})` : null,
+    r.map !== false || (ctx && ctx.datacenters) ? `- [Map: US datacentres vs water](${u('/map.html')})` : null,
+    r.world ? `- [World: every mapped datacentre](${u('/world.html')})` : null,
+    r.flock ? `- [Cameras: mapped licence-plate readers](${u('/flock.html')})` : null,
+    r.exploits ? `- [Exploits: disclosure to exploitation lag](${u('/exploits.html')})` : null,
+    ctx && ctx.digest ? `- [Digest: the day in corroborated items](${u('/digest.html')})` : null,
+    r.balance ? `- [Balance: harm and benefit side by side](${u('/balance.html')})` : null,
+    ctx && ctx.bliss ? `- [Upside / BLISS](${u('/bliss.html')})` : null,
+  ].filter(Boolean).join('\n') || `- [Homepage instruments](${u('/')})`;
 }
 
 /** /llms-full.txt: the map, then the live snapshot. */
