@@ -178,6 +178,7 @@ import * as leadersPage from './templates/leadersPage.mjs';
 import * as newsSitemap from './templates/newsSitemap.mjs';
 import * as openapi from './templates/openapi.mjs';
 import * as agentText from './templates/agentText.mjs';
+import * as facetPages from './templates/facetPages.mjs';
 import { page as layoutPage } from './templates/layout.mjs';
 import { render as sitemap, robots } from './templates/sitemap.mjs';
 import { INDEXNOW_KEY } from '../collector/indexnow.mjs';
@@ -1320,6 +1321,16 @@ async function main() {
       }
       written.push(await write(args.out, 'item/index.html', itemPage.renderIndex(ctx)));
     }
+    for (const p of brand.PILLARS) {
+      written.push(await write(args.out, `pillar/${p.id}.html`, facetPages.renderPillar(ctx, p.id)));
+    }
+    for (const player of facetPages.labsFromRace(ctx)) {
+      written.push(await write(args.out, `lab/${player.id}.html`, facetPages.renderLab(ctx, player)));
+    }
+    // Keep the crawl surfaces in step with the newsroom window (item + facet
+    // URLs change every fast pass; a stale sitemap is how Google News goes quiet).
+    written.push(await write(args.out, 'sitemap.xml', sitemap(ctx)));
+    written.push(await write(args.out, 'news-sitemap.xml', newsSitemap.render(ctx)));
     // The leader wire rides the same fast path since matcher 1.2.0: its press
     // coverage and direct feeds refresh every 15 minutes (collector/leaders.mjs
     // gates its own polling), so the page is rebuilt here rather than waiting
@@ -1587,6 +1598,14 @@ async function main() {
     }
     written.push(await write(args.out, 'item/index.html', itemPage.renderIndex(ctx)));
   }
+  // Faceted landings (COMPETITIVE-SEO.md): DoomBench/Skynet win on entity URL
+  // count; these turn our CSS filters into crawlable pillar and lab pages.
+  for (const p of brand.PILLARS) {
+    written.push(await write(args.out, `pillar/${p.id}.html`, facetPages.renderPillar(ctx, p.id)));
+  }
+  for (const player of facetPages.labsFromRace(ctx)) {
+    written.push(await write(args.out, `lab/${player.id}.html`, facetPages.renderLab(ctx, player)));
+  }
   for (const m of moves) {
     written.push(await write(args.out, `moves/${m.id}.html`, movePage.render(ctx, m)));
   }
@@ -1604,6 +1623,8 @@ async function main() {
       'p-doom', 'ai-doomsday-clock', 'arena', 'scanner', 'monitor', 'elon',
       'game', 'bunker-kit', 'alerts', 'export', 'moltbook', 'staff', 'careers',
       'agents', 'tally', 'changelog', 'live',
+      ...brand.PILLARS.map((p) => `pillar/${p.id}`),
+      ...facetPages.labsFromRace(ctx).map((p) => `lab/${p.id}`),
     ],
     write,
     written,

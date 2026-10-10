@@ -294,6 +294,10 @@ Honesty rules:
 
 ${instrumentLinks(ctx, u)}
 
+## Facets (entity landings)
+
+${facetLinks(ctx, u)}
+
 ## Optional
 
 - [Newsroom](${u('/news.html')})
@@ -322,6 +326,17 @@ function instrumentLinks(ctx, u) {
     r.balance ? `- [Balance: harm and benefit side by side](${u('/balance.html')})` : null,
     ctx && ctx.bliss ? `- [Upside / BLISS](${u('/bliss.html')})` : null,
   ].filter(Boolean).join('\n') || `- [Homepage instruments](${u('/')})`;
+}
+
+/** Pillar + lab entity landings (COMPETITIVE-SEO.md faceted URL play). */
+function facetLinks(ctx, u) {
+  const pillars = brand.PILLARS.map((p) => `- [${p.name} pillar](${u(`/pillar/${p.id}.html`)})`).join('\n');
+  const labs = ((ctx && ctx.race && ctx.race.players) || [])
+    .filter((p) => p && p.id && p.name)
+    .slice(0, 12)
+    .map((p) => `- [${p.name}](${u(`/lab/${p.id}.html`)})`)
+    .join('\n');
+  return [pillars, labs || null].filter(Boolean).join('\n');
 }
 
 /** /llms-full.txt: the map, then the live snapshot. */

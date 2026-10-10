@@ -121,7 +121,7 @@ test('llms.txt follows the llmstxt.org shape and lists the endpoints', () => {
   const lines = txt.split('\n');
   assert.match(lines[0], /^# SIREN/);
   assert.match(lines[2], /^> /);
-  assert.ok(lines.length < 160, `${lines.length} lines`);
+  assert.ok(lines.length < 200, `${lines.length} lines`);
   for (const p of ['/api/now.txt', '/now.md', '/api/state.json', '/api/history.json', '/api/news.json', '/api/leaders.json',
     '/api/si-signals.json', '/api/search-index.json', '/api/fresh.json', '/api/health.json', '/api/receipts/', '/feed.xml', '/openapi.json']) {
     assert.ok(txt.includes(`https://siren.watch${p}`), p);

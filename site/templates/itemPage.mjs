@@ -174,11 +174,12 @@ export function render(ctx, item, related = []) {
   const pillarName = meta ? meta.name : (item.pillar || 'unclassified');
   const firstSeen = (item.meta || {}).first_seen_at || item.published_at;
 
+  const pillarHref = item.pillar ? ctx.href(`/pillar/${item.pillar}.html`) : null;
   const main = `${styleTag()}
 <article class="it">
   <p class="it__k">
     <a href="${esc(ctx.href('/news.html'))}">Newsroom</a> ·
-    ${esc(pillarName)} ·
+    ${pillarHref ? `<a href="${esc(pillarHref)}">${esc(pillarName)}</a>` : esc(pillarName)} ·
     <time datetime="${esc(item.published_at)}">${esc(utc(item.published_at))}</time>
   </p>
 
@@ -244,6 +245,7 @@ export function render(ctx, item, related = []) {
       isPartOf: { '@type': 'WebSite', name: brand.PUBLICATION, url: ctx.url('/') },
     }, breadcrumbs(ctx, [
       { name: 'Newsroom', path: '/news.html' },
+      ...(item.pillar ? [{ name: pillarName, path: `/pillar/${item.pillar}.html` }] : []),
       { name: item.title, path },
     ])],
     main,

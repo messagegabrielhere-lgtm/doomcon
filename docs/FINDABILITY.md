@@ -3,6 +3,7 @@
 **Status:** playbook, measured against the live site on **2026-10-08**, with
 engineering checklist updates through **2026-10-10**. Companion to
 `docs/GROWTH.md` (UX moves), `docs/COMPETITIVE.md` (URL-count war),
+`docs/COMPETITIVE-SEO.md` (live reverse-engineer of rival titles/sitemaps/schema),
 `docs/VIRAL.md` (distribution on X), and `docs/MONETIZE.md` (earning without
 losing rank).
 
@@ -229,7 +230,7 @@ context.
 |---:|---|---|---|
 | 1 | Expand `llms.txt` to cover API index, race, map, flock, exploits, watts, digest, press/about | AI agents | **Done** (2026-10-10) |
 | 2 | Keep `/item/` and substantive `/moves/` growing; never sitemap `noindex` pages | Google | Ongoing |
-| 3 | Faceted pillar/lab URLs with unique titles and internal links | Google + agents | Open |
+| 3 | Faceted pillar/lab URLs with unique titles and internal links | Google + agents | **Done** (2026-10-10) — see `docs/COMPETITIVE-SEO.md` |
 | 4 | `SpeakableSpecification` + breadcrumb on item/move pages | Google / voice | **Done** (2026-10-10) |
 | 5 | `news-sitemap.xml` once item pages qualify | Google News | **Done** |
 | 6 | `/openapi.json` + sitemap entries for API docs | Agents + developers | **Done** |
@@ -270,4 +271,5 @@ context.
 | E-E-A-T / people-first content | [Creating helpful content](https://developers.google.com/search/docs/fundamentals/creating-helpful-content) | 2026-10-08 |
 | `llms.txt` format (H1, blockquote, H2 file lists, optional markdown mirrors) | [llmstxt.org](https://llmstxt.org/) v2 | 2026-10-08 |
 | Live robots, sitemap (~480 URLs), `llms.txt`, API index, homepage title/description, news-sitemap 404 | HTTP checks against the Pages site | 2026-10-08 |
+| Rival SEO re-measure: pizzint news-sitemap empty; DoomBench 2,081 URLs; Skynet 1,237; SIREN ~530 + news-sitemap 100 | `docs/COMPETITIVE-SEO.md` | 2026-10-10 |
 | URL-count strategy, news sitemap, Speakable, Search Console success metric | `docs/COMPETITIVE.md`, `docs/VIRAL.md` §7 | this repo |
