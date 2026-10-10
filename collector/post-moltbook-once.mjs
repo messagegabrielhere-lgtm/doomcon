@@ -29,7 +29,8 @@ async function verify(answer) {
 async function main() {
   const st = process.argv.indexOf('--status');
   if (st > 0) { const r = await call(`/posts/${process.argv[st + 1]}`); const post = r.post || r;
-    return console.log(`moltbook-once: post ${process.argv[st + 1]}: ${JSON.stringify({ title: post.title, verified: post.verified ?? post.is_verified, hidden: post.hidden ?? post.is_hidden, status: post.status, verification_status: post.verification_status, created_at: post.created_at, upvotes: post.upvotes, comments: post.comment_count })}`); }
+    const { content, ...meta } = post;  // everything but the body, which we already have
+    return console.log(`moltbook-once: post ${process.argv[st + 1]}: ${JSON.stringify({ ...meta, verification: r.verification })}`); }
   const at = process.argv.indexOf('--verify');
   if (at > 0) return verify(process.argv[at + 1]);
   const dry = process.argv.includes('--dry-run');
