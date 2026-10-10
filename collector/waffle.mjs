@@ -263,7 +263,7 @@ async function main(argv) {
       waffle_in_path: inPath.length,
       stores: inPath.slice(0, 400).map(({ lat, lon, city, state, d }) => ({ lat, lon, city, state, d: Math.round(d) })),
       google: (googled || live) ? { source: live ? 'Waffle House locator' : 'Google Places', checked: withStatus.length, known: known.length, closed: closed.length, limited: withStatus.filter((p) => p.limited).length, places: withStatus.slice(0, 700).map((p) => ({ name: p.name, lat: p.lat, lon: p.lon, closed: p.closed, limited: !!p.limited, status: p.status, address: p.address, url: p.url || null })) } : null,
-      index: indexFrom(closed.length, known.length, withStatus.filter((p) => p.limited).length),
+      index: indexFrom(closed.length, known.length),
       datacenters_in_path: dcIn.length,
       datacenters: dcIn.slice(0, 60).map(({ name, operator, city, state, status, lat, lon, d }) => ({ name, operator, city, state, status, lat, lon, d: Math.round(d) })),
     });

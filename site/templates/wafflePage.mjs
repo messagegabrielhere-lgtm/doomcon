@@ -97,7 +97,7 @@ function mapSvg(st, us, W = 1000, allStores = null) {
   const nClosed = nat ? allStores.filter((r) => r[2] === 1).length : 0;
   const label = `Map of the United States with ${nat ? `all ${allStores.length} Waffle Houses (${nClosed} closed)` : 'Waffle Houses'}${st ? `, and ${st.name}'s rough path with ${st.waffle_in_path} Waffle Houses and ${st.datacenters_in_path} data centres in it` : ''}`;
   const leg = nat
-    ? `<span style="--c:#FACC15">Open</span><span style="--c:#FB923C">Short hours (not 24/7)</span><span style="--c:#F87171">Temporarily closed</span>`
+    ? `<span style="--c:#FACC15">Open</span><span style="--c:#FB923C">Posted hours not 24/7</span><span style="--c:#F87171">Temporarily closed</span>`
     : `<span style="--c:#FACC15">${g ? 'Open' : 'Waffle House in the path'}</span>${g ? '<span style="--c:#F87171">Closed</span><span style="--c:#94A3B8">No live status</span>' : ''}`;
   return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(label)}">
   <g fill="#1A2638" stroke="#33465F" stroke-width="1">${land}</g>
@@ -150,7 +150,7 @@ export function render(ctx, data, us) {
     : `
         <div><b>${fmt(all.length || (data && data.stores_total))}</b><span>WAFFLE HOUSES MAPPED</span></div>
         <div><b>${off ? fmt(off.closed) : '—'}</b><span>TEMPORARILY CLOSED, CHAIN-WIDE</span></div>
-        <div><b>${off ? fmt(off.limited) : '—'}</b><span>ON SHORT HOURS</span></div>
+        <div><b>${off ? fmt(off.limited) : '—'}</b><span>POSTED HOURS NOT 24/7</span></div>
         <div><b>0</b><span>ACTIVE STORMS NEAR THE US</span></div>`;
   const chain = off ? `<div class="wf-c"><h3>RIGHT NOW, CHAIN-WIDE: ${fmt(off.closed)} OF ${fmt(all.length)} CLOSED</h3>
       ${off.by_state && off.by_state.length ? `<div class="wf-st">${off.by_state.slice(0, 14).map((b) => `<span>${esc(b.state)} ${b.n}</span>`).join('')}</div>` : ''}
@@ -179,7 +179,7 @@ export function render(ctx, data, us) {
       <li>FEMA’s gauge works because it is simple, public and hard to fake. SIREN tries to be the same thing for AI: a count anyone can check.</li></ul></div>
   </div>
   ${others ? `<h2>Other active storms</h2><ul>${others}</ul>` : ''}
-  <p style="font-size:12.5px;margin-top:18px">How it works: storms from the <a href="https://www.nhc.noaa.gov/" target="_blank" rel="noopener">National Hurricane Center</a>; the shaded path runs along the storm’s current motion for 24 hours with a radius set by its strength, so it is NOT the official forecast cone. ${live ? `Every Waffle House location and its open/closed flag come from <a href="https://locations.wafflehouse.com/" target="_blank" rel="noopener">Waffle House’s own store locator</a> (${fmt(all.length)} stores); “short hours” means the store’s posted hours aren’t 24/7.` : `Waffle Houses from ${esc((data && data.stores_source) || 'OpenStreetMap')} (${fmt(data && data.stores_total)} mapped); Waffle House’s own locator was unreachable this hour${data && data.google && data.google.enabled ? ', so open/closed comes from Google Maps' : ''}.`} Data centres from SIREN’s <a href="map.html">power map</a>. Refreshed hourly. Not a safety service: follow your local officials. Updated ${esc(String((data && data.generated_at) || '').slice(0, 16).replace('T', ' '))} UTC. <a href="api/waffle.json">JSON</a>.</p>
+  <p style="font-size:12.5px;margin-top:18px">How it works: storms from the <a href="https://www.nhc.noaa.gov/" target="_blank" rel="noopener">National Hurricane Center</a>; the shaded path runs along the storm’s current motion for 24 hours with a radius set by its strength, so it is NOT the official forecast cone. ${live ? `Every Waffle House location and its open/closed flag come from <a href="https://locations.wafflehouse.com/" target="_blank" rel="noopener">Waffle House’s own store locator</a> (${fmt(all.length)} stores); orange means a store’s posted hours aren’t 24/7, which is a hint, not a storm flag. Waffle House’s “limited menu” state isn’t public, so it never moves the index; yellow and red come only from stores marked closed.` : `Waffle Houses from ${esc((data && data.stores_source) || 'OpenStreetMap')} (${fmt(data && data.stores_total)} mapped); Waffle House’s own locator was unreachable this hour${data && data.google && data.google.enabled ? ', so open/closed comes from Google Maps' : ''}.`} Data centres from SIREN’s <a href="map.html">power map</a>. Refreshed hourly. Not a safety service: follow your local officials. Updated ${esc(String((data && data.generated_at) || '').slice(0, 16).replace('T', ' '))} UTC. <a href="api/waffle.json">JSON</a>.</p>
 </section>`;
   return page({ ctx, path: '/waffle.html', title: `Waffle House Index: hurricanes, waffles and AI data centres · ${brand.NAME}`,
     description: 'Live hurricane tracking with the Waffle House Index: every Waffle House in the US, which ones Waffle House marks closed, the storm’s rough path, and the AI data centres under the same storm.', main });
