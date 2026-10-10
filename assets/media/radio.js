@@ -370,19 +370,30 @@
           if (ctx && ctx.state === 'running' && playing) { paint(); return; }
           stop();
           paint();
-          btns.forEach(function (b) { b.title = 'SIREN Radio was on. Tap the button, or anywhere else, to keep it playing.'; });
+          btns.forEach(function (b) { b.title = 'SIREN Radio was on. Tap the button, or anywhere else, to keep it playing.'; if (b.hasAttribute('data-siren-radio')) b.textContent = '♪ TAP'; });
         }, 350);
       } catch (e) {}
+      // Resume on the first gesture that browsers accept as user activation.
+      // iOS ignores pointerdown from a finger (only touchend/click count), so
+      // listen to all of them and stay armed until the audio really runs.
+      var evs = ['pointerup', 'touchend', 'click', 'keydown'];
+      var disarm = function () { evs.forEach(function (n) { removeEventListener(n, go, true); }); };
       var go = function (e) {
-        // The power and station buttons handle themselves on click. Starting
-        // here as well made one tap turn the radio on and straight back off.
-        if (hitControl(e) || playing) return;
+        if (hitControl(e)) { disarm(); return; }
+        if (playing && ctx && ctx.state === 'running') { disarm(); return; }
+        try { if (localStorage.getItem(KEY) !== '1') { disarm(); return; } } catch (err) {}
         start(lv);
-        try { localStorage.setItem(KEY, '1'); } catch (err) {}
         paint();
+        if (ctx && ctx.state === 'running') disarm();
+        else if (ctx && ctx.resume) ctx.resume().then(function () { if (ctx.state === 'running') { disarm(); paint(); } }).catch(function () {});
       };
-      addEventListener('pointerdown', go, { once: true });
-      addEventListener('keydown', go, { once: true });
+      evs.forEach(function (n) { addEventListener(n, go, true); });
+      // Coming back to a backgrounded tab (iOS suspends audio): pick up again.
+      document.addEventListener('visibilitychange', function () {
+        if (document.visibilityState !== 'visible' || !playing || !ctx) return;
+        if (ctx.state !== 'running' && ctx.resume) ctx.resume().catch(function () {});
+        unlockIOS();
+      });
     }
     paint();
   }
