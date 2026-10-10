@@ -76,6 +76,12 @@ export const TILE_ICONS = {
     '................', '...........aa...', '.........aaba...', '.......aabbba...', '.cc..aabbbbba...', '.ccaabbbbbbba..b', '.ccabbbbbbbba.b.', '.ccabbbbbbbba...',
     '.ccabbbbbbbba.bb', '.ccaabbbbbbba...', '.cc..ddabbbba.b.', '.....dd.aabba..b', '.....dd...aba...', '....ddd....aa...', '................', '................']],
   // Round 3 (2026-10-09): What's New, Dispatch.
+  waffle: [{ a: '#B45309', b: '#F59E0B', c: '#FDE68A' }, [
+    '................', '..aaaaaaaaaaaa..', '.abbabbabbabbaa.', '.abbabbabbabba..', '.aaaaaaaaaaaaaa.', '.abbabbabbabbaa.', '.abbabbabbabba..', '.aaaaaaaaaaaaaa.',
+    '.abbabbacccbbaa.', '.abbabbcccccba..', '.aaaaaaacccaaaa.', '.abbabbabcbabba.', '.abbabbabbabba..', '..aaaaaaaaaaaa..', '................', '................']],
+  hurricane: [{ a: '#60A5FA', b: '#F87171', c: '#FFFFFF' }, [
+    '................', '......aaaa......', '....aa....a.....', '...a...bb..a....', '..a...b..b......', '..a..b....b.a...', '.a...b.cc.b..a..', '.a..b.cccc.b.a..',
+    '..a.b.cccc.b..a.', '..a.b..cc.b...a.', '...a.b....b..a..', '.....b..b...a...', '......bb...a....', '....a.....aa....', '.....aaaaa......', '................']],
   onair: [{ a: '#F87171', b: '#450A0A', c: '#FECACA', d: '#FCA5A5' }, [
     '................', '................', '.aaaaaaaaaaaaaa.', '.abbbbbbbbbbbba.', '.abccbcbbcbbcba.', '.abcbccbcbcccba.', '.abcbcbbcbcbcba.', '.abccbcbbcbbcba.',
     '.abbbbbbbbbbbba.', '.aaaaaaaaaaaaaa.', '.......d........', '......ddd.......', '................', '..d..........d..', '.d............d.', '................']],

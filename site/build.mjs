@@ -40,6 +40,7 @@ import * as mediaPages from './templates/mediaPages.mjs';
 import * as moltbookPage from './templates/moltbookPage.mjs';
 import * as livePage from './templates/livePage.mjs';
 import * as siWatchPage from './templates/siWatchPage.mjs';
+import * as wafflePage from './templates/wafflePage.mjs';
 import * as catalogPages from './templates/catalogPages.mjs';
 import { items as faqItems } from './templates/_faq.mjs';
 import { TILE_ICONS, tileSvg } from './tileicons.mjs';
@@ -1449,6 +1450,15 @@ async function main() {
     ctx.liveMedia = liveMedia;
     written.push(await write(args.out, 'live.html', livePage.render(ctx, liveMedia)));
     if (liveText !== null && liveMedia) written.push(await write(args.out, 'api/live-media.json', liveText));
+  }
+  {
+    // The Waffle House Index (collector/waffle.mjs): storms, Waffle Houses in
+    // the path, Google open/closed when enabled, AI data centres alongside.
+    let wfText = null, wf = null, usRings = null;
+    try { wfText = await readFile(path.join(args.data, 'waffle.json'), 'utf8'); wf = JSON.parse(wfText); } catch { wfText = null; wf = null; }
+    try { const wo = JSON.parse(await readFile(path.join(args.data, 'world-outline.json'), 'utf8')); usRings = ((wo.countries || []).find((c) => c.iso2 === 'US') || {}).rings || null; } catch { usRings = null; }
+    written.push(await write(args.out, 'waffle.html', wafflePage.render(ctx, wf, usRings)));
+    if (wfText !== null && wf) written.push(await write(args.out, 'api/waffle.json', wfText));
   }
   written.push(await write(args.out, 'live-x.html', featurePages.liveX(ctx)));
   written.push(await write(args.out, 'tally.html', withVideo(agentPages.tally(ctx), 'tally')));

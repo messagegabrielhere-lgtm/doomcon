@@ -565,6 +565,16 @@ jobs:
           METACULUS_TOKEN: ${{ secrets.METACULUS_TOKEN }}
         run: node collector/si-signals.mjs
 
+      - name: Waffle House Index
+        # Storms from NHC, Waffle Houses in the path (OpenStreetMap, weekly),
+        # open/closed from Google Places when GOOGLE_PLACES_API_KEY is set
+        # (at most GOOGLE_WAFFLE_MAX_CALLS lookups a run, default 10), AI data
+        # centres alongside. Presentation only; never moves the index.
+        continue-on-error: true
+        env:
+          GOOGLE_PLACES_API_KEY: ${{ secrets.GOOGLE_PLACES_API_KEY }}
+        run: node collector/waffle.mjs
+
       - name: Post the reading to Moltbook
         # At most every 6 hours, or when the level moves. Off until the owner
         # registers and claims the agent and adds MOLTBOOK_API_KEY.

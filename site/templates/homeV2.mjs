@@ -144,6 +144,7 @@ export function roomGroups(ctx) {
       ctx.digest ? ['/digest.html', 'clipboard', 'Digest', null, 'The day in a few corroborated items.'] : null,
       ['/monitor.html', 'satellite', 'World Monitor', null, 'Live globe: stories from 27 outlets, hazards, a country stress index, 72-hour replay.'],
       ['/dispatch.html', 'px:beacon', 'Dispatch', null, '911 CAD, multi-system alerts, blather — emergency mark + X.'],
+      ['/waffle.html', 'px:waffle', 'Waffle House Index', 'NEW', 'Hurricanes, Waffle Houses and the AI data centres in the path.'],
       ['/elon.html', 'musk', 'Real Clips', null, 'Verified clips of Elon, Altman, Amodei and the AI bosses.'],
       ['/live-x.html', 'px:antenna', 'Live on X', null, 'Live X feeds and Spaces on AI, newest first.'],
       ['/si-watch.html', 'px:crosshair2', 'Takeover Watch', null, 'What AI agents are coding, live, plus frontier models and the AGI forecast.'],
