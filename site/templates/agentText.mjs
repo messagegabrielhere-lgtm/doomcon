@@ -309,6 +309,7 @@ ${facetLinks(ctx, u)}
 - [Bunker Kit: free tools and gear checklist](${u('/bunker-kit.html')})
 - [Catalog](${u('/catalog.html')})
 - [Search](${u('/search.html')})
+- [Outlets](${u('/source/')}): scored stories grouped by the publication that wrote them
 `;
 }
 

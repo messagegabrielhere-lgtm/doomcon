@@ -6,6 +6,8 @@
 // tail was /item/ only. These facet pages turn filters that already exist as
 // CSS chips into crawlable URLs with unique titles (FINDABILITY.md §1.2 #3).
 
+import { readdirSync, readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
 import { esc, num, utc } from './_html.mjs';
 import { page } from './layout.mjs';
 import { breadcrumbs } from './_seo.mjs';
@@ -280,6 +282,175 @@ export function renderLab(ctx, player) {
   });
 }
 
+/** Minimum scored stories before an outlet page is indexable. */
+export const SOURCE_INDEX_MIN = 3;
+
+export function sourcePath(id) {
+  return `/source/${id}.html`;
+}
+
+let sourceLabelCache = null;
+
+/** Adapter id -> label, read from collector/news-sources so the page name matches the feed. */
+export function sourceLabels() {
+  if (sourceLabelCache) return sourceLabelCache;
+  const dir = fileURLToPath(new URL('../../collector/news-sources/', import.meta.url));
+  const map = new Map();
+  for (const name of readdirSync(dir)) {
+    if (!name.endsWith('.mjs') || name.startsWith('_') || name.startsWith('.')) continue;
+    const text = readFileSync(`${dir}/${name}`, 'utf8');
+    const id = text.match(/\bid:\s*['"]([a-z0-9-]+)['"]/);
+    const label = text.match(/\blabel:\s*['"]([^'"]+)['"]/);
+    if (id && label) map.set(id[1], label[1]);
+  }
+  sourceLabelCache = map;
+  return map;
+}
+
+export function sourceLabel(id) {
+  return sourceLabels().get(id) || String(id || '');
+}
+
+export function itemsForSource(ctx, sourceId) {
+  const items = (ctx.news && Array.isArray(ctx.news.items)) ? ctx.news.items : [];
+  return items
+    .filter((it) => it && it.source === sourceId)
+    .slice()
+    .sort((a, b) => String(b.published_at || '').localeCompare(String(a.published_at || '')));
+}
+
+export function sourceIndexable(ctx, sourceId) {
+  return itemsForSource(ctx, sourceId).length >= SOURCE_INDEX_MIN;
+}
+
+/** Outlets with enough scored stories to be a page, busiest first. */
+export function indexableSources(ctx) {
+  const counts = new Map();
+  const items = (ctx.news && Array.isArray(ctx.news.items)) ? ctx.news.items : [];
+  for (const it of items) {
+    if (!it || !it.source) continue;
+    counts.set(it.source, (counts.get(it.source) || 0) + 1);
+  }
+  return [...counts.entries()]
+    .filter(([, n]) => n >= SOURCE_INDEX_MIN)
+    .map(([id, count]) => ({ id, count, label: sourceLabel(id) }))
+    .sort((a, b) => b.count - a.count || a.label.localeCompare(b.label));
+}
+
+export function renderSource(ctx, sourceId) {
+  const items = itemsForSource(ctx, sourceId);
+  const label = sourceLabel(sourceId);
+  const indexable = items.length >= SOURCE_INDEX_MIN;
+  const path = sourcePath(sourceId);
+  const title = `${label}: AI stories this index scored · ${brand.NAME}`;
+  const description = clip(
+    `${items.length} scored stories from ${label} in the current ${brand.NAME} newsroom window. The outlet wrote them. The score is ours. Tempo, not a forecast.`,
+    160,
+  );
+  const others = indexableSources(ctx)
+    .filter((s) => s.id !== sourceId)
+    .slice(0, 12)
+    .map((s) => `<a href="${esc(ctx.href(sourcePath(s.id)))}">${esc(s.label)}</a>`)
+    .join('');
+
+  const main = `${STYLE}
+<article class="fc prose">
+  <p class="fc__k"><a href="${esc(ctx.href('/news.html'))}">Newsroom</a> · <a href="${esc(ctx.href('/source/'))}">Outlets</a></p>
+  <h1>${esc(label)}</h1>
+  <p class="fc__lede">Stories this index scored from ${esc(label)}. The words belong to the outlet. The score is computed here, and it measures how much the item moved inside the window, not whether the story is good or bad.</p>
+  <div class="fc__stat" role="group" aria-label="Outlet counts">
+    <div><b class="num">${esc(String(items.length))}</b><span>Scored stories in window</span></div>
+  </div>
+  <h2>Stories from ${esc(label)}</h2>
+  ${items.length
+    ? `<ol class="fc__list">${itemRows(ctx, items)}</ol>`
+    : '<p>No scored stories from this outlet in the current window.</p>'}
+  ${others ? `<h2>Other outlets</h2><nav class="fc__labs" aria-label="Other outlets">${others}</nav>` : ''}
+</article>`;
+
+  return page({
+    ctx,
+    path,
+    title,
+    description,
+    noindex: !indexable,
+    jsonld: [{
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      name: title,
+      url: ctx.url(path),
+      description,
+      isPartOf: { '@type': 'WebSite', name: brand.PUBLICATION, url: ctx.url('/') },
+      about: { '@type': 'NewsMediaOrganization', name: label },
+      mainEntity: {
+        '@type': 'ItemList',
+        numberOfItems: Math.min(items.length, 40),
+        itemListElement: items.slice(0, 40).map((it, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          url: ctx.url(`/item/${slugFor(it)}.html`),
+          name: it.title,
+        })),
+      },
+    }, breadcrumbs(ctx, [
+      { name: 'Newsroom', path: '/news.html' },
+      { name: 'Outlets', path: '/source/' },
+      { name: label, path },
+    ])],
+    main,
+  });
+}
+
+export function renderSourceIndex(ctx) {
+  const sources = indexableSources(ctx);
+  const path = '/source/';
+  const title = `AI news outlets this index scores · ${brand.NAME}`;
+  const description = clip(
+    `${sources.length} outlets with at least ${SOURCE_INDEX_MIN} scored stories in the current ${brand.NAME} window. Each page lists those stories.`,
+    160,
+  );
+  const rows = sources.map((s) => `<li>
+  <a href="${esc(ctx.href(sourcePath(s.id)))}">${esc(s.label)}</a>
+  <span class="fc__meta">${esc(s.id)}</span>
+  <span class="fc__sc num">${esc(String(s.count))}</span>
+</li>`).join('');
+  const main = `${STYLE}
+<article class="fc prose">
+  <p class="fc__k"><a href="${esc(ctx.href('/news.html'))}">Newsroom</a> · Outlets</p>
+  <h1>Outlets this index scores</h1>
+  <p class="fc__lede">An outlet earns a page when the current window holds at least ${SOURCE_INDEX_MIN} scored stories from it. Fewer than that stays on the story page only, so a one-off item does not become its own URL.</p>
+  <ol class="fc__list">${rows}</ol>
+</article>`;
+  return page({
+    ctx,
+    path,
+    title,
+    description,
+    noindex: sources.length === 0,
+    jsonld: [{
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      name: title,
+      url: ctx.url('/source/'),
+      description,
+      mainEntity: {
+        '@type': 'ItemList',
+        numberOfItems: sources.length,
+        itemListElement: sources.map((s, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          url: ctx.url(sourcePath(s.id)),
+          name: s.label,
+        })),
+      },
+    }, breadcrumbs(ctx, [
+      { name: 'Newsroom', path: '/news.html' },
+      { name: 'Outlets', path: '/source/' },
+    ])],
+    main,
+  });
+}
+
 /** Sitemap rows: only indexable facets (mirrors noindex). */
 export function sitemapEntries(ctx) {
   const out = [];
@@ -301,6 +472,22 @@ export function sitemapEntries(ctx) {
       changefreq: 'daily',
       priority: '0.7',
       lastmod: lastRace,
+    });
+  }
+  if (indexableSources(ctx).length) {
+    out.push({
+      loc: '/source/',
+      changefreq: 'hourly',
+      priority: '0.6',
+      lastmod: lastNews,
+    });
+  }
+  for (const s of indexableSources(ctx)) {
+    out.push({
+      loc: sourcePath(s.id),
+      changefreq: 'hourly',
+      priority: '0.6',
+      lastmod: lastNews,
     });
   }
   return out;
