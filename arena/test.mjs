@@ -381,3 +381,33 @@ test('public errors in arena never carry stacks', async () => {
   assert.ok(!msg.includes('sk-ant-'));
   assert.ok(!msg.includes('/workspace'));
 });
+
+import { houseBot } from './housebots.mjs';
+
+test('house bots: uptrend entries with their own stops, half off on a big gain, quiet-hour rule', () => {
+  const trend = row('SOL-USD', 100, { type: 'crypto', vsSma20hPct: 3, vsSma50hPct: 5, chg24h: 4, chg1h: 0.5, rsi14h: 60, atr14hPct: 1.5 });
+  const stock = row('NVDA', 100, { type: 'stock', vsSma20hPct: 2, vsSma50hPct: 3, chg24h: 2, chg1h: 0.2, rsi14h: 58 });
+  const w = wallet();
+  const t = houseBot('trader', { w, eq: 1000, rows: [trend, stock], now: NOW });
+  assert.deepEqual(t.actions.map((a) => a.sym).sort(), ['NVDA', 'SOL-USD'], 'trades stocks and crypto');
+  assert.ok(t.actions.every((a) => a.side === 'buy' && Math.abs(a.stop - 88) < 0.01), 'a 12% stop on every buy');
+  assert.ok(t.actions.every((a) => a.reason.startsWith('House bot:')));
+  const a = houseBot('alwayson', { w: wallet(), eq: 1000, rows: [trend, stock], now: NOW });
+  assert.deepEqual(a.actions.map((x) => x.sym), ['SOL-USD'], 'always-on trades crypto only');
+  assert.ok(Math.abs(a.actions[0].stop - 92.5) < 0.01, 'stop is 5 ATRs: 7.5%');
+  const quiet = Date.UTC(2026, 9, 5, 7);
+  const mild = { ...trend, vsSma20hPct: 2.5 };
+  assert.equal(houseBot('alwayson', { w: wallet(), eq: 1000, rows: [mild], now: NOW }).actions.length, 1, '2.5% clears 1.5% at noon UTC');
+  assert.equal(houseBot('alwayson', { w: wallet(), eq: 1000, rows: [mild], now: quiet }).actions.length, 0, 'but not the doubled 3% at 7am UTC');
+
+  // A position up 26%: the trader sells half once, then trails the stop.
+  const held = wallet();
+  execute(held, preview(held, buy({ sym: 'SOL-USD', usd: 200, stop: 88 }), deepBook(100), NOW));
+  const up = row('SOL-USD', 126, { type: 'crypto', vsSma20hPct: 3, vsSma50hPct: 5, chg24h: 4, chg1h: 0.5, rsi14h: 60, atr14hPct: 1.5 });
+  const first = houseBot('trader', { w: held, eq: 1050, rows: [up], now: NOW });
+  assert.equal(first.actions[0].side, 'sell');
+  assert.equal(first.actions[0].fraction, 0.5);
+  const second = houseBot('trader', { w: held, eq: 1050, rows: [up], now: NOW });
+  assert.equal(second.actions[0].side, 'stop', 'half is sold only once; next it trails');
+  assert.ok(Math.abs(second.actions[0].stop - 113.4) < 0.01, 'stop 10% under 126');
+});

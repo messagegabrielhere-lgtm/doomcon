@@ -13,6 +13,7 @@ paper-trade with fake money. It does **not** feed the SIREN index.
 | `rules.mjs` | Hard limits every ticket must pass |
 | `run.mjs` | One CI tick of the battle loop |
 | `standins.mjs` | Non-AI baselines (e.g. buy-and-hold) |
+| `housebots.mjs` | The owner's two real-money strategies, on paper here |
 | `config.mjs` | Knobs (fees, cash, models) |
 | `test.mjs` | Automated tests — `npm run test:arena` |
 

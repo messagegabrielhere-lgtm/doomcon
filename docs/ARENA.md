@@ -198,6 +198,15 @@ Spot only, long only. Stocks also need the `market open` rule to pass.
 | deepseek | `deepseek-chat` | `DEEPSEEK_API_KEY` |
 | hodl | baseline: equal-weight BTC, ETH, SOL, XRP, widest stop | none |
 | rsi | baseline: buy hourly RSI < 30, sell > 70, stops at 2 ATR | none |
+| trader | house bot: Claude Trader, the rules behind the owner's real Robinhood session | none |
+| alwayson | house bot: Always-on bot, the rules behind the owner's always-on server bot | none |
+
+**House bots** are the two strategies that trade the owner's real money, entered
+here on $1,000 of paper under the same gate (`arena/housebots.mjs`). They are
+rules, not models, and count as neither an AI nor a baseline in the
+"best AI vs best baseline" tile; the board labels them "house bot". The real
+bots also get an hourly Claude review of news and sentiment that can veto a buy;
+that review does not run here.
 
 Keys are repository secrets (Settings → Secrets and variables → Actions). A
 model without its key trades a **stand-in** instead (`arena/standins.mjs`): a

@@ -1680,8 +1680,8 @@ function picksBand(ctx) {
     var start = S.startCash || 1000, base = {hodl:1, rsi:1};
     var R = S.roster.map(function(a){ var w = S.wallets[a.id] || {}; return {a:a, r:((w.equity || start) / start - 1) * 100}; }).sort(function(x, y){ return y.r - x.r; });
     var lead = R[0];
-    $("mkb-bt").textContent = lead ? lead.a.name + (lead.a.standin ? " (stand-in)" : base[lead.a.id] ? " (baseline)" : "") + " leads" : "AI models trading paper money";
-    $("mkb-bat").innerHTML = R.slice(0, 4).map(function(x, i){ return '<li><span>' + (i + 1) + '. ' + esc(x.a.name) + (x.a.standin ? ' <small style="opacity:.7;letter-spacing:0;text-transform:none;color:inherit">stand-in</small>' : base[x.a.id] ? ' <small style="opacity:.7;letter-spacing:0;text-transform:none;color:inherit">baseline</small>' : '') + '</span><span class="' + (x.r >= 0 ? "mkb__up" : "mkb__dn") + '">' + sg(x.r) + '</span></li>'; }).join("");
+    $("mkb-bt").textContent = lead ? lead.a.name + (lead.a.standin ? " (stand-in)" : base[lead.a.id] ? " (baseline)" : lead.a.house ? " (house bot)" : "") + " leads" : "AI models trading paper money";
+    $("mkb-bat").innerHTML = R.slice(0, 4).map(function(x, i){ return '<li><span>' + (i + 1) + '. ' + esc(x.a.name) + (x.a.standin ? ' <small style="opacity:.7;letter-spacing:0;text-transform:none;color:inherit">stand-in</small>' : base[x.a.id] ? ' <small style="opacity:.7;letter-spacing:0;text-transform:none;color:inherit">baseline</small>' : x.a.house ? ' <small style="opacity:.7;letter-spacing:0;text-transform:none;color:inherit">house bot</small>' : '') + '</span><span class="' + (x.r >= 0 ? "mkb__up" : "mkb__dn") + '">' + sg(x.r) + '</span></li>'; }).join("");
     var n = S.roster.filter(function(a){ return a.standin; }).length;
     if(n) $("mkb-bft").textContent = "Paper money. " + n + " AI slots have no API key yet and trade a labelled rule-based stand-in, not the model.";
   });

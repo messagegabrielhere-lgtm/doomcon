@@ -474,6 +474,8 @@ const when = (t) => new Date(t).toLocaleString([], {month:"short", day:"numeric"
 
 let S = null, T = [], M = null;
 const BASELINES = new Set(["hodl", "rsi"]);
+// House bots: the owner's real-money strategies on paper. Rules, not models, and not baselines.
+const HOUSE = new Set(["trader", "alwayson"]);
 const rule = (f) => String(f).split(":")[0];
 
 async function getJSON(name){
@@ -526,7 +528,7 @@ function renderSlimes(){
       const last = p.last ?? p.avg, r = (last / p.avg - 1) * 100;
       return `<span title="avg ${px(p.avg)} · stop ${px(p.stop)}${p.tp ? " · target " + px(p.tp) : ""}">${esc(s.replace("-USD",""))} <b class="${r >= 0 ? "up" : "down"}">${pctTxt(r)}</b></span>`;
     }).join("");
-    const served = w.servedBy && !["baseline", "stand-in"].includes(w.servedBy) && w.servedBy !== w.model ? ` · answered by ${esc(w.servedBy)}` : "";
+    const served = w.servedBy && !["baseline", "stand-in", "house bot"].includes(w.servedBy) && w.servedBy !== w.model ? ` · answered by ${esc(w.servedBy)}` : "";
     const st = w.status === "error" ? `<div class="state err">Last turn failed: ${esc(w.error)}</div>`
       : w.status === "asleep" ? `<div class="state">Asleep: ${esc(w.note)}</div>`
       : `<div class="state">${w.turns} turns · ${Object.keys(w.positions||{}).length} open · cash ${money(w.cash)}${served}</div>`;
@@ -534,7 +536,7 @@ function renderSlimes(){
       <div class="top">
         <span class="rank">${i + 1}</span>
         ${slimeSVG(a.color, m)}
-        <div class="who"><b>${esc(a.name)}</b><small title="${esc(a.standin ? `Rule-based stand-in for ${a.model}, which has no API key yet` : a.model)}">${a.standin ? `stand-in · ${esc(a.standin.label)}` : esc(a.model)}</small>
+        <div class="who"><b>${esc(a.name)}</b><small title="${esc(a.standin ? `Rule-based stand-in for ${a.model}, which has no API key yet` : a.house ? a.house.blurb : a.model)}">${a.standin ? `stand-in · ${esc(a.standin.label)}` : esc(a.model)}</small>
           <div class="eq"><b class="num">${money(w.equity)}</b><small class="${d >= 0 ? "up" : "down"}">${pctTxt(d)}</small></div></div>
       </div>
       ${traded(w) ? spark(w.history || [], a.color, start) : ""}
@@ -631,7 +633,7 @@ function renderNotice(){
   const sub = S.roster.filter((a) => a.standin);
   $("#standinNote").hidden = !sub.length;
   if(!sub.length) return;
-  $("#standinNote").innerHTML = `<b>${sub.length} of ${S.roster.length - BASELINES.size} AI slots are trading with stand-ins.</b> Their models have no API key yet, so each runs its own rule-based strategy instead: ${sub.map((a) => `${esc(a.name)} as a ${esc(a.standin.label.toLowerCase())}`).join(", ")}. Same live prices, same rule gate, same $${S.startCash}; every stand-in trade is marked. A slot switches to its real model the hour its key is added.`;
+  $("#standinNote").innerHTML = `<b>${sub.length} of ${S.roster.length - BASELINES.size - S.roster.filter((a) => HOUSE.has(a.id)).length} AI slots are trading with stand-ins.</b> Their models have no API key yet, so each runs its own rule-based strategy instead: ${sub.map((a) => `${esc(a.name)} as a ${esc(a.standin.label.toLowerCase())}`).join(", ")}. Same live prices, same rule gate, same $${S.startCash}; every stand-in trade is marked. A slot switches to its real model the hour its key is added.`;
 }
 
 // Who was in front at each hourly mark, among agents that had moved off the start.
@@ -680,7 +682,7 @@ function renderScore(){
   // An agent that never traded is still sitting on its $1,000; it isn't leading anything.
   const live = rows.filter((r) => traded(r.w));
   const lead = live.slice().sort((p, q) => q.w.equity - p.w.equity)[0];
-  const ais = rows.filter((r) => !BASELINES.has(r.a.id) && traded(r.w));
+  const ais = rows.filter((r) => !BASELINES.has(r.a.id) && !HOUSE.has(r.a.id) && traded(r.w));
   const bases = rows.filter((r) => BASELINES.has(r.a.id));
   const best = (xs) => xs.slice().sort((p, q) => q.w.equity - p.w.equity)[0];
   const ai = best(ais), base = best(bases);
@@ -693,8 +695,8 @@ function renderScore(){
       : tile("Leader", "No trades yet", "Everyone is on the $" + start + " start")) +
     (ai && base
       ? tile(ai.a.standin || ais.some((r) => r.a.standin) ? "Best agent vs best baseline" : "Best AI vs best baseline", `${ret(ai.w) - ret(base.w) >= 0 ? "+" : ""}${(ret(ai.w) - ret(base.w)).toFixed(2)} pts`, `${esc(ai.a.name)} ${pctTxt(ret(ai.w))} vs ${esc(base.a.name)} ${pctTxt(ret(base.w))}`, ret(ai.w) >= ret(base.w) ? "up" : "down")
-      : tile("Best AI vs best baseline", rows.some((r) => !BASELINES.has(r.a.id) && r.w.status !== "asleep") ? "No AI trades yet" : "No AI awake",
-          rows.some((r) => !BASELINES.has(r.a.id) && r.w.status !== "asleep") ? "Awake models haven't traded yet" : "Every model sleeps until its API key is set")) +
+      : tile("Best AI vs best baseline", rows.some((r) => !BASELINES.has(r.a.id) && !HOUSE.has(r.a.id) && r.w.status !== "asleep") ? "No AI trades yet" : "No AI awake",
+          rows.some((r) => !BASELINES.has(r.a.id) && !HOUSE.has(r.a.id) && r.w.status !== "asleep") ? "Awake models haven't traded yet" : "Every model sleeps until its API key is set")) +
     tile("Fills / rejections", `${fills} / ${rej}`, fills + rej ? `${Math.round(rej / (fills + rej) * 100)}% of proposals blocked by a rule` : "Nothing proposed yet") +
     tile("Stops / targets hit", `${stops} / ${targets}`, "Closed by the server, not the model");
 }
@@ -758,7 +760,8 @@ function renderAgent(id){
   $("#agSlime").innerHTML = slimeSVG(a.color, mood(w, start));
   $("#agName").textContent = a.name;
   $("#agModel").textContent = a.standin ? `Stand-in strategy: ${a.standin.label}. Rules, not ${a.model}; the model takes over once its API key is set.`
-    : a.model + (w.servedBy && !["baseline", "stand-in"].includes(w.servedBy) && w.servedBy !== a.model ? ` · last answered by ${w.servedBy}` : "");
+    : a.house ? `House bot: ${a.house.blurb} Paper money here; the same rules trade real money on Robinhood.`
+    : a.model + (w.servedBy && !["baseline", "stand-in", "house bot"].includes(w.servedBy) && w.servedBy !== a.model ? ` · last answered by ${w.servedBy}` : "");
   const tile = (k, v, sub, cls = "") => `<div class="tile"><small>${k}</small><b class="${cls}">${v}</b><span>${sub}</span></div>`;
   const pos = Object.entries(w.positions || {});
   const posRows = pos.map(([sym, p]) => {
@@ -1286,7 +1289,7 @@ function renderHL(){
   if(S){
     const R = S.roster.map((a) => ({a, r: ((S.wallets[a.id]?.equity ?? S.startCash) / S.startCash - 1) * 100})).sort((x, y) => y.r - x.r), L = R[0];
     if(L){
-      $("#hlBat").textContent = `${L.a.name}${L.a.standin ? " (stand-in)" : BASELINES.has(L.a.id) ? " (baseline)" : ""}`;
+      $("#hlBat").textContent = `${L.a.name}${L.a.standin ? " (stand-in)" : BASELINES.has(L.a.id) ? " (baseline)" : HOUSE.has(L.a.id) ? " (house bot)" : ""}`;
       $("#hlBatS").textContent = `${sgn(L.r)} on $${S.startCash.toLocaleString("en-US")} of paper money · ${R.length} players`;
     }
   }

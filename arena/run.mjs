@@ -16,8 +16,9 @@ import { AGENTS, UNIVERSE, RULES, LEDGER_KEEP, START_CASH, modelFor } from './co
 import { makeClient, snapshot } from './market.mjs';
 import { newWallet, equity, rollDay, preview, execute, ledgerEntry, checkExits } from './broker.mjs';
 import { gate } from './rules.mjs';
-import { think, hasKey, usesStandin, isBaseline, KEYS } from './agents.mjs';
+import { think, hasKey, usesStandin, isBaseline, isHouseBot, KEYS } from './agents.mjs';
 import { STYLES } from './standins.mjs';
+import { HOUSE } from './housebots.mjs';
 import { loadSpend, saveSpend, reserveCall, settleCall } from './spend-cap.mjs';
 import { publicError } from '../collector/safe-error.mjs';
 
@@ -73,7 +74,7 @@ export async function tick({ dir, guardOnly = false, only = null, client = makeC
       const eq = equity(w, prices);
       if (!hasKey(a, env) && !usesStandin(a, env)) return { a, sleep: `no ${KEYS[a.provider]} set` };
       if (eq < RULES.minOrderUsd && !Object.keys(w.positions).length) return { a, sleep: 'out of money' };
-      const paid = hasKey(a, env) && !isBaseline(a) && !usesStandin(a, env);
+      const paid = hasKey(a, env) && !isBaseline(a) && !isHouseBot(a) && !usesStandin(a, env);
       if (paid) {
         const why = reserveCall(spend, a.provider, env);
         if (why) return { a, sleep: why };
@@ -118,7 +119,7 @@ export async function tick({ dir, guardOnly = false, only = null, client = makeC
   for (const e of ledger) { const q = (state.recent[e.agent] ??= []); q.push(e); if (q.length > 8) q.shift(); }
   state.updatedAt = now;
   if (!guardOnly) state.lastTurnAt = now;
-  state.roster = AGENTS.map((a) => ({ id: a.id, name: a.name, provider: a.provider, color: a.color, model: modelFor(a, env), ...(usesStandin(a, env) ? { standin: STYLES[a.id] } : {}) }));
+  state.roster = AGENTS.map((a) => ({ id: a.id, name: a.name, provider: a.provider, color: a.color, model: modelFor(a, env), ...(usesStandin(a, env) ? { standin: STYLES[a.id] } : {}), ...(HOUSE[a.id] ? { house: { label: HOUSE[a.id].label, blurb: HOUSE[a.id].blurb } } : {}) }));
   state.rules = RULES; state.startCash = START_CASH; state.universe = UNIVERSE;
   state.spend = { day: spend.day, usd: spend.usd, tokens: spend.tokens, calls: spend.calls };
 

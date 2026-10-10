@@ -65,6 +65,9 @@ export const AGENTS = [
   // Baselines: no model, no key. Any AI that can't beat these isn't adding much.
   { id: 'hodl',     name: 'Buy & hold',     provider: 'hodl',      model: 'baseline',          color: '#f7931a' },
   { id: 'rsi',      name: 'RSI dip bot',    provider: 'rsi',       model: 'baseline',          color: '#9c6ade' },
+  // House bots: the rules behind the owner's two real-money trading bots, on paper here.
+  { id: 'trader',   name: 'Claude Trader',  provider: 'house',     model: 'house bot',         color: '#e8590c' },
+  { id: 'alwayson', name: 'Always-on bot',  provider: 'house',     model: 'house bot',         color: '#2b8a3e' },
 ];
 
 export const modelFor = (a, env = process.env) => env[`ARENA_MODEL_${a.id.toUpperCase()}`] || a.model;
