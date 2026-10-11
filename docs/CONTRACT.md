@@ -14,6 +14,9 @@ here without changing it everywhere. Agents building in parallel rely on it.
    Two optional tools sit outside that path and may depend on
    `@anthropic-ai/sdk`: `clipper/` and `arena/agents.mjs`. Do not add that
    import to the collector or the site.
+   `agent-kit/` is a third optional path: a zero-dependency CLI + MCP server
+   for *other* AI agents consuming the public API. It also uses Node built-ins
+   only and must not pull in `node_modules`.
 2. **ES modules, `.mjs` extension** throughout.
 3. **No secrets in the repository, and none required to build.** Posting was
    manual in v1. Since 2026-09-28 `.github/workflows/post-daily.yml` can post one
@@ -45,6 +48,7 @@ collector/posts.mjs          index state -> post text variants
 collector/card.mjs           index state -> share-card SVG
 site/build.mjs               data/ -> public/  (static site generator)
 site/templates/*.mjs         page templates, each exporting render(ctx)
+agent-kit/                   CLI + MCP for external AI agents (public API client)
 public/                      BUILD OUTPUT. Never hand-edit. Gitignored? NO -
                              committed, because GitHub Pages serves it.
 data/raw/<iso>.json          one snapshot per collector run

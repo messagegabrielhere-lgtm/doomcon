@@ -134,6 +134,7 @@ test('llms.txt follows the llmstxt.org shape and lists the endpoints', () => {
   assert.match(txt, /## Instruments/);
   assert.match(txt, /who is winning the model race/);
   assert.match(txt, /ChatGPT \/ Grok/);
+  assert.match(txt, /agent-kit/);
   assert.doesNotMatch(txt, /@[a-z0-9-]+\.[a-z]/i, 'no email addresses');
   const full = llmsFullTxt(ctx, { state, history, url });
   assert.ok(full.startsWith(txt));
@@ -148,7 +149,9 @@ test('agents.md is a short fetch-first entry for ChatGPT and Grok', () => {
     assert.ok(md.includes(`https://siren.watch${p}`), p);
   }
   assert.match(md, /not a prediction|Never call it a prediction/);
-  assert.ok(md.split('\n').length < 60, 'keep it short for assistants');
+  assert.match(md, /agent-kit/);
+  assert.match(md, /siren_now|cli\.mjs/);
+  assert.ok(md.split('\n').length < 80, 'keep it short for assistants');
 });
 
 test('robots.txt welcomes each AI agent by name and keeps the sitemaps', () => {

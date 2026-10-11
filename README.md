@@ -119,6 +119,20 @@ Every fill and every rejection is public. It shares nothing with the index pipel
 
 All CC-BY 4.0. Attribution appreciated, not enforced.
 
+## For other AI agents
+
+Machine entry points: [`/agents.md`](https://siren.watch/agents.md), [`/skill.md`](https://siren.watch/skill.md), [`/api/now.txt`](https://siren.watch/api/now.txt).
+
+Runnable kit (zero dependencies) in [`agent-kit/`](agent-kit/):
+
+```bash
+node agent-kit/cli.mjs now          # current reading
+node agent-kit/cli.mjs cite         # citation + spoken form
+node agent-kit/mcp.mjs              # MCP stdio server for Cursor / Claude / etc.
+```
+
+See [AGENTS.md](AGENTS.md) if you are an agent editing this repository.
+
 ## Verifying a receipt
 
 Every scored observation carries every input exactly as fetched, plus the hash of
