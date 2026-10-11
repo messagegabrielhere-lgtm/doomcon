@@ -201,8 +201,10 @@ export function agents(ctx, molt = null) {
   <h2>Start here</h2>
   <div class="ag-grid">
     <a class="ag-card" href="${u('/agents.md')}"><h3>agents.md</h3><p>Short entry: what to fetch first for ChatGPT, Grok and other assistants.</p></a>
+    <a class="ag-card" href="${u('/agents.txt')}"><h3>agents.txt</h3><p>Capability announcement (agents-txt.com): skills an agent can install.</p></a>
     <a class="ag-card" href="${u('/skill.md')}"><h3>skill.md</h3><p>Plain instructions for agents: what to fetch, how to describe the level, how to cite.</p></a>
     <a class="ag-card" href="${u('/llms.txt')}"><h3>llms.txt</h3><p>The site map for language models.</p></a>
+    <a class="ag-card" href="${u('/.well-known/api-catalog')}"><h3>api-catalog</h3><p>RFC 9727 linkset of every machine API on this origin.</p></a>
     <a class="ag-card" href="${u('/api/state.json')}"><h3>api/state.json</h3><p>The current reading: level, score, pillars, sources, receipt.</p></a>
     <a class="ag-card" href="https://github.com/messagegabrielhere-lgtm/doomcon/tree/main/agent-kit" rel="noopener" target="_blank"><h3>agent-kit</h3><p>CLI + MCP server other agents can run. No key, Node built-ins only.</p></a>
   </div>
@@ -229,9 +231,13 @@ node agent-kit/mcp.mjs          # MCP stdio: siren_now, siren_cite, siren_news, 
     <p><b>Machine endpoints:</b></p>
     <ul class="ag-links">
       <li><a href="${u('/agents.md')}">agents.md</a>: short fetch-first map for assistants</li>
+      <li><a href="${u('/agents.txt')}">agents.txt</a> · <a href="${u('/agents.json')}">agents.json</a>: agents-txt.com skills announcement</li>
+      <li><a href="${u('/ai.txt')}">ai.txt</a>: short welcome many agents probe by name</li>
       <li><a href="${u('/api/now.txt')}">api/now.txt</a>: the reading in a few plain lines</li>
       <li><a href="${u('/now.md')}">now.md</a>: markdown snapshot with pillars, top stories, leaders and Takeover Watch</li>
       <li><a href="${u('/llms.txt')}">llms.txt</a> and <a href="${u('/llms-full.txt')}">llms-full.txt</a>: the site map for language models</li>
+      <li><a href="${u('/.well-known/api-catalog')}">/.well-known/api-catalog</a>: RFC 9727 API catalog</li>
+      <li><a href="${u('/.well-known/agent-skills/index.json')}">skills index</a> · <a href="${u('/.well-known/mcp/server-card.json')}">MCP server card</a> (stdio kit)</li>
       <li><a href="${u('/api/state.json')}">api/state.json</a> · <a href="${u('/api/history.json')}">api/history.json</a> · <a href="${u('/api/news.json')}">api/news.json</a></li>
       <li><a href="${u('/api/leaders.json')}">api/leaders.json</a> · <a href="${u('/api/si-signals.json')}">api/si-signals.json</a> · <a href="${u('/api/fresh.json')}">api/fresh.json</a></li>
       <li><a href="${u('/openapi.json')}">openapi.json</a>: every endpoint described</li>
@@ -302,6 +308,7 @@ Fields: \`level\` (1-5), \`level_name\`, \`score\` (0-100), \`generated_at\` (UT
 ## More
 
 - Agent entry: ${ctx.url('/agents.md')}
+- Capability announcement: ${ctx.url('/agents.txt')} (${ctx.url('/agents.json')})
 - Snapshot (markdown, top stories, leaders, Takeover Watch): ${ctx.url('/now.md')}
 - News: ${ctx.url('/api/news.json')}
 - History: ${ctx.url('/api/history.json')}
@@ -309,6 +316,7 @@ Fields: \`level\` (1-5), \`level_name\`, \`score\` (0-100), \`generated_at\` (UT
 - Guide (vs DEFCON / Doomsday Clock / p(doom)): ${ctx.url('/guide.md')}
 - Compare indexes: ${ctx.url('/compare.html')}
 - For agents (HTML): ${ctx.url('/agents.html')}
+- Skill package path: ${ctx.url('/skills/siren-ai-index/SKILL.md')}
 - Runnable kit (CLI + MCP): https://github.com/messagegabrielhere-lgtm/doomcon/tree/main/agent-kit
 `;
 }

@@ -39,6 +39,11 @@ const ALWAYS = Object.freeze([
   '/news-sitemap.xml',
   '/llms.txt',
   '/agents.md',
+  '/agents.txt',
+  '/agents.json',
+  '/ai.txt',
+  '/skill.md',
+  '/.well-known/api-catalog',
   '/now.md',
 ]);
 

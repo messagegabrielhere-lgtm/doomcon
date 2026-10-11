@@ -38,9 +38,11 @@ Docker (no local Node install):
 
 Do not scrape HTML. Use:
 
-- https://siren.watch/agents.md
-- https://siren.watch/skill.md
-- https://siren.watch/api/now.txt
+- https://siren.watch/agents.md — fetch-first map
+- https://siren.watch/agents.txt — agents-txt.com skills announcement
+- https://siren.watch/skill.md — how to phrase and cite
+- https://siren.watch/api/now.txt — current reading
+- https://siren.watch/.well-known/api-catalog — RFC 9727 API catalog
 - Or run `node agent-kit/cli.mjs now` / `node agent-kit/mcp.mjs` from this tree
 
 ## Hard no

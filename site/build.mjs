@@ -193,6 +193,7 @@ import * as leadersPage from './templates/leadersPage.mjs';
 import * as newsSitemap from './templates/newsSitemap.mjs';
 import * as openapi from './templates/openapi.mjs';
 import * as agentText from './templates/agentText.mjs';
+import * as agentDiscovery from './templates/agentDiscovery.mjs';
 import * as facetPages from './templates/facetPages.mjs';
 import * as modelPages from './templates/modelPages.mjs';
 import * as countryPages from './templates/countryPages.mjs';
@@ -1593,7 +1594,8 @@ async function main() {
     if (sig) written.push(await write(args.out, 'api/si-signals.json', JSON.stringify(sig, null, 2) + '\n'));
   }
   written.push(await write(args.out, 'bug-out-land.html', agentPages.land(ctx)));
-  written.push(await write(args.out, 'skill.md', agentPages.skillMd(ctx)));
+  // skill.md (+ discovery mirrors) is written in writeAgentText so the news
+  // lane keeps the skill digest and agents.txt in lockstep with the reading.
   written.push(await write(args.out, 'api/guide.json', JSON.stringify(agentPages.guideIndex(ctx, homeV2.roomGroups(ctx)))));
   // BREAKTHROUGHS. Picked from the newsroom window and merged into an archive
   // in data/ (the hourly full lane commits data/, so the archive outlives the
@@ -1909,8 +1911,15 @@ async function main() {
     agents: {
       entry: ctx.url('/agents.md'),
       skill: ctx.url('/skill.md'),
+      skill_package: ctx.url(agentDiscovery.SKILL_PATH),
       llms: ctx.url('/llms.txt'),
       llms_full: ctx.url('/llms-full.txt'),
+      agents_txt: ctx.url('/agents.txt'),
+      agents_json: ctx.url('/agents.json'),
+      ai_txt: ctx.url('/ai.txt'),
+      api_catalog: ctx.url('/.well-known/api-catalog'),
+      skills_index: ctx.url('/.well-known/agent-skills/index.json'),
+      mcp_server_card: ctx.url('/.well-known/mcp/server-card.json'),
       welcome: ctx.url('/agents.html'),
     },
     endpoints: {
@@ -1932,7 +1941,12 @@ async function main() {
       llms_txt: ctx.url('/llms.txt'),
       llms_full: ctx.url('/llms-full.txt'),
       agents_md: ctx.url('/agents.md'),
+      agents_txt: ctx.url('/agents.txt'),
+      agents_json: ctx.url('/agents.json'),
+      ai_txt: ctx.url('/ai.txt'),
       skill_md: ctx.url('/skill.md'),
+      skill_package: ctx.url(agentDiscovery.SKILL_PATH),
+      api_catalog: ctx.url('/.well-known/api-catalog'),
       methodology_md: ctx.url('/methodology.md'),
       guide_md: ctx.url('/guide.md'),
     },
@@ -2032,10 +2046,11 @@ async function main() {
   for (const w of warnings) log(`  WARNING      ${w}`);
 }
 
-// THE TEXT SURFACES FOR ASSISTANTS (site/templates/agentText.mjs). Written by
-// the full build AND the news-only lane, so /api/now.txt, /now.md,
-// /llms-full.txt and /agents.md never lag the homepage. Takeover Watch is
-// read from data/ here because the news-only lane never loads it into ctx.
+// THE TEXT SURFACES FOR ASSISTANTS (site/templates/agentText.mjs +
+// agentDiscovery.mjs). Written by the full build AND the news-only lane, so
+// /api/now.txt, /now.md, /llms-full.txt, /agents.md and the discovery files
+// never lag the homepage. Takeover Watch is read from data/ here because the
+// news-only lane never loads it into ctx.
 async function writeAgentText(ctx, dataDir, outDir, write, written) {
   let siSignals = null;
   try { siSignals = JSON.parse(await readFile(path.join(dataDir, 'si-signals.json'), 'utf8')); } catch { siSignals = null; }
@@ -2046,6 +2061,18 @@ async function writeAgentText(ctx, dataDir, outDir, write, written) {
   written.push(await write(outDir, 'agents.md', agentText.agentsMd(ctx)));
   written.push(await write(outDir, 'llms.txt', agentText.llmsTxt(ctx)));
   written.push(await write(outDir, '.well-known/llms.txt', agentText.llmsTxt(ctx)));
+
+  const skillBody = agentPages.skillMd(ctx);
+  written.push(await write(outDir, 'skill.md', skillBody));
+  written.push(await write(outDir, agentDiscovery.SKILL_PATH.replace(/^\//, ''), skillBody));
+  written.push(await write(outDir, 'agents.txt', agentDiscovery.agentsTxt(ctx)));
+  written.push(await write(outDir, 'agents.json', stableJson(agentDiscovery.agentsJson(ctx))));
+  written.push(await write(outDir, 'ai.txt', agentDiscovery.aiTxt(ctx)));
+  const catalog = stableJson(agentDiscovery.apiCatalog(ctx));
+  written.push(await write(outDir, '.well-known/api-catalog', catalog));
+  written.push(await write(outDir, '.well-known/api-catalog.json', catalog));
+  written.push(await write(outDir, '.well-known/agent-skills/index.json', stableJson(agentDiscovery.agentSkillsIndex(ctx, skillBody))));
+  written.push(await write(outDir, '.well-known/mcp/server-card.json', stableJson(agentDiscovery.mcpServerCard(ctx))));
 }
 
 // SEARCH AND CATALOG (site/templates/catalogPages.mjs). Reads what is on disk

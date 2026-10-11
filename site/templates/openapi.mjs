@@ -192,6 +192,56 @@ export function render(ctx) {
           },
         },
       },
+      '/agents.txt': {
+        get: {
+          tags: ['index'],
+          summary: 'agents-txt.com capability announcement (Skills)',
+          operationId: 'getAgentsTxt',
+          responses: {
+            200: { description: 'Plain-text agents.txt', content: { 'text/plain': { schema: { type: 'string' } } } },
+          },
+        },
+      },
+      '/agents.json': {
+        get: {
+          tags: ['index'],
+          summary: 'Structured agents.json companion to agents.txt',
+          operationId: 'getAgentsJson',
+          responses: {
+            200: { description: 'agents.json document', content: { 'application/json': { schema: { type: 'object' } } } },
+          },
+        },
+      },
+      '/ai.txt': {
+        get: {
+          tags: ['index'],
+          summary: 'Short welcome pointer for AI agents',
+          operationId: 'getAiTxt',
+          responses: {
+            200: { description: 'Plain text', content: { 'text/plain': { schema: { type: 'string' } } } },
+          },
+        },
+      },
+      '/.well-known/api-catalog': {
+        get: {
+          tags: ['index'],
+          summary: 'RFC 9727 API catalog linkset (also at /.well-known/api-catalog.json)',
+          operationId: 'getApiCatalog',
+          responses: {
+            200: { description: 'Linkset JSON', content: { 'application/linkset+json': { schema: { type: 'object' } } } },
+          },
+        },
+      },
+      '/.well-known/mcp/server-card.json': {
+        get: {
+          tags: ['index'],
+          summary: 'MCP server card for the clone-and-run stdio kit (not streamable HTTP)',
+          operationId: 'getMcpServerCard',
+          responses: {
+            200: { description: 'MCP server card', content: { 'application/json': { schema: { type: 'object' } } } },
+          },
+        },
+      },
       '/openapi.json': {
         get: {
           tags: ['index'],

@@ -47,7 +47,14 @@ export function render(ctx) {
     { loc: '/llms.txt', changefreq: 'weekly', priority: '0.4', lastmod: ctx.state.generated_at },
     { loc: '/llms-full.txt', changefreq: 'hourly', priority: '0.4', lastmod: ctx.state.generated_at },
     { loc: '/agents.md', changefreq: 'weekly', priority: '0.5', lastmod: ctx.state.generated_at },
+    { loc: '/agents.txt', changefreq: 'weekly', priority: '0.5', lastmod: ctx.state.generated_at },
+    { loc: '/agents.json', changefreq: 'weekly', priority: '0.4', lastmod: ctx.state.generated_at },
+    { loc: '/ai.txt', changefreq: 'weekly', priority: '0.4', lastmod: ctx.state.generated_at },
     { loc: '/skill.md', changefreq: 'weekly', priority: '0.4', lastmod: ctx.state.generated_at },
+    { loc: '/skills/siren-ai-index/SKILL.md', changefreq: 'weekly', priority: '0.4', lastmod: ctx.state.generated_at },
+    { loc: '/.well-known/api-catalog', changefreq: 'weekly', priority: '0.4', lastmod: ctx.state.generated_at },
+    { loc: '/.well-known/agent-skills/index.json', changefreq: 'weekly', priority: '0.3', lastmod: ctx.state.generated_at },
+    { loc: '/.well-known/mcp/server-card.json', changefreq: 'weekly', priority: '0.3', lastmod: ctx.state.generated_at },
     ...['/radio.html', '/charts.html', '/power.html', '/leaders.html', '/elon.html', '/threats.html', '/self-aware.html', '/status.html', '/waffle.html', '/day-after.html', '/videos.html', '/live.html', '/si-ready.html', '/ai-proof-job.html', '/breakthroughs.html', '/live-x.html', '/tally.html', '/staff.html', '/careers.html', '/agents.html', '/bug-out-land.html', '/prepper-checklist.html', '/feedback.html', '/alerts.html', '/export.html', '/bias.html', '/reference-plan.html', '/changelog.html', '/moltbook.html', '/si-watch.html', '/contain.html', '/monitor.html', '/scanner.html', '/dispatch.html', '/arena.html', '/catalog.html', '/search.html']
       .filter((loc, i, a) => a.indexOf(loc) === i).map((loc) => ({ loc, changefreq: loc === '/changelog.html' ? 'hourly' : 'weekly', priority: '0.7', lastmod: ctx.state.generated_at })),
     ...(ctx.news && Array.isArray(ctx.news.items) && ctx.news.items.length
@@ -180,6 +187,7 @@ export const AI_AGENTS = [
 export function robots(ctx) {
   return `# AI crawlers and assistants welcome (ChatGPT, Grok, Claude, Perplexity, …).
 # Start with ${ctx.url('/llms.txt')} · short agent entry ${ctx.url('/agents.md')}
+# Capability announcement: ${ctx.url('/agents.txt')} · API catalog ${ctx.url('/.well-known/api-catalog')}
 # Live reading: ${ctx.url('/api/now.txt')} · markdown ${ctx.url('/now.md')}
 
 User-agent: *

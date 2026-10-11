@@ -121,7 +121,17 @@ All CC-BY 4.0. Attribution appreciated, not enforced.
 
 ## For other AI agents
 
-Machine entry points: [`/agents.md`](https://siren.watch/agents.md), [`/skill.md`](https://siren.watch/skill.md), [`/api/now.txt`](https://siren.watch/api/now.txt).
+Prefer these over scraping HTML:
+
+| Path | What |
+|---|---|
+| [`/agents.md`](https://siren.watch/agents.md) | Short fetch-first map |
+| [`/agents.txt`](https://siren.watch/agents.txt) | agents-txt.com skills announcement ([JSON](https://siren.watch/agents.json)) |
+| [`/skill.md`](https://siren.watch/skill.md) | How to phrase and cite |
+| [`/llms.txt`](https://siren.watch/llms.txt) | Full site map for language models |
+| [`/api/now.txt`](https://siren.watch/api/now.txt) | Current reading in a few plain lines |
+| [`/.well-known/api-catalog`](https://siren.watch/.well-known/api-catalog) | RFC 9727 API catalog |
+| [`/.well-known/mcp/server-card.json`](https://siren.watch/.well-known/mcp/server-card.json) | Stdio MCP install card |
 
 Runnable kit (zero dependencies) in [`agent-kit/`](agent-kit/):
 

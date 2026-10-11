@@ -28,7 +28,10 @@ agents actually read.
 | `robots.txt` | `User-agent: *` / `Allow: /` + named AI bots + both Sitemap lines | Names GPT/OAI-SearchBot, GrokBot/xAI-SearchBot, Claude, Perplexity, … No Disallow |
 | `sitemap.xml` | **~665 URLs** live (2026-10-11) | Head pages + `/item/` long tail + agent surfaces + facets |
 | `news-sitemap.xml` | Live, rolling 48h window | Google News format; capped at 100 newest items |
-| `llms.txt` / `agents.md` | Live `llms.txt`; **`/agents.md` shipping this pass** | Query routing for ChatGPT/Grok + fetch-first agent entry |
+| `llms.txt` / `agents.md` | Live | Query routing for ChatGPT/Grok + fetch-first agent entry |
+| `agents.txt` / `agents.json` | Shipping | agents-txt.com Skills announcement (no fake HTTP MCP) |
+| `/.well-known/api-catalog` | Shipping | RFC 9727 linkset + `.json` twin for Content-Type |
+| Skills index / MCP card | Shipping | `/.well-known/agent-skills/index.json`, `/.well-known/mcp/server-card.json` (stdio) |
 | `/api/index.json` | Live | CORS `*`. Linked from `llms.txt`. `/openapi.json` ships |
 | `/api/state.json`, `history.json`, `health.json`, receipts | Live | The citation unit for both journalists and agents |
 | `/feed.xml` + `/feed-level.xml` | Live | Both linked as `rel=alternate` in `<head>` on every templated page |
@@ -243,6 +246,7 @@ context.
 | 13 | `/compare`, `/alternatives`, `/vs/*` conquest landings | Google | **Done** (2026-10-10) |
 | 14 | `/agents.md` + Grok/xAI named Allow + ChatGPT query routing in `llms.txt` | ChatGPT + Grok | **Done** (2026-10-11) |
 | 15 | People pages + news day hubs (DoomBench/Skynet URL shape) | Google | Open PR #86 |
+| 16 | `/agents.txt` + `/agents.json` + `/.well-known/api-catalog` + skills index + MCP server card | Agent discovery | **Done** (this pass) |
 
 ### 3.3 Refusals (search edition)
 
