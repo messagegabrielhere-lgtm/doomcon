@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { nowTxt, nowMd, llmsTxt, llmsFullTxt, topMover, topStories, mostCovered, citation, dispatchFeedUrl } from './agentText.mjs';
+import { nowTxt, nowMd, llmsTxt, llmsFullTxt, agentsMd, topMover, topStories, mostCovered, citation, dispatchFeedUrl } from './agentText.mjs';
 import { robots, AI_AGENTS } from './sitemap.mjs';
 
 const url = (p) => `https://siren.watch${p}`;
@@ -121,10 +121,10 @@ test('llms.txt follows the llmstxt.org shape and lists the endpoints', () => {
   const lines = txt.split('\n');
   assert.match(lines[0], /^# SIREN/);
   assert.match(lines[2], /^> /);
-  assert.ok(lines.length < 200, `${lines.length} lines`);
+  assert.ok(lines.length < 220, `${lines.length} lines`);
   for (const p of ['/api/now.txt', '/now.md', '/api/state.json', '/api/history.json', '/api/news.json', '/api/leaders.json',
     '/api/si-signals.json', '/api/search-index.json', '/api/fresh.json', '/api/health.json', '/api/receipts/', '/feed.xml', '/openapi.json',
-    '/methodology.md', '/guide.md']) {
+    '/methodology.md', '/guide.md', '/agents.md', '/compare.html', '/alternatives.html']) {
     assert.ok(txt.includes(`https://siren.watch${p}`), p);
   }
   assert.ok(txt.includes(dispatchFeedUrl()));
@@ -132,17 +132,32 @@ test('llms.txt follows the llmstxt.org shape and lists the endpoints', () => {
   assert.match(txt, /## Use SIREN with your human/);
   assert.match(txt, /## Explainers \(search head terms\)/);
   assert.match(txt, /## Instruments/);
+  assert.match(txt, /who is winning the model race/);
+  assert.match(txt, /ChatGPT \/ Grok/);
   assert.doesNotMatch(txt, /@[a-z0-9-]+\.[a-z]/i, 'no email addresses');
   const full = llmsFullTxt(ctx, { state, history, url });
   assert.ok(full.startsWith(txt));
   assert.match(full, /# SIREN: current reading/);
 });
 
+test('agents.md is a short fetch-first entry for ChatGPT and Grok', () => {
+  const md = agentsMd({ url });
+  assert.match(md, /^# SIREN for AI agents/);
+  assert.match(md, /ChatGPT, Grok/);
+  for (const p of ['/api/now.txt', '/now.md', '/llms.txt', '/skill.md', '/agents.html', '/compare.html']) {
+    assert.ok(md.includes(`https://siren.watch${p}`), p);
+  }
+  assert.match(md, /not a prediction|Never call it a prediction/);
+  assert.ok(md.split('\n').length < 60, 'keep it short for assistants');
+});
+
 test('robots.txt welcomes each AI agent by name and keeps the sitemaps', () => {
   const r = robots({ url });
   for (const a of AI_AGENTS) assert.match(r, new RegExp(`User-agent: ${a}\\nAllow: /`));
   assert.ok(AI_AGENTS.includes('ClaudeBot') && AI_AGENTS.includes('GPTBot') && AI_AGENTS.includes('MistralAI-User'));
-  assert.match(r, /^# .*https:\/\/siren\.watch\/llms\.txt/m);
+  assert.ok(AI_AGENTS.includes('OAI-SearchBot') && AI_AGENTS.includes('GrokBot') && AI_AGENTS.includes('xAI-SearchBot'));
+  assert.match(r, /https:\/\/siren\.watch\/llms\.txt/);
+  assert.match(r, /https:\/\/siren\.watch\/agents\.md/);
   assert.match(r, /Sitemap: https:\/\/siren\.watch\/sitemap\.xml/);
   assert.match(r, /Sitemap: https:\/\/siren\.watch\/news-sitemap\.xml/);
   assert.doesNotMatch(r, /Disallow/);

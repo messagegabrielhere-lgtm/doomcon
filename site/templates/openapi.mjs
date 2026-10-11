@@ -172,6 +172,26 @@ export function render(ctx) {
           },
         },
       },
+      '/agents.md': {
+        get: {
+          tags: ['index'],
+          summary: 'Short entry point for AI agents (ChatGPT, Grok, …): what to fetch first and how to cite',
+          operationId: 'getAgentsMd',
+          responses: {
+            200: { description: 'Markdown', content: { 'text/markdown': { schema: { type: 'string' } } } },
+          },
+        },
+      },
+      '/skill.md': {
+        get: {
+          tags: ['index'],
+          summary: 'Agent skill file: how to report and cite the current SIREN reading',
+          operationId: 'getSkillMd',
+          responses: {
+            200: { description: 'Markdown', content: { 'text/markdown': { schema: { type: 'string' } } } },
+          },
+        },
+      },
       '/openapi.json': {
         get: {
           tags: ['index'],

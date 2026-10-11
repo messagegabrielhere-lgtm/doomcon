@@ -58,5 +58,14 @@ describe('IndexNow', () => {
     assert.ok(urls.includes('https://siren.watch/'));
     assert.ok(urls.includes('https://siren.watch/ai-doomsday-clock.html'));
     assert.ok(urls.includes('https://siren.watch/news-sitemap.xml'));
+    assert.ok(urls.includes('https://siren.watch/agents.md'));
+    assert.ok(urls.includes('https://siren.watch/compare.html'));
+  });
+
+  it('Organization knowsAbout head terms Google and assistants ask', () => {
+    const org = organization(ctx);
+    assert.ok(org.knowsAbout.includes('AI activity index'));
+    assert.ok(org.knowsAbout.includes('AI doomsday clock'));
+    assert.ok(org.alternateName.includes('AI Siren Index'));
   });
 });

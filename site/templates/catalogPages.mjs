@@ -98,8 +98,10 @@ const DATA = {
   'api/search-index.json': ['Search index (JSON)', 'This catalog and the site’s content, packed for search.'],
   'api/receipts/index.json': ['Receipts index (JSON)', 'Every receipt id, newest first.'],
   'openapi.json': ['OpenAPI spec', 'The public API, described for code generators.'],
+  'agents.md': ['agents.md', 'Short fetch-first map for ChatGPT, Grok and other AI agents.'],
   'skill.md': ['skill.md', 'How an AI agent should read and cite SIREN.'],
   'llms.txt': ['llms.txt', 'The site summarised for language models.'],
+  'llms-full.txt': ['llms-full.txt', 'llms.txt plus the live markdown snapshot.'],
   'sitemap.xml': ['Sitemap', 'Every indexable page, for crawlers.'],
   'news-sitemap.xml': ['News sitemap', 'The newest stories, for Google News.'],
 };

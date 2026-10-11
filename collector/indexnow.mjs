@@ -29,6 +29,8 @@ const ALWAYS = Object.freeze([
   '/methodology.md',
   '/guide.html',
   '/guide.md',
+  '/compare.html',
+  '/alternatives.html',
   '/p-doom.html',
   '/ai-doomsday-clock.html',
   '/jobs.html',
@@ -36,6 +38,8 @@ const ALWAYS = Object.freeze([
   '/sitemap.xml',
   '/news-sitemap.xml',
   '/llms.txt',
+  '/agents.md',
+  '/now.md',
 ]);
 
 function keyLocation() {
