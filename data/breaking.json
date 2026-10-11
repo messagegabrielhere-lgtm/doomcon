@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated_at": "2026-10-11T21:17:11.185Z",
+  "generated_at": "2026-10-11T21:25:42.888Z",
   "rules": {
     "version": "1.0.0",
     "window_hours": 6,
@@ -57,19 +57,25 @@
       "source": "bloomberg-tech",
       "outlet": "bloomberg.com",
       "outlets": [
+        "ababnews.com",
         "bloomberg.com",
+        "breakingthenews.net",
+        "reuters.com",
         "wsj.com"
       ],
       "tier1_outlets": [
         "bloomberg.com",
+        "reuters.com",
         "wsj.com"
       ],
-      "corroboration": 2,
+      "corroboration": 5,
       "sources": [
         "bloomberg-tech",
-        "gnews-ai"
+        "gnews-ai",
+        "techmeme"
       ],
       "rule": [
+        "two outlets within 20 min",
         "tier-one outlet plus one more"
       ],
       "earliest_published_at": "2026-10-11T20:26:00.000Z",
@@ -77,8 +83,10 @@
       "latency_s": 339,
       "breaking_at": "2026-10-11T21:12:28.059Z",
       "item_ids": [
-        "81f3be3cdee1838f",
-        "b454431fd3587a04"
+        "362ca9b75efbfd07",
+        "60c1240399302e72",
+        "70184e0d36d7cebe",
+        "81f3be3cdee1838f"
       ],
       "sightings": [
         {
@@ -104,6 +112,38 @@
           "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxOQlp0dEhQeUJEblZQcDdEQmMyOGVkSFFlbzRVaXhuT0xFUFpNc21laThfRWNnVmpRMHdiVG1BbzJiTjliOFNCR0xDWEl3X0hES3FXWlZ5LUNjZnFFRkdwWTRoVC11VHllTkM3bS1sVi04cG1EVjlBbGw5R2tNRUxmWlp2QlFrZk1uemJBMUt1QjlLRnFtdDhyVWY1UTVHZE1HTmR4NjRmSDlvQQ?oc=5",
           "published_at": "2026-10-11T20:46:52.000Z",
           "tier1": true
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "ababnews.com",
+          "title": "Amazon Reportedly Considered Acquiring Israeli AI Startup Decart Valued at Approximately $6 to $7 Billion",
+          "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE9FQkJuaU1zX2hnbjdmSTFfZkdxdWFSS191NWp6RGJicEU3dkZjUDNHTFlEdE5acjhMUkdsUFdHeDdweUxXSFdWN3lpdjR4OTdqaEhjcHhneDNXYUNHMjJFSzhweXB3amtPS1E0NEdxb3JWQ2FM?oc=5",
+          "published_at": "2026-10-11T20:47:52.000Z",
+          "tier1": false
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "breakingthenews.net",
+          "title": "Amazon might acquire AI startup Decart in $7B deal",
+          "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxOcWJjdGtjZ1YwTXh2SHRJYVl3OUx4cHZoNVgwY1lsS0NGTXplNXd1aElmRlhpVGVCbUN2S1RUY3JsSmdwaURHVG92Z3BLeHJCSmM5dEpka1h6YlNpUVhzNWtLYmI5dEFqZ210b2lYMkc0ODR1TVc2MnlvVFA4aEZ3UDhzUm5hMF9YUXdUMnBtRjVWWXdfNl9fM01tVE9YS2ZuelE?oc=5",
+          "published_at": "2026-10-11T21:01:00.000Z",
+          "tier1": false
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "reuters.com",
+          "title": "Amazon in talks to buy AI startup Decart for around $7 billion, WSJ reports",
+          "url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxOSTR0SUxydGYzRDJmaGtaWkRTYkkybS1GWlRkZFFnMjVXRFlZX0hHMUtVdFdIN0ZyQk0wMk1LNFhaUml3Y3FlRUV6SWFxVk9UUFg3MTUzelJtZU8tdjVpREpVS0owdkt2aVJhMUVObjg1TlRTREtZQzBINHJTTFloWDNBQTFCVl9yOE9HNXhBazJWMElncnlIZWNPdG5IY25ObFg0SGswNks5MkF0ODM4bEVRWkhjS3ZqcXVuWlVnamU0dw?oc=5",
+          "published_at": "2026-10-11T21:12:28.059Z",
+          "tier1": true
+        },
+        {
+          "source": "techmeme",
+          "outlet": "techmeme.com",
+          "title": "Sources: Amazon is in talks to buy AI startup Decart in a deal that could value it at ~$7B; Anthropic had decided against acquiring Decart for ~$6B in September (Wall Street Journal)",
+          "url": "https://techmeme.com/261011/p11",
+          "published_at": "2026-10-11T21:20:01.000Z",
+          "tier1": false
         }
       ],
       "live": true
@@ -116,30 +156,42 @@
       "outlet": "apnews.com",
       "outlets": [
         "apnews.com",
-        "syracuse.com"
+        "syracuse.com",
+        "wionews.com"
       ],
       "tier1_outlets": [
         "apnews.com"
       ],
-      "corroboration": 2,
+      "corroboration": 3,
       "sources": [
         "gnews-ai",
         "hn-fresh-ai"
       ],
       "rule": [
+        "two outlets within 20 min",
         "tier-one outlet plus one more"
       ],
-      "earliest_published_at": "2026-10-11T20:33:39.000Z",
-      "first_seen_at": "2026-10-11T18:58:29.618Z",
+      "earliest_published_at": "2026-10-11T20:27:00.000Z",
+      "first_seen_at": "2026-10-10T16:47:07.944Z",
       "latency_s": 0,
       "clock_skew": true,
       "breaking_at": "2026-10-11T21:12:28.059Z",
       "item_ids": [
         "3bbfce9cd0c563cf",
+        "49c9e402f0f0e29a",
         "b5183fcdbb2272b7",
-        "e6a7c7de6fbace95"
+        "e6a7c7de6fbace95",
+        "f406147aec48b7fd"
       ],
       "sightings": [
+        {
+          "source": "gnews-ai",
+          "outlet": "wionews.com",
+          "title": "Anthropic's AI invented a murder witness and sent the fake tip to Philadelphia police",
+          "url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxPTm9lcW1HMHNEeERSSnJKbS1IdFJnN1IxQWdVWHhMelNOZHhubkFxZHZlYjFPeVAyREJVWllTdi0zM2tjektZV3BXdGxOZXBlNFBoQ1BzUExwR1cwZFB3cWN1YzlDNFlkT0M5c205UWp5eWhyNlZUZEdoeVBzUk5IREpQLWhpSlNWQXlZdVJhQ2lPOG5rN2s0b0p6MTdtMUhzdUF2VVRqRmtXSWJjRXRmOVg1UzZBLWM4b1M0RHRFTHhGSDVMcGtmWnNqMEtXUdIBzgFBVV95cUxPTm9lcW1HMHNEeERSSnJKbS1IdFJnN1IxQWdVWHhMelNOZHhubkFxZHZlYjFPeVAyREJVWllTdi0zM2tjektZV3BXdGxOZXBlNFBoQ1BzUExwR1cwZFB3cWN1YzlDNFlkT0M5c205UWp5eWhyNlZUZEdoeVBzUk5IREpQLWhpSlNWQXlZdVJhQ2lPOG5rN2s0b0p6MTdtMUhzdUF2VVRqRmtXSWJjRXRmOVg1UzZBLWM4b1M0RHRFTHhGSDVMcGtmWnNqMEtXUQ?oc=5",
+          "published_at": "2026-10-11T20:27:00.000Z",
+          "tier1": false
+        },
         {
           "source": "hn-fresh-ai",
           "outlet": "apnews.com",
