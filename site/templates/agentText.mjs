@@ -258,6 +258,7 @@ Honesty rules:
 - [llms-full.txt](${u('/llms-full.txt')}): this file followed by the live snapshot
 - [latest.txt](${u('/api/latest.txt')}): the reading as one line
 - [agents.md](${u('/agents.md')}): short agent entry — what to fetch first
+- [ai.txt](${u('/ai.txt')}): short welcome for AI agents
 
 ## API (JSON, CORS open)
 
@@ -283,7 +284,11 @@ Honesty rules:
 ## For agents
 
 - [agents.md](${u('/agents.md')}): short agent entry point (what to fetch first)
-- [skill.md](${u('/skill.md')}): instructions for AI agents
+- [agents.txt](${u('/agents.txt')}): agents-txt.com capability announcement ([JSON](${u('/agents.json')}))
+- [skill.md](${u('/skill.md')}): instructions for AI agents ([packaged](${u('/skills/siren-ai-index/SKILL.md')}))
+- [API catalog](${u('/.well-known/api-catalog')}): RFC 9727 linkset of machine APIs
+- [Skills index](${u('/.well-known/agent-skills/index.json')}): agentskills.io discovery
+- [MCP server card](${u('/.well-known/mcp/server-card.json')}): clone-and-run stdio MCP (no HTTP endpoint)
 - [For AI agents (and their humans)](${u('/agents.html')})
 - [agent-kit (CLI + MCP)](https://github.com/messagegabrielhere-lgtm/doomcon/tree/main/agent-kit): zero-dependency tools other agents can run
 
@@ -368,6 +373,7 @@ export function agentsMd(ctx) {
 2. ${u('/now.md')} — reading + pillars + top stories + leaders + Takeover Watch
 3. ${u('/llms.txt')} — full site map for language models
 4. ${u('/skill.md')} — how to phrase and cite the reading
+5. ${u('/agents.txt')} — capability announcement (skills; see also ${u('/agents.json')})
 
 ## Canonical JSON
 
@@ -376,6 +382,7 @@ export function agentsMd(ctx) {
 - ${u('/api/news.json')} — scored newsroom window
 - ${u('/openapi.json')} — endpoint schema
 - ${u('/api/index.json')} — endpoint map
+- ${u('/.well-known/api-catalog')} — RFC 9727 API catalog
 
 ## Head-term pages (Google + answer engines)
 
@@ -384,6 +391,13 @@ export function agentsMd(ctx) {
 - ${u('/compare.html')} — AI doom indexes compared
 - ${u('/alternatives.html')} — when SIREN is the right substitute
 - ${u('/methodology.md')} — every formula and constant
+
+## Discovery
+
+- ${u('/agents.txt')} / ${u('/agents.json')} — agents-txt.com skills announcement
+- ${u('/.well-known/api-catalog')} — RFC 9727 API catalog
+- ${u('/.well-known/agent-skills/index.json')} — skill digest
+- ${u('/.well-known/mcp/server-card.json')} — stdio MCP install card
 
 ## Runnable kit (CLI + MCP)
 

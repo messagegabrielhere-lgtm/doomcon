@@ -1226,7 +1226,10 @@ ${ogImage}
 <link rel="alternate" type="text/markdown" href="${esc(ctx.href('/now.md'))}" title="Current reading (markdown)">
 <link rel="alternate" type="text/plain" href="${esc(ctx.href('/llms.txt'))}" title="llms.txt">
 <link rel="alternate" type="text/markdown" href="${esc(ctx.href('/agents.md'))}" title="For AI agents">
+<link rel="alternate" type="text/plain" href="${esc(ctx.href('/agents.txt'))}" title="agents.txt">
+<link rel="alternate" type="text/plain" href="${esc(ctx.href('/ai.txt'))}" title="ai.txt">
 <link rel="describedby" href="${esc(ctx.href('/openapi.json'))}" type="application/json">
+<link rel="api-catalog" href="${esc(ctx.href('/.well-known/api-catalog'))}" type="application/linkset+json">
 <link rel="preload" as="style" href="${esc(ctx.href(FONT_HREF))}">
 <link rel="stylesheet" href="${esc(ctx.href(FONT_HREF))}">
 ${marks.headLinks({ href: ctx.href })}

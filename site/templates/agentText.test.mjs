@@ -121,10 +121,10 @@ test('llms.txt follows the llmstxt.org shape and lists the endpoints', () => {
   const lines = txt.split('\n');
   assert.match(lines[0], /^# SIREN/);
   assert.match(lines[2], /^> /);
-  assert.ok(lines.length < 220, `${lines.length} lines`);
+  assert.ok(lines.length < 240, `${lines.length} lines`);
   for (const p of ['/api/now.txt', '/now.md', '/api/state.json', '/api/history.json', '/api/news.json', '/api/leaders.json',
     '/api/si-signals.json', '/api/search-index.json', '/api/fresh.json', '/api/health.json', '/api/receipts/', '/feed.xml', '/openapi.json',
-    '/methodology.md', '/guide.md', '/agents.md', '/compare.html', '/alternatives.html']) {
+    '/methodology.md', '/guide.md', '/agents.md', '/agents.txt', '/.well-known/api-catalog', '/compare.html', '/alternatives.html']) {
     assert.ok(txt.includes(`https://siren.watch${p}`), p);
   }
   assert.ok(txt.includes(dispatchFeedUrl()));
@@ -145,13 +145,14 @@ test('agents.md is a short fetch-first entry for ChatGPT and Grok', () => {
   const md = agentsMd({ url });
   assert.match(md, /^# SIREN for AI agents/);
   assert.match(md, /ChatGPT, Grok/);
-  for (const p of ['/api/now.txt', '/now.md', '/llms.txt', '/skill.md', '/agents.html', '/compare.html']) {
+  for (const p of ['/api/now.txt', '/now.md', '/llms.txt', '/skill.md', '/agents.html', '/compare.html', '/agents.txt']) {
     assert.ok(md.includes(`https://siren.watch${p}`), p);
   }
   assert.match(md, /not a prediction|Never call it a prediction/);
   assert.match(md, /agent-kit/);
   assert.match(md, /siren_now|cli\.mjs/);
-  assert.ok(md.split('\n').length < 80, 'keep it short for assistants');
+  assert.match(md, /api-catalog|agents\.txt/);
+  assert.ok(md.split('\n').length < 100, 'keep it short for assistants');
 });
 
 test('robots.txt welcomes each AI agent by name and keeps the sitemaps', () => {
@@ -161,6 +162,8 @@ test('robots.txt welcomes each AI agent by name and keeps the sitemaps', () => {
   assert.ok(AI_AGENTS.includes('OAI-SearchBot') && AI_AGENTS.includes('GrokBot') && AI_AGENTS.includes('xAI-SearchBot'));
   assert.match(r, /https:\/\/siren\.watch\/llms\.txt/);
   assert.match(r, /https:\/\/siren\.watch\/agents\.md/);
+  assert.match(r, /https:\/\/siren\.watch\/agents\.txt/);
+  assert.match(r, /https:\/\/siren\.watch\/\.well-known\/api-catalog/);
   assert.match(r, /Sitemap: https:\/\/siren\.watch\/sitemap\.xml/);
   assert.match(r, /Sitemap: https:\/\/siren\.watch\/news-sitemap\.xml/);
   assert.doesNotMatch(r, /Disallow/);
