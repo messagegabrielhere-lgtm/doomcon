@@ -545,6 +545,22 @@ export async function selfTest() {
     if (inspect(r, { depth: 5 }).includes('SENTINEL')) throw new Error('inspect leaked a credential');
     eq(r.creds.consumerKey, 'k-SENTINEL', 'value still usable');
   });
+  await check('postToX rejects the raw readCredentials() result and sends nothing', async () => {
+    const auth = readCredentials({ X_API_KEY: 'k-SENTINEL', X_API_SECRET: 's-SENTINEL', X_ACCESS_TOKEN: 't-SENTINEL', X_ACCESS_SECRET: 'ts-SENTINEL' });
+    let n = 0;
+    let message = '';
+    try {
+      await postToX({
+        text: FIXTURE_API_TEXT,
+        png: null,
+        creds: auth,
+        transport: async () => { n++; return { status: 201, text: '{"data":{"id":"1"}}' }; },
+      });
+    } catch (err) { message = err.message; }
+    if (!/no credentials/.test(message)) throw new Error(`expected the credentials guard, got ${JSON.stringify(message)}`);
+    if (message.includes('SENTINEL')) throw new Error('the guard echoed a credential value');
+    eq(n, 0, 'requests sent');
+  });
   await check('postToX sends media upload then create post, with media_ids, and nothing else', async () => {
     const calls = [];
     const fake = async (req) => {
