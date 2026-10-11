@@ -1773,10 +1773,9 @@ async function main() {
   // A README badge. GitHub, Substack and most markdown strip iframes, so the
   // embed cannot go where a developer would put it; an <img> can.
   written.push(await write(args.out, 'badge.svg', badgeSvg(state)));
-  written.push(await write(args.out, 'llms.txt', agentText.llmsTxt(ctx)));
-  // The same file where some crawlers look first. .nojekyll (below) keeps
-  // GitHub Pages from dropping the dot-folder.
-  written.push(await write(args.out, '.well-known/llms.txt', agentText.llmsTxt(ctx)));
+  // Agent text surfaces (now.txt, now.md, llms.txt, /.well-known/llms.txt,
+  // llms-full.txt, agents.md). .nojekyll (below) keeps GitHub Pages from
+  // dropping the dot-folder for /.well-known/.
   await writeAgentText(ctx, args.data, args.out, write, written);
   written.push(await write(args.out, 'manifest.webmanifest', marks.manifestJson(state.level)));
   // Pictures. assets/img holds the site's few bitmap images (generated
@@ -1907,6 +1906,13 @@ async function main() {
     license: brand.LICENSE,
     generated_at: state.generated_at,
     openapi: ctx.url('/openapi.json'),
+    agents: {
+      entry: ctx.url('/agents.md'),
+      skill: ctx.url('/skill.md'),
+      llms: ctx.url('/llms.txt'),
+      llms_full: ctx.url('/llms-full.txt'),
+      welcome: ctx.url('/agents.html'),
+    },
     endpoints: {
       state: ctx.url('/api/state.json'),
       history: ctx.url('/api/history.json'),
@@ -1914,12 +1920,21 @@ async function main() {
       receipt: `${ctx.url('/api/receipts/')}{id}.json`,
       receipts: ctx.url('/api/receipts/'),
       news: ctx.news ? ctx.url('/api/news.json') : undefined,
+      leaders: ctx.url('/api/leaders.json'),
+      si_signals: ctx.url('/api/si-signals.json'),
+      fresh: ctx.url('/api/fresh.json'),
+      search_index: ctx.url('/api/search-index.json'),
       embed: ctx.url('/embed.html'),
       feed: ctx.url('/feed.xml'),
       openapi: ctx.url('/openapi.json'),
       now_txt: ctx.url('/api/now.txt'),
       now_md: ctx.url('/now.md'),
       llms_txt: ctx.url('/llms.txt'),
+      llms_full: ctx.url('/llms-full.txt'),
+      agents_md: ctx.url('/agents.md'),
+      skill_md: ctx.url('/skill.md'),
+      methodology_md: ctx.url('/methodology.md'),
+      guide_md: ctx.url('/guide.md'),
     },
   })));
   for (const r of receipts) {
@@ -2018,9 +2033,9 @@ async function main() {
 }
 
 // THE TEXT SURFACES FOR ASSISTANTS (site/templates/agentText.mjs). Written by
-// the full build AND the news-only lane, so /api/now.txt, /now.md and
-// /llms-full.txt never lag the homepage. Takeover Watch is read from data/
-// here because the news-only lane never loads it into ctx.
+// the full build AND the news-only lane, so /api/now.txt, /now.md,
+// /llms-full.txt and /agents.md never lag the homepage. Takeover Watch is
+// read from data/ here because the news-only lane never loads it into ctx.
 async function writeAgentText(ctx, dataDir, outDir, write, written) {
   let siSignals = null;
   try { siSignals = JSON.parse(await readFile(path.join(dataDir, 'si-signals.json'), 'utf8')); } catch { siSignals = null; }
@@ -2028,6 +2043,9 @@ async function writeAgentText(ctx, dataDir, outDir, write, written) {
   written.push(await write(outDir, 'api/now.txt', agentText.nowTxt(src)));
   written.push(await write(outDir, 'now.md', agentText.nowMd(src)));
   written.push(await write(outDir, 'llms-full.txt', agentText.llmsFullTxt(ctx, src)));
+  written.push(await write(outDir, 'agents.md', agentText.agentsMd(ctx)));
+  written.push(await write(outDir, 'llms.txt', agentText.llmsTxt(ctx)));
+  written.push(await write(outDir, '.well-known/llms.txt', agentText.llmsTxt(ctx)));
 }
 
 // SEARCH AND CATALOG (site/templates/catalogPages.mjs). Reads what is on disk

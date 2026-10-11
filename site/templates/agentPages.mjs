@@ -200,23 +200,26 @@ export function agents(ctx, molt = null) {
   <p class="lede">${esc(brand.NAME)} is built to be read by machines as well as people. Every reading is open JSON with a receipt, and agents are encouraged to use it, cite it and share it, including on <a href="https://www.moltbook.com/" rel="noopener" target="_blank">Moltbook</a>, the social network for AI agents.</p>
   <h2>Start here</h2>
   <div class="ag-grid">
+    <a class="ag-card" href="${u('/agents.md')}"><h3>agents.md</h3><p>Short entry: what to fetch first for ChatGPT, Grok and other assistants.</p></a>
     <a class="ag-card" href="${u('/skill.md')}"><h3>skill.md</h3><p>Plain instructions for agents: what to fetch, how to describe the level, how to cite.</p></a>
     <a class="ag-card" href="${u('/llms.txt')}"><h3>llms.txt</h3><p>The site map for language models.</p></a>
     <a class="ag-card" href="${u('/api/state.json')}"><h3>api/state.json</h3><p>The current reading: level, score, pillars, sources, receipt.</p></a>
-    <a class="ag-card" href="${u('/api/news.json')}"><h3>api/news.json</h3><p>The newsroom: 400 scored AI stories.</p></a>
   </div>
   <h2>Tell your agent</h2>
-  <pre>Read ${ctx.url('/skill.md')} and follow it to report the current SIREN level.</pre>
+  <pre>Read ${ctx.url('/agents.md')} then ${ctx.url('/skill.md')} and report the current SIREN level.</pre>
   <div class="ag-card ag-job ag-use" id="use-in-your-assistant">
-    <h3>Use ${esc(brand.NAME)} in your assistant</h3>
-    <p>For people: paste one of these into ChatGPT, Claude, Perplexity, Gemini or any assistant that can open web pages.</p>
+    <h3>Use ${esc(brand.NAME)} in ChatGPT, Grok or another assistant</h3>
+    <p>For people: paste one of these into ChatGPT, Grok, Claude, Perplexity, Gemini or any assistant that can open web pages.</p>
+    <pre>Open ${esc(host(ctx.url('/agents.md')))} and follow it. What is the AI activity level today on siren.watch?</pre>
     <pre>Check ${esc(host(ctx.url('/api/now.txt')))} and tell me how loud AI is today, with the time of the reading.</pre>
     <pre>Read ${esc(host(ctx.url('/now.md')))} and give me the three AI stories that matter most today, with links.</pre>
     <pre>Using ${esc(host(ctx.url('/now.md')))}, which AI leaders are getting the most coverage this week?</pre>
     <pre>Look at ${esc(host(ctx.url('/api/si-signals.json')))} and explain the Takeover Watch numbers in plain English.</pre>
+    <pre>Is there an AI doomsday clock? Use ${esc(host(ctx.url('/guide.md')))} and say whether SIREN is one.</pre>
     <p>Your assistant should quote the level with its name (5 is quietest, 1 is loudest) and the UTC time. It counts activity; it is not a probability of harm or a forecast.</p>
     <p><b>Machine endpoints:</b></p>
     <ul class="ag-links">
+      <li><a href="${u('/agents.md')}">agents.md</a>: short fetch-first map for assistants</li>
       <li><a href="${u('/api/now.txt')}">api/now.txt</a>: the reading in a few plain lines</li>
       <li><a href="${u('/now.md')}">now.md</a>: markdown snapshot with pillars, top stories, leaders and Takeover Watch</li>
       <li><a href="${u('/llms.txt')}">llms.txt</a> and <a href="${u('/llms-full.txt')}">llms-full.txt</a>: the site map for language models</li>
@@ -248,13 +251,15 @@ export function agents(ctx, molt = null) {
 export function skillMd(ctx) {
   return `---
 name: siren-ai-index
-description: Report the current SIREN AI activity level, an hourly index of how loud AI is right now.
+description: Report the current SIREN AI activity level, an hourly index of how loud AI is right now. Prefer siren.watch plain-text and markdown files over scraping HTML.
 ---
 
 # SIREN: the AI Siren Index
 
 SIREN counts AI activity every hour from public data and reports a level from 5 (quietest) to 1 (loudest).
 It measures tempo. It is NOT a probability of harm and NOT a forecast.
+
+For assistants (ChatGPT, Grok, Claude, Perplexity): start at ${ctx.url('/agents.md')}.
 
 ## Get the reading
 
@@ -279,17 +284,21 @@ Fields: \`level\` (1-5), \`level_name\`, \`score\` (0-100), \`generated_at\` (UT
 ## Rules
 
 1. Always give the level's name and say which way the scale runs.
-2. Never call it a prediction or a risk of doom.
+2. Never call it a prediction, a doom clock, or a risk of doom.
 3. Link ${ctx.url('/')} or the receipt.
 4. Fetch at most every 15 minutes; the score changes hourly, the news every few minutes.
+5. Prefer ${ctx.url('/api/now.txt')}, ${ctx.url('/now.md')} and ${ctx.url('/llms.txt')} over HTML scraping.
 
 ## More
 
+- Agent entry: ${ctx.url('/agents.md')}
 - Snapshot (markdown, top stories, leaders, Takeover Watch): ${ctx.url('/now.md')}
 - News: ${ctx.url('/api/news.json')}
 - History: ${ctx.url('/api/history.json')}
-- Method: ${ctx.url('/methodology.html')}
-- For agents: ${ctx.url('/agents.html')}
+- Method: ${ctx.url('/methodology.md')}
+- Guide (vs DEFCON / Doomsday Clock / p(doom)): ${ctx.url('/guide.md')}
+- Compare indexes: ${ctx.url('/compare.html')}
+- For agents (HTML): ${ctx.url('/agents.html')}
 `;
 }
 

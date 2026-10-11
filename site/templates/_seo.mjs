@@ -19,10 +19,17 @@ export function organization(ctx) {
     // (live bug was https://siren.watch//#org).
     '@id': `${ctx.url('/')}#org`,
     name: brand.PUBLICATION,
-    alternateName: [brand.NAME, brand.FORMERLY, 'AI SIREN Index'].filter(Boolean),
+    alternateName: [brand.NAME, brand.FORMERLY, 'AI SIREN Index', 'AI Siren Index'].filter(Boolean),
     url: ctx.url('/'),
     description: brand.DESCRIPTION,
     logo: ctx.url('/favicon.svg'),
+    knowsAbout: [
+      'AI activity index',
+      'AI activity tempo',
+      'frontier AI news',
+      'p(doom)',
+      'AI doomsday clock',
+    ],
     ...(sameAs.length ? { sameAs } : {}),
   };
 }

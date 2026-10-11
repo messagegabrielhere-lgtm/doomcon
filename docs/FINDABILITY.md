@@ -1,11 +1,11 @@
 # Findability — Google Search and AI answer engines
 
 **Status:** playbook, measured against the live site on **2026-10-08**, with
-engineering checklist updates through **2026-10-10**. Companion to
-`docs/GROWTH.md` (UX moves), `docs/COMPETITIVE.md` (URL-count war),
-`docs/COMPETITIVE-SEO.md` (live reverse-engineer of rival titles/sitemaps/schema),
-`docs/VIRAL.md` (distribution on X), and `docs/MONETIZE.md` (earning without
-losing rank).
+engineering checklist updates through **2026-10-11** (ChatGPT / Grok agent
+surfaces). Companion to `docs/GROWTH.md` (UX moves), `docs/COMPETITIVE.md`
+(URL-count war), `docs/COMPETITIVE-SEO.md` (live reverse-engineer of rival
+titles/sitemaps/schema), `docs/VIRAL.md` (distribution on X), and
+`docs/MONETIZE.md` (earning without losing rank).
 
 Two different surfaces, one shared substrate:
 
@@ -25,10 +25,10 @@ agents actually read.
 
 | Asset | State | Notes |
 |---|---|---|
-| `robots.txt` | `User-agent: *` / `Allow: /` + named AI bots + both Sitemap lines | Does not Disallow anything — correct (a Disallow is an announcement; see `sitemap.mjs`) |
-| `sitemap.xml` | **~520 URLs** | Head pages + `/item/<slug>.html` long tail + substantive moves |
+| `robots.txt` | `User-agent: *` / `Allow: /` + named AI bots + both Sitemap lines | Names GPT/OAI-SearchBot, GrokBot/xAI-SearchBot, Claude, Perplexity, … No Disallow |
+| `sitemap.xml` | **~665 URLs** live (2026-10-11) | Head pages + `/item/` long tail + agent surfaces + facets |
 | `news-sitemap.xml` | Live, rolling 48h window | Google News format; capped at 100 newest items |
-| `llms.txt` | Live, HTTP 200 | Spec-shaped H1 + blockquote + H2 sections (API, explainers, instruments) |
+| `llms.txt` / `agents.md` | Live `llms.txt`; **`/agents.md` shipping this pass** | Query routing for ChatGPT/Grok + fetch-first agent entry |
 | `/api/index.json` | Live | CORS `*`. Linked from `llms.txt`. `/openapi.json` ships |
 | `/api/state.json`, `history.json`, `health.json`, receipts | Live | The citation unit for both journalists and agents |
 | `/feed.xml` + `/feed-level.xml` | Live | Both linked as `rel=alternate` in `<head>` on every templated page |
@@ -236,12 +236,13 @@ context.
 | 6 | `/openapi.json` + sitemap entries for API docs | Agents + developers | **Done** |
 | 7 | Head-term homepage title + FAQ ("AI activity level today", verifiable doomsday clock) | Google | **Done** (2026-10-10) |
 | 8 | Organization JSON-LD + IndexNow ping after publish + GSC meta hook | Google + Bing | **Done** (2026-10-10) |
-| 9 | Optional markdown mirrors for methodology and guide | Agents | Open (draft PR) |
+| 9 | Optional markdown mirrors for methodology and guide | Agents | **Done** |
 | 10 | Mobile card view / less above-fold weight | Google CWV | Open |
 | 11 | Verify Search Console; submit both sitemaps | Operator | Open |
-| 12 | `/country/*` + `/model/*` entity axes (DoomBench URL shape) | Google | **This PR** |
-| 13 | `/compare`, `/alternatives`, `/vs/*` conquest landings | Google | **This PR** |
-| 12 | `/country/<iso>` for countries with ≥3 mapped datacentre sites, and `/model/<slug>` for model families named in ≥3 scored stories | Google | **Done** (2026-10-10) |
+| 12 | `/country/<iso>` + `/model/<slug>` entity axes | Google | **Done** (2026-10-10) |
+| 13 | `/compare`, `/alternatives`, `/vs/*` conquest landings | Google | **Done** (2026-10-10) |
+| 14 | `/agents.md` + Grok/xAI named Allow + ChatGPT query routing in `llms.txt` | ChatGPT + Grok | **Done** (2026-10-11) |
+| 15 | People pages + news day hubs (DoomBench/Skynet URL shape) | Google | Open PR #86 |
 
 ### 3.3 Refusals (search edition)
 
