@@ -21,7 +21,7 @@ test('agents.txt announces Skills only (no fake HTTP MCP or A2A)', () => {
   assert.match(txt, /Standard: https:\/\/agents-txt\.com/);
   assert.match(txt, /JSON: https:\/\/siren\.watch\/agents\.json/);
   assert.match(txt, /Skills: https:\/\/siren\.watch\/skill\.md/);
-  assert.match(txt, new RegExp(`Skills: https://siren\\.watch${SKILL_PATH.replace(/\//g, '\\/')}`));
+  assert.ok(txt.includes(`Skills: https://siren.watch${SKILL_PATH}`));
   assert.doesNotMatch(txt, /^MCP:/m);
   assert.doesNotMatch(txt, /^A2A:/m);
   assert.doesNotMatch(txt, /^Protocols:/m);
