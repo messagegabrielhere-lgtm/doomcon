@@ -44,6 +44,9 @@ export function render(ctx) {
     { loc: '/api/receipts/', changefreq: 'hourly', priority: '0.4', lastmod: ctx.state.generated_at },
     { loc: '/now.md', changefreq: 'hourly', priority: '0.5', lastmod: ctx.state.generated_at },
     { loc: '/api/now.txt', changefreq: 'hourly', priority: '0.4', lastmod: ctx.state.generated_at },
+    { loc: '/api/changes.json', changefreq: 'hourly', priority: '0.4', lastmod: ctx.state.generated_at },
+    { loc: '/.well-known/mcp.json', changefreq: 'weekly', priority: '0.3', lastmod: ctx.state.generated_at },
+    { loc: '/.well-known/agent-card.json', changefreq: 'weekly', priority: '0.3', lastmod: ctx.state.generated_at },
     { loc: '/llms.txt', changefreq: 'weekly', priority: '0.4', lastmod: ctx.state.generated_at },
     ...['/radio.html', '/charts.html', '/power.html', '/leaders.html', '/elon.html', '/threats.html', '/self-aware.html', '/status.html', '/waffle.html', '/day-after.html', '/videos.html', '/live.html', '/si-ready.html', '/ai-proof-job.html', '/breakthroughs.html', '/live-x.html', '/tally.html', '/staff.html', '/careers.html', '/agents.html', '/bug-out-land.html', '/prepper-checklist.html', '/feedback.html', '/alerts.html', '/export.html', '/bias.html', '/reference-plan.html', '/changelog.html', '/moltbook.html', '/si-watch.html', '/contain.html', '/monitor.html', '/scanner.html', '/dispatch.html', '/arena.html', '/catalog.html', '/search.html']
       .filter((loc, i, a) => a.indexOf(loc) === i).map((loc) => ({ loc, changefreq: loc === '/changelog.html' ? 'hourly' : 'weekly', priority: '0.7', lastmod: ctx.state.generated_at })),
@@ -171,6 +174,8 @@ export const AI_AGENTS = [
 export function robots(ctx) {
   return `# AI crawlers and assistants welcome. Start with ${ctx.url('/llms.txt')}
 # Live reading in plain text: ${ctx.url('/api/now.txt')}
+# What changed (poll with your last generated_at): ${ctx.url('/api/changes.json')}
+# MCP server: ${ctx.url('/.well-known/mcp.json')} · Agent card: ${ctx.url('/.well-known/agent-card.json')}
 
 User-agent: *
 Allow: /

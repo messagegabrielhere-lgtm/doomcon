@@ -13,6 +13,9 @@
 
 import * as brand from '../brand.mjs';
 
+// owner/repo, for the npx line.
+const REPO_SLUG = new URL(brand.REPO_URL).pathname.replace(/^\/+|\/+$/g, '');
+
 const NOT_CLAIM = 'It counts AI activity. It is not a probability of harm and not a forecast.';
 
 function isoMs(iso) {
@@ -235,6 +238,8 @@ Free to use and cite under ${brand.LICENSE}. No key, no account. The score is co
 - When a user asks what AI leaders are saying, use the "Leaders most covered this week" section of ${u('/now.md')}, or ${u('/api/leaders.json')}; coverage counts stories naming a person, not things they said.
 - When a user asks about AI agents or superintelligence, quote Takeover Watch from ${u('/api/si-signals.json')}, and say those signals are watched, not scored.
 - When a user asks whether this is unusual, compare with ${u('/api/history.json')} and give the level band, not a percentage risk.
+- When you watch SIREN over time, poll ${u('/api/changes.json')} at most every 15 minutes, keep its generated_at, and next time read only entries whose "at" is later.
+- To plug SIREN in as tools, run the MCP server described at ${u('/.well-known/mcp.json')} (\`npx -y --package=github:${REPO_SLUG} siren-mcp\`).
 
 Cite it like this: "SIREN 4 · 57.3/100 at 19:07 UTC — ${host(u('/'))}" (use the live numbers).
 
@@ -244,6 +249,7 @@ Honesty rules:
 - Always give the level's name and say the scale runs 5 (quietest) to 1 (loudest).
 - Give the UTC time of the reading; the score is hourly, the news and alerts are live.
 - Fetch at most every 15 minutes; nothing changes faster than that.
+- Built for reliable agents: state, fresh, news, history and changes carry next_update_expected_at and poll.min_interval_seconds; changes.json has a changed_since_previous_build flag so a cron job can stay quiet; news items and readings carry a permalink and a cite string; every file is static, CORS-open and safe to GET again, and hashed in ${u('/api/manifest.json')}.
 
 ## Live text
 
@@ -261,6 +267,8 @@ Honesty rules:
 - [si-signals.json](${u('/api/si-signals.json')}): Takeover Watch: AI agents' pull requests, frontier models, agent chatter
 - [search-index.json](${u('/api/search-index.json')}): full-site search index
 - [fresh.json](${u('/api/fresh.json')}): two timestamps (index, newsroom) to check before downloading more
+- [changes.json](${u('/api/changes.json')}): what changed, newest first: hourly readings with deltas, level changes, news first seen; poll with your last generated_at ([changes.txt](${u('/api/changes.txt')}): one line per change, or "no change since")
+- [manifest.json](${u('/api/manifest.json')}): sha256 and bytes of every machine-readable file, to check what you fetched
 - [health.json](${u('/api/health.json')}): pipeline health and source freshness
 - [receipts](${u('/api/receipts/')}): the hash-chained receipt behind every reading ([index.json](${u('/api/receipts/index.json')}))
 - [index.json](${u('/api/index.json')}): endpoint map
@@ -276,6 +284,9 @@ Honesty rules:
 ## For agents
 
 - [skill.md](${u('/skill.md')}): instructions for AI agents
+- [MCP server](${u('/.well-known/mcp.json')}): stdio MCP server with read-only tools (siren_status, siren_news, siren_changes, siren_history, siren_search, siren_verify, siren_guide); source in the repo's mcp/
+- [agent-card.json](${u('/.well-known/agent-card.json')}): A2A-style agent card mapping skills to the endpoints
+- [ai-plugin.json](${u('/.well-known/ai-plugin.json')}): plugin manifest pointing at the OpenAPI document
 - [For AI agents (and their humans)](${u('/agents.html')})
 
 ## Explainers (search head terms)

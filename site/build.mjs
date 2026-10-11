@@ -193,6 +193,7 @@ import * as leadersPage from './templates/leadersPage.mjs';
 import * as newsSitemap from './templates/newsSitemap.mjs';
 import * as openapi from './templates/openapi.mjs';
 import * as agentText from './templates/agentText.mjs';
+import * as agentCards from './templates/agentCards.mjs';
 import * as facetPages from './templates/facetPages.mjs';
 import * as modelPages from './templates/modelPages.mjs';
 import * as countryPages from './templates/countryPages.mjs';
@@ -862,6 +863,10 @@ async function main() {
     log('build --only news: no prior public/index.html; running a full build instead');
     newsOnly = false;
   }
+  // The previous build's api/changes.json, read before anything is cleared,
+  // so the changes feed can say whether anything is new since (quiet flag).
+  let prevChangesAt = null;
+  try { prevChangesAt = JSON.parse(await readFile(path.join(args.out, 'api/changes.json'), 'utf8')).generated_at || null; } catch { prevChangesAt = null; }
   let cardCount = 0;
   if (!newsOnly) {
     // Start from an empty directory so a deleted move page actually disappears
@@ -1231,6 +1236,8 @@ async function main() {
     cssHref,
     url: (p) => `${brand.ORIGIN}${brand.BASE_PATH}${p.startsWith('/') ? p : `/${p}`}`,
     seriesFor: seriesBuilder(history),
+    prevChangesAt,
+    cadence: await readCadence(),
     vsYesterday: vsYesterday(state, history),
     cardFor: cardResolver(args.data, args.out),
     temporalCoverage: stamps.length ? `${stamps[0]}/${stamps[stamps.length - 1]}` : state.generated_at,
@@ -1325,7 +1332,10 @@ async function main() {
       // that lets the overlay rsync skip them on publish.
       let prevItems = [];
       try {
-        prevItems = JSON.parse(await readFile(path.join(args.out, 'api/news.json'), 'utf8')).items || [];
+        // stripHandoff: the published copy carries permalink + cite, the
+        // collector's items do not; compare like with like or every item
+        // looks changed and every brief is rewritten on every tick.
+        prevItems = (JSON.parse(await readFile(path.join(args.out, 'api/news.json'), 'utf8')).items || []).map(agentCards.stripHandoff);
       } catch { /* first news-only pass, or corrupt prior */ }
       let prevAsOf = null;
       try {
@@ -1412,26 +1422,17 @@ async function main() {
       ...modelAndCountryAliases(ctx),
     ], write, written);
     written.push(await write(args.out, 'feed.xml', feed.render(ctx)));
-    if (news) written.push(await write(args.out, 'api/news.json', stableJson(news)));
+    if (news) written.push(await write(args.out, 'api/news.json', newsApi(ctx)));
     if (breaking) written.push(await write(args.out, 'api/breaking.json', stableJson(breaking)));
     // Keep state.json's poll surface current so the motion layer's dual fetch
     // does not mix a fresh newsroom with a stale compile stamp.
-    written.push(await write(args.out, 'api/state.json', stableJson({
-      ...state,
-      _about: `${brand.NAME}: ${brand.DESCRIPTION}`,
-      _disclaimer: brand.DISCLAIMER,
-      _license: brand.LICENSE,
-      _docs: ctx.url('/methodology.html'),
-    })));
+    written.push(await write(args.out, 'api/state.json', stateApi(ctx)));
     // Same two-timestamp file the full build ships — open tabs and the
     // sitebar watch this instead of re-downloading news.json every poll.
-    written.push(await write(args.out, 'api/fresh.json', stableJson({
-      schema: 1,
-      state: state.generated_at,
-      news: news && typeof news.generated_at === 'string' ? news.generated_at : null,
-    })));
+    written.push(await write(args.out, 'api/fresh.json', freshApi(ctx)));
     await writeAgentText(ctx, args.data, args.out, write, written);
     await writeSearchAndCatalog(ctx, args.out, write, written, { pages: false });
+    await writeManifest(ctx, args.out, write, written);
     const htmlWritten = written.filter((f) => f.endsWith('.html'));
     const stamped = await stampFiles(htmlWritten, args.out, state.generated_at, {
       level: state.level,
@@ -1453,6 +1454,9 @@ async function main() {
     }
     if (!existsSync(path.join(args.out, 'api/now.txt'))) {
       throw new Error('build --only news: self-check failed - api/now.txt was not written');
+    }
+    if (!existsSync(path.join(args.out, 'api/changes.json'))) {
+      throw new Error('build --only news: self-check failed - api/changes.json was not written');
     }
     log(`${brand.NAME} news-only build complete.`);
     log(`  out          ${args.out}`);
@@ -1777,6 +1781,11 @@ async function main() {
   // The same file where some crawlers look first. .nojekyll (below) keeps
   // GitHub Pages from dropping the dot-folder.
   written.push(await write(args.out, '.well-known/llms.txt', agentText.llmsTxt(ctx)));
+  // Discovery cards for agent frameworks: the MCP server (mcp/), an A2A-style
+  // agent card and the legacy plugin manifest. Tools come from mcp/tools.mjs.
+  written.push(await write(args.out, '.well-known/mcp.json', stableJson(agentCards.mcpJson(ctx))));
+  written.push(await write(args.out, '.well-known/agent-card.json', stableJson(agentCards.agentCard(ctx))));
+  written.push(await write(args.out, '.well-known/ai-plugin.json', stableJson(agentCards.aiPlugin(ctx))));
   await writeAgentText(ctx, args.data, args.out, write, written);
   written.push(await write(args.out, 'manifest.webmanifest', marks.manifestJson(state.level)));
   // Pictures. assets/img holds the site's few bitmap images (generated
@@ -1837,32 +1846,23 @@ async function main() {
     if (!host.endsWith('github.io')) written.push(await write(args.out, 'CNAME', `${host}\n`));
   }
 
-  written.push(await write(args.out, 'api/state.json', stableJson({
-    ...state,
-    _about: `${brand.NAME}: ${brand.DESCRIPTION}`,
-    _disclaimer: brand.DISCLAIMER,
-    _license: brand.LICENSE,
-    _docs: ctx.url('/methodology.html'),
-  })));
+  written.push(await write(args.out, 'api/state.json', stateApi(ctx)));
   written.push(await write(args.out, 'api/history.json', stableJson({
     schema: 1,
     generated_at: state.generated_at,
     count: history.length,
     observations: history,
+    ...agentCards.pollFields({ lane: 'index', at: state.generated_at, state, cadence: ctx.cadence, useSince: true }),
   })));
   written.push(await write(args.out, 'api/health.json', stableJson(health(state))));
   // Polled by the motion layer's live refresh. Absent when the collector has
   // not run: the client detects the 404, disables news polling and keeps
   // polling state, rather than pretending the newsroom is empty.
-  if (news) written.push(await write(args.out, 'api/news.json', stableJson(news)));
+  if (news) written.push(await write(args.out, 'api/news.json', newsApi(ctx)));
   if (breaking) written.push(await write(args.out, 'api/breaking.json', stableJson(breaking)));
   // The open-tab poll. news.json is ~900KB; this is the two timestamps a
   // reader needs to know whether that download is worth making.
-  written.push(await write(args.out, 'api/fresh.json', stableJson({
-    schema: 1,
-    state: state.generated_at,
-    news: news && typeof news.generated_at === 'string' ? news.generated_at : null,
-  })));
+  written.push(await write(args.out, 'api/fresh.json', freshApi(ctx)));
   if (race) written.push(await write(args.out, 'api/race.json', stableJson(race)));
   if (xwire) written.push(await write(args.out, 'api/x-surface.json', stableJson(xwire)));
   if (bsky) written.push(await write(args.out, 'api/bsky-surface.json', stableJson(bsky)));
@@ -1920,6 +1920,11 @@ async function main() {
       now_txt: ctx.url('/api/now.txt'),
       now_md: ctx.url('/now.md'),
       llms_txt: ctx.url('/llms.txt'),
+      changes: ctx.url('/api/changes.json'),
+      changes_txt: ctx.url('/api/changes.txt'),
+      manifest: ctx.url('/api/manifest.json'),
+      mcp: ctx.url('/.well-known/mcp.json'),
+      agent_card: ctx.url('/.well-known/agent-card.json'),
     },
   })));
   for (const r of receipts) {
@@ -2005,6 +2010,8 @@ async function main() {
     intro: mediaPages.INTRO_FOR,
     newsAt: news && news.generated_at,
   });
+  // Last of all: hash what is now on disk.
+  await writeManifest(ctx, args.out, write, written);
 
   log(`${brand.NAME} build complete.`);
   log(`  out          ${args.out}`);
@@ -2028,6 +2035,79 @@ async function writeAgentText(ctx, dataDir, outDir, write, written) {
   written.push(await write(outDir, 'api/now.txt', agentText.nowTxt(src)));
   written.push(await write(outDir, 'now.md', agentText.nowMd(src)));
   written.push(await write(outDir, 'llms-full.txt', agentText.llmsFullTxt(ctx, src)));
+  // The poll feed. Here, not in the full build alone, because its news half
+  // moves every newsroom tick (site/templates/agentCards.mjs).
+  const changes = agentCards.changesJson({
+    ...src, receipts: ctx.receipts, itemPages: itemPage.hasItems(ctx), previousAt: ctx.prevChangesAt, cadence: ctx.cadence,
+  });
+  written.push(await write(outDir, 'api/changes.json', stableJson(changes)));
+  written.push(await write(outDir, 'api/changes.txt', agentCards.changesTxt(changes)));
+}
+
+// THE POLL CONTRACT AND HANDOFF FIELDS on the files agents poll most
+// (site/templates/agentCards.mjs). Shared by both lanes so they cannot differ.
+function stateApi(ctx) {
+  return stableJson({
+    ...ctx.state,
+    ...agentCards.pollFields({ lane: 'index', at: ctx.state.generated_at, state: ctx.state, cadence: ctx.cadence }),
+    _about: `${brand.NAME}: ${brand.DESCRIPTION}`,
+    _disclaimer: brand.DISCLAIMER,
+    _license: brand.LICENSE,
+    _docs: ctx.url('/methodology.html'),
+  });
+}
+function freshApi(ctx) {
+  const newsAt = ctx.news && typeof ctx.news.generated_at === 'string' ? ctx.news.generated_at : null;
+  return stableJson({
+    schema: 1,
+    state: ctx.state.generated_at,
+    news: newsAt,
+    ...agentCards.pollFields({ lane: 'news', at: newsAt || ctx.state.generated_at, cadence: ctx.cadence }),
+  });
+}
+function newsApi(ctx) {
+  return stableJson({
+    ...agentCards.newsWithHandoff(ctx.news, ctx.url, { itemPages: itemPage.hasItems(ctx) }),
+    ...agentCards.pollFields({ lane: 'news', at: ctx.news.generated_at, cadence: ctx.cadence, useSince: true }),
+  });
+}
+
+/** The two schedules from collect.yml (agentCards.parseCadence); the fallback is the same text. */
+async function readCadence() {
+  const file = path.join(ROOT, '.github', 'workflows', 'collect.yml');
+  try {
+    const c = agentCards.parseCadence(await readFile(file, 'utf8'));
+    if (c) return c;
+    warn(`${file} has no recognisable news/index cron; poll fields use the built-in copy of it`);
+  } catch { /* a build outside the repo: fall back */ }
+  return agentCards.CADENCE_FALLBACK;
+}
+
+// THE INTEGRITY MANIFEST. The last thing either lane writes: sha256 and bytes
+// of every machine-readable file as it sits on disk now, so what an agent
+// fetched can be checked against what was built.
+async function writeManifest(ctx, outDir, write, written) {
+  const files = [];
+  const add = async (rel) => {
+    try { files.push({ path: rel, bytes: await readFile(path.join(outDir, rel)) }); } catch { /* absent */ }
+  };
+  for (const dir of ['', 'api', '.well-known']) {
+    let names = [];
+    try { names = await readdir(path.join(outDir, dir), { withFileTypes: true }); } catch { continue; }
+    for (const d of names) {
+      const rel = dir ? `${dir}/${d.name}` : d.name;
+      if (d.isFile() && agentCards.isMachineFile(rel)) await add(rel);
+    }
+  }
+  await add('api/receipts/index.json');
+  const newsAt = ctx.news && ctx.news.generated_at;
+  const at = [ctx.state.generated_at, newsAt].filter((x) => Number.isFinite(Date.parse(x))).sort((a, b) => Date.parse(b) - Date.parse(a))[0];
+  const manifest = agentCards.manifestJson({ files, generatedAt: at, url: ctx.url });
+  written.push(await write(outDir, 'api/manifest.json', stableJson(manifest)));
+  if (!manifest.files.some((f) => f.path === 'api/state.json')) {
+    throw new Error('build: self-check failed - api/manifest.json does not list api/state.json');
+  }
+  return manifest;
 }
 
 // SEARCH AND CATALOG (site/templates/catalogPages.mjs). Reads what is on disk
@@ -2124,7 +2204,7 @@ async function selfCheck(outDir, state, ctx = null) {
   if (/all sources live/i.test(embed)) {
     throw new Error('build: self-check failed - embed still claims "all sources live".');
   }
-  for (const file of ['news-sitemap.xml', 'openapi.json', 'api/receipts/index.json', 'api/receipts/index.html', 'api/fresh.json']) {
+  for (const file of ['news-sitemap.xml', 'openapi.json', 'api/receipts/index.json', 'api/receipts/index.html', 'api/fresh.json', 'api/changes.json', '.well-known/mcp.json', '.well-known/agent-card.json', '.well-known/ai-plugin.json']) {
     if (!existsSync(path.join(outDir, file))) {
       throw new Error(`build: self-check failed - missing ${file}`);
     }

@@ -116,6 +116,12 @@ Every fill and every rejection is public. It shares nothing with the index pipel
 | `/api/receipts/<id>.json` | One hash-chained receipt |
 | `/embed.html` | Embeddable widget |
 | `/feed.xml` | RSS of index moves |
+| `/api/changes.json` | What changed, newest first, with a `changed_since_previous_build` quiet flag (`/api/changes.txt`: one line per change) |
+| `/api/manifest.json` | sha256 and bytes of every machine-readable file |
+| `/.well-known/mcp.json` | The MCP server in [`mcp/`](mcp/README.md): SIREN as read-only tools for agents |
+| `/.well-known/agent-card.json`, `/.well-known/ai-plugin.json` | Agent card and plugin manifest |
+
+Polled files carry `next_update_expected_at` and `poll.min_interval_seconds`, read from the workflow schedule.
 
 All CC-BY 4.0. Attribution appreciated, not enforced.
 

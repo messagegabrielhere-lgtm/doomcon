@@ -124,7 +124,8 @@ test('llms.txt follows the llmstxt.org shape and lists the endpoints', () => {
   assert.ok(lines.length < 200, `${lines.length} lines`);
   for (const p of ['/api/now.txt', '/now.md', '/api/state.json', '/api/history.json', '/api/news.json', '/api/leaders.json',
     '/api/si-signals.json', '/api/search-index.json', '/api/fresh.json', '/api/health.json', '/api/receipts/', '/feed.xml', '/openapi.json',
-    '/methodology.md', '/guide.md']) {
+    '/methodology.md', '/guide.md', '/api/changes.json', '/api/changes.txt', '/api/manifest.json',
+    '/.well-known/mcp.json', '/.well-known/agent-card.json', '/.well-known/ai-plugin.json']) {
     assert.ok(txt.includes(`https://siren.watch${p}`), p);
   }
   assert.ok(txt.includes(dispatchFeedUrl()));
@@ -132,6 +133,8 @@ test('llms.txt follows the llmstxt.org shape and lists the endpoints', () => {
   assert.match(txt, /## Use SIREN with your human/);
   assert.match(txt, /## Explainers \(search head terms\)/);
   assert.match(txt, /## Instruments/);
+  assert.match(txt, /npx -y --package=github:messagegabrielhere-lgtm\/doomcon siren-mcp/);
+  assert.match(txt, /Built for reliable agents/);
   assert.doesNotMatch(txt, /@[a-z0-9-]+\.[a-z]/i, 'no email addresses');
   const full = llmsFullTxt(ctx, { state, history, url });
   assert.ok(full.startsWith(txt));
@@ -145,5 +148,6 @@ test('robots.txt welcomes each AI agent by name and keeps the sitemaps', () => {
   assert.match(r, /^# .*https:\/\/siren\.watch\/llms\.txt/m);
   assert.match(r, /Sitemap: https:\/\/siren\.watch\/sitemap\.xml/);
   assert.match(r, /Sitemap: https:\/\/siren\.watch\/news-sitemap\.xml/);
+  assert.match(r, /^# .*https:\/\/siren\.watch\/\.well-known\/mcp\.json/m);
   assert.doesNotMatch(r, /Disallow/);
 });

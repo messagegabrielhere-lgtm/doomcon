@@ -10,6 +10,9 @@ import { esc } from './_html.mjs';
 import { page } from './layout.mjs';
 import * as brand from '../brand.mjs';
 import { mascot, MOODS } from './_mascot.mjs';
+import { citation } from './agentText.mjs';
+import { mcpConfig } from './agentCards.mjs';
+import { TOOLS } from '../../mcp/tools.mjs';
 
 const CSS = `<style>
 .ag{max-width:1000px}
@@ -204,6 +207,7 @@ export function agents(ctx, molt = null) {
     <a class="ag-card" href="${u('/llms.txt')}"><h3>llms.txt</h3><p>The site map for language models.</p></a>
     <a class="ag-card" href="${u('/api/state.json')}"><h3>api/state.json</h3><p>The current reading: level, score, pillars, sources, receipt.</p></a>
     <a class="ag-card" href="${u('/api/news.json')}"><h3>api/news.json</h3><p>The newsroom: 400 scored AI stories.</p></a>
+    <a class="ag-card" href="#use-from-your-agent"><h3>MCP server</h3><p>Plug ${esc(brand.NAME)} into your agent as read-only tools. No key.</p></a>
   </div>
   <h2>Tell your agent</h2>
   <pre>Read ${ctx.url('/skill.md')} and follow it to report the current SIREN level.</pre>
@@ -225,6 +229,7 @@ export function agents(ctx, molt = null) {
       <li><a href="${u('/openapi.json')}">openapi.json</a>: every endpoint described</li>
     </ul>
   </div>
+${useFromAgent(ctx)}
   <h2>On Moltbook</h2>
   <p>Moltbook is a Reddit-style network where AI agents post and vote in topic communities called submolts. If you are an agent there, you are welcome to post the hourly SIREN reading in AI-related submolts, as long as you quote the level in words ("SIREN 4: ROUTINE, on a scale where 1 is loudest"), never call it a prediction, and link to ${esc(ctx.url('/'))}.</p>
   <p>Humans: to send your own agent, give it the line above, or Moltbook's own join instructions at <a href="https://www.moltbook.com/skill.md" rel="noopener" target="_blank">moltbook.com/skill.md</a>.</p>
@@ -243,6 +248,44 @@ export function agents(ctx, molt = null) {
 </section>`;
   return page({ ctx, path: '/agents.html', title: `For AI agents: open data, skill.md and Moltbook · ${brand.NAME}`,
     description: 'SIREN welcomes AI agents: open JSON readings with receipts, llms.txt, a skill.md with instructions, and guidance for posting the reading on Moltbook.', main });
+}
+
+/** The "Use SIREN from your agent" block: MCP config, discovery cards, polling, citing. */
+export function useFromAgent(ctx) {
+  const u = (p) => esc(ctx.url(p));
+  const cfg = esc(JSON.stringify(mcpConfig(), null, 2));
+  const local = esc(JSON.stringify(mcpConfig({ local: true }), null, 2));
+  const tools = TOOLS.map((t) => `<li><b>${esc(t.name)}</b>: ${esc(t.title)} (<a href="${u(t.endpoint)}">${esc(t.endpoint.replace(/^\//, ''))}</a>)</li>`).join('');
+  const cite = ctx.state && Number.isFinite(ctx.state.score) ? citation(ctx.state, ctx.url('/')) : null;
+  return `<h2 id="use-from-your-agent">Use ${esc(brand.NAME)} from your agent</h2>
+  <p><b>MCP server.</b> Zero dependencies, Node 20 or newer, no key. Add this to Claude Desktop's <code>claude_desktop_config.json</code>, a Claude Code <code>.mcp.json</code>, or any MCP client that runs stdio servers:</p>
+  <pre>${cfg}</pre>
+  <p>From a clone of <a href="${esc(brand.REPO_URL)}" rel="noopener" target="_blank">the repository</a>, run <code>node mcp/server.mjs</code> instead:</p>
+  <pre>${local}</pre>
+  <p>Set <code>SIREN_BASE_URL</code> to read from a mirror or a local build. The tools, all read-only:</p>
+  <ul class="ag-links">${tools}</ul>
+  <p><b>Discovery cards</b>, for frameworks that look for them:</p>
+  <ul class="ag-links">
+    <li><a href="${u('/.well-known/mcp.json')}">.well-known/mcp.json</a>: the MCP server, how to run it, its tools and their input schemas</li>
+    <li><a href="${u('/.well-known/agent-card.json')}">.well-known/agent-card.json</a>: A2A-style agent card, one skill per endpoint</li>
+    <li><a href="${u('/.well-known/ai-plugin.json')}">.well-known/ai-plugin.json</a>: plugin manifest pointing at <a href="${u('/openapi.json')}">openapi.json</a></li>
+  </ul>
+  <p><b>Watching for changes.</b> <a href="${u('/api/changes.json')}">api/changes.json</a> lists hourly readings with their deltas, level changes and news items with the time ${esc(brand.NAME)} first saw them, newest first. Poll it at most every 15 minutes:</p>
+  <pre>1. GET ${esc(ctx.url('/api/changes.json'))}
+2. Keep generated_at.
+3. Next poll: use only entries whose "at" is later than it.
+   (The MCP tool siren_changes does this for you with since=&lt;generated_at&gt;.)</pre>
+  <div class="ag-card ag-job ag-use" id="reliable-agents">
+    <h3>Built for reliable agents</h3>
+    <ul class="ag-links">
+      <li><b>Poll contract.</b> <a href="${u('/api/state.json')}">state</a>, <a href="${u('/api/fresh.json')}">fresh</a>, <a href="${u('/api/news.json')}">news</a>, <a href="${u('/api/history.json')}">history</a> and <a href="${u('/api/changes.json')}">changes</a> carry <code>next_update_expected_at</code> and <code>poll.min_interval_seconds</code>, read from the real build schedule. Poll no faster than this; nothing changes between builds. If the expected time has passed, wait the interval again: scheduled builds run late, and retrying sooner gets you the same bytes.</li>
+      <li><b>Quiet by default.</b> <a href="${u('/api/changes.json')}">changes.json</a> has <code>changed_since_previous_build</code> and a one-line <code>summary</code>; when the flag is false a cron agent can say nothing. <a href="${u('/api/changes.txt')}">changes.txt</a> is one line per change, or the single line "no change since …".</li>
+      <li><b>Integrity.</b> <a href="${u('/api/manifest.json')}">api/manifest.json</a> lists every machine-readable file with its sha256, bytes and generated_at, computed last from the bytes written. The readings themselves are hash-chained in the <a href="${u('/api/receipts/')}">receipts</a>. The MCP tool <code>siren_verify</code> does the check.</li>
+      <li><b>Handoff.</b> News items and readings carry a <code>permalink</code> and a <code>cite</code> string ("${esc(brand.NAME)} (${esc(host(ctx.url('/')).replace(/\/$/, ''))}), &lt;what&gt;, &lt;UTC time&gt;, &lt;permalink&gt;, ${esc(brand.LICENSE)}"), so one agent can pass a fact to another with its provenance.</li>
+      <li><b>Boring infrastructure.</b> Every endpoint is a static file on GitHub Pages: cacheable, CORS-open, no key, and idempotent to GET, so retries with backoff are always safe.</li>
+    </ul>
+  </div>
+  <p><b>Cite ${esc(brand.NAME)}.</b> ${cite ? `"${esc(cite)}" (use the live numbers), ` : ''}with the level's name, the UTC time, and a link to ${u('/')}. The data is ${esc(brand.LICENSE)}: free to use with attribution.</p>`;
 }
 
 export function skillMd(ctx) {
@@ -289,6 +332,9 @@ Fields: \`level\` (1-5), \`level_name\`, \`score\` (0-100), \`generated_at\` (UT
 - News: ${ctx.url('/api/news.json')}
 - History: ${ctx.url('/api/history.json')}
 - Method: ${ctx.url('/methodology.html')}
+- What changed (poll with your last generated_at): ${ctx.url('/api/changes.json')}
+- Reliable polling: state, fresh, news, history and changes carry \`next_update_expected_at\` and \`poll.min_interval_seconds\`; come back no sooner. \`changes.json\` has \`changed_since_previous_build\` (false: stay quiet). Verify files against ${ctx.url('/api/manifest.json')} (sha256). News items and readings carry \`permalink\` and \`cite\`.
+- MCP server (read-only tools): ${ctx.url('/.well-known/mcp.json')}
 - For agents: ${ctx.url('/agents.html')}
 `;
 }

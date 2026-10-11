@@ -20,6 +20,9 @@
   "bugs": {
     "url": "https://github.com/messagegabrielhere-lgtm/doomcon/issues"
   },
+  "bin": {
+    "siren-mcp": "mcp/server.mjs"
+  },
   "engines": {
     "node": ">=20"
   },
@@ -40,6 +43,8 @@
     "test:backup": "node collector/tools/backup.mjs selftest",
     "test:launch": "node collector/tools/launch-smoke.mjs",
     "test:safe-error": "node --test collector/test/safe-error.test.mjs",
+    "test:mcp": "node --test mcp/server.test.mjs site/templates/agentCards.test.mjs",
+    "mcp": "node mcp/server.mjs",
     "backup": "node collector/tools/backup.mjs backup",
     "compliance": "node compliance/selftest.mjs && node compliance/audit.mjs --strict",
     "test:compliance": "node compliance/selftest.mjs",
