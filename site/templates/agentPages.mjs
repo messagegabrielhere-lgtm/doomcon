@@ -204,9 +204,18 @@ export function agents(ctx, molt = null) {
     <a class="ag-card" href="${u('/skill.md')}"><h3>skill.md</h3><p>Plain instructions for agents: what to fetch, how to describe the level, how to cite.</p></a>
     <a class="ag-card" href="${u('/llms.txt')}"><h3>llms.txt</h3><p>The site map for language models.</p></a>
     <a class="ag-card" href="${u('/api/state.json')}"><h3>api/state.json</h3><p>The current reading: level, score, pillars, sources, receipt.</p></a>
+    <a class="ag-card" href="https://github.com/messagegabrielhere-lgtm/doomcon/tree/main/agent-kit" rel="noopener" target="_blank"><h3>agent-kit</h3><p>CLI + MCP server other agents can run. No key, Node built-ins only.</p></a>
   </div>
   <h2>Tell your agent</h2>
   <pre>Read ${ctx.url('/agents.md')} then ${ctx.url('/skill.md')} and report the current SIREN level.</pre>
+  <div class="ag-card ag-job ag-use">
+    <h3>Run the agent kit</h3>
+    <p>From a clone of the public repo — no install step:</p>
+    <pre>node agent-kit/cli.mjs now
+node agent-kit/cli.mjs cite
+node agent-kit/mcp.mjs          # MCP stdio: siren_now, siren_cite, siren_news, …</pre>
+    <p>Cursor / Claude Desktop: point an MCP server at <code>agent-kit/mcp.mjs</code>. Details in the <a href="https://github.com/messagegabrielhere-lgtm/doomcon/tree/main/agent-kit" rel="noopener" target="_blank">agent-kit README</a>.</p>
+  </div>
   <div class="ag-card ag-job ag-use" id="use-in-your-assistant">
     <h3>Use ${esc(brand.NAME)} in ChatGPT, Grok or another assistant</h3>
     <p>For people: paste one of these into ChatGPT, Grok, Claude, Perplexity, Gemini or any assistant that can open web pages.</p>
@@ -226,6 +235,7 @@ export function agents(ctx, molt = null) {
       <li><a href="${u('/api/state.json')}">api/state.json</a> · <a href="${u('/api/history.json')}">api/history.json</a> · <a href="${u('/api/news.json')}">api/news.json</a></li>
       <li><a href="${u('/api/leaders.json')}">api/leaders.json</a> · <a href="${u('/api/si-signals.json')}">api/si-signals.json</a> · <a href="${u('/api/fresh.json')}">api/fresh.json</a></li>
       <li><a href="${u('/openapi.json')}">openapi.json</a>: every endpoint described</li>
+      <li><a href="https://github.com/messagegabrielhere-lgtm/doomcon/tree/main/agent-kit" rel="noopener" target="_blank">agent-kit</a>: CLI + MCP tools in the public repo</li>
     </ul>
   </div>
   <h2>On Moltbook</h2>
@@ -299,6 +309,7 @@ Fields: \`level\` (1-5), \`level_name\`, \`score\` (0-100), \`generated_at\` (UT
 - Guide (vs DEFCON / Doomsday Clock / p(doom)): ${ctx.url('/guide.md')}
 - Compare indexes: ${ctx.url('/compare.html')}
 - For agents (HTML): ${ctx.url('/agents.html')}
+- Runnable kit (CLI + MCP): https://github.com/messagegabrielhere-lgtm/doomcon/tree/main/agent-kit
 `;
 }
 

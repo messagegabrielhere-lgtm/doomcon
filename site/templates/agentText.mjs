@@ -285,6 +285,7 @@ Honesty rules:
 - [agents.md](${u('/agents.md')}): short agent entry point (what to fetch first)
 - [skill.md](${u('/skill.md')}): instructions for AI agents
 - [For AI agents (and their humans)](${u('/agents.html')})
+- [agent-kit (CLI + MCP)](https://github.com/messagegabrielhere-lgtm/doomcon/tree/main/agent-kit): zero-dependency tools other agents can run
 
 ## Explainers (search head terms)
 
@@ -383,6 +384,14 @@ export function agentsMd(ctx) {
 - ${u('/compare.html')} — AI doom indexes compared
 - ${u('/alternatives.html')} — when SIREN is the right substitute
 - ${u('/methodology.md')} — every formula and constant
+
+## Runnable kit (CLI + MCP)
+
+Zero-dependency code in the public repo so agents can call tools instead of scraping:
+
+- Clone https://github.com/messagegabrielhere-lgtm/doomcon and run \`node agent-kit/cli.mjs now\`
+- MCP stdio server: \`node agent-kit/mcp.mjs\` (tools: siren_now, siren_cite, siren_news, siren_verify_receipt, …)
+- Docs: https://github.com/messagegabrielhere-lgtm/doomcon/tree/main/agent-kit
 
 ## Rules
 

@@ -1,0 +1,40 @@
+{
+  "name": "@siren-watch/agent-kit",
+  "version": "1.0.0",
+  "private": false,
+  "type": "module",
+  "description": "Zero-dependency CLI and MCP server so AI agents can read and cite the SIREN AI activity index.",
+  "license": "MIT",
+  "homepage": "https://siren.watch/agents.html",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/messagegabrielhere-lgtm/doomcon.git",
+    "directory": "agent-kit"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "bin": {
+    "siren": "./cli.mjs",
+    "siren-mcp": "./mcp.mjs"
+  },
+  "exports": {
+    ".": "./client.mjs",
+    "./client": "./client.mjs",
+    "./mcp": "./mcp.mjs"
+  },
+  "scripts": {
+    "test": "node --test test.mjs",
+    "siren": "node cli.mjs",
+    "mcp": "node mcp.mjs"
+  },
+  "keywords": [
+    "siren",
+    "ai-index",
+    "mcp",
+    "agents",
+    "openai",
+    "claude",
+    "cursor"
+  ]
+}
