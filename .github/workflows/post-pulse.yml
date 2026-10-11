@@ -37,6 +37,11 @@ jobs:
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: '20'
+      - name: Selftest the pulse poster
+        # No secrets in this step. Proves postToX receives the unwrapped
+        # creds object, and that a missing secret is named rather than sent.
+        # Absence of the X secrets still skips Post below and stays green.
+        run: node collector/post-pulse.mjs --selftest
       - name: Post
         if: env.HAS_X == 'true' || env.DRY == 'true'
         env:

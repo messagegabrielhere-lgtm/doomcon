@@ -12,9 +12,10 @@
 // A story is never posted twice; posts are at least MIN_GAP_H apart and at
 // most MAX_PER_DAY a day (ledger: data/pulse-posted.ndjson).
 //
-//   node collector/post-pulse.mjs pulse|agent-watch [--dry-run]
+//   node collector/post-pulse.mjs pulse|agent-watch|takeover [--dry-run]
+//   node collector/post-pulse.mjs --selftest
 import { readFileSync, appendFileSync, existsSync } from 'node:fs';
-import { preflightX, postToX, readCredentials } from './post-x.mjs';
+import { preflightX, postToX, printResults, readCredentials, X_TWEETS_URL } from './post-x.mjs';
 
 const LEDGER = 'data/pulse-posted.ndjson';
 export const MIN_GAP_H = 3;
@@ -122,6 +123,18 @@ export function pick(cands, ledger) {
   return null;
 }
 
+/**
+ * Send one already-chosen pulse. readCredentials() returns { ok, creds } or
+ * { ok: false, missing }; postToX wants the bare creds object. Same unwrap as
+ * post-daily (channelCredentials) and dispatch/post-alerts.mjs. A missing
+ * secret throws the env names and never a value. `transport` is for selfTest.
+ */
+export async function postPulse({ text, env = process.env, transport } = {}) {
+  const auth = readCredentials(env);
+  if (!auth.ok) throw new Error(`missing ${auth.missing.join(', ')}`);
+  return postToX({ text, png: null, creds: auth.creds, ...(transport ? { transport } : {}) });
+}
+
 async function main(argv) {
   const kind = argv.find((a) => a === 'pulse' || a === 'agent-watch' || a === 'takeover') || 'pulse';
   const dry = argv.includes('--dry-run');
@@ -135,11 +148,93 @@ async function main(argv) {
   if (!c) { console.log('pulse: no candidate passed the preflight'); return; }
   console.log(`pulse (${kind}): ${c.text}`);
   if (dry) return;
-  const res = await postToX({ text: c.text, png: null, creds: readCredentials() });
+  const res = await postPulse({ text: c.text });
   appendFileSync(LEDGER, JSON.stringify({ schema: 1, kind, story: c.story, posted_at: new Date().toISOString(), outcome: res.outcome, post_id: res.id, text: c.text }) + '\n');
   console.log(`pulse: ${res.outcome} ${res.url || ''}`);
 }
 
+// A real pulse is chosen upstream; this only has to clear preflightX.
+const FIXTURE_PULSE_TEXT = 'SIREN 4, 39.6 of 100, as of 14:07 UTC. A count of what already happened.';
+
+export async function selfTest() {
+  const results = [];
+  const check = async (name, fn) => {
+    try { await fn(); results.push({ name, ok: true }); } catch (err) { results.push({ name, ok: false, error: err.message }); }
+  };
+  const eq = (a, b, what) => { if (a !== b) throw new Error(`${what}: expected ${JSON.stringify(b)}, got ${JSON.stringify(a)}`); };
+  const fullEnv = {
+    X_API_KEY: 'k-SENTINEL', X_API_SECRET: 's-SENTINEL', X_ACCESS_TOKEN: 't-SENTINEL', X_ACCESS_SECRET: 'ts-SENTINEL',
+  };
+
+  await check('postPulse names missing env vars and sends nothing', async () => {
+    let n = 0;
+    let message = '';
+    try {
+      await postPulse({
+        text: FIXTURE_PULSE_TEXT,
+        env: { X_API_KEY: 'k-SENTINEL', X_API_SECRET: '   ' },
+        transport: async () => { n++; return { status: 201, text: '{"data":{"id":"1"}}' }; },
+      });
+    } catch (err) { message = err.message; }
+    for (const name of ['X_API_SECRET', 'X_ACCESS_TOKEN', 'X_ACCESS_SECRET']) {
+      if (!message.includes(name)) throw new Error(`error did not name ${name}: ${message}`);
+    }
+    if (message.includes('X_API_KEY')) throw new Error(`error named a variable that was set: ${message}`);
+    if (message.includes('SENTINEL')) throw new Error('error echoed a credential value');
+    eq(n, 0, 'requests sent');
+  });
+
+  await check('postPulse unwraps readCredentials() and posts text only', async () => {
+    const calls = [];
+    const res = await postPulse({
+      text: FIXTURE_PULSE_TEXT,
+      env: fullEnv,
+      transport: async (req) => {
+        calls.push({ url: req.url, body: String(req.body), authorization: req.headers.authorization });
+        return { status: 201, text: JSON.stringify({ data: { id: '1880000000000000099' } }) };
+      },
+    });
+    // The bug passed { ok, creds } straight through. postToX then throws
+    // before any request, so a transport call is the proof the unwrap happened.
+    eq(calls.length, 1, 'call count');
+    eq(calls[0].url, X_TWEETS_URL, 'url');
+    eq(JSON.parse(calls[0].body).text, FIXTURE_PULSE_TEXT, 'text');
+    if (!String(calls[0].authorization).startsWith('OAuth ')) throw new Error('request was not signed');
+    eq(res.outcome, 'posted', 'outcome');
+    eq(res.id, '1880000000000000099', 'id');
+    const visible = `${calls[0].body} ${res.url || ''} ${res.outcome}`;
+    if (visible.includes('SENTINEL')) throw new Error('a credential value leaked into the body or result');
+  });
+
+  await check('passing the raw readCredentials() result into postToX sends nothing', async () => {
+    const auth = readCredentials(fullEnv);
+    eq(auth.ok, true, 'ok');
+    let n = 0;
+    let message = '';
+    try {
+      await postToX({
+        text: FIXTURE_PULSE_TEXT,
+        png: null,
+        creds: auth,
+        transport: async () => { n++; return { status: 201, text: '{"data":{"id":"1"}}' }; },
+      });
+    } catch (err) { message = err.message; }
+    if (!/no credentials/.test(message)) throw new Error(`expected the credentials guard, got ${JSON.stringify(message)}`);
+    if (message.includes('SENTINEL')) throw new Error('the guard echoed a credential value');
+    eq(n, 0, 'requests sent');
+  });
+
+  return results;
+}
+
+async function cli(argv) {
+  if (argv.includes('--selftest') || argv.includes('--test')) {
+    if (!printResults('post-pulse', await selfTest())) process.exitCode = 1;
+    return;
+  }
+  await main(argv);
+}
+
 if (process.argv[1] && process.argv[1].endsWith('post-pulse.mjs')) {
-  main(process.argv.slice(2)).catch((e) => { console.error('pulse:', e.message); console.log(`::warning title=post-pulse::${String(e.message).slice(0, 300)}`); process.exitCode = 1; });
+  cli(process.argv.slice(2)).catch((e) => { console.error('pulse:', e.message); console.log(`::warning title=post-pulse::${String(e.message).slice(0, 300)}`); process.exitCode = 1; });
 }
