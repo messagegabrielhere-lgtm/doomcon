@@ -1,14 +1,16 @@
 {
   "schema": 1,
-  "generated_at": "2026-10-11T02:22:57.811Z",
-  "score": 53.8462,
+  "generated_at": "2026-10-11T03:14:06.999Z",
+  "score": 47.4461,
   "level": 4,
   "level_name": "ROUTINE",
   "previous_level": null,
   "level_since": "2026-09-23T20:04:22.390Z",
-  "delta_from_previous": -0.0329,
-  "degraded": false,
-  "dark_pillars": [],
+  "delta_from_previous": -6.4001,
+  "degraded": true,
+  "dark_pillars": [
+    "capability"
+  ],
   "uncalibrated_pillars": [
     "markets"
   ],
@@ -23,58 +25,60 @@
     "manifold",
     "polymarket"
   ],
-  "failed_sources": [],
+  "failed_sources": [
+    "arxiv"
+  ],
   "post_suppressed": false,
   "genesis_under_degradation": false,
-  "rule_fired": "none",
+  "rule_fired": "frozen_dark_pillar",
   "pillars": [
     {
       "id": "capability",
       "name": "Capability",
-      "score": 63.575,
-      "percentile": 0.856817,
-      "sources_ok": 1,
+      "score": null,
+      "percentile": null,
+      "sources_ok": 0,
       "sources_total": 4,
-      "dark": false,
+      "dark": true,
       "uncalibrated": false,
-      "in_composite": true,
-      "weight_share": 0.475
+      "in_composite": false,
+      "weight_share": 0
     },
     {
       "id": "compute",
       "name": "Compute & Capital",
-      "score": 45.9308,
+      "score": 45.87,
       "percentile": 0.360153,
       "sources_ok": 1,
       "sources_total": 3,
       "dark": false,
       "uncalibrated": false,
       "in_composite": true,
-      "weight_share": 0.175
+      "weight_share": 0.233333
     },
     {
       "id": "attention",
       "name": "Attention",
-      "score": 36.1443,
-      "percentile": 0.14635,
+      "score": 36.2481,
+      "percentile": 0.16138,
       "sources_ok": 2,
       "sources_total": 2,
       "dark": false,
       "uncalibrated": false,
       "in_composite": true,
-      "weight_share": 0.175
+      "weight_share": 0.233333
     },
     {
       "id": "governance",
       "name": "Governance",
-      "score": 53.0565,
+      "score": 53.0348,
       "percentile": 0.591935,
       "sources_ok": 1,
       "sources_total": 2,
       "dark": false,
       "uncalibrated": false,
       "in_composite": true,
-      "weight_share": 0.175
+      "weight_share": 0.533333
     },
     {
       "id": "markets",
@@ -97,15 +101,15 @@
       "id": "arxiv",
       "pillar": "capability",
       "label": null,
-      "ok": true,
+      "ok": false,
       "uncalibrated": false,
-      "error": null,
-      "value": 2410,
-      "unit": "papers/7d",
-      "score": 63.575,
-      "percentile": 0.856817,
-      "observed_at": "2026-10-11T02:22:57.826Z",
-      "age_seconds": 0,
+      "error": "HTTP 503 Service Unavailable from https://export.arxiv.org/api/query?search_query=(cat:cs.AI+OR+cat:cs.LG+OR+cat:cs.CL)+AND+submittedDate:[202610040314+TO+202610110314]&start=0&max_results=1 — <!DOCTYPE html> <html> <head> <meta charset=\"UTF-8\"> <title>503</title> </head> <body> 503 </body> </html>",
+      "value": null,
+      "unit": null,
+      "score": null,
+      "percentile": null,
+      "observed_at": null,
+      "age_seconds": null,
       "last_ok": "2026-10-11T02:22:57.826Z"
     },
     {
@@ -119,7 +123,7 @@
       "unit": "releases/30d",
       "score": null,
       "percentile": null,
-      "observed_at": "2026-10-11T02:22:57.827Z",
+      "observed_at": "2026-10-11T03:14:07.016Z",
       "age_seconds": 0,
       "last_ok": null
     },
@@ -130,11 +134,11 @@
       "ok": false,
       "uncalibrated": true,
       "error": "uncalibrated: \"huggingface\" has no entry in data/reference.json yet, so it is collected and published but not scored",
-      "value": 3997,
+      "value": 4048,
       "unit": "models/24h",
       "score": null,
       "percentile": null,
-      "observed_at": "2026-10-11T02:22:57.827Z",
+      "observed_at": "2026-10-11T03:14:07.016Z",
       "age_seconds": 0,
       "last_ok": null
     },
@@ -149,7 +153,7 @@
       "unit": "models/30d",
       "score": null,
       "percentile": null,
-      "observed_at": "2026-10-11T02:22:57.827Z",
+      "observed_at": "2026-10-11T03:14:07.016Z",
       "age_seconds": 0,
       "last_ok": null
     },
@@ -162,11 +166,11 @@
       "error": null,
       "value": 2951,
       "unit": "filings/30d",
-      "score": 45.9308,
+      "score": 45.87,
       "percentile": 0.360153,
-      "observed_at": "2026-10-11T02:22:57.827Z",
+      "observed_at": "2026-10-11T03:14:07.016Z",
       "age_seconds": 0,
-      "last_ok": "2026-10-11T02:22:57.827Z"
+      "last_ok": "2026-10-11T03:14:07.016Z"
     },
     {
       "id": "stockanalysis",
@@ -179,7 +183,7 @@
       "unit": "mean_abs_percent_change",
       "score": null,
       "percentile": null,
-      "observed_at": "2026-10-11T02:22:57.828Z",
+      "observed_at": "2026-10-11T03:14:07.017Z",
       "age_seconds": 0,
       "last_ok": null
     },
@@ -190,11 +194,11 @@
       "ok": false,
       "uncalibrated": true,
       "error": "uncalibrated: \"vastai\" has no entry in data/reference.json yet, so it is collected and published but not scored",
-      "value": 0.4944444444444444,
+      "value": 0.49365656565656557,
       "unit": "usd/gpu/hour",
       "score": null,
       "percentile": null,
-      "observed_at": "2026-10-11T02:22:58.108Z",
+      "observed_at": "2026-10-11T03:14:07.583Z",
       "age_seconds": 0,
       "last_ok": null
     },
@@ -205,13 +209,13 @@
       "ok": true,
       "uncalibrated": false,
       "error": null,
-      "value": 1049,
+      "value": 1109,
       "unit": "points/24h",
-      "score": 38.5286,
-      "percentile": 0.195763,
-      "observed_at": "2026-10-11T02:22:57.828Z",
+      "score": 38.7134,
+      "percentile": 0.222167,
+      "observed_at": "2026-10-11T03:14:07.017Z",
       "age_seconds": 0,
-      "last_ok": "2026-10-11T02:22:57.828Z"
+      "last_ok": "2026-10-11T03:14:07.017Z"
     },
     {
       "id": "wikipedia",
@@ -220,13 +224,13 @@
       "ok": true,
       "uncalibrated": false,
       "error": null,
-      "value": 88221.42857142857,
+      "value": 88683.28571428574,
       "unit": "pageviews/day",
-      "score": 33.76,
-      "percentile": 0.096937,
-      "observed_at": "2026-10-09T23:59:59.999Z",
-      "age_seconds": 94978,
-      "last_ok": "2026-10-09T23:59:59.999Z"
+      "score": 33.7828,
+      "percentile": 0.100592,
+      "observed_at": "2026-10-10T23:59:59.999Z",
+      "age_seconds": 11647,
+      "last_ok": "2026-10-10T23:59:59.999Z"
     },
     {
       "id": "federal-register",
@@ -237,11 +241,11 @@
       "error": null,
       "value": 25,
       "unit": "documents/30d",
-      "score": 53.0565,
+      "score": 53.0348,
       "percentile": 0.591935,
-      "observed_at": "2026-10-11T02:22:57.829Z",
+      "observed_at": "2026-10-11T03:14:07.018Z",
       "age_seconds": 0,
-      "last_ok": "2026-10-11T02:22:57.829Z"
+      "last_ok": "2026-10-11T03:14:07.018Z"
     },
     {
       "id": "govuk",
@@ -254,7 +258,7 @@
       "unit": "documents/30d",
       "score": null,
       "percentile": null,
-      "observed_at": "2026-10-11T02:22:57.829Z",
+      "observed_at": "2026-10-11T03:14:07.018Z",
       "age_seconds": 0,
       "last_ok": null
     },
@@ -265,11 +269,11 @@
       "ok": false,
       "uncalibrated": true,
       "error": "uncalibrated: \"kalshi\" has no entry in data/reference.json yet, so it is collected and published but not scored",
-      "value": 0.01993423150534901,
+      "value": 0.018874399878550708,
       "unit": "prob_points/day",
       "score": null,
       "percentile": null,
-      "observed_at": "2026-10-11T02:23:06.384Z",
+      "observed_at": "2026-10-11T03:14:16.162Z",
       "age_seconds": 0,
       "last_ok": null,
       "baseline_days": 18,
@@ -283,11 +287,11 @@
       "ok": false,
       "uncalibrated": true,
       "error": "uncalibrated: \"manifold\" has no entry in data/reference.json yet, so it is collected and published but not scored",
-      "value": 26281.58442688519,
+      "value": 26535.17442688519,
       "unit": "mana/24h",
       "score": null,
       "percentile": null,
-      "observed_at": "2026-10-11T02:22:59.323Z",
+      "observed_at": "2026-10-11T03:14:09.161Z",
       "age_seconds": 0,
       "last_ok": null,
       "baseline_days": 19,
@@ -301,11 +305,11 @@
       "ok": false,
       "uncalibrated": true,
       "error": "uncalibrated: \"polymarket\" has no entry in data/reference.json yet, so it is collected and published but not scored",
-      "value": 0.01977374112232168,
+      "value": 0.02148538672355736,
       "unit": "prob_points/day",
       "score": null,
       "percentile": null,
-      "observed_at": "2026-10-11T02:23:03.126Z",
+      "observed_at": "2026-10-11T03:14:12.444Z",
       "age_seconds": 0,
       "last_ok": null,
       "baseline_days": 18,
@@ -314,20 +318,20 @@
     }
   ],
   "engine_version": "1.0.0",
-  "receipt_id": "2026-10-11T02-22-57Z",
-  "prev_receipt_hash": "sha256:6cd54f474c3700054b4f02f0e3d17ebee3fb62aa5320ff05e39477e4fe2d803f",
+  "receipt_id": "2026-10-11T03-14-06Z",
+  "prev_receipt_hash": "sha256:be17509ea6e034ef33ab87936a3dd5ca774a2b63c8732b50713cfb86b7c492d3",
   "health": {
-    "pillars_live": 4,
-    "pillars_dark": 0,
+    "pillars_live": 3,
+    "pillars_dark": 1,
     "pillars_uncalibrated": 1,
     "pillars_total": 5,
-    "sources_scored": 5,
-    "sources_reporting": 14,
-    "sources_failed": 0,
+    "sources_scored": 4,
+    "sources_reporting": 13,
+    "sources_failed": 1,
     "sources_total": 14,
     "schedule_cron": "7 * * * *",
     "typical_lag_minutes": 14.3,
-    "expected_next_run_utc": "2026-10-11T03:21:18.000Z"
+    "expected_next_run_utc": "2026-10-11T04:21:18.000Z"
   },
   "shadow": {
     "reference": "v1+addenda",
@@ -338,32 +342,32 @@
     "addenda_sources": [
       "stockanalysis"
     ],
-    "score": 53.0374,
+    "score": 46.3748,
     "level_estimate": 4,
     "level_name_estimate": "ROUTINE",
-    "delta_vs_official": -0.8088,
+    "delta_vs_official": -1.0713,
     "pillars": [
       {
         "id": "capability",
-        "score": 63.575,
-        "dark": false,
+        "score": null,
+        "dark": true,
         "uncalibrated": false
       },
       {
         "id": "compute",
-        "score": 41.3092,
+        "score": 41.2788,
         "dark": false,
         "uncalibrated": false
       },
       {
         "id": "attention",
-        "score": 36.1443,
+        "score": 36.2481,
         "dark": false,
         "uncalibrated": false
       },
       {
         "id": "governance",
-        "score": 53.0565,
+        "score": 53.0348,
         "dark": false,
         "uncalibrated": false
       },
@@ -374,7 +378,9 @@
         "uncalibrated": true
       }
     ],
-    "dark_pillars": [],
+    "dark_pillars": [
+      "capability"
+    ],
     "uncalibrated_pillars": [
       "markets"
     ],
@@ -389,6 +395,12 @@
     ],
     "note": "SHADOW. Scored against data/reference.json (v1, frozen) plus data/reference-addenda.json. Not the official index: no receipt, no level change, level is the band the shadow score falls in. See docs/REFERENCE-VERSIONING.md for the promotion rule.",
     "series": [
+      {
+        "t": "2026-10-11T03:14:06.999Z",
+        "sources": {
+          "stockanalysis": 36.6876
+        }
+      },
       {
         "t": "2026-10-11T02:22:57.811Z",
         "sources": {
@@ -454,14 +466,8 @@
         "sources": {
           "stockanalysis": 36.6876
         }
-      },
-      {
-        "t": "2026-10-10T20:21:34.538Z",
-        "sources": {
-          "stockanalysis": 36.6876
-        }
       }
     ]
   },
-  "receipt_hash": "sha256:be17509ea6e034ef33ab87936a3dd5ca774a2b63c8732b50713cfb86b7c492d3"
+  "receipt_hash": "sha256:9c6268e08e1659512ad02eb6a750c28c7e35cd71086164d19202c43a2506fed0"
 }
