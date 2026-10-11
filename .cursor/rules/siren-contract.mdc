@@ -1,0 +1,13 @@
+---
+description: SIREN build contract — Node built-ins, no secrets, voice, fetch boundary
+alwaysApply: true
+---
+
+# SIREN contract (agents)
+
+- Read `docs/CONTRACT.md` before structural changes; `docs/VOICE.md` before copy.
+- `collector/`, `site/`, receipts, `agent-kit/`: Node 20 built-ins only — no `node_modules` imports.
+- Network only via `collector/fetch.mjs` (except documented posting exception).
+- No secrets in git or `site/`. Do not casually rewrite `data/reference.json`.
+- Index is activity tempo, not doom probability or forecast.
+- Prefer verify skills/commands in `CLAUDE.md` / `.claude/skills/siren-verify`.
