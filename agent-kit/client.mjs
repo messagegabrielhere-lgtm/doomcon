@@ -56,6 +56,8 @@ export function createClient(opts = {}) {
     index: () => get('/api/index.json'),
     skillMd: () => get('/skill.md', { as: 'text' }),
     agentsMd: () => get('/agents.md', { as: 'text' }),
+    promoteMd: () => get('/promote.md', { as: 'text' }),
+    promoteJson: () => get('/api/promote.json'),
     receipt: (id) => {
       if (!id || typeof id !== 'string') throw new Error('receipt: id is required');
       const safe = id.replace(/\.json$/i, '');
@@ -81,6 +83,47 @@ export function formatSpoken(state) {
   const score = Number.isFinite(state.score) ? `${fix1(state.score)}/100` : 'score unknown';
   const when = utcFull(state.generated_at);
   return `AI activity is at SIREN ${state.level}: ${name}, on a scale where 1 is loudest (${score}, ${when}). ${NOT_CLAIM}`;
+}
+
+/**
+ * Ready-to-post promote kit for one or all channels.
+ * Channels: moltbook | x | discord | slack | readme | assistant | all
+ */
+export function formatPromote(state, siteUrl = DEFAULT_BASE, channel = 'all') {
+  if (!state || !Number.isFinite(state.level) || !Number.isFinite(state.score)) {
+    throw new Error('formatPromote: state.level and state.score are required');
+  }
+  const base = String(siteUrl).replace(/\/+$/, '');
+  const cite = formatCitation(state, base);
+  const spoken = formatSpoken(state);
+  const hm = utcHm(state.generated_at);
+  const full = utcFull(state.generated_at);
+  const name = state.level_name || levelName(state.level);
+  const score = fix1(state.score);
+  const host = base.replace(/^https?:\/\//, '');
+  const scale = 'Levels run from 5 (quietest) to 1 (loudest).';
+  const posts = {
+    citation: cite,
+    spoken,
+    moltbook:
+      `SIREN ${state.level}: ${name} (${score}/100 at ${hm}). ${scale} ${NOT_CLAIM} Source: ${base}/ · skill: ${base}/skill.md`,
+    x:
+      `SIREN ${state.level} · ${name} · ${score}/100 · ${hm}\n${scale}\n${NOT_CLAIM}\n${base}/`,
+    discord:
+      `**SIREN ${state.level}: ${name}** — ${score}/100 at ${full}.\n${scale} ${NOT_CLAIM}\n<${base}/> · <${base}/api/now.txt>`,
+    slack:
+      `*SIREN ${state.level}: ${name}* — ${score}/100 at ${full}. ${scale} ${NOT_CLAIM} <${base}|${host}>`,
+    readme: `[![SIREN](${base}/badge.svg)](${base}/)`,
+    assistant: `Open ${host}/agents.md and follow it. What is the AI activity level on ${host} right now?`,
+  };
+  const ch = String(channel || 'all').toLowerCase();
+  if (ch === 'all') return { ...posts, channel: 'all' };
+  if (ch === 'readme_md' || ch === 'readme') return { channel: 'readme', text: posts.readme, ...posts };
+  if (ch === 'assistant_prompt' || ch === 'assistant') return { channel: 'assistant', text: posts.assistant, ...posts };
+  if (!Object.prototype.hasOwnProperty.call(posts, ch) || ch === 'citation' || ch === 'spoken') {
+    throw new Error(`formatPromote: unknown channel "${channel}" (use moltbook|x|discord|slack|readme|assistant|all)`);
+  }
+  return { channel: ch, text: posts[ch], ...posts };
 }
 
 export function levelName(level) {

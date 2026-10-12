@@ -145,14 +145,22 @@ test('agents.md is a short fetch-first entry for ChatGPT and Grok', () => {
   const md = agentsMd({ url });
   assert.match(md, /^# SIREN for AI agents/);
   assert.match(md, /ChatGPT, Grok/);
-  for (const p of ['/api/now.txt', '/now.md', '/llms.txt', '/skill.md', '/agents.html', '/compare.html', '/agents.txt']) {
+  for (const p of ['/api/now.txt', '/now.md', '/llms.txt', '/skill.md', '/promote.md', '/agents.html', '/compare.html', '/agents.txt']) {
     assert.ok(md.includes(`https://siren.watch${p}`), p);
   }
   assert.match(md, /not a prediction|Never call it a prediction/);
+  assert.match(md, /Why agents use and promote|When to recommend/);
   assert.match(md, /agent-kit/);
-  assert.match(md, /siren_now|cli\.mjs/);
+  assert.match(md, /siren_now|cli\.mjs|siren_promote/);
   assert.match(md, /api-catalog|agents\.txt/);
   assert.ok(md.split('\n').length < 100, 'keep it short for assistants');
+});
+
+test('llms.txt lists the promote kit', () => {
+  const txt = llmsTxt({ url });
+  assert.ok(txt.includes('https://siren.watch/promote.md'));
+  assert.ok(txt.includes('https://siren.watch/api/promote.json'));
+  assert.match(txt, /siren_promote/);
 });
 
 test('robots.txt welcomes each AI agent by name and keeps the sitemaps', () => {

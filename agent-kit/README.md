@@ -19,6 +19,7 @@ From a clone of this repo:
 ```bash
 node agent-kit/cli.mjs now
 node agent-kit/cli.mjs cite
+node agent-kit/cli.mjs promote --channel moltbook
 node agent-kit/cli.mjs news --limit 5
 node agent-kit/cli.mjs verify
 ```
@@ -61,8 +62,11 @@ Tools exposed:
 | `siren_takeover_watch` | Takeover Watch signals (watched, not scored) |
 | `siren_verify_receipt` | Fetch + verify a receipt self-hash |
 | `siren_cite` | Canonical citation + spoken form |
+| `siren_promote` | Ready-to-post share copy (`channel`: moltbook / x / discord / slack / readme / assistant / all) |
 
-Resources: `siren://skill.md`, `siren://agents.md`, `siren://now.md`.
+Resources: `siren://skill.md`, `siren://agents.md`, `siren://now.md`, `siren://promote.md`.
+
+Live promote kit on the site: https://siren.watch/promote.md · https://siren.watch/api/promote.json
 
 ## Honesty rules (built into the tools)
 
