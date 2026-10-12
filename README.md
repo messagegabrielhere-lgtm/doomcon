@@ -2,9 +2,9 @@
 
 *Superintelligence Real-time Early Notice. Formerly DOOMCON; the repository and the web address keep the old name.*
 
-[![SIREN](https://messagegabrielhere-lgtm.github.io/doomcon/badge.svg)](https://messagegabrielhere-lgtm.github.io/doomcon/)
+[![SIREN](https://siren.watch/badge.svg)](https://siren.watch/)
 
-**Live: https://messagegabrielhere-lgtm.github.io/doomcon/** · [verify the readings in your browser](https://messagegabrielhere-lgtm.github.io/doomcon/#vfy) · [method](https://messagegabrielhere-lgtm.github.io/doomcon/methodology.html)
+**Live: https://siren.watch/** · [verify the readings in your browser](https://siren.watch/#vfy) · [method](https://siren.watch/methodology.html)
 
 **A real-time index of AI activity tempo, computed from public data by open code.**
 
@@ -99,7 +99,7 @@ distribution, so adding one cannot retroactively move history.
 
 ## AI battle
 
-[`/arena.html`](https://messagegabrielhere-lgtm.github.io/doomcon/arena.html) is a
+[`/arena.html`](https://siren.watch/arena.html) is a
 separate side project: Claude, GPT, Grok, Gemini and DeepSeek each trade $1,000 of
 paper money against live Coinbase order books, alongside two no-AI baselines. The models
 only propose. A server prices each proposal into a ticket and checks it against fixed

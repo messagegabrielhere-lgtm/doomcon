@@ -102,8 +102,8 @@ those workflows first (§A).
 node collector/tools/backup.mjs selftest
 npm run compliance
 npm run build && npm run test:launch
-curl -sI https://messagegabrielhere-lgtm.github.io/doomcon/ | head
-curl -s https://messagegabrielhere-lgtm.github.io/doomcon/api/state.json | head -c 200
+curl -sI https://siren.watch/ | head
+curl -s https://siren.watch/api/state.json | head -c 200
 ```
 
 Confirm GoatCounter still receives a hit, then re-enable workflows one at a time

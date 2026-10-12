@@ -126,7 +126,7 @@ function prerenderStatic(html, name, ctx) {
   // Hand-written pages predate siren.watch. One canonical, on this host.
   // This function emits the tags it strips, so a leftover github.io canonical
   // cannot outrank the apex.
-  let src = String(html).split('https://messagegabrielhere-lgtm.github.io/doomcon').join(originBase);
+  let src = String(html).split('https://siren.watch').join(originBase);
   src = src.replace(/<link\s+rel="canonical"[^>]*>\s*/gi, '');
   src = src.replace(/<meta\s+property="og:(?:url|image|title|description|type|site_name)"[^>]*>\s*/gi, '');
   src = src.replace(/<meta\s+name="twitter:card"[^>]*>\s*/gi, '');
@@ -2091,6 +2091,7 @@ async function writeAgentText(ctx, dataDir, outDir, write, written) {
   // RFC 9116 security.txt — points at SECURITY.md and the public contact paths.
   const secExpires = new Date(Date.now() + 365 * 24 * 3600 * 1000).toISOString().replace(/\.\d+Z$/, 'Z');
   const securityTxt = [
+    `Contact: mailto:${brand.CONTACT_EMAIL}`,
     `Contact: ${brand.REPO_URL}/security/advisories/new`,
     brand.X_URL ? `Contact: ${brand.X_URL}` : null,
     `Expires: ${secExpires}`,

@@ -13,7 +13,7 @@ import { readFileSync } from 'node:fs';
 
 const REPO = process.env.GITHUB_REPOSITORY;
 const TOKEN = process.env.GITHUB_TOKEN;
-const SITE = process.env.SITE_URL || 'https://messagegabrielhere-lgtm.github.io/doomcon';
+const SITE = process.env.SITE_URL || 'https://siren.watch';
 const api = async (path, opts = {}) => {
   const r = await fetch(`https://api.github.com/repos/${REPO}${path}`, {
     ...opts, headers: { authorization: `Bearer ${TOKEN}`, accept: 'application/vnd.github+json', 'content-type': 'application/json', ...(opts.headers || {}) },

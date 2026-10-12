@@ -457,9 +457,9 @@ function fixtureState(over = {}) {
 
 const fakePost = (kind, rank, extra = {}) => ({
   id: `${kind}-2026-09-28T14-07-00-000Z`, kind, rank, priority: rank * 10,
-  text_api: `${kind} reading, 14:07 UTC on Mon 28 Sep 2026. Arithmetic at messagegabrielhere dash lgtm dot github dot io slash doomcon.`,
-  text_manual: `${kind} reading, 14:07 UTC on Mon 28 Sep 2026. Arithmetic at https://messagegabrielhere-lgtm.github.io/doomcon`,
-  link: 'https://messagegabrielhere-lgtm.github.io/doomcon',
+  text_api: `${kind} reading, 14:07 UTC on Mon 28 Sep 2026. Arithmetic at siren dot watch.`,
+  text_manual: `${kind} reading, 14:07 UTC on Mon 28 Sep 2026. Arithmetic at https://siren.watch`,
+  link: 'https://siren.watch',
   ...extra,
 });
 const row = (channel, postedAt, extra = {}) => ({ schema: 1, channel, posted_at: postedAt, text_sha256: 'sha256:x', post_id: 'p', kind: 'daily', ...extra });
@@ -529,7 +529,7 @@ export async function selfTest() {
     eq(freshness(s, at('2026-09-28T13:00:00Z')).ok, false, 'future');
   });
   await check('end to end on a fixture reading: X gets a link-free text, Bluesky the link, both pass', () => {
-    const out = buildPosts(fixtureState(), { brand: { name: 'SIREN', domain: 'messagegabrielhere-lgtm.github.io/doomcon', tagline: 't', canonicalUrl: 'https://messagegabrielhere-lgtm.github.io/doomcon' } });
+    const out = buildPosts(fixtureState(), { brand: { name: 'SIREN', domain: 'siren.watch', tagline: 't', canonicalUrl: 'https://siren.watch' } });
     const now = at('2026-09-28T14:41:00Z');
     const x = pickPost(out.posts, { channel: 'x', ledger: [], now });
     const b = pickPost(out.posts, { channel: 'bluesky', ledger: [], now });

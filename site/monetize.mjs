@@ -109,10 +109,39 @@ export function gtagHead() {
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
+  // CONSENT (Google Consent Mode v2). Advertising storage is always denied.
+  // Analytics cookies wait for a yes in the EEA, UK and Switzerland, and
+  // stay off for anyone who said no or sends Global Privacy Control.
+  (function(){var c=null;try{c=localStorage.getItem('siren:consent')}catch(e){}
+  var gpc=navigator.globalPrivacyControl===true;
+  var ads={ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied'};
+  gtag('consent','default',Object.assign({analytics_storage:'denied',wait_for_update:500,region:${JSON.stringify(CONSENT_REGIONS)}},ads));
+  gtag('consent','default',Object.assign({analytics_storage:(gpc||c==='denied')?'denied':'granted'},ads));
+  if(c==='granted'&&!gpc)gtag('consent','update',{analytics_storage:'granted'});
+  if(c==='denied'||gpc)gtag('consent','update',{analytics_storage:'denied'});})();
+  gtag('set','ads_data_redaction',true);
   gtag('js', new Date());
-  gtag('config', '${safe}');
+  gtag('config', '${safe}', { allow_google_signals: false, allow_ad_personalization_signals: false });
 </script>`;
 }
+
+// EEA + UK + Switzerland: analytics cookies need consent first.
+export const CONSENT_REGIONS = ['AT','BE','BG','HR','CY','CZ','DK','EE','FI','FR','DE','GR','HU','IE','IT','LV','LT','LU','MT','NL','PL','PT','RO','SK','SI','ES','SE','IS','LI','NO','GB','CH'];
+
+// The consent banner: shown to visitors whose clock is in Europe (the same
+// regions the default above holds back), until they choose. Any page can
+// reopen it with an element carrying data-consent-open.
+export const CONSENT_JS = `(function(){var K='siren:consent';function get(){try{return localStorage.getItem(K)}catch(e){return null}}
+function set(v){try{localStorage.setItem(K,v)}catch(e){}if(window.gtag)gtag('consent','update',{analytics_storage:v});close()}
+var el=null;function close(){if(el&&el.parentNode)el.parentNode.removeChild(el);el=null}
+function show(){if(el)return;el=document.createElement('div');el.id='siren-consent';el.setAttribute('role','dialog');el.setAttribute('aria-label','Privacy choices');
+el.style.cssText='position:fixed;left:12px;right:12px;bottom:12px;z-index:10001;max-width:560px;margin:0 auto;padding:14px 16px;border-radius:10px;background:#0B0F16;color:#E6EAF0;border:1px solid #818CF8;box-shadow:0 10px 30px rgba(0,0,0,.55);font:14px/1.45 system-ui,sans-serif';
+el.innerHTML='<b>Analytics cookies?</b> SIREN uses Google Analytics to see which pages get read. It sets cookies only if you allow it. No ads, no selling data. <a href="'+(window.SIREN_BASE||'')+'/privacy.html" style="color:#A5B4FC">Privacy</a><div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap"><button type="button" data-c="granted" style="min-height:40px;padding:0 14px;border:0;border-radius:6px;background:#4F46E5;color:#fff;font-weight:700;cursor:pointer">Allow analytics</button><button type="button" data-c="denied" style="min-height:40px;padding:0 14px;border:1px solid #475569;border-radius:6px;background:transparent;color:#E6EAF0;font-weight:700;cursor:pointer">No thanks</button></div>';
+el.addEventListener('click',function(e){var v=e.target&&e.target.getAttribute&&e.target.getAttribute('data-c');if(v)set(v)});document.body.appendChild(el)}
+document.addEventListener('click',function(e){var t=e.target&&e.target.closest&&e.target.closest('[data-consent-open]');if(t){e.preventDefault();show()}});
+var tz='';try{tz=Intl.DateTimeFormat().resolvedOptions().timeZone||''}catch(e){}
+var eu=/^Europe\\//.test(tz)||/^(Atlantic\\/(Reykjavik|Canary|Madeira|Azores|Faroe)|Arctic\\/Longyearbyen)$/.test(tz);
+if(!get()&&eu&&navigator.globalPrivacyControl!==true){if(document.body)show();else document.addEventListener('DOMContentLoaded',show)}})();`;
 
 /** One ad, async, in a box of reserved height. '' when ads are off. */
 export function adSlot() {

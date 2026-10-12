@@ -44,7 +44,7 @@ that part is manual and yours.
 GitHub Pages is already configured to deploy from Actions. After the first push,
 the site appears at:
 
-**https://messagegabrielhere-lgtm.github.io/doomcon/**
+**https://siren.watch/**
 
 If it 404s, check **Actions** in the repo — the `pages.yml` run needs to finish
 green once. Deploys take a couple of minutes.
@@ -129,7 +129,7 @@ Nothing breaks if you never buy one. When you do:
 1. Register it anywhere reputable (Cloudflare Registrar sells at cost).
 2. DNS: four `A` records for the apex —
    `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`.
-   Plus a `CNAME` for `www` → `messagegabrielhere-lgtm.github.io`.
+   Plus a `CNAME` for `www` → `<owner>.github.io`.
 3. Repo **Settings → Pages → Custom domain**, enter it, tick **Enforce HTTPS**.
 4. Change `DOMAIN` and `CANONICAL_URL` in `site/brand.mjs` — one line each — and
    push. Cards and posts pick up the new domain automatically.

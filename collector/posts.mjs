@@ -2176,12 +2176,12 @@ export function selfTest() {
   // variant is still forbidden a link.
   const PAGES = Object.freeze({
     name: 'SIREN', domain: 'doomcon.watch', tagline: 'x',
-    canonicalUrl: 'https://messagegabrielhere-lgtm.github.io/doomcon',
+    canonicalUrl: 'https://siren.watch',
   });
 
   check('spokenUrl speaks an apex domain', () => eq(spokenUrl('https://doomcon.watch'), 'doomcon dot watch', 'apex'));
   check('spokenUrl speaks hyphens and paths, so it can be typed', () => {
-    eq(spokenUrl(PAGES.canonicalUrl), 'messagegabrielhere dash lgtm dot github dot io slash doomcon', 'pages url');
+    eq(spokenUrl(PAGES.canonicalUrl), 'siren dot watch', 'pages url');
   });
   check('spokenUrl of the spelled form carries no URL', () => { assertNoUrl(spokenUrl(PAGES.canonicalUrl)); });
   check('canonicalLink drops a trailing slash and any query', () => {

@@ -15,7 +15,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
-const SITE = process.env.SITE_URL || 'https://messagegabrielhere-lgtm.github.io/doomcon';
+const SITE = process.env.SITE_URL || 'https://siren.watch';
 
 const checks = [];
 const ok = (name, detail = '') => { checks.push({ name, ok: true, detail }); console.log(`  OK  ${name}${detail ? ` — ${detail}` : ''}`); };

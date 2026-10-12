@@ -4,7 +4,7 @@
 **Audience:** ops + whoever merges site PRs  
 **Supersedes the calendar in** `docs/GROWTH.md` §90-day and `docs/COMPETITIVE.md` §7 for anything past 2026-10-08. Those files stay as research; this file is the queue.
 
-Live: https://messagegabrielhere-lgtm.github.io/doomcon/  
+Live: https://siren.watch/  
 Brand: **SIREN** (repo + Pages path still `doomcon`).
 
 ---
