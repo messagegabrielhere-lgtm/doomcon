@@ -1273,8 +1273,8 @@ function answer(ctx) {
 const SOURCE_NAMES = {
   arxiv: 'arXiv', 'github-releases': 'GitHub', huggingface: 'Hugging Face', openrouter: 'OpenRouter',
   'sec-fts': 'SEC filings', stockanalysis: 'StockAnalysis', vastai: 'Vast.ai', hn: 'Hacker News',
-  wikipedia: 'Wikipedia', 'federal-register': 'Federal Register', govuk: 'GOV.UK', kalshi: 'Kalshi',
-  manifold: 'Manifold', polymarket: 'Polymarket',
+  wikipedia: 'Wikipedia', 'intelligence-arena': 'IntelligenceArena', 'federal-register': 'Federal Register',
+  govuk: 'GOV.UK', kalshi: 'Kalshi', manifold: 'Manifold', polymarket: 'Polymarket',
 };
 function sourceStrip(st) {
   const src = (Array.isArray(st.sources) ? st.sources : []).filter((x) => x && x.id && (x.ok || x.uncalibrated));

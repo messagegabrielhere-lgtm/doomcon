@@ -24,6 +24,7 @@ const SOURCE_LINKS = {
   epoch: 'https://epoch.ai/data/notable-ai-models',
   'hacker-news': 'https://news.ycombinator.com/',
   wikipedia: 'https://en.wikipedia.org/wiki/Artificial_intelligence',
+  'intelligence-arena': 'https://www.intelligencearena.ai/',
   'federal-register': 'https://www.federalregister.gov/',
   'gov-uk': 'https://www.gov.uk/search/all?keywords=artificial+intelligence',
   polymarket: 'https://polymarket.com/',
