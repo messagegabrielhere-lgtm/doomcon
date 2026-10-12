@@ -17,11 +17,11 @@ hijacks we cannot honestly answer stay refused (`CONTRACT.md`, `VOICE.md`).
 
 | Site | Sitemap URLs | News sitemap | Home `<title>` tactic | Schema on home | Faceted entity URLs | `llms.txt` / OpenAPI |
 |---|---:|---|---|---|---|---|
-| **DoomBench** | **2,081** | none | “Live AI Doom Index” | FAQPage only | `/models` `/companies` `/countries` `/people` `/jobs` `/news` | no |
+| **DoomBench** | **2,088** (2026-10-12) | none | “Live AI Doom Index” | FAQPage only | `/models` `/companies` `/countries` `/people` `/jobs` `/news` | no |
 | **Skynet Countdown** | **1,237** | none | “AGI Timeline Tracker” | Organization + WebSite | `/tags/*` (717) + `/news/YYYY-MM-DD` (507) | no |
 | **pizzint.watch** | **1,018** | **empty (0 `<loc>`)** | DEFCON + Doomsday Clock hijack + keywords meta | FAQPage + WebApplication + Organization | `/intel/*` briefs only; chips are `<button>`s | no (404 → SPA shell) |
-| **siren.watch** | **~530** (+ facets in this PR) | **100 rolling / 48h** with `news:keywords` | Brand-first live title (head-term title in SEO PR) | Rich: Dataset, FAQ, WebSite, VideoObject, WebApplication… | `/item/*` only → **`/pillar/*` + `/lab/*` shipping** | **yes** |
-| pdoom.ai | SPA shell | SPA shell | Sci-fi countdown + keyword stuffing | none | none | SPA shell |
+| **siren.watch** | **682** live → **+`/people/*` + `/news/YYYY-MM-DD` + entity labs** (this PR) | **100 rolling / 48h** with `news:keywords` | Head-term live title (“AI activity index today · SIREN …”) | Rich: Dataset, FAQ, Organization, VideoObject… | `/pillar/*` `/lab/*` `/country/*` `/model/*` `/people/*` day hubs | **yes** |
+| pdoom.ai | 0 (SPA shell) | 0 | Sci-fi countdown + keyword stuffing | none | none | yes (thin) |
 | takeofftracker.com | none | none | “AGI Metrics Dashboard” | none | none | none |
 
 ### Resolved from COMPETITIVE.md §0.1
