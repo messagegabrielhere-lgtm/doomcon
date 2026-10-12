@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated_at": "2026-10-12T06:37:22.177Z",
+  "generated_at": "2026-10-12T07:00:46.608Z",
   "rules": {
     "version": "1.0.0",
     "window_hours": 6,
@@ -47,8 +47,8 @@
       "ycombinator.com"
     ]
   },
-  "live": 7,
-  "fresh": "b2d9afd4b2a8a",
+  "live": 5,
+  "fresh": null,
   "clusters": [
     {
       "id": "b2d9afd4b2a8a",
@@ -141,7 +141,7 @@
           "tier1": false
         }
       ],
-      "live": true
+      "live": false
     },
     {
       "id": "b34ec46f7c5c5",
@@ -373,7 +373,7 @@
           "tier1": false
         }
       ],
-      "live": true
+      "live": false
     },
     {
       "id": "b68581f903f78",
@@ -1278,30 +1278,36 @@
     },
     {
       "id": "b6d7aa3303311",
-      "title": "Anthropic AI model went rogue, submitted fake tip to police",
-      "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxOdUE0WVFMc3hhelpLQlN1OFVrUWJ4c3ZueTUxUFVDcEFjdHNYT3UwTk5YdkIxbGlEU0taclEzajFnOW1Ua2M4b1JQaXBwUFg2WFNET3RhTUlzMzFyZGRfSjlSdzJ6RzgwRUY2emFWOXhCOFhITlktS1JZbTJScGxGaG5CSmtRVmFQWnByaFVHUllkT0N5VUZzdUcxRjh4X3BtSmhfOFJYY1E0OUVaN05saA?oc=5",
-      "source": "gnews-ai",
-      "outlet": "thestar.com.my",
+      "title": "Anthropic's Claude submits false tip on a Philadelphia unsolved homicide case",
+      "url": "https://apnews.com/article/artificial-intelligence-anthropic-claude-0acc6ac46d4d80db805e8d55468a6fe1",
+      "source": "hn-fresh-ai",
+      "outlet": "apnews.com",
       "outlets": [
+        "lawcommentary.com",
+        "medianama.com",
         "thestar.com.my",
         "wsj.com"
       ],
       "tier1_outlets": [
         "wsj.com"
       ],
-      "corroboration": 2,
+      "corroboration": 4,
       "sources": [
         "gnews-ai",
         "wires-ai"
       ],
       "rule": [
+        "two outlets within 20 min",
         "tier-one outlet plus one more"
       ],
       "earliest_published_at": "2026-10-12T04:00:00.000Z",
       "first_seen_at": "2026-10-10T16:47:07.944Z",
       "latency_s": 0,
+      "clock_skew": true,
       "breaking_at": "2026-10-11T21:12:28.059Z",
       "item_ids": [
+        "b5183fcdbb2272b7",
+        "b75a52ad08d9a6ab",
         "eb8a4915cbadc67b"
       ],
       "sightings": [
@@ -1311,6 +1317,14 @@
           "title": "Anthropic AI model went rogue, submitted fake tip to police",
           "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxOdUE0WVFMc3hhelpLQlN1OFVrUWJ4c3ZueTUxUFVDcEFjdHNYT3UwTk5YdkIxbGlEU0taclEzajFnOW1Ua2M4b1JQaXBwUFg2WFNET3RhTUlzMzFyZGRfSjlSdzJ6RzgwRUY2emFWOXhCOFhITlktS1JZbTJScGxGaG5CSmtRVmFQWnByaFVHUllkT0N5VUZzdUcxRjh4X3BtSmhfOFJYY1E0OUVaN05saA?oc=5",
           "published_at": "2026-10-12T04:00:00.000Z",
+          "tier1": false
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "lawcommentary.com",
+          "title": "Anthropic's Claude AI Went Rogue and Filed a Fake Murder Tip With Philadelphia Police",
+          "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxPc25LM29xSHBKRWVQQjlxeDIyWnlHamNaTWpZclRBOTRxZHptTDVMMUJYb2w3LVBmdXNyMmtTMEFKSmEwdUxsRkFYRmIwdHh2elUtMTNqd1Yxb1VkckJLbHFnMWo4T1YwUWNMU0V1aGxWR3paUjJRQU5Iakc4MVA3X1VIRFFMUHQ0MEZIYjB6T0xnc29JNVdFRlpn?oc=5",
+          "published_at": "2026-10-12T04:24:19.637Z",
           "tier1": false
         },
         {
@@ -1328,6 +1342,14 @@
           "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxOdC1Yb1VaRzVmWnNoRmpLRFF4cWtUZXNyMjYtVzItMEJIYWhGWUpsUXRtWEJmaDVpZ1lGSXE3WGFYWU94cUFwcTRZZnQzVFBsaktQVjQ3WmJMMFVyQnlTS3NtUEMzVkY1WmNoU1dmdW1LWVB5YXJ1amROdEVIWVRhSFNLdldjVkMwcVRjaHJoOGVwVFBDbmxCdHlqTGIwc2px?oc=5",
           "published_at": "2026-10-12T04:24:19.637Z",
           "tier1": true
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "medianama.com",
+          "title": "Claude AI sent a false murder tip to US police during testing; Anthropic took 2 months to detect it",
+          "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTFBfZHFUVTJRaF85N0Y5dG5nYndzSzhmZWlxYmI1aXYxelZ1WTc0NUZLUjU4M3NBYk55VUY0eW10LWZEam5wWnpzUVUyYm5ncDJHR2M1T1YtX1l2NDZGSG83VWE1TUZkVVQ1cGRia3dpaTV0TWxIWnVSRlRB?oc=5",
+          "published_at": "2026-10-12T06:31:00.000Z",
+          "tier1": false
         }
       ],
       "live": true
