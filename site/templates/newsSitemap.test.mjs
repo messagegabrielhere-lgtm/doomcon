@@ -124,6 +124,25 @@ test('render keywords include Decart, Sakana AI, Isomorphic Labs, Winverse AI, C
   assert.match(xml, /Sakana AI|Isomorphic Labs|Winverse AI|Cisco/);
 });
 
+test('render keywords include Maia / Maia 300 model surfaces', () => {
+  const xml = render({
+    news: {
+      items: [{
+        id: 'a5',
+        title: 'Microsoft unveils Maia 300 AI chip',
+        summary: 'Azure Maia custom silicon expands cloud inference capacity.',
+        published_at: new Date().toISOString(),
+        source: 'hn',
+        pillar: 'compute',
+        kind: 'press',
+        entities: [],
+      }],
+    },
+    url: (p) => `https://example.test${p}`,
+  });
+  assert.match(xml, /<news:keywords>[^<]*(?:Maia 300|Maia)/);
+});
+
 test('keywordsFor keeps lab surfaces ahead of topic-tag flood under the 12-cap', () => {
   const kw = keywordsFor({
     title: 'Decart agents ship computer use, prompt injection defenses, and multimodal reasoning',

@@ -119,6 +119,9 @@ const ENTITY_DEFS = [
   { name: 'Stable Diffusion', kind: 'model', forms: ['Stable Diffusion', 'SDXL'] },
   { name: 'FLUX', kind: 'model', forms: ['FLUX.1', 'FLUX'] },
   { name: 'Muse Wonder', kind: 'model', forms: ['Muse Wonder', 'Muse Wonder Full'] },
+  // Microsoft’s Azure Maia / Maia 300 custom AI chip family — titles name the
+  // chip; ≥ MODEL_INDEX_MIN stories clear /model/maia (not a chip doom score).
+  { name: 'Maia', kind: 'model', forms: ['Maia 300', 'Azure Maia', 'Maia'] },
 ];
 
 const COMPILED = ENTITY_DEFS.map((d) => ({ name: d.name, kind: d.kind, re: surfaceRegex(d.forms) }));

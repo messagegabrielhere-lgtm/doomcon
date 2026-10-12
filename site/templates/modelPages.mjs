@@ -31,6 +31,7 @@ const MODEL_LAB = {
   'DeepSeek-R': 'deepseek',
   Mixtral: 'mistral',
   'Muse Wonder': 'meta',
+  Maia: 'microsoft',
 };
 
 const MODELS = publishedEntities().filter((e) => e.kind === 'model');

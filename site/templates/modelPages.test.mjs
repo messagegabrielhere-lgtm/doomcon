@@ -167,4 +167,23 @@ describe('model pages', () => {
     assert.doesNotMatch(html, /doom score/i);
     assert.ok(sitemapEntries(rich).some((e) => e.loc === '/model/muse-wonder.html'));
   });
+
+  it('indexes Maia from Maia 300 / Azure Maia title forms', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('ma1', 'Microsoft unveils Maia 300 AI chip', []),
+          story('ma2', 'Azure Maia custom silicon expands', []),
+          story('ma3', 'Watch Microsoft, Musk race as Maia 300 ships', []),
+        ],
+      },
+    };
+    assert.ok(indexableModels(rich).some((m) => m.name === 'Maia'));
+    const html = renderModel(rich, 'Maia');
+    assert.match(html, /Maia: AI stories this index scored|Maia/);
+    assert.doesNotMatch(html, /doom score/i);
+    assert.ok(sitemapEntries(rich).some((e) => e.loc === '/model/maia.html'));
+  });
 });
