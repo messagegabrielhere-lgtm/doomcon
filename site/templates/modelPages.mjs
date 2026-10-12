@@ -4,7 +4,7 @@
 // scored stories, so a single headline does not become a URL. These pages
 // count stories. They do not assign a model a score this index does not compute.
 
-import { publishedEntities, entitySlug } from '../../collector/news-sources/_entities.mjs';
+import { publishedEntities, entitySlug, entityMatchRegex } from '../../collector/news-sources/_entities.mjs';
 import { esc, num, utc } from './_html.mjs';
 import { page } from './layout.mjs';
 import { breadcrumbs } from './_seo.mjs';
@@ -59,9 +59,20 @@ function newsItems(ctx) {
   return (ctx.news && Array.isArray(ctx.news.items)) ? ctx.news.items : [];
 }
 
+/** True when the story names this model family in entities or title/summary forms. */
+export function itemMatchesModel(it, name) {
+  if (!it || !name) return false;
+  if (Array.isArray(it.entities) && it.entities.includes(name)) return true;
+  // Archive rows keep frozen entity lists; re-match published surface forms so
+  // expanded vocab (DeepSeek / Mistral Large, …) can keep hubs above the gate.
+  const re = entityMatchRegex(name);
+  if (!re) return false;
+  return re.test(`${it.title || ''} ${it.summary || ''}`);
+}
+
 export function itemsForModel(ctx, name) {
   return newsItems(ctx)
-    .filter((it) => it && Array.isArray(it.entities) && it.entities.includes(name))
+    .filter((it) => itemMatchesModel(it, name))
     .slice()
     .sort((a, b) => String(b.published_at || '').localeCompare(String(a.published_at || '')));
 }
@@ -70,7 +81,7 @@ export function itemsForModel(ctx, name) {
 export function archiveItemsForModel(ctx, name) {
   const archived = Array.isArray(ctx.itemArchive) ? ctx.itemArchive : [];
   return archived
-    .filter((it) => it && Array.isArray(it.entities) && it.entities.includes(name))
+    .filter((it) => itemMatchesModel(it, name))
     .slice()
     .sort((a, b) => String(b.published_at || '').localeCompare(String(a.published_at || '')));
 }
@@ -99,6 +110,11 @@ export function indexableModels(ctx) {
     })
     .filter((e) => e.count >= MODEL_INDEX_MIN)
     .sort((a, b) => (b.count - a.count) || a.name.localeCompare(b.name));
+}
+
+/** Indexable model families this story matches (entities or title/summary forms). */
+export function modelsForItem(ctx, item) {
+  return indexableModels(ctx).filter((m) => itemMatchesModel(item, m.name));
 }
 
 function labNote(ctx, name) {

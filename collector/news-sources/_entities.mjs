@@ -81,8 +81,11 @@ const ENTITY_DEFS = [
   { name: 'Llama', kind: 'model', forms: ['Llama', 'LLaMA'] },
   { name: 'Grok', kind: 'model', forms: ['Grok'] },
   { name: 'Qwen', kind: 'model', forms: ['Qwen', 'Qwen2', 'Qwen3', 'QwQ'] },
-  { name: 'DeepSeek-R', kind: 'model', forms: ['DeepSeek-R1', 'DeepSeek-V3', 'DeepSeek-V4'] },
-  { name: 'Mixtral', kind: 'model', forms: ['Mixtral', 'Magistral', 'Devstral', 'Codestral'] },
+  // Bare "DeepSeek" also lands the model family (lab entity still matches too).
+  // Archive rows often only carry the lab name; model hubs re-match forms on
+  // title/summary so /model/deepseek-r stays indexable (DoomBench shape).
+  { name: 'DeepSeek-R', kind: 'model', forms: ['DeepSeek-R1', 'DeepSeek-V3', 'DeepSeek-V4', 'DeepSeek-V2', 'DeepSeek R1', 'DeepSeek V3', 'DeepSeek'] },
+  { name: 'Mixtral', kind: 'model', forms: ['Mixtral', 'Magistral', 'Devstral', 'Codestral', 'Mistral Large', 'Mistral Small', 'Mistral Nemo'] },
   { name: 'Phi', kind: 'model', forms: ['Phi-3', 'Phi-4'] },
   { name: 'Command R', kind: 'model', forms: ['Command R', 'Command A'] },
   { name: 'Kimi', kind: 'model', forms: ['Kimi', 'Kimi K2'] },
@@ -100,6 +103,12 @@ const COMPILED = ENTITY_DEFS.map((d) => ({ name: d.name, kind: d.kind, re: surfa
 /** Canonical names and kinds, without the surface-form matchers. */
 export function publishedEntities() {
   return ENTITY_DEFS.map(({ name, kind }) => ({ name, kind }));
+}
+
+/** Compiled surface-form matcher for one published entity name, or null. */
+export function entityMatchRegex(name) {
+  const row = COMPILED.find((e) => e.name === name);
+  return row ? row.re : null;
 }
 
 /** Stable URL slug for a canonical entity name (`DeepSeek-R` → `deepseek-r`). */

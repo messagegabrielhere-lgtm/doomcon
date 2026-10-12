@@ -22,7 +22,7 @@
 import { esc, num, utc } from './_html.mjs';
 import { page } from './layout.mjs';
 import { breadcrumbs, speakable } from './_seo.mjs';
-import { modelIndexable, modelPath } from './modelPages.mjs';
+import { modelIndexable, modelPath, modelsForItem } from './modelPages.mjs';
 import { tagsForItem, tagPath } from './tagPages.mjs';
 import { peopleForItem, peoplePath } from './peoplePages.mjs';
 import { outletsForItem, outletPath, OUTLET_INDEX_MIN } from './outletPages.mjs';
@@ -177,7 +177,12 @@ function corroboration(item) {
 }
 
 function namedLine(ctx, item) {
-  const names = Array.isArray(item.entities) ? item.entities : [];
+  const names = Array.isArray(item.entities) ? item.entities.slice() : [];
+  // Model hubs also match published surface forms on title/summary (archive
+  // rows may only carry the lab entity). Surface those links when the gate clears.
+  for (const m of modelsForItem(ctx, item)) {
+    if (!names.includes(m.name)) names.push(m.name);
+  }
   if (!names.length) return '';
   const bits = names.map((name) => (
     modelIndexable(ctx, name)

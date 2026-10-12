@@ -114,4 +114,38 @@ describe('model pages', () => {
     assert.match(html, /Older scored stories naming Grok/);
     assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/model/grok.html'));
   });
+
+  it('indexes DeepSeek-R from title/summary forms when archive only carries the lab entity', () => {
+    const withArch = {
+      ...ctx,
+      news: { generated_at: ctx.state.generated_at, items: [] },
+      itemArchive: [
+        story('d1', 'DeepSeek accelerates push into embodied AI', ['DeepSeek']),
+        story('d2', 'DeepSeek-R1 beats prior open baseline', ['DeepSeek']),
+        story('d3', 'Labs react to DeepSeek V3 release', ['DeepSeek']),
+      ],
+    };
+    const names = indexableModels(withArch).map((m) => m.name);
+    assert.ok(names.includes('DeepSeek-R'));
+    const html = renderModel(withArch, 'DeepSeek-R');
+    assert.doesNotMatch(html, /noindex/);
+    assert.match(html, /DeepSeek accelerates/);
+    assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/model/deepseek-r.html'));
+  });
+
+  it('indexes Mixtral from Mistral Large style surface forms', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('m1', 'Mistral Large ships a new checkpoint', []),
+          story('m2', 'Mixtral MoE serving guide', []),
+          story('m3', 'Codestral update for coding agents', []),
+        ],
+      },
+    };
+    assert.ok(indexableModels(rich).some((m) => m.name === 'Mixtral'));
+    assert.match(renderModel(rich, 'Mixtral'), /Mistral Large ships/);
+  });
 });
