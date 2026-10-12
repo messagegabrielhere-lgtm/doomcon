@@ -84,6 +84,10 @@ const ENTITY_DEFS = [
   { name: 'Physical Intelligence', kind: 'lab', forms: ['Physical Intelligence'] },
   { name: 'Huawei', kind: 'lab', forms: ['Huawei'] },
   { name: 'Sony', kind: 'lab', forms: ['Sony'] },
+  { name: 'Supermicro', kind: 'lab', forms: ['Supermicro', 'Super Micro'] },
+  { name: 'IREN', kind: 'lab', forms: ['IREN'] },
+  { name: 'OpenRouter', kind: 'lab', forms: ['OpenRouter'] },
+  { name: 'Reflection AI', kind: 'lab', forms: ['Reflection AI'] },
 
   // --- model families ---
   { name: 'GPT', kind: 'model', forms: ['GPT-3', 'GPT-4', 'GPT-4o', 'GPT-5', 'GPT-6', 'ChatGPT', 'GPT'] },

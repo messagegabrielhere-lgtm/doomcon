@@ -503,6 +503,72 @@ describe('lab facets', () => {
     assert.doesNotMatch(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'cognition')), /doom score/i);
   });
 
+  it('indexes Supermicro, IREN, OpenRouter, and Reflection AI entity labs from archive', () => {
+    const withArch = {
+      ...ctx,
+      news: { ...ctx.news, items: [...ctx.news.items] },
+      itemArchive: [
+        {
+          id: 'sm1', title: 'Supermicro powers DigiPowerX with Blackwell', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/sm1', published_at: '2026-09-01T01:00:00Z', score: 40,
+        },
+        {
+          id: 'sm2', title: 'Super Micro contractor AI server case', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/sm2', published_at: '2026-09-02T01:00:00Z', score: 41,
+        },
+        {
+          id: 'sm3', title: 'Supermicro AI rack demand rises', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/sm3', published_at: '2026-09-03T01:00:00Z', score: 42,
+        },
+        {
+          id: 'ir1', title: 'IREN stock rises on Anthropic cloud deal', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/ir1', published_at: '2026-09-01T02:00:00Z', score: 40,
+        },
+        {
+          id: 'ir2', title: 'IREN named as Anthropic cloud client', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/ir2', published_at: '2026-09-02T02:00:00Z', score: 41,
+        },
+        {
+          id: 'ir3', title: 'IREN rebounds on AI datacentre report', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/ir3', published_at: '2026-09-03T02:00:00Z', score: 42,
+        },
+        {
+          id: 'or1', title: 'OpenRouter spend share OpenAI vs Anthropic', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/or1', published_at: '2026-09-01T03:00:00Z', score: 40,
+        },
+        {
+          id: 'or2', title: 'Nvidia considered an OpenRouter bid', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/or2', published_at: '2026-09-02T03:00:00Z', score: 41,
+        },
+        {
+          id: 'or3', title: 'Usage and spend diverge on OpenRouter', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/or3', published_at: '2026-09-03T03:00:00Z', score: 42,
+        },
+        {
+          id: 'rf1', title: 'Nvidia in talks to acquire Reflection AI', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/rf1', published_at: '2026-09-01T04:00:00Z', score: 40,
+        },
+        {
+          id: 'rf2', title: 'Nvidia weighs further investment in Reflection AI', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/rf2', published_at: '2026-09-02T04:00:00Z', score: 41,
+        },
+        {
+          id: 'rf3', title: 'Reflection AI open-model startup valuation', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/rf3', published_at: '2026-09-03T04:00:00Z', score: 42,
+        },
+      ],
+    };
+    const ids = labsFromEntities(withArch).map((p) => p.id);
+    for (const id of ['supermicro', 'iren', 'openrouter', 'reflection-ai']) {
+      assert.ok(ids.includes(id), id);
+    }
+    assert.match(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'supermicro')), /Supermicro: AI stories this index scored/);
+    assert.match(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'iren')), /IREN: AI stories this index scored/);
+    assert.match(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'openrouter')), /OpenRouter: AI stories this index scored/);
+    assert.match(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'reflection-ai')), /Reflection AI: AI stories this index scored/);
+    assert.doesNotMatch(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'reflection-ai')), /doom score/i);
+  });
+
   it('indexes Huawei and Sony entity labs when archive stories clear the gate', () => {
     const withArch = {
       ...ctx,

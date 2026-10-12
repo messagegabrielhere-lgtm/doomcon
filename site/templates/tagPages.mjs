@@ -691,6 +691,78 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'Tool-use and tool-calling stories scored in the newsroom or archive — coverage counts, not a capability forecast.',
     match: /\btool[- ]use\b/i,
   },
+  {
+    id: 'post-training',
+    name: 'Post-training',
+    description: 'Post-training method and product stories scored in the newsroom or archive — coverage counts, not a capability forecast.',
+    match: /\bpost[- ]?training\b/i,
+  },
+  {
+    id: 'pretraining',
+    name: 'Pre-training',
+    description: 'Pre-training research stories scored in the newsroom or archive — coverage counts, not a ranking.',
+    match: /\bpre[- ]?training\b/i,
+  },
+  {
+    id: 'zero-shot',
+    name: 'Zero-shot',
+    description: 'Zero-shot learning and eval stories scored in the newsroom or archive.',
+    match: /\bzero[- ]shot\b/i,
+  },
+  {
+    id: 'in-context',
+    name: 'In-context learning',
+    description: 'In-context learning stories scored in the newsroom or archive — method coverage, not a capability forecast.',
+    match: /\bin[- ]context learning\b/i,
+  },
+  {
+    id: 'tokenization',
+    name: 'Tokenization',
+    description: 'Tokenization research stories scored in the newsroom or archive.',
+    match: /\btokeniz(?:ation|ers?)\b/i,
+  },
+  {
+    id: 'continual-learning',
+    name: 'Continual learning',
+    description: 'Continual-learning research stories scored in the newsroom or archive — coverage counts, not a capability forecast.',
+    match: /\bcontinual learning\b/i,
+  },
+  {
+    id: 'sparsity',
+    name: 'Model sparsity',
+    description: 'Sparse-model and sparsity research stories scored in the newsroom or archive — method coverage, not a quality ranking.',
+    match: /\b(?:model )?sparsity\b|\bsparse (?:attention|models?)\b/i,
+  },
+  {
+    id: 'knowledge-graphs',
+    name: 'Knowledge graphs',
+    description: 'Knowledge-graph and KG-embedding stories scored in the newsroom or archive.',
+    match: /\bknowledge graphs?\b/i,
+  },
+  {
+    id: 'research-agents',
+    name: 'Research agents',
+    description: 'Research-agent product and paper stories scored in the newsroom or archive — coverage counts, not a capability forecast.',
+    match: /\bresearch agents?\b/i,
+  },
+  {
+    id: 'system-prompts',
+    name: 'System prompts',
+    description: 'System-prompt product and research stories scored in the newsroom or archive.',
+    match: /\bsystem prompts?\b/i,
+  },
+  {
+    id: 'ai-infrastructure',
+    name: 'AI infrastructure',
+    description: 'AI-infrastructure buildout stories scored in the newsroom or archive — coverage counts, not a capacity forecast.',
+    match: /\bai infrastructure\b/i,
+  },
+  {
+    id: 'robot-learning',
+    name: 'Robot learning',
+    description: 'Robot-learning research stories scored in the newsroom or archive — coverage counts, not a robotics forecast.',
+    match: /\brobot learning\b/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));

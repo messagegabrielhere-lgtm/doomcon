@@ -952,4 +952,88 @@ describe('tag pages', () => {
     assert.match(renderTag(rich, 'tool-use'), /Tool use: AI stories this index scored/);
     assert.doesNotMatch(renderTag(rich, 'foundation-models'), /doom score/i);
   });
+
+  it('pages post-training, pretraining, zero-shot, in-context, tokenization, continual-learning, sparsity, knowledge-graphs, research-agents, system-prompts, ai-infrastructure, robot-learning', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('pt1', 'Continual post-training of small models'),
+          story('pt2', 'Outcome-only post-training with RL'),
+          story('pt3', 'Synthetic data for post-training'),
+          story('pt4', 'Post-training recipe for tool use'),
+          story('pt5', 'Efficient post-training on one GPU'),
+          story('pr1', 'Knowledge organization in pre-training'),
+          story('pr2', 'Dense to MoE conversion after pretraining'),
+          story('pr3', 'Scaling laws for pre-training'),
+          story('pr4', 'Curriculum pretraining for robots'),
+          story('pr5', 'Open pre-training datasets'),
+          story('zs1', 'Zero-shot robot foundation models'),
+          story('zs2', 'Zero-shot accent transfer'),
+          story('zs3', 'Zero-shot classification eval'),
+          story('zs4', 'Improving zero-shot VLM transfer'),
+          story('zs5', 'Zero-shot tool selection'),
+          story('ic1', 'In-context learning for robots'),
+          story('ic2', 'Limits of in-context learning'),
+          story('ic3', 'Many-shot in-context learning'),
+          story('ic4', 'In-context learning without labels'),
+          story('ic5', 'Mechanics of in-context learning'),
+          story('tk1', 'Adaptive visual tokenization'),
+          story('tk2', 'Compute-adaptive tokenization'),
+          story('tk3', 'Byte-level tokenizers survey'),
+          story('tk4', 'Multilingual tokenization gaps'),
+          story('tk5', 'Tokenizer free models'),
+          story('cl1', 'Continual learning for embodied agents'),
+          story('cl2', 'Agentic continual learning harness'),
+          story('cl3', 'Catastrophic forgetting in continual learning'),
+          story('cl4', 'Continual learning benchmarks'),
+          story('cl5', 'Memory for continual learning'),
+          story('sp1', 'Sparse attention gap in diffusion'),
+          story('sp2', 'Model sparsity recipes'),
+          story('sp3', 'Training with sparsity constraints'),
+          story('sp4', 'Sparse models for edge devices'),
+          story('sp5', 'Measuring model sparsity'),
+          story('kg1', 'Knowledge graph embedding training'),
+          story('kg2', 'Ontology-driven knowledge graphs'),
+          story('kg3', 'RAG over knowledge graphs'),
+          story('kg4', 'Enterprise knowledge graph AI'),
+          story('kg5', 'Updating knowledge graphs with LLMs'),
+          story('ra1', 'Multimodal deep research agent'),
+          story('ra2', 'Institutions for research agents'),
+          story('ra3', 'Open research agents benchmark'),
+          story('ra4', 'Safety for research agents'),
+          story('ra5', 'Research agents in science workflows'),
+          story('sy1', 'Claude system prompt text cut'),
+          story('sy2', 'Comparing system prompts across models'),
+          story('sy3', 'Leaked system prompts archive'),
+          story('sy4', 'Designing system prompts for agents'),
+          story('sy5', 'System prompt injection defenses'),
+          story('ai1', 'Cooling solutions for AI infrastructure'),
+          story('ai2', 'PCIe test for AI infrastructure'),
+          story('ai3', 'Funding AI infrastructure buildout'),
+          story('ai4', 'Open AI infrastructure stack'),
+          story('ai5', 'Power deals for AI infrastructure'),
+          story('rl1', 'In-context robot learning recipe'),
+          story('rl2', 'Multi-task robot learning on GPUs'),
+          story('rl3', 'Sim-to-real robot learning'),
+          story('rl4', 'Open robot learning datasets'),
+          story('rl5', 'Benchmarking robot learning policies'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    for (const id of [
+      'post-training', 'pretraining', 'zero-shot', 'in-context', 'tokenization',
+      'continual-learning', 'sparsity', 'knowledge-graphs', 'research-agents',
+      'system-prompts', 'ai-infrastructure', 'robot-learning',
+    ]) {
+      assert.ok(ids.includes(id), id);
+    }
+    assert.match(renderTag(rich, 'post-training'), /Post-training: AI stories this index scored/);
+    assert.match(renderTag(rich, 'pretraining'), /Pre-training: AI stories this index scored/);
+    assert.match(renderTag(rich, 'ai-infrastructure'), /AI infrastructure: AI stories this index scored/);
+    assert.match(renderTag(rich, 'robot-learning'), /Robot learning: AI stories this index scored/);
+    assert.doesNotMatch(renderTag(rich, 'post-training'), /doom score/i);
+  });
 });

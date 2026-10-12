@@ -439,6 +439,10 @@ function labNeedles(player) {
     'physical-intelligence': ['physical intelligence'],
     huawei: ['huawei'],
     sony: ['sony'],
+    supermicro: ['supermicro', 'super micro'],
+    iren: ['iren'],
+    openrouter: ['openrouter'],
+    'reflection-ai': ['reflection ai'],
   };
   return [...new Set([...(extras[player.id] || []), ...names])];
 }

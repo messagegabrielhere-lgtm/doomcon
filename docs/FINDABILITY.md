@@ -306,6 +306,8 @@ context.
 | 73 | Topic tags `world-action` + `embodied` + `tts` + `asr`; seo-daily counts real facet sitemap rows + monitors `/vs/takeofftracker.html` | Google | **Done** (2026-10-12) |
 | 74 | Topic tags `vision-language` + `foundation-models` + `video-generation` + `image-generation` + `model-merging` + `agent-memory` + `open-source-ai` + `tool-use` (live/archive ≥5 gate) | Google | **Done** (2026-10-12) |
 | 75 | Entity labs Huawei / Sony (`/lab/*`, live/archive ≥3 gate); seo-daily loads `world.json` + `routes.world` so `/country/*` facet rows count | Google | **Done** (2026-10-12) |
+| 76 | Topic tags `post-training` + `pretraining` + `zero-shot` + `in-context` + `tokenization` + `continual-learning` + `sparsity` + `knowledge-graphs` + `research-agents` + `system-prompts` + `ai-infrastructure` + `robot-learning` | Google | **Done** (2026-10-12) |
+| 77 | Entity labs Supermicro / IREN / OpenRouter / Reflection AI (`/lab/*`, live/archive ≥3 gate) | Google | **Done** (2026-10-12) |
 
 ### 3.3 Refusals (search edition)
 
