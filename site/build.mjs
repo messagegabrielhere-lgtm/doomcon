@@ -1398,8 +1398,10 @@ async function main() {
     let itemSkipped = 0;
     if (itemPage.hasItems(ctx)) {
       const items = ctx.news.items;
+      const archived = ctx.itemArchive || [];
       const byPillar = new Map();
-      for (const it of items) {
+      for (const it of [...items, ...archived]) {
+        if (!it || !it.pillar) continue;
         if (!byPillar.has(it.pillar)) byPillar.set(it.pillar, []);
         byPillar.get(it.pillar).push(it);
       }
@@ -1436,7 +1438,8 @@ async function main() {
         prevCohort.set(name, cohort(prevItems, name));
         nextCohort.set(name, cohort(items, name));
       }
-      const keep = new Set(['index.html']);
+      const keep = new Set(['index.html', 'archive.html']);
+      for (let n = 2; n <= itemPage.archivePageCount(ctx); n++) keep.add(`archive-${n}.html`);
       for (const it of items) {
         const slug = itemPage.slugFor(it);
         keep.add(`${slug}.html`);
@@ -1459,7 +1462,7 @@ async function main() {
       }
       // Archived scored stories keep their permanent pages across news-only
       // ticks. Do not delete them when they leave the live window.
-      for (const it of (ctx.itemArchive || [])) {
+      for (const it of archived) {
         if (!it || !it.id) continue;
         const slug = itemPage.slugFor(it);
         keep.add(`${slug}.html`);
@@ -1483,6 +1486,10 @@ async function main() {
         }
       }
       written.push(await write(args.out, 'item/index.html', itemPage.renderIndex(ctx)));
+      for (let n = 1; n <= itemPage.archivePageCount(ctx); n++) {
+        const rel = itemPage.archivePagePath(n).replace(/^\//, '');
+        written.push(await write(args.out, rel, itemPage.renderArchivePage(ctx, n)));
+      }
     }
     for (const p of brand.PILLARS) {
       written.push(await write(args.out, `pillar/${p.id}.html`, facetPages.renderPillar(ctx, p.id)));
@@ -1831,8 +1838,12 @@ async function main() {
   // Live window + data/item-archive.json (cap overflow and aged-off rows).
   if (itemPage.hasItems(ctx)) {
     const items = ctx.news.items;
+    const archived = ctx.itemArchive || [];
+    // Related links may point into the archive so older pages are not
+    // sitemap-only orphans (COMPETITIVE.md crawl-orphan lesson).
     const byPillar = new Map();
-    for (const it of items) {
+    for (const it of [...items, ...archived]) {
+      if (!it || !it.pillar) continue;
       if (!byPillar.has(it.pillar)) byPillar.set(it.pillar, []);
       byPillar.get(it.pillar).push(it);
     }
@@ -1842,13 +1853,18 @@ async function main() {
         .slice(0, 5);
       written.push(await write(args.out, `item/${itemPage.slugFor(it)}.html`, itemPage.render(ctx, it, related)));
     }
-    for (const it of (ctx.itemArchive || [])) {
+    for (const it of archived) {
       const related = (byPillar.get(it.pillar) || [])
         .filter((r) => r.id !== it.id)
         .slice(0, 5);
       written.push(await write(args.out, `item/${itemPage.slugFor(it)}.html`, itemPage.render(ctx, it, related)));
     }
     written.push(await write(args.out, 'item/index.html', itemPage.renderIndex(ctx)));
+    const archivePages = itemPage.archivePageCount(ctx);
+    for (let n = 1; n <= archivePages; n++) {
+      const rel = itemPage.archivePagePath(n).replace(/^\//, '');
+      written.push(await write(args.out, rel, itemPage.renderArchivePage(ctx, n)));
+    }
   }
   // Faceted landings (COMPETITIVE-SEO.md): DoomBench/Skynet win on entity URL
   // count; these turn our CSS filters into crawlable pillar and lab pages.

@@ -252,6 +252,7 @@ context.
 | 19 | Live newsroom cap → 800 + durable `data/item-archive.json` for `/item/` long-tail (overflow + aged-off); more `/tags/*` (security, military, education) | Google | **Done** (2026-10-12) |
 | 20 | `/outlet/<host>` publisher-domain hubs (≥5 scored stories) + tags open-weights/cloud/startups/finance/multimodal | Google | **Done** (2026-10-12) |
 | 21 | Backfill `item-archive` from prior committed `news.json` snapshots (scored stories only; cap 1,600) | Google | **Done** (2026-10-12) |
+| 22 | Paginated `/item/archive*.html` hubs + newsroom/publisher nav + related links into archive (anti-orphan) | Google | **Done** (2026-10-12) |
 
 ### 3.3 Refusals (search edition)
 

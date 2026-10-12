@@ -306,11 +306,30 @@ export function render(ctx, item, related = []) {
   });
 }
 
+/** Stories per paginated archive hub (keeps /item/ light; links the long tail). */
+export const ARCHIVE_PAGE_SIZE = 100;
+
+export function archivedItems(ctx) {
+  return Array.isArray(ctx.itemArchive) ? ctx.itemArchive : [];
+}
+
+export function archivePageCount(ctx) {
+  const n = archivedItems(ctx).length;
+  return n ? Math.ceil(n / ARCHIVE_PAGE_SIZE) : 0;
+}
+
+/** Page 1 → `/item/archive.html`; page 2+ → `/item/archive-2.html`. */
+export function archivePagePath(pageNum) {
+  const n = Math.max(1, Number(pageNum) || 1);
+  return n === 1 ? '/item/archive.html' : `/item/archive-${n}.html`;
+}
+
 export function renderIndex(ctx) {
   const items = ctx.news.items;
-  const archived = Array.isArray(ctx.itemArchive) ? ctx.itemArchive : [];
+  const archived = archivedItems(ctx);
+  const pages = archivePageCount(ctx);
   const archiveNote = archived.length
-    ? ` ${esc(archived.length)} more scored ${archived.length === 1 ? 'story sits' : 'stories sit'} in the permanent archive outside this window.`
+    ? ` <a href="${esc(ctx.href(archivePagePath(1)))}">${esc(String(archived.length))} older scored ${archived.length === 1 ? 'story' : 'stories'}</a> sit in the permanent archive outside this window.`
     : '';
   return page({
     ctx,
@@ -321,14 +340,95 @@ export function renderIndex(ctx) {
 <h1>Every scored item</h1>
 <p class="lede">${esc(items.length)} items in the rolling window. Each has a permanent page
    carrying how it scored and who else carried it.${archiveNote}</p>
+${pages ? `<p class="it__n">Archive hubs: ${Array.from({ length: Math.min(pages, 8) }, (_, i) => {
+  const n = i + 1;
+  return `<a href="${esc(ctx.href(archivePagePath(n)))}">${n === 1 ? 'newest' : `page ${n}`}</a>`;
+}).join(' · ')}${pages > 8 ? ` · <a href="${esc(ctx.href(archivePagePath(pages)))}">page ${esc(String(pages))}</a>` : ''}</p>` : ''}
 <ol class="it__all">${items.map((i) => `<li>
-  <a href="${esc(ctx.href(`/item/${slugFor(i)}.html`))}">${esc(i.title)}</a>
-  ${scoreCell(i, 'it__rm num')}
-</li>`).join('')}${archived.map((i) => `<li>
   <a href="${esc(ctx.href(`/item/${slugFor(i)}.html`))}">${esc(i.title)}</a>
   ${scoreCell(i, 'it__rm num')}
 </li>`).join('')}</ol>`,
   });
+}
+
+/**
+ * One page of the durable archive (stories outside the live newsroom window).
+ * Each row is a previously scored NewsItem — not a synonym doorway.
+ */
+export function renderArchivePage(ctx, pageNum = 1) {
+  const all = archivedItems(ctx);
+  const pages = archivePageCount(ctx);
+  const n = Math.min(Math.max(1, Number(pageNum) || 1), Math.max(1, pages));
+  const start = (n - 1) * ARCHIVE_PAGE_SIZE;
+  const slice = all.slice(start, start + ARCHIVE_PAGE_SIZE);
+  const path = archivePagePath(n);
+  const title = n === 1
+    ? `Scored story archive — ${brand.PUBLICATION}`
+    : `Scored story archive (${n}/${pages}) — ${brand.PUBLICATION}`;
+  const description = `Page ${n} of ${pages || 1}: older scored AI stories kept after they left the live ${brand.NAME} newsroom window. Tempo scores, not a forecast.`;
+  const prev = n > 1 ? `<a href="${esc(ctx.href(archivePagePath(n - 1)))}">← newer</a>` : '';
+  const next = n < pages ? `<a href="${esc(ctx.href(archivePagePath(n + 1)))}">older →</a>` : '';
+  const pager = (prev || next)
+    ? `<p class="it__n">${prev}${prev && next ? ' · ' : ''}${next} · page ${esc(String(n))} of ${esc(String(pages))}</p>`
+    : '';
+  return page({
+    ctx,
+    path,
+    title,
+    description,
+    noindex: slice.length === 0,
+    jsonld: [{
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      name: title,
+      url: ctx.url(path),
+      description,
+      isPartOf: { '@type': 'WebSite', name: brand.PUBLICATION, url: ctx.url('/') },
+      mainEntity: {
+        '@type': 'ItemList',
+        numberOfItems: slice.length,
+        itemListElement: slice.map((it, i) => ({
+          '@type': 'ListItem',
+          position: start + i + 1,
+          name: it.title,
+          url: ctx.url(`/item/${slugFor(it)}.html`),
+        })),
+      },
+    }, breadcrumbs(ctx, [
+      { name: 'Newsroom', path: '/news.html' },
+      { name: 'Every scored item', path: '/item/' },
+      { name: n === 1 ? 'Archive' : `Archive ${n}`, path },
+    ])],
+    main: `${styleTag()}
+<article class="it">
+  <p class="it__k"><a href="${esc(ctx.href('/news.html'))}">Newsroom</a> · <a href="${esc(ctx.href('/item/'))}">Live window</a></p>
+  <h1 class="it__h">Scored story archive</h1>
+  <p class="lede">${esc(String(all.length))} older scored stories kept after they left the live window.
+     Each page still carries the score decomposition from when it was measured. This is not a
+     forecast and not a probability of harm.</p>
+  ${pager}
+  <ol class="it__all">${slice.map((i) => `<li>
+  <a href="${esc(ctx.href(`/item/${slugFor(i)}.html`))}">${esc(i.title)}</a>
+  ${scoreCell(i, 'it__rm num')}
+</li>`).join('')}</ol>
+  ${pager}
+</article>`,
+  });
+}
+
+/** Sitemap rows for paginated archive hubs (individual /item/ URLs stay elsewhere). */
+export function archiveSitemapEntries(ctx) {
+  const pages = archivePageCount(ctx);
+  if (!pages) return [];
+  const last = (ctx.itemArchiveMeta && ctx.itemArchiveMeta.updated_at)
+    || (ctx.news && ctx.news.generated_at)
+    || (ctx.state && ctx.state.generated_at);
+  return Array.from({ length: pages }, (_, i) => ({
+    loc: archivePagePath(i + 1),
+    changefreq: 'daily',
+    priority: i === 0 ? '0.65' : '0.55',
+    lastmod: last,
+  }));
 }
 
 export function styleTag() {

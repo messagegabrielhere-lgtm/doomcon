@@ -68,6 +68,8 @@ import { page } from './layout.mjs';
 import { dayPath, indexableDays } from './dayPages.mjs';
 import { tagPath, indexableTags } from './tagPages.mjs';
 import { kindPath, indexableKinds } from './kindPages.mjs';
+import { outletPath, indexableOutlets } from './outletPages.mjs';
+import { archivePagePath, archivePageCount, archivedItems } from './itemPage.mjs';
 import * as brand from '../brand.mjs';
 import { breakingStrip, speedBox, breakingCss } from './_breaking.mjs';
 
@@ -112,6 +114,8 @@ ${breakingStrip(ctx, { href: ctx.href })}
   ${dayHubNav(ctx, items)}
   ${tagHubNav(ctx)}
   ${kindHubNav(ctx)}
+  ${outletHubNav(ctx)}
+  ${archiveHubNav(ctx)}
 </section>
 
 ${reel(items, { id: 'areel', limit: REEL_CARDS, heading: 'Highest-scoring items' })}
@@ -225,6 +229,32 @@ function kindHubNav(ctx) {
   return `<nav class="narch__days" aria-label="News by story kind">
   <p class="narch__days-k">By kind · <a href="${esc(ctx.href('/kind/'))}">all kinds</a></p>
   <div class="narch__days-links">${links}</div>
+</nav>`;
+}
+
+/** Links to /outlet/<host> publisher hubs that clear the substance gate. */
+function outletHubNav(ctx) {
+  const outlets = indexableOutlets(ctx).slice(0, 12);
+  if (!outlets.length) return '';
+  const links = outlets
+    .map((o) => `<a href="${esc(ctx.href(outletPath(o.domain)))}">${esc(o.domain)} <span class="num">(${esc(String(o.count))})</span></a>`)
+    .join('');
+  return `<nav class="narch__days" aria-label="News by publisher">
+  <p class="narch__days-k">By publisher · <a href="${esc(ctx.href('/outlet/'))}">all publishers</a></p>
+  <div class="narch__days-links">${links}</div>
+</nav>`;
+}
+
+/** Link into the paginated durable /item/ archive (stories outside the live window). */
+function archiveHubNav(ctx) {
+  const n = archivedItems(ctx).length;
+  if (!n) return '';
+  const pages = archivePageCount(ctx);
+  return `<nav class="narch__days" aria-label="Older scored stories">
+  <p class="narch__days-k">Older scored stories</p>
+  <div class="narch__days-links"><a href="${esc(ctx.href(archivePagePath(1)))}">Story archive</a>
+    <span class="num">(${esc(String(n))} across ${esc(String(pages))} page${pages === 1 ? '' : 's'})</span>
+    · <a href="${esc(ctx.href('/item/'))}">live window</a></div>
 </nav>`;
 }
 

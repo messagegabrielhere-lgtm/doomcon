@@ -1,4 +1,4 @@
-import { slugFor } from './itemPage.mjs';
+import { slugFor, archiveSitemapEntries } from './itemPage.mjs';
 import { sitemapEntries as facetEntries } from './facetPages.mjs';
 import { sitemapEntries as countryEntries } from './countryPages.mjs';
 import { sitemapEntries as modelEntries } from './modelPages.mjs';
@@ -160,6 +160,7 @@ export function render(ctx) {
         lastmod: it.published_at || (ctx.itemArchiveMeta && ctx.itemArchiveMeta.updated_at) || ctx.news.generated_at,
       });
     }
+    entries.push(...archiveSitemapEntries(ctx));
   }
 
   for (const m of ctx.moves) {

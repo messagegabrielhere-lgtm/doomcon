@@ -323,6 +323,8 @@ ${facetLinks(ctx, u)}
 ## Optional
 
 - [Newsroom](${u('/news.html')})
+- [Live scored stories](${u('/item/')})
+- [Story archive](${u('/item/archive.html')}): older scored stories kept after they leave the live window
 - [AI leaders](${u('/leaders.html')})
 - [People](${u('/people/')}): one page per leader with enough press coverage
 - [Tags](${u('/tags/')}): topic hubs (agents, GPUs, safety, …) when a needle clears five stories

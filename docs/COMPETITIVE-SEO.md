@@ -150,6 +150,14 @@ This is the honest volume lever: more scored stories kept, not synonym doorways.
 adapters). Story pages link the publisher when the gate clears. Extra topic
 tags: open-weights, cloud, startups, finance, multimodal.
 
+### 4.6 Archive hubs (anti-orphan) (2026-10-12)
+
+Paginated `/item/archive.html` (+ `/item/archive-N.html`) list the durable
+archive in 100-story pages so the 1,600 retained `/item/` URLs are reachable
+from the newsroom, not only the sitemap. Related links on story pages may
+point into the archive. Live `/item/` lists the current window only (lighter
+HTML).
+
 ---
 
 ## 5. Competitor conquest pages, 2026-10-10
