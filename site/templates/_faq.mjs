@@ -28,7 +28,7 @@ export function items(ctx) {
     ['Is SIREN an alternative to DoomBench or Skynet Countdown?',
       `Only if you want a recomputable activity count instead of a judgement-scored doom or timeline number. DoomBench scores takeover evidence; Skynet Countdown estimates AGI dates and control-loss odds; ${brand.NAME} counts how loud AI activity is this hour. See /compare.html and /alternatives.html for the side-by-side.`],
     ['Where are the AI leader and topic pages?',
-      `${brand.NAME} publishes /people/ pages for leaders with enough press coverage this week — headlines only, never invented quotations — and /tags/ hubs for topics such as agents, GPUs, chips, labor and healthcare when a needle clears five scored stories. Older scored stories stay on /item/archive.html after they leave the live newsroom. Thin days and quiet roster rows stay off those indexes.`],
+      `${brand.NAME} publishes /people/ pages for leaders with enough press coverage this week — headlines only, never invented quotations — and /tags/ hubs for topics such as agents, GPUs, chips, coding, acquisitions, labor and healthcare when a needle clears five scored stories. Older scored stories stay on /item/archive.html after they leave the live newsroom. Thin days and quiet roster rows stay off those indexes.`],
     ['Does a louder level mean AI is more dangerous?',
       `No. The level measures tempo: releases, compute, headlines, rule-making and market prices. A loud week means a lot happened. It says nothing about whether what happened was good or bad, and the site never sums harm and benefit into one figure.`],
     ['How is the level calculated, and how often?',

@@ -91,4 +91,32 @@ describe('tag pages', () => {
     assert.match(html, /Archived AI agents story/);
     assert.match(html, /\/item\/archive\.html/);
   });
+
+  it('indexes coding and acquisitions when the live gate clears', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        ...ctx.news,
+        items: [
+          story('c1', 'AI coding agents beat SWE-bench baseline'),
+          story('c2', 'New coding agent ships for enterprise'),
+          story('c3', 'Copilot AI coding tools expand'),
+          story('c4', 'Devin coding agent update'),
+          story('c5', 'Vibe coding workflow lands in IDEs'),
+          story('m1', 'Lab announces acquisition of rival startup'),
+          story('m2', 'Big tech acqui-hire of research team'),
+          story('m3', 'Startup acquires smaller model shop'),
+          story('m4', 'Chip firm bought by hyperscaler'),
+          story('m5', 'Merger with AI infrastructure vendor'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    assert.ok(ids.includes('coding'));
+    assert.ok(ids.includes('acquisitions'));
+    assert.match(renderTag(rich, 'coding'), /AI coding: AI stories this index scored/);
+    assert.match(renderTag(rich, 'acquisitions'), /AI acquisitions: AI stories this index scored/);
+    assert.ok(TOPIC_DEFS.some((t) => t.id === 'coding'));
+    assert.ok(TOPIC_DEFS.some((t) => t.id === 'acquisitions'));
+  });
 });

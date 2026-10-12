@@ -157,6 +157,18 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'Hospital, clinical, and medical-AI stories scored in this window.',
     match: /\b(hospital|healthcare|medical|diagnos|clinical|\bfda\b|patient|physician)\b/i,
   },
+  {
+    id: 'coding',
+    name: 'AI coding',
+    description: 'Coding agents, copilots, and software-engineering evals named in scored headlines.',
+    match: /\b(coding agents?|ai coding|code generat|copilot|devin|swe-bench|vibe[- ]coding|software engineer(ing)? agents?)\b/i,
+  },
+  {
+    id: 'acquisitions',
+    name: 'AI acquisitions',
+    description: 'Acqui-hires, mergers, and AI company acquisitions named in the newsroom window.',
+    match: /\b(acqui-?hir\w*|acquisition|acquires?\b|bought by|merger with)\b/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));

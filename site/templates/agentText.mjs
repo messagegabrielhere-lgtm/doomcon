@@ -327,7 +327,7 @@ ${facetLinks(ctx, u)}
 - [Story archive](${u('/item/archive.html')}): older scored stories kept after they leave the live window
 - [AI leaders](${u('/leaders.html')})
 - [People](${u('/people/')}): one page per leader with enough press coverage
-- [Tags](${u('/tags/')}): topic hubs (agents, GPUs, chips, labor, healthcare, …) when a needle clears five stories
+- [Tags](${u('/tags/')}): topic hubs (agents, GPUs, chips, coding, acquisitions, labor, healthcare, …) when a needle clears five stories
 - [Story archive](${u('/item/archive.html')}): older scored /item pages kept after they leave the live newsroom
 - [Kinds](${u('/kind/')}): press / forum / paper hubs when a collector kind clears five stories
 - [Takeover Watch](${u('/si-watch.html')})
