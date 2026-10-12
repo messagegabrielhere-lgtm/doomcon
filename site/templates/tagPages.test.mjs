@@ -1367,4 +1367,59 @@ describe('tag pages', () => {
     assert.match(renderTag(rich, 'domain-adaptation'), /Domain adaptation: AI stories this index scored/);
     assert.doesNotMatch(renderTag(rich, 'model-pruning'), /doom score/i);
   });
+
+  it('pages LLM agents, on-policy distillation, time-series, self-distillation, video world models, unlearning', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('la1', 'LLM agents for enterprise workflows'),
+          story('la2', 'Benchmarking LLM agents on tool use'),
+          story('la3', 'Secure LLM agents in production'),
+          story('la4', 'Multi-step LLM agents survey'),
+          story('la5', 'Open-source LLM agents stack'),
+          story('op1', 'On-policy distillation for reasoning models'),
+          story('op2', 'Scaling on-policy distillation'),
+          story('op3', 'On-policy distillation vs off-policy'),
+          story('op4', 'Efficient on-policy distillation recipes'),
+          story('op5', 'On-policy distillation for coding models'),
+          story('ts1', 'Time-series foundation models'),
+          story('ts2', 'Multivariate time series forecasting with transformers'),
+          story('ts3', 'Time-series benchmarks for LLMs'),
+          story('ts4', 'Zero-shot time series prediction'),
+          story('ts5', 'Industrial time-series models'),
+          story('sd1', 'Self-distillation for compact models'),
+          story('sd2', 'Online self-distillation loops'),
+          story('sd3', 'Self-distillation in vision transformers'),
+          story('sd4', 'Iterative self-distillation survey'),
+          story('sd5', 'Self-distillation for speech models'),
+          story('vw1', 'Video world models for planning'),
+          story('vw2', 'Training video world models at scale'),
+          story('vw3', 'Open video world models release'),
+          story('vw4', 'Evaluating video world models'),
+          story('vw5', 'Latent video world models'),
+          story('mu1', 'Machine unlearning for LLMs'),
+          story('mu2', 'Continual machine unlearning methods'),
+          story('mu3', 'Evaluating machine unlearning fidelity'),
+          story('mu4', 'Approximate unlearning for multimodal models'),
+          story('mu5', 'Certified machine unlearning bounds'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    for (const id of [
+      'llm-agents', 'on-policy-distillation', 'time-series',
+      'self-distillation', 'video-world-models', 'machine-unlearning',
+    ]) {
+      assert.ok(ids.includes(id), id);
+    }
+    assert.match(renderTag(rich, 'llm-agents'), /LLM agents: AI stories this index scored/);
+    assert.match(renderTag(rich, 'on-policy-distillation'), /On-policy distillation: AI stories this index scored/);
+    assert.match(renderTag(rich, 'time-series'), /Time series: AI stories this index scored/);
+    assert.match(renderTag(rich, 'self-distillation'), /Self-distillation: AI stories this index scored/);
+    assert.match(renderTag(rich, 'video-world-models'), /Video world models: AI stories this index scored/);
+    assert.match(renderTag(rich, 'machine-unlearning'), /Machine unlearning: AI stories this index scored/);
+    assert.doesNotMatch(renderTag(rich, 'llm-agents'), /doom score/i);
+  });
 });

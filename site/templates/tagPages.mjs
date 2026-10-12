@@ -991,6 +991,42 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'Domain-adaptation research stories scored in the newsroom or archive — method coverage, not a capability forecast.',
     match: /\bdomain adaptation\b/i,
   },
+  {
+    id: 'llm-agents',
+    name: 'LLM agents',
+    description: 'LLM-agent product and research stories scored in the newsroom or archive — coverage counts, not a capability forecast.',
+    match: /\bllm agents?\b/i,
+  },
+  {
+    id: 'on-policy-distillation',
+    name: 'On-policy distillation',
+    description: 'On-policy distillation research stories scored in the newsroom or archive — method coverage, not a quality ranking.',
+    match: /\bon[- ]policy distillation\b/i,
+  },
+  {
+    id: 'time-series',
+    name: 'Time series',
+    description: 'Time-series forecasting and foundation-model stories scored in the newsroom or archive — coverage counts, not a forecast score.',
+    match: /\btime[- ]series\b/i,
+  },
+  {
+    id: 'self-distillation',
+    name: 'Self-distillation',
+    description: 'Self-distillation research stories scored in the newsroom or archive — method coverage, not a quality ranking.',
+    match: /\bself[- ]distillation\b/i,
+  },
+  {
+    id: 'video-world-models',
+    name: 'Video world models',
+    description: 'Video world-model research stories scored in the newsroom or archive — method coverage, not a capability forecast.',
+    match: /\bvideo world models?\b/i,
+  },
+  {
+    id: 'machine-unlearning',
+    name: 'Machine unlearning',
+    description: 'Machine-unlearning research stories scored in the newsroom or archive — method coverage, not a compliance score.',
+    match: /\b(machine )?unlearning\b/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));
