@@ -132,7 +132,7 @@ export function privacy(ctx) {
     <li><b>Fonts</b> are served from this site. No font request goes to Google Fonts or any other third-party font host.</li>
     <li><b>Live data pages.</b> Hand-built pages that fetch public data straight from your browser, so those providers receive
       your IP address and browser details when you open them, under their own policies:
-      the <b>world monitor</b> (USGS, NASA EONET, GDACS, GDELT, ADSB.lol (regional counts only), OKX, Yahoo Finance chart data via published snapshots, alternative.me),
+      the <b>world monitor</b> (USGS, NASA EONET, GDACS, GDELT, ADSB.lol ADS-B/MLAT/TIS-B as regional counts only, OKX, Yahoo Finance chart data via published snapshots, alternative.me),
       the <b>scanner</b> (OKX, Binance WebSocket for live crypto prices, Polymarket, DEX Screener, alternative.me; outbound links may include rugcheck.xyz and solscan.io),
       and the <b>stock picks and AI battle</b> page (Coinbase public API data via published snapshots, Yahoo Finance via published snapshots, plus browser calls noted on that page).
       The <b>dispatch</b> page reads only this project's dispatch snapshot and country outline from GitHub

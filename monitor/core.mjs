@@ -325,3 +325,95 @@ export const marketPart = (s) => s ? Math.max(0, Math.min(100, 8 * Math.max(0, -
 export function stressScore(N, H, M) {
   return M == null ? (0.55 * N + 0.3 * H) / 0.85 : 0.55 * N + 0.3 * H + 0.15 * M;
 }
+
+/* ---------------------------------------------------------- ADS-B modalities
+ *
+ * FlightAware-style position sources, as far as an openly licensed (ODbL)
+ * terrestrial feed can carry them. adsb.lol's `type` field is the carrier:
+ *
+ *   ADS-B / ADS-R  → terrestrial broadcasts (and rebroadcast)
+ *   MLAT           → multilateration from ground-station timing
+ *   TIS-B          → radar-derived traffic uplink (closest public analogue
+ *                    to ATC radar visibility on this stack)
+ *   Mode S         → transponder replies without a position of their own
+ *
+ * Not available here (commercial contracts / keys): space-based ADS-B
+ * (Aireon), ACARS datalink, airline FLIFO. The page must not claim them.
+ */
+
+export const ADSB_CELL_DEG = 5;
+export const ADSB_MODES = Object.freeze(['adsb', 'mlat', 'tisb', 'modes', 'other']);
+export const ADSB_MODE_LABEL = Object.freeze({
+  adsb: 'ADS-B',
+  mlat: 'MLAT',
+  tisb: 'TIS-B',
+  modes: 'Mode S',
+  other: 'Other',
+});
+
+/** Bucket an adsb.lol aircraft `type` (and optional mlat/tisb arrays) into a modality. */
+export function adsbModality(type, ac = null) {
+  const t = String(type || '').toLowerCase();
+  if (t.startsWith('adsb') || t.startsWith('adsr')) return 'adsb';
+  if (t === 'mlat' || (Array.isArray(ac?.mlat) && ac.mlat.length)) return 'mlat';
+  if (t.startsWith('tisb')) return 'tisb';
+  if (t === 'mode_s' || t === 'mode-s' || t === 'other') return 'modes';
+  if (Array.isArray(ac?.tisb) && ac.tisb.length) return 'tisb';
+  return 'other';
+}
+
+/**
+ * Aggregate aircraft into degree cells. Identifying fields (hex, callsign,
+ * registration, altitude, heading) must already have been dropped: this only
+ * sums counts, country tallies and the modality mix.
+ */
+export function adsbCells(list, cellDeg = ADSB_CELL_DEG) {
+  const cells = new Map();
+  for (const a of list || []) {
+    if (!Number.isFinite(a.lat) || !Number.isFinite(a.lon)) continue;
+    const la = (Math.floor(a.lat / cellDeg) + 0.5) * cellDeg;
+    const lo = (Math.floor(a.lon / cellDeg) + 0.5) * cellDeg;
+    const k = `${la},${lo}`;
+    const c = cells.get(k) || { lat: la, lon: lo, n: 0, isos: {}, by: {} };
+    const n = Number.isFinite(a.n) ? a.n : 1;
+    c.n += n;
+    if (a.isos) {
+      for (const [i, m] of Object.entries(a.isos)) c.isos[i] = (c.isos[i] || 0) + m;
+    } else if (a.iso) {
+      c.isos[a.iso] = (c.isos[a.iso] || 0) + n;
+    }
+    if (a.by) {
+      for (const [m, v] of Object.entries(a.by)) c.by[m] = (c.by[m] || 0) + v;
+    } else {
+      const m = a.mod || adsbModality(a.type, a);
+      c.by[m] = (c.by[m] || 0) + n;
+    }
+    cells.set(k, c);
+  }
+  return [...cells.values()];
+}
+
+/** Sum modality counts across cells. */
+export function adsbModeTotals(cells) {
+  const out = { adsb: 0, mlat: 0, tisb: 0, modes: 0, other: 0, n: 0 };
+  for (const c of cells || []) {
+    out.n += c.n || 0;
+    if (c.by) for (const [k, v] of Object.entries(c.by)) out[k] = (out[k] || 0) + v;
+  }
+  return out;
+}
+
+/** One-line modality mix for a cell or a totals object, e.g. "ADS-B 12 · MLAT 3".
+ *  Also prints unknown keys as-is (emergency squawk codes 7700 / 7600 / 7500). */
+export function adsbModeLine(by) {
+  if (!by) return '';
+  return Object.keys(by)
+    .filter((k) => k !== 'n' && by[k] > 0)
+    .sort((a, b) => {
+      const ia = ADSB_MODES.indexOf(a), ib = ADSB_MODES.indexOf(b);
+      if (ia >= 0 || ib >= 0) return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib);
+      return String(a).localeCompare(String(b));
+    })
+    .map((k) => `${ADSB_MODE_LABEL[k] || k} ${by[k]}`)
+    .join(' · ');
+}

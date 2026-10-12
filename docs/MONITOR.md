@@ -16,9 +16,11 @@ There is one copy of the scoring rules. The history the server writes and the
 number the page shows come from the same functions.
 
 The page loads the snapshot from `raw.githubusercontent.com/…/monitor-data/`
-first. It then calls the fast sources itself (quakes, military aircraft, NASA,
-GDACS, KEV, crypto). When a live call fails, that source falls back to the
-snapshot's copy, and its chip turns amber instead of red. GDELT is called from
+first. It then calls the fast sources itself (quakes, military aircraft,
+emergency squawks, NASA, GDACS, KEV, crypto). Civilian air-traffic density is
+snapshot-only (hub sampling is too many requests for every browser). When a
+live call fails, that source falls back to the snapshot's copy, and its chip
+turns amber instead of red. GDELT is called from
 the browser when the snapshot is missing, stale, or has no GDELT (GitHub's
 runners are refused with HTTP 429). It is one request, cached 15 minutes,
 because GDELT asks for one request every five seconds.
@@ -33,7 +35,9 @@ because GDELT asks for one request every five seconds.
 | Earthquakes | USGS M4.5+, 7 days | both |
 | Fires, storms, volcanoes, floods… | NASA EONET v3, open events | both |
 | Disaster alerts | GDACS | both |
-| Military aircraft | adsb.lol `/v2/mil` (ODbL), published only as counts per 5° cell by country: no callsign, registration, hex, type, altitude, heading or exact position is kept | both |
+| Military aircraft | adsb.lol `/v2/mil` (ODbL), published only as counts per 5° cell by country, with an ADS-B / MLAT / TIS-B / Mode S mix: no callsign, registration, hex, altitude, heading or exact position is kept | both |
+| Air traffic density | adsb.lol hub samples (`/v2/lat/.../lon/.../dist/250`, ODbL), deduped by hex then published as the same 5° cell counts + modality mix. Snapshot only (too many requests for every browser) | server |
+| Emergency squawks | adsb.lol `/v2/sqk/7700`, `/7600`, `/7500` (ODbL), regional counts only | both |
 | Shipping lanes, chokepoints | static, in the page | — |
 | AI datacentres (off by default) | `/api/world.json` (OSM) | browser |
 | Exploited vulnerabilities | CISA KEV via `cisagov/kev-data` | both |
@@ -89,8 +93,8 @@ zero that hour.
 - **Timeline**: the slider under the map rewinds up to 72 hours, an hour at a
   time; ▶ (or P) replays to now, and L or Esc returns to live. While replaying,
   stories count from their first report, hazards show as they stood then, and
-  the stress index is rescored for that hour. Military aircraft counts are live
-  only, so they hide while replaying.
+  the stress index is rescored for that hour. Aircraft density layers (military,
+  hub sample, emergency squawks) are live only, so they hide while replaying.
 - **Stories**: hovering a story outlines its countries on the map, and ◎ map
   flies there. j and k move through the list, Enter opens a story, o shows its
   country and x lists the other outlets. CSV downloads the stories shown.
@@ -113,12 +117,27 @@ zero that hour.
 The World Monitor in the tweet also ships native desktop apps, 25 languages
 and live AIS ship positions. AIS needs a key, so lanes here are static.
 
-## Military aircraft: what is and is not shown
+## Aircraft tracking: what is and is not shown
+
+FlightAware-style position sources, as far as an openly licensed terrestrial
+feed can carry them, via [adsb.lol](https://adsb.lol/) (ODbL):
+
+| Modality | What it is here | Source field |
+|---|---|---|
+| **ADS-B** (and ADS-R) | Terrestrial GPS broadcasts / rebroadcast | `type` starts with `adsb` / `adsr` |
+| **MLAT** | Multilateration from ground-station timing | `type` is `mlat`, or a non-empty `mlat` array |
+| **TIS-B** | Radar-derived traffic uplink — the closest public analogue to ATC radar visibility on this stack | `type` starts with `tisb` |
+| **Mode S** | Transponder replies without a position of their own | `type` is `mode_s` / `other` |
+
+**Not on this page** (commercial contracts and API keys; CONTRACT.md forbids
+secrets for the build): space-based ADS-B (Aireon), ACARS datalink, airline
+FLIFO, and ATC radar feeds from ANSPs.
 
 Retired on 2026-10-07: per-aircraft markers (callsign, registration, type,
 altitude, speed, heading, a link to the aircraft), the airplanes.live fallback
 and the OpenSky all-flights layer. airplanes.live and OpenSky license their
 APIs for non-commercial use only, and identifying individual military aircraft
 in real time adds risk without adding to what the room is for. What remains is
-a density count from adsb.lol's openly licensed (ODbL) feed: how many
-military-flagged aircraft are broadcasting in each 5° region, and per country.
+density counts from adsb.lol: how many aircraft are broadcasting in each 5°
+region (military feed, hub-sample civilian density, emergency squawks), with
+the modality mix above, and per-country tallies on the military layer.

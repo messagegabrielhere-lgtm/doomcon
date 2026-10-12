@@ -23,6 +23,7 @@ import { readFeed } from '../collector/news-sources/_feed.mjs';
 import {
   CATS, GDELT_QUERY, categorize, prepCountries, countryNear, countryAt, makeMatcher, clusterStories,
   countryInputs, newsPart, hazardPart, CORE_VERSION,
+  adsbModality, adsbCells, adsbModeTotals,
 } from './core.mjs';
 
 const args = process.argv.slice(2);
@@ -76,10 +77,28 @@ const SRC = {
   eonet: 'https://eonet.gsfc.nasa.gov/api/v3/events?status=open&days=30',
   // the MAP list now needs one event type per call (measured 2026-10-07: "Eventtype is required.")
   gdacs: ['EQ', 'TC', 'FL', 'VO', 'WF', 'DR'].map((t) => `https://www.gdacs.org/gdacsapi/api/events/geteventlist/MAP?eventtype=${t}`),
-  // adsb.lol only (ODbL). airplanes.live is non-commercial-use only.
+  // adsb.lol only (ODbL). airplanes.live / OpenSky are non-commercial-use only.
   mil: ['https://api.adsb.lol/v2/mil'],
+  emerg: ['7700', '7600', '7500'].map((s) => `https://api.adsb.lol/v2/sqk/${s}`),
   kev: 'https://raw.githubusercontent.com/cisagov/kev-data/develop/known_exploited_vulnerabilities.json',
 };
+
+/* Major hubs / corridors for civilian ADS-B density. Each point is queried at
+ * 250 nm (adsb.lol's max). Overlaps are deduped by hex before the hex is
+ * dropped — the published layer is regional counts only. */
+const ADSB_HUBS = Object.freeze([
+  [40.64, -73.78], [33.94, -118.41], [41.98, -87.91], [32.90, -97.04],
+  [25.80, -80.29], [37.62, -122.38], [47.45, -122.31], [33.64, -84.43],
+  [51.47, -0.46], [49.01, 2.55], [50.04, 8.57], [52.31, 4.77],
+  [41.80, 12.25], [40.47, -3.57], [55.61, 12.65], [59.65, 17.92],
+  [25.25, 55.36], [41.28, 28.75], [30.12, 31.41], [55.97, 37.41],
+  [28.56, 77.10], [19.09, 72.87], [13.20, 77.71], [35.55, 139.78],
+  [37.46, 126.44], [31.14, 121.81], [22.31, 113.91], [1.36, 103.99],
+  [3.14, 101.69], [13.69, 100.75], [-33.95, 151.18], [-37.67, 144.84],
+  [-23.43, -46.47], [-34.82, -58.54], [19.44, -99.07], [4.70, -74.15],
+  [-26.13, 28.25], [-1.32, 36.93], [6.58, 3.32], [24.91, 67.16],
+]);
+const ADSB_HUB_NM = 250;
 
 async function readPrev(name) {
   try {
@@ -143,8 +162,14 @@ async function rss(sources) {
   return out;
 }
 
+/** Strip identifying fields; keep only lat/lon + modality for cell aggregation. */
+function adsbPoint(a) {
+  if (!Number.isFinite(a.lat) || !Number.isFinite(a.lon)) return null;
+  return { lon: a.lon, lat: a.lat, mod: adsbModality(a.type, a) };
+}
+
 async function hazards(sources, countries) {
-  const res = { quakes: [], eonet: [], gdacs: [], mil: [], kev: [] };
+  const res = { quakes: [], eonet: [], gdacs: [], mil: [], adsb: [], emerg: [], kev: [] };
   const tryIt = async (id, fn) => {
     try { await fn(); sources[id] = { ok: true, n: res[id === 'usgs' ? 'quakes' : id].length }; }
     catch (e) { sources[id] = { ok: false, error: String(e.message).slice(0, 160) }; }
@@ -184,9 +209,59 @@ async function hazards(sources, countries) {
       let j, err;
       for (const u of SRC.mil) { try { j = await fetchJson(u, { timeoutMs: 25000 }); break; } catch (e) { err = e; } }
       if (!j) throw err;
-      // Positions only, for the moment it takes to count them; no callsign,
-      // registration, hex, type, altitude or heading is ever kept or published.
-      res.mil = (j.ac || j.aircraft || []).filter((a) => Number.isFinite(a.lat) && Number.isFinite(a.lon)).map((a) => ({ lon: a.lon, lat: a.lat }));
+      // Positions + modality only. No callsign, registration, hex, altitude or heading.
+      res.mil = (j.ac || j.aircraft || []).map(adsbPoint).filter(Boolean);
+    }),
+    tryIt('adsb', async () => {
+      // Civilian / mixed traffic density around major hubs. Hex is used only to
+      // dedupe overlapping 250 nm circles, then discarded before publish.
+      const seen = new Set();
+      const pts = [];
+      let next = 0;
+      let okN = 0;
+      let last;
+      const worker = async () => {
+        while (next < ADSB_HUBS.length) {
+          const i = next++;
+          const [lat, lon] = ADSB_HUBS[i];
+          const url = `https://api.adsb.lol/v2/lat/${lat}/lon/${lon}/dist/${ADSB_HUB_NM}`;
+          try {
+            const j = await fetchJson(url, { timeoutMs: 25000, retries: 1 });
+            okN++;
+            for (const a of j.ac || j.aircraft || []) {
+              const hex = String(a.hex || '').toLowerCase();
+              if (hex) {
+                if (seen.has(hex)) continue;
+                seen.add(hex);
+              }
+              const p = adsbPoint(a);
+              if (p) pts.push(p);
+            }
+          } catch (e) { last = e; }
+        }
+      };
+      await Promise.all([worker(), worker(), worker(), worker()]);
+      if (!okN) throw last || new Error('no hub answered');
+      sources.adsb_hubs = { ok: okN, of: ADSB_HUBS.length, unique: pts.length };
+      res.adsb = pts;
+    }),
+    tryIt('emerg', async () => {
+      const pts = [];
+      let okN = 0;
+      let last;
+      for (let i = 0; i < SRC.emerg.length; i++) {
+        const code = ['7700', '7600', '7500'][i];
+        try {
+          const j = await fetchJson(SRC.emerg[i], { timeoutMs: 20000, retries: 1 });
+          okN++;
+          for (const a of j.ac || j.aircraft || []) {
+            const p = adsbPoint(a);
+            if (p) pts.push({ ...p, by: { [code]: 1 } });
+          }
+        } catch (e) { last = e; }
+      }
+      if (!okN) throw last || new Error('no squawk feed answered');
+      res.emerg = pts;
     }),
     tryIt('kev', async () => {
       const j = await fetchJson(SRC.kev, { timeoutMs: 40000 });
@@ -199,18 +274,14 @@ async function hazards(sources, countries) {
   for (const e of res.eonet) e.iso = countryNear(countries, e.lon, e.lat)?.iso2 || null;
   for (const g of res.gdacs) g.iso = countryNear(countries, g.lon, g.lat)?.iso2 || null;
   for (const a of res.mil) a.iso = countryAt(countries, a.lon, a.lat)?.iso2 || null;
-  // Publish military aircraft ONLY as counts per 5-degree cell, by country.
-  {
-    const cells = new Map();
-    for (const a of res.mil) {
-      const lat = (Math.floor(a.lat / 5) + 0.5) * 5; const lon = (Math.floor(a.lon / 5) + 0.5) * 5;
-      const k = `${lat},${lon}`;
-      const c = cells.get(k) || { lat, lon, n: 0, isos: {} };
-      c.n += 1; if (a.iso) c.isos[a.iso] = (c.isos[a.iso] || 0) + 1;
-      cells.set(k, c);
-    }
-    res.mil = [...cells.values()];
-  }
+  for (const a of res.adsb) a.iso = countryAt(countries, a.lon, a.lat)?.iso2 || null;
+  for (const a of res.emerg) a.iso = countryAt(countries, a.lon, a.lat)?.iso2 || null;
+  // Publish aircraft ONLY as counts per 5° cell: no identifiers, modality mix kept.
+  res.mil = adsbCells(res.mil);
+  res.adsb = adsbCells(res.adsb);
+  res.emerg = adsbCells(res.emerg);
+  sources.mil_modes = adsbModeTotals(res.mil);
+  sources.adsb_modes = adsbModeTotals(res.adsb);
   return res;
 }
 
@@ -273,9 +344,13 @@ export async function main() {
   const items = [...byUrl.values()].sort((a, b) => b.t - a.t).slice(0, MAX_ITEMS);
 
   // A source that failed this run keeps its previous data, marked stale, rather than vanishing.
-  for (const k of ['quakes', 'eonet', 'gdacs', 'mil', 'kev']) {
+  const cellKeys = new Set(['mil', 'adsb', 'emerg']);
+  for (const k of ['quakes', 'eonet', 'gdacs', 'mil', 'adsb', 'emerg', 'kev']) {
     const sid = k === 'quakes' ? 'usgs' : k;
-    if (!sources[sid]?.ok && prevSnap?.[k]?.length) { hz[k] = k === 'mil' ? prevSnap[k].filter((c) => Number.isFinite(c.n)) : prevSnap[k]; sources[sid] = { ...sources[sid], stale_from: prevSnap.generated }; }
+    if (!sources[sid]?.ok && prevSnap?.[k]?.length) {
+      hz[k] = cellKeys.has(k) ? prevSnap[k].filter((c) => Number.isFinite(c.n)) : prevSnap[k];
+      sources[sid] = { ...sources[sid], stale_from: prevSnap.generated };
+    }
   }
 
   const stories = clusterStories(items);
