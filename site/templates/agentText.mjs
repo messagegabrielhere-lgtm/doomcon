@@ -307,6 +307,7 @@ Honesty rules:
 - [AI and jobs: what has been measured](${u('/jobs.html')})
 - [AI in medicine: results on the record](${u('/medicine.html')})
 - [AI breakthroughs](${u('/breakthroughs.html')})
+- [For people: tools that help AI and SI serve people](${u('/for-people.html')})
 - [About](${u('/about.html')})
 - [Press kit](${u('/press.html')})
 - [Terms](${u('/terms.html')}) · [Privacy](${u('/privacy.html')}) · [Disclosures](${u('/disclosures.html')})

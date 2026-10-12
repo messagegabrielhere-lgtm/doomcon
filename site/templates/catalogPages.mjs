@@ -32,7 +32,7 @@ export const CATALOG_TYPES = ['page', 'tool', 'game', 'video', 'data', 'feed', '
 
 // Rooms that are something you play or use rather than read.
 const GAMES = new Set(['/game.html', '/contain.html', '/day-after.html', '/arena.html#battle']);
-const TOOLS = new Set(['/search.html', '/catalog.html', '/scanner.html', '/si-ready.html', '/ai-proof-job.html', '/prepper-checklist.html', '/bug-out-land.html', '/bunker-kit.html', '/arena.html']);
+const TOOLS = new Set(['/search.html', '/catalog.html', '/scanner.html', '/si-ready.html', '/ai-proof-job.html', '/for-people.html', '/prepper-checklist.html', '/bug-out-land.html', '/bunker-kit.html', '/arena.html']);
 
 // Pages that are not homepage rooms. Written only if the file exists; anything
 // written that is in neither list still turns up, from its own <title>.

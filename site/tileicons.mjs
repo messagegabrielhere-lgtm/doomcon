@@ -161,6 +161,10 @@ export const TILE_ICONS = {
   beaker: [{ a: '#CBD5E1', c: '#4ADE80', d: '#DCFCE7' }, [
     '................', '..aaaaaaaaaaa...', '..a.........a...', '...a.......a....', '...a.......a....', '...a..d....a....', '...a.......a....', '...a...d.d.a....',
     '...acccccccaa...', '...acccdcccca...', '...accccccdca...', '...acdccccccaa..', '...acccccdcca...', '...accccccccc...', '....aaaaaaaa....', '................']],
+  // For People: two figures under a shared shelter — AI steered toward help.
+  people: [{ a: '#4ADE80', b: '#166534', c: '#BBF7D0', d: '#60A5FA', e: '#1E3A8A', f: '#BFDBFE' }, [
+    '................', '......aaaa......', '....aaaaaaaa....', '...aaaaaaaaaa...', '..aa........aa..', '..a..........a..', '................', '..bb......dd....',
+    '.bbbb....dddd...', '.bcbcb..dfdfdf..', '.bbbb....dddd...', '..bb......dd....', '.cccc....ffff...', 'cccccc..ffffff..', '.c..c....f..f...', '................']],
 };
 
 export function tileSvg(name, bg = '#0B1220') {
