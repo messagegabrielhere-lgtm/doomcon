@@ -148,4 +148,23 @@ describe('model pages', () => {
     assert.ok(indexableModels(rich).some((m) => m.name === 'Mixtral'));
     assert.match(renderModel(rich, 'Mixtral'), /Mistral Large ships/);
   });
+
+  it('indexes Muse Wonder from title/summary forms', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('mw1', 'Meta launches Muse Wonder AI models', []),
+          story('mw2', 'Muse Wonder Full outperforms rivals on a public leaderboard', []),
+          story('mw3', 'Developers try Muse Wonder for agent workflows', []),
+        ],
+      },
+    };
+    assert.ok(indexableModels(rich).some((m) => m.name === 'Muse Wonder'));
+    const html = renderModel(rich, 'Muse Wonder');
+    assert.match(html, /Muse Wonder: AI stories this index scored|Muse Wonder/);
+    assert.doesNotMatch(html, /doom score/i);
+    assert.ok(sitemapEntries(rich).some((e) => e.loc === '/model/muse-wonder.html'));
+  });
 });

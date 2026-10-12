@@ -113,6 +113,7 @@ const ENTITY_DEFS = [
   { name: 'Whisper', kind: 'model', forms: ['Whisper'] },
   { name: 'Stable Diffusion', kind: 'model', forms: ['Stable Diffusion', 'SDXL'] },
   { name: 'FLUX', kind: 'model', forms: ['FLUX.1', 'FLUX'] },
+  { name: 'Muse Wonder', kind: 'model', forms: ['Muse Wonder', 'Muse Wonder Full'] },
 ];
 
 const COMPILED = ENTITY_DEFS.map((d) => ({ name: d.name, kind: d.kind, re: surfaceRegex(d.forms) }));

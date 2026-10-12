@@ -763,6 +763,60 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'Robot-learning research stories scored in the newsroom or archive — coverage counts, not a robotics forecast.',
     match: /\brobot learning\b/i,
   },
+  {
+    id: 'frontier-models',
+    name: 'Frontier models',
+    description: 'Frontier-model product and policy stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
+    match: /\bfrontier models?\b/i,
+  },
+  {
+    id: 'small-models',
+    name: 'Small models',
+    description: 'Small-model and small-LM stories scored in the newsroom or archive — coverage counts, not a size ranking.',
+    match: /\bsmall (?:language )?models?\b/i,
+  },
+  {
+    id: 'open-models',
+    name: 'Open models',
+    description: 'Open-model release and strategy stories scored in the newsroom or archive — coverage counts, not an openness score.',
+    match: /\bopen models?\b/i,
+  },
+  {
+    id: 'generative-ai',
+    name: 'Generative AI',
+    description: 'Generative-AI product and policy stories scored in the newsroom or archive — coverage counts, not a harm forecast.',
+    match: /\bgenerative ai\b/i,
+  },
+  {
+    id: 'reasoning-models',
+    name: 'Reasoning models',
+    description: 'Reasoning-model research and product stories scored in the newsroom or archive — coverage counts, not a capability forecast.',
+    match: /\breasoning models?\b/i,
+  },
+  {
+    id: 'voice-ai',
+    name: 'Voice AI',
+    description: 'Voice-AI product stories scored in the newsroom or archive — coverage counts, not a product score.',
+    match: /\bvoice ai\b/i,
+  },
+  {
+    id: 'conversational-ai',
+    name: 'Conversational AI',
+    description: 'Conversational-AI product stories scored in the newsroom or archive — coverage counts, not a product score.',
+    match: /\bconversational ai\b/i,
+  },
+  {
+    id: 'audio-generation',
+    name: 'Audio generation',
+    description: 'Audio-generation and text-to-audio stories scored in the newsroom or archive — coverage counts, not a product score.',
+    match: /\b(audio generat(?:ion|ors?|e[sd]?)|text[- ]to[- ]audio)\b/i,
+  },
+  {
+    id: 'ai-chips',
+    name: 'AI chips',
+    description: 'AI-chip and custom-accelerator stories scored in the newsroom or archive — coverage counts, not a supply forecast.',
+    match: /\bai chips?\b/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));

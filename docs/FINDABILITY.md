@@ -308,6 +308,8 @@ context.
 | 75 | Entity labs Huawei / Sony (`/lab/*`, live/archive ≥3 gate); seo-daily loads `world.json` + `routes.world` so `/country/*` facet rows count | Google | **Done** (2026-10-12) |
 | 76 | Topic tags `post-training` + `pretraining` + `zero-shot` + `in-context` + `tokenization` + `continual-learning` + `sparsity` + `knowledge-graphs` + `research-agents` + `system-prompts` + `ai-infrastructure` + `robot-learning` | Google | **Done** (2026-10-12) |
 | 77 | Entity labs Supermicro / IREN / OpenRouter / Reflection AI (`/lab/*`, live/archive ≥3 gate) | Google | **Done** (2026-10-12) |
+| 78 | Topic tags `frontier-models` + `small-models` + `open-models` + `generative-ai` + `reasoning-models` + `voice-ai` + `conversational-ai` + `audio-generation` + `ai-chips` | Google | **Done** (2026-10-12) |
+| 79 | Model hub Muse Wonder (`/model/muse-wonder`, live/archive ≥3 gate) | Google | **Done** (2026-10-12) |
 
 ### 3.3 Refusals (search edition)
 

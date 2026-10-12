@@ -30,6 +30,7 @@ const MODEL_LAB = {
   Qwen: 'qwen',
   'DeepSeek-R': 'deepseek',
   Mixtral: 'mistral',
+  'Muse Wonder': 'meta',
 };
 
 const MODELS = publishedEntities().filter((e) => e.kind === 'model');

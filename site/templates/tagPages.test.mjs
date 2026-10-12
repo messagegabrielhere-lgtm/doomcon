@@ -1036,4 +1036,71 @@ describe('tag pages', () => {
     assert.match(renderTag(rich, 'robot-learning'), /Robot learning: AI stories this index scored/);
     assert.doesNotMatch(renderTag(rich, 'post-training'), /doom score/i);
   });
+
+  it('pages frontier/small/open models, generative-AI, reasoning-models, voice/conversational AI, audio-generation, AI chips', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('fr1', 'Frontier models for agents release'),
+          story('fr2', 'Access restored to frontier models'),
+          story('fr3', 'Evaluating frontier models safely'),
+          story('fr4', 'Cost of serving frontier models'),
+          story('fr5', 'Open rivals to frontier models'),
+          story('sm1', 'Post-training small models cheaply'),
+          story('sm2', 'Small language models on phones'),
+          story('sm3', 'Distilling into small models'),
+          story('sm4', 'Benchmarks for small models'),
+          story('sm5', 'When small models beat large ones'),
+          story('om1', 'Strategy on open models'),
+          story('om2', 'Western open models roundup'),
+          story('om3', 'Telecom bets on open models'),
+          story('om4', 'Licensing open models'),
+          story('om5', 'Fine-tuning open models at scale'),
+          story('ga1', 'Generative AI scandal in photo contest'),
+          story('ga2', 'Creator of generative AI viruses'),
+          story('ga3', 'Enterprise generative AI rollout'),
+          story('ga4', 'Generative AI policy draft'),
+          story('ga5', 'Limits of generative AI writing'),
+          story('rm1', 'When biological reasoning models use inputs'),
+          story('rm2', 'Uncertainty in reasoning models'),
+          story('rm3', 'Open reasoning models drop'),
+          story('rm4', 'Cost of reasoning models'),
+          story('rm5', 'Evals for reasoning models'),
+          story('va1', 'Voice AI has not reached ChatGPT moment'),
+          story('va2', 'Open voice AI that talks while listening'),
+          story('va3', 'Enterprise voice AI stack'),
+          story('va4', 'Latency in voice AI agents'),
+          story('va5', 'Voice AI for call centers'),
+          story('ca1', 'Conversational AI shopping assistant'),
+          story('ca2', 'Conversational AI in customer support'),
+          story('ca3', 'Evaluating conversational AI'),
+          story('ca4', 'Multilingual conversational AI'),
+          story('ca5', 'Safety for conversational AI'),
+          story('ag1', 'Synchronized video and audio generation'),
+          story('ag2', 'Text-to-audio foundation models'),
+          story('ag3', 'Open audio generation leaderboard'),
+          story('ag4', 'Spatial audio generation'),
+          story('ag5', 'Audio generation for games'),
+          story('ac1', 'Maia 300 AI chip unveiled'),
+          story('ac2', 'Custom AI chips reduce Nvidia reliance'),
+          story('ac3', 'AI chip export rules tighten'),
+          story('ac4', 'Funding for AI chips startups'),
+          story('ac5', 'Packaging for AI chips'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    for (const id of [
+      'frontier-models', 'small-models', 'open-models', 'generative-ai',
+      'reasoning-models', 'voice-ai', 'conversational-ai', 'audio-generation', 'ai-chips',
+    ]) {
+      assert.ok(ids.includes(id), id);
+    }
+    assert.match(renderTag(rich, 'frontier-models'), /Frontier models: AI stories this index scored/);
+    assert.match(renderTag(rich, 'generative-ai'), /Generative AI: AI stories this index scored/);
+    assert.match(renderTag(rich, 'ai-chips'), /AI chips: AI stories this index scored/);
+    assert.doesNotMatch(renderTag(rich, 'generative-ai'), /doom score/i);
+  });
 });
