@@ -158,8 +158,10 @@ card renders after the next collect publish.
 
 ## 15. Privacy policy + terms — **DONE**
 
-- `/privacy.html` — every trace a visit can leave, including GoatCounter.
-- `/terms.html` — information not advice; no warranty; liability limits.
+- `/privacy.html` — every trace a visit can leave, including analytics and live APIs.
+- `/terms.html` — information not advice; no warranty; liability limits; CCPA / children / governing law.
+- `/disclosures.html` — one-page map of affiliate, finance, privacy and satire notices.
+- `/.well-known/security.txt` — RFC 9116 pointer at SECURITY.md.
 - Linked from the homepage footer and the site-wide legal strip.
 
 ## 16. Analytics for drop-off — **DONE**

@@ -209,7 +209,8 @@ export function nowMd({ state, history = [], news = null, leaders = null, siSign
   L.push(`- Is: ${brand.DESCRIPTION}`);
   L.push(`- Isn't: ${brand.DISCLAIMER}`);
   L.push('- Cadence: the score is computed hourly; the newsroom and alerts refresh every few minutes.');
-  L.push(`- Method: ${url('/methodology.html')} · License: ${brand.LICENSE}`);
+  L.push(`- Method: ${url('/methodology.html')} · License: ${brand.LICENSE_BLURB}`);
+  L.push(`- Terms: ${url('/terms.html')} · Privacy: ${url('/privacy.html')} · Disclosures: ${url('/disclosures.html')}`);
   return `${L.join('\n')}\n`;
 }
 
@@ -308,6 +309,7 @@ Honesty rules:
 - [AI breakthroughs](${u('/breakthroughs.html')})
 - [About](${u('/about.html')})
 - [Press kit](${u('/press.html')})
+- [Terms](${u('/terms.html')}) · [Privacy](${u('/privacy.html')}) · [Disclosures](${u('/disclosures.html')})
 
 ## Instruments
 

@@ -839,6 +839,7 @@ const PAL_EXTRA = [
   { href: '/sponsor.html', label: 'Sponsor', blurb: 'One named sponsor at a time.' },
   { href: '/privacy.html', label: 'Privacy', blurb: 'What a visit measures: Google Analytics and GoatCounter.' },
   { href: '/terms.html', label: 'Terms & disclaimers', blurb: 'Information, not advice. No warranty.' },
+  { href: '/disclosures.html', label: 'Disclosures', blurb: 'Affiliate, finance, privacy and satire notices in one place.' },
 ];
 const TAB_ROOMS = [['/', 'War room'], ['/news.html', 'News'], ['/race.html', 'Race'], ['/world.html', 'World']];
 function navKit(ctx, tiles, path) {
@@ -1248,7 +1249,7 @@ ${o.showDegraded ? degradedBanner(ctx.state) : ''}${motion.beforeMain}
 ${pageBanner(ctx, o.path)}${withJumpIndex(o.main)}
 </main>
 ${kit.next}
-${brand.X_URL || mzOn.tips() ? `<p class="give">${esc(brand.NAME)} is free${mzOn.ads() ? '' : ' and carries no ads'}. <a href="${esc(mzOn.tips() ? MONETIZE.tips.url : brand.X_URL)}" rel="noopener">Keep it running: ${mzOn.tips() ? esc(MONETIZE.tips.label) : 'donate with X Money'} →</a></p>` : ''}
+${brand.X_URL || mzOn.tips() ? `<p class="give">${esc(brand.NAME)} is free${mzOn.ads() ? '' : ' and carries no display ads'}. <a href="${esc(mzOn.tips() ? MONETIZE.tips.url : brand.X_URL)}" rel="noopener">Keep it running: ${mzOn.tips() ? esc(MONETIZE.tips.label) : 'donate with X Money'} →</a></p>` : ''}
 ${footer(ctx, sections, o.path)}${kit.tabbar}${bodyEndExtra}
 <script>${CHROME_JS}</script>
 </body>
@@ -1467,7 +1468,8 @@ function footer(ctx, sections, path) {
     { href: '/press.html', label: 'Press kit', blurb: 'Facts, a paragraph to lift, images and a contact.' },
     { href: '/privacy.html', label: 'Privacy', blurb: 'Every trace a visit can leave, including analytics.' },
     { href: '/terms.html', label: 'Terms & disclaimers', blurb: 'Information and commentary, not advice. No warranty, no liability.' },
-    { href: brand.REPO_URL, label: 'Source code', blurb: `Every line that produced these numbers. ${brand.LICENSE}.` },
+    { href: '/disclosures.html', label: 'Disclosures', blurb: 'Affiliate, finance, privacy and satire notices in one place.' },
+    { href: brand.REPO_URL, label: 'Source code', blurb: `Every line that produced these numbers. ${brand.LICENSE_BLURB}.` },
   ];
   if (brand.X_URL) {
     source.push({
@@ -1605,10 +1607,13 @@ function footer(ctx, sections, path) {
       are routinely late, which is why the rail above says <b>overdue</b> rather than counting down into fiction.
       Every value on this site is computed from public data by published code, and each observation is written to a
       hash-chained receipt carrying its full inputs — so anyone can recompute the number and get the same answer.
-      Data and code: ${esc(brand.LICENSE)}.</p>
-    <p class="foot__fine"><b>Not advice.</b> Information, commentary and satire only — not financial, investment, legal, security or safety advice.
+      ${esc(brand.LICENSE_BLURB)}.</p>
+    <p class="foot__fine"><b>Not advice.</b> ${esc(brand.LEGAL_NOT_ADVICE)}
       Data is automated and may be wrong or late; provided as is, with no warranty. Not affiliated with any company, lab, person or agency named here.
-      Use of this site means you accept the <a href="${esc(ctx.href('/terms.html'))}">terms &amp; disclaimers</a>. <a href="${esc(ctx.href('/privacy.html'))}">Privacy</a>.</p>
+      ${esc(brand.LEGAL_AFFILIATE)}
+      Use of this site means you accept the <a href="${esc(ctx.href('/terms.html'))}">terms &amp; disclaimers</a>.
+      <a href="${esc(ctx.href('/privacy.html'))}">Privacy</a>.
+      <a href="${esc(ctx.href('/disclosures.html'))}">Disclosures</a>.</p>
   </div>
 </footer>`;
 }

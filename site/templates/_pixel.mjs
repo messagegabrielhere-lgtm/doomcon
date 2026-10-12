@@ -79,7 +79,7 @@ export const ROOM_ART = {
   '/ai-doomsday-clock.html': 'clock', '/nothing.html': 'clock', '/desk.html': 'canary', '/game.html': 'joystick',
   '/library.html': 'books', '/bunker-kit.html': 'bunker', '/history.html': 'archive', '/moves/': 'archive',
   '/about.html': 'canary', '/guide.html': 'siren', '/p-doom.html': 'clock', '/sponsor.html': 'case',
-  '/privacy.html': 'camera', '/press.html': 'news', '/brand.html': 'siren',
+  '/privacy.html': 'camera', '/disclosures.html': 'camera', '/press.html': 'news', '/brand.html': 'siren',
 };
 export function roomArt(path) {
   if (ROOM_ART[path]) return ROOM_ART[path];

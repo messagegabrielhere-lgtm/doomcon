@@ -329,8 +329,21 @@ export const NOT_CLAIMS = [
   },
 ];
 
+// Data and published index values. Code in the repository is MIT — see LICENSE
+// at the repo root and LICENSE_BLURB wherever a single line must cover both.
 export const LICENSE = 'CC BY 4.0';
+export const LICENSE_CODE = 'MIT';
+export const LICENSE_BLURB = 'Code MIT; data and index values CC BY 4.0';
 export const REPO_URL = 'https://github.com/messagegabrielhere-lgtm/doomcon';
+
+// Shared legal lines so footers, the disclosures hub and the sitebar cannot
+// drift. Voice stays flat: instrument room, not oracle (docs/VOICE.md).
+export const LEGAL_NOT_ADVICE =
+  'Information, commentary and satire only — not financial, investment, legal, security or safety advice.';
+export const LEGAL_AFFILIATE =
+  'As an Amazon Associate, SIREN earns from qualifying purchases. Paid and affiliate links are labelled where they appear.';
+export const LEGAL_NO_SELL =
+  'SIREN does not sell or share personal information for cross-context behavioural advertising.';
 
 // Derived. Empty string for an apex domain, '/doomcon' for the Pages project site.
 export const BASE_PATH = new URL(CANONICAL_URL).pathname.replace(/\/+$/, '');
