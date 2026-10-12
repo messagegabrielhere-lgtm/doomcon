@@ -97,20 +97,43 @@ export function archiveItemsForOutlet(ctx, domain) {
     .sort((a, b) => String(b.published_at || '').localeCompare(String(a.published_at || '')));
 }
 
+/** Live + archive stories on this host — archive can keep a hub above the gate. */
+export function outletStoryCount(ctx, domain) {
+  return itemsForOutlet(ctx, domain).length + archiveItemsForOutlet(ctx, domain).length;
+}
+
 export function outletIndexable(ctx, domain) {
-  return itemsForOutlet(ctx, domain).length >= OUTLET_INDEX_MIN;
+  return outletStoryCount(ctx, domain) >= OUTLET_INDEX_MIN;
 }
 
 export function indexableOutlets(ctx) {
-  const counts = new Map();
+  const liveCounts = new Map();
+  const archCounts = new Map();
   for (const it of newsItems(ctx)) {
     const d = outletDomain(it);
     if (!d) continue;
-    counts.set(d, (counts.get(d) || 0) + 1);
+    liveCounts.set(d, (liveCounts.get(d) || 0) + 1);
   }
-  return [...counts.entries()]
-    .filter(([, n]) => n >= OUTLET_INDEX_MIN)
-    .map(([domain, count]) => ({ domain, slug: outletSlug(domain), count }))
+  const archived = Array.isArray(ctx.itemArchive) ? ctx.itemArchive : [];
+  for (const it of archived) {
+    const d = outletDomain(it);
+    if (!d) continue;
+    archCounts.set(d, (archCounts.get(d) || 0) + 1);
+  }
+  const domains = new Set([...liveCounts.keys(), ...archCounts.keys()]);
+  return [...domains]
+    .map((domain) => {
+      const live = liveCounts.get(domain) || 0;
+      const archivedCount = archCounts.get(domain) || 0;
+      return {
+        domain,
+        slug: outletSlug(domain),
+        live,
+        archived: archivedCount,
+        count: live + archivedCount,
+      };
+    })
+    .filter((o) => o.count >= OUTLET_INDEX_MIN)
     .sort((a, b) => b.count - a.count || a.domain.localeCompare(b.domain));
 }
 
@@ -134,11 +157,12 @@ export function renderOutlet(ctx, domain) {
   const items = itemsForOutlet(ctx, domain);
   const archivedAll = archiveItemsForOutlet(ctx, domain);
   const older = archivedAll.slice(0, 12);
-  const indexable = items.length >= OUTLET_INDEX_MIN;
+  const total = items.length + archivedAll.length;
+  const indexable = total >= OUTLET_INDEX_MIN;
   const path = outletPath(domain);
   const title = `${domain}: AI stories this index scored · ${brand.NAME}`;
   const description = clip(
-    `${items.length} scored stories whose original URL is on ${domain} in the current ${brand.NAME} window. The publisher wrote them. The score is tempo, not a forecast.`,
+    `${total} scored stories whose original URL is on ${domain} on ${brand.NAME} (live window plus archive). The publisher wrote them. The score is tempo, not a forecast.`,
     160,
   );
   const others = indexableOutlets(ctx)
@@ -159,7 +183,8 @@ export function renderOutlet(ctx, domain) {
   <h1>${esc(domain)}</h1>
   <p class="od__lede">Stories this index scored whose original link is on ${esc(domain)}. The words belong to that publisher. The score is computed here and measures activity tempo inside the window, not whether the story is good or bad, and not a probability of harm.</p>
   <div class="od__stat" role="group" aria-label="Publisher counts">
-    <div><b class="num">${esc(String(items.length))}</b><span>Scored stories in window</span></div>
+    <div><b class="num">${esc(String(total))}</b><span>Scored stories (live + archive)</span></div>
+    <div><b class="num">${esc(String(items.length))}</b><span>In live window</span></div>
     ${archivedAll.length ? `<div><b class="num">${esc(String(archivedAll.length))}</b><span>Older in archive</span></div>` : ''}
   </div>
   <h2>Stories on ${esc(domain)}</h2>
@@ -210,21 +235,21 @@ export function renderIndex(ctx) {
   const path = '/outlet/';
   const title = `AI publishers this index scores · ${brand.NAME}`;
   const description = clip(
-    `${outlets.length} publisher domains with at least ${OUTLET_INDEX_MIN} scored stories in the current ${brand.NAME} window.`,
+    `${outlets.length} publisher domains with at least ${OUTLET_INDEX_MIN} scored stories on ${brand.NAME} (live window plus archive).`,
     160,
   );
   const rows = outlets.map((o) => `<li>
   <a href="${esc(ctx.href(outletPath(o.domain)))}">${esc(o.domain)}</a>
-  <span class="od__meta">${esc(String(o.count))} scored stories</span>
+  <span class="od__meta">${esc(String(o.count))} scored${o.archived ? ` (${esc(String(o.live))} live / ${esc(String(o.archived))} archive)` : ''}</span>
 </li>`).join('');
   const main = `${STYLE}
 <article class="od prose">
   <p class="od__k"><a href="${esc(ctx.href('/news.html'))}">Newsroom</a></p>
   <h1>AI publishers</h1>
-  <p class="od__lede">A publisher earns a page when the current window holds at least ${OUTLET_INDEX_MIN} scored stories whose original URL is on that host. Thinner domains stay on the story page only. Feed adapters live under <a href="${esc(ctx.href('/source/'))}">/source/</a>.</p>
+  <p class="od__lede">A publisher earns a page when at least ${OUTLET_INDEX_MIN} scored stories whose original URL is on that host appear in the live window or the durable archive. Thinner domains stay on the story page only. Feed adapters live under <a href="${esc(ctx.href('/source/'))}">/source/</a>.</p>
   ${outlets.length
     ? `<ol class="od__list">${rows}</ol>`
-    : '<p>No publisher has cleared the gate in this window.</p>'}
+    : '<p>No publisher has cleared the gate in this build.</p>'}
 </article>`;
 
   return page({

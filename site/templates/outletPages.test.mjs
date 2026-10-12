@@ -96,4 +96,30 @@ describe('outlet pages', () => {
     assert.match(html, /Older arxiv/);
     assert.match(html, /\/item\/archive\.html/);
   });
+
+  it('lets the durable archive keep a publisher hub above the substance gate', () => {
+    const withArch = {
+      ...ctx,
+      itemArchive: [
+        story('t-old1', 'Archived TC one', 'https://techcrunch.com/1', 'techcrunch.com'),
+        story('t-old2', 'Archived TC two', 'https://techcrunch.com/2', 'techcrunch.com'),
+        story('t-old3', 'Archived TC three', 'https://techcrunch.com/3', 'techcrunch.com'),
+        story('t-old4', 'Archived TC four', 'https://techcrunch.com/4', 'techcrunch.com'),
+      ],
+    };
+    const domains = indexableOutlets(withArch).map((o) => o.domain);
+    assert.equal(domains.some((d) => d === 'techcrunch.com'), true);
+    assert.equal(domains.some((d) => d === 'arxiv.org'), true);
+    const row = indexableOutlets(withArch).find((o) => o.domain === 'techcrunch.com');
+    assert.equal(row.count, 5);
+    assert.equal(row.live, 1);
+    assert.equal(row.archived, 4);
+    const html = renderOutlet(withArch, 'techcrunch.com');
+    assert.doesNotMatch(html, /noindex/);
+    assert.match(html, /Older scored stories on techcrunch\.com/);
+    assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/outlet/techcrunch-com.html'));
+    const index = renderIndex(withArch);
+    assert.match(index, /live window or the durable archive/);
+    assert.match(index, /techcrunch\.com/);
+  });
 });
