@@ -669,7 +669,7 @@ export function renderSource(ctx, sourceId) {
 
   const main = `${STYLE}
 <article class="fc prose">
-  <p class="fc__k"><a href="${esc(ctx.href('/news.html'))}">Newsroom</a> · <a href="${esc(ctx.href('/source/'))}">Outlets</a></p>
+  <p class="fc__k"><a href="${esc(ctx.href('/news.html'))}">Newsroom</a> · <a href="${esc(ctx.href('/source/'))}">Feed adapters</a> · <a href="${esc(ctx.href('/sources.html'))}">Sources hub</a></p>
   <h1>${esc(label)}</h1>
   <p class="fc__lede">Stories this index scored from ${esc(label)}. The words belong to the outlet. The score is computed here, and it measures how much the item moved inside the window, not whether the story is good or bad.</p>
   <div class="fc__stat" role="group" aria-label="Outlet counts">
@@ -733,10 +733,11 @@ export function renderSourceIndex(ctx) {
 </li>`).join('');
   const main = `${STYLE}
 <article class="fc prose">
-  <p class="fc__k"><a href="${esc(ctx.href('/news.html'))}">Newsroom</a> · Outlets</p>
+  <p class="fc__k"><a href="${esc(ctx.href('/news.html'))}">Newsroom</a> · Feed adapters · <a href="${esc(ctx.href('/sources.html'))}">Sources hub</a></p>
   <h1>Outlets this index scores</h1>
   <p class="fc__lede">An outlet earns a page when at least ${SOURCE_INDEX_MIN} scored stories from it appear in the live window or the durable archive. Fewer than that stays on the story page only, so a one-off item does not become its own URL.</p>
   <ol class="fc__list">${rows}</ol>
+  <p class="fresh__key">Search-shaped directory: <a href="${esc(ctx.href('/sources.html'))}">AI news sources this index covers</a>.</p>
 </article>`;
   return page({
     ctx,
@@ -763,6 +764,67 @@ export function renderSourceIndex(ctx) {
     }, breadcrumbs(ctx, [
       { name: 'Newsroom', path: '/news.html' },
       { name: 'Outlets', path: '/source/' },
+    ])],
+    main,
+  });
+}
+
+/**
+ * Head-term /sources hub. Same gated feed-adapter set as /source/, different
+ * title and lede for “AI news sources” queries — adapter story counts only,
+ * not a source doom score. Distinct from /outlets.html (publisher hosts).
+ */
+export function renderSources(ctx) {
+  const sources = indexableSources(ctx);
+  const path = '/sources.html';
+  const title = `AI news sources this index covers · ${brand.NAME}`;
+  const description = clip(
+    `${sources.length} feed adapters with scored-story hubs on ${brand.NAME}. Each row links /source pages — adapter story counts only, not a source doom score.`,
+    160,
+  );
+  const rows = sources.map((s) => `<li>
+  <a href="${esc(ctx.href(sourcePath(s.id)))}">${esc(s.label)}</a>
+  <span class="fc__meta">Feed adapter · <span class="num">${esc(String(s.count))}</span> scored${s.archived ? ` (${esc(String(s.live))} live)` : ''}</span>
+</li>`).join('');
+  const main = `${STYLE}
+<article class="fc prose">
+  <p class="fc__k"><a href="${esc(ctx.href('/compare.html'))}">Compare</a> · <a href="${esc(ctx.href('/source/'))}">Feed adapters</a> · Sources hub</p>
+  <h1>AI news sources this index covers</h1>
+  <p class="fc__lede">${esc(brand.NAME)} does not publish a source “doom score.” It publishes an activity index and scored stories. This page lists feed adapters that already clear the same substance gate as <a href="${esc(ctx.href('/source/'))}">/source/</a> — at least ${SOURCE_INDEX_MIN} matching stories in the live window or archive. Publisher hosts stay under <a href="${esc(ctx.href('/outlets.html'))}">/outlets.html</a>.</p>
+  <div class="fc__stat" role="group" aria-label="Sources hub totals">
+    <div><b class="num">${esc(String(sources.length))}</b><span>Feed-adapter hubs</span></div>
+  </div>
+  ${sources.length ? `<ol class="fc__list">${rows}</ol>` : '<p>No feed-adapter hub cleared the gate in this build.</p>'}
+  <p class="fresh__key"><a href="${esc(ctx.href('/source/'))}">Feed-adapter directory →</a>
+     · <a href="${esc(ctx.href('/outlets.html'))}">AI outlets →</a>
+     · <a href="${esc(ctx.href('/kinds.html'))}">AI story kinds →</a>
+     · <a href="${esc(ctx.href('/news.html'))}">Newsroom →</a></p>
+</article>`;
+  return page({
+    ctx,
+    path,
+    title,
+    description,
+    noindex: sources.length === 0,
+    jsonld: [{
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      name: title,
+      url: ctx.url(path),
+      description,
+      mainEntity: {
+        '@type': 'ItemList',
+        numberOfItems: sources.length,
+        itemListElement: sources.map((s, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          url: ctx.url(sourcePath(s.id)),
+          name: s.label,
+        })),
+      },
+    }, breadcrumbs(ctx, [
+      { name: 'Compare', path: '/compare.html' },
+      { name: 'Sources', path },
     ])],
     main,
   });
@@ -810,6 +872,12 @@ export function sitemapEntries(ctx) {
       loc: '/source/',
       changefreq: 'hourly',
       priority: '0.6',
+      lastmod: lastNews,
+    });
+    out.push({
+      loc: '/sources.html',
+      changefreq: 'hourly',
+      priority: '0.75',
       lastmod: lastNews,
     });
   }

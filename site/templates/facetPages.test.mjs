@@ -6,7 +6,7 @@ import {
   itemsForLab, labIndexable, renderLab, labPath, labsFromRace, labsFromEntities,
   allLabs, indexableLabs, renderLabIndex, renderCompanies, sitemapEntries, ENTITY_LAB_MIN,
   PILLAR_INDEX_MIN, SOURCE_INDEX_MIN, sourceLabel, sourceIndexable, renderSource,
-  indexableSources,
+  renderSourceIndex, renderSources, indexableSources,
 } from './facetPages.mjs';
 
 const ctx = {
@@ -334,6 +334,7 @@ describe('facet sitemap', () => {
     assert.ok(locs.includes('/source/hn.html'));
     assert.ok(!locs.includes('/source/techcrunch.html'));
     assert.ok(locs.includes('/source/'));
+    assert.ok(locs.includes('/sources.html'));
   });
 });
 
@@ -352,6 +353,17 @@ describe('outlet facets', () => {
     assert.match(html, /CollectionPage/);
     assert.doesNotMatch(html, /noindex/);
     assert.match(html, /item\//);
+    assert.match(html, /\/sources\.html/);
+  });
+
+  it('ships /sources.html over the same gated feed-adapter set', () => {
+    const html = renderSources(ctx);
+    assert.match(html, /AI news sources this index covers/);
+    assert.match(html, /\/source\/hn\.html/);
+    assert.match(html, /does not publish a source/);
+    assert.match(html, /\/outlets\.html/);
+    assert.match(renderSourceIndex(ctx), /\/sources\.html/);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
   });
 
   it('links older archived stories from the same adapter', () => {

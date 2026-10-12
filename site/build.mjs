@@ -1512,6 +1512,9 @@ async function main() {
       written.push(await write(args.out, `source/${s.id}.html`, facetPages.renderSource(ctx, s.id)));
     }
     written.push(await write(args.out, 'source/index.html', facetPages.renderSourceIndex(ctx)));
+    if (facetPages.indexableSources(ctx).length) {
+      written.push(await write(args.out, 'sources.html', facetPages.renderSources(ctx)));
+    }
     await writeModelAndCountryPages(ctx, args.out, write, written);
     await writePeopleAndDayPages(ctx, args.out, write, written);
     await writeTagPages(ctx, args.out, write, written);
@@ -1895,6 +1898,9 @@ async function main() {
     written.push(await write(args.out, `source/${s.id}.html`, facetPages.renderSource(ctx, s.id)));
   }
   written.push(await write(args.out, 'source/index.html', facetPages.renderSourceIndex(ctx)));
+  if (facetPages.indexableSources(ctx).length) {
+    written.push(await write(args.out, 'sources.html', facetPages.renderSources(ctx)));
+  }
   await writeModelAndCountryPages(ctx, args.out, write, written);
   for (const m of moves) {
     written.push(await write(args.out, `moves/${m.id}.html`, movePage.render(ctx, m)));

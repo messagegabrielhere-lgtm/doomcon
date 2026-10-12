@@ -310,6 +310,7 @@ export function renderOutlets(ctx) {
   </div>
   ${outlets.length ? `<ol class="od__list">${rows}</ol>` : '<p>No outlet hub cleared the gate in this build.</p>'}
   <p class="fresh__key"><a href="${esc(ctx.href('/outlet/'))}">Publisher directory →</a>
+     · <a href="${esc(ctx.href('/sources.html'))}">AI news sources →</a>
      · <a href="${esc(ctx.href('/tags.html'))}">AI tags →</a>
      · <a href="${esc(ctx.href('/kinds.html'))}">AI story kinds →</a>
      · <a href="${esc(ctx.href('/news.html'))}">Newsroom →</a></p>

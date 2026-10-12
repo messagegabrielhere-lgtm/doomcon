@@ -50,6 +50,7 @@ const MORE_PAGES = [
   ['/item/', 'news', 'Every story', 'One permanent page per scored story in the live window.'],
   ['/item/archive.html', 'archive', 'Story archive', 'Older scored stories kept after they leave the live window.'],
   ['/source/', 'news', 'Outlets', 'Scored stories grouped by the feed adapter that carried them.'],
+  ['/sources.html', 'news', 'AI news sources', 'Feed-adapter directory — same gated adapters, story counts only.'],
   ['/outlet/', 'news', 'Publishers', 'Scored stories grouped by the publisher host on the original URL.'],
   ['/outlets.html', 'news', 'AI outlets', 'Publisher directory — same gated hosts, story counts only.'],
   ['/model/', 'news', 'Model families', 'Scored stories grouped by the model family the headline names.'],
