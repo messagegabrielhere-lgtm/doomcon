@@ -151,4 +151,23 @@ describe('outlet facets', () => {
     assert.doesNotMatch(html, /noindex/);
     assert.match(html, /item\//);
   });
+
+  it('links older archived stories from the same adapter', () => {
+    const withArch = {
+      ...ctx,
+      itemArchive: [{
+        id: 'old-hn',
+        title: 'Archived HN story about agents',
+        pillar: 'capability',
+        source: 'hn',
+        url: 'https://example.test/old-hn',
+        published_at: '2026-10-01T01:00:00Z',
+        score: 44,
+      }],
+    };
+    const html = renderSource(withArch, 'hn');
+    assert.match(html, /Older scored stories from hn/);
+    assert.match(html, /Archived HN story about agents/);
+    assert.match(html, /\/item\/archive\.html/);
+  });
 });

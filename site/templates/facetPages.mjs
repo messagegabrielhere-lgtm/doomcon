@@ -397,6 +397,15 @@ export function itemsForSource(ctx, sourceId) {
     .sort((a, b) => String(b.published_at || '').localeCompare(String(a.published_at || '')));
 }
 
+/** Older scored stories from this adapter, kept in the durable item archive. */
+export function archiveItemsForSource(ctx, sourceId) {
+  const archived = Array.isArray(ctx.itemArchive) ? ctx.itemArchive : [];
+  return archived
+    .filter((it) => it && it.source === sourceId)
+    .slice()
+    .sort((a, b) => String(b.published_at || '').localeCompare(String(a.published_at || '')));
+}
+
 export function sourceIndexable(ctx, sourceId) {
   return itemsForSource(ctx, sourceId).length >= SOURCE_INDEX_MIN;
 }
@@ -417,6 +426,8 @@ export function indexableSources(ctx) {
 
 export function renderSource(ctx, sourceId) {
   const items = itemsForSource(ctx, sourceId);
+  const archivedAll = archiveItemsForSource(ctx, sourceId);
+  const older = archivedAll.slice(0, 12);
   const label = sourceLabel(sourceId);
   const indexable = items.length >= SOURCE_INDEX_MIN;
   const path = sourcePath(sourceId);
@@ -430,6 +441,12 @@ export function renderSource(ctx, sourceId) {
     .slice(0, 12)
     .map((s) => `<a href="${esc(ctx.href(sourcePath(s.id)))}">${esc(s.label)}</a>`)
     .join('');
+  const olderBlock = older.length
+    ? `<h2>Older scored stories from ${esc(label)}</h2>
+  <p class="fc__lede">Kept in the permanent archive after they left the live window. Still scored stories — not a forecast.</p>
+  <ol class="fc__list">${itemRows(ctx, older, 12)}</ol>
+  <p class="fresh__key"><a href="${esc(ctx.href('/item/archive.html'))}">Full story archive</a></p>`
+    : '';
 
   const main = `${STYLE}
 <article class="fc prose">
@@ -438,11 +455,13 @@ export function renderSource(ctx, sourceId) {
   <p class="fc__lede">Stories this index scored from ${esc(label)}. The words belong to the outlet. The score is computed here, and it measures how much the item moved inside the window, not whether the story is good or bad.</p>
   <div class="fc__stat" role="group" aria-label="Outlet counts">
     <div><b class="num">${esc(String(items.length))}</b><span>Scored stories in window</span></div>
+    ${archivedAll.length ? `<div><b class="num">${esc(String(archivedAll.length))}</b><span>Older in archive</span></div>` : ''}
   </div>
   <h2>Stories from ${esc(label)}</h2>
   ${items.length
     ? `<ol class="fc__list">${itemRows(ctx, items)}</ol>`
     : '<p>No scored stories from this outlet in the current window.</p>'}
+  ${olderBlock}
   ${others ? `<h2>Other outlets</h2><nav class="fc__labs" aria-label="Other outlets">${others}</nav>` : ''}
 </article>`;
 

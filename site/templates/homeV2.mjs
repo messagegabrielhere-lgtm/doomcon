@@ -683,6 +683,9 @@ ${ticker(items)}
   <div class="v2-sponsor">${sponsorLine(href('/sponsor.html'))}</div>
   <script>window.SIREN_NOW=${JSON.stringify(sinceNow).replace(/</g, '\\u003c')}</script>
 
+  <details class="v2-more" id="v2-more" open>
+  <summary class="v2-more__sum">See the evidence · full board</summary>
+  <div class="v2-more__body">
   ${top ? `<div class="v2-breaking" id="breaking" data-sec="Breaking"><span class="badge"><span class="blink">${icon('bolt', 2)}</span>BREAKING</span><a href="${esc(top.url)}" rel="noopener">${esc(top.title)}</a><span class="src">${top._brk ? esc(breakingMeta(top._brk)) : `${esc(hhmm(top.published_at))} · ${esc(String(top.source).toUpperCase())}`}</span><button type="button" class="v2-xp" data-xpost="news" data-x-title="${esc(top.title)}" data-x-src="${esc(top.source)}" data-x-url="${esc(top.url)}" aria-label="Post this story to X">𝕏 POST</button></div>` : ''}
   <nav class="v2-whatsnew" aria-label="New on SIREN"><span class="lbl">✦ NEW</span>${WHATS_NEW.map(([h, a, l, b]) => `<a href="${href(h)}" title="${esc(b)}"><img src="${img(a)}" width="22" height="22" alt="" loading="lazy">${esc(l)}</a>`).join('')}</nav>
   ${tempoCard(items, Date.parse(state.generated_at) || Date.now(), href)}
@@ -733,6 +736,8 @@ ${roomsGrid(ctx, href, img)}
   ${newsletterBox(href('/privacy.html')) ? `<div class="v2-nl">${newsletterBox(href('/privacy.html'))}</div>` : ''}
 
   <div class="v2-faq" id="faq" data-sec="FAQ">${faqRender(ctx)}</div>
+  </div>
+  </details>
 
   <p class="v2-foot">${esc(brand.CREED)} ${esc(brand.NAME)} counts how loud AI is, every hour, from public data. A count, not a forecast. Portraits and icons are generated illustrations, not photographs.
   <a href="${href('/methodology.html')}">How it works</a> · <a href="${href('/classic.html#vfy')}">Verify a reading</a> · <a href="${href('/classic.html')}">Full instrument panel</a> · <a href="${href('/about.html')}">About</a> · <a href="${href('/feed.xml')}">RSS</a> · <a href="${href('/sponsor.html')}">Sponsor</a>${tipLink() ? ` · ${tipLink()}` : ''}</p>
@@ -744,7 +749,8 @@ ${LIVEFX_CSS}<script>${LIVEFX_JS}</script>
 </div>
 <script>${WAR_JS}</script>
 <script>${DASH_JS}</script>
-<script>(function(){var el=document.getElementById('v2-clock');if(!el)return;function p(n){return(n<10?'0':'')+n}function t(){var d=new Date();el.textContent=d.getUTCFullYear()+'-'+p(d.getUTCMonth()+1)+'-'+p(d.getUTCDate())+' '+p(d.getUTCHours())+':'+p(d.getUTCMinutes())+':'+p(d.getUTCSeconds())+'Z'}t();setInterval(t,1000)})();</script>`;
+<script>(function(){var el=document.getElementById('v2-clock');if(!el)return;function p(n){return(n<10?'0':'')+n}function t(){var d=new Date();el.textContent=d.getUTCFullYear()+'-'+p(d.getUTCMonth()+1)+'-'+p(d.getUTCDate())+' '+p(d.getUTCHours())+':'+p(d.getUTCMinutes())+':'+p(d.getUTCSeconds())+'Z'}t();setInterval(t,1000)})();</script>
+<script>(function(){var d=document.getElementById('v2-more');if(!d||!window.matchMedia)return;if(matchMedia('(max-width:720px)').matches)d.open=false})();</script>`;
 
   return `<!doctype html>
 <html lang="en">
@@ -838,6 +844,17 @@ body.v2-body{margin:0;background:#000;color:#F3F4F6}
 .v2-main > .v2-foot{
   content-visibility:auto;
   contain-intrinsic-size:auto 360px;
+}
+/* Phone-width card: reading first; full board behind one tap (GROWTH.md §08).
+   Markup stays in the HTML for crawlers — details content is not removed. */
+.v2-more{border:0;margin:0;padding:0;display:flex;flex-direction:column;gap:22px}
+.v2-more__body{display:flex;flex-direction:column;gap:22px}
+.v2-more__sum{display:none;list-style:none;cursor:pointer;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:12px 16px;border:2px solid #2A3446;background:#111827;color:#E0E7FF;font:700 13px/1.3 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.08em;text-align:center}
+.v2-more__sum::-webkit-details-marker{display:none}
+.v2-more__sum::marker{content:''}
+@media (max-width:720px){
+  .v2-more__sum{display:flex}
+  .v2-more[open] > .v2-more__sum{border-color:#6366F1;color:#fff}
 }
 .v2-brand{display:flex;align-items:center;gap:22px;flex-wrap:wrap}
 .v2-brand h1{flex:1 1 300px;min-width:0}

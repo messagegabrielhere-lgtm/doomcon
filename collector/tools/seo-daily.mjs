@@ -172,11 +172,6 @@ export function deriveGaps(report) {
 export const OPEN_ENGINEERING = Object.freeze([
   // #15 people pages + news day hubs shipped 2026-10-14 (cursor/seo-daily-20261014-4dfe).
   {
-    id: 'mobile-cwv',
-    severity: 'low',
-    text: 'Mobile card view still open (FINDABILITY #10); homepage below-fold content-visibility shipped — next is phone-width card deferral',
-  },
-  {
     id: 'gsc-verify',
     severity: 'medium',
     text: 'Operator: Search Console verify + submit both sitemaps (FINDABILITY #11)',
