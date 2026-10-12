@@ -324,6 +324,7 @@ context.
 | 91 | Organization `knowsAbout` adds head terms: AI activity index today, AI tempo index, DoomBench/Skynet/Takeoff Tracker/Pentagon Pizza Index alternatives (schema matches conquest pages) | Google | **Done** (2026-10-12) |
 | 92 | `/ai-doomsday-clock.html` question-shaped title + `knowsAbout` “verifiable AI doomsday clock”; `/compare.html` title includes Takeoff Tracker (Bulletin / AI clock head terms) | Google | **Done** (2026-10-12) |
 | 93 | `/guide.html` FAQPage + WebPage speakable + BreadcrumbList matching DEFCON / Doomsday Clock / p(doom) comparison table (schema was Organization-only) | Google | **Done** (2026-10-12) |
+| 94 | `/p-doom.html` + `/ai-doomsday-clock.html` WebPage speakable + BreadcrumbList alongside existing FAQ (p(doom) glossary head term) | Google | **Done** (2026-10-12) |
 
 ### 3.3 Refusals (search edition)
 

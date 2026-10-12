@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
-import { GUIDES, aiClock, guides, guidesMd } from './infoPages.mjs';
+import { GUIDES, aiClock, guides, guidesMd, pdoom } from './infoPages.mjs';
 
 const ctx = {
   url: (p) => `https://siren.watch${p === '/' ? '/' : p}`,
@@ -48,7 +48,20 @@ describe('guides hub', () => {
     assert.match(html, /<title>Is there an AI doomsday clock\? Bulletin vs verifiable count/);
     assert.match(html, /Is there an AI Doomsday Clock\?/);
     assert.match(html, /Bulletin of the Atomic Scientists/);
+    assert.match(html, /"@type"\s*:\s*"WebPage"/);
+    assert.match(html, /SpeakableSpecification/);
+    assert.match(html, /BreadcrumbList/);
     assert.doesNotMatch(html, /probability of doom is \d/i);
+    assert.doesNotMatch(html, /SIREN.*p\(doom\) of \d/i);
+  });
+
+  it('p-doom ships WebPage speakable + breadcrumbs with FAQ', () => {
+    const html = pdoom(ctx);
+    assert.match(html, /What is p\(doom\)\?/);
+    assert.match(html, /"@type"\s*:\s*"FAQPage"/);
+    assert.match(html, /"@type"\s*:\s*"WebPage"/);
+    assert.match(html, /SpeakableSpecification/);
+    assert.match(html, /BreadcrumbList/);
     assert.doesNotMatch(html, /SIREN.*p\(doom\) of \d/i);
   });
 });
