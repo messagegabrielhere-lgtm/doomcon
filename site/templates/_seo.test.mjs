@@ -84,7 +84,11 @@ describe('IndexNow', () => {
   it('Organization knowsAbout head terms Google and assistants ask', () => {
     const org = organization(ctx);
     assert.ok(org.knowsAbout.includes('AI activity index'));
+    assert.ok(org.knowsAbout.includes('AI activity index today'));
     assert.ok(org.knowsAbout.includes('AI doomsday clock'));
+    assert.ok(org.knowsAbout.includes('DoomBench alternative'));
+    assert.ok(org.knowsAbout.includes('Takeoff Tracker alternative'));
+    assert.ok(org.knowsAbout.includes('Pentagon Pizza Index alternative'));
     assert.ok(org.alternateName.includes('AI Siren Index'));
   });
 });
