@@ -442,25 +442,75 @@ export function parseArk(text) {
   return { date, rows };
 }
 
+// Sum of marked holdings. Used for "% of ETF" = |trade USD| / fund AUM.
+function arkFundValue(snap) {
+  let n = 0;
+  for (const x of Object.values(snap?.rows || {})) n += x.value || 0;
+  return n;
+}
+
 // Estimated trades between two daily snapshots of one fund. Creations and
 // redemptions scale every position by the same factor, so each position is
 // compared with its old size times the median change across the fund.
+//
+// Each trade carries cathiesark-style sizing:
+//   pctPos  — |Δ shares| / creation-adjusted prior shares (100 for new/exit)
+//   pctEtf  — |trade USD| / that day's fund AUM
+//   weight  — the holding's weight in the fund after the trade (0 on exit)
 export function arkTrades(fund, prev, cur, { minPct = 1, minUsd = 250e3 } = {}) {
   if (!prev?.date || !cur?.date || cur.date <= prev.date) return [];
   const both = Object.keys(cur.rows).filter((k) => prev.rows[k]?.shares > 0 && cur.rows[k].shares > 0);
   const ratios = both.map((k) => cur.rows[k].shares / prev.rows[k].shares).sort((a, b) => a - b);
   const m = ratios.length ? ratios[Math.floor(ratios.length / 2)] : 1;
+  const curAum = arkFundValue(cur), prevAum = arkFundValue(prev);
   const out = [];
+  const row = (base, { pctPos, pctEtf }) => ({
+    ...base,
+    pctPos: Math.round(pctPos * 100) / 100,
+    pctEtf: Math.round(pctEtf * 100) / 100,
+  });
   for (const [k, x] of Object.entries(cur.rows)) {
     const p = prev.rows[k], price = x.shares ? x.value / x.shares : 0;
-    if (!p) { if (x.value >= minUsd) out.push({ date: cur.date, fund, ticker: k, company: x.company, kind: 'new', dShares: x.shares, usd: x.value, weight: x.weight }); continue; }
+    if (!p) {
+      if (x.value >= minUsd) out.push(row(
+        { date: cur.date, fund, ticker: k, company: x.company, kind: 'new', dShares: x.shares, usd: x.value, weight: x.weight },
+        { pctPos: 100, pctEtf: curAum ? (x.value / curAum) * 100 : 0 },
+      ));
+      continue;
+    }
     const want = p.shares * m, d = x.shares - want;
-    if (Math.abs(d) / want * 100 >= minPct && Math.abs(d * price) >= minUsd) out.push({ date: cur.date, fund, ticker: k, company: x.company, kind: d > 0 ? 'buy' : 'sell', dShares: Math.round(d), usd: Math.round(d * price), weight: x.weight });
+    const usd = d * price;
+    if (Math.abs(d) / want * 100 >= minPct && Math.abs(usd) >= minUsd) out.push(row(
+      { date: cur.date, fund, ticker: k, company: x.company, kind: d > 0 ? 'buy' : 'sell', dShares: Math.round(d), usd: Math.round(usd), weight: x.weight },
+      { pctPos: (Math.abs(d) / want) * 100, pctEtf: curAum ? (Math.abs(usd) / curAum) * 100 : 0 },
+    ));
   }
   for (const [k, p] of Object.entries(prev.rows)) {
-    if (!cur.rows[k] && p.value >= minUsd) out.push({ date: cur.date, fund, ticker: k, company: p.company, kind: 'exit', dShares: -p.shares, usd: -p.value, weight: 0 });
+    if (!cur.rows[k] && p.value >= minUsd) out.push(row(
+      { date: cur.date, fund, ticker: k, company: p.company, kind: 'exit', dShares: -p.shares, usd: -p.value, weight: 0 },
+      { pctPos: 100, pctEtf: prevAum ? (p.value / prevAum) * 100 : 0 },
+    ));
   }
   return out.sort((a, b) => Math.abs(b.usd) - Math.abs(a.usd));
+}
+
+// Recently opened (kind=new) and closed (kind=exit) positions from the trade
+// log, newest first. One row per fund+ticker so a re-open after an exit shows
+// once as the latest open.
+export function arkPositionChanges(trades, { limit = 40 } = {}) {
+  const pick = (kind) => {
+    const seen = new Set(), out = [];
+    for (const t of trades || []) {
+      if (t.kind !== kind) continue;
+      const key = `${t.fund}|${t.ticker}`;
+      if (seen.has(key)) continue;
+      seen.add(key);
+      out.push({ date: t.date, fund: t.fund, ticker: t.ticker, company: t.company, usd: t.usd, pctEtf: t.pctEtf });
+      if (out.length >= limit) break;
+    }
+    return out;
+  };
+  return { opened: pick('new'), closed: pick('exit') };
 }
 
 // Keep the latest snapshot and the previous distinct date, so same-day
@@ -715,7 +765,13 @@ async function main() {
     }
     trades.sort((a, b) => b.date.localeCompare(a.date) || Math.abs(b.usd) - Math.abs(a.usd));
     state.arkTrades = trades;
-    ark = { funds: fundsArk, trades: trades.slice(0, 300), note: 'Estimated from ARK\'s published daily holdings: the change in each position, net of the fund growing or shrinking.' };
+    const recent = trades.slice(0, 300);
+    ark = {
+      funds: fundsArk,
+      trades: recent,
+      changes: arkPositionChanges(recent),
+      note: 'Estimated from ARK\'s published daily holdings: the change in each position, net of the fund growing or shrinking. Columns match a combined-trades tracker: market value, % of position, and % of ETF.',
+    };
   }
 
   let funds = prevOut.funds || [];
