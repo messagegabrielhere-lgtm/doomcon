@@ -294,6 +294,49 @@ describe('lab facets', () => {
     assert.match(html, /Older scored stories naming ByteDance/);
   });
 
+  it('indexes Groq as an entity lab when archive stories clear the gate', () => {
+    const withArch = {
+      ...ctx,
+      news: { ...ctx.news, items: [...ctx.news.items] },
+      itemArchive: [
+        {
+          id: 'gq1',
+          title: 'Former Groq engineers file a lawsuit',
+          pillar: 'compute',
+          source: 'hn',
+          url: 'https://example.test/gq1',
+          published_at: '2026-09-01T01:00:00Z',
+          score: 40,
+        },
+        {
+          id: 'gq2',
+          title: 'Groq inference stack update',
+          pillar: 'compute',
+          source: 'hn',
+          url: 'https://example.test/gq2',
+          published_at: '2026-09-02T01:00:00Z',
+          score: 41,
+        },
+        {
+          id: 'gq3',
+          title: 'Cloud buyers compare Groq latency',
+          pillar: 'compute',
+          source: 'hn',
+          url: 'https://example.test/gq3',
+          published_at: '2026-09-03T01:00:00Z',
+          score: 42,
+        },
+      ],
+    };
+    const groq = labsFromEntities(withArch).find((p) => p.id === 'groq');
+    assert.ok(groq, 'Groq clears ENTITY_LAB_MIN via archive');
+    assert.equal(labIndexable(withArch, groq), true);
+    const html = renderLab(withArch, groq);
+    assert.match(html, /<title>Groq: AI stories this index scored/);
+    assert.doesNotMatch(html, /noindex/);
+    assert.doesNotMatch(html, /doom score/i);
+  });
+
   it('does not treat Intel as a substring of intelligent', () => {
     const player = { id: 'intel', name: 'Intel', entityName: 'Intel', entityOnly: true };
     const falseHit = {

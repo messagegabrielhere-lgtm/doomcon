@@ -71,6 +71,7 @@ const ENTITY_DEFS = [
   { name: 'SoftBank', kind: 'lab', forms: ['SoftBank'] },
   { name: 'Intel', kind: 'lab', forms: ['Intel'] },
   { name: 'AMD', kind: 'lab', forms: ['AMD', 'Advanced Micro Devices'] },
+  { name: 'Groq', kind: 'lab', forms: ['Groq'] },
 
   // --- model families ---
   { name: 'GPT', kind: 'model', forms: ['GPT-3', 'GPT-4', 'GPT-4o', 'GPT-5', 'GPT-6', 'ChatGPT', 'GPT'] },

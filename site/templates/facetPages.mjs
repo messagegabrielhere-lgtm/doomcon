@@ -426,6 +426,7 @@ function labNeedles(player) {
     softbank: ['softbank'],
     intel: ['intel'],
     amd: ['amd', 'advanced micro devices'],
+    groq: ['groq'],
   };
   return [...new Set([...(extras[player.id] || []), ...names])];
 }

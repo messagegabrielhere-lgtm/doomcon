@@ -295,6 +295,8 @@ context.
 | 62 | `/guides.html` evergreen explainer hub (p(doom), clocks, compare/vs); tags `huggingface` + `blackwell` | Google | **Done** (2026-10-12) |
 | 63 | `/guides.md` agent mirror; tags `ollama` + `mlx` + `computer-use`; seo-daily monitors models/people/countries hubs | Google + agents | **Done** (2026-10-12) |
 | 64 | Model hubs match published surface forms on title/summary (unlock DeepSeek-R / Mixtral from archive); expand DeepSeek + Mistral Large forms | Google | **Done** (2026-10-12) |
+| 65 | Topic tags `voice-agents` + `skills` + `tsmc` + `mcp-servers` + `llama-cpp` + `deep-research` + `lora` + `grpo` (live/archive ≥5 gate; search-trend hubs) | Google | **Done** (2026-10-12) |
+| 66 | Entity lab Groq (`/lab/groq`, live/archive ≥3 gate) | Google | **Done** (2026-10-12) |
 
 ### 3.3 Refusals (search edition)
 

@@ -592,4 +592,68 @@ describe('tag pages', () => {
     assert.match(renderTag(rich, 'copyright'), /AI copyright: AI stories this index scored/);
     assert.doesNotMatch(renderTag(rich, 'hallucination'), /doom score/i);
   });
+
+  it('pages voice-agents, skills, TSMC, MCP servers, llama.cpp, deep-research, LoRA, GRPO hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('va1', 'Voice agents for customer support'),
+          story('va2', 'Realtime voice agent latency paper'),
+          story('va3', 'Speech-to-speech voice agents ship'),
+          story('va4', 'Voice-first agents on phones'),
+          story('va5', 'Voice-based conversational agents eval'),
+          story('sk1', 'AI agent skills pack for Claude'),
+          story('sk2', 'Claude skills marketplace opens'),
+          story('sk3', 'Agent skill routing improves tools'),
+          story('sk4', 'Skill.md format for agent skills'),
+          story('sk5', 'Anthropic skills for desktop agents'),
+          story('t1', 'TSMC N2P AI chip node demand'),
+          story('t2', 'Taiwan Semiconductor reports AI boom'),
+          story('t3', 'TSMC capacity for AI accelerators'),
+          story('t4', 'Foundry wait times cite TSMC'),
+          story('t5', 'TSMC AI wafer pricing note'),
+          story('m1', 'Best MCP servers for Claude Code'),
+          story('m2', 'Self-hosted MCP server for agents'),
+          story('m3', 'New MCP servers for databases'),
+          story('m4', 'MCP server security review'),
+          story('m5', 'Model Context Protocol servers list'),
+          story('l1', 'Deploy models with llama.cpp'),
+          story('l2', 'llama.cpp CUDA backend update'),
+          story('l3', 'llamacpp quantization guide'),
+          story('l4', 'Speed test vs llama.cpp'),
+          story('l5', 'llama.cpp on Raspberry Pi'),
+          story('d1', 'OpenAI deep research agent update'),
+          story('d2', 'Deep research for enterprise docs'),
+          story('d3', 'Multimodal deep research paper'),
+          story('d4', 'Deep research agent harness'),
+          story('d5', 'Limits of deep research agents'),
+          story('lo1', 'LoRA adapters for domain chat'),
+          story('lo2', 'QLoRA fine-tune on a single GPU'),
+          story('lo3', 'Memory-floor LoRA at the edge'),
+          story('lo4', 'LoRA merge recipes for open weights'),
+          story('lo5', 'Comparing LoRA ranks for coding'),
+          story('g1', 'BoT-GRPO for reasoning models'),
+          story('g2', 'CorrGRPO multi-reward learning'),
+          story('g3', 'GRPO training run notes'),
+          story('g4', 'Open GRPO recipe for math'),
+          story('g5', 'GRPO vs PPO for preference tuning'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    for (const id of ['voice-agents', 'skills', 'tsmc', 'mcp-servers', 'llama-cpp', 'deep-research', 'lora', 'grpo']) {
+      assert.ok(ids.includes(id), id);
+    }
+    assert.match(renderTag(rich, 'voice-agents'), /Voice agents: AI stories this index scored/);
+    assert.match(renderTag(rich, 'skills'), /Agent skills: AI stories this index scored/);
+    assert.match(renderTag(rich, 'tsmc'), /TSMC: AI stories this index scored/);
+    assert.match(renderTag(rich, 'mcp-servers'), /MCP servers: AI stories this index scored/);
+    assert.match(renderTag(rich, 'llama-cpp'), /llama\.cpp: AI stories this index scored/);
+    assert.match(renderTag(rich, 'deep-research'), /Deep research: AI stories this index scored/);
+    assert.match(renderTag(rich, 'lora'), /LoRA: AI stories this index scored/);
+    assert.match(renderTag(rich, 'grpo'), /GRPO: AI stories this index scored/);
+    assert.doesNotMatch(renderTag(rich, 'voice-agents'), /doom score/i);
+  });
 });

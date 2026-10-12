@@ -433,6 +433,54 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'Computer-use and desktop-agent stories scored in the newsroom or archive — product coverage, not a forecast.',
     match: /\bcomputer[- ]use\b/i,
   },
+  {
+    id: 'voice-agents',
+    name: 'Voice agents',
+    description: 'Voice-agent and speech-dialogue product stories scored in the newsroom or archive — coverage counts, not a forecast.',
+    match: /\b(voice agents?|speech[- ]to[- ]speech|realtime voice|voice[- ]first agents?|voice[- ]based (?:conversational )?agents?)\b/i,
+  },
+  {
+    id: 'skills',
+    name: 'Agent skills',
+    description: 'Agent-skills packs and skill-routing stories scored in the newsroom or archive — coverage counts, not a product score.',
+    match: /\b(agent skills?|claude skills?|skill\.md|agentskills|anthropic skills)\b/i,
+  },
+  {
+    id: 'tsmc',
+    name: 'TSMC',
+    description: 'TSMC foundry and process-node stories scored in the newsroom or archive — coverage counts, not a chip forecast.',
+    match: /\b(tsmc|taiwan semiconductor)\b/i,
+  },
+  {
+    id: 'mcp-servers',
+    name: 'MCP servers',
+    description: 'MCP server and Model Context Protocol server stories scored in the newsroom or archive.',
+    match: /\b(mcp servers?|model context protocol servers?)\b/i,
+  },
+  {
+    id: 'llama-cpp',
+    name: 'llama.cpp',
+    description: 'llama.cpp runtime stories scored in the newsroom or archive — coverage counts, not a product score.',
+    match: /\b(llama\.cpp|llamacpp)\b/i,
+  },
+  {
+    id: 'deep-research',
+    name: 'Deep research',
+    description: 'Deep-research agent product stories scored in the newsroom or archive — coverage counts, not a capability forecast.',
+    match: /\bdeep research\b/i,
+  },
+  {
+    id: 'lora',
+    name: 'LoRA',
+    description: 'LoRA and QLoRA adaptation stories scored in the newsroom or archive.',
+    match: /\b(qlora|lora)\b/i,
+  },
+  {
+    id: 'grpo',
+    name: 'GRPO',
+    description: 'GRPO reinforcement-learning stories scored in the newsroom or archive — method coverage, not a training score.',
+    match: /\b[\w-]*grpo\b/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));
