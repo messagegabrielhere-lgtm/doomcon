@@ -16,7 +16,7 @@ export const ARCHIVE_SCHEMA = 1;
 /** Cap on durable scored /item rows kept after they leave the live window.
  *  Raised past DoomBench's ~2k sitemap lead once history can fill it
  *  (FINDABILITY.md / COMPETITIVE-SEO.md). */
-export const ARCHIVE_MAX = 4000;
+export const ARCHIVE_MAX = 5000;
 
 const DEFAULT_PATH = fileURLToPath(new URL('../data/item-archive.json', import.meta.url));
 

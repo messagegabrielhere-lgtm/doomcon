@@ -144,7 +144,10 @@ export function roomGroups(ctx) {
     ['LIVE INTEL', [
       ['/race.html', 'radar', 'The Race', race && race.market ? `${race.name} ${(race.market.probability * 100).toFixed(1)}%` : null, 'Labs ranked on live prediction-market odds.'],
       ['/news.html', 'news', 'Newsroom', ctx.news && ctx.news.items ? `${ctx.news.items.length} stories` : null, 'Every AI story, scored and corroborated.'],
-      ['/model/', 'px:db', 'Models', null, 'Stories grouped by the model family the headline names.'],
+      ['/models.html', 'px:db', 'Models', null, 'Model families with scored-story hubs — counts only, not a model doom score.'],
+      ['/companies.html', 'px:db', 'Companies', null, 'Labs and companies this index covers — story counts, not a company doom score.'],
+      ['/people.html', 'mic', 'People', null, 'AI leaders with press-coverage pages — headlines only, never invented quotations.'],
+      ['/tags.html', 'news', 'Tags', null, 'Topic hubs (agents, evals, GPUs, …) when a needle clears five scored stories.'],
       ['/leaders.html', 'mic', 'Leaders', Number.isFinite(lt.leaders) ? `${lt.on_record ?? 0} of ${lt.leaders} on record` : null, 'What the people running AI said this week.'],
       ctx.digest ? ['/digest.html', 'clipboard', 'Digest', null, 'The day in a few corroborated items.'] : null,
       ['/monitor.html', 'satellite', 'World Monitor', null, 'Live globe: stories from 27 outlets, hazards, a country stress index, 72-hour replay.'],

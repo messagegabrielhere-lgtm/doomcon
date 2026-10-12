@@ -777,6 +777,7 @@ async function writeKindPages(ctx, outDir, write, written) {
     written.push(await write(outDir, `kind/${kind.id}.html`, kindPages.renderKind(ctx, kind.id)));
   }
   written.push(await write(outDir, 'kind/index.html', kindPages.renderIndex(ctx)));
+  written.push(await write(outDir, 'kinds.html', kindPages.renderKinds(ctx)));
 }
 
 function kindAliases(ctx) {

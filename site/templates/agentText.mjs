@@ -332,6 +332,7 @@ ${facetLinks(ctx, u)}
 - [AI tags](${u('/tags.html')}): Skynet-shaped tags directory (same gated topics; story counts only, no topic doom score)
 - [Story archive](${u('/item/archive.html')}): older scored /item pages kept after they leave the live newsroom
 - [Kinds](${u('/kind/')}): press / forum / paper hubs when a collector kind clears five stories in the live window or archive
+- [AI story kinds](${u('/kinds.html')}): kind directory (same gated labels; story counts only)
 - [Takeover Watch](${u('/si-watch.html')})
 - [Prepare for superintelligence](${u('/si-ready.html')})
 - [AI-proof your job](${u('/ai-proof-job.html')})

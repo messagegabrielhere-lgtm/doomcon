@@ -246,10 +246,11 @@ export function renderIndex(ctx) {
 
   const main = `${STYLE}
 <article class="kd prose">
-  <p class="kd__k"><a href="${esc(ctx.href('/news.html'))}">Newsroom</a> · Kinds</p>
+  <p class="kd__k"><a href="${esc(ctx.href('/news.html'))}">Newsroom</a> · Kinds · <a href="${esc(ctx.href('/kinds.html'))}">Kinds hub</a></p>
   <h1>AI story kinds</h1>
   <p class="kd__lede">A kind earns a page when at least ${KIND_INDEX_MIN} scored stories with that collector label appear in the live window or the durable archive. Thinner kinds stay on the story page only.</p>
   ${kinds.length ? `<ol class="kd__list">${rows}</ol>` : '<p>No kind cleared the gate in this build.</p>'}
+  <p class="fresh__key">Search-shaped directory: <a href="${esc(ctx.href('/kinds.html'))}">AI story kinds this index covers</a>.</p>
 </article>`;
 
   return page({
@@ -282,12 +283,72 @@ export function renderIndex(ctx) {
   });
 }
 
+/**
+ * Head-term /kinds hub. Same gated kind set as /kind/, different title and
+ * lede for “AI story kinds” / press-vs-forum queries — collector labels only.
+ */
+export function renderKinds(ctx) {
+  const kinds = indexableKinds(ctx);
+  const path = '/kinds.html';
+  const title = `AI story kinds this index covers · ${brand.NAME}`;
+  const description = clip(
+    `${kinds.length} story-kind hubs on ${brand.NAME} (press, forum, paper, …). Each row links /kind pages — collector labels and story counts, not a doom score.`,
+    160,
+  );
+  const rows = kinds.map((k) => `<li>
+  <a href="${esc(ctx.href(kindPath(k.id)))}">${esc(k.name)}</a>
+  <span class="kd__meta">Kind hub · <span class="num">${esc(String(k.count))}</span> scored${k.archived ? ` (${esc(String(k.live))} live)` : ''}</span>
+</li>`).join('');
+  const main = `${STYLE}
+<article class="kd prose">
+  <p class="kd__k"><a href="${esc(ctx.href('/compare.html'))}">Compare</a> · <a href="${esc(ctx.href('/kind/'))}">Kinds</a> · Kinds hub</p>
+  <h1>AI story kinds this index covers</h1>
+  <p class="kd__lede">${esc(brand.NAME)} does not publish a kind “doom score.” It labels scored stories with collector kinds (press, forum, paper, …). This page lists kinds that already clear the same substance gate as <a href="${esc(ctx.href('/kind/'))}">/kind/</a> — at least ${KIND_INDEX_MIN} matching stories in the live window or archive.</p>
+  <div class="kd__stat" role="group" aria-label="Kinds hub totals">
+    <div><b class="num">${esc(String(kinds.length))}</b><span>Kind hubs</span></div>
+  </div>
+  ${kinds.length ? `<ol class="kd__list">${rows}</ol>` : '<p>No kind hub cleared the gate in this build.</p>'}
+  <p class="fresh__key"><a href="${esc(ctx.href('/kind/'))}">Kind directory →</a>
+     · <a href="${esc(ctx.href('/tags.html'))}">AI tags →</a>
+     · <a href="${esc(ctx.href('/news.html'))}">Newsroom →</a></p>
+</article>`;
+  return page({
+    ctx,
+    path,
+    title,
+    description,
+    noindex: kinds.length === 0,
+    jsonld: [{
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      name: title,
+      url: ctx.url(path),
+      description,
+      mainEntity: {
+        '@type': 'ItemList',
+        numberOfItems: kinds.length,
+        itemListElement: kinds.map((k, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          url: ctx.url(kindPath(k.id)),
+          name: k.name,
+        })),
+      },
+    }, breadcrumbs(ctx, [
+      { name: 'Compare', path: '/compare.html' },
+      { name: 'Kinds', path },
+    ])],
+    main,
+  });
+}
+
 export function sitemapEntries(ctx) {
   const kinds = indexableKinds(ctx);
   if (!kinds.length) return [];
   const last = (ctx.news && ctx.news.generated_at) || (ctx.state && ctx.state.generated_at);
   return [
     { loc: '/kind/', changefreq: 'hourly', priority: '0.7', lastmod: last },
+    { loc: '/kinds.html', changefreq: 'hourly', priority: '0.75', lastmod: last },
     ...kinds.map((k) => ({
       loc: kindPath(k.id),
       changefreq: 'hourly',

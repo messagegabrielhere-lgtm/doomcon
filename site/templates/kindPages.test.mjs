@@ -6,6 +6,7 @@ import {
   kindPath,
   renderKind,
   renderIndex,
+  renderKinds,
   sitemapEntries,
 } from './kindPages.mjs';
 
@@ -46,8 +47,19 @@ describe('kind pages', () => {
     assert.equal(kindPath('paper'), '/kind/paper.html');
     const locs = sitemapEntries(ctx).map((e) => e.loc);
     assert.ok(locs.includes('/kind/'));
+    assert.ok(locs.includes('/kinds.html'));
     assert.ok(locs.includes('/kind/paper.html'));
     assert.ok(!locs.includes('/kind/forum.html'));
+  });
+
+  it('ships /kinds.html over the same gated kind set', () => {
+    const html = renderKinds(ctx);
+    assert.match(html, /AI story kinds this index covers/);
+    assert.match(html, /\/kind\/paper\.html/);
+    assert.match(html, /does not publish a kind/);
+    assert.match(html, /\/tags\.html/);
+    assert.match(renderIndex(ctx), /\/kinds\.html/);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
   });
 
   it('lists stories with ItemList schema and refuses doom claims', () => {

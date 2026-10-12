@@ -57,6 +57,7 @@ const MORE_PAGES = [
   ['/tags/', 'news', 'Topic tags', 'Scored stories grouped by curated topic needles (agents, GPUs, safety, …).'],
   ['/tags.html', 'news', 'AI tags', 'Skynet-shaped tags directory — same gated topics, story counts only.'],
   ['/kind/', 'news', 'Story kinds', 'Scored stories grouped by collector kind (press, forum, paper, …).'],
+  ['/kinds.html', 'news', 'AI story kinds', 'Kind directory — same gated labels, story counts only.'],
   ['/country/', 'globe', 'Datacentres by country', 'Mapped datacentre sites, one page per country that clears the count.'],
   ['/pillar/capability.html', 'px:updown', 'Capability pillar', 'Stories and the live Capability reading.'],
   ['/pillar/compute.html', 'px:updown', 'Compute pillar', 'Stories and the live Compute & Capital reading.'],

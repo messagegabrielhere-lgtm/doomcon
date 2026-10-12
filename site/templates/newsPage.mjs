@@ -214,7 +214,7 @@ function tagHubNav(ctx) {
     .map((t) => `<a href="${esc(ctx.href(tagPath(t.id)))}">${esc(t.name)} <span class="num">(${esc(String(t.count))})</span></a>`)
     .join('');
   return `<nav class="narch__days" aria-label="News by topic tag">
-  <p class="narch__days-k">By topic · <a href="${esc(ctx.href('/tags/'))}">all tags</a></p>
+  <p class="narch__days-k">By topic · <a href="${esc(ctx.href('/tags/'))}">all tags</a> · <a href="${esc(ctx.href('/tags.html'))}">tags hub</a></p>
   <div class="narch__days-links">${links}</div>
 </nav>`;
 }
