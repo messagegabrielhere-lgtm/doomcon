@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "generated_at": "2026-10-12T17:57:43.564Z",
+ "generated_at": "2026-10-12T18:22:21.139Z",
  "services": [
   {
    "id": "openai",
@@ -27,7 +27,7 @@
    "browser": true,
    "indicator": "minor",
    "description": "Partially Degraded Service",
-   "updated_at": "2026-10-12T17:54:49.077Z",
+   "updated_at": "2026-10-12T18:15:00.555Z",
    "degraded": [
     {
      "name": "Claude Console (platform.claude.com)",
@@ -58,7 +58,7 @@
    "browser": true,
    "indicator": "none",
    "description": "All Systems Operational",
-   "updated_at": "2026-10-12T17:54:22.467Z",
+   "updated_at": "2026-10-12T18:14:27.689Z",
    "degraded": [],
    "components": 12,
    "incidents": [
@@ -84,7 +84,7 @@
    "browser": true,
    "indicator": "none",
    "description": "All Systems Operational",
-   "updated_at": "2026-10-12T17:54:53.506Z",
+   "updated_at": "2026-10-12T18:15:05.594Z",
    "degraded": [],
    "components": 8,
    "incidents": [],
@@ -114,12 +114,27 @@
    "page": "https://groqstatus.com",
    "api": "https://groqstatus.com/api/v2/summary.json",
    "browser": true,
-   "indicator": "none",
-   "description": "All Systems Operational",
-   "updated_at": "2026-10-10T10:09:41Z",
-   "degraded": [],
+   "indicator": "major",
+   "description": "Partial System Outage",
+   "updated_at": "2026-10-12T18:17:47Z",
+   "degraded": [
+    {
+     "name": "minimaxai/minimax-m2.7",
+     "status": "partial_outage"
+    }
+   ],
    "components": 15,
-   "incidents": [],
+   "incidents": [
+    {
+     "name": "Model Performance or Availability Issue",
+     "impact": "major",
+     "status": "identified",
+     "started_at": "2026-10-12T18:17:47Z",
+     "updated_at": "2026-10-12T18:17:47Z",
+     "url": null,
+     "latest": "We have **identified the problem** affecting the **minimaxai/minimax-m2.7** service. The issue was traced to **hardware connectivity issues**. A fix is in progress. Users may still see **API failures** until the fix completes."
+    }
+   ],
    "maintenance": 0,
    "error": null
   },
@@ -164,7 +179,7 @@
    "browser": true,
    "indicator": "minor",
    "description": "Minor Service Outage",
-   "updated_at": "2026-10-12T17:54:31.216Z",
+   "updated_at": "2026-10-12T18:14:42.944Z",
    "degraded": [
     {
      "name": "Builds",
