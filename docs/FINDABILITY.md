@@ -271,6 +271,7 @@ context.
 | 38 | Tag gate counts live + archive; `browser` + `watermarking` topic hubs | Google | **Done** (2026-10-12) |
 | 39 | `/people.html` DoomBench-shaped people hub; people gate counts wire + archive | Google | **Done** (2026-10-12) |
 | 40 | Outlet (`/outlet/*`) gate counts live + archive (AP/Axios/WaPo-class hosts stay indexable) | Google | **Done** (2026-10-12) |
+| 41 | Source (`/source/*`) gate counts live + archive; topic tags `evals` + `video` + `voice` | Google | **Done** (2026-10-12) |
 
 ### 3.3 Refusals (search edition)
 

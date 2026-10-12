@@ -181,6 +181,24 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'Watermarking and content-provenance stories scored in the newsroom or archive.',
     match: /\bwatermark/i,
   },
+  {
+    id: 'evals',
+    name: 'AI evals',
+    description: 'Model evals, leaderboards, and benchmark arenas named in scored headlines.',
+    match: /\b(llm evals?|model evals?|ai evals?|leaderboard|lmsys|chatbot arena|lm arena|lmarena|arena elo|swe-bench|mmlu|gpqa|humaneval|bigcodebench)\b/i,
+  },
+  {
+    id: 'video',
+    name: 'AI video',
+    description: 'Text-to-video and generative video products named in scored headlines — story counts, not a forecast.',
+    match: /\b(ai video|text[- ]to[- ]video|video generat|\bsora\b|\bveo\b|runway (ml|gen)|pika labs|kling ai|openai sora)\b/i,
+  },
+  {
+    id: 'voice',
+    name: 'Voice AI',
+    description: 'Speech and voice-AI products named in scored headlines (TTS, ASR, voice agents).',
+    match: /\b(voice ai|text[- ]to[- ]speech|speech[- ]to[- ]text|elevenlabs|openai whisper|voice clon|\btts\b|\basr\b)\b/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));

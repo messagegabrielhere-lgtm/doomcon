@@ -595,21 +595,43 @@ export function archiveItemsForSource(ctx, sourceId) {
     .sort((a, b) => String(b.published_at || '').localeCompare(String(a.published_at || '')));
 }
 
+/** Live + archive stories from this adapter — archive can keep a hub above the gate. */
+export function sourceStoryCount(ctx, sourceId) {
+  return itemsForSource(ctx, sourceId).length + archiveItemsForSource(ctx, sourceId).length;
+}
+
 export function sourceIndexable(ctx, sourceId) {
-  return itemsForSource(ctx, sourceId).length >= SOURCE_INDEX_MIN;
+  return sourceStoryCount(ctx, sourceId) >= SOURCE_INDEX_MIN;
 }
 
 /** Outlets with enough scored stories to be a page, busiest first. */
 export function indexableSources(ctx) {
-  const counts = new Map();
+  const liveCounts = new Map();
+  const archCounts = new Map();
   const items = (ctx.news && Array.isArray(ctx.news.items)) ? ctx.news.items : [];
   for (const it of items) {
     if (!it || !it.source) continue;
-    counts.set(it.source, (counts.get(it.source) || 0) + 1);
+    liveCounts.set(it.source, (liveCounts.get(it.source) || 0) + 1);
   }
-  return [...counts.entries()]
-    .filter(([, n]) => n >= SOURCE_INDEX_MIN)
-    .map(([id, count]) => ({ id, count, label: sourceLabel(id) }))
+  const archived = Array.isArray(ctx.itemArchive) ? ctx.itemArchive : [];
+  for (const it of archived) {
+    if (!it || !it.source) continue;
+    archCounts.set(it.source, (archCounts.get(it.source) || 0) + 1);
+  }
+  const ids = new Set([...liveCounts.keys(), ...archCounts.keys()]);
+  return [...ids]
+    .map((id) => {
+      const live = liveCounts.get(id) || 0;
+      const archivedCount = archCounts.get(id) || 0;
+      return {
+        id,
+        live,
+        archived: archivedCount,
+        count: live + archivedCount,
+        label: sourceLabel(id),
+      };
+    })
+    .filter((s) => s.count >= SOURCE_INDEX_MIN)
     .sort((a, b) => b.count - a.count || a.label.localeCompare(b.label));
 }
 
@@ -617,12 +639,13 @@ export function renderSource(ctx, sourceId) {
   const items = itemsForSource(ctx, sourceId);
   const archivedAll = archiveItemsForSource(ctx, sourceId);
   const older = archivedAll.slice(0, 12);
+  const total = items.length + archivedAll.length;
   const label = sourceLabel(sourceId);
-  const indexable = items.length >= SOURCE_INDEX_MIN;
+  const indexable = total >= SOURCE_INDEX_MIN;
   const path = sourcePath(sourceId);
   const title = `${label}: AI stories this index scored · ${brand.NAME}`;
   const description = clip(
-    `${items.length} scored stories from ${label} in the current ${brand.NAME} newsroom window. The outlet wrote them. The score is ours. Tempo, not a forecast.`,
+    `${total} scored stories from ${label} on ${brand.NAME} (live window plus archive). The outlet wrote them. The score is ours. Tempo, not a forecast.`,
     160,
   );
   const others = indexableSources(ctx)
@@ -643,7 +666,8 @@ export function renderSource(ctx, sourceId) {
   <h1>${esc(label)}</h1>
   <p class="fc__lede">Stories this index scored from ${esc(label)}. The words belong to the outlet. The score is computed here, and it measures how much the item moved inside the window, not whether the story is good or bad.</p>
   <div class="fc__stat" role="group" aria-label="Outlet counts">
-    <div><b class="num">${esc(String(items.length))}</b><span>Scored stories in window</span></div>
+    <div><b class="num">${esc(String(total))}</b><span>Scored stories (live + archive)</span></div>
+    <div><b class="num">${esc(String(items.length))}</b><span>In live window</span></div>
     ${archivedAll.length ? `<div><b class="num">${esc(String(archivedAll.length))}</b><span>Older in archive</span></div>` : ''}
   </div>
   <h2>Stories from ${esc(label)}</h2>
@@ -692,19 +716,19 @@ export function renderSourceIndex(ctx) {
   const path = '/source/';
   const title = `AI news outlets this index scores · ${brand.NAME}`;
   const description = clip(
-    `${sources.length} outlets with at least ${SOURCE_INDEX_MIN} scored stories in the current ${brand.NAME} window. Each page lists those stories.`,
+    `${sources.length} outlets with at least ${SOURCE_INDEX_MIN} scored stories on ${brand.NAME} (live window plus archive). Each page lists those stories.`,
     160,
   );
   const rows = sources.map((s) => `<li>
   <a href="${esc(ctx.href(sourcePath(s.id)))}">${esc(s.label)}</a>
-  <span class="fc__meta">${esc(s.id)}</span>
+  <span class="fc__meta">${esc(s.id)}${s.archived ? ` · ${esc(String(s.live))} live / ${esc(String(s.archived))} archive` : ''}</span>
   <span class="fc__sc num">${esc(String(s.count))}</span>
 </li>`).join('');
   const main = `${STYLE}
 <article class="fc prose">
   <p class="fc__k"><a href="${esc(ctx.href('/news.html'))}">Newsroom</a> · Outlets</p>
   <h1>Outlets this index scores</h1>
-  <p class="fc__lede">An outlet earns a page when the current window holds at least ${SOURCE_INDEX_MIN} scored stories from it. Fewer than that stays on the story page only, so a one-off item does not become its own URL.</p>
+  <p class="fc__lede">An outlet earns a page when at least ${SOURCE_INDEX_MIN} scored stories from it appear in the live window or the durable archive. Fewer than that stays on the story page only, so a one-off item does not become its own URL.</p>
   <ol class="fc__list">${rows}</ol>
 </article>`;
   return page({

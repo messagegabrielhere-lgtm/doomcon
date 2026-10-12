@@ -142,4 +142,40 @@ describe('tag pages', () => {
     assert.ok(TOPIC_DEFS.some((t) => t.id === 'coding'));
     assert.ok(TOPIC_DEFS.some((t) => t.id === 'acquisitions'));
   });
+
+  it('pages evals, video, and voice topic hubs when the needle clears the gate', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('e1', 'Claude tops the LMSYS leaderboard'),
+          story('e2', 'Chatbot Arena raises on model evals'),
+          story('e3', 'SWE-bench update for coding agents'),
+          story('e4', 'New MMLU variant for frontier models'),
+          story('e5', 'GPQA diamond results for reasoning'),
+          story('v1', 'OpenAI plans to revive Sora'),
+          story('v2', 'Text-to-video tools flood the market'),
+          story('v3', 'Runway Gen model ships a new cut'),
+          story('v4', 'Pika Labs AI video demo'),
+          story('v5', 'Kling AI generative video update'),
+          story('o1', 'Voice AI still waiting on its ChatGPT moment'),
+          story('o2', 'ElevenLabs text-to-speech upgrade'),
+          story('o3', 'Speech-to-text ASR error rates drop'),
+          story('o4', 'OpenAI Whisper fine-tune for calls'),
+          story('o5', 'Voice clon tools draw new rules'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    assert.ok(ids.includes('evals'));
+    assert.ok(ids.includes('video'));
+    assert.ok(ids.includes('voice'));
+    assert.match(renderTag(rich, 'evals'), /AI evals: AI stories this index scored/);
+    assert.match(renderTag(rich, 'video'), /AI video: AI stories this index scored/);
+    assert.match(renderTag(rich, 'voice'), /Voice AI: AI stories this index scored/);
+    assert.ok(TOPIC_DEFS.some((t) => t.id === 'evals'));
+    assert.ok(TOPIC_DEFS.some((t) => t.id === 'video'));
+    assert.ok(TOPIC_DEFS.some((t) => t.id === 'voice'));
+  });
 });

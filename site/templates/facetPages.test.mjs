@@ -333,4 +333,44 @@ describe('outlet facets', () => {
     assert.match(html, /Archived HN story about agents/);
     assert.match(html, /\/item\/archive\.html/);
   });
+
+  it('lets the durable archive keep a feed-adapter hub above the substance gate', () => {
+    const withArch = {
+      ...ctx,
+      itemArchive: [
+        {
+          id: 'tc-old1',
+          title: 'Archived TechCrunch one',
+          pillar: 'attention',
+          source: 'techcrunch',
+          url: 'https://example.test/tc1',
+          published_at: '2026-09-01T01:00:00Z',
+          score: 40,
+        },
+        {
+          id: 'tc-old2',
+          title: 'Archived TechCrunch two',
+          pillar: 'attention',
+          source: 'techcrunch',
+          url: 'https://example.test/tc2',
+          published_at: '2026-09-02T01:00:00Z',
+          score: 41,
+        },
+        {
+          id: 'tc-old3',
+          title: 'Archived TechCrunch three',
+          pillar: 'attention',
+          source: 'techcrunch',
+          url: 'https://example.test/tc3',
+          published_at: '2026-09-03T01:00:00Z',
+          score: 42,
+        },
+      ],
+    };
+    assert.equal(sourceIndexable(withArch, 'techcrunch'), true);
+    assert.ok(indexableSources(withArch).some((s) => s.id === 'techcrunch'));
+    const html = renderSource(withArch, 'techcrunch');
+    assert.doesNotMatch(html, /noindex/);
+    assert.match(html, /Older scored stories/);
+  });
 });
