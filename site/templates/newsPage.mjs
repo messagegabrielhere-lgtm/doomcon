@@ -111,6 +111,7 @@ ${breakingStrip(ctx, { href: ctx.href })}
      links to the source that carried it.</p>
   ${liveHead(news, 'Collection window', 'arch-live')}
   ${legend(news)}
+  ${entityDirNav(ctx)}
   ${dayHubNav(ctx, items)}
   ${tagHubNav(ctx)}
   ${kindHubNav(ctx)}
@@ -185,6 +186,33 @@ function emptyPage(ctx) {
 function uniqueDays(items) {
   const set = new Set(items.map((it) => utcDay(it.published_at)));
   return set.size;
+}
+
+/**
+ * Head-term entity directories — keeps new /companies /models /people /pillars
+ * /countries /sources hubs one click from the newsroom after deploy (anti-orphan).
+ */
+function entityDirNav(ctx) {
+  const links = [
+    ['/companies.html', 'Companies'],
+    ['/models.html', 'Models'],
+    ['/people.html', 'People'],
+    ['/pillars.html', 'Pillars'],
+    ['/tags.html', 'Tags'],
+    ['/kinds.html', 'Kinds'],
+    ['/outlets.html', 'Outlets'],
+    ['/sources.html', 'Sources'],
+  ];
+  if (ctx.routes && ctx.routes.world && ctx.world) {
+    links.push(['/countries.html', 'Countries']);
+  }
+  const html = links
+    .map(([href, label]) => `<a href="${esc(ctx.href(href))}">${esc(label)}</a>`)
+    .join('');
+  return `<nav class="narch__days" aria-label="Entity directories">
+  <p class="narch__days-k">Directories</p>
+  <div class="narch__days-links">${html}</div>
+</nav>`;
 }
 
 /** Links to /news/YYYY-MM-DD.html hubs that clear the substance gate. */

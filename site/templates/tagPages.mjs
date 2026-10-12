@@ -235,6 +235,18 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'Model quantization and low-bit serving stories scored in the newsroom or archive.',
     match: /\b(quantiz(?:es?|ation|ed|ing)|int4|int8|fp8|gguf|awq|gptq)\b/i,
   },
+  {
+    id: 'distillation',
+    name: 'Distillation',
+    description: 'Knowledge-distillation and student-model stories scored in the newsroom or archive.',
+    match: /\b(distill(?:ation|ed|ing)?|knowledge distill)\b/i,
+  },
+  {
+    id: 'memory',
+    name: 'Agent memory',
+    description: 'Long-term and agent-memory stories scored in the newsroom or archive — coverage counts, not a capability claim.',
+    match: /\b(long[- ]term memory|agent memory|memory for agents|episodic memory|memory layer)\b/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));

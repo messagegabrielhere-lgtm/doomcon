@@ -256,4 +256,30 @@ describe('tag pages', () => {
     assert.match(renderTag(rich, 'fine-tuning'), /Fine-tuning: AI stories this index scored/);
     assert.match(renderTag(rich, 'quantization'), /Quantization: AI stories this index scored/);
   });
+
+  it('pages distillation and agent-memory hubs when the needle clears the gate', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('d1', 'Knowledge distillation for a smaller student'),
+          story('d2', 'Lab distilled a 70B teacher into 8B'),
+          story('d3', 'Distillation cuts inference cost in half'),
+          story('d4', 'Open weights via distillation pipeline'),
+          story('d5', 'Distilling chain-of-thought into a tiny model'),
+          story('y1', 'Long-term memory for coding agents'),
+          story('y2', 'Agent memory layer ships in production'),
+          story('y3', 'Episodic memory for tool-use agents'),
+          story('y4', 'Memory for agents beyond the context window'),
+          story('y5', 'New memory layer for browser agents'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    assert.ok(ids.includes('distillation'));
+    assert.ok(ids.includes('memory'));
+    assert.match(renderTag(rich, 'distillation'), /Distillation: AI stories this index scored/);
+    assert.match(renderTag(rich, 'memory'), /Agent memory: AI stories this index scored/);
+  });
 });
