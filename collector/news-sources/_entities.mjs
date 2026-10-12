@@ -82,6 +82,8 @@ const ENTITY_DEFS = [
   { name: 'Micron', kind: 'lab', forms: ['Micron'] },
   { name: 'TSMC', kind: 'lab', forms: ['TSMC', 'Taiwan Semiconductor'] },
   { name: 'Physical Intelligence', kind: 'lab', forms: ['Physical Intelligence'] },
+  { name: 'Huawei', kind: 'lab', forms: ['Huawei'] },
+  { name: 'Sony', kind: 'lab', forms: ['Sony'] },
 
   // --- model families ---
   { name: 'GPT', kind: 'model', forms: ['GPT-3', 'GPT-4', 'GPT-4o', 'GPT-5', 'GPT-6', 'ChatGPT', 'GPT'] },

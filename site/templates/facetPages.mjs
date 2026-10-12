@@ -437,6 +437,8 @@ function labNeedles(player) {
     micron: ['micron'],
     tsmc: ['tsmc', 'taiwan semiconductor'],
     'physical-intelligence': ['physical intelligence'],
+    huawei: ['huawei'],
+    sony: ['sony'],
   };
   return [...new Set([...(extras[player.id] || []), ...names])];
 }

@@ -145,11 +145,16 @@ describe('seo-daily measure + gaps', () => {
     assert.equal(FACET_URL_FLOOR, 450);
     const facets = await countLocalFacetUrls();
     assert.ok(Number.isFinite(facets) && facets >= 300, `facet count ${facets}`);
+    // world.json + routes.world must be wired so /country/* rows are counted
+    // (countryPages.sitemapEntries returns [] without them). Real count should
+    // clear the floor once countries are included (~70 gated ISO pages).
+    assert.ok(facets > FACET_URL_FLOOR, `facet count with countries ${facets}`);
     const ready = await readLocalReadyUrls();
     assert.ok(ready);
     assert.ok(ready.live >= 100);
     assert.ok(ready.archived >= 1000);
     assert.ok(ready.facets >= FACET_URL_FLOOR);
+    assert.ok(ready.facets === facets || ready.facets === FACET_URL_FLOOR);
     assert.equal(ready.estimated_sitemap, ready.live + ready.archived + ready.facets);
   });
 });

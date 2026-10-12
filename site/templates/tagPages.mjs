@@ -643,6 +643,54 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'ASR and speech-to-text stories scored in the newsroom or archive.',
     match: /\b(speech[- ]to[- ]text|\basr\b|automatic speech recognition)\b/i,
   },
+  {
+    id: 'vision-language',
+    name: 'Vision-language models',
+    description: 'VLM and vision-language model stories scored in the newsroom or archive — coverage counts, not a capability forecast.',
+    match: /\b(vision[- ]language models?|\bvlms?\b)\b/i,
+  },
+  {
+    id: 'foundation-models',
+    name: 'Foundation models',
+    description: 'Foundation-model research and product stories scored in the newsroom or archive — coverage counts, not a ranking.',
+    match: /\bfoundation models?\b/i,
+  },
+  {
+    id: 'video-generation',
+    name: 'Video generation',
+    description: 'Video-generation model and product stories scored in the newsroom or archive — coverage counts, not a product score.',
+    match: /\bvideo generat(?:ion|ors?|e[sd]?)\b/i,
+  },
+  {
+    id: 'image-generation',
+    name: 'Image generation',
+    description: 'Image-generation model and product stories scored in the newsroom or archive — coverage counts, not a product score.',
+    match: /\bimage generat(?:ion|ors?|e[sd]?)\b/i,
+  },
+  {
+    id: 'model-merging',
+    name: 'Model merging',
+    description: 'Model-merging method stories scored in the newsroom or archive — method coverage, not a quality ranking.',
+    match: /\bmodel merg(?:ing|e[sd]?)\b/i,
+  },
+  {
+    id: 'agent-memory',
+    name: 'Agent memory',
+    description: 'Agent-memory research stories scored in the newsroom or archive — coverage counts, not a capability forecast.',
+    match: /\bagent memory\b/i,
+  },
+  {
+    id: 'open-source-ai',
+    name: 'Open-source AI',
+    description: 'Open-source AI policy and product stories scored in the newsroom or archive — coverage counts, not an openness score.',
+    match: /\bopen[- ]source ai\b/i,
+  },
+  {
+    id: 'tool-use',
+    name: 'Tool use',
+    description: 'Tool-use and tool-calling stories scored in the newsroom or archive — coverage counts, not a capability forecast.',
+    match: /\btool[- ]use\b/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));

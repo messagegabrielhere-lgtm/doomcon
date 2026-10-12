@@ -150,6 +150,20 @@ export async function countLocalFacetUrls(root = ROOT) {
     } catch {
       /* people hubs stay empty without leaders */
     }
+    // Country hubs need world.json + routes.world (same gate as site/build.mjs).
+    // Without them countryEntries always returns [] and the facet count under-reports.
+    let world = null;
+    try {
+      world = JSON.parse(await readFile(path.join(root, 'data/world.json'), 'utf8'));
+    } catch {
+      /* countries stay off the facet count without the map file */
+    }
+    const worldReady = Boolean(
+      world
+      && Array.isArray(world.countries)
+      && world.countries.length
+      && Array.isArray(world.sites),
+    );
     const ctx = {
       news,
       itemArchive: Array.isArray(arch.items) ? arch.items : [],
@@ -157,6 +171,8 @@ export async function countLocalFacetUrls(root = ROOT) {
       state,
       leaders,
       leadersCoverage,
+      world: worldReady ? world : null,
+      routes: { world: worldReady },
       href: (p) => p,
       url: (p) => `https://siren.watch${p === '/' ? '/' : p}`,
       cardFor: () => null,

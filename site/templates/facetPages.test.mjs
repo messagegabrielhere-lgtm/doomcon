@@ -503,6 +503,45 @@ describe('lab facets', () => {
     assert.doesNotMatch(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'cognition')), /doom score/i);
   });
 
+  it('indexes Huawei and Sony entity labs when archive stories clear the gate', () => {
+    const withArch = {
+      ...ctx,
+      news: { ...ctx.news, items: [...ctx.news.items] },
+      itemArchive: [
+        {
+          id: 'hw1', title: 'Huawei AI phone chip strategy', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/hw1', published_at: '2026-09-01T01:00:00Z', score: 40,
+        },
+        {
+          id: 'hw2', title: 'Huawei patent deal covering AI and 5G', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/hw2', published_at: '2026-09-02T01:00:00Z', score: 41,
+        },
+        {
+          id: 'hw3', title: 'Tencent Qualcomm Huawei AI phone fight', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/hw3', published_at: '2026-09-03T01:00:00Z', score: 42,
+        },
+        {
+          id: 'sy1', title: 'Sony and Warner sue Anthropic over Claude', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/sy1', published_at: '2026-09-01T02:00:00Z', score: 40,
+        },
+        {
+          id: 'sy2', title: 'Sony launches AI upscaling for cinema', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/sy2', published_at: '2026-09-02T02:00:00Z', score: 41,
+        },
+        {
+          id: 'sy3', title: 'Sony AI music training lawsuit expands', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/sy3', published_at: '2026-09-03T02:00:00Z', score: 42,
+        },
+      ],
+    };
+    const ids = labsFromEntities(withArch).map((p) => p.id);
+    assert.ok(ids.includes('huawei'), 'Huawei clears ENTITY_LAB_MIN');
+    assert.ok(ids.includes('sony'), 'Sony clears ENTITY_LAB_MIN');
+    assert.match(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'huawei')), /Huawei: AI stories this index scored/);
+    assert.match(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'sony')), /Sony: AI stories this index scored/);
+    assert.doesNotMatch(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'huawei')), /doom score/i);
+  });
+
   it('does not treat Intel as a substring of intelligent', () => {
     const player = { id: 'intel', name: 'Intel', entityName: 'Intel', entityOnly: true };
     const falseHit = {

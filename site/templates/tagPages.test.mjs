@@ -885,4 +885,71 @@ describe('tag pages', () => {
     assert.match(renderTag(rich, 'asr'), /Speech recognition: AI stories this index scored/);
     assert.doesNotMatch(renderTag(rich, 'embodied'), /doom score/i);
   });
+
+  it('pages vision-language, foundation-models, video/image generation, merging, agent-memory, open-source-ai, tool-use', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('vl1', 'Vision-language model spatial reasoning'),
+          story('vl2', 'When VLMs destroy lexical priors'),
+          story('vl3', 'Multi-perspective verification for vision-language models'),
+          story('vl4', 'VLM hallucination benchmark'),
+          story('vl5', 'Training a VLM for robotics'),
+          story('fm1', 'OCR foundation models for text'),
+          story('fm2', 'Biological foundation models use inputs'),
+          story('fm3', 'Medical foundation models release'),
+          story('fm4', 'Open foundation models catalog'),
+          story('fm5', 'Foundation model training costs'),
+          story('vg1', 'Exocentric-to-egocentric video generation'),
+          story('vg2', 'Goal-directed video generation paper'),
+          story('vg3', 'Looking for a video generator'),
+          story('vg4', 'Open video generation leaderboard'),
+          story('vg5', 'Latent video generation recipe'),
+          story('ig1', 'Heterogeneous image generators interface'),
+          story('ig2', 'Pixel-space image generation diffusion'),
+          story('ig3', 'Open image generation eval'),
+          story('ig4', 'Controllable image generators'),
+          story('ig5', 'Image generation safety filters'),
+          story('mm1', 'Demographic model merging fairness'),
+          story('mm2', 'A broader look at model merging'),
+          story('mm3', 'Model merge for multilingual LLMs'),
+          story('mm4', 'Task-arithmetic model merging'),
+          story('mm5', 'Sparse model merging baselines'),
+          story('am1', 'Bootstrapping agent memory from tasks'),
+          story('am2', 'Schema evolution for agent memory'),
+          story('am3', 'Long conversational agent memory'),
+          story('am4', 'Episodic agent memory survey'),
+          story('am5', 'Compressing agent memory traces'),
+          story('os1', 'Open-source AI path for Europe'),
+          story('os2', 'Nvidia stake in open-source AI startup'),
+          story('os3', 'Open-source AI licensing debate'),
+          story('os4', 'Enterprise open-source AI stack'),
+          story('os5', 'Open-source AI model weights drop'),
+          story('tu1', 'Coordinated tool use in CAD agents'),
+          story('tu2', 'Failure attribution in tool-use agents'),
+          story('tu3', 'Agentic learning with tool use'),
+          story('tu4', 'Benchmarks for LLM tool-use'),
+          story('tu5', 'Safe tool use in enterprise agents'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    for (const id of [
+      'vision-language', 'foundation-models', 'video-generation', 'image-generation',
+      'model-merging', 'agent-memory', 'open-source-ai', 'tool-use',
+    ]) {
+      assert.ok(ids.includes(id), id);
+    }
+    assert.match(renderTag(rich, 'vision-language'), /Vision-language models: AI stories this index scored/);
+    assert.match(renderTag(rich, 'foundation-models'), /Foundation models: AI stories this index scored/);
+    assert.match(renderTag(rich, 'video-generation'), /Video generation: AI stories this index scored/);
+    assert.match(renderTag(rich, 'image-generation'), /Image generation: AI stories this index scored/);
+    assert.match(renderTag(rich, 'model-merging'), /Model merging: AI stories this index scored/);
+    assert.match(renderTag(rich, 'agent-memory'), /Agent memory: AI stories this index scored/);
+    assert.match(renderTag(rich, 'open-source-ai'), /Open-source AI: AI stories this index scored/);
+    assert.match(renderTag(rich, 'tool-use'), /Tool use: AI stories this index scored/);
+    assert.doesNotMatch(renderTag(rich, 'foundation-models'), /doom score/i);
+  });
 });

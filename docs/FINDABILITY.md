@@ -304,6 +304,8 @@ context.
 | 71 | `/vs/takeofftracker.html` conquest + compare/alternatives/vs hub wiring (seo-daily rival) | Google | **Done** (2026-10-12) |
 | 72 | Topic tags `coding-agents` + `agentic-workflow` + `leaderboard` + `alignment`; entity lab Physical Intelligence | Google | **Done** (2026-10-12) |
 | 73 | Topic tags `world-action` + `embodied` + `tts` + `asr`; seo-daily counts real facet sitemap rows + monitors `/vs/takeofftracker.html` | Google | **Done** (2026-10-12) |
+| 74 | Topic tags `vision-language` + `foundation-models` + `video-generation` + `image-generation` + `model-merging` + `agent-memory` + `open-source-ai` + `tool-use` (live/archive ≥5 gate) | Google | **Done** (2026-10-12) |
+| 75 | Entity labs Huawei / Sony (`/lab/*`, live/archive ≥3 gate); seo-daily loads `world.json` + `routes.world` so `/country/*` facet rows count | Google | **Done** (2026-10-12) |
 
 ### 3.3 Refusals (search edition)
 
