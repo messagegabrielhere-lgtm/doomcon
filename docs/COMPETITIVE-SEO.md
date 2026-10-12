@@ -126,7 +126,8 @@ China AI, plus later chips/energy/labor/healthcare/**coding**/**acquisitions**/
 **diffusion**/**embeddings**/**guardrails**/**context-window**/**ai-search**/
 **multi-agent**/**deepfakes**/**slm**/**ai-science**/**speculative-decoding**/
 **kv-cache**/**ai-act**/**autonomous-vehicles**/**ai-music**/**synthetic-data**/
-**inference-cost**/**prefer-data**/**reasoning-traces**/**claude-code**/**openrouter**).
+**inference-cost**/**prefer-data**/**reasoning-traces**/**claude-code**/**openrouter**/
+**huggingface**/**blackwell**). Evergreen hub: `/guides.html`.
 News-sitemap `news:keywords` also carry matching topic names (cap 12) while
 pizzint’s news channel is contested. Conquest directory: `/vs.html` over the
 same `/vs/*` set. IndexNow ALWAYS includes `/vs.html`. `seo-daily` monitors
@@ -183,6 +184,7 @@ contrast measurement methods (`VOICE.md`, `CONTRACT.md`).
 
 | URL | Head-term job |
 |---|---|
+| `/guides.html` | “AI explainers” directory — p(doom), clocks, compare/vs |
 | `/compare.html` | “AI doom indexes compared” — side-by-side table |
 | `/vs.html` | “SIREN vs other AI indexes” directory over `/vs/*` |
 | `/alternatives.html` | “DoomBench / Skynet / p(doom) alternative” hub |

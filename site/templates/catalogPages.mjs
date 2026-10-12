@@ -40,6 +40,7 @@ const MORE_PAGES = [
   ['/', 'siren', 'Home', 'The live SIREN level, the score and the war room.'],
   ['/instruments.html', 'px:updown', 'Instruments', 'Score history, source health, the five pillars and the API.'],
   ['/guide.html', 'clock', 'SIREN vs DEFCON vs the Clock', 'Four doom numbers and what each one actually measures.'],
+  ['/guides.html', 'clock', 'AI explainers hub', 'p(doom), doomsday clocks, doom indexes — vocabulary without a doom probability.'],
   ['/compare.html', 'px:updown', 'AI doom indexes compared', 'SIREN vs DoomBench, Skynet Countdown, p(doom) and PizzINT.'],
   ['/vs.html', 'px:updown', 'SIREN vs other AI indexes', 'Directory of honest versus pages — activity tempo, not doom claims.'],
   ['/alternatives.html', 'px:updown', 'AI doom index alternatives', 'When SIREN is the right substitute — and when it is not.'],

@@ -203,6 +203,7 @@ export function roomGroups(ctx) {
       ['/search.html', 'px:search', 'Search', 'NEW', 'Search every room, story, video, leader and dataset.'],
       ['/catalog.html', 'px:catalog', 'Catalog', 'NEW', 'Everything on the site, in one browsable directory.'],
       ['/ai-doomsday-clock.html', 'clock', 'The Clock', null, 'The reading as a clock face you can verify.'],
+      ['/guides.html', 'clock', 'AI explainers', null, 'p(doom), doomsday clocks, doom indexes — vocabulary without a doom probability.'],
       ['/compare.html', 'px:updown', 'Compare indexes', null, 'SIREN vs DoomBench, Skynet, p(doom) and PizzINT — what each measures.'],
       ['/vs.html', 'px:updown', 'Versus directory', null, 'One honest page per rival — activity tempo, not doom claims.'],
       ['/vs/pizzint.html', 'px:updown', 'vs PizzINT', null, 'Activity count vs DEFCON/Doomsday title hijack — honest refuse.'],

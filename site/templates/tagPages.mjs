@@ -403,6 +403,18 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'OpenRouter routing and marketplace stories scored in the newsroom or archive.',
     match: /\bopenrouter\b/i,
   },
+  {
+    id: 'huggingface',
+    name: 'Hugging Face',
+    description: 'Hugging Face platform and model-hub stories scored in the newsroom or archive — coverage counts, not a ranking.',
+    match: /\b(hugging ?face|huggingface)\b/i,
+  },
+  {
+    id: 'blackwell',
+    name: 'Blackwell GPUs',
+    description: 'NVIDIA Blackwell accelerator stories scored in the newsroom or archive.',
+    match: /\bblackwell\b/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));

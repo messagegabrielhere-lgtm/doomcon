@@ -789,6 +789,7 @@ ${bands.map((l) => `      <tr><td><b>${esc(l.level)}</b></td><td>${esc(l.name)}<
     stops at the grammar: ${esc(brand.NAME)} is not a readiness level and is not issued by any government body.</p>
   <h2>Where to go next</h2>
   <p><a href="${esc(ctx.href('/'))}">The current reading →</a> · <a href="${esc(ctx.href('/methodology.html'))}">Every formula →</a> ·
+    <a href="${esc(ctx.href('/guides.html'))}">All AI explainers →</a> ·
     <a href="${esc(ctx.href('/compare.html'))}">AI doom indexes compared (DoomBench, Skynet, p(doom), PizzINT) →</a> ·
     <a href="${esc(ctx.href('/vs.html'))}">Versus directory →</a> ·
     <a href="${esc(ctx.href('/vs/pizzint.html'))}">${esc(brand.NAME)} vs PizzINT / Pentagon Pizza Index →</a> ·
@@ -858,5 +859,130 @@ Because nobody needs the scale explained twice. "Five is calm, one is not" is al
 - [AI doom indexes compared](${ctx.url('/compare.html')}) · [Versus directory](${ctx.url('/vs.html')}) · [Alternatives hub](${ctx.url('/alternatives.html')})
 - [${brand.NAME} vs PizzINT / Pentagon Pizza Index](${ctx.url('/vs/pizzint.html')})
 - [Sixty years of the same argument](${ctx.url('/history.html')})
+- [AI explainers hub](${ctx.url('/guides.html')})
 `;
+}
+
+/** Evergreen explainers we already publish — head-term directory, not new claims. */
+export const GUIDES = Object.freeze([
+  {
+    path: '/guide.html',
+    name: 'SIREN vs DEFCON vs the Doomsday Clock',
+    blurb: 'Four doom numbers and what each one actually measures — including PizzINT brand hijack.',
+  },
+  {
+    path: '/p-doom.html',
+    name: 'What is p(doom)?',
+    blurb: 'Named estimates on one chart. An opinion expressed as a percentage, not a receipt.',
+  },
+  {
+    path: '/ai-doomsday-clock.html',
+    name: 'Is there an AI doomsday clock?',
+    blurb: 'The Bulletin’s clock vs AI-specific countdowns vs an hourly activity count.',
+  },
+  {
+    path: '/methodology.html',
+    name: 'How the index is computed',
+    blurb: 'Every formula, pillar weight, and frozen-reference rule.',
+  },
+  {
+    path: '/compare.html',
+    name: 'AI doom indexes compared',
+    blurb: 'Side-by-side with DoomBench, Skynet Countdown, p(doom) and PizzINT.',
+  },
+  {
+    path: '/vs.html',
+    name: 'SIREN vs other AI indexes',
+    blurb: 'Directory of honest versus pages — activity tempo, not doom claims.',
+  },
+  {
+    path: '/alternatives.html',
+    name: 'AI doom index alternatives',
+    blurb: 'When this index is the right substitute — and when it is not.',
+  },
+  {
+    path: '/jobs.html',
+    name: 'AI and jobs: what has been measured',
+    blurb: 'Register counts with sources and caveats — not a jobs forecast.',
+  },
+  {
+    path: '/medicine.html',
+    name: 'AI in medicine: results on the record',
+    blurb: 'Trials, authorisations, and caveats — not a cure claim.',
+  },
+]);
+
+/** Head-term /guides.html hub over evergreen explainers (FINDABILITY conquest). */
+export function guides(ctx) {
+  const path = '/guides.html';
+  const title = `AI explainers: p(doom), doomsday clocks, doom indexes · ${brand.NAME}`;
+  const description = `Plain guides on p(doom), AI doomsday clocks, DEFCON comparisons, and recomputable AI activity indexes. ${brand.NAME} counts tempo — it does not publish a doom probability.`;
+  const rows = GUIDES.map((g) => `<li style="padding:12px 0;border-bottom:1px solid var(--rule)">
+  <a href="${esc(ctx.href(g.path))}" style="font:600 var(--t-base)/1.35 var(--sans);color:var(--ink);text-decoration:none">${esc(g.name)}</a>
+  <p style="margin:4px 0 0;font:400 var(--t-sm)/1.5 var(--sans);color:var(--ink-dim)">${esc(g.blurb)}</p>
+</li>`).join('');
+  const main = `${CSS}
+<section class="inf">
+  <p class="eyebrow">Guides</p>
+  <div class="inf__top">${mascot({ size: 76, level: level(ctx) })}<h1 class="bp__h1">AI explainers — what each number measures</h1></div>
+  <p class="lede">Search often lands on a doom score, a countdown, or a DEFCON-shaped novelty page.
+    These pages answer the vocabulary questions without inventing a probability of harm.
+    ${esc(brand.NAME)} stays an hourly activity count with a receipt.</p>
+  <ol style="list-style:none;padding:0;margin:16px 0 0">${rows}</ol>
+  <h2>Also</h2>
+  <p><a href="${esc(ctx.href('/'))}">Live reading →</a>
+     · <a href="${esc(ctx.href('/history.html'))}">Sixty years of the same argument →</a>
+     · <a href="${esc(ctx.href('/library.html'))}">Reading list →</a></p>
+</section>`;
+  return page({
+    ctx,
+    path,
+    title,
+    description,
+    jsonld: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'CollectionPage',
+        name: title,
+        url: ctx.url(path),
+        description,
+        isPartOf: { '@type': 'WebSite', name: brand.PUBLICATION, url: ctx.url('/') },
+      },
+      {
+        '@context': 'https://schema.org',
+        '@type': 'ItemList',
+        name: 'AI explainers on SIREN',
+        numberOfItems: GUIDES.length,
+        itemListElement: GUIDES.map((g, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          name: g.name,
+          url: ctx.url(g.path),
+        })),
+      },
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: [
+          {
+            '@type': 'Question',
+            name: 'Where are the AI doom and p(doom) explainers?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: `SIREN publishes /guides.html as a directory of evergreen explainers: p(doom), AI doomsday clocks, DEFCON comparisons, methodology, and versus pages for DoomBench, Skynet Countdown, p(doom) clocks and PizzINT. None of them is a doom probability for SIREN itself.`,
+            },
+          },
+          {
+            '@type': 'Question',
+            name: 'Does SIREN publish a doom probability?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'No. SIREN publishes an hourly AI activity count with a receipt. The explainer pages describe vocabulary other sites use; they do not turn the SIREN reading into a chance of harm.',
+            },
+          },
+        ],
+      },
+    ],
+    main,
+  });
 }

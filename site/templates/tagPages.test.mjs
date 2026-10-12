@@ -301,6 +301,32 @@ describe('tag pages', () => {
     assert.match(renderTag(rich, 'test-time'), /Test-time compute: AI stories this index scored/);
   });
 
+  it('pages Hugging Face and Blackwell topic hubs when the needle clears the gate', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('h1', 'Hugging Face ships a new model hub feature'),
+          story('h2', 'HuggingFace datasets update'),
+          story('h3', 'Open weights land on Hugging Face'),
+          story('h4', 'Hugging Face inference endpoints grow'),
+          story('h5', 'Labs mirror checkpoints to Hugging Face'),
+          story('b1', 'NVIDIA Blackwell GPUs for training'),
+          story('b2', 'Blackwell rack density report'),
+          story('b3', 'Cloud providers add Blackwell instances'),
+          story('b4', 'Blackwell supply update'),
+          story('b5', 'Inference on Blackwell accelerators'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    assert.ok(ids.includes('huggingface'));
+    assert.ok(ids.includes('blackwell'));
+    assert.match(renderTag(rich, 'huggingface'), /Hugging Face: AI stories this index scored/);
+    assert.match(renderTag(rich, 'blackwell'), /Blackwell GPUs: AI stories this index scored/);
+  });
+
   it('pages prefer-data, reasoning-traces, Claude Code, and OpenRouter hubs', () => {
     const rich = {
       ...ctx,

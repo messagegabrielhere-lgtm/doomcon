@@ -64,6 +64,7 @@ export function render(ctx) {
 ${qa.map(([q, a]) => `    <details class="faq__i"><summary class="faq__q">${esc(q)}</summary><p class="faq__a">${linkifyAnswer(ctx, a)}</p></details>`).join('\n')}
   </div>
   <p class="fresh__key"><a href="${esc(ctx.href('/guide.html'))}">The longer version: SIREN, DEFCON, the Doomsday Clock and p(doom) →</a>
+     · <a href="${esc(ctx.href('/guides.html'))}">AI explainers hub →</a>
      · <a href="${esc(ctx.href('/compare.html'))}">AI doom indexes compared →</a>
      · <a href="${esc(ctx.href('/vs.html'))}">Versus directory →</a>
      · <a href="${esc(ctx.href('/vs/pizzint.html'))}">vs PizzINT →</a>

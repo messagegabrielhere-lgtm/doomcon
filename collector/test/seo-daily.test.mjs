@@ -16,6 +16,7 @@ import {
 describe('seo-daily parsers', () => {
   it('monitors conquest and entity hub surfaces until deploy catches up', () => {
     assert.ok(OUR_SURFACES.includes('/vs.html'));
+    assert.ok(OUR_SURFACES.includes('/guides.html'));
     assert.ok(OUR_SURFACES.includes('/tags.html'));
     assert.ok(OUR_SURFACES.includes('/companies.html'));
     assert.ok(OUR_SURFACES.includes('/compare.html'));

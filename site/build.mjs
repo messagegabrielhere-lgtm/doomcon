@@ -1777,6 +1777,7 @@ async function main() {
   written.push(await write(args.out, 'sponsor.html', shopPages.sponsor(ctx)));
   written.push(await write(args.out, 'guide.html', infoPages.guide(ctx)));
   written.push(await write(args.out, 'guide.md', infoPages.guideMd(ctx)));
+  written.push(await write(args.out, 'guides.html', infoPages.guides(ctx)));
   // Competitor conquest landings: intercept DoomBench / Skynet / p(doom)
   // alternative queries without borrowing their doom-probability claims.
   for (const entry of comparePages.renderAll(ctx)) {
@@ -1931,7 +1932,7 @@ async function main() {
       'bets', 'privacy', 'terms', 'disclosures', 'feedback', 'sponsor', 'instruments',
       'p-doom', 'ai-doomsday-clock', 'arena', 'scanner', 'monitor', 'elon',
       'game', 'bunker-kit', 'alerts', 'export', 'moltbook', 'staff', 'careers',
-      'agents', 'tally', 'changelog', 'live', 'compare', 'alternatives', 'vs', 'companies', 'models', 'pillars', 'countries',
+      'agents', 'tally', 'changelog', 'live', 'compare', 'alternatives', 'vs', 'guides', 'companies', 'models', 'pillars', 'countries',
       ...comparePages.RIVALS.map((r) => r.path.replace(/^\//, '').replace(/\.html$/, '')),
       ...brand.PILLARS.map((p) => `pillar/${p.id}`),
       ...(facetPages.indexablePillars(ctx).length ? ['pillar'] : []),

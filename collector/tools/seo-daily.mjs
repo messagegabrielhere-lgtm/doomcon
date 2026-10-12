@@ -45,6 +45,7 @@ export const OUR_SURFACES = Object.freeze([
   '/alternatives.html',
   // Conquest + entity hubs shipped in-repo; flag until gh-pages deploy catches up.
   '/vs.html',
+  '/guides.html',
   '/tags.html',
   '/companies.html',
 ]);
