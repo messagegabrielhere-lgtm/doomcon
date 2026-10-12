@@ -46,6 +46,7 @@ import * as statusPage from './templates/statusPage.mjs';
 import * as selfAwarePage from './templates/selfAwarePage.mjs';
 import * as threatsPage from './templates/threatsPage.mjs';
 import * as powerPage from './templates/powerPage.mjs';
+import * as gamesPage from './templates/gamesPage.mjs';
 import * as chartsPage from './templates/chartsPage.mjs';
 import { SERVICES as AI_SERVICES } from '../collector/ai-status.mjs';
 import * as catalogPages from './templates/catalogPages.mjs';
@@ -1572,6 +1573,7 @@ async function main() {
     let pwText = null, pw = null;
     try { pwText = await readFile(path.join(args.data, 'power.json'), 'utf8'); pw = JSON.parse(pwText); } catch { pwText = null; pw = null; }
     written.push(await write(args.out, 'power.html', powerPage.render(ctx, pw)));
+    written.push(await write(args.out, 'games.html', gamesPage.render(ctx)));
     // This week in charts: live odds + SIREN trend + power race.
     let chHist = [], chRace = null;
     try { chHist = (await readFile(path.join(args.data, 'history.ndjson'), 'utf8')).split('\n').filter(Boolean).slice(-400).map((l) => { try { return JSON.parse(l); } catch { return null; } }).filter(Boolean); } catch { chHist = []; }
