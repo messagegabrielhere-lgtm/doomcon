@@ -4,7 +4,7 @@ What only a human can change on the live account. Checked against the public
 profile on **2026-10-07**. Code and CI cannot flip these switches.
 
 Live profile: https://x.com/SIRENutf6  
-Site (already in the website field): https://messagegabrielhere-lgtm.github.io/doomcon/
+Site (already in the website field): https://siren.watch/
 
 ---
 

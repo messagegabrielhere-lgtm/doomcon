@@ -19,7 +19,7 @@ import { setTimeout as sleep } from 'node:timers/promises';
 // Identifies the project and links the repo so an operator we are rate-limiting
 // can find out who we are and mail us instead of silently banning the IP.
 export const USER_AGENT =
-  'doomcon/1.0 (+https://github.com/messagegabrielhere-lgtm/doomcon; AI activity index collector)';
+  'doomcon/1.0 (+https://siren.watch; AI activity index collector)';
 
 const DEFAULT_TIMEOUT_MS = 15_000;
 const DEFAULT_RETRIES = 2; // 3 attempts total

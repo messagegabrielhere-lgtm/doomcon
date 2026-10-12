@@ -29,7 +29,7 @@ is corroboration and is marked `[E#n]` against the item it agrees with.
 
 **Two things broke during the visit and belong up front.**
 
-1. `https://messagegabrielhere-lgtm.github.io/doomcon/race/` returns **HTTP
+1. `https://siren.watch/race/` returns **HTTP
    404**. The page is at `race.html`. Internal links use the working form, so
    nothing on-site is broken — but the brief itself, every hand-typed guess and
    every verbal share ("it's slash race") lands on a 404.

@@ -25,6 +25,8 @@ const CSS = `<style>
 
 const level = (ctx) => (ctx.state && Number.isFinite(ctx.state.level) ? ctx.state.level : null);
 
+const mail = `<a href="mailto:${esc(brand.CONTACT_EMAIL)}">${esc(brand.CONTACT_EMAIL)}</a>`;
+
 export function about(ctx) {
   const x = brand.X_URL ? `<a href="${esc(brand.X_URL)}" rel="noopener">${esc(brand.X_HANDLE)}</a>` : 'the project account';
   const main = `${CSS}
@@ -49,7 +51,7 @@ export function about(ctx) {
     ${esc(brand.NAME)} earns from qualifying purchases. They are labelled where they appear. There is room for
     <a href="${esc(ctx.href('/sponsor.html'))}">one named sponsor</a>, who gets no say over the number, and a donate link to ${x}.</p>
   <h2>Contact</h2>
-  <p>Corrections, data sources and press questions: message ${x} on X, or open an issue on the
+  <p>Corrections, data sources and press questions: ${mail}, message ${x} on X, or open an issue on the
     <a href="${esc(brand.REPO_URL)}" rel="noopener">repository</a>. A correction that changes a number is recorded in the open.</p>
   <h2>Terms, in plain words</h2>
   <ul>
@@ -87,7 +89,15 @@ export function privacy(ctx) {
 
   <h2>Who is responsible</h2>
   <p>${esc(brand.NAME)} is run by one independent operator. There is no company account and no postal address published here.
-    Privacy questions go to ${x} or ${repo}. The operator decides what analytics run and what is linked; they do not sell visitor lists.</p>
+    Privacy questions and data requests go to ${mail} (or ${x}, or ${repo}). The operator decides what analytics run and what is linked; they do not sell visitor lists.</p>
+
+  ${hasGa ? `<h2>Your choices about analytics cookies</h2>
+  <ul>
+    <li><b>Europe, the UK and Switzerland:</b> Google Analytics cookies stay off until you choose “Allow analytics” in the banner. Until then Google receives only cookieless, consent-mode signals.</li>
+    <li><b>Global Privacy Control:</b> if your browser sends GPC, analytics cookies stay off everywhere, and the site treats it as an opt-out of any sale or sharing.</li>
+    <li><b>Advertising:</b> advertising storage, ad personalisation and Google signals are switched off for every visitor.</li>
+    <li><b>Change your mind any time:</b> <a href="#" data-consent-open>open privacy choices</a>, or clear this site's data in your browser.</li>
+  </ul>` : ''}
 
   <h2>What the site itself does</h2>
   <ul>
@@ -111,7 +121,7 @@ export function privacy(ctx) {
 
   <h2>California and similar privacy laws</h2>
   <p>${esc(brand.LEGAL_NO_SELL)} ${esc(brand.NAME)} has no login and no customer database of its own.
-    Visit data that reaches Google Analytics or the host is described above. If you are a California resident and want to know what a covered business holds about you, contact ${x} or open ${repo}; requests that apply to this project are handled promptly.
+    Visit data that reaches Google Analytics or the host is described above. If you are a California resident and want to know what a covered business holds about you, email ${mail}, contact ${x} or open ${repo}; requests that apply to this project are handled promptly.
     You can also use industry opt-outs such as the <a href="https://optout.aboutads.info/" rel="noopener">Digital Advertising Alliance</a> tools where they apply to third parties you visit through this site.</p>
 
   <h2>Your rights (EU/UK and elsewhere)</h2>
@@ -121,7 +131,7 @@ export function privacy(ctx) {
 
   <h2>Children</h2>
   <p>The site is meant for a general adult audience. It is not directed at children under 13 (COPPA) or at children under 16 where that higher age applies.
-    ${esc(brand.NAME)} does not knowingly collect personal information from children. If you believe a child submitted personal data through a public GitHub issue opened from the feedback form, contact ${x} so it can be removed.</p>
+    ${esc(brand.NAME)} does not knowingly collect personal information from children. If you believe a child submitted personal data through a public GitHub issue opened from the feedback form, email ${mail} or contact ${x} so it can be removed.</p>
 
   <h2>Third parties a visit touches</h2>
   <ul>
@@ -324,7 +334,7 @@ export function terms(ctx) {
   <h2>5. People, companies and other people's words</h2>
   <ul>
     <li>Companies, AI labs, products, public figures and officials are named only to report public information, comment on it
-      or identify it. Names, logos and trademarks belong to their owners. Their appearance does not mean they endorse, sponsor
+      or identify it. Names, logos and trademarks belong to their owners. Cultural references used for commentary, such as “Skynet” (from the Terminator films), the Waffle House Index (a FEMA nickname) and the Doomsday Clock, belong to their owners; SIREN is not connected with or endorsed by StudioCanal, Waffle House, Inc., the Bulletin of the Atomic Scientists, or any studio, company or organisation named. Their appearance does not mean they endorse, sponsor
       or are affiliated with ${esc(brand.NAME)}, or that ${esc(brand.NAME)} endorses them.</li>
     <li>Rankings, scores and "race" standings are mechanical outputs of a published formula applied to public data. They are
       not statements of fact about anyone's conduct, character, safety record or intentions.</li>
@@ -349,7 +359,7 @@ export function terms(ctx) {
     is at your own risk and under their own terms and privacy policies. Some links are paid or affiliate links:
     ${esc(brand.LEGAL_AFFILIATE)} A sponsor, if there is one, is labelled and has no say over any number.
     Listing a product is not a guarantee of it; check it yourself before you buy.
-    Prediction-market and exchange links may be unavailable or restricted where you live; that is their rule, not a recommendation from this site.</p>
+    Prediction-market and exchange links may be unavailable or restricted where you live; that is their rule, not a recommendation from this site. Some prediction-market or exchange links may carry a referral code that pays SIREN a share of fees; where one does, it is labelled as a referral link. Using prediction markets may be illegal or restricted for people under 18 or in your state or country; check before you trade. Any paid tool offered on the site in future will show its price, refund terms and seller details at checkout, before you pay.</p>
 
   <h2>8. Your use of the site and its data</h2>
   <ul>
@@ -385,13 +395,14 @@ export function terms(ctx) {
     <a href="${esc(ctx.href('/privacy.html'))}">privacy page</a>.</p>
 
   <h2>14. Copyright concerns and corrections</h2>
-  <p>If you believe something on the site infringes your rights, is inaccurate, or should be removed, contact ${x} or open
+  <p>If you believe something on the site infringes your rights, is inaccurate, or should be removed, email ${mail}, contact ${x} or open
     ${repo} with the page address and what you would like changed. Valid requests are handled promptly.
-    There is no user-upload feature; the site is a static publication, so a formal DMCA agent is not required for user content that does not exist here.</p>
+    There is no user-upload feature; the site is a static publication that reports, links to and briefly quotes other people's work.</p>
+  <p><b>Copyright notices (DMCA-style).</b> To ask for removal of material you own, send to ${mail}: your contact details; the work you say is infringed; the exact page address and the item on it; a statement that you believe in good faith the use is not authorised by you, your agent or the law; a statement that the notice is accurate and, under penalty of perjury, that you are the owner or authorised to act for the owner; and your physical or electronic signature. Material that meets these points is taken down or corrected while the claim is looked at. If your material was removed and you believe that was a mistake, reply with a counter-notice giving the same details and the reason. Misrepresenting a claim can make you liable for damages.</p>
 
   <h2>15. Governing law</h2>
   <p>These terms are governed by the laws of the United States, without regard to conflict-of-law rules, except where a mandatory local law says otherwise.
-    Nothing here chooses a specific state venue or waives rights you cannot waive. If a dispute cannot be resolved informally through ${x} or ${repo},
+    Nothing here chooses a specific state venue or waives rights you cannot waive. If a dispute cannot be resolved informally through ${mail}, ${x} or ${repo},
     either side may use a court of competent jurisdiction that will hear the claim.</p>
 
   <h2>16. Changes, severability and your rights</h2>
@@ -451,7 +462,7 @@ export function disclosures(ctx) {
     See the <a href="${esc(brand.REPO_URL)}/blob/main/LICENSE" rel="noopener">LICENSE</a> file in the repository.</p>
 
   <h2>Contact</h2>
-  <p>Corrections, takedown requests and privacy questions: ${x} on X, or an issue on the
+  <p>Corrections, takedown requests and privacy questions: ${mail}, ${x} on X, or an issue on the
     <a href="${esc(brand.REPO_URL)}" rel="noopener">repository</a>. Security reports: see
     <a href="${esc(brand.REPO_URL)}/blob/main/SECURITY.md" rel="noopener">SECURITY.md</a>.</p>
 
@@ -725,7 +736,7 @@ export function press(ctx) {
     <li><a href="${esc(ctx.href('/embed.html'))}">Embeddable widget</a>; the code is on the <a href="${esc(ctx.href('/instruments.html'))}#embed">instruments page</a></li>
   </ul>
   <h2>Contact</h2>
-  <p>Message ${x} on X. Corrections that change a number are recorded in the open on the <a href="${esc(brand.REPO_URL)}" rel="noopener">repository</a>.</p>
+  <p>Email ${mail} or message ${x} on X. Corrections that change a number are recorded in the open on the <a href="${esc(brand.REPO_URL)}" rel="noopener">repository</a>.</p>
   <h2>Coverage</h2>
   <p>None yet. When there is some, it will be linked here, including the critical pieces.</p>
 </section>`;

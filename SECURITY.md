@@ -15,8 +15,8 @@ user accounts, no private per-user database, and no secrets in the frontend.
 ## Reporting a vulnerability
 
 Open a **private** security advisory on the repository
-(GitHub → Security → Advisories → New draft advisory), or email the address in
-the repository owner's profile. Do **not** file a public issue that includes
+(GitHub → Security → Advisories → New draft advisory), or email
+contactus@siren.watch. Do **not** file a public issue that includes
 secret values, tokens, or a working exploit against a third party.
 
 You can expect an acknowledgement within a few days when the advisory is

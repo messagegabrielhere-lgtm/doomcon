@@ -15,7 +15,7 @@ import { readdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { CANONICAL_URL } from './brand.mjs';
 import { XCOMPOSE_JS } from './xcompose.mjs';
-import { on as mzOn, sponsorLine, adSlot, AD_PAGES, MZ_CSS, MONETIZE, gtagHead } from './monetize.mjs';
+import { on as mzOn, sponsorLine, adSlot, AD_PAGES, MZ_CSS, MONETIZE, gtagHead, CONSENT_JS } from './monetize.mjs';
 import { HEADER_MARK, NAV_JS_PATH, headerHtml, relatedHtml, navJs } from './siteheader.mjs';
 const BASE = new URL(CANONICAL_URL).pathname.replace(/\/$/, '');
 
@@ -311,6 +311,7 @@ export function stamp(html, asOf, rel = '') {
   const gc = MONETIZE.analytics && MONETIZE.analytics.goatcounter;
   const analytics = gc ? `\n<script data-goatcounter="https://${gc}.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>` : '';
   const ga = gtagHead();
+  const consent = ga ? `\n<script>${CONSENT_JS}</script>` : '';
   const radio = `\n<script src="${BASE}/media/radio.js" defer></script>\n<script src="${BASE}/media/guide.js" defer></script>`;
   let out = withHeader(html, rel);
   // Google's gtag docs put the loader in <head>; stamp every built page once.
@@ -328,7 +329,7 @@ export function stamp(html, asOf, rel = '') {
     else tail = rel2;
   }
   const nav = `\n<script src="${BASE}/${NAV_JS_PATH}" defer></script>`;
-  return out.replace(/<\/body>(?![\s\S]*<\/body>)/i, `${tail}${css}${ad}${sp}${own ? '' : disclosureHtml()}${sitebar(asOf, { ...stampOpts, rel })}${nav}${radio}${analytics}\n</body>`);
+  return out.replace(/<\/body>(?![\s\S]*<\/body>)/i, `${tail}${css}${ad}${sp}${own ? '' : disclosureHtml()}${sitebar(asOf, { ...stampOpts, rel })}${nav}${radio}${analytics}${consent}\n</body>`);
 }
 
 // The shared header goes right after <body>, once, on any page that does not

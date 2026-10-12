@@ -34,7 +34,7 @@ import path from 'node:path';
 // secret, never from the source: the owner's address stays out of the repo.
 export const DEFAULT_SEC_UA = `doomcon ${process.env.SEC_CONTACT_EMAIL || 'SIREN index collector'}`;
 const SEC_UA = process.env.SEC_UA || DEFAULT_SEC_UA;
-const UA = 'Mozilla/5.0 (compatible; doomcon-investors/1.0; +https://github.com/messagegabrielhere-lgtm/doomcon)';
+const UA = 'Mozilla/5.0 (compatible; doomcon-investors/1.0; +https://siren.watch)';
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 export const FUNDS = [

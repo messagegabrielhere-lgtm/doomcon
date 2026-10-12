@@ -247,7 +247,7 @@ Nothing below needs repository access. All of it reads the live site.
 **1. Ask the API when it was built.**
 
 ```bash
-curl -s https://messagegabrielhere-lgtm.github.io/doomcon/api/news.json |
+curl -s https://siren.watch/api/news.json |
   node --input-type=module -e '
     let b=""; for await (const c of process.stdin) b+=c;
     const n = JSON.parse(b);
@@ -269,7 +269,7 @@ mode, how many sources were asked, and how many items arrived and departed.
 **2. Ask the CDN, without downloading anything.**
 
 ```bash
-curl -sI https://messagegabrielhere-lgtm.github.io/doomcon/api/news.json |
+curl -sI https://siren.watch/api/news.json |
   grep -i '^last-modified\|^etag'
 ```
 

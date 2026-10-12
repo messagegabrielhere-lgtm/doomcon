@@ -170,7 +170,7 @@ the address that actually serves the site today, **derived from
 `brand.CANONICAL_URL` rather than typed**:
 
 ```
-messagegabrielhere-lgtm.github.io/doomcon
+siren.watch
 ```
 
 It is a parameter. The day `doomcon.watch` resolves, `cardDomain()`'s default

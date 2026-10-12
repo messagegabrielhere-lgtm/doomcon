@@ -7,7 +7,7 @@
 import { isStock, STOCK_SPREAD_BPS } from './config.mjs';
 
 const BASE = 'https://api.exchange.coinbase.com';
-const UA = 'Mozilla/5.0 (compatible; siren-arena/1.0; +https://github.com/messagegabrielhere-lgtm/doomcon)';
+const UA = 'Mozilla/5.0 (compatible; siren-arena/1.0; +https://siren.watch)';
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 // One client for both markets: stock symbols (no "-USD") go to Yahoo.

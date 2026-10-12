@@ -1,7 +1,7 @@
 # GitHub ops runbook
 
 One page for running this repository on GitHub. The live reading still lives on
-the [site](https://messagegabrielhere-lgtm.github.io/doomcon/); this file is the
+the [site](https://siren.watch/); this file is the
 control panel map.
 
 For first-time setup see [GO-LIVE.md](GO-LIVE.md). For posting credentials see

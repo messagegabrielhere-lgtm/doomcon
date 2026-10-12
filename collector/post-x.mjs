@@ -453,7 +453,7 @@ export function dryRun({ text, png }) {
 // A real api-variant post from collector/posts.mjs on 2026-09-28.
 export const FIXTURE_API_TEXT = 'SIREN 4, ROUTINE. Composite 39.6 of 100, up 0.4 from the previous reading, '
   + 'as of 02:22 UTC on Mon 28 Sep 2026. Governance is the loudest of the five pillars at 53.2. '
-  + 'Arithmetic at messagegabrielhere dash lgtm dot github dot io slash doomcon.';
+  + 'Arithmetic at siren dot watch.';
 
 // Smallest valid PNG: 1x1, one grey pixel. Enough to exercise the upload path.
 export const FIXTURE_PNG = Buffer.from(
@@ -524,7 +524,7 @@ export async function selfTest() {
     eq(findFutureViolation(FIXTURE_API_TEXT), null, 'future');
   });
   await check('preflightX rejects a URL, future tense, a mention, 281 chars, "!" and BREAKING', () => {
-    throws(() => preflightX(FIXTURE_API_TEXT.replace('messagegabrielhere dash lgtm dot github dot io slash doomcon', 'https://messagegabrielhere-lgtm.github.io/doomcon')), /URL/, 'url');
+    throws(() => preflightX(FIXTURE_API_TEXT.replace('siren dot watch', 'https://siren.watch')), /URL/, 'url');
     throws(() => preflightX(`${FIXTURE_API_TEXT} It will rise.`), /future tense/, 'future');
     throws(() => preflightX(FIXTURE_API_TEXT.replace('Governance', '@OpenAI Governance')), /mention/, 'mention');
     throws(() => preflightX(`${'x'.repeat(260)} 12:00 UTC ${'y'.repeat(20)}`), /chars, limit 280/, 'length');

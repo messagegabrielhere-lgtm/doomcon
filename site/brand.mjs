@@ -334,6 +334,8 @@ export const NOT_CLAIMS = [
 export const LICENSE = 'CC BY 4.0';
 export const LICENSE_CODE = 'MIT';
 export const LICENSE_BLURB = 'Code MIT; data and index values CC BY 4.0';
+// One public, non-personal contact for privacy, legal, takedown and security mail.
+export const CONTACT_EMAIL = 'contactus@siren.watch';
 export const REPO_URL = 'https://github.com/messagegabrielhere-lgtm/doomcon';
 
 // Shared legal lines so footers, the disclosures hub and the sitebar cannot

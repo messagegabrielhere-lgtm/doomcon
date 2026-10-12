@@ -15,8 +15,8 @@ differs.
 
 | variant | last sentence | when |
 |---|---|---|
-| `api` | `Arithmetic at messagegabrielhere dash lgtm dot github dot io slash doomcon.` | the paid API path, later |
-| `manual` | `Arithmetic at https://messagegabrielhere-lgtm.github.io/doomcon` | **now** — hand-posted |
+| `api` | `Arithmetic at siren dot watch.` | the paid API path, later |
+| `manual` | `Arithmetic at https://siren.watch/` | **now** — hand-posted |
 
 **Post the `manual` variant.** X charges roughly `$0.200` for an API post
 carrying a link against `$0.015` for one without — a 13.3x surcharge, and the
@@ -534,7 +534,7 @@ through one.
    which this code does not implement.
 5. **User authentication settings:** app permissions **Read and write**, type
    automated app / bot, callback URL and website URL both
-   `https://messagegabrielhere-lgtm.github.io/doomcon`.
+   `https://siren.watch/`.
 6. **Keys and tokens:** generate the API Key and Secret, then the Access Token
    and Secret. **Generate (or regenerate) the Access Token after setting Read
    and write** — a token minted before the change stays read-only and every

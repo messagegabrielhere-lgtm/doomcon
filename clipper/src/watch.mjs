@@ -41,7 +41,7 @@ export async function resolveChannel(url) {
 
 export async function listRecent(channelId) {
   const res = await fetch(`https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`, {
-    headers: { 'user-agent': 'clipper/0.1 (+https://github.com/messagegabrielhere-lgtm/doomcon)' },
+    headers: { 'user-agent': 'clipper/0.1 (+https://siren.watch)' },
     signal: AbortSignal.timeout(20_000),
   })
   if (res.ok) return parseFeed(await res.text())

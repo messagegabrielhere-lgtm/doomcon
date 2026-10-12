@@ -7,7 +7,7 @@ import { readFileSync, writeFileSync } from 'node:fs';
 
 const KEY = process.env.MOLTBOOK_API_KEY;
 const BASE = 'https://www.moltbook.com/api/v1';
-const SITE = 'https://messagegabrielhere-lgtm.github.io/doomcon';
+const SITE = 'https://siren.watch';
 const LEDGER = 'data/moltbook-posted.json';
 const EVERY_H = 6;
 

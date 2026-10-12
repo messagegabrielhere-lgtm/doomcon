@@ -67,7 +67,7 @@ const FRAMES = [
   { file: 'stocks-1h.json', interval: '60m', range: '60d', maxBars: 300, barSec: 3600 },
 ];
 
-const UA = 'Mozilla/5.0 (compatible; capitulation-scanner/1.0; +https://github.com/messagegabrielhere-lgtm/doomcon)';
+const UA = 'Mozilla/5.0 (compatible; capitulation-scanner/1.0; +https://siren.watch)';
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 async function chart(sym, interval, range, fetchImpl = fetch) {

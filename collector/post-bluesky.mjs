@@ -306,7 +306,7 @@ export function dryRun({ text, link, png, readingIso, service = BSKY_DEFAULT_SER
 // Self-test — no network, no credentials
 // ---------------------------------------------------------------------------
 
-export const FIXTURE_LINK = 'https://messagegabrielhere-lgtm.github.io/doomcon';
+export const FIXTURE_LINK = 'https://siren.watch';
 export const FIXTURE_MANUAL_TEXT = '$874k is posted on Polymarket’s “Which company has best AI model end of 2026”, 02:22 UTC, '
   + '28 Sep 2026: Dario Amodei’s Anthropic 75.0 percent, Demis Hassabis’ Google DeepMind 9.5, Sam Altman’s OpenAI 8.5. '
   + `Arithmetic at ${FIXTURE_LINK}`;
@@ -365,7 +365,7 @@ export async function selfTest() {
   });
   await check('preflightBluesky accepts a real manual-variant post', () => { preflightBluesky(FIXTURE_MANUAL_TEXT, FIXTURE_LINK); });
   await check('preflightBluesky rejects 301 graphemes, a second URL, no link, future tense, a mention', () => {
-    throws(() => preflightBluesky(`${'a'.repeat(240)} 12:00 UTC. Arithmetic at ${FIXTURE_LINK}`, FIXTURE_LINK), /graphemes/, 'length');
+    throws(() => preflightBluesky(`${'a'.repeat(270)} 12:00 UTC. Arithmetic at ${FIXTURE_LINK}`, FIXTURE_LINK), /graphemes/, 'length');
     throws(() => preflightBluesky(FIXTURE_MANUAL_TEXT.replace('Polymarket', 'polymarket.com'), FIXTURE_LINK), /not the canonical link/, 'second url');
     throws(() => preflightBluesky(FIXTURE_MANUAL_TEXT.replace(FIXTURE_LINK, 'the site'), FIXTURE_LINK), /does not carry the canonical link/, 'no link');
     throws(() => preflightBluesky(FIXTURE_MANUAL_TEXT.replace('is posted', 'will be posted'), FIXTURE_LINK), /future tense/, 'future');

@@ -12,5 +12,5 @@ SIREN is a small public index. Prefer these channels:
 | How the operator runs GitHub day to day | [docs/GITHUB.md](docs/GITHUB.md) |
 
 There is no paid support desk and no Slack/Discord for the project. Issues on
-this repository are the queue. Check the [live index](https://messagegabrielhere-lgtm.github.io/doomcon/)
+this repository are the queue. Check the [live index](https://siren.watch/)
 before filing a score mismatch — a late Actions cron is usually not a bug.

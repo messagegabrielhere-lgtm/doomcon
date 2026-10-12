@@ -6,7 +6,7 @@ ours**. This file answers that, with numbers.
 
 Everything below was measured on 2026-09-23/24 against the live
 `https://www.pizzint.watch/` and the live
-`https://messagegabrielhere-lgtm.github.io/doomcon/`, in a real browser, at
+`https://siren.watch/`, in a real browser, at
 1440x900 and at 375x812, by walking the rendered DOM, the CSS and the shipped
 JavaScript bundles. Where a number is an estimate rather than a measurement it
 says **(est.)**. Nothing here is inferred from memory of the site.
