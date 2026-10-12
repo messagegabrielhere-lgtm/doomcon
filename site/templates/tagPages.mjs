@@ -415,6 +415,24 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'NVIDIA Blackwell accelerator stories scored in the newsroom or archive.',
     match: /\bblackwell\b/i,
   },
+  {
+    id: 'ollama',
+    name: 'Ollama',
+    description: 'Ollama local-model runtime stories scored in the newsroom or archive — coverage counts, not a product score.',
+    match: /\bollama\b/i,
+  },
+  {
+    id: 'mlx',
+    name: 'MLX',
+    description: 'Apple MLX framework stories scored in the newsroom or archive.',
+    match: /\bmlx\b/i,
+  },
+  {
+    id: 'computer-use',
+    name: 'Computer use',
+    description: 'Computer-use and desktop-agent stories scored in the newsroom or archive — product coverage, not a forecast.',
+    match: /\bcomputer[- ]use\b/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));

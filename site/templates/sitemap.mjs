@@ -31,6 +31,7 @@ export function render(ctx) {
     { loc: '/guide.html', changefreq: 'weekly', priority: '0.8', lastmod: ctx.state.generated_at },
     { loc: '/guide.md', changefreq: 'weekly', priority: '0.4', lastmod: ctx.state.generated_at },
     { loc: '/guides.html', changefreq: 'weekly', priority: '0.9', lastmod: ctx.state.generated_at },
+    { loc: '/guides.md', changefreq: 'weekly', priority: '0.4', lastmod: ctx.state.generated_at },
     ...compareEntries(ctx),
     { loc: '/library.html', changefreq: 'monthly', priority: '0.7', lastmod: ctx.state.generated_at },
     { loc: '/sponsor.html', changefreq: 'monthly', priority: '0.5', lastmod: ctx.state.generated_at },

@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
-import { GUIDES, guides } from './infoPages.mjs';
+import { GUIDES, guides, guidesMd } from './infoPages.mjs';
 
 const ctx = {
   url: (p) => `https://siren.watch${p === '/' ? '/' : p}`,
@@ -30,5 +30,16 @@ describe('guides hub', () => {
     assert.match(html, /\/compare\.html/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /probability of doom is \d/i);
+    assert.match(html, /guides\.md/);
+    assert.match(html, /rel="alternate"[^>]*guides\.md/);
+  });
+
+  it('ships a markdown mirror for agents', () => {
+    const md = guidesMd(ctx);
+    assert.match(md, /^# AI explainers/m);
+    assert.match(md, /\/guides\.html/);
+    assert.match(md, /\/p-doom\.html/);
+    assert.match(md, /\/ai-doomsday-clock\.html/);
+    assert.doesNotMatch(md, /doom score:\s*\d/i);
   });
 });

@@ -46,8 +46,12 @@ export const OUR_SURFACES = Object.freeze([
   // Conquest + entity hubs shipped in-repo; flag until gh-pages deploy catches up.
   '/vs.html',
   '/guides.html',
+  '/guides.md',
   '/tags.html',
   '/companies.html',
+  '/models.html',
+  '/people.html',
+  '/countries.html',
 ]);
 
 /** Count <loc> entries in a sitemap or sitemapindex body. */

@@ -127,7 +127,8 @@ China AI, plus later chips/energy/labor/healthcare/**coding**/**acquisitions**/
 **multi-agent**/**deepfakes**/**slm**/**ai-science**/**speculative-decoding**/
 **kv-cache**/**ai-act**/**autonomous-vehicles**/**ai-music**/**synthetic-data**/
 **inference-cost**/**prefer-data**/**reasoning-traces**/**claude-code**/**openrouter**/
-**huggingface**/**blackwell**). Evergreen hub: `/guides.html`.
+**huggingface**/**blackwell**/**ollama**/**mlx**/**computer-use**). Evergreen hub:
+`/guides.html` + `/guides.md`.
 News-sitemap `news:keywords` also carry matching topic names (cap 12) while
 pizzint’s news channel is contested. Conquest directory: `/vs.html` over the
 same `/vs/*` set. IndexNow ALWAYS includes `/vs.html`. `seo-daily` monitors

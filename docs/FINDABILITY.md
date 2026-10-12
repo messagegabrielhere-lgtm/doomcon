@@ -293,6 +293,7 @@ context.
 | 60 | Topic tags `kv-cache` + `ai-act` + `autonomous-vehicles` + `ai-music` + `synthetic-data` + `inference-cost`; seo-daily monitors `/vs.html` `/tags.html` `/companies.html` | Google | **Done** (2026-10-12) |
 | 61 | Topic tags `prefer-data` + `reasoning-traces` + `claude-code` + `openrouter`; IndexNow ALWAYS `/vs.html` + hub sample | Bing | **Done** (2026-10-12) |
 | 62 | `/guides.html` evergreen explainer hub (p(doom), clocks, compare/vs); tags `huggingface` + `blackwell` | Google | **Done** (2026-10-12) |
+| 63 | `/guides.md` agent mirror; tags `ollama` + `mlx` + `computer-use`; seo-daily monitors models/people/countries hubs | Google + agents | **Done** (2026-10-12) |
 
 ### 3.3 Refusals (search edition)
 

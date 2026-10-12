@@ -1778,6 +1778,7 @@ async function main() {
   written.push(await write(args.out, 'guide.html', infoPages.guide(ctx)));
   written.push(await write(args.out, 'guide.md', infoPages.guideMd(ctx)));
   written.push(await write(args.out, 'guides.html', infoPages.guides(ctx)));
+  written.push(await write(args.out, 'guides.md', infoPages.guidesMd(ctx)));
   // Competitor conquest landings: intercept DoomBench / Skynet / p(doom)
   // alternative queries without borrowing their doom-probability claims.
   for (const entry of comparePages.renderAll(ctx)) {

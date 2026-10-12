@@ -301,6 +301,39 @@ describe('tag pages', () => {
     assert.match(renderTag(rich, 'test-time'), /Test-time compute: AI stories this index scored/);
   });
 
+  it('pages Ollama, MLX, and computer-use hubs when the needle clears the gate', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('o1', 'Ollama adds a new local model pack'),
+          story('o2', 'Ollama on Apple Silicon guide'),
+          story('o3', 'Devs ship agents on Ollama'),
+          story('o4', 'Ollama API update'),
+          story('o5', 'Ollama vs other local runtimes'),
+          story('x1', 'MLX ports a new LLM to Mac'),
+          story('x2', 'Apple MLX training recipe'),
+          story('x3', 'MLX inference speed note'),
+          story('x4', 'Open MLX model weights'),
+          story('x5', 'MLX for on-device agents'),
+          story('u1', 'Computer-use agents beat prior demos'),
+          story('u2', 'Labs ship computer use APIs'),
+          story('u3', 'Computer use safety eval'),
+          story('u4', 'Desktop computer-use product launch'),
+          story('u5', 'Computer use for enterprise IT'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    assert.ok(ids.includes('ollama'));
+    assert.ok(ids.includes('mlx'));
+    assert.ok(ids.includes('computer-use'));
+    assert.match(renderTag(rich, 'ollama'), /Ollama: AI stories this index scored/);
+    assert.match(renderTag(rich, 'mlx'), /MLX: AI stories this index scored/);
+    assert.match(renderTag(rich, 'computer-use'), /Computer use: AI stories this index scored/);
+  });
+
   it('pages Hugging Face and Blackwell topic hubs when the needle clears the gate', () => {
     const rich = {
       ...ctx,

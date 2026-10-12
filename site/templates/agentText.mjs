@@ -298,7 +298,7 @@ Honesty rules:
 
 - [Method](${u('/methodology.html')}): every formula and constant ([markdown](${u('/methodology.md')}))
 - [Guide: SIREN vs DEFCON vs the Doomsday Clock vs p(doom)](${u('/guide.html')}) ([markdown](${u('/guide.md')}))
-- [AI explainers hub](${u('/guides.html')}): p(doom), doomsday clocks, doom indexes — vocabulary without a doom probability
+- [AI explainers hub](${u('/guides.html')}): p(doom), doomsday clocks, doom indexes — vocabulary without a doom probability ([guides.md](${u('/guides.md')}))
 - [AI doom indexes compared](${u('/compare.html')}): SIREN vs DoomBench, Skynet Countdown, p(doom), PizzINT
 - [SIREN vs other AI indexes](${u('/vs.html')}): directory of honest versus pages
 - [AI doom index alternatives](${u('/alternatives.html')}): when SIREN is the right substitute
@@ -331,7 +331,7 @@ ${facetLinks(ctx, u)}
 - [AI leaders](${u('/leaders.html')})
 - [People](${u('/people/')}): one page per leader with enough press coverage (live wire or archive)
 - [AI people](${u('/people.html')}): DoomBench-shaped people directory (same gated roster; headlines only, no person doom score)
-- [Tags](${u('/tags/')}): topic hubs (agents, GPUs, chips, coding, evals, video, voice, reasoning, IPO, RAG, MCP, fine-tuning, quantization, distillation, agent memory, hallucination, prompt injection, MoE, world models, AI copyright, diffusion, embeddings, guardrails, context windows, AI search, multi-agent, deepfakes, SLMs, AI for science, speculative decoding, KV cache, EU AI Act, autonomous vehicles, AI music, synthetic data, inference cost, preference data, reasoning traces, Claude Code, OpenRouter, Hugging Face, Blackwell, test-time compute, browser, watermarking, acquisitions, labor, healthcare, …) when a needle clears five stories in the live window or archive
+- [Tags](${u('/tags/')}): topic hubs (agents, GPUs, chips, coding, evals, video, voice, reasoning, IPO, RAG, MCP, fine-tuning, quantization, distillation, agent memory, hallucination, prompt injection, MoE, world models, AI copyright, diffusion, embeddings, guardrails, context windows, AI search, multi-agent, deepfakes, SLMs, AI for science, speculative decoding, KV cache, EU AI Act, autonomous vehicles, AI music, synthetic data, inference cost, preference data, reasoning traces, Claude Code, OpenRouter, Hugging Face, Blackwell, Ollama, MLX, computer use, test-time compute, browser, watermarking, acquisitions, labor, healthcare, …) when a needle clears five stories in the live window or archive
 - [AI tags](${u('/tags.html')}): Skynet-shaped tags directory (same gated topics; story counts only, no topic doom score)
 - [Story archive](${u('/item/archive.html')}): older scored /item pages kept after they leave the live newsroom
 - [Kinds](${u('/kind/')}): press / forum / paper hubs when a collector kind clears five stories in the live window or archive
@@ -420,6 +420,7 @@ export function agentsMd(ctx) {
 - ${u('/')} — live AI activity index today
 - ${u('/guide.md')} — SIREN vs DEFCON vs Doomsday Clock vs p(doom)
 - ${u('/guides.html')} — AI explainers hub (p(doom), clocks, doom indexes)
+- ${u('/guides.md')} — markdown mirror of the explainers hub
 - ${u('/compare.html')} — AI doom indexes compared (incl. PizzINT)
 - ${u('/vs.html')} — versus directory (DoomBench, Skynet, p(doom), PizzINT)
 - ${u('/alternatives.html')} — when SIREN is the right substitute

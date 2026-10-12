@@ -931,6 +931,7 @@ export function guides(ctx) {
   <ol style="list-style:none;padding:0;margin:16px 0 0">${rows}</ol>
   <h2>Also</h2>
   <p><a href="${esc(ctx.href('/'))}">Live reading →</a>
+     · <a href="${esc(ctx.href('/guides.md'))}">Markdown mirror →</a>
      · <a href="${esc(ctx.href('/history.html'))}">Sixty years of the same argument →</a>
      · <a href="${esc(ctx.href('/library.html'))}">Reading list →</a></p>
 </section>`;
@@ -939,6 +940,7 @@ export function guides(ctx) {
     path,
     title,
     description,
+    head: `<link rel="alternate" type="text/markdown" href="${esc(ctx.href('/guides.md'))}" title="AI explainers (markdown)">`,
     jsonld: [
       {
         '@context': 'https://schema.org',
@@ -985,4 +987,27 @@ export function guides(ctx) {
     ],
     main,
   });
+}
+
+/** Markdown mirror of /guides.html for agents (FINDABILITY.md §2.1). */
+export function guidesMd(ctx) {
+  const lines = GUIDES.map((g) => `- [${g.name}](${ctx.url(g.path)}): ${g.blurb}`).join('\n');
+  return `# AI explainers — what each number measures
+
+> HTML: ${ctx.url('/guides.html')}
+
+Search often lands on a doom score, a countdown, or a DEFCON-shaped novelty page.
+These pages answer the vocabulary questions without inventing a probability of harm.
+${brand.NAME} stays an hourly activity count with a receipt.
+
+## Guides
+
+${lines}
+
+## Also
+
+- [Live reading](${ctx.url('/')})
+- [guide.md](${ctx.url('/guide.md')}) · [methodology.md](${ctx.url('/methodology.md')})
+- [Sixty years of the same argument](${ctx.url('/history.html')})
+`;
 }
