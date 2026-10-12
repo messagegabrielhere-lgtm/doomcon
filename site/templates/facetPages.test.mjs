@@ -337,6 +337,59 @@ describe('lab facets', () => {
     assert.doesNotMatch(html, /doom score/i);
   });
 
+  it('indexes Samsung, ASML, and Cognition entity labs when archive stories clear the gate', () => {
+    const withArch = {
+      ...ctx,
+      news: { ...ctx.news, items: [...ctx.news.items] },
+      itemArchive: [
+        {
+          id: 'sa1', title: 'Samsung AI glasses with Gemini', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/sa1', published_at: '2026-09-01T01:00:00Z', score: 40,
+        },
+        {
+          id: 'sa2', title: 'Samsung profits from AI chip boom', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/sa2', published_at: '2026-09-02T01:00:00Z', score: 41,
+        },
+        {
+          id: 'sa3', title: 'Samsung commits to AI infrastructure', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/sa3', published_at: '2026-09-03T01:00:00Z', score: 42,
+        },
+        {
+          id: 'as1', title: 'ASML tools for AI fab capacity', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/as1', published_at: '2026-09-01T02:00:00Z', score: 40,
+        },
+        {
+          id: 'as2', title: 'ASML CEO interview on chip supply', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/as2', published_at: '2026-09-02T02:00:00Z', score: 41,
+        },
+        {
+          id: 'as3', title: 'Earnings watch names ASML and TSMC', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/as3', published_at: '2026-09-03T02:00:00Z', score: 42,
+        },
+        {
+          id: 'cg1', title: 'Cognition Supports ChatGPT payment for Devin', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/cg1', published_at: '2026-09-01T03:00:00Z', score: 40,
+        },
+        {
+          id: 'cg2', title: 'Alex Stamos joins Cognition as CSO', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/cg2', published_at: '2026-09-02T03:00:00Z', score: 41,
+        },
+        {
+          id: 'cg3', title: 'Devin coding agent partnership expands', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/cg3', published_at: '2026-09-03T03:00:00Z', score: 42,
+        },
+      ],
+    };
+    const ids = labsFromEntities(withArch).map((p) => p.id);
+    assert.ok(ids.includes('samsung'));
+    assert.ok(ids.includes('asml'));
+    assert.ok(ids.includes('cognition'));
+    assert.match(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'samsung')), /Samsung: AI stories this index scored/);
+    assert.match(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'asml')), /ASML: AI stories this index scored/);
+    assert.match(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'cognition')), /Cognition: AI stories this index scored/);
+    assert.doesNotMatch(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'cognition')), /doom score/i);
+  });
+
   it('does not treat Intel as a substring of intelligent', () => {
     const player = { id: 'intel', name: 'Intel', entityName: 'Intel', entityOnly: true };
     const falseHit = {

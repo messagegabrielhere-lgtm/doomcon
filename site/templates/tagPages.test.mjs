@@ -656,4 +656,95 @@ describe('tag pages', () => {
     assert.match(renderTag(rich, 'grpo'), /GRPO: AI stories this index scored/);
     assert.doesNotMatch(renderTag(rich, 'voice-agents'), /doom score/i);
   });
+
+  it('pages RLVR, humanoid, interpretability, GGUF, red-teaming, edge-AI, SFT, Copilot, diffusion-LLM, activation-steering, rerank, federated-learning hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('r1', 'RLVR improves math reasoning'),
+          story('r2', 'Reinforcement learning from verifiable rewards paper'),
+          story('r3', 'RLVR rollout reuse study'),
+          story('r4', 'Open RLVR recipe for agents'),
+          story('r5', 'Limits of RLVR verifiers'),
+          story('h1', 'Humanoid robots learn from video'),
+          story('h2', 'Nvidia physical AI for humanoid robots'),
+          story('h3', 'Humanoid control policy release'),
+          story('h4', 'Factory trials for humanoid workers'),
+          story('h5', 'Humanoid benchmark for loco-manipulation'),
+          story('i1', 'Mechanistic interpretability circuit discovery'),
+          story('i2', 'Logit lens for model internals'),
+          story('i3', 'Activation patching interpretability study'),
+          story('i4', 'Mech-interp sparse autoencoder paper'),
+          story('i5', 'CoT-interpretability alignment note'),
+          story('g1', 'New GGUF quant on Hugging Face'),
+          story('g2', 'GGUF packs for local runtimes'),
+          story('g3', 'Converting safetensors to GGUF'),
+          story('g4', 'GGUF Q4 vs Q5 quality'),
+          story('g5', 'Trending GGUF checkpoints'),
+          story('rt1', 'Red-teaming personal agents'),
+          story('rt2', 'Agents that red-team startup ideas'),
+          story('rt3', 'Red-team evolution of agent skills'),
+          story('rt4', 'Autonomous red-teaming for repos'),
+          story('rt5', 'Red teaming multi-service agents'),
+          story('e1', 'Edge AI chip tester ships'),
+          story('e2', 'On-device LLM for phones'),
+          story('e3', 'Edge AI broadband gear'),
+          story('e4', 'Compact on-device inference stack'),
+          story('e5', 'Edge AI plasma control twin'),
+          story('s1', 'Supervised fine-tuning under long-tail data'),
+          story('s2', 'SFT token reweighting paper'),
+          story('s3', 'SFT vs RL for domain adaptation'),
+          story('s4', 'Open SFT mix for coding'),
+          story('s5', 'Supervised fine-tune recipes'),
+          story('c1', 'GitHub Copilot runtime rewrite'),
+          story('c2', 'Microsoft Copilot Office update'),
+          story('c3', 'Copilot prompts leak review'),
+          story('c4', 'Copilot+ PCs security features'),
+          story('c5', 'Copilot Studio staffing note'),
+          story('d1', 'Diffusion language models design space'),
+          story('d2', 'Faster speculative decoding in diffusion LLMs'),
+          story('d3', 'Continuous diffusion language model paper'),
+          story('d4', 'Quantization for diffusion language models'),
+          story('d5', 'Autoregressive post-training for diffusion LLMs'),
+          story('a1', 'Activation steering for emotion control'),
+          story('a2', 'Closed-loop activation steering in diffusion LLMs'),
+          story('a3', 'Contrastive activation addition for SLMs'),
+          story('a4', 'Calibrated activation steering for traits'),
+          story('a5', 'Representation engineering in LLM safety'),
+          story('rk1', 'Agent skill reranking study'),
+          story('rk2', 'Recommendation reranking with LLMs'),
+          story('rk3', 'Learning to rerank search with vision'),
+          story('rk4', 'RAG document-set reranking'),
+          story('rk5', 'E-commerce preference reranker'),
+          story('f1', 'Federated learning for edge devices'),
+          story('f2', 'Personalized federated learning norms'),
+          story('f3', 'Policy-compliant federated learning'),
+          story('f4', 'Model-poisoning defense in federated learning'),
+          story('f5', 'Hybrid-order federated learning'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    for (const id of [
+      'rlvr', 'humanoid', 'interpretability', 'gguf', 'red-teaming', 'edge-ai',
+      'sft', 'copilot', 'diffusion-llm', 'activation-steering', 'rerank', 'federated-learning',
+    ]) {
+      assert.ok(ids.includes(id), id);
+    }
+    assert.match(renderTag(rich, 'rlvr'), /RLVR: AI stories this index scored/);
+    assert.match(renderTag(rich, 'humanoid'), /Humanoid robots: AI stories this index scored/);
+    assert.match(renderTag(rich, 'interpretability'), /Interpretability: AI stories this index scored/);
+    assert.match(renderTag(rich, 'gguf'), /GGUF: AI stories this index scored/);
+    assert.match(renderTag(rich, 'red-teaming'), /Red-teaming: AI stories this index scored/);
+    assert.match(renderTag(rich, 'edge-ai'), /Edge AI: AI stories this index scored/);
+    assert.match(renderTag(rich, 'sft'), /SFT: AI stories this index scored/);
+    assert.match(renderTag(rich, 'copilot'), /Copilot: AI stories this index scored/);
+    assert.match(renderTag(rich, 'diffusion-llm'), /Diffusion LLMs: AI stories this index scored/);
+    assert.match(renderTag(rich, 'activation-steering'), /Activation steering: AI stories this index scored/);
+    assert.match(renderTag(rich, 'rerank'), /Reranking: AI stories this index scored/);
+    assert.match(renderTag(rich, 'federated-learning'), /Federated learning: AI stories this index scored/);
+    assert.doesNotMatch(renderTag(rich, 'rlvr'), /doom score/i);
+  });
 });

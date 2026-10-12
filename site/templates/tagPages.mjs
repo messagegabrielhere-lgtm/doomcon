@@ -481,6 +481,78 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'GRPO reinforcement-learning stories scored in the newsroom or archive — method coverage, not a training score.',
     match: /\b[\w-]*grpo\b/i,
   },
+  {
+    id: 'rlvr',
+    name: 'RLVR',
+    description: 'RLVR (reinforcement learning from verifiable rewards) stories scored in the newsroom or archive — method coverage, not a training score.',
+    match: /\b(rlvr|reinforcement learning (?:from|with) verifiable rewards?)\b/i,
+  },
+  {
+    id: 'humanoid',
+    name: 'Humanoid robots',
+    description: 'Humanoid-robot and physical-AI stories scored in the newsroom or archive — coverage counts, not a robotics forecast.',
+    match: /\bhumanoid\b/i,
+  },
+  {
+    id: 'interpretability',
+    name: 'Interpretability',
+    description: 'Mechanistic interpretability and model-internals stories scored in the newsroom or archive — research coverage, not a safety score.',
+    match: /\b(interpretabilit\w*|mech[- ]?interp|logit lens|circuit discovery|activation patching)\b/i,
+  },
+  {
+    id: 'gguf',
+    name: 'GGUF',
+    description: 'GGUF weight-format stories scored in the newsroom or archive — coverage counts, not a format ranking.',
+    match: /\bgguf\b/i,
+  },
+  {
+    id: 'red-teaming',
+    name: 'Red-teaming',
+    description: 'Red-teaming and adversarial-eval stories scored in the newsroom or archive — coverage counts, not a threat forecast.',
+    match: /\bred[- ]team(?:ing)?\b/i,
+  },
+  {
+    id: 'edge-ai',
+    name: 'Edge AI',
+    description: 'Edge-AI and on-device inference stories scored in the newsroom or archive.',
+    match: /\b(edge ai|on[- ]device (?:llm|inference|language models?))\b/i,
+  },
+  {
+    id: 'sft',
+    name: 'SFT',
+    description: 'Supervised fine-tuning (SFT) stories scored in the newsroom or archive — method coverage, not a model score.',
+    match: /\b(\bsft\b|supervised fine[- ]tun(?:e|ing|ed))\b/i,
+  },
+  {
+    id: 'copilot',
+    name: 'Copilot',
+    description: 'GitHub Copilot and Microsoft Copilot product stories scored in the newsroom or archive — coverage counts, not a product score.',
+    match: /\b((?:github )?copilot|microsoft copilot)\b/i,
+  },
+  {
+    id: 'diffusion-llm',
+    name: 'Diffusion LLMs',
+    description: 'Diffusion language-model stories scored in the newsroom or archive — method coverage, not a capability forecast.',
+    match: /\bdiffusion (?:llms?|language models?)\b/i,
+  },
+  {
+    id: 'activation-steering',
+    name: 'Activation steering',
+    description: 'Activation-steering and representation-engineering stories scored in the newsroom or archive.',
+    match: /\b(activation steer(?:ing)?|representation engineer(?:ing)?|contrastive activation)\b/i,
+  },
+  {
+    id: 'rerank',
+    name: 'Reranking',
+    description: 'Retrieval reranking stories scored in the newsroom or archive.',
+    match: /\brerank(?:er|ing)?\b/i,
+  },
+  {
+    id: 'federated-learning',
+    name: 'Federated learning',
+    description: 'Federated-learning stories scored in the newsroom or archive — method coverage, not a privacy score.',
+    match: /\bfederated learning\b/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));
