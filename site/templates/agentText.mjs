@@ -298,11 +298,12 @@ Honesty rules:
 
 - [Method](${u('/methodology.html')}): every formula and constant ([markdown](${u('/methodology.md')}))
 - [Guide: SIREN vs DEFCON vs the Doomsday Clock vs p(doom)](${u('/guide.html')}) ([markdown](${u('/guide.md')}))
-- [AI doom indexes compared](${u('/compare.html')}): SIREN vs DoomBench, Skynet Countdown, p(doom)
+- [AI doom indexes compared](${u('/compare.html')}): SIREN vs DoomBench, Skynet Countdown, p(doom), PizzINT
 - [AI doom index alternatives](${u('/alternatives.html')}): when SIREN is the right substitute
 - [SIREN vs DoomBench](${u('/vs/doombench.html')})
 - [SIREN vs Skynet Countdown](${u('/vs/skynet-countdown.html')})
 - [SIREN vs p(doom) clocks](${u('/vs/pdoom.html')})
+- [SIREN vs PizzINT](${u('/vs/pizzint.html')}): activity count vs DEFCON/Doomsday title hijack (honest refuse)
 - [What is p(doom)?](${u('/p-doom.html')})
 - [Is there an AI doomsday clock?](${u('/ai-doomsday-clock.html')})
 - [AI and jobs: what has been measured](${u('/jobs.html')})
@@ -349,7 +350,9 @@ ${facetLinks(ctx, u)}
 - [Labs](${u('/lab/')}): race-board and entity lab hubs with story counts
 - [AI companies](${u('/companies.html')}): DoomBench-shaped company directory (same gated labs; no company doom score)
 - [News by day](${u('/news.html')}): UTC day hubs under /news/YYYY-MM-DD.html when a day clears five stories
-${(ctx.routes && ctx.routes.world) ? `- [Datacentres by country](${u('/country/')}): mapped sites, one page per country with at least three\n- [AI datacentre countries](${u('/countries.html')}): country directory (same gated map counts; not a national AI ranking)\n` : ''}`;
+- [Datacentres by country](${u('/country/')}): mapped sites, one page per country with at least three
+- [AI datacentre countries](${u('/countries.html')}): country directory (same gated map counts; not a national AI ranking)
+`;
 }
 
 /** Instrument rooms that exist for this build (FINDABILITY.md §2.1). */
@@ -414,8 +417,12 @@ export function agentsMd(ctx) {
 
 - ${u('/')} — live AI activity index today
 - ${u('/guide.md')} — SIREN vs DEFCON vs Doomsday Clock vs p(doom)
-- ${u('/compare.html')} — AI doom indexes compared
+- ${u('/compare.html')} — AI doom indexes compared (incl. PizzINT)
 - ${u('/alternatives.html')} — when SIREN is the right substitute
+- ${u('/vs/pizzint.html')} — vs PizzINT / Pentagon Pizza Index (honest refuse)
+- ${u('/pillars.html')} — AI activity pillars directory
+- ${u('/countries.html')} — AI datacentre countries directory
+- ${u('/sources.html')} — AI news sources directory
 - ${u('/methodology.md')} — every formula and constant
 
 ## Discovery

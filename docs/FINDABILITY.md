@@ -286,6 +286,7 @@ context.
 | 53 | `/vs/pizzint.html` conquest + compare/alternatives; topic tag `test-time` | Google | **Done** (2026-10-12) |
 | 54 | Wire PizzINT conquest from guide / FAQ / agents.md; merge latest main | Google | **Done** (2026-10-12) |
 | 55 | Home + catalog + IndexNow surfaces for `/vs/*` conquest pages incl. PizzINT | Google | **Done** (2026-10-12) |
+| 56 | `llms.txt` / skill map lists PizzINT conquest + pillar/country/source hubs | assistants | **Done** (2026-10-12) |
 
 ### 3.3 Refusals (search edition)
 
