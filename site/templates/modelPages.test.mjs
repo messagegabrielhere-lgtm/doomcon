@@ -97,4 +97,21 @@ describe('model pages', () => {
     assert.doesNotMatch(grok, /\/model\/grok\.html/);
     assert.match(grok, /Names in this headline: Grok/);
   });
+
+  it('lets the durable archive keep a model hub above the substance gate', () => {
+    const withArch = {
+      ...ctx,
+      itemArchive: [
+        story('g-old1', 'Archived Grok launch', ['Grok']),
+        story('g-old2', 'Archived Grok update', ['Grok']),
+      ],
+    };
+    const names = indexableModels(withArch).map((m) => m.name);
+    assert.ok(names.includes('Grok'));
+    assert.ok(names.includes('Claude'));
+    const html = renderModel(withArch, 'Grok');
+    assert.doesNotMatch(html, /noindex/);
+    assert.match(html, /Older scored stories naming Grok/);
+    assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/model/grok.html'));
+  });
 });

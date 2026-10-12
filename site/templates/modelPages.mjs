@@ -75,13 +75,28 @@ export function archiveItemsForModel(ctx, name) {
     .sort((a, b) => String(b.published_at || '').localeCompare(String(a.published_at || '')));
 }
 
+/** Live + archive scored stories — archive can keep a hub alive after the window rolls (same idea as day hubs). */
+export function modelStoryCount(ctx, name) {
+  return itemsForModel(ctx, name).length + archiveItemsForModel(ctx, name).length;
+}
+
 export function modelIndexable(ctx, name) {
-  return isModelName(name) && itemsForModel(ctx, name).length >= MODEL_INDEX_MIN;
+  return isModelName(name) && modelStoryCount(ctx, name) >= MODEL_INDEX_MIN;
 }
 
 export function indexableModels(ctx) {
   return MODELS
-    .map((e) => ({ name: e.name, slug: entitySlug(e.name), count: itemsForModel(ctx, e.name).length }))
+    .map((e) => {
+      const live = itemsForModel(ctx, e.name).length;
+      const archived = archiveItemsForModel(ctx, e.name).length;
+      return {
+        name: e.name,
+        slug: entitySlug(e.name),
+        live,
+        archived,
+        count: live + archived,
+      };
+    })
     .filter((e) => e.count >= MODEL_INDEX_MIN)
     .sort((a, b) => (b.count - a.count) || a.name.localeCompare(b.name));
 }
@@ -128,8 +143,9 @@ export function renderModel(ctx, name) {
   const older = archivedAll.slice(0, 12);
   const path = modelPath(name);
   const title = `${name}: AI stories this index scored · ${brand.NAME}`;
+  const total = items.length + archivedAll.length;
   const description = clip(
-    `${items.length} scored stories in the current ${brand.NAME} window name ${name}. A count of headlines that matched the published entity list, not a score for the model.`,
+    `${total} scored stories name ${name} on ${brand.NAME} (${items.length} in the live window). A count of headlines that matched the published entity list, not a score for the model.`,
     160,
   );
   const others = indexableModels(ctx).filter((m) => m.name !== name);
@@ -163,7 +179,7 @@ export function renderModel(ctx, name) {
     path,
     title,
     description,
-    noindex: items.length < MODEL_INDEX_MIN,
+    noindex: total < MODEL_INDEX_MIN,
     jsonld: [{
       '@context': 'https://schema.org',
       '@type': 'CollectionPage',
@@ -196,20 +212,20 @@ export function renderIndex(ctx) {
   const path = '/model/';
   const title = `AI model families this index scored · ${brand.NAME}`;
   const description = clip(
-    `${models.length} model families with at least ${MODEL_INDEX_MIN} scored stories in the current ${brand.NAME} window. Each page lists those stories. No model score is computed.`,
+    `${models.length} model families with at least ${MODEL_INDEX_MIN} scored stories on ${brand.NAME} (live window plus archive). Each page lists those stories. No model score is computed.`,
     160,
   );
   const rows = models.map((m) => `<li>
   <a href="${esc(ctx.href(modelPath(m.name)))}">${esc(m.name)}</a>
-  <span class="fc__meta">${esc(m.slug)}</span>
+  <span class="fc__meta">${esc(m.slug)}${m.archived ? ` · ${esc(String(m.live))} live / ${esc(String(m.archived))} archive` : ''}</span>
   <span class="fc__sc num">${esc(String(m.count))}</span>
 </li>`).join('');
   const main = `${STYLE}
 <article class="fc prose">
   <p class="fc__k"><a href="${esc(ctx.href('/news.html'))}">Newsroom</a> · Models · <a href="${esc(ctx.href('/models.html'))}">Models hub</a></p>
   <h1>Model families this index scored</h1>
-  <p class="fc__lede">A model family earns a page when the current window holds at least ${MODEL_INDEX_MIN} scored stories whose headline matches that name in the published entity list. Fewer than that stays on the story page only. No model “doom score” is computed.</p>
-  ${rows ? `<ol class="fc__list">${rows}</ol>` : '<p>No model family clears the gate in this window.</p>'}
+  <p class="fc__lede">A model family earns a page when at least ${MODEL_INDEX_MIN} scored stories name it in the live window or the durable archive (same published entity list). Thinner names stay on the story page only. No model “doom score” is computed.</p>
+  ${rows ? `<ol class="fc__list">${rows}</ol>` : '<p>No model family clears the gate in this build.</p>'}
   <p class="fresh__key">Search-shaped directory: <a href="${esc(ctx.href('/models.html'))}">AI models this index covers</a>.</p>
 </article>`;
   return page({
@@ -257,13 +273,13 @@ export function renderModels(ctx) {
   );
   const rows = models.map((m) => `<li>
   <a href="${esc(ctx.href(modelPath(m.name)))}">${esc(m.name)}</a>
-  <span class="fc__meta">Story hub · <span class="num">${esc(String(m.count))}</span> in window</span>
+  <span class="fc__meta">Story hub · <span class="num">${esc(String(m.count))}</span> scored${m.archived ? ` (${esc(String(m.live))} live)` : ''}</span>
 </li>`).join('');
   const main = `${STYLE}
 <article class="fc prose">
   <p class="fc__k"><a href="${esc(ctx.href('/compare.html'))}">Compare</a> · <a href="${esc(ctx.href('/model/'))}">Model families</a> · Models</p>
   <h1>AI models this index covers</h1>
-  <p class="fc__lede">${esc(brand.NAME)} does not publish a model “doom score.” It publishes an activity index and scored stories. This page lists model families that already clear the same substance gate as <a href="${esc(ctx.href('/model/'))}">/model/</a> — at least ${MODEL_INDEX_MIN} matching headlines in the live window.</p>
+  <p class="fc__lede">${esc(brand.NAME)} does not publish a model “doom score.” It publishes an activity index and scored stories. This page lists model families that already clear the same substance gate as <a href="${esc(ctx.href('/model/'))}">/model/</a> — at least ${MODEL_INDEX_MIN} matching headlines in the live window or archive.</p>
   <div class="fc__stat" role="group" aria-label="Model hub totals">
     <div><b class="num">${esc(String(models.length))}</b><span>Model family hubs</span></div>
   </div>
