@@ -85,6 +85,24 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'Stories that name China, Chinese labs, or PRC-linked AI companies in this window.',
     match: /\b(china|chinese|beijing|shanghai|deepseek|alibaba|tencent|baidu)\b/i,
   },
+  {
+    id: 'security',
+    name: 'AI security',
+    description: 'Breaches, prompt injection, and cyber incidents the newsroom scored — not a threat forecast.',
+    match: /\b(cyber|breach|prompt injection|data leak|vulnerability|ransomware)\b/i,
+  },
+  {
+    id: 'military',
+    name: 'AI & defense',
+    description: 'Defense, Pentagon, and military procurement stories that name AI systems.',
+    match: /\b(pentagon|defense|defence|military|weaponis\w*|autonomous weapon)\b/i,
+  },
+  {
+    id: 'education',
+    name: 'AI in education',
+    description: 'Classrooms, universities, and student-use stories scored in this window.',
+    match: /\b(classroom|university|students?|cheating|homework|school district)\b/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));

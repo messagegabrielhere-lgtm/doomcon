@@ -208,6 +208,7 @@ import * as kindPages from './templates/kindPages.mjs';
 import { page as layoutPage } from './templates/layout.mjs';
 import { render as sitemap, robots } from './templates/sitemap.mjs';
 import { INDEXNOW_KEY } from '../collector/indexnow.mjs';
+import { loadArchive, archiveOnlyItems } from '../collector/item-archive.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -940,6 +941,15 @@ async function main() {
     warn('data/news.json is absent; building without the newsroom. Run collector/news.mjs first.');
   }
 
+  // Permanent /item/ long-tail beyond the live newsroom cap. Absent or unreadable
+  // → empty archive; the live window still builds.
+  let itemArchiveDoc = { items: [], updated_at: null };
+  try {
+    itemArchiveDoc = await loadArchive(path.join(args.data, 'item-archive.json'));
+  } catch (err) {
+    warn(`data/item-archive.json unreadable (${err.message}); building without the item archive.`);
+  }
+
   // Same separate-failure-domain rule as news: /race going dark must not stop
   // the index building, and a dark index must not empty the leaderboard.
   let race = null;
@@ -1229,10 +1239,19 @@ async function main() {
   const cssName = `s-${createHash('sha256').update(sheet).digest('hex').slice(0, 12)}.css`;
   const cssHref = `${brand.BASE_PATH}/${cssName}`;
 
+  const liveNewsItems = (news && Array.isArray(news.items)) ? news.items : [];
+  const archivedItems = archiveOnlyItems(itemArchiveDoc, liveNewsItems);
+
   const ctx = {
     state,
     logos,
     news,
+    // Scored stories outside the live newsroom cap — sitemap + /item/ pages.
+    itemArchive: archivedItems,
+    itemArchiveMeta: {
+      updated_at: itemArchiveDoc.updated_at || null,
+      total: Array.isArray(itemArchiveDoc.items) ? itemArchiveDoc.items.length : 0,
+    },
     breaking,
     deskPicks,
     race,
@@ -1415,6 +1434,24 @@ async function main() {
         const entityChanged = named.some((name) => prevCohort.get(name) !== nextCohort.get(name));
         const itemChanged = !prev || stableJson(it) !== stableJson(prev);
         if (!asOfChanged && !pillarChanged && !entityChanged && !itemChanged && existsSync(abs)) {
+          itemSkipped += 1;
+          continue;
+        }
+        const related = (byPillar.get(it.pillar) || [])
+          .filter((r) => r.id !== it.id)
+          .slice(0, 5);
+        written.push(await write(args.out, rel, itemPage.render(ctx, it, related)));
+        itemRewritten += 1;
+      }
+      // Archived scored stories keep their permanent pages across news-only
+      // ticks. Do not delete them when they leave the live window.
+      for (const it of (ctx.itemArchive || [])) {
+        if (!it || !it.id) continue;
+        const slug = itemPage.slugFor(it);
+        keep.add(`${slug}.html`);
+        const rel = `item/${slug}.html`;
+        const abs = path.join(args.out, rel);
+        if (existsSync(abs)) {
           itemSkipped += 1;
           continue;
         }
@@ -1773,6 +1810,7 @@ async function main() {
   // gets 997 of its 1,018 sitemap URLs. Each of ours carries the score
   // decomposition and the corroboration set, so these are unique computed
   // pages rather than the thin doorway pages this pattern usually produces.
+  // Live window + data/item-archive.json (cap overflow and aged-off rows).
   if (itemPage.hasItems(ctx)) {
     const items = ctx.news.items;
     const byPillar = new Map();
@@ -1781,6 +1819,12 @@ async function main() {
       byPillar.get(it.pillar).push(it);
     }
     for (const it of items) {
+      const related = (byPillar.get(it.pillar) || [])
+        .filter((r) => r.id !== it.id)
+        .slice(0, 5);
+      written.push(await write(args.out, `item/${itemPage.slugFor(it)}.html`, itemPage.render(ctx, it, related)));
+    }
+    for (const it of (ctx.itemArchive || [])) {
       const related = (byPillar.get(it.pillar) || [])
         .filter((r) => r.id !== it.id)
         .slice(0, 5);

@@ -20,7 +20,7 @@ hijacks we cannot honestly answer stay refused (`CONTRACT.md`, `VOICE.md`).
 | **DoomBench** | **2,088** (2026-10-12) | none | “Live AI Doom Index” | FAQPage only | `/models` `/companies` `/countries` `/people` `/jobs` `/news` | no |
 | **Skynet Countdown** | **1,237** | none | “AGI Timeline Tracker” | Organization + WebSite | `/tags/*` (717) + `/news/YYYY-MM-DD` (507) | no |
 | **pizzint.watch** | **1,018** | **empty (0 `<loc>`)** | DEFCON + Doomsday Clock hijack + keywords meta | FAQPage + WebApplication + Organization | `/intel/*` briefs only; chips are `<button>`s | no (404 → SPA shell) |
-| **siren.watch** | **682** live → **~724+** with people/day/entity labs + `/tags/*` + `/kind/*` (this PR) | **100 rolling / 48h** with `news:keywords` | Head-term live title (“AI activity index today · SIREN …”) | Rich: Dataset, FAQ, Organization, VideoObject… | `/pillar/*` `/lab/*` `/country/*` `/model/*` `/people/*` `/tags/*` `/kind/*` day hubs | **yes** |
+| **siren.watch** | **682** live → **1,205** local (800-item window + item-archive + facets; this PR) — past pizzint, near Skynet, still under DoomBench | **100 rolling / 48h** with `news:keywords` | Head-term live title (“AI activity index today · SIREN …”) | Rich: Dataset, FAQ, Organization, VideoObject… | `/pillar/*` `/lab/*` `/country/*` `/model/*` `/people/*` `/tags/*` `/kind/*` day hubs + archived `/item/*` | **yes** |
 | pdoom.ai | 0 (SPA shell) | 0 | Sci-fi countdown + keyword stuffing | none | none | yes (thin) |
 | takeofftracker.com | none | none | “AGI Metrics Dashboard” | none | none | none |
 
@@ -128,6 +128,18 @@ Synonym doorway farms stay refused.
 `/kind/<id>.html` for collector kinds (`press`, `forum`, `paper`, …) that clear
 ≥5 scored stories. Kind is already on every NewsItem — these pages make the
 filter crawlable with ItemList schema and newsroom/item links.
+
+### 4.4 Item archive + wider live window (2026-10-12)
+
+DoomBench/Skynet/pizzint win on **retained** URL count. Our newsroom used to
+delete `/item/` pages when the live cap bound. Now:
+
+- Live `data/news.json` cap is **800** (was 400).
+- Cap overflow and aged-off scored rows merge into `data/item-archive.json`
+  (max 1,600). `site/build.mjs` writes those pages and `sitemap.xml` lists them.
+- Topic tags add **security**, **military**, and **education** when ≥5 stories match.
+
+This is the honest volume lever: more scored stories kept, not synonym doorways.
 
 ---
 

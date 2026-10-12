@@ -131,16 +131,31 @@ export function render(ctx) {
   entries.push(...tagEntries(ctx));
   entries.push(...kindEntries(ctx));
 
-  // Every scored item is an indexable page. This is the long tail — it takes
-  // the sitemap from ten URLs to two hundred and ten, and it grows daily.
+  // Every scored item is an indexable page. Live window + durable archive
+  // (data/item-archive.json) so the long tail grows instead of churning off
+  // when the mobile newsroom cap binds (FINDABILITY.md / COMPETITIVE-SEO.md).
   if (ctx.news && Array.isArray(ctx.news.items)) {
     entries.push({ loc: '/item/', changefreq: 'hourly', priority: '0.7', lastmod: ctx.news.generated_at });
+    const seen = new Set();
     for (const it of ctx.news.items) {
+      if (!it || !it.id) continue;
+      seen.add(it.id);
       entries.push({
         loc: `/item/${slugFor(it)}.html`,
         changefreq: 'weekly',
         priority: '0.6',
         lastmod: it.published_at,
+      });
+    }
+    const archived = Array.isArray(ctx.itemArchive) ? ctx.itemArchive : [];
+    for (const it of archived) {
+      if (!it || !it.id || seen.has(it.id)) continue;
+      seen.add(it.id);
+      entries.push({
+        loc: `/item/${slugFor(it)}.html`,
+        changefreq: 'monthly',
+        priority: '0.5',
+        lastmod: it.published_at || (ctx.itemArchiveMeta && ctx.itemArchiveMeta.updated_at) || ctx.news.generated_at,
       });
     }
   }

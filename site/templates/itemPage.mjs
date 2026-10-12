@@ -299,6 +299,10 @@ export function render(ctx, item, related = []) {
 
 export function renderIndex(ctx) {
   const items = ctx.news.items;
+  const archived = Array.isArray(ctx.itemArchive) ? ctx.itemArchive : [];
+  const archiveNote = archived.length
+    ? ` ${esc(archived.length)} more scored ${archived.length === 1 ? 'story sits' : 'stories sit'} in the permanent archive outside this window.`
+    : '';
   return page({
     ctx,
     path: '/item/index.html',
@@ -307,8 +311,11 @@ export function renderIndex(ctx) {
     main: `${styleTag()}
 <h1>Every scored item</h1>
 <p class="lede">${esc(items.length)} items in the rolling window. Each has a permanent page
-   carrying how it scored and who else carried it.</p>
+   carrying how it scored and who else carried it.${archiveNote}</p>
 <ol class="it__all">${items.map((i) => `<li>
+  <a href="${esc(ctx.href(`/item/${slugFor(i)}.html`))}">${esc(i.title)}</a>
+  ${scoreCell(i, 'it__rm num')}
+</li>`).join('')}${archived.map((i) => `<li>
   <a href="${esc(ctx.href(`/item/${slugFor(i)}.html`))}">${esc(i.title)}</a>
   ${scoreCell(i, 'it__rm num')}
 </li>`).join('')}</ol>`,

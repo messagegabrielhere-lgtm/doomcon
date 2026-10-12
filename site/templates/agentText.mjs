@@ -266,7 +266,7 @@ Honesty rules:
 
 - [state.json](${u('/api/state.json')}): current level, score, pillars, sources and receipt id
 - [history.json](${u('/api/history.json')}): every hourly reading ([CSV](${u('/api/history.csv')}))
-- [news.json](${u('/api/news.json')}): the scored newsroom window, about 400 AI stories with outlet, link and time
+- [news.json](${u('/api/news.json')}): the scored newsroom window, about 800 AI stories with outlet, link and time
 - [leaders.json](${u('/api/leaders.json')}): AI leaders: statements on the record and press coverage this week
 - [si-signals.json](${u('/api/si-signals.json')}): Takeover Watch: AI agents' pull requests, frontier models, agent chatter
 - [search-index.json](${u('/api/search-index.json')}): full-site search index
