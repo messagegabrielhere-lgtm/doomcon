@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated_at": "2026-10-12T23:19:43.348Z",
+  "generated_at": "2026-10-12T23:26:58.415Z",
   "rules": {
     "version": "1.0.0",
     "window_hours": 6,
@@ -65,7 +65,6 @@
       ],
       "corroboration": 2,
       "sources": [
-        "bluesky-ai",
         "gnews-ai"
       ],
       "rule": [
@@ -90,14 +89,6 @@
           "tier1": true
         },
         {
-          "source": "bluesky-ai",
-          "outlet": "reuters.com",
-          "title": "Reddit and Perplexity AI clash over law firm's role in data-scraping case",
-          "url": "https://bsky.app/profile/reuters.com/post/3mxpmot4pcl2k",
-          "published_at": "2026-10-12T23:00:20.000Z",
-          "tier1": true
-        },
-        {
           "source": "gnews-ai",
           "outlet": "economictimes.com",
           "title": "Reddit-Perplexity AI clash: What to know about high-profile data scrapping case",
@@ -115,13 +106,14 @@
       "source": "wires-ai",
       "outlet": "reuters.com",
       "outlets": [
+        "kfgo.com",
         "reuters.com",
         "streetinsider.com"
       ],
       "tier1_outlets": [
         "reuters.com"
       ],
-      "corroboration": 2,
+      "corroboration": 3,
       "sources": [
         "bluesky-ai",
         "gnews-ai",
@@ -162,6 +154,14 @@
           "url": "https://bsky.app/profile/reuters.com/post/3mxpnjjvwe52q",
           "published_at": "2026-10-12T23:15:17.000Z",
           "tier1": true
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "kfgo.com",
+          "title": "NYT, Economist among publishers joining coalition to curb unpaid AI use",
+          "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxQLS1JTnpyZTZzZl9qZ3daYjl6dVlzTERLSXRfSlJrQ3RXQXpSaXdDVzJiMzRETy1RSDlnWWllYmZsVHV4eXYxNUNnM1kwcjg0bGJMbjREWWRrZXhDWUVPNlRzLXZITnBlWGVoLVJzTlpGb1F4azJvUG9lLWlEbUVsVFJ3T0ZEc3l3SElOV3pudldBbGMzY0R6TzU2MkJsaUxL?oc=5",
+          "published_at": "2026-10-12T23:18:03.859Z",
+          "tier1": false
         }
       ],
       "live": true
@@ -530,7 +530,6 @@
       "corroboration": 6,
       "sources": [
         "arstechnica-ai",
-        "bluesky-ai",
         "gnews-ai"
       ],
       "rule": [
@@ -552,14 +551,6 @@
           "title": "Anthropic's Claude AI submitted false murder tip to Philadelphia police",
           "url": "https://arstechnica.com/tech-policy/2026/10/anthropics-claude-ai-submitted-false-murder-tip-to-philadelphia-police",
           "published_at": "2026-10-12T18:21:36.000Z",
-          "tier1": true
-        },
-        {
-          "source": "bluesky-ai",
-          "outlet": "arstechnica.com",
-          "title": "Anthropic's Claude AI submitted false murder tip to Philadelphia police",
-          "url": "https://bsky.app/profile/arstechnica.com/post/3mxp55tnkzw2h",
-          "published_at": "2026-10-12T18:22:24.401Z",
           "tier1": true
         },
         {
@@ -917,37 +908,24 @@
         "fierce-network.com",
         "hpcwire.com",
         "investingnews.com",
-        "nvidia.com",
         "vmblog.com"
       ],
-      "tier1_outlets": [
-        "nvidia.com"
-      ],
-      "corroboration": 5,
+      "tier1_outlets": [],
+      "corroboration": 4,
       "sources": [
-        "gnews-ai",
-        "hn-fresh-ai"
+        "gnews-ai"
       ],
       "rule": [
-        "two outlets within 20 min",
-        "tier-one outlet plus one more"
+        "two outlets within 20 min"
       ],
-      "earliest_published_at": "2026-10-12T17:25:40.000Z",
+      "earliest_published_at": "2026-10-12T17:34:49.000Z",
       "first_seen_at": "2026-10-12T17:57:21.744Z",
-      "latency_s": 1902,
+      "latency_s": 1353,
       "breaking_at": "2026-10-12T17:57:21.744Z",
       "item_ids": [
         "ff73a6c66cd7f341"
       ],
       "sightings": [
-        {
-          "source": "hn-fresh-ai",
-          "outlet": "nvidia.com",
-          "title": "Nvidia, Cisco Introduce New Pluggable Optics Form Factor to Scale AI Factories",
-          "url": "https://nvidianews.nvidia.com/news/nvidia-and-cisco-introduce-new-pluggable-optics-form-factor-to-scale-ai-factories",
-          "published_at": "2026-10-12T17:25:40.000Z",
-          "tier1": true
-        },
         {
           "source": "gnews-ai",
           "outlet": "fierce-network.com",
@@ -1253,10 +1231,8 @@
       "corroboration": 10,
       "sources": [
         "bloomberg-tech",
-        "bluesky-ai",
         "gnews-ai",
         "reddit-artificial",
-        "reddit-singularity",
         "techcrunch-ai",
         "techmeme",
         "the-decoder",
@@ -1266,7 +1242,7 @@
         "two outlets within 20 min",
         "tier-one outlet plus one more"
       ],
-      "earliest_published_at": "2026-10-12T17:20:01.000Z",
+      "earliest_published_at": "2026-10-12T17:30:12.000Z",
       "first_seen_at": "2026-10-12T13:29:50.284Z",
       "latency_s": 0,
       "clock_skew": true,
@@ -1301,22 +1277,6 @@
         {
           "source": "techmeme",
           "outlet": "techmeme.com",
-          "title": "Meta says it plans to power its Muse AI agent with Wonder, starting with subscribers, and will develop specialized models it \"can bring to everyone using Muse\" (Robert Hart/The Verge)",
-          "url": "https://techmeme.com/261012/p33",
-          "published_at": "2026-10-12T17:20:01.000Z",
-          "tier1": false
-        },
-        {
-          "source": "reddit-singularity",
-          "outlet": "reddit.com",
-          "title": "Muse wonder surpassed fable 5.1 on artificial analysis dashboard",
-          "url": "https://reddit.com/r/singularity/comments/1x4807e/muse_wonder_surpassed_fable_51_on_artificial",
-          "published_at": "2026-10-12T17:23:38.000Z",
-          "tier1": false
-        },
-        {
-          "source": "techmeme",
-          "outlet": "techmeme.com",
           "title": "Muse Wonder is available through the Meta Model API and Muse Code, while Muse Wonder Full is available to Muse Code subscribers (Jonathan Vanian/CNBC)",
           "url": "https://techmeme.com/261012/p35",
           "published_at": "2026-10-12T17:30:12.000Z",
@@ -1336,14 +1296,6 @@
           "title": "Meta releases its first frontier model, Muse Wonder",
           "url": "https://techcrunch.com/2026/10/12/meta-releases-its-first-frontier-model-muse-wonder",
           "published_at": "2026-10-12T17:56:56.000Z",
-          "tier1": true
-        },
-        {
-          "source": "bluesky-ai",
-          "outlet": "techcrunch.com",
-          "title": "Meta releases its first frontier model, Muse Wonder",
-          "url": "https://bsky.app/profile/techcrunch.com/post/3mxp3yp437h2i",
-          "published_at": "2026-10-12T18:01:38.000Z",
           "tier1": true
         },
         {
@@ -1393,6 +1345,30 @@
           "url": "https://bloomberg.com/news/videos/2026-10-12/meta-unveils-muse-wonder-ai-closing-bell-video",
           "published_at": "2026-10-12T20:25:55.000Z",
           "tier1": true
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "geo.tv",
+          "title": "Meta unveils Muse Wonder models in fresh push into frontier AI",
+          "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxNX184WXNOcjBFVG5BeEg5amMycFBfNTAzTVJsbEtUQ3k4SVJpS0tCQWpoNTRHRlY4UmVuQy1jMlhmZ2FEZWdEU3ZIQ1J0VHhoWTJZbmVfbUd4aUw0aktZeXFiNkpuaWJtRGwwcGx1YUZyamx6WnJJZjZ4TEJJZW5KNFRFVjY0WUpNa1RYTnR3WmlqdThNNFplUnJ5WQ?oc=5",
+          "published_at": "2026-10-12T20:29:00.000Z",
+          "tier1": false
+        },
+        {
+          "source": "wires-ai",
+          "outlet": "bloomberg.com",
+          "title": "Watch Meta Rallies as New Muse Wonder Model Heats up AI Race | Closing Bell",
+          "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxPazY4Z2N1Z2tOUGZYRVlhdzhFdXhCMEZ3d1ZVbTEyU3BONDdsQU1OWXBVOFBQSmlib2JOYnVSNWt5ZEhKWHllbTZxaDJNcnFrS2xhUXRWZ2Z1aGFPWmZEamFZYXVVU3RESF82YmRObXUzWW1WbTBXb1lhc2FMM0ZxZUZRNl9aNk51YmE4NHhrbmlBN0dkNWs1UUk1UQ?oc=5",
+          "published_at": "2026-10-12T20:31:13.000Z",
+          "tier1": true
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "ceoworld.biz",
+          "title": "Meta Launches Muse Wonder AI Model to Challenge ChatGPT and Claude",
+          "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxNSjdoVURSNFowLUVzYkpyc0VUUFl6R1QtNFZOTzdjOWtmTVluUDc3VFQtNWxsNVBJRkN5RnE2WG11MFBka1RZdzNFbnpnY2k3Tkx5NTVRSjlUcERHVjJ1TkJScGdoWll0V3RZbE9ub1VPdUc1TzNFd3hvUTlTSmwtQlNicWRuN1hmOHZHOUxUdlhMallGY29zX3Y3Uk9VMVFD?oc=5",
+          "published_at": "2026-10-12T21:00:25.000Z",
+          "tier1": false
         }
       ],
       "live": true
