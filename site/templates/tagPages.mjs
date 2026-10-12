@@ -133,6 +133,18 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'Vision, image generation, and other multimodal model stories.',
     match: /\b(multimodal|vision model|image generat|text[- ]to[- ]image)\b/i,
   },
+  {
+    id: 'chips',
+    name: 'AI chips',
+    description: 'Semiconductors, foundries, and AI accelerators named in scored headlines.',
+    match: /\b(chip(?:s|makers?)?|semiconductor|tsmc|foundry|ai accelerator|h100|b200|gpu shortage)\b/i,
+  },
+  {
+    id: 'energy',
+    name: 'AI energy',
+    description: 'Power, grid, and nuclear stories tied to AI datacentres and training load.',
+    match: /\b(nuclear|power grid|electricity|reactor|energy demand|megawatts?)\b/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));

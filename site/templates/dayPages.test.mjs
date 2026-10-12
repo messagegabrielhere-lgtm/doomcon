@@ -55,4 +55,17 @@ describe('news day hubs', () => {
     assert.match(html, /not a forecast and not a probability of harm/);
     assert.doesNotMatch(html, /doom score/i);
   });
+
+  it('links older archived stories from the same UTC day', () => {
+    const withArch = {
+      ...ctx,
+      itemArchive: [
+        story('old1', '2026-10-10', 'Archived story from that morning'),
+      ],
+    };
+    const html = renderDay(withArch, '2026-10-10');
+    assert.match(html, /Older scored stories from 2026-10-10/);
+    assert.match(html, /Archived story from that morning/);
+    assert.match(html, /\/item\/archive\.html/);
+  });
 });

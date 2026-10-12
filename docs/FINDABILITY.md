@@ -258,6 +258,7 @@ context.
 | 25 | Homepage below-fold `content-visibility:auto` (CWV; crawlers still see full HTML) | Google CWV | **Done** (2026-10-12) |
 | 26 | Model + people hubs link matching older archive stories (anti-orphan) | Google | **Done** (2026-10-12) |
 | 27 | `/source/*` adapter hubs link older archive stories; phone-width home board deferral | Google CWV | **Done** (2026-10-12) |
+| 28 | Day hubs link same-UTC-day archive stories; chips + energy topic tags (≥5 gate) | Google | **Done** (2026-10-12) |
 
 ### 3.3 Refusals (search edition)
 
