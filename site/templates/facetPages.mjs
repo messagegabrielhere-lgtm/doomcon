@@ -87,6 +87,27 @@ export function pillarIndexable(ctx, pillarId) {
   return pillarStoryCount(ctx, pillarId) >= PILLAR_INDEX_MIN;
 }
 
+/** Pillars with enough scored stories to stay indexable, busiest first. */
+export function indexablePillars(ctx) {
+  return brand.PILLARS
+    .map((p) => {
+      const live = itemsForPillar(ctx, p.id).length;
+      const archived = archiveItemsForPillar(ctx, p.id).length;
+      const st = pillarState(ctx, p.id);
+      return {
+        id: p.id,
+        name: p.name,
+        live,
+        archived,
+        count: live + archived,
+        score: st && Number.isFinite(st.score) ? st.score : null,
+        dark: !!(st && st.dark),
+      };
+    })
+    .filter((p) => p.count >= PILLAR_INDEX_MIN)
+    .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
+}
+
 function scoreCell(it) {
   if (!(Number.isFinite(it.score))) return '<span class="fc__sc mute">—</span>';
   return `<span class="fc__sc num">${esc(num(it.score, 1))}</span>`;
@@ -151,7 +172,7 @@ export function renderPillar(ctx, pillarId) {
 
   const main = `${STYLE}
 <article class="fc prose">
-  <p class="fc__k"><a href="${esc(ctx.href('/news.html'))}">Newsroom</a> · Pillar</p>
+  <p class="fc__k"><a href="${esc(ctx.href('/news.html'))}">Newsroom</a> · <a href="${esc(ctx.href('/pillar/'))}">Pillars</a> · <a href="${esc(ctx.href('/pillars.html'))}">Pillars hub</a></p>
   <h1>${esc(meta.name)} AI activity</h1>
   <p class="fc__lede">${esc(meta.description)}</p>
   <div class="fc__stat" role="group" aria-label="Current pillar reading">
@@ -172,6 +193,7 @@ export function renderPillar(ctx, pillarId) {
   ${olderBlock}
   <h2>Other pillars</h2>
   <nav class="fc__pillars" aria-label="SIREN pillars">${otherPillars}</nav>
+  <p class="fresh__key">Search-shaped directory: <a href="${esc(ctx.href('/pillars.html'))}">AI activity pillars this index covers</a>.</p>
 </article>`;
 
   return page({
@@ -205,7 +227,121 @@ export function renderPillar(ctx, pillarId) {
       },
     }, breadcrumbs(ctx, [
       { name: 'Newsroom', path: '/news.html' },
+      { name: 'Pillars', path: '/pillar/' },
       { name: meta.name, path },
+    ])],
+    main,
+  });
+}
+
+/** Directory of indexable /pillar pages (structural twin to /lab/ and /source/). */
+export function renderPillarIndex(ctx) {
+  const pillars = indexablePillars(ctx);
+  const path = '/pillar/';
+  const title = `AI activity pillars this index scores · ${brand.NAME}`;
+  const description = clip(
+    `${pillars.length} pillars with at least ${PILLAR_INDEX_MIN} scored stories on ${brand.NAME} (live window plus archive). Each page lists those stories beside the live pillar reading.`,
+    160,
+  );
+  const rows = pillars.map((p) => `<li>
+  <a href="${esc(ctx.href(pillarPath(p.id)))}">${esc(p.name)}</a>
+  <span class="fc__meta">${esc(p.id)}${p.archived ? ` · ${esc(String(p.live))} live / ${esc(String(p.archived))} archive` : ''}${p.score != null ? ` · ${esc(num(p.score, 1))} / 100` : ''}</span>
+  <span class="fc__sc num">${esc(String(p.count))}</span>
+</li>`).join('');
+  const main = `${STYLE}
+<article class="fc prose">
+  <p class="fc__k"><a href="${esc(ctx.href('/news.html'))}">Newsroom</a> · Pillars · <a href="${esc(ctx.href('/pillars.html'))}">Pillars hub</a></p>
+  <h1>Pillars this index scores</h1>
+  <p class="fc__lede">A pillar earns a crawlable page when at least ${PILLAR_INDEX_MIN} scored stories under it appear in the live window or the durable archive. The live pillar score is activity tempo against this index’s frozen reference — not a probability of harm.</p>
+  ${pillars.length ? `<ol class="fc__list">${rows}</ol>` : '<p>No pillar cleared the gate in this build.</p>'}
+  <p class="fresh__key">Search-shaped directory: <a href="${esc(ctx.href('/pillars.html'))}">AI activity pillars this index covers</a>.</p>
+</article>`;
+  return page({
+    ctx,
+    path,
+    title,
+    description,
+    noindex: pillars.length === 0,
+    jsonld: [{
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      name: title,
+      url: ctx.url(path),
+      description,
+      mainEntity: {
+        '@type': 'ItemList',
+        numberOfItems: pillars.length,
+        itemListElement: pillars.map((p, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          url: ctx.url(pillarPath(p.id)),
+          name: p.name,
+        })),
+      },
+    }, breadcrumbs(ctx, [
+      { name: 'Newsroom', path: '/news.html' },
+      { name: 'Pillars', path },
+    ])],
+    main,
+  });
+}
+
+/**
+ * Head-term /pillars hub. Same gated pillar set as /pillar/, different title
+ * and lede for “AI activity pillars” queries — pillar story counts and live
+ * readings only, not a pillar doom score.
+ */
+export function renderPillars(ctx) {
+  const pillars = indexablePillars(ctx);
+  const path = '/pillars.html';
+  const title = `AI activity pillars this index covers · ${brand.NAME}`;
+  const description = clip(
+    `${pillars.length} activity pillars with scored-story hubs on ${brand.NAME}. Each row links /pillar pages — tempo readings and story counts only, not a pillar doom score.`,
+    160,
+  );
+  const rows = pillars.map((p) => `<li>
+  <a href="${esc(ctx.href(pillarPath(p.id)))}">${esc(p.name)}</a>
+  <span class="fc__meta">Pillar hub · <span class="num">${esc(String(p.count))}</span> scored${p.archived ? ` (${esc(String(p.live))} live)` : ''}${p.score != null ? ` · ${esc(num(p.score, 1))} / 100` : ''}</span>
+</li>`).join('');
+  const main = `${STYLE}
+<article class="fc prose">
+  <p class="fc__k"><a href="${esc(ctx.href('/compare.html'))}">Compare</a> · <a href="${esc(ctx.href('/pillar/'))}">Pillars</a> · Pillars hub</p>
+  <h1>AI activity pillars this index covers</h1>
+  <p class="fc__lede">${esc(brand.NAME)} does not publish a pillar “doom score.” It publishes five activity pillars and scored stories under each. This page lists pillars that already clear the same substance gate as <a href="${esc(ctx.href('/pillar/'))}">/pillar/</a> — at least ${PILLAR_INDEX_MIN} matching stories in the live window or archive.</p>
+  <div class="fc__stat" role="group" aria-label="Pillars hub totals">
+    <div><b class="num">${esc(String(pillars.length))}</b><span>Pillar hubs</span></div>
+  </div>
+  ${pillars.length ? `<ol class="fc__list">${rows}</ol>` : '<p>No pillar hub cleared the gate in this build.</p>'}
+  <p class="fresh__key"><a href="${esc(ctx.href('/pillar/'))}">Pillar directory →</a>
+     · <a href="${esc(ctx.href('/methodology.html'))}">Methodology →</a>
+     · <a href="${esc(ctx.href('/tags.html'))}">AI tags →</a>
+     · <a href="${esc(ctx.href('/news.html'))}">Newsroom →</a></p>
+</article>`;
+  return page({
+    ctx,
+    path,
+    title,
+    description,
+    noindex: pillars.length === 0,
+    jsonld: [{
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      name: title,
+      url: ctx.url(path),
+      description,
+      mainEntity: {
+        '@type': 'ItemList',
+        numberOfItems: pillars.length,
+        itemListElement: pillars.map((p, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          url: ctx.url(pillarPath(p.id)),
+          name: p.name,
+        })),
+      },
+    }, breadcrumbs(ctx, [
+      { name: 'Compare', path: '/compare.html' },
+      { name: 'Pillars', path },
     ])],
     main,
   });
@@ -834,8 +970,22 @@ export function renderSources(ctx) {
 export function sitemapEntries(ctx) {
   const out = [];
   const lastNews = (ctx.news && ctx.news.generated_at) || (ctx.state && ctx.state.generated_at);
-  for (const p of brand.PILLARS) {
-    if (!pillarIndexable(ctx, p.id)) continue;
+  const pillars = indexablePillars(ctx);
+  if (pillars.length) {
+    out.push({
+      loc: '/pillar/',
+      changefreq: 'hourly',
+      priority: '0.75',
+      lastmod: lastNews,
+    });
+    out.push({
+      loc: '/pillars.html',
+      changefreq: 'hourly',
+      priority: '0.8',
+      lastmod: lastNews,
+    });
+  }
+  for (const p of pillars) {
     out.push({
       loc: pillarPath(p.id),
       changefreq: 'hourly',

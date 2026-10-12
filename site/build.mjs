@@ -1501,6 +1501,10 @@ async function main() {
     for (const p of brand.PILLARS) {
       written.push(await write(args.out, `pillar/${p.id}.html`, facetPages.renderPillar(ctx, p.id)));
     }
+    if (facetPages.indexablePillars(ctx).length) {
+      written.push(await write(args.out, 'pillar/index.html', facetPages.renderPillarIndex(ctx)));
+      written.push(await write(args.out, 'pillars.html', facetPages.renderPillars(ctx)));
+    }
     for (const player of facetPages.allLabs(ctx)) {
       written.push(await write(args.out, `lab/${player.id}.html`, facetPages.renderLab(ctx, player)));
     }
@@ -1533,7 +1537,9 @@ async function main() {
       if (leaders) written.push(await write(args.out, 'api/leaders.json', stableJson(leaders)));
     }
     await writeDirectoryAliases(args.out, [
-      'news', 'leaders', 'companies', 'models',
+      'news', 'leaders', 'companies', 'models', 'pillars',
+      ...brand.PILLARS.map((p) => `pillar/${p.id}`),
+      ...(facetPages.indexablePillars(ctx).length ? ['pillar'] : []),
       ...facetPages.indexableLabs(ctx).map((p) => `lab/${p.id}`),
       ...(facetPages.indexableLabs(ctx).length ? ['lab'] : []),
       ...facetPages.indexableSources(ctx).map((s) => `source/${s.id}`),
@@ -1887,6 +1893,10 @@ async function main() {
   for (const p of brand.PILLARS) {
     written.push(await write(args.out, `pillar/${p.id}.html`, facetPages.renderPillar(ctx, p.id)));
   }
+  if (facetPages.indexablePillars(ctx).length) {
+    written.push(await write(args.out, 'pillar/index.html', facetPages.renderPillarIndex(ctx)));
+    written.push(await write(args.out, 'pillars.html', facetPages.renderPillars(ctx)));
+  }
   for (const player of facetPages.allLabs(ctx)) {
     written.push(await write(args.out, `lab/${player.id}.html`, facetPages.renderLab(ctx, player)));
   }
@@ -1918,9 +1928,10 @@ async function main() {
       'bets', 'privacy', 'terms', 'disclosures', 'feedback', 'sponsor', 'instruments',
       'p-doom', 'ai-doomsday-clock', 'arena', 'scanner', 'monitor', 'elon',
       'game', 'bunker-kit', 'alerts', 'export', 'moltbook', 'staff', 'careers',
-      'agents', 'tally', 'changelog', 'live', 'compare', 'alternatives', 'companies', 'models',
+      'agents', 'tally', 'changelog', 'live', 'compare', 'alternatives', 'companies', 'models', 'pillars',
       ...comparePages.RIVALS.map((r) => r.path.replace(/^\//, '').replace(/\.html$/, '')),
       ...brand.PILLARS.map((p) => `pillar/${p.id}`),
+      ...(facetPages.indexablePillars(ctx).length ? ['pillar'] : []),
       ...facetPages.allLabs(ctx).map((p) => `lab/${p.id}`),
       ...(facetPages.indexableLabs(ctx).length ? ['lab'] : []),
       ...facetPages.indexableSources(ctx).map((s) => `source/${s.id}`),

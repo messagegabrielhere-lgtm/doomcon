@@ -61,6 +61,8 @@ const MORE_PAGES = [
   ['/kind/', 'news', 'Story kinds', 'Scored stories grouped by collector kind (press, forum, paper, …).'],
   ['/kinds.html', 'news', 'AI story kinds', 'Kind directory — same gated labels, story counts only.'],
   ['/country/', 'globe', 'Datacentres by country', 'Mapped datacentre sites, one page per country that clears the count.'],
+  ['/pillar/', 'px:updown', 'Pillars', 'Scored stories grouped by the five activity pillars.'],
+  ['/pillars.html', 'px:updown', 'AI activity pillars', 'Pillar directory — same gated pillars, tempo readings and story counts only.'],
   ['/pillar/capability.html', 'px:updown', 'Capability pillar', 'Stories and the live Capability reading.'],
   ['/pillar/compute.html', 'px:updown', 'Compute pillar', 'Stories and the live Compute & Capital reading.'],
   ['/pillar/attention.html', 'px:updown', 'Attention pillar', 'Stories and the live Attention reading.'],

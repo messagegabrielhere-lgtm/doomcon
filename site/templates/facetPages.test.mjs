@@ -3,6 +3,7 @@ import { describe, it } from 'node:test';
 import * as brand from '../brand.mjs';
 import {
   itemsForPillar, pillarIndexable, renderPillar, pillarPath,
+  indexablePillars, renderPillarIndex, renderPillars,
   itemsForLab, labIndexable, renderLab, labPath, labsFromRace, labsFromEntities,
   allLabs, indexableLabs, renderLabIndex, renderCompanies, sitemapEntries, ENTITY_LAB_MIN,
   PILLAR_INDEX_MIN, SOURCE_INDEX_MIN, sourceLabel, sourceIndexable, renderSource,
@@ -146,6 +147,21 @@ describe('pillar facets', () => {
     const html = renderPillar(withArch, 'markets');
     assert.doesNotMatch(html, /noindex/);
     assert.match(html, /Older scored stories under Markets/);
+  });
+
+  it('ships /pillars.html and /pillar/ over the same gated pillar set', () => {
+    assert.ok(indexablePillars(ctx).some((p) => p.id === 'capability'));
+    assert.ok(!indexablePillars(ctx).some((p) => p.id === 'markets'));
+    const hub = renderPillars(ctx);
+    assert.match(hub, /AI activity pillars this index covers/);
+    assert.match(hub, /\/pillar\/capability\.html/);
+    assert.match(hub, /does not publish a pillar/);
+    assert.match(hub, /\/methodology\.html/);
+    assert.doesNotMatch(hub, /doom score:\s*\d/i);
+    const index = renderPillarIndex(ctx);
+    assert.match(index, /Pillars this index scores/);
+    assert.match(index, /\/pillars\.html/);
+    assert.match(renderPillar(ctx, 'capability'), /\/pillars\.html/);
   });
 });
 
@@ -327,6 +343,8 @@ describe('facet sitemap', () => {
     const locs = rows.map((r) => r.loc);
     assert.ok(locs.includes('/pillar/capability.html'));
     assert.ok(!locs.includes('/pillar/markets.html'));
+    assert.ok(locs.includes('/pillar/'));
+    assert.ok(locs.includes('/pillars.html'));
     assert.ok(locs.includes('/lab/'));
     assert.ok(locs.includes('/companies.html'));
     assert.ok(locs.includes('/lab/openai.html'));
