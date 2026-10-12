@@ -287,6 +287,7 @@ context.
 | 54 | Wire PizzINT conquest from guide / FAQ / agents.md; merge latest main | Google | **Done** (2026-10-12) |
 | 55 | Home + catalog + IndexNow surfaces for `/vs/*` conquest pages incl. PizzINT | Google | **Done** (2026-10-12) |
 | 56 | `llms.txt` / skill map lists PizzINT conquest + pillar/country/source hubs | assistants | **Done** (2026-10-12) |
+| 57 | Topic tags `hallucination` + `prompt-injection` + `moe` + `world-models` + `copyright` (live/archive ≥5 gate; search-trend hubs) | Google | **Done** (2026-10-12) |
 
 ### 3.3 Refusals (search edition)
 

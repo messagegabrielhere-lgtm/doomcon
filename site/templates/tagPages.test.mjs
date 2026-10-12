@@ -300,4 +300,52 @@ describe('tag pages', () => {
     assert.ok(indexableTags(rich).some((t) => t.id === 'test-time'));
     assert.match(renderTag(rich, 'test-time'), /Test-time compute: AI stories this index scored/);
   });
+
+  it('pages hallucination, prompt-injection, MoE, world-models, and copyright hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('h1', 'Tracing hallucinated terms in RAG answers'),
+          story('h2', 'Post-hallucination reasoning benchmark'),
+          story('h3', 'Lab cuts hallucination rate on medical QA'),
+          story('h4', 'Hallucination detectors for agent tools'),
+          story('h5', 'Factuality vs hallucination tradeoff note'),
+          story('p1', 'Learnable delimiters for prompt injection defense'),
+          story('p2', 'Adaptive prompt injection against web agents'),
+          story('p3', 'Prompt-injection red team for copilots'),
+          story('p4', 'New prompt injection dataset ships'),
+          story('p5', 'Prompt injection bypasses tool sandboxes'),
+          story('o1', 'Converting dense models into Mixture-of-Experts'),
+          story('o2', 'Sparse MoE routing paper'),
+          story('o3', 'Training a 8x7B MoE checkpoint'),
+          story('o4', 'Mixture of experts cuts serving cost'),
+          story('o5', 'Open MoE weights release'),
+          story('w1', 'Robot policies steered with world models'),
+          story('w2', 'Generative world model demo'),
+          story('w3', 'Egocentric world model for agents'),
+          story('w4', 'Video world model for task planning'),
+          story('w5', 'Language world models for simulation'),
+          story('c1', 'USA Today copyright lawsuit against OpenAI'),
+          story('c2', 'Third Circuit fair use ruling on AI training'),
+          story('c3', 'Publishers sue over copyrighted training-data copying'),
+          story('c4', 'AI copyright suit redraws fair use'),
+          story('c5', 'Copyright office seeks comment on AI training'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    assert.ok(ids.includes('hallucination'));
+    assert.ok(ids.includes('prompt-injection'));
+    assert.ok(ids.includes('moe'));
+    assert.ok(ids.includes('world-models'));
+    assert.ok(ids.includes('copyright'));
+    assert.match(renderTag(rich, 'hallucination'), /AI hallucination: AI stories this index scored/);
+    assert.match(renderTag(rich, 'prompt-injection'), /Prompt injection: AI stories this index scored/);
+    assert.match(renderTag(rich, 'moe'), /Mixture of experts: AI stories this index scored/);
+    assert.match(renderTag(rich, 'world-models'), /World models: AI stories this index scored/);
+    assert.match(renderTag(rich, 'copyright'), /AI copyright: AI stories this index scored/);
+    assert.doesNotMatch(renderTag(rich, 'hallucination'), /doom score/i);
+  });
 });

@@ -253,6 +253,36 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'Test-time compute and inference-time scaling stories scored in the newsroom or archive.',
     match: /\b(test[- ]time (compute|scaling)|inference[- ]time scaling|tts scaling)\b/i,
   },
+  {
+    id: 'hallucination',
+    name: 'AI hallucination',
+    description: 'Hallucination and factuality stories scored in the newsroom or archive — coverage counts, not a harm forecast.',
+    match: /\bhallucinat/i,
+  },
+  {
+    id: 'prompt-injection',
+    name: 'Prompt injection',
+    description: 'Prompt-injection defense and exploit stories scored in the newsroom or archive — not a threat forecast.',
+    match: /\bprompt[- ]injection\b/i,
+  },
+  {
+    id: 'moe',
+    name: 'Mixture of experts',
+    description: 'Mixture-of-experts architecture stories scored in the newsroom or archive.',
+    match: /\b(mixture[- ]of[- ]experts|\bMoEs?\b)\b/i,
+  },
+  {
+    id: 'world-models',
+    name: 'World models',
+    description: 'World-model and generative-environment research stories scored in the newsroom or archive.',
+    match: /\bworld models?\b/i,
+  },
+  {
+    id: 'copyright',
+    name: 'AI copyright',
+    description: 'Copyright, fair-use, and training-data lawsuit stories naming AI systems — coverage counts, not legal advice.',
+    match: /\b(copyright(?:ed|s)?|fair use|training data (?:lawsuit|suit|case)|ai (?:copyright|lawsuit))\b/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));
