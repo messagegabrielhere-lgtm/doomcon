@@ -20,7 +20,7 @@ hijacks we cannot honestly answer stay refused (`CONTRACT.md`, `VOICE.md`).
 | **DoomBench** | **2,088** (2026-10-12) | none | “Live AI Doom Index” | FAQPage only | `/models` `/companies` `/countries` `/people` `/jobs` `/news` | no |
 | **Skynet Countdown** | **1,237** | none | “AGI Timeline Tracker” | Organization + WebSite | `/tags/*` (717) + `/news/YYYY-MM-DD` (507) | no |
 | **pizzint.watch** | **1,018** | **14** (flipping empty↔14 on 2026-10-12 — contested) | DEFCON + Doomsday Clock hijack + keywords meta | FAQPage + WebApplication + Organization | `/intel/*` briefs only; chips are `<button>`s | no (404 → SPA shell) |
-| **siren.watch** | **~682** live → **~4,050** local (800 live + **~2831** archive + facets; cap 3200) — ahead of DoomBench/Skynet/pizzint pending deploy | **100** live / **150** cap in-repo with `news:keywords` | Head-term live title (“AI activity index today · SIREN …”) | Rich: Dataset, FAQ, Organization, VideoObject… | `/pillar/*` `/lab/*` + `/companies.html` `/models.html` `/people.html` `/country/*` `/model/*` `/people/*` `/tags/*` `/kind/*` `/outlet/*` + archived `/item/*`; facets link older archive matches | **yes** |
+| **siren.watch** | **~682** live → **~4,420** local (800 live + **3200** archive + facets; cap full) — ahead of DoomBench/Skynet/pizzint pending deploy | **100** live / **150** cap in-repo with `news:keywords` | Head-term live title (“AI activity index today · SIREN …”) | Rich: Dataset, FAQ, Organization, VideoObject… | `/pillar/*` `/lab/*` + `/companies.html` `/models.html` `/people.html` `/country/*` `/model/*` `/people/*` `/tags/*` `/kind/*` `/outlet/*` + archived `/item/*`; facets link older archive matches | **yes** |
 | pdoom.ai | 0 (SPA shell) | 0 | Sci-fi countdown + keyword stuffing | none | none | yes (thin) |
 | takeofftracker.com | none | none | “AGI Metrics Dashboard” | none | none | none |
 
@@ -120,7 +120,7 @@ Linked from `/leaders.html`, `/news.html`, `llms.txt`, catalog, and sitemap.
 Skynet’s `/tags/*` shape with a short published vocabulary (agents, GPUs,
 safety, datacenters, fundraising, benchmarks, regulation, inference, robotics,
 China AI, plus later chips/energy/labor/healthcare/**coding**/**acquisitions**/
-**browser**/**watermarking**/**evals**/**video**/**voice**).
+**browser**/**watermarking**/**evals**/**video**/**voice**/**reasoning**/**ipo**/**rag**).
 Gate: ≥5 scored stories whose title or summary matches the needle.
 Story pages link indexable tags and indexable people (full-name match only).
 Synonym doorway farms stay refused.

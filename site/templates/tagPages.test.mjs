@@ -178,4 +178,37 @@ describe('tag pages', () => {
     assert.ok(TOPIC_DEFS.some((t) => t.id === 'video'));
     assert.ok(TOPIC_DEFS.some((t) => t.id === 'voice'));
   });
+
+  it('pages reasoning, IPO, and RAG topic hubs when the needle clears the gate', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('r1', 'New reasoning models beat prior o1 baselines'),
+          story('r2', 'Chain-of-thought faithfulness study'),
+          story('r3', 'Test-time compute scaling curves'),
+          story('r4', 'OpenAI o3 thinking mode preview'),
+          story('r5', 'Extended thinking cuts tool errors'),
+          story('i1', 'Anthropic IPO talk heats up'),
+          story('i2', 'CoreWeave IPO files redraw AI infra'),
+          story('i3', 'OpenAI IPO rumors meet bank earnings'),
+          story('i4', 'When is the Anthropic IPO priced'),
+          story('i5', 'Direct listing talk for Anthropic AI'),
+          story('g1', 'Agentic RAG evaluation budget paper'),
+          story('g2', 'Retrieval-augmented generation in prod'),
+          story('g3', 'Amazon Bedrock RAG access control'),
+          story('g4', 'LangChain RAG pipeline update'),
+          story('g5', 'Multimodal RAG compression note'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    assert.ok(ids.includes('reasoning'));
+    assert.ok(ids.includes('ipo'));
+    assert.ok(ids.includes('rag'));
+    assert.match(renderTag(rich, 'reasoning'), /Reasoning models: AI stories this index scored/);
+    assert.match(renderTag(rich, 'ipo'), /AI IPOs: AI stories this index scored/);
+    assert.match(renderTag(rich, 'rag'), /RAG \/ retrieval: AI stories this index scored/);
+  });
 });

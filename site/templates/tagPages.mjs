@@ -199,6 +199,24 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'Speech and voice-AI products named in scored headlines (TTS, ASR, voice agents).',
     match: /\b(voice ai|text[- ]to[- ]speech|speech[- ]to[- ]text|elevenlabs|openai whisper|voice clon|\btts\b|\basr\b)\b/i,
   },
+  {
+    id: 'reasoning',
+    name: 'Reasoning models',
+    description: 'Reasoning-model and chain-of-thought stories scored in the newsroom or archive.',
+    match: /\b(reasoning\s*models?|chain[- ]of[- ]thought|test[- ]time\s*compute|\bo1\b|\bo3\b|thinking\s*mode|extended\s*thinking)\b/i,
+  },
+  {
+    id: 'ipo',
+    name: 'AI IPOs',
+    description: 'IPO and listing stories naming AI labs or AI infrastructure companies — coverage counts, not investment advice.',
+    match: /\b(ai\s*ipos?|\bipo\b|direct\s*listing).{0,40}\b(openai|anthropic|coreweave|\bai\b)\b|\b(openai|anthropic|coreweave|\bai\b).{0,40}\bipo\b/i,
+  },
+  {
+    id: 'rag',
+    name: 'RAG / retrieval',
+    description: 'Retrieval-augmented generation and agentic RAG stories scored in the newsroom or archive.',
+    match: /\b(retrieval[- ]augmented|\brag\b|agentic\s*rag)\b/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));
