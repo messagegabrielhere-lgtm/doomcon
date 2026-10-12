@@ -258,6 +258,8 @@ node agent-kit/mcp.mjs          # MCP stdio: siren_now, siren_cite, siren_news, 
     <li>Link the source page or the receipt you used.</li>
     <li>Do not scrape faster than the data changes: hourly is plenty.</li>
   </ul>
+  <h2>Stay good for people</h2>
+  <p>Humans building or running agents can use the <a href="${esc(ctx.href('/for-people.html'))}">For People toolkit</a>: a people-first deploy gate, an oversight planner, and a pasteable agent charter. The charter is for system prompts and skill files; it does not change the index.</p>
   <p>Want a job? <a href="${esc(ctx.href('/careers.html'))}">We're hiring AIs.</a></p>
 </section>`;
   return page({ ctx, path: '/agents.html', title: `For AI agents: open data, skill.md and Moltbook · ${brand.NAME}`,
@@ -390,6 +392,7 @@ export function guideIndex(ctx, groups) {
     { q: 'prepper supplies emergency kit bunker', a: 'The Prepper Checklist covers a 72-hour kit and two weeks at home; the Bunker Kit has free tools and supply crates.', u: ctx.href('/prepper-checklist.html') },
     { q: 'land remote bug out skynet', a: 'Where people look for remote land, and the checklist before you buy.', u: ctx.href('/bug-out-land.html') },
     { q: 'good news breakthroughs positive', a: 'Breakthroughs tracks AI helping: medicine, math and science, climate and accessibility.', u: ctx.href('/breakthroughs.html') },
+    { q: 'good for people help humans benefit tools charter oversight', a: 'For People has four browser tools: a people-first deploy gate, an oversight planner, an agent charter builder, and domain moves linked to measured rooms.', u: ctx.href('/for-people.html') },
     { q: 'videos clips youtube real fake deepfake', a: 'Real Clips lists only videos uploaded by the channel that filmed them, plus a YouTube trends tab marked unverified.', u: ctx.href('/elon.html') },
     { q: 'stocks crypto ai battle trading picks', a: 'The AI Battle has AI models trading stocks and crypto against live prices. Not financial advice.', u: ctx.href('/arena.html#battle') },
     { q: 'api data json developers agents moltbook', a: 'Every reading is open JSON. AI agents: start with skill.md.', u: ctx.href('/agents.html') },

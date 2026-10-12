@@ -208,6 +208,7 @@ export function siReady(ctx) {
   <h2>Keep going</h2>
   <div class="fx-grid">
     <a class="fx-card" href="${esc(ctx.href('/ai-proof-job.html'))}"><h3>AI-proof your job →</h3><p>Where AI hits your work, and how to grow with it.</p></a>
+    <a class="fx-card" href="${esc(ctx.href('/for-people.html'))}"><h3>For People →</h3><p>Tools that help AI and SI be good for people.</p></a>
     <a class="fx-card" href="${esc(ctx.href('/prepper-checklist.html'))}"><h3>Prepper Checklist →</h3><p>The physical side: water, food, power, documents.</p></a>
     <a class="fx-card" href="${esc(ctx.href('/breakthroughs.html'))}"><h3>Breakthroughs →</h3><p>The good news, because there is a lot of it.</p></a>
   </div>

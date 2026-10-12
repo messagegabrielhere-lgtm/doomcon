@@ -174,6 +174,7 @@ export function roomGroups(ctx) {
       ['/bliss.html', 'sun', 'Upside', null, 'The direction we would be glad to see move.'],
       ['/nothing.html', 'px:shrug', 'Nothing Ever Happens', 'NEW', 'Dated AI claims that missed — the skeptic’s counter.'],
       ['/breakthroughs.html', 'px:bulb', 'Breakthroughs', null, 'AI curing, solving and restoring: the good news, tracked.'],
+      ['/for-people.html', 'px:people', 'For People', 'NEW', 'Tools that help AI and SI be good for people.'],
       ['/ai-proof-job.html', 'px:rocket', 'AI-Proof Your Job', null, 'A 2-minute plan to keep your job and grow with AI.'],
     ]],
     ['PLAY & PREP', [
