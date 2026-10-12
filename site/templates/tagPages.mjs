@@ -217,6 +217,24 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'Retrieval-augmented generation and agentic RAG stories scored in the newsroom or archive.',
     match: /\b(retrieval[- ]augmented|\brag\b|agentic\s*rag)\b/i,
   },
+  {
+    id: 'mcp',
+    name: 'MCP / tool protocols',
+    description: 'Model Context Protocol and related tool-protocol stories scored in the newsroom or archive.',
+    match: /\b(model context protocol|\bmcp\b|mcp servers?|mcp clients?)\b/i,
+  },
+  {
+    id: 'fine-tuning',
+    name: 'Fine-tuning',
+    description: 'Fine-tuning and post-training stories scored in the newsroom or archive — coverage counts, not a model score.',
+    match: /\b(fine[- ]tun(?:e|ing|ed)|post[- ]train(?:ing|ed)?|lora|qlora)\b/i,
+  },
+  {
+    id: 'quantization',
+    name: 'Quantization',
+    description: 'Model quantization and low-bit serving stories scored in the newsroom or archive.',
+    match: /\b(quantiz(?:es?|ation|ed|ing)|int4|int8|fp8|gguf|awq|gptq)\b/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));

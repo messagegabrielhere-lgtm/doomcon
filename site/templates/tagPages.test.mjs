@@ -223,4 +223,37 @@ describe('tag pages', () => {
     assert.match(renderTag(rich, 'ipo'), /AI IPOs: AI stories this index scored/);
     assert.match(renderTag(rich, 'rag'), /RAG \/ retrieval: AI stories this index scored/);
   });
+
+  it('pages MCP, fine-tuning, and quantization hubs when the needle clears the gate', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('m1', 'Anthropic ships Model Context Protocol servers'),
+          story('m2', 'MCP clients land in coding agents'),
+          story('m3', 'New MCP server for file tools'),
+          story('m4', 'Labs adopt the Model Context Protocol'),
+          story('m5', 'Open MCP registry grows overnight'),
+          story('f1', 'Fine-tuning Llama for enterprise RAG'),
+          story('f2', 'LoRA fine-tune cuts training cost'),
+          story('f3', 'QLoRA post-training notebook ships'),
+          story('f4', 'Lab fine-tuned a smaller student model'),
+          story('f5', 'Post-training stack for open weights'),
+          story('q1', 'INT4 quantization lands in vLLM'),
+          story('q2', 'GGUF AWQ GPTQ packing guide'),
+          story('q3', 'FP8 serving stack cuts memory'),
+          story('q4', 'Lab ships quantized 70B checkpoint'),
+          story('q5', 'INT8 quantization for edge inference'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    assert.ok(ids.includes('mcp'));
+    assert.ok(ids.includes('fine-tuning'));
+    assert.ok(ids.includes('quantization'));
+    assert.match(renderTag(rich, 'mcp'), /MCP \/ tool protocols: AI stories this index scored/);
+    assert.match(renderTag(rich, 'fine-tuning'), /Fine-tuning: AI stories this index scored/);
+    assert.match(renderTag(rich, 'quantization'), /Quantization: AI stories this index scored/);
+  });
 });

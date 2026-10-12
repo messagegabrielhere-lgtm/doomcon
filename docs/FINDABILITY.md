@@ -281,6 +281,7 @@ context.
 | 48 | `/sources.html` feed-adapter head-term hub (same gated `/source/*` set) | Google | **Done** (2026-10-12) |
 | 49 | `/pillars.html` + `/pillar/` directory over gated activity pillars | Google | **Done** (2026-10-12) |
 | 50 | `/countries.html` DoomBench-shaped country hub (same gated `/country/*` map counts) | Google | **Done** (2026-10-12) |
+| 51 | Topic tags `mcp` + `fine-tuning` + `quantization` (live/archive ≥5 gate; search-trend hubs) | Google | **Done** (2026-10-12) |
 
 ### 3.3 Refusals (search edition)
 

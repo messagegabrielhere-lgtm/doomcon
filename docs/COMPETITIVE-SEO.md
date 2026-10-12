@@ -120,7 +120,8 @@ Linked from `/leaders.html`, `/news.html`, `llms.txt`, catalog, and sitemap.
 Skynet’s `/tags/*` shape with a short published vocabulary (agents, GPUs,
 safety, datacenters, fundraising, benchmarks, regulation, inference, robotics,
 China AI, plus later chips/energy/labor/healthcare/**coding**/**acquisitions**/
-**browser**/**watermarking**/**evals**/**video**/**voice**/**reasoning**/**ipo**/**rag**).
+**browser**/**watermarking**/**evals**/**video**/**voice**/**reasoning**/**ipo**/**rag**/
+**mcp**/**fine-tuning**/**quantization**).
 Gate: ≥5 scored stories whose title or summary matches the needle.
 Story pages link indexable tags and indexable people (full-name match only).
 Synonym doorway farms stay refused.

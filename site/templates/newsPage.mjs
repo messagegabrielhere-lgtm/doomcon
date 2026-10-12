@@ -227,7 +227,7 @@ function kindHubNav(ctx) {
     .map((k) => `<a href="${esc(ctx.href(kindPath(k.id)))}">${esc(k.name)} <span class="num">(${esc(String(k.count))})</span></a>`)
     .join('');
   return `<nav class="narch__days" aria-label="News by story kind">
-  <p class="narch__days-k">By kind · <a href="${esc(ctx.href('/kind/'))}">all kinds</a></p>
+  <p class="narch__days-k">By kind · <a href="${esc(ctx.href('/kind/'))}">all kinds</a> · <a href="${esc(ctx.href('/kinds.html'))}">kinds hub</a></p>
   <div class="narch__days-links">${links}</div>
 </nav>`;
 }
@@ -240,7 +240,7 @@ function outletHubNav(ctx) {
     .map((o) => `<a href="${esc(ctx.href(outletPath(o.domain)))}">${esc(o.domain)} <span class="num">(${esc(String(o.count))})</span></a>`)
     .join('');
   return `<nav class="narch__days" aria-label="News by publisher">
-  <p class="narch__days-k">By publisher · <a href="${esc(ctx.href('/outlet/'))}">all publishers</a></p>
+  <p class="narch__days-k">By publisher · <a href="${esc(ctx.href('/outlet/'))}">all publishers</a> · <a href="${esc(ctx.href('/outlets.html'))}">outlets hub</a></p>
   <div class="narch__days-links">${links}</div>
 </nav>`;
 }
