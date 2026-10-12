@@ -108,6 +108,45 @@ describe('pillar facets', () => {
     assert.match(html, /Archived capability story/);
     assert.match(html, /\/item\/archive\.html/);
   });
+
+  it('lets the durable archive keep a thin pillar above the substance gate', () => {
+    const withArch = {
+      ...ctx,
+      itemArchive: [
+        {
+          id: 'm-old1',
+          title: 'Archived markets one',
+          pillar: 'markets',
+          source: 'hn',
+          url: 'https://example.test/m1',
+          published_at: '2026-09-01T01:00:00Z',
+          score: 40,
+        },
+        {
+          id: 'm-old2',
+          title: 'Archived markets two',
+          pillar: 'markets',
+          source: 'hn',
+          url: 'https://example.test/m2',
+          published_at: '2026-09-02T01:00:00Z',
+          score: 41,
+        },
+        {
+          id: 'm-old3',
+          title: 'Archived markets three',
+          pillar: 'markets',
+          source: 'hn',
+          url: 'https://example.test/m3',
+          published_at: '2026-09-03T01:00:00Z',
+          score: 42,
+        },
+      ],
+    };
+    assert.equal(pillarIndexable(withArch, 'markets'), true);
+    const html = renderPillar(withArch, 'markets');
+    assert.doesNotMatch(html, /noindex/);
+    assert.match(html, /Older scored stories under Markets/);
+  });
 });
 
 describe('lab facets', () => {

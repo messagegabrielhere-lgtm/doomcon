@@ -78,8 +78,13 @@ function pillarState(ctx, pillarId) {
   return list.find((p) => p && p.id === pillarId) || null;
 }
 
+/** Live + archive stories under this pillar — archive can keep a hub above the gate. */
+export function pillarStoryCount(ctx, pillarId) {
+  return itemsForPillar(ctx, pillarId).length + archiveItemsForPillar(ctx, pillarId).length;
+}
+
 export function pillarIndexable(ctx, pillarId) {
-  return itemsForPillar(ctx, pillarId).length >= PILLAR_INDEX_MIN;
+  return pillarStoryCount(ctx, pillarId) >= PILLAR_INDEX_MIN;
 }
 
 function scoreCell(it) {
@@ -120,15 +125,16 @@ export function renderPillar(ctx, pillarId) {
   const items = itemsForPillar(ctx, pillarId);
   const archivedAll = archiveItemsForPillar(ctx, pillarId);
   const older = archivedAll.slice(0, 12);
+  const total = items.length + archivedAll.length;
   const st = pillarState(ctx, pillarId);
-  const indexable = items.length >= PILLAR_INDEX_MIN;
+  const indexable = total >= PILLAR_INDEX_MIN;
   const path = pillarPath(pillarId);
   const scoreTxt = st && Number.isFinite(st.score) ? num(st.score, 1) : null;
   const status = st && st.dark ? 'dark this hour'
     : (scoreTxt != null ? `${scoreTxt} of 100 this hour` : 'awaiting a baseline');
   const title = `${meta.name} AI activity · ${brand.NAME} pillar`;
   const description = clip(
-    `${brand.NAME} ${meta.name} pillar: ${status}. ${meta.description} ${items.length} scored stories in the current newsroom window.`,
+    `${brand.NAME} ${meta.name} pillar: ${status}. ${meta.description} ${total} scored stories (live window plus archive).`,
     160,
   );
 
@@ -150,7 +156,8 @@ export function renderPillar(ctx, pillarId) {
   <p class="fc__lede">${esc(meta.description)}</p>
   <div class="fc__stat" role="group" aria-label="Current pillar reading">
     <div><b class="num">${esc(scoreTxt != null ? scoreTxt : '—')}</b><span>Pillar score / 100</span></div>
-    <div><b class="num">${esc(String(items.length))}</b><span>Scored stories in window</span></div>
+    <div><b class="num">${esc(String(total))}</b><span>Scored stories (live + archive)</span></div>
+    <div><b class="num">${esc(String(items.length))}</b><span>In live window</span></div>
     ${archivedAll.length ? `<div><b class="num">${esc(String(archivedAll.length))}</b><span>Older in archive</span></div>` : ''}
     <div><b>${esc(st && st.dark ? 'DARK' : (st && st.uncalibrated ? 'CALIBRATING' : 'LIVE'))}</b><span>Source posture</span></div>
   </div>

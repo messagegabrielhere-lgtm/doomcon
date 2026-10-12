@@ -273,6 +273,7 @@ context.
 | 40 | Outlet (`/outlet/*`) gate counts live + archive (AP/Axios/WaPo-class hosts stay indexable) | Google | **Done** (2026-10-12) |
 | 41 | Source (`/source/*`) gate counts live + archive; topic tags `evals` + `video` + `voice` | Google | **Done** (2026-10-12) |
 | 42 | Fill `item-archive` to cap 2400 via git backfill; kind gate counts live + archive | Google | **Done** (2026-10-12) |
+| 43 | Raise `item-archive` cap 2400→3200 + backfill (~2831); pillar gate counts live + archive | Google | **Done** (2026-10-12) |
 
 ### 3.3 Refusals (search edition)
 
