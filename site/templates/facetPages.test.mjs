@@ -158,6 +158,40 @@ describe('lab facets', () => {
     assert.match(html, /does not invent market odds/);
     assert.doesNotMatch(html, /Market odds \(best model\)/);
   });
+
+  it('indexes infra entity labs when the live story gate clears', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        ...ctx.news,
+        items: [
+          ...ctx.news.items,
+          ...['Oracle cloud AI deal', 'Oracle GPU cluster expand', 'Oracle signs AI power pact'].map((title, i) => ({
+            id: `or${i}`,
+            title,
+            pillar: 'compute',
+            source: 'hn',
+            url: `https://example.test/or${i}`,
+            published_at: '2026-10-09T09:00:00Z',
+            score: 44,
+          })),
+          ...['Palantir AI platform win', 'Palantir defense AI contract', 'Palantir names AI chief'].map((title, i) => ({
+            id: `pl${i}`,
+            title,
+            pillar: 'capability',
+            source: 'hn',
+            url: `https://example.test/pl${i}`,
+            published_at: '2026-10-09T08:00:00Z',
+            score: 43,
+          })),
+        ],
+      },
+    };
+    const ids = labsFromEntities(rich).map((p) => p.id);
+    assert.ok(ids.includes('oracle'));
+    assert.ok(ids.includes('palantir'));
+    assert.match(renderLab(rich, labsFromEntities(rich).find((p) => p.id === 'oracle')), /Oracle: AI stories this index scored/);
+  });
 });
 
 describe('facet sitemap', () => {

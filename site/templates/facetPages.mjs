@@ -261,6 +261,11 @@ function labNeedles(player) {
     amazon: ['amazon', 'aws', 'bedrock'],
     'hugging-face': ['hugging face', 'huggingface'],
     bytedance: ['bytedance', 'seed-oss'],
+    oracle: ['oracle'],
+    palantir: ['palantir'],
+    adobe: ['adobe'],
+    broadcom: ['broadcom', 'vmware'],
+    cloudflare: ['cloudflare'],
   };
   return [...new Set([...(extras[player.id] || []), ...names])];
 }

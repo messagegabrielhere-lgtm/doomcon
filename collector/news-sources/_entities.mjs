@@ -60,6 +60,14 @@ const ENTITY_DEFS = [
   { name: 'Tencent', kind: 'lab', forms: ['Tencent'] },
   { name: 'ByteDance', kind: 'lab', forms: ['ByteDance', 'Seed-OSS'] },
   { name: 'Ai2', kind: 'lab', forms: ['Allen Institute for AI', 'AI2', 'Ai2'] },
+  // Compute / infra / software names that clear the entity-lab story gate often
+  // enough to earn /lab pages (DoomBench /companies shape) without inventing
+  // a market row or a doom score for the company.
+  { name: 'Oracle', kind: 'lab', forms: ['Oracle'] },
+  { name: 'Palantir', kind: 'lab', forms: ['Palantir'] },
+  { name: 'Adobe', kind: 'lab', forms: ['Adobe'] },
+  { name: 'Broadcom', kind: 'lab', forms: ['Broadcom'] },
+  { name: 'Cloudflare', kind: 'lab', forms: ['Cloudflare'] },
 
   // --- model families ---
   { name: 'GPT', kind: 'model', forms: ['GPT-3', 'GPT-4', 'GPT-4o', 'GPT-5', 'GPT-6', 'ChatGPT', 'GPT'] },

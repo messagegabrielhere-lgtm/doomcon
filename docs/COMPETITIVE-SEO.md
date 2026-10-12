@@ -111,7 +111,7 @@ Story pages link the model when the gate clears. The world table keeps its zoom 
 |---|---|---|
 | `/people/<id>.html` | ≥3 press headlines, on-record lines, or 7-day coverage count | Headlines only — never invents a quotation |
 | `/news/YYYY-MM-DD.html` | ≥5 scored stories that UTC day | List of scored items; not a forecast |
-| `/lab/<id>.html` for entity labs off the race board (Microsoft, NVIDIA, …) | ≥3 scored stories naming the lab | Story counts only — no invented market odds |
+| `/lab/<id>.html` for entity labs off the race board (Microsoft, NVIDIA, Oracle, Palantir, Adobe, Broadcom, Cloudflare, …) | ≥3 scored stories naming the lab | Story counts only — no invented market odds |
 
 Linked from `/leaders.html`, `/news.html`, `llms.txt`, catalog, and sitemap.
 

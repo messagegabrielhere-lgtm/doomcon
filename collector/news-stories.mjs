@@ -336,6 +336,7 @@ const ENTITY_WORDS = new Set([
   'amazon', 'aws', 'bedrock', 'apple', 'cohere', 'hugging', 'huggingface', 'face',
   'stability', 'black', 'forest', 'safe', 'superintelligence', 'ssi', 'thinking',
   'machines', 'perplexity', 'baidu', 'tencent', 'bytedance', 'allen', 'institute',
+  'oracle', 'palantir', 'adobe', 'broadcom', 'cloudflare', 'vmware',
   'gpt', 'chatgpt', 'claude', 'gemini', 'gemma', 'llama', 'grok', 'mixtral',
   'magistral', 'devstral', 'codestral', 'phi', 'command', 'kimi', 'glm', 'nemotron',
   'sora', 'veo', 'whisper', 'stable', 'sdxl', 'flux', 'opus', 'sonnet', 'haiku',
