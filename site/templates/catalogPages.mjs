@@ -96,6 +96,7 @@ const DATA = {
   'api/live-media.json': ['AI on TV & radio (JSON)', 'Live AI broadcasts, AI segments from news channels and AI podcast episodes.'],
   'api/si-signals.json': ['Takeover signals (JSON)', 'AI agent PRs, frontier models, the AGI forecast.'],
   'api/guide.json': ['Room guide (JSON)', 'Every room with its pitch, for agents.'],
+  'api/tally-voice.json': ["Tally's voice (JSON)", 'Last recorded canary update, when one exists.'],
   'api/search-index.json': ['Search index (JSON)', 'This catalog and the site’s content, packed for search.'],
   'api/receipts/index.json': ['Receipts index (JSON)', 'Every receipt id, newest first.'],
   'openapi.json': ['OpenAPI spec', 'The public API, described for code generators.'],
