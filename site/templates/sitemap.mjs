@@ -7,6 +7,7 @@ import { sitemapEntries as peopleEntries } from './peoplePages.mjs';
 import { sitemapEntries as dayEntries } from './dayPages.mjs';
 import { sitemapEntries as tagEntries } from './tagPages.mjs';
 import { sitemapEntries as kindEntries } from './kindPages.mjs';
+import { sitemapEntries as outletEntries } from './outletPages.mjs';
 // sitemap.xml. Head pages always; move pages only when substantive, matching
 // the noindex decision in move.mjs exactly. Submitting thin pages you have
 // already told Google not to index is a way of looking like you do not know
@@ -130,6 +131,7 @@ export function render(ctx) {
   entries.push(...dayEntries(ctx));
   entries.push(...tagEntries(ctx));
   entries.push(...kindEntries(ctx));
+  entries.push(...outletEntries(ctx));
 
   // Every scored item is an indexable page. Live window + durable archive
   // (data/item-archive.json) so the long tail grows instead of churning off

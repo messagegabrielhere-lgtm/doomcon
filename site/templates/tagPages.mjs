@@ -103,6 +103,36 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'Classrooms, universities, and student-use stories scored in this window.',
     match: /\b(classroom|university|students?|cheating|homework|school district)\b/i,
   },
+  {
+    id: 'open-weights',
+    name: 'Open weights',
+    description: 'Open-weight and open-source model releases named in the newsroom window.',
+    match: /\b(open[- ]source|open[- ]weight|weights? release|apache[- ]2\.0|mit license)\b/i,
+  },
+  {
+    id: 'cloud',
+    name: 'Cloud AI',
+    description: 'Cloud platforms and hosted model APIs (Azure, AWS, GCP, Bedrock, Vertex).',
+    match: /\b(azure|aws|gcp|bedrock|vertex ai|cloud gpu)\b/i,
+  },
+  {
+    id: 'startups',
+    name: 'AI startups',
+    description: 'Startups and early-stage AI companies named in scored headlines.',
+    match: /\b(start[- ]?ups?|seed round|unicorn|y combinator|\byc\b)\b/i,
+  },
+  {
+    id: 'finance',
+    name: 'AI in finance',
+    description: 'Banking, fintech, and markets stories that name AI systems.',
+    match: /\b(bank(?:ing)?|fintech|trading desk|wall street|hedge fund)\b/i,
+  },
+  {
+    id: 'multimodal',
+    name: 'Multimodal AI',
+    description: 'Vision, image generation, and other multimodal model stories.',
+    match: /\b(multimodal|vision model|image generat|text[- ]to[- ]image)\b/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));

@@ -25,6 +25,7 @@ import { breadcrumbs, speakable } from './_seo.mjs';
 import { modelIndexable, modelPath } from './modelPages.mjs';
 import { tagsForItem, tagPath } from './tagPages.mjs';
 import { peopleForItem, peoplePath } from './peoplePages.mjs';
+import { outletsForItem, outletPath, OUTLET_INDEX_MIN } from './outletPages.mjs';
 import { kindIndexable, kindPath, kindById } from './kindPages.mjs';
 import * as brand from '../brand.mjs';
 import { sourceIndexable, sourceLabel, sourcePath } from './facetPages.mjs';
@@ -199,6 +200,13 @@ function peopleLine(ctx, item) {
   return `<p class="it__src">People: ${bits.join(', ')}. A name link means the full name appears in the title or summary and that person already cleared the people-page coverage gate.</p>`;
 }
 
+function publisherLine(ctx, item) {
+  const outlets = outletsForItem(ctx, item);
+  if (!outlets.length) return '';
+  const bits = outlets.map((o) => `<a href="${esc(ctx.href(outletPath(o.domain)))}">${esc(o.domain)}</a>`);
+  return `<p class="it__src">Publisher: ${bits.join(', ')}. A publisher link means the original URL host cleared the outlet gate (≥${OUTLET_INDEX_MIN} scored stories in this window).</p>`;
+}
+
 export function render(ctx, item, related = []) {
   const meta = brand.pillarMeta ? brand.pillarMeta(item.pillar) : null;
   const pillarName = meta ? meta.name : (item.pillar || 'unclassified');
@@ -234,6 +242,7 @@ export function render(ctx, item, related = []) {
   </p>
   ${namedLine(ctx, item)}
   ${peopleLine(ctx, item)}
+  ${publisherLine(ctx, item)}
   ${topicLine(ctx, item)}
 
   <section class="it__s" aria-labelledby="it-score">

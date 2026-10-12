@@ -250,6 +250,7 @@ context.
 | 17 | `/tags/*` topic hubs (Skynet URL shape; curated needles, ≥5 stories) | Google | **Done** (2026-10-12) |
 | 18 | `/kind/*` story-kind hubs (press/forum/paper; collector labels, ≥5 stories) | Google | **Done** (2026-10-12) |
 | 19 | Live newsroom cap → 800 + durable `data/item-archive.json` for `/item/` long-tail (overflow + aged-off); more `/tags/*` (security, military, education) | Google | **Done** (2026-10-12) |
+| 20 | `/outlet/<host>` publisher-domain hubs (≥5 scored stories) + tags open-weights/cloud/startups/finance/multimodal | Google | **Done** (2026-10-12) |
 
 ### 3.3 Refusals (search edition)
 
