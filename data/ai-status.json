@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "generated_at": "2026-10-12T13:30:16.270Z",
+ "generated_at": "2026-10-12T14:03:46.368Z",
  "services": [
   {
    "id": "openai",
@@ -73,7 +73,7 @@
    "browser": true,
    "indicator": "minor",
    "description": "Partially Degraded Service",
-   "updated_at": "2026-10-12T13:21:32.429Z",
+   "updated_at": "2026-10-12T13:38:44.594Z",
    "degraded": [
     {
      "name": "Issues",
@@ -91,9 +91,9 @@
      "impact": "minor",
      "status": "investigating",
      "started_at": "2026-10-12T12:21:47.965Z",
-     "updated_at": "2026-10-12T13:02:17.368Z",
+     "updated_at": "2026-10-12T13:38:44.573Z",
      "url": "https://stspg.io/flldq0dn2wdz",
-     "latest": "Pull Requests is operating normally."
+     "latest": "Our initial mitigation was not fully successful, and users may still experience delays and errors with Actions, issues and projects, and notifications are delayed. We're continuing to investigate the root cause and work on additional mitigations."
     }
    ],
    "maintenance": 0,
@@ -108,7 +108,7 @@
    "browser": true,
    "indicator": "none",
    "description": "All Systems Operational",
-   "updated_at": "2026-10-12T13:19:46.756Z",
+   "updated_at": "2026-10-12T13:38:48.859Z",
    "degraded": [],
    "components": 8,
    "incidents": [],
@@ -186,12 +186,31 @@
    "page": "https://www.vercel-status.com",
    "api": "https://www.vercel-status.com/api/v2/summary.json",
    "browser": true,
-   "indicator": "none",
-   "description": "All Systems Operational",
-   "updated_at": "2026-10-12T13:19:27.227Z",
-   "degraded": [],
+   "indicator": "minor",
+   "description": "Minor Service Outage",
+   "updated_at": "2026-10-12T13:35:07.546Z",
+   "degraded": [
+    {
+     "name": "Builds",
+     "status": "partial_outage"
+    },
+    {
+     "name": "Git Integrations",
+     "status": "partial_outage"
+    }
+   ],
    "components": 59,
-   "incidents": [],
+   "incidents": [
+    {
+     "name": "Increased build and deployment failures",
+     "impact": "major",
+     "status": "investigating",
+     "started_at": "2026-10-12T13:35:07.383Z",
+     "updated_at": "2026-10-12T13:35:07.542Z",
+     "url": "https://stspg.io/cfrfjg8fqxfr",
+     "latest": "We've identified an issue where some customers may experience build failures or deployments that fail to start. We are investigating this issue. We will provide additional updates as they become available."
+    }
+   ],
    "maintenance": 0,
    "error": null
   }
