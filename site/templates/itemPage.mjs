@@ -27,6 +27,7 @@ import { tagsForItem, tagPath } from './tagPages.mjs';
 import { peopleForItem, peoplePath } from './peoplePages.mjs';
 import { outletsForItem, outletPath, OUTLET_INDEX_MIN } from './outletPages.mjs';
 import { kindIndexable, kindPath, kindById } from './kindPages.mjs';
+import { countriesForItem, countryPath } from './countryPages.mjs';
 import * as brand from '../brand.mjs';
 import { sourceIndexable, sourceLabel, sourcePath } from './facetPages.mjs';
 
@@ -207,6 +208,13 @@ function publisherLine(ctx, item) {
   return `<p class="it__src">Publisher: ${bits.join(', ')}. A publisher link means the original URL host cleared the outlet gate (≥${OUTLET_INDEX_MIN} scored stories in this window).</p>`;
 }
 
+function countryLine(ctx, item) {
+  const countries = countriesForItem(ctx, item).slice(0, 4);
+  if (!countries.length) return '';
+  const bits = countries.map((c) => `<a href="${esc(ctx.href(countryPath(c.iso2)))}">${esc(c.name)}</a>`);
+  return `<p class="it__src">Countries: ${bits.join(', ')}. A country link means the title or summary named that place and the country already clears the mapped-datacentre gate on the world map.</p>`;
+}
+
 export function render(ctx, item, related = []) {
   const meta = brand.pillarMeta ? brand.pillarMeta(item.pillar) : null;
   const pillarName = meta ? meta.name : (item.pillar || 'unclassified');
@@ -244,6 +252,7 @@ export function render(ctx, item, related = []) {
   ${peopleLine(ctx, item)}
   ${publisherLine(ctx, item)}
   ${topicLine(ctx, item)}
+  ${countryLine(ctx, item)}
 
   <section class="it__s" aria-labelledby="it-score">
     <h2 id="it-score">The score</h2>

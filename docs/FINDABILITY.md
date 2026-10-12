@@ -262,6 +262,7 @@ context.
 | 29 | IndexNow pings archive hub + facet indexes + sitemap sample; labor + healthcare tags | Bing + Google | **Done** (2026-10-12) |
 | 30 | Raise `item-archive` cap 1600→2400 and backfill (~2215 retained scored stories) | Google | **Done** (2026-10-12) |
 | 31 | Topic tags `coding` + `acquisitions` (live ≥5 gate; Skynet-shaped search trends) | Google | **Done** (2026-10-12) |
+| 32 | `/country/*` hubs list matching live + archive stories; story pages link indexable countries | Google | **Done** (2026-10-12) |
 
 ### 3.3 Refusals (search edition)
 
