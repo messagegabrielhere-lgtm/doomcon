@@ -326,7 +326,8 @@ ${facetLinks(ctx, u)}
 - [Live scored stories](${u('/item/')})
 - [Story archive](${u('/item/archive.html')}): older scored stories kept after they leave the live window
 - [AI leaders](${u('/leaders.html')})
-- [People](${u('/people/')}): one page per leader with enough press coverage
+- [People](${u('/people/')}): one page per leader with enough press coverage (live wire or archive)
+- [AI people](${u('/people.html')}): DoomBench-shaped people directory (same gated roster; headlines only, no person doom score)
 - [Tags](${u('/tags/')}): topic hubs (agents, GPUs, chips, coding, browser, watermarking, acquisitions, labor, healthcare, …) when a needle clears five stories in the live window or archive
 - [Story archive](${u('/item/archive.html')}): older scored /item pages kept after they leave the live newsroom
 - [Kinds](${u('/kind/')}): press / forum / paper hubs when a collector kind clears five stories

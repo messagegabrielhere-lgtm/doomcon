@@ -253,7 +253,7 @@ function card(l, asOf = null, { ctx = null, covAt = null } = {}) {
   const sortAttrs = ` data-cov7d="${c7 === null ? -1 : esc(c7)}" data-count="${esc(l.count)}"` +
     ` data-silent="${Number.isFinite(l.days_silent) ? esc(l.days_silent) : -1}"`;
 
-  const personHref = personIndexable(l) ? peoplePath(l.id) : '';
+  const personHref = personIndexable(l, ctx) ? peoplePath(l.id) : '';
   const personUrl = personHref
     ? (ctx && typeof ctx.href === 'function' ? ctx.href(personHref) : personHref)
     : '';

@@ -269,6 +269,7 @@ context.
 | 36 | Model hub gate counts live + archive stories (Gemini/Grok-class families stay indexable) | Google | **Done** (2026-10-12) |
 | 37 | Entity-lab gate counts live + archive; SoftBank/Intel/AMD labs; word-boundary lab needles | Google | **Done** (2026-10-12) |
 | 38 | Tag gate counts live + archive; `browser` + `watermarking` topic hubs | Google | **Done** (2026-10-12) |
+| 39 | `/people.html` DoomBench-shaped people hub; people gate counts wire + archive | Google | **Done** (2026-10-12) |
 
 ### 3.3 Refusals (search edition)
 

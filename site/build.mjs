@@ -749,6 +749,7 @@ async function writePeopleAndDayPages(ctx, outDir, write, written) {
       written.push(await write(outDir, `people/${person.id}.html`, peoplePages.renderPerson(ctx, person.id)));
     }
     written.push(await write(outDir, 'people/index.html', peoplePages.renderIndex(ctx)));
+    written.push(await write(outDir, 'people.html', peoplePages.renderPeople(ctx)));
   }
   for (const day of dayPages.indexableDays(ctx)) {
     written.push(await write(outDir, `news/${day.day}.html`, dayPages.renderDay(ctx, day.day)));

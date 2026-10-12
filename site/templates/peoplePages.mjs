@@ -57,6 +57,7 @@ export function peoplePath(id) {
   return `/people/${String(id || '').toLowerCase()}.html`;
 }
 
+/** Wire-only substance: press headlines, on-record lines, or a 7-day floor. */
 export function personSubstance(leader) {
   if (!leader || !leader.id || !leader.name) return 0;
   const headlines = (leader.coverage && Array.isArray(leader.coverage.headlines))
@@ -67,18 +68,29 @@ export function personSubstance(leader) {
   return Math.max(headlines, lines, week >= PEOPLE_INDEX_MIN ? PEOPLE_INDEX_MIN : 0);
 }
 
-export function personIndexable(leader) {
+/**
+ * Wire substance plus archive story count — archive can keep a person hub
+ * alive after the live coverage window rolls (same idea as model/tag hubs).
+ */
+export function personStoryCount(ctx, leader) {
+  return personSubstance(leader) + archiveItemsForPerson(ctx, leader).length;
+}
+
+export function personIndexable(leader, ctx) {
+  if (ctx) return personStoryCount(ctx, leader) >= PEOPLE_INDEX_MIN;
   return personSubstance(leader) >= PEOPLE_INDEX_MIN;
 }
 
 export function indexablePeople(ctx) {
   return leadersList(ctx)
-    .filter(personIndexable)
+    .filter((p) => personIndexable(p, ctx))
     .slice()
     .sort((a, b) => {
-      const ca = Number(a.coverage && a.coverage.count_7d) || 0;
-      const cb = Number(b.coverage && b.coverage.count_7d) || 0;
-      return (cb - ca) || String(a.name).localeCompare(String(b.name));
+      const ca = personStoryCount(ctx, a);
+      const cb = personStoryCount(ctx, b);
+      const wa = Number(a.coverage && a.coverage.count_7d) || 0;
+      const wb = Number(b.coverage && b.coverage.count_7d) || 0;
+      return (cb - ca) || (wb - wa) || String(a.name).localeCompare(String(b.name));
     });
 }
 
@@ -214,7 +226,7 @@ export function renderPerson(ctx, id) {
 
   const main = `${STYLE}${avatarSprite()}
 <article class="pp prose">
-  <p class="pp__k"><a href="${esc(ctx.href('/leaders.html'))}">Leaders</a> · <a href="${esc(ctx.href('/people/'))}">People</a></p>
+  <p class="pp__k"><a href="${esc(ctx.href('/leaders.html'))}">Leaders</a> · <a href="${esc(ctx.href('/people/'))}">People</a> · <a href="${esc(ctx.href('/people.html'))}">People hub</a></p>
   <div class="pp__head">
     ${faceBlock(leader)}
     <div>
@@ -247,7 +259,7 @@ export function renderPerson(ctx, id) {
     path,
     title,
     description,
-    noindex: !personIndexable(leader),
+    noindex: !personIndexable(leader, ctx),
     jsonld: [{
       '@context': 'https://schema.org',
       '@type': 'ProfilePage',
@@ -277,25 +289,27 @@ export function renderIndex(ctx) {
   const path = '/people/';
   const title = `AI leaders: press coverage pages · ${brand.NAME}`;
   const description = clip(
-    `${people.length} people on the ${brand.NAME} leader wire with enough press coverage for their own page. Coverage counts stories naming them — not quotations.`,
+    `${people.length} people on the ${brand.NAME} leader wire with enough press coverage for their own page (live wire plus archive). Coverage counts stories naming them — not quotations.`,
     160,
   );
   const rows = people.map((p) => {
     const week = Number(p.coverage && p.coverage.count_7d);
+    const archived = archiveItemsForPerson(ctx, p).length;
     return `<li>
   <a href="${esc(ctx.href(peoplePath(p.id)))}">${esc(p.name)}</a>
-  <span class="pp__meta">${esc([p.role, p.org].filter(Boolean).join(' · '))}${Number.isFinite(week) ? ` · ${esc(String(week))} stories / 7d` : ''}</span>
+  <span class="pp__meta">${esc([p.role, p.org].filter(Boolean).join(' · '))}${Number.isFinite(week) ? ` · ${esc(String(week))} stories / 7d` : ''}${archived ? ` · ${esc(String(archived))} archive` : ''}</span>
 </li>`;
   }).join('');
 
   // Reuse list styles; keep the index light.
   const main = `${STYLE}
 <article class="pp prose">
-  <p class="pp__k"><a href="${esc(ctx.href('/leaders.html'))}">Leaders</a> · People</p>
+  <p class="pp__k"><a href="${esc(ctx.href('/leaders.html'))}">Leaders</a> · People · <a href="${esc(ctx.href('/people.html'))}">People hub</a></p>
   <h1>AI leaders with a coverage page</h1>
-  <p class="pp__lede">A person earns a page when the wire holds at least ${PEOPLE_INDEX_MIN} press headlines, on-record lines, or a 7-day coverage count at that floor. Each page lists headlines as printed. It does not invent quotations.</p>
+  <p class="pp__lede">A person earns a page when the wire or the durable archive holds at least ${PEOPLE_INDEX_MIN} press headlines, on-record lines, a 7-day coverage count at that floor, or scored stories naming them. Each page lists headlines as printed. It does not invent quotations.</p>
   ${rows ? `<ol class="pp__list">${rows}</ol>` : '<p>No person clears the gate in this build.</p>'}
-  <p class="fresh__key"><a href="${esc(ctx.href('/leaders.html'))}">Full leader wire →</a></p>
+  <p class="fresh__key">Search-shaped directory: <a href="${esc(ctx.href('/people.html'))}">AI people this index covers</a>.
+     · <a href="${esc(ctx.href('/leaders.html'))}">Full leader wire →</a></p>
 </article>`;
 
   return page({
@@ -328,6 +342,73 @@ export function renderIndex(ctx) {
   });
 }
 
+/**
+ * DoomBench-shaped /people head-term hub. Same gated roster as /people/,
+ * different title and lede for “AI people” / “AI leaders” queries — coverage
+ * counts only, never invented quotations or a person doom score.
+ */
+export function renderPeople(ctx) {
+  const people = indexablePeople(ctx);
+  const path = '/people.html';
+  const title = `AI people this index covers · ${brand.NAME}`;
+  const description = clip(
+    `${people.length} AI leaders with press-coverage hubs on ${brand.NAME}. Each row links /people pages — headlines and story counts only, not quotations or a person doom score.`,
+    160,
+  );
+  const rows = people.map((p) => {
+    const week = Number(p.coverage && p.coverage.count_7d);
+    const archived = archiveItemsForPerson(ctx, p).length;
+    const total = personStoryCount(ctx, p);
+    return `<li>
+  <a href="${esc(ctx.href(peoplePath(p.id)))}">${esc(p.name)}</a>
+  <span class="pp__meta">${esc([p.role, p.org].filter(Boolean).join(' · ') || 'Coverage hub')} · <span class="num">${esc(String(total))}</span> signal${archived ? ` (${esc(String(archived))} archive)` : ''}${Number.isFinite(week) ? ` · ${esc(String(week))} / 7d` : ''}</span>
+</li>`;
+  }).join('');
+  const main = `${STYLE}
+<article class="pp prose">
+  <p class="pp__k"><a href="${esc(ctx.href('/compare.html'))}">Compare</a> · <a href="${esc(ctx.href('/leaders.html'))}">Leaders</a> · <a href="${esc(ctx.href('/people/'))}">People</a> · People hub</p>
+  <h1>AI people this index covers</h1>
+  <p class="pp__lede">${esc(brand.NAME)} does not publish a person “doom score.” It publishes an activity index and press coverage counts. This page lists leaders who already clear the same substance gate as <a href="${esc(ctx.href('/people/'))}">/people/</a> — at least ${PEOPLE_INDEX_MIN} headlines, on-record lines, a 7-day coverage floor, or scored archive stories naming them. Headlines only; never invented quotations.</p>
+  <div class="pp__stat" role="group" aria-label="People hub totals">
+    <div><b class="num">${esc(String(people.length))}</b><span>People hubs</span></div>
+  </div>
+  ${people.length ? `<ol class="pp__list">${rows}</ol>` : '<p>No people hub cleared the gate in this build.</p>'}
+  <p class="fresh__key"><a href="${esc(ctx.href('/people/'))}">People directory →</a>
+     · <a href="${esc(ctx.href('/leaders.html'))}">Full leader wire →</a>
+     · <a href="${esc(ctx.href('/companies.html'))}">AI companies →</a>
+     · <a href="${esc(ctx.href('/models.html'))}">AI models →</a>
+     · <a href="${esc(ctx.href('/compare.html'))}">How this index differs from DoomBench →</a></p>
+</article>`;
+  return page({
+    ctx,
+    path,
+    title,
+    description,
+    noindex: people.length === 0,
+    jsonld: [{
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      name: title,
+      url: ctx.url(path),
+      description,
+      mainEntity: {
+        '@type': 'ItemList',
+        numberOfItems: people.length,
+        itemListElement: people.map((p, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          url: ctx.url(peoplePath(p.id)),
+          name: p.name,
+        })),
+      },
+    }, breadcrumbs(ctx, [
+      { name: 'Compare', path: '/compare.html' },
+      { name: 'People', path },
+    ])],
+    main,
+  });
+}
+
 /** Sitemap rows for the people index and each person that clears the gate. */
 export function sitemapEntries(ctx) {
   const people = indexablePeople(ctx);
@@ -337,6 +418,7 @@ export function sitemapEntries(ctx) {
     || (ctx.state && ctx.state.generated_at);
   return [
     { loc: '/people/', changefreq: 'hourly', priority: '0.7', lastmod: last },
+    { loc: '/people.html', changefreq: 'hourly', priority: '0.75', lastmod: last },
     ...people.map((p) => ({
       loc: peoplePath(p.id),
       changefreq: 'hourly',

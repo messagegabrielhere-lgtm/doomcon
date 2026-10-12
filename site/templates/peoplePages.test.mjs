@@ -7,6 +7,9 @@ import {
   peopleForItem,
   peoplePath,
   personIndexable,
+  personStoryCount,
+  renderIndex,
+  renderPeople,
   renderPerson,
   sitemapEntries,
 } from './peoplePages.mjs';
@@ -63,10 +66,24 @@ describe('people pages', () => {
     assert.equal(peoplePath('altman'), '/people/altman.html');
     assert.equal(personIndexable(ctx.leaders.leaders[0]), true);
     assert.equal(personIndexable(ctx.leaders.leaders[1]), false);
+    assert.equal(personIndexable(ctx.leaders.leaders[0], ctx), true);
+    assert.equal(personIndexable(ctx.leaders.leaders[1], ctx), false);
     const locs = sitemapEntries(ctx).map((e) => e.loc);
     assert.ok(locs.includes('/people/'));
+    assert.ok(locs.includes('/people.html'));
     assert.ok(locs.includes('/people/altman.html'));
     assert.ok(!locs.includes('/people/quiet.html'));
+  });
+
+  it('ships /people.html over the same gated people set', () => {
+    const html = renderPeople(ctx);
+    assert.match(html, /AI people this index covers/);
+    assert.match(html, /\/people\/altman\.html/);
+    assert.match(html, /does not publish a person/);
+    assert.match(html, /\/companies\.html/);
+    assert.match(html, /\/models\.html/);
+    assert.match(renderIndex(ctx), /\/people\.html/);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
   });
 
   it('lists headlines and refuses to invent quotations', () => {
@@ -75,6 +92,7 @@ describe('people pages', () => {
     assert.match(html, /ProfilePage/);
     assert.match(html, /Sam Altman in the news 0/);
     assert.match(html, /never writes a quotation/i);
+    assert.match(html, /\/people\.html/);
     assert.doesNotMatch(html, /noindex/);
     assert.doesNotMatch(html, /doom score/i);
   });
@@ -97,6 +115,43 @@ describe('people pages', () => {
     assert.match(html, /Older scored stories naming Sam Altman/);
     assert.match(html, /Sam Altman discussed compute last month/);
     assert.match(html, /\/item\/archive\.html/);
+  });
+
+  it('lets the durable archive keep a person hub above the substance gate', () => {
+    const withArch = {
+      ...ctx,
+      itemArchive: [
+        {
+          id: 'q-old1',
+          title: 'Quiet Person discussed research last month',
+          summary: 'Coverage only.',
+          pillar: 'attention',
+          source: 'hn',
+          url: 'https://example.test/q-old1',
+          published_at: '2026-09-20T01:00:00Z',
+          score: 40,
+        },
+        {
+          id: 'q-old2',
+          title: 'Quiet Person named in a follow-up',
+          summary: 'Still coverage.',
+          pillar: 'attention',
+          source: 'hn',
+          url: 'https://example.test/q-old2',
+          published_at: '2026-09-21T01:00:00Z',
+          score: 41,
+        },
+      ],
+    };
+    assert.ok(personStoryCount(withArch, withArch.leaders.leaders[1]) >= PEOPLE_INDEX_MIN);
+    const ids = indexablePeople(withArch).map((p) => p.id);
+    assert.ok(ids.includes('quiet'));
+    assert.ok(ids.includes('altman'));
+    const html = renderPerson(withArch, 'quiet');
+    assert.doesNotMatch(html, /noindex/);
+    assert.match(html, /Older scored stories naming Quiet Person/);
+    assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/people/quiet.html'));
+    assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/people.html'));
   });
 
   it('links indexable people from story pages on a full-name match only', () => {

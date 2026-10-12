@@ -20,7 +20,7 @@ hijacks we cannot honestly answer stay refused (`CONTRACT.md`, `VOICE.md`).
 | **DoomBench** | **2,088** (2026-10-12) | none | “Live AI Doom Index” | FAQPage only | `/models` `/companies` `/countries` `/people` `/jobs` `/news` | no |
 | **Skynet Countdown** | **1,237** | none | “AGI Timeline Tracker” | Organization + WebSite | `/tags/*` (717) + `/news/YYYY-MM-DD` (507) | no |
 | **pizzint.watch** | **1,018** | **14** (flipping empty↔14 on 2026-10-12 — contested) | DEFCON + Doomsday Clock hijack + keywords meta | FAQPage + WebApplication + Organization | `/intel/*` briefs only; chips are `<button>`s | no (404 → SPA shell) |
-| **siren.watch** | **~682** live → **~3,365** local (800 live + ~2215 archive + facets; cap 2400) — ahead of DoomBench/Skynet/pizzint pending deploy | **100** live / **150** cap in-repo with `news:keywords` | Head-term live title (“AI activity index today · SIREN …”) | Rich: Dataset, FAQ, Organization, VideoObject… | `/pillar/*` `/lab/*` + `/companies.html` `/models.html` `/country/*` `/model/*` `/people/*` `/tags/*` `/kind/*` `/outlet/*` + archived `/item/*`; facets link older archive matches | **yes** |
+| **siren.watch** | **~682** live → **~3,365** local (800 live + ~2215 archive + facets; cap 2400) — ahead of DoomBench/Skynet/pizzint pending deploy | **100** live / **150** cap in-repo with `news:keywords` | Head-term live title (“AI activity index today · SIREN …”) | Rich: Dataset, FAQ, Organization, VideoObject… | `/pillar/*` `/lab/*` + `/companies.html` `/models.html` `/people.html` `/country/*` `/model/*` `/people/*` `/tags/*` `/kind/*` `/outlet/*` + archived `/item/*`; facets link older archive matches | **yes** |
 | pdoom.ai | 0 (SPA shell) | 0 | Sci-fi countdown + keyword stuffing | none | none | yes (thin) |
 | takeofftracker.com | none | none | “AGI Metrics Dashboard” | none | none | none |
 
@@ -109,7 +109,7 @@ Story pages link the model when the gate clears. The world table keeps its zoom 
 
 | URL | Gate | Honesty |
 |---|---|---|
-| `/people/<id>.html` | ≥3 press headlines, on-record lines, or 7-day coverage count | Headlines only — never invents a quotation |
+| `/people/<id>.html` + `/people.html` | ≥3 press headlines, on-record lines, 7-day coverage floor, or scored archive stories naming them | Headlines only — never invents a quotation; hub is not a person doom score |
 | `/news/YYYY-MM-DD.html` | ≥5 scored stories that UTC day | List of scored items; not a forecast |
 | `/lab/<id>.html` for entity labs off the race board (Microsoft, NVIDIA, Oracle, Palantir, Adobe, Broadcom, Cloudflare, …) | ≥3 scored stories naming the lab | Story counts only — no invented market odds |
 
