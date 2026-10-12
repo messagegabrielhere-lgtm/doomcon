@@ -35,6 +35,18 @@ const ALWAYS = Object.freeze([
   '/ai-doomsday-clock.html',
   '/jobs.html',
   '/race.html',
+  // Facet indexes + archive hub — Bing path for the long-tail after deploy
+  // (Google still uses sitemaps; FINDABILITY.md).
+  '/item/archive.html',
+  '/item/',
+  '/tags/',
+  '/kind/',
+  '/outlet/',
+  '/model/',
+  '/people/',
+  '/source/',
+  '/pillar/capability.html',
+  '/lab/openai.html',
   '/sitemap.xml',
   '/news-sitemap.xml',
   '/llms.txt',
@@ -72,8 +84,21 @@ export function defaultUrlList({ outDir = join(ROOT, 'public') } = {}) {
   const newsPath = join(outDir, 'news-sitemap.xml');
   if (existsSync(newsPath)) {
     try {
-      urls.push(...locsFromSitemap(readFileSync(newsPath, 'utf8'), 80));
+      urls.push(...locsFromSitemap(readFileSync(newsPath, 'utf8'), 100));
     } catch { /* publish without a news sitemap is fine */ }
+  }
+  // Sample the ordinary sitemap so archived /item/* and new facets get
+  // notified without submitting all ~2,750 URLs every hour.
+  const smPath = join(outDir, 'sitemap.xml');
+  if (existsSync(smPath)) {
+    try {
+      const locs = locsFromSitemap(readFileSync(smPath, 'utf8'), 5000);
+      const archiveItems = locs.filter((u) => /\/item\/(?!archive)/i.test(u));
+      const facets = locs.filter((u) => /\/(tags|kind|outlet|model|people|source|pillar|lab|news\/\d{4})/i.test(u));
+      // Newest-looking paths tend to sort later in our sitemap build; take tails.
+      urls.push(...archiveItems.slice(-120));
+      urls.push(...facets.slice(-80));
+    } catch { /* optional */ }
   }
   return [...new Set(urls)];
 }

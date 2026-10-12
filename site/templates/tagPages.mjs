@@ -145,6 +145,18 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'Power, grid, and nuclear stories tied to AI datacentres and training load.',
     match: /\b(nuclear|power grid|electricity|reactor|energy demand|megawatts?)\b/i,
   },
+  {
+    id: 'labor',
+    name: 'AI and labor',
+    description: 'Hiring, layoffs, and workforce stories that name AI systems.',
+    match: /\b(layoff|job(?:s|less)?|workforce|hiring freeze|unemploy|white[- ]collar)\b/i,
+  },
+  {
+    id: 'healthcare',
+    name: 'AI in healthcare',
+    description: 'Hospital, clinical, and medical-AI stories scored in this window.',
+    match: /\b(hospital|healthcare|medical|diagnos|clinical|\bfda\b|patient|physician)\b/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));

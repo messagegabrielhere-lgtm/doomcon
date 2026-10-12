@@ -60,6 +60,8 @@ describe('IndexNow', () => {
     assert.ok(urls.includes('https://siren.watch/news-sitemap.xml'));
     assert.ok(urls.includes('https://siren.watch/agents.md'));
     assert.ok(urls.includes('https://siren.watch/compare.html'));
+    assert.ok(urls.includes('https://siren.watch/item/archive.html'));
+    assert.ok(urls.includes('https://siren.watch/tags/'));
   });
 
   it('Organization knowsAbout head terms Google and assistants ask', () => {
