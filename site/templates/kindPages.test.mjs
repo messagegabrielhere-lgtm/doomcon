@@ -74,4 +74,24 @@ describe('kind pages', () => {
     assert.match(html, /Archived paper from last week/);
     assert.match(html, /\/item\/archive\.html/);
   });
+
+  it('lets the durable archive keep a kind hub above the substance gate', () => {
+    const withArch = {
+      ...ctx,
+      itemArchive: [
+        story('f-old1', 'forum', 'Archived forum one'),
+        story('f-old2', 'forum', 'Archived forum two'),
+        story('f-old3', 'forum', 'Archived forum three'),
+        story('f-old4', 'forum', 'Archived forum four'),
+      ],
+    };
+    const ids = indexableKinds(withArch).map((k) => k.id);
+    assert.ok(ids.includes('forum'));
+    assert.ok(ids.includes('paper'));
+    const html = renderKind(withArch, 'forum');
+    assert.doesNotMatch(html, /noindex/);
+    assert.match(html, /Older scored forums/);
+    assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/kind/forum.html'));
+    assert.match(renderIndex(withArch), /live window or the durable archive/);
+  });
 });

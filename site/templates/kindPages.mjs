@@ -115,13 +115,22 @@ export function archiveItemsForKind(ctx, id) {
     .sort((a, b) => String(b.published_at || '').localeCompare(String(a.published_at || '')));
 }
 
+/** Live + archive stories of this kind — archive can keep a hub above the gate. */
+export function kindStoryCount(ctx, id) {
+  return itemsForKind(ctx, id).length + archiveItemsForKind(ctx, id).length;
+}
+
 export function kindIndexable(ctx, id) {
-  return itemsForKind(ctx, id).length >= KIND_INDEX_MIN;
+  return kindStoryCount(ctx, id) >= KIND_INDEX_MIN;
 }
 
 export function indexableKinds(ctx) {
   return KIND_DEFS
-    .map((k) => ({ ...k, count: itemsForKind(ctx, k.id).length }))
+    .map((k) => {
+      const live = itemsForKind(ctx, k.id).length;
+      const archived = archiveItemsForKind(ctx, k.id).length;
+      return { ...k, live, archived, count: live + archived };
+    })
     .filter((k) => k.count >= KIND_INDEX_MIN)
     .sort((a, b) => (b.count - a.count) || a.name.localeCompare(b.name));
 }
@@ -152,10 +161,11 @@ export function renderKind(ctx, id) {
   const items = itemsForKind(ctx, def.id);
   const archivedAll = archiveItemsForKind(ctx, def.id);
   const older = archivedAll.slice(0, 12);
+  const total = items.length + archivedAll.length;
   const path = kindPath(def.id);
   const title = `${def.name}: AI stories this index scored · ${brand.NAME}`;
   const description = clip(
-    `${items.length} scored ${def.name.toLowerCase()} stories in the current ${brand.NAME} newsroom window. ${def.description} Tempo, not a forecast.`,
+    `${total} scored ${def.name.toLowerCase()} stories on ${brand.NAME} (live window plus archive). ${def.description} Tempo, not a forecast.`,
     160,
   );
   const others = indexableKinds(ctx).filter((k) => k.id !== def.id);
@@ -172,7 +182,8 @@ export function renderKind(ctx, id) {
   <h1>${esc(def.name)}</h1>
   <p class="kd__lede">${esc(def.description)} Kind is the collector label on each scored item — not a judgement about quality or harm.</p>
   <div class="kd__stat" role="group" aria-label="Kind totals">
-    <div><b class="num">${esc(String(items.length))}</b><span>Scored stories in window</span></div>
+    <div><b class="num">${esc(String(total))}</b><span>Scored stories (live + archive)</span></div>
+    <div><b class="num">${esc(String(items.length))}</b><span>In live window</span></div>
     ${archivedAll.length ? `<div><b class="num">${esc(String(archivedAll.length))}</b><span>Older in archive</span></div>` : ''}
   </div>
   <h2>${esc(def.name)} in this window</h2>
@@ -192,7 +203,7 @@ export function renderKind(ctx, id) {
     path,
     title,
     description,
-    noindex: items.length < KIND_INDEX_MIN,
+    noindex: total < KIND_INDEX_MIN,
     jsonld: [{
       '@context': 'https://schema.org',
       '@type': 'CollectionPage',
@@ -225,20 +236,20 @@ export function renderIndex(ctx) {
   const path = '/kind/';
   const title = `AI story kinds this index scores · ${brand.NAME}`;
   const description = clip(
-    `${kinds.length} kind hubs with at least ${KIND_INDEX_MIN} scored stories in the current ${brand.NAME} window.`,
+    `${kinds.length} kind hubs with at least ${KIND_INDEX_MIN} scored stories on ${brand.NAME} (live window plus archive).`,
     160,
   );
   const rows = kinds.map((k) => `<li>
   <a href="${esc(ctx.href(kindPath(k.id)))}">${esc(k.name)}</a>
-  <span class="kd__meta">${esc(k.description)} · <span class="num">${esc(String(k.count))}</span> stories</span>
+  <span class="kd__meta">${esc(k.description)} · <span class="num">${esc(String(k.count))}</span> scored${k.archived ? ` (${esc(String(k.live))} live)` : ''}</span>
 </li>`).join('');
 
   const main = `${STYLE}
 <article class="kd prose">
   <p class="kd__k"><a href="${esc(ctx.href('/news.html'))}">Newsroom</a> · Kinds</p>
   <h1>AI story kinds</h1>
-  <p class="kd__lede">A kind earns a page when the current window holds at least ${KIND_INDEX_MIN} scored stories with that collector label. Thinner kinds stay on the story page only.</p>
-  ${kinds.length ? `<ol class="kd__list">${rows}</ol>` : '<p>No kind cleared the gate in this window.</p>'}
+  <p class="kd__lede">A kind earns a page when at least ${KIND_INDEX_MIN} scored stories with that collector label appear in the live window or the durable archive. Thinner kinds stay on the story page only.</p>
+  ${kinds.length ? `<ol class="kd__list">${rows}</ol>` : '<p>No kind cleared the gate in this build.</p>'}
 </article>`;
 
   return page({
