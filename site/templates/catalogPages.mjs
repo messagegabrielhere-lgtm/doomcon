@@ -48,6 +48,7 @@ const MORE_PAGES = [
   ['/vs/skynet-countdown.html', 'px:updown', 'SIREN vs Skynet Countdown', 'Activity count vs AGI timeline and control-loss odds.'],
   ['/vs/pdoom.html', 'px:updown', 'SIREN vs p(doom) clocks', 'Activity count vs opinion expressed as a percentage.'],
   ['/vs/pizzint.html', 'px:updown', 'SIREN vs PizzINT', 'Activity count vs DEFCON/Doomsday title hijack — honest refuse.'],
+  ['/vs/takeofftracker.html', 'px:updown', 'SIREN vs Takeoff Tracker', 'Activity count vs AGI metrics dashboard — honest refuse.'],
   ['/p-doom.html', 'dice', 'What is p(doom)?', 'The probability-of-doom number, explained.'],
   ['/moves/', 'px:updown', 'Every move', 'Each hourly reading that moved, with what moved it.'],
   ['/item/', 'news', 'Every story', 'One permanent page per scored story in the live window.'],

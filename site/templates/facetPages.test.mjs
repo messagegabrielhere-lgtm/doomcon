@@ -337,6 +337,31 @@ describe('lab facets', () => {
     assert.doesNotMatch(html, /doom score/i);
   });
 
+  it('indexes Physical Intelligence as an entity lab when archive stories clear the gate', () => {
+    const withArch = {
+      ...ctx,
+      news: { ...ctx.news, items: [...ctx.news.items] },
+      itemArchive: [
+        {
+          id: 'pi1', title: 'Ultra expands its deal with Physical Intelligence', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/pi1', published_at: '2026-09-01T01:00:00Z', score: 40,
+        },
+        {
+          id: 'pi2', title: 'Physical Intelligence world-action model paper', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/pi2', published_at: '2026-09-02T01:00:00Z', score: 41,
+        },
+        {
+          id: 'pi3', title: 'Benchmarking Physical Intelligence in VLMs', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/pi3', published_at: '2026-09-03T01:00:00Z', score: 42,
+        },
+      ],
+    };
+    const pi = labsFromEntities(withArch).find((p) => p.id === 'physical-intelligence');
+    assert.ok(pi, 'Physical Intelligence clears ENTITY_LAB_MIN');
+    assert.match(renderLab(withArch, pi), /Physical Intelligence: AI stories this index scored/);
+    assert.doesNotMatch(renderLab(withArch, pi), /doom score/i);
+  });
+
   it('indexes CoreWeave, Qualcomm, Tesla, Waymo, Micron, and TSMC entity labs from archive', () => {
     const withArch = {
       ...ctx,

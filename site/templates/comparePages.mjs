@@ -98,6 +98,26 @@ export const RIVALS = [
     ],
     related: ['/guide.html', '/ai-doomsday-clock.html'],
   },
+  {
+    id: 'takeofftracker',
+    path: '/vs/takeofftracker.html',
+    name: 'Takeoff Tracker',
+    url: 'https://www.takeofftracker.com/',
+    short: 'AGI metrics dashboard (timelines, stocks, leaderboards, p(doom) estimates)',
+    measures: 'A dashboard of AGI-adjacent signals — Metaculus-style timelines, AI stock moves, arena leaderboards, GPU power, datacentres, and collected p(doom) estimates',
+    whoSets: 'Their curated dashboard over public prediction markets, markets data and linked leaderboards',
+    recomputable: false,
+    recomputableNote: 'Not as a single activity reading: the page aggregates many third-party series, and we did not see one published formula that re-derives a SIREN-style tempo score from those inputs',
+    also: 'Blog posts and starter packs around takeoff vocabulary',
+    ourAngle: `${brand.NAME} does not publish an AGI timeline, a takeoff dashboard, or anyone’s p(doom). It publishes one hourly recomputable activity score from public feeds.`,
+    queryShapes: [
+      'Takeoff Tracker alternative',
+      'AGI metrics dashboard vs activity index',
+      'takeofftracker vs SIREN',
+      'AGI timeline tracker recomputable',
+    ],
+    related: ['/p-doom.html', '/methodology.html'],
+  },
 ];
 
 function liveStrip(ctx) {
@@ -230,10 +250,10 @@ export function compareHub(ctx) {
 export function vsHub(ctx) {
   const path = '/vs.html';
   const title = `SIREN vs other AI indexes · ${brand.NAME}`;
-  const description = `${brand.NAME} versus DoomBench, Skynet Countdown, p(doom) clocks and PizzINT — one honest page each. Activity tempo with a receipt, not a doom probability, AGI date, or DEFCON reading.`;
+  const description = `${brand.NAME} versus DoomBench, Skynet Countdown, p(doom) clocks, PizzINT and Takeoff Tracker — one honest page each. Activity tempo with a receipt, not a doom probability, AGI date, or DEFCON reading.`;
   const faq = [
     [`Where are the ${brand.NAME} versus pages?`,
-      `Each rival has a dedicated /vs/ page: DoomBench, Skynet Countdown, p(doom) clocks and PizzINT. This hub lists them. The full table is on /compare.html.`],
+      `Each rival has a dedicated /vs/ page: DoomBench, Skynet Countdown, p(doom) clocks, PizzINT and Takeoff Tracker. This hub lists them. The full table is on /compare.html.`],
     [`Does ${brand.NAME} claim to beat DoomBench or Skynet on doom risk?`,
       `No. Those sites score judgement about danger or timelines. ${brand.NAME} counts how loud AI activity is this hour. The versus pages only contrast measurement methods.`],
   ];
@@ -287,7 +307,7 @@ export function vsHub(ctx) {
 export function alternatives(ctx) {
   const path = '/alternatives.html';
   const title = `AI doom index alternatives: recomputable activity vs judgement clocks · ${brand.NAME}`;
-  const description = `Looking for a DoomBench, Skynet Countdown, p(doom) or PizzINT alternative? ${brand.NAME} is an hourly AI activity index with open code, CORS JSON and hash-chained receipts — not a DEFCON level or probability of doom.`;
+  const description = `Looking for a DoomBench, Skynet Countdown, p(doom), PizzINT or Takeoff Tracker alternative? ${brand.NAME} is an hourly AI activity index with open code, CORS JSON and hash-chained receipts — not a DEFCON level or probability of doom.`;
   const faq = [
     ['What is a good alternative to DoomBench?',
       `${brand.NAME} if you want a recomputable activity tempo reading instead of a qualitative doom score. It does not replace DoomBench’s takeover-evidence framing; it answers a different question with arithmetic you can check.`],
@@ -295,6 +315,8 @@ export function alternatives(ctx) {
       `${brand.NAME} if you want live activity without an AGI date or a control-loss percentage. For dated news hubs, this site publishes per-story pages and a rolling news sitemap instead of a predicted singularity day.`],
     ['What is a good alternative to the Pentagon Pizza Index / PizzINT?',
       `${brand.NAME} if you want an AI activity reading instead of DEFCON/Doomsday Clock brand hijack. ${brand.NAME} does not publish a military DEFCON level or the Bulletin’s clock — see /vs/pizzint.html and /guide.html.`],
+    ['What is a good alternative to Takeoff Tracker?',
+      `${brand.NAME} if you want one hourly recomputable activity reading instead of a multi-panel AGI metrics dashboard (timelines, stocks, leaderboards, p(doom) estimates). It does not replace Takeoff Tracker’s curated signal board; it answers a different question with a receipt.`],
     ['Is there a verifiable AI doomsday clock?',
       `Most AI doomsday clocks are expert judgement. ${brand.NAME} is an hourly activity count with a receipt. See the AI doomsday clock explainer for the vocabulary without the fake precision.`],
   ];
@@ -304,7 +326,7 @@ export function alternatives(ctx) {
   <h1>AI doom index alternatives — and what each one actually is</h1>
   <p class="cmp__lede">“Alternative” only helps if the substitute measures the same thing. Most AI doom indexes measure
     <b>judgement about danger</b>, or borrow DEFCON language for traffic. ${esc(brand.NAME)} measures <b>how much is happening</b>. Use this hub when a search
-    for DoomBench, Skynet Countdown, p(doom) or PizzINT brought you here and you need the honest fork.</p>
+    for DoomBench, Skynet Countdown, p(doom), PizzINT or Takeoff Tracker brought you here and you need the honest fork.</p>
   ${liveStrip(ctx)}
   <h2>When ${esc(brand.NAME)} is the right alternative</h2>
   <ul>
@@ -318,6 +340,7 @@ export function alternatives(ctx) {
     <li>You need an estimated AGI date or control-loss percentage — that is Skynet Countdown’s product, not ours.</li>
     <li>You want a personal extinction probability — that is p(doom), and it stays an opinion.</li>
     <li>You want Pentagon-pizza novelty or a military DEFCON reading — that is not an AI activity index; see /vs/pizzint.html.</li>
+    <li>You want a multi-panel AGI takeoff dashboard (timelines, stocks, arena ranks, collected p(doom)) — that is Takeoff Tracker’s product, not ours.</li>
   </ul>
   <h2>One page per rival</h2>
   ${RIVALS.map((r) => `<div class="cmp__card">

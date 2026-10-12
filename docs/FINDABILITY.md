@@ -301,6 +301,8 @@ context.
 | 68 | Entity labs Samsung / ASML / Cognition (`/lab/*`, live/archive ≥3 gate) | Google | **Done** (2026-10-12) |
 | 69 | Topic tags `training-data` + `physical-ai` + `gui-agents` + `tool-calling` + `long-context` + `chain-of-thought` + `local-llm` | Google | **Done** (2026-10-12) |
 | 70 | Entity labs CoreWeave / Qualcomm / Tesla / Waymo / Micron / TSMC (`/lab/*`, live/archive ≥3 gate) | Google | **Done** (2026-10-12) |
+| 71 | `/vs/takeofftracker.html` conquest + compare/alternatives/vs hub wiring (seo-daily rival) | Google | **Done** (2026-10-12) |
+| 72 | Topic tags `coding-agents` + `agentic-workflow` + `leaderboard` + `alignment`; entity lab Physical Intelligence | Google | **Done** (2026-10-12) |
 
 ### 3.3 Refusals (search edition)
 

@@ -805,4 +805,44 @@ describe('tag pages', () => {
     assert.match(renderTag(rich, 'local-llm'), /Local LLMs: AI stories this index scored/);
     assert.doesNotMatch(renderTag(rich, 'physical-ai'), /doom score/i);
   });
+
+  it('pages coding-agents, agentic-workflow, leaderboard, and alignment hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('ca1', 'Coding agents generate more code'),
+          story('ca2', 'SWE-Duel for coding agents'),
+          story('ca3', 'Coding-agent benchmarks match task flows'),
+          story('ca4', 'Long-horizon coding agents train'),
+          story('ca5', 'Enterprise coding agents ship'),
+          story('aw1', 'Agentic RAG evaluation budgets'),
+          story('aw2', 'Agentic coding performance from base models'),
+          story('aw3', 'ParanoiaEval for agentic coding'),
+          story('aw4', 'GPT nearly matches on agentic coding'),
+          story('aw5', 'Agentic browser workflow notes'),
+          story('lb1', 'AI alignment leaderboard ships'),
+          story('lb2', 'Claude tops Epoch AI leaderboard'),
+          story('lb3', 'Arena leaderboard valuation doubles'),
+          story('lb4', 'Popular AI leaderboard raises Series B'),
+          story('lb5', 'Consumer AI leaderboard trends'),
+          story('al1', 'Labs current alignment plans seem terrible'),
+          story('al2', 'AI alignment research forum for AIs'),
+          story('al3', 'Model alignment and self-conception'),
+          story('al4', 'Admiration and model alignment'),
+          story('al5', 'Alignment leaderboard for chat models'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    for (const id of ['coding-agents', 'agentic-workflow', 'leaderboard', 'alignment']) {
+      assert.ok(ids.includes(id), id);
+    }
+    assert.match(renderTag(rich, 'coding-agents'), /Coding agents: AI stories this index scored/);
+    assert.match(renderTag(rich, 'agentic-workflow'), /Agentic workflows: AI stories this index scored/);
+    assert.match(renderTag(rich, 'leaderboard'), /AI leaderboards: AI stories this index scored/);
+    assert.match(renderTag(rich, 'alignment'), /AI alignment: AI stories this index scored/);
+    assert.doesNotMatch(renderTag(rich, 'alignment'), /doom score/i);
+  });
 });

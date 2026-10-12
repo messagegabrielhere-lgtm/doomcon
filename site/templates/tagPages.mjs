@@ -595,6 +595,30 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'Local-LLM and on-prem model stories scored in the newsroom or archive — coverage counts, not a product score.',
     match: /\blocal (?:llm|models?)\b/i,
   },
+  {
+    id: 'coding-agents',
+    name: 'Coding agents',
+    description: 'Coding-agent product and eval stories scored in the newsroom or archive — coverage counts, not a capability forecast.',
+    match: /\bcoding[- ]agents?\b/i,
+  },
+  {
+    id: 'agentic-workflow',
+    name: 'Agentic workflows',
+    description: 'Agentic-workflow and agentic-coding stories scored in the newsroom or archive.',
+    match: /\bagentic (?:workflow|rag|coding|browser)\b/i,
+  },
+  {
+    id: 'leaderboard',
+    name: 'AI leaderboards',
+    description: 'Model-leaderboard and arena-ranking stories scored in the newsroom or archive — coverage counts, not a ranking of this index.',
+    match: /\bleaderboard\b/i,
+  },
+  {
+    id: 'alignment',
+    name: 'AI alignment',
+    description: 'AI-alignment research and plan stories scored in the newsroom or archive — coverage counts, not a safety score.',
+    match: /\b(ai alignment|alignment plans?|model alignment|alignment research|alignment forum|alignment leaderboard)\b/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));

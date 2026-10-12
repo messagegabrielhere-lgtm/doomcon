@@ -63,6 +63,11 @@ describe('compare / alternatives conquest pages', () => {
     assert.match(pizza, /does not publish a DEFCON/i);
     assert.match(pizza, /Doomsday Clock/i);
     assert.doesNotMatch(pizza, /SIREN.*DEFCON \d/i);
+    const takeoff = vsRival(ctx, 'takeofftracker');
+    assert.match(takeoff, /SIREN vs Takeoff Tracker/);
+    assert.match(takeoff, /does not publish an AGI timeline/i);
+    assert.match(takeoff, /takeoff dashboard/i);
+    assert.doesNotMatch(takeoff, /SIREN.*p\(doom\) of \d/i);
   });
 
   it('sitemaps every conquest URL', () => {
@@ -80,6 +85,8 @@ describe('compare / alternatives conquest pages', () => {
     assert.match(html, /ItemList/);
     assert.match(html, /\/vs\/doombench\.html/);
     assert.match(html, /\/vs\/pizzint\.html/);
+    assert.match(html, /\/vs\/takeofftracker\.html/);
+    assert.match(html, /Takeoff Tracker/);
     assert.match(html, /"@type"\s*:\s*"FAQPage"/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
   });

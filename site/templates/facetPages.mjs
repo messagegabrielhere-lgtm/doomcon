@@ -436,6 +436,7 @@ function labNeedles(player) {
     waymo: ['waymo'],
     micron: ['micron'],
     tsmc: ['tsmc', 'taiwan semiconductor'],
+    'physical-intelligence': ['physical intelligence'],
   };
   return [...new Set([...(extras[player.id] || []), ...names])];
 }
