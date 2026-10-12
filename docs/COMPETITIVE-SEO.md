@@ -20,7 +20,7 @@ hijacks we cannot honestly answer stay refused (`CONTRACT.md`, `VOICE.md`).
 | **DoomBench** | **2,090** | none | “Live AI Doom Index” | FAQPage only | `/models` `/companies` `/countries` `/people` `/jobs` `/news` | no |
 | **Skynet Countdown** | **1,244** | none | “AGI Timeline Tracker” | Organization + WebSite | `/tags/*` + `/news/YYYY-MM-DD` | no |
 | **pizzint.watch** | **1,018** | **empty (0 `<loc>`)** (flapped to 14 earlier 2026-10-14) | DEFCON + Doomsday Clock hijack + keywords meta | FAQPage + WebApplication + Organization | `/intel/*` briefs only; chips are `<button>`s | no (404 → SPA shell) |
-| **siren.watch** | **693** live (this PR adds gated `/people/*` + day hubs + home CWV deferral) | **100** rolling / 48h with `news:keywords` | Head-term live title (“AI activity index today · SIREN …”) | Rich: Dataset, FAQ, Organization, VideoObject… | `/item/*` + `/pillar/*` + `/lab/*` + `/model/*` + `/people/*` + day hubs | **yes** |
+| **siren.watch** | **693** live (this PR adds `/people/*`, day hubs, `/tags/*`, home CWV) | **100** rolling / 48h with `news:keywords` | Head-term live title (“AI activity index today · SIREN …”) | Rich: Dataset, FAQ, Organization, VideoObject… | `/item/*` + `/pillar/*` + `/lab/*` + `/model/*` + `/people/*` + `/tags/*` + day hubs | **yes** |
 | pdoom.ai | SPA shell | SPA shell | Sci-fi countdown + keyword stuffing | none | none | SPA shell |
 | takeofftracker.com | none | none | “AGI Metrics Dashboard” | none | none | none |
 
@@ -115,6 +115,13 @@ Story pages link the model when the gate clears. The world table keeps its zoom 
 | `/lab/<id>.html` for entity labs off the race board (Microsoft, NVIDIA, …) | ≥3 scored stories naming the lab | Story counts only — no invented market odds |
 
 Linked from `/leaders.html`, `/news.html`, `llms.txt`, catalog, and sitemap.
+
+### 4.2 Topic tags (2026-10-12)
+
+Skynet’s `/tags/*` shape with a short published vocabulary (agents, GPUs,
+safety, datacenters, fundraising, benchmarks, regulation). Gate: ≥5 scored
+stories whose title or summary matches the needle. Story pages link indexable
+tags. Synonym doorway farms stay refused.
 
 ---
 

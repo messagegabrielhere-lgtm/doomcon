@@ -23,6 +23,7 @@ import { esc, num, utc } from './_html.mjs';
 import { page } from './layout.mjs';
 import { breadcrumbs, speakable } from './_seo.mjs';
 import { modelIndexable, modelPath } from './modelPages.mjs';
+import { tagsForItem, tagPath } from './tagPages.mjs';
 import * as brand from '../brand.mjs';
 import { sourceIndexable, sourceLabel, sourcePath } from './facetPages.mjs';
 
@@ -182,6 +183,13 @@ function namedLine(ctx, item) {
   return `<p class="it__src">Names in this headline: ${bits.join(', ')}. A name is a match against the published entity list, not a claim the subject wrote the story.</p>`;
 }
 
+function topicLine(ctx, item) {
+  const tags = tagsForItem(ctx, item);
+  if (!tags.length) return '';
+  const bits = tags.map((t) => `<a href="${esc(ctx.href(tagPath(t.id)))}">${esc(t.name)}</a>`);
+  return `<p class="it__src">Topics: ${bits.join(', ')}. A topic link means the title or summary matched a published needle with enough other stories to clear the tag gate.</p>`;
+}
+
 export function render(ctx, item, related = []) {
   const meta = brand.pillarMeta ? brand.pillarMeta(item.pillar) : null;
   const pillarName = meta ? meta.name : (item.pillar || 'unclassified');
@@ -210,6 +218,7 @@ export function render(ctx, item, related = []) {
     · first seen by this index at <time datetime="${esc(firstSeen)}">${esc(utc(firstSeen))}</time>
   </p>
   ${namedLine(ctx, item)}
+  ${topicLine(ctx, item)}
 
   <section class="it__s" aria-labelledby="it-score">
     <h2 id="it-score">The score</h2>
