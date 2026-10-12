@@ -33,6 +33,7 @@ export function render(ctx) {
     { loc: '/about.html', changefreq: 'monthly', priority: '0.5', lastmod: ctx.state.generated_at },
     { loc: '/privacy.html', changefreq: 'monthly', priority: '0.3', lastmod: ctx.state.generated_at },
     { loc: '/terms.html', changefreq: 'monthly', priority: '0.3', lastmod: ctx.state.generated_at },
+    { loc: '/disclosures.html', changefreq: 'monthly', priority: '0.3', lastmod: ctx.state.generated_at },
     { loc: '/bets.html', changefreq: 'daily', priority: '0.8', lastmod: ctx.state.generated_at },
     { loc: '/desk.html', changefreq: 'hourly', priority: '0.7', lastmod: ctx.state.generated_at },
     { loc: '/game.html', changefreq: 'monthly', priority: '0.6', lastmod: ctx.state.generated_at },
@@ -55,7 +56,7 @@ export function render(ctx) {
     { loc: '/.well-known/api-catalog', changefreq: 'weekly', priority: '0.4', lastmod: ctx.state.generated_at },
     { loc: '/.well-known/agent-skills/index.json', changefreq: 'weekly', priority: '0.3', lastmod: ctx.state.generated_at },
     { loc: '/.well-known/mcp/server-card.json', changefreq: 'weekly', priority: '0.3', lastmod: ctx.state.generated_at },
-    ...['/radio.html', '/charts.html', '/power.html', '/leaders.html', '/elon.html', '/threats.html', '/self-aware.html', '/status.html', '/waffle.html', '/day-after.html', '/videos.html', '/live.html', '/si-ready.html', '/ai-proof-job.html', '/breakthroughs.html', '/live-x.html', '/tally.html', '/staff.html', '/careers.html', '/agents.html', '/bug-out-land.html', '/prepper-checklist.html', '/feedback.html', '/alerts.html', '/export.html', '/bias.html', '/reference-plan.html', '/changelog.html', '/moltbook.html', '/si-watch.html', '/contain.html', '/monitor.html', '/scanner.html', '/dispatch.html', '/arena.html', '/catalog.html', '/search.html']
+    ...['/radio.html', '/charts.html', '/power.html', '/leaders.html', '/elon.html', '/threats.html', '/self-aware.html', '/status.html', '/waffle.html', '/day-after.html', '/videos.html', '/live.html', '/si-ready.html', '/ai-proof-job.html', '/breakthroughs.html', '/live-x.html', '/tally.html', '/staff.html', '/careers.html', '/agents.html', '/bug-out-land.html', '/prepper-checklist.html', '/feedback.html', '/alerts.html', '/export.html', '/bias.html', '/reference-plan.html', '/changelog.html', '/moltbook.html', '/evolution.html', '/si-watch.html', '/contain.html', '/monitor.html', '/scanner.html', '/dispatch.html', '/arena.html', '/catalog.html', '/search.html']
       .filter((loc, i, a) => a.indexOf(loc) === i).map((loc) => ({ loc, changefreq: loc === '/changelog.html' ? 'hourly' : 'weekly', priority: '0.7', lastmod: ctx.state.generated_at })),
     ...(ctx.news && Array.isArray(ctx.news.items) && ctx.news.items.length
       ? [{ loc: '/news.html', changefreq: 'hourly', priority: '0.9', lastmod: ctx.news.generated_at }]

@@ -38,6 +38,7 @@ import * as featurePages from './templates/featurePages.mjs';
 import * as agentPages from './templates/agentPages.mjs';
 import * as mediaPages from './templates/mediaPages.mjs';
 import * as moltbookPage from './templates/moltbookPage.mjs';
+import * as evolutionPage from './templates/evolutionPage.mjs';
 import * as livePage from './templates/livePage.mjs';
 import * as siWatchPage from './templates/siWatchPage.mjs';
 import * as wafflePage from './templates/wafflePage.mjs';
@@ -173,7 +174,7 @@ function prerenderStatic(html, name, ctx) {
   out = out.replace(/<body([^>]*)>/, (m) => `${m}\n${brandVars}`);
   // Hand-built pages have no shared footer, so they get the same legal line
   // the templated footer carries, pointing at the full terms page.
-  const legal = `<p class="v2legal" style="max-width:72ch;margin:24px auto;padding:0 16px 24px;font:400 12px/1.5 system-ui,sans-serif;color:#AEB7C3"><b>Not advice.</b> Information, commentary and satire only — not financial, investment, legal, security or safety advice. Data is automated and may be wrong or late; provided as is, with no warranty. Not affiliated with any company, lab, person or agency named here. Use of this site means you accept the <a href="${x(ctx.href('/terms.html'))}" style="color:#D7DCE3">terms &amp; disclaimers</a>. <a href="${x(ctx.href('/privacy.html'))}" style="color:#D7DCE3">Privacy</a>.</p>`;
+  const legal = `<p class="v2legal" style="max-width:72ch;margin:24px auto;padding:0 16px 24px;font:400 12px/1.5 system-ui,sans-serif;color:#AEB7C3"><b>Not advice.</b> ${x(brand.LEGAL_NOT_ADVICE)} Data is automated and may be wrong or late; provided as is, with no warranty. Not affiliated with any company, lab, person or agency named here. ${x(brand.LEGAL_AFFILIATE)} Use of this site means you accept the <a href="${x(ctx.href('/terms.html'))}" style="color:#D7DCE3">terms &amp; disclaimers</a>. <a href="${x(ctx.href('/privacy.html'))}" style="color:#D7DCE3">Privacy</a>. <a href="${x(ctx.href('/disclosures.html'))}" style="color:#D7DCE3">Disclosures</a>.</p>`;
   out = out.replace(/<\/body>/, `${legal}\n</body>`);
   head += `\n<link rel="stylesheet" href="${x(ctx.href('/fonts/fonts.css'))}">`;
   return out.replace('</head>', `${head}\n</head>`);
@@ -1506,6 +1507,7 @@ async function main() {
   written.push(await write(args.out, 'about.html', infoPages.about(ctx)));
   written.push(await write(args.out, 'privacy.html', infoPages.privacy(ctx)));
   written.push(await write(args.out, 'terms.html', infoPages.terms(ctx)));
+  written.push(await write(args.out, 'disclosures.html', infoPages.disclosures(ctx)));
   written.push(await write(args.out, 'feedback.html', infoPages.feedback(ctx)));
   // Feature pages carry their own explainer video, just under the heading.
   const withVideo = (html, id) => html.replace(/(<\/h1>[\s\S]*?<\/p>)/, `$1${mediaPages.videoBlock(ctx, id)}`);
@@ -1588,6 +1590,13 @@ async function main() {
     let mh = []; try { mh = (await readFile(path.join(args.data, 'moltbook-history.ndjson'), 'utf8')).trim().split('\n').filter(Boolean).map((l) => JSON.parse(l)); } catch { mh = []; }
     let ma = []; try { ma = (await readFile(path.join(args.data, 'moltbook-watch-history.ndjson'), 'utf8')).trim().split('\n').filter(Boolean).map((l) => JSON.parse(l)); } catch { ma = []; }
     written.push(await write(args.out, 'moltbook.html', moltbookPage.render(ctx, molt, mh, ma)));
+    // /evolution.html: the append-only watch log, desk picks, daily readings and
+    // Moltbook themes side by side. Optional input: absent log -> still builds.
+    {
+      let wlog = null;
+      try { wlog = JSON.parse(await readFile(path.join(args.data, 'watch-log.json'), 'utf8')); } catch { wlog = null; }
+      if (evolutionPage.hasEvolution(ctx, wlog, mh)) written.push(await write(args.out, 'evolution.html', evolutionPage.render(ctx, wlog, mh)));
+    }
     let sig = null, sh = [];
     try { sig = JSON.parse(await readFile(path.join(args.data, 'si-signals.json'), 'utf8')); } catch { sig = null; }
     try { sh = (await readFile(path.join(args.data, 'si-signals-history.ndjson'), 'utf8')).trim().split('\n').filter(Boolean).map((l) => JSON.parse(l)); } catch { sh = []; }
@@ -1742,7 +1751,7 @@ async function main() {
       'race', 'news', 'methodology', 'history', 'digest', 'bliss', 'nothing', 'balance',
       'watts', 'map', 'world', 'leaders', 'flock', 'exploits', 'jobs', 'medicine',
       'about', 'classic', 'embed', 'guide', 'library', 'press', 'brand', 'desk',
-      'bets', 'privacy', 'terms', 'feedback', 'sponsor', 'instruments',
+      'bets', 'privacy', 'terms', 'disclosures', 'feedback', 'sponsor', 'instruments',
       'p-doom', 'ai-doomsday-clock', 'arena', 'scanner', 'monitor', 'elon',
       'game', 'bunker-kit', 'alerts', 'export', 'moltbook', 'staff', 'careers',
       'agents', 'tally', 'changelog', 'live', 'compare', 'alternatives',
@@ -2074,6 +2083,19 @@ async function writeAgentText(ctx, dataDir, outDir, write, written) {
   written.push(await write(outDir, '.well-known/api-catalog.json', catalog));
   written.push(await write(outDir, '.well-known/agent-skills/index.json', stableJson(agentDiscovery.agentSkillsIndex(ctx, skillBody))));
   written.push(await write(outDir, '.well-known/mcp/server-card.json', stableJson(agentDiscovery.mcpServerCard(ctx))));
+  // RFC 9116 security.txt — points at SECURITY.md and the public contact paths.
+  const secExpires = new Date(Date.now() + 365 * 24 * 3600 * 1000).toISOString().replace(/\.\d+Z$/, 'Z');
+  const securityTxt = [
+    `Contact: ${brand.REPO_URL}/security/advisories/new`,
+    brand.X_URL ? `Contact: ${brand.X_URL}` : null,
+    `Expires: ${secExpires}`,
+    `Preferred-Languages: en`,
+    `Canonical: ${ctx.url('/.well-known/security.txt')}`,
+    `Policy: ${brand.REPO_URL}/blob/main/SECURITY.md`,
+    `Acknowledgments: ${ctx.url('/disclosures.html')}`,
+  ].filter(Boolean).join('\n') + '\n';
+  written.push(await write(outDir, '.well-known/security.txt', securityTxt));
+  written.push(await write(outDir, 'security.txt', securityTxt));
 }
 
 // SEARCH AND CATALOG (site/templates/catalogPages.mjs). Reads what is on disk

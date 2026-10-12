@@ -2,24 +2,6 @@
   "schema": 1,
   "open": [
     {
-      "id": "2026-10-05-change-7d",
-      "kind": "change-7d",
-      "made_on": "2026-10-05",
-      "made_at": "2026-10-05T00:32:03.322Z",
-      "due_at": "2026-10-12T00:32:03.322Z",
-      "statement": "The level moves off 4 at least once in the next 7 days.",
-      "p": 0.013,
-      "basis": {
-        "k": 0,
-        "n": 74,
-        "method": "base rate over the index history, Laplace-smoothed"
-      },
-      "ref": {
-        "level": 4,
-        "score": 39.8663
-      }
-    },
-    {
       "id": "2026-10-06-change-7d",
       "kind": "change-7d",
       "made_on": "2026-10-06",
@@ -110,6 +92,102 @@
       }
     },
     {
+      "id": "2026-10-11-change-7d",
+      "kind": "change-7d",
+      "made_on": "2026-10-11",
+      "made_at": "2026-10-11T00:12:15.752Z",
+      "due_at": "2026-10-18T00:12:15.752Z",
+      "statement": "The level moves off 4 at least once in the next 7 days.",
+      "p": 0.006,
+      "basis": {
+        "k": 0,
+        "n": 175,
+        "method": "base rate over the index history, Laplace-smoothed"
+      },
+      "ref": {
+        "level": 4,
+        "score": 54.0119
+      }
+    },
+    {
+      "id": "2026-10-12-same-level-24h",
+      "kind": "same-level-24h",
+      "made_on": "2026-10-12",
+      "made_at": "2026-10-12T00:14:26.403Z",
+      "due_at": "2026-10-13T00:14:26.403Z",
+      "statement": "The level is still 4 at the first reading 24 hours on.",
+      "p": 0.998,
+      "basis": {
+        "k": 445,
+        "n": 445,
+        "method": "base rate over the index history, Laplace-smoothed"
+      },
+      "ref": {
+        "level": 4,
+        "score": 50.5691
+      }
+    },
+    {
+      "id": "2026-10-12-higher-24h",
+      "kind": "higher-24h",
+      "made_on": "2026-10-12",
+      "made_at": "2026-10-12T00:14:26.403Z",
+      "due_at": "2026-10-13T00:14:26.403Z",
+      "statement": "The composite is above 50.6 at the first reading 24 hours on.",
+      "p": 0.414,
+      "basis": {
+        "k": 184,
+        "n": 445,
+        "method": "base rate over the index history, Laplace-smoothed"
+      },
+      "ref": {
+        "level": 4,
+        "score": 50.5691
+      }
+    },
+    {
+      "id": "2026-10-12-change-7d",
+      "kind": "change-7d",
+      "made_on": "2026-10-12",
+      "made_at": "2026-10-12T00:14:26.403Z",
+      "due_at": "2026-10-19T00:14:26.403Z",
+      "statement": "The level moves off 4 at least once in the next 7 days.",
+      "p": 0.005,
+      "basis": {
+        "k": 0,
+        "n": 210,
+        "method": "base rate over the index history, Laplace-smoothed"
+      },
+      "ref": {
+        "level": 4,
+        "score": 50.5691
+      }
+    }
+  ],
+  "resolved": [
+    {
+      "id": "2026-10-05-change-7d",
+      "kind": "change-7d",
+      "made_on": "2026-10-05",
+      "made_at": "2026-10-05T00:32:03.322Z",
+      "due_at": "2026-10-12T00:32:03.322Z",
+      "statement": "The level moves off 4 at least once in the next 7 days.",
+      "p": 0.013,
+      "basis": {
+        "k": 0,
+        "n": 74,
+        "method": "base rate over the index history, Laplace-smoothed"
+      },
+      "ref": {
+        "level": 4,
+        "score": 39.8663
+      },
+      "resolved_at": "2026-10-12T00:36:18.430Z",
+      "hit": false,
+      "seen": null,
+      "brier": 0.0002
+    },
+    {
       "id": "2026-10-11-same-level-24h",
       "kind": "same-level-24h",
       "made_on": "2026-10-11",
@@ -125,7 +203,14 @@
       "ref": {
         "level": 4,
         "score": 54.0119
-      }
+      },
+      "resolved_at": "2026-10-12T00:14:26.403Z",
+      "hit": true,
+      "seen": {
+        "level": 4,
+        "score": 50.5691
+      },
+      "brier": 0
     },
     {
       "id": "2026-10-11-higher-24h",
@@ -143,28 +228,15 @@
       "ref": {
         "level": 4,
         "score": 54.0119
-      }
-    },
-    {
-      "id": "2026-10-11-change-7d",
-      "kind": "change-7d",
-      "made_on": "2026-10-11",
-      "made_at": "2026-10-11T00:12:15.752Z",
-      "due_at": "2026-10-18T00:12:15.752Z",
-      "statement": "The level moves off 4 at least once in the next 7 days.",
-      "p": 0.006,
-      "basis": {
-        "k": 0,
-        "n": 175,
-        "method": "base rate over the index history, Laplace-smoothed"
       },
-      "ref": {
+      "resolved_at": "2026-10-12T00:14:26.403Z",
+      "hit": false,
+      "seen": {
         "level": 4,
-        "score": 54.0119
-      }
-    }
-  ],
-  "resolved": [
+        "score": 50.5691
+      },
+      "brier": 0.2107
+    },
     {
       "id": "2026-10-04-change-7d",
       "kind": "change-7d",
@@ -538,11 +610,11 @@
       "brier": 0.2927
     }
   ],
-  "generated_at": "2026-10-11T23:22:42.598Z",
+  "generated_at": "2026-10-12T00:36:18.430Z",
   "summary": {
-    "resolved": 15,
-    "hits": 11,
-    "mean_brier": 0.1233,
+    "resolved": 18,
+    "hits": 12,
+    "mean_brier": 0.1145,
     "coin_flip_brier": 0.25
   }
 }

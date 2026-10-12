@@ -42,7 +42,7 @@ export function about(ctx) {
     <a href="${esc(brand.REPO_URL)}" rel="noopener">source code</a> is public.</p>
   <h2>Who runs it</h2>
   <p>One person, independently. It is not affiliated with any AI lab, government body or the organisations whose scales it
-    borrows its grammar from. It is free to read, carries no advertising and has no investors.</p>
+    borrows its grammar from. It is free to read, carries no display-ad network and has no investors.</p>
   <h2>How it is paid for</h2>
   <p>Hosting is free. The <a href="${esc(ctx.href('/bunker-kit.html'))}">Bunker Kit</a> and the
     <a href="${esc(ctx.href('/library.html'))}">reading list</a> carry Amazon links that are paid links: as an Amazon Associate,
@@ -55,10 +55,11 @@ export function about(ctx) {
   <ul>
     <li>The site is information, not advice. Do not use it as the basis for financial, legal, safety or policy decisions.</li>
     <li>It measures activity, not danger. ${esc(brand.DISCLAIMER_SHORT)}</li>
-    <li>Third-party data is shown under its own licence, credited on the page that uses it. The site's own text and data are ${esc(brand.LICENSE)}.</li>
+    <li>Third-party data is shown under its own licence, credited on the page that uses it. ${esc(brand.LICENSE_BLURB)}.</li>
     <li>The joke pages (Tally's desk, the game, the Bunker Kit) are jokes. Their numbers are still real counts.</li>
   </ul>
-  <p>The full version is on the <a href="${esc(ctx.href('/terms.html'))}">terms &amp; disclaimers</a> page.</p>
+  <p>The full version is on the <a href="${esc(ctx.href('/terms.html'))}">terms &amp; disclaimers</a> page.
+    A one-page map of every disclosure is on <a href="${esc(ctx.href('/disclosures.html'))}">disclosures</a>.</p>
   <p><a href="${esc(ctx.href('/privacy.html'))}">Privacy →</a> · <a href="${esc(ctx.href('/guide.html'))}">How it compares with DEFCON and the Doomsday Clock →</a></p>
 </section>`;
   return page({
@@ -69,49 +70,75 @@ export function about(ctx) {
   });
 }
 
+export const PRIVACY_UPDATED = '12 October 2026';
+
 export function privacy(ctx) {
   const hasGc = !!(MONETIZE.analytics && MONETIZE.analytics.goatcounter);
   const hasGa = !!(MONETIZE.analytics && MONETIZE.analytics.gtag);
   const gaId = hasGa ? esc(MONETIZE.analytics.gtag) : '';
+  const x = brand.X_URL ? `<a href="${esc(brand.X_URL)}" rel="noopener">${esc(brand.X_HANDLE)}</a> on X` : 'the project account';
+  const repo = `<a href="${esc(brand.REPO_URL)}/issues" rel="noopener">an issue on the repository</a>`;
   const main = `${CSS}
 <section class="inf">
   <p class="eyebrow">Privacy</p>
   <div class="inf__top"><h1 class="bp__h1">What this site knows about you</h1></div>
-  <p class="lede">Very little, and nothing it keeps. This page lists every way a visit can leave a trace.</p>
+  <p class="lede">Last updated ${esc(PRIVACY_UPDATED)}. Very little is kept by ${esc(brand.NAME)} itself.
+    This page lists every way a visit can leave a trace, who receives it, and what rights you have.</p>
+
+  <h2>Who is responsible</h2>
+  <p>${esc(brand.NAME)} is run by one independent operator. There is no company account and no postal address published here.
+    Privacy questions go to ${x} or ${repo}. The operator decides what analytics run and what is linked; they do not sell visitor lists.</p>
+
   <h2>What the site itself does</h2>
   <ul>
     ${hasGa
-      ? `<li><b>Cookies from Google Analytics.</b> Pages load Google Analytics (measurement ID ${gaId}), which may set cookies Google uses to recognise returning visitors and measure traffic. This site does not set cookies of its own.</li>`
-      : `<li><b>No cookies.</b> The site sets none.</li>`}
+      ? `<li><b>Cookies from Google Analytics.</b> Pages load Google Analytics (measurement ID ${gaId}), which may set cookies Google uses to recognise returning visitors and measure traffic (_ga, _ga_*, and related). This site's own code does not call <code>document.cookie</code>.</li>`
+      : `<li><b>No first-party cookies.</b> The site's own code sets none.</li>`}
     ${hasGc
       ? `<li><b>Visitor counts, without cookies.</b> Pages load GoatCounter, which counts visits: the page, the referring site, your country (worked out from your IP address, which is not stored), browser, screen size and language. It sets no cookies, does not track you across sites, and keeps no personal data. Turn on your browser's Do Not Track to be left out.</li>`
       : ''}
     ${hasGa
-      ? `<li><b>Google Analytics.</b> Pages load Google's gtag script for ${gaId}. Google receives your IP address, browser details, the page you open and a client identifier, under <a href="https://policies.google.com/privacy" rel="noopener">Google's privacy policy</a>. SIREN uses the reports to see which pages are read; it does not sell that data or share it with sponsors.</li>`
+      ? `<li><b>Google Analytics.</b> Pages load Google's gtag script for ${gaId}. Google receives your IP address, browser details, the page you open and a client identifier, under <a href="https://policies.google.com/privacy" rel="noopener">Google's privacy policy</a>. ${esc(brand.NAME)} uses the reports to see which pages are read; it does not sell that data or share it with sponsors. Data may be processed in the United States.</li>`
       : ''}
     ${!hasGc && !hasGa
-      ? `<li><b>No analytics.</b> There is no tracking script, pixel or visitor counter. Nobody here knows you visited.</li>`
+      ? `<li><b>No analytics scripts.</b> There is no tracking script, pixel or visitor counter on this site. Your host and any page you open that calls a third-party API still see a normal web request.</li>`
       : ''}
     <li><b>No accounts.</b> There is nothing to sign up for. The <a href="${esc(ctx.href('/feedback.html'))}">feedback form</a> stores and sends nothing itself: it opens a pre-filled, <b>public</b> issue on GitHub that you choose whether to submit, under GitHub's privacy policy.</li>
     <li><b>Browser storage.</b> A few preferences are kept in your own browser's local storage: the last reading you saw, your
       language choice, your best score in the game, and the panel settings on the live monitor and scanner pages. They never
       leave your device, and clearing site data removes them.</li>
   </ul>
+
+  <h2>California and similar privacy laws</h2>
+  <p>${esc(brand.LEGAL_NO_SELL)} ${esc(brand.NAME)} has no login and no customer database of its own.
+    Visit data that reaches Google Analytics or the host is described above. If you are a California resident and want to know what a covered business holds about you, contact ${x} or open ${repo}; requests that apply to this project are handled promptly.
+    You can also use industry opt-outs such as the <a href="https://optout.aboutads.info/" rel="noopener">Digital Advertising Alliance</a> tools where they apply to third parties you visit through this site.</p>
+
+  <h2>Your rights (EU/UK and elsewhere)</h2>
+  <p>Where GDPR, UK GDPR or similar laws apply, you may have rights to access, correct, delete, restrict or object to processing of personal data, and to lodge a complaint with a supervisory authority.
+    ${esc(brand.NAME)} itself does not keep an account profile for you. For data held by Google, GoatCounter, GitHub or another third party named on this page, use that party's tools or ask here and the request will be pointed at the right place.
+    ${hasGa ? 'To limit Google Analytics in your browser, use Google\'s <a href="https://tools.google.com/dlpage/gaoptout" rel="noopener">opt-out add-on</a>, block third-party cookies, or use a content blocker.' : ''}</p>
+
+  <h2>Children</h2>
+  <p>The site is meant for a general adult audience. It is not directed at children under 13 (COPPA) or at children under 16 where that higher age applies.
+    ${esc(brand.NAME)} does not knowingly collect personal information from children. If you believe a child submitted personal data through a public GitHub issue opened from the feedback form, contact ${x} so it can be removed.</p>
+
   <h2>Third parties a visit touches</h2>
   <ul>
     <li><b>GitHub Pages</b> hosts the site, so GitHub's servers receive your IP address and browser details, as any web host does.</li>
     ${hasGa
       ? `<li><b>Google Analytics</b> receives visit data as described above, under Google's privacy policy.</li>`
       : ''}
-    <li><b>Fonts</b> are served from this site. No font request goes to Google or any other third party.</li>
+    <li><b>Fonts</b> are served from this site. No font request goes to Google Fonts or any other third-party font host.</li>
     <li><b>Live data pages.</b> Hand-built pages that fetch public data straight from your browser, so those providers receive
       your IP address and browser details when you open them, under their own policies:
-      the <b>world monitor</b> (USGS, NASA EONET, GDACS, GDELT, ADSB.lol (regional counts only), OKX, alternative.me),
-      the <b>scanner</b> (OKX, Polymarket, DEX Screener, alternative.me), and the <b>stock picks and AI battle</b> page.
+      the <b>world monitor</b> (USGS, NASA EONET, GDACS, GDELT, ADSB.lol (regional counts only), OKX, Yahoo Finance chart data via published snapshots, alternative.me),
+      the <b>scanner</b> (OKX, Binance WebSocket for live crypto prices, Polymarket, DEX Screener, alternative.me; outbound links may include rugcheck.xyz and solscan.io),
+      and the <b>stock picks and AI battle</b> page (Coinbase public API data via published snapshots, Yahoo Finance via published snapshots, plus browser calls noted on that page).
       The <b>dispatch</b> page reads only this project's dispatch snapshot and country outline from GitHub
       (raw.githubusercontent.com), not third-party APIs from the browser.
       The monitor, scanner and battle pages also read this project's own data files from GitHub.
-      Every other page loads only files from this site, except the two below.</li>
+      Every other page loads only files from this site, except the media pages below.</li>
     <li><b>Real Clips.</b> The clips page shows video thumbnails served by YouTube (i.ytimg.com), so Google receives your IP
       address when the page loads. Playing a clip opens YouTube's privacy-enhanced player (youtube-nocookie.com), which holds off on tracking cookies until you play, under Google's policy. The link checker looks up the link you paste through
       noembed.com. The clip list itself is read from GitHub.</li>
@@ -127,16 +154,27 @@ ${mzOn.newsletter() ? `<li><b>Email newsletter.</b> If you subscribe, your email
     ${mzOn.sponsor() ? `<li><b>Sponsor.</b> The sponsor line links to ${esc(MONETIZE.sponsor.name)}; following it takes you to their site under their policy. The sponsor receives no visitor data from this site.</li>` : ''}
     <li><b>Affiliate links.</b> Some links to paid services in the Bunker Kit may be affiliate links; if you buy through one, ${esc(brand.NAME)} may earn a commission at no cost to you.</li>
     <li><b>Amazon paid links.</b> The reading list and the supplies crate in the Bunker Kit use Amazon Associates links. If you follow one, Amazon
-      may set its own cookies to attribute a purchase. As an Amazon Associate, ${esc(brand.NAME)} earns from qualifying purchases.</li>
+      may set its own cookies to attribute a purchase. ${esc(brand.LEGAL_AFFILIATE)}</li>
   </ul>
+
+  <h2>Retention</h2>
+  <ul>
+    <li><b>This site</b> does not keep a server-side log of individual visitors beyond what the host (GitHub Pages) retains under its own policy.</li>
+    <li><b>GoatCounter</b>${hasGc ? ' keeps aggregate visit counts without personal data; see GoatCounter\'s own retention terms.' : ' is off.'}</li>
+    <li><b>Google Analytics</b>${hasGa ? ' retains data according to the property\'s Google Analytics retention setting (months, not forever); delete requests follow Google\'s tools.' : ' is off.'}</li>
+    <li><b>Local storage</b> on your device lasts until you clear it.</li>
+  </ul>
+
   <h2>The embed and the badge</h2>
   <p>The iframe embed and the README badge are static files. They set no cookies and load nothing from third parties on the pages that use them.</p>
+
   <h2>Questions</h2>
-  <p>See the <a href="${esc(ctx.href('/about.html'))}">about page</a> for how to get in touch.</p>
+  <p>See the <a href="${esc(ctx.href('/about.html'))}">about page</a> for how to get in touch, or the
+    <a href="${esc(ctx.href('/disclosures.html'))}">disclosures hub</a> for the short map of every legal notice on the site.</p>
 </section>`;
   const desc = hasGa
-    ? `${brand.NAME} uses Google Analytics (${gaId}) and${hasGc ? ' cookieless GoatCounter' : ''} to count visits. What a visit touches: GitHub Pages, Google,${hasGc ? ' GoatCounter,' : ''} and the sites you choose to click through to.`
-    : `${brand.NAME} sets no cookies and keeps no personal data; it counts visits without cookies. What a visit touches: GitHub Pages, GoatCounter and the sites you choose to click through to.`;
+    ? `${brand.NAME} uses Google Analytics (${gaId}) and${hasGc ? ' cookieless GoatCounter' : ''} to count visits. What a visit touches: GitHub Pages, Google,${hasGc ? ' GoatCounter,' : ''} live-data APIs you open, and the sites you choose to click through to. ${brand.LEGAL_NO_SELL}`
+    : `${brand.NAME} keeps no visitor accounts; cookieless counts and host logs are disclosed here. What a visit touches: GitHub Pages, analytics if enabled, and the sites you choose to click through to.`;
   return page({
     ctx, path: '/privacy.html',
     title: `Privacy · ${brand.NAME}`,
@@ -216,7 +254,7 @@ export function feedback(ctx) {
 // words, numbered sections, and nothing that names or locates the person who
 // runs the site: contact goes through the project account and the repository,
 // the same as the about page. Not a substitute for a lawyer's review.
-export const TERMS_UPDATED = '7 October 2026';
+export const TERMS_UPDATED = '12 October 2026';
 
 export function terms(ctx) {
   const x = brand.X_URL ? `<a href="${esc(brand.X_URL)}" rel="noopener">${esc(brand.X_HANDLE)}</a> on X` : 'the project account';
@@ -232,7 +270,8 @@ export function terms(ctx) {
   <p class="eyebrow">Terms &amp; disclaimers</p>
   <div class="inf__top"><h1 class="bp__h1">Terms of use and disclaimers</h1></div>
   <p class="lede">Last updated ${esc(TERMS_UPDATED)}. By using ${esc(brand.NAME)} — this website, its data files, feeds, embeds, badge,
-    share cards and posts — you agree to these terms. If you do not agree, please do not use it.</p>
+    share cards and posts — you agree to these terms. If you do not agree, please do not use it.
+    A shorter map of every notice is on the <a href="${esc(ctx.href('/disclosures.html'))}">disclosures</a> page.</p>
 
   <div class="inf__box">
     <p><b>The short version.</b> ${esc(brand.NAME)} is an automated, independent publication for information, commentary and
@@ -307,13 +346,14 @@ export function terms(ctx) {
 
   <h2>7. Links, paid links and third-party services</h2>
   <p>The site links to other websites and services that ${esc(brand.NAME)} does not control and is not responsible for. Visiting them
-    is at your own risk and under their own terms and privacy policies. Some links are paid links: as an Amazon Associate,
-    ${esc(brand.NAME)} earns from qualifying purchases. A sponsor, if there is one, is labelled and has no say over any number.
-    Listing a product is not a guarantee of it; check it yourself before you buy.</p>
+    is at your own risk and under their own terms and privacy policies. Some links are paid or affiliate links:
+    ${esc(brand.LEGAL_AFFILIATE)} A sponsor, if there is one, is labelled and has no say over any number.
+    Listing a product is not a guarantee of it; check it yourself before you buy.
+    Prediction-market and exchange links may be unavailable or restricted where you live; that is their rule, not a recommendation from this site.</p>
 
   <h2>8. Your use of the site and its data</h2>
   <ul>
-    <li>The site's own text and data are ${esc(brand.LICENSE)}; reuse them with credit. Third-party data stays under its own
+    <li>${esc(brand.LICENSE_BLURB)}. Reuse with credit. Third-party data stays under its own
       licence, as credited on the page that uses it. Nothing here grants rights in anyone else's content or trademarks.</li>
     <li>Do not use the site or its data to break the law, harass or target anyone, or misrepresent ${esc(brand.NAME)} — for example
       by presenting a reading as an official alert or as the operator's endorsement.</li>
@@ -337,24 +377,90 @@ export function terms(ctx) {
     losses and reasonable costs that result for ${esc(brand.NAME)} and its operator.</p>
 
   <h2>12. Children</h2>
-  <p>The site is meant for a general adult audience and is not directed at children under 13. It collects no personal
-    information from anyone; see the <a href="${esc(ctx.href('/privacy.html'))}">privacy page</a>.</p>
+  <p>The site is meant for a general adult audience. It is not directed at children under 13, or under 16 where that higher age applies.
+    See the <a href="${esc(ctx.href('/privacy.html'))}">privacy page</a> for how visits are measured and how to ask for removal of something a child posted publicly via the feedback form.</p>
 
-  <h2>13. Copyright concerns and corrections</h2>
+  <h2>13. Personal information and “do not sell”</h2>
+  <p>${esc(brand.LEGAL_NO_SELL)} Details of analytics, hosts and browser-side API calls are on the
+    <a href="${esc(ctx.href('/privacy.html'))}">privacy page</a>.</p>
+
+  <h2>14. Copyright concerns and corrections</h2>
   <p>If you believe something on the site infringes your rights, is inaccurate, or should be removed, contact ${x} or open
-    ${repo} with the page address and what you would like changed. Valid requests are handled promptly.</p>
+    ${repo} with the page address and what you would like changed. Valid requests are handled promptly.
+    There is no user-upload feature; the site is a static publication, so a formal DMCA agent is not required for user content that does not exist here.</p>
 
-  <h2>14. Changes, severability and your rights</h2>
+  <h2>15. Governing law</h2>
+  <p>These terms are governed by the laws of the United States, without regard to conflict-of-law rules, except where a mandatory local law says otherwise.
+    Nothing here chooses a specific state venue or waives rights you cannot waive. If a dispute cannot be resolved informally through ${x} or ${repo},
+    either side may use a court of competent jurisdiction that will hear the claim.</p>
+
+  <h2>16. Changes, severability and your rights</h2>
   <p>These terms may be updated at any time; the date at the top shows the latest version, and continuing to use the site means
     you accept it. If any part is found unenforceable, the rest still applies. Nothing in these terms limits any right you have
-    that the law does not allow to be limited.</p>
+    that the law does not allow to be limited. This page is not a substitute for advice from your own lawyer.</p>
 
-  <p><a href="${esc(ctx.href('/privacy.html'))}">Privacy →</a> · <a href="${esc(ctx.href('/about.html'))}">About →</a> · <a href="${esc(ctx.href('/methodology.html'))}">Method →</a></p>
+  <p><a href="${esc(ctx.href('/disclosures.html'))}">Disclosures →</a> · <a href="${esc(ctx.href('/privacy.html'))}">Privacy →</a> · <a href="${esc(ctx.href('/about.html'))}">About →</a> · <a href="${esc(ctx.href('/methodology.html'))}">Method →</a></p>
 </section>`;
   return page({
     ctx, path: '/terms.html',
     title: `Terms & disclaimers · ${brand.NAME}`,
     description: `${brand.NAME} is information and commentary, not advice. Terms of use, the no-warranty and liability terms, and what the index does and does not claim.`,
+    main,
+  });
+}
+
+/** One-page map of every legal notice a visitor, affiliate programme or regulator expects. */
+export function disclosures(ctx) {
+  const x = brand.X_URL ? `<a href="${esc(brand.X_URL)}" rel="noopener">${esc(brand.X_HANDLE)}</a>` : 'the project account';
+  const main = `${CSS}
+<section class="inf">
+  <p class="eyebrow">Disclosures</p>
+  <div class="inf__top"><h1 class="bp__h1">Legal and compliance disclosures</h1></div>
+  <p class="lede">Every notice ${esc(brand.NAME)} makes in one place. The full contracts are the
+    <a href="${esc(ctx.href('/terms.html'))}">terms</a> and <a href="${esc(ctx.href('/privacy.html'))}">privacy</a> pages; this page is the map.</p>
+
+  <h2>What the index is</h2>
+  <ul>
+    <li>${esc(brand.DISCLAIMER)}</li>
+    <li>${esc(brand.LEGAL_NOT_ADVICE)}</li>
+    <li>Not a forecast, warning system, emergency alert or probability of harm. Names borrowed from DEFCON or the Doomsday Clock are commentary only.</li>
+  </ul>
+
+  <h2>Finance and markets</h2>
+  <p>Stock picks, scanner screens, AI paper trades, prediction-market odds, investor and congressional trade listings are automated, simulated or hypothetical.
+    ${esc(brand.NAME)} is not a broker-dealer or registered investment adviser. Past and simulated results do not predict future results.
+    Trading can lose money. Prediction markets and exchanges may be restricted where you live. The site-wide disclosure on every page repeats this.</p>
+
+  <h2>Affiliate and paid links</h2>
+  <p>${esc(brand.LEGAL_AFFILIATE)} There is no display-ad network while ads stay off in configuration.
+    A named sponsor, if any, is labelled and has no say over any number.</p>
+
+  <h2>Privacy and analytics</h2>
+  <p>Visits may be counted with Google Analytics and cookieless GoatCounter when those are turned on; both are disclosed on the privacy page.
+    ${esc(brand.LEGAL_NO_SELL)} Live tool pages call third-party APIs from your browser (exchanges, maps, feeds); those providers see your IP under their own policies.</p>
+
+  <h2>Satire and jokes</h2>
+  <p>Tally the mascot, the Bunker Kit, the game and similar pages are satire or jokes. Their counts can still be real arithmetic; the framing is not emergency, medical or survival advice.</p>
+
+  <h2>People and likenesses</h2>
+  <p>Illustrated portraits of public figures are generated artwork, not photographs. Names, marks and logos belong to their owners.
+    Appearance here is not endorsement either way.</p>
+
+  <h2>Licence</h2>
+  <p>${esc(brand.LICENSE_BLURB)}. Third-party data stays under its own licence, credited on the page that uses it.
+    See the <a href="${esc(brand.REPO_URL)}/blob/main/LICENSE" rel="noopener">LICENSE</a> file in the repository.</p>
+
+  <h2>Contact</h2>
+  <p>Corrections, takedown requests and privacy questions: ${x} on X, or an issue on the
+    <a href="${esc(brand.REPO_URL)}" rel="noopener">repository</a>. Security reports: see
+    <a href="${esc(brand.REPO_URL)}/blob/main/SECURITY.md" rel="noopener">SECURITY.md</a>.</p>
+
+  <p><a href="${esc(ctx.href('/terms.html'))}">Full terms →</a> · <a href="${esc(ctx.href('/privacy.html'))}">Privacy →</a> · <a href="${esc(ctx.href('/about.html'))}">About →</a></p>
+</section>`;
+  return page({
+    ctx, path: '/disclosures.html',
+    title: `Disclosures · ${brand.NAME}`,
+    description: `Legal and compliance disclosures for ${brand.NAME}: what the index is, not advice, affiliates, privacy, satire and licence — with links to the full terms.`,
     main,
   });
 }
@@ -597,7 +703,7 @@ export function press(ctx) {
   <h2>A paragraph you can lift</h2>
   <p>${esc(brand.NAME)} counts public AI activity across five pillars (${brand.PILLARS.map((p) => esc(p.name.toLowerCase())).join(', ')}) and turns it into one score from 0 to 100 and a level from 5 to 1.
     It measures tempo, not danger, and it does not forecast. Each reading is published with a receipt containing its inputs and the hash of the receipt before it,
-    and a button on the home page lets any visitor re-check the last twelve readings in their own browser. It is run by one person and carries no advertising.</p>
+    and a button on the home page lets any visitor re-check the last twelve readings in their own browser. It is run by one person, carries no display-ad network, and labels Amazon Associate links where they appear.</p>
   <h2>Facts</h2>
   <ul>
     ${now ? `<li><b>Current reading:</b> ${esc(now)}. <a href="${esc(ctx.href('/'))}">Live page</a>.</li>` : ''}
