@@ -23,7 +23,7 @@ const MARK = 'data-sitebar';
 // Pages meant to be embedded in other sites keep their own chrome.
 const SKIP = new Set(['embed.html']);
 
-export const DISCLOSURE = 'Not financial advice. We are not financial advisors, brokers, or a registered investment adviser, and nothing on this site is investment, financial, legal, tax or trading advice, or a recommendation to buy, sell or hold any stock, crypto asset or other instrument. Stock picks, signals, scores and AI trades shown here are automated, simulated or hypothetical, for information and entertainment only. Past and simulated performance does not predict future results, and trading can lose money, including more than you expect. Do your own research and talk to a licensed financial professional before you invest.';
+export const DISCLOSURE = 'Not financial advice. We are not financial advisors, brokers, or a registered investment adviser, and nothing on this site is investment, financial, legal, tax or trading advice, or a recommendation to buy, sell or hold any stock, crypto asset or other instrument. Stock picks, signals, scores and AI trades shown here are automated, simulated or hypothetical, for information and entertainment only. Past and simulated performance does not predict future results, and trading can lose money, including more than you expect. Do your own research and talk to a licensed financial professional before you invest. As an Amazon Associate, SIREN earns from qualifying purchases; paid links are labelled. Full terms, privacy and disclosures: /terms.html, /privacy.html, /disclosures.html.';
 
 export function sitebar(asOf, { level = 4, rel = '', intro = {}, newsAt = '' } = {}) {
   const introFile = (intro && intro[rel]) || 'siren-explainer';

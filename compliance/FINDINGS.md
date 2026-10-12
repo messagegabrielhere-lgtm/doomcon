@@ -95,75 +95,36 @@ above the fold on every finance surface (mostly done).
 
 ---
 
-### 4. Medium — Privacy page incomplete vs live third parties
+### 4. Medium — Privacy page incomplete vs live third parties — **FIXED 2026-10-12**
 
-**Where:** `site/templates/infoPages.mjs` → `privacy()`.
-
-**Stated:** monitor (USGS, NASA EONET, GDACS, GDELT, ADSB.lol, OKX,
-alternative.me); scanner (OKX, Polymarket, DEX Screener, alternative.me);
-stock picks / AI battle; YouTube thumbs + nocookie; noembed; GitHub; Amazon.
-
-**Missing or understated:**
-
-| Third party | Used by |
-|---|---|
-| **Binance** WebSocket (`wss://stream.binance.com`) | `/scanner.html` odds live BTC |
-| **Yahoo Finance** (via GitHub snapshot + arena) | scanner, arena, monitor markets |
-| **Coinbase** Exchange public API | arena (server → published JSON) |
-| **rugcheck.xyz / solscan.io** (outbound) | scanner Solana panel links |
-
-Also: privacy claims “No analytics” / “Nobody here knows you visited” while
-GitHub Pages and every direct API call still see IPs — the page discloses
-GitHub, but the absolute “nobody knows” line overclaims.
-
-**Fix:** Update the privacy third-party list; soften absolute “nobody knows”
-wording; mention Binance, Yahoo, Coinbase.
+Privacy now lists Binance, Yahoo Finance, Coinbase, rugcheck/solscan; softens
+absolute “nobody knows” wording; adds CCPA do-not-sell, retention, children
+under-16, and rights language. See `/privacy.html` and `/disclosures.html`.
 
 ---
 
-### 5. Medium — “No advertising” vs Amazon Associates
+### 5. Medium — “No advertising” vs Amazon Associates — **FIXED 2026-10-12**
 
-**Where:** about, press kit (`infoPages.mjs`), FAQ (`_faq.mjs`). Affiliate pages
-and Bunker Kit correctly say “Paid links” / “As an Amazon Associate…”.
-
-**Risk:** FTC deception if a general “carries no advertising” claim is read
-together with paid Amazon links. The FAQ is careful; about/press are not.
-
-**Fix:** Change about/press to “no display ads / no ad network” (or similar)
-and point at labelled Amazon links, matching the FAQ.
+About, press, and the sitewide give-line now say “no display ads / no
+display-ad network” and Amazon Associate language is on footers, disclosures,
+and the sitebar disclosure.
 
 ---
 
-### 6. Medium — Licence statement conflict / missing LICENSE file
+### 6. Medium — Licence statement conflict / missing LICENSE file — **FIXED 2026-10-12**
 
-| Source | Says |
-|---|---|
-| `README.md` | “Code MIT. Data and index values CC-BY 4.0.” |
-| `package.json` `"license"` | `CC-BY-4.0` |
-| `site/brand.mjs` `LICENSE` | `CC BY 4.0` (shown in footers) |
-| Repo root | **No `LICENSE` file** |
-
-**Risk:** Downstream users cannot tell which grant applies to code vs data;
-GitHub license detection is wrong or empty; MIT grant may be ineffective
-without the license text in-tree.
-
-**Fix:** Add `LICENSE` (or `LICENSE-MIT` + `LICENSE-CC-BY-4.0`), align
-`package.json` and footer copy with README’s split grant.
+Root `LICENSE` holds MIT (code) + CC BY 4.0 (data). `brand.LICENSE_BLURB` and
+footers say “Code MIT; data and index values CC BY 4.0”. `package.json` points
+at that file.
 
 ---
 
-### 7. Medium — Terms gaps
+### 7. Medium — Terms gaps — **MOSTLY FIXED 2026-10-12**
 
-`terms.html` (updated 7 Oct 2026) is strong on advice, warranty, liability, and
-satire. Still missing or thin:
-
-- **Governing law / venue** — none chosen
-- **CCPA/CPRA** — no “we do not sell/share personal information” statement
-  (even if true, California visitors often expect it)
-- **Children** — only under-13 (COPPA); no note for under-16 (GDPR) if EU
-  traffic is material
-- **Browsewrap** — “by using you agree”; enforceability is weaker than a
-  checked acceptance on any future account/checkout feature
+Terms (updated 12 Oct 2026) now include governing law (US, no forced state
+venue), CCPA “do not sell/share”, children under-13 and under-16, and a
+disclosures hub. Browsewrap remains: still “by using you agree”, which is
+acceptable until any account/checkout feature lands.
 
 ---
 
@@ -226,14 +187,12 @@ design).
 
 1. Complete the five open **manual** checks (X label/bio, Amazon site list, key
    rotation, `COMPLIANCE_PII_TERMS`).
-2. Fix **license** conflict + add root `LICENSE` file(s).
-3. Patch **privacy** third-party list (Binance, Yahoo, Coinbase) and soften
-   “nobody knows you visited”.
-4. Soften **“no advertising”** on about/press.
-5. Decide policy on **AI face caricatures** (keep / label harder / remove).
-6. Decide whether **Yahoo/exchange republishing** is acceptable risk or needs
+2. ~~Fix license / privacy third parties / “no advertising” / CCPA + governing law~~ — done 2026-10-12 (`/disclosures.html`, expanded `/privacy.html` + `/terms.html`).
+3. Decide policy on **AI face caricatures** (keep / label harder / remove).
+4. Decide whether **Yahoo/exchange republishing** is acceptable risk or needs
    a licensed feed / link-out.
-7. Optional: governing law + CCPA “we do not sell” line in terms/privacy.
+5. Optional later: Google Consent Mode / EU cookie banner if GA stays on and
+   EU traffic is material (currently allow-listed in `compliance/allow.json`).
 
 ---
 

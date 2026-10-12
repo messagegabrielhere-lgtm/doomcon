@@ -61,8 +61,9 @@ const MORE_PAGES = [
   ['/press.html', 'news', 'Press kit', 'Facts, a liftable paragraph, images and a contact.'],
   ['/brand.html', 'canary', 'Brand guide', 'Level colours, typefaces, voice rules and Tally.'],
   ['/sponsor.html', 'px:badge', 'Sponsor', 'One named sponsor at a time, with no say over the number.'],
-  ['/privacy.html', 'px:doc', 'Privacy', 'No cookies, no personal data.'],
+  ['/privacy.html', 'px:doc', 'Privacy', 'What a visit measures, including analytics and third parties.'],
   ['/terms.html', 'px:doc', 'Terms', 'Information and commentary, not advice.'],
+  ['/disclosures.html', 'px:doc', 'Disclosures', 'Affiliate, finance, privacy and satire notices.'],
 ];
 
 // Machine-readable files. Only the ones the build actually wrote are listed.
