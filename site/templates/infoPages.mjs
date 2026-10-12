@@ -5,6 +5,7 @@
 
 import { esc, utc } from './_html.mjs';
 import { page } from './layout.mjs';
+import { breadcrumbs, speakable } from './_seo.mjs';
 import * as brand from '../brand.mjs';
 import { MONETIZE, on as mzOn } from '../monetize.mjs';
 import { mascot, MOODS } from './_mascot.mjs';
@@ -792,17 +793,52 @@ ${bands.map((l) => `      <tr><td><b>${esc(l.level)}</b></td><td>${esc(l.name)}<
   <h2>Where to go next</h2>
   <p><a href="${esc(ctx.href('/'))}">The current reading →</a> · <a href="${esc(ctx.href('/methodology.html'))}">Every formula →</a> ·
     <a href="${esc(ctx.href('/guides.html'))}">All AI explainers →</a> ·
-    <a href="${esc(ctx.href('/compare.html'))}">AI doom indexes compared (DoomBench, Skynet, p(doom), PizzINT) →</a> ·
+    <a href="${esc(ctx.href('/compare.html'))}">AI doom indexes compared (DoomBench, Skynet, p(doom), PizzINT, Takeoff Tracker) →</a> ·
     <a href="${esc(ctx.href('/vs.html'))}">Versus directory →</a> ·
     <a href="${esc(ctx.href('/vs/pizzint.html'))}">${esc(brand.NAME)} vs PizzINT / Pentagon Pizza Index →</a> ·
     <a href="${esc(ctx.href('/alternatives.html'))}">Alternatives hub →</a> ·
     <a href="${esc(ctx.href('/history.html'))}">Sixty years of the same argument →</a> · <a href="${esc(ctx.href('/desk.html'))}">Tally's desk →</a></p>
 </section>`;
+  const path = '/guide.html';
+  const title = `SIREN vs DEFCON vs the Doomsday Clock vs p(doom): what each measures`;
+  const description = `A plain guide to doom numbers. DEFCON is military readiness, the Doomsday Clock is a board's judgement, p(doom) is an opinion, PizzINT borrows those titles, and ${brand.NAME} is an hourly count of AI activity you can recompute.`;
+  // FAQ + speakable match the visible comparison table (FINDABILITY schema rule).
+  const faq = [
+    [`What does ${brand.NAME} measure compared with DEFCON, the Doomsday Clock and p(doom)?`,
+      `${brand.NAME} measures how much is happening in AI — tempo, not danger — from a published formula over public data, hourly, and you can recompute it from the receipt. DEFCON is US military readiness; the Bulletin’s Doomsday Clock is a yearly symbolic judgement; p(doom) is one person’s opinion as a percentage.`],
+    [`Is ${brand.NAME} a DEFCON level or the Bulletin’s Doomsday Clock?`,
+      `No. ${brand.NAME} borrows the countdown grammar only. It is not a military readiness level and does not publish the Bulletin’s clock. Sites that put those phrases in an AI title for traffic are doing brand hijack; see /vs/pizzint.html.`],
+    ['What is p(doom)?',
+      'p(doom) is one person’s stated probability that AI ends very badly. It is an opinion expressed as a number — not a recomputable measurement. See /p-doom.html.'],
+    [`Does a loud ${brand.NAME} reading mean AI is more dangerous?`,
+      'No. A loud reading means a lot shipped, was spent, was written or was regulated. It does not say whether any of it was good or bad, and it is not a forecast.'],
+  ];
   return page({
-    ctx, path: '/guide.html',
-    title: `SIREN vs DEFCON vs the Doomsday Clock vs p(doom): what each measures`,
-    description: `A plain guide to doom numbers. DEFCON is military readiness, the Doomsday Clock is a board's judgement, p(doom) is an opinion, PizzINT borrows those titles, and ${brand.NAME} is an hourly count of AI activity you can recompute.`,
+    ctx, path,
+    title,
+    description,
     head: `<link rel="alternate" type="text/markdown" href="${esc(ctx.href('/guide.md'))}" title="Guide (markdown)">`,
+    jsonld: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        name: title,
+        url: ctx.url(path),
+        description,
+        isPartOf: { '@type': 'WebSite', name: brand.PUBLICATION, url: ctx.url('/') },
+        speakable: speakable(['h1', '.lede']),
+      },
+      breadcrumbs(ctx, [{ name: 'Guide', path }]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map(([q, a]) => ({
+          '@type': 'Question',
+          name: q,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
+      },
+    ],
     main,
   });
 }
@@ -890,7 +926,7 @@ export const GUIDES = Object.freeze([
   {
     path: '/compare.html',
     name: 'AI doom indexes compared',
-    blurb: 'Side-by-side with DoomBench, Skynet Countdown, p(doom) and PizzINT.',
+    blurb: 'Side-by-side with DoomBench, Skynet Countdown, p(doom), PizzINT and Takeoff Tracker.',
   },
   {
     path: '/vs.html',
@@ -973,7 +1009,7 @@ export function guides(ctx) {
             name: 'Where are the AI doom and p(doom) explainers?',
             acceptedAnswer: {
               '@type': 'Answer',
-              text: `SIREN publishes /guides.html as a directory of evergreen explainers: p(doom), AI doomsday clocks, DEFCON comparisons, methodology, and versus pages for DoomBench, Skynet Countdown, p(doom) clocks and PizzINT. None of them is a doom probability for SIREN itself.`,
+              text: `SIREN publishes /guides.html as a directory of evergreen explainers: p(doom), AI doomsday clocks, DEFCON comparisons, methodology, and versus pages for DoomBench, Skynet Countdown, p(doom) clocks, PizzINT and Takeoff Tracker. None of them is a doom probability for SIREN itself.`,
             },
           },
           {

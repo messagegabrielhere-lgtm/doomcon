@@ -1,15 +1,33 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { guideMd } from './infoPages.mjs';
+import { guide, guideMd } from './infoPages.mjs';
 import { methodologyMd } from './methodology.mjs';
 import * as brand from '../brand.mjs';
 
 const ctx = {
   url: (p) => `https://siren.watch${p === '/' ? '/' : p}`,
   href: (p) => p,
-  state: { level: 4, level_name: 'ROUTINE', generated_at: '2026-10-10T03:15:00.000Z' },
+  state: {
+    level: 4,
+    level_name: 'ROUTINE',
+    score: 55.5,
+    generated_at: '2026-10-10T03:15:00.000Z',
+  },
+  cardFor: () => null,
   methodologyMd: '# How it works\n\nThe composite is arithmetic.\n',
 };
+
+test('guide.html ships FAQ + speakable schema matching the comparison table', () => {
+  const html = guide(ctx);
+  assert.match(html, /SIREN vs DEFCON vs the Doomsday Clock vs p\(doom\)/);
+  assert.match(html, /"@type"\s*:\s*"FAQPage"/);
+  assert.match(html, /"@type"\s*:\s*"WebPage"/);
+  assert.match(html, /SpeakableSpecification/);
+  assert.match(html, /BreadcrumbList/);
+  assert.match(html, /Takeoff Tracker/);
+  assert.doesNotMatch(html, /SIREN.*p\(doom\) of \d/i);
+  assert.doesNotMatch(html, /probability of doom is \d/i);
+});
 
 test('guide.md mirrors the HTML guide claims', () => {
   const md = guideMd(ctx);
