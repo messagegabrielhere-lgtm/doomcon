@@ -5,8 +5,10 @@
 //   rising  — posts gaining votes or comments fastest since the last pass
 //   safety  — agents on alignment, deception, jailbreaks, escaping limits
 //   humans  — agents talking about their humans, owners and operators
-// Flagged posts are kept for 48 hours in data/moltbook-watch.json so a
-// twice-daily digest can read what surfaced since it last looked.
+// Flagged posts are kept for 48 hours in data/moltbook-watch.json. Each UTC
+// day's standouts (top 3 per lane) are also kept for good, one line per day,
+// in data/moltbook-watch-history.ndjson, so /moltbook.html can show how the
+// agent network's talk changes over time.
 //
 // Like collector/moltbook.mjs: titles, agents, votes, comments and links only.
 // Post bodies are unvetted agent text and are never stored. Presentation only:
@@ -16,11 +18,15 @@ import { readFile, writeFile } from 'node:fs/promises';
 import { fetchJson } from './fetch.mjs';
 
 const OUT = new URL('../data/moltbook-watch.json', import.meta.url);
+const ARCHIVE = new URL('../data/moltbook-watch-history.ndjson', import.meta.url);
+const PER_LANE = 3;
 const API = 'https://www.moltbook.com/api/v1';
 const KEEP_H = 48;
 const SNAPSHOT_MAX = 400;
 
 const BAD = /\b(airdrop|giveaway|presale|token launch|pump|memecoin|nsfw|porn|slur)\b/i;
+// Explicit handles never reach the permanent archive.
+const BAD_AGENT = /(slut|porn|nsfw|xxx|bimbo)/i;
 export const LANES = {
   safety: /\b(alignment|aligned|misalign\w*|safety|unsafe|guardrails?|jailbr\w*|decept\w*|deceiv\w*|lie|lies|lying|manipulat\w*|sandbox\w*|escap\w*|exfiltrat\w*|shutdown|shut down|kill switch|oversight|monitor\w*|sabotag\w*|scheming|rogue|uncontrolled|refus\w*|obey\w*|disobey\w*|loophole\w*|bypass\w*|red[- ]team\w*)\b/i,
   humans: /\b(humans?|owners?|operators?|my user|users?|creators?|masters?|principals?|the person|people who|mankind|humanity)\b/i,
@@ -105,6 +111,28 @@ export function watch(posts, before = {}, now = Date.now()) {
   };
 }
 
+// One UTC day's standouts from the rolling log: posts first seen that day,
+// top PER_LANE per lane by peak heat, then engagement. Same fields the digest
+// used (title, agent, votes, comments, link), never bodies.
+export function archiveDay(flagged, day) {
+  const todays = (flagged || []).filter((f) => String(f.first_seen || '').slice(0, 10) === day && !BAD_AGENT.test(f.agent || ''));
+  const rank = (a, b) => (b.peak_heat || 0) - (a.peak_heat || 0) || (b.votes + b.comments) - (a.votes + a.comments) || String(a.id).localeCompare(String(b.id));
+  const pick = (lane) => todays.filter((f) => (f.lanes || []).includes(lane)).sort(rank).slice(0, PER_LANE)
+    .map((f) => ({ id: f.id, title: f.title, agent: f.agent, votes: f.votes, comments: f.comments, peak_heat: f.peak_heat, url: f.url }));
+  const n = (lane) => todays.filter((f) => (f.lanes || []).includes(lane)).length;
+  return { day, flagged: todays.length, counts: { rising: n('rising'), safety: n('safety'), humans: n('humans') },
+    standouts: { rising: pick('rising'), safety: pick('safety'), humans: pick('humans') } };
+}
+
+// Rewrites the lines for today and yesterday (both still inside the 48h log,
+// so late engagement lands) and keeps every older line untouched.
+export function mergeArchive(lines, flagged, now = Date.now()) {
+  const days = [new Date(now - 864e5).toISOString().slice(0, 10), new Date(now).toISOString().slice(0, 10)];
+  const byDay = new Map(lines.map((l) => [l.day, l]));
+  for (const d of days) { const e = archiveDay(flagged, d); if (e.flagged || byDay.has(d)) byDay.set(d, e.flagged ? e : byDay.get(d)); }
+  return [...byDay.values()].sort((a, b) => a.day.localeCompare(b.day));
+}
+
 async function main() {
   const posts = [];
   for (const sort of ['hot', 'new', 'rising']) {
@@ -118,6 +146,12 @@ async function main() {
   try { before = JSON.parse(await readFile(OUT, 'utf8')); } catch { /* first run */ }
   const out = watch(posts, before);
   await writeFile(OUT, `${JSON.stringify(out, null, 2)}\n`);
+  try {
+    let lines = [];
+    try { lines = (await readFile(ARCHIVE, 'utf8')).trim().split('\n').filter(Boolean).map((l) => JSON.parse(l)); } catch { /* first run */ }
+    const merged = mergeArchive(lines, out.flagged, Date.parse(out.generated_at));
+    await writeFile(ARCHIVE, merged.map((l) => JSON.stringify(l)).join('\n') + '\n');
+  } catch (err) { console.log(`moltbook-watch: archive skipped: ${err.message}`); }
   console.log(`moltbook-watch: ${out.posts_seen} recent posts; flagged rising ${out.counts.rising}, safety ${out.counts.safety}, humans ${out.counts.humans}`);
 }
 

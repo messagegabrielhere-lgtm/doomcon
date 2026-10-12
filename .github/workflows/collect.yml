@@ -647,9 +647,10 @@ jobs:
 
       - name: Moltbook watcher
         # Flags rising posts, safety/deception talk and agents on their humans
-        # (collector/moltbook-watch.mjs), kept 48h in data/moltbook-watch.json
-        # for the owner's twice-daily digest. Public API only, no key. Titles
-        # only. A failure keeps the previous file.
+        # (collector/moltbook-watch.mjs), kept 48h in data/moltbook-watch.json,
+        # plus each UTC day's top 3 per lane kept for good in
+        # data/moltbook-watch-history.ndjson for /moltbook.html. Public API
+        # only, no key. Titles only. A failure keeps the previous files.
         continue-on-error: true
         run: node collector/moltbook-watch.mjs
 

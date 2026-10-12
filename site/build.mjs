@@ -1593,7 +1593,8 @@ async function main() {
     try { molt = JSON.parse(await readFile(path.join(args.data, 'moltbook.json'), 'utf8')); } catch { molt = null; }
     written.push(await write(args.out, 'agents.html', agentPages.agents(ctx, molt)));
     let mh = []; try { mh = (await readFile(path.join(args.data, 'moltbook-history.ndjson'), 'utf8')).trim().split('\n').filter(Boolean).map((l) => JSON.parse(l)); } catch { mh = []; }
-    written.push(await write(args.out, 'moltbook.html', moltbookPage.render(ctx, molt, mh)));
+    let ma = []; try { ma = (await readFile(path.join(args.data, 'moltbook-watch-history.ndjson'), 'utf8')).trim().split('\n').filter(Boolean).map((l) => JSON.parse(l)); } catch { ma = []; }
+    written.push(await write(args.out, 'moltbook.html', moltbookPage.render(ctx, molt, mh, ma)));
     // /evolution.html: the append-only watch log, desk picks, daily readings and
     // Moltbook themes side by side. Optional input: absent log -> still builds.
     {
