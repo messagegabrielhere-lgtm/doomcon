@@ -817,6 +817,48 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'AI-chip and custom-accelerator stories scored in the newsroom or archive — coverage counts, not a supply forecast.',
     match: /\bai chips?\b/i,
   },
+  {
+    id: 'ai-regulation',
+    name: 'AI regulation',
+    description: 'AI-regulation policy stories scored in the newsroom or archive — coverage counts, not a compliance score.',
+    match: /\bai regulation\b/i,
+  },
+  {
+    id: 'artificial-analysis',
+    name: 'Artificial Analysis',
+    description: 'Artificial Analysis leaderboard and index stories scored in the newsroom or archive — coverage counts, not a ranking of this index.',
+    match: /\bartificial analysis\b/i,
+  },
+  {
+    id: 'humanoid-robots',
+    name: 'Humanoid robots',
+    description: 'Humanoid-robot product and research stories scored in the newsroom or archive — coverage counts, not a robotics forecast.',
+    match: /\bhumanoid robots?\b/i,
+  },
+  {
+    id: 'transformers',
+    name: 'Transformers',
+    description: 'Transformer-architecture research stories scored in the newsroom or archive — method coverage, not a capability forecast.',
+    match: /\b(transformer (?:architecture|models?|blocks?|layers?)|vision transformers?|language transformers?)\b/i,
+  },
+  {
+    id: 'self-attention',
+    name: 'Self-attention',
+    description: 'Self-attention research stories scored in the newsroom or archive — method coverage, not a capability forecast.',
+    match: /\bself[- ]attention\b/i,
+  },
+  {
+    id: 'openai-codex',
+    name: 'OpenAI Codex',
+    description: 'OpenAI Codex CLI and hackathon stories scored in the newsroom or archive — coverage counts, not a product score.',
+    match: /\b(openai )?codex (?:cli|hackathon|agent|update)|\bcodex cli\b/i,
+  },
+  {
+    id: 'reward-models',
+    name: 'Reward models',
+    description: 'Reward-model research stories scored in the newsroom or archive — method coverage, not a safety score.',
+    match: /\breward models?\b/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));

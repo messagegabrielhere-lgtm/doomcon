@@ -1103,4 +1103,62 @@ describe('tag pages', () => {
     assert.match(renderTag(rich, 'ai-chips'), /AI chips: AI stories this index scored/);
     assert.doesNotMatch(renderTag(rich, 'generative-ai'), /doom score/i);
   });
+
+  it('pages AI regulation, Artificial Analysis, humanoid robots, transformers, self-attention, Codex, reward models', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('ar1', 'UK best placed to drive AI regulation'),
+          story('ar2', 'The AI regulation debate shaping the future'),
+          story('ar3', 'Corporate AI regulation readiness'),
+          story('ar4', 'States draft AI regulation bills'),
+          story('ar5', 'Industry lobbies on AI regulation'),
+          story('aa1', 'Artificial Analysis Intelligence Index update'),
+          story('aa2', 'Artificial Analysis says Mistral Large leads'),
+          story('aa3', 'Scores on Artificial Analysis for open models'),
+          story('aa4', 'Artificial Analysis compares frontier models'),
+          story('aa5', 'Reading the Artificial Analysis chart'),
+          story('hr1', 'Motion planning for humanoid robots'),
+          story('hr2', 'AI roadblocks for humanoid robots'),
+          story('hr3', 'Factories train humanoid robots'),
+          story('hr4', 'Funding round for humanoid robots'),
+          story('hr5', 'Safety tests for humanoid robots'),
+          story('tr1', 'Recurrent vision transformers with experts'),
+          story('tr2', 'KV cache for looped transformer models'),
+          story('tr3', 'Efficient transformer architecture survey'),
+          story('tr4', 'Language transformers at long context'),
+          story('tr5', 'Scaling transformer models on one GPU'),
+          story('sa1', 'Self-attention for dense prediction'),
+          story('sa2', 'Efficient self-attention token mixing'),
+          story('sa3', 'Linear self-attention variants'),
+          story('sa4', 'Sparse self-attention for video'),
+          story('sa5', 'Theory of self-attention heads'),
+          story('oc1', 'OpenAI Codex hackathon comes to Malaysia'),
+          story('oc2', 'Codex CLI update for agents'),
+          story('oc3', 'Sea and OpenAI Codex hackathon series'),
+          story('oc4', 'Codex agent workflows in the terminal'),
+          story('oc5', 'Regional Codex hackathon results'),
+          story('rm1', 'Training reward models from preferences'),
+          story('rm2', 'Outcome-only paths to reward models'),
+          story('rm3', 'Open reward models for chat'),
+          story('rm4', 'Evaluating reward models'),
+          story('rm5', 'Process rewards vs reward models'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    for (const id of [
+      'ai-regulation', 'artificial-analysis', 'humanoid-robots', 'transformers',
+      'self-attention', 'openai-codex', 'reward-models',
+    ]) {
+      assert.ok(ids.includes(id), id);
+    }
+    assert.match(renderTag(rich, 'ai-regulation'), /AI regulation: AI stories this index scored/);
+    assert.match(renderTag(rich, 'artificial-analysis'), /Artificial Analysis: AI stories this index scored/);
+    assert.match(renderTag(rich, 'openai-codex'), /OpenAI Codex: AI stories this index scored/);
+    assert.match(renderTag(rich, 'reward-models'), /Reward models: AI stories this index scored/);
+    assert.doesNotMatch(renderTag(rich, 'ai-regulation'), /doom score/i);
+  });
 });

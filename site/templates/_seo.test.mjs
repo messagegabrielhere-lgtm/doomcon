@@ -63,6 +63,9 @@ describe('IndexNow', () => {
     assert.ok(has('https://siren.watch/compare.html'));
     assert.ok(has('https://siren.watch/item/archive.html'));
     assert.ok(has('https://siren.watch/tags/'));
+    assert.ok(has('https://siren.watch/vs/takeofftracker.html'));
+    assert.ok(has('https://siren.watch/model/muse-wonder.html'));
+    assert.ok(has('https://siren.watch/tags/generative-ai.html'));
   });
 
   it('Organization knowsAbout head terms Google and assistants ask', () => {
