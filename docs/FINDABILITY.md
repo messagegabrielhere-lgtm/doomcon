@@ -290,6 +290,7 @@ context.
 | 57 | Topic tags `hallucination` + `prompt-injection` + `moe` + `world-models` + `copyright` (live/archive ≥5 gate; search-trend hubs) | Google | **Done** (2026-10-12) |
 | 58 | Topic tags `diffusion` + `embeddings` + `guardrails` + `context-window` + `ai-search`; news-sitemap keywords include matching topic names (cap 12; pizzint news contested) | Google News | **Done** (2026-10-12) |
 | 59 | `/vs.html` conquest directory + topic tags `multi-agent` + `deepfakes` + `slm` + `ai-science` + `speculative-decoding` | Google | **Done** (2026-10-12) |
+| 60 | Topic tags `kv-cache` + `ai-act` + `autonomous-vehicles` + `ai-music` + `synthetic-data` + `inference-cost`; seo-daily monitors `/vs.html` `/tags.html` `/companies.html` | Google | **Done** (2026-10-12) |
 
 ### 3.3 Refusals (search edition)
 

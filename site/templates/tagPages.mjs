@@ -343,6 +343,42 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'Speculative-decoding inference stories scored in the newsroom or archive.',
     match: /\bspeculative decoding\b/i,
   },
+  {
+    id: 'kv-cache',
+    name: 'KV cache',
+    description: 'KV-cache and inference-memory stories scored in the newsroom or archive.',
+    match: /\bkv[- ]?cache\b/i,
+  },
+  {
+    id: 'ai-act',
+    name: 'EU AI Act',
+    description: 'EU AI Act and related statute stories scored in the newsroom or archive — coverage counts, not legal advice.',
+    match: /\b(eu ai act|\bai act\b)\b/i,
+  },
+  {
+    id: 'autonomous-vehicles',
+    name: 'Autonomous vehicles',
+    description: 'Self-driving and robotaxi stories scored in the newsroom or archive.',
+    match: /\b(self[- ]driving|autonomous (?:vehicle|car|driving)|waymo|robotaxi)\b/i,
+  },
+  {
+    id: 'ai-music',
+    name: 'AI music',
+    description: 'AI music and generative-audio product stories scored in the newsroom or archive.',
+    match: /\b(ai music|suno|udio|music generat(?:ion|ive|ors?)?)\b/i,
+  },
+  {
+    id: 'synthetic-data',
+    name: 'Synthetic data',
+    description: 'Synthetic-data training stories scored in the newsroom or archive.',
+    match: /\b(synthetic data|synth(?:etic)?[- ]?data|synthetic training)\b/i,
+  },
+  {
+    id: 'inference-cost',
+    name: 'Inference cost',
+    description: 'Inference-cost and serving-price stories scored in the newsroom or archive — coverage counts, not a price index.',
+    match: /\b(inference cost|cost per (?:token|million))\b|\$\/mTok/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));

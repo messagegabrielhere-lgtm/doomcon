@@ -10,9 +10,17 @@ import {
   measureSite,
   formatMarkdown,
   OPEN_ENGINEERING,
+  OUR_SURFACES,
 } from '../tools/seo-daily.mjs';
 
 describe('seo-daily parsers', () => {
+  it('monitors conquest and entity hub surfaces until deploy catches up', () => {
+    assert.ok(OUR_SURFACES.includes('/vs.html'));
+    assert.ok(OUR_SURFACES.includes('/tags.html'));
+    assert.ok(OUR_SURFACES.includes('/companies.html'));
+    assert.ok(OUR_SURFACES.includes('/compare.html'));
+  });
+
   it('counts sitemap locs and detects indexes', () => {
     assert.equal(countLocs('<urlset><url><loc>https://a/1</loc></url><url><loc>https://a/2</loc></url></urlset>'), 2);
     assert.equal(countLocs(''), 0);

@@ -43,6 +43,10 @@ export const OUR_SURFACES = Object.freeze([
   '/.well-known/api-catalog',
   '/compare.html',
   '/alternatives.html',
+  // Conquest + entity hubs shipped in-repo; flag until gh-pages deploy catches up.
+  '/vs.html',
+  '/tags.html',
+  '/companies.html',
 ]);
 
 /** Count <loc> entries in a sitemap or sitemapindex body. */

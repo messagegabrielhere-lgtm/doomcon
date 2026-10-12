@@ -301,6 +301,57 @@ describe('tag pages', () => {
     assert.match(renderTag(rich, 'test-time'), /Test-time compute: AI stories this index scored/);
   });
 
+  it('pages kv-cache, AI Act, autonomous-vehicles, AI music, synthetic-data, inference-cost hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('k1', 'KV cache paging for long context'),
+          story('k2', 'New kv-cache compression paper'),
+          story('k3', 'KV cache hits cut GPU memory'),
+          story('k4', 'Serving stack ships KV cache reuse'),
+          story('k5', 'KV-cache aware batching note'),
+          story('u1', 'EU AI Act compliance guide for labs'),
+          story('u2', 'AI Act enforcement timeline update'),
+          story('u3', 'Providers prepare for the AI Act'),
+          story('u4', 'EU AI Act high-risk rules clarified'),
+          story('u5', 'Startups and the AI Act'),
+          story('v1', 'Waymo robotaxi expansion story'),
+          story('v2', 'Self-driving stack uses frontier models'),
+          story('v3', 'Autonomous vehicle safety report'),
+          story('v4', 'Robotaxi rides cross a new city'),
+          story('v5', 'Autonomous driving AI chip deal'),
+          story('y1', 'Suno AI music model update'),
+          story('y2', 'Udio generative music rivalry'),
+          story('y3', 'AI music rights fight heats up'),
+          story('y4', 'Music generation tools for creators'),
+          story('y5', 'New AI music chart controversy'),
+          story('z1', 'Synthetic data for model training'),
+          story('z2', 'Limits of synthetic-data attribution'),
+          story('z3', 'Lab ships synthetic training recipe'),
+          story('z4', 'Synthetic data cuts labeling cost'),
+          story('z5', 'Synth data pipeline for robotics'),
+          story('c1', 'Inference cost drops for open weights'),
+          story('c2', 'Cost per million tokens comparison'),
+          story('c3', 'Labs publish $/mTok serving prices'),
+          story('c4', 'Inference cost curve for agents'),
+          story('c5', 'Serving price war on inference cost'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    for (const id of ['kv-cache', 'ai-act', 'autonomous-vehicles', 'ai-music', 'synthetic-data', 'inference-cost']) {
+      assert.ok(ids.includes(id), id);
+    }
+    assert.match(renderTag(rich, 'kv-cache'), /KV cache: AI stories this index scored/);
+    assert.match(renderTag(rich, 'ai-act'), /EU AI Act: AI stories this index scored/);
+    assert.match(renderTag(rich, 'autonomous-vehicles'), /Autonomous vehicles: AI stories this index scored/);
+    assert.match(renderTag(rich, 'ai-music'), /AI music: AI stories this index scored/);
+    assert.match(renderTag(rich, 'synthetic-data'), /Synthetic data: AI stories this index scored/);
+    assert.match(renderTag(rich, 'inference-cost'), /Inference cost: AI stories this index scored/);
+  });
+
   it('pages multi-agent, deepfakes, SLM, AI-science, and speculative-decoding hubs', () => {
     const rich = {
       ...ctx,
