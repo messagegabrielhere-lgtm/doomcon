@@ -169,6 +169,18 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'Acqui-hires, mergers, and AI company acquisitions named in the newsroom window.',
     match: /\b(acqui-?hir\w*|acquisition|acquires?\b|bought by|merger with)\b/i,
   },
+  {
+    id: 'browser',
+    name: 'Browser agents',
+    description: 'Computer-use and browser agents named in scored headlines — product and eval stories, not a forecast.',
+    match: /\b(browser agents?|computer[- ]use|chatgpt operator|web agents?|agentic browser|openai operator|claude computer)\b/i,
+  },
+  {
+    id: 'watermarking',
+    name: 'AI watermarking',
+    description: 'Watermarking and content-provenance stories scored in the newsroom or archive.',
+    match: /\bwatermark/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));
@@ -240,13 +252,22 @@ export function archiveItemsForTag(ctx, id) {
     .sort((a, b) => String(b.published_at || '').localeCompare(String(a.published_at || '')));
 }
 
+/** Live + archive matches — archive can keep a tag hub alive after the window rolls. */
+export function tagStoryCount(ctx, id) {
+  return itemsForTag(ctx, id).length + archiveItemsForTag(ctx, id).length;
+}
+
 export function tagIndexable(ctx, id) {
-  return itemsForTag(ctx, id).length >= TAG_INDEX_MIN;
+  return tagStoryCount(ctx, id) >= TAG_INDEX_MIN;
 }
 
 export function indexableTags(ctx) {
   return TOPIC_DEFS
-    .map((t) => ({ ...t, count: itemsForTag(ctx, t.id).length }))
+    .map((t) => {
+      const live = itemsForTag(ctx, t.id).length;
+      const archived = archiveItemsForTag(ctx, t.id).length;
+      return { ...t, live, archived, count: live + archived };
+    })
     .filter((t) => t.count >= TAG_INDEX_MIN)
     .sort((a, b) => (b.count - a.count) || a.name.localeCompare(b.name));
 }
@@ -282,10 +303,11 @@ export function renderTag(ctx, id) {
   const items = itemsForTag(ctx, topic.id);
   const archivedAll = archiveItemsForTag(ctx, topic.id);
   const older = archivedAll.slice(0, 12);
+  const total = items.length + archivedAll.length;
   const path = tagPath(topic.id);
   const title = `${topic.name}: AI stories this index scored · ${brand.NAME}`;
   const description = clip(
-    `${items.length} scored stories about ${topic.name} in the current ${brand.NAME} newsroom window. ${topic.description} Tempo, not a forecast.`,
+    `${total} scored stories about ${topic.name} on ${brand.NAME} (${items.length} in the live window). ${topic.description} Tempo, not a forecast.`,
     160,
   );
   const others = indexableTags(ctx).filter((t) => t.id !== topic.id);
@@ -322,7 +344,7 @@ export function renderTag(ctx, id) {
     path,
     title,
     description,
-    noindex: items.length < TAG_INDEX_MIN,
+    noindex: total < TAG_INDEX_MIN,
     jsonld: [{
       '@context': 'https://schema.org',
       '@type': 'CollectionPage',
@@ -355,20 +377,20 @@ export function renderIndex(ctx) {
   const path = '/tags/';
   const title = `AI news tags this index scores · ${brand.NAME}`;
   const description = clip(
-    `${tags.length} topic hubs with at least ${TAG_INDEX_MIN} scored stories in the current ${brand.NAME} window. Each page lists those stories.`,
+    `${tags.length} topic hubs with at least ${TAG_INDEX_MIN} scored stories on ${brand.NAME} (live window plus archive). Each page lists those stories.`,
     160,
   );
   const rows = tags.map((t) => `<li>
   <a href="${esc(ctx.href(tagPath(t.id)))}">${esc(t.name)}</a>
-  <span class="tg__meta">${esc(t.description)} · <span class="num">${esc(String(t.count))}</span> stories</span>
+  <span class="tg__meta">${esc(t.description)} · <span class="num">${esc(String(t.count))}</span> stories${t.archived ? ` (${esc(String(t.live))} live)` : ''}</span>
 </li>`).join('');
 
   const main = `${STYLE}
 <article class="tg prose">
   <p class="tg__k"><a href="${esc(ctx.href('/news.html'))}">Newsroom</a> · Tags</p>
   <h1>AI news tags</h1>
-  <p class="tg__lede">A topic earns a page when the current window holds at least ${TAG_INDEX_MIN} scored stories whose title or summary matched a published needle. Thinner matches stay on the story page only.</p>
-  ${tags.length ? `<ol class="tg__list">${rows}</ol>` : '<p>No tag cleared the gate in this window.</p>'}
+  <p class="tg__lede">A topic earns a page when at least ${TAG_INDEX_MIN} scored stories match a published needle in the live window or the durable archive. Thinner matches stay on the story page only.</p>
+  ${tags.length ? `<ol class="tg__list">${rows}</ol>` : '<p>No tag cleared the gate in this build.</p>'}
 </article>`;
 
   return page({

@@ -92,6 +92,29 @@ describe('tag pages', () => {
     assert.match(html, /\/item\/archive\.html/);
   });
 
+  it('lets the durable archive keep a tag hub above the substance gate', () => {
+    const withArch = {
+      ...ctx,
+      news: {
+        ...ctx.news,
+        items: [
+          story('w1', 'OpenAI enables opt-in text watermarking'),
+          story('w2', 'Lab ships watermark detector API'),
+        ],
+      },
+      itemArchive: [
+        story('w-old1', 'Archived watermark research paper'),
+        story('w-old2', 'Archived watermark policy brief'),
+        story('w-old3', 'Archived watermarking rollout note'),
+      ],
+    };
+    const ids = indexableTags(withArch).map((t) => t.id);
+    assert.ok(ids.includes('watermarking'));
+    const html = renderTag(withArch, 'watermarking');
+    assert.doesNotMatch(html, /noindex/);
+    assert.match(html, /Older scored stories tagged AI watermarking/);
+  });
+
   it('indexes coding and acquisitions when the live gate clears', () => {
     const rich = {
       ...ctx,
