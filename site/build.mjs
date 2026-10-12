@@ -46,6 +46,7 @@ import * as statusPage from './templates/statusPage.mjs';
 import * as selfAwarePage from './templates/selfAwarePage.mjs';
 import * as threatsPage from './templates/threatsPage.mjs';
 import * as powerPage from './templates/powerPage.mjs';
+import * as computeClockPage from './templates/computeClockPage.mjs';
 import * as gamesPage from './templates/gamesPage.mjs';
 import * as labsPage from './templates/labsPage.mjs';
 import * as chartsPage from './templates/chartsPage.mjs';
@@ -1574,6 +1575,11 @@ async function main() {
     let pwText = null, pw = null;
     try { pwText = await readFile(path.join(args.data, 'power.json'), 'utf8'); pw = JSON.parse(pwText); } catch { pwText = null; pw = null; }
     written.push(await write(args.out, 'power.html', powerPage.render(ctx, pw)));
+    // The compute clock (collector/compute-clock.mjs, Epoch AI CSVs).
+    let ccText = null, cc = null;
+    try { ccText = await readFile(path.join(args.data, 'compute-clock.json'), 'utf8'); cc = JSON.parse(ccText); } catch { ccText = null; cc = null; }
+    written.push(await write(args.out, 'compute.html', computeClockPage.render(ctx, cc)));
+    if (ccText !== null) written.push(await write(args.out, 'api/compute-clock.json', ccText));
     written.push(await write(args.out, 'games.html', gamesPage.render(ctx)));
     written.push(await write(args.out, 'labs.html', labsPage.render(ctx)));
     written.push(await write(args.out, 'api/labs.json', labsPage.labsJson()));
@@ -1946,6 +1952,7 @@ async function main() {
       news: ctx.news ? ctx.url('/api/news.json') : undefined,
       leaders: ctx.url('/api/leaders.json'),
       si_signals: ctx.url('/api/si-signals.json'),
+      compute_clock: ctx.url('/api/compute-clock.json'),
       fresh: ctx.url('/api/fresh.json'),
       search_index: ctx.url('/api/search-index.json'),
       embed: ctx.url('/embed.html'),

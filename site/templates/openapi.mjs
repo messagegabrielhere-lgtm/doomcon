@@ -132,6 +132,19 @@ export function render(ctx) {
           },
         },
       },
+      '/api/compute-clock.json': {
+        get: {
+          tags: ['surfaces'],
+          summary: 'Compute clock (Epoch AI): largest training run, FLOP doubling time, AI data centres',
+          operationId: 'getComputeClock',
+          responses: {
+            200: {
+              description: 'Watched (not scored) compute-clock snapshot from Epoch AI CSVs',
+              content: { 'application/json': { schema: { type: 'object' } } },
+            },
+          },
+        },
+      },
       '/api/now.txt': {
         get: {
           tags: ['index'],
