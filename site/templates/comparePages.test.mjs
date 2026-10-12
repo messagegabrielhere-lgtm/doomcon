@@ -39,12 +39,14 @@ describe('compare / alternatives conquest pages', () => {
     assert.match(hub, /"@type"\s*:\s*"FAQPage"/);
     assert.match(hub, /DoomBench/);
     assert.match(hub, /Skynet Countdown/);
+    assert.match(hub, /PizzINT/);
     assert.match(hub, /SIREN 4/);
     assert.match(hub, /55\.5/);
 
     const alt = alternatives(ctx);
     assert.match(alt, /AI doom index alternatives/);
     assert.match(alt, /DoomBench alternative/i);
+    assert.match(alt, /PizzINT/);
     assert.match(alt, /"@type"\s*:\s*"FAQPage"/);
   });
 
@@ -54,6 +56,11 @@ describe('compare / alternatives conquest pages', () => {
     assert.match(page, /does not score takeover risk/i);
     assert.match(page, /recompute/i);
     assert.doesNotMatch(page, /SIREN.*p\(doom\) of \d/i);
+    const pizza = vsRival(ctx, 'pizzint');
+    assert.match(pizza, /SIREN vs PizzINT/);
+    assert.match(pizza, /does not publish a DEFCON/i);
+    assert.match(pizza, /Doomsday Clock/i);
+    assert.doesNotMatch(pizza, /SIREN.*DEFCON \d/i);
   });
 
   it('sitemaps every conquest URL', () => {

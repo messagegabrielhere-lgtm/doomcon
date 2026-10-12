@@ -29,6 +29,8 @@ export function organization(ctx) {
       'frontier AI news',
       'p(doom)',
       'AI doomsday clock',
+      'AI doom index alternatives',
+      'recomputable AI activity index',
     ],
     ...(sameAs.length ? { sameAs } : {}),
   };

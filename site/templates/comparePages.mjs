@@ -78,6 +78,26 @@ export const RIVALS = [
     queryShapes: ['p(doom) alternative', 'AI doomsday clock verifiable', 'pdoom vs activity index'],
     related: ['/p-doom.html', '/ai-doomsday-clock.html'],
   },
+  {
+    id: 'pizzint',
+    path: '/vs/pizzint.html',
+    name: 'PizzINT',
+    url: 'https://www.pizzint.watch/',
+    short: 'Pentagon Pizza Index with DEFCON / Doomsday Clock framing',
+    measures: 'A pizza-and-intel novelty index that borrows DEFCON and Doomsday Clock language in the title',
+    whoSets: 'Their site’s framing over pizza / intel metaphors — not a published AI-activity formula',
+    recomputable: false,
+    recomputableNote: 'Not as an AI activity count: the DEFCON/Doomsday language is brand hijack, and we did not see open inputs that recompute an AI tempo reading',
+    also: 'Hundreds of /intel brief URLs; news-sitemap flips empty↔thin',
+    ourAngle: `${brand.NAME} does not publish a DEFCON level or a Doomsday Clock reading. It publishes an hourly AI activity score you can recompute from public data.`,
+    queryShapes: [
+      'Pentagon Pizza Index alternative',
+      'DEFCON level AI index',
+      'pizzint vs activity index',
+      'AI activity index not DEFCON',
+    ],
+    related: ['/guide.html', '/ai-doomsday-clock.html'],
+  },
 ];
 
 function liveStrip(ctx) {
@@ -160,13 +180,15 @@ function pageJsonLd(ctx, path, title, description, crumbs, faqPairs) {
 
 export function compareHub(ctx) {
   const path = '/compare.html';
-  const title = `AI doom indexes compared: ${brand.NAME} vs DoomBench, Skynet Countdown and p(doom)`;
-  const description = `${brand.NAME} is an hourly AI activity count you can recompute. DoomBench scores takeover evidence, Skynet Countdown estimates AGI dates and control-loss odds, and p(doom) clocks publish opinions. Side-by-side without borrowing their claims.`;
+  const title = `AI doom indexes compared: ${brand.NAME} vs DoomBench, Skynet, p(doom) and PizzINT`;
+  const description = `${brand.NAME} is an hourly AI activity count you can recompute. DoomBench scores takeover evidence, Skynet Countdown estimates AGI dates, p(doom) clocks publish opinions, and PizzINT borrows DEFCON/Doomsday framing. Side-by-side without borrowing their claims.`;
   const faq = [
     [`What is the difference between ${brand.NAME} and DoomBench?`,
       `${brand.NAME} measures AI activity tempo from public data every hour and publishes a receipt. DoomBench publishes a qualitative doom index from sourced evidence about takeover risk. One is a count; the other is a judgement-scored risk index.`],
     ['Which AI doom index can I recompute myself?',
-      `${brand.NAME}. Clone the repo, run the collector, and compare your number to the published one. DoomBench, Skynet Countdown and p(doom) clocks are not independently recomputable from open inputs alone.`],
+      `${brand.NAME}. Clone the repo, run the collector, and compare your number to the published one. DoomBench, Skynet Countdown, p(doom) clocks and PizzINT are not independently recomputable as an AI activity count from open inputs alone.`],
+    [`Is ${brand.NAME} a DEFCON level or Doomsday Clock?`,
+      `No. ${brand.NAME} borrows the countdown grammar only. It does not publish a military DEFCON reading or the Bulletin’s Doomsday Clock. Sites that put those phrases in the title for AI traffic are doing brand hijack; see /guide.html and /vs/pizzint.html.`],
     ['Does a louder SIREN reading mean AI is more dangerous?',
       'No. The level measures how much is happening — releases, compute, headlines, rule-making and market prices — not whether what happened was good or bad.'],
   ];
@@ -174,7 +196,7 @@ export function compareHub(ctx) {
 <article class="cmp prose">
   <p class="cmp__k">Compare</p>
   <h1>AI doom indexes, compared honestly</h1>
-  <p class="cmp__lede">People searching for an “AI doom index” usually land on a judgement score or a countdown.
+  <p class="cmp__lede">People searching for an “AI doom index” usually land on a judgement score, a countdown, or a DEFCON-shaped novelty page.
     ${esc(brand.NAME)} answers a different question: <b>how loud is AI activity right now</b>, measured hourly from public data.
     This page puts that next to the rivals people actually type.</p>
   ${liveStrip(ctx)}
@@ -205,12 +227,14 @@ export function compareHub(ctx) {
 export function alternatives(ctx) {
   const path = '/alternatives.html';
   const title = `AI doom index alternatives: recomputable activity vs judgement clocks · ${brand.NAME}`;
-  const description = `Looking for a DoomBench, Skynet Countdown or p(doom) alternative? ${brand.NAME} is an hourly AI activity index with open code, CORS JSON and hash-chained receipts — not a probability of doom.`;
+  const description = `Looking for a DoomBench, Skynet Countdown, p(doom) or PizzINT alternative? ${brand.NAME} is an hourly AI activity index with open code, CORS JSON and hash-chained receipts — not a DEFCON level or probability of doom.`;
   const faq = [
     ['What is a good alternative to DoomBench?',
       `${brand.NAME} if you want a recomputable activity tempo reading instead of a qualitative doom score. It does not replace DoomBench’s takeover-evidence framing; it answers a different question with arithmetic you can check.`],
     ['What is a good alternative to Skynet Countdown?',
       `${brand.NAME} if you want live activity without an AGI date or a control-loss percentage. For dated news hubs, this site publishes per-story pages and a rolling news sitemap instead of a predicted singularity day.`],
+    ['What is a good alternative to the Pentagon Pizza Index / PizzINT?',
+      `${brand.NAME} if you want an AI activity reading instead of DEFCON/Doomsday Clock brand hijack. ${brand.NAME} does not publish a military DEFCON level or the Bulletin’s clock — see /vs/pizzint.html and /guide.html.`],
     ['Is there a verifiable AI doomsday clock?',
       `Most AI doomsday clocks are expert judgement. ${brand.NAME} is an hourly activity count with a receipt. See the AI doomsday clock explainer for the vocabulary without the fake precision.`],
   ];
@@ -219,20 +243,21 @@ export function alternatives(ctx) {
   <p class="cmp__k">Alternatives</p>
   <h1>AI doom index alternatives — and what each one actually is</h1>
   <p class="cmp__lede">“Alternative” only helps if the substitute measures the same thing. Most AI doom indexes measure
-    <b>judgement about danger</b>. ${esc(brand.NAME)} measures <b>how much is happening</b>. Use this hub when a search
-    for DoomBench, Skynet Countdown or p(doom) brought you here and you need the honest fork.</p>
+    <b>judgement about danger</b>, or borrow DEFCON language for traffic. ${esc(brand.NAME)} measures <b>how much is happening</b>. Use this hub when a search
+    for DoomBench, Skynet Countdown, p(doom) or PizzINT brought you here and you need the honest fork.</p>
   ${liveStrip(ctx)}
   <h2>When ${esc(brand.NAME)} is the right alternative</h2>
   <ul>
     <li>You want a number a stranger can recompute from public data and a published receipt.</li>
     <li>You want an embeddable widget and a CORS-open JSON API, not a client-rendered shell.</li>
-    <li>You want tempo (releases, compute, attention, governance, markets), not a takeover probability.</li>
+    <li>You want tempo (releases, compute, attention, governance, markets), not a takeover probability or a fake DEFCON.</li>
   </ul>
   <h2>When it is the wrong alternative</h2>
   <ul>
     <li>You need a scored argument about AI takeover risk — that is DoomBench’s product, not ours.</li>
     <li>You need an estimated AGI date or control-loss percentage — that is Skynet Countdown’s product, not ours.</li>
     <li>You want a personal extinction probability — that is p(doom), and it stays an opinion.</li>
+    <li>You want Pentagon-pizza novelty or a military DEFCON reading — that is not an AI activity index; see /vs/pizzint.html.</li>
   </ul>
   <h2>One page per rival</h2>
   ${RIVALS.map((r) => `<div class="cmp__card">
@@ -295,7 +320,7 @@ export function vsRival(ctx, rivalId) {
     <li><b>Measures:</b> AI activity tempo across capability, compute &amp; capital, attention, governance and markets.</li>
     <li><b>Set by:</b> a published formula over public data, hourly.</li>
     <li><b>Recomputable:</b> yes — receipt, open code, CORS JSON.</li>
-    <li><b>Does not publish:</b> takeover probability, AGI date, or anyone’s p(doom).</li>
+    <li><b>Does not publish:</b> takeover probability, AGI date, anyone’s p(doom), a military DEFCON level, or the Bulletin’s Doomsday Clock.</li>
   </ul>
   <h2>Where to go next</h2>
   <p><a href="${esc(ctx.href('/'))}">Current ${esc(brand.NAME)} reading →</a>

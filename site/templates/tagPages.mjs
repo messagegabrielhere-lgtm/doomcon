@@ -247,6 +247,12 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'Long-term and agent-memory stories scored in the newsroom or archive — coverage counts, not a capability claim.',
     match: /\b(long[- ]term memory|agent memory|memory for agents|episodic memory|memory layer)\b/i,
   },
+  {
+    id: 'test-time',
+    name: 'Test-time compute',
+    description: 'Test-time compute and inference-time scaling stories scored in the newsroom or archive.',
+    match: /\b(test[- ]time (compute|scaling)|inference[- ]time scaling|tts scaling)\b/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));

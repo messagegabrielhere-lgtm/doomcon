@@ -282,4 +282,22 @@ describe('tag pages', () => {
     assert.match(renderTag(rich, 'distillation'), /Distillation: AI stories this index scored/);
     assert.match(renderTag(rich, 'memory'), /Agent memory: AI stories this index scored/);
   });
+
+  it('pages a test-time compute hub when the needle clears the gate', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('t1', 'Test-time compute scaling curves'),
+          story('t2', 'Labs bet on test-time scaling'),
+          story('t3', 'Inference-time scaling for o-series'),
+          story('t4', 'Test-time compute budget paper'),
+          story('t5', 'TTS scaling notes for agents'),
+        ],
+      },
+    };
+    assert.ok(indexableTags(rich).some((t) => t.id === 'test-time'));
+    assert.match(renderTag(rich, 'test-time'), /Test-time compute: AI stories this index scored/);
+  });
 });
