@@ -23,7 +23,7 @@ import { readFeed } from '../collector/news-sources/_feed.mjs';
 import {
   CATS, GDELT_QUERY, categorize, prepCountries, countryNear, countryAt, makeMatcher, clusterStories,
   countryInputs, newsPart, hazardPart, CORE_VERSION,
-  adsbModality, adsbCells, adsbModeTotals, assessAircraftHealth,
+  adsbModality, adsbCells, adsbModeTotals, assessAircraftHealth, isAdsbRateLimit,
 } from './core.mjs';
 
 const args = process.argv.slice(2);
@@ -249,6 +249,9 @@ async function hazards(sources, countries) {
       const pts = [];
       let okN = 0;
       let last;
+      // Ask squawk codes one at a time. A 429/420 on the first means the shared
+      // adsb.lol budget is spent — stop instead of burning two more 429s that
+      // leave emerg with no stale_from and trip the watchdog.
       for (let i = 0; i < SRC.emerg.length; i++) {
         const code = ['7700', '7600', '7500'][i];
         try {
@@ -258,7 +261,10 @@ async function hazards(sources, countries) {
             const p = adsbPoint(a);
             if (p) pts.push({ ...p, by: { [code]: 1 } });
           }
-        } catch (e) { last = e; }
+        } catch (e) {
+          last = e;
+          if (isAdsbRateLimit(e && e.message)) break;
+        }
       }
       if (!okN) throw last || new Error('no squawk feed answered');
       res.emerg = pts;
@@ -343,12 +349,18 @@ export async function main() {
   }
   const items = [...byUrl.values()].sort((a, b) => b.t - a.t).slice(0, MAX_ITEMS);
 
-  // A source that failed this run keeps its previous data, marked stale, rather than vanishing.
+  // A source that failed this run keeps its previous data, marked stale, rather
+  // than vanishing. Aircraft layers use `!= null` (not `.length`) so an empty
+  // but successful emerg answer (0 squawks is normal) still counts as a stale
+  // copy when the live call is rate-limited — otherwise watchdog pages on
+  // emerg_down every time adsb.lol answers 429 with nothing prior to show.
   const cellKeys = new Set(['mil', 'adsb', 'emerg']);
   for (const k of ['quakes', 'eonet', 'gdacs', 'mil', 'adsb', 'emerg', 'kev']) {
     const sid = k === 'quakes' ? 'usgs' : k;
-    if (!sources[sid]?.ok && prevSnap?.[k]?.length) {
-      hz[k] = cellKeys.has(k) ? prevSnap[k].filter((c) => Number.isFinite(c.n)) : prevSnap[k];
+    const prev = prevSnap?.[k];
+    const havePrev = cellKeys.has(k) ? Array.isArray(prev) : Boolean(prev?.length);
+    if (!sources[sid]?.ok && havePrev) {
+      hz[k] = cellKeys.has(k) ? prev.filter((c) => Number.isFinite(c.n)) : prev;
       sources[sid] = { ...sources[sid], stale_from: prevSnap.generated };
     }
   }
