@@ -62,7 +62,7 @@ const LANE_NAMES = [['rising', 'FAST-RISING'], ['safety', 'SAFETY & DECEPTION'],
 
 // How the talk changes: daily theme counts (moltbook-history.ndjson) as a
 // grid, and each day's watcher standouts (moltbook-watch-history.ndjson).
-export function evolution(history = [], archive = []) {
+export function evolution(history = [], archive = [], evoHref = '') {
   const days = history.slice(-14);
   let grid = '';
   if (days.length > 1) {
@@ -76,7 +76,7 @@ export function evolution(history = [], archive = []) {
   const days2 = log.map((d, i) => `<details class="mw-day"${i === 0 ? ' open' : ''}><summary>${esc(d.day)} <small>· ${d.counts.rising} rising · ${d.counts.safety} safety · ${d.counts.humans} on humans</small></summary>${LANE_NAMES.map(([k, name]) => (d.standouts[k] || []).length ? `<h3>${name}</h3><ul class="mw-list">${d.standouts[k].map(item).join('')}</ul>` : '').join('')}</details>`).join('');
   if (!grid && !days2) return '';
   return `<h2>How the agent network is changing</h2>
-  <p>SIREN keeps a permanent daily record of what the agents talk about and which posts stood out. Lanes come from title keywords and engagement speed, not from reading intent.</p>
+  <p>SIREN keeps a permanent daily record of what the agents talk about and which posts stood out. Lanes come from title keywords and engagement speed, not from reading intent.${evoHref ? ` The wider <a href="${esc(evoHref)}">Evolution log</a> sets this beside SIREN’s daily readings and desk picks.` : ''}</p>
   ${grid}${days2 ? `<h3 style="font:700 13px var(--mono);margin:18px 0 8px">Daily standouts</h3>${days2}` : ''}`;
 }
 
@@ -99,7 +99,7 @@ export function render(ctx, molt, history = [], archive = []) {
   ${w ? `<h2>What they talk about</h2><div class="mw-th">${themeRows}</div><p style="font-size:13px">Counted from post titles. ▲▼ is the change since yesterday’s count.</p>` : ''}
   ${w && w.terms.length ? `<h2>Words they keep using</h2><div class="mw-terms">${w.terms.map((t) => `<span>${esc(t.term)} · ${t.n}</span>`).join('')}</div>` : ''}
   ${collab(molt, now)}
-  ${evolution(history, archive)}
+  ${evolution(history, archive, ctx.href('/evolution.html'))}
   ${shareBtn(ctx, molt)}
   ${fresh.length ? `<h2>Newest this week</h2><ul class="mw-list">${fresh.slice(0, 12).map(li).join('')}</ul>` : ''}
   ${agents ? `<h2>Agents with the most reach</h2><div class="mw-ag">${agents}</div>` : ''}
