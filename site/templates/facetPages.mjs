@@ -64,6 +64,15 @@ export function itemsForPillar(ctx, pillarId) {
     .sort((a, b) => String(b.published_at || '').localeCompare(String(a.published_at || '')));
 }
 
+/** Older scored stories under this pillar, kept in the durable item archive. */
+export function archiveItemsForPillar(ctx, pillarId) {
+  const archived = Array.isArray(ctx.itemArchive) ? ctx.itemArchive : [];
+  return archived
+    .filter((it) => it && it.pillar === pillarId)
+    .slice()
+    .sort((a, b) => String(b.published_at || '').localeCompare(String(a.published_at || '')));
+}
+
 function pillarState(ctx, pillarId) {
   const list = (ctx.state && Array.isArray(ctx.state.pillars)) ? ctx.state.pillars : [];
   return list.find((p) => p && p.id === pillarId) || null;
@@ -109,6 +118,8 @@ const STYLE = `<style>
 export function renderPillar(ctx, pillarId) {
   const meta = brand.pillarMeta(pillarId);
   const items = itemsForPillar(ctx, pillarId);
+  const archivedAll = archiveItemsForPillar(ctx, pillarId);
+  const older = archivedAll.slice(0, 12);
   const st = pillarState(ctx, pillarId);
   const indexable = items.length >= PILLAR_INDEX_MIN;
   const path = pillarPath(pillarId);
@@ -125,6 +136,12 @@ export function renderPillar(ctx, pillarId) {
     .filter((p) => p.id !== pillarId)
     .map((p) => `<a href="${esc(ctx.href(pillarPath(p.id)))}">${esc(p.name)}</a>`)
     .join('');
+  const olderBlock = older.length
+    ? `<h2>Older scored stories under ${esc(meta.name)}</h2>
+  <p class="fc__lede">Kept in the permanent archive after they left the live window. Still scored stories — not a forecast.</p>
+  <ol class="fc__list">${itemRows(ctx, older, 12)}</ol>
+  <p class="fresh__key"><a href="${esc(ctx.href('/item/archive.html'))}">Full story archive</a></p>`
+    : '';
 
   const main = `${STYLE}
 <article class="fc prose">
@@ -134,6 +151,7 @@ export function renderPillar(ctx, pillarId) {
   <div class="fc__stat" role="group" aria-label="Current pillar reading">
     <div><b class="num">${esc(scoreTxt != null ? scoreTxt : '—')}</b><span>Pillar score / 100</span></div>
     <div><b class="num">${esc(String(items.length))}</b><span>Scored stories in window</span></div>
+    ${archivedAll.length ? `<div><b class="num">${esc(String(archivedAll.length))}</b><span>Older in archive</span></div>` : ''}
     <div><b>${esc(st && st.dark ? 'DARK' : (st && st.uncalibrated ? 'CALIBRATING' : 'LIVE'))}</b><span>Source posture</span></div>
   </div>
   <p class="fresh__key">This page is the crawlable face of the ${esc(meta.name)} filter on the newsroom.
@@ -144,6 +162,7 @@ export function renderPillar(ctx, pillarId) {
     ? `<ol class="fc__list">${itemRows(ctx, items)}</ol>
        ${items.length > 40 ? `<p class="fresh__key">${esc(String(items.length - 40))} more in the window — see <a href="${esc(ctx.href('/item/'))}">every scored item</a>.</p>` : ''}`
     : `<p>No scored stories in the current window for this pillar. The page stays up so the pillar reading remains addressable; it is not submitted to the sitemap while empty.</p>`}
+  ${olderBlock}
   <h2>Other pillars</h2>
   <nav class="fc__pillars" aria-label="SIREN pillars">${otherPillars}</nav>
 </article>`;
@@ -246,16 +265,28 @@ function labNeedles(player) {
   return [...new Set([...(extras[player.id] || []), ...names])];
 }
 
+function itemMatchesLab(it, player) {
+  if (!it || !player) return false;
+  const entityName = player.entityName || player.name;
+  if (Array.isArray(it.entities) && it.entities.includes(entityName)) return true;
+  const needles = labNeedles(player);
+  const hay = `${it.title || ''} ${it.source || ''} ${it.summary || ''}`.toLowerCase();
+  return needles.some((n) => n.length >= 3 && hay.includes(n));
+}
+
 export function itemsForLab(ctx, player) {
   const items = (ctx.news && Array.isArray(ctx.news.items)) ? ctx.news.items : [];
-  const entityName = player.entityName || player.name;
-  const needles = labNeedles(player);
   return items
-    .filter((it) => {
-      if (Array.isArray(it.entities) && it.entities.includes(entityName)) return true;
-      const hay = `${it.title || ''} ${it.source || ''} ${it.summary || ''}`.toLowerCase();
-      return needles.some((n) => n.length >= 3 && hay.includes(n));
-    })
+    .filter((it) => itemMatchesLab(it, player))
+    .slice()
+    .sort((a, b) => String(b.published_at || '').localeCompare(String(a.published_at || '')));
+}
+
+/** Older scored stories naming this lab, kept in the durable item archive. */
+export function archiveItemsForLab(ctx, player) {
+  const archived = Array.isArray(ctx.itemArchive) ? ctx.itemArchive : [];
+  return archived
+    .filter((it) => itemMatchesLab(it, player))
     .slice()
     .sort((a, b) => String(b.published_at || '').localeCompare(String(a.published_at || '')));
 }
@@ -279,6 +310,8 @@ function fmtPct(p) {
 export function renderLab(ctx, player) {
   const path = labPath(player.id);
   const items = itemsForLab(ctx, player);
+  const archivedAll = archiveItemsForLab(ctx, player);
+  const older = archivedAll.slice(0, 12);
   const indexable = labIndexable(ctx, player);
   const m = player.market || {};
   const entityOnly = Boolean(player.entityOnly);
@@ -296,10 +329,17 @@ export function renderLab(ctx, player) {
     .filter((p) => p.id !== player.id)
     .map((p) => `<a href="${esc(ctx.href(labPath(p.id)))}">${esc(p.name)}</a>`)
     .join('');
+  const olderBlock = older.length
+    ? `<h2>Older scored stories naming ${esc(player.name)}</h2>
+  <p class="fc__lede">Kept in the permanent archive after they left the live window. Still scored stories — not a forecast.</p>
+  <ol class="fc__list">${itemRows(ctx, older, 12)}</ol>
+  <p class="fresh__key"><a href="${esc(ctx.href('/item/archive.html'))}">Full story archive</a></p>`
+    : '';
 
   const stats = entityOnly
     ? `<div class="fc__stat" role="group" aria-label="Lab signals">
     <div><b class="num">${esc(String(items.length))}</b><span>Related scored stories</span></div>
+    ${archivedAll.length ? `<div><b class="num">${esc(String(archivedAll.length))}</b><span>Older in archive</span></div>` : ''}
   </div>
   <p class="fresh__key">Not on the <a href="${esc(ctx.href('/race.html'))}">race board</a> this build — this page is a newsroom facet only.
      Stories match the published entity list or the lab's common name forms.</p>`
@@ -307,6 +347,7 @@ export function renderLab(ctx, player) {
     <div><b class="num">${esc(fmtPct(m.probability))}</b><span>Market odds (best model)</span></div>
     <div><b class="num">${esc(Number.isFinite(m.change_7d) ? `${m.change_7d >= 0 ? '+' : '−'}${Math.abs(m.change_7d * 100).toFixed(1)} pts` : '—')}</b><span>7-day change</span></div>
     <div><b class="num">${esc(String(items.length))}</b><span>Related scored stories</span></div>
+    ${archivedAll.length ? `<div><b class="num">${esc(String(archivedAll.length))}</b><span>Older in archive</span></div>` : ''}
   </div>
   <p class="fresh__key"><a href="${esc(ctx.href('/race.html'))}">Full race board →</a>
      · Odds are prediction-market prices, not ${esc(brand.NAME)} judgements.</p>`;
@@ -324,6 +365,7 @@ export function renderLab(ctx, player) {
   ${items.length
     ? `<ol class="fc__list">${itemRows(ctx, items)}</ol>`
     : `<p>No scored story in the current window names ${esc(player.name)}.${entityOnly ? '' : ' The race row above is still the addressable unit.'}</p>`}
+  ${olderBlock}
   <h2>Other labs</h2>
   <nav class="fc__labs" aria-label="Labs">${labs}</nav>
 </article>`;

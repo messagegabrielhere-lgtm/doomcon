@@ -89,6 +89,25 @@ describe('pillar facets', () => {
     const html = renderPillar(ctx, 'markets');
     assert.match(html, /noindex/);
   });
+
+  it('links older archived stories under the same pillar', () => {
+    const withArch = {
+      ...ctx,
+      itemArchive: [{
+        id: 'old-cap',
+        title: 'Archived capability story',
+        pillar: 'capability',
+        source: 'hn',
+        url: 'https://example.test/old-cap',
+        published_at: '2026-10-01T01:00:00Z',
+        score: 55,
+      }],
+    };
+    const html = renderPillar(withArch, 'capability');
+    assert.match(html, /Older scored stories under Capability/);
+    assert.match(html, /Archived capability story/);
+    assert.match(html, /\/item\/archive\.html/);
+  });
 });
 
 describe('lab facets', () => {
@@ -105,6 +124,26 @@ describe('lab facets', () => {
     assert.match(html, /lab\/anthropic\.html/);
     assert.match(html, /CollectionPage/);
     assert.equal(labPath('openai'), '/lab/openai.html');
+  });
+
+  it('links older archived stories naming the lab', () => {
+    const withArch = {
+      ...ctx,
+      itemArchive: [{
+        id: 'old-oai',
+        title: 'Archived OpenAI model card',
+        pillar: 'capability',
+        source: 'hn',
+        url: 'https://example.test/old-oai',
+        published_at: '2026-10-01T01:00:00Z',
+        score: 60,
+        entities: ['OpenAI'],
+      }],
+    };
+    const html = renderLab(withArch, withArch.race.players[0]);
+    assert.match(html, /Older scored stories naming OpenAI/);
+    assert.match(html, /Archived OpenAI model card/);
+    assert.match(html, /\/item\/archive\.html/);
   });
 
   it('adds entity-only labs that clear the story gate without inventing odds', () => {
