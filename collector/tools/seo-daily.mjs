@@ -243,11 +243,6 @@ export function deriveGaps(report) {
 /** Static open items the daily agent should keep in view until closed in FINDABILITY. */
 export const OPEN_ENGINEERING = Object.freeze([
   {
-    id: 'mobile-cwv',
-    severity: 'low',
-    text: 'Mobile card view still open (FINDABILITY #10); homepage below-fold content-visibility shipped — next is phone-width card deferral',
-  },
-  {
     id: 'gsc-verify',
     severity: 'medium',
     text: 'Operator: Search Console verify + submit both sitemaps (FINDABILITY #11)',
