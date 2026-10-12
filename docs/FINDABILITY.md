@@ -320,6 +320,7 @@ context.
 | 87 | Topic tags `llm-agents` + `on-policy-distillation` + `time-series` + `self-distillation` + `video-world-models` + `machine-unlearning`; IndexNow ALWAYS samples LLM-agents/on-policy/time-series/unlearning | Google + Bing | **Done** (2026-10-12) |
 | 88 | Topic tags `neural-networks` + `self-improving-ai` + `provenance` + `sparse-attention` + `synthid` + `dexterous-manipulation`; IndexNow ALWAYS samples neural-networks/self-improving/sparse-attention/SynthID | Google + Bing | **Done** (2026-10-12) |
 | 89 | Entity labs Decart / Sakana AI / Isomorphic Labs / Winverse AI / Cisco (`/lab/*`, live/archive ≥3); tags `protein-design` + `drug-discovery`; news:keywords + IndexNow samples | Google + Bing | **Done** (2026-10-12) |
+| 90 | News-sitemap `news:keywords` prioritizes entity + lab surfaces before topic-tag flood so the 12-cap keeps head-term names (pizzint-news-alive contest) | Google News | **Done** (2026-10-12) |
 
 ### 3.3 Refusals (search edition)
 

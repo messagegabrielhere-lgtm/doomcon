@@ -22,33 +22,48 @@ function itemStamp(item) {
   return item.published_at || (item.meta && item.meta.first_seen_at) || null;
 }
 
-function keywordsFor(item) {
-  const bits = [];
-  if (item.pillar) bits.push(item.pillar);
-  if (item.kind) bits.push(String(item.kind));
-  if (item.source) bits.push(String(item.source).slice(0, 40));
+/** High-signal lab / model surfaces for Google News contest (vs pizzint). */
+const NEWS_KEYWORD_LABS = Object.freeze([
+  'OpenAI', 'Anthropic', 'Google', 'DeepMind', 'Meta', 'xAI', 'Mistral', 'NVIDIA',
+  'DeepSeek', 'Huawei', 'Sony', 'Supermicro', 'IREN', 'OpenRouter', 'Reflection AI',
+  'Muse Wonder', 'Artificial Analysis', 'Decart', 'Sakana AI', 'Isomorphic Labs',
+  'Winverse AI', 'Cisco',
+]);
+
+/**
+ * Build news:keywords with named entities and lab surfaces first so the 12-cap
+ * does not drop them when many topic tags also match (pizzint-news-alive).
+ */
+export function keywordsFor(item) {
+  const named = [];
   // Prefer the published entity list already on the NewsItem (falsifiable).
   for (const name of (Array.isArray(item.entities) ? item.entities : [])) {
-    if (typeof name === 'string' && name.trim()) bits.push(name.trim());
+    if (typeof name === 'string' && name.trim()) named.push(name.trim());
   }
-  // Topic needles from the published tag vocabulary (search-shaped; no new URLs).
-  for (const topic of TOPIC_DEFS) {
-    if (itemMatchesTag(item, topic)) bits.push(topic.name);
-  }
-  // Keep this list short and high-signal — keywords are capped at 12 and should
-  // match names the newsroom actually prints (Google News contest vs pizzint).
-  const labs = [
-    'OpenAI', 'Anthropic', 'Google', 'DeepMind', 'Meta', 'xAI', 'Mistral', 'NVIDIA',
-    'DeepSeek', 'Huawei', 'Sony', 'Supermicro', 'IREN', 'OpenRouter', 'Reflection AI',
-    'Muse Wonder', 'Artificial Analysis', 'Decart', 'Sakana AI', 'Isomorphic Labs',
-    'Winverse AI', 'Cisco',
-  ];
+  // Lab / model surfaces printed in the headline — before topic tags so they
+  // survive the keyword cap when a story matches a dozen topic needles.
   const hay = `${item.title || ''} ${item.summary || ''}`;
-  for (const lab of labs) {
+  for (const lab of NEWS_KEYWORD_LABS) {
     const re = new RegExp(`(?:^|[^A-Za-z0-9])${lab.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?:[^A-Za-z0-9]|$)`, 'i');
-    if (re.test(hay)) bits.push(lab);
+    if (re.test(hay)) named.push(lab);
   }
-  bits.push('AI', 'artificial intelligence', brand.NAME);
+  const topics = [];
+  for (const topic of TOPIC_DEFS) {
+    if (itemMatchesTag(item, topic)) topics.push(topic.name);
+  }
+  const meta = [];
+  if (item.pillar) meta.push(item.pillar);
+  if (item.kind) meta.push(String(item.kind));
+  // Source slug is low-signal for Google News; keep it last before brand terms.
+  if (item.source) meta.push(String(item.source).slice(0, 40));
+  const bits = [
+    ...named,
+    ...topics,
+    ...meta,
+    'AI',
+    'artificial intelligence',
+    brand.NAME,
+  ];
   // Cap 12 so entity + topic + lab keywords stay under Google News practical limits
   // while pizzint's thin news-sitemap is contested again (COMPETITIVE-SEO.md).
   return [...new Set(bits)].slice(0, 12).join(', ');

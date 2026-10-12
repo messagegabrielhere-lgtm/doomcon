@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { newsEligible, NEWS_WINDOW_HOURS, NEWS_SITEMAP_CAP, render } from './newsSitemap.mjs';
+import { newsEligible, NEWS_WINDOW_HOURS, NEWS_SITEMAP_CAP, keywordsFor, render } from './newsSitemap.mjs';
 
 test('newsEligible keeps only items inside the rolling window', () => {
   const now = Date.parse('2026-10-08T12:00:00Z');
@@ -122,4 +122,23 @@ test('render keywords include Decart, Sakana AI, Isomorphic Labs, Winverse AI, C
   });
   assert.match(xml, /<news:keywords>[^<]*Decart/);
   assert.match(xml, /Sakana AI|Isomorphic Labs|Winverse AI|Cisco/);
+});
+
+test('keywordsFor keeps lab surfaces ahead of topic-tag flood under the 12-cap', () => {
+  const kw = keywordsFor({
+    title: 'Decart agents ship computer use, prompt injection defenses, and multimodal reasoning',
+    summary: 'Agentic tool-use with guardrails, RAG, fine-tuning, and open-weights coverage naming Decart.',
+    pillar: 'capability',
+    kind: 'press',
+    source: 'techcrunch-ai-very-long-source-slug',
+    entities: [],
+  });
+  const parts = kw.split(',').map((s) => s.trim());
+  assert.ok(parts.length <= 12, kw);
+  assert.ok(parts.includes('Decart'), kw);
+  // Named lab must outrank meta source slug when the cap is tight.
+  const decartAt = parts.indexOf('Decart');
+  const sourceAt = parts.indexOf('techcrunch-ai-very-long-source-slug');
+  assert.ok(decartAt >= 0);
+  if (sourceAt >= 0) assert.ok(decartAt < sourceAt, kw);
 });
