@@ -1477,4 +1477,31 @@ describe('tag pages', () => {
     assert.match(renderTag(rich, 'dexterous-manipulation'), /Dexterous manipulation: AI stories this index scored/);
     assert.doesNotMatch(renderTag(rich, 'self-improving-ai'), /doom score/i);
   });
+
+  it('pages protein-design and drug-discovery hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('pd1', 'Natural-language protein design for binders'),
+          story('pd2', 'Protein folding models for binders'),
+          story('pd3', 'Watermarking AI protein design outputs'),
+          story('pd4', 'Sample complexity for protein design'),
+          story('pd5', 'Fast protein folding model training'),
+          story('dd1', 'AI drug discovery startup spun out of DeepMind'),
+          story('dd2', 'Virtual cell efforts for drug discovery'),
+          story('dd3', 'Labs invest in AI drug discovery'),
+          story('dd4', 'Benchmarking drug discovery models'),
+          story('dd5', 'Open datasets for drug discovery'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    assert.ok(ids.includes('protein-design'));
+    assert.ok(ids.includes('drug-discovery'));
+    assert.match(renderTag(rich, 'protein-design'), /Protein design: AI stories this index scored/);
+    assert.match(renderTag(rich, 'drug-discovery'), /Drug discovery: AI stories this index scored/);
+    assert.doesNotMatch(renderTag(rich, 'protein-design'), /doom score/i);
+  });
 });

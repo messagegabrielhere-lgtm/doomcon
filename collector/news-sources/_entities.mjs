@@ -88,6 +88,11 @@ const ENTITY_DEFS = [
   { name: 'IREN', kind: 'lab', forms: ['IREN'] },
   { name: 'OpenRouter', kind: 'lab', forms: ['OpenRouter'] },
   { name: 'Reflection AI', kind: 'lab', forms: ['Reflection AI'] },
+  { name: 'Decart', kind: 'lab', forms: ['Decart'] },
+  { name: 'Sakana AI', kind: 'lab', forms: ['Sakana AI', 'Sakana'] },
+  { name: 'Isomorphic Labs', kind: 'lab', forms: ['Isomorphic Labs'] },
+  { name: 'Winverse AI', kind: 'lab', forms: ['Winverse AI', 'Winverse'] },
+  { name: 'Cisco', kind: 'lab', forms: ['Cisco'] },
 
   // --- model families ---
   { name: 'GPT', kind: 'model', forms: ['GPT-3', 'GPT-4', 'GPT-4o', 'GPT-5', 'GPT-6', 'ChatGPT', 'GPT'] },

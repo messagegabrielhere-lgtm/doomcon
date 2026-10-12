@@ -40,7 +40,8 @@ function keywordsFor(item) {
   const labs = [
     'OpenAI', 'Anthropic', 'Google', 'DeepMind', 'Meta', 'xAI', 'Mistral', 'NVIDIA',
     'DeepSeek', 'Huawei', 'Sony', 'Supermicro', 'IREN', 'OpenRouter', 'Reflection AI',
-    'Muse Wonder', 'Artificial Analysis',
+    'Muse Wonder', 'Artificial Analysis', 'Decart', 'Sakana AI', 'Isomorphic Labs',
+    'Winverse AI', 'Cisco',
   ];
   const hay = `${item.title || ''} ${item.summary || ''}`;
   for (const lab of labs) {

@@ -76,6 +76,9 @@ describe('IndexNow', () => {
     assert.ok(has('https://siren.watch/tags/on-policy-distillation.html'));
     assert.ok(has('https://siren.watch/tags/neural-networks.html'));
     assert.ok(has('https://siren.watch/tags/synthid.html'));
+    assert.ok(has('https://siren.watch/lab/decart.html'));
+    assert.ok(has('https://siren.watch/lab/sakana-ai.html'));
+    assert.ok(has('https://siren.watch/tags/protein-design.html'));
   });
 
   it('Organization knowsAbout head terms Google and assistants ask', () => {

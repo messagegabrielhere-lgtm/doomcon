@@ -1063,6 +1063,18 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'Dexterous-manipulation robotics stories scored in the newsroom or archive — coverage counts, not a robotics forecast.',
     match: /\bdexterous\b/i,
   },
+  {
+    id: 'protein-design',
+    name: 'Protein design',
+    description: 'AI protein-design stories scored in the newsroom or archive — coverage counts, not a science forecast.',
+    match: /\bprotein (?:design|folding)\b/i,
+  },
+  {
+    id: 'drug-discovery',
+    name: 'Drug discovery',
+    description: 'AI drug-discovery stories scored in the newsroom or archive — coverage counts, not a science forecast.',
+    match: /\bdrug discovery\b/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));

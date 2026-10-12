@@ -503,6 +503,85 @@ describe('lab facets', () => {
     assert.doesNotMatch(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'cognition')), /doom score/i);
   });
 
+  it('indexes Decart, Sakana AI, Isomorphic Labs, Winverse AI, and Cisco entity labs from archive', () => {
+    const withArch = {
+      ...ctx,
+      news: { ...ctx.news, items: [...ctx.news.items] },
+      itemArchive: [
+        {
+          id: 'dc1', title: 'Amazon reportedly eyeing acquisition of AI start-up Decart', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/dc1', published_at: '2026-09-01T01:00:00Z', score: 40,
+        },
+        {
+          id: 'dc2', title: 'Why Amazon might pay billions for Decart', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/dc2', published_at: '2026-09-02T01:00:00Z', score: 41,
+        },
+        {
+          id: 'dc3', title: 'AMZN Eyes Decart AI upside', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/dc3', published_at: '2026-09-03T01:00:00Z', score: 42,
+        },
+        {
+          id: 'sk1', title: 'Sakana AI self-improving model update', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/sk1', published_at: '2026-09-01T02:00:00Z', score: 40,
+        },
+        {
+          id: 'sk2', title: 'Sakana AI demonstrates a working RSI loop', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/sk2', published_at: '2026-09-02T02:00:00Z', score: 41,
+        },
+        {
+          id: 'sk3', title: 'Sakana AI peer review system catches errors', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/sk3', published_at: '2026-09-03T02:00:00Z', score: 42,
+        },
+        {
+          id: 'il1', title: 'Isomorphic Labs drug discovery spin-out', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/il1', published_at: '2026-09-01T03:00:00Z', score: 40,
+        },
+        {
+          id: 'il2', title: 'Isomorphic Labs and DeepMind invest in virtual cell', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/il2', published_at: '2026-09-02T03:00:00Z', score: 41,
+        },
+        {
+          id: 'il3', title: 'Meta and Isomorphic Labs fund biology AI', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/il3', published_at: '2026-09-03T03:00:00Z', score: 42,
+        },
+        {
+          id: 'wv1', title: 'DeepSeek leads Winverse AI seed round', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/wv1', published_at: '2026-09-01T04:00:00Z', score: 40,
+        },
+        {
+          id: 'wv2', title: 'Winverse AI robotics startup funding', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/wv2', published_at: '2026-09-02T04:00:00Z', score: 41,
+        },
+        {
+          id: 'wv3', title: 'DeepSeek backs Winverse AI founder', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/wv3', published_at: '2026-09-03T04:00:00Z', score: 42,
+        },
+        {
+          id: 'cs1', title: 'Cisco and NVIDIA announce pluggable optics for AI factories', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/cs1', published_at: '2026-09-01T05:00:00Z', score: 40,
+        },
+        {
+          id: 'cs2', title: 'Watch Cisco tackle AI data center bottleneck', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/cs2', published_at: '2026-09-02T05:00:00Z', score: 41,
+        },
+        {
+          id: 'cs3', title: 'Cisco expands path to AI connectivity', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/cs3', published_at: '2026-09-03T05:00:00Z', score: 42,
+        },
+      ],
+    };
+    const ids = labsFromEntities(withArch).map((p) => p.id);
+    for (const id of ['decart', 'sakana-ai', 'isomorphic-labs', 'winverse-ai', 'cisco']) {
+      assert.ok(ids.includes(id), id);
+    }
+    assert.match(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'decart')), /Decart: AI stories this index scored/);
+    assert.match(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'sakana-ai')), /Sakana AI: AI stories this index scored/);
+    assert.match(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'isomorphic-labs')), /Isomorphic Labs: AI stories this index scored/);
+    assert.match(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'winverse-ai')), /Winverse AI: AI stories this index scored/);
+    assert.match(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'cisco')), /Cisco: AI stories this index scored/);
+    assert.doesNotMatch(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'decart')), /doom score/i);
+  });
+
   it('indexes Supermicro, IREN, OpenRouter, and Reflection AI entity labs from archive', () => {
     const withArch = {
       ...ctx,

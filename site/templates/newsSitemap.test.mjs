@@ -103,3 +103,23 @@ test('render keywords include expanded lab and model surface names', () => {
   assert.match(xml, /<news:keywords>[^<]*IREN/);
   assert.match(xml, /Muse Wonder|Artificial Analysis/);
 });
+
+test('render keywords include Decart, Sakana AI, Isomorphic Labs, Winverse AI, Cisco', () => {
+  const xml = render({
+    news: {
+      items: [{
+        id: 'a4',
+        title: 'Amazon eyes Decart as Sakana AI and Isomorphic Labs expand',
+        summary: 'Winverse AI raises; Cisco and NVIDIA ship AI optics.',
+        published_at: new Date().toISOString(),
+        source: 'hn',
+        pillar: 'capability',
+        kind: 'press',
+        entities: [],
+      }],
+    },
+    url: (p) => `https://example.test${p}`,
+  });
+  assert.match(xml, /<news:keywords>[^<]*Decart/);
+  assert.match(xml, /Sakana AI|Isomorphic Labs|Winverse AI|Cisco/);
+});
