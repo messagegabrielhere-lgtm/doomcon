@@ -280,6 +280,7 @@ context.
 | 47 | `/outlets.html` publisher head-term hub (same gated `/outlet/*` set) | Google | **Done** (2026-10-12) |
 | 48 | `/sources.html` feed-adapter head-term hub (same gated `/source/*` set) | Google | **Done** (2026-10-12) |
 | 49 | `/pillars.html` + `/pillar/` directory over gated activity pillars | Google | **Done** (2026-10-12) |
+| 50 | `/countries.html` DoomBench-shaped country hub (same gated `/country/*` map counts) | Google | **Done** (2026-10-12) |
 
 ### 3.3 Refusals (search edition)
 

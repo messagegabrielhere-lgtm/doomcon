@@ -169,7 +169,7 @@ export function roomGroups(ctx) {
       ['/watts.html', 'power', 'Power', ctx.infra && Number.isFinite(ctx.infra.score) ? `${ctx.infra.score.toFixed(1)} / 100` : null, 'Grid load, drought and build-out under the models.'],
       ['/map.html', 'server', 'Map', ctx.datacenters && ctx.datacenters.sites ? `${fmt(ctx.datacenters.sites.length)} US sites` : null, 'Where the compute sits, against the water it needs.'],
       r.world ? ['/world.html', 'globe', 'World', ctx.world && ctx.world.totals ? `${fmt(ctx.world.totals.sites)} sites` : null, 'Every mapped datacentre on Earth, then orbit.'] : null,
-      r.world ? ['/country/', 'globe', 'By country', null, 'Mapped datacentres, one page per country with at least three sites.'] : null,
+      r.world ? ['/countries.html', 'globe', 'Countries', null, 'Mapped datacentre countries — OpenStreetMap site counts, not a national AI ranking.'] : null,
       r.flock ? ['/flock.html', 'camera', 'Cameras', ctx.flock && ctx.flock.totals ? `${fmt(ctx.flock.totals.mapped_worldwide)} mapped` : null, 'Licence-plate readers volunteers have mapped.'] : null,
       r.exploits ? ['/exploits.html', 'bug', 'Exploits', null, 'Days from disclosure to exploited in the wild.'] : null,
     ]],

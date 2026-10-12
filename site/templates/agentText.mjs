@@ -349,7 +349,7 @@ ${facetLinks(ctx, u)}
 - [Labs](${u('/lab/')}): race-board and entity lab hubs with story counts
 - [AI companies](${u('/companies.html')}): DoomBench-shaped company directory (same gated labs; no company doom score)
 - [News by day](${u('/news.html')}): UTC day hubs under /news/YYYY-MM-DD.html when a day clears five stories
-${(ctx.routes && ctx.routes.world) ? `- [Datacentres by country](${u('/country/')}): mapped sites, one page per country with at least three\n` : ''}`;
+${(ctx.routes && ctx.routes.world) ? `- [Datacentres by country](${u('/country/')}): mapped sites, one page per country with at least three\n- [AI datacentre countries](${u('/countries.html')}): country directory (same gated map counts; not a national AI ranking)\n` : ''}`;
 }
 
 /** Instrument rooms that exist for this build (FINDABILITY.md §2.1). */

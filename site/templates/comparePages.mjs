@@ -45,7 +45,7 @@ export const RIVALS = [
     whoSets: 'Their scoring rules over curated evidence items',
     recomputable: false,
     recomputableNote: 'Not that we could find: we did not see published inputs that let a reader re-derive the score',
-    also: 'Entity hubs for models, companies, countries and people — we mirror the shape at /models.html, /companies.html, /people.html, /country/, /model/, and /people/ without a doom score',
+    also: 'Entity hubs for models, companies, countries and people — we mirror the shape at /models.html, /companies.html, /people.html, /countries.html, /country/, /model/, and /people/ without a doom score',
     ourAngle: `${brand.NAME} does not score takeover risk. It counts how loud AI activity is this hour, from public feeds, with a receipt.`,
     queryShapes: ['DoomBench alternative', 'DoomBench vs activity index', 'live AI doom index recomputable'],
   },

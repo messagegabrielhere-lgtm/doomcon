@@ -243,7 +243,7 @@ export function renderCountry(ctx, iso2) {
 
   const main = `${STYLE}
 <article class="fc prose">
-  <p class="fc__k"><a href="${esc(ctx.href('/world.html'))}">World</a> · <a href="${esc(ctx.href('/country/'))}">Countries</a></p>
+  <p class="fc__k"><a href="${esc(ctx.href('/world.html'))}">World</a> · <a href="${esc(ctx.href('/country/'))}">Countries</a> · <a href="${esc(ctx.href('/countries.html'))}">Countries hub</a></p>
   <h1>Datacentres mapped in ${esc(country.name)}</h1>
   <p class="fc__lede">${esc(n(country.total))} sites in ${esc(country.name)} ${esc(qualifier)}.
      This page counts map objects carrying a datacentre tag. It does not count every datacentre that exists.
@@ -273,6 +273,7 @@ export function renderCountry(ctx, iso2) {
   ${olderBlock}
   ${neighbours.length ? `<h2>Same subregion</h2>
   <nav class="fc__nav" aria-label="Other countries in ${esc(country.subregion)}">${neighbours.map((c) => `<a href="${esc(ctx.href(countryPath(c.iso2)))}">${esc(c.name)}</a>`).join('')}</nav>` : ''}
+  <p class="fresh__key">Search-shaped directory: <a href="${esc(ctx.href('/countries.html'))}">AI datacentre countries this index covers</a>.</p>
 </article>`;
 
   const jsonld = [{
@@ -332,10 +333,11 @@ export function renderIndex(ctx) {
 </li>`).join('');
   const main = `${STYLE}
 <article class="fc prose">
-  <p class="fc__k"><a href="${esc(ctx.href('/world.html'))}">World</a> · Countries</p>
+  <p class="fc__k"><a href="${esc(ctx.href('/world.html'))}">World</a> · Countries · <a href="${esc(ctx.href('/countries.html'))}">Countries hub</a></p>
   <h1>Datacentres mapped by country</h1>
   <p class="fc__lede">A country earns a page when OpenStreetMap has at least ${COUNTRY_INDEX_MIN} datacentre sites mapped there, ${esc(qualifier)}. Fewer than that stays on the <a href="${esc(ctx.href('/world.html'))}">world map</a> only. ${esc(copy.what_zero_means || 'A country with no mapped datacentre is a country nobody has mapped.')}</p>
   ${rows ? `<ol class="fc__list">${rows}</ol>` : '<p>No country clears the gate in this file.</p>'}
+  <p class="fresh__key">Search-shaped directory: <a href="${esc(ctx.href('/countries.html'))}">AI datacentre countries this index covers</a>.</p>
 </article>`;
   return page({
     ctx,
@@ -367,6 +369,69 @@ export function renderIndex(ctx) {
   });
 }
 
+/**
+ * Head-term /countries hub. Same gated country set as /country/, different
+ * title and lede for “AI countries” / datacentre-directory queries — mapped
+ * site counts only, not a national AI ranking or doom score.
+ */
+export function renderCountries(ctx) {
+  const countries = indexableCountries(ctx);
+  const copy = (ctx.world && ctx.world.copy) || {};
+  const qualifier = String(copy.headline_qualifier || 'as mapped in OpenStreetMap');
+  const path = '/countries.html';
+  const title = `AI datacentre countries this index covers · ${brand.NAME}`;
+  const description = clip(
+    `${countries.length} countries with mapped datacentre hubs on ${brand.NAME}. Each row links /country pages — OpenStreetMap site counts only, not a national AI ranking.`,
+    160,
+  );
+  const rows = countries.map((c) => `<li>
+  <a href="${esc(ctx.href(countryPath(c.iso2)))}">${esc(c.name)}</a>
+  <span class="fc__meta">${esc(c.iso2)}${c.continent ? ` · ${esc(c.continent)}` : ''} · <span class="num">${esc(n(c.total))}</span> mapped sites</span>
+</li>`).join('');
+  const main = `${STYLE}
+<article class="fc prose">
+  <p class="fc__k"><a href="${esc(ctx.href('/compare.html'))}">Compare</a> · <a href="${esc(ctx.href('/country/'))}">Countries</a> · Countries hub</p>
+  <h1>AI datacentre countries this index covers</h1>
+  <p class="fc__lede">${esc(brand.NAME)} does not publish a country “doom score” or a national AI ranking. It publishes mapped datacentre counts ${esc(qualifier)}. This page lists countries that already clear the same substance gate as <a href="${esc(ctx.href('/country/'))}">/country/</a> — at least ${COUNTRY_INDEX_MIN} sites in the OpenStreetMap harvest.</p>
+  <div class="fc__stat" role="group" aria-label="Countries hub totals">
+    <div><b class="num">${esc(n(countries.length))}</b><span>Country hubs</span></div>
+  </div>
+  ${countries.length ? `<ol class="fc__list">${rows}</ol>` : '<p>No country hub cleared the gate in this build.</p>'}
+  <p class="fresh__key"><a href="${esc(ctx.href('/country/'))}">Country directory →</a>
+     · <a href="${esc(ctx.href('/world.html'))}">World map →</a>
+     · <a href="${esc(ctx.href('/companies.html'))}">AI companies →</a>
+     · <a href="${esc(ctx.href('/pillars.html'))}">AI pillars →</a></p>
+</article>`;
+  return page({
+    ctx,
+    path,
+    title,
+    description,
+    noindex: countries.length === 0,
+    jsonld: [{
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      name: title,
+      url: ctx.url(path),
+      description,
+      mainEntity: {
+        '@type': 'ItemList',
+        numberOfItems: countries.length,
+        itemListElement: countries.map((c, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          url: ctx.url(countryPath(c.iso2)),
+          name: c.name,
+        })),
+      },
+    }, breadcrumbs(ctx, [
+      { name: 'Compare', path: '/compare.html' },
+      { name: 'Countries', path },
+    ])],
+    main,
+  });
+}
+
 /** Sitemap rows for the country index and each country that clears the gate. */
 export function sitemapEntries(ctx) {
   if (!ctx.routes || !ctx.routes.world || !ctx.world) return [];
@@ -375,6 +440,7 @@ export function sitemapEntries(ctx) {
   const last = ctx.world.generated_at || (ctx.state && ctx.state.generated_at);
   return [
     { loc: '/country/', changefreq: 'weekly', priority: '0.6', lastmod: last },
+    { loc: '/countries.html', changefreq: 'weekly', priority: '0.75', lastmod: last },
     ...countries.map((c) => ({
       loc: countryPath(c.iso2),
       changefreq: 'weekly',

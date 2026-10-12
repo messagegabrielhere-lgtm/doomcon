@@ -8,6 +8,8 @@ import {
   indexableCountries,
   itemMatchesCountry,
   renderCountry,
+  renderCountries,
+  renderIndex,
   sitemapEntries,
 } from './countryPages.mjs';
 
@@ -73,10 +75,23 @@ describe('country pages', () => {
     assert.equal(COUNTRY_INDEX_MIN, 3);
     const locs = sitemapEntries(ctx).map((e) => e.loc);
     assert.ok(locs.includes('/country/'));
+    assert.ok(locs.includes('/countries.html'));
     assert.ok(locs.includes('/country/de.html'));
     assert.ok(locs.includes('/country/us.html'));
     assert.ok(!locs.includes('/country/li.html'));
     assert.equal(countryPath('DE'), '/country/de.html');
+  });
+
+  it('ships /countries.html over the same gated country set', () => {
+    const html = renderCountries(ctx);
+    assert.match(html, /AI datacentre countries this index covers/);
+    assert.match(html, /\/country\/de\.html/);
+    assert.match(html, /does not publish a country/);
+    assert.match(html, /\/world\.html/);
+    assert.match(renderIndex(ctx), /\/countries\.html/);
+    assert.match(renderCountry(ctx, 'de'), /\/countries\.html/);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
+    assert.doesNotMatch(html, /the number of datacentres in the world/i);
   });
 
   it('renders the mapped count and does not claim a census of datacentres', () => {

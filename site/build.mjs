@@ -740,6 +740,9 @@ async function writeModelAndCountryPages(ctx, outDir, write, written) {
       written.push(await write(outDir, `country/${String(country.iso2).toLowerCase()}.html`, countryPages.renderCountry(ctx, country.iso2)));
     }
     written.push(await write(outDir, 'country/index.html', countryPages.renderIndex(ctx)));
+    if (countryPages.indexableCountries(ctx).length) {
+      written.push(await write(outDir, 'countries.html', countryPages.renderCountries(ctx)));
+    }
   }
 }
 
@@ -1537,7 +1540,7 @@ async function main() {
       if (leaders) written.push(await write(args.out, 'api/leaders.json', stableJson(leaders)));
     }
     await writeDirectoryAliases(args.out, [
-      'news', 'leaders', 'companies', 'models', 'pillars',
+      'news', 'leaders', 'companies', 'models', 'pillars', 'countries',
       ...brand.PILLARS.map((p) => `pillar/${p.id}`),
       ...(facetPages.indexablePillars(ctx).length ? ['pillar'] : []),
       ...facetPages.indexableLabs(ctx).map((p) => `lab/${p.id}`),
@@ -1928,7 +1931,7 @@ async function main() {
       'bets', 'privacy', 'terms', 'disclosures', 'feedback', 'sponsor', 'instruments',
       'p-doom', 'ai-doomsday-clock', 'arena', 'scanner', 'monitor', 'elon',
       'game', 'bunker-kit', 'alerts', 'export', 'moltbook', 'staff', 'careers',
-      'agents', 'tally', 'changelog', 'live', 'compare', 'alternatives', 'companies', 'models', 'pillars',
+      'agents', 'tally', 'changelog', 'live', 'compare', 'alternatives', 'companies', 'models', 'pillars', 'countries',
       ...comparePages.RIVALS.map((r) => r.path.replace(/^\//, '').replace(/\.html$/, '')),
       ...brand.PILLARS.map((p) => `pillar/${p.id}`),
       ...(facetPages.indexablePillars(ctx).length ? ['pillar'] : []),
