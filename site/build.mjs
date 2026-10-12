@@ -38,6 +38,7 @@ import * as featurePages from './templates/featurePages.mjs';
 import * as agentPages from './templates/agentPages.mjs';
 import * as mediaPages from './templates/mediaPages.mjs';
 import * as moltbookPage from './templates/moltbookPage.mjs';
+import * as evolutionPage from './templates/evolutionPage.mjs';
 import * as livePage from './templates/livePage.mjs';
 import * as siWatchPage from './templates/siWatchPage.mjs';
 import * as wafflePage from './templates/wafflePage.mjs';
@@ -1588,6 +1589,13 @@ async function main() {
     written.push(await write(args.out, 'agents.html', agentPages.agents(ctx, molt)));
     let mh = []; try { mh = (await readFile(path.join(args.data, 'moltbook-history.ndjson'), 'utf8')).trim().split('\n').filter(Boolean).map((l) => JSON.parse(l)); } catch { mh = []; }
     written.push(await write(args.out, 'moltbook.html', moltbookPage.render(ctx, molt, mh)));
+    // /evolution.html: the append-only watch log, desk picks, daily readings and
+    // Moltbook themes side by side. Optional input: absent log -> still builds.
+    {
+      let wlog = null;
+      try { wlog = JSON.parse(await readFile(path.join(args.data, 'watch-log.json'), 'utf8')); } catch { wlog = null; }
+      if (evolutionPage.hasEvolution(ctx, wlog, mh)) written.push(await write(args.out, 'evolution.html', evolutionPage.render(ctx, wlog, mh)));
+    }
     let sig = null, sh = [];
     try { sig = JSON.parse(await readFile(path.join(args.data, 'si-signals.json'), 'utf8')); } catch { sig = null; }
     try { sh = (await readFile(path.join(args.data, 'si-signals-history.ndjson'), 'utf8')).trim().split('\n').filter(Boolean).map((l) => JSON.parse(l)); } catch { sh = []; }
