@@ -3,6 +3,10 @@
 **Measured:** 2026-10-10 (live HTTP fetches). Companion to `docs/COMPETITIVE.md`
 (Sept inventory) and `docs/FINDABILITY.md` (our playbook).
 
+**Daily re-measure:** `node collector/tools/seo-daily.mjs` (see
+`docs/FINDABILITY.md` §4). Refresh the scoreboard table below when the tool
+shows a material move; do not invent counts by hand.
+
 Goal: copy *mechanics that move organic search*, not their claims. Head-term
 hijacks we cannot honestly answer stay refused (`CONTRACT.md`, `VOICE.md`).
 

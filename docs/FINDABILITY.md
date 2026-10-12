@@ -261,7 +261,36 @@ context.
 
 ---
 
-## 4. Weekly loop (add to the VIRAL.md Monday review)
+## 4. Daily SEO agent loop
+
+A recurring Cursor Cloud Agent timer runs this playbook every day (15:00 UTC,
+after `post-daily`). The durable command it starts from:
+
+```bash
+node collector/tools/seo-daily.mjs           # human scoreboard
+node collector/tools/seo-daily.mjs --json    # machine report + gaps[]
+node collector/tools/seo-daily.mjs --selftest
+```
+
+Each daily pass:
+
+1. Run `seo-daily.mjs` — re-measure siren.watch vs pizzint / DoomBench / Skynet /
+   pdoom / takeofftracker (sitemap counts, news sitemap, home title, schema,
+   `llms.txt`, our findability surfaces).
+2. Scan for **new search trends** we can honestly answer (activity tempo, not
+   doom probability). Prefer head terms already in `COMPETITIVE-SEO.md` /
+   conquest pages over synonym doorway farms.
+3. Ship **one** concrete improvement: gated URL facet, title/description fix,
+   schema that matches visible HTML, internal links, or conquest/evergreen copy.
+   Open a PR. Update the live scoreboard paragraph in `COMPETITIVE-SEO.md` when
+   rival numbers move.
+4. Refuse: keyword stuffing, thin synonym doorways, future-tense doom claims,
+   schema that does not match on-page text (`VOICE.md`, `CONTRACT.md`, §3.3).
+
+Success metric stays **indexed pages + honest head-term clicks**, not raw
+sitemap vanity (`COMPETITIVE.md` Phase 2).
+
+## 5. Weekly loop (add to the VIRAL.md Monday review)
 
 1. Search Console: indexed pages, impressions, clicks; note branded vs head-term.
 2. Crawl a sample of new `/item/` URLs — title, description, canonical, JSON-LD valid.
@@ -271,7 +300,7 @@ context.
 
 ---
 
-## 5. Sources
+## 6. Sources
 
 | Claim | Source | Read |
 |---|---|---|
