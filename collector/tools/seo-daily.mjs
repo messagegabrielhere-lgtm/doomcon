@@ -45,6 +45,7 @@ export const OUR_SURFACES = Object.freeze([
   '/alternatives.html',
   // Conquest + entity hubs shipped in-repo; flag until gh-pages deploy catches up.
   '/vs.html',
+  '/vs/takeofftracker.html',
   '/guides.html',
   '/guides.md',
   '/tags.html',
@@ -128,9 +129,71 @@ export function hasNoindex(html) {
     || /<meta[^>]+content=["'][^"']*noindex[^"']*["'][^>]+name=["']robots["']/i.test(String(html || ''));
 }
 
+/** Conservative floor when facet sitemap modules cannot be loaded. */
+export const FACET_URL_FLOOR = 450;
+
+/**
+ * Count gated facet / hub sitemap rows this tree would emit (tags, labs,
+ * outlets, people, days, conquest, …). Falls back to null on import/data miss.
+ */
+export async function countLocalFacetUrls(root = ROOT) {
+  try {
+    const news = JSON.parse(await readFile(path.join(root, 'data/news.json'), 'utf8'));
+    const arch = JSON.parse(await readFile(path.join(root, 'data/item-archive.json'), 'utf8'));
+    const race = JSON.parse(await readFile(path.join(root, 'data/race.json'), 'utf8'));
+    const state = JSON.parse(await readFile(path.join(root, 'data/state.json'), 'utf8'));
+    let leaders = null;
+    let leadersCoverage = null;
+    try {
+      leaders = JSON.parse(await readFile(path.join(root, 'data/leaders.json'), 'utf8'));
+      leadersCoverage = JSON.parse(await readFile(path.join(root, 'data/leaders-coverage.json'), 'utf8'));
+    } catch {
+      /* people hubs stay empty without leaders */
+    }
+    const ctx = {
+      news,
+      itemArchive: Array.isArray(arch.items) ? arch.items : [],
+      race,
+      state,
+      leaders,
+      leadersCoverage,
+      href: (p) => p,
+      url: (p) => `https://siren.watch${p === '/' ? '/' : p}`,
+      cardFor: () => null,
+    };
+    const site = path.join(root, 'site/templates');
+    const load = async (file, name) => {
+      const mod = await import(pathToFileURL(path.join(site, file)).href);
+      return mod[name];
+    };
+    const [
+      tagEntries, facetEntries, modelEntries, compareEntries,
+      peopleEntries, countryEntries, kindEntries, outletEntries, dayEntries,
+    ] = await Promise.all([
+      load('tagPages.mjs', 'sitemapEntries'),
+      load('facetPages.mjs', 'sitemapEntries'),
+      load('modelPages.mjs', 'sitemapEntries'),
+      load('comparePages.mjs', 'sitemapEntries'),
+      load('peoplePages.mjs', 'sitemapEntries'),
+      load('countryPages.mjs', 'sitemapEntries'),
+      load('kindPages.mjs', 'sitemapEntries'),
+      load('outletPages.mjs', 'sitemapEntries'),
+      load('dayPages.mjs', 'sitemapEntries'),
+    ]);
+    const parts = [
+      tagEntries(ctx), facetEntries(ctx), modelEntries(ctx), compareEntries(ctx),
+      peopleEntries(ctx), countryEntries(ctx), kindEntries(ctx), outletEntries(ctx),
+      dayEntries(ctx),
+    ];
+    return parts.reduce((n, rows) => n + (Array.isArray(rows) ? rows.length : 0), 0);
+  } catch {
+    return null;
+  }
+}
+
 /**
  * Estimate sitemap URLs this tree can publish once collect.yml rebuilds
- * gh-pages: live news items + durable archive + a conservative facet floor.
+ * gh-pages: live news items + durable archive + gated facets.
  * Pure filesystem peek — no network.
  */
 export async function readLocalReadyUrls(root = ROOT) {
@@ -140,15 +203,15 @@ export async function readLocalReadyUrls(root = ROOT) {
     const live = Array.isArray(news.items) ? news.items.length : 0;
     const archived = Array.isArray(arch.items) ? arch.items.length : 0;
     if (!live && !archived) return null;
-    // Facets/moves/head pages currently land ~400–500 beside the item long-tail
-    // (outlet archive gate alone adds ~60–70 publisher hubs).
-    // Hubs + gated facets (tags/labs/outlets/vs/…); keep a conservative floor so
-    // deploy-pending stays honest as the vocabulary grows.
-    const facetFloor = 450;
+    // Prefer a live count of gated facet sitemap rows; never drop below the
+    // floor so deploy-pending stays honest if a module fails to load.
+    const counted = await countLocalFacetUrls(root);
+    const facets = Math.max(FACET_URL_FLOOR, Number.isFinite(counted) ? counted : 0);
     return {
       live,
       archived,
-      estimated_sitemap: live + archived + facetFloor,
+      facets,
+      estimated_sitemap: live + archived + facets,
     };
   } catch {
     return null;
@@ -394,7 +457,7 @@ export function formatMarkdown(report) {
     lines.push('');
     lines.push(
       `## Local tree (pre-deploy)\n\n- Ready estimate **~${L.estimated_sitemap}** sitemap URLs `
-      + `(live news ${L.live} + item-archive ${L.archived} + ~${Number.isFinite(L.estimated_sitemap) && Number.isFinite(L.live) && Number.isFinite(L.archived) ? L.estimated_sitemap - L.live - L.archived : 450} facets)`,
+      + `(live news ${L.live} + item-archive ${L.archived} + ~${Number.isFinite(L.facets) ? L.facets : (Number.isFinite(L.estimated_sitemap) && Number.isFinite(L.live) && Number.isFinite(L.archived) ? L.estimated_sitemap - L.live - L.archived : FACET_URL_FLOOR)} facets)`,
     );
   }
   lines.push('');

@@ -845,4 +845,44 @@ describe('tag pages', () => {
     assert.match(renderTag(rich, 'alignment'), /AI alignment: AI stories this index scored/);
     assert.doesNotMatch(renderTag(rich, 'alignment'), /doom score/i);
   });
+
+  it('pages world-action, embodied, TTS, and ASR hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('wa1', 'World-action model for robot manipulation'),
+          story('wa2', 'World Action Models vs VLAs'),
+          story('wa3', 'Latent world-action model on edge devices'),
+          story('wa4', 'JEPA world action model with MPC'),
+          story('wa5', 'Compositional world-action model paper'),
+          story('em1', 'Embodied AI push into robotics startups'),
+          story('em2', 'Continual learning for embodied agents'),
+          story('em3', 'Long-horizon embodied agents control'),
+          story('em4', 'Embodied intelligence navigation model'),
+          story('em5', 'Self-evolving embodied AI benchmark'),
+          story('tt1', 'Open text-to-speech leaderboard'),
+          story('tt2', 'Distilling a text-to-speech model'),
+          story('tt3', 'Zero-shot text-to-speech accent control'),
+          story('tt4', 'ElevenLabs voice clone update'),
+          story('tt5', 'Speech synthes recipe for Turkish TTS'),
+          story('as1', 'Low-resource ASR augmentation costs'),
+          story('as2', 'Introducing Falcon ASR'),
+          story('as3', 'Speech-to-text in 16 MB'),
+          story('as4', 'Automatic speech recognition for dialects'),
+          story('as5', 'Cascaded voice agent ASR latency'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    for (const id of ['world-action', 'embodied', 'tts', 'asr']) {
+      assert.ok(ids.includes(id), id);
+    }
+    assert.match(renderTag(rich, 'world-action'), /World-action models: AI stories this index scored/);
+    assert.match(renderTag(rich, 'embodied'), /Embodied AI: AI stories this index scored/);
+    assert.match(renderTag(rich, 'tts'), /Text-to-speech: AI stories this index scored/);
+    assert.match(renderTag(rich, 'asr'), /Speech recognition: AI stories this index scored/);
+    assert.doesNotMatch(renderTag(rich, 'embodied'), /doom score/i);
+  });
 });

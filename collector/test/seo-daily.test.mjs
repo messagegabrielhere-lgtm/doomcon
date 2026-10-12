@@ -11,11 +11,15 @@ import {
   formatMarkdown,
   OPEN_ENGINEERING,
   OUR_SURFACES,
+  FACET_URL_FLOOR,
+  countLocalFacetUrls,
+  readLocalReadyUrls,
 } from '../tools/seo-daily.mjs';
 
 describe('seo-daily parsers', () => {
   it('monitors conquest and entity hub surfaces until deploy catches up', () => {
     assert.ok(OUR_SURFACES.includes('/vs.html'));
+    assert.ok(OUR_SURFACES.includes('/vs/takeofftracker.html'));
     assert.ok(OUR_SURFACES.includes('/guides.html'));
     assert.ok(OUR_SURFACES.includes('/guides.md'));
     assert.ok(OUR_SURFACES.includes('/tags.html'));
@@ -135,5 +139,17 @@ describe('seo-daily measure + gaps', () => {
     assert.match(md, /SEO scoreboard/);
     assert.match(md, /\*\*siren\.watch\*\*/);
     assert.match(md, /example/);
+  });
+
+  it('counts local facet sitemap rows and keeps a floor on the ready estimate', async () => {
+    assert.equal(FACET_URL_FLOOR, 450);
+    const facets = await countLocalFacetUrls();
+    assert.ok(Number.isFinite(facets) && facets >= 300, `facet count ${facets}`);
+    const ready = await readLocalReadyUrls();
+    assert.ok(ready);
+    assert.ok(ready.live >= 100);
+    assert.ok(ready.archived >= 1000);
+    assert.ok(ready.facets >= FACET_URL_FLOOR);
+    assert.equal(ready.estimated_sitemap, ready.live + ready.archived + ready.facets);
   });
 });

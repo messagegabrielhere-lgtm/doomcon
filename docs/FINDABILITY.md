@@ -303,6 +303,7 @@ context.
 | 70 | Entity labs CoreWeave / Qualcomm / Tesla / Waymo / Micron / TSMC (`/lab/*`, live/archive ≥3 gate) | Google | **Done** (2026-10-12) |
 | 71 | `/vs/takeofftracker.html` conquest + compare/alternatives/vs hub wiring (seo-daily rival) | Google | **Done** (2026-10-12) |
 | 72 | Topic tags `coding-agents` + `agentic-workflow` + `leaderboard` + `alignment`; entity lab Physical Intelligence | Google | **Done** (2026-10-12) |
+| 73 | Topic tags `world-action` + `embodied` + `tts` + `asr`; seo-daily counts real facet sitemap rows + monitors `/vs/takeofftracker.html` | Google | **Done** (2026-10-12) |
 
 ### 3.3 Refusals (search edition)
 

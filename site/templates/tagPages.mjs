@@ -619,6 +619,30 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'AI-alignment research and plan stories scored in the newsroom or archive — coverage counts, not a safety score.',
     match: /\b(ai alignment|alignment plans?|model alignment|alignment research|alignment forum|alignment leaderboard)\b/i,
   },
+  {
+    id: 'world-action',
+    name: 'World-action models',
+    description: 'World-action model and WAM robotics stories scored in the newsroom or archive — method coverage, not a robotics forecast.',
+    match: /\bworld[- ]action\b/i,
+  },
+  {
+    id: 'embodied',
+    name: 'Embodied AI',
+    description: 'Embodied-AI and embodied-agent stories scored in the newsroom or archive — coverage counts, not a capability forecast.',
+    match: /\bembodied (?:ai|intelligence|agents?)\b/i,
+  },
+  {
+    id: 'tts',
+    name: 'Text-to-speech',
+    description: 'Text-to-speech product and research stories scored in the newsroom or archive — coverage counts, not a product score.',
+    match: /\b(text[- ]to[- ]speech|elevenlabs|speech synthes)\b/i,
+  },
+  {
+    id: 'asr',
+    name: 'Speech recognition',
+    description: 'ASR and speech-to-text stories scored in the newsroom or archive.',
+    match: /\b(speech[- ]to[- ]text|\basr\b|automatic speech recognition)\b/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));
