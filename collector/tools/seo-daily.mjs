@@ -56,10 +56,18 @@ export function isSitemapIndex(xml) {
   return /<sitemapindex[\s>]/i.test(String(xml || ''));
 }
 
-/** First <title> text, collapsed whitespace. Empty string when missing. */
+/** First <title> text, collapsed whitespace + common entities. Empty when missing. */
 export function extractTitle(html) {
   const m = String(html || '').match(/<title[^>]*>([^<]*)<\/title>/i);
-  return m ? m[1].replace(/\s+/g, ' ').trim() : '';
+  if (!m) return '';
+  return m[1]
+    .replace(/\s+/g, ' ')
+    .trim()
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;|&apos;/g, "'");
 }
 
 /** Unique @type values from application/ld+json blocks (string or array). */
