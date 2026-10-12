@@ -925,6 +925,42 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'Scaling-laws research stories scored in the newsroom or archive — method coverage, not a forecast.',
     match: /\bscaling laws?\b/i,
   },
+  {
+    id: 'ai-assistants',
+    name: 'AI assistants',
+    description: 'AI-assistant product stories scored in the newsroom or archive — coverage counts, not a product score.',
+    match: /\bai assistants?\b/i,
+  },
+  {
+    id: 'code-generation',
+    name: 'Code generation',
+    description: 'Code-generation model stories scored in the newsroom or archive — coverage counts, not a capability forecast.',
+    match: /\bcode generat(?:ion|ors?|e[sd]?)\b/i,
+  },
+  {
+    id: 'linear-attention',
+    name: 'Linear attention',
+    description: 'Linear-attention research stories scored in the newsroom or archive — method coverage, not a capability forecast.',
+    match: /\blinear attention\b/i,
+  },
+  {
+    id: 'state-space-models',
+    name: 'State-space models',
+    description: 'State-space model (SSM) research stories scored in the newsroom or archive — method coverage, not a capability forecast.',
+    match: /\b(state[- ]space models?|\bssms?\b)\b/i,
+  },
+  {
+    id: 'ai-factories',
+    name: 'AI factories',
+    description: 'AI-factory infrastructure stories scored in the newsroom or archive — coverage counts, not a capacity forecast.',
+    match: /\bai factor(?:y|ies)\b/i,
+  },
+  {
+    id: 'multimodal-reasoning',
+    name: 'Multimodal reasoning',
+    description: 'Multimodal-reasoning research stories scored in the newsroom or archive — method coverage, not a capability forecast.',
+    match: /\bmultimodal reasoning\b/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));

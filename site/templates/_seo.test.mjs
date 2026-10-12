@@ -68,6 +68,8 @@ describe('IndexNow', () => {
     assert.ok(has('https://siren.watch/tags/generative-ai.html'));
     assert.ok(has('https://siren.watch/tags/reinforcement-learning.html'));
     assert.ok(has('https://siren.watch/tags/scaling-laws.html'));
+    assert.ok(has('https://siren.watch/tags/ai-assistants.html'));
+    assert.ok(has('https://siren.watch/tags/ai-factories.html'));
   });
 
   it('Organization knowsAbout head terms Google and assistants ask', () => {

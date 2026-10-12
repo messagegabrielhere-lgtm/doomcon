@@ -1263,4 +1263,59 @@ describe('tag pages', () => {
     assert.match(renderTag(rich, 'scaling-laws'), /Scaling laws: AI stories this index scored/);
     assert.doesNotMatch(renderTag(rich, 'scaling-laws'), /doom score/i);
   });
+
+  it('pages AI assistants, code-generation, linear-attention, SSM, AI factories, multimodal reasoning', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('aa1', 'Enterprise AI assistants reach production desks'),
+          story('aa2', 'AI assistants for customer support roll out'),
+          story('aa3', 'Voice AI assistants expand in healthcare'),
+          story('aa4', 'On-device AI assistants ship on phones'),
+          story('aa5', 'Open-source AI assistants gain traction'),
+          story('cg1', 'Code generation models for enterprise IDEs'),
+          story('cg2', 'Benchmarking code generation quality'),
+          story('cg3', 'Secure code generation pipelines'),
+          story('cg4', 'Multilingual code generation survey'),
+          story('cg5', 'Code generators for legacy migration'),
+          story('la1', 'Linear attention for long sequences'),
+          story('la2', 'Efficient linear attention kernels'),
+          story('la3', 'Linear attention vs softmax attention'),
+          story('la4', 'Scaling linear attention transformers'),
+          story('la5', 'Hardware-aware linear attention'),
+          story('ssm1', 'Selective state space models for audio'),
+          story('ssm2', 'State space models for long context'),
+          story('ssm3', 'Hybrid transformers with SSMs'),
+          story('ssm4', 'Training stable state-space models'),
+          story('ssm5', 'Vision backbones with state space models'),
+          story('af1', 'NVIDIA opens architecture for AI factories'),
+          story('af2', 'Modular data centers for AI factories'),
+          story('af3', 'Optics interconnects for AI factories'),
+          story('af4', 'Power planning for AI factories'),
+          story('af5', 'Regional alliances to build AI factories'),
+          story('mr1', 'Multimodal reasoning benchmarks for VLMs'),
+          story('mr2', 'Token-level multimodal reasoning rewards'),
+          story('mr3', 'Scaffolding multimodal reasoning representations'),
+          story('mr4', 'Physical multimodal reasoning tests'),
+          story('mr5', 'Antibody discovery via multimodal reasoning'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    for (const id of [
+      'ai-assistants', 'code-generation', 'linear-attention',
+      'state-space-models', 'ai-factories', 'multimodal-reasoning',
+    ]) {
+      assert.ok(ids.includes(id), id);
+    }
+    assert.match(renderTag(rich, 'ai-assistants'), /AI assistants: AI stories this index scored/);
+    assert.match(renderTag(rich, 'code-generation'), /Code generation: AI stories this index scored/);
+    assert.match(renderTag(rich, 'linear-attention'), /Linear attention: AI stories this index scored/);
+    assert.match(renderTag(rich, 'state-space-models'), /State-space models: AI stories this index scored/);
+    assert.match(renderTag(rich, 'ai-factories'), /AI factories: AI stories this index scored/);
+    assert.match(renderTag(rich, 'multimodal-reasoning'), /Multimodal reasoning: AI stories this index scored/);
+    assert.doesNotMatch(renderTag(rich, 'ai-factories'), /doom score/i);
+  });
 });

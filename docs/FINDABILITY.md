@@ -315,6 +315,7 @@ context.
 | 82 | Topic tags `reinforcement-learning` + `vision-language-action` + `flow-matching` + `text-to-image` + `imitation-learning` + `locomotion` | Google | **Done** (2026-10-12) |
 | 83 | News-sitemap `news:keywords` lab list expands (Huawei/Sony/Supermicro/IREN/OpenRouter/Reflection AI/Muse Wonder/Artificial Analysis) for Google News contest | Google News | **Done** (2026-10-12) |
 | 84 | Topic tags `self-supervised` + `latent-space` + `autoencoders` + `diffusion-transformer` + `scaling-laws`; IndexNow ALWAYS samples RL/VLA/self-supervised/DiT/scaling-laws | Google + Bing | **Done** (2026-10-12) |
+| 85 | Topic tags `ai-assistants` + `code-generation` + `linear-attention` + `state-space-models` + `ai-factories` + `multimodal-reasoning`; IndexNow ALWAYS samples assistants/code-gen/SSM/AI-factories | Google + Bing | **Done** (2026-10-12) |
 
 ### 3.3 Refusals (search edition)
 
