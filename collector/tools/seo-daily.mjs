@@ -174,7 +174,7 @@ export const OPEN_ENGINEERING = Object.freeze([
   {
     id: 'mobile-cwv',
     severity: 'low',
-    text: 'Mobile card view / less above-fold weight (FINDABILITY #10) still open',
+    text: 'Mobile card view still open (FINDABILITY #10); homepage below-fold content-visibility shipped — next is phone-width card deferral',
   },
   {
     id: 'gsc-verify',
