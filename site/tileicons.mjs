@@ -153,6 +153,14 @@ export const TILE_ICONS = {
   logbook: [{ a: '#A16207', b: '#FEF3C7', c: '#713F12', d: '#4ADE80', e: '#94A3B8' }, [
     '................', '..aaaaaaaaaaa...', '..abbbbbbbbbac..', '..abddbbbbbbac..', '..abbbbbbbbbac..', '..abeeeeeebbac..', '..abbbbbbbbbac..', '..abeeeebbbbac..',
     '..abbbbbbbbbac..', '..abeeeeeebbac..', '..abbbbbbbbbac..', '..abeeebbbbbac..', '..abbbbbbbbbac..', '..aaaaaaaaaaac..', '...cccccccccc...', '................']],
+  // SIREN Labs: a flask on the bench.
+  flask: [{ a: '#CBD5E1', b: '#64748B', c: '#22D3EE', d: '#ECFEFF' }, [
+    '......aaaa......', '......abba......', '.......bb.......', '.......bb.......', '.......bb.......', '......abba......', '.....ab..ba.....', '.....a....a.....',
+    '....a......a....', '....a.cccc.a....', '...a.cccdcc.a...', '...acccccdcca...', '..accdcccccca...', '..acccccdccca...', '...aaaaaaaaaa...', '................']],
+  // SIREN Labs (What’s New): a bubbling beaker.
+  beaker: [{ a: '#CBD5E1', c: '#4ADE80', d: '#DCFCE7' }, [
+    '................', '..aaaaaaaaaaa...', '..a.........a...', '...a.......a....', '...a.......a....', '...a..d....a....', '...a.......a....', '...a...d.d.a....',
+    '...acccccccaa...', '...acccdcccca...', '...accccccdca...', '...acdccccccaa..', '...acccccdcca...', '...accccccccc...', '....aaaaaaaa....', '................']],
 };
 
 export function tileSvg(name, bg = '#0B1220') {

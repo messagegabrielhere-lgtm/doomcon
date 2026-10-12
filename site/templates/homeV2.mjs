@@ -193,6 +193,7 @@ export function roomGroups(ctx) {
       ['/library.html', 'books', 'Reading List', null, 'Books from every side of the AI argument.'],
     ]],
     ['THE RECORD', [
+      ['/labs.html', 'px:flask', 'SIREN Labs', 'NEW', 'Four or five new experiments in measuring superintelligence, every week.'],
       ['/search.html', 'px:search', 'Search', 'NEW', 'Search every room, story, video, leader and dataset.'],
       ['/catalog.html', 'px:catalog', 'Catalog', 'NEW', 'Everything on the site, in one browsable directory.'],
       ['/ai-doomsday-clock.html', 'clock', 'The Clock', null, 'The reading as a clock face you can verify.'],

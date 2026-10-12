@@ -22,6 +22,7 @@ export const PRIMARY = [
   ['/race.html', 'Race'],
   ['/news.html', 'News'],
   ['/games.html', 'Games'],
+  ['/labs.html', 'Labs'],
   ['/leaders.html', 'Leaders'],
   ['/monitor.html', 'Monitor'],
   ['/dispatch.html', 'Dispatch'],
@@ -34,6 +35,7 @@ export const PRIMARY = [
 // at the top of the room finder and as a strip on the homepage. Newest first;
 // keep it to about six so it stays a highlight reel, not a second menu.
 export const WHATS_NEW = [
+  ['/labs.html', 'px:beaker', 'SIREN Labs', 'This week’s experiments in measuring superintelligence.'],
   ['/games.html', 'px:joystick', 'The Arcade', 'Every SIREN game in one place, one click from any page.'],
   ['/evolution.html', 'px:logbook', 'The Evolution Log', 'Every reading, news pick and Moltbook scan, kept day by day.'],
   ['/charts.html', 'px:trendchart', 'This week in charts', 'Live AI odds, the SIREN trend and the power race, each with an X post.'],
@@ -181,6 +183,7 @@ export const RAIL = [
   ['/threats.html', 'px:threatshield', 'Threat board'],
   ['/charts.html', 'px:trendchart', 'Charts'],
   ['/waffle.html', 'px:waffle', 'Waffle House Index'],
+  ['/labs.html', 'px:flask', 'SIREN Labs'],
   '|PLAY',
   ['/games.html', 'px:arcade', 'All games'],
   ['/contain.html', 'px:core', 'Containment (arcade)'],
