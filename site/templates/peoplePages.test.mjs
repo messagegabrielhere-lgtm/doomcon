@@ -1,8 +1,10 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
+import { render as renderItem } from './itemPage.mjs';
 import {
   PEOPLE_INDEX_MIN,
   indexablePeople,
+  peopleForItem,
   peoplePath,
   personIndexable,
   renderPerson,
@@ -75,5 +77,26 @@ describe('people pages', () => {
     assert.match(html, /never writes a quotation/i);
     assert.doesNotMatch(html, /noindex/);
     assert.doesNotMatch(html, /doom score/i);
+  });
+
+  it('links indexable people from story pages on a full-name match only', () => {
+    ctx.leaders.leaders.push(leader('karp', 'Alex Karp', { headlines: 3, week: 8 }));
+    const item = {
+      id: 's1',
+      title: 'Sam Altman met reporters about compute',
+      // Surname overlap trap: "Karpathy" must not light up the Alex Karp page.
+      summary: 'Andrej Karpathy was not in the room.',
+      entities: [],
+      pillar: 'attention',
+      source: 'hn',
+      url: 'https://example.test/s1',
+      published_at: '2026-10-10T01:00:00Z',
+      score: 40,
+    };
+    const names = peopleForItem(ctx, item).map((p) => p.id).sort();
+    assert.deepEqual(names, ['altman']);
+    const html = renderItem({ ...ctx, news: { generated_at: ctx.state.generated_at, items: [item] } }, item);
+    assert.match(html, /href="\/people\/altman\.html"/);
+    assert.doesNotMatch(html, /\/people\/karp\.html/);
   });
 });

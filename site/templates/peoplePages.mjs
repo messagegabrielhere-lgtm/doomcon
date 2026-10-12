@@ -87,6 +87,21 @@ export function personById(ctx, id) {
   return leadersList(ctx).find((l) => l && String(l.id).toLowerCase() === key) || null;
 }
 
+/**
+ * Indexable people whose full name appears in a story title/summary.
+ * Full-name match only (word boundaries) so "Karpathy" does not light up "Karp".
+ */
+export function peopleForItem(ctx, item) {
+  const hay = `${item?.title || ''} ${item?.summary || ''}`;
+  if (!hay.trim()) return [];
+  return indexablePeople(ctx).filter((person) => {
+    const name = String(person.name || '').trim();
+    if (name.length < 4) return false;
+    const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    return new RegExp(`(?<![A-Za-z0-9])${escaped}(?![A-Za-z0-9])`, 'i').test(hay);
+  });
+}
+
 function faceBlock(leader) {
   const pid = personIdFor(leader.id);
   if (!pid) return '';

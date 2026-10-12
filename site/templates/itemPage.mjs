@@ -24,6 +24,7 @@ import { page } from './layout.mjs';
 import { breadcrumbs, speakable } from './_seo.mjs';
 import { modelIndexable, modelPath } from './modelPages.mjs';
 import { tagsForItem, tagPath } from './tagPages.mjs';
+import { peopleForItem, peoplePath } from './peoplePages.mjs';
 import * as brand from '../brand.mjs';
 import { sourceIndexable, sourceLabel, sourcePath } from './facetPages.mjs';
 
@@ -190,6 +191,13 @@ function topicLine(ctx, item) {
   return `<p class="it__src">Topics: ${bits.join(', ')}. A topic link means the title or summary matched a published needle with enough other stories to clear the tag gate.</p>`;
 }
 
+function peopleLine(ctx, item) {
+  const people = peopleForItem(ctx, item);
+  if (!people.length) return '';
+  const bits = people.map((p) => `<a href="${esc(ctx.href(peoplePath(p.id)))}">${esc(p.name)}</a>`);
+  return `<p class="it__src">People: ${bits.join(', ')}. A name link means the full name appears in the title or summary and that person already cleared the people-page coverage gate.</p>`;
+}
+
 export function render(ctx, item, related = []) {
   const meta = brand.pillarMeta ? brand.pillarMeta(item.pillar) : null;
   const pillarName = meta ? meta.name : (item.pillar || 'unclassified');
@@ -218,6 +226,7 @@ export function render(ctx, item, related = []) {
     · first seen by this index at <time datetime="${esc(firstSeen)}">${esc(utc(firstSeen))}</time>
   </p>
   ${namedLine(ctx, item)}
+  ${peopleLine(ctx, item)}
   ${topicLine(ctx, item)}
 
   <section class="it__s" aria-labelledby="it-score">

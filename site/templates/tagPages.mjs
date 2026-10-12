@@ -67,6 +67,24 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'Statutes, agencies, and executive actions that name AI rules.',
     match: /\b(regulat\w*|eu ai act|executive order|congress|legislation|ftc|ofcom|nist ai)\b/i,
   },
+  {
+    id: 'inference',
+    name: 'Inference & serving',
+    description: 'Serving stacks, inference cost, and deployment throughput named in headlines.',
+    match: /\b(inference|serving stack|vllm|tensorrt|tokens? per second)\b/i,
+  },
+  {
+    id: 'robotics',
+    name: 'AI robotics',
+    description: 'Robots and humanoids tied to frontier model labs or AI product news.',
+    match: /\b(robot(?:ics|s)?|humanoid|figure ai|boston dynamics)\b/i,
+  },
+  {
+    id: 'china',
+    name: 'China AI',
+    description: 'Stories that name China, Chinese labs, or PRC-linked AI companies in this window.',
+    match: /\b(china|chinese|beijing|shanghai|deepseek|alibaba|tencent|baidu)\b/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));
