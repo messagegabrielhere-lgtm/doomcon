@@ -1,10 +1,10 @@
 {
   "schema": 1,
-  "generated_at": "2026-10-12T12:47:46.078Z",
-  "news_generated_at": "2026-10-12T12:47:46.078Z",
+  "generated_at": "2026-10-12T12:53:12.048Z",
+  "news_generated_at": "2026-10-12T12:53:12.048Z",
   "matcher_version": "1.2.0",
   "window_days": 7,
-  "window_start": "2026-10-05T12:47:46.078Z",
+  "window_start": "2026-10-05T12:53:12.048Z",
   "rule": {
     "headline_only": true,
     "statement": "Only the headline is ever reproduced, exactly as the publication printed it. No quotation is generated, paraphrased, summarised or reconstructed anywhere in this file.",
@@ -141,7 +141,7 @@
     "scanned": 400,
     "max_items": 400,
     "window_binds": true,
-    "oldest_item_at": "2026-10-11T08:15:11.000Z",
+    "oldest_item_at": "2026-10-11T08:29:02.000Z",
     "newest_item_at": "2026-10-13T04:00:00.000Z",
     "named_without_cue": 5
   },
@@ -158,12 +158,12 @@
     "leaders": 20,
     "on_record": 4,
     "no_line": 16,
-    "lines": 7,
-    "distinct_items": 6,
+    "lines": 8,
+    "distinct_items": 7,
     "quiet": 16,
     "unreachable": 0,
     "no_sources": 4,
-    "press_lines": 5,
+    "press_lines": 6,
     "direct_lines": 2
   },
   "direct": {
@@ -188,14 +188,14 @@
     "source": "Google News search RSS (news.google.com/rss/search), one exact-phrase query per person",
     "is_statement": false,
     "means": "Stories in the press that mention the person, counted as distinct (title, outlet) pairs ever observed. Coverage is not a statement: it never puts anyone on the record, and only the outlet's own headline is shown.",
-    "generated_at": "2026-10-12T12:48:26.946Z",
+    "generated_at": "2026-10-12T12:53:21.803Z",
     "min_interval_minutes": 15,
     "days": 14,
     "ran": true,
-    "polled": 20,
+    "polled": 0,
     "leaders_with_data": 20,
     "leaders_dark": 0,
-    "total_24h": 120,
+    "total_24h": 119,
     "total_7d": 1387,
     "trend_means": "Week over week: this 7 days against the 7 before. Shown only once a full previous week has been observed; flat inside ±10% or ±2 stories.",
     "profile_source": "Wikipedia REST summary (en.wikipedia.org/api/rest_v1/page/summary), CC BY-SA 4.0, refreshed at most daily",
@@ -1314,7 +1314,7 @@
             "published_at": "2026-10-11T22:15:05.000Z"
           }
         ],
-        "count_24h": 11,
+        "count_24h": 10,
         "count_7d": 161,
         "count_prev_7d": null,
         "daily": [
@@ -3998,35 +3998,60 @@
         "Karpathy"
       ],
       "state": "on_record",
-      "count": 1,
+      "count": 2,
       "sources": [
-        "reddit-singularity"
+        "reddit-singularity",
+        "the-decoder"
       ],
       "latest": {
-        "item_id": "a57f06e1c11b696e",
-        "headline": "[Karpathy] gap in shared understanding of LLM capability is *widening*. It's now less \"two groups of people speaking past each other\" and more a sharp funnel",
-        "source": "reddit-singularity",
-        "kind": "forum",
-        "url": "https://reddit.com/r/singularity/comments/1x3krgr/karpathy_gap_in_shared_understanding_of_llm",
-        "published_at": "2026-10-11T21:59:52.000Z",
-        "score": 25,
+        "item_id": "d5d26011caeaf03d",
+        "headline": "Anthropic's Andrej Karpathy says \"the external world has seen the preview\" of what AI can actually do",
+        "source": "the-decoder",
+        "kind": "press",
+        "url": "https://the-decoder.com/anthropics-andrej-karpathy-says-the-external-world-has-seen-the-preview-of-what-ai-can-actually-do",
+        "published_at": "2026-10-12T12:51:21.000Z",
+        "score": 39.8,
         "pillar": "attention",
-        "matched_alias": "Karpathy",
-        "cue": "quoted text",
+        "matched_alias": "Andrej Karpathy",
+        "cue": "says",
         "cue_group": "core",
-        "cue_class": "quote",
-        "cue_text": "\"two groups of people speaking past each other\"",
+        "cue_class": "verb",
+        "cue_text": "says",
         "cues": [
           "quoted text",
-          "speaking"
+          "says"
         ],
         "corroboration": 1,
         "also_sources": [
-          "reddit-singularity"
+          "the-decoder"
         ],
         "via": "press"
       },
       "lines": [
+        {
+          "item_id": "d5d26011caeaf03d",
+          "headline": "Anthropic's Andrej Karpathy says \"the external world has seen the preview\" of what AI can actually do",
+          "source": "the-decoder",
+          "kind": "press",
+          "url": "https://the-decoder.com/anthropics-andrej-karpathy-says-the-external-world-has-seen-the-preview-of-what-ai-can-actually-do",
+          "published_at": "2026-10-12T12:51:21.000Z",
+          "score": 39.8,
+          "pillar": "attention",
+          "matched_alias": "Andrej Karpathy",
+          "cue": "says",
+          "cue_group": "core",
+          "cue_class": "verb",
+          "cue_text": "says",
+          "cues": [
+            "quoted text",
+            "says"
+          ],
+          "corroboration": 1,
+          "also_sources": [
+            "the-decoder"
+          ],
+          "via": "press"
+        },
         {
           "item_id": "a57f06e1c11b696e",
           "headline": "[Karpathy] gap in shared understanding of LLM capability is *widening*. It's now less \"two groups of people speaking past each other\" and more a sharp funnel",
@@ -4064,17 +4089,18 @@
       },
       "group": "on_record",
       "reason": null,
-      "press_count": 1,
+      "press_count": 2,
       "direct_count": 0,
       "press_sources": [
-        "reddit-singularity"
+        "reddit-singularity",
+        "the-decoder"
       ],
-      "last_statement_at": "2026-10-11T21:59:52.000Z",
+      "last_statement_at": "2026-10-12T12:51:21.000Z",
       "last_statement": {
-        "headline": "[Karpathy] gap in shared understanding of LLM capability is *widening*. It's now less \"two groups of people speaking past each other\" and more a sharp funnel",
-        "url": "https://reddit.com/r/singularity/comments/1x3krgr/karpathy_gap_in_shared_understanding_of_llm",
-        "source": "reddit-singularity",
-        "published_at": "2026-10-11T21:59:52.000Z",
+        "headline": "Anthropic's Andrej Karpathy says \"the external world has seen the preview\" of what AI can actually do",
+        "url": "https://the-decoder.com/anthropics-andrej-karpathy-says-the-external-world-has-seen-the-preview-of-what-ai-can-actually-do",
+        "source": "the-decoder",
+        "published_at": "2026-10-12T12:51:21.000Z",
         "via": "press",
         "remembered": false
       },
@@ -4693,5 +4719,5 @@
       }
     }
   ],
-  "fingerprint": "cf77ed38a30ac5db"
+  "fingerprint": "894e7700db73afd1"
 }
