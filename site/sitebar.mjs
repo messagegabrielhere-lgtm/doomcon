@@ -17,6 +17,7 @@ import { CANONICAL_URL } from './brand.mjs';
 import { XCOMPOSE_JS } from './xcompose.mjs';
 import { on as mzOn, sponsorLine, adSlot, AD_PAGES, MZ_CSS, MONETIZE, gtagHead, CONSENT_JS } from './monetize.mjs';
 import { HEADER_MARK, NAV_JS_PATH, headerHtml, relatedHtml, navJs } from './siteheader.mjs';
+import { securityHeadMeta, hasSecurityMeta } from './security.mjs';
 const BASE = new URL(CANONICAL_URL).pathname.replace(/\/$/, '');
 
 const MARK = 'data-sitebar';
@@ -314,6 +315,12 @@ export function stamp(html, asOf, rel = '') {
   const consent = ga ? `\n<script>${CONSENT_JS}</script>` : '';
   const radio = `\n<script src="${BASE}/media/radio.js" defer></script>\n<script src="${BASE}/media/guide.js" defer></script>`;
   let out = withHeader(html, rel);
+  // Browser security meta (CSP + referrer). Layout pages already carry it;
+  // static apps in site/static/ get it here so every shipped HTML file has
+  // the same baseline. GitHub Pages cannot set these as HTTP headers.
+  if (!hasSecurityMeta(out) && /<\/head>/i.test(out)) {
+    out = out.replace(/<\/head>/i, `${securityHeadMeta()}\n</head>`);
+  }
   // Google's gtag docs put the loader in <head>; stamp every built page once.
   if (ga && /<\/head>/i.test(out) && !out.includes('googletagmanager.com/gtag/js')) {
     out = out.replace(/<\/head>/i, `${ga}\n</head>`);

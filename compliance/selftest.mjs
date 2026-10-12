@@ -97,6 +97,11 @@ const CASES = {
     bad: [F('a.html', '<p>hi</p>')],
     good: [F('a.html', '<a href="/privacy.html">Privacy</a>')],
   },
+  'security-meta': {
+    // Built-site fixture: HTML without CSP meta fails; with data-siren-csp passes.
+    bad: [F('index.html', '<!doctype html><html><head><title>x</title></head><body></body></html>')],
+    good: [F('index.html', '<!doctype html><html><head><meta http-equiv="Content-Security-Policy" content="default-src \'self\'" data-siren-csp><title>x</title></head><body></body></html>')],
+  },
 };
 
 let failed = 0;

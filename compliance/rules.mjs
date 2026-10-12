@@ -395,6 +395,37 @@ export const RULES = [
         hits(f.text, /secrets\.YTDLP_COOKIES|--cookies\b/).slice(0, 1)
           .map((h) => ({ file: f.path, line: h.line, detail: 'yt-dlp cookies wired into CI' }))),
   },
+
+  // ── 20. Browser security meta on shipped HTML ──────────────────────────
+  // GitHub Pages cannot set CSP / Referrer-Policy as HTTP headers. Every HTML
+  // page must carry the meta tags from site/security.mjs (layout or sitebar
+  // stamp). Without them, a reflected XSS in a feed title has no CSP backstop.
+  {
+    id: 'security-meta',
+    severity: 'medium',
+    title: 'HTML page missing Content-Security-Policy meta',
+    law: 'Defense in depth against XSS / content injection on a public static site',
+    fix: 'Include securityHeadMeta() from site/security.mjs in <head> (layout.mjs does this for templates; sitebar stamp covers site/static/).',
+    check: ({ files }) => {
+      const htmlFiles = files.filter((f) => /\.html?$/i.test(f.path) && !/embed\.html$/i.test(f.path));
+      // Only enforce when scanning a built site (or a planted fixture). Source
+      // templates are .mjs; site/static/*.html is stamped at build time, so the
+      // rule looks for either the meta already present OR the stamp helpers in
+      // the same tree (source-tree scan).
+      const hasStamp = files.some((f) =>
+        /site\/(security|sitebar|templates\/layout)\.mjs$/i.test(f.path)
+        && /securityHeadMeta|data-siren-csp|Content-Security-Policy/.test(f.text));
+      if (!htmlFiles.length) return hasStamp ? [] : [{ file: '(repo)', line: 0, detail: 'no securityHeadMeta helper found' }];
+      // Built-site mode: every HTML file must carry the CSP meta.
+      if (htmlFiles.length && !files.some((f) => /site\/security\.mjs$/i.test(f.path))) {
+        return htmlFiles
+          .filter((f) => !/data-siren-csp|http-equiv=["']Content-Security-Policy["']/i.test(f.text))
+          .map((f) => ({ file: f.path, line: 1, detail: 'no Content-Security-Policy meta' }));
+      }
+      // Source-tree mode with static HTML: require stamp wiring, not pre-stamped files.
+      return hasStamp ? [] : [{ file: '(repo)', line: 0, detail: 'security meta helper missing from site build path' }];
+    },
+  },
 ];
 
 /**
