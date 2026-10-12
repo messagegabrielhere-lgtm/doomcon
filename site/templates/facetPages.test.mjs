@@ -193,6 +193,78 @@ describe('lab facets', () => {
     assert.match(renderLab(rich, labsFromEntities(rich).find((p) => p.id === 'oracle')), /Oracle: AI stories this index scored/);
   });
 
+  it('lets the durable archive keep an entity lab above the substance gate', () => {
+    const withArch = {
+      ...ctx,
+      news: {
+        ...ctx.news,
+        items: [
+          ...ctx.news.items,
+          {
+            id: 'bd1',
+            title: 'ByteDance ships a personal AI agent',
+            pillar: 'capability',
+            source: 'hn',
+            url: 'https://example.test/bd1',
+            published_at: '2026-10-09T07:00:00Z',
+            score: 42,
+          },
+        ],
+      },
+      itemArchive: [
+        {
+          id: 'bd-old1',
+          title: 'Archived ByteDance model release',
+          pillar: 'capability',
+          source: 'hn',
+          url: 'https://example.test/bd-old1',
+          published_at: '2026-09-01T01:00:00Z',
+          score: 40,
+        },
+        {
+          id: 'bd-old2',
+          title: 'Archived ByteDance AI phone push',
+          pillar: 'capability',
+          source: 'hn',
+          url: 'https://example.test/bd-old2',
+          published_at: '2026-09-02T01:00:00Z',
+          score: 41,
+        },
+      ],
+    };
+    const ids = labsFromEntities(withArch).map((p) => p.id);
+    assert.ok(ids.includes('bytedance'));
+    const html = renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'bytedance'));
+    assert.doesNotMatch(html, /noindex/);
+    assert.match(html, /Older scored stories naming ByteDance/);
+  });
+
+  it('does not treat Intel as a substring of intelligent', () => {
+    const player = { id: 'intel', name: 'Intel', entityName: 'Intel', entityOnly: true };
+    const falseHit = {
+      id: 'x',
+      title: 'An intelligent agent plans the week',
+      summary: '',
+      pillar: 'capability',
+      source: 'hn',
+      url: 'https://example.test/x',
+      published_at: '2026-10-09T07:00:00Z',
+      score: 40,
+    };
+    const trueHit = {
+      id: 'y',
+      title: 'Intel CEO says Chinese AI models see rapid adoption',
+      summary: '',
+      pillar: 'capability',
+      source: 'hn',
+      url: 'https://example.test/y',
+      published_at: '2026-10-09T07:00:00Z',
+      score: 40,
+    };
+    assert.equal(itemsForLab({ news: { items: [falseHit] } }, player).length, 0);
+    assert.equal(itemsForLab({ news: { items: [trueHit] } }, player).length, 1);
+  });
+
   it('ships /lab/ and /companies.html indexes over the gated lab set', () => {
     assert.ok(indexableLabs(ctx).some((p) => p.id === 'openai'));
     const labIndex = renderLabIndex(ctx);

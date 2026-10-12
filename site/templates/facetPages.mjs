@@ -224,7 +224,9 @@ export function labsFromEntities(ctx) {
     const id = raceId || entitySlug(ent.name);
     if (raceIds.has(id)) continue;
     const player = { id, name: ent.name, entityName: ent.name, entityOnly: true };
-    if (itemsForLab(ctx, player).length < ENTITY_LAB_MIN) continue;
+    // Archive rows can keep an entity hub alive after the live window rolls
+    // (same substance idea as model/day hubs).
+    if (labStoryCount(ctx, player) < ENTITY_LAB_MIN) continue;
     out.push(player);
   }
   return out.sort((a, b) => a.name.localeCompare(b.name));
@@ -246,8 +248,12 @@ export function allLabs(ctx) {
 export function indexableLabs(ctx) {
   return allLabs(ctx)
     .filter((p) => labIndexable(ctx, p))
-    .map((p) => ({ ...p, count: itemsForLab(ctx, p).length }))
+    .map((p) => ({ ...p, count: labStoryCount(ctx, p) }))
     .sort((a, b) => (b.count - a.count) || a.name.localeCompare(b.name));
+}
+
+function escapeLabRe(value) {
+  return String(value || '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
 function labNeedles(player) {
@@ -274,6 +280,9 @@ function labNeedles(player) {
     adobe: ['adobe'],
     broadcom: ['broadcom', 'vmware'],
     cloudflare: ['cloudflare'],
+    softbank: ['softbank'],
+    intel: ['intel'],
+    amd: ['amd', 'advanced micro devices'],
   };
   return [...new Set([...(extras[player.id] || []), ...names])];
 }
@@ -283,8 +292,19 @@ function itemMatchesLab(it, player) {
   const entityName = player.entityName || player.name;
   if (Array.isArray(it.entities) && it.entities.includes(entityName)) return true;
   const needles = labNeedles(player);
-  const hay = `${it.title || ''} ${it.source || ''} ${it.summary || ''}`.toLowerCase();
-  return needles.some((n) => n.length >= 3 && hay.includes(n));
+  const hay = `${it.title || ''} ${it.source || ''} ${it.summary || ''}`;
+  // Word-ish boundaries so short forms (AMD, Intel) do not match inside
+  // "demand" / "intelligent".
+  return needles.some((n) => {
+    if (!n || n.length < 3) return false;
+    const re = new RegExp(`(?:^|[^A-Za-z0-9])${escapeLabRe(n)}(?:[^A-Za-z0-9]|$)`, 'i');
+    return re.test(hay);
+  });
+}
+
+/** Live + archive scored stories naming this lab. */
+export function labStoryCount(ctx, player) {
+  return itemsForLab(ctx, player).length + archiveItemsForLab(ctx, player).length;
 }
 
 export function itemsForLab(ctx, player) {
@@ -307,9 +327,10 @@ export function archiveItemsForLab(ctx, player) {
 export function labIndexable(ctx, player) {
   // A live race row is substance even with sparse news hits; require either
   // market odds or enough news so we never sitemap a name-only shell.
-  // Entity-only labs have no odds — they need ENTITY_LAB_MIN stories.
+  // Entity-only labs have no odds — they need ENTITY_LAB_MIN stories
+  // across the live window plus durable archive.
   if (player && player.entityOnly) {
-    return itemsForLab(ctx, player).length >= ENTITY_LAB_MIN;
+    return labStoryCount(ctx, player) >= ENTITY_LAB_MIN;
   }
   const m = player.market || {};
   const hasOdds = Number.isFinite(m.probability);
