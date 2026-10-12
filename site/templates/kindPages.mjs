@@ -104,6 +104,17 @@ export function itemsForKind(ctx, id) {
     .sort((a, b) => String(b.published_at || '').localeCompare(String(a.published_at || '')));
 }
 
+/** Older scored stories of this kind, kept in the durable item archive. */
+export function archiveItemsForKind(ctx, id) {
+  const key = String(id || '').toLowerCase();
+  if (!BY_ID.has(key)) return [];
+  const archived = Array.isArray(ctx.itemArchive) ? ctx.itemArchive : [];
+  return archived
+    .filter((it) => it && String(it.kind || '').toLowerCase() === key)
+    .slice()
+    .sort((a, b) => String(b.published_at || '').localeCompare(String(a.published_at || '')));
+}
+
 export function kindIndexable(ctx, id) {
   return itemsForKind(ctx, id).length >= KIND_INDEX_MIN;
 }
@@ -139,6 +150,8 @@ export function renderKind(ctx, id) {
   }
 
   const items = itemsForKind(ctx, def.id);
+  const archivedAll = archiveItemsForKind(ctx, def.id);
+  const older = archivedAll.slice(0, 12);
   const path = kindPath(def.id);
   const title = `${def.name}: AI stories this index scored · ${brand.NAME}`;
   const description = clip(
@@ -146,6 +159,12 @@ export function renderKind(ctx, id) {
     160,
   );
   const others = indexableKinds(ctx).filter((k) => k.id !== def.id);
+  const olderBlock = older.length
+    ? `<h2>Older scored ${esc(def.name.toLowerCase())}</h2>
+  <p class="kd__lede">Kept in the permanent archive after they left the live window. Still scored stories — not a forecast.</p>
+  <ol class="kd__list">${storyRows(ctx, older)}</ol>
+  <p class="fresh__key"><a href="${esc(ctx.href('/item/archive.html'))}">Full story archive</a></p>`
+    : '';
 
   const main = `${STYLE}
 <article class="kd prose">
@@ -154,6 +173,7 @@ export function renderKind(ctx, id) {
   <p class="kd__lede">${esc(def.description)} Kind is the collector label on each scored item — not a judgement about quality or harm.</p>
   <div class="kd__stat" role="group" aria-label="Kind totals">
     <div><b class="num">${esc(String(items.length))}</b><span>Scored stories in window</span></div>
+    ${archivedAll.length ? `<div><b class="num">${esc(String(archivedAll.length))}</b><span>Older in archive</span></div>` : ''}
   </div>
   <h2>${esc(def.name)} in this window</h2>
   ${items.length
@@ -162,6 +182,7 @@ export function renderKind(ctx, id) {
   ${items.length > KIND_LIST_CAP
     ? `<p class="fresh__key">${esc(String(items.length - KIND_LIST_CAP))} more on the <a href="${esc(ctx.href('/news.html'))}">full newsroom</a>.</p>`
     : `<p class="fresh__key"><a href="${esc(ctx.href('/news.html'))}">Full newsroom →</a></p>`}
+  ${olderBlock}
   ${others.length ? `<h2>Other kinds</h2>
   <nav class="kd__nav" aria-label="Other kinds">${others.map((k) => `<a href="${esc(ctx.href(kindPath(k.id)))}">${esc(k.name)} <span class="num">(${esc(String(k.count))})</span></a>`).join('')}</nav>` : ''}
 </article>`;

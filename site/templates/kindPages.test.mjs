@@ -61,4 +61,17 @@ describe('kind pages', () => {
     assert.doesNotMatch(html, /doom score/i);
     assert.match(renderIndex(ctx), /AI story kinds/);
   });
+
+  it('links older archived stories of the same kind', () => {
+    const withArch = {
+      ...ctx,
+      itemArchive: [
+        story('old1', 'paper', 'Archived paper from last week'),
+      ],
+    };
+    const html = renderKind(withArch, 'paper');
+    assert.match(html, /Older scored papers/);
+    assert.match(html, /Archived paper from last week/);
+    assert.match(html, /\/item\/archive\.html/);
+  });
 });

@@ -193,6 +193,17 @@ export function itemsForTag(ctx, id) {
     .sort((a, b) => String(b.published_at || '').localeCompare(String(a.published_at || '')));
 }
 
+/** Older scored stories matching this tag, kept in the durable item archive. */
+export function archiveItemsForTag(ctx, id) {
+  const topic = tagById(id);
+  if (!topic) return [];
+  const archived = Array.isArray(ctx.itemArchive) ? ctx.itemArchive : [];
+  return archived
+    .filter((it) => itemMatchesTag(it, topic))
+    .slice()
+    .sort((a, b) => String(b.published_at || '').localeCompare(String(a.published_at || '')));
+}
+
 export function tagIndexable(ctx, id) {
   return itemsForTag(ctx, id).length >= TAG_INDEX_MIN;
 }
@@ -233,6 +244,8 @@ export function renderTag(ctx, id) {
   }
 
   const items = itemsForTag(ctx, topic.id);
+  const archivedAll = archiveItemsForTag(ctx, topic.id);
+  const older = archivedAll.slice(0, 12);
   const path = tagPath(topic.id);
   const title = `${topic.name}: AI stories this index scored · ${brand.NAME}`;
   const description = clip(
@@ -240,6 +253,12 @@ export function renderTag(ctx, id) {
     160,
   );
   const others = indexableTags(ctx).filter((t) => t.id !== topic.id);
+  const olderBlock = older.length
+    ? `<h2>Older scored stories tagged ${esc(topic.name)}</h2>
+  <p class="tg__lede">Kept in the permanent archive after they left the live window. Still scored stories — not a forecast.</p>
+  <ol class="tg__list">${storyRows(ctx, older)}</ol>
+  <p class="fresh__key"><a href="${esc(ctx.href('/item/archive.html'))}">Full story archive</a></p>`
+    : '';
 
   const main = `${STYLE}
 <article class="tg prose">
@@ -248,6 +267,7 @@ export function renderTag(ctx, id) {
   <p class="tg__lede">${esc(topic.description)} A tag page lists scored stories whose title or summary matched a published needle — not a probability of harm and not a ranking of the companies named.</p>
   <div class="tg__stat" role="group" aria-label="Tag totals">
     <div><b class="num">${esc(String(items.length))}</b><span>Scored stories in window</span></div>
+    ${archivedAll.length ? `<div><b class="num">${esc(String(archivedAll.length))}</b><span>Older in archive</span></div>` : ''}
   </div>
   <h2>Stories tagged ${esc(topic.name)}</h2>
   ${items.length
@@ -256,6 +276,7 @@ export function renderTag(ctx, id) {
   ${items.length > TAG_LIST_CAP
     ? `<p class="fresh__key">${esc(String(items.length - TAG_LIST_CAP))} more on the <a href="${esc(ctx.href('/news.html'))}">full newsroom</a>.</p>`
     : `<p class="fresh__key"><a href="${esc(ctx.href('/news.html'))}">Full newsroom →</a></p>`}
+  ${olderBlock}
   ${others.length ? `<h2>Other tags</h2>
   <nav class="tg__nav" aria-label="Other tags">${others.map((t) => `<a href="${esc(ctx.href(tagPath(t.id)))}">${esc(t.name)} <span class="num">(${esc(String(t.count))})</span></a>`).join('')}</nav>` : ''}
 </article>`;

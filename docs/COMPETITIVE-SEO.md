@@ -19,17 +19,17 @@ hijacks we cannot honestly answer stay refused (`CONTRACT.md`, `VOICE.md`).
 |---|---:|---|---|---|---|---|
 | **DoomBench** | **2,088** (2026-10-12) | none | “Live AI Doom Index” | FAQPage only | `/models` `/companies` `/countries` `/people` `/jobs` `/news` | no |
 | **Skynet Countdown** | **1,237** | none | “AGI Timeline Tracker” | Organization + WebSite | `/tags/*` (717) + `/news/YYYY-MM-DD` (507) | no |
-| **pizzint.watch** | **1,018** | **empty (0 `<loc>`)** | DEFCON + Doomsday Clock hijack + keywords meta | FAQPage + WebApplication + Organization | `/intel/*` briefs only; chips are `<button>`s | no (404 → SPA shell) |
-| **siren.watch** | **682** live → **2,801** local after archive backfill (this PR) — ahead of DoomBench/Skynet/pizzint on sitemap URL count pending deploy | **100 rolling / 48h** with `news:keywords` | Head-term live title (“AI activity index today · SIREN …”) | Rich: Dataset, FAQ, Organization, VideoObject… | `/pillar/*` `/lab/*` `/country/*` `/model/*` `/people/*` `/tags/*` `/kind/*` `/outlet/*` + archived `/item/*` | **yes** |
+| **pizzint.watch** | **1,018** | **14** (was empty 2026-10-10; contested again) | DEFCON + Doomsday Clock hijack + keywords meta | FAQPage + WebApplication + Organization | `/intel/*` briefs only; chips are `<button>`s | no (404 → SPA shell) |
+| **siren.watch** | **683** live → **~2,750** local after archive backfill (this PR) — ahead of DoomBench/Skynet/pizzint on sitemap URL count pending deploy | **100 rolling / 48h** with `news:keywords` | Head-term live title (“AI activity index today · SIREN …”) | Rich: Dataset, FAQ, Organization, VideoObject… | `/pillar/*` `/lab/*` `/country/*` `/model/*` `/people/*` `/tags/*` `/kind/*` `/outlet/*` + archived `/item/*`; facets link older archive matches | **yes** |
 | pdoom.ai | 0 (SPA shell) | 0 | Sci-fi countdown + keyword stuffing | none | none | yes (thin) |
 | takeofftracker.com | none | none | “AGI Metrics Dashboard” | none | none | none |
 
 ### Resolved from COMPETITIVE.md §0.1
 
-pizzint’s `/news-sitemap.xml` is **alive as a file and dead as a channel**: valid
-Google News XML with **zero URLs** on 2026-10-10. Their ordinary sitemap still
-rolls (`lastmod` up to the same day). Google News is **not** their current
-advantage; URL count + title hijack + brief schema still are.
+pizzint’s `/news-sitemap.xml` was empty (0 `<loc>`) on 2026-10-10 and showed
+**14 URLs** again on 2026-10-12 — treat Google News as contested. Their ordinary
+sitemap still rolls. URL count + title hijack + brief schema remain their main
+organic levers; keep our rolling news-sitemap full and keyword-rich.
 
 ---
 

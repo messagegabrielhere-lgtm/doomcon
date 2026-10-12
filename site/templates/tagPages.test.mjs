@@ -78,4 +78,17 @@ describe('tag pages', () => {
     const html = renderItem(ctx, ctx.news.items[0]);
     assert.match(html, /href="\/tags\/agents\.html"/);
   });
+
+  it('links older archived stories that match the tag needle', () => {
+    const withArch = {
+      ...ctx,
+      itemArchive: [
+        story('old1', 'Archived AI agents story from last week'),
+      ],
+    };
+    const html = renderTag(withArch, 'agents');
+    assert.match(html, /Older scored stories tagged AI agents/);
+    assert.match(html, /Archived AI agents story/);
+    assert.match(html, /\/item\/archive\.html/);
+  });
 });
