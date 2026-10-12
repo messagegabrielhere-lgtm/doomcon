@@ -1931,7 +1931,7 @@ async function main() {
       'bets', 'privacy', 'terms', 'disclosures', 'feedback', 'sponsor', 'instruments',
       'p-doom', 'ai-doomsday-clock', 'arena', 'scanner', 'monitor', 'elon',
       'game', 'bunker-kit', 'alerts', 'export', 'moltbook', 'staff', 'careers',
-      'agents', 'tally', 'changelog', 'live', 'compare', 'alternatives', 'companies', 'models', 'pillars', 'countries',
+      'agents', 'tally', 'changelog', 'live', 'compare', 'alternatives', 'vs', 'companies', 'models', 'pillars', 'countries',
       ...comparePages.RIVALS.map((r) => r.path.replace(/^\//, '').replace(/\.html$/, '')),
       ...brand.PILLARS.map((p) => `pillar/${p.id}`),
       ...(facetPages.indexablePillars(ctx).length ? ['pillar'] : []),

@@ -137,12 +137,12 @@ An index that refuses to be a probability is more citable than one that
 performs certainty. That is the ranking advantage; do not sand it off for
 clickbait titles.
 
-### 1.7 News discovery (still open)
+### 1.7 News discovery
 
-`news-sitemap.xml` is **404**. If/when item pages carry real `NewsArticle`
-payloads with recent dates, ship a Google News sitemap with `news:keywords`
-and keep the rolling window short. Re-check pizzint's news sitemap before
-scoping (`COMPETITIVE.md` §0.1) — frozen vs rolling changes the bet.
+`news-sitemap.xml` ships a rolling ~48h window (cap 150) with `news:keywords`
+(entities, labs, and matching topic-tag names). Keep the window short so the
+file stays a freshness signal. Re-check pizzint's news sitemap — it flips
+empty↔thin (`COMPETITIVE-SEO.md`).
 
 ---
 
@@ -289,6 +289,7 @@ context.
 | 56 | `llms.txt` / skill map lists PizzINT conquest + pillar/country/source hubs | assistants | **Done** (2026-10-12) |
 | 57 | Topic tags `hallucination` + `prompt-injection` + `moe` + `world-models` + `copyright` (live/archive ≥5 gate; search-trend hubs) | Google | **Done** (2026-10-12) |
 | 58 | Topic tags `diffusion` + `embeddings` + `guardrails` + `context-window` + `ai-search`; news-sitemap keywords include matching topic names (cap 12; pizzint news contested) | Google News | **Done** (2026-10-12) |
+| 59 | `/vs.html` conquest directory + topic tags `multi-agent` + `deepfakes` + `slm` + `ai-science` + `speculative-decoding` | Google | **Done** (2026-10-12) |
 
 ### 3.3 Refusals (search edition)
 

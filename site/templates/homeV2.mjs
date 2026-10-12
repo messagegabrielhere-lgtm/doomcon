@@ -204,6 +204,7 @@ export function roomGroups(ctx) {
       ['/catalog.html', 'px:catalog', 'Catalog', 'NEW', 'Everything on the site, in one browsable directory.'],
       ['/ai-doomsday-clock.html', 'clock', 'The Clock', null, 'The reading as a clock face you can verify.'],
       ['/compare.html', 'px:updown', 'Compare indexes', null, 'SIREN vs DoomBench, Skynet, p(doom) and PizzINT — what each measures.'],
+      ['/vs.html', 'px:updown', 'Versus directory', null, 'One honest page per rival — activity tempo, not doom claims.'],
       ['/vs/pizzint.html', 'px:updown', 'vs PizzINT', null, 'Activity count vs DEFCON/Doomsday title hijack — honest refuse.'],
       ['/alternatives.html', 'px:updown', 'Alternatives', null, 'When this index is the right substitute — and when it is not.'],
       ['/guide.html', 'clock', 'DEFCON guide', null, 'SIREN, DEFCON, the Doomsday Clock and p(doom), side by side.'],

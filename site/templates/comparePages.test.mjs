@@ -6,6 +6,7 @@ import {
   compareHub,
   renderAll,
   sitemapEntries,
+  vsHub,
   vsRival,
 } from './comparePages.mjs';
 
@@ -22,12 +23,13 @@ const ctx = {
 };
 
 describe('compare / alternatives conquest pages', () => {
-  it('ships one hub, one alternatives page, and one vs page per rival', () => {
+  it('ships compare, alternatives, vs hub, and one vs page per rival', () => {
     const pages = renderAll(ctx);
-    assert.equal(pages.length, 2 + RIVALS.length);
+    assert.equal(pages.length, 3 + RIVALS.length);
     assert.ok(pages.every((p) => p.html && /<!doctype html>/i.test(p.html)));
     assert.ok(pages.some((p) => p.path === 'compare.html'));
     assert.ok(pages.some((p) => p.path === 'alternatives.html'));
+    assert.ok(pages.some((p) => p.path === 'vs.html'));
     for (const rival of RIVALS) {
       assert.ok(pages.some((p) => p.path === rival.path.replace(/^\//, '')));
     }
@@ -65,10 +67,21 @@ describe('compare / alternatives conquest pages', () => {
 
   it('sitemaps every conquest URL', () => {
     const entries = sitemapEntries(ctx);
-    assert.equal(entries.length, 2 + RIVALS.length);
+    assert.equal(entries.length, 3 + RIVALS.length);
     assert.ok(entries.every((e) => e.loc && e.lastmod && e.priority));
     assert.ok(entries.some((e) => e.loc === '/compare.html'));
+    assert.ok(entries.some((e) => e.loc === '/vs.html'));
     assert.ok(entries.some((e) => e.loc === '/vs/doombench.html'));
+  });
+
+  it('ships /vs.html as a head-term directory with ItemList schema', () => {
+    const html = vsHub(ctx);
+    assert.match(html, /SIREN vs other AI indexes/);
+    assert.match(html, /ItemList/);
+    assert.match(html, /\/vs\/doombench\.html/);
+    assert.match(html, /\/vs\/pizzint\.html/);
+    assert.match(html, /"@type"\s*:\s*"FAQPage"/);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
   });
 
   it('returns empty for an unknown rival id', () => {

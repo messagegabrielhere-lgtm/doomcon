@@ -313,6 +313,36 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'AI search and answer-engine stories scored in the newsroom or archive — product coverage, not a ranking claim.',
     match: /\b(ai (?:search|overview)|perplexity|searchgpt|chatgpt search)\b/i,
   },
+  {
+    id: 'multi-agent',
+    name: 'Multi-agent systems',
+    description: 'Multi-agent and agent-swarm stories scored in the newsroom or archive — coverage counts, not a capability forecast.',
+    match: /\b(multi[- ]agent|agent swarm|swarm of agents)\b/i,
+  },
+  {
+    id: 'deepfakes',
+    name: 'Deepfakes',
+    description: 'Deepfake and synthetic-media stories scored in the newsroom or archive — not a harm forecast.',
+    match: /\b(deepfakes?|deep[- ]fake|synthetic media)\b/i,
+  },
+  {
+    id: 'slm',
+    name: 'Small language models',
+    description: 'Small and on-device language-model stories scored in the newsroom or archive.',
+    match: /\b(small language models?|\bslms?\b|on[- ]device (?:llm|ai))\b/i,
+  },
+  {
+    id: 'ai-science',
+    name: 'AI for science',
+    description: 'Scientific-discovery and AI-for-science stories scored in the newsroom or archive.',
+    match: /\b(ai for science|scientific discovery|alphafold|materials discovery)\b/i,
+  },
+  {
+    id: 'speculative-decoding',
+    name: 'Speculative decoding',
+    description: 'Speculative-decoding inference stories scored in the newsroom or archive.',
+    match: /\bspeculative decoding\b/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));

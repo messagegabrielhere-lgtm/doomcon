@@ -790,6 +790,7 @@ ${bands.map((l) => `      <tr><td><b>${esc(l.level)}</b></td><td>${esc(l.name)}<
   <h2>Where to go next</h2>
   <p><a href="${esc(ctx.href('/'))}">The current reading →</a> · <a href="${esc(ctx.href('/methodology.html'))}">Every formula →</a> ·
     <a href="${esc(ctx.href('/compare.html'))}">AI doom indexes compared (DoomBench, Skynet, p(doom), PizzINT) →</a> ·
+    <a href="${esc(ctx.href('/vs.html'))}">Versus directory →</a> ·
     <a href="${esc(ctx.href('/vs/pizzint.html'))}">${esc(brand.NAME)} vs PizzINT / Pentagon Pizza Index →</a> ·
     <a href="${esc(ctx.href('/alternatives.html'))}">Alternatives hub →</a> ·
     <a href="${esc(ctx.href('/history.html'))}">Sixty years of the same argument →</a> · <a href="${esc(ctx.href('/desk.html'))}">Tally's desk →</a></p>
@@ -854,7 +855,7 @@ Because nobody needs the scale explained twice. "Five is calm, one is not" is al
 
 - [The current reading](${ctx.url('/')})
 - [Every formula](${ctx.url('/methodology.html')}) · [methodology.md](${ctx.url('/methodology.md')})
-- [AI doom indexes compared](${ctx.url('/compare.html')}) · [Alternatives hub](${ctx.url('/alternatives.html')})
+- [AI doom indexes compared](${ctx.url('/compare.html')}) · [Versus directory](${ctx.url('/vs.html')}) · [Alternatives hub](${ctx.url('/alternatives.html')})
 - [${brand.NAME} vs PizzINT / Pentagon Pizza Index](${ctx.url('/vs/pizzint.html')})
 - [Sixty years of the same argument](${ctx.url('/history.html')})
 `;

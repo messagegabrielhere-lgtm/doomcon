@@ -118,6 +118,7 @@ function liveStrip(ctx) {
 function rivalNav(excludeId) {
   const links = [
     `<a href="${esc('/compare.html')}">Full comparison</a>`,
+    `<a href="${esc('/vs.html')}">Versus hub</a>`,
     `<a href="${esc('/alternatives.html')}">Alternatives hub</a>`,
     ...RIVALS.filter((r) => r.id !== excludeId).map((r) => `<a href="${esc(r.path)}">${esc(r.name)}</a>`),
     `<a href="${esc('/guide.html')}">DEFCON &amp; clocks</a>`,
@@ -208,7 +209,8 @@ export function compareHub(ctx) {
     <p>${esc(r.short)}. ${esc(r.measures)}. ${esc(r.recomputableNote)}.</p>
   </div>`).join('')}
   <h2>Also on this site</h2>
-  <p><a href="${esc(ctx.href('/alternatives.html'))}">AI activity index alternatives →</a>
+  <p><a href="${esc(ctx.href('/vs.html'))}">Versus directory →</a>
+     · <a href="${esc(ctx.href('/alternatives.html'))}">AI activity index alternatives →</a>
      · <a href="${esc(ctx.href('/guide.html'))}">SIREN vs DEFCON vs the Doomsday Clock vs p(doom) →</a>
      · <a href="${esc(ctx.href('/methodology.html'))}">Every formula →</a>
      · <a href="${esc(ctx.href('/embed.html'))}">Embed the live reading →</a></p>
@@ -220,6 +222,64 @@ export function compareHub(ctx) {
     title,
     description,
     jsonld: pageJsonLd(ctx, path, title, description, [{ name: 'Compare', path }], faq),
+    main,
+  });
+}
+
+/** Head-term /vs.html directory over the same gated conquest set as /vs/*. */
+export function vsHub(ctx) {
+  const path = '/vs.html';
+  const title = `SIREN vs other AI indexes · ${brand.NAME}`;
+  const description = `${brand.NAME} versus DoomBench, Skynet Countdown, p(doom) clocks and PizzINT — one honest page each. Activity tempo with a receipt, not a doom probability, AGI date, or DEFCON reading.`;
+  const faq = [
+    [`Where are the ${brand.NAME} versus pages?`,
+      `Each rival has a dedicated /vs/ page: DoomBench, Skynet Countdown, p(doom) clocks and PizzINT. This hub lists them. The full table is on /compare.html.`],
+    [`Does ${brand.NAME} claim to beat DoomBench or Skynet on doom risk?`,
+      `No. Those sites score judgement about danger or timelines. ${brand.NAME} counts how loud AI activity is this hour. The versus pages only contrast measurement methods.`],
+  ];
+  const rows = RIVALS.map((r) => `<li>
+  <a href="${esc(ctx.href(r.path))}">${esc(brand.NAME)} vs ${esc(r.name)}</a>
+  <span class="cmp__lede" style="display:block;margin:4px 0 0">${esc(r.short)}. ${esc(r.ourAngle)}</span>
+</li>`).join('');
+  const main = `${CSS}
+<article class="cmp prose">
+  <p class="cmp__k">Versus</p>
+  <h1>${esc(brand.NAME)} vs other AI indexes</h1>
+  <p class="cmp__lede">Search often lands on a doom score, a countdown, or a DEFCON-shaped novelty page.
+    These versus pages state what each rival measures and what ${esc(brand.NAME)} refuses to claim.
+    No borrowed doom probability, AGI date, or military DEFCON reading.</p>
+  ${liveStrip(ctx)}
+  <div class="cmp__stat" role="group" aria-label="Versus pages">
+    <div><b class="num">${esc(String(RIVALS.length))}</b><span>Rival pages</span></div>
+  </div>
+  <ol class="cmp__card" style="list-style:none;padding:0;margin:16px 0 0;display:grid;gap:10px">${rows}</ol>
+  <h2>Also</h2>
+  <p><a href="${esc(ctx.href('/compare.html'))}">Full side-by-side table →</a>
+     · <a href="${esc(ctx.href('/alternatives.html'))}">Alternatives hub →</a>
+     · <a href="${esc(ctx.href('/guide.html'))}">DEFCON, Doomsday Clock and p(doom) →</a></p>
+  ${rivalNav(null)}
+</article>`;
+  const listLd = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: `${brand.NAME} versus other AI indexes`,
+    numberOfItems: RIVALS.length,
+    itemListElement: RIVALS.map((r, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: `${brand.NAME} vs ${r.name}`,
+      url: ctx.url(r.path),
+    })),
+  };
+  return page({
+    ctx,
+    path,
+    title,
+    description,
+    jsonld: [
+      ...pageJsonLd(ctx, path, title, description, [{ name: 'Versus', path }], faq),
+      listLd,
+    ],
     main,
   });
 }
@@ -267,6 +327,7 @@ export function alternatives(ctx) {
   </div>`).join('')}
   <h2>Compare everything</h2>
   <p><a href="${esc(ctx.href('/compare.html'))}">Full side-by-side table →</a>
+     · <a href="${esc(ctx.href('/vs.html'))}">Versus directory →</a>
      · <a href="${esc(ctx.href('/guide.html'))}">DEFCON, Doomsday Clock and p(doom) →</a>
      · <a href="${esc(ctx.href('/p-doom.html'))}">What is p(doom)? →</a></p>
   ${rivalNav(null)}
@@ -326,6 +387,7 @@ export function vsRival(ctx, rivalId) {
   <p><a href="${esc(ctx.href('/'))}">Current ${esc(brand.NAME)} reading →</a>
      · <a href="${esc(ctx.href('/methodology.html'))}">Method →</a>
      · <a href="${esc(ctx.href('/compare.html'))}">All indexes compared →</a>
+     · <a href="${esc(ctx.href('/vs.html'))}">Versus directory →</a>
      · <a href="${esc(ctx.href('/alternatives.html'))}">Alternatives hub →</a>
      ${related ? `· ${related}` : ''}</p>
   ${rivalNav(rival.id)}
@@ -340,7 +402,11 @@ export function vsRival(ctx, rivalId) {
       path,
       title,
       description,
-      [{ name: 'Compare', path: '/compare.html' }, { name: `vs ${rival.name}`, path }],
+      [
+        { name: 'Compare', path: '/compare.html' },
+        { name: 'Versus', path: '/vs.html' },
+        { name: `vs ${rival.name}`, path },
+      ],
       faq,
     ),
     main,
@@ -352,6 +418,7 @@ export function renderAll(ctx) {
   return [
     { path: 'compare.html', html: compareHub(ctx) },
     { path: 'alternatives.html', html: alternatives(ctx) },
+    { path: 'vs.html', html: vsHub(ctx) },
     ...RIVALS.map((r) => ({ path: r.path.replace(/^\//, ''), html: vsRival(ctx, r.id) })),
   ];
 }
@@ -362,6 +429,7 @@ export function sitemapEntries(ctx) {
   return [
     { loc: '/compare.html', changefreq: 'weekly', priority: '0.9', lastmod: last },
     { loc: '/alternatives.html', changefreq: 'weekly', priority: '0.9', lastmod: last },
+    { loc: '/vs.html', changefreq: 'weekly', priority: '0.9', lastmod: last },
     ...RIVALS.map((r) => ({
       loc: r.path,
       changefreq: 'weekly',

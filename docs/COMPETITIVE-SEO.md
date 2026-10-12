@@ -123,9 +123,11 @@ China AI, plus later chips/energy/labor/healthcare/**coding**/**acquisitions**/
 **browser**/**watermarking**/**evals**/**video**/**voice**/**reasoning**/**ipo**/**rag**/
 **mcp**/**fine-tuning**/**quantization**/**distillation**/**memory**/**test-time**/
 **hallucination**/**prompt-injection**/**moe**/**world-models**/**copyright**/
-**diffusion**/**embeddings**/**guardrails**/**context-window**/**ai-search**).
+**diffusion**/**embeddings**/**guardrails**/**context-window**/**ai-search**/
+**multi-agent**/**deepfakes**/**slm**/**ai-science**/**speculative-decoding**).
 News-sitemap `news:keywords` also carry matching topic names (cap 12) while
-pizzint’s news channel is contested.
+pizzint’s news channel is contested. Conquest directory: `/vs.html` over the
+same `/vs/*` set.
 Also `/vs/pizzint.html` conquest for DEFCON/Doomsday title hijack (honest refuse).
 Gate: ≥5 scored stories whose title or summary matches the needle.
 Story pages link indexable tags and indexable people (full-name match only).
@@ -178,10 +180,12 @@ contrast measurement methods (`VOICE.md`, `CONTRACT.md`).
 | URL | Head-term job |
 |---|---|
 | `/compare.html` | “AI doom indexes compared” — side-by-side table |
+| `/vs.html` | “SIREN vs other AI indexes” directory over `/vs/*` |
 | `/alternatives.html` | “DoomBench / Skynet / p(doom) alternative” hub |
 | `/vs/doombench.html` | Activity count vs qualitative doom index |
 | `/vs/skynet-countdown.html` | Activity count vs AGI timeline / control-loss % |
 | `/vs/pdoom.html` | Activity count vs opinion-as-percentage clocks |
+| `/vs/pizzint.html` | Activity count vs DEFCON/Doomsday title hijack |
 
 Linked from homepage FAQ, `/guide.html`, catalog, `llms.txt`, and sitemap.
 Do **not** claim SIREN publishes takeover risk, AGI dates, or anyone’s p(doom).

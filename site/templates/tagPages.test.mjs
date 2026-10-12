@@ -301,6 +301,53 @@ describe('tag pages', () => {
     assert.match(renderTag(rich, 'test-time'), /Test-time compute: AI stories this index scored/);
   });
 
+  it('pages multi-agent, deepfakes, SLM, AI-science, and speculative-decoding hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('m1', 'Multi-agent systems for enterprise workflows'),
+          story('m2', 'Agent swarm coordination paper'),
+          story('m3', 'New multi-agent benchmark ships'),
+          story('m4', 'Swarm of agents beats single agent'),
+          story('m5', 'Multi-agent routing cuts tool errors'),
+          story('f1', 'Deepfake detectors improve overnight'),
+          story('f2', 'Synthetic media rules for elections'),
+          story('f3', 'Deep-fake audio scam report'),
+          story('f4', 'Labs ship deepfakes watermark tools'),
+          story('f5', 'Deepfake dataset for research'),
+          story('l1', 'Small language models for on-device AI'),
+          story('l2', 'New SLM beats larger baseline'),
+          story('l3', 'On-device LLM for phones'),
+          story('l4', 'SLMs cut inference cost'),
+          story('l5', 'Small language model open weights'),
+          story('a1', 'AI for science materials discovery'),
+          story('a2', 'AlphaFold update for proteins'),
+          story('a3', 'Scientific discovery with frontier models'),
+          story('a4', 'Materials discovery lab uses AI'),
+          story('a5', 'AI for science grant round'),
+          story('p1', 'Speculative decoding speeds inference'),
+          story('p2', 'Lab ships speculative decoding in vLLM'),
+          story('p3', 'Speculative decoding for long context'),
+          story('p4', 'Open speculative decoding recipe'),
+          story('p5', 'Speculative decoding cuts latency'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    assert.ok(ids.includes('multi-agent'));
+    assert.ok(ids.includes('deepfakes'));
+    assert.ok(ids.includes('slm'));
+    assert.ok(ids.includes('ai-science'));
+    assert.ok(ids.includes('speculative-decoding'));
+    assert.match(renderTag(rich, 'multi-agent'), /Multi-agent systems: AI stories this index scored/);
+    assert.match(renderTag(rich, 'deepfakes'), /Deepfakes: AI stories this index scored/);
+    assert.match(renderTag(rich, 'slm'), /Small language models: AI stories this index scored/);
+    assert.match(renderTag(rich, 'ai-science'), /AI for science: AI stories this index scored/);
+    assert.match(renderTag(rich, 'speculative-decoding'), /Speculative decoding: AI stories this index scored/);
+  });
+
   it('pages diffusion, embeddings, guardrails, context-window, and ai-search hubs', () => {
     const rich = {
       ...ctx,
