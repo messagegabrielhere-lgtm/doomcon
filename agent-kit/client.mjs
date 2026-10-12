@@ -18,8 +18,16 @@ export const NOT_CLAIM = 'It counts AI activity. It is not a probability of harm
  * @param {typeof fetch} [opts.fetchImpl]
  * @param {string} [opts.userAgent]
  */
+/** Strip trailing `/` without a repeating-quantifier regex (CodeQL js/polynomial-redos). */
+export function stripTrailingSlashes(s) {
+  const str = String(s);
+  let end = str.length;
+  while (end > 0 && str[end - 1] === '/') end -= 1;
+  return str.slice(0, end);
+}
+
 export function createClient(opts = {}) {
-  const base = String(opts.base || process.env.SIREN_BASE_URL || DEFAULT_BASE).replace(/\/+$/, '');
+  const base = stripTrailingSlashes(opts.base || process.env.SIREN_BASE_URL || DEFAULT_BASE);
   const fetchImpl = opts.fetchImpl || globalThis.fetch;
   const userAgent = opts.userAgent || 'siren-agent-kit/1.0 (+https://siren.watch/agents.html)';
 
@@ -71,7 +79,7 @@ export function formatCitation(state, siteUrl = DEFAULT_BASE) {
   if (!state || !Number.isFinite(state.level) || !Number.isFinite(state.score)) {
     throw new Error('formatCitation: state.level and state.score are required');
   }
-  const host = String(siteUrl).replace(/^https?:\/\//, '').replace(/\/+$/, '');
+  const host = stripTrailingSlashes(String(siteUrl).replace(/^https?:\/\//, ''));
   const hm = utcHm(state.generated_at);
   return `SIREN ${state.level} · ${fix1(state.score)}/100 at ${hm} — ${host}`;
 }
@@ -93,7 +101,7 @@ export function formatPromote(state, siteUrl = DEFAULT_BASE, channel = 'all') {
   if (!state || !Number.isFinite(state.level) || !Number.isFinite(state.score)) {
     throw new Error('formatPromote: state.level and state.score are required');
   }
-  const base = String(siteUrl).replace(/\/+$/, '');
+  const base = stripTrailingSlashes(siteUrl);
   const cite = formatCitation(state, base);
   const spoken = formatSpoken(state);
   const hm = utcHm(state.generated_at);

@@ -5,6 +5,7 @@ import {
   formatCitation,
   formatSpoken,
   formatPromote,
+  stripTrailingSlashes,
   topNews,
   recentHistory,
   verifyReceipt,
@@ -66,6 +67,12 @@ test('formatCitation and formatSpoken follow the skill.md rules', () => {
   assert.match(spoken, /00:33 UTC/);
   assert.match(spoken, /not a probability of harm/);
   assert.equal(NOT_CLAIM.includes('not a forecast'), true);
+});
+
+test('stripTrailingSlashes is linear and leaves the origin intact', () => {
+  assert.equal(stripTrailingSlashes('https://siren.watch///'), 'https://siren.watch');
+  assert.equal(stripTrailingSlashes('https://siren.watch'), 'https://siren.watch');
+  assert.equal(stripTrailingSlashes(''), '');
 });
 
 test('formatPromote returns channel copy without banned future tense', () => {

@@ -28,8 +28,16 @@ function utcFull(iso) {
   return Number.isFinite(ms) ? `${new Date(ms).toISOString().slice(0, 16).replace('T', ' ')} UTC` : 'time unknown';
 }
 
+/** Strip trailing `/` without a repeating-quantifier regex (CodeQL js/polynomial-redos). */
+function stripTrailingSlashes(s) {
+  const str = String(s);
+  let end = str.length;
+  while (end > 0 && str[end - 1] === '/') end -= 1;
+  return str.slice(0, end);
+}
+
 function hostOf(siteUrl) {
-  return String(siteUrl).replace(/^https?:\/\//, '').replace(/\/+$/, '');
+  return stripTrailingSlashes(String(siteUrl).replace(/^https?:\/\//, ''));
 }
 
 function levelBits(state) {
@@ -60,7 +68,7 @@ export function spokenCite(state) {
  * voice bans: no future tense, no doom-probability claim.
  */
 export function promotePosts(state, siteUrl) {
-  const site = String(siteUrl).replace(/\/+$/, '') || 'https://siren.watch';
+  const site = stripTrailingSlashes(siteUrl) || 'https://siren.watch';
   const { level, name, score, when } = levelBits(state);
   if (level === null || score === null) throw new Error('promotePosts: level and score required');
   const cite = shortCite(state, site);
@@ -146,7 +154,7 @@ export function promoteRules() {
 
 /** Structured promote kit for /api/promote.json. */
 export function promoteJson(ctx, state) {
-  const site = ctx.url('/').replace(/\/+$/, '');
+  const site = stripTrailingSlashes(ctx.url('/'));
   const posts = promotePosts(state, site);
   return {
     schema: 1,
@@ -187,8 +195,8 @@ export function promoteJson(ctx, state) {
 
 /** Markdown promote kit for /promote.md. */
 export function promoteMd(ctx, state) {
-  const site = ctx.url('/');
-  const posts = promotePosts(state, site.replace(/\/+$/, ''));
+  const site = stripTrailingSlashes(ctx.url('/'));
+  const posts = promotePosts(state, site);
   const L = [];
   L.push(`# Promote ${brand.NAME}`);
   L.push('');
