@@ -64,6 +64,19 @@ describe('model pages', () => {
     assert.doesNotMatch(html, /doom score/i);
   });
 
+  it('links older archived stories naming the model', () => {
+    const withArch = {
+      ...ctx,
+      itemArchive: [
+        story('old1', 'Archived Claude model card', ['Claude']),
+      ],
+    };
+    const html = renderModel(withArch, 'Claude');
+    assert.match(html, /Older scored stories naming Claude/);
+    assert.match(html, /Archived Claude model card/);
+    assert.match(html, /\/item\/archive\.html/);
+  });
+
   it('links an indexable model from the story page and leaves a thin name as text', () => {
     const claude = renderItem(ctx, ctx.news.items[0]);
     assert.match(claude, /href="\/model\/claude\.html"/);

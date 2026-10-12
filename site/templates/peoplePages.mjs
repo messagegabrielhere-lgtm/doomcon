@@ -87,6 +87,14 @@ export function personById(ctx, id) {
   return leadersList(ctx).find((l) => l && String(l.id).toLowerCase() === key) || null;
 }
 
+/** Full-name match (word boundaries) so "Karpathy" does not light up "Karp". */
+function nameInText(name, hay) {
+  const n = String(name || '').trim();
+  if (n.length < 4 || !hay) return false;
+  const escaped = n.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return new RegExp(`(?<![A-Za-z0-9])${escaped}(?![A-Za-z0-9])`, 'i').test(hay);
+}
+
 /**
  * Indexable people whose full name appears in a story title/summary.
  * Full-name match only (word boundaries) so "Karpathy" does not light up "Karp".
@@ -94,12 +102,28 @@ export function personById(ctx, id) {
 export function peopleForItem(ctx, item) {
   const hay = `${item?.title || ''} ${item?.summary || ''}`;
   if (!hay.trim()) return [];
-  return indexablePeople(ctx).filter((person) => {
-    const name = String(person.name || '').trim();
-    if (name.length < 4) return false;
-    const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    return new RegExp(`(?<![A-Za-z0-9])${escaped}(?![A-Za-z0-9])`, 'i').test(hay);
-  });
+  return indexablePeople(ctx).filter((person) => nameInText(person.name, hay));
+}
+
+/** Older scored stories naming this person, kept in the durable item archive. */
+export function archiveItemsForPerson(ctx, person) {
+  const name = person && person.name;
+  if (!name) return [];
+  const archived = Array.isArray(ctx.itemArchive) ? ctx.itemArchive : [];
+  return archived
+    .filter((it) => nameInText(name, `${it?.title || ''} ${it?.summary || ''}`))
+    .slice()
+    .sort((a, b) => String(b.published_at || '').localeCompare(String(a.published_at || '')));
+}
+
+function archiveStoryRows(ctx, items) {
+  return items.slice(0, 12).map((it) => {
+    const when = it.published_at ? utc(it.published_at) : '';
+    return `<li>
+  <a href="${esc(ctx.href(`/item/${slugFor(it)}.html`))}">${esc(it.title)}</a>
+  <span class="pp__meta">${esc(String(it.source || '').toUpperCase())}${when ? ` · <time datetime="${esc(it.published_at)}">${esc(when)}</time>` : ''}</span>
+</li>`;
+  }).join('');
 }
 
 function faceBlock(leader) {
@@ -179,6 +203,14 @@ export function renderPerson(ctx, id) {
     ? ` Lab page: <a href="${esc(ctx.href(`/lab/${leader.org_id}.html`))}">${esc(leader.org || leader.org_id)}</a>.`
     : '';
   const others = indexablePeople(ctx).filter((p) => p.id !== leader.id).slice(0, 12);
+  const archivedAll = archiveItemsForPerson(ctx, leader);
+  const older = archivedAll.slice(0, 12);
+  const olderBlock = older.length
+    ? `<h2 id="pp-archive">Older scored stories naming ${esc(leader.name)}</h2>
+  <p class="pp__lede">Kept in the permanent archive after they left the live window. Still scored stories — not a forecast. Titles only; not quotations.</p>
+  <ol class="pp__list">${archiveStoryRows(ctx, older)}</ol>
+  <p class="fresh__key"><a href="${esc(ctx.href('/item/archive.html'))}">Full story archive</a></p>`
+    : '';
 
   const main = `${STYLE}${avatarSprite()}
 <article class="pp prose">
@@ -195,6 +227,7 @@ export function renderPerson(ctx, id) {
     <div><b class="num">${esc(Number.isFinite(week) ? String(week) : '—')}</b><span>Press stories · 7 days</span></div>
     <div><b class="num">${esc(Number.isFinite(day) ? String(day) : '—')}</b><span>Press stories · 24 hours</span></div>
     <div><b class="num">${esc(String(lines.length))}</b><span>On-record lines this window</span></div>
+    ${archivedAll.length ? `<div><b class="num">${esc(String(archivedAll.length))}</b><span>Older in archive</span></div>` : ''}
   </div>
   <p class="pp__rule"><b>This page never writes a quotation.</b> Every string below is a headline, reproduced as the publication printed it${labLink}</p>
   ${extract ? `<p class="pp__wiki">${esc(extract)}${wiki ? ` <a href="${esc(wiki)}" rel="noopener noreferrer">Wikipedia</a> (CC BY-SA).` : ''}</p>` : ''}
@@ -202,6 +235,7 @@ export function renderPerson(ctx, id) {
   <ol class="pp__list">${lineRows(ctx, lines)}</ol>` : ''}
   ${headlines.length ? `<h2 id="pp-press">Press coverage sample</h2>
   <ol class="pp__list">${headlineRows(headlines)}</ol>` : '<p>No press headlines in the current coverage pull.</p>'}
+  ${olderBlock}
   <p class="fresh__key"><a href="${esc(ctx.href(`/leaders.html#lw-${leader.id}`))}">On the full leader wire →</a>
      · <a href="${esc(ctx.href('/api/leaders.json'))}">api/leaders.json</a></p>
   ${others.length ? `<h2>Other people on the wire</h2>

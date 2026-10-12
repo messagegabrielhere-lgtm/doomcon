@@ -256,6 +256,7 @@ context.
 | 23 | `seo-daily` deploy-pending gap when local archive leads; richer news-sitemap keywords (cap 150); outlet→archive links | Google | **Done** (2026-10-12) |
 | 24 | Tag / kind / pillar / lab hubs link matching older archive stories (anti-orphan internal links) | Google | **Done** (2026-10-12) |
 | 25 | Homepage below-fold `content-visibility:auto` (CWV; crawlers still see full HTML) | Google CWV | **Done** (2026-10-12) |
+| 26 | Model + people hubs link matching older archive stories (anti-orphan) | Google | **Done** (2026-10-12) |
 
 ### 3.3 Refusals (search edition)
 

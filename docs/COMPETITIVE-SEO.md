@@ -19,8 +19,8 @@ hijacks we cannot honestly answer stay refused (`CONTRACT.md`, `VOICE.md`).
 |---|---:|---|---|---|---|---|
 | **DoomBench** | **2,088** (2026-10-12) | none | “Live AI Doom Index” | FAQPage only | `/models` `/companies` `/countries` `/people` `/jobs` `/news` | no |
 | **Skynet Countdown** | **1,237** | none | “AGI Timeline Tracker” | Organization + WebSite | `/tags/*` (717) + `/news/YYYY-MM-DD` (507) | no |
-| **pizzint.watch** | **1,018** | **0** (empty again 2026-10-12 evening; briefly 14 earlier same day) | DEFCON + Doomsday Clock hijack + keywords meta | FAQPage + WebApplication + Organization | `/intel/*` briefs only; chips are `<button>`s | no (404 → SPA shell) |
-| **siren.watch** | **683** live → **~2,750** local after archive backfill (this PR) — ahead of DoomBench/Skynet/pizzint on sitemap URL count pending deploy | **100 rolling / 48h** with `news:keywords` | Head-term live title (“AI activity index today · SIREN …”) | Rich: Dataset, FAQ, Organization, VideoObject… | `/pillar/*` `/lab/*` `/country/*` `/model/*` `/people/*` `/tags/*` `/kind/*` `/outlet/*` + archived `/item/*`; facets link older archive matches | **yes** |
+| **pizzint.watch** | **1,018** | **14** (flipping empty↔14 on 2026-10-12 — contested) | DEFCON + Doomsday Clock hijack + keywords meta | FAQPage + WebApplication + Organization | `/intel/*` briefs only; chips are `<button>`s | no (404 → SPA shell) |
+| **siren.watch** | **683** live → **~2,750** local after archive backfill (this PR) — ahead of DoomBench/Skynet/pizzint on sitemap URL count pending deploy | **100** live / **150** cap in-repo with `news:keywords` | Head-term live title (“AI activity index today · SIREN …”) | Rich: Dataset, FAQ, Organization, VideoObject… | `/pillar/*` `/lab/*` `/country/*` `/model/*` `/people/*` `/tags/*` `/kind/*` `/outlet/*` + archived `/item/*`; facets + model/people link older archive matches | **yes** |
 | pdoom.ai | 0 (SPA shell) | 0 | Sci-fi countdown + keyword stuffing | none | none | yes (thin) |
 | takeofftracker.com | none | none | “AGI Metrics Dashboard” | none | none | none |
 

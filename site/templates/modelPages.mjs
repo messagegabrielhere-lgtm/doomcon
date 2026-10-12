@@ -66,6 +66,15 @@ export function itemsForModel(ctx, name) {
     .sort((a, b) => String(b.published_at || '').localeCompare(String(a.published_at || '')));
 }
 
+/** Older scored stories naming this model, kept in the durable item archive. */
+export function archiveItemsForModel(ctx, name) {
+  const archived = Array.isArray(ctx.itemArchive) ? ctx.itemArchive : [];
+  return archived
+    .filter((it) => it && Array.isArray(it.entities) && it.entities.includes(name))
+    .slice()
+    .sort((a, b) => String(b.published_at || '').localeCompare(String(a.published_at || '')));
+}
+
 export function modelIndexable(ctx, name) {
   return isModelName(name) && itemsForModel(ctx, name).length >= MODEL_INDEX_MIN;
 }
@@ -115,6 +124,8 @@ function storyRows(ctx, items) {
 
 export function renderModel(ctx, name) {
   const items = itemsForModel(ctx, name);
+  const archivedAll = archiveItemsForModel(ctx, name);
+  const older = archivedAll.slice(0, 12);
   const path = modelPath(name);
   const title = `${name}: AI stories this index scored · ${brand.NAME}`;
   const description = clip(
@@ -122,6 +133,12 @@ export function renderModel(ctx, name) {
     160,
   );
   const others = indexableModels(ctx).filter((m) => m.name !== name);
+  const olderBlock = older.length
+    ? `<h2>Older scored stories naming ${esc(name)}</h2>
+  <p class="fc__lede">Kept in the permanent archive after they left the live window. Still scored stories — not a forecast.</p>
+  <ol class="fc__list">${storyRows(ctx, older)}</ol>
+  <p class="fresh__key"><a href="${esc(ctx.href('/item/archive.html'))}">Full story archive</a></p>`
+    : '';
   const main = `${STYLE}
 <article class="fc prose">
   <p class="fc__k"><a href="${esc(ctx.href('/news.html'))}">Newsroom</a> · <a href="${esc(ctx.href('/model/'))}">Models</a></p>
@@ -130,11 +147,13 @@ export function renderModel(ctx, name) {
      The match is the published entity list, applied to the headline. It is not a claim that ${esc(name)} wrote the story, and it is not a rating of the model.</p>
   <div class="fc__stat" role="group" aria-label="Stories naming this model">
     <div><b class="num">${esc(String(items.length))}</b><span>Scored stories in window</span></div>
+    ${archivedAll.length ? `<div><b class="num">${esc(String(archivedAll.length))}</b><span>Older in archive</span></div>` : ''}
   </div>
   <p class="fresh__key">${labNote(ctx, name)}
      The composite reading is on the <a href="${esc(ctx.href('/'))}">homepage</a>.</p>
   <h2>Stories in this window</h2>
   ${items.length ? `<ol class="fc__list">${storyRows(ctx, items)}</ol>` : '<p>No scored story in this window names this model.</p>'}
+  ${olderBlock}
   ${others.length ? `<h2>Other model families</h2>
   <nav class="fc__nav" aria-label="Other model families">${others.map((m) => `<a href="${esc(ctx.href(modelPath(m.name)))}">${esc(m.name)}</a>`).join('')}</nav>` : ''}
 </article>`;

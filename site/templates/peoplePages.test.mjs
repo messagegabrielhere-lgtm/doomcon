@@ -79,6 +79,26 @@ describe('people pages', () => {
     assert.doesNotMatch(html, /doom score/i);
   });
 
+  it('links older archived stories that name the person', () => {
+    const withArch = {
+      ...ctx,
+      itemArchive: [{
+        id: 'old-sa',
+        title: 'Sam Altman discussed compute last month',
+        summary: 'Coverage only.',
+        pillar: 'attention',
+        source: 'hn',
+        url: 'https://example.test/old-sa',
+        published_at: '2026-10-01T01:00:00Z',
+        score: 50,
+      }],
+    };
+    const html = renderPerson(withArch, 'altman');
+    assert.match(html, /Older scored stories naming Sam Altman/);
+    assert.match(html, /Sam Altman discussed compute last month/);
+    assert.match(html, /\/item\/archive\.html/);
+  });
+
   it('links indexable people from story pages on a full-name match only', () => {
     ctx.leaders.leaders.push(leader('karp', 'Alex Karp', { headlines: 3, week: 8 }));
     const item = {
