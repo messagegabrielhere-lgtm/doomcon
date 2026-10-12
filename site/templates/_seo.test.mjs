@@ -55,13 +55,14 @@ describe('IndexNow', () => {
 
   it('always includes the homepage and news sitemap in the default list', () => {
     const urls = defaultUrlList({ outDir: '/tmp/siren-no-public-dir' });
-    assert.ok(urls.includes('https://siren.watch/'));
-    assert.ok(urls.includes('https://siren.watch/ai-doomsday-clock.html'));
-    assert.ok(urls.includes('https://siren.watch/news-sitemap.xml'));
-    assert.ok(urls.includes('https://siren.watch/agents.md'));
-    assert.ok(urls.includes('https://siren.watch/compare.html'));
-    assert.ok(urls.includes('https://siren.watch/item/archive.html'));
-    assert.ok(urls.includes('https://siren.watch/tags/'));
+    const has = (exact) => urls.some((u) => u === exact);
+    assert.ok(has('https://siren.watch/'));
+    assert.ok(has('https://siren.watch/ai-doomsday-clock.html'));
+    assert.ok(has('https://siren.watch/news-sitemap.xml'));
+    assert.ok(has('https://siren.watch/agents.md'));
+    assert.ok(has('https://siren.watch/compare.html'));
+    assert.ok(has('https://siren.watch/item/archive.html'));
+    assert.ok(has('https://siren.watch/tags/'));
   });
 
   it('Organization knowsAbout head terms Google and assistants ask', () => {
