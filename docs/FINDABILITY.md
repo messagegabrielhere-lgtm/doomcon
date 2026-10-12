@@ -284,6 +284,7 @@ context.
 | 51 | Topic tags `mcp` + `fine-tuning` + `quantization` (live/archive ≥5 gate; search-trend hubs) | Google | **Done** (2026-10-12) |
 | 52 | Topic tags `distillation` + `memory`; newsroom entity-directory nav (anti-orphan hubs) | Google | **Done** (2026-10-12) |
 | 53 | `/vs/pizzint.html` conquest + compare/alternatives; topic tag `test-time` | Google | **Done** (2026-10-12) |
+| 54 | Wire PizzINT conquest from guide / FAQ / agents.md; merge latest main | Google | **Done** (2026-10-12) |
 
 ### 3.3 Refusals (search edition)
 

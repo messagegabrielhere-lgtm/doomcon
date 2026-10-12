@@ -789,14 +789,15 @@ ${bands.map((l) => `      <tr><td><b>${esc(l.level)}</b></td><td>${esc(l.name)}<
     stops at the grammar: ${esc(brand.NAME)} is not a readiness level and is not issued by any government body.</p>
   <h2>Where to go next</h2>
   <p><a href="${esc(ctx.href('/'))}">The current reading →</a> · <a href="${esc(ctx.href('/methodology.html'))}">Every formula →</a> ·
-    <a href="${esc(ctx.href('/compare.html'))}">AI doom indexes compared (DoomBench, Skynet, p(doom)) →</a> ·
+    <a href="${esc(ctx.href('/compare.html'))}">AI doom indexes compared (DoomBench, Skynet, p(doom), PizzINT) →</a> ·
+    <a href="${esc(ctx.href('/vs/pizzint.html'))}">${esc(brand.NAME)} vs PizzINT / Pentagon Pizza Index →</a> ·
     <a href="${esc(ctx.href('/alternatives.html'))}">Alternatives hub →</a> ·
     <a href="${esc(ctx.href('/history.html'))}">Sixty years of the same argument →</a> · <a href="${esc(ctx.href('/desk.html'))}">Tally's desk →</a></p>
 </section>`;
   return page({
     ctx, path: '/guide.html',
     title: `SIREN vs DEFCON vs the Doomsday Clock vs p(doom): what each measures`,
-    description: `A plain guide to four doom numbers. DEFCON is military readiness, the Doomsday Clock is a board's judgement, p(doom) is an opinion, and ${brand.NAME} is an hourly count of AI activity you can recompute.`,
+    description: `A plain guide to doom numbers. DEFCON is military readiness, the Doomsday Clock is a board's judgement, p(doom) is an opinion, PizzINT borrows those titles, and ${brand.NAME} is an hourly count of AI activity you can recompute.`,
     head: `<link rel="alternate" type="text/markdown" href="${esc(ctx.href('/guide.md'))}" title="Guide (markdown)">`,
     main,
   });
@@ -853,6 +854,8 @@ Because nobody needs the scale explained twice. "Five is calm, one is not" is al
 
 - [The current reading](${ctx.url('/')})
 - [Every formula](${ctx.url('/methodology.html')}) · [methodology.md](${ctx.url('/methodology.md')})
+- [AI doom indexes compared](${ctx.url('/compare.html')}) · [Alternatives hub](${ctx.url('/alternatives.html')})
+- [${brand.NAME} vs PizzINT / Pentagon Pizza Index](${ctx.url('/vs/pizzint.html')})
 - [Sixty years of the same argument](${ctx.url('/history.html')})
 `;
 }

@@ -18,6 +18,8 @@ test('guide.md mirrors the HTML guide claims', () => {
   assert.match(md, /\*\*SIREN 4, ROUTINE\*\*/);
   assert.match(md, /\| \*\*DEFCON\*\*/);
   assert.match(md, /methodology\.md/);
+  assert.match(md, /\/vs\/pizzint\.html/);
+  assert.match(md, /PizzINT/);
   assert.ok(md.includes(brand.NAME));
 });
 

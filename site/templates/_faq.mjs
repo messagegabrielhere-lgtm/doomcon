@@ -24,9 +24,9 @@ export function items(ctx) {
     ['Is there an AI doomsday clock I can verify?',
       `Most AI doomsday clocks are expert judgement. ${brand.NAME} is different: an hourly activity count from public data, with a receipt for every reading. The Bulletin's Doomsday Clock is not AI-specific. See /ai-doomsday-clock.html and /p-doom.html for the comparison.`],
     ['Is SIREN like DEFCON or the Doomsday Clock?',
-      `It borrows DEFCON's grammar, a scale that counts down from 5 to 1. The difference is what sits behind the number. DEFCON is set by military command and the Doomsday Clock by a board's judgement; ${brand.NAME} is arithmetic over public data, and every reading is published with the inputs needed to recompute it.`],
-    ['Is SIREN an alternative to DoomBench or Skynet Countdown?',
-      `Only if you want a recomputable activity count instead of a judgement-scored doom or timeline number. DoomBench scores takeover evidence; Skynet Countdown estimates AGI dates and control-loss odds; ${brand.NAME} counts how loud AI activity is this hour. See /compare.html and /alternatives.html for the side-by-side.`],
+      `It borrows DEFCON's grammar, a scale that counts down from 5 to 1. The difference is what sits behind the number. DEFCON is set by military command and the Doomsday Clock by a board's judgement; ${brand.NAME} is arithmetic over public data, and every reading is published with the inputs needed to recompute it. Sites that put DEFCON or Doomsday Clock in an AI title for traffic are brand hijack — see /vs/pizzint.html and /guide.html.`],
+    ['Is SIREN an alternative to DoomBench, Skynet Countdown or PizzINT?',
+      `Only if you want a recomputable activity count instead of a judgement-scored doom, timeline number, or DEFCON-shaped novelty page. DoomBench scores takeover evidence; Skynet Countdown estimates AGI dates and control-loss odds; PizzINT borrows DEFCON/Doomsday framing; ${brand.NAME} counts how loud AI activity is this hour. See /compare.html, /alternatives.html and /vs/pizzint.html for the side-by-side.`],
     ['Where are the AI leader and topic pages?',
       `${brand.NAME} publishes /people/ and /people.html for leaders with enough press coverage on the live wire or in the durable archive — headlines only, never invented quotations — /lab/ and /companies.html for labs that clear the story or race gate (no company doom score), /model/ and /models.html for model families (no model doom score), /pillar/ and /pillars.html for the five activity pillars (tempo readings and story counts only), /country/ and /countries.html for mapped datacentre countries (OpenStreetMap site counts only, not a national AI ranking), /source/ and /sources.html for feed adapters and /outlet/ and /outlets.html for publisher hosts that clear the story gate, and /tags/ hubs for topics such as agents, GPUs, chips, coding, evals, video, voice, reasoning models, AI IPOs, RAG, MCP, fine-tuning, quantization, distillation, agent memory, browser agents, watermarking, acquisitions, labor and healthcare when a needle clears five scored stories in the live window or archive. Older scored stories stay on /item/archive.html after they leave the live newsroom. Thin days and quiet roster rows stay off those indexes.`],
     ['Does a louder level mean AI is more dangerous?',
@@ -48,7 +48,7 @@ export function items(ctx) {
 export function linkifyAnswer(ctx, text) {
   const href = (path) => esc(ctx.href(path));
   return esc(text).replace(
-    /\/(?:(people|tags|kind)\/|(compare|alternatives|guide|ai-doomsday-clock|p-doom|methodology|news|item\/archive)\.html)/g,
+    /\/(?:(people|tags|kind)\/|(compare|alternatives|guide|ai-doomsday-clock|p-doom|methodology|news|item\/archive|vs\/pizzint)\.html)/g,
     (raw, dir, page) => {
       const path = dir ? `/${dir}/` : `/${page}.html`;
       return `<a href="${href(path)}">${path}</a>`;
@@ -65,6 +65,7 @@ ${qa.map(([q, a]) => `    <details class="faq__i"><summary class="faq__q">${esc(
   </div>
   <p class="fresh__key"><a href="${esc(ctx.href('/guide.html'))}">The longer version: SIREN, DEFCON, the Doomsday Clock and p(doom) →</a>
      · <a href="${esc(ctx.href('/compare.html'))}">AI doom indexes compared →</a>
+     · <a href="${esc(ctx.href('/vs/pizzint.html'))}">vs PizzINT →</a>
      · <a href="${esc(ctx.href('/alternatives.html'))}">Alternatives hub →</a>
      · <a href="${esc(ctx.href('/people/'))}">People →</a>
      · <a href="${esc(ctx.href('/tags/'))}">Tags →</a></p>
