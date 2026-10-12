@@ -301,6 +301,53 @@ describe('tag pages', () => {
     assert.match(renderTag(rich, 'test-time'), /Test-time compute: AI stories this index scored/);
   });
 
+  it('pages diffusion, embeddings, guardrails, context-window, and ai-search hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('d1', 'Stable Diffusion model ships a new checkpoint'),
+          story('d2', 'Latent diffusion training recipe'),
+          story('d3', 'Reinforcement of diffusion models paper'),
+          story('d4', 'Conditional diffusion models for images'),
+          story('d5', 'Open diffusion models release note'),
+          story('e1', 'New embeddings for semantic search'),
+          story('e2', 'Vector database ranking update'),
+          story('e3', 'Geospatial foundation model embeddings'),
+          story('e4', 'Embedding model beats prior baseline'),
+          story('e5', 'Vector search for RAG pipelines'),
+          story('g1', 'What should AI guardrails look like'),
+          story('g2', 'Lab ships a content filter API'),
+          story('g3', 'Safety filter for coding agents'),
+          story('g4', 'Guardrails product for enterprise chat'),
+          story('g5', 'Multi-agent guardrail patterns'),
+          story('x1', 'Million-token context window demo'),
+          story('x2', 'Long context eval for agents'),
+          story('x3', '1m context shipping in API'),
+          story('x4', 'Context windows expand again'),
+          story('x5', 'New context window pricing note'),
+          story('s1', 'Perplexity AI search product update'),
+          story('s2', 'ChatGPT search rolls out wider'),
+          story('s3', 'AI overview changes publisher traffic'),
+          story('s4', 'SearchGPT prototype notes'),
+          story('s5', 'Show HN: AI search for local photos'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    assert.ok(ids.includes('diffusion'));
+    assert.ok(ids.includes('embeddings'));
+    assert.ok(ids.includes('guardrails'));
+    assert.ok(ids.includes('context-window'));
+    assert.ok(ids.includes('ai-search'));
+    assert.match(renderTag(rich, 'diffusion'), /Diffusion models: AI stories this index scored/);
+    assert.match(renderTag(rich, 'embeddings'), /Embeddings: AI stories this index scored/);
+    assert.match(renderTag(rich, 'guardrails'), /AI guardrails: AI stories this index scored/);
+    assert.match(renderTag(rich, 'context-window'), /Context windows: AI stories this index scored/);
+    assert.match(renderTag(rich, 'ai-search'), /AI search: AI stories this index scored/);
+  });
+
   it('pages hallucination, prompt-injection, MoE, world-models, and copyright hubs', () => {
     const rich = {
       ...ctx,

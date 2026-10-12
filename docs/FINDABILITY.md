@@ -288,6 +288,7 @@ context.
 | 55 | Home + catalog + IndexNow surfaces for `/vs/*` conquest pages incl. PizzINT | Google | **Done** (2026-10-12) |
 | 56 | `llms.txt` / skill map lists PizzINT conquest + pillar/country/source hubs | assistants | **Done** (2026-10-12) |
 | 57 | Topic tags `hallucination` + `prompt-injection` + `moe` + `world-models` + `copyright` (live/archive ≥5 gate; search-trend hubs) | Google | **Done** (2026-10-12) |
+| 58 | Topic tags `diffusion` + `embeddings` + `guardrails` + `context-window` + `ai-search`; news-sitemap keywords include matching topic names (cap 12; pizzint news contested) | Google News | **Done** (2026-10-12) |
 
 ### 3.3 Refusals (search edition)
 

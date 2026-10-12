@@ -61,3 +61,25 @@ test('render keywords include scored entities and stay under the news cap', () =
   assert.match(xml, /<news:keywords>[^<]*OpenAI/);
   assert.match(xml, /artificial intelligence/);
 });
+
+test('render keywords include matching topic-tag names for Google News contest', () => {
+  const xml = render({
+    news: {
+      items: [{
+        id: 'a2',
+        title: 'New AI agents ship computer use and prompt injection defenses',
+        summary: 'Agentic tool-use product with guardrails.',
+        published_at: new Date().toISOString(),
+        source: 'hn',
+        pillar: 'capability',
+        kind: 'forum',
+        entities: [],
+      }],
+    },
+    url: (p) => `https://example.test${p}`,
+  });
+  assert.match(xml, /<news:keywords>[^<]*AI agents/);
+  assert.match(xml, /Prompt injection|AI guardrails/);
+  const kw = xml.match(/<news:keywords>([^<]*)<\/news:keywords>/)[1];
+  assert.ok(kw.split(',').length <= 12);
+});

@@ -283,6 +283,36 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'Copyright, fair-use, and training-data lawsuit stories naming AI systems — coverage counts, not legal advice.',
     match: /\b(copyright(?:ed|s)?|fair use|training data (?:lawsuit|suit|case)|ai (?:copyright|lawsuit))\b/i,
   },
+  {
+    id: 'diffusion',
+    name: 'Diffusion models',
+    description: 'Diffusion-model and image-generation architecture stories scored in the newsroom or archive.',
+    match: /\b(diffusion models?|latent diffusion|stable diffusion)\b/i,
+  },
+  {
+    id: 'embeddings',
+    name: 'Embeddings',
+    description: 'Embedding, vector-search, and semantic-search stories scored in the newsroom or archive.',
+    match: /\b(embeddings?|vector (?:db|database|search)|semantic search)\b/i,
+  },
+  {
+    id: 'guardrails',
+    name: 'AI guardrails',
+    description: 'Guardrail and content-filter product stories scored in the newsroom or archive — not a harm forecast.',
+    match: /\b(guardrails?|content filter|safety filter)\b/i,
+  },
+  {
+    id: 'context-window',
+    name: 'Context windows',
+    description: 'Long-context and context-window stories scored in the newsroom or archive.',
+    match: /\b(context windows?|long context|1m context|million.?token context)\b/i,
+  },
+  {
+    id: 'ai-search',
+    name: 'AI search',
+    description: 'AI search and answer-engine stories scored in the newsroom or archive — product coverage, not a ranking claim.',
+    match: /\b(ai (?:search|overview)|perplexity|searchgpt|chatgpt search)\b/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));

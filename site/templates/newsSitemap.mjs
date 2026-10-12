@@ -5,6 +5,7 @@
 
 import { esc } from './_html.mjs';
 import { slugFor } from './itemPage.mjs';
+import { TOPIC_DEFS, itemMatchesTag } from './tagPages.mjs';
 import * as brand from '../brand.mjs';
 
 /** Hours a URL stays eligible for the news sitemap. Google's documented
@@ -30,13 +31,19 @@ function keywordsFor(item) {
   for (const name of (Array.isArray(item.entities) ? item.entities : [])) {
     if (typeof name === 'string' && name.trim()) bits.push(name.trim());
   }
+  // Topic needles from the published tag vocabulary (search-shaped; no new URLs).
+  for (const topic of TOPIC_DEFS) {
+    if (itemMatchesTag(item, topic)) bits.push(topic.name);
+  }
   const labs = ['OpenAI', 'Anthropic', 'Google', 'DeepMind', 'Meta', 'xAI', 'Mistral', 'NVIDIA', 'DeepSeek'];
   const hay = `${item.title || ''} ${item.summary || ''}`;
   for (const lab of labs) {
     if (new RegExp(`\\b${lab}\\b`, 'i').test(hay)) bits.push(lab);
   }
   bits.push('AI', 'artificial intelligence', brand.NAME);
-  return [...new Set(bits)].slice(0, 10).join(', ');
+  // Cap 12 so entity + topic + lab keywords stay under Google News practical limits
+  // while pizzint's thin news-sitemap is contested again (COMPETITIVE-SEO.md).
+  return [...new Set(bits)].slice(0, 12).join(', ');
 }
 
 /** Items young enough for the news sitemap, newest first. */
