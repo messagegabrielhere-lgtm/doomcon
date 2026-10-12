@@ -24,6 +24,18 @@ test('parseOpenRouterRankingsHtml extracts ranked rows', () => {
   assert.equal(rows[0].tokens, 5.68e12);
 });
 
+test('parseOpenRouterRankingsHtml strips nested tag leftovers', () => {
+  const html = `
+    <div id="rankings-summary"><caption>safe</caption>
+    <tbody>
+      <tr><td>1</td><th><scr<script>ipt>evil</scr</script>ipt>Model</th><td>lab</td><td>1T</td><td></td></tr>
+    </tbody></div>`;
+  const { rows } = parseOpenRouterRankingsHtml(html);
+  assert.equal(rows[0].name, 'ipt>evil ipt>Model');
+  assert.ok(!/</.test(rows[0].name));
+  assert.ok(!/<script/i.test(rows[0].name));
+});
+
 test('parseLmarenaJsonLd reads ItemList order', () => {
   const html = `<script type="application/ld+json">${JSON.stringify({
     '@type': 'ItemList',

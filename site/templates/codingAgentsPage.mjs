@@ -219,7 +219,13 @@ function utcDay(iso) {
 }
 
 function stripTags(html) {
-  return String(html).replace(/<[^>]+>/g, '');
+  // Drop well-formed tags, then any leftover `<` so nested leftovers cannot
+  // re-form markup (CodeQL js/incomplete-multi-character-sanitization).
+  return String(html)
+    .replace(/<[^>]*>/g, ' ')
+    .replace(/</g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
 }
 
 function css() {

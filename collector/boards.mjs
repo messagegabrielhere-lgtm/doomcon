@@ -42,6 +42,19 @@ export function parseTokenVolume(text) {
 }
 
 /**
+ * Flatten HTML to plain text. Drop well-formed tags, then any leftover `<`
+ * so nested leftovers cannot re-form markup (CodeQL
+ * js/incomplete-multi-character-sanitization).
+ */
+function stripHtml(html) {
+  return String(html)
+    .replace(/<[^>]*>/g, ' ')
+    .replace(/</g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+/**
  * Extract the accessible rankings-summary table from OpenRouter HTML.
  * Returns { caption, rows: [{ rank, name, author, tokens, tokens_raw, change }] }.
  */
@@ -51,7 +64,7 @@ export function parseOpenRouterRankingsHtml(html) {
   const slice = html.slice(start, start + 80_000);
   const captionMatch = /<caption[^>]*>([\s\S]*?)<\/caption>/i.exec(slice);
   const caption = captionMatch
-    ? captionMatch[1].replace(/<[^>]+>/g, '').trim()
+    ? stripHtml(captionMatch[1]).trim()
     : 'OpenRouter model rankings';
   const bodyMatch = /<tbody[^>]*>([\s\S]*?)<\/tbody>/i.exec(slice);
   if (!bodyMatch) throw new Error('openrouter rankings: tbody not found');
@@ -60,7 +73,7 @@ export function parseOpenRouterRankingsHtml(html) {
   let tr;
   while ((tr = trRe.exec(bodyMatch[1]))) {
     const cells = [...tr[1].matchAll(/<(?:td|th)[^>]*>([\s\S]*?)<\/(?:td|th)>/gi)]
-      .map((m) => m[1].replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim());
+      .map((m) => stripHtml(m[1]).replace(/\s+/g, ' ').trim());
     if (cells.length < 4) continue;
     const rank = Number(cells[0]);
     if (!Number.isFinite(rank)) continue;
