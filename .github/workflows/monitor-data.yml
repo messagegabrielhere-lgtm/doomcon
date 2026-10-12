@@ -50,6 +50,14 @@ jobs:
       - name: Collect
         run: node monitor/collect.mjs "$RUNNER_TEMP/monitor-out"
 
+      # Soft gate: annotations + summary always; the step fails on error-severity
+      # aircraft issues so Actions mail fires, but publishing still runs so
+      # news/quakes keep updating while ADS-B is dark.
+      - name: Aircraft feed health
+        id: aircraft
+        continue-on-error: true
+        run: node monitor/check.mjs "$RUNNER_TEMP/monitor-out/monitor.json"
+
       - name: Publish to monitor-data
         env:
           GH_TOKEN: ${{ github.token }}

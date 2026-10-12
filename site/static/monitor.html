@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>World Monitor</title>
-<meta name="description" content="A live globe of world news from GDELT and 27 world feeds, grouped into stories, with earthquakes, storms, fires, military aircraft and shipping chokepoints…">
+<meta name="description" content="A live globe of world news from GDELT and 27 world feeds, grouped into stories, with earthquakes, storms, fires, ADS-B/MLAT/TIS-B aircraft density and shipping chokepoints…">
 <link rel="stylesheet" href="fonts/fonts.css">
 <style>
 /* Layout: operations room. Status bar on top, layers and stress index left, map centre, feeds right.
@@ -292,7 +292,7 @@ dialog.modal::backdrop{background:rgba(0,0,0,.55)}
     <span class="clock" id="clock" aria-live="off">--:--:-- UTC</span>
     <select class="sel" id="win" aria-label="Time window" title="Time window for the stories, hotspots and brief"><option value="6">6 h</option><option value="24" selected>24 h</option><option value="72">72 h</option></select>
     <button class="btn" id="palBtn" type="button" title="Jump to a country, region, layer or action">Jump…</button>
-    <button class="btn" id="alerts" type="button" aria-pressed="false" title="Notify on big quakes, red disaster alerts, fast-rising countries and news about countries you watch">Alerts</button>
+    <button class="btn" id="alerts" type="button" aria-pressed="false" title="Notify on big quakes, red disaster alerts, aircraft feed failures, fast-rising countries and news about countries you watch">Alerts</button>
     <button class="btn" id="share" type="button" title="Copy a link to this exact view">Share</button>
     <button class="btn" id="refresh" type="button" title="Refetch every source (R)">Refresh</button>
     <button class="btn" id="helpBtn" type="button" title="How this works and keyboard shortcuts (?)" aria-label="Help">?</button>
@@ -371,7 +371,7 @@ dialog.modal::backdrop{background:rgba(0,0,0,.55)}
   <div class="ticker" aria-label="Latest stories"><span class="lab">LIVE</span><div class="run" id="ticker"></div></div>
 
   <footer>
-    <span>News: <a href="https://www.gdeltproject.org/" target="_blank" rel="noopener">GDELT</a>, 27 world and specialist feeds, and SIREN's newsroom. Hazards: <a href="https://earthquake.usgs.gov/" target="_blank" rel="noopener">USGS</a>, <a href="https://eonet.gsfc.nasa.gov/" target="_blank" rel="noopener">NASA EONET</a>, <a href="https://www.gdacs.org/" target="_blank" rel="noopener">GDACS</a>. Military aircraft: <a href="https://adsb.lol/" target="_blank" rel="noopener">adsb.lol</a> (ODbL), public ADS-B broadcasts shown only as regional counts; no callsigns, registrations or exact positions. Cyber: <a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank" rel="noopener">CISA KEV</a>. Markets: Yahoo (delayed, via the scanner snapshot), OKX. Map: Natural Earth. <a href="https://github.com/messagegabrielhere-lgtm/doomcon/blob/main/docs/MONITOR.md" target="_blank" rel="noopener">How it works</a>.</span>
+    <span>News: <a href="https://www.gdeltproject.org/" target="_blank" rel="noopener">GDELT</a>, 27 world and specialist feeds, and SIREN's newsroom. Hazards: <a href="https://earthquake.usgs.gov/" target="_blank" rel="noopener">USGS</a>, <a href="https://eonet.gsfc.nasa.gov/" target="_blank" rel="noopener">NASA EONET</a>, <a href="https://www.gdacs.org/" target="_blank" rel="noopener">GDACS</a>. Aircraft: <a href="https://adsb.lol/" target="_blank" rel="noopener">adsb.lol</a> (ODbL) — ADS-B, MLAT and TIS-B as regional counts only (no callsigns, registrations or exact positions). No space-based ADS-B, ACARS or airline FLIFO on this page. Cyber: <a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank" rel="noopener">CISA KEV</a>. Markets: Yahoo (delayed, via the scanner snapshot), OKX. Map: Natural Earth. <a href="https://github.com/messagegabrielhere-lgtm/doomcon/blob/main/docs/MONITOR.md" target="_blank" rel="noopener">How it works</a>.</span>
     <span>Keys: ⌘K or / jump · ? help · j/k stories · 1–4 tabs · M map · P replay · R refresh · 0 reset · Esc close</span>
   </footer>
 </div>
@@ -455,29 +455,21 @@ const GDELT = "https://api.gdeltproject.org/api/v2/doc/doc";
 const USGS = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_week.geojson";
 const EONET = "https://eonet.gsfc.nasa.gov/api/v3/events?status=open&days=30";
 const GDACS = ["EQ", "TC", "FL", "VO", "WF", "DR"].map((t) => `https://www.gdacs.org/gdacsapi/api/events/geteventlist/MAP?eventtype=${t}`); // one type per call
-const OPENSKY = "https://opensky-network.org/api/states/all";
-// Military aircraft: adsb.lol only (ODbL, credited below). Shown ONLY as
-// counts per 5-degree cell — no callsigns, registrations, hex codes, exact
-// positions, headings, altitudes or links to individual aircraft. The
-// identifying fields are dropped the moment the response arrives.
+// Aircraft: adsb.lol only (ODbL). Shown ONLY as counts per 5° cell — no
+// callsigns, registrations, hex codes, exact positions, headings, altitudes
+// or links to individual aircraft. Identifying fields are dropped on arrival.
+// Modalities kept: ADS-B / MLAT / TIS-B / Mode S (FlightAware-style sources
+// that an openly licensed terrestrial feed can carry). Not carried: Aireon
+// space-based ADS-B, ACARS, airline FLIFO.
 const MIL_URLS = ["https://api.adsb.lol/v2/mil"];
-const MIL_CELL = 5;
-function milCells(list) {
-  const cells = new Map();
-  for (const a of list || []) {
-    if (!isF(a.lat) || !isF(a.lon)) continue;
-    const la = (Math.floor(a.lat / MIL_CELL) + 0.5) * MIL_CELL, lo = (Math.floor(a.lon / MIL_CELL) + 0.5) * MIL_CELL;
-    const k = la + "," + lo;
-    const c = cells.get(k) || { lat: la, lon: lo, n: 0, isos: {} };
-    const n = isF(a.n) ? a.n : 1;
-    c.n += n;
-    if (a.isos) for (const [i, m] of Object.entries(a.isos)) c.isos[i] = (c.isos[i] || 0) + m;
-    else if (a.iso) c.isos[a.iso] = (c.isos[a.iso] || 0) + n;
-    cells.set(k, c);
-  }
-  return [...cells.values()];
-}
-const milTotal = () => S.mil.reduce((t, c) => t + (c.n || 0), 0);
+const EMERG_SQK = ["7700", "7600", "7500"];
+const EMERG_URLS = EMERG_SQK.map((s) => `https://api.adsb.lol/v2/sqk/${s}`);
+const milCells = (list) => Core.adsbCells(list);
+const cellTotal = (cells) => (cells || []).reduce((t, c) => t + (c.n || 0), 0);
+const milTotal = () => cellTotal(S.mil);
+const adsbTotal = () => cellTotal(S.adsb);
+const emergTotal = () => cellTotal(S.emerg);
+const modeSub = (c) => Core.adsbModeLine(c?.by) || "Counted per 5° region. Individual aircraft are not shown.";
 const KEV = "https://raw.githubusercontent.com/cisagov/kev-data/develop/known_exploited_vulnerabilities.json";
 const OKX = "https://www.okx.com/api/v5/market/tickers?instType=SPOT";
 const FNG = "https://api.alternative.me/fng/?limit=2";
@@ -509,7 +501,7 @@ const LANES = [
 const S = {
   countries: [], byIso: new Map(), countriesIn: () => [],
   items: new Map(), stories: [],
-  quakes: [], eonet: [], gdacs: [], flights: [], mil: [], dcs: [], kev: [], kevTotal: null, stocks: new Map(), crypto: [], fng: null,
+  quakes: [], eonet: [], gdacs: [], flights: [], mil: [], adsb: [], emerg: [], dcs: [], kev: [], kevTotal: null, stocks: new Map(), crypto: [], fng: null,
   snap: null, hist: null, stress: new Map(), sources: new Map(),
   view: { lon: store.get("lon", 20), lat: store.get("lat", 22), zoom: 1, mode: store.get("mode", "globe") },
   spin: !REDUCED && store.get("spin", true), lastInteract: 0,
@@ -542,7 +534,13 @@ const LAYER_GROUPS = [
   ["News hotspots", CATS.map((c) => ["news:" + c.id, c.label, c.color, c.id !== "world"])],
   ["Hazards", [["quakes", "Earthquakes M4.5+ (7d)", "#ffa726", true], ["gdacs", "GDACS alerts", "#e53935", true],
     ...Object.entries(EONET_CATS).map(([k, [l, c]]) => ["eonet:" + k, l, c, !QUIET_EONET.includes(k)])]],
-  ["Movement", [["mil", "Military aircraft (regional counts)", "#ff1744", true], ["lanes", "Shipping lanes", "#26c6da", true, "sq"], ["choke", "Chokepoints", "#00bcd4", true]]],
+  ["Movement", [
+    ["mil", "Military aircraft (ADS-B / MLAT / TIS-B)", "#ff1744", true],
+    ["adsb", "Air traffic density (hub sample)", "#448aff", true],
+    ["emerg", "Emergency squawks 7700 / 7600 / 7500", "#ff9100", true],
+    ["lanes", "Shipping lanes", "#26c6da", true, "sq"],
+    ["choke", "Chokepoints", "#00bcd4", true],
+  ]],
   ["Infrastructure", [["dc", "AI datacentres (OSM)", "#f0b44c", false]]],
 ];
 const LAYERS = new Map();
@@ -553,9 +551,9 @@ const on = (id) => LAYERS.get(id)?.on;
 const news = (...ids) => ids.map((i) => "news:" + i);
 const PRESETS = {
   Everything: null,
-  Conflict: ["stress", "night", "grat", ...news("conflict", "security", "nuclear", "unrest", "diplomacy", "migration"), "mil", "lanes", "choke"],
+  Conflict: ["stress", "night", "grat", ...news("conflict", "security", "nuclear", "unrest", "diplomacy", "migration"), "mil", "emerg", "lanes", "choke"],
   Disasters: ["stress", "night", "grat", ...news("disaster", "health", "climate", "migration"), "quakes", "gdacs", ...Object.keys(EONET_CATS).filter((k) => !QUIET_EONET.includes(k)).map((k) => "eonet:" + k)],
-  Movement: ["night", "grat", ...news("shipping", "energy", "conflict"), "mil", "lanes", "choke"],
+  Movement: ["night", "grat", ...news("shipping", "energy", "conflict"), "mil", "adsb", "emerg", "lanes", "choke"],
   Markets: ["stress", "grat", ...news("economy", "energy", "shipping", "ai"), "lanes", "choke", "dc"],
 };
 function applyPreset(name) {
@@ -564,7 +562,7 @@ function applyPreset(name) {
   S.catOn = new Set(CATS.filter((c) => on("news:" + c.id)).map((c) => c.id));
   S.preset = name;
   saveLayers(); renderPresets(); renderLayers(); renderCats(); renderFeed(); renderLegend(); dirty();
-  if (on("flights") && !S.flights.length) loadFlights();
+  if (on("emerg") && !S.emerg.length) loadEmerg();
   if (on("dc") && !S.dcs.length) loadDCs();
 }
 function renderPresets() {
@@ -585,7 +583,7 @@ function layerCounts() {
   const c = {};
   for (const cat of CATS) c["news:" + cat.id] = 0;
   for (const s of S.stories) if (inS(s)) c["news:" + s.cat]++;
-  c.quakes = S.quakes.length; c.gdacs = S.gdacs.length; c.mil = milTotal(); c.flights = 0;
+  c.quakes = S.quakes.length; c.gdacs = S.gdacs.length; c.mil = milTotal(); c.adsb = adsbTotal(); c.emerg = emergTotal();
   c.dc = S.dcs.length; c.choke = CHOKE.length; c.lanes = LANES.length;
   for (const k of Object.keys(EONET_CATS)) c["eonet:" + k] = S.eonet.filter((e) => e.cat === k).length;
   c.stress = [...S.stress.values()].filter((s) => s.score >= 1).length;
@@ -596,7 +594,7 @@ $("#layers").addEventListener("change", (e) => {
   if (!id) return;
   LAYERS.get(id).on = e.target.checked;
   S.preset = null; renderPresets();
-  if (id === "flights" && e.target.checked && !S.flights.length) loadFlights();
+  if (id === "emerg" && e.target.checked && !S.emerg.length) loadEmerg();
   if (id === "dc" && e.target.checked && !S.dcs.length) loadDCs();
   if (id.startsWith("news:")) { const c = id.slice(5); e.target.checked ? S.catOn.add(c) : S.catOn.delete(c); renderCats(); renderFeed(); }
   saveLayers();
@@ -607,8 +605,8 @@ $("#layers").addEventListener("change", (e) => {
 /* ------------------------------------------------------------------ */
 /* Source status chips                                                */
 /* ------------------------------------------------------------------ */
-const SRC_ORDER = ["snap", "outline", "gdelt", "rss", "siren", "usgs", "eonet", "gdacs", "mil", "kev", "stocks", "okx", "dc", "ollama"];
-const SRC_LABEL = { snap: "Snapshot", outline: "Map", gdelt: "GDELT", rss: "World feeds", siren: "AI news", usgs: "USGS", eonet: "NASA EONET", gdacs: "GDACS", opensky: "OpenSky", mil: "Military ADS-B", kev: "CISA KEV", stocks: "Markets", okx: "Crypto", dc: "Datacentres", ollama: "Ollama" };
+const SRC_ORDER = ["snap", "outline", "gdelt", "rss", "siren", "usgs", "eonet", "gdacs", "mil", "adsb", "emerg", "kev", "stocks", "okx", "dc", "ollama"];
+const SRC_LABEL = { snap: "Snapshot", outline: "Map", gdelt: "GDELT", rss: "World feeds", siren: "AI news", usgs: "USGS", eonet: "NASA EONET", gdacs: "GDACS", mil: "Military ADS-B", adsb: "Air traffic", emerg: "Emergency squawks", kev: "CISA KEV", stocks: "Markets", okx: "Crypto", dc: "Datacentres", ollama: "Ollama" };
 /** state: ok | snap (live call failed, showing the server snapshot) | wait | dark | off */
 function setSrc(id, state, short = "", detail = "") {
   S.sources.set(id, { state, short, detail: detail || short });
@@ -623,7 +621,12 @@ function renderSources() {
 /** A live call failed: fall back to the snapshot's copy if it has one. */
 function liveFailed(id, key, err) {
   const snapN = S.snap?.[key]?.length;
-  if (snapN) { S[key] = S.snap[key]; setSrc(id, "snap", `${snapN} · snapshot`, `Live call failed (${err}); showing the server snapshot`); }
+  if (snapN) {
+    const cell = key === "mil" || key === "adsb" || key === "emerg";
+    S[key] = cell ? milCells(S.snap[key]) : S.snap[key];
+    const n = cell ? cellTotal(S[key]) : snapN;
+    setSrc(id, "snap", `${n} · snapshot`, `Live call failed (${err}); showing the server snapshot`);
+  }
   else setSrc(id, "dark", "", err);
 }
 
@@ -697,9 +700,14 @@ async function loadSnapshot() {
     let added = 0;
     for (const it of j.items || []) if (addItem({ ...it })) added++;
     // hazards: take the snapshot's copy unless a live call has already landed
-    for (const [key, id] of [["quakes", "usgs"], ["eonet", "eonet"], ["gdacs", "gdacs"], ["mil", "mil"], ["kev", "kev"]]) {
+    const cellKeys = new Set(["mil", "adsb", "emerg"]);
+    for (const [key, id] of [["quakes", "usgs"], ["eonet", "eonet"], ["gdacs", "gdacs"], ["mil", "mil"], ["adsb", "adsb"], ["emerg", "emerg"], ["kev", "kev"]]) {
       const st = S.sources.get(id)?.state;
-      if (st !== "ok" && j[key]?.length) { S[key] = key === "mil" ? milCells(j[key]) : j[key]; setSrc(id, "snap", `${j[key].length} · snapshot`, "From the server snapshot; the live call has not answered"); }
+      if (st !== "ok" && j[key]?.length) {
+        S[key] = cellKeys.has(key) ? milCells(j[key]) : j[key];
+        const n = cellKeys.has(key) ? cellTotal(S[key]) : j[key].length;
+        setSrc(id, "snap", `${n} · snapshot`, "From the server snapshot; the live call has not answered");
+      }
     }
     const src = j.sources || {};
     if (src.kev_total) S.kevTotal = src.kev_total;
@@ -812,24 +820,35 @@ async function loadGdacs() {
 async function loadMil() {
   try {
     const j = await firstJSON(MIL_URLS, { timeout: 25000 });
-    const pts = (j.ac || j.aircraft || []).filter((a) => isF(a.lat) && isF(a.lon)).map((a) => ({ lon: a.lon, lat: a.lat }));
+    const pts = (j.ac || j.aircraft || []).filter((a) => isF(a.lat) && isF(a.lon))
+      .map((a) => ({ lon: a.lon, lat: a.lat, mod: Core.adsbModality(a.type, a) }));
     attach(pts, Core.countryAt);
     S.mil = milCells(pts);
-    setSrc("mil", "ok", `${milTotal()}`, "Live: military-flagged aircraft broadcasting ADS-B, counted per region only");
+    const mix = Core.adsbModeLine(Core.adsbModeTotals(S.mil));
+    setSrc("mil", "ok", `${milTotal()}`, `Live: military-flagged aircraft, counted per region${mix ? " · " + mix : ""}`);
   } catch (e) { liveFailed("mil", "mil", e.message); }
   afterData();
 }
-async function loadFlights() {
-  // Retired: OpenSky's API is licensed for non-commercial research only.
-  return;
-  setSrc("opensky", "wait");
+async function loadEmerg() {
+  setSrc("emerg", "wait");
   try {
-    const j = await getJSON(OPENSKY, { timeout: 30000 });
-    const all = (j.states || []).filter((s) => isF(s[5]) && isF(s[6]) && !s[8]);
-    const step = Math.max(1, Math.floor(all.length / 4000));
-    S.flights = all.filter((_, i) => i % step === 0).map((s) => ({ cs: (s[1] || "").trim(), from: s[2], lon: s[5], lat: s[6], alt: s[7], v: s[9], hdg: s[10] }));
-    setSrc("opensky", "ok", all.length.toLocaleString(), `${all.length.toLocaleString()} airborne, ${S.flights.length.toLocaleString()} drawn`);
-  } catch (e) { setSrc("opensky", "dark", "", e.message + " (the anonymous limit is about 100 calls a day)"); }
+    const parts = await Promise.allSettled(EMERG_URLS.map((u) => getJSON(u, { timeout: 20000 })));
+    const pts = [];
+    let okN = 0;
+    for (let i = 0; i < parts.length; i++) {
+      if (parts[i].status !== "fulfilled") continue;
+      okN++;
+      const code = EMERG_SQK[i];
+      for (const a of parts[i].value.ac || parts[i].value.aircraft || []) {
+        if (!isF(a.lat) || !isF(a.lon)) continue;
+        pts.push({ lon: a.lon, lat: a.lat, mod: Core.adsbModality(a.type, a), by: { [code]: 1 } });
+      }
+    }
+    if (!okN) throw new Error(parts[0]?.reason?.message || "no squawk feed answered");
+    attach(pts, Core.countryAt);
+    S.emerg = milCells(pts);
+    setSrc("emerg", "ok", `${emergTotal()}`, `Live: squawks 7700 / 7600 / 7500, counted per region only`);
+  } catch (e) { liveFailed("emerg", "emerg", e.message); }
   afterData();
 }
 async function loadDCs() {
@@ -1242,6 +1261,8 @@ function selectCountry(iso, fly) {
   const etf = etfOf(iso), st = etf && S.stocks.get(etf);
   const stories = S.stories.filter((x) => x.iso.includes(iso) && inS(x)).sort((a, b) => b.sources - a.sources || b.t - a.t);
   const mil = S.mil.reduce((t, c) => t + ((c.isos || {})[iso] || 0), 0);
+  const adsbN = S.adsb.reduce((t, c) => t + ((c.isos || {})[iso] || 0), 0);
+  const emergN = S.emerg.reduce((t, c) => t + ((c.isos || {})[iso] || 0), 0);
   const ser = historyFor(iso);
   const peak = ser ? Math.max(...ser.map((p) => p.v)) : null;
   const part = (l, v) => v == null ? `<span>${l}</span><span class="pb"></span><span class="v" style="color:var(--mute)">n/a</span>` : `<span>${l}</span><span class="pb"><i style="width:${v}%"></i></span><span class="v">${v.toFixed(0)}</span>`;
@@ -1253,7 +1274,11 @@ function selectCountry(iso, fly) {
       <div class="parts">${part("News", s.N)}${part("Hazard", s.H)}${part("Market", s.M)}</div>
       ${st ? `<div><h5>Market</h5>${esc(etf)} ${fmtPx(st.last)} · <span class="${cls(st.d1)}">${pct(st.d1)}</span> today · <span class="${cls(st.d5)}">${pct(st.d5, 1)}</span> 5d · volatility ${st.volZ >= 0 ? "+" : ""}${st.volZ.toFixed(1)}σ vs its year</div>` : ""}
       ${s.hz.length ? `<div><h5>Hazards</h5><ul>${s.hz.slice(0, 6).map((h) => `<li>${esc(h)}</li>`).join("")}</ul></div>` : ""}
-      ${mil ? `<div><h5>Military aircraft overhead</h5>${mil} broadcasting ADS-B now</div>` : ""}
+      ${mil || adsbN || emergN ? `<div><h5>Aircraft overhead (regional counts)</h5>${[
+        mil ? `${mil} military` : null,
+        adsbN ? `${adsbN} in hub sample` : null,
+        emergN ? `${emergN} emergency squawk${emergN === 1 ? "" : "s"}` : null,
+      ].filter(Boolean).join(" · ")}. ADS-B / MLAT / TIS-B via adsb.lol; no individual aircraft.</div>` : ""}
       <div><h5>Stories naming it · ${stories.length} in ${S.win} h</h5><ul>${stories.slice(0, 8).map((x) => `<li><a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.title)}</a> <span style="color:var(--mute);font-size:11px">${esc(CAT[x.cat].label)} · ${ago(x.t)}${x.sources > 1 ? ` · ${x.sources} outlets` : ""}</span></li>`).join("") || "<li>None in this window.</li>"}</ul></div>
     </div>`;
   dr.hidden = false;
@@ -1451,11 +1476,22 @@ function draw(now) {
     ctx.save(); ctx.translate(p[0], p[1]); ctx.rotate(Math.PI / 4); ctx.lineWidth = 1.5; ctx.strokeStyle = LAYERS.get("choke").color; ctx.strokeRect(-3.5, -3.5, 7, 7); ctx.restore();
   }
   if (on("dc")) { ctx.fillStyle = LAYERS.get("dc").color; ctx.globalAlpha = 0.7; for (const d of S.dcs) { const p = vis(d.lon, d.lat); if (p) { ctx.fillRect(p[0] - 1, p[1] - 1, 2, 2); HIT.push({ x: p[0], y: p[1], r: 3, kind: "dc", title: d.name || d.op || "Datacentre", sub: [d.op, d.city, d.country, d.status].filter(Boolean).join(" · ") }); } } ctx.globalAlpha = 1; }
-  if (on("flights")) {
-    ctx.strokeStyle = LAYERS.get("flights").color; ctx.globalAlpha = 0.6; ctx.lineWidth = 1; ctx.beginPath();
-    for (const f of S.flights) { const p = vis(f.lon, f.lat); if (!p) continue; const hd = (f.hdg || 0) * RAD; ctx.moveTo(p[0], p[1]); ctx.lineTo(p[0] - Math.sin(hd) * 3, p[1] + Math.cos(hd) * 3); HIT.push({ x: p[0], y: p[1], r: 3, kind: "flight", title: f.cs || "Aircraft", sub: [f.from, isF(f.alt) ? Math.round(f.alt * 3.281).toLocaleString() + " ft" : "", isF(f.v) ? Math.round(f.v * 1.944) + " kt" : ""].filter(Boolean).join(" · ") }); }
-    ctx.stroke(); ctx.globalAlpha = 1;
+  function drawCells(list, layerId, titleOf) {
+    if (!on(layerId) || S.asOf) return;
+    const col = LAYERS.get(layerId).color;
+    for (const c of list) {
+      const p = vis(c.lon, c.lat); if (!p) continue;
+      const r = 4 + Math.sqrt(c.n) * 2.2;
+      ctx.save(); ctx.globalAlpha = 0.22; ctx.fillStyle = col; ctx.beginPath(); ctx.arc(p[0], p[1], r, 0, 2 * Math.PI); ctx.fill();
+      ctx.globalAlpha = 0.9; ctx.lineWidth = 1.2; ctx.strokeStyle = col; ctx.stroke();
+      if (c.n >= 3) { ctx.globalAlpha = 1; ctx.fillStyle = COL.ink; ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.font = "600 10px " + COL.body; ctx.fillText(String(c.n), p[0], p[1]); }
+      ctx.restore();
+      HIT.push({ x: p[0], y: p[1], r: Math.max(6, r), kind: layerId, title: titleOf(c), sub: modeSub(c) });
+    }
   }
+  drawCells(S.adsb, "adsb", (c) => `${c.n} aircraft in hub sample`);
+  drawCells(S.mil, "mil", (c) => `${c.n} military aircraft broadcasting`);
+  drawCells(S.emerg, "emerg", (c) => `${c.n} emergency squawk${c.n === 1 ? "" : "s"}`);
   for (const e of atTime(S.eonet)) {
     if (!on("eonet:" + e.cat)) continue;
     const col = EONET_CATS[e.cat]?.[1] || "#999";
@@ -1492,15 +1528,6 @@ function draw(now) {
     ctx.globalAlpha = 0.28; marker(p[0], p[1], r, col);
     ctx.globalAlpha = 1; ctx.lineWidth = 1.5; marker(p[0], p[1], r, null, col, { kind: "news", iso, title: c.name, sub: by.map(([k, n]) => `${CAT[k].label} ${n}`).join(" · ") });
     if (h.n >= 4) { ctx.fillStyle = COL.ink; ctx.fillText(String(h.n), p[0], p[1]); }
-  }
-  if (on("mil") && !S.asOf) for (const c of S.mil) {
-    const p = vis(c.lon, c.lat); if (!p) continue;
-    const r = 4 + Math.sqrt(c.n) * 2.2, col = LAYERS.get("mil").color;
-    ctx.save(); ctx.globalAlpha = 0.22; ctx.fillStyle = col; ctx.beginPath(); ctx.arc(p[0], p[1], r, 0, 2 * Math.PI); ctx.fill();
-    ctx.globalAlpha = 0.9; ctx.lineWidth = 1.2; ctx.strokeStyle = col; ctx.stroke();
-    if (c.n >= 3) { ctx.globalAlpha = 1; ctx.fillStyle = COL.ink; ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.font = "600 10px " + COL.body; ctx.fillText(String(c.n), p[0], p[1]); }
-    ctx.restore();
-    HIT.push({ x: p[0], y: p[1], r: Math.max(6, r), kind: "mil", title: `${c.n} military aircraft broadcasting`, sub: "Counted per 5° region. Individual aircraft are not shown." });
   }
   if (on("labels")) {
     ctx.font = "500 10.5px " + COL.body; ctx.fillStyle = COL.mute;
@@ -1602,7 +1629,9 @@ function renderLegend() {
   if (on("stress")) parts.push(`<span>Country stress index</span><div class="ramp"></div><div class="rl"><span>0</span><span>50</span><span>100</span></div>`);
   parts.push(`<span>Bubbles: stories naming a country in the last ${S.win} h, coloured by its top category</span>`);
   if (on("quakes")) parts.push(`<span><span style="color:#ffa726">●</span> quake, size = magnitude, ring = last 6 h</span>`);
-  if (on("mil")) parts.push(`<span><span style="color:#ff1744">●</span> military aircraft broadcasting ADS-B, counted per 5° region (no individual aircraft)</span>`);
+  if (on("mil")) parts.push(`<span><span style="color:#ff1744">●</span> military aircraft (ADS-B / MLAT / TIS-B), counted per 5° region</span>`);
+  if (on("adsb")) parts.push(`<span><span style="color:#448aff">●</span> air traffic density near major hubs (ADS-B / MLAT / TIS-B sample)</span>`);
+  if (on("emerg")) parts.push(`<span><span style="color:#ff9100">●</span> emergency squawks 7700 / 7600 / 7500, counted per 5° region</span>`);
   $("#legend").innerHTML = parts.join("");
 }
 
@@ -1658,7 +1687,36 @@ function alertCandidates() {
     if (s && s.d24 != null && s.d24 >= 8 && !(s.d24 >= 15 && s.score >= 40)) out.push({ id: `ws:${iso}:${slot}`, title: `★ ${name}: stress ${s.score.toFixed(0)}`, sub: `Up ${s.d24.toFixed(0)} in 24 hours`, iso });
     for (const st of S.stories) if (st.sources >= 3 && st.iso.includes(iso) && Date.now() - st.t < 3 * 3600e3) out.push({ id: `wn:${st.id}`, title: `★ ${name}: ${st.sources} outlets`, sub: st.title, iso, url: st.url });
   }
+  // Aircraft feed issues from the snapshot's own health block (and a live
+  // re-check of what the page has loaded). Slot buckets so a stuck outage
+  // re-notifies every 6 hours rather than once forever.
+  const liveHealth = Core.assessAircraftHealth({
+    generated: S.snap?.generated || new Date().toISOString(),
+    sources: {
+      ...(S.snap?.sources || {}),
+      mil: srcHealth("mil", S.mil),
+      adsb: srcHealth("adsb", S.adsb),
+      emerg: srcHealth("emerg", S.emerg),
+      mil_modes: Core.adsbModeTotals(S.mil),
+      adsb_modes: Core.adsbModeTotals(S.adsb),
+      adsb_hubs: S.snap?.sources?.adsb_hubs,
+    },
+    mil: S.mil, adsb: S.adsb, emerg: S.emerg,
+  });
+  for (const i of liveHealth.issues || []) {
+    if (i.severity !== "error" && i.severity !== "warn") continue;
+    out.push({ id: `ac:${i.id}:${slot}`, title: `Aircraft: ${i.id.replace(/_/g, " ")}`, sub: i.msg, kind: i.severity === "error" ? "" : "info" });
+  }
   return out;
+}
+/** Map a source chip to the {ok,error,stale_from} shape assessAircraftHealth expects. */
+function srcHealth(id, cells) {
+  const s = S.sources.get(id);
+  if (!s) return S.snap?.sources?.[id] || { ok: false, error: "not loaded" };
+  if (s.state === "ok") return { ok: true, n: cellTotal(cells) };
+  if (s.state === "snap") return { ok: false, error: s.detail || "live failed", stale_from: S.snap?.generated };
+  if (s.state === "dark") return { ok: false, error: s.detail || "dark" };
+  return S.snap?.sources?.[id] || { ok: false, error: s.state };
 }
 function checkAlerts() {
   if (!S.booted) return; // the first full load is the baseline, not news
@@ -1669,7 +1727,7 @@ function checkAlerts() {
   if (!S.alerts) return;
   for (const a of fresh.slice(0, 4)) {
     const go = () => a.iso ? selectCountry(a.iso, true) : a.url && window.open(a.url, "_blank", "noopener");
-    toast(a.title, a.sub, "", go);
+    toast(a.title, a.sub, a.kind || "", go);
     if (document.hidden && "Notification" in window && Notification.permission === "granted") {
       try { const n = new Notification("World Monitor: " + a.title, { body: a.sub, tag: a.id }); n.onclick = () => { focus(); go(); }; } catch {}
     }
@@ -1682,7 +1740,7 @@ function setAlerts(onv) {
     for (const a of alertCandidates()) S.seen.add(a.id); // only what happens from now on
     store.set("seen", [...S.seen].slice(-400));
     if ("Notification" in window && Notification.permission === "default") Notification.requestPermission().catch(() => {});
-    toast("Alerts on", "Quakes of M6+, GDACS red alerts, and countries up 15+ in 24 hours. Browser notifications while this tab is in the background.", "info");
+    toast("Alerts on", "Quakes of M6+, GDACS red alerts, aircraft feed failures, and countries up 15+ in 24 hours. Browser notifications while this tab is in the background.", "info");
   }
 }
 $("#alerts").addEventListener("click", () => setAlerts(!S.alerts));
@@ -1699,7 +1757,7 @@ function tickClock() { $("#clock").textContent = new Date().toISOString().slice(
 setInterval(tickClock, 1000); tickClock();
 
 async function refreshAll(force) {
-  const live = [loadQuakes(), loadEonet(), loadGdacs(), loadMil(), loadStocks(), loadCrypto(), loadKev(), loadHistory()];
+  const live = [loadQuakes(), loadEonet(), loadGdacs(), loadMil(), loadEmerg(), loadStocks(), loadCrypto(), loadKev(), loadHistory()];
   
   if (on("dc")) loadDCs();
   const age = await loadSnapshot();
@@ -1873,10 +1931,10 @@ document.addEventListener("visibilitychange", () => { if (document.hidden) markV
 /* Cadence per source. The snapshot changes every 15 minutes; GitHub's raw CDN holds a copy for about 5. */
 setInterval(loadQuakes, 5 * 60000);
 setInterval(loadMil, 2 * 60000);
+setInterval(() => on("emerg") && loadEmerg(), 2 * 60000);
 setInterval(loadCrypto, 60000);
 setInterval(async () => { const age = await loadSnapshot(); loadHistory(); if (age > SNAP_STALE_MIN * 60e3 || !S.snap?.sources?.gdelt?.ok) loadGdelt(false); }, 5 * 60000);
 setInterval(() => { loadEonet(); loadGdacs(); }, 15 * 60000);
-setInterval(() => on("flights") && loadFlights(), 10 * 60000);
 setInterval(() => { loadStocks(); loadKev(); if (!S.snap?.sources?.siren?.ok) loadSirenNews(); }, 30 * 60000);
 setInterval(() => { if (S.tab === "feed") renderFeed(); }, 60000);
 

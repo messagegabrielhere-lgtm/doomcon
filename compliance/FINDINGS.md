@@ -178,7 +178,7 @@ design).
 - Finance disclaimers on scanner/arena + shared sitebar disclosure
 - Social posting guards (no likes/follows/DMs; mention guard rules exist)
 - Clipper rights gate; DMCA N/A (no uploads)
-- Military ADS-B shown only as regional counts (privacy-minded)
+- Aircraft (military, hub-sample density, emergency squawks) shown only as regional counts with ADS-B/MLAT/TIS-B mix (privacy-minded; no Aireon/ACARS/FLIFO)
 - Flock/OSM ODbL attribution path in layout footer
 
 ---

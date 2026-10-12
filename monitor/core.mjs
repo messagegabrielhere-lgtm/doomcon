@@ -325,3 +325,179 @@ export const marketPart = (s) => s ? Math.max(0, Math.min(100, 8 * Math.max(0, -
 export function stressScore(N, H, M) {
   return M == null ? (0.55 * N + 0.3 * H) / 0.85 : 0.55 * N + 0.3 * H + 0.15 * M;
 }
+
+/* ---------------------------------------------------------- ADS-B modalities
+ *
+ * FlightAware-style position sources, as far as an openly licensed (ODbL)
+ * terrestrial feed can carry them. adsb.lol's `type` field is the carrier:
+ *
+ *   ADS-B / ADS-R  → terrestrial broadcasts (and rebroadcast)
+ *   MLAT           → multilateration from ground-station timing
+ *   TIS-B          → radar-derived traffic uplink (closest public analogue
+ *                    to ATC radar visibility on this stack)
+ *   Mode S         → transponder replies without a position of their own
+ *
+ * Not available here (commercial contracts / keys): space-based ADS-B
+ * (Aireon), ACARS datalink, airline FLIFO. The page must not claim them.
+ */
+
+export const ADSB_CELL_DEG = 5;
+export const ADSB_MODES = Object.freeze(['adsb', 'mlat', 'tisb', 'modes', 'other']);
+export const ADSB_MODE_LABEL = Object.freeze({
+  adsb: 'ADS-B',
+  mlat: 'MLAT',
+  tisb: 'TIS-B',
+  modes: 'Mode S',
+  other: 'Other',
+});
+
+/** Bucket an adsb.lol aircraft `type` (and optional mlat/tisb arrays) into a modality. */
+export function adsbModality(type, ac = null) {
+  const t = String(type || '').toLowerCase();
+  if (t.startsWith('adsb') || t.startsWith('adsr')) return 'adsb';
+  if (t === 'mlat' || (Array.isArray(ac?.mlat) && ac.mlat.length)) return 'mlat';
+  if (t.startsWith('tisb')) return 'tisb';
+  if (t === 'mode_s' || t === 'mode-s' || t === 'other') return 'modes';
+  if (Array.isArray(ac?.tisb) && ac.tisb.length) return 'tisb';
+  return 'other';
+}
+
+/**
+ * Aggregate aircraft into degree cells. Identifying fields (hex, callsign,
+ * registration, altitude, heading) must already have been dropped: this only
+ * sums counts, country tallies and the modality mix.
+ */
+export function adsbCells(list, cellDeg = ADSB_CELL_DEG) {
+  const cells = new Map();
+  for (const a of list || []) {
+    if (!Number.isFinite(a.lat) || !Number.isFinite(a.lon)) continue;
+    const la = (Math.floor(a.lat / cellDeg) + 0.5) * cellDeg;
+    const lo = (Math.floor(a.lon / cellDeg) + 0.5) * cellDeg;
+    const k = `${la},${lo}`;
+    const c = cells.get(k) || { lat: la, lon: lo, n: 0, isos: {}, by: {} };
+    const n = Number.isFinite(a.n) ? a.n : 1;
+    c.n += n;
+    if (a.isos) {
+      for (const [i, m] of Object.entries(a.isos)) c.isos[i] = (c.isos[i] || 0) + m;
+    } else if (a.iso) {
+      c.isos[a.iso] = (c.isos[a.iso] || 0) + n;
+    }
+    if (a.by) {
+      for (const [m, v] of Object.entries(a.by)) c.by[m] = (c.by[m] || 0) + v;
+    } else {
+      const m = a.mod || adsbModality(a.type, a);
+      c.by[m] = (c.by[m] || 0) + n;
+    }
+    cells.set(k, c);
+  }
+  return [...cells.values()];
+}
+
+/** Sum modality counts across cells. */
+export function adsbModeTotals(cells) {
+  const out = { adsb: 0, mlat: 0, tisb: 0, modes: 0, other: 0, n: 0 };
+  for (const c of cells || []) {
+    out.n += c.n || 0;
+    if (c.by) for (const [k, v] of Object.entries(c.by)) out[k] = (out[k] || 0) + v;
+  }
+  return out;
+}
+
+/** One-line modality mix for a cell or a totals object, e.g. "ADS-B 12 · MLAT 3".
+ *  Also prints unknown keys as-is (emergency squawk codes 7700 / 7600 / 7500). */
+export function adsbModeLine(by) {
+  if (!by) return '';
+  return Object.keys(by)
+    .filter((k) => k !== 'n' && by[k] > 0)
+    .sort((a, b) => {
+      const ia = ADSB_MODES.indexOf(a), ib = ADSB_MODES.indexOf(b);
+      if (ia >= 0 || ib >= 0) return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib);
+      return String(a).localeCompare(String(b));
+    })
+    .map((k) => `${ADSB_MODE_LABEL[k] || k} ${by[k]}`)
+    .join(' · ');
+}
+
+/* ---------------------------------------------------------- aircraft health
+ *
+ * Watches the three aircraft layers for feed failures, empty answers that
+ * should not be empty, thin hub coverage, and a stale snapshot. Shared by
+ * collect.mjs (writes into the snapshot), monitor/check.mjs (CI), the
+ * watchdog probe, and the page (toasts when Alerts are on).
+ */
+
+/** Snapshot older than this is an error for the aircraft layers. */
+export const AIRCRAFT_STALE_MIN = 45;
+/** Military ADS-B answering with fewer than this many aircraft is a warning. */
+export const MIL_THIN_FLOOR = 5;
+/** Hub-sample unique aircraft below this (while claiming ok) is a warning. */
+export const ADSB_THIN_FLOOR = 50;
+
+function cellSum(cells) {
+  return (cells || []).reduce((t, c) => t + (Number.isFinite(c.n) ? c.n : 0), 0);
+}
+
+/**
+ * Assess aircraft-layer health from a monitor snapshot.
+ * Returns { ok, issues:[{id,severity,msg}], age_min, mil, adsb, emerg }.
+ * `ok` is false when any issue has severity `error`.
+ */
+export function assessAircraftHealth(snap, now = Date.now()) {
+  const issues = [];
+  const sources = (snap && snap.sources) || {};
+  const ageMin = snap && snap.generated && Number.isFinite(Date.parse(snap.generated))
+    ? Math.round((now - Date.parse(snap.generated)) / 60000)
+    : null;
+
+  if (!snap) {
+    return { ok: false, issues: [{ id: 'snap_missing', severity: 'error', msg: 'no monitor snapshot' }], age_min: null, mil: 0, adsb: 0, emerg: 0 };
+  }
+  if (ageMin != null && ageMin > AIRCRAFT_STALE_MIN) {
+    issues.push({ id: 'snap_stale', severity: 'error', msg: `monitor snapshot ${ageMin} min old (limit ${AIRCRAFT_STALE_MIN})` });
+  }
+
+  const milN = (sources.mil_modes && Number.isFinite(sources.mil_modes.n)) ? sources.mil_modes.n : cellSum(snap.mil);
+  const adsbN = (sources.adsb_modes && Number.isFinite(sources.adsb_modes.n)) ? sources.adsb_modes.n : cellSum(snap.adsb);
+  const emergN = cellSum(snap.emerg);
+
+  for (const id of ['mil', 'adsb', 'emerg']) {
+    const s = sources[id];
+    const label = id === 'mil' ? 'military ADS-B' : id === 'adsb' ? 'air-traffic hubs' : 'emergency squawks';
+    if (!s) {
+      issues.push({ id: `${id}_missing`, severity: 'warn', msg: `${label}: not present in snapshot sources` });
+      continue;
+    }
+    if (!s.ok && s.stale_from) {
+      issues.push({ id: `${id}_stale`, severity: 'warn', msg: `${label}: live call failed (${s.error || 'unknown'}); serving stale from ${s.stale_from}` });
+    } else if (!s.ok) {
+      issues.push({ id: `${id}_down`, severity: 'error', msg: `${label}: failed — ${s.error || 'unknown'}` });
+    }
+  }
+
+  if (sources.mil && sources.mil.ok && milN === 0) {
+    issues.push({ id: 'mil_empty', severity: 'warn', msg: 'military ADS-B answered but returned 0 aircraft' });
+  } else if (sources.mil && sources.mil.ok && milN < MIL_THIN_FLOOR) {
+    issues.push({ id: 'mil_thin', severity: 'warn', msg: `military ADS-B only ${milN} aircraft (floor ${MIL_THIN_FLOOR})` });
+  }
+
+  const hubs = sources.adsb_hubs;
+  if (hubs && Number.isFinite(hubs.of) && hubs.of > 0) {
+    if (!hubs.ok) {
+      issues.push({ id: 'adsb_hubs_zero', severity: 'error', msg: `air-traffic hubs: 0 of ${hubs.of} answered` });
+    } else if (hubs.ok < hubs.of * 0.5) {
+      issues.push({ id: 'adsb_hubs_thin', severity: 'warn', msg: `air-traffic hubs: only ${hubs.ok} of ${hubs.of} answered` });
+    }
+  }
+  if (sources.adsb && sources.adsb.ok && adsbN < ADSB_THIN_FLOOR) {
+    issues.push({ id: 'adsb_thin', severity: 'warn', msg: `hub sample only ${adsbN} unique aircraft (floor ${ADSB_THIN_FLOOR})` });
+  }
+
+  return {
+    ok: !issues.some((i) => i.severity === 'error'),
+    issues,
+    age_min: ageMin,
+    mil: milN,
+    adsb: adsbN,
+    emerg: emergN,
+  };
+}
