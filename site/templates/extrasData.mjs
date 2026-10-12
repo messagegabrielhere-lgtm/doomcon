@@ -176,6 +176,7 @@ export function whatMoved(ctx) {
 export const SIGNAL_DESCRIPTIONS = {
   'github-releases': 'Tagged releases in the last 30 days across a fixed basket of the repositories the field runs on (frameworks, inference engines, vendor SDKs). A shipping-tempo count.',
   huggingface: 'New models uploaded to the Hugging Face Hub in the last 24 hours. Mostly fine-tunes and re-uploads, so it measures how busy the open-model crowd is, not how good the models are.',
+  'hf-datasets': 'New datasets uploaded to the Hugging Face Hub in the last 24 hours. Training data, eval sets and fine-tune corpora — the other half of the open-artefact firehose next to model uploads.',
   openrouter: 'Models newly listed on OpenRouter, a marketplace that resells access to many AI providers, over the last 30 days. A proxy for how fast new models reach paying developers.',
   stockanalysis: 'The average absolute daily price move across a basket of AI-exposed listed companies. How jumpy the market is about AI, not whether it is up or down.',
   vastai: 'The median rental price per GPU-hour for one fixed GPU model on the Vast.ai spot marketplace, in US dollars. A street price for compute: it rises when the market tightens.',
@@ -189,6 +190,7 @@ export const SIGNAL_DESCRIPTIONS = {
 const SIGNAL_LABELS = {
   'github-releases': 'GitHub releases',
   huggingface: 'Hugging Face uploads',
+  'hf-datasets': 'Hugging Face datasets',
   openrouter: 'OpenRouter new models',
   stockanalysis: 'AI stock volatility',
   vastai: 'GPU rental price',
