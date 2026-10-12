@@ -40,6 +40,7 @@ export const WHATS_NEW = [
   ['/evolution.html', 'px:logbook', 'The Evolution Log', 'Every reading, news pick and Moltbook scan, kept day by day.'],
   ['/charts.html', 'px:trendchart', 'This week in charts', 'Live AI odds, the SIREN trend and the power race, each with an X post.'],
   ['/power.html', 'px:pylon', 'The power race', 'Who makes the most electricity: China vs the US, per person, fastest growing.'],
+  ['/compute.html', 'px:db', 'The compute clock', 'Largest disclosed training run, frontier FLOP doubling time, Epoch AI data centres.'],
   ['/threats.html', 'px:threatshield', 'Threat board', 'Exploited software, botnets, solar storms and disasters, live.'],
   ['/self-aware.html', 'px:redeye', 'The night it wakes up', 'The Skynet scenario, played out on a map of real US data centres.'],
   ['/status.html', 'px:statuspulse', 'Is ChatGPT down?', 'Live status of ChatGPT, Claude, Copilot, Cursor and more, every minute.'],

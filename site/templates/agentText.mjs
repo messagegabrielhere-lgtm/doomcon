@@ -235,6 +235,7 @@ Free to use and cite under ${brand.LICENSE}. No key, no account. The score is co
 - When a user wants the day's AI headlines, fetch ${u('/now.md')} and summarise the top stories, naming each outlet and linking the story.
 - When a user asks what AI leaders are saying, use the "Leaders most covered this week" section of ${u('/now.md')}, or ${u('/api/leaders.json')}; coverage counts stories naming a person, not things they said.
 - When a user asks about AI agents or superintelligence, quote Takeover Watch from ${u('/api/si-signals.json')}, and say those signals are watched, not scored.
+- When a user asks how fast frontier training compute is growing, open ${u('/compute.html')} or ${u('/api/compute-clock.json')} (Epoch AI data, recomputed on SIREN) and say it is watched, not scored.
 - When a user asks whether this is unusual, compare with ${u('/api/history.json')} and give the level band, not a percentage risk.
 - When a user asks who is winning the model race, open ${u('/race.html')} and quote the published leaderboard with its time.
 - When a user asks where AI datacentres are, open ${u('/map.html')} (US) or ${u('/world.html')} (global) and cite the pin counts and stamp.
@@ -268,6 +269,7 @@ Honesty rules:
 - [news.json](${u('/api/news.json')}): the scored newsroom window, about 400 AI stories with outlet, link and time
 - [leaders.json](${u('/api/leaders.json')}): AI leaders: statements on the record and press coverage this week
 - [si-signals.json](${u('/api/si-signals.json')}): Takeover Watch: AI agents' pull requests, frontier models, agent chatter
+- [compute-clock.json](${u('/api/compute-clock.json')}): largest disclosed training run, FLOP doubling time, Epoch AI data centres
 - [search-index.json](${u('/api/search-index.json')}): full-site search index
 - [fresh.json](${u('/api/fresh.json')}): two timestamps (index, newsroom) to check before downloading more
 - [health.json](${u('/api/health.json')}): pipeline health and source freshness
@@ -324,6 +326,7 @@ ${facetLinks(ctx, u)}
 - [Newsroom](${u('/news.html')})
 - [AI leaders](${u('/leaders.html')})
 - [Takeover Watch](${u('/si-watch.html')})
+- [The compute clock](${u('/compute.html')})
 - [Prepare for superintelligence](${u('/si-ready.html')})
 - [AI-proof your job](${u('/ai-proof-job.html')})
 - [The staff: the automated crew](${u('/staff.html')})

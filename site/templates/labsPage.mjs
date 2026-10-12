@@ -18,7 +18,7 @@ export const LABS = {
       { id: 'rsi', name: 'The Recursion Meter', q: 'How much of the code that builds AI is now written by AI?', build: 'Count agent-authored pull requests merged into the core AI stacks (PyTorch, Transformers, vLLM, JAX, llama.cpp) each day, as a share of all merged PRs.', data: 'GitHub public API; the agent-PR tracker behind Takeover Watch.', measure: 'A daily share with a 30-day trend line, recomputable from the PR list.', icon: 'px:agentcode', c: '#4ADE80' },
       { id: 'horizon', name: 'The Task-Horizon Clock', q: 'How long a job can an AI agent finish on its own?', build: 'Chart the published length of tasks frontier agents complete half the time (METR’s time-horizon measure) and the doubling time it implies.', data: 'METR published results; model release dates.', measure: 'Hours of human work per task, per model, on a log scale.', icon: 'px:pclock', c: '#22D3EE' },
       { id: 'jump', name: 'Capability Jump Alarm', q: 'When does a new model land far off the trend?', build: 'Fit the trend on public leaderboards and flag any release that beats it by more than two standard deviations.', data: 'LMArena, Epoch AI benchmarks hub, Artificial Analysis.', measure: 'A list of flagged jumps with the size of the gap, each linked to its source.', icon: 'px:trendchart', c: '#FACC15' },
-      { id: 'compute', name: 'The Compute Clock', q: 'How fast is frontier training compute growing?', build: 'A live clock of the largest disclosed training run, with the doubling time from Epoch’s notable-models data.', data: 'Epoch AI notable models dataset (CC BY).', measure: 'FLOP of the largest known run and months per doubling.', icon: 'px:db', c: '#A78BFA' },
+      { id: 'compute', name: 'The Compute Clock', q: 'How fast is frontier training compute growing?', build: 'A live clock of the largest disclosed training run, with the doubling time from Epoch’s notable-models data.', data: 'Epoch AI notable models dataset (CC BY).', measure: 'FLOP of the largest known run and months per doubling.', icon: 'px:db', c: '#A78BFA', status: 'shipped', href: '/compute.html' },
       { id: 'quiet', name: 'The Lab Silence Index', q: 'Do labs go quiet before a big release?', build: 'Track each lab’s posting cadence (blog, GitHub, X) and mark unusual silences, then check them against what shipped next.', data: 'The newsroom feeds and the Leaders tracker already on SIREN.', measure: 'Days of silence versus each lab’s normal rhythm, scored after the fact.', icon: 'px:shrug', c: '#94A3B8' },
     ] },
     { start: '2026-10-19', theme: 'Who is watching the watchers?', items: [
@@ -42,6 +42,7 @@ export const LABS = {
   ],
   // Earlier ideas that are already live on the site.
   shipped: [
+    ['/compute.html', 'The compute clock'],
     ['/si-watch.html#coding', 'What AI agents are coding'],
     ['/self-aware.html', 'The night it wakes up'],
     ['/charts.html', 'This week in charts'],
@@ -84,13 +85,18 @@ export function render(ctx, nowMs = Date.now()) {
   const wk = LABS.weeks[wi];
   const wkNo = wi + 1;
   const fmtD = (s) => new Date(s + 'T12:00:00Z').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
-  const card = (it, n) => `<article class="lb-c" id="${esc(it.id)}" style="--c:${it.c}">
+  const card = (it, n) => {
+    const shipped = it.status === 'shipped' && it.href;
+    return `<article class="lb-c" id="${esc(it.id)}" style="--c:${it.c}">
     <header><img src="${img(it.icon)}" width="40" height="40" alt=""><div><span class="n">EXPERIMENT ${wkNo}.${n}</span><h3>${esc(it.name)}</h3></div></header>
     <p class="q">${esc(it.q)}</p>
     <dl><dt>BUILD</dt><dd>${esc(it.build)}</dd><dt>DATA</dt><dd>${esc(it.data)}</dd><dt>MEASURE</dt><dd>${esc(it.measure)}</dd></dl>
-    <span class="lb-st">● ON THE BENCH</span>
+    ${shipped
+      ? `<span class="lb-st">● SHIPPED</span><p style="margin:0;font-size:13.5px"><a href="${esc(ctx.href(it.href))}">Open the live instrument →</a></p>`
+      : `<span class="lb-st">● ON THE BENCH</span>`}
     <button type="button" data-xpost="page" data-x-title="SIREN Labs, experiment ${wkNo}.${n}: ${esc(it.q)}" data-x-src="SIREN Labs" data-x-url="${share}#${esc(it.id)}">𝕏 Post this question</button>
   </article>`;
+  };
   const next = LABS.weeks.slice(wi + 1).map((w) => `<div><b>WEEK OF ${esc(fmtD(w.start).toUpperCase())}</b><i>${esc(w.theme)}</i><ul>${w.items.map((it) => `<li>${esc(it.name)}</li>`).join('')}</ul></div>`).join('');
   const past = LABS.weeks.slice(0, wi).map((w) => `<div><b>WEEK OF ${esc(fmtD(w.start).toUpperCase())}</b><i>${esc(w.theme)}</i><ul>${w.items.map((it) => `<li>${esc(it.name)}</li>`).join('')}</ul></div>`).join('');
   const shipped = LABS.shipped.map(([h, l]) => `<a href="${esc(ctx.href(h))}">${esc(l)}</a>`).join(' · ');
