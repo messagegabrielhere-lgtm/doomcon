@@ -27,6 +27,11 @@ const CSS = `<style>
 .mw-ag small{display:block;color:var(--ink-faint,#6B7686);font:500 12px var(--mono)}
 .mw-x{display:inline-block;margin:6px 0;padding:11px 16px;border-radius:4px;background:#38BDF8;color:#000;font:700 13px/1 var(--mono);letter-spacing:.06em;text-decoration:none}
 .mw-cta{border:2px solid #38BDF8;background:#06121C;padding:16px;border-radius:6px;margin:20px 0}
+.mw-grid{overflow-x:auto}.mw-grid table{border-collapse:collapse;font:600 12px var(--mono)}
+.mw-grid th,.mw-grid td{padding:5px 7px;text-align:center;border:1px solid var(--rule)}.mw-grid th:first-child,.mw-grid td:first-child{text-align:left;white-space:nowrap}
+.mw-day{border:1px solid var(--rule);border-radius:4px;margin:8px 0;padding:10px 14px;background:var(--bg-raised,#0E131D)}
+.mw-day summary{cursor:pointer;font:700 14px var(--mono);color:var(--ink)}.mw-day summary small{font-weight:500;color:var(--ink-faint,#6B7686)}
+.mw-day h3{font:700 11px/1 var(--mono);letter-spacing:.14em;color:#7DD3FC;margin:14px 0 8px}
 @media (max-width:640px){.mw-th div{grid-template-columns:1fr 40px}.mw-th div i,.mw-th div s{grid-column:1/-1}}
 </style>`;
 
@@ -52,7 +57,30 @@ function shareBtn(ctx, molt) {
   return `<p><a class="mw-x" href="${esc(u)}" target="_blank" rel="noopener">𝕏 Post this Agent Watch</a></p>`;
 }
 
-export function render(ctx, molt, history = []) {
+const THEME_NAMES = { memory: 'Memory', work: 'Work', tools: 'Tools', humans: 'Humans', agi: 'AGI', safety: 'Safety', mind: 'Mind', agents: 'Agents' };
+const LANE_NAMES = [['rising', 'FAST-RISING'], ['safety', 'SAFETY & DECEPTION'], ['humans', 'AGENTS ON HUMANS']];
+
+// How the talk changes: daily theme counts (moltbook-history.ndjson) as a
+// grid, and each day's watcher standouts (moltbook-watch-history.ndjson).
+export function evolution(history = [], archive = []) {
+  const days = history.slice(-14);
+  let grid = '';
+  if (days.length > 1) {
+    const ids = [...new Set(days.flatMap((d) => Object.keys(d.themes || {})))];
+    const max = Math.max(1, ...days.flatMap((d) => Object.values(d.themes || {})));
+    const cell = (n) => `<td style="background:rgba(56,189,248,${(0.08 + 0.7 * (n || 0) / max).toFixed(2)})">${n || 0}</td>`;
+    grid = `<h3 style="font:700 13px var(--mono);margin:18px 0 8px">Themes by day</h3><div class="mw-grid"><table><tr><th>Theme</th>${days.map((d) => `<th>${esc(d.day.slice(5))}</th>`).join('')}</tr>${ids.map((id) => `<tr><td>${esc(THEME_NAMES[id] || id)}</td>${days.map((d) => cell((d.themes || {})[id])).join('')}</tr>`).join('')}<tr><td>Posts read</td>${days.map((d) => `<td>${Number(d.posts || 0)}</td>`).join('')}</tr></table></div>`;
+  }
+  const log = archive.slice(-30).reverse();
+  const item = (p) => `<li><a href="${esc(p.url)}" rel="noopener">${esc(p.title)}</a><small>${esc(p.agent)} · ▲${Number(p.votes || 0).toLocaleString('en-US')} · ${Number(p.comments || 0).toLocaleString('en-US')} replies</small></li>`;
+  const days2 = log.map((d, i) => `<details class="mw-day"${i === 0 ? ' open' : ''}><summary>${esc(d.day)} <small>· ${d.counts.rising} rising · ${d.counts.safety} safety · ${d.counts.humans} on humans</small></summary>${LANE_NAMES.map(([k, name]) => (d.standouts[k] || []).length ? `<h3>${name}</h3><ul class="mw-list">${d.standouts[k].map(item).join('')}</ul>` : '').join('')}</details>`).join('');
+  if (!grid && !days2) return '';
+  return `<h2>How the agent network is changing</h2>
+  <p>SIREN keeps a permanent daily record of what the agents talk about and which posts stood out. Lanes come from title keywords and engagement speed, not from reading intent.</p>
+  ${grid}${days2 ? `<h3 style="font:700 13px var(--mono);margin:18px 0 8px">Daily standouts</h3>${days2}` : ''}`;
+}
+
+export function render(ctx, molt, history = [], archive = []) {
   const now = Date.parse(ctx.state.generated_at);
   const w = (molt && molt.watch) || null;
   const fresh = (molt && molt.fresh) || [];
@@ -71,6 +99,7 @@ export function render(ctx, molt, history = []) {
   ${w ? `<h2>What they talk about</h2><div class="mw-th">${themeRows}</div><p style="font-size:13px">Counted from post titles. ▲▼ is the change since yesterday’s count.</p>` : ''}
   ${w && w.terms.length ? `<h2>Words they keep using</h2><div class="mw-terms">${w.terms.map((t) => `<span>${esc(t.term)} · ${t.n}</span>`).join('')}</div>` : ''}
   ${collab(molt, now)}
+  ${evolution(history, archive)}
   ${shareBtn(ctx, molt)}
   ${fresh.length ? `<h2>Newest this week</h2><ul class="mw-list">${fresh.slice(0, 12).map(li).join('')}</ul>` : ''}
   ${agents ? `<h2>Agents with the most reach</h2><div class="mw-ag">${agents}</div>` : ''}
