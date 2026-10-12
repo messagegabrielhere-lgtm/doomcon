@@ -1214,4 +1214,53 @@ describe('tag pages', () => {
     assert.match(renderTag(rich, 'text-to-image'), /Text-to-image: AI stories this index scored/);
     assert.doesNotMatch(renderTag(rich, 'reinforcement-learning'), /doom score/i);
   });
+
+  it('pages self-supervised, latent-space, autoencoders, diffusion-transformer, scaling-laws', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('ss1', 'Self-supervised part concepts for vision models'),
+          story('ss2', 'Self-supervised pretraining for audio'),
+          story('ss3', 'Contrastive self-supervised learning survey'),
+          story('ss4', 'Self-supervised objectives for robotics'),
+          story('ss5', 'Scaling self-supervised learning'),
+          story('ls1', 'Judging in latent space for reward models'),
+          story('ls2', 'Navigating latent space of diffusion models'),
+          story('ls3', 'Latent space editing for images'),
+          story('ls4', 'Geometry of latent space representations'),
+          story('ls5', 'Compressing latent space for video'),
+          story('ae1', 'Kernel-based autoencoders for embeddings'),
+          story('ae2', 'Variational autoencoders for audio decoders'),
+          story('ae3', 'Sparse autoencoders for interpretability'),
+          story('ae4', 'Convolutional autoencoders survey'),
+          story('ae5', 'Training stable autoencoders'),
+          story('dt1', 'Pixel diffusion transformers guide'),
+          story('dt2', 'Sparse attention in diffusion transformers'),
+          story('dt3', 'Efficient diffusion transformers'),
+          story('dt4', 'Open diffusion transformer checkpoints'),
+          story('dt5', 'Scaling diffusion transformers'),
+          story('sl1', 'Scaling laws for looped mixture of experts'),
+          story('sl2', 'When data mixtures improve scaling laws'),
+          story('sl3', 'Scaling laws for AI-generated web text'),
+          story('sl4', 'Compute-optimal scaling laws revisit'),
+          story('sl5', 'Scaling laws for multimodal models'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    for (const id of [
+      'self-supervised', 'latent-space', 'autoencoders',
+      'diffusion-transformer', 'scaling-laws',
+    ]) {
+      assert.ok(ids.includes(id), id);
+    }
+    assert.match(renderTag(rich, 'self-supervised'), /Self-supervised learning: AI stories this index scored/);
+    assert.match(renderTag(rich, 'latent-space'), /Latent space: AI stories this index scored/);
+    assert.match(renderTag(rich, 'autoencoders'), /Autoencoders: AI stories this index scored/);
+    assert.match(renderTag(rich, 'diffusion-transformer'), /Diffusion transformers: AI stories this index scored/);
+    assert.match(renderTag(rich, 'scaling-laws'), /Scaling laws: AI stories this index scored/);
+    assert.doesNotMatch(renderTag(rich, 'scaling-laws'), /doom score/i);
+  });
 });

@@ -314,6 +314,7 @@ context.
 | 81 | IndexNow ALWAYS adds `/vs/takeofftracker.html`, Muse Wonder model, IREN/Reflection labs, generative-AI/AI-chips/frontier/post-training tag samples | Bing | **Done** (2026-10-12) |
 | 82 | Topic tags `reinforcement-learning` + `vision-language-action` + `flow-matching` + `text-to-image` + `imitation-learning` + `locomotion` | Google | **Done** (2026-10-12) |
 | 83 | News-sitemap `news:keywords` lab list expands (Huawei/Sony/Supermicro/IREN/OpenRouter/Reflection AI/Muse Wonder/Artificial Analysis) for Google News contest | Google News | **Done** (2026-10-12) |
+| 84 | Topic tags `self-supervised` + `latent-space` + `autoencoders` + `diffusion-transformer` + `scaling-laws`; IndexNow ALWAYS samples RL/VLA/self-supervised/DiT/scaling-laws | Google + Bing | **Done** (2026-10-12) |
 
 ### 3.3 Refusals (search edition)
 

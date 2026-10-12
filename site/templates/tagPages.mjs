@@ -895,6 +895,36 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'Robot-locomotion research stories scored in the newsroom or archive — coverage counts, not a robotics forecast.',
     match: /\blocomotion\b/i,
   },
+  {
+    id: 'self-supervised',
+    name: 'Self-supervised learning',
+    description: 'Self-supervised learning research stories scored in the newsroom or archive — method coverage, not a capability forecast.',
+    match: /\bself[- ]supervised\b/i,
+  },
+  {
+    id: 'latent-space',
+    name: 'Latent space',
+    description: 'Latent-space research stories scored in the newsroom or archive — method coverage, not a quality ranking.',
+    match: /\blatent space\b/i,
+  },
+  {
+    id: 'autoencoders',
+    name: 'Autoencoders',
+    description: 'Autoencoder research stories scored in the newsroom or archive — method coverage, not a quality ranking.',
+    match: /\bautoencoders?\b/i,
+  },
+  {
+    id: 'diffusion-transformer',
+    name: 'Diffusion transformers',
+    description: 'Diffusion-transformer (DiT) research stories scored in the newsroom or archive — method coverage, not a quality ranking.',
+    match: /\bdiffusion transformers?\b/i,
+  },
+  {
+    id: 'scaling-laws',
+    name: 'Scaling laws',
+    description: 'Scaling-laws research stories scored in the newsroom or archive — method coverage, not a forecast.',
+    match: /\bscaling laws?\b/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));
