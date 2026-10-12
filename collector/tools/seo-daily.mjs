@@ -56,18 +56,38 @@ export function isSitemapIndex(xml) {
   return /<sitemapindex[\s>]/i.test(String(xml || ''));
 }
 
+const TITLE_ENTITIES = Object.freeze({
+  amp: '&',
+  lt: '<',
+  gt: '>',
+  quot: '"',
+  apos: "'",
+});
+
+/**
+ * Decode one layer of common HTML entities in a title string.
+ * Single-pass (no chained &amp; → & → new entity) so CodeQL's
+ * double-unescape check stays quiet and rival titles stay readable.
+ */
+export function decodeTitleEntities(text) {
+  return String(text || '').replace(/&(#x?[0-9a-f]+|[a-z]+);/gi, (raw, name) => {
+    if (name[0] === '#') {
+      const n = name[1] === 'x' || name[1] === 'X'
+        ? Number.parseInt(name.slice(2), 16)
+        : Number.parseInt(name.slice(1), 10);
+      if (Number.isFinite(n) && n > 0 && n < 0x110000) return String.fromCodePoint(n);
+      return raw;
+    }
+    const key = name.toLowerCase();
+    return Object.prototype.hasOwnProperty.call(TITLE_ENTITIES, key) ? TITLE_ENTITIES[key] : raw;
+  });
+}
+
 /** First <title> text, collapsed whitespace + common entities. Empty when missing. */
 export function extractTitle(html) {
   const m = String(html || '').match(/<title[^>]*>([^<]*)<\/title>/i);
   if (!m) return '';
-  return m[1]
-    .replace(/\s+/g, ' ')
-    .trim()
-    .replace(/&amp;/g, '&')
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;|&apos;/g, "'");
+  return decodeTitleEntities(m[1].replace(/\s+/g, ' ').trim());
 }
 
 /** Unique @type values from application/ld+json blocks (string or array). */

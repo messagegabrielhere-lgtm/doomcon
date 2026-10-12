@@ -28,6 +28,17 @@ describe('seo-daily parsers', () => {
     assert.deepEqual(extractSchemaTypes(html), ['BreadcrumbList', 'FAQPage', 'WebSite']);
   });
 
+  it('decodes title entities in one pass without chained unescaping', () => {
+    assert.equal(
+      extractTitle('<title>DEFCON &amp; Doomsday Clock</title>'),
+      'DEFCON & Doomsday Clock',
+    );
+    assert.equal(
+      extractTitle('<title>A &amp;lt; B &#39;quote&#39;</title>'),
+      'A &lt; B \'quote\'',
+    );
+  });
+
   it('detects noindex', () => {
     assert.equal(hasNoindex('<meta name="robots" content="noindex, follow">'), true);
     assert.equal(hasNoindex('<meta name="description" content="x">'), false);
