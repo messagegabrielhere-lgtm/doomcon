@@ -8,7 +8,7 @@ expert opinion." None of them can be independently recomputed by a stranger.
 **This one can.** Same code, same public data, same number. That is the only
 claim SIREN makes, and this page exists so you can falsify it.
 
-## What the index measures — and what it does not
+## What does the index measure — and what does it not?
 
 SIREN measures the **observable activity tempo of the AI field relative to its
 own history**: how fast models are shipping, how much compute and capital is
@@ -266,7 +266,7 @@ with its own backfill test:
 Adding a source changes what the index measures, so each one is a reference
 version event, not a silent improvement.
 
-## Reproduce it yourself
+## How do I recompute the index myself?
 
 No Node installation required:
 

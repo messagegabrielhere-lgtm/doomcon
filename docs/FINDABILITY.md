@@ -326,6 +326,7 @@ context.
 | 93 | `/guide.html` FAQPage + WebPage speakable + BreadcrumbList matching DEFCON / Doomsday Clock / p(doom) comparison table (schema was Organization-only) | Google | **Done** (2026-10-12) |
 | 94 | `/p-doom.html` + `/ai-doomsday-clock.html` WebPage speakable + BreadcrumbList alongside existing FAQ (p(doom) glossary head term) | Google | **Done** (2026-10-12) |
 | 95 | Model hub Maia (`/model/maia`, Maia 300 / Azure Maia forms, live/archive ≥3); news:keywords + IndexNow sample (pizzint-news contest) | Google + Bing | **Done** (2026-10-12) |
+| 96 | `/methodology.html` head-term title + TechArticle speakable + BreadcrumbList + FAQ from question-shaped section headings (recompute / what it measures) | Google | **Done** (2026-10-12) |
 
 ### 3.3 Refusals (search edition)
 

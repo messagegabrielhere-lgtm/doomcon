@@ -1,7 +1,8 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
+import { readFileSync } from 'node:fs';
 import { guide, guideMd } from './infoPages.mjs';
-import { methodologyMd } from './methodology.mjs';
+import { methodologyMd, render as renderMethodology } from './methodology.mjs';
 import * as brand from '../brand.mjs';
 
 const ctx = {
@@ -47,4 +48,20 @@ test('methodology.md wraps the source doc', () => {
   assert.match(md, /HTML: https:\/\/siren\.watch\/methodology\.html/);
   assert.match(md, /# How it works/);
   assert.match(md, /Built 2026-10-10T03:15:00\.000Z/);
+});
+
+test('methodology.html ships head-term title, speakable, breadcrumbs, and FAQ from question headings', () => {
+  const html = renderMethodology({
+    ...ctx,
+    methodologyMd: readFileSync(new URL('../../docs/METHODOLOGY.md', import.meta.url), 'utf8'),
+    state: { ...ctx.state, receipt_id: 'r1' },
+  });
+  assert.match(html, /<title>How the SIREN AI activity index is computed/);
+  assert.match(html, /"@type"\s*:\s*"TechArticle"/);
+  assert.match(html, /SpeakableSpecification/);
+  assert.match(html, /BreadcrumbList/);
+  assert.match(html, /"@type"\s*:\s*"FAQPage"/);
+  assert.match(html, /What does the index measure/);
+  assert.match(html, /How do I recompute the index myself/);
+  assert.doesNotMatch(html, /probability of doom is \d/i);
 });
