@@ -83,4 +83,17 @@ describe('outlet pages', () => {
     const html = renderItem(ctx, ctx.news.items[0]);
     assert.match(html, /href="\/outlet\/arxiv-org\.html"/);
   });
+
+  it('links older archived stories on the same publisher host', () => {
+    const withArch = {
+      ...ctx,
+      itemArchive: [
+        story('old1', 'Older arxiv', 'https://arxiv.org/abs/9', 'arxiv.org'),
+      ],
+    };
+    const html = renderOutlet(withArch, 'arxiv.org');
+    assert.match(html, /Older scored stories on arxiv\.org/);
+    assert.match(html, /Older arxiv/);
+    assert.match(html, /\/item\/archive\.html/);
+  });
 });

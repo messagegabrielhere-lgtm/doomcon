@@ -41,3 +41,23 @@ test('render emits a valid empty news sitemap when nothing is fresh', () => {
   assert.match(xml, /xmlns:news=/);
   assert.doesNotMatch(xml, /<url>/);
 });
+
+test('render keywords include scored entities and stay under the news cap', () => {
+  assert.equal(NEWS_SITEMAP_CAP, 150);
+  const xml = render({
+    news: {
+      items: [{
+        id: 'a1',
+        title: 'OpenAI ships GPT update',
+        published_at: new Date().toISOString(),
+        source: 'techcrunch-ai',
+        pillar: 'capability',
+        kind: 'press',
+        entities: ['OpenAI', 'GPT'],
+      }],
+    },
+    url: (p) => `https://example.test${p}`,
+  });
+  assert.match(xml, /<news:keywords>[^<]*OpenAI/);
+  assert.match(xml, /artificial intelligence/);
+});

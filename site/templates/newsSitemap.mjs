@@ -13,8 +13,9 @@ import * as brand from '../brand.mjs';
 export const NEWS_WINDOW_HOURS = 48;
 
 /** Cap so a burst of 300+ items in a day cannot ship a multi-megabyte news
- *  sitemap. Newest first; the rest remain in the ordinary sitemap. */
-export const NEWS_SITEMAP_CAP = 100;
+ *  sitemap. Newest first; the rest remain in the ordinary sitemap. Raised from
+ *  100 while pizzint's news-sitemap is contested again (COMPETITIVE-SEO.md). */
+export const NEWS_SITEMAP_CAP = 150;
 
 function itemStamp(item) {
   return item.published_at || (item.meta && item.meta.first_seen_at) || null;
@@ -23,14 +24,19 @@ function itemStamp(item) {
 function keywordsFor(item) {
   const bits = [];
   if (item.pillar) bits.push(item.pillar);
+  if (item.kind) bits.push(String(item.kind));
   if (item.source) bits.push(String(item.source).slice(0, 40));
+  // Prefer the published entity list already on the NewsItem (falsifiable).
+  for (const name of (Array.isArray(item.entities) ? item.entities : [])) {
+    if (typeof name === 'string' && name.trim()) bits.push(name.trim());
+  }
   const labs = ['OpenAI', 'Anthropic', 'Google', 'DeepMind', 'Meta', 'xAI', 'Mistral', 'NVIDIA', 'DeepSeek'];
   const hay = `${item.title || ''} ${item.summary || ''}`;
   for (const lab of labs) {
     if (new RegExp(`\\b${lab}\\b`, 'i').test(hay)) bits.push(lab);
   }
-  bits.push('AI', brand.NAME);
-  return [...new Set(bits)].slice(0, 8).join(', ');
+  bits.push('AI', 'artificial intelligence', brand.NAME);
+  return [...new Set(bits)].slice(0, 10).join(', ');
 }
 
 /** Items young enough for the news sitemap, newest first. */

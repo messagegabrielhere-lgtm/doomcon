@@ -13,7 +13,7 @@
 //
 // Network: every request goes through collector/fetch.mjs (CONTRACT.md).
 
-import { writeFile, mkdir } from 'node:fs/promises';
+import { writeFile, mkdir, readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { fetchAll } from '../fetch.mjs';
@@ -120,6 +120,30 @@ export function hasNoindex(html) {
 }
 
 /**
+ * Estimate sitemap URLs this tree can publish once collect.yml rebuilds
+ * gh-pages: live news items + durable archive + a conservative facet floor.
+ * Pure filesystem peek — no network.
+ */
+export async function readLocalReadyUrls(root = ROOT) {
+  try {
+    const news = JSON.parse(await readFile(path.join(root, 'data/news.json'), 'utf8'));
+    const arch = JSON.parse(await readFile(path.join(root, 'data/item-archive.json'), 'utf8'));
+    const live = Array.isArray(news.items) ? news.items.length : 0;
+    const archived = Array.isArray(arch.items) ? arch.items.length : 0;
+    if (!live && !archived) return null;
+    // Facets/moves/head pages currently land ~350–450 beside the item long-tail.
+    const facetFloor = 350;
+    return {
+      live,
+      archived,
+      estimated_sitemap: live + archived + facetFloor,
+    };
+  } catch {
+    return null;
+  }
+}
+
+/**
  * Build a gap list from one measured scoreboard.
  * Pure: no network. Kept exportable for --selftest and the daily agent prompt.
  */
@@ -135,7 +159,22 @@ export function deriveGaps(report) {
     gaps.push({ id: 'us-down', severity: 'high', text: `siren.watch home failed: ${ours.error || 'unknown'}` });
   }
 
-  if (ours.sitemap_urls != null && ours.sitemap_urls < 500) {
+  const local = report.local_ready;
+  const localEst = local && Number.isFinite(local.estimated_sitemap) ? local.estimated_sitemap : null;
+  const deployPending = Boolean(
+    localEst
+    && ours.sitemap_urls != null
+    && localEst >= 2000
+    && ours.sitemap_urls < localEst * 0.5,
+  );
+
+  if (deployPending) {
+    gaps.push({
+      id: 'deploy-pending-url-lead',
+      severity: 'high',
+      text: `Repo is ready for ~${localEst} sitemap URLs (live ${local.live} + archive ${local.archived}) but live siren.watch still shows ${ours.sitemap_urls} — merge/deploy so gh-pages rebuilds (collect.yml)`,
+    });
+  } else if (ours.sitemap_urls != null && ours.sitemap_urls < 500) {
     gaps.push({
       id: 'url-count-low',
       severity: 'medium',
@@ -153,7 +192,12 @@ export function deriveGaps(report) {
 
   for (const s of report.sites || []) {
     if (s.ours || !s.ok) continue;
-    if (s.sitemap_urls != null && ours.sitemap_urls != null && s.sitemap_urls > ours.sitemap_urls * 1.5) {
+    // When the tree already has a deployable lead, do not nag "grow facets" —
+    // the daily pass should merge/deploy first (deploy-pending-url-lead).
+    if (!deployPending
+      && s.sitemap_urls != null
+      && ours.sitemap_urls != null
+      && s.sitemap_urls > ours.sitemap_urls * 1.5) {
       gaps.push({
         id: `trail-${s.id}-urls`,
         severity: 'medium',
@@ -164,7 +208,7 @@ export function deriveGaps(report) {
       gaps.push({
         id: 'pizzint-news-alive',
         severity: 'medium',
-        text: `pizzint news-sitemap has ${s.news_sitemap_urls} URLs again — Google News is contested`,
+        text: `pizzint news-sitemap has ${s.news_sitemap_urls} URLs again — Google News is contested; keep our rolling news-sitemap full and keyword-rich`,
       });
     }
   }
@@ -304,11 +348,13 @@ export async function runScoreboard({ fetchBatch = fetchAll } = {}) {
     };
   });
 
+  const local_ready = await readLocalReadyUrls(ROOT);
   const report = {
     measured_at,
     host: 'siren.watch',
     sites,
     surfaces,
+    local_ready,
     open_engineering: OPEN_ENGINEERING.map((x) => ({ ...x })),
   };
   report.gaps = deriveGaps(report);
@@ -335,6 +381,14 @@ export function formatMarkdown(report) {
   lines.push('');
   for (const surf of report.surfaces || []) {
     lines.push(`- ${surf.ok ? 'OK' : 'FAIL'} \`${surf.path}\`${surf.ok ? ` (${surf.bytes} B)` : ` — ${surf.error || surf.status}`}`);
+  }
+  if (report.local_ready && Number.isFinite(report.local_ready.estimated_sitemap)) {
+    const L = report.local_ready;
+    lines.push('');
+    lines.push(
+      `## Local tree (pre-deploy)\n\n- Ready estimate **~${L.estimated_sitemap}** sitemap URLs `
+      + `(live news ${L.live} + item-archive ${L.archived} + ~350 facets)`,
+    );
   }
   lines.push('');
   lines.push('## Gaps / next moves');
@@ -397,6 +451,16 @@ function selftest() {
   for (const need of ['news-sitemap-empty', 'url-count-low', 'trail-doombench-urls', 'pizzint-news-alive', 'surface-/llms.txt']) {
     if (!ids.has(need)) throw new Error(`missing gap ${need}: ${[...ids]}`);
   }
+  const deployGaps = deriveGaps({
+    ...report,
+    sites: report.sites.map((s) => (s.ours ? { ...s, sitemap_urls: 683, news_sitemap_urls: 100 } : s)),
+    local_ready: { live: 800, archived: 1600, estimated_sitemap: 2750 },
+    surfaces: [{ path: '/llms.txt', ok: true }],
+    open_engineering: [],
+  });
+  const deployIds = new Set(deployGaps.map((g) => g.id));
+  if (!deployIds.has('deploy-pending-url-lead')) throw new Error('deploy-pending gap missing');
+  if (deployIds.has('trail-doombench-urls')) throw new Error('trail gap should yield to deploy-pending');
 
   const md = formatMarkdown({ ...report, measured_at: '2026-10-12T00:00:00.000Z', gaps });
   if (!md.includes('siren.watch') || !md.includes('Gaps')) throw new Error('markdown');

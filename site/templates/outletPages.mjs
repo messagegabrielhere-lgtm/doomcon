@@ -87,6 +87,16 @@ export function itemsForOutlet(ctx, domain) {
     .sort((a, b) => String(b.published_at || '').localeCompare(String(a.published_at || '')));
 }
 
+/** Older scored stories on this host kept in the durable item archive. */
+export function archiveItemsForOutlet(ctx, domain) {
+  const key = String(domain || '').toLowerCase().replace(/^www\./, '');
+  const archived = Array.isArray(ctx.itemArchive) ? ctx.itemArchive : [];
+  return archived
+    .filter((it) => outletDomain(it) === key)
+    .slice()
+    .sort((a, b) => String(b.published_at || '').localeCompare(String(a.published_at || '')));
+}
+
 export function outletIndexable(ctx, domain) {
   return itemsForOutlet(ctx, domain).length >= OUTLET_INDEX_MIN;
 }
@@ -122,6 +132,8 @@ function itemRows(ctx, items) {
 
 export function renderOutlet(ctx, domain) {
   const items = itemsForOutlet(ctx, domain);
+  const archivedAll = archiveItemsForOutlet(ctx, domain);
+  const older = archivedAll.slice(0, 12);
   const indexable = items.length >= OUTLET_INDEX_MIN;
   const path = outletPath(domain);
   const title = `${domain}: AI stories this index scored · ${brand.NAME}`;
@@ -134,6 +146,12 @@ export function renderOutlet(ctx, domain) {
     .slice(0, 12)
     .map((o) => `<a href="${esc(ctx.href(outletPath(o.domain)))}">${esc(o.domain)}</a>`)
     .join('');
+  const olderBlock = older.length
+    ? `<h2>Older scored stories on ${esc(domain)}</h2>
+  <p class="od__lede">Kept in the permanent archive after they left the live window. Still scored stories — not a forecast.</p>
+  <ol class="od__list">${itemRows(ctx, older)}</ol>
+  <p class="fresh__key"><a href="${esc(ctx.href('/item/archive.html'))}">Full story archive</a></p>`
+    : '';
 
   const main = `${STYLE}
 <article class="od prose">
@@ -142,6 +160,7 @@ export function renderOutlet(ctx, domain) {
   <p class="od__lede">Stories this index scored whose original link is on ${esc(domain)}. The words belong to that publisher. The score is computed here and measures activity tempo inside the window, not whether the story is good or bad, and not a probability of harm.</p>
   <div class="od__stat" role="group" aria-label="Publisher counts">
     <div><b class="num">${esc(String(items.length))}</b><span>Scored stories in window</span></div>
+    ${archivedAll.length ? `<div><b class="num">${esc(String(archivedAll.length))}</b><span>Older in archive</span></div>` : ''}
   </div>
   <h2>Stories on ${esc(domain)}</h2>
   ${items.length
@@ -150,6 +169,7 @@ export function renderOutlet(ctx, domain) {
   ${items.length > OUTLET_LIST_CAP
     ? `<p class="fresh__key">${esc(String(items.length - OUTLET_LIST_CAP))} more on the <a href="${esc(ctx.href('/news.html'))}">full newsroom</a>.</p>`
     : ''}
+  ${olderBlock}
   ${others ? `<h2>Other publishers</h2><nav class="od__nav" aria-label="Other publishers">${others}</nav>` : ''}
 </article>`;
 

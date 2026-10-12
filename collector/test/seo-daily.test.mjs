@@ -87,6 +87,27 @@ describe('seo-daily measure + gaps', () => {
     assert.ok(ids.includes('open-mobile-cwv'));
   });
 
+  it('prefers deploy-pending when the local tree already beats rivals', () => {
+    const gaps = deriveGaps({
+      sites: [
+        {
+          id: 'siren', name: 'siren.watch', ours: true, ok: true,
+          title: 'AI activity index today', sitemap_urls: 683, news_sitemap_urls: 100, schema_types: [],
+        },
+        {
+          id: 'doombench', name: 'DoomBench', ours: false, ok: true,
+          title: 'x', sitemap_urls: 2088, news_sitemap_urls: null, schema_types: [],
+        },
+      ],
+      local_ready: { live: 800, archived: 1600, estimated_sitemap: 2750 },
+      surfaces: [],
+      open_engineering: [],
+    });
+    const ids = gaps.map((g) => g.id);
+    assert.ok(ids.includes('deploy-pending-url-lead'));
+    assert.ok(!ids.includes('trail-doombench-urls'));
+  });
+
   it('renders markdown scoreboard', () => {
     const md = formatMarkdown({
       measured_at: '2026-10-12T12:00:00.000Z',
