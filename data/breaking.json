@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated_at": "2026-10-12T00:16:52.280Z",
+  "generated_at": "2026-10-12T00:22:38.470Z",
   "rules": {
     "version": "1.0.0",
     "window_hours": 6,
@@ -47,7 +47,7 @@
       "ycombinator.com"
     ]
   },
-  "live": 12,
+  "live": 11,
   "fresh": "b2b2e695354a5",
   "clusters": [
     {
@@ -102,16 +102,22 @@
       "source": "gnews-ai",
       "outlet": "yahoo.com",
       "outlets": [
+        "bradenton.com",
         "kfgo.com",
+        "reuters.com",
         "yahoo.com"
       ],
-      "tier1_outlets": [],
-      "corroboration": 2,
+      "tier1_outlets": [
+        "reuters.com"
+      ],
+      "corroboration": 4,
       "sources": [
+        "bluesky-ai",
         "gnews-ai"
       ],
       "rule": [
-        "two outlets within 20 min"
+        "two outlets within 20 min",
+        "tier-one outlet plus one more"
       ],
       "earliest_published_at": "2026-10-11T23:48:32.000Z",
       "first_seen_at": "2026-10-11T23:55:30.211Z",
@@ -131,11 +137,27 @@
         },
         {
           "source": "gnews-ai",
+          "outlet": "bradenton.com",
+          "title": "US reverses course on Britain's testing of AI models, Telegraph says",
+          "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTE5lM21zVjdwejkxcGpwMHA2Wm9Fb21BTnZZM25RZnVWNWNya2diLUFGM1hoSXBka0J4QnRKMzFPR0h6MFpjRWJyWkM0QlJ0Vnk3Qi12WmwxZUkwWTI5R0RDdVFGOTdZMV9hZlhUbEVn?oc=5",
+          "published_at": "2026-10-11T23:55:30.211Z",
+          "tier1": false
+        },
+        {
+          "source": "gnews-ai",
           "outlet": "kfgo.com",
           "title": "US reverses course on Britain’s testing of AI models, Telegraph says",
           "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxOTGctZlZrYWJ2bS1IQ1ZPcE95Q3ZxLU5kaDNZMEc0ZmJxOHlFSVg3OV9MQS1HLW9aMVoxSmlacVdEel9ORVRsM2QtZ1hxNkdwQ1lFQ3phaVpVRElPRlBuODRnLTJmT0NkOFhjZUpXVlAxcVhtOW1obzREby1MYUNicnNxa0E5dExWSXpiSHR6dThOSURLajNwcG8tQQ?oc=5",
           "published_at": "2026-10-11T23:55:30.211Z",
           "tier1": false
+        },
+        {
+          "source": "bluesky-ai",
+          "outlet": "reuters.com",
+          "title": "US reverses course on Britain's testing of AI models, Telegraph says",
+          "url": "https://bsky.app/profile/reuters.com/post/3mxnaokhjvj2a",
+          "published_at": "2026-10-11T23:55:30.211Z",
+          "tier1": true
         }
       ],
       "live": true
@@ -496,7 +518,7 @@
           "tier1": false
         }
       ],
-      "live": true
+      "live": false
     },
     {
       "id": "b52f59e6f66c9",
@@ -507,6 +529,7 @@
       "outlets": [
         "ababnews.com",
         "barrons.com",
+        "biggo.com",
         "bloomberg.com",
         "breakingthenews.net",
         "investing.com",
@@ -520,7 +543,7 @@
         "bloomberg.com",
         "reuters.com"
       ],
-      "corroboration": 10,
+      "corroboration": 11,
       "sources": [
         "bloomberg-tech",
         "bluesky-ai",
@@ -627,17 +650,17 @@
         },
         {
           "source": "gnews-ai",
-          "outlet": "investing.com",
-          "title": "Amazon in talks to acquire AI startup Decart for $7 bln- WSJ",
-          "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxQaHQtRlMtNEVIajdxNUpER0xGNzJIRG44MC1UN0JjeFhEQnBza1l4NHVrRHFNc3ZoV3ZKWE9YMC1RWmhleUNHODhrWVVCbnhfX0hRblo5NTRmTWNXbHBEWGNwcjliTlc0TkpfM1BYeXVvSFduUnlxMWNMMVFOeThaZGJqUEpjMlRiWTdJUXlRUlNTZlpTUjAxck14X01kamN2MUNUelh1QzVWZlk2aFRISFVNVXY?oc=5",
+          "outlet": "biggo.com",
+          "title": "Amazon Reportedly in Talks to Acquire AI Startup Decart for $7 Billion, Stepping In After Anthropic Walked Away",
+          "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTFA2c3lyMEE4N3lHT1NZYllDZnVxQVJzVUlRUC1oWFFHaGwtRkY5Y01fYVdrY1BKZHJsX3ZRRllMYnRhRElpODhjQmtpUFZ0VUk4NVYzbGthR18tczA4dFc3VEhoUGtjamI2cFBuNVY5eldfQmp3RHc?oc=5",
           "published_at": "2026-10-11T23:25:35.703Z",
           "tier1": false
         },
         {
           "source": "gnews-ai",
-          "outlet": "yahoo.com",
+          "outlet": "investing.com",
           "title": "Amazon in talks to acquire AI startup Decart for $7 bln- WSJ",
-          "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxNQ1RwcTZxUU1yZFpySzVmeEZFRlkza0V6LWY5WFZTczBFOEhrUF9wUXpqZjZRUnEtSll6c1h6OFJyWkpHcm9FemlEbHlXRVpNX0RoSWdXUU93bHVleEc5TnZ5MWlINTgwdHY0M095UURxM3poaWNoc3ljUWltLVZqeVotSWhab1JSYWxHZU5waWRITndNQzRHQWk4Yw?oc=5",
+          "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxQaHQtRlMtNEVIajdxNUpER0xGNzJIRG44MC1UN0JjeFhEQnBza1l4NHVrRHFNc3ZoV3ZKWE9YMC1RWmhleUNHODhrWVVCbnhfX0hRblo5NTRmTWNXbHBEWGNwcjliTlc0TkpfM1BYeXVvSFduUnlxMWNMMVFOeThaZGJqUEpjMlRiWTdJUXlRUlNTZlpTUjAxck14X01kamN2MUNUelh1QzVWZlk2aFRISFVNVXY?oc=5",
           "published_at": "2026-10-11T23:25:35.703Z",
           "tier1": false
         }
@@ -652,12 +675,14 @@
       "outlet": "apnews.com",
       "outlets": [
         "apnews.com",
-        "tech-insider.org"
+        "tech-insider.org",
+        "wsj.com"
       ],
       "tier1_outlets": [
-        "apnews.com"
+        "apnews.com",
+        "wsj.com"
       ],
-      "corroboration": 2,
+      "corroboration": 3,
       "sources": [
         "gnews-ai",
         "hn-fresh-ai",
@@ -672,6 +697,7 @@
       "clock_skew": true,
       "breaking_at": "2026-10-11T21:12:28.059Z",
       "item_ids": [
+        "7aceb815dfeab748",
         "b5183fcdbb2272b7",
         "c85c45f7fe53967d",
         "e6a7c7de6fbace95"
@@ -700,6 +726,14 @@
           "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE5RVzlqNzdtdVpsV3dTM0hRU1d5SmF0YlctaW80eEpaMFppTzc2ZVdUb1FKbmszSF9vR29jbEdGQldnMEpqdXVkYTYtYXRqZnhUcmJRVkc5WTQ1SzhBMktXdHVjd3FSVTRZejhxSnlKekZrSnEx?oc=5",
           "published_at": "2026-10-11T23:51:54.000Z",
           "tier1": false
+        },
+        {
+          "source": "gnews-ai",
+          "outlet": "wsj.com",
+          "title": "Anthropic AI Model Went Rogue, Submitted Fake Unsolved Murder Tip",
+          "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxOdC1Yb1VaRzVmWnNoRmpLRFF4cWtUZXNyMjYtVzItMEJIYWhGWUpsUXRtWEJmaDVpZ1lGSXE3WGFYWU94cUFwcTRZZnQzVFBsaktQVjQ3WmJMMFVyQnlTS3NtUEMzVkY1WmNoU1dmdW1LWVB5YXJ1amROdEVIWVRhSFNLdldjVkMwcVRjaHJoOGVwVFBDbmxCdHlqTGIwc2px?oc=5",
+          "published_at": "2026-10-12T00:18:27.000Z",
+          "tier1": true
         }
       ],
       "live": true
