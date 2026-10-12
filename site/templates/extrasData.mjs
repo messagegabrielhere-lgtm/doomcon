@@ -183,6 +183,7 @@ export const SIGNAL_DESCRIPTIONS = {
   kalshi: 'Volume-weighted average daily price move on AI markets at Kalshi, a US-regulated prediction exchange. Opinion with money attached, measured as churn rather than direction.',
   manifold: 'Play-money (mana) staked on AI questions at Manifold Markets over 24 hours. Cheap to trade, so it carries the long tail of AI questions no real-money venue lists.',
   polymarket: 'Volume-weighted average daily price move on AI markets at Polymarket. Real-money opinion, again measured as churn rather than direction.',
+  'intelligence-arena': 'Sum of IntelligenceArena\'s published model-mention counts across their frontier catalogue. Attention amplitude from their multi-signal corpus (social, developer forums, adoption), not a leaderboard rank.',
 };
 
 const SIGNAL_LABELS = {
@@ -195,6 +196,7 @@ const SIGNAL_LABELS = {
   kalshi: 'Kalshi AI markets',
   manifold: 'Manifold AI volume',
   polymarket: 'Polymarket AI markets',
+  'intelligence-arena': 'IntelligenceArena mentions',
 };
 
 /**

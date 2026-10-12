@@ -35,7 +35,7 @@ word list enforced by a unit test, not by editorial discipline.
 |---|---|---|
 | `capability` | model releases, research output | arXiv, Hugging Face, OpenRouter, GitHub releases |
 | `compute` | hardware, spend, market signal | SEC full-text filings, Vast.ai GPU spot, AI equity basket |
-| `attention` | how loudly the world is talking | Hacker News, Wikipedia pageviews |
+| `attention` | how loudly the world is talking | Hacker News, Wikipedia pageviews, IntelligenceArena model mentions (uncalibrated) |
 | `governance` | regulatory activity | US Federal Register, GOV.UK |
 | `markets` | prediction-market repricing on AI | Polymarket, Manifold |
 
@@ -240,6 +240,7 @@ that:
 | arXiv `cs.AI`/`cs.LG`/`cs.CL` | English-language preprints; Chinese labs publish heavily on arXiv, but domestic venues and Chinese-language reports are invisible |
 | Hacker News | US/European tech audience, startup-weighted |
 | en.wikipedia pageviews | English-reading readership only |
+| IntelligenceArena mentions | English-heavy social + developer corpus; their catalogue and NLP pipeline, not ours |
 | Federal Register | US federal executive branch only (GOV.UK, uncalibrated, is the UK) |
 | SEC EDGAR full text | US-listed filers only |
 | equity basket (NVDA, AMD, TSM, AVGO) | US-listed; TSM is an ADR |
