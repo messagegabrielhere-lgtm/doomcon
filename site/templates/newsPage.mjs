@@ -66,6 +66,7 @@ import { newsCss, liveHead, legend, feedRow } from './news.mjs';
 import { PILLAR_GLYPH } from './_charts.mjs';
 import { page } from './layout.mjs';
 import { dayPath, indexableDays } from './dayPages.mjs';
+import { tagPath, indexableTags } from './tagPages.mjs';
 import * as brand from '../brand.mjs';
 import { breakingStrip, speedBox, breakingCss } from './_breaking.mjs';
 
@@ -108,6 +109,7 @@ ${breakingStrip(ctx, { href: ctx.href })}
   ${liveHead(news, 'Collection window', 'arch-live')}
   ${legend(news)}
   ${dayHubNav(ctx, items)}
+  ${tagHubNav(ctx)}
 </section>
 
 ${reel(items, { id: 'areel', limit: REEL_CARDS, heading: 'Highest-scoring items' })}
@@ -194,6 +196,19 @@ function dayHubNav(ctx, items) {
   if (!links) return '';
   return `<nav class="narch__days" aria-label="News by UTC day">
   <p class="narch__days-k">By UTC day</p>
+  <div class="narch__days-links">${links}</div>
+</nav>`;
+}
+
+/** Links to /tags/<id>.html hubs that clear the substance gate. */
+function tagHubNav(ctx) {
+  const tags = indexableTags(ctx);
+  if (!tags.length) return '';
+  const links = tags
+    .map((t) => `<a href="${esc(ctx.href(tagPath(t.id)))}">${esc(t.name)} <span class="num">(${esc(String(t.count))})</span></a>`)
+    .join('');
+  return `<nav class="narch__days" aria-label="News by topic tag">
+  <p class="narch__days-k">By topic · <a href="${esc(ctx.href('/tags/'))}">all tags</a></p>
   <div class="narch__days-links">${links}</div>
 </nav>`;
 }

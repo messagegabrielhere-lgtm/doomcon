@@ -203,6 +203,7 @@ import * as countryPages from './templates/countryPages.mjs';
 import * as comparePages from './templates/comparePages.mjs';
 import * as peoplePages from './templates/peoplePages.mjs';
 import * as dayPages from './templates/dayPages.mjs';
+import * as tagPages from './templates/tagPages.mjs';
 import { page as layoutPage } from './templates/layout.mjs';
 import { render as sitemap, robots } from './templates/sitemap.mjs';
 import { INDEXNOW_KEY } from '../collector/indexnow.mjs';
@@ -746,6 +747,19 @@ async function writePeopleAndDayPages(ctx, outDir, write, written) {
   for (const day of dayPages.indexableDays(ctx)) {
     written.push(await write(outDir, `news/${day.day}.html`, dayPages.renderDay(ctx, day.day)));
   }
+}
+
+async function writeTagPages(ctx, outDir, write, written) {
+  const tags = tagPages.indexableTags(ctx);
+  if (!tags.length) return;
+  for (const tag of tags) {
+    written.push(await write(outDir, `tags/${tag.id}.html`, tagPages.renderTag(ctx, tag.id)));
+  }
+  written.push(await write(outDir, 'tags/index.html', tagPages.renderIndex(ctx)));
+}
+
+function tagAliases(ctx) {
+  return tagPages.indexableTags(ctx).map((tag) => `tags/${tag.id}`);
 }
 
 function modelAndCountryAliases(ctx) {
@@ -1417,6 +1431,7 @@ async function main() {
     written.push(await write(args.out, 'source/index.html', facetPages.renderSourceIndex(ctx)));
     await writeModelAndCountryPages(ctx, args.out, write, written);
     await writePeopleAndDayPages(ctx, args.out, write, written);
+    await writeTagPages(ctx, args.out, write, written);
     // Keep the crawl surfaces in step with the newsroom window (item + facet
     // URLs change every fast pass; a stale sitemap is how Google News goes quiet).
     written.push(await write(args.out, 'sitemap.xml', sitemap(ctx)));
@@ -1433,6 +1448,7 @@ async function main() {
       'news', 'leaders',
       ...facetPages.indexableSources(ctx).map((s) => `source/${s.id}`),
       ...modelAndCountryAliases(ctx),
+      ...tagAliases(ctx),
     ], write, written);
     written.push(await write(args.out, 'feed.xml', feed.render(ctx)));
     if (news) written.push(await write(args.out, 'api/news.json', stableJson(news)));
@@ -1695,6 +1711,8 @@ async function main() {
   // People + day hubs (COMPETITIVE-SEO.md): DoomBench /people and Skynet
   // /news/YYYY-MM-DD — gated so thin days and quiet roster rows stay off-index.
   await writePeopleAndDayPages(ctx, args.out, write, written);
+  // Topic tags (Skynet /tags/* shape): curated needles, substance gate.
+  await writeTagPages(ctx, args.out, write, written);
   // /flock. The ALPR camera map, from OpenStreetMap via Overpass.
   //
   // ctx.routes.flock — set immediately after ctx is built, above — is the ONE
@@ -1788,6 +1806,7 @@ async function main() {
       ...facetPages.indexableSources(ctx).map((s) => `source/${s.id}`),
       ...modelAndCountryAliases(ctx),
       ...peopleAliases(ctx),
+      ...tagAliases(ctx),
     ],
     write,
     written,

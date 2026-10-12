@@ -325,6 +325,7 @@ ${facetLinks(ctx, u)}
 - [Newsroom](${u('/news.html')})
 - [AI leaders](${u('/leaders.html')})
 - [People](${u('/people/')}): one page per leader with enough press coverage
+- [Tags](${u('/tags/')}): topic hubs (agents, GPUs, safety, …) when a needle clears five stories
 - [Takeover Watch](${u('/si-watch.html')})
 - [Prepare for superintelligence](${u('/si-ready.html')})
 - [AI-proof your job](${u('/ai-proof-job.html')})
