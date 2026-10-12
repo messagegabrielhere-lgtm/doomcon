@@ -118,6 +118,10 @@ jobs:
           # Full history: the push step rebases onto main if anything landed
           # while we were collecting, and a shallow clone cannot rebase.
           fetch-depth: 0
+          # The live tip, not github.sha. A run held by the concurrency group
+          # keeps the sha main had when it was QUEUED, so without this it starts
+          # behind the run it waited for and can never push its ledger append.
+          ref: main
 
       - name: Set up Node 20
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
@@ -572,6 +576,13 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
+          # The live tip, not github.sha. The concurrency group queues this run
+          # behind the one ahead of it, but github.sha is frozen at queue time:
+          # checking it out meant appending to a history.ndjson/receipts that
+          # was missing the previous run's entry, and the push step then (rightly)
+          # refused with "append-only ledger conflicted with a concurrent run".
+          # That was every collect failure on 2026-10-12 (07:41, 10:23, 13:38).
+          ref: main
 
       - name: Set up Node 20
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
