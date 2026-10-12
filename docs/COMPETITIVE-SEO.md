@@ -101,7 +101,7 @@ DoomBench's lead is still entity URLs (`/countries`, `/models`), not keywords.
 Two axes we can answer from data we already publish:
 
 - `/country/<iso>.html` when OpenStreetMap has at least three datacentre sites mapped in that country. The page prints the status split and a capped site list, plus scored stories (live + archive) whose title or summary names the country. Countries under the gate stay on `/world.html` only. Copy stays a count of map objects (`docs/WORLD.md`) — story counts are not a national AI ranking.
-- `/model/<slug>.html` when at least three scored stories name that model family in the published entity list. The page lists those stories. It does not assign the model a score.
+- `/model/<slug>.html` when at least three scored stories name that model family in the published entity list **or** match its surface forms in title/summary (so archive rows that only carry a lab entity still keep DeepSeek-R / Mixtral-class hubs alive). The page lists those stories. It does not assign the model a score.
 
 Story pages link the model when the gate clears. The world table keeps its zoom control and adds a country-page link beside it. Homepage "Where the machines live" links the country index.
 
