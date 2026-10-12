@@ -137,7 +137,9 @@ export async function readLocalReadyUrls(root = ROOT) {
     if (!live && !archived) return null;
     // Facets/moves/head pages currently land ~400–500 beside the item long-tail
     // (outlet archive gate alone adds ~60–70 publisher hubs).
-    const facetFloor = 420;
+    // Hubs + gated facets (tags/labs/outlets/vs/…); keep a conservative floor so
+    // deploy-pending stays honest as the vocabulary grows.
+    const facetFloor = 450;
     return {
       live,
       archived,
@@ -387,7 +389,7 @@ export function formatMarkdown(report) {
     lines.push('');
     lines.push(
       `## Local tree (pre-deploy)\n\n- Ready estimate **~${L.estimated_sitemap}** sitemap URLs `
-      + `(live news ${L.live} + item-archive ${L.archived} + ~420 facets)`,
+      + `(live news ${L.live} + item-archive ${L.archived} + ~${Number.isFinite(L.estimated_sitemap) && Number.isFinite(L.live) && Number.isFinite(L.archived) ? L.estimated_sitemap - L.live - L.archived : 450} facets)`,
     );
   }
   lines.push('');

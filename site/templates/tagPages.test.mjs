@@ -301,6 +301,46 @@ describe('tag pages', () => {
     assert.match(renderTag(rich, 'test-time'), /Test-time compute: AI stories this index scored/);
   });
 
+  it('pages prefer-data, reasoning-traces, Claude Code, and OpenRouter hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('p1', 'RLHF preference data recipe'),
+          story('p2', 'Direct preference optimization (DPO) paper'),
+          story('p3', 'Preference tuning for chat models'),
+          story('p4', 'Lab ships new preference data mix'),
+          story('p5', 'DPO beats prior RLHF baseline'),
+          story('r1', 'Reasoning traces for agent debug'),
+          story('r2', 'Visible reasoning trace UI ships'),
+          story('r3', 'Reasoning traces cut tool errors'),
+          story('r4', 'Open reasoning trace format'),
+          story('r5', 'Reasoning trace faithfulness study'),
+          story('c1', 'Claude Code ships a new agent loop'),
+          story('c2', 'Claude Code terminal update'),
+          story('c3', 'Devs adopt Claude Code for refactors'),
+          story('c4', 'Claude Code vs other coding agents'),
+          story('c5', 'Claude Code changelog notes'),
+          story('o1', 'OpenRouter adds a new model route'),
+          story('o2', 'OpenRouter pricing update'),
+          story('o3', 'Apps route via OpenRouter'),
+          story('o4', 'OpenRouter marketplace grows'),
+          story('o5', 'OpenRouter latency report'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    assert.ok(ids.includes('prefer-data'));
+    assert.ok(ids.includes('reasoning-traces'));
+    assert.ok(ids.includes('claude-code'));
+    assert.ok(ids.includes('openrouter'));
+    assert.match(renderTag(rich, 'prefer-data'), /Preference data: AI stories this index scored/);
+    assert.match(renderTag(rich, 'reasoning-traces'), /Reasoning traces: AI stories this index scored/);
+    assert.match(renderTag(rich, 'claude-code'), /Claude Code: AI stories this index scored/);
+    assert.match(renderTag(rich, 'openrouter'), /OpenRouter: AI stories this index scored/);
+  });
+
   it('pages kv-cache, AI Act, autonomous-vehicles, AI music, synthetic-data, inference-cost hubs', () => {
     const rich = {
       ...ctx,

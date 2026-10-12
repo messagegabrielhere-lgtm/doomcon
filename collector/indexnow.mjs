@@ -31,6 +31,7 @@ const ALWAYS = Object.freeze([
   '/guide.md',
   '/compare.html',
   '/alternatives.html',
+  '/vs.html',
   '/vs/doombench.html',
   '/vs/skynet-countdown.html',
   '/vs/pdoom.html',
@@ -110,7 +111,7 @@ export function defaultUrlList({ outDir = join(ROOT, 'public') } = {}) {
     try {
       const locs = locsFromSitemap(readFileSync(smPath, 'utf8'), 5000);
       const archiveItems = locs.filter((u) => /\/item\/(?!archive)/i.test(u));
-      const facets = locs.filter((u) => /\/(tags|kind|outlet|model|people|source|pillar|lab|news\/\d{4})/i.test(u));
+      const facets = locs.filter((u) => /\/(tags|kind|outlet|model|people|source|pillar|lab|vs|companies|models|countries|outlets|sources|kinds|pillars|news\/\d{4})/i.test(u));
       // Newest-looking paths tend to sort later in our sitemap build; take tails.
       urls.push(...archiveItems.slice(-120));
       urls.push(...facets.slice(-80));

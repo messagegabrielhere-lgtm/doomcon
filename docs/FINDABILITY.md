@@ -291,6 +291,7 @@ context.
 | 58 | Topic tags `diffusion` + `embeddings` + `guardrails` + `context-window` + `ai-search`; news-sitemap keywords include matching topic names (cap 12; pizzint news contested) | Google News | **Done** (2026-10-12) |
 | 59 | `/vs.html` conquest directory + topic tags `multi-agent` + `deepfakes` + `slm` + `ai-science` + `speculative-decoding` | Google | **Done** (2026-10-12) |
 | 60 | Topic tags `kv-cache` + `ai-act` + `autonomous-vehicles` + `ai-music` + `synthetic-data` + `inference-cost`; seo-daily monitors `/vs.html` `/tags.html` `/companies.html` | Google | **Done** (2026-10-12) |
+| 61 | Topic tags `prefer-data` + `reasoning-traces` + `claude-code` + `openrouter`; IndexNow ALWAYS `/vs.html` + hub sample | Bing | **Done** (2026-10-12) |
 
 ### 3.3 Refusals (search edition)
 

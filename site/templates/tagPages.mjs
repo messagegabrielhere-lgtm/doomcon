@@ -379,6 +379,30 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'Inference-cost and serving-price stories scored in the newsroom or archive — coverage counts, not a price index.',
     match: /\b(inference cost|cost per (?:token|million))\b|\$\/mTok/i,
   },
+  {
+    id: 'prefer-data',
+    name: 'Preference data',
+    description: 'RLHF, DPO, and preference-tuning stories scored in the newsroom or archive.',
+    match: /\b(preference (?:data|tuning)|direct preference|\bdpo\b|\brlhf\b)\b/i,
+  },
+  {
+    id: 'reasoning-traces',
+    name: 'Reasoning traces',
+    description: 'Reasoning-trace and chain-of-thought visibility stories scored in the newsroom or archive.',
+    match: /\breasoning traces?\b/i,
+  },
+  {
+    id: 'claude-code',
+    name: 'Claude Code',
+    description: 'Claude Code product stories scored in the newsroom or archive — coverage counts, not a product score.',
+    match: /\bclaude code\b/i,
+  },
+  {
+    id: 'openrouter',
+    name: 'OpenRouter',
+    description: 'OpenRouter routing and marketplace stories scored in the newsroom or archive.',
+    match: /\bopenrouter\b/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));
