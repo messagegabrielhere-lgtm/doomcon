@@ -1,10 +1,10 @@
 {
   "schema": 1,
-  "generated_at": "2026-10-12T01:08:15.147Z",
-  "news_generated_at": "2026-10-12T01:08:15.147Z",
+  "generated_at": "2026-10-12T01:17:56.131Z",
+  "news_generated_at": "2026-10-12T01:17:56.131Z",
   "matcher_version": "1.2.0",
   "window_days": 7,
-  "window_start": "2026-10-05T01:08:15.147Z",
+  "window_start": "2026-10-05T01:17:56.131Z",
   "rule": {
     "headline_only": true,
     "statement": "Only the headline is ever reproduced, exactly as the publication printed it. No quotation is generated, paraphrased, summarised or reconstructed anywhere in this file.",
@@ -141,7 +141,7 @@
     "scanned": 400,
     "max_items": 400,
     "window_binds": true,
-    "oldest_item_at": "2026-10-10T00:26:44.400Z",
+    "oldest_item_at": "2026-10-10T01:55:15.000Z",
     "newest_item_at": "2026-10-13T04:00:00.000Z",
     "named_without_cue": 4
   },
@@ -151,20 +151,19 @@
     "race_generated_at": "2026-10-12T01:10:38.527Z",
     "players_matched": 8,
     "wire_fills_gap": [
-      "amodei",
       "musk"
     ]
   },
   "totals": {
     "leaders": 20,
-    "on_record": 5,
-    "no_line": 15,
-    "lines": 10,
-    "distinct_items": 9,
-    "quiet": 15,
+    "on_record": 4,
+    "no_line": 16,
+    "lines": 9,
+    "distinct_items": 8,
+    "quiet": 16,
     "unreachable": 0,
     "no_sources": 4,
-    "press_lines": 8,
+    "press_lines": 7,
     "direct_lines": 2
   },
   "direct": {
@@ -189,11 +188,11 @@
     "source": "Google News search RSS (news.google.com/rss/search), one exact-phrase query per person",
     "is_statement": false,
     "means": "Stories in the press that mention the person, counted as distinct (title, outlet) pairs ever observed. Coverage is not a statement: it never puts anyone on the record, and only the outlet's own headline is shown.",
-    "generated_at": "2026-10-12T01:11:36.242Z",
+    "generated_at": "2026-10-12T01:18:06.204Z",
     "min_interval_minutes": 15,
     "days": 14,
     "ran": true,
-    "polled": 20,
+    "polled": 0,
     "leaders_with_data": 20,
     "leaders_dark": 0,
     "total_24h": 73,
@@ -448,59 +447,11 @@
         "Dario Amodei",
         "Amodei"
       ],
-      "state": "on_record",
-      "count": 1,
-      "sources": [
-        "techmeme"
-      ],
-      "latest": {
-        "item_id": "5905aaddb8667ced",
-        "headline": "Sources: Dario Amodei spoke with Meta's Alexandr Wang earlier this year, hoping to source more compute; Meta declined the request (Wall Street Journal)",
-        "source": "techmeme",
-        "kind": "press",
-        "url": "https://techmeme.com/261009/p33",
-        "published_at": "2026-10-10T01:45:01.000Z",
-        "score": 25.5,
-        "pillar": "attention",
-        "matched_alias": "Dario Amodei",
-        "cue": "spoke",
-        "cue_group": "extended",
-        "cue_class": "verb",
-        "cue_text": "spoke",
-        "cues": [
-          "spoke"
-        ],
-        "corroboration": 1,
-        "also_sources": [
-          "techmeme"
-        ],
-        "via": "press"
-      },
-      "lines": [
-        {
-          "item_id": "5905aaddb8667ced",
-          "headline": "Sources: Dario Amodei spoke with Meta's Alexandr Wang earlier this year, hoping to source more compute; Meta declined the request (Wall Street Journal)",
-          "source": "techmeme",
-          "kind": "press",
-          "url": "https://techmeme.com/261009/p33",
-          "published_at": "2026-10-10T01:45:01.000Z",
-          "score": 25.5,
-          "pillar": "attention",
-          "matched_alias": "Dario Amodei",
-          "cue": "spoke",
-          "cue_group": "extended",
-          "cue_class": "verb",
-          "cue_text": "spoke",
-          "cues": [
-            "spoke"
-          ],
-          "corroboration": 1,
-          "also_sources": [
-            "techmeme"
-          ],
-          "via": "press"
-        }
-      ],
+      "state": "no_line",
+      "count": 0,
+      "sources": [],
+      "latest": null,
+      "lines": [],
       "watch_floor": {
         "tracked": true,
         "player_id": "anthropic",
@@ -509,16 +460,14 @@
         "reason": "darioamodei.com publishes essays but serves no feed: /rss and /feed.xml both returned HTTP 404 (probed 2026-09-23).",
         "feed": null,
         "posts_30d": null,
-        "verdict": "wire_fills_gap",
-        "note": "The watch floor reads no feed for Dario Amodei and that reading stands: it is about feeds we can fetch. The one line on the wire came from the press instead — techmeme — and links to the publication that printed it."
+        "verdict": "both_quiet",
+        "note": "The watch floor reads no feed and no headline in this window named Dario Amodei beside a speech cue. Two separate silences, neither imputed from the other."
       },
-      "group": "on_record",
-      "reason": null,
-      "press_count": 1,
+      "group": "quiet",
+      "reason": "quiet",
+      "press_count": 0,
       "direct_count": 0,
-      "press_sources": [
-        "techmeme"
-      ],
+      "press_sources": [],
       "last_statement_at": "2026-10-10T01:45:01.000Z",
       "last_statement": {
         "headline": "Sources: Dario Amodei spoke with Meta's Alexandr Wang earlier this year, hoping to source more compute; Meta declined the request (Wall Street Journal)",
@@ -526,7 +475,7 @@
         "source": "techmeme",
         "published_at": "2026-10-10T01:45:01.000Z",
         "via": "press",
-        "remembered": false
+        "remembered": true
       },
       "days_silent": 1,
       "sources_checked": 2,
@@ -954,7 +903,7 @@
         "kind": "press",
         "url": "https://techmeme.com/261011/p10",
         "published_at": "2026-10-11T20:45:01.000Z",
-        "score": 38.9,
+        "score": 38.8,
         "pillar": "compute",
         "matched_alias": "Musk",
         "cue": "quoted text",
@@ -978,7 +927,7 @@
           "kind": "press",
           "url": "https://techmeme.com/261011/p10",
           "published_at": "2026-10-11T20:45:01.000Z",
-          "score": 38.9,
+          "score": 38.8,
           "pillar": "compute",
           "matched_alias": "Musk",
           "cue": "quoted text",
@@ -1655,7 +1604,7 @@
         "kind": "press",
         "url": "https://techmeme.com/261011/p10",
         "published_at": "2026-10-11T20:45:01.000Z",
-        "score": 38.9,
+        "score": 38.8,
         "pillar": "compute",
         "matched_alias": "Nadella",
         "cue": "quoted text",
@@ -1679,7 +1628,7 @@
           "kind": "press",
           "url": "https://techmeme.com/261011/p10",
           "published_at": "2026-10-11T20:45:01.000Z",
-          "score": 38.9,
+          "score": 38.8,
           "pillar": "compute",
           "matched_alias": "Nadella",
           "cue": "quoted text",
@@ -1751,7 +1700,7 @@
           "kind": "press",
           "url": "https://techcrunch.com/2026/10/10/microsofts-satya-nadella-says-ai-models-need-an-emergency-brake",
           "published_at": "2026-10-10T21:47:51.000Z",
-          "score": 42.3,
+          "score": 29.8,
           "pillar": "attention",
           "matched_alias": "Satya Nadella",
           "cue": "says",
@@ -1761,9 +1710,8 @@
           "cues": [
             "says"
           ],
-          "corroboration": 2,
+          "corroboration": 1,
           "also_sources": [
-            "reddit-artificial",
             "techcrunch-ai"
           ],
           "via": "press"
@@ -4798,5 +4746,5 @@
       }
     }
   ],
-  "fingerprint": "a1ed3661f6c8c1ca"
+  "fingerprint": "d259c1da1c694b08"
 }
