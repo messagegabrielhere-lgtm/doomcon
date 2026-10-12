@@ -75,6 +75,12 @@ const ENTITY_DEFS = [
   { name: 'Samsung', kind: 'lab', forms: ['Samsung'] },
   { name: 'ASML', kind: 'lab', forms: ['ASML'] },
   { name: 'Cognition', kind: 'lab', forms: ['Cognition', 'Devin'] },
+  { name: 'CoreWeave', kind: 'lab', forms: ['CoreWeave'] },
+  { name: 'Qualcomm', kind: 'lab', forms: ['Qualcomm'] },
+  { name: 'Tesla', kind: 'lab', forms: ['Tesla'] },
+  { name: 'Waymo', kind: 'lab', forms: ['Waymo'] },
+  { name: 'Micron', kind: 'lab', forms: ['Micron'] },
+  { name: 'TSMC', kind: 'lab', forms: ['TSMC', 'Taiwan Semiconductor'] },
 
   // --- model families ---
   { name: 'GPT', kind: 'model', forms: ['GPT-3', 'GPT-4', 'GPT-4o', 'GPT-5', 'GPT-6', 'ChatGPT', 'GPT'] },

@@ -337,6 +337,94 @@ describe('lab facets', () => {
     assert.doesNotMatch(html, /doom score/i);
   });
 
+  it('indexes CoreWeave, Qualcomm, Tesla, Waymo, Micron, and TSMC entity labs from archive', () => {
+    const withArch = {
+      ...ctx,
+      news: { ...ctx.news, items: [...ctx.news.items] },
+      itemArchive: [
+        {
+          id: 'cw1', title: 'CoreWeave cloud AI capacity expands', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/cw1', published_at: '2026-09-01T01:00:00Z', score: 40,
+        },
+        {
+          id: 'cw2', title: 'CoreWeave Physical AI interview', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/cw2', published_at: '2026-09-02T01:00:00Z', score: 41,
+        },
+        {
+          id: 'cw3', title: 'AI stocks name CoreWeave after revenue report', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/cw3', published_at: '2026-09-03T01:00:00Z', score: 42,
+        },
+        {
+          id: 'qc1', title: 'Qualcomm CEO on on-device AI phones', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/qc1', published_at: '2026-09-01T02:00:00Z', score: 40,
+        },
+        {
+          id: 'qc2', title: 'Qualcomm supports 100B-parameter phones', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/qc2', published_at: '2026-09-02T02:00:00Z', score: 41,
+        },
+        {
+          id: 'qc3', title: 'AMD vs Qualcomm as AI chip buys', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/qc3', published_at: '2026-09-03T02:00:00Z', score: 42,
+        },
+        {
+          id: 'ts1', title: 'Tesla Optimus humanoid training', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/ts1', published_at: '2026-09-01T03:00:00Z', score: 40,
+        },
+        {
+          id: 'ts2', title: 'Tesla ramps Optimus production', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/ts2', published_at: '2026-09-02T03:00:00Z', score: 41,
+        },
+        {
+          id: 'ts3', title: 'Ex-Tesla Dojo team AI chip startup', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/ts3', published_at: '2026-09-03T03:00:00Z', score: 42,
+        },
+        {
+          id: 'wm1', title: 'Waymo safety strategy update', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/wm1', published_at: '2026-09-01T04:00:00Z', score: 40,
+        },
+        {
+          id: 'wm2', title: 'Waymo debt raise for AI fleet', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/wm2', published_at: '2026-09-02T04:00:00Z', score: 41,
+        },
+        {
+          id: 'wm3', title: 'Kleiner Perkins bets from Anthropic to Waymo', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/wm3', published_at: '2026-09-03T04:00:00Z', score: 42,
+        },
+        {
+          id: 'mi1', title: 'Micron memory chip AI demand', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/mi1', published_at: '2026-09-01T05:00:00Z', score: 40,
+        },
+        {
+          id: 'mi2', title: 'Micron reports AI-driven revenue', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/mi2', published_at: '2026-09-02T05:00:00Z', score: 41,
+        },
+        {
+          id: 'mi3', title: 'SpaceX vs Micron AI stock debate', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/mi3', published_at: '2026-09-03T05:00:00Z', score: 42,
+        },
+        {
+          id: 'tm1', title: 'TSMC N2P AI chip node demand', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/tm1', published_at: '2026-09-01T06:00:00Z', score: 40,
+        },
+        {
+          id: 'tm2', title: 'Taiwan Semiconductor AI boom profits', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/tm2', published_at: '2026-09-02T06:00:00Z', score: 41,
+        },
+        {
+          id: 'tm3', title: 'TSMC earnings as Nvidia read-through', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/tm3', published_at: '2026-09-03T06:00:00Z', score: 42,
+        },
+      ],
+    };
+    const ids = labsFromEntities(withArch).map((p) => p.id);
+    for (const id of ['coreweave', 'qualcomm', 'tesla', 'waymo', 'micron', 'tsmc']) {
+      assert.ok(ids.includes(id), id);
+    }
+    assert.match(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'coreweave')), /CoreWeave: AI stories this index scored/);
+    assert.match(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'tsmc')), /TSMC: AI stories this index scored/);
+    assert.doesNotMatch(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'tesla')), /doom score/i);
+  });
+
   it('indexes Samsung, ASML, and Cognition entity labs when archive stories clear the gate', () => {
     const withArch = {
       ...ctx,

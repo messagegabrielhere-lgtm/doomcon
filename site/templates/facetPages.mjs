@@ -430,6 +430,12 @@ function labNeedles(player) {
     samsung: ['samsung'],
     asml: ['asml'],
     cognition: ['cognition', 'devin'],
+    coreweave: ['coreweave'],
+    qualcomm: ['qualcomm'],
+    tesla: ['tesla', 'optimus'],
+    waymo: ['waymo'],
+    micron: ['micron'],
+    tsmc: ['tsmc', 'taiwan semiconductor'],
   };
   return [...new Set([...(extras[player.id] || []), ...names])];
 }

@@ -553,6 +553,48 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'Federated-learning stories scored in the newsroom or archive — method coverage, not a privacy score.',
     match: /\bfederated learning\b/i,
   },
+  {
+    id: 'training-data',
+    name: 'Training data',
+    description: 'Training-data and pretraining-corpus stories scored in the newsroom or archive — coverage counts, not a dataset ranking.',
+    match: /\btraining data\b/i,
+  },
+  {
+    id: 'physical-ai',
+    name: 'Physical AI',
+    description: 'Physical-AI and real-world robotics stories scored in the newsroom or archive — coverage counts, not a robotics forecast.',
+    match: /\bphysical ai\b/i,
+  },
+  {
+    id: 'gui-agents',
+    name: 'GUI agents',
+    description: 'GUI-agent and mobile-agent stories scored in the newsroom or archive — product coverage, not a capability forecast.',
+    match: /\bgui agents?\b/i,
+  },
+  {
+    id: 'tool-calling',
+    name: 'Tool calling',
+    description: 'Tool-calling and tool-use API stories scored in the newsroom or archive.',
+    match: /\btool[- ]call(?:ing|s)?\b/i,
+  },
+  {
+    id: 'long-context',
+    name: 'Long context',
+    description: 'Long-context model and serving stories scored in the newsroom or archive.',
+    match: /\blong[- ]context\b/i,
+  },
+  {
+    id: 'chain-of-thought',
+    name: 'Chain-of-thought',
+    description: 'Chain-of-thought reasoning stories scored in the newsroom or archive — method coverage, not a capability score.',
+    match: /\bchain[- ]of[- ]thought\b/i,
+  },
+  {
+    id: 'local-llm',
+    name: 'Local LLMs',
+    description: 'Local-LLM and on-prem model stories scored in the newsroom or archive — coverage counts, not a product score.',
+    match: /\blocal (?:llm|models?)\b/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));

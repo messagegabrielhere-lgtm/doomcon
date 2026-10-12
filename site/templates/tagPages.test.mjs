@@ -747,4 +747,62 @@ describe('tag pages', () => {
     assert.match(renderTag(rich, 'federated-learning'), /Federated learning: AI stories this index scored/);
     assert.doesNotMatch(renderTag(rich, 'rlvr'), /doom score/i);
   });
+
+  it('pages training-data, physical-AI, GUI-agents, tool-calling, long-context, chain-of-thought, local-LLM hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('td1', 'AI training data supply chain grows'),
+          story('td2', 'Programming training data for agents'),
+          story('td3', 'Labs buy more training data'),
+          story('td4', 'Open training data corpus release'),
+          story('td5', 'Training data rights dispute'),
+          story('pa1', 'Nvidia physical AI for robotaxis'),
+          story('pa2', 'Physical AI ecosystem at trade show'),
+          story('pa3', 'Robot gyms for physical AI'),
+          story('pa4', 'Physical AI fundraising wave'),
+          story('pa5', 'Is Physical AI a rebranded IoT?'),
+          story('ga1', 'Mobile GUI agents benchmark'),
+          story('ga2', 'Self-improving GUI agents'),
+          story('ga3', 'Cross-user reliability for GUI agents'),
+          story('ga4', 'GUI agent training from image edits'),
+          story('ga5', 'Visual world models for GUI agents'),
+          story('tc1', 'AI agent tool calling in TypeScript'),
+          story('tc2', 'Tool-calling guardrails against loops'),
+          story('tc3', 'New tool calls API for agents'),
+          story('tc4', 'Tool calling latency hiding paper'),
+          story('tc5', 'Enterprise tool-call audit'),
+          story('lc1', 'Long-context hybrid attention paper'),
+          story('lc2', 'Efficient transformers for long context'),
+          story('lc3', 'Long-context serving cost study'),
+          story('lc4', 'Mechanics of long-context models'),
+          story('lc5', 'Sparse engine for long context'),
+          story('ct1', 'Legal chain-of-thought faithfulness'),
+          story('ct2', 'Chain-of-thought interpretability alignment'),
+          story('ct3', 'Chain-of-thought hiding in distillation'),
+          story('ct4', 'Chain of thought token spikes study'),
+          story('ct5', 'Open chain-of-thought eval suite'),
+          story('ll1', 'Local LLM classification cache'),
+          story('ll2', 'Coding with local models on SWE-bench'),
+          story('ll3', 'Local LLM reverse engineering notes'),
+          story('ll4', 'Serving local models offline'),
+          story('ll5', 'Local LLM vs cloud latency'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    for (const id of ['training-data', 'physical-ai', 'gui-agents', 'tool-calling', 'long-context', 'chain-of-thought', 'local-llm']) {
+      assert.ok(ids.includes(id), id);
+    }
+    assert.match(renderTag(rich, 'training-data'), /Training data: AI stories this index scored/);
+    assert.match(renderTag(rich, 'physical-ai'), /Physical AI: AI stories this index scored/);
+    assert.match(renderTag(rich, 'gui-agents'), /GUI agents: AI stories this index scored/);
+    assert.match(renderTag(rich, 'tool-calling'), /Tool calling: AI stories this index scored/);
+    assert.match(renderTag(rich, 'long-context'), /Long context: AI stories this index scored/);
+    assert.match(renderTag(rich, 'chain-of-thought'), /Chain-of-thought: AI stories this index scored/);
+    assert.match(renderTag(rich, 'local-llm'), /Local LLMs: AI stories this index scored/);
+    assert.doesNotMatch(renderTag(rich, 'physical-ai'), /doom score/i);
+  });
 });

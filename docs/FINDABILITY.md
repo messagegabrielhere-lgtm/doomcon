@@ -299,6 +299,8 @@ context.
 | 66 | Entity lab Groq (`/lab/groq`, live/archive ≥3 gate) | Google | **Done** (2026-10-12) |
 | 67 | Topic tags `rlvr` + `humanoid` + `interpretability` + `gguf` + `red-teaming` + `edge-ai` + `sft` + `copilot` + `diffusion-llm` + `activation-steering` + `rerank` + `federated-learning` | Google | **Done** (2026-10-12) |
 | 68 | Entity labs Samsung / ASML / Cognition (`/lab/*`, live/archive ≥3 gate) | Google | **Done** (2026-10-12) |
+| 69 | Topic tags `training-data` + `physical-ai` + `gui-agents` + `tool-calling` + `long-context` + `chain-of-thought` + `local-llm` | Google | **Done** (2026-10-12) |
+| 70 | Entity labs CoreWeave / Qualcomm / Tesla / Waymo / Micron / TSMC (`/lab/*`, live/archive ≥3 gate) | Google | **Done** (2026-10-12) |
 
 ### 3.3 Refusals (search edition)
 
