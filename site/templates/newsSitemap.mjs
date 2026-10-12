@@ -35,10 +35,17 @@ function keywordsFor(item) {
   for (const topic of TOPIC_DEFS) {
     if (itemMatchesTag(item, topic)) bits.push(topic.name);
   }
-  const labs = ['OpenAI', 'Anthropic', 'Google', 'DeepMind', 'Meta', 'xAI', 'Mistral', 'NVIDIA', 'DeepSeek'];
+  // Keep this list short and high-signal — keywords are capped at 12 and should
+  // match names the newsroom actually prints (Google News contest vs pizzint).
+  const labs = [
+    'OpenAI', 'Anthropic', 'Google', 'DeepMind', 'Meta', 'xAI', 'Mistral', 'NVIDIA',
+    'DeepSeek', 'Huawei', 'Sony', 'Supermicro', 'IREN', 'OpenRouter', 'Reflection AI',
+    'Muse Wonder', 'Artificial Analysis',
+  ];
   const hay = `${item.title || ''} ${item.summary || ''}`;
   for (const lab of labs) {
-    if (new RegExp(`\\b${lab}\\b`, 'i').test(hay)) bits.push(lab);
+    const re = new RegExp(`(?:^|[^A-Za-z0-9])${lab.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?:[^A-Za-z0-9]|$)`, 'i');
+    if (re.test(hay)) bits.push(lab);
   }
   bits.push('AI', 'artificial intelligence', brand.NAME);
   // Cap 12 so entity + topic + lab keywords stay under Google News practical limits

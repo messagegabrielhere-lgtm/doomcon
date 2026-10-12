@@ -859,6 +859,42 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'Reward-model research stories scored in the newsroom or archive — method coverage, not a safety score.',
     match: /\breward models?\b/i,
   },
+  {
+    id: 'reinforcement-learning',
+    name: 'Reinforcement learning',
+    description: 'Reinforcement-learning research stories scored in the newsroom or archive — method coverage, not a capability forecast.',
+    match: /\b(reinforcement learning|online rl|offline rl|rl (?:for|from|training|policy|agent|hf))\b/i,
+  },
+  {
+    id: 'vision-language-action',
+    name: 'Vision-language-action',
+    description: 'VLA and vision-language-action robotics stories scored in the newsroom or archive — coverage counts, not a robotics forecast.',
+    match: /\b(vision[- ]language[- ]action|\bvlas?\b)\b/i,
+  },
+  {
+    id: 'flow-matching',
+    name: 'Flow matching',
+    description: 'Flow-matching generative-model stories scored in the newsroom or archive — method coverage, not a quality ranking.',
+    match: /\bflow matching\b/i,
+  },
+  {
+    id: 'text-to-image',
+    name: 'Text-to-image',
+    description: 'Text-to-image model and product stories scored in the newsroom or archive — coverage counts, not a product score.',
+    match: /\btext[- ]to[- ]image\b/i,
+  },
+  {
+    id: 'imitation-learning',
+    name: 'Imitation learning',
+    description: 'Imitation-learning research stories scored in the newsroom or archive — method coverage, not a capability forecast.',
+    match: /\bimitation learning\b/i,
+  },
+  {
+    id: 'locomotion',
+    name: 'Robot locomotion',
+    description: 'Robot-locomotion research stories scored in the newsroom or archive — coverage counts, not a robotics forecast.',
+    match: /\blocomotion\b/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));

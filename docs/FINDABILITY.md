@@ -312,6 +312,8 @@ context.
 | 79 | Model hub Muse Wonder (`/model/muse-wonder`, live/archive ≥3 gate) | Google | **Done** (2026-10-12) |
 | 80 | Topic tags `ai-regulation` + `artificial-analysis` + `humanoid-robots` + `transformers` + `self-attention` + `openai-codex` + `reward-models` | Google | **Done** (2026-10-12) |
 | 81 | IndexNow ALWAYS adds `/vs/takeofftracker.html`, Muse Wonder model, IREN/Reflection labs, generative-AI/AI-chips/frontier/post-training tag samples | Bing | **Done** (2026-10-12) |
+| 82 | Topic tags `reinforcement-learning` + `vision-language-action` + `flow-matching` + `text-to-image` + `imitation-learning` + `locomotion` | Google | **Done** (2026-10-12) |
+| 83 | News-sitemap `news:keywords` lab list expands (Huawei/Sony/Supermicro/IREN/OpenRouter/Reflection AI/Muse Wonder/Artificial Analysis) for Google News contest | Google News | **Done** (2026-10-12) |
 
 ### 3.3 Refusals (search edition)
 

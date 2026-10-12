@@ -83,3 +83,23 @@ test('render keywords include matching topic-tag names for Google News contest',
   const kw = xml.match(/<news:keywords>([^<]*)<\/news:keywords>/)[1];
   assert.ok(kw.split(',').length <= 12);
 });
+
+test('render keywords include expanded lab and model surface names', () => {
+  const xml = render({
+    news: {
+      items: [{
+        id: 'a3',
+        title: 'IREN stock rises as Meta launches Muse Wonder',
+        summary: 'Cloud deal chatter names IREN; Muse Wonder hits Artificial Analysis.',
+        published_at: new Date().toISOString(),
+        source: 'hn',
+        pillar: 'compute',
+        kind: 'press',
+        entities: [],
+      }],
+    },
+    url: (p) => `https://example.test${p}`,
+  });
+  assert.match(xml, /<news:keywords>[^<]*IREN/);
+  assert.match(xml, /Muse Wonder|Artificial Analysis/);
+});

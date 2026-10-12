@@ -1161,4 +1161,57 @@ describe('tag pages', () => {
     assert.match(renderTag(rich, 'reward-models'), /Reward models: AI stories this index scored/);
     assert.doesNotMatch(renderTag(rich, 'ai-regulation'), /doom score/i);
   });
+
+  it('pages reinforcement-learning, VLA, flow-matching, text-to-image, imitation-learning, locomotion', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('rl1', 'Reinforcement learning for long-horizon agents'),
+          story('rl2', 'Offline RL for robot control'),
+          story('rl3', 'Online RL scaling laws'),
+          story('rl4', 'RL training for diffusion policies'),
+          story('rl5', 'RL for tool-use agents'),
+          story('vl1', 'Vision-language-action inference acceleration'),
+          story('vl2', 'World Action Models vs VLAs'),
+          story('vl3', 'Training VLAs for manipulation'),
+          story('vl4', 'Open VLA checkpoint release'),
+          story('vl5', 'Evaluating vision-language-action models'),
+          story('fm1', 'Flow matching on anisotropic graphs'),
+          story('fm2', 'Conditional flow matching for weather'),
+          story('fm3', 'Few-step generation with flow matching'),
+          story('fm4', 'Flow matching for 3D microstructures'),
+          story('fm5', 'Survey of flow matching methods'),
+          story('ti1', 'Text-to-image consistency evaluation'),
+          story('ti2', 'Post-training text-to-image models'),
+          story('ti3', 'Open text-to-image leaderboard'),
+          story('ti4', 'Safety filters for text-to-image'),
+          story('ti5', 'Distilling text-to-image models'),
+          story('il1', 'Imitation learning for robot policies'),
+          story('il2', 'Multimodal imitation learning'),
+          story('il3', 'Scaling imitation learning datasets'),
+          story('il4', 'Imitation learning from video'),
+          story('il5', 'Offline imitation learning baselines'),
+          story('lo1', 'Legged locomotion with RL'),
+          story('lo2', 'Humanoid locomotion from video'),
+          story('lo3', 'Multi-agent locomotion control'),
+          story('lo4', 'Sim-to-real locomotion transfer'),
+          story('lo5', 'Energy-efficient robot locomotion'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    for (const id of [
+      'reinforcement-learning', 'vision-language-action', 'flow-matching',
+      'text-to-image', 'imitation-learning', 'locomotion',
+    ]) {
+      assert.ok(ids.includes(id), id);
+    }
+    assert.match(renderTag(rich, 'reinforcement-learning'), /Reinforcement learning: AI stories this index scored/);
+    assert.match(renderTag(rich, 'vision-language-action'), /Vision-language-action: AI stories this index scored/);
+    assert.match(renderTag(rich, 'flow-matching'), /Flow matching: AI stories this index scored/);
+    assert.match(renderTag(rich, 'text-to-image'), /Text-to-image: AI stories this index scored/);
+    assert.doesNotMatch(renderTag(rich, 'reinforcement-learning'), /doom score/i);
+  });
 });
