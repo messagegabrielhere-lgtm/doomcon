@@ -52,14 +52,16 @@ describe('outlet pages', () => {
     assert.equal(outletDomain(ctx.news.items[0]), 'arxiv.org');
     assert.equal(outletSlug('arxiv.org'), 'arxiv-org');
     assert.equal(outletPath('arxiv.org'), '/outlet/arxiv-org.html');
-    const ids = indexableOutlets(ctx).map((o) => o.domain);
-    assert.ok(ids.includes('arxiv.org'));
-    assert.ok(!ids.includes('techcrunch.com'));
+    const domains = indexableOutlets(ctx).map((o) => o.domain);
+    // Exact domain equality — do not use String#includes on hostnames
+    // (CodeQL js/incomplete-url-substring-sanitization).
+    assert.equal(domains.some((d) => d === 'arxiv.org'), true);
+    assert.equal(domains.some((d) => d === 'techcrunch.com'), false);
     assert.equal(OUTLET_INDEX_MIN, 5);
     const locs = sitemapEntries(ctx).map((e) => e.loc);
-    assert.ok(locs.includes('/outlet/'));
-    assert.ok(locs.includes('/outlet/arxiv-org.html'));
-    assert.ok(!locs.includes('/outlet/techcrunch-com.html'));
+    assert.equal(locs.some((l) => l === '/outlet/'), true);
+    assert.equal(locs.some((l) => l === '/outlet/arxiv-org.html'), true);
+    assert.equal(locs.some((l) => l === '/outlet/techcrunch-com.html'), false);
   });
 
   it('lists stories with ItemList schema and refuses doom claims', () => {

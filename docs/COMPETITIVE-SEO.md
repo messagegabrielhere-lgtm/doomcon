@@ -20,7 +20,7 @@ hijacks we cannot honestly answer stay refused (`CONTRACT.md`, `VOICE.md`).
 | **DoomBench** | **2,088** (2026-10-12) | none | “Live AI Doom Index” | FAQPage only | `/models` `/companies` `/countries` `/people` `/jobs` `/news` | no |
 | **Skynet Countdown** | **1,237** | none | “AGI Timeline Tracker” | Organization + WebSite | `/tags/*` (717) + `/news/YYYY-MM-DD` (507) | no |
 | **pizzint.watch** | **1,018** | **empty (0 `<loc>`)** | DEFCON + Doomsday Clock hijack + keywords meta | FAQPage + WebApplication + Organization | `/intel/*` briefs only; chips are `<button>`s | no (404 → SPA shell) |
-| **siren.watch** | **682** live → **1,243** local (archive + `/outlet/*` publishers + tags; this PR) — past pizzint & Skynet on URL count, still under DoomBench | **100 rolling / 48h** with `news:keywords` | Head-term live title (“AI activity index today · SIREN …”) | Rich: Dataset, FAQ, Organization, VideoObject… | `/pillar/*` `/lab/*` `/country/*` `/model/*` `/people/*` `/tags/*` `/kind/*` `/outlet/*` + archived `/item/*` | **yes** |
+| **siren.watch** | **682** live → **2,801** local after archive backfill (this PR) — ahead of DoomBench/Skynet/pizzint on sitemap URL count pending deploy | **100 rolling / 48h** with `news:keywords` | Head-term live title (“AI activity index today · SIREN …”) | Rich: Dataset, FAQ, Organization, VideoObject… | `/pillar/*` `/lab/*` `/country/*` `/model/*` `/people/*` `/tags/*` `/kind/*` `/outlet/*` + archived `/item/*` | **yes** |
 | pdoom.ai | 0 (SPA shell) | 0 | Sci-fi countdown + keyword stuffing | none | none | yes (thin) |
 | takeofftracker.com | none | none | “AGI Metrics Dashboard” | none | none | none |
 
@@ -138,6 +138,8 @@ delete `/item/` pages when the live cap bound. Now:
 - Cap overflow and aged-off scored rows merge into `data/item-archive.json`
   (max 1,600). `site/build.mjs` writes those pages and `sitemap.xml` lists them.
 - Topic tags add **security**, **military**, and **education** when ≥5 stories match.
+- One-shot backfill from prior committed `data/news.json` snapshots:
+  `npm run seo:archive-backfill` (only rows we already scored and published).
 
 This is the honest volume lever: more scored stories kept, not synonym doorways.
 
