@@ -25,6 +25,7 @@ import { breadcrumbs, speakable } from './_seo.mjs';
 import { modelIndexable, modelPath } from './modelPages.mjs';
 import { tagsForItem, tagPath } from './tagPages.mjs';
 import { peopleForItem, peoplePath } from './peoplePages.mjs';
+import { kindIndexable, kindPath, kindById } from './kindPages.mjs';
 import * as brand from '../brand.mjs';
 import { sourceIndexable, sourceLabel, sourcePath } from './facetPages.mjs';
 
@@ -208,11 +209,17 @@ export function render(ctx, item, related = []) {
     ? ctx.href(sourcePath(item.source))
     : null;
   const outletName = item.source ? sourceLabel(item.source) : '';
+  const kindDef = item.kind ? kindById(item.kind) : null;
+  const kindHref = item.kind && kindIndexable(ctx, item.kind)
+    ? ctx.href(kindPath(item.kind))
+    : null;
+  const kindLabel = kindDef ? kindDef.name : (item.kind || '');
   const main = `${styleTag()}
 <article class="it">
   <p class="it__k">
     <a href="${esc(ctx.href('/news.html'))}">Newsroom</a> ·
-    ${pillarHref ? `<a href="${esc(pillarHref)}">${esc(pillarName)}</a>` : esc(pillarName)} ·
+    ${pillarHref ? `<a href="${esc(pillarHref)}">${esc(pillarName)}</a>` : esc(pillarName)}
+    ${kindLabel ? ` · ${kindHref ? `<a href="${esc(kindHref)}">${esc(kindLabel)}</a>` : esc(kindLabel)}` : ''} ·
     <time datetime="${esc(item.published_at)}">${esc(utc(item.published_at))}</time>
   </p>
 

@@ -20,7 +20,7 @@ hijacks we cannot honestly answer stay refused (`CONTRACT.md`, `VOICE.md`).
 | **DoomBench** | **2,088** (2026-10-12) | none | “Live AI Doom Index” | FAQPage only | `/models` `/companies` `/countries` `/people` `/jobs` `/news` | no |
 | **Skynet Countdown** | **1,237** | none | “AGI Timeline Tracker” | Organization + WebSite | `/tags/*` (717) + `/news/YYYY-MM-DD` (507) | no |
 | **pizzint.watch** | **1,018** | **empty (0 `<loc>`)** | DEFCON + Doomsday Clock hijack + keywords meta | FAQPage + WebApplication + Organization | `/intel/*` briefs only; chips are `<button>`s | no (404 → SPA shell) |
-| **siren.watch** | **682** live → **~720** with people/day/entity labs + `/tags/*` (this PR) | **100 rolling / 48h** with `news:keywords` | Head-term live title (“AI activity index today · SIREN …”) | Rich: Dataset, FAQ, Organization, VideoObject… | `/pillar/*` `/lab/*` `/country/*` `/model/*` `/people/*` `/tags/*` day hubs | **yes** |
+| **siren.watch** | **682** live → **~724+** with people/day/entity labs + `/tags/*` + `/kind/*` (this PR) | **100 rolling / 48h** with `news:keywords` | Head-term live title (“AI activity index today · SIREN …”) | Rich: Dataset, FAQ, Organization, VideoObject… | `/pillar/*` `/lab/*` `/country/*` `/model/*` `/people/*` `/tags/*` `/kind/*` day hubs | **yes** |
 | pdoom.ai | 0 (SPA shell) | 0 | Sci-fi countdown + keyword stuffing | none | none | yes (thin) |
 | takeofftracker.com | none | none | “AGI Metrics Dashboard” | none | none | none |
 
@@ -122,6 +122,12 @@ safety, datacenters, fundraising, benchmarks, regulation, inference, robotics,
 China AI). Gate: ≥5 scored stories whose title or summary matches the needle.
 Story pages link indexable tags and indexable people (full-name match only).
 Synonym doorway farms stay refused.
+
+### 4.3 Story kinds (2026-10-12)
+
+`/kind/<id>.html` for collector kinds (`press`, `forum`, `paper`, …) that clear
+≥5 scored stories. Kind is already on every NewsItem — these pages make the
+filter crawlable with ItemList schema and newsroom/item links.
 
 ---
 

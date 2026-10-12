@@ -48,7 +48,7 @@ export function items(ctx) {
 export function linkifyAnswer(ctx, text) {
   const href = (path) => esc(ctx.href(path));
   return esc(text).replace(
-    /\/(?:(people|tags)\/|(compare|alternatives|guide|ai-doomsday-clock|p-doom|methodology|news)\.html)/g,
+    /\/(?:(people|tags|kind)\/|(compare|alternatives|guide|ai-doomsday-clock|p-doom|methodology|news)\.html)/g,
     (raw, dir, page) => {
       const path = dir ? `/${dir}/` : `/${page}.html`;
       return `<a href="${href(path)}">${path}</a>`;

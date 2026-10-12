@@ -67,6 +67,7 @@ import { PILLAR_GLYPH } from './_charts.mjs';
 import { page } from './layout.mjs';
 import { dayPath, indexableDays } from './dayPages.mjs';
 import { tagPath, indexableTags } from './tagPages.mjs';
+import { kindPath, indexableKinds } from './kindPages.mjs';
 import * as brand from '../brand.mjs';
 import { breakingStrip, speedBox, breakingCss } from './_breaking.mjs';
 
@@ -110,6 +111,7 @@ ${breakingStrip(ctx, { href: ctx.href })}
   ${legend(news)}
   ${dayHubNav(ctx, items)}
   ${tagHubNav(ctx)}
+  ${kindHubNav(ctx)}
 </section>
 
 ${reel(items, { id: 'areel', limit: REEL_CARDS, heading: 'Highest-scoring items' })}
@@ -209,6 +211,19 @@ function tagHubNav(ctx) {
     .join('');
   return `<nav class="narch__days" aria-label="News by topic tag">
   <p class="narch__days-k">By topic · <a href="${esc(ctx.href('/tags/'))}">all tags</a></p>
+  <div class="narch__days-links">${links}</div>
+</nav>`;
+}
+
+/** Links to /kind/<id>.html hubs that clear the substance gate. */
+function kindHubNav(ctx) {
+  const kinds = indexableKinds(ctx);
+  if (!kinds.length) return '';
+  const links = kinds
+    .map((k) => `<a href="${esc(ctx.href(kindPath(k.id)))}">${esc(k.name)} <span class="num">(${esc(String(k.count))})</span></a>`)
+    .join('');
+  return `<nav class="narch__days" aria-label="News by story kind">
+  <p class="narch__days-k">By kind · <a href="${esc(ctx.href('/kind/'))}">all kinds</a></p>
   <div class="narch__days-links">${links}</div>
 </nav>`;
 }
