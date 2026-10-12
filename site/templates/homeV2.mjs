@@ -823,6 +823,19 @@ body.v2-body{margin:0;background:#000;color:#F3F4F6}
 .v2 .tag.violet{border-color:#7E3AF2;background:#2A1240;color:#E9D5FF}
 .v2-top .right{margin-left:auto;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .v2-main{padding-block:40px 72px;display:flex;flex-direction:column;gap:22px}
+/* Skip layout/paint for below-fold home blocks until near the viewport (CWV).
+   Markup and text stay in the HTML for crawlers — this is not display:none. */
+.v2-main [data-sec]:not(#signal),
+.v2-main .v2-two,
+.v2-main .v2-bosses,
+.v2-main .v2-labs,
+.v2-main .v2-video,
+.v2-main .v2-vfywrap,
+.v2-main .v2-nl,
+.v2-main > .v2-foot{
+  content-visibility:auto;
+  contain-intrinsic-size:auto 360px;
+}
 .v2-brand{display:flex;align-items:center;gap:22px;flex-wrap:wrap}
 .v2-brand h1{flex:1 1 300px;min-width:0}
 .v2-art{display:block;flex:none;max-width:none;object-fit:contain}
