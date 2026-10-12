@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
-import { GUIDES, guides, guidesMd } from './infoPages.mjs';
+import { GUIDES, aiClock, guides, guidesMd } from './infoPages.mjs';
 
 const ctx = {
   url: (p) => `https://siren.watch${p === '/' ? '/' : p}`,
@@ -41,5 +41,14 @@ describe('guides hub', () => {
     assert.match(md, /\/p-doom\.html/);
     assert.match(md, /\/ai-doomsday-clock\.html/);
     assert.doesNotMatch(md, /doom score:\s*\d/i);
+  });
+
+  it('ai-doomsday-clock uses a question-shaped head-term title', () => {
+    const html = aiClock(ctx);
+    assert.match(html, /<title>Is there an AI doomsday clock\? Bulletin vs verifiable count/);
+    assert.match(html, /Is there an AI Doomsday Clock\?/);
+    assert.match(html, /Bulletin of the Atomic Scientists/);
+    assert.doesNotMatch(html, /probability of doom is \d/i);
+    assert.doesNotMatch(html, /SIREN.*p\(doom\) of \d/i);
   });
 });

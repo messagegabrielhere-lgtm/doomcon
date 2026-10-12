@@ -86,6 +86,7 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('AI activity index'));
     assert.ok(org.knowsAbout.includes('AI activity index today'));
     assert.ok(org.knowsAbout.includes('AI doomsday clock'));
+    assert.ok(org.knowsAbout.includes('verifiable AI doomsday clock'));
     assert.ok(org.knowsAbout.includes('DoomBench alternative'));
     assert.ok(org.knowsAbout.includes('Takeoff Tracker alternative'));
     assert.ok(org.knowsAbout.includes('Pentagon Pizza Index alternative'));

@@ -604,8 +604,10 @@ export function aiClock(ctx) {
 </section>`;
   return page({
     ctx, path: '/ai-doomsday-clock.html',
-    title: `AI Doomsday Clock: expert p(doom), set your own · ${brand.NAME}`,
-    description: `AI Doomsday Clock: expert p(doom) clusters at 10–20%. Set your own on a dial, or read ${brand.NAME}, an hourly AI index anyone can verify.`,
+    // Question-shaped title matches FINDABILITY disambiguation queries
+    // ("is there an AI doomsday clock?") — not a doom-probability claim.
+    title: `Is there an AI doomsday clock? Bulletin vs verifiable count · ${brand.NAME}`,
+    description: `Is there an AI doomsday clock? The Bulletin’s clock is yearly judgement, not AI-specific. Expert p(doom) clusters around 10–20%. ${brand.NAME} is an hourly AI activity count anyone can verify.`,
     jsonld: [{ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: [
       { '@type': 'Question', name: 'Is there an AI Doomsday Clock?', acceptedAnswer: { '@type': 'Answer', text: 'The Bulletin of the Atomic Scientists’ Doomsday Clock includes AI among its risks but is not AI-specific and is set once a year. AI-specific clocks are set by judgement. SIREN publishes an hourly, verifiable count of AI activity, and plots named experts’ p(doom) estimates on one chart.' } },
       { '@type': 'Question', name: 'How close is the AI Doomsday Clock to midnight?', acceptedAnswer: { '@type': 'Answer', text: 'There is no official AI clock. Expert estimates of AI catastrophe cluster around 10–20%; the largest researcher survey has a median of 5%. On a clock where 100% is midnight, 15% is about 51 minutes to go.' } },

@@ -322,6 +322,7 @@ context.
 | 89 | Entity labs Decart / Sakana AI / Isomorphic Labs / Winverse AI / Cisco (`/lab/*`, live/archive ≥3); tags `protein-design` + `drug-discovery`; news:keywords + IndexNow samples | Google + Bing | **Done** (2026-10-12) |
 | 90 | News-sitemap `news:keywords` prioritizes entity + lab surfaces before topic-tag flood so the 12-cap keeps head-term names (pizzint-news-alive contest) | Google News | **Done** (2026-10-12) |
 | 91 | Organization `knowsAbout` adds head terms: AI activity index today, AI tempo index, DoomBench/Skynet/Takeoff Tracker/Pentagon Pizza Index alternatives (schema matches conquest pages) | Google | **Done** (2026-10-12) |
+| 92 | `/ai-doomsday-clock.html` question-shaped title + `knowsAbout` “verifiable AI doomsday clock”; `/compare.html` title includes Takeoff Tracker (Bulletin / AI clock head terms) | Google | **Done** (2026-10-12) |
 
 ### 3.3 Refusals (search edition)
 

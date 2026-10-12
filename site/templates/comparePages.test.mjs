@@ -38,6 +38,7 @@ describe('compare / alternatives conquest pages', () => {
   it('puts head-term titles and FAQ schema on the hubs', () => {
     const hub = compareHub(ctx);
     assert.match(hub, /AI doom indexes compared/);
+    assert.match(hub, /Takeoff Tracker/);
     assert.match(hub, /"@type"\s*:\s*"FAQPage"/);
     assert.match(hub, /DoomBench/);
     assert.match(hub, /Skynet Countdown/);

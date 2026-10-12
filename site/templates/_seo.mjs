@@ -31,6 +31,7 @@ export function organization(ctx) {
       'frontier AI news',
       'p(doom)',
       'AI doomsday clock',
+      'verifiable AI doomsday clock',
       'AI doom index alternatives',
       'DoomBench alternative',
       'Skynet Countdown alternative',

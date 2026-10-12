@@ -201,8 +201,8 @@ function pageJsonLd(ctx, path, title, description, crumbs, faqPairs) {
 
 export function compareHub(ctx) {
   const path = '/compare.html';
-  const title = `AI doom indexes compared: ${brand.NAME} vs DoomBench, Skynet, p(doom) and PizzINT`;
-  const description = `${brand.NAME} is an hourly AI activity count you can recompute. DoomBench scores takeover evidence, Skynet Countdown estimates AGI dates, p(doom) clocks publish opinions, and PizzINT borrows DEFCON/Doomsday framing. Side-by-side without borrowing their claims.`;
+  const title = `AI doom indexes compared: ${brand.NAME} vs DoomBench, Skynet, p(doom), PizzINT and Takeoff Tracker`;
+  const description = `${brand.NAME} is an hourly AI activity count you can recompute. DoomBench scores takeover evidence, Skynet Countdown estimates AGI dates, p(doom) clocks publish opinions, PizzINT borrows DEFCON/Doomsday framing, and Takeoff Tracker aggregates AGI metrics. Side-by-side without borrowing their claims.`;
   const faq = [
     [`What is the difference between ${brand.NAME} and DoomBench?`,
       `${brand.NAME} measures AI activity tempo from public data every hour and publishes a receipt. DoomBench publishes a qualitative doom index from sourced evidence about takeover risk. One is a count; the other is a judgement-scored risk index.`],
