@@ -70,6 +70,8 @@ describe('IndexNow', () => {
     assert.ok(has('https://siren.watch/tags/scaling-laws.html'));
     assert.ok(has('https://siren.watch/tags/ai-assistants.html'));
     assert.ok(has('https://siren.watch/tags/ai-factories.html'));
+    assert.ok(has('https://siren.watch/tags/peft.html'));
+    assert.ok(has('https://siren.watch/tags/gaussian-splatting.html'));
   });
 
   it('Organization knowsAbout head terms Google and assistants ask', () => {

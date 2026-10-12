@@ -961,6 +961,36 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'Multimodal-reasoning research stories scored in the newsroom or archive — method coverage, not a capability forecast.',
     match: /\bmultimodal reasoning\b/i,
   },
+  {
+    id: 'model-pruning',
+    name: 'Model pruning',
+    description: 'Model-pruning research stories scored in the newsroom or archive — method coverage, not a quality ranking.',
+    match: /\b(?:model |weight |structured |unstructured |semi[- ]structured |llm )?pruning\b/i,
+  },
+  {
+    id: 'peft',
+    name: 'PEFT',
+    description: 'Parameter-efficient fine-tuning (PEFT) stories scored in the newsroom or archive — method coverage, not a quality ranking.',
+    match: /\b(\bpeft\b|parameter[- ]efficient)\b/i,
+  },
+  {
+    id: 'test-time-training',
+    name: 'Test-time training',
+    description: 'Test-time training research stories scored in the newsroom or archive — method coverage, not a capability forecast.',
+    match: /\btest[- ]time train(?:ing|ed)\b/i,
+  },
+  {
+    id: 'gaussian-splatting',
+    name: 'Gaussian splatting',
+    description: '3D Gaussian splatting research stories scored in the newsroom or archive — method coverage, not a quality ranking.',
+    match: /\b(?:3d )?gaussian splatting\b/i,
+  },
+  {
+    id: 'domain-adaptation',
+    name: 'Domain adaptation',
+    description: 'Domain-adaptation research stories scored in the newsroom or archive — method coverage, not a capability forecast.',
+    match: /\bdomain adaptation\b/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));

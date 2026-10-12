@@ -1318,4 +1318,53 @@ describe('tag pages', () => {
     assert.match(renderTag(rich, 'multimodal-reasoning'), /Multimodal reasoning: AI stories this index scored/);
     assert.doesNotMatch(renderTag(rich, 'ai-factories'), /doom score/i);
   });
+
+  it('pages model-pruning, PEFT, test-time-training, Gaussian splatting, domain-adaptation', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('mp1', 'Structured pruning for transformer blocks'),
+          story('mp2', 'Semi-structured LLM pruning survey'),
+          story('mp3', 'Weight pruning with fault tolerance'),
+          story('mp4', 'Model pruning for on-device inference'),
+          story('mp5', 'Unstructured pruning recovery tricks'),
+          story('pf1', 'PEFT recipes for domain specialists'),
+          story('pf2', 'Parameter-efficient methods for medical LLMs'),
+          story('pf3', 'Comparing PEFT adapters at the edge'),
+          story('pf4', 'Parameter-efficient fine-tuning at scale'),
+          story('pf5', 'PEFT for continual adaptation'),
+          story('tt1', 'Test-time training for long-horizon agents'),
+          story('tt2', 'Self-generated feedback in test-time training'),
+          story('tt3', 'Online test-time training via self-distillation'),
+          story('tt4', 'Test-time training of latent world models'),
+          story('tt5', 'Personalized reward modeling with test-time training'),
+          story('gs1', 'Mobile Gaussian splatting for real-time 3D'),
+          story('gs2', 'Reliability-aware Gaussian splatting from handheld video'),
+          story('gs3', 'Gaussian splatting for irregular turntable capture'),
+          story('gs4', 'Scaling density functional theory with Gaussian splatting'),
+          story('gs5', '3D cinemagraphs via Gaussian splatting'),
+          story('da1', 'RL-only domain adaptation from base models'),
+          story('da2', 'Domain adaptation for long legal documents'),
+          story('da3', 'Tuning-free domain adaptation for classification'),
+          story('da4', 'Retrieval-based domain adaptation framework'),
+          story('da5', 'Parameter-space mitigation after domain adaptation'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    for (const id of [
+      'model-pruning', 'peft', 'test-time-training',
+      'gaussian-splatting', 'domain-adaptation',
+    ]) {
+      assert.ok(ids.includes(id), id);
+    }
+    assert.match(renderTag(rich, 'model-pruning'), /Model pruning: AI stories this index scored/);
+    assert.match(renderTag(rich, 'peft'), /PEFT: AI stories this index scored/);
+    assert.match(renderTag(rich, 'test-time-training'), /Test-time training: AI stories this index scored/);
+    assert.match(renderTag(rich, 'gaussian-splatting'), /Gaussian splatting: AI stories this index scored/);
+    assert.match(renderTag(rich, 'domain-adaptation'), /Domain adaptation: AI stories this index scored/);
+    assert.doesNotMatch(renderTag(rich, 'model-pruning'), /doom score/i);
+  });
 });
