@@ -1497,6 +1497,10 @@ async function main() {
     for (const player of facetPages.allLabs(ctx)) {
       written.push(await write(args.out, `lab/${player.id}.html`, facetPages.renderLab(ctx, player)));
     }
+    if (facetPages.indexableLabs(ctx).length) {
+      written.push(await write(args.out, 'lab/index.html', facetPages.renderLabIndex(ctx)));
+      written.push(await write(args.out, 'companies.html', facetPages.renderCompanies(ctx)));
+    }
     for (const s of facetPages.indexableSources(ctx)) {
       written.push(await write(args.out, `source/${s.id}.html`, facetPages.renderSource(ctx, s.id)));
     }
@@ -1519,7 +1523,9 @@ async function main() {
       if (leaders) written.push(await write(args.out, 'api/leaders.json', stableJson(leaders)));
     }
     await writeDirectoryAliases(args.out, [
-      'news', 'leaders',
+      'news', 'leaders', 'companies',
+      ...facetPages.indexableLabs(ctx).map((p) => `lab/${p.id}`),
+      ...(facetPages.indexableLabs(ctx).length ? ['lab'] : []),
       ...facetPages.indexableSources(ctx).map((s) => `source/${s.id}`),
       ...modelAndCountryAliases(ctx),
       ...tagAliases(ctx),
@@ -1874,6 +1880,10 @@ async function main() {
   for (const player of facetPages.allLabs(ctx)) {
     written.push(await write(args.out, `lab/${player.id}.html`, facetPages.renderLab(ctx, player)));
   }
+  if (facetPages.indexableLabs(ctx).length) {
+    written.push(await write(args.out, 'lab/index.html', facetPages.renderLabIndex(ctx)));
+    written.push(await write(args.out, 'companies.html', facetPages.renderCompanies(ctx)));
+  }
   for (const s of facetPages.indexableSources(ctx)) {
     written.push(await write(args.out, `source/${s.id}.html`, facetPages.renderSource(ctx, s.id)));
   }
@@ -1895,10 +1905,11 @@ async function main() {
       'bets', 'privacy', 'terms', 'disclosures', 'feedback', 'sponsor', 'instruments',
       'p-doom', 'ai-doomsday-clock', 'arena', 'scanner', 'monitor', 'elon',
       'game', 'bunker-kit', 'alerts', 'export', 'moltbook', 'staff', 'careers',
-      'agents', 'tally', 'changelog', 'live', 'compare', 'alternatives',
+      'agents', 'tally', 'changelog', 'live', 'compare', 'alternatives', 'companies',
       ...comparePages.RIVALS.map((r) => r.path.replace(/^\//, '').replace(/\.html$/, '')),
       ...brand.PILLARS.map((p) => `pillar/${p.id}`),
       ...facetPages.allLabs(ctx).map((p) => `lab/${p.id}`),
+      ...(facetPages.indexableLabs(ctx).length ? ['lab'] : []),
       ...facetPages.indexableSources(ctx).map((s) => `source/${s.id}`),
       ...modelAndCountryAliases(ctx),
       ...peopleAliases(ctx),
