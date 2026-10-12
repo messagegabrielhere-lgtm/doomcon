@@ -132,6 +132,45 @@ export function render(ctx) {
           },
         },
       },
+      '/api/mood.json': {
+        get: {
+          tags: ['surfaces'],
+          summary: 'Headline-tone index per AI company (−100…100) from fixed word lists',
+          operationId: 'getMood',
+          responses: {
+            200: {
+              description: 'Per-company mood board and lexicons',
+              content: { 'application/json': { schema: { type: 'object' } } },
+            },
+          },
+        },
+      },
+      '/api/boards.json': {
+        get: {
+          tags: ['surfaces'],
+          summary: 'Public model boards: OpenRouter usage, LMArena order, Hugging Face video downloads',
+          operationId: 'getBoards',
+          responses: {
+            200: {
+              description: 'Boards with source links; dark boards carry ok:false',
+              content: { 'application/json': { schema: { type: 'object' } } },
+            },
+          },
+        },
+      },
+      '/api/coding-agents.json': {
+        get: {
+          tags: ['surfaces'],
+          summary: 'Coding agents and MCP hubs: stars, releases, health from GitHub',
+          operationId: 'getCodingAgents',
+          responses: {
+            200: {
+              description: 'Agent and MCP rosters with health labels',
+              content: { 'application/json': { schema: { type: 'object' } } },
+            },
+          },
+        },
+      },
       '/api/now.txt': {
         get: {
           tags: ['index'],
