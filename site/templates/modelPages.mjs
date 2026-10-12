@@ -206,10 +206,11 @@ export function renderIndex(ctx) {
 </li>`).join('');
   const main = `${STYLE}
 <article class="fc prose">
-  <p class="fc__k"><a href="${esc(ctx.href('/news.html'))}">Newsroom</a> · Models</p>
+  <p class="fc__k"><a href="${esc(ctx.href('/news.html'))}">Newsroom</a> · Models · <a href="${esc(ctx.href('/models.html'))}">Models hub</a></p>
   <h1>Model families this index scored</h1>
-  <p class="fc__lede">A model family earns a page when the current window holds at least ${MODEL_INDEX_MIN} scored stories whose headline matches that name in the published entity list. Fewer than that stays on the story page only.</p>
+  <p class="fc__lede">A model family earns a page when the current window holds at least ${MODEL_INDEX_MIN} scored stories whose headline matches that name in the published entity list. Fewer than that stays on the story page only. No model “doom score” is computed.</p>
   ${rows ? `<ol class="fc__list">${rows}</ol>` : '<p>No model family clears the gate in this window.</p>'}
+  <p class="fresh__key">Search-shaped directory: <a href="${esc(ctx.href('/models.html'))}">AI models this index covers</a>.</p>
 </article>`;
   return page({
     ctx,
@@ -241,6 +242,66 @@ export function renderIndex(ctx) {
   });
 }
 
+/**
+ * DoomBench-shaped /models head-term hub. Same gated model set as /model/,
+ * different title and lede for “AI models” queries — story counts only, not
+ * a model doom scoreboard.
+ */
+export function renderModels(ctx) {
+  const models = indexableModels(ctx);
+  const path = '/models.html';
+  const title = `AI models this index covers · ${brand.NAME}`;
+  const description = clip(
+    `${models.length} AI model families with scored-story hubs on ${brand.NAME}. Each row links /model pages — story counts only, not a model doom score.`,
+    160,
+  );
+  const rows = models.map((m) => `<li>
+  <a href="${esc(ctx.href(modelPath(m.name)))}">${esc(m.name)}</a>
+  <span class="fc__meta">Story hub · <span class="num">${esc(String(m.count))}</span> in window</span>
+</li>`).join('');
+  const main = `${STYLE}
+<article class="fc prose">
+  <p class="fc__k"><a href="${esc(ctx.href('/compare.html'))}">Compare</a> · <a href="${esc(ctx.href('/model/'))}">Model families</a> · Models</p>
+  <h1>AI models this index covers</h1>
+  <p class="fc__lede">${esc(brand.NAME)} does not publish a model “doom score.” It publishes an activity index and scored stories. This page lists model families that already clear the same substance gate as <a href="${esc(ctx.href('/model/'))}">/model/</a> — at least ${MODEL_INDEX_MIN} matching headlines in the live window.</p>
+  <div class="fc__stat" role="group" aria-label="Model hub totals">
+    <div><b class="num">${esc(String(models.length))}</b><span>Model family hubs</span></div>
+  </div>
+  ${models.length ? `<ol class="fc__list">${rows}</ol>` : '<p>No model hub cleared the gate in this build.</p>'}
+  <p class="fresh__key"><a href="${esc(ctx.href('/model/'))}">Model family directory →</a>
+     · <a href="${esc(ctx.href('/companies.html'))}">AI companies →</a>
+     · <a href="${esc(ctx.href('/compare.html'))}">How this index differs from DoomBench →</a></p>
+</article>`;
+  return page({
+    ctx,
+    path,
+    title,
+    description,
+    noindex: models.length === 0,
+    jsonld: [{
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      name: title,
+      url: ctx.url(path),
+      description,
+      mainEntity: {
+        '@type': 'ItemList',
+        numberOfItems: models.length,
+        itemListElement: models.map((m, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          url: ctx.url(modelPath(m.name)),
+          name: m.name,
+        })),
+      },
+    }, breadcrumbs(ctx, [
+      { name: 'Compare', path: '/compare.html' },
+      { name: 'Models', path },
+    ])],
+    main,
+  });
+}
+
 /** Sitemap rows for the model index and each family that clears the gate. */
 export function sitemapEntries(ctx) {
   const models = indexableModels(ctx);
@@ -248,6 +309,7 @@ export function sitemapEntries(ctx) {
   const last = (ctx.news && ctx.news.generated_at) || (ctx.state && ctx.state.generated_at);
   return [
     { loc: '/model/', changefreq: 'hourly', priority: '0.6', lastmod: last },
+    { loc: '/models.html', changefreq: 'hourly', priority: '0.75', lastmod: last },
     ...models.map((m) => ({
       loc: modelPath(m.name),
       changefreq: 'hourly',

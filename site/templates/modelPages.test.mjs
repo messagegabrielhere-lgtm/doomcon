@@ -6,6 +6,8 @@ import {
   indexableModels,
   modelPath,
   renderModel,
+  renderIndex,
+  renderModels,
   sitemapEntries,
 } from './modelPages.mjs';
 
@@ -49,8 +51,19 @@ describe('model pages', () => {
     assert.equal(modelPath('Claude'), '/model/claude.html');
     const locs = sitemapEntries(ctx).map((e) => e.loc);
     assert.ok(locs.includes('/model/'));
+    assert.ok(locs.includes('/models.html'));
     assert.ok(locs.includes('/model/claude.html'));
     assert.ok(!locs.includes('/model/grok.html'));
+  });
+
+  it('ships /models.html over the same gated model set', () => {
+    const html = renderModels(ctx);
+    assert.match(html, /AI models this index covers/);
+    assert.match(html, /\/model\/claude\.html/);
+    assert.match(html, /does not publish a model/);
+    assert.match(html, /\/companies\.html/);
+    assert.match(renderIndex(ctx), /\/models\.html/);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
   });
 
   it('lists the stories and the lab page, and does not invent a model score', () => {

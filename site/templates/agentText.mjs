@@ -340,6 +340,7 @@ ${facetLinks(ctx, u)}
 - [Feed outlets](${u('/source/')}): scored stories grouped by the feed adapter that carried them
 - [Publishers](${u('/outlet/')}): scored stories grouped by the publisher host on the original URL
 - [Model families](${u('/model/')}): scored stories grouped by the model the headline names
+- [AI models](${u('/models.html')}): DoomBench-shaped models directory (same gated families; no model doom score)
 - [Labs](${u('/lab/')}): race-board and entity lab hubs with story counts
 - [AI companies](${u('/companies.html')}): DoomBench-shaped company directory (same gated labs; no company doom score)
 - [News by day](${u('/news.html')}): UTC day hubs under /news/YYYY-MM-DD.html when a day clears five stories

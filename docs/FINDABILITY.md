@@ -265,6 +265,7 @@ context.
 | 32 | `/country/*` hubs list matching live + archive stories; story pages link indexable countries | Google | **Done** (2026-10-12) |
 | 33 | Entity labs Oracle / Palantir / Adobe / Broadcom / Cloudflare (`/lab/*`, live ≥3 gate) | Google | **Done** (2026-10-12) |
 | 34 | `/lab/` directory + `/companies.html` DoomBench-shaped company hub (same gated labs) | Google | **Done** (2026-10-12) |
+| 35 | `/models.html` DoomBench-shaped models hub (same gated `/model/*` families; no model doom score) | Google | **Done** (2026-10-12) |
 
 ### 3.3 Refusals (search edition)
 

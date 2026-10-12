@@ -31,6 +31,7 @@ const ALWAYS = Object.freeze([
   '/guide.md',
   '/compare.html',
   '/companies.html',
+  '/models.html',
   '/lab/',
   '/alternatives.html',
   '/p-doom.html',

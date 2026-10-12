@@ -732,6 +732,9 @@ async function writeModelAndCountryPages(ctx, outDir, write, written) {
     written.push(await write(outDir, `model/${model.slug}.html`, modelPages.renderModel(ctx, model.name)));
   }
   written.push(await write(outDir, 'model/index.html', modelPages.renderIndex(ctx)));
+  if (modelPages.indexableModels(ctx).length) {
+    written.push(await write(outDir, 'models.html', modelPages.renderModels(ctx)));
+  }
   if (ctx.routes && ctx.routes.world && ctx.world) {
     for (const country of countryPages.indexableCountries(ctx)) {
       written.push(await write(outDir, `country/${String(country.iso2).toLowerCase()}.html`, countryPages.renderCountry(ctx, country.iso2)));
@@ -1523,7 +1526,7 @@ async function main() {
       if (leaders) written.push(await write(args.out, 'api/leaders.json', stableJson(leaders)));
     }
     await writeDirectoryAliases(args.out, [
-      'news', 'leaders', 'companies',
+      'news', 'leaders', 'companies', 'models',
       ...facetPages.indexableLabs(ctx).map((p) => `lab/${p.id}`),
       ...(facetPages.indexableLabs(ctx).length ? ['lab'] : []),
       ...facetPages.indexableSources(ctx).map((s) => `source/${s.id}`),
@@ -1905,7 +1908,7 @@ async function main() {
       'bets', 'privacy', 'terms', 'disclosures', 'feedback', 'sponsor', 'instruments',
       'p-doom', 'ai-doomsday-clock', 'arena', 'scanner', 'monitor', 'elon',
       'game', 'bunker-kit', 'alerts', 'export', 'moltbook', 'staff', 'careers',
-      'agents', 'tally', 'changelog', 'live', 'compare', 'alternatives', 'companies',
+      'agents', 'tally', 'changelog', 'live', 'compare', 'alternatives', 'companies', 'models',
       ...comparePages.RIVALS.map((r) => r.path.replace(/^\//, '').replace(/\.html$/, '')),
       ...brand.PILLARS.map((p) => `pillar/${p.id}`),
       ...facetPages.allLabs(ctx).map((p) => `lab/${p.id}`),
