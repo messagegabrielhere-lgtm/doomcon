@@ -841,7 +841,9 @@ const PAL_EXTRA = [
   { href: '/terms.html', label: 'Terms & disclaimers', blurb: 'Information, not advice. No warranty.' },
   { href: '/disclosures.html', label: 'Disclosures', blurb: 'Affiliate, finance, privacy and satire notices in one place.' },
 ];
-const TAB_ROOMS = [['/', 'War room'], ['/news.html', 'News'], ['/race.html', 'Race'], ['/world.html', 'World']];
+// World moved to All pages so the games get a thumb slot (after pizzint's rail).
+const TAB_ROOMS = [['/', 'War room'], ['/news.html', 'News'], ['/race.html', 'Race']];
+const GAMES_TAB_MARK = '<path d="M4 6h8a3 3 0 0 1 0 6c-1 0-1.6-.6-2.2-1.2H6.2C5.6 11.4 5 12 4 12a3 3 0 0 1 0-6z" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M4.5 8v2M3.5 9h2" stroke="currentColor" stroke-width="1.3"/><circle cx="11" cy="8.4" r=".8" fill="currentColor"/><circle cx="12.3" cy="9.8" r=".8" fill="currentColor"/>';
 function navKit(ctx, tiles, path) {
   const have = new Set(tiles.map((t) => t.href));
   const rows = [...tiles.map((t) => {
@@ -852,7 +854,8 @@ function navKit(ctx, tiles, path) {
     const art = FEATURE_ART[h] || { mark: '' };
     return `<a class="tab__t" href="${esc(ctx.href(h))}"${h === path ? ' aria-current="page"' : ''}><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">${art.mark}</svg><span>${esc(label)}</span></a>`;
   }).join('');
-  const tabbar = `<nav class="tab" aria-label="Quick navigation">${tabs}<a class="tab__t" href="#foot-rooms" data-pal><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M2.5 4h11M2.5 8h11M2.5 12h11" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span>All pages</span></a></nav>`;
+  const gamesTab = `<a class="tab__t" href="${esc(ctx.href('/games.html'))}"${path === '/games.html' ? ' aria-current="page"' : ''}><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">${GAMES_TAB_MARK}</svg><span>Games</span></a>`;
+  const tabbar = `<nav class="tab" aria-label="Quick navigation">${tabs}${gamesTab}<a class="tab__t" href="#foot-rooms" data-pal><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M2.5 4h11M2.5 8h11M2.5 12h11" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span>All pages</span></a></nav>`;
   let next = '';
   const at = tiles.findIndex((t) => t.href === path);
   if (path !== '/' && at > 0) {

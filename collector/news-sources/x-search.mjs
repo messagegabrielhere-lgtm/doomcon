@@ -59,6 +59,8 @@ export function prompt(maxResults, nowMs) {
         'model releases, outages, announcements by AI labs (OpenAI, Anthropic, Google DeepMind, Meta, xAI, Mistral, ' +
         'DeepSeek, Qwen), AI policy and regulation, major AI funding or acquisitions, AI safety incidents. ' +
         'Prefer posts by the labs themselves, their executives, and established news organisations and reporters. ' +
+        'Also include OSINT and conflict-monitoring accounts (for example @sentdefender, @Conflict_Radar, @OSINTWarfare, @PolymarketIntel) ' +
+        'when they post about military AI, autonomous drones, AI-driven cyberattacks, or strikes on data centres or chip supply. ' +
         `Return a JSON array of at most ${maxResults} objects, newest first, each exactly ` +
         '{"url": "https://x.com/<handle>/status/<id>", "handle": "<handle>", "text": "<the post text, verbatim>"}. ' +
         'Only include posts you actually retrieved with the search tool. If there are none, return [].',

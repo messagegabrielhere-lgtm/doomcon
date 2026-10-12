@@ -21,6 +21,7 @@ export const PRIMARY = [
   ['/', 'Index'],
   ['/race.html', 'Race'],
   ['/news.html', 'News'],
+  ['/games.html', 'Games'],
   ['/leaders.html', 'Leaders'],
   ['/monitor.html', 'Monitor'],
   ['/dispatch.html', 'Dispatch'],
@@ -33,7 +34,8 @@ export const PRIMARY = [
 // at the top of the room finder and as a strip on the homepage. Newest first;
 // keep it to about six so it stays a highlight reel, not a second menu.
 export const WHATS_NEW = [
-  ['/evolution.html', 'px:trendchart', 'The Evolution Log', 'Every reading, news pick and Moltbook scan, kept day by day.'],
+  ['/games.html', 'px:joystick', 'The Arcade', 'Every SIREN game in one place, one click from any page.'],
+  ['/evolution.html', 'px:logbook', 'The Evolution Log', 'Every reading, news pick and Moltbook scan, kept day by day.'],
   ['/charts.html', 'px:trendchart', 'This week in charts', 'Live AI odds, the SIREN trend and the power race, each with an X post.'],
   ['/power.html', 'px:pylon', 'The power race', 'Who makes the most electricity: China vs the US, per person, fastest growing.'],
   ['/threats.html', 'px:threatshield', 'Threat board', 'Exploited software, botnets, solar storms and disasters, live.'],
@@ -165,6 +167,59 @@ export const HEADER_CSS = `<style ${HEADER_MARK}-css>
 @media print{.sh,.sh-rel,.sh-top{display:none}}
 </style>`;
 
+// THE ICON RAIL (after pizzint.watch): a slim column of icons down the left
+// edge of every page on wide screens, live rooms on top and the games under
+// a PLAY divider, so a game is always one click away. Phones and narrow
+// windows get the "Games" link in the header bar instead.
+export const RAIL = [
+  ['/', 'siren', 'SIREN Index'],
+  ['/news.html', 'news', 'Newsroom'],
+  ['/race.html', 'radar', 'The Race'],
+  ['/monitor.html', 'satellite', 'World Monitor'],
+  ['/leaders.html', 'mic', 'Leaders'],
+  ['/status.html', 'px:statuspulse', 'Is AI down?'],
+  ['/threats.html', 'px:threatshield', 'Threat board'],
+  ['/charts.html', 'px:trendchart', 'Charts'],
+  ['/waffle.html', 'px:waffle', 'Waffle House Index'],
+  '|PLAY',
+  ['/games.html', 'px:arcade', 'All games'],
+  ['/contain.html', 'px:core', 'Containment (arcade)'],
+  ['/self-aware.html', 'px:redeye', 'The night it wakes up'],
+  ['/day-after.html', 'px:megaphone', 'The Day After'],
+  ['/arena.html#battle', 'stocks', 'AI Battle'],
+  ['/bets.html', 'dice', 'Tally’s Bets'],
+  ['/p-doom.html#voices', 'px:pclock', 'Set your p(doom)'],
+  '|',
+  ['/radio.html', 'px:radio', 'SIREN Radio'],
+];
+export const RAIL_CSS = `<style ${HEADER_MARK}-rail>
+.sr{display:none}
+@media (min-width:1380px){
+.sr{display:flex;flex-direction:column;align-items:center;gap:2px;position:fixed;left:0;top:50%;transform:translateY(-50%);z-index:900;width:54px;padding:8px 0;background:rgba(7,10,16,.94);border:1px solid #232C3B;border-left:0;border-radius:0 10px 10px 0;box-shadow:0 8px 24px rgba(0,0,0,.45)}
+.sr a{position:relative;display:flex;align-items:center;justify-content:center;width:42px;height:38px;border-radius:7px;border:1px solid transparent}
+.sr a img{width:26px;height:26px;display:block;image-rendering:pixelated}
+.sr a:hover,.sr a:focus-visible{background:#141B27;border-color:#334155}
+.sr a[aria-current]{background:#10251A;border-color:#4ADE80}
+.sr a span{position:absolute;left:50px;top:50%;transform:translateY(-50%);white-space:nowrap;padding:5px 9px;border-radius:6px;background:#0B0F16;border:1px solid #818CF8;color:#E6EAF0;font:600 12px/1 system-ui,sans-serif;opacity:0;pointer-events:none;transition:opacity .12s}
+.sr a:hover span,.sr a:focus-visible span{opacity:1}
+.sr i{display:block;width:30px;height:1px;background:#2A3446;margin:5px 0;font:700 8.5px/1 'IBM Plex Mono',monospace;font-style:normal;color:#4ADE80;letter-spacing:.12em;text-align:center}
+.sr i.t{height:auto;background:none;border-top:1px solid #2A3446;padding-top:5px}
+}
+@media (min-width:1380px) and (max-height:860px){.sr a{height:31px}.sr a img{width:22px;height:22px}.sr i{margin:3px 0}}
+@media (min-width:1380px) and (max-height:700px){.sr{display:none}}
+@media print{.sr{display:none}}
+</style>`;
+export function railHtml(o = {}) {
+  const base = o.base || '';
+  const cur = currentPath(o.rel);
+  const items = RAIL.map((r) => {
+    if (typeof r === 'string') return r.length > 1 ? `<i class="t" aria-hidden="true">${esc(r.slice(1))}</i>` : '<i aria-hidden="true"></i>';
+    const [h, ic, l] = r;
+    return `<a href="${esc(base + h)}" aria-label="${esc(l)}"${h === cur ? ' aria-current="page"' : ''}><img src="${esc(imgOf(base, ic))}" width="26" height="26" alt="" loading="lazy"><span aria-hidden="true">${esc(l)}</span></a>`;
+  }).join('');
+  return `${RAIL_CSS}<nav class="sr" aria-label="Quick rooms and games">${items}</nav>`;
+}
+
 /** The bar itself. o: { rel, base, level, levelName, score }. */
 export function headerHtml(o = {}) {
   const base = o.base || '';
@@ -182,7 +237,7 @@ export function headerHtml(o = {}) {
 <button type="button" class="sh__srch" data-sh-rooms data-sh-search aria-haspopup="dialog" aria-controls="sh-rooms" title="Search the site (/)"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><circle cx="7.5" cy="7.5" r="5.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M11.6 11.6 16 16" stroke="currentColor" stroke-width="2.2" stroke-linecap="square"/></svg><b class="sh__sr">Search the site</b></button>
 <button type="button" class="sh__all" data-sh-rooms aria-haspopup="dialog" aria-controls="sh-rooms"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 2h5v5H2zM9 2h5v5H9zM2 9h5v5H2zM9 9h5v5H9z" fill="currentColor"/></svg><span>All rooms</span><kbd>/</kbd><b class="sh__sr">Open the list of every room</b></button>
 </div></header>
-<script>(function(){var h=document.currentScript&&document.currentScript.previousElementSibling,b=document.body;if(!h||!b)return;var s=getComputedStyle(b),px=function(v){return parseFloat(v)||0};var t=px(s.paddingTop)+px(s.marginTop),l=px(s.paddingLeft)+px(s.marginLeft),r=px(s.paddingRight)+px(s.marginRight);if(t||l||r){h.style.margin='-'+t+'px -'+r+'px '+(t?Math.min(t,16):0)+'px -'+l+'px'}})();</script>`;
+<script>(function(){var h=document.currentScript&&document.currentScript.previousElementSibling,b=document.body;if(!h||!b)return;var s=getComputedStyle(b),px=function(v){return parseFloat(v)||0};var t=px(s.paddingTop)+px(s.marginTop),l=px(s.paddingLeft)+px(s.marginLeft),r=px(s.paddingRight)+px(s.marginRight);if(t||l||r){h.style.margin='-'+t+'px -'+r+'px '+(t?Math.min(t,16):0)+'px -'+l+'px'}})();</script>${railHtml(o)}`;
 }
 
 /** "You are here" and three or four rooms from the same group, for the foot of a room page. */

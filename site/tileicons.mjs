@@ -145,6 +145,14 @@ export const TILE_ICONS = {
   shrug: [{ a: '#94A3B8', b: '#E2E8F0', c: '#64748B' }, [
     '................', '................', '..bb........bb..', '.b..b......b..b.', 'b....b....b....b', '......aaaa......', '................', '..cccccccccccc..',
     '..c..........c..', '..c..bb..bb..c..', '..c..........c..', '..c...cccc...c..', '..c..........c..', '..cccccccccccc..', '................', '................']],
+  // The Arcade: a pixel arcade cabinet.
+  arcade: [{ a: '#7C3AED', b: '#1E1B4B', e: '#0B1020', c: '#4ADE80', f: '#312E81', d: '#F87171', g: '#FACC15', h: '#60A5FA' }, [
+    '....aaaaaaaa....', '...abbbbbbbba...', '...abeeeeeeba...', '...abecceceba...', '...abeeeeeeba...', '...abeceeceba...', '...abeeeeeeba...', '...abbbbbbbba...',
+    '..aaaaaaaaaaaa..', '..afffffffffffa.', '..af.d..g.h.fa..', '..affffffffffa..', '...abbbbbbbba...', '...abbbbbbbba...', '...aaaaaaaaaa...', '................']],
+  // The Evolution Log: a ruled logbook.
+  logbook: [{ a: '#A16207', b: '#FEF3C7', c: '#713F12', d: '#4ADE80', e: '#94A3B8' }, [
+    '................', '..aaaaaaaaaaa...', '..abbbbbbbbbac..', '..abddbbbbbbac..', '..abbbbbbbbbac..', '..abeeeeeebbac..', '..abbbbbbbbbac..', '..abeeeebbbbac..',
+    '..abbbbbbbbbac..', '..abeeeeeebbac..', '..abbbbbbbbbac..', '..abeeebbbbbac..', '..abbbbbbbbbac..', '..aaaaaaaaaaac..', '...cccccccccc...', '................']],
 };
 
 export function tileSvg(name, bg = '#0B1220') {

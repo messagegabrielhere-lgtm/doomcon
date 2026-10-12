@@ -40,7 +40,7 @@ export function stripPublisher(title, publisher) {
 }
 
 /** Parse one Google News RSS document. Pure; exported for tests. */
-export function parseGoogleNews(xml, { limit = PER_QUERY, needEntity = false, nowMs = Date.now() } = {}) {
+export function parseGoogleNews(xml, { limit = PER_QUERY, needEntity = false, nowMs = Date.now(), source = 'gnews-ai', aiCheck = true } = {}) {
   const out = [];
   for (const m of String(xml).matchAll(/<item(?:\s[^>]*)?>([\s\S]*?)<\/item\s*>/gi)) {
     if (out.length >= limit) break;
@@ -55,11 +55,11 @@ export function parseGoogleNews(xml, { limit = PER_QUERY, needEntity = false, no
     if (pub > nowMs + 10 * 60_000) continue;
     const title = stripPublisher(rawTitle, publisher);
     if (title.length < 15) continue;
-    if (!isAiRelevant(title)) continue;
+    if (aiCheck && !isAiRelevant(title)) continue;
     if (needEntity && extractEntities(title).length === 0) continue;
     const domain = registrableDomain(srcUrl) ?? null;
     out.push(draft({
-      source: 'gnews-ai',
+      source,
       kind: 'press',
       title,
       summary: publisher ? `${publisher}, via Google News.` : 'Via Google News.',

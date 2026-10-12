@@ -177,6 +177,7 @@ export function roomGroups(ctx) {
       ['/ai-proof-job.html', 'px:rocket', 'AI-Proof Your Job', null, 'A 2-minute plan to keep your job and grow with AI.'],
     ]],
     ['PLAY & PREP', [
+      ['/games.html', 'px:arcade', 'The Arcade', 'NEW', 'Every SIREN game in one place: Containment, Skynet, The Day After and more.'],
       ['/arena.html#battle', 'stocks', 'AI Battle', null, 'AI models trade stocks and crypto against live prices.'],
       ['/arena.html', 'px:candles', 'Stock Picks', null, 'Daily rule-based stock picks, scored in public.'],
       ['/scanner.html', 'px:crosshair', 'Scanner', null, 'Screen stocks, ETFs and crypto in plain English.'],
@@ -227,7 +228,7 @@ function roomsGrid(ctx, href, img) {
 // also on / and Ctrl/Cmd-K). The old Jump palette and room strip are gone.
 function roomNav(ctx, href, img) {
   const all = roomGroups(ctx).flatMap(([g, l]) => l.map((x) => [...x, g]));
-  const tab = [['/news.html', 'news', 'NEWS'], ['/race.html', 'radar', 'RACE'], ['/leaders.html', 'mic', 'LEADERS'], ['/monitor.html', 'satellite', 'MONITOR']];
+  const tab = [['/news.html', 'news', 'NEWS'], ['/race.html', 'radar', 'RACE'], ['/games.html', 'joystick', 'GAMES'], ['/monitor.html', 'satellite', 'MONITOR']];
   const tabbar = `<nav class="v2-tab" aria-label="Quick rooms">${tab.map(([p, a, l]) => `<a href="${href(p)}"><img src="${img(a)}" width="24" height="24" alt="">${l}</a>`).join('')}<button type="button" data-v2-jump><span class="v2-tab__grid" aria-hidden="true">▦</span>ALL</button></nav>`;
   return { tabbar };
 }
