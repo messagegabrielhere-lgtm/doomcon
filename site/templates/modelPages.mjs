@@ -32,6 +32,7 @@ const MODEL_LAB = {
   Mixtral: 'mistral',
   'Muse Wonder': 'meta',
   Maia: 'microsoft',
+  Codex: 'openai',
 };
 
 const MODELS = publishedEntities().filter((e) => e.kind === 'model');

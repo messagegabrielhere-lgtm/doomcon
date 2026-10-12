@@ -143,6 +143,25 @@ test('render keywords include Maia / Maia 300 model surfaces', () => {
   assert.match(xml, /<news:keywords>[^<]*(?:Maia 300|Maia)/);
 });
 
+test('render keywords include OpenAI Codex model surfaces', () => {
+  const xml = render({
+    news: {
+      items: [{
+        id: 'a6',
+        title: 'OpenAI Codex Launches Input Prediction Beta',
+        summary: 'Codex CLI updates for Pro users.',
+        published_at: new Date().toISOString(),
+        source: 'hn',
+        pillar: 'capability',
+        kind: 'press',
+        entities: [],
+      }],
+    },
+    url: (p) => `https://example.test${p}`,
+  });
+  assert.match(xml, /<news:keywords>[^<]*(?:OpenAI Codex|Codex)/);
+});
+
 test('keywordsFor keeps lab surfaces ahead of topic-tag flood under the 12-cap', () => {
   const kw = keywordsFor({
     title: 'Decart agents ship computer use, prompt injection defenses, and multimodal reasoning',

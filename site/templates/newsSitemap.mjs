@@ -27,7 +27,7 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   'OpenAI', 'Anthropic', 'Google', 'DeepMind', 'Meta', 'xAI', 'Mistral', 'NVIDIA',
   'DeepSeek', 'Huawei', 'Sony', 'Supermicro', 'IREN', 'OpenRouter', 'Reflection AI',
   'Muse Wonder', 'Artificial Analysis', 'Decart', 'Sakana AI', 'Isomorphic Labs',
-  'Winverse AI', 'Cisco', 'Maia', 'Maia 300',
+  'Winverse AI', 'Cisco', 'Maia', 'Maia 300', 'OpenAI Codex', 'Codex',
 ]);
 
 /**

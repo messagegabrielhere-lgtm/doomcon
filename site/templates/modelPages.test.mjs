@@ -186,4 +186,36 @@ describe('model pages', () => {
     assert.doesNotMatch(html, /doom score/i);
     assert.ok(sitemapEntries(rich).some((e) => e.loc === '/model/maia.html'));
   });
+
+  it('indexes Codex from OpenAI Codex / Codex CLI forms (not bare Codex)', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('cx1', 'OpenAI Codex Launches Input Prediction Beta', []),
+          story('cx2', 'Codex CLI 0.162 vs Claude Code', []),
+          story('cx3', 'Regional Codex Hackathon Comes to Malaysia', []),
+        ],
+      },
+    };
+    assert.ok(indexableModels(rich).some((m) => m.name === 'Codex'));
+    // Bare "Codex" alone must not invent matches on unrelated titles.
+    const thin = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('bad1', 'Towerglow orchestrator ships', []),
+          story('bad2', 'ollama v0.40.3 release notes', []),
+          story('bad3', 'Asana cuts model costs in browser tests', []),
+        ],
+      },
+    };
+    assert.ok(!indexableModels(thin).some((m) => m.name === 'Codex'));
+    const html = renderModel(rich, 'Codex');
+    assert.match(html, /Codex: AI stories this index scored|Codex/);
+    assert.doesNotMatch(html, /doom score/i);
+    assert.ok(sitemapEntries(rich).some((e) => e.loc === '/model/codex.html'));
+  });
 });

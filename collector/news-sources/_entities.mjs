@@ -122,6 +122,9 @@ const ENTITY_DEFS = [
   // Microsoft’s Azure Maia / Maia 300 custom AI chip family — titles name the
   // chip; ≥ MODEL_INDEX_MIN stories clear /model/maia (not a chip doom score).
   { name: 'Maia', kind: 'model', forms: ['Maia 300', 'Azure Maia', 'Maia'] },
+  // OpenAI Codex coding agent — avoid bare "Codex" (too many false friends).
+  // Safe multi-word forms clear MODEL_INDEX_MIN for /model/codex.
+  { name: 'Codex', kind: 'model', forms: ['OpenAI Codex', 'Codex CLI', 'Codex Hackathon', 'ChatGPT and Codex'] },
 ];
 
 const COMPILED = ENTITY_DEFS.map((d) => ({ name: d.name, kind: d.kind, re: surfaceRegex(d.forms) }));
