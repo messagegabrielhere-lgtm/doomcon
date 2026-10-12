@@ -13,7 +13,10 @@ import path from 'node:path';
 export const ARCHIVE_SCHEMA = 1;
 
 /** Hard ceiling so the committed file cannot grow without bound. */
-export const ARCHIVE_MAX = 1600;
+/** Cap on durable scored /item rows kept after they leave the live window.
+ *  Raised past DoomBench's ~2k sitemap lead once history can fill it
+ *  (FINDABILITY.md / COMPETITIVE-SEO.md). */
+export const ARCHIVE_MAX = 2400;
 
 const DEFAULT_PATH = fileURLToPath(new URL('../data/item-archive.json', import.meta.url));
 

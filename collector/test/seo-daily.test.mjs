@@ -84,7 +84,7 @@ describe('seo-daily measure + gaps', () => {
     assert.ok(ids.includes('news-sitemap-empty'));
     assert.ok(ids.includes('trail-doombench-urls'));
     assert.ok(ids.includes('surface-/agents.md'));
-    assert.ok(ids.includes('open-mobile-cwv'));
+    assert.ok(ids.includes('open-gsc-verify'));
   });
 
   it('prefers deploy-pending when the local tree already beats rivals', () => {
@@ -99,7 +99,7 @@ describe('seo-daily measure + gaps', () => {
           title: 'x', sitemap_urls: 2088, news_sitemap_urls: null, schema_types: [],
         },
       ],
-      local_ready: { live: 800, archived: 1600, estimated_sitemap: 2750 },
+      local_ready: { live: 800, archived: 2400, estimated_sitemap: 3550 },
       surfaces: [],
       open_engineering: [],
     });

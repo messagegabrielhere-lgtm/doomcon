@@ -449,7 +449,7 @@ function selftest() {
   const deployGaps = deriveGaps({
     ...report,
     sites: report.sites.map((s) => (s.ours ? { ...s, sitemap_urls: 683, news_sitemap_urls: 100 } : s)),
-    local_ready: { live: 800, archived: 1600, estimated_sitemap: 2750 },
+    local_ready: { live: 800, archived: 2400, estimated_sitemap: 3550 },
     surfaces: [{ path: '/llms.txt', ok: true }],
     open_engineering: [],
   });

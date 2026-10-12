@@ -48,7 +48,7 @@ describe('item-archive', () => {
     ];
     const out = mergeArchive(null, { overflow, liveIds: [], max: 2, updatedAt: '2026-10-12T00:00:00Z' });
     assert.deepEqual(out.items.map((i) => i.id), ['b', 'a']);
-    assert.equal(ARCHIVE_MAX, 1600);
+    assert.equal(ARCHIVE_MAX, 2400);
     assert.deepEqual(sortArchiveItems(out.items).map((i) => i.id), ['b', 'a']);
   });
 

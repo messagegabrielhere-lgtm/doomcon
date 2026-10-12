@@ -29,6 +29,7 @@ describe('homepage FAQ', () => {
     assert.match(html, /Where are the AI leader and topic pages/);
     assert.match(html, /href="\/people\/"/);
     assert.match(html, /href="\/tags\/"/);
+    assert.match(html, /href="\/item\/archive\.html"/);
     assert.match(html, /href="\/compare\.html"/);
     assert.match(html, /href="\/ai-doomsday-clock\.html"/);
   });
