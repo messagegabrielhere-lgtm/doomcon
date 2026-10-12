@@ -179,7 +179,7 @@ export function renderOutlet(ctx, domain) {
 
   const main = `${STYLE}
 <article class="od prose">
-  <p class="od__k"><a href="${esc(ctx.href('/news.html'))}">Newsroom</a> · <a href="${esc(ctx.href('/outlet/'))}">Publishers</a></p>
+  <p class="od__k"><a href="${esc(ctx.href('/news.html'))}">Newsroom</a> · <a href="${esc(ctx.href('/outlet/'))}">Publishers</a> · <a href="${esc(ctx.href('/outlets.html'))}">Outlets hub</a></p>
   <h1>${esc(domain)}</h1>
   <p class="od__lede">Stories this index scored whose original link is on ${esc(domain)}. The words belong to that publisher. The score is computed here and measures activity tempo inside the window, not whether the story is good or bad, and not a probability of harm.</p>
   <div class="od__stat" role="group" aria-label="Publisher counts">
@@ -244,12 +244,13 @@ export function renderIndex(ctx) {
 </li>`).join('');
   const main = `${STYLE}
 <article class="od prose">
-  <p class="od__k"><a href="${esc(ctx.href('/news.html'))}">Newsroom</a></p>
+  <p class="od__k"><a href="${esc(ctx.href('/news.html'))}">Newsroom</a> · Publishers · <a href="${esc(ctx.href('/outlets.html'))}">Outlets hub</a></p>
   <h1>AI publishers</h1>
   <p class="od__lede">A publisher earns a page when at least ${OUTLET_INDEX_MIN} scored stories whose original URL is on that host appear in the live window or the durable archive. Thinner domains stay on the story page only. Feed adapters live under <a href="${esc(ctx.href('/source/'))}">/source/</a>.</p>
   ${outlets.length
     ? `<ol class="od__list">${rows}</ol>`
     : '<p>No publisher has cleared the gate in this build.</p>'}
+  <p class="fresh__key">Search-shaped directory: <a href="${esc(ctx.href('/outlets.html'))}">AI outlets this index covers</a>.</p>
 </article>`;
 
   return page({
@@ -282,12 +283,74 @@ export function renderIndex(ctx) {
   });
 }
 
+/**
+ * Head-term /outlets hub. Same gated publisher set as /outlet/, different
+ * title and lede for “AI outlets” / publisher-directory queries — host story
+ * counts only, not a publisher doom score.
+ */
+export function renderOutlets(ctx) {
+  const outlets = indexableOutlets(ctx);
+  const path = '/outlets.html';
+  const title = `AI outlets this index covers · ${brand.NAME}`;
+  const description = clip(
+    `${outlets.length} publisher domains with scored-story hubs on ${brand.NAME}. Each row links /outlet pages — host story counts only, not a publisher doom score.`,
+    160,
+  );
+  const rows = outlets.map((o) => `<li>
+  <a href="${esc(ctx.href(outletPath(o.domain)))}">${esc(o.domain)}</a>
+  <span class="od__meta">Publisher hub · <span class="num">${esc(String(o.count))}</span> scored${o.archived ? ` (${esc(String(o.live))} live)` : ''}</span>
+</li>`).join('');
+  const main = `${STYLE}
+<article class="od prose">
+  <p class="od__k"><a href="${esc(ctx.href('/compare.html'))}">Compare</a> · <a href="${esc(ctx.href('/outlet/'))}">Publishers</a> · Outlets hub</p>
+  <h1>AI outlets this index covers</h1>
+  <p class="od__lede">${esc(brand.NAME)} does not publish a publisher “doom score.” It publishes an activity index and scored stories. This page lists original-URL hosts that already clear the same substance gate as <a href="${esc(ctx.href('/outlet/'))}">/outlet/</a> — at least ${OUTLET_INDEX_MIN} matching stories in the live window or archive. Feed adapters stay under <a href="${esc(ctx.href('/source/'))}">/source/</a>.</p>
+  <div class="od__stat" role="group" aria-label="Outlets hub totals">
+    <div><b class="num">${esc(String(outlets.length))}</b><span>Publisher hubs</span></div>
+  </div>
+  ${outlets.length ? `<ol class="od__list">${rows}</ol>` : '<p>No outlet hub cleared the gate in this build.</p>'}
+  <p class="fresh__key"><a href="${esc(ctx.href('/outlet/'))}">Publisher directory →</a>
+     · <a href="${esc(ctx.href('/tags.html'))}">AI tags →</a>
+     · <a href="${esc(ctx.href('/kinds.html'))}">AI story kinds →</a>
+     · <a href="${esc(ctx.href('/news.html'))}">Newsroom →</a></p>
+</article>`;
+  return page({
+    ctx,
+    path,
+    title,
+    description,
+    noindex: outlets.length === 0,
+    jsonld: [{
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      name: title,
+      url: ctx.url(path),
+      description,
+      mainEntity: {
+        '@type': 'ItemList',
+        numberOfItems: outlets.length,
+        itemListElement: outlets.map((o, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          url: ctx.url(outletPath(o.domain)),
+          name: o.domain,
+        })),
+      },
+    }, breadcrumbs(ctx, [
+      { name: 'Compare', path: '/compare.html' },
+      { name: 'Outlets', path },
+    ])],
+    main,
+  });
+}
+
 export function sitemapEntries(ctx) {
   const outlets = indexableOutlets(ctx);
   if (!outlets.length) return [];
   const last = (ctx.news && ctx.news.generated_at) || (ctx.state && ctx.state.generated_at);
   return [
     { loc: '/outlet/', changefreq: 'hourly', priority: '0.7', lastmod: last },
+    { loc: '/outlets.html', changefreq: 'hourly', priority: '0.75', lastmod: last },
     ...outlets.map((o) => ({
       loc: outletPath(o.domain),
       changefreq: 'hourly',

@@ -277,6 +277,7 @@ context.
 | 44 | Fill archive to 3200; topic tags `reasoning` + `ipo` + `rag` (search-trend hubs) | Google | **Done** (2026-10-12) |
 | 45 | `/tags.html` Skynet-shaped tags hub; raise `item-archive` cap 3200→4000 | Google | **Done** (2026-10-12) |
 | 46 | Home + newsroom link entity hubs; `/kinds.html`; raise archive cap 4000→5000 | Google | **Done** (2026-10-12) |
+| 47 | `/outlets.html` publisher head-term hub (same gated `/outlet/*` set) | Google | **Done** (2026-10-12) |
 
 ### 3.3 Refusals (search edition)
 

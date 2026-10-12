@@ -148,6 +148,7 @@ export function roomGroups(ctx) {
       ['/companies.html', 'px:db', 'Companies', null, 'Labs and companies this index covers — story counts, not a company doom score.'],
       ['/people.html', 'mic', 'People', null, 'AI leaders with press-coverage pages — headlines only, never invented quotations.'],
       ['/tags.html', 'news', 'Tags', null, 'Topic hubs (agents, evals, GPUs, …) when a needle clears five scored stories.'],
+      ['/outlets.html', 'news', 'Outlets', null, 'Publisher hosts with enough scored stories for their own page.'],
       ['/leaders.html', 'mic', 'Leaders', Number.isFinite(lt.leaders) ? `${lt.on_record ?? 0} of ${lt.leaders} on record` : null, 'What the people running AI said this week.'],
       ctx.digest ? ['/digest.html', 'clipboard', 'Digest', null, 'The day in a few corroborated items.'] : null,
       ['/monitor.html', 'satellite', 'World Monitor', null, 'Live globe: stories from 27 outlets, hazards, a country stress index, 72-hour replay.'],

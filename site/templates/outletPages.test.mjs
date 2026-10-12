@@ -10,6 +10,7 @@ import {
   outletsForItem,
   renderOutlet,
   renderIndex,
+  renderOutlets,
   sitemapEntries,
 } from './outletPages.mjs';
 
@@ -60,8 +61,19 @@ describe('outlet pages', () => {
     assert.equal(OUTLET_INDEX_MIN, 5);
     const locs = sitemapEntries(ctx).map((e) => e.loc);
     assert.equal(locs.some((l) => l === '/outlet/'), true);
+    assert.equal(locs.some((l) => l === '/outlets.html'), true);
     assert.equal(locs.some((l) => l === '/outlet/arxiv-org.html'), true);
     assert.equal(locs.some((l) => l === '/outlet/techcrunch-com.html'), false);
+  });
+
+  it('ships /outlets.html over the same gated publisher set', () => {
+    const html = renderOutlets(ctx);
+    assert.match(html, /AI outlets this index covers/);
+    assert.match(html, /\/outlet\/arxiv-org\.html/);
+    assert.match(html, /does not publish a publisher/);
+    assert.match(html, /\/tags\.html/);
+    assert.match(renderIndex(ctx), /\/outlets\.html/);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
   });
 
   it('lists stories with ItemList schema and refuses doom claims', () => {

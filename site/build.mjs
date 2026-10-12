@@ -791,6 +791,7 @@ async function writeOutletPages(ctx, outDir, write, written) {
     written.push(await write(outDir, `outlet/${o.slug}.html`, outletPages.renderOutlet(ctx, o.domain)));
   }
   written.push(await write(outDir, 'outlet/index.html', outletPages.renderIndex(ctx)));
+  written.push(await write(outDir, 'outlets.html', outletPages.renderOutlets(ctx)));
 }
 
 function outletAliases(ctx) {

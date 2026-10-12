@@ -51,6 +51,7 @@ const MORE_PAGES = [
   ['/item/archive.html', 'archive', 'Story archive', 'Older scored stories kept after they leave the live window.'],
   ['/source/', 'news', 'Outlets', 'Scored stories grouped by the feed adapter that carried them.'],
   ['/outlet/', 'news', 'Publishers', 'Scored stories grouped by the publisher host on the original URL.'],
+  ['/outlets.html', 'news', 'AI outlets', 'Publisher directory — same gated hosts, story counts only.'],
   ['/model/', 'news', 'Model families', 'Scored stories grouped by the model family the headline names.'],
   ['/people/', 'mic', 'People', 'AI leaders with enough press coverage for their own page.'],
   ['/people.html', 'mic', 'AI people', 'DoomBench-shaped people directory — same gated roster, headlines only.'],
