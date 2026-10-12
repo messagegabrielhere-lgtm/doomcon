@@ -356,7 +356,7 @@ export function renderTag(ctx, id) {
 
   const main = `${STYLE}
 <article class="tg prose">
-  <p class="tg__k"><a href="${esc(ctx.href('/news.html'))}">Newsroom</a> · <a href="${esc(ctx.href('/tags/'))}">Tags</a></p>
+  <p class="tg__k"><a href="${esc(ctx.href('/news.html'))}">Newsroom</a> · <a href="${esc(ctx.href('/tags/'))}">Tags</a> · <a href="${esc(ctx.href('/tags.html'))}">Tags hub</a></p>
   <h1>${esc(topic.name)}</h1>
   <p class="tg__lede">${esc(topic.description)} A tag page lists scored stories whose title or summary matched a published needle — not a probability of harm and not a ranking of the companies named.</p>
   <div class="tg__stat" role="group" aria-label="Tag totals">
@@ -423,10 +423,11 @@ export function renderIndex(ctx) {
 
   const main = `${STYLE}
 <article class="tg prose">
-  <p class="tg__k"><a href="${esc(ctx.href('/news.html'))}">Newsroom</a> · Tags</p>
+  <p class="tg__k"><a href="${esc(ctx.href('/news.html'))}">Newsroom</a> · Tags · <a href="${esc(ctx.href('/tags.html'))}">Tags hub</a></p>
   <h1>AI news tags</h1>
   <p class="tg__lede">A topic earns a page when at least ${TAG_INDEX_MIN} scored stories match a published needle in the live window or the durable archive. Thinner matches stay on the story page only.</p>
   ${tags.length ? `<ol class="tg__list">${rows}</ol>` : '<p>No tag cleared the gate in this build.</p>'}
+  <p class="fresh__key">Search-shaped directory: <a href="${esc(ctx.href('/tags.html'))}">AI tags this index covers</a>.</p>
 </article>`;
 
   return page({
@@ -459,12 +460,75 @@ export function renderIndex(ctx) {
   });
 }
 
+/**
+ * Skynet-shaped /tags head-term hub. Same gated topic set as /tags/,
+ * different title and lede for “AI tags” / “AI news topics” queries —
+ * story counts only, not a topic doom scoreboard.
+ */
+export function renderTags(ctx) {
+  const tags = indexableTags(ctx);
+  const path = '/tags.html';
+  const title = `AI tags this index covers · ${brand.NAME}`;
+  const description = clip(
+    `${tags.length} AI topic hubs with scored-story pages on ${brand.NAME}. Each row links /tags pages — story counts only, not a topic doom score.`,
+    160,
+  );
+  const rows = tags.map((t) => `<li>
+  <a href="${esc(ctx.href(tagPath(t.id)))}">${esc(t.name)}</a>
+  <span class="tg__meta">Topic hub · <span class="num">${esc(String(t.count))}</span> scored${t.archived ? ` (${esc(String(t.live))} live)` : ''}</span>
+</li>`).join('');
+  const main = `${STYLE}
+<article class="tg prose">
+  <p class="tg__k"><a href="${esc(ctx.href('/compare.html'))}">Compare</a> · <a href="${esc(ctx.href('/tags/'))}">Tags</a> · Tags hub</p>
+  <h1>AI tags this index covers</h1>
+  <p class="tg__lede">${esc(brand.NAME)} does not publish a topic “doom score.” It publishes an activity index and scored stories. This page lists topic hubs that already clear the same substance gate as <a href="${esc(ctx.href('/tags/'))}">/tags/</a> — at least ${TAG_INDEX_MIN} matching headlines in the live window or archive (Skynet-shaped tags without their timeline claims).</p>
+  <div class="tg__stat" role="group" aria-label="Tags hub totals">
+    <div><b class="num">${esc(String(tags.length))}</b><span>Topic hubs</span></div>
+  </div>
+  ${tags.length ? `<ol class="tg__list">${rows}</ol>` : '<p>No tag hub cleared the gate in this build.</p>'}
+  <p class="fresh__key"><a href="${esc(ctx.href('/tags/'))}">Tag directory →</a>
+     · <a href="${esc(ctx.href('/models.html'))}">AI models →</a>
+     · <a href="${esc(ctx.href('/companies.html'))}">AI companies →</a>
+     · <a href="${esc(ctx.href('/people.html'))}">AI people →</a>
+     · <a href="${esc(ctx.href('/compare.html'))}">How this index differs from Skynet Countdown →</a></p>
+</article>`;
+  return page({
+    ctx,
+    path,
+    title,
+    description,
+    noindex: tags.length === 0,
+    jsonld: [{
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      name: title,
+      url: ctx.url(path),
+      description,
+      mainEntity: {
+        '@type': 'ItemList',
+        numberOfItems: tags.length,
+        itemListElement: tags.map((t, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          url: ctx.url(tagPath(t.id)),
+          name: t.name,
+        })),
+      },
+    }, breadcrumbs(ctx, [
+      { name: 'Compare', path: '/compare.html' },
+      { name: 'Tags', path },
+    ])],
+    main,
+  });
+}
+
 export function sitemapEntries(ctx) {
   const tags = indexableTags(ctx);
   if (!tags.length) return [];
   const last = (ctx.news && ctx.news.generated_at) || (ctx.state && ctx.state.generated_at);
   return [
     { loc: '/tags/', changefreq: 'hourly', priority: '0.7', lastmod: last },
+    { loc: '/tags.html', changefreq: 'hourly', priority: '0.75', lastmod: last },
     ...tags.map((t) => ({
       loc: tagPath(t.id),
       changefreq: 'hourly',

@@ -9,6 +9,7 @@ import {
   tagsForItem,
   renderTag,
   renderIndex,
+  renderTags,
   sitemapEntries,
 } from './tagPages.mjs';
 
@@ -54,8 +55,19 @@ describe('tag pages', () => {
     assert.ok(TOPIC_DEFS.length >= 5);
     const locs = sitemapEntries(ctx).map((e) => e.loc);
     assert.ok(locs.includes('/tags/'));
+    assert.ok(locs.includes('/tags.html'));
     assert.ok(locs.includes('/tags/agents.html'));
     assert.ok(!locs.includes('/tags/gpus.html'));
+  });
+
+  it('ships /tags.html over the same gated tag set', () => {
+    const html = renderTags(ctx);
+    assert.match(html, /AI tags this index covers/);
+    assert.match(html, /\/tags\/agents\.html/);
+    assert.match(html, /does not publish a topic/);
+    assert.match(html, /\/models\.html/);
+    assert.match(renderIndex(ctx), /\/tags\.html/);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
   });
 
   it('lists stories with ItemList schema and refuses doom claims', () => {

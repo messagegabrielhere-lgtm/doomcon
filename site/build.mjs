@@ -763,6 +763,7 @@ async function writeTagPages(ctx, outDir, write, written) {
     written.push(await write(outDir, `tags/${tag.id}.html`, tagPages.renderTag(ctx, tag.id)));
   }
   written.push(await write(outDir, 'tags/index.html', tagPages.renderIndex(ctx)));
+  written.push(await write(outDir, 'tags.html', tagPages.renderTags(ctx)));
 }
 
 function tagAliases(ctx) {

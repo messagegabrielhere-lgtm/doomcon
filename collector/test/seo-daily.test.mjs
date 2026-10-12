@@ -99,7 +99,7 @@ describe('seo-daily measure + gaps', () => {
           title: 'x', sitemap_urls: 2088, news_sitemap_urls: null, schema_types: [],
         },
       ],
-      local_ready: { live: 800, archived: 3200, estimated_sitemap: 4420 },
+      local_ready: { live: 800, archived: 4000, estimated_sitemap: 5220 },
       surfaces: [],
       open_engineering: [],
     });

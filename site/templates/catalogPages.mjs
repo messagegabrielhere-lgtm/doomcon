@@ -55,6 +55,7 @@ const MORE_PAGES = [
   ['/people/', 'mic', 'People', 'AI leaders with enough press coverage for their own page.'],
   ['/people.html', 'mic', 'AI people', 'DoomBench-shaped people directory — same gated roster, headlines only.'],
   ['/tags/', 'news', 'Topic tags', 'Scored stories grouped by curated topic needles (agents, GPUs, safety, …).'],
+  ['/tags.html', 'news', 'AI tags', 'Skynet-shaped tags directory — same gated topics, story counts only.'],
   ['/kind/', 'news', 'Story kinds', 'Scored stories grouped by collector kind (press, forum, paper, …).'],
   ['/country/', 'globe', 'Datacentres by country', 'Mapped datacentre sites, one page per country that clears the count.'],
   ['/pillar/capability.html', 'px:updown', 'Capability pillar', 'Stories and the live Capability reading.'],
