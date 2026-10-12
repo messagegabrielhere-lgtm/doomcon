@@ -23,7 +23,7 @@ import { readFeed } from '../collector/news-sources/_feed.mjs';
 import {
   CATS, GDELT_QUERY, categorize, prepCountries, countryNear, countryAt, makeMatcher, clusterStories,
   countryInputs, newsPart, hazardPart, CORE_VERSION,
-  adsbModality, adsbCells, adsbModeTotals,
+  adsbModality, adsbCells, adsbModeTotals, assessAircraftHealth,
 } from './core.mjs';
 
 const args = process.argv.slice(2);
@@ -363,11 +363,16 @@ export async function main() {
     items: items.map(({ id, title, url, src, cat, t, iso }) => ({ id, title, url, src, cat, t, iso })),
     ...hz,
   };
+  // Aircraft feed health rides with the snapshot so the page, CI and the
+  // watchdog all read the same verdict — no second guess of the numbers.
+  snap.aircraft_health = assessAircraftHealth(snap);
   if (!items.length && !hz.quakes.length) throw new Error('every source failed; refusing to publish an empty snapshot');
   await mkdir(OUT, { recursive: true });
   await writeFile(path.join(OUT, 'monitor.json'), JSON.stringify(snap));
   await writeFile(path.join(OUT, 'monitor-history.json'), JSON.stringify(history));
-  log(`wrote ${items.length} items (${stories.length} stories), history ${history.t.length} h × ${Object.keys(history.c).length} countries, in ${((Date.now() - t0) / 1000).toFixed(0)} s`);
+  const ah = snap.aircraft_health;
+  log(`wrote ${items.length} items (${stories.length} stories), history ${history.t.length} h × ${Object.keys(history.c).length} countries, aircraft ${ah.ok ? 'ok' : 'ISSUES'} (mil ${ah.mil} adsb ${ah.adsb} emerg ${ah.emerg}), in ${((Date.now() - t0) / 1000).toFixed(0)} s`);
+  for (const i of ah.issues) log(`  aircraft [${i.severity}] ${i.id}: ${i.msg}`);
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) main().catch((e) => { console.error(e); process.exit(1); });

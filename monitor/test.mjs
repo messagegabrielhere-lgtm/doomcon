@@ -3,6 +3,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
   adsbModality, adsbCells, adsbModeTotals, adsbModeLine, ADSB_CELL_DEG,
+  assessAircraftHealth, AIRCRAFT_STALE_MIN, MIL_THIN_FLOOR, ADSB_THIN_FLOOR,
 } from './core.mjs';
 
 test('adsbModality buckets adsb.lol type strings the way FlightAware names them', () => {
@@ -56,4 +57,69 @@ test('adsbModeTotals and adsbModeLine summarise a layer for chips and tooltips',
   assert.equal(t['7700'], 1);
   assert.equal(adsbModeLine(t), 'ADS-B 2 · MLAT 1 · 7700 1');
   assert.equal(adsbModeLine(null), '');
+});
+
+test('assessAircraftHealth is ok on a fresh, populated snapshot', () => {
+  const now = Date.parse('2026-10-12T03:00:00Z');
+  const health = assessAircraftHealth({
+    generated: '2026-10-12T02:50:00Z',
+    sources: {
+      mil: { ok: true, n: 80 },
+      adsb: { ok: true, n: 400 },
+      emerg: { ok: true, n: 0 },
+      mil_modes: { n: 80, adsb: 60, mlat: 20 },
+      adsb_modes: { n: 400, adsb: 380, mlat: 20 },
+      adsb_hubs: { ok: 38, of: 40, unique: 400 },
+    },
+    mil: [{ lat: 40, lon: -74, n: 80, by: { adsb: 60, mlat: 20 } }],
+    adsb: [{ lat: 40, lon: -74, n: 400, by: { adsb: 380 } }],
+    emerg: [],
+  }, now);
+  assert.equal(health.ok, true);
+  assert.equal(health.issues.length, 0);
+  assert.equal(health.mil, 80);
+  assert.equal(health.adsb, 400);
+  assert.ok(AIRCRAFT_STALE_MIN >= 30);
+  assert.ok(MIL_THIN_FLOOR >= 1);
+  assert.ok(ADSB_THIN_FLOOR >= 10);
+});
+
+test('assessAircraftHealth errors on a down mil feed and a stale snapshot', () => {
+  const now = Date.parse('2026-10-12T04:00:00Z');
+  const health = assessAircraftHealth({
+    generated: '2026-10-12T02:00:00Z', // 120 min old
+    sources: {
+      mil: { ok: false, error: 'HTTP 502' },
+      adsb: { ok: true, n: 10 },
+      emerg: { ok: false, error: 'timed out', stale_from: '2026-10-12T01:50:00Z' },
+      mil_modes: { n: 0 },
+      adsb_modes: { n: 10 },
+      adsb_hubs: { ok: 10, of: 40, unique: 10 },
+    },
+    mil: [], adsb: [], emerg: [],
+  }, now);
+  assert.equal(health.ok, false);
+  const ids = health.issues.map((i) => i.id);
+  assert.ok(ids.includes('snap_stale'));
+  assert.ok(ids.includes('mil_down'));
+  assert.ok(ids.includes('emerg_stale'));
+  assert.ok(ids.includes('adsb_hubs_thin') || ids.includes('adsb_thin'));
+});
+
+test('assessAircraftHealth warns when mil answers empty', () => {
+  const now = Date.parse('2026-10-12T03:00:00Z');
+  const health = assessAircraftHealth({
+    generated: '2026-10-12T02:55:00Z',
+    sources: {
+      mil: { ok: true, n: 0 },
+      adsb: { ok: true, n: 200 },
+      emerg: { ok: true, n: 0 },
+      mil_modes: { n: 0 },
+      adsb_modes: { n: 200 },
+      adsb_hubs: { ok: 40, of: 40, unique: 200 },
+    },
+    mil: [], adsb: [{ lat: 1, lon: 1, n: 200 }], emerg: [],
+  }, now);
+  assert.equal(health.ok, true);
+  assert.ok(health.issues.some((i) => i.id === 'mil_empty' && i.severity === 'warn'));
 });

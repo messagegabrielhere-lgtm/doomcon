@@ -7,9 +7,11 @@ its 7-day history and a markets panel. No libraries and no keys.
 
 | File | Job |
 |---|---|
-| `monitor/core.mjs` | Categories, country matching, story grouping, the stress formula. No imports. |
-| `monitor/collect.mjs` | Server side: GDELT, 27 RSS feeds, hazards, KEV → snapshot + hourly history |
+| `monitor/core.mjs` | Categories, country matching, story grouping, the stress formula, aircraft health. No imports. |
+| `monitor/collect.mjs` | Server side: GDELT, 27 RSS feeds, hazards, KEV, aircraft layers → snapshot + hourly history |
+| `monitor/check.mjs` | Aircraft-feed health CLI for CI and the watchdog |
 | `.github/workflows/monitor-data.yml` | Runs the collector every 15 minutes, force-pushes to the `monitor-data` branch |
+| `.github/workflows/watchdog.yml` | Pages on pipeline failure and probes live index + aircraft feed health |
 | `site/static/monitor.html` | The page. `site/build.mjs` pastes `core.mjs` into it as `Core` |
 
 There is one copy of the scoring rules. The history the server writes and the
@@ -45,6 +47,30 @@ because GDELT asks for one request every five seconds.
 | Crypto | OKX spot, alternative.me Fear & Greed | browser |
 
 A source that fails is shown as failed. Nothing falls back to made-up data.
+
+## Aircraft feed health
+
+`assessAircraftHealth()` in `monitor/core.mjs` watches the three aircraft
+layers. Every snapshot carries the verdict at `aircraft_health`:
+
+| Check | Severity |
+|---|---|
+| Snapshot older than 45 minutes | error |
+| `mil` / `adsb` / `emerg` live call failed with no stale copy | error |
+| Live call failed, serving stale | warn |
+| Military ADS-B answered with 0 (or &lt; 5) aircraft | warn |
+| Fewer than half of the air-traffic hubs answered | warn |
+| Hub sample under 50 unique aircraft | warn |
+
+Who reads it:
+
+| Surface | What it does |
+|---|---|
+| `monitor/collect.mjs` | Writes `aircraft_health` into every snapshot |
+| `monitor/check.mjs` | CLI / CI gate (`node monitor/check.mjs [path\|url]`) |
+| `.github/workflows/monitor-data.yml` | Runs the check after each collect (continues on error so news still publishes) |
+| `.github/workflows/watchdog.yml` | Probes the live `monitor-data` snapshot; pages on error-severity issues; also watches the `monitor-data` workflow for failures |
+| `/monitor.html` Alerts | Toasts aircraft feed issues when Alerts are on |
 
 ## Stories
 

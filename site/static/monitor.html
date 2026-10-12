@@ -292,7 +292,7 @@ dialog.modal::backdrop{background:rgba(0,0,0,.55)}
     <span class="clock" id="clock" aria-live="off">--:--:-- UTC</span>
     <select class="sel" id="win" aria-label="Time window" title="Time window for the stories, hotspots and brief"><option value="6">6 h</option><option value="24" selected>24 h</option><option value="72">72 h</option></select>
     <button class="btn" id="palBtn" type="button" title="Jump to a country, region, layer or action">Jump…</button>
-    <button class="btn" id="alerts" type="button" aria-pressed="false" title="Notify on big quakes, red disaster alerts, fast-rising countries and news about countries you watch">Alerts</button>
+    <button class="btn" id="alerts" type="button" aria-pressed="false" title="Notify on big quakes, red disaster alerts, aircraft feed failures, fast-rising countries and news about countries you watch">Alerts</button>
     <button class="btn" id="share" type="button" title="Copy a link to this exact view">Share</button>
     <button class="btn" id="refresh" type="button" title="Refetch every source (R)">Refresh</button>
     <button class="btn" id="helpBtn" type="button" title="How this works and keyboard shortcuts (?)" aria-label="Help">?</button>
@@ -1687,7 +1687,36 @@ function alertCandidates() {
     if (s && s.d24 != null && s.d24 >= 8 && !(s.d24 >= 15 && s.score >= 40)) out.push({ id: `ws:${iso}:${slot}`, title: `★ ${name}: stress ${s.score.toFixed(0)}`, sub: `Up ${s.d24.toFixed(0)} in 24 hours`, iso });
     for (const st of S.stories) if (st.sources >= 3 && st.iso.includes(iso) && Date.now() - st.t < 3 * 3600e3) out.push({ id: `wn:${st.id}`, title: `★ ${name}: ${st.sources} outlets`, sub: st.title, iso, url: st.url });
   }
+  // Aircraft feed issues from the snapshot's own health block (and a live
+  // re-check of what the page has loaded). Slot buckets so a stuck outage
+  // re-notifies every 6 hours rather than once forever.
+  const liveHealth = Core.assessAircraftHealth({
+    generated: S.snap?.generated || new Date().toISOString(),
+    sources: {
+      ...(S.snap?.sources || {}),
+      mil: srcHealth("mil", S.mil),
+      adsb: srcHealth("adsb", S.adsb),
+      emerg: srcHealth("emerg", S.emerg),
+      mil_modes: Core.adsbModeTotals(S.mil),
+      adsb_modes: Core.adsbModeTotals(S.adsb),
+      adsb_hubs: S.snap?.sources?.adsb_hubs,
+    },
+    mil: S.mil, adsb: S.adsb, emerg: S.emerg,
+  });
+  for (const i of liveHealth.issues || []) {
+    if (i.severity !== "error" && i.severity !== "warn") continue;
+    out.push({ id: `ac:${i.id}:${slot}`, title: `Aircraft: ${i.id.replace(/_/g, " ")}`, sub: i.msg, kind: i.severity === "error" ? "" : "info" });
+  }
   return out;
+}
+/** Map a source chip to the {ok,error,stale_from} shape assessAircraftHealth expects. */
+function srcHealth(id, cells) {
+  const s = S.sources.get(id);
+  if (!s) return S.snap?.sources?.[id] || { ok: false, error: "not loaded" };
+  if (s.state === "ok") return { ok: true, n: cellTotal(cells) };
+  if (s.state === "snap") return { ok: false, error: s.detail || "live failed", stale_from: S.snap?.generated };
+  if (s.state === "dark") return { ok: false, error: s.detail || "dark" };
+  return S.snap?.sources?.[id] || { ok: false, error: s.state };
 }
 function checkAlerts() {
   if (!S.booted) return; // the first full load is the baseline, not news
@@ -1698,7 +1727,7 @@ function checkAlerts() {
   if (!S.alerts) return;
   for (const a of fresh.slice(0, 4)) {
     const go = () => a.iso ? selectCountry(a.iso, true) : a.url && window.open(a.url, "_blank", "noopener");
-    toast(a.title, a.sub, "", go);
+    toast(a.title, a.sub, a.kind || "", go);
     if (document.hidden && "Notification" in window && Notification.permission === "granted") {
       try { const n = new Notification("World Monitor: " + a.title, { body: a.sub, tag: a.id }); n.onclick = () => { focus(); go(); }; } catch {}
     }
@@ -1711,7 +1740,7 @@ function setAlerts(onv) {
     for (const a of alertCandidates()) S.seen.add(a.id); // only what happens from now on
     store.set("seen", [...S.seen].slice(-400));
     if ("Notification" in window && Notification.permission === "default") Notification.requestPermission().catch(() => {});
-    toast("Alerts on", "Quakes of M6+, GDACS red alerts, and countries up 15+ in 24 hours. Browser notifications while this tab is in the background.", "info");
+    toast("Alerts on", "Quakes of M6+, GDACS red alerts, aircraft feed failures, and countries up 15+ in 24 hours. Browser notifications while this tab is in the background.", "info");
   }
 }
 $("#alerts").addEventListener("click", () => setAlerts(!S.alerts));

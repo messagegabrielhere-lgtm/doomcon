@@ -417,3 +417,87 @@ export function adsbModeLine(by) {
     .map((k) => `${ADSB_MODE_LABEL[k] || k} ${by[k]}`)
     .join(' · ');
 }
+
+/* ---------------------------------------------------------- aircraft health
+ *
+ * Watches the three aircraft layers for feed failures, empty answers that
+ * should not be empty, thin hub coverage, and a stale snapshot. Shared by
+ * collect.mjs (writes into the snapshot), monitor/check.mjs (CI), the
+ * watchdog probe, and the page (toasts when Alerts are on).
+ */
+
+/** Snapshot older than this is an error for the aircraft layers. */
+export const AIRCRAFT_STALE_MIN = 45;
+/** Military ADS-B answering with fewer than this many aircraft is a warning. */
+export const MIL_THIN_FLOOR = 5;
+/** Hub-sample unique aircraft below this (while claiming ok) is a warning. */
+export const ADSB_THIN_FLOOR = 50;
+
+function cellSum(cells) {
+  return (cells || []).reduce((t, c) => t + (Number.isFinite(c.n) ? c.n : 0), 0);
+}
+
+/**
+ * Assess aircraft-layer health from a monitor snapshot.
+ * Returns { ok, issues:[{id,severity,msg}], age_min, mil, adsb, emerg }.
+ * `ok` is false when any issue has severity `error`.
+ */
+export function assessAircraftHealth(snap, now = Date.now()) {
+  const issues = [];
+  const sources = (snap && snap.sources) || {};
+  const ageMin = snap && snap.generated && Number.isFinite(Date.parse(snap.generated))
+    ? Math.round((now - Date.parse(snap.generated)) / 60000)
+    : null;
+
+  if (!snap) {
+    return { ok: false, issues: [{ id: 'snap_missing', severity: 'error', msg: 'no monitor snapshot' }], age_min: null, mil: 0, adsb: 0, emerg: 0 };
+  }
+  if (ageMin != null && ageMin > AIRCRAFT_STALE_MIN) {
+    issues.push({ id: 'snap_stale', severity: 'error', msg: `monitor snapshot ${ageMin} min old (limit ${AIRCRAFT_STALE_MIN})` });
+  }
+
+  const milN = (sources.mil_modes && Number.isFinite(sources.mil_modes.n)) ? sources.mil_modes.n : cellSum(snap.mil);
+  const adsbN = (sources.adsb_modes && Number.isFinite(sources.adsb_modes.n)) ? sources.adsb_modes.n : cellSum(snap.adsb);
+  const emergN = cellSum(snap.emerg);
+
+  for (const id of ['mil', 'adsb', 'emerg']) {
+    const s = sources[id];
+    const label = id === 'mil' ? 'military ADS-B' : id === 'adsb' ? 'air-traffic hubs' : 'emergency squawks';
+    if (!s) {
+      issues.push({ id: `${id}_missing`, severity: 'warn', msg: `${label}: not present in snapshot sources` });
+      continue;
+    }
+    if (!s.ok && s.stale_from) {
+      issues.push({ id: `${id}_stale`, severity: 'warn', msg: `${label}: live call failed (${s.error || 'unknown'}); serving stale from ${s.stale_from}` });
+    } else if (!s.ok) {
+      issues.push({ id: `${id}_down`, severity: 'error', msg: `${label}: failed — ${s.error || 'unknown'}` });
+    }
+  }
+
+  if (sources.mil && sources.mil.ok && milN === 0) {
+    issues.push({ id: 'mil_empty', severity: 'warn', msg: 'military ADS-B answered but returned 0 aircraft' });
+  } else if (sources.mil && sources.mil.ok && milN < MIL_THIN_FLOOR) {
+    issues.push({ id: 'mil_thin', severity: 'warn', msg: `military ADS-B only ${milN} aircraft (floor ${MIL_THIN_FLOOR})` });
+  }
+
+  const hubs = sources.adsb_hubs;
+  if (hubs && Number.isFinite(hubs.of) && hubs.of > 0) {
+    if (!hubs.ok) {
+      issues.push({ id: 'adsb_hubs_zero', severity: 'error', msg: `air-traffic hubs: 0 of ${hubs.of} answered` });
+    } else if (hubs.ok < hubs.of * 0.5) {
+      issues.push({ id: 'adsb_hubs_thin', severity: 'warn', msg: `air-traffic hubs: only ${hubs.ok} of ${hubs.of} answered` });
+    }
+  }
+  if (sources.adsb && sources.adsb.ok && adsbN < ADSB_THIN_FLOOR) {
+    issues.push({ id: 'adsb_thin', severity: 'warn', msg: `hub sample only ${adsbN} unique aircraft (floor ${ADSB_THIN_FLOOR})` });
+  }
+
+  return {
+    ok: !issues.some((i) => i.severity === 'error'),
+    issues,
+    age_min: ageMin,
+    mil: milN,
+    adsb: adsbN,
+    emerg: emergN,
+  };
+}
