@@ -318,6 +318,7 @@ context.
 | 85 | Topic tags `ai-assistants` + `code-generation` + `linear-attention` + `state-space-models` + `ai-factories` + `multimodal-reasoning`; IndexNow ALWAYS samples assistants/code-gen/SSM/AI-factories | Google + Bing | **Done** (2026-10-12) |
 | 86 | Topic tags `model-pruning` + `peft` + `test-time-training` + `gaussian-splatting` + `domain-adaptation`; IndexNow ALWAYS samples pruning/PEFT/Gaussian/TTT | Google + Bing | **Done** (2026-10-12) |
 | 87 | Topic tags `llm-agents` + `on-policy-distillation` + `time-series` + `self-distillation` + `video-world-models` + `machine-unlearning`; IndexNow ALWAYS samples LLM-agents/on-policy/time-series/unlearning | Google + Bing | **Done** (2026-10-12) |
+| 88 | Topic tags `neural-networks` + `self-improving-ai` + `provenance` + `sparse-attention` + `synthid` + `dexterous-manipulation`; IndexNow ALWAYS samples neural-networks/self-improving/sparse-attention/SynthID | Google + Bing | **Done** (2026-10-12) |
 
 ### 3.3 Refusals (search edition)
 

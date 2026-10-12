@@ -1027,6 +1027,42 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'Machine-unlearning research stories scored in the newsroom or archive — method coverage, not a compliance score.',
     match: /\b(machine )?unlearning\b/i,
   },
+  {
+    id: 'neural-networks',
+    name: 'Neural networks',
+    description: 'Neural-network research stories scored in the newsroom or archive — method coverage, not a capability forecast.',
+    match: /\bneural networks?\b/i,
+  },
+  {
+    id: 'self-improving-ai',
+    name: 'Self-improving AI',
+    description: 'Self-improving AI research stories scored in the newsroom or archive — coverage counts, not a capability forecast.',
+    match: /\bself[- ]improving\b/i,
+  },
+  {
+    id: 'provenance',
+    name: 'AI provenance',
+    description: 'AI content-provenance stories scored in the newsroom or archive — coverage counts, not a compliance score.',
+    match: /\bprovenance\b/i,
+  },
+  {
+    id: 'sparse-attention',
+    name: 'Sparse attention',
+    description: 'Sparse-attention research stories scored in the newsroom or archive — method coverage, not a capability forecast.',
+    match: /\bsparse attention\b/i,
+  },
+  {
+    id: 'synthid',
+    name: 'SynthID',
+    description: 'SynthID watermarking stories scored in the newsroom or archive — coverage counts, not a provenance score.',
+    match: /\bsynthid\b/i,
+  },
+  {
+    id: 'dexterous-manipulation',
+    name: 'Dexterous manipulation',
+    description: 'Dexterous-manipulation robotics stories scored in the newsroom or archive — coverage counts, not a robotics forecast.',
+    match: /\bdexterous\b/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));

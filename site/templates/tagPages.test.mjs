@@ -1422,4 +1422,59 @@ describe('tag pages', () => {
     assert.match(renderTag(rich, 'machine-unlearning'), /Machine unlearning: AI stories this index scored/);
     assert.doesNotMatch(renderTag(rich, 'llm-agents'), /doom score/i);
   });
+
+  it('pages neural-networks, self-improving AI, provenance, sparse-attention, SynthID, dexterous manipulation', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('nn1', 'Topological expressivity of neural networks'),
+          story('nn2', 'Neural networks for scientific discovery'),
+          story('nn3', 'Efficient neural networks on edge devices'),
+          story('nn4', 'Theory of deep neural networks'),
+          story('nn5', 'Spiking neural networks survey'),
+          story('si1', 'Self-improving model for solving and judging'),
+          story('si2', 'Recursively self-improving AI agents'),
+          story('si3', 'Self-improving GUI agents via harness evolution'),
+          story('si4', 'Self-improving agents from hindsight distillation'),
+          story('si5', 'Self-improving alignment generalization'),
+          story('pr1', 'Provenance for LLM agent outputs'),
+          story('pr2', 'Synthetic-data provenance attribution limits'),
+          story('pr3', 'Watermarking and provenance for AI content'),
+          story('pr4', 'Content provenance standards roll out'),
+          story('pr5', 'Measuring provenance in long-form writing'),
+          story('sa1', 'Sparse attention for diffusion transformers'),
+          story('sa2', 'Dynamic sparse attention for video-audio models'),
+          story('sa3', 'Sparse-first inference with sparse attention'),
+          story('sa4', 'Closing the dense-sparse attention gap'),
+          story('sa5', 'Training with sparse attention at 2K resolution'),
+          story('sy1', 'Google rolls out improved SynthID detector'),
+          story('sy2', 'How to use Google SynthID to check AI content'),
+          story('sy3', 'SynthID Detector website for AI-generated media'),
+          story('sy4', 'SynthID Bio watermarks for designed proteins'),
+          story('sy5', 'SynthID upgrades for global availability'),
+          story('dx1', 'Learning dexterous manipulation from one demo'),
+          story('dx2', 'Dexterous robotic manipulation with world action models'),
+          story('dx3', 'Trajectory-guided dexterous manipulation'),
+          story('dx4', 'Dexterous policies for multi-object reset'),
+          story('dx5', 'Tactile sensing for dexterous hands'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    for (const id of [
+      'neural-networks', 'self-improving-ai', 'provenance',
+      'sparse-attention', 'synthid', 'dexterous-manipulation',
+    ]) {
+      assert.ok(ids.includes(id), id);
+    }
+    assert.match(renderTag(rich, 'neural-networks'), /Neural networks: AI stories this index scored/);
+    assert.match(renderTag(rich, 'self-improving-ai'), /Self-improving AI: AI stories this index scored/);
+    assert.match(renderTag(rich, 'provenance'), /AI provenance: AI stories this index scored/);
+    assert.match(renderTag(rich, 'sparse-attention'), /Sparse attention: AI stories this index scored/);
+    assert.match(renderTag(rich, 'synthid'), /SynthID: AI stories this index scored/);
+    assert.match(renderTag(rich, 'dexterous-manipulation'), /Dexterous manipulation: AI stories this index scored/);
+    assert.doesNotMatch(renderTag(rich, 'self-improving-ai'), /doom score/i);
+  });
 });
