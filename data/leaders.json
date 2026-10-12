@@ -1,10 +1,10 @@
 {
   "schema": 1,
-  "generated_at": "2026-10-12T16:21:19.636Z",
-  "news_generated_at": "2026-10-12T16:21:19.636Z",
+  "generated_at": "2026-10-12T16:23:19.093Z",
+  "news_generated_at": "2026-10-12T16:23:19.093Z",
   "matcher_version": "1.2.0",
   "window_days": 7,
-  "window_start": "2026-10-05T16:21:19.636Z",
+  "window_start": "2026-10-05T16:23:19.093Z",
   "rule": {
     "headline_only": true,
     "statement": "Only the headline is ever reproduced, exactly as the publication printed it. No quotation is generated, paraphrased, summarised or reconstructed anywhere in this file.",
@@ -141,7 +141,7 @@
     "scanned": 400,
     "max_items": 400,
     "window_binds": true,
-    "oldest_item_at": "2026-10-11T17:44:43.000Z",
+    "oldest_item_at": "2026-10-11T17:47:27.000Z",
     "newest_item_at": "2026-10-13T04:00:00.000Z",
     "named_without_cue": 5
   },
@@ -158,12 +158,12 @@
     "leaders": 20,
     "on_record": 4,
     "no_line": 16,
-    "lines": 7,
-    "distinct_items": 6,
+    "lines": 8,
+    "distinct_items": 7,
     "quiet": 16,
     "unreachable": 0,
     "no_sources": 4,
-    "press_lines": 6,
+    "press_lines": 7,
     "direct_lines": 1
   },
   "direct": {
@@ -188,11 +188,11 @@
     "source": "Google News search RSS (news.google.com/rss/search), one exact-phrase query per person",
     "is_statement": false,
     "means": "Stories in the press that mention the person, counted as distinct (title, outlet) pairs ever observed. Coverage is not a statement: it never puts anyone on the record, and only the outlet's own headline is shown.",
-    "generated_at": "2026-10-12T16:22:02.041Z",
+    "generated_at": "2026-10-12T16:23:27.371Z",
     "min_interval_minutes": 15,
     "days": 14,
     "ran": true,
-    "polled": 20,
+    "polled": 0,
     "leaders_with_data": 20,
     "leaders_dark": 0,
     "total_24h": 163,
@@ -892,34 +892,58 @@
         "Musk"
       ],
       "state": "on_record",
-      "count": 1,
+      "count": 2,
       "sources": [
+        "gnews-ai",
         "techmeme"
       ],
       "latest": {
-        "item_id": "3cd1280fb65b501e",
-        "headline": "Elon Musk and Mark Benioff pledged to rename SpaceXAI and AIForce, while Satya Nadella and Nvidia adopt \"super intelligence\", as Silicon Valley follows Trump (Terrence O'Brien/The Verge)",
-        "source": "techmeme",
+        "item_id": "340b604c9c0b692c",
+        "headline": "Musk Says Some Grok Training Traces Read Like Torture",
+        "source": "gnews-ai",
         "kind": "press",
-        "url": "https://techmeme.com/261011/p10",
-        "published_at": "2026-10-11T20:45:01.000Z",
-        "score": 34.2,
-        "pillar": "compute",
-        "matched_alias": "Elon Musk",
-        "cue": "quoted text",
+        "url": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE81QjJtM1VBWEZSUVJQTWt1NHFhWWZ5dmdXZHpHMzRPTnJuZTJFUHliemVtRmp4c0dNUnE2MERMbFNvN3dxNXBKNXNpY3lMUnZ0bTVFdU5QWXZ5MExjTVlTZUtmMFc?oc=5",
+        "published_at": "2026-10-12T15:30:03.000Z",
+        "score": 36.5,
+        "pillar": "attention",
+        "matched_alias": "Musk",
+        "cue": "says",
         "cue_group": "core",
-        "cue_class": "quote",
-        "cue_text": "\"super intelligence\"",
+        "cue_class": "verb",
+        "cue_text": "Says",
         "cues": [
-          "quoted text"
+          "says"
         ],
         "corroboration": 1,
         "also_sources": [
-          "techmeme"
+          "gnews-ai"
         ],
         "via": "press"
       },
       "lines": [
+        {
+          "item_id": "340b604c9c0b692c",
+          "headline": "Musk Says Some Grok Training Traces Read Like Torture",
+          "source": "gnews-ai",
+          "kind": "press",
+          "url": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE81QjJtM1VBWEZSUVJQTWt1NHFhWWZ5dmdXZHpHMzRPTnJuZTJFUHliemVtRmp4c0dNUnE2MERMbFNvN3dxNXBKNXNpY3lMUnZ0bTVFdU5QWXZ5MExjTVlTZUtmMFc?oc=5",
+          "published_at": "2026-10-12T15:30:03.000Z",
+          "score": 36.5,
+          "pillar": "attention",
+          "matched_alias": "Musk",
+          "cue": "says",
+          "cue_group": "core",
+          "cue_class": "verb",
+          "cue_text": "Says",
+          "cues": [
+            "says"
+          ],
+          "corroboration": 1,
+          "also_sources": [
+            "gnews-ai"
+          ],
+          "via": "press"
+        },
         {
           "item_id": "3cd1280fb65b501e",
           "headline": "Elon Musk and Mark Benioff pledged to rename SpaceXAI and AIForce, while Satya Nadella and Nvidia adopt \"super intelligence\", as Silicon Valley follows Trump (Terrence O'Brien/The Verge)",
@@ -953,23 +977,24 @@
         "feed": null,
         "posts_30d": null,
         "verdict": "wire_fills_gap",
-        "note": "The watch floor reads no feed for Elon Musk and that reading stands: it is about feeds we can fetch. The one line on the wire came from the press instead — techmeme — and links to the publication that printed it."
+        "note": "The watch floor reads no feed for Elon Musk and that reading stands: it is about feeds we can fetch. All 2 lines on the wire came from the press instead — gnews-ai, techmeme — each linked to the publication that printed it."
       },
       "group": "on_record",
       "reason": null,
-      "press_count": 1,
+      "press_count": 2,
       "direct_count": 0,
       "press_sources": [
+        "gnews-ai",
         "techmeme"
       ],
-      "last_statement_at": "2026-10-12T11:13:33.000Z",
+      "last_statement_at": "2026-10-12T15:30:03.000Z",
       "last_statement": {
-        "headline": "Elon Musk says acquisition of Cursor is due to the need for programming training data to create superintelligence, with only three institutions having sufficient programming training data",
-        "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE9YakdKTDc2Y3lNa1B5TWZoM29TUUFUNFMwRG5XY2k5blJxeGxDWUc0dEF3cjRULXFDVDFXWTJwRmUzMngxbU5ISVdubjJZRUhzNHB5OXV2WG5GVkg3UXgxcENtVHFKNThxYlQzSWdCaUU5M0Uy?oc=5",
+        "headline": "Musk Says Some Grok Training Traces Read Like Torture",
+        "url": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE81QjJtM1VBWEZSUVJQTWt1NHFhWWZ5dmdXZHpHMzRPTnJuZTJFUHliemVtRmp4c0dNUnE2MERMbFNvN3dxNXBKNXNpY3lMUnZ0bTVFdU5QWXZ5MExjTVlTZUtmMFc?oc=5",
         "source": "gnews-ai",
-        "published_at": "2026-10-12T11:13:33.000Z",
+        "published_at": "2026-10-12T15:30:03.000Z",
         "via": "press",
-        "remembered": true
+        "remembered": false
       },
       "days_silent": 0,
       "sources_checked": 3,
@@ -4695,5 +4720,5 @@
       }
     }
   ],
-  "fingerprint": "aec3e96a383e811d"
+  "fingerprint": "3262c3429d96de90"
 }
