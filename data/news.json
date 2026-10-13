@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated_at": "2026-10-13T10:22:04.180Z",
+  "generated_at": "2026-10-13T10:24:03.417Z",
   "scoring_version": "1.1.0",
   "window_days": 7,
   "max_items": 400,
@@ -18,12 +18,12 @@
     "COVERAGE_MAX": 15
   },
   "run": {
-    "mode": "full",
+    "mode": "incremental",
     "adapters": 82,
-    "fetched": 76,
-    "skipped": 6,
-    "arrived": 28,
-    "departed": 28,
+    "fetched": 40,
+    "skipped": 42,
+    "arrived": 2,
+    "departed": 2,
     "items_changed": true
   },
   "items": [
@@ -189,7 +189,7 @@
       "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxPWGNFSGxsOGJtMkRCc3hWbVNjZ3N6RFQ4dXRwc3BYTmhKcnVTUDB6eWtTRjR4T01fbG0xNVpYMWtMUHQ2ZTRWRWRMVGsyUEpBeExXelJBaXZESVVhRm0zZGJMN1RrUy02MXNuOElVWFdWRlQ0STQ4V2trWkZlWXkzeXVYa0hFbWl1RC0zdWtYUzJvRzR3SEk5alk2cV9mandkeEx1U0xCVzBic2FlTXVRZ2lkMXVXUXJGX2hR?oc=5",
       "published_at": "2026-10-13T10:16:15.000Z",
       "pillar": "attention",
-      "score": 48.8,
+      "score": 48.7,
       "entities": [],
       "meta": {
         "publisher": "CHAT News Today",
@@ -203,7 +203,7 @@
         },
         "score_components": {
           "source_weight": 13.8,
-          "recency": 20,
+          "recency": 19.9,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
@@ -324,7 +324,7 @@
       "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxQM1RSVjBVNDFNSzNvdjFMMVUtN0Q5VTVKTTExY0lBSXFRbjF6MG1sQ21KOVJrTENrTk9DM2M2MGdMNVdRR1Q3VjFCbkdqSlpmdFFzMk5IM01ObWk1Z0JUQk9XVTdOS09kOVJleUxySG1OcGZ4NS1PMHVRZ3ROQkZiaFo5WlJtZkl0dlZvTFk5bnE2ZlMycnpSRXR4aTZqd0lPRUtkeGxSM09SaWRBRmNYaS1kMmZPSEpG?oc=5",
       "published_at": "2026-10-13T10:15:00.000Z",
       "pillar": "governance",
-      "score": 33.8,
+      "score": 33.7,
       "entities": [],
       "meta": {
         "publisher": "EIN Presswire",
@@ -338,14 +338,14 @@
         },
         "score_components": {
           "source_weight": 13.8,
-          "recency": 20,
+          "recency": 19.9,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 0.1,
+        "age_hours_at_score": 0.2,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -367,7 +367,8 @@
           "terms": [],
           "excluded": null
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -529,7 +530,8 @@
               ]
             }
           ]
-        }
+        },
+        "retained": true
       }
     },
     {
@@ -786,7 +788,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 0.2,
+        "age_hours_at_score": 0.3,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -816,18 +818,18 @@
       "source": "hn-fresh-ai",
       "kind": "forum",
       "title": "AWS Lambda Web Functions",
-      "summary": "New on Hacker News: 3 points, 1 comments so far.",
+      "summary": "New on Hacker News: 4 points, 2 comments so far.",
       "url": "https://aws.amazon.com/blogs/aws/announcing-aws-lambda-web-functions-for-fast-consistent-web-app-performance-anywhere",
       "published_at": "2026-10-13T10:07:03.000Z",
       "pillar": "attention",
-      "score": 38.2,
+      "score": 38.9,
       "entities": [
         "Amazon"
       ],
       "meta": {
         "hn_id": "50069318",
-        "points": 3,
-        "comments": 1,
+        "points": 4,
+        "comments": 2,
         "discussion_url": "https://news.ycombinator.com/item?id=50069318",
         "outlet_domain": "amazon.com",
         "window_hours": 2,
@@ -844,14 +846,14 @@
           "recency": 19.9,
           "corroboration": 0,
           "entities": 3,
-          "engagement": 4,
+          "engagement": 4.7,
           "severity": 0,
           "coverage": 0
         },
         "age_hours_at_score": 0.3,
         "engagement": {
           "metric": "hn_points",
-          "value": 3,
+          "value": 4,
           "full_scale": 500
         },
         "corroboration": {
@@ -929,34 +931,35 @@
           "terms": [],
           "excluded": null
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
       "id": "a051c1b64abddfc3",
-      "source": "wires-ai",
+      "source": "gnews-ai",
       "kind": "press",
       "title": "EXCLUSIVE: Behind AI industry's call for independent reviews, a fight over what gets made public",
       "summary": "Reuters, via Google News.",
       "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxNR2dpbjFjZ0FCNnBvUWVXYXg2TU5JTFFrcU9oNGxLMFQtQk85VlpDQ0QwbDBDeDI3emlDZUxMOG5ESDRIeDVVUU8wcWExWTAyeVlqSktObWhscFdTbFYtWTB6Mk9iTEtUeDlfTzYwSTcyNEVwZzN4MnNVdWRHdmFpOF83ZXlmbklMS195WE5LZFhVWmc4c3lBUzBPcEpLYnFLTmNYcEpidGlnUW5RdTF0NXNDWmg2NWpBZFVJ?oc=5",
       "published_at": "2026-10-13T10:05:36.000Z",
       "pillar": "attention",
-      "score": 51.2,
+      "score": 33.7,
       "entities": [],
       "meta": {
         "publisher": "Reuters",
         "outlet_domain": "reuters.com",
         "publisher_url": "https://www.reuters.com",
-        "source_weight": 0.75,
+        "source_weight": 0.55,
         "pillar_reason": "source default",
         "entity_kinds": {
           "labs": [],
           "models": []
         },
         "score_components": {
-          "source_weight": 18.8,
+          "source_weight": 13.8,
           "recency": 19.9,
-          "corroboration": 12.5,
+          "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
@@ -965,29 +968,16 @@
         "age_hours_at_score": 0.3,
         "engagement": null,
         "corroboration": {
-          "count": 2,
+          "count": 1,
           "sources": [
-            "gnews-ai",
-            "wires-ai"
+            "gnews-ai"
           ],
           "first_source": "gnews-ai",
           "first_seen_published_at": "2026-10-13T10:05:36.000Z",
           "last_published_at": "2026-10-13T10:05:36.000Z",
           "lead_minutes": 0,
           "primary_published_at": "2026-10-13T10:05:36.000Z",
-          "also": [
-            {
-              "source": "gnews-ai",
-              "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxNR2dpbjFjZ0FCNnBvUWVXYXg2TU5JTFFrcU9oNGxLMFQtQk85VlpDQ0QwbDBDeDI3emlDZUxMOG5ESDRIeDVVUU8wcWExWTAyeVlqSktObWhscFdTbFYtWTB6Mk9iTEtUeDlfTzYwSTcyNEVwZzN4MnNVdWRHdmFpOF83ZXlmbklMS195WE5LZFhVWmc4c3lBUzBPcEpLYnFLTmNYcEpidGlnUW5RdTF0NXNDWmg2NWpBZFVJ?oc=5",
-              "title": "EXCLUSIVE: Behind AI industry's call for independent reviews, a fight over what gets made public",
-              "published_at": "2026-10-13T10:05:36.000Z",
-              "kind": "press",
-              "weight": 0.55,
-              "dedup_key": null,
-              "engagement": null,
-              "outlet": "reuters.com"
-            }
-          ]
+          "also": []
         },
         "first_seen_at": "2026-10-13T10:22:04.180Z",
         "incident": {
@@ -1105,7 +1095,8 @@
           "terms": [],
           "excluded": null
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -1205,7 +1196,7 @@
           "severity": 0,
           "coverage": 5
         },
-        "age_hours_at_score": 0.3,
+        "age_hours_at_score": 0.4,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -1321,7 +1312,7 @@
       "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxQcHMyWUlHbEFmWWRNcy1tYmR4ZlEwSC14VUlEcGo5WXEzUVF0d2VRRGozRnEtb2l1aUdkQ1JsQUcxOThFR2drS0dJVlJ2NlFGVmQyQU13SU1yRGhxNzVRS3FsNlFhYjBpMlRyWDNRaUF3NUk3b0xmQldrNnlqWjl6cVJuckRQeXdLOUlSRDZLMFVYOXhvR2hNUUxRb2l3OWViSmVybTEzRWstZm92SlpwSTZQOUcwZzVkY1JWM0xB?oc=5",
       "published_at": "2026-10-13T10:00:18.000Z",
       "pillar": "attention",
-      "score": 39.7,
+      "score": 39.6,
       "entities": [
         "GPT",
         "OpenAI"
@@ -1342,7 +1333,7 @@
         },
         "score_components": {
           "source_weight": 13.8,
-          "recency": 19.9,
+          "recency": 19.8,
           "corroboration": 0,
           "entities": 6,
           "engagement": 0,
@@ -1383,7 +1374,7 @@
       "url": "https://theguardian.com/technology/ng-interactive/2026/oct/13/ai-chatbot-death-plans",
       "published_at": "2026-10-13T10:00:04.000Z",
       "pillar": "attention",
-      "score": 34.9,
+      "score": 34.8,
       "entities": [],
       "meta": {
         "feed": "https://www.theguardian.com/technology/artificialintelligenceai/rss",
@@ -1403,7 +1394,7 @@
         },
         "score_components": {
           "source_weight": 15,
-          "recency": 19.9,
+          "recency": 19.8,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
@@ -1444,7 +1435,7 @@
       "url": "https://bsky.app/profile/wired.com/post/3mxqrqcfx5n23",
       "published_at": "2026-10-13T10:00:00.000Z",
       "pillar": "compute",
-      "score": 53.3,
+      "score": 53.2,
       "entities": [],
       "meta": {
         "bsky_handle": "wired.com",
@@ -1464,7 +1455,7 @@
         },
         "score_components": {
           "source_weight": 15,
-          "recency": 19.9,
+          "recency": 19.8,
           "corroboration": 12.5,
           "entities": 0,
           "engagement": 5.9,
@@ -1522,7 +1513,7 @@
       "url": "https://technologyreview.com/2026/10/13/1146366/open-models-have-real-benefits-do-they-outweigh-the-risks",
       "published_at": "2026-10-13T10:00:00.000Z",
       "pillar": "attention",
-      "score": 47.5,
+      "score": 47.4,
       "entities": [
         "Anthropic",
         "GLM"
@@ -1549,7 +1540,7 @@
         },
         "score_components": {
           "source_weight": 16.3,
-          "recency": 19.9,
+          "recency": 19.8,
           "corroboration": 0,
           "entities": 6,
           "engagement": 0,
@@ -1598,7 +1589,7 @@
       "url": "https://restofworld.org/2026/uae-mandates-k12-ai-education-schools",
       "published_at": "2026-10-13T10:00:00.000Z",
       "pillar": "attention",
-      "score": 33.7,
+      "score": 33.6,
       "entities": [],
       "meta": {
         "feed": "https://restofworld.org/feed/latest/",
@@ -1612,7 +1603,7 @@
         },
         "score_components": {
           "source_weight": 13.8,
-          "recency": 19.9,
+          "recency": 19.8,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
@@ -1729,7 +1720,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 0.4,
+        "age_hours_at_score": 0.5,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -1788,7 +1779,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 0.4,
+        "age_hours_at_score": 0.5,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -1967,7 +1958,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 0.5,
+        "age_hours_at_score": 0.6,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -2086,14 +2077,14 @@
     },
     {
       "id": "8783208a21ebe9a7",
-      "source": "wires-ai",
+      "source": "gnews-ai",
       "kind": "press",
       "title": "Bernie Sanders Hits Back at Sam Altman After OpenAI CEO Warns of 'Severe Cyber Incidents' in Exchange for",
       "summary": "Benzinga, via Google News.",
       "url": "https://news.google.com/rss/articles/CBMikAJBVV95cUxOckxkdFZxRjZOYnpDelI3M0JXSm5GWkF3SmhLUTdLQml2b3JlZk5VRUh1N01ONVoyX3RIc2lqMUh1cjlxOHE3TUlpLXo2bm5UNjlta0J1LUhhOW9xd3FaZTRGTU1ncEc1bF9GT0xyQkVIeWx5WW5mdXV2UVIyS1gybWs5WElkWTlOaGlOTHA5Yy1QRzE5RXA5VFZwRjFLelhnNF9MVERvTmVIbG1CZFpUTTBpTmQ2MTdVRDNIeVBMSG50NnpjaUR6eW9lVW1Kc3BrVXVyVmxpT1ZFM1hWaFJKMWRpaDRBdHkxT0xwM2U0ampxZENsZWt4TE5NTHp1T3k3VmY1QXZmQmJ4VlRNaUs2cA?oc=5",
       "published_at": "2026-10-13T09:47:58.000Z",
       "pillar": "attention",
-      "score": 58.6,
+      "score": 41.1,
       "entities": [
         "OpenAI"
       ],
@@ -2101,7 +2092,7 @@
         "publisher": "Benzinga",
         "outlet_domain": "benzinga.com",
         "publisher_url": "https://www.benzinga.com",
-        "source_weight": 0.75,
+        "source_weight": 0.55,
         "pillar_reason": "source default",
         "entity_kinds": {
           "labs": [
@@ -2110,9 +2101,9 @@
           "models": []
         },
         "score_components": {
-          "source_weight": 18.8,
+          "source_weight": 13.8,
           "recency": 19.8,
-          "corroboration": 12.5,
+          "corroboration": 0,
           "entities": 3,
           "engagement": 0,
           "severity": 4.5,
@@ -2121,29 +2112,16 @@
         "age_hours_at_score": 0.6,
         "engagement": null,
         "corroboration": {
-          "count": 2,
+          "count": 1,
           "sources": [
-            "gnews-ai",
-            "wires-ai"
+            "gnews-ai"
           ],
           "first_source": "gnews-ai",
           "first_seen_published_at": "2026-10-13T09:47:58.000Z",
           "last_published_at": "2026-10-13T09:47:58.000Z",
           "lead_minutes": 0,
           "primary_published_at": "2026-10-13T09:47:58.000Z",
-          "also": [
-            {
-              "source": "gnews-ai",
-              "url": "https://news.google.com/rss/articles/CBMikAJBVV95cUxOckxkdFZxRjZOYnpDelI3M0JXSm5GWkF3SmhLUTdLQml2b3JlZk5VRUh1N01ONVoyX3RIc2lqMUh1cjlxOHE3TUlpLXo2bm5UNjlta0J1LUhhOW9xd3FaZTRGTU1ncEc1bF9GT0xyQkVIeWx5WW5mdXV2UVIyS1gybWs5WElkWTlOaGlOTHA5Yy1QRzE5RXA5VFZwRjFLelhnNF9MVERvTmVIbG1CZFpUTTBpTmQ2MTdVRDNIeVBMSG50NnpjaUR6eW9lVW1Kc3BrVXVyVmxpT1ZFM1hWaFJKMWRpaDRBdHkxT0xwM2U0ampxZENsZWt4TE5NTHp1T3k3VmY1QXZmQmJ4VlRNaUs2cA?oc=5",
-              "title": "Bernie Sanders Hits Back at Sam Altman After OpenAI CEO Warns of 'Severe Cyber Incidents' in Exchange for",
-              "published_at": "2026-10-13T09:47:58.000Z",
-              "kind": "press",
-              "weight": 0.55,
-              "dedup_key": null,
-              "engagement": null,
-              "outlet": "benzinga.com"
-            }
-          ]
+          "also": []
         },
         "first_seen_at": "2026-10-13T10:00:10.304Z",
         "incident": {
@@ -2566,7 +2544,7 @@
       "url": "https://news.google.com/rss/articles/CBMiUEFVX3lxTFB2V0FLbXgwT0ZrLVIweWtScjdpLW9FZTFaVXkwaHNLTjhkZ0Jyd0lYOERBS1ZVaG5ma0xId3ZZYUZscGxzTTFUNmFIaGNiaEtC?oc=5",
       "published_at": "2026-10-13T09:44:32.000Z",
       "pillar": "attention",
-      "score": 39.6,
+      "score": 39.5,
       "entities": [
         "Alibaba Qwen",
         "Qwen"
@@ -2587,14 +2565,14 @@
         },
         "score_components": {
           "source_weight": 13.8,
-          "recency": 19.8,
+          "recency": 19.7,
           "corroboration": 0,
           "entities": 6,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 0.6,
+        "age_hours_at_score": 0.7,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -2724,8 +2702,7 @@
               ]
             }
           ]
-        },
-        "retained": true
+        }
       }
     },
     {
@@ -2813,7 +2790,7 @@
           "severity": 0,
           "coverage": 5
         },
-        "age_hours_at_score": 0.7,
+        "age_hours_at_score": 0.8,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -2860,7 +2837,8 @@
               ]
             }
           ]
-        }
+        },
+        "retained": true
       }
     },
     {
@@ -2953,7 +2931,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 0.8,
+        "age_hours_at_score": 0.9,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -3009,7 +2987,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 0.8,
+        "age_hours_at_score": 0.9,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -3106,7 +3084,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 0.8,
+        "age_hours_at_score": 0.9,
         "engagement": {
           "metric": "hn_points",
           "value": 3,
@@ -3163,7 +3141,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 0.8,
+        "age_hours_at_score": 0.9,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -3218,7 +3196,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 0.8,
+        "age_hours_at_score": 0.9,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -3296,7 +3274,8 @@
           "terms": [],
           "excluded": null
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -3436,7 +3415,7 @@
       "url": "https://gov.uk/government/speeches/uk-national-intervention-on-media-freedom-in-the-osce-region-warsaw-human-dimension-conference-2026",
       "published_at": "2026-10-13T09:28:09.000Z",
       "pillar": "governance",
-      "score": 33.5,
+      "score": 33.4,
       "entities": [],
       "meta": {
         "feed": "https://www.gov.uk/search/news-and-communications.atom?keywords=artificial+intelligence",
@@ -3448,7 +3427,7 @@
         },
         "score_components": {
           "source_weight": 13.8,
-          "recency": 19.7,
+          "recency": 19.6,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
@@ -3489,7 +3468,7 @@
       "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxNQ3p3OURvM0lVQ3hhbG1PczhTNUg5aFoxZ0hxMldoeEU2aFl6STBzMm9aMWFPN0xxdy1KWW9kckhfaDZhNmNuYXo0RFRuU3FqdXV1SkJpaFVhVkFidkMtNVc3Ykl2Sk1ZdGdQQy1pS2VheE1Va3ZyNVNPNTRtNEtocm90SQ?oc=5",
       "published_at": "2026-10-13T09:28:00.000Z",
       "pillar": "compute",
-      "score": 36.5,
+      "score": 36.4,
       "entities": [
         "Microsoft"
       ],
@@ -3507,7 +3486,7 @@
         },
         "score_components": {
           "source_weight": 13.8,
-          "recency": 19.7,
+          "recency": 19.6,
           "corroboration": 0,
           "entities": 3,
           "engagement": 0,
@@ -3736,7 +3715,8 @@
           ],
           "excluded": null
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -3931,7 +3911,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 1,
+        "age_hours_at_score": 1.1,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -4077,7 +4057,8 @@
           "terms": [],
           "excluded": null
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -4377,7 +4358,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 1.1,
+        "age_hours_at_score": 1.2,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -4411,7 +4392,7 @@
       "url": "https://bloomberg.com/news/articles/2026-10-13/orbital-data-centers-risk-becoming-military-targets-in-space",
       "published_at": "2026-10-13T09:12:16.000Z",
       "pillar": "markets",
-      "score": 34.6,
+      "score": 34.5,
       "entities": [],
       "meta": {
         "feed": "https://feeds.bloomberg.com/technology/news.rss",
@@ -4425,7 +4406,7 @@
         },
         "score_components": {
           "source_weight": 15,
-          "recency": 19.6,
+          "recency": 19.5,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
@@ -4491,7 +4472,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 1.2,
+        "age_hours_at_score": 1.3,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -4699,7 +4680,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 1.3,
+        "age_hours_at_score": 1.4,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -4935,7 +4916,8 @@
               ]
             }
           ]
-        }
+        },
+        "retained": true
       }
     },
     {
@@ -5309,7 +5291,7 @@
       "url": "https://news.google.com/rss/articles/CBMigAJBVV95cUxNQW56OHpKWDg3dnd0R1RCQnJBdllwb0NBdDNQcW9HSU9KWC0wWDFzN1lFZjdfbldBV0VHLUZ6NnlOM1IxMEN6aHlpb09TM2VhVmIwSmxVdXlwSjVXckNDU18xcHN2am5YS1BMU3VVNGRON2ctVl9XQWNtd0trSlg1YUluaVFvanVidnJWT29sUUNLSDZjV2R0ajhwN0plMm9pLXk2SnFkQnBHQUpTeUhJNWdpQ0o1cGRYWkg0SXlRd2V0Y250b3RoYnpxcHcwajg1V0liZ3ZzZUl6d3dPVEM2Vkl0YW93SHI0YzR5YThKRkFDM1V6cXZEcTNxVmkza0Zv?oc=5",
       "published_at": "2026-10-13T08:56:48.000Z",
       "pillar": "compute",
-      "score": 33.3,
+      "score": 33.2,
       "entities": [],
       "meta": {
         "publisher": "Benzinga",
@@ -5323,14 +5305,14 @@
         },
         "score_components": {
           "source_weight": 13.8,
-          "recency": 19.5,
+          "recency": 19.4,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 1.4,
+        "age_hours_at_score": 1.5,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -5560,7 +5542,8 @@
           "terms": [],
           "excluded": null
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -5861,7 +5844,8 @@
           "terms": [],
           "excluded": null
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -5972,7 +5956,8 @@
           "terms": [],
           "excluded": null
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -6068,7 +6053,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 1.7,
+        "age_hours_at_score": 1.8,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -6130,7 +6115,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 1.7,
+        "age_hours_at_score": 1.8,
         "engagement": {
           "metric": "hn_points",
           "value": 4,
@@ -6211,7 +6196,8 @@
           "terms": [],
           "excluded": null
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -6382,7 +6368,8 @@
               ]
             }
           ]
-        }
+        },
+        "retained": true
       }
     },
     {
@@ -6419,7 +6406,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 1.8,
+        "age_hours_at_score": 1.9,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -6475,7 +6462,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 1.8,
+        "age_hours_at_score": 1.9,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -6531,7 +6518,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 1.8,
+        "age_hours_at_score": 1.9,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -6705,7 +6692,7 @@
       "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxPcm1kRXhueGxPTDhhQi1DTXVPRzN1YWNkNVFiQV9CTVJMLUJ1Q094TWNwSEFTWGw5a050d2hiOFdTdnZOX2lLdWRJM192Sm9RTkJaM3lobWtJQkdEY2J2eTRiekVtWC1YLXVWYkVIZzlyb1JILVlPUTRFdWQ3V3ZlREI5RWlYR3FFT3pKN240UlUwcFd4VEtBZU9SOFNvQ2hmbnpwQkdpT2t0aE1xSDZIRw?oc=5",
       "published_at": "2026-10-13T08:23:17.000Z",
       "pillar": "attention",
-      "score": 38.1,
+      "score": 38,
       "entities": [],
       "meta": {
         "publisher": "Bloomberg.com",
@@ -6719,7 +6706,7 @@
         },
         "score_components": {
           "source_weight": 18.8,
-          "recency": 19.3,
+          "recency": 19.2,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
@@ -6748,7 +6735,8 @@
           "terms": [],
           "excluded": null
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -6904,7 +6892,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 2,
+        "age_hours_at_score": 2.1,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -7102,7 +7090,8 @@
           "terms": [],
           "excluded": null
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -7266,7 +7255,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 2.1,
+        "age_hours_at_score": 2.2,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -7375,7 +7364,8 @@
               ]
             }
           ]
-        }
+        },
+        "retained": true
       }
     },
     {
@@ -7408,7 +7398,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 2.1,
+        "age_hours_at_score": 2.2,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -7464,7 +7454,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 2.1,
+        "age_hours_at_score": 2.2,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -7476,122 +7466,6 @@
           "last_published_at": "2026-10-13T08:13:30.000Z",
           "lead_minutes": 0,
           "primary_published_at": "2026-10-13T08:13:30.000Z",
-          "also": []
-        },
-        "first_seen_at": "2026-10-13T08:15:43.326Z",
-        "incident": {
-          "severity": 0,
-          "band": null,
-          "strong_signal": false,
-          "terms": [],
-          "excluded": null
-        },
-        "story": null,
-        "retained": true
-      }
-    },
-    {
-      "id": "fb1bb4b9084d0727",
-      "source": "gnews-ai",
-      "kind": "press",
-      "title": "UK Regains Early Access to AI Models After Reported White House Reversal",
-      "summary": "TechRepublic, via Google News.",
-      "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxPUG9fTEsyQV9LVTF6SkJWUmpTNFN4aFdaQVRxTkM3RGVwaGRwaURTWWI5ZElHNzV3aVFxSEgtS1MwR3FoeHRzYVRSVzAtdHRQX1dWaVJOek9TQjhzNFVCWmVvZWVqZVFtOW84OXRNdmxvb25mR1J1YzhEaFFUX2M3anBVWFBmODFNVlpaYjNGZXE?oc=5",
-      "published_at": "2026-10-13T08:12:21.000Z",
-      "pillar": "governance",
-      "score": 33,
-      "entities": [],
-      "meta": {
-        "publisher": "TechRepublic",
-        "outlet_domain": "techrepublic.com",
-        "publisher_url": "https://www.techrepublic.com",
-        "source_weight": 0.55,
-        "pillar_reason": "regulatory/legal keyword",
-        "entity_kinds": {
-          "labs": [],
-          "models": []
-        },
-        "score_components": {
-          "source_weight": 13.8,
-          "recency": 19.2,
-          "corroboration": 0,
-          "entities": 0,
-          "engagement": 0,
-          "severity": 0,
-          "coverage": 0
-        },
-        "age_hours_at_score": 2.2,
-        "engagement": null,
-        "corroboration": {
-          "count": 1,
-          "sources": [
-            "gnews-ai"
-          ],
-          "first_source": "gnews-ai",
-          "first_seen_published_at": "2026-10-13T08:12:21.000Z",
-          "last_published_at": "2026-10-13T08:12:21.000Z",
-          "lead_minutes": 0,
-          "primary_published_at": "2026-10-13T08:12:21.000Z",
-          "also": []
-        },
-        "first_seen_at": "2026-10-13T08:15:43.326Z",
-        "incident": {
-          "severity": 0,
-          "band": null,
-          "strong_signal": false,
-          "terms": [],
-          "excluded": null
-        },
-        "story": null,
-        "retained": true
-      }
-    },
-    {
-      "id": "c3db773396363935",
-      "source": "gnews-ai",
-      "kind": "press",
-      "title": "Microsoft: Finally, Found Its AI Angle",
-      "summary": "Seeking Alpha, via Google News.",
-      "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxPNzhmVEY4RUVRUVVRcGlUWjJvcnNIbUJtSVM5bllnVE9UQUpUVXhuejRTZWFWeHJnMktXelBwVUtvVmoxZ3FOUFBfTHpiOVM3dkxnMmVqR1BTWnBIc0xjT3RfMVdHczV3UmQzWU51RWg2WnROMlF4d0stTEREMEZMcEs5MA?oc=5",
-      "published_at": "2026-10-13T08:10:24.000Z",
-      "pillar": "attention",
-      "score": 36,
-      "entities": [
-        "Microsoft"
-      ],
-      "meta": {
-        "publisher": "Seeking Alpha",
-        "outlet_domain": "seekingalpha.com",
-        "publisher_url": "https://seekingalpha.com",
-        "source_weight": 0.55,
-        "pillar_reason": "source default",
-        "entity_kinds": {
-          "labs": [
-            "Microsoft"
-          ],
-          "models": []
-        },
-        "score_components": {
-          "source_weight": 13.8,
-          "recency": 19.2,
-          "corroboration": 0,
-          "entities": 3,
-          "engagement": 0,
-          "severity": 0,
-          "coverage": 0
-        },
-        "age_hours_at_score": 2.2,
-        "engagement": null,
-        "corroboration": {
-          "count": 1,
-          "sources": [
-            "gnews-ai"
-          ],
-          "first_source": "gnews-ai",
-          "first_seen_published_at": "2026-10-13T08:10:24.000Z",
-          "last_published_at": "2026-10-13T08:10:24.000Z",
-          "lead_minutes": 0,
-          "primary_published_at": "2026-10-13T08:10:24.000Z",
           "also": []
         },
         "first_seen_at": "2026-10-13T08:15:43.326Z",
@@ -7713,7 +7587,8 @@
           "terms": [],
           "excluded": null
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -7768,7 +7643,8 @@
           "terms": [],
           "excluded": null
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -7823,7 +7699,8 @@
           "terms": [],
           "excluded": null
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -7949,7 +7826,8 @@
               ]
             }
           ]
-        }
+        },
+        "retained": true
       }
     },
     {
@@ -8103,7 +7981,7 @@
           "severity": 0,
           "coverage": 10
         },
-        "age_hours_at_score": 2.4,
+        "age_hours_at_score": 2.5,
         "engagement": {
           "metric": "hn_points",
           "value": 9,
@@ -8199,7 +8077,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 2.5,
+        "age_hours_at_score": 2.6,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -8221,7 +8099,8 @@
           "terms": [],
           "excluded": null
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -8276,7 +8155,8 @@
           "terms": [],
           "excluded": null
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -8446,7 +8326,8 @@
           "terms": [],
           "excluded": null
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -8479,7 +8360,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 2.6,
+        "age_hours_at_score": 2.7,
         "engagement": null,
         "corroboration": {
           "count": 2,
@@ -8570,7 +8451,8 @@
           "terms": [],
           "excluded": null
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -8582,7 +8464,7 @@
       "url": "https://reddit.com/r/MachineLearning/comments/1x4qcxw/machine_learning_tutorialworkshop_d",
       "published_at": "2026-10-13T07:34:40.000Z",
       "pillar": "attention",
-      "score": 30.3,
+      "score": 30.2,
       "entities": [],
       "meta": {
         "feed": "https://www.reddit.com/r/MachineLearning/top/.rss?t=day&limit=25",
@@ -8597,7 +8479,7 @@
         },
         "score_components": {
           "source_weight": 11.3,
-          "recency": 19,
+          "recency": 18.9,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
@@ -8660,7 +8542,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 2.8,
+        "age_hours_at_score": 2.9,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -8852,7 +8734,8 @@
           "terms": [],
           "excluded": null
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -8968,6 +8851,88 @@
       }
     },
     {
+      "id": "5953928aacec1f86",
+      "source": "reddit-artificial",
+      "kind": "forum",
+      "title": "\"Our humble goal is to survive the AI revolution\" says Epic Games CEO Tim Sweeney, as its Star Wars and Marvel crossover pivots to \"AI first\" development | Art will be \"generated with full AI…",
+      "summary": "submitted by /u/ControlCAD [link] [comments]",
+      "url": "https://reddit.com/r/artificial/comments/1x4pzvo/our_humble_goal_is_to_survive_the_ai_revolution",
+      "published_at": "2026-10-13T07:10:56.000Z",
+      "pillar": "attention",
+      "score": 27.6,
+      "entities": [],
+      "meta": {
+        "feed": "https://www.reddit.com/r/artificial/top/.rss?t=day&limit=25",
+        "categories": [
+          "artificial"
+        ],
+        "source_weight": 0.35,
+        "pillar_reason": "source default",
+        "entity_kinds": {
+          "labs": [],
+          "models": []
+        },
+        "score_components": {
+          "source_weight": 8.8,
+          "recency": 18.8,
+          "corroboration": 0,
+          "entities": 0,
+          "engagement": 0,
+          "severity": 0,
+          "coverage": 0
+        },
+        "age_hours_at_score": 3.2,
+        "engagement": null,
+        "corroboration": {
+          "count": 1,
+          "sources": [
+            "reddit-artificial"
+          ],
+          "first_source": "reddit-artificial",
+          "first_seen_published_at": "2026-10-13T07:10:56.000Z",
+          "last_published_at": "2026-10-13T07:10:56.000Z",
+          "lead_minutes": 0,
+          "primary_published_at": "2026-10-13T07:10:56.000Z",
+          "also": []
+        },
+        "first_seen_at": "2026-10-13T10:24:03.417Z",
+        "incident": {
+          "severity": 0,
+          "band": null,
+          "strong_signal": false,
+          "terms": [],
+          "excluded": null
+        },
+        "story": {
+          "id": "8a4687d6c73b",
+          "lead": "b9412986ffa5d3dc",
+          "is_lead": false,
+          "members": [
+            "5953928aacec1f86",
+            "b9412986ffa5d3dc"
+          ],
+          "source_count": 2,
+          "sources": [
+            "arstechnica-ai",
+            "reddit-artificial"
+          ],
+          "severity": 0,
+          "linked_by": [
+            {
+              "with": "b9412986ffa5d3dc",
+              "rule": "shared-words",
+              "words": [
+                "development",
+                "epic",
+                "gam",
+                "pivot"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
       "id": "94a5f8f96bfb05d9",
       "source": "wires-ai",
       "kind": "press",
@@ -8976,7 +8941,7 @@
       "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxNSlJHWERwQndPVG5XNmIzN1BGdDhEdDJiZkNzdUcwMmFyZnNCd1pBUGowd2dnc3NZbThFTFk0bHBJdFh6b3FiejlveXdKaGFmcGxYamstN1FtWkRJT1c4UUJaTW0wY1R6NlFILXpLTjBFRVdxQjJvY2pQaWVQcUVONWd1ejN2TkY2ZW15QXh2NjJLM3NUdWNDbmRyMW16RS1pQXdsQXRpNW01ZEMwZnVaNzNYRE0?oc=5",
       "published_at": "2026-10-13T07:02:46.000Z",
       "pillar": "compute",
-      "score": 45.6,
+      "score": 45.5,
       "entities": [
         "Anthropic"
       ],
@@ -8994,14 +8959,14 @@
         },
         "score_components": {
           "source_weight": 18.8,
-          "recency": 18.8,
+          "recency": 18.7,
           "corroboration": 0,
           "entities": 3,
           "engagement": 0,
           "severity": 0,
           "coverage": 5
         },
-        "age_hours_at_score": 3.3,
+        "age_hours_at_score": 3.4,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -9062,7 +9027,7 @@
       "url": "https://reddit.com/r/singularity/comments/1x4pv24/anthropic_antidistillation_measures_may_have",
       "published_at": "2026-10-13T07:02:35.000Z",
       "pillar": "attention",
-      "score": 31.8,
+      "score": 31.7,
       "entities": [
         "Anthropic"
       ],
@@ -9081,14 +9046,14 @@
         },
         "score_components": {
           "source_weight": 10,
-          "recency": 18.8,
+          "recency": 18.7,
           "corroboration": 0,
           "entities": 3,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 3.3,
+        "age_hours_at_score": 3.4,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -9170,7 +9135,8 @@
               ]
             }
           ]
-        }
+        },
+        "retained": true
       }
     },
     {
@@ -9383,7 +9349,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 3.6,
+        "age_hours_at_score": 3.7,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -9699,7 +9665,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 4.4,
+        "age_hours_at_score": 4.5,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -9877,7 +9843,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 4.9,
+        "age_hours_at_score": 5,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -9899,7 +9865,8 @@
           "terms": [],
           "excluded": null
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -9936,7 +9903,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 5.1,
+        "age_hours_at_score": 5.2,
         "engagement": {
           "metric": "bsky_likes",
           "value": 29,
@@ -10258,7 +10225,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 5.3,
+        "age_hours_at_score": 5.4,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -10314,7 +10281,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 5.3,
+        "age_hours_at_score": 5.4,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -10455,7 +10422,8 @@
               ]
             }
           ]
-        }
+        },
+        "retained": true
       }
     },
     {
@@ -10717,7 +10685,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 5.6,
+        "age_hours_at_score": 5.7,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -10893,7 +10861,7 @@
       "url": "https://reddit.com/r/ControlProblem/comments/1x4na8t/the_scariest_ai_hack_of_2026_didnt_come_from",
       "published_at": "2026-10-13T04:28:40.000Z",
       "pillar": "attention",
-      "score": 29.7,
+      "score": 29.6,
       "entities": [
         "OpenAI"
       ],
@@ -10912,7 +10880,7 @@
         },
         "score_components": {
           "source_weight": 8.8,
-          "recency": 17.9,
+          "recency": 17.8,
           "corroboration": 0,
           "entities": 3,
           "engagement": 0,
@@ -10954,7 +10922,7 @@
       "url": "https://bsky.app/profile/technologyreview.com/post/3mxq6zoq3i22d",
       "published_at": "2026-10-13T04:28:32.684Z",
       "pillar": "attention",
-      "score": 34.5,
+      "score": 34.4,
       "entities": [],
       "meta": {
         "bsky_handle": "technologyreview.com",
@@ -10974,7 +10942,7 @@
         },
         "score_components": {
           "source_weight": 15,
-          "recency": 17.9,
+          "recency": 17.8,
           "corroboration": 0,
           "entities": 0,
           "engagement": 1.6,
@@ -11867,7 +11835,7 @@
           "severity": 9,
           "coverage": 0
         },
-        "age_hours_at_score": 6.6,
+        "age_hours_at_score": 6.7,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -11997,7 +11965,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 6.9,
+        "age_hours_at_score": 7,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -12136,8 +12104,7 @@
           "terms": [],
           "excluded": null
         },
-        "story": null,
-        "retained": true
+        "story": null
       }
     },
     {
@@ -12325,7 +12292,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 7.1,
+        "age_hours_at_score": 7.2,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -12385,7 +12352,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 7.4,
+        "age_hours_at_score": 7.5,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -12466,7 +12433,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 7.5,
+        "age_hours_at_score": 7.6,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -12629,7 +12596,7 @@
       "url": "https://reddit.com/r/artificial/comments/1x4l8ty/leading_chinese_mathematicians_unite_behind_use",
       "published_at": "2026-10-13T02:41:42.000Z",
       "pillar": "attention",
-      "score": 26.1,
+      "score": 26,
       "entities": [],
       "meta": {
         "feed": "https://www.reddit.com/r/artificial/top/.rss?t=day&limit=25",
@@ -12644,7 +12611,7 @@
         },
         "score_components": {
           "source_weight": 8.8,
-          "recency": 17.3,
+          "recency": 17.2,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
@@ -12698,8 +12665,7 @@
               ]
             }
           ]
-        },
-        "retained": true
+        }
       }
     },
     {
@@ -12736,7 +12702,7 @@
           "severity": 0,
           "coverage": 5
         },
-        "age_hours_at_score": 7.8,
+        "age_hours_at_score": 7.9,
         "engagement": null,
         "corroboration": {
           "count": 2,
@@ -12941,7 +12907,8 @@
           "terms": [],
           "excluded": null
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -12997,7 +12964,8 @@
           "terms": [],
           "excluded": null
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -13036,7 +13004,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 7.9,
+        "age_hours_at_score": 8,
         "engagement": {
           "metric": "bsky_likes",
           "value": 10,
@@ -13096,7 +13064,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 8.2,
+        "age_hours_at_score": 8.3,
         "engagement": {
           "metric": "bsky_likes",
           "value": 3,
@@ -13213,6 +13181,70 @@
       }
     },
     {
+      "id": "b693a6e80e752f67",
+      "source": "hn-ai",
+      "kind": "forum",
+      "title": "AI models can provably hide arbitrary capabilities",
+      "summary": "211 points, 108 comments on Hacker News.",
+      "url": "https://arxiv.org/abs/2610.13928",
+      "published_at": "2026-10-13T02:07:08.000Z",
+      "pillar": "attention",
+      "score": 47.6,
+      "entities": [],
+      "meta": {
+        "hn_id": "50065692",
+        "points": 211,
+        "comments": 108,
+        "discussion_url": "https://news.ycombinator.com/item?id=50065692",
+        "window_hours": 72,
+        "min_points": 8,
+        "locally_ai_filtered": true,
+        "rejected_off_topic": 2,
+        "source_weight": 0.6,
+        "pillar_reason": "source default",
+        "entity_kinds": {
+          "labs": [],
+          "models": []
+        },
+        "score_components": {
+          "source_weight": 15,
+          "recency": 17.1,
+          "corroboration": 0,
+          "entities": 0,
+          "engagement": 15.5,
+          "severity": 0,
+          "coverage": 0
+        },
+        "age_hours_at_score": 8.3,
+        "engagement": {
+          "metric": "hn_points",
+          "value": 211,
+          "full_scale": 500
+        },
+        "corroboration": {
+          "count": 1,
+          "sources": [
+            "hn-ai"
+          ],
+          "first_source": "hn-ai",
+          "first_seen_published_at": "2026-10-13T02:07:08.000Z",
+          "last_published_at": "2026-10-13T02:07:08.000Z",
+          "lead_minutes": 0,
+          "primary_published_at": "2026-10-13T02:07:08.000Z",
+          "also": []
+        },
+        "first_seen_at": "2026-10-13T10:24:03.417Z",
+        "incident": {
+          "severity": 0,
+          "band": null,
+          "strong_signal": false,
+          "terms": [],
+          "excluded": null
+        },
+        "story": null
+      }
+    },
+    {
       "id": "38627381dbf236a3",
       "source": "wires-ai",
       "kind": "press",
@@ -13221,7 +13253,7 @@
       "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxPVlNmbDdlaDUwX1pOeWRzM1FhdDNhWTNnVnk4bXZLZlR2VGwxMFRCcWdiNngwM2p1Tmp3YjZMY0FwY1puZHk3bTlEYWNyd2pYYUxPd19nZVpqQU9CQjVlck9RUGtoajF5SGY4VnYzSWpZXzY2TWZ3TVY3Yl9ucVdEWnc3b2xzT19vbzBqazJUMzlCdmpfakw4VjAzOVZ3Ui13dmlJOV90Nk9pVUxWY1htUHYtNDZhTGhyTDYwZEk3SQ?oc=5",
       "published_at": "2026-10-13T02:05:00.000Z",
       "pillar": "compute",
-      "score": 54.8,
+      "score": 54.7,
       "entities": [],
       "meta": {
         "publisher": "Reuters",
@@ -13235,7 +13267,7 @@
         },
         "score_components": {
           "source_weight": 18.8,
-          "recency": 17.1,
+          "recency": 17,
           "corroboration": 12.5,
           "entities": 0,
           "engagement": 6.4,
@@ -14129,7 +14161,8 @@
           "terms": [],
           "excluded": null
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -14273,7 +14306,7 @@
       "url": "https://patreon.com/vihart/posts/vi-harts-big-171939430",
       "published_at": "2026-10-13T01:29:49.000Z",
       "pillar": "attention",
-      "score": 28.2,
+      "score": 28.1,
       "entities": [],
       "meta": {
         "feed": "https://lobste.rs/t/ai.rss",
@@ -14289,7 +14322,7 @@
         },
         "score_components": {
           "source_weight": 11.3,
-          "recency": 16.9,
+          "recency": 16.8,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
@@ -14816,8 +14849,7 @@
           "terms": [],
           "excluded": null
         },
-        "story": null,
-        "retained": true
+        "story": null
       }
     },
     {
@@ -15075,7 +15107,8 @@
           "terms": [],
           "excluded": null
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -15148,7 +15181,7 @@
       "url": "https://ft.com/content/9dbd99db-6b0c-43bd-b7be-849f129df098?syn-25a6b1a6=1",
       "published_at": "2026-10-13T00:15:06.000Z",
       "pillar": "compute",
-      "score": 35.8,
+      "score": 35.7,
       "entities": [
         "NVIDIA"
       ],
@@ -15164,7 +15197,7 @@
         },
         "score_components": {
           "source_weight": 16.3,
-          "recency": 16.5,
+          "recency": 16.4,
           "corroboration": 0,
           "entities": 3,
           "engagement": 0,
@@ -15205,7 +15238,7 @@
       "url": "https://techmeme.com/261012/p42",
       "published_at": "2026-10-13T00:15:02.000Z",
       "pillar": "attention",
-      "score": 39,
+      "score": 38.9,
       "entities": [],
       "meta": {
         "feed": "https://www.techmeme.com/feed.xml",
@@ -15219,14 +15252,14 @@
         },
         "score_components": {
           "source_weight": 17.5,
-          "recency": 16.5,
+          "recency": 16.4,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 5
         },
-        "age_hours_at_score": 10.1,
+        "age_hours_at_score": 10.2,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -15381,7 +15414,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 10.2,
+        "age_hours_at_score": 10.3,
         "engagement": {
           "metric": "hn_points",
           "value": 9,
@@ -15556,7 +15589,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -15617,7 +15651,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -15678,7 +15713,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -15739,7 +15775,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -15800,7 +15837,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -15861,7 +15899,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -15922,7 +15961,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -15983,7 +16023,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -16044,7 +16085,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -16105,7 +16147,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -16166,7 +16209,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -16227,7 +16271,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -16288,7 +16333,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -16349,7 +16395,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -16402,7 +16449,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -16455,7 +16503,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -16508,7 +16557,8 @@
           "terms": [],
           "excluded": "paper"
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -16547,7 +16597,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 10.9,
+        "age_hours_at_score": 11,
         "engagement": {
           "metric": "bsky_likes",
           "value": 58,
@@ -16856,7 +16906,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 11.2,
+        "age_hours_at_score": 11.3,
         "engagement": {
           "metric": "bsky_likes",
           "value": 25,
@@ -16940,7 +16990,7 @@
           "severity": 9,
           "coverage": 0
         },
-        "age_hours_at_score": 11.2,
+        "age_hours_at_score": 11.3,
         "engagement": {
           "metric": "hn_points",
           "value": 68,
@@ -17013,7 +17063,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 11.3,
+        "age_hours_at_score": 11.4,
         "engagement": {
           "metric": "hn_points",
           "value": 10,
@@ -17076,7 +17126,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 11.4,
+        "age_hours_at_score": 11.5,
         "engagement": {
           "metric": "bsky_likes",
           "value": 12,
@@ -17246,7 +17296,8 @@
           ],
           "excluded": null
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -17302,7 +17353,8 @@
           "terms": [],
           "excluded": null
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -17361,7 +17413,8 @@
           "terms": [],
           "excluded": null
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -17395,7 +17448,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 12.2,
+        "age_hours_at_score": 12.3,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -17445,8 +17498,7 @@
               ]
             }
           ]
-        },
-        "retained": true
+        }
       }
     },
     {
@@ -17573,8 +17625,7 @@
           "terms": [],
           "excluded": null
         },
-        "story": null,
-        "retained": true
+        "story": null
       }
     },
     {
@@ -17680,7 +17731,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 12.5,
+        "age_hours_at_score": 12.6,
         "engagement": null,
         "corroboration": {
           "count": 2,
@@ -17990,7 +18041,8 @@
           "terms": [],
           "excluded": null
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -17998,7 +18050,7 @@
       "source": "hn-ai",
       "kind": "forum",
       "title": "AI is a tool and using it well takes skill",
-      "summary": "423 points, 338 comments on Hacker News.",
+      "summary": "423 points, 340 comments on Hacker News.",
       "url": "https://yyhh.org/blog/2026/10/ai-is-a-tool",
       "published_at": "2026-10-12T21:40:18.000Z",
       "pillar": "attention",
@@ -18007,7 +18059,7 @@
       "meta": {
         "hn_id": "50063427",
         "points": 423,
-        "comments": 338,
+        "comments": 340,
         "discussion_url": "https://news.ycombinator.com/item?id=50063427",
         "window_hours": 72,
         "min_points": 8,
@@ -18062,7 +18114,7 @@
       "source": "hn-ai",
       "kind": "forum",
       "title": "Intel D270 GPU AI Accelerator–Up to 480 GB LPDDR5X",
-      "summary": "215 points, 109 comments on Hacker News.",
+      "summary": "217 points, 110 comments on Hacker News.",
       "url": "https://intel.com/content/www/us/en/products/details/discrete-gpus/data-center-gpu/d-series.html",
       "published_at": "2026-10-12T21:35:35.000Z",
       "pillar": "compute",
@@ -18070,8 +18122,8 @@
       "entities": [],
       "meta": {
         "hn_id": "50063365",
-        "points": 215,
-        "comments": 109,
+        "points": 217,
+        "comments": 110,
         "discussion_url": "https://news.ycombinator.com/item?id=50063365",
         "window_hours": 72,
         "min_points": 8,
@@ -18095,7 +18147,7 @@
         "age_hours_at_score": 12.8,
         "engagement": {
           "metric": "hn_points",
-          "value": 215,
+          "value": 217,
           "full_scale": 500
         },
         "corroboration": {
@@ -18298,7 +18350,8 @@
           "terms": [],
           "excluded": null
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -18336,7 +18389,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 13.1,
+        "age_hours_at_score": 13.2,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -18419,8 +18472,7 @@
               ]
             }
           ]
-        },
-        "retained": true
+        }
       }
     },
     {
@@ -18453,7 +18505,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 13.2,
+        "age_hours_at_score": 13.3,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -18475,7 +18527,8 @@
           "terms": [],
           "excluded": null
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -18508,7 +18561,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 13.2,
+        "age_hours_at_score": 13.3,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -18600,7 +18653,7 @@
       "url": "https://arstechnica.com/gaming/2026/10/report-epic-games-goes-all-in-on-ai-for-disney-collaboration",
       "published_at": "2026-10-12T20:59:50.000Z",
       "pillar": "attention",
-      "score": 30.5,
+      "score": 35.5,
       "entities": [],
       "meta": {
         "feed": "https://arstechnica.com/ai/feed/",
@@ -18624,7 +18677,7 @@
           "entities": 0,
           "engagement": 0,
           "severity": 0,
-          "coverage": 0
+          "coverage": 5
         },
         "age_hours_at_score": 13.4,
         "engagement": null,
@@ -18648,7 +18701,33 @@
           "terms": [],
           "excluded": null
         },
-        "story": null
+        "story": {
+          "id": "8a4687d6c73b",
+          "lead": "b9412986ffa5d3dc",
+          "is_lead": true,
+          "members": [
+            "5953928aacec1f86",
+            "b9412986ffa5d3dc"
+          ],
+          "source_count": 2,
+          "sources": [
+            "arstechnica-ai",
+            "reddit-artificial"
+          ],
+          "severity": 0,
+          "linked_by": [
+            {
+              "with": "5953928aacec1f86",
+              "rule": "shared-words",
+              "words": [
+                "development",
+                "epic",
+                "gam",
+                "pivot"
+              ]
+            }
+          ]
+        }
       }
     },
     {
@@ -18738,7 +18817,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 13.5,
+        "age_hours_at_score": 13.6,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -18760,7 +18839,8 @@
           "terms": [],
           "excluded": null
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -18793,7 +18873,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 13.8,
+        "age_hours_at_score": 13.9,
         "engagement": null,
         "corroboration": {
           "count": 2,
@@ -18932,7 +19012,8 @@
           "terms": [],
           "excluded": null
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -18966,7 +19047,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 13.9,
+        "age_hours_at_score": 14,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -19160,7 +19241,7 @@
       "url": "https://reddit.com/r/artificial/comments/1x4cptr/me_gonna_make_the_scariest_horror_game_ever_also",
       "published_at": "2026-10-12T20:17:47.000Z",
       "pillar": "attention",
-      "score": 24.1,
+      "score": 24,
       "entities": [],
       "meta": {
         "feed": "https://www.reddit.com/r/artificial/top/.rss?t=day&limit=25",
@@ -19175,7 +19256,7 @@
         },
         "score_components": {
           "source_weight": 8.8,
-          "recency": 15.3,
+          "recency": 15.2,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
@@ -19204,8 +19285,7 @@
           "terms": [],
           "excluded": null
         },
-        "story": null,
-        "retained": true
+        "story": null
       }
     },
     {
@@ -19217,7 +19297,7 @@
       "url": "https://bsky.app/profile/wired.com/post/3mxpdlso53b2t",
       "published_at": "2026-10-12T20:17:34.786Z",
       "pillar": "attention",
-      "score": 41,
+      "score": 40.9,
       "entities": [],
       "meta": {
         "bsky_handle": "wired.com",
@@ -19237,7 +19317,7 @@
         },
         "score_components": {
           "source_weight": 15,
-          "recency": 15.3,
+          "recency": 15.2,
           "corroboration": 0,
           "entities": 0,
           "engagement": 10.7,
@@ -19373,7 +19453,8 @@
           ],
           "excluded": null
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -19411,7 +19492,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 14.1,
+        "age_hours_at_score": 14.2,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -19498,7 +19579,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 14.1,
+        "age_hours_at_score": 14.2,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -19559,7 +19640,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 14.2,
+        "age_hours_at_score": 14.3,
         "engagement": {
           "metric": "hn_points",
           "value": 83,
@@ -19895,8 +19976,7 @@
           "terms": [],
           "excluded": null
         },
-        "story": null,
-        "retained": true
+        "story": null
       }
     },
     {
@@ -19908,7 +19988,7 @@
       "url": "https://tomshardware.com/tech-industry/artificial-intelligence/nvidia-accused-of-trying-to-cut-a-deal-with-annas-archive-for-high-speed-access-to-the-massive-pirated-book-haul-allegedly-chased-stolen-data-to-fuel-its-llms",
       "published_at": "2026-10-12T19:57:38.000Z",
       "pillar": "attention",
-      "score": 37.1,
+      "score": 37,
       "entities": [
         "NVIDIA"
       ],
@@ -19929,7 +20009,7 @@
         },
         "score_components": {
           "source_weight": 11.3,
-          "recency": 15.2,
+          "recency": 15.1,
           "corroboration": 0,
           "entities": 3,
           "engagement": 7.6,
@@ -20158,7 +20238,7 @@
       "url": "https://anthropic.com/research/self-replicating-ai",
       "published_at": "2026-10-12T19:25:29.000Z",
       "pillar": "compute",
-      "score": 70.5,
+      "score": 58,
       "entities": [],
       "meta": {
         "hn_id": "50061603",
@@ -20178,42 +20258,29 @@
         "score_components": {
           "source_weight": 15,
           "recency": 15,
-          "corroboration": 12.5,
+          "corroboration": 0,
           "entities": 0,
           "engagement": 13,
           "severity": 15,
           "coverage": 0
         },
-        "age_hours_at_score": 14.9,
+        "age_hours_at_score": 15,
         "engagement": {
           "metric": "hn_points",
           "value": 88,
           "full_scale": 500
         },
         "corroboration": {
-          "count": 2,
+          "count": 1,
           "sources": [
-            "hn-ai",
-            "reddit-singularity"
+            "hn-ai"
           ],
           "first_source": "hn-ai",
           "first_seen_published_at": "2026-10-12T19:25:29.000Z",
-          "last_published_at": "2026-10-12T20:02:37.000Z",
-          "lead_minutes": 37,
+          "last_published_at": "2026-10-12T19:25:29.000Z",
+          "lead_minutes": 0,
           "primary_published_at": "2026-10-12T19:25:29.000Z",
-          "also": [
-            {
-              "source": "reddit-singularity",
-              "url": "https://reddit.com/r/singularity/comments/1x4cbuo/ai_models_may_be_capable_of_selfreplicating",
-              "title": "AI models may be capable of self-replicating without access to a datacenter",
-              "published_at": "2026-10-12T20:02:37.000Z",
-              "kind": "forum",
-              "weight": 0.4,
-              "dedup_key": null,
-              "engagement": null,
-              "outlet": null
-            }
-          ]
+          "also": []
         },
         "first_seen_at": "2026-10-12T19:57:42.276Z",
         "incident": {
@@ -20301,7 +20368,7 @@
       "url": "https://bsky.app/profile/theatlantic.com/post/3mxpa4bx4342x",
       "published_at": "2026-10-12T19:15:13.000Z",
       "pillar": "attention",
-      "score": 35.4,
+      "score": 35.3,
       "entities": [],
       "meta": {
         "bsky_handle": "theatlantic.com",
@@ -20321,7 +20388,7 @@
         },
         "score_components": {
           "source_weight": 15,
-          "recency": 15,
+          "recency": 14.9,
           "corroboration": 0,
           "entities": 0,
           "engagement": 5.4,
@@ -20477,8 +20544,7 @@
           "terms": [],
           "excluded": null
         },
-        "story": null,
-        "retained": true
+        "story": null
       }
     },
     {
@@ -20626,7 +20692,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 15.4,
+        "age_hours_at_score": 15.5,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -20673,7 +20739,8 @@
               ]
             }
           ]
-        }
+        },
+        "retained": true
       }
     },
     {
@@ -21080,7 +21147,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 16,
+        "age_hours_at_score": 16.1,
         "engagement": null,
         "corroboration": {
           "count": 2,
@@ -21257,7 +21324,7 @@
       "url": "https://reddit.com/r/MachineLearning/comments/1x49d61/looped_diffusion_transformer_the_same_blocks_run",
       "published_at": "2026-10-12T18:13:49.000Z",
       "pillar": "attention",
-      "score": 26,
+      "score": 25.9,
       "entities": [],
       "meta": {
         "feed": "https://www.reddit.com/r/MachineLearning/top/.rss?t=day&limit=25",
@@ -21272,14 +21339,14 @@
         },
         "score_components": {
           "source_weight": 11.3,
-          "recency": 14.7,
+          "recency": 14.6,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 16.1,
+        "age_hours_at_score": 16.2,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -21729,7 +21796,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 16.3,
+        "age_hours_at_score": 16.4,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -21785,7 +21852,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 16.3,
+        "age_hours_at_score": 16.4,
         "engagement": {
           "metric": "bsky_likes",
           "value": 9,
@@ -21862,7 +21929,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 16.3,
+        "age_hours_at_score": 16.4,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -21920,7 +21987,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 16.3,
+        "age_hours_at_score": 16.4,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -21942,7 +22009,8 @@
           "terms": [],
           "excluded": null
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -22091,7 +22159,8 @@
           "terms": [],
           "excluded": null
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -22193,7 +22262,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 16.4,
+        "age_hours_at_score": 16.5,
         "engagement": {
           "metric": "bsky_likes",
           "value": 112,
@@ -22245,7 +22314,7 @@
       "url": "https://arstechnica.com/gadgets/2026/10/russia-was-not-ready-for-the-data-center-war-it-started-with-ukraine",
       "published_at": "2026-10-12T17:52:36.000Z",
       "pillar": "compute",
-      "score": 29.6,
+      "score": 29.5,
       "entities": [],
       "meta": {
         "feed": "https://arstechnica.com/ai/feed/",
@@ -22275,7 +22344,7 @@
         },
         "score_components": {
           "source_weight": 15,
-          "recency": 14.6,
+          "recency": 14.5,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
@@ -22316,7 +22385,7 @@
       "url": "https://aws.amazon.com/blogs/machine-learning/accessing-openai-gpt-models-on-amazon-bedrock-with-global-cross-region-inference-in-thailand-malaysia-singapore-indonesia-and-taiwan",
       "published_at": "2026-10-12T17:52:22.000Z",
       "pillar": "attention",
-      "score": 36.1,
+      "score": 36,
       "entities": [
         "Amazon",
         "GPT",
@@ -22342,7 +22411,7 @@
         },
         "score_components": {
           "source_weight": 12.5,
-          "recency": 14.6,
+          "recency": 14.5,
           "corroboration": 0,
           "entities": 9,
           "engagement": 0,
@@ -22371,7 +22440,8 @@
           "terms": [],
           "excluded": null
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -22408,7 +22478,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 16.5,
+        "age_hours_at_score": 16.6,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -23115,7 +23185,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 16.9,
+        "age_hours_at_score": 17,
         "engagement": {
           "metric": "hn_points",
           "value": 3,
@@ -23247,7 +23317,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 16.9,
+        "age_hours_at_score": 17,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -23434,7 +23504,8 @@
               ]
             }
           ]
-        }
+        },
+        "retained": true
       }
     },
     {
@@ -23467,7 +23538,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 17,
+        "age_hours_at_score": 17.1,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -23580,7 +23651,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 17,
+        "age_hours_at_score": 17.1,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -23882,7 +23953,8 @@
               ]
             }
           ]
-        }
+        },
+        "retained": true
       }
     },
     {
@@ -25599,7 +25671,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 17.4,
+        "age_hours_at_score": 17.5,
         "engagement": {
           "metric": "bsky_likes",
           "value": 8,
@@ -25834,7 +25906,8 @@
           "terms": [],
           "excluded": null
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -25872,7 +25945,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 17.5,
+        "age_hours_at_score": 17.6,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -25894,7 +25967,8 @@
           "terms": [],
           "excluded": null
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -25931,7 +26005,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 17.8,
+        "age_hours_at_score": 17.9,
         "engagement": null,
         "corroboration": {
           "count": 2,
@@ -26175,7 +26249,7 @@
       "url": "https://status.openai.com//incidents/01M4GV1M2A3K38T73JCVCD9G0R",
       "published_at": "2026-10-12T16:02:47.581Z",
       "pillar": "governance",
-      "score": 30.9,
+      "score": 30.8,
       "entities": [
         "OpenAI"
       ],
@@ -26191,14 +26265,14 @@
         },
         "score_components": {
           "source_weight": 13.8,
-          "recency": 14.1,
+          "recency": 14,
           "corroboration": 0,
           "entities": 3,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 18.3,
+        "age_hours_at_score": 18.4,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -26278,7 +26352,8 @@
           "terms": [],
           "excluded": null
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -26413,7 +26488,8 @@
           "terms": [],
           "excluded": null
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -26455,7 +26531,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 18.5,
+        "age_hours_at_score": 18.6,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -26477,7 +26553,8 @@
           "terms": [],
           "excluded": null
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -26516,7 +26593,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 18.6,
+        "age_hours_at_score": 18.7,
         "engagement": {
           "metric": "bsky_likes",
           "value": 2,
@@ -26568,7 +26645,7 @@
       "url": "https://lesswrong.com/posts/LrAqM4bGmAoA79rP3/quantity-vs-quality-in-pottery-is-a-lie",
       "published_at": "2026-10-12T15:40:03.000Z",
       "pillar": "governance",
-      "score": 26.5,
+      "score": 26.4,
       "entities": [],
       "meta": {
         "feed": "https://www.lesswrong.com/feed.xml",
@@ -26582,7 +26659,7 @@
         },
         "score_components": {
           "source_weight": 12.5,
-          "recency": 14,
+          "recency": 13.9,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
@@ -26624,7 +26701,7 @@
       "url": "https://bloomberg.com/news/videos/2026-10-12/why-gold-is-stuck-right-now-video",
       "published_at": "2026-10-12T15:39:28.000Z",
       "pillar": "markets",
-      "score": 29,
+      "score": 28.9,
       "entities": [],
       "meta": {
         "feed": "https://feeds.bloomberg.com/technology/news.rss",
@@ -26638,7 +26715,7 @@
         },
         "score_components": {
           "source_weight": 15,
-          "recency": 14,
+          "recency": 13.9,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
@@ -26849,7 +26926,8 @@
           "terms": [],
           "excluded": null
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -26889,7 +26967,7 @@
           "severity": 15,
           "coverage": 0
         },
-        "age_hours_at_score": 18.8,
+        "age_hours_at_score": 18.9,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -26996,7 +27074,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 18.8,
+        "age_hours_at_score": 18.9,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -27110,7 +27188,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 18.9,
+        "age_hours_at_score": 19,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -27271,7 +27349,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 19,
+        "age_hours_at_score": 19.1,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -27447,8 +27525,7 @@
           "terms": [],
           "excluded": null
         },
-        "story": null,
-        "retained": true
+        "story": null
       }
     },
     {
@@ -27923,7 +28000,7 @@
       "url": "https://reddit.com/r/artificial/comments/1x441lg/ai_researchers_are_taking_up_smoking_because_they",
       "published_at": "2026-10-12T14:56:11.000Z",
       "pillar": "attention",
-      "score": 22.6,
+      "score": 22.5,
       "entities": [],
       "meta": {
         "feed": "https://www.reddit.com/r/artificial/top/.rss?t=day&limit=25",
@@ -27938,14 +28015,14 @@
         },
         "score_components": {
           "source_weight": 8.8,
-          "recency": 13.8,
+          "recency": 13.7,
           "corroboration": 0,
           "entities": 0,
           "engagement": 0,
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 19.4,
+        "age_hours_at_score": 19.5,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -27967,8 +28044,7 @@
           "terms": [],
           "excluded": null
         },
-        "story": null,
-        "retained": true
+        "story": null
       }
     },
     {
@@ -28163,7 +28239,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 19.5,
+        "age_hours_at_score": 19.6,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -28281,7 +28357,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 20,
+        "age_hours_at_score": 20.1,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -28303,8 +28379,7 @@
           "terms": [],
           "excluded": null
         },
-        "story": null,
-        "retained": true
+        "story": null
       }
     },
     {
@@ -28340,7 +28415,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 20,
+        "age_hours_at_score": 20.1,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -28362,7 +28437,8 @@
           "terms": [],
           "excluded": null
         },
-        "story": null
+        "story": null,
+        "retained": true
       }
     },
     {
@@ -28584,7 +28660,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 20.2,
+        "age_hours_at_score": 20.3,
         "engagement": {
           "metric": "hn_points",
           "value": 3,
@@ -28860,7 +28936,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 20.4,
+        "age_hours_at_score": 20.5,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -28921,7 +28997,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 20.4,
+        "age_hours_at_score": 20.5,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -29147,7 +29223,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 20.6,
+        "age_hours_at_score": 20.7,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -29326,7 +29402,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 20.8,
+        "age_hours_at_score": 20.9,
         "engagement": {
           "metric": "bsky_likes",
           "value": 79,
@@ -29455,7 +29531,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 21,
+        "age_hours_at_score": 21.1,
         "engagement": {
           "metric": "hn_points",
           "value": 41,
@@ -29644,7 +29720,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 21.1,
+        "age_hours_at_score": 21.2,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -29714,7 +29790,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 21.1,
+        "age_hours_at_score": 21.2,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -29770,7 +29846,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 21.1,
+        "age_hours_at_score": 21.2,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -29792,8 +29868,7 @@
           "terms": [],
           "excluded": null
         },
-        "story": null,
-        "retained": true
+        "story": null
       }
     },
     {
@@ -30046,7 +30121,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 21.2,
+        "age_hours_at_score": 21.3,
         "engagement": null,
         "corroboration": {
           "count": 1,
@@ -30081,7 +30156,7 @@
       "url": "https://bsky.app/profile/reuters.com/post/3mxol5zeka62x",
       "published_at": "2026-10-12T13:00:23.000Z",
       "pillar": "attention",
-      "score": 38,
+      "score": 37.9,
       "entities": [
         "OpenAI"
       ],
@@ -30105,7 +30180,7 @@
         },
         "score_components": {
           "source_weight": 15,
-          "recency": 13.3,
+          "recency": 13.2,
           "corroboration": 0,
           "entities": 3,
           "engagement": 6.7,
@@ -30151,7 +30226,7 @@
       "url": "https://404media.co/ai-company-lets-cops-pinpoint-specific-houses-based-on-a-single-interior-photo",
       "published_at": "2026-10-12T13:00:05.000Z",
       "pillar": "attention",
-      "score": 49.6,
+      "score": 49.5,
       "entities": [],
       "meta": {
         "hn_id": "50065062",
@@ -30170,7 +30245,7 @@
         },
         "score_components": {
           "source_weight": 15,
-          "recency": 13.3,
+          "recency": 13.2,
           "corroboration": 12.5,
           "entities": 0,
           "engagement": 8.8,
@@ -30228,7 +30303,7 @@
       "url": "https://bsky.app/profile/theverge.com/post/3mxolbginxl2a",
       "published_at": "2026-10-12T13:00:00.000Z",
       "pillar": "compute",
-      "score": 53.5,
+      "score": 53.4,
       "entities": [
         "Microsoft",
         "NVIDIA"
@@ -30254,7 +30329,7 @@
         },
         "score_components": {
           "source_weight": 15,
-          "recency": 13.3,
+          "recency": 13.2,
           "corroboration": 12.5,
           "entities": 6,
           "engagement": 6.7,
@@ -30313,7 +30388,7 @@
       "url": "https://bloomberg.com/news/articles/2026-10-12/microsoft-prepares-to-put-gigawatts-of-its-chips-in-data-centers",
       "published_at": "2026-10-12T13:00:00.000Z",
       "pillar": "compute",
-      "score": 31.3,
+      "score": 31.2,
       "entities": [
         "Microsoft"
       ],
@@ -30331,7 +30406,7 @@
         },
         "score_components": {
           "source_weight": 15,
-          "recency": 13.3,
+          "recency": 13.2,
           "corroboration": 0,
           "entities": 3,
           "engagement": 0,
@@ -30373,7 +30448,7 @@
       "url": "https://reddit.com/r/ChatGPT/comments/1x4171n/i_did_not_know_chatgpt_could_make_games",
       "published_at": "2026-10-12T12:59:30.000Z",
       "pillar": "attention",
-      "score": 23.8,
+      "score": 23.7,
       "entities": [
         "GPT"
       ],
@@ -30394,7 +30469,7 @@
         },
         "score_components": {
           "source_weight": 7.5,
-          "recency": 13.3,
+          "recency": 13.2,
           "corroboration": 0,
           "entities": 3,
           "engagement": 0,
@@ -30526,7 +30601,7 @@
           "severity": 0,
           "coverage": 0
         },
-        "age_hours_at_score": 21.4,
+        "age_hours_at_score": 21.5,
         "engagement": null,
         "corroboration": {
           "count": 2,
@@ -31966,6 +32041,45 @@
       "lead": "66993c94d604ac7a"
     },
     {
+      "id": "8a4687d6c73b",
+      "members": [
+        "5953928aacec1f86",
+        "b9412986ffa5d3dc"
+      ],
+      "sources": [
+        "arstechnica-ai",
+        "reddit-artificial"
+      ],
+      "source_count": 2,
+      "severity": 0,
+      "severity_terms": [],
+      "first_published_at": "2026-10-12T20:59:50.000Z",
+      "last_published_at": "2026-10-13T07:10:56.000Z",
+      "span_hours": 10.2,
+      "links": [
+        {
+          "a": "5953928aacec1f86",
+          "b": "b9412986ffa5d3dc",
+          "rule": "shared-words",
+          "words": [
+            "development",
+            "epic",
+            "gam",
+            "pivot"
+          ],
+          "non_entity_words": [
+            "development",
+            "epic",
+            "gam",
+            "pivot"
+          ],
+          "severity_a": 0,
+          "severity_b": 0
+        }
+      ],
+      "lead": "b9412986ffa5d3dc"
+    },
+    {
       "id": "2d6d4adc306c",
       "members": [
         "94a5f8f96bfb05d9",
@@ -32489,13 +32603,13 @@
     "counts": {
       "clusterable_items": 383,
       "papers_excluded": 17,
-      "stories": 19,
-      "clustered_items": 89,
-      "links": 70,
+      "stories": 20,
+      "clustered_items": 91,
+      "links": 71,
       "rejected": {
         "span": 0,
         "entity_only": 34,
-        "near_miss": 253
+        "near_miss": 258
       }
     },
     "near_misses": [
@@ -32711,8 +32825,8 @@
       "raw_items": 6,
       "newest_item_at": "2026-10-12T13:00:05.000Z",
       "error": null,
-      "ms": 248,
-      "fetched_at": "2026-10-13T10:22:04.180Z",
+      "ms": 224,
+      "fetched_at": "2026-10-13T10:24:03.417Z",
       "first_fetched_at": "2026-10-09T21:32:46.106Z",
       "cadence_ms": 60000
     },
@@ -32730,7 +32844,8 @@
       "ms": 410,
       "fetched_at": "2026-10-13T10:22:04.180Z",
       "first_fetched_at": "2026-10-10T15:28:12.550Z",
-      "cadence_ms": 900000
+      "cadence_ms": 900000,
+      "skipped_this_run": true
     },
     {
       "id": "ai-snake-oil",
@@ -32743,8 +32858,8 @@
       "raw_items": 10,
       "newest_item_at": "2026-10-01T16:34:51.000Z",
       "error": null,
-      "ms": 2862,
-      "fetched_at": "2026-10-13T10:22:04.180Z",
+      "ms": 1789,
+      "fetched_at": "2026-10-13T10:24:03.417Z",
       "first_fetched_at": "2026-10-09T21:32:46.106Z",
       "cadence_ms": 60000
     },
@@ -32759,8 +32874,8 @@
       "raw_items": 10,
       "newest_item_at": "2026-10-12T16:51:50.000Z",
       "error": null,
-      "ms": 747,
-      "fetched_at": "2026-10-13T10:22:04.180Z",
+      "ms": 709,
+      "fetched_at": "2026-10-13T10:24:03.417Z",
       "first_fetched_at": "2026-10-09T21:32:46.106Z",
       "cadence_ms": 60000
     },
@@ -32775,8 +32890,8 @@
       "raw_items": 20,
       "newest_item_at": "2026-10-07T21:45:27.000Z",
       "error": null,
-      "ms": 2811,
-      "fetched_at": "2026-10-13T10:22:04.180Z",
+      "ms": 1735,
+      "fetched_at": "2026-10-13T10:24:03.417Z",
       "first_fetched_at": "2026-10-09T21:32:46.106Z",
       "cadence_ms": 60000
     },
@@ -32794,7 +32909,8 @@
       "ms": 2300,
       "fetched_at": "2026-10-13T10:22:04.180Z",
       "first_fetched_at": "2026-10-09T21:57:03.072Z",
-      "cadence_ms": 300000
+      "cadence_ms": 300000,
+      "skipped_this_run": true
     },
     {
       "id": "arstechnica-ai",
@@ -32807,8 +32923,8 @@
       "raw_items": 20,
       "newest_item_at": "2026-10-12T20:59:50.000Z",
       "error": null,
-      "ms": 616,
-      "fetched_at": "2026-10-13T10:22:04.180Z",
+      "ms": 398,
+      "fetched_at": "2026-10-13T10:24:03.417Z",
       "first_fetched_at": "2026-10-09T21:32:46.106Z",
       "cadence_ms": 60000
     },
@@ -32826,7 +32942,8 @@
       "ms": 2785,
       "fetched_at": "2026-10-13T10:22:04.180Z",
       "first_fetched_at": "2026-10-09T22:05:33.538Z",
-      "cadence_ms": 3600000
+      "cadence_ms": 3600000,
+      "skipped_this_run": true
     },
     {
       "id": "aws-ml",
@@ -32842,7 +32959,8 @@
       "ms": 2357,
       "fetched_at": "2026-10-13T10:22:04.180Z",
       "first_fetched_at": "2026-10-09T21:57:03.072Z",
-      "cadence_ms": 300000
+      "cadence_ms": 300000,
+      "skipped_this_run": true
     },
     {
       "id": "bair",
@@ -32858,7 +32976,8 @@
       "ms": 2693,
       "fetched_at": "2026-10-13T10:22:04.180Z",
       "first_fetched_at": "2026-10-10T15:28:12.550Z",
-      "cadence_ms": 900000
+      "cadence_ms": 900000,
+      "skipped_this_run": true
     },
     {
       "id": "bbc-tech",
@@ -32871,8 +32990,8 @@
       "raw_items": 11,
       "newest_item_at": "2026-10-12T15:03:42.000Z",
       "error": null,
-      "ms": 751,
-      "fetched_at": "2026-10-13T10:22:04.180Z",
+      "ms": 435,
+      "fetched_at": "2026-10-13T10:24:03.417Z",
       "first_fetched_at": "2026-10-09T21:32:46.106Z",
       "cadence_ms": 60000
     },
@@ -32887,8 +33006,8 @@
       "raw_items": 15,
       "newest_item_at": "2026-10-13T09:58:05.000Z",
       "error": null,
-      "ms": 2845,
-      "fetched_at": "2026-10-13T10:22:04.180Z",
+      "ms": 1792,
+      "fetched_at": "2026-10-13T10:24:03.417Z",
       "first_fetched_at": "2026-10-10T15:28:12.550Z",
       "cadence_ms": 60000
     },
@@ -32903,8 +33022,8 @@
       "raw_items": 3,
       "newest_item_at": "2026-10-13T10:03:17.753Z",
       "error": null,
-      "ms": 7510,
-      "fetched_at": "2026-10-13T10:22:04.180Z",
+      "ms": 6931,
+      "fetched_at": "2026-10-13T10:24:03.417Z",
       "first_fetched_at": "2026-10-09T21:32:46.106Z",
       "cadence_ms": 120000
     },
@@ -32922,7 +33041,8 @@
       "ms": 940,
       "fetched_at": "2026-10-13T10:22:04.180Z",
       "first_fetched_at": "2026-10-10T15:28:12.550Z",
-      "cadence_ms": 900000
+      "cadence_ms": 900000,
+      "skipped_this_run": true
     },
     {
       "id": "deepmind",
@@ -32938,7 +33058,8 @@
       "ms": 2610,
       "fetched_at": "2026-10-13T10:22:04.180Z",
       "first_fetched_at": "2026-10-09T21:57:03.072Z",
-      "cadence_ms": 300000
+      "cadence_ms": 300000,
+      "skipped_this_run": true
     },
     {
       "id": "deepmind-safety",
@@ -32954,7 +33075,8 @@
       "ms": 2503,
       "fetched_at": "2026-10-13T10:22:04.180Z",
       "first_fetched_at": "2026-10-10T15:28:12.550Z",
-      "cadence_ms": 900000
+      "cadence_ms": 900000,
+      "skipped_this_run": true
     },
     {
       "id": "epoch-ai",
@@ -32970,7 +33092,8 @@
       "ms": 2828,
       "fetched_at": "2026-10-13T10:22:04.180Z",
       "first_fetched_at": "2026-10-09T21:57:03.072Z",
-      "cadence_ms": 900000
+      "cadence_ms": 900000,
+      "skipped_this_run": true
     },
     {
       "id": "eu-digital-strategy",
@@ -32983,8 +33106,8 @@
       "raw_items": 6,
       "newest_item_at": "2026-10-09T07:16:00.000Z",
       "error": null,
-      "ms": 947,
-      "fetched_at": "2026-10-13T10:22:04.180Z",
+      "ms": 900,
+      "fetched_at": "2026-10-13T10:24:03.417Z",
       "first_fetched_at": "2026-10-10T15:28:12.550Z",
       "cadence_ms": 60000
     },
@@ -32999,8 +33122,8 @@
       "raw_items": 25,
       "newest_item_at": "2026-10-13T04:00:00.000Z",
       "error": null,
-      "ms": 937,
-      "fetched_at": "2026-10-13T10:22:04.180Z",
+      "ms": 608,
+      "fetched_at": "2026-10-13T10:24:03.417Z",
       "first_fetched_at": "2026-10-10T15:28:12.550Z",
       "cadence_ms": 60000
     },
@@ -33018,7 +33141,8 @@
       "ms": 1454,
       "fetched_at": "2026-10-13T10:22:04.180Z",
       "first_fetched_at": "2026-10-10T15:28:12.550Z",
-      "cadence_ms": 900000
+      "cadence_ms": 900000,
+      "skipped_this_run": true
     },
     {
       "id": "ft-ai",
@@ -33031,8 +33155,8 @@
       "raw_items": 25,
       "newest_item_at": "2026-10-13T10:03:04.000Z",
       "error": null,
-      "ms": 1268,
-      "fetched_at": "2026-10-13T10:22:04.180Z",
+      "ms": 960,
+      "fetched_at": "2026-10-13T10:24:03.417Z",
       "first_fetched_at": "2026-10-10T15:28:12.550Z",
       "cadence_ms": 60000
     },
@@ -33050,7 +33174,8 @@
       "ms": 8003,
       "fetched_at": "2026-10-13T10:22:04.180Z",
       "first_fetched_at": "2026-10-09T21:32:46.106Z",
-      "cadence_ms": 300000
+      "cadence_ms": 300000,
+      "skipped_this_run": true
     },
     {
       "id": "github-releases",
@@ -33066,7 +33191,8 @@
       "ms": 3535,
       "fetched_at": "2026-10-13T10:22:04.180Z",
       "first_fetched_at": "2026-10-09T21:57:03.072Z",
-      "cadence_ms": 900000
+      "cadence_ms": 900000,
+      "skipped_this_run": true
     },
     {
       "id": "gnews-ai",
@@ -33075,12 +33201,12 @@
       "weight": 0.55,
       "ok": true,
       "state": "live",
-      "count": 28,
-      "raw_items": 28,
+      "count": 27,
+      "raw_items": 27,
       "newest_item_at": "2026-10-13T10:18:47.000Z",
       "error": null,
-      "ms": 550,
-      "fetched_at": "2026-10-13T10:22:04.180Z",
+      "ms": 491,
+      "fetched_at": "2026-10-13T10:24:03.417Z",
       "first_fetched_at": "2026-10-09T21:32:46.106Z",
       "cadence_ms": 120000
     },
@@ -33098,7 +33224,8 @@
       "ms": 2879,
       "fetched_at": "2026-10-13T10:22:04.180Z",
       "first_fetched_at": "2026-10-09T21:57:03.072Z",
-      "cadence_ms": 300000
+      "cadence_ms": 300000,
+      "skipped_this_run": true
     },
     {
       "id": "google-research",
@@ -33114,7 +33241,8 @@
       "ms": 2619,
       "fetched_at": "2026-10-13T10:22:04.180Z",
       "first_fetched_at": "2026-10-09T21:57:03.072Z",
-      "cadence_ms": 300000
+      "cadence_ms": 300000,
+      "skipped_this_run": true
     },
     {
       "id": "govuk-ai",
@@ -33127,8 +33255,8 @@
       "raw_items": 20,
       "newest_item_at": "2026-10-13T10:04:10.000Z",
       "error": null,
-      "ms": 1175,
-      "fetched_at": "2026-10-13T10:22:04.180Z",
+      "ms": 813,
+      "fetched_at": "2026-10-13T10:24:03.417Z",
       "first_fetched_at": "2026-10-10T15:28:12.550Z",
       "cadence_ms": 60000
     },
@@ -33143,8 +33271,8 @@
       "raw_items": 20,
       "newest_item_at": "2026-10-13T10:00:04.000Z",
       "error": null,
-      "ms": 1283,
-      "fetched_at": "2026-10-13T10:22:04.180Z",
+      "ms": 1198,
+      "fetched_at": "2026-10-13T10:24:03.417Z",
       "first_fetched_at": "2026-10-09T21:32:46.106Z",
       "cadence_ms": 60000
     },
@@ -33162,7 +33290,8 @@
       "ms": 2777,
       "fetched_at": "2026-10-13T10:22:04.180Z",
       "first_fetched_at": "2026-10-09T22:05:33.538Z",
-      "cadence_ms": 3600000
+      "cadence_ms": 3600000,
+      "skipped_this_run": true
     },
     {
       "id": "hf-trending-models",
@@ -33178,7 +33307,8 @@
       "ms": 2831,
       "fetched_at": "2026-10-13T10:22:04.180Z",
       "first_fetched_at": "2026-10-09T21:57:03.072Z",
-      "cadence_ms": 1800000
+      "cadence_ms": 1800000,
+      "skipped_this_run": true
     },
     {
       "id": "hn-ai",
@@ -33187,12 +33317,12 @@
       "weight": 0.6,
       "ok": true,
       "state": "live",
-      "count": 60,
-      "raw_items": 60,
+      "count": 59,
+      "raw_items": 59,
       "newest_item_at": "2026-10-13T07:55:10.000Z",
       "error": null,
-      "ms": 414,
-      "fetched_at": "2026-10-13T10:22:04.180Z",
+      "ms": 444,
+      "fetched_at": "2026-10-13T10:24:03.417Z",
       "first_fetched_at": "2026-10-09T21:32:46.106Z",
       "cadence_ms": 60000
     },
@@ -33207,8 +33337,8 @@
       "raw_items": 3,
       "newest_item_at": "2026-10-13T10:07:03.000Z",
       "error": null,
-      "ms": 332,
-      "fetched_at": "2026-10-13T10:22:04.180Z",
+      "ms": 321,
+      "fetched_at": "2026-10-13T10:24:03.417Z",
       "first_fetched_at": "2026-10-09T21:32:46.106Z",
       "cadence_ms": 60000
     },
@@ -33226,7 +33356,8 @@
       "ms": 2865,
       "fetched_at": "2026-10-13T10:22:04.180Z",
       "first_fetched_at": "2026-10-09T21:57:03.072Z",
-      "cadence_ms": 300000
+      "cadence_ms": 300000,
+      "skipped_this_run": true
     },
     {
       "id": "ieee-ai",
@@ -33242,7 +33373,8 @@
       "ms": 1125,
       "fetched_at": "2026-10-13T10:22:04.180Z",
       "first_fetched_at": "2026-10-09T21:57:03.072Z",
-      "cadence_ms": 900000
+      "cadence_ms": 900000,
+      "skipped_this_run": true
     },
     {
       "id": "import-ai",
@@ -33258,7 +33390,8 @@
       "ms": 2645,
       "fetched_at": "2026-10-13T10:22:04.180Z",
       "first_fetched_at": "2026-10-09T21:57:03.072Z",
-      "cadence_ms": 900000
+      "cadence_ms": 900000,
+      "skipped_this_run": true
     },
     {
       "id": "infoq-ai",
@@ -33271,8 +33404,8 @@
       "raw_items": 15,
       "newest_item_at": "2026-10-12T13:57:00.000Z",
       "error": null,
-      "ms": 1493,
-      "fetched_at": "2026-10-13T10:22:04.180Z",
+      "ms": 1589,
+      "fetched_at": "2026-10-13T10:24:03.417Z",
       "first_fetched_at": "2026-10-10T15:28:12.550Z",
       "cadence_ms": 60000
     },
@@ -33287,8 +33420,8 @@
       "raw_items": 10,
       "newest_item_at": "2026-10-09T21:33:47.000Z",
       "error": null,
-      "ms": 1352,
-      "fetched_at": "2026-10-13T10:22:04.180Z",
+      "ms": 940,
+      "fetched_at": "2026-10-13T10:24:03.417Z",
       "first_fetched_at": "2026-10-09T21:32:46.106Z",
       "cadence_ms": 60000
     },
@@ -33306,7 +33439,8 @@
       "ms": 2566,
       "fetched_at": "2026-10-13T10:22:04.180Z",
       "first_fetched_at": "2026-10-10T15:28:12.550Z",
-      "cadence_ms": 1800000
+      "cadence_ms": 1800000,
+      "skipped_this_run": true
     },
     {
       "id": "lastweekin-ai",
@@ -33322,7 +33456,8 @@
       "ms": 1211,
       "fetched_at": "2026-10-13T10:22:04.180Z",
       "first_fetched_at": "2026-10-10T15:28:12.550Z",
-      "cadence_ms": 900000
+      "cadence_ms": 900000,
+      "skipped_this_run": true
     },
     {
       "id": "latent-space",
@@ -33335,8 +33470,8 @@
       "raw_items": 10,
       "newest_item_at": "2026-10-13T09:37:04.000Z",
       "error": null,
-      "ms": 1252,
-      "fetched_at": "2026-10-13T10:22:04.180Z",
+      "ms": 1010,
+      "fetched_at": "2026-10-13T10:24:03.417Z",
       "first_fetched_at": "2026-10-09T21:32:46.106Z",
       "cadence_ms": 60000
     },
@@ -33354,7 +33489,8 @@
       "ms": 1566,
       "fetched_at": "2026-10-13T10:22:04.180Z",
       "first_fetched_at": "2026-10-09T21:57:03.072Z",
-      "cadence_ms": 900000
+      "cadence_ms": 900000,
+      "skipped_this_run": true
     },
     {
       "id": "lilianweng",
@@ -33370,7 +33506,8 @@
       "ms": 1341,
       "fetched_at": "2026-10-13T10:22:04.180Z",
       "first_fetched_at": "2026-10-10T15:28:12.550Z",
-      "cadence_ms": 1800000
+      "cadence_ms": 1800000,
+      "skipped_this_run": true
     },
     {
       "id": "lobsters-ai",
@@ -33383,8 +33520,8 @@
       "raw_items": 25,
       "newest_item_at": "2026-10-13T01:29:49.000Z",
       "error": null,
-      "ms": 1562,
-      "fetched_at": "2026-10-13T10:22:04.180Z",
+      "ms": 1160,
+      "fetched_at": "2026-10-13T10:24:03.417Z",
       "first_fetched_at": "2026-10-10T15:28:12.550Z",
       "cadence_ms": 60000
     },
@@ -33402,7 +33539,8 @@
       "ms": 1485,
       "fetched_at": "2026-10-13T10:22:04.180Z",
       "first_fetched_at": "2026-10-09T21:57:03.072Z",
-      "cadence_ms": 300000
+      "cadence_ms": 300000,
+      "skipped_this_run": true
     },
     {
       "id": "microsoft-ai",
@@ -33418,7 +33556,8 @@
       "ms": 2846,
       "fetched_at": "2026-10-13T10:22:04.180Z",
       "first_fetched_at": "2026-10-10T15:28:12.550Z",
-      "cadence_ms": 300000
+      "cadence_ms": 300000,
+      "skipped_this_run": true
     },
     {
       "id": "microsoft-research",
@@ -33434,7 +33573,8 @@
       "ms": 2951,
       "fetched_at": "2026-10-13T10:22:04.180Z",
       "first_fetched_at": "2026-10-09T21:57:03.072Z",
-      "cadence_ms": 300000
+      "cadence_ms": 300000,
+      "skipped_this_run": true
     },
     {
       "id": "mistral",
@@ -33450,7 +33590,8 @@
       "ms": 3082,
       "fetched_at": "2026-10-13T10:22:04.180Z",
       "first_fetched_at": "2026-10-09T21:57:03.072Z",
-      "cadence_ms": 300000
+      "cadence_ms": 300000,
+      "skipped_this_run": true
     },
     {
       "id": "mit-news-ai",
@@ -33463,8 +33604,8 @@
       "raw_items": 20,
       "newest_item_at": "2026-10-13T04:00:00.000Z",
       "error": null,
-      "ms": 1542,
-      "fetched_at": "2026-10-13T10:22:04.180Z",
+      "ms": 1073,
+      "fetched_at": "2026-10-13T10:24:03.417Z",
       "first_fetched_at": "2026-10-09T21:32:46.106Z",
       "cadence_ms": 60000
     },
@@ -33479,8 +33620,8 @@
       "raw_items": 5,
       "newest_item_at": "2026-10-13T10:00:00.000Z",
       "error": null,
-      "ms": 1539,
-      "fetched_at": "2026-10-13T10:22:04.180Z",
+      "ms": 1149,
+      "fetched_at": "2026-10-13T10:24:03.417Z",
       "first_fetched_at": "2026-10-09T21:32:46.106Z",
       "cadence_ms": 60000
     },
@@ -33498,7 +33639,8 @@
       "ms": 2590,
       "fetched_at": "2026-10-13T10:22:04.180Z",
       "first_fetched_at": "2026-10-09T22:05:33.538Z",
-      "cadence_ms": 3600000
+      "cadence_ms": 3600000,
+      "skipped_this_run": true
     },
     {
       "id": "nist-ai",
@@ -33511,8 +33653,8 @@
       "raw_items": 5,
       "newest_item_at": "2026-09-15T12:00:00.000Z",
       "error": null,
-      "ms": 1599,
-      "fetched_at": "2026-10-13T10:22:04.180Z",
+      "ms": 1172,
+      "fetched_at": "2026-10-13T10:24:03.417Z",
       "first_fetched_at": "2026-10-10T15:28:12.550Z",
       "cadence_ms": 60000
     },
@@ -33530,7 +33672,8 @@
       "ms": 2640,
       "fetched_at": "2026-10-13T10:22:04.180Z",
       "first_fetched_at": "2026-10-09T21:57:03.072Z",
-      "cadence_ms": 300000
+      "cadence_ms": 300000,
+      "skipped_this_run": true
     },
     {
       "id": "nyt-tech",
@@ -33543,8 +33686,8 @@
       "raw_items": 10,
       "newest_item_at": "2026-10-12T17:40:28.000Z",
       "error": null,
-      "ms": 1638,
-      "fetched_at": "2026-10-13T10:22:04.180Z",
+      "ms": 1170,
+      "fetched_at": "2026-10-13T10:24:03.417Z",
       "first_fetched_at": "2026-10-09T21:32:46.106Z",
       "cadence_ms": 60000
     },
@@ -33562,7 +33705,8 @@
       "ms": 1793,
       "fetched_at": "2026-10-13T10:22:04.180Z",
       "first_fetched_at": "2026-10-09T21:57:03.072Z",
-      "cadence_ms": 900000
+      "cadence_ms": 900000,
+      "skipped_this_run": true
     },
     {
       "id": "openai",
@@ -33578,7 +33722,8 @@
       "ms": 2631,
       "fetched_at": "2026-10-13T10:22:04.180Z",
       "first_fetched_at": "2026-10-09T21:57:03.072Z",
-      "cadence_ms": 300000
+      "cadence_ms": 300000,
+      "skipped_this_run": true
     },
     {
       "id": "openai-status",
@@ -33591,8 +33736,8 @@
       "raw_items": 20,
       "newest_item_at": "2026-10-13T09:30:00.766Z",
       "error": null,
-      "ms": 228,
-      "fetched_at": "2026-10-13T10:22:04.180Z",
+      "ms": 213,
+      "fetched_at": "2026-10-13T10:24:03.417Z",
       "first_fetched_at": "2026-10-09T21:32:46.106Z",
       "cadence_ms": 60000
     },
@@ -33610,7 +33755,8 @@
       "ms": 1678,
       "fetched_at": "2026-10-13T10:22:04.180Z",
       "first_fetched_at": "2026-10-10T15:28:12.550Z",
-      "cadence_ms": 900000
+      "cadence_ms": 900000,
+      "skipped_this_run": true
     },
     {
       "id": "qwen",
@@ -33626,7 +33772,8 @@
       "ms": 2601,
       "fetched_at": "2026-10-13T10:22:04.180Z",
       "first_fetched_at": "2026-10-09T21:57:03.072Z",
-      "cadence_ms": 300000
+      "cadence_ms": 300000,
+      "skipped_this_run": true
     },
     {
       "id": "reddit-artificial",
@@ -33637,13 +33784,12 @@
       "state": "live",
       "count": 15,
       "raw_items": 15,
-      "newest_item_at": "2026-10-13T03:16:13.000Z",
+      "newest_item_at": "2026-10-13T07:10:56.000Z",
       "error": null,
-      "ms": 3819,
-      "fetched_at": "2026-10-13T09:31:24.890Z",
+      "ms": 1917,
+      "fetched_at": "2026-10-13T10:24:03.417Z",
       "first_fetched_at": "2026-10-09T21:57:03.072Z",
-      "cadence_ms": 600000,
-      "skipped_this_run": true
+      "cadence_ms": 600000
     },
     {
       "id": "reddit-chatgpt",
@@ -33656,11 +33802,10 @@
       "raw_items": 0,
       "newest_item_at": null,
       "error": "HTTP 429 Too Many Requests from https://www.reddit.com/r/ChatGPT/top/.rss?t=day&limit=25",
-      "ms": 4159,
-      "fetched_at": "2026-10-13T09:31:24.890Z",
+      "ms": 4077,
+      "fetched_at": "2026-10-13T10:24:03.417Z",
       "first_fetched_at": "2026-10-09T21:57:03.072Z",
-      "cadence_ms": 600000,
-      "skipped_this_run": true
+      "cadence_ms": 600000
     },
     {
       "id": "reddit-controlproblem",
@@ -33744,7 +33889,8 @@
       "ms": 2910,
       "fetched_at": "2026-10-13T10:22:04.180Z",
       "first_fetched_at": "2026-10-09T21:57:03.072Z",
-      "cadence_ms": 600000
+      "cadence_ms": 600000,
+      "skipped_this_run": true
     },
     {
       "id": "reddit-technology",
@@ -33760,7 +33906,8 @@
       "ms": 4107,
       "fetched_at": "2026-10-13T10:22:04.180Z",
       "first_fetched_at": "2026-10-09T21:57:03.072Z",
-      "cadence_ms": 600000
+      "cadence_ms": 600000,
+      "skipped_this_run": true
     },
     {
       "id": "register-ai",
@@ -33773,8 +33920,8 @@
       "raw_items": 25,
       "newest_item_at": "2026-10-07T08:09:00.000Z",
       "error": null,
-      "ms": 2987,
-      "fetched_at": "2026-10-13T10:22:04.180Z",
+      "ms": 2247,
+      "fetched_at": "2026-10-13T10:24:03.417Z",
       "first_fetched_at": "2026-10-09T21:32:46.106Z",
       "cadence_ms": 60000
     },
@@ -33789,8 +33936,8 @@
       "raw_items": 9,
       "newest_item_at": "2026-10-13T10:00:00.000Z",
       "error": null,
-      "ms": 1929,
-      "fetched_at": "2026-10-13T10:22:04.180Z",
+      "ms": 1449,
+      "fetched_at": "2026-10-13T10:24:03.417Z",
       "first_fetched_at": "2026-10-10T15:28:12.550Z",
       "cadence_ms": 60000
     },
@@ -33805,8 +33952,8 @@
       "raw_items": 22,
       "newest_item_at": "2026-10-13T09:00:04.000Z",
       "error": null,
-      "ms": 3254,
-      "fetched_at": "2026-10-13T10:22:04.180Z",
+      "ms": 2038,
+      "fetched_at": "2026-10-13T10:24:03.417Z",
       "first_fetched_at": "2026-10-10T15:28:12.550Z",
       "cadence_ms": 60000
     },
@@ -33824,7 +33971,8 @@
       "ms": 1879,
       "fetched_at": "2026-10-13T10:22:04.180Z",
       "first_fetched_at": "2026-10-09T21:57:03.072Z",
-      "cadence_ms": 900000
+      "cadence_ms": 900000,
+      "skipped_this_run": true
     },
     {
       "id": "simon-willison",
@@ -33837,8 +33985,8 @@
       "raw_items": 14,
       "newest_item_at": "2026-10-12T15:54:36.000Z",
       "error": null,
-      "ms": 1939,
-      "fetched_at": "2026-10-13T10:22:04.180Z",
+      "ms": 1406,
+      "fetched_at": "2026-10-13T10:24:03.417Z",
       "first_fetched_at": "2026-10-09T21:32:46.106Z",
       "cadence_ms": 60000
     },
@@ -33853,8 +34001,8 @@
       "raw_items": 30,
       "newest_item_at": "2026-10-11T15:53:41.000Z",
       "error": null,
-      "ms": 122,
-      "fetched_at": "2026-10-13T10:22:04.180Z",
+      "ms": 78,
+      "fetched_at": "2026-10-13T10:24:03.417Z",
       "first_fetched_at": "2026-10-09T21:32:46.106Z",
       "cadence_ms": 60000
     },
@@ -33869,8 +34017,8 @@
       "raw_items": 20,
       "newest_item_at": "2026-10-12T17:56:56.000Z",
       "error": null,
-      "ms": 2026,
-      "fetched_at": "2026-10-13T10:22:04.180Z",
+      "ms": 1387,
+      "fetched_at": "2026-10-13T10:24:03.417Z",
       "first_fetched_at": "2026-10-09T21:32:46.106Z",
       "cadence_ms": 60000
     },
@@ -33885,8 +34033,8 @@
       "raw_items": 13,
       "newest_item_at": "2026-10-13T10:10:00.000Z",
       "error": null,
-      "ms": 535,
-      "fetched_at": "2026-10-13T10:22:04.180Z",
+      "ms": 610,
+      "fetched_at": "2026-10-13T10:24:03.417Z",
       "first_fetched_at": "2026-10-09T21:32:46.106Z",
       "cadence_ms": 60000
     },
@@ -33901,8 +34049,8 @@
       "raw_items": 7,
       "newest_item_at": "2023-04-06T17:21:49.000Z",
       "error": null,
-      "ms": 2280,
-      "fetched_at": "2026-10-13T10:22:04.180Z",
+      "ms": 1576,
+      "fetched_at": "2026-10-13T10:24:03.417Z",
       "first_fetched_at": "2026-10-12T01:08:15.147Z",
       "cadence_ms": 60000
     },
@@ -33917,8 +34065,8 @@
       "raw_items": 10,
       "newest_item_at": "2026-10-12T18:48:29.000Z",
       "error": null,
-      "ms": 3056,
-      "fetched_at": "2026-10-13T10:22:04.180Z",
+      "ms": 2484,
+      "fetched_at": "2026-10-13T10:24:03.417Z",
       "first_fetched_at": "2026-10-09T21:32:46.106Z",
       "cadence_ms": 60000
     },
@@ -33936,7 +34084,8 @@
       "ms": 2646,
       "fetched_at": "2026-10-13T10:22:04.180Z",
       "first_fetched_at": "2026-10-10T15:28:12.550Z",
-      "cadence_ms": 300000
+      "cadence_ms": 300000,
+      "skipped_this_run": true
     },
     {
       "id": "verge-ai",
@@ -33949,8 +34098,8 @@
       "raw_items": 10,
       "newest_item_at": "2026-10-12T17:00:00.000Z",
       "error": null,
-      "ms": 2162,
-      "fetched_at": "2026-10-13T10:22:04.180Z",
+      "ms": 1482,
+      "fetched_at": "2026-10-13T10:24:03.417Z",
       "first_fetched_at": "2026-10-09T21:32:46.106Z",
       "cadence_ms": 60000
     },
@@ -33965,8 +34114,8 @@
       "raw_items": 10,
       "newest_item_at": "2026-10-13T10:00:00.000Z",
       "error": null,
-      "ms": 2320,
-      "fetched_at": "2026-10-13T10:22:04.180Z",
+      "ms": 1606,
+      "fetched_at": "2026-10-13T10:24:03.417Z",
       "first_fetched_at": "2026-10-09T21:32:46.106Z",
       "cadence_ms": 60000
     },
@@ -33984,7 +34133,8 @@
       "ms": 2590,
       "fetched_at": "2026-10-13T10:22:04.180Z",
       "first_fetched_at": "2026-10-12T01:08:15.147Z",
-      "cadence_ms": 180000
+      "cadence_ms": 180000,
+      "skipped_this_run": true
     },
     {
       "id": "wsj-tech",
@@ -33997,8 +34147,8 @@
       "raw_items": 11,
       "newest_item_at": "2025-01-27T18:17:00.000Z",
       "error": null,
-      "ms": 2406,
-      "fetched_at": "2026-10-13T10:22:04.180Z",
+      "ms": 1882,
+      "fetched_at": "2026-10-13T10:24:03.417Z",
       "first_fetched_at": "2026-10-12T01:08:15.147Z",
       "cadence_ms": 60000
     },
