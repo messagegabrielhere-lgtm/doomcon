@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "generated_at": "2026-10-12T23:59:50.988Z",
+ "generated_at": "2026-10-13T00:33:02.109Z",
  "services": [
   {
    "id": "openai",
@@ -27,7 +27,7 @@
    "browser": true,
    "indicator": "minor",
    "description": "Partially Degraded Service",
-   "updated_at": "2026-10-12T23:12:48.672Z",
+   "updated_at": "2026-10-13T00:05:20.105Z",
    "degraded": [
     {
      "name": "Claude Console (platform.claude.com)",
@@ -58,7 +58,7 @@
    "browser": true,
    "indicator": "none",
    "description": "All Systems Operational",
-   "updated_at": "2026-10-12T23:12:25.468Z",
+   "updated_at": "2026-10-13T00:04:54.412Z",
    "degraded": [],
    "components": 12,
    "incidents": [],
@@ -72,12 +72,51 @@
    "page": "https://status.cursor.com",
    "api": "https://status.cursor.com/api/v2/summary.json",
    "browser": true,
-   "indicator": "none",
-   "description": "All Systems Operational",
-   "updated_at": "2026-10-12T23:12:52.639Z",
-   "degraded": [],
+   "indicator": "major",
+   "description": "Partial System Outage",
+   "updated_at": "2026-10-13T00:28:16.535Z",
+   "degraded": [
+    {
+     "name": "Automations",
+     "status": "major_outage"
+    },
+    {
+     "name": "Review Agents",
+     "status": "major_outage"
+    },
+    {
+     "name": "CLI",
+     "status": "major_outage"
+    },
+    {
+     "name": "Cloud Agents",
+     "status": "major_outage"
+    },
+    {
+     "name": "IDE",
+     "status": "major_outage"
+    },
+    {
+     "name": "Origin",
+     "status": "major_outage"
+    },
+    {
+     "name": "Grok Bot",
+     "status": "major_outage"
+    }
+   ],
    "components": 8,
-   "incidents": [],
+   "incidents": [
+    {
+     "name": "Investigating service degradation — Grok Bot, IDE, and Cloud Agents",
+     "impact": "critical",
+     "status": "investigating",
+     "started_at": "2026-10-13T00:22:00.000Z",
+     "updated_at": "2026-10-13T00:28:16.532Z",
+     "url": "https://stspg.io/wb9c5pzxfnz6",
+     "latest": "We are investigating a widespread issue affecting Cursor. Users may see errors or failed requests across the IDE, Cloud Agents, Automations, Grok Bot, and Origin. Our team is actively working to restore service."
+    }
+   ],
    "maintenance": 0,
    "error": null
   },
@@ -154,7 +193,7 @@
    "browser": true,
    "indicator": "none",
    "description": "All Systems Operational",
-   "updated_at": "2026-10-12T23:12:33.135Z",
+   "updated_at": "2026-10-13T00:05:04.595Z",
    "degraded": [],
    "components": 59,
    "incidents": [],
