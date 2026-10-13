@@ -1,6 +1,6 @@
 # Competitive SEO reverse-engineer
 
-**Measured:** 2026-10-10 (live HTTP fetches); **re-measured 2026-10-12** via
+**Measured:** 2026-10-10 (live HTTP fetches); **re-measured 2026-10-13** via
 `node collector/tools/seo-daily.mjs`. Companion to `docs/COMPETITIVE.md`
 (Sept inventory) and `docs/FINDABILITY.md` (our playbook).
 
@@ -17,10 +17,10 @@ hijacks we cannot honestly answer stay refused (`CONTRACT.md`, `VOICE.md`).
 
 | Site | Sitemap URLs | News sitemap | Home `<title>` tactic | Schema on home | Faceted entity URLs | `llms.txt` / OpenAPI |
 |---|---:|---|---|---|---|---|
-| **DoomBench** | **2,088** (2026-10-12) | none | “Live AI Doom Index” | FAQPage only | `/models` `/companies` `/countries` `/people` `/jobs` `/news` | no |
+| **DoomBench** | **2,089** (2026-10-13) | none | “Live AI Doom Index” | FAQPage only | `/models` `/companies` `/countries` `/people` `/jobs` `/news` | no |
 | **Skynet Countdown** | **1,238** | none | “AGI Timeline Tracker” | Organization + WebSite | `/tags/*` (717) + `/news/YYYY-MM-DD` (507) | no |
-| **pizzint.watch** | **1,018** | **14** (flipping empty↔14 on 2026-10-12 — contested) | DEFCON + Doomsday Clock hijack + keywords meta | FAQPage + WebApplication + Organization | `/intel/*` briefs only; chips are `<button>`s | no (404 → SPA shell) |
-| **siren.watch** | **~682** live → **~6,346** local (800 live + **5000** archive + **~546** gated facets incl. `/country/*`; **175** topic tags + Maia/Codex models + Epoch AI lab + Decart/Sakana/Isomorphic/Winverse/Cisco labs + protein/drug hubs + `/vs/takeofftracker.html`) — ahead of DoomBench/Skynet/pizzint pending deploy | **100** live (old cap) → **150** local eligible; `news:keywords` prioritizes entity/lab/model surfaces (incl. Maia, Codex, Epoch AI) | Head-term live title (“AI activity index today · SIREN …”); question-shaped `/ai-doomsday-clock` title; Organization `knowsAbout` lists rival-alternative + verifiable clock head terms | Rich: Dataset, FAQ, Organization, VideoObject… | `/pillar/*` + `/pillars.html` `/lab/*` + `/companies.html` `/models.html` `/people.html` `/tags.html` `/kinds.html` `/outlets.html` `/sources.html` `/countries.html` `/country/*` `/model/*` `/people/*` `/tags/*` `/kind/*` `/outlet/*` `/source/*` + `/vs/*` conquest (incl. Takeoff Tracker) + archived `/item/*`; facets link older archive matches | **yes** |
+| **pizzint.watch** | **1,018** | **0** (empty again on 2026-10-13; was 14 on 2026-10-12 — contested) | DEFCON + Doomsday Clock hijack + keywords meta | FAQPage + WebApplication + Organization | `/intel/*` briefs only; chips are `<button>`s | no (404 → SPA shell) |
+| **siren.watch** | **686** live → **~6,347** local (800 live + **5000** archive + **~547** gated facets; terms/about/privacy/press question schema + Maia/Codex/Epoch/Artificial Analysis) — ahead of DoomBench/Skynet/pizzint pending deploy | **100** live (old cap) → **150** local eligible; `news:keywords` prioritizes entity/lab/model surfaces | Head-term live title (“AI activity index today · SIREN …”); question-shaped evergreen titles; Organization `knowsAbout` lists rival-alternative + terms/privacy/press head terms | Rich: Dataset, FAQ, Organization, VideoObject… | `/pillar/*` + `/pillars.html` `/lab/*` + `/companies.html` `/models.html` `/people.html` `/tags.html` `/kinds.html` `/outlets.html` `/sources.html` `/countries.html` `/country/*` `/model/*` `/people/*` `/tags/*` `/kind/*` `/outlet/*` `/source/*` + `/vs/*` conquest (incl. Takeoff Tracker) + archived `/item/*`; facets link older archive matches | **yes** |
 | pdoom.ai | 0 (SPA shell) | 0 | Sci-fi countdown + keyword stuffing | none | none | yes (thin) |
 | takeofftracker.com | none | none | “AGI Metrics Dashboard” | none | none | none |
 

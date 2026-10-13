@@ -41,6 +41,7 @@ export function organization(ctx) {
       'what is SIREN',
       'SIREN privacy',
       'SIREN press kit',
+      'SIREN terms of use',
       'AI doom index alternatives',
       'DoomBench alternative',
       'Skynet Countdown alternative',

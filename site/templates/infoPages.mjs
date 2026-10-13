@@ -336,8 +336,23 @@ export function feedback(ctx) {
 export const TERMS_UPDATED = '12 October 2026';
 
 export function terms(ctx) {
+  const path = '/terms.html';
+  // Head-term title: people search “SIREN terms” / what the index disclaims.
+  const title = `What are the ${brand.NAME} terms of use? Disclaimers and what the index is not`;
+  const description = `${brand.NAME} is information and commentary, not advice. Terms of use, the no-warranty and liability terms, and what the index does and does not claim.`;
   const x = brand.X_URL ? `<a href="${esc(brand.X_URL)}" rel="noopener">${esc(brand.X_HANDLE)}</a> on X` : 'the project account';
   const repo = `<a href="${esc(brand.REPO_URL)}/issues" rel="noopener">an issue on the repository</a>`;
+  const faq = [
+    [`What are the ${brand.NAME} terms of use?`,
+      `By using ${brand.NAME} — this website, its data files, feeds, embeds, badge, share cards and posts — you agree to these terms. The site is information, commentary and entertainment; it is not financial, legal, safety or medical advice.`],
+    [`Does ${brand.NAME} predict the future or measure danger?`,
+      `No. ${brand.DISCLAIMER_SHORT} It is not a forecast, a warning system, or an emergency alert.`],
+    [`Is ${brand.NAME} affiliated with DEFCON or the Doomsday Clock?`,
+      `No. Names and language borrowed from other scales are used for comparison and commentary only. The index is not connected with the organisations behind those scales.`],
+  ];
+  const faqHtml = faq.map(([q, a]) => `
+  <h3>${esc(q)}</h3>
+  <p>${esc(a)}</p>`).join('');
   const main = `${CSS}
 <style>
 .inf__box { border: 1px solid var(--rule); border-left: 4px solid var(--accent, #4ADE80); padding: var(--s-3) var(--s-4); margin: var(--s-4) 0; }
@@ -347,7 +362,7 @@ export function terms(ctx) {
 </style>
 <section class="inf">
   <p class="eyebrow">Terms &amp; disclaimers</p>
-  <div class="inf__top"><h1 class="bp__h1">Terms of use and disclaimers</h1></div>
+  <div class="inf__top"><h1 class="bp__h1">What are the ${esc(brand.NAME)} terms of use?</h1></div>
   <p class="lede">Last updated ${esc(TERMS_UPDATED)}. By using ${esc(brand.NAME)} — this website, its data files, feeds, embeds, badge,
     share cards and posts — you agree to these terms. If you do not agree, please do not use it.
     A shorter map of every notice is on the <a href="${esc(ctx.href('/disclosures.html'))}">disclosures</a> page.</p>
@@ -479,12 +494,21 @@ export function terms(ctx) {
     you accept it. If any part is found unenforceable, the rest still applies. Nothing in these terms limits any right you have
     that the law does not allow to be limited. This page is not a substitute for advice from your own lawyer.</p>
 
+  <h2 id="faq">Questions people actually ask</h2>
+  ${faqHtml}
+
   <p><a href="${esc(ctx.href('/disclosures.html'))}">Disclosures →</a> · <a href="${esc(ctx.href('/privacy.html'))}">Privacy →</a> · <a href="${esc(ctx.href('/about.html'))}">About →</a> · <a href="${esc(ctx.href('/methodology.html'))}">Method →</a></p>
 </section>`;
   return page({
-    ctx, path: '/terms.html',
-    title: `Terms & disclaimers · ${brand.NAME}`,
-    description: `${brand.NAME} is information and commentary, not advice. Terms of use, the no-warranty and liability terms, and what the index does and does not claim.`,
+    ctx,
+    path,
+    title,
+    description,
+    jsonld: explainerJsonLd(ctx, path, title, description, faq.map(([q, a]) => ({
+      '@type': 'Question',
+      name: q,
+      acceptedAnswer: { '@type': 'Answer', text: a },
+    })), 'Terms'),
     main,
   });
 }
