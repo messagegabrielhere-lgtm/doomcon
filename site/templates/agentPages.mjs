@@ -400,7 +400,7 @@ export function land(ctx) {
     <h2 id="faq">Questions people actually ask</h2>
     ${faqHtml}
     <p class="ag-faq-key">Search-shaped sibling:
-      <a href="${esc(ctx.href('/prepper-checklist.html'))}">Prepper Checklist</a>
+      <a href="${esc(ctx.href('/prepper-checklist.html'))}">What belongs in a 72-hour prepper kit?</a>
       · <a href="${esc(ctx.href('/waffle.html'))}">Is the Waffle House open?</a>.</p>
   </section>
 </section>`;

@@ -24,6 +24,7 @@ describe('bug-out-land page', () => {
     assert.match(html, /"@type":\s*"WebPage"/);
     assert.match(html, /BreadcrumbList/);
     assert.match(html, /\/prepper-checklist\.html/);
+    assert.match(html, /What belongs in a 72-hour prepper kit\?/);
     assert.match(html, /\/waffle\.html/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     // Refuse affirmative Skynet-as-forecast claims; the FAQ question "Is this a
