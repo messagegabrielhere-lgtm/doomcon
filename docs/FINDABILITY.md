@@ -144,6 +144,25 @@ clickbait titles.
 file stays a freshness signal. Re-check pizzint's news sitemap — it flips
 empty↔thin (`COMPETITIVE-SEO.md`).
 
+### 1.8 Prefer Search Console over poisoned rank-tracker SERPs
+
+Since September 2026, Google has been serving **poisoned** organic results to
+many scrapers and rank trackers: complete-looking SERPs whose top results are
+swapped ([Nozzle](https://nozzle.io/research/poisoned-google-serps/), summarized
+by [Cyrus Shepard](https://x.com/CyrusShepard/status/2110087517806776502)). A
+one-day “we fell out of the top 10” report is often garbage data, not a ranking
+change.
+
+For this project:
+
+| Do | Do not |
+|---|---|
+| Treat **Google Search Console** (impressions, clicks, indexed count) as the ranking truth | Chase third-party rank-tracker swings without a GSC corroboration |
+| Keep first-party HTML + receipts + IndexNow honest so *real* Googlebot sees the same page humans see | Infer our standing from a scraped SERP or from an AI answer that only saw a poisoned scrape |
+| Point AI agents at `/api/now.txt`, `/agents.md`, `/llms.txt`, `/moves/` receipts | Tell agents to scrape Google to “find” or “rank” SIREN |
+
+This is tip **#196** in §3.2.
+
 ---
 
 ## 2. How to maximize findability in AI answer engines
@@ -426,6 +445,7 @@ context.
 | 193 | `/library.html` question-shaped title + CollectionPage speakable + visible FAQ matching FAQPage schema (both-sides reading list; refuse endorsement-as-SIREN-claim / library-as-index-input / doom-probability); IndexNow + seo-daily; `knowsAbout` “What AI books argue both sides of the case” | Google + Bing | **Done** (2026-10-13) |
 | 194 | `/sponsor.html` question-shaped title + WebPage speakable + visible FAQ matching FAQPage schema (one labelled sponsor; refuse sponsor-moves-score / visitor-data-sale / doom-probability); IndexNow + seo-daily; `knowsAbout` “How do you sponsor SIREN without moving the number” | Google + Bing | **Done** (2026-10-13) |
 | 195 | `/nothing.html` question-shaped title + WebPage speakable + visible FAQ matching FAQPage schema (Nothing Ever Happens ledger; refuse NEH-as-main-index / auto-miss-overdue / doom-probability); IndexNow + seo-daily; `knowsAbout` “How often do dated AI claims miss” | Google + Bing | **Done** (2026-10-13) |
+| 196 | First-party citation when Google poisons scraper SERPs (Cyrus Shepard / Nozzle 2026-10): `/moves/` question title + CollectionPage speakable + FAQPage; `/agents.html` FAQ + rules + `skill.md` / `agents.md` / `llms.txt` “do not scrape Google for rank”; IndexNow + seo-daily; `knowsAbout` “Should AI agents scrape Google…” / “Where are the SIREN index moves”; prefer GSC over third-party rank trackers (§1.8) | Google + agents | **Done** (2026-10-13) |
 
 ### 3.3 Refusals (search edition)
 
@@ -489,3 +509,4 @@ sitemap vanity (`COMPETITIVE.md` Phase 2).
 | Live robots, sitemap (~480 URLs), `llms.txt`, API index, homepage title/description, news-sitemap 404 | HTTP checks against the Pages site | 2026-10-08 |
 | Rival SEO re-measure: pizzint news-sitemap empty; DoomBench 2,081 URLs; Skynet 1,237; SIREN ~530 + news-sitemap 100 | `docs/COMPETITIVE-SEO.md` | 2026-10-10 |
 | URL-count strategy, news sitemap, Speakable, Search Console success metric | `docs/COMPETITIVE.md`, `docs/VIRAL.md` §7 | this repo |
+| Google poisoning SERPs served to scrapers / rank trackers (~8% of tracked SERPs); prefer GSC + first-party agent fetches | [Nozzle](https://nozzle.io/research/poisoned-google-serps/); [Cyrus Shepard](https://x.com/CyrusShepard/status/2110087517806776502) | 2026-10-13 |
