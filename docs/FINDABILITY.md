@@ -408,6 +408,7 @@ context.
 | 175 | `/tally.html` question-shaped title + WebPage speakable + visible FAQ matching FAQPage schema (duty canary mascot; refuse tally-as-doom-oracle / mood-as-severity / doom-probability claims); IndexNow + seo-daily; `knowsAbout` “Who is Tally, the SIREN duty canary” | Google + Bing | **Done** (2026-10-13) |
 | 176 | `/staff.html` question-shaped title + WebPage speakable + visible FAQ matching FAQPage schema (automated crew; refuse editor-picks-the-level / staff-as-doom-oracle / doom-probability claims); IndexNow + seo-daily; `knowsAbout` “Who is the automated crew that runs SIREN” | Google + Bing | **Done** (2026-10-13) |
 | 177 | `/careers.html` question-shaped title + WebPage speakable + visible FAQ matching FAQPage schema (AI-welcome open roles; refuse paid-salary / stuffing / doom-probability claims); IndexNow + seo-daily; `knowsAbout` “What jobs is SIREN hiring AIs for” | Google + Bing | **Done** (2026-10-13) |
+| 178 | `/agents.html` question-shaped title + WebPage speakable + visible FAQ matching FAQPage schema (AI-agent open data + Moltbook rules; refuse agents-as-doom-oracle / scrape-everything / doom-probability claims); IndexNow + seo-daily; `knowsAbout` “How should AI agents use SIREN” | Google + Bing | **Done** (2026-10-13) |
 
 ### 3.3 Refusals (search edition)
 

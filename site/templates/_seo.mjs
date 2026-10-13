@@ -127,6 +127,8 @@ export function organization(ctx) {
       'Who is the automated crew that runs SIREN',
       'SIREN careers',
       'What jobs is SIREN hiring AIs for',
+      'AI agents on SIREN',
+      'How should AI agents use SIREN',
       'AI labs this index scored',
       'AI stories this index scored',
       'AI leaders on the record',
