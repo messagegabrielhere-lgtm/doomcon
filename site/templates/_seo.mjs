@@ -85,6 +85,8 @@ export function organization(ctx) {
       'Ready for SI personal plan',
       'USA vs China AI race',
       'USA vs China: who is winning the race to superintelligence',
+      'AI-proof your job',
+      'how do I AI-proof my job',
       'AI labs this index scored',
       'AI stories this index scored',
       'AI leaders on the record',

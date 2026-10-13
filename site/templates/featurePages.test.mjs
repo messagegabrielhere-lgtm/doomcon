@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
-import { breakthroughs, pickBreakthroughs, siReady } from './featurePages.mjs';
+import { breakthroughs, jobProof, pickBreakthroughs, siReady } from './featurePages.mjs';
 
 const ctx = {
   url: (p) => `https://siren.watch${p === '/' ? '/' : p}`,
@@ -79,10 +79,33 @@ describe('si-ready page', () => {
     assert.match(html, /"@type":\s*"WebPage"/);
     assert.match(html, /BreadcrumbList/);
     assert.match(html, /\/ai-proof-job\.html/);
+    assert.match(html, /How do I AI-proof my job\?/);
     assert.match(html, /\/breakthroughs\.html/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /superintelligence arrives in \d/i);
     assert.doesNotMatch(html, /this is financial advice/i);
+    assert.doesNotMatch(html, /noindex/);
+  });
+});
+
+describe('ai-proof-job page', () => {
+  it('ships a question-shaped title, speakable WebPage, and matching FAQPage', () => {
+    const html = jobProof(ctx);
+    assert.match(html, /<title>How do I AI-proof my job\?/);
+    assert.match(html, /<h1 class="bp__h1">How do I AI-proof my job\?<\/h1>/);
+    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /Does this plan guarantee I keep my job\?/);
+    assert.match(html, /What are the five moves on this page\?/);
+    assert.match(html, /Where does SIREN count measured job effects\?/);
+    assert.match(html, /SpeakableSpecification/);
+    assert.match(html, /FAQPage/);
+    assert.match(html, /"@type":\s*"WebPage"/);
+    assert.match(html, /BreadcrumbList/);
+    assert.match(html, /\/si-ready\.html/);
+    assert.match(html, /\/jobs\.html/);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
+    assert.doesNotMatch(html, /guarantees? you keep your job/i);
+    assert.doesNotMatch(html, /this is (career|financial) advice/i);
     assert.doesNotMatch(html, /noindex/);
   });
 });
