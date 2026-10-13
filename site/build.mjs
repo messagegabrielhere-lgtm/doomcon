@@ -1381,11 +1381,11 @@ async function main() {
     try { ctx.nations = nationsRace({ race: ctx.race, power: pwN, world: ctx.world }); } catch { ctx.nations = null; }
   }
   // The homepage is the PizzINT-style front page (templates/homeV2.mjs). It
-  // borrows the classic page's <head> so the title, card, canonical and
-  // structured data stay exactly as they were. The classic page still builds,
-  // in full, at /classic.html, and the new front page links to it.
-  const classicHtml = indexPage.render(ctx);
-  const classicHead = (classicHtml.match(/<head>[\s\S]*?<\/head>/) || ['<head><meta charset="utf-8"></head>'])[0];
+  // borrows the *home* render's <head> (title, card, canonical `/`, schema).
+  // /classic.html is a separate view with its own path — do not reuse that
+  // head or the front page inherits classic's canonical.
+  const homeHtmlForHead = indexPage.render(ctx);
+  const homeHead = (homeHtmlForHead.match(/<head>[\s\S]*?<\/head>/) || ['<head><meta charset="utf-8"></head>'])[0];
   // The AI prediction markets that moved most this hour, for the homepage's
   // markets strip: read from the newest raw collector file (polymarket meta).
   try {
@@ -1398,8 +1398,8 @@ async function main() {
   } catch { ctx.pmTop = []; }
   try { ctx.molt = JSON.parse(await readFile(path.join(args.data, 'moltbook.json'), 'utf8')); } catch { ctx.molt = null; }
   try { ctx.liveMedia = JSON.parse(await readFile(path.join(args.data, 'live-media.json'), 'utf8')); } catch { ctx.liveMedia = null; }
-  written.push(await write(args.out, 'index.html', homeV2.render(ctx, { head: classicHead })));
-  written.push(await write(args.out, 'classic.html', classicHtml));
+  written.push(await write(args.out, 'index.html', homeV2.render(ctx, { head: homeHead })));
+  written.push(await write(args.out, 'classic.html', indexPage.render(ctx, { view: 'classic' })));
 
   // NEWS-ONLY FAST PATH. Used by the minute newsroom loop. Rewrites the pages
   // and JSON the open-tab poller and newsroom HTML need, leaves move pages,

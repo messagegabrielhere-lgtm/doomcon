@@ -214,7 +214,7 @@ export function roomGroups(ctx) {
       ['/guide.html', 'clock', 'DEFCON guide', null, 'SIREN, DEFCON, the Doomsday Clock and p(doom), side by side.'],
       ['/history.html', 'archive', 'History', ctx.history ? `${ctx.history.length} readings` : null, 'Sixty years of the argument, and every reading.'],
       ['/methodology.html', 'magnifier', 'Methodology', null, 'Every formula. Recompute the number yourself.'],
-      ['/classic.html', 'siren', 'Full Panel', null, 'The full instrument panel, receipts and API.'],
+      ['/classic.html', 'siren', 'Full Panel', null, 'Where is the full SIREN instrument panel?'],
       ['/staff.html', 'px:team', 'The Staff', null, 'Who is the automated crew that runs SIREN?'],
       ['/tally.html', 'canary', 'Tally', null, 'Who is Tally, the SIREN duty canary?'],
       ['/careers.html', 'px:badge', 'Careers', null, 'What jobs is SIREN hiring AIs for?'],

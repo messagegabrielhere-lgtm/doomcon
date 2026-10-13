@@ -786,6 +786,9 @@ ${oven.render(ctx)}
 
 ${style}`;
 
+  // Classic view demotes the live verdict to h2 so the panel question can own H1.
+  const answerHtml = answer(ctx, { answerTag: view === 'classic' ? 'h2' : 'h1' });
+
   const main = `
 ${news.styleTag()}
 ${gauge.styleTag()}
@@ -796,7 +799,7 @@ ${gauge.styleTag()}
        first thing read, and the stage keeps a dark palette in both themes
        because the picture is dark in both. -->
   <div class="stage" style="--stage:url('${esc(ctx.href('/img/hero-siren.jpg'))}');--stage-set:image-set(url('${esc(ctx.href('/img/hero-siren.avif'))}') type('image/avif'), url('${esc(ctx.href('/img/hero-siren.jpg'))}') type('image/jpeg'))">
-  ${answer(ctx)}
+  ${answerHtml}
   <p class="hero__headline">${headline(ctx)}</p>
   ${Number.isFinite(state.score) ? langStrip(state) : ''}
   <p class="stage__credit">Background: a generated illustration, not a photograph.</p>
@@ -975,6 +978,89 @@ ${style}`;
         },
       ],
       main: instruments,
+    });
+  }
+
+  if (view === 'classic') {
+    // /classic.html used to re-emit the homepage head (canonical `/`), so
+    // Google saw two URLs for one document. Own path, question title, FAQ.
+    const classicQ = `Where is the full ${brand.NAME} instrument panel?`;
+    // FAQ answers restate lede / instruments link / home split only (§3.3).
+    // Refuse: classic-as-doom-index, forecast, stuffing.
+    const classicFaq = [
+      [classicQ,
+        `The full instrument panel: live reading, war room, oven, pillars, moves, embed, API and the questions strangers ask — kept at /classic.html after the shorter home page shipped.`],
+      ['How is this different from the home page?',
+        `The home page is the short reading. This page is the longer panel the short page replaced, still rebuilt every hour with the same receipts.`],
+      ['Where do I check just the working behind the number?',
+        'Open the instrument room at /instruments.html for score history, source health, pillars, embed and API without the full classic panel.'],
+      [`Is the classic panel a doom probability?`,
+        `No. ${brand.NAME} measures activity tempo. This page is the full instrument panel for the same hourly count — not danger, and not a probability of harm.`],
+    ];
+    const classicFaqHtml = classicFaq.map(([qAsk, a]) => `
+  <h3>${esc(qAsk)}</h3>
+  <p>${esc(a)}</p>`).join('');
+    const classicIntro = `
+<style>
+.clx-faq{margin:34px 0 12px;max-width:62ch}
+.clx-faq h2{font:600 var(--t-lg,1.125rem)/1.2 var(--sans);margin:0 0 var(--s-3,.75rem);color:var(--ink)}
+.clx-faq h3{font:600 var(--t-base,1rem)/1.3 var(--sans);margin:var(--s-4,1rem) 0 var(--s-2,.5rem);color:var(--ink)}
+.clx-faq p{font:400 var(--t-base,1rem)/1.55 var(--sans);color:var(--ink-dim);margin:0 0 var(--s-2,.5rem)}
+.clx-faq-key{margin-top:var(--s-4,1rem)!important}
+.clx-top{margin:0 0 var(--s-5,1.25rem);max-width:62ch}
+.clx-top h1{font:600 var(--t-xl,1.35rem)/1.2 var(--sans);margin:0 0 var(--s-3,.75rem);color:var(--ink)}
+.clx-top .lede{font:400 var(--t-base,1rem)/1.55 var(--sans);color:var(--ink-dim);margin:0}
+</style>
+<section class="clx-top">
+  <h1 class="bp__h1">${esc(classicQ)}</h1>
+  <p class="lede">The full instrument panel: live reading, war room, oven, pillars, moves, embed, API and the questions strangers ask — kept here after the shorter home page shipped.</p>
+</section>`;
+    const classicFaqSec = `
+<section class="clx-faq" aria-labelledby="classic-faq">
+  <h2 id="classic-faq">Questions people actually ask</h2>
+  ${classicFaqHtml}
+  <p class="clx-faq-key">Search-shaped sibling:
+    <a href="${esc(ctx.href('/instruments.html'))}">What instruments sit behind the ${esc(brand.NAME)} reading?</a>
+    · <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>.</p>
+</section>`;
+    const description = `${classicQ} The longer ${brand.NAME} panel with the live reading, war room, oven, pillars, moves, embed and API — same hourly count as the short home page.`;
+    return page({
+      ctx,
+      motion: true,
+      path: '/classic.html',
+      title: `${classicQ} · ${brand.NAME}`,
+      ogTitle: `${brand.NAME}: ${classicQ}`,
+      description,
+      ogImage: ctx.cardFor(state.receipt_id),
+      head: `<link rel="preload" as="image" type="image/avif" href="${esc(ctx.href('/img/hero-siren.avif'))}" fetchpriority="high">`,
+      ogImageAlt: `${brand.NAME} ${state.level}, ${state.level_name}, score ${scoreTxt} of 100`,
+      showDegraded: true,
+      jsonld: [
+        {
+          '@context': 'https://schema.org',
+          '@type': 'WebPage',
+          name: classicQ,
+          description: `Full ${brand.NAME} instrument panel: live reading, war room, oven, pillars, moves, embed and API.`,
+          url: ctx.url('/classic.html'),
+          dateModified: state.generated_at,
+          isPartOf: { '@type': 'WebSite', name: brand.NAME, url: ctx.url('/') },
+          speakable: speakable(['h1.bp__h1', 'p.lede']),
+        },
+        breadcrumbs(ctx, [
+          { name: 'Home', path: '/' },
+          { name: 'Full instrument panel', path: '/classic.html' },
+        ]),
+        {
+          '@context': 'https://schema.org',
+          '@type': 'FAQPage',
+          mainEntity: classicFaq.map(([qAsk, a]) => ({
+            '@type': 'Question',
+            name: qAsk,
+            acceptedAnswer: { '@type': 'Answer', text: a },
+          })),
+        },
+      ],
+      main: classicIntro + main + classicFaqSec,
     });
   }
 
@@ -1292,13 +1378,16 @@ function loudest(state) {
   return scored.length ? scored.reduce((a, b) => (b.score > a.score ? b : a)) : null;
 }
 
-function answer(ctx) {
+function answer(ctx, { answerTag = 'h1' } = {}) {
+  // On /classic.html the page H1 is the search-shaped panel question; the
+  // live verdict stays an answerTag (h2) so the document keeps one H1.
+  const tag = answerTag === 'h2' ? 'h2' : 'h1';
   const st = ctx.state;
   const n = Array.isArray(ctx.history) ? ctx.history.length : null;
   const meta = `<p class="ans__meta"><span class="ans__live">Live</span>${n ? `<span>Reading No.&nbsp;${esc(n)}</span>` : ''}<span>Observed <time datetime="${esc(st.generated_at)}">${esc(utc(st.generated_at))}</time></span><span>A count, not a forecast</span></p>`;
   if (!Number.isFinite(st.score) || !VERDICT[st.level]) {
     return `<p class="ans__q">Should you care about AI today?</p>
-  <h1 class="ans__a"><b>No reading.</b> <span>Not enough sources reported to say.</span></h1>
+  <${tag} class="ans__a"><b>No reading.</b> <span>Not enough sources reported to say.</span></${tag}>
   ${meta}`;
   }
   const [yes, gloss] = VERDICT[st.level];
@@ -1313,7 +1402,7 @@ function answer(ctx) {
       : `The overall score is ${num(mag, 1)} ${d.delta > 0 ? 'higher' : 'lower'} ${when}.`);
   }
   return `<p class="ans__q">Should you care about AI today?</p>
-  <h1 class="ans__a" style="--lvl:var(--heat-${esc(st.level)})"><b>${esc(yes)}</b> <span>${esc(gloss)}</span></h1>
+  <${tag} class="ans__a" style="--lvl:var(--heat-${esc(st.level)})"><b>${esc(yes)}</b> <span>${esc(gloss)}</span></${tag}>
   <p class="ans__why">AI activity is at level ${esc(st.level)} on a scale where 5 is quiet and 1 is loudest. ${esc(bits.join(' '))}</p>
   <p class="ans__cta">${brand.X_URL ? `<a class="cta cta--pri" href="${esc(brand.X_URL)}" rel="noopener">Get the alert on X</a>` : ''}<a class="cta cta--sec" href="#war-room">See why <span aria-hidden="true">›</span></a></p>
   <p class="hero__badge" aria-hidden="true">${mascot({ size: 44, level: st.level })}<span class="hero__badge-t"><b>${esc(brand.NAME)} ${esc(st.level)}</b><span>${esc(st.level_name)} · ${esc(num(st.score, 1))} of 100</span></span></p>
