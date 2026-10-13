@@ -6,6 +6,7 @@
 // and the "since your last visit" strip.
 //
 // The full instrument panel this replaced still builds, at /classic.html.
+import { highlightHtml as nationsHighlight } from './nationsPage.mjs';
 import { esc, num } from './_html.mjs';
 import { baselinePhrase, baselineCompact } from '../../collector/forward-coverage.mjs';
 import * as brand from '../brand.mjs';
@@ -142,6 +143,7 @@ export function roomGroups(ctx) {
   const lt = (ctx.leaders && ctx.leaders.totals) || {};
   const groups = [
     ['LIVE INTEL', [
+      ['/nations.html', 'px:flagclash', 'USA vs China', 'NEW', 'The nations race: odds, labs and power, scored live.'],
       ['/race.html', 'radar', 'The Race', race && race.market ? `${race.name} ${(race.market.probability * 100).toFixed(1)}%` : null, 'Labs ranked on live prediction-market odds.'],
       ['/news.html', 'news', 'Newsroom', ctx.news && ctx.news.items ? `${ctx.news.items.length} stories` : null, 'Every AI story, scored and corroborated.'],
       ['/model/', 'px:db', 'Models', null, 'Stories grouped by the model family the headline names.'],
@@ -481,7 +483,7 @@ function marketsPanel(ctx, href) {
   if (!legs.length && !movers.length) return '';
   const leg = (l) => `<a class="v2-pm" href="${esc(pmLink(l.slug))}" target="_blank" rel="noopener sponsored"><span>${esc(l.title)}</span><b>${pct(l.probability, 0)}</b><i class="${(l.change_1d || 0) > 0 ? 'up' : (l.change_1d || 0) < 0 ? 'dn' : ''}">${Number.isFinite(l.change_1d) && l.change_1d ? `${l.change_1d > 0 ? '▲' : '▼'}${Math.abs(l.change_1d * 100).toFixed(1)} 24H` : '— 24H'}</i><em>TRADE →</em></a>`;
   const mv = (m) => `<a class="v2-pm wide" href="${esc(pmLink(m.slug))}" target="_blank" rel="noopener sponsored"><span>${esc(m.question)}</span><i class="${(m.move || 0) > 0 ? 'up' : 'dn'}">${(m.move || 0) > 0 ? '▲' : '▼'}${Math.abs((m.move || 0) * 100).toFixed(0)} PTS</i><small>$${Math.round((m.volume || 0) / 1000).toLocaleString('en-US')}K VOL</small><em>TRADE →</em></a>`;
-  return `<div class="v2-card v2-mkts" id="markets" data-sec="Markets">
+  return `${nationsHighlight({ href: (p) => href(p) }, ctx.nations)}<div class="v2-card v2-mkts" id="markets" data-sec="Markets">
   <div class="row sb"><h3>${icon('eye', 3, '#A855F7')}${pixelText('AI PREDICTION MARKETS', 3, '#FFFFFF')}</h3><a class="live" href="${href('/race.html')}">THE RACE →</a></div>
   ${legs.length ? `<p class="v2-mq">${esc(pm.horizon.title)}</p><div class="v2-pmg">${legs.map(leg).join('')}</div>` : ''}
   ${movers.length ? `<p class="v2-mq">BIGGEST MOVERS ON AI QUESTIONS TODAY</p><div class="v2-pmg">${movers.map(mv).join('')}</div>` : ''}

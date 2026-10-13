@@ -35,6 +35,7 @@ export const PRIMARY = [
 // at the top of the room finder and as a strip on the homepage. Newest first;
 // keep it to about six so it stays a highlight reel, not a second menu.
 export const WHATS_NEW = [
+  ['/nations.html', 'px:tugofwar', 'USA vs China', 'The nations race to superintelligence, scored live.'],
   ['/labs.html', 'px:beaker', 'SIREN Labs', 'This week’s experiments in measuring superintelligence.'],
   ['/games.html', 'px:joystick', 'The Arcade', 'Every SIREN game in one place, one click from any page.'],
   ['/evolution.html', 'px:logbook', 'The Evolution Log', 'Every reading, news pick and Moltbook scan, kept day by day.'],
@@ -177,6 +178,7 @@ export const RAIL = [
   ['/', 'siren', 'SIREN Index'],
   ['/news.html', 'news', 'Newsroom'],
   ['/race.html', 'radar', 'The Race'],
+  ['/nations.html', 'px:flagclash', 'USA vs China'],
   ['/monitor.html', 'satellite', 'World Monitor'],
   ['/leaders.html', 'mic', 'Leaders'],
   ['/status.html', 'px:statuspulse', 'Is AI down?'],
