@@ -65,6 +65,7 @@ import { readNews, reel, pillarSigil, pillarSprite, newsSourceStrip } from './_r
 import { newsCss, liveHead, legend, feedRow } from './news.mjs';
 import { PILLAR_GLYPH } from './_charts.mjs';
 import { page } from './layout.mjs';
+import { breadcrumbs, speakable } from './_seo.mjs';
 import { dayPath, indexableDays } from './dayPages.mjs';
 import { tagPath, indexableTags } from './tagPages.mjs';
 import { kindPath, indexableKinds } from './kindPages.mjs';
@@ -99,11 +100,27 @@ export function render(ctx) {
   // strip, the filter chips and the rows can never disagree about a count.
   const corpus = readCorpus(news);
 
+  // Head-term title: people search “AI news” / scored stories this window.
+  const title = `Which AI stories has ${brand.NAME} scored in this window?`;
+  const description =
+    `Every AI news item ${brand.NAME} scored in the current window: ${total} items across ` +
+    `${days} days, ranked, pillar-tagged and linked to the source that carried each one. ` +
+    `Compiled ${utc(news.generated_at)}.`;
+  const faq = [
+    [`Which AI stories has ${brand.NAME} scored in this window?`,
+      `${total} scored ${total === 1 ? 'item' : 'items'} across ${days} day${days === 1 ? '' : 's'} in the current collection window. Each headline links to the source that carried it — not a newsroom doom score.`],
+    [`Does ${brand.NAME} publish a newsroom doom score?`,
+      `No. ${brand.DISCLAIMER_SHORT} Scores rank items against each other inside this window; they are not a probability of anything and they do not move the index on their own.`],
+  ];
+  const faqHtml = faq.map(([q, a]) => `
+  <h3>${esc(q)}</h3>
+  <p>${esc(a)}</p>`).join('');
+
   const main = `<style>${newsCss()}${archiveCss(pillarsPresent(news))}${breakingCss()}</style>${pillarSprite()}
 ${breakingStrip(ctx, { href: ctx.href })}
 <section class="narch__intro">
   <p class="eyebrow">AI signal feed</p>
-  <h1 class="narch__h1">The newsroom</h1>
+  <h1 class="narch__h1">Which AI stories has ${esc(brand.NAME)} scored in this window?</h1>
   <p class="lede">Every item ${esc(brand.NAME)} scored in the current collection window &mdash;
      ${esc(total)} item${total === 1 ? '' : 's'} across ${esc(days)} day${days === 1 ? '' : 's'},
      ranked by score and tagged to the pillar each one feeds. These are the inputs behind the
@@ -141,21 +158,36 @@ ${corpusSection(ctx, news, corpus)}
      probability of anything and they do not move the index on their own. The composite score and
      the level are computed from the five pillars, not from this list.
      <a href="${esc(ctx.href('/methodology.html'))}">Read the methodology &rarr;</a></p>
+</section>
+
+<section class="sec" aria-labelledby="faq">
+  <h2 class="sec__h" id="faq">Questions people actually ask</h2>
+  ${faqHtml}
 </section>`;
 
   return page({
     ctx,
     motion: true,
     path: PATH,
-    title: `The newsroom — ${total} scored items · ${brand.NAME}`,
+    title,
     ogTitle: `${brand.NAME} signal feed — ${total} scored items`,
-    description:
-      `Every AI news item ${brand.NAME} scored in the current window: ${total} items across ` +
-      `${days} days, ranked, pillar-tagged and linked to the source that carried each one. ` +
-      `Compiled ${utc(news.generated_at)}.`,
+    description,
     ogImage: ctx.cardFor && ctx.state ? ctx.cardFor(ctx.state.receipt_id) : null,
     ogImageAlt: `${brand.NAME} share card`,
-    jsonld: [collectionPage(ctx, news), itemList(ctx, news)],
+    jsonld: [
+      collectionPage(ctx, news, { name: title, description }),
+      itemList(ctx, news),
+      breadcrumbs(ctx, [{ name: 'Newsroom', path: PATH }]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map(([q, a]) => ({
+          '@type': 'Question',
+          name: q,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
+      },
+    ],
     main,
   });
 }
@@ -170,12 +202,12 @@ function emptyPage(ctx) {
     ctx,
     path: PATH,
     noindex: true,
-    title: `The newsroom · ${brand.NAME}`,
+    title: `Which AI stories has ${brand.NAME} scored in this window?`,
     description: `${brand.NAME} news collection has not published a window yet.`,
     main: `<style>${newsCss()}${archiveCss()}</style>${pillarSprite()}
 <section class="narch__intro">
   <p class="eyebrow">AI signal feed</p>
-  <h1 class="narch__h1">The newsroom</h1>
+  <h1 class="narch__h1">Which AI stories has ${esc(brand.NAME)} scored in this window?</h1>
   <p class="lede">No collection window has been published in this build. This page is not
      an empty result &mdash; it is the absence of a result, and the two are different states.
      When <code>data/news.json</code> is present it is rendered here in full.</p>
@@ -1283,15 +1315,18 @@ function clip(text, max) {
 // Structured data
 // ---------------------------------------------------------------------------
 
-function collectionPage(ctx, news) {
+function collectionPage(ctx, news, opts = {}) {
+  const name = opts.name || `Which AI stories has ${brand.NAME} scored in this window?`;
+  const description = opts.description
+    || (`Every AI news item ${brand.NAME} scored in the current collection window, ranked by `
+      + 'score, tagged to one of five pillars and linked to the source that carried it.');
   return {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
-    name: `${brand.NAME} AI signal feed`,
+    name,
     url: ctx.url(PATH),
-    description:
-      `Every AI news item ${brand.NAME} scored in the current collection window, ranked by ` +
-      'score, tagged to one of five pillars and linked to the source that carried it.',
+    description,
+    speakable: speakable(['h1.narch__h1', 'p.lede']),
     inLanguage: 'en',
     isAccessibleForFree: true,
     dateModified: news.generated_at,
