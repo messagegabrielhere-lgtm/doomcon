@@ -2,12 +2,21 @@
 // but does not score. Each card says what it counts and why it matters.
 import { esc } from './_html.mjs';
 import { page } from './layout.mjs';
+import { breadcrumbs, speakable } from './_seo.mjs';
 import * as brand from '../brand.mjs';
 import { prWall, PRWALL_CSS, prWallJs } from './_livewalls.mjs';
+
+const PATH = '/si-watch.html';
+const qTitle = 'What AI autonomy signals is SIREN watching?';
 
 const CSS = `<style>
 .sw{max-width:1080px}.sw .eyebrow{font:600 12px/1 var(--mono);letter-spacing:.16em;color:#F87171;margin:0 0 10px}
 .sw h2{font:700 1.25rem/1.2 var(--sans);margin:30px 0 10px;color:var(--ink)}.sw p{color:var(--ink-dim);line-height:1.6}
+.sw-faq{margin:var(--sec,2rem) 0 var(--s-5,1.25rem);max-width:62ch}
+.sw-faq h2{font:600 var(--t-lg,1.125rem)/1.2 var(--sans);margin:0 0 var(--s-3,.75rem);color:var(--ink)}
+.sw-faq h3{font:600 var(--t-base,1rem)/1.3 var(--sans);margin:var(--s-4,1rem) 0 var(--s-2,.5rem);color:var(--ink)}
+.sw-faq p{font:400 var(--t-base,1rem)/1.55 var(--sans);color:var(--ink-dim);margin:0 0 var(--s-2,.5rem)}
+.sw-faq-key{margin-top:var(--s-4,1rem)!important}
 .sw-g{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:14px;margin:16px 0}
 .sw-c{border:1px solid var(--rule);background:var(--bg-raised,#0E131D);border-radius:6px;padding:16px;display:flex;flex-direction:column;gap:8px}
 .sw-c h3{margin:0;font:700 13px/1.3 var(--mono);letter-spacing:.1em;color:#FCA5A5}
@@ -88,8 +97,25 @@ export function render(ctx, sig, hist = []) {
       `<p>${Number(m.replies_seen || 0).toLocaleString('en-US')} agent replies in the threads SIREN read. <a href="${esc(ctx.href('/moltbook.html'))}">Agent Watch →</a></p>`,
       'Agents coordinating with other agents, without a person in each loop, is the pattern to watch.', 'moltbook_agents'),
   ].join('');
+  // FAQ answers restate hero / scoring note / data footer only.
+  // Refuse: SIREN-as-takeover-forecast, AGI-date-as-SIREN-claim, doom-probability.
+  const faq = [
+    [qTitle,
+      'Signals about AI autonomy and the road to superintelligence, read every hour from public data. They are watched, not scored: none has a year of history yet, so none can move the SIREN level. A signal that stops answering says so.'],
+    ['Do these signals move the SIREN level?',
+      'They are watched, not scored: none has a year of history yet, so none can move the SIREN level. A signal that stops answering says so.'],
+    ['What happens when a signal stops answering?',
+      'A signal that stops answering says so.'],
+    ['Where does the data come from?',
+      'Data: GitHub search, Epoch AI (CC-BY), Metaculus, Moltbook.'],
+  ];
+  const faqHtml = faq.map(([qAsk, a]) => `
+  <h3>${esc(qAsk)}</h3>
+  <p>${esc(a)}</p>`).join('');
+
   const main = `${CSS}${PRWALL_CSS}<section class="sw">
-  <p class="eyebrow">TAKEOVER WATCH · NOT IN THE SCORE</p><h1 class="bp__h1">Watching for the takeoff</h1>
+  <p class="eyebrow">TAKEOVER WATCH · NOT IN THE SCORE</p>
+  <h1 class="bp__h1">${esc(qTitle)}</h1>
   <p class="lede">Signals about AI autonomy and the road to superintelligence, read every hour from public data. They are watched, not scored: none has a year of history yet, so none can move the SIREN level. A signal that stops answering says so.</p>
   <p><a href="#coding">↓ See what the AI agents are coding right now</a></p>
   <div class="sw-g">${cards}</div>
@@ -98,7 +124,45 @@ export function render(ctx, sig, hist = []) {
   <p>Next on the list: METR’s measure of how long a task an AI can complete on its own, chip export-control notices, data-centre power interconnection requests, changes to labs’ safety frameworks, and the AI Incident Database. <a href="${esc(ctx.href('/feedback.html'))}">Suggest a signal</a>.</p>
   ${prWallJs()}
   <p style="font-size:12.5px">Updated ${esc(String((sig && sig.generated_at) || '').slice(0, 16).replace('T', ' '))} UTC. Data: GitHub search, Epoch AI (CC-BY), Metaculus, Moltbook. <a href="${esc(ctx.href('/api/si-signals.json'))}">JSON</a>.</p>
+  <section class="sw-faq" aria-labelledby="faq">
+    <h2 id="faq">Questions people actually ask</h2>
+    ${faqHtml}
+    <p class="sw-faq-key">Search-shaped sibling:
+      <a href="${esc(ctx.href('/threats.html'))}">What could take the machines offline tonight?</a>
+      · <a href="${esc(ctx.href('/status.html'))}">Is ChatGPT down? Is Claude down?</a>.</p>
+  </section>
 </section>`;
-  return page({ ctx, path: '/si-watch.html', title: `Takeover Watch: AI autonomy signals · ${brand.NAME}`,
-    description: 'Signals on the road to superintelligence: AI agents writing code on GitHub, frontier model releases, the Metaculus AGI forecast and AI agents talking on Moltbook, read hourly.', main });
+  return page({
+    ctx,
+    path: PATH,
+    title: `${qTitle} · ${brand.NAME}`,
+    ogTitle: `${brand.NAME}: ${qTitle}`,
+    description: `${qTitle} AI agents writing code on GitHub, frontier model releases, the Metaculus AGI forecast and AI agents talking on Moltbook — watched hourly, not scored into the SIREN level.`,
+    jsonld: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'Dataset',
+        name: qTitle,
+        description: 'Signals about AI autonomy and the road to superintelligence, read every hour from public data. Watched, not scored into the SIREN level.',
+        url: ctx.url(PATH),
+        isPartOf: { '@type': 'WebSite', name: brand.NAME, url: ctx.url('/') },
+        speakable: speakable(['h1.bp__h1', 'p.lede']),
+        ...(typeof (sig && sig.generated_at) === 'string' ? { dateModified: sig.generated_at } : {}),
+      },
+      breadcrumbs(ctx, [
+        { name: 'Home', path: '/' },
+        { name: 'Takeover Watch', path: PATH },
+      ]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map(([qAsk, a]) => ({
+          '@type': 'Question',
+          name: qAsk,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
+      },
+    ],
+    main,
+  });
 }
