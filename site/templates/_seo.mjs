@@ -71,6 +71,8 @@ export function organization(ctx) {
       'what is BLISS, the SIREN upside index',
       'AI harm and benefit side by side',
       'how does SIREN count AI harm and benefit side by side',
+      'Tally desk unserious counts',
+      'what unserious counts does SIREN keep on Tally\'s desk',
       'AI labs this index scored',
       'AI stories this index scored',
       'AI leaders on the record',

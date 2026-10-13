@@ -9,9 +9,11 @@
 
 import { esc, utc } from './_html.mjs';
 import { page } from './layout.mjs';
+import { breadcrumbs, speakable } from './_seo.mjs';
 import * as brand from '../brand.mjs';
 import { mascot } from './_mascot.mjs';
 
+const PATH = '/desk.html';
 const N = (n) => Number(n).toLocaleString('en-US');
 
 /** Headline counters: [id, title, pattern, what it counts, the joke]. */
@@ -43,7 +45,7 @@ function streak(ctx) {
 }
 
 function shareLink(ctx, text) {
-  return `<a class="dk__x" rel="noopener" target="_blank" href="https://x.com/intent/post?text=${encodeURIComponent(text)}&amp;url=${encodeURIComponent(ctx.url('/desk.html'))}">Post this on X</a>`;
+  return `<a class="dk__x" rel="noopener" target="_blank" href="https://x.com/intent/post?text=${encodeURIComponent(text)}&amp;url=${encodeURIComponent(ctx.url(PATH))}">Post this on X</a>`;
 }
 
 export function hasDesk(ctx) {
@@ -51,11 +53,14 @@ export function hasDesk(ctx) {
 }
 
 export function render(ctx) {
+  if (!hasDesk(ctx)) return emptyPage(ctx);
+
   const items = ctx.news.items;
   const total = items.length;
   const at = ctx.news.generated_at ? utc(ctx.news.generated_at) : 'an unstamped window';
   const st = streak(ctx);
   const level = ctx.state && Number.isFinite(ctx.state.level) ? ctx.state.level : null;
+  const qTitle = `What unserious counts does ${brand.NAME} keep on Tally’s desk?`;
 
   const cards = [];
   if (st) {
@@ -80,6 +85,22 @@ export function render(ctx) {
     </li>`);
   }
 
+  // FAQ answers restate hero / fine-print copy only (FINDABILITY §3.3).
+  // Refuse: signal, forecast, or input to the main index.
+  const faq = [
+    [qTitle,
+      `Side indexes, kept by the duty canary. The framing is a joke; the numbers are not. Each one is a plain count over the ${N(total)} headlines in the newsroom window or the published readings, and a count of zero is printed as zero.`],
+    [`Do Tally’s desk counts feed the main ${brand.NAME} number?`,
+      `Tally’s desk · does not feed the main number. What these are not: a signal, a forecast, or an input to ${brand.NAME}.`],
+    ['Are these side indexes a signal or a forecast?',
+      `What these are not: a signal, a forecast, or an input to ${brand.NAME}. A headline count measures what editors wrote, in the feeds this site reads, inside one window.`],
+    ['What does a headline count on this page measure?',
+      'A headline count measures what editors wrote, in the feeds this site reads, inside one window. Matching is by word, so a headline about a film called “The Godfather” would count; the newsroom only keeps AI stories, which is why that has not happened yet.'],
+  ];
+  const faqHtml = faq.map(([qAsk, a]) => `
+  <h3>${esc(qAsk)}</h3>
+  <p>${esc(a)}</p>`).join('');
+
   const main = `
 <style>
 .dk__top { display: flex; align-items: center; gap: var(--s-4); margin: var(--s-4) 0 var(--s-3); }
@@ -95,10 +116,15 @@ export function render(ctx) {
   font: 700 var(--t-xs)/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; }
 .dk__x:hover, .dk__x:focus-visible { background: var(--lvl, var(--accent)); color: #0b0c0e; }
 .dk__fine { font: 400 var(--t-sm)/1.55 var(--sans); color: var(--ink-dim); max-width: 70ch; }
+.dk__faq { margin: var(--sec, 2rem) 0 var(--s-5); max-width: 62ch; }
+.dk__faq h2 { font: 600 var(--t-lg)/1.2 var(--sans); margin: 0 0 var(--s-3); }
+.dk__faq h3 { font: 600 var(--t-base)/1.3 var(--sans); margin: var(--s-4) 0 var(--s-2); }
+.dk__faq p { font: 400 var(--t-base)/1.55 var(--sans); color: var(--ink-dim); margin: 0 0 var(--s-2); }
+.dk__faq-key { margin-top: var(--s-4) !important; }
 </style>
 <section class="dk">
   <p class="eyebrow">Tally’s desk · does not feed the main number</p>
-  <div class="dk__top">${mascot({ size: 84, level })}<h1 class="dk__h1 bp__h1">The unserious counts</h1></div>
+  <div class="dk__top">${mascot({ size: 84, level })}<h1 class="dk__h1 bp__h1">What unserious counts does ${esc(brand.NAME)} keep on Tally’s desk?</h1></div>
   <p class="lede">Side indexes, kept by the duty canary. The framing is a joke; the numbers are not. Each one is a plain count
     over the ${esc(N(total))} headlines in the <a href="${esc(ctx.href('/news.html'))}">newsroom</a> window or the published readings,
     and a count of zero is printed as zero.</p>
@@ -109,13 +135,60 @@ ${cards.join('\n')}
     editors wrote, in the feeds this site reads, inside one window. Matching is by word, so a headline about a film called
     “The Godfather” would count; the newsroom only keeps AI stories, which is why that has not happened yet.</p>
   <p><a href="${esc(ctx.href('/game.html'))}">Play Tally Counts, the 30-second counting game →</a></p>
+  <section class="dk__faq" aria-labelledby="faq">
+    <h2 id="faq">Questions people actually ask</h2>
+    ${faqHtml}
+    <p class="dk__faq-key">Search-shaped sibling:
+      <a href="${esc(ctx.href('/balance.html'))}">How does ${esc(brand.NAME)} count AI harm and benefit side by side?</a>.</p>
+  </section>
 </section>`;
 
   return page({
     ctx,
-    path: '/desk.html',
-    title: `Tally’s desk: the unserious counts · ${brand.NAME}`,
-    description: `Side indexes from ${brand.NAME}: the Robot Count, the Betteridge Index, Godfather Sightings and how long the level has not changed. Straight counts, jokey framing.`,
+    path: PATH,
+    title: `${qTitle} · ${brand.NAME}`,
+    ogTitle: `${brand.NAME}: ${qTitle}`,
+    description: `${qTitle} Side indexes from ${brand.NAME}: the Robot Count, the Betteridge Index, Godfather Sightings and how long the level has not changed. Straight counts, jokey framing. Not a signal, forecast, or input to the main index.`,
+    jsonld: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        name: qTitle,
+        description: `Side indexes from ${brand.NAME}: plain headline counts with jokey framing. Nothing feeds the main index.`,
+        url: ctx.url(PATH),
+        isPartOf: { '@type': 'WebSite', name: brand.NAME, url: ctx.url('/') },
+        speakable: speakable(['h1.dk__h1', 'p.lede']),
+      },
+      breadcrumbs(ctx, [
+        { name: 'Home', path: '/' },
+        { name: "Tally’s desk", path: PATH },
+      ]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map(([qAsk, a]) => ({
+          '@type': 'Question',
+          name: qAsk,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
+      },
+    ],
     main,
+  });
+}
+
+function emptyPage(ctx) {
+  const qTitle = `What unserious counts does ${brand.NAME} keep on Tally’s desk?`;
+  return page({
+    ctx,
+    path: PATH,
+    noindex: true,
+    title: `${qTitle} · ${brand.NAME}`,
+    description: "Tally’s desk has no newsroom window in this build.",
+    main: `<section class="dk">
+  <p class="eyebrow">Tally’s desk · does not feed the main number</p>
+  <h1 class="dk__h1 bp__h1">What unserious counts does ${esc(brand.NAME)} keep on Tally’s desk?</h1>
+  <p class="lede">This build carries no newsroom window, so there is nothing to count. Run the collector and rebuild.</p>
+</section>`,
   });
 }
