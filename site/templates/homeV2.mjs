@@ -192,7 +192,7 @@ export function roomGroups(ctx) {
       ['/bets.html', 'dice', 'Tally’s Bets', null, 'Does the SIREN index make forecasts?'],
       ['/day-after.html', 'px:megaphone', 'The Day After', 'NEW', 'What happens the day after an AI catastrophe?'],
       ['/contain.html', 'px:core', 'Containment', 'GAME', 'Can you stop an AI breakout?'],
-      ['/game.html', 'joystick', 'Game', null, 'Thirty seconds: count signals, ignore predictions.'],
+      ['/game.html', 'joystick', 'Game', null, 'How do you play Tally Counts?'],
       ['/desk.html', 'px:notebook', 'Tally’s Desk', null, 'The unserious counts: robots and godfathers.'],
       ['/bunker-kit.html', 'bunker', 'Bunker Kit', null, 'What free tools belong in a bunker kit?'],
       ['/si-ready.html', 'px:backpack', 'Ready for SI?', null, 'Prepare for superintelligence: a 3-minute personal plan.'],

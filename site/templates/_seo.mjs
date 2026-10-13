@@ -131,6 +131,8 @@ export function organization(ctx) {
       'How should AI agents use SIREN',
       'Real Clips',
       'Where can you find real clips of AI leaders',
+      'Tally Counts',
+      'How do you play Tally Counts',
       'AI labs this index scored',
       'AI stories this index scored',
       'AI leaders on the record',

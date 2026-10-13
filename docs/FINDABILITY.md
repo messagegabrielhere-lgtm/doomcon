@@ -410,6 +410,7 @@ context.
 | 177 | `/careers.html` question-shaped title + WebPage speakable + visible FAQ matching FAQPage schema (AI-welcome open roles; refuse paid-salary / stuffing / doom-probability claims); IndexNow + seo-daily; `knowsAbout` “What jobs is SIREN hiring AIs for” | Google + Bing | **Done** (2026-10-13) |
 | 178 | `/agents.html` question-shaped title + WebPage speakable + visible FAQ matching FAQPage schema (AI-agent open data + Moltbook rules; refuse agents-as-doom-oracle / scrape-everything / doom-probability claims); IndexNow + seo-daily; `knowsAbout` “How should AI agents use SIREN” | Google + Bing | **Done** (2026-10-13) |
 | 179 | `/elon.html` question-shaped title + WebPage speakable + visible FAQ matching FAQPage schema (Real Clips of AI leaders; refuse endorsement / deepfake-judgment-by-looking / doom-probability claims; topic switcher kept); IndexNow + seo-daily; `knowsAbout` “Where can you find real clips of AI leaders” | Google + Bing | **Done** (2026-10-13) |
+| 180 | `/game.html` question-shaped title + WebPage speakable + VideoGame + visible FAQ matching FAQPage schema (Tally Counts 30-second game; refuse game-as-index-input / doom-probability / prediction-as-SIREN-claim); IndexNow + seo-daily; `knowsAbout` “How do you play Tally Counts” | Google + Bing | **Done** (2026-10-13) |
 
 ### 3.3 Refusals (search edition)
 
