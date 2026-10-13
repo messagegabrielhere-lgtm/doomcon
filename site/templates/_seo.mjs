@@ -67,6 +67,8 @@ export function organization(ctx) {
       'how many days from a CVE going public to CISA listing it as exploited',
       'Flock ALPR camera map',
       'how many Flock ALPR cameras has SIREN mapped',
+      'SIREN upside index',
+      'what is BLISS, the SIREN upside index',
       'AI labs this index scored',
       'AI stories this index scored',
       'AI leaders on the record',

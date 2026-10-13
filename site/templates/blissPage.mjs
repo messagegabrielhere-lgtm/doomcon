@@ -49,6 +49,7 @@
 import { esc, num, signed, utc, utcDay } from './_html.mjs';
 import { page } from './layout.mjs';
 import { sparkline } from './_charts.mjs';
+import { breadcrumbs, speakable } from './_seo.mjs';
 import * as brand from '../brand.mjs';
 
 const PATH = '/bliss.html';
@@ -344,23 +345,40 @@ export function render(ctx) {
     ? ctx.blissSeriesFor
     : () => [];
 
+  const qTitle = `What is BLISS, the ${brand.NAME} upside index?`;
   const title = hasScore
-    ? `BLISS ${bliss.level} ${bliss.level_name} — the upside index · ${brand.NAME}`
-    : `The upside index — BLISS, awaiting baseline · ${brand.NAME}`;
+    ? `${qTitle} · BLISS ${bliss.level} ${bliss.level_name} · ${brand.NAME}`
+    : `${qTitle} · awaiting baseline · ${brand.NAME}`;
 
   const description = hasScore
-    ? `BLISS ${bliss.level}, ${bliss.level_name}. Upside tempo at ${num(bliss.score, 1)} of 100 ` +
+    ? `${qTitle} BLISS ${bliss.level}, ${bliss.level_name}. Upside tempo at ${num(bliss.score, 1)} of 100 ` +
       `against SIREN's ${score1(doom?.score)}, computed from the same five-pillar percentile ` +
       `machinery over ${total} sources in science, medicine, access, adoption and openness. ` +
       `Compiled ${utc(bliss.generated_at)}.`
-    : `The upside index: ${reporting} of ${total} sources reporting across science, medicine, ` +
+    : `${qTitle} ${reporting} of ${total} sources reporting across science, medicine, ` +
       `access, adoption and openness, ${awaiting} of them awaiting a frozen baseline before they ` +
       `can be scored. Every measured value is published. Compiled ${utc(bliss.generated_at)}.`;
+
+  // FAQ answers restate hero / axis / sources copy only (FINDABILITY §3.3).
+  // Refuse doom-probability / forecast claims for either index.
+  const faq = [
+    [qTitle,
+      `Every AI index measures how bad. This one measures the other direction, with the same machinery: five pillars, the same percentile normalisation against a frozen reference, the same smoothing, the same anti-flap rules. ${brand.NAME} counts takeover-adjacent tempo. BLISS counts science, medicine, access, adoption and openness. Neither is a prediction.`],
+    ['Why publish BLISS beside the main SIREN number?',
+      'The pairing is the instrument. Two numbers computed by identical code over different inputs can be subtracted. Two numbers produced by human or model judgement cannot. That is the whole argument for publishing both.'],
+    ['Is a BLISS score a probability?',
+      "A score is a percentile position against that index's own frozen reference distribution — never a probability, and never a comparison between the two fields."],
+    ['How many BLISS sources answered this run?',
+      `${reporting} of ${total} sources answered this run — ${scored} scored, ${awaiting} awaiting a baseline, ${dark} dark. Dark sources are excluded from every number on this page, never imputed and never counted as zero.`],
+  ];
+  const faqHtml = faq.map(([qAsk, a]) => `
+  <h3>${esc(qAsk)}</h3>
+  <p>${esc(a)}</p>`).join('');
 
   const main = `<style>${blissCss()}</style>
 <section class="bintro">
   <p class="eyebrow">BLISS</p>
-  <h1 class="bintro__h1">The upside index</h1>
+  <h1 class="bintro__h1">What is BLISS, the ${esc(brand.NAME)} upside index?</h1>
   <p class="bintro__tag">The other ending.</p>
   <p class="lede">Every AI index measures how bad. This one measures the other direction, with the
      same machinery: five pillars, the same percentile normalisation against a frozen reference,
@@ -419,6 +437,13 @@ ${hasScore ? '' : awaitingPanel(bliss, reporting, total, awaiting, dark)}
 </section>
 
 ${howComputed(ctx, bliss)}
+
+<section class="bfaq" aria-labelledby="faq">
+  <h2 id="faq">Questions people actually ask</h2>
+  ${faqHtml}
+  <p class="bfaq-key">Search-shaped sibling:
+    <a href="${esc(ctx.href('/watts.html'))}">What does the ${esc(brand.NAME)} infrastructure index read?</a>.</p>
+</section>
 `;
 
   return page({
@@ -427,13 +452,28 @@ ${howComputed(ctx, bliss)}
     title,
     ogTitle: hasScore
       ? `BLISS ${bliss.level} ${bliss.level_name} · ${brand.NAME}`
-      : `The upside index — BLISS · ${brand.NAME}`,
+      : `${qTitle} · ${brand.NAME}`,
     description,
     ogImage: ctx.cardFor ? ctx.cardFor('bliss') : null,
     ogImageAlt: hasScore
       ? `BLISS ${bliss.level} ${bliss.level_name}, ${num(bliss.score, 1)} of 100`
       : `BLISS, the upside index, awaiting baseline`,
-    jsonld: [dataset(ctx, bliss)],
+    jsonld: [
+      dataset(ctx, bliss, qTitle),
+      breadcrumbs(ctx, [
+        { name: 'Home', path: '/' },
+        { name: 'BLISS', path: PATH },
+      ]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map(([qAsk, a]) => ({
+          '@type': 'Question',
+          name: qAsk,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
+      },
+    ],
     main,
   });
 }
@@ -480,16 +520,17 @@ function awaitingPanel(bliss, reporting, total, awaiting, dark) {
  * page that Google has cached is worse than no page.
  */
 function emptyPage(ctx) {
+  const qTitle = `What is BLISS, the ${brand.NAME} upside index?`;
   return page({
     ctx,
     path: PATH,
     noindex: true,
-    title: `The upside index — BLISS · ${brand.NAME}`,
+    title: `${qTitle} · ${brand.NAME}`,
     description: `${brand.NAME}'s upside index has not published a run yet.`,
     main: `<style>${blissCss()}</style>
 <section class="bintro">
   <p class="eyebrow">BLISS</p>
-  <h1 class="bintro__h1">The upside index</h1>
+  <h1 class="bintro__h1">What is BLISS, the ${esc(brand.NAME)} upside index?</h1>
   <p class="bintro__tag">The other ending.</p>
   <p class="lede">No BLISS run has been published in this build. This is not an empty result
      &mdash; it is the absence of a result, and the two are different states. When
@@ -545,11 +586,11 @@ function howComputed(ctx, bliss) {
 }
 
 /** Schema.org Dataset. Modest and accurate: it describes what is actually here. */
-function dataset(ctx, bliss) {
+function dataset(ctx, bliss, title) {
   return {
     '@context': 'https://schema.org',
     '@type': 'Dataset',
-    name: `BLISS — ${brand.NAME}'s upside index`,
+    name: title || `What is BLISS, the ${brand.NAME} upside index?`,
     description:
       'Five-pillar upside index for AI: science, medicine, access, adoption and openness, ' +
       'normalised as percentiles against a frozen reference distribution and published beside ' +
@@ -559,6 +600,7 @@ function dataset(ctx, bliss) {
     isAccessibleForFree: true,
     creator: { '@type': 'Organization', name: brand.NAME },
     dateModified: bliss.generated_at,
+    speakable: speakable(['h1.bintro__h1', 'p.lede']),
     variableMeasured: (bliss.pillars || []).map((p) => ({
       '@type': 'PropertyValue',
       name: `BLISS ${p.name}`,
@@ -685,6 +727,12 @@ function blissCss() {
 .bhow__list li { margin-bottom: 7px; }
 .bhow__list b { color: var(--ink); }
 .bhow__links { display: flex; flex-wrap: wrap; gap: 14px; font-size: var(--t-sm); margin: 12px 0 0; }
+
+.bfaq { margin: var(--sec) 0 var(--s-5); max-width: 62ch; }
+.bfaq h2 { font: 600 var(--t-lg)/1.2 var(--sans); margin: 0 0 var(--s-3); }
+.bfaq h3 { font: 600 var(--t-base)/1.3 var(--sans); margin: var(--s-4) 0 var(--s-2); }
+.bfaq p { font: 400 var(--t-base)/1.55 var(--sans); color: var(--ink-dim); margin: 0 0 var(--s-2); }
+.bfaq-key { margin-top: var(--s-4) !important; }
 
 @media (min-width: 720px) {
   .bp__grid { grid-template-columns: repeat(2, 1fr); }

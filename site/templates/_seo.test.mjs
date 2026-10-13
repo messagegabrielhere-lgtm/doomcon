@@ -144,6 +144,10 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('what is the SIREN daily brief'));
     assert.ok(org.knowsAbout.includes('CVE exploit lag'));
     assert.ok(org.knowsAbout.includes('how many days from a CVE going public to CISA listing it as exploited'));
+    assert.ok(org.knowsAbout.includes('Flock ALPR camera map'));
+    assert.ok(org.knowsAbout.includes('how many Flock ALPR cameras has SIREN mapped'));
+    assert.ok(org.knowsAbout.includes('SIREN upside index'));
+    assert.ok(org.knowsAbout.includes('what is BLISS, the SIREN upside index'));
     assert.ok(org.knowsAbout.includes('AI labs this index scored'));
     assert.ok(org.knowsAbout.includes('AI stories this index scored'));
     assert.ok(org.knowsAbout.includes('AI leaders on the record'));
