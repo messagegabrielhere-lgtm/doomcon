@@ -5,7 +5,7 @@ import { page } from './layout.mjs';
 import * as brand from '../brand.mjs';
 
 export const GAMES = [
-  ['/contain.html', 'px:core', 'Containment', 'Arcade', 'Rogue AI processes are breaching the firewall. Stop them before they escape.', '#F87171'],
+  ['/contain.html', 'px:core', 'Containment', 'Arcade', 'Can you stop an AI breakout?', '#F87171'],
   ['/game.html', 'px:joystick', 'Signal or Noise', '30 seconds', 'Count the real signals, ignore the predictions. Beat your best score.', '#4ADE80'],
   ['/day-after.html', 'px:megaphone', 'The Day After', 'Strategy', 'An AI catastrophe just happened. Game out the public revolt, move by move.', '#FB923C'],
   ['/self-aware.html', 'px:redeye', 'The Night It Wakes Up', 'Simulation', 'Watch the Skynet scenario spread across a map of real US data centres.', '#EF4444'],
