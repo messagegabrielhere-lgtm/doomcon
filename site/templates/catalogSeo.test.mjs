@@ -102,6 +102,13 @@ describe('catalog page SEO', () => {
     assert.doesNotMatch(byUrl['/race.html']?.title || '', /^The Race$/);
   });
 
+  it('lists receipts under a question title (tip #216)', () => {
+    const list = catalogEntries({});
+    const byUrl = Object.fromEntries(list.map((e) => [e.url, e]));
+    assert.equal(byUrl['/api/receipts/']?.title, 'Where are the SIREN reading receipts?');
+    assert.doesNotMatch(byUrl['/api/receipts/']?.title || '', /^Receipts$/);
+  });
+
   it('lists each pillar page under its question H1 (tip #215)', () => {
     const list = catalogEntries({});
     const byUrl = Object.fromEntries(list.map((e) => [e.url, e]));
