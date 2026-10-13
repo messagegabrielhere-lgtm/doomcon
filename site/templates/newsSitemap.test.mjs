@@ -181,6 +181,26 @@ test('render keywords include Epoch AI lab surface', () => {
   assert.match(xml, /<news:keywords>[^<]*Epoch AI/);
 });
 
+test('render keywords include Salesforce and World Labs surfaces', () => {
+  const xml = render({
+    news: {
+      items: [{
+        id: 'a8',
+        title: 'Salesforce buoy Dow as AMD courts World Labs',
+        summary: 'Enterprise AI M&A names Salesforce and World Labs.',
+        published_at: new Date().toISOString(),
+        source: 'hn',
+        pillar: 'capability',
+        kind: 'press',
+        entities: [],
+      }],
+    },
+    url: (p) => `https://example.test${p}`,
+  });
+  assert.match(xml, /<news:keywords>[^<]*Salesforce/);
+  assert.match(xml, /<news:keywords>[^<]*World Labs/);
+});
+
 test('keywordsFor keeps lab surfaces ahead of topic-tag flood under the 12-cap', () => {
   const kw = keywordsFor({
     title: 'Decart agents ship computer use, prompt injection defenses, and multimodal reasoning',

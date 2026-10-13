@@ -646,6 +646,51 @@ describe('lab facets', () => {
     assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/lab/artificial-analysis.html'));
   });
 
+  it('indexes Salesforce and World Labs entity labs from archive', () => {
+    const withArch = {
+      ...ctx,
+      news: { ...ctx.news, items: [...ctx.news.items] },
+      itemArchive: [
+        {
+          id: 'sf1', title: 'Salesforce agrees to buy Listen Labs', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/sf1', published_at: '2026-09-01T01:00:00Z', score: 40,
+        },
+        {
+          id: 'sf2', title: 'Salesforce is saying bye to AI branding', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/sf2', published_at: '2026-09-02T01:00:00Z', score: 41,
+        },
+        {
+          id: 'sf3', title: 'Ex-Meta, Salesforce lead categorises AI workers', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/sf3', published_at: '2026-09-03T01:00:00Z', score: 42,
+        },
+        {
+          id: 'wl1', title: 'AMD acquires World Labs AI startup', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/wl1', published_at: '2026-09-01T02:00:00Z', score: 40,
+        },
+        {
+          id: 'wl2', title: 'AMD agrees to acquire Fei-Fei Li\'s World Labs', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/wl2', published_at: '2026-09-02T02:00:00Z', score: 41,
+        },
+        {
+          id: 'wl3', title: 'AMD is acquiring AI company World Labs', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/wl3', published_at: '2026-09-03T02:00:00Z', score: 42,
+        },
+        {
+          id: 'wlbad', title: 'A world of labs races toward AGI', pillar: 'governance', source: 'hn',
+          url: 'https://example.test/wlbad', published_at: '2026-09-04T02:00:00Z', score: 30,
+        },
+      ],
+    };
+    const ids = labsFromEntities(withArch).map((p) => p.id);
+    assert.ok(ids.includes('salesforce'), 'Salesforce clears ENTITY_LAB_MIN');
+    assert.ok(ids.includes('world-labs'), 'World Labs clears ENTITY_LAB_MIN');
+    assert.match(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'salesforce')), /Salesforce: AI stories this index scored/);
+    assert.match(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'world-labs')), /World Labs: AI stories this index scored/);
+    assert.doesNotMatch(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'world-labs')), /A world of labs/);
+    assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/lab/salesforce.html'));
+    assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/lab/world-labs.html'));
+  });
+
   it('indexes Supermicro, IREN, OpenRouter, and Reflection AI entity labs from archive', () => {
     const withArch = {
       ...ctx,

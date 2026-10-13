@@ -450,6 +450,8 @@ function labNeedles(player) {
     cisco: ['cisco'],
     'epoch-ai': ['epoch ai'],
     'artificial-analysis': ['artificial analysis'],
+    salesforce: ['salesforce'],
+    'world-labs': ['world labs'],
   };
   return [...new Set([...(extras[player.id] || []), ...names])];
 }

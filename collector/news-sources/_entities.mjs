@@ -98,6 +98,10 @@ const ENTITY_DEFS = [
   { name: 'Epoch AI', kind: 'lab', forms: ['Epoch AI'] },
   // Independent model-eval lab — two-word form only (no bare “Analysis”).
   { name: 'Artificial Analysis', kind: 'lab', forms: ['Artificial Analysis'] },
+  // Enterprise CRM + AI cloud — distinctive single token.
+  { name: 'Salesforce', kind: 'lab', forms: ['Salesforce'] },
+  // Fei-Fei Li spatial-intelligence lab — two-word form only (no bare “World”).
+  { name: 'World Labs', kind: 'lab', forms: ['World Labs'] },
 
   // --- model families ---
   { name: 'GPT', kind: 'model', forms: ['GPT-3', 'GPT-4', 'GPT-4o', 'GPT-5', 'GPT-6', 'ChatGPT', 'GPT'] },
