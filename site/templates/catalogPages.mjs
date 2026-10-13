@@ -148,6 +148,18 @@ const EMBEDS = [
 
 const unent = (s) => String(s || '').replace(/&#39;/g, '’').replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
 const clip = (s, n) => { const t = String(s || '').replace(/\s+/g, ' ').trim(); return t.length > n ? `${t.slice(0, n - 1).replace(/\s+\S*$/, '')}…` : t; };
+
+// Home room tiles keep short labels ("Tags", "Compare indexes"). When those
+// groups feed the catalog, prefer a question-shaped title from MORE_PAGES or
+// from the blurb so internal links match the page <title> / H1 (tip #213).
+const MORE_TITLE_BY_URL = new Map(MORE_PAGES.map(([href, , label]) => [href, label]));
+export function catalogTitle(href, label, blurb) {
+  if (/\?/.test(label || '')) return label;
+  const more = MORE_TITLE_BY_URL.get(href);
+  if (more && /\?/.test(more)) return more;
+  const m = String(blurb || '').match(/([^?]+\?)/);
+  return m ? m[1].trim() : label;
+}
 const mmss = (s) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
 
 /** <title> and description of a written page, for pages no list describes. */
@@ -189,7 +201,7 @@ export function catalogEntries(o = {}) {
     for (const [href, icon, label, , blurb] of list) {
       if (o.files && !has(href)) continue;
       const type = GAMES.has(href) ? 'game' : TOOLS.has(href) ? 'tool' : 'page';
-      add({ type, title: label, url: href, desc: blurb || '', group, icon, keys: group.toLowerCase() });
+      add({ type, title: catalogTitle(href, label, blurb), url: href, desc: blurb || '', group, icon, keys: group.toLowerCase() });
     }
   }
   for (const [href, icon, label, blurb] of MORE_PAGES) {

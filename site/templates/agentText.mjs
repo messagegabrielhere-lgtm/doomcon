@@ -314,7 +314,7 @@ Honesty rules:
 - [Is there an AI doomsday clock?](${u('/ai-doomsday-clock.html')})
 - [Is AI taking jobs? What has actually been measured](${u('/jobs.html')})
 - [Is AI curing anything? Trial results, approvals and what they show](${u('/medicine.html')})
-- [AI breakthroughs](${u('/breakthroughs.html')})
+- [What AI breakthroughs has SIREN tracked?](${u('/breakthroughs.html')})
 - [What is SIREN?](${u('/about.html')})
 - [Where is the SIREN press kit?](${u('/press.html')})
 - [What are the SIREN terms of use?](${u('/terms.html')}) · [What does SIREN know about you?](${u('/privacy.html')}) · [What does SIREN disclose?](${u('/disclosures.html')})
@@ -329,10 +329,10 @@ ${facetLinks(ctx, u)}
 
 ## Optional
 
-- [Newsroom](${u('/news.html')})
+- [Which AI stories has SIREN scored in this window?](${u('/news.html')})
 - [Live scored stories](${u('/item/')})
 - [Which older AI stories has SIREN kept in the archive?](${u('/item/archive.html')})
-- [AI leaders](${u('/leaders.html')})
+- [Which AI leaders are on the record this week?](${u('/leaders.html')})
 - [Which AI leaders have press coverage pages on SIREN?](${u('/people/')})
 - [Which AI people has SIREN scored press about?](${u('/people.html')}): same gated roster; headlines only, no person doom score
 - [Which AI news tags have SIREN pages?](${u('/tags/')}): topic hubs when a needle clears five stories in the live window or archive
@@ -340,12 +340,12 @@ ${facetLinks(ctx, u)}
 - [Which AI story kinds have SIREN pages?](${u('/kind/')})
 - [Which AI story kinds has SIREN scored?](${u('/kinds.html')})
 - [Takeover Watch](${u('/si-watch.html')})
-- [Prepare for superintelligence](${u('/si-ready.html')})
-- [AI-proof your job](${u('/ai-proof-job.html')})
+- [Ready for superintelligence?](${u('/si-ready.html')})
+- [How do I AI-proof my job?](${u('/ai-proof-job.html')})
 - [The staff: the automated crew](${u('/staff.html')})
 - [Bunker Kit: free tools and gear checklist](${u('/bunker-kit.html')})
-- [Catalog](${u('/catalog.html')})
-- [Search](${u('/search.html')})
+- [Where is everything on SIREN listed?](${u('/catalog.html')})
+- [How do you search everything on SIREN?](${u('/search.html')})
 - [Which AI feed adapters have SIREN pages?](${u('/source/')})
 - [Which AI news sources has SIREN scored via?](${u('/sources.html')})
 - [Which AI publishers have SIREN pages?](${u('/outlet/')})
@@ -368,15 +368,15 @@ ${facetLinks(ctx, u)}
 function instrumentLinks(ctx, u) {
   const r = (ctx && ctx.routes) || {};
   return [
-    r.race !== false ? `- [The Race: frontier labs on live market odds](${u('/race.html')})` : null,
-    r.watts !== false || (ctx && ctx.infra) ? `- [Power / Watts: grid, drought, build-out](${u('/watts.html')})` : null,
-    r.map !== false || (ctx && ctx.datacenters) ? `- [Map: US datacentres vs water](${u('/map.html')})` : null,
-    r.world ? `- [World: every mapped datacentre](${u('/world.html')})` : null,
-    r.flock ? `- [Cameras: mapped licence-plate readers](${u('/flock.html')})` : null,
-    r.exploits ? `- [Exploits: disclosure to exploitation lag](${u('/exploits.html')})` : null,
-    ctx && ctx.digest ? `- [Digest: the day in corroborated items](${u('/digest.html')})` : null,
-    r.balance ? `- [Balance: harm and benefit side by side](${u('/balance.html')})` : null,
-    ctx && ctx.bliss ? `- [Upside / BLISS](${u('/bliss.html')})` : null,
+    r.race !== false ? `- [Who is winning the AI race?](${u('/race.html')})` : null,
+    r.watts !== false || (ctx && ctx.infra) ? `- [What does the SIREN infrastructure index read?](${u('/watts.html')})` : null,
+    r.map !== false || (ctx && ctx.datacenters) ? `- [How many datacentres has SIREN mapped in the United States?](${u('/map.html')})` : null,
+    r.world ? `- [How many datacentres has SIREN mapped on Earth?](${u('/world.html')})` : null,
+    r.flock ? `- [How many Flock ALPR cameras has SIREN mapped?](${u('/flock.html')})` : null,
+    r.exploits ? `- [How many days from a CVE going public to CISA listing it as exploited?](${u('/exploits.html')})` : null,
+    ctx && ctx.digest ? `- [What is the SIREN daily brief?](${u('/digest.html')})` : null,
+    r.balance ? `- [How does SIREN count AI harm and benefit side by side?](${u('/balance.html')})` : null,
+    ctx && ctx.bliss ? `- [What is BLISS, the SIREN upside index?](${u('/bliss.html')})` : null,
   ].filter(Boolean).join('\n') || `- [Homepage instruments](${u('/')})`;
 }
 

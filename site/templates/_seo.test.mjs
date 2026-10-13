@@ -272,6 +272,9 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('AI leaders on the record'));
     assert.ok(org.knowsAbout.includes('AI race'));
     assert.ok(org.knowsAbout.includes('who is winning the AI race'));
+    assert.ok(org.knowsAbout.includes('Which AI leaders are on the record this week'));
+    assert.ok(org.knowsAbout.includes('Which AI stories has SIREN scored in this window'));
+    assert.ok(org.knowsAbout.includes('Which AI tags has SIREN scored stories about'));
     assert.ok(org.knowsAbout.includes('AI IPOs this index scored'));
     assert.ok(org.knowsAbout.includes('scored AI stories this index kept'));
     assert.ok(org.knowsAbout.includes('DoomBench alternative'));

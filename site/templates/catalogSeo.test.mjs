@@ -1,12 +1,25 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
-import { catalog, catalogEntries } from './catalogPages.mjs';
+import { catalog, catalogEntries, catalogTitle } from './catalogPages.mjs';
+import { roomGroups } from './homeV2.mjs';
 
 const ctx = {
   url: (p) => `https://siren.watch${p === '/' ? '/' : p}`,
   href: (p) => p,
   cardFor: () => null,
   state: { generated_at: '2026-10-13T15:00:00Z', score: 56.2, level: 4, level_name: 'ROUTINE' },
+  routes: { world: 1, flock: 1, exploits: 1, balance: 1 },
+  race: null,
+  leaders: null,
+  news: null,
+  digest: {},
+  infra: null,
+  datacenters: null,
+  world: null,
+  flock: null,
+  molt: null,
+  liveMedia: null,
+  history: null,
 };
 
 const entries = [
@@ -56,6 +69,37 @@ describe('catalog page SEO', () => {
     assert.equal(byUrl['/item/archive.html']?.title, 'Which older AI stories has SIREN kept in the archive?');
     assert.equal(byUrl['/lab/']?.title, 'Which AI labs have SIREN pages?');
     assert.doesNotMatch(byUrl['/tags.html']?.title || '', /^AI tags$/);
+  });
+
+  it('prefers question titles when home groups supply short labels (tip #213)', () => {
+    assert.equal(
+      catalogTitle('/tags.html', 'Tags', 'Which AI tags has SIREN scored stories about? Topic hubs.'),
+      'Which AI tags has SIREN scored stories about?',
+    );
+    assert.equal(
+      catalogTitle('/race.html', 'The Race', 'Who is winning the AI race? Labs ranked on odds.'),
+      'Who is winning the AI race?',
+    );
+    assert.equal(catalogTitle('/si-ready.html', 'Ready for SI', 'Ready for superintelligence? Plan.'), 'Ready for superintelligence?');
+
+    const list = catalogEntries({ groups: roomGroups(ctx) });
+    const byUrl = Object.fromEntries(list.map((e) => [e.url, e]));
+    assert.equal(byUrl['/tags.html']?.title, 'Which AI tags has SIREN scored stories about?');
+    assert.equal(byUrl['/compare.html']?.title, 'Which AI doom indexes can you compare?');
+    assert.equal(byUrl['/alternatives.html']?.title, 'What are AI doom index alternatives?');
+    assert.equal(byUrl['/models.html']?.title, 'Which AI models has SIREN scored stories about?');
+    assert.equal(byUrl['/race.html']?.title, 'Who is winning the AI race?');
+    assert.equal(byUrl['/leaders.html']?.title, 'Which AI leaders are on the record this week?');
+    assert.equal(byUrl['/watts.html']?.title, 'What does the SIREN infrastructure index read?');
+    assert.equal(byUrl['/map.html']?.title, 'How many datacentres has SIREN mapped in the United States?');
+    assert.equal(byUrl['/world.html']?.title, 'How many datacentres has SIREN mapped on Earth?');
+    assert.equal(byUrl['/bliss.html']?.title, 'What is BLISS, the SIREN upside index?');
+    assert.equal(byUrl['/ai-proof-job.html']?.title, 'How do I AI-proof my job?');
+    assert.equal(byUrl['/si-ready.html']?.title, 'Ready for superintelligence?');
+    assert.equal(byUrl['/bug-out-land.html']?.title, 'Where to buy remote land to ride out Skynet?');
+    assert.doesNotMatch(byUrl['/tags.html']?.title || '', /^Tags$/);
+    assert.doesNotMatch(byUrl['/compare.html']?.title || '', /^Compare indexes$/);
+    assert.doesNotMatch(byUrl['/race.html']?.title || '', /^The Race$/);
   });
 
   it('ships a question-shaped title, speakable CollectionPage, and matching FAQPage', () => {
