@@ -48,6 +48,7 @@ const MORE_PAGES = [
   ['/p-doom.html', 'dice', 'What is p(doom)?', 'The probability-of-doom number, explained.'],
   ['/moves/', 'px:updown', 'Every move', 'Each hourly reading that moved, with what moved it.'],
   ['/item/', 'news', 'Every story', 'One permanent page per scored story.'],
+  ['/day/', 'archive', 'Day archive', 'Closing reading and scored headlines, one UTC day at a time.'],
   ['/source/', 'news', 'Outlets', 'Scored stories grouped by the outlet that published them.'],
   ['/model/', 'news', 'Model families', 'Scored stories grouped by the model family the headline names.'],
   ['/country/', 'globe', 'Datacentres by country', 'Mapped datacentre sites, one page per country that clears the count.'],

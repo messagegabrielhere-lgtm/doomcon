@@ -202,6 +202,7 @@ import * as agentDiscovery from './templates/agentDiscovery.mjs';
 import * as facetPages from './templates/facetPages.mjs';
 import * as modelPages from './templates/modelPages.mjs';
 import * as countryPages from './templates/countryPages.mjs';
+import * as dayPages from './templates/dayPages.mjs';
 import * as comparePages from './templates/comparePages.mjs';
 import { page as layoutPage } from './templates/layout.mjs';
 import { render as sitemap, robots } from './templates/sitemap.mjs';
@@ -734,6 +735,13 @@ async function writeModelAndCountryPages(ctx, outDir, write, written) {
     }
     written.push(await write(outDir, 'country/index.html', countryPages.renderIndex(ctx)));
   }
+}
+
+async function writeDayPages(ctx, outDir, write, written) {
+  for (const day of dayPages.indexableDays(ctx)) {
+    written.push(await write(outDir, `day/${day}.html`, dayPages.renderDay(ctx, day)));
+  }
+  written.push(await write(outDir, 'day/index.html', dayPages.renderIndex(ctx)));
 }
 
 function modelAndCountryAliases(ctx) {
@@ -1407,6 +1415,7 @@ async function main() {
     }
     written.push(await write(args.out, 'source/index.html', facetPages.renderSourceIndex(ctx)));
     await writeModelAndCountryPages(ctx, args.out, write, written);
+    await writeDayPages(ctx, args.out, write, written);
     // Keep the crawl surfaces in step with the newsroom window (item + facet
     // URLs change every fast pass; a stale sitemap is how Google News goes quiet).
     written.push(await write(args.out, 'sitemap.xml', sitemap(ctx)));
@@ -1754,6 +1763,7 @@ async function main() {
   }
   written.push(await write(args.out, 'source/index.html', facetPages.renderSourceIndex(ctx)));
   await writeModelAndCountryPages(ctx, args.out, write, written);
+  await writeDayPages(ctx, args.out, write, written);
   for (const m of moves) {
     written.push(await write(args.out, `moves/${m.id}.html`, movePage.render(ctx, m)));
   }
@@ -1776,6 +1786,7 @@ async function main() {
       ...facetPages.labsFromRace(ctx).map((p) => `lab/${p.id}`),
       ...facetPages.indexableSources(ctx).map((s) => `source/${s.id}`),
       ...modelAndCountryAliases(ctx),
+      ...dayPages.indexableDays(ctx).map((d) => `day/${d}`),
     ],
     write,
     written,

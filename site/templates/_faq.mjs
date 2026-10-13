@@ -37,6 +37,8 @@ export function items(ctx) {
       `One person runs it. It is free. Visits are counted with Google Analytics and cookieless GoatCounter, both disclosed on the privacy page. The paid links are the Amazon links on the reading list and in the Bunker Kit's supplies crate, which are labelled; there is room for one named sponsor with no say over the number, and a donate link to the project's X account.`],
     ['How can I cite, embed or share it?',
       `The site's text and data are licensed ${brand.LICENSE}. There is an iframe embed and a README badge on the home page, a public JSON API, two RSS feeds, and a "Post on X" link on every card.`],
+    ['How do I get told when the level changes?',
+      `Open /alerts.html. The level-change RSS feed fires only when ${brand.NAME} moves level — usually a handful of times a year — and the same page shows how to pipe that feed to email, Slack, Discord or a webhook. Follow @SIRENutf6 on X and turn on post notifications for the same signal. Day pages under /day/ keep a bookmarkable UTC archive of each closing reading.`],
     ['Who is Tally?',
       `Tally is the duty canary, the mascot. The helmet is painted in the current level's colour and the face follows the level: asleep at 5, in full squawk at 1. Tally also keeps the unserious counts and runs the counting game.`],
   ];

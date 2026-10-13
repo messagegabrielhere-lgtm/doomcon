@@ -94,6 +94,25 @@ function raceLeaderLine(ctx, href) {
 </a>`;
 }
 
+/** Retention panel: level changes are rare, so the subscribe promise is specific. */
+function comeBackPanel(ctx, state, href) {
+  const levelUrl = ctx.url('/feed-level.xml');
+  const blogtrottr = `https://blogtrottr.com/?url=${encodeURIComponent(levelUrl)}`;
+  const today = String(state.generated_at || '').slice(0, 10);
+  const dayHref = /^\d{4}-\d{2}-\d{2}$/.test(today) ? href(`/day/${today}.html`) : href('/day/');
+  return `<section class="v2-comeback" id="comeback" data-sec="Come back" aria-labelledby="v2-comeback-h">
+  <div class="v2-sec"><h2 id="v2-comeback-h">${pixelText('COME BACK WHEN IT MOVES', 4, '#FFFFFF', 'fit')}</h2><span>LEVEL CHANGES ARE RARE · THAT IS THE POINT</span></div>
+  <p class="v2-comeback__lede">The hourly score twitches. The <b>level</b> usually does not. Get told when ${esc(brand.NAME)} actually changes level — maybe a handful of pings a year — or bookmark today’s day page and check what moved since.</p>
+  <div class="v2-comeback__grid">
+    <a class="v2-comeback__card" href="${esc(href('/alerts.html'))}"><b>ALERTS</b><span>RSS, email recipes, webhook and in-tab notifications. Pick level-only or score swings.</span></a>
+    <a class="v2-comeback__card" href="${esc(href('/feed-level.xml'))}"><b>LEVEL RSS</b><span>One feed that fires only on a level change. Pipe it to Feedly, Blogtrottr or Slack.</span></a>
+    <a class="v2-comeback__card" href="${esc(blogtrottr)}" rel="noopener" target="_blank"><b>EMAIL THE LEVEL</b><span>Open Blogtrottr with the level feed pre-filled. Your address goes to them, not here.</span></a>
+    <a class="v2-comeback__card" href="${esc(dayHref)}"><b>TODAY’S DAY PAGE</b><span>Closing reading plus scored headlines for this UTC day. Bookmarkable archive.</span></a>
+  </div>
+  <p class="v2-comeback__foot"><a href="${esc(href('/day/'))}">Day archive</a> · <a href="${esc(href('/changelog.html'))}">Hour-by-hour changelog</a> · <a href="https://x.com/intent/follow?screen_name=SIRENutf6">Follow @SIRENutf6</a> (bell → All posts)</p>
+</section>`;
+}
+
 function shareReuse(ctx, state, href) {
   const score = num(state.score, 1);
   const cite = `${brand.NAME} ${state.level} (${state.level_name}), composite ${score} of 100, observed ${String(state.generated_at).slice(0, 19)}Z. Tempo, not a probability.${state.receipt_id ? ` Receipt ${state.receipt_id}.` : ''}`;
@@ -160,6 +179,7 @@ export function roomGroups(ctx) {
       ['/radio.html', 'px:radio', 'SIREN Radio', '6 stations', 'Six stations of music generated live in your browser.'],
       ['/live.html', 'px:livetv', 'AI on TV & Radio', ctx.liveMedia ? `${((ctx.liveMedia.live && ctx.liveMedia.live.items) || []).length} live now` : null, 'AI live streams, news segments and AI talk radio, auto-updated.'],
       ['/changelog.html', 'px:updown', 'What Moved', null, 'Every hour’s changes: score, pillars and top stories.'],
+      ['/day/', 'archive', 'Day archive', null, 'Closing reading and headlines, one UTC day at a time.'],
     ]],
     ['THE MACHINES', [
       ['/watts.html', 'power', 'Power', ctx.infra && Number.isFinite(ctx.infra.score) ? `${ctx.infra.score.toFixed(1)} / 100` : null, 'Grid load, drought and build-out under the models.'],
@@ -256,7 +276,9 @@ if(P.level!==N.level)out.push('<b>Level moved</b> SIREN '+P.level+' → <b>SIREN
 if(P.score!=null&&N.score!=null){var d=Math.round((N.score-P.score)*10)/10;out.push('Score '+P.score.toFixed(1)+' → <b>'+N.score.toFixed(1)+'</b>'+(d?' ('+(d>0?'▲':'▼')+Math.abs(d).toFixed(1)+')':' (no change)'))}
 var nn=(N.news||[]).filter(function(t){return t>seen}).length;if(nn)out.push('<a href="news.html"><b>'+nn+'</b> new '+(nn===1?'story':'stories')+'</a>');
 if(N.leader&&P.leader&&N.leader!==P.leader)out.push('<a href="race.html"><b>'+N.leader+'</b> took the lead from '+P.leader+'</a>');else if(N.leader&&P.lp!=null&&N.lp!=null&&Math.abs(N.lp-P.lp)>=0.5)out.push('<a href="race.html">'+N.leader+' '+P.lp.toFixed(1)+'% → <b>'+N.lp.toFixed(1)+'%</b></a>');
-if(!out.length)return;var ago=h<1?Math.round(h*60)+' MIN':h<48?Math.round(h)+' H':Math.round(h/24)+' DAYS';
+if(!out.length)out.push('Same reading');
+out.push('<a href="alerts.html"><b>Get alerts</b> when the level moves</a>');
+var ago=h<1?Math.round(h*60)+' MIN':h<48?Math.round(h)+' H':Math.round(h/24)+' DAYS';
 box.innerHTML='<span class="k">SINCE YOUR LAST VISIT · '+ago+' AGO</span><span class="v">'+out.join('<i>·</i>')+'</span><button type="button" aria-label="Dismiss">×</button>';box.hidden=false;box.querySelector('button').onclick=function(){box.hidden=true}})();
 var f=document.getElementById('v2-fresh');if(f){var at=Date.parse(f.getAttribute('data-at'));var h=(Date.now()-at)/36e5;var lb=f.querySelector('b');if(lb){var mm=Math.max(0,Math.round(h*60));lb.textContent=new Date(at).toLocaleTimeString([],{hour:'numeric',minute:'2-digit'})+' · '+(mm<60?mm+' MIN AGO':Math.round(h)+' H AGO');}f.title='The SIREN score is recalculated once an hour from every source, usually 10–30 minutes past the hour. News and alerts are live.';if(h>2){f.classList.add('stale');f.title='The newest SIREN score is '+Math.round(h)+' hours old. It normally updates every hour. News and alerts are still live.';f.insertAdjacentHTML('beforeend',' · OVERDUE')}}
 // Sticky jump when fresh.json advances while this tab stays open.
@@ -722,11 +744,12 @@ ${movedPanel(wm, href)}
 
 ${roomsGrid(ctx, href, img)}
 
+  ${comeBackPanel(ctx, state, href)}
   ${shareReuse(ctx, state, href)}
 
   <div class="v2-cta" id="tally" data-sec="Tally">
     <img class="v2-art bob" loading="lazy" decoding="async" src="${img('canary')}" width="88" height="88" alt="">
-    <div class="col">${pixelText('TALLY IS STILL SINGING', 4, '#FFFFFF', 'fit')}<span>Our duty canary posts on X the hour the level moves. Nothing in between. Or subscribe to <a href="${href('/feed-level.xml')}">level-change RSS</a> — maybe a handful of pings a year, if you pipe the feed.</span></div>
+    <div class="col">${pixelText('TALLY IS STILL SINGING', 4, '#FFFFFF', 'fit')}<span>Our duty canary posts on X the hour the level moves. Nothing in between. Or subscribe to <a href="${href('/feed-level.xml')}">level-change RSS</a> — maybe a handful of pings a year, if you pipe the feed. Day pages and <a href="${href('/alerts.html')}">alerts</a> are the other ways back in.</span></div>
     <a class="v2-btn" href="https://x.com/intent/follow?screen_name=SIRENutf6">FOLLOW @SIRENutf6 →</a>
   </div>
   ${newsletterBox(href('/privacy.html')) ? `<div class="v2-nl">${newsletterBox(href('/privacy.html'))}</div>` : ''}
@@ -917,6 +940,16 @@ body.v2-body{margin:0;background:#000;color:#F3F4F6}
 .v2 .live{padding:3px 8px;background:#DC2626;color:#fff;font-size:12px;font-weight:700}
 .v2-cols{display:flex;align-items:flex-end;gap:6px;height:150px;border-bottom:1px solid #2A3344}
 .v2-cols i{flex:1 1 0;background:#3B5BFF;border-top:4px solid #3B5BFF}
+.v2-comeback{border:2px solid #1F6B4A;background:linear-gradient(180deg,#0A1A14 0%,#0E131D 100%);padding:22px 24px;display:flex;flex-direction:column;gap:14px}
+.v2-comeback__lede{margin:0;font:400 15px/1.55 'IBM Plex Sans',system-ui,sans-serif;color:#C5D4CA;max-width:68ch}
+.v2-comeback__lede b{color:#fff}
+.v2-comeback__grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:10px}
+.v2-comeback__card{display:flex;flex-direction:column;gap:6px;padding:14px 16px;border:1px solid #234838;background:#0A120E;color:#D7DCE3;text-decoration:none}
+.v2-comeback__card:hover{border-color:#4ADE80;color:#fff}
+.v2-comeback__card b{font:700 13px/1.2 'IBM Plex Mono',monospace;letter-spacing:.08em;color:#4ADE80}
+.v2-comeback__card span{font:400 13px/1.45 'IBM Plex Sans',system-ui,sans-serif;color:#AEB7C3}
+.v2-comeback__foot{margin:0;font:500 13px/1.45 'IBM Plex Mono',monospace;color:#8A94A3}
+.v2-comeback__foot a{color:#C7D2FE}
 .v2-cta{border:2px solid #4338CA;background:#0E1033;padding:24px 28px;display:flex;align-items:center;gap:22px;flex-wrap:wrap}
 .v2-cta .col{display:flex;flex-direction:column;gap:10px;flex:1 1 300px;min-width:0;color:#C7D2FE}
 .v2-foot{margin:0;font-size:13px;color:#AEB7C3}

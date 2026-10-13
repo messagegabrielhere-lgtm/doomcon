@@ -282,6 +282,8 @@ Honesty rules:
 
 - [Index moves (RSS)](${u('/feed.xml')})
 - [Level changes only (RSS)](${u('/feed-level.xml')})
+- [Alerts hub](${u('/alerts.html')}): RSS → email / Slack / Discord recipes
+- [Day archive](${u('/day/')}): closing reading + scored stories per UTC day
 - [Sitemap](${u('/sitemap.xml')}) · [News sitemap](${u('/news-sitemap.xml')})
 
 ## For agents
@@ -334,6 +336,7 @@ ${facetLinks(ctx, u)}
 - [Search](${u('/search.html')})
 - [Outlets](${u('/source/')}): scored stories grouped by the publication that wrote them
 - [Model families](${u('/model/')}): scored stories grouped by the model the headline names
+- [Day archive](${u('/day/')}): closing reading and scored stories per UTC day
 ${(ctx.routes && ctx.routes.world) ? `- [Datacentres by country](${u('/country/')}): mapped sites, one page per country with at least three\n` : ''}
 ## Complementary (not ${brand.NAME})
 
