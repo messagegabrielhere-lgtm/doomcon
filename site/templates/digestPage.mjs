@@ -27,6 +27,7 @@ import { esc, utc, utcClock, signed, num } from './_html.mjs';
 import { pillarTag, pillarSprite, pillarCss } from './_reel.mjs';
 import { newCounts, newBadgeFor, newCoverageNote } from './_parts.mjs';
 import { page } from './layout.mjs';
+import { breadcrumbs, speakable } from './_seo.mjs';
 import * as brand from '../brand.mjs';
 
 const PATH = '/digest.html';
@@ -53,9 +54,25 @@ export function render(ctx) {
   // newsroom; every consumer below is written to take that.
   const counts = ctx.news ? newCounts(ctx.news) : null;
 
+  const title = `What is the ${brand.NAME} daily brief?`;
+  // FAQ answers restate intro / key copy only (FINDABILITY §3.3).
+  const faq = [
+    [title,
+      leadSentence(d) + ' Nothing on this page was written by a model.'],
+    ['Was any of this written by a model?',
+      'Nothing on this page was written by a model. Every line under every headline is a template with measured numbers substituted into it — how many independent sources carried an item, how that source is publishing against its own baseline, which lab is named and where that lab sits on the leaderboard.'],
+    ['How are items selected for the brief?',
+      `${brief.shown || 0} of ${brief.candidates || 0} items published in the last ${brief.window_hours || 24} hours cleared a selection rule. The selection rules and every threshold are published in the methodology and in docs/DIGEST.md.`],
+    ['Where are the selection rules published?',
+      'The selection rules and every threshold are published in the methodology and in docs/DIGEST.md. Every threshold on this page travels inside data/digest.json beside the numbers it produced.'],
+  ];
+  const faqHtml = faq.map(([qAsk, a]) => `
+  <h3>${esc(qAsk)}</h3>
+  <p>${esc(a)}</p>`).join('');
+
   const main = `<style>${digestCss()}</style>${pillarSprite()}
 <section class="dg__intro">
-  <h1 class="dg__h1">The daily brief</h1>
+  <h1 class="dg__h1">What is the ${esc(brand.NAME)} daily brief?</h1>
   <p class="lede">${esc(leadSentence(d))}</p>
   ${stampStrip(d)}
   <p class="dg__key">Nothing on this page was written by a model. Every line under every headline is a
@@ -69,7 +86,14 @@ ${briefSection(d, brief, counts)}
 ${changedSection(ctx, d, changed, counts)}
 ${streakSection(d, streaks)}
 ${entitySection(ctx, d, ents)}
-${rulesSection(d)}`;
+${rulesSection(d)}
+
+<section class="dg__faq" aria-labelledby="faq">
+  <h2 id="faq">Questions people actually ask</h2>
+  ${faqHtml}
+  <p class="dg__faq-key">Search-shaped sibling:
+    <a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a>.</p>
+</section>`;
 
   const lead = brief.items && brief.items.length ? brief.items[0] : null;
   return page({
@@ -77,12 +101,28 @@ ${rulesSection(d)}`;
     motion: true,
     path: PATH,
     ogType: 'article',
-    title: `The daily brief — ${brief.shown || 0} items, ${changedCount(changed)} changes · ${brand.NAME}`,
-    ogTitle: `${brand.NAME} daily brief — ${utc(d.as_of)}`,
+    title: `${title} · ${brief.shown || 0} items, ${changedCount(changed)} changes · ${brand.NAME}`,
+    ogTitle: `${brand.NAME}: ${title}`,
     description: metaDescription(d, brief, changed, lead),
     ogImage: ctx.cardFor && ctx.state ? ctx.cardFor(ctx.state.receipt_id) : null,
     ogImageAlt: `${brand.NAME} share card`,
-    jsonld: [reportLd(ctx, d, brief), itemListLd(ctx, brief)],
+    jsonld: [
+      reportLd(ctx, d, brief, title),
+      itemListLd(ctx, brief),
+      breadcrumbs(ctx, [
+        { name: 'Home', path: '/' },
+        { name: 'Daily brief', path: PATH },
+      ]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map(([qAsk, a]) => ({
+          '@type': 'Question',
+          name: qAsk,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
+      },
+    ],
     main,
   });
 }
@@ -94,15 +134,16 @@ ${rulesSection(d)}`;
  * happened".
  */
 function emptyPage(ctx) {
+  const title = `What is the ${brand.NAME} daily brief?`;
   return page({
     ctx,
     path: PATH,
     noindex: true,
-    title: `The daily brief · ${brand.NAME}`,
+    title: `${title} · ${brand.NAME}`,
     description: `${brand.NAME} has not compiled a digest in this build.`,
     main: `<style>${digestCss()}</style>${pillarSprite()}
 <section class="dg__intro">
-  <h1 class="dg__h1">The daily brief</h1>
+  <h1 class="dg__h1">What is the ${esc(brand.NAME)} daily brief?</h1>
   <p class="lede">No digest was compiled in this build. This page is the absence of a result, not an
      empty one &mdash; when <code>data/digest.json</code> is present it is rendered here in full: the
      day&rsquo;s items selected by published rule, the diff since the previous observation, the streaks
@@ -132,7 +173,7 @@ function metaDescription(d, brief, changed, lead) {
     ? `Composite ${num(idx.score_to, 1)} of 100, ${signed(idx.score_delta, 2)} since ${utc(idx.reference_at)}. `
     : '';
   const head = lead ? `${lead.title.slice(0, 90)}. ` : '';
-  return `${brand.NAME} daily brief for ${utc(d.as_of)}. ${head}${move}` +
+  return `What is the ${brand.NAME} daily brief? ${brand.NAME} daily brief for ${utc(d.as_of)}. ${head}${move}` +
          `${brief.shown || 0} items selected by published rule from ${brief.candidates || 0} candidates. ` +
          `No model wrote any of it.`;
 }
@@ -718,14 +759,15 @@ function clip(text, max) {
 // Structured data
 // ---------------------------------------------------------------------------
 
-function reportLd(ctx, d, brief) {
+function reportLd(ctx, d, brief, title) {
   return {
     '@context': 'https://schema.org',
     '@type': 'Report',
-    name: `${brand.NAME} daily brief`,
-    headline: `${brand.NAME} daily brief — ${utc(d.as_of)}`,
+    name: title || `What is the ${brand.NAME} daily brief?`,
+    headline: title || `${brand.NAME} daily brief — ${utc(d.as_of)}`,
     description: `${brief.shown || 0} items selected from ${brief.candidates || 0} candidates by five published rules, ` +
-      `plus a structured diff of the index, the sources and the leaderboard since the previous observation.`,
+      `plus a structured diff of the index, the sources and the leaderboard since the previous observation. ` +
+      'Nothing on this page was written by a model.',
     url: ctx.url(PATH),
     datePublished: d.as_of,
     dateModified: d.generated_at,
@@ -735,6 +777,7 @@ function reportLd(ctx, d, brief) {
     creditText: brand.NAME,
     publisher: { '@type': 'Organization', name: brand.NAME, url: ctx.url('/') },
     isPartOf: { '@type': 'WebSite', name: brand.NAME, url: ctx.url('/') },
+    speakable: speakable(['h1.dg__h1', 'p.lede']),
     // Said in the structured data as well as in the prose, because the machine
     // reading of this page should carry the disclaimer too.
     disambiguatingDescription: brand.DISCLAIMER,
@@ -770,6 +813,11 @@ function itemListLd(ctx, brief) {
 const dgCss = `
 .dg__intro { padding: var(--s-6) 0 var(--s-2); }
 .dg__h1 { font-size: clamp(1.75rem, 6vw, 2.5rem); line-height: 1.08; letter-spacing: -0.02em; margin: 0 0 var(--s-3); }
+.dg__faq { margin: var(--sec, 2rem) 0 var(--s-5); max-width: 62ch; }
+.dg__faq h2 { font: 600 var(--t-lg, 1.25rem)/1.2 var(--sans); margin: 0 0 var(--s-3); }
+.dg__faq h3 { font: 600 var(--t-base, 1rem)/1.3 var(--sans); margin: var(--s-4) 0 var(--s-2); }
+.dg__faq p { font: 400 var(--t-base, 1rem)/1.55 var(--sans); color: var(--ink-dim); margin: 0 0 var(--s-2); }
+.dg__faq-key { margin-top: var(--s-4) !important; }
 .dg__key { font-family: var(--mono); font-size: var(--t-xs); line-height: 1.7; color: var(--ink-faint); margin: 0 0 var(--s-3); }
 .dg__key b { color: var(--ink-dim); font-weight: 500; }
 .dg__key a { color: var(--ink-dim); }

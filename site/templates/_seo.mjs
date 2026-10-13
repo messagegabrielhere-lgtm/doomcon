@@ -61,6 +61,8 @@ export function organization(ctx) {
       'what AI charts does SIREN publish',
       'who makes the most electricity',
       'China vs US electricity',
+      'SIREN daily brief',
+      'what is the SIREN daily brief',
       'AI labs this index scored',
       'AI stories this index scored',
       'AI leaders on the record',
