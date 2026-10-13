@@ -71,6 +71,7 @@ describe('IndexNow', () => {
     assert.ok(has('https://siren.watch/lab/artificial-analysis.html'));
     assert.ok(has('https://siren.watch/about.html'));
     assert.ok(has('https://siren.watch/privacy.html'));
+    assert.ok(has('https://siren.watch/press.html'));
     assert.ok(has('https://siren.watch/medicine.html'));
     assert.ok(has('https://siren.watch/methodology.html'));
     assert.ok(has('https://siren.watch/tags/generative-ai.html'));
@@ -103,6 +104,7 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('Is AI curing anything'));
     assert.ok(org.knowsAbout.includes('what is SIREN'));
     assert.ok(org.knowsAbout.includes('SIREN privacy'));
+    assert.ok(org.knowsAbout.includes('SIREN press kit'));
     assert.ok(org.knowsAbout.includes('DoomBench alternative'));
     assert.ok(org.knowsAbout.includes('Takeoff Tracker alternative'));
     assert.ok(org.knowsAbout.includes('Pentagon Pizza Index alternative'));

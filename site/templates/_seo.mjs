@@ -40,6 +40,7 @@ export function organization(ctx) {
       'Is AI curing anything',
       'what is SIREN',
       'SIREN privacy',
+      'SIREN press kit',
       'AI doom index alternatives',
       'DoomBench alternative',
       'Skynet Countdown alternative',

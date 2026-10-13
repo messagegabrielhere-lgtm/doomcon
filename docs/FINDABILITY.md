@@ -340,6 +340,7 @@ context.
 | 107 | `/jobs.html` `/medicine.html` question-shaped titles (home-card head terms) + WebPage speakable + BreadcrumbList + visible FAQ; `knowsAbout` jobs/medicine head terms | Google | **Done** (2026-10-13) |
 | 108 | `/about.html` question-shaped title (“What is SIREN?”) + WebPage speakable + BreadcrumbList + visible FAQ; IndexNow + seo-daily; `knowsAbout` “what is SIREN” | Google + Bing | **Done** (2026-10-13) |
 | 109 | `/privacy.html` question-shaped title (“What does SIREN know about you?”) + WebPage speakable + BreadcrumbList + visible FAQ; IndexNow + seo-daily; `knowsAbout` “SIREN privacy” | Google + Bing | **Done** (2026-10-13) |
+| 110 | `/press.html` question-shaped title (“Where is the SIREN press kit?”) + WebPage speakable + BreadcrumbList + visible FAQ; IndexNow + seo-daily; `knowsAbout` “SIREN press kit” | Google + Bing | **Done** (2026-10-13) |
 
 ### 3.3 Refusals (search edition)
 

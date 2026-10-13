@@ -779,15 +779,30 @@ ${levels.map((l) => `    <li class="br__t" style="--lvl:var(--heat-${l.level})">
 }
 
 export function press(ctx) {
+  const path = '/press.html';
+  // Head-term title: people search “SIREN press kit” / how to cite the index.
+  const title = `Where is the ${brand.NAME} press kit? Facts, images and how to cite a reading`;
+  const description = `Facts, a liftable paragraph, images and a contact for anyone writing about ${brand.NAME}, the hourly AI activity index you can verify yourself.`;
   const st = ctx.state;
   const now = st && Number.isFinite(st.level)
     ? `${brand.NAME} ${st.level}, ${st.level_name}, composite ${Number(st.score).toFixed(1)} of 100, observed ${utc(st.generated_at)}` : null;
   const x = brand.X_URL ? `<a href="${esc(brand.X_URL)}" rel="noopener">${esc(brand.X_HANDLE)}</a>` : 'the project account';
   const n = Array.isArray(ctx.history) ? ctx.history.length : null;
+  const faq = [
+    [`Where is the ${brand.NAME} press kit?`,
+      `This page. It has a one-sentence description, a liftable paragraph, facts, image assets, how to cite a reading, and a contact. Everything here may be quoted; the site’s text and data are ${brand.LICENSE}.`],
+    [`How do I cite a ${brand.NAME} reading?`,
+      'Use the “Cite this reading” line under the verify button on the home page. It links to one reading permanently, so the number in your piece does not change after you publish.'],
+    [`Does ${brand.NAME} publish a doom probability?`,
+      `No. ${brand.DISCLAIMER_SHORT} The press kit states that plainly: the index is not a probability, a prediction, or a measure of how bad anything is.`],
+  ];
+  const faqHtml = faq.map(([q, a]) => `
+  <h3>${esc(q)}</h3>
+  <p>${esc(a)}</p>`).join('');
   const main = `${CSS}
 <section class="inf">
   <p class="eyebrow">Press kit</p>
-  <div class="inf__top">${mascot({ size: 76, level: level(ctx) })}<h1 class="bp__h1">For anyone writing about ${esc(brand.NAME)}</h1></div>
+  <div class="inf__top">${mascot({ size: 76, level: level(ctx) })}<h1 class="bp__h1">Where is the ${esc(brand.NAME)} press kit?</h1></div>
   <p class="lede">Facts, a paragraph you can lift, images and a contact. Everything on this page may be quoted; the site's text and data are ${esc(brand.LICENSE)}.</p>
   <h2>In one sentence</h2>
   <p><b>${esc(brand.NAME)} is an hourly index of how much is happening in AI, on a scale from 5 (quietest) to 1 (loudest), where every reading can be verified by the reader.</b></p>
@@ -802,7 +817,7 @@ export function press(ctx) {
     <li><b>Update cadence:</b> the index is scored hourly; the newsroom refreshes every minute.</li>
     <li><b>What it is not:</b> a probability, a prediction, or a measure of how bad anything is.</li>
     <li><b>Checkable:</b> <a href="${esc(ctx.href('/#vfy'))}">verify the readings in your browser</a>, read the <a href="${esc(ctx.href('/methodology.html'))}">method</a>, or the <a href="${esc(brand.REPO_URL)}" rel="noopener">source</a>.</li>
-    <li><b>Jobs and medicine:</b> sourced, caveated pages on <a href="${esc(ctx.href('/jobs.html'))}">AI and jobs</a> and <a href="${esc(ctx.href('/medicine.html'))}">AI in medicine</a>.</li>
+    <li><b>Jobs and medicine:</b> sourced, caveated pages on <a href="${esc(ctx.href('/jobs.html'))}">Is AI taking jobs?</a> and <a href="${esc(ctx.href('/medicine.html'))}">Is AI curing anything?</a>.</li>
     <li><b>Mascot:</b> Tally, the duty canary. The helmet colour and the face follow the level.</li>
   </ul>
   <h2>How to cite a reading</h2>
@@ -815,15 +830,23 @@ export function press(ctx) {
     <li><a href="${esc(ctx.href('/brand.html'))}">Brand guide</a>, with Tally in five moods to download</li>
     <li><a href="${esc(ctx.href('/embed.html'))}">Embeddable widget</a>; the code is on the <a href="${esc(ctx.href('/instruments.html'))}#embed">instruments page</a></li>
   </ul>
+  <h2 id="faq">Questions people actually ask</h2>
+  ${faqHtml}
   <h2>Contact</h2>
   <p>Email ${mail} or message ${x} on X. Corrections that change a number are recorded in the open on the <a href="${esc(brand.REPO_URL)}" rel="noopener">repository</a>.</p>
   <h2>Coverage</h2>
   <p>None yet. When there is some, it will be linked here, including the critical pieces.</p>
 </section>`;
   return page({
-    ctx, path: '/press.html',
-    title: `Press kit · ${brand.NAME}`,
-    description: `Facts, a liftable paragraph, images and a contact for anyone writing about ${brand.NAME}, the hourly AI activity index you can verify yourself.`,
+    ctx,
+    path,
+    title,
+    description,
+    jsonld: explainerJsonLd(ctx, path, title, description, faq.map(([q, a]) => ({
+      '@type': 'Question',
+      name: q,
+      acceptedAnswer: { '@type': 'Answer', text: a },
+    })), 'Press'),
     main,
   });
 }
