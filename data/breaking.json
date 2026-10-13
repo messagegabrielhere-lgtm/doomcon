@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated_at": "2026-10-13T03:13:07.618Z",
+  "generated_at": "2026-10-13T03:21:28.144Z",
   "rules": {
     "version": "1.0.0",
     "window_hours": 6,
@@ -58,12 +58,13 @@
       "outlet": "reuters.com",
       "outlets": [
         "investing.com",
-        "reuters.com"
+        "reuters.com",
+        "tradingview.com"
       ],
       "tier1_outlets": [
         "reuters.com"
       ],
-      "corroboration": 2,
+      "corroboration": 3,
       "sources": [
         "bluesky-ai",
         "gnews-ai",
@@ -73,14 +74,22 @@
         "two outlets within 20 min",
         "tier-one outlet plus one more"
       ],
-      "earliest_published_at": "2026-10-13T02:33:00.000Z",
+      "earliest_published_at": "2026-10-13T02:30:00.000Z",
       "first_seen_at": "2026-10-13T02:47:26.348Z",
-      "latency_s": 866,
+      "latency_s": 1046,
       "breaking_at": "2026-10-13T03:01:30.221Z",
       "item_ids": [
         "ef1ea3bacf7f9a18"
       ],
       "sightings": [
+        {
+          "source": "gnews-ai",
+          "outlet": "tradingview.com",
+          "title": "Nvidia's China AI-chip share falls as Huawei closes gap, report finds",
+          "url": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxPODIyeHZRMnlTWFNoamF5X25xNFEyd2FqY0xWTFMwblJ4eG0tcmlfLVItVnRoRTRzaE5vaXZCRkFESWx6c1l0UGdCMG03LWxQUTdkWTd5QU1GU21FRzNqcFdueG01TlRxVGZ2aW9WaE9zWFY3cnpaU25mMFpwQ1JxVUVzbW5kUmoyWGp5NHdBbWh6NHdnTXExTFZRM0FIREhSdHJZNl9idWZVQXV1SlRFNE5CNGhkME8yTEo4ZmpoZ1h3UmJIVFAyV3docXpRMGJKemM2cA?oc=5",
+          "published_at": "2026-10-13T02:30:00.000Z",
+          "tier1": false
+        },
         {
           "source": "wires-ai",
           "outlet": "reuters.com",
@@ -125,9 +134,11 @@
       "corroboration": 3,
       "sources": [
         "gnews-ai",
+        "techmeme",
         "wires-ai"
       ],
       "rule": [
+        "two outlets within 20 min",
         "tier-one outlet plus one more"
       ],
       "earliest_published_at": "2026-10-13T02:00:00.000Z",
@@ -135,7 +146,6 @@
       "latency_s": 1223,
       "breaking_at": "2026-10-13T03:01:30.221Z",
       "item_ids": [
-        "0a133a11ace6d4ca",
         "fff11f87c4034dd9"
       ],
       "sightings": [
@@ -164,11 +174,19 @@
           "tier1": true
         },
         {
+          "source": "techmeme",
+          "outlet": "techmeme.com",
+          "title": "Sources: NTT Data is in advanced talks to build a data center for Anthropic in Osaka of up to 500 MW, among Japan's largest, potentially costing $6.3B (Nikkei Asia)",
+          "url": "https://techmeme.com/261012/p45",
+          "published_at": "2026-10-13T02:20:22.855Z",
+          "tier1": false
+        },
+        {
           "source": "gnews-ai",
           "outlet": "ua.news",
           "title": "NTT Data in talks over Anthropic data center in Osaka",
           "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxPTHFWRzYzY1EzcEJGeTc5aUMwb2kyOFBXbG1COHdRakE1aTZhX2E0VDFWZHVRVmJmUlVWeFVIMnpRdWNadkVwTE1JUmZ4Zjh5bGVHaWZLVFZfejNXYzBYU0pnMV9vOXYxQ213RklBa2VaTHJBMlhKUGJKMTlaTkNxZnFrNDVVZ3R1akwyQXRRcElGZXNDVzRDSjBWVUFSZ2NzMW0xYmkzQUh4aVI5?oc=5",
-          "published_at": "2026-10-13T03:08:26.000Z",
+          "published_at": "2026-10-13T02:20:22.855Z",
           "tier1": false
         }
       ],
@@ -1726,6 +1744,7 @@
         "asiae.co.kr",
         "beincrypto.com",
         "biggo.com",
+        "bignewsnetwork.com",
         "bloomberg.com",
         "chosun.com",
         "cryptobriefing.com",
@@ -1739,7 +1758,7 @@
       "tier1_outlets": [
         "bloomberg.com"
       ],
-      "corroboration": 15,
+      "corroboration": 16,
       "sources": [
         "bloomberg-tech",
         "gnews-ai",
