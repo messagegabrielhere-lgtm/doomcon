@@ -302,11 +302,11 @@ const CSS = `<style>
 .ct h2 span{color:var(--ink-faint);font-weight:600;margin-left:6px}
 .ct h3{font:600 11px/1.2 var(--mono);letter-spacing:.14em;color:var(--ink-faint);margin:14px 0 8px}
 .ct-none{padding:16px;border:1px dashed var(--rule);border-radius:6px}
-.ct-faq{margin:34px 0 12px;max-width:62ch}
-.ct-faq h2{font:600 var(--t-lg,1.125rem)/1.2 var(--sans);margin:0 0 var(--s-3,.75rem);color:var(--ink);letter-spacing:normal;text-transform:none}
-.ct-faq h3{font:600 var(--t-base,1rem)/1.3 var(--sans);margin:var(--s-4,1rem) 0 var(--s-2,.5rem);color:var(--ink);letter-spacing:normal;text-transform:none}
-.ct-faq p{font:400 var(--t-base,1rem)/1.55 var(--sans);color:var(--ink-dim);margin:0 0 var(--s-2,.5rem)}
-.ct-faq-key{margin-top:var(--s-4,1rem)!important}
+.ct-faq,.sx-faq{margin:34px 0 12px;max-width:62ch}
+.ct-faq h2,.sx-faq h2{font:600 var(--t-lg,1.125rem)/1.2 var(--sans);margin:0 0 var(--s-3,.75rem);color:var(--ink);letter-spacing:normal;text-transform:none}
+.ct-faq h3,.sx-faq h3{font:600 var(--t-base,1rem)/1.3 var(--sans);margin:var(--s-4,1rem) 0 var(--s-2,.5rem);color:var(--ink);letter-spacing:normal;text-transform:none}
+.ct-faq p,.sx-faq p{font:400 var(--t-base,1rem)/1.55 var(--sans);color:var(--ink-dim);margin:0 0 var(--s-2,.5rem)}
+.ct-faq-key,.sx-faq-key{margin-top:var(--s-4,1rem)!important}
 @media (max-width:700px){.ct-bar{position:static}}
 @media (max-width:560px){.sx-f button{padding:0 14px}.sx-r b{font-size:14.5px}}
 </style>`;
@@ -317,6 +317,9 @@ function imgFn(ctx) {
   return (n) => (String(n).startsWith('px:') ? ctx.href(`/img/px-${String(n).slice(3)}.svg`) : ctx.href(`/img/art-${n}.webp`));
 }
 
+const SEARCH_PATH = '/search.html';
+const searchQTitle = 'How do you search everything on SIREN?';
+
 /** /search.html. stats: { counts: { type: n } } from the index. */
 export function search(ctx, stats = {}) {
   const counts = stats.counts || {};
@@ -325,10 +328,25 @@ export function search(ctx, stats = {}) {
   const parts = TYPES.filter(([k]) => counts[k]).map(([k]) => `${counts[k].toLocaleString('en-US')} ${PHRASE[k] || k}`);
   const img = imgFn(ctx);
   const popular = (stats.popular || []).slice(0, 6);
+  // FAQ answers restate lede / empty-state / noscript copy only.
+  // Refuse: search-as-doom-oracle, stuffing, doom-probability.
+  const faq = [
+    [searchQTitle,
+      `One box for the whole site: ${parts.join(', ') || 'rooms, tools, stories and data'}. Results appear as you type; ↑ ↓ to move, Enter to open, / to come back here.`],
+    ['How do results work?',
+      'Results appear as you type; ↑ ↓ to move, Enter to open, / to come back here.'],
+    ['Does search need JavaScript?',
+      'Search runs in your browser and needs JavaScript. Everything it covers is also listed in the catalog, which works without it.'],
+    ['Rather browse than search?',
+      'The catalog lists every room, tool, game, video, data file and feed in one place.'],
+  ];
+  const faqHtml = faq.map(([qAsk, a]) => `
+  <h3>${esc(qAsk)}</h3>
+  <p>${esc(a)}</p>`).join('');
   const main = `${CSS}<section class="sx">
-  <p class="eyebrow">SEARCH · ${total.toLocaleString('en-US')} THINGS ON ${esc(brand.NAME)}</p><h1 class="bp__h1">Search</h1>
+  <p class="eyebrow">SEARCH · ${total.toLocaleString('en-US')} THINGS ON ${esc(brand.NAME)}</p><h1 class="bp__h1">${esc(searchQTitle)}</h1>
   <p class="lede">One box for the whole site: ${esc(parts.join(', '))}. Results appear as you type; ↑ ↓ to move, Enter to open, / to come back here.</p>
-  <form class="sx-f" action="${esc(ctx.href('/search.html'))}" method="get" role="search">
+  <form class="sx-f" action="${esc(ctx.href(SEARCH_PATH))}" method="get" role="search">
     <label class="v2-sr" for="sx-q" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Search the site</label>
     <input id="sx-q" name="q" type="search" data-site-search autocomplete="off" spellcheck="false" placeholder="Try “agents”, “datacentre” or “csv”" role="combobox" aria-expanded="false" aria-controls="sx-res" aria-autocomplete="list">
     <button type="submit">Search</button>
@@ -338,11 +356,17 @@ export function search(ctx, stats = {}) {
   <div id="sx-res" role="listbox" aria-label="Results"></div>
   <div class="sx-empty" id="sx-empty">
     <h2>Try one of these</h2>
-    <ul class="sx-sug">${SUGGEST.map((s) => `<li><a href="${esc(ctx.href(`/search.html?q=${encodeURIComponent(s)}`))}" data-q="${esc(s)}">${esc(s)}</a></li>`).join('')}</ul>
+    <ul class="sx-sug">${SUGGEST.map((s) => `<li><a href="${esc(ctx.href(`${SEARCH_PATH}?q=${encodeURIComponent(s)}`))}" data-q="${esc(s)}">${esc(s)}</a></li>`).join('')}</ul>
     ${popular.length ? `<h2>Popular rooms</h2><div class="ct-g">${popular.map((e) => `<a class="ct-c" href="${esc(ctx.href(e.url))}"><img src="${esc(img(e.icon))}" width="40" height="40" alt="" loading="lazy"><span><b>${esc(e.title)}</b><small>${esc(e.desc)}</small></span></a>`).join('')}</div>` : ''}
     <p>Rather browse? The <a href="${esc(ctx.href('/catalog.html'))}">catalog</a> lists every room, tool, game, video, data file and feed in one place.</p>
   </div>
   <noscript><p>Search runs in your browser and needs JavaScript. Everything it covers is also listed in the <a href="${esc(ctx.href('/catalog.html'))}">catalog</a>, which works without it.</p></noscript>
+  <section class="sx-faq" aria-labelledby="faq">
+    <h2 id="faq">Questions people actually ask</h2>
+    ${faqHtml}
+    <p class="sx-faq-key">Search-shaped sibling:
+      <a href="${esc(ctx.href('/catalog.html'))}">Where is everything on SIREN listed?</a>.</p>
+  </section>
 </section>
 <script>${SEARCH_CORE_JS}
 (function(){
@@ -382,8 +406,38 @@ stat.textContent=q.value?'Loading the index…':'';
 fetch(IDX).then(function(r){return r.json()}).then(function(d){D=d;rows=S.prep(d);t0=Date.now();render();if(!q.value)q.focus()}).catch(function(){stat.textContent='The search index did not load. The catalog lists everything instead.'});
 })();
 </script>`;
-  return page({ ctx, path: '/search.html', title: `Search every room, story and dataset · ${brand.NAME}`,
-    description: `Search all of ${brand.NAME}: the rooms, tools and games, the scored AI news, the leaders, the videos, the open data and the feeds, instantly in your browser.`, main });
+  return page({
+    ctx,
+    path: SEARCH_PATH,
+    title: `${searchQTitle} · ${brand.NAME}`,
+    ogTitle: `${brand.NAME}: ${searchQTitle}`,
+    description: `${searchQTitle} One box for rooms, tools, games, scored AI news, leaders, videos, open data and feeds — results appear as you type.`,
+    jsonld: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        name: searchQTitle,
+        description: `One box for the whole of ${brand.NAME}: rooms, tools, scored stories, leaders, videos, data and feeds. Results appear as you type.`,
+        url: ctx.url(SEARCH_PATH),
+        isPartOf: { '@type': 'WebSite', name: brand.NAME, url: ctx.url('/') },
+        speakable: speakable(['h1.bp__h1', 'p.lede']),
+      },
+      breadcrumbs(ctx, [
+        { name: 'Home', path: '/' },
+        { name: 'Search', path: SEARCH_PATH },
+      ]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map(([qAsk, a]) => ({
+          '@type': 'Question',
+          name: qAsk,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
+      },
+    ],
+    main,
+  });
 }
 
 const CATALOG_PATH = '/catalog.html';
@@ -436,8 +490,8 @@ export function catalog(ctx, entries) {
     <h2 id="faq">Questions people actually ask</h2>
     ${faqHtml}
     <p class="ct-faq-key">Search-shaped sibling:
-      <a href="${esc(ctx.href('/live.html'))}">What AI is on TV and radio right now?</a>
-      · <a href="${esc(ctx.href('/games.html'))}">What free AI games can you play on SIREN?</a>.</p>
+      <a href="${esc(ctx.href('/search.html'))}">How do you search everything on SIREN?</a>
+      · <a href="${esc(ctx.href('/live.html'))}">What AI is on TV and radio right now?</a>.</p>
   </section>
 </section>
 <script>(function(){
