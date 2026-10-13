@@ -62,7 +62,10 @@ describe('tag pages', () => {
 
   it('ships /tags.html over the same gated tag set', () => {
     const html = renderTags(ctx);
-    assert.match(html, /AI tags this index covers/);
+    assert.match(html, /Which AI tags has SIREN scored stories about\?/);
+    assert.match(html, /SpeakableSpecification/);
+    assert.match(html, /FAQPage/);
+    assert.match(html, /Questions people actually ask/);
     assert.match(html, /\/tags\/agents\.html/);
     assert.match(html, /does not publish a topic/);
     assert.match(html, /\/models\.html/);
@@ -72,13 +75,16 @@ describe('tag pages', () => {
 
   it('lists stories with ItemList schema and refuses doom claims', () => {
     const html = renderTag(ctx, 'agents');
-    assert.match(html, /<title>AI agents: AI stories this index scored/);
+    assert.match(html, /<title>What has SIREN scored about AI agents\?/);
     assert.match(html, /CollectionPage/);
+    assert.match(html, /SpeakableSpecification/);
+    assert.match(html, /FAQPage/);
+    assert.match(html, /Questions people actually ask/);
     assert.match(html, /ItemList/);
     assert.match(html, /New AI agents ship computer use/);
     assert.match(html, /not a probability of harm/);
     assert.doesNotMatch(html, /noindex/);
-    assert.doesNotMatch(html, /doom score/i);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
   });
 
   it('renders the tag index and links from story pages', () => {
@@ -149,8 +155,8 @@ describe('tag pages', () => {
     const ids = indexableTags(rich).map((t) => t.id);
     assert.ok(ids.includes('coding'));
     assert.ok(ids.includes('acquisitions'));
-    assert.match(renderTag(rich, 'coding'), /AI coding: AI stories this index scored/);
-    assert.match(renderTag(rich, 'acquisitions'), /AI acquisitions: AI stories this index scored/);
+    assert.match(renderTag(rich, 'coding'), /What has SIREN scored about AI coding\?/);
+    assert.match(renderTag(rich, 'acquisitions'), /What has SIREN scored about AI acquisitions\?/);
     assert.ok(TOPIC_DEFS.some((t) => t.id === 'coding'));
     assert.ok(TOPIC_DEFS.some((t) => t.id === 'acquisitions'));
   });
@@ -183,9 +189,9 @@ describe('tag pages', () => {
     assert.ok(ids.includes('evals'));
     assert.ok(ids.includes('video'));
     assert.ok(ids.includes('voice'));
-    assert.match(renderTag(rich, 'evals'), /AI evals: AI stories this index scored/);
-    assert.match(renderTag(rich, 'video'), /AI video: AI stories this index scored/);
-    assert.match(renderTag(rich, 'voice'), /Voice AI: AI stories this index scored/);
+    assert.match(renderTag(rich, 'evals'), /What has SIREN scored about AI evals\?/);
+    assert.match(renderTag(rich, 'video'), /What has SIREN scored about AI video\?/);
+    assert.match(renderTag(rich, 'voice'), /What has SIREN scored about Voice AI\?/);
     assert.ok(TOPIC_DEFS.some((t) => t.id === 'evals'));
     assert.ok(TOPIC_DEFS.some((t) => t.id === 'video'));
     assert.ok(TOPIC_DEFS.some((t) => t.id === 'voice'));
@@ -219,9 +225,9 @@ describe('tag pages', () => {
     assert.ok(ids.includes('reasoning'));
     assert.ok(ids.includes('ipo'));
     assert.ok(ids.includes('rag'));
-    assert.match(renderTag(rich, 'reasoning'), /Reasoning models: AI stories this index scored/);
-    assert.match(renderTag(rich, 'ipo'), /AI IPOs: AI stories this index scored/);
-    assert.match(renderTag(rich, 'rag'), /RAG \/ retrieval: AI stories this index scored/);
+    assert.match(renderTag(rich, 'reasoning'), /What has SIREN scored about Reasoning models\?/);
+    assert.match(renderTag(rich, 'ipo'), /What has SIREN scored about AI IPOs\?/);
+    assert.match(renderTag(rich, 'rag'), /What has SIREN scored about RAG \/ retrieval\?/);
   });
 
   it('pages MCP, fine-tuning, and quantization hubs when the needle clears the gate', () => {
@@ -252,9 +258,9 @@ describe('tag pages', () => {
     assert.ok(ids.includes('mcp'));
     assert.ok(ids.includes('fine-tuning'));
     assert.ok(ids.includes('quantization'));
-    assert.match(renderTag(rich, 'mcp'), /MCP \/ tool protocols: AI stories this index scored/);
-    assert.match(renderTag(rich, 'fine-tuning'), /Fine-tuning: AI stories this index scored/);
-    assert.match(renderTag(rich, 'quantization'), /Quantization: AI stories this index scored/);
+    assert.match(renderTag(rich, 'mcp'), /What has SIREN scored about MCP \/ tool protocols\?/);
+    assert.match(renderTag(rich, 'fine-tuning'), /What has SIREN scored about Fine-tuning\?/);
+    assert.match(renderTag(rich, 'quantization'), /What has SIREN scored about Quantization\?/);
   });
 
   it('pages distillation and agent-memory hubs when the needle clears the gate', () => {
@@ -279,8 +285,8 @@ describe('tag pages', () => {
     const ids = indexableTags(rich).map((t) => t.id);
     assert.ok(ids.includes('distillation'));
     assert.ok(ids.includes('memory'));
-    assert.match(renderTag(rich, 'distillation'), /Distillation: AI stories this index scored/);
-    assert.match(renderTag(rich, 'memory'), /Agent memory: AI stories this index scored/);
+    assert.match(renderTag(rich, 'distillation'), /What has SIREN scored about Distillation\?/);
+    assert.match(renderTag(rich, 'memory'), /What has SIREN scored about Agent memory\?/);
   });
 
   it('pages a test-time compute hub when the needle clears the gate', () => {
@@ -298,7 +304,7 @@ describe('tag pages', () => {
       },
     };
     assert.ok(indexableTags(rich).some((t) => t.id === 'test-time'));
-    assert.match(renderTag(rich, 'test-time'), /Test-time compute: AI stories this index scored/);
+    assert.match(renderTag(rich, 'test-time'), /What has SIREN scored about Test-time compute\?/);
   });
 
   it('pages Ollama, MLX, and computer-use hubs when the needle clears the gate', () => {
@@ -329,9 +335,9 @@ describe('tag pages', () => {
     assert.ok(ids.includes('ollama'));
     assert.ok(ids.includes('mlx'));
     assert.ok(ids.includes('computer-use'));
-    assert.match(renderTag(rich, 'ollama'), /Ollama: AI stories this index scored/);
-    assert.match(renderTag(rich, 'mlx'), /MLX: AI stories this index scored/);
-    assert.match(renderTag(rich, 'computer-use'), /Computer use: AI stories this index scored/);
+    assert.match(renderTag(rich, 'ollama'), /What has SIREN scored about Ollama\?/);
+    assert.match(renderTag(rich, 'mlx'), /What has SIREN scored about MLX\?/);
+    assert.match(renderTag(rich, 'computer-use'), /What has SIREN scored about Computer use\?/);
   });
 
   it('pages Hugging Face and Blackwell topic hubs when the needle clears the gate', () => {
@@ -356,8 +362,8 @@ describe('tag pages', () => {
     const ids = indexableTags(rich).map((t) => t.id);
     assert.ok(ids.includes('huggingface'));
     assert.ok(ids.includes('blackwell'));
-    assert.match(renderTag(rich, 'huggingface'), /Hugging Face: AI stories this index scored/);
-    assert.match(renderTag(rich, 'blackwell'), /Blackwell GPUs: AI stories this index scored/);
+    assert.match(renderTag(rich, 'huggingface'), /What has SIREN scored about Hugging Face\?/);
+    assert.match(renderTag(rich, 'blackwell'), /What has SIREN scored about Blackwell GPUs\?/);
   });
 
   it('pages prefer-data, reasoning-traces, Claude Code, and OpenRouter hubs', () => {
@@ -394,10 +400,10 @@ describe('tag pages', () => {
     assert.ok(ids.includes('reasoning-traces'));
     assert.ok(ids.includes('claude-code'));
     assert.ok(ids.includes('openrouter'));
-    assert.match(renderTag(rich, 'prefer-data'), /Preference data: AI stories this index scored/);
-    assert.match(renderTag(rich, 'reasoning-traces'), /Reasoning traces: AI stories this index scored/);
-    assert.match(renderTag(rich, 'claude-code'), /Claude Code: AI stories this index scored/);
-    assert.match(renderTag(rich, 'openrouter'), /OpenRouter: AI stories this index scored/);
+    assert.match(renderTag(rich, 'prefer-data'), /What has SIREN scored about Preference data\?/);
+    assert.match(renderTag(rich, 'reasoning-traces'), /What has SIREN scored about Reasoning traces\?/);
+    assert.match(renderTag(rich, 'claude-code'), /What has SIREN scored about Claude Code\?/);
+    assert.match(renderTag(rich, 'openrouter'), /What has SIREN scored about OpenRouter\?/);
   });
 
   it('pages kv-cache, AI Act, autonomous-vehicles, AI music, synthetic-data, inference-cost hubs', () => {
@@ -443,12 +449,12 @@ describe('tag pages', () => {
     for (const id of ['kv-cache', 'ai-act', 'autonomous-vehicles', 'ai-music', 'synthetic-data', 'inference-cost']) {
       assert.ok(ids.includes(id), id);
     }
-    assert.match(renderTag(rich, 'kv-cache'), /KV cache: AI stories this index scored/);
-    assert.match(renderTag(rich, 'ai-act'), /EU AI Act: AI stories this index scored/);
-    assert.match(renderTag(rich, 'autonomous-vehicles'), /Autonomous vehicles: AI stories this index scored/);
-    assert.match(renderTag(rich, 'ai-music'), /AI music: AI stories this index scored/);
-    assert.match(renderTag(rich, 'synthetic-data'), /Synthetic data: AI stories this index scored/);
-    assert.match(renderTag(rich, 'inference-cost'), /Inference cost: AI stories this index scored/);
+    assert.match(renderTag(rich, 'kv-cache'), /What has SIREN scored about KV cache\?/);
+    assert.match(renderTag(rich, 'ai-act'), /What has SIREN scored about EU AI Act\?/);
+    assert.match(renderTag(rich, 'autonomous-vehicles'), /What has SIREN scored about Autonomous vehicles\?/);
+    assert.match(renderTag(rich, 'ai-music'), /What has SIREN scored about AI music\?/);
+    assert.match(renderTag(rich, 'synthetic-data'), /What has SIREN scored about Synthetic data\?/);
+    assert.match(renderTag(rich, 'inference-cost'), /What has SIREN scored about Inference cost\?/);
   });
 
   it('pages multi-agent, deepfakes, SLM, AI-science, and speculative-decoding hubs', () => {
@@ -491,11 +497,11 @@ describe('tag pages', () => {
     assert.ok(ids.includes('slm'));
     assert.ok(ids.includes('ai-science'));
     assert.ok(ids.includes('speculative-decoding'));
-    assert.match(renderTag(rich, 'multi-agent'), /Multi-agent systems: AI stories this index scored/);
-    assert.match(renderTag(rich, 'deepfakes'), /Deepfakes: AI stories this index scored/);
-    assert.match(renderTag(rich, 'slm'), /Small language models: AI stories this index scored/);
-    assert.match(renderTag(rich, 'ai-science'), /AI for science: AI stories this index scored/);
-    assert.match(renderTag(rich, 'speculative-decoding'), /Speculative decoding: AI stories this index scored/);
+    assert.match(renderTag(rich, 'multi-agent'), /What has SIREN scored about Multi-agent systems\?/);
+    assert.match(renderTag(rich, 'deepfakes'), /What has SIREN scored about Deepfakes\?/);
+    assert.match(renderTag(rich, 'slm'), /What has SIREN scored about Small language models\?/);
+    assert.match(renderTag(rich, 'ai-science'), /What has SIREN scored about AI for science\?/);
+    assert.match(renderTag(rich, 'speculative-decoding'), /What has SIREN scored about Speculative decoding\?/);
   });
 
   it('pages diffusion, embeddings, guardrails, context-window, and ai-search hubs', () => {
@@ -538,11 +544,11 @@ describe('tag pages', () => {
     assert.ok(ids.includes('guardrails'));
     assert.ok(ids.includes('context-window'));
     assert.ok(ids.includes('ai-search'));
-    assert.match(renderTag(rich, 'diffusion'), /Diffusion models: AI stories this index scored/);
-    assert.match(renderTag(rich, 'embeddings'), /Embeddings: AI stories this index scored/);
-    assert.match(renderTag(rich, 'guardrails'), /AI guardrails: AI stories this index scored/);
-    assert.match(renderTag(rich, 'context-window'), /Context windows: AI stories this index scored/);
-    assert.match(renderTag(rich, 'ai-search'), /AI search: AI stories this index scored/);
+    assert.match(renderTag(rich, 'diffusion'), /What has SIREN scored about Diffusion models\?/);
+    assert.match(renderTag(rich, 'embeddings'), /What has SIREN scored about Embeddings\?/);
+    assert.match(renderTag(rich, 'guardrails'), /What has SIREN scored about AI guardrails\?/);
+    assert.match(renderTag(rich, 'context-window'), /What has SIREN scored about Context windows\?/);
+    assert.match(renderTag(rich, 'ai-search'), /What has SIREN scored about AI search\?/);
   });
 
   it('pages hallucination, prompt-injection, MoE, world-models, and copyright hubs', () => {
@@ -585,12 +591,12 @@ describe('tag pages', () => {
     assert.ok(ids.includes('moe'));
     assert.ok(ids.includes('world-models'));
     assert.ok(ids.includes('copyright'));
-    assert.match(renderTag(rich, 'hallucination'), /AI hallucination: AI stories this index scored/);
-    assert.match(renderTag(rich, 'prompt-injection'), /Prompt injection: AI stories this index scored/);
-    assert.match(renderTag(rich, 'moe'), /Mixture of experts: AI stories this index scored/);
-    assert.match(renderTag(rich, 'world-models'), /World models: AI stories this index scored/);
-    assert.match(renderTag(rich, 'copyright'), /AI copyright: AI stories this index scored/);
-    assert.doesNotMatch(renderTag(rich, 'hallucination'), /doom score/i);
+    assert.match(renderTag(rich, 'hallucination'), /What has SIREN scored about AI hallucination\?/);
+    assert.match(renderTag(rich, 'prompt-injection'), /What has SIREN scored about Prompt injection\?/);
+    assert.match(renderTag(rich, 'moe'), /What has SIREN scored about Mixture of experts\?/);
+    assert.match(renderTag(rich, 'world-models'), /What has SIREN scored about World models\?/);
+    assert.match(renderTag(rich, 'copyright'), /What has SIREN scored about AI copyright\?/);
+    assert.doesNotMatch(renderTag(rich, 'hallucination'), /doom score:\s*\d/i);
   });
 
   it('pages voice-agents, skills, TSMC, MCP servers, llama.cpp, deep-research, LoRA, GRPO hubs', () => {
@@ -646,15 +652,15 @@ describe('tag pages', () => {
     for (const id of ['voice-agents', 'skills', 'tsmc', 'mcp-servers', 'llama-cpp', 'deep-research', 'lora', 'grpo']) {
       assert.ok(ids.includes(id), id);
     }
-    assert.match(renderTag(rich, 'voice-agents'), /Voice agents: AI stories this index scored/);
-    assert.match(renderTag(rich, 'skills'), /Agent skills: AI stories this index scored/);
-    assert.match(renderTag(rich, 'tsmc'), /TSMC: AI stories this index scored/);
-    assert.match(renderTag(rich, 'mcp-servers'), /MCP servers: AI stories this index scored/);
-    assert.match(renderTag(rich, 'llama-cpp'), /llama\.cpp: AI stories this index scored/);
-    assert.match(renderTag(rich, 'deep-research'), /Deep research: AI stories this index scored/);
-    assert.match(renderTag(rich, 'lora'), /LoRA: AI stories this index scored/);
-    assert.match(renderTag(rich, 'grpo'), /GRPO: AI stories this index scored/);
-    assert.doesNotMatch(renderTag(rich, 'voice-agents'), /doom score/i);
+    assert.match(renderTag(rich, 'voice-agents'), /What has SIREN scored about Voice agents\?/);
+    assert.match(renderTag(rich, 'skills'), /What has SIREN scored about Agent skills\?/);
+    assert.match(renderTag(rich, 'tsmc'), /What has SIREN scored about TSMC\?/);
+    assert.match(renderTag(rich, 'mcp-servers'), /What has SIREN scored about MCP servers\?/);
+    assert.match(renderTag(rich, 'llama-cpp'), /What has SIREN scored about llama\.cpp\?/);
+    assert.match(renderTag(rich, 'deep-research'), /What has SIREN scored about Deep research\?/);
+    assert.match(renderTag(rich, 'lora'), /What has SIREN scored about LoRA\?/);
+    assert.match(renderTag(rich, 'grpo'), /What has SIREN scored about GRPO\?/);
+    assert.doesNotMatch(renderTag(rich, 'voice-agents'), /doom score:\s*\d/i);
   });
 
   it('pages RLVR, humanoid, interpretability, GGUF, red-teaming, edge-AI, SFT, Copilot, diffusion-LLM, activation-steering, rerank, federated-learning hubs', () => {
@@ -733,19 +739,19 @@ describe('tag pages', () => {
     ]) {
       assert.ok(ids.includes(id), id);
     }
-    assert.match(renderTag(rich, 'rlvr'), /RLVR: AI stories this index scored/);
-    assert.match(renderTag(rich, 'humanoid'), /Humanoid robots: AI stories this index scored/);
-    assert.match(renderTag(rich, 'interpretability'), /Interpretability: AI stories this index scored/);
-    assert.match(renderTag(rich, 'gguf'), /GGUF: AI stories this index scored/);
-    assert.match(renderTag(rich, 'red-teaming'), /Red-teaming: AI stories this index scored/);
-    assert.match(renderTag(rich, 'edge-ai'), /Edge AI: AI stories this index scored/);
-    assert.match(renderTag(rich, 'sft'), /SFT: AI stories this index scored/);
-    assert.match(renderTag(rich, 'copilot'), /Copilot: AI stories this index scored/);
-    assert.match(renderTag(rich, 'diffusion-llm'), /Diffusion LLMs: AI stories this index scored/);
-    assert.match(renderTag(rich, 'activation-steering'), /Activation steering: AI stories this index scored/);
-    assert.match(renderTag(rich, 'rerank'), /Reranking: AI stories this index scored/);
-    assert.match(renderTag(rich, 'federated-learning'), /Federated learning: AI stories this index scored/);
-    assert.doesNotMatch(renderTag(rich, 'rlvr'), /doom score/i);
+    assert.match(renderTag(rich, 'rlvr'), /What has SIREN scored about RLVR\?/);
+    assert.match(renderTag(rich, 'humanoid'), /What has SIREN scored about Humanoid robots\?/);
+    assert.match(renderTag(rich, 'interpretability'), /What has SIREN scored about Interpretability\?/);
+    assert.match(renderTag(rich, 'gguf'), /What has SIREN scored about GGUF\?/);
+    assert.match(renderTag(rich, 'red-teaming'), /What has SIREN scored about Red-teaming\?/);
+    assert.match(renderTag(rich, 'edge-ai'), /What has SIREN scored about Edge AI\?/);
+    assert.match(renderTag(rich, 'sft'), /What has SIREN scored about SFT\?/);
+    assert.match(renderTag(rich, 'copilot'), /What has SIREN scored about Copilot\?/);
+    assert.match(renderTag(rich, 'diffusion-llm'), /What has SIREN scored about Diffusion LLMs\?/);
+    assert.match(renderTag(rich, 'activation-steering'), /What has SIREN scored about Activation steering\?/);
+    assert.match(renderTag(rich, 'rerank'), /What has SIREN scored about Reranking\?/);
+    assert.match(renderTag(rich, 'federated-learning'), /What has SIREN scored about Federated learning\?/);
+    assert.doesNotMatch(renderTag(rich, 'rlvr'), /doom score:\s*\d/i);
   });
 
   it('pages training-data, physical-AI, GUI-agents, tool-calling, long-context, chain-of-thought, local-LLM hubs', () => {
@@ -796,14 +802,14 @@ describe('tag pages', () => {
     for (const id of ['training-data', 'physical-ai', 'gui-agents', 'tool-calling', 'long-context', 'chain-of-thought', 'local-llm']) {
       assert.ok(ids.includes(id), id);
     }
-    assert.match(renderTag(rich, 'training-data'), /Training data: AI stories this index scored/);
-    assert.match(renderTag(rich, 'physical-ai'), /Physical AI: AI stories this index scored/);
-    assert.match(renderTag(rich, 'gui-agents'), /GUI agents: AI stories this index scored/);
-    assert.match(renderTag(rich, 'tool-calling'), /Tool calling: AI stories this index scored/);
-    assert.match(renderTag(rich, 'long-context'), /Long context: AI stories this index scored/);
-    assert.match(renderTag(rich, 'chain-of-thought'), /Chain-of-thought: AI stories this index scored/);
-    assert.match(renderTag(rich, 'local-llm'), /Local LLMs: AI stories this index scored/);
-    assert.doesNotMatch(renderTag(rich, 'physical-ai'), /doom score/i);
+    assert.match(renderTag(rich, 'training-data'), /What has SIREN scored about Training data\?/);
+    assert.match(renderTag(rich, 'physical-ai'), /What has SIREN scored about Physical AI\?/);
+    assert.match(renderTag(rich, 'gui-agents'), /What has SIREN scored about GUI agents\?/);
+    assert.match(renderTag(rich, 'tool-calling'), /What has SIREN scored about Tool calling\?/);
+    assert.match(renderTag(rich, 'long-context'), /What has SIREN scored about Long context\?/);
+    assert.match(renderTag(rich, 'chain-of-thought'), /What has SIREN scored about Chain-of-thought\?/);
+    assert.match(renderTag(rich, 'local-llm'), /What has SIREN scored about Local LLMs\?/);
+    assert.doesNotMatch(renderTag(rich, 'physical-ai'), /doom score:\s*\d/i);
   });
 
   it('pages coding-agents, agentic-workflow, leaderboard, and alignment hubs', () => {
@@ -839,11 +845,11 @@ describe('tag pages', () => {
     for (const id of ['coding-agents', 'agentic-workflow', 'leaderboard', 'alignment']) {
       assert.ok(ids.includes(id), id);
     }
-    assert.match(renderTag(rich, 'coding-agents'), /Coding agents: AI stories this index scored/);
-    assert.match(renderTag(rich, 'agentic-workflow'), /Agentic workflows: AI stories this index scored/);
-    assert.match(renderTag(rich, 'leaderboard'), /AI leaderboards: AI stories this index scored/);
-    assert.match(renderTag(rich, 'alignment'), /AI alignment: AI stories this index scored/);
-    assert.doesNotMatch(renderTag(rich, 'alignment'), /doom score/i);
+    assert.match(renderTag(rich, 'coding-agents'), /What has SIREN scored about Coding agents\?/);
+    assert.match(renderTag(rich, 'agentic-workflow'), /What has SIREN scored about Agentic workflows\?/);
+    assert.match(renderTag(rich, 'leaderboard'), /What has SIREN scored about AI leaderboards\?/);
+    assert.match(renderTag(rich, 'alignment'), /What has SIREN scored about AI alignment\?/);
+    assert.doesNotMatch(renderTag(rich, 'alignment'), /doom score:\s*\d/i);
   });
 
   it('pages world-action, embodied, TTS, and ASR hubs', () => {
@@ -879,11 +885,11 @@ describe('tag pages', () => {
     for (const id of ['world-action', 'embodied', 'tts', 'asr']) {
       assert.ok(ids.includes(id), id);
     }
-    assert.match(renderTag(rich, 'world-action'), /World-action models: AI stories this index scored/);
-    assert.match(renderTag(rich, 'embodied'), /Embodied AI: AI stories this index scored/);
-    assert.match(renderTag(rich, 'tts'), /Text-to-speech: AI stories this index scored/);
-    assert.match(renderTag(rich, 'asr'), /Speech recognition: AI stories this index scored/);
-    assert.doesNotMatch(renderTag(rich, 'embodied'), /doom score/i);
+    assert.match(renderTag(rich, 'world-action'), /What has SIREN scored about World-action models\?/);
+    assert.match(renderTag(rich, 'embodied'), /What has SIREN scored about Embodied AI\?/);
+    assert.match(renderTag(rich, 'tts'), /What has SIREN scored about Text-to-speech\?/);
+    assert.match(renderTag(rich, 'asr'), /What has SIREN scored about Speech recognition\?/);
+    assert.doesNotMatch(renderTag(rich, 'embodied'), /doom score:\s*\d/i);
   });
 
   it('pages vision-language, foundation-models, video/image generation, merging, agent-memory, open-source-ai, tool-use', () => {
@@ -942,15 +948,15 @@ describe('tag pages', () => {
     ]) {
       assert.ok(ids.includes(id), id);
     }
-    assert.match(renderTag(rich, 'vision-language'), /Vision-language models: AI stories this index scored/);
-    assert.match(renderTag(rich, 'foundation-models'), /Foundation models: AI stories this index scored/);
-    assert.match(renderTag(rich, 'video-generation'), /Video generation: AI stories this index scored/);
-    assert.match(renderTag(rich, 'image-generation'), /Image generation: AI stories this index scored/);
-    assert.match(renderTag(rich, 'model-merging'), /Model merging: AI stories this index scored/);
-    assert.match(renderTag(rich, 'agent-memory'), /Agent memory: AI stories this index scored/);
-    assert.match(renderTag(rich, 'open-source-ai'), /Open-source AI: AI stories this index scored/);
-    assert.match(renderTag(rich, 'tool-use'), /Tool use: AI stories this index scored/);
-    assert.doesNotMatch(renderTag(rich, 'foundation-models'), /doom score/i);
+    assert.match(renderTag(rich, 'vision-language'), /What has SIREN scored about Vision-language models\?/);
+    assert.match(renderTag(rich, 'foundation-models'), /What has SIREN scored about Foundation models\?/);
+    assert.match(renderTag(rich, 'video-generation'), /What has SIREN scored about Video generation\?/);
+    assert.match(renderTag(rich, 'image-generation'), /What has SIREN scored about Image generation\?/);
+    assert.match(renderTag(rich, 'model-merging'), /What has SIREN scored about Model merging\?/);
+    assert.match(renderTag(rich, 'agent-memory'), /What has SIREN scored about Agent memory\?/);
+    assert.match(renderTag(rich, 'open-source-ai'), /What has SIREN scored about Open-source AI\?/);
+    assert.match(renderTag(rich, 'tool-use'), /What has SIREN scored about Tool use\?/);
+    assert.doesNotMatch(renderTag(rich, 'foundation-models'), /doom score:\s*\d/i);
   });
 
   it('pages post-training, pretraining, zero-shot, in-context, tokenization, continual-learning, sparsity, knowledge-graphs, research-agents, system-prompts, ai-infrastructure, robot-learning', () => {
@@ -1030,11 +1036,11 @@ describe('tag pages', () => {
     ]) {
       assert.ok(ids.includes(id), id);
     }
-    assert.match(renderTag(rich, 'post-training'), /Post-training: AI stories this index scored/);
-    assert.match(renderTag(rich, 'pretraining'), /Pre-training: AI stories this index scored/);
-    assert.match(renderTag(rich, 'ai-infrastructure'), /AI infrastructure: AI stories this index scored/);
-    assert.match(renderTag(rich, 'robot-learning'), /Robot learning: AI stories this index scored/);
-    assert.doesNotMatch(renderTag(rich, 'post-training'), /doom score/i);
+    assert.match(renderTag(rich, 'post-training'), /What has SIREN scored about Post-training\?/);
+    assert.match(renderTag(rich, 'pretraining'), /What has SIREN scored about Pre-training\?/);
+    assert.match(renderTag(rich, 'ai-infrastructure'), /What has SIREN scored about AI infrastructure\?/);
+    assert.match(renderTag(rich, 'robot-learning'), /What has SIREN scored about Robot learning\?/);
+    assert.doesNotMatch(renderTag(rich, 'post-training'), /doom score:\s*\d/i);
   });
 
   it('pages frontier/small/open models, generative-AI, reasoning-models, voice/conversational AI, audio-generation, AI chips', () => {
@@ -1098,10 +1104,10 @@ describe('tag pages', () => {
     ]) {
       assert.ok(ids.includes(id), id);
     }
-    assert.match(renderTag(rich, 'frontier-models'), /Frontier models: AI stories this index scored/);
-    assert.match(renderTag(rich, 'generative-ai'), /Generative AI: AI stories this index scored/);
-    assert.match(renderTag(rich, 'ai-chips'), /AI chips: AI stories this index scored/);
-    assert.doesNotMatch(renderTag(rich, 'generative-ai'), /doom score/i);
+    assert.match(renderTag(rich, 'frontier-models'), /What has SIREN scored about Frontier models\?/);
+    assert.match(renderTag(rich, 'generative-ai'), /What has SIREN scored about Generative AI\?/);
+    assert.match(renderTag(rich, 'ai-chips'), /What has SIREN scored about AI chips\?/);
+    assert.doesNotMatch(renderTag(rich, 'generative-ai'), /doom score:\s*\d/i);
   });
 
   it('pages AI regulation, Artificial Analysis, humanoid robots, transformers, self-attention, Codex, reward models', () => {
@@ -1155,11 +1161,11 @@ describe('tag pages', () => {
     ]) {
       assert.ok(ids.includes(id), id);
     }
-    assert.match(renderTag(rich, 'ai-regulation'), /AI regulation: AI stories this index scored/);
-    assert.match(renderTag(rich, 'artificial-analysis'), /Artificial Analysis: AI stories this index scored/);
-    assert.match(renderTag(rich, 'openai-codex'), /OpenAI Codex: AI stories this index scored/);
-    assert.match(renderTag(rich, 'reward-models'), /Reward models: AI stories this index scored/);
-    assert.doesNotMatch(renderTag(rich, 'ai-regulation'), /doom score/i);
+    assert.match(renderTag(rich, 'ai-regulation'), /What has SIREN scored about AI regulation\?/);
+    assert.match(renderTag(rich, 'artificial-analysis'), /What has SIREN scored about Artificial Analysis\?/);
+    assert.match(renderTag(rich, 'openai-codex'), /What has SIREN scored about OpenAI Codex\?/);
+    assert.match(renderTag(rich, 'reward-models'), /What has SIREN scored about Reward models\?/);
+    assert.doesNotMatch(renderTag(rich, 'ai-regulation'), /doom score:\s*\d/i);
   });
 
   it('pages reinforcement-learning, VLA, flow-matching, text-to-image, imitation-learning, locomotion', () => {
@@ -1208,11 +1214,11 @@ describe('tag pages', () => {
     ]) {
       assert.ok(ids.includes(id), id);
     }
-    assert.match(renderTag(rich, 'reinforcement-learning'), /Reinforcement learning: AI stories this index scored/);
-    assert.match(renderTag(rich, 'vision-language-action'), /Vision-language-action: AI stories this index scored/);
-    assert.match(renderTag(rich, 'flow-matching'), /Flow matching: AI stories this index scored/);
-    assert.match(renderTag(rich, 'text-to-image'), /Text-to-image: AI stories this index scored/);
-    assert.doesNotMatch(renderTag(rich, 'reinforcement-learning'), /doom score/i);
+    assert.match(renderTag(rich, 'reinforcement-learning'), /What has SIREN scored about Reinforcement learning\?/);
+    assert.match(renderTag(rich, 'vision-language-action'), /What has SIREN scored about Vision-language-action\?/);
+    assert.match(renderTag(rich, 'flow-matching'), /What has SIREN scored about Flow matching\?/);
+    assert.match(renderTag(rich, 'text-to-image'), /What has SIREN scored about Text-to-image\?/);
+    assert.doesNotMatch(renderTag(rich, 'reinforcement-learning'), /doom score:\s*\d/i);
   });
 
   it('pages self-supervised, latent-space, autoencoders, diffusion-transformer, scaling-laws', () => {
@@ -1256,12 +1262,12 @@ describe('tag pages', () => {
     ]) {
       assert.ok(ids.includes(id), id);
     }
-    assert.match(renderTag(rich, 'self-supervised'), /Self-supervised learning: AI stories this index scored/);
-    assert.match(renderTag(rich, 'latent-space'), /Latent space: AI stories this index scored/);
-    assert.match(renderTag(rich, 'autoencoders'), /Autoencoders: AI stories this index scored/);
-    assert.match(renderTag(rich, 'diffusion-transformer'), /Diffusion transformers: AI stories this index scored/);
-    assert.match(renderTag(rich, 'scaling-laws'), /Scaling laws: AI stories this index scored/);
-    assert.doesNotMatch(renderTag(rich, 'scaling-laws'), /doom score/i);
+    assert.match(renderTag(rich, 'self-supervised'), /What has SIREN scored about Self-supervised learning\?/);
+    assert.match(renderTag(rich, 'latent-space'), /What has SIREN scored about Latent space\?/);
+    assert.match(renderTag(rich, 'autoencoders'), /What has SIREN scored about Autoencoders\?/);
+    assert.match(renderTag(rich, 'diffusion-transformer'), /What has SIREN scored about Diffusion transformers\?/);
+    assert.match(renderTag(rich, 'scaling-laws'), /What has SIREN scored about Scaling laws\?/);
+    assert.doesNotMatch(renderTag(rich, 'scaling-laws'), /doom score:\s*\d/i);
   });
 
   it('pages AI assistants, code-generation, linear-attention, SSM, AI factories, multimodal reasoning', () => {
@@ -1310,13 +1316,13 @@ describe('tag pages', () => {
     ]) {
       assert.ok(ids.includes(id), id);
     }
-    assert.match(renderTag(rich, 'ai-assistants'), /AI assistants: AI stories this index scored/);
-    assert.match(renderTag(rich, 'code-generation'), /Code generation: AI stories this index scored/);
-    assert.match(renderTag(rich, 'linear-attention'), /Linear attention: AI stories this index scored/);
-    assert.match(renderTag(rich, 'state-space-models'), /State-space models: AI stories this index scored/);
-    assert.match(renderTag(rich, 'ai-factories'), /AI factories: AI stories this index scored/);
-    assert.match(renderTag(rich, 'multimodal-reasoning'), /Multimodal reasoning: AI stories this index scored/);
-    assert.doesNotMatch(renderTag(rich, 'ai-factories'), /doom score/i);
+    assert.match(renderTag(rich, 'ai-assistants'), /What has SIREN scored about AI assistants\?/);
+    assert.match(renderTag(rich, 'code-generation'), /What has SIREN scored about Code generation\?/);
+    assert.match(renderTag(rich, 'linear-attention'), /What has SIREN scored about Linear attention\?/);
+    assert.match(renderTag(rich, 'state-space-models'), /What has SIREN scored about State-space models\?/);
+    assert.match(renderTag(rich, 'ai-factories'), /What has SIREN scored about AI factories\?/);
+    assert.match(renderTag(rich, 'multimodal-reasoning'), /What has SIREN scored about Multimodal reasoning\?/);
+    assert.doesNotMatch(renderTag(rich, 'ai-factories'), /doom score:\s*\d/i);
   });
 
   it('pages model-pruning, PEFT, test-time-training, Gaussian splatting, domain-adaptation', () => {
@@ -1360,12 +1366,12 @@ describe('tag pages', () => {
     ]) {
       assert.ok(ids.includes(id), id);
     }
-    assert.match(renderTag(rich, 'model-pruning'), /Model pruning: AI stories this index scored/);
-    assert.match(renderTag(rich, 'peft'), /PEFT: AI stories this index scored/);
-    assert.match(renderTag(rich, 'test-time-training'), /Test-time training: AI stories this index scored/);
-    assert.match(renderTag(rich, 'gaussian-splatting'), /Gaussian splatting: AI stories this index scored/);
-    assert.match(renderTag(rich, 'domain-adaptation'), /Domain adaptation: AI stories this index scored/);
-    assert.doesNotMatch(renderTag(rich, 'model-pruning'), /doom score/i);
+    assert.match(renderTag(rich, 'model-pruning'), /What has SIREN scored about Model pruning\?/);
+    assert.match(renderTag(rich, 'peft'), /What has SIREN scored about PEFT\?/);
+    assert.match(renderTag(rich, 'test-time-training'), /What has SIREN scored about Test-time training\?/);
+    assert.match(renderTag(rich, 'gaussian-splatting'), /What has SIREN scored about Gaussian splatting\?/);
+    assert.match(renderTag(rich, 'domain-adaptation'), /What has SIREN scored about Domain adaptation\?/);
+    assert.doesNotMatch(renderTag(rich, 'model-pruning'), /doom score:\s*\d/i);
   });
 
   it('pages LLM agents, on-policy distillation, time-series, self-distillation, video world models, unlearning', () => {
@@ -1414,13 +1420,13 @@ describe('tag pages', () => {
     ]) {
       assert.ok(ids.includes(id), id);
     }
-    assert.match(renderTag(rich, 'llm-agents'), /LLM agents: AI stories this index scored/);
-    assert.match(renderTag(rich, 'on-policy-distillation'), /On-policy distillation: AI stories this index scored/);
-    assert.match(renderTag(rich, 'time-series'), /Time series: AI stories this index scored/);
-    assert.match(renderTag(rich, 'self-distillation'), /Self-distillation: AI stories this index scored/);
-    assert.match(renderTag(rich, 'video-world-models'), /Video world models: AI stories this index scored/);
-    assert.match(renderTag(rich, 'machine-unlearning'), /Machine unlearning: AI stories this index scored/);
-    assert.doesNotMatch(renderTag(rich, 'llm-agents'), /doom score/i);
+    assert.match(renderTag(rich, 'llm-agents'), /What has SIREN scored about LLM agents\?/);
+    assert.match(renderTag(rich, 'on-policy-distillation'), /What has SIREN scored about On-policy distillation\?/);
+    assert.match(renderTag(rich, 'time-series'), /What has SIREN scored about Time series\?/);
+    assert.match(renderTag(rich, 'self-distillation'), /What has SIREN scored about Self-distillation\?/);
+    assert.match(renderTag(rich, 'video-world-models'), /What has SIREN scored about Video world models\?/);
+    assert.match(renderTag(rich, 'machine-unlearning'), /What has SIREN scored about Machine unlearning\?/);
+    assert.doesNotMatch(renderTag(rich, 'llm-agents'), /doom score:\s*\d/i);
   });
 
   it('pages neural-networks, self-improving AI, provenance, sparse-attention, SynthID, dexterous manipulation', () => {
@@ -1469,13 +1475,13 @@ describe('tag pages', () => {
     ]) {
       assert.ok(ids.includes(id), id);
     }
-    assert.match(renderTag(rich, 'neural-networks'), /Neural networks: AI stories this index scored/);
-    assert.match(renderTag(rich, 'self-improving-ai'), /Self-improving AI: AI stories this index scored/);
-    assert.match(renderTag(rich, 'provenance'), /AI provenance: AI stories this index scored/);
-    assert.match(renderTag(rich, 'sparse-attention'), /Sparse attention: AI stories this index scored/);
-    assert.match(renderTag(rich, 'synthid'), /SynthID: AI stories this index scored/);
-    assert.match(renderTag(rich, 'dexterous-manipulation'), /Dexterous manipulation: AI stories this index scored/);
-    assert.doesNotMatch(renderTag(rich, 'self-improving-ai'), /doom score/i);
+    assert.match(renderTag(rich, 'neural-networks'), /What has SIREN scored about Neural networks\?/);
+    assert.match(renderTag(rich, 'self-improving-ai'), /What has SIREN scored about Self-improving AI\?/);
+    assert.match(renderTag(rich, 'provenance'), /What has SIREN scored about AI provenance\?/);
+    assert.match(renderTag(rich, 'sparse-attention'), /What has SIREN scored about Sparse attention\?/);
+    assert.match(renderTag(rich, 'synthid'), /What has SIREN scored about SynthID\?/);
+    assert.match(renderTag(rich, 'dexterous-manipulation'), /What has SIREN scored about Dexterous manipulation\?/);
+    assert.doesNotMatch(renderTag(rich, 'self-improving-ai'), /doom score:\s*\d/i);
   });
 
   it('pages protein-design and drug-discovery hubs', () => {
@@ -1500,8 +1506,8 @@ describe('tag pages', () => {
     const ids = indexableTags(rich).map((t) => t.id);
     assert.ok(ids.includes('protein-design'));
     assert.ok(ids.includes('drug-discovery'));
-    assert.match(renderTag(rich, 'protein-design'), /Protein design: AI stories this index scored/);
-    assert.match(renderTag(rich, 'drug-discovery'), /Drug discovery: AI stories this index scored/);
-    assert.doesNotMatch(renderTag(rich, 'protein-design'), /doom score/i);
+    assert.match(renderTag(rich, 'protein-design'), /What has SIREN scored about Protein design\?/);
+    assert.match(renderTag(rich, 'drug-discovery'), /What has SIREN scored about Drug discovery\?/);
+    assert.doesNotMatch(renderTag(rich, 'protein-design'), /doom score:\s*\d/i);
   });
 });

@@ -9,7 +9,7 @@
 
 import { esc, num, utc } from './_html.mjs';
 import { page } from './layout.mjs';
-import { breadcrumbs } from './_seo.mjs';
+import { breadcrumbs, speakable } from './_seo.mjs';
 import { slugFor } from './itemPage.mjs';
 import * as brand from '../brand.mjs';
 
@@ -1199,11 +1199,21 @@ export function renderTag(ctx, id) {
   const older = archivedAll.slice(0, 12);
   const total = items.length + archivedAll.length;
   const path = tagPath(topic.id);
-  const title = `${topic.name}: AI stories this index scored · ${brand.NAME}`;
+  // Head-term title: people search “{topic} AI stories” / topic doom score.
+  const title = `What has ${brand.NAME} scored about ${topic.name}? AI stories, not a topic score`;
   const description = clip(
     `${total} scored stories about ${topic.name} on ${brand.NAME} (${items.length} in the live window). ${topic.description} Tempo, not a forecast.`,
     160,
   );
+  const faq = [
+    [`What has ${brand.NAME} scored about ${topic.name}?`,
+      `${total} scored stories match this published needle on ${brand.NAME} (${items.length} in the live window${archivedAll.length ? `, ${archivedAll.length} older in the archive` : ''}). ${topic.description}`],
+    [`Does ${brand.NAME} publish a ${topic.name} doom score?`,
+      `No. ${brand.DISCLAIMER_SHORT} A tag page lists matching headlines — not a probability of harm and not a ranking of the companies named.`],
+  ];
+  const faqHtml = faq.map(([q, a]) => `
+  <h3>${esc(q)}</h3>
+  <p>${esc(a)}</p>`).join('');
   const others = indexableTags(ctx).filter((t) => t.id !== topic.id);
   const olderBlock = older.length
     ? `<h2>Older scored stories tagged ${esc(topic.name)}</h2>
@@ -1215,7 +1225,7 @@ export function renderTag(ctx, id) {
   const main = `${STYLE}
 <article class="tg prose">
   <p class="tg__k"><a href="${esc(ctx.href('/news.html'))}">Newsroom</a> · <a href="${esc(ctx.href('/tags/'))}">Tags</a> · <a href="${esc(ctx.href('/tags.html'))}">Tags hub</a></p>
-  <h1>${esc(topic.name)}</h1>
+  <h1>What has ${esc(brand.NAME)} scored about ${esc(topic.name)}?</h1>
   <p class="tg__lede">${esc(topic.description)} A tag page lists scored stories whose title or summary matched a published needle — not a probability of harm and not a ranking of the companies named.</p>
   <div class="tg__stat" role="group" aria-label="Tag totals">
     <div><b class="num">${esc(String(items.length))}</b><span>Scored stories in window</span></div>
@@ -1229,6 +1239,8 @@ export function renderTag(ctx, id) {
     ? `<p class="fresh__key">${esc(String(items.length - TAG_LIST_CAP))} more on the <a href="${esc(ctx.href('/news.html'))}">full newsroom</a>.</p>`
     : `<p class="fresh__key"><a href="${esc(ctx.href('/news.html'))}">Full newsroom →</a></p>`}
   ${olderBlock}
+  <h2 id="faq">Questions people actually ask</h2>
+  ${faqHtml}
   ${others.length ? `<h2>Other tags</h2>
   <nav class="tg__nav" aria-label="Other tags">${others.map((t) => `<a href="${esc(ctx.href(tagPath(t.id)))}">${esc(t.name)} <span class="num">(${esc(String(t.count))})</span></a>`).join('')}</nav>` : ''}
 </article>`;
@@ -1247,6 +1259,7 @@ export function renderTag(ctx, id) {
       description,
       isPartOf: { '@type': 'WebSite', name: brand.PUBLICATION, url: ctx.url('/') },
       about: { '@type': 'Thing', name: topic.name, description: topic.description },
+      speakable: speakable(['h1', '.tg__lede']),
       mainEntity: {
         '@type': 'ItemList',
         numberOfItems: Math.min(items.length, TAG_LIST_CAP),
@@ -1261,7 +1274,15 @@ export function renderTag(ctx, id) {
       { name: 'Newsroom', path: '/news.html' },
       { name: 'Tags', path: '/tags/' },
       { name: topic.name, path },
-    ])],
+    ]), {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faq.map(([q, a]) => ({
+        '@type': 'Question',
+        name: q,
+        acceptedAnswer: { '@type': 'Answer', text: a },
+      })),
+    }],
     main,
   });
 }
@@ -1326,11 +1347,21 @@ export function renderIndex(ctx) {
 export function renderTags(ctx) {
   const tags = indexableTags(ctx);
   const path = '/tags.html';
-  const title = `AI tags this index covers · ${brand.NAME}`;
+  // Head-term title: people search “AI tags” / Skynet-shaped topic hubs.
+  const title = `Which AI tags has ${brand.NAME} scored stories about?`;
   const description = clip(
     `${tags.length} AI topic hubs with scored-story pages on ${brand.NAME}. Each row links /tags pages — story counts only, not a topic doom score.`,
     160,
   );
+  const faq = [
+    [`Which AI tags has ${brand.NAME} scored stories about?`,
+      `${tags.length} topic hubs clear the substance gate of at least ${TAG_INDEX_MIN} matching headlines in the live window or archive. Each page lists those stories — not a topic doom score.`],
+    [`Does ${brand.NAME} publish a topic doom score?`,
+      `No. ${brand.DISCLAIMER_SHORT} These pages count headlines that match a published needle (Skynet-shaped tags without timeline claims).`],
+  ];
+  const faqHtml = faq.map(([q, a]) => `
+  <h3>${esc(q)}</h3>
+  <p>${esc(a)}</p>`).join('');
   const rows = tags.map((t) => `<li>
   <a href="${esc(ctx.href(tagPath(t.id)))}">${esc(t.name)}</a>
   <span class="tg__meta">Topic hub · <span class="num">${esc(String(t.count))}</span> scored${t.archived ? ` (${esc(String(t.live))} live)` : ''}</span>
@@ -1338,12 +1369,14 @@ export function renderTags(ctx) {
   const main = `${STYLE}
 <article class="tg prose">
   <p class="tg__k"><a href="${esc(ctx.href('/compare.html'))}">Compare</a> · <a href="${esc(ctx.href('/tags/'))}">Tags</a> · Tags hub</p>
-  <h1>AI tags this index covers</h1>
+  <h1>Which AI tags has ${esc(brand.NAME)} scored stories about?</h1>
   <p class="tg__lede">${esc(brand.NAME)} does not publish a topic “doom score.” It publishes an activity index and scored stories. This page lists topic hubs that already clear the same substance gate as <a href="${esc(ctx.href('/tags/'))}">/tags/</a> — at least ${TAG_INDEX_MIN} matching headlines in the live window or archive (Skynet-shaped tags without their timeline claims).</p>
   <div class="tg__stat" role="group" aria-label="Tags hub totals">
     <div><b class="num">${esc(String(tags.length))}</b><span>Topic hubs</span></div>
   </div>
   ${tags.length ? `<ol class="tg__list">${rows}</ol>` : '<p>No tag hub cleared the gate in this build.</p>'}
+  <h2 id="faq">Questions people actually ask</h2>
+  ${faqHtml}
   <p class="fresh__key"><a href="${esc(ctx.href('/tags/'))}">Tag directory →</a>
      · <a href="${esc(ctx.href('/models.html'))}">AI models →</a>
      · <a href="${esc(ctx.href('/companies.html'))}">AI companies →</a>
@@ -1362,6 +1395,7 @@ export function renderTags(ctx) {
       name: title,
       url: ctx.url(path),
       description,
+      speakable: speakable(['h1', '.tg__lede']),
       mainEntity: {
         '@type': 'ItemList',
         numberOfItems: tags.length,
@@ -1375,7 +1409,15 @@ export function renderTags(ctx) {
     }, breadcrumbs(ctx, [
       { name: 'Compare', path: '/compare.html' },
       { name: 'Tags', path },
-    ])],
+    ]), {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faq.map(([q, a]) => ({
+        '@type': 'Question',
+        name: q,
+        acceptedAnswer: { '@type': 'Answer', text: a },
+      })),
+    }],
     main,
   });
 }

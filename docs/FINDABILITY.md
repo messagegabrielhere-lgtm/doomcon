@@ -348,6 +348,7 @@ context.
 | 115 | Model hub Nano Banana (`/model/nano-banana`, Nano Banana / 2 / 2.1 forms — no bare Banana; live/archive ≥3); news:keywords + IndexNow + seo-daily | Google + Bing | **Done** (2026-10-13) |
 | 116 | `/model/*` + `/models.html` question-shaped titles + CollectionPage speakable + visible FAQ matching schema; `knowsAbout` “AI models this index scored” | Google | **Done** (2026-10-13) |
 | 117 | `/lab/*` + `/companies.html` question-shaped titles + CollectionPage speakable + visible FAQ matching schema; `knowsAbout` “AI companies this index scored” | Google | **Done** (2026-10-13) |
+| 118 | `/tags/*` + `/tags.html` question-shaped titles + CollectionPage speakable + visible FAQ matching schema (175 gated topic hubs); `knowsAbout` “AI tags this index scored” | Google | **Done** (2026-10-13) |
 
 ### 3.3 Refusals (search edition)
 
