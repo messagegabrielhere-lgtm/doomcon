@@ -512,6 +512,15 @@ const TIMELINE = [
 // two renderings, no chance of drift.
 const FAQ = [
   {
+    // Matches the page H1 / <title> head term (FINDABILITY §3.3).
+    q: 'What is the history of AI risk?',
+    a: 'A sourced timeline of the argument and of the people who tried to measure it: Good\'s ' +
+       'intelligence explosion, Dartmouth, Asilomar, Bostrom\'s paperclip maximizer, the 2015 and ' +
+       '2023 open letters, Hinton\'s resignation, Bletchley and Seoul, and the EU AI Act — each ' +
+       'entry dated with a primary or near-primary link. SIREN counts what is happening now; this ' +
+       'page is the record that makes the count mean something.',
+  },
+  {
     q: 'What is the intelligence explosion?',
     a: 'The argument that a machine able to design machines better than humans can would design a ' +
        'successor better than itself, and that the process would repeat. I. J. Good set it out in ' +
@@ -715,6 +724,7 @@ function chapterNav(ctx) {
 // numerals, the decade counts and the level digits all carry shape.
 function loreCss() {
   return `
+.lore-faq-key { margin-top: var(--s-4, 1rem); font: 400 var(--t-base,1rem)/1.55 var(--sans); color: var(--ink-dim); }
 .lore-hat { font-family: var(--mono); font-size: var(--t-xs); letter-spacing: 0.14em;
   text-transform: uppercase; color: var(--ink-faint); margin: 0 0 var(--s-3); }
 .lore-strap { font-family: var(--mono); font-size: var(--t-sm); color: var(--accent);
@@ -804,11 +814,14 @@ function loreCss() {
 
 export function render(ctx) {
   const chapters = CHAPTERS.map(chapterSection).join('');
+  // Head-term H1 must match <title> (FINDABILITY tip #198): strangers search
+  // “history of AI risk”, not the voice epithet alone.
+  const qTitle = 'What is the history of AI risk?';
 
   const main = `<style>${loreCss()}</style>
 <article class="prose">
   <p class="lore-hat">Field notes · ${esc(TIMELINE.length)} dated entries · ${esc(CHAPTERS.length)} threads</p>
-  <h1>A sourced history of the AIpocalypse — and of the people who tried to measure it</h1>
+  <h1>${esc(qTitle)}</h1>
   <p class="lore-strap">${esc(brand.STRAPLINE)}</p>
   <p class="lede">${esc(brand.NAME)} counts what is happening now. That only means something against
     a record of what happened before. Every entry below carries a date and a link to a primary or
@@ -893,20 +906,23 @@ ${pillarLegend()}
 
   <h2 id="faq">Questions people actually ask</h2>
   ${faqBlock()}
+  <p class="lore-faq-key">Search-shaped sibling:
+    <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>
+    · <a href="${esc(ctx.href('/guide.html'))}">SIREN, DEFCON, the Doomsday Clock and p(doom)</a>.</p>
 </article>
 `;
 
   // Head-term title: people search “history of AI risk” / Asilomar / pause letter.
-  const title = `What is the history of AI risk? Good, Asilomar, the pause letter · ${brand.NAME}`;
+  const title = `${qTitle} Good, Asilomar, the pause letter · ${brand.NAME}`;
   const path = '/history.html';
 
   return page({
     ctx,
     path,
     title,
-    ogTitle: `A sourced history of the AIpocalypse · ${brand.NAME}`,
+    ogTitle: `${brand.NAME}: ${qTitle}`,
     description:
-      'Dated and sourced: I. J. Good\'s 1965 intelligence explosion, the 1955 Dartmouth proposal, ' +
+      `${qTitle} Dated and sourced: I. J. Good's 1965 intelligence explosion, the 1955 Dartmouth proposal, ` +
       'Asilomar 1975, Bostrom\'s paperclip maximizer, the 2015 and 2023 open letters, Hinton\'s ' +
       'resignation, the CAIS extinction statement, Bletchley and Seoul, and the EU AI Act timeline ' +
       '— plus why this index is a tempo gauge and not a forecast.',
@@ -917,7 +933,7 @@ ${pillarLegend()}
       {
         '@context': 'https://schema.org',
         '@type': 'Article',
-        headline: 'A sourced history of the AIpocalypse — and of the people who tried to measure it',
+        headline: qTitle,
         url: ctx.url(path),
         dateModified: ctx.state.generated_at,
         author: { '@type': 'Organization', name: brand.NAME, url: ctx.url('/') },
@@ -930,7 +946,10 @@ ${pillarLegend()}
         }))),
         speakable: speakable(['h1', '.lede']),
       },
-      breadcrumbs(ctx, [{ name: 'History', path }]),
+      breadcrumbs(ctx, [
+        { name: 'Home', path: '/' },
+        { name: qTitle, path },
+      ]),
       {
         '@context': 'https://schema.org',
         '@type': 'FAQPage',
