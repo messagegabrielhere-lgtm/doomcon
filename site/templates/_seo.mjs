@@ -89,6 +89,8 @@ export function organization(ctx) {
       'how do I AI-proof my job',
       'Is ChatGPT down',
       'Is Claude down',
+      'bug-out land',
+      'where to buy remote land to ride out Skynet',
       'AI labs this index scored',
       'AI stories this index scored',
       'AI leaders on the record',
