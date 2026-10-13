@@ -35,6 +35,7 @@ export function organization(ctx) {
       'verifiable AI doomsday clock',
       'how the AI activity index is computed',
       'history of AI risk',
+      'What is the history of AI risk',
       'AI explainers',
       'Is AI taking jobs',
       'Is AI curing anything',
