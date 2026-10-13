@@ -99,6 +99,7 @@ const ALWAYS = Object.freeze([
   '/game.html',
   '/dispatch.html',
   '/monitor.html',
+  '/scanner.html',
   '/tags/red-teaming.html',
   '/country/',
   '/lab/',

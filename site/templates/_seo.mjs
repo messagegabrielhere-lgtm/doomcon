@@ -137,6 +137,8 @@ export function organization(ctx) {
       'What public feeds does SIREN Dispatch show',
       'SIREN World Monitor',
       'What does the SIREN World Monitor show',
+      'SIREN Capitulation Scanner',
+      'What does the SIREN Capitulation Scanner show',
       'AI labs this index scored',
       'AI stories this index scored',
       'AI leaders on the record',
