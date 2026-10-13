@@ -171,7 +171,7 @@ export function renderPillar(ctx, pillarId) {
 
   const otherPillars = brand.PILLARS
     .filter((p) => p.id !== pillarId)
-    .map((p) => `<a href="${esc(ctx.href(pillarPath(p.id)))}">${esc(p.name)}</a>`)
+    .map((p) => `<a href="${esc(ctx.href(pillarPath(p.id)))}">What has ${esc(brand.NAME)} scored under ${esc(p.name)}?</a>`)
     .join('');
   const olderBlock = older.length
     ? `<h2>Older scored stories under ${esc(meta.name)}</h2>
@@ -182,7 +182,7 @@ export function renderPillar(ctx, pillarId) {
 
   const main = `${STYLE}
 <article class="fc prose">
-  <p class="fc__k"><a href="${esc(ctx.href('/news.html'))}">Newsroom</a> · <a href="${esc(ctx.href('/pillar/'))}">Pillars</a> · <a href="${esc(ctx.href('/pillars.html'))}">Pillars hub</a></p>
+  <p class="fc__k"><a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a> · <a href="${esc(ctx.href('/pillar/'))}">Which AI activity pillars have ${esc(brand.NAME)} pages?</a> · <a href="${esc(ctx.href('/pillars.html'))}">Which AI activity pillars has ${esc(brand.NAME)} scored?</a></p>
   <h1>What has ${esc(brand.NAME)} scored under ${esc(meta.name)}?</h1>
   <p class="fc__lede">${esc(meta.description)}</p>
   <div class="fc__stat" role="group" aria-label="Current pillar reading">
@@ -194,7 +194,7 @@ export function renderPillar(ctx, pillarId) {
   </div>
   <p class="fresh__key">This page is the crawlable face of the ${esc(meta.name)} filter on the newsroom.
      The composite ${esc(brand.NAME)} reading still lives on the <a href="${esc(ctx.href('/'))}">homepage</a>;
-     the method is on <a href="${esc(ctx.href('/methodology.html'))}">methodology</a>.</p>
+     the method is on <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>.</p>
   <h2>Stories scored under ${esc(meta.name)}</h2>
   ${items.length
     ? `<ol class="fc__list">${itemRows(ctx, items)}</ol>
@@ -239,9 +239,9 @@ export function renderPillar(ctx, pillarId) {
         })),
       },
     }, breadcrumbs(ctx, [
-      { name: 'Newsroom', path: '/news.html' },
-      { name: 'Pillars', path: '/pillar/' },
-      { name: meta.name, path },
+      { name: `Which AI stories has ${brand.NAME} scored in this window?`, path: '/news.html' },
+      { name: `Which AI activity pillars have ${brand.NAME} pages?`, path: '/pillar/' },
+      { name: `What has ${brand.NAME} scored under ${meta.name}?`, path },
     ]), {
       '@context': 'https://schema.org',
       '@type': 'FAQPage',

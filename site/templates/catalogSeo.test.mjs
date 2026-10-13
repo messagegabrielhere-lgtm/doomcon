@@ -102,6 +102,19 @@ describe('catalog page SEO', () => {
     assert.doesNotMatch(byUrl['/race.html']?.title || '', /^The Race$/);
   });
 
+  it('lists each pillar page under its question H1 (tip #215)', () => {
+    const list = catalogEntries({});
+    const byUrl = Object.fromEntries(list.map((e) => [e.url, e]));
+    assert.equal(byUrl['/pillar/capability.html']?.title, 'What has SIREN scored under Capability?');
+    assert.equal(byUrl['/pillar/compute.html']?.title, 'What has SIREN scored under Compute & Capital?');
+    assert.equal(byUrl['/pillar/attention.html']?.title, 'What has SIREN scored under Attention?');
+    assert.equal(byUrl['/pillar/governance.html']?.title, 'What has SIREN scored under Governance?');
+    assert.equal(byUrl['/pillar/markets.html']?.title, 'What has SIREN scored under Markets?');
+    assert.doesNotMatch(byUrl['/pillar/capability.html']?.title || '', /^Capability pillar$/);
+    assert.match(byUrl['/pillar/capability.html']?.desc || '', /not a pillar doom score/i);
+    assert.doesNotMatch(byUrl['/pillar/capability.html']?.desc || '', /doom score:\s*\d/i);
+  });
+
   it('lists methodology, instruments, moves and item under page H1 stems (tip #214)', () => {
     assert.equal(
       catalogTitle('/methodology.html', 'Methodology', 'How the SIREN AI activity index is computed · methodology — every formula.'),
