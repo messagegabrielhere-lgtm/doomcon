@@ -102,6 +102,9 @@ const ENTITY_DEFS = [
   { name: 'Salesforce', kind: 'lab', forms: ['Salesforce'] },
   // Fei-Fei Li spatial-intelligence lab — two-word form only (no bare “World”).
   { name: 'World Labs', kind: 'lab', forms: ['World Labs'] },
+  // Nvidia-backed Australian datacentre / AI infra — distinctive single token
+  // (no bare “Firm” so “data centre firm” alone does not match).
+  { name: 'Firmus', kind: 'lab', forms: ['Firmus'] },
 
   // --- model families ---
   { name: 'GPT', kind: 'model', forms: ['GPT-3', 'GPT-4', 'GPT-4o', 'GPT-5', 'GPT-6', 'ChatGPT', 'GPT'] },

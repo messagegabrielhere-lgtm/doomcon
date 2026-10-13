@@ -704,6 +704,36 @@ describe('lab facets', () => {
     assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/lab/world-labs.html'));
   });
 
+  it('indexes Firmus entity lab when archive IPO headlines clear the gate', () => {
+    const withArch = {
+      ...ctx,
+      news: { ...ctx.news, items: [...ctx.news.items] },
+      itemArchive: [
+        {
+          id: 'fm1', title: 'Nvidia-Backed Firmus Scraps Australian IPO', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/fm1', published_at: '2026-09-01T01:00:00Z', score: 40,
+        },
+        {
+          id: 'fm2', title: 'Firmus IPO Debacle Raises the Bar for Asia AI Deals', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/fm2', published_at: '2026-09-02T01:00:00Z', score: 41,
+        },
+        {
+          id: 'fm3', title: 'Firmus Pulls Its $30 Billion A.I. Stock Listing', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/fm3', published_at: '2026-09-03T01:00:00Z', score: 42,
+        },
+        {
+          id: 'fmbad', title: 'Data centre firm scraps listing amid AI valuation concerns', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/fmbad', published_at: '2026-09-04T01:00:00Z', score: 30,
+        },
+      ],
+    };
+    const firmus = labsFromEntities(withArch).find((p) => p.id === 'firmus');
+    assert.ok(firmus, 'Firmus clears ENTITY_LAB_MIN');
+    assert.match(renderLab(withArch, firmus), /What has SIREN scored about Firmus\?/);
+    assert.doesNotMatch(renderLab(withArch, firmus), /Data centre firm scraps listing/);
+    assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/lab/firmus.html'));
+  });
+
   it('indexes Supermicro, IREN, OpenRouter, and Reflection AI entity labs from archive', () => {
     const withArch = {
       ...ctx,

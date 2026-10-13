@@ -515,6 +515,7 @@ function labNeedles(player) {
     'artificial-analysis': ['artificial analysis'],
     salesforce: ['salesforce'],
     'world-labs': ['world labs'],
+    firmus: ['firmus'],
   };
   return [...new Set([...(extras[player.id] || []), ...names])];
 }
