@@ -73,6 +73,7 @@ describe('IndexNow', () => {
     assert.ok(has('https://siren.watch/lab/firmus.html'));
     assert.ok(has('https://siren.watch/lab/spacex.html'));
     assert.ok(has('https://siren.watch/lab/hcltech.html'));
+    assert.ok(has('https://siren.watch/lab/suno.html'));
     assert.ok(has('https://siren.watch/tags/tsmc.html'));
     assert.ok(has('https://siren.watch/world.html'));
     assert.ok(has('https://siren.watch/about.html'));

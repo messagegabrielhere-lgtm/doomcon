@@ -111,6 +111,8 @@ const ENTITY_DEFS = [
   // Indian IT / Anthropic enterprise-agentic partner — HCLTech or HCL Tech
   // (no bare “HCL” so unrelated HCL Group headlines alone do not match).
   { name: 'HCLTech', kind: 'lab', forms: ['HCLTech', 'HCL Tech'] },
+  // AI music / speech product — distinctive single token (no bare “sun”).
+  { name: 'Suno', kind: 'lab', forms: ['Suno'] },
 
   // --- model families ---
   { name: 'GPT', kind: 'model', forms: ['GPT-3', 'GPT-4', 'GPT-4o', 'GPT-5', 'GPT-6', 'ChatGPT', 'GPT'] },

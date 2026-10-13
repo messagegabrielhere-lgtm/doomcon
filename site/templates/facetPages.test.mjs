@@ -794,6 +794,36 @@ describe('lab facets', () => {
     assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/lab/hcltech.html'));
   });
 
+  it('indexes Suno entity lab when archive AI-music headlines clear the gate', () => {
+    const withArch = {
+      ...ctx,
+      news: { ...ctx.news, items: [...ctx.news.items] },
+      itemArchive: [
+        {
+          id: 'su1', title: 'Suno debuts Speech for spoken voices from scripts', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/su1', published_at: '2026-09-01T01:00:00Z', score: 40,
+        },
+        {
+          id: 'su2', title: 'AI music maker Suno now generates spoken words', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/su2', published_at: '2026-09-02T01:00:00Z', score: 41,
+        },
+        {
+          id: 'su3', title: 'Sony and UMG are suing Suno again', pillar: 'governance', source: 'hn',
+          url: 'https://example.test/su3', published_at: '2026-09-03T01:00:00Z', score: 42,
+        },
+        {
+          id: 'subad', title: 'A sunny day for open weights without naming the lab', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/subad', published_at: '2026-09-04T01:00:00Z', score: 30,
+        },
+      ],
+    };
+    const suno = labsFromEntities(withArch).find((p) => p.id === 'suno');
+    assert.ok(suno, 'Suno clears ENTITY_LAB_MIN');
+    assert.match(renderLab(withArch, suno), /What has SIREN scored about Suno\?/);
+    assert.doesNotMatch(renderLab(withArch, suno), /sunny day for open weights/);
+    assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/lab/suno.html'));
+  });
+
   it('indexes Supermicro, IREN, OpenRouter, and Reflection AI entity labs from archive', () => {
     const withArch = {
       ...ctx,
