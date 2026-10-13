@@ -18,21 +18,32 @@ const ctx = {
   methodologyMd: '# How it works\n\nThe composite is arithmetic.\n',
 };
 
-test('guide.html ships FAQ + speakable schema matching the comparison table', () => {
+test('guide.html ships question H1, visible FAQ matching FAQPage, and speakable schema', () => {
   const html = guide(ctx);
-  assert.match(html, /SIREN vs DEFCON vs the Doomsday Clock vs p\(doom\)/);
+  assert.match(html, /<title>How does SIREN compare to DEFCON, the Doomsday Clock and p\(doom\)\?/);
+  assert.match(html, /<h1 class="bp__h1">How does SIREN compare to DEFCON, the Doomsday Clock and p\(doom\)\?<\/h1>/);
+  assert.match(html, /Questions people actually ask/);
+  assert.match(html, /Is SIREN a DEFCON level or the Bulletin.s Doomsday Clock\?/);
+  assert.match(html, /What is p\(doom\)\?/);
+  assert.match(html, /Does a loud SIREN reading mean AI is more dangerous\?/);
   assert.match(html, /"@type"\s*:\s*"FAQPage"/);
   assert.match(html, /"@type"\s*:\s*"WebPage"/);
   assert.match(html, /SpeakableSpecification/);
   assert.match(html, /BreadcrumbList/);
   assert.match(html, /Takeoff Tracker/);
+  assert.match(html, /\/history\.html/);
+  assert.match(html, /\/methodology\.html/);
+  assert.match(html, /\/p-doom\.html/);
+  assert.match(html, /What is the history of AI risk\?/);
+  assert.doesNotMatch(html, /<h1 class="bp__h1">SIREN, DEFCON, the Doomsday Clock and p\(doom\)<\/h1>/);
   assert.doesNotMatch(html, /SIREN.*p\(doom\) of \d/i);
   assert.doesNotMatch(html, /probability of doom is \d/i);
+  assert.doesNotMatch(html, /noindex/);
 });
 
 test('guide.md mirrors the HTML guide claims', () => {
   const md = guideMd(ctx);
-  assert.match(md, /^# SIREN, DEFCON/);
+  assert.match(md, /^# How does SIREN compare to DEFCON, the Doomsday Clock and p\(doom\)\?/);
   assert.match(md, /HTML: https:\/\/siren\.watch\/guide\.html/);
   assert.match(md, /\*\*SIREN 4, ROUTINE\*\*/);
   assert.match(md, /\| \*\*DEFCON\*\*/);
