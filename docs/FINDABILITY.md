@@ -391,6 +391,7 @@ context.
 | 158 | `/status.html` question-shaped title + WebPage speakable + BreadcrumbList + visible FAQ matching FAQPage schema (Is ChatGPT/Claude down; refuse UNKNOWN-as-up / SIREN-over-official-status / outage-forecast claims); IndexNow + seo-daily; `knowsAbout` “Is ChatGPT down” | Google + Bing | **Done** (2026-10-13) |
 | 159 | `/bug-out-land.html` question-shaped title + WebPage speakable + visible FAQ matching FAQPage schema (remote land checklist; refuse Skynet-as-forecast / real-estate-advice / doom-probability claims); IndexNow + seo-daily; `knowsAbout` “where to buy remote land to ride out Skynet” | Google + Bing | **Done** (2026-10-13) |
 | 160 | `/prepper-checklist.html` question-shaped title + WebPage speakable + visible FAQ matching FAQPage schema (72-hour kit + two weeks at home; refuse Judgment-Day-as-forecast / professional-advice / doom-probability claims); IndexNow + seo-daily; `knowsAbout` “what belongs in a 72-hour prepper kit” | Google + Bing | **Done** (2026-10-13) |
+| 161 | `/bunker-kit.html` question-shaped title + WebPage speakable + visible FAQ matching FAQPage schema (50 free tools + supply crates; refuse Skynet-as-forecast / professional-advice / doom-probability claims; ItemList from build prerender kept); IndexNow + seo-daily; `knowsAbout` “what free tools belong in a bunker kit” | Google + Bing | **Done** (2026-10-13) |
 
 ### 3.3 Refusals (search edition)
 
