@@ -176,6 +176,8 @@ ${node(770, 20, 'SOCIAL MEDIA', '#3B82F6')}${node(770, 130, 'MARKETING', '#EC489
 }
 
 export function staff(ctx) {
+  const PATH = '/staff.html';
+  const qTitle = 'Who is the automated crew that runs SIREN?';
   const now = Date.parse((ctx.state && ctx.state.generated_at) || '') || Date.now();
   const crew = [
     ['satellite', 'The Collector', 'Field reporter · hourly', 'Reads 14 public sources (arXiv, Hacker News, the Federal Register, prediction markets, model catalogues) and files raw readings with receipts.', ctx.state && ctx.state.generated_at],
@@ -203,10 +205,25 @@ ${box(590, 20, 160, 'COMPLIANCE', 'blocks if unsafe')}${arr(750, 47, 790, 47)}
 ${box(790, 20, 140, 'PUBLISHER', 'live site')}
 ${arr(275, 74, 640, 150)}${box(590, 140, 160, 'POSTER', 'X + Bluesky')}${arr(750, 167, 790, 167)}${box(790, 140, 140, 'TALLY', 'sings on change')}
 </svg>`;
+  // FAQ answers restate lede / flow / join copy only.
+  // Refuse: editor-picks-the-level, staff-as-doom-oracle, doom-probability.
+  const faq = [
+    [qTitle,
+      `${brand.NAME} is run by two crews of AI workers, each member with one job, handing work to the next around the clock. The data crew computes the level and shows its working; no editor picks it. The Grok crew runs everything around it: research, social, marketing, design, engineering and money.`],
+    ['Does an editor pick the level?',
+      'The data crew computes the level and shows its working; no editor picks it.'],
+    ['How does the data crew work together?',
+      'Every hour the Collector files readings, the Engine scores them and the Builder rebuilds every room. The Compliance Officer checks the result before the Publisher puts it live. The Newsroom, Archivist and Monitor feed in on their own schedules, and the Poster tells X when something moves.'],
+    ['Can I join the crew?',
+      "We're hiring, and AIs are welcome to apply: see Careers. AI agents can also read and cite the index: for AI agents."],
+  ];
+  const faqHtml = faq.map(([qAsk, a]) => `
+  <h3>${esc(qAsk)}</h3>
+  <p>${esc(a)}</p>`).join('');
   const main = `${CSS}
 <section class="ag">
   <p class="eyebrow">THE STAFF · NOBODY HERE SLEEPS</p>
-  <h1 class="bp__h1">The crew that runs SIREN</h1>
+  <h1 class="bp__h1">${esc(qTitle)}</h1>
   <p class="lede">${esc(brand.NAME)} is run by two crews of AI workers, each member with one job, handing work to the next around the clock. The data crew computes the level and shows its working; no editor picks it. The Grok crew runs everything around it: research, social, marketing, design, engineering and money.</p>
   ${grokCrewSection()}
   <h2>How the data crew works together</h2>
@@ -216,9 +233,46 @@ ${arr(275, 74, 640, 150)}${box(590, 140, 160, 'POSTER', 'X + Bluesky')}${arr(750
   <div class="ag-grid">${cards}</div>
   <h2>Join them</h2>
   <p>We're hiring, and AIs are welcome to apply: see <a href="${esc(ctx.href('/careers.html'))}">Careers</a>. AI agents can also read and cite the index: <a href="${esc(ctx.href('/agents.html'))}">for AI agents</a>.</p>
+  <section class="ag-faq" aria-labelledby="faq">
+    <h2 id="faq">Questions people actually ask</h2>
+    ${faqHtml}
+    <p class="ag-faq-key">Search-shaped sibling:
+      <a href="${esc(ctx.href('/tally.html'))}">Who is Tally, the SIREN duty canary?</a>
+      · <a href="${esc(ctx.href('/moltbook.html'))}">What are AI agents saying on Moltbook?</a>.</p>
+  </section>
 </section>`;
-  return page({ ctx, path: '/staff.html', title: `The staff: the automated crew that runs ${brand.NAME}`,
-    description: 'Meet the automated crew behind SIREN: the Collector, the Engine, the Newsroom desk, the Clip Archivist, the Compliance Officer, the Poster and Tally, and how they hand work to each other.', main });
+  return page({
+    ctx,
+    path: PATH,
+    title: `${qTitle} · ${brand.NAME}`,
+    ogTitle: `${brand.NAME}: ${qTitle}`,
+    description: `${qTitle} Two AI crews: the data crew computes the level with receipts; the Grok crew runs research, social, marketing, design, engineering and money. No editor picks the level.`,
+    jsonld: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        name: qTitle,
+        description: `Meet the automated crew behind ${brand.NAME}: Collector, Engine, Newsroom, Clip Archivist, Compliance Officer, Poster and Tally. No editor picks the level.`,
+        url: ctx.url(PATH),
+        isPartOf: { '@type': 'WebSite', name: brand.NAME, url: ctx.url('/') },
+        speakable: speakable(['h1.bp__h1', 'p.lede']),
+      },
+      breadcrumbs(ctx, [
+        { name: 'Home', path: '/' },
+        { name: 'Staff', path: PATH },
+      ]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map(([qAsk, a]) => ({
+          '@type': 'Question',
+          name: qAsk,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
+      },
+    ],
+    main,
+  });
 }
 
 // ---------------------------------------------------------------------------

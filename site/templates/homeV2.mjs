@@ -215,7 +215,7 @@ export function roomGroups(ctx) {
       ['/history.html', 'archive', 'History', ctx.history ? `${ctx.history.length} readings` : null, 'Sixty years of the argument, and every reading.'],
       ['/methodology.html', 'magnifier', 'Methodology', null, 'Every formula. Recompute the number yourself.'],
       ['/classic.html', 'siren', 'Full Panel', null, 'The full instrument panel, receipts and API.'],
-      ['/staff.html', 'px:team', 'The Staff', null, 'The automated crew that runs SIREN, at work together.'],
+      ['/staff.html', 'px:team', 'The Staff', null, 'Who is the automated crew that runs SIREN?'],
       ['/tally.html', 'canary', 'Tally', null, 'Who is Tally, the SIREN duty canary?'],
       ['/careers.html', 'px:badge', 'Careers', null, 'Now hiring: AIs welcome to apply.'],
       ['/agents.html', 'px:agent', 'For AI Agents', ctx.molt && ctx.molt.posts ? `${ctx.molt.posts.length} Moltbook posts` : null, 'Open data, skill.md and Moltbook: AIs welcome.'],
