@@ -165,7 +165,7 @@ export function roomGroups(ctx) {
       ['/videos.html', 'px:tv', 'SIREN TV', '6 videos', 'What free AI explainer videos does SIREN publish?'],
       ['/radio.html', 'px:radio', 'SIREN Radio', '6 stations', 'What free music does SIREN Radio play?'],
       ['/live.html', 'px:livetv', 'AI on TV & Radio', ctx.liveMedia ? `${((ctx.liveMedia.live && ctx.liveMedia.live.items) || []).length} live now` : null, 'What AI is on TV and radio right now?'],
-      ['/changelog.html', 'px:updown', 'What Moved', null, 'Every hour’s changes: score, pillars and top stories.'],
+      ['/changelog.html', 'px:updown', 'What Moved', null, 'What moved the SIREN score this hour?'],
     ]],
     ['THE MACHINES', [
       ['/watts.html', 'power', 'Power', ctx.infra && Number.isFinite(ctx.infra.score) ? `${ctx.infra.score.toFixed(1)} / 100` : null, 'Grid load, drought and build-out under the models.'],
