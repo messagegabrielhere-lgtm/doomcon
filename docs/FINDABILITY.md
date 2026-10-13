@@ -389,6 +389,7 @@ context.
 | 156 | `/nations.html` question-shaped title + Dataset speakable + visible FAQ matching FAQPage schema (USA vs China nations race; refuse SIREN-forecast / financial-advice / doom-probability claims); IndexNow + seo-daily; `knowsAbout` “USA vs China: who is winning the race to superintelligence” | Google + Bing | **Done** (2026-10-13) |
 | 157 | `/ai-proof-job.html` question-shaped title + WebPage speakable + visible FAQ matching FAQPage schema (personal job plan; refuse job-security guarantees / career-advice / mass-unemployment doom claims); IndexNow + seo-daily; `knowsAbout` “how do I AI-proof my job” | Google + Bing | **Done** (2026-10-13) |
 | 158 | `/status.html` question-shaped title + WebPage speakable + BreadcrumbList + visible FAQ matching FAQPage schema (Is ChatGPT/Claude down; refuse UNKNOWN-as-up / SIREN-over-official-status / outage-forecast claims); IndexNow + seo-daily; `knowsAbout` “Is ChatGPT down” | Google + Bing | **Done** (2026-10-13) |
+| 159 | `/bug-out-land.html` question-shaped title + WebPage speakable + visible FAQ matching FAQPage schema (remote land checklist; refuse Skynet-as-forecast / real-estate-advice / doom-probability claims); IndexNow + seo-daily; `knowsAbout` “where to buy remote land to ride out Skynet” | Google + Bing | **Done** (2026-10-13) |
 
 ### 3.3 Refusals (search edition)
 

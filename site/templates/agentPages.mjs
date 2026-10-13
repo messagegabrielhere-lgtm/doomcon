@@ -8,6 +8,7 @@
 
 import { esc } from './_html.mjs';
 import { page } from './layout.mjs';
+import { breadcrumbs, speakable } from './_seo.mjs';
 import * as brand from '../brand.mjs';
 import { mascot, MOODS } from './_mascot.mjs';
 
@@ -35,6 +36,11 @@ const CSS = `<style>
 .ag-job{border-left:3px solid var(--accent,#4ADE80)}
 .ag-use{margin:18px 0}.ag-use pre{margin:0}.ag-links{margin:0;padding-left:18px;font-size:14px}.ag-links li{margin:3px 0}
 .ag-pill{display:inline-block;font:600 11px/1 var(--mono);padding:4px 7px;border:1px solid var(--rule);border-radius:3px;color:var(--ink-dim);margin-right:6px}
+.ag-faq{margin:var(--sec,2rem) 0 var(--s-5,1.25rem);max-width:62ch}
+.ag-faq h2{font:600 var(--t-lg,1.125rem)/1.2 var(--sans);margin:0 0 var(--s-3,.75rem);color:var(--ink)}
+.ag-faq h3{font:600 var(--t-base,1rem)/1.3 var(--sans);margin:var(--s-4,1rem) 0 var(--s-2,.5rem);color:var(--ink)}
+.ag-faq p{font:400 var(--t-base,1rem)/1.55 var(--sans);color:var(--ink-dim);margin:0 0 var(--s-2,.5rem)}
+.ag-faq-key{margin-top:var(--s-4,1rem)!important}
 </style>`;
 
 const host = (u) => String(u).replace(/^https?:\/\//, '');
@@ -357,12 +363,30 @@ const LISTINGS = [
   ['United Country Real Estate', 'https://www.unitedcountry.com/'], ['USDA rural home loans', 'https://www.rd.usda.gov/programs-services/single-family-housing-programs'],
 ];
 export function land(ctx) {
+  const PATH = '/bug-out-land.html';
+  const qTitle = 'Where to buy remote land to ride out Skynet?';
+  // FAQ answers restate hero / note / checklist framing only.
+  // Refuse: Skynet-as-forecast, real-estate advice claims, doom-probability titles.
+  const faq = [
+    [qTitle,
+      'The Skynet part is a joke. Wanting land that can keep you fed, watered and warm when the grid, the apps or the supply chain fail is not. These are the regions homesteaders and preppers look at most in the US, the checklist that separates a refuge from a money pit, and where land is listed.'],
+    ['Is this a forecast that Skynet is coming?',
+      'The Skynet part is a joke. Wanting land that can keep you fed, watered and warm when the grid, the apps or the supply chain fail is not.'],
+    ['Is this real-estate or financial advice?',
+      `General information, not real-estate, legal or financial advice. Prices and conditions change; visit before you buy, and have a local attorney check title, access and water rights. Links to listing sites are plain links; ${brand.NAME} is not paid for them.`],
+    ['What else does SIREN cover for supplies?',
+      'The Prepper Checklist and the Bunker Kit\'s supply drop cover water, food, power and the rest.'],
+  ];
+  const faqHtml = faq.map(([qAsk, a]) => `
+  <h3>${esc(qAsk)}</h3>
+  <p>${esc(a)}</p>`).join('');
+
   const main = `${CSS}
 <section class="ag">
   <p class="eyebrow">BUG-OUT LAND · FOR WHEN SKYNET GOES LIVE (OR THE POWER JUST GOES OUT)</p>
-  <h1 class="bp__h1">Where to buy remote land to ride out Skynet</h1>
+  <h1 class="bp__h1">${esc(qTitle)}</h1>
   <p class="lede">The Skynet part is a joke. Wanting land that can keep you fed, watered and warm when the grid, the apps or the supply chain fail is not. These are the regions homesteaders and preppers look at most in the US, the checklist that separates a refuge from a money pit, and where land is listed.</p>
-  <a class="ag-btn ghost" href="${esc(xShare(ctx, 'Where to buy remote land to ride out Skynet (and the checklist that actually matters):', '/bug-out-land.html'))}" target="_blank" rel="noopener">𝕏 POST THIS</a>
+  <a class="ag-btn ghost" href="${esc(xShare(ctx, 'Where to buy remote land to ride out Skynet (and the checklist that actually matters):', PATH))}" target="_blank" rel="noopener">𝕏 POST THIS</a>
   <h2>Regions people look at</h2>
   <div class="ag-grid">${REGIONS.map(([r, d]) => `<div class="ag-card"><h3>${esc(r)}</h3><p>${esc(d)}</p></div>`).join('')}</div>
   <h2>The checklist before you buy</h2>
@@ -372,9 +396,46 @@ export function land(ctx) {
   <h2>Then stock it</h2>
   <p>The <a href="${esc(ctx.href('/prepper-checklist.html'))}">Prepper Checklist</a> and the <a href="${esc(ctx.href('/bunker-kit.html'))}">Bunker Kit's supply drop</a> cover water, food, power and the rest.</p>
   <p class="ag-note">General information, not real-estate, legal or financial advice. Prices and conditions change; visit before you buy, and have a local attorney check title, access and water rights. Links to listing sites are plain links; ${esc(brand.NAME)} is not paid for them.</p>
+  <section class="ag-faq" aria-labelledby="faq">
+    <h2 id="faq">Questions people actually ask</h2>
+    ${faqHtml}
+    <p class="ag-faq-key">Search-shaped sibling:
+      <a href="${esc(ctx.href('/prepper-checklist.html'))}">Prepper Checklist</a>
+      · <a href="${esc(ctx.href('/waffle.html'))}">Is the Waffle House open?</a>.</p>
+  </section>
 </section>`;
-  return page({ ctx, path: '/bug-out-land.html', title: `Where to buy remote land to ride out Skynet · ${brand.NAME}`,
-    description: 'Where to buy remote, off-grid land in the US to ride out Skynet (or a long power cut): Wyoming, Montana, Idaho, Alaska, Maine, the Ozarks and more, a buyer\'s checklist, and land listing sites.', main });
+  return page({
+    ctx,
+    path: PATH,
+    title: `${qTitle} · ${brand.NAME}`,
+    ogTitle: `${brand.NAME}: ${qTitle}`,
+    description: `${qTitle} Regions homesteaders look at in the US, a buyer\'s checklist, and land listing sites. The Skynet part is a joke; the grid-failure checklist is not. Not real-estate advice.`,
+    jsonld: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        name: qTitle,
+        description: 'Where to look for remote US land that can keep you fed, watered and warm when the grid fails: regions, a buyer checklist, and listing sites. Skynet framing is a joke; not real-estate advice.',
+        url: ctx.url(PATH),
+        isPartOf: { '@type': 'WebSite', name: brand.NAME, url: ctx.url('/') },
+        speakable: speakable(['h1.bp__h1', 'p.lede']),
+      },
+      breadcrumbs(ctx, [
+        { name: 'Home', path: '/' },
+        { name: 'Bug-out land', path: PATH },
+      ]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map(([qAsk, a]) => ({
+          '@type': 'Question',
+          name: qAsk,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
+      },
+    ],
+    main,
+  });
 }
 
 // ---------------------------------------------------------------------------
