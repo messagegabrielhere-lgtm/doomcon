@@ -13,6 +13,7 @@
 
 import { esc } from './_html.mjs';
 import { page } from './layout.mjs';
+import { breadcrumbs, speakable } from './_seo.mjs';
 import { slugFor, hasItems } from './itemPage.mjs';
 import * as brand from '../brand.mjs';
 import { SEARCH_CORE_JS } from '../searchcore.mjs';
@@ -301,6 +302,11 @@ const CSS = `<style>
 .ct h2 span{color:var(--ink-faint);font-weight:600;margin-left:6px}
 .ct h3{font:600 11px/1.2 var(--mono);letter-spacing:.14em;color:var(--ink-faint);margin:14px 0 8px}
 .ct-none{padding:16px;border:1px dashed var(--rule);border-radius:6px}
+.ct-faq{margin:34px 0 12px;max-width:62ch}
+.ct-faq h2{font:600 var(--t-lg,1.125rem)/1.2 var(--sans);margin:0 0 var(--s-3,.75rem);color:var(--ink);letter-spacing:normal;text-transform:none}
+.ct-faq h3{font:600 var(--t-base,1rem)/1.3 var(--sans);margin:var(--s-4,1rem) 0 var(--s-2,.5rem);color:var(--ink);letter-spacing:normal;text-transform:none}
+.ct-faq p{font:400 var(--t-base,1rem)/1.55 var(--sans);color:var(--ink-dim);margin:0 0 var(--s-2,.5rem)}
+.ct-faq-key{margin-top:var(--s-4,1rem)!important}
 @media (max-width:700px){.ct-bar{position:static}}
 @media (max-width:560px){.sx-f button{padding:0 14px}.sx-r b{font-size:14.5px}}
 </style>`;
@@ -380,6 +386,9 @@ fetch(IDX).then(function(r){return r.json()}).then(function(d){D=d;rows=S.prep(d
     description: `Search all of ${brand.NAME}: the rooms, tools and games, the scored AI news, the leaders, the videos, the open data and the feeds, instantly in your browser.`, main });
 }
 
+const CATALOG_PATH = '/catalog.html';
+const catalogQTitle = 'Where is everything on SIREN listed?';
+
 /** /catalog.html: every entry, grouped, with type chips and a text filter. */
 export function catalog(ctx, entries) {
   const img = imgFn(ctx);
@@ -397,8 +406,23 @@ export function catalog(ctx, entries) {
     return `<section class="ct-s" id="ct-${t}" data-t="${t}"><h2>${esc(TYPE_LABEL[t])}<span>${by[t].length}</span></h2>${body}</section>`;
   }).join('');
   const total = types.reduce((n, t) => n + by[t].length, 0);
+  // FAQ answers restate lede / body copy only.
+  // Refuse: catalog-as-doom-index, stuffing synonyms, doom-probability.
+  const faq = [
+    [catalogQTitle,
+      'Every room, tool, game, video, data file, feed and embed on the site, in one directory. Filter by type or by word; for stories, leaders and the Bunker Kit’s tools, use Search.'],
+    ['How do I filter the catalog?',
+      'Filter by type or by word.'],
+    ['Where do I find stories, leaders and Bunker Kit tools?',
+      'For stories, leaders and the Bunker Kit’s tools, use Search.'],
+    ['What kinds of things are listed?',
+      'Every room, tool, game, video, data file, feed and embed on the site.'],
+  ];
+  const faqHtml = faq.map(([qAsk, a]) => `
+  <h3>${esc(qAsk)}</h3>
+  <p>${esc(a)}</p>`).join('');
   const main = `${CSS}<section class="ct">
-  <p class="eyebrow">CATALOG · ${total} THINGS</p><h1 class="bp__h1">Everything on ${esc(brand.NAME)}</h1>
+  <p class="eyebrow">CATALOG · ${total} THINGS</p><h1 class="bp__h1">${esc(catalogQTitle)}</h1>
   <p class="lede">Every room, tool, game, video, data file, feed and embed on the site, in one directory. Filter by type or by word; for stories, leaders and the Bunker Kit’s tools, use <a href="${esc(ctx.href('/search.html'))}">Search</a>.</p>
   <div class="ct-bar">
     <label for="ct-q" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Filter the catalog</label>
@@ -408,6 +432,13 @@ export function catalog(ctx, entries) {
   <p class="sx-stat" id="ct-n" aria-live="polite"></p>
   ${sections}
   <p class="ct-none" id="ct-none" hidden>Nothing in the catalog matches. <a id="ct-sx" href="${esc(ctx.href('/search.html'))}">Search everything →</a></p>
+  <section class="ct-faq" aria-labelledby="faq">
+    <h2 id="faq">Questions people actually ask</h2>
+    ${faqHtml}
+    <p class="ct-faq-key">Search-shaped sibling:
+      <a href="${esc(ctx.href('/live.html'))}">What AI is on TV and radio right now?</a>
+      · <a href="${esc(ctx.href('/games.html'))}">What free AI games can you play on SIREN?</a>.</p>
+  </section>
 </section>
 <script>(function(){
 var q=document.getElementById('ct-q'),n=document.getElementById('ct-n'),none=document.getElementById('ct-none'),sx=document.getElementById('ct-sx'),type='';
@@ -423,10 +454,38 @@ q.addEventListener('input',apply);
 chips.forEach(function(b){b.addEventListener('click',function(){type=b.getAttribute('data-t')||'';apply()})});
 var p=new URLSearchParams(location.search);q.value=p.get('q')||'';type=p.get('type')||'';if(q.value||type)apply();
 })();</script>`;
-  const jsonld = [{
-    '@context': 'https://schema.org', '@type': 'CollectionPage', name: `${brand.NAME} catalog`, url: ctx.url('/catalog.html'),
-    mainEntity: { '@type': 'ItemList', numberOfItems: total, itemListElement: types.flatMap((t) => by[t]).slice(0, 100).map((e, i) => ({ '@type': 'ListItem', position: i + 1, name: e.title, url: ctx.url(e.url) })) },
-  }];
-  return page({ ctx, path: '/catalog.html', title: `Catalog: every room, tool, video and dataset · ${brand.NAME}`,
-    description: `A browsable directory of everything on ${brand.NAME}: ${total} rooms, tools, games, videos, data downloads, feeds and embeds, each with a one-line description.`, main, jsonld });
+  const jsonld = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      name: catalogQTitle,
+      description: `A browsable directory of everything on ${brand.NAME}: rooms, tools, games, videos, data downloads, feeds and embeds.`,
+      url: ctx.url(CATALOG_PATH),
+      isPartOf: { '@type': 'WebSite', name: brand.NAME, url: ctx.url('/') },
+      speakable: speakable(['h1.bp__h1', 'p.lede']),
+      mainEntity: { '@type': 'ItemList', numberOfItems: total, itemListElement: types.flatMap((t) => by[t]).slice(0, 100).map((e, i) => ({ '@type': 'ListItem', position: i + 1, name: e.title, url: ctx.url(e.url) })) },
+    },
+    breadcrumbs(ctx, [
+      { name: 'Home', path: '/' },
+      { name: 'Catalog', path: CATALOG_PATH },
+    ]),
+    {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faq.map(([qAsk, a]) => ({
+        '@type': 'Question',
+        name: qAsk,
+        acceptedAnswer: { '@type': 'Answer', text: a },
+      })),
+    },
+  ];
+  return page({
+    ctx,
+    path: CATALOG_PATH,
+    title: `${catalogQTitle} · ${brand.NAME}`,
+    ogTitle: `${brand.NAME}: ${catalogQTitle}`,
+    description: `${catalogQTitle} A browsable directory of ${total} rooms, tools, games, videos, data downloads, feeds and embeds on ${brand.NAME}.`,
+    main,
+    jsonld,
+  });
 }
