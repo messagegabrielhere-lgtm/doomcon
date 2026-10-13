@@ -75,13 +75,13 @@ const MORE_PAGES = [
   ['/pillar/governance.html', 'px:updown', 'Governance pillar', 'Stories and the live Governance reading.'],
   ['/pillar/markets.html', 'px:updown', 'Markets pillar', 'Stories and the live Markets reading.'],
   ['/api/receipts/', 'archive', 'Receipts', 'Every reading’s receipt, hash-chained so none can be rewritten.'],
-  ['/about.html', 'px:doc', 'About', 'What SIREN is, who runs it and how it is paid for.'],
-  ['/press.html', 'news', 'Press kit', 'Facts, a liftable paragraph, images and a contact.'],
-  ['/brand.html', 'canary', 'Brand guide', 'Level colours, typefaces, voice rules and Tally.'],
-  ['/sponsor.html', 'px:badge', 'Sponsor', 'One named sponsor at a time, with no say over the number.'],
-  ['/privacy.html', 'px:doc', 'Privacy', 'What a visit measures, including analytics and third parties.'],
-  ['/terms.html', 'px:doc', 'Terms', 'Information and commentary, not advice.'],
-  ['/disclosures.html', 'px:doc', 'Disclosures', 'Affiliate, finance, privacy and satire notices.'],
+  ['/about.html', 'px:doc', 'What is SIREN?', 'An independent AI activity index — who runs it and how it is paid for.'],
+  ['/press.html', 'news', 'Where is the SIREN press kit?', 'Facts, a liftable paragraph, images and how to cite a reading.'],
+  ['/brand.html', 'canary', 'Where is the SIREN brand guide?', 'Name, colours, type, voice and Tally.'],
+  ['/sponsor.html', 'px:badge', 'How do you sponsor SIREN without moving the number?', 'One named sponsor at a time, with no say over the number.'],
+  ['/privacy.html', 'px:doc', 'What does SIREN know about you?', 'Privacy policy — what a visit measures, including analytics.'],
+  ['/terms.html', 'px:doc', 'What are the SIREN terms of use?', 'Disclaimers and what the index is not.'],
+  ['/disclosures.html', 'px:doc', 'What does SIREN disclose?', 'Affiliate, finance, privacy and satire notices in one place.'],
 ];
 
 // Machine-readable files. Only the ones the build actually wrote are listed.

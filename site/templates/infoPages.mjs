@@ -957,7 +957,7 @@ ${levels.map((l) => `    <li class="br__t" style="--lvl:var(--heat-${l.level})">
   </ul>
   <h2 id="faq">Questions people actually ask</h2>
   ${faqHtml}
-  <p><a href="${esc(ctx.href('/press.html'))}">Press kit →</a></p>
+  <p><a href="${esc(ctx.href('/press.html'))}">Where is the SIREN press kit? →</a></p>
 </section>`;
   return page({
     ctx,
@@ -1022,7 +1022,7 @@ export function press(ctx) {
     <li><a href="${esc(ctx.href('/cards/state.png'))}">Current reading card</a> (1200×675 PNG, redrawn every reading)</li>
     <li><a href="${esc(ctx.href('/cards/state-portrait.png'))}">Portrait card</a> for stories and vertical video</li>
     <li><a href="${esc(ctx.href('/badge.svg'))}">Level badge</a> (SVG) and <a href="${esc(ctx.href('/favicon.svg'))}">mark</a> (SVG)</li>
-    <li><a href="${esc(ctx.href('/brand.html'))}">Brand guide</a>, with Tally in five moods to download</li>
+    <li><a href="${esc(ctx.href('/brand.html'))}">Where is the SIREN brand guide?</a> — Tally in five moods to download</li>
     <li><a href="${esc(ctx.href('/embed.html'))}">Embeddable widget</a>; the code is on the <a href="${esc(ctx.href('/instruments.html'))}#embed">instruments page</a></li>
   </ul>
   <h2 id="faq">Questions people actually ask</h2>

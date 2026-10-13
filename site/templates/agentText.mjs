@@ -312,12 +312,12 @@ Honesty rules:
 - [SIREN vs Takeoff Tracker](${u('/vs/takeofftracker.html')}): activity count vs AGI metrics dashboard (honest refuse)
 - [What is p(doom)?](${u('/p-doom.html')})
 - [Is there an AI doomsday clock?](${u('/ai-doomsday-clock.html')})
-- [Is AI taking jobs? What has been measured](${u('/jobs.html')})
-- [Is AI curing anything? Results on the record](${u('/medicine.html')})
+- [Is AI taking jobs? What has actually been measured](${u('/jobs.html')})
+- [Is AI curing anything? Trial results, approvals and what they show](${u('/medicine.html')})
 - [AI breakthroughs](${u('/breakthroughs.html')})
-- [About](${u('/about.html')})
-- [Press kit](${u('/press.html')})
-- [Terms](${u('/terms.html')}) · [Privacy](${u('/privacy.html')}) · [Disclosures](${u('/disclosures.html')})
+- [What is SIREN?](${u('/about.html')})
+- [Where is the SIREN press kit?](${u('/press.html')})
+- [What are the SIREN terms of use?](${u('/terms.html')}) · [What does SIREN know about you?](${u('/privacy.html')}) · [What does SIREN disclose?](${u('/disclosures.html')})
 
 ## Instruments
 

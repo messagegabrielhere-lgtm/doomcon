@@ -135,9 +135,13 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('SIREN privacy'));
     assert.ok(org.knowsAbout.includes('What does SIREN know about you'));
     assert.ok(org.knowsAbout.includes('SIREN press kit'));
+    assert.ok(org.knowsAbout.includes('Where is the SIREN press kit'));
     assert.ok(org.knowsAbout.includes('SIREN terms of use'));
+    assert.ok(org.knowsAbout.includes('What are the SIREN terms of use'));
     assert.ok(org.knowsAbout.includes('SIREN disclosures'));
+    assert.ok(org.knowsAbout.includes('What does SIREN disclose'));
     assert.ok(org.knowsAbout.includes('SIREN brand guide'));
+    assert.ok(org.knowsAbout.includes('Where is the SIREN brand guide'));
     assert.ok(org.knowsAbout.includes('AI models this index scored'));
     assert.ok(org.knowsAbout.includes('AI companies this index scored'));
     assert.ok(org.knowsAbout.includes('AI tags this index scored'));
