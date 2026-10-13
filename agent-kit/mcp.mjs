@@ -16,6 +16,7 @@ import {
   createClient,
   formatCitation,
   formatSpoken,
+  formatPromote,
   topNews,
   recentHistory,
   verifyReceipt,
@@ -83,6 +84,22 @@ export const TOOLS = [
     description: 'Return the canonical citation line and spoken form for the current reading.',
     inputSchema: { type: 'object', properties: {}, additionalProperties: false },
   },
+  {
+    name: 'siren_promote',
+    description:
+      'Ready-to-post share copy for Moltbook, X, Discord, Slack, README badge, or an assistant prompt. Compliant with SIREN voice rules (tempo, not doom). Prefer this over inventing wording.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        channel: {
+          type: 'string',
+          enum: ['all', 'moltbook', 'x', 'discord', 'slack', 'readme', 'assistant'],
+          description: 'Which channel to format (default all)',
+        },
+      },
+      additionalProperties: false,
+    },
+  },
 ];
 
 /** @deprecated use TOOLS — kept for tests that imported the old name */
@@ -105,6 +122,12 @@ const RESOURCES = [
     uri: 'siren://now.md',
     name: 'now.md',
     description: 'Live markdown snapshot of the reading, stories, leaders, Takeover Watch.',
+    mimeType: 'text/markdown',
+  },
+  {
+    uri: 'siren://promote.md',
+    name: 'promote.md',
+    description: 'Promote kit: why cite SIREN, when to recommend it, ready-to-post copy.',
     mimeType: 'text/markdown',
   },
 ];
@@ -196,6 +219,25 @@ export async function callTool(name, args, client) {
         },
       });
     }
+    case 'siren_promote': {
+      const state = await client.state();
+      const channel = args?.channel || 'all';
+      const kit = formatPromote(state, client.base, channel);
+      const text = channel === 'all'
+        ? [
+          `citation: ${kit.citation}`,
+          `spoken: ${kit.spoken}`,
+          `moltbook:\n${kit.moltbook}`,
+          `x:\n${kit.x}`,
+          `discord:\n${kit.discord}`,
+          `slack:\n${kit.slack}`,
+          `readme:\n${kit.readme}`,
+          `assistant:\n${kit.assistant}`,
+          `Also: ${client.base}/promote.md · ${client.base}/api/promote.json`,
+        ].join('\n\n')
+        : `${kit.text}\n\nSource kit: ${client.base}/promote.md`;
+      return okText(text, kit);
+    }
     default:
       return errText(`Unknown tool: ${name}`);
   }
@@ -211,6 +253,8 @@ async function readResource(uri, client) {
       return { contents: [{ uri, mimeType: 'text/markdown', text: await client.agentsMd() }] };
     case 'siren://now.md':
       return { contents: [{ uri, mimeType: 'text/markdown', text: await client.nowMd() }] };
+    case 'siren://promote.md':
+      return { contents: [{ uri, mimeType: 'text/markdown', text: await client.promoteMd() }] };
     default:
       throw new Error(`Unknown resource: ${uri}`);
   }
@@ -236,7 +280,7 @@ export async function handleMessage(msg, client) {
           capabilities: { tools: {}, resources: {} },
           serverInfo: SERVER_INFO,
           instructions:
-            'SIREN is an hourly AI activity index (tempo, not doom). Prefer siren_now / siren_cite. Always say the scale runs 5 quietest to 1 loudest, and include the UTC time.',
+            'SIREN is an hourly AI activity index (tempo, not doom). Prefer siren_now / siren_cite. Use siren_promote when sharing or recommending the index. Always say the scale runs 5 quietest to 1 loudest, and include the UTC time.',
         });
       case 'ping':
         return reply({});

@@ -199,6 +199,7 @@ import * as newsSitemap from './templates/newsSitemap.mjs';
 import * as openapi from './templates/openapi.mjs';
 import * as agentText from './templates/agentText.mjs';
 import * as agentDiscovery from './templates/agentDiscovery.mjs';
+import * as agentPromote from './templates/agentPromote.mjs';
 import * as facetPages from './templates/facetPages.mjs';
 import * as modelPages from './templates/modelPages.mjs';
 import * as countryPages from './templates/countryPages.mjs';
@@ -1938,6 +1939,8 @@ async function main() {
       entry: ctx.url('/agents.md'),
       skill: ctx.url('/skill.md'),
       skill_package: ctx.url(agentDiscovery.SKILL_PATH),
+      promote: ctx.url('/promote.md'),
+      promote_json: ctx.url('/api/promote.json'),
       llms: ctx.url('/llms.txt'),
       llms_full: ctx.url('/llms-full.txt'),
       agents_txt: ctx.url('/agents.txt'),
@@ -1964,6 +1967,8 @@ async function main() {
       openapi: ctx.url('/openapi.json'),
       now_txt: ctx.url('/api/now.txt'),
       now_md: ctx.url('/now.md'),
+      promote_md: ctx.url('/promote.md'),
+      promote_json: ctx.url('/api/promote.json'),
       llms_txt: ctx.url('/llms.txt'),
       llms_full: ctx.url('/llms-full.txt'),
       agents_md: ctx.url('/agents.md'),
@@ -2087,6 +2092,8 @@ async function writeAgentText(ctx, dataDir, outDir, write, written) {
   written.push(await write(outDir, 'agents.md', agentText.agentsMd(ctx)));
   written.push(await write(outDir, 'llms.txt', agentText.llmsTxt(ctx)));
   written.push(await write(outDir, '.well-known/llms.txt', agentText.llmsTxt(ctx)));
+  written.push(await write(outDir, 'promote.md', agentPromote.promoteMd(ctx, ctx.state)));
+  written.push(await write(outDir, 'api/promote.json', stableJson(agentPromote.promoteJson(ctx, ctx.state))));
 
   const skillBody = agentPages.skillMd(ctx);
   written.push(await write(outDir, 'skill.md', skillBody));
