@@ -42,6 +42,7 @@ import {
 import { loadBrand, loadNews } from './card.mjs';
 import * as X from './post-x.mjs';
 import * as BSKY from './post-bluesky.mjs';
+import { indexReading, readingBlockReason, selfTest as xReadGuardSelfTest, xMessageBlock } from './x-read-guard.mjs';
 
 export const LEDGER_PATH = 'data/posted.ndjson';
 export const CHANNELS = Object.freeze(['x', 'bluesky']);
@@ -79,6 +80,10 @@ export const AUTO_KINDS = Object.freeze([
   'escalation', 'deescalation', 'milestone', 'degraded', 'pillar-spike', 'drought', 'race',
   'market-move', 'notable-input', 'weekly', 'daily',
 ]);
+// `degraded` stays on the slate for Bluesky and the hand console. X never
+// receives it: pickPost drops system and health status, and run() skips X
+// entirely when the reading is degraded, a pillar is missing or imputed, or
+// there is no real number.
 export const HAND_ONLY_KINDS = Object.freeze(['top-news', 'corroboration', 'developing']);
 // News about the index itself goes first even if the same kind ran yesterday.
 export const LEAD_KINDS = Object.freeze(['escalation', 'deescalation', 'milestone']);
@@ -232,6 +237,13 @@ export function pickPost(posts, { channel, ledger, now }) {
     if (!AUTO_KINDS.includes(p.kind)) {
       skipped.push({ id: p.id, kind: p.kind, why: HAND_ONLY_KINDS.includes(p.kind) ? 'quotes a third-party headline; hand-post it from /post-sheet.html' : 'kind not cleared for unattended posting' });
       continue;
+    }
+    if (channel === 'x') {
+      const status = xMessageBlock(channelText(channel, p).text, p.kind);
+      if (status) {
+        skipped.push({ id: p.id, kind: p.kind, why: `system or health status (${status})` });
+        continue;
+      }
     }
     try { channelPreflight(channel, p); } catch (err) {
       skipped.push({ id: p.id, kind: p.kind, why: err.message });
@@ -388,6 +400,14 @@ export async function run({ dryRun, channels, ledgerPath = LEDGER_PATH, now = ne
   const cards = new Map();
 
   for (const { channel, creds } of active) {
+    if (channel === 'x') {
+      const why = readingBlockReason(inputs.state);
+      if (why) {
+        say(`[post-daily] x: skipping — ${why}`);
+        report.refused.push({ channel, why });
+        continue;
+      }
+    }
     const tg = alert ? alertGuard(ledger, { channel, now }) : timeGuard(ledger, { channel, now });
     if (!tg.ok) { say(`[post-daily] ${channel}: refused — ${tg.why}`); report.refused.push({ channel, why: tg.why }); continue; }
 
@@ -504,17 +524,55 @@ export async function selfTest() {
     try { parseLedger('{"channel":"mastodon","posted_at":"2026-09-28T00:00:00Z","text_sha256":"a"}'); } catch { threw++; }
     eq(threw, 3, 'rejections');
   });
-  await check('pick: news kinds are hand-only; the top auto kind wins', () => {
+  await check('pick: news kinds are hand-only; a real index read wins on X', () => {
     const r = pickPost([fakePost('top-news', 1), fakePost('degraded', 2), fakePost('daily', 3)], { channel: 'x', ledger: [], now: at('2026-09-28T14:41:00Z') });
-    eq(r.post.kind, 'degraded', 'pick');
-    eq(r.skipped[0].kind, 'top-news', 'skipped');
+    eq(r.post.kind, 'daily', 'pick');
+    eq(r.skipped.some((s) => s.kind === 'top-news'), true, 'news skipped');
+    if (!r.skipped.some((s) => s.kind === 'degraded' && /system or health status/.test(s.why))) throw new Error('degraded was selectable on X');
   });
   await check('pick: a kind that ran inside 48 h is rotated past; the daily floor still holds', () => {
-    const ledger = [row('x', '2026-09-27T14:41:00Z', { kind: 'degraded' })];
+    const ledger = [row('x', '2026-09-27T14:41:00Z', { kind: 'drought' })];
     const now = at('2026-09-28T14:41:00Z');
-    eq(pickPost([fakePost('degraded', 1), fakePost('drought', 2), fakePost('daily', 3)], { channel: 'x', ledger, now }).post.kind, 'drought', 'rotated');
-    eq(pickPost([fakePost('degraded', 1)], { channel: 'x', ledger, now }).post.kind, 'degraded', 'only choice still posts');
+    eq(pickPost([fakePost('drought', 1), fakePost('daily', 2)], { channel: 'x', ledger, now }).post.kind, 'daily', 'rotated');
+    eq(pickPost([fakePost('degraded', 1)], { channel: 'x', ledger, now }).post, null, 'degraded is never the X post');
+    eq(pickPost([fakePost('daily', 1)], { channel: 'x', ledger, now }).post.kind, 'daily', 'a real reading still posts');
     eq(pickPost([fakePost('escalation', 1), fakePost('daily', 2)], { channel: 'x', ledger: [row('x', '2026-09-27T14:41:00Z', { kind: 'escalation' })], now }).post.kind, 'escalation', 'lead kinds never rotate');
+  });
+  await check('pick: X skips every system and health status message', () => {
+    const now = at('2026-09-28T14:41:00Z');
+    const samples = [
+      ['degraded', 'SIREN is degraded as of 14:30 UTC.'],
+      ['daily', '1 of 5 pillars has no frozen baseline yet: markets.'],
+      ['daily', 'Nothing is imputed for a pillar the index cannot score.'],
+      ['daily', 'Collector error on the markets feed.'],
+      ['daily', 'Skynet status at 14:30 UTC. SIREN 4, 49.3 of 100.'],
+      ['daily', 'Source health is healthy at 14:30 UTC. SIREN 4, 49.3 of 100.'],
+    ];
+    for (const [kind, text] of samples) {
+      const r = pickPost([fakePost(kind, 1, { text_api: text, text }), fakePost('daily', 2)], { channel: 'x', ledger: [], now });
+      eq(r.post.kind, 'daily', text);
+      if (!/system or health status/.test(r.skipped[0].why)) throw new Error(`${text} -> ${r.skipped[0].why}`);
+    }
+    const incident = 'SIREN is degraded as of 14:30 UTC. 1 of 5 pillars has no frozen baseline yet: markets.';
+    eq(pickPost([fakePost('degraded', 1, { text_api: incident })], { channel: 'x', ledger: [], now }).post, null, 'incident text');
+    eq(pickPost([fakePost('degraded', 1, { text_api: incident })], { channel: 'bluesky', ledger: [], now }).post.kind, 'degraded', 'bluesky still has the slate');
+  });
+  await check('X is skipped when the reading is degraded, missing, imputed, or has no number', () => {
+    const marketsOut = indexReading().pillars.map((p) => (p.id === 'markets' ? { ...p, uncalibrated: true, score: null } : p));
+    const cases = [
+      [indexReading({ degraded: true }), /index is degraded/],
+      [indexReading({ dark_pillars: ['markets'], pillars: indexReading().pillars.map((p) => (p.id === 'markets' ? { ...p, dark: true, score: null } : p)) }), /is missing/],
+      [indexReading({ uncalibrated_pillars: ['markets'], pillars: marketsOut }), /no frozen baseline/],
+      [indexReading({ pillars: indexReading().pillars.map((p) => (p.id === 'markets' ? { ...p, imputed: true } : p)) }), /imputed/],
+      [indexReading({ score: null }), /no real number/],
+    ];
+    for (const [state, pattern] of cases) {
+      const why = readingBlockReason(state);
+      if (!pattern.test(why || '')) throw new Error(why);
+    }
+    eq(readingBlockReason(indexReading()), null, 'healthy reading still posts');
+    const failed = xReadGuardSelfTest().filter((r) => !r.ok);
+    if (failed.length) throw new Error(failed.map((r) => `${r.name}: ${r.error}`).join('; '));
   });
   await check('pick: a candidate that fails the channel pre-flight is passed over, not posted', () => {
     const bad = fakePost('daily', 1, { text_api: 'daily reading, 14:07 UTC. It will rise. Arithmetic at example dot com.' });
