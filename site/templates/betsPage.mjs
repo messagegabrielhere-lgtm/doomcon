@@ -5,8 +5,12 @@
 
 import { esc, utc } from './_html.mjs';
 import { page } from './layout.mjs';
+import { breadcrumbs, speakable } from './_seo.mjs';
 import * as brand from '../brand.mjs';
 import { mascot } from './_mascot.mjs';
+
+const PATH = '/bets.html';
+const qTitle = 'Does the SIREN index make forecasts?';
 
 const pct = (p) => `${(p * 100).toFixed(p >= 0.995 || p <= 0.005 ? 1 : 0)}%`;
 
@@ -31,6 +35,22 @@ function resolvedRow(b) {
 export function render(ctx) {
   const B = ctx.bets; const s = B.summary || {};
   const level = ctx.state && Number.isFinite(ctx.state.level) ? ctx.state.level : null;
+  // FAQ answers restate lede / rules copy only.
+  // Refuse: index-as-prediction, world/AI forecasts as SIREN bets, doom-probability.
+  const faq = [
+    [qTitle,
+      'The index does not predict, and that has not changed. This page is something else: once a day Tally writes down a few small forecasts about the index itself, each with a probability and a due date, and every one is marked right or wrong in public when it falls due.'],
+    ['Are these bets about the world or what AI does next?',
+      'They are bets about the index only. Not about the world, not about what AI does next, and they do not feed the index.'],
+    ['How are the probabilities set?',
+      'Nobody’s opinion sets the number. Each probability is a base rate from the index’s own history: how often the same thing happened before, smoothed as (k + 1) / (n + 2). The k and n are printed on every bet.'],
+    ['Can bets be edited or deleted?',
+      'Bets are never edited or deleted. The file is public JSON and the code is in the repository.'],
+  ];
+  const faqHtml = faq.map(([qAsk, a]) => `
+  <h3>${esc(qAsk)}</h3>
+  <p>${esc(a)}</p>`).join('');
+
   const main = `
 <style>
 .bt { max-width: 84ch; }
@@ -53,10 +73,15 @@ export function render(ctx) {
 .bt__score p { margin: 0; display: grid; gap: 4px; }
 .bt__score b { font: 400 clamp(36px, 6vw, 56px)/1 var(--poster); color: var(--ink); }
 .bt__score span { font: 500 var(--t-xs)/1.35 var(--mono); color: var(--ink-dim); max-width: 24ch; }
+.bt-faq{margin:var(--sec,2rem) 0 var(--s-5,1.25rem);max-width:62ch}
+.bt-faq h2{font:600 var(--t-lg,1.125rem)/1.2 var(--sans);margin:0 0 var(--s-3,.75rem);color:var(--ink)}
+.bt-faq h3{font:600 var(--t-base,1rem)/1.3 var(--sans);margin:var(--s-4,1rem) 0 var(--s-2,.5rem);color:var(--ink)}
+.bt-faq p{font:400 var(--t-base,1rem)/1.55 var(--sans);color:var(--ink-dim);margin:0 0 var(--s-2,.5rem)}
+.bt-faq-key{margin-top:var(--s-4,1rem)!important}
 </style>
 <section class="bt">
   <p class="eyebrow">Tally\u2019s bets · forecasts about the index · kept apart from it</p>
-  <div class="bt__top">${mascot({ size: 76, level })}<h1 class="bp__h1">Forecasts you can score</h1></div>
+  <div class="bt__top">${mascot({ size: 76, level })}<h1 class="bp__h1">${esc(qTitle)}</h1></div>
   <p class="lede">The index does not predict, and that has not changed. This page is something else: once a day Tally writes down a few
     small forecasts <b>about the index itself</b>, each with a probability and a due date, and every one is marked right or wrong in public when it falls due.</p>
 
@@ -86,11 +111,45 @@ export function render(ctx) {
   <p>It knows how often something happened before and nothing else. It does not know that the score is sitting just under a boundary today,
     or that a big release is due. The history is also short${B.open[0] ? `: the 24-hour bets rest on ${esc(B.open[0].basis.n)} past cases` : ''}, and a level that has never moved gives a base rate that says it never will. That is a limit of the method, stated here so the first miss is not a surprise.</p>
   <p><a href="${esc(ctx.href('/'))}">The current reading →</a> · <a href="${esc(ctx.href('/methodology.html'))}">How the index is computed →</a></p>
+  <section class="bt-faq" aria-labelledby="faq">
+    <h2 id="faq">Questions people actually ask</h2>
+    ${faqHtml}
+    <p class="bt-faq-key">Search-shaped sibling:
+      <a href="${esc(ctx.href('/si-watch.html'))}">What AI autonomy signals is SIREN watching?</a>
+      · <a href="${esc(ctx.href('/instruments.html'))}">What instruments sit behind the SIREN reading?</a>.</p>
+  </section>
 </section>`;
   return page({
-    ctx, path: '/bets.html',
-    title: `Tally\u2019s bets: scored forecasts about the ${brand.NAME} index`,
-    description: `Daily base-rate forecasts about the ${brand.NAME} index, each with a probability and a due date, scored in public with the Brier score. Separate from the index, which does not predict.`,
+    ctx,
+    path: PATH,
+    title: `${qTitle} · ${brand.NAME}`,
+    ogTitle: `${brand.NAME}: ${qTitle}`,
+    description: `${qTitle} No — the index does not predict. Tally’s separate page of base-rate bets about the index itself, each scored in public with the Brier score.`,
+    jsonld: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'Dataset',
+        name: qTitle,
+        description: 'The index does not predict. A separate scored ledger of base-rate forecasts about the SIREN index itself, each with a probability, due date, and Brier score.',
+        url: ctx.url(PATH),
+        isPartOf: { '@type': 'WebSite', name: brand.NAME, url: ctx.url('/') },
+        speakable: speakable(['h1.bp__h1', 'p.lede']),
+        ...(typeof (B && B.generated_at) === 'string' ? { dateModified: B.generated_at } : {}),
+      },
+      breadcrumbs(ctx, [
+        { name: 'Home', path: '/' },
+        { name: "Tally’s bets", path: PATH },
+      ]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map(([qAsk, a]) => ({
+          '@type': 'Question',
+          name: qAsk,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
+      },
+    ],
     main,
   });
 }
