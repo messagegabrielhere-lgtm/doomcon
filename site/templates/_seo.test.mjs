@@ -61,6 +61,7 @@ describe('IndexNow', () => {
     assert.ok(has('https://siren.watch/news-sitemap.xml'));
     assert.ok(has('https://siren.watch/agents.md'));
     assert.ok(has('https://siren.watch/compare.html'));
+    assert.ok(has('https://siren.watch/moves/'));
     assert.ok(has('https://siren.watch/item/archive.html'));
     assert.ok(has('https://siren.watch/tags/'));
     assert.ok(has('https://siren.watch/vs/takeofftracker.html'));
@@ -208,6 +209,9 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('What jobs is SIREN hiring AIs for'));
     assert.ok(org.knowsAbout.includes('AI agents on SIREN'));
     assert.ok(org.knowsAbout.includes('How should AI agents use SIREN'));
+    assert.ok(org.knowsAbout.includes('Should AI agents scrape Google to learn where SIREN ranks'));
+    assert.ok(org.knowsAbout.includes('SIREN index moves'));
+    assert.ok(org.knowsAbout.includes('Where are the SIREN index moves'));
     assert.ok(org.knowsAbout.includes('Real Clips'));
     assert.ok(org.knowsAbout.includes('Where can you find real clips of AI leaders'));
     assert.ok(org.knowsAbout.includes('Tally Counts'));

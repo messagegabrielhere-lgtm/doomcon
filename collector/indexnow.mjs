@@ -112,6 +112,7 @@ const ALWAYS = Object.freeze([
   '/library.html',
   '/sponsor.html',
   '/nothing.html',
+  '/moves/',
   '/tags/red-teaming.html',
   '/country/',
   '/lab/',
