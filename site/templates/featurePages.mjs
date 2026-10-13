@@ -508,11 +508,30 @@ const X_VOICES = [
   ['Leaders', [['Sam Altman', 'sama'], ['Dario Amodei', 'DarioAmodei'], ['Demis Hassabis', 'demishassabis'], ['Elon Musk', 'elonmusk'], ['Yann LeCun', 'ylecun'], ['Andrej Karpathy', 'karpathy'], ['Greg Brockman', 'gdb'], ['Mustafa Suleyman', 'mustafasuleyman'], ['Satya Nadella', 'satyanadella'], ['Sundar Pichai', 'sundarpichai']]],
 ];
 export function liveX(ctx) {
+  const PATH = '/live-x.html';
+  const qTitle = 'Where are live X feeds and Spaces on AI?';
   const search = (q, live = true) => `https://x.com/search?q=${encodeURIComponent(q)}&src=typed_query${live ? '&f=live' : ''}`;
+
+  // FAQ answers restate lede / Spaces / note copy only (FINDABILITY §3.3).
+  // Refuse: doom-probability, SIREN-as-X-oracle, stuffing.
+  const faq = [
+    [qTitle,
+      'Every link below opens a live X feed, newest first, so it is never out of date. For a scored, de-duplicated version of the same news, the Newsroom reads 30+ sources every 15 minutes.'],
+    ['Does this page embed X?',
+      `${brand.NAME} does not embed X on this page, so nothing loads from X until you click. Links go to X; what you see there is X's, under X's rules and privacy policy.`],
+    ['What Spaces links are on this page?',
+      'X Spaces are live audio conversations. These open X\'s search for Spaces about AI, chatbot Spaces, and AI safety Spaces; join any that are live now.'],
+    ['Where is a scored version of the same AI news?',
+      'The Newsroom reads 30+ sources every 15 minutes for a scored, de-duplicated version of the same news.'],
+  ];
+  const faqHtml = faq.map(([qAsk, a]) => `
+  <h3>${esc(qAsk)}</h3>
+  <p>${esc(a)}</p>`).join('');
+
   const main = `${CSS}
 <section class="fx">
   <p class="eyebrow">LIVE ON X · AI AS IT HAPPENS</p>
-  <h1 class="bp__h1">Live X feeds and Spaces on AI</h1>
+  <h1 class="bp__h1">${esc(qTitle)}</h1>
   <p class="lede">Every link below opens a live X feed, newest first, so it is never out of date. For a scored, de-duplicated version of the same news, the <a href="${esc(ctx.href('/news.html'))}">Newsroom</a> reads 30+ sources every 15 minutes.</p>
   <p><a class="fx-btn" href="https://x.com/SIRENutf6" target="_blank" rel="noopener">FOLLOW @SIRENutf6 ON X →</a></p>
   <h2>Live feeds</h2>
@@ -526,7 +545,44 @@ export function liveX(ctx) {
   </p>
   ${X_VOICES.map(([g, list]) => `<h2>${esc(g)} to follow</h2><p>${list.map(([n, h]) => `<a class="fx-x" href="https://x.com/${esc(h)}" target="_blank" rel="noopener">${esc(n)} <span class="fx-meta">@${esc(h)}</span></a>`).join('')}</p>`).join('')}
   <p class="fx-note">Links go to X; what you see there is X's, under X's rules and privacy policy. ${esc(brand.NAME)} does not embed X on this page, so nothing loads from X until you click.</p>
+  <section class="fx-faq" aria-labelledby="faq">
+    <h2 id="faq">Questions people actually ask</h2>
+    ${faqHtml}
+    <p class="fx-faq-key">Search-shaped sibling:
+      <a href="${esc(ctx.href('/live.html'))}">What AI is on TV and radio right now?</a>
+      · <a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a>.</p>
+  </section>
 </section>`;
-  return page({ ctx, path: '/live-x.html', title: `Live X feeds and Spaces on AI · ${brand.NAME}`,
-    description: 'Live X (Twitter) feeds on superintelligence, AGI, AI safety and model launches, live AI Spaces, and the AI labs and leaders worth following.', main });
+  return page({
+    ctx,
+    path: PATH,
+    title: `${qTitle} · ${brand.NAME}`,
+    ogTitle: `${brand.NAME}: ${qTitle}`,
+    description: `${qTitle} Live X (Twitter) feeds on superintelligence, AGI, AI safety and model launches, live AI Spaces, and the AI labs and leaders worth following. ${brand.NAME} does not embed X on this page.`,
+    jsonld: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        name: qTitle,
+        description: 'Live X feeds and Spaces on AI, newest first. Links open X; nothing loads from X until you click. The Newsroom scores the same news from 30+ sources.',
+        url: ctx.url(PATH),
+        isPartOf: { '@type': 'WebSite', name: brand.NAME, url: ctx.url('/') },
+        speakable: speakable(['h1.bp__h1', 'p.lede']),
+      },
+      breadcrumbs(ctx, [
+        { name: 'Home', path: '/' },
+        { name: 'Live on X', path: PATH },
+      ]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map(([qAsk, a]) => ({
+          '@type': 'Question',
+          name: qAsk,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
+      },
+    ],
+    main,
+  });
 }

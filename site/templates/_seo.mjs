@@ -141,6 +141,8 @@ export function organization(ctx) {
       'What does the SIREN Capitulation Scanner show',
       'SIREN Arena',
       'What does SIREN Arena show',
+      'Live on X',
+      'Where are live X feeds and Spaces on AI',
       'AI labs this index scored',
       'AI stories this index scored',
       'AI leaders on the record',
