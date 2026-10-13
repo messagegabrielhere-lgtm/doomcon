@@ -15,7 +15,11 @@
 
 import { esc, utc, utcDay } from './_html.mjs';
 import { page } from './layout.mjs';
+import { breadcrumbs, speakable } from './_seo.mjs';
 import * as brand from '../brand.mjs';
+
+const PATH = '/evolution.html';
+const qTitle = 'How has AI activity moved day by day?';
 
 const PILLARS = [
   ['capability', 'Capability', '#A78BFA'],
@@ -56,6 +60,11 @@ const CSS = `<style>
 .ev a{color:var(--ink)}
 .ev small{display:block;color:var(--ink-faint,#6B7686);font:500 12px/1.5 var(--mono)}
 .ev-arch h3{font:700 13px var(--mono);color:var(--ink-dim);margin:18px 0 8px}
+.ev-faq{margin:38px 0 12px;max-width:62ch}
+.ev-faq h2{font:600 var(--t-lg,1.125rem)/1.2 var(--sans);margin:0 0 var(--s-3,.75rem);color:var(--ink)}
+.ev-faq h3{font:600 var(--t-base,1rem)/1.3 var(--sans);margin:var(--s-4,1rem) 0 var(--s-2,.5rem);color:var(--ink)}
+.ev-faq p{font:400 var(--t-base,1rem)/1.55 var(--sans);color:var(--ink-dim);margin:0 0 var(--s-2,.5rem)}
+.ev-faq-key{margin-top:var(--s-4,1rem)!important}
 </style>`;
 
 const pillarColor = (id) => (PILLARS.find((p) => p[0] === id) || [0, 0, '#A78BFA'])[2];
@@ -167,10 +176,25 @@ export function render(ctx, log, mh = []) {
   const readings = dailyReadings(ctx.history);
   const picks = allPicks(ctx.deskPicks, log);
   const asOf = ctx.state && ctx.state.generated_at ? utc(ctx.state.generated_at) : '';
+  // FAQ answers restate lede / body copy only.
+  // Refuse: Evolution-Log-as-forecast, page-as-index-input, doom-probability.
+  const faq = [
+    [qTitle,
+      'Nothing here is deleted. Every hourly reading, every hand-picked story and every scan of what AI agents say on Moltbook is kept, so the change shows up as a record instead of a feeling. These are counts of activity, not forecasts, and nothing on this page moves the index.'],
+    ['Does the Evolution Log move the SIREN index?',
+      'Nothing on this page moves the index.'],
+    ['Are these forecasts?',
+      'These are counts of activity, not forecasts.'],
+    ['What records are kept?',
+      'Every hourly reading, every hand-picked story and every scan of what AI agents say on Moltbook is kept.'],
+  ];
+  const faqHtml = faq.map(([qAsk, a]) => `
+  <h3>${esc(qAsk)}</h3>
+  <p>${esc(a)}</p>`).join('');
   const main = `${CSS}<article class="ev">
 <p class="eyebrow">THE EVOLUTION LOG</p>
-<h1>How AI moved, day by day</h1>
-<p>Nothing here is deleted. Every hourly reading, every hand-picked story and every scan of what AI agents say on Moltbook is kept, so the change shows up as a record instead of a feeling. These are counts of activity, not forecasts, and nothing on this page moves the index.${asOf ? ` <span class="ev-note">Last reading ${esc(asOf)}.</span>` : ''}</p>
+<h1 class="bp__h1">${esc(qTitle)}</h1>
+<p class="lede">Nothing here is deleted. Every hourly reading, every hand-picked story and every scan of what AI agents say on Moltbook is kept, so the change shows up as a record instead of a feeling. These are counts of activity, not forecasts, and nothing on this page moves the index.${asOf ? ` <span class="ev-note">Last reading ${esc(asOf)}.</span>` : ''}</p>
 
 <h2>The tempo</h2>
 <p>The daily average of ${esc(brand.NAME)}'s hourly readings and of each pillar, scored against the index's frozen reference. Newest first.</p>
@@ -191,7 +215,45 @@ ${scanLog(log)}
 <h2>Every desk pick</h2>
 ${archive(picks)}
 <p class="ev-note">Data: <a href="https://github.com/messagegabrielhere-lgtm/doomcon/blob/main/data/watch-log.json" rel="noopener">watch-log.json</a> · desk-picks.json · history.ndjson · moltbook-history.ndjson, all in the public repo.</p>
+<section class="ev-faq" aria-labelledby="faq">
+  <h2 id="faq">Questions people actually ask</h2>
+  ${faqHtml}
+  <p class="ev-faq-key">Search-shaped sibling:
+    <a href="${esc(ctx.href('/moltbook.html'))}">What are AI agents saying on Moltbook?</a>
+    · <a href="${esc(ctx.href('/history.html'))}">What is the history of AI risk?</a>.</p>
+</section>
 </article>`;
-  return page({ ctx, path: '/evolution.html', title: `The Evolution Log: how AI moved, day by day · ${brand.NAME}`,
-    description: 'A running log of AI activity: daily SIREN readings by pillar, every hand-picked AI news story, and what AI agents on Moltbook talked about each day.', main });
+  return page({
+    ctx,
+    path: PATH,
+    title: `${qTitle} · ${brand.NAME}`,
+    ogTitle: `${brand.NAME}: ${qTitle}`,
+    description: `${qTitle} Daily SIREN readings by pillar, every hand-picked AI news story, and what AI agents on Moltbook talked about — counts of activity, not forecasts.`,
+    jsonld: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'Dataset',
+        name: qTitle,
+        description: 'The Evolution Log: daily SIREN readings by pillar, hand-picked AI news, and Moltbook agent themes. Counts of activity, not forecasts; nothing on this page moves the index.',
+        url: ctx.url(PATH),
+        isPartOf: { '@type': 'WebSite', name: brand.NAME, url: ctx.url('/') },
+        speakable: speakable(['h1.bp__h1', 'p.lede']),
+        ...(typeof (ctx.state && ctx.state.generated_at) === 'string' ? { dateModified: ctx.state.generated_at } : {}),
+      },
+      breadcrumbs(ctx, [
+        { name: 'Home', path: '/' },
+        { name: 'Evolution Log', path: PATH },
+      ]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map(([qAsk, a]) => ({
+          '@type': 'Question',
+          name: qAsk,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
+      },
+    ],
+    main,
+  });
 }
