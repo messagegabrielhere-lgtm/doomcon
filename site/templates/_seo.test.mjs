@@ -116,6 +116,7 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('AI story kinds this index scored'));
     assert.ok(org.knowsAbout.includes('AI outlets this index scored'));
     assert.ok(org.knowsAbout.includes('AI news sources this index scored'));
+    assert.ok(org.knowsAbout.includes('AI activity pillars this index scored'));
     assert.ok(org.knowsAbout.includes('DoomBench alternative'));
     assert.ok(org.knowsAbout.includes('Takeoff Tracker alternative'));
     assert.ok(org.knowsAbout.includes('Pentagon Pizza Index alternative'));

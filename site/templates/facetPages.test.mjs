@@ -78,9 +78,12 @@ describe('pillar facets', () => {
 
   it('renders a CollectionPage with breadcrumb and head-term title', () => {
     const html = renderPillar(ctx, 'capability');
-    assert.match(html, /<title>Capability AI activity/);
+    assert.match(html, /<title>What has SIREN scored under Capability\?/);
     assert.match(html, /CollectionPage/);
     assert.match(html, /BreadcrumbList/);
+    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /"@type"\s*:\s*"FAQPage"/);
+    assert.match(html, /speakable/);
     assert.match(html, /pillar\/attention\.html/);
     assert.doesNotMatch(html, /noindex/);
     assert.equal(pillarPath('capability'), '/pillar/capability.html');
@@ -153,9 +156,12 @@ describe('pillar facets', () => {
     assert.ok(indexablePillars(ctx).some((p) => p.id === 'capability'));
     assert.ok(!indexablePillars(ctx).some((p) => p.id === 'markets'));
     const hub = renderPillars(ctx);
-    assert.match(hub, /AI activity pillars this index covers/);
+    assert.match(hub, /Which AI activity pillars has SIREN scored\?/);
     assert.match(hub, /\/pillar\/capability\.html/);
     assert.match(hub, /does not publish a pillar/);
+    assert.match(hub, /Questions people actually ask/);
+    assert.match(hub, /"@type"\s*:\s*"FAQPage"/);
+    assert.match(hub, /speakable/);
     assert.match(hub, /\/methodology\.html/);
     assert.doesNotMatch(hub, /doom score:\s*\d/i);
     const index = renderPillarIndex(ctx);

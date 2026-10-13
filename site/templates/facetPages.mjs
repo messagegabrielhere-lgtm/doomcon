@@ -153,11 +153,21 @@ export function renderPillar(ctx, pillarId) {
   const scoreTxt = st && Number.isFinite(st.score) ? num(st.score, 1) : null;
   const status = st && st.dark ? 'dark this hour'
     : (scoreTxt != null ? `${scoreTxt} of 100 this hour` : 'awaiting a baseline');
-  const title = `${meta.name} AI activity · ${brand.NAME} pillar`;
+  // Head-term title: people search “{pillar} AI activity” / pillar doom score.
+  const title = `What has ${brand.NAME} scored under ${meta.name}? AI activity, not a pillar score`;
   const description = clip(
     `${brand.NAME} ${meta.name} pillar: ${status}. ${meta.description} ${total} scored stories (live window plus archive).`,
     160,
   );
+  const faq = [
+    [`What has ${brand.NAME} scored under ${meta.name}?`,
+      `${total} scored stories under the ${meta.name} pillar (${items.length} in the live window${archivedAll.length ? `, ${archivedAll.length} older in the archive` : ''}). ${meta.description} Current reading: ${status}.`],
+    [`Does ${brand.NAME} publish a ${meta.name} doom score?`,
+      `No. ${brand.DISCLAIMER_SHORT} A pillar page lists scored stories and the live tempo reading against this index’s frozen reference.`],
+  ];
+  const faqHtml = faq.map(([q, a]) => `
+  <h3>${esc(q)}</h3>
+  <p>${esc(a)}</p>`).join('');
 
   const otherPillars = brand.PILLARS
     .filter((p) => p.id !== pillarId)
@@ -173,7 +183,7 @@ export function renderPillar(ctx, pillarId) {
   const main = `${STYLE}
 <article class="fc prose">
   <p class="fc__k"><a href="${esc(ctx.href('/news.html'))}">Newsroom</a> · <a href="${esc(ctx.href('/pillar/'))}">Pillars</a> · <a href="${esc(ctx.href('/pillars.html'))}">Pillars hub</a></p>
-  <h1>${esc(meta.name)} AI activity</h1>
+  <h1>What has ${esc(brand.NAME)} scored under ${esc(meta.name)}?</h1>
   <p class="fc__lede">${esc(meta.description)}</p>
   <div class="fc__stat" role="group" aria-label="Current pillar reading">
     <div><b class="num">${esc(scoreTxt != null ? scoreTxt : '—')}</b><span>Pillar score / 100</span></div>
@@ -191,9 +201,11 @@ export function renderPillar(ctx, pillarId) {
        ${items.length > 40 ? `<p class="fresh__key">${esc(String(items.length - 40))} more in the window — see <a href="${esc(ctx.href('/item/'))}">every scored item</a>.</p>` : ''}`
     : `<p>No scored stories in the current window for this pillar. The page stays up so the pillar reading remains addressable; it is not submitted to the sitemap while empty.</p>`}
   ${olderBlock}
+  <h2 id="faq">Questions people actually ask</h2>
+  ${faqHtml}
   <h2>Other pillars</h2>
   <nav class="fc__pillars" aria-label="SIREN pillars">${otherPillars}</nav>
-  <p class="fresh__key">Search-shaped directory: <a href="${esc(ctx.href('/pillars.html'))}">AI activity pillars this index covers</a>.</p>
+  <p class="fresh__key">Search-shaped directory: <a href="${esc(ctx.href('/pillars.html'))}">Which AI activity pillars has ${esc(brand.NAME)} scored?</a>.</p>
 </article>`;
 
   return page({
@@ -215,6 +227,7 @@ export function renderPillar(ctx, pillarId) {
         description: meta.description,
         creator: { '@type': 'Organization', name: brand.PUBLICATION, url: ctx.url('/') },
       },
+      speakable: speakable(['h1', '.fc__lede']),
       mainEntity: {
         '@type': 'ItemList',
         numberOfItems: Math.min(items.length, 40),
@@ -229,7 +242,15 @@ export function renderPillar(ctx, pillarId) {
       { name: 'Newsroom', path: '/news.html' },
       { name: 'Pillars', path: '/pillar/' },
       { name: meta.name, path },
-    ])],
+    ]), {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faq.map(([q, a]) => ({
+        '@type': 'Question',
+        name: q,
+        acceptedAnswer: { '@type': 'Answer', text: a },
+      })),
+    }],
     main,
   });
 }
@@ -254,7 +275,7 @@ export function renderPillarIndex(ctx) {
   <h1>Pillars this index scores</h1>
   <p class="fc__lede">A pillar earns a crawlable page when at least ${PILLAR_INDEX_MIN} scored stories under it appear in the live window or the durable archive. The live pillar score is activity tempo against this index’s frozen reference — not a probability of harm.</p>
   ${pillars.length ? `<ol class="fc__list">${rows}</ol>` : '<p>No pillar cleared the gate in this build.</p>'}
-  <p class="fresh__key">Search-shaped directory: <a href="${esc(ctx.href('/pillars.html'))}">AI activity pillars this index covers</a>.</p>
+  <p class="fresh__key">Search-shaped directory: <a href="${esc(ctx.href('/pillars.html'))}">Which AI activity pillars has ${esc(brand.NAME)} scored?</a>.</p>
 </article>`;
   return page({
     ctx,
@@ -294,11 +315,21 @@ export function renderPillarIndex(ctx) {
 export function renderPillars(ctx) {
   const pillars = indexablePillars(ctx);
   const path = '/pillars.html';
-  const title = `AI activity pillars this index covers · ${brand.NAME}`;
+  // Head-term title: people search “AI activity pillars” / five pillars.
+  const title = `Which AI activity pillars has ${brand.NAME} scored?`;
   const description = clip(
     `${pillars.length} activity pillars with scored-story hubs on ${brand.NAME}. Each row links /pillar pages — tempo readings and story counts only, not a pillar doom score.`,
     160,
   );
+  const faq = [
+    [`Which AI activity pillars has ${brand.NAME} scored?`,
+      `${pillars.length} pillars clear the substance gate of at least ${PILLAR_INDEX_MIN} matching stories in the live window or archive. Each hub lists those stories beside the live pillar reading — not a pillar doom score.`],
+    [`Does ${brand.NAME} publish a pillar doom score?`,
+      `No. ${brand.DISCLAIMER_SHORT} Numbers are story counts and tempo readings against this index’s frozen reference.`],
+  ];
+  const faqHtml = faq.map(([q, a]) => `
+  <h3>${esc(q)}</h3>
+  <p>${esc(a)}</p>`).join('');
   const rows = pillars.map((p) => `<li>
   <a href="${esc(ctx.href(pillarPath(p.id)))}">${esc(p.name)}</a>
   <span class="fc__meta">Pillar hub · <span class="num">${esc(String(p.count))}</span> scored${p.archived ? ` (${esc(String(p.live))} live)` : ''}${p.score != null ? ` · ${esc(num(p.score, 1))} / 100` : ''}</span>
@@ -306,12 +337,14 @@ export function renderPillars(ctx) {
   const main = `${STYLE}
 <article class="fc prose">
   <p class="fc__k"><a href="${esc(ctx.href('/compare.html'))}">Compare</a> · <a href="${esc(ctx.href('/pillar/'))}">Pillars</a> · Pillars hub</p>
-  <h1>AI activity pillars this index covers</h1>
+  <h1>Which AI activity pillars has ${esc(brand.NAME)} scored?</h1>
   <p class="fc__lede">${esc(brand.NAME)} does not publish a pillar “doom score.” It publishes five activity pillars and scored stories under each. This page lists pillars that already clear the same substance gate as <a href="${esc(ctx.href('/pillar/'))}">/pillar/</a> — at least ${PILLAR_INDEX_MIN} matching stories in the live window or archive.</p>
   <div class="fc__stat" role="group" aria-label="Pillars hub totals">
     <div><b class="num">${esc(String(pillars.length))}</b><span>Pillar hubs</span></div>
   </div>
   ${pillars.length ? `<ol class="fc__list">${rows}</ol>` : '<p>No pillar hub cleared the gate in this build.</p>'}
+  <h2 id="faq">Questions people actually ask</h2>
+  ${faqHtml}
   <p class="fresh__key"><a href="${esc(ctx.href('/pillar/'))}">Pillar directory →</a>
      · <a href="${esc(ctx.href('/methodology.html'))}">Methodology →</a>
      · <a href="${esc(ctx.href('/tags.html'))}">AI tags →</a>
@@ -329,6 +362,7 @@ export function renderPillars(ctx) {
       name: title,
       url: ctx.url(path),
       description,
+      speakable: speakable(['h1', '.fc__lede']),
       mainEntity: {
         '@type': 'ItemList',
         numberOfItems: pillars.length,
@@ -342,7 +376,15 @@ export function renderPillars(ctx) {
     }, breadcrumbs(ctx, [
       { name: 'Compare', path: '/compare.html' },
       { name: 'Pillars', path },
-    ])],
+    ]), {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faq.map(([q, a]) => ({
+        '@type': 'Question',
+        name: q,
+        acceptedAnswer: { '@type': 'Answer', text: a },
+      })),
+    }],
     main,
   });
 }

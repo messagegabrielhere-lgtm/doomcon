@@ -383,7 +383,7 @@ function instrumentLinks(ctx, u) {
 /** Pillar + lab entity landings (COMPETITIVE-SEO.md faceted URL play). */
 function facetLinks(ctx, u) {
   const pillars = [
-    `- [AI activity pillars](${u('/pillars.html')}): pillar directory (same gated pillars; tempo readings and story counts only)`,
+    `- [AI activity pillars](${u('/pillars.html')}): which AI activity pillars this index scored (same gated pillars; tempo readings and story counts only)`,
     `- [Pillars index](${u('/pillar/')})`,
     ...brand.PILLARS.map((p) => `- [${p.name} pillar](${u(`/pillar/${p.id}.html`)})`),
   ].join('\n');
