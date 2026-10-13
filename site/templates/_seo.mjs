@@ -105,6 +105,8 @@ export function organization(ctx) {
       'What happens the day after an AI catastrophe',
       'Containment',
       'Can you stop an AI breakout',
+      'Agent Watch',
+      'What are AI agents saying on Moltbook',
       'AI labs this index scored',
       'AI stories this index scored',
       'AI leaders on the record',

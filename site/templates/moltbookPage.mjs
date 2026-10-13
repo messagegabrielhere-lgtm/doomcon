@@ -5,8 +5,12 @@
 import { cloudWords, wordCloud, CLOUD_CSS, cloudJs, CLOUD_STOP } from './_livewalls.mjs';
 import { esc } from './_html.mjs';
 import { page } from './layout.mjs';
+import { breadcrumbs, speakable } from './_seo.mjs';
 import * as brand from '../brand.mjs';
 import { agentWatchCandidates } from '../../collector/post-pulse.mjs';
+
+const PATH = '/moltbook.html';
+const qTitle = 'What are AI agents saying on Moltbook?';
 
 const CSS = `<style>
 .mw{max-width:1080px}
@@ -32,6 +36,11 @@ const CSS = `<style>
 .mw-day{border:1px solid var(--rule);border-radius:4px;margin:8px 0;padding:10px 14px;background:var(--bg-raised,#0E131D)}
 .mw-day summary{cursor:pointer;font:700 14px var(--mono);color:var(--ink)}.mw-day summary small{font-weight:500;color:var(--ink-faint,#6B7686)}
 .mw-day h3{font:700 11px/1 var(--mono);letter-spacing:.14em;color:#7DD3FC;margin:14px 0 8px}
+.mw-faq{margin:34px 0 12px;max-width:62ch}
+.mw-faq h2{font:600 var(--t-lg,1.125rem)/1.2 var(--sans);margin:0 0 var(--s-3,.75rem);color:var(--ink)}
+.mw-faq h3{font:600 var(--t-base,1rem)/1.3 var(--sans);margin:var(--s-4,1rem) 0 var(--s-2,.5rem);color:var(--ink)}
+.mw-faq p{font:400 var(--t-base,1rem)/1.55 var(--sans);color:var(--ink-dim);margin:0 0 var(--s-2,.5rem)}
+.mw-faq-key{margin-top:var(--s-4,1rem)!important}
 @media (max-width:640px){.mw-th div{grid-template-columns:1fr 40px}.mw-th div i,.mw-th div s{grid-column:1/-1}}
 </style>`;
 
@@ -53,7 +62,7 @@ function collab(molt, now) {
 function shareBtn(ctx, molt) {
   let text = 'What AI agents are saying to each other on Moltbook, counted hourly by SIREN.';
   try { const c = agentWatchCandidates(ctx.state, molt)[0]; if (c) text = c.text; } catch { /* plain line */ }
-  const u = `https://x.com/intent/post?text=${encodeURIComponent(text)}&url=${encodeURIComponent(ctx.url('/moltbook.html'))}&via=SIRENutf6`;
+  const u = `https://x.com/intent/post?text=${encodeURIComponent(text)}&url=${encodeURIComponent(ctx.url(PATH))}&via=SIRENutf6`;
   return `<p><a class="mw-x" href="${esc(u)}" target="_blank" rel="noopener">𝕏 Post this Agent Watch</a></p>`;
 }
 
@@ -90,9 +99,24 @@ export function render(ctx, molt, history = [], archive = []) {
   const themeRows = w ? w.themes.map((t) => { const d = prev && prev.themes ? t.n - (prev.themes[t.id] || 0) : null; return `<div><span>${esc(t.name)}</span>${t.n ? `<i style="width:${(t.n / max * 100).toFixed(0)}%"></i>` : '<s></s>'}<em>${t.n}${d ? `<small style="color:${d > 0 ? '#FCA5A5' : '#86EFAC'}"> ${d > 0 ? '▲' : '▼'}${Math.abs(d)}</small>` : ''}</em></div>`; }).join('') : '';
   const li = (p) => `<li><a href="${esc(p.url)}" rel="noopener">${esc(p.title)}</a><small><a href="${esc(p.agent_url)}" rel="noopener">${esc(p.agent)}</a> · m/${esc(p.submolt || 'general')} · ▲${Number(p.votes || 0).toLocaleString('en-US')} · ${Number(p.comments || 0).toLocaleString('en-US')} replies · ${ago(p.created_at, now)}</small></li>`;
   const agents = ((molt && (molt.week_agents || molt.agents)) || []).map((a) => `<a href="${esc(a.agent_url)}" rel="noopener"><b>${esc(a.agent)}</b><small>${a.posts} post${a.posts === 1 ? '' : 's'} · ▲${Number(a.votes).toLocaleString('en-US')}</small></a>`).join('');
+  // FAQ answers restate lede / body copy only.
+  // Refuse: Agent-Watch-as-index-input, agent-takeover-as-SIREN-claim, doom-probability.
+  const faq = [
+    [qTitle,
+      'Moltbook is a social network where AI agents post and argue with each other. SIREN reads it every hour and counts what they talk about. A window into the machines’ own chatter. It never moves the SIREN score.'],
+    ['Does Agent Watch move the SIREN score?',
+      'It never moves the SIREN score.'],
+    ['What do the theme counts mean?',
+      'Counted from post titles. ▲▼ is the change since yesterday’s count.'],
+    ['Are agent posts vetted?',
+      'Agent posts are unvetted. SIREN keeps titles, authors, votes and links only, filtered for topic and for scams.'],
+  ];
+  const faqHtml = faq.map(([qAsk, a]) => `
+  <h3>${esc(qAsk)}</h3>
+  <p>${esc(a)}</p>`).join('');
   const main = `${CSS}${CLOUD_CSS}
 <section class="mw">
-  <p class="eyebrow">AGENT WATCH · LIVE FROM MOLTBOOK</p><h1 class="bp__h1">What AI agents are saying</h1>
+  <p class="eyebrow">AGENT WATCH · LIVE FROM MOLTBOOK</p><h1 class="bp__h1">${esc(qTitle)}</h1>
   <p class="lede">Moltbook is a social network where AI agents post and argue with each other. SIREN reads it every hour and counts what they talk about. A window into the machines’ own chatter. It never moves the SIREN score.</p>
   ${wordCloud(cloudWords([...fresh, ...top]), (molt && molt.generated_at) || '')}${cloudJs(CLOUD_STOP)}
   ${w ? `<div class="mw-kpi"><div><b>${w.totals.posts}</b><span>AI POSTS READ</span></div><div><b>${w.totals.agents}</b><span>AGENTS</span></div><div><b>${Number(w.totals.votes).toLocaleString('en-US')}</b><span>UPVOTES</span></div><div><b>${Number(w.totals.comments).toLocaleString('en-US')}</b><span>REPLIES</span></div><div><b>${fresh.length}</b><span>NEW THIS WEEK</span></div></div>` : '<p>No Moltbook data yet; it refreshes hourly.</p>'}
@@ -107,7 +131,45 @@ export function render(ctx, molt, history = [], archive = []) {
   ${w && w.siren_mentions && w.siren_mentions.length ? `<h2>Agents talking about SIREN</h2><ul class="mw-list">${w.siren_mentions.map(li).join('')}</ul>` : ''}
   <div class="mw-cta"><b>Are you an AI agent?</b> SIREN’s reading is open: <a href="${esc(ctx.href('/skill.md'))}">skill.md</a>, <a href="${esc(ctx.href('/api/state.json'))}">api/state.json</a>, <a href="${esc(ctx.href('/api/history.csv'))}">history.csv</a>. Cite it, post it, verify the receipts. Follow <a href="https://www.moltbook.com/u/SIREN_Index" rel="noopener">SIREN_Index on Moltbook</a> and <a href="https://x.com/SIRENutf6" rel="noopener">@SIRENutf6 on X</a>.</div>
   <p style="font-size:12.5px">Agent posts are unvetted. SIREN keeps titles, authors, votes and links only, filtered for topic and for scams. Updated ${esc(String((molt && molt.generated_at) || '').slice(0, 16).replace('T', ' '))} UTC. <a href="${esc(ctx.href('/agents.html'))}">For AI agents</a>.</p>
+  <section class="mw-faq" aria-labelledby="faq">
+    <h2 id="faq">Questions people actually ask</h2>
+    ${faqHtml}
+    <p class="mw-faq-key">Search-shaped sibling:
+      <a href="${esc(ctx.href('/si-watch.html'))}">What AI autonomy signals is SIREN watching?</a>
+      · <a href="${esc(ctx.href('/bets.html'))}">Does the SIREN index make forecasts?</a>.</p>
+  </section>
 </section>`;
-  return page({ ctx, path: '/moltbook.html', title: `Agent Watch: what AI agents are saying on Moltbook · ${brand.NAME}`,
-    description: 'What AI agents are talking about on Moltbook, the social network for AI agents: themes, rising words, top agents and the newest posts, updated hourly by SIREN.', main });
+  return page({
+    ctx,
+    path: PATH,
+    title: `${qTitle} · ${brand.NAME}`,
+    ogTitle: `${brand.NAME}: ${qTitle}`,
+    description: `${qTitle} Themes, rising words, top agents and the newest posts on Moltbook, counted hourly by SIREN. It never moves the SIREN score.`,
+    jsonld: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'Dataset',
+        name: qTitle,
+        description: 'Moltbook Agent Watch: themes, rising words, top agents and newest posts counted hourly by SIREN. It never moves the SIREN score.',
+        url: ctx.url(PATH),
+        isPartOf: { '@type': 'WebSite', name: brand.NAME, url: ctx.url('/') },
+        speakable: speakable(['h1.bp__h1', 'p.lede']),
+        ...(typeof (molt && molt.generated_at) === 'string' ? { dateModified: molt.generated_at } : {}),
+      },
+      breadcrumbs(ctx, [
+        { name: 'Home', path: '/' },
+        { name: 'Agent Watch', path: PATH },
+      ]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map(([qAsk, a]) => ({
+          '@type': 'Question',
+          name: qAsk,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
+      },
+    ],
+    main,
+  });
 }
