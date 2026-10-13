@@ -9,6 +9,7 @@
 
 import { esc } from './_html.mjs';
 import { page } from './layout.mjs';
+import { breadcrumbs, speakable } from './_seo.mjs';
 import * as brand from '../brand.mjs';
 import { mascot } from './_mascot.mjs';
 
@@ -69,15 +70,38 @@ const CSS = `<style>
 .shp__go { display: inline-block; margin-top: var(--s-2); padding: 10px 16px; border: 2px solid var(--accent); border-radius: 4px; color: var(--ink); text-decoration: none;
   font: 700 var(--t-sm)/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; }
 .shp__go:hover, .shp__go:focus-visible { background: var(--accent); color: #0b0c0e; }
+.shp-faq{margin:34px 0 12px;max-width:62ch}
+.shp-faq h2{font:600 var(--t-lg,1.125rem)/1.2 var(--sans);margin:0 0 var(--s-3,.75rem);color:var(--ink)}
+.shp-faq h3{font:600 var(--t-base,1rem)/1.3 var(--sans);margin:var(--s-4,1rem) 0 var(--s-2,.5rem);color:var(--ink)}
+.shp-faq p{font:400 var(--t-base,1rem)/1.55 var(--sans);color:var(--ink-dim);margin:0 0 var(--s-2,.5rem)}
+.shp-faq-key{margin-top:var(--s-4,1rem)!important}
 </style>`;
 
 const level = (ctx) => (ctx.state && Number.isFinite(ctx.state.level) ? ctx.state.level : null);
 
 export function library(ctx) {
+  const PATH = '/library.html';
+  const qTitle = 'What AI books argue both sides of the case?';
+  // FAQ answers restate lede / paid-links / eyebrow copy only (FINDABILITY §3.3).
+  // Refuse: endorsement-as-SIREN-claim, library-as-index-input, doom-probability, stuffing.
+  const faq = [
+    [qTitle,
+      `${brand.NAME} counts and does not take a side. These ${BOOK_COUNT} books do take sides, and they disagree with each other, which is the point of reading more than one.`],
+    ['Are these paid links?',
+      `Every title and gadget links to Amazon. As an Amazon Associate, ${brand.NAME} earns from qualifying purchases, at no cost to you. Listing is not endorsement, and your library has most of these.`],
+    [`Does buying a book move the ${brand.NAME} score?`,
+      'No. The reading list is paid links and does not feed the main number. Nothing a reader buys changes a score.'],
+    [`Is the reading list a doom probability?`,
+      `No. ${brand.NAME} measures activity tempo. The shelves include worry, doubt, builders and the long view side by side — not a probability of harm.`],
+  ];
+  const faqHtml = faq.map(([qAsk, a]) => `
+  <h3>${esc(qAsk)}</h3>
+  <p>${esc(a)}</p>`).join('');
+
   const main = `${CSS}
 <section class="shp">
   <p class="eyebrow">The reading list · paid links · does not feed the main number</p>
-  <div class="shp__top">${mascot({ size: 76, level: level(ctx) })}<h1 class="bp__h1">Read the argument, both sides of it</h1></div>
+  <div class="shp__top">${mascot({ size: 76, level: level(ctx) })}<h1 class="bp__h1">${esc(qTitle)}</h1></div>
   <p class="lede">${esc(brand.NAME)} counts and does not take a side. These ${BOOK_COUNT} books do take sides, and they disagree with each other, which is the point of reading more than one.</p>
   <p><span class="shp__paid">Paid links</span> Every title and gadget links to Amazon. As an Amazon Associate, ${esc(brand.NAME)} earns from qualifying purchases, at no cost to you. Listing is not endorsement, and your library has most of these.</p>
 ${SHELVES.map(([name, why, books]) => `  <h2>${esc(name)}</h2>
@@ -91,23 +115,75 @@ ${books.map(([asin, title, by, blurb]) => `    <li class="shp__b"><a href="${esc
 ${GEAR.map(([q, title, blurb]) => `    <li class="shp__b"><a href="${esc(amazonSearch(q))}" rel="sponsored noopener" target="_blank">${esc(title)}</a><span class="shp__by">Paid link · Amazon search</span>${esc(blurb)}</li>`).join('\n')}
   </ul>
   <h2>More ways to keep this running</h2>
-  <p><a href="${esc(ctx.href('/bunker-kit.html'))}">The Bunker Kit’s supply crate</a> (paid links too) · <a href="${esc(ctx.href('/sponsor.html'))}">Sponsor the index</a> · <a href="${esc(ctx.href('/#support'))}">Donate</a></p>
+  <p><a href="${esc(ctx.href('/bunker-kit.html'))}">What free tools belong in a bunker kit?</a> (paid links too) · <a href="${esc(ctx.href('/sponsor.html'))}">How do you sponsor ${esc(brand.NAME)} without moving the number?</a> · <a href="${esc(ctx.href('/#support'))}">Donate</a></p>
+  <section class="shp-faq" aria-labelledby="faq">
+    <h2 id="faq">Questions people actually ask</h2>
+    ${faqHtml}
+    <p class="shp-faq-key">Search-shaped sibling:
+      <a href="${esc(ctx.href('/bunker-kit.html'))}">What free tools belong in a bunker kit?</a>
+      · <a href="${esc(ctx.href('/sponsor.html'))}">How do you sponsor ${esc(brand.NAME)} without moving the number?</a>.</p>
+  </section>
 </section>`;
+  const description = `${qTitle} ${BOOK_COUNT} books on AI risk, scepticism and optimism side by side: Bostrom, Russell, Narayanan and Kapoor, Hao, Suleyman, Mollick, Kurzweil and more. Paid Amazon links.`;
   return page({
-    ctx, path: '/library.html',
-    title: `The AI reading list: ${BOOK_COUNT} books from every side of the argument · ${brand.NAME}`,
-    description: `Books on AI risk, AI scepticism and AI optimism, side by side: Bostrom, Russell, Narayanan and Kapoor, Hao, Suleyman, Mollick, Kurzweil and more. Paid Amazon links.`,
+    ctx,
+    path: PATH,
+    title: `${qTitle} · ${brand.NAME}`,
+    ogTitle: `${brand.NAME}: ${qTitle}`,
+    description,
+    jsonld: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'CollectionPage',
+        name: qTitle,
+        description: `${BOOK_COUNT} AI books from every side of the argument. Paid Amazon links. Does not feed the ${brand.NAME} score.`,
+        url: ctx.url(PATH),
+        isPartOf: { '@type': 'WebSite', name: brand.NAME, url: ctx.url('/') },
+        speakable: speakable(['h1.bp__h1', 'p.lede']),
+      },
+      breadcrumbs(ctx, [
+        { name: 'Home', path: '/' },
+        { name: 'Reading list', path: PATH },
+      ]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map(([qAsk, a]) => ({
+          '@type': 'Question',
+          name: qAsk,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
+      },
+    ],
     main,
   });
 }
 
 export function sponsor(ctx) {
+  const PATH = '/sponsor.html';
+  const qTitle = `How do you sponsor ${brand.NAME} without moving the number?`;
   const x = brand.X_URL ? `<a href="${esc(brand.X_URL)}" rel="noopener">${esc(brand.X_HANDLE)}</a>` : 'the project account';
   const n = Array.isArray(ctx.history) ? ctx.history.length : null;
+  // FAQ answers restate lede / gets / does-not-get copy only (FINDABILITY §3.3).
+  // Refuse: sponsor-moves-score, visitor-data-sale, doom-probability, stuffing.
+  const faq = [
+    [qTitle,
+      `${brand.NAME} has no advertising network and no investors. It has room for one named sponsor at a time, shown plainly, with no say over the number.`],
+    ['What does a sponsor get?',
+      'One labelled “Supported by [name]” line in the masthead and footer, the same line on the hourly share card, a credit in the daily X reading, and an audience that wants a number they can check.'],
+    ['What does a sponsor not get?',
+      'No influence on the number (published formula, receipts anyone can verify), no visitor data, no editorial say, and no disguise — the sponsorship is labelled wherever it appears.'],
+    [`Does sponsorship turn ${brand.NAME} into a doom forecast?`,
+      `No. ${brand.NAME} measures activity tempo. A sponsor cannot move the level, and sponsorship does not make the index a probability of harm.`],
+  ];
+  const faqHtml = faq.map(([qAsk, a]) => `
+  <h3>${esc(qAsk)}</h3>
+  <p>${esc(a)}</p>`).join('');
+
   const main = `${CSS}
 <section class="shp">
   <p class="eyebrow">Sponsorship</p>
-  <div class="shp__top">${mascot({ size: 76, level: level(ctx) })}<h1 class="bp__h1">Sponsor the index</h1></div>
+  <div class="shp__top">${mascot({ size: 76, level: level(ctx) })}<h1 class="bp__h1">${esc(qTitle)}</h1></div>
   <p class="lede">${esc(brand.NAME)} has no advertising network and no investors. It has room for one named sponsor at a time, shown plainly, with no say over the number.</p>
   <h2>What a sponsor gets</h2>
   <ul>
@@ -128,11 +204,45 @@ export function sponsor(ctx) {
   <h2>How to start</h2>
   <p>Message ${x} on X with who you are and what you would like to run. One sponsor at a time, month by month.</p>
   <p><a class="shp__go" href="${esc(brand.X_URL || ctx.href('/about.html'))}" rel="noopener">Ask about sponsoring</a></p>
+  <section class="shp-faq" aria-labelledby="faq">
+    <h2 id="faq">Questions people actually ask</h2>
+    ${faqHtml}
+    <p class="shp-faq-key">Search-shaped sibling:
+      <a href="${esc(ctx.href('/library.html'))}">What AI books argue both sides of the case?</a>
+      · <a href="${esc(ctx.href('/about.html'))}">What is ${esc(brand.NAME)}, and who is behind it?</a>.</p>
+  </section>
 </section>`;
+  const description = `${qTitle} One labelled sponsor at a time. What a sponsor gets, and what it does not: no influence on the index, no visitor data, no editorial say.`;
   return page({
-    ctx, path: '/sponsor.html',
-    title: `Sponsor ${brand.NAME}: one named sponsor, no say over the number`,
-    description: `${brand.NAME} takes one labelled sponsor at a time. What a sponsor gets, and what it does not: no influence on the index, no visitor data, no editorial say.`,
+    ctx,
+    path: PATH,
+    title: `${qTitle} · ${brand.NAME}`,
+    ogTitle: `${brand.NAME}: ${qTitle}`,
+    description,
+    jsonld: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        name: qTitle,
+        description: `${brand.NAME} takes one labelled sponsor at a time. No influence on the index, no visitor data, no editorial say.`,
+        url: ctx.url(PATH),
+        isPartOf: { '@type': 'WebSite', name: brand.NAME, url: ctx.url('/') },
+        speakable: speakable(['h1.bp__h1', 'p.lede']),
+      },
+      breadcrumbs(ctx, [
+        { name: 'Home', path: '/' },
+        { name: 'Sponsor', path: PATH },
+      ]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map(([qAsk, a]) => ({
+          '@type': 'Question',
+          name: qAsk,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
+      },
+    ],
     main,
   });
 }
