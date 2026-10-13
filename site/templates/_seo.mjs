@@ -113,6 +113,8 @@ export function organization(ctx) {
       'How has AI activity moved day by day',
       'SIREN Radio',
       'What free music does SIREN Radio play',
+      'SIREN TV',
+      'What free AI explainer videos does SIREN publish',
       'AI labs this index scored',
       'AI stories this index scored',
       'AI leaders on the record',
