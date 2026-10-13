@@ -223,7 +223,7 @@ export function roomGroups(ctx) {
       ['/alerts.html', 'px:bell', 'Alerts', null, 'How do I get alerts when SIREN moves?'],
       ['/export.html', 'px:code', 'Data & Embed', null, 'How do I export and embed SIREN data?'],
       ['/bias.html', 'px:scalebias', 'Known Biases', null, 'What can SIREN not see?'],
-      ['/reference-plan.html', 'px:ruler', 'Baseline Plan', null, 'How the frozen reference gets updated, versioned.'],
+      ['/reference-plan.html', 'px:ruler', 'Baseline Plan', null, 'How does the SIREN baseline get updated?'],
     ]],
   ];
   return groups.map(([g, items]) => [g, items.filter(Boolean)]).filter(([, l]) => l.length);

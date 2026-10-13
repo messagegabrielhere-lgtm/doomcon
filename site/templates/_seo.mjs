@@ -151,6 +151,8 @@ export function organization(ctx) {
       'How do I export and embed SIREN data',
       'SIREN bias',
       'What can SIREN not see',
+      'SIREN baseline',
+      'How does the SIREN baseline get updated',
       'AI labs this index scored',
       'AI stories this index scored',
       'AI leaders on the record',

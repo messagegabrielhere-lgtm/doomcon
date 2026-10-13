@@ -467,7 +467,7 @@ export function biasPage(ctx) {
 <h2 id="candidates">Sources under consideration</h2>
 <p>Each candidate has to meet the same bar as today's inputs: public, free to read without a private agreement, machine-readable, with enough history to build a reference year, and licensed so the counts can be republished with receipts. Anyone has to be able to recompute the number.</p>
 <div class="xt-grid">${candidates}</div>
-<p>A new source never goes straight into the score. It is collected and published as an <b>uncalibrated</b> signal first, then run as a shadow score beside the official one, and promoted only under the published rule on <a href="${esc(ctx.href('/reference-plan.html'))}">how the baseline gets updated</a>.</p>
+<p>A new source never goes straight into the score. It is collected and published as an <b>uncalibrated</b> signal first, then run as a shadow score beside the official one, and promoted only under the published rule on <a href="${esc(ctx.href('/reference-plan.html'))}">How does the ${esc(brand.NAME)} baseline get updated?</a>.</p>
 
 <h2 id="propose">Propose a source</h2>
 <p>Know a public, non-English or non-Western dataset that counts AI activity? Send it through the <a href="${esc(ctx.href('/feedback.html'))}">How do I report a problem or send an idea to ${esc(brand.NAME)}?</a> form with a link to its API or download, how far back it goes, and its licence. The more of those three you can answer, the faster it can be tested.</p>
@@ -517,6 +517,8 @@ export function biasPage(ctx) {
 // /reference-plan.html
 // ---------------------------------------------------------------------------
 export function referencePlanPage(ctx, ref = null) {
+  const PATH = '/reference-plan.html';
+  const qTitle = `How does the ${brand.NAME} baseline get updated?`;
   const s = ctx.state || {};
   const sh = s.shadow && typeof s.shadow === 'object' ? s.shadow : null;
   const fmt = (v) => (isNum(v) ? num(v, 1) : '—');
@@ -560,8 +562,24 @@ ${ref.sources ? `<tr><th>Sources with grids</th><td>${ref.sources.map(esc).join(
 ${ref.hash ? `<tr><th>File hash</th><td><code>${esc(ref.hash)}</code></td></tr>` : ''}
 </tbody></table></div>` : '';
 
+  // FAQ answers restate lede / addenda / promotion / cutover copy only (FINDABILITY §3.3).
+  // Refuse: doom-probability, stuffing, quiet-rebase claims.
+  const faq = [
+    [qTitle,
+      `Every ${brand.NAME} score is a percentile against a frozen reference: a year of history per source, cut into fixed grids and never regenerated. Freezing it is what lets anyone re-run the arithmetic on an old receipt and get the same number. Sources get added and the world shifts, so the reference has to change sometimes — under a published rule, not a quiet rebuild.`],
+    ['How do new sources join the score?',
+      'Collect (uncalibrated, visible raw value, no weight), calibrate (own reference year in an addendum with its own hash; v1 is not touched), then shadow (official score from v1 only and a candidate score from v1 plus addenda, published side by side; only the official one sets the level).'],
+    ['When is an addendum promoted?',
+      'Only when all three hold: at least 14 days of shadow running, at least 95% uptime for the new source over that period, and a published diff of official vs candidate for every reading in the shadow period, with the level changes the candidate would have caused.'],
+    [`Does updating the baseline make ${brand.NAME} a doom forecast?`,
+      `No. ${brand.NAME} measures activity tempo. A new reference version keeps old receipts checkable against the file they used; it does not turn the index into a probability of harm.`],
+  ];
+  const faqHtml = faq.map(([qAsk, a]) => `
+  <h3>${esc(qAsk)}</h3>
+  <p>${esc(a)}</p>`).join('');
+
   const main = `<p class="eyebrow">Reference plan</p>
-<h1>How the baseline gets updated</h1>
+<h1>${esc(qTitle)}</h1>
 <p class="lede">Every ${esc(brand.NAME)} score is a percentile against a frozen reference: a year of history per source, cut into fixed grids and never regenerated. Freezing it is what lets anyone re-run the arithmetic on an old receipt and get the same number. But sources get added and the world shifts, so the reference has to change sometimes. This is the rule for how, written down before it is needed.</p>
 
 <h2 id="v1">Reference v1, frozen</h2>
@@ -591,13 +609,46 @@ ${refFacts}
 
 ${shadowHtml}
 
-<p class="xt-note">Why the care: an index that quietly rebases can make any trend it likes. Ours can only change in public, with the old arithmetic still checkable. See also <a href="${esc(ctx.href('/bias.html'))}">known biases</a> and the <a href="${esc(ctx.href('/methodology.html'))}">methodology</a>.</p>`;
+<p class="xt-note">Why the care: an index that quietly rebases can make any trend it likes. Ours can only change in public, with the old arithmetic still checkable. See also <a href="${esc(ctx.href('/bias.html'))}">What can ${esc(brand.NAME)} not see?</a> and <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>.</p>
+<section class="xt-faq" aria-labelledby="faq">
+  <h2 id="faq">Questions people actually ask</h2>
+  ${faqHtml}
+  <p class="xt-faq-key">Search-shaped sibling:
+    <a href="${esc(ctx.href('/bias.html'))}">What can ${esc(brand.NAME)} not see?</a>
+    · <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>.</p>
+</section>`;
 
+  const description = `${qTitle} ${brand.NAME}'s reference is frozen. New sources run as a shadow score for 14+ days before promotion to a new reference version, and old receipts still verify.`;
   return shell(ctx, {
-    path: '/reference-plan.html',
-    title: 'How the baseline gets updated',
-    description: `${brand.NAME}'s reference is frozen. New sources run as a shadow score for 14+ days before promotion to a new reference version, and old receipts still verify.`,
+    path: PATH,
+    title: qTitle,
+    ogTitle: `${brand.NAME}: ${qTitle}`,
+    description,
     main,
+    jsonld: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        name: qTitle,
+        description: `${brand.NAME} freezes its reference year. New sources shadow for 14+ days with a published diff before promotion; old receipts still verify.`,
+        url: ctx.url(PATH),
+        isPartOf: { '@type': 'WebSite', name: brand.NAME, url: ctx.url('/') },
+        speakable: speakable(['h1', 'p.lede']),
+      },
+      breadcrumbs(ctx, [
+        { name: 'Home', path: '/' },
+        { name: 'Reference plan', path: PATH },
+      ]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map(([qAsk, a]) => ({
+          '@type': 'Question',
+          name: qAsk,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
+      },
+    ],
   });
 }
 
