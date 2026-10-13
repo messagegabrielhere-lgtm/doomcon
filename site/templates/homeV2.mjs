@@ -190,7 +190,7 @@ export function roomGroups(ctx) {
       ['/arena.html', 'px:candles', 'Stock Picks', null, 'Daily rule-based stock picks, scored in public.'],
       ['/scanner.html', 'px:crosshair', 'Scanner', null, 'Screen stocks, ETFs and crypto in plain English.'],
       ['/bets.html', 'dice', 'Tally’s Bets', null, 'Does the SIREN index make forecasts?'],
-      ['/day-after.html', 'px:megaphone', 'The Day After', 'NEW', 'Game out the public revolt after an AI catastrophe.'],
+      ['/day-after.html', 'px:megaphone', 'The Day After', 'NEW', 'What happens the day after an AI catastrophe?'],
       ['/contain.html', 'px:core', 'Containment', 'GAME', 'Arcade: stop rogue AI processes breaching the firewall.'],
       ['/game.html', 'joystick', 'Game', null, 'Thirty seconds: count signals, ignore predictions.'],
       ['/desk.html', 'px:notebook', 'Tally’s Desk', null, 'The unserious counts: robots and godfathers.'],
