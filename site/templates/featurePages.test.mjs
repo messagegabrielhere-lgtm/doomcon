@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
-import { breakthroughs, jobProof, pickBreakthroughs, siReady } from './featurePages.mjs';
+import { breakthroughs, jobProof, liveX, pickBreakthroughs, siReady } from './featurePages.mjs';
 
 const ctx = {
   url: (p) => `https://siren.watch${p === '/' ? '/' : p}`,
@@ -106,6 +106,30 @@ describe('ai-proof-job page', () => {
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /guarantees? you keep your job/i);
     assert.doesNotMatch(html, /this is (career|financial) advice/i);
+    assert.doesNotMatch(html, /noindex/);
+  });
+});
+
+describe('live-x page', () => {
+  it('ships a question-shaped title, speakable WebPage, and matching FAQPage', () => {
+    const html = liveX(ctx);
+    assert.match(html, /<title>Where are live X feeds and Spaces on AI\?/);
+    assert.match(html, /<h1 class="bp__h1">Where are live X feeds and Spaces on AI\?<\/h1>/);
+    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /Does this page embed X\?/);
+    assert.match(html, /What Spaces links are on this page\?/);
+    assert.match(html, /Where is a scored version of the same AI news\?/);
+    assert.match(html, /SpeakableSpecification/);
+    assert.match(html, /FAQPage/);
+    assert.match(html, /"@type":\s*"WebPage"/);
+    assert.match(html, /BreadcrumbList/);
+    assert.match(html, /does not embed X on this page/);
+    assert.match(html, /\/live\.html/);
+    assert.match(html, /\/news\.html/);
+    assert.match(html, /What AI is on TV and radio right now\?/);
+    assert.match(html, /Which AI stories has SIREN scored in this window\?/);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
+    assert.doesNotMatch(html, /probability of doom/i);
     assert.doesNotMatch(html, /noindex/);
   });
 });

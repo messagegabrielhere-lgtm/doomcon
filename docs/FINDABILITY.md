@@ -415,6 +415,7 @@ context.
 | 182 | `/monitor.html` question-shaped title + WebPage speakable + visible FAQ matching FAQPage schema (World Monitor map + stress index; refuse forecast / danger-as-score / doom-probability claims); IndexNow + seo-daily; `knowsAbout` “What does the SIREN World Monitor show” | Google + Bing | **Done** (2026-10-13) |
 | 183 | `/scanner.html` question-shaped title + WebPage speakable + visible FAQ matching FAQPage schema (Capitulation Scanner stocks/ETFs/crypto; refuse financial advice / scanner-as-index-input / doom-probability claims); IndexNow + seo-daily; `knowsAbout` “What does the SIREN Capitulation Scanner show” | Google + Bing | **Done** (2026-10-13) |
 | 184 | `/arena.html` question-shaped title + WebPage speakable + visible FAQ matching FAQPage schema (daily picks + filings + AI battle; tab JS keeps question title; refuse financial advice / arena-as-index-input / doom-probability claims); IndexNow + seo-daily; `knowsAbout` “What does SIREN Arena show” | Google + Bing | **Done** (2026-10-13) |
+| 185 | `/live-x.html` question-shaped title + WebPage speakable + visible FAQ matching FAQPage schema (live X feeds + Spaces; refuse embed-as-tracking / SIREN-as-X-oracle / doom-probability claims); IndexNow + seo-daily; `knowsAbout` “Where are live X feeds and Spaces on AI” | Google + Bing | **Done** (2026-10-13) |
 
 ### 3.3 Refusals (search edition)
 
