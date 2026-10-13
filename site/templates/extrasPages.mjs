@@ -602,7 +602,7 @@ ${refFacts}
 </ul>
 
 <h2 id="cutover">Cutover</h2>
-<p>Promotion creates <b>reference v2</b>: v1 plus the addenda, as a new file with a new hash. Receipts carry the reference version and hash they were computed against, so every receipt issued under v1 still verifies against v1, which stays in the repository forever. The cutover reading is marked on the history chart and in the <a href="${esc(ctx.href('/changelog.html'))}">changelog</a>.</p>
+<p>Promotion creates <b>reference v2</b>: v1 plus the addenda, as a new file with a new hash. Receipts carry the reference version and hash they were computed against, so every receipt issued under v1 still verifies against v1, which stays in the repository forever. The cutover reading is marked on the history chart and in <a href="${esc(ctx.href('/changelog.html'))}">What moved the ${esc(brand.NAME)} score this hour?</a>.</p>
 
 <h2 id="shift">A permanent baseline shift</h2>
 <p>If the world moves so far that a source sits pinned near the top of its v1 grid for weeks, the window itself has to move. That is handled as a new reference window, not an edit: the new window runs <b>30 days side by side</b> with the old one, both published, before it takes over. The old window, its hash and its receipts remain.</p>
@@ -656,6 +656,8 @@ ${shadowHtml}
 // /changelog.html
 // ---------------------------------------------------------------------------
 export function changelogPage(ctx) {
+  const PATH = '/changelog.html';
+  const qTitle = `What moved the ${brand.NAME} score this hour?`;
   const entries = hourlyEntries(ctx, 48);
   const srcName = (id) => id;
 
@@ -684,18 +686,67 @@ ${news}
 </li>`;
   }).join('\n');
 
-  const main = `<p class="eyebrow">Changelog</p>
-<h1>What moved</h1>
-<p class="lede">The last ${entries.length} hours with a reading, newest first: how far the score and each pillar moved since the hour before, any level change, any source going dark or coming back, and the three highest-scored news items published in between. Red marks a level change, amber a move of ${DELTA_THRESHOLD}+ points. ▲ is louder, ▼ quieter.</p>
-<p><a class="xt-btn ghost" href="${esc(ctx.href('/alerts.html'))}">GET THESE AS ALERTS →</a><a class="xt-btn ghost" href="${esc(ctx.href('/history.html'))}">FULL HISTORY →</a></p>
-${entries.length ? `<ol class="xt-log">\n${li}\n</ol>` : '<p>Not enough readings yet: the changelog starts with the second hour on record.</p>'}
-<p class="xt-note">News items are context, not cause: the newsroom does not feed the score. ${esc(brand.DISCLAIMER)}</p>`;
+  // FAQ answers restate lede / note / alerts copy only (FINDABILITY §3.3).
+  // Refuse: doom-probability, newsroom-as-cause, stuffing.
+  const faq = [
+    [qTitle,
+      `The last ${entries.length || 48} hours with a reading, newest first: how far the score and each pillar moved since the hour before, any level change, any source going dark or coming back, and the three highest-scored news items published in between. Red marks a level change, amber a move of ${DELTA_THRESHOLD}+ points.`],
+    ['Do news items move the score?',
+      'News items are context, not cause: the newsroom does not feed the score.'],
+    ['How do I get these as alerts?',
+      `Use the alerts page for RSS feeds, email recipes, and in-tab notifications when the level changes or the score moves by ${DELTA_THRESHOLD}+ points.`],
+    [`Is an hourly move a doom probability?`,
+      `No. ${brand.NAME} measures activity tempo hour by hour. ▲ is louder and ▼ is quieter — not danger, and not a probability of harm.`],
+  ];
+  const faqHtml = faq.map(([qAsk, a]) => `
+  <h3>${esc(qAsk)}</h3>
+  <p>${esc(a)}</p>`).join('');
 
+  const main = `<p class="eyebrow">Changelog</p>
+<h1>${esc(qTitle)}</h1>
+<p class="lede">The last ${entries.length} hours with a reading, newest first: how far the score and each pillar moved since the hour before, any level change, any source going dark or coming back, and the three highest-scored news items published in between. Red marks a level change, amber a move of ${DELTA_THRESHOLD}+ points. ▲ is louder, ▼ quieter.</p>
+<p><a class="xt-btn ghost" href="${esc(ctx.href('/alerts.html'))}">How do I get alerts when ${esc(brand.NAME)} moves?</a><a class="xt-btn ghost" href="${esc(ctx.href('/history.html'))}">FULL HISTORY →</a></p>
+${entries.length ? `<ol class="xt-log">\n${li}\n</ol>` : '<p>Not enough readings yet: the changelog starts with the second hour on record.</p>'}
+<p class="xt-note">News items are context, not cause: the newsroom does not feed the score. ${esc(brand.DISCLAIMER)}</p>
+<section class="xt-faq" aria-labelledby="faq">
+  <h2 id="faq">Questions people actually ask</h2>
+  ${faqHtml}
+  <p class="xt-faq-key">Search-shaped sibling:
+    <a href="${esc(ctx.href('/alerts.html'))}">How do I get alerts when ${esc(brand.NAME)} moves?</a>
+    · <a href="${esc(ctx.href('/reference-plan.html'))}">How does the ${esc(brand.NAME)} baseline get updated?</a>.</p>
+</section>`;
+
+  const description = `${qTitle} Hour by hour: score and pillar changes, level changes, sources going dark, and the top news of each hour.`;
   return shell(ctx, {
-    path: '/changelog.html',
-    title: 'What moved: the hourly changelog',
-    description: `Hour by hour, what moved the ${brand.NAME} AI activity index: score and pillar changes, level changes, sources going dark, and the top news of each hour.`,
+    path: PATH,
+    title: qTitle,
+    ogTitle: `${brand.NAME}: ${qTitle}`,
+    description,
     main,
+    jsonld: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        name: qTitle,
+        description: `Hour-by-hour ${brand.NAME} moves: score, pillars, level changes, sources dark/live, and top news context.`,
+        url: ctx.url(PATH),
+        isPartOf: { '@type': 'WebSite', name: brand.NAME, url: ctx.url('/') },
+        speakable: speakable(['h1', 'p.lede']),
+      },
+      breadcrumbs(ctx, [
+        { name: 'Home', path: '/' },
+        { name: 'Changelog', path: PATH },
+      ]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map(([qAsk, a]) => ({
+          '@type': 'Question',
+          name: qAsk,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
+      },
+    ],
   });
 }
 

@@ -41,6 +41,7 @@ describe('reference-plan page', () => {
     assert.match(html, /\/methodology\.html/);
     assert.match(html, /What can SIREN not see\?/);
     assert.match(html, /How the SIREN AI activity index is computed · methodology/);
+    assert.match(html, /What moved the SIREN score this hour\?/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /probability of doom/i);
     assert.doesNotMatch(html, /noindex/);
