@@ -48,12 +48,16 @@ describe('news day hubs', () => {
 
   it('lists the day\'s stories with CollectionPage schema', () => {
     const html = renderDay(ctx, '2026-10-10');
-    assert.match(html, /<title>AI news 2026-10-10/);
+    assert.match(html, /<title>Which AI stories did SIREN score on 2026-10-10\?/);
+    assert.match(html, /Which AI stories did SIREN score on 2026-10-10\?/);
     assert.match(html, /CollectionPage/);
+    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /"@type"\s*:\s*"FAQPage"/);
+    assert.match(html, /speakable/);
     assert.match(html, /Story a0/);
     assert.doesNotMatch(html, /noindex/);
     assert.match(html, /not a forecast and not a probability of harm/);
-    assert.doesNotMatch(html, /doom score/i);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
   });
 
   it('links older archived stories from the same UTC day', () => {

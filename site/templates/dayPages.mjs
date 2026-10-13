@@ -8,7 +8,7 @@
 
 import { esc, utc, utcDay } from './_html.mjs';
 import { page } from './layout.mjs';
-import { breadcrumbs } from './_seo.mjs';
+import { breadcrumbs, speakable } from './_seo.mjs';
 import { slugFor } from './itemPage.mjs';
 import * as brand from '../brand.mjs';
 
@@ -107,11 +107,21 @@ export function renderDay(ctx, day) {
   const older = archivedAll.slice(0, DAY_LIST_CAP);
   const total = items.length + archivedAll.length;
   const path = dayPath(day);
-  const title = `AI news ${day} · scored stories · ${brand.NAME}`;
+  // Head-term title: people search “AI news [date]” / what scored that day.
+  const title = `Which AI stories did ${brand.NAME} score on ${day}?`;
   const description = clip(
     `${total} AI stories ${brand.NAME} scored on ${day} UTC (${items.length} in the live window). Each row links the permanent story page with the outlet and the score.`,
     160,
   );
+  const faq = [
+    [`Which AI stories did ${brand.NAME} score on ${day}?`,
+      `${total} scored ${total === 1 ? 'story' : 'stories'} carry a published time on ${day} UTC (${items.length} in the live window${archivedAll.length ? `, ${archivedAll.length} in the archive` : ''}). Each row links the permanent story page — not a day doom score.`],
+    [`Does ${brand.NAME} publish a day doom score?`,
+      `No. ${brand.DISCLAIMER_SHORT} A day hub lists scored stories with that UTC published date — activity tempo counts, not a probability of harm.`],
+  ];
+  const faqHtml = faq.map(([q, a]) => `
+  <h3>${esc(q)}</h3>
+  <p>${esc(a)}</p>`).join('');
   const days = indexableDays(ctx);
   const others = days.filter((d) => d.day !== day);
   const olderBlock = older.length
@@ -124,7 +134,7 @@ export function renderDay(ctx, day) {
   const main = `${STYLE}
 <article class="nd prose">
   <p class="nd__k"><a href="${esc(ctx.href('/news.html'))}">Newsroom</a> · Day</p>
-  <h1>AI news · ${esc(day)}</h1>
+  <h1>Which AI stories did ${esc(brand.NAME)} score on ${esc(day)}?</h1>
   <p class="nd__lede">${esc(items.length)} scored ${items.length === 1 ? 'story' : 'stories'} with a published time on this UTC day in the live window${archivedAll.length ? `; ${esc(String(archivedAll.length))} more kept in the archive` : ''}.
      A day hub is a list of what the newsroom already scored — not a forecast and not a probability of harm.</p>
   <div class="nd__stat" role="group" aria-label="Day totals">
@@ -141,6 +151,8 @@ export function renderDay(ctx, day) {
   ${olderBlock}
   ${others.length ? `<h2>Other days</h2>
   <nav class="nd__nav" aria-label="Other days">${others.map((d) => `<a href="${esc(ctx.href(dayPath(d.day)))}">${esc(d.day)} <span class="num">(${esc(String(d.count))})</span></a>`).join('')}</nav>` : ''}
+  <h2 id="faq">Questions people actually ask</h2>
+  ${faqHtml}
 </article>`;
 
   return page({
@@ -157,6 +169,7 @@ export function renderDay(ctx, day) {
       description,
       datePublished: `${day}T00:00:00Z`,
       isPartOf: { '@type': 'WebSite', name: brand.PUBLICATION, url: ctx.url('/') },
+      speakable: speakable(['h1', '.nd__lede']),
       mainEntity: {
         '@type': 'ItemList',
         numberOfItems: Math.min(items.length, DAY_LIST_CAP),
@@ -170,7 +183,15 @@ export function renderDay(ctx, day) {
     }, breadcrumbs(ctx, [
       { name: 'Newsroom', path: '/news.html' },
       { name: day, path },
-    ])],
+    ]), {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faq.map(([q, a]) => ({
+        '@type': 'Question',
+        name: q,
+        acceptedAnswer: { '@type': 'Answer', text: a },
+      })),
+    }],
     main,
   });
 }
