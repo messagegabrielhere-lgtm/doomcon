@@ -63,6 +63,8 @@ export function organization(ctx) {
       'China vs US electricity',
       'SIREN daily brief',
       'what is the SIREN daily brief',
+      'CVE exploit lag',
+      'how many days from a CVE going public to CISA listing it as exploited',
       'AI labs this index scored',
       'AI stories this index scored',
       'AI leaders on the record',

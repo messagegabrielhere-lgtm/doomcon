@@ -376,6 +376,7 @@ context.
 | 143 | `/charts.html` question-shaped title + WebPage speakable + visible FAQ matching FAQPage schema; IndexNow + seo-daily; `knowsAbout` “AI charts” / “what AI charts does SIREN publish” | Google + Bing | **Done** (2026-10-13) |
 | 144 | `/power.html` question-shaped title + Dataset speakable + visible FAQ matching FAQPage schema; tag needle clears `/tags/red-teaming` via “jailbreak detection” (refuse bare jailbreak); IndexNow + seo-daily; `knowsAbout` “who makes the most electricity” | Google + Bing | **Done** (2026-10-13) |
 | 145 | `/digest.html` question-shaped title + Report speakable + visible FAQ matching FAQPage schema; IndexNow + seo-daily; `knowsAbout` “SIREN daily brief” / “what is the SIREN daily brief” | Google + Bing | **Done** (2026-10-13) |
+| 146 | `/exploits.html` question-shaped title + Dataset speakable + visible FAQ matching FAQPage schema (null-result exploit lag; refuse never_say doom/attack claims); IndexNow + seo-daily; `knowsAbout` “CVE exploit lag” | Google + Bing | **Done** (2026-10-13) |
 
 ### 3.3 Refusals (search edition)
 
