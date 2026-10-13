@@ -149,6 +149,8 @@ export function organization(ctx) {
       'How do I get alerts when SIREN moves',
       'SIREN export',
       'How do I export and embed SIREN data',
+      'SIREN bias',
+      'What can SIREN not see',
       'AI labs this index scored',
       'AI stories this index scored',
       'AI leaders on the record',

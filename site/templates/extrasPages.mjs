@@ -412,6 +412,8 @@ if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.write
 // /bias.html
 // ---------------------------------------------------------------------------
 export function biasPage(ctx) {
+  const PATH = '/bias.html';
+  const qTitle = `What can ${brand.NAME} not see?`;
   const inputs = [
     ['arXiv', 'Capability', 'Preprints are overwhelmingly in English, and the habit of posting to arXiv first is strongest in US and European labs. Work that appears first in Chinese-language venues or company blogs is undercounted.'],
     ['GitHub releases, Hugging Face, OpenRouter', 'Capability (uncalibrated)', 'Western-hosted platforms. Chinese labs often ship first on ModelScope or domestic mirrors, so a busy week in Beijing can look quiet here.'],
@@ -430,8 +432,24 @@ export function biasPage(ctx) {
     ['India: MeitY', 'Governance', 'The Ministry of Electronics and Information Technology\'s advisories, IndiaAI programme notices and consultations.'],
   ].map(([n, p, d]) => `<div class="xt-card"><h3>${esc(n)}</h3><p><span class="xt-pill">${esc(p)}</span></p><p>${esc(d)}</p></div>`).join('');
 
+  // FAQ answers restate lede / skew / candidates copy only (FINDABILITY §3.3).
+  // Refuse: doom-probability, stuffing, bias-as-excuse-to-hide-method.
+  const faq = [
+    [qTitle,
+      `An index is only as wide as its inputs. Ours are public, free and recomputable, and that choice comes with a tilt: almost everything ${brand.NAME} counts is published in English, and most of it in the United States.`],
+    ['What does that skew?',
+      'Timing (events outside the English-speaking web reach inputs late or never), size (the level reads how busy the English-speaking AI world is), governance (US and UK calendar, not the world\'s), and attention (stories ignored on Hacker News do not exist to that pillar).'],
+    ['How do new sources get into the score?',
+      'A new source never goes straight into the score. It is collected and published as an uncalibrated signal first, then run as a shadow score beside the official one, and promoted only under the published rule on how the baseline gets updated.'],
+    [`Is the biased reading a doom probability?`,
+      `No. ${brand.NAME} measures activity tempo. The level reads how busy the English-speaking AI world is — not danger, and not a probability of harm.`],
+  ];
+  const faqHtml = faq.map(([qAsk, a]) => `
+  <h3>${esc(qAsk)}</h3>
+  <p>${esc(a)}</p>`).join('');
+
   const main = `<p class="eyebrow">Known biases and blind spots</p>
-<h1>What ${esc(brand.NAME)} cannot see</h1>
+<h1>${esc(qTitle)}</h1>
 <p class="lede">An index is only as wide as its inputs. Ours are public, free and recomputable, and that choice comes with a tilt: almost everything ${esc(brand.NAME)} counts is published in English, and most of it in the United States. This page says where that bends the reading, and what we are looking at to straighten it.</p>
 
 <h2 id="inputs">Where each input leans</h2>
@@ -452,13 +470,46 @@ export function biasPage(ctx) {
 <p>A new source never goes straight into the score. It is collected and published as an <b>uncalibrated</b> signal first, then run as a shadow score beside the official one, and promoted only under the published rule on <a href="${esc(ctx.href('/reference-plan.html'))}">how the baseline gets updated</a>.</p>
 
 <h2 id="propose">Propose a source</h2>
-<p>Know a public, non-English or non-Western dataset that counts AI activity? Send it through the <a href="${esc(ctx.href('/feedback.html'))}">feedback page</a> with a link to its API or download, how far back it goes, and its licence. The more of those three you can answer, the faster it can be tested.</p>`;
+<p>Know a public, non-English or non-Western dataset that counts AI activity? Send it through the <a href="${esc(ctx.href('/feedback.html'))}">How do I report a problem or send an idea to ${esc(brand.NAME)}?</a> form with a link to its API or download, how far back it goes, and its licence. The more of those three you can answer, the faster it can be tested.</p>
+<section class="xt-faq" aria-labelledby="faq">
+  <h2 id="faq">Questions people actually ask</h2>
+  ${faqHtml}
+  <p class="xt-faq-key">Search-shaped sibling:
+    <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>
+    · <a href="${esc(ctx.href('/feedback.html'))}">How do I report a problem or send an idea to ${esc(brand.NAME)}?</a>.</p>
+</section>`;
 
+  const description = `${qTitle} ${brand.NAME}'s inputs are mostly English-language and US-based. Where that skews the reading, and the non-English public sources under consideration to fix it.`;
   return shell(ctx, {
-    path: '/bias.html',
-    title: 'Known biases and blind spots',
-    description: `${brand.NAME}'s inputs are mostly English-language and US-based. Where that skews the reading, and the non-English public sources under consideration to fix it.`,
+    path: PATH,
+    title: qTitle,
+    ogTitle: `${brand.NAME}: ${qTitle}`,
+    description,
     main,
+    jsonld: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        name: qTitle,
+        description: `${brand.NAME}'s inputs lean English and US-based. Where that skews timing, size, governance and attention — and candidates to widen the view.`,
+        url: ctx.url(PATH),
+        isPartOf: { '@type': 'WebSite', name: brand.NAME, url: ctx.url('/') },
+        speakable: speakable(['h1', 'p.lede']),
+      },
+      breadcrumbs(ctx, [
+        { name: 'Home', path: '/' },
+        { name: 'Known biases', path: PATH },
+      ]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map(([qAsk, a]) => ({
+          '@type': 'Question',
+          name: qAsk,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
+      },
+    ],
   });
 }
 
