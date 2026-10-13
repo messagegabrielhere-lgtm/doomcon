@@ -28,6 +28,7 @@ describe('seo-daily parsers', () => {
     assert.ok(OUR_SURFACES.includes('/people.html'));
     assert.ok(OUR_SURFACES.includes('/countries.html'));
     assert.ok(OUR_SURFACES.includes('/compare.html'));
+    assert.ok(OUR_SURFACES.includes('/history.html'));
   });
 
   it('counts sitemap locs and detects indexes', () => {
