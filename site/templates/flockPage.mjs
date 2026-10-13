@@ -70,6 +70,7 @@
 
 import { esc, utc } from './_html.mjs';
 import { page } from './layout.mjs';
+import { breadcrumbs, speakable } from './_seo.mjs';
 import * as brand from '../brand.mjs';
 // Imported, never edited. This page borrows the projection, the outline table
 // and the frame that /map is drawn in, so the two maps are the same map with
@@ -1393,10 +1394,11 @@ export function render(ctx) {
   if (secFields) present.add('fields');
   if (secOperators) present.add('operators');
 
+  const title = `How many Flock ALPR cameras has ${brand.NAME} mapped?`;
   const headline = `${N(t.mapped_worldwide)} Flock ALPR cameras ${q}`;
 
   const description =
-    `Flock Safety automated licence-plate-reader cameras ${q}: ${N(t.mapped_worldwide)} objects, `
+    `${title} ${N(t.mapped_worldwide)} map objects ${q}, `
     + `binned to ${N(m.totalCells)} cells of ${m.cellDeg}° and ranked by state and county. `
     + `${N(cov.counties_with_none_mapped)} of ${N(cov.counties_in_roster)} counties have none mapped, `
     + `which means nobody has mapped them rather than that there are none. `
@@ -1404,13 +1406,30 @@ export function render(ctx) {
     + `Open Database Licence data, © OpenStreetMap contributors. `
     + `Compiled ${utc(f.generated_at)}.`;
 
+  // FAQ answers restate hero / caveat copy only (FINDABILITY §3.3).
+  // Refuse copy.never_say: all/every Flock cameras, national total, etc.
+  const faq = [
+    [title,
+      `${N(t.mapped_worldwide)} cameras, ${q}. That is the number of map objects, not the number of cameras. ` +
+      `${cov.what_zero_means || ''}`],
+    ['Does a county with no pins have zero Flock cameras?',
+      f.copy.empty_state || 'A county with no pins is a county nobody has mapped. It is not a county with no cameras.'],
+    [`Does the Flock register feed the main ${brand.NAME} number?`,
+      `Plate readers · a ${brand.NAME} register · does not feed the main number.`],
+    ['Is this a complete census of Flock cameras?',
+      'This page is a register of the ones somebody has written down in OpenStreetMap — a public, openly-licensed map that anyone can read and anyone can edit — and it is a register of nothing else.'],
+  ];
+  const faqHtml = faq.map(([qAsk, a]) => `
+  <h3>${esc(qAsk)}</h3>
+  <p>${esc(a)}</p>`).join('');
+
   const main = `<style>${flockCss()}</style>
 ${iconSprite({ only: SPRITE })}
 <div class="flk">
 
 <section class="flk__hero">
   <p class="flk__eyebrow">Plate readers · a ${esc(brand.NAME)} register · does not feed the main number</p>
-  <h1 class="flk__h1">Number-plate cameras, mapped</h1>
+  <h1 class="flk__h1">How many Flock ALPR cameras has ${esc(brand.NAME)} mapped?</h1>
   <p class="flk__sub">Flock Safety automated licence-plate-reader cameras, as OpenStreetMap has them</p>
   <p class="flk__lede">An ALPR is a camera pointed at a road that reads every number plate that passes
     it. Flock Safety builds them and sells them to police departments, sheriffs' offices, homeowners'
@@ -1470,32 +1489,55 @@ ${secOperators}
 
 ${methodSection(ctx, f, m)}
 
+<section class="flk__faq" aria-labelledby="faq">
+  <h2 id="faq">Questions people actually ask</h2>
+  ${faqHtml}
+  <p class="flk__faq-key">Search-shaped sibling:
+    <a href="${esc(ctx.href('/map.html'))}">How many datacentres has ${esc(brand.NAME)} mapped in the United States?</a>.</p>
+</section>
+
 </div>`;
 
   return page({
     ctx,
     path: PATH,
-    title: `Number-plate cameras, mapped — ${headline} · ${brand.NAME}`,
-    ogTitle: `${brand.NAME}: ${headline}`,
+    title: `${title} · ${headline} · ${brand.NAME}`,
+    ogTitle: `${brand.NAME}: ${title}`,
     description,
     ogImage: ctx.cardFor ? ctx.cardFor('flock') : null,
     ogImageAlt: `${brand.NAME} density map of Flock ALPR cameras ${q}`,
-    jsonld: [dataset(ctx, f, m)],
+    jsonld: [
+      dataset(ctx, f, m, title),
+      breadcrumbs(ctx, [
+        { name: 'Home', path: '/' },
+        { name: 'Flock', path: PATH },
+      ]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map(([qAsk, a]) => ({
+          '@type': 'Question',
+          name: qAsk,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
+      },
+    ],
     main,
   });
 }
 
 /** ctx.flock absent. Builds, says so plainly, and carries noindex. */
 function emptyPage(ctx) {
+  const title = `How many Flock ALPR cameras has ${brand.NAME} mapped?`;
   return page({
     ctx,
     path: PATH,
     noindex: true,
-    title: `Number-plate cameras · ${brand.NAME}`,
+    title: `${title} · ${brand.NAME}`,
     description: 'The Flock ALPR register is not in this build.',
     main: `<div class="flk"><section class="flk__hero">
   <p class="flk__eyebrow">Plate readers · a ${esc(brand.NAME)} register</p>
-  <h1 class="flk__h1">Number-plate cameras, mapped</h1>
+  <h1 class="flk__h1">How many Flock ALPR cameras has ${esc(brand.NAME)} mapped?</h1>
   <p class="flk__lede">This build carries no <code>data/flock.json</code>, so there is nothing to
     draw. The page exists and says so rather than inventing a map. Run
     <code>collector/flock.mjs</code> and rebuild.</p>
@@ -1503,12 +1545,12 @@ function emptyPage(ctx) {
   });
 }
 
-function dataset(ctx, f, m) {
+function dataset(ctx, f, m, title) {
   const s = f.source || {};
   return {
     '@context': 'https://schema.org',
     '@type': 'Dataset',
-    name: `${brand.NAME} — Flock Safety ALPR cameras as mapped in OpenStreetMap`,
+    name: title || `How many Flock ALPR cameras has ${brand.NAME} mapped?`,
     description:
       'Automated licence-plate-reader cameras attributed to Flock Safety in OpenStreetMap, counted '
       + 'by county, state and quarter-degree cell, with the compass bearing each camera is tagged as '
@@ -1523,6 +1565,7 @@ function dataset(ctx, f, m) {
     isAccessibleForFree: true,
     keywords: ['ALPR', 'automatic licence plate recognition', 'surveillance', 'OpenStreetMap',
       'Flock Safety', 'computer vision'],
+    speakable: speakable(['h1.flk__h1', 'p.flk__lede']),
     variableMeasured: [
       { '@type': 'PropertyValue', name: 'cameras mapped worldwide', value: Number(f.totals.mapped_worldwide) },
       { '@type': 'PropertyValue', name: 'cameras mapped inside a US county', value: Number(f.totals.in_a_us_county) },
@@ -1880,6 +1923,12 @@ ${rampRules()}
 .flk__pre{margin:var(--s-3) 0 0;padding:var(--s-3);background:var(--bg-sunken);
   border:1px solid var(--rule-soft);border-radius:var(--radius-lg);overflow-x:auto}
 .flk__pre code{font:400 var(--t-xs)/1.6 var(--mono);color:var(--ink-dim);white-space:pre}
+
+.flk__faq{margin:var(--sec) 0 var(--s-5);max-width:62ch}
+.flk__faq h2{font:600 var(--t-lg)/1.2 var(--sans);margin:0 0 var(--s-3)}
+.flk__faq h3{font:600 var(--t-base)/1.3 var(--sans);margin:var(--s-4) 0 var(--s-2)}
+.flk__faq p{font:400 var(--t-base)/1.55 var(--sans);color:var(--ink-dim);margin:0 0 var(--s-2)}
+.flk__faq-key{margin-top:var(--s-4)!important}
 
 @media (min-width: 620px){
   .flk__c{grid-template-columns:repeat(2,1fr)}
