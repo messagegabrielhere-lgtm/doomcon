@@ -52,6 +52,7 @@ export function organization(ctx) {
       'AI outlets this index scored',
       'AI news sources this index scored',
       'AI activity pillars this index scored',
+      'AI datacentre countries this index scored',
       'AI doom index alternatives',
       'DoomBench alternative',
       'Skynet Countdown alternative',

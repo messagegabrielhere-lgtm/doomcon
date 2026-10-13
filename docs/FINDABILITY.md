@@ -354,6 +354,7 @@ context.
 | 121 | `/outlet/*` + `/outlets.html` question-shaped titles + CollectionPage speakable + visible FAQ matching schema; `knowsAbout` “AI outlets this index scored” | Google | **Done** (2026-10-13) |
 | 122 | `/source/*` + `/sources.html` question-shaped titles + CollectionPage speakable + visible FAQ matching schema; `knowsAbout` “AI news sources this index scored” | Google | **Done** (2026-10-13) |
 | 123 | `/pillar/*` + `/pillars.html` question-shaped titles + CollectionPage speakable + visible FAQ matching schema; `knowsAbout` “AI activity pillars this index scored” | Google | **Done** (2026-10-13) |
+| 124 | `/country/*` + `/countries.html` question-shaped titles + Dataset/CollectionPage speakable + visible FAQ matching schema; `knowsAbout` “AI datacentre countries this index scored” | Google | **Done** (2026-10-13) |
 
 ### 3.3 Refusals (search edition)
 

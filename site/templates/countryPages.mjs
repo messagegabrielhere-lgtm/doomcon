@@ -9,7 +9,7 @@
 
 import { esc, utc } from './_html.mjs';
 import { page } from './layout.mjs';
-import { breadcrumbs } from './_seo.mjs';
+import { breadcrumbs, speakable } from './_seo.mjs';
 import { slugFor } from './itemPage.mjs';
 import * as brand from '../brand.mjs';
 
@@ -205,11 +205,21 @@ export function renderCountry(ctx, iso2) {
   const stories = itemsForCountry(ctx, country.iso2);
   const archivedAll = archiveItemsForCountry(ctx, country.iso2);
   const older = archivedAll.slice(0, COUNTRY_STORY_CAP);
-  const title = `Datacentres mapped in ${country.name} · ${brand.NAME}`;
+  // Head-term title: people search “datacentres in {country}” / national AI ranking.
+  const title = `How many datacentres has ${brand.NAME} mapped in ${country.name}?`;
   const description = clip(
     `${country.name}: ${n(country.total)} datacentre sites ${qualifier} (${n(country.operating)} operating, ${n(country.under_construction)} under construction, ${n(country.announced)} announced). A count of map objects, not of every datacentre that exists.`,
     160,
   );
+  const faq = [
+    [`How many datacentres has ${brand.NAME} mapped in ${country.name}?`,
+      `${n(country.total)} sites in ${country.name} ${qualifier} (${n(country.operating)} operating, ${n(country.under_construction)} under construction, ${n(country.announced)} announced). This is a count of OpenStreetMap objects, not every datacentre that exists.`],
+    [`Does ${brand.NAME} rank ${country.name} for AI risk?`,
+      `No. ${brand.DISCLAIMER_SHORT} A country page counts mapped datacentre sites and matching headlines — not a national AI ranking or doom score.`],
+  ];
+  const faqHtml = faq.map(([q, a]) => `
+  <h3>${esc(q)}</h3>
+  <p>${esc(a)}</p>`).join('');
   const cities = topCounts(sites.map((s) => s.city));
   const operators = topCounts(sites.map((s) => s.operator));
   const neighbours = indexableCountries(ctx)
@@ -244,7 +254,7 @@ export function renderCountry(ctx, iso2) {
   const main = `${STYLE}
 <article class="fc prose">
   <p class="fc__k"><a href="${esc(ctx.href('/world.html'))}">World</a> · <a href="${esc(ctx.href('/country/'))}">Countries</a> · <a href="${esc(ctx.href('/countries.html'))}">Countries hub</a></p>
-  <h1>Datacentres mapped in ${esc(country.name)}</h1>
+  <h1>How many datacentres has ${esc(brand.NAME)} mapped in ${esc(country.name)}?</h1>
   <p class="fc__lede">${esc(n(country.total))} sites in ${esc(country.name)} ${esc(qualifier)}.
      This page counts map objects carrying a datacentre tag. It does not count every datacentre that exists.
      A dense country is a country somebody mapped.</p>
@@ -271,9 +281,11 @@ export function renderCountry(ctx, iso2) {
     : `<p>The country total is published. This build has no per-site rows to list. The <a href="${esc(ctx.href('/world.html'))}">world map</a> still carries the count.</p>`}
   ${storyBlock}
   ${olderBlock}
+  <h2 id="faq">Questions people actually ask</h2>
+  ${faqHtml}
   ${neighbours.length ? `<h2>Same subregion</h2>
   <nav class="fc__nav" aria-label="Other countries in ${esc(country.subregion)}">${neighbours.map((c) => `<a href="${esc(ctx.href(countryPath(c.iso2)))}">${esc(c.name)}</a>`).join('')}</nav>` : ''}
-  <p class="fresh__key">Search-shaped directory: <a href="${esc(ctx.href('/countries.html'))}">AI datacentre countries this index covers</a>.</p>
+  <p class="fresh__key">Search-shaped directory: <a href="${esc(ctx.href('/countries.html'))}">Which AI datacentre countries has ${esc(brand.NAME)} mapped?</a>.</p>
 </article>`;
 
   const jsonld = [{
@@ -286,11 +298,20 @@ export function renderCountry(ctx, iso2) {
     isBasedOn: copy.attribution_url || undefined,
     isPartOf: { '@type': 'WebSite', name: brand.PUBLICATION, url: ctx.url('/') },
     creator: { '@type': 'Organization', name: brand.PUBLICATION, url: ctx.url('/') },
+    speakable: speakable(['h1', '.fc__lede']),
   }, breadcrumbs(ctx, [
     { name: 'World', path: '/world.html' },
     { name: 'Countries', path: '/country/' },
     { name: country.name, path },
-  ])];
+  ]), {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map(([q, a]) => ({
+      '@type': 'Question',
+      name: q,
+      acceptedAnswer: { '@type': 'Answer', text: a },
+    })),
+  }];
   if (stories.length) {
     jsonld.push({
       '@context': 'https://schema.org',
@@ -337,7 +358,7 @@ export function renderIndex(ctx) {
   <h1>Datacentres mapped by country</h1>
   <p class="fc__lede">A country earns a page when OpenStreetMap has at least ${COUNTRY_INDEX_MIN} datacentre sites mapped there, ${esc(qualifier)}. Fewer than that stays on the <a href="${esc(ctx.href('/world.html'))}">world map</a> only. ${esc(copy.what_zero_means || 'A country with no mapped datacentre is a country nobody has mapped.')}</p>
   ${rows ? `<ol class="fc__list">${rows}</ol>` : '<p>No country clears the gate in this file.</p>'}
-  <p class="fresh__key">Search-shaped directory: <a href="${esc(ctx.href('/countries.html'))}">AI datacentre countries this index covers</a>.</p>
+  <p class="fresh__key">Search-shaped directory: <a href="${esc(ctx.href('/countries.html'))}">Which AI datacentre countries has ${esc(brand.NAME)} mapped?</a>.</p>
 </article>`;
   return page({
     ctx,
@@ -379,11 +400,21 @@ export function renderCountries(ctx) {
   const copy = (ctx.world && ctx.world.copy) || {};
   const qualifier = String(copy.headline_qualifier || 'as mapped in OpenStreetMap');
   const path = '/countries.html';
-  const title = `AI datacentre countries this index covers · ${brand.NAME}`;
+  // Head-term title: people search “AI countries” / datacentre countries.
+  const title = `Which AI datacentre countries has ${brand.NAME} mapped?`;
   const description = clip(
     `${countries.length} countries with mapped datacentre hubs on ${brand.NAME}. Each row links /country pages — OpenStreetMap site counts only, not a national AI ranking.`,
     160,
   );
+  const faq = [
+    [`Which AI datacentre countries has ${brand.NAME} mapped?`,
+      `${countries.length} countries clear the substance gate of at least ${COUNTRY_INDEX_MIN} sites ${qualifier}. Each hub lists those mapped counts — not a national AI ranking or country doom score.`],
+    [`Does ${brand.NAME} publish a country doom score?`,
+      `No. ${brand.DISCLAIMER_SHORT} Numbers are OpenStreetMap datacentre site counts, not a ranking of how dangerous a country is.`],
+  ];
+  const faqHtml = faq.map(([q, a]) => `
+  <h3>${esc(q)}</h3>
+  <p>${esc(a)}</p>`).join('');
   const rows = countries.map((c) => `<li>
   <a href="${esc(ctx.href(countryPath(c.iso2)))}">${esc(c.name)}</a>
   <span class="fc__meta">${esc(c.iso2)}${c.continent ? ` · ${esc(c.continent)}` : ''} · <span class="num">${esc(n(c.total))}</span> mapped sites</span>
@@ -391,12 +422,14 @@ export function renderCountries(ctx) {
   const main = `${STYLE}
 <article class="fc prose">
   <p class="fc__k"><a href="${esc(ctx.href('/compare.html'))}">Compare</a> · <a href="${esc(ctx.href('/country/'))}">Countries</a> · Countries hub</p>
-  <h1>AI datacentre countries this index covers</h1>
+  <h1>Which AI datacentre countries has ${esc(brand.NAME)} mapped?</h1>
   <p class="fc__lede">${esc(brand.NAME)} does not publish a country “doom score” or a national AI ranking. It publishes mapped datacentre counts ${esc(qualifier)}. This page lists countries that already clear the same substance gate as <a href="${esc(ctx.href('/country/'))}">/country/</a> — at least ${COUNTRY_INDEX_MIN} sites in the OpenStreetMap harvest.</p>
   <div class="fc__stat" role="group" aria-label="Countries hub totals">
     <div><b class="num">${esc(n(countries.length))}</b><span>Country hubs</span></div>
   </div>
   ${countries.length ? `<ol class="fc__list">${rows}</ol>` : '<p>No country hub cleared the gate in this build.</p>'}
+  <h2 id="faq">Questions people actually ask</h2>
+  ${faqHtml}
   <p class="fresh__key"><a href="${esc(ctx.href('/country/'))}">Country directory →</a>
      · <a href="${esc(ctx.href('/world.html'))}">World map →</a>
      · <a href="${esc(ctx.href('/companies.html'))}">AI companies →</a>
@@ -414,6 +447,7 @@ export function renderCountries(ctx) {
       name: title,
       url: ctx.url(path),
       description,
+      speakable: speakable(['h1', '.fc__lede']),
       mainEntity: {
         '@type': 'ItemList',
         numberOfItems: countries.length,
@@ -427,7 +461,15 @@ export function renderCountries(ctx) {
     }, breadcrumbs(ctx, [
       { name: 'Compare', path: '/compare.html' },
       { name: 'Countries', path },
-    ])],
+    ]), {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faq.map(([q, a]) => ({
+        '@type': 'Question',
+        name: q,
+        acceptedAnswer: { '@type': 'Answer', text: a },
+      })),
+    }],
     main,
   });
 }

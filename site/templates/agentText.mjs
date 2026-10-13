@@ -356,7 +356,7 @@ ${facetLinks(ctx, u)}
 - [AI companies](${u('/companies.html')}): DoomBench-shaped company directory (same gated labs; no company doom score)
 - [News by day](${u('/news.html')}): UTC day hubs under /news/YYYY-MM-DD.html when a day clears five stories
 - [Datacentres by country](${u('/country/')}): mapped sites, one page per country with at least three
-- [AI datacentre countries](${u('/countries.html')}): country directory (same gated map counts; not a national AI ranking)
+- [AI datacentre countries](${u('/countries.html')}): which AI datacentre countries this index mapped (same gated map counts; not a national AI ranking)
 
 ## Complementary (not ${brand.NAME})
 

@@ -84,9 +84,12 @@ describe('country pages', () => {
 
   it('ships /countries.html over the same gated country set', () => {
     const html = renderCountries(ctx);
-    assert.match(html, /AI datacentre countries this index covers/);
+    assert.match(html, /Which AI datacentre countries has SIREN mapped\?/);
     assert.match(html, /\/country\/de\.html/);
     assert.match(html, /does not publish a country/);
+    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /"@type"\s*:\s*"FAQPage"/);
+    assert.match(html, /speakable/);
     assert.match(html, /\/world\.html/);
     assert.match(renderIndex(ctx), /\/countries\.html/);
     assert.match(renderCountry(ctx, 'de'), /\/countries\.html/);
@@ -96,8 +99,11 @@ describe('country pages', () => {
 
   it('renders the mapped count and does not claim a census of datacentres', () => {
     const html = renderCountry(ctx, 'de');
-    assert.match(html, /<h1>Datacentres mapped in Germany<\/h1>/);
+    assert.match(html, /How many datacentres has SIREN mapped in Germany\?/);
     assert.match(html, /Dataset/);
+    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /"@type"\s*:\s*"FAQPage"/);
+    assert.match(html, /speakable/);
     assert.match(html, /Berlin hall/);
     assert.match(html, /as mapped in OpenStreetMap on 2026-10-03/);
     assert.match(html, /country\/fr\.html/);
@@ -129,7 +135,7 @@ describe('country pages', () => {
     assert.match(html, /Older Germany chip fab story/);
     assert.match(html, /ItemList/);
     assert.match(html, /\/item\/archive\.html/);
-    assert.doesNotMatch(html, /not a ranking of national AI activity[\s\S]*doom score/i);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
   });
 
   it('matches US aliases without treating bare ISO as a needle', () => {
