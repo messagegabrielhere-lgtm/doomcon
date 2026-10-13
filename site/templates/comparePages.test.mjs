@@ -47,6 +47,8 @@ describe('compare / alternatives conquest pages', () => {
     assert.match(hub, /PizzINT/);
     assert.match(hub, /SIREN 4/);
     assert.match(hub, /55\.5/);
+    assert.match(hub, /Complementary \(not a doom index\)/);
+    assert.match(hub, /artificialanalysis\.ai/);
 
     const alt = alternatives(ctx);
     assert.match(alt, /<title>What are AI doom index alternatives\?/);
@@ -55,6 +57,8 @@ describe('compare / alternatives conquest pages', () => {
     assert.match(alt, /"@type"\s*:\s*"FAQPage"/);
     assert.match(alt, /Questions people actually ask/);
     assert.match(alt, /What is a good alternative to DoomBench/);
+    assert.match(alt, /Artificial Analysis/);
+    assert.match(alt, /artificialanalysis\.ai/);
   });
 
   it('keeps vs pages honest: no borrowed doom probability claim for SIREN', () => {

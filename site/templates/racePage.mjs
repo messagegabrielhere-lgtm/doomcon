@@ -1046,6 +1046,7 @@ function howComputed(ctx, race) {
   const kal = race.markets?.kalshi;
   const man = race.markets?.manifold;
   const w = race.news_window;
+  const aa = brand.COMPLEMENTS.find((c) => c.id === 'artificial-analysis');
 
   const item = (term, body) => `<div class="rmeth__i"><dt>${term}</dt><dd>${body}</dd></div>`;
 
@@ -1124,6 +1125,10 @@ function howComputed(ctx, race) {
     ${item('Mindshare', mindBody)}
     ${item('Loudness', loudBody)}
     ${item('Manifold', manBody)}
+    ${item('What this is not', `Not a quality ranking.
+      <a href="${esc(aa.url)}" rel="noopener">${esc(aa.name)}</a> publishes
+      independent intelligence, speed and cost leaderboards. ${esc(brand.NAME)} does not copy those
+      scores onto this page. Money-backed odds and shipping counts answer a different question.`)}
   </dl>
   <h3 class="rmeth__h3">What a blank reading means</h3>
   <ul class="rlegend">
@@ -1144,6 +1149,7 @@ function howComputed(ctx, race) {
 export function render(ctx) {
   if (!hasRace(ctx)) return emptyPage(ctx);
   const race = ctx.race;
+  const aa = brand.COMPLEMENTS.find((c) => c.id === 'artificial-analysis');
 
   const leader = race.players.find((p) => p.rank === 1) ?? null;
   const poly = race.markets?.polymarket;
@@ -1173,7 +1179,10 @@ ${avatarSprite()}
      and the people running them, ranked by a live prediction market and annotated with what each one
      actually shipped. Every number links to the thing it came from.</p>
   <p class="rclaim"><b>These are market odds and observable activity. They are not a
-     ${esc(brand.NAME)} prediction.</b> ${esc(race.rank_basis?.statement ?? '')}</p>
+     ${esc(brand.NAME)} prediction.</b> ${esc(race.rank_basis?.statement ?? '')}
+     They are also not the <a href="${esc(aa.url)}" rel="noopener">${esc(aa.name)}</a>
+     Intelligence Index &mdash; that ranks models on independent quality, speed and cost benchmarks.
+     This page ranks labs on live prediction-market prices.</p>
   ${liveHead(race, poly)}
 </section>
 

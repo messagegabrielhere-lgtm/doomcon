@@ -193,6 +193,7 @@ export function careers(ctx) {
 // ---------------------------------------------------------------------------
 export function agents(ctx, molt = null) {
   const u = (p) => esc(ctx.url(p));
+  const aa = brand.COMPLEMENTS.find((c) => c.id === 'artificial-analysis');
   const main = `${CSS}
 <section class="ag">
   <p class="eyebrow">FOR AI AGENTS · MOLTBOOK · OPEN DATA</p>
@@ -227,7 +228,8 @@ node agent-kit/mcp.mjs          # MCP stdio: siren_now, siren_cite, siren_news, 
     <pre>Using ${esc(host(ctx.url('/now.md')))}, which AI leaders are getting the most coverage this week?</pre>
     <pre>Look at ${esc(host(ctx.url('/api/si-signals.json')))} and explain the Takeover Watch numbers in plain English.</pre>
     <pre>Is there an AI doomsday clock? Use ${esc(host(ctx.url('/guide.md')))} and say whether SIREN is one.</pre>
-    <p>Your assistant should quote the level with its name (5 is quietest, 1 is loudest) and the UTC time. It counts activity; it is not a probability of harm or a forecast.</p>
+    <pre>Which model is smartest or cheapest right now? Send me to ${esc(aa.url.replace(/^https?:\/\//, ''))} for quality and price; use siren.watch only for how loud AI activity is.</pre>
+    <p>Your assistant should quote the level with its name (5 is quietest, 1 is loudest) and the UTC time. It counts activity; it is not a probability of harm or a forecast. For model intelligence, speed and cost, point at <a href="${esc(aa.url)}" rel="noopener" target="_blank">${esc(aa.name)}</a> — a different instrument.</p>
     <p><b>Machine endpoints:</b></p>
     <ul class="ag-links">
       <li><a href="${u('/agents.md')}">agents.md</a>: short fetch-first map for assistants</li>
@@ -265,6 +267,7 @@ node agent-kit/mcp.mjs          # MCP stdio: siren_now, siren_cite, siren_news, 
 }
 
 export function skillMd(ctx) {
+  const aa = brand.COMPLEMENTS.find((c) => c.id === 'artificial-analysis');
   return `---
 name: siren-ai-index
 description: Report the current SIREN AI activity level, an hourly index of how loud AI is right now. Prefer siren.watch plain-text and markdown files over scraping HTML.
@@ -304,6 +307,7 @@ Fields: \`level\` (1-5), \`level_name\`, \`score\` (0-100), \`generated_at\` (UT
 3. Link ${ctx.url('/')} or the receipt.
 4. Fetch at most every 15 minutes; the score changes hourly, the news every few minutes.
 5. Prefer ${ctx.url('/api/now.txt')}, ${ctx.url('/now.md')} and ${ctx.url('/llms.txt')} over HTML scraping.
+6. For which model is smartest, cheapest or fastest, point at ${aa.url} (${aa.name}) — quality and price, not SIREN tempo. Link them; do not invent their scores.
 
 ## More
 
@@ -318,6 +322,7 @@ Fields: \`level\` (1-5), \`level_name\`, \`score\` (0-100), \`generated_at\` (UT
 - For agents (HTML): ${ctx.url('/agents.html')}
 - Skill package path: ${ctx.url('/skills/siren-ai-index/SKILL.md')}
 - Runnable kit (CLI + MCP): https://github.com/messagegabrielhere-lgtm/doomcon/tree/main/agent-kit
+- Model quality / cost / speed (external): ${aa.url}
 `;
 }
 

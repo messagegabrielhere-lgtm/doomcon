@@ -134,6 +134,9 @@ test('llms.txt follows the llmstxt.org shape and lists the endpoints', () => {
   assert.match(txt, /## Explainers \(search head terms\)/);
   assert.match(txt, /## Instruments/);
   assert.match(txt, /who is winning the model race/);
+  assert.match(txt, /smartest, cheapest or fastest/);
+  assert.match(txt, /artificialanalysis\.ai/);
+  assert.match(txt, /## Complementary/);
   assert.match(txt, /ChatGPT \/ Grok/);
   assert.match(txt, /agent-kit/);
   assert.doesNotMatch(txt, /@[a-z0-9-]+\.[a-z]/i, 'no email addresses');
@@ -150,6 +153,7 @@ test('agents.md is a short fetch-first entry for ChatGPT and Grok', () => {
     assert.ok(md.includes(`https://siren.watch${p}`), p);
   }
   assert.match(md, /not a prediction|Never call it a prediction/);
+  assert.match(md, /artificialanalysis\.ai/);
   assert.match(md, /agent-kit/);
   assert.match(md, /siren_now|cli\.mjs/);
   assert.match(md, /api-catalog|agents\.txt/);

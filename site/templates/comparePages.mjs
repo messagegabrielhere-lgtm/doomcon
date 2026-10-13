@@ -209,6 +209,7 @@ function pageJsonLd(ctx, path, title, description, crumbs, faqPairs) {
 
 export function compareHub(ctx) {
   const path = '/compare.html';
+  const aa = brand.COMPLEMENTS.find((c) => c.id === 'artificial-analysis');
   // Head-term title: people search “AI doom indexes compared” / rival names.
   const title = `Which AI doom indexes can you compare? ${brand.NAME} vs DoomBench, Skynet, p(doom), PizzINT and Takeoff Tracker`;
   const description = `${brand.NAME} is an hourly AI activity count you can recompute. DoomBench scores takeover evidence, Skynet Countdown estimates AGI dates, p(doom) clocks publish opinions, PizzINT borrows DEFCON/Doomsday framing, and Takeoff Tracker aggregates AGI metrics. Side-by-side without borrowing their claims.`;
@@ -237,6 +238,11 @@ export function compareHub(ctx) {
     <h3><a href="${esc(ctx.href(r.path))}">${esc(brand.NAME)} vs ${esc(r.name)}</a></h3>
     <p>${esc(r.short)}. ${esc(r.measures)}. ${esc(r.recomputableNote)}.</p>
   </div>`).join('')}
+  <h2>Complementary (not a doom index)</h2>
+  <p>For <b>which model is smartest, cheapest or fastest</b>, use
+    <a href="${esc(aa.url)}" rel="noopener">${esc(aa.name)}</a>.
+    That is independent quality, speed and cost. ${esc(brand.NAME)} is tempo.
+    They pair; they do not substitute. We link out; we do not republish their leaderboard.</p>
   ${faqBlock(faq)}
   <h2>Also on this site</h2>
   <p><a href="${esc(ctx.href('/vs.html'))}">Versus directory →</a>
@@ -318,6 +324,7 @@ export function vsHub(ctx) {
 
 export function alternatives(ctx) {
   const path = '/alternatives.html';
+  const aa = brand.COMPLEMENTS.find((c) => c.id === 'artificial-analysis');
   // Head-term title: people search “DoomBench alternative” / “AI doom index alternatives”.
   const title = `What are AI doom index alternatives? Recomputable activity vs judgement clocks · ${brand.NAME}`;
   const description = `Looking for a DoomBench, Skynet Countdown, p(doom), PizzINT or Takeoff Tracker alternative? ${brand.NAME} is an hourly AI activity index with open code, CORS JSON and hash-chained receipts — not a DEFCON level or probability of doom.`;
@@ -354,6 +361,7 @@ export function alternatives(ctx) {
     <li>You want a personal extinction probability — that is p(doom), and it stays an opinion.</li>
     <li>You want Pentagon-pizza novelty or a military DEFCON reading — that is not an AI activity index; see /vs/pizzint.html.</li>
     <li>You want a multi-panel AGI takeoff dashboard (timelines, stocks, arena ranks, collected p(doom)) — that is Takeoff Tracker’s product, not ours.</li>
+    <li>You need model intelligence, speed or cost rankings — that is <a href="${esc(aa.url)}" rel="noopener">${esc(aa.name)}</a>, not an activity index.</li>
   </ul>
   <h2>One page per rival</h2>
   ${RIVALS.map((r) => `<div class="cmp__card">
