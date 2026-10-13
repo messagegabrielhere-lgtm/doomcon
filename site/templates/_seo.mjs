@@ -121,6 +121,8 @@ export function organization(ctx) {
       'Where is everything on SIREN listed',
       'SIREN search',
       'How do you search everything on SIREN',
+      'Tally the duty canary',
+      'Who is Tally, the SIREN duty canary',
       'AI labs this index scored',
       'AI stories this index scored',
       'AI leaders on the record',
