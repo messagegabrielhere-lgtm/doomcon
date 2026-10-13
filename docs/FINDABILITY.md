@@ -449,6 +449,7 @@ context.
 | 197 | `/classic.html` question-shaped title + WebPage speakable + visible FAQ matching FAQPage schema (full instrument panel; fix duplicate canonical `/`; refuse classic-as-doom-index / forecast / stuffing); IndexNow + seo-daily; `knowsAbout` “Where is the full SIREN instrument panel”; move pages link hub by tip #196 question title | Google + Bing | **Done** (2026-10-13) |
 | 198 | `/history.html` H1 + Article headline + ogTitle aligned to question title “What is the history of AI risk?”; FAQ lead question matches; sibling links; seo-daily monitors tipped hubs `/news.html` `/leaders.html` `/race.html` `/kinds.html` `/outlets.html` `/p-doom.html`; `knowsAbout` full question | Google + Bing | **Done** (2026-10-13) |
 | 199 | `/guide.html` question-shaped title + matching H1 + **visible** FAQ matching FAQPage schema (was schema-only); refuse DEFCON/Doomsday hijack / doom-probability / forecast; siblings history + methodology + p(doom); `knowsAbout` “How does SIREN compare to DEFCON…”; guide.md + GUIDES hub name aligned | Google + Bing | **Done** (2026-10-13) |
+| 200 | `/ai-doomsday-clock.html` H1 aligned to question title “Is there an AI doomsday clock?” + **visible** FAQ matching FAQPage schema (was schema-only); refuse SIREN-as-doomsday-clock / doom-probability / forecast; siblings guide + p(doom) + methodology; `knowsAbout` full question | Google + Bing | **Done** (2026-10-13) |
 
 ### 3.3 Refusals (search edition)
 
