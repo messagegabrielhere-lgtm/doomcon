@@ -41,11 +41,15 @@ describe('compare / alternatives conquest pages', () => {
     assert.match(hub, /Skynet Countdown/);
     assert.match(hub, /SIREN 4/);
     assert.match(hub, /55\.5/);
+    assert.match(hub, /Complementary \(not a doom index\)/);
+    assert.match(hub, /artificialanalysis\.ai/);
 
     const alt = alternatives(ctx);
     assert.match(alt, /AI doom index alternatives/);
     assert.match(alt, /DoomBench alternative/i);
     assert.match(alt, /"@type"\s*:\s*"FAQPage"/);
+    assert.match(alt, /Artificial Analysis/);
+    assert.match(alt, /artificialanalysis\.ai/);
   });
 
   it('keeps vs pages honest: no borrowed doom probability claim for SIREN', () => {
