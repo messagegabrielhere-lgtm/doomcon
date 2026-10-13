@@ -191,7 +191,7 @@ export function roomGroups(ctx) {
       ['/scanner.html', 'px:crosshair', 'Scanner', null, 'Screen stocks, ETFs and crypto in plain English.'],
       ['/bets.html', 'dice', 'Tally’s Bets', null, 'Does the SIREN index make forecasts?'],
       ['/day-after.html', 'px:megaphone', 'The Day After', 'NEW', 'What happens the day after an AI catastrophe?'],
-      ['/contain.html', 'px:core', 'Containment', 'GAME', 'Arcade: stop rogue AI processes breaching the firewall.'],
+      ['/contain.html', 'px:core', 'Containment', 'GAME', 'Can you stop an AI breakout?'],
       ['/game.html', 'joystick', 'Game', null, 'Thirty seconds: count signals, ignore predictions.'],
       ['/desk.html', 'px:notebook', 'Tally’s Desk', null, 'The unserious counts: robots and godfathers.'],
       ['/bunker-kit.html', 'bunker', 'Bunker Kit', null, 'What free tools belong in a bunker kit?'],

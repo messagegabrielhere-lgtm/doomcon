@@ -103,6 +103,8 @@ export function organization(ctx) {
       'What if an AI wakes up at 2:14 a.m.',
       'The Day After',
       'What happens the day after an AI catastrophe',
+      'Containment',
+      'Can you stop an AI breakout',
       'AI labs this index scored',
       'AI stories this index scored',
       'AI leaders on the record',
