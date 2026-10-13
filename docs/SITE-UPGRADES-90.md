@@ -2,7 +2,7 @@
 
 **Status:** living plan · written **2026-10-08** · window **Oct → Dec 2026**  
 **Audience:** ops + whoever merges site PRs  
-**Supersedes the calendar in** `docs/GROWTH.md` §90-day and `docs/COMPETITIVE.md` §7 for anything past 2026-10-08. Those files stay as research; this file is the queue.
+**Supersedes the calendar in** `docs/GROWTH.md` §90-day and `docs/COMPETITIVE.md` §7 for anything past 2026-10-08. Those files stay as research; this file is the **distribution** queue. Instrument completeness / reliability / interpretability lives in [`IMPROVEMENTS-v1.md`](IMPROVEMENTS-v1.md) (2026-10-13).
 
 Live: https://siren.watch/  
 Brand: **SIREN** (repo + Pages path still `doomcon`).
@@ -26,7 +26,7 @@ Brand: **SIREN** (repo + Pages path still `doomcon`).
 
 ### Already shipped (do not rebuild)
 
-Number-first home (v2), badge + embed, move pages + NewsArticle schema, level-change feed (`feed-level.xml`), pretty URL aliases (in flight / merged variously), compliance gates, health API, 14 source adapters, arena / watts / race / newsroom side rooms, news sitemap + OpenAPI + receipt index, `/nothing` skeptic counter (pizzint NEH riff), Plausible (or equivalent) path in brand/layout history.
+Number-first home (v2), badge + embed, move pages + NewsArticle schema, level-change feed (`feed-level.xml`), pretty URL aliases (in flight / merged variously), compliance gates, health API, 15+ source adapters (see `IMPROVEMENTS-v1.md` for datacrunch / wikipedia-zh), arena / watts / race / newsroom side rooms, news sitemap + OpenAPI + receipt index, `/nothing` skeptic counter (pizzint NEH riff), Plausible (or equivalent) path in brand/layout history.
 
 ### Jobs this plan serves (unchanged from GROWTH)
 

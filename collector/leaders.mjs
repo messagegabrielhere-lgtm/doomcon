@@ -379,6 +379,35 @@ const ROSTER = Object.freeze([
     news_query: { phrase: 'Alex Karp' },
     wikipedia: 'Alex Karp',
   },
+  // Added 2026-10-13 (IMPROVEMENTS-v1): broaden lab / research coverage beyond
+  // the frontier-six so "no recent statements" is measured for more principals.
+  {
+    id: 'li', name: 'Fei-Fei Li', initials: 'FL',
+    org: 'Stanford HAI', org_id: 'stanford-hai', role: 'Co-director',
+    aliases: ['Fei-Fei Li', 'Fei Fei Li', 'Li Fei-Fei'],
+    blocks: [],
+    race_player: null,
+    news_query: { phrase: 'Fei-Fei Li', extra: 'AI' },
+    wikipedia: 'Fei-Fei Li',
+  },
+  {
+    id: 'gomez', name: 'Aidan Gomez', initials: 'AG',
+    org: 'Cohere', org_id: 'cohere', role: 'CEO',
+    aliases: ['Aidan Gomez'],
+    blocks: [],
+    race_player: null,
+    news_query: { phrase: 'Aidan Gomez', extra: 'Cohere' },
+    wikipedia: 'Aidan Gomez',
+  },
+  {
+    id: 'delangue', name: 'Clem Delangue', initials: 'CD',
+    org: 'Hugging Face', org_id: 'huggingface', role: 'CEO',
+    aliases: ['Clem Delangue', 'Clément Delangue', 'Clement Delangue'],
+    blocks: [],
+    race_player: null,
+    news_query: { phrase: 'Clem Delangue' },
+    wikipedia: 'Clément Delangue',
+  },
 ]);
 
 // ---------------------------------------------------------------------------

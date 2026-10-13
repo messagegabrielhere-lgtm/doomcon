@@ -56,7 +56,8 @@ test('legacy call shape still works and keeps every field consumers read', () =>
     assert.equal(l.state, 'no_line');
   }
   // Feeds not run: people with sources read unreachable, people without read no_sources.
-  assert.equal(row(out, 'hinton').reason, 'no_sources');
+  assert.equal(row(out, 'hinton').reason, 'sources_unreachable'); // Vector Institute listed; offline run did not fetch it
+  assert.equal(row(out, 'sutskever').reason, 'no_sources');
   assert.equal(row(out, 'bengio').reason, 'sources_unreachable');
   assert.equal(row(out, 'bengio').group, 'unreachable');
   assert.equal(out.direct.ran, false);
