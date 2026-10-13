@@ -30,6 +30,7 @@
 
 import { esc, utc, utcDay, num } from './_html.mjs';
 import { page } from './layout.mjs';
+import { breadcrumbs, speakable } from './_seo.mjs';
 import * as brand from '../brand.mjs';
 
 const PATH = '/watts.html';
@@ -1133,22 +1134,49 @@ export function render(ctx) {
   if (!hasWatts(ctx)) return emptyPage(ctx);
   const infra = ctx.infra;
 
+  const title = `What does the ${brand.NAME} infrastructure index read?`;
   const headline = Number.isFinite(infra.score)
     ? `SUBSTRATE ${infra.level} ${infra.level_name} at ${num(infra.score, 1)}`
     : 'No reading on this build';
 
   const description =
-    `Power, water and the paper trail underneath the models. ` +
-    `${infra.counts.live} of ${infra.counts.total} keyless public feeds scored — grid overnight ` +
+    `What does the ${brand.NAME} infrastructure index read? ${headline}. ` +
+    `Power, water and the paper trail underneath the models — ` +
+    `${infra.counts.live} of ${infra.counts.total} keyless public feeds scored: grid overnight ` +
     `floors in three control regions, streamflow at nine gauges beside named datacentre clusters, ` +
-    `drought across ten states, and SEC and Federal Register build-out counts. ${headline}. ` +
+    `drought across ten states, and SEC and Federal Register build-out counts. ` +
     `It does not measure datacentre power draw, and the page says why. ` +
     `Compiled ${utc(infra.generated_at)}.`;
+
+  // FAQ answers restate hero / warning / cannot-tell copy only (FINDABILITY §3.3).
+  const scoreAnswer = Number.isFinite(infra.score)
+    ? `${num(infra.score, 1)} of 100 sits in SUBSTRATE ${infra.level} · ${infra.level_name}. ` +
+      `That is a count of how loaded the substrate is, not a claim about what anyone is building on it. ` +
+      `${infra.counts.live} of ${infra.counts.total} keyless public feeds scored.`
+    : 'No reading on this build. Every pillar is dark and nothing was computed.';
+  const faq = [
+    [title, scoreAnswer],
+    ['Does Watts measure datacentre power or water draw?',
+      'Nothing on this page measures datacentre power or datacentre water. No public feed separates ' +
+      'datacentre load from any other industrial load, and no arithmetic downstream can recover a ' +
+      'split the input never contained. What is measured here is the condition of the substrate ' +
+      'those datacentres are being built into.'],
+    [`Does Watts feed the main ${brand.NAME} number?`,
+      `This index does not feed the main ${brand.NAME} number and never has. Its sources are not in ` +
+      'the frozen reference distribution, so it is a separate instrument on a separate question.'],
+    ['Does SUBSTRATE mean the grid is in trouble?',
+      `SUBSTRATE ${infra.level ?? '—'} does not mean the grid is in trouble. It means the composite ` +
+      'of these readings sits in that band of the distribution this index has observed. A young ' +
+      'index has a short record, and a short record makes every reading look more ordinary than it may be.'],
+  ];
+  const faqHtml = faq.map(([qAsk, a]) => `
+  <h3>${esc(qAsk)}</h3>
+  <p>${esc(a)}</p>`).join('');
 
   const main = `<style>${infraCss()}</style>
 <section class="ihero">
   <p class="ihero__eyebrow">Watts · a ${esc(brand.NAME)} sub-index · does not feed the main number</p>
-  <h1 class="ihero__h1">The infrastructure index</h1>
+  <h1 class="ihero__h1">What does the ${esc(brand.NAME)} infrastructure index read?</h1>
   <p class="ihero__sub">The infrastructure index. The page is <b>WATTS</b>; the number on it is
      <b>SUBSTRATE</b>, five to one.</p>
   <p class="ihero__lede">Intelligence is electricity with extra steps. You cannot train a frontier
@@ -1179,33 +1207,56 @@ ${cannotTell(infra)}
 ${exclusions()}
 
 ${howComputed(ctx, infra)}
+
+<section class="ifaq" aria-labelledby="faq">
+  <h2 id="faq">Questions people actually ask</h2>
+  ${faqHtml}
+  <p class="ifaq__key">Search-shaped sibling:
+    <a href="${esc(ctx.href('/map.html'))}">How many datacentres has ${esc(brand.NAME)} mapped in the United States?</a>.</p>
+</section>
 `;
 
   return page({
     ctx,
     path: PATH,
-    title: `The infrastructure index — ${headline} · ${brand.NAME}`,
-    ogTitle: `${brand.NAME} Watts: the infrastructure index — ${headline}`,
+    title: `${title} · ${headline} · ${brand.NAME}`,
+    ogTitle: `${brand.NAME}: ${title}`,
     description,
     ogImage: ctx.cardFor ? ctx.cardFor('watts') : null,
     ogImageAlt: `${brand.NAME} Watts, the infrastructure index: ${headline}`,
-    jsonld: [dataset(ctx, infra)],
+    jsonld: [
+      dataset(ctx, infra, title),
+      breadcrumbs(ctx, [
+        { name: 'Home', path: '/' },
+        { name: 'Watts', path: PATH },
+      ]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map(([qAsk, a]) => ({
+          '@type': 'Question',
+          name: qAsk,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
+      },
+    ],
     main,
   });
 }
 
 /** ctx.infra absent. Builds, says so plainly, and carries noindex. */
 function emptyPage(ctx) {
+  const title = `What does the ${brand.NAME} infrastructure index read?`;
   return page({
     ctx,
     path: PATH,
     noindex: true,
-    title: `The infrastructure index · ${brand.NAME}`,
+    title: `${title} · ${brand.NAME}`,
     description: `${brand.NAME}'s infrastructure index has not published a run yet.`,
     main: `<style>${infraCss()}</style>
 <section class="ihero">
   <p class="ihero__eyebrow">Watts · a ${esc(brand.NAME)} sub-index</p>
-  <h1 class="ihero__h1">The infrastructure index</h1>
+  <h1 class="ihero__h1">What does the ${esc(brand.NAME)} infrastructure index read?</h1>
   <p class="ihero__sub">The infrastructure index.</p>
   <p class="ihero__lede">No run has been published in this build. This is not an empty result — it is
      the absence of a result, and the two are different states.</p>
@@ -1214,19 +1265,23 @@ function emptyPage(ctx) {
   });
 }
 
-function dataset(ctx, infra) {
+function dataset(ctx, infra, title) {
   return {
     '@context': 'https://schema.org',
     '@type': 'Dataset',
-    name: `${brand.NAME} Watts — the infrastructure index`,
+    name: title || `What does the ${brand.NAME} infrastructure index read?`,
     description:
       'Grid overnight demand floors, streamflow against long-run normals at nine gauges beside ' +
       'datacentre clusters, US Drought Monitor severity across ten states, and SEC and Federal ' +
-      'Register build-out counts. Keyless public sources only.',
+      'Register build-out counts. Keyless public sources only. It does not measure datacentre ' +
+      'power or water draw; no public feed publishes that split.',
     url: ctx.url(PATH),
     license: 'https://creativecommons.org/licenses/by/4.0/',
     creator: { '@type': 'Organization', name: brand.NAME, url: ctx.url('/') },
     dateModified: infra.generated_at,
+    isAccessibleForFree: true,
+    keywords: ['infrastructure index', 'artificial intelligence', 'electricity grid', 'drought', 'streamflow', 'datacentres'],
+    speakable: speakable(['h1.ihero__h1', 'p.ihero__lede']),
     distribution: [{
       '@type': 'DataDownload',
       encodingFormat: 'application/json',
@@ -1257,6 +1312,12 @@ function infraCss() {
 .ihero__sub b{color:var(--ink);font-weight:600;letter-spacing:.06em}
 .ihero__plain{font:400 var(--t-base)/1.55 var(--sans);margin:0 0 var(--s-5);max-width:58ch;
   padding:var(--s-3) var(--s-4);background:var(--wash-alt);border-left:3px solid var(--accent);border-radius:var(--radius)}
+
+.ifaq{margin:var(--sec) 0 var(--s-5);max-width:62ch}
+.ifaq h2{font:600 var(--t-lg)/1.2 var(--sans);margin:0 0 var(--s-3)}
+.ifaq h3{font:600 var(--t-base)/1.3 var(--sans);margin:var(--s-4) 0 var(--s-2)}
+.ifaq p{font:400 var(--t-base)/1.55 var(--sans);color:var(--ink-dim);margin:0 0 var(--s-2)}
+.ifaq__key{margin-top:var(--s-4)!important}
 
 .irail{margin:0 0 var(--s-4)}
 .irail__svg{display:block;width:100%;height:auto}

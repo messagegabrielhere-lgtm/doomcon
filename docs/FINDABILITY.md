@@ -372,6 +372,7 @@ context.
 | 139 | `/world.html` question-shaped title + Dataset speakable + visible FAQ matching FAQPage schema; IndexNow + seo-daily; `knowsAbout` “how many datacentres mapped on Earth” | Google + Bing | **Done** (2026-10-13) |
 | 140 | Entity lab Suno (`/lab/suno`, live/archive ≥3 gate; refuse bare “sun”); news:keywords + IndexNow + seo-daily surface | Google + Bing | **Done** (2026-10-13) |
 | 141 | `/map.html` question-shaped title + Dataset speakable + visible FAQ matching FAQPage schema; IndexNow + seo-daily; `knowsAbout` “how many datacentres mapped in the United States” | Google + Bing | **Done** (2026-10-13) |
+| 142 | `/watts.html` question-shaped title + Dataset speakable + visible FAQ matching FAQPage schema; IndexNow + seo-daily; `knowsAbout` “SIREN infrastructure index” / “what does the SIREN infrastructure index read” | Google + Bing | **Done** (2026-10-13) |
 
 ### 3.3 Refusals (search edition)
 
