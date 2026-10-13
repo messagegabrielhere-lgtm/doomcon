@@ -12,10 +12,16 @@
 // A story is never posted twice; posts are at least MIN_GAP_H apart and at
 // most MAX_PER_DAY a day (ledger: data/pulse-posted.ndjson).
 //
+// System and health status never goes out. pulse, agent-watch and takeover
+// share preparePulsePost(): a degraded reading, a missing or imputed pillar,
+// a pillar with no frozen baseline, or a reading with no real number is
+// skipped and the reason is logged. Drafts that say so are withheld too.
+//
 //   node collector/post-pulse.mjs pulse|agent-watch|takeover [--dry-run]
 //   node collector/post-pulse.mjs --selftest
 import { readFileSync, appendFileSync, existsSync } from 'node:fs';
 import { preflightX, postToX, printResults, readCredentials, X_TWEETS_URL } from './post-x.mjs';
+import { indexReading, readingBlockReason, selfTest as xReadGuardSelfTest, xMessageBlock } from './x-read-guard.mjs';
 
 const LEDGER = 'data/pulse-posted.ndjson';
 export const MIN_GAP_H = 3;
@@ -124,12 +130,44 @@ export function pick(cands, ledger) {
 }
 
 /**
+ * The one decision pulse, agent-watch and takeover share. Returns the draft
+ * to send, or why nothing should be sent. Status drafts are listed on
+ * `withheld` even when a real reading is still posted.
+ */
+export function preparePulsePost({ state, candidates, ledger }) {
+  const readWhy = readingBlockReason(state);
+  if (readWhy) return { post: null, why: readWhy, withheld: [] };
+  const withheld = [];
+  const allowed = [];
+  for (const c of candidates || []) {
+    const why = xMessageBlock(c && c.text);
+    if (why) withheld.push(why);
+    else allowed.push(c);
+  }
+  const unique = [...new Set(withheld)];
+  const post = pick(allowed, ledger || []);
+  if (post) return { post, why: null, withheld: unique };
+  if (!allowed.length && unique.length) return { post: null, why: unique.join('; '), withheld: unique };
+  return { post: null, why: 'no candidate passed the preflight', withheld: unique };
+}
+
+/**
  * Send one already-chosen pulse. readCredentials() returns { ok, creds } or
  * { ok: false, missing }; postToX wants the bare creds object. Same unwrap as
  * post-daily (channelCredentials) and dispatch/post-alerts.mjs. A missing
  * secret throws the env names and never a value. `transport` is for selfTest.
  */
-export async function postPulse({ text, env = process.env, transport } = {}) {
+export async function postPulse({ text, state, env = process.env, transport } = {}) {
+  const reasons = [];
+  const readWhy = readingBlockReason(state);
+  if (readWhy) reasons.push(readWhy);
+  const textWhy = xMessageBlock(text);
+  if (textWhy) reasons.push(textWhy);
+  if (reasons.length) {
+    const why = reasons.join('; ');
+    console.log(`pulse: skipping — ${why}`);
+    return { outcome: 'skipped', why };
+  }
   const auth = readCredentials(env);
   if (!auth.ok) throw new Error(`missing ${auth.missing.join(', ')}`);
   return postToX({ text, png: null, creds: auth.creds, ...(transport ? { transport } : {}) });
@@ -141,15 +179,23 @@ async function main(argv) {
   const state = read('data/state.json');
   if (!state) throw new Error('no data/state.json');
   const ledger = readLedger();
-  const why = canPost(ledger, kind);
-  if (why && !dry) { console.log(`pulse: skipping (${why})`); return; }
   const cands = kind === 'agent-watch' ? agentWatchCandidates(state, read('data/moltbook.json')) : kind === 'takeover' ? takeoverCandidates(state, read('data/si-signals.json')) : pulseCandidates(state, read('data/news.json'));
-  const c = pick(cands, ledger);
-  if (!c) { console.log('pulse: no candidate passed the preflight'); return; }
-  console.log(`pulse (${kind}): ${c.text}`);
+  const prepared = preparePulsePost({ state, candidates: cands, ledger });
+  if (!prepared.post) {
+    console.log(`pulse (${kind}): skipping — ${prepared.why}`);
+    return;
+  }
+  const whyNot = canPost(ledger, kind);
+  if (whyNot && !dry) { console.log(`pulse: skipping (${whyNot})`); return; }
+  if (prepared.withheld.length) console.log(`pulse (${kind}): withheld system or health status (${prepared.withheld.join('; ')})`);
+  console.log(`pulse (${kind}): ${prepared.post.text}`);
   if (dry) return;
-  const res = await postPulse({ text: c.text });
-  appendFileSync(LEDGER, JSON.stringify({ schema: 1, kind, story: c.story, posted_at: new Date().toISOString(), outcome: res.outcome, post_id: res.id, text: c.text }) + '\n');
+  const res = await postPulse({ text: prepared.post.text, state });
+  if (!res || res.outcome === 'skipped') {
+    console.log(`pulse (${kind}): skipping — ${(res && res.why) || 'not a real index read'}`);
+    return;
+  }
+  appendFileSync(LEDGER, JSON.stringify({ schema: 1, kind, story: prepared.post.story, posted_at: new Date().toISOString(), outcome: res.outcome, post_id: res.id, text: prepared.post.text }) + '\n');
   console.log(`pulse: ${res.outcome} ${res.url || ''}`);
 }
 
@@ -165,6 +211,9 @@ export async function selfTest() {
   const fullEnv = {
     X_API_KEY: 'k-SENTINEL', X_API_SECRET: 's-SENTINEL', X_ACCESS_TOKEN: 't-SENTINEL', X_ACCESS_SECRET: 'ts-SENTINEL',
   };
+  const healthy = indexReading();
+
+  for (const r of xReadGuardSelfTest()) results.push(r);
 
   await check('postPulse names missing env vars and sends nothing', async () => {
     let n = 0;
@@ -172,6 +221,7 @@ export async function selfTest() {
     try {
       await postPulse({
         text: FIXTURE_PULSE_TEXT,
+        state: healthy,
         env: { X_API_KEY: 'k-SENTINEL', X_API_SECRET: '   ' },
         transport: async () => { n++; return { status: 201, text: '{"data":{"id":"1"}}' }; },
       });
@@ -188,6 +238,7 @@ export async function selfTest() {
     const calls = [];
     const res = await postPulse({
       text: FIXTURE_PULSE_TEXT,
+      state: healthy,
       env: fullEnv,
       transport: async (req) => {
         calls.push({ url: req.url, body: String(req.body), authorization: req.headers.authorization });
@@ -204,6 +255,51 @@ export async function selfTest() {
     eq(res.id, '1880000000000000099', 'id');
     const visible = `${calls[0].body} ${res.url || ''} ${res.outcome}`;
     if (visible.includes('SENTINEL')) throw new Error('a credential value leaked into the body or result');
+  });
+
+  await check('postPulse sends nothing for system or health status, or a reading that is not a real number', async () => {
+    const samples = [
+      { text: 'SIREN is degraded as of 14:30 UTC. 1 of 5 pillars has no frozen baseline yet: markets.', state: healthy, pattern: /degraded index notice/ },
+      { text: 'Skynet status at 14:30 UTC. SIREN 4, 49.3 of 100.', state: healthy, pattern: /status wording/ },
+      { text: 'Source health is healthy. SIREN 4, 49.3 of 100.', state: healthy, pattern: /health wording/ },
+      { text: 'The collector returned an error.', state: healthy, pattern: /errors/ },
+      { text: 'The value was imputed.', state: healthy, pattern: /imputed values/ },
+      { text: FIXTURE_PULSE_TEXT, state: indexReading({ degraded: true }), pattern: /index is degraded/ },
+      {
+        text: FIXTURE_PULSE_TEXT,
+        state: indexReading({
+          uncalibrated_pillars: ['markets'],
+          pillars: healthy.pillars.map((p) => (p.id === 'markets' ? { ...p, uncalibrated: true, score: null } : p)),
+        }),
+        pattern: /no frozen baseline/,
+      },
+      {
+        text: FIXTURE_PULSE_TEXT,
+        state: indexReading({
+          dark_pillars: ['markets'],
+          pillars: healthy.pillars.map((p) => (p.id === 'markets' ? { ...p, dark: true, score: null } : p)),
+        }),
+        pattern: /is missing/,
+      },
+      {
+        text: FIXTURE_PULSE_TEXT,
+        state: indexReading({ pillars: healthy.pillars.map((p) => (p.id === 'markets' ? { ...p, imputed: true } : p)) }),
+        pattern: /imputed/,
+      },
+      { text: FIXTURE_PULSE_TEXT, state: indexReading({ score: null }), pattern: /no real number/ },
+    ];
+    for (const sample of samples) {
+      let n = 0;
+      const res = await postPulse({
+        text: sample.text,
+        state: sample.state,
+        env: fullEnv,
+        transport: async () => { n++; return { status: 201, text: '{"data":{"id":"1"}}' }; },
+      });
+      eq(n, 0, `requests for ${sample.text.slice(0, 40)}`);
+      eq(res.outcome, 'skipped', 'outcome');
+      if (!sample.pattern.test(res.why)) throw new Error(`expected ${sample.pattern}, got ${res.why}`);
+    }
   });
 
   await check('passing the raw readCredentials() result into postToX sends nothing', async () => {
