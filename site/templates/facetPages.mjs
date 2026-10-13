@@ -11,7 +11,7 @@ import { fileURLToPath } from 'node:url';
 import { publishedEntities, entitySlug } from '../../collector/news-sources/_entities.mjs';
 import { esc, num, utc } from './_html.mjs';
 import { page } from './layout.mjs';
-import { breadcrumbs } from './_seo.mjs';
+import { breadcrumbs, speakable } from './_seo.mjs';
 import { slugFor } from './itemPage.mjs';
 import * as brand from '../brand.mjs';
 
@@ -518,15 +518,28 @@ export function renderLab(ctx, player) {
   const indexable = labIndexable(ctx, player);
   const m = player.market || {};
   const entityOnly = Boolean(player.entityOnly);
+  const total = items.length + archivedAll.length;
+  // Head-term title: people search “{lab} AI stories” / company doom score.
   const title = entityOnly
-    ? `${player.name}: AI stories this index scored · ${brand.NAME}`
-    : `${player.name} AI activity & market odds · ${brand.NAME}`;
+    ? `What has ${brand.NAME} scored about ${player.name}? AI stories, not a company score`
+    : `What has ${brand.NAME} scored about ${player.name}? AI stories & market odds`;
   const description = clip(
     entityOnly
       ? `${player.name} on ${brand.NAME}: ${items.length} related scored stories in the current window. No prediction-market row for this lab — story counts only.`
       : `${player.name} on ${brand.NAME}: live prediction-market odds ${fmtPct(m.probability)}, shipping and mindshare when reported, plus ${items.length} related scored stories.`,
     160,
   );
+  const faq = [
+    [`What has ${brand.NAME} scored about ${player.name}?`,
+      entityOnly
+        ? `${total} scored stories name ${player.name} on ${brand.NAME} (${items.length} in the live window${archivedAll.length ? `, ${archivedAll.length} older in the archive` : ''}). Story counts only — this page does not invent market odds.`
+        : `${player.name} on ${brand.NAME}: live prediction-market odds ${fmtPct(m.probability)} when published, plus ${items.length} related scored stories in the live window${archivedAll.length ? ` and ${archivedAll.length} older in the archive` : ''}.`],
+    [`Does ${brand.NAME} publish a ${player.name} doom score?`,
+      `No. ${brand.DISCLAIMER_SHORT} Numbers here are story counts${entityOnly ? '' : ' and, where published, prediction-market prices'} — not a ranking of how dangerous a company is.`],
+  ];
+  const faqHtml = faq.map(([q, a]) => `
+  <h3>${esc(q)}</h3>
+  <p>${esc(a)}</p>`).join('');
 
   const labs = allLabs(ctx)
     .filter((p) => p.id !== player.id)
@@ -558,7 +571,7 @@ export function renderLab(ctx, player) {
   const main = `${STYLE}
 <article class="fc prose">
   <p class="fc__k"><a href="${esc(ctx.href('/race.html'))}">The Race</a> · <a href="${esc(ctx.href('/lab/'))}">Labs</a> · <a href="${esc(ctx.href('/companies.html'))}">Companies</a></p>
-  <h1>${esc(player.name)}</h1>
+  <h1>What has ${esc(brand.NAME)} scored about ${esc(player.name)}?</h1>
   <p class="fc__lede">${esc(player.principal ? `${player.name}, principal ${player.principal}.` : player.name)}
      ${entityOnly
     ? 'Stories are scored newsroom items that name this lab. This page does not invent market odds.'
@@ -569,6 +582,8 @@ export function renderLab(ctx, player) {
     ? `<ol class="fc__list">${itemRows(ctx, items)}</ol>`
     : `<p>No scored story in the current window names ${esc(player.name)}.${entityOnly ? '' : ' The race row above is still the addressable unit.'}</p>`}
   ${olderBlock}
+  <h2 id="faq">Questions people actually ask</h2>
+  ${faqHtml}
   <h2>Other labs</h2>
   <nav class="fc__labs" aria-label="Labs">${labs}</nav>
 </article>`;
@@ -587,6 +602,7 @@ export function renderLab(ctx, player) {
       description,
       about: { '@type': 'Organization', name: player.name },
       isPartOf: { '@type': 'WebSite', name: brand.PUBLICATION, url: ctx.url('/') },
+      speakable: speakable(['h1', '.fc__lede']),
       mainEntity: {
         '@type': 'ItemList',
         numberOfItems: Math.min(items.length, 40),
@@ -601,7 +617,15 @@ export function renderLab(ctx, player) {
       { name: 'The Race', path: '/race.html' },
       { name: 'Labs', path: '/lab/' },
       { name: player.name, path },
-    ])],
+    ]), {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faq.map(([q, a]) => ({
+        '@type': 'Question',
+        name: q,
+        acceptedAnswer: { '@type': 'Answer', text: a },
+      })),
+    }],
     main,
   });
 }
@@ -666,11 +690,21 @@ export function renderLabIndex(ctx) {
 export function renderCompanies(ctx) {
   const labs = indexableLabs(ctx);
   const path = '/companies.html';
-  const title = `AI companies this index covers · ${brand.NAME}`;
+  // Head-term title: people search “AI companies” / DoomBench companies shape.
+  const title = `Which AI companies has ${brand.NAME} scored stories about?`;
   const description = clip(
     `${labs.length} AI companies and labs with scored-story hubs on ${brand.NAME}. Each row links /lab pages — tempo and story counts, not a company doom score.`,
     160,
   );
+  const faq = [
+    [`Which AI companies has ${brand.NAME} scored stories about?`,
+      `${labs.length} companies and labs clear the substance gate — race-board rows or at least ${ENTITY_LAB_MIN} matching headlines. Each hub lists those stories — not a company doom score.`],
+    [`Does ${brand.NAME} publish a company doom score?`,
+      `No. ${brand.DISCLAIMER_SHORT} Numbers are story counts and, where published, prediction-market prices.`],
+  ];
+  const faqHtml = faq.map(([q, a]) => `
+  <h3>${esc(q)}</h3>
+  <p>${esc(a)}</p>`).join('');
   const rows = labs.map((p) => `<li>
   <a href="${esc(ctx.href(labPath(p.id)))}">${esc(p.name)}</a>
   <span class="fc__meta">${p.entityOnly ? 'Story hub' : 'Race board + stories'} · <span class="num">${esc(String(p.count))}</span> in window</span>
@@ -678,12 +712,14 @@ export function renderCompanies(ctx) {
   const main = `${STYLE}
 <article class="fc prose">
   <p class="fc__k"><a href="${esc(ctx.href('/compare.html'))}">Compare</a> · <a href="${esc(ctx.href('/lab/'))}">Labs</a> · Companies</p>
-  <h1>AI companies this index covers</h1>
+  <h1>Which AI companies has ${esc(brand.NAME)} scored stories about?</h1>
   <p class="fc__lede">${esc(brand.NAME)} does not publish a company “doom score.” It publishes an activity index and scored stories. This page lists companies and labs that already clear the same substance gate as <a href="${esc(ctx.href('/lab/'))}">/lab/</a> — race-board rows or at least ${ENTITY_LAB_MIN} matching headlines in the live window.</p>
   <div class="fc__stat" role="group" aria-label="Company hub totals">
     <div><b class="num">${esc(String(labs.length))}</b><span>Company / lab hubs</span></div>
   </div>
   ${labs.length ? `<ol class="fc__list">${rows}</ol>` : '<p>No company hub cleared the gate in this build.</p>'}
+  <h2 id="faq">Questions people actually ask</h2>
+  ${faqHtml}
   <p class="fresh__key"><a href="${esc(ctx.href('/lab/'))}">Lab directory →</a>
      · <a href="${esc(ctx.href('/compare.html'))}">How this index differs from DoomBench →</a>
      · <a href="${esc(ctx.href('/race.html'))}">Race board →</a></p>
@@ -700,6 +736,7 @@ export function renderCompanies(ctx) {
       name: title,
       url: ctx.url(path),
       description,
+      speakable: speakable(['h1', '.fc__lede']),
       mainEntity: {
         '@type': 'ItemList',
         numberOfItems: labs.length,
@@ -713,7 +750,15 @@ export function renderCompanies(ctx) {
     }, breadcrumbs(ctx, [
       { name: 'Compare', path: '/compare.html' },
       { name: 'Companies', path },
-    ])],
+    ]), {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faq.map(([q, a]) => ({
+        '@type': 'Question',
+        name: q,
+        acceptedAnswer: { '@type': 'Answer', text: a },
+      })),
+    }],
     main,
   });
 }

@@ -175,7 +175,10 @@ describe('lab facets', () => {
 
   it('renders lab landings under /lab/', () => {
     const html = renderLab(ctx, ctx.race.players[0]);
-    assert.match(html, /<title>OpenAI AI activity/);
+    assert.match(html, /<title>What has SIREN scored about OpenAI\?/);
+    assert.match(html, /SpeakableSpecification/);
+    assert.match(html, /FAQPage/);
+    assert.match(html, /Questions people actually ask/);
     assert.match(html, /lab\/anthropic\.html/);
     assert.match(html, /CollectionPage/);
     assert.equal(labPath('openai'), '/lab/openai.html');
@@ -209,7 +212,7 @@ describe('lab facets', () => {
     assert.ok(ms);
     assert.equal(labIndexable(ctx, ms), true);
     const html = renderLab(ctx, ms);
-    assert.match(html, /<title>Microsoft: AI stories this index scored/);
+    assert.match(html, /<title>What has SIREN scored about Microsoft\?/);
     assert.match(html, /does not invent market odds/);
     assert.doesNotMatch(html, /Market odds \(best model\)/);
   });
@@ -245,7 +248,7 @@ describe('lab facets', () => {
     const ids = labsFromEntities(rich).map((p) => p.id);
     assert.ok(ids.includes('oracle'));
     assert.ok(ids.includes('palantir'));
-    assert.match(renderLab(rich, labsFromEntities(rich).find((p) => p.id === 'oracle')), /Oracle: AI stories this index scored/);
+    assert.match(renderLab(rich, labsFromEntities(rich).find((p) => p.id === 'oracle')), /What has SIREN scored about Oracle\?/);
   });
 
   it('lets the durable archive keep an entity lab above the substance gate', () => {
@@ -332,9 +335,9 @@ describe('lab facets', () => {
     assert.ok(groq, 'Groq clears ENTITY_LAB_MIN via archive');
     assert.equal(labIndexable(withArch, groq), true);
     const html = renderLab(withArch, groq);
-    assert.match(html, /<title>Groq: AI stories this index scored/);
+    assert.match(html, /<title>What has SIREN scored about Groq\?/);
     assert.doesNotMatch(html, /noindex/);
-    assert.doesNotMatch(html, /doom score/i);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
   });
 
   it('indexes Physical Intelligence as an entity lab when archive stories clear the gate', () => {
@@ -358,8 +361,8 @@ describe('lab facets', () => {
     };
     const pi = labsFromEntities(withArch).find((p) => p.id === 'physical-intelligence');
     assert.ok(pi, 'Physical Intelligence clears ENTITY_LAB_MIN');
-    assert.match(renderLab(withArch, pi), /Physical Intelligence: AI stories this index scored/);
-    assert.doesNotMatch(renderLab(withArch, pi), /doom score/i);
+    assert.match(renderLab(withArch, pi), /What has SIREN scored about Physical Intelligence\?/);
+    assert.doesNotMatch(renderLab(withArch, pi), /doom score:\s*\d/i);
   });
 
   it('indexes CoreWeave, Qualcomm, Tesla, Waymo, Micron, and TSMC entity labs from archive', () => {
@@ -445,9 +448,9 @@ describe('lab facets', () => {
     for (const id of ['coreweave', 'qualcomm', 'tesla', 'waymo', 'micron', 'tsmc']) {
       assert.ok(ids.includes(id), id);
     }
-    assert.match(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'coreweave')), /CoreWeave: AI stories this index scored/);
-    assert.match(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'tsmc')), /TSMC: AI stories this index scored/);
-    assert.doesNotMatch(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'tesla')), /doom score/i);
+    assert.match(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'coreweave')), /What has SIREN scored about CoreWeave\?/);
+    assert.match(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'tsmc')), /What has SIREN scored about TSMC\?/);
+    assert.doesNotMatch(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'tesla')), /doom score:\s*\d/i);
   });
 
   it('indexes Samsung, ASML, and Cognition entity labs when archive stories clear the gate', () => {
@@ -497,10 +500,10 @@ describe('lab facets', () => {
     assert.ok(ids.includes('samsung'));
     assert.ok(ids.includes('asml'));
     assert.ok(ids.includes('cognition'));
-    assert.match(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'samsung')), /Samsung: AI stories this index scored/);
-    assert.match(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'asml')), /ASML: AI stories this index scored/);
-    assert.match(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'cognition')), /Cognition: AI stories this index scored/);
-    assert.doesNotMatch(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'cognition')), /doom score/i);
+    assert.match(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'samsung')), /What has SIREN scored about Samsung\?/);
+    assert.match(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'asml')), /What has SIREN scored about ASML\?/);
+    assert.match(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'cognition')), /What has SIREN scored about Cognition\?/);
+    assert.doesNotMatch(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'cognition')), /doom score:\s*\d/i);
   });
 
   it('indexes Decart, Sakana AI, Isomorphic Labs, Winverse AI, and Cisco entity labs from archive', () => {
@@ -574,12 +577,12 @@ describe('lab facets', () => {
     for (const id of ['decart', 'sakana-ai', 'isomorphic-labs', 'winverse-ai', 'cisco']) {
       assert.ok(ids.includes(id), id);
     }
-    assert.match(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'decart')), /Decart: AI stories this index scored/);
-    assert.match(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'sakana-ai')), /Sakana AI: AI stories this index scored/);
-    assert.match(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'isomorphic-labs')), /Isomorphic Labs: AI stories this index scored/);
-    assert.match(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'winverse-ai')), /Winverse AI: AI stories this index scored/);
-    assert.match(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'cisco')), /Cisco: AI stories this index scored/);
-    assert.doesNotMatch(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'decart')), /doom score/i);
+    assert.match(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'decart')), /What has SIREN scored about Decart\?/);
+    assert.match(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'sakana-ai')), /What has SIREN scored about Sakana AI\?/);
+    assert.match(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'isomorphic-labs')), /What has SIREN scored about Isomorphic Labs\?/);
+    assert.match(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'winverse-ai')), /What has SIREN scored about Winverse AI\?/);
+    assert.match(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'cisco')), /What has SIREN scored about Cisco\?/);
+    assert.doesNotMatch(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'decart')), /doom score:\s*\d/i);
   });
 
   it('indexes Epoch AI entity lab from archive (two-word form only)', () => {
@@ -608,9 +611,9 @@ describe('lab facets', () => {
     const epoch = labsFromEntities(withArch).find((p) => p.id === 'epoch-ai');
     assert.ok(epoch, 'Epoch AI clears ENTITY_LAB_MIN');
     const html = renderLab(withArch, epoch);
-    assert.match(html, /Epoch AI: AI stories this index scored/);
+    assert.match(html, /What has SIREN scored about Epoch AI\?/);
     assert.doesNotMatch(html, /An epoch of history/);
-    assert.doesNotMatch(html, /doom score/i);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/lab/epoch-ai.html'));
   });
 
@@ -640,9 +643,9 @@ describe('lab facets', () => {
     const aa = labsFromEntities(withArch).find((p) => p.id === 'artificial-analysis');
     assert.ok(aa, 'Artificial Analysis clears ENTITY_LAB_MIN');
     const html = renderLab(withArch, aa);
-    assert.match(html, /Artificial Analysis: AI stories this index scored/);
+    assert.match(html, /What has SIREN scored about Artificial Analysis\?/);
     assert.doesNotMatch(html, /An analysis of artificial general/);
-    assert.doesNotMatch(html, /doom score/i);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/lab/artificial-analysis.html'));
   });
 
@@ -684,8 +687,8 @@ describe('lab facets', () => {
     const ids = labsFromEntities(withArch).map((p) => p.id);
     assert.ok(ids.includes('salesforce'), 'Salesforce clears ENTITY_LAB_MIN');
     assert.ok(ids.includes('world-labs'), 'World Labs clears ENTITY_LAB_MIN');
-    assert.match(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'salesforce')), /Salesforce: AI stories this index scored/);
-    assert.match(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'world-labs')), /World Labs: AI stories this index scored/);
+    assert.match(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'salesforce')), /What has SIREN scored about Salesforce\?/);
+    assert.match(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'world-labs')), /What has SIREN scored about World Labs\?/);
     assert.doesNotMatch(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'world-labs')), /A world of labs/);
     assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/lab/salesforce.html'));
     assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/lab/world-labs.html'));
@@ -750,11 +753,11 @@ describe('lab facets', () => {
     for (const id of ['supermicro', 'iren', 'openrouter', 'reflection-ai']) {
       assert.ok(ids.includes(id), id);
     }
-    assert.match(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'supermicro')), /Supermicro: AI stories this index scored/);
-    assert.match(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'iren')), /IREN: AI stories this index scored/);
-    assert.match(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'openrouter')), /OpenRouter: AI stories this index scored/);
-    assert.match(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'reflection-ai')), /Reflection AI: AI stories this index scored/);
-    assert.doesNotMatch(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'reflection-ai')), /doom score/i);
+    assert.match(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'supermicro')), /What has SIREN scored about Supermicro\?/);
+    assert.match(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'iren')), /What has SIREN scored about IREN\?/);
+    assert.match(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'openrouter')), /What has SIREN scored about OpenRouter\?/);
+    assert.match(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'reflection-ai')), /What has SIREN scored about Reflection AI\?/);
+    assert.doesNotMatch(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'reflection-ai')), /doom score:\s*\d/i);
   });
 
   it('indexes Huawei and Sony entity labs when archive stories clear the gate', () => {
@@ -791,9 +794,9 @@ describe('lab facets', () => {
     const ids = labsFromEntities(withArch).map((p) => p.id);
     assert.ok(ids.includes('huawei'), 'Huawei clears ENTITY_LAB_MIN');
     assert.ok(ids.includes('sony'), 'Sony clears ENTITY_LAB_MIN');
-    assert.match(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'huawei')), /Huawei: AI stories this index scored/);
-    assert.match(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'sony')), /Sony: AI stories this index scored/);
-    assert.doesNotMatch(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'huawei')), /doom score/i);
+    assert.match(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'huawei')), /What has SIREN scored about Huawei\?/);
+    assert.match(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'sony')), /What has SIREN scored about Sony\?/);
+    assert.doesNotMatch(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'huawei')), /doom score:\s*\d/i);
   });
 
   it('does not treat Intel as a substring of intelligent', () => {
@@ -830,11 +833,13 @@ describe('lab facets', () => {
     assert.match(labIndex, /\/companies\.html/);
     assert.match(labIndex, /not a doom ranking/);
     const companies = renderCompanies(ctx);
-    assert.match(companies, /AI companies this index covers/);
+    assert.match(companies, /Which AI companies has SIREN scored stories about\?/);
     assert.match(companies, /does not publish a company/);
     assert.match(companies, /\/lab\/openai\.html/);
     assert.match(companies, /\/compare\.html/);
-    assert.match(companies, /does not publish a company/);
+    assert.match(companies, /SpeakableSpecification/);
+    assert.match(companies, /FAQPage/);
+    assert.match(companies, /Questions people actually ask/);
     assert.doesNotMatch(companies, /doom score:\s*\d/i);
   });
 });

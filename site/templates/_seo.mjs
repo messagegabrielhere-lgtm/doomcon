@@ -45,6 +45,7 @@ export function organization(ctx) {
       'SIREN disclosures',
       'SIREN brand guide',
       'AI models this index scored',
+      'AI companies this index scored',
       'AI doom index alternatives',
       'DoomBench alternative',
       'Skynet Countdown alternative',
