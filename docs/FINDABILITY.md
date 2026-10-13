@@ -454,6 +454,7 @@ context.
 | 202 | `/methodology.html` H1 + methodology.md + breadcrumbs + TechArticle headline aligned to question title “How the SIREN AI activity index is computed · methodology” (was bare “Methodology”); `knowsAbout` full phrase | Google + Bing + agents | **Done** (2026-10-13) |
 | 203 | `/guides.html` H1 + guides.md + CollectionPage/ItemList/breadcrumbs aligned to question title “What are the AI explainers?” (was mismatched em-dash H1); FAQ lead matches; refuse doom-probability; siblings guide/p(doom)/clock/methodology; `knowsAbout` full question | Google + Bing + agents | **Done** (2026-10-13) |
 | 204 | `/about.html` H1 + FAQ lead + breadcrumbs + WebPage name aligned to question title “What is SIREN?” (was “What is SIREN, and who is behind it?”); refuse doom-probability; siblings methodology + guide + privacy; `knowsAbout` “What is SIREN” | Google + Bing | **Done** (2026-10-13) |
+| 205 | `/privacy.html` H1 + FAQ lead + breadcrumbs + WebPage name aligned to question title “What does SIREN know about you?” (was “What does this site know about you?”); siblings about + disclosures + feedback; `knowsAbout` full question | Google + Bing | **Done** (2026-10-13) |
 
 ### 3.3 Refusals (search edition)
 

@@ -97,7 +97,7 @@ export function about(ctx) {
   <p>Search-shaped sibling:
     <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>
     · <a href="${esc(ctx.href('/guide.html'))}">How does ${esc(brand.NAME)} compare to DEFCON, the Doomsday Clock and p(doom)?</a>
-    · <a href="${esc(ctx.href('/privacy.html'))}">What does this site know about you?</a>.</p>
+    · <a href="${esc(ctx.href('/privacy.html'))}">What does ${esc(brand.NAME)} know about you?</a>.</p>
   <h2>Terms, in plain words</h2>
   <ul>
     <li>The site is information, not advice. Do not use it as the basis for financial, legal, safety or policy decisions.</li>
@@ -107,7 +107,7 @@ export function about(ctx) {
   </ul>
   <p>The full version is on the <a href="${esc(ctx.href('/terms.html'))}">terms &amp; disclaimers</a> page.
     A one-page map of every disclosure is on <a href="${esc(ctx.href('/disclosures.html'))}">disclosures</a>.</p>
-  <p><a href="${esc(ctx.href('/privacy.html'))}">What does this site know about you? →</a>
+  <p><a href="${esc(ctx.href('/privacy.html'))}">What does ${esc(brand.NAME)} know about you? →</a>
     · <a href="${esc(ctx.href('/guide.html'))}">How does ${esc(brand.NAME)} compare to DEFCON, the Doomsday Clock and p(doom)? →</a></p>
 </section>`;
   return page({
@@ -136,15 +136,17 @@ export const PRIVACY_UPDATED = '12 October 2026';
 
 export function privacy(ctx) {
   const path = '/privacy.html';
-  // Head-term title: people search “SIREN privacy” / what the site knows about you.
-  const title = `What does ${brand.NAME} know about you? Privacy policy`;
+  // Head-term question (FINDABILITY tip #205): H1 must match <title> stem.
+  // Was “What does this site know about you?” under “What does SIREN know…”.
+  const qTitle = `What does ${brand.NAME} know about you?`;
   const hasGc = !!(MONETIZE.analytics && MONETIZE.analytics.goatcounter);
   const hasGa = !!(MONETIZE.analytics && MONETIZE.analytics.gtag);
   const gaId = hasGa ? esc(MONETIZE.analytics.gtag) : '';
   const x = brand.X_URL ? `<a href="${esc(brand.X_URL)}" rel="noopener">${esc(brand.X_HANDLE)}</a> on X` : 'the project account';
   const repo = `<a href="${esc(brand.REPO_URL)}/issues" rel="noopener">an issue on the repository</a>`;
+  // FAQ from the SAME pairs rendered in HTML (§3.3). Refuse doom-probability / data-sale claims beyond LEGAL_NO_SELL.
   const faq = [
-    [`What does ${brand.NAME} know about you?`,
+    [qTitle,
       `${brand.NAME} keeps no visitor accounts. A visit may leave host logs (GitHub Pages), optional analytics if enabled, and local preferences in your browser. This page lists every way a visit can leave a trace.`],
     [`Does ${brand.NAME} sell personal data?`,
       `${brand.LEGAL_NO_SELL} The operator does not sell visitor lists.`],
@@ -159,7 +161,7 @@ export function privacy(ctx) {
   const main = `${CSS}
 <section class="inf">
   <p class="eyebrow">Privacy</p>
-  <div class="inf__top"><h1 class="bp__h1">What does this site know about you?</h1></div>
+  <div class="inf__top"><h1 class="bp__h1">${esc(qTitle)}</h1></div>
   <p class="lede">Last updated ${esc(PRIVACY_UPDATED)}. Very little is kept by ${esc(brand.NAME)} itself.
     This page lists every way a visit can leave a trace, who receives it, and what rights you have.</p>
 
@@ -256,23 +258,35 @@ ${mzOn.newsletter() ? `<li><b>Email newsletter.</b> If you subscribe, your email
 
   <h2 id="faq">Questions people actually ask</h2>
   ${faqHtml}
+  <p>Search-shaped sibling:
+    <a href="${esc(ctx.href('/about.html'))}">What is ${esc(brand.NAME)}?</a>
+    · <a href="${esc(ctx.href('/disclosures.html'))}">What does ${esc(brand.NAME)} disclose?</a>
+    · <a href="${esc(ctx.href('/feedback.html'))}">How do I report a problem or send an idea to ${esc(brand.NAME)}?</a>.</p>
   <h2>Contact</h2>
-  <p>See the <a href="${esc(ctx.href('/about.html'))}">about page</a> for how to get in touch, or the
-    <a href="${esc(ctx.href('/disclosures.html'))}">disclosures hub</a> for the short map of every legal notice on the site.</p>
+  <p>See <a href="${esc(ctx.href('/about.html'))}">What is ${esc(brand.NAME)}?</a> for how to get in touch, or
+    <a href="${esc(ctx.href('/disclosures.html'))}">What does ${esc(brand.NAME)} disclose?</a> for the short map of every legal notice on the site.</p>
 </section>`;
   const description = hasGa
-    ? `${brand.NAME} uses Google Analytics (${gaId}) and${hasGc ? ' cookieless GoatCounter' : ''} to count visits. What a visit touches: GitHub Pages, Google,${hasGc ? ' GoatCounter,' : ''} live-data APIs you open, and the sites you choose to click through to. ${brand.LEGAL_NO_SELL}`
-    : `${brand.NAME} keeps no visitor accounts; cookieless counts and host logs are disclosed here. What a visit touches: GitHub Pages, analytics if enabled, and the sites you choose to click through to.`;
+    ? `${qTitle} ${brand.NAME} uses Google Analytics (${gaId}) and${hasGc ? ' cookieless GoatCounter' : ''} to count visits. What a visit touches: GitHub Pages, Google,${hasGc ? ' GoatCounter,' : ''} live-data APIs you open, and the sites you choose to click through to. ${brand.LEGAL_NO_SELL}`
+    : `${qTitle} ${brand.NAME} keeps no visitor accounts; cookieless counts and host logs are disclosed here. What a visit touches: GitHub Pages, analytics if enabled, and the sites you choose to click through to.`;
   return page({
     ctx,
     path,
-    title,
+    title: `${qTitle} Privacy policy`,
+    ogTitle: `${brand.NAME}: ${qTitle}`,
     description,
-    jsonld: explainerJsonLd(ctx, path, title, description, faq.map(([q, a]) => ({
-      '@type': 'Question',
-      name: q,
-      acceptedAnswer: { '@type': 'Answer', text: a },
-    })), 'Privacy'),
+    jsonld: explainerJsonLd(
+      ctx,
+      path,
+      qTitle,
+      description,
+      faq.map(([q, a]) => ({
+        '@type': 'Question',
+        name: q,
+        acceptedAnswer: { '@type': 'Answer', text: a },
+      })),
+      qTitle,
+    ),
     main,
   });
 }
@@ -342,7 +356,7 @@ export function feedback(ctx) {
   ${faqHtml}
   <p class="note fb-faq-key">Search-shaped sibling:
     <a href="${esc(ctx.href('/about.html'))}">What is ${esc(brand.NAME)}?</a>
-    · <a href="${esc(ctx.href('/privacy.html'))}">What does this site know about you?</a>.</p>
+    · <a href="${esc(ctx.href('/privacy.html'))}">What does ${esc(brand.NAME)} know about you?</a>.</p>
 </section>
 <script>
 (function(){

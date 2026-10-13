@@ -47,6 +47,7 @@ export function organization(ctx) {
       'what is SIREN',
       'What is SIREN',
       'SIREN privacy',
+      'What does SIREN know about you',
       'SIREN press kit',
       'SIREN terms of use',
       'SIREN disclosures',
