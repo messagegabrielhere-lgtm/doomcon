@@ -164,7 +164,7 @@ export function roomGroups(ctx) {
       ['/moltbook.html', 'px:agent2', 'Agent Watch', ctx.molt && ctx.molt.fresh ? `${ctx.molt.fresh.length} new this week` : null, 'What are AI agents saying on Moltbook?'],
       ['/videos.html', 'px:tv', 'SIREN TV', '6 videos', 'What free AI explainer videos does SIREN publish?'],
       ['/radio.html', 'px:radio', 'SIREN Radio', '6 stations', 'What free music does SIREN Radio play?'],
-      ['/live.html', 'px:livetv', 'AI on TV & Radio', ctx.liveMedia ? `${((ctx.liveMedia.live && ctx.liveMedia.live.items) || []).length} live now` : null, 'AI live streams, news segments and AI talk radio, auto-updated.'],
+      ['/live.html', 'px:livetv', 'AI on TV & Radio', ctx.liveMedia ? `${((ctx.liveMedia.live && ctx.liveMedia.live.items) || []).length} live now` : null, 'What AI is on TV and radio right now?'],
       ['/changelog.html', 'px:updown', 'What Moved', null, 'Every hour’s changes: score, pillars and top stories.'],
     ]],
     ['THE MACHINES', [
