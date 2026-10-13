@@ -144,6 +144,8 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('SIREN brand guide'));
     assert.ok(org.knowsAbout.includes('Where is the SIREN brand guide'));
     assert.ok(org.knowsAbout.includes('AI models this index scored'));
+    assert.ok(org.knowsAbout.includes('What has SIREN scored about Claude'));
+    assert.ok(org.knowsAbout.includes('Which AI model families have SIREN pages'));
     assert.ok(org.knowsAbout.includes('AI companies this index scored'));
     assert.ok(org.knowsAbout.includes('AI tags this index scored'));
     assert.ok(org.knowsAbout.includes('AI people this index scored'));

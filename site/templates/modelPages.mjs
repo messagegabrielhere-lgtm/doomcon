@@ -185,11 +185,11 @@ export function renderModel(ctx, name) {
     ? `<h2>Older scored stories naming ${esc(name)}</h2>
   <p class="fc__lede">Kept in the permanent archive after they left the live window. Still scored stories — not a forecast.</p>
   <ol class="fc__list">${storyRows(ctx, older)}</ol>
-  <p class="fresh__key"><a href="${esc(ctx.href('/item/archive.html'))}">Full story archive</a></p>`
+  <p class="fresh__key"><a href="${esc(ctx.href('/item/archive.html'))}">Which older AI stories has ${esc(brand.NAME)} kept in the archive?</a></p>`
     : '';
   const main = `${STYLE}
 <article class="fc prose">
-  <p class="fc__k"><a href="${esc(ctx.href('/news.html'))}">Newsroom</a> · <a href="${esc(ctx.href('/model/'))}">Models</a></p>
+  <p class="fc__k"><a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a> · <a href="${esc(ctx.href('/model/'))}">Which AI model families have ${esc(brand.NAME)} pages?</a> · <a href="${esc(ctx.href('/models.html'))}">Which AI models has ${esc(brand.NAME)} scored stories about?</a></p>
   <h1>What has ${esc(brand.NAME)} scored about ${esc(name)}?</h1>
   <p class="fc__lede">${esc(items.length)} scored ${items.length === 1 ? 'story names' : 'stories name'} ${esc(name)} in the current window.
      The match is the published entity list, applied to the headline. It is not a claim that ${esc(name)} wrote the story, and it is not a rating of the model.</p>
@@ -205,7 +205,7 @@ export function renderModel(ctx, name) {
   <h2 id="faq">Questions people actually ask</h2>
   ${faqHtml}
   ${others.length ? `<h2>Other model families</h2>
-  <nav class="fc__nav" aria-label="Other model families">${others.map((m) => `<a href="${esc(ctx.href(modelPath(m.name)))}">${esc(m.name)}</a>`).join('')}</nav>` : ''}
+  <nav class="fc__nav" aria-label="Other model families">${others.map((m) => `<a href="${esc(ctx.href(modelPath(m.name)))}">What has ${esc(brand.NAME)} scored about ${esc(m.name)}?</a>`).join('')}</nav>` : ''}
 </article>`;
 
   return page({
@@ -234,9 +234,9 @@ export function renderModel(ctx, name) {
         })),
       },
     }, breadcrumbs(ctx, [
-      { name: 'Newsroom', path: '/news.html' },
-      { name: 'Models', path: '/model/' },
-      { name, path },
+      { name: `Which AI stories has ${brand.NAME} scored in this window?`, path: '/news.html' },
+      { name: `Which AI model families have ${brand.NAME} pages?`, path: '/model/' },
+      { name: `What has ${brand.NAME} scored about ${name}?`, path },
     ]), {
       '@context': 'https://schema.org',
       '@type': 'FAQPage',
@@ -269,13 +269,13 @@ export function renderIndex(ctx) {
   <h3>${esc(q)}</h3>
   <p>${esc(a)}</p>`).join('');
   const rows = models.map((m) => `<li>
-  <a href="${esc(ctx.href(modelPath(m.name)))}">${esc(m.name)}</a>
+  <a href="${esc(ctx.href(modelPath(m.name)))}">What has ${esc(brand.NAME)} scored about ${esc(m.name)}?</a>
   <span class="fc__meta">${esc(m.slug)}${m.archived ? ` · ${esc(String(m.live))} live / ${esc(String(m.archived))} archive` : ''}</span>
   <span class="fc__sc num">${esc(String(m.count))}</span>
 </li>`).join('');
   const main = `${STYLE}
 <article class="fc prose">
-  <p class="fc__k"><a href="${esc(ctx.href('/news.html'))}">Newsroom</a> · Models · <a href="${esc(ctx.href('/models.html'))}">Models hub</a></p>
+  <p class="fc__k"><a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a> · Which AI model families have ${esc(brand.NAME)} pages? · <a href="${esc(ctx.href('/models.html'))}">Which AI models has ${esc(brand.NAME)} scored stories about?</a></p>
   <h1>Which AI model families have ${esc(brand.NAME)} pages?</h1>
   <p class="fc__lede">A model family earns a page when at least ${MODEL_INDEX_MIN} scored stories name it in the live window or the durable archive (same published entity list). Thinner names stay on the story page only. No model “doom score” is computed.</p>
   ${rows ? `<ol class="fc__list">${rows}</ol>` : '<p>No model family clears the gate in this build.</p>'}
@@ -303,12 +303,12 @@ export function renderIndex(ctx) {
           '@type': 'ListItem',
           position: i + 1,
           url: ctx.url(modelPath(m.name)),
-          name: m.name,
+          name: `What has ${brand.NAME} scored about ${m.name}?`,
         })),
       },
     }, breadcrumbs(ctx, [
-      { name: 'Newsroom', path: '/news.html' },
-      { name: 'Models', path },
+      { name: `Which AI stories has ${brand.NAME} scored in this window?`, path: '/news.html' },
+      { name: `Which AI model families have ${brand.NAME} pages?`, path },
     ]), {
       '@context': 'https://schema.org',
       '@type': 'FAQPage',
@@ -346,23 +346,23 @@ export function renderModels(ctx) {
   <h3>${esc(q)}</h3>
   <p>${esc(a)}</p>`).join('');
   const rows = models.map((m) => `<li>
-  <a href="${esc(ctx.href(modelPath(m.name)))}">${esc(m.name)}</a>
+  <a href="${esc(ctx.href(modelPath(m.name)))}">What has ${esc(brand.NAME)} scored about ${esc(m.name)}?</a>
   <span class="fc__meta">Story hub · <span class="num">${esc(String(m.count))}</span> scored${m.archived ? ` (${esc(String(m.live))} live)` : ''}</span>
 </li>`).join('');
   const main = `${STYLE}
 <article class="fc prose">
-  <p class="fc__k"><a href="${esc(ctx.href('/compare.html'))}">Compare</a> · <a href="${esc(ctx.href('/model/'))}">Model families</a> · Models</p>
+  <p class="fc__k"><a href="${esc(ctx.href('/compare.html'))}">Which AI doom indexes can you compare?</a> · <a href="${esc(ctx.href('/model/'))}">Which AI model families have ${esc(brand.NAME)} pages?</a> · Which AI models has ${esc(brand.NAME)} scored stories about?</p>
   <h1>Which AI models has ${esc(brand.NAME)} scored stories about?</h1>
-  <p class="fc__lede">${esc(brand.NAME)} does not publish a model “doom score.” It publishes an activity index and scored stories. This page lists model families that already clear the same substance gate as <a href="${esc(ctx.href('/model/'))}">/model/</a> — at least ${MODEL_INDEX_MIN} matching headlines in the live window or archive.</p>
+  <p class="fc__lede">${esc(brand.NAME)} does not publish a model “doom score.” It publishes an activity index and scored stories. This page lists model families that already clear the same substance gate as <a href="${esc(ctx.href('/model/'))}">Which AI model families have ${esc(brand.NAME)} pages?</a> — at least ${MODEL_INDEX_MIN} matching headlines in the live window or archive.</p>
   <div class="fc__stat" role="group" aria-label="Model hub totals">
     <div><b class="num">${esc(String(models.length))}</b><span>Model family hubs</span></div>
   </div>
   ${models.length ? `<ol class="fc__list">${rows}</ol>` : '<p>No model hub cleared the gate in this build.</p>'}
   <h2 id="faq">Questions people actually ask</h2>
   ${faqHtml}
-  <p class="fresh__key"><a href="${esc(ctx.href('/model/'))}">Model family directory →</a>
-     · <a href="${esc(ctx.href('/companies.html'))}">AI companies →</a>
-     · <a href="${esc(ctx.href('/compare.html'))}">How this index differs from DoomBench →</a></p>
+  <p class="fresh__key"><a href="${esc(ctx.href('/model/'))}">Which AI model families have ${esc(brand.NAME)} pages?</a>
+     · <a href="${esc(ctx.href('/companies.html'))}">Which AI companies has ${esc(brand.NAME)} scored stories about?</a>
+     · <a href="${esc(ctx.href('/compare.html'))}">Which AI doom indexes can you compare?</a></p>
 </article>`;
   return page({
     ctx,
@@ -384,12 +384,12 @@ export function renderModels(ctx) {
           '@type': 'ListItem',
           position: i + 1,
           url: ctx.url(modelPath(m.name)),
-          name: m.name,
+          name: `What has ${brand.NAME} scored about ${m.name}?`,
         })),
       },
     }, breadcrumbs(ctx, [
-      { name: 'Compare', path: '/compare.html' },
-      { name: 'Models', path },
+      { name: 'Which AI doom indexes can you compare?', path: '/compare.html' },
+      { name: `Which AI models has ${brand.NAME} scored stories about?`, path },
     ]), {
       '@context': 'https://schema.org',
       '@type': 'FAQPage',

@@ -77,7 +77,13 @@ describe('model pages', () => {
   it('lists the stories and the lab page, and does not invent a model score', () => {
     const html = renderModel(ctx, 'Claude');
     assert.match(html, /<title>What has SIREN scored about Claude\?/);
-    assert.match(html, /What has SIREN scored about Claude\?/);
+    assert.match(html, /<h1>What has SIREN scored about Claude\?<\/h1>/);
+    assert.match(html, /Which AI stories has SIREN scored in this window\?/);
+    assert.match(html, /Which AI model families have SIREN pages\?/);
+    assert.match(html, /Which AI models has SIREN scored stories about\?/);
+    assert.match(html, /fc__k"><a href="\/news\.html">Which AI stories has SIREN scored in this window\?<\/a>/);
+    assert.doesNotMatch(html, /fc__k"><a href="\/news\.html">Newsroom<\/a>/);
+    assert.doesNotMatch(html, /fc__k"><a href="\/model\/">Models<\/a>/);
     assert.match(html, /CollectionPage/);
     assert.match(html, /SpeakableSpecification/);
     assert.match(html, /FAQPage/);
