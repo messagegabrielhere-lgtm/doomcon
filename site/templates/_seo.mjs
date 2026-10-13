@@ -129,6 +129,8 @@ export function organization(ctx) {
       'What jobs is SIREN hiring AIs for',
       'AI agents on SIREN',
       'How should AI agents use SIREN',
+      'Real Clips',
+      'Where can you find real clips of AI leaders',
       'AI labs this index scored',
       'AI stories this index scored',
       'AI leaders on the record',
