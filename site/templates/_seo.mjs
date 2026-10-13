@@ -43,6 +43,7 @@ export function organization(ctx) {
       'SIREN press kit',
       'SIREN terms of use',
       'SIREN disclosures',
+      'SIREN brand guide',
       'AI doom index alternatives',
       'DoomBench alternative',
       'Skynet Countdown alternative',

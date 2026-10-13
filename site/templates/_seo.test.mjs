@@ -107,6 +107,7 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('SIREN press kit'));
     assert.ok(org.knowsAbout.includes('SIREN terms of use'));
     assert.ok(org.knowsAbout.includes('SIREN disclosures'));
+    assert.ok(org.knowsAbout.includes('SIREN brand guide'));
     assert.ok(org.knowsAbout.includes('DoomBench alternative'));
     assert.ok(org.knowsAbout.includes('Takeoff Tracker alternative'));
     assert.ok(org.knowsAbout.includes('Pentagon Pizza Index alternative'));

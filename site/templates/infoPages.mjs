@@ -744,8 +744,23 @@ export function aiClock(ctx) {
 }
 
 export function brandPage(ctx) {
+  const path = '/brand.html';
+  // Head-term title: people search “SIREN brand guide” / colours / Tally.
+  const title = `Where is the ${brand.NAME} brand guide? Name, colours, type, voice and Tally`;
+  const description = `How ${brand.NAME} looks and sounds: the level colours, the typefaces, the voice rules, and Tally the duty canary in five moods to download.`;
   const levels = [...brand.LEVELS].sort((a, b) => b.level - a.level);
   const sw = (name, v, note) => `<li class="br__sw"><i style="background:${v}"></i><b>${esc(name)}</b><code>${esc(v)}</code><span>${esc(note)}</span></li>`;
+  const faq = [
+    [`Where is the ${brand.NAME} brand guide?`,
+      `This page. It covers the name, level colours, typefaces, voice rules, and Tally the duty canary in five moods to download. Everything here may be used with credit; the site’s text and data are ${brand.LICENSE}.`],
+    [`Who is Tally?`,
+      'Tally is the duty canary — the mascot. The helmet takes the level’s colour and the face takes the level’s mood. Use the drawing for the level you are talking about; do not recolour the body.'],
+    [`Does a loud level mean danger?`,
+      `No. Say “loud” and “quiet”: the scale measures tempo, not danger. ${brand.DISCLAIMER_SHORT}`],
+  ];
+  const faqHtml = faq.map(([q, a]) => `
+  <h3>${esc(q)}</h3>
+  <p>${esc(a)}</p>`).join('');
   const main = `${CSS}
 <style>
 .br__row { display: grid; gap: var(--s-3); grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); list-style: none; margin: var(--s-3) 0; padding: 0; }
@@ -763,7 +778,7 @@ export function brandPage(ctx) {
 </style>
 <section class="inf">
   <p class="eyebrow">Brand</p>
-  <div class="inf__top">${mascot({ size: 76, level: level(ctx) })}<h1 class="bp__h1">How ${esc(brand.NAME)} looks and sounds</h1></div>
+  <div class="inf__top">${mascot({ size: 76, level: level(ctx) })}<h1 class="bp__h1">Where is the ${esc(brand.NAME)} brand guide?</h1></div>
   <p class="lede">One page for anyone making something with the brand: a slide, a post, a story, a sticker. Everything here may be used with credit; ${esc(brand.LICENSE)}.</p>
 
   <h2>The idea</h2>
@@ -816,12 +831,20 @@ ${levels.map((l) => `    <li class="br__t" style="--lvl:var(--heat-${l.level})">
     <li><a href="${esc(ctx.href('/cards/state.png'))}">Current reading card</a> · <a href="${esc(ctx.href('/cards/state-portrait.png'))}">portrait card</a></li>
     <li>Tally, all five moods: the download links above</li>
   </ul>
+  <h2 id="faq">Questions people actually ask</h2>
+  ${faqHtml}
   <p><a href="${esc(ctx.href('/press.html'))}">Press kit →</a></p>
 </section>`;
   return page({
-    ctx, path: '/brand.html',
-    title: `Brand guide: name, colours, type, voice and Tally · ${brand.NAME}`,
-    description: `How ${brand.NAME} looks and sounds: the level colours, the typefaces, the voice rules, and Tally the duty canary in five moods to download.`,
+    ctx,
+    path,
+    title,
+    description,
+    jsonld: explainerJsonLd(ctx, path, title, description, faq.map(([q, a]) => ({
+      '@type': 'Question',
+      name: q,
+      acceptedAnswer: { '@type': 'Answer', text: a },
+    })), 'Brand'),
     main,
   });
 }
