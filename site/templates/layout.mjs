@@ -831,15 +831,15 @@ function serpDescription(description) {
    The old per-page jump palette lived here; site/siteheader.mjs replaced it.
 --------------------------------------------------------------------------- */
 const PAL_EXTRA = [
-  { href: '/about.html', label: 'About', blurb: 'Who runs this and how it is paid for.' },
-  { href: '/guide.html', label: 'Guide to the levels', blurb: 'What each of the five levels means.' },
+  { href: '/about.html', label: 'What is SIREN?', blurb: 'An independent AI activity index — who runs it and how it is paid for.' },
+  { href: '/guide.html', label: 'How does SIREN compare to DEFCON, the Doomsday Clock and p(doom)?', blurb: 'What each measure is — and is not.' },
   { href: '/p-doom.html', label: 'What is p(doom)?', blurb: 'The number nobody can check, explained.' },
-  { href: '/ai-doomsday-clock.html', label: 'AI doomsday clock', blurb: 'What exists, and the one you can verify.' },
-  { href: '/moves/', label: 'Every reading', blurb: 'The full record, each with its receipt.' },
-  { href: '/sponsor.html', label: 'Sponsor', blurb: 'One named sponsor at a time.' },
-  { href: '/privacy.html', label: 'Privacy', blurb: 'What a visit measures: Google Analytics and GoatCounter.' },
-  { href: '/terms.html', label: 'Terms & disclaimers', blurb: 'Information, not advice. No warranty.' },
-  { href: '/disclosures.html', label: 'Disclosures', blurb: 'Affiliate, finance, privacy and satire notices in one place.' },
+  { href: '/ai-doomsday-clock.html', label: 'Is there an AI doomsday clock?', blurb: 'What exists, and the one you can verify.' },
+  { href: '/moves/', label: 'Where are the SIREN index moves?', blurb: 'The full record, each with its receipt.' },
+  { href: '/sponsor.html', label: 'How do you sponsor SIREN without moving the number?', blurb: 'One named sponsor at a time.' },
+  { href: '/privacy.html', label: 'What does SIREN know about you?', blurb: 'Privacy policy — analytics and third parties.' },
+  { href: '/terms.html', label: 'What are the SIREN terms of use?', blurb: 'Disclaimers and what the index is not.' },
+  { href: '/disclosures.html', label: 'What does SIREN disclose?', blurb: 'Affiliate, finance, privacy and satire notices in one place.' },
 ];
 // World moved to All pages so the games get a thumb slot (after pizzint's rail).
 const TAB_ROOMS = [['/', 'War room'], ['/news.html', 'News'], ['/race.html', 'Race']];
@@ -1462,16 +1462,16 @@ function footer(ctx, sections, path) {
   // brand.X_URL for the same reason twitter:site is: with no handle there is
   // no account, and a dead "support us" link is worse than none.
   const source = [
-    { href: '/about.html', label: 'About', blurb: 'What this is, who runs it, how it is paid for, and how to get in touch.' },
+    { href: '/about.html', label: 'What is SIREN?', blurb: 'An independent AI activity index — who runs it, how it is paid for, and how to get in touch.' },
     { href: '/p-doom.html', label: 'What is p(doom)?', blurb: 'The probability-of-doom number, explained.' },
-    { href: '/ai-doomsday-clock.html', label: 'AI doomsday clock?', blurb: 'What exists, and one you can verify.' },
-    { href: '/guide.html', label: 'Guide', blurb: 'SIREN, DEFCON, the Doomsday Clock and p(doom): what each one measures.' },
-    { href: '/sponsor.html', label: 'Sponsor', blurb: 'One labelled sponsor at a time, with no say over the number.' },
-    { href: '/brand.html', label: 'Brand', blurb: 'Name, colours, type, voice and Tally to download.' },
-    { href: '/press.html', label: 'Press kit', blurb: 'Facts, a paragraph to lift, images and a contact.' },
-    { href: '/privacy.html', label: 'Privacy', blurb: 'Every trace a visit can leave, including analytics.' },
-    { href: '/terms.html', label: 'Terms & disclaimers', blurb: 'Information and commentary, not advice. No warranty, no liability.' },
-    { href: '/disclosures.html', label: 'Disclosures', blurb: 'Affiliate, finance, privacy and satire notices in one place.' },
+    { href: '/ai-doomsday-clock.html', label: 'Is there an AI doomsday clock?', blurb: 'What exists, and one you can verify.' },
+    { href: '/guide.html', label: 'How does SIREN compare to DEFCON, the Doomsday Clock and p(doom)?', blurb: 'What each measure is — and is not.' },
+    { href: '/sponsor.html', label: 'How do you sponsor SIREN without moving the number?', blurb: 'One labelled sponsor at a time, with no say over the number.' },
+    { href: '/brand.html', label: 'Where is the SIREN brand guide?', blurb: 'Name, colours, type, voice and Tally to download.' },
+    { href: '/press.html', label: 'Where is the SIREN press kit?', blurb: 'Facts, a paragraph to lift, images and how to cite a reading.' },
+    { href: '/privacy.html', label: 'What does SIREN know about you?', blurb: 'Privacy policy — every trace a visit can leave.' },
+    { href: '/terms.html', label: 'What are the SIREN terms of use?', blurb: 'Disclaimers and what the index is not.' },
+    { href: '/disclosures.html', label: 'What does SIREN disclose?', blurb: 'Affiliate, finance, privacy and satire notices in one place.' },
     { href: brand.REPO_URL, label: 'Source code', blurb: `Every line that produced these numbers. ${brand.LICENSE_BLURB}.` },
   ];
   if (brand.X_URL) {

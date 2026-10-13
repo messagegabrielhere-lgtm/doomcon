@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
-import { catalog } from './catalogPages.mjs';
+import { catalog, catalogEntries } from './catalogPages.mjs';
 
 const ctx = {
   url: (p) => `https://siren.watch${p === '/' ? '/' : p}`,
@@ -16,6 +16,18 @@ const entries = [
 ];
 
 describe('catalog page SEO', () => {
+  it('lists provenance pages under their question titles (tip #210)', () => {
+    const list = catalogEntries({});
+    const byUrl = Object.fromEntries(list.map((e) => [e.url, e]));
+    assert.equal(byUrl['/press.html']?.title, 'Where is the SIREN press kit?');
+    assert.equal(byUrl['/brand.html']?.title, 'Where is the SIREN brand guide?');
+    assert.equal(byUrl['/terms.html']?.title, 'What are the SIREN terms of use?');
+    assert.equal(byUrl['/privacy.html']?.title, 'What does SIREN know about you?');
+    assert.equal(byUrl['/disclosures.html']?.title, 'What does SIREN disclose?');
+    assert.equal(byUrl['/about.html']?.title, 'What is SIREN?');
+    assert.doesNotMatch(byUrl['/press.html']?.title || '', /^Press kit$/);
+  });
+
   it('ships a question-shaped title, speakable CollectionPage, and matching FAQPage', () => {
     const html = catalog(ctx, entries);
     assert.match(html, /<title>Where is everything on SIREN listed\?/);

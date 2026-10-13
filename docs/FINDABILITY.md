@@ -459,6 +459,7 @@ context.
 | 207 | `/alternatives.html` H1 + FAQ lead + breadcrumbs + WebPage name aligned to question title “What are AI doom index alternatives?” (was “…and what is each one?”); refuse doom-probability / DEFCON hijack; siblings compare + vs + guide + p(doom); `knowsAbout` full question | Google + Bing | **Done** (2026-10-13) |
 | 208 | `/vs/*` rival pages H1 + FAQ lead + breadcrumbs + WebPage name aligned to question title “SIREN vs {rival}: which should you use?” (was em-dash H1 / “which should I use?” FAQ); refuse borrowed doom probability; `knowsAbout` vs head terms | Google + Bing | **Done** (2026-10-13) |
 | 209 | `/jobs.html` `/medicine.html` H1 + FAQ lead + breadcrumbs + WebPage name aligned to question title stems (“What has actually been measured” / “Trial results, approvals…”); refuse jobs/medicine forecasts and doom-probability; `knowsAbout` full stems | Google + Bing | **Done** (2026-10-13) |
+| 210 | Catalog + footer provenance + agents.md link labels for about/press/brand/terms/privacy/disclosures/sponsor aligned to question titles (was “Press kit” / “Terms & disclaimers”); `knowsAbout` full questions; refuse doom-probability in blurbs | Google + Bing + agents | **Done** (2026-10-13) |
 
 ### 3.3 Refusals (search edition)
 
