@@ -105,6 +105,9 @@ const ENTITY_DEFS = [
   // Nvidia-backed Australian datacentre / AI infra — distinctive single token
   // (no bare “Firm” so “data centre firm” alone does not match).
   { name: 'Firmus', kind: 'lab', forms: ['Firmus'] },
+  // SpaceX AI-chip / GPU compute stories — distinctive single token
+  // (no bare “space” so unrelated space headlines do not match).
+  { name: 'SpaceX', kind: 'lab', forms: ['SpaceX'] },
 
   // --- model families ---
   { name: 'GPT', kind: 'model', forms: ['GPT-3', 'GPT-4', 'GPT-4o', 'GPT-5', 'GPT-6', 'ChatGPT', 'GPT'] },

@@ -734,6 +734,36 @@ describe('lab facets', () => {
     assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/lab/firmus.html'));
   });
 
+  it('indexes SpaceX entity lab when archive AI-chip headlines clear the gate', () => {
+    const withArch = {
+      ...ctx,
+      news: { ...ctx.news, items: [...ctx.news.items] },
+      itemArchive: [
+        {
+          id: 'sx1', title: 'SpaceX Seeks $40 Billion to Buy Nvidia AI Chips', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/sx1', published_at: '2026-09-01T01:00:00Z', score: 40,
+        },
+        {
+          id: 'sx2', title: 'SpaceX vs. Micron: Which Is the Better Artificial Intelligence Stock', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/sx2', published_at: '2026-09-02T01:00:00Z', score: 41,
+        },
+        {
+          id: 'sx3', title: "Silicon Valley's Compute Arms Race: SpaceX's GPU Reselling Revenue", pillar: 'compute', source: 'hn',
+          url: 'https://example.test/sx3', published_at: '2026-09-03T01:00:00Z', score: 42,
+        },
+        {
+          id: 'sxbad', title: 'Outer space race heats up without naming the lab', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/sxbad', published_at: '2026-09-04T01:00:00Z', score: 30,
+        },
+      ],
+    };
+    const spacex = labsFromEntities(withArch).find((p) => p.id === 'spacex');
+    assert.ok(spacex, 'SpaceX clears ENTITY_LAB_MIN');
+    assert.match(renderLab(withArch, spacex), /What has SIREN scored about SpaceX\?/);
+    assert.doesNotMatch(renderLab(withArch, spacex), /Outer space race heats up/);
+    assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/lab/spacex.html'));
+  });
+
   it('indexes Supermicro, IREN, OpenRouter, and Reflection AI entity labs from archive', () => {
     const withArch = {
       ...ctx,

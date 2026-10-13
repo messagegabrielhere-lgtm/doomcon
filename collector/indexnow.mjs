@@ -80,6 +80,7 @@ const ALWAYS = Object.freeze([
   '/lab/salesforce.html',
   '/lab/world-labs.html',
   '/lab/firmus.html',
+  '/lab/spacex.html',
   '/people/',
   '/source/',
   '/pillar/capability.html',

@@ -28,7 +28,7 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   'DeepSeek', 'Huawei', 'Sony', 'Supermicro', 'IREN', 'OpenRouter', 'Reflection AI',
   'Muse Wonder', 'Artificial Analysis', 'Decart', 'Sakana AI', 'Isomorphic Labs',
   'Winverse AI', 'Cisco', 'Epoch AI', 'Maia', 'Maia 300', 'OpenAI Codex', 'Codex',
-  'Salesforce', 'World Labs', 'Firmus', 'Nano Banana',
+  'Salesforce', 'World Labs', 'Firmus', 'SpaceX', 'Nano Banana',
 ]);
 
 /**

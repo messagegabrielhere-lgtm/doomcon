@@ -516,6 +516,7 @@ function labNeedles(player) {
     salesforce: ['salesforce'],
     'world-labs': ['world labs'],
     firmus: ['firmus'],
+    spacex: ['spacex'],
   };
   return [...new Set([...(extras[player.id] || []), ...names])];
 }
