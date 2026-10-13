@@ -28,6 +28,19 @@ describe('catalog page SEO', () => {
     assert.doesNotMatch(byUrl['/press.html']?.title || '', /^Press kit$/);
   });
 
+  it('lists conquest pages under their question titles (tip #211)', () => {
+    const list = catalogEntries({});
+    const byUrl = Object.fromEntries(list.map((e) => [e.url, e]));
+    assert.equal(byUrl['/compare.html']?.title, 'Which AI doom indexes can you compare?');
+    assert.equal(byUrl['/alternatives.html']?.title, 'What are AI doom index alternatives?');
+    assert.equal(byUrl['/vs.html']?.title, 'Which AI indexes does SIREN contrast?');
+    assert.equal(byUrl['/guides.html']?.title, 'What are the AI explainers?');
+    assert.equal(byUrl['/guide.html']?.title, 'How does SIREN compare to DEFCON, the Doomsday Clock and p(doom)?');
+    assert.equal(byUrl['/vs/doombench.html']?.title, 'SIREN vs DoomBench: which should you use?');
+    assert.equal(byUrl['/vs/takeofftracker.html']?.title, 'SIREN vs Takeoff Tracker: which should you use?');
+    assert.doesNotMatch(byUrl['/compare.html']?.title || '', /^AI doom indexes compared$/);
+  });
+
   it('ships a question-shaped title, speakable CollectionPage, and matching FAQPage', () => {
     const html = catalog(ctx, entries);
     assert.match(html, /<title>Where is everything on SIREN listed\?/);
