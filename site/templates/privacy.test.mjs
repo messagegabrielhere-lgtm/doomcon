@@ -15,15 +15,20 @@ const ctx = {
   cardFor: () => null,
 };
 
-test('privacy.html ships question-shaped title, speakable, breadcrumbs, and visible FAQ', () => {
+test('privacy.html ships matching question H1, speakable, breadcrumbs, and visible FAQ', () => {
   const html = privacy(ctx);
   assert.match(html, /<title>What does SIREN know about you\? Privacy policy/);
-  assert.match(html, /What does this site know about you\?/);
+  assert.match(html, /<h1 class="bp__h1">What does SIREN know about you\?<\/h1>/);
+  assert.doesNotMatch(html, /What does this site know about you\?/);
   assert.match(html, /"@type"\s*:\s*"WebPage"/);
   assert.match(html, /"@type"\s*:\s*"FAQPage"/);
   assert.match(html, /SpeakableSpecification/);
   assert.match(html, /BreadcrumbList/);
   assert.match(html, /Questions people actually ask/);
   assert.match(html, /Does SIREN sell personal data\?/);
+  assert.match(html, /\/about\.html/);
+  assert.match(html, /What is SIREN\?/);
+  assert.match(html, /\/disclosures\.html/);
   assert.doesNotMatch(html, /probability of doom is \d/i);
+  assert.doesNotMatch(html, /noindex/);
 });

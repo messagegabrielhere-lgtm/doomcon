@@ -127,6 +127,7 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('what is SIREN'));
     assert.ok(org.knowsAbout.includes('What is SIREN'));
     assert.ok(org.knowsAbout.includes('SIREN privacy'));
+    assert.ok(org.knowsAbout.includes('What does SIREN know about you'));
     assert.ok(org.knowsAbout.includes('SIREN press kit'));
     assert.ok(org.knowsAbout.includes('SIREN terms of use'));
     assert.ok(org.knowsAbout.includes('SIREN disclosures'));
