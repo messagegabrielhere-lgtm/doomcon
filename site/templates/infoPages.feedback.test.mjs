@@ -30,8 +30,9 @@ describe('feedback page', () => {
     assert.match(html, /Nothing is sent to or stored by this site/);
     assert.match(html, /\/about\.html/);
     assert.match(html, /\/privacy\.html/);
-    assert.match(html, /What is SIREN, and who is behind it\?/);
+    assert.match(html, /What is SIREN\?/);
     assert.match(html, /What does this site know about you\?/);
+    assert.doesNotMatch(html, /What is SIREN, and who is behind it\?/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /probability of doom/i);
     assert.doesNotMatch(html, /noindex/);

@@ -15,16 +15,22 @@ const ctx = {
   cardFor: () => null,
 };
 
-test('about.html ships question-shaped title, speakable, breadcrumbs, and visible FAQ', () => {
+test('about.html ships matching question H1, speakable, breadcrumbs, and visible FAQ', () => {
   const html = about(ctx);
   assert.match(html, /<title>What is SIREN\? An independent AI activity index/);
-  assert.match(html, /What is SIREN, and who is behind it\?/);
+  assert.match(html, /<h1 class="bp__h1">What is SIREN\?<\/h1>/);
+  assert.doesNotMatch(html, /What is SIREN, and who is behind it\?/);
   assert.match(html, /"@type"\s*:\s*"WebPage"/);
   assert.match(html, /"@type"\s*:\s*"FAQPage"/);
   assert.match(html, /SpeakableSpecification/);
   assert.match(html, /BreadcrumbList/);
   assert.match(html, /Questions people actually ask/);
   assert.match(html, /Who runs SIREN\?/);
+  assert.match(html, /Does SIREN publish a doom probability\?/);
+  assert.match(html, /\/methodology\.html/);
+  assert.match(html, /\/guide\.html/);
+  assert.match(html, /How does SIREN compare to DEFCON/);
   assert.doesNotMatch(html, /probability of doom is \d/i);
   assert.doesNotMatch(html, /SIREN.*p\(doom\) of \d/i);
+  assert.doesNotMatch(html, /noindex/);
 });

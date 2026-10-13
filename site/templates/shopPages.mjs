@@ -209,7 +209,7 @@ export function sponsor(ctx) {
     ${faqHtml}
     <p class="shp-faq-key">Search-shaped sibling:
       <a href="${esc(ctx.href('/library.html'))}">What AI books argue both sides of the case?</a>
-      · <a href="${esc(ctx.href('/about.html'))}">What is ${esc(brand.NAME)}, and who is behind it?</a>.</p>
+      · <a href="${esc(ctx.href('/about.html'))}">What is ${esc(brand.NAME)}?</a>.</p>
   </section>
 </section>`;
   const description = `${qTitle} One labelled sponsor at a time. What a sponsor gets, and what it does not: no influence on the index, no visitor data, no editorial say.`;
