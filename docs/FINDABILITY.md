@@ -361,6 +361,7 @@ context.
 | 128 | `/pillar/` + `/country/` directory indexes question-shaped titles + CollectionPage speakable + visible FAQ matching FAQPage schema | Google | **Done** (2026-10-13) |
 | 129 | `/news/YYYY-MM-DD` day hubs question-shaped titles + CollectionPage speakable + visible FAQ matching FAQPage schema (Skynet-shaped freshness) | Google | **Done** (2026-10-13) |
 | 130 | `/news.html` newsroom question-shaped title + CollectionPage speakable + visible FAQ matching FAQPage schema; `knowsAbout` “AI stories this index scored” | Google | **Done** (2026-10-13) |
+| 131 | `/leaders.html` question-shaped title + CollectionPage speakable + visible FAQ matching FAQPage schema; `knowsAbout` “AI leaders on the record” | Google | **Done** (2026-10-13) |
 
 ### 3.3 Refusals (search edition)
 

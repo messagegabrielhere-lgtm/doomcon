@@ -38,6 +38,7 @@ import { esc, utc, utcDay } from './_html.mjs';
 import { lineItem, wireStyles, legend, silenceBlock, groupOf } from './_leaderwire.mjs';
 import { avatarPortrait, avatarSprite, personIdFor, portraitCss, PEOPLE, faceHref } from './_avatars.mjs';
 import { page } from './layout.mjs';
+import { breadcrumbs, speakable } from './_seo.mjs';
 import { peoplePath, personIndexable } from './peoplePages.mjs';
 import * as brand from '../brand.mjs';
 
@@ -61,11 +62,28 @@ export function render(ctx) {
   const onRecord = wire.leaders.filter((l) => l.state === 'on_record');
   const quiet = wire.leaders.filter((l) => l.state === 'no_line');
 
+  // Head-term title: people search “AI leaders on the record” / who spoke.
+  const title = `Which AI leaders are on the record this week?`;
+  const description =
+    `What the people running AI said on the record in the last ${wire.window_days} days: ` +
+    `${t.lines} headline${t.lines === 1 ? '' : 's'} naming ${t.on_record} of ${t.leaders} ` +
+    `leaders, each reproduced exactly as its publication printed it and linked to the source. ` +
+    `Compiled ${utc(wire.generated_at)}.`;
+  const faq = [
+    [`Which AI leaders are on the record this week?`,
+      `${t.on_record} of ${t.leaders} are on the record this week across ${t.lines} line${t.lines === 1 ? '' : 's'} in the last ${wire.window_days} days. Each line is a publication headline naming them beside a speech cue — not a leader doom score.`],
+    [`Does ${brand.NAME} invent quotations for AI leaders?`,
+      `No. It never writes a quotation. The only words attributed to a named person anywhere on this page are the headline, reproduced exactly as the publication printed it. ${brand.DISCLAIMER_SHORT}`],
+  ];
+  const faqHtml = faq.map(([q, a]) => `
+  <h3>${esc(q)}</h3>
+  <p>${esc(a)}</p>`).join('');
+
   const main = `<style>${wireStyles()}${portraitCss()}${pageCss()}</style>
 ${avatarSprite()}
 <section class="lwp__intro">
   <p class="eyebrow">The leader wire</p>
-  <h1 class="lwp__h1">AI leaders, on the record</h1>
+  <h1 class="lwp__h1">Which AI leaders are on the record this week?</h1>
   <p class="lede">What the people running AI said on the record in the last
      ${esc(wire.window_days)} days, in the words their publications printed.
      ${esc(t.on_record)} of ${esc(t.leaders)} are on the record this week across
@@ -104,21 +122,35 @@ ${legend(wire)}
 
 ${crossCheck(wire)}
 
-${method(ctx, wire, onRecord, quiet)}`;
+${method(ctx, wire, onRecord, quiet)}
+
+<section class="sec" aria-labelledby="faq">
+  <h2 class="sec__h" id="faq">Questions people actually ask</h2>
+  ${faqHtml}
+</section>`;
 
   return page({
     ctx,
     path: PATH,
-    title: `AI leaders, on the record — ${t.on_record} of ${t.leaders} · ${brand.NAME}`,
+    title,
     ogTitle: `${brand.NAME} leader wire — ${t.on_record} of ${t.leaders} on the record`,
-    description:
-      `What the people running AI said on the record in the last ${wire.window_days} days: ` +
-      `${t.lines} headline${t.lines === 1 ? '' : 's'} naming ${t.on_record} of ${t.leaders} ` +
-      `leaders, each reproduced exactly as its publication printed it and linked to the source. ` +
-      `Compiled ${utc(wire.generated_at)}.`,
+    description,
     ogImage: ctx.cardFor && ctx.state ? ctx.cardFor(ctx.state.receipt_id) : null,
     ogImageAlt: `${brand.NAME} share card`,
-    jsonld: [collectionPage(ctx, wire), itemList(ctx, wire)],
+    jsonld: [
+      collectionPage(ctx, wire, { name: title, description }),
+      itemList(ctx, wire),
+      breadcrumbs(ctx, [{ name: 'Leaders', path: PATH }]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map(([q, a]) => ({
+          '@type': 'Question',
+          name: q,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
+      },
+    ],
     main,
     bodyEnd: `<script>${PAGE_JS}</script>`,
   });
@@ -134,12 +166,12 @@ function emptyPage(ctx) {
     ctx,
     path: PATH,
     noindex: true,
-    title: `AI leaders, on the record · ${brand.NAME}`,
+    title: `Which AI leaders are on the record this week?`,
     description: `${brand.NAME} has not published a leader wire in this build.`,
     main: `<style>${wireStyles()}${pageCss()}</style>
 <section class="lwp__intro">
   <p class="eyebrow">The leader wire</p>
-  <h1 class="lwp__h1">AI leaders, on the record</h1>
+  <h1 class="lwp__h1">Which AI leaders are on the record this week?</h1>
   <p class="lede">No wire was published in this build. This is the absence of a result, not a
      result: it does not mean nobody spoke this week, it means <code>data/leaders.json</code> was
      not present when this page was generated. When it is, every one of the fifteen people on the
@@ -873,18 +905,21 @@ function method(ctx, wire, onRecord, quiet) {
 // Structured data
 // ---------------------------------------------------------------------------
 
-function collectionPage(ctx, wire) {
+function collectionPage(ctx, wire, opts = {}) {
+  const name = opts.name || 'Which AI leaders are on the record this week?';
+  const description = opts.description
+    || (`Headlines from the last ${wire.window_days} days naming the people running AI, each `
+      + `reproduced exactly as its publication printed it and linked to the source.`);
   return {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
-    name: 'The leader wire',
+    name,
     url: ctx.url(PATH),
+    description,
+    speakable: speakable(['h1.lwp__h1', 'p.lede']),
     isPartOf: { '@type': 'WebSite', name: brand.PUBLICATION, url: ctx.url('/') },
     datePublished: wire.generated_at,
     dateModified: wire.generated_at,
-    description:
-      `Headlines from the last ${wire.window_days} days naming the people running AI, each ` +
-      `reproduced exactly as its publication printed it and linked to the source.`,
   };
 }
 
