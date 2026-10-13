@@ -31,6 +31,7 @@ export function organization(ctx) {
       'frontier AI news',
       'p(doom)',
       'what is p(doom)',
+      'What is p(doom)',
       'AI doomsday clock',
       'verifiable AI doomsday clock',
       'how the AI activity index is computed',

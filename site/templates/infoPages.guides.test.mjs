@@ -74,14 +74,26 @@ describe('guides hub', () => {
     assert.doesNotMatch(html, /noindex/);
   });
 
-  it('p-doom ships WebPage speakable + breadcrumbs with FAQ', () => {
+  it('p-doom ships matching question H1 and visible FAQ', () => {
     const html = pdoom(ctx);
     assert.match(html, /<title>What is p\(doom\)\? Hinton, Amodei, Musk, LeCun/);
-    assert.match(html, /What is p\(doom\)\?/);
+    assert.match(html, /<h1 class="bp__h1">What is p\(doom\)\?<\/h1>/);
+    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /Why do p\(doom\) estimates differ so much\?/);
+    assert.match(html, /Does SIREN publish a p\(doom\) or a doom probability\?/);
+    assert.match(html, /What is Geoffrey Hinton/);
+    assert.match(html, /What do AI researchers think the chance of AI doom is\?/);
     assert.match(html, /"@type"\s*:\s*"FAQPage"/);
     assert.match(html, /"@type"\s*:\s*"WebPage"/);
     assert.match(html, /SpeakableSpecification/);
     assert.match(html, /BreadcrumbList/);
+    assert.match(html, /\/guide\.html/);
+    assert.match(html, /\/ai-doomsday-clock\.html/);
+    assert.match(html, /\/methodology\.html/);
+    assert.match(html, /How does SIREN compare to DEFCON/);
+    assert.match(html, /measures activity tempo/);
+    assert.doesNotMatch(html, /probability of doom is \d/i);
     assert.doesNotMatch(html, /SIREN.*p\(doom\) of \d/i);
+    assert.doesNotMatch(html, /noindex/);
   });
 });
