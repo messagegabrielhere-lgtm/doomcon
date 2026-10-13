@@ -676,11 +676,21 @@ export function renderLab(ctx, player) {
 export function renderLabIndex(ctx) {
   const labs = indexableLabs(ctx);
   const path = '/lab/';
-  const title = `AI labs this index covers · ${brand.NAME}`;
+  // Head-term title: people search “AI labs” / which labs SIREN covers.
+  const title = `Which AI labs have ${brand.NAME} pages?`;
   const description = clip(
     `${labs.length} AI labs and companies with a ${brand.NAME} /lab page — race-board rows or ≥${ENTITY_LAB_MIN} scored stories. Story counts and market odds where published; not a doom ranking.`,
     160,
   );
+  const faq = [
+    [`Which AI labs have ${brand.NAME} pages?`,
+      `${labs.length} labs clear the gate — race-board rows or at least ${ENTITY_LAB_MIN} matching headlines. Each hub lists those stories and, where published, prediction-market odds — not a lab doom score.`],
+    [`Does ${brand.NAME} publish a lab doom score?`,
+      `No. ${brand.DISCLAIMER_SHORT} Numbers are story counts and, where published, prediction-market prices.`],
+  ];
+  const faqHtml = faq.map(([q, a]) => `
+  <h3>${esc(q)}</h3>
+  <p>${esc(a)}</p>`).join('');
   const rows = labs.map((p) => `<li>
   <a href="${esc(ctx.href(labPath(p.id)))}">${esc(p.name)}</a>
   <span class="fc__meta">${p.entityOnly ? 'Entity hub · story counts only' : 'Race board · odds when published'}</span>
@@ -689,10 +699,12 @@ export function renderLabIndex(ctx) {
   const main = `${STYLE}
 <article class="fc prose">
   <p class="fc__k"><a href="${esc(ctx.href('/race.html'))}">The Race</a> · Labs · <a href="${esc(ctx.href('/companies.html'))}">Companies</a></p>
-  <h1>AI labs this index covers</h1>
+  <h1>Which AI labs have ${esc(brand.NAME)} pages?</h1>
   <p class="fc__lede">A lab earns a page when it sits on the <a href="${esc(ctx.href('/race.html'))}">race board</a> or clears at least ${ENTITY_LAB_MIN} scored stories in the current window. Numbers are story counts and, where published, prediction-market odds — not a ranking of how dangerous a company is.</p>
   ${labs.length ? `<ol class="fc__list">${rows}</ol>` : '<p>No lab cleared the gate in this build.</p>'}
-  <p class="fresh__key">Search-shaped directory: <a href="${esc(ctx.href('/companies.html'))}">AI companies this index covers</a>.</p>
+  <h2 id="faq">Questions people actually ask</h2>
+  ${faqHtml}
+  <p class="fresh__key">Search-shaped directory: <a href="${esc(ctx.href('/companies.html'))}">Which AI companies has ${esc(brand.NAME)} scored stories about?</a>.</p>
 </article>`;
   return page({
     ctx,
@@ -706,6 +718,7 @@ export function renderLabIndex(ctx) {
       name: title,
       url: ctx.url(path),
       description,
+      speakable: speakable(['h1', '.fc__lede']),
       mainEntity: {
         '@type': 'ItemList',
         numberOfItems: labs.length,
@@ -719,7 +732,15 @@ export function renderLabIndex(ctx) {
     }, breadcrumbs(ctx, [
       { name: 'The Race', path: '/race.html' },
       { name: 'Labs', path },
-    ])],
+    ]), {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faq.map(([q, a]) => ({
+        '@type': 'Question',
+        name: q,
+        acceptedAnswer: { '@type': 'Answer', text: a },
+      })),
+    }],
     main,
   });
 }

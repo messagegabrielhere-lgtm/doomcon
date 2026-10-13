@@ -253,11 +253,21 @@ export function renderModel(ctx, name) {
 export function renderIndex(ctx) {
   const models = indexableModels(ctx);
   const path = '/model/';
-  const title = `AI model families this index scored · ${brand.NAME}`;
+  // Head-term title: people search “AI model families” / which models SIREN covers.
+  const title = `Which AI model families have ${brand.NAME} pages?`;
   const description = clip(
     `${models.length} model families with at least ${MODEL_INDEX_MIN} scored stories on ${brand.NAME} (live window plus archive). Each page lists those stories. No model score is computed.`,
     160,
   );
+  const faq = [
+    [`Which AI model families have ${brand.NAME} pages?`,
+      `${models.length} model families clear the substance gate of at least ${MODEL_INDEX_MIN} matching headlines in the live window or archive. Each hub lists those stories — not a model doom score.`],
+    [`Does ${brand.NAME} publish a model doom score?`,
+      `No. ${brand.DISCLAIMER_SHORT} These pages count headlines that name a published model family.`],
+  ];
+  const faqHtml = faq.map(([q, a]) => `
+  <h3>${esc(q)}</h3>
+  <p>${esc(a)}</p>`).join('');
   const rows = models.map((m) => `<li>
   <a href="${esc(ctx.href(modelPath(m.name)))}">${esc(m.name)}</a>
   <span class="fc__meta">${esc(m.slug)}${m.archived ? ` · ${esc(String(m.live))} live / ${esc(String(m.archived))} archive` : ''}</span>
@@ -266,10 +276,12 @@ export function renderIndex(ctx) {
   const main = `${STYLE}
 <article class="fc prose">
   <p class="fc__k"><a href="${esc(ctx.href('/news.html'))}">Newsroom</a> · Models · <a href="${esc(ctx.href('/models.html'))}">Models hub</a></p>
-  <h1>Model families this index scored</h1>
+  <h1>Which AI model families have ${esc(brand.NAME)} pages?</h1>
   <p class="fc__lede">A model family earns a page when at least ${MODEL_INDEX_MIN} scored stories name it in the live window or the durable archive (same published entity list). Thinner names stay on the story page only. No model “doom score” is computed.</p>
   ${rows ? `<ol class="fc__list">${rows}</ol>` : '<p>No model family clears the gate in this build.</p>'}
-  <p class="fresh__key">Search-shaped directory: <a href="${esc(ctx.href('/models.html'))}">AI models this index covers</a>.</p>
+  <h2 id="faq">Questions people actually ask</h2>
+  ${faqHtml}
+  <p class="fresh__key">Search-shaped directory: <a href="${esc(ctx.href('/models.html'))}">Which AI models has ${esc(brand.NAME)} scored stories about?</a>.</p>
 </article>`;
   return page({
     ctx,
@@ -283,6 +295,7 @@ export function renderIndex(ctx) {
       name: title,
       url: ctx.url(path),
       description,
+      speakable: speakable(['h1', '.fc__lede']),
       mainEntity: {
         '@type': 'ItemList',
         numberOfItems: models.length,
@@ -296,7 +309,15 @@ export function renderIndex(ctx) {
     }, breadcrumbs(ctx, [
       { name: 'Newsroom', path: '/news.html' },
       { name: 'Models', path },
-    ])],
+    ]), {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faq.map(([q, a]) => ({
+        '@type': 'Question',
+        name: q,
+        acceptedAnswer: { '@type': 'Answer', text: a },
+      })),
+    }],
     main,
   });
 }

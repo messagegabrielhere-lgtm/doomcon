@@ -834,9 +834,12 @@ describe('lab facets', () => {
   it('ships /lab/ and /companies.html indexes over the gated lab set', () => {
     assert.ok(indexableLabs(ctx).some((p) => p.id === 'openai'));
     const labIndex = renderLabIndex(ctx);
-    assert.match(labIndex, /AI labs this index covers/);
+    assert.match(labIndex, /Which AI labs have SIREN pages\?/);
     assert.match(labIndex, /\/lab\/openai\.html/);
     assert.match(labIndex, /\/companies\.html/);
+    assert.match(labIndex, /Questions people actually ask/);
+    assert.match(labIndex, /"@type"\s*:\s*"FAQPage"/);
+    assert.match(labIndex, /speakable/);
     assert.match(labIndex, /not a doom ranking/);
     const companies = renderCompanies(ctx);
     assert.match(companies, /Which AI companies has SIREN scored stories about\?/);

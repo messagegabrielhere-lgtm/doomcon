@@ -65,7 +65,12 @@ describe('model pages', () => {
     assert.match(html, /SpeakableSpecification/);
     assert.match(html, /FAQPage/);
     assert.match(html, /Questions people actually ask/);
-    assert.match(renderIndex(ctx), /\/models\.html/);
+    const index = renderIndex(ctx);
+    assert.match(index, /Which AI model families have SIREN pages\?/);
+    assert.match(index, /Questions people actually ask/);
+    assert.match(index, /"@type"\s*:\s*"FAQPage"/);
+    assert.match(index, /speakable/);
+    assert.match(index, /\/models\.html/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
   });
 
