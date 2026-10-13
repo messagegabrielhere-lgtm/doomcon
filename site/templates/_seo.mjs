@@ -41,6 +41,7 @@ export function organization(ctx) {
       'How does SIREN compare to DEFCON, the Doomsday Clock and p(doom)',
       'Is there an AI doomsday clock',
       'AI explainers',
+      'What are the AI explainers',
       'Is AI taking jobs',
       'Is AI curing anything',
       'what is SIREN',

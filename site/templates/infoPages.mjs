@@ -1202,7 +1202,7 @@ export const GUIDES = Object.freeze([
   },
   {
     path: '/methodology.html',
-    name: 'How the index is computed',
+    name: 'How the SIREN AI activity index is computed · methodology',
     blurb: 'Every formula, pillar weight, and frozen-reference rule.',
   },
   {
@@ -1240,17 +1240,24 @@ export const GUIDES = Object.freeze([
 /** Head-term /guides.html hub over evergreen explainers (FINDABILITY conquest). */
 export function guides(ctx) {
   const path = '/guides.html';
-  // Head-term title: people search “AI explainers” / p(doom) / doomsday clock.
-  const title = `What are the AI explainers? p(doom), clocks, doom indexes · ${brand.NAME}`;
-  const description = `Plain guides on p(doom), AI doomsday clocks, DEFCON comparisons, and recomputable AI activity indexes. ${brand.NAME} counts tempo — it does not publish a doom probability.`;
+  // Head-term question (FINDABILITY tip #203): H1 must match <title> stem.
+  // Was “What are the AI explainers — and what each number measures” under a
+  // different question-shaped title — schema/speakable pointed at the wrong H1.
+  const qTitle = 'What are the AI explainers?';
+  const description = `${qTitle} Plain guides on p(doom), AI doomsday clocks, DEFCON comparisons, and recomputable AI activity indexes. ${brand.NAME} counts tempo — it does not publish a doom probability.`;
   // FAQ from the SAME pairs rendered in HTML (FINDABILITY schema rule — no invented Q&A).
+  // Refuse: SIREN-as-doom-probability / stuffing synonym doorways / forecast.
   const faqPairs = [
     [
-      'Where are the AI doom and p(doom) explainers?',
-      `${brand.NAME} publishes /guides.html as a directory of evergreen explainers: p(doom), AI doomsday clocks, DEFCON comparisons, methodology, sourced AI-risk history, and versus pages for DoomBench, Skynet Countdown, p(doom) clocks, PizzINT and Takeoff Tracker. None of them is a doom probability for ${brand.NAME} itself.`,
+      qTitle,
+      `${brand.NAME} publishes this hub as a directory of evergreen explainers: p(doom), AI doomsday clocks, DEFCON comparisons, methodology, sourced AI-risk history, and versus pages for DoomBench, Skynet Countdown, p(doom) clocks, PizzINT and Takeoff Tracker. None of them is a doom probability for ${brand.NAME} itself.`,
     ],
     [
-      'Does SIREN publish a doom probability?',
+      'Where are the AI doom and p(doom) explainers?',
+      `On this page and the links below: /p-doom.html, /ai-doomsday-clock.html, /guide.html, /compare.html, /vs.html, and /history.html. They explain vocabulary other sites use; they do not turn the ${brand.NAME} reading into a chance of harm.`,
+    ],
+    [
+      `Does ${brand.NAME} publish a doom probability?`,
       `No. ${brand.NAME} publishes an hourly AI activity count with a receipt. The explainer pages describe vocabulary other sites use; they do not turn the ${brand.NAME} reading into a chance of harm.`,
     ],
   ];
@@ -1264,40 +1271,49 @@ export function guides(ctx) {
   const main = `${CSS}
 <section class="inf">
   <p class="eyebrow">Guides</p>
-  <div class="inf__top">${mascot({ size: 76, level: level(ctx) })}<h1 class="bp__h1">What are the AI explainers — and what each number measures</h1></div>
+  <div class="inf__top">${mascot({ size: 76, level: level(ctx) })}<h1 class="bp__h1">${esc(qTitle)}</h1></div>
   <p class="lede">Search often lands on a doom score, a countdown, or a DEFCON-shaped novelty page.
     These pages answer the vocabulary questions without inventing a probability of harm.
     ${esc(brand.NAME)} stays an hourly activity count with a receipt.</p>
   <ol style="list-style:none;padding:0;margin:16px 0 0">${rows}</ol>
   <h2 id="faq">Questions people actually ask</h2>
   ${faqHtml}
+  <p>Search-shaped sibling:
+    <a href="${esc(ctx.href('/guide.html'))}">How does ${esc(brand.NAME)} compare to DEFCON, the Doomsday Clock and p(doom)?</a>
+    · <a href="${esc(ctx.href('/p-doom.html'))}">What is p(doom)?</a>
+    · <a href="${esc(ctx.href('/ai-doomsday-clock.html'))}">Is there an AI doomsday clock?</a>
+    · <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>.</p>
   <h2>Also</h2>
   <p><a href="${esc(ctx.href('/'))}">Live reading →</a>
      · <a href="${esc(ctx.href('/guides.md'))}">Markdown mirror →</a>
-     · <a href="${esc(ctx.href('/history.html'))}">Sixty years of the same argument →</a>
-     · <a href="${esc(ctx.href('/library.html'))}">Reading list →</a></p>
+     · <a href="${esc(ctx.href('/history.html'))}">What is the history of AI risk? →</a>
+     · <a href="${esc(ctx.href('/library.html'))}">What AI books argue both sides of the case? →</a></p>
 </section>`;
   return page({
     ctx,
     path,
-    title,
+    title: `${qTitle} p(doom), clocks, doom indexes · ${brand.NAME}`,
+    ogTitle: `${brand.NAME}: ${qTitle}`,
     description,
     head: `<link rel="alternate" type="text/markdown" href="${esc(ctx.href('/guides.md'))}" title="AI explainers (markdown)">`,
     jsonld: [
       {
         '@context': 'https://schema.org',
         '@type': 'CollectionPage',
-        name: title,
+        name: qTitle,
         url: ctx.url(path),
         description,
         isPartOf: { '@type': 'WebSite', name: brand.PUBLICATION, url: ctx.url('/') },
-        speakable: speakable(['h1', '.lede']),
+        speakable: speakable(['h1.bp__h1', 'p.lede']),
       },
-      breadcrumbs(ctx, [{ name: 'Guides', path }]),
+      breadcrumbs(ctx, [
+        { name: 'Home', path: '/' },
+        { name: qTitle, path },
+      ]),
       {
         '@context': 'https://schema.org',
         '@type': 'ItemList',
-        name: 'AI explainers on SIREN',
+        name: qTitle,
         numberOfItems: GUIDES.length,
         itemListElement: GUIDES.map((g, i) => ({
           '@type': 'ListItem',
@@ -1322,8 +1338,9 @@ export function guides(ctx) {
 
 /** Markdown mirror of /guides.html for agents (FINDABILITY.md §2.1). */
 export function guidesMd(ctx) {
+  const qTitle = 'What are the AI explainers?';
   const lines = GUIDES.map((g) => `- [${g.name}](${ctx.url(g.path)}): ${g.blurb}`).join('\n');
-  return `# AI explainers — what each number measures
+  return `# ${qTitle}
 
 > HTML: ${ctx.url('/guides.html')}
 
@@ -1339,6 +1356,6 @@ ${lines}
 
 - [Live reading](${ctx.url('/')})
 - [guide.md](${ctx.url('/guide.md')}) · [methodology.md](${ctx.url('/methodology.md')})
-- [Sixty years of the same argument](${ctx.url('/history.html')})
+- [What is the history of AI risk?](${ctx.url('/history.html')})
 `;
 }

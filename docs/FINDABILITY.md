@@ -452,6 +452,7 @@ context.
 | 200 | `/ai-doomsday-clock.html` H1 aligned to question title “Is there an AI doomsday clock?” + **visible** FAQ matching FAQPage schema (was schema-only); refuse SIREN-as-doomsday-clock / doom-probability / forecast; siblings guide + p(doom) + methodology; `knowsAbout` full question | Google + Bing | **Done** (2026-10-13) |
 | 201 | `/p-doom.html` question H1 “What is p(doom)?” + **visible** FAQ matching FAQPage schema (was schema-only; voices FAQ now on-page too); refuse SIREN-as-p(doom) / doom-probability / forecast; siblings guide + clock + methodology; `knowsAbout` “What is p(doom)” | Google + Bing | **Done** (2026-10-13) |
 | 202 | `/methodology.html` H1 + methodology.md + breadcrumbs + TechArticle headline aligned to question title “How the SIREN AI activity index is computed · methodology” (was bare “Methodology”); `knowsAbout` full phrase | Google + Bing + agents | **Done** (2026-10-13) |
+| 203 | `/guides.html` H1 + guides.md + CollectionPage/ItemList/breadcrumbs aligned to question title “What are the AI explainers?” (was mismatched em-dash H1); FAQ lead matches; refuse doom-probability; siblings guide/p(doom)/clock/methodology; `knowsAbout` full question | Google + Bing + agents | **Done** (2026-10-13) |
 
 ### 3.3 Refusals (search edition)
 
