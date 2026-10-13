@@ -186,8 +186,8 @@ export function roomGroups(ctx) {
     ]],
     ['PLAY & PREP', [
       ['/games.html', 'px:arcade', 'The Arcade', 'NEW', 'What free AI games can you play on SIREN?'],
-      ['/arena.html#battle', 'stocks', 'AI Battle', null, 'AI models trade stocks and crypto against live prices.'],
-      ['/arena.html', 'px:candles', 'Stock Picks', null, 'Daily rule-based stock picks, scored in public.'],
+      ['/arena.html#battle', 'stocks', 'AI Battle', null, 'What does SIREN Arena show?'],
+      ['/arena.html', 'px:candles', 'Stock Picks', null, 'What does SIREN Arena show?'],
       ['/scanner.html', 'px:crosshair', 'Scanner', null, 'What does the SIREN Capitulation Scanner show?'],
       ['/bets.html', 'dice', 'Tally’s Bets', null, 'Does the SIREN index make forecasts?'],
       ['/day-after.html', 'px:megaphone', 'The Day After', 'NEW', 'What happens the day after an AI catastrophe?'],

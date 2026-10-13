@@ -3,8 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Daily Picks, Big Investors &amp; AI Battle</title>
-<meta name="description" content="A rule-based daily stock screen with its full hypothetical track record, the disclosed trades of well-known investors and members of Congress, and AI models…">
+<title>What does SIREN Arena show? · SIREN</title>
+<meta name="description" content="What does SIREN Arena show? Daily rule-based stock picks with a hypothetical track record, disclosed trades from filings, and AI models trading paper money against live prices. Nothing here is financial advice. It never moves the SIREN score.">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","name":"What does SIREN Arena show?","description":"Daily rule-based stock picks with a hypothetical track record, disclosed Form 4 / 13F / Congress trades, and AI models trading paper money against live prices. Nothing here is financial advice. It never moves the SIREN score.","url":"https://siren.watch/arena.html","isPartOf":{"@type":"WebSite","name":"SIREN","url":"https://siren.watch/"},"speakable":{"@type":"SpeakableSpecification","cssSelector":["h1","p.ar-lede"]}}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"SIREN","item":"https://siren.watch/"},{"@type":"ListItem","position":2,"name":"Arena","item":"https://siren.watch/arena.html"}]}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What does SIREN Arena show?","acceptedAnswer":{"@type":"Answer","text":"Three public rooms: daily rule-based stock picks with every past pick scored, disclosed trades of well-known investors and members of Congress from public filings, and AI models trading paper money against live prices."}},{"@type":"Question","name":"Is Arena financial advice?","acceptedAnswer":{"@type":"Answer","text":"Nothing here is financial advice. Picks are the output of a fixed, automated screen with a hypothetical track record. Disclosures are after-the-fact filings. AI battle trades are simulated. No wallet here holds real funds."}},{"@type":"Question","name":"Does Arena move the SIREN score?","acceptedAnswer":{"@type":"Answer","text":"It never moves the SIREN score. Stock picks, filings and paper trades here are separate from the tempo index."}},{"@type":"Question","name":"Where does Arena data come from?","acceptedAnswer":{"@type":"Answer","text":"Daily picks: daily bars for about 150 large US stocks and ETFs (Yahoo Finance, delayed). Big investors: SEC Form 4, SEC 13F, ARK daily holdings and House periodic transaction reports. AI battle: Coinbase public API for crypto; Yahoo Finance for stocks; fills are simulated."}}]}
+</script>
 <link rel="stylesheet" href="fonts/fonts.css">
 <style>
 :root{
@@ -29,10 +38,19 @@ button,select{font:inherit;color:inherit}
 .num{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
 .up{color:var(--up)} .down{color:var(--down)} .mute{color:var(--mute)}
 
-header{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 14px}
-h1{margin:0;font:700 30px/1 var(--f-display);letter-spacing:.02em;text-transform:uppercase}
+header{display:flex;flex-wrap:wrap;align-items:flex-start;gap:8px 14px}
+.brand{display:flex;flex-direction:column;gap:4px;margin-right:auto;min-width:0;max-width:min(720px,100%)}
+.brand .ar-eyebrow{margin:0;font:700 12px/1 var(--f-display);letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.brand .ar-eyebrow b{color:var(--accent)}
+h1{margin:0;font:700 clamp(22px,4vw,30px)/1.1 var(--f-display);letter-spacing:.02em;text-transform:none;white-space:normal}
 h1 b{color:var(--accent)}
-.sub{color:var(--mute);font-size:13px;margin-right:auto}
+.ar-lede,.sub{margin:0;color:var(--mute);font-size:13px;max-width:62ch}
+.ar-faq{margin:6px 0 0;padding:14px 16px;background:var(--panel);border:1px solid var(--line);border-radius:10px;max-width:62ch}
+.ar-faq h2{margin:0 0 10px;font:600 16px/1.2 var(--f-display);letter-spacing:.04em;text-transform:none;color:var(--ink)}
+.ar-faq h3{margin:12px 0 6px;font:600 14px/1.3 var(--f-body);color:var(--ink)}
+.ar-faq p{margin:0 0 6px;font:400 13px/1.5 var(--f-body);color:var(--mute)}
+.ar-faq-key{margin-top:12px!important}
+.ar-faq a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
 .chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:3px 10px;font-size:12px;color:var(--mute)}
 .chip i{width:7px;height:7px;border-radius:50%;background:var(--mute)}
 .chip.live i{background:var(--up)}
@@ -285,17 +303,20 @@ table.mk.iv td.asset small{display:block;color:var(--mute)}
   .bars li{grid-template-columns:110px minmax(0,1fr) 32px}
   .feed li{grid-template-columns:1fr}
   .feed .why,.feed .fail,.feed details{grid-column:1}
-  h1{font-size:26px}
+  .brand .ar-lede{display:none}
 }
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
-    <h1 id="title">Daily <b>Picks</b></h1>
-    <span class="sub" id="subtitle">A rule-based screen for one-day stock trades, with every past pick scored.</span>
+    <div class="brand">
+      <p class="ar-eyebrow" id="eyebrow">ARENA · <b>DAILY PICKS</b> · BIG INVESTORS · AI BATTLE</p>
+      <h1 id="title">What does SIREN Arena show?</h1>
+      <p class="ar-lede sub" id="subtitle">Daily rule-based stock picks with a hypothetical track record, disclosed trades from filings, and AI models trading paper money. Nothing here is financial advice. It never moves the SIREN score.</p>
+    </div>
     <span id="fresh" class="chip" hidden><i></i><span>Loading…</span></span>
-    <a class="navlink" href="scanner.html">Scanner →</a>
+    <a class="navlink" href="scanner.html">What does the SIREN Capitulation Scanner show? →</a>
   </header>
 
   <div class="hl" id="hl" aria-label="Highlights">
@@ -450,6 +471,23 @@ table.mk.iv td.asset small{display:block;color:var(--mute)}
   </section>
 
   </div>
+
+  <!-- FAQ answers restate warn-box / foot copy only.
+       Refuse: financial advice, arena-as-index-input, doom-probability. -->
+  <section class="ar-faq" aria-labelledby="faq">
+    <h2 id="faq">Questions people actually ask</h2>
+    <h3>What does SIREN Arena show?</h3>
+    <p>Three public rooms: daily rule-based stock picks with every past pick scored, disclosed trades of well-known investors and members of Congress from public filings, and AI models trading paper money against live prices.</p>
+    <h3>Is Arena financial advice?</h3>
+    <p>Nothing here is financial advice. Picks are the output of a fixed, automated screen with a hypothetical track record. Disclosures are after-the-fact filings. AI battle trades are simulated. No wallet here holds real funds.</p>
+    <h3>Does Arena move the SIREN score?</h3>
+    <p>It never moves the SIREN score. Stock picks, filings and paper trades here are separate from the tempo index.</p>
+    <h3>Where does Arena data come from?</h3>
+    <p>Daily picks: daily bars for about 150 large US stocks and ETFs (Yahoo Finance, delayed). Big investors: SEC Form 4, SEC 13F, ARK daily holdings and House periodic transaction reports. AI battle: Coinbase public API for crypto; Yahoo Finance for stocks; fills are simulated.</p>
+    <p class="ar-faq-key">Search-shaped sibling:
+      <a href="scanner.html">What does the SIREN Capitulation Scanner show?</a>
+      · <a href="game.html">How do you play Tally Counts?</a>.</p>
+  </section>
 
   <p class="foot">Big investors: SEC Form 4 insider filings (AI-equity watchlist, usually within two business days), SEC 13F filings, ARK's daily holdings files and House periodic transaction reports, collected by a GitHub Action each weekday; 13F and Congress disclosures are delayed by up to 45 days. Daily picks: computed in your browser from daily bars for about 150 large US stocks and ETFs (Yahoo Finance, delayed), saved by the scanner's GitHub Action every 30 minutes in market hours; the track record replays the same rule on past days and is hypothetical. AI battle: simulated trading. Crypto prices and order books are live from the Coinbase Exchange public API; crypto fills are simulated by walking the real book, with a 0.6% fee each way. Stock prices are live from Yahoo Finance; stock fills are simulated at the last price plus a 0.025% half-spread, with no commission, and only while the US market is open. No wallet here holds real funds and nothing here is financial advice. Code: <a href="https://github.com/messagegabrielhere-lgtm/doomcon/tree/main/arena" target="_blank" rel="noopener">arena/</a>. Raw data: the <a href="https://github.com/messagegabrielhere-lgtm/doomcon/tree/arena-data" target="_blank" rel="noopener">arena-data</a> branch.</p>
 </div>
@@ -1320,8 +1358,14 @@ function announce(at){ if(at) window.dispatchEvent(new CustomEvent("site:data", 
 function setView(v){
   view = v;
   for(const k of TABS){ $(`#tab-${k}`).setAttribute("aria-selected", String(k === v)); $(`#view-${k}`).hidden = k !== v; }
-  $("#title").innerHTML = v === "picks" ? "Daily <b>Picks</b>" : v === "investors" ? "Big <b>Investors</b>" : "AI <b>Battle</b>";
-  $("#subtitle").textContent = v === "picks" ? "A rule-based screen for one-day stock trades, with every past pick scored." : v === "investors" ? "Form 4 insider trades, fund 13Fs, ARK daily moves and Congress disclosures — straight from the filings." : "Paper money, real prices. Every trade and every rejection, with its reason, as it happens.";
+  // Keep the question-shaped H1 and document.title; tab changes only eyebrow + lede.
+  $("#eyebrow").innerHTML = v === "picks" ? "ARENA · <b>DAILY PICKS</b> · BIG INVESTORS · AI BATTLE"
+    : v === "investors" ? "ARENA · DAILY PICKS · <b>BIG INVESTORS</b> · AI BATTLE"
+    : "ARENA · DAILY PICKS · BIG INVESTORS · <b>AI BATTLE</b>";
+  $("#subtitle").textContent = v === "picks" ? "A rule-based screen for one-day stock trades, with every past pick scored. Nothing here is financial advice. It never moves the SIREN score."
+    : v === "investors" ? "Form 4 insider trades, fund 13Fs, ARK daily moves and Congress disclosures — straight from the filings. Nothing here is financial advice. It never moves the SIREN score."
+    : "Paper money, real prices. Every trade and every rejection, with its reason, as it happens. Nothing here is financial advice. It never moves the SIREN score.";
+  document.title = "What does SIREN Arena show? · SIREN";
   $("#fresh").hidden = v !== "battle";
   if(v === "battle" && S){ renderChart(); announce(S.updatedAt); }
   if(v === "picks" && PKD){ drawPkChart(pkStats(PKH)); announce(PKD.gen); }
