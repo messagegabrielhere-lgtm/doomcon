@@ -53,21 +53,25 @@ test('guide.md mirrors the HTML guide claims', () => {
   assert.ok(md.includes(brand.NAME));
 });
 
-test('methodology.md wraps the source doc', () => {
+test('methodology.md wraps the source doc with matching question H1', () => {
   const md = methodologyMd(ctx);
-  assert.match(md, /^# SIREN methodology/);
+  assert.match(md, /^# How the SIREN AI activity index is computed · methodology/);
   assert.match(md, /HTML: https:\/\/siren\.watch\/methodology\.html/);
-  assert.match(md, /# How it works/);
+  assert.match(md, /The composite is arithmetic/);
+  assert.doesNotMatch(md, /^# How it works/m);
+  assert.doesNotMatch(md, /^# SIREN methodology/m);
   assert.match(md, /Built 2026-10-10T03:15:00\.000Z/);
 });
 
-test('methodology.html ships head-term title, speakable, breadcrumbs, and FAQ from question headings', () => {
+test('methodology.html ships matching question H1, speakable, breadcrumbs, and FAQ from question headings', () => {
   const html = renderMethodology({
     ...ctx,
     methodologyMd: readFileSync(new URL('../../docs/METHODOLOGY.md', import.meta.url), 'utf8'),
     state: { ...ctx.state, receipt_id: 'r1' },
   });
-  assert.match(html, /<title>How the SIREN AI activity index is computed/);
+  assert.match(html, /<title>How the SIREN AI activity index is computed · methodology/);
+  assert.match(html, /<h1[^>]*>How the SIREN AI activity index is computed · methodology/);
+  assert.doesNotMatch(html, /<h1[^>]*>Methodology\s*</);
   assert.match(html, /"@type"\s*:\s*"TechArticle"/);
   assert.match(html, /SpeakableSpecification/);
   assert.match(html, /BreadcrumbList/);
@@ -86,4 +90,5 @@ test('methodology.html ships head-term title, speakable, breadcrumbs, and FAQ fr
   assert.match(html, /What are the limitations, stated plainly/);
   assert.match(html, /How do I recompute the index myself/);
   assert.doesNotMatch(html, /probability of doom is \d/i);
+  assert.doesNotMatch(html, /noindex/);
 });
