@@ -102,6 +102,28 @@ describe('catalog page SEO', () => {
     assert.doesNotMatch(byUrl['/race.html']?.title || '', /^The Race$/);
   });
 
+  it('lists methodology, instruments, moves and item under page H1 stems (tip #214)', () => {
+    assert.equal(
+      catalogTitle('/methodology.html', 'Methodology', 'How the SIREN AI activity index is computed · methodology — every formula.'),
+      'How the SIREN AI activity index is computed · methodology',
+    );
+    assert.equal(
+      catalogTitle('/instruments.html', 'Instruments', 'Score history.'),
+      'What instruments sit behind the SIREN reading?',
+    );
+
+    const list = catalogEntries({ groups: roomGroups(ctx) });
+    const byUrl = Object.fromEntries(list.map((e) => [e.url, e]));
+    assert.equal(byUrl['/methodology.html']?.title, 'How the SIREN AI activity index is computed · methodology');
+    assert.equal(byUrl['/instruments.html']?.title, 'What instruments sit behind the SIREN reading?');
+    assert.equal(byUrl['/moves/']?.title, 'Where are the SIREN index moves?');
+    assert.equal(byUrl['/item/']?.title, 'Which scored AI stories are in the SIREN live window?');
+    assert.doesNotMatch(byUrl['/methodology.html']?.title || '', /^Methodology$/);
+    assert.doesNotMatch(byUrl['/instruments.html']?.title || '', /^Instruments$/);
+    assert.doesNotMatch(byUrl['/moves/']?.title || '', /^Every move$/);
+    assert.doesNotMatch(byUrl['/item/']?.title || '', /^Every story$/);
+  });
+
   it('ships a question-shaped title, speakable CollectionPage, and matching FAQPage', () => {
     const html = catalog(ctx, entries);
     assert.match(html, /<title>Where is everything on SIREN listed\?/);

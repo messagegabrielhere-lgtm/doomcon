@@ -463,6 +463,7 @@ context.
 | 211 | Catalog + agents.md conquest labels for compare/alternatives/vs/guides/guide/`/vs/*` aligned to question titles (was “AI doom indexes compared” / “AI explainers hub”); `knowsAbout` “Which AI indexes does SIREN contrast”; refuse doom-probability | Google + Bing + agents | **Done** (2026-10-13) |
 | 212 | Catalog + home + agents.md facet-directory labels (tags/people/sources/outlets/kinds/countries/pillars/models/companies/lab/item-archive) aligned to question titles; add missing `/models.html` `/companies.html` `/lab/` catalog rows; refuse doom-score blurbs | Google + Bing + agents | **Done** (2026-10-13) |
 | 213 | Catalog prefers question titles when `homeV2.roomGroups` short labels would win (MORE_PAGES question label, else blurb stem); home blurbs for race/leaders/watts/map/world/bliss/ai-proof-job/si-ready/bug-out-land + peers lead with page questions; agents.md instrument links match; refuse doom-probability blurbs | Google + Bing + agents | **Done** (2026-10-13) |
+| 214 | Catalog + MORE_PAGES + agents.md for `/methodology.html` `/instruments.html` `/moves/` `/item/` aligned to page H1 stems (was “Methodology” / “Instruments” / “Every move” / “Every story”); `catalogTitle` accepts How/What stems without trailing `?`; refuse doom-probability blurbs | Google + Bing + agents | **Done** (2026-10-13) |
 
 ### 3.3 Refusals (search edition)
 
