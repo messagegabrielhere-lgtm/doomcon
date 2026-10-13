@@ -582,8 +582,9 @@ export function pdoom(ctx) {
     <a href="${esc(ctx.href('/library.html'))}">Books from every side of the argument →</a> · <a href="${esc(ctx.href('/history.html'))}">Sixty years of the same argument →</a></p>
 </section>`;
   const path = '/p-doom.html';
-  const title = `p(doom): Hinton, Amodei, Musk, LeCun and 24 more, plus yours · ${brand.NAME}`;
-  const description = `28 named, sourced p(doom) estimates on one chart, from 0% to 99.9%, plus a dial to set your own and see who you agree with. What p(doom) is and what it cannot tell you.`;
+  // Question-shaped title matches the H1 and glossary head term (“what is p(doom)?”).
+  const title = `What is p(doom)? Hinton, Amodei, Musk, LeCun and 24 more · ${brand.NAME}`;
+  const description = `What is p(doom)? 28 named, sourced estimates on one chart, from 0% to 99.9%, plus a dial to set your own. An opinion as a percentage — not a recomputable measurement.`;
   const faqEntities = [
     { '@type': 'Question', name: 'What is p(doom)?', acceptedAnswer: { '@type': 'Answer', text: 'p(doom) is shorthand for "probability of doom": one person\'s estimate, as a percentage, that advanced AI leads to a catastrophic outcome for humanity. It is an opinion expressed as a number, with no agreed method behind it.' } },
     { '@type': 'Question', name: 'Why do p(doom) estimates differ so much?', acceptedAnswer: { '@type': 'Answer', text: 'Because "doom" is not defined the same way by everyone, the time frame varies, and the figure is a judgement rather than a measurement.' } },

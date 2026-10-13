@@ -57,6 +57,7 @@ describe('guides hub', () => {
 
   it('p-doom ships WebPage speakable + breadcrumbs with FAQ', () => {
     const html = pdoom(ctx);
+    assert.match(html, /<title>What is p\(doom\)\? Hinton, Amodei, Musk, LeCun/);
     assert.match(html, /What is p\(doom\)\?/);
     assert.match(html, /"@type"\s*:\s*"FAQPage"/);
     assert.match(html, /"@type"\s*:\s*"WebPage"/);
