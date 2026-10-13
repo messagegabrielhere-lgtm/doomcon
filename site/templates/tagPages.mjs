@@ -209,7 +209,9 @@ export const TOPIC_DEFS = Object.freeze([
     id: 'ipo',
     name: 'AI IPOs',
     description: 'IPO and listing stories naming AI labs or AI infrastructure companies — coverage counts, not investment advice.',
-    match: /\b(ai\s*ipos?|\bipo\b|direct\s*listing).{0,40}\b(openai|anthropic|coreweave|\bai\b)\b|\b(openai|anthropic|coreweave|\bai\b).{0,40}\bipo\b/i,
+    // Wider window + Moonshot / Firmus / Nvidia-backed infra forms so today’s
+    // AI-IPO headlines clear TAG_INDEX_MIN without synonym doorways.
+    match: /\bai\s*ipos?\b|\bipo\b.{0,80}\b(ai|openai|anthropic|moonshot|coreweave|firmus|nvidia)\b|\b(ai|openai|anthropic|moonshot|coreweave|firmus|nvidia)\b.{0,80}\bipo\b|\bdirect\s*listing\b.{0,40}\b(openai|anthropic|coreweave|\bai\b)\b/i,
   },
   {
     id: 'rag',

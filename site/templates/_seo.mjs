@@ -58,6 +58,7 @@ export function organization(ctx) {
       'AI leaders on the record',
       'AI race',
       'who is winning the AI race',
+      'AI IPOs this index scored',
       'AI doom index alternatives',
       'DoomBench alternative',
       'Skynet Countdown alternative',

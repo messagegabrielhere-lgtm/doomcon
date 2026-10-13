@@ -6,6 +6,7 @@ import {
   TOPIC_DEFS,
   indexableTags,
   tagPath,
+  tagStoryCount,
   tagsForItem,
   renderTag,
   renderIndex,
@@ -231,6 +232,26 @@ describe('tag pages', () => {
     assert.match(renderTag(rich, 'reasoning'), /What has SIREN scored about Reasoning models\?/);
     assert.match(renderTag(rich, 'ipo'), /What has SIREN scored about AI IPOs\?/);
     assert.match(renderTag(rich, 'rag'), /What has SIREN scored about RAG \/ retrieval\?/);
+  });
+
+  it('indexes AI IPOs from Moonshot / Firmus / Nvidia-backed listing forms', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('ipo1', 'Moonshot AI Plans Record $50 Billion Hong Kong IPO'),
+          story('ipo2', 'Nvidia-Backed Firmus Scraps Australian IPO'),
+          story('ipo3', 'Firmus IPO Debacle Raises the Bar for Asia AI Deals'),
+          story('ipo4', 'Research Firm Calls Anthropic\'s IPO Unprecedented'),
+          story('ipo5', 'Nvidia-backed data centre firm scraps IPO as AI valuation concerns deepen'),
+        ],
+      },
+    };
+    assert.ok(indexableTags(rich).some((t) => t.id === 'ipo'));
+    assert.ok(tagStoryCount(rich, 'ipo') >= TAG_INDEX_MIN);
+    assert.match(renderTag(rich, 'ipo'), /What has SIREN scored about AI IPOs\?/);
+    assert.ok(sitemapEntries(rich).some((e) => e.loc === '/tags/ipo.html'));
   });
 
   it('pages MCP, fine-tuning, and quantization hubs when the needle clears the gate', () => {
