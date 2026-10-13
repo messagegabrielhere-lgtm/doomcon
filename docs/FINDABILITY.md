@@ -334,6 +334,7 @@ context.
 | 101 | `/history.html` question-shaped title + Article speakable + BreadcrumbList; IndexNow + seo-daily monitor; Organization `knowsAbout` “history of AI risk” | Google + Bing | **Done** (2026-10-13) |
 | 102 | `/guides.html` question-shaped title + CollectionPage speakable + BreadcrumbList; visible FAQ matching schema; history in GUIDES; `knowsAbout` “AI explainers” | Google | **Done** (2026-10-13) |
 | 103 | Entity lab Artificial Analysis (`/lab/artificial-analysis`, two-word form only, ≥3 gate); IndexNow + seo-daily monitor | Google + Bing | **Done** (2026-10-13) |
+| 104 | `/methodology.html` FAQ adds pillars/arithmetic/reference/biases/attribution/limitations question headings (visible text only) | Google | **Done** (2026-10-13) |
 
 ### 3.3 Refusals (search edition)
 

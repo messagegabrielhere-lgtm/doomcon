@@ -62,11 +62,17 @@ test('methodology.html ships head-term title, speakable, breadcrumbs, and FAQ fr
   assert.match(html, /BreadcrumbList/);
   assert.match(html, /"@type"\s*:\s*"FAQPage"/);
   assert.match(html, /What does the index measure/);
+  assert.match(html, /What are the five pillars/);
   assert.match(html, /Why is the market pillar not/);
+  assert.match(html, /How does the arithmetic work/);
   assert.match(html, /Why does the level not flicker/);
   assert.match(html, /What happens when a source is missing/);
   assert.match(html, /What is a receipt, and can I check one/);
   assert.match(html, /How could this index mislead you/);
+  assert.match(html, /What are reference versions and the shadow index/);
+  assert.match(html, /What biases does this index carry/);
+  assert.match(html, /Where does the historical training-compute data come from/);
+  assert.match(html, /What are the limitations, stated plainly/);
   assert.match(html, /How do I recompute the index myself/);
   assert.doesNotMatch(html, /probability of doom is \d/i);
 });

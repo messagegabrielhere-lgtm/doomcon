@@ -29,7 +29,7 @@ mechanically prevented from using future tense — `will`, `expect`, `predict`,
 `imminent`, `soon`, `coming`, `warns`, `forecast`, `likely` are a hard-banned
 word list enforced by a unit test, not by editorial discipline.
 
-## The five pillars
+## What are the five pillars?
 
 | id | measures | current sources |
 |---|---|---|
@@ -69,7 +69,12 @@ speech. Both adapters therefore re-filter locally against a word-boundary AI
 token regex, and report how many markets they rejected as `rejected_off_topic` so
 you can audit the basket rather than trust it.
 
-## The arithmetic
+## How does the arithmetic work?
+
+Four steps, always in this order: normalise each live source against a frozen
+reference, smooth the noisy ones, compose a mean across pillars that still have
+data, then map the composite onto a level with anti-flap guards. The subsections
+below are the whole formula.
 
 ### 1. Normalise
 
@@ -216,7 +221,7 @@ happens the honest fix is a versioned `v2` reference with both series published
 side by side, not a quiet re-baseline. We commit to that in advance, here, where
 it can be held against us.
 
-## Reference versions and the shadow index
+## What are reference versions and the shadow index?
 
 The reference distribution in `data/reference.json` is **v1, frozen**. Sources
 it does not calibrate (today: the equity basket, GPU rents, GOV.UK, the three
@@ -230,7 +235,7 @@ old receipt still verifies. The full procedure, including how a permanent
 baseline shift is handled, is in
 [REFERENCE-VERSIONING.md](REFERENCE-VERSIONING.md).
 
-## Known biases
+## What biases does this index carry?
 
 The sources are **English-language and US-centric**, and the index inherits
 that:
@@ -280,12 +285,12 @@ docker run --rm --network host -v "$PWD":/app -w /app node:20-alpine node collec
 Compare your `data/state.json` against the published one. If they disagree, that
 is a bug and we want the issue.
 
-## Attribution
+## Where does the historical training-compute data come from?
 
 Historical training-compute and notable-model data comes from **[Epoch
 AI](https://epoch.ai/)**, used under CC-BY 4.0.
 
-## Limitations, stated plainly
+## What are the limitations, stated plainly?
 
 - Backfill coverage varies by source; sources admitted to the reference set had
   to be backfillable, but not all reach equally far.
