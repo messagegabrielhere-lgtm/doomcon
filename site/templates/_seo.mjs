@@ -35,6 +35,7 @@ export function organization(ctx) {
       'verifiable AI doomsday clock',
       'how the AI activity index is computed',
       'history of AI risk',
+      'AI explainers',
       'AI doom index alternatives',
       'DoomBench alternative',
       'Skynet Countdown alternative',

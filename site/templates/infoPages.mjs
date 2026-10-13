@@ -954,6 +954,11 @@ export const GUIDES = Object.freeze([
     blurb: 'Every formula, pillar weight, and frozen-reference rule.',
   },
   {
+    path: '/history.html',
+    name: 'What is the history of AI risk?',
+    blurb: 'Dated, sourced field notes — Good, Asilomar, the pause letter — not a forecast.',
+  },
+  {
     path: '/compare.html',
     name: 'AI doom indexes compared',
     blurb: 'Side-by-side with DoomBench, Skynet Countdown, p(doom), PizzINT and Takeoff Tracker.',
@@ -983,20 +988,37 @@ export const GUIDES = Object.freeze([
 /** Head-term /guides.html hub over evergreen explainers (FINDABILITY conquest). */
 export function guides(ctx) {
   const path = '/guides.html';
-  const title = `AI explainers: p(doom), doomsday clocks, doom indexes · ${brand.NAME}`;
+  // Head-term title: people search “AI explainers” / p(doom) / doomsday clock.
+  const title = `What are the AI explainers? p(doom), clocks, doom indexes · ${brand.NAME}`;
   const description = `Plain guides on p(doom), AI doomsday clocks, DEFCON comparisons, and recomputable AI activity indexes. ${brand.NAME} counts tempo — it does not publish a doom probability.`;
+  // FAQ from the SAME pairs rendered in HTML (FINDABILITY schema rule — no invented Q&A).
+  const faqPairs = [
+    [
+      'Where are the AI doom and p(doom) explainers?',
+      `${brand.NAME} publishes /guides.html as a directory of evergreen explainers: p(doom), AI doomsday clocks, DEFCON comparisons, methodology, sourced AI-risk history, and versus pages for DoomBench, Skynet Countdown, p(doom) clocks, PizzINT and Takeoff Tracker. None of them is a doom probability for ${brand.NAME} itself.`,
+    ],
+    [
+      'Does SIREN publish a doom probability?',
+      `No. ${brand.NAME} publishes an hourly AI activity count with a receipt. The explainer pages describe vocabulary other sites use; they do not turn the ${brand.NAME} reading into a chance of harm.`,
+    ],
+  ];
   const rows = GUIDES.map((g) => `<li style="padding:12px 0;border-bottom:1px solid var(--rule)">
   <a href="${esc(ctx.href(g.path))}" style="font:600 var(--t-base)/1.35 var(--sans);color:var(--ink);text-decoration:none">${esc(g.name)}</a>
   <p style="margin:4px 0 0;font:400 var(--t-sm)/1.5 var(--sans);color:var(--ink-dim)">${esc(g.blurb)}</p>
 </li>`).join('');
+  const faqHtml = faqPairs.map(([q, a]) => `
+  <h3>${esc(q)}</h3>
+  <p>${esc(a)}</p>`).join('');
   const main = `${CSS}
 <section class="inf">
   <p class="eyebrow">Guides</p>
-  <div class="inf__top">${mascot({ size: 76, level: level(ctx) })}<h1 class="bp__h1">AI explainers — what each number measures</h1></div>
+  <div class="inf__top">${mascot({ size: 76, level: level(ctx) })}<h1 class="bp__h1">What are the AI explainers — and what each number measures</h1></div>
   <p class="lede">Search often lands on a doom score, a countdown, or a DEFCON-shaped novelty page.
     These pages answer the vocabulary questions without inventing a probability of harm.
     ${esc(brand.NAME)} stays an hourly activity count with a receipt.</p>
   <ol style="list-style:none;padding:0;margin:16px 0 0">${rows}</ol>
+  <h2 id="faq">Questions people actually ask</h2>
+  ${faqHtml}
   <h2>Also</h2>
   <p><a href="${esc(ctx.href('/'))}">Live reading →</a>
      · <a href="${esc(ctx.href('/guides.md'))}">Markdown mirror →</a>
@@ -1017,7 +1039,9 @@ export function guides(ctx) {
         url: ctx.url(path),
         description,
         isPartOf: { '@type': 'WebSite', name: brand.PUBLICATION, url: ctx.url('/') },
+        speakable: speakable(['h1', '.lede']),
       },
+      breadcrumbs(ctx, [{ name: 'Guides', path }]),
       {
         '@context': 'https://schema.org',
         '@type': 'ItemList',
@@ -1033,24 +1057,11 @@ export function guides(ctx) {
       {
         '@context': 'https://schema.org',
         '@type': 'FAQPage',
-        mainEntity: [
-          {
-            '@type': 'Question',
-            name: 'Where are the AI doom and p(doom) explainers?',
-            acceptedAnswer: {
-              '@type': 'Answer',
-              text: `SIREN publishes /guides.html as a directory of evergreen explainers: p(doom), AI doomsday clocks, DEFCON comparisons, methodology, and versus pages for DoomBench, Skynet Countdown, p(doom) clocks, PizzINT and Takeoff Tracker. None of them is a doom probability for SIREN itself.`,
-            },
-          },
-          {
-            '@type': 'Question',
-            name: 'Does SIREN publish a doom probability?',
-            acceptedAnswer: {
-              '@type': 'Answer',
-              text: 'No. SIREN publishes an hourly AI activity count with a receipt. The explainer pages describe vocabulary other sites use; they do not turn the SIREN reading into a chance of harm.',
-            },
-          },
-        ],
+        mainEntity: faqPairs.map(([q, a]) => ({
+          '@type': 'Question',
+          name: q,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
       },
     ],
     main,
