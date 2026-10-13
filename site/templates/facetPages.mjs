@@ -1012,11 +1012,21 @@ export function renderSource(ctx, sourceId) {
 export function renderSourceIndex(ctx) {
   const sources = indexableSources(ctx);
   const path = '/source/';
-  const title = `AI news outlets this index scores · ${brand.NAME}`;
+  // Head-term title: people search “AI news sources” / feed adapters directory.
+  const title = `Which AI feed adapters have ${brand.NAME} pages?`;
   const description = clip(
     `${sources.length} outlets with at least ${SOURCE_INDEX_MIN} scored stories on ${brand.NAME} (live window plus archive). Each page lists those stories.`,
     160,
   );
+  const faq = [
+    [`Which AI feed adapters have ${brand.NAME} pages?`,
+      `${sources.length} feed adapters clear the substance gate of at least ${SOURCE_INDEX_MIN} matching stories in the live window or archive. Each hub lists those stories — not a source doom score.`],
+    [`Does ${brand.NAME} publish a source doom score?`,
+      `No. ${brand.DISCLAIMER_SHORT} These pages count scored stories from a feed adapter. Publisher hosts stay under /outlets.html.`],
+  ];
+  const faqHtml = faq.map(([q, a]) => `
+  <h3>${esc(q)}</h3>
+  <p>${esc(a)}</p>`).join('');
   const rows = sources.map((s) => `<li>
   <a href="${esc(ctx.href(sourcePath(s.id)))}">${esc(s.label)}</a>
   <span class="fc__meta">${esc(s.id)}${s.archived ? ` · ${esc(String(s.live))} live / ${esc(String(s.archived))} archive` : ''}</span>
@@ -1025,9 +1035,11 @@ export function renderSourceIndex(ctx) {
   const main = `${STYLE}
 <article class="fc prose">
   <p class="fc__k"><a href="${esc(ctx.href('/news.html'))}">Newsroom</a> · Feed adapters · <a href="${esc(ctx.href('/sources.html'))}">Sources hub</a></p>
-  <h1>Outlets this index scores</h1>
+  <h1>Which AI feed adapters have ${esc(brand.NAME)} pages?</h1>
   <p class="fc__lede">An outlet earns a page when at least ${SOURCE_INDEX_MIN} scored stories from it appear in the live window or the durable archive. Fewer than that stays on the story page only, so a one-off item does not become its own URL.</p>
   <ol class="fc__list">${rows}</ol>
+  <h2 id="faq">Questions people actually ask</h2>
+  ${faqHtml}
   <p class="fresh__key">Search-shaped directory: <a href="${esc(ctx.href('/sources.html'))}">Which AI news sources has ${esc(brand.NAME)} scored via?</a>.</p>
 </article>`;
   return page({
@@ -1042,6 +1054,7 @@ export function renderSourceIndex(ctx) {
       name: title,
       url: ctx.url('/source/'),
       description,
+      speakable: speakable(['h1', '.fc__lede']),
       mainEntity: {
         '@type': 'ItemList',
         numberOfItems: sources.length,
@@ -1055,7 +1068,15 @@ export function renderSourceIndex(ctx) {
     }, breadcrumbs(ctx, [
       { name: 'Newsroom', path: '/news.html' },
       { name: 'Outlets', path: '/source/' },
-    ])],
+    ]), {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faq.map(([q, a]) => ({
+        '@type': 'Question',
+        name: q,
+        acceptedAnswer: { '@type': 'Answer', text: a },
+      })),
+    }],
     main,
   });
 }

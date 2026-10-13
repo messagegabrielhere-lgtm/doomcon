@@ -254,11 +254,21 @@ export function renderOutlet(ctx, domain) {
 export function renderIndex(ctx) {
   const outlets = indexableOutlets(ctx);
   const path = '/outlet/';
-  const title = `AI publishers this index scores · ${brand.NAME}`;
+  // Head-term title: people search “AI publishers” / publisher hosts.
+  const title = `Which AI publishers have ${brand.NAME} pages?`;
   const description = clip(
     `${outlets.length} publisher domains with at least ${OUTLET_INDEX_MIN} scored stories on ${brand.NAME} (live window plus archive).`,
     160,
   );
+  const faq = [
+    [`Which AI publishers have ${brand.NAME} pages?`,
+      `${outlets.length} publisher domains clear the substance gate of at least ${OUTLET_INDEX_MIN} matching stories in the live window or archive. Each hub lists those stories — not a publisher doom score.`],
+    [`Does ${brand.NAME} publish a publisher doom score?`,
+      `No. ${brand.DISCLAIMER_SHORT} These pages count scored stories whose original URL is on that host.`],
+  ];
+  const faqHtml = faq.map(([q, a]) => `
+  <h3>${esc(q)}</h3>
+  <p>${esc(a)}</p>`).join('');
   const rows = outlets.map((o) => `<li>
   <a href="${esc(ctx.href(outletPath(o.domain)))}">${esc(o.domain)}</a>
   <span class="od__meta">${esc(String(o.count))} scored${o.archived ? ` (${esc(String(o.live))} live / ${esc(String(o.archived))} archive)` : ''}</span>
@@ -266,11 +276,13 @@ export function renderIndex(ctx) {
   const main = `${STYLE}
 <article class="od prose">
   <p class="od__k"><a href="${esc(ctx.href('/news.html'))}">Newsroom</a> · Publishers · <a href="${esc(ctx.href('/outlets.html'))}">Outlets hub</a></p>
-  <h1>AI publishers</h1>
+  <h1>Which AI publishers have ${esc(brand.NAME)} pages?</h1>
   <p class="od__lede">A publisher earns a page when at least ${OUTLET_INDEX_MIN} scored stories whose original URL is on that host appear in the live window or the durable archive. Thinner domains stay on the story page only. Feed adapters live under <a href="${esc(ctx.href('/source/'))}">/source/</a>.</p>
   ${outlets.length
     ? `<ol class="od__list">${rows}</ol>`
     : '<p>No publisher has cleared the gate in this build.</p>'}
+  <h2 id="faq">Questions people actually ask</h2>
+  ${faqHtml}
   <p class="fresh__key">Search-shaped directory: <a href="${esc(ctx.href('/outlets.html'))}">Which AI outlets has ${esc(brand.NAME)} scored stories from?</a>.</p>
 </article>`;
 
@@ -286,6 +298,7 @@ export function renderIndex(ctx) {
       name: title,
       url: ctx.url(path),
       description,
+      speakable: speakable(['h1', '.od__lede']),
       mainEntity: {
         '@type': 'ItemList',
         numberOfItems: outlets.length,
@@ -299,7 +312,15 @@ export function renderIndex(ctx) {
     }, breadcrumbs(ctx, [
       { name: 'Newsroom', path: '/news.html' },
       { name: 'Publishers', path },
-    ])],
+    ]), {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faq.map(([q, a]) => ({
+        '@type': 'Question',
+        name: q,
+        acceptedAnswer: { '@type': 'Answer', text: a },
+      })),
+    }],
     main,
   });
 }

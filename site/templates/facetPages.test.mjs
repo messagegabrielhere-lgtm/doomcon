@@ -902,7 +902,12 @@ describe('outlet facets', () => {
     assert.match(html, /"@type"\s*:\s*"FAQPage"/);
     assert.match(html, /speakable/);
     assert.match(html, /\/outlets\.html/);
-    assert.match(renderSourceIndex(ctx), /\/sources\.html/);
+    const srcIndex = renderSourceIndex(ctx);
+    assert.match(srcIndex, /Which AI feed adapters have SIREN pages\?/);
+    assert.match(srcIndex, /Questions people actually ask/);
+    assert.match(srcIndex, /"@type"\s*:\s*"FAQPage"/);
+    assert.match(srcIndex, /speakable/);
+    assert.match(srcIndex, /\/sources\.html/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
   });
 

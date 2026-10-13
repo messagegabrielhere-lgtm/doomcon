@@ -94,7 +94,10 @@ describe('outlet pages', () => {
 
   it('renders the index and links from story pages', () => {
     const index = renderIndex(ctx);
-    assert.match(index, /AI publishers/);
+    assert.match(index, /Which AI publishers have SIREN pages\?/);
+    assert.match(index, /Questions people actually ask/);
+    assert.match(index, /"@type"\s*:\s*"FAQPage"/);
+    assert.match(index, /speakable/);
     assert.match(index, /\/outlet\/arxiv-org\.html/);
     const outs = outletsForItem(ctx, ctx.news.items[0]);
     assert.equal(outs.length, 1);
