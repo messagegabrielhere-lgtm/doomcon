@@ -464,6 +464,7 @@ context.
 | 212 | Catalog + home + agents.md facet-directory labels (tags/people/sources/outlets/kinds/countries/pillars/models/companies/lab/item-archive) aligned to question titles; add missing `/models.html` `/companies.html` `/lab/` catalog rows; refuse doom-score blurbs | Google + Bing + agents | **Done** (2026-10-13) |
 | 213 | Catalog prefers question titles when `homeV2.roomGroups` short labels would win (MORE_PAGES question label, else blurb stem); home blurbs for race/leaders/watts/map/world/bliss/ai-proof-job/si-ready/bug-out-land + peers lead with page questions; agents.md instrument links match; refuse doom-probability blurbs | Google + Bing + agents | **Done** (2026-10-13) |
 | 214 | Catalog + MORE_PAGES + agents.md for `/methodology.html` `/instruments.html` `/moves/` `/item/` aligned to page H1 stems (was “Methodology” / “Instruments” / “Every move” / “Every story”); `catalogTitle` accepts How/What stems without trailing `?`; refuse doom-probability blurbs | Google + Bing + agents | **Done** (2026-10-13) |
+| 215 | Catalog + agents.md + pillar-page siblings/breadcrumbs for `/pillar/{id}.html` aligned to “What has SIREN scored under {name}?” (was “Capability pillar”); `knowsAbout` per-pillar questions; refuse pillar doom-score blurbs | Google + Bing + agents | **Done** (2026-10-13) |
 
 ### 3.3 Refusals (search edition)
 

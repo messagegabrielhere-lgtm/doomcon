@@ -387,7 +387,7 @@ function facetLinks(ctx, u) {
   const pillars = [
     `- [Which AI activity pillars has SIREN scored?](${u('/pillars.html')}): same gated pillars; tempo readings and story counts only`,
     `- [Which AI activity pillars have SIREN pages?](${u('/pillar/')})`,
-    ...brand.PILLARS.map((p) => `- [${p.name} pillar](${u(`/pillar/${p.id}.html`)})`),
+    ...brand.PILLARS.map((p) => `- [What has SIREN scored under ${p.name}?](${u(`/pillar/${p.id}.html`)})`),
   ].join('\n');
   const labs = allLabs(ctx)
     .filter((p) => labIndexable(ctx, p))

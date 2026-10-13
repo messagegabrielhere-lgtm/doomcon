@@ -79,13 +79,18 @@ describe('pillar facets', () => {
   it('renders a CollectionPage with breadcrumb and head-term title', () => {
     const html = renderPillar(ctx, 'capability');
     assert.match(html, /<title>What has SIREN scored under Capability\?/);
+    assert.match(html, /<h1>What has SIREN scored under Capability\?<\/h1>/);
     assert.match(html, /CollectionPage/);
     assert.match(html, /BreadcrumbList/);
+    assert.match(html, /Which AI activity pillars have SIREN pages\?/);
+    assert.match(html, /What has SIREN scored under Attention\?/);
+    assert.match(html, /How the SIREN AI activity index is computed · methodology/);
     assert.match(html, /Questions people actually ask/);
     assert.match(html, /"@type"\s*:\s*"FAQPage"/);
     assert.match(html, /speakable/);
     assert.match(html, /pillar\/attention\.html/);
     assert.doesNotMatch(html, /noindex/);
+    assert.doesNotMatch(html, /pillar doom score:\s*\d/i);
     assert.equal(pillarPath('capability'), '/pillar/capability.html');
   });
 

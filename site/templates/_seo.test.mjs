@@ -151,6 +151,9 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('AI outlets this index scored'));
     assert.ok(org.knowsAbout.includes('AI news sources this index scored'));
     assert.ok(org.knowsAbout.includes('AI activity pillars this index scored'));
+    assert.ok(org.knowsAbout.includes('What has SIREN scored under Capability'));
+    assert.ok(org.knowsAbout.includes('What has SIREN scored under Compute & Capital'));
+    assert.ok(org.knowsAbout.includes('What has SIREN scored under Markets'));
     assert.ok(org.knowsAbout.includes('AI datacentre countries this index scored'));
     assert.ok(org.knowsAbout.includes('how many datacentres mapped on Earth'));
     assert.ok(org.knowsAbout.includes('how many datacentres mapped in the United States'));
