@@ -425,6 +425,7 @@ context.
 | 192 | `/labs.html` question-shaped title + CollectionPage speakable + visible FAQ matching FAQPage schema (weekly open-data experiments; refuse SI-arrival-date / labs-as-index-input / doom-probability); IndexNow + seo-daily; `knowsAbout` “What is SIREN Labs measuring this week” | Google + Bing | **Done** (2026-10-13) |
 | 193 | `/library.html` question-shaped title + CollectionPage speakable + visible FAQ matching FAQPage schema (both-sides reading list; refuse endorsement-as-SIREN-claim / library-as-index-input / doom-probability); IndexNow + seo-daily; `knowsAbout` “What AI books argue both sides of the case” | Google + Bing | **Done** (2026-10-13) |
 | 194 | `/sponsor.html` question-shaped title + WebPage speakable + visible FAQ matching FAQPage schema (one labelled sponsor; refuse sponsor-moves-score / visitor-data-sale / doom-probability); IndexNow + seo-daily; `knowsAbout` “How do you sponsor SIREN without moving the number” | Google + Bing | **Done** (2026-10-13) |
+| 195 | `/nothing.html` question-shaped title + WebPage speakable + visible FAQ matching FAQPage schema (Nothing Ever Happens ledger; refuse NEH-as-main-index / auto-miss-overdue / doom-probability); IndexNow + seo-daily; `knowsAbout` “How often do dated AI claims miss” | Google + Bing | **Done** (2026-10-13) |
 
 ### 3.3 Refusals (search edition)
 
