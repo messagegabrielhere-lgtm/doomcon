@@ -336,6 +336,7 @@ context.
 | 103 | Entity lab Artificial Analysis (`/lab/artificial-analysis`, two-word form only, ≥3 gate); IndexNow + seo-daily monitor | Google + Bing | **Done** (2026-10-13) |
 | 104 | `/methodology.html` FAQ adds pillars/arithmetic/reference/biases/attribution/limitations question headings (visible text only) | Google | **Done** (2026-10-13) |
 | 105 | `/compare.html` `/alternatives.html` `/vs.html` question-shaped titles + visible FAQ matching schema (same pairs as FAQPage) | Google | **Done** (2026-10-13) |
+| 106 | `/vs/*` rival pages question-shaped titles (“which should you use?”) + visible FAQ matching schema | Google | **Done** (2026-10-13) |
 
 ### 3.3 Refusals (search edition)
 

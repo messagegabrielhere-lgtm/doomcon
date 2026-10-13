@@ -383,7 +383,8 @@ export function vsRival(ctx, rivalId) {
   const rival = RIVALS.find((r) => r.id === rivalId);
   if (!rival) return '';
   const path = rival.path;
-  const title = `${brand.NAME} vs ${rival.name}: activity count vs ${rival.short}`;
+  // Head-term title: people search “SIREN vs DoomBench” / rival name.
+  const title = `${brand.NAME} vs ${rival.name}: which should you use? Activity count vs ${rival.short}`;
   const description = `${brand.NAME} vs ${rival.name}. ${rival.measures}. ${rival.recomputableNote}. ${brand.NAME} publishes an hourly recomputable activity score instead.`;
   const faq = [
     [`${brand.NAME} vs ${rival.name} — which should I use?`,
@@ -399,7 +400,7 @@ export function vsRival(ctx, rivalId) {
   const main = `${CSS}
 <article class="cmp prose">
   <p class="cmp__k">Versus</p>
-  <h1>${esc(brand.NAME)} vs ${esc(rival.name)}</h1>
+  <h1>${esc(brand.NAME)} vs ${esc(rival.name)} — which should you use?</h1>
   <p class="cmp__lede">${esc(rival.ourAngle)}</p>
   ${liveStrip(ctx)}
   <h2>What each one is</h2>
@@ -420,6 +421,7 @@ export function vsRival(ctx, rivalId) {
     <li><b>Recomputable:</b> yes — receipt, open code, CORS JSON.</li>
     <li><b>Does not publish:</b> takeover probability, AGI date, anyone’s p(doom), a military DEFCON level, or the Bulletin’s Doomsday Clock.</li>
   </ul>
+  ${faqBlock(faq)}
   <h2>Where to go next</h2>
   <p><a href="${esc(ctx.href('/'))}">Current ${esc(brand.NAME)} reading →</a>
      · <a href="${esc(ctx.href('/methodology.html'))}">Method →</a>
