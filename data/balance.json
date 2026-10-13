@@ -28,15 +28,17 @@
         "counts": "Structure predictions the AlphaFold Protein Structure Database search returns, single chains and complexes together.",
         "does_not_count": "Experimental structures, validated structures, or anything a prediction was used for. A prediction is not a drug. The total jumps whenever a provider batch lands, so a rise says a batch landed.",
         "endpoint": "https://alphafold.ebi.ac.uk/api/search?q=*&type=main&start=0&rows=0",
-        "error": "HTTP 403 Forbidden from https://alphafold.ebi.ac.uk/api/search?q=*&type=main&start=0&rows=0 — <html><head> <meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\"> <title>403 Forbidden</title> </head> <body text=#000000 bgcolor=#ffffff> <h1>Error: Forbidden</h1> <h2>Your client does not have permission to get URL <code>/api/search</code> from this server.</h2> <h2></h2> </body></ht…",
+        "error": null,
         "id": "alphafold-db-entries",
         "keyless": true,
         "label": "AlphaFold DB structure predictions, single-chain plus complexes (total)",
-        "meta": {},
+        "meta": {
+          "num_found_exact": true
+        },
         "side": "benefit",
-        "state": "dark",
-        "unit": null,
-        "value": null,
+        "state": "live",
+        "unit": "structure predictions",
+        "value": 261328474,
         "window": null,
         "windowed": false
       },
@@ -121,7 +123,7 @@
         "windowed": false
       }
     ],
-    "dark": 1,
+    "dark": 0,
     "harm": [
       {
         "ai_specific": true,
@@ -211,17 +213,17 @@
         "windowed": true
       }
     ],
-    "live": 5,
+    "live": 6,
     "never_summed": true,
     "window": {
-      "anchor": "2026-10-13T17:24:40.078Z",
+      "anchor": "2026-10-13T17:30:19.143Z",
       "days_back": 30,
       "from": "2026-09-13",
       "to": "2026-10-13"
     },
     "window_rule": "the 30 whole UTC days before the anchor day plus the anchor day so far, both ends inclusive; the anchor is generated_at"
   },
-  "generated_at": "2026-10-13T17:24:40.078Z",
+  "generated_at": "2026-10-13T17:30:19.143Z",
   "generated_at_rule": "the newest timestamp among the inputs (news, SIREN, BLISS, ledger as_of_date), never the clock",
   "honesty": [
     "No net score. Nothing in this file adds a harm to a benefit, subtracts one from the other or divides one by the other, because the two sides share no unit.",
@@ -235,7 +237,7 @@
       "degraded": false,
       "error": null,
       "failed_sources": [],
-      "generated_at": "2026-10-13T17:23:00.202Z",
+      "generated_at": "2026-10-13T17:30:19.143Z",
       "index": "BLISS",
       "level": null,
       "level_name": null,
@@ -248,14 +250,14 @@
     },
     "doomcon": {
       "dark_pillars": [],
-      "degraded": false,
+      "degraded": true,
       "error": null,
-      "generated_at": "2026-10-13T17:19:56.234Z",
+      "generated_at": "2026-10-13T17:26:31.175Z",
       "index": "SIREN",
       "level": 4,
       "level_name": "ROUTINE",
       "printed_as": "score",
-      "score": 48.8167,
+      "score": 48.7187,
       "state": "live"
     },
     "note": "Context only. Neither index feeds the beam, and the two are never subtracted, compared or combined in this file."
@@ -538,23 +540,23 @@
       "harm": 6,
       "level": false,
       "level_reason": null,
-      "neither": 300,
-      "scanned": 308,
+      "neither": 299,
+      "scanned": 307,
       "sinks": "harm",
       "state": "live",
       "unit": "distinct stories"
     },
     "error": null,
-    "generated_at": "2026-10-13T17:24:40.078Z",
+    "generated_at": "2026-10-13T17:29:43.502Z",
     "items": {
       "benefit_list": 2,
       "benefit_only": 2,
       "both": 0,
       "harm_list": 7,
       "harm_only": 7,
-      "hedged_headlines": 44,
-      "neither": 357,
-      "scanned": 366
+      "hedged_headlines": 43,
+      "neither": 356,
+      "scanned": 365
     },
     "items_in_window": 400,
     "matched": {
@@ -577,7 +579,7 @@
           "kind": "press",
           "negated": [],
           "published_at": "2026-10-13T16:34:11.000Z",
-          "score": 33.5,
+          "score": 33.4,
           "set_aside": null,
           "source": "gnews-ai",
           "story": null,
@@ -604,7 +606,7 @@
           "kind": "press",
           "negated": [],
           "published_at": "2026-10-13T15:29:39.000Z",
-          "score": 52,
+          "score": 51.9,
           "set_aside": null,
           "source": "gnews-ai",
           "story": null,
@@ -632,9 +634,9 @@
           "kind": "press",
           "negated": [],
           "published_at": "2026-10-13T16:48:29.000Z",
-          "score": 51.6,
+          "score": 69,
           "set_aside": null,
-          "source": "gnews-ai",
+          "source": "wires-ai",
           "story": null,
           "tag": "harm",
           "title": "Anthropic AI Model Went Rogue, Submitted Fake Unsolved Murder Tip",
@@ -659,7 +661,7 @@
           "kind": "press",
           "negated": [],
           "published_at": "2026-10-13T15:27:39.000Z",
-          "score": 42.1,
+          "score": 42,
           "set_aside": null,
           "source": "the-decoder",
           "story": null,
@@ -711,7 +713,7 @@
           "kind": "press",
           "negated": [],
           "published_at": "2026-10-13T13:00:00.000Z",
-          "score": 65.6,
+          "score": 65.5,
           "set_aside": null,
           "source": "techcrunch-ai",
           "story": null,
@@ -739,7 +741,7 @@
           "kind": "press",
           "negated": [],
           "published_at": "2026-10-13T03:45:01.000Z",
-          "score": 47.9,
+          "score": 47.8,
           "set_aside": null,
           "source": "techmeme",
           "story": "e991936c5987",
@@ -791,7 +793,7 @@
           "kind": "forum",
           "negated": [],
           "published_at": "2026-10-12T23:07:25.000Z",
-          "score": 49.7,
+          "score": 49.6,
           "set_aside": null,
           "source": "hn-fresh-ai",
           "story": null,
@@ -802,6 +804,78 @@
       ]
     },
     "neither": [
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "2863be34ceb323ac",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-13T17:27:23.000Z",
+        "score": 38.8,
+        "set_aside": null,
+        "source": "wires-ai",
+        "story": null,
+        "tag": "neither",
+        "title": "Goldman and JPMorgan Earnings: Bank Bosses Are Too Optimistic About the AI Boom",
+        "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxOUnFkb3dLV0lrVjdUa0VFVHBFZ0Y5djNGWlp0Uk1Vai03WWt0YWJHcEZ5TWdWUVVzNXlsbG1rNFBXSkFkM3lmUDNEVkdCSVMyM0NYUTdQSEtnU3hsWUFqYUIwR3B2U1AwZVNhd3dha05pRVlEVFRteGFUQkd6TE45RHhtWnpXY1hhWjIzMGNaMTdXQmtnLVBucjZ2YWxKUkZJVU9LSnZUR3VLS0VuRTJwSldjRWlaRTJDdnIzd21pTkxTTzVQSDJfRzNqcVc?oc=5"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "3103382800c28a1b",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-13T17:26:06.000Z",
+        "score": 36.8,
+        "set_aside": null,
+        "source": "gnews-ai",
+        "story": null,
+        "tag": "neither",
+        "title": "Google Rolls Out Latest AI Model, Gemini 4 Argon -- Market Talk",
+        "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxNODdoRTFKTldabVZfbzRtS21lR1dWYU9hNllPY0lvaGdSWkh3eDUtTDZnUm95bmhpYXB2bHF3NXdNM1FTd2J4ZHlOdzhFWDFuVlZITEE4cGxId1pYNkh4OG1ORllGdGFsdEtDekRPNFZBRTA4RDB2ejF5dVBvdjlOR2FVdUpZTjF1S0kwcmx3UW1pMFoyX0JyUlRwcXpXZE0?oc=5"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "b6d97db86eb7c128",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-13T17:25:51.000Z",
+        "score": 37.5,
+        "set_aside": null,
+        "source": "techmeme",
+        "story": null,
+        "tag": "neither",
+        "title": "Meta expands its AI-powered \"Your Algorithm\" feature from Instagram to Facebook and Facebook Reels and says it is using LLMs more in its ranking systems (Stevie Bonifield/The Verge)",
+        "url": "https://techmeme.com/261013/p33"
+      },
       {
         "hedge": null,
         "hits": {
@@ -838,11 +912,35 @@
             "title": []
           }
         },
+        "id": "d360a77e4c84d8d9",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-13T17:20:11.000Z",
+        "score": 36.7,
+        "set_aside": null,
+        "source": "gnews-ai",
+        "story": null,
+        "tag": "neither",
+        "title": "Microsoft’s Brad Smith calls for ‘middle ground’ on global AI regulation",
+        "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxQeW9WOXBRVWFiMHQ0YWRCNFlXczRvZjUzM3BWczA0d0FuRUNMZDlsVWN5OHpYQUVOT0t0ZEVCdDYyYzNPMWlPMVJFUF9xcl9Bb3ZCd2JjMFR5aXRoaGpQQkh4MTBwekoxbEplTWI4X2pnVjVQVl9aQllTajdiQTJreWwxS1A0alktQ1VXV0VndnBmLTMwaUJxRUk2eTNhSHdycE5UajFaTzhTVThPNUhUcmwzd9IBWkFVX3lxTE1IaG5lN3R2eWdHdXJEM3d6eE92SGsySTBGUDRkcHkxaGNGY3ZSM1BpdXRkYW4wNXpibkJKeS0yOTZHQTFWMDdZV25QWndJVkF6Q0RuTlJpd0xJdw?oc=5"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
         "id": "4e9e4f1d9cd106f6",
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T17:18:25.000Z",
-        "score": 47.5,
+        "score": 47.4,
         "set_aside": null,
         "source": "techcrunch-ai",
         "story": null,
@@ -941,7 +1039,7 @@
         "score": 51.7,
         "set_aside": null,
         "source": "gnews-ai",
-        "story": "762470b82dd3",
+        "story": "33aecdf8b5c9",
         "tag": "neither",
         "title": "AI model ‘self-replication’ is only months away, Anthropic says — and it doesn’t even need a data center to happen",
         "url": "https://news.google.com/rss/articles/CBMi4AFBVV95cUxPTzdhZ3RVcUNFU0RSdV9wc2ZmelBqeEI0THFSeldaa3pmdmJjT215NGdQaXMyRFhxVGdJOGxQYkJxTEZoTGowenZnUmt2ZGhONDBITHBaRmMzenllZnZyS1l1U3laSmVHYnFwcC1oTkxPSEJSakk3aU91dkNKNVpoX3Z0cERxTU44V28weG1HODNxbjIxck56WlJ2bFQteVhQSHVTTU55QmplOVhLbk1falpWWnBKUUpMVmx2dG8wdmFQdC1qQjhMNzNiVW93c2xWTDlZTHgtQjNPLTJUWU9sMA?oc=5"
@@ -1102,11 +1200,35 @@
             "title": []
           }
         },
+        "id": "1a296cad7babb13c",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-13T17:05:03.000Z",
+        "score": 33.6,
+        "set_aside": null,
+        "source": "gnews-ai",
+        "story": "cd38328aa07b",
+        "tag": "neither",
+        "title": "MNX Launches Futures on AI Lab IPOs and Revenue",
+        "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxPZjAtRmNWeHZZb3FqWl9UcnN0YkU4SXJlaWpRV3JPalVTMkVIcXM3dE5ySWtHN3QxS29mcVlIRWtLZjU3V2pUc0xkZzhucjY1WXplWnpORHlMMHBfVHRrU24wTC1KM2xrSDQ2SG90QlpZcnQwM0VaeGhFS01lNHFpTGl6QV9OM2tkYWc?oc=5"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
         "id": "3392e7251e356ad0",
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T17:05:00.000Z",
-        "score": 39.7,
+        "score": 39.6,
         "set_aside": null,
         "source": "gnews-ai",
         "story": null,
@@ -1130,7 +1252,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T17:04:34.000Z",
-        "score": 33.7,
+        "score": 33.6,
         "set_aside": null,
         "source": "gnews-ai",
         "story": null,
@@ -1154,7 +1276,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T17:03:45.000Z",
-        "score": 33.7,
+        "score": 33.6,
         "set_aside": null,
         "source": "gnews-ai",
         "story": null,
@@ -1178,9 +1300,9 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T17:02:00.000Z",
-        "score": 57.2,
+        "score": 74.6,
         "set_aside": null,
-        "source": "gnews-ai",
+        "source": "wires-ai",
         "story": "aacfd5cd264a",
         "tag": "neither",
         "title": "Watch Meta’s Muse Wonder Takes Aim at OpenAI, Anthropic",
@@ -1202,7 +1324,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T17:01:53.000Z",
-        "score": 36.7,
+        "score": 36.6,
         "set_aside": null,
         "source": "gnews-ai",
         "story": "a2aacd51323b",
@@ -1226,7 +1348,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-13T17:01:31.000Z",
-        "score": 49.9,
+        "score": 50.4,
         "set_aside": null,
         "source": "bluesky-ai",
         "story": null,
@@ -1490,7 +1612,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-13T16:55:47.000Z",
-        "score": 38.1,
+        "score": 38.8,
         "set_aside": null,
         "source": "hn-fresh-ai",
         "story": "399a3c0e4ba7",
@@ -1610,10 +1732,10 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T16:50:01.000Z",
-        "score": 36.6,
+        "score": 36.5,
         "set_aside": null,
         "source": "gnews-ai",
-        "story": "762470b82dd3",
+        "story": "33aecdf8b5c9",
         "tag": "neither",
         "title": "Anthropic warns of AI 'worms' spreading across smart gadgets",
         "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE5yT25tb01EWGFSUlp4SXZZdm5wM1pKVnVIQVI2dkpfWDFGcE1rR0UwMGx1S3d3MUlfVGtuMmtaaTB6eEd0bE5jT2tFSUZNZUlFMFZtTEdYY0xnSTNTby1Zc0dtVnl1cmRzMmJkNmYxMkp3UlBobXQta1dRb1lVUQ?oc=5"
@@ -1634,7 +1756,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T16:49:07.000Z",
-        "score": 33.6,
+        "score": 33.5,
         "set_aside": null,
         "source": "gnews-ai",
         "story": null,
@@ -1658,7 +1780,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T16:49:00.000Z",
-        "score": 36.6,
+        "score": 36.5,
         "set_aside": null,
         "source": "gnews-ai",
         "story": null,
@@ -1682,10 +1804,10 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T16:45:36.000Z",
-        "score": 36.6,
+        "score": 36.5,
         "set_aside": null,
         "source": "gnews-ai",
-        "story": "762470b82dd3",
+        "story": "33aecdf8b5c9",
         "tag": "neither",
         "title": "AI botnets could spread across internet-connected devices, Anthropic warns",
         "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxQTHB5VjFodE93dThqenREMkdiRXlkLVFoNExpMXRJcEdHYnh3NHYyWjNOT2RlXzV5MDByQ2NxQzBfVFktcnc3VzBjUDAzMDN6SE9rQ0hjWHoyUm9KQ3pFWVE3WUdOT2FOR1hWUzYxVk9PbmN3bTdJdWt5XzJUbGx5YjFqNWg3VmdSbW1UcGt1d21BaHRy?oc=5"
@@ -1709,7 +1831,7 @@
         "score": 36.5,
         "set_aside": null,
         "source": "gnews-ai",
-        "story": "762470b82dd3",
+        "story": "33aecdf8b5c9",
         "tag": "neither",
         "title": "Anthropic’s red team ran AI on 15 cheap TV boxes. Then the math got unsettling.",
         "url": "https://news.google.com/rss/articles/CBMiXkFVX3lxTFA1WjA1WkVnUzdzRE1lYWh2RXNGQ0dZdUYtRGFZMmUzcUNJbW41LTFsdnpmMVB0ejRobGppaUI0b1poY1o4YmpubllPci1ZTE1OTHU2LVNnSXl6NGVGNmc?oc=5"
@@ -1785,6 +1907,30 @@
         "tag": "neither",
         "title": "Investor Concern Over AI Valuations Sends Tech Stocks Sliding",
         "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQcU96OVdlZjc3MVNVOXlLUV9pVEpTc0lxdUtRcW1mVHNtQ2RqN19HaThuRHNwNk5TdVRHeFVvckdGWUg5bjZ3VmZiUTMyVjNYLUw0R25nZEpFTEZUWnRsUTFseGVFb09SUFdQU3Z2N3RNOFZjbkxaZWRjZnEtRDlzNGpISGpXYVlEdUkxM0l4TExkZkZOQWd0aVlad1BRQXA0dG1ubmo1YUNWcW05YXhreE1JcERwdw?oc=5"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "9d8b36e643a962f3",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-13T16:40:07.657Z",
+        "score": 71.3,
+        "set_aside": null,
+        "source": "nyt-tech",
+        "story": "5557b5368afc",
+        "tag": "neither",
+        "title": "Apple Introduces HomeView, a $299 Tablet for the Home",
+        "url": "https://nytimes.com/2026/10/13/technology/apple-homeview-tablet.html"
       },
       {
         "hedge": null,
@@ -1874,7 +2020,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T16:31:36.000Z",
-        "score": 34.7,
+        "score": 34.6,
         "set_aside": null,
         "source": "bloomberg-tech",
         "story": null,
@@ -1898,7 +2044,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T16:31:35.000Z",
-        "score": 36.5,
+        "score": 36.4,
         "set_aside": null,
         "source": "gnews-ai",
         "story": null,
@@ -1922,7 +2068,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T16:31:00.000Z",
-        "score": 36.5,
+        "score": 36.4,
         "set_aside": null,
         "source": "gnews-ai",
         "story": null,
@@ -1946,7 +2092,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T16:30:29.000Z",
-        "score": 33.5,
+        "score": 33.4,
         "set_aside": null,
         "source": "gnews-ai",
         "story": null,
@@ -1970,7 +2116,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T16:30:00.000Z",
-        "score": 33.5,
+        "score": 33.4,
         "set_aside": null,
         "source": "gnews-ai",
         "story": null,
@@ -1994,7 +2140,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T16:30:00.000Z",
-        "score": 34.7,
+        "score": 34.6,
         "set_aside": null,
         "source": "techcrunch-ai",
         "story": null,
@@ -2018,7 +2164,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T16:29:48.000Z",
-        "score": 38.5,
+        "score": 38.4,
         "set_aside": null,
         "source": "wires-ai",
         "story": "5557b5368afc",
@@ -2234,7 +2380,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T16:15:43.000Z",
-        "score": 38.4,
+        "score": 38.3,
         "set_aside": null,
         "source": "wires-ai",
         "story": null,
@@ -2258,7 +2404,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-13T16:15:11.000Z",
-        "score": 40.5,
+        "score": 40.4,
         "set_aside": null,
         "source": "bluesky-ai",
         "story": null,
@@ -2282,7 +2428,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T16:15:03.000Z",
-        "score": 38.4,
+        "score": 38.3,
         "set_aside": null,
         "source": "wires-ai",
         "story": "635f6668e7a6",
@@ -2381,7 +2527,7 @@
         "score": 33.3,
         "set_aside": null,
         "source": "gnews-ai",
-        "story": "04f5fde7fbf9",
+        "story": "cd38328aa07b",
         "tag": "neither",
         "title": "Crypto exchange MNX takes on OKX, BitGet offering pre-IPO futures for AI giants",
         "url": "https://news.google.com/rss/articles/CBMiWEFVX3lxTE9qUTlWUlFPdzhrb1RzRWV1eXdtbUpJNkgzZk9pZlNTTDNIbEpIcFBjRDlSUDlsbVBIdFJORGZUczlGQndMZGhQQVFxeTBfVDcxWXFXU3FLc3g?oc=5"
@@ -2402,7 +2548,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T16:10:19.000Z",
-        "score": 74.7,
+        "score": 77.9,
         "set_aside": null,
         "source": "wires-ai",
         "story": "a2aacd51323b",
@@ -2710,6 +2856,30 @@
             "title": []
           }
         },
+        "id": "ef204f120a474233",
+        "kind": "forum",
+        "negated": [],
+        "published_at": "2026-10-13T16:04:30.000Z",
+        "score": 37.8,
+        "set_aside": null,
+        "source": "hn-fresh-ai",
+        "story": null,
+        "tag": "neither",
+        "title": "Gemini 4 Argon Model Card",
+        "url": "https://deepmind.google/models/model-cards/gemini-4-argon"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
         "id": "1b45a4f87bd41df5",
         "kind": "forum",
         "negated": [],
@@ -2786,7 +2956,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T16:01:16.000Z",
-        "score": 38.3,
+        "score": 38.2,
         "set_aside": null,
         "source": "wires-ai",
         "story": null,
@@ -2810,7 +2980,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T16:01:09.000Z",
-        "score": 36.3,
+        "score": 36.2,
         "set_aside": null,
         "source": "gnews-ai",
         "story": "399a3c0e4ba7",
@@ -2834,7 +3004,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T16:00:29.000Z",
-        "score": 34.5,
+        "score": 34.4,
         "set_aside": null,
         "source": "meta-news",
         "story": null,
@@ -2858,7 +3028,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-13T16:00:24.000Z",
-        "score": 53.6,
+        "score": 53.5,
         "set_aside": null,
         "source": "bluesky-ai",
         "story": "5557b5368afc",
@@ -2882,7 +3052,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T16:00:02.000Z",
-        "score": 55.4,
+        "score": 55.3,
         "set_aside": null,
         "source": "arstechnica-ai",
         "story": "a2aacd51323b",
@@ -2906,7 +3076,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-13T16:00:00.000Z",
-        "score": 55.9,
+        "score": 55.8,
         "set_aside": null,
         "source": "bluesky-ai",
         "story": null,
@@ -2930,7 +3100,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T16:00:00.000Z",
-        "score": 38.3,
+        "score": 38.2,
         "set_aside": null,
         "source": "wires-ai",
         "story": null,
@@ -2954,7 +3124,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T16:00:00.000Z",
-        "score": 36.3,
+        "score": 36.2,
         "set_aside": null,
         "source": "gnews-ai",
         "story": null,
@@ -2978,7 +3148,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T15:58:15.000Z",
-        "score": 36.3,
+        "score": 36.2,
         "set_aside": null,
         "source": "gnews-ai",
         "story": null,
@@ -3077,7 +3247,7 @@
         "score": 54.2,
         "set_aside": null,
         "source": "gnews-ai",
-        "story": "762470b82dd3",
+        "story": "33aecdf8b5c9",
         "tag": "neither",
         "title": "Anthropic warns of self-replicating AI model from China’s Zhipu AI",
         "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxNOFAtSmtfREo4U2hfQTRQRV9FSm94VUZZdGt6Z3JueDl0NEk3QjJTVUNobWMxRnNJNTZxNUxVcktLajZ0V1hBZTdldUJJUnI0UXJPNTZYZUdHU2JzVktVSVdpS0k1MUNQaWhNbGtCY2xkaGwwZDF1MElRaHYtWHFKTzlwd1JoV1JYbko1Sm50TjFtSEd3Y2NHcg?oc=5"
@@ -3101,7 +3271,7 @@
         "score": 47.2,
         "set_aside": null,
         "source": "gnews-ai",
-        "story": "04f5fde7fbf9",
+        "story": "cd38328aa07b",
         "tag": "neither",
         "title": "MegaETH-powered MNX goes live with pre-IPO futures for OpenAI, Anthropic and DeepSeek",
         "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxPSnZjTmM5dmgyck1kVUY3X3pIQkVsN0h4aHhmV0pQVXBWQXBseXo0ZTdWX0pCSmtTeWtBd3dFc1UxYWdfUmpsMzlPVlNZSkhaMkdoenVUNm5reEh5TktEY1dlTk5mbldvREs4Wk9IdWNyUmdKcVc4Wnh5Qjc4RVM4eWVFbFp3TDc4bU1YZGNremRZNWxtMlktcDNHemNZY2RCT1FaVGlhOTlUbG9oMjZObGEwcVl3OHBnU0hr?oc=5"
@@ -3146,7 +3316,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-13T15:49:56.000Z",
-        "score": 44.4,
+        "score": 44.9,
         "set_aside": null,
         "source": "hn-fresh-ai",
         "story": null,
@@ -3194,7 +3364,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T15:46:18.000Z",
-        "score": 33.2,
+        "score": 33.1,
         "set_aside": null,
         "source": "gnews-ai",
         "story": null,
@@ -3218,7 +3388,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T15:45:59.000Z",
-        "score": 39.2,
+        "score": 39.1,
         "set_aside": null,
         "source": "gnews-ai",
         "story": "e3c56df18486",
@@ -3242,7 +3412,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T15:45:13.000Z",
-        "score": 33.2,
+        "score": 33.1,
         "set_aside": null,
         "source": "gnews-ai",
         "story": null,
@@ -3266,10 +3436,10 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T15:45:00.000Z",
-        "score": 51.2,
+        "score": 51.1,
         "set_aside": null,
         "source": "gnews-ai",
-        "story": "762470b82dd3",
+        "story": "33aecdf8b5c9",
         "tag": "neither",
         "title": "Self-Replicating AI Possible Within Months, Anthropic Warns",
         "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTFB3U1c4N200WFp4LS1BamZvQXpHcUxaem02VTNzdTlWeVhBN2tUUEE4VUxLVm1nZUtXUTZIRWVkRFRvQ1RTbzRKeThSZ20tdldZaWJFU0FOY0pkRXVDY3diTHhqUWVLdUsxMGNjZ0xTR1dsQ1c2ejhN?oc=5"
@@ -3290,7 +3460,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T15:44:27.000Z",
-        "score": 36.2,
+        "score": 36.1,
         "set_aside": null,
         "source": "gnews-ai",
         "story": null,
@@ -3382,54 +3552,6 @@
             "title": []
           }
         },
-        "id": "4f7ca804e1a63702",
-        "kind": "press",
-        "negated": [],
-        "published_at": "2026-10-13T15:37:02.000Z",
-        "score": 36.1,
-        "set_aside": null,
-        "source": "gnews-ai",
-        "story": null,
-        "tag": "neither",
-        "title": "How SBS and NVIDIA Bring Sovereign AI into Core Banking",
-        "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxPZ2RDQThYMGg2cEE4UU9FS1lpSFYzdVdxUVFKTV9RZDJiTkhSRHYySTFaNmE1QWVhZ1BOV19hV2lGMm9tcHZIdTlGcGwyZklvbTQzMFVGWVNndUplZkd1Q2pJaUdxWW5qN0h3bHg1VmZtYnB6Z0ZySmM0WVdHNmp5TWNNcHNKUzFqY1ZnSmlWN0lCQQ?oc=5"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "a0942ad472d55f3f",
-        "kind": "press",
-        "negated": [],
-        "published_at": "2026-10-13T15:37:00.000Z",
-        "score": 36.1,
-        "set_aside": null,
-        "source": "gnews-ai",
-        "story": null,
-        "tag": "neither",
-        "title": "Anthropic Opens Books to Investors as AI Lab IPO Buzz Builds",
-        "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxOMXRIRGpmNDBvQ2VfUGxmTjZRdXhTaU5GZUlRcnJxdUF6MW8xT1BBd2VMZGhrcy0yUmtCYW93TExaaTFaeWM5SEJMd1JteG96Ym5tVE40N2ltSVRYeHhXLVY0QnBlOTMtNDNMZ1RzS2EtM2NoUHNYTll3NmlpZDE2OXo2R01tbnVQRnkwWGdZQmFjeTdHVEdSSw?oc=5"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
         "id": "6c2d9b9c2d03879a",
         "kind": "forum",
         "negated": [],
@@ -3506,7 +3628,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-13T15:30:23.000Z",
-        "score": 42,
+        "score": 41.9,
         "set_aside": null,
         "source": "bluesky-ai",
         "story": null,
@@ -3530,7 +3652,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-13T15:25:50.000Z",
-        "score": 46.9,
+        "score": 47.1,
         "set_aside": null,
         "source": "hn-ai",
         "story": null,
@@ -3698,7 +3820,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-13T15:12:59.000Z",
-        "score": 63.8,
+        "score": 63.7,
         "set_aside": null,
         "source": "bluesky-ai",
         "story": "6d46cf9dd7d2",
@@ -3722,7 +3844,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T15:10:55.000Z",
-        "score": 36.7,
+        "score": 36.6,
         "set_aside": null,
         "source": "techmeme",
         "story": null,
@@ -3866,7 +3988,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T14:57:00.000Z",
-        "score": 37.9,
+        "score": 37.8,
         "set_aside": null,
         "source": "wires-ai",
         "story": null,
@@ -3890,7 +4012,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-13T14:55:27.000Z",
-        "score": 27.9,
+        "score": 27.8,
         "set_aside": null,
         "source": "reddit-controlproblem",
         "story": null,
@@ -3986,7 +4108,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T14:39:22.000Z",
-        "score": 37.8,
+        "score": 37.7,
         "set_aside": null,
         "source": "wires-ai",
         "story": null,
@@ -4006,35 +4128,11 @@
             "title": []
           }
         },
-        "id": "9d8b36e643a962f3",
-        "kind": "press",
-        "negated": [],
-        "published_at": "2026-10-13T14:38:37.000Z",
-        "score": 70.5,
-        "set_aside": null,
-        "source": "nyt-tech",
-        "story": "5557b5368afc",
-        "tag": "neither",
-        "title": "Apple Introduces HomeView, a $299 Tablet for the Home",
-        "url": "https://nytimes.com/2026/10/13/technology/apple-homeview-tablet.html"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
         "id": "4136874ac54a5d35",
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T14:37:53.000Z",
-        "score": 32.8,
+        "score": 32.7,
         "set_aside": null,
         "source": "the-decoder",
         "story": null,
@@ -4058,7 +4156,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-13T14:37:44.000Z",
-        "score": 30.3,
+        "score": 30.2,
         "set_aside": null,
         "source": "reddit-machinelearning",
         "story": null,
@@ -4178,7 +4276,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-13T14:24:03.958Z",
-        "score": 45,
+        "score": 44.9,
         "set_aside": null,
         "source": "bluesky-ai",
         "story": "ea081c12dc31",
@@ -4202,7 +4300,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-13T14:14:23.000Z",
-        "score": 43.1,
+        "score": 43.2,
         "set_aside": null,
         "source": "hn-ai",
         "story": null,
@@ -4226,7 +4324,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T14:08:20.000Z",
-        "score": 37.6,
+        "score": 37.5,
         "set_aside": null,
         "source": "wires-ai",
         "story": null,
@@ -4250,7 +4348,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T14:05:43.000Z",
-        "score": 37.6,
+        "score": 37.5,
         "set_aside": null,
         "source": "wires-ai",
         "story": null,
@@ -4274,7 +4372,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T14:03:38.000Z",
-        "score": 37.6,
+        "score": 37.5,
         "set_aside": null,
         "source": "wires-ai",
         "story": "635f6668e7a6",
@@ -4538,7 +4636,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-13T13:51:33.000Z",
-        "score": 37,
+        "score": 36.9,
         "set_aside": null,
         "source": "hn-fresh-ai",
         "story": null,
@@ -4562,7 +4660,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-13T13:51:14.000Z",
-        "score": 40,
+        "score": 39.9,
         "set_aside": null,
         "source": "hn-fresh-ai",
         "story": null,
@@ -4586,7 +4684,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-13T13:50:38.000Z",
-        "score": 30,
+        "score": 29.9,
         "set_aside": null,
         "source": "reddit-machinelearning",
         "story": null,
@@ -4610,7 +4708,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T13:50:19.000Z",
-        "score": 63.2,
+        "score": 63.1,
         "set_aside": null,
         "source": "techcrunch-ai",
         "story": "6f5c02b978ca",
@@ -4634,7 +4732,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T13:49:10.000Z",
-        "score": 37.5,
+        "score": 37.4,
         "set_aside": null,
         "source": "wires-ai",
         "story": null,
@@ -4658,7 +4756,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-13T13:48:41.312Z",
-        "score": 45.4,
+        "score": 45.3,
         "set_aside": null,
         "source": "bluesky-ai",
         "story": null,
@@ -4922,7 +5020,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-13T13:17:11.000Z",
-        "score": 37.9,
+        "score": 37.8,
         "set_aside": null,
         "source": "bluesky-ai",
         "story": null,
@@ -4946,7 +5044,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-13T13:16:10.000Z",
-        "score": 42.4,
+        "score": 42.3,
         "set_aside": null,
         "source": "bluesky-ai",
         "story": "5557b5368afc",
@@ -4970,7 +5068,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T13:15:32.000Z",
-        "score": 37.3,
+        "score": 37.2,
         "set_aside": null,
         "source": "wires-ai",
         "story": null,
@@ -4994,7 +5092,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T13:15:02.000Z",
-        "score": 40.3,
+        "score": 40.2,
         "set_aside": null,
         "source": "wires-ai",
         "story": null,
@@ -5018,7 +5116,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T13:15:02.000Z",
-        "score": 37.3,
+        "score": 37.2,
         "set_aside": null,
         "source": "wires-ai",
         "story": null,
@@ -5042,7 +5140,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T13:15:00.000Z",
-        "score": 37.3,
+        "score": 37.2,
         "set_aside": null,
         "source": "wires-ai",
         "story": null,
@@ -5066,7 +5164,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T13:13:43.000Z",
-        "score": 37.3,
+        "score": 37.2,
         "set_aside": null,
         "source": "wires-ai",
         "story": null,
@@ -5260,7 +5358,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T13:00:13.000Z",
-        "score": 33.4,
+        "score": 33.3,
         "set_aside": null,
         "source": "bloomberg-tech",
         "story": null,
@@ -5284,7 +5382,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T13:00:03.000Z",
-        "score": 35.2,
+        "score": 35.1,
         "set_aside": null,
         "source": "ieee-ai",
         "story": null,
@@ -5308,7 +5406,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T13:00:00.000Z",
-        "score": 37.2,
+        "score": 37.1,
         "set_aside": null,
         "source": "wires-ai",
         "story": null,
@@ -5328,35 +5426,11 @@
             "title": []
           }
         },
-        "id": "8e74a9cb8ffd6439",
-        "kind": "press",
-        "negated": [],
-        "published_at": "2026-10-13T13:00:00.000Z",
-        "score": 37.2,
-        "set_aside": null,
-        "source": "wires-ai",
-        "story": null,
-        "tag": "neither",
-        "title": "Qnity Extends Thermal Management Solutions for Advanced Memory Cooling for AI Data Centers",
-        "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxQeHU0ekdnWDRKbzVBMmhoakN2YlBYaE5kYWgwN3JQOHB5RFdMclYxVXVLeV82RHMxdHNxZk1DMG1mamlIYnNFTDZGQldGOVhKYlA0N3d0QkJEMHNISDJLV0NNdzJ5azh5SDM0T3ozNi1WeXYyR3QtcjItVWdVY1lROVZXSG9FWk5FeFJpbXh4MlBINlJGUGRzd2hTcGVQOEtic2NfWV9B?oc=5"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
         "id": "43228a47c278fe00",
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-13T12:57:18.000Z",
-        "score": 30.9,
+        "score": 30.8,
         "set_aside": null,
         "source": "lesswrong",
         "story": null,
@@ -5461,32 +5535,6 @@
         "url": "https://bsky.app/profile/washingtonpost.com/post/3mxqzwsxfjr2c"
       },
       {
-        "hedge": "risk",
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [
-              "attacks"
-            ],
-            "title": []
-          }
-        },
-        "id": "56acf17ef0518e39",
-        "kind": "press",
-        "negated": [],
-        "published_at": "2026-10-13T12:30:01.000Z",
-        "score": 36.4,
-        "set_aside": "hedge word \"risk\" in the headline",
-        "source": "guardian-ai",
-        "story": null,
-        "tag": "neither",
-        "title": "Threat of AI share crash puts world financial stability at risk, says IMF",
-        "url": "https://theguardian.com/business/2026/oct/13/ai-share-crash-risk-global-imf-debt-corrowing-cyber-attacks"
-      },
-      {
         "hedge": null,
         "hits": {
           "benefit": {
@@ -5502,7 +5550,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-13T12:25:58.000Z",
-        "score": 30.7,
+        "score": 30.6,
         "set_aside": null,
         "source": "lesswrong",
         "story": null,
@@ -5526,7 +5574,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-13T12:25:51.000Z",
-        "score": 27,
+        "score": 26.9,
         "set_aside": null,
         "source": "reddit-artificial",
         "story": null,
@@ -5550,7 +5598,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-13T12:24:55.000Z",
-        "score": 36.5,
+        "score": 36.4,
         "set_aside": null,
         "source": "hn-fresh-ai",
         "story": null,
@@ -5574,7 +5622,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T12:23:42.000Z",
-        "score": 33.2,
+        "score": 33.1,
         "set_aside": null,
         "source": "techcrunch-ai",
         "story": null,
@@ -5766,7 +5814,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-13T11:52:20.000Z",
-        "score": 29.3,
+        "score": 29.2,
         "set_aside": null,
         "source": "reddit-machinelearning",
         "story": null,
@@ -5964,7 +6012,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T11:00:01.000Z",
-        "score": 35.2,
+        "score": 35.1,
         "set_aside": null,
         "source": "techmeme",
         "story": "635f6668e7a6",
@@ -5988,7 +6036,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-13T11:00:00.000Z",
-        "score": 53.8,
+        "score": 53.7,
         "set_aside": null,
         "source": "bluesky-ai",
         "story": null,
@@ -6060,7 +6108,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-13T10:37:42.480Z",
-        "score": 39.6,
+        "score": 39.5,
         "set_aside": null,
         "source": "bluesky-ai",
         "story": null,
@@ -6124,22 +6172,20 @@
             "title": []
           },
           "harm": {
-            "summary": [
-              "lawsuits"
-            ],
+            "summary": [],
             "title": []
           }
         },
         "id": "56279fc565cee996",
-        "kind": "press",
+        "kind": "forum",
         "negated": [],
         "published_at": "2026-10-13T10:32:23.000Z",
-        "score": 31.3,
-        "set_aside": "one distinct summary hit; the rule needs 2",
-        "source": "verge-ai",
+        "score": 59.4,
+        "set_aside": null,
+        "source": "hn-ai",
         "story": null,
         "tag": "neither",
-        "title": "Character.AI files for bankruptcy",
+        "title": "Character.ai Files for Bankruptcy",
         "url": "https://theverge.com/ai-artificial-intelligence/1009802/character-ai-files-for-bankruptcy-disney"
       },
       {
@@ -6302,7 +6348,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T10:23:50.000Z",
-        "score": 48.8,
+        "score": 48.7,
         "set_aside": null,
         "source": "wires-ai",
         "story": null,
@@ -6355,7 +6401,7 @@
         "score": 94.2,
         "set_aside": "hedge word \"warns\" in the headline",
         "source": "wires-ai",
-        "story": "762470b82dd3",
+        "story": "33aecdf8b5c9",
         "tag": "neither",
         "title": "Anthropic warns rogue AI agents may ‘self-replicate’ to hijack everyday devices",
         "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxQYVdrSG5aLUJNY3BCQ3F1SV9TQXMwV04wM3V1ZnNnYTFHQVRZTFJHMHduMllELUVFWHNZV0t5UnlrWm9hVEJSdVA0X3phRjNfVWp0UHJ6eGVjb1N3aUJERG45LUVYaVNrTk0wVzI5VHo0eHhNdEU0dmdkbk9HTEhwMExxeWQ?oc=5"
@@ -6424,7 +6470,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-13T10:05:38.000Z",
-        "score": 28.7,
+        "score": 28.6,
         "set_aside": null,
         "source": "reddit-machinelearning",
         "story": null,
@@ -6448,7 +6494,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T10:04:10.000Z",
-        "score": 31.2,
+        "score": 31.1,
         "set_aside": null,
         "source": "govuk-ai",
         "story": null,
@@ -6738,7 +6784,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T09:28:09.000Z",
-        "score": 31,
+        "score": 30.9,
         "set_aside": null,
         "source": "govuk-ai",
         "story": null,
@@ -6788,7 +6834,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T09:12:16.000Z",
-        "score": 32.1,
+        "score": 32,
         "set_aside": "hedge word \"risk\" in the headline",
         "source": "bloomberg-tech",
         "story": null,
@@ -7124,7 +7170,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-13T07:55:10.000Z",
-        "score": 38.6,
+        "score": 38.5,
         "set_aside": null,
         "source": "hn-ai",
         "story": null,
@@ -7220,7 +7266,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-13T07:34:40.000Z",
-        "score": 27.9,
+        "score": 27.8,
         "set_aside": null,
         "source": "reddit-machinelearning",
         "story": null,
@@ -7412,13 +7458,37 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-13T06:22:12.389Z",
-        "score": 33.7,
+        "score": 33.6,
         "set_aside": null,
         "source": "bluesky-ai",
         "story": null,
         "tag": "neither",
         "title": "AI models flub these intelligence tests. Can you fare any better?",
         "url": "https://bsky.app/profile/technologyreview.com/post/3mxqfewiyeu2m"
+      },
+      {
+        "hedge": "risk",
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "56acf17ef0518e39",
+        "kind": "forum",
+        "negated": [],
+        "published_at": "2026-10-13T05:57:32.000Z",
+        "score": 56.9,
+        "set_aside": null,
+        "source": "hn-ai",
+        "story": null,
+        "tag": "neither",
+        "title": "Threat of AI share crash puts world financial stability at risk, says IMF",
+        "url": "https://theguardian.com/business/2026/oct/13/ai-share-crash-risk-global-imf-debt-corrowing-cyber-attacks"
       },
       {
         "hedge": null,
@@ -7460,7 +7530,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T05:05:01.000Z",
-        "score": 33.3,
+        "score": 33.2,
         "set_aside": null,
         "source": "techmeme",
         "story": "88f63ba68f77",
@@ -7532,7 +7602,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T04:45:01.000Z",
-        "score": 48.7,
+        "score": 48.6,
         "set_aside": null,
         "source": "techmeme",
         "story": "6e0ac481b817",
@@ -7628,7 +7698,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T04:24:36.000Z",
-        "score": 30.6,
+        "score": 30.5,
         "set_aside": null,
         "source": "bloomberg-tech",
         "story": null,
@@ -7652,7 +7722,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T04:22:00.000Z",
-        "score": 73.1,
+        "score": 73,
         "set_aside": null,
         "source": "wires-ai",
         "story": null,
@@ -7678,7 +7748,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T04:00:19.000Z",
-        "score": 31.8,
+        "score": 31.7,
         "set_aside": "one distinct summary hit; the rule needs 2",
         "source": "ft-ai",
         "story": null,
@@ -7702,7 +7772,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T04:00:19.000Z",
-        "score": 46.8,
+        "score": 46.7,
         "set_aside": null,
         "source": "wires-ai",
         "story": null,
@@ -8016,7 +8086,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-13T02:41:42.000Z",
-        "score": 23.9,
+        "score": 23.8,
         "set_aside": null,
         "source": "reddit-artificial",
         "story": "4a3cf718aceb",
@@ -8184,7 +8254,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-13T02:00:26.000Z",
-        "score": 34.5,
+        "score": 34.4,
         "set_aside": null,
         "source": "bluesky-ai",
         "story": "a1685b02c7fa",
@@ -8208,7 +8278,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T02:00:13.000Z",
-        "score": 29.9,
+        "score": 29.8,
         "set_aside": null,
         "source": "scmp-tech",
         "story": null,
@@ -8232,7 +8302,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T02:00:11.000Z",
-        "score": 29.9,
+        "score": 29.8,
         "set_aside": null,
         "source": "guardian-ai",
         "story": "635f6668e7a6",
@@ -8256,7 +8326,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T02:00:07.000Z",
-        "score": 46.2,
+        "score": 46.1,
         "set_aside": null,
         "source": "wires-ai",
         "story": "635f6668e7a6",
@@ -8280,7 +8350,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T02:00:00.000Z",
-        "score": 56.7,
+        "score": 56.6,
         "set_aside": null,
         "source": "gnews-ai",
         "story": null,
@@ -8304,7 +8374,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-13T01:59:19.000Z",
-        "score": 23.7,
+        "score": 23.6,
         "set_aside": null,
         "source": "reddit-artificial",
         "story": null,
@@ -8328,7 +8398,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-13T01:58:23.000Z",
-        "score": 23.7,
+        "score": 23.6,
         "set_aside": null,
         "source": "reddit-controlproblem",
         "story": null,
@@ -8448,7 +8518,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T01:17:00.000Z",
-        "score": 54,
+        "score": 53.9,
         "set_aside": null,
         "source": "wires-ai",
         "story": "a1685b02c7fa",
@@ -8616,7 +8686,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T00:15:06.000Z",
-        "score": 33.7,
+        "score": 33.6,
         "set_aside": null,
         "source": "ft-ai",
         "story": null,
@@ -8640,7 +8710,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T00:15:02.000Z",
-        "score": 36.9,
+        "score": 36.8,
         "set_aside": null,
         "source": "techmeme",
         "story": "4a3cf718aceb",
@@ -8832,7 +8902,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-12T23:07:43.000Z",
-        "score": 52.7,
+        "score": 52.6,
         "set_aside": null,
         "source": "wires-ai",
         "story": null,
@@ -8904,7 +8974,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-12T22:42:31.000Z",
-        "score": 24,
+        "score": 23.9,
         "set_aside": null,
         "source": "reddit-localllama",
         "story": null,
@@ -8998,30 +9068,6 @@
             "title": []
           }
         },
-        "id": "21dc9d35aed793dc",
-        "kind": "forum",
-        "negated": [],
-        "published_at": "2026-10-12T22:22:30.000Z",
-        "score": 37.7,
-        "set_aside": null,
-        "source": "reddit-controlproblem",
-        "story": "762470b82dd3",
-        "tag": "neither",
-        "title": "AI models may be capable of self-replicating without access to a datacenter",
-        "url": "https://reddit.com/r/ControlProblem/comments/1x4fsqu/ai_models_may_be_capable_of_selfreplicating"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
         "id": "fb3045df5c80bc67",
         "kind": "forum",
         "negated": [],
@@ -9074,7 +9120,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-12T22:00:59.000Z",
-        "score": 28.6,
+        "score": 28.5,
         "set_aside": null,
         "source": "reddit-artificial",
         "story": null,
@@ -9125,7 +9171,7 @@
         "score": 70.9,
         "set_aside": null,
         "source": "wires-ai",
-        "story": "762470b82dd3",
+        "story": "33aecdf8b5c9",
         "tag": "neither",
         "title": "AI models may soon self-replicate without access to data centers, Anthropic warns",
         "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxNVFZnZHFlY0QxWV9XbURPeDVpQnlMcWFqaTlDMHRjcWhhLXRhR1hfbTdNeVl3c3dyR3V6V211Wmp5aXNZT1VpN1kwdUs3ZFdBTXB5Z2tEN1JfV2FnUk5FRHpVa2lfRWxENndHaDdNWmRZVUJfQkFody00VG1BNk8wb29Sel9Wd011ampEWXlOQk9xM2x0bkVwTXBib0hEMndtOWNuZXdDWFlEcTRuZzVLRDYxUDFfek9XRTNna3dhZw?oc=5"
@@ -9218,7 +9264,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-12T21:35:35.000Z",
-        "score": 45.1,
+        "score": 45,
         "set_aside": null,
         "source": "hn-ai",
         "story": null,
@@ -9242,7 +9288,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-12T21:34:23.000Z",
-        "score": 35.9,
+        "score": 35.8,
         "set_aside": null,
         "source": "hn-ai",
         "story": null,
@@ -9269,7 +9315,7 @@
         "score": 31.6,
         "set_aside": null,
         "source": "bloomberg-tech",
-        "story": "04f5fde7fbf9",
+        "story": "cd38328aa07b",
         "tag": "neither",
         "title": "Neostellar’s Willy Lee on AI Landscape Ahead of Anthropic Pre-IPO Investor Day",
         "url": "https://bloomberg.com/news/videos/2026-10-12/neostellar-s-willy-lee-ai-market-is-starting-to-mature-video"
@@ -9314,96 +9360,24 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-12T21:13:08.000Z",
-        "score": 25.4,
+        "score": 25.3,
         "set_aside": null,
         "source": "reddit-artificial",
-        "story": "762470b82dd3",
+        "story": "33aecdf8b5c9",
         "tag": "neither",
         "title": "Anthropic ran a 26B model across 15 off-brand Android TV boxes worth $55 each — an AI worm with no central point to shut off",
         "url": "https://reddit.com/r/artificial/comments/1x4e58k/anthropic_ran_a_26b_model_across_15_offbrand"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "de8b125b66606748",
-        "kind": "forum",
-        "negated": [],
-        "published_at": "2026-10-12T21:08:00.000Z",
-        "score": 26,
-        "set_aside": null,
-        "source": "lesswrong",
-        "story": null,
-        "tag": "neither",
-        "title": "Research Lessons I Learned at MATS & Redwood",
-        "url": "https://lesswrong.com/posts/Q4rcvgjbgjTwmn8Xa/research-lessons-i-learned-at-mats-and-redwood"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "56f5c29c285a80c3",
-        "kind": "press",
-        "negated": [],
-        "published_at": "2026-10-12T21:07:24.000Z",
-        "score": 28.5,
-        "set_aside": null,
-        "source": "bloomberg-tech",
-        "story": null,
-        "tag": "neither",
-        "title": "Applied Materials Will Double Sales, Not Headcount, Thanks to AI",
-        "url": "https://bloomberg.com/news/articles/2026-10-12/applied-materials-will-double-sales-not-headcount-thanks-to-ai"
-      },
-      {
-        "hedge": "question",
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "af166a25f5821fcc",
-        "kind": "forum",
-        "negated": [],
-        "published_at": "2026-10-12T21:04:33.000Z",
-        "score": 22.3,
-        "set_aside": null,
-        "source": "reddit-artificial",
-        "story": null,
-        "tag": "neither",
-        "title": "Thoughts on Instinct vs Muse?",
-        "url": "https://reddit.com/r/artificial/comments/1x4dxid/thoughts_on_instinct_vs_muse"
       }
     ],
     "not_scanned": {
       "by_kind": {
         "lab": 11,
-        "paper": 20,
+        "paper": 21,
         "release": 3
       },
-      "total": 34
+      "total": 35
     },
-    "sentence": "6 of 308 stories in the newsroom's current window matched the harm list and 2 matched the benefit list, as of 17:24 UTC on Tue 13 Oct 2026. A count of words, not of outcomes.",
+    "sentence": "6 of 307 stories in the newsroom's current window matched the harm list and 2 matched the benefit list, as of 17:29 UTC on Tue 13 Oct 2026. A count of words, not of outcomes.",
     "state": "live",
     "stories": {
       "benefit_list": 2,
@@ -9411,15 +9385,15 @@
       "both": 0,
       "harm_list": 6,
       "harm_only": 6,
-      "neither": 300,
-      "scanned": 308
+      "neither": 299,
+      "scanned": 307
     },
     "window": {
-      "first_published_at": "2026-10-12T21:04:33.000Z",
-      "last_published_at": "2026-10-13T17:22:40.000Z",
+      "first_published_at": "2026-10-12T21:13:08.000Z",
+      "last_published_at": "2026-10-13T17:27:23.000Z",
       "max_items": 400,
       "nominal_days": 7,
-      "span_hours": 20.3
+      "span_hours": 20.2
     }
   },
   "schema": 1
