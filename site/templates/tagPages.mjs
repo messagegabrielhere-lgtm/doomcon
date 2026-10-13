@@ -512,7 +512,9 @@ export const TOPIC_DEFS = Object.freeze([
     id: 'red-teaming',
     name: 'Red-teaming',
     description: 'Red-teaming and adversarial-eval stories scored in the newsroom or archive — coverage counts, not a threat forecast.',
-    match: /\bred[- ]team(?:ing)?\b/i,
+    // jailbreak detection is adversarial-eval coverage; refuse bare “jailbreak”
+    // alone (console/game false friends).
+    match: /\b(red[- ]team(?:ing)?|jailbreak detection)\b/i,
   },
   {
     id: 'edge-ai',

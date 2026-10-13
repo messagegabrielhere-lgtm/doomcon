@@ -374,6 +374,7 @@ context.
 | 141 | `/map.html` question-shaped title + Dataset speakable + visible FAQ matching FAQPage schema; IndexNow + seo-daily; `knowsAbout` “how many datacentres mapped in the United States” | Google + Bing | **Done** (2026-10-13) |
 | 142 | `/watts.html` question-shaped title + Dataset speakable + visible FAQ matching FAQPage schema; IndexNow + seo-daily; `knowsAbout` “SIREN infrastructure index” / “what does the SIREN infrastructure index read” | Google + Bing | **Done** (2026-10-13) |
 | 143 | `/charts.html` question-shaped title + WebPage speakable + visible FAQ matching FAQPage schema; IndexNow + seo-daily; `knowsAbout` “AI charts” / “what AI charts does SIREN publish” | Google + Bing | **Done** (2026-10-13) |
+| 144 | `/power.html` question-shaped title + Dataset speakable + visible FAQ matching FAQPage schema; tag needle clears `/tags/red-teaming` via “jailbreak detection” (refuse bare jailbreak); IndexNow + seo-daily; `knowsAbout` “who makes the most electricity” | Google + Bing | **Done** (2026-10-13) |
 
 ### 3.3 Refusals (search edition)
 

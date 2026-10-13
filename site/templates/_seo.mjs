@@ -59,6 +59,8 @@ export function organization(ctx) {
       'what does the SIREN infrastructure index read',
       'AI charts',
       'what AI charts does SIREN publish',
+      'who makes the most electricity',
+      'China vs US electricity',
       'AI labs this index scored',
       'AI stories this index scored',
       'AI leaders on the record',

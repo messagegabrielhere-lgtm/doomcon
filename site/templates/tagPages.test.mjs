@@ -274,6 +274,30 @@ describe('tag pages', () => {
     assert.ok(sitemapEntries(rich).some((e) => e.loc === '/tags/tsmc.html'));
   });
 
+  it('clears red-teaming via jailbreak detection without bare jailbreak false friends', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('rt1', 'Agents that red-team startup ideas'),
+          story('rt2', 'Red-team evolution of agent skills'),
+          story('rt3', 'Autonomous red-teaming for repos'),
+          story('rt4', 'Red teaming multi-service agents'),
+          story('rt5', 'Fragility of gradient-based jailbreak detection'),
+          // Refuse: bare console jailbreak without “detection”.
+          story('bad', 'PS5 jailbreaks spread across social media'),
+        ],
+      },
+    };
+    assert.ok(tagStoryCount(rich, 'red-teaming') >= TAG_INDEX_MIN);
+    assert.ok(indexableTags(rich).some((t) => t.id === 'red-teaming'));
+    assert.match(renderTag(rich, 'red-teaming'), /What has SIREN scored about Red-teaming\?/);
+    assert.match(renderTag(rich, 'red-teaming'), /jailbreak detection/i);
+    assert.doesNotMatch(renderTag(rich, 'red-teaming'), /PS5 jailbreaks/);
+    assert.ok(sitemapEntries(rich).some((e) => e.loc === '/tags/red-teaming.html'));
+  });
+
   it('clears edge-ai, audio-generation, ai-regulation, openai-codex, imitation-learning, protein-design gates', () => {
     const rich = {
       ...ctx,
