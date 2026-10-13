@@ -45,6 +45,7 @@ export function organization(ctx) {
       'Is AI taking jobs',
       'Is AI curing anything',
       'what is SIREN',
+      'What is SIREN',
       'SIREN privacy',
       'SIREN press kit',
       'SIREN terms of use',

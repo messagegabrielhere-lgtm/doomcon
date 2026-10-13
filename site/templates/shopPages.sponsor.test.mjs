@@ -34,7 +34,8 @@ describe('sponsor page', () => {
     assert.match(html, /\/library\.html/);
     assert.match(html, /\/about\.html/);
     assert.match(html, /What AI books argue both sides of the case\?/);
-    assert.match(html, /What is SIREN, and who is behind it\?/);
+    assert.match(html, /What is SIREN\?/);
+    assert.doesNotMatch(html, /What is SIREN, and who is behind it\?/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /probability of doom/i);
     assert.doesNotMatch(html, /noindex/);

@@ -51,11 +51,13 @@ function explainerJsonLd(ctx, path, title, description, faqEntities, crumbName) 
 
 export function about(ctx) {
   const path = '/about.html';
-  // Head-term title: people search “what is SIREN” / who runs the AI activity index.
-  const title = `What is ${brand.NAME}? An independent AI activity index · who runs it`;
-  const description = `${brand.NAME} is an independent, automated index of AI activity run by one person. How it works, how it is paid for, and how to get in touch.`;
+  // Head-term question (FINDABILITY tip #204): H1 must match <title> stem.
+  // Was “What is SIREN, and who is behind it?” under title “What is SIREN?”.
+  const qTitle = `What is ${brand.NAME}?`;
+  const description = `${qTitle} An independent, automated index of AI activity run by one person. How it works, how it is paid for, and how to get in touch.`;
+  // FAQ from the SAME pairs rendered in HTML (§3.3). Refuse doom-probability.
   const faq = [
-    [`What is ${brand.NAME}?`,
+    [qTitle,
       `${brand.NAME} is a small, automated publication. A collector reads public sources every hour, a published formula turns them into a score, and a static site is rebuilt from the result. It measures AI activity tempo — not danger or a probability of harm.`],
     [`Who runs ${brand.NAME}?`,
       'One person, independently. It is not affiliated with any AI lab, government body, or the organisations whose scales it borrows its grammar from. It is free to read, carries no display-ad network, and has no investors.'],
@@ -69,7 +71,7 @@ export function about(ctx) {
   const main = `${CSS}
 <section class="inf">
   <p class="eyebrow">About</p>
-  <div class="inf__top">${mascot({ size: 76, level: level(ctx) })}<h1 class="bp__h1">What is ${esc(brand.NAME)}, and who is behind it?</h1></div>
+  <div class="inf__top">${mascot({ size: 76, level: level(ctx) })}<h1 class="bp__h1">${esc(qTitle)}</h1></div>
   <p class="lede">${esc(brand.DESCRIPTION)}</p>
   <h2>The name</h2>
   <p><b>SI</b> is superintelligence. <b>REN</b> is Real-time Early Notice. Together: a siren for the road to superintelligence, which tells you how loud things are and never claims to know how the road ends.
@@ -92,6 +94,10 @@ export function about(ctx) {
     <a href="${esc(brand.REPO_URL)}" rel="noopener">repository</a>. A correction that changes a number is recorded in the open.</p>
   <h2 id="faq">Questions people actually ask</h2>
   ${faqHtml}
+  <p>Search-shaped sibling:
+    <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>
+    · <a href="${esc(ctx.href('/guide.html'))}">How does ${esc(brand.NAME)} compare to DEFCON, the Doomsday Clock and p(doom)?</a>
+    · <a href="${esc(ctx.href('/privacy.html'))}">What does this site know about you?</a>.</p>
   <h2>Terms, in plain words</h2>
   <ul>
     <li>The site is information, not advice. Do not use it as the basis for financial, legal, safety or policy decisions.</li>
@@ -101,18 +107,27 @@ export function about(ctx) {
   </ul>
   <p>The full version is on the <a href="${esc(ctx.href('/terms.html'))}">terms &amp; disclaimers</a> page.
     A one-page map of every disclosure is on <a href="${esc(ctx.href('/disclosures.html'))}">disclosures</a>.</p>
-  <p><a href="${esc(ctx.href('/privacy.html'))}">Privacy →</a> · <a href="${esc(ctx.href('/guide.html'))}">How it compares with DEFCON and the Doomsday Clock →</a></p>
+  <p><a href="${esc(ctx.href('/privacy.html'))}">What does this site know about you? →</a>
+    · <a href="${esc(ctx.href('/guide.html'))}">How does ${esc(brand.NAME)} compare to DEFCON, the Doomsday Clock and p(doom)? →</a></p>
 </section>`;
   return page({
     ctx,
     path,
-    title,
+    title: `${qTitle} An independent AI activity index · who runs it`,
+    ogTitle: `${brand.NAME}: ${qTitle}`,
     description,
-    jsonld: explainerJsonLd(ctx, path, title, description, faq.map(([q, a]) => ({
-      '@type': 'Question',
-      name: q,
-      acceptedAnswer: { '@type': 'Answer', text: a },
-    })), 'About'),
+    jsonld: explainerJsonLd(
+      ctx,
+      path,
+      qTitle,
+      description,
+      faq.map(([q, a]) => ({
+        '@type': 'Question',
+        name: q,
+        acceptedAnswer: { '@type': 'Answer', text: a },
+      })),
+      qTitle,
+    ),
     main,
   });
 }
@@ -326,7 +341,7 @@ export function feedback(ctx) {
   <h2 id="faq">Questions people actually ask</h2>
   ${faqHtml}
   <p class="note fb-faq-key">Search-shaped sibling:
-    <a href="${esc(ctx.href('/about.html'))}">What is ${esc(brand.NAME)}, and who is behind it?</a>
+    <a href="${esc(ctx.href('/about.html'))}">What is ${esc(brand.NAME)}?</a>
     · <a href="${esc(ctx.href('/privacy.html'))}">What does this site know about you?</a>.</p>
 </section>
 <script>
