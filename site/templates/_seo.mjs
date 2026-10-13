@@ -36,6 +36,8 @@ export function organization(ctx) {
       'how the AI activity index is computed',
       'history of AI risk',
       'AI explainers',
+      'Is AI taking jobs',
+      'Is AI curing anything',
       'AI doom index alternatives',
       'DoomBench alternative',
       'Skynet Countdown alternative',

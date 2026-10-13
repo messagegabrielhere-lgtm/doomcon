@@ -96,6 +96,8 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('how the AI activity index is computed'));
     assert.ok(org.knowsAbout.includes('history of AI risk'));
     assert.ok(org.knowsAbout.includes('AI explainers'));
+    assert.ok(org.knowsAbout.includes('Is AI taking jobs'));
+    assert.ok(org.knowsAbout.includes('Is AI curing anything'));
     assert.ok(org.knowsAbout.includes('DoomBench alternative'));
     assert.ok(org.knowsAbout.includes('Takeoff Tracker alternative'));
     assert.ok(org.knowsAbout.includes('Pentagon Pizza Index alternative'));

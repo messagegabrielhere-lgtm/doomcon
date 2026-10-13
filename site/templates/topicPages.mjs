@@ -10,6 +10,7 @@
 
 import { esc, utc } from './_html.mjs';
 import { page } from './layout.mjs';
+import { breadcrumbs, speakable } from './_seo.mjs';
 import * as brand from '../brand.mjs';
 import { mascot } from './_mascot.mjs';
 
@@ -20,27 +21,43 @@ export const TOPICS = {
     path: '/jobs.html',
     leadId: 'challenger-ai-cited-cuts',
     eyebrow: 'Jobs · a view of the registers · does not feed the main number',
-    h1: 'AI and jobs: what has been measured',
+    // Head-term match for the home-card question people type.
+    h1: 'Is AI taking jobs? What has been measured',
     lede: 'Everybody has a forecast for what AI does to work. This page has no forecast. It lists what has been counted so far, who counted it, and what the count does not show.',
     pick: (e) => /labou?r|jobs|employment|work/i.test(String(e.domain)),
     rx: /\b(layoffs?|laid off|job cuts?|jobs?|hiring|workforce|unemployment|redundanc\w+|headcount)\b/i,
     what: 'jobs, layoffs, hiring or the workforce',
-    title: `AI and jobs: what has actually been measured · ${brand.NAME}`,
+    title: `Is AI taking jobs? What has actually been measured · ${brand.NAME}`,
     description: 'Announced job cuts that cite AI, and measured effects on freelancers, with sources and caveats. Counts on the record, not forecasts.',
     not: 'A count of announced cuts is not a count of jobs lost to AI, and none of these entries says what happens next.',
+    crumb: 'Jobs',
+    faq: [
+      ['Is AI taking jobs?',
+        'This page does not answer with a forecast. It lists announced job cuts that cite AI and measured effects on freelancers, each with a source and a caveat. A count of announcements is not a count of jobs lost to AI.'],
+      ['Does SIREN publish a jobs forecast?',
+        'No. SIREN’s main index is an hourly AI activity count. The jobs page is a view of the hand-verified registers and does not feed the main number.'],
+    ],
   },
   medicine: {
     path: '/medicine.html',
     leadId: 'fda-ai-devices',
     eyebrow: 'Medicine · a view of the registers · does not feed the main number',
-    h1: 'AI in medicine: results on the record',
+    // Head-term match for the home-card question people type.
+    h1: 'Is AI curing anything? Results on the record',
     lede: 'Breakthrough is a headline word. This page lists the medical results that have a trial, an authorisation list or a database behind them, with what each one does and does not show.',
     pick: (e) => /drug|medical|protein|clinic|health/i.test(String(e.domain)) || e.id === 'co-scientist',
     rx: /\b(drugs?|cancer|clinical|FDA|medical|medicine|patients?|diseases?|therap\w+|biotech|hospitals?|vaccines?)\b/i,
     what: 'drugs, patients, trials or medicine',
-    title: `AI in medicine: trial results, approvals and what they show · ${brand.NAME}`,
+    title: `Is AI curing anything? Trial results, approvals and what they show · ${brand.NAME}`,
     description: 'AI-designed drugs in trials, FDA-authorised AI devices, screening trials and AlphaFold, each with its numbers, sources and caveats.',
     not: 'An authorisation is not a measured patient benefit, a Phase 2 result is not an approval, and a structure prediction is not a drug.',
+    crumb: 'Medicine',
+    faq: [
+      ['Is AI curing anything?',
+        'This page does not claim a cure. It lists medical results that have a trial, an authorisation list, or a database behind them, each with what was measured and the caveat.'],
+      ['Does an FDA authorisation mean a measured patient benefit?',
+        'No. An authorisation is not a measured patient benefit, a Phase 2 result is not an approval, and a structure prediction is not a drug. Each entry states that distinction in its own caveat.'],
+    ],
   },
 };
 
@@ -123,10 +140,38 @@ ${list.map((e) => entry(ctx, e, L && L.status_words, t)).join('\n')}
   <p class="fresh__key"><b>${esc(N(hits.length))} of ${esc(N(items.length))}</b> headlines in the newsroom window mention ${esc(t.what)}${at ? `, as of ${esc(at)}` : ''}.
     Matched by word, so read them before trusting the count.</p>
   ${hits.length ? `<ul class="tp__news">${hits.slice(0, 12).map((i) => `<li><a href="${esc(i.url)}" rel="noopener">${esc(i.title)}</a><small>${esc(i.source)} · ${esc(String(i.published_at).slice(0, 10))}</small></li>`).join('')}</ul>` : ''}
+  <h2 class="sec__h tp__sec" id="faq">Questions people actually ask</h2>
+${(t.faq || []).map(([q, a]) => `  <h3>${esc(q)}</h3>
+  <p>${esc(a)}</p>`).join('\n')}
   <p><a href="${esc(ctx.href(other.path))}">${esc(other.h1)} →</a> · <a href="${esc(ctx.href('/balance.html'))}">Every register entry, both sides →</a> · <a href="${esc(ctx.href('/library.html'))}">Books on the argument (paid links) →</a>${brand.X_URL ? ` · <a href="https://x.com/intent/follow?screen_name=${esc(brand.X_HANDLE.replace(/^@/, ''))}" rel="noopener">Follow ${esc(brand.X_HANDLE)} for updates to these numbers →</a>` : ''}</p>
 </section>`;
 
-  return page({ ctx, path: t.path, title: t.title, description: t.description, main });
+  const faqPairs = Array.isArray(t.faq) ? t.faq : [];
+  const jsonld = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'WebPage',
+      name: t.title,
+      url: ctx.url(t.path),
+      description: t.description,
+      isPartOf: { '@type': 'WebSite', name: brand.PUBLICATION, url: ctx.url('/') },
+      speakable: speakable(['h1', '.lede']),
+    },
+    breadcrumbs(ctx, [{ name: t.crumb || t.h1, path: t.path }]),
+  ];
+  if (faqPairs.length) {
+    jsonld.push({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faqPairs.map(([q, a]) => ({
+        '@type': 'Question',
+        name: q,
+        acceptedAnswer: { '@type': 'Answer', text: a },
+      })),
+    });
+  }
+
+  return page({ ctx, path: t.path, title: t.title, description: t.description, jsonld, main });
 }
 
 /** The home-page pair: one card per question, each with its lead figure. */

@@ -975,12 +975,12 @@ export const GUIDES = Object.freeze([
   },
   {
     path: '/jobs.html',
-    name: 'AI and jobs: what has been measured',
+    name: 'Is AI taking jobs?',
     blurb: 'Register counts with sources and caveats — not a jobs forecast.',
   },
   {
     path: '/medicine.html',
-    name: 'AI in medicine: results on the record',
+    name: 'Is AI curing anything?',
     blurb: 'Trials, authorisations, and caveats — not a cure claim.',
   },
 ]);

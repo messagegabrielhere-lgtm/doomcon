@@ -175,9 +175,9 @@ const SECTIONS = [
   // and which window, from the file's own stamp. A dark newsroom has no count
   // on either pan, so the tile prints the dot, never 0 : 0.
   { href: '/jobs.html', label: 'Jobs', short: 'Jobs', needs: 'balance',
-    blurb: 'AI and jobs: what has been measured, and what the counts do not show.' },
+    blurb: 'Is AI taking jobs? What has been measured, and what the counts do not show.' },
   { href: '/medicine.html', label: 'Medicine', short: 'Medicine', needs: 'balance',
-    blurb: 'AI in medicine: trials, authorisations and databases on the record.' },
+    blurb: 'Is AI curing anything? Trials, authorisations and databases on the record.' },
   { href: '/balance.html', label: 'Balance', short: 'Balance', needs: 'balance',
     blurb: 'Harm and benefit, counted side by side and never summed.',
     count: balanceCount },
