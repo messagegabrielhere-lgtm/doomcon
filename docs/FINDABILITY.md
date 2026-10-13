@@ -382,6 +382,7 @@ context.
 | 149 | `/balance.html` question-shaped title + Dataset speakable + visible FAQ matching FAQPage schema (harm/benefit side-by-side; refuse net-score / doom-verdict claims); IndexNow + seo-daily; `knowsAbout` “how does SIREN count AI harm and benefit side by side” | Google + Bing | **Done** (2026-10-13) |
 | 150 | `/desk.html` question-shaped title + WebPage speakable + visible FAQ matching FAQPage schema (Tally side indexes; refuse signal/forecast/main-index-input claims); IndexNow + seo-daily; `knowsAbout` “what unserious counts does SIREN keep on Tally's desk” | Google + Bing | **Done** (2026-10-13) |
 | 151 | `/breakthroughs.html` question-shaped title + CollectionPage speakable + visible FAQ matching FAQPage schema (good-news conquest vs doom-only rivals; refuse verified-cure / forecast claims); IndexNow + seo-daily; `knowsAbout` “what AI breakthroughs has SIREN tracked” | Google + Bing | **Done** (2026-10-13) |
+| 152 | `/instruments.html` question-shaped title + WebPage speakable + visible FAQ matching FAQPage schema (instrument-room behind the reading; refuse predict/doom-probability claims); IndexNow + seo-daily; `knowsAbout` “what instruments sit behind the SIREN reading” | Google + Bing | **Done** (2026-10-13) |
 
 ### 3.3 Refusals (search edition)
 

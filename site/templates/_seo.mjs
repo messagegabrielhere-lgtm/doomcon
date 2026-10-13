@@ -75,6 +75,8 @@ export function organization(ctx) {
       'what unserious counts does SIREN keep on Tally\'s desk',
       'AI breakthroughs tracked',
       'what AI breakthroughs has SIREN tracked',
+      'SIREN instruments',
+      'what instruments sit behind the SIREN reading',
       'AI labs this index scored',
       'AI stories this index scored',
       'AI leaders on the record',

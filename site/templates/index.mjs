@@ -69,6 +69,7 @@ import { homeCards as topicCards, lead as topicLead } from './topicPages.mjs';
 import { freshnessStrip, pillarCard, moveRow, sourceStatus } from './_parts.mjs';
 import { indexHistoryChart, pillarRanked } from './_charts.mjs';
 import { page } from './layout.mjs';
+import { breadcrumbs, speakable } from './_seo.mjs';
 import * as brand from '../brand.mjs';
 import * as news from './news.mjs';
 import * as gauge from './_gauge.mjs';
@@ -675,10 +676,33 @@ main.wrap > .hero .hero__headline { margin: 0 0 var(--s-3); font: 500 var(--t-sm
   // These sections were the lower two thirds of a 12,574px home page
   // (measured 2026-10-04, 19 sections). They are unchanged; they have their
   // own address now, and the home page links to it.
+  const instrumentsQ = `What instruments sit behind the ${brand.NAME} reading?`;
+  // FAQ answers restate hero / record / embed / API copy only (FINDABILITY §3.3).
+  // Refuse: doom-probability, forecast, or "the instruments predict" claims.
+  const instrumentsFaq = [
+    [instrumentsQ,
+      'The home page gives the reading. This page shows the working: where the score sits, how it has moved, which sources reported, what each pillar is doing, and how to take the number with you.'],
+    ['What does source health on this page report?',
+      healthSentence(state)],
+    ['Where is the frozen reference distribution explained?',
+      'Where today sits inside the frozen reference distribution, and why that curve is never updated live, is drawn and explained on the methodology page.'],
+    ['How do I put the index on my site?',
+      'One iframe. No script, no tracking, no key. It renders light or dark to match the page it sits in, and the number inside it is server-rendered too.'],
+  ];
+  const instrumentsFaqHtml = instrumentsFaq.map(([qAsk, a]) => `
+  <h3>${esc(qAsk)}</h3>
+  <p>${esc(a)}</p>`).join('');
   const instruments = `
+<style>
+.inst__faq{margin:var(--sec,2rem) 0 var(--s-5,1.25rem);max-width:62ch}
+.inst__faq h2{font:600 var(--t-lg,1.125rem)/1.2 var(--sans);margin:0 0 var(--s-3,.75rem)}
+.inst__faq h3{font:600 var(--t-base,1rem)/1.3 var(--sans);margin:var(--s-4,1rem) 0 var(--s-2,.5rem)}
+.inst__faq p{font:400 var(--t-base,1rem)/1.55 var(--sans);color:var(--ink-dim);margin:0 0 var(--s-2,.5rem)}
+.inst__faq-key{margin-top:var(--s-4,1rem)!important}
+</style>
 <section class="inst__top">
   <p class="eyebrow">The instrument room · everything behind the reading</p>
-  <h1 class="bp__h1">The instruments</h1>
+  <h1 class="bp__h1">What instruments sit behind the ${esc(brand.NAME)} reading?</h1>
   <p class="lede">The home page gives the reading. This page shows the working: where the score sits, how it has moved,
     which sources reported, what each pillar is doing, and how to take the number with you.</p>
 </section>
@@ -751,6 +775,13 @@ ${oven.render(ctx)}
     <li><code>${esc(ctx.url('/api/receipts/'))}&lt;id&gt;.json</code> <span>the hash-chained receipt behind one observation</span></li>
   </ul>
   <p class="fresh__key">Static files. No key, no rate limit, ${esc(brand.LICENSE)}. Attribution: ${esc(brand.DOMAIN)}.</p>
+</section>
+
+<section class="inst__faq" aria-labelledby="faq">
+  <h2 id="faq">Questions people actually ask</h2>
+  ${instrumentsFaqHtml}
+  <p class="inst__faq-key">Search-shaped sibling:
+    <a href="${esc(ctx.href('/methodology.html'))}">How the AI activity index is computed</a>.</p>
 </section>
 
 ${style}`;
@@ -916,8 +947,33 @@ ${style}`;
     return page({
       ctx,
       path: '/instruments.html',
-      title: `The instruments: score history, source health, pillars and API · ${brand.NAME}`,
-      description: `Everything behind the ${brand.NAME} reading: the score over time, per-source health, the five pillars, recent moves, the embed and the public JSON API.`,
+      title: `${instrumentsQ} · ${brand.NAME}`,
+      ogTitle: `${brand.NAME}: ${instrumentsQ}`,
+      description: `${instrumentsQ} Everything behind the ${brand.NAME} reading: the score over time, per-source health, the five pillars, recent moves, the embed and the public JSON API.`,
+      jsonld: [
+        {
+          '@context': 'https://schema.org',
+          '@type': 'WebPage',
+          name: instrumentsQ,
+          description: `Everything behind the ${brand.NAME} reading: score history, source health, pillars, embed and public JSON API.`,
+          url: ctx.url('/instruments.html'),
+          isPartOf: { '@type': 'WebSite', name: brand.NAME, url: ctx.url('/') },
+          speakable: speakable(['h1.bp__h1', 'p.lede']),
+        },
+        breadcrumbs(ctx, [
+          { name: 'Home', path: '/' },
+          { name: 'Instruments', path: '/instruments.html' },
+        ]),
+        {
+          '@context': 'https://schema.org',
+          '@type': 'FAQPage',
+          mainEntity: instrumentsFaq.map(([qAsk, a]) => ({
+            '@type': 'Question',
+            name: qAsk,
+            acceptedAnswer: { '@type': 'Answer', text: a },
+          })),
+        },
+      ],
       main: instruments,
     });
   }
