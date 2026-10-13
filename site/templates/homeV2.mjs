@@ -156,7 +156,7 @@ export function roomGroups(ctx) {
       ['/leaders.html', 'mic', 'Leaders', Number.isFinite(lt.leaders) ? `${lt.on_record ?? 0} of ${lt.leaders} on record` : null, 'What the people running AI said this week.'],
       ctx.digest ? ['/digest.html', 'clipboard', 'Digest', null, 'The day in a few corroborated items.'] : null,
       ['/monitor.html', 'satellite', 'World Monitor', null, 'Live globe: stories from 27 outlets, hazards, a country stress index, 72-hour replay.'],
-      ['/dispatch.html', 'px:beacon', 'Dispatch', null, '911 CAD, multi-system alerts, blather — emergency mark + X.'],
+      ['/dispatch.html', 'px:beacon', 'Dispatch', null, 'What public feeds does SIREN Dispatch show?'],
       ['/waffle.html', 'px:waffle', 'Waffle House Index', 'NEW', 'Hurricanes, Waffle Houses and the AI data centres in the path.'],
       ['/elon.html', 'musk', 'Real Clips', null, 'Where can you find real clips of AI leaders?'],
       ['/live-x.html', 'px:antenna', 'Live on X', null, 'Live X feeds and Spaces on AI, newest first.'],
