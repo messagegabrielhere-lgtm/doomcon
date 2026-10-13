@@ -367,6 +367,7 @@ context.
 | 134 | `/item/` live-window index + `/item/archive*` hubs question-shaped titles + CollectionPage speakable + visible FAQ matching FAQPage schema; `knowsAbout` “scored AI stories this index kept” | Google | **Done** (2026-10-13) |
 | 135 | Entity lab Firmus (`/lab/firmus`, live/archive ≥3 gate; refuse bare “firm”); news:keywords + IndexNow + seo-daily surface | Google + Bing | **Done** (2026-10-13) |
 | 136 | Entity lab SpaceX (`/lab/spacex`, live/archive ≥3 gate; refuse bare “space”); news:keywords + IndexNow + seo-daily surface | Google + Bing | **Done** (2026-10-13) |
+| 137 | Tag needle expands clear `/tags/edge-ai` `/tags/audio-generation` `/tags/ai-regulation` `/tags/openai-codex` `/tags/imitation-learning` `/tags/protein-design` (refuse bare TTS / bare Codex); IndexNow samples | Google + Bing | **Done** (2026-10-13) |
 
 ### 3.3 Refusals (search edition)
 

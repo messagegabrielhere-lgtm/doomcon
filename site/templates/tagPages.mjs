@@ -517,7 +517,9 @@ export const TOPIC_DEFS = Object.freeze([
     id: 'edge-ai',
     name: 'Edge AI',
     description: 'Edge-AI and on-device inference stories scored in the newsroom or archive.',
-    match: /\b(edge ai|on[- ]device (?:llm|inference|language models?))\b/i,
+    // on-device AI / edge-native / edge LLM keep the hub above TAG_INDEX_MIN
+    // without matching bare “edge” alone.
+    match: /\b(edge ai|on[- ]device (?:llm|inference|language models?|ai)|edge[- ]native|edge llm)\b/i,
   },
   {
     id: 'sft',
@@ -811,7 +813,9 @@ export const TOPIC_DEFS = Object.freeze([
     id: 'audio-generation',
     name: 'Audio generation',
     description: 'Audio-generation and text-to-audio stories scored in the newsroom or archive — coverage counts, not a product score.',
-    match: /\b(audio generat(?:ion|ors?|e[sd]?)|text[- ]to[- ]audio)\b/i,
+    // text-to-speech is the same product class; refuse bare “TTS” (test-time
+    // scaling false friend).
+    match: /\b(audio generat(?:ion|ors?|e[sd]?)|text[- ]to[- ]audio|text[- ]to[- ]speech)\b/i,
   },
   {
     id: 'ai-chips',
@@ -823,7 +827,9 @@ export const TOPIC_DEFS = Object.freeze([
     id: 'ai-regulation',
     name: 'AI regulation',
     description: 'AI-regulation policy stories scored in the newsroom or archive — coverage counts, not a compliance score.',
-    match: /\bai regulation\b/i,
+    // Statute forms (EU AI Act / AI Act) share the policy head term; overlap
+    // with /tags/ai-act is intentional — same stories can carry both tags.
+    match: /\b(ai regulat\w*|eu ai act|\bai act\b)\b/i,
   },
   {
     id: 'artificial-analysis',
@@ -853,7 +859,9 @@ export const TOPIC_DEFS = Object.freeze([
     id: 'openai-codex',
     name: 'OpenAI Codex',
     description: 'OpenAI Codex CLI and hackathon stories scored in the newsroom or archive — coverage counts, not a product score.',
-    match: /\b(openai )?codex (?:cli|hackathon|agent|update)|\bcodex cli\b/i,
+    // “OpenAI Codex” without a CLI/hackathon suffix still names the product;
+    // bare Codex stays refused (false friends).
+    match: /\b((?:openai )?codex (?:cli|hackathon|agent|update|app)|codex cli|openai codex)\b/i,
   },
   {
     id: 'reward-models',
@@ -889,7 +897,7 @@ export const TOPIC_DEFS = Object.freeze([
     id: 'imitation-learning',
     name: 'Imitation learning',
     description: 'Imitation-learning research stories scored in the newsroom or archive — method coverage, not a capability forecast.',
-    match: /\bimitation learning\b/i,
+    match: /\b(imitation learning|behavioral cloning)\b/i,
   },
   {
     id: 'locomotion',
@@ -1069,7 +1077,7 @@ export const TOPIC_DEFS = Object.freeze([
     id: 'protein-design',
     name: 'Protein design',
     description: 'AI protein-design stories scored in the newsroom or archive — coverage counts, not a science forecast.',
-    match: /\bprotein (?:design|folding)\b/i,
+    match: /\b(protein (?:design|folding)|alphafold)\b/i,
   },
   {
     id: 'drug-discovery',

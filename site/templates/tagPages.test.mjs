@@ -254,6 +254,60 @@ describe('tag pages', () => {
     assert.ok(sitemapEntries(rich).some((e) => e.loc === '/tags/ipo.html'));
   });
 
+  it('clears edge-ai, audio-generation, ai-regulation, openai-codex, imitation-learning, protein-design gates', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('ed1', 'Edge-Native language models for on-device AI'),
+          story('ed2', 'Edge LLM agents resist context pollution'),
+          story('ed3', 'Packet twin commissions megahertz edge AI'),
+          story('ed4', 'On-device AI note-taker ships offline'),
+          story('ed5', 'Edge AI broadband demo at Network X'),
+          story('au1', 'Text-to-speech model ships emotional control'),
+          story('au2', 'Synchronized video and audio generation paper'),
+          story('au3', 'Joint video-audio generation training recipe'),
+          story('au4', 'Open text-to-speech leaderboard expands'),
+          story('au5', 'Foley audio generation with retrieval'),
+          story('rg1', 'Microsoft president on a gap in AI regulation'),
+          story('rg2', 'EU AI Act readiness guide for corporate leaders'),
+          story('rg3', 'EU Tech Chief says AI Act can contain rogue agents'),
+          story('rg4', 'AI Regulation must balance safety with innovation'),
+          story('rg5', 'Senators debate AI regulation and free speech'),
+          story('cx1', 'OpenAI Codex launches input prediction beta'),
+          story('cx2', 'OpenAI Codex Head states default context length'),
+          story('cx3', 'Codex CLI 0.162 vs Claude Code'),
+          story('cx4', 'OpenAI brings Codex hackathon series to Malaysia'),
+          story('cx5', 'OpenAI announces new features for Codex CLI'),
+          story('il1', 'Adversarial imitation learning rates paper'),
+          story('il2', 'Generative behavioral cloning multimodality'),
+          story('il3', 'Imitation learning for action chunks'),
+          story('il4', 'Behavioral cloning for VLA policies'),
+          story('il5', 'Imitation learning vs reinforcement learning'),
+          story('pd1', 'AlphaFold cracked protein shapes from DNA'),
+          story('pd2', 'Protein folding model training kernel'),
+          story('pd3', 'Does learning protein folding generalize'),
+          story('pd4', 'Watermark for AI-designed protein design'),
+          story('pd5', 'AlphaFold follow-on for broader folding'),
+          // Refuse: bare TTS (test-time) and bare Codex / bare space-adjacent edge.
+          story('bad1', 'Test-time scaling TTS curves for agents'),
+          story('bad2', 'A codex of medieval manuscripts goes online'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    for (const id of ['edge-ai', 'audio-generation', 'ai-regulation', 'openai-codex', 'imitation-learning', 'protein-design']) {
+      assert.ok(ids.includes(id), `${id} clears TAG_INDEX_MIN`);
+      assert.ok(tagStoryCount(rich, id) >= TAG_INDEX_MIN, `${id} count`);
+      assert.ok(sitemapEntries(rich).some((e) => e.loc === `/tags/${id}.html`), `${id} sitemap`);
+    }
+    assert.match(renderTag(rich, 'openai-codex'), /What has SIREN scored about OpenAI Codex\?/);
+    assert.match(renderTag(rich, 'edge-ai'), /What has SIREN scored about Edge AI\?/);
+    assert.doesNotMatch(renderTag(rich, 'audio-generation'), /Test-time scaling TTS curves/);
+    assert.doesNotMatch(renderTag(rich, 'openai-codex'), /medieval manuscripts/);
+  });
+
   it('pages MCP, fine-tuning, and quantization hubs when the needle clears the gate', () => {
     const rich = {
       ...ctx,

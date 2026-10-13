@@ -93,6 +93,11 @@ describe('IndexNow', () => {
     assert.ok(has('https://siren.watch/lab/decart.html'));
     assert.ok(has('https://siren.watch/lab/sakana-ai.html'));
     assert.ok(has('https://siren.watch/tags/protein-design.html'));
+    assert.ok(has('https://siren.watch/tags/edge-ai.html'));
+    assert.ok(has('https://siren.watch/tags/audio-generation.html'));
+    assert.ok(has('https://siren.watch/tags/ai-regulation.html'));
+    assert.ok(has('https://siren.watch/tags/openai-codex.html'));
+    assert.ok(has('https://siren.watch/tags/imitation-learning.html'));
   });
 
   it('Organization knowsAbout head terms Google and assistants ask', () => {
