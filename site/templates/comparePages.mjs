@@ -160,6 +160,7 @@ function pageJsonLd(ctx, path, title, description, crumbs, faqPairs) {
 
 export function compareHub(ctx) {
   const path = '/compare.html';
+  const aa = brand.COMPLEMENTS.find((c) => c.id === 'artificial-analysis');
   const title = `AI doom indexes compared: ${brand.NAME} vs DoomBench, Skynet Countdown and p(doom)`;
   const description = `${brand.NAME} is an hourly AI activity count you can recompute. DoomBench scores takeover evidence, Skynet Countdown estimates AGI dates and control-loss odds, and p(doom) clocks publish opinions. Side-by-side without borrowing their claims.`;
   const faq = [
@@ -185,6 +186,11 @@ export function compareHub(ctx) {
     <h3><a href="${esc(ctx.href(r.path))}">${esc(brand.NAME)} vs ${esc(r.name)}</a></h3>
     <p>${esc(r.short)}. ${esc(r.measures)}. ${esc(r.recomputableNote)}.</p>
   </div>`).join('')}
+  <h2>Complementary (not a doom index)</h2>
+  <p>For <b>which model is smartest, cheapest or fastest</b>, use
+    <a href="${esc(aa.url)}" rel="noopener">${esc(aa.name)}</a>.
+    That is independent quality, speed and cost. ${esc(brand.NAME)} is tempo.
+    They pair; they do not substitute. We link out; we do not republish their leaderboard.</p>
   <h2>Also on this site</h2>
   <p><a href="${esc(ctx.href('/alternatives.html'))}">AI activity index alternatives →</a>
      · <a href="${esc(ctx.href('/guide.html'))}">SIREN vs DEFCON vs the Doomsday Clock vs p(doom) →</a>
@@ -204,6 +210,7 @@ export function compareHub(ctx) {
 
 export function alternatives(ctx) {
   const path = '/alternatives.html';
+  const aa = brand.COMPLEMENTS.find((c) => c.id === 'artificial-analysis');
   const title = `AI doom index alternatives: recomputable activity vs judgement clocks · ${brand.NAME}`;
   const description = `Looking for a DoomBench, Skynet Countdown or p(doom) alternative? ${brand.NAME} is an hourly AI activity index with open code, CORS JSON and hash-chained receipts — not a probability of doom.`;
   const faq = [
@@ -233,6 +240,7 @@ export function alternatives(ctx) {
     <li>You need a scored argument about AI takeover risk — that is DoomBench’s product, not ours.</li>
     <li>You need an estimated AGI date or control-loss percentage — that is Skynet Countdown’s product, not ours.</li>
     <li>You want a personal extinction probability — that is p(doom), and it stays an opinion.</li>
+    <li>You need model intelligence, speed or cost rankings — that is <a href="${esc(aa.url)}" rel="noopener">${esc(aa.name)}</a>, not an activity index.</li>
   </ul>
   <h2>One page per rival</h2>
   ${RIVALS.map((r) => `<div class="cmp__card">

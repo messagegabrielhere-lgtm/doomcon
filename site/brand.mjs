@@ -98,6 +98,21 @@ export const DOMAIN = 'siren.watch';
 // Apex, not www. GitHub Pages redirects www here once the www CNAME exists.
 export const CANONICAL_URL = 'https://siren.watch';
 
+// External instruments that answer a *different* question than the index.
+// Outbound links and routing copy only — we do not ingest, scrape, or republish
+// their numbers. Artificial Analysis's free Data API needs a key and forbids
+// redistribution on that tier; CONTRACT.md also keeps collectors key-free.
+// When pointing agents or humans at quality / cost / speed, use these URLs.
+export const COMPLEMENTS = Object.freeze([
+  Object.freeze({
+    id: 'artificial-analysis',
+    name: 'Artificial Analysis',
+    url: 'https://artificialanalysis.ai/',
+    measures: 'Independent model intelligence, speed and cost benchmarks',
+    when: 'which model is smartest, cheapest or fastest',
+  }),
+]);
+
 // pizzint ships twitter:site="@pizzint" while their account is @pizzintwatch —
 // the card is misattributed on every share. The fix is not "be careful", it is
 // "have no default". It stayed null until an account genuinely existed and was
@@ -404,5 +419,19 @@ export function pillarMeta(id) {
   }
   if (expectedFloor !== 101) {
     throw new Error(`brand: level bands stop at ${expectedFloor - 1}, expected 100`);
+  }
+
+  if (!Array.isArray(COMPLEMENTS) || COMPLEMENTS.length === 0) {
+    throw new Error('brand: COMPLEMENTS must list at least one external instrument');
+  }
+  for (const c of COMPLEMENTS) {
+    for (const key of ['id', 'name', 'url', 'measures', 'when']) {
+      if (typeof c[key] !== 'string' || !c[key]) {
+        throw new Error(`brand: COMPLEMENTS entry missing non-empty ${key}`);
+      }
+    }
+    if (!/^https:\/\//.test(c.url)) {
+      throw new Error(`brand: COMPLEMENTS ${c.id} url must be https`);
+    }
   }
 })();
