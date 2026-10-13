@@ -111,6 +111,8 @@ export function organization(ctx) {
       'What free AI games can you play on SIREN',
       'Evolution Log',
       'How has AI activity moved day by day',
+      'SIREN Radio',
+      'What free music does SIREN Radio play',
       'AI labs this index scored',
       'AI stories this index scored',
       'AI leaders on the record',
