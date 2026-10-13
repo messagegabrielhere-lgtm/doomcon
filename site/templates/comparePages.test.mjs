@@ -37,9 +37,11 @@ describe('compare / alternatives conquest pages', () => {
 
   it('puts head-term titles and FAQ schema on the hubs', () => {
     const hub = compareHub(ctx);
-    assert.match(hub, /AI doom indexes compared/);
+    assert.match(hub, /<title>Which AI doom indexes can you compare\?/);
     assert.match(hub, /Takeoff Tracker/);
     assert.match(hub, /"@type"\s*:\s*"FAQPage"/);
+    assert.match(hub, /Questions people actually ask/);
+    assert.match(hub, /What is the difference between SIREN and DoomBench/);
     assert.match(hub, /DoomBench/);
     assert.match(hub, /Skynet Countdown/);
     assert.match(hub, /PizzINT/);
@@ -47,10 +49,12 @@ describe('compare / alternatives conquest pages', () => {
     assert.match(hub, /55\.5/);
 
     const alt = alternatives(ctx);
-    assert.match(alt, /AI doom index alternatives/);
+    assert.match(alt, /<title>What are AI doom index alternatives\?/);
     assert.match(alt, /DoomBench alternative/i);
     assert.match(alt, /PizzINT/);
     assert.match(alt, /"@type"\s*:\s*"FAQPage"/);
+    assert.match(alt, /Questions people actually ask/);
+    assert.match(alt, /What is a good alternative to DoomBench/);
   });
 
   it('keeps vs pages honest: no borrowed doom probability claim for SIREN', () => {
@@ -82,13 +86,15 @@ describe('compare / alternatives conquest pages', () => {
 
   it('ships /vs.html as a head-term directory with ItemList schema', () => {
     const html = vsHub(ctx);
-    assert.match(html, /SIREN vs other AI indexes/);
+    assert.match(html, /<title>Which AI indexes does SIREN contrast\?/);
+    assert.match(html, /Which AI indexes does SIREN contrast/);
     assert.match(html, /ItemList/);
     assert.match(html, /\/vs\/doombench\.html/);
     assert.match(html, /\/vs\/pizzint\.html/);
     assert.match(html, /\/vs\/takeofftracker\.html/);
     assert.match(html, /Takeoff Tracker/);
     assert.match(html, /"@type"\s*:\s*"FAQPage"/);
+    assert.match(html, /Questions people actually ask/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
   });
 
