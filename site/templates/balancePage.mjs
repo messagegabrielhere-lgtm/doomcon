@@ -47,6 +47,7 @@
 
 import { esc, num, utc } from './_html.mjs';
 import { page } from './layout.mjs';
+import { breadcrumbs, speakable } from './_seo.mjs';
 import { slugFor } from './itemPage.mjs';
 import * as brand from '../brand.mjs';
 import { iconSprite, icon, stateIcon } from './_icons.mjs';
@@ -724,10 +725,29 @@ export function render(ctx) {
   const hb = m.state === 'live'
     ? `${count(m.harm)} harm-language and ${count(m.benefit)} benefit-language ${plural(m.benefit, 'story', 'stories')}`
     : 'newsroom dark';
+  const qTitle = `How does ${brand.NAME} count AI harm and benefit side by side?`;
   const description =
-    `Harm and benefit, side by side and never summed. ${m.sentence || 'The newsroom window is dark this build.'} `
+    `${qTitle} Harm and benefit, side by side and never summed. ${m.sentence || 'The newsroom window is dark this build.'} `
     + `Beside it: ${count(arr(L.benefit).length)} benefit and ${count(arr(L.harm).length)} harm register rows, each dated and sourced, `
     + `${cs ? `${count(cs.live, 'no')} live counters from public registries, ` : ''}and both word lists in full. No net score.`;
+
+  // FAQ answers restate hero / honesty / stamp copy only (FINDABILITY §3.3).
+  // Refuse net scores, doom/good verdicts, and doom-probability claims.
+  const noNet = arr(b.honesty).find((s) => /No net score/i.test(String(s)))
+    || 'No net score. Nothing in this file adds a harm to a benefit, subtracts one from the other or divides one by the other, because the two sides share no unit.';
+  const faq = [
+    [qTitle,
+      'The utopia case, as far as it has receipts: what AI has measurably done for people, beside what it has measurably done to them. Three layers, each on its own terms — a count of two word lists in the same headlines, six counters read from public registries, and two registers of dated, sourced results — and one refusal. Nothing here is added up, netted or divided into a verdict, because the two sides share no unit.'],
+    [`Does the balance feed the main ${brand.NAME} number?`,
+      `The balance · a ${brand.NAME} view · does not feed the main number. This page does not feed the ${brand.NAME} index and has no route into it.`],
+    ['Is there a net score of harm versus benefit?',
+      noNet],
+    ['What do the newsroom word-list counts measure?',
+      m.sentence || 'The newsroom window is dark this build.'],
+  ];
+  const faqHtml = faq.map(([qAsk, a]) => `
+  <h3>${esc(qAsk)}</h3>
+  <p>${esc(a)}</p>`).join('');
 
   const main = `<style>${balanceCss()}${pageCss()}</style>
 ${iconSprite({ only: SPRITE })}
@@ -735,7 +755,7 @@ ${iconSprite({ only: SPRITE })}
 
 <section class="bp__hero">
   <p class="bp__eyebrow">The balance · a ${esc(brand.NAME)} view · does not feed the main number</p>
-  <h1 class="bp__h1">Harm and benefit, side by side</h1>
+  <h1 class="bp__h1">How does ${esc(brand.NAME)} count AI harm and benefit side by side?</h1>
   <p class="bp__sub">Newsroom window <time datetime="${esc(nr.generated_at || '')}">${esc(stamp(nr.generated_at, 'not recorded'))}</time>
     · registers checked by hand as of ${esc(L.as_of_date || 'an unrecorded date')}
     ${cs ? `· ${count(cs.live, 'no')} of ${count(SIDES.reduce((n, s) => n + arr(cs[s]).length, 0))} counters live` : ''}</p>
@@ -769,32 +789,55 @@ ${limitsSection(b, L)}
 ${methodSection(b, L)}
 
 ${dataSection(ctx, b, L)}
+
+<section class="bp__faq" aria-labelledby="faq">
+  <h2 id="faq">Questions people actually ask</h2>
+  ${faqHtml}
+  <p class="bp__faq-key">Search-shaped sibling:
+    <a href="${esc(ctx.href('/bliss.html'))}">What is BLISS, the ${esc(brand.NAME)} upside index?</a>.</p>
+</section>
 </div>`;
 
   return page({
     ctx,
     path: PATH,
-    title: `Harm and benefit, side by side — ${hb} · ${brand.NAME}`,
-    ogTitle: `${brand.NAME}: harm and benefit, side by side`,
+    title: `${qTitle} · ${hb} · ${brand.NAME}`,
+    ogTitle: `${brand.NAME}: ${qTitle}`,
     description,
     ogImage: ctx.cardFor ? ctx.cardFor('balance') : null,
     ogImageAlt: `${brand.NAME} balance: ${hb} in the newsroom window, drawn as a two-pan scale`,
-    jsonld: [dataset(ctx, b, L, m)],
+    jsonld: [
+      dataset(ctx, b, L, m, qTitle),
+      breadcrumbs(ctx, [
+        { name: 'Home', path: '/' },
+        { name: 'Balance', path: PATH },
+      ]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map(([qAsk, a]) => ({
+          '@type': 'Question',
+          name: qAsk,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
+      },
+    ],
     main,
   });
 }
 
 /** Either file absent. Builds, says so plainly, and carries noindex. */
 function emptyPage(ctx) {
+  const qTitle = `How does ${brand.NAME} count AI harm and benefit side by side?`;
   return page({
     ctx,
     path: PATH,
     noindex: true,
-    title: `Harm and benefit, side by side · ${brand.NAME}`,
+    title: `${qTitle} · ${brand.NAME}`,
     description: 'The harm-and-benefit page is not in this build.',
     main: `<style>${pageCss()}</style><div class="bp"><section class="bp__hero">
   <p class="bp__eyebrow">The balance · a ${esc(brand.NAME)} view</p>
-  <h1 class="bp__h1">Harm and benefit, side by side</h1>
+  <h1 class="bp__h1">How does ${esc(brand.NAME)} count AI harm and benefit side by side?</h1>
   <p class="bp__lede">This build carries no <code>data/balance.json</code> or no valid
     <code>data/ledger.json</code>, so there is nothing to draw. The page exists and says so rather than
     inventing a balance. Run <code>collector/balance.mjs</code> and rebuild.</p>
@@ -802,7 +845,7 @@ function emptyPage(ctx) {
   });
 }
 
-function dataset(ctx, b, L, m) {
+function dataset(ctx, b, L, m, title) {
   const cs = b.counters || {};
   const vars = [
     { name: 'newsroom stories matching the harm list only', value: m.harm },
@@ -819,7 +862,7 @@ function dataset(ctx, b, L, m) {
   return {
     '@context': 'https://schema.org',
     '@type': 'Dataset',
-    name: `${brand.NAME} — harm and benefit of AI, counted side by side`,
+    name: title || `How does ${brand.NAME} count AI harm and benefit side by side?`,
     description:
       'Two word lists applied by one rule to the same newsroom headlines, six counters read from public '
       + 'registries, and two hand-verified registers of dated, sourced results on the benefit and harm sides of AI. '
@@ -830,6 +873,7 @@ function dataset(ctx, b, L, m) {
     creator: { '@type': 'Organization', name: brand.NAME, url: ctx.url('/') },
     ...(typeof b.generated_at === 'string' ? { dateModified: b.generated_at } : {}),
     keywords: ['artificial intelligence', 'AI harms', 'AI benefits', 'incidents', 'registers'],
+    speakable: speakable(['h1.bp__h1', 'p.bp__lede']),
     distribution: [
       { '@type': 'DataDownload', encodingFormat: 'application/json', contentUrl: ctx.url('/api/balance.json') },
       { '@type': 'DataDownload', encodingFormat: 'application/json', contentUrl: ctx.url('/api/ledger.json') },
@@ -1019,6 +1063,12 @@ function pageCss() {
 .bp__dl li{font:400 var(--t-xs)/1.65 var(--sans);color:var(--ink-faint);max-width:72ch}
 .bp__dl a{display:inline-block;margin-right:6px;text-decoration:none}
 .bp__dl a:hover .bp__code{border-color:var(--accent-2);color:var(--ink)}
+
+.bp__faq{margin:var(--sec) 0 var(--s-5);max-width:62ch}
+.bp__faq h2{font:600 var(--t-lg)/1.2 var(--sans);margin:0 0 var(--s-3)}
+.bp__faq h3{font:600 var(--t-base)/1.3 var(--sans);margin:var(--s-4) 0 var(--s-2)}
+.bp__faq p{font:400 var(--t-base)/1.55 var(--sans);color:var(--ink-dim);margin:0 0 var(--s-2)}
+.bp__faq-key{margin-top:var(--s-4)!important}
 
 @media (prefers-reduced-motion: no-preference){
   .bp__srcs a,.bp__it__a{transition:color 120ms ease,border-color 120ms ease,text-decoration-color 120ms ease}

@@ -148,6 +148,8 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('how many Flock ALPR cameras has SIREN mapped'));
     assert.ok(org.knowsAbout.includes('SIREN upside index'));
     assert.ok(org.knowsAbout.includes('what is BLISS, the SIREN upside index'));
+    assert.ok(org.knowsAbout.includes('AI harm and benefit side by side'));
+    assert.ok(org.knowsAbout.includes('how does SIREN count AI harm and benefit side by side'));
     assert.ok(org.knowsAbout.includes('AI labs this index scored'));
     assert.ok(org.knowsAbout.includes('AI stories this index scored'));
     assert.ok(org.knowsAbout.includes('AI leaders on the record'));

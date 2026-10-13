@@ -379,6 +379,7 @@ context.
 | 146 | `/exploits.html` question-shaped title + Dataset speakable + visible FAQ matching FAQPage schema (null-result exploit lag; refuse never_say doom/attack claims); IndexNow + seo-daily; `knowsAbout` “CVE exploit lag” | Google + Bing | **Done** (2026-10-13) |
 | 147 | `/flock.html` question-shaped title + Dataset speakable + visible FAQ matching FAQPage schema (ALPR/camera map conquest; refuse never_say all/every/national-total claims); IndexNow + seo-daily; `knowsAbout` “how many Flock ALPR cameras has SIREN mapped” | Google + Bing | **Done** (2026-10-13) |
 | 148 | `/bliss.html` question-shaped title + Dataset speakable + visible FAQ matching FAQPage schema (upside-index differentiator; refuse doom-probability/forecast claims); IndexNow + seo-daily; `knowsAbout` “what is BLISS, the SIREN upside index” | Google + Bing | **Done** (2026-10-13) |
+| 149 | `/balance.html` question-shaped title + Dataset speakable + visible FAQ matching FAQPage schema (harm/benefit side-by-side; refuse net-score / doom-verdict claims); IndexNow + seo-daily; `knowsAbout` “how does SIREN count AI harm and benefit side by side” | Google + Bing | **Done** (2026-10-13) |
 
 ### 3.3 Refusals (search edition)
 

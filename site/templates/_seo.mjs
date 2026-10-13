@@ -69,6 +69,8 @@ export function organization(ctx) {
       'how many Flock ALPR cameras has SIREN mapped',
       'SIREN upside index',
       'what is BLISS, the SIREN upside index',
+      'AI harm and benefit side by side',
+      'how does SIREN count AI harm and benefit side by side',
       'AI labs this index scored',
       'AI stories this index scored',
       'AI leaders on the record',
