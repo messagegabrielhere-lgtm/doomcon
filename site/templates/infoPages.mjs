@@ -729,10 +729,31 @@ export function pdoom(ctx) {
 }
 
 export function aiClock(ctx) {
+  const path = '/ai-doomsday-clock.html';
+  // Head-term question (FINDABILITY tip #200): disambiguation query, not a
+  // doom-probability claim. H1 must match <title>.
+  const qTitle = 'Is there an AI doomsday clock?';
+  // FAQ answers restate lede / Bulletin / experts / SIREN-instead copy only (§3.3).
+  // Refuse: SIREN-as-doomsday-clock, SIREN-as-doom-probability, forecast.
+  // Visible FAQ + FAQPage from the SAME array (schema without HTML was a gap).
+  const faq = [
+    [qTitle,
+      `The Bulletin of the Atomic Scientists’ Doomsday Clock includes AI among its risks but is not AI-specific and is set once a year. AI-specific clocks are set by judgement. ${brand.NAME} publishes an hourly, verifiable count of AI activity, and plots named experts’ p(doom) estimates on one chart.`],
+    ['How close is the AI doomsday clock to midnight?',
+      `There is no official AI clock. Expert estimates of AI catastrophe cluster around 10–20%; the largest researcher survey has a median of ${SURVEY.median}%. On a clock where 100% is midnight, 15% is about 51 minutes to go.`],
+    ['Who sets the AI doomsday clock?',
+      `Nobody officially. Sites that publish one set it by their own judgement. ${brand.NAME}’s reading is computed hourly from public data and can be re-checked in the browser.`],
+    [`Is ${brand.NAME} a doomsday clock or a doom probability?`,
+      `No. ${brand.NAME} measures activity tempo — how much is happening in AI this hour — not danger and not a probability of harm. The dial borrows countdown grammar only.`],
+  ];
+  const faqHtml = faq.map(([qAsk, a]) => `
+  <h3>${esc(qAsk)}</h3>
+  <p>${esc(a)}</p>`).join('');
+  const description = `${qTitle} The Bulletin’s clock is yearly judgement, not AI-specific. Expert p(doom) clusters around 10–20%. ${brand.NAME} is an hourly AI activity count anyone can verify.`;
   const main = `${CSS}
 <section class="inf">
   <p class="eyebrow">Explainer</p>
-  <div class="inf__top">${mascot({ size: 76, level: level(ctx) })}<h1 class="bp__h1">The AI Doomsday Clock: is there one?</h1></div>
+  <div class="inf__top">${mascot({ size: 76, level: level(ctx) })}<h1 class="bp__h1">${esc(qTitle)}</h1></div>
   <p class="lede"><b>The Doomsday Clock is not an AI clock, though it now takes AI into account. Several AI-specific “clocks” exist, and all of them are set by judgement.
     ${esc(brand.NAME)} is the nearest thing that is counted instead: an hourly reading of AI activity that anyone can verify.</b></p>
   <p><a href="${esc(ctx.href('/p-doom.html#voices'))}"><b>Set your own AI doomsday clock →</b></a> Drag a dial, see where you sit among 28 named experts from LeCun (0.01%) to Yudkowsky (95%+), and post it.</p>
@@ -756,23 +777,31 @@ export function aiClock(ctx) {
   ${nowLine(ctx)}
   <h2>Which should you use?</h2>
   <p>If you want an expert body’s considered view of overall risk, read the Bulletin’s statement. If you want to know how much is happening in AI this week, and to be able to check the answer, that is what this site is for. They answer different questions.</p>
+  <h2 id="faq">Questions people actually ask</h2>
+  ${faqHtml}
+  <p>Search-shaped sibling:
+    <a href="${esc(ctx.href('/guide.html'))}">How does ${esc(brand.NAME)} compare to DEFCON, the Doomsday Clock and p(doom)?</a>
+    · <a href="${esc(ctx.href('/p-doom.html'))}">What is p(doom)?</a>
+    · <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>.</p>
   <p><a href="${esc(ctx.href('/guide.html'))}">The side-by-side comparison →</a> · <a href="${esc(ctx.href('/p-doom.html'))}">What is p(doom)? →</a> · <a href="${esc(ctx.href('/methodology.html'))}">How the index is computed →</a></p>
 </section>`;
-  const path = '/ai-doomsday-clock.html';
-  // Question-shaped title matches FINDABILITY disambiguation queries
-  // ("is there an AI doomsday clock?") — not a doom-probability claim.
-  const title = `Is there an AI doomsday clock? Bulletin vs verifiable count · ${brand.NAME}`;
-  const description = `Is there an AI doomsday clock? The Bulletin’s clock is yearly judgement, not AI-specific. Expert p(doom) clusters around 10–20%. ${brand.NAME} is an hourly AI activity count anyone can verify.`;
-  const faqEntities = [
-    { '@type': 'Question', name: 'Is there an AI Doomsday Clock?', acceptedAnswer: { '@type': 'Answer', text: 'The Bulletin of the Atomic Scientists’ Doomsday Clock includes AI among its risks but is not AI-specific and is set once a year. AI-specific clocks are set by judgement. SIREN publishes an hourly, verifiable count of AI activity, and plots named experts’ p(doom) estimates on one chart.' } },
-    { '@type': 'Question', name: 'How close is the AI Doomsday Clock to midnight?', acceptedAnswer: { '@type': 'Answer', text: 'There is no official AI clock. Expert estimates of AI catastrophe cluster around 10–20%; the largest researcher survey has a median of 5%. On a clock where 100% is midnight, 15% is about 51 minutes to go.' } },
-    { '@type': 'Question', name: 'Who sets the AI Doomsday Clock?', acceptedAnswer: { '@type': 'Answer', text: 'Nobody officially. Sites that publish one set it by their own judgement. SIREN’s reading is computed hourly from public data and can be re-checked in the browser.' } },
-  ];
   return page({
     ctx, path,
-    title,
+    title: `${qTitle} Bulletin vs verifiable count · ${brand.NAME}`,
+    ogTitle: `${brand.NAME}: ${qTitle}`,
     description,
-    jsonld: explainerJsonLd(ctx, path, title, description, faqEntities, 'AI doomsday clock'),
+    jsonld: explainerJsonLd(
+      ctx,
+      path,
+      qTitle,
+      description,
+      faq.map(([qAsk, a]) => ({
+        '@type': 'Question',
+        name: qAsk,
+        acceptedAnswer: { '@type': 'Answer', text: a },
+      })),
+      'AI doomsday clock',
+    ),
     main,
   });
 }

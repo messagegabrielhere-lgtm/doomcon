@@ -204,7 +204,7 @@ export function roomGroups(ctx) {
       ['/labs.html', 'px:flask', 'SIREN Labs', 'NEW', 'What is SIREN Labs measuring this week?'],
       ['/search.html', 'px:search', 'Search', 'NEW', 'How do you search everything on SIREN?'],
       ['/catalog.html', 'px:catalog', 'Catalog', 'NEW', 'Where is everything on SIREN listed?'],
-      ['/ai-doomsday-clock.html', 'clock', 'The Clock', null, 'The reading as a clock face you can verify.'],
+      ['/ai-doomsday-clock.html', 'clock', 'The Clock', null, 'Is there an AI doomsday clock?'],
       ['/guides.html', 'clock', 'AI explainers', null, 'p(doom), doomsday clocks, doom indexes — vocabulary without a doom probability.'],
       ['/compare.html', 'px:updown', 'Compare indexes', null, 'SIREN vs DoomBench, Skynet, p(doom), PizzINT and Takeoff Tracker — what each measures.'],
       ['/vs.html', 'px:updown', 'Versus directory', null, 'One honest page per rival — activity tempo, not doom claims.'],
