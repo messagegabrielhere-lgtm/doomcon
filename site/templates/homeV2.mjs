@@ -211,7 +211,7 @@ export function roomGroups(ctx) {
       ['/vs.html', 'px:updown', 'Versus directory', null, 'One honest page per rival — activity tempo, not doom claims.'],
       ['/vs/pizzint.html', 'px:updown', 'vs PizzINT', null, 'Activity count vs DEFCON/Doomsday title hijack — honest refuse.'],
       ['/vs/takeofftracker.html', 'px:updown', 'vs Takeoff Tracker', null, 'Activity count vs AGI metrics dashboard — honest refuse.'],
-      ['/alternatives.html', 'px:updown', 'Alternatives', null, 'When this index is the right substitute — and when it is not.'],
+      ['/alternatives.html', 'px:updown', 'Alternatives', null, 'What are AI doom index alternatives? When this index is the right substitute — and when it is not.'],
       ['/guide.html', 'clock', 'DEFCON guide', null, 'How does SIREN compare to DEFCON, the Doomsday Clock and p(doom)?'],
       ['/history.html', 'archive', 'History', ctx.history ? `${ctx.history.length} readings` : null, 'What is the history of AI risk?'],
       ['/methodology.html', 'magnifier', 'Methodology', null, 'How the SIREN AI activity index is computed · methodology — every formula, recompute yourself.'],
