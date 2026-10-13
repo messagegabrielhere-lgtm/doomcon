@@ -113,6 +113,7 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('AI doomsday clock'));
     assert.ok(org.knowsAbout.includes('verifiable AI doomsday clock'));
     assert.ok(org.knowsAbout.includes('what is p(doom)'));
+    assert.ok(org.knowsAbout.includes('What is p(doom)'));
     assert.ok(org.knowsAbout.includes('how the AI activity index is computed'));
     assert.ok(org.knowsAbout.includes('history of AI risk'));
     assert.ok(org.knowsAbout.includes('What is the history of AI risk'));

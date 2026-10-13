@@ -450,6 +450,7 @@ context.
 | 198 | `/history.html` H1 + Article headline + ogTitle aligned to question title “What is the history of AI risk?”; FAQ lead question matches; sibling links; seo-daily monitors tipped hubs `/news.html` `/leaders.html` `/race.html` `/kinds.html` `/outlets.html` `/p-doom.html`; `knowsAbout` full question | Google + Bing | **Done** (2026-10-13) |
 | 199 | `/guide.html` question-shaped title + matching H1 + **visible** FAQ matching FAQPage schema (was schema-only); refuse DEFCON/Doomsday hijack / doom-probability / forecast; siblings history + methodology + p(doom); `knowsAbout` “How does SIREN compare to DEFCON…”; guide.md + GUIDES hub name aligned | Google + Bing | **Done** (2026-10-13) |
 | 200 | `/ai-doomsday-clock.html` H1 aligned to question title “Is there an AI doomsday clock?” + **visible** FAQ matching FAQPage schema (was schema-only); refuse SIREN-as-doomsday-clock / doom-probability / forecast; siblings guide + p(doom) + methodology; `knowsAbout` full question | Google + Bing | **Done** (2026-10-13) |
+| 201 | `/p-doom.html` question H1 “What is p(doom)?” + **visible** FAQ matching FAQPage schema (was schema-only; voices FAQ now on-page too); refuse SIREN-as-p(doom) / doom-probability / forecast; siblings guide + clock + methodology; `knowsAbout` “What is p(doom)” | Google + Bing | **Done** (2026-10-13) |
 
 ### 3.3 Refusals (search edition)
 

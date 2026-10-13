@@ -684,10 +684,31 @@ function nowLine(ctx) {
 }
 
 export function pdoom(ctx) {
+  const path = '/p-doom.html';
+  // Head-term question (FINDABILITY tip #201): glossary query, not a
+  // SIREN doom-probability claim. H1 must match <title>.
+  const qTitle = 'What is p(doom)?';
+  // FAQ answers restate lede / differ / SIREN-instead / voices copy only (§3.3).
+  // Refuse: SIREN-as-p(doom), SIREN-as-doom-probability, forecast.
+  // Visible FAQ + FAQPage from the SAME array (schema without HTML was a gap).
+  // voicesFaq() supplies named-estimate Q&As; map to pairs so HTML matches schema.
+  const faq = [
+    [qTitle,
+      'p(doom) is shorthand for "probability of doom": one person\'s estimate, as a percentage, that advanced AI leads to a catastrophic outcome for humanity. It is an opinion expressed as a number, with no agreed method behind it.'],
+    ['Why do p(doom) estimates differ so much?',
+      'Because "doom" is not defined the same way by everyone, the time frame varies, and the figure is a judgement rather than a measurement.'],
+    [`Does ${brand.NAME} publish a p(doom) or a doom probability?`,
+      `No. ${brand.NAME} measures activity tempo — how much is happening in AI this hour — not danger and not a probability of harm. Everyone has a p(doom); nobody has a receipt.`],
+    ...voicesFaq().map((e) => [e.name, e.acceptedAnswer.text]),
+  ];
+  const faqHtml = faq.map(([qAsk, a]) => `
+  <h3>${esc(qAsk)}</h3>
+  <p>${esc(a)}</p>`).join('');
+  const description = `${qTitle} 28 named, sourced estimates on one chart, from 0% to 99.9%, plus a dial to set your own. An opinion as a percentage — not a recomputable measurement.`;
   const main = `${CSS}
 <section class="inf">
   <p class="eyebrow">Explainer</p>
-  <div class="inf__top">${mascot({ size: 76, level: level(ctx) })}<h1 class="bp__h1">What is p(doom)?</h1></div>
+  <div class="inf__top">${mascot({ size: 76, level: level(ctx) })}<h1 class="bp__h1">${esc(qTitle)}</h1></div>
   <p class="lede"><b>p(doom) is shorthand for “probability of doom”: one person’s estimate, as a percentage, that advanced AI leads to a catastrophic outcome for humanity.</b>
     It is an opinion expressed as a number. There is no agreed method for producing it and no way to check one.</p>
   ${voicesSection(ctx, ctx.state && ctx.state.level)}
@@ -706,24 +727,35 @@ export function pdoom(ctx) {
     Every reading ships with a receipt, and a button on the home page lets you <a href="${esc(ctx.href('/#vfy'))}">re-check the published record in your own browser</a>.
     The site’s line is: everyone has a p(doom), nobody has a receipt.</p>
   ${nowLine(ctx)}
+  <h2 id="faq">Questions people actually ask</h2>
+  ${faqHtml}
+  <p>Search-shaped sibling:
+    <a href="${esc(ctx.href('/guide.html'))}">How does ${esc(brand.NAME)} compare to DEFCON, the Doomsday Clock and p(doom)?</a>
+    · <a href="${esc(ctx.href('/ai-doomsday-clock.html'))}">Is there an AI doomsday clock?</a>
+    · <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>.</p>
   <h2>Read more</h2>
-  <p><a href="${esc(ctx.href('/guide.html'))}">p(doom) next to DEFCON and the Doomsday Clock →</a> · <a href="${esc(ctx.href('/ai-doomsday-clock.html'))}">Is there an AI doomsday clock? →</a> ·
-    <a href="${esc(ctx.href('/library.html'))}">Books from every side of the argument →</a> · <a href="${esc(ctx.href('/history.html'))}">Sixty years of the same argument →</a></p>
+  <p><a href="${esc(ctx.href('/guide.html'))}">How does ${esc(brand.NAME)} compare to DEFCON, the Doomsday Clock and p(doom)? →</a> ·
+    <a href="${esc(ctx.href('/ai-doomsday-clock.html'))}">Is there an AI doomsday clock? →</a> ·
+    <a href="${esc(ctx.href('/library.html'))}">What AI books argue both sides of the case? →</a> ·
+    <a href="${esc(ctx.href('/history.html'))}">What is the history of AI risk? →</a></p>
 </section>`;
-  const path = '/p-doom.html';
-  // Question-shaped title matches the H1 and glossary head term (“what is p(doom)?”).
-  const title = `What is p(doom)? Hinton, Amodei, Musk, LeCun and 24 more · ${brand.NAME}`;
-  const description = `What is p(doom)? 28 named, sourced estimates on one chart, from 0% to 99.9%, plus a dial to set your own. An opinion as a percentage — not a recomputable measurement.`;
-  const faqEntities = [
-    { '@type': 'Question', name: 'What is p(doom)?', acceptedAnswer: { '@type': 'Answer', text: 'p(doom) is shorthand for "probability of doom": one person\'s estimate, as a percentage, that advanced AI leads to a catastrophic outcome for humanity. It is an opinion expressed as a number, with no agreed method behind it.' } },
-    { '@type': 'Question', name: 'Why do p(doom) estimates differ so much?', acceptedAnswer: { '@type': 'Answer', text: 'Because "doom" is not defined the same way by everyone, the time frame varies, and the figure is a judgement rather than a measurement.' } },
-    ...voicesFaq(),
-  ];
   return page({
     ctx, path,
-    title,
+    title: `${qTitle} Hinton, Amodei, Musk, LeCun and 24 more · ${brand.NAME}`,
+    ogTitle: `${brand.NAME}: ${qTitle}`,
     description,
-    jsonld: explainerJsonLd(ctx, path, title, description, faqEntities, 'p(doom)'),
+    jsonld: explainerJsonLd(
+      ctx,
+      path,
+      qTitle,
+      description,
+      faq.map(([qAsk, a]) => ({
+        '@type': 'Question',
+        name: qAsk,
+        acceptedAnswer: { '@type': 'Answer', text: a },
+      })),
+      'p(doom)',
+    ),
     main,
   });
 }
