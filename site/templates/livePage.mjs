@@ -11,8 +11,12 @@
 
 import { esc } from './_html.mjs';
 import { page } from './layout.mjs';
+import { breadcrumbs, speakable } from './_seo.mjs';
 import * as brand from '../brand.mjs';
 import { NEWS_247 } from '../../collector/live-media.mjs';
+
+const PATH = '/live.html';
+const qTitle = 'What AI is on TV and radio right now?';
 
 const CSS = `<style>
 .lv{max-width:1100px;overflow-wrap:anywhere}
@@ -73,6 +77,11 @@ const CSS = `<style>
 .lv-ep div{flex:1;min-width:0}
 .lv-ep h3{margin:0 0 3px;font:700 .95rem/1.3 var(--sans);color:var(--ink)}
 .lv-note{font-size:13px}
+.lv-faq{margin:36px 0 12px;max-width:62ch}
+.lv-faq h2{font:600 var(--t-lg,1.125rem)/1.2 var(--sans);margin:0 0 var(--s-3,.75rem);color:var(--ink)}
+.lv-faq h3{font:600 var(--t-base,1rem)/1.3 var(--sans);margin:var(--s-4,1rem) 0 var(--s-2,.5rem);color:var(--ink)}
+.lv-faq p{font:400 var(--t-base,1rem)/1.55 var(--sans);color:var(--ink-dim);margin:0 0 var(--s-2,.5rem)}
+.lv-faq-key{margin-top:var(--s-4,1rem)!important}
 @media (max-width:560px){.lv-ep img{display:none}.lv-now img{width:48px;height:48px}}
 </style>`;
 
@@ -181,10 +190,25 @@ window.LiveRadio={get index(){return i},get queue(){return Q},next:function(){lo
 export function render(ctx, data) {
   const d = data || {};
   const counts = [(d.live && d.live.items || []).length, (d.tv && d.tv.items || []).length, (d.radio && d.radio.items || []).length];
+  // FAQ answers restate lede / about copy only.
+  // Refuse: live-room-as-forecast, endorsement-as-SIREN-claim, doom-probability.
+  const faq = [
+    [qTitle,
+      'Live broadcasts about artificial intelligence, the latest AI segments from the big news channels, and AI talk radio you can leave playing. Everything opens on demand: nothing plays and no player loads until you press play.'],
+    ['Does anything autoplay?',
+      'Everything opens on demand: nothing plays and no player loads until you press play.'],
+    ['Does SIREN endorse these streams?',
+      `${brand.NAME} picks nothing by hand and endorses nothing here: it is a filtered list of what is on.`],
+    ['Where else is live AI on SIREN?',
+      'More live AI: Live on X, Real Clips, the Newsroom.'],
+  ];
+  const faqHtml = faq.map(([qAsk, a]) => `
+  <h3>${esc(qAsk)}</h3>
+  <p>${esc(a)}</p>`).join('');
   const main = `${CSS}
 <section class="lv">
   <p class="eyebrow"><b aria-hidden="true"></b>LIVE · AI ON TV &amp; RADIO</p>
-  <h1 class="bp__h1">AI on TV &amp; radio</h1>
+  <h1 class="bp__h1">${esc(qTitle)}</h1>
   <p class="lede">Live broadcasts about artificial intelligence, the latest AI segments from the big news channels, and AI talk radio you can leave playing. Everything opens on demand: nothing plays and no player loads until you press play.</p>
   <ul class="lv-jump"><li><a href="#live-now">● Live now (${counts[0]})</a></li><li><a href="#news-247">24/7 news</a></li><li><a href="#on-tv">AI on TV (${counts[1]})</a></li><li><a href="#radio">Talk radio (${counts[2]})</a></li></ul>
   ${liveSection(ctx, d.live)}
@@ -193,8 +217,45 @@ export function render(ctx, data) {
   ${radioSection(d.radio)}
   <h2>About this room</h2>
   <p class="lv-note">Video thumbnails come from YouTube (i.ytimg.com), so Google sees your IP address when the page loads; the player is YouTube’s privacy-enhanced one (youtube-nocookie.com) and loads only when you click. Podcast artwork and audio come from each show’s host. ${esc(brand.NAME)} picks nothing by hand and endorses nothing here: it is a filtered list of what is on. Machine-readable: <a href="${esc(ctx.href('/api/live-media.json'))}">api/live-media.json</a>. More live AI: <a href="${esc(ctx.href('/live-x.html'))}">Live on X</a>, <a href="${esc(ctx.href('/elon.html'))}">Real Clips</a>, <a href="${esc(ctx.href('/news.html'))}">the Newsroom</a>.</p>
+  <section class="lv-faq" aria-labelledby="faq">
+    <h2 id="faq">Questions people actually ask</h2>
+    ${faqHtml}
+    <p class="lv-faq-key">Search-shaped sibling:
+      <a href="${esc(ctx.href('/radio.html'))}">What free music does SIREN Radio play?</a>
+      · <a href="${esc(ctx.href('/videos.html'))}">What free AI explainer videos does SIREN publish?</a>.</p>
+  </section>
 </section>
 ${SCRIPT}`;
-  return page({ ctx, path: '/live.html', title: `LIVE: AI on TV & radio · ${brand.NAME}`,
-    description: 'Live YouTube broadcasts about AI, the latest AI segments from CNBC, Bloomberg, BBC, CBS and other news channels, 24/7 news streams, and AI talk radio from the top AI podcasts, played back to back.', main });
+  return page({
+    ctx,
+    path: PATH,
+    title: `${qTitle} · ${brand.NAME}`,
+    ogTitle: `${brand.NAME}: ${qTitle}`,
+    description: `${qTitle} Live YouTube broadcasts about AI, AI segments from major news channels, 24/7 news streams, and AI talk radio — on demand, nothing autoplays.`,
+    jsonld: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'CollectionPage',
+        name: qTitle,
+        description: 'Live AI broadcasts, AI TV segments, 24/7 news streams, and AI talk radio. On demand; SIREN picks nothing by hand and endorses nothing here.',
+        url: ctx.url(PATH),
+        isPartOf: { '@type': 'WebSite', name: brand.NAME, url: ctx.url('/') },
+        speakable: speakable(['h1.bp__h1', 'p.lede']),
+      },
+      breadcrumbs(ctx, [
+        { name: 'Home', path: '/' },
+        { name: 'AI on TV & radio', path: PATH },
+      ]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map(([qAsk, a]) => ({
+          '@type': 'Question',
+          name: qAsk,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
+      },
+    ],
+    main,
+  });
 }

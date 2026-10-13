@@ -115,6 +115,8 @@ export function organization(ctx) {
       'What free music does SIREN Radio play',
       'SIREN TV',
       'What free AI explainer videos does SIREN publish',
+      'AI on TV and radio',
+      'What AI is on TV and radio right now',
       'AI labs this index scored',
       'AI stories this index scored',
       'AI leaders on the record',
