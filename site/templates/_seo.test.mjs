@@ -72,6 +72,8 @@ describe('IndexNow', () => {
     assert.ok(has('https://siren.watch/lab/artificial-analysis.html'));
     assert.ok(has('https://siren.watch/lab/firmus.html'));
     assert.ok(has('https://siren.watch/lab/spacex.html'));
+    assert.ok(has('https://siren.watch/lab/hcltech.html'));
+    assert.ok(has('https://siren.watch/tags/tsmc.html'));
     assert.ok(has('https://siren.watch/about.html'));
     assert.ok(has('https://siren.watch/privacy.html'));
     assert.ok(has('https://siren.watch/press.html'));

@@ -108,6 +108,9 @@ const ENTITY_DEFS = [
   // SpaceX AI-chip / GPU compute stories — distinctive single token
   // (no bare “space” so unrelated space headlines do not match).
   { name: 'SpaceX', kind: 'lab', forms: ['SpaceX'] },
+  // Indian IT / Anthropic enterprise-agentic partner — HCLTech or HCL Tech
+  // (no bare “HCL” so unrelated HCL Group headlines alone do not match).
+  { name: 'HCLTech', kind: 'lab', forms: ['HCLTech', 'HCL Tech'] },
 
   // --- model families ---
   { name: 'GPT', kind: 'model', forms: ['GPT-3', 'GPT-4', 'GPT-4o', 'GPT-5', 'GPT-6', 'ChatGPT', 'GPT'] },

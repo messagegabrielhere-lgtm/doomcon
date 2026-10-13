@@ -451,7 +451,8 @@ export const TOPIC_DEFS = Object.freeze([
     id: 'tsmc',
     name: 'TSMC',
     description: 'TSMC foundry and process-node stories scored in the newsroom or archive — coverage counts, not a chip forecast.',
-    match: /\b(tsmc|taiwan semiconductor)\b/i,
+    // Market nickname “Taiwan Semi” keeps the hub above TAG_INDEX_MIN.
+    match: /\b(tsmc|taiwan semiconductor|taiwan semi)\b/i,
   },
   {
     id: 'mcp-servers',

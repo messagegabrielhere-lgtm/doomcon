@@ -368,6 +368,7 @@ context.
 | 135 | Entity lab Firmus (`/lab/firmus`, live/archive ≥3 gate; refuse bare “firm”); news:keywords + IndexNow + seo-daily surface | Google + Bing | **Done** (2026-10-13) |
 | 136 | Entity lab SpaceX (`/lab/spacex`, live/archive ≥3 gate; refuse bare “space”); news:keywords + IndexNow + seo-daily surface | Google + Bing | **Done** (2026-10-13) |
 | 137 | Tag needle expands clear `/tags/edge-ai` `/tags/audio-generation` `/tags/ai-regulation` `/tags/openai-codex` `/tags/imitation-learning` `/tags/protein-design` (refuse bare TTS / bare Codex); IndexNow samples | Google + Bing | **Done** (2026-10-13) |
+| 138 | Entity lab HCLTech (`/lab/hcltech`, HCLTech / HCL Tech forms; refuse bare “HCL”) + `/tags/tsmc` “Taiwan Semi” needle; IndexNow + seo-daily | Google + Bing | **Done** (2026-10-13) |
 
 ### 3.3 Refusals (search edition)
 

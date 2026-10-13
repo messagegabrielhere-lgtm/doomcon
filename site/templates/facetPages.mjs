@@ -517,6 +517,7 @@ function labNeedles(player) {
     'world-labs': ['world labs'],
     firmus: ['firmus'],
     spacex: ['spacex'],
+    hcltech: ['hcltech', 'hcl tech'],
   };
   return [...new Set([...(extras[player.id] || []), ...names])];
 }

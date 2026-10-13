@@ -254,6 +254,26 @@ describe('tag pages', () => {
     assert.ok(sitemapEntries(rich).some((e) => e.loc === '/tags/ipo.html'));
   });
 
+  it('indexes TSMC from Taiwan Semi market nickname forms', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('t1', 'TSMC Reports Oct. 15 early read on Nvidia'),
+          story('t2', "TSMC's Record Quarter Collides With OpenAI Puzzle"),
+          story('t3', 'Elon Musk confirms TSMC discussions on a Terafab deal'),
+          story('t4', "ASML, Nvidia's chipmaker Taiwan Semi to kick off AI earnings"),
+          story('t5', 'Taiwan Semiconductor capacity update for AI GPUs'),
+        ],
+      },
+    };
+    assert.ok(indexableTags(rich).some((t) => t.id === 'tsmc'));
+    assert.ok(tagStoryCount(rich, 'tsmc') >= TAG_INDEX_MIN);
+    assert.match(renderTag(rich, 'tsmc'), /What has SIREN scored about TSMC\?/);
+    assert.ok(sitemapEntries(rich).some((e) => e.loc === '/tags/tsmc.html'));
+  });
+
   it('clears edge-ai, audio-generation, ai-regulation, openai-codex, imitation-learning, protein-design gates', () => {
     const rich = {
       ...ctx,

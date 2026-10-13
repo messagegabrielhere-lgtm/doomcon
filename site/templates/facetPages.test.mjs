@@ -764,6 +764,36 @@ describe('lab facets', () => {
     assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/lab/spacex.html'));
   });
 
+  it('indexes HCLTech entity lab when archive Anthropic-partnership headlines clear the gate', () => {
+    const withArch = {
+      ...ctx,
+      news: { ...ctx.news, items: [...ctx.news.items] },
+      itemArchive: [
+        {
+          id: 'hc1', title: 'HCLTech, Anthropic partner to expand enterprise agentic AI deployments', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/hc1', published_at: '2026-09-01T01:00:00Z', score: 40,
+        },
+        {
+          id: 'hc2', title: 'HCL Tech and Anthropic sign Global Premier Partnership', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/hc2', published_at: '2026-09-02T01:00:00Z', score: 41,
+        },
+        {
+          id: 'hc3', title: "India's HCLTech signs a pact with Anthropic, to set up business unit", pillar: 'capability', source: 'hn',
+          url: 'https://example.test/hc3', published_at: '2026-09-03T01:00:00Z', score: 42,
+        },
+        {
+          id: 'hcbad', title: 'HCL Group quarterly results beat estimates without AI', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/hcbad', published_at: '2026-09-04T01:00:00Z', score: 30,
+        },
+      ],
+    };
+    const hcl = labsFromEntities(withArch).find((p) => p.id === 'hcltech');
+    assert.ok(hcl, 'HCLTech clears ENTITY_LAB_MIN');
+    assert.match(renderLab(withArch, hcl), /What has SIREN scored about HCLTech\?/);
+    assert.doesNotMatch(renderLab(withArch, hcl), /HCL Group quarterly results/);
+    assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/lab/hcltech.html'));
+  });
+
   it('indexes Supermicro, IREN, OpenRouter, and Reflection AI entity labs from archive', () => {
     const withArch = {
       ...ctx,
