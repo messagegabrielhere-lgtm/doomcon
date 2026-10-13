@@ -299,7 +299,9 @@ Honesty rules:
 
 ## Explainers (search head terms)
 
-- [Method](${u('/methodology.html')}): every formula and constant ([markdown](${u('/methodology.md')}))
+- [How the SIREN AI activity index is computed · methodology](${u('/methodology.html')}): every formula and constant ([markdown](${u('/methodology.md')}))
+- [What instruments sit behind the SIREN reading?](${u('/instruments.html')})
+- [Where are the SIREN index moves?](${u('/moves/')})
 - [Guide: SIREN vs DEFCON vs the Doomsday Clock vs p(doom)](${u('/guide.html')}) ([markdown](${u('/guide.md')}))
 - [What are the AI explainers?](${u('/guides.html')}): p(doom), doomsday clocks, doom indexes — vocabulary without a doom probability ([guides.md](${u('/guides.md')}))
 - [Which AI doom indexes can you compare?](${u('/compare.html')}): SIREN vs DoomBench, Skynet Countdown, p(doom), PizzINT, Takeoff Tracker
@@ -330,7 +332,7 @@ ${facetLinks(ctx, u)}
 ## Optional
 
 - [Which AI stories has SIREN scored in this window?](${u('/news.html')})
-- [Live scored stories](${u('/item/')})
+- [Which scored AI stories are in the SIREN live window?](${u('/item/')})
 - [Which older AI stories has SIREN kept in the archive?](${u('/item/archive.html')})
 - [Which AI leaders are on the record this week?](${u('/leaders.html')})
 - [Which AI leaders have press coverage pages on SIREN?](${u('/people/')})

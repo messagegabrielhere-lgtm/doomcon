@@ -191,9 +191,9 @@ const SECTIONS = [
     count: (ctx) => (ctx.bliss && Number.isFinite(ctx.bliss.score)
       ? { v: num(ctx.bliss.score, 1), k: 'bliss score' } : null) },
   { href: '/methodology.html', label: 'Methodology', short: 'Method',
-    blurb: 'Every formula and constant. Recompute the number yourself.' },
+    blurb: 'How the SIREN AI activity index is computed · methodology — every formula. Recompute yourself.' },
   { href: '/instruments.html', label: 'Instruments', short: 'Instruments',
-    blurb: 'Score history, source health, the five pillars, moves, embed and API.' },
+    blurb: 'What instruments sit behind the SIREN reading? Score history, source health, pillars, moves, embed and API.' },
   { href: '/bets.html', label: 'Tally’s Bets', short: 'Bets',
     blurb: 'Daily forecasts about the index, with probabilities, scored in public.' },
   { href: '/ai-doomsday-clock.html', label: 'The Clock', short: 'Clock',
@@ -218,7 +218,7 @@ const SECTIONS = [
     count: (ctx) => (Array.isArray(ctx.history) && ctx.history.length
       ? { v: String(ctx.history.length), k: 'scored observations' } : null) },
   { href: '/moves/', label: 'Archive', short: 'Archive',
-    blurb: 'Every scored observation, each with a hash-chained receipt.',
+    blurb: 'Where are the SIREN index moves? Every scored observation, each with a hash-chained receipt.',
     count: (ctx) => (Array.isArray(ctx.moves) && ctx.moves.length
       ? { v: String(ctx.moves.length), k: 'archived moves' } : null) },
 ];

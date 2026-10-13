@@ -39,7 +39,8 @@ const TOOLS = new Set(['/search.html', '/catalog.html', '/scanner.html', '/si-re
 // written that is in neither list still turns up, from its own <title>.
 const MORE_PAGES = [
   ['/', 'siren', 'Home', 'The live SIREN level, the score and the war room.'],
-  ['/instruments.html', 'px:updown', 'Instruments', 'Score history, source health, the five pillars and the API.'],
+  ['/instruments.html', 'px:updown', 'What instruments sit behind the SIREN reading?', 'Score history, source health, the five pillars and the API.'],
+  ['/methodology.html', 'magnifier', 'How the SIREN AI activity index is computed · methodology', 'Every formula — recompute yourself. Not a doom probability.'],
   ['/guide.html', 'clock', 'How does SIREN compare to DEFCON, the Doomsday Clock and p(doom)?', 'What each measure is — and is not.'],
   ['/guides.html', 'clock', 'What are the AI explainers?', 'p(doom), clocks, doom indexes — vocabulary without a doom probability.'],
   ['/compare.html', 'px:updown', 'Which AI doom indexes can you compare?', 'SIREN vs DoomBench, Skynet Countdown, p(doom), PizzINT and Takeoff Tracker.'],
@@ -51,8 +52,8 @@ const MORE_PAGES = [
   ['/vs/pizzint.html', 'px:updown', 'SIREN vs PizzINT: which should you use?', 'Activity count vs DEFCON/Doomsday title hijack — honest refuse.'],
   ['/vs/takeofftracker.html', 'px:updown', 'SIREN vs Takeoff Tracker: which should you use?', 'Activity count vs AGI metrics dashboard — honest refuse.'],
   ['/p-doom.html', 'dice', 'What is p(doom)?', 'The probability-of-doom number, explained.'],
-  ['/moves/', 'px:updown', 'Every move', 'Each hourly reading that moved, with what moved it.'],
-  ['/item/', 'news', 'Every story', 'One permanent page per scored story in the live window.'],
+  ['/moves/', 'px:updown', 'Where are the SIREN index moves?', 'Each hourly reading that moved, with what moved it — first-party archive.'],
+  ['/item/', 'news', 'Which scored AI stories are in the SIREN live window?', 'One permanent page per scored story in the live window.'],
   ['/item/archive.html', 'archive', 'Which older AI stories has SIREN kept in the archive?', 'Older scored stories kept after they leave the live window.'],
   ['/source/', 'news', 'Which AI feed adapters have SIREN pages?', 'Scored stories grouped by the feed adapter that carried them.'],
   ['/sources.html', 'news', 'Which AI news sources has SIREN scored via?', 'Feed-adapter directory — same gated adapters, story counts only.'],
@@ -149,14 +150,17 @@ const EMBEDS = [
 const unent = (s) => String(s || '').replace(/&#39;/g, '’').replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
 const clip = (s, n) => { const t = String(s || '').replace(/\s+/g, ' ').trim(); return t.length > n ? `${t.slice(0, n - 1).replace(/\s+\S*$/, '')}…` : t; };
 
-// Home room tiles keep short labels ("Tags", "Compare indexes"). When those
-// groups feed the catalog, prefer a question-shaped title from MORE_PAGES or
-// from the blurb so internal links match the page <title> / H1 (tip #213).
+// Home room tiles keep short labels ("Tags", "Compare indexes", "Methodology").
+// When those groups feed the catalog, prefer a search-shaped title from
+// MORE_PAGES or from the blurb so internal links match the page <title> / H1
+// (tips #213–#214). Methodology uses a How-stem without a trailing "?".
 const MORE_TITLE_BY_URL = new Map(MORE_PAGES.map(([href, , label]) => [href, label]));
+const SEARCH_SHAPED = /^(How|What|Where|Which|Who|Is|Does|Can)\b|\?/;
 export function catalogTitle(href, label, blurb) {
   if (/\?/.test(label || '')) return label;
   const more = MORE_TITLE_BY_URL.get(href);
-  if (more && /\?/.test(more)) return more;
+  // Prefer MORE_PAGES How/What stems even without a trailing "?" (methodology).
+  if (more && SEARCH_SHAPED.test(more)) return more;
   const m = String(blurb || '').match(/([^?]+\?)/);
   return m ? m[1].trim() : label;
 }
