@@ -39,6 +39,7 @@
 import { highlightHtml as nationsHighlight } from './nationsPage.mjs';
 import { esc, utc, utcDay, num } from './_html.mjs';
 import { page } from './layout.mjs';
+import { breadcrumbs, speakable } from './_seo.mjs';
 import { avatarSprite, personIdFor, PEOPLE, faceHref } from './_avatars.mjs';
 import * as brand from '../brand.mjs';
 import { polymarketUrl, polymarketHasRef } from '../monetize.mjs';
@@ -1158,11 +1159,24 @@ export function render(ctx) {
     ? `${leader.name} leads at ${pct(leader.market.probability, 1)}`
     : 'No ranking was produced on this run';
 
+  // Head-term title: people search “AI race” / who is winning.
+  const title = `Who is winning the AI race?`;
   const description = leader
     ? `Live, money-backed odds on who holds the best AI model: ${race.players.filter((p) => p.rank).length} frontier labs ` +
       `ranked by Polymarket, cross-checked against Kalshi, with 30-day shipping activity and news mindshare for each. ` +
       `${headline}. Compiled ${utc(race.generated_at)}.`
     : `${brand.NAME}'s AI race leaderboard could not compute a ranking on this build: the ranking market is dark.`;
+  const faq = [
+    [`Who is winning the AI race?`,
+      leader
+        ? `${leader.name} leads at ${pct(leader.market.probability, 1)} among ${race.players.length} frontier labs ranked by a live prediction market. These are market odds and observable activity — not a ${brand.NAME} prediction and not a race doom score.`
+        : `No ranking was produced on this run — the ranking market is dark. These are market odds and observable activity when available — not a ${brand.NAME} prediction.`],
+    [`Does ${brand.NAME} publish an AI race doom score?`,
+      `No. These are market odds and observable activity. They are not a ${brand.NAME} prediction. ${brand.DISCLAIMER_SHORT}`],
+  ];
+  const faqHtml = faq.map(([q, a]) => `
+  <h3>${esc(q)}</h3>
+  <p>${esc(a)}</p>`).join('');
 
   // The principal-mark sprite. _avatars.avatarSprite() emits the eight outlines
   // ONCE as <symbol>s plus the per-person accent rules; every <use href="#dc-avt-*">
@@ -1173,7 +1187,7 @@ export function render(ctx) {
   const main = `<style>${raceCss(race)}</style>
 ${avatarSprite()}
 <section class="rintro">
-  <h1 class="rintro__h1">The AI race</h1>
+  <h1 class="rintro__h1">Who is winning the AI race?</h1>
   ${nationsHighlight(ctx, ctx.nations)}
   <p class="lede">Who is winning, and how sure is the money? ${esc(race.players.length)} frontier labs
      and the people running them, ranked by a live prediction market and annotated with what each one
@@ -1195,12 +1209,17 @@ ${leaderboard(ctx, race)}
 ${howComputed(ctx, race)}
 
 ${instrumentStrip(race)}
+
+<section class="sec" aria-labelledby="faq">
+  <h2 class="sec__h" id="faq">Questions people actually ask</h2>
+  ${faqHtml}
+</section>
 `;
 
   return page({
     ctx,
     path: PATH,
-    title: `The AI race — ${headline} · ${brand.NAME}`,
+    title,
     ogTitle: `${brand.NAME}: the AI race — ${headline}`,
     description,
     // ctx.cardFor('race') prefers data/cards/race.png when the card generator
@@ -1211,7 +1230,20 @@ ${instrumentStrip(race)}
     ogImageAlt: leader
       ? `${brand.NAME} AI race leaderboard: ${leader.name} at ${pct(leader.market.probability, 1)}`
       : `${brand.NAME} AI race leaderboard`,
-    jsonld: [itemList(ctx, race), dataset(ctx, race)],
+    jsonld: [
+      itemList(ctx, race),
+      dataset(ctx, race, { name: title, description }),
+      breadcrumbs(ctx, [{ name: 'Race', path: PATH }]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map(([q, a]) => ({
+          '@type': 'Question',
+          name: q,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
+      },
+    ],
     main,
   });
 }
@@ -1226,11 +1258,11 @@ function emptyPage(ctx) {
     ctx,
     path: PATH,
     noindex: true,
-    title: `The AI race · ${brand.NAME}`,
+    title: `Who is winning the AI race?`,
     description: `${brand.NAME}'s AI race leaderboard has not published a run yet.`,
     main: `<style>${raceCss(null)}</style>
 <section class="rintro">
-  <h1 class="rintro__h1">The AI race</h1>
+  <h1 class="rintro__h1">Who is winning the AI race?</h1>
   <p class="lede">No leaderboard has been published in this build. This is not an empty
      result &mdash; it is the absence of a result, and the two are different states. When
      <code>data/race.json</code> is present it is rendered here in full.</p>
@@ -1298,17 +1330,20 @@ function itemList(ctx, race) {
   };
 }
 
-function dataset(ctx, race) {
+function dataset(ctx, race, opts = {}) {
   const w = race.news_window;
+  const name = opts.name || 'Who is winning the AI race?';
+  const description = opts.description
+    || ('Per-lab live prediction-market probability with a 7-day change, 30-day shipping activity '
+      + 'across GitHub releases, Hugging Face model publication and OpenRouter listings, and share of '
+      + `${brand.NAME}'s own AI news corpus. Every field is null-safe: an unavailable signal is `
+      + 'reported unavailable and is never imputed or set to zero.');
   return {
     '@context': 'https://schema.org',
     '@type': 'Dataset',
-    name: `${brand.NAME} AI race leaderboard`,
-    description:
-      'Per-lab live prediction-market probability with a 7-day change, 30-day shipping activity ' +
-      'across GitHub releases, Hugging Face model publication and OpenRouter listings, and share of ' +
-      `${brand.NAME}'s own AI news corpus. Every field is null-safe: an unavailable signal is ` +
-      'reported unavailable and is never imputed or set to zero.',
+    name,
+    description,
+    speakable: speakable(['h1.rintro__h1', 'p.lede']),
     url: ctx.url(PATH),
     identifier: ctx.url('/api/race.json'),
     version: race.formula_version,

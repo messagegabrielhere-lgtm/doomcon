@@ -56,6 +56,8 @@ export function organization(ctx) {
       'AI labs this index scored',
       'AI stories this index scored',
       'AI leaders on the record',
+      'AI race',
+      'who is winning the AI race',
       'AI doom index alternatives',
       'DoomBench alternative',
       'Skynet Countdown alternative',
