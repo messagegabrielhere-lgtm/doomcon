@@ -614,6 +614,38 @@ describe('lab facets', () => {
     assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/lab/epoch-ai.html'));
   });
 
+  it('indexes Artificial Analysis entity lab from archive (two-word form only)', () => {
+    const withArch = {
+      ...ctx,
+      news: { ...ctx.news, items: [...ctx.news.items] },
+      itemArchive: [
+        {
+          id: 'aa1', title: 'Artificial Analysis Intelligence Index ranks Sonnet above Astra', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/aa1', published_at: '2026-09-01T01:00:00Z', score: 40,
+        },
+        {
+          id: 'aa2', title: 'Artificial Analysis says Mistral Large 4 leads outside the US', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/aa2', published_at: '2026-09-02T01:00:00Z', score: 41,
+        },
+        {
+          id: 'aa3', title: 'Artificial Analysis launches the Cyber Index Alliance', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/aa3', published_at: '2026-09-03T01:00:00Z', score: 42,
+        },
+        {
+          id: 'aabad', title: 'An analysis of artificial general intelligence timelines', pillar: 'governance', source: 'hn',
+          url: 'https://example.test/aabad', published_at: '2026-09-04T01:00:00Z', score: 30,
+        },
+      ],
+    };
+    const aa = labsFromEntities(withArch).find((p) => p.id === 'artificial-analysis');
+    assert.ok(aa, 'Artificial Analysis clears ENTITY_LAB_MIN');
+    const html = renderLab(withArch, aa);
+    assert.match(html, /Artificial Analysis: AI stories this index scored/);
+    assert.doesNotMatch(html, /An analysis of artificial general/);
+    assert.doesNotMatch(html, /doom score/i);
+    assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/lab/artificial-analysis.html'));
+  });
+
   it('indexes Supermicro, IREN, OpenRouter, and Reflection AI entity labs from archive', () => {
     const withArch = {
       ...ctx,

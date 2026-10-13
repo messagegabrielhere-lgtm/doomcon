@@ -449,6 +449,7 @@ function labNeedles(player) {
     'winverse-ai': ['winverse ai', 'winverse'],
     cisco: ['cisco'],
     'epoch-ai': ['epoch ai'],
+    'artificial-analysis': ['artificial analysis'],
   };
   return [...new Set([...(extras[player.id] || []), ...names])];
 }

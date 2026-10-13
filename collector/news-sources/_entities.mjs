@@ -96,6 +96,8 @@ const ENTITY_DEFS = [
   // Research org behind training-compute datasets / LLM leaderboards — require
   // the two-word form so bare “Epoch” (history) does not match.
   { name: 'Epoch AI', kind: 'lab', forms: ['Epoch AI'] },
+  // Independent model-eval lab — two-word form only (no bare “Analysis”).
+  { name: 'Artificial Analysis', kind: 'lab', forms: ['Artificial Analysis'] },
 
   // --- model families ---
   { name: 'GPT', kind: 'model', forms: ['GPT-3', 'GPT-4', 'GPT-4o', 'GPT-5', 'GPT-6', 'ChatGPT', 'GPT'] },

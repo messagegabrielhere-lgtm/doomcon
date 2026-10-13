@@ -68,6 +68,7 @@ describe('IndexNow', () => {
     assert.ok(has('https://siren.watch/model/maia.html'));
     assert.ok(has('https://siren.watch/model/codex.html'));
     assert.ok(has('https://siren.watch/lab/epoch-ai.html'));
+    assert.ok(has('https://siren.watch/lab/artificial-analysis.html'));
     assert.ok(has('https://siren.watch/methodology.html'));
     assert.ok(has('https://siren.watch/tags/generative-ai.html'));
     assert.ok(has('https://siren.watch/tags/reinforcement-learning.html'));
