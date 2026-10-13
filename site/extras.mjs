@@ -40,7 +40,7 @@ export const EXTRAS_PAGES = [
   { path: '/export.html', label: 'Export and embed', blurb: 'CSV and JSON downloads, the widget, the badge, the API.' },
   { path: '/changelog.html', label: 'What moved', blurb: 'The last 48 hours, hour by hour.' },
   { path: '/bias.html', label: 'Known biases', blurb: 'What can SIREN not see?' },
-  { path: '/reference-plan.html', label: 'Reference plan', blurb: 'How the frozen baseline gets updated.' },
+  { path: '/reference-plan.html', label: 'Reference plan', blurb: 'How does the SIREN baseline get updated?' },
 ];
 
 /** Feeds this module writes: [{path, title}], for <link rel="alternate"> or the API index. */
