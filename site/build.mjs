@@ -1919,6 +1919,14 @@ async function main() {
     written.push(await write(args.out, 'api/world.json', worldText));
     if (orbitalText !== null) written.push(await write(args.out, 'api/orbital.json', orbitalText));
   }
+  // World Monitor submarine-cable layer. Verbatim; the page also falls back to
+  // raw.githubusercontent.com/.../data/monitor-cables.json when this is absent.
+  {
+    const cablesFile = path.join(args.data, 'monitor-cables.json');
+    if (existsSync(cablesFile)) {
+      written.push(await write(args.out, 'api/monitor-cables.json', await readFile(cablesFile, 'utf8')));
+    }
+  }
   // Both verbatim, and on the ROUTE, for /world's reason: the footer's Data
   // column links them under hasSection('balance'), which reads the same flag,
   // so a link cannot outlive its file. The route requires both parses, and a

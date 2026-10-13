@@ -69,6 +69,9 @@ export const FEEDS = [
   ['splash247', 'splash247.com', 'https://splash247.com/feed/', 'shipping'],
   ['oilprice', 'oilprice.com', 'https://oilprice.com/rss/main', 'energy'],
   ['who', 'who.int', 'https://www.who.int/rss-feeds/news-english.xml', 'health'],
+  // Science Daily (tweet rabbit-hole list): science press wire + AI lane.
+  ['sciencedaily', 'sciencedaily.com', 'https://www.sciencedaily.com/rss/top/science.xml'],
+  ['sciencedaily-ai', 'sciencedaily.com', 'https://www.sciencedaily.com/rss/computers_math/artificial_intelligence.xml', 'ai'],
 ];
 
 const GDELT = 'https://api.gdeltproject.org/api/v2/doc/doc';
