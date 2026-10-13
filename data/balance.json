@@ -28,17 +28,15 @@
         "counts": "Structure predictions the AlphaFold Protein Structure Database search returns, single chains and complexes together.",
         "does_not_count": "Experimental structures, validated structures, or anything a prediction was used for. A prediction is not a drug. The total jumps whenever a provider batch lands, so a rise says a batch landed.",
         "endpoint": "https://alphafold.ebi.ac.uk/api/search?q=*&type=main&start=0&rows=0",
-        "error": null,
+        "error": "HTTP 403 Forbidden from https://alphafold.ebi.ac.uk/api/search?q=*&type=main&start=0&rows=0 — <html><head> <meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\"> <title>403 Forbidden</title> </head> <body text=#000000 bgcolor=#ffffff> <h1>Error: Forbidden</h1> <h2>Your client does not have permission to get URL <code>/api/search</code> from this server.</h2> <h2></h2> </body></ht…",
         "id": "alphafold-db-entries",
         "keyless": true,
         "label": "AlphaFold DB structure predictions, single-chain plus complexes (total)",
-        "meta": {
-          "num_found_exact": true
-        },
+        "meta": {},
         "side": "benefit",
-        "state": "live",
-        "unit": "structure predictions",
-        "value": 261328474,
+        "state": "dark",
+        "unit": null,
+        "value": null,
         "window": null,
         "windowed": false
       },
@@ -123,7 +121,7 @@
         "windowed": false
       }
     ],
-    "dark": 0,
+    "dark": 1,
     "harm": [
       {
         "ai_specific": true,
@@ -169,7 +167,7 @@
         "meta": {
           "catalog_version": "2026.10.13",
           "count_declared": 1740,
-          "date_released": "2026-10-13T14:34:17.9076Z",
+          "date_released": "2026-10-13T16:36:26.1679Z",
           "rows_malformed": 0,
           "rows_usable": 1740,
           "this_month": {
@@ -213,17 +211,17 @@
         "windowed": true
       }
     ],
-    "live": 6,
+    "live": 5,
     "never_summed": true,
     "window": {
-      "anchor": "2026-10-13T17:23:00.202Z",
+      "anchor": "2026-10-13T17:24:40.078Z",
       "days_back": 30,
       "from": "2026-09-13",
       "to": "2026-10-13"
     },
     "window_rule": "the 30 whole UTC days before the anchor day plus the anchor day so far, both ends inclusive; the anchor is generated_at"
   },
-  "generated_at": "2026-10-13T17:23:00.202Z",
+  "generated_at": "2026-10-13T17:24:40.078Z",
   "generated_at_rule": "the newest timestamp among the inputs (news, SIREN, BLISS, ledger as_of_date), never the clock",
   "honesty": [
     "No net score. Nothing in this file adds a harm to a benefit, subtracts one from the other or divides one by the other, because the two sides share no unit.",
@@ -540,21 +538,21 @@
       "harm": 6,
       "level": false,
       "level_reason": null,
-      "neither": 301,
-      "scanned": 309,
+      "neither": 300,
+      "scanned": 308,
       "sinks": "harm",
       "state": "live",
       "unit": "distinct stories"
     },
     "error": null,
-    "generated_at": "2026-10-13T17:22:30.774Z",
+    "generated_at": "2026-10-13T17:24:40.078Z",
     "items": {
       "benefit_list": 2,
       "benefit_only": 2,
       "both": 0,
       "harm_list": 7,
       "harm_only": 7,
-      "hedged_headlines": 45,
+      "hedged_headlines": 44,
       "neither": 357,
       "scanned": 366
     },
@@ -634,9 +632,9 @@
           "kind": "press",
           "negated": [],
           "published_at": "2026-10-13T16:48:29.000Z",
-          "score": 69.1,
+          "score": 51.6,
           "set_aside": null,
-          "source": "wires-ai",
+          "source": "gnews-ai",
           "story": null,
           "tag": "harm",
           "title": "Anthropic AI Model Went Rogue, Submitted Fake Unsolved Murder Tip",
@@ -687,7 +685,7 @@
           "kind": "press",
           "negated": [],
           "published_at": "2026-10-13T14:52:18.000Z",
-          "score": 52.9,
+          "score": 52.8,
           "set_aside": null,
           "source": "wires-ai",
           "story": null,
@@ -816,6 +814,30 @@
             "title": []
           }
         },
+        "id": "f731d6592489db1b",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-13T17:22:40.000Z",
+        "score": 36.8,
+        "set_aside": null,
+        "source": "gnews-ai",
+        "story": null,
+        "tag": "neither",
+        "title": "Nvidia Jensen Huang plans $2B in European AI investments",
+        "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE9hd2wwbTVNdkpxTWduLUYxQ2h3bnVwb1lCYTdMR0NUbjNkMFBva0tQb3JkMmY4UVpSQ1pFSmU3MzlHRTNhU3NaOVpKU3VRTlNMaU9uN1YwVVFUUHZxeUktWnlfd0J1SUNIM2pmRjhudE0?oc=5"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
         "id": "4e9e4f1d9cd106f6",
         "kind": "press",
         "negated": [],
@@ -844,7 +866,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T17:15:43.000Z",
-        "score": 36.8,
+        "score": 36.7,
         "set_aside": null,
         "source": "gnews-ai",
         "story": "399a3c0e4ba7",
@@ -864,11 +886,35 @@
             "title": []
           }
         },
+        "id": "6ede228cc7760164",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-13T17:15:40.000Z",
+        "score": 36.7,
+        "set_aside": null,
+        "source": "gnews-ai",
+        "story": "a2aacd51323b",
+        "tag": "neither",
+        "title": "Google is releasing Gemini 4 Argon to developers and paying subscribers",
+        "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxOQTJYVVNQTkVvRExCcU0zdGplVnpUYWw5V2MxVDhhTFI0N1U0ZFNEc1RrclFrTVQyUlFkRkV2UE5zSER5Um82dUFTcHRvVHFmcnZjZjhqcTd6MEdjMV80aXc5T2VPU2tCR3AtUXZweGZSelFmU3pGRFpBY01vc3VmXw?oc=5"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
         "id": "4175ac04ca1497b3",
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-13T17:15:10.000Z",
-        "score": 43.1,
+        "score": 43,
         "set_aside": null,
         "source": "bluesky-ai",
         "story": "9523eea741bc",
@@ -892,10 +938,10 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T17:15:00.000Z",
-        "score": 51.8,
+        "score": 51.7,
         "set_aside": null,
         "source": "gnews-ai",
-        "story": "33aecdf8b5c9",
+        "story": "762470b82dd3",
         "tag": "neither",
         "title": "AI model ‘self-replication’ is only months away, Anthropic says — and it doesn’t even need a data center to happen",
         "url": "https://news.google.com/rss/articles/CBMi4AFBVV95cUxPTzdhZ3RVcUNFU0RSdV9wc2ZmelBqeEI0THFSeldaa3pmdmJjT215NGdQaXMyRFhxVGdJOGxQYkJxTEZoTGowenZnUmt2ZGhONDBITHBaRmMzenllZnZyS1l1U3laSmVHYnFwcC1oTkxPSEJSakk3aU91dkNKNVpoX3Z0cERxTU44V28weG1HODNxbjIxck56WlJ2bFQteVhQSHVTTU55QmplOVhLbk1falpWWnBKUUpMVmx2dG8wdmFQdC1qQjhMNzNiVW93c2xWTDlZTHgtQjNPLTJUWU9sMA?oc=5"
@@ -916,7 +962,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T17:15:00.000Z",
-        "score": 38.8,
+        "score": 38.7,
         "set_aside": null,
         "source": "wires-ai",
         "story": null,
@@ -995,6 +1041,30 @@
         "tag": "neither",
         "title": "Tighter AI data access could cost Germany €155 billion a year, ifo says",
         "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxPRlpkU0J6eVRhbGpEWmFGRWt4ejEyTUV1Vy00ekZYOUoyUkFvODBPUjR1eHVQSWtwQzc4clF2QUxITEFldjJld2p6bFJQSmdZenlBVV80b3VEZWlpQ0RzSGt1ZGZmVS1GZnRic3hOTDJwV2pxY1Etc0w5eFN2MjVMM1BkR0tZaHYtMEdvM3VrYmU2OG51c2pWUlI2dVJvRThqLXJidHMyc1VVT2t4WFRMaU55ZmxPRWxiNGZIbnNB?oc=5"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "221267ec5bf8e6d9",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-13T17:06:58.000Z",
+        "score": 37.9,
+        "set_aside": null,
+        "source": "bloomberg-tech",
+        "story": "5557b5368afc",
+        "tag": "neither",
+        "title": "Chip Selloff Spreads Globally, Apple Makes Smart Home Push",
+        "url": "https://bloomberg.com/news/videos/2026-10-13/bloomberg-tech-10-13-2026-video"
       },
       {
         "hedge": null,
@@ -1108,9 +1178,9 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T17:02:00.000Z",
-        "score": 74.7,
+        "score": 57.2,
         "set_aside": null,
-        "source": "wires-ai",
+        "source": "gnews-ai",
         "story": "aacfd5cd264a",
         "tag": "neither",
         "title": "Watch Meta’s Muse Wonder Takes Aim at OpenAI, Anthropic",
@@ -1135,7 +1205,7 @@
         "score": 36.7,
         "set_aside": null,
         "source": "gnews-ai",
-        "story": "6a2b149cacfc",
+        "story": "a2aacd51323b",
         "tag": "neither",
         "title": "Google rolls out next-gen Gemini 4 Argon AI model to developers globally",
         "url": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxQTF82YU4tSUpUSDl0X3JFSzBpMUk5OGJyRHh5RU1xLTl4N01RTWEzMEpUVzdSbjdaS1dwMFVjWjNBLW40UF9FRlY0dThIT05rT09VbEpjRk5KWHloWVBxVjhKdHBKNnlGaTBGMXJxaUVFZlBFbktpZEhJakVGTlZTbUswUzMwY1VjOVVPdmxrblVlV0dWdXNGbFVUNTFhTmZDZ1RWMFlObWFwV0pzeDlKRzhaejR3S0xEZ3U1dm02LUtfREQwUmw3bHNYeUhoVXdZbEM0RnpUbFo5d2Fh?oc=5"
@@ -1180,7 +1250,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T17:01:08.000Z",
-        "score": 33.7,
+        "score": 33.6,
         "set_aside": null,
         "source": "gnews-ai",
         "story": null,
@@ -1204,7 +1274,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T17:00:49.000Z",
-        "score": 38.7,
+        "score": 38.6,
         "set_aside": null,
         "source": "wires-ai",
         "story": null,
@@ -1228,7 +1298,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T17:00:39.000Z",
-        "score": 34.9,
+        "score": 34.8,
         "set_aside": null,
         "source": "arstechnica-ai",
         "story": "399a3c0e4ba7",
@@ -1252,7 +1322,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T17:00:00.000Z",
-        "score": 33.7,
+        "score": 33.6,
         "set_aside": null,
         "source": "verge-ai",
         "story": "399a3c0e4ba7",
@@ -1276,7 +1346,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T17:00:00.000Z",
-        "score": 34.9,
+        "score": 34.8,
         "set_aside": null,
         "source": "bloomberg-tech",
         "story": "399a3c0e4ba7",
@@ -1300,7 +1370,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T17:00:00.000Z",
-        "score": 34.9,
+        "score": 34.8,
         "set_aside": null,
         "source": "techcrunch-ai",
         "story": "399a3c0e4ba7",
@@ -1324,7 +1394,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T17:00:00.000Z",
-        "score": 36.7,
+        "score": 36.6,
         "set_aside": null,
         "source": "gnews-ai",
         "story": null,
@@ -1348,7 +1418,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T17:00:00.000Z",
-        "score": 33.7,
+        "score": 33.6,
         "set_aside": null,
         "source": "gnews-ai",
         "story": null,
@@ -1425,7 +1495,7 @@
         "source": "hn-fresh-ai",
         "story": "399a3c0e4ba7",
         "tag": "neither",
-        "title": "Gemini 4 Argon for Robotics Blog",
+        "title": "Gemini 4 Argon for Robotics",
         "url": "https://developers.googleblog.com/gemini-4-argon-for-robotics"
       },
       {
@@ -1543,7 +1613,7 @@
         "score": 36.6,
         "set_aside": null,
         "source": "gnews-ai",
-        "story": "33aecdf8b5c9",
+        "story": "762470b82dd3",
         "tag": "neither",
         "title": "Anthropic warns of AI 'worms' spreading across smart gadgets",
         "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE5yT25tb01EWGFSUlp4SXZZdm5wM1pKVnVIQVI2dkpfWDFGcE1rR0UwMGx1S3d3MUlfVGtuMmtaaTB6eEd0bE5jT2tFSUZNZUlFMFZtTEdYY0xnSTNTby1Zc0dtVnl1cmRzMmJkNmYxMkp3UlBobXQta1dRb1lVUQ?oc=5"
@@ -1615,7 +1685,7 @@
         "score": 36.6,
         "set_aside": null,
         "source": "gnews-ai",
-        "story": "33aecdf8b5c9",
+        "story": "762470b82dd3",
         "tag": "neither",
         "title": "AI botnets could spread across internet-connected devices, Anthropic warns",
         "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxQTHB5VjFodE93dThqenREMkdiRXlkLVFoNExpMXRJcEdHYnh3NHYyWjNOT2RlXzV5MDByQ2NxQzBfVFktcnc3VzBjUDAzMDN6SE9rQ0hjWHoyUm9KQ3pFWVE3WUdOT2FOR1hWUzYxVk9PbmN3bTdJdWt5XzJUbGx5YjFqNWg3VmdSbW1UcGt1d21BaHRy?oc=5"
@@ -1636,10 +1706,10 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T16:43:36.000Z",
-        "score": 36.6,
+        "score": 36.5,
         "set_aside": null,
         "source": "gnews-ai",
-        "story": "33aecdf8b5c9",
+        "story": "762470b82dd3",
         "tag": "neither",
         "title": "Anthropic’s red team ran AI on 15 cheap TV boxes. Then the math got unsettling.",
         "url": "https://news.google.com/rss/articles/CBMiXkFVX3lxTFA1WjA1WkVnUzdzRE1lYWh2RXNGQ0dZdUYtRGFZMmUzcUNJbW41LTFsdnpmMVB0ejRobGppaUI0b1poY1o4YmpubllPci1ZTE1OTHU2LVNnSXl6NGVGNmc?oc=5"
@@ -1759,7 +1829,7 @@
         "score": 37.7,
         "set_aside": null,
         "source": "bloomberg-tech",
-        "story": "9a34810693eb",
+        "story": "5557b5368afc",
         "tag": "neither",
         "title": "$299 Device Puts Apple at Center of Homes",
         "url": "https://bloomberg.com/news/videos/2026-10-13/-299-device-puts-apple-at-center-of-homes-video"
@@ -1951,7 +2021,7 @@
         "score": 38.5,
         "set_aside": null,
         "source": "wires-ai",
-        "story": "9a34810693eb",
+        "story": "5557b5368afc",
         "tag": "neither",
         "title": "Apple unveils new smart home products, showcasing updated Siri AI",
         "url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxNNVpsSWNUUWZvOTRSMFEwZVRpLUhfbmZwdDkxbUI5b0RVeE5FZGpZTTd5QzNoWUdyLWY5YWRPY2ZVZ0F2RVVlUWhJUXRjOWJCLUFaQXJBOTFvQ3M2OE5tbzdlZXFPM0s1ZUhGaEVMZ0JvaWVIYW5GMFRYc0lPVVFvYWJSUGk2cGhTNG9uLVZNNC1yUzJiSVFEUXBRTjRBNjJ1RURVRVZtYVVWSExUei1MM1kxSE4wbG84d3oxbHdyZnZvQQ?oc=5"
@@ -1972,7 +2042,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-13T16:28:54.000Z",
-        "score": 32.2,
+        "score": 32.1,
         "set_aside": null,
         "source": "lesswrong",
         "story": null,
@@ -1996,7 +2066,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T16:27:48.000Z",
-        "score": 42.5,
+        "score": 42.4,
         "set_aside": null,
         "source": "gnews-ai",
         "story": null,
@@ -2023,7 +2093,7 @@
         "score": 34.6,
         "set_aside": null,
         "source": "guardian-ai",
-        "story": "9a34810693eb",
+        "story": "5557b5368afc",
         "tag": "neither",
         "title": "Apple unveils new smart home devices that showcase upgraded Siri AI",
         "url": "https://theguardian.com/technology/2026/oct/13/apple-new-smart-home-device-ai"
@@ -2119,7 +2189,7 @@
         "score": 40.1,
         "set_aside": null,
         "source": "techmeme",
-        "story": "9a34810693eb",
+        "story": "5557b5368afc",
         "tag": "neither",
         "title": "Apple says HomeView's facial recognition works only if users have a \"registered personal device\" with Apple Intelligence and Siri AI on the same Wi-Fi network (John Gruber/Daring Fireball)",
         "url": "https://techmeme.com/261013/p31"
@@ -2236,7 +2306,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T16:13:38.000Z",
-        "score": 36.4,
+        "score": 36.3,
         "set_aside": null,
         "source": "gnews-ai",
         "story": null,
@@ -2260,7 +2330,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T16:12:36.000Z",
-        "score": 36.4,
+        "score": 36.3,
         "set_aside": null,
         "source": "gnews-ai",
         "story": null,
@@ -2284,7 +2354,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T16:11:53.000Z",
-        "score": 33.4,
+        "score": 33.3,
         "set_aside": null,
         "source": "gnews-ai",
         "story": null,
@@ -2308,13 +2378,37 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T16:11:40.000Z",
-        "score": 33.4,
+        "score": 33.3,
         "set_aside": null,
         "source": "gnews-ai",
-        "story": "4f49958da30a",
+        "story": "04f5fde7fbf9",
         "tag": "neither",
         "title": "Crypto exchange MNX takes on OKX, BitGet offering pre-IPO futures for AI giants",
         "url": "https://news.google.com/rss/articles/CBMiWEFVX3lxTE9qUTlWUlFPdzhrb1RzRWV1eXdtbUpJNkgzZk9pZlNTTDNIbEpIcFBjRDlSUDlsbVBIdFJORGZUczlGQndMZGhQQVFxeTBfVDcxWXFXU3FLc3g?oc=5"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "313c3cb41f294b95",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-13T16:10:19.000Z",
+        "score": 74.7,
+        "set_aside": null,
+        "source": "wires-ai",
+        "story": "a2aacd51323b",
+        "tag": "neither",
+        "title": "Google launches flagship AI model Gemini 4 Argon for developers, businesses",
+        "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQclhsaXp4NUtqeVJDQTNIUjVXQVdJcnNXYnpYZUFTZm4wY3UxcTM1SzJvdzRBNE9HaURlNG1obzFGQ0o3R0pWNVJfNGFDOUdFZnhfdEJxSkszQ2hZQlowMjdCbVliRE9uX3A5ak1CYkJHOEV1elBYRWgtUHBwdF9lcWEyUGdjbmhQb2JONkpNeWhLTHgzQzRhRFRnZTEwcDRCa3k3RkpxY0c5Z1RsSlFCSmQwNmRmQQ?oc=5"
       },
       {
         "hedge": null,
@@ -2428,10 +2522,10 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T16:08:15.000Z",
-        "score": 40,
+        "score": 52.5,
         "set_aside": null,
         "source": "techmeme",
-        "story": "6a2b149cacfc",
+        "story": "a2aacd51323b",
         "tag": "neither",
         "title": "Google rolls out Gemini 4 Argon globally via the Gemini API and to Google AI Pro subscribers in the Gemini app and AI Mode, and in Antigravity for Ultra users (Robert Hart/The Verge)",
         "url": "https://techmeme.com/261013/p30"
@@ -2620,7 +2714,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-13T16:03:16.000Z",
-        "score": 50.5,
+        "score": 50.6,
         "set_aside": null,
         "source": "hn-fresh-ai",
         "story": null,
@@ -2767,7 +2861,7 @@
         "score": 53.6,
         "set_aside": null,
         "source": "bluesky-ai",
-        "story": "9a34810693eb",
+        "story": "5557b5368afc",
         "tag": "neither",
         "title": "Apple Unveils $299 HomeView Hub as Part of New Smart Home Push",
         "url": "https://bsky.app/profile/bloomberg.com/post/3mxrfotdivj2v"
@@ -2791,7 +2885,7 @@
         "score": 55.4,
         "set_aside": null,
         "source": "arstechnica-ai",
-        "story": "6a2b149cacfc",
+        "story": "a2aacd51323b",
         "tag": "neither",
         "title": "Gemini 4 Argon begins rolling out in Gemini app and Antigravity, but only if you pay",
         "url": "https://arstechnica.com/ai/2026/10/gemini-4-argon-begins-rolling-out-in-gemini-app-and-antigravity-but-only-if-you-pay"
@@ -2808,17 +2902,17 @@
             "title": []
           }
         },
-        "id": "313c3cb41f294b95",
-        "kind": "press",
+        "id": "17a867fb72029803",
+        "kind": "forum",
         "negated": [],
         "published_at": "2026-10-13T16:00:00.000Z",
-        "score": 82.2,
+        "score": 55.9,
         "set_aside": null,
-        "source": "wires-ai",
-        "story": "6a2b149cacfc",
+        "source": "bluesky-ai",
+        "story": null,
         "tag": "neither",
-        "title": "Google launches flagship AI model Gemini 4 Argon for developers, businesses",
-        "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQclhsaXp4NUtqeVJDQTNIUjVXQVdJcnNXYnpYZUFTZm4wY3UxcTM1SzJvdzRBNE9HaURlNG1obzFGQ0o3R0pWNVJfNGFDOUdFZnhfdEJxSkszQ2hZQlowMjdCbVliRE9uX3A5ak1CYkJHOEV1elBYRWgtUHBwdF9lcWEyUGdjbmhQb2JONkpNeWhLTHgzQzRhRFRnZTEwcDRCa3k3RkpxY0c5Z1RsSlFCSmQwNmRmQQ?oc=5"
+        "title": "Google finally releases Gemini 4 Argon",
+        "url": "https://bsky.app/profile/theverge.com/post/3mxrfvhh2he2p"
       },
       {
         "hedge": null,
@@ -2908,7 +3002,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-13T15:56:29.000Z",
-        "score": 30.8,
+        "score": 30.7,
         "set_aside": null,
         "source": "lobsters-ai",
         "story": null,
@@ -2932,7 +3026,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T15:56:15.000Z",
-        "score": 33.3,
+        "score": 33.2,
         "set_aside": null,
         "source": "gnews-ai",
         "story": null,
@@ -2956,7 +3050,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T15:55:44.000Z",
-        "score": 40,
+        "score": 39.9,
         "set_aside": null,
         "source": "techmeme",
         "story": null,
@@ -2983,7 +3077,7 @@
         "score": 54.2,
         "set_aside": null,
         "source": "gnews-ai",
-        "story": "33aecdf8b5c9",
+        "story": "762470b82dd3",
         "tag": "neither",
         "title": "Anthropic warns of self-replicating AI model from China’s Zhipu AI",
         "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxNOFAtSmtfREo4U2hfQTRQRV9FSm94VUZZdGt6Z3JueDl0NEk3QjJTVUNobWMxRnNJNTZxNUxVcktLajZ0V1hBZTdldUJJUnI0UXJPNTZYZUdHU2JzVktVSVdpS0k1MUNQaWhNbGtCY2xkaGwwZDF1MElRaHYtWHFKTzlwd1JoV1JYbko1Sm50TjFtSEd3Y2NHcg?oc=5"
@@ -3007,7 +3101,7 @@
         "score": 47.2,
         "set_aside": null,
         "source": "gnews-ai",
-        "story": "4f49958da30a",
+        "story": "04f5fde7fbf9",
         "tag": "neither",
         "title": "MegaETH-powered MNX goes live with pre-IPO futures for OpenAI, Anthropic and DeepSeek",
         "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxPSnZjTmM5dmgyck1kVUY3X3pIQkVsN0h4aHhmV0pQVXBWQXBseXo0ZTdWX0pCSmtTeWtBd3dFc1UxYWdfUmpsMzlPVlNZSkhaMkdoenVUNm5reEh5TktEY1dlTk5mbldvREs4Wk9IdWNyUmdKcVc4Wnh5Qjc4RVM4eWVFbFp3TDc4bU1YZGNremRZNWxtMlktcDNHemNZY2RCT1FaVGlhOTlUbG9oMjZObGEwcVl3OHBnU0hr?oc=5"
@@ -3052,7 +3146,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-13T15:49:56.000Z",
-        "score": 44.2,
+        "score": 44.4,
         "set_aside": null,
         "source": "hn-fresh-ai",
         "story": null,
@@ -3175,7 +3269,7 @@
         "score": 51.2,
         "set_aside": null,
         "source": "gnews-ai",
-        "story": "33aecdf8b5c9",
+        "story": "762470b82dd3",
         "tag": "neither",
         "title": "Self-Replicating AI Possible Within Months, Anthropic Warns",
         "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTFB3U1c4N200WFp4LS1BamZvQXpHcUxaem02VTNzdTlWeVhBN2tUUEE4VUxLVm1nZUtXUTZIRWVkRFRvQ1RTbzRKeThSZ20tdldZaWJFU0FOY0pkRXVDY3diTHhqUWVLdUsxMGNjZ0xTR1dsQ1c2ejhN?oc=5"
@@ -3220,7 +3314,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T15:41:15.000Z",
-        "score": 36.2,
+        "score": 36.1,
         "set_aside": null,
         "source": "gnews-ai",
         "story": null,
@@ -3336,30 +3430,6 @@
             "title": []
           }
         },
-        "id": "8d3e2c34fbbd4649",
-        "kind": "press",
-        "negated": [],
-        "published_at": "2026-10-13T15:36:23.000Z",
-        "score": 33.1,
-        "set_aside": null,
-        "source": "gnews-ai",
-        "story": null,
-        "tag": "neither",
-        "title": "Scaling trust in confidential AI requires a common language",
-        "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTFBTSUYzenp0UEpoQ1JsUl9SZWlTZktXUmlaRFZkMTZOM0owcmNjdzE0TnVZTk9rMTJoS0s4bHJhMUEzd0p6amk0UDhWdDR1ZkYzVERsZmI3eC1WQm91ZjhUeFRPSWNCbTQ0TDVZekdKejBvMldFOGc?oc=5"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
         "id": "6c2d9b9c2d03879a",
         "kind": "forum",
         "negated": [],
@@ -3395,54 +3465,6 @@
         "tag": "neither",
         "title": "Could AI help me build a football YouTube channel?",
         "url": "https://reddit.com/r/artificial/comments/1x4zvgs/could_ai_help_me_build_a_football_youtube_channel"
-      },
-      {
-        "hedge": "could",
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "a287c8a8153e80d0",
-        "kind": "press",
-        "negated": [],
-        "published_at": "2026-10-13T15:34:00.000Z",
-        "score": 36.1,
-        "set_aside": null,
-        "source": "gnews-ai",
-        "story": null,
-        "tag": "neither",
-        "title": "Anthropic's IPO Could Value It at $2 Trillion Even as Its Losses Hit $42 Billion",
-        "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxOUmQ1U1BkaXNzcmdSaS1LSm02dEZIWXBmX184TUZIYmtUMzZHRGlnMmxGWk01NFJDVnVUQ0dVb0w5ZUNQRmtXZkpHRlVPRkRSSTFpMlF4cUdhSk9PYXRBOXhZbTE2N2Zrc3ZTUkRsZGRZaEJMT0JJNDFnc1hVbnR2VWtrVC1mRU9qcENaRnVUQmYtb2EwNXpR?oc=5"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "6ea0c594a36e035a",
-        "kind": "press",
-        "negated": [],
-        "published_at": "2026-10-13T15:33:45.000Z",
-        "score": 39.1,
-        "set_aside": null,
-        "source": "gnews-ai",
-        "story": "4f49958da30a",
-        "tag": "neither",
-        "title": "Anthropic Claude AI Predicts BTC to $1M+ Ahead of IPO",
-        "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxOdjhrNDN0Zzd0MTJhYjNiWlFBMXllaFM1WnlXbVFnMm5zcWd2amw0R3pZZE91aVRtVHFkaGJ6aGZOUFNzYklXSGtyZmJrcElhTUwtNEoyOC1QcXRtNkFkT2dsbk5Wb1J0bTVCZ1RsSzRrZzNtOWtmOEthUkFrdFFOM01FSE0tS2s?oc=5"
       },
       {
         "hedge": null,
@@ -3676,10 +3698,10 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-13T15:12:59.000Z",
-        "score": 68.8,
+        "score": 63.8,
         "set_aside": null,
         "source": "bluesky-ai",
-        "story": "d2e1ef395c53",
+        "story": "6d46cf9dd7d2",
         "tag": "neither",
         "title": "Epic shifts to ‘AI-accelerated development’ for upcoming Disney game",
         "url": "https://bsky.app/profile/theverge.com/post/3mxrd7nbxgf2a"
@@ -3724,7 +3746,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T15:08:52.000Z",
-        "score": 38,
+        "score": 37.9,
         "set_aside": null,
         "source": "wires-ai",
         "story": null,
@@ -3892,7 +3914,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-13T14:52:00.000Z",
-        "score": 30.4,
+        "score": 30.3,
         "set_aside": null,
         "source": "lobsters-ai",
         "story": null,
@@ -3991,7 +4013,7 @@
         "score": 70.5,
         "set_aside": null,
         "source": "nyt-tech",
-        "story": "9a34810693eb",
+        "story": "5557b5368afc",
         "tag": "neither",
         "title": "Apple Introduces HomeView, a $299 Tablet for the Home",
         "url": "https://nytimes.com/2026/10/13/technology/apple-homeview-tablet.html"
@@ -4660,10 +4682,10 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T13:46:17.000Z",
-        "score": 36.2,
+        "score": 36.1,
         "set_aside": null,
         "source": "techmeme",
-        "story": "9a34810693eb",
+        "story": "5557b5368afc",
         "tag": "neither",
         "title": "Apple says the HomeView will not be available in the EU because Siri AI is currently unavailable on iOS there and it is \"working constructively with the EU\" (Hartley Charlton/MacRumors)",
         "url": "https://techmeme.com/261013/p24"
@@ -4732,7 +4754,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T13:29:00.000Z",
-        "score": 37.4,
+        "score": 37.3,
         "set_aside": null,
         "source": "wires-ai",
         "story": null,
@@ -4756,7 +4778,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T13:28:06.000Z",
-        "score": 33.6,
+        "score": 33.5,
         "set_aside": null,
         "source": "techcrunch-ai",
         "story": null,
@@ -4807,7 +4829,7 @@
         "score": 36,
         "set_aside": null,
         "source": "techmeme",
-        "story": "9a34810693eb",
+        "story": "5557b5368afc",
         "tag": "neither",
         "title": "Apple HomeView demo: a square screen with a personalized, iPhone-like experience based on facial recognition, up to six users, Siri AI, and a closed ecosystem (Nicole Nguyen/Wall Street Journal)",
         "url": "https://techmeme.com/261013/p22"
@@ -4927,7 +4949,7 @@
         "score": 42.4,
         "set_aside": null,
         "source": "bluesky-ai",
-        "story": "9a34810693eb",
+        "story": "5557b5368afc",
         "tag": "neither",
         "title": "Apple introduced a new device called the HomeView, a $299 display that serves as the centerpiece of its push to challenge Amazon and Google in the smart home market. Read more here: bloom.bg/4rYxjoF \ud83d",
         "url": "https://bsky.app/profile/bloomberg.com/post/3mxr4j5vooo22"
@@ -5068,7 +5090,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T13:12:18.000Z",
-        "score": 33.5,
+        "score": 33.4,
         "set_aside": null,
         "source": "bloomberg-tech",
         "story": null,
@@ -5382,7 +5404,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-13T12:37:41.334Z",
-        "score": 36.9,
+        "score": 36.8,
         "set_aside": null,
         "source": "bluesky-ai",
         "story": "635f6668e7a6",
@@ -5437,6 +5459,32 @@
         "tag": "neither",
         "title": "Abdul El-Sayed issues AI policy designed to rally progressives",
         "url": "https://bsky.app/profile/washingtonpost.com/post/3mxqzwsxfjr2c"
+      },
+      {
+        "hedge": "risk",
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [
+              "attacks"
+            ],
+            "title": []
+          }
+        },
+        "id": "56acf17ef0518e39",
+        "kind": "press",
+        "negated": [],
+        "published_at": "2026-10-13T12:30:01.000Z",
+        "score": 36.4,
+        "set_aside": "hedge word \"risk\" in the headline",
+        "source": "guardian-ai",
+        "story": null,
+        "tag": "neither",
+        "title": "Threat of AI share crash puts world financial stability at risk, says IMF",
+        "url": "https://theguardian.com/business/2026/oct/13/ai-share-crash-risk-global-imf-debt-corrowing-cyber-attacks"
       },
       {
         "hedge": null,
@@ -5598,7 +5646,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-13T12:04:51.000Z",
-        "score": 26.9,
+        "score": 26.8,
         "set_aside": null,
         "source": "reddit-controlproblem",
         "story": null,
@@ -6076,20 +6124,22 @@
             "title": []
           },
           "harm": {
-            "summary": [],
+            "summary": [
+              "lawsuits"
+            ],
             "title": []
           }
         },
         "id": "56279fc565cee996",
-        "kind": "forum",
+        "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T10:32:23.000Z",
-        "score": 59.4,
-        "set_aside": null,
-        "source": "hn-ai",
+        "score": 31.3,
+        "set_aside": "one distinct summary hit; the rule needs 2",
+        "source": "verge-ai",
         "story": null,
         "tag": "neither",
-        "title": "Character.ai Files for Bankruptcy",
+        "title": "Character.AI files for bankruptcy",
         "url": "https://theverge.com/ai-artificial-intelligence/1009802/character-ai-files-for-bankruptcy-disney"
       },
       {
@@ -6305,7 +6355,7 @@
         "score": 94.2,
         "set_aside": "hedge word \"warns\" in the headline",
         "source": "wires-ai",
-        "story": "33aecdf8b5c9",
+        "story": "762470b82dd3",
         "tag": "neither",
         "title": "Anthropic warns rogue AI agents may ‘self-replicate’ to hijack everyday devices",
         "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxQYVdrSG5aLUJNY3BCQ3F1SV9TQXMwV04wM3V1ZnNnYTFHQVRZTFJHMHduMllELUVFWHNZV0t5UnlrWm9hVEJSdVA0X3phRjNfVWp0UHJ6eGVjb1N3aUJERG45LUVYaVNrTk0wVzI5VHo0eHhNdEU0dmdkbk9HTEhwMExxeWQ?oc=5"
@@ -6422,7 +6472,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T10:01:05.000Z",
-        "score": 37.9,
+        "score": 37.8,
         "set_aside": null,
         "source": "techmeme",
         "story": "6f5c02b978ca",
@@ -6448,7 +6498,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T10:00:04.000Z",
-        "score": 32.4,
+        "score": 32.3,
         "set_aside": "one distinct summary hit; the rule needs 2",
         "source": "guardian-ai",
         "story": null,
@@ -6472,7 +6522,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-13T10:00:00.000Z",
-        "score": 54.6,
+        "score": 54.5,
         "set_aside": null,
         "source": "bluesky-ai",
         "story": null,
@@ -6496,7 +6546,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T10:00:00.000Z",
-        "score": 61.1,
+        "score": 61,
         "set_aside": null,
         "source": "mit-tech-review",
         "story": null,
@@ -6520,7 +6570,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T10:00:00.000Z",
-        "score": 31.2,
+        "score": 31.1,
         "set_aside": null,
         "source": "restofworld",
         "story": null,
@@ -6882,7 +6932,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T08:47:12.000Z",
-        "score": 48.3,
+        "score": 48.2,
         "set_aside": null,
         "source": "wires-ai",
         "story": null,
@@ -6954,7 +7004,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T08:29:45.000Z",
-        "score": 31.9,
+        "score": 31.8,
         "set_aside": null,
         "source": "bloomberg-tech",
         "story": null,
@@ -7194,7 +7244,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T07:32:57.000Z",
-        "score": 31.6,
+        "score": 31.5,
         "set_aside": null,
         "source": "bloomberg-tech",
         "story": null,
@@ -7269,7 +7319,7 @@
         "score": 25.2,
         "set_aside": null,
         "source": "reddit-artificial",
-        "story": "d2e1ef395c53",
+        "story": "6d46cf9dd7d2",
         "tag": "neither",
         "title": "\"Our humble goal is to survive the AI revolution\" says Epic Games CEO Tim Sweeney, as its Star Wars and Marvel crossover pivots to \"AI first\" development | Art will be \"generated with full AI…",
         "url": "https://reddit.com/r/artificial/comments/1x4pzvo/our_humble_goal_is_to_survive_the_ai_revolution"
@@ -7369,30 +7419,6 @@
         "tag": "neither",
         "title": "AI models flub these intelligence tests. Can you fare any better?",
         "url": "https://bsky.app/profile/technologyreview.com/post/3mxqfewiyeu2m"
-      },
-      {
-        "hedge": "risk",
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "56acf17ef0518e39",
-        "kind": "forum",
-        "negated": [],
-        "published_at": "2026-10-13T05:57:32.000Z",
-        "score": 57,
-        "set_aside": null,
-        "source": "hn-ai",
-        "story": null,
-        "tag": "neither",
-        "title": "Threat of AI share crash puts world financial stability at risk, says IMF",
-        "url": "https://theguardian.com/business/2026/oct/13/ai-share-crash-risk-global-imf-debt-corrowing-cyber-attacks"
       },
       {
         "hedge": null,
@@ -7700,7 +7726,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T04:00:10.000Z",
-        "score": 46.8,
+        "score": 46.7,
         "set_aside": null,
         "source": "wires-ai",
         "story": null,
@@ -7724,7 +7750,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T04:00:00.000Z",
-        "score": 33,
+        "score": 32.9,
         "set_aside": null,
         "source": "federal-register-ai",
         "story": null,
@@ -7748,7 +7774,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T04:00:00.000Z",
-        "score": 33,
+        "score": 32.9,
         "set_aside": null,
         "source": "federal-register-ai",
         "story": null,
@@ -7772,7 +7798,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T04:00:00.000Z",
-        "score": 26.8,
+        "score": 26.7,
         "set_aside": null,
         "source": "mit-news-ai",
         "story": null,
@@ -8374,7 +8400,7 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-13T01:35:00.000Z",
-        "score": 32.3,
+        "score": 32.2,
         "set_aside": null,
         "source": "techmeme",
         "story": null,
@@ -8638,7 +8664,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-13T00:10:06.000Z",
-        "score": 33.4,
+        "score": 33.3,
         "set_aside": null,
         "source": "hn-fresh-ai",
         "story": null,
@@ -8710,7 +8736,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-12T23:25:24.589Z",
-        "score": 38.4,
+        "score": 38.3,
         "set_aside": null,
         "source": "bluesky-ai",
         "story": null,
@@ -8830,7 +8856,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-12T23:02:24.000Z",
-        "score": 36,
+        "score": 35.9,
         "set_aside": null,
         "source": "hn-ai",
         "story": null,
@@ -8904,7 +8930,7 @@
         "kind": "forum",
         "negated": [],
         "published_at": "2026-10-12T22:39:58.000Z",
-        "score": 37.8,
+        "score": 37.7,
         "set_aside": "one distinct summary hit; the rule needs 2",
         "source": "lesswrong",
         "story": null,
@@ -8959,6 +8985,30 @@
         "tag": "neither",
         "title": "'Employee-like' ≠ Employee-level",
         "url": "https://lesswrong.com/posts/2dKP6sB7DxaQJ2syE/employee-like-employee-level"
+      },
+      {
+        "hedge": null,
+        "hits": {
+          "benefit": {
+            "summary": [],
+            "title": []
+          },
+          "harm": {
+            "summary": [],
+            "title": []
+          }
+        },
+        "id": "21dc9d35aed793dc",
+        "kind": "forum",
+        "negated": [],
+        "published_at": "2026-10-12T22:22:30.000Z",
+        "score": 37.7,
+        "set_aside": null,
+        "source": "reddit-controlproblem",
+        "story": "762470b82dd3",
+        "tag": "neither",
+        "title": "AI models may be capable of self-replicating without access to a datacenter",
+        "url": "https://reddit.com/r/ControlProblem/comments/1x4fsqu/ai_models_may_be_capable_of_selfreplicating"
       },
       {
         "hedge": null,
@@ -9075,7 +9125,7 @@
         "score": 70.9,
         "set_aside": null,
         "source": "wires-ai",
-        "story": "33aecdf8b5c9",
+        "story": "762470b82dd3",
         "tag": "neither",
         "title": "AI models may soon self-replicate without access to data centers, Anthropic warns",
         "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxNVFZnZHFlY0QxWV9XbURPeDVpQnlMcWFqaTlDMHRjcWhhLXRhR1hfbTdNeVl3c3dyR3V6V211Wmp5aXNZT1VpN1kwdUs3ZFdBTXB5Z2tEN1JfV2FnUk5FRHpVa2lfRWxENndHaDdNWmRZVUJfQkFody00VG1BNk8wb29Sel9Wd011ampEWXlOQk9xM2x0bkVwTXBib0hEMndtOWNuZXdDWFlEcTRuZzVLRDYxUDFfek9XRTNna3dhZw?oc=5"
@@ -9216,10 +9266,10 @@
         "kind": "press",
         "negated": [],
         "published_at": "2026-10-12T21:33:35.000Z",
-        "score": 31.7,
+        "score": 31.6,
         "set_aside": null,
         "source": "bloomberg-tech",
-        "story": "4f49958da30a",
+        "story": "04f5fde7fbf9",
         "tag": "neither",
         "title": "Neostellar’s Willy Lee on AI Landscape Ahead of Anthropic Pre-IPO Investor Day",
         "url": "https://bloomberg.com/news/videos/2026-10-12/neostellar-s-willy-lee-ai-market-is-starting-to-mature-video"
@@ -9267,7 +9317,7 @@
         "score": 25.4,
         "set_aside": null,
         "source": "reddit-artificial",
-        "story": "33aecdf8b5c9",
+        "story": "762470b82dd3",
         "tag": "neither",
         "title": "Anthropic ran a 26B model across 15 off-brand Android TV boxes worth $55 each — an AI worm with no central point to shut off",
         "url": "https://reddit.com/r/artificial/comments/1x4e58k/anthropic_ran_a_26b_model_across_15_offbrand"
@@ -9343,54 +9393,6 @@
         "tag": "neither",
         "title": "Thoughts on Instinct vs Muse?",
         "url": "https://reddit.com/r/artificial/comments/1x4dxid/thoughts_on_instinct_vs_muse"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "b9412986ffa5d3dc",
-        "kind": "press",
-        "negated": [],
-        "published_at": "2026-10-12T20:59:50.000Z",
-        "score": 28.5,
-        "set_aside": null,
-        "source": "arstechnica-ai",
-        "story": "d2e1ef395c53",
-        "tag": "neither",
-        "title": "Epic Games reportedly pivoting to \"AI first\" game development model",
-        "url": "https://arstechnica.com/gaming/2026/10/report-epic-games-goes-all-in-on-ai-for-disney-collaboration"
-      },
-      {
-        "hedge": null,
-        "hits": {
-          "benefit": {
-            "summary": [],
-            "title": []
-          },
-          "harm": {
-            "summary": [],
-            "title": []
-          }
-        },
-        "id": "4eefd49019f149a7",
-        "kind": "forum",
-        "negated": [],
-        "published_at": "2026-10-12T20:51:32.000Z",
-        "score": 24.8,
-        "set_aside": null,
-        "source": "reddit-machinelearning",
-        "story": null,
-        "tag": "neither",
-        "title": "learnc: fit the constants in existing C code to data (9.1% smaller JPEGs, +4.9 F1 on WebRTC VAD) [P]",
-        "url": "https://reddit.com/r/MachineLearning/comments/1x4dlbm/learnc_fit_the_constants_in_existing_c_code_to"
       }
     ],
     "not_scanned": {
@@ -9401,7 +9403,7 @@
       },
       "total": 34
     },
-    "sentence": "6 of 309 stories in the newsroom's current window matched the harm list and 2 matched the benefit list, as of 17:22 UTC on Tue 13 Oct 2026. A count of words, not of outcomes.",
+    "sentence": "6 of 308 stories in the newsroom's current window matched the harm list and 2 matched the benefit list, as of 17:24 UTC on Tue 13 Oct 2026. A count of words, not of outcomes.",
     "state": "live",
     "stories": {
       "benefit_list": 2,
@@ -9409,15 +9411,15 @@
       "both": 0,
       "harm_list": 6,
       "harm_only": 6,
-      "neither": 301,
-      "scanned": 309
+      "neither": 300,
+      "scanned": 308
     },
     "window": {
-      "first_published_at": "2026-10-12T20:51:32.000Z",
-      "last_published_at": "2026-10-13T17:18:25.000Z",
+      "first_published_at": "2026-10-12T21:04:33.000Z",
+      "last_published_at": "2026-10-13T17:22:40.000Z",
       "max_items": 400,
       "nominal_days": 7,
-      "span_hours": 20.4
+      "span_hours": 20.3
     }
   },
   "schema": 1
