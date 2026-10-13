@@ -191,11 +191,19 @@ describe('lab facets', () => {
   it('renders lab landings under /lab/', () => {
     const html = renderLab(ctx, ctx.race.players[0]);
     assert.match(html, /<title>What has SIREN scored about OpenAI\?/);
+    assert.match(html, /<h1>What has SIREN scored about OpenAI\?<\/h1>/);
+    assert.match(html, /Who is winning the AI race\?/);
+    assert.match(html, /Which AI labs have SIREN pages\?/);
+    assert.match(html, /Which AI companies has SIREN scored stories about\?/);
+    assert.match(html, /What has SIREN scored about Anthropic\?/);
     assert.match(html, /SpeakableSpecification/);
     assert.match(html, /FAQPage/);
     assert.match(html, /Questions people actually ask/);
     assert.match(html, /lab\/anthropic\.html/);
     assert.match(html, /CollectionPage/);
+    assert.match(html, /fc__k"><a href="\/race\.html">Who is winning the AI race\?<\/a>/);
+    assert.doesNotMatch(html, /fc__k"><a href="\/race\.html">The Race<\/a>/);
+    assert.doesNotMatch(html, /fc__k"><a href="\/lab\/">Labs<\/a>/);
     assert.equal(labPath('openai'), '/lab/openai.html');
   });
 

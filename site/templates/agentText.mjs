@@ -275,7 +275,7 @@ Honesty rules:
 - [search-index.json](${u('/api/search-index.json')}): full-site search index
 - [fresh.json](${u('/api/fresh.json')}): two timestamps (index, newsroom) to check before downloading more
 - [health.json](${u('/api/health.json')}): pipeline health and source freshness
-- [receipts](${u('/api/receipts/')}): the hash-chained receipt behind every reading ([index.json](${u('/api/receipts/index.json')}))
+- [Where are the SIREN reading receipts?](${u('/api/receipts/')}): the hash-chained receipt behind every reading ([index.json](${u('/api/receipts/index.json')}))
 - [index.json](${u('/api/index.json')}): endpoint map
 - [OpenAPI](${u('/openapi.json')}): OpenAPI 3.1 description of the endpoints
 - [Dispatch emergency feed](${dispatchFeedUrl()}): breaking-alert feed behind ${u('/dispatch.html')}
@@ -392,7 +392,7 @@ function facetLinks(ctx, u) {
   const labs = allLabs(ctx)
     .filter((p) => labIndexable(ctx, p))
     .slice(0, 16)
-    .map((p) => `- [${p.name}](${u(`/lab/${p.id}.html`)})`)
+    .map((p) => `- [What has SIREN scored about ${p.name}?](${u(`/lab/${p.id}.html`)})`)
     .join('\n');
   const hub = labs
     ? `- [Which AI labs have SIREN pages?](${u('/lab/')})\n- [Which AI companies has SIREN scored stories about?](${u('/companies.html')})\n${labs}`

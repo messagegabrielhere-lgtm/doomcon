@@ -78,7 +78,7 @@ const MORE_PAGES = [
   ['/pillar/attention.html', 'px:updown', 'What has SIREN scored under Attention?', 'Stories and the live Attention reading — tempo only, not a pillar doom score.'],
   ['/pillar/governance.html', 'px:updown', 'What has SIREN scored under Governance?', 'Stories and the live Governance reading — tempo only, not a pillar doom score.'],
   ['/pillar/markets.html', 'px:updown', 'What has SIREN scored under Markets?', 'Stories and the live Markets reading — tempo only, not a pillar doom score.'],
-  ['/api/receipts/', 'archive', 'Receipts', 'Every reading’s receipt, hash-chained so none can be rewritten.'],
+  ['/api/receipts/', 'archive', 'Where are the SIREN reading receipts?', 'Every reading’s receipt, hash-chained so none can be rewritten.'],
   ['/about.html', 'px:doc', 'What is SIREN?', 'An independent AI activity index — who runs it and how it is paid for.'],
   ['/press.html', 'news', 'Where is the SIREN press kit?', 'Facts, a liftable paragraph, images and how to cite a reading.'],
   ['/brand.html', 'canary', 'Where is the SIREN brand guide?', 'Name, colours, type, voice and Tally.'],

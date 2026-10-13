@@ -610,13 +610,13 @@ export function renderLab(ctx, player) {
 
   const labs = allLabs(ctx)
     .filter((p) => p.id !== player.id)
-    .map((p) => `<a href="${esc(ctx.href(labPath(p.id)))}">${esc(p.name)}</a>`)
+    .map((p) => `<a href="${esc(ctx.href(labPath(p.id)))}">What has ${esc(brand.NAME)} scored about ${esc(p.name)}?</a>`)
     .join('');
   const olderBlock = older.length
     ? `<h2>Older scored stories naming ${esc(player.name)}</h2>
   <p class="fc__lede">Kept in the permanent archive after they left the live window. Still scored stories — not a forecast.</p>
   <ol class="fc__list">${itemRows(ctx, older, 12)}</ol>
-  <p class="fresh__key"><a href="${esc(ctx.href('/item/archive.html'))}">Full story archive</a></p>`
+  <p class="fresh__key"><a href="${esc(ctx.href('/item/archive.html'))}">Which older AI stories has ${esc(brand.NAME)} kept in the archive?</a></p>`
     : '';
 
   const stats = entityOnly
@@ -624,7 +624,7 @@ export function renderLab(ctx, player) {
     <div><b class="num">${esc(String(items.length))}</b><span>Related scored stories</span></div>
     ${archivedAll.length ? `<div><b class="num">${esc(String(archivedAll.length))}</b><span>Older in archive</span></div>` : ''}
   </div>
-  <p class="fresh__key">Not on the <a href="${esc(ctx.href('/race.html'))}">race board</a> this build — this page is a newsroom facet only.
+  <p class="fresh__key">Not on <a href="${esc(ctx.href('/race.html'))}">Who is winning the AI race?</a> this build — this page is a newsroom facet only.
      Stories match the published entity list or the lab's common name forms.</p>`
     : `<div class="fc__stat" role="group" aria-label="Lab signals">
     <div><b class="num">${esc(fmtPct(m.probability))}</b><span>Market odds (best model)</span></div>
@@ -632,12 +632,12 @@ export function renderLab(ctx, player) {
     <div><b class="num">${esc(String(items.length))}</b><span>Related scored stories</span></div>
     ${archivedAll.length ? `<div><b class="num">${esc(String(archivedAll.length))}</b><span>Older in archive</span></div>` : ''}
   </div>
-  <p class="fresh__key"><a href="${esc(ctx.href('/race.html'))}">Full race board →</a>
+  <p class="fresh__key"><a href="${esc(ctx.href('/race.html'))}">Who is winning the AI race?</a>
      · Odds are prediction-market prices, not ${esc(brand.NAME)} judgements.</p>`;
 
   const main = `${STYLE}
 <article class="fc prose">
-  <p class="fc__k"><a href="${esc(ctx.href('/race.html'))}">The Race</a> · <a href="${esc(ctx.href('/lab/'))}">Labs</a> · <a href="${esc(ctx.href('/companies.html'))}">Companies</a></p>
+  <p class="fc__k"><a href="${esc(ctx.href('/race.html'))}">Who is winning the AI race?</a> · <a href="${esc(ctx.href('/lab/'))}">Which AI labs have ${esc(brand.NAME)} pages?</a> · <a href="${esc(ctx.href('/companies.html'))}">Which AI companies has ${esc(brand.NAME)} scored stories about?</a></p>
   <h1>What has ${esc(brand.NAME)} scored about ${esc(player.name)}?</h1>
   <p class="fc__lede">${esc(player.principal ? `${player.name}, principal ${player.principal}.` : player.name)}
      ${entityOnly
@@ -681,9 +681,9 @@ export function renderLab(ctx, player) {
         })),
       },
     }, breadcrumbs(ctx, [
-      { name: 'The Race', path: '/race.html' },
-      { name: 'Labs', path: '/lab/' },
-      { name: player.name, path },
+      { name: 'Who is winning the AI race?', path: '/race.html' },
+      { name: `Which AI labs have ${brand.NAME} pages?`, path: '/lab/' },
+      { name: `What has ${brand.NAME} scored about ${player.name}?`, path },
     ]), {
       '@context': 'https://schema.org',
       '@type': 'FAQPage',
@@ -717,15 +717,15 @@ export function renderLabIndex(ctx) {
   <h3>${esc(q)}</h3>
   <p>${esc(a)}</p>`).join('');
   const rows = labs.map((p) => `<li>
-  <a href="${esc(ctx.href(labPath(p.id)))}">${esc(p.name)}</a>
+  <a href="${esc(ctx.href(labPath(p.id)))}">What has ${esc(brand.NAME)} scored about ${esc(p.name)}?</a>
   <span class="fc__meta">${p.entityOnly ? 'Entity hub · story counts only' : 'Race board · odds when published'}</span>
   <span class="fc__sc num">${esc(String(p.count))}</span>
 </li>`).join('');
   const main = `${STYLE}
 <article class="fc prose">
-  <p class="fc__k"><a href="${esc(ctx.href('/race.html'))}">The Race</a> · Labs · <a href="${esc(ctx.href('/companies.html'))}">Companies</a></p>
+  <p class="fc__k"><a href="${esc(ctx.href('/race.html'))}">Who is winning the AI race?</a> · Which AI labs have ${esc(brand.NAME)} pages? · <a href="${esc(ctx.href('/companies.html'))}">Which AI companies has ${esc(brand.NAME)} scored stories about?</a></p>
   <h1>Which AI labs have ${esc(brand.NAME)} pages?</h1>
-  <p class="fc__lede">A lab earns a page when it sits on the <a href="${esc(ctx.href('/race.html'))}">race board</a> or clears at least ${ENTITY_LAB_MIN} scored stories in the current window. Numbers are story counts and, where published, prediction-market odds — not a ranking of how dangerous a company is.</p>
+  <p class="fc__lede">A lab earns a page when it sits on <a href="${esc(ctx.href('/race.html'))}">Who is winning the AI race?</a> or clears at least ${ENTITY_LAB_MIN} scored stories in the current window. Numbers are story counts and, where published, prediction-market odds — not a ranking of how dangerous a company is.</p>
   ${labs.length ? `<ol class="fc__list">${rows}</ol>` : '<p>No lab cleared the gate in this build.</p>'}
   <h2 id="faq">Questions people actually ask</h2>
   ${faqHtml}
@@ -751,12 +751,12 @@ export function renderLabIndex(ctx) {
           '@type': 'ListItem',
           position: i + 1,
           url: ctx.url(labPath(p.id)),
-          name: p.name,
+          name: `What has ${brand.NAME} scored about ${p.name}?`,
         })),
       },
     }, breadcrumbs(ctx, [
-      { name: 'The Race', path: '/race.html' },
-      { name: 'Labs', path },
+      { name: 'Who is winning the AI race?', path: '/race.html' },
+      { name: `Which AI labs have ${brand.NAME} pages?`, path },
     ]), {
       '@context': 'https://schema.org',
       '@type': 'FAQPage',
@@ -794,23 +794,23 @@ export function renderCompanies(ctx) {
   <h3>${esc(q)}</h3>
   <p>${esc(a)}</p>`).join('');
   const rows = labs.map((p) => `<li>
-  <a href="${esc(ctx.href(labPath(p.id)))}">${esc(p.name)}</a>
+  <a href="${esc(ctx.href(labPath(p.id)))}">What has ${esc(brand.NAME)} scored about ${esc(p.name)}?</a>
   <span class="fc__meta">${p.entityOnly ? 'Story hub' : 'Race board + stories'} · <span class="num">${esc(String(p.count))}</span> in window</span>
 </li>`).join('');
   const main = `${STYLE}
 <article class="fc prose">
-  <p class="fc__k"><a href="${esc(ctx.href('/compare.html'))}">Compare</a> · <a href="${esc(ctx.href('/lab/'))}">Labs</a> · Companies</p>
+  <p class="fc__k"><a href="${esc(ctx.href('/compare.html'))}">Which AI doom indexes can you compare?</a> · <a href="${esc(ctx.href('/lab/'))}">Which AI labs have ${esc(brand.NAME)} pages?</a> · Which AI companies has ${esc(brand.NAME)} scored stories about?</p>
   <h1>Which AI companies has ${esc(brand.NAME)} scored stories about?</h1>
-  <p class="fc__lede">${esc(brand.NAME)} does not publish a company “doom score.” It publishes an activity index and scored stories. This page lists companies and labs that already clear the same substance gate as <a href="${esc(ctx.href('/lab/'))}">/lab/</a> — race-board rows or at least ${ENTITY_LAB_MIN} matching headlines in the live window.</p>
+  <p class="fc__lede">${esc(brand.NAME)} does not publish a company “doom score.” It publishes an activity index and scored stories. This page lists companies and labs that already clear the same substance gate as <a href="${esc(ctx.href('/lab/'))}">Which AI labs have ${esc(brand.NAME)} pages?</a> — race-board rows or at least ${ENTITY_LAB_MIN} matching headlines in the live window.</p>
   <div class="fc__stat" role="group" aria-label="Company hub totals">
     <div><b class="num">${esc(String(labs.length))}</b><span>Company / lab hubs</span></div>
   </div>
   ${labs.length ? `<ol class="fc__list">${rows}</ol>` : '<p>No company hub cleared the gate in this build.</p>'}
   <h2 id="faq">Questions people actually ask</h2>
   ${faqHtml}
-  <p class="fresh__key"><a href="${esc(ctx.href('/lab/'))}">Lab directory →</a>
-     · <a href="${esc(ctx.href('/compare.html'))}">How this index differs from DoomBench →</a>
-     · <a href="${esc(ctx.href('/race.html'))}">Race board →</a></p>
+  <p class="fresh__key"><a href="${esc(ctx.href('/lab/'))}">Which AI labs have ${esc(brand.NAME)} pages?</a>
+     · <a href="${esc(ctx.href('/compare.html'))}">Which AI doom indexes can you compare?</a>
+     · <a href="${esc(ctx.href('/race.html'))}">Who is winning the AI race?</a></p>
 </article>`;
   return page({
     ctx,
@@ -832,12 +832,12 @@ export function renderCompanies(ctx) {
           '@type': 'ListItem',
           position: i + 1,
           url: ctx.url(labPath(p.id)),
-          name: p.name,
+          name: `What has ${brand.NAME} scored about ${p.name}?`,
         })),
       },
     }, breadcrumbs(ctx, [
-      { name: 'Compare', path: '/compare.html' },
-      { name: 'Companies', path },
+      { name: 'Which AI doom indexes can you compare?', path: '/compare.html' },
+      { name: `Which AI companies has ${brand.NAME} scored stories about?`, path },
     ]), {
       '@context': 'https://schema.org',
       '@type': 'FAQPage',
