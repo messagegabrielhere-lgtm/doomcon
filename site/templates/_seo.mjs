@@ -135,6 +135,8 @@ export function organization(ctx) {
       'How do you play Tally Counts',
       'SIREN Dispatch',
       'What public feeds does SIREN Dispatch show',
+      'SIREN World Monitor',
+      'What does the SIREN World Monitor show',
       'AI labs this index scored',
       'AI stories this index scored',
       'AI leaders on the record',
