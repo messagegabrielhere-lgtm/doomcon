@@ -122,6 +122,14 @@ export async function run({
   const ledger = await readLedger(ledgerPath);
   const { pick, emergency, why } = pickAlertPost(snap, ledger, { now });
 
+  // Weather / quake / disaster alerts are off-brand for @SIRENutf6. Collection,
+  // the dispatch page and the emergency banner keep running; X posting from
+  // this pipeline is off unless DISPATCH_X_POSTS=on is set deliberately.
+  if (pick && env.DISPATCH_X_POSTS !== 'on' && !isDry) {
+    say(`[post-alerts] not posting ${pick.alert.id} — hazard alerts are off-brand for X (set DISPATCH_X_POSTS=on to override)`);
+    return { outcome: 'skipped', why: 'hazard alerts off-brand for X', emergency };
+  }
+
   say(`[post-alerts] emergency=${emergency.label} triggers=${emergency.count}`
     + (emergency.primary ? ` primary=${emergency.primary.event}` : ''));
 
