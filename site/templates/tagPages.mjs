@@ -1290,11 +1290,21 @@ export function renderTag(ctx, id) {
 export function renderIndex(ctx) {
   const tags = indexableTags(ctx);
   const path = '/tags/';
-  const title = `AI news tags this index scores · ${brand.NAME}`;
+  // Head-term title: people search “AI news tags” / topic hubs.
+  const title = `Which AI news tags have ${brand.NAME} pages?`;
   const description = clip(
     `${tags.length} topic hubs with at least ${TAG_INDEX_MIN} scored stories on ${brand.NAME} (live window plus archive). Each page lists those stories.`,
     160,
   );
+  const faq = [
+    [`Which AI news tags have ${brand.NAME} pages?`,
+      `${tags.length} topics clear the substance gate of at least ${TAG_INDEX_MIN} matching headlines in the live window or archive. Each hub lists those stories — not a topic doom score.`],
+    [`Does ${brand.NAME} publish a topic doom score?`,
+      `No. ${brand.DISCLAIMER_SHORT} These pages count headlines that match a published needle.`],
+  ];
+  const faqHtml = faq.map(([q, a]) => `
+  <h3>${esc(q)}</h3>
+  <p>${esc(a)}</p>`).join('');
   const rows = tags.map((t) => `<li>
   <a href="${esc(ctx.href(tagPath(t.id)))}">${esc(t.name)}</a>
   <span class="tg__meta">${esc(t.description)} · <span class="num">${esc(String(t.count))}</span> stories${t.archived ? ` (${esc(String(t.live))} live)` : ''}</span>
@@ -1303,10 +1313,12 @@ export function renderIndex(ctx) {
   const main = `${STYLE}
 <article class="tg prose">
   <p class="tg__k"><a href="${esc(ctx.href('/news.html'))}">Newsroom</a> · Tags · <a href="${esc(ctx.href('/tags.html'))}">Tags hub</a></p>
-  <h1>AI news tags</h1>
+  <h1>Which AI news tags have ${esc(brand.NAME)} pages?</h1>
   <p class="tg__lede">A topic earns a page when at least ${TAG_INDEX_MIN} scored stories match a published needle in the live window or the durable archive. Thinner matches stay on the story page only.</p>
   ${tags.length ? `<ol class="tg__list">${rows}</ol>` : '<p>No tag cleared the gate in this build.</p>'}
-  <p class="fresh__key">Search-shaped directory: <a href="${esc(ctx.href('/tags.html'))}">AI tags this index covers</a>.</p>
+  <h2 id="faq">Questions people actually ask</h2>
+  ${faqHtml}
+  <p class="fresh__key">Search-shaped directory: <a href="${esc(ctx.href('/tags.html'))}">Which AI tags has ${esc(brand.NAME)} scored stories about?</a>.</p>
 </article>`;
 
   return page({
@@ -1321,6 +1333,7 @@ export function renderIndex(ctx) {
       name: title,
       url: ctx.url(path),
       description,
+      speakable: speakable(['h1', '.tg__lede']),
       mainEntity: {
         '@type': 'ItemList',
         numberOfItems: tags.length,
@@ -1334,7 +1347,15 @@ export function renderIndex(ctx) {
     }, breadcrumbs(ctx, [
       { name: 'Newsroom', path: '/news.html' },
       { name: 'Tags', path },
-    ])],
+    ]), {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faq.map(([q, a]) => ({
+        '@type': 'Question',
+        name: q,
+        acceptedAnswer: { '@type': 'Answer', text: a },
+      })),
+    }],
     main,
   });
 }

@@ -89,7 +89,10 @@ describe('tag pages', () => {
 
   it('renders the tag index and links from story pages', () => {
     const index = renderIndex(ctx);
-    assert.match(index, /AI news tags/);
+    assert.match(index, /Which AI news tags have SIREN pages\?/);
+    assert.match(index, /Questions people actually ask/);
+    assert.match(index, /"@type"\s*:\s*"FAQPage"/);
+    assert.match(index, /speakable/);
     assert.match(index, /\/tags\/agents\.html/);
     const tags = tagsForItem(ctx, ctx.news.items[0]);
     assert.ok(tags.some((t) => t.id === 'agents'));

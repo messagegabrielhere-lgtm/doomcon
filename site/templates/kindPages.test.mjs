@@ -61,7 +61,12 @@ describe('kind pages', () => {
     assert.match(html, /"@type"\s*:\s*"FAQPage"/);
     assert.match(html, /speakable/);
     assert.match(html, /\/tags\.html/);
-    assert.match(renderIndex(ctx), /\/kinds\.html/);
+    const index = renderIndex(ctx);
+    assert.match(index, /Which AI story kinds have SIREN pages\?/);
+    assert.match(index, /Questions people actually ask/);
+    assert.match(index, /"@type"\s*:\s*"FAQPage"/);
+    assert.match(index, /speakable/);
+    assert.match(index, /\/kinds\.html/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
   });
 
@@ -77,7 +82,7 @@ describe('kind pages', () => {
     assert.match(html, /not a judgement about quality or harm/);
     assert.doesNotMatch(html, /noindex/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
-    assert.match(renderIndex(ctx), /AI story kinds/);
+    assert.match(renderIndex(ctx), /Which AI story kinds have SIREN pages\?/);
   });
 
   it('links older archived stories of the same kind', () => {

@@ -255,11 +255,21 @@ export function renderKind(ctx, id) {
 export function renderIndex(ctx) {
   const kinds = indexableKinds(ctx);
   const path = '/kind/';
-  const title = `AI story kinds this index scores · ${brand.NAME}`;
+  // Head-term title: people search “AI story kinds” / press vs forum.
+  const title = `Which AI story kinds have ${brand.NAME} pages?`;
   const description = clip(
     `${kinds.length} kind hubs with at least ${KIND_INDEX_MIN} scored stories on ${brand.NAME} (live window plus archive).`,
     160,
   );
+  const faq = [
+    [`Which AI story kinds have ${brand.NAME} pages?`,
+      `${kinds.length} kinds clear the substance gate of at least ${KIND_INDEX_MIN} matching stories in the live window or archive. Each hub lists those stories — not a kind doom score.`],
+    [`Does ${brand.NAME} publish a kind doom score?`,
+      `No. ${brand.DISCLAIMER_SHORT} These pages count stories that carry a published collector label.`],
+  ];
+  const faqHtml = faq.map(([q, a]) => `
+  <h3>${esc(q)}</h3>
+  <p>${esc(a)}</p>`).join('');
   const rows = kinds.map((k) => `<li>
   <a href="${esc(ctx.href(kindPath(k.id)))}">${esc(k.name)}</a>
   <span class="kd__meta">${esc(k.description)} · <span class="num">${esc(String(k.count))}</span> scored${k.archived ? ` (${esc(String(k.live))} live)` : ''}</span>
@@ -268,10 +278,12 @@ export function renderIndex(ctx) {
   const main = `${STYLE}
 <article class="kd prose">
   <p class="kd__k"><a href="${esc(ctx.href('/news.html'))}">Newsroom</a> · Kinds · <a href="${esc(ctx.href('/kinds.html'))}">Kinds hub</a></p>
-  <h1>AI story kinds</h1>
+  <h1>Which AI story kinds have ${esc(brand.NAME)} pages?</h1>
   <p class="kd__lede">A kind earns a page when at least ${KIND_INDEX_MIN} scored stories with that collector label appear in the live window or the durable archive. Thinner kinds stay on the story page only.</p>
   ${kinds.length ? `<ol class="kd__list">${rows}</ol>` : '<p>No kind cleared the gate in this build.</p>'}
-  <p class="fresh__key">Search-shaped directory: <a href="${esc(ctx.href('/kinds.html'))}">AI story kinds this index covers</a>.</p>
+  <h2 id="faq">Questions people actually ask</h2>
+  ${faqHtml}
+  <p class="fresh__key">Search-shaped directory: <a href="${esc(ctx.href('/kinds.html'))}">Which AI story kinds has ${esc(brand.NAME)} scored?</a>.</p>
 </article>`;
 
   return page({
@@ -286,6 +298,7 @@ export function renderIndex(ctx) {
       name: title,
       url: ctx.url(path),
       description,
+      speakable: speakable(['h1', '.kd__lede']),
       mainEntity: {
         '@type': 'ItemList',
         numberOfItems: kinds.length,
@@ -299,7 +312,15 @@ export function renderIndex(ctx) {
     }, breadcrumbs(ctx, [
       { name: 'Newsroom', path: '/news.html' },
       { name: 'Kinds', path },
-    ])],
+    ]), {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faq.map(([q, a]) => ({
+        '@type': 'Question',
+        name: q,
+        acceptedAnswer: { '@type': 'Answer', text: a },
+      })),
+    }],
     main,
   });
 }
