@@ -48,11 +48,17 @@ export const OUR_SURFACES = Object.freeze([
   '/vs/takeofftracker.html',
   '/guides.html',
   '/guides.md',
+  '/guide.html',
+  '/methodology.html',
+  '/ai-doomsday-clock.html',
   '/tags.html',
   '/companies.html',
   '/models.html',
   '/people.html',
   '/countries.html',
+  '/model/maia.html',
+  '/model/codex.html',
+  '/lab/epoch-ai.html',
 ]);
 
 /** Count <loc> entries in a sitemap or sitemapindex body. */
@@ -550,6 +556,10 @@ function selftest() {
 
   const md = formatMarkdown({ ...report, measured_at: '2026-10-12T00:00:00.000Z', gaps });
   if (!md.includes('siren.watch') || !md.includes('Gaps')) throw new Error('markdown');
+
+  for (const need of ['/methodology.html', '/guide.html', '/ai-doomsday-clock.html', '/model/maia.html', '/model/codex.html', '/lab/epoch-ai.html']) {
+    if (!OUR_SURFACES.includes(need)) throw new Error(`OUR_SURFACES missing ${need}`);
+  }
 
   console.log('seo-daily selftest: ok');
 }

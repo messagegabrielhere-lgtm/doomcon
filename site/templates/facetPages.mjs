@@ -443,6 +443,12 @@ function labNeedles(player) {
     iren: ['iren'],
     openrouter: ['openrouter'],
     'reflection-ai': ['reflection ai'],
+    decart: ['decart'],
+    'sakana-ai': ['sakana ai', 'sakana'],
+    'isomorphic-labs': ['isomorphic labs'],
+    'winverse-ai': ['winverse ai', 'winverse'],
+    cisco: ['cisco'],
+    'epoch-ai': ['epoch ai'],
   };
   return [...new Set([...(extras[player.id] || []), ...names])];
 }

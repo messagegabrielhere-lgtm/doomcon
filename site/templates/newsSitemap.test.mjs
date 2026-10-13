@@ -162,6 +162,25 @@ test('render keywords include OpenAI Codex model surfaces', () => {
   assert.match(xml, /<news:keywords>[^<]*(?:OpenAI Codex|Codex)/);
 });
 
+test('render keywords include Epoch AI lab surface', () => {
+  const xml = render({
+    news: {
+      items: [{
+        id: 'a7',
+        title: 'Claude Opus 5.5 Tops Epoch AI Leaderboard',
+        summary: 'Independent evals from Epoch AI and peers.',
+        published_at: new Date().toISOString(),
+        source: 'hn',
+        pillar: 'capability',
+        kind: 'press',
+        entities: [],
+      }],
+    },
+    url: (p) => `https://example.test${p}`,
+  });
+  assert.match(xml, /<news:keywords>[^<]*Epoch AI/);
+});
+
 test('keywordsFor keeps lab surfaces ahead of topic-tag flood under the 12-cap', () => {
   const kw = keywordsFor({
     title: 'Decart agents ship computer use, prompt injection defenses, and multimodal reasoning',

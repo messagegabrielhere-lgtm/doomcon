@@ -582,6 +582,38 @@ describe('lab facets', () => {
     assert.doesNotMatch(renderLab(withArch, labsFromEntities(withArch).find((p) => p.id === 'decart')), /doom score/i);
   });
 
+  it('indexes Epoch AI entity lab from archive (two-word form only)', () => {
+    const withArch = {
+      ...ctx,
+      news: { ...ctx.news, items: [...ctx.news.items] },
+      itemArchive: [
+        {
+          id: 'ep1', title: 'Claude Opus 5.5 Tops Epoch AI Leaderboard', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/ep1', published_at: '2026-09-01T01:00:00Z', score: 40,
+        },
+        {
+          id: 'ep2', title: 'Epoch AI shows LLMs still have a long way to go', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/ep2', published_at: '2026-09-02T01:00:00Z', score: 41,
+        },
+        {
+          id: 'ep3', title: 'Epoch AI and Anthropic independently found the same thing', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/ep3', published_at: '2026-09-03T01:00:00Z', score: 42,
+        },
+        {
+          id: 'epbad', title: 'An epoch of history in AI policy', pillar: 'governance', source: 'hn',
+          url: 'https://example.test/epbad', published_at: '2026-09-04T01:00:00Z', score: 30,
+        },
+      ],
+    };
+    const epoch = labsFromEntities(withArch).find((p) => p.id === 'epoch-ai');
+    assert.ok(epoch, 'Epoch AI clears ENTITY_LAB_MIN');
+    const html = renderLab(withArch, epoch);
+    assert.match(html, /Epoch AI: AI stories this index scored/);
+    assert.doesNotMatch(html, /An epoch of history/);
+    assert.doesNotMatch(html, /doom score/i);
+    assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/lab/epoch-ai.html'));
+  });
+
   it('indexes Supermicro, IREN, OpenRouter, and Reflection AI entity labs from archive', () => {
     const withArch = {
       ...ctx,
