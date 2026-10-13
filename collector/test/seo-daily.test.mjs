@@ -31,6 +31,7 @@ describe('seo-daily parsers', () => {
     assert.ok(OUR_SURFACES.includes('/history.html'));
     assert.ok(OUR_SURFACES.includes('/lab/artificial-analysis.html'));
     assert.ok(OUR_SURFACES.includes('/about.html'));
+    assert.ok(OUR_SURFACES.includes('/privacy.html'));
     assert.ok(OUR_SURFACES.includes('/jobs.html'));
     assert.ok(OUR_SURFACES.includes('/medicine.html'));
   });

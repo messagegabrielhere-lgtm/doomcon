@@ -39,6 +39,7 @@ export function organization(ctx) {
       'Is AI taking jobs',
       'Is AI curing anything',
       'what is SIREN',
+      'SIREN privacy',
       'AI doom index alternatives',
       'DoomBench alternative',
       'Skynet Countdown alternative',

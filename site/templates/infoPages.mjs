@@ -120,15 +120,31 @@ export function about(ctx) {
 export const PRIVACY_UPDATED = '12 October 2026';
 
 export function privacy(ctx) {
+  const path = '/privacy.html';
+  // Head-term title: people search “SIREN privacy” / what the site knows about you.
+  const title = `What does ${brand.NAME} know about you? Privacy policy`;
   const hasGc = !!(MONETIZE.analytics && MONETIZE.analytics.goatcounter);
   const hasGa = !!(MONETIZE.analytics && MONETIZE.analytics.gtag);
   const gaId = hasGa ? esc(MONETIZE.analytics.gtag) : '';
   const x = brand.X_URL ? `<a href="${esc(brand.X_URL)}" rel="noopener">${esc(brand.X_HANDLE)}</a> on X` : 'the project account';
   const repo = `<a href="${esc(brand.REPO_URL)}/issues" rel="noopener">an issue on the repository</a>`;
+  const faq = [
+    [`What does ${brand.NAME} know about you?`,
+      `${brand.NAME} keeps no visitor accounts. A visit may leave host logs (GitHub Pages), optional analytics if enabled, and local preferences in your browser. This page lists every way a visit can leave a trace.`],
+    [`Does ${brand.NAME} sell personal data?`,
+      `${brand.LEGAL_NO_SELL} The operator does not sell visitor lists.`],
+    ['Are there first-party cookies?',
+      hasGa
+        ? 'Google Analytics may set cookies when analytics are allowed. This site’s own code does not call document.cookie. Preferences such as theme and game scores stay in local storage on your device.'
+        : 'No first-party cookies from this site’s own code. Preferences such as theme and game scores stay in local storage on your device.'],
+  ];
+  const faqHtml = faq.map(([q, a]) => `
+  <h3>${esc(q)}</h3>
+  <p>${esc(a)}</p>`).join('');
   const main = `${CSS}
 <section class="inf">
   <p class="eyebrow">Privacy</p>
-  <div class="inf__top"><h1 class="bp__h1">What this site knows about you</h1></div>
+  <div class="inf__top"><h1 class="bp__h1">What does this site know about you?</h1></div>
   <p class="lede">Last updated ${esc(PRIVACY_UPDATED)}. Very little is kept by ${esc(brand.NAME)} itself.
     This page lists every way a visit can leave a trace, who receives it, and what rights you have.</p>
 
@@ -223,17 +239,25 @@ ${mzOn.newsletter() ? `<li><b>Email newsletter.</b> If you subscribe, your email
   <h2>The embed and the badge</h2>
   <p>The iframe embed and the README badge are static files. They set no cookies and load nothing from third parties on the pages that use them.</p>
 
-  <h2>Questions</h2>
+  <h2 id="faq">Questions people actually ask</h2>
+  ${faqHtml}
+  <h2>Contact</h2>
   <p>See the <a href="${esc(ctx.href('/about.html'))}">about page</a> for how to get in touch, or the
     <a href="${esc(ctx.href('/disclosures.html'))}">disclosures hub</a> for the short map of every legal notice on the site.</p>
 </section>`;
-  const desc = hasGa
+  const description = hasGa
     ? `${brand.NAME} uses Google Analytics (${gaId}) and${hasGc ? ' cookieless GoatCounter' : ''} to count visits. What a visit touches: GitHub Pages, Google,${hasGc ? ' GoatCounter,' : ''} live-data APIs you open, and the sites you choose to click through to. ${brand.LEGAL_NO_SELL}`
     : `${brand.NAME} keeps no visitor accounts; cookieless counts and host logs are disclosed here. What a visit touches: GitHub Pages, analytics if enabled, and the sites you choose to click through to.`;
   return page({
-    ctx, path: '/privacy.html',
-    title: `Privacy · ${brand.NAME}`,
-    description: desc,
+    ctx,
+    path,
+    title,
+    description,
+    jsonld: explainerJsonLd(ctx, path, title, description, faq.map(([q, a]) => ({
+      '@type': 'Question',
+      name: q,
+      acceptedAnswer: { '@type': 'Answer', text: a },
+    })), 'Privacy'),
     main,
   });
 }
