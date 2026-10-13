@@ -95,6 +95,7 @@ export const OUR_SURFACES = Object.freeze([
   '/moltbook.html',
   '/games.html',
   '/evolution.html',
+  '/radio.html',
   '/tags/red-teaming.html',
   '/model/maia.html',
   '/model/codex.html',
@@ -608,7 +609,7 @@ function selftest() {
   const md = formatMarkdown({ ...report, measured_at: '2026-10-12T00:00:00.000Z', gaps });
   if (!md.includes('siren.watch') || !md.includes('Gaps')) throw new Error('markdown');
 
-  for (const need of ['/methodology.html', '/history.html', '/about.html', '/privacy.html', '/press.html', '/terms.html', '/disclosures.html', '/brand.html', '/guide.html', '/ai-doomsday-clock.html', '/jobs.html', '/medicine.html', '/model/maia.html', '/model/codex.html', '/model/nano-banana.html', '/lab/epoch-ai.html', '/lab/artificial-analysis.html', '/lab/salesforce.html', '/lab/world-labs.html', '/lab/firmus.html', '/lab/spacex.html', '/lab/hcltech.html', '/lab/suno.html', '/tags/openai-codex.html', '/tags/edge-ai.html', '/tags/tsmc.html', '/tags/red-teaming.html', '/world.html', '/map.html', '/watts.html', '/charts.html', '/power.html', '/digest.html', '/exploits.html', '/flock.html', '/bliss.html', '/balance.html', '/desk.html', '/breakthroughs.html', '/instruments.html', '/waffle.html', '/threats.html', '/si-ready.html', '/nations.html', '/ai-proof-job.html', '/status.html', '/bug-out-land.html', '/prepper-checklist.html', '/bunker-kit.html', '/si-watch.html', '/bets.html', '/self-aware.html', '/day-after.html', '/contain.html', '/moltbook.html', '/games.html', '/evolution.html']) {
+  for (const need of ['/methodology.html', '/history.html', '/about.html', '/privacy.html', '/press.html', '/terms.html', '/disclosures.html', '/brand.html', '/guide.html', '/ai-doomsday-clock.html', '/jobs.html', '/medicine.html', '/model/maia.html', '/model/codex.html', '/model/nano-banana.html', '/lab/epoch-ai.html', '/lab/artificial-analysis.html', '/lab/salesforce.html', '/lab/world-labs.html', '/lab/firmus.html', '/lab/spacex.html', '/lab/hcltech.html', '/lab/suno.html', '/tags/openai-codex.html', '/tags/edge-ai.html', '/tags/tsmc.html', '/tags/red-teaming.html', '/world.html', '/map.html', '/watts.html', '/charts.html', '/power.html', '/digest.html', '/exploits.html', '/flock.html', '/bliss.html', '/balance.html', '/desk.html', '/breakthroughs.html', '/instruments.html', '/waffle.html', '/threats.html', '/si-ready.html', '/nations.html', '/ai-proof-job.html', '/status.html', '/bug-out-land.html', '/prepper-checklist.html', '/bunker-kit.html', '/si-watch.html', '/bets.html', '/self-aware.html', '/day-after.html', '/contain.html', '/moltbook.html', '/games.html', '/evolution.html', '/radio.html']) {
     if (!OUR_SURFACES.includes(need)) throw new Error(`OUR_SURFACES missing ${need}`);
   }
 

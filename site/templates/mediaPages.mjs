@@ -6,6 +6,7 @@
 
 import { esc } from './_html.mjs';
 import { page } from './layout.mjs';
+import { breadcrumbs, speakable } from './_seo.mjs';
 import * as brand from '../brand.mjs';
 
 export const VIDEOS = [
@@ -75,6 +76,11 @@ const CSS = `<style>
 .md-vid a{color:var(--accent,#4ADE80)}
 .md-voice{display:flex;gap:16px;align-items:center;flex-wrap:wrap;padding:16px;border:1px solid var(--rule);border-radius:6px;background:var(--bg-raised,#0E131D)}
 .md-voice blockquote{margin:0;flex:1 1 280px;color:var(--ink);font-size:15px;line-height:1.5}
+.md-faq{margin:34px 0 12px;max-width:62ch}
+.md-faq h2{font:600 var(--t-lg,1.125rem)/1.2 var(--sans);margin:0 0 var(--s-3,.75rem);color:var(--ink)}
+.md-faq h3{font:600 var(--t-base,1rem)/1.3 var(--sans);margin:var(--s-4,1rem) 0 var(--s-2,.5rem);color:var(--ink)}
+.md-faq p{font:400 var(--t-base,1rem)/1.55 var(--sans);color:var(--ink-dim);margin:0 0 var(--s-2,.5rem)}
+.md-faq-key{margin-top:var(--s-4,1rem)!important}
 </style>`;
 
 const xShare = (ctx, text, path) => `https://x.com/intent/post?text=${encodeURIComponent(text)}&url=${encodeURIComponent(ctx.url(path))}&via=SIRENutf6`;
@@ -114,6 +120,9 @@ ${VIDEOS.map((v) => videoLd(ctx, v)).join('')}`;
     description: 'Short SIREN explainer videos: how loud AI is right now, Tally the duty canary, preparing for superintelligence, AI-proofing your job and the bunker kit.', main });
 }
 
+const RADIO_PATH = '/radio.html';
+const radioQTitle = 'What free music does SIREN Radio play?';
+
 export function radio(ctx, voice) {
   const L = ctx.state && Number.isFinite(ctx.state.level) ? ctx.state.level : 4;
   const st = STATIONS.map(([id, name, tag, c], i) => `<button type="button" data-siren-station="${id}" aria-pressed="false" style="--c:${c}"><b>${String(i + 1).padStart(2, '0')} · ${esc(name)}</b><span>${esc(tag)}</span><i>TAP TO TUNE IN</i></button>`).join('');
@@ -127,9 +136,24 @@ export function radio(ctx, voice) {
   b.addEventListener('click',function(){if(src){if(!a){a=new Audio(src)}if(a.paused){a.play();b.textContent='⏸ PAUSE'}else{a.pause();b.textContent='🔊 HEAR TALLY'}a.onended=function(){b.textContent='🔊 HEAR TALLY'};return}
   if(!('speechSynthesis' in window)){b.textContent='NO VOICE IN THIS BROWSER';return}if(speechSynthesis.speaking){speechSynthesis.cancel();b.textContent='🔊 HEAR TALLY';return}
   var u=new SpeechSynthesisUtterance(document.querySelector('[data-voice-text]').textContent);u.rate=1.05;u.pitch=1.5;u.onend=function(){b.textContent='🔊 HEAR TALLY'};speechSynthesis.speak(u);b.textContent='⏹ STOP'})})();</script>`;
+  // FAQ answers restate lede / body copy only.
+  // Refuse: Radio-as-index-input, doom-probability, forecast claims.
+  const faq = [
+    [radioQTitle,
+      'Six stations of original music, composed live in your browser while you read. No audio files, no ads, no licence fees. Every page plays its own tune on whichever station you pick, and the music follows you from page to page until you switch it off.'],
+    ['Are there audio files, ads or licence fees?',
+      'No audio files, no ads, no licence fees.'],
+    ['How do I change stations?',
+      'The 📻 button in the bar at the bottom of every page flips to the next station. On a phone, check the ring/silent switch if you hear nothing.'],
+    ['Where can I hear these stations in videos?',
+      'Every SIREN video is scored by one of these stations.'],
+  ];
+  const faqHtml = faq.map(([qAsk, a]) => `
+  <h3>${esc(qAsk)}</h3>
+  <p>${esc(a)}</p>`).join('');
   const main = `${CSS}
 <section class="md">
-  <p class="eyebrow">ON AIR 24/7</p><h1 class="bp__h1">SIREN Radio</h1>
+  <p class="eyebrow">ON AIR 24/7</p><h1 class="bp__h1">${esc(radioQTitle)}</h1>
   <p class="lede">Six stations of original music, composed live in your browser while you read. No audio files, no ads, no licence fees. Every page plays its own tune on whichever station you pick, and the music follows you from page to page until you switch it off.</p>
   <div class="md-now"><span class="md-eq" id="md-eq" aria-hidden="true"><s></s><s></s><s></s><s></s><s></s><s></s></span><span>NOW PLAYING: <b data-siren-now>SIREN FM</b></span>
     <button type="button" class="md-btn" data-siren-radio data-level="${L}" aria-pressed="false">♪ OFF</button>
@@ -139,9 +163,45 @@ export function radio(ctx, voice) {
   ${voiceBox}
   <h2>Hear it in the videos</h2>
   <p>Every <a href="${esc(ctx.href('/videos.html'))}">SIREN video</a> is scored by one of these stations.</p>
-  <p><a class="md-btn ghost" href="${esc(xShare(ctx, 'SIREN Radio: six stations of music generated live in your browser while you watch AI.', '/radio.html'))}" target="_blank" rel="noopener">𝕏 POST SIREN RADIO</a></p>
+  <p><a class="md-btn ghost" href="${esc(xShare(ctx, 'SIREN Radio: six stations of music generated live in your browser while you watch AI.', RADIO_PATH))}" target="_blank" rel="noopener">𝕏 POST SIREN RADIO</a></p>
+  <section class="md-faq" aria-labelledby="faq">
+    <h2 id="faq">Questions people actually ask</h2>
+    ${faqHtml}
+    <p class="md-faq-key">Search-shaped sibling:
+      <a href="${esc(ctx.href('/games.html'))}">What free AI games can you play on SIREN?</a>.</p>
+  </section>
 </section>
 <script>setInterval(function(){var e=document.getElementById('md-eq');if(e&&window.SirenRadio)e.classList.toggle('on',!!SirenRadio.playing)},500)</script>`;
-  return page({ ctx, path: '/radio.html', title: `SIREN Radio: six stations of generated music · ${brand.NAME}`,
-    description: 'SIREN Radio plays six stations of original music generated live in your browser: dark synth, synthwave, bunker ambient, chiptune, industrial and lo-fi.', main });
+  return page({
+    ctx,
+    path: RADIO_PATH,
+    title: `${radioQTitle} · ${brand.NAME}`,
+    ogTitle: `${brand.NAME}: ${radioQTitle}`,
+    description: `${radioQTitle} Six stations of original music generated live in your browser: dark synth, synthwave, bunker ambient, chiptune, industrial and lo-fi. No ads.`,
+    jsonld: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        name: radioQTitle,
+        description: 'Six stations of original music composed live in your browser. No audio files, no ads, no licence fees.',
+        url: ctx.url(RADIO_PATH),
+        isPartOf: { '@type': 'WebSite', name: brand.NAME, url: ctx.url('/') },
+        speakable: speakable(['h1.bp__h1', 'p.lede']),
+      },
+      breadcrumbs(ctx, [
+        { name: 'Home', path: '/' },
+        { name: 'SIREN Radio', path: RADIO_PATH },
+      ]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map(([qAsk, a]) => ({
+          '@type': 'Question',
+          name: qAsk,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
+      },
+    ],
+    main,
+  });
 }
