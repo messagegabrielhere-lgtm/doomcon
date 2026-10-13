@@ -30,7 +30,7 @@ test('history.html ships question-shaped title, matching H1, speakable, breadcru
   assert.match(html, /\/methodology\.html/);
   assert.match(html, /\/guide\.html/);
   assert.match(html, /How the SIREN AI activity index is computed · methodology/);
-  assert.match(html, /SIREN, DEFCON, the Doomsday Clock and p\(doom\)/);
+  assert.match(html, /How does SIREN compare to DEFCON, the Doomsday Clock and p\(doom\)\?/);
   assert.doesNotMatch(html, /<h1>A sourced history of the AIpocalypse/);
   assert.doesNotMatch(html, /probability of doom is \d/i);
   assert.doesNotMatch(html, /SIREN.*p\(doom\) of \d/i);

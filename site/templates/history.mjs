@@ -908,7 +908,7 @@ ${pillarLegend()}
   ${faqBlock()}
   <p class="lore-faq-key">Search-shaped sibling:
     <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>
-    · <a href="${esc(ctx.href('/guide.html'))}">SIREN, DEFCON, the Doomsday Clock and p(doom)</a>.</p>
+    · <a href="${esc(ctx.href('/guide.html'))}">How does ${esc(brand.NAME)} compare to DEFCON, the Doomsday Clock and p(doom)?</a>.</p>
 </article>
 `;
 
