@@ -398,6 +398,7 @@ context.
 | 165 | `/day-after.html` question-shaped title + WebPage speakable + visible FAQ matching FAQPage schema (AI backlash game; Game schema kept; refuse forecast / harm-method / doom-probability claims); IndexNow + seo-daily; `knowsAbout` “What happens the day after an AI catastrophe” | Google + Bing | **Done** (2026-10-13) |
 | 166 | `/contain.html` question-shaped title + WebPage speakable + visible FAQ matching FAQPage schema (Containment arcade; VideoGame schema kept; refuse real-breakout-forecast / harm-method / doom-probability claims); IndexNow + seo-daily; `knowsAbout` “Can you stop an AI breakout” | Google + Bing | **Done** (2026-10-13) |
 | 167 | `/moltbook.html` question-shaped title + Dataset speakable + visible FAQ matching FAQPage schema (Agent Watch on Moltbook; refuse Agent-Watch-as-index-input / agent-takeover-as-SIREN-claim / doom-probability claims); IndexNow + seo-daily; `knowsAbout` “What are AI agents saying on Moltbook” | Google + Bing | **Done** (2026-10-13) |
+| 168 | `/games.html` question-shaped title + CollectionPage speakable + visible FAQ matching FAQPage schema (SIREN Arcade hub; refuse games-as-doom-forecast / real-takeover-method / doom-probability claims); IndexNow + seo-daily; `knowsAbout` “What free AI games can you play on SIREN” | Google + Bing | **Done** (2026-10-13) |
 
 ### 3.3 Refusals (search edition)
 
