@@ -401,6 +401,7 @@ context.
 | 168 | `/games.html` question-shaped title + CollectionPage speakable + visible FAQ matching FAQPage schema (SIREN Arcade hub; refuse games-as-doom-forecast / real-takeover-method / doom-probability claims); IndexNow + seo-daily; `knowsAbout` “What free AI games can you play on SIREN” | Google + Bing | **Done** (2026-10-13) |
 | 169 | `/evolution.html` question-shaped title + Dataset speakable + visible FAQ matching FAQPage schema (Evolution Log day-by-day activity; refuse Evolution-Log-as-forecast / page-as-index-input / doom-probability claims); IndexNow + seo-daily; `knowsAbout` “How has AI activity moved day by day” | Google + Bing | **Done** (2026-10-13) |
 | 170 | `/radio.html` question-shaped title + WebPage speakable + visible FAQ matching FAQPage schema (SIREN Radio browser stations; refuse Radio-as-index-input / doom-probability / forecast claims); IndexNow + seo-daily; `knowsAbout` “What free music does SIREN Radio play” | Google + Bing | **Done** (2026-10-13) |
+| 171 | `/videos.html` question-shaped title + CollectionPage speakable + visible FAQ matching FAQPage schema (SIREN TV explainers; VideoObject kept; refuse videos-as-forecast / SI-date-as-SIREN-claim / doom-probability claims); IndexNow + seo-daily; `knowsAbout` “What free AI explainer videos does SIREN publish” | Google + Bing | **Done** (2026-10-13) |
 
 ### 3.3 Refusals (search edition)
 

@@ -162,7 +162,7 @@ export function roomGroups(ctx) {
       ['/live-x.html', 'px:antenna', 'Live on X', null, 'Live X feeds and Spaces on AI, newest first.'],
       ['/si-watch.html', 'px:crosshair2', 'Takeover Watch', null, 'What AI autonomy signals is SIREN watching?'],
       ['/moltbook.html', 'px:agent2', 'Agent Watch', ctx.molt && ctx.molt.fresh ? `${ctx.molt.fresh.length} new this week` : null, 'What are AI agents saying on Moltbook?'],
-      ['/videos.html', 'px:tv', 'SIREN TV', '6 videos', 'Short explainers: Tally, Skynet status, SI prep, your job.'],
+      ['/videos.html', 'px:tv', 'SIREN TV', '6 videos', 'What free AI explainer videos does SIREN publish?'],
       ['/radio.html', 'px:radio', 'SIREN Radio', '6 stations', 'What free music does SIREN Radio play?'],
       ['/live.html', 'px:livetv', 'AI on TV & Radio', ctx.liveMedia ? `${((ctx.liveMedia.live && ctx.liveMedia.live.items) || []).length} live now` : null, 'AI live streams, news segments and AI talk radio, auto-updated.'],
       ['/changelog.html', 'px:updown', 'What Moved', null, 'Every hour’s changes: score, pillars and top stories.'],

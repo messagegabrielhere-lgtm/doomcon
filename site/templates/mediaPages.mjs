@@ -102,22 +102,76 @@ function videoLd(ctx, v) {
     contentUrl: ctx.url(`/media/${v.file}.mp4`), embedUrl: ctx.url(v.page) }).replace(/</g, '\\u003c')}</script>`;
 }
 
+const VIDEOS_PATH = '/videos.html';
+const videosQTitle = 'What free AI explainer videos does SIREN publish?';
+
 export function videos(ctx) {
   const cards = VIDEOS.map((v) => `<article class="md-vid" id="v-${esc(v.id)}">
   <video controls preload="none" playsinline width="1280" height="720" poster="${media(ctx, `${v.file}-poster.jpg`)}"><source src="${media(ctx, `${v.file}.webm`)}" type="video/webm"><source src="${media(ctx, `${v.file}.mp4`)}" type="video/mp4"></video>
   <div><h3>${esc(v.title)}</h3><p>${esc(v.blurb)}</p><small>${v.secs} SEC · 📻 ${esc(v.station)}</small>
-  <p><a href="${esc(ctx.href(v.page))}">Open the page →</a> · <a href="${esc(xShare(ctx, v.title, '/videos.html'))}" target="_blank" rel="noopener">𝕏 Post</a> · <a href="${media(ctx, `${v.file}.mp4`)}" download>Download MP4</a></p></div>
+  <p><a href="${esc(ctx.href(v.page))}">Open the page →</a> · <a href="${esc(xShare(ctx, v.title, VIDEOS_PATH))}" target="_blank" rel="noopener">𝕏 Post</a> · <a href="${media(ctx, `${v.file}.mp4`)}" download>Download MP4</a></p></div>
 </article>`).join('');
+  // FAQ answers restate lede / body copy only.
+  // Refuse: videos-as-forecast, doom-probability, SI-date-as-SIREN-claim.
+  const faq = [
+    [videosQTitle,
+      'Short explainers about AI, the index and how to get ready, each scored by a different SIREN Radio station. Free to share with a link back. Captions are on screen, so they work on mute.'],
+    ['Do the videos work on mute?',
+      'Captions are on screen, so they work on mute.'],
+    ['Can I share them?',
+      'Free to share with a link back.'],
+    ['Where is the soundtrack music?',
+      'Want the music on its own? Tune in to SIREN Radio.'],
+  ];
+  const faqHtml = faq.map(([qAsk, a]) => `
+  <h3>${esc(qAsk)}</h3>
+  <p>${esc(a)}</p>`).join('');
   const main = `${CSS}
 <section class="md">
-  <p class="eyebrow">SIREN TV</p><h1 class="bp__h1">Videos</h1>
+  <p class="eyebrow">SIREN TV</p><h1 class="bp__h1">${esc(videosQTitle)}</h1>
   <p class="lede">Short explainers about AI, the index and how to get ready, each scored by a different SIREN Radio station. Free to share with a link back. Captions are on screen, so they work on mute.</p>
   <div class="md-vids">${cards}</div>
   <p>Want the music on its own? <a href="${esc(ctx.href('/radio.html'))}">Tune in to SIREN Radio</a>. Clips of the AI bosses themselves live in <a href="${esc(ctx.href('/elon.html'))}">Real Clips</a>.</p>
+  <section class="md-faq" aria-labelledby="faq">
+    <h2 id="faq">Questions people actually ask</h2>
+    ${faqHtml}
+    <p class="md-faq-key">Search-shaped sibling:
+      <a href="${esc(ctx.href('/radio.html'))}">What free music does SIREN Radio play?</a>.</p>
+  </section>
 </section>
 ${VIDEOS.map((v) => videoLd(ctx, v)).join('')}`;
-  return page({ ctx, path: '/videos.html', title: `Videos: AI explained in 30 seconds · ${brand.NAME}`,
-    description: 'Short SIREN explainer videos: how loud AI is right now, Tally the duty canary, preparing for superintelligence, AI-proofing your job and the bunker kit.', main });
+  return page({
+    ctx,
+    path: VIDEOS_PATH,
+    title: `${videosQTitle} · ${brand.NAME}`,
+    ogTitle: `${brand.NAME}: ${videosQTitle}`,
+    description: `${videosQTitle} Short explainers: how loud AI is right now, Tally the duty canary, preparing for superintelligence, AI-proofing your job and the bunker kit.`,
+    jsonld: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'CollectionPage',
+        name: videosQTitle,
+        description: 'Short SIREN explainer videos about AI, the index and how to get ready, each scored by a SIREN Radio station. Free to share with a link back.',
+        url: ctx.url(VIDEOS_PATH),
+        isPartOf: { '@type': 'WebSite', name: brand.NAME, url: ctx.url('/') },
+        speakable: speakable(['h1.bp__h1', 'p.lede']),
+      },
+      breadcrumbs(ctx, [
+        { name: 'Home', path: '/' },
+        { name: 'Videos', path: VIDEOS_PATH },
+      ]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map(([qAsk, a]) => ({
+          '@type': 'Question',
+          name: qAsk,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
+      },
+    ],
+    main,
+  });
 }
 
 const RADIO_PATH = '/radio.html';
@@ -168,7 +222,8 @@ export function radio(ctx, voice) {
     <h2 id="faq">Questions people actually ask</h2>
     ${faqHtml}
     <p class="md-faq-key">Search-shaped sibling:
-      <a href="${esc(ctx.href('/games.html'))}">What free AI games can you play on SIREN?</a>.</p>
+      <a href="${esc(ctx.href('/videos.html'))}">What free AI explainer videos does SIREN publish?</a>
+      · <a href="${esc(ctx.href('/games.html'))}">What free AI games can you play on SIREN?</a>.</p>
   </section>
 </section>
 <script>setInterval(function(){var e=document.getElementById('md-eq');if(e&&window.SirenRadio)e.classList.toggle('on',!!SirenRadio.playing)},500)</script>`;
