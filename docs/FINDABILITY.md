@@ -338,6 +338,7 @@ context.
 | 105 | `/compare.html` `/alternatives.html` `/vs.html` question-shaped titles + visible FAQ matching schema (same pairs as FAQPage) | Google | **Done** (2026-10-13) |
 | 106 | `/vs/*` rival pages question-shaped titles (“which should you use?”) + visible FAQ matching schema | Google | **Done** (2026-10-13) |
 | 107 | `/jobs.html` `/medicine.html` question-shaped titles (home-card head terms) + WebPage speakable + BreadcrumbList + visible FAQ; `knowsAbout` jobs/medicine head terms | Google | **Done** (2026-10-13) |
+| 108 | `/about.html` question-shaped title (“What is SIREN?”) + WebPage speakable + BreadcrumbList + visible FAQ; IndexNow + seo-daily; `knowsAbout` “what is SIREN” | Google + Bing | **Done** (2026-10-13) |
 
 ### 3.3 Refusals (search edition)
 

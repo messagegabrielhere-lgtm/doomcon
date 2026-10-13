@@ -69,6 +69,8 @@ describe('IndexNow', () => {
     assert.ok(has('https://siren.watch/model/codex.html'));
     assert.ok(has('https://siren.watch/lab/epoch-ai.html'));
     assert.ok(has('https://siren.watch/lab/artificial-analysis.html'));
+    assert.ok(has('https://siren.watch/about.html'));
+    assert.ok(has('https://siren.watch/medicine.html'));
     assert.ok(has('https://siren.watch/methodology.html'));
     assert.ok(has('https://siren.watch/tags/generative-ai.html'));
     assert.ok(has('https://siren.watch/tags/reinforcement-learning.html'));
@@ -98,6 +100,7 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('AI explainers'));
     assert.ok(org.knowsAbout.includes('Is AI taking jobs'));
     assert.ok(org.knowsAbout.includes('Is AI curing anything'));
+    assert.ok(org.knowsAbout.includes('what is SIREN'));
     assert.ok(org.knowsAbout.includes('DoomBench alternative'));
     assert.ok(org.knowsAbout.includes('Takeoff Tracker alternative'));
     assert.ok(org.knowsAbout.includes('Pentagon Pizza Index alternative'));

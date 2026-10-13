@@ -50,11 +50,26 @@ function explainerJsonLd(ctx, path, title, description, faqEntities, crumbName) 
 }
 
 export function about(ctx) {
+  const path = '/about.html';
+  // Head-term title: people search “what is SIREN” / who runs the AI activity index.
+  const title = `What is ${brand.NAME}? An independent AI activity index · who runs it`;
+  const description = `${brand.NAME} is an independent, automated index of AI activity run by one person. How it works, how it is paid for, and how to get in touch.`;
+  const faq = [
+    [`What is ${brand.NAME}?`,
+      `${brand.NAME} is a small, automated publication. A collector reads public sources every hour, a published formula turns them into a score, and a static site is rebuilt from the result. It measures AI activity tempo — not danger or a probability of harm.`],
+    [`Who runs ${brand.NAME}?`,
+      'One person, independently. It is not affiliated with any AI lab, government body, or the organisations whose scales it borrows its grammar from. It is free to read, carries no display-ad network, and has no investors.'],
+    [`Does ${brand.NAME} publish a doom probability?`,
+      `No. ${brand.DISCLAIMER_SHORT} The methodology and every receipt are public so a stranger can recompute the number.`],
+  ];
   const x = brand.X_URL ? `<a href="${esc(brand.X_URL)}" rel="noopener">${esc(brand.X_HANDLE)}</a>` : 'the project account';
+  const faqHtml = faq.map(([q, a]) => `
+  <h3>${esc(q)}</h3>
+  <p>${esc(a)}</p>`).join('');
   const main = `${CSS}
 <section class="inf">
   <p class="eyebrow">About</p>
-  <div class="inf__top">${mascot({ size: 76, level: level(ctx) })}<h1 class="bp__h1">What this is, and who is behind it</h1></div>
+  <div class="inf__top">${mascot({ size: 76, level: level(ctx) })}<h1 class="bp__h1">What is ${esc(brand.NAME)}, and who is behind it?</h1></div>
   <p class="lede">${esc(brand.DESCRIPTION)}</p>
   <h2>The name</h2>
   <p><b>SI</b> is superintelligence. <b>REN</b> is Real-time Early Notice. Together: a siren for the road to superintelligence, which tells you how loud things are and never claims to know how the road ends.
@@ -75,6 +90,8 @@ export function about(ctx) {
   <h2>Contact</h2>
   <p>Corrections, data sources and press questions: ${mail}, message ${x} on X, or open an issue on the
     <a href="${esc(brand.REPO_URL)}" rel="noopener">repository</a>. A correction that changes a number is recorded in the open.</p>
+  <h2 id="faq">Questions people actually ask</h2>
+  ${faqHtml}
   <h2>Terms, in plain words</h2>
   <ul>
     <li>The site is information, not advice. Do not use it as the basis for financial, legal, safety or policy decisions.</li>
@@ -87,9 +104,15 @@ export function about(ctx) {
   <p><a href="${esc(ctx.href('/privacy.html'))}">Privacy →</a> · <a href="${esc(ctx.href('/guide.html'))}">How it compares with DEFCON and the Doomsday Clock →</a></p>
 </section>`;
   return page({
-    ctx, path: '/about.html',
-    title: `About ${brand.NAME}: what it is and who runs it`,
-    description: `${brand.NAME} is an independent, automated index of AI activity run by one person. How it works, how it is paid for, and how to get in touch.`,
+    ctx,
+    path,
+    title,
+    description,
+    jsonld: explainerJsonLd(ctx, path, title, description, faq.map(([q, a]) => ({
+      '@type': 'Question',
+      name: q,
+      acceptedAnswer: { '@type': 'Answer', text: a },
+    })), 'About'),
     main,
   });
 }

@@ -28,6 +28,7 @@ const ALWAYS = Object.freeze([
   '/methodology.html',
   '/methodology.md',
   '/history.html',
+  '/about.html',
   '/guide.html',
   '/guide.md',
   '/compare.html',
@@ -55,6 +56,7 @@ const ALWAYS = Object.freeze([
   '/p-doom.html',
   '/ai-doomsday-clock.html',
   '/jobs.html',
+  '/medicine.html',
   '/race.html',
   // Facet indexes + archive hub — Bing path for the long-tail after deploy
   // (Google still uses sitemaps; FINDABILITY.md).
