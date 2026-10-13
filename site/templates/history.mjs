@@ -21,6 +21,7 @@
 
 import { esc } from './_html.mjs';
 import { page } from './layout.mjs';
+import { breadcrumbs, speakable } from './_seo.mjs';
 import * as brand from '../brand.mjs';
 
 // ---------------------------------------------------------------------------
@@ -895,10 +896,14 @@ ${pillarLegend()}
 </article>
 `;
 
+  // Head-term title: people search “history of AI risk” / Asilomar / pause letter.
+  const title = `What is the history of AI risk? Good, Asilomar, the pause letter · ${brand.NAME}`;
+  const path = '/history.html';
+
   return page({
     ctx,
-    path: '/history.html',
-    title: `A sourced history of AI risk — Good, Asilomar, the pause letter · ${brand.NAME}`,
+    path,
+    title,
     ogTitle: `A sourced history of the AIpocalypse · ${brand.NAME}`,
     description:
       'Dated and sourced: I. J. Good\'s 1965 intelligence explosion, the 1955 Dartmouth proposal, ' +
@@ -913,7 +918,7 @@ ${pillarLegend()}
         '@context': 'https://schema.org',
         '@type': 'Article',
         headline: 'A sourced history of the AIpocalypse — and of the people who tried to measure it',
-        url: ctx.url('/history.html'),
+        url: ctx.url(path),
         dateModified: ctx.state.generated_at,
         author: { '@type': 'Organization', name: brand.NAME, url: ctx.url('/') },
         publisher: { '@type': 'Organization', name: brand.NAME, url: ctx.url('/') },
@@ -923,7 +928,9 @@ ${pillarLegend()}
         citation: TIMELINE.flatMap((e) => e.sources.map((s) => ({
           '@type': 'CreativeWork', name: s.label, url: s.href,
         }))),
+        speakable: speakable(['h1', '.lede']),
       },
+      breadcrumbs(ctx, [{ name: 'History', path }]),
       {
         '@context': 'https://schema.org',
         '@type': 'FAQPage',

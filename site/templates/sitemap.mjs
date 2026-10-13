@@ -1,8 +1,13 @@
-import { slugFor } from './itemPage.mjs';
+import { slugFor, archiveSitemapEntries } from './itemPage.mjs';
 import { sitemapEntries as facetEntries } from './facetPages.mjs';
 import { sitemapEntries as countryEntries } from './countryPages.mjs';
 import { sitemapEntries as modelEntries } from './modelPages.mjs';
 import { sitemapEntries as compareEntries } from './comparePages.mjs';
+import { sitemapEntries as peopleEntries } from './peoplePages.mjs';
+import { sitemapEntries as dayEntries } from './dayPages.mjs';
+import { sitemapEntries as tagEntries } from './tagPages.mjs';
+import { sitemapEntries as kindEntries } from './kindPages.mjs';
+import { sitemapEntries as outletEntries } from './outletPages.mjs';
 // sitemap.xml. Head pages always; move pages only when substantive, matching
 // the noindex decision in move.mjs exactly. Submitting thin pages you have
 // already told Google not to index is a way of looking like you do not know
@@ -25,6 +30,8 @@ export function render(ctx) {
     { loc: '/ai-doomsday-clock.html', changefreq: 'weekly', priority: '0.8', lastmod: ctx.state.generated_at },
     { loc: '/guide.html', changefreq: 'weekly', priority: '0.8', lastmod: ctx.state.generated_at },
     { loc: '/guide.md', changefreq: 'weekly', priority: '0.4', lastmod: ctx.state.generated_at },
+    { loc: '/guides.html', changefreq: 'weekly', priority: '0.9', lastmod: ctx.state.generated_at },
+    { loc: '/guides.md', changefreq: 'weekly', priority: '0.4', lastmod: ctx.state.generated_at },
     ...compareEntries(ctx),
     { loc: '/library.html', changefreq: 'monthly', priority: '0.7', lastmod: ctx.state.generated_at },
     { loc: '/sponsor.html', changefreq: 'monthly', priority: '0.5', lastmod: ctx.state.generated_at },
@@ -122,12 +129,21 @@ export function render(ctx) {
   entries.push(...facetEntries(ctx));
   entries.push(...countryEntries(ctx));
   entries.push(...modelEntries(ctx));
+  entries.push(...peopleEntries(ctx));
+  entries.push(...dayEntries(ctx));
+  entries.push(...tagEntries(ctx));
+  entries.push(...kindEntries(ctx));
+  entries.push(...outletEntries(ctx));
 
-  // Every scored item is an indexable page. This is the long tail — it takes
-  // the sitemap from ten URLs to two hundred and ten, and it grows daily.
+  // Every scored item is an indexable page. Live window + durable archive
+  // (data/item-archive.json) so the long tail grows instead of churning off
+  // when the mobile newsroom cap binds (FINDABILITY.md / COMPETITIVE-SEO.md).
   if (ctx.news && Array.isArray(ctx.news.items)) {
     entries.push({ loc: '/item/', changefreq: 'hourly', priority: '0.7', lastmod: ctx.news.generated_at });
+    const seen = new Set();
     for (const it of ctx.news.items) {
+      if (!it || !it.id) continue;
+      seen.add(it.id);
       entries.push({
         loc: `/item/${slugFor(it)}.html`,
         changefreq: 'weekly',
@@ -135,6 +151,18 @@ export function render(ctx) {
         lastmod: it.published_at,
       });
     }
+    const archived = Array.isArray(ctx.itemArchive) ? ctx.itemArchive : [];
+    for (const it of archived) {
+      if (!it || !it.id || seen.has(it.id)) continue;
+      seen.add(it.id);
+      entries.push({
+        loc: `/item/${slugFor(it)}.html`,
+        changefreq: 'monthly',
+        priority: '0.5',
+        lastmod: it.published_at || (ctx.itemArchiveMeta && ctx.itemArchiveMeta.updated_at) || ctx.news.generated_at,
+      });
+    }
+    entries.push(...archiveSitemapEntries(ctx));
   }
 
   for (const m of ctx.moves) {

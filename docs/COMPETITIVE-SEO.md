@@ -1,7 +1,12 @@
 # Competitive SEO reverse-engineer
 
-**Measured:** 2026-10-10 (live HTTP fetches). Companion to `docs/COMPETITIVE.md`
+**Measured:** 2026-10-10 (live HTTP fetches); **re-measured 2026-10-13** via
+`node collector/tools/seo-daily.mjs`. Companion to `docs/COMPETITIVE.md`
 (Sept inventory) and `docs/FINDABILITY.md` (our playbook).
+
+**Daily re-measure:** `node collector/tools/seo-daily.mjs` (see
+`docs/FINDABILITY.md` §4). Refresh the scoreboard table below when the tool
+shows a material move; do not invent counts by hand.
 
 Goal: copy *mechanics that move organic search*, not their claims. Head-term
 hijacks we cannot honestly answer stay refused (`CONTRACT.md`, `VOICE.md`).
@@ -12,19 +17,19 @@ hijacks we cannot honestly answer stay refused (`CONTRACT.md`, `VOICE.md`).
 
 | Site | Sitemap URLs | News sitemap | Home `<title>` tactic | Schema on home | Faceted entity URLs | `llms.txt` / OpenAPI |
 |---|---:|---|---|---|---|---|
-| **DoomBench** | **2,081** | none | “Live AI Doom Index” | FAQPage only | `/models` `/companies` `/countries` `/people` `/jobs` `/news` | no |
-| **Skynet Countdown** | **1,237** | none | “AGI Timeline Tracker” | Organization + WebSite | `/tags/*` (717) + `/news/YYYY-MM-DD` (507) | no |
-| **pizzint.watch** | **1,018** | **empty (0 `<loc>`)** | DEFCON + Doomsday Clock hijack + keywords meta | FAQPage + WebApplication + Organization | `/intel/*` briefs only; chips are `<button>`s | no (404 → SPA shell) |
-| **siren.watch** | **~530** (+ facets in this PR) | **100 rolling / 48h** with `news:keywords` | Brand-first live title (head-term title in SEO PR) | Rich: Dataset, FAQ, WebSite, VideoObject, WebApplication… | `/item/*` only → **`/pillar/*` + `/lab/*` shipping** | **yes** |
-| pdoom.ai | SPA shell | SPA shell | Sci-fi countdown + keyword stuffing | none | none | SPA shell |
+| **DoomBench** | **2,089** (2026-10-13) | none | “Live AI Doom Index” | FAQPage only | `/models` `/companies` `/countries` `/people` `/jobs` `/news` | no |
+| **Skynet Countdown** | **1,238** | none | “AGI Timeline Tracker” | Organization + WebSite | `/tags/*` (717) + `/news/YYYY-MM-DD` (507) | no |
+| **pizzint.watch** | **1,018** | **0** (empty again on 2026-10-13; was 14 on 2026-10-12 — contested) | DEFCON + Doomsday Clock hijack + keywords meta | FAQPage + WebApplication + Organization | `/intel/*` briefs only; chips are `<button>`s | no (404 → SPA shell) |
+| **siren.watch** | **688** live → **~6,350** local (800 live + **5000** archive + **~550** gated facets; hubs + lab/model/tags/kind/outlet/source/pillar/country directories question schema) — ahead of DoomBench/Skynet/pizzint pending deploy | **100** live (old cap) → **150** local eligible; `news:keywords` prioritizes entity/lab/model surfaces | Head-term live title (“AI activity index today · SIREN …”); question-shaped evergreen + hub titles; Organization `knowsAbout` lists rival-alternative + facet hub head terms | Rich: Dataset, FAQ, Organization, VideoObject… | `/pillar/*` + `/pillars.html` `/lab/*` + `/companies.html` `/models.html` `/people.html` `/tags.html` `/kinds.html` `/outlets.html` `/sources.html` `/countries.html` `/country/*` `/model/*` `/people/*` `/tags/*` `/kind/*` `/outlet/*` `/source/*` + `/vs/*` conquest (incl. Takeoff Tracker) + archived `/item/*`; facets link older archive matches | **yes** |
+| pdoom.ai | 0 (SPA shell) | 0 | Sci-fi countdown + keyword stuffing | none | none | yes (thin) |
 | takeofftracker.com | none | none | “AGI Metrics Dashboard” | none | none | none |
 
 ### Resolved from COMPETITIVE.md §0.1
 
-pizzint’s `/news-sitemap.xml` is **alive as a file and dead as a channel**: valid
-Google News XML with **zero URLs** on 2026-10-10. Their ordinary sitemap still
-rolls (`lastmod` up to the same day). Google News is **not** their current
-advantage; URL count + title hijack + brief schema still are.
+pizzint’s `/news-sitemap.xml` was empty (0 `<loc>`) on 2026-10-10 and showed
+**14 URLs** again on 2026-10-12 — treat Google News as contested. Their ordinary
+sitemap still rolls. URL count + title hijack + brief schema remain their main
+organic levers; keep our rolling news-sitemap full and keyword-rich.
 
 ---
 
@@ -95,10 +100,80 @@ They win social memes, not Google. Do not imitate.
 DoomBench's lead is still entity URLs (`/countries`, `/models`), not keywords.
 Two axes we can answer from data we already publish:
 
-- `/country/<iso>.html` when OpenStreetMap has at least three datacentre sites mapped in that country. The page prints the status split and a capped site list. Countries under the gate stay on `/world.html` only. Copy stays a count of map objects (`docs/WORLD.md`).
-- `/model/<slug>.html` when at least three scored stories name that model family in the published entity list. The page lists those stories. It does not assign the model a score.
+- `/country/<iso>.html` when OpenStreetMap has at least three datacentre sites mapped in that country. The page prints the status split and a capped site list, plus scored stories (live + archive) whose title or summary names the country. Countries under the gate stay on `/world.html` only. Copy stays a count of map objects (`docs/WORLD.md`) — story counts are not a national AI ranking.
+- `/model/<slug>.html` when at least three scored stories name that model family in the published entity list **or** match its surface forms in title/summary (so archive rows that only carry a lab entity still keep DeepSeek-R / Mixtral-class hubs alive). The page lists those stories. It does not assign the model a score.
 
 Story pages link the model when the gate clears. The world table keeps its zoom control and adds a country-page link beside it. Homepage "Where the machines live" links the country index.
+
+### 4.1 People, day hubs, entity-only labs (2026-10-10)
+
+| URL | Gate | Honesty |
+|---|---|---|
+| `/people/<id>.html` + `/people.html` | ≥3 press headlines, on-record lines, 7-day coverage floor, or scored archive stories naming them | Headlines only — never invents a quotation; hub is not a person doom score |
+| `/news/YYYY-MM-DD.html` | ≥5 scored stories that UTC day | List of scored items; not a forecast |
+| `/lab/<id>.html` for entity labs off the race board (Microsoft, NVIDIA, Oracle, Palantir, Adobe, Broadcom, Cloudflare, …) | ≥3 scored stories naming the lab | Story counts only — no invented market odds |
+
+Linked from `/leaders.html`, `/news.html`, `llms.txt`, catalog, and sitemap.
+
+### 4.2 Topic tags (2026-10-12)
+
+Skynet’s `/tags/*` shape with a short published vocabulary (agents, GPUs,
+safety, datacenters, fundraising, benchmarks, regulation, inference, robotics,
+China AI, plus later chips/energy/labor/healthcare/**coding**/**acquisitions**/
+**browser**/**watermarking**/**evals**/**video**/**voice**/**reasoning**/**ipo**/**rag**/
+**mcp**/**fine-tuning**/**quantization**/**distillation**/**memory**/**test-time**/
+**hallucination**/**prompt-injection**/**moe**/**world-models**/**copyright**/
+**diffusion**/**embeddings**/**guardrails**/**context-window**/**ai-search**/
+**multi-agent**/**deepfakes**/**slm**/**ai-science**/**speculative-decoding**/
+**kv-cache**/**ai-act**/**autonomous-vehicles**/**ai-music**/**synthetic-data**/
+**inference-cost**/**prefer-data**/**reasoning-traces**/**claude-code**/**openrouter**/
+**huggingface**/**blackwell**/**ollama**/**mlx**/**computer-use**). Evergreen hub:
+`/guides.html` + `/guides.md`.
+News-sitemap `news:keywords` also carry matching topic names (cap 12) while
+pizzint’s news channel is contested. Conquest directory: `/vs.html` over the
+same `/vs/*` set. IndexNow ALWAYS includes `/vs.html`. `seo-daily` monitors
+`/vs.html`, `/tags.html`, and `/companies.html` so a missed deploy surfaces as
+a high gap.
+Also `/vs/pizzint.html` conquest for DEFCON/Doomsday title hijack (honest refuse).
+Gate: ≥5 scored stories whose title or summary matches the needle.
+Story pages link indexable tags and indexable people (full-name match only).
+Synonym doorway farms stay refused.
+
+### 4.3 Story kinds (2026-10-12)
+
+`/kind/<id>.html` for collector kinds (`press`, `forum`, `paper`, …) that clear
+≥5 scored stories. Kind is already on every NewsItem — these pages make the
+filter crawlable with ItemList schema and newsroom/item links.
+
+### 4.4 Item archive + wider live window (2026-10-12)
+
+DoomBench/Skynet/pizzint win on **retained** URL count. Our newsroom used to
+delete `/item/` pages when the live cap bound. Now:
+
+- Live `data/news.json` cap is **800** (was 400).
+- Cap overflow and aged-off scored rows merge into `data/item-archive.json`
+  (max 1,600). `site/build.mjs` writes those pages and `sitemap.xml` lists them.
+- Topic tags add **security**, **military**, and **education** when ≥5 stories match.
+- One-shot backfill from prior committed `data/news.json` snapshots:
+  `npm run seo:archive-backfill` (only rows we already scored and published).
+
+This is the honest volume lever: more scored stories kept, not synonym doorways.
+
+### 4.5 Publisher-domain hubs (2026-10-12)
+
+`/outlet/<slug>.html` for original-URL hosts with ≥5 scored stories in the
+live window **or** durable archive (`arxiv.org`, `techcrunch.com`, …). Distinct
+from `/source/<adapter-id>` (feed adapters). Story pages link the publisher when
+the gate clears. Extra topic tags: open-weights, cloud, startups, finance,
+multimodal.
+
+### 4.6 Archive hubs (anti-orphan) (2026-10-12)
+
+Paginated `/item/archive.html` (+ `/item/archive-N.html`) list the durable
+archive in 100-story pages so the 1,600 retained `/item/` URLs are reachable
+from the newsroom, not only the sitemap. Related links on story pages may
+point into the archive. Live `/item/` lists the current window only (lighter
+HTML).
 
 ---
 
@@ -110,11 +185,14 @@ contrast measurement methods (`VOICE.md`, `CONTRACT.md`).
 
 | URL | Head-term job |
 |---|---|
+| `/guides.html` | “AI explainers” directory — p(doom), clocks, compare/vs |
 | `/compare.html` | “AI doom indexes compared” — side-by-side table |
+| `/vs.html` | “SIREN vs other AI indexes” directory over `/vs/*` |
 | `/alternatives.html` | “DoomBench / Skynet / p(doom) alternative” hub |
 | `/vs/doombench.html` | Activity count vs qualitative doom index |
 | `/vs/skynet-countdown.html` | Activity count vs AGI timeline / control-loss % |
 | `/vs/pdoom.html` | Activity count vs opinion-as-percentage clocks |
+| `/vs/pizzint.html` | Activity count vs DEFCON/Doomsday title hijack |
 
 Linked from homepage FAQ, `/guide.html`, catalog, `llms.txt`, and sitemap.
 Do **not** claim SIREN publishes takeover risk, AGI dates, or anyone’s p(doom).

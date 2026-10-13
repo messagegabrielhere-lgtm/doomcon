@@ -5,6 +5,7 @@
 
 import { esc, utc } from './_html.mjs';
 import { page } from './layout.mjs';
+import { breadcrumbs, speakable } from './_seo.mjs';
 import * as brand from '../brand.mjs';
 import { MONETIZE, on as mzOn } from '../monetize.mjs';
 import { mascot, MOODS } from './_mascot.mjs';
@@ -27,12 +28,48 @@ const level = (ctx) => (ctx.state && Number.isFinite(ctx.state.level) ? ctx.stat
 
 const mail = `<a href="mailto:${esc(brand.CONTACT_EMAIL)}">${esc(brand.CONTACT_EMAIL)}</a>`;
 
+/** WebPage + speakable + breadcrumbs + FAQ for evergreen explainers (FINDABILITY schema rule). */
+function explainerJsonLd(ctx, path, title, description, faqEntities, crumbName) {
+  return [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'WebPage',
+      name: title,
+      url: ctx.url(path),
+      description,
+      isPartOf: { '@type': 'WebSite', name: brand.PUBLICATION, url: ctx.url('/') },
+      speakable: speakable(['h1', '.lede']),
+    },
+    breadcrumbs(ctx, [{ name: crumbName, path }]),
+    {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faqEntities,
+    },
+  ];
+}
+
 export function about(ctx) {
+  const path = '/about.html';
+  // Head-term title: people search “what is SIREN” / who runs the AI activity index.
+  const title = `What is ${brand.NAME}? An independent AI activity index · who runs it`;
+  const description = `${brand.NAME} is an independent, automated index of AI activity run by one person. How it works, how it is paid for, and how to get in touch.`;
+  const faq = [
+    [`What is ${brand.NAME}?`,
+      `${brand.NAME} is a small, automated publication. A collector reads public sources every hour, a published formula turns them into a score, and a static site is rebuilt from the result. It measures AI activity tempo — not danger or a probability of harm.`],
+    [`Who runs ${brand.NAME}?`,
+      'One person, independently. It is not affiliated with any AI lab, government body, or the organisations whose scales it borrows its grammar from. It is free to read, carries no display-ad network, and has no investors.'],
+    [`Does ${brand.NAME} publish a doom probability?`,
+      `No. ${brand.DISCLAIMER_SHORT} The methodology and every receipt are public so a stranger can recompute the number.`],
+  ];
   const x = brand.X_URL ? `<a href="${esc(brand.X_URL)}" rel="noopener">${esc(brand.X_HANDLE)}</a>` : 'the project account';
+  const faqHtml = faq.map(([q, a]) => `
+  <h3>${esc(q)}</h3>
+  <p>${esc(a)}</p>`).join('');
   const main = `${CSS}
 <section class="inf">
   <p class="eyebrow">About</p>
-  <div class="inf__top">${mascot({ size: 76, level: level(ctx) })}<h1 class="bp__h1">What this is, and who is behind it</h1></div>
+  <div class="inf__top">${mascot({ size: 76, level: level(ctx) })}<h1 class="bp__h1">What is ${esc(brand.NAME)}, and who is behind it?</h1></div>
   <p class="lede">${esc(brand.DESCRIPTION)}</p>
   <h2>The name</h2>
   <p><b>SI</b> is superintelligence. <b>REN</b> is Real-time Early Notice. Together: a siren for the road to superintelligence, which tells you how loud things are and never claims to know how the road ends.
@@ -53,6 +90,8 @@ export function about(ctx) {
   <h2>Contact</h2>
   <p>Corrections, data sources and press questions: ${mail}, message ${x} on X, or open an issue on the
     <a href="${esc(brand.REPO_URL)}" rel="noopener">repository</a>. A correction that changes a number is recorded in the open.</p>
+  <h2 id="faq">Questions people actually ask</h2>
+  ${faqHtml}
   <h2>Terms, in plain words</h2>
   <ul>
     <li>The site is information, not advice. Do not use it as the basis for financial, legal, safety or policy decisions.</li>
@@ -65,9 +104,15 @@ export function about(ctx) {
   <p><a href="${esc(ctx.href('/privacy.html'))}">Privacy →</a> · <a href="${esc(ctx.href('/guide.html'))}">How it compares with DEFCON and the Doomsday Clock →</a></p>
 </section>`;
   return page({
-    ctx, path: '/about.html',
-    title: `About ${brand.NAME}: what it is and who runs it`,
-    description: `${brand.NAME} is an independent, automated index of AI activity run by one person. How it works, how it is paid for, and how to get in touch.`,
+    ctx,
+    path,
+    title,
+    description,
+    jsonld: explainerJsonLd(ctx, path, title, description, faq.map(([q, a]) => ({
+      '@type': 'Question',
+      name: q,
+      acceptedAnswer: { '@type': 'Answer', text: a },
+    })), 'About'),
     main,
   });
 }
@@ -75,15 +120,31 @@ export function about(ctx) {
 export const PRIVACY_UPDATED = '12 October 2026';
 
 export function privacy(ctx) {
+  const path = '/privacy.html';
+  // Head-term title: people search “SIREN privacy” / what the site knows about you.
+  const title = `What does ${brand.NAME} know about you? Privacy policy`;
   const hasGc = !!(MONETIZE.analytics && MONETIZE.analytics.goatcounter);
   const hasGa = !!(MONETIZE.analytics && MONETIZE.analytics.gtag);
   const gaId = hasGa ? esc(MONETIZE.analytics.gtag) : '';
   const x = brand.X_URL ? `<a href="${esc(brand.X_URL)}" rel="noopener">${esc(brand.X_HANDLE)}</a> on X` : 'the project account';
   const repo = `<a href="${esc(brand.REPO_URL)}/issues" rel="noopener">an issue on the repository</a>`;
+  const faq = [
+    [`What does ${brand.NAME} know about you?`,
+      `${brand.NAME} keeps no visitor accounts. A visit may leave host logs (GitHub Pages), optional analytics if enabled, and local preferences in your browser. This page lists every way a visit can leave a trace.`],
+    [`Does ${brand.NAME} sell personal data?`,
+      `${brand.LEGAL_NO_SELL} The operator does not sell visitor lists.`],
+    ['Are there first-party cookies?',
+      hasGa
+        ? 'Google Analytics may set cookies when analytics are allowed. This site’s own code does not call document.cookie. Preferences such as theme and game scores stay in local storage on your device.'
+        : 'No first-party cookies from this site’s own code. Preferences such as theme and game scores stay in local storage on your device.'],
+  ];
+  const faqHtml = faq.map(([q, a]) => `
+  <h3>${esc(q)}</h3>
+  <p>${esc(a)}</p>`).join('');
   const main = `${CSS}
 <section class="inf">
   <p class="eyebrow">Privacy</p>
-  <div class="inf__top"><h1 class="bp__h1">What this site knows about you</h1></div>
+  <div class="inf__top"><h1 class="bp__h1">What does this site know about you?</h1></div>
   <p class="lede">Last updated ${esc(PRIVACY_UPDATED)}. Very little is kept by ${esc(brand.NAME)} itself.
     This page lists every way a visit can leave a trace, who receives it, and what rights you have.</p>
 
@@ -178,17 +239,25 @@ ${mzOn.newsletter() ? `<li><b>Email newsletter.</b> If you subscribe, your email
   <h2>The embed and the badge</h2>
   <p>The iframe embed and the README badge are static files. They set no cookies and load nothing from third parties on the pages that use them.</p>
 
-  <h2>Questions</h2>
+  <h2 id="faq">Questions people actually ask</h2>
+  ${faqHtml}
+  <h2>Contact</h2>
   <p>See the <a href="${esc(ctx.href('/about.html'))}">about page</a> for how to get in touch, or the
     <a href="${esc(ctx.href('/disclosures.html'))}">disclosures hub</a> for the short map of every legal notice on the site.</p>
 </section>`;
-  const desc = hasGa
+  const description = hasGa
     ? `${brand.NAME} uses Google Analytics (${gaId}) and${hasGc ? ' cookieless GoatCounter' : ''} to count visits. What a visit touches: GitHub Pages, Google,${hasGc ? ' GoatCounter,' : ''} live-data APIs you open, and the sites you choose to click through to. ${brand.LEGAL_NO_SELL}`
     : `${brand.NAME} keeps no visitor accounts; cookieless counts and host logs are disclosed here. What a visit touches: GitHub Pages, analytics if enabled, and the sites you choose to click through to.`;
   return page({
-    ctx, path: '/privacy.html',
-    title: `Privacy · ${brand.NAME}`,
-    description: desc,
+    ctx,
+    path,
+    title,
+    description,
+    jsonld: explainerJsonLd(ctx, path, title, description, faq.map(([q, a]) => ({
+      '@type': 'Question',
+      name: q,
+      acceptedAnswer: { '@type': 'Answer', text: a },
+    })), 'Privacy'),
     main,
   });
 }
@@ -267,8 +336,23 @@ export function feedback(ctx) {
 export const TERMS_UPDATED = '12 October 2026';
 
 export function terms(ctx) {
+  const path = '/terms.html';
+  // Head-term title: people search “SIREN terms” / what the index disclaims.
+  const title = `What are the ${brand.NAME} terms of use? Disclaimers and what the index is not`;
+  const description = `${brand.NAME} is information and commentary, not advice. Terms of use, the no-warranty and liability terms, and what the index does and does not claim.`;
   const x = brand.X_URL ? `<a href="${esc(brand.X_URL)}" rel="noopener">${esc(brand.X_HANDLE)}</a> on X` : 'the project account';
   const repo = `<a href="${esc(brand.REPO_URL)}/issues" rel="noopener">an issue on the repository</a>`;
+  const faq = [
+    [`What are the ${brand.NAME} terms of use?`,
+      `By using ${brand.NAME} — this website, its data files, feeds, embeds, badge, share cards and posts — you agree to these terms. The site is information, commentary and entertainment; it is not financial, legal, safety or medical advice.`],
+    [`Does ${brand.NAME} predict the future or measure danger?`,
+      `No. ${brand.DISCLAIMER_SHORT} It is not a forecast, a warning system, or an emergency alert.`],
+    [`Is ${brand.NAME} affiliated with DEFCON or the Doomsday Clock?`,
+      `No. Names and language borrowed from other scales are used for comparison and commentary only. The index is not connected with the organisations behind those scales.`],
+  ];
+  const faqHtml = faq.map(([q, a]) => `
+  <h3>${esc(q)}</h3>
+  <p>${esc(a)}</p>`).join('');
   const main = `${CSS}
 <style>
 .inf__box { border: 1px solid var(--rule); border-left: 4px solid var(--accent, #4ADE80); padding: var(--s-3) var(--s-4); margin: var(--s-4) 0; }
@@ -278,7 +362,7 @@ export function terms(ctx) {
 </style>
 <section class="inf">
   <p class="eyebrow">Terms &amp; disclaimers</p>
-  <div class="inf__top"><h1 class="bp__h1">Terms of use and disclaimers</h1></div>
+  <div class="inf__top"><h1 class="bp__h1">What are the ${esc(brand.NAME)} terms of use?</h1></div>
   <p class="lede">Last updated ${esc(TERMS_UPDATED)}. By using ${esc(brand.NAME)} — this website, its data files, feeds, embeds, badge,
     share cards and posts — you agree to these terms. If you do not agree, please do not use it.
     A shorter map of every notice is on the <a href="${esc(ctx.href('/disclosures.html'))}">disclosures</a> page.</p>
@@ -410,23 +494,47 @@ export function terms(ctx) {
     you accept it. If any part is found unenforceable, the rest still applies. Nothing in these terms limits any right you have
     that the law does not allow to be limited. This page is not a substitute for advice from your own lawyer.</p>
 
+  <h2 id="faq">Questions people actually ask</h2>
+  ${faqHtml}
+
   <p><a href="${esc(ctx.href('/disclosures.html'))}">Disclosures →</a> · <a href="${esc(ctx.href('/privacy.html'))}">Privacy →</a> · <a href="${esc(ctx.href('/about.html'))}">About →</a> · <a href="${esc(ctx.href('/methodology.html'))}">Method →</a></p>
 </section>`;
   return page({
-    ctx, path: '/terms.html',
-    title: `Terms & disclaimers · ${brand.NAME}`,
-    description: `${brand.NAME} is information and commentary, not advice. Terms of use, the no-warranty and liability terms, and what the index does and does not claim.`,
+    ctx,
+    path,
+    title,
+    description,
+    jsonld: explainerJsonLd(ctx, path, title, description, faq.map(([q, a]) => ({
+      '@type': 'Question',
+      name: q,
+      acceptedAnswer: { '@type': 'Answer', text: a },
+    })), 'Terms'),
     main,
   });
 }
 
 /** One-page map of every legal notice a visitor, affiliate programme or regulator expects. */
 export function disclosures(ctx) {
+  const path = '/disclosures.html';
+  // Head-term title: people search “SIREN disclosures” / what the site discloses.
+  const title = `What does ${brand.NAME} disclose? Legal notices in one place`;
+  const description = `Legal and compliance disclosures for ${brand.NAME}: what the index is, not advice, affiliates, privacy, satire and licence — with links to the full terms.`;
   const x = brand.X_URL ? `<a href="${esc(brand.X_URL)}" rel="noopener">${esc(brand.X_HANDLE)}</a>` : 'the project account';
+  const faq = [
+    [`What does ${brand.NAME} disclose?`,
+      `This page maps every notice ${brand.NAME} makes: what the index is, that it is not advice, affiliate and paid links, privacy and analytics, satire, people and likenesses, and the licence. The full contracts are the terms and privacy pages.`],
+    [`Is ${brand.NAME} financial or legal advice?`,
+      `${brand.LEGAL_NOT_ADVICE} Stock picks, scanner screens and prediction-market odds are automated, simulated or hypothetical.`],
+    [`Does ${brand.NAME} sell personal data?`,
+      `${brand.LEGAL_NO_SELL} Visits may be counted with analytics when those are turned on; both are disclosed on the privacy page.`],
+  ];
+  const faqHtml = faq.map(([q, a]) => `
+  <h3>${esc(q)}</h3>
+  <p>${esc(a)}</p>`).join('');
   const main = `${CSS}
 <section class="inf">
   <p class="eyebrow">Disclosures</p>
-  <div class="inf__top"><h1 class="bp__h1">Legal and compliance disclosures</h1></div>
+  <div class="inf__top"><h1 class="bp__h1">What does ${esc(brand.NAME)} disclose?</h1></div>
   <p class="lede">Every notice ${esc(brand.NAME)} makes in one place. The full contracts are the
     <a href="${esc(ctx.href('/terms.html'))}">terms</a> and <a href="${esc(ctx.href('/privacy.html'))}">privacy</a> pages; this page is the map.</p>
 
@@ -461,6 +569,9 @@ export function disclosures(ctx) {
   <p>${esc(brand.LICENSE_BLURB)}. Third-party data stays under its own licence, credited on the page that uses it.
     See the <a href="${esc(brand.REPO_URL)}/blob/main/LICENSE" rel="noopener">LICENSE</a> file in the repository.</p>
 
+  <h2 id="faq">Questions people actually ask</h2>
+  ${faqHtml}
+
   <h2>Contact</h2>
   <p>Corrections, takedown requests and privacy questions: ${mail}, ${x} on X, or an issue on the
     <a href="${esc(brand.REPO_URL)}" rel="noopener">repository</a>. Security reports: see
@@ -469,9 +580,15 @@ export function disclosures(ctx) {
   <p><a href="${esc(ctx.href('/terms.html'))}">Full terms →</a> · <a href="${esc(ctx.href('/privacy.html'))}">Privacy →</a> · <a href="${esc(ctx.href('/about.html'))}">About →</a></p>
 </section>`;
   return page({
-    ctx, path: '/disclosures.html',
-    title: `Disclosures · ${brand.NAME}`,
-    description: `Legal and compliance disclosures for ${brand.NAME}: what the index is, not advice, affiliates, privacy, satire and licence — with links to the full terms.`,
+    ctx,
+    path,
+    title,
+    description,
+    jsonld: explainerJsonLd(ctx, path, title, description, faq.map(([q, a]) => ({
+      '@type': 'Question',
+      name: q,
+      acceptedAnswer: { '@type': 'Answer', text: a },
+    })), 'Disclosures'),
     main,
   });
 }
@@ -559,15 +676,20 @@ export function pdoom(ctx) {
   <p><a href="${esc(ctx.href('/guide.html'))}">p(doom) next to DEFCON and the Doomsday Clock →</a> · <a href="${esc(ctx.href('/ai-doomsday-clock.html'))}">Is there an AI doomsday clock? →</a> ·
     <a href="${esc(ctx.href('/library.html'))}">Books from every side of the argument →</a> · <a href="${esc(ctx.href('/history.html'))}">Sixty years of the same argument →</a></p>
 </section>`;
+  const path = '/p-doom.html';
+  // Question-shaped title matches the H1 and glossary head term (“what is p(doom)?”).
+  const title = `What is p(doom)? Hinton, Amodei, Musk, LeCun and 24 more · ${brand.NAME}`;
+  const description = `What is p(doom)? 28 named, sourced estimates on one chart, from 0% to 99.9%, plus a dial to set your own. An opinion as a percentage — not a recomputable measurement.`;
+  const faqEntities = [
+    { '@type': 'Question', name: 'What is p(doom)?', acceptedAnswer: { '@type': 'Answer', text: 'p(doom) is shorthand for "probability of doom": one person\'s estimate, as a percentage, that advanced AI leads to a catastrophic outcome for humanity. It is an opinion expressed as a number, with no agreed method behind it.' } },
+    { '@type': 'Question', name: 'Why do p(doom) estimates differ so much?', acceptedAnswer: { '@type': 'Answer', text: 'Because "doom" is not defined the same way by everyone, the time frame varies, and the figure is a judgement rather than a measurement.' } },
+    ...voicesFaq(),
+  ];
   return page({
-    ctx, path: '/p-doom.html',
-    title: `p(doom): Hinton, Amodei, Musk, LeCun and 24 more, plus yours · ${brand.NAME}`,
-    description: `28 named, sourced p(doom) estimates on one chart, from 0% to 99.9%, plus a dial to set your own and see who you agree with. What p(doom) is and what it cannot tell you.`,
-    jsonld: [{ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: [
-      { '@type': 'Question', name: 'What is p(doom)?', acceptedAnswer: { '@type': 'Answer', text: 'p(doom) is shorthand for "probability of doom": one person\'s estimate, as a percentage, that advanced AI leads to a catastrophic outcome for humanity. It is an opinion expressed as a number, with no agreed method behind it.' } },
-      { '@type': 'Question', name: 'Why do p(doom) estimates differ so much?', acceptedAnswer: { '@type': 'Answer', text: 'Because "doom" is not defined the same way by everyone, the time frame varies, and the figure is a judgement rather than a measurement.' } },
-      ...voicesFaq(),
-    ] }],
+    ctx, path,
+    title,
+    description,
+    jsonld: explainerJsonLd(ctx, path, title, description, faqEntities, 'p(doom)'),
     main,
   });
 }
@@ -602,22 +724,43 @@ export function aiClock(ctx) {
   <p>If you want an expert body’s considered view of overall risk, read the Bulletin’s statement. If you want to know how much is happening in AI this week, and to be able to check the answer, that is what this site is for. They answer different questions.</p>
   <p><a href="${esc(ctx.href('/guide.html'))}">The side-by-side comparison →</a> · <a href="${esc(ctx.href('/p-doom.html'))}">What is p(doom)? →</a> · <a href="${esc(ctx.href('/methodology.html'))}">How the index is computed →</a></p>
 </section>`;
+  const path = '/ai-doomsday-clock.html';
+  // Question-shaped title matches FINDABILITY disambiguation queries
+  // ("is there an AI doomsday clock?") — not a doom-probability claim.
+  const title = `Is there an AI doomsday clock? Bulletin vs verifiable count · ${brand.NAME}`;
+  const description = `Is there an AI doomsday clock? The Bulletin’s clock is yearly judgement, not AI-specific. Expert p(doom) clusters around 10–20%. ${brand.NAME} is an hourly AI activity count anyone can verify.`;
+  const faqEntities = [
+    { '@type': 'Question', name: 'Is there an AI Doomsday Clock?', acceptedAnswer: { '@type': 'Answer', text: 'The Bulletin of the Atomic Scientists’ Doomsday Clock includes AI among its risks but is not AI-specific and is set once a year. AI-specific clocks are set by judgement. SIREN publishes an hourly, verifiable count of AI activity, and plots named experts’ p(doom) estimates on one chart.' } },
+    { '@type': 'Question', name: 'How close is the AI Doomsday Clock to midnight?', acceptedAnswer: { '@type': 'Answer', text: 'There is no official AI clock. Expert estimates of AI catastrophe cluster around 10–20%; the largest researcher survey has a median of 5%. On a clock where 100% is midnight, 15% is about 51 minutes to go.' } },
+    { '@type': 'Question', name: 'Who sets the AI Doomsday Clock?', acceptedAnswer: { '@type': 'Answer', text: 'Nobody officially. Sites that publish one set it by their own judgement. SIREN’s reading is computed hourly from public data and can be re-checked in the browser.' } },
+  ];
   return page({
-    ctx, path: '/ai-doomsday-clock.html',
-    title: `AI Doomsday Clock: expert p(doom), set your own · ${brand.NAME}`,
-    description: `AI Doomsday Clock: expert p(doom) clusters at 10–20%. Set your own on a dial, or read ${brand.NAME}, an hourly AI index anyone can verify.`,
-    jsonld: [{ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: [
-      { '@type': 'Question', name: 'Is there an AI Doomsday Clock?', acceptedAnswer: { '@type': 'Answer', text: 'The Bulletin of the Atomic Scientists’ Doomsday Clock includes AI among its risks but is not AI-specific and is set once a year. AI-specific clocks are set by judgement. SIREN publishes an hourly, verifiable count of AI activity, and plots named experts’ p(doom) estimates on one chart.' } },
-      { '@type': 'Question', name: 'How close is the AI Doomsday Clock to midnight?', acceptedAnswer: { '@type': 'Answer', text: 'There is no official AI clock. Expert estimates of AI catastrophe cluster around 10–20%; the largest researcher survey has a median of 5%. On a clock where 100% is midnight, 15% is about 51 minutes to go.' } },
-      { '@type': 'Question', name: 'Who sets the AI Doomsday Clock?', acceptedAnswer: { '@type': 'Answer', text: 'Nobody officially. Sites that publish one set it by their own judgement. SIREN’s reading is computed hourly from public data and can be re-checked in the browser.' } },
-    ] }],
+    ctx, path,
+    title,
+    description,
+    jsonld: explainerJsonLd(ctx, path, title, description, faqEntities, 'AI doomsday clock'),
     main,
   });
 }
 
 export function brandPage(ctx) {
+  const path = '/brand.html';
+  // Head-term title: people search “SIREN brand guide” / colours / Tally.
+  const title = `Where is the ${brand.NAME} brand guide? Name, colours, type, voice and Tally`;
+  const description = `How ${brand.NAME} looks and sounds: the level colours, the typefaces, the voice rules, and Tally the duty canary in five moods to download.`;
   const levels = [...brand.LEVELS].sort((a, b) => b.level - a.level);
   const sw = (name, v, note) => `<li class="br__sw"><i style="background:${v}"></i><b>${esc(name)}</b><code>${esc(v)}</code><span>${esc(note)}</span></li>`;
+  const faq = [
+    [`Where is the ${brand.NAME} brand guide?`,
+      `This page. It covers the name, level colours, typefaces, voice rules, and Tally the duty canary in five moods to download. Everything here may be used with credit; the site’s text and data are ${brand.LICENSE}.`],
+    [`Who is Tally?`,
+      'Tally is the duty canary — the mascot. The helmet takes the level’s colour and the face takes the level’s mood. Use the drawing for the level you are talking about; do not recolour the body.'],
+    [`Does a loud level mean danger?`,
+      `No. Say “loud” and “quiet”: the scale measures tempo, not danger. ${brand.DISCLAIMER_SHORT}`],
+  ];
+  const faqHtml = faq.map(([q, a]) => `
+  <h3>${esc(q)}</h3>
+  <p>${esc(a)}</p>`).join('');
   const main = `${CSS}
 <style>
 .br__row { display: grid; gap: var(--s-3); grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); list-style: none; margin: var(--s-3) 0; padding: 0; }
@@ -635,7 +778,7 @@ export function brandPage(ctx) {
 </style>
 <section class="inf">
   <p class="eyebrow">Brand</p>
-  <div class="inf__top">${mascot({ size: 76, level: level(ctx) })}<h1 class="bp__h1">How ${esc(brand.NAME)} looks and sounds</h1></div>
+  <div class="inf__top">${mascot({ size: 76, level: level(ctx) })}<h1 class="bp__h1">Where is the ${esc(brand.NAME)} brand guide?</h1></div>
   <p class="lede">One page for anyone making something with the brand: a slide, a post, a story, a sticker. Everything here may be used with credit; ${esc(brand.LICENSE)}.</p>
 
   <h2>The idea</h2>
@@ -688,26 +831,49 @@ ${levels.map((l) => `    <li class="br__t" style="--lvl:var(--heat-${l.level})">
     <li><a href="${esc(ctx.href('/cards/state.png'))}">Current reading card</a> · <a href="${esc(ctx.href('/cards/state-portrait.png'))}">portrait card</a></li>
     <li>Tally, all five moods: the download links above</li>
   </ul>
+  <h2 id="faq">Questions people actually ask</h2>
+  ${faqHtml}
   <p><a href="${esc(ctx.href('/press.html'))}">Press kit →</a></p>
 </section>`;
   return page({
-    ctx, path: '/brand.html',
-    title: `Brand guide: name, colours, type, voice and Tally · ${brand.NAME}`,
-    description: `How ${brand.NAME} looks and sounds: the level colours, the typefaces, the voice rules, and Tally the duty canary in five moods to download.`,
+    ctx,
+    path,
+    title,
+    description,
+    jsonld: explainerJsonLd(ctx, path, title, description, faq.map(([q, a]) => ({
+      '@type': 'Question',
+      name: q,
+      acceptedAnswer: { '@type': 'Answer', text: a },
+    })), 'Brand'),
     main,
   });
 }
 
 export function press(ctx) {
+  const path = '/press.html';
+  // Head-term title: people search “SIREN press kit” / how to cite the index.
+  const title = `Where is the ${brand.NAME} press kit? Facts, images and how to cite a reading`;
+  const description = `Facts, a liftable paragraph, images and a contact for anyone writing about ${brand.NAME}, the hourly AI activity index you can verify yourself.`;
   const st = ctx.state;
   const now = st && Number.isFinite(st.level)
     ? `${brand.NAME} ${st.level}, ${st.level_name}, composite ${Number(st.score).toFixed(1)} of 100, observed ${utc(st.generated_at)}` : null;
   const x = brand.X_URL ? `<a href="${esc(brand.X_URL)}" rel="noopener">${esc(brand.X_HANDLE)}</a>` : 'the project account';
   const n = Array.isArray(ctx.history) ? ctx.history.length : null;
+  const faq = [
+    [`Where is the ${brand.NAME} press kit?`,
+      `This page. It has a one-sentence description, a liftable paragraph, facts, image assets, how to cite a reading, and a contact. Everything here may be quoted; the site’s text and data are ${brand.LICENSE}.`],
+    [`How do I cite a ${brand.NAME} reading?`,
+      'Use the “Cite this reading” line under the verify button on the home page. It links to one reading permanently, so the number in your piece does not change after you publish.'],
+    [`Does ${brand.NAME} publish a doom probability?`,
+      `No. ${brand.DISCLAIMER_SHORT} The press kit states that plainly: the index is not a probability, a prediction, or a measure of how bad anything is.`],
+  ];
+  const faqHtml = faq.map(([q, a]) => `
+  <h3>${esc(q)}</h3>
+  <p>${esc(a)}</p>`).join('');
   const main = `${CSS}
 <section class="inf">
   <p class="eyebrow">Press kit</p>
-  <div class="inf__top">${mascot({ size: 76, level: level(ctx) })}<h1 class="bp__h1">For anyone writing about ${esc(brand.NAME)}</h1></div>
+  <div class="inf__top">${mascot({ size: 76, level: level(ctx) })}<h1 class="bp__h1">Where is the ${esc(brand.NAME)} press kit?</h1></div>
   <p class="lede">Facts, a paragraph you can lift, images and a contact. Everything on this page may be quoted; the site's text and data are ${esc(brand.LICENSE)}.</p>
   <h2>In one sentence</h2>
   <p><b>${esc(brand.NAME)} is an hourly index of how much is happening in AI, on a scale from 5 (quietest) to 1 (loudest), where every reading can be verified by the reader.</b></p>
@@ -722,7 +888,7 @@ export function press(ctx) {
     <li><b>Update cadence:</b> the index is scored hourly; the newsroom refreshes every minute.</li>
     <li><b>What it is not:</b> a probability, a prediction, or a measure of how bad anything is.</li>
     <li><b>Checkable:</b> <a href="${esc(ctx.href('/#vfy'))}">verify the readings in your browser</a>, read the <a href="${esc(ctx.href('/methodology.html'))}">method</a>, or the <a href="${esc(brand.REPO_URL)}" rel="noopener">source</a>.</li>
-    <li><b>Jobs and medicine:</b> sourced, caveated pages on <a href="${esc(ctx.href('/jobs.html'))}">AI and jobs</a> and <a href="${esc(ctx.href('/medicine.html'))}">AI in medicine</a>.</li>
+    <li><b>Jobs and medicine:</b> sourced, caveated pages on <a href="${esc(ctx.href('/jobs.html'))}">Is AI taking jobs?</a> and <a href="${esc(ctx.href('/medicine.html'))}">Is AI curing anything?</a>.</li>
     <li><b>Mascot:</b> Tally, the duty canary. The helmet colour and the face follow the level.</li>
   </ul>
   <h2>How to cite a reading</h2>
@@ -735,15 +901,23 @@ export function press(ctx) {
     <li><a href="${esc(ctx.href('/brand.html'))}">Brand guide</a>, with Tally in five moods to download</li>
     <li><a href="${esc(ctx.href('/embed.html'))}">Embeddable widget</a>; the code is on the <a href="${esc(ctx.href('/instruments.html'))}#embed">instruments page</a></li>
   </ul>
+  <h2 id="faq">Questions people actually ask</h2>
+  ${faqHtml}
   <h2>Contact</h2>
   <p>Email ${mail} or message ${x} on X. Corrections that change a number are recorded in the open on the <a href="${esc(brand.REPO_URL)}" rel="noopener">repository</a>.</p>
   <h2>Coverage</h2>
   <p>None yet. When there is some, it will be linked here, including the critical pieces.</p>
 </section>`;
   return page({
-    ctx, path: '/press.html',
-    title: `Press kit · ${brand.NAME}`,
-    description: `Facts, a liftable paragraph, images and a contact for anyone writing about ${brand.NAME}, the hourly AI activity index you can verify yourself.`,
+    ctx,
+    path,
+    title,
+    description,
+    jsonld: explainerJsonLd(ctx, path, title, description, faq.map(([q, a]) => ({
+      '@type': 'Question',
+      name: q,
+      acceptedAnswer: { '@type': 'Answer', text: a },
+    })), 'Press'),
     main,
   });
 }
@@ -789,15 +963,53 @@ ${bands.map((l) => `      <tr><td><b>${esc(l.level)}</b></td><td>${esc(l.name)}<
     stops at the grammar: ${esc(brand.NAME)} is not a readiness level and is not issued by any government body.</p>
   <h2>Where to go next</h2>
   <p><a href="${esc(ctx.href('/'))}">The current reading →</a> · <a href="${esc(ctx.href('/methodology.html'))}">Every formula →</a> ·
-    <a href="${esc(ctx.href('/compare.html'))}">AI doom indexes compared (DoomBench, Skynet, p(doom)) →</a> ·
+    <a href="${esc(ctx.href('/guides.html'))}">All AI explainers →</a> ·
+    <a href="${esc(ctx.href('/compare.html'))}">AI doom indexes compared (DoomBench, Skynet, p(doom), PizzINT, Takeoff Tracker) →</a> ·
+    <a href="${esc(ctx.href('/vs.html'))}">Versus directory →</a> ·
+    <a href="${esc(ctx.href('/vs/pizzint.html'))}">${esc(brand.NAME)} vs PizzINT / Pentagon Pizza Index →</a> ·
     <a href="${esc(ctx.href('/alternatives.html'))}">Alternatives hub →</a> ·
     <a href="${esc(ctx.href('/history.html'))}">Sixty years of the same argument →</a> · <a href="${esc(ctx.href('/desk.html'))}">Tally's desk →</a></p>
 </section>`;
+  const path = '/guide.html';
+  const title = `SIREN vs DEFCON vs the Doomsday Clock vs p(doom): what each measures`;
+  const description = `A plain guide to doom numbers. DEFCON is military readiness, the Doomsday Clock is a board's judgement, p(doom) is an opinion, PizzINT borrows those titles, and ${brand.NAME} is an hourly count of AI activity you can recompute.`;
+  // FAQ + speakable match the visible comparison table (FINDABILITY schema rule).
+  const faq = [
+    [`What does ${brand.NAME} measure compared with DEFCON, the Doomsday Clock and p(doom)?`,
+      `${brand.NAME} measures how much is happening in AI — tempo, not danger — from a published formula over public data, hourly, and you can recompute it from the receipt. DEFCON is US military readiness; the Bulletin’s Doomsday Clock is a yearly symbolic judgement; p(doom) is one person’s opinion as a percentage.`],
+    [`Is ${brand.NAME} a DEFCON level or the Bulletin’s Doomsday Clock?`,
+      `No. ${brand.NAME} borrows the countdown grammar only. It is not a military readiness level and does not publish the Bulletin’s clock. Sites that put those phrases in an AI title for traffic are doing brand hijack; see /vs/pizzint.html.`],
+    ['What is p(doom)?',
+      'p(doom) is one person’s stated probability that AI ends very badly. It is an opinion expressed as a number — not a recomputable measurement. See /p-doom.html.'],
+    [`Does a loud ${brand.NAME} reading mean AI is more dangerous?`,
+      'No. A loud reading means a lot shipped, was spent, was written or was regulated. It does not say whether any of it was good or bad, and it is not a forecast.'],
+  ];
   return page({
-    ctx, path: '/guide.html',
-    title: `SIREN vs DEFCON vs the Doomsday Clock vs p(doom): what each measures`,
-    description: `A plain guide to four doom numbers. DEFCON is military readiness, the Doomsday Clock is a board's judgement, p(doom) is an opinion, and ${brand.NAME} is an hourly count of AI activity you can recompute.`,
+    ctx, path,
+    title,
+    description,
     head: `<link rel="alternate" type="text/markdown" href="${esc(ctx.href('/guide.md'))}" title="Guide (markdown)">`,
+    jsonld: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        name: title,
+        url: ctx.url(path),
+        description,
+        isPartOf: { '@type': 'WebSite', name: brand.PUBLICATION, url: ctx.url('/') },
+        speakable: speakable(['h1', '.lede']),
+      },
+      breadcrumbs(ctx, [{ name: 'Guide', path }]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map(([q, a]) => ({
+          '@type': 'Question',
+          name: q,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
+      },
+    ],
     main,
   });
 }
@@ -853,6 +1065,169 @@ Because nobody needs the scale explained twice. "Five is calm, one is not" is al
 
 - [The current reading](${ctx.url('/')})
 - [Every formula](${ctx.url('/methodology.html')}) · [methodology.md](${ctx.url('/methodology.md')})
+- [AI doom indexes compared](${ctx.url('/compare.html')}) · [Versus directory](${ctx.url('/vs.html')}) · [Alternatives hub](${ctx.url('/alternatives.html')})
+- [${brand.NAME} vs PizzINT / Pentagon Pizza Index](${ctx.url('/vs/pizzint.html')})
+- [Sixty years of the same argument](${ctx.url('/history.html')})
+- [AI explainers hub](${ctx.url('/guides.html')})
+`;
+}
+
+/** Evergreen explainers we already publish — head-term directory, not new claims. */
+export const GUIDES = Object.freeze([
+  {
+    path: '/guide.html',
+    name: 'SIREN vs DEFCON vs the Doomsday Clock',
+    blurb: 'Four doom numbers and what each one actually measures — including PizzINT brand hijack.',
+  },
+  {
+    path: '/p-doom.html',
+    name: 'What is p(doom)?',
+    blurb: 'Named estimates on one chart. An opinion expressed as a percentage, not a receipt.',
+  },
+  {
+    path: '/ai-doomsday-clock.html',
+    name: 'Is there an AI doomsday clock?',
+    blurb: 'The Bulletin’s clock vs AI-specific countdowns vs an hourly activity count.',
+  },
+  {
+    path: '/methodology.html',
+    name: 'How the index is computed',
+    blurb: 'Every formula, pillar weight, and frozen-reference rule.',
+  },
+  {
+    path: '/history.html',
+    name: 'What is the history of AI risk?',
+    blurb: 'Dated, sourced field notes — Good, Asilomar, the pause letter — not a forecast.',
+  },
+  {
+    path: '/compare.html',
+    name: 'AI doom indexes compared',
+    blurb: 'Side-by-side with DoomBench, Skynet Countdown, p(doom), PizzINT and Takeoff Tracker.',
+  },
+  {
+    path: '/vs.html',
+    name: 'SIREN vs other AI indexes',
+    blurb: 'Directory of honest versus pages — activity tempo, not doom claims.',
+  },
+  {
+    path: '/alternatives.html',
+    name: 'AI doom index alternatives',
+    blurb: 'When this index is the right substitute — and when it is not.',
+  },
+  {
+    path: '/jobs.html',
+    name: 'Is AI taking jobs?',
+    blurb: 'Register counts with sources and caveats — not a jobs forecast.',
+  },
+  {
+    path: '/medicine.html',
+    name: 'Is AI curing anything?',
+    blurb: 'Trials, authorisations, and caveats — not a cure claim.',
+  },
+]);
+
+/** Head-term /guides.html hub over evergreen explainers (FINDABILITY conquest). */
+export function guides(ctx) {
+  const path = '/guides.html';
+  // Head-term title: people search “AI explainers” / p(doom) / doomsday clock.
+  const title = `What are the AI explainers? p(doom), clocks, doom indexes · ${brand.NAME}`;
+  const description = `Plain guides on p(doom), AI doomsday clocks, DEFCON comparisons, and recomputable AI activity indexes. ${brand.NAME} counts tempo — it does not publish a doom probability.`;
+  // FAQ from the SAME pairs rendered in HTML (FINDABILITY schema rule — no invented Q&A).
+  const faqPairs = [
+    [
+      'Where are the AI doom and p(doom) explainers?',
+      `${brand.NAME} publishes /guides.html as a directory of evergreen explainers: p(doom), AI doomsday clocks, DEFCON comparisons, methodology, sourced AI-risk history, and versus pages for DoomBench, Skynet Countdown, p(doom) clocks, PizzINT and Takeoff Tracker. None of them is a doom probability for ${brand.NAME} itself.`,
+    ],
+    [
+      'Does SIREN publish a doom probability?',
+      `No. ${brand.NAME} publishes an hourly AI activity count with a receipt. The explainer pages describe vocabulary other sites use; they do not turn the ${brand.NAME} reading into a chance of harm.`,
+    ],
+  ];
+  const rows = GUIDES.map((g) => `<li style="padding:12px 0;border-bottom:1px solid var(--rule)">
+  <a href="${esc(ctx.href(g.path))}" style="font:600 var(--t-base)/1.35 var(--sans);color:var(--ink);text-decoration:none">${esc(g.name)}</a>
+  <p style="margin:4px 0 0;font:400 var(--t-sm)/1.5 var(--sans);color:var(--ink-dim)">${esc(g.blurb)}</p>
+</li>`).join('');
+  const faqHtml = faqPairs.map(([q, a]) => `
+  <h3>${esc(q)}</h3>
+  <p>${esc(a)}</p>`).join('');
+  const main = `${CSS}
+<section class="inf">
+  <p class="eyebrow">Guides</p>
+  <div class="inf__top">${mascot({ size: 76, level: level(ctx) })}<h1 class="bp__h1">What are the AI explainers — and what each number measures</h1></div>
+  <p class="lede">Search often lands on a doom score, a countdown, or a DEFCON-shaped novelty page.
+    These pages answer the vocabulary questions without inventing a probability of harm.
+    ${esc(brand.NAME)} stays an hourly activity count with a receipt.</p>
+  <ol style="list-style:none;padding:0;margin:16px 0 0">${rows}</ol>
+  <h2 id="faq">Questions people actually ask</h2>
+  ${faqHtml}
+  <h2>Also</h2>
+  <p><a href="${esc(ctx.href('/'))}">Live reading →</a>
+     · <a href="${esc(ctx.href('/guides.md'))}">Markdown mirror →</a>
+     · <a href="${esc(ctx.href('/history.html'))}">Sixty years of the same argument →</a>
+     · <a href="${esc(ctx.href('/library.html'))}">Reading list →</a></p>
+</section>`;
+  return page({
+    ctx,
+    path,
+    title,
+    description,
+    head: `<link rel="alternate" type="text/markdown" href="${esc(ctx.href('/guides.md'))}" title="AI explainers (markdown)">`,
+    jsonld: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'CollectionPage',
+        name: title,
+        url: ctx.url(path),
+        description,
+        isPartOf: { '@type': 'WebSite', name: brand.PUBLICATION, url: ctx.url('/') },
+        speakable: speakable(['h1', '.lede']),
+      },
+      breadcrumbs(ctx, [{ name: 'Guides', path }]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'ItemList',
+        name: 'AI explainers on SIREN',
+        numberOfItems: GUIDES.length,
+        itemListElement: GUIDES.map((g, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          name: g.name,
+          url: ctx.url(g.path),
+        })),
+      },
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faqPairs.map(([q, a]) => ({
+          '@type': 'Question',
+          name: q,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
+      },
+    ],
+    main,
+  });
+}
+
+/** Markdown mirror of /guides.html for agents (FINDABILITY.md §2.1). */
+export function guidesMd(ctx) {
+  const lines = GUIDES.map((g) => `- [${g.name}](${ctx.url(g.path)}): ${g.blurb}`).join('\n');
+  return `# AI explainers — what each number measures
+
+> HTML: ${ctx.url('/guides.html')}
+
+Search often lands on a doom score, a countdown, or a DEFCON-shaped novelty page.
+These pages answer the vocabulary questions without inventing a probability of harm.
+${brand.NAME} stays an hourly activity count with a receipt.
+
+## Guides
+
+${lines}
+
+## Also
+
+- [Live reading](${ctx.url('/')})
+- [guide.md](${ctx.url('/guide.md')}) · [methodology.md](${ctx.url('/methodology.md')})
 - [Sixty years of the same argument](${ctx.url('/history.html')})
 `;
 }
