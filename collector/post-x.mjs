@@ -284,6 +284,25 @@ export function sha256(bytes) {
   return `sha256:${createHash('sha256').update(bytes).digest('hex')}`;
 }
 
+// ---------------------------------------------------------------------------
+// Off-brand guard: @SIRENutf6 posts AI / power / chips index reads only.
+// Weather, quake and disaster alerts (NWS, USGS, NHC, GDACS, EONET) never go
+// to X from any pipeline, whatever upstream picked them.
+// ---------------------------------------------------------------------------
+
+export const OFF_BRAND_HAZARD_RE = /\b(NWS|National Weather Service|NHC|GDACS|EONET|USGS|tornado(es)?|hurricanes?|tropical storm|typhoons?|cyclones?|blizzard|flash flood|flood (warning|watch)|severe thunderstorm|winter storm|earthquakes?|quakes?|tsunamis?|wildfires?|red flag warning|heat advisory)\b/i;
+
+export function findOffBrandHazard(text) {
+  const m = String(text || '').match(OFF_BRAND_HAZARD_RE);
+  return m ? m[0] : null;
+}
+
+export function assertOnBrand(text) {
+  const hit = findOffBrandHazard(text);
+  if (hit) throw new Error(`POST REJECTED (x): weather/hazard item ("${hit}") is off-brand for @SIRENutf6. AI/power/chips reads only.`);
+  return text;
+}
+
 /**
  * multipart/form-data, built by hand so --dry-run can print exactly what is
  * sent. The boundary is derived from the image hash (deterministic, no
@@ -401,6 +420,7 @@ function expectOk(res, what, url) {
  */
 export async function postToX({ text, png, creds, transport = sendOnce }) {
   preflightX(text);
+  assertOnBrand(text);
   if (!creds || typeof creds.consumerKey !== 'string') throw new Error('postToX: no credentials (read them with readCredentials())');
   let mediaId = null;
   if (png) {
