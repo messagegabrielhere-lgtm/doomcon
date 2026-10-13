@@ -874,8 +874,11 @@ describe('outlet facets', () => {
 
   it('renders an outlet page that lists its stories', () => {
     const html = renderSource(ctx, 'hn');
-    assert.match(html, /<h1>hn<\/h1>/);
+    assert.match(html, /What has SIREN scored via hn\?/);
     assert.match(html, /CollectionPage/);
+    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /"@type"\s*:\s*"FAQPage"/);
+    assert.match(html, /speakable/);
     assert.doesNotMatch(html, /noindex/);
     assert.match(html, /item\//);
     assert.match(html, /\/sources\.html/);
@@ -883,9 +886,12 @@ describe('outlet facets', () => {
 
   it('ships /sources.html over the same gated feed-adapter set', () => {
     const html = renderSources(ctx);
-    assert.match(html, /AI news sources this index covers/);
+    assert.match(html, /Which AI news sources has SIREN scored via\?/);
     assert.match(html, /\/source\/hn\.html/);
     assert.match(html, /does not publish a source/);
+    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /"@type"\s*:\s*"FAQPage"/);
+    assert.match(html, /speakable/);
     assert.match(html, /\/outlets\.html/);
     assert.match(renderSourceIndex(ctx), /\/sources\.html/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);

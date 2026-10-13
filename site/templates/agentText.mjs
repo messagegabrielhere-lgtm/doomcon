@@ -347,7 +347,7 @@ ${facetLinks(ctx, u)}
 - [Catalog](${u('/catalog.html')})
 - [Search](${u('/search.html')})
 - [Feed outlets](${u('/source/')}): scored stories grouped by the feed adapter that carried them
-- [AI news sources](${u('/sources.html')}): feed-adapter directory (same gated adapters; story counts only)
+- [AI news sources](${u('/sources.html')}): which AI news sources this index scored via (same gated adapters; story counts only)
 - [Publishers](${u('/outlet/')}): scored stories grouped by the publisher host on the original URL (live window or archive)
 - [AI outlets](${u('/outlets.html')}): which AI outlets this index scored stories from (same gated hosts; story counts only)
 - [Model families](${u('/model/')}): scored stories grouped by the model the headline names

@@ -50,6 +50,7 @@ export function organization(ctx) {
       'AI people this index scored',
       'AI story kinds this index scored',
       'AI outlets this index scored',
+      'AI news sources this index scored',
       'AI doom index alternatives',
       'DoomBench alternative',
       'Skynet Countdown alternative',
