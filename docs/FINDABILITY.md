@@ -417,6 +417,7 @@ context.
 | 184 | `/arena.html` question-shaped title + WebPage speakable + visible FAQ matching FAQPage schema (daily picks + filings + AI battle; tab JS keeps question title; refuse financial advice / arena-as-index-input / doom-probability claims); IndexNow + seo-daily; `knowsAbout` “What does SIREN Arena show” | Google + Bing | **Done** (2026-10-13) |
 | 185 | `/live-x.html` question-shaped title + WebPage speakable + visible FAQ matching FAQPage schema (live X feeds + Spaces; refuse embed-as-tracking / SIREN-as-X-oracle / doom-probability claims); IndexNow + seo-daily; `knowsAbout` “Where are live X feeds and Spaces on AI” | Google + Bing | **Done** (2026-10-13) |
 | 186 | `/feedback.html` question-shaped title + WebPage speakable + visible FAQ matching FAQPage schema (GitHub public issues; refuse private intake / doom-probability / stuffing); IndexNow + seo-daily; `knowsAbout` “How do I report a problem or send an idea to SIREN” | Google + Bing | **Done** (2026-10-13) |
+| 187 | `/alerts.html` question-shaped title + WebPage speakable + visible FAQ matching FAQPage schema (RSS / email recipes / in-tab notify; refuse private email intake / alerts-as-index-input / doom-probability); IndexNow + seo-daily; `knowsAbout` “How do I get alerts when SIREN moves” | Google + Bing | **Done** (2026-10-13) |
 
 ### 3.3 Refusals (search edition)
 
