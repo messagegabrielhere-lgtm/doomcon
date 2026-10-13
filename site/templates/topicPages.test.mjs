@@ -48,11 +48,14 @@ const ctx = {
 
 describe('jobs / medicine topic pages', () => {
   it('ships question-shaped titles, speakable, breadcrumbs, and visible FAQ', () => {
-    assert.equal(TOPICS.jobs.h1.includes('Is AI taking jobs?'), true);
-    assert.equal(TOPICS.medicine.h1.includes('Is AI curing anything?'), true);
+    assert.equal(TOPICS.jobs.h1, 'Is AI taking jobs? What has actually been measured');
+    assert.equal(TOPICS.medicine.h1, 'Is AI curing anything? Trial results, approvals and what they show');
 
     const jobs = render(ctx, 'jobs');
     assert.match(jobs, /<title>Is AI taking jobs\? What has actually been measured/);
+    assert.match(jobs, /<h1 class="bp__h1">Is AI taking jobs\? What has actually been measured<\/h1>/);
+    assert.match(jobs, /"name"\s*:\s*"Is AI taking jobs\? What has actually been measured"/);
+    assert.doesNotMatch(jobs, /<h1[^>]*>Is AI taking jobs\? What has been measured<\/h1>/);
     assert.match(jobs, /SpeakableSpecification/);
     assert.match(jobs, /BreadcrumbList/);
     assert.match(jobs, /"@type"\s*:\s*"FAQPage"/);
@@ -61,7 +64,10 @@ describe('jobs / medicine topic pages', () => {
     assert.doesNotMatch(jobs, /probability of doom is \d/i);
 
     const med = render(ctx, 'medicine');
-    assert.match(med, /<title>Is AI curing anything\? Trial results/);
+    assert.match(med, /<title>Is AI curing anything\? Trial results, approvals and what they show/);
+    assert.match(med, /<h1 class="bp__h1">Is AI curing anything\? Trial results, approvals and what they show<\/h1>/);
+    assert.match(med, /"name"\s*:\s*"Is AI curing anything\? Trial results, approvals and what they show"/);
+    assert.doesNotMatch(med, /<h1[^>]*>Is AI curing anything\? Results on the record<\/h1>/);
     assert.match(med, /SpeakableSpecification/);
     assert.match(med, /BreadcrumbList/);
     assert.match(med, /"@type"\s*:\s*"FAQPage"/);
