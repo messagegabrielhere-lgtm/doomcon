@@ -19,10 +19,10 @@ describe('scanner page SEO', () => {
     assert.match(html, /FAQPage/);
     assert.match(html, /"@type":\s*"WebPage"/);
     assert.match(html, /BreadcrumbList/);
+    assert.match(html, /arena\.html/);
     assert.match(html, /monitor\.html/);
-    assert.match(html, /game\.html/);
+    assert.match(html, /What does SIREN Arena show\?/);
     assert.match(html, /What does the SIREN World Monitor show\?/);
-    assert.match(html, /How do you play Tally Counts\?/);
     assert.match(html, /never moves the SIREN score/);
     assert.match(html, /Nothing here is financial advice/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
