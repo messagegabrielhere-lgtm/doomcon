@@ -55,6 +55,16 @@ test('allow-listed slugs pass regardless of wording', () => {
   assert.equal(r.via, 'allow');
   assert.ok(AI_SLUG_ALLOW.length > 5);
   no('IPO by October 31?', { eventSlug: 'stripe-ipo-by' });
+  const llama = matchAiQuestion('Which model wins?', { eventSlug: 'llama-5-release-by' });
+  assert.equal(llama.match, true);
+  assert.equal(llama.via, 'allow');
+});
+
+test('expanded lab / model vocabulary (IMPROVEMENTS-v1)', () => {
+  yes('Will Safe Superintelligence raise again in 2026?');
+  yes('Will Thinking Machines Lab ship a frontier model?');
+  yes('Will Hugging Face list 100k models?');
+  yes('Will Cohere beat OpenAI on enterprise seats?');
 });
 
 test('result is auditable: hits and exclusions named', () => {
