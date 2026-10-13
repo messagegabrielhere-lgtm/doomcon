@@ -405,6 +405,7 @@ context.
 | 172 | `/live.html` question-shaped title + CollectionPage speakable + visible FAQ matching FAQPage schema (AI on TV & radio live room; refuse live-room-as-forecast / endorsement-as-SIREN-claim / doom-probability claims); IndexNow + seo-daily; `knowsAbout` “What AI is on TV and radio right now” | Google + Bing | **Done** (2026-10-13) |
 | 173 | `/catalog.html` question-shaped title + CollectionPage speakable + ItemList + visible FAQ matching FAQPage schema (site directory; refuse catalog-as-doom-index / stuffing / doom-probability claims); IndexNow + seo-daily; `knowsAbout` “Where is everything on SIREN listed” | Google + Bing | **Done** (2026-10-13) |
 | 174 | `/search.html` question-shaped title + WebPage speakable + visible FAQ matching FAQPage schema (site-wide search; refuse search-as-doom-oracle / stuffing / doom-probability claims); IndexNow + seo-daily; `knowsAbout` “How do you search everything on SIREN” | Google + Bing | **Done** (2026-10-13) |
+| 175 | `/tally.html` question-shaped title + WebPage speakable + visible FAQ matching FAQPage schema (duty canary mascot; refuse tally-as-doom-oracle / mood-as-severity / doom-probability claims); IndexNow + seo-daily; `knowsAbout` “Who is Tally, the SIREN duty canary” | Google + Bing | **Done** (2026-10-13) |
 
 ### 3.3 Refusals (search edition)
 
