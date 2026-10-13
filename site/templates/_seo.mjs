@@ -133,6 +133,8 @@ export function organization(ctx) {
       'Where can you find real clips of AI leaders',
       'Tally Counts',
       'How do you play Tally Counts',
+      'SIREN Dispatch',
+      'What public feeds does SIREN Dispatch show',
       'AI labs this index scored',
       'AI stories this index scored',
       'AI leaders on the record',
