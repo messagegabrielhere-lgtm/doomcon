@@ -259,11 +259,21 @@ export function renderPillar(ctx, pillarId) {
 export function renderPillarIndex(ctx) {
   const pillars = indexablePillars(ctx);
   const path = '/pillar/';
-  const title = `AI activity pillars this index scores · ${brand.NAME}`;
+  // Head-term title: people search “AI activity pillars” / pillar directory.
+  const title = `Which AI activity pillars have ${brand.NAME} pages?`;
   const description = clip(
     `${pillars.length} pillars with at least ${PILLAR_INDEX_MIN} scored stories on ${brand.NAME} (live window plus archive). Each page lists those stories beside the live pillar reading.`,
     160,
   );
+  const faq = [
+    [`Which AI activity pillars have ${brand.NAME} pages?`,
+      `${pillars.length} pillars clear the substance gate of at least ${PILLAR_INDEX_MIN} matching stories in the live window or archive. Each hub lists those stories beside the live pillar reading — not a pillar doom score.`],
+    [`Does ${brand.NAME} publish a pillar doom score?`,
+      `No. ${brand.DISCLAIMER_SHORT} These pages count scored stories under a pillar and the live tempo reading against this index’s frozen reference.`],
+  ];
+  const faqHtml = faq.map(([q, a]) => `
+  <h3>${esc(q)}</h3>
+  <p>${esc(a)}</p>`).join('');
   const rows = pillars.map((p) => `<li>
   <a href="${esc(ctx.href(pillarPath(p.id)))}">${esc(p.name)}</a>
   <span class="fc__meta">${esc(p.id)}${p.archived ? ` · ${esc(String(p.live))} live / ${esc(String(p.archived))} archive` : ''}${p.score != null ? ` · ${esc(num(p.score, 1))} / 100` : ''}</span>
@@ -272,9 +282,11 @@ export function renderPillarIndex(ctx) {
   const main = `${STYLE}
 <article class="fc prose">
   <p class="fc__k"><a href="${esc(ctx.href('/news.html'))}">Newsroom</a> · Pillars · <a href="${esc(ctx.href('/pillars.html'))}">Pillars hub</a></p>
-  <h1>Pillars this index scores</h1>
+  <h1>Which AI activity pillars have ${esc(brand.NAME)} pages?</h1>
   <p class="fc__lede">A pillar earns a crawlable page when at least ${PILLAR_INDEX_MIN} scored stories under it appear in the live window or the durable archive. The live pillar score is activity tempo against this index’s frozen reference — not a probability of harm.</p>
   ${pillars.length ? `<ol class="fc__list">${rows}</ol>` : '<p>No pillar cleared the gate in this build.</p>'}
+  <h2 id="faq">Questions people actually ask</h2>
+  ${faqHtml}
   <p class="fresh__key">Search-shaped directory: <a href="${esc(ctx.href('/pillars.html'))}">Which AI activity pillars has ${esc(brand.NAME)} scored?</a>.</p>
 </article>`;
   return page({
@@ -289,6 +301,7 @@ export function renderPillarIndex(ctx) {
       name: title,
       url: ctx.url(path),
       description,
+      speakable: speakable(['h1', '.fc__lede']),
       mainEntity: {
         '@type': 'ItemList',
         numberOfItems: pillars.length,
@@ -302,7 +315,15 @@ export function renderPillarIndex(ctx) {
     }, breadcrumbs(ctx, [
       { name: 'Newsroom', path: '/news.html' },
       { name: 'Pillars', path },
-    ])],
+    ]), {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faq.map(([q, a]) => ({
+        '@type': 'Question',
+        name: q,
+        acceptedAnswer: { '@type': 'Answer', text: a },
+      })),
+    }],
     main,
   });
 }

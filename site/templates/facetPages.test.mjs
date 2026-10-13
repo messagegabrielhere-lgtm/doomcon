@@ -165,8 +165,12 @@ describe('pillar facets', () => {
     assert.match(hub, /\/methodology\.html/);
     assert.doesNotMatch(hub, /doom score:\s*\d/i);
     const index = renderPillarIndex(ctx);
-    assert.match(index, /Pillars this index scores/);
+    assert.match(index, /Which AI activity pillars have SIREN pages\?/);
+    assert.match(index, /Questions people actually ask/);
+    assert.match(index, /"@type"\s*:\s*"FAQPage"/);
+    assert.match(index, /speakable/);
     assert.match(index, /\/pillars\.html/);
+    assert.doesNotMatch(index, /doom score:\s*\d/i);
     assert.match(renderPillar(ctx, 'capability'), /\/pillars\.html/);
   });
 });

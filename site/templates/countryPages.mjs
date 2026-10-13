@@ -342,11 +342,21 @@ export function renderIndex(ctx) {
   const copy = (ctx.world && ctx.world.copy) || {};
   const qualifier = String(copy.headline_qualifier || 'as mapped in OpenStreetMap');
   const path = '/country/';
-  const title = `Datacentres mapped by country · ${brand.NAME}`;
+  // Head-term title: people search “AI countries” / datacentre-directory.
+  const title = `Which AI datacentre countries have ${brand.NAME} pages?`;
   const description = clip(
     `${countries.length} countries with at least ${COUNTRY_INDEX_MIN} datacentre sites ${qualifier}. Each page lists the count and named sites. A count of map objects.`,
     160,
   );
+  const faq = [
+    [`Which AI datacentre countries have ${brand.NAME} pages?`,
+      `${countries.length} countries clear the substance gate of at least ${COUNTRY_INDEX_MIN} sites ${qualifier}. Each hub lists those mapped counts — not a national AI ranking or country doom score.`],
+    [`Does ${brand.NAME} publish a country doom score?`,
+      `No. ${brand.DISCLAIMER_SHORT} These pages count OpenStreetMap datacentre sites, not a ranking of how dangerous a country is.`],
+  ];
+  const faqHtml = faq.map(([q, a]) => `
+  <h3>${esc(q)}</h3>
+  <p>${esc(a)}</p>`).join('');
   const rows = countries.map((c) => `<li>
   <a href="${esc(ctx.href(countryPath(c.iso2)))}">${esc(c.name)}</a>
   <span class="fc__meta">${esc(c.iso2)} · ${esc(c.continent || '')}</span>
@@ -355,9 +365,11 @@ export function renderIndex(ctx) {
   const main = `${STYLE}
 <article class="fc prose">
   <p class="fc__k"><a href="${esc(ctx.href('/world.html'))}">World</a> · Countries · <a href="${esc(ctx.href('/countries.html'))}">Countries hub</a></p>
-  <h1>Datacentres mapped by country</h1>
+  <h1>Which AI datacentre countries have ${esc(brand.NAME)} pages?</h1>
   <p class="fc__lede">A country earns a page when OpenStreetMap has at least ${COUNTRY_INDEX_MIN} datacentre sites mapped there, ${esc(qualifier)}. Fewer than that stays on the <a href="${esc(ctx.href('/world.html'))}">world map</a> only. ${esc(copy.what_zero_means || 'A country with no mapped datacentre is a country nobody has mapped.')}</p>
   ${rows ? `<ol class="fc__list">${rows}</ol>` : '<p>No country clears the gate in this file.</p>'}
+  <h2 id="faq">Questions people actually ask</h2>
+  ${faqHtml}
   <p class="fresh__key">Search-shaped directory: <a href="${esc(ctx.href('/countries.html'))}">Which AI datacentre countries has ${esc(brand.NAME)} mapped?</a>.</p>
 </article>`;
   return page({
@@ -372,6 +384,7 @@ export function renderIndex(ctx) {
       name: title,
       url: ctx.url(path),
       description,
+      speakable: speakable(['h1', '.fc__lede']),
       mainEntity: {
         '@type': 'ItemList',
         numberOfItems: countries.length,
@@ -385,7 +398,15 @@ export function renderIndex(ctx) {
     }, breadcrumbs(ctx, [
       { name: 'World', path: '/world.html' },
       { name: 'Countries', path },
-    ])],
+    ]), {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faq.map(([q, a]) => ({
+        '@type': 'Question',
+        name: q,
+        acceptedAnswer: { '@type': 'Answer', text: a },
+      })),
+    }],
     main,
   });
 }

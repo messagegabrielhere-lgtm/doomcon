@@ -91,7 +91,13 @@ describe('country pages', () => {
     assert.match(html, /"@type"\s*:\s*"FAQPage"/);
     assert.match(html, /speakable/);
     assert.match(html, /\/world\.html/);
-    assert.match(renderIndex(ctx), /\/countries\.html/);
+    const index = renderIndex(ctx);
+    assert.match(index, /Which AI datacentre countries have SIREN pages\?/);
+    assert.match(index, /Questions people actually ask/);
+    assert.match(index, /"@type"\s*:\s*"FAQPage"/);
+    assert.match(index, /speakable/);
+    assert.match(index, /\/countries\.html/);
+    assert.doesNotMatch(index, /doom score:\s*\d/i);
     assert.match(renderCountry(ctx, 'de'), /\/countries\.html/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /the number of datacentres in the world/i);
