@@ -269,7 +269,27 @@ ${mzOn.newsletter() ? `<li><b>Email newsletter.</b> If you subscribe, your email
 // and fixed. GitHub needs the visitor signed in to submit; the copy says so,
 // and says issues are public.
 export function feedback(ctx) {
+  const path = '/feedback.html';
+  const qTitle = `How do I report a problem or send an idea to ${brand.NAME}?`;
+  const description = `${qTitle} Every report goes straight to the project's public issue list on GitHub. Nothing is sent to or stored by this site. Issues are public — leave out personal information.`;
   const repo = brand.REPO_URL;
+
+  // FAQ answers restate lede / note copy only (FINDABILITY §3.3).
+  // Refuse: private intake, doom-probability, stuffing.
+  const faq = [
+    [qTitle,
+      'Every report goes straight to the project\'s issue list on GitHub, where it is read and worked through. Opens GitHub with the form filled in; you press Create there (a free GitHub account is needed).'],
+    ['Does this site store my feedback?',
+      'Nothing is sent to or stored by this site. The form opens a pre-filled, public issue on GitHub that you choose whether to submit.'],
+    ['Are feedback issues public?',
+      'Issues are public, so please leave out personal information.'],
+    ['What kinds of reports can I send?',
+      'Something\'s broken, wrong or old data, or an idea or feedback.'],
+  ];
+  const faqHtml = faq.map(([q, a]) => `
+  <h3>${esc(q)}</h3>
+  <p>${esc(a)}</p>`).join('');
+
   const main = `${CSS}
 <style>
 .fb form{display:grid;gap:16px;max-width:640px;margin-top:20px}
@@ -283,10 +303,12 @@ export function feedback(ctx) {
 .fb textarea{min-height:150px;resize:vertical}
 .fb button{justify-self:start;padding:12px 18px;border:0;border-radius:4px;background:#4ADE80;color:#000;font:700 14px/1 var(--mono);letter-spacing:.08em;cursor:pointer}
 .fb .note{font-size:13px;color:var(--ink-dim,#AEB7C3);margin:0}
+.fb .fb-faq-key{margin-top:16px}
+.fb .fb-faq-key a{color:var(--accent,#4ADE80);text-decoration:underline;text-underline-offset:2px}
 </style>
 <section class="inf fb">
   <p class="eyebrow">Feedback</p>
-  <div class="inf__top"><h1 class="bp__h1">Report a problem or send an idea</h1></div>
+  <div class="inf__top"><h1 class="bp__h1">${esc(qTitle)}</h1></div>
   <p class="lede">Every report goes straight to the project's issue list on GitHub, where it is read and worked through.</p>
   <form id="fb" novalidate>
     <fieldset class="kind"><legend>What is it?</legend>
@@ -301,6 +323,11 @@ export function feedback(ctx) {
     <p class="note">Opens GitHub with this filled in; you press <b>Create</b> there (a free GitHub account is needed). Issues are <b>public</b>, so please leave out personal information. Nothing is sent to or stored by this site.</p>
     <p class="note">Or browse <a href="${esc(repo)}/issues" rel="noopener">open issues</a>.</p>
   </form>
+  <h2 id="faq">Questions people actually ask</h2>
+  ${faqHtml}
+  <p class="note fb-faq-key">Search-shaped sibling:
+    <a href="${esc(ctx.href('/about.html'))}">What is ${esc(brand.NAME)}, and who is behind it?</a>
+    · <a href="${esc(ctx.href('/privacy.html'))}">What does this site know about you?</a>.</p>
 </section>
 <script>
 (function(){
@@ -321,9 +348,16 @@ export function feedback(ctx) {
 })();
 </script>`;
   return page({
-    ctx, path: '/feedback.html',
-    title: `Feedback · ${brand.NAME}`,
-    description: `Report a problem, wrong data or an idea for ${brand.NAME}. Reports go straight to the project's public issue list on GitHub.`,
+    ctx,
+    path,
+    title: `${qTitle} · ${brand.NAME}`,
+    ogTitle: `${brand.NAME}: ${qTitle}`,
+    description,
+    jsonld: explainerJsonLd(ctx, path, qTitle, description, faq.map(([q, a]) => ({
+      '@type': 'Question',
+      name: q,
+      acceptedAnswer: { '@type': 'Answer', text: a },
+    })), 'Feedback'),
     main,
   });
 }

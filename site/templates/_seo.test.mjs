@@ -222,6 +222,8 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('What does SIREN Arena show'));
     assert.ok(org.knowsAbout.includes('Live on X'));
     assert.ok(org.knowsAbout.includes('Where are live X feeds and Spaces on AI'));
+    assert.ok(org.knowsAbout.includes('SIREN feedback'));
+    assert.ok(org.knowsAbout.includes('How do I report a problem or send an idea to SIREN'));
     assert.ok(org.knowsAbout.includes('AI labs this index scored'));
     assert.ok(org.knowsAbout.includes('AI stories this index scored'));
     assert.ok(org.knowsAbout.includes('AI leaders on the record'));

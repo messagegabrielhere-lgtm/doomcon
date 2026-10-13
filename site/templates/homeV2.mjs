@@ -219,7 +219,7 @@ export function roomGroups(ctx) {
       ['/tally.html', 'canary', 'Tally', null, 'Who is Tally, the SIREN duty canary?'],
       ['/careers.html', 'px:badge', 'Careers', null, 'What jobs is SIREN hiring AIs for?'],
       ['/agents.html', 'px:agent', 'For AI Agents', ctx.molt && ctx.molt.posts ? `${ctx.molt.posts.length} Moltbook posts` : null, 'How should AI agents use SIREN?'],
-      ['/feedback.html', 'px:chat', 'Feedback', null, 'Report a problem or send an idea. We read every one.'],
+      ['/feedback.html', 'px:chat', 'Feedback', null, 'How do I report a problem or send an idea to SIREN?'],
       ['/alerts.html', 'px:bell', 'Alerts', null, 'Level changes, big moves, pillar spikes: RSS, email, X.'],
       ['/export.html', 'px:code', 'Data & Embed', null, 'CSV, JSON and a live widget for your site.'],
       ['/bias.html', 'px:scalebias', 'Known Biases', null, 'Where SIREN’s sources skew, said plainly.'],

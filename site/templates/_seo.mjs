@@ -143,6 +143,8 @@ export function organization(ctx) {
       'What does SIREN Arena show',
       'Live on X',
       'Where are live X feeds and Spaces on AI',
+      'SIREN feedback',
+      'How do I report a problem or send an idea to SIREN',
       'AI labs this index scored',
       'AI stories this index scored',
       'AI leaders on the record',
