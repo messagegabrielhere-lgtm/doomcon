@@ -58,23 +58,31 @@ describe('model pages', () => {
 
   it('ships /models.html over the same gated model set', () => {
     const html = renderModels(ctx);
-    assert.match(html, /AI models this index covers/);
+    assert.match(html, /Which AI models has SIREN scored stories about\?/);
     assert.match(html, /\/model\/claude\.html/);
     assert.match(html, /does not publish a model/);
     assert.match(html, /\/companies\.html/);
+    assert.match(html, /SpeakableSpecification/);
+    assert.match(html, /FAQPage/);
+    assert.match(html, /Questions people actually ask/);
     assert.match(renderIndex(ctx), /\/models\.html/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
   });
 
   it('lists the stories and the lab page, and does not invent a model score', () => {
     const html = renderModel(ctx, 'Claude');
-    assert.match(html, /<title>Claude: AI stories this index scored/);
+    assert.match(html, /<title>What has SIREN scored about Claude\?/);
+    assert.match(html, /What has SIREN scored about Claude\?/);
     assert.match(html, /CollectionPage/);
+    assert.match(html, /SpeakableSpecification/);
+    assert.match(html, /FAQPage/);
+    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /Does SIREN publish a Claude doom score\?/);
     assert.match(html, /Claude one/);
     assert.match(html, /\/lab\/anthropic\.html/);
     assert.doesNotMatch(html, /noindex/);
     assert.match(html, /not a rating of the model/);
-    assert.doesNotMatch(html, /doom score/i);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
   });
 
   it('links older archived stories naming the model', () => {
@@ -163,8 +171,8 @@ describe('model pages', () => {
     };
     assert.ok(indexableModels(rich).some((m) => m.name === 'Muse Wonder'));
     const html = renderModel(rich, 'Muse Wonder');
-    assert.match(html, /Muse Wonder: AI stories this index scored|Muse Wonder/);
-    assert.doesNotMatch(html, /doom score/i);
+    assert.match(html, /What has SIREN scored about Muse Wonder\?|Muse Wonder/);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.ok(sitemapEntries(rich).some((e) => e.loc === '/model/muse-wonder.html'));
   });
 
@@ -182,8 +190,8 @@ describe('model pages', () => {
     };
     assert.ok(indexableModels(rich).some((m) => m.name === 'Maia'));
     const html = renderModel(rich, 'Maia');
-    assert.match(html, /Maia: AI stories this index scored|Maia/);
-    assert.doesNotMatch(html, /doom score/i);
+    assert.match(html, /What has SIREN scored about Maia\?|Maia/);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.ok(sitemapEntries(rich).some((e) => e.loc === '/model/maia.html'));
   });
 
@@ -213,8 +221,8 @@ describe('model pages', () => {
     };
     assert.ok(!indexableModels(thin).some((m) => m.name === 'Nano Banana'));
     const html = renderModel(rich, 'Nano Banana');
-    assert.match(html, /Nano Banana: AI stories this index scored|Nano Banana/);
-    assert.doesNotMatch(html, /doom score/i);
+    assert.match(html, /What has SIREN scored about Nano Banana\?|Nano Banana/);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.ok(sitemapEntries(rich).some((e) => e.loc === '/model/nano-banana.html'));
   });
 
@@ -245,8 +253,8 @@ describe('model pages', () => {
     };
     assert.ok(!indexableModels(thin).some((m) => m.name === 'Codex'));
     const html = renderModel(rich, 'Codex');
-    assert.match(html, /Codex: AI stories this index scored|Codex/);
-    assert.doesNotMatch(html, /doom score/i);
+    assert.match(html, /What has SIREN scored about Codex\?|Codex/);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.ok(sitemapEntries(rich).some((e) => e.loc === '/model/codex.html'));
   });
 });

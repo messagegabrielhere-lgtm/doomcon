@@ -346,6 +346,7 @@ context.
 | 113 | `/brand.html` question-shaped title (“Where is the SIREN brand guide?”) + WebPage speakable + BreadcrumbList + visible FAQ; IndexNow + seo-daily; `knowsAbout` “SIREN brand guide” | Google + Bing | **Done** (2026-10-13) |
 | 114 | Entity labs Salesforce / World Labs (`/lab/*`, live/archive ≥3 gate; World Labs two-word only; refuse Scale AI / Replicate / Listen Labs under gate or false friends); news:keywords + IndexNow + seo-daily | Google + Bing | **Done** (2026-10-13) |
 | 115 | Model hub Nano Banana (`/model/nano-banana`, Nano Banana / 2 / 2.1 forms — no bare Banana; live/archive ≥3); news:keywords + IndexNow + seo-daily | Google + Bing | **Done** (2026-10-13) |
+| 116 | `/model/*` + `/models.html` question-shaped titles + CollectionPage speakable + visible FAQ matching schema; `knowsAbout` “AI models this index scored” | Google | **Done** (2026-10-13) |
 
 ### 3.3 Refusals (search edition)
 

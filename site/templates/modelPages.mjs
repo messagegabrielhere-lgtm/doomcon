@@ -7,7 +7,7 @@
 import { publishedEntities, entitySlug, entityMatchRegex } from '../../collector/news-sources/_entities.mjs';
 import { esc, num, utc } from './_html.mjs';
 import { page } from './layout.mjs';
-import { breadcrumbs } from './_seo.mjs';
+import { breadcrumbs, speakable } from './_seo.mjs';
 import { slugFor } from './itemPage.mjs';
 import * as brand from '../brand.mjs';
 
@@ -162,12 +162,24 @@ export function renderModel(ctx, name) {
   const archivedAll = archiveItemsForModel(ctx, name);
   const older = archivedAll.slice(0, 12);
   const path = modelPath(name);
-  const title = `${name}: AI stories this index scored · ${brand.NAME}`;
+  // Head-term title: people search “{model} stories” / does SIREN score the model.
+  const title = `What has ${brand.NAME} scored about ${name}? AI stories, not a model score`;
   const total = items.length + archivedAll.length;
   const description = clip(
     `${total} scored stories name ${name} on ${brand.NAME} (${items.length} in the live window). A count of headlines that matched the published entity list, not a score for the model.`,
     160,
   );
+  const faq = [
+    [`What has ${brand.NAME} scored about ${name}?`,
+      `${total} scored stories name ${name} on ${brand.NAME} (${items.length} in the live window${archivedAll.length ? `, ${archivedAll.length} older in the archive` : ''}). The match is the published entity list applied to the headline — not a rating of the model.`],
+    [`Does ${brand.NAME} publish a ${name} doom score?`,
+      `No. ${brand.DISCLAIMER_SHORT} This page counts matching headlines. It does not assign ${name} a score.`],
+    [`How does a story match ${name}?`,
+      `A story matches when the published entity list names the family, or when the headline or summary carries a published surface form for that family. Thinner names stay on the story page only.`],
+  ];
+  const faqHtml = faq.map(([q, a]) => `
+  <h3>${esc(q)}</h3>
+  <p>${esc(a)}</p>`).join('');
   const others = indexableModels(ctx).filter((m) => m.name !== name);
   const olderBlock = older.length
     ? `<h2>Older scored stories naming ${esc(name)}</h2>
@@ -178,7 +190,7 @@ export function renderModel(ctx, name) {
   const main = `${STYLE}
 <article class="fc prose">
   <p class="fc__k"><a href="${esc(ctx.href('/news.html'))}">Newsroom</a> · <a href="${esc(ctx.href('/model/'))}">Models</a></p>
-  <h1>${esc(name)}</h1>
+  <h1>What has ${esc(brand.NAME)} scored about ${esc(name)}?</h1>
   <p class="fc__lede">${esc(items.length)} scored ${items.length === 1 ? 'story names' : 'stories name'} ${esc(name)} in the current window.
      The match is the published entity list, applied to the headline. It is not a claim that ${esc(name)} wrote the story, and it is not a rating of the model.</p>
   <div class="fc__stat" role="group" aria-label="Stories naming this model">
@@ -190,6 +202,8 @@ export function renderModel(ctx, name) {
   <h2>Stories in this window</h2>
   ${items.length ? `<ol class="fc__list">${storyRows(ctx, items)}</ol>` : '<p>No scored story in this window names this model.</p>'}
   ${olderBlock}
+  <h2 id="faq">Questions people actually ask</h2>
+  ${faqHtml}
   ${others.length ? `<h2>Other model families</h2>
   <nav class="fc__nav" aria-label="Other model families">${others.map((m) => `<a href="${esc(ctx.href(modelPath(m.name)))}">${esc(m.name)}</a>`).join('')}</nav>` : ''}
 </article>`;
@@ -208,6 +222,7 @@ export function renderModel(ctx, name) {
       description,
       about: { '@type': 'Thing', name },
       isPartOf: { '@type': 'WebSite', name: brand.PUBLICATION, url: ctx.url('/') },
+      speakable: speakable(['h1', '.fc__lede']),
       mainEntity: {
         '@type': 'ItemList',
         numberOfItems: Math.min(items.length, 40),
@@ -222,7 +237,15 @@ export function renderModel(ctx, name) {
       { name: 'Newsroom', path: '/news.html' },
       { name: 'Models', path: '/model/' },
       { name, path },
-    ])],
+    ]), {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faq.map(([q, a]) => ({
+        '@type': 'Question',
+        name: q,
+        acceptedAnswer: { '@type': 'Answer', text: a },
+      })),
+    }],
     main,
   });
 }
@@ -286,11 +309,21 @@ export function renderIndex(ctx) {
 export function renderModels(ctx) {
   const models = indexableModels(ctx);
   const path = '/models.html';
-  const title = `AI models this index covers · ${brand.NAME}`;
+  // Head-term title: people search “AI models” / which models SIREN covers.
+  const title = `Which AI models has ${brand.NAME} scored stories about?`;
   const description = clip(
     `${models.length} AI model families with scored-story hubs on ${brand.NAME}. Each row links /model pages — story counts only, not a model doom score.`,
     160,
   );
+  const faq = [
+    [`Which AI models has ${brand.NAME} scored stories about?`,
+      `${models.length} model families clear the substance gate of at least ${MODEL_INDEX_MIN} matching headlines in the live window or archive. Each hub lists those stories — not a model doom score.`],
+    [`Does ${brand.NAME} publish a model doom score?`,
+      `No. ${brand.DISCLAIMER_SHORT} These pages count headlines that name a published model family.`],
+  ];
+  const faqHtml = faq.map(([q, a]) => `
+  <h3>${esc(q)}</h3>
+  <p>${esc(a)}</p>`).join('');
   const rows = models.map((m) => `<li>
   <a href="${esc(ctx.href(modelPath(m.name)))}">${esc(m.name)}</a>
   <span class="fc__meta">Story hub · <span class="num">${esc(String(m.count))}</span> scored${m.archived ? ` (${esc(String(m.live))} live)` : ''}</span>
@@ -298,12 +331,14 @@ export function renderModels(ctx) {
   const main = `${STYLE}
 <article class="fc prose">
   <p class="fc__k"><a href="${esc(ctx.href('/compare.html'))}">Compare</a> · <a href="${esc(ctx.href('/model/'))}">Model families</a> · Models</p>
-  <h1>AI models this index covers</h1>
+  <h1>Which AI models has ${esc(brand.NAME)} scored stories about?</h1>
   <p class="fc__lede">${esc(brand.NAME)} does not publish a model “doom score.” It publishes an activity index and scored stories. This page lists model families that already clear the same substance gate as <a href="${esc(ctx.href('/model/'))}">/model/</a> — at least ${MODEL_INDEX_MIN} matching headlines in the live window or archive.</p>
   <div class="fc__stat" role="group" aria-label="Model hub totals">
     <div><b class="num">${esc(String(models.length))}</b><span>Model family hubs</span></div>
   </div>
   ${models.length ? `<ol class="fc__list">${rows}</ol>` : '<p>No model hub cleared the gate in this build.</p>'}
+  <h2 id="faq">Questions people actually ask</h2>
+  ${faqHtml}
   <p class="fresh__key"><a href="${esc(ctx.href('/model/'))}">Model family directory →</a>
      · <a href="${esc(ctx.href('/companies.html'))}">AI companies →</a>
      · <a href="${esc(ctx.href('/compare.html'))}">How this index differs from DoomBench →</a></p>
@@ -320,6 +355,7 @@ export function renderModels(ctx) {
       name: title,
       url: ctx.url(path),
       description,
+      speakable: speakable(['h1', '.fc__lede']),
       mainEntity: {
         '@type': 'ItemList',
         numberOfItems: models.length,
@@ -333,7 +369,15 @@ export function renderModels(ctx) {
     }, breadcrumbs(ctx, [
       { name: 'Compare', path: '/compare.html' },
       { name: 'Models', path },
-    ])],
+    ]), {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faq.map(([q, a]) => ({
+        '@type': 'Question',
+        name: q,
+        acceptedAnswer: { '@type': 'Answer', text: a },
+      })),
+    }],
     main,
   });
 }
