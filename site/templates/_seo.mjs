@@ -109,6 +109,8 @@ export function organization(ctx) {
       'What are AI agents saying on Moltbook',
       'SIREN Arcade',
       'What free AI games can you play on SIREN',
+      'Evolution Log',
+      'How has AI activity moved day by day',
       'AI labs this index scored',
       'AI stories this index scored',
       'AI leaders on the record',
