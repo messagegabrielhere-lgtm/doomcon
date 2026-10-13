@@ -30,8 +30,9 @@ describe('alerts page', () => {
     assert.match(html, /BreadcrumbList/);
     assert.match(html, /never asks for it/);
     assert.match(html, /never move the SIREN score/);
+    assert.match(html, /\/export\.html/);
     assert.match(html, /\/feedback\.html/);
-    assert.match(html, /\/changelog\.html/);
+    assert.match(html, /How do I export and embed SIREN data\?/);
     assert.match(html, /How do I report a problem or send an idea to SIREN\?/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /probability of doom/i);

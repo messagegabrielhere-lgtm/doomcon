@@ -195,8 +195,8 @@ ${list}
   <h2 id="faq">Questions people actually ask</h2>
   ${faqHtml}
   <p class="xt-faq-key">Search-shaped sibling:
-    <a href="${esc(ctx.href('/feedback.html'))}">How do I report a problem or send an idea to ${esc(brand.NAME)}?</a>
-    · <a href="${esc(ctx.href('/changelog.html'))}">What moved</a>.</p>
+    <a href="${esc(ctx.href('/export.html'))}">How do I export and embed ${esc(brand.NAME)} data?</a>
+    · <a href="${esc(ctx.href('/feedback.html'))}">How do I report a problem or send an idea to ${esc(brand.NAME)}?</a>.</p>
 </section>`;
 
   const js = `<script>(function(){
@@ -289,6 +289,8 @@ document.querySelectorAll('#xn-level,#xn-delta-on,#xn-delta,#xn-pillar-on,#xn-pi
 // /export.html
 // ---------------------------------------------------------------------------
 export function exportPage(ctx) {
+  const PATH = '/export.html';
+  const qTitle = `How do I export and embed ${brand.NAME} data?`;
   const s = ctx.state;
   const embedSnippet = `<iframe src="${ctx.url('/embed.html')}" width="320" height="152" style="border:0;max-width:100%" loading="lazy" title="${brand.NAME}: AI activity tempo"></iframe>`;
   const badgeHtml = `<a href="${ctx.url('/')}"><img src="${ctx.url('/badge.svg')}" alt="${brand.NAME} current level" height="20"></a>`;
@@ -316,8 +318,24 @@ export function exportPage(ctx) {
 
   const snippet = (id, label, code) => `<h3 style="margin-top:18px">${esc(label)}</h3><pre id="${id}">${esc(code)}</pre><button type="button" class="xt-btn sm ghost" data-copy-from="${id}">COPY</button>`;
 
+  // FAQ answers restate lede / download / CORS / licence copy only (FINDABILITY §3.3).
+  // Refuse: paid API / export-as-index-input / doom-probability.
+  const faq = [
+    [qTitle,
+      `Every number ${brand.NAME} publishes is downloadable, embeddable and free to reuse under ${brand.LICENSE} with a credit line. Files rebuild with each hourly reading.`],
+    ['What files can I download?',
+      'Every reading as CSV or JSON, current pillars as CSV, the current reading as JSON or one line of text, and an API index that lists every endpoint including per-reading receipts.'],
+    ['Do I need an API key?',
+      'No key, no rate limit beyond GitHub\'s own. The site sends Access-Control-Allow-Origin: *, so these files can be fetched from any web page without a proxy. Please cache: data changes about once an hour.'],
+    [`Does exporting move the ${brand.NAME} score?`,
+      `It never moves the ${brand.NAME} score. Downloads, embeds and API fetches are separate from the tempo index.`],
+  ];
+  const faqHtml = faq.map(([qAsk, a]) => `
+  <h3>${esc(qAsk)}</h3>
+  <p>${esc(a)}</p>`).join('');
+
   const main = `<p class="eyebrow">Export and embed</p>
-<h1>Take the data with you</h1>
+<h1>${esc(qTitle)}</h1>
 <p class="lede">Every number ${esc(brand.NAME)} publishes is downloadable, embeddable and free to reuse under ${esc(brand.LICENSE)} with a credit line. Files rebuild with each hourly reading${s && s.generated_at ? `; this page was built from the reading at ${esc(utc(s.generated_at))}` : ''}.</p>
 
 <h2 id="download">Download</h2>
@@ -342,18 +360,51 @@ ${snippet('xs-curl', 'Shell', `curl -s ${ctx.url('/api/latest.txt')}`)}
 <h2 id="licence">Licence and credit</h2>
 <p>Text and data are ${esc(brand.LICENSE)}. Reuse anything, commercially too, with this line (or an equivalent) next to it:</p>
 ${snippet('xs-attr', 'Attribution line', attribution)}
-<p class="xt-note">${esc(brand.DISCLAIMER)} Want an alert instead of a file? See <a href="${esc(ctx.href('/alerts.html'))}">alerts</a>.</p>`;
+<p class="xt-note">${esc(brand.DISCLAIMER)} Want an alert instead of a file? See <a href="${esc(ctx.href('/alerts.html'))}">How do I get alerts when ${esc(brand.NAME)} moves?</a>.</p>
+<section class="xt-faq" aria-labelledby="faq">
+  <h2 id="faq">Questions people actually ask</h2>
+  ${faqHtml}
+  <p class="xt-faq-key">Search-shaped sibling:
+    <a href="${esc(ctx.href('/alerts.html'))}">How do I get alerts when ${esc(brand.NAME)} moves?</a>
+    · <a href="${esc(ctx.href('/agents.html'))}">How should AI agents use ${esc(brand.NAME)}?</a>.</p>
+</section>`;
 
   const js = `<script>(function(){document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('[data-copy-from]');if(!b)return;
 var el=document.getElementById(b.getAttribute('data-copy-from'));if(!el)return;var t=el.textContent;
 var done=function(){var o=b.textContent;b.textContent='COPIED';setTimeout(function(){b.textContent=o},1400)};
 if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done,function(){prompt('Copy',t)})}else{prompt('Copy',t)}})})();</script>`;
 
+  const description = `${qTitle} Download every ${brand.NAME} reading as CSV or JSON, embed the live widget or badge, or fetch the current reading from code. Free under ${brand.LICENSE}. No API key.`;
   return shell(ctx, {
-    path: '/export.html',
-    title: 'Export and embed: CSV, JSON, widget, badge',
-    description: `Download every ${brand.NAME} reading as CSV or JSON, embed the live widget or badge, or fetch the current reading from code. Free under ${brand.LICENSE}.`,
+    path: PATH,
+    title: qTitle,
+    ogTitle: `${brand.NAME}: ${qTitle}`,
+    description,
     main, bodyEnd: js,
+    jsonld: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        name: qTitle,
+        description: `CSV, JSON, widget, badge and public API for ${brand.NAME} readings. Free under ${brand.LICENSE} with attribution. No key.`,
+        url: ctx.url(PATH),
+        isPartOf: { '@type': 'WebSite', name: brand.NAME, url: ctx.url('/') },
+        speakable: speakable(['h1', 'p.lede']),
+      },
+      breadcrumbs(ctx, [
+        { name: 'Home', path: '/' },
+        { name: 'Export and embed', path: PATH },
+      ]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map(([qAsk, a]) => ({
+          '@type': 'Question',
+          name: qAsk,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
+      },
+    ],
   });
 }
 
