@@ -87,6 +87,8 @@ export function organization(ctx) {
       'USA vs China: who is winning the race to superintelligence',
       'AI-proof your job',
       'how do I AI-proof my job',
+      'Is ChatGPT down',
+      'Is Claude down',
       'AI labs this index scored',
       'AI stories this index scored',
       'AI leaders on the record',

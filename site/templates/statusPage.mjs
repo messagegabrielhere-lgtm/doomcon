@@ -5,7 +5,11 @@
 // it could not reach.
 import { esc } from './_html.mjs';
 import { page } from './layout.mjs';
+import { breadcrumbs, speakable } from './_seo.mjs';
 import * as brand from '../brand.mjs';
+
+const PATH = '/status.html';
+const qTitle = 'Is ChatGPT down? Is Claude down?';
 
 const COL = { none: '#4ADE80', minor: '#FACC15', major: '#FB923C', critical: '#F87171', maintenance: '#60A5FA', unknown: '#64748B' };
 const WORD = { none: 'UP', minor: 'DEGRADED', major: 'PARTIAL OUTAGE', critical: 'MAJOR OUTAGE', maintenance: 'MAINTENANCE', unknown: 'UNKNOWN' };
@@ -26,7 +30,11 @@ const CSS = `<style>
 .st-c p{margin:4px 0;color:var(--ink-dim);font-size:13.5px;line-height:1.5}
 .st-c ul{margin:6px 0 0;padding-left:18px;font-size:13px;color:var(--ink-dim)}
 .st-c a{color:inherit}
-.st-faq{margin-top:22px}.st-faq h3{font:700 15px var(--sans);margin:14px 0 2px;color:#E6EAF0}.st-faq p{margin:0;color:var(--ink-dim)}
+.st-faq{margin:var(--sec,2rem) 0 var(--s-5,1.25rem);max-width:62ch}
+.st-faq h2{font:600 var(--t-lg,1.125rem)/1.2 var(--sans);margin:0 0 var(--s-3,.75rem);color:var(--ink)}
+.st-faq h3{font:600 var(--t-base,1rem)/1.3 var(--sans);margin:var(--s-4,1rem) 0 var(--s-2,.5rem);color:var(--ink)}
+.st-faq p{font:400 var(--t-base,1rem)/1.55 var(--sans);color:var(--ink-dim);margin:0 0 var(--s-2,.5rem)}
+.st-faq-key{margin-top:var(--s-4,1rem)!important}
 </style>`;
 
 function card(s) {
@@ -45,16 +53,36 @@ function card(s) {
 export function render(ctx, data) {
   const svc = (data && data.services) || [];
   const counts = svc.reduce((m, s) => { const k = s.indicator === 'none' ? 'up' : s.indicator === 'unknown' ? 'unknown' : 'issues'; m[k] = (m[k] || 0) + 1; return m; }, {});
-  const faq = svc.filter((s) => ['openai', 'claude', 'github', 'cursor', 'perplexity', 'groq'].includes(s.id)).map((s) => ({
-    q: `Is ${s.product} down right now?`, a: `${ANSWER[s.indicator] || ANSWER.unknown} SIREN reads ${s.name}’s official status page and re-checks it every minute in your browser.` }));
+  const perSvc = svc.filter((s) => ['openai', 'claude', 'github', 'cursor', 'perplexity', 'groq'].includes(s.id)).map((s) => ([
+    `Is ${s.product} down right now?`,
+    `${ANSWER[s.indicator] || ANSWER.unknown} SIREN reads ${s.name}’s official status page and re-checks it every minute in your browser.`,
+  ]));
+  // Static FAQ restates hero / how-it-works copy only.
+  // Refuse: SIREN-as-source-of-truth over official pages, outage forecasts, doom claims.
+  const faq = [
+    [qTitle,
+      `The AI services people rely on, read straight from each company’s own status page. This page re-checks them every minute while it’s open, so you don’t have to open ${svc.length || 'several'} tabs.`],
+    ['Does UNKNOWN mean the service is up?',
+      'How it works: each card reads the provider’s public status feed. A provider that doesn’t answer shows as UNKNOWN, never as up. Status pages are run by the companies themselves and sometimes lag what users see.'],
+    ...perSvc,
+  ];
+  const faqHtml = faq.map(([qAsk, a]) => `
+  <h3>${esc(qAsk)}</h3>
+  <p>${esc(a)}</p>`).join('');
+
   const main = `${CSS}<section class="st">
   <p class="eyebrow">LIVE · AI SERVICE STATUS</p>
-  <h1 class="bp__h1">Is ChatGPT down? Is Claude down?</h1>
+  <h1 class="bp__h1">${esc(qTitle)}</h1>
   <p class="lede">The AI services people rely on, read straight from each company’s own status page. This page re-checks them every minute while it’s open, so you don’t have to open ${svc.length} tabs.</p>
   <div class="st-sum" id="st-sum"><span style="color:#4ADE80">${counts.up || 0} UP</span><span style="color:#FACC15">${counts.issues || 0} WITH ISSUES</span>${counts.unknown ? `<span style="color:#94A3B8">${counts.unknown} UNREACHABLE</span>` : ''}<span id="st-at" style="color:var(--ink-dim)">CHECKED ${esc(String((data && data.generated_at) || '').slice(11, 16))} UTC</span></div>
   <div class="st-g">${svc.map(card).join('')}</div>
-  <div class="st-faq">${faq.map((f) => `<h3>${esc(f.q)}</h3><p>${esc(f.a)}</p>`).join('')}</div>
-  <p style="font-size:12.5px;margin-top:18px">How it works: each card reads the provider’s public status feed. A provider that doesn’t answer shows as UNKNOWN, never as up. Status pages are run by the companies themselves and sometimes lag what users see. <a href="api/ai-status.json">JSON</a> · <a href="dispatch.html">Live alerts</a> · <a href="news.html">AI news</a></p>
+  <p style="font-size:12.5px;margin-top:18px">How it works: each card reads the provider’s public status feed. A provider that doesn’t answer shows as UNKNOWN, never as up. Status pages are run by the companies themselves and sometimes lag what users see. <a href="${esc(ctx.href('/api/ai-status.json'))}">JSON</a> · <a href="${esc(ctx.href('/dispatch.html'))}">Live alerts</a> · <a href="${esc(ctx.href('/news.html'))}">AI news</a> · <a href="${esc(ctx.href('/threats.html'))}">Threat board</a></p>
+  <section class="st-faq" aria-labelledby="faq">
+    <h2 id="faq">Questions people actually ask</h2>
+    ${faqHtml}
+    <p class="st-faq-key">Search-shaped sibling:
+      <a href="${esc(ctx.href('/threats.html'))}">What could take the machines offline tonight?</a>.</p>
+  </section>
 </section>
 <script>(function(){var C=${JSON.stringify(COL)},W=${JSON.stringify(WORD)};
 function esc(t){return String(t||'').replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
@@ -66,9 +94,38 @@ function sum(){var up=0,is=0,un=0;[].forEach.call(document.querySelectorAll('.st
 function poll(){var cards=[].slice.call(document.querySelectorAll('.st-c[data-api]')).filter(function(e){return e.getAttribute('data-api');});
 Promise.all(cards.map(function(el){return fetch(el.getAttribute('data-api'),{cache:'no-store'}).then(function(r){return r.json();}).then(function(j){upd(el,j);}).catch(function(){});})).then(sum);}
 poll();setInterval(poll,60000);})();</script>`;
-  return page({ ctx, path: '/status.html',
-    title: `Is ChatGPT down? Is Claude down? Live AI status for ${svc.length} services · ${brand.NAME}`,
-    description: `Live status of ChatGPT, Claude, GitHub Copilot, Cursor, Perplexity, Groq and more, read from each provider’s own status page and re-checked every minute.`,
-    jsonld: faq.length ? [{ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) }] : undefined,
-    main });
+
+  return page({
+    ctx,
+    path: PATH,
+    title: `${qTitle} Live AI status for ${svc.length} services · ${brand.NAME}`,
+    ogTitle: `${brand.NAME}: ${qTitle}`,
+    description: `${qTitle} Live status of ChatGPT, Claude, GitHub Copilot, Cursor, Perplexity, Groq and more, read from each provider’s own status page and re-checked every minute. UNKNOWN never means up.`,
+    jsonld: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        name: qTitle,
+        description: 'Live AI service status from each provider’s official status page, re-checked every minute. A provider that does not answer shows as UNKNOWN, never as up.',
+        url: ctx.url(PATH),
+        isPartOf: { '@type': 'WebSite', name: brand.NAME, url: ctx.url('/') },
+        speakable: speakable(['h1.bp__h1', 'p.lede']),
+        ...(typeof (data && data.generated_at) === 'string' ? { dateModified: data.generated_at } : {}),
+      },
+      breadcrumbs(ctx, [
+        { name: 'Home', path: '/' },
+        { name: 'AI status', path: PATH },
+      ]),
+      ...(faq.length ? [{
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map(([qAsk, a]) => ({
+          '@type': 'Question',
+          name: qAsk,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
+      }] : []),
+    ],
+    main,
+  });
 }
