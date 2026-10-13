@@ -331,15 +331,14 @@ ${facetLinks(ctx, u)}
 
 - [Newsroom](${u('/news.html')})
 - [Live scored stories](${u('/item/')})
-- [Story archive](${u('/item/archive.html')}): older scored stories kept after they leave the live window
+- [Which older AI stories has SIREN kept in the archive?](${u('/item/archive.html')})
 - [AI leaders](${u('/leaders.html')})
-- [People](${u('/people/')}): one page per leader with enough press coverage (live wire or archive)
-- [AI people](${u('/people.html')}): which AI people this index scored press about (same gated roster; headlines only, no person doom score)
-- [Tags](${u('/tags/')}): topic hubs (agents, GPUs, chips, coding, evals, video, voice, reasoning, IPO, RAG, MCP, fine-tuning, quantization, distillation, agent memory, hallucination, prompt injection, MoE, world models, AI copyright, diffusion, embeddings, guardrails, context windows, AI search, multi-agent, deepfakes, SLMs, AI for science, speculative decoding, KV cache, EU AI Act, autonomous vehicles, AI music, synthetic data, inference cost, preference data, reasoning traces, Claude Code, OpenRouter, Hugging Face, Blackwell, Ollama, MLX, computer use, test-time compute, vision-language, foundation models, video generation, image generation, model merging, open-source AI, tool use, post-training, pre-training, zero-shot, in-context learning, tokenization, continual learning, sparsity, knowledge graphs, research agents, system prompts, AI infrastructure, robot learning, frontier models, small models, open models, generative AI, reasoning models, voice AI, conversational AI, audio generation, AI chips, AI regulation, Artificial Analysis, humanoid robots, transformers, self-attention, OpenAI Codex, reward models, reinforcement learning, vision-language-action, flow matching, text-to-image, imitation learning, locomotion, self-supervised learning, latent space, autoencoders, diffusion transformers, scaling laws, browser, watermarking, acquisitions, labor, healthcare, …) when a needle clears five stories in the live window or archive
-- [AI tags](${u('/tags.html')}): Skynet-shaped tags directory (same gated topics; story counts only, no topic doom score)
-- [Story archive](${u('/item/archive.html')}): older scored /item pages kept after they leave the live newsroom
-- [Kinds](${u('/kind/')}): press / forum / paper hubs when a collector kind clears five stories in the live window or archive
-- [AI story kinds](${u('/kinds.html')}): which AI story kinds this index scored (same gated labels; story counts only)
+- [Which AI leaders have press coverage pages on SIREN?](${u('/people/')})
+- [Which AI people has SIREN scored press about?](${u('/people.html')}): same gated roster; headlines only, no person doom score
+- [Which AI news tags have SIREN pages?](${u('/tags/')}): topic hubs when a needle clears five stories in the live window or archive
+- [Which AI tags has SIREN scored stories about?](${u('/tags.html')}): Skynet-shaped tags directory (story counts only, no topic doom score)
+- [Which AI story kinds have SIREN pages?](${u('/kind/')})
+- [Which AI story kinds has SIREN scored?](${u('/kinds.html')})
 - [Takeover Watch](${u('/si-watch.html')})
 - [Prepare for superintelligence](${u('/si-ready.html')})
 - [AI-proof your job](${u('/ai-proof-job.html')})
@@ -347,17 +346,17 @@ ${facetLinks(ctx, u)}
 - [Bunker Kit: free tools and gear checklist](${u('/bunker-kit.html')})
 - [Catalog](${u('/catalog.html')})
 - [Search](${u('/search.html')})
-- [Feed outlets](${u('/source/')}): scored stories grouped by the feed adapter that carried them
-- [AI news sources](${u('/sources.html')}): which AI news sources this index scored via (same gated adapters; story counts only)
-- [Publishers](${u('/outlet/')}): scored stories grouped by the publisher host on the original URL (live window or archive)
-- [AI outlets](${u('/outlets.html')}): which AI outlets this index scored stories from (same gated hosts; story counts only)
-- [Model families](${u('/model/')}): scored stories grouped by the model the headline names
-- [AI models](${u('/models.html')}): DoomBench-shaped models directory (same gated families; no model doom score)
-- [Labs](${u('/lab/')}): race-board and entity lab hubs with story counts
-- [AI companies](${u('/companies.html')}): DoomBench-shaped company directory (same gated labs; no company doom score)
+- [Which AI feed adapters have SIREN pages?](${u('/source/')})
+- [Which AI news sources has SIREN scored via?](${u('/sources.html')})
+- [Which AI publishers have SIREN pages?](${u('/outlet/')})
+- [Which AI outlets has SIREN scored stories from?](${u('/outlets.html')})
+- [Which AI model families have SIREN pages?](${u('/model/')})
+- [Which AI models has SIREN scored stories about?](${u('/models.html')})
+- [Which AI labs have SIREN pages?](${u('/lab/')})
+- [Which AI companies has SIREN scored stories about?](${u('/companies.html')})
 - [News by day](${u('/news.html')}): UTC day hubs under /news/YYYY-MM-DD.html when a day clears five stories
-- [Datacentres by country](${u('/country/')}): mapped sites, one page per country with at least three
-- [AI datacentre countries](${u('/countries.html')}): which AI datacentre countries this index mapped (same gated map counts; not a national AI ranking)
+- [Which AI datacentre countries have SIREN pages?](${u('/country/')})
+- [Which AI datacentre countries has SIREN mapped?](${u('/countries.html')})
 
 ## Complementary (not ${brand.NAME})
 
@@ -384,8 +383,8 @@ function instrumentLinks(ctx, u) {
 /** Pillar + lab entity landings (COMPETITIVE-SEO.md faceted URL play). */
 function facetLinks(ctx, u) {
   const pillars = [
-    `- [AI activity pillars](${u('/pillars.html')}): which AI activity pillars this index scored (same gated pillars; tempo readings and story counts only)`,
-    `- [Pillars index](${u('/pillar/')})`,
+    `- [Which AI activity pillars has SIREN scored?](${u('/pillars.html')}): same gated pillars; tempo readings and story counts only`,
+    `- [Which AI activity pillars have SIREN pages?](${u('/pillar/')})`,
     ...brand.PILLARS.map((p) => `- [${p.name} pillar](${u(`/pillar/${p.id}.html`)})`),
   ].join('\n');
   const labs = allLabs(ctx)
@@ -394,7 +393,7 @@ function facetLinks(ctx, u) {
     .map((p) => `- [${p.name}](${u(`/lab/${p.id}.html`)})`)
     .join('\n');
   const hub = labs
-    ? `- [Labs index](${u('/lab/')})\n- [AI companies](${u('/companies.html')})\n${labs}`
+    ? `- [Which AI labs have SIREN pages?](${u('/lab/')})\n- [Which AI companies has SIREN scored stories about?](${u('/companies.html')})\n${labs}`
     : null;
   return [pillars, hub].filter(Boolean).join('\n');
 }
@@ -435,9 +434,9 @@ export function agentsMd(ctx) {
 - ${u('/alternatives.html')} — What are AI doom index alternatives?
 - ${u('/vs/pizzint.html')} — SIREN vs PizzINT: which should you use? (honest refuse)
 - ${u('/vs/takeofftracker.html')} — SIREN vs Takeoff Tracker: which should you use?
-- ${u('/pillars.html')} — AI activity pillars directory
-- ${u('/countries.html')} — AI datacentre countries directory
-- ${u('/sources.html')} — AI news sources directory
+- ${u('/pillars.html')} — Which AI activity pillars has SIREN scored?
+- ${u('/countries.html')} — Which AI datacentre countries has SIREN mapped?
+- ${u('/sources.html')} — Which AI news sources has SIREN scored via?
 - ${u('/methodology.md')} — every formula and constant
 
 ## Discovery

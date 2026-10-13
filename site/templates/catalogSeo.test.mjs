@@ -41,6 +41,23 @@ describe('catalog page SEO', () => {
     assert.doesNotMatch(byUrl['/compare.html']?.title || '', /^AI doom indexes compared$/);
   });
 
+  it('lists facet directories under their question titles (tip #212)', () => {
+    const list = catalogEntries({});
+    const byUrl = Object.fromEntries(list.map((e) => [e.url, e]));
+    assert.equal(byUrl['/tags.html']?.title, 'Which AI tags has SIREN scored stories about?');
+    assert.equal(byUrl['/people.html']?.title, 'Which AI people has SIREN scored press about?');
+    assert.equal(byUrl['/sources.html']?.title, 'Which AI news sources has SIREN scored via?');
+    assert.equal(byUrl['/outlets.html']?.title, 'Which AI outlets has SIREN scored stories from?');
+    assert.equal(byUrl['/kinds.html']?.title, 'Which AI story kinds has SIREN scored?');
+    assert.equal(byUrl['/countries.html']?.title, 'Which AI datacentre countries has SIREN mapped?');
+    assert.equal(byUrl['/pillars.html']?.title, 'Which AI activity pillars has SIREN scored?');
+    assert.equal(byUrl['/models.html']?.title, 'Which AI models has SIREN scored stories about?');
+    assert.equal(byUrl['/companies.html']?.title, 'Which AI companies has SIREN scored stories about?');
+    assert.equal(byUrl['/item/archive.html']?.title, 'Which older AI stories has SIREN kept in the archive?');
+    assert.equal(byUrl['/lab/']?.title, 'Which AI labs have SIREN pages?');
+    assert.doesNotMatch(byUrl['/tags.html']?.title || '', /^AI tags$/);
+  });
+
   it('ships a question-shaped title, speakable CollectionPage, and matching FAQPage', () => {
     const html = catalog(ctx, entries);
     assert.match(html, /<title>Where is everything on SIREN listed\?/);
