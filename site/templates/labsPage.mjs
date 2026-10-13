@@ -8,7 +8,11 @@
 // what it will count. None of them claims to know when, or whether, SI arrives.
 import { esc } from './_html.mjs';
 import { page } from './layout.mjs';
+import { breadcrumbs, speakable } from './_seo.mjs';
 import * as brand from '../brand.mjs';
+
+const PATH = '/labs.html';
+const qTitle = `What is ${brand.NAME} Labs measuring this week?`;
 
 // status: 'lab' (on the bench this week), 'queued' (planned), 'shipped' (live; href set)
 export const LABS = {
@@ -75,11 +79,16 @@ const CSS = `<style>
 .lb-next ul{margin:0;padding-left:18px;font-size:13.5px;color:var(--ink-dim)}
 .lb-rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin:10px 0}
 .lb-rules div{border-left:3px solid #22D3EE;padding:6px 12px;font-size:14px;color:var(--ink-dim)}.lb-rules b{color:#fff;display:block}
+.lb-faq{margin:34px 0 12px;max-width:62ch}
+.lb-faq h2{font:600 var(--t-lg,1.125rem)/1.2 var(--sans);margin:0 0 var(--s-3,.75rem);color:var(--ink)}
+.lb-faq h3{font:600 var(--t-base,1rem)/1.3 var(--sans);margin:var(--s-4,1rem) 0 var(--s-2,.5rem);color:var(--ink)}
+.lb-faq p{font:400 var(--t-base,1rem)/1.55 var(--sans);color:var(--ink-dim);margin:0 0 var(--s-2,.5rem)}
+.lb-faq-key{margin-top:var(--s-4,1rem)!important}
 </style>`;
 
 export function render(ctx, nowMs = Date.now()) {
   const img = (n) => esc(ctx.href(String(n).startsWith('px:') ? `/img/px-${String(n).slice(3)}.svg` : `/img/art-${n}.webp`));
-  const share = esc(ctx.url ? ctx.url('/labs.html') : 'https://siren.watch/labs.html');
+  const share = esc(ctx.url ? ctx.url(PATH) : `https://siren.watch${PATH}`);
   const wi = currentWeek(nowMs);
   const wk = LABS.weeks[wi];
   const wkNo = wi + 1;
@@ -94,10 +103,27 @@ export function render(ctx, nowMs = Date.now()) {
   const next = LABS.weeks.slice(wi + 1).map((w) => `<div><b>WEEK OF ${esc(fmtD(w.start).toUpperCase())}</b><i>${esc(w.theme)}</i><ul>${w.items.map((it) => `<li>${esc(it.name)}</li>`).join('')}</ul></div>`).join('');
   const past = LABS.weeks.slice(0, wi).map((w) => `<div><b>WEEK OF ${esc(fmtD(w.start).toUpperCase())}</b><i>${esc(w.theme)}</i><ul>${w.items.map((it) => `<li>${esc(it.name)}</li>`).join('')}</ul></div>`).join('');
   const shipped = LABS.shipped.map(([h, l]) => `<a href="${esc(ctx.href(h))}">${esc(l)}</a>`).join(' · ');
+
+  // FAQ answers restate lede / lab rules / feedback copy only (FINDABILITY §3.3).
+  // Refuse: SI-arrival date, labs-as-index-input, doom-probability, stuffing.
+  const faq = [
+    [qTitle,
+      `The research bench behind ${brand.NAME}. Every week we take four or five questions about superintelligence that nobody is measuring well, find open data that can answer them, and build the instrument in public. Each experiment says what it counts and where the numbers come from. None of them is a forecast. This week: ${wk.theme}.`],
+    ['Does Labs say when superintelligence arrives?',
+      'Count, don’t predict. We measure what is happening. We don’t say when SI arrives.'],
+    ['What are the lab rules?',
+      'Open data only (every number from a public source we link to), show the method (each instrument publishes its rules so anyone can recompute it), count don’t predict, and ship or say why (an experiment either becomes a live room on SIREN or gets a note on why the data wasn’t good enough).'],
+    [`Is ${brand.NAME} Labs a doom probability?`,
+      `No. ${brand.NAME} Labs builds open-data instruments. The experiments count what is measurable; they are not a probability of harm, and they do not set the ${brand.NAME} level.`],
+  ];
+  const faqHtml = faq.map(([qAsk, a]) => `
+  <h3>${esc(qAsk)}</h3>
+  <p>${esc(a)}</p>`).join('');
+
   const main = `${CSS}<section class="lb">
   <p class="eyebrow">SIREN LABS · WEEK ${wkNo}</p>
-  <h1 class="bp__h1">SIREN Labs: new ways to see superintelligence coming</h1>
-  <p class="lede">The research bench behind SIREN. Every week we take four or five questions about superintelligence that nobody is measuring well, find open data that can answer them, and build the instrument in public. Each experiment says what it counts and where the numbers come from. None of them is a forecast.</p>
+  <h1 class="bp__h1">${esc(qTitle)}</h1>
+  <p class="lede">The research bench behind ${esc(brand.NAME)}. Every week we take four or five questions about superintelligence that nobody is measuring well, find open data that can answer them, and build the instrument in public. Each experiment says what it counts and where the numbers come from. None of them is a forecast.</p>
   <div class="lb-wk"><h2>This week: ${esc(wk.theme)}</h2><span>WEEK OF ${esc(fmtD(wk.start).toUpperCase())} · ${wk.items.length} EXPERIMENTS</span></div>
   <div class="lb-g">${wk.items.map((it, i) => card(it, i + 1)).join('')}</div>
   ${next ? `<h2 style="margin-top:28px">Coming up on the bench</h2><div class="lb-next">${next}</div>` : ''}
@@ -107,15 +133,51 @@ export function render(ctx, nowMs = Date.now()) {
     <div><b>Open data only</b>Every number comes from a public source we link to.</div>
     <div><b>Show the method</b>Each instrument publishes its rules so anyone can recompute it.</div>
     <div><b>Count, don’t predict</b>We measure what is happening. We don’t say when SI arrives.</div>
-    <div><b>Ship or say why</b>An experiment either becomes a live room on SIREN or gets a note on why the data wasn’t good enough.</div>
+    <div><b>Ship or say why</b>An experiment either becomes a live room on ${esc(brand.NAME)} or gets a note on why the data wasn’t good enough.</div>
   </div>
   <p style="margin-top:18px"><b>Already shipped from the bench:</b> ${shipped}</p>
-  <p>Got a question we should measure? <a href="${esc(ctx.href('/feedback.html'))}">Send it to the lab</a>. Agents can read the plan as <a href="${esc(ctx.href('/api/labs.json'))}">JSON</a>.</p>
+  <p>Got a question we should measure? <a href="${esc(ctx.href('/feedback.html'))}">How do I report a problem or send an idea to ${esc(brand.NAME)}?</a> Agents can read the plan as <a href="${esc(ctx.href('/api/labs.json'))}">JSON</a>.</p>
+  <section class="lb-faq" aria-labelledby="faq">
+    <h2 id="faq">Questions people actually ask</h2>
+    ${faqHtml}
+    <p class="lb-faq-key">Search-shaped sibling:
+      <a href="${esc(ctx.href('/si-watch.html'))}">What AI autonomy signals is ${esc(brand.NAME)} watching?</a>
+      · <a href="${esc(ctx.href('/feedback.html'))}">How do I report a problem or send an idea to ${esc(brand.NAME)}?</a>.</p>
+  </section>
 </section>`;
-  return page({ ctx, path: '/labs.html',
-    title: `SIREN Labs: weekly experiments in measuring superintelligence · ${brand.NAME}`,
-    description: `SIREN Labs builds new open-data instruments for superintelligence each week. This week: ${wk.theme} ${wk.items.map((i) => i.name).join(', ')}.`,
-    main });
+  const description = `${qTitle} ${brand.NAME} Labs builds new open-data instruments each week. This week: ${wk.theme}. ${wk.items.map((i) => i.name).join(', ')}.`;
+  return page({
+    ctx,
+    path: PATH,
+    title: `${qTitle} · ${brand.NAME}`,
+    ogTitle: `${brand.NAME}: ${qTitle}`,
+    description,
+    jsonld: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'CollectionPage',
+        name: qTitle,
+        description: `${brand.NAME} Labs: weekly open-data experiments. This week’s theme: ${wk.theme}. Count what is measurable; none is a forecast.`,
+        url: ctx.url(PATH),
+        isPartOf: { '@type': 'WebSite', name: brand.NAME, url: ctx.url('/') },
+        speakable: speakable(['h1.bp__h1', 'p.lede']),
+      },
+      breadcrumbs(ctx, [
+        { name: 'Home', path: '/' },
+        { name: 'SIREN Labs', path: PATH },
+      ]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map(([qAsk, a]) => ({
+          '@type': 'Question',
+          name: qAsk,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
+      },
+    ],
+    main,
+  });
 }
 
 /** The plan as published JSON. */
