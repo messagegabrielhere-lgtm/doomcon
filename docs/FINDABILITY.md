@@ -457,6 +457,7 @@ context.
 | 205 | `/privacy.html` H1 + FAQ lead + breadcrumbs + WebPage name aligned to question title “What does SIREN know about you?” (was “What does this site know about you?”); siblings about + disclosures + feedback; `knowsAbout` full question | Google + Bing | **Done** (2026-10-13) |
 | 206 | `/compare.html` H1 + FAQ lead + breadcrumbs + WebPage name aligned to question title “Which AI doom indexes can you compare?” (was “…honestly?”); refuse DEFCON/doom-probability; siblings vs + guide + methodology; `knowsAbout` full question | Google + Bing | **Done** (2026-10-13) |
 | 207 | `/alternatives.html` H1 + FAQ lead + breadcrumbs + WebPage name aligned to question title “What are AI doom index alternatives?” (was “…and what is each one?”); refuse doom-probability / DEFCON hijack; siblings compare + vs + guide + p(doom); `knowsAbout` full question | Google + Bing | **Done** (2026-10-13) |
+| 208 | `/vs/*` rival pages H1 + FAQ lead + breadcrumbs + WebPage name aligned to question title “SIREN vs {rival}: which should you use?” (was em-dash H1 / “which should I use?” FAQ); refuse borrowed doom probability; `knowsAbout` vs head terms | Google + Bing | **Done** (2026-10-13) |
 
 ### 3.3 Refusals (search edition)
 

@@ -77,19 +77,23 @@ describe('compare / alternatives conquest pages', () => {
   it('keeps vs pages honest: no borrowed doom probability claim for SIREN', () => {
     const page = vsRival(ctx, 'doombench');
     assert.match(page, /<title>SIREN vs DoomBench: which should you use\?/);
-    assert.match(page, /SIREN vs DoomBench — which should you use\?/);
+    assert.match(page, /<h1>SIREN vs DoomBench: which should you use\?<\/h1>/);
+    assert.match(page, /"name"\s*:\s*"SIREN vs DoomBench: which should you use\?"/);
+    assert.doesNotMatch(page, /SIREN vs DoomBench — which should/);
     assert.match(page, /Questions people actually ask/);
     assert.match(page, /does not score takeover risk/i);
     assert.match(page, /recompute/i);
     assert.doesNotMatch(page, /SIREN.*p\(doom\) of \d/i);
     const pizza = vsRival(ctx, 'pizzint');
     assert.match(pizza, /<title>SIREN vs PizzINT: which should you use\?/);
+    assert.match(pizza, /<h1>SIREN vs PizzINT: which should you use\?<\/h1>/);
     assert.match(pizza, /Questions people actually ask/);
     assert.match(pizza, /does not publish a DEFCON/i);
     assert.match(pizza, /Doomsday Clock/i);
     assert.doesNotMatch(pizza, /SIREN.*DEFCON \d/i);
     const takeoff = vsRival(ctx, 'takeofftracker');
     assert.match(takeoff, /<title>SIREN vs Takeoff Tracker: which should you use\?/);
+    assert.match(takeoff, /<h1>SIREN vs Takeoff Tracker: which should you use\?<\/h1>/);
     assert.match(takeoff, /Questions people actually ask/);
     assert.match(takeoff, /does not publish an AGI timeline/i);
     assert.match(takeoff, /takeoff dashboard/i);

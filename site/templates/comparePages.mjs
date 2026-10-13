@@ -416,11 +416,12 @@ export function vsRival(ctx, rivalId) {
   const rival = RIVALS.find((r) => r.id === rivalId);
   if (!rival) return '';
   const path = rival.path;
-  // Head-term title: people search “SIREN vs DoomBench” / rival name.
-  const title = `${brand.NAME} vs ${rival.name}: which should you use? Activity count vs ${rival.short}`;
-  const description = `${brand.NAME} vs ${rival.name}. ${rival.measures}. ${rival.recomputableNote}. ${brand.NAME} publishes an hourly recomputable activity score instead.`;
+  // Head-term question (FINDABILITY tip #208): H1 must match <title> stem (colon, not em dash).
+  const qTitle = `${brand.NAME} vs ${rival.name}: which should you use?`;
+  const title = `${qTitle} Activity count vs ${rival.short}`;
+  const description = `${qTitle} ${rival.measures}. ${rival.recomputableNote}. ${brand.NAME} publishes an hourly recomputable activity score instead.`;
   const faq = [
-    [`${brand.NAME} vs ${rival.name} — which should I use?`,
+    [qTitle,
       `Use ${rival.name} if you want ${rival.measures.toLowerCase()}. Use ${brand.NAME} if you want an hourly AI activity tempo reading with open inputs and a receipt. They are not substitutes for the same claim.`],
     [`Can I recompute ${rival.name}?`,
       rival.recomputableNote],
@@ -433,7 +434,7 @@ export function vsRival(ctx, rivalId) {
   const main = `${CSS}
 <article class="cmp prose">
   <p class="cmp__k">Versus</p>
-  <h1>${esc(brand.NAME)} vs ${esc(rival.name)} — which should you use?</h1>
+  <h1>${esc(qTitle)}</h1>
   <p class="cmp__lede">${esc(rival.ourAngle)}</p>
   ${liveStrip(ctx)}
   <h2>What each one is</h2>
@@ -468,16 +469,17 @@ export function vsRival(ctx, rivalId) {
     ctx,
     path,
     title,
+    ogTitle: `${brand.NAME}: ${qTitle}`,
     description,
     jsonld: pageJsonLd(
       ctx,
       path,
-      title,
+      qTitle,
       description,
       [
         { name: 'Compare', path: '/compare.html' },
         { name: 'Versus', path: '/vs.html' },
-        { name: `vs ${rival.name}`, path },
+        { name: qTitle, path },
       ],
       faq,
     ),
