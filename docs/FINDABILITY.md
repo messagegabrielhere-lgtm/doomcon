@@ -330,6 +330,7 @@ context.
 | 97 | Model hub Codex (`/model/codex`, OpenAI Codex / Codex CLI / Hackathon forms — no bare Codex); news:keywords + IndexNow | Google + Bing | **Done** (2026-10-12) |
 | 98 | Entity lab Epoch AI (`/lab/epoch-ai`, two-word form only, ≥3 gate); seo-daily monitors methodology/guide/clock/Maia/Codex/Epoch; IndexNow samples | Google + Bing | **Done** (2026-10-12) |
 | 99 | `/p-doom.html` question-shaped title (“What is p(doom)?”) + Organization `knowsAbout` glossary/methodology head terms | Google | **Done** (2026-10-13) |
+| 100 | `/methodology.html` FAQ expands with five more question-shaped headings (market pillar, flicker, missing source, receipt, mislead) — visible text only | Google | **Done** (2026-10-13) |
 
 ### 3.3 Refusals (search edition)
 
