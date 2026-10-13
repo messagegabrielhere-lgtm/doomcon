@@ -53,6 +53,7 @@ export function organization(ctx) {
       'AI news sources this index scored',
       'AI activity pillars this index scored',
       'AI datacentre countries this index scored',
+      'how many datacentres mapped on Earth',
       'AI labs this index scored',
       'AI stories this index scored',
       'AI leaders on the record',

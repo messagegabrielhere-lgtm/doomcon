@@ -41,6 +41,7 @@
 
 import { esc, utc } from './_html.mjs';
 import { page } from './layout.mjs';
+import { breadcrumbs, speakable } from './_seo.mjs';
 import * as brand from '../brand.mjs';
 import { worldModel, worldFigure, worldLegend, worldTable, worldMapCss } from './_worldmap.mjs';
 import { countryIndexable, countryPath } from './countryPages.mjs';
@@ -489,8 +490,9 @@ export function render(ctx) {
   const q = String(copy.headline_qualifier || '');
 
   const headline = `${N(t.sites)} datacentres ${q}`;
+  const title = `How many datacentres has ${brand.NAME} mapped on Earth?`;
   const description =
-    `Every datacentre OpenStreetMap has mapped anywhere on Earth — ${N(t.sites)} objects in `
+    `How many datacentres has ${brand.NAME} mapped on Earth? ${N(t.sites)} OpenStreetMap objects in `
     + `${count(t.countries_with_sites, 'an unpublished number of')} countries, ${q}, on an equal-area map `
     + `with a ranked country table. ${count(t.countries_with_none, '—')} countries in the roster have none `
     + `mapped, which means nobody has mapped them rather than that there are none. `
@@ -501,13 +503,26 @@ export function render(ctx) {
     + `Open Database Licence data, © OpenStreetMap contributors. `
     + (w.generated_at ? `Compiled ${utc(w.generated_at)}.` : '');
 
+  // FAQ answers restates visible hero / caveat copy only (FINDABILITY §3.3).
+  const faq = [
+    [`How many datacentres has ${brand.NAME} mapped on Earth?`,
+      `${N(t.sites)} map objects carrying a datacentre tag in OpenStreetMap, ${q}. That is a count of map objects, not ${copy.never_say || 'the number of datacentres in the world'}.`],
+    [`Does a country with none mapped have zero datacentres?`,
+      copy.what_zero_means || 'A country with no mapped datacentre is a country nobody has mapped rather than a country with none.'],
+    [`Does the world map feed the main ${brand.NAME} number?`,
+      `No. This page is a ${brand.NAME} sub-index. It draws, attributes, and counts mapped sites — it does not feed the hourly activity index.`],
+  ];
+  const faqHtml = faq.map(([qAsk, a]) => `
+  <h3>${esc(qAsk)}</h3>
+  <p>${esc(a)}</p>`).join('');
+
   const main = `<style>${worldMapCss()}${worldCss()}</style>
 ${iconSprite({ only: SPRITE })}
 <div class="usm-scope wld">
 
 <section class="wld__hero">
   <p class="wld__eyebrow">The world · a ${esc(brand.NAME)} sub-index · does not feed the main number</p>
-  <h1 class="wld__h1">Every mapped datacentre on Earth</h1>
+  <h1 class="wld__h1">How many datacentres has ${esc(brand.NAME)} mapped on Earth?</h1>
   <p class="wld__sub">${N(t.sites)} map objects carrying a datacentre tag, ${esc(q)}</p>
   <p class="wld__lede">Where anybody has written a datacentre into OpenStreetMap — a public, openly-licensed
     map that anyone can read and anyone can edit — attributed to a country and counted. The United States
@@ -532,6 +547,13 @@ ${methodSection(ctx, w, outline)}
 
 ${dataSection(ctx, w, m, orbital)}
 
+<section class="wld__faq" aria-labelledby="faq">
+  <h2 id="faq">Questions people actually ask</h2>
+  ${faqHtml}
+  <p class="wld__faq-key">Search-shaped directory:
+    <a href="${esc(ctx.href('/countries.html'))}">Which AI datacentre countries has ${esc(brand.NAME)} mapped?</a>.</p>
+</section>
+
 <p class="wld__odbl">Datacentre locations on this page are
   <a href="${esc(copy.attribution_url || 'https://www.openstreetmap.org/copyright')}" rel="license noopener">${esc(copy.attribution_required || '© OpenStreetMap contributors')}</a>,
   licensed under the Open Database License. ${esc(copy.outline_credit || '')}</p>
@@ -540,12 +562,27 @@ ${dataSection(ctx, w, m, orbital)}
   return page({
     ctx,
     path: PATH,
-    title: `Every mapped datacentre on Earth — ${headline} · ${brand.NAME}`,
-    ogTitle: `${brand.NAME}: ${headline}`,
+    title: `${title} · ${headline} · ${brand.NAME}`,
+    ogTitle: `${brand.NAME}: ${title}`,
     description,
     ogImage: ctx.cardFor ? ctx.cardFor('world') : null,
     ogImageAlt: `${brand.NAME} equal-area map of every datacentre mapped in OpenStreetMap, ${q}`,
-    jsonld: [dataset(ctx, w, m)],
+    jsonld: [
+      dataset(ctx, w, m, title),
+      breadcrumbs(ctx, [
+        { name: 'Home', path: '/' },
+        { name: 'World', path: PATH },
+      ]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map(([qAsk, a]) => ({
+          '@type': 'Question',
+          name: qAsk,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
+      },
+    ],
     main: main.split(MAP_HREF).join(ctx.href('/map.html')),
     bodyEnd: enhanceJs(),
   });
@@ -553,15 +590,16 @@ ${dataSection(ctx, w, m, orbital)}
 
 /** ctx.world or the outline absent. Builds, says so plainly, and carries noindex. */
 function emptyPage(ctx) {
+  const title = `How many datacentres has ${brand.NAME} mapped on Earth?`;
   return page({
     ctx,
     path: PATH,
     noindex: true,
-    title: `Every mapped datacentre on Earth · ${brand.NAME}`,
+    title: `${title} · ${brand.NAME}`,
     description: 'The world datacentre map is not in this build.',
     main: `<div class="wld"><section class="wld__hero">
   <p class="wld__eyebrow">The world · a ${esc(brand.NAME)} sub-index</p>
-  <h1 class="wld__h1">Every mapped datacentre on Earth</h1>
+  <h1 class="wld__h1">How many datacentres has ${esc(brand.NAME)} mapped on Earth?</h1>
   <p class="wld__lede">This build carries no <code>data/world.json</code> or no
     <code>data/world-outline.json</code>, so there is nothing to draw. The page exists and says so rather
     than inventing a map. Run <code>collector/world.mjs</code> and rebuild.</p>
@@ -569,7 +607,7 @@ function emptyPage(ctx) {
   });
 }
 
-function dataset(ctx, w, m) {
+function dataset(ctx, w, m, title) {
   const s = w.source || {};
   const t = w.totals || {};
   const vars = [
@@ -584,7 +622,7 @@ function dataset(ctx, w, m) {
   return {
     '@context': 'https://schema.org',
     '@type': 'Dataset',
-    name: `${brand.NAME} — every datacentre mapped in OpenStreetMap, worldwide, by country`,
+    name: title || `How many datacentres has ${brand.NAME} mapped on Earth?`,
     description:
       'Every map object carrying a datacentre tag in OpenStreetMap, anywhere on Earth, attributed to a '
       + 'country by point-in-polygon against Natural Earth outlines and counted by status. A count of map '
@@ -599,6 +637,7 @@ function dataset(ctx, w, m) {
     isAccessibleForFree: true,
     spatialCoverage: { '@type': 'Place', name: 'World' },
     keywords: ['datacentres', 'artificial intelligence', 'OpenStreetMap', 'Natural Earth', 'orbital data centres'],
+    speakable: speakable(['h1.wld__h1', 'p.wld__lede']),
     distribution: [{
       '@type': 'DataDownload',
       encodingFormat: 'application/json',
@@ -629,6 +668,11 @@ function worldCss() {
 .wld__plain{font:400 var(--t-base)/1.55 var(--sans);margin:0 0 var(--s-5);max-width:60ch;
   padding:var(--s-3) var(--s-4);background:var(--wash-alt);border-left:3px solid var(--accent);
   border-radius:var(--radius)}
+.wld__faq{margin:var(--sec) 0 var(--s-5);max-width:62ch}
+.wld__faq h2{font:600 var(--t-lg)/1.2 var(--sans);margin:0 0 var(--s-3)}
+.wld__faq h3{font:600 var(--t-base)/1.3 var(--sans);margin:var(--s-4) 0 var(--s-2)}
+.wld__faq p{font:400 var(--t-base)/1.55 var(--sans);color:var(--ink-dim);margin:0 0 var(--s-2)}
+.wld__faq-key{margin-top:var(--s-4)!important}
 
 .wld__c{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:1px;
   background:var(--rule-soft);border:1px solid var(--rule-soft);border-radius:var(--radius);overflow:hidden}

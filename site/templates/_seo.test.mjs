@@ -74,6 +74,7 @@ describe('IndexNow', () => {
     assert.ok(has('https://siren.watch/lab/spacex.html'));
     assert.ok(has('https://siren.watch/lab/hcltech.html'));
     assert.ok(has('https://siren.watch/tags/tsmc.html'));
+    assert.ok(has('https://siren.watch/world.html'));
     assert.ok(has('https://siren.watch/about.html'));
     assert.ok(has('https://siren.watch/privacy.html'));
     assert.ok(has('https://siren.watch/press.html'));
@@ -129,6 +130,7 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('AI news sources this index scored'));
     assert.ok(org.knowsAbout.includes('AI activity pillars this index scored'));
     assert.ok(org.knowsAbout.includes('AI datacentre countries this index scored'));
+    assert.ok(org.knowsAbout.includes('how many datacentres mapped on Earth'));
     assert.ok(org.knowsAbout.includes('AI labs this index scored'));
     assert.ok(org.knowsAbout.includes('AI stories this index scored'));
     assert.ok(org.knowsAbout.includes('AI leaders on the record'));
