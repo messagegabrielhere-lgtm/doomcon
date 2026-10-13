@@ -198,7 +198,7 @@ export function roomGroups(ctx) {
       ['/si-ready.html', 'px:backpack', 'Ready for SI?', null, 'Prepare for superintelligence: a 3-minute personal plan.'],
       ['/prepper-checklist.html', 'px:doc', 'Prepper Checklist', null, 'What belongs in a 72-hour prepper kit?'],
       ['/bug-out-land.html', 'px:cabin', 'Bug-Out Land', null, 'Where to buy remote land to ride out Skynet.'],
-      ['/library.html', 'books', 'Reading List', null, 'Books from every side of the AI argument.'],
+      ['/library.html', 'books', 'Reading List', null, 'What AI books argue both sides of the case?'],
     ]],
     ['THE RECORD', [
       ['/labs.html', 'px:flask', 'SIREN Labs', 'NEW', 'What is SIREN Labs measuring this week?'],
