@@ -22,7 +22,7 @@ describe('dispatch page SEO', () => {
     assert.match(html, /threats\.html/);
     assert.match(html, /monitor\.html/);
     assert.match(html, /What could take the machines offline tonight\?/);
-    assert.match(html, /World Monitor/);
+    assert.match(html, /What does the SIREN World Monitor show\?/);
     assert.match(html, /never moves the SIREN score/);
     assert.match(html, /document\.title = "What public feeds does SIREN Dispatch show\? · SIREN"/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);

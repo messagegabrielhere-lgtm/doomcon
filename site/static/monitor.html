@@ -3,8 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>World Monitor</title>
-<meta name="description" content="A live globe of world news from GDELT and 27 world feeds, grouped into stories, with earthquakes, storms, fires, ADS-B/MLAT/TIS-B aircraft density and shipping chokepoints…">
+<title>What does the SIREN World Monitor show? · SIREN</title>
+<meta name="description" content="What does the SIREN World Monitor show? A live map of world news from GDELT and 27 outlets, grouped into stories, with a country stress index, hazards and 72-hour replay. It counts coverage. It is not a forecast.">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","name":"What does the SIREN World Monitor show?","description":"A live map of what the world's newsrooms and hazard feeds are reporting. News from 27 outlets and GDELT grouped into stories; each country gets a stress index from coverage, hazards and markets. It counts coverage. It is not a forecast.","url":"https://siren.watch/monitor.html","isPartOf":{"@type":"WebSite","name":"SIREN","url":"https://siren.watch/"},"speakable":{"@type":"SpeakableSpecification","cssSelector":["h1","p.wm-lede"]}}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"SIREN","item":"https://siren.watch/"},{"@type":"ListItem","position":2,"name":"World Monitor","item":"https://siren.watch/monitor.html"}]}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What does the SIREN World Monitor show?","acceptedAnswer":{"@type":"Answer","text":"A live map of what the world's newsrooms and hazard feeds are reporting. News from 27 outlets and GDELT is grouped into stories (one event, many outlets). Each country gets a stress index, 0–100, from the stories naming it, natural hazards near it and its stock market. It counts coverage. It is not a forecast."}},{"@type":"Question","name":"What is the country stress index?","acceptedAnswer":{"@type":"Answer","text":"0–100 per country, rescored every time a source lands. It counts English-language coverage and hazards, not danger: a country nobody writes about scores low."}},{"@type":"Question","name":"Is the World Monitor a forecast?","acceptedAnswer":{"@type":"Answer","text":"It counts coverage. It is not a forecast."}},{"@type":"Question","name":"What sources feed the map?","acceptedAnswer":{"@type":"Answer","text":"News: GDELT, 27 world and specialist feeds, and SIREN's newsroom. Hazards: USGS, NASA EONET, GDACS. Aircraft: adsb.lol. Cyber: CISA KEV. Markets: Yahoo (delayed), OKX. Map: Natural Earth."}}]}
+</script>
 <link rel="stylesheet" href="fonts/fonts.css">
 <style>
 /* Layout: operations room. Status bar on top, layers and stress index left, map centre, feeds right.
@@ -31,10 +40,17 @@ a{color:inherit}
 
 /* top bar */
 .top{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px}
-.brand{display:flex;align-items:baseline;gap:10px;margin-right:auto;min-width:0}
-.brand h1{margin:0;font:700 26px/1 var(--f-display);letter-spacing:.04em;text-transform:uppercase;white-space:nowrap}
-.brand h1 b{color:var(--accent)}
-.brand span{color:var(--mute);font-size:12.5px}
+.brand{display:flex;flex-direction:column;gap:4px;margin-right:auto;min-width:0;max-width:min(720px,100%)}
+.brand .wm-eyebrow{margin:0;font:700 12px/1 var(--f-display);letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.brand .wm-eyebrow b{color:var(--accent)}
+.brand h1{margin:0;font:700 clamp(22px,4vw,30px)/1.1 var(--f-display);letter-spacing:.02em;text-transform:none;white-space:normal}
+.brand .wm-lede{margin:0;color:var(--mute);font-size:12.5px;max-width:62ch}
+.wm-faq{margin:6px 0 0;padding:14px 16px;background:var(--panel);border:1px solid var(--line);border-radius:10px;max-width:62ch}
+.wm-faq h2{margin:0 0 10px;font:600 16px/1.2 var(--f-display);letter-spacing:.04em;text-transform:none;color:var(--ink)}
+.wm-faq h3{margin:12px 0 6px;font:600 14px/1.3 var(--f-body);color:var(--ink)}
+.wm-faq p{margin:0 0 6px;font:400 13px/1.5 var(--f-body);color:var(--mute)}
+.wm-faq-key{margin-top:12px!important}
+.wm-faq a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
 .clock{font:500 13px/1 var(--f-mono);color:var(--mute);white-space:nowrap}
 .btn{border:1px solid var(--line);background:var(--panel);border-radius:6px;padding:5px 11px;font-weight:500;font-size:13px;text-decoration:none;display:inline-flex;align-items:center;gap:5px}
 .btn:hover{border-color:var(--mute)}
@@ -267,7 +283,7 @@ dialog.modal::backdrop{background:rgba(0,0,0,.55)}
   .legend{display:none}
   .hud input{width:110px}
   .right{order:3}
-  .brand span{display:none}
+  .brand .wm-lede{display:none}
   .timeline{right:10px}
   body{padding-bottom:72px}
   .mnav{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:55;background:var(--panel);border-top:1px solid var(--line);padding:6px 8px calc(6px + env(safe-area-inset-bottom))}
@@ -286,8 +302,9 @@ dialog.modal::backdrop{background:rgba(0,0,0,.55)}
 <div class="wrap">
   <header class="top">
     <div class="brand">
-      <h1>World <b>Monitor</b></h1>
-      <span>live map · public keyless sources · stories grouped across outlets</span>
+      <p class="wm-eyebrow">WORLD <b>MONITOR</b> · LIVE MAP · PUBLIC SOURCES</p>
+      <h1>What does the SIREN World Monitor show?</h1>
+      <p class="wm-lede">A live map of what the world's newsrooms and hazard feeds are reporting. Stories grouped across outlets; a country stress index that counts coverage, not danger. It is not a forecast.</p>
     </div>
     <span class="clock" id="clock" aria-live="off">--:--:-- UTC</span>
     <select class="sel" id="win" aria-label="Time window" title="Time window for the stories, hotspots and brief"><option value="6">6 h</option><option value="24" selected>24 h</option><option value="72">72 h</option></select>
@@ -369,6 +386,23 @@ dialog.modal::backdrop{background:rgba(0,0,0,.55)}
   </main>
 
   <div class="ticker" aria-label="Latest stories"><span class="lab">LIVE</span><div class="run" id="ticker"></div></div>
+
+  <!-- FAQ answers restate help / stress note / footer copy only.
+       Refuse: forecast claims, danger-as-score, doom-probability. -->
+  <section class="wm-faq" aria-labelledby="faq">
+    <h2 id="faq">Questions people actually ask</h2>
+    <h3>What does the SIREN World Monitor show?</h3>
+    <p>A live map of what the world's newsrooms and hazard feeds are reporting. News from 27 outlets and GDELT is grouped into stories (one event, many outlets). Each country gets a stress index, 0–100, from the stories naming it, natural hazards near it and its stock market. It counts coverage. It is not a forecast.</p>
+    <h3>What is the country stress index?</h3>
+    <p>0–100 per country, rescored every time a source lands. It counts English-language coverage and hazards, not danger: a country nobody writes about scores low.</p>
+    <h3>Is the World Monitor a forecast?</h3>
+    <p>It counts coverage. It is not a forecast.</p>
+    <h3>What sources feed the map?</h3>
+    <p>News: GDELT, 27 world and specialist feeds, and SIREN's newsroom. Hazards: USGS, NASA EONET, GDACS. Aircraft: adsb.lol. Cyber: CISA KEV. Markets: Yahoo (delayed), OKX. Map: Natural Earth.</p>
+    <p class="wm-faq-key">Search-shaped sibling:
+      <a href="dispatch.html">What public feeds does SIREN Dispatch show?</a>
+      · <a href="threats.html">What could take the machines offline tonight?</a>.</p>
+  </section>
 
   <footer>
     <span>News: <a href="https://www.gdeltproject.org/" target="_blank" rel="noopener">GDELT</a>, 27 world and specialist feeds, and SIREN's newsroom. Hazards: <a href="https://earthquake.usgs.gov/" target="_blank" rel="noopener">USGS</a>, <a href="https://eonet.gsfc.nasa.gov/" target="_blank" rel="noopener">NASA EONET</a>, <a href="https://www.gdacs.org/" target="_blank" rel="noopener">GDACS</a>. Aircraft: <a href="https://adsb.lol/" target="_blank" rel="noopener">adsb.lol</a> (ODbL) — ADS-B, MLAT and TIS-B as regional counts only (no callsigns, registrations or exact positions). No space-based ADS-B, ACARS or airline FLIFO on this page. Cyber: <a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank" rel="noopener">CISA KEV</a>. Markets: Yahoo (delayed, via the scanner snapshot), OKX. Map: Natural Earth. <a href="https://github.com/messagegabrielhere-lgtm/doomcon/blob/main/docs/MONITOR.md" target="_blank" rel="noopener">How it works</a>.</span>

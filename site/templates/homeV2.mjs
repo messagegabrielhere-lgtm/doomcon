@@ -155,7 +155,7 @@ export function roomGroups(ctx) {
       ['/pillars.html', 'px:updown', 'Pillars', null, 'Five activity pillars with scored-story hubs — tempo readings, not a pillar doom score.'],
       ['/leaders.html', 'mic', 'Leaders', Number.isFinite(lt.leaders) ? `${lt.on_record ?? 0} of ${lt.leaders} on record` : null, 'What the people running AI said this week.'],
       ctx.digest ? ['/digest.html', 'clipboard', 'Digest', null, 'The day in a few corroborated items.'] : null,
-      ['/monitor.html', 'satellite', 'World Monitor', null, 'Live globe: stories from 27 outlets, hazards, a country stress index, 72-hour replay.'],
+      ['/monitor.html', 'satellite', 'World Monitor', null, 'What does the SIREN World Monitor show?'],
       ['/dispatch.html', 'px:beacon', 'Dispatch', null, 'What public feeds does SIREN Dispatch show?'],
       ['/waffle.html', 'px:waffle', 'Waffle House Index', 'NEW', 'Hurricanes, Waffle Houses and the AI data centres in the path.'],
       ['/elon.html', 'musk', 'Real Clips', null, 'Where can you find real clips of AI leaders?'],
