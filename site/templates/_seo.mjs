@@ -39,6 +39,7 @@ export function organization(ctx) {
       'history of AI risk',
       'What is the history of AI risk',
       'How does SIREN compare to DEFCON, the Doomsday Clock and p(doom)',
+      'Which AI doom indexes can you compare',
       'Is there an AI doomsday clock',
       'AI explainers',
       'What are the AI explainers',
