@@ -119,6 +119,8 @@ export function organization(ctx) {
       'What AI is on TV and radio right now',
       'SIREN catalog',
       'Where is everything on SIREN listed',
+      'SIREN search',
+      'How do you search everything on SIREN',
       'AI labs this index scored',
       'AI stories this index scored',
       'AI leaders on the record',

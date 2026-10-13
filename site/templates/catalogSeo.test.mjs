@@ -30,7 +30,8 @@ describe('catalog page SEO', () => {
     assert.match(html, /ItemList/);
     assert.match(html, /BreadcrumbList/);
     assert.match(html, /\/live\.html/);
-    assert.match(html, /\/games\.html/);
+    assert.match(html, /\/search\.html/);
+    assert.match(html, /How do you search everything on SIREN\?/);
     assert.match(html, /one directory/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /catalog of doom/i);

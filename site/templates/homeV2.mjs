@@ -202,7 +202,7 @@ export function roomGroups(ctx) {
     ]],
     ['THE RECORD', [
       ['/labs.html', 'px:flask', 'SIREN Labs', 'NEW', 'Four or five new experiments in measuring superintelligence, every week.'],
-      ['/search.html', 'px:search', 'Search', 'NEW', 'Search every room, story, video, leader and dataset.'],
+      ['/search.html', 'px:search', 'Search', 'NEW', 'How do you search everything on SIREN?'],
       ['/catalog.html', 'px:catalog', 'Catalog', 'NEW', 'Where is everything on SIREN listed?'],
       ['/ai-doomsday-clock.html', 'clock', 'The Clock', null, 'The reading as a clock face you can verify.'],
       ['/guides.html', 'clock', 'AI explainers', null, 'p(doom), doomsday clocks, doom indexes — vocabulary without a doom probability.'],
