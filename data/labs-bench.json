@@ -1,0 +1,772 @@
+{
+  "schema": 1,
+  "generated_at": "2026-10-13T18:09:54.399Z",
+  "affects_index": false,
+  "week": {
+    "start": "2026-10-12",
+    "theme": "Is AI building AI yet?"
+  },
+  "recursion": {
+    "ok": true,
+    "window_days": 7,
+    "since": "2026-10-06",
+    "repos": [
+      {
+        "repo": "pytorch/pytorch",
+        "merged": 18,
+        "agent_merged": 0,
+        "share": 0,
+        "by_agent": []
+      },
+      {
+        "repo": "huggingface/transformers",
+        "merged": 100,
+        "agent_merged": 0,
+        "share": 0,
+        "by_agent": []
+      },
+      {
+        "repo": "vllm-project/vllm",
+        "merged": 480,
+        "agent_merged": 16,
+        "share": 0.0333,
+        "by_agent": [
+          {
+            "key": "head:codex/",
+            "name": "OpenAI Codex",
+            "prs": 13
+          },
+          {
+            "key": "head:claude/",
+            "name": "Claude Code",
+            "prs": 3
+          }
+        ]
+      },
+      {
+        "repo": "jax-ml/jax",
+        "merged": 156,
+        "agent_merged": 0,
+        "share": 0,
+        "by_agent": []
+      },
+      {
+        "repo": "ggml-org/llama.cpp",
+        "merged": 171,
+        "agent_merged": 0,
+        "share": 0,
+        "by_agent": []
+      }
+    ],
+    "total_merged": 925,
+    "total_agent": 16,
+    "share": 0.0173,
+    "note": "Agent PRs = merged pulls from a coding agent’s GitHub app account or from a branch named with an agent’s default prefix (codex/, claude/, …), same roster as Takeover Watch. Counts are summed across separate searches, so the share is an upper-bound proxy."
+  },
+  "horizon": {
+    "ok": true,
+    "benchmark": "METR-Horizon-v1.1",
+    "doubling_days": 128.7,
+    "doubling_months": 4.2,
+    "frontier": {
+      "id": "claude_mythos_preview_early_inspect",
+      "name": "claude mythos preview early",
+      "release_date": "2026-04-07",
+      "p50_minutes": 1044.78,
+      "p50_hours": 17.413,
+      "is_sota": true,
+      "ci_low": 508.876789,
+      "ci_high": 3304.261235
+    },
+    "models": [
+      {
+        "id": "gpt2",
+        "name": "gpt2",
+        "release_date": "2019-02-14",
+        "p50_minutes": 0.054,
+        "p50_hours": 0.0009,
+        "is_sota": true,
+        "ci_low": 0.009994,
+        "ci_high": 0.141825
+      },
+      {
+        "id": "davinci_002",
+        "name": "davinci 002",
+        "release_date": "2020-05-28",
+        "p50_minutes": 0.144,
+        "p50_hours": 0.0024,
+        "is_sota": true,
+        "ci_low": 0.093319,
+        "ci_high": 0.221209
+      },
+      {
+        "id": "gpt_3_5_turbo_instruct",
+        "name": "gpt 3 5 turbo instruct",
+        "release_date": "2022-03-15",
+        "p50_minutes": 0.599,
+        "p50_hours": 0.01,
+        "is_sota": true,
+        "ci_low": 0.255148,
+        "ci_high": 1.115905
+      },
+      {
+        "id": "gpt_4",
+        "name": "gpt 4",
+        "release_date": "2023-03-14",
+        "p50_minutes": 3.987,
+        "p50_hours": 0.0665,
+        "is_sota": true,
+        "ci_low": 1.93292,
+        "ci_high": 7.995283
+      },
+      {
+        "id": "gpt_4_1106_inspect",
+        "name": "gpt 4 1106",
+        "release_date": "2023-11-06",
+        "p50_minutes": 4.045,
+        "p50_hours": 0.0674,
+        "is_sota": true,
+        "ci_low": 1.866859,
+        "ci_high": 8.443226
+      },
+      {
+        "id": "claude_3_opus_inspect",
+        "name": "claude 3 opus",
+        "release_date": "2024-03-04",
+        "p50_minutes": 3.952,
+        "p50_hours": 0.0659,
+        "is_sota": false,
+        "ci_low": 1.706313,
+        "ci_high": 8.76484
+      },
+      {
+        "id": "gpt_4_turbo_inspect",
+        "name": "gpt 4 turbo",
+        "release_date": "2024-04-09",
+        "p50_minutes": 3.733,
+        "p50_hours": 0.0622,
+        "is_sota": false,
+        "ci_low": 1.980046,
+        "ci_high": 6.736613
+      },
+      {
+        "id": "gpt_4o_inspect",
+        "name": "gpt 4o",
+        "release_date": "2024-05-13",
+        "p50_minutes": 6.991,
+        "p50_hours": 0.1165,
+        "is_sota": true,
+        "ci_low": 4.001482,
+        "ci_high": 12.905741
+      },
+      {
+        "id": "claude_3_5_sonnet_20240620_inspect",
+        "name": "claude 3 5 sonnet 20240620",
+        "release_date": "2024-06-20",
+        "p50_minutes": 11.395,
+        "p50_hours": 0.1899,
+        "is_sota": true,
+        "ci_low": 5.489734,
+        "ci_high": 22.384214
+      },
+      {
+        "id": "o1_preview",
+        "name": "o1 preview",
+        "release_date": "2024-09-12",
+        "p50_minutes": 20.327,
+        "p50_hours": 0.3388,
+        "is_sota": true,
+        "ci_low": 11.716193,
+        "ci_high": 33.379877
+      },
+      {
+        "id": "claude_3_5_sonnet_20241022_inspect",
+        "name": "claude 3 5 sonnet 20241022",
+        "release_date": "2024-10-22",
+        "p50_minutes": 20.523,
+        "p50_hours": 0.342,
+        "is_sota": true,
+        "ci_low": 10.144026,
+        "ci_high": 40.82028
+      },
+      {
+        "id": "o1_inspect",
+        "name": "o1",
+        "release_date": "2024-12-05",
+        "p50_minutes": 38.832,
+        "p50_hours": 0.6472,
+        "is_sota": true,
+        "ci_low": 21.164512,
+        "ci_high": 64.95249
+      },
+      {
+        "id": "claude_3_7_sonnet_inspect",
+        "name": "claude 3 7 sonnet",
+        "release_date": "2025-02-24",
+        "p50_minutes": 60.389,
+        "p50_hours": 1.0065,
+        "is_sota": true,
+        "ci_low": 33.006168,
+        "ci_high": 104.226017
+      },
+      {
+        "id": "o3_inspect",
+        "name": "o3",
+        "release_date": "2025-04-16",
+        "p50_minutes": 119.733,
+        "p50_hours": 1.9955,
+        "is_sota": true,
+        "ci_low": 74.615398,
+        "ci_high": 190.943818
+      },
+      {
+        "id": "claude_4_opus_inspect",
+        "name": "claude 4 opus",
+        "release_date": "2025-05-22",
+        "p50_minutes": 100.366,
+        "p50_hours": 1.6728,
+        "is_sota": false,
+        "ci_low": 59.994073,
+        "ci_high": 163.454074
+      },
+      {
+        "id": "claude_4_1_opus_inspect",
+        "name": "claude 4 1 opus",
+        "release_date": "2025-08-05",
+        "p50_minutes": 100.472,
+        "p50_hours": 1.6745,
+        "is_sota": false,
+        "ci_low": 59.272391,
+        "ci_high": 159.451918
+      },
+      {
+        "id": "gpt_5_2025_08_07_inspect",
+        "name": "gpt 5 2025 08 07",
+        "release_date": "2025-08-07",
+        "p50_minutes": 203.013,
+        "p50_hours": 3.3835,
+        "is_sota": true,
+        "ci_low": 112.641357,
+        "ci_high": 405.551565
+      },
+      {
+        "id": "gemini_3_pro",
+        "name": "gemini 3 pro",
+        "release_date": "2025-11-18",
+        "p50_minutes": 224.326,
+        "p50_hours": 3.7388,
+        "is_sota": true,
+        "ci_low": 139.565157,
+        "ci_high": 379.235434
+      },
+      {
+        "id": "gpt_5_1_codex_max_inspect",
+        "name": "gpt 5 1 codex max",
+        "release_date": "2025-11-19",
+        "p50_minutes": 223.715,
+        "p50_hours": 3.7286,
+        "is_sota": false,
+        "ci_low": 134.31077,
+        "ci_high": 396.206723
+      },
+      {
+        "id": "claude_opus_4_5_inspect",
+        "name": "claude opus 4 5",
+        "release_date": "2025-11-24",
+        "p50_minutes": 292.995,
+        "p50_hours": 4.8832,
+        "is_sota": true,
+        "ci_low": 161.717714,
+        "ci_high": 623.704698
+      },
+      {
+        "id": "gpt_5_2",
+        "name": "gpt 5 2",
+        "release_date": "2025-12-11",
+        "p50_minutes": 352.249,
+        "p50_hours": 5.8708,
+        "is_sota": true,
+        "ci_low": 198.067494,
+        "ci_high": 815.177445
+      },
+      {
+        "id": "gpt_5_3_codex",
+        "name": "gpt 5 3 codex",
+        "release_date": "2026-02-05",
+        "p50_minutes": 349.531,
+        "p50_hours": 5.8255,
+        "is_sota": false,
+        "ci_low": 194.913134,
+        "ci_high": 816.351994
+      },
+      {
+        "id": "claude_opus_4_6_inspect",
+        "name": "claude opus 4 6",
+        "release_date": "2026-02-05",
+        "p50_minutes": 718.807,
+        "p50_hours": 11.9801,
+        "is_sota": true,
+        "ci_low": 316.685725,
+        "ci_high": 3633.786163
+      },
+      {
+        "id": "gemini_3_1_pro",
+        "name": "gemini 3 1 pro",
+        "release_date": "2026-02-19",
+        "p50_minutes": 384.147,
+        "p50_hours": 6.4025,
+        "is_sota": false,
+        "ci_low": 233.50073,
+        "ci_high": 694.750898
+      },
+      {
+        "id": "gpt_5_4",
+        "name": "gpt 5 4",
+        "release_date": "2026-03-05",
+        "p50_minutes": 341.735,
+        "p50_hours": 5.6956,
+        "is_sota": false,
+        "ci_low": 186.581591,
+        "ci_high": 768.779526
+      },
+      {
+        "id": "claude_mythos_preview_early_inspect",
+        "name": "claude mythos preview early",
+        "release_date": "2026-04-07",
+        "p50_minutes": 1044.78,
+        "p50_hours": 17.413,
+        "is_sota": true,
+        "ci_low": 508.876789,
+        "ci_high": 3304.261235
+      }
+    ],
+    "unit": "METR p50_horizon_length is the human task length in minutes where the model has a 50% chance of success.",
+    "source": "https://metr.org/assets/benchmark_results_1_1.yaml"
+  },
+  "jump": {
+    "ok": true,
+    "method": "log10(training FLOP) vs publication date since 2018-01-01; flag residual > 2σ",
+    "sigma": 1.624,
+    "sigma_threshold": 2,
+    "since": "2018-01-01",
+    "trend": {
+      "slope_log10_per_year": 0.7669,
+      "intercept": -1528.9774,
+      "n": 389,
+      "doubling_months": 4.7
+    },
+    "flagged": [],
+    "flagged_count": 0,
+    "source_note": "Epoch AI notable-models dataset (CC BY). Only models with a disclosed training-compute figure from 2018 onward enter the fit.",
+    "source": "https://epoch.ai/data/notable_ai_models.csv"
+  },
+  "compute": {
+    "ok": true,
+    "largest": {
+      "model": "GPT-6 Astra",
+      "org": "OpenAI",
+      "date": "2026-09-03",
+      "flop": 1.0001e+27,
+      "scientific": "1.00×10^27",
+      "exponent": 27,
+      "url": null
+    },
+    "doubling_months": 12.3,
+    "envelope": [
+      {
+        "date": "1950-07-02",
+        "model": "Theseus",
+        "org": "Bell Laboratories",
+        "flop": 40
+      },
+      {
+        "date": "1957-01-01",
+        "model": "Perceptron Mark I",
+        "org": "Cornell Aeronautical Laboratory,Cornell University",
+        "flop": 694894.9377361819
+      },
+      {
+        "date": "1959-02-01",
+        "model": "Pandemonium (morse)",
+        "org": "Massachusetts Institute of Technology (MIT)",
+        "flop": 600000000
+      },
+      {
+        "date": "1960-03-30",
+        "model": "Perceptron (1960)",
+        "org": "Cornell Aeronautical Laboratory",
+        "flop": 720000000
+      },
+      {
+        "date": "1987-06-06",
+        "model": "NetTalk (transcription)",
+        "org": "Princeton University",
+        "flop": 28328002560
+      },
+      {
+        "date": "1989-11-27",
+        "model": "Handwritten digit recognition network",
+        "org": "AT&T",
+        "flop": 181440000000
+      },
+      {
+        "date": "1989-12-01",
+        "model": "Zip CNN",
+        "org": "AT&T,Bell Laboratories",
+        "flop": 1496338054440
+      },
+      {
+        "date": "1992-05-01",
+        "model": "TD-Gammon",
+        "org": "IBM",
+        "flop": 18232157622832.703
+      },
+      {
+        "date": "1994-12-02",
+        "model": "Predictive Coding NN",
+        "org": "Technical University of Munich",
+        "flop": 18621900000000
+      },
+      {
+        "date": "1997-11-15",
+        "model": "LSTM",
+        "org": "Technical University of Munich",
+        "flop": 31512000000000
+      },
+      {
+        "date": "2000-11-28",
+        "model": "PoE MNIST",
+        "org": "University College London (UCL)",
+        "flop": 51810000000000
+      },
+      {
+        "date": "2000-11-28",
+        "model": "Neural LM",
+        "org": "University of Montreal / Université de Montréal",
+        "flop": 6339000000000000
+      },
+      {
+        "date": "2007-06-22",
+        "model": "SB-LM",
+        "org": "Google",
+        "flop": 1449446400000000000
+      },
+      {
+        "date": "2013-01-16",
+        "model": "DistBelief NNLM",
+        "org": "Google",
+        "flop": 2612736000000000000
+      },
+      {
+        "date": "2014-06-18",
+        "model": "SPPNet",
+        "org": "Microsoft,Xi’an Jiaotong University,University of Science and Technology of China (USTC)",
+        "flop": 3411072000000000000
+      },
+      {
+        "date": "2014-09-04",
+        "model": "VGG19",
+        "org": "University of Oxford",
+        "flop": 11000000000000000000
+      },
+      {
+        "date": "2014-09-04",
+        "model": "VGG16",
+        "org": "University of Oxford",
+        "flop": 12291000000000000000
+      },
+      {
+        "date": "2014-09-10",
+        "model": "Seq2Seq LSTM",
+        "org": "Google",
+        "flop": 56000000000000000000
+      },
+      {
+        "date": "2014-12-03",
+        "model": "SNM-skip",
+        "org": "Google",
+        "flop": 297600000001000000000
+      },
+      {
+        "date": "2015-10-01",
+        "model": "AlphaGo Fan",
+        "org": "DeepMind",
+        "flop": 380000000000000000000
+      },
+      {
+        "date": "2016-01-27",
+        "model": "AlphaGo Lee",
+        "org": "DeepMind",
+        "flop": 1.9e+21
+      },
+      {
+        "date": "2016-09-26",
+        "model": "GNMT",
+        "org": "Google",
+        "flop": 6.620000000001e+21
+      },
+      {
+        "date": "2018-05-02",
+        "model": "ResNeXt-101 32x48d",
+        "org": "Facebook",
+        "flop": 8.74395e+21
+      },
+      {
+        "date": "2019-09-17",
+        "model": "Megatron-LM (8.3B)",
+        "org": "Nvidia",
+        "flop": 9.1e+21
+      },
+      {
+        "date": "2019-09-17",
+        "model": "Megatron-BERT",
+        "org": "Nvidia",
+        "flop": 2.2e+22
+      },
+      {
+        "date": "2019-10-23",
+        "model": "T5-11B",
+        "org": "Google",
+        "flop": 3.3e+22
+      },
+      {
+        "date": "2019-10-30",
+        "model": "AlphaStar",
+        "org": "DeepMind",
+        "flop": 1.0773400001e+23
+      },
+      {
+        "date": "2020-01-28",
+        "model": "Meena",
+        "org": "Google Brain",
+        "flop": 1.12e+23
+      },
+      {
+        "date": "2020-05-28",
+        "model": "GPT-3 175B (davinci)",
+        "org": "OpenAI",
+        "flop": 3.14e+23
+      },
+      {
+        "date": "2021-08-11",
+        "model": "Jurassic-1-Jumbo",
+        "org": "AI21 Labs",
+        "flop": 3.7e+23
+      },
+      {
+        "date": "2021-09-03",
+        "model": "FLAN 137B",
+        "org": "Google Research",
+        "flop": 2.047e+24
+      },
+      {
+        "date": "2022-03-15",
+        "model": "GPT-3.5 (davinci-002)",
+        "org": "OpenAI",
+        "flop": 2.578e+24
+      },
+      {
+        "date": "2022-06-29",
+        "model": "Minerva (540B)",
+        "org": "Google",
+        "flop": 2.7415e+24
+      },
+      {
+        "date": "2023-03-15",
+        "model": "GPT-4 (Mar 2023)",
+        "org": "OpenAI",
+        "flop": 2.1e+25
+      },
+      {
+        "date": "2023-12-06",
+        "model": "Gemini 1.0 Ultra",
+        "org": "Google DeepMind",
+        "flop": 5.0000000001e+25
+      },
+      {
+        "date": "2025-02-17",
+        "model": "Grok 3",
+        "org": "xAI",
+        "flop": 3.5e+26
+      },
+      {
+        "date": "2025-02-27",
+        "model": "GPT-4.5",
+        "org": "OpenAI",
+        "flop": 3.8e+26
+      },
+      {
+        "date": "2025-07-09",
+        "model": "Grok 4",
+        "org": "xAI",
+        "flop": 5.0000000000001e+26
+      },
+      {
+        "date": "2026-09-03",
+        "model": "GPT-6 Astra",
+        "org": "OpenAI",
+        "flop": 1.0001e+27
+      }
+    ],
+    "n_with_compute": 540,
+    "source_note": "Epoch AI notable-models dataset (CC BY). Envelope = running maximum of disclosed training FLOP.",
+    "source": "https://epoch.ai/data/notable_ai_models.csv"
+  },
+  "silence": {
+    "ok": true,
+    "labs": [
+      {
+        "id": "openai",
+        "name": "OpenAI",
+        "days_silent": 0,
+        "news_7d": 22,
+        "flag": "normal",
+        "median_gap_days": null,
+        "principals": [
+          {
+            "id": "altman",
+            "name": "Sam Altman",
+            "days_silent": 0,
+            "state": "no_line",
+            "reason": "quiet",
+            "last_statement_at": "2026-10-13T15:00:11.000Z"
+          },
+          {
+            "id": "brockman",
+            "name": "Greg Brockman",
+            "days_silent": null,
+            "state": "no_line",
+            "reason": "quiet",
+            "last_statement_at": null
+          }
+        ]
+      },
+      {
+        "id": "anthropic",
+        "name": "Anthropic",
+        "days_silent": 3,
+        "news_7d": 44,
+        "flag": "normal",
+        "median_gap_days": null,
+        "principals": [
+          {
+            "id": "amodei",
+            "name": "Dario Amodei",
+            "days_silent": 3,
+            "state": "no_line",
+            "reason": "quiet",
+            "last_statement_at": "2026-10-10T01:45:01.000Z"
+          }
+        ]
+      },
+      {
+        "id": "google-deepmind",
+        "name": "Google DeepMind",
+        "days_silent": 0,
+        "news_7d": 2,
+        "flag": "normal",
+        "median_gap_days": null,
+        "principals": [
+          {
+            "id": "hassabis",
+            "name": "Demis Hassabis",
+            "days_silent": null,
+            "state": "no_line",
+            "reason": "quiet",
+            "last_statement_at": null
+          },
+          {
+            "id": "kavukcuoglu",
+            "name": "Koray Kavukcuoglu",
+            "days_silent": 0,
+            "state": "on_record",
+            "reason": null,
+            "last_statement_at": "2026-10-13T16:00:00.000Z"
+          }
+        ]
+      },
+      {
+        "id": "xai",
+        "name": "xAI",
+        "days_silent": 0,
+        "news_7d": 0,
+        "flag": "normal",
+        "median_gap_days": null,
+        "principals": [
+          {
+            "id": "musk",
+            "name": "Elon Musk",
+            "days_silent": 0,
+            "state": "no_line",
+            "reason": "quiet",
+            "last_statement_at": "2026-10-13T06:32:00.000Z"
+          }
+        ]
+      },
+      {
+        "id": "meta",
+        "name": "Meta",
+        "days_silent": 0,
+        "news_7d": 8,
+        "flag": "normal",
+        "median_gap_days": null,
+        "principals": [
+          {
+            "id": "zuckerberg",
+            "name": "Mark Zuckerberg",
+            "days_silent": 0,
+            "state": "on_record",
+            "reason": null,
+            "last_statement_at": "2026-10-13T06:06:33.000Z"
+          }
+        ]
+      },
+      {
+        "id": "deepseek",
+        "name": "DeepSeek",
+        "days_silent": null,
+        "news_7d": 1,
+        "flag": "unread",
+        "median_gap_days": null,
+        "principals": [
+          {
+            "id": "liang",
+            "name": "Liang Wenfeng",
+            "days_silent": null,
+            "state": "no_line",
+            "reason": "no_sources",
+            "last_statement_at": null
+          }
+        ]
+      },
+      {
+        "id": "mistral",
+        "name": "Mistral",
+        "days_silent": null,
+        "news_7d": 0,
+        "flag": "quiet",
+        "median_gap_days": null,
+        "principals": [
+          {
+            "id": "mensch",
+            "name": "Arthur Mensch",
+            "days_silent": null,
+            "state": "no_line",
+            "reason": "quiet",
+            "last_statement_at": null
+          }
+        ]
+      },
+      {
+        "id": "qwen",
+        "name": "Qwen",
+        "days_silent": null,
+        "news_7d": 2,
+        "flag": "unread",
+        "median_gap_days": null,
+        "principals": []
+      }
+    ],
+    "note": "Silence is measured from the Leaders tracker (days since a sourced public statement). “Unusual” needs a few weeks of history of each lab’s own gap; until then a gap of 7+ days is marked long, not unusual. Scored after the fact against what shipped next once releases land in the newsroom."
+  }
+}
