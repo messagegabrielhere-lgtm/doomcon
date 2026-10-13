@@ -342,6 +342,7 @@ context.
 | 109 | `/privacy.html` question-shaped title (“What does SIREN know about you?”) + WebPage speakable + BreadcrumbList + visible FAQ; IndexNow + seo-daily; `knowsAbout` “SIREN privacy” | Google + Bing | **Done** (2026-10-13) |
 | 110 | `/press.html` question-shaped title (“Where is the SIREN press kit?”) + WebPage speakable + BreadcrumbList + visible FAQ; IndexNow + seo-daily; `knowsAbout` “SIREN press kit” | Google + Bing | **Done** (2026-10-13) |
 | 111 | `/terms.html` question-shaped title (“What are the SIREN terms of use?”) + WebPage speakable + BreadcrumbList + visible FAQ; IndexNow + seo-daily; `knowsAbout` “SIREN terms of use” | Google + Bing | **Done** (2026-10-13) |
+| 112 | `/disclosures.html` question-shaped title (“What does SIREN disclose?”) + WebPage speakable + BreadcrumbList + visible FAQ; IndexNow + seo-daily; `knowsAbout` “SIREN disclosures” | Google + Bing | **Done** (2026-10-13) |
 
 ### 3.3 Refusals (search edition)
 

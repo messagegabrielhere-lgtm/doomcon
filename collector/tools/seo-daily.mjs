@@ -55,6 +55,7 @@ export const OUR_SURFACES = Object.freeze([
   '/privacy.html',
   '/press.html',
   '/terms.html',
+  '/disclosures.html',
   '/ai-doomsday-clock.html',
   '/jobs.html',
   '/medicine.html',
@@ -565,7 +566,7 @@ function selftest() {
   const md = formatMarkdown({ ...report, measured_at: '2026-10-12T00:00:00.000Z', gaps });
   if (!md.includes('siren.watch') || !md.includes('Gaps')) throw new Error('markdown');
 
-  for (const need of ['/methodology.html', '/history.html', '/about.html', '/privacy.html', '/press.html', '/terms.html', '/guide.html', '/ai-doomsday-clock.html', '/jobs.html', '/medicine.html', '/model/maia.html', '/model/codex.html', '/lab/epoch-ai.html', '/lab/artificial-analysis.html']) {
+  for (const need of ['/methodology.html', '/history.html', '/about.html', '/privacy.html', '/press.html', '/terms.html', '/disclosures.html', '/guide.html', '/ai-doomsday-clock.html', '/jobs.html', '/medicine.html', '/model/maia.html', '/model/codex.html', '/lab/epoch-ai.html', '/lab/artificial-analysis.html']) {
     if (!OUR_SURFACES.includes(need)) throw new Error(`OUR_SURFACES missing ${need}`);
   }
 

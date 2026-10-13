@@ -515,11 +515,26 @@ export function terms(ctx) {
 
 /** One-page map of every legal notice a visitor, affiliate programme or regulator expects. */
 export function disclosures(ctx) {
+  const path = '/disclosures.html';
+  // Head-term title: people search “SIREN disclosures” / what the site discloses.
+  const title = `What does ${brand.NAME} disclose? Legal notices in one place`;
+  const description = `Legal and compliance disclosures for ${brand.NAME}: what the index is, not advice, affiliates, privacy, satire and licence — with links to the full terms.`;
   const x = brand.X_URL ? `<a href="${esc(brand.X_URL)}" rel="noopener">${esc(brand.X_HANDLE)}</a>` : 'the project account';
+  const faq = [
+    [`What does ${brand.NAME} disclose?`,
+      `This page maps every notice ${brand.NAME} makes: what the index is, that it is not advice, affiliate and paid links, privacy and analytics, satire, people and likenesses, and the licence. The full contracts are the terms and privacy pages.`],
+    [`Is ${brand.NAME} financial or legal advice?`,
+      `${brand.LEGAL_NOT_ADVICE} Stock picks, scanner screens and prediction-market odds are automated, simulated or hypothetical.`],
+    [`Does ${brand.NAME} sell personal data?`,
+      `${brand.LEGAL_NO_SELL} Visits may be counted with analytics when those are turned on; both are disclosed on the privacy page.`],
+  ];
+  const faqHtml = faq.map(([q, a]) => `
+  <h3>${esc(q)}</h3>
+  <p>${esc(a)}</p>`).join('');
   const main = `${CSS}
 <section class="inf">
   <p class="eyebrow">Disclosures</p>
-  <div class="inf__top"><h1 class="bp__h1">Legal and compliance disclosures</h1></div>
+  <div class="inf__top"><h1 class="bp__h1">What does ${esc(brand.NAME)} disclose?</h1></div>
   <p class="lede">Every notice ${esc(brand.NAME)} makes in one place. The full contracts are the
     <a href="${esc(ctx.href('/terms.html'))}">terms</a> and <a href="${esc(ctx.href('/privacy.html'))}">privacy</a> pages; this page is the map.</p>
 
@@ -554,6 +569,9 @@ export function disclosures(ctx) {
   <p>${esc(brand.LICENSE_BLURB)}. Third-party data stays under its own licence, credited on the page that uses it.
     See the <a href="${esc(brand.REPO_URL)}/blob/main/LICENSE" rel="noopener">LICENSE</a> file in the repository.</p>
 
+  <h2 id="faq">Questions people actually ask</h2>
+  ${faqHtml}
+
   <h2>Contact</h2>
   <p>Corrections, takedown requests and privacy questions: ${mail}, ${x} on X, or an issue on the
     <a href="${esc(brand.REPO_URL)}" rel="noopener">repository</a>. Security reports: see
@@ -562,9 +580,15 @@ export function disclosures(ctx) {
   <p><a href="${esc(ctx.href('/terms.html'))}">Full terms →</a> · <a href="${esc(ctx.href('/privacy.html'))}">Privacy →</a> · <a href="${esc(ctx.href('/about.html'))}">About →</a></p>
 </section>`;
   return page({
-    ctx, path: '/disclosures.html',
-    title: `Disclosures · ${brand.NAME}`,
-    description: `Legal and compliance disclosures for ${brand.NAME}: what the index is, not advice, affiliates, privacy, satire and licence — with links to the full terms.`,
+    ctx,
+    path,
+    title,
+    description,
+    jsonld: explainerJsonLd(ctx, path, title, description, faq.map(([q, a]) => ({
+      '@type': 'Question',
+      name: q,
+      acceptedAnswer: { '@type': 'Answer', text: a },
+    })), 'Disclosures'),
     main,
   });
 }
