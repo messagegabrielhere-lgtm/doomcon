@@ -147,6 +147,8 @@ export function organization(ctx) {
       'How do I report a problem or send an idea to SIREN',
       'SIREN alerts',
       'How do I get alerts when SIREN moves',
+      'SIREN export',
+      'How do I export and embed SIREN data',
       'AI labs this index scored',
       'AI stories this index scored',
       'AI leaders on the record',
