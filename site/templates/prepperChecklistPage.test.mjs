@@ -20,6 +20,7 @@ describe('prepper-checklist page', () => {
     assert.match(html, /"@type":\s*"WebPage"/);
     assert.match(html, /BreadcrumbList/);
     assert.match(html, /bunker-kit\.html/);
+    assert.match(html, /What free tools belong in a bunker kit\?/);
     assert.match(html, /bug-out-land\.html/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /Judgment Day is coming/i);

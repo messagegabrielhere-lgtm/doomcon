@@ -194,7 +194,7 @@ export function roomGroups(ctx) {
       ['/contain.html', 'px:core', 'Containment', 'GAME', 'Arcade: stop rogue AI processes breaching the firewall.'],
       ['/game.html', 'joystick', 'Game', null, 'Thirty seconds: count signals, ignore predictions.'],
       ['/desk.html', 'px:notebook', 'Tally’s Desk', null, 'The unserious counts: robots and godfathers.'],
-      ['/bunker-kit.html', 'bunker', 'Bunker Kit', null, '50 free tools and six crates of emergency gear.'],
+      ['/bunker-kit.html', 'bunker', 'Bunker Kit', null, 'What free tools belong in a bunker kit?'],
       ['/si-ready.html', 'px:backpack', 'Ready for SI?', null, 'Prepare for superintelligence: a 3-minute personal plan.'],
       ['/prepper-checklist.html', 'px:doc', 'Prepper Checklist', null, 'What belongs in a 72-hour prepper kit?'],
       ['/bug-out-land.html', 'px:cabin', 'Bug-Out Land', null, 'Where to buy remote land to ride out Skynet.'],
