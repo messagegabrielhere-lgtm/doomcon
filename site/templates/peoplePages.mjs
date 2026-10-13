@@ -287,11 +287,21 @@ export function renderPerson(ctx, id) {
 export function renderIndex(ctx) {
   const people = indexablePeople(ctx);
   const path = '/people/';
-  const title = `AI leaders: press coverage pages · ${brand.NAME}`;
+  // Head-term title: people search “AI leaders” / coverage pages.
+  const title = `Which AI leaders have press coverage pages on ${brand.NAME}?`;
   const description = clip(
     `${people.length} people on the ${brand.NAME} leader wire with enough press coverage for their own page (live wire plus archive). Coverage counts stories naming them — not quotations.`,
     160,
   );
+  const faq = [
+    [`Which AI leaders have press coverage pages on ${brand.NAME}?`,
+      `${people.length} people clear the substance gate of at least ${PEOPLE_INDEX_MIN} press headlines, on-record lines, a 7-day coverage floor, or scored archive stories naming them. Each page lists headlines as printed — not invented quotations.`],
+    [`Does ${brand.NAME} invent quotations for AI leaders?`,
+      `No. Every attributed string on a person page is a headline reproduced as the publication printed it. ${brand.DISCLAIMER_SHORT}`],
+  ];
+  const faqHtml = faq.map(([q, a]) => `
+  <h3>${esc(q)}</h3>
+  <p>${esc(a)}</p>`).join('');
   const rows = people.map((p) => {
     const week = Number(p.coverage && p.coverage.count_7d);
     const archived = archiveItemsForPerson(ctx, p).length;
@@ -305,10 +315,12 @@ export function renderIndex(ctx) {
   const main = `${STYLE}
 <article class="pp prose">
   <p class="pp__k"><a href="${esc(ctx.href('/leaders.html'))}">Leaders</a> · People · <a href="${esc(ctx.href('/people.html'))}">People hub</a></p>
-  <h1>AI leaders with a coverage page</h1>
+  <h1>Which AI leaders have press coverage pages on ${esc(brand.NAME)}?</h1>
   <p class="pp__lede">A person earns a page when the wire or the durable archive holds at least ${PEOPLE_INDEX_MIN} press headlines, on-record lines, a 7-day coverage count at that floor, or scored stories naming them. Each page lists headlines as printed. It does not invent quotations.</p>
   ${rows ? `<ol class="pp__list">${rows}</ol>` : '<p>No person clears the gate in this build.</p>'}
-  <p class="fresh__key">Search-shaped directory: <a href="${esc(ctx.href('/people.html'))}">AI people this index covers</a>.
+  <h2 id="faq">Questions people actually ask</h2>
+  ${faqHtml}
+  <p class="fresh__key">Search-shaped directory: <a href="${esc(ctx.href('/people.html'))}">Which AI people has ${esc(brand.NAME)} scored press about?</a>
      · <a href="${esc(ctx.href('/leaders.html'))}">Full leader wire →</a></p>
 </article>`;
 
@@ -324,6 +336,7 @@ export function renderIndex(ctx) {
       name: title,
       url: ctx.url(path),
       description,
+      speakable: speakable(['h1', '.pp__lede']),
       mainEntity: {
         '@type': 'ItemList',
         numberOfItems: people.length,
@@ -337,7 +350,15 @@ export function renderIndex(ctx) {
     }, breadcrumbs(ctx, [
       { name: 'Leaders', path: '/leaders.html' },
       { name: 'People', path },
-    ])],
+    ]), {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faq.map(([q, a]) => ({
+        '@type': 'Question',
+        name: q,
+        acceptedAnswer: { '@type': 'Answer', text: a },
+      })),
+    }],
     main,
   });
 }
@@ -350,11 +371,21 @@ export function renderIndex(ctx) {
 export function renderPeople(ctx) {
   const people = indexablePeople(ctx);
   const path = '/people.html';
-  const title = `AI people this index covers · ${brand.NAME}`;
+  // Head-term title: people search “AI people” / which leaders SIREN covers.
+  const title = `Which AI people has ${brand.NAME} scored press about?`;
   const description = clip(
     `${people.length} AI leaders with press-coverage hubs on ${brand.NAME}. Each row links /people pages — headlines and story counts only, not quotations or a person doom score.`,
     160,
   );
+  const faq = [
+    [`Which AI people has ${brand.NAME} scored press about?`,
+      `${people.length} leaders clear the substance gate of at least ${PEOPLE_INDEX_MIN} headlines, on-record lines, a 7-day coverage floor, or scored archive stories naming them. Each hub lists those headlines — not a person doom score.`],
+    [`Does ${brand.NAME} publish a person doom score?`,
+      `No. ${brand.DISCLAIMER_SHORT} These pages count press coverage that names a leader on the wire.`],
+  ];
+  const faqHtml = faq.map(([q, a]) => `
+  <h3>${esc(q)}</h3>
+  <p>${esc(a)}</p>`).join('');
   const rows = people.map((p) => {
     const week = Number(p.coverage && p.coverage.count_7d);
     const archived = archiveItemsForPerson(ctx, p).length;
@@ -367,12 +398,14 @@ export function renderPeople(ctx) {
   const main = `${STYLE}
 <article class="pp prose">
   <p class="pp__k"><a href="${esc(ctx.href('/compare.html'))}">Compare</a> · <a href="${esc(ctx.href('/leaders.html'))}">Leaders</a> · <a href="${esc(ctx.href('/people/'))}">People</a> · People hub</p>
-  <h1>AI people this index covers</h1>
+  <h1>Which AI people has ${esc(brand.NAME)} scored press about?</h1>
   <p class="pp__lede">${esc(brand.NAME)} does not publish a person “doom score.” It publishes an activity index and press coverage counts. This page lists leaders who already clear the same substance gate as <a href="${esc(ctx.href('/people/'))}">/people/</a> — at least ${PEOPLE_INDEX_MIN} headlines, on-record lines, a 7-day coverage floor, or scored archive stories naming them. Headlines only; never invented quotations.</p>
   <div class="pp__stat" role="group" aria-label="People hub totals">
     <div><b class="num">${esc(String(people.length))}</b><span>People hubs</span></div>
   </div>
   ${people.length ? `<ol class="pp__list">${rows}</ol>` : '<p>No people hub cleared the gate in this build.</p>'}
+  <h2 id="faq">Questions people actually ask</h2>
+  ${faqHtml}
   <p class="fresh__key"><a href="${esc(ctx.href('/people/'))}">People directory →</a>
      · <a href="${esc(ctx.href('/leaders.html'))}">Full leader wire →</a>
      · <a href="${esc(ctx.href('/companies.html'))}">AI companies →</a>
@@ -391,6 +424,7 @@ export function renderPeople(ctx) {
       name: title,
       url: ctx.url(path),
       description,
+      speakable: speakable(['h1', '.pp__lede']),
       mainEntity: {
         '@type': 'ItemList',
         numberOfItems: people.length,
@@ -404,7 +438,15 @@ export function renderPeople(ctx) {
     }, breadcrumbs(ctx, [
       { name: 'Compare', path: '/compare.html' },
       { name: 'People', path },
-    ])],
+    ]), {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faq.map(([q, a]) => ({
+        '@type': 'Question',
+        name: q,
+        acceptedAnswer: { '@type': 'Answer', text: a },
+      })),
+    }],
     main,
   });
 }

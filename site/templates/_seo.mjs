@@ -47,6 +47,7 @@ export function organization(ctx) {
       'AI models this index scored',
       'AI companies this index scored',
       'AI tags this index scored',
+      'AI people this index scored',
       'AI doom index alternatives',
       'DoomBench alternative',
       'Skynet Countdown alternative',

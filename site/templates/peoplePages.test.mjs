@@ -77,12 +77,20 @@ describe('people pages', () => {
 
   it('ships /people.html over the same gated people set', () => {
     const html = renderPeople(ctx);
-    assert.match(html, /AI people this index covers/);
+    assert.match(html, /Which AI people has SIREN scored press about\?/);
     assert.match(html, /\/people\/altman\.html/);
     assert.match(html, /does not publish a person/);
+    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /"@type"\s*:\s*"FAQPage"/);
+    assert.match(html, /speakable/);
     assert.match(html, /\/companies\.html/);
     assert.match(html, /\/models\.html/);
-    assert.match(renderIndex(ctx), /\/people\.html/);
+    const index = renderIndex(ctx);
+    assert.match(index, /Which AI leaders have press coverage pages on SIREN\?/);
+    assert.match(index, /Questions people actually ask/);
+    assert.match(index, /"@type"\s*:\s*"FAQPage"/);
+    assert.match(index, /speakable/);
+    assert.match(index, /\/people\.html/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
   });
 

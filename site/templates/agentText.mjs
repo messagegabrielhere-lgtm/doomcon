@@ -333,7 +333,7 @@ ${facetLinks(ctx, u)}
 - [Story archive](${u('/item/archive.html')}): older scored stories kept after they leave the live window
 - [AI leaders](${u('/leaders.html')})
 - [People](${u('/people/')}): one page per leader with enough press coverage (live wire or archive)
-- [AI people](${u('/people.html')}): DoomBench-shaped people directory (same gated roster; headlines only, no person doom score)
+- [AI people](${u('/people.html')}): which AI people this index scored press about (same gated roster; headlines only, no person doom score)
 - [Tags](${u('/tags/')}): topic hubs (agents, GPUs, chips, coding, evals, video, voice, reasoning, IPO, RAG, MCP, fine-tuning, quantization, distillation, agent memory, hallucination, prompt injection, MoE, world models, AI copyright, diffusion, embeddings, guardrails, context windows, AI search, multi-agent, deepfakes, SLMs, AI for science, speculative decoding, KV cache, EU AI Act, autonomous vehicles, AI music, synthetic data, inference cost, preference data, reasoning traces, Claude Code, OpenRouter, Hugging Face, Blackwell, Ollama, MLX, computer use, test-time compute, vision-language, foundation models, video generation, image generation, model merging, open-source AI, tool use, post-training, pre-training, zero-shot, in-context learning, tokenization, continual learning, sparsity, knowledge graphs, research agents, system prompts, AI infrastructure, robot learning, frontier models, small models, open models, generative AI, reasoning models, voice AI, conversational AI, audio generation, AI chips, AI regulation, Artificial Analysis, humanoid robots, transformers, self-attention, OpenAI Codex, reward models, reinforcement learning, vision-language-action, flow matching, text-to-image, imitation learning, locomotion, self-supervised learning, latent space, autoencoders, diffusion transformers, scaling laws, browser, watermarking, acquisitions, labor, healthcare, …) when a needle clears five stories in the live window or archive
 - [AI tags](${u('/tags.html')}): Skynet-shaped tags directory (same gated topics; story counts only, no topic doom score)
 - [Story archive](${u('/item/archive.html')}): older scored /item pages kept after they leave the live newsroom
@@ -355,9 +355,9 @@ ${facetLinks(ctx, u)}
 - [Labs](${u('/lab/')}): race-board and entity lab hubs with story counts
 - [AI companies](${u('/companies.html')}): DoomBench-shaped company directory (same gated labs; no company doom score)
 - [News by day](${u('/news.html')}): UTC day hubs under /news/YYYY-MM-DD.html when a day clears five stories
-${(ctx.routes && ctx.routes.world) ? `- [Datacentres by country](${u('/country/')}): mapped sites, one page per country with at least three
+- [Datacentres by country](${u('/country/')}): mapped sites, one page per country with at least three
 - [AI datacentre countries](${u('/countries.html')}): country directory (same gated map counts; not a national AI ranking)
-` : ''}
+
 ## Complementary (not ${brand.NAME})
 
 - [${aa.name}](${aa.url}): ${aa.measures}. ${brand.NAME} measures tempo; ${aa.name} measures quality and price. Link them; do not paste their leaderboard numbers into a ${brand.NAME} citation.
