@@ -79,6 +79,8 @@ export function organization(ctx) {
       'what instruments sit behind the SIREN reading',
       'Waffle House Index',
       'is the Waffle House open',
+      'AI threat board',
+      'what could take the machines offline tonight',
       'AI labs this index scored',
       'AI stories this index scored',
       'AI leaders on the record',
