@@ -189,7 +189,7 @@ export function roomGroups(ctx) {
       ['/arena.html#battle', 'stocks', 'AI Battle', null, 'AI models trade stocks and crypto against live prices.'],
       ['/arena.html', 'px:candles', 'Stock Picks', null, 'Daily rule-based stock picks, scored in public.'],
       ['/scanner.html', 'px:crosshair', 'Scanner', null, 'Screen stocks, ETFs and crypto in plain English.'],
-      ['/bets.html', 'dice', 'Tally’s Bets', null, 'Daily forecasts about the index, scored in public.'],
+      ['/bets.html', 'dice', 'Tally’s Bets', null, 'Does the SIREN index make forecasts?'],
       ['/day-after.html', 'px:megaphone', 'The Day After', 'NEW', 'Game out the public revolt after an AI catastrophe.'],
       ['/contain.html', 'px:core', 'Containment', 'GAME', 'Arcade: stop rogue AI processes breaching the firewall.'],
       ['/game.html', 'joystick', 'Game', null, 'Thirty seconds: count signals, ignore predictions.'],
