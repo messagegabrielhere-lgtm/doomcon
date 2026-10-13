@@ -42,6 +42,7 @@
 
 import { esc, utc, num } from './_html.mjs';
 import { page } from './layout.mjs';
+import { breadcrumbs, speakable } from './_seo.mjs';
 import * as brand from '../brand.mjs';
 // mapTable is deliberately NOT imported. _usmap.mjs still exports it and it is
 // still correct; this page now renders its own jurisdiction table instead,
@@ -1353,9 +1354,11 @@ export function render(ctx) {
   const t = model.totals;
 
   const headline = `${N(c.sites)} datacentres mapped, ${N(t.droughtD1)} of them in a county in drought`;
+  const title = `How many datacentres has ${brand.NAME} mapped in the United States?`;
+  const pctDrought = c.sites ? Math.round((t.droughtD1 / c.sites) * 100) : 0;
 
   const description =
-    `Every datacentre OpenStreetMap has mapped in the United States — ${N(c.sites)} sites, ` +
+    `How many datacentres has ${brand.NAME} mapped in the United States? ${N(c.sites)} OpenStreetMap sites, ` +
     `${N((c.by_status || {}).under_construction)} under construction, ${N((c.by_status || {}).announced)} proposed — ` +
     `joined to the US Drought Monitor category of the county each one sits in, the nearest of nine USGS river ` +
     `gauges, and the grid it draws from. ${N(t.droughtD1)} pins stand in a county in drought; ` +
@@ -1363,12 +1366,27 @@ export function render(ctx) {
     `Nothing here measures a datacentre's power or water draw, and the page says so above the map. ` +
     `Compiled ${utc(dc.generated_at)}.`;
 
+  // FAQ answers restate hero / claim copy only (FINDABILITY §3.3).
+  const faq = [
+    [title,
+      `${N(c.sites)} datacentres have been mapped in the United States by OpenStreetMap volunteers; ${N(t.droughtD1)} of them — ${pctDrought}% — stand in a county the US Drought Monitor placed in drought (D1 or worse) this week. This is a map of buildings, not of electricity.`],
+    [`Does this map measure a datacentre's power or water draw?`,
+      `No. Nothing here measures a datacentre's power or water draw, and the page says so above the map. What any of these buildings actually draws is not published by anyone.`],
+    [`Does a state with no pins have zero datacentres?`,
+      copy.empty_state || 'A state with no pins is a state nobody has mapped. It is not a state with no datacentres.'],
+    [`Does the US map feed the main ${brand.NAME} number?`,
+      `No. This page is a ${brand.NAME} sub-index. It draws, joins, and counts mapped sites — it does not feed the hourly activity index.`],
+  ];
+  const faqHtml = faq.map(([qAsk, a]) => `
+  <h3>${esc(qAsk)}</h3>
+  <p>${esc(a)}</p>`).join('');
+
   const main = `<style>${usMapCss()}${mapCss()}${consoleCss(model)}</style>
 ${iconSprite({ only: SPRITE })}
 <div class="usm-scope bld">
 <section class="bldhero">
   <p class="bldhero__eyebrow">${esc(copy.name || 'The Build')} · a ${esc(brand.NAME)} sub-index · does not feed the main number</p>
-  <h1 class="bldhero__h1">Every mapped US datacentre</h1>
+  <h1 class="bldhero__h1">How many datacentres has ${esc(brand.NAME)} mapped in the United States?</h1>
   <p class="bldhero__sub">${esc(copy.question || '')}</p>
   <p class="bldhero__lede">${esc(copy.standfirst || '')}</p>
   <p class="bldhero__plain">${plainSentence(dc, model)}</p>
@@ -1405,18 +1423,40 @@ ${largestSection(dc, model)}
 
 ${methodSection(ctx, dc, model)}
 
+<section class="bldfaq" aria-labelledby="faq">
+  <h2 id="faq">Questions people actually ask</h2>
+  ${faqHtml}
+  <p class="bldfaq__key">Search-shaped sibling:
+    <a href="${esc(ctx.href('/world.html'))}">How many datacentres has ${esc(brand.NAME)} mapped on Earth?</a>.</p>
+</section>
+
 ${siblingCard(ctx)}
 </div>`;
 
   return page({
     ctx,
     path: PATH,
-    title: `Every mapped US datacentre — ${headline} · ${brand.NAME}`,
-    ogTitle: `${brand.NAME}: ${headline}`,
+    title: `${title} · ${headline} · ${brand.NAME}`,
+    ogTitle: `${brand.NAME}: ${title}`,
     description,
     ogImage: ctx.cardFor ? ctx.cardFor('map') : null,
     ogImageAlt: `${brand.NAME} map of mapped United States datacentres: ${headline}`,
-    jsonld: [dataset(ctx, dc, model)],
+    jsonld: [
+      dataset(ctx, dc, model, title),
+      breadcrumbs(ctx, [
+        { name: 'Home', path: '/' },
+        { name: 'US map', path: PATH },
+      ]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map(([qAsk, a]) => ({
+          '@type': 'Question',
+          name: qAsk,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
+      },
+    ],
     main: main.split(ctxHrefPlaceholder).join(ctx.href('/watts.html')),
     bodyEnd: enhanceJs(),
   });
@@ -1424,16 +1464,17 @@ ${siblingCard(ctx)}
 
 /** ctx.datacenters absent. Builds, says so plainly, and carries noindex. */
 function emptyPage(ctx) {
+  const title = `How many datacentres has ${brand.NAME} mapped in the United States?`;
   return page({
     ctx,
     path: PATH,
     noindex: true,
-    title: `Every mapped US datacentre — the map · ${brand.NAME}`,
+    title: `${title} · ${brand.NAME}`,
     description: `${brand.NAME}'s datacentre map has not published a run yet.`,
     main: `<style>${mapCss()}</style>
 <section class="bldhero">
   <p class="bldhero__eyebrow">The Build · a ${esc(brand.NAME)} sub-index</p>
-  <h1 class="bldhero__h1">Every mapped US datacentre</h1>
+  <h1 class="bldhero__h1">How many datacentres has ${esc(brand.NAME)} mapped in the United States?</h1>
   <p class="bldhero__sub">Where the datacentres are, and what the power and the water around them are doing.</p>
   <p class="bldhero__lede">No run has been published in this build. This is not an empty map — it is the
      absence of a map, and the two are different states. An empty map would be a finding, and it is not one
@@ -1443,11 +1484,11 @@ function emptyPage(ctx) {
   });
 }
 
-function dataset(ctx, dc, model) {
+function dataset(ctx, dc, model, title) {
   return {
     '@context': 'https://schema.org',
     '@type': 'Dataset',
-    name: `${brand.NAME} — mapped United States datacentres and the resources around them`,
+    name: title || `How many datacentres has ${brand.NAME} mapped in the United States?`,
     description:
       'Every datacentre mapped in the United States by OpenStreetMap volunteers, with status read from the ' +
       'tag that set it, joined to the US Drought Monitor category of its county, the nearest of nine USGS ' +
@@ -1460,6 +1501,7 @@ function dataset(ctx, dc, model) {
     isAccessibleForFree: true,
     spatialCoverage: { '@type': 'Place', name: 'United States' },
     keywords: ['datacentres', 'artificial intelligence', 'electricity grid', 'drought', 'streamflow', 'OpenStreetMap'],
+    speakable: speakable(['h1.bldhero__h1', 'p.bldhero__lede']),
     distribution: [{
       '@type': 'DataDownload',
       encodingFormat: 'application/json',
@@ -1497,6 +1539,11 @@ function mapCss() {
 .bldhero__plain{font:400 var(--t-base)/1.55 var(--sans);margin:0 0 var(--s-5);max-width:60ch;
   padding:var(--s-3) var(--s-4);background:var(--wash-alt);border-left:3px solid var(--accent);
   border-radius:var(--radius)}
+.bldfaq{margin:var(--sec) 0 var(--s-5);max-width:62ch}
+.bldfaq h2{font:600 var(--t-lg)/1.2 var(--sans);margin:0 0 var(--s-3)}
+.bldfaq h3{font:600 var(--t-base)/1.3 var(--sans);margin:var(--s-4) 0 var(--s-2)}
+.bldfaq p{font:400 var(--t-base)/1.55 var(--sans);color:var(--ink-dim);margin:0 0 var(--s-2)}
+.bldfaq__key{margin-top:var(--s-4)!important}
 
 .bldc{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:1px;
   background:var(--rule-soft);border:1px solid var(--rule-soft);border-radius:var(--radius);overflow:hidden}
