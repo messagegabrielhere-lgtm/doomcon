@@ -1,4 +1,4 @@
-# Methodology
+# How the SIREN AI activity index is computed · methodology
 
 Every other live AI-risk index scores by human or model judgement. DoomBench's
 own FAQ has to explain that its 67.8 "does not mean a 60 percent probability."

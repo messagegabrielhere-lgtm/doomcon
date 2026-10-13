@@ -9,6 +9,11 @@ import { page } from './layout.mjs';
 import { breadcrumbs, speakable } from './_seo.mjs';
 import * as brand from '../brand.mjs';
 
+/** Head-term title + H1 (FINDABILITY tip #202). Must match visible <h1>. */
+export function methodologyTitle() {
+  return `How the ${brand.NAME} AI activity index is computed · methodology`;
+}
+
 export function render(ctx) {
   const { html, sections } = renderMarkdown(ctx.methodologyMd);
 
@@ -17,12 +22,14 @@ export function render(ctx) {
   const description = firstParagraph(html) ||
     `How ${brand.NAME} turns public data into a 0-100 score and a level, in full.`;
   // Head-term title: people search “how is the AI activity index computed”.
-  const title = `How the ${brand.NAME} AI activity index is computed · methodology`;
+  // H1 comes from docs/METHODOLOGY.md and must match this string (tip #202).
+  const title = methodologyTitle();
 
   return page({
     ctx,
     path: '/methodology.html',
     title,
+    ogTitle: `${brand.NAME}: ${title}`,
     description,
     ogType: 'article',
     ogImage: ctx.cardFor(ctx.state.receipt_id),
@@ -34,9 +41,12 @@ export function render(ctx) {
 
 /** Plain markdown mirror of docs/METHODOLOGY.md for agents (FINDABILITY.md §3.2 #9). */
 export function methodologyMd(ctx) {
-  const body = String(ctx.methodologyMd || '').trim();
+  // Strip the source doc’s leading H1 so the mirror has one question-shaped H1
+  // matching the HTML title (tip #202) — not a bare “SIREN methodology”.
+  const body = String(ctx.methodologyMd || '').trim().replace(/^#\s+[^\n]+\n+/, '');
   const stamp = ctx.state && ctx.state.generated_at ? ctx.state.generated_at : null;
-  return `# ${brand.NAME} methodology
+  const qTitle = methodologyTitle();
+  return `# ${qTitle}
 
 > HTML: ${ctx.url('/methodology.html')}
 > Canonical formulas for the hourly AI activity index. Recompute every number from the receipt.
@@ -59,11 +69,12 @@ function firstParagraph(html) {
  */
 function buildJsonLd(ctx, sections, title, description) {
   const path = '/methodology.html';
+  const qTitle = title || methodologyTitle();
   const blocks = [
     {
       '@context': 'https://schema.org',
       '@type': 'TechArticle',
-      headline: title || `${brand.NAME} methodology`,
+      headline: qTitle,
       description: description || undefined,
       url: ctx.url(path),
       dateModified: ctx.state.generated_at,
@@ -71,7 +82,10 @@ function buildJsonLd(ctx, sections, title, description) {
       author: { '@type': 'Organization', name: brand.NAME, url: ctx.url('/') },
       speakable: speakable(['h1', 'article.prose > p']),
     },
-    breadcrumbs(ctx, [{ name: 'Methodology', path }]),
+    breadcrumbs(ctx, [
+      { name: 'Home', path: '/' },
+      { name: qTitle, path },
+    ]),
   ];
 
   // FAQPage only from headings that are literally questions on the page

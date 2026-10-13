@@ -214,7 +214,7 @@ export function roomGroups(ctx) {
       ['/alternatives.html', 'px:updown', 'Alternatives', null, 'When this index is the right substitute — and when it is not.'],
       ['/guide.html', 'clock', 'DEFCON guide', null, 'How does SIREN compare to DEFCON, the Doomsday Clock and p(doom)?'],
       ['/history.html', 'archive', 'History', ctx.history ? `${ctx.history.length} readings` : null, 'What is the history of AI risk?'],
-      ['/methodology.html', 'magnifier', 'Methodology', null, 'Every formula. Recompute the number yourself.'],
+      ['/methodology.html', 'magnifier', 'Methodology', null, 'How the SIREN AI activity index is computed · methodology — every formula, recompute yourself.'],
       ['/classic.html', 'siren', 'Full Panel', null, 'Where is the full SIREN instrument panel?'],
       ['/staff.html', 'px:team', 'The Staff', null, 'Who is the automated crew that runs SIREN?'],
       ['/tally.html', 'canary', 'Tally', null, 'Who is Tally, the SIREN duty canary?'],
