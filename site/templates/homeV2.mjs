@@ -207,7 +207,7 @@ export function roomGroups(ctx) {
       ['/ai-doomsday-clock.html', 'clock', 'The Clock', null, 'Is there an AI doomsday clock?'],
       ['/p-doom.html', 'dice', 'What is p(doom)?', null, 'What is p(doom)? Named estimates on one chart — opinion as a percentage, not a SIREN reading.'],
       ['/guides.html', 'clock', 'AI explainers', null, 'What are the AI explainers? p(doom), clocks, doom indexes — vocabulary without a doom probability.'],
-      ['/compare.html', 'px:updown', 'Compare indexes', null, 'SIREN vs DoomBench, Skynet, p(doom), PizzINT and Takeoff Tracker — what each measures.'],
+      ['/compare.html', 'px:updown', 'Compare indexes', null, 'Which AI doom indexes can you compare? SIREN vs DoomBench, Skynet, p(doom), PizzINT and Takeoff Tracker.'],
       ['/vs.html', 'px:updown', 'Versus directory', null, 'One honest page per rival — activity tempo, not doom claims.'],
       ['/vs/pizzint.html', 'px:updown', 'vs PizzINT', null, 'Activity count vs DEFCON/Doomsday title hijack — honest refuse.'],
       ['/vs/takeofftracker.html', 'px:updown', 'vs Takeoff Tracker', null, 'Activity count vs AGI metrics dashboard — honest refuse.'],

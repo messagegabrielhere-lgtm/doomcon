@@ -210,23 +210,27 @@ function pageJsonLd(ctx, path, title, description, crumbs, faqPairs) {
 export function compareHub(ctx) {
   const path = '/compare.html';
   const aa = brand.COMPLEMENTS.find((c) => c.id === 'artificial-analysis');
-  // Head-term title: people search “AI doom indexes compared” / rival names.
-  const title = `Which AI doom indexes can you compare? ${brand.NAME} vs DoomBench, Skynet, p(doom), PizzINT and Takeoff Tracker`;
-  const description = `${brand.NAME} is an hourly AI activity count you can recompute. DoomBench scores takeover evidence, Skynet Countdown estimates AGI dates, p(doom) clocks publish opinions, PizzINT borrows DEFCON/Doomsday framing, and Takeoff Tracker aggregates AGI metrics. Side-by-side without borrowing their claims.`;
+  // Head-term question (FINDABILITY tip #206): H1 must match <title> stem.
+  // Was “Which AI doom indexes can you compare honestly?” under a shorter title.
+  const qTitle = 'Which AI doom indexes can you compare?';
+  const description = `${qTitle} ${brand.NAME} is an hourly AI activity count you can recompute. DoomBench scores takeover evidence, Skynet Countdown estimates AGI dates, p(doom) clocks publish opinions, PizzINT borrows DEFCON/Doomsday framing, and Takeoff Tracker aggregates AGI metrics. Side-by-side without borrowing their claims.`;
+  // FAQ from the SAME pairs as FAQPage (§3.3). Refuse doom-probability / DEFCON hijack / forecast.
   const faq = [
+    [qTitle,
+      `${brand.NAME} next to DoomBench, Skynet Countdown, p(doom) clocks, PizzINT and Takeoff Tracker — method by method. ${brand.NAME} is an hourly recomputable activity count; the others are judgement scores, countdowns, opinions, or title hijacks.`],
     [`What is the difference between ${brand.NAME} and DoomBench?`,
       `${brand.NAME} measures AI activity tempo from public data every hour and publishes a receipt. DoomBench publishes a qualitative doom index from sourced evidence about takeover risk. One is a count; the other is a judgement-scored risk index.`],
     ['Which AI doom index can I recompute myself?',
       `${brand.NAME}. Clone the repo, run the collector, and compare your number to the published one. DoomBench, Skynet Countdown, p(doom) clocks and PizzINT are not independently recomputable as an AI activity count from open inputs alone.`],
     [`Is ${brand.NAME} a DEFCON level or Doomsday Clock?`,
       `No. ${brand.NAME} borrows the countdown grammar only. It does not publish a military DEFCON reading or the Bulletin’s Doomsday Clock. Sites that put those phrases in the title for AI traffic are doing brand hijack; see /guide.html and /vs/pizzint.html.`],
-    ['Does a louder SIREN reading mean AI is more dangerous?',
+    [`Does a louder ${brand.NAME} reading mean AI is more dangerous?`,
       'No. The level measures how much is happening — releases, compute, headlines, rule-making and market prices — not whether what happened was good or bad.'],
   ];
   const main = `${CSS}
 <article class="cmp prose">
   <p class="cmp__k">Compare</p>
-  <h1>Which AI doom indexes can you compare honestly?</h1>
+  <h1>${esc(qTitle)}</h1>
   <p class="cmp__lede">People searching for an “AI doom index” usually land on a judgement score, a countdown, or a DEFCON-shaped novelty page.
     ${esc(brand.NAME)} answers a different question: <b>how loud is AI activity right now</b>, measured hourly from public data.
     This page puts that next to the rivals people actually type.</p>
@@ -244,20 +248,28 @@ export function compareHub(ctx) {
     That is independent quality, speed and cost. ${esc(brand.NAME)} is tempo.
     They pair; they do not substitute. We link out; we do not republish their leaderboard.</p>
   ${faqBlock(faq)}
+  <p>Search-shaped sibling:
+    <a href="${esc(ctx.href('/vs.html'))}">Which AI indexes does ${esc(brand.NAME)} contrast?</a>
+    · <a href="${esc(ctx.href('/guide.html'))}">How does ${esc(brand.NAME)} compare to DEFCON, the Doomsday Clock and p(doom)?</a>
+    · <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>.</p>
   <h2>Also on this site</h2>
-  <p><a href="${esc(ctx.href('/vs.html'))}">Versus directory →</a>
-     · <a href="${esc(ctx.href('/alternatives.html'))}">AI activity index alternatives →</a>
-     · <a href="${esc(ctx.href('/guide.html'))}">SIREN vs DEFCON vs the Doomsday Clock vs p(doom) →</a>
-     · <a href="${esc(ctx.href('/methodology.html'))}">Every formula →</a>
+  <p><a href="${esc(ctx.href('/vs.html'))}">Which AI indexes does ${esc(brand.NAME)} contrast? →</a>
+     · <a href="${esc(ctx.href('/alternatives.html'))}">What are AI doom index alternatives, and what is each one? →</a>
+     · <a href="${esc(ctx.href('/guide.html'))}">How does ${esc(brand.NAME)} compare to DEFCON, the Doomsday Clock and p(doom)? →</a>
+     · <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology →</a>
      · <a href="${esc(ctx.href('/embed.html'))}">Embed the live reading →</a></p>
   ${rivalNav(null)}
 </article>`;
   return page({
     ctx,
     path,
-    title,
+    title: `${qTitle} ${brand.NAME} vs DoomBench, Skynet, p(doom), PizzINT and Takeoff Tracker`,
+    ogTitle: `${brand.NAME}: ${qTitle}`,
     description,
-    jsonld: pageJsonLd(ctx, path, title, description, [{ name: 'Compare', path }], faq),
+    jsonld: pageJsonLd(ctx, path, qTitle, description, [
+      { name: 'Home', path: '/' },
+      { name: qTitle, path },
+    ], faq),
     main,
   });
 }

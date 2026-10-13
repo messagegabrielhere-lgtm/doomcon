@@ -35,13 +35,16 @@ describe('compare / alternatives conquest pages', () => {
     }
   });
 
-  it('puts head-term titles and FAQ schema on the hubs', () => {
+  it('puts matching question H1 and FAQ schema on the compare hub', () => {
     const hub = compareHub(ctx);
     assert.match(hub, /<title>Which AI doom indexes can you compare\?/);
+    assert.match(hub, /<h1>Which AI doom indexes can you compare\?<\/h1>/);
+    assert.doesNotMatch(hub, /compare honestly\?/);
     assert.match(hub, /Takeoff Tracker/);
     assert.match(hub, /"@type"\s*:\s*"FAQPage"/);
     assert.match(hub, /Questions people actually ask/);
     assert.match(hub, /What is the difference between SIREN and DoomBench/);
+    assert.match(hub, /Does a louder SIREN reading mean AI is more dangerous/);
     assert.match(hub, /DoomBench/);
     assert.match(hub, /Skynet Countdown/);
     assert.match(hub, /PizzINT/);
@@ -49,6 +52,10 @@ describe('compare / alternatives conquest pages', () => {
     assert.match(hub, /55\.5/);
     assert.match(hub, /Complementary \(not a doom index\)/);
     assert.match(hub, /artificialanalysis\.ai/);
+    assert.match(hub, /\/vs\.html/);
+    assert.match(hub, /Which AI indexes does SIREN contrast/);
+    assert.match(hub, /\/methodology\.html/);
+    assert.doesNotMatch(hub, /noindex/);
 
     const alt = alternatives(ctx);
     assert.match(alt, /<title>What are AI doom index alternatives\?/);
@@ -60,6 +67,7 @@ describe('compare / alternatives conquest pages', () => {
     assert.match(alt, /Artificial Analysis/);
     assert.match(alt, /artificialanalysis\.ai/);
   });
+
 
   it('keeps vs pages honest: no borrowed doom probability claim for SIREN', () => {
     const page = vsRival(ctx, 'doombench');
