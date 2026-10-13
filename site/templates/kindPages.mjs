@@ -7,7 +7,7 @@
 
 import { esc, num, utc } from './_html.mjs';
 import { page } from './layout.mjs';
-import { breadcrumbs } from './_seo.mjs';
+import { breadcrumbs, speakable } from './_seo.mjs';
 import { slugFor } from './itemPage.mjs';
 import * as brand from '../brand.mjs';
 
@@ -163,11 +163,21 @@ export function renderKind(ctx, id) {
   const older = archivedAll.slice(0, 12);
   const total = items.length + archivedAll.length;
   const path = kindPath(def.id);
-  const title = `${def.name}: AI stories this index scored · ${brand.NAME}`;
+  // Head-term title: people search “{kind} AI stories” / kind doom score.
+  const title = `What has ${brand.NAME} scored as ${def.name}? AI stories, not a kind score`;
   const description = clip(
     `${total} scored ${def.name.toLowerCase()} stories on ${brand.NAME} (live window plus archive). ${def.description} Tempo, not a forecast.`,
     160,
   );
+  const faq = [
+    [`What has ${brand.NAME} scored as ${def.name}?`,
+      `${total} scored stories carry the ${def.name} collector label on ${brand.NAME} (${items.length} in the live window${archivedAll.length ? `, ${archivedAll.length} older in the archive` : ''}). ${def.description}`],
+    [`Does ${brand.NAME} publish a ${def.name} doom score?`,
+      `No. ${brand.DISCLAIMER_SHORT} A kind page lists scored stories with that collector label — not a judgement about quality or harm.`],
+  ];
+  const faqHtml = faq.map(([q, a]) => `
+  <h3>${esc(q)}</h3>
+  <p>${esc(a)}</p>`).join('');
   const others = indexableKinds(ctx).filter((k) => k.id !== def.id);
   const olderBlock = older.length
     ? `<h2>Older scored ${esc(def.name.toLowerCase())}</h2>
@@ -178,8 +188,8 @@ export function renderKind(ctx, id) {
 
   const main = `${STYLE}
 <article class="kd prose">
-  <p class="kd__k"><a href="${esc(ctx.href('/news.html'))}">Newsroom</a> · <a href="${esc(ctx.href('/kind/'))}">Kinds</a></p>
-  <h1>${esc(def.name)}</h1>
+  <p class="kd__k"><a href="${esc(ctx.href('/news.html'))}">Newsroom</a> · <a href="${esc(ctx.href('/kind/'))}">Kinds</a> · <a href="${esc(ctx.href('/kinds.html'))}">Kinds hub</a></p>
+  <h1>What has ${esc(brand.NAME)} scored as ${esc(def.name)}?</h1>
   <p class="kd__lede">${esc(def.description)} Kind is the collector label on each scored item — not a judgement about quality or harm.</p>
   <div class="kd__stat" role="group" aria-label="Kind totals">
     <div><b class="num">${esc(String(total))}</b><span>Scored stories (live + archive)</span></div>
@@ -194,6 +204,8 @@ export function renderKind(ctx, id) {
     ? `<p class="fresh__key">${esc(String(items.length - KIND_LIST_CAP))} more on the <a href="${esc(ctx.href('/news.html'))}">full newsroom</a>.</p>`
     : `<p class="fresh__key"><a href="${esc(ctx.href('/news.html'))}">Full newsroom →</a></p>`}
   ${olderBlock}
+  <h2 id="faq">Questions people actually ask</h2>
+  ${faqHtml}
   ${others.length ? `<h2>Other kinds</h2>
   <nav class="kd__nav" aria-label="Other kinds">${others.map((k) => `<a href="${esc(ctx.href(kindPath(k.id)))}">${esc(k.name)} <span class="num">(${esc(String(k.count))})</span></a>`).join('')}</nav>` : ''}
 </article>`;
@@ -212,6 +224,7 @@ export function renderKind(ctx, id) {
       description,
       isPartOf: { '@type': 'WebSite', name: brand.PUBLICATION, url: ctx.url('/') },
       about: { '@type': 'Thing', name: def.name, description: def.description },
+      speakable: speakable(['h1', '.kd__lede']),
       mainEntity: {
         '@type': 'ItemList',
         numberOfItems: Math.min(items.length, KIND_LIST_CAP),
@@ -226,7 +239,15 @@ export function renderKind(ctx, id) {
       { name: 'Newsroom', path: '/news.html' },
       { name: 'Kinds', path: '/kind/' },
       { name: def.name, path },
-    ])],
+    ]), {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faq.map(([q, a]) => ({
+        '@type': 'Question',
+        name: q,
+        acceptedAnswer: { '@type': 'Answer', text: a },
+      })),
+    }],
     main,
   });
 }
@@ -290,11 +311,21 @@ export function renderIndex(ctx) {
 export function renderKinds(ctx) {
   const kinds = indexableKinds(ctx);
   const path = '/kinds.html';
-  const title = `AI story kinds this index covers · ${brand.NAME}`;
+  // Head-term title: people search “AI story kinds” / press vs forum hubs.
+  const title = `Which AI story kinds has ${brand.NAME} scored?`;
   const description = clip(
     `${kinds.length} story-kind hubs on ${brand.NAME} (press, forum, paper, …). Each row links /kind pages — collector labels and story counts, not a doom score.`,
     160,
   );
+  const faq = [
+    [`Which AI story kinds has ${brand.NAME} scored?`,
+      `${kinds.length} kinds clear the substance gate of at least ${KIND_INDEX_MIN} matching stories in the live window or archive. Each hub lists those stories — not a kind doom score.`],
+    [`Does ${brand.NAME} publish a kind doom score?`,
+      `No. ${brand.DISCLAIMER_SHORT} These pages count stories that carry a published collector label (press, forum, paper, …).`],
+  ];
+  const faqHtml = faq.map(([q, a]) => `
+  <h3>${esc(q)}</h3>
+  <p>${esc(a)}</p>`).join('');
   const rows = kinds.map((k) => `<li>
   <a href="${esc(ctx.href(kindPath(k.id)))}">${esc(k.name)}</a>
   <span class="kd__meta">Kind hub · <span class="num">${esc(String(k.count))}</span> scored${k.archived ? ` (${esc(String(k.live))} live)` : ''}</span>
@@ -302,12 +333,14 @@ export function renderKinds(ctx) {
   const main = `${STYLE}
 <article class="kd prose">
   <p class="kd__k"><a href="${esc(ctx.href('/compare.html'))}">Compare</a> · <a href="${esc(ctx.href('/kind/'))}">Kinds</a> · Kinds hub</p>
-  <h1>AI story kinds this index covers</h1>
+  <h1>Which AI story kinds has ${esc(brand.NAME)} scored?</h1>
   <p class="kd__lede">${esc(brand.NAME)} does not publish a kind “doom score.” It labels scored stories with collector kinds (press, forum, paper, …). This page lists kinds that already clear the same substance gate as <a href="${esc(ctx.href('/kind/'))}">/kind/</a> — at least ${KIND_INDEX_MIN} matching stories in the live window or archive.</p>
   <div class="kd__stat" role="group" aria-label="Kinds hub totals">
     <div><b class="num">${esc(String(kinds.length))}</b><span>Kind hubs</span></div>
   </div>
   ${kinds.length ? `<ol class="kd__list">${rows}</ol>` : '<p>No kind hub cleared the gate in this build.</p>'}
+  <h2 id="faq">Questions people actually ask</h2>
+  ${faqHtml}
   <p class="fresh__key"><a href="${esc(ctx.href('/kind/'))}">Kind directory →</a>
      · <a href="${esc(ctx.href('/tags.html'))}">AI tags →</a>
      · <a href="${esc(ctx.href('/news.html'))}">Newsroom →</a></p>
@@ -324,6 +357,7 @@ export function renderKinds(ctx) {
       name: title,
       url: ctx.url(path),
       description,
+      speakable: speakable(['h1', '.kd__lede']),
       mainEntity: {
         '@type': 'ItemList',
         numberOfItems: kinds.length,
@@ -337,7 +371,15 @@ export function renderKinds(ctx) {
     }, breadcrumbs(ctx, [
       { name: 'Compare', path: '/compare.html' },
       { name: 'Kinds', path },
-    ])],
+    ]), {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faq.map(([q, a]) => ({
+        '@type': 'Question',
+        name: q,
+        acceptedAnswer: { '@type': 'Answer', text: a },
+      })),
+    }],
     main,
   });
 }

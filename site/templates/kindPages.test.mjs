@@ -54,9 +54,12 @@ describe('kind pages', () => {
 
   it('ships /kinds.html over the same gated kind set', () => {
     const html = renderKinds(ctx);
-    assert.match(html, /AI story kinds this index covers/);
+    assert.match(html, /Which AI story kinds has SIREN scored\?/);
     assert.match(html, /\/kind\/paper\.html/);
     assert.match(html, /does not publish a kind/);
+    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /"@type"\s*:\s*"FAQPage"/);
+    assert.match(html, /speakable/);
     assert.match(html, /\/tags\.html/);
     assert.match(renderIndex(ctx), /\/kinds\.html/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
@@ -64,13 +67,16 @@ describe('kind pages', () => {
 
   it('lists stories with ItemList schema and refuses doom claims', () => {
     const html = renderKind(ctx, 'paper');
-    assert.match(html, /<title>Papers: AI stories this index scored/);
+    assert.match(html, /<title>What has SIREN scored as Papers\?/);
     assert.match(html, /CollectionPage/);
     assert.match(html, /ItemList/);
+    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /"@type"\s*:\s*"FAQPage"/);
+    assert.match(html, /speakable/);
     assert.match(html, /paper p0/);
     assert.match(html, /not a judgement about quality or harm/);
     assert.doesNotMatch(html, /noindex/);
-    assert.doesNotMatch(html, /doom score/i);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.match(renderIndex(ctx), /AI story kinds/);
   });
 
