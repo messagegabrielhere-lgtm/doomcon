@@ -166,6 +166,8 @@ export function organization(ctx) {
       'How do you sponsor SIREN without moving the number',
       'SIREN Nothing Ever Happens',
       'How often do dated AI claims miss',
+      'SIREN classic instrument panel',
+      'Where is the full SIREN instrument panel',
       'AI labs this index scored',
       'AI stories this index scored',
       'AI leaders on the record',

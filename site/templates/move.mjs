@@ -44,7 +44,7 @@ export function render(ctx, move) {
 
   const main = `
 <article class="prose">
-  <p class="eyebrow"><a href="${esc(ctx.href('/moves/'))}">Index moves</a> · ${esc(utcDay(move.generated_at))}</p>
+  <p class="eyebrow"><a href="${esc(ctx.href('/moves/'))}">Where are the ${esc(brand.NAME)} index moves?</a> · ${esc(utcDay(move.generated_at))}</p>
   <h1>${esc(headline)}</h1>
   ${move.newer
     ? `<p class="bstamp bstamp--old"><a href="${esc(ctx.href('/'))}">Superseded · current reading →</a></p>`
@@ -134,7 +134,7 @@ export function render(ctx, move) {
       description: rationale(move),
       speakable: speakable(['h1', 'p.lede']),
     }, breadcrumbs(ctx, [
-      { name: 'Readings', path: '/moves/' },
+      { name: `Where are the ${brand.NAME} index moves?`, path: '/moves/' },
       { name: headline, path },
     ])],
     main,
