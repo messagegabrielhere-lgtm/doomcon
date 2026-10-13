@@ -8,6 +8,7 @@
 
 import { esc, num, utc, utcClock, utcDay } from './_html.mjs';
 import { page } from './layout.mjs';
+import { breadcrumbs, speakable } from './_seo.mjs';
 import * as brand from '../brand.mjs';
 import {
   DELTA_THRESHOLD, PILLAR_THRESHOLD, PILLAR_IDS, pillarName,
@@ -69,13 +70,19 @@ export const CSS = `<style>
 .xt-log .news li{font-size:14px;margin:3px 0;line-height:1.45}
 .xt-log .news .src{font:500 11px var(--mono);color:var(--ink-faint,#6B7686)}
 .xt-back{margin-top:36px;font-size:14px}
+.xt-faq{margin:28px 0 0;max-width:62ch}
+.xt-faq h2{font:700 1.25rem/1.25 var(--sans);margin:0 0 10px;color:var(--ink)}
+.xt-faq h3{font:700 1rem/1.3 var(--sans);margin:14px 0 6px;color:var(--ink)}
+.xt-faq p{margin:0 0 6px;font-size:14px;color:var(--ink-dim);line-height:1.55}
+.xt-faq-key{margin-top:14px!important}
+.xt-faq a{color:var(--accent,#4ADE80);text-decoration:underline;text-underline-offset:2px}
 </style>`;
 
-function shell(ctx, { path, title, description, main, head, bodyEnd, jsonld }) {
+function shell(ctx, { path, title, description, ogTitle, main, head, bodyEnd, jsonld }) {
   // No "back to the index" link: the shared header's brand does that on every page.
-  const back = `<p class="xt-back"><a href="${esc(ctx.href('/methodology.html'))}">Methodology</a> · <a href="${esc(ctx.href('/feedback.html'))}">Feedback</a></p>`;
+  const back = `<p class="xt-back"><a href="${esc(ctx.href('/methodology.html'))}">Methodology</a> · <a href="${esc(ctx.href('/feedback.html'))}">How do I report a problem or send an idea to ${esc(brand.NAME)}?</a></p>`;
   return page({
-    ctx, path, title: `${title} · ${brand.NAME}`, description,
+    ctx, path, title: `${title} · ${brand.NAME}`, description, ogTitle,
     main: `${CSS}\n<section class="xt">\n${main}\n${back}\n</section>`,
     head, bodyEnd, jsonld,
   });
@@ -106,6 +113,8 @@ export function feedCatalogue() {
 // /alerts.html
 // ---------------------------------------------------------------------------
 export function alertsPage(ctx) {
+  const PATH = '/alerts.html';
+  const qTitle = `How do I get alerts when ${brand.NAME} moves?`;
   const feeds = feedCatalogue();
   const checks = feeds.map((f) => `<label><input type="checkbox" data-feed="${esc(f.key)}"${f.checked ? ' checked' : ''}><span><b>${esc(f.title)}</b><br>${esc(f.blurb)}</span></label>`).join('');
   const list = feeds.map((f) => {
@@ -121,8 +130,24 @@ export function alertsPage(ctx) {
   const xUrl = brand.X_URL || 'https://x.com/SIRENutf6';
   const handle = brand.X_HANDLE || '@SIRENutf6';
 
+  // FAQ answers restate lede / email note / in-tab note only (FINDABILITY §3.3).
+  // Refuse: private email intake, alerts-as-index-input, doom-probability.
+  const faq = [
+    [qTitle,
+      `Pick what counts as news to you: a level change, a big swing in the score, or one pillar spiking. Every trigger is a plain RSS feed rebuilt with each hourly reading, so it works in any feed reader and can be piped to email, Slack, Discord or a webhook with free tools. Nothing to sign up for here.`],
+    [`Does ${brand.NAME} ask for my email?`,
+      `Your address goes to the third-party email tools (Blogtrottr, FeedRabbit), not to ${brand.NAME}; this site never asks for it.`],
+    ['Can I get notified without a feed reader?',
+      'Leave this page open in a tab. Your browser checks the current reading every 10 minutes and shows a desktop notification when one of your thresholds trips. Your settings stay in this browser\'s local storage and are never sent anywhere. It stops when you close the tab.'],
+    [`Do alerts move the ${brand.NAME} score?`,
+      `They never move the ${brand.NAME} score. Subscribing to RSS or in-tab notifications is separate from the tempo index.`],
+  ];
+  const faqHtml = faq.map(([qAsk, a]) => `
+  <h3>${esc(qAsk)}</h3>
+  <p>${esc(a)}</p>`).join('');
+
   const main = `<p class="eyebrow">Alerts</p>
-<h1>Get told when ${esc(brand.NAME)} moves</h1>
+<h1>${esc(qTitle)}</h1>
 <p class="lede">Pick what counts as news to you: a level change, a big swing in the score, or one pillar spiking. Every trigger below is a plain RSS feed rebuilt with each hourly reading, so it works in any feed reader and can be piped to email, Slack, Discord or a webhook with free tools. Nothing to sign up for here.</p>
 
 <h2 id="pick">1 · Pick your triggers</h2>
@@ -165,7 +190,14 @@ ${list}
   <p class="xt-row"><button type="button" class="xt-btn" id="xn-start">NOTIFY ME WHILE THIS TAB IS OPEN</button><button type="button" class="xt-btn ghost" id="xn-stop" hidden>STOP</button></p>
   <p class="xt-status" id="xn-status" role="status" aria-live="polite"></p>
 </div>
-<p class="xt-note">${esc(brand.DISCLAIMER)}</p>`;
+<p class="xt-note">${esc(brand.DISCLAIMER)}</p>
+<section class="xt-faq" aria-labelledby="faq">
+  <h2 id="faq">Questions people actually ask</h2>
+  ${faqHtml}
+  <p class="xt-faq-key">Search-shaped sibling:
+    <a href="${esc(ctx.href('/feedback.html'))}">How do I report a problem or send an idea to ${esc(brand.NAME)}?</a>
+    · <a href="${esc(ctx.href('/changelog.html'))}">What moved</a>.</p>
+</section>`;
 
   const js = `<script>(function(){
 var BASE=${JSON.stringify(ctx.href('/'))}.replace(/\\/$/,'');
@@ -219,11 +251,37 @@ $('xn-stop').addEventListener('click',function(){if(timer)clearInterval(timer);t
 document.querySelectorAll('#xn-level,#xn-delta-on,#xn-delta,#xn-pillar-on,#xn-pillar,[data-np]').forEach(function(el){el.addEventListener('change',function(){ls('siren-alert-cfg',cfg())})});
 })();</script>`;
 
+  const description = `${qTitle} Get an alert when ${brand.NAME} changes level, the score swings ${DELTA_THRESHOLD}+ points or a pillar spikes. RSS feeds you can pipe to email, Slack, Discord or a webhook. This site never asks for your email.`;
   return shell(ctx, {
-    path: '/alerts.html',
-    title: 'Alerts: RSS, email, webhook and X',
-    description: `Get an alert when ${brand.NAME} changes level, the score swings ${DELTA_THRESHOLD}+ points or a pillar spikes. RSS feeds you can pipe to email, Slack, Discord or a webhook.`,
+    path: PATH,
+    title: qTitle,
+    ogTitle: `${brand.NAME}: ${qTitle}`,
+    description,
     main, bodyEnd: js,
+    jsonld: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        name: qTitle,
+        description: `RSS, email recipes, webhook tools and in-tab notifications for ${brand.NAME} level changes, score swings and pillar spikes. Nothing to sign up for here.`,
+        url: ctx.url(PATH),
+        isPartOf: { '@type': 'WebSite', name: brand.NAME, url: ctx.url('/') },
+        speakable: speakable(['h1', 'p.lede']),
+      },
+      breadcrumbs(ctx, [
+        { name: 'Home', path: '/' },
+        { name: 'Alerts', path: PATH },
+      ]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map(([qAsk, a]) => ({
+          '@type': 'Question',
+          name: qAsk,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
+      },
+    ],
   });
 }
 

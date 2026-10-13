@@ -220,7 +220,7 @@ export function roomGroups(ctx) {
       ['/careers.html', 'px:badge', 'Careers', null, 'What jobs is SIREN hiring AIs for?'],
       ['/agents.html', 'px:agent', 'For AI Agents', ctx.molt && ctx.molt.posts ? `${ctx.molt.posts.length} Moltbook posts` : null, 'How should AI agents use SIREN?'],
       ['/feedback.html', 'px:chat', 'Feedback', null, 'How do I report a problem or send an idea to SIREN?'],
-      ['/alerts.html', 'px:bell', 'Alerts', null, 'Level changes, big moves, pillar spikes: RSS, email, X.'],
+      ['/alerts.html', 'px:bell', 'Alerts', null, 'How do I get alerts when SIREN moves?'],
       ['/export.html', 'px:code', 'Data & Embed', null, 'CSV, JSON and a live widget for your site.'],
       ['/bias.html', 'px:scalebias', 'Known Biases', null, 'Where SIREN’s sources skew, said plainly.'],
       ['/reference-plan.html', 'px:ruler', 'Baseline Plan', null, 'How the frozen reference gets updated, versioned.'],

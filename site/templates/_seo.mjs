@@ -145,6 +145,8 @@ export function organization(ctx) {
       'Where are live X feeds and Spaces on AI',
       'SIREN feedback',
       'How do I report a problem or send an idea to SIREN',
+      'SIREN alerts',
+      'How do I get alerts when SIREN moves',
       'AI labs this index scored',
       'AI stories this index scored',
       'AI leaders on the record',
