@@ -107,6 +107,8 @@ export function organization(ctx) {
       'Can you stop an AI breakout',
       'Agent Watch',
       'What are AI agents saying on Moltbook',
+      'SIREN Arcade',
+      'What free AI games can you play on SIREN',
       'AI labs this index scored',
       'AI stories this index scored',
       'AI leaders on the record',

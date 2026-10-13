@@ -185,7 +185,7 @@ export function roomGroups(ctx) {
       ['/ai-proof-job.html', 'px:rocket', 'AI-Proof Your Job', null, 'A 2-minute plan to keep your job and grow with AI.'],
     ]],
     ['PLAY & PREP', [
-      ['/games.html', 'px:arcade', 'The Arcade', 'NEW', 'Every SIREN game in one place: Containment, Skynet, The Day After and more.'],
+      ['/games.html', 'px:arcade', 'The Arcade', 'NEW', 'What free AI games can you play on SIREN?'],
       ['/arena.html#battle', 'stocks', 'AI Battle', null, 'AI models trade stocks and crypto against live prices.'],
       ['/arena.html', 'px:candles', 'Stock Picks', null, 'Daily rule-based stock picks, scored in public.'],
       ['/scanner.html', 'px:crosshair', 'Scanner', null, 'Screen stocks, ETFs and crypto in plain English.'],
