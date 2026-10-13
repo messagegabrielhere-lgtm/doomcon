@@ -206,7 +206,7 @@ export function roomGroups(ctx) {
       ['/catalog.html', 'px:catalog', 'Catalog', 'NEW', 'Where is everything on SIREN listed?'],
       ['/ai-doomsday-clock.html', 'clock', 'The Clock', null, 'Is there an AI doomsday clock?'],
       ['/p-doom.html', 'dice', 'What is p(doom)?', null, 'What is p(doom)? Named estimates on one chart — opinion as a percentage, not a SIREN reading.'],
-      ['/guides.html', 'clock', 'AI explainers', null, 'p(doom), doomsday clocks, doom indexes — vocabulary without a doom probability.'],
+      ['/guides.html', 'clock', 'AI explainers', null, 'What are the AI explainers? p(doom), clocks, doom indexes — vocabulary without a doom probability.'],
       ['/compare.html', 'px:updown', 'Compare indexes', null, 'SIREN vs DoomBench, Skynet, p(doom), PizzINT and Takeoff Tracker — what each measures.'],
       ['/vs.html', 'px:updown', 'Versus directory', null, 'One honest page per rival — activity tempo, not doom claims.'],
       ['/vs/pizzint.html', 'px:updown', 'vs PizzINT', null, 'Activity count vs DEFCON/Doomsday title hijack — honest refuse.'],
