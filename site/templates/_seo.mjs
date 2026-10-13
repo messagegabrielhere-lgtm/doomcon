@@ -57,6 +57,8 @@ export function organization(ctx) {
       'how many datacentres mapped in the United States',
       'SIREN infrastructure index',
       'what does the SIREN infrastructure index read',
+      'AI charts',
+      'what AI charts does SIREN publish',
       'AI labs this index scored',
       'AI stories this index scored',
       'AI leaders on the record',

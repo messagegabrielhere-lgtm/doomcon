@@ -15,6 +15,7 @@
 // Nothing is estimated: a dark feed keeps the build-time chart.
 import { esc } from './_html.mjs';
 import { page } from './layout.mjs';
+import { breadcrumbs, speakable } from './_seo.mjs';
 import * as brand from '../brand.mjs';
 import { polymarketUrl } from '../monetize.mjs';
 
@@ -137,6 +138,11 @@ const CSS = `<style>
 .ch{max-width:1100px}.ch .eyebrow{font:700 12px/1 var(--mono);letter-spacing:.16em;color:#60A5FA;margin:0 0 10px}
 .ch-c{border:1px solid var(--rule);border-radius:10px;background:var(--bg-raised,#0E131D);padding:16px;margin:16px 0;scroll-margin-top:90px}
 .ch-c h2{margin:0;font:700 20px/1.25 var(--sans);color:#E6EAF0}
+.chfaq{margin:24px 0 16px;max-width:62ch}
+.chfaq h2{font:600 var(--t-lg,1.25rem)/1.2 var(--sans);margin:0 0 12px;color:#E6EAF0}
+.chfaq h3{font:600 var(--t-base,1rem)/1.3 var(--sans);margin:16px 0 8px;color:#E6EAF0}
+.chfaq p{font:400 var(--t-base,1rem)/1.55 var(--sans);color:var(--ink-dim,#94A3B8);margin:0 0 8px}
+.chfaq__key{margin-top:16px!important}
 .ch-c .tk{margin:6px 0 10px;color:#FDE68A;font:600 15px/1.45 var(--sans)}
 .ch-c [data-svg] svg{display:block;width:100%;height:auto}
 .ch-f{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;justify-content:space-between;margin-top:8px;font:600 11.5px var(--mono);color:var(--ink-faint,#6B7686)}
@@ -208,19 +214,41 @@ export function render(ctx, { history = [], race = null, power = null } = {}) {
     wafTk = `Of every 100 units of electricity made on Earth in ${power.year}, China made ${rows[0].n} and the US ${rows[1].n}.`;
   }
 
+  const title = `What AI charts does ${brand.NAME} publish?`;
+  // FAQ answers restate hero / footer / card copy only (FINDABILITY §3.3).
+  const faq = [
+    [title,
+      `Seven charts on AI activity tempo and electricity, live where the data allows: the Polymarket odds race for best AI model, the hottest AI bets, the ${brand.NAME} dial and week heat strip, pillar drivers, the China–US power race, and the world electricity waffle.`],
+    ['Are any of these charts estimated?',
+      'Every chart is drawn from the data shown; nothing is estimated. A dark feed keeps the build-time chart.'],
+    ['Can I post a chart to X as an image?',
+      'Hit Post with image on any chart to post it to X as a picture, with your own words. On a phone this opens your share sheet with the picture and words; on a computer the picture is copied and X opens with your words.'],
+    ['Where is the full power race table?',
+      'The power race chart links to the full Our World in Data table on the power page.'],
+  ];
+  const faqHtml = faq.map(([qAsk, a]) => `
+  <h3>${esc(qAsk)}</h3>
+  <p>${esc(a)}</p>`).join('');
+
   const main = `${CSS}<section class="ch">
   <p class="eyebrow">THIS WEEK IN CHARTS · LIVE</p>
-  <h1 class="bp__h1">AI in charts, updating as you read</h1>
-  <p class="lede">Seven charts on where AI is heading, live where the data allows. Hit <b>🖼 Post with image</b> on any chart to post it to X as a picture, with your own words.</p>
+  <h1 class="bp__h1">What AI charts does ${esc(brand.NAME)} publish?</h1>
+  <p class="lede">Seven charts on AI activity tempo and electricity, live where the data allows. Hit <b>🖼 Post with image</b> on any chart to post it to X as a picture, with your own words.</p>
   <nav class="ch-toc" aria-label="Charts"><a href="#odds-race">Odds race</a><a href="#bubbles">Hottest bets</a><a href="#dial">The dial</a><a href="#heat">Week heat strip</a><a href="#pillars">Drivers</a><a href="#power">Power race</a><a href="#waffle">World waffle</a></nav>
-  ${card('odds-race', 1, 'The odds race: best AI model at the end of 2026', raceTk, raceSvg, `Polymarket${pmH && pmH.url ? ` · <a href="${esc(polymarketUrl(pmH.url, 'charts'))}" target="_blank" rel="noopener">trade it</a>` : ''}`, raceTk ? `The best-AI-model race on Polymarket: ${raceTk.replace(/ to have the best.*$/, '')}` : 'Who will have the best AI model?', true, share)}
+  ${card('odds-race', 1, 'The odds race: best AI model at the end of 2026', raceTk, raceSvg, `Polymarket${pmH && pmH.url ? ` · <a href="${esc(polymarketUrl(pmH.url, 'charts'))}" target="_blank" rel="noopener">trade it</a>` : ''}`, raceTk ? `The best-AI-model race on Polymarket: ${raceTk.replace(/ to have the best.*$/, '')}` : 'Polymarket odds: best AI model at the end of 2026', true, share)}
   ${card('bubbles', 2, 'The hottest AI bets right now', 'Bubble size is money traded in the last 24 hours; green rose this week, red fell.', '<p>Loading live markets…</p>', 'Polymarket, ranked by 24-hour volume', 'The hottest AI bets on Polymarket right now', true, share)}
   ${card('dial', 3, 'The SIREN dial', dialTk, dialSvg, `SIREN, hourly · <a href="${esc(ctx.href('/methodology.html'))}">method</a>`, dialTk, true, share)}
   ${card('heat', 4, 'The week as a heat strip', heatTk, heatSvg, 'SIREN hourly readings', heatTk || 'A week of AI, hour by hour', true, share)}
   ${card('pillars', 5, 'What’s driving it: the pillars', pTk, pSvg, 'SIREN pillar readings, hourly', pTk ? `What moved AI this week: ${pTk.replace('Biggest mover this week: ', '')}` : 'What moved AI this week', true, share)}
   ${card('power', 6, 'The power race since 2000 (TWh a year)', pwTk, pwSvg, `Our World in Data · <a href="${esc(ctx.href('/power.html'))}">full table</a>`, pwTk, false, share)}
   ${card('waffle', 7, 'The world’s electricity in 100 squares', wafTk, wafSvg, `Our World in Data · ${esc(power && power.year || '')}`, wafTk, false, share)}
-  <p style="font-size:12.5px">Polymarket links carry SIREN’s tracking tag. Prediction markets are restricted in some places. Not financial advice. Every chart is drawn from the data shown; nothing is estimated.</p>
+  <p style="font-size:12.5px">Polymarket links carry SIREN’s tracking tag. Prediction markets are restricted in some places. Not financial advice. Every chart is drawn from the data shown; nothing is estimated. A dark feed keeps the build-time chart.</p>
+<section class="chfaq" aria-labelledby="faq">
+  <h2 id="faq">Questions people actually ask</h2>
+  ${faqHtml}
+  <p class="chfaq__key">Search-shaped sibling:
+    <a href="${esc(ctx.href('/power.html'))}">The power race: who makes the most electricity (China vs US)</a>.</p>
+</section>
 </section>
 <div class="ch-modal" id="ch-modal" hidden role="dialog" aria-modal="true" aria-labelledby="ch-mh"><div class="ch-box">
   <h3 id="ch-mh">POST THIS CHART TO 𝕏</h3>
@@ -297,8 +325,42 @@ $("ch-go").addEventListener("click",function(){var text=$("ch-txt").value.trim()
 });
 oddsRace();bubbles();siren();setInterval(function(){oddsRace();bubbles();},120000);setInterval(siren,600000);
 })();</script>`;
-  return page({ ctx, path: '/charts.html',
-    title: `This week in AI charts: live odds, SIREN dial, power race · ${brand.NAME}`,
-    description: 'Live, creative AI charts you can post to X as images: the Polymarket odds race for best AI model, the hottest AI bets, the SIREN dial and week heat strip, and the China-US electricity race.',
-    main });
+  return page({
+    ctx,
+    path: '/charts.html',
+    title: `${title} · live odds, dial, power race · ${brand.NAME}`,
+    ogTitle: `${brand.NAME}: ${title}`,
+    description:
+      `What AI charts does ${brand.NAME} publish? Seven live charts you can post to X as images: ` +
+      'the Polymarket odds race for best AI model, the hottest AI bets, the SIREN dial and week heat strip, ' +
+      'and the China–US electricity race. Every chart is drawn from the data shown; nothing is estimated.',
+    jsonld: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        name: title,
+        description:
+          'Seven charts on AI activity tempo and electricity, live where the data allows: Polymarket odds, ' +
+          'hottest AI bets, the SIREN dial and heat strip, pillar drivers, and the power race. ' +
+          'Every chart is drawn from the data shown; nothing is estimated.',
+        url: ctx.url('/charts.html'),
+        isAccessibleForFree: true,
+        speakable: speakable(['h1.bp__h1', 'p.lede']),
+      },
+      breadcrumbs(ctx, [
+        { name: 'Home', path: '/' },
+        { name: 'Charts', path: '/charts.html' },
+      ]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map(([qAsk, a]) => ({
+          '@type': 'Question',
+          name: qAsk,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
+      },
+    ],
+    main,
+  });
 }
