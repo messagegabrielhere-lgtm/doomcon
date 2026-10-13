@@ -161,6 +161,8 @@ export function organization(ctx) {
       'What AI books argue both sides of the case',
       'SIREN sponsor',
       'How do you sponsor SIREN without moving the number',
+      'SIREN Nothing Ever Happens',
+      'How often do dated AI claims miss',
       'AI labs this index scored',
       'AI stories this index scored',
       'AI leaders on the record',
