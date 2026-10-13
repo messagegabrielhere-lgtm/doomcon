@@ -21,8 +21,8 @@ export const TOPICS = {
     path: '/jobs.html',
     leadId: 'challenger-ai-cited-cuts',
     eyebrow: 'Jobs · a view of the registers · does not feed the main number',
-    // Head-term match for the home-card question people type.
-    h1: 'Is AI taking jobs? What has been measured',
+    // Head-term question (FINDABILITY tip #209): H1 must match <title> stem.
+    h1: 'Is AI taking jobs? What has actually been measured',
     lede: 'Everybody has a forecast for what AI does to work. This page has no forecast. It lists what has been counted so far, who counted it, and what the count does not show.',
     pick: (e) => /labou?r|jobs|employment|work/i.test(String(e.domain)),
     rx: /\b(layoffs?|laid off|job cuts?|jobs?|hiring|workforce|unemployment|redundanc\w+|headcount)\b/i,
@@ -32,7 +32,7 @@ export const TOPICS = {
     not: 'A count of announced cuts is not a count of jobs lost to AI, and none of these entries says what happens next.',
     crumb: 'Jobs',
     faq: [
-      ['Is AI taking jobs?',
+      ['Is AI taking jobs? What has actually been measured',
         'This page does not answer with a forecast. It lists announced job cuts that cite AI and measured effects on freelancers, each with a source and a caveat. A count of announcements is not a count of jobs lost to AI.'],
       ['Does SIREN publish a jobs forecast?',
         'No. SIREN’s main index is an hourly AI activity count. The jobs page is a view of the hand-verified registers and does not feed the main number.'],
@@ -42,8 +42,8 @@ export const TOPICS = {
     path: '/medicine.html',
     leadId: 'fda-ai-devices',
     eyebrow: 'Medicine · a view of the registers · does not feed the main number',
-    // Head-term match for the home-card question people type.
-    h1: 'Is AI curing anything? Results on the record',
+    // Head-term question (FINDABILITY tip #209): H1 must match <title> stem.
+    h1: 'Is AI curing anything? Trial results, approvals and what they show',
     lede: 'Breakthrough is a headline word. This page lists the medical results that have a trial, an authorisation list or a database behind them, with what each one does and does not show.',
     pick: (e) => /drug|medical|protein|clinic|health/i.test(String(e.domain)) || e.id === 'co-scientist',
     rx: /\b(drugs?|cancer|clinical|FDA|medical|medicine|patients?|diseases?|therap\w+|biotech|hospitals?|vaccines?)\b/i,
@@ -53,7 +53,7 @@ export const TOPICS = {
     not: 'An authorisation is not a measured patient benefit, a Phase 2 result is not an approval, and a structure prediction is not a drug.',
     crumb: 'Medicine',
     faq: [
-      ['Is AI curing anything?',
+      ['Is AI curing anything? Trial results, approvals and what they show',
         'This page does not claim a cure. It lists medical results that have a trial, an authorisation list, or a database behind them, each with what was measured and the caveat.'],
       ['Does an FDA authorisation mean a measured patient benefit?',
         'No. An authorisation is not a measured patient benefit, a Phase 2 result is not an approval, and a structure prediction is not a drug. Each entry states that distinction in its own caveat.'],
@@ -151,13 +151,13 @@ ${(t.faq || []).map(([q, a]) => `  <h3>${esc(q)}</h3>
     {
       '@context': 'https://schema.org',
       '@type': 'WebPage',
-      name: t.title,
+      name: t.h1,
       url: ctx.url(t.path),
       description: t.description,
       isPartOf: { '@type': 'WebSite', name: brand.PUBLICATION, url: ctx.url('/') },
       speakable: speakable(['h1', '.lede']),
     },
-    breadcrumbs(ctx, [{ name: t.crumb || t.h1, path: t.path }]),
+    breadcrumbs(ctx, [{ name: t.h1, path: t.path }]),
   ];
   if (faqPairs.length) {
     jsonld.push({
@@ -171,7 +171,15 @@ ${(t.faq || []).map(([q, a]) => `  <h3>${esc(q)}</h3>
     });
   }
 
-  return page({ ctx, path: t.path, title: t.title, description: t.description, jsonld, main });
+  return page({
+    ctx,
+    path: t.path,
+    title: t.title,
+    ogTitle: `${brand.NAME}: ${t.h1}`,
+    description: t.description,
+    jsonld,
+    main,
+  });
 }
 
 /** The home-page pair: one card per question, each with its lead figure. */

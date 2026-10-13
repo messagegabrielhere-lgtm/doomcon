@@ -176,8 +176,8 @@ export function roomGroups(ctx) {
       r.exploits ? ['/exploits.html', 'bug', 'Exploits', null, 'Days from disclosure to exploited in the wild.'] : null,
     ]],
     ['PEOPLE', [
-      r.balance ? ['/jobs.html', 'case', 'Jobs', null, 'Is AI taking jobs? What has been counted.'] : null,
-      r.balance ? ['/medicine.html', 'pill', 'Medicine', null, 'Is AI curing anything? Trials and approvals.'] : null,
+      r.balance ? ['/jobs.html', 'case', 'Jobs', null, 'Is AI taking jobs? What has actually been measured — counts on the record, not forecasts.'] : null,
+      r.balance ? ['/medicine.html', 'pill', 'Medicine', null, 'Is AI curing anything? Trial results, approvals and what they show.'] : null,
       r.balance ? ['/balance.html', 'scales', 'Balance', null, 'Harm and benefit, counted side by side.'] : null,
       ['/bliss.html', 'sun', 'Upside', null, 'The direction we would be glad to see move.'],
       ['/nothing.html', 'px:shrug', 'Nothing Ever Happens', 'NEW', 'How often do dated AI claims miss?'],
