@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { newsEligible, NEWS_WINDOW_HOURS, NEWS_SITEMAP_CAP, render } from './newsSitemap.mjs';
+import { newsEligible, NEWS_WINDOW_HOURS, NEWS_SITEMAP_CAP, keywordsFor, render } from './newsSitemap.mjs';
 
 test('newsEligible keeps only items inside the rolling window', () => {
   const now = Date.parse('2026-10-08T12:00:00Z');
@@ -40,4 +40,201 @@ test('render emits a valid empty news sitemap when nothing is fresh', () => {
   });
   assert.match(xml, /xmlns:news=/);
   assert.doesNotMatch(xml, /<url>/);
+});
+
+test('render keywords include scored entities and stay under the news cap', () => {
+  assert.equal(NEWS_SITEMAP_CAP, 150);
+  const xml = render({
+    news: {
+      items: [{
+        id: 'a1',
+        title: 'OpenAI ships GPT update',
+        published_at: new Date().toISOString(),
+        source: 'techcrunch-ai',
+        pillar: 'capability',
+        kind: 'press',
+        entities: ['OpenAI', 'GPT'],
+      }],
+    },
+    url: (p) => `https://example.test${p}`,
+  });
+  assert.match(xml, /<news:keywords>[^<]*OpenAI/);
+  assert.match(xml, /artificial intelligence/);
+});
+
+test('render keywords include matching topic-tag names for Google News contest', () => {
+  const xml = render({
+    news: {
+      items: [{
+        id: 'a2',
+        title: 'New AI agents ship computer use and prompt injection defenses',
+        summary: 'Agentic tool-use product with guardrails.',
+        published_at: new Date().toISOString(),
+        source: 'hn',
+        pillar: 'capability',
+        kind: 'forum',
+        entities: [],
+      }],
+    },
+    url: (p) => `https://example.test${p}`,
+  });
+  assert.match(xml, /<news:keywords>[^<]*AI agents/);
+  assert.match(xml, /Prompt injection|AI guardrails/);
+  const kw = xml.match(/<news:keywords>([^<]*)<\/news:keywords>/)[1];
+  assert.ok(kw.split(',').length <= 12);
+});
+
+test('render keywords include expanded lab and model surface names', () => {
+  const xml = render({
+    news: {
+      items: [{
+        id: 'a3',
+        title: 'IREN stock rises as Meta launches Muse Wonder',
+        summary: 'Cloud deal chatter names IREN; Muse Wonder hits Artificial Analysis.',
+        published_at: new Date().toISOString(),
+        source: 'hn',
+        pillar: 'compute',
+        kind: 'press',
+        entities: [],
+      }],
+    },
+    url: (p) => `https://example.test${p}`,
+  });
+  assert.match(xml, /<news:keywords>[^<]*IREN/);
+  assert.match(xml, /Muse Wonder|Artificial Analysis/);
+});
+
+test('render keywords include Decart, Sakana AI, Isomorphic Labs, Winverse AI, Cisco', () => {
+  const xml = render({
+    news: {
+      items: [{
+        id: 'a4',
+        title: 'Amazon eyes Decart as Sakana AI and Isomorphic Labs expand',
+        summary: 'Winverse AI raises; Cisco and NVIDIA ship AI optics.',
+        published_at: new Date().toISOString(),
+        source: 'hn',
+        pillar: 'capability',
+        kind: 'press',
+        entities: [],
+      }],
+    },
+    url: (p) => `https://example.test${p}`,
+  });
+  assert.match(xml, /<news:keywords>[^<]*Decart/);
+  assert.match(xml, /Sakana AI|Isomorphic Labs|Winverse AI|Cisco/);
+});
+
+test('render keywords include Maia / Maia 300 model surfaces', () => {
+  const xml = render({
+    news: {
+      items: [{
+        id: 'a5',
+        title: 'Microsoft unveils Maia 300 AI chip',
+        summary: 'Azure Maia custom silicon expands cloud inference capacity.',
+        published_at: new Date().toISOString(),
+        source: 'hn',
+        pillar: 'compute',
+        kind: 'press',
+        entities: [],
+      }],
+    },
+    url: (p) => `https://example.test${p}`,
+  });
+  assert.match(xml, /<news:keywords>[^<]*(?:Maia 300|Maia)/);
+});
+
+test('render keywords include OpenAI Codex model surfaces', () => {
+  const xml = render({
+    news: {
+      items: [{
+        id: 'a6',
+        title: 'OpenAI Codex Launches Input Prediction Beta',
+        summary: 'Codex CLI updates for Pro users.',
+        published_at: new Date().toISOString(),
+        source: 'hn',
+        pillar: 'capability',
+        kind: 'press',
+        entities: [],
+      }],
+    },
+    url: (p) => `https://example.test${p}`,
+  });
+  assert.match(xml, /<news:keywords>[^<]*(?:OpenAI Codex|Codex)/);
+});
+
+test('render keywords include Epoch AI lab surface', () => {
+  const xml = render({
+    news: {
+      items: [{
+        id: 'a7',
+        title: 'Claude Opus 5.5 Tops Epoch AI Leaderboard',
+        summary: 'Independent evals from Epoch AI and peers.',
+        published_at: new Date().toISOString(),
+        source: 'hn',
+        pillar: 'capability',
+        kind: 'press',
+        entities: [],
+      }],
+    },
+    url: (p) => `https://example.test${p}`,
+  });
+  assert.match(xml, /<news:keywords>[^<]*Epoch AI/);
+});
+
+test('render keywords include Salesforce and World Labs surfaces', () => {
+  const xml = render({
+    news: {
+      items: [{
+        id: 'a8',
+        title: 'Salesforce buoy Dow as AMD courts World Labs',
+        summary: 'Enterprise AI M&A names Salesforce and World Labs.',
+        published_at: new Date().toISOString(),
+        source: 'hn',
+        pillar: 'capability',
+        kind: 'press',
+        entities: [],
+      }],
+    },
+    url: (p) => `https://example.test${p}`,
+  });
+  assert.match(xml, /<news:keywords>[^<]*Salesforce/);
+  assert.match(xml, /<news:keywords>[^<]*World Labs/);
+});
+
+test('render keywords include Nano Banana model surface', () => {
+  const xml = render({
+    news: {
+      items: [{
+        id: 'a9',
+        title: 'Google releases Nano Banana 2.1 image model',
+        summary: 'Nano Banana improves across the board at lower price.',
+        published_at: new Date().toISOString(),
+        source: 'hn',
+        pillar: 'capability',
+        kind: 'press',
+        entities: [],
+      }],
+    },
+    url: (p) => `https://example.test${p}`,
+  });
+  assert.match(xml, /<news:keywords>[^<]*Nano Banana/);
+});
+
+test('keywordsFor keeps lab surfaces ahead of topic-tag flood under the 12-cap', () => {
+  const kw = keywordsFor({
+    title: 'Decart agents ship computer use, prompt injection defenses, and multimodal reasoning',
+    summary: 'Agentic tool-use with guardrails, RAG, fine-tuning, and open-weights coverage naming Decart.',
+    pillar: 'capability',
+    kind: 'press',
+    source: 'techcrunch-ai-very-long-source-slug',
+    entities: [],
+  });
+  const parts = kw.split(',').map((s) => s.trim());
+  assert.ok(parts.length <= 12, kw);
+  assert.ok(parts.includes('Decart'), kw);
+  // Named lab must outrank meta source slug when the cap is tight.
+  const decartAt = parts.indexOf('Decart');
+  const sourceAt = parts.indexOf('techcrunch-ai-very-long-source-slug');
+  assert.ok(decartAt >= 0);
+  if (sourceAt >= 0) assert.ok(decartAt < sourceAt, kw);
 });

@@ -60,6 +60,48 @@ const ENTITY_DEFS = [
   { name: 'Tencent', kind: 'lab', forms: ['Tencent'] },
   { name: 'ByteDance', kind: 'lab', forms: ['ByteDance', 'Seed-OSS'] },
   { name: 'Ai2', kind: 'lab', forms: ['Allen Institute for AI', 'AI2', 'Ai2'] },
+  // Compute / infra / software names that clear the entity-lab story gate often
+  // enough to earn /lab pages (DoomBench /companies shape) without inventing
+  // a market row or a doom score for the company.
+  { name: 'Oracle', kind: 'lab', forms: ['Oracle'] },
+  { name: 'Palantir', kind: 'lab', forms: ['Palantir'] },
+  { name: 'Adobe', kind: 'lab', forms: ['Adobe'] },
+  { name: 'Broadcom', kind: 'lab', forms: ['Broadcom'] },
+  { name: 'Cloudflare', kind: 'lab', forms: ['Cloudflare'] },
+  { name: 'SoftBank', kind: 'lab', forms: ['SoftBank'] },
+  { name: 'Intel', kind: 'lab', forms: ['Intel'] },
+  { name: 'AMD', kind: 'lab', forms: ['AMD', 'Advanced Micro Devices'] },
+  { name: 'Groq', kind: 'lab', forms: ['Groq'] },
+  { name: 'Samsung', kind: 'lab', forms: ['Samsung'] },
+  { name: 'ASML', kind: 'lab', forms: ['ASML'] },
+  { name: 'Cognition', kind: 'lab', forms: ['Cognition', 'Devin'] },
+  { name: 'CoreWeave', kind: 'lab', forms: ['CoreWeave'] },
+  { name: 'Qualcomm', kind: 'lab', forms: ['Qualcomm'] },
+  { name: 'Tesla', kind: 'lab', forms: ['Tesla'] },
+  { name: 'Waymo', kind: 'lab', forms: ['Waymo'] },
+  { name: 'Micron', kind: 'lab', forms: ['Micron'] },
+  { name: 'TSMC', kind: 'lab', forms: ['TSMC', 'Taiwan Semiconductor'] },
+  { name: 'Physical Intelligence', kind: 'lab', forms: ['Physical Intelligence'] },
+  { name: 'Huawei', kind: 'lab', forms: ['Huawei'] },
+  { name: 'Sony', kind: 'lab', forms: ['Sony'] },
+  { name: 'Supermicro', kind: 'lab', forms: ['Supermicro', 'Super Micro'] },
+  { name: 'IREN', kind: 'lab', forms: ['IREN'] },
+  { name: 'OpenRouter', kind: 'lab', forms: ['OpenRouter'] },
+  { name: 'Reflection AI', kind: 'lab', forms: ['Reflection AI'] },
+  { name: 'Decart', kind: 'lab', forms: ['Decart'] },
+  { name: 'Sakana AI', kind: 'lab', forms: ['Sakana AI', 'Sakana'] },
+  { name: 'Isomorphic Labs', kind: 'lab', forms: ['Isomorphic Labs'] },
+  { name: 'Winverse AI', kind: 'lab', forms: ['Winverse AI', 'Winverse'] },
+  { name: 'Cisco', kind: 'lab', forms: ['Cisco'] },
+  // Research org behind training-compute datasets / LLM leaderboards — require
+  // the two-word form so bare “Epoch” (history) does not match.
+  { name: 'Epoch AI', kind: 'lab', forms: ['Epoch AI'] },
+  // Independent model-eval lab — two-word form only (no bare “Analysis”).
+  { name: 'Artificial Analysis', kind: 'lab', forms: ['Artificial Analysis'] },
+  // Enterprise CRM + AI cloud — distinctive single token.
+  { name: 'Salesforce', kind: 'lab', forms: ['Salesforce'] },
+  // Fei-Fei Li spatial-intelligence lab — two-word form only (no bare “World”).
+  { name: 'World Labs', kind: 'lab', forms: ['World Labs'] },
 
   // --- model families ---
   { name: 'GPT', kind: 'model', forms: ['GPT-3', 'GPT-4', 'GPT-4o', 'GPT-5', 'GPT-6', 'ChatGPT', 'GPT'] },
@@ -70,8 +112,11 @@ const ENTITY_DEFS = [
   { name: 'Llama', kind: 'model', forms: ['Llama', 'LLaMA'] },
   { name: 'Grok', kind: 'model', forms: ['Grok'] },
   { name: 'Qwen', kind: 'model', forms: ['Qwen', 'Qwen2', 'Qwen3', 'QwQ'] },
-  { name: 'DeepSeek-R', kind: 'model', forms: ['DeepSeek-R1', 'DeepSeek-V3', 'DeepSeek-V4'] },
-  { name: 'Mixtral', kind: 'model', forms: ['Mixtral', 'Magistral', 'Devstral', 'Codestral'] },
+  // Bare "DeepSeek" also lands the model family (lab entity still matches too).
+  // Archive rows often only carry the lab name; model hubs re-match forms on
+  // title/summary so /model/deepseek-r stays indexable (DoomBench shape).
+  { name: 'DeepSeek-R', kind: 'model', forms: ['DeepSeek-R1', 'DeepSeek-V3', 'DeepSeek-V4', 'DeepSeek-V2', 'DeepSeek R1', 'DeepSeek V3', 'DeepSeek'] },
+  { name: 'Mixtral', kind: 'model', forms: ['Mixtral', 'Magistral', 'Devstral', 'Codestral', 'Mistral Large', 'Mistral Small', 'Mistral Nemo'] },
   { name: 'Phi', kind: 'model', forms: ['Phi-3', 'Phi-4'] },
   { name: 'Command R', kind: 'model', forms: ['Command R', 'Command A'] },
   { name: 'Kimi', kind: 'model', forms: ['Kimi', 'Kimi K2'] },
@@ -82,6 +127,15 @@ const ENTITY_DEFS = [
   { name: 'Whisper', kind: 'model', forms: ['Whisper'] },
   { name: 'Stable Diffusion', kind: 'model', forms: ['Stable Diffusion', 'SDXL'] },
   { name: 'FLUX', kind: 'model', forms: ['FLUX.1', 'FLUX'] },
+  { name: 'Muse Wonder', kind: 'model', forms: ['Muse Wonder', 'Muse Wonder Full'] },
+  // Microsoft’s Azure Maia / Maia 300 custom AI chip family — titles name the
+  // chip; ≥ MODEL_INDEX_MIN stories clear /model/maia (not a chip doom score).
+  { name: 'Maia', kind: 'model', forms: ['Maia 300', 'Azure Maia', 'Maia'] },
+  // OpenAI Codex coding agent — avoid bare "Codex" (too many false friends).
+  // Safe multi-word forms clear MODEL_INDEX_MIN for /model/codex.
+  { name: 'Codex', kind: 'model', forms: ['OpenAI Codex', 'Codex CLI', 'Codex Hackathon', 'ChatGPT and Codex'] },
+  // Google image-gen family — require “Nano Banana” (no bare “Banana”).
+  { name: 'Nano Banana', kind: 'model', forms: ['Nano Banana 2.1', 'Nano Banana 2', 'Nano Banana'] },
 ];
 
 const COMPILED = ENTITY_DEFS.map((d) => ({ name: d.name, kind: d.kind, re: surfaceRegex(d.forms) }));
@@ -89,6 +143,12 @@ const COMPILED = ENTITY_DEFS.map((d) => ({ name: d.name, kind: d.kind, re: surfa
 /** Canonical names and kinds, without the surface-form matchers. */
 export function publishedEntities() {
   return ENTITY_DEFS.map(({ name, kind }) => ({ name, kind }));
+}
+
+/** Compiled surface-form matcher for one published entity name, or null. */
+export function entityMatchRegex(name) {
+  const row = COMPILED.find((e) => e.name === name);
+  return row ? row.re : null;
 }
 
 /** Stable URL slug for a canonical entity name (`DeepSeek-R` → `deepseek-r`). */

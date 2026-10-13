@@ -6,6 +6,7 @@
 import { esc } from './_html.mjs';
 import { renderMarkdown, stripMarkup } from './_markdown.mjs';
 import { page } from './layout.mjs';
+import { breadcrumbs, speakable } from './_seo.mjs';
 import * as brand from '../brand.mjs';
 
 export function render(ctx) {
@@ -15,15 +16,17 @@ export function render(ctx) {
 
   const description = firstParagraph(html) ||
     `How ${brand.NAME} turns public data into a 0-100 score and a level, in full.`;
+  // Head-term title: people search “how is the AI activity index computed”.
+  const title = `How the ${brand.NAME} AI activity index is computed · methodology`;
 
   return page({
     ctx,
     path: '/methodology.html',
-    title: `Methodology — how the ${brand.NAME} index is computed`,
+    title,
     description,
     ogType: 'article',
     ogImage: ctx.cardFor(ctx.state.receipt_id),
-    jsonld: buildJsonLd(ctx, sections),
+    jsonld: buildJsonLd(ctx, sections, title, description),
     head: `<link rel="alternate" type="text/markdown" href="${esc(ctx.href('/methodology.md'))}" title="Methodology (markdown)">`,
     main,
   });
@@ -54,17 +57,25 @@ function firstParagraph(html) {
  * that does not match what the page shows is a manual action, so we never
  * invent a Q&A pair that a reader cannot find on the page.
  */
-function buildJsonLd(ctx, sections) {
-  const blocks = [{
-    '@context': 'https://schema.org',
-    '@type': 'TechArticle',
-    headline: `${brand.NAME} methodology`,
-    url: ctx.url('/methodology.html'),
-    dateModified: ctx.state.generated_at,
-    license: 'https://creativecommons.org/licenses/by/4.0/',
-    author: { '@type': 'Organization', name: brand.NAME, url: ctx.url('/') },
-  }];
+function buildJsonLd(ctx, sections, title, description) {
+  const path = '/methodology.html';
+  const blocks = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'TechArticle',
+      headline: title || `${brand.NAME} methodology`,
+      description: description || undefined,
+      url: ctx.url(path),
+      dateModified: ctx.state.generated_at,
+      license: 'https://creativecommons.org/licenses/by/4.0/',
+      author: { '@type': 'Organization', name: brand.NAME, url: ctx.url('/') },
+      speakable: speakable(['h1', 'article.prose > p']),
+    },
+    breadcrumbs(ctx, [{ name: 'Methodology', path }]),
+  ];
 
+  // FAQPage only from headings that are literally questions on the page
+  // (FINDABILITY schema rule — no invented Q&A).
   const faqs = sections
     .filter((s) => s.text.trim().endsWith('?') && s.body.trim().length > 40)
     .map((s) => ({

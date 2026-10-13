@@ -30,6 +30,7 @@ import { extractEntities, entityKinds, classifyPillar } from './news-sources/_en
 import { storyPass, STORY_SCORE } from './news-stories.mjs';
 import { toPlainText } from './news-sources/_feed.mjs';
 import { breakingPass } from './breaking.mjs';
+import { updateArchive } from './item-archive.mjs';
 
 const SCHEMA_VERSION = 1;
 // 1.1.0 adds the two story terms — severity and coverage — on top of the five
@@ -39,10 +40,12 @@ const SCHEMA_VERSION = 1;
 const SCORING_VERSION = '1.1.0';
 
 // Rolling window. 7 days matches the reference window the rest of the pipeline
-// thinks in, and 200 items is about as much as a phone on a cellular connection
-// should be asked to download from an X link (CONTRACT: mobile first).
+// thinks in. MAX_ITEMS is the live newsroom /api/news.json budget (raised from
+// 200→400→800 as the source basket grew). Cap overflow and aged-off items are
+// kept in data/item-archive.json so /item/ pages and the sitemap can grow
+// without asking a phone to download the whole long tail (FINDABILITY.md).
 const WINDOW_DAYS = 7;
-const MAX_ITEMS = 400;
+const MAX_ITEMS = 800;
 
 // Per-adapter watchdog, on top of whatever timeout fetch.mjs applies to a single
 // request. Same reasoning as collect.mjs: fetch.mjs guards one request, this
@@ -1158,6 +1161,10 @@ async function main() {
       .slice(0, MAX_ITEMS)
       .map((i) => i.id),
   );
+  // Scored rows that miss the live cap still earned a permanent /item/ page.
+  // Park them in the archive before the cut so findability does not depend on
+  // which 800 headlines fit the mobile newsroom file this hour.
+  const overflow = items.filter((i) => !membership.has(i.id));
   items = items.filter((i) => membership.has(i.id));
 
   // EVENT CLUSTERING, and it runs HERE — after the cut, never before.
@@ -1199,6 +1206,23 @@ async function main() {
   const currentIds = new Set(items.map((i) => i.id));
   const arrived = items.filter((i) => !knownIds.has(i.id)).map((i) => i.id).sort();
   const departed = [...knownIds].filter((id) => !currentIds.has(id)).sort();
+  const departedItems = (Array.isArray(previous.items) ? previous.items : [])
+    .filter((it) => it && departed.includes(it.id));
+
+  // Permanent /item/ long-tail (COMPETITIVE-SEO.md): overflow this run + rows
+  // that left the live window. Failures here must not sink the newsroom write.
+  let archiveCount = 0;
+  try {
+    const archive = await updateArchive({
+      overflow,
+      departed: departedItems,
+      liveIds: [...currentIds],
+      updatedAt: generatedAt,
+    });
+    archiveCount = archive.items.length;
+  } catch (err) {
+    console.error(`news: item-archive update failed — ${err && err.message ? err.message : err}`);
+  }
 
   const output = {
     schema: SCHEMA_VERSION,
@@ -1268,6 +1292,12 @@ async function main() {
   console.log(`${corroborated} items corroborated by 2+ independent sources at the same URL`);
   printStories(story);
   console.log(`wrote data/news.json — ${items.length} items, newest first`);
+  if (overflow.length || archiveCount) {
+    console.log(
+      `item-archive: ${overflow.length} overflow this run, ` +
+      `${departedItems.length} departed retained, ${archiveCount} archived total`,
+    );
+  }
   console.log(
     `run: ${output.run.mode}, ${due.length}/${adapters.length} sources fetched, ` +
     `${arrived.length} item${arrived.length === 1 ? '' : 's'} arrived, ${departed.length} left the window, ` +

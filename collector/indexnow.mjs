@@ -27,14 +27,96 @@ const ALWAYS = Object.freeze([
   '/news.html',
   '/methodology.html',
   '/methodology.md',
+  '/history.html',
+  '/about.html',
+  '/privacy.html',
+  '/press.html',
+  '/terms.html',
+  '/disclosures.html',
+  '/brand.html',
   '/guide.html',
   '/guide.md',
   '/compare.html',
   '/alternatives.html',
+  '/guides.html',
+  '/guides.md',
+  '/vs.html',
+  '/vs/doombench.html',
+  '/vs/skynet-countdown.html',
+  '/vs/pdoom.html',
+  '/vs/pizzint.html',
+  '/vs/takeofftracker.html',
+  '/companies.html',
+  '/models.html',
+  '/people.html',
+  '/tags.html',
+  '/kinds.html',
+  '/outlets.html',
+  '/sources.html',
+  '/pillars.html',
+  '/pillar/',
+  '/countries.html',
+  '/country/',
+  '/lab/',
   '/p-doom.html',
   '/ai-doomsday-clock.html',
   '/jobs.html',
+  '/medicine.html',
   '/race.html',
+  // Facet indexes + archive hub — Bing path for the long-tail after deploy
+  // (Google still uses sitemaps; FINDABILITY.md).
+  '/item/archive.html',
+  '/item/',
+  '/tags/',
+  '/kind/',
+  '/outlet/',
+  '/model/',
+  '/model/muse-wonder.html',
+  '/model/maia.html',
+  '/model/codex.html',
+  '/model/nano-banana.html',
+  '/lab/epoch-ai.html',
+  '/lab/artificial-analysis.html',
+  '/lab/salesforce.html',
+  '/lab/world-labs.html',
+  '/people/',
+  '/source/',
+  '/pillar/capability.html',
+  '/lab/openai.html',
+  '/lab/iren.html',
+  '/lab/reflection-ai.html',
+  '/tags/generative-ai.html',
+  '/tags/ai-chips.html',
+  '/tags/frontier-models.html',
+  '/tags/post-training.html',
+  '/tags/reinforcement-learning.html',
+  '/tags/vision-language-action.html',
+  '/tags/self-supervised.html',
+  '/tags/diffusion-transformer.html',
+  '/tags/scaling-laws.html',
+  '/tags/ai-assistants.html',
+  '/tags/code-generation.html',
+  '/tags/state-space-models.html',
+  '/tags/ai-factories.html',
+  '/tags/model-pruning.html',
+  '/tags/peft.html',
+  '/tags/gaussian-splatting.html',
+  '/tags/test-time-training.html',
+  '/tags/llm-agents.html',
+  '/tags/on-policy-distillation.html',
+  '/tags/time-series.html',
+  '/tags/machine-unlearning.html',
+  '/tags/neural-networks.html',
+  '/tags/self-improving-ai.html',
+  '/tags/sparse-attention.html',
+  '/tags/synthid.html',
+  '/lab/decart.html',
+  '/lab/sakana-ai.html',
+  '/lab/isomorphic-labs.html',
+  '/lab/winverse-ai.html',
+  '/lab/cisco.html',
+  '/tags/protein-design.html',
+  '/tags/drug-discovery.html',
   '/sitemap.xml',
   '/news-sitemap.xml',
   '/llms.txt',
@@ -72,8 +154,21 @@ export function defaultUrlList({ outDir = join(ROOT, 'public') } = {}) {
   const newsPath = join(outDir, 'news-sitemap.xml');
   if (existsSync(newsPath)) {
     try {
-      urls.push(...locsFromSitemap(readFileSync(newsPath, 'utf8'), 80));
+      urls.push(...locsFromSitemap(readFileSync(newsPath, 'utf8'), 100));
     } catch { /* publish without a news sitemap is fine */ }
+  }
+  // Sample the ordinary sitemap so archived /item/* and new facets get
+  // notified without submitting all ~2,750 URLs every hour.
+  const smPath = join(outDir, 'sitemap.xml');
+  if (existsSync(smPath)) {
+    try {
+      const locs = locsFromSitemap(readFileSync(smPath, 'utf8'), 5000);
+      const archiveItems = locs.filter((u) => /\/item\/(?!archive)/i.test(u));
+      const facets = locs.filter((u) => /\/(tags|kind|outlet|model|people|source|pillar|lab|vs|companies|models|countries|outlets|sources|kinds|pillars|news\/\d{4})/i.test(u));
+      // Newest-looking paths tend to sort later in our sitemap build; take tails.
+      urls.push(...archiveItems.slice(-120));
+      urls.push(...facets.slice(-80));
+    } catch { /* optional */ }
   }
   return [...new Set(urls)];
 }

@@ -137,12 +137,12 @@ An index that refuses to be a probability is more citable than one that
 performs certainty. That is the ranking advantage; do not sand it off for
 clickbait titles.
 
-### 1.7 News discovery (still open)
+### 1.7 News discovery
 
-`news-sitemap.xml` is **404**. If/when item pages carry real `NewsArticle`
-payloads with recent dates, ship a Google News sitemap with `news:keywords`
-and keep the rolling window short. Re-check pizzint's news sitemap before
-scoping (`COMPETITIVE.md` §0.1) — frozen vs rolling changes the bet.
+`news-sitemap.xml` ships a rolling ~48h window (cap 150) with `news:keywords`
+(entities, labs, and matching topic-tag names). Keep the window short so the
+file stays a freshness signal. Re-check pizzint's news sitemap — it flips
+empty↔thin (`COMPETITIVE-SEO.md`).
 
 ---
 
@@ -239,14 +239,126 @@ context.
 | 6 | `/openapi.json` + sitemap entries for API docs | Agents + developers | **Done** |
 | 7 | Head-term homepage title + FAQ ("AI activity level today", verifiable doomsday clock) | Google | **Done** (2026-10-10) |
 | 8 | Organization JSON-LD + IndexNow ping after publish + GSC meta hook | Google + Bing | **Done** (2026-10-10) |
-| 9 | Optional markdown mirrors for methodology and guide | Agents | **Done** |
-| 10 | Mobile card view / less above-fold weight | Google CWV | Open |
+| 9 | Optional markdown mirrors for methodology and guide | Agents | **Done** (live `/methodology.md`, `/guide.md`) |
+| 10 | Mobile card view / less above-fold weight | Google CWV | **Done** (2026-10-12) — phone-width `<details>` deferral + below-fold `content-visibility:auto` |
 | 11 | Verify Search Console; submit both sitemaps | Operator | Open |
-| 12 | `/country/<iso>` + `/model/<slug>` entity axes | Google | **Done** (2026-10-10) |
+| 12 | `/country/<iso>` for countries with ≥3 mapped datacentre sites, and `/model/<slug>` for model families named in ≥3 scored stories | Google | **Done** (2026-10-10) |
 | 13 | `/compare`, `/alternatives`, `/vs/*` conquest landings | Google | **Done** (2026-10-10) |
 | 14 | `/agents.md` + Grok/xAI named Allow + ChatGPT query routing in `llms.txt` | ChatGPT + Grok | **Done** (2026-10-11) |
-| 15 | People pages + news day hubs (DoomBench/Skynet URL shape) | Google | Open PR #86 |
-| 16 | `/agents.txt` + `/agents.json` + `/.well-known/api-catalog` + skills index + MCP server card | Agent discovery | **Done** (this pass) |
+| 15 | `/people/*` leader coverage pages + `/news/YYYY-MM-DD` day hubs + entity-only `/lab/*` | Google | **Done** (2026-10-12) |
+| 16 | `/agents.txt` + `/agents.json` + `/.well-known/api-catalog` + skills index + MCP server card | Agent discovery | **Done** |
+| 17 | `/tags/*` topic hubs (Skynet URL shape; curated needles, ≥5 stories) | Google | **Done** (2026-10-12) |
+| 18 | `/kind/*` story-kind hubs (press/forum/paper; collector labels, ≥5 stories) | Google | **Done** (2026-10-12) |
+| 19 | Live newsroom cap → 800 + durable `data/item-archive.json` for `/item/` long-tail (overflow + aged-off); more `/tags/*` (security, military, education) | Google | **Done** (2026-10-12) |
+| 20 | `/outlet/<host>` publisher-domain hubs (≥5 scored stories) + tags open-weights/cloud/startups/finance/multimodal | Google | **Done** (2026-10-12) |
+| 21 | Backfill `item-archive` from prior committed `news.json` snapshots (scored stories only; cap 1,600) | Google | **Done** (2026-10-12) |
+| 22 | Paginated `/item/archive*.html` hubs + newsroom/publisher nav + related links into archive (anti-orphan) | Google | **Done** (2026-10-12) |
+| 23 | `seo-daily` deploy-pending gap when local archive leads; richer news-sitemap keywords (cap 150); outlet→archive links | Google | **Done** (2026-10-12) |
+| 24 | Tag / kind / pillar / lab hubs link matching older archive stories (anti-orphan internal links) | Google | **Done** (2026-10-12) |
+| 25 | Homepage below-fold `content-visibility:auto` (CWV; crawlers still see full HTML) | Google CWV | **Done** (2026-10-12) |
+| 26 | Model + people hubs link matching older archive stories (anti-orphan) | Google | **Done** (2026-10-12) |
+| 27 | `/source/*` adapter hubs link older archive stories; phone-width home board deferral | Google CWV | **Done** (2026-10-12) |
+| 28 | Day hubs link same-UTC-day archive stories; chips + energy topic tags (≥5 gate) | Google | **Done** (2026-10-12) |
+| 29 | IndexNow pings archive hub + facet indexes + sitemap sample; labor + healthcare tags | Bing + Google | **Done** (2026-10-12) |
+| 30 | Raise `item-archive` cap 1600→2400 and backfill (~2215 retained scored stories) | Google | **Done** (2026-10-12) |
+| 31 | Topic tags `coding` + `acquisitions` (live ≥5 gate; Skynet-shaped search trends) | Google | **Done** (2026-10-12) |
+| 32 | `/country/*` hubs list matching live + archive stories; story pages link indexable countries | Google | **Done** (2026-10-12) |
+| 33 | Entity labs Oracle / Palantir / Adobe / Broadcom / Cloudflare (`/lab/*`, live ≥3 gate) | Google | **Done** (2026-10-12) |
+| 34 | `/lab/` directory + `/companies.html` DoomBench-shaped company hub (same gated labs) | Google | **Done** (2026-10-12) |
+| 35 | `/models.html` DoomBench-shaped models hub (same gated `/model/*` families; no model doom score) | Google | **Done** (2026-10-12) |
+| 36 | Model hub gate counts live + archive stories (Gemini/Grok-class families stay indexable) | Google | **Done** (2026-10-12) |
+| 37 | Entity-lab gate counts live + archive; SoftBank/Intel/AMD labs; word-boundary lab needles | Google | **Done** (2026-10-12) |
+| 38 | Tag gate counts live + archive; `browser` + `watermarking` topic hubs | Google | **Done** (2026-10-12) |
+| 39 | `/people.html` DoomBench-shaped people hub; people gate counts wire + archive | Google | **Done** (2026-10-12) |
+| 40 | Outlet (`/outlet/*`) gate counts live + archive (AP/Axios/WaPo-class hosts stay indexable) | Google | **Done** (2026-10-12) |
+| 41 | Source (`/source/*`) gate counts live + archive; topic tags `evals` + `video` + `voice` | Google | **Done** (2026-10-12) |
+| 42 | Fill `item-archive` to cap 2400 via git backfill; kind gate counts live + archive | Google | **Done** (2026-10-12) |
+| 43 | Raise `item-archive` cap 2400→3200 + backfill (~2831); pillar gate counts live + archive | Google | **Done** (2026-10-12) |
+| 44 | Fill archive to 3200; topic tags `reasoning` + `ipo` + `rag` (search-trend hubs) | Google | **Done** (2026-10-12) |
+| 45 | `/tags.html` Skynet-shaped tags hub; raise `item-archive` cap 3200→4000 | Google | **Done** (2026-10-12) |
+| 46 | Home + newsroom link entity hubs; `/kinds.html`; raise archive cap 4000→5000 | Google | **Done** (2026-10-12) |
+| 47 | `/outlets.html` publisher head-term hub (same gated `/outlet/*` set) | Google | **Done** (2026-10-12) |
+| 48 | `/sources.html` feed-adapter head-term hub (same gated `/source/*` set) | Google | **Done** (2026-10-12) |
+| 49 | `/pillars.html` + `/pillar/` directory over gated activity pillars | Google | **Done** (2026-10-12) |
+| 50 | `/countries.html` DoomBench-shaped country hub (same gated `/country/*` map counts) | Google | **Done** (2026-10-12) |
+| 51 | Topic tags `mcp` + `fine-tuning` + `quantization` (live/archive ≥5 gate; search-trend hubs) | Google | **Done** (2026-10-12) |
+| 52 | Topic tags `distillation` + `memory`; newsroom entity-directory nav (anti-orphan hubs) | Google | **Done** (2026-10-12) |
+| 53 | `/vs/pizzint.html` conquest + compare/alternatives; topic tag `test-time` | Google | **Done** (2026-10-12) |
+| 54 | Wire PizzINT conquest from guide / FAQ / agents.md; merge latest main | Google | **Done** (2026-10-12) |
+| 55 | Home + catalog + IndexNow surfaces for `/vs/*` conquest pages incl. PizzINT | Google | **Done** (2026-10-12) |
+| 56 | `llms.txt` / skill map lists PizzINT conquest + pillar/country/source hubs | assistants | **Done** (2026-10-12) |
+| 57 | Topic tags `hallucination` + `prompt-injection` + `moe` + `world-models` + `copyright` (live/archive ≥5 gate; search-trend hubs) | Google | **Done** (2026-10-12) |
+| 58 | Topic tags `diffusion` + `embeddings` + `guardrails` + `context-window` + `ai-search`; news-sitemap keywords include matching topic names (cap 12; pizzint news contested) | Google News | **Done** (2026-10-12) |
+| 59 | `/vs.html` conquest directory + topic tags `multi-agent` + `deepfakes` + `slm` + `ai-science` + `speculative-decoding` | Google | **Done** (2026-10-12) |
+| 60 | Topic tags `kv-cache` + `ai-act` + `autonomous-vehicles` + `ai-music` + `synthetic-data` + `inference-cost`; seo-daily monitors `/vs.html` `/tags.html` `/companies.html` | Google | **Done** (2026-10-12) |
+| 61 | Topic tags `prefer-data` + `reasoning-traces` + `claude-code` + `openrouter`; IndexNow ALWAYS `/vs.html` + hub sample | Bing | **Done** (2026-10-12) |
+| 62 | `/guides.html` evergreen explainer hub (p(doom), clocks, compare/vs); tags `huggingface` + `blackwell` | Google | **Done** (2026-10-12) |
+| 63 | `/guides.md` agent mirror; tags `ollama` + `mlx` + `computer-use`; seo-daily monitors models/people/countries hubs | Google + agents | **Done** (2026-10-12) |
+| 64 | Model hubs match published surface forms on title/summary (unlock DeepSeek-R / Mixtral from archive); expand DeepSeek + Mistral Large forms | Google | **Done** (2026-10-12) |
+| 65 | Topic tags `voice-agents` + `skills` + `tsmc` + `mcp-servers` + `llama-cpp` + `deep-research` + `lora` + `grpo` (live/archive ≥5 gate; search-trend hubs) | Google | **Done** (2026-10-12) |
+| 66 | Entity lab Groq (`/lab/groq`, live/archive ≥3 gate) | Google | **Done** (2026-10-12) |
+| 67 | Topic tags `rlvr` + `humanoid` + `interpretability` + `gguf` + `red-teaming` + `edge-ai` + `sft` + `copilot` + `diffusion-llm` + `activation-steering` + `rerank` + `federated-learning` | Google | **Done** (2026-10-12) |
+| 68 | Entity labs Samsung / ASML / Cognition (`/lab/*`, live/archive ≥3 gate) | Google | **Done** (2026-10-12) |
+| 69 | Topic tags `training-data` + `physical-ai` + `gui-agents` + `tool-calling` + `long-context` + `chain-of-thought` + `local-llm` | Google | **Done** (2026-10-12) |
+| 70 | Entity labs CoreWeave / Qualcomm / Tesla / Waymo / Micron / TSMC (`/lab/*`, live/archive ≥3 gate) | Google | **Done** (2026-10-12) |
+| 71 | `/vs/takeofftracker.html` conquest + compare/alternatives/vs hub wiring (seo-daily rival) | Google | **Done** (2026-10-12) |
+| 72 | Topic tags `coding-agents` + `agentic-workflow` + `leaderboard` + `alignment`; entity lab Physical Intelligence | Google | **Done** (2026-10-12) |
+| 73 | Topic tags `world-action` + `embodied` + `tts` + `asr`; seo-daily counts real facet sitemap rows + monitors `/vs/takeofftracker.html` | Google | **Done** (2026-10-12) |
+| 74 | Topic tags `vision-language` + `foundation-models` + `video-generation` + `image-generation` + `model-merging` + `agent-memory` + `open-source-ai` + `tool-use` (live/archive ≥5 gate) | Google | **Done** (2026-10-12) |
+| 75 | Entity labs Huawei / Sony (`/lab/*`, live/archive ≥3 gate); seo-daily loads `world.json` + `routes.world` so `/country/*` facet rows count | Google | **Done** (2026-10-12) |
+| 76 | Topic tags `post-training` + `pretraining` + `zero-shot` + `in-context` + `tokenization` + `continual-learning` + `sparsity` + `knowledge-graphs` + `research-agents` + `system-prompts` + `ai-infrastructure` + `robot-learning` | Google | **Done** (2026-10-12) |
+| 77 | Entity labs Supermicro / IREN / OpenRouter / Reflection AI (`/lab/*`, live/archive ≥3 gate) | Google | **Done** (2026-10-12) |
+| 78 | Topic tags `frontier-models` + `small-models` + `open-models` + `generative-ai` + `reasoning-models` + `voice-ai` + `conversational-ai` + `audio-generation` + `ai-chips` | Google | **Done** (2026-10-12) |
+| 79 | Model hub Muse Wonder (`/model/muse-wonder`, live/archive ≥3 gate) | Google | **Done** (2026-10-12) |
+| 80 | Topic tags `ai-regulation` + `artificial-analysis` + `humanoid-robots` + `transformers` + `self-attention` + `openai-codex` + `reward-models` | Google | **Done** (2026-10-12) |
+| 81 | IndexNow ALWAYS adds `/vs/takeofftracker.html`, Muse Wonder model, IREN/Reflection labs, generative-AI/AI-chips/frontier/post-training tag samples | Bing | **Done** (2026-10-12) |
+| 82 | Topic tags `reinforcement-learning` + `vision-language-action` + `flow-matching` + `text-to-image` + `imitation-learning` + `locomotion` | Google | **Done** (2026-10-12) |
+| 83 | News-sitemap `news:keywords` lab list expands (Huawei/Sony/Supermicro/IREN/OpenRouter/Reflection AI/Muse Wonder/Artificial Analysis) for Google News contest | Google News | **Done** (2026-10-12) |
+| 84 | Topic tags `self-supervised` + `latent-space` + `autoencoders` + `diffusion-transformer` + `scaling-laws`; IndexNow ALWAYS samples RL/VLA/self-supervised/DiT/scaling-laws | Google + Bing | **Done** (2026-10-12) |
+| 85 | Topic tags `ai-assistants` + `code-generation` + `linear-attention` + `state-space-models` + `ai-factories` + `multimodal-reasoning`; IndexNow ALWAYS samples assistants/code-gen/SSM/AI-factories | Google + Bing | **Done** (2026-10-12) |
+| 86 | Topic tags `model-pruning` + `peft` + `test-time-training` + `gaussian-splatting` + `domain-adaptation`; IndexNow ALWAYS samples pruning/PEFT/Gaussian/TTT | Google + Bing | **Done** (2026-10-12) |
+| 87 | Topic tags `llm-agents` + `on-policy-distillation` + `time-series` + `self-distillation` + `video-world-models` + `machine-unlearning`; IndexNow ALWAYS samples LLM-agents/on-policy/time-series/unlearning | Google + Bing | **Done** (2026-10-12) |
+| 88 | Topic tags `neural-networks` + `self-improving-ai` + `provenance` + `sparse-attention` + `synthid` + `dexterous-manipulation`; IndexNow ALWAYS samples neural-networks/self-improving/sparse-attention/SynthID | Google + Bing | **Done** (2026-10-12) |
+| 89 | Entity labs Decart / Sakana AI / Isomorphic Labs / Winverse AI / Cisco (`/lab/*`, live/archive ≥3); tags `protein-design` + `drug-discovery`; news:keywords + IndexNow samples | Google + Bing | **Done** (2026-10-12) |
+| 90 | News-sitemap `news:keywords` prioritizes entity + lab surfaces before topic-tag flood so the 12-cap keeps head-term names (pizzint-news-alive contest) | Google News | **Done** (2026-10-12) |
+| 91 | Organization `knowsAbout` adds head terms: AI activity index today, AI tempo index, DoomBench/Skynet/Takeoff Tracker/Pentagon Pizza Index alternatives (schema matches conquest pages) | Google | **Done** (2026-10-12) |
+| 92 | `/ai-doomsday-clock.html` question-shaped title + `knowsAbout` “verifiable AI doomsday clock”; `/compare.html` title includes Takeoff Tracker (Bulletin / AI clock head terms) | Google | **Done** (2026-10-12) |
+| 93 | `/guide.html` FAQPage + WebPage speakable + BreadcrumbList matching DEFCON / Doomsday Clock / p(doom) comparison table (schema was Organization-only) | Google | **Done** (2026-10-12) |
+| 94 | `/p-doom.html` + `/ai-doomsday-clock.html` WebPage speakable + BreadcrumbList alongside existing FAQ (p(doom) glossary head term) | Google | **Done** (2026-10-12) |
+| 95 | Model hub Maia (`/model/maia`, Maia 300 / Azure Maia forms, live/archive ≥3); news:keywords + IndexNow sample (pizzint-news contest) | Google + Bing | **Done** (2026-10-12) |
+| 96 | `/methodology.html` head-term title + TechArticle speakable + BreadcrumbList + FAQ from question-shaped section headings (recompute / what it measures) | Google | **Done** (2026-10-12) |
+| 97 | Model hub Codex (`/model/codex`, OpenAI Codex / Codex CLI / Hackathon forms — no bare Codex); news:keywords + IndexNow | Google + Bing | **Done** (2026-10-12) |
+| 98 | Entity lab Epoch AI (`/lab/epoch-ai`, two-word form only, ≥3 gate); seo-daily monitors methodology/guide/clock/Maia/Codex/Epoch; IndexNow samples | Google + Bing | **Done** (2026-10-12) |
+| 99 | `/p-doom.html` question-shaped title (“What is p(doom)?”) + Organization `knowsAbout` glossary/methodology head terms | Google | **Done** (2026-10-13) |
+| 100 | `/methodology.html` FAQ expands with five more question-shaped headings (market pillar, flicker, missing source, receipt, mislead) — visible text only | Google | **Done** (2026-10-13) |
+| 101 | `/history.html` question-shaped title + Article speakable + BreadcrumbList; IndexNow + seo-daily monitor; Organization `knowsAbout` “history of AI risk” | Google + Bing | **Done** (2026-10-13) |
+| 102 | `/guides.html` question-shaped title + CollectionPage speakable + BreadcrumbList; visible FAQ matching schema; history in GUIDES; `knowsAbout` “AI explainers” | Google | **Done** (2026-10-13) |
+| 103 | Entity lab Artificial Analysis (`/lab/artificial-analysis`, two-word form only, ≥3 gate); IndexNow + seo-daily monitor | Google + Bing | **Done** (2026-10-13) |
+| 104 | `/methodology.html` FAQ adds pillars/arithmetic/reference/biases/attribution/limitations question headings (visible text only) | Google | **Done** (2026-10-13) |
+| 105 | `/compare.html` `/alternatives.html` `/vs.html` question-shaped titles + visible FAQ matching schema (same pairs as FAQPage) | Google | **Done** (2026-10-13) |
+| 106 | `/vs/*` rival pages question-shaped titles (“which should you use?”) + visible FAQ matching schema | Google | **Done** (2026-10-13) |
+| 107 | `/jobs.html` `/medicine.html` question-shaped titles (home-card head terms) + WebPage speakable + BreadcrumbList + visible FAQ; `knowsAbout` jobs/medicine head terms | Google | **Done** (2026-10-13) |
+| 108 | `/about.html` question-shaped title (“What is SIREN?”) + WebPage speakable + BreadcrumbList + visible FAQ; IndexNow + seo-daily; `knowsAbout` “what is SIREN” | Google + Bing | **Done** (2026-10-13) |
+| 109 | `/privacy.html` question-shaped title (“What does SIREN know about you?”) + WebPage speakable + BreadcrumbList + visible FAQ; IndexNow + seo-daily; `knowsAbout` “SIREN privacy” | Google + Bing | **Done** (2026-10-13) |
+| 110 | `/press.html` question-shaped title (“Where is the SIREN press kit?”) + WebPage speakable + BreadcrumbList + visible FAQ; IndexNow + seo-daily; `knowsAbout` “SIREN press kit” | Google + Bing | **Done** (2026-10-13) |
+| 111 | `/terms.html` question-shaped title (“What are the SIREN terms of use?”) + WebPage speakable + BreadcrumbList + visible FAQ; IndexNow + seo-daily; `knowsAbout` “SIREN terms of use” | Google + Bing | **Done** (2026-10-13) |
+| 112 | `/disclosures.html` question-shaped title (“What does SIREN disclose?”) + WebPage speakable + BreadcrumbList + visible FAQ; IndexNow + seo-daily; `knowsAbout` “SIREN disclosures” | Google + Bing | **Done** (2026-10-13) |
+| 113 | `/brand.html` question-shaped title (“Where is the SIREN brand guide?”) + WebPage speakable + BreadcrumbList + visible FAQ; IndexNow + seo-daily; `knowsAbout` “SIREN brand guide” | Google + Bing | **Done** (2026-10-13) |
+| 114 | Entity labs Salesforce / World Labs (`/lab/*`, live/archive ≥3 gate; World Labs two-word only; refuse Scale AI / Replicate / Listen Labs under gate or false friends); news:keywords + IndexNow + seo-daily | Google + Bing | **Done** (2026-10-13) |
+| 115 | Model hub Nano Banana (`/model/nano-banana`, Nano Banana / 2 / 2.1 forms — no bare Banana; live/archive ≥3); news:keywords + IndexNow + seo-daily | Google + Bing | **Done** (2026-10-13) |
+| 116 | `/model/*` + `/models.html` question-shaped titles + CollectionPage speakable + visible FAQ matching schema; `knowsAbout` “AI models this index scored” | Google | **Done** (2026-10-13) |
+| 117 | `/lab/*` + `/companies.html` question-shaped titles + CollectionPage speakable + visible FAQ matching schema; `knowsAbout` “AI companies this index scored” | Google | **Done** (2026-10-13) |
+| 118 | `/tags/*` + `/tags.html` question-shaped titles + CollectionPage speakable + visible FAQ matching schema (175 gated topic hubs); `knowsAbout` “AI tags this index scored” | Google | **Done** (2026-10-13) |
+| 119 | `/people/` + `/people.html` question-shaped titles + CollectionPage speakable + visible FAQ matching schema; `knowsAbout` “AI people this index scored” | Google | **Done** (2026-10-13) |
+| 120 | `/kind/*` + `/kinds.html` question-shaped titles + CollectionPage speakable + visible FAQ matching schema; `knowsAbout` “AI story kinds this index scored” | Google | **Done** (2026-10-13) |
+| 121 | `/outlet/*` + `/outlets.html` question-shaped titles + CollectionPage speakable + visible FAQ matching schema; `knowsAbout` “AI outlets this index scored” | Google | **Done** (2026-10-13) |
+| 122 | `/source/*` + `/sources.html` question-shaped titles + CollectionPage speakable + visible FAQ matching schema; `knowsAbout` “AI news sources this index scored” | Google | **Done** (2026-10-13) |
+| 123 | `/pillar/*` + `/pillars.html` question-shaped titles + CollectionPage speakable + visible FAQ matching schema; `knowsAbout` “AI activity pillars this index scored” | Google | **Done** (2026-10-13) |
+| 124 | `/country/*` + `/countries.html` question-shaped titles + Dataset/CollectionPage speakable + visible FAQ matching schema; `knowsAbout` “AI datacentre countries this index scored” | Google | **Done** (2026-10-13) |
+| 125 | `/lab/` + `/model/` directory indexes question-shaped titles + CollectionPage speakable + visible FAQ matching schema; `knowsAbout` “AI labs this index scored” | Google | **Done** (2026-10-13) |
+| 126 | `/tags/` + `/kind/` directory indexes question-shaped titles + CollectionPage speakable + visible FAQ matching schema | Google | **Done** (2026-10-13) |
+| 127 | `/outlet/` + `/source/` directory indexes question-shaped titles + CollectionPage speakable + visible FAQ matching schema | Google | **Done** (2026-10-13) |
+| 128 | `/pillar/` + `/country/` directory indexes question-shaped titles + CollectionPage speakable + visible FAQ matching FAQPage schema | Google | **Done** (2026-10-13) |
 
 ### 3.3 Refusals (search edition)
 
@@ -261,7 +373,36 @@ context.
 
 ---
 
-## 4. Weekly loop (add to the VIRAL.md Monday review)
+## 4. Daily SEO agent loop
+
+A recurring Cursor Cloud Agent timer runs this playbook every day (15:00 UTC,
+after `post-daily`). The durable command it starts from:
+
+```bash
+node collector/tools/seo-daily.mjs           # human scoreboard
+node collector/tools/seo-daily.mjs --json    # machine report + gaps[]
+node collector/tools/seo-daily.mjs --selftest
+```
+
+Each daily pass:
+
+1. Run `seo-daily.mjs` — re-measure siren.watch vs pizzint / DoomBench / Skynet /
+   pdoom / takeofftracker (sitemap counts, news sitemap, home title, schema,
+   `llms.txt`, our findability surfaces).
+2. Scan for **new search trends** we can honestly answer (activity tempo, not
+   doom probability). Prefer head terms already in `COMPETITIVE-SEO.md` /
+   conquest pages over synonym doorway farms.
+3. Ship **one** concrete improvement: gated URL facet, title/description fix,
+   schema that matches visible HTML, internal links, or conquest/evergreen copy.
+   Open a PR. Update the live scoreboard paragraph in `COMPETITIVE-SEO.md` when
+   rival numbers move.
+4. Refuse: keyword stuffing, thin synonym doorways, future-tense doom claims,
+   schema that does not match on-page text (`VOICE.md`, `CONTRACT.md`, §3.3).
+
+Success metric stays **indexed pages + honest head-term clicks**, not raw
+sitemap vanity (`COMPETITIVE.md` Phase 2).
+
+## 5. Weekly loop (add to the VIRAL.md Monday review)
 
 1. Search Console: indexed pages, impressions, clicks; note branded vs head-term.
 2. Crawl a sample of new `/item/` URLs — title, description, canonical, JSON-LD valid.
@@ -271,7 +412,7 @@ context.
 
 ---
 
-## 5. Sources
+## 6. Sources
 
 | Claim | Source | Read |
 |---|---|---|

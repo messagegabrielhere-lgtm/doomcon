@@ -6,6 +6,7 @@ import {
   compareHub,
   renderAll,
   sitemapEntries,
+  vsHub,
   vsRival,
 } from './comparePages.mjs';
 
@@ -22,12 +23,13 @@ const ctx = {
 };
 
 describe('compare / alternatives conquest pages', () => {
-  it('ships one hub, one alternatives page, and one vs page per rival', () => {
+  it('ships compare, alternatives, vs hub, and one vs page per rival', () => {
     const pages = renderAll(ctx);
-    assert.equal(pages.length, 2 + RIVALS.length);
+    assert.equal(pages.length, 3 + RIVALS.length);
     assert.ok(pages.every((p) => p.html && /<!doctype html>/i.test(p.html)));
     assert.ok(pages.some((p) => p.path === 'compare.html'));
     assert.ok(pages.some((p) => p.path === 'alternatives.html'));
+    assert.ok(pages.some((p) => p.path === 'vs.html'));
     for (const rival of RIVALS) {
       assert.ok(pages.some((p) => p.path === rival.path.replace(/^\//, '')));
     }
@@ -35,37 +37,73 @@ describe('compare / alternatives conquest pages', () => {
 
   it('puts head-term titles and FAQ schema on the hubs', () => {
     const hub = compareHub(ctx);
-    assert.match(hub, /AI doom indexes compared/);
+    assert.match(hub, /<title>Which AI doom indexes can you compare\?/);
+    assert.match(hub, /Takeoff Tracker/);
     assert.match(hub, /"@type"\s*:\s*"FAQPage"/);
+    assert.match(hub, /Questions people actually ask/);
+    assert.match(hub, /What is the difference between SIREN and DoomBench/);
     assert.match(hub, /DoomBench/);
     assert.match(hub, /Skynet Countdown/);
+    assert.match(hub, /PizzINT/);
     assert.match(hub, /SIREN 4/);
     assert.match(hub, /55\.5/);
     assert.match(hub, /Complementary \(not a doom index\)/);
     assert.match(hub, /artificialanalysis\.ai/);
 
     const alt = alternatives(ctx);
-    assert.match(alt, /AI doom index alternatives/);
+    assert.match(alt, /<title>What are AI doom index alternatives\?/);
     assert.match(alt, /DoomBench alternative/i);
+    assert.match(alt, /PizzINT/);
     assert.match(alt, /"@type"\s*:\s*"FAQPage"/);
+    assert.match(alt, /Questions people actually ask/);
+    assert.match(alt, /What is a good alternative to DoomBench/);
     assert.match(alt, /Artificial Analysis/);
     assert.match(alt, /artificialanalysis\.ai/);
   });
 
   it('keeps vs pages honest: no borrowed doom probability claim for SIREN', () => {
     const page = vsRival(ctx, 'doombench');
-    assert.match(page, /SIREN vs DoomBench/);
+    assert.match(page, /<title>SIREN vs DoomBench: which should you use\?/);
+    assert.match(page, /SIREN vs DoomBench — which should you use\?/);
+    assert.match(page, /Questions people actually ask/);
     assert.match(page, /does not score takeover risk/i);
     assert.match(page, /recompute/i);
     assert.doesNotMatch(page, /SIREN.*p\(doom\) of \d/i);
+    const pizza = vsRival(ctx, 'pizzint');
+    assert.match(pizza, /<title>SIREN vs PizzINT: which should you use\?/);
+    assert.match(pizza, /Questions people actually ask/);
+    assert.match(pizza, /does not publish a DEFCON/i);
+    assert.match(pizza, /Doomsday Clock/i);
+    assert.doesNotMatch(pizza, /SIREN.*DEFCON \d/i);
+    const takeoff = vsRival(ctx, 'takeofftracker');
+    assert.match(takeoff, /<title>SIREN vs Takeoff Tracker: which should you use\?/);
+    assert.match(takeoff, /Questions people actually ask/);
+    assert.match(takeoff, /does not publish an AGI timeline/i);
+    assert.match(takeoff, /takeoff dashboard/i);
+    assert.doesNotMatch(takeoff, /SIREN.*p\(doom\) of \d/i);
   });
 
   it('sitemaps every conquest URL', () => {
     const entries = sitemapEntries(ctx);
-    assert.equal(entries.length, 2 + RIVALS.length);
+    assert.equal(entries.length, 3 + RIVALS.length);
     assert.ok(entries.every((e) => e.loc && e.lastmod && e.priority));
     assert.ok(entries.some((e) => e.loc === '/compare.html'));
+    assert.ok(entries.some((e) => e.loc === '/vs.html'));
     assert.ok(entries.some((e) => e.loc === '/vs/doombench.html'));
+  });
+
+  it('ships /vs.html as a head-term directory with ItemList schema', () => {
+    const html = vsHub(ctx);
+    assert.match(html, /<title>Which AI indexes does SIREN contrast\?/);
+    assert.match(html, /Which AI indexes does SIREN contrast/);
+    assert.match(html, /ItemList/);
+    assert.match(html, /\/vs\/doombench\.html/);
+    assert.match(html, /\/vs\/pizzint\.html/);
+    assert.match(html, /\/vs\/takeofftracker\.html/);
+    assert.match(html, /Takeoff Tracker/);
+    assert.match(html, /"@type"\s*:\s*"FAQPage"/);
+    assert.match(html, /Questions people actually ask/);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
   });
 
   it('returns empty for an unknown rival id', () => {

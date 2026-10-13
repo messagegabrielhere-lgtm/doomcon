@@ -65,6 +65,11 @@ import { readNews, reel, pillarSigil, pillarSprite, newsSourceStrip } from './_r
 import { newsCss, liveHead, legend, feedRow } from './news.mjs';
 import { PILLAR_GLYPH } from './_charts.mjs';
 import { page } from './layout.mjs';
+import { dayPath, indexableDays } from './dayPages.mjs';
+import { tagPath, indexableTags } from './tagPages.mjs';
+import { kindPath, indexableKinds } from './kindPages.mjs';
+import { outletPath, indexableOutlets } from './outletPages.mjs';
+import { archivePagePath, archivePageCount, archivedItems } from './itemPage.mjs';
 import * as brand from '../brand.mjs';
 import { breakingStrip, speedBox, breakingCss } from './_breaking.mjs';
 
@@ -106,6 +111,12 @@ ${breakingStrip(ctx, { href: ctx.href })}
      links to the source that carried it.</p>
   ${liveHead(news, 'Collection window', 'arch-live')}
   ${legend(news)}
+  ${entityDirNav(ctx)}
+  ${dayHubNav(ctx, items)}
+  ${tagHubNav(ctx)}
+  ${kindHubNav(ctx)}
+  ${outletHubNav(ctx)}
+  ${archiveHubNav(ctx)}
 </section>
 
 ${reel(items, { id: 'areel', limit: REEL_CARDS, heading: 'Highest-scoring items' })}
@@ -175,6 +186,104 @@ function emptyPage(ctx) {
 function uniqueDays(items) {
   const set = new Set(items.map((it) => utcDay(it.published_at)));
   return set.size;
+}
+
+/**
+ * Head-term entity directories — keeps new /companies /models /people /pillars
+ * /countries /sources hubs one click from the newsroom after deploy (anti-orphan).
+ */
+function entityDirNav(ctx) {
+  const links = [
+    ['/companies.html', 'Companies'],
+    ['/models.html', 'Models'],
+    ['/people.html', 'People'],
+    ['/pillars.html', 'Pillars'],
+    ['/tags.html', 'Tags'],
+    ['/kinds.html', 'Kinds'],
+    ['/outlets.html', 'Outlets'],
+    ['/sources.html', 'Sources'],
+  ];
+  if (ctx.routes && ctx.routes.world && ctx.world) {
+    links.push(['/countries.html', 'Countries']);
+  }
+  const html = links
+    .map(([href, label]) => `<a href="${esc(ctx.href(href))}">${esc(label)}</a>`)
+    .join('');
+  return `<nav class="narch__days" aria-label="Entity directories">
+  <p class="narch__days-k">Directories</p>
+  <div class="narch__days-links">${html}</div>
+</nav>`;
+}
+
+/** Links to /news/YYYY-MM-DD.html hubs that clear the substance gate. */
+function dayHubNav(ctx, items) {
+  const days = indexableDays(ctx);
+  if (!days.length) return '';
+  // Keep the nav honest if the page was handed a different item list.
+  const present = new Set(items.map((it) => {
+    try { return utcDay(it.published_at); } catch { return null; }
+  }).filter(Boolean));
+  const links = days
+    .filter((d) => present.has(d.day))
+    .map((d) => `<a href="${esc(ctx.href(dayPath(d.day)))}">${esc(d.day)} <span class="num">(${esc(String(d.count))})</span></a>`)
+    .join('');
+  if (!links) return '';
+  return `<nav class="narch__days" aria-label="News by UTC day">
+  <p class="narch__days-k">By UTC day</p>
+  <div class="narch__days-links">${links}</div>
+</nav>`;
+}
+
+/** Links to /tags/<id>.html hubs that clear the substance gate. */
+function tagHubNav(ctx) {
+  const tags = indexableTags(ctx);
+  if (!tags.length) return '';
+  const links = tags
+    .map((t) => `<a href="${esc(ctx.href(tagPath(t.id)))}">${esc(t.name)} <span class="num">(${esc(String(t.count))})</span></a>`)
+    .join('');
+  return `<nav class="narch__days" aria-label="News by topic tag">
+  <p class="narch__days-k">By topic · <a href="${esc(ctx.href('/tags/'))}">all tags</a> · <a href="${esc(ctx.href('/tags.html'))}">tags hub</a></p>
+  <div class="narch__days-links">${links}</div>
+</nav>`;
+}
+
+/** Links to /kind/<id>.html hubs that clear the substance gate. */
+function kindHubNav(ctx) {
+  const kinds = indexableKinds(ctx);
+  if (!kinds.length) return '';
+  const links = kinds
+    .map((k) => `<a href="${esc(ctx.href(kindPath(k.id)))}">${esc(k.name)} <span class="num">(${esc(String(k.count))})</span></a>`)
+    .join('');
+  return `<nav class="narch__days" aria-label="News by story kind">
+  <p class="narch__days-k">By kind · <a href="${esc(ctx.href('/kind/'))}">all kinds</a> · <a href="${esc(ctx.href('/kinds.html'))}">kinds hub</a></p>
+  <div class="narch__days-links">${links}</div>
+</nav>`;
+}
+
+/** Links to /outlet/<host> publisher hubs that clear the substance gate. */
+function outletHubNav(ctx) {
+  const outlets = indexableOutlets(ctx).slice(0, 12);
+  if (!outlets.length) return '';
+  const links = outlets
+    .map((o) => `<a href="${esc(ctx.href(outletPath(o.domain)))}">${esc(o.domain)} <span class="num">(${esc(String(o.count))})</span></a>`)
+    .join('');
+  return `<nav class="narch__days" aria-label="News by publisher">
+  <p class="narch__days-k">By publisher · <a href="${esc(ctx.href('/outlet/'))}">all publishers</a> · <a href="${esc(ctx.href('/outlets.html'))}">outlets hub</a></p>
+  <div class="narch__days-links">${links}</div>
+</nav>`;
+}
+
+/** Link into the paginated durable /item/ archive (stories outside the live window). */
+function archiveHubNav(ctx) {
+  const n = archivedItems(ctx).length;
+  if (!n) return '';
+  const pages = archivePageCount(ctx);
+  return `<nav class="narch__days" aria-label="Older scored stories">
+  <p class="narch__days-k">Older scored stories</p>
+  <div class="narch__days-links"><a href="${esc(ctx.href(archivePagePath(1)))}">Story archive</a>
+    <span class="num">(${esc(String(n))} across ${esc(String(pages))} page${pages === 1 ? '' : 's'})</span>
+    · <a href="${esc(ctx.href('/item/'))}">live window</a></div>
+</nav>`;
 }
 
 // ---------------------------------------------------------------------------
@@ -1270,6 +1379,11 @@ function archiveCss(present = brand.PILLARS) {
 .narch__h1 { font-size: clamp(1.7rem, 7vw, 2.3rem); letter-spacing: -0.025em; margin: 0 0 12px; }
 .narch__intro .lede { margin-bottom: 16px; }
 .narch__intro .nhead { margin-top: 18px; }
+.narch__days { margin: 16px 0 0; padding: 12px 0 0; border-top: 1px solid var(--rule); }
+.narch__days-k { margin: 0 0 8px; font: 600 var(--t-xs)/1.3 var(--mono); color: var(--ink-faint); letter-spacing: .04em; text-transform: uppercase; }
+.narch__days-links { display: flex; flex-wrap: wrap; gap: 8px; }
+.narch__days-links a { font: 600 var(--t-sm)/1.3 var(--sans); padding: 6px 10px; border: 1px solid var(--rule); border-radius: 6px; color: var(--ink); text-decoration: none; }
+.narch__days-links a:hover { background: var(--bg-sunken); }
 
 /* ---- the corpus block -------------------------------------------------- */
 
