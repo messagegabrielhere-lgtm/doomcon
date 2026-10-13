@@ -8,6 +8,7 @@
 
 import { esc } from './_html.mjs';
 import { page } from './layout.mjs';
+import { breadcrumbs, speakable } from './_seo.mjs';
 import * as brand from '../brand.mjs';
 
 const CSS = `<style>
@@ -38,6 +39,11 @@ const CSS = `<style>
 .fx-meta{font:500 12px/1.4 var(--mono);color:var(--ink-faint,#6B7686);margin-top:4px}
 .fx-pill{display:inline-block;font:600 11px/1 var(--mono);letter-spacing:.06em;padding:4px 7px;border:1px solid var(--rule);border-radius:3px;margin-right:6px;color:var(--ink-dim)}
 .fx-note{font-size:13px;color:var(--ink-faint,#6B7686);margin-top:24px}
+.fx-faq{margin:var(--sec,2rem) 0 var(--s-5,1.25rem);max-width:62ch}
+.fx-faq h2{font:600 var(--t-lg,1.125rem)/1.2 var(--sans);margin:0 0 var(--s-3,.75rem);color:var(--ink)}
+.fx-faq h3{font:600 var(--t-base,1rem)/1.3 var(--sans);margin:var(--s-4,1rem) 0 var(--s-2,.5rem);color:var(--ink)}
+.fx-faq p{font:400 var(--t-base,1rem)/1.55 var(--sans);color:var(--ink-dim);margin:0 0 var(--s-2,.5rem)}
+.fx-faq-key{margin-top:var(--s-4,1rem)!important}
 .fx-x{display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border:1px solid var(--rule);border-radius:4px;color:var(--ink);text-decoration:none;font:600 13px/1 var(--mono);margin:4px 6px 4px 0}
 .fx-x:hover{border-color:var(--accent,#4ADE80)}
 @media print{.fx-btn,.fx-q{break-inside:avoid}}
@@ -296,16 +302,35 @@ export function mergeBreakthroughs(prev, fresh, max = 300) {
 }
 
 export function breakthroughs(ctx, list) {
+  const PATH = '/breakthroughs.html';
+  const qTitle = `What AI breakthroughs has ${brand.NAME} tracked?`;
   const fields = ['All', ...new Set(list.map((b) => b.field))];
   const rows = list.map((b) => `<li data-field="${esc(b.field)}"><a href="${esc(b.url)}" rel="noopener" target="_blank">${esc(b.title)}</a>
     <div class="fx-meta"><span class="fx-pill">${esc(b.field.toUpperCase())}</span>${esc(String(b.source).toUpperCase())} · ${esc(String(b.published_at).slice(0, 10))}
     · <a href="${esc(`https://x.com/intent/post?text=${encodeURIComponent(`AI breakthrough: ${b.title}`)}&url=${encodeURIComponent(b.url)}&via=SIRENutf6`)}" target="_blank" rel="noopener">𝕏 Post</a></div></li>`).join('');
+
+  // FAQ answers restate hero / archive copy only (FINDABILITY §3.3).
+  // Refuse: verified cures, forecasts, doom-probability claims.
+  const faq = [
+    [qTitle,
+      'Not every AI story is about risk. These are the ones about AI helping: new drugs and diagnoses, solved math problems, better forecasts, restored senses. Picked automatically from the newsroom\'s sources and kept as an archive; a headline is the outlet\'s claim, so open the story before you share it.'],
+    ['Is every headline here a verified breakthrough?',
+      'A headline is the outlet\'s claim, so open the story before you share it.'],
+    ['What kinds of upside stories appear on this page?',
+      'These are the ones about AI helping: new drugs and diagnoses, solved math problems, better forecasts, restored senses.'],
+    ['Where else does SIREN track the upside of AI?',
+      'More of the upside: the Upside index (the same machinery, pointed at the good direction) and Medicine (trials and approvals of AI in medicine, counted).'],
+  ];
+  const faqHtml = faq.map(([qAsk, a]) => `
+  <h3>${esc(qAsk)}</h3>
+  <p>${esc(a)}</p>`).join('');
+
   const main = `${CSS}
 <section class="fx">
   <p class="eyebrow">THE GOOD NEWS · TRACKED FROM ${esc(brand.NAME)}'S NEWSROOM</p>
-  <h1 class="bp__h1">AI breakthroughs</h1>
+  <h1 class="bp__h1">What AI breakthroughs has ${esc(brand.NAME)} tracked?</h1>
   <p class="lede">Not every AI story is about risk. These are the ones about AI helping: new drugs and diagnoses, solved math problems, better forecasts, restored senses. Picked automatically from the newsroom's sources and kept as an archive; a headline is the outlet's claim, so open the story before you share it.</p>
-  ${shareBtn(ctx, 'The good side of AI, tracked: new medicines, solved problems, restored senses.', '/breakthroughs.html')}
+  ${shareBtn(ctx, 'The good side of AI, tracked: new medicines, solved problems, restored senses.', PATH)}
   <p>${fields.map((f, i) => `<button type="button" class="fx-btn${i ? ' ghost' : ''}" data-f="${esc(f)}" style="margin:4px 6px 4px 0">${esc(f.toUpperCase())}</button>`).join('')}</p>
   ${list.length ? `<ul class="fx-list" id="bt">${rows}</ul>` : '<p>No breakthrough stories in the current window. The newsroom refreshes every 15 minutes.</p>'}
   <h2>More of the upside</h2>
@@ -313,12 +338,48 @@ export function breakthroughs(ctx, list) {
     <a class="fx-card" href="${esc(ctx.href('/bliss.html'))}"><h3>The Upside index →</h3><p>The same machinery, pointed at the good direction.</p></a>
     <a class="fx-card" href="${esc(ctx.href('/medicine.html'))}"><h3>Medicine →</h3><p>Trials and approvals of AI in medicine, counted.</p></a>
   </div>
+  <section class="fx-faq" aria-labelledby="faq">
+    <h2 id="faq">Questions people actually ask</h2>
+    ${faqHtml}
+    <p class="fx-faq-key">Search-shaped sibling:
+      <a href="${esc(ctx.href('/bliss.html'))}">What is BLISS, the ${esc(brand.NAME)} upside index?</a>.</p>
+  </section>
 </section>
 <script>
 (function(){var bs=document.querySelectorAll('[data-f]');bs.forEach(function(b){b.onclick=function(){var f=b.getAttribute('data-f');bs.forEach(function(x){x.classList.toggle('ghost',x!==b);});document.querySelectorAll('#bt li').forEach(function(li){li.hidden=f!=='All'&&li.getAttribute('data-field')!==f;});};});})();
 </script>`;
-  return page({ ctx, path: '/breakthroughs.html', title: `AI breakthroughs: the good news, tracked · ${brand.NAME}`,
-    description: 'Positive AI breakthroughs, tracked automatically: new drugs and diagnoses, solved math problems, climate and accessibility wins. Sourced from 30+ AI news feeds, updated every 15 minutes.', main });
+  return page({
+    ctx,
+    path: PATH,
+    title: `${qTitle} · ${brand.NAME}`,
+    ogTitle: `${brand.NAME}: ${qTitle}`,
+    description: `${qTitle} Positive AI breakthroughs, tracked automatically: new drugs and diagnoses, solved math problems, climate and accessibility wins. A headline is the outlet's claim. Sourced from the newsroom feeds.`,
+    jsonld: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'CollectionPage',
+        name: qTitle,
+        description: 'Positive AI breakthroughs tracked from the newsroom: medicine, math and science, climate and accessibility. Headlines are the outlet\'s claims.',
+        url: ctx.url(PATH),
+        isPartOf: { '@type': 'WebSite', name: brand.NAME, url: ctx.url('/') },
+        speakable: speakable(['h1.bp__h1', 'p.lede']),
+      },
+      breadcrumbs(ctx, [
+        { name: 'Home', path: '/' },
+        { name: 'Breakthroughs', path: PATH },
+      ]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map(([qAsk, a]) => ({
+          '@type': 'Question',
+          name: qAsk,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
+      },
+    ],
+    main,
+  });
 }
 
 // ---------------------------------------------------------------------------

@@ -73,6 +73,8 @@ export function organization(ctx) {
       'how does SIREN count AI harm and benefit side by side',
       'Tally desk unserious counts',
       'what unserious counts does SIREN keep on Tally\'s desk',
+      'AI breakthroughs tracked',
+      'what AI breakthroughs has SIREN tracked',
       'AI labs this index scored',
       'AI stories this index scored',
       'AI leaders on the record',
