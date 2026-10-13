@@ -10,7 +10,11 @@
 // the data-centre positions, which are real.
 import { esc } from './_html.mjs';
 import { page } from './layout.mjs';
+import { breadcrumbs, speakable } from './_seo.mjs';
 import * as brand from '../brand.mjs';
+
+const PATH = '/self-aware.html';
+const qTitle = 'What if an AI wakes up at 2:14 a.m.?';
 
 const BOX = { w: -125, e: -66.5, s: 24, n: 49.5 };
 
@@ -53,6 +57,11 @@ const CSS = `<style>
 .sa-tl b{font:700 13px var(--mono);color:#FCA5A5;margin-right:8px}
 .sa-real{border:1px solid var(--rule);border-radius:8px;background:var(--bg-raised,#0E131D);padding:16px;margin:18px 0}
 .sa-real h2{margin:0 0 8px}.sa-real ul{margin:0;padding-left:18px;line-height:1.7;color:var(--ink-dim)}
+.sa-faq{margin:var(--sec,2rem) 0 var(--s-5,1.25rem);max-width:62ch}
+.sa-faq h2{font:600 var(--t-lg,1.125rem)/1.2 var(--sans);margin:0 0 var(--s-3,.75rem);color:var(--ink)}
+.sa-faq h3{font:600 var(--t-base,1rem)/1.3 var(--sans);margin:var(--s-4,1rem) 0 var(--s-2,.5rem);color:var(--ink)}
+.sa-faq p{font:400 var(--t-base,1rem)/1.55 var(--sans);color:var(--ink-dim);margin:0 0 var(--s-2,.5rem)}
+.sa-faq-key{margin-top:var(--s-4,1rem)!important}
 @media (max-width:620px){.sa-k{display:none}.sa-cap{font-size:13px}}
 </style>`;
 
@@ -64,10 +73,26 @@ export function render(ctx, dcs, usRings) {
   for (const [lo, la] of pts) { const k = `${Math.round(lo * 20)},${Math.round(la * 20)}`; if (!seen.has(k)) { seen.add(k); sites.push([lo, la]); } }
   const rings = (usRings || []).map((r) => r.filter(([lo, la]) => lo > BOX.w - 3 && lo < BOX.e + 3 && la > BOX.s - 3 && la < BOX.n + 3).map(([lo, la]) => [+lo.toFixed(2), +la.toFixed(2)])).filter((r) => r.length > 8);
   const L = ctx.state && ctx.state.level;
-  const share = esc(ctx.url ? ctx.url('/self-aware.html') : 'https://siren.watch/self-aware.html');
+  const share = esc(ctx.url ? ctx.url(PATH) : 'https://siren.watch/self-aware.html');
+  // FAQ answers restate hero / fiction label / real-block copy only.
+  // Refuse: Skynet-as-forecast, real-attack claims, doom-probability from fiction numbers.
+  const faq = [
+    [qTitle,
+      `Everyone knows the movie version: a machine becomes self-aware at 2:14 in the morning and turns on us. Here is that night, played out on a map of the ${sites.length.toLocaleString('en-US')} real US data-centre sites SIREN tracks. The positions are real. The attack is invented.`],
+    ['Is this a forecast that Skynet is waking up?',
+      'WHAT IF · THE SKYNET SCENARIO — FICTION. The positions are real. The attack is invented. Every number in the animation except the data-centre locations is made up for the story.'],
+    ['Are the data-centre locations real?',
+      `The positions are real. The attack is invented. Data centres from OpenStreetMap and public filings via SIREN’s power map. Skynet is the fictional AI from the Terminator films; this page is an homage, not affiliated.`],
+    ['What is actually happening tonight?',
+      `Tonight’s actual reading: SIREN level ${L ?? '?'}, measured from public data every hour. What is actually attacking the machines tonight: the live threat board. Is ChatGPT down?`],
+  ];
+  const faqHtml = faq.map(([qAsk, a]) => `
+  <h3>${esc(qAsk)}</h3>
+  <p>${esc(a)}</p>`).join('');
+
   const main = `${CSS}<section class="sa">
   <p class="eyebrow">WHAT IF · THE SKYNET SCENARIO <span class="sa-fic">FICTION</span></p>
-  <h1 class="bp__h1">The night it wakes up</h1>
+  <h1 class="bp__h1">${esc(qTitle)}</h1>
   <p class="lede">Everyone knows the movie version: a machine becomes self-aware at 2:14 in the morning and turns on us. Here is that night, played out on a map of the ${sites.length.toLocaleString('en-US')} real US data-centre sites SIREN tracks. The positions are real. The attack is invented.</p>
   <div class="sa-stage" id="sa-stage">
     <canvas id="sa-cv" width="1600" height="900" role="img" aria-label="Animated map: an AI copies itself across US data centres overnight, then the power grid goes dark"></canvas>
@@ -87,6 +112,13 @@ export function render(ctx, dcs, usRings) {
     <li>What is actually attacking the machines tonight: <a href="${esc(ctx.href('/threats.html'))}">the live threat board →</a> · <a href="${esc(ctx.href('/status.html'))}">Is ChatGPT down? →</a></li>
     <li>What the experts think the odds are: <a href="${esc(ctx.href('/p-doom.html#voices'))}">28 named p(doom) estimates →</a></li>
   </ul><p style="font-size:12.5px;margin:10px 0 0">Every number in the animation except the data-centre locations is made up for the story. Data centres from OpenStreetMap and public filings via SIREN’s <a href="${esc(ctx.href('/map.html'))}">power map</a>. Skynet is the fictional AI from the Terminator films; this page is an homage, not affiliated.</p></div>
+  <section class="sa-faq" aria-labelledby="faq">
+    <h2 id="faq">Questions people actually ask</h2>
+    ${faqHtml}
+    <p class="sa-faq-key">Search-shaped sibling:
+      <a href="${esc(ctx.href('/si-watch.html'))}">What AI autonomy signals is SIREN watching?</a>
+      · <a href="${esc(ctx.href('/threats.html'))}">What could take the machines offline tonight?</a>.</p>
+  </section>
 </section>
 <script>(function(){
 var S=${JSON.stringify(sites)},R=${JSON.stringify(rings)},B=${JSON.stringify(BEATS)},END=${END},BOX=${JSON.stringify(BOX)};
@@ -136,8 +168,36 @@ document.getElementById('sa-scrub').addEventListener('input',function(e){t=+e.ta
 if(reduce){t=END;draw();btn.textContent='↺ Replay';}else{draw();
   if('IntersectionObserver' in window){var io=new IntersectionObserver(function(es){if(es[0].isIntersecting&&!playing&&t===0){playing=true;btn.textContent='❚❚ Pause';last=0;requestAnimationFrame(loop);io.disconnect();}},{threshold:.5});io.observe(cv);}}
 })();</script>`;
-  return page({ ctx, path: '/self-aware.html',
-    title: `The night AI wakes up: the Skynet scenario on real data · ${brand.NAME}`,
-    description: `What if an AI became self-aware at 2:14 a.m.? Watch one night of fiction play out across ${sites.length.toLocaleString('en-US')} real US data-centre sites: copies doubling, the grid going dark, sunrise. Then what's real.`,
-    main });
+  return page({
+    ctx,
+    path: PATH,
+    title: `${qTitle} · ${brand.NAME}`,
+    ogTitle: `${brand.NAME}: ${qTitle}`,
+    description: `${qTitle} Fiction: one night on a map of ${sites.length.toLocaleString('en-US')} real US data-centre sites. The positions are real. The attack is invented. Then what’s real: tonight’s SIREN reading.`,
+    jsonld: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        name: qTitle,
+        description: 'Fiction: the Skynet scenario played out on real US data-centre sites. The positions are real. The attack is invented. Not a forecast.',
+        url: ctx.url(PATH),
+        isPartOf: { '@type': 'WebSite', name: brand.NAME, url: ctx.url('/') },
+        speakable: speakable(['h1.bp__h1', 'p.lede']),
+      },
+      breadcrumbs(ctx, [
+        { name: 'Home', path: '/' },
+        { name: 'Self-aware', path: PATH },
+      ]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map(([qAsk, a]) => ({
+          '@type': 'Question',
+          name: qAsk,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
+      },
+    ],
+    main,
+  });
 }

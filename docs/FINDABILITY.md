@@ -394,6 +394,7 @@ context.
 | 161 | `/bunker-kit.html` question-shaped title + WebPage speakable + visible FAQ matching FAQPage schema (50 free tools + supply crates; refuse Skynet-as-forecast / professional-advice / doom-probability claims; ItemList from build prerender kept); IndexNow + seo-daily; `knowsAbout` “what free tools belong in a bunker kit” | Google + Bing | **Done** (2026-10-13) |
 | 162 | `/si-watch.html` question-shaped title + Dataset speakable + visible FAQ matching FAQPage schema (Takeover Watch autonomy signals; refuse SIREN-as-takeover-forecast / AGI-date-as-SIREN-claim / doom-probability claims); IndexNow + seo-daily; `knowsAbout` “what AI autonomy signals is SIREN watching” | Google + Bing | **Done** (2026-10-13) |
 | 163 | `/bets.html` question-shaped title + Dataset speakable + visible FAQ matching FAQPage schema (Tally’s scored bets about the index; refuse index-as-prediction / world-AI-forecasts-as-SIREN-bets / doom-probability claims); IndexNow + seo-daily; `knowsAbout` “Does the SIREN index make forecasts” | Google + Bing | **Done** (2026-10-13) |
+| 164 | `/self-aware.html` question-shaped title + WebPage speakable + visible FAQ matching FAQPage schema (Skynet scenario fiction on real data-centre map; refuse Skynet-as-forecast / real-attack / doom-probability-from-fiction claims); IndexNow + seo-daily; `knowsAbout` “What if an AI wakes up at 2:14 a.m.” | Google + Bing | **Done** (2026-10-13) |
 
 ### 3.3 Refusals (search edition)
 

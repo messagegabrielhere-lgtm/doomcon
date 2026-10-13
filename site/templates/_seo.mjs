@@ -99,6 +99,8 @@ export function organization(ctx) {
       'what AI autonomy signals is SIREN watching',
       "Tally's bets",
       'Does the SIREN index make forecasts',
+      'Skynet scenario',
+      'What if an AI wakes up at 2:14 a.m.',
       'AI labs this index scored',
       'AI stories this index scored',
       'AI leaders on the record',
