@@ -345,13 +345,55 @@ export function renderIndex(ctx) {
   const archiveNote = archived.length
     ? ` <a href="${esc(ctx.href(archivePagePath(1)))}">${esc(String(archived.length))} older scored ${archived.length === 1 ? 'story' : 'stories'}</a> sit in the permanent archive outside this window.`
     : '';
+  // Head-term title: people search “scored AI stories” / every item this window.
+  const title = `Which scored AI stories are in the ${brand.NAME} live window?`;
+  const description = `All ${items.length} items in the current window, each with its score decomposition and corroboration set.`;
+  const faq = [
+    [`Which scored AI stories are in the ${brand.NAME} live window?`,
+      `${items.length} scored ${items.length === 1 ? 'item' : 'items'} in the rolling window. Each has a permanent page carrying how it scored and who else carried it — not an item doom score.`],
+    [`Does ${brand.NAME} publish an item doom score?`,
+      `No. ${brand.DISCLAIMER_SHORT} Each permanent story page carries a tempo score decomposition and corroboration set, not a probability of harm.`],
+  ];
+  const faqHtml = faq.map(([q, a]) => `
+  <h3>${esc(q)}</h3>
+  <p>${esc(a)}</p>`).join('');
   return page({
     ctx,
     path: '/item/index.html',
-    title: `Every scored item — ${brand.PUBLICATION}`,
-    description: `All ${items.length} items in the current window, each with its score decomposition and corroboration set.`,
+    title,
+    description,
+    jsonld: [{
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      name: title,
+      url: ctx.url('/item/'),
+      description,
+      speakable: speakable(['h1', 'p.lede']),
+      mainEntity: {
+        '@type': 'ItemList',
+        numberOfItems: items.length,
+        itemListElement: items.slice(0, 100).map((it, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          name: it.title,
+          url: ctx.url(`/item/${slugFor(it)}.html`),
+        })),
+      },
+    }, breadcrumbs(ctx, [
+      { name: 'Newsroom', path: '/news.html' },
+      { name: 'Live window', path: '/item/' },
+    ]), {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faq.map(([q, a]) => ({
+        '@type': 'Question',
+        name: q,
+        acceptedAnswer: { '@type': 'Answer', text: a },
+      })),
+    }],
     main: `${styleTag()}
-<h1>Every scored item</h1>
+<article class="it">
+<h1>Which scored AI stories are in the ${esc(brand.NAME)} live window?</h1>
 <p class="lede">${esc(items.length)} items in the rolling window. Each has a permanent page
    carrying how it scored and who else carried it.${archiveNote}</p>
 ${pages ? `<p class="it__n">Archive hubs: ${Array.from({ length: Math.min(pages, 8) }, (_, i) => {
@@ -361,7 +403,10 @@ ${pages ? `<p class="it__n">Archive hubs: ${Array.from({ length: Math.min(pages,
 <ol class="it__all">${items.map((i) => `<li>
   <a href="${esc(ctx.href(`/item/${slugFor(i)}.html`))}">${esc(i.title)}</a>
   ${scoreCell(i, 'it__rm num')}
-</li>`).join('')}</ol>`,
+</li>`).join('')}</ol>
+<h2 id="faq">Questions people actually ask</h2>
+${faqHtml}
+</article>`,
   });
 }
 
@@ -376,10 +421,20 @@ export function renderArchivePage(ctx, pageNum = 1) {
   const start = (n - 1) * ARCHIVE_PAGE_SIZE;
   const slice = all.slice(start, start + ARCHIVE_PAGE_SIZE);
   const path = archivePagePath(n);
+  // Head-term title: people search “AI story archive” / older scored stories.
   const title = n === 1
-    ? `Scored story archive — ${brand.PUBLICATION}`
-    : `Scored story archive (${n}/${pages}) — ${brand.PUBLICATION}`;
+    ? `Which older AI stories has ${brand.NAME} kept in the archive?`
+    : `Which older AI stories has ${brand.NAME} kept in the archive? (page ${n}/${pages})`;
   const description = `Page ${n} of ${pages || 1}: older scored AI stories kept after they left the live ${brand.NAME} newsroom window. Tempo scores, not a forecast.`;
+  const faq = [
+    [`Which older AI stories has ${brand.NAME} kept in the archive?`,
+      `${all.length} older scored ${all.length === 1 ? 'story' : 'stories'} sit outside the live window (page ${n} of ${pages || 1}). Each page still carries the score decomposition from when it was measured — not an archive doom score.`],
+    [`Does ${brand.NAME} publish an archive doom score?`,
+      `No. ${brand.DISCLAIMER_SHORT} The archive keeps scored stories after they leave the live window — tempo scores, not a forecast and not a probability of harm.`],
+  ];
+  const faqHtml = faq.map(([q, a]) => `
+  <h3>${esc(q)}</h3>
+  <p>${esc(a)}</p>`).join('');
   const prev = n > 1 ? `<a href="${esc(ctx.href(archivePagePath(n - 1)))}">← newer</a>` : '';
   const next = n < pages ? `<a href="${esc(ctx.href(archivePagePath(n + 1)))}">older →</a>` : '';
   const pager = (prev || next)
@@ -397,6 +452,7 @@ export function renderArchivePage(ctx, pageNum = 1) {
       name: title,
       url: ctx.url(path),
       description,
+      speakable: speakable(['h1.it__h', 'p.lede']),
       isPartOf: { '@type': 'WebSite', name: brand.PUBLICATION, url: ctx.url('/') },
       mainEntity: {
         '@type': 'ItemList',
@@ -410,13 +466,21 @@ export function renderArchivePage(ctx, pageNum = 1) {
       },
     }, breadcrumbs(ctx, [
       { name: 'Newsroom', path: '/news.html' },
-      { name: 'Every scored item', path: '/item/' },
+      { name: 'Live window', path: '/item/' },
       { name: n === 1 ? 'Archive' : `Archive ${n}`, path },
-    ])],
+    ]), {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faq.map(([q, a]) => ({
+        '@type': 'Question',
+        name: q,
+        acceptedAnswer: { '@type': 'Answer', text: a },
+      })),
+    }],
     main: `${styleTag()}
 <article class="it">
   <p class="it__k"><a href="${esc(ctx.href('/news.html'))}">Newsroom</a> · <a href="${esc(ctx.href('/item/'))}">Live window</a></p>
-  <h1 class="it__h">Scored story archive</h1>
+  <h1 class="it__h">Which older AI stories has ${esc(brand.NAME)} kept in the archive?</h1>
   <p class="lede">${esc(String(all.length))} older scored stories kept after they left the live window.
      Each page still carries the score decomposition from when it was measured. This is not a
      forecast and not a probability of harm.</p>
@@ -426,6 +490,8 @@ export function renderArchivePage(ctx, pageNum = 1) {
   ${scoreCell(i, 'it__rm num')}
 </li>`).join('')}</ol>
   ${pager}
+  <h2 id="faq">Questions people actually ask</h2>
+  ${faqHtml}
 </article>`,
   });
 }

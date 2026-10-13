@@ -364,6 +364,7 @@ context.
 | 131 | `/leaders.html` question-shaped title + CollectionPage speakable + visible FAQ matching FAQPage schema; `knowsAbout` “AI leaders on the record” | Google | **Done** (2026-10-13) |
 | 132 | `/race.html` question-shaped title + Dataset speakable + visible FAQ matching FAQPage schema; `knowsAbout` “AI race” / “who is winning the AI race” | Google | **Done** (2026-10-13) |
 | 133 | `/tags/ipo` needle expands (Moonshot / Firmus / Nvidia-backed AI listing forms) so the hub clears TAG_INDEX_MIN; IndexNow + `knowsAbout` “AI IPOs this index scored” | Google + Bing | **Done** (2026-10-13) |
+| 134 | `/item/` live-window index + `/item/archive*` hubs question-shaped titles + CollectionPage speakable + visible FAQ matching FAQPage schema; `knowsAbout` “scored AI stories this index kept” | Google | **Done** (2026-10-13) |
 
 ### 3.3 Refusals (search edition)
 
