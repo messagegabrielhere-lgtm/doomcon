@@ -36,6 +36,7 @@
 // no script to run one. The only transition is the hover/focus affordance on a
 // row, and it is disabled under prefers-reduced-motion.
 
+import { highlightHtml as nationsHighlight } from './nationsPage.mjs';
 import { esc, utc, utcDay, num } from './_html.mjs';
 import { page } from './layout.mjs';
 import { avatarSprite, personIdFor, PEOPLE, faceHref } from './_avatars.mjs';
@@ -1167,6 +1168,7 @@ export function render(ctx) {
 ${avatarSprite()}
 <section class="rintro">
   <h1 class="rintro__h1">The AI race</h1>
+  ${nationsHighlight(ctx, ctx.nations)}
   <p class="lede">Who is winning, and how sure is the money? ${esc(race.players.length)} frontier labs
      and the people running them, ranked by a live prediction market and annotated with what each one
      actually shipped. Every number links to the thing it came from.</p>

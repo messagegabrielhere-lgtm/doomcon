@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "generated_at": "2026-10-13T00:33:02.109Z",
+ "generated_at": "2026-10-13T14:50:55.704Z",
  "services": [
   {
    "id": "openai",
@@ -9,12 +9,27 @@
    "page": "https://status.openai.com",
    "api": "https://status.openai.com/api/v2/summary.json",
    "browser": true,
-   "indicator": "none",
-   "description": "All Systems Operational",
-   "updated_at": "2026-09-29T18:29:41Z",
-   "degraded": [],
+   "indicator": "minor",
+   "description": "Partial System Degradation",
+   "updated_at": "2026-10-13T09:30:00Z",
+   "degraded": [
+    {
+     "name": "ChatGPT Work",
+     "status": "degraded_performance"
+    }
+   ],
    "components": 25,
-   "incidents": [],
+   "incidents": [
+    {
+     "name": "Degraded performance in GPT-6.1 Sol Codex and Work mode",
+     "impact": "minor",
+     "status": "monitoring",
+     "started_at": "2026-10-13T08:10:00Z",
+     "updated_at": "2026-10-13T09:30:00Z",
+     "url": null,
+     "latest": "We have applied the mitigation and are monitoring the recovery."
+    }
+   ],
    "maintenance": 0,
    "error": null
   },
@@ -27,7 +42,7 @@
    "browser": true,
    "indicator": "minor",
    "description": "Partially Degraded Service",
-   "updated_at": "2026-10-13T00:05:20.105Z",
+   "updated_at": "2026-10-13T13:55:30.131Z",
    "degraded": [
     {
      "name": "Claude Console (platform.claude.com)",
@@ -58,7 +73,7 @@
    "browser": true,
    "indicator": "none",
    "description": "All Systems Operational",
-   "updated_at": "2026-10-13T00:04:54.412Z",
+   "updated_at": "2026-10-13T13:55:02.314Z",
    "degraded": [],
    "components": 12,
    "incidents": [],
@@ -72,51 +87,12 @@
    "page": "https://status.cursor.com",
    "api": "https://status.cursor.com/api/v2/summary.json",
    "browser": true,
-   "indicator": "major",
-   "description": "Partial System Outage",
-   "updated_at": "2026-10-13T00:28:16.535Z",
-   "degraded": [
-    {
-     "name": "Automations",
-     "status": "major_outage"
-    },
-    {
-     "name": "Review Agents",
-     "status": "major_outage"
-    },
-    {
-     "name": "CLI",
-     "status": "major_outage"
-    },
-    {
-     "name": "Cloud Agents",
-     "status": "major_outage"
-    },
-    {
-     "name": "IDE",
-     "status": "major_outage"
-    },
-    {
-     "name": "Origin",
-     "status": "major_outage"
-    },
-    {
-     "name": "Grok Bot",
-     "status": "major_outage"
-    }
-   ],
+   "indicator": "none",
+   "description": "All Systems Operational",
+   "updated_at": "2026-10-13T13:55:35.241Z",
+   "degraded": [],
    "components": 8,
-   "incidents": [
-    {
-     "name": "Investigating service degradation — Grok Bot, IDE, and Cloud Agents",
-     "impact": "critical",
-     "status": "investigating",
-     "started_at": "2026-10-13T00:22:00.000Z",
-     "updated_at": "2026-10-13T00:28:16.532Z",
-     "url": "https://stspg.io/wb9c5pzxfnz6",
-     "latest": "We are investigating a widespread issue affecting Cursor. Users may see errors or failed requests across the IDE, Cloud Agents, Automations, Grok Bot, and Origin. Our team is actively working to restore service."
-    }
-   ],
+   "incidents": [],
    "maintenance": 0,
    "error": null
   },
@@ -193,7 +169,7 @@
    "browser": true,
    "indicator": "none",
    "description": "All Systems Operational",
-   "updated_at": "2026-10-13T00:05:04.595Z",
+   "updated_at": "2026-10-13T13:55:11.431Z",
    "degraded": [],
    "components": 59,
    "incidents": [],

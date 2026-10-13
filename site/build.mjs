@@ -48,6 +48,8 @@ import * as threatsPage from './templates/threatsPage.mjs';
 import * as powerPage from './templates/powerPage.mjs';
 import * as gamesPage from './templates/gamesPage.mjs';
 import * as labsPage from './templates/labsPage.mjs';
+import * as nationsPage from './templates/nationsPage.mjs';
+import { nationsRace } from './nations.mjs';
 import * as chartsPage from './templates/chartsPage.mjs';
 import { SERVICES as AI_SERVICES } from '../collector/ai-status.mjs';
 import * as catalogPages from './templates/catalogPages.mjs';
@@ -1371,6 +1373,13 @@ async function main() {
   }
 
   const written = [];
+  // THE NATIONS RACE (site/nations.mjs): computed before the homepage, which
+  // carries its highlight card, as does the race page.
+  {
+    let pwN = null;
+    try { pwN = JSON.parse(await readFile(path.join(args.data, 'power.json'), 'utf8')); } catch { pwN = null; }
+    try { ctx.nations = nationsRace({ race: ctx.race, power: pwN, world: ctx.world }); } catch { ctx.nations = null; }
+  }
   // The homepage is the PizzINT-style front page (templates/homeV2.mjs). It
   // borrows the classic page's <head> so the title, card, canonical and
   // structured data stay exactly as they were. The classic page still builds,
@@ -1712,6 +1721,8 @@ async function main() {
     written.push(await write(args.out, 'power.html', powerPage.render(ctx, pw)));
     written.push(await write(args.out, 'games.html', gamesPage.render(ctx)));
     written.push(await write(args.out, 'labs.html', labsPage.render(ctx)));
+    written.push(await write(args.out, 'nations.html', nationsPage.render(ctx, ctx.nations)));
+    if (ctx.nations) written.push(await write(args.out, 'api/nations.json', JSON.stringify({ schema: 1, generated_at: new Date().toISOString(), ...ctx.nations }, null, 1) + '\n'));
     written.push(await write(args.out, 'api/labs.json', labsPage.labsJson()));
     // This week in charts: live odds + SIREN trend + power race.
     let chHist = [], chRace = null;

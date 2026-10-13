@@ -161,6 +161,14 @@ export const TILE_ICONS = {
   beaker: [{ a: '#CBD5E1', c: '#4ADE80', d: '#DCFCE7' }, [
     '................', '..aaaaaaaaaaa...', '..a.........a...', '...a.......a....', '...a.......a....', '...a..d....a....', '...a.......a....', '...a...d.d.a....',
     '...acccccccaa...', '...acccdcccca...', '...accccccdca...', '...acdccccccaa..', '...acccccdcca...', '...accccccccc...', '....aaaaaaaa....', '................']],
+  // USA vs China: two flags face off.
+  flagclash: [{ a: '#3B82F6', b: '#FFFFFF', c: '#EF4444', d: '#FACC15', e: '#94A3B8' }, [
+    '................', '.eaaaaaa.eccccc.', '.eabbbba.ecdddc.', '.eaaaaaa.eccccc.', '.eabbbba.ecdddc.', '.eaaaaaa.eccccc.', '.e.......e......', '.e.......e......',
+    '.e.......e......', '.e.......e......', '.e.......e......', '.e.......e......', '.e.......e......', '.e.......e......', 'eee.....eee.....', '................']],
+  // USA vs China (What’s New): a tug of war.
+  tugofwar: [{ a: '#60A5FA', c: '#F87171', f: '#D6A35C', d: '#FACC15' }, [
+    '................', '................', '................', '.aa..........cc.', 'aaaa........cccc', 'aaaa........cccc', '.aa..........cc.', '.aaa.ffffff.ccc.',
+    'aaaaffffffffcccc', '.aa....d.....cc.', '.aa....d.....cc.', '.a.a...d....c.c.', '.a..a..d...c..c.', 'a....a.d..c....c', '................', '................']],
 };
 
 export function tileSvg(name, bg = '#0B1220') {
