@@ -222,7 +222,7 @@ export function roomGroups(ctx) {
       ['/feedback.html', 'px:chat', 'Feedback', null, 'How do I report a problem or send an idea to SIREN?'],
       ['/alerts.html', 'px:bell', 'Alerts', null, 'How do I get alerts when SIREN moves?'],
       ['/export.html', 'px:code', 'Data & Embed', null, 'How do I export and embed SIREN data?'],
-      ['/bias.html', 'px:scalebias', 'Known Biases', null, 'Where SIREN’s sources skew, said plainly.'],
+      ['/bias.html', 'px:scalebias', 'Known Biases', null, 'What can SIREN not see?'],
       ['/reference-plan.html', 'px:ruler', 'Baseline Plan', null, 'How the frozen reference gets updated, versioned.'],
     ]],
   ];

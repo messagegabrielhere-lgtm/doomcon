@@ -419,6 +419,7 @@ context.
 | 186 | `/feedback.html` question-shaped title + WebPage speakable + visible FAQ matching FAQPage schema (GitHub public issues; refuse private intake / doom-probability / stuffing); IndexNow + seo-daily; `knowsAbout` “How do I report a problem or send an idea to SIREN” | Google + Bing | **Done** (2026-10-13) |
 | 187 | `/alerts.html` question-shaped title + WebPage speakable + visible FAQ matching FAQPage schema (RSS / email recipes / in-tab notify; refuse private email intake / alerts-as-index-input / doom-probability); IndexNow + seo-daily; `knowsAbout` “How do I get alerts when SIREN moves” | Google + Bing | **Done** (2026-10-13) |
 | 188 | `/export.html` question-shaped title + WebPage speakable + visible FAQ matching FAQPage schema (CSV/JSON/widget/badge/API; refuse paid-key / export-as-index-input / doom-probability); IndexNow + seo-daily; `knowsAbout` “How do I export and embed SIREN data” | Google + Bing | **Done** (2026-10-13) |
+| 189 | `/bias.html` question-shaped title + WebPage speakable + visible FAQ matching FAQPage schema (English/US input blind spots; refuse doom-probability / stuffing / bias-as-excuse-to-hide-method); IndexNow + seo-daily; `knowsAbout` “What can SIREN not see” | Google + Bing | **Done** (2026-10-13) |
 
 ### 3.3 Refusals (search edition)
 
