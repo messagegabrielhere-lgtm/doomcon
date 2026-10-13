@@ -155,6 +155,8 @@ export function organization(ctx) {
       'How does the SIREN baseline get updated',
       'SIREN changelog',
       'What moved the SIREN score this hour',
+      'SIREN Labs',
+      'What is SIREN Labs measuring this week',
       'AI labs this index scored',
       'AI stories this index scored',
       'AI leaders on the record',
