@@ -187,6 +187,37 @@ describe('model pages', () => {
     assert.ok(sitemapEntries(rich).some((e) => e.loc === '/model/maia.html'));
   });
 
+  it('indexes Nano Banana from multi-word title forms (not bare Banana)', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('nb1', 'Google releases Nano Banana 2.1 image model', []),
+          story('nb2', 'Create stickers with ChatGPT and Nano Banana 2', []),
+          story('nb3', 'Playground powered by Gemini, Nano Banana, and Lyria', []),
+        ],
+      },
+    };
+    assert.ok(indexableModels(rich).some((m) => m.name === 'Nano Banana'));
+    const thin = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('bad1', 'A banana republic of AI hype', []),
+          story('bad2', 'Yellow fruit metaphors in model names', []),
+          story('bad3', 'Towerglow orchestrator ships', []),
+        ],
+      },
+    };
+    assert.ok(!indexableModels(thin).some((m) => m.name === 'Nano Banana'));
+    const html = renderModel(rich, 'Nano Banana');
+    assert.match(html, /Nano Banana: AI stories this index scored|Nano Banana/);
+    assert.doesNotMatch(html, /doom score/i);
+    assert.ok(sitemapEntries(rich).some((e) => e.loc === '/model/nano-banana.html'));
+  });
+
   it('indexes Codex from OpenAI Codex / Codex CLI forms (not bare Codex)', () => {
     const rich = {
       ...ctx,

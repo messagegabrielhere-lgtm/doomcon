@@ -134,6 +134,8 @@ const ENTITY_DEFS = [
   // OpenAI Codex coding agent — avoid bare "Codex" (too many false friends).
   // Safe multi-word forms clear MODEL_INDEX_MIN for /model/codex.
   { name: 'Codex', kind: 'model', forms: ['OpenAI Codex', 'Codex CLI', 'Codex Hackathon', 'ChatGPT and Codex'] },
+  // Google image-gen family — require “Nano Banana” (no bare “Banana”).
+  { name: 'Nano Banana', kind: 'model', forms: ['Nano Banana 2.1', 'Nano Banana 2', 'Nano Banana'] },
 ];
 
 const COMPILED = ENTITY_DEFS.map((d) => ({ name: d.name, kind: d.kind, re: surfaceRegex(d.forms) }));

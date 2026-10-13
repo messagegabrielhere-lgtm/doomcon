@@ -201,6 +201,25 @@ test('render keywords include Salesforce and World Labs surfaces', () => {
   assert.match(xml, /<news:keywords>[^<]*World Labs/);
 });
 
+test('render keywords include Nano Banana model surface', () => {
+  const xml = render({
+    news: {
+      items: [{
+        id: 'a9',
+        title: 'Google releases Nano Banana 2.1 image model',
+        summary: 'Nano Banana improves across the board at lower price.',
+        published_at: new Date().toISOString(),
+        source: 'hn',
+        pillar: 'capability',
+        kind: 'press',
+        entities: [],
+      }],
+    },
+    url: (p) => `https://example.test${p}`,
+  });
+  assert.match(xml, /<news:keywords>[^<]*Nano Banana/);
+});
+
 test('keywordsFor keeps lab surfaces ahead of topic-tag flood under the 12-cap', () => {
   const kw = keywordsFor({
     title: 'Decart agents ship computer use, prompt injection defenses, and multimodal reasoning',

@@ -33,6 +33,7 @@ const MODEL_LAB = {
   'Muse Wonder': 'meta',
   Maia: 'microsoft',
   Codex: 'openai',
+  'Nano Banana': 'google-deepmind',
 };
 
 const MODELS = publishedEntities().filter((e) => e.kind === 'model');
