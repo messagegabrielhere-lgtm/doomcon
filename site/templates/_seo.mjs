@@ -81,6 +81,8 @@ export function organization(ctx) {
       'is the Waffle House open',
       'AI threat board',
       'what could take the machines offline tonight',
+      'ready for superintelligence',
+      'Ready for SI personal plan',
       'AI labs this index scored',
       'AI stories this index scored',
       'AI leaders on the record',

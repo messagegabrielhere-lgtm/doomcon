@@ -200,12 +200,30 @@ function siGuide() {
 }
 
 export function siReady(ctx) {
+  const PATH = '/si-ready.html';
+  const qTitle = 'Ready for superintelligence?';
+  // FAQ answers restate hero / note / six-areas copy only.
+  // Refuse: SI arrival dates, doom-probability titles, financial advice claims.
+  const faq = [
+    [qTitle,
+      'Nobody knows when, or if, AI becomes smarter than people at most things. You can still get ready for a world that keeps getting more automated, whichever way it goes. Answer twelve questions and get a plan for your weakest areas first. Nothing leaves your browser.'],
+    ['Does this page predict when superintelligence arrives?',
+      `${brand.NAME} counts AI activity; it does not predict superintelligence. General information, not financial, legal, career or medical advice.`],
+    ['What does the 3-minute check cover?',
+      'Six areas: work and skills, money and resilience, information and deepfakes, privacy and security, health, people and community, and civic voice. Answer twelve questions and get a plan for your weakest areas first.'],
+    ['Does anything from the quiz leave my browser?',
+      'Nothing leaves your browser. Answer twelve questions and get a plan for your weakest areas first.'],
+  ];
+  const faqHtml = faq.map(([qAsk, a]) => `
+  <h3>${esc(qAsk)}</h3>
+  <p>${esc(a)}</p>`).join('');
+
   const main = `${CSS}
 <section class="fx">
   <p class="eyebrow">PREPARE FOR SUPERINTELLIGENCE · A PERSONAL PLAN IN 3 MINUTES</p>
-  <h1 class="bp__h1">Ready for superintelligence?</h1>
+  <h1 class="bp__h1">${esc(qTitle)}</h1>
   <p class="lede">Nobody knows when, or if, AI becomes smarter than people at most things. You can still get ready for a world that keeps getting more automated, whichever way it goes. Answer twelve questions and get a plan for your weakest areas first. Nothing leaves your browser.</p>
-  ${shareBtn(ctx, 'Are you ready for superintelligence? Take the 3-minute check:', '/si-ready.html')}
+  ${shareBtn(ctx, 'Are you ready for superintelligence? Take the 3-minute check:', PATH)}
   <h2>The six areas</h2>
   <div class="fx-grid">${Object.values(SI_AREAS).map((a) => `<div class="fx-card"><h3>${esc(a.name)}</h3><p>${esc(a.moves[0])}</p></div>`).join('')}</div>
   <h2>Your check</h2>
@@ -218,9 +236,46 @@ export function siReady(ctx) {
     <a class="fx-card" href="${esc(ctx.href('/breakthroughs.html'))}"><h3>Breakthroughs →</h3><p>The good news, because there is a lot of it.</p></a>
   </div>
   <p class="fx-note">General information, not financial, legal, career or medical advice. ${esc(brand.NAME)} counts AI activity; it does not predict superintelligence.</p>
+  <section class="fx-faq" aria-labelledby="faq">
+    <h2 id="faq">Questions people actually ask</h2>
+    ${faqHtml}
+    <p class="fx-faq-key">Search-shaped sibling:
+      <a href="${esc(ctx.href('/ai-proof-job.html'))}">AI-proof your job</a>
+      · <a href="${esc(ctx.href('/breakthroughs.html'))}">What AI breakthroughs has ${esc(brand.NAME)} tracked?</a>.</p>
+  </section>
 </section>`;
-  return page({ ctx, path: '/si-ready.html', title: `Prepare for superintelligence: a 3-minute personal plan · ${brand.NAME}`,
-    description: 'How to prepare for superintelligence and an AI-driven world: a free 3-minute check across work, money, deepfakes, security, community and civic voice, with a printable plan.', main });
+  return page({
+    ctx,
+    path: PATH,
+    title: `${qTitle} · 3-minute personal plan · ${brand.NAME}`,
+    ogTitle: `${brand.NAME}: ${qTitle}`,
+    description: `${qTitle} A free 3-minute check across work, money, deepfakes, security, community and civic voice, with a printable plan. Nothing leaves your browser. ${brand.NAME} does not predict superintelligence.`,
+    jsonld: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        name: qTitle,
+        description: 'A free 3-minute personal check for an AI-driven world: work, money, deepfakes, security, community and civic voice. Nothing leaves the browser; not a superintelligence prediction.',
+        url: ctx.url(PATH),
+        isPartOf: { '@type': 'WebSite', name: brand.NAME, url: ctx.url('/') },
+        speakable: speakable(['h1.bp__h1', 'p.lede']),
+      },
+      breadcrumbs(ctx, [
+        { name: 'Home', path: '/' },
+        { name: 'Ready for SI?', path: PATH },
+      ]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map(([qAsk, a]) => ({
+          '@type': 'Question',
+          name: qAsk,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
+      },
+    ],
+    main,
+  });
 }
 
 // ---------------------------------------------------------------------------

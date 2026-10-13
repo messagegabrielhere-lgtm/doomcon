@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
-import { breakthroughs, pickBreakthroughs } from './featurePages.mjs';
+import { breakthroughs, pickBreakthroughs, siReady } from './featurePages.mjs';
 
 const ctx = {
   url: (p) => `https://siren.watch${p === '/' ? '/' : p}`,
@@ -62,5 +62,27 @@ describe('breakthroughs page', () => {
     const html = breakthroughs(ctx, []);
     assert.match(html, /What AI breakthroughs has SIREN tracked\?/);
     assert.match(html, /No breakthrough stories in the current window/);
+  });
+});
+
+describe('si-ready page', () => {
+  it('ships a question-shaped title, speakable WebPage, and matching FAQPage', () => {
+    const html = siReady(ctx);
+    assert.match(html, /<title>Ready for superintelligence\?/);
+    assert.match(html, /<h1 class="bp__h1">Ready for superintelligence\?<\/h1>/);
+    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /Does this page predict when superintelligence arrives\?/);
+    assert.match(html, /What does the 3-minute check cover\?/);
+    assert.match(html, /Does anything from the quiz leave my browser\?/);
+    assert.match(html, /SpeakableSpecification/);
+    assert.match(html, /FAQPage/);
+    assert.match(html, /"@type":\s*"WebPage"/);
+    assert.match(html, /BreadcrumbList/);
+    assert.match(html, /\/ai-proof-job\.html/);
+    assert.match(html, /\/breakthroughs\.html/);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
+    assert.doesNotMatch(html, /superintelligence arrives in \d/i);
+    assert.doesNotMatch(html, /this is financial advice/i);
+    assert.doesNotMatch(html, /noindex/);
   });
 });

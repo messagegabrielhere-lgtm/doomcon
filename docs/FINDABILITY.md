@@ -385,6 +385,7 @@ context.
 | 152 | `/instruments.html` question-shaped title + WebPage speakable + visible FAQ matching FAQPage schema (instrument-room behind the reading; refuse predict/doom-probability claims); IndexNow + seo-daily; `knowsAbout` “what instruments sit behind the SIREN reading” | Google + Bing | **Done** (2026-10-13) |
 | 153 | `/waffle.html` question-shaped title + Dataset speakable + visible FAQ matching FAQPage schema (Waffle House Index conquest; refuse official FEMA / outage-report claims); IndexNow + seo-daily; `knowsAbout` “is the Waffle House open” | Google + Bing | **Done** (2026-10-13) |
 | 154 | `/threats.html` question-shaped title + Dataset speakable + visible FAQ matching FAQPage schema (CISA/botnet/space-weather board; refuse offline-tonight forecast / dark-feed-as-clear claims); IndexNow + seo-daily; `knowsAbout` “what could take the machines offline tonight” | Google + Bing | **Done** (2026-10-13) |
+| 155 | `/si-ready.html` question-shaped title + WebPage speakable + visible FAQ matching FAQPage schema (Ready for SI personal plan; refuse SI-date / doom-probability / financial-advice claims); IndexNow + seo-daily; `knowsAbout` “ready for superintelligence” | Google + Bing | **Done** (2026-10-13) |
 
 ### 3.3 Refusals (search edition)
 
