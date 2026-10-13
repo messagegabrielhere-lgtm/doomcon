@@ -351,6 +351,7 @@ context.
 | 118 | `/tags/*` + `/tags.html` question-shaped titles + CollectionPage speakable + visible FAQ matching schema (175 gated topic hubs); `knowsAbout` “AI tags this index scored” | Google | **Done** (2026-10-13) |
 | 119 | `/people/` + `/people.html` question-shaped titles + CollectionPage speakable + visible FAQ matching schema; `knowsAbout` “AI people this index scored” | Google | **Done** (2026-10-13) |
 | 120 | `/kind/*` + `/kinds.html` question-shaped titles + CollectionPage speakable + visible FAQ matching schema; `knowsAbout` “AI story kinds this index scored” | Google | **Done** (2026-10-13) |
+| 121 | `/outlet/*` + `/outlets.html` question-shaped titles + CollectionPage speakable + visible FAQ matching schema; `knowsAbout` “AI outlets this index scored” | Google | **Done** (2026-10-13) |
 
 ### 3.3 Refusals (search edition)
 

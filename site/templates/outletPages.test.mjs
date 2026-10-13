@@ -68,9 +68,12 @@ describe('outlet pages', () => {
 
   it('ships /outlets.html over the same gated publisher set', () => {
     const html = renderOutlets(ctx);
-    assert.match(html, /AI outlets this index covers/);
+    assert.match(html, /Which AI outlets has SIREN scored stories from\?/);
     assert.match(html, /\/outlet\/arxiv-org\.html/);
     assert.match(html, /does not publish a publisher/);
+    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /"@type"\s*:\s*"FAQPage"/);
+    assert.match(html, /speakable/);
     assert.match(html, /\/tags\.html/);
     assert.match(renderIndex(ctx), /\/outlets\.html/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
@@ -78,12 +81,15 @@ describe('outlet pages', () => {
 
   it('lists stories with ItemList schema and refuses doom claims', () => {
     const html = renderOutlet(ctx, 'arxiv.org');
-    assert.match(html, /<title>arxiv\.org: AI stories this index scored/);
+    assert.match(html, /<title>What has SIREN scored from arxiv\.org\?/);
     assert.match(html, /CollectionPage/);
     assert.match(html, /ItemList/);
+    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /"@type"\s*:\s*"FAQPage"/);
+    assert.match(html, /speakable/);
     assert.match(html, /not a probability of harm/);
     assert.doesNotMatch(html, /noindex/);
-    assert.doesNotMatch(html, /doom score/i);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
   });
 
   it('renders the index and links from story pages', () => {

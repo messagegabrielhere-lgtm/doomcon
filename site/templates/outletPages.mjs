@@ -8,7 +8,7 @@
 
 import { esc, num, utc } from './_html.mjs';
 import { page } from './layout.mjs';
-import { breadcrumbs } from './_seo.mjs';
+import { breadcrumbs, speakable } from './_seo.mjs';
 import { slugFor } from './itemPage.mjs';
 import * as brand from '../brand.mjs';
 
@@ -160,11 +160,21 @@ export function renderOutlet(ctx, domain) {
   const total = items.length + archivedAll.length;
   const indexable = total >= OUTLET_INDEX_MIN;
   const path = outletPath(domain);
-  const title = `${domain}: AI stories this index scored · ${brand.NAME}`;
+  // Head-term title: people search “{domain} AI stories” / publisher doom score.
+  const title = `What has ${brand.NAME} scored from ${domain}? AI stories, not a publisher score`;
   const description = clip(
     `${total} scored stories whose original URL is on ${domain} on ${brand.NAME} (live window plus archive). The publisher wrote them. The score is tempo, not a forecast.`,
     160,
   );
+  const faq = [
+    [`What has ${brand.NAME} scored from ${domain}?`,
+      `${total} scored stories whose original URL is on ${domain} (${items.length} in the live window${archivedAll.length ? `, ${archivedAll.length} older in the archive` : ''}). The words belong to that publisher; the score measures activity tempo.`],
+    [`Does ${brand.NAME} publish a ${domain} doom score?`,
+      `No. ${brand.DISCLAIMER_SHORT} An outlet page lists scored stories from that host — not a ranking of how dangerous the publisher is.`],
+  ];
+  const faqHtml = faq.map(([q, a]) => `
+  <h3>${esc(q)}</h3>
+  <p>${esc(a)}</p>`).join('');
   const others = indexableOutlets(ctx)
     .filter((o) => o.domain !== domain)
     .slice(0, 12)
@@ -180,7 +190,7 @@ export function renderOutlet(ctx, domain) {
   const main = `${STYLE}
 <article class="od prose">
   <p class="od__k"><a href="${esc(ctx.href('/news.html'))}">Newsroom</a> · <a href="${esc(ctx.href('/outlet/'))}">Publishers</a> · <a href="${esc(ctx.href('/outlets.html'))}">Outlets hub</a></p>
-  <h1>${esc(domain)}</h1>
+  <h1>What has ${esc(brand.NAME)} scored from ${esc(domain)}?</h1>
   <p class="od__lede">Stories this index scored whose original link is on ${esc(domain)}. The words belong to that publisher. The score is computed here and measures activity tempo inside the window, not whether the story is good or bad, and not a probability of harm.</p>
   <div class="od__stat" role="group" aria-label="Publisher counts">
     <div><b class="num">${esc(String(total))}</b><span>Scored stories (live + archive)</span></div>
@@ -195,6 +205,8 @@ export function renderOutlet(ctx, domain) {
     ? `<p class="fresh__key">${esc(String(items.length - OUTLET_LIST_CAP))} more on the <a href="${esc(ctx.href('/news.html'))}">full newsroom</a>.</p>`
     : ''}
   ${olderBlock}
+  <h2 id="faq">Questions people actually ask</h2>
+  ${faqHtml}
   ${others ? `<h2>Other publishers</h2><nav class="od__nav" aria-label="Other publishers">${others}</nav>` : ''}
 </article>`;
 
@@ -211,6 +223,7 @@ export function renderOutlet(ctx, domain) {
       url: ctx.url(path),
       description,
       isPartOf: { '@type': 'WebSite', name: brand.PUBLICATION, url: ctx.url('/') },
+      speakable: speakable(['h1', '.od__lede']),
       mainEntity: {
         '@type': 'ItemList',
         numberOfItems: Math.min(items.length, OUTLET_LIST_CAP),
@@ -225,7 +238,15 @@ export function renderOutlet(ctx, domain) {
       { name: 'Newsroom', path: '/news.html' },
       { name: 'Publishers', path: '/outlet/' },
       { name: domain, path },
-    ])],
+    ]), {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faq.map(([q, a]) => ({
+        '@type': 'Question',
+        name: q,
+        acceptedAnswer: { '@type': 'Answer', text: a },
+      })),
+    }],
     main,
   });
 }
@@ -250,7 +271,7 @@ export function renderIndex(ctx) {
   ${outlets.length
     ? `<ol class="od__list">${rows}</ol>`
     : '<p>No publisher has cleared the gate in this build.</p>'}
-  <p class="fresh__key">Search-shaped directory: <a href="${esc(ctx.href('/outlets.html'))}">AI outlets this index covers</a>.</p>
+  <p class="fresh__key">Search-shaped directory: <a href="${esc(ctx.href('/outlets.html'))}">Which AI outlets has ${esc(brand.NAME)} scored stories from?</a>.</p>
 </article>`;
 
   return page({
@@ -291,11 +312,21 @@ export function renderIndex(ctx) {
 export function renderOutlets(ctx) {
   const outlets = indexableOutlets(ctx);
   const path = '/outlets.html';
-  const title = `AI outlets this index covers · ${brand.NAME}`;
+  // Head-term title: people search “AI outlets” / publisher directory.
+  const title = `Which AI outlets has ${brand.NAME} scored stories from?`;
   const description = clip(
     `${outlets.length} publisher domains with scored-story hubs on ${brand.NAME}. Each row links /outlet pages — host story counts only, not a publisher doom score.`,
     160,
   );
+  const faq = [
+    [`Which AI outlets has ${brand.NAME} scored stories from?`,
+      `${outlets.length} publisher domains clear the substance gate of at least ${OUTLET_INDEX_MIN} matching stories in the live window or archive. Each hub lists those stories — not a publisher doom score.`],
+    [`Does ${brand.NAME} publish a publisher doom score?`,
+      `No. ${brand.DISCLAIMER_SHORT} These pages count scored stories whose original URL is on that host. Feed adapters stay under /source/.`],
+  ];
+  const faqHtml = faq.map(([q, a]) => `
+  <h3>${esc(q)}</h3>
+  <p>${esc(a)}</p>`).join('');
   const rows = outlets.map((o) => `<li>
   <a href="${esc(ctx.href(outletPath(o.domain)))}">${esc(o.domain)}</a>
   <span class="od__meta">Publisher hub · <span class="num">${esc(String(o.count))}</span> scored${o.archived ? ` (${esc(String(o.live))} live)` : ''}</span>
@@ -303,12 +334,14 @@ export function renderOutlets(ctx) {
   const main = `${STYLE}
 <article class="od prose">
   <p class="od__k"><a href="${esc(ctx.href('/compare.html'))}">Compare</a> · <a href="${esc(ctx.href('/outlet/'))}">Publishers</a> · Outlets hub</p>
-  <h1>AI outlets this index covers</h1>
+  <h1>Which AI outlets has ${esc(brand.NAME)} scored stories from?</h1>
   <p class="od__lede">${esc(brand.NAME)} does not publish a publisher “doom score.” It publishes an activity index and scored stories. This page lists original-URL hosts that already clear the same substance gate as <a href="${esc(ctx.href('/outlet/'))}">/outlet/</a> — at least ${OUTLET_INDEX_MIN} matching stories in the live window or archive. Feed adapters stay under <a href="${esc(ctx.href('/source/'))}">/source/</a>.</p>
   <div class="od__stat" role="group" aria-label="Outlets hub totals">
     <div><b class="num">${esc(String(outlets.length))}</b><span>Publisher hubs</span></div>
   </div>
   ${outlets.length ? `<ol class="od__list">${rows}</ol>` : '<p>No outlet hub cleared the gate in this build.</p>'}
+  <h2 id="faq">Questions people actually ask</h2>
+  ${faqHtml}
   <p class="fresh__key"><a href="${esc(ctx.href('/outlet/'))}">Publisher directory →</a>
      · <a href="${esc(ctx.href('/sources.html'))}">AI news sources →</a>
      · <a href="${esc(ctx.href('/tags.html'))}">AI tags →</a>
@@ -327,6 +360,7 @@ export function renderOutlets(ctx) {
       name: title,
       url: ctx.url(path),
       description,
+      speakable: speakable(['h1', '.od__lede']),
       mainEntity: {
         '@type': 'ItemList',
         numberOfItems: outlets.length,
@@ -340,7 +374,15 @@ export function renderOutlets(ctx) {
     }, breadcrumbs(ctx, [
       { name: 'Compare', path: '/compare.html' },
       { name: 'Outlets', path },
-    ])],
+    ]), {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faq.map(([q, a]) => ({
+        '@type': 'Question',
+        name: q,
+        acceptedAnswer: { '@type': 'Answer', text: a },
+      })),
+    }],
     main,
   });
 }

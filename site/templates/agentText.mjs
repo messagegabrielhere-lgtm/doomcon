@@ -349,7 +349,7 @@ ${facetLinks(ctx, u)}
 - [Feed outlets](${u('/source/')}): scored stories grouped by the feed adapter that carried them
 - [AI news sources](${u('/sources.html')}): feed-adapter directory (same gated adapters; story counts only)
 - [Publishers](${u('/outlet/')}): scored stories grouped by the publisher host on the original URL (live window or archive)
-- [AI outlets](${u('/outlets.html')}): publisher directory (same gated hosts; story counts only)
+- [AI outlets](${u('/outlets.html')}): which AI outlets this index scored stories from (same gated hosts; story counts only)
 - [Model families](${u('/model/')}): scored stories grouped by the model the headline names
 - [AI models](${u('/models.html')}): DoomBench-shaped models directory (same gated families; no model doom score)
 - [Labs](${u('/lab/')}): race-board and entity lab hubs with story counts
