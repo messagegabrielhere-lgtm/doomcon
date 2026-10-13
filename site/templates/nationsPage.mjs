@@ -4,8 +4,12 @@
 // Data: site/nations.mjs over data/race.json, data/power.json, world.json.
 import { esc } from './_html.mjs';
 import { page } from './layout.mjs';
+import { breadcrumbs, speakable } from './_seo.mjs';
 import * as brand from '../brand.mjs';
 import { NATION } from '../nations.mjs';
+
+const PATH = '/nations.html';
+const qTitle = 'USA vs China: who is winning the race to superintelligence?';
 
 const CSS = `<style>
 .nr{max-width:1100px}.nr .eyebrow{font:700 12px/1 var(--mono);letter-spacing:.16em;color:#F87171;margin:0 0 10px}
@@ -24,6 +28,11 @@ const CSS = `<style>
 .nr-labs{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px;font-size:13.5px}.nr-labs div{color:var(--ink-dim)}.nr-labs b{display:block;color:#fff;margin-bottom:2px}
 .nr-note{font-size:12.5px;color:#FCD34D;margin:6px 0 0}
 .nr-x{appearance:none;border:1px solid #F87171;background:#1A0A0A;color:#FCA5A5;padding:10px 14px;font:700 13px var(--mono);cursor:pointer}
+.nr-faq{margin:var(--sec,2rem) 0 var(--s-5,1.25rem);max-width:62ch}
+.nr-faq h2{font:600 var(--t-lg,1.125rem)/1.2 var(--sans);margin:0 0 var(--s-3,.75rem);color:var(--ink)}
+.nr-faq h3{font:600 var(--t-base,1rem)/1.3 var(--sans);margin:var(--s-4,1rem) 0 var(--s-2,.5rem);color:var(--ink)}
+.nr-faq p{font:400 var(--t-base,1rem)/1.55 var(--sans);color:var(--ink-dim);margin:0 0 var(--s-2,.5rem)}
+.nr-faq-key{margin-top:var(--s-4,1rem)!important}
 @media (max-width:560px){.nr-sb .sc{font-size:44px}.nr-sb .fl{font-size:32px}.nr-labs{grid-template-columns:1fr}}
 </style>`;
 
@@ -48,14 +57,31 @@ function measureHtml(m) {
 
 export function render(ctx, nr) {
   nr = nr || { measures: [], score: { US: 0, CN: 0 } };
-  const share = esc(ctx.url ? ctx.url('/nations.html') : 'https://siren.watch/nations.html');
+  const share = esc(ctx.url ? ctx.url(PATH) : `https://siren.watch${PATH}`);
   const h = nr.head;
   const usOdds = h ? h.by.US || 0 : null, cnOdds = h ? h.by.CN || 0 : null;
   const scored = nr.measures.filter((m) => m.scored).length;
   const xTitle = h ? `USA vs China in AI: the markets give American labs ${(usOdds * 100).toFixed(0)}% and Chinese labs ${(cnOdds * 100).toFixed(1)}% odds of having the best model. Scoreboard: USA ${nr.score.US}, China ${nr.score.CN}.` : 'USA vs China: the race for the best AI, scored live.';
+
+  // FAQ answers restate hero / scoreboard / how-it-works / disclaimer copy only.
+  // Refuse: SIREN forecast of who wins SI, financial advice, doom-probability.
+  const faq = [
+    [qTitle,
+      'The betting markets price which company will have the best AI model. Group those companies by home country and you get the national race, updated every hour. Add the electricity each country can generate and you have the physical side too. Each measure gives one point to whichever of the two leads it.'],
+    ['Are the odds SIREN’s forecast of who wins?',
+      'Odds are market prices for which country\'s labs hold the best model, not forecasts by SIREN. Market prices are what traders pay, not SIREN\'s view, and can move fast. Not financial advice; prediction markets are restricted in some places.'],
+    ['How does the scoreboard award points?',
+      'Each measure gives one point to whichever of the two leads it. Odds by country add each market\'s live prices for individual companies by home country and scale so the live legs total 100%. Electricity is annual generation from Our World in Data. Data centres mapped in OpenStreetMap are shown but not scored when mapping is sparse.'],
+    ['How is this different from the lab race page?',
+      'Related: the lab race ranks companies on live prediction-market odds; this page groups those companies by home country and adds electricity and mapped data centres.'],
+  ];
+  const faqHtml = faq.map(([qAsk, a]) => `
+  <h3>${esc(qAsk)}</h3>
+  <p>${esc(a)}</p>`).join('');
+
   const main = `${CSS}<section class="nr">
   <p class="eyebrow">THE NATIONS RACE · LIVE</p>
-  <h1 class="bp__h1">USA vs China: who is winning the race to superintelligence?</h1>
+  <h1 class="bp__h1">${esc(qTitle)}</h1>
   <p class="lede">The betting markets price which company will have the best AI model. Group those companies by home country and you get the national race, updated every hour. Add the electricity each country can generate and you have the physical side too. Each measure gives one point to whichever of the two leads it.</p>
   <div class="nr-sb" role="img" aria-label="Scoreboard: USA ${nr.score.US}, China ${nr.score.CN}, out of ${scored} measures">
     <div class="side us"><span class="fl">🇺🇸</span><b>USA</b>${h ? `<span style="color:#93C5FD;font:700 13px var(--mono)">${(usOdds * 100).toFixed(0)}% ODDS</span>` : ''}</div>
@@ -75,18 +101,57 @@ export function render(ctx, nr) {
   </ul>
   <p>Related: <a href="${esc(ctx.href('/race.html'))}">the lab race</a> · <a href="${esc(ctx.href('/power.html'))}">the power race</a> · <a href="${esc(ctx.href('/world.html'))}">world data centres</a> · <a href="${esc(ctx.href('/charts.html'))}">charts</a></p>
   <p style="font-size:12.5px">Market prices are what traders pay, not SIREN's view, and can move fast. Not financial advice; prediction markets are restricted in some places. Company names belong to their owners. <a href="${esc(ctx.href('/api/nations.json'))}">JSON</a></p>
+  <section class="nr-faq" aria-labelledby="faq">
+    <h2 id="faq">Questions people actually ask</h2>
+    ${faqHtml}
+    <p class="nr-faq-key">Search-shaped sibling:
+      <a href="${esc(ctx.href('/race.html'))}">Who is winning the AI race?</a>
+      · <a href="${esc(ctx.href('/power.html'))}">Who makes the most electricity (China vs US)?</a>.</p>
+  </section>
 </section>`;
-  return page({ ctx, path: '/nations.html',
-    title: `USA vs China AI race: live scoreboard and odds · ${brand.NAME}`,
-    description: h ? `Live: American labs ${(usOdds * 100).toFixed(0)}% vs Chinese labs ${(cnOdds * 100).toFixed(1)}% odds of the best AI model, plus labs, electricity and data centres. Scoreboard USA ${nr.score.US}, China ${nr.score.CN}.` : 'The USA vs China race in AI, scored live from prediction markets, electricity and data centres.',
-    main });
+
+  return page({
+    ctx,
+    path: PATH,
+    title: `${qTitle} · ${brand.NAME}`,
+    ogTitle: `${brand.NAME}: ${qTitle}`,
+    description: h
+      ? `${qTitle} Live: American labs ${(usOdds * 100).toFixed(0)}% vs Chinese labs ${(cnOdds * 100).toFixed(1)}% market odds of the best AI model, plus labs, electricity and data centres. Scoreboard USA ${nr.score.US}, China ${nr.score.CN}. Odds are market prices, not SIREN forecasts.`
+      : `${qTitle} The USA vs China race in AI, scored live from prediction markets, electricity and data centres. Odds are market prices, not SIREN forecasts.`,
+    jsonld: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'Dataset',
+        name: qTitle,
+        description: 'USA vs China AI nations race: prediction-market odds by lab home country, frontier labs priced, electricity generation, and mapped data centres. Market prices are not SIREN forecasts.',
+        url: ctx.url(PATH),
+        creator: { '@type': 'Organization', name: brand.NAME, url: ctx.url('/') },
+        isAccessibleForFree: true,
+        speakable: speakable(['h1.bp__h1', 'p.lede']),
+      },
+      breadcrumbs(ctx, [
+        { name: 'Home', path: '/' },
+        { name: 'Nations race', path: PATH },
+      ]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map(([qAsk, a]) => ({
+          '@type': 'Question',
+          name: qAsk,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
+      },
+    ],
+    main,
+  });
 }
 
 /** A compact highlight card for the race page and the homepage. */
 export function highlightHtml(ctx, nr) {
   if (!nr || !nr.head) return '';
   const us = nr.head.by.US || 0, cn = nr.head.by.CN || 0, ot = Math.max(0, 1 - us - cn);
-  return `<a href="${esc(ctx.href('/nations.html'))}" class="nr-hl" style="display:block;margin:16px 0;padding:14px 16px;border:2px solid #F87171;border-radius:12px;background:linear-gradient(90deg,rgba(29,78,216,.25),rgba(11,15,22,.95) 40%,rgba(11,15,22,.95) 60%,rgba(185,28,28,.25));color:#E6EAF0;text-decoration:none">
+  return `<a href="${esc(ctx.href(PATH))}" class="nr-hl" style="display:block;margin:16px 0;padding:14px 16px;border:2px solid #F87171;border-radius:12px;background:linear-gradient(90deg,rgba(29,78,216,.25),rgba(11,15,22,.95) 40%,rgba(11,15,22,.95) 60%,rgba(185,28,28,.25));color:#E6EAF0;text-decoration:none">
   <span style="display:block;font:700 11px/1 var(--mono,monospace);letter-spacing:.16em;color:#FCA5A5;margin-bottom:8px">★ FEATURED · THE NATIONS RACE</span>
   <span style="display:flex;align-items:center;justify-content:space-between;gap:10px;font:800 20px/1.2 var(--sans,system-ui)"><span>🇺🇸 USA ${(us * 100).toFixed(0)}%</span><span style="font:800 26px var(--mono,monospace)">${nr.score.US}–${nr.score.CN}</span><span>${(cn * 100).toFixed(1)}% CHINA 🇨🇳</span></span>
   <span style="display:flex;height:10px;border-radius:5px;overflow:hidden;margin:10px 0 6px"><i style="flex:${Math.max(us, 0.03)};background:#3B82F6"></i><i style="flex:${Math.max(ot, 0.01)};background:#475569"></i><i style="flex:${Math.max(cn, 0.03)};background:#EF4444"></i></span>

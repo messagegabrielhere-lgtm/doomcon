@@ -162,6 +162,8 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('what could take the machines offline tonight'));
     assert.ok(org.knowsAbout.includes('ready for superintelligence'));
     assert.ok(org.knowsAbout.includes('Ready for SI personal plan'));
+    assert.ok(org.knowsAbout.includes('USA vs China AI race'));
+    assert.ok(org.knowsAbout.includes('USA vs China: who is winning the race to superintelligence'));
     assert.ok(org.knowsAbout.includes('AI labs this index scored'));
     assert.ok(org.knowsAbout.includes('AI stories this index scored'));
     assert.ok(org.knowsAbout.includes('AI leaders on the record'));

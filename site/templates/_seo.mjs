@@ -83,6 +83,8 @@ export function organization(ctx) {
       'what could take the machines offline tonight',
       'ready for superintelligence',
       'Ready for SI personal plan',
+      'USA vs China AI race',
+      'USA vs China: who is winning the race to superintelligence',
       'AI labs this index scored',
       'AI stories this index scored',
       'AI leaders on the record',
