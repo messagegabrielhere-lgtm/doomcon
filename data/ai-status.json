@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "generated_at": "2026-10-13T09:14:52.226Z",
+ "generated_at": "2026-10-13T09:39:17.745Z",
  "services": [
   {
    "id": "openai",
@@ -11,7 +11,7 @@
    "browser": true,
    "indicator": "minor",
    "description": "Partial System Degradation",
-   "updated_at": "2026-10-13T08:22:16Z",
+   "updated_at": "2026-10-13T09:30:00Z",
    "degraded": [
     {
      "name": "ChatGPT Work",
@@ -23,11 +23,11 @@
     {
      "name": "Degraded performance in GPT-6.1 Sol Codex and Work mode",
      "impact": "minor",
-     "status": "investigating",
+     "status": "monitoring",
      "started_at": "2026-10-13T08:10:00Z",
-     "updated_at": "2026-10-13T08:22:16Z",
+     "updated_at": "2026-10-13T09:30:00Z",
      "url": null,
-     "latest": "We are investigating the issue for the listed services."
+     "latest": "We have applied the mitigation and are monitoring the recovery."
     }
    ],
    "maintenance": 0,
@@ -151,12 +151,51 @@
    "page": "https://status.elevenlabs.io",
    "api": "https://status.elevenlabs.io/api/v2/summary.json",
    "browser": true,
-   "indicator": "none",
-   "description": "All Systems Operational",
-   "updated_at": "2026-07-09T17:19:56Z",
-   "degraded": [],
+   "indicator": "major",
+   "description": "Partial System Outage",
+   "updated_at": "2026-10-13T09:21:00Z",
+   "degraded": [
+    {
+     "name": "Conversations",
+     "status": "partial_outage"
+    },
+    {
+     "name": "Telephony",
+     "status": "partial_outage"
+    },
+    {
+     "name": "RAG",
+     "status": "partial_outage"
+    },
+    {
+     "name": "Quality",
+     "status": "partial_outage"
+    },
+    {
+     "name": "Other API endpoints",
+     "status": "partial_outage"
+    },
+    {
+     "name": "UI",
+     "status": "partial_outage"
+    },
+    {
+     "name": "Integrations",
+     "status": "partial_outage"
+    }
+   ],
    "components": 11,
-   "incidents": [],
+   "incidents": [
+    {
+     "name": "Multiple US endpoints experiencing timeouts and latency",
+     "impact": "major",
+     "status": "investigating",
+     "started_at": "2026-10-13T09:21:00Z",
+     "updated_at": "2026-10-13T09:31:01Z",
+     "url": null,
+     "latest": "We are investigating elevated latency and timeouts affecting multiple endpoints, including some Elevenagents endpoints. Some requests may be slow or fail. Our team is actively looking into the cause."
+    }
+   ],
    "maintenance": 0,
    "error": null
   },
