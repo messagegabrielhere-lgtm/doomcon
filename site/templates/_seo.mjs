@@ -185,6 +185,7 @@ export function organization(ctx) {
       'AI IPOs this index scored',
       'scored AI stories this index kept',
       'AI doom index alternatives',
+      'What are AI doom index alternatives',
       'DoomBench alternative',
       'Skynet Countdown alternative',
       'Takeoff Tracker alternative',

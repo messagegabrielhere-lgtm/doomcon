@@ -120,6 +120,7 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('What is the history of AI risk'));
     assert.ok(org.knowsAbout.includes('How does SIREN compare to DEFCON, the Doomsday Clock and p(doom)'));
     assert.ok(org.knowsAbout.includes('Which AI doom indexes can you compare'));
+    assert.ok(org.knowsAbout.includes('What are AI doom index alternatives'));
     assert.ok(org.knowsAbout.includes('Is there an AI doomsday clock'));
     assert.ok(org.knowsAbout.includes('AI explainers'));
     assert.ok(org.knowsAbout.includes('What are the AI explainers'));

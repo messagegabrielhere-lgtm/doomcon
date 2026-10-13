@@ -59,6 +59,8 @@ describe('compare / alternatives conquest pages', () => {
 
     const alt = alternatives(ctx);
     assert.match(alt, /<title>What are AI doom index alternatives\?/);
+    assert.match(alt, /<h1>What are AI doom index alternatives\?<\/h1>/);
+    assert.doesNotMatch(alt, /and what is each one\?/);
     assert.match(alt, /DoomBench alternative/i);
     assert.match(alt, /PizzINT/);
     assert.match(alt, /"@type"\s*:\s*"FAQPage"/);
@@ -66,6 +68,9 @@ describe('compare / alternatives conquest pages', () => {
     assert.match(alt, /What is a good alternative to DoomBench/);
     assert.match(alt, /Artificial Analysis/);
     assert.match(alt, /artificialanalysis\.ai/);
+    assert.match(alt, /Which AI doom indexes can you compare/);
+    assert.match(alt, /\/compare\.html/);
+    assert.doesNotMatch(alt, /noindex/);
   });
 
 
