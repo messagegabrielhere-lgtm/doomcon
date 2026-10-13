@@ -91,6 +91,8 @@ export function organization(ctx) {
       'Is Claude down',
       'bug-out land',
       'where to buy remote land to ride out Skynet',
+      'prepper checklist',
+      'what belongs in a 72-hour prepper kit',
       'AI labs this index scored',
       'AI stories this index scored',
       'AI leaders on the record',
