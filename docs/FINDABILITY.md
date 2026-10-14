@@ -267,6 +267,7 @@ context.
 | 34 | Newsroom question H1 + FAQ + entity-directory nav (companies/models/tags/guides/vs…) so post-deploy hubs are not orphans | Google | **Done** (2026-10-14) |
 | 35 | Homepage `roomGroups` question labels + entity/conquest hub tiles (companies/models/tags/guides/compare/vs/…) with unique px icons | Google | **Done** (2026-10-14) |
 | 36 | Catalog/search + agents.md + siteheader list entity/conquest hubs under question titles; IndexNow ALWAYS covers `/moves/` | Google + agents + Bing | **Done** (2026-10-14) |
+| 37 | Homepage FAQ + question-shaped home H2s link entity/conquest hubs (schema matches visible FAQ); readers map H2 question-shaped | Google | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 

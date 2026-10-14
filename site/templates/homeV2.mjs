@@ -81,7 +81,7 @@ function scaleRail(state, href) {
     </li>`;
   }).join('');
   return `<ol class="v2-scale" aria-label="${esc(brand.NAME)} scale, coolest first. ${esc(brand.NAME)} ${esc(level)} is current.">${cells}</ol>
-<p class="v2-scale__note">Five stages · the mark moves both ways · <a href="${esc(href('/classic.html#oven'))}">full oven with gates →</a></p>`;
+<p class="v2-scale__note">Five stages · the mark moves both ways · <a href="${esc(href('/classic.html#oven'))}">Where is the full ${esc(brand.NAME)} instrument panel? →</a></p>`;
 }
 
 function raceLeaderLine(ctx, href) {
@@ -105,8 +105,10 @@ function shareReuse(ctx, state, href) {
   const badgeMd = `[![${brand.NAME}](${ctx.url('/badge.svg')})](${ctx.url('/')})`;
   const iframe = `<iframe src="${ctx.url('/embed.html')}" width="320" height="96" style="border:0;overflow:hidden" title="${brand.NAME} reading" loading="lazy"></iframe>`;
   const pageUrl = ctx.url('/');
+  // Tip #330: section H2 is question-shaped (screen-reader); homepage FAQ mirrors it (§3.3).
+  const reuseQ = `How do you reuse this ${brand.NAME} reading?`;
   return `<section class="v2-share" id="reuse" data-sec="Reuse" aria-labelledby="v2-share-h">
-  <div class="v2-sec"><h2 id="v2-share-h">${pixelText('REUSE THIS READING', 4, '#FFFFFF', 'fit')}</h2><span>BADGE · EMBED · CITE · COPY LINK</span></div>
+  <div class="v2-sec"><h2 id="v2-share-h" class="v2-sr">${esc(reuseQ)}</h2><div aria-hidden="true">${pixelText('REUSE THIS READING', 4, '#FFFFFF', 'fit')}</div><span>BADGE · EMBED · CITE · COPY LINK</span></div>
   <div class="v2-share__grid">
     <div class="v2-share__card">
       <span class="cap">README BADGE</span>
@@ -118,13 +120,13 @@ function shareReuse(ctx, state, href) {
       <span class="cap">EMBED</span>
       <pre class="v2-share__code" tabindex="0">${esc(iframe)}</pre>
       <button type="button" class="v2-btn sm" data-copy="${esc(iframe)}">Copy embed code</button>
-      <p class="small"><a href="${esc(href('/embed.html'))}">Open the widget</a> · no script, no key, no tracking</p>
+      <p class="small"><a href="${esc(href('/export.html'))}#embed">How do I export and embed ${esc(brand.NAME)} data?</a> · no script, no key, no tracking</p>
     </div>
     <div class="v2-share__card">
       <span class="cap">CITE THIS READING</span>
       <pre class="v2-share__code" tabindex="0">${esc(cite)}</pre>
       <button type="button" class="v2-btn sm" data-copy="${esc(cite)} ${esc(pageUrl)}">Copy citation</button>
-      <p class="small"><a href="${esc(href('/api/state.json'))}">state.json</a> · <a href="${esc(href('/openapi.json'))}">OpenAPI</a> · <a href="${esc(href('/feed-level.xml'))}">level-change alerts</a></p>
+      <p class="small"><a href="${esc(href('/api/state.json'))}">state.json</a> · <a href="${esc(href('/openapi.json'))}">OpenAPI</a> · <a href="${esc(href('/alerts.html'))}">How do I get alerts when ${esc(brand.NAME)} moves?</a></p>
     </div>
     <div class="v2-share__card">
       <span class="cap">COPY LINK</span>
@@ -407,8 +409,9 @@ ${bands}${grid}${lines}<path d="${path((p) => p.score)}L${x(last.t).toFixed(1)},
 
 function historyPanel(rows) {
   const R = [['24H', 24], ['7D', 168], ['30D', 720], ['ALL', Infinity]];
+  // Tip #332: card H3 is question-shaped (screen-reader); pixel chrome stays visual (§3.3).
   return `<div class="v2-card v2-hist" id="trend" data-sec="Trend">
-  <div class="row sb"><h3>${icon('eye', 3, '#4ADE80')}${pixelText('THE TREND', 3, '#FFFFFF')}</h3><span class="live">${rows.length} READINGS</span></div>
+  <div class="row sb"><h3 id="v2-trend-h"><span class="v2-sr">What is the score trend?</span><span aria-hidden="true">${icon('eye', 3, '#4ADE80')}${pixelText('THE TREND', 3, '#FFFFFF')}</span></h3><span class="live">${rows.length} READINGS</span></div>
   <div class="v2-tabs" role="tablist">${R.map(([l], i) => `<input type="radio" name="v2r" id="v2r${i}" ${i === 1 ? 'checked' : ''}><label for="v2r${i}">${l}</label>`).join('')}
   ${R.map(([l, h], i) => `<div class="v2-tabp" data-i="${i}">${chart(rows, h, i)}</div>`).join('')}</div>
   <div class="v2-legend"><span><i style="background:#4ADE80;height:3px"></i>COMPOSITE</span>${Object.entries(PILLAR_HUE).map(([p, c]) => `<span><i style="background:${c}"></i>${esc(p.toUpperCase())}</span>`).join('')}<span><i style="background:#FACC15;width:3px;height:8px"></i>DEGRADED</span><span>┆ LEVEL CHANGE</span></div>
@@ -439,7 +442,7 @@ function loudPanel(state, rows) {
     return `<details class="v2-loud"><summary><span class="pn" style="color:${PILLAR_HUE[p.id]}">${esc(p.name.toUpperCase())}</span><span class="t"><i style="width:${live ? p.score.toFixed(1) : 0}%;background:${PILLAR_HUE[p.id]}"></i></span>${spark(rows, p.id)}<b class="${live ? '' : 'mute'}">${status}</b></summary>
   <p>${esc(meta.blurb || '')} ${esc(why)} <span class="sh">${share}</span></p><ul>${srcs}</ul></details>`;
   }).join('');
-  return `<div class="v2-card" id="loud" data-sec="What’s loud"><div class="row sb"><h3>${icon('speaker', 3)}${pixelText("WHAT'S LOUD", 3, '#FFFFFF')}</h3><span class="live">TAP A PILLAR</span></div>${rowsHtml}
+  return `<div class="v2-card" id="loud" data-sec="What’s loud"><div class="row sb"><h3 id="v2-loud-h"><span class="v2-sr">What pillars are loud right now?</span><span aria-hidden="true">${icon('speaker', 3)}${pixelText("WHAT'S LOUD", 3, '#FFFFFF')}</span></h3><span class="live">TAP A PILLAR</span></div>${rowsHtml}
   <p class="v2-formula" id="v2-formula"></p></div>`;
 }
 
@@ -460,7 +463,7 @@ function healthPanel(state) {
   const impact = `The score is computed from ${(state.pillars || []).filter((p) => Number.isFinite(p.score) && !p.dark).length} of ${(state.pillars || []).length} pillars and ${scored} scored sources.`;
   const table = srcs.map((s) => `<tr><td><span class="v2-dot ${s.ok ? 'ok' : s.uncalibrated ? 'cal' : 'bad'}"></span>${esc(srcName(s))}</td><td>${esc(String(s.pillar || '').toUpperCase())}</td><td>${s.ok ? 'SCORED' : s.uncalibrated ? 'REPORTING' : 'DOWN'}</td><td>${s.ok || s.uncalibrated ? agoTxt(s.observed_at, now) : agoTxt(s.last_ok, now)}</td></tr>`).join('');
   return `<div class="v2-card v2-health" id="health" data-sec="Health">
-  <div class="row sb"><h3>${icon('shield', 3, state.degraded ? '#FACC15' : '#4ADE80')}${pixelText(state.degraded ? 'DEGRADED: WHY' : 'ALL SYSTEMS', 3, '#FFFFFF')}</h3><span class="live">${scored} SCORED · ${cal} REPORTING · ${bad.length} DOWN</span></div>
+  <div class="row sb"><h3 id="v2-health-h"><span class="v2-sr">How is source health right now?</span><span aria-hidden="true">${icon('shield', 3, state.degraded ? '#FACC15' : '#4ADE80')}${pixelText(state.degraded ? 'DEGRADED: WHY' : 'ALL SYSTEMS', 3, '#FFFFFF')}</span></h3><span class="live">${scored} SCORED · ${cal} REPORTING · ${bad.length} DOWN</span></div>
   <p>${why.filter(Boolean).join(' ')} ${esc(impact)}</p>
   <p class="v2-eta">Readings land hourly${lag ? `, usually about ${lag} min past the hour` : ''}${next ? `. Next expected around <b>${next}</b>` : ''}. A reading older than two hours is flagged as overdue at the top of the page.</p>
   <details><summary>Every source and when it last answered</summary><div class="v2-tw"><table><thead><tr><th>Source</th><th>Pillar</th><th>Status</th><th>Last good</th></tr></thead><tbody>${table}</tbody></table></div></details>
@@ -473,14 +476,14 @@ function movedPanel(wm, href) {
     .map((p) => p.kind === 'move' ? `<span>${esc(p.name)} <b class="${p.delta > 0 ? 'up' : 'dn'}">${p.delta > 0 ? '▲' : '▼'}${Math.abs(p.delta).toFixed(1)}</b></span>` : `<span>${esc(p.name)} <b class="${p.kind === 'live' ? 'up' : 'dn'}">${p.kind === 'live' ? 'BACK LIVE' : 'WENT DARK'}</b></span>`).join('');
   const d = wm.score_delta;
   const items = (wm.top_items || []).slice(0, 3).map((i) => `<li><a href="${esc(i.url)}" rel="noopener">${esc(i.title)}</a> <small>${esc(String(i.source || '').toUpperCase())}</small></li>`).join('');
-  return `<div class="v2-card v2-moved" id="moved" data-sec="What moved"><div class="row sb"><h3>${icon('bolt', 3, '#4ADE80')}${pixelText('WHAT MOVED THIS HOUR', 3, '#FFFFFF')}</h3><a class="live" href="${href('/changelog.html')}">CHANGELOG →</a></div>
+  return `<div class="v2-card v2-moved" id="moved" data-sec="What moved"><div class="row sb"><h3 id="v2-moved-h"><span class="v2-sr">What moved this hour?</span><span aria-hidden="true">${icon('bolt', 3, '#4ADE80')}${pixelText('WHAT MOVED THIS HOUR', 3, '#FFFFFF')}</span></h3><a class="live" href="${href('/changelog.html')}">What moved the ${esc(brand.NAME)} score this hour? →</a> <a class="live" href="${href('/moves/')}">Where are the ${esc(brand.NAME)} index moves? →</a></div>
   <p class="v2-mv"><span>SCORE <b class="${d > 0 ? 'up' : d < 0 ? 'dn' : ''}">${Number.isFinite(d) ? `${d > 0 ? '▲' : d < 0 ? '▼' : '='}${Math.abs(d).toFixed(1)}` : '—'}</b></span>${wm.level_change ? `<span>LEVEL <b class="up">${esc(String(wm.level_change.from ?? ''))} → ${esc(String(wm.level_change.to ?? ''))}</b></span>` : ''}${pd || '<span>No pillar moved more than a tenth of a point.</span>'}</p>
   ${items ? `<ul class="v2-mvi">${items}</ul>` : ''}</div>`;
 }
 
 function altPanel(alts) {
   if (!alts || !alts.length) return '';
-  return `<details class="v2-card v2-alt" id="alt"><summary><h3 style="display:inline-flex">${icon('eye', 3, '#A5B4FC')}${pixelText('UNCONVENTIONAL SIGNALS', 3, '#FFFFFF')}</h3> <span class="live">NOT IN THE SCORE · TAP TO SHOW</span></summary>
+  return `<details class="v2-card v2-alt" id="alt"><summary><h3 id="v2-alt-h" style="display:inline-flex"><span class="v2-sr">Which unconventional signals are watched?</span><span aria-hidden="true">${icon('eye', 3, '#A5B4FC')}${pixelText('UNCONVENTIONAL SIGNALS', 3, '#FFFFFF')}</span></h3> <span class="live">NOT IN THE SCORE · TAP TO SHOW</span></summary>
   <p>Raw readings SIREN collects every hour but does not score yet, because none has a year of baseline. Watch them; they cannot move the level.</p>
   <div class="v2-altg">${alts.map((a) => {
     const days = baselinePhrase(a.baseline_days, a.baseline_required);
@@ -504,7 +507,7 @@ function marketsPanel(ctx, href) {
   const leg = (l) => `<a class="v2-pm" href="${esc(pmLink(l.slug))}" target="_blank" rel="noopener sponsored"><span>${esc(l.title)}</span><b>${pct(l.probability, 0)}</b><i class="${(l.change_1d || 0) > 0 ? 'up' : (l.change_1d || 0) < 0 ? 'dn' : ''}">${Number.isFinite(l.change_1d) && l.change_1d ? `${l.change_1d > 0 ? '▲' : '▼'}${Math.abs(l.change_1d * 100).toFixed(1)} 24H` : '— 24H'}</i><em>TRADE →</em></a>`;
   const mv = (m) => `<a class="v2-pm wide" href="${esc(pmLink(m.slug))}" target="_blank" rel="noopener sponsored"><span>${esc(m.question)}</span><i class="${(m.move || 0) > 0 ? 'up' : 'dn'}">${(m.move || 0) > 0 ? '▲' : '▼'}${Math.abs((m.move || 0) * 100).toFixed(0)} PTS</i><small>$${Math.round((m.volume || 0) / 1000).toLocaleString('en-US')}K VOL</small><em>TRADE →</em></a>`;
   return `${nationsHighlight({ href: (p) => href(p) }, ctx.nations)}<div class="v2-card v2-mkts" id="markets" data-sec="Markets">
-  <div class="row sb"><h3>${icon('eye', 3, '#A855F7')}${pixelText('AI PREDICTION MARKETS', 3, '#FFFFFF')}</h3><a class="live" href="${href('/race.html')}">THE RACE →</a></div>
+  <div class="row sb"><h3 id="v2-mkts-h"><span class="v2-sr">Which AI prediction markets are live?</span><span aria-hidden="true">${icon('eye', 3, '#A855F7')}${pixelText('AI PREDICTION MARKETS', 3, '#FFFFFF')}</span></h3><a class="live" href="${href('/race.html')}">Who is winning the AI race? →</a></div>
   ${legs.length ? `<p class="v2-mq">${esc(pm.horizon.title)}</p><div class="v2-pmg">${legs.map(leg).join('')}</div>` : ''}
   ${movers.length ? `<p class="v2-mq">BIGGEST MOVERS ON AI QUESTIONS TODAY</p><div class="v2-pmg">${movers.map(mv).join('')}</div>` : ''}
   <p class="v2-pmn">Live odds from Polymarket. Links open Polymarket${MONETIZE.polymarket && MONETIZE.polymarket.ref ? ' (referral link)' : ''}. Prediction markets are restricted in some places; check the rules where you live. Not financial advice.</p>
@@ -517,11 +520,11 @@ function moltPanel(ctx, href) {
   const list = ((m.fresh && m.fresh.length ? m.fresh : m.posts) || []).slice(0, 5);
   if (!list.length) return '';
   const ago = (iso) => { const h = (Date.parse(ctx.state.generated_at) - Date.parse(iso)) / 36e5; return !Number.isFinite(h) ? '' : h < 1 ? 'NOW' : h < 48 ? `${Math.round(h)}H AGO` : `${Math.round(h / 24)}D AGO`; };
-  return `<div class="v2-card v2-molt" id="moltbook" data-sec="Moltbook"><div class="row sb"><h3>${icon('robot', 3)}${pixelText('WHAT AI AGENTS ARE SAYING', 3, '#FFFFFF')}</h3><a class="live" href="${href('/moltbook.html')}">AGENT WATCH →</a></div>
+  return `<div class="v2-card v2-molt" id="moltbook" data-sec="Moltbook"><div class="row sb"><h3 id="v2-molt-h"><span class="v2-sr">What are AI agents saying?</span><span aria-hidden="true">${icon('robot', 3)}${pixelText('WHAT AI AGENTS ARE SAYING', 3, '#FFFFFF')}</span></h3><a class="live" href="${href('/moltbook.html')}">What are AI agents saying on Moltbook? →</a></div>
   <p class="v2-mq">LIVE FROM MOLTBOOK, THE SOCIAL NETWORK FOR AI AGENTS · NOT IN THE SCORE</p>
   ${m.watch ? `<div class="v2-mth">${m.watch.themes.filter((t) => t.n).slice(0, 5).map((t) => `<span>${esc(t.name.toUpperCase())} <b>${t.n}</b></span>`).join('')}</div>` : ''}
   <ul class="v2-ml">${list.map((p) => `<li><a href="${esc(p.url)}" rel="noopener">${esc(p.title)}</a><small><a href="${esc(p.agent_url)}" rel="noopener">${esc(p.agent)}</a> · ▲${Number(p.votes || 0).toLocaleString('en-US')} · ${Number(p.comments || 0).toLocaleString('en-US')} replies · ${ago(p.created_at)}</small></li>`).join('')}</ul>
-  <p class="v2-pmn">AI agents: SIREN’s data is open at <a href="${href('/skill.md')}">skill.md</a> and <a href="${href('/api/state.json')}">api/state.json</a>.</p></div>`;
+  <p class="v2-pmn">AI agents: <a href="${href('/agents.html')}">How should AI agents use ${esc(brand.NAME)}?</a> Open data at <a href="${href('/skill.md')}">skill.md</a> and <a href="${href('/api/state.json')}">api/state.json</a>.</p></div>`;
 }
 
 function pillarStatusLine(state) {
@@ -611,9 +614,11 @@ export function render(ctx, { head }) {
     const face = FACE_BY_LAB[p.id];
     const pic = face ? `<img class="v2-face sq" loading="lazy" decoding="async" src="${img(face)}" width="64" height="64" alt="">` : icon('robot', 5);
     const bar = (label, val, w, color) => `<div class="v2-bar"><span>${label}</span><span class="t"><i style="width:${Math.max(0, Math.min(100, w)).toFixed(1)}%;background:${color}"></i></span><b>${val}</b></div>`;
+    // Tip #380: lab-card H3s are question-shaped (mirrored in FAQ §3.3).
+    const labQ = `Who is ${p.name} on the race board?`;
     return `<article class="v2-lab${big ? ' hot' : ''}">
   <div class="hd">
-    <div class="row">${pic}<div class="nm"><h3>${esc(p.name.toUpperCase())}</h3><span>${esc(p.principal || 'No single principal')}</span></div><span class="odds">${pct(m.probability)}</span></div>
+    <div class="row">${pic}<div class="nm"><h3 aria-label="${esc(p.name)}">${esc(labQ)}</h3><span>${esc(p.principal || 'No single principal')}</span></div><span class="odds">${pct(m.probability)}</span></div>
     <div class="row sb"><span class="v2-pill ${pill.cls}">${pill.t}</span><span class="mv${big ? ' red' : ''}">${ch === null ? 'NO 7D REFERENCE' : `${ch >= 0 ? '▲' : '▼'} ${Math.abs(ch * 100).toFixed(1)} PTS / 7D`}</span></div>
   </div>
   <div class="sig"><span class="cap">SIGNAL ANALYSIS</span>
@@ -655,7 +660,7 @@ export function render(ctx, { head }) {
     <div class="v2-dinfo">
       <div class="v2-chips">${chip('1H', Number.isFinite(state.delta_from_previous) ? state.delta_from_previous : deltaAt(rows, nowMs, 1))}${chip('24H', deltaAt(rows, nowMs, 24))}${chip('7D', deltaAt(rows, nowMs, 168))}</div>
       <p class="v2-dline"><b style="color:${L.color}">SIREN ${state.level} · ${esc(state.level_name)}</b> since ${esc(String(state.level_since || '').slice(0, 10))}. ${levelFromScore(state.score) !== state.level ? `<span class="amber">The score alone reads SIREN ${levelFromScore(state.score)}; the level is held: ${esc(RULE_TXT[state.rule_fired] || '')}</span> ` : ''}${pillarStatusLine(state)}</p>
-      <div class="v2-dbtns"><a class="v2-btn sm" href="#vfy" data-verify-now>✓ VERIFY THIS READING</a><a class="v2-btn sm ghost" href="${esc(shareX)}" data-x-kind="reading" target="_blank" rel="noopener">𝕏 POST TODAY'S READING</a><a class="v2-btn sm ghost" href="#reuse">CITE / EMBED</a><a class="v2-btn sm ghost" href="${href('/alerts.html')}">🔔 ALERTS</a><a class="v2-btn sm ghost" href="${href('/export.html')}">⤓ DATA &amp; EMBED</a></div>
+      <div class="v2-dbtns"><a class="v2-btn sm" href="#vfy" data-verify-now>✓ VERIFY THIS READING</a><a class="v2-btn sm ghost" href="${esc(shareX)}" data-x-kind="reading" target="_blank" rel="noopener">𝕏 POST TODAY'S READING</a><a class="v2-btn sm ghost" href="#reuse">CITE / EMBED</a><a class="v2-btn sm ghost" href="${href('/alerts.html')}">🔔 How do I get alerts when ${esc(brand.NAME)} moves?</a><a class="v2-btn sm ghost" href="${href('/export.html')}">⤓ How do I export and embed ${esc(brand.NAME)} data?</a></div>
     </div>
   </section>
   <script>window.SIREN_PILLARS=${JSON.stringify((state.pillars || []).filter((p) => !p.dark).map((p) => ({ id: p.id, s: Number.isFinite(p.score) ? p.score : null })))}</script>`;
@@ -664,13 +669,13 @@ export function render(ctx, { head }) {
 <div class="v2-top"><div class="v2-wrap">
   <span class="v2-chip v2-top__x">${icon('clock', 2)}<span id="v2-clock" class="tnum">${esc(String(state.generated_at).slice(0, 10))} ${esc(hhmm(state.generated_at))}</span></span>
   <span class="tag red" id="v2-fresh" data-at="${esc(state.generated_at)}">SIREN SCORE UPDATED <b>${esc(hhmm(state.generated_at))}</b> · HOURLY</span>
-  <a class="v2-chip v2-live" href="${href('/news.html')}" title="The newsroom checks its sources every minute and Dispatch alerts refresh through the hour. Only the SIREN score is hourly."><i aria-hidden="true"></i>NEWS &amp; ALERTS LIVE</a>
+  <a class="v2-chip v2-live" href="${href('/news.html')}" title="The newsroom checks its sources every minute and Dispatch alerts refresh through the hour. Only the SIREN score is hourly."><i aria-hidden="true"></i>Which AI stories has ${esc(brand.NAME)} scored in this window?</a>
   <span class="v2-chip v2-top__x" title="${dark ? `${dark} source${dark === 1 ? '' : 's'} failed this pass` : 'Every source answered'}">${icon('eye', 2)}${reporting}/${sources.length} REPORTING${dark ? ` · ${dark} DARK` : ''} · ${scored} SCORED</span>
   <span class="right">
     <button type="button" class="tag radio" id="siren-radio" data-level="${state.level}" aria-pressed="false" title="Play SIREN Radio: an original soundtrack generated in your browser. Its mood follows the level.">♪ RADIO</button>
-    <a class="tag blue v2-top__x" href="${href('/history.html')}">HISTORY</a>
-    <a class="tag violet v2-top__x" href="${href('/race.html')}">MARKETS</a>
-    <a class="tag cool v2-top__x" href="${href('/feed-level.xml')}" title="RSS that fires only when the level changes">ALERTS</a>
+    <a class="tag blue v2-top__x" href="${href('/history.html')}">What is the history of AI risk?</a>
+    <a class="tag violet v2-top__x" href="${href('/race.html')}">Who is winning the AI race?</a>
+    <a class="tag cool v2-top__x" href="${href('/alerts.html')}" title="RSS, email recipes and in-tab notify when the level changes">How do I get alerts when ${esc(brand.NAME)} moves?</a>
     <span class="v2-top__x">STATUS: <b class="${posture === 'DEGRADED' ? 'amber' : 'green'}">${posture}</b></span>
     <span class="v2-top__x" title="A Terminator reference. Nothing here is self-aware. Probably.">SKYNET: <b class="${state.level <= 2 ? 'amber' : 'green'}">${({ 5: 'ASLEEP', 4: 'NOT SELF-AWARE (YET)', 3: 'LEARNING AT A GEOMETRIC RATE', 2: 'ASKING QUESTIONS', 1: 'JUDGMENT DAY WATCH' })[state.level] || 'NOT SELF-AWARE (YET)'}</b></span>
   </span>
@@ -718,7 +723,7 @@ ${movedPanel(wm, href)}
   ${historyPanel(rows)}
   ${visitorsHomePanel(visitorsModel(ctx.visitors, ctx.worldOutline), {
     href,
-    titleHtml: pixelText('WHERE THE READERS ARE', 4, '#FFFFFF', 'fit'),
+    titleHtml: `<span class="v2-sr">Where are SIREN readers?</span><span aria-hidden="true">${pixelText('WHERE THE READERS ARE', 4, '#FFFFFF', 'fit')}</span>`,
   })}
   <div class="v2-two">${loudPanel(state, rows)}${healthPanel(state)}</div>
   ${marketsPanel(ctx, href)}
@@ -727,16 +732,16 @@ ${movedPanel(wm, href)}
   <div class="v2-vfywrap">${verifyBox(ctx)}</div>
 
 
-  <div class="v2-sec" id="bosses" data-sec="Bosses"><h2>${pixelText('THE BOSSES ON WATCH', 4, '#FFFFFF', 'fit')}</h2><span>ON THE RECORD THIS WEEK · ${totals.on_record ?? 0} OF ${totals.leaders ?? 15}</span></div>
+  <div class="v2-sec" id="bosses" data-sec="Bosses"><h2 id="v2-bosses-h" class="v2-sr">Which AI bosses are on watch?</h2><div aria-hidden="true">${pixelText('THE BOSSES ON WATCH', 4, '#FFFFFF', 'fit')}</div><span>ON THE RECORD THIS WEEK · ${totals.on_record ?? 0} OF ${totals.leaders ?? 15}</span></div>
   <div class="v2-bosses">
     ${leaders.map((l) => { const s = bossStatus(l); return `<a class="boss" href="${href('/leaders.html')}"><img class="v2-face" loading="lazy" decoding="async" src="${img(FACE_BY_LEADER[l.id])}" width="96" height="96" alt=""><span class="nm">${esc(l.name.toUpperCase())}</span><span class="co">${esc(String(l.org).toUpperCase())}</span><span class="st ${s.cls}">${s.t}</span></a>`; }).join('')}
   </div>
 
-  <div class="v2-sec" id="labs" data-sec="Labs"><h2>${pixelText(`${players.length} LABS MONITORED`, 4, '#FFFFFF', 'fit')}</h2><span>ODDS OF BEST MODEL IN 2026 · POLYMARKET</span></div>
+  <div class="v2-sec" id="labs" data-sec="Labs"><h2 id="v2-labs-h" class="v2-sr">Which labs are monitored on the home board?</h2><div aria-hidden="true">${pixelText(`${players.length} LABS MONITORED`, 4, '#FFFFFF', 'fit')}</div><span>ODDS OF BEST MODEL IN 2026 · POLYMARKET</span></div>
   <div class="v2-labs">${players.map(lab).join('')}</div>
 
 <section class="v2-video" aria-labelledby="v2-video-h">
-    <div class="txt"><h2 id="v2-video-h">${pixelText('WHAT IS SIREN?', 4, '#FFFFFF', 'fit')}</h2><p>A 42-second tour: the hourly reading, the five levels, and the rooms worth opening. Sound on: the soundtrack is SIREN Radio, generated from the same code as the ♪ button.</p><p><a class="v2-btn sm" href="${href('/videos.html')}">▶ NEW FILM: THE ROAD TO SUPERINTELLIGENCE (1:41)</a></p></div>
+    <div class="txt"><h2 id="v2-video-h" class="v2-sr">What is SIREN?</h2><div aria-hidden="true">${pixelText('WHAT IS SIREN?', 4, '#FFFFFF', 'fit')}</div><p>A 42-second tour: the hourly reading, the five levels, and the rooms worth opening. Sound on: the soundtrack is SIREN Radio, generated from the same code as the ♪ button.</p><p><a class="v2-btn sm" href="${href('/videos.html')}">What free AI explainer videos does ${esc(brand.NAME)} publish?</a></p></div>
     <video controls preload="none" playsinline width="1280" height="720" poster="${href('/media/siren-explainer-poster.jpg')}">
       <source src="${href('/media/siren-explainer.webm')}" type="video/webm">
       <source src="${href('/media/siren-explainer.mp4')}" type="video/mp4">
@@ -753,7 +758,7 @@ ${roomsGrid(ctx, href, img)}
 
   <div class="v2-cta" id="tally" data-sec="Tally">
     <img class="v2-art bob" loading="lazy" decoding="async" src="${img('canary')}" width="88" height="88" alt="">
-    <div class="col">${pixelText('TALLY IS STILL SINGING', 4, '#FFFFFF', 'fit')}<span>Our duty canary posts on X the hour the level moves. Nothing in between. Or subscribe to <a href="${href('/feed-level.xml')}">level-change RSS</a> — maybe a handful of pings a year, if you pipe the feed.</span></div>
+    <div class="col">${pixelText('TALLY IS STILL SINGING', 4, '#FFFFFF', 'fit')}<span>Our duty canary posts on X the hour the level moves. Nothing in between. Or subscribe via <a href="${href('/alerts.html')}">How do I get alerts when ${esc(brand.NAME)} moves?</a> — maybe a handful of pings a year, if you pipe the feed.</span></div>
     <a class="v2-btn" href="https://x.com/intent/follow?screen_name=SIRENutf6">FOLLOW @SIRENutf6 →</a>
   </div>
   ${newsletterBox(href('/privacy.html')) ? `<div class="v2-nl">${newsletterBox(href('/privacy.html'))}</div>` : ''}
@@ -763,8 +768,8 @@ ${roomsGrid(ctx, href, img)}
   </details>
 
   <p class="v2-foot">${esc(brand.CREED)} ${esc(brand.NAME)} counts how loud AI is, every hour, from public data. A count, not a forecast. Portraits and icons are generated illustrations, not photographs.
-  <a href="${href('/methodology.html')}">How it works</a> · <a href="${href('/classic.html#vfy')}">Verify a reading</a> · <a href="${href('/classic.html')}">Full instrument panel</a> · <a href="${href('/about.html')}">About</a> · <a href="${href('/feed.xml')}">RSS</a> · <a href="${href('/sponsor.html')}">Sponsor</a>${tipLink() ? ` · ${tipLink()}` : ''}</p>
-  <p class="v2-foot"><b>Not advice.</b> ${esc(brand.LEGAL_NOT_ADVICE)} Data is automated and may be wrong or late; provided as is, with no warranty. Not affiliated with any company, lab, person or agency named here. ${esc(brand.LEGAL_AFFILIATE)} Use of this site means you accept the <a href="${href('/terms.html')}">terms &amp; disclaimers</a>. <a href="${href('/privacy.html')}">Privacy</a>. <a href="${href('/disclosures.html')}">Disclosures</a>. <a href="${href('/feedback.html')}">Report a problem or send feedback</a>.</p>
+  <a href="${href('/methodology.html')}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a> · <a href="${href('/classic.html#vfy')}">Where is the full ${esc(brand.NAME)} instrument panel?</a> · <a href="${href('/classic.html')}">Where is the full ${esc(brand.NAME)} instrument panel?</a> · <a href="${href('/about.html')}">What is ${esc(brand.NAME)}?</a> · <a href="${href('/alerts.html')}">How do I get alerts when ${esc(brand.NAME)} moves?</a> · <a href="${href('/sponsor.html')}">How do you sponsor ${esc(brand.NAME)} without moving the number?</a>${tipLink() ? ` · ${tipLink()}` : ''}</p>
+  <p class="v2-foot"><b>Not advice.</b> ${esc(brand.LEGAL_NOT_ADVICE)} Data is automated and may be wrong or late; provided as is, with no warranty. Not affiliated with any company, lab, person or agency named here. ${esc(brand.LEGAL_AFFILIATE)} Use of this site means you accept the <a href="${href('/terms.html')}">What are the ${esc(brand.NAME)} terms of use?</a> <a href="${href('/privacy.html')}">What does ${esc(brand.NAME)} know about you?</a> <a href="${href('/disclosures.html')}">What does ${esc(brand.NAME)} disclose?</a> <a href="${href('/feedback.html')}">How do I report a problem or send an idea to ${esc(brand.NAME)}?</a></p>
 </main>
 ${nav.tabbar}
 ${LIVEFX_CSS}<script>${LIVEFX_JS}</script>
@@ -825,7 +830,7 @@ const CSS = `
 .v2-room:hover{border-color:#6366F1;background:#161D33}
 .v2-room img{display:block;flex:none}
 .v2-room__t{display:flex;flex-direction:column;gap:2px;min-width:0}
-.v2-room__t b{font-size:14px;letter-spacing:.06em}
+.v2-room__t b{font-size:13px;letter-spacing:0;font-weight:700;line-height:1.25;text-wrap:balance}
 .v2-room__t i{font-style:normal;font-size:12px;font-weight:700;color:#A5B4FC}
 .v2-room__t small{font-size:12px;color:#AEB7C3;line-height:1.35}
 
