@@ -58,6 +58,11 @@ export function render(ctx, d) {
   const pc = (d.per_capita || []).map((c) => `<tr><td>${esc(c.name)}</td><td class="n">${fmt(c.per_capita_kwh)}</td></tr>`).join('');
   const fast = (d.fastest || []).map((c) => `<tr><td>${esc(c.name)}</td><td class="n">+${c.growth_5y_pct}%</td><td class="n">${fmt(c.twh)}</td></tr>`).join('');
 
+  // Tip #274: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const raceQ = 'Who is winning the electricity race by year?';
+  const topQ = `Which countries are the top 20 generators in ${d.year || 'the latest year'}?`;
+  const pcQ = 'Who makes the most electricity per person?';
+  const fastQ = 'Which countries grew generation fastest?';
   // FAQ answers restate hero / source copy only (FINDABILITY §3.3).
   const leaderAnswer = top.length
     ? `${cn ? cn.name : top[0].name} leads with ${fmt((cn || top[0]).twh)} TWh in ${d.year || 'the latest year'}` +
@@ -66,6 +71,18 @@ export function render(ctx, d) {
     : 'The power data has not been collected yet.';
   const faq = [
     [title, leaderAnswer],
+    [raceQ,
+      'Annual electricity generation in TWh for China, the United States, India and the European Union from the open energy record.'],
+    [topQ,
+      top.length
+        ? `${cn ? cn.name : top[0].name} leads; the table ranks the top twenty by terawatt-hours with five-year growth.`
+        : 'The power data has not been collected yet.'],
+    [pcQ,
+      (d.per_capita && d.per_capita[0])
+        ? `${d.per_capita[0].name} leads among countries over 5M people at ${fmt(d.per_capita[0].per_capita_kwh)} kWh per person.`
+        : 'Per-person leaders fill in once the power data is collected.'],
+    [fastQ,
+      'Countries generating at least 50 TWh, ranked by five-year growth in generation.'],
     ['Is this generation or consumption?',
       'Generation, not consumption; imports and exports are not netted out. Annual figures from the open energy record, refreshed daily.'],
     ['Why does electricity matter for AI on this site?',
@@ -88,11 +105,11 @@ export function render(ctx, d) {
     <div style="--c:#FACC15"><span>WORLD TOTAL</span><b>${fmt(d.world_twh)}</b><small>terawatt-hours in ${esc(d.year)}</small></div>
     <div style="--c:#4ADE80"><span>MOST PER PERSON</span><b>${esc((d.per_capita && d.per_capita[0] || {}).name || '—')}</b><small>${fmt((d.per_capita && d.per_capita[0] || {}).per_capita_kwh)} kWh per person (countries over 5M people)</small></div>
   </div>
-  <div class="pw-c"><h2>THE RACE: ELECTRICITY GENERATED PER YEAR (TWh)</h2>${raceSvg(d.race)}</div>
+  <div class="pw-c"><h2 id="race">${esc(raceQ)}</h2>${raceSvg(d.race)}</div>
   <div class="pw-g">
-    <div class="pw-c" style="grid-column:1/-1"><h2>TOP 20 GENERATORS, ${esc(d.year)}</h2><table class="pw-t"><thead><tr><th>#</th><th>COUNTRY</th><th style="text-align:right">TWh</th><th></th><th style="text-align:right">5-YR</th></tr></thead><tbody>${rows}</tbody></table></div>
-    <div class="pw-c"><h2>MOST PER PERSON (kWh)</h2><table class="pw-t"><tbody>${pc}</tbody></table></div>
-    <div class="pw-c"><h2>FASTEST GROWING, 5 YEARS</h2><table class="pw-t"><tbody>${fast}</tbody></table><p style="font-size:12px;margin:6px 0 0;color:var(--ink-dim)">Countries generating at least 50 TWh.</p></div>
+    <div class="pw-c" style="grid-column:1/-1"><h2 id="top20">${esc(topQ)}</h2><table class="pw-t"><thead><tr><th>#</th><th>COUNTRY</th><th style="text-align:right">TWh</th><th></th><th style="text-align:right">5-YR</th></tr></thead><tbody>${rows}</tbody></table></div>
+    <div class="pw-c"><h2 id="percap">${esc(pcQ)}</h2><table class="pw-t"><tbody>${pc}</tbody></table></div>
+    <div class="pw-c"><h2 id="fast">${esc(fastQ)}</h2><table class="pw-t"><tbody>${fast}</tbody></table><p style="font-size:12px;margin:6px 0 0;color:var(--ink-dim)">Countries generating at least 50 TWh.</p></div>
   </div>
   <p><button type="button" data-xpost="page" data-x-title="China now generates ${esc(ratio || '?')}× the electricity the US does (${fmt(cn && cn.twh)} vs ${fmt(us && us.twh)} TWh). If power is the truest measure of a large economy, who is ahead on electricity generation?" data-x-src="Our World in Data" data-x-url="${share}" style="appearance:none;border:1px solid #FACC15;background:#14120A;color:#FDE68A;padding:10px 14px;font:700 13px var(--mono);cursor:pointer">𝕏 Post the power race</button></p>` : '<p>The power data has not been collected yet.</p>'}
   <p>Related: <a href="${esc(ctx.href('/watts.html'))}">What does the ${esc(brand.NAME)} infrastructure index read?</a> · <a href="${esc(ctx.href('/map.html'))}">How many datacentres has ${esc(brand.NAME)} mapped in the United States?</a> · <a href="${esc(ctx.href('/world.html'))}">How many datacentres has ${esc(brand.NAME)} mapped on Earth?</a> · <a href="${esc(ctx.href('/charts.html'))}">What AI charts does ${esc(brand.NAME)} publish?</a></p>
