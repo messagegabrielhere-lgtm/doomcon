@@ -55,6 +55,10 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   // FINDABILITY #59 — surfaces in the live 48h window this pass (google-news-open).
   'Trail of Bits', 'DualEntry', 'Qwen N1', 'Grok Voice', 'HomeView',
   'AA-AgentPerf', 'Thomson Reuters', 'DeepSeek V4.1', 'MI355X',
+  // FINDABILITY #70 — pizzint-news-alive (14 URLs); live 48h surfaces this pass.
+  'Character.AI', 'Character AI', 'Mythos', 'Sarah Friar', 'Sachin Katti',
+  'Prime Intellect', 'Moondream', 'ollama', 'Bank of America', 'Chainalysis',
+  'x402', 'Coinbase', 'Base', 'YouTube Music', 'Caterpillar',
 ]);
 
 /**

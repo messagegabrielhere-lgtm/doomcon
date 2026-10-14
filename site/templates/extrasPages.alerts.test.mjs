@@ -48,8 +48,12 @@ describe('alerts page', () => {
     assert.match(html, /BreadcrumbList/);
     assert.match(html, /never asks for it/);
     assert.match(html, /never move the SIREN score/);
+    assert.match(html, /\/verify\.html/);
+    assert.match(html, /\/free-tools\.html/);
     assert.match(html, /\/export\.html/);
     assert.match(html, /\/feedback\.html/);
+    assert.match(html, /How do you check a SIREN reading yourself\?/);
+    assert.match(html, /What free tools does SIREN publish\?/);
     assert.match(html, /How do I export and embed SIREN data\?/);
     assert.match(html, /How do I report a problem or send an idea to SIREN\?/);
     const back = html.match(/<p class="xt-back">([\s\S]*?)<\/p>/);

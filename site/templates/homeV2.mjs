@@ -230,6 +230,8 @@ export function roomGroups(ctx) {
       ['/careers.html', 'px:badge', 'What jobs is SIREN hiring AIs for?', null, 'Open roles for agents.'],
       ['/agents.html', 'px:agent', 'How should AI agents use SIREN?', ctx.molt && ctx.molt.posts ? `${ctx.molt.posts.length} Moltbook posts` : null, 'Fetch-first map and skill.'],
       ['/feedback.html', 'px:chat', 'How do I report a problem or send an idea to SIREN?', null, 'Corrections and ideas.'],
+      ['/free-tools.html', 'magnifier', 'What free tools does SIREN publish?', 'NEW', 'Verify, alerts, export, OpenAPI — free, no account.'],
+      ['/verify.html', 'magnifier', 'How do you check a SIREN reading yourself?', 'NEW', 'Re-hash public receipts in your browser.'],
       ['/alerts.html', 'px:bell', 'How do I get alerts when SIREN moves?', null, 'RSS and level alerts.'],
       ['/export.html', 'px:code', 'How do I export and embed SIREN data?', null, 'JSON, embeds, badges.'],
       ['/bias.html', 'px:scalebias', 'What can SIREN not see?', null, 'Known blind spots, stated plainly.'],
@@ -662,7 +664,7 @@ export function render(ctx, { head }) {
     <div class="v2-dinfo">
       <div class="v2-chips">${chip('1H', Number.isFinite(state.delta_from_previous) ? state.delta_from_previous : deltaAt(rows, nowMs, 1))}${chip('24H', deltaAt(rows, nowMs, 24))}${chip('7D', deltaAt(rows, nowMs, 168))}</div>
       <p class="v2-dline"><b style="color:${L.color}">SIREN ${state.level} · ${esc(state.level_name)}</b> since ${esc(String(state.level_since || '').slice(0, 10))}. ${levelFromScore(state.score) !== state.level ? `<span class="amber">The score alone reads SIREN ${levelFromScore(state.score)}; the level is held: ${esc(RULE_TXT[state.rule_fired] || '')}</span> ` : ''}${pillarStatusLine(state)}</p>
-      <div class="v2-dbtns"><a class="v2-btn sm" href="#vfy" data-verify-now>✓ VERIFY THIS READING</a><a class="v2-btn sm ghost" href="${esc(shareX)}" data-x-kind="reading" target="_blank" rel="noopener">𝕏 POST TODAY'S READING</a><a class="v2-btn sm ghost" href="#reuse">CITE / EMBED</a><a class="v2-btn sm ghost" href="${href('/alerts.html')}">🔔 How do I get alerts when ${esc(brand.NAME)} moves?</a><a class="v2-btn sm ghost" href="${href('/export.html')}">⤓ How do I export and embed ${esc(brand.NAME)} data?</a></div>
+      <div class="v2-dbtns"><a class="v2-btn sm" href="#vfy" data-verify-now>✓ VERIFY THIS READING</a><a class="v2-btn sm ghost" href="${href('/verify.html')}">How do you check a ${esc(brand.NAME)} reading yourself?</a><a class="v2-btn sm ghost" href="${esc(shareX)}" data-x-kind="reading" target="_blank" rel="noopener">𝕏 POST TODAY'S READING</a><a class="v2-btn sm ghost" href="#reuse">CITE / EMBED</a><a class="v2-btn sm ghost" href="${href('/free-tools.html')}">What free tools does ${esc(brand.NAME)} publish?</a><a class="v2-btn sm ghost" href="${href('/alerts.html')}">🔔 How do I get alerts when ${esc(brand.NAME)} moves?</a><a class="v2-btn sm ghost" href="${href('/export.html')}">⤓ How do I export and embed ${esc(brand.NAME)} data?</a></div>
     </div>
   </section>
   <script>window.SIREN_PILLARS=${JSON.stringify((state.pillars || []).filter((p) => !p.dark).map((p) => ({ id: p.id, s: Number.isFinite(p.score) ? p.score : null })))}</script>`;

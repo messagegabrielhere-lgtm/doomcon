@@ -63,16 +63,33 @@ btn.addEventListener('click',function(){
  }).catch(function(e){out.textContent='';line('bad','Could not finish the check: '+e.message+'. The receipts are plain files; the links below open them directly.');btn.disabled=false;});
 });})();`;
 
-export function render(ctx) {
+/** Question stem shared by home embed H2 and /verify.html H1 (schema = HTML). */
+export function verifyQuestion() {
+  return `How do you check a ${brand.NAME} reading yourself?`;
+}
+
+/**
+ * Receipt-chain checker. On the home / classic board this ships with its own
+ * question H2. On /verify.html pass `{ omitHeading: true }` so the page H1
+ * owns the question (FINDABILITY schema rule — one visible question stem).
+ * @param {object} ctx
+ * @param {{ omitHeading?: boolean, labelledBy?: string }} [opts]
+ */
+export function render(ctx, opts = {}) {
   const st = ctx.state;
   if (!st || !st.receipt_id) return '';
   const move = ctx.url(`/moves/${st.receipt_id}.html`);
   const hash = st.receipt_hash ? String(st.receipt_hash) : null;
   const cite = `${brand.NAME} ${st.level} (${st.level_name}), composite ${Number(st.score).toFixed(1)} of 100, observed ${utc(st.generated_at)}. ${move}${hash ? ` Receipt ${hash}.` : ''}`;
   // Tip #327: section H2 is question-shaped; homepage FAQ mirrors it (§3.3).
-  const verifyQ = `How do you check a ${brand.NAME} reading yourself?`;
-  return `<section class="sec vfy" id="vfy" aria-labelledby="vfy-h" data-api="${esc(ctx.href('/api/'))}" data-depth="${DEPTH}">
-  <h2 class="sec__h" id="vfy-h">${esc(verifyQ)}</h2>
+  const verifyQ = verifyQuestion();
+  const omitHeading = !!opts.omitHeading;
+  const labelledBy = opts.labelledBy || (omitHeading ? 'vfy-page-h' : 'vfy-h');
+  const heading = omitHeading
+    ? ''
+    : `<h2 class="sec__h" id="vfy-h">${esc(verifyQ)}</h2>`;
+  return `<section class="sec vfy" id="vfy" aria-labelledby="${esc(labelledBy)}" data-api="${esc(ctx.href('/api/'))}" data-depth="${DEPTH}">
+  ${heading}
   <p class="lede">Every reading is published with a receipt: its inputs, its score, and the hash of the receipt before it.
     Press the button and your own browser fetches the last ${DEPTH} receipts, re-hashes each one and walks the chain.
     Nothing is sent anywhere, and no other doom number lets you do this.</p>

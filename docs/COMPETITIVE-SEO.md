@@ -1,6 +1,6 @@
 # Competitive SEO reverse-engineer
 
-**Measured:** 2026-10-14T21:15Z (live HTTP fetches via `seo-daily` / `fetch.mjs`).
+**Measured:** 2026-10-14T22:12Z (live HTTP fetches via `seo-daily` / `fetch.mjs`).
 Companion to `docs/COMPETITIVE.md` (Sept inventory) and `docs/FINDABILITY.md`
 (our playbook).
 
@@ -18,19 +18,19 @@ hijacks we cannot honestly answer stay refused (`CONTRACT.md`, `VOICE.md`).
 | Site | Sitemap URLs | News sitemap | Home `<title>` tactic | Schema on home | Faceted entity URLs | `llms.txt` / OpenAPI |
 |---|---:|---|---|---|---|---|
 | **DoomBench** | **2,090** | none | “Live AI Doom Index” | FAQPage only | `/models` `/companies` `/countries` `/people` `/jobs` `/news` | no |
-| **Skynet Countdown** | **1,244** | none | “AGI Timeline Tracker” | Organization + WebSite | `/tags/*` + `/news/YYYY-MM-DD` | no |
-| **pizzint.watch** | **1,018** | **0** (empty again; flaps empty↔thin) | DEFCON + Doomsday Clock hijack + keywords meta | FAQPage + WebApplication | `/intel/*` briefs only; chips are `<button>`s | no (404 → SPA shell) |
-| **siren.watch** | **6,246** live (clears DoomBench 2090 / Skynet 1245 / pizzint 1018; `/search-trends.html` + `/ai-prediction-markets.html` restored via #137) | **200** news-sitemap (`google-news-open` while pizzint empty/thin) | Head-term live title (“AI activity index today · SIREN …”) | Rich: Dataset, FAQ, Organization, VideoObject… | `/item/*` archive + entity hubs + day hubs + trends landings live | **yes** |
+| **Skynet Countdown** | **1,245** | none | “AGI Timeline Tracker” | Organization + WebSite | `/tags/*` + `/news/YYYY-MM-DD` | no |
+| **pizzint.watch** | **1,018** | **14** (`pizzint-news-alive` again) | DEFCON + Doomsday Clock hijack + keywords meta | FAQPage + WebApplication | `/intel/*` briefs only; chips are `<button>`s | no (404 → SPA shell) |
+| **siren.watch** | **6,246** live (clears DoomBench 2090 / Skynet 1245 / pizzint 1018) | **200** news-sitemap (contested vs pizzint 14; keep keyword-rich) | Head-term live title (“AI activity index today · SIREN …”) | Rich: Dataset, FAQ, Organization, VideoObject… | `/item/*` archive + entity hubs + day hubs + `/verify.html` + `/free-tools.html` | **yes** |
 | pdoom.ai | SPA shell | SPA shell | Sci-fi countdown + keyword stuffing | none | none | SPA shell |
 | takeofftracker.com | none | none | “AGI Metrics Dashboard” | none | none | none |
 
 ### Resolved from COMPETITIVE.md §0.1
 
-pizzint’s `/news-sitemap.xml` is **empty** again at 2026-10-14T18:00Z (was
-**14** earlier the same day). Their ordinary sitemap still rolls. Google News
-is **open for us while they sleep**; URL count + title hijack + brief schema
-remain their main ordinary-search levers. Keep our rolling news-sitemap full
-and keyword-rich (local cap **200**; head terms before topic/pillar slugs).
+pizzint’s `/news-sitemap.xml` is **alive again** at 2026-10-14T22:12Z with
+**14** URLs (flaps empty↔thin). Google News is **contested**; keep our rolling
+news-sitemap full and keyword-rich (local cap **200**; head terms before
+topic/pillar slugs). Outrank-style free-tool URLs (`/verify.html`,
+`/free-tools.html`) are the next citation/LLM-mention lever beyond URL count.
 
 ---
 
