@@ -534,6 +534,8 @@ function labNeedles(player) {
     hcltech: ['hcltech', 'hcl tech'],
     suno: ['suno'],
     manus: ['manus'],
+    yandex: ['yandex', 'yandexgpt', 'yandex cloud'],
+    tiktok: ['tiktok'],
   };
   return [...new Set([...(extras[player.id] || []), ...names])];
 }

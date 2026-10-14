@@ -913,6 +913,59 @@ describe('lab facets', () => {
     assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/lab/manus.html'));
   });
 
+  it('indexes Yandex and TikTok entity labs when archive headlines clear the gate', () => {
+    const withArch = {
+      ...ctx,
+      news: { ...ctx.news, items: [...ctx.news.items] },
+      itemArchive: [
+        {
+          id: 'ya1', title: 'Ukraine has hit three Yandex data centres in a week', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/ya1', published_at: '2026-09-01T01:00:00Z', score: 40,
+        },
+        {
+          id: 'ya2', title: 'Yandex says a drone strike shut down a third data center and YandexGPT', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/ya2', published_at: '2026-09-02T01:00:00Z', score: 41,
+        },
+        {
+          id: 'ya3', title: 'Ukraine Hits Second Yandex Cloud Data Center in 24 Hours', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/ya3', published_at: '2026-09-03T01:00:00Z', score: 42,
+        },
+        {
+          id: 'yabad', title: 'Russia’s Google nickname alone should not invent a lab match', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/yabad', published_at: '2026-09-04T01:00:00Z', score: 30,
+        },
+        {
+          id: 'tt1', title: 'TikTok’s Chew and Microsoft’s Althoff Warn About Runaway AI Hype', pillar: 'governance', source: 'hn',
+          url: 'https://example.test/tt1', published_at: '2026-09-01T02:00:00Z', score: 40,
+        },
+        {
+          id: 'tt2', title: 'AI to bring scientific breakthroughs in 2-3 years: TikTok CEO', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/tt2', published_at: '2026-09-02T02:00:00Z', score: 41,
+        },
+        {
+          id: 'tt3', title: "TikTok's CEO warns that AI hype is outpacing the technology's reality", pillar: 'governance', source: 'hn',
+          url: 'https://example.test/tt3', published_at: '2026-09-03T02:00:00Z', score: 42,
+        },
+        {
+          id: 'ttbad', title: 'A short video about birds without naming the product', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/ttbad', published_at: '2026-09-04T02:00:00Z', score: 30,
+        },
+      ],
+    };
+    const yandex = labsFromEntities(withArch).find((p) => p.id === 'yandex');
+    const tiktok = labsFromEntities(withArch).find((p) => p.id === 'tiktok');
+    assert.ok(yandex, 'Yandex clears ENTITY_LAB_MIN');
+    assert.ok(tiktok, 'TikTok clears ENTITY_LAB_MIN');
+    assert.match(renderLab(withArch, yandex), /What has SIREN scored about Yandex\?/);
+    assert.match(renderLab(withArch, tiktok), /What has SIREN scored about TikTok\?/);
+    assert.doesNotMatch(renderLab(withArch, yandex), /Russia’s Google nickname/);
+    assert.doesNotMatch(renderLab(withArch, tiktok), /short video about birds/);
+    assert.doesNotMatch(renderLab(withArch, yandex), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderLab(withArch, tiktok), /probability of doom/i);
+    assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/lab/yandex.html'));
+    assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/lab/tiktok.html'));
+  });
+
   it('indexes Supermicro, IREN, OpenRouter, and Reflection AI entity labs from archive', () => {
     const withArch = {
       ...ctx,
