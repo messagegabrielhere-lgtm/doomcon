@@ -122,6 +122,13 @@ describe('ai-proof-job page', () => {
     assert.match(html, /Does this plan guarantee I keep my job\?/);
     assert.match(html, /What are the five moves on this page\?/);
     assert.match(html, /Where does SIREN count measured job effects\?/);
+    assert.match(html, /<h2>What five moves keep working as AI changes tasks\?<\/h2>/);
+    assert.match(html, /<h2>How do I build my AI-proof job plan\?<\/h2>/);
+    assert.match(html, /<h2>What job effects has SIREN actually counted\?<\/h2>/);
+    assert.doesNotMatch(html, /<h2>Five moves that keep working<\/h2>/);
+    assert.doesNotMatch(html, /<h2>Your plan<\/h2>/);
+    assert.doesNotMatch(html, /<h2>What has actually been counted<\/h2>/);
+    assert.match(html, /Does SIREN publish an AI-proof-job doom score\?/);
     assert.match(html, /SpeakableSpecification/);
     assert.match(html, /FAQPage/);
     assert.match(html, /"@type":\s*"WebPage"/);

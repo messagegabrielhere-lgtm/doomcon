@@ -345,17 +345,29 @@ const JOB_QS = [
 export function jobProof(ctx) {
   const PATH = '/ai-proof-job.html';
   const qTitle = 'How do I AI-proof my job?';
+  // Tip #306: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const movesQ = 'What five moves keep working as AI changes tasks?';
+  const planQ = 'How do I build my AI-proof job plan?';
+  const countedQ = 'What job effects has SIREN actually counted?';
   // FAQ answers restate hero / five-moves / jobs-room / note copy only.
   // Refuse: job-security guarantees, career/financial advice claims, mass-unemployment doom.
   const faq = [
     [qTitle,
       'AI changes tasks before it changes jobs. The people who do best are usually the ones who learn the tools first, move toward the work AI is worst at, and make their value easy to see. Ten questions, then a plan in the order that matters for you.'],
+    [movesQ,
+      'Move toward the work AI is worst at; become the person who runs the AI; make your value visible; keep learning on purpose; build a safety net.'],
+    [planQ,
+      'Ten questions, then a plan in the order that matters for you. Nothing leaves your browser.'],
+    [countedQ,
+      'Forecasts of jobs lost to AI disagree wildly. See Is AI taking jobs? — it lists only what has been measured, with sources, and says what the counts do not show.'],
     ['Does this plan guarantee I keep my job?',
       'General information, not career, legal or financial advice. AI changes tasks before it changes jobs; the check builds a personal plan, not a guarantee.'],
     ['What are the five moves on this page?',
       'Move toward the work AI is worst at; become the person who runs the AI; make your value visible; keep learning on purpose; build a safety net.'],
     ['Where does SIREN count measured job effects?',
       'Forecasts of jobs lost to AI disagree wildly. See Is AI taking jobs? — it lists only what has been measured, with sources, and says what the counts do not show.'],
+    [`Does ${brand.NAME} publish an AI-proof-job doom score?`,
+      `No. ${brand.DISCLAIMER_SHORT} This page is a personal job-readiness check — not a mass-unemployment forecast.`],
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>
@@ -367,11 +379,11 @@ export function jobProof(ctx) {
   <h1 class="bp__h1">${esc(qTitle)}</h1>
   <p class="lede">AI changes tasks before it changes jobs. The people who do best are usually the ones who learn the tools first, move toward the work AI is worst at, and make their value easy to see. Ten questions, then a plan in the order that matters for you.</p>
   ${shareBtn(ctx, 'How exposed is your job to AI, and what to do about it. A 2-minute plan:', PATH)}
-  <h2>Five moves that keep working</h2>
+  <h2>${esc(movesQ)}</h2>
   <div class="fx-grid">${Object.values(JOB_AREAS).map((a) => `<div class="fx-card"><h3>${esc(a.name)}</h3><p>${esc(a.moves[0])}</p></div>`).join('')}</div>
-  <h2>Your plan</h2>
+  <h2>${esc(planQ)}</h2>
   ${quiz({ id: 'jobq', questions: JOB_QS, areas: JOB_AREAS })}
-  <h2>What has actually been counted</h2>
+  <h2>${esc(countedQ)}</h2>
   <p>Forecasts of jobs lost to AI disagree wildly. See <a href="${esc(ctx.href('/jobs.html'))}">Is AI taking jobs?</a> — it lists only what has been measured, with sources, and says what the counts do not show.</p>
   <p class="fx-note">General information, not career, legal or financial advice.</p>
   <section class="fx-faq" aria-labelledby="faq">
