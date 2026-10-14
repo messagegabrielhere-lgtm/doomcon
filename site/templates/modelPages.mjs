@@ -169,9 +169,26 @@ export function renderModel(ctx, name) {
     `${total} scored stories name ${name} on ${brand.NAME} (${items.length} in the live window). A count of headlines that matched the published entity list, not a score for the model.`,
     160,
   );
+  // Tip #285: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const windowQ = `Which scored stories name ${name} in this window?`;
+  const olderQ = `Which older scored stories name ${name}?`;
+  const othersQ = 'Which other model families have scored stories?';
+  const others = indexableModels(ctx).filter((m) => m.name !== name);
   const faq = [
     [`What has ${brand.NAME} scored about ${name}?`,
       `${total} scored stories name ${name} on ${brand.NAME} (${items.length} in the live window${archivedAll.length ? `, ${archivedAll.length} older in the archive` : ''}). The match is the published entity list applied to the headline — not a rating of the model.`],
+    [windowQ,
+      items.length
+        ? `${items.length} scored ${items.length === 1 ? 'story names' : 'stories name'} ${name} in the current window. Headline match only — not a rating of the model.`
+        : 'No scored story in this window names this model.'],
+    ...(older.length
+      ? [[olderQ,
+        'Kept in the permanent archive after they left the live window. Still scored stories — not a forecast.']]
+      : []),
+    ...(others.length
+      ? [[othersQ,
+        `Other model families that clear the substance gate, each linking What has ${brand.NAME} scored about that family?`]]
+      : []),
     [`Does ${brand.NAME} publish a ${name} doom score?`,
       `No. ${brand.DISCLAIMER_SHORT} This page counts matching headlines. It does not assign ${name} a score.`],
     [`How does a story match ${name}?`,
@@ -180,9 +197,8 @@ export function renderModel(ctx, name) {
   const faqHtml = faq.map(([q, a]) => `
   <h3>${esc(q)}</h3>
   <p>${esc(a)}</p>`).join('');
-  const others = indexableModels(ctx).filter((m) => m.name !== name);
   const olderBlock = older.length
-    ? `<h2>Older scored stories naming ${esc(name)}</h2>
+    ? `<h2 id="older">${esc(olderQ)}</h2>
   <p class="fc__lede">Kept in the permanent archive after they left the live window. Still scored stories — not a forecast.</p>
   <ol class="fc__list">${storyRows(ctx, older)}</ol>
   <p class="fresh__key"><a href="${esc(ctx.href('/item/archive.html'))}">Which older AI stories has ${esc(brand.NAME)} kept in the archive?</a></p>`
@@ -199,15 +215,14 @@ export function renderModel(ctx, name) {
   </div>
   <p class="fresh__key">${labNote(ctx, name)}
      The composite reading is on <a href="${esc(ctx.href('/'))}">AI activity index today · ${esc(brand.NAME)}</a>.</p>
-  <h2>Stories in this window</h2>
+  <h2 id="window">${esc(windowQ)}</h2>
   ${items.length ? `<ol class="fc__list">${storyRows(ctx, items)}</ol>` : '<p>No scored story in this window names this model.</p>'}
   ${olderBlock}
   <h2 id="faq">Questions people actually ask</h2>
   ${faqHtml}
-  ${others.length ? `<h2>Other model families</h2>
+  ${others.length ? `<h2 id="other-models">${esc(othersQ)}</h2>
   <nav class="fc__nav" aria-label="Other model families">${others.map((m) => `<a href="${esc(ctx.href(modelPath(m.name)))}">What has ${esc(brand.NAME)} scored about ${esc(m.name)}?</a>`).join('')}</nav>` : ''}
 </article>`;
-
   return page({
     ctx,
     path,

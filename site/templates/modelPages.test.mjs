@@ -89,6 +89,7 @@ describe('model pages', () => {
     assert.match(html, /FAQPage/);
     assert.match(html, /Questions people actually ask/);
     assert.match(html, /Does SIREN publish a Claude doom score\?/);
+    assert.match(html, /id="window"[^>]*>Which scored stories name Claude in this window\?/);
     assert.match(html, /Claude one/);
     assert.match(html, /href="\/lab\/anthropic\.html">What has SIREN scored about Anthropic\?<\/a>/);
     assert.doesNotMatch(html, /href="\/lab\/anthropic\.html">Anthropic<\/a>/);
@@ -96,6 +97,7 @@ describe('model pages', () => {
     assert.match(html, /not a rating of the model/);
     assert.match(html, /href="\/">AI activity index today · SIREN<\/a>/);
     assert.doesNotMatch(html, /href="\/">homepage<\/a>/);
+    assert.doesNotMatch(html, /<h2>Stories in this window<\/h2>/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
   });
 
@@ -107,9 +109,10 @@ describe('model pages', () => {
       ],
     };
     const html = renderModel(withArch, 'Claude');
-    assert.match(html, /Older scored stories naming Claude/);
+    assert.match(html, /id="older"[^>]*>Which older scored stories name Claude\?/);
     assert.match(html, /Archived Claude model card/);
     assert.match(html, /\/item\/archive\.html/);
+    assert.doesNotMatch(html, /<h2>Older scored stories naming Claude<\/h2>/);
   });
 
   it('links an indexable model from the story page and leaves a thin name as text', () => {
@@ -135,7 +138,9 @@ describe('model pages', () => {
     assert.ok(names.includes('Claude'));
     const html = renderModel(withArch, 'Grok');
     assert.doesNotMatch(html, /noindex/);
-    assert.match(html, /Older scored stories naming Grok/);
+    assert.match(html, /id="older"[^>]*>Which older scored stories name Grok\?/);
+    assert.match(html, /id="other-models"[^>]*>Which other model families have scored stories\?/);
+    assert.doesNotMatch(html, /<h2>Other model families<\/h2>/);
     assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/model/grok.html'));
   });
 
