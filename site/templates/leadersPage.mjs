@@ -69,11 +69,26 @@ export function render(ctx) {
     `${t.lines} headline${t.lines === 1 ? '' : 's'} naming ${t.on_record} of ${t.leaders} ` +
     `leaders, each reproduced exactly as its publication printed it and linked to the source. ` +
     `Compiled ${utc(wire.generated_at)}.`;
+  // Tip #295: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const neverQ = 'What does this page never do?';
+  const rosterQ = 'Who is on the AI leaders roster?';
+  const crossQ = 'How do these lines cross-check against the lab feeds?';
+  const methodQ = 'How does a line get onto this page?';
   const faq = [
     [`Which AI leaders are on the record this week?`,
       `${t.on_record} of ${t.leaders} are on the record this week across ${t.lines} line${t.lines === 1 ? '' : 's'} in the last ${wire.window_days} days. Each line is a publication headline naming them beside a speech cue — not a leader doom score.`],
+    [neverQ,
+      'It never writes a quotation. Not a paraphrase, not a summary, not a tightened version of what somebody said. The only words attributed to a named person anywhere on this page are the headline, reproduced exactly as the publication printed it and linked to that publication.'],
+    [rosterQ,
+      `${t.leaders} people on a fixed roster. The faces are generated caricatures — illustrations, not photographs. The name printed beside each one is the identification.`],
+    [crossQ,
+      "The race page tracks a loudness signal for each lab's principal. This wire measures a different thing: what publications printed. Where the floor is empty and the wire has lines, the wire is the better reading of whether the person spoke."],
+    [methodQ,
+      'A headline in data/news.json is a line when it names a roster member — whole word, against the published alias table — and carries a speech cue. Both conditions, every time.'],
     [`Does ${brand.NAME} invent quotations for AI leaders?`,
       `No. It never writes a quotation. The only words attributed to a named person anywhere on this page are the headline, reproduced exactly as the publication printed it. ${brand.DISCLAIMER_SHORT}`],
+    [`Does ${brand.NAME} publish a leader doom score?`,
+      `No. ${brand.DISCLAIMER_SHORT} The leader wire lists on-record headlines — not a ranking of how dangerous a person is.`],
   ];
   const faqHtml = faq.map(([q, a]) => `
   <h3>${esc(q)}</h3>
@@ -98,7 +113,7 @@ ${avatarSprite()}
 </section>
 
 <section class="sec lwp__rule" aria-labelledby="lwp-rule-h">
-  <h2 class="sec__h" id="lwp-rule-h">What this page never does</h2>
+  <h2 class="sec__h" id="lwp-rule-h">${esc(neverQ)}</h2>
   <p class="lwp__ruletext"><b>It never writes a quotation.</b> Not a paraphrase, not a summary, not
      a tightened version of what somebody said. The only words attributed to a named person
      anywhere on this page are the headline, reproduced exactly as the publication printed it and
@@ -112,7 +127,7 @@ ${avatarSprite()}
 
 ${legend(wire)}
 <section class="sec lw" aria-labelledby="lwp-wire-h">
-  <h2 class="sec__h" id="lwp-wire-h">The roster</h2>
+  <h2 class="sec__h" id="lwp-wire-h">${esc(rosterQ)}</h2>
   <p class="lwp__marks">The faces below are <b>generated caricatures</b>, drawn for this site in a
      retro game style: illustrations, not photographs, and not a claim about anyone.
      <b>The name printed beside each one is the identification</b>.</p>
@@ -120,9 +135,9 @@ ${legend(wire)}
   ${rosterGroups(wire, ctx)}
 </section>
 
-${crossCheck(wire)}
+${crossCheck(wire, crossQ)}
 
-${method(ctx, wire, onRecord, quiet)}
+${method(ctx, wire, onRecord, quiet, methodQ)}
 
 <section class="sec" aria-labelledby="faq">
   <h2 class="sec__h" id="faq">Questions people actually ask</h2>
@@ -773,7 +788,7 @@ function n2(v) {
  * the row, so this page and /race cannot drift into two different sentences
  * about the same person.
  */
-function crossCheck(wire) {
+function crossCheck(wire, crossQ = 'How do these lines cross-check against the lab feeds?') {
   const tracked = wire.leaders.filter((l) => l.watch_floor && l.watch_floor.tracked);
   const untracked = wire.leaders.filter((l) => !l.watch_floor || !l.watch_floor.tracked);
   if (!tracked.length) return '';
@@ -786,7 +801,7 @@ function crossCheck(wire) {
   };
 
   return `<section class="sec lwp__cc" aria-labelledby="lwp-cc-h">
-  <h2 class="sec__h" id="lwp-cc-h">Cross-check against the lab feeds<span class="sec__eb">The watch floor</span></h2>
+  <h2 class="sec__h" id="lwp-cc-h">${esc(crossQ)}<span class="sec__eb">The watch floor</span></h2>
   <p class="lwp__ruletext">The race page tracks a loudness signal for each lab's principal, and
      seven of its eight cells are empty — not because those people are quiet, but because
      <b>the floor measures feeds we may lawfully fetch</b> and almost none of them publish one.
@@ -848,13 +863,13 @@ function coverageMethod(wire) {
 }
 
 /** The published vocabulary: how a line gets here, and what it cost. */
-function method(ctx, wire, onRecord, quiet) {
+function method(ctx, wire, onRecord, quiet, methodQ = 'How does a line get onto this page?') {
   const c = wire.corpus;
   const cues = wire.cues || { core: [], extended: [] };
   const classes = (cues.class_means && Object.entries(cues.class_means)) || [];
 
   return `<section class="sec lwp__m" aria-labelledby="lwp-m-h">
-  <h2 class="sec__h" id="lwp-m-h">How a line gets here</h2>
+  <h2 class="sec__h" id="lwp-m-h">${esc(methodQ)}</h2>
   <dl class="lwp__dl">
     <div><dt>The test</dt><dd>A headline in <code>data/news.json</code> is a line when it
       <b>names a roster member</b> — whole word, against the published alias table below — <b>and

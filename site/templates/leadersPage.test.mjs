@@ -36,6 +36,13 @@ describe('leaders page', () => {
     assert.match(html, /CollectionPage/);
     assert.match(html, /Does SIREN invent quotations for AI leaders\?/);
     assert.match(html, /never writes a quotation/i);
+    assert.match(html, /id="lwp-rule-h"[^>]*>What does this page never do\?/);
+    assert.match(html, /id="lwp-wire-h"[^>]*>Who is on the AI leaders roster\?/);
+    assert.match(html, /id="lwp-cc-h"[^>]*>How do these lines cross-check against the lab feeds\?/);
+    assert.match(html, /id="lwp-m-h"[^>]*>How does a line get onto this page\?/);
+    assert.doesNotMatch(html, /id="lwp-rule-h"[^>]*>What this page never does</);
+    assert.doesNotMatch(html, /id="lwp-wire-h"[^>]*>The roster</);
+    assert.doesNotMatch(html, /id="lwp-m-h"[^>]*>How a line gets here</);
     assert.match(html, /lwc__n" href="\/people\/altman\.html">What press has SIREN scored about Sam Altman\?<\/a>/);
     assert.match(html, /lwc__n" href="\/people\/amodei\.html">What press has SIREN scored about Dario Amodei\?<\/a>/);
     assert.doesNotMatch(html, /lwc__n" href="\/people\/altman\.html">Sam Altman<\/a>/);
