@@ -2795,6 +2795,26 @@ describe('tag pages', () => {
     assert.doesNotMatch(renderTag(rich, 'reliability'), /probability of doom/i);
   });
 
+  it('pages disentanglement hub', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('di1', 'Disentangling Paradigm, Identifier, and Decoding in Generative Retrieval'),
+          story('di2', 'Block Disentanglement in CRL: Bridging Identifiability and Visual State Estimation'),
+          story('di3', 'SPEAR: A Spectral-Disentangled MoE Neural Operator'),
+          story('di4', 'Disentangling Computation in Multi-Task Neural Networks'),
+          story('di5', 'Feature disentanglement for controllable generation'),
+        ],
+      },
+    };
+    assert.ok(indexableTags(rich).some((t) => t.id === 'disentanglement'));
+    assert.match(renderTag(rich, 'disentanglement'), /What has SIREN scored about Disentanglement\?/);
+    assert.doesNotMatch(renderTag(rich, 'disentanglement'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'disentanglement'), /probability of doom/i);
+  });
+
   it('pages catastrophic-forgetting, unsupervised, backdoor, and out-of-distribution hubs', () => {
     const rich = {
       ...ctx,

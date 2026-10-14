@@ -1178,6 +1178,49 @@ describe('lab facets', () => {
     assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/lab/netflix.html'));
   });
 
+  it('indexes Moonshot AI and CoreWeave entity labs when archive headlines clear the gate', () => {
+    const withArch = {
+      ...ctx,
+      news: { ...ctx.news, items: [...ctx.news.items] },
+      itemArchive: [
+        {
+          id: 'ms1', title: 'Moonshot AI Plans Record $50 Billion Hong Kong IPO', pillar: 'markets', source: 'hn',
+          url: 'https://example.test/ms1', published_at: '2026-09-01T01:00:00Z', score: 40,
+        },
+        {
+          id: 'ms2', title: 'Moonshot AI executives seek to settle investor dispute before Hong Kong IPO', pillar: 'markets', source: 'hn',
+          url: 'https://example.test/ms2', published_at: '2026-09-02T01:00:00Z', score: 41,
+        },
+        {
+          id: 'ms3', title: 'Chinese AI is back: DeepSeek, Moonshot AI and Manu all raise huge rounds', pillar: 'markets', source: 'hn',
+          url: 'https://example.test/ms3', published_at: '2026-09-03T01:00:00Z', score: 42,
+        },
+        {
+          id: 'cw1', title: 'Can CoreWeave Unseat Amazon Web Services as the Top Cloud Provider?', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/cw1', published_at: '2026-09-01T02:00:00Z', score: 40,
+        },
+        {
+          id: 'cw2', title: 'Nvidia, Oracle, CoreWeave and other AI stocks sink on OpenAI revenue report', pillar: 'markets', source: 'hn',
+          url: 'https://example.test/cw2', published_at: '2026-09-02T02:00:00Z', score: 41,
+        },
+        {
+          id: 'cw3', title: 'An interview with CoreWeave Physical AI SVP Richard Ahlfeld', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/cw3', published_at: '2026-09-03T02:00:00Z', score: 42,
+        },
+      ],
+    };
+    const moonshot = labsFromEntities(withArch).find((p) => p.id === 'moonshot-ai');
+    const coreweave = labsFromEntities(withArch).find((p) => p.id === 'coreweave');
+    assert.ok(moonshot, 'Moonshot AI clears ENTITY_LAB_MIN');
+    assert.ok(coreweave, 'CoreWeave clears ENTITY_LAB_MIN');
+    assert.match(renderLab(withArch, moonshot), /What has SIREN scored about Moonshot AI\?/);
+    assert.match(renderLab(withArch, coreweave), /What has SIREN scored about CoreWeave\?/);
+    assert.doesNotMatch(renderLab(withArch, moonshot), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderLab(withArch, coreweave), /probability of doom/i);
+    assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/lab/moonshot-ai.html'));
+    assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/lab/coreweave.html'));
+  });
+
   it('indexes McDonald\'s entity lab when archive headlines clear the gate', () => {
     const withArch = {
       ...ctx,

@@ -1825,6 +1825,12 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'Out-of-distribution detection research stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
     match: /\bout[- ]of[- ]distribution\b/i,
   },
+  {
+    id: 'disentanglement',
+    name: 'Disentanglement',
+    description: 'Disentanglement research stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
+    match: /\b[Dd]isentangl(?:e|ement|ing)\w*\b/,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));
