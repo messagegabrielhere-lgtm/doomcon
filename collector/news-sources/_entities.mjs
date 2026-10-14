@@ -121,6 +121,11 @@ const ENTITY_DEFS = [
   { name: 'Yandex', kind: 'lab', forms: ['YandexGPT', 'Yandex Cloud', 'Yandex'] },
   // TikTok product brand (distinct from ByteDance lab) — CEO / product AI stories.
   { name: 'TikTok', kind: 'lab', forms: ['TikTok'] },
+  // Slack workspace product — AI-agent / leaked-message enterprise stories.
+  // Distinctive single token (no bare “slack” verb forms beyond word boundaries).
+  { name: 'Slack', kind: 'lab', forms: ['Slack'] },
+  // EDA / chip-design software — OpenAI and Amazon AI partnership headlines.
+  { name: 'Synopsys', kind: 'lab', forms: ['Synopsys'] },
 
   // --- model families ---
   // GPT-6 Astra / Luna / Sol nicknames so /model/gpt clears when headlines

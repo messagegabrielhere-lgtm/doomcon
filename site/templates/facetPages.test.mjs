@@ -966,6 +966,59 @@ describe('lab facets', () => {
     assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/lab/tiktok.html'));
   });
 
+  it('indexes Slack and Synopsys entity labs when archive headlines clear the gate', () => {
+    const withArch = {
+      ...ctx,
+      news: { ...ctx.news, items: [...ctx.news.items] },
+      itemArchive: [
+        {
+          id: 'sl1', title: 'My personal AI agent posted my bank details on company Slack', pillar: 'governance', source: 'hn',
+          url: 'https://example.test/sl1', published_at: '2026-09-01T01:00:00Z', score: 40,
+        },
+        {
+          id: 'sl2', title: 'Leaked Slack messages show OpenAI employees pushback', pillar: 'governance', source: 'hn',
+          url: 'https://example.test/sl2', published_at: '2026-09-02T01:00:00Z', score: 41,
+        },
+        {
+          id: 'sl3', title: 'OpenAI says users can message Dots through ChatGPT, Slack, and Microsoft Teams', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/sl3', published_at: '2026-09-03T01:00:00Z', score: 42,
+        },
+        {
+          id: 'slbad', title: 'A rope loses tension without naming the product', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/slbad', published_at: '2026-09-04T01:00:00Z', score: 30,
+        },
+        {
+          id: 'sy1', title: 'Synopsys Could Be Undervalued Following OpenAI And Amazon AI Deals', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/sy1', published_at: '2026-09-01T02:00:00Z', score: 40,
+        },
+        {
+          id: 'sy2', title: 'Is Synopsys Back from the Dead? EDA Leader Inks Deals With Amazon and OpenAI', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/sy2', published_at: '2026-09-02T02:00:00Z', score: 41,
+        },
+        {
+          id: 'sy3', title: 'Chip design software leader Synopsys explores partnerships with Chinese AI labs', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/sy3', published_at: '2026-09-03T02:00:00Z', score: 42,
+        },
+        {
+          id: 'sybad', title: 'An EDA tool review without naming the vendor', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/sybad', published_at: '2026-09-04T02:00:00Z', score: 30,
+        },
+      ],
+    };
+    const slack = labsFromEntities(withArch).find((p) => p.id === 'slack');
+    const synopsys = labsFromEntities(withArch).find((p) => p.id === 'synopsys');
+    assert.ok(slack, 'Slack clears ENTITY_LAB_MIN');
+    assert.ok(synopsys, 'Synopsys clears ENTITY_LAB_MIN');
+    assert.match(renderLab(withArch, slack), /What has SIREN scored about Slack\?/);
+    assert.match(renderLab(withArch, synopsys), /What has SIREN scored about Synopsys\?/);
+    assert.doesNotMatch(renderLab(withArch, slack), /rope loses tension/);
+    assert.doesNotMatch(renderLab(withArch, synopsys), /without naming the vendor/);
+    assert.doesNotMatch(renderLab(withArch, slack), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderLab(withArch, synopsys), /probability of doom/i);
+    assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/lab/slack.html'));
+    assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/lab/synopsys.html'));
+  });
+
   it('indexes Supermicro, IREN, OpenRouter, and Reflection AI entity labs from archive', () => {
     const withArch = {
       ...ctx,

@@ -536,6 +536,8 @@ function labNeedles(player) {
     manus: ['manus'],
     yandex: ['yandex', 'yandexgpt', 'yandex cloud'],
     tiktok: ['tiktok'],
+    slack: ['slack'],
+    synopsys: ['synopsys'],
   };
   return [...new Set([...(extras[player.id] || []), ...names])];
 }
