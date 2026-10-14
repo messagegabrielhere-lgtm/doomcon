@@ -242,18 +242,18 @@ export function renderCountry(ctx, iso2) {
     ? `<h2>Scored stories naming ${esc(country.name)}</h2>
   <p class="fc__lede">Headlines and summaries in the live newsroom window that name this country. Story counts are not a ranking of national AI activity and not a forecast.</p>
   <ol class="fc__list">${storyRows(ctx, stories)}</ol>
-  <p class="fresh__key"><a href="${esc(ctx.href('/news.html'))}">Full newsroom →</a></p>`
+  <p class="fresh__key"><a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a></p>`
     : '';
   const olderBlock = older.length
     ? `<h2>Older scored stories naming ${esc(country.name)}</h2>
   <p class="fc__lede">Kept in the permanent archive after they left the live window. Still scored stories — not a forecast.</p>
   <ol class="fc__list">${storyRows(ctx, older)}</ol>
-  <p class="fresh__key"><a href="${esc(ctx.href('/item/archive.html'))}">Full story archive</a></p>`
+  <p class="fresh__key"><a href="${esc(ctx.href('/item/archive.html'))}">Which older AI stories has ${esc(brand.NAME)} kept in the archive?</a></p>`
     : '';
 
   const main = `${STYLE}
 <article class="fc prose">
-  <p class="fc__k"><a href="${esc(ctx.href('/world.html'))}">World</a> · <a href="${esc(ctx.href('/country/'))}">Countries</a> · <a href="${esc(ctx.href('/countries.html'))}">Countries hub</a></p>
+  <p class="fc__k"><a href="${esc(ctx.href('/world.html'))}">How many datacentres has ${esc(brand.NAME)} mapped on Earth?</a> · <a href="${esc(ctx.href('/country/'))}">Which AI datacentre countries have ${esc(brand.NAME)} pages?</a> · <a href="${esc(ctx.href('/countries.html'))}">Which AI datacentre countries has ${esc(brand.NAME)} mapped?</a></p>
   <h1>How many datacentres has ${esc(brand.NAME)} mapped in ${esc(country.name)}?</h1>
   <p class="fc__lede">${esc(n(country.total))} sites in ${esc(country.name)} ${esc(qualifier)}.
      This page counts map objects carrying a datacentre tag. It does not count every datacentre that exists.
@@ -277,14 +277,14 @@ export function renderCountry(ctx, iso2) {
        <p class="fresh__key">${shown.length < sites.length
          ? `Showing ${esc(n(shown.length))} of ${esc(n(sites.length))}, announced and under construction first, then operating, by name.`
          : `${esc(n(shown.length))} named ${shown.length === 1 ? 'site' : 'sites'} in the file.`}
-          The full set is on the <a href="${esc(ctx.href('/world.html'))}">world map</a>.</p>`
-    : `<p>The country total is published. This build has no per-site rows to list. The <a href="${esc(ctx.href('/world.html'))}">world map</a> still carries the count.</p>`}
+          The full set is on <a href="${esc(ctx.href('/world.html'))}">How many datacentres has ${esc(brand.NAME)} mapped on Earth?</a>.</p>`
+    : `<p>The country total is published. This build has no per-site rows to list. <a href="${esc(ctx.href('/world.html'))}">How many datacentres has ${esc(brand.NAME)} mapped on Earth?</a> still carries the count.</p>`}
   ${storyBlock}
   ${olderBlock}
   <h2 id="faq">Questions people actually ask</h2>
   ${faqHtml}
   ${neighbours.length ? `<h2>Same subregion</h2>
-  <nav class="fc__nav" aria-label="Other countries in ${esc(country.subregion)}">${neighbours.map((c) => `<a href="${esc(ctx.href(countryPath(c.iso2)))}">${esc(c.name)}</a>`).join('')}</nav>` : ''}
+  <nav class="fc__nav" aria-label="Other countries in ${esc(country.subregion)}">${neighbours.map((c) => `<a href="${esc(ctx.href(countryPath(c.iso2)))}">How many datacentres has ${esc(brand.NAME)} mapped in ${esc(c.name)}?</a>`).join('')}</nav>` : ''}
   <p class="fresh__key">Search-shaped directory: <a href="${esc(ctx.href('/countries.html'))}">Which AI datacentre countries has ${esc(brand.NAME)} mapped?</a>.</p>
 </article>`;
 
@@ -300,9 +300,9 @@ export function renderCountry(ctx, iso2) {
     creator: { '@type': 'Organization', name: brand.PUBLICATION, url: ctx.url('/') },
     speakable: speakable(['h1', '.fc__lede']),
   }, breadcrumbs(ctx, [
-    { name: 'World', path: '/world.html' },
-    { name: 'Countries', path: '/country/' },
-    { name: country.name, path },
+    { name: `How many datacentres has ${brand.NAME} mapped on Earth?`, path: '/world.html' },
+    { name: `Which AI datacentre countries have ${brand.NAME} pages?`, path: '/country/' },
+    { name: `How many datacentres has ${brand.NAME} mapped in ${country.name}?`, path },
   ]), {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
@@ -358,15 +358,15 @@ export function renderIndex(ctx) {
   <h3>${esc(q)}</h3>
   <p>${esc(a)}</p>`).join('');
   const rows = countries.map((c) => `<li>
-  <a href="${esc(ctx.href(countryPath(c.iso2)))}">${esc(c.name)}</a>
-  <span class="fc__meta">${esc(c.iso2)} · ${esc(c.continent || '')}</span>
+  <a href="${esc(ctx.href(countryPath(c.iso2)))}">How many datacentres has ${esc(brand.NAME)} mapped in ${esc(c.name)}?</a>
+  <span class="fc__meta">${esc(c.name)} · ${esc(c.iso2)} · ${esc(c.continent || '')}</span>
   <span class="fc__sc num">${esc(n(c.total))}</span>
 </li>`).join('');
   const main = `${STYLE}
 <article class="fc prose">
-  <p class="fc__k"><a href="${esc(ctx.href('/world.html'))}">World</a> · Countries · <a href="${esc(ctx.href('/countries.html'))}">Countries hub</a></p>
+  <p class="fc__k"><a href="${esc(ctx.href('/world.html'))}">How many datacentres has ${esc(brand.NAME)} mapped on Earth?</a> · Which AI datacentre countries have ${esc(brand.NAME)} pages? · <a href="${esc(ctx.href('/countries.html'))}">Which AI datacentre countries has ${esc(brand.NAME)} mapped?</a></p>
   <h1>Which AI datacentre countries have ${esc(brand.NAME)} pages?</h1>
-  <p class="fc__lede">A country earns a page when OpenStreetMap has at least ${COUNTRY_INDEX_MIN} datacentre sites mapped there, ${esc(qualifier)}. Fewer than that stays on the <a href="${esc(ctx.href('/world.html'))}">world map</a> only. ${esc(copy.what_zero_means || 'A country with no mapped datacentre is a country nobody has mapped.')}</p>
+  <p class="fc__lede">A country earns a page when OpenStreetMap has at least ${COUNTRY_INDEX_MIN} datacentre sites mapped there, ${esc(qualifier)}. Fewer than that stays on <a href="${esc(ctx.href('/world.html'))}">How many datacentres has ${esc(brand.NAME)} mapped on Earth?</a> only. ${esc(copy.what_zero_means || 'A country with no mapped datacentre is a country nobody has mapped.')}</p>
   ${rows ? `<ol class="fc__list">${rows}</ol>` : '<p>No country clears the gate in this file.</p>'}
   <h2 id="faq">Questions people actually ask</h2>
   ${faqHtml}
@@ -392,12 +392,12 @@ export function renderIndex(ctx) {
           '@type': 'ListItem',
           position: i + 1,
           url: ctx.url(countryPath(c.iso2)),
-          name: c.name,
+          name: `How many datacentres has ${brand.NAME} mapped in ${c.name}?`,
         })),
       },
     }, breadcrumbs(ctx, [
-      { name: 'World', path: '/world.html' },
-      { name: 'Countries', path },
+      { name: `How many datacentres has ${brand.NAME} mapped on Earth?`, path: '/world.html' },
+      { name: `Which AI datacentre countries have ${brand.NAME} pages?`, path },
     ]), {
       '@context': 'https://schema.org',
       '@type': 'FAQPage',
@@ -437,24 +437,24 @@ export function renderCountries(ctx) {
   <h3>${esc(q)}</h3>
   <p>${esc(a)}</p>`).join('');
   const rows = countries.map((c) => `<li>
-  <a href="${esc(ctx.href(countryPath(c.iso2)))}">${esc(c.name)}</a>
-  <span class="fc__meta">${esc(c.iso2)}${c.continent ? ` · ${esc(c.continent)}` : ''} · <span class="num">${esc(n(c.total))}</span> mapped sites</span>
+  <a href="${esc(ctx.href(countryPath(c.iso2)))}">How many datacentres has ${esc(brand.NAME)} mapped in ${esc(c.name)}?</a>
+  <span class="fc__meta">${esc(c.name)} · ${esc(c.iso2)}${c.continent ? ` · ${esc(c.continent)}` : ''} · <span class="num">${esc(n(c.total))}</span> mapped sites</span>
 </li>`).join('');
   const main = `${STYLE}
 <article class="fc prose">
-  <p class="fc__k"><a href="${esc(ctx.href('/compare.html'))}">Compare</a> · <a href="${esc(ctx.href('/country/'))}">Countries</a> · Countries hub</p>
+  <p class="fc__k"><a href="${esc(ctx.href('/compare.html'))}">Which AI doom indexes can you compare?</a> · <a href="${esc(ctx.href('/country/'))}">Which AI datacentre countries have ${esc(brand.NAME)} pages?</a> · Which AI datacentre countries has ${esc(brand.NAME)} mapped?</p>
   <h1>Which AI datacentre countries has ${esc(brand.NAME)} mapped?</h1>
-  <p class="fc__lede">${esc(brand.NAME)} does not publish a country “doom score” or a national AI ranking. It publishes mapped datacentre counts ${esc(qualifier)}. This page lists countries that already clear the same substance gate as <a href="${esc(ctx.href('/country/'))}">/country/</a> — at least ${COUNTRY_INDEX_MIN} sites in the OpenStreetMap harvest.</p>
+  <p class="fc__lede">${esc(brand.NAME)} does not publish a country “doom score” or a national AI ranking. It publishes mapped datacentre counts ${esc(qualifier)}. This page lists countries that already clear the same substance gate as <a href="${esc(ctx.href('/country/'))}">Which AI datacentre countries have ${esc(brand.NAME)} pages?</a> — at least ${COUNTRY_INDEX_MIN} sites in the OpenStreetMap harvest.</p>
   <div class="fc__stat" role="group" aria-label="Countries hub totals">
     <div><b class="num">${esc(n(countries.length))}</b><span>Country hubs</span></div>
   </div>
   ${countries.length ? `<ol class="fc__list">${rows}</ol>` : '<p>No country hub cleared the gate in this build.</p>'}
   <h2 id="faq">Questions people actually ask</h2>
   ${faqHtml}
-  <p class="fresh__key"><a href="${esc(ctx.href('/country/'))}">Country directory →</a>
-     · <a href="${esc(ctx.href('/world.html'))}">World map →</a>
-     · <a href="${esc(ctx.href('/companies.html'))}">AI companies →</a>
-     · <a href="${esc(ctx.href('/pillars.html'))}">AI pillars →</a></p>
+  <p class="fresh__key"><a href="${esc(ctx.href('/country/'))}">Which AI datacentre countries have ${esc(brand.NAME)} pages?</a>
+     · <a href="${esc(ctx.href('/world.html'))}">How many datacentres has ${esc(brand.NAME)} mapped on Earth?</a>
+     · <a href="${esc(ctx.href('/companies.html'))}">Which AI companies has ${esc(brand.NAME)} scored stories about?</a>
+     · <a href="${esc(ctx.href('/pillars.html'))}">Which AI activity pillars has ${esc(brand.NAME)} scored?</a></p>
 </article>`;
   return page({
     ctx,
@@ -476,12 +476,12 @@ export function renderCountries(ctx) {
           '@type': 'ListItem',
           position: i + 1,
           url: ctx.url(countryPath(c.iso2)),
-          name: c.name,
+          name: `How many datacentres has ${brand.NAME} mapped in ${c.name}?`,
         })),
       },
     }, breadcrumbs(ctx, [
-      { name: 'Compare', path: '/compare.html' },
-      { name: 'Countries', path },
+      { name: 'Which AI doom indexes can you compare?', path: '/compare.html' },
+      { name: `Which AI datacentre countries has ${brand.NAME} mapped?`, path },
     ]), {
       '@context': 'https://schema.org',
       '@type': 'FAQPage',

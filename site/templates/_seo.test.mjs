@@ -174,6 +174,10 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('What has SIREN scored about Anthropic'));
     assert.ok(org.knowsAbout.includes('Where are the SIREN reading receipts'));
     assert.ok(org.knowsAbout.includes('AI datacentre countries this index scored'));
+    assert.ok(org.knowsAbout.includes('Which AI datacentre countries has SIREN mapped'));
+    assert.ok(org.knowsAbout.includes('Which AI datacentre countries have SIREN pages'));
+    assert.ok(org.knowsAbout.includes('How many datacentres has SIREN mapped on Earth'));
+    assert.ok(org.knowsAbout.includes('How many datacentres has SIREN mapped in Germany'));
     assert.ok(org.knowsAbout.includes('how many datacentres mapped on Earth'));
     assert.ok(org.knowsAbout.includes('how many datacentres mapped in the United States'));
     assert.ok(org.knowsAbout.includes('SIREN infrastructure index'));
