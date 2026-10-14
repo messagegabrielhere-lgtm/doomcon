@@ -32,7 +32,7 @@ export function prWall(latest, at) {
   if (!items.length) return '';
   const card = (x) => `<a class="pw-c" href="${esc(x.url)}" target="_blank" rel="noopener nofollow" data-id="${esc(x.url)}"><span class="pw-t">${esc(x.title)}<small>${esc(x.repo)}</small></span><img onerror="this.remove()" src="${esc(prImage(x.url))}" alt="${esc(`${x.agent} pull request: ${x.title} (${x.repo})`)}" loading="lazy" decoding="async" width="600" height="300"><span class="pw-m"><b>${esc(x.agent)}</b> · <time datetime="${esc(x.at)}">${esc(String(x.at || '').slice(11, 16))} UTC</time></span></a>`;
   return `<div class="ac pw" id="prwall" data-at="${esc(at || '')}">
-  <h3><span class="pw-dot" aria-hidden="true"></span>LIVE FEED · WHAT THE AGENTS ARE SHIPPING <small id="pw-stat">sample from ${esc(String(at || '').slice(11, 16))} UTC</small></h3>
+  <h3><span class="pw-dot" aria-hidden="true"></span>What are the agents shipping right now? <small id="pw-stat">sample from ${esc(String(at || '').slice(11, 16))} UTC</small></h3>
   <div class="pw-g" id="pw-g">${items.map(card).join('')}</div>
   <p class="pw-n">Preview images are GitHub’s own cards for each pull request. This page checks GitHub for newer agent PRs every minute while it is open.</p>
 </div>`;

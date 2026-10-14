@@ -126,6 +126,9 @@ export function render(ctx, sig, hist = []) {
       'The newest pull requests in the sample, labelled by kind from title words such as fix, feat, docs and bump.'],
     ['Which repositories are busiest in the sample?',
       'Repositories with the most agent PRs in this hour’s sample. How it works: the newest 30 PRs from each agent’s own GitHub account and 20 from each agent’s default branch name.'],
+    // Tip #349: live PR-wall H3 is question-shaped and mirrored in FAQ (§3.3).
+    ['What are the agents shipping right now?',
+      'Preview images are GitHub’s own cards for each pull request. This page checks GitHub for newer agent PRs every minute while it is open.'],
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>

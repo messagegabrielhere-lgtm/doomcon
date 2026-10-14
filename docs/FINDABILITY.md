@@ -598,6 +598,8 @@ context.
 | 346 | `/map.html` + `/world.html` legend H3s + FAQPage use questions (was “Shape is status” / “Colour is the drought…” / “Size is capacity…” / “Colour is one colour” / “What is not drawn”); Organization `knowsAbout` mirrors those questions; refuse map-as-draw / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 347 | `/p-doom.html` voices H3s + classic oven gates H3 + FAQPage use questions (was “IN THE NEWS…” / “POLLS & SURVEYS” / “FURTHER READING…” / “What would move it”); Organization `knowsAbout` mirrors those questions; refuse SIREN-as-p(doom) / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 348 | `/moltbook.html` evolution H3s + `/agents.html` kit/assistant H3s + FAQPage use questions (was “Themes by day” / “Daily standouts” / “Run the agent kit” / “Use SIREN in ChatGPT…”); Organization `knowsAbout` mirrors those questions; refuse Agent-Watch-as-index / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 349 | `/alerts.html` email/webhook card H3s + `/si-watch.html` live PR-wall H3 + FAQPage use questions (was “Blogtrottr…” / “FeedRabbit…” / “IFTTT” / “Zapier” / “Make” / “Slack directly” / “LIVE FEED · WHAT THE AGENTS ARE SHIPPING”); Organization `knowsAbout` mirrors those questions; refuse private-email-intake / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 350 | `/export.html` badge + snippet H3s + FAQPage use questions (was “Live in Google Sheets” / “Widget (iframe)” / “Badge, for READMEs…” / “Badge (HTML/Markdown)” / “Share card…” / “JavaScript” / “Shell” / “Attribution line”); Organization `knowsAbout` mirrors those questions; refuse paid-API / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 

@@ -160,6 +160,19 @@ export function alertsPage(ctx) {
       'Leave this page open in a tab. Your browser checks the current reading every 10 minutes and shows a desktop notification when one of your thresholds trips. Your settings stay in this browser\'s local storage and are never sent anywhere. It stops when you close the tab.'],
     [`Do alerts move the ${brand.NAME} score?`,
       `They never move the ${brand.NAME} score. Subscribing to RSS or in-tab notifications is separate from the tempo index.`],
+    // Tip #349: email / webhook card H3s are question-shaped and mirrored in FAQ (§3.3).
+    ['How do I email alerts with Blogtrottr?',
+      'Open blogtrottr.com, paste a feed URL from step 2, enter your address on their site and choose "real-time". You get one email per new item. Free.'],
+    ['How do I email alerts with FeedRabbit?',
+      'At feedrabbit.com, add the feed URL and pick instant or a daily digest. Free tier available.'],
+    ['How do I pipe a feed through IFTTT?',
+      'Create an applet: If "RSS Feed → New feed item" (paste the URL), Then "Webhooks → Make a web request", or Discord, Slack, SMS, phone notification.'],
+    ['How do I pipe a feed through Zapier?',
+      'Trigger "RSS by Zapier → New Item in Feed", action "Webhooks by Zapier → POST" (or Slack / Discord / Teams).'],
+    ['How do I pipe a feed through Make?',
+      'Scenario: "RSS → Watch RSS feed items" → "HTTP → Make a request" to your endpoint. Set the schedule to every 15–60 minutes.'],
+    ['How do I subscribe in Slack directly?',
+      'Add Slack\'s RSS app to a channel and run /feed subscribe <feed URL>.'],
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>
@@ -181,17 +194,17 @@ ${list}
 
 <h2 id="email">3 · How do I turn a feed into email?</h2>
 <div class="xt-grid">
-  <div class="xt-card"><h3>Blogtrottr (free)</h3><p>Open <a href="https://blogtrottr.com/" target="_blank" rel="noopener">blogtrottr.com</a>, paste a feed URL from step 2, enter your address on their site and choose "real-time". You get one email per new item.</p></div>
-  <div class="xt-card"><h3>FeedRabbit (free tier)</h3><p>At <a href="https://feedrabbit.com/" target="_blank" rel="noopener">feedrabbit.com</a>, add the feed URL and pick instant or a daily digest.</p></div>
+  <div class="xt-card"><h3>How do I email alerts with Blogtrottr?</h3><p>Open <a href="https://blogtrottr.com/" target="_blank" rel="noopener">blogtrottr.com</a>, paste a feed URL from step 2, enter your address on their site and choose "real-time". You get one email per new item. Free.</p></div>
+  <div class="xt-card"><h3>How do I email alerts with FeedRabbit?</h3><p>At <a href="https://feedrabbit.com/" target="_blank" rel="noopener">feedrabbit.com</a>, add the feed URL and pick instant or a daily digest. Free tier available.</p></div>
 </div>
 <p class="xt-note">Both are independent third-party services with their own terms and privacy policies. Your address goes to them, not to ${esc(brand.NAME)}; this site never asks for it.</p>
 
 <h2 id="webhook">4 · How do I send it to a webhook, Slack or Discord?</h2>
 <div class="xt-grid">
-  <div class="xt-card"><h3>IFTTT</h3><p>Create an applet: <b>If</b> "RSS Feed → New feed item" (paste the URL), <b>Then</b> "Webhooks → Make a web request", or Discord, Slack, SMS, phone notification.</p></div>
-  <div class="xt-card"><h3>Zapier</h3><p>Trigger "RSS by Zapier → New Item in Feed", action "Webhooks by Zapier → POST" (or Slack / Discord / Teams). Item title, link and description are available as fields.</p></div>
-  <div class="xt-card"><h3>Make</h3><p>Scenario: "RSS → Watch RSS feed items" → "HTTP → Make a request" to your endpoint. Set the schedule to every 15–60 minutes.</p></div>
-  <div class="xt-card"><h3>Slack directly</h3><p>Add Slack's RSS app to a channel and run <code>/feed subscribe &lt;feed URL&gt;</code>.</p></div>
+  <div class="xt-card"><h3>How do I pipe a feed through IFTTT?</h3><p>Create an applet: <b>If</b> "RSS Feed → New feed item" (paste the URL), <b>Then</b> "Webhooks → Make a web request", or Discord, Slack, SMS, phone notification.</p></div>
+  <div class="xt-card"><h3>How do I pipe a feed through Zapier?</h3><p>Trigger "RSS by Zapier → New Item in Feed", action "Webhooks by Zapier → POST" (or Slack / Discord / Teams). Item title, link and description are available as fields.</p></div>
+  <div class="xt-card"><h3>How do I pipe a feed through Make?</h3><p>Scenario: "RSS → Watch RSS feed items" → "HTTP → Make a request" to your endpoint. Set the schedule to every 15–60 minutes.</p></div>
+  <div class="xt-card"><h3>How do I subscribe in Slack directly?</h3><p>Add Slack's RSS app to a channel and run <code>/feed subscribe &lt;feed URL&gt;</code>.</p></div>
 </div>
 <p class="xt-note">Feeds rebuild once per reading (about hourly), so polling more often than every 15 minutes gains nothing. Each item's &lt;guid&gt; is fixed per reading time, so reruns never double-post.</p>
 
@@ -361,6 +374,25 @@ export function exportPage(ctx) {
       'No key, no rate limit beyond GitHub\'s own. The site sends Access-Control-Allow-Origin: *, so these files can be fetched from any web page without a proxy. Please cache: data changes about once an hour.'],
     [`Does exporting move the ${brand.NAME} score?`,
       `It never moves the ${brand.NAME} score. Downloads, embeds and API fetches are separate from the tempo index.`],
+    // Tip #350: badge / snippet H3s are question-shaped and mirrored in FAQ (§3.3).
+    ['How do I use it live in Google Sheets?',
+      'Paste the Sheets formula from this page into a cell. Files rebuild with each hourly reading.'],
+    ['How do I embed the widget iframe?',
+      'The widget is a 320×152 box that redraws with every reading and matches light or dark pages. It renders the number server-side, so it still shows with scripts blocked.'],
+    ['What badge works when iframes are stripped?',
+      'Use the badge SVG for READMEs and newsletters that strip iframes. HTML and Markdown snippets are printed beside the preview.'],
+    ['How do I add the badge in HTML?',
+      'Copy the Badge (HTML) snippet on this page next to the badge preview.'],
+    ['How do I add the badge in Markdown?',
+      'Copy the Badge (Markdown) snippet on this page next to the badge preview.'],
+    ['How do I use the share card image?',
+      'The share card is a 1200×675 PNG. Copy the snippet on this page.'],
+    ['How do I fetch it from JavaScript?',
+      'No key. Fetch the published JSON or text endpoints from any web page; cache about once an hour.'],
+    ['How do I fetch it from the shell?',
+      'curl the published text endpoint. No key beyond GitHub\'s own limits.'],
+    ['What attribution line should I use?',
+      `Text and data are ${brand.LICENSE}. Reuse anything, commercially too, with the attribution line printed on this page.`],
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>
@@ -372,26 +404,26 @@ export function exportPage(ctx) {
 
 <h2 id="download">What can I download?</h2>
 <div class="xt-grid">${dl}</div>
-${snippet('xs-sheets', 'Live in Google Sheets', sheets)}
+${snippet('xs-sheets', 'How do I use it live in Google Sheets?', sheets)}
 
 <h2 id="embed">How do I embed the current reading?</h2>
 <p>The widget is a 320×152 box that redraws with every reading and matches light or dark pages. It renders the number server-side, so it still shows with scripts blocked.</p>
 <iframe src="${esc(ctx.href('/embed.html'))}" width="320" height="152" style="border:0;max-width:100%" loading="lazy" title="${esc(brand.NAME)} widget preview"></iframe>
-${snippet('xs-iframe', 'Widget (iframe)', embedSnippet)}
-<h3 style="margin-top:18px">Badge, for READMEs and newsletters that strip iframes</h3>
+${snippet('xs-iframe', 'How do I embed the widget iframe?', embedSnippet)}
+<h3 style="margin-top:18px">What badge works when iframes are stripped?</h3>
 <p><img src="${esc(ctx.href('/badge.svg'))}" alt="${esc(brand.NAME)} badge preview" height="20"></p>
-${snippet('xs-badge-html', 'Badge (HTML)', badgeHtml)}
-${snippet('xs-badge-md', 'Badge (Markdown)', badgeMd)}
-${snippet('xs-card', 'Share card image (1200×675 PNG)', cardHtml)}
+${snippet('xs-badge-html', 'How do I add the badge in HTML?', badgeHtml)}
+${snippet('xs-badge-md', 'How do I add the badge in Markdown?', badgeMd)}
+${snippet('xs-card', 'How do I use the share card image?', cardHtml)}
 
 <h2 id="api">How do I use it from code?</h2>
-${snippet('xs-js', 'JavaScript', jsSnippet)}
-${snippet('xs-curl', 'Shell', `curl -s ${ctx.url('/api/latest.txt')}`)}
+${snippet('xs-js', 'How do I fetch it from JavaScript?', jsSnippet)}
+${snippet('xs-curl', 'How do I fetch it from the shell?', `curl -s ${ctx.url('/api/latest.txt')}`)}
 <p><b>CORS:</b> the site is served by GitHub Pages, which sends <code>Access-Control-Allow-Origin: *</code>, so these files can be fetched from any web page without a proxy. No key, no rate limit beyond GitHub's own. Please cache: data changes about once an hour.</p>
 
 <h2 id="licence">What is the licence and credit?</h2>
 <p>Text and data are ${esc(brand.LICENSE)}. Reuse anything, commercially too, with this line (or an equivalent) next to it:</p>
-${snippet('xs-attr', 'Attribution line', attribution)}
+${snippet('xs-attr', 'What attribution line should I use?', attribution)}
 <p class="xt-note">${esc(brand.DISCLAIMER)} Want an alert instead of a file? See <a href="${esc(ctx.href('/alerts.html'))}">How do I get alerts when ${esc(brand.NAME)} moves?</a>.</p>
 <section class="xt-faq" aria-labelledby="faq">
   <h2 id="faq">Questions people actually ask</h2>

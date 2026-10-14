@@ -34,6 +34,9 @@ describe('si-watch page', () => {
     assert.doesNotMatch(html, /<h3>BY AGENT<\/h3>/);
     assert.doesNotMatch(html, /<h3>JUST OPENED<\/h3>/);
     assert.doesNotMatch(html, /<h3>BUSIEST REPOSITORIES IN THE SAMPLE<\/h3>/);
+    assert.match(html, /What are the agents shipping right now\?/);
+    assert.match(html, /FAQPage[\s\S]*What are the agents shipping right now\?/);
+    assert.doesNotMatch(html, /LIVE FEED · WHAT THE AGENTS ARE SHIPPING/);
     assert.match(html, /Do these signals move the SIREN level\?/);
     assert.match(html, /What happens when a signal stops answering\?/);
     assert.match(html, /Where does the data come from\?/);
