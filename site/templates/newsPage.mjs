@@ -125,6 +125,9 @@ export function render(ctx) {
     // Tip #338: archive filter H3 is question-shaped and mirrored in FAQ (§3.3).
     ['How do you filter the scored list?',
       'Use the filter controls above the scored-item list to narrow by pillar, source or score without leaving the newsroom window. Filtering never invents items or changes a score.'],
+    // Tip #387: incident-tier H3 is question-shaped and mirrored in FAQ (§3.3).
+    ['Which incident terms fired in this window?',
+      'Tier is the weight of the term that matched, not a judgement about the event — the matched words are printed beside each one. Every entry jumps to its row in the list. Scores are not a newsroom doom score.'],
     [srcQ,
       'Scores rank items against each other inside this window; they are not a probability of anything and they do not move the index on their own. The composite score and the level are computed from the five pillars, not from this list.'],
     [`Does ${brand.NAME} publish a newsroom doom score?`,
@@ -1146,10 +1149,12 @@ function tierStrip(corpus) {
     </li>`;
   }).join('');
 
+  // Tip #387: incident-tier H3 is question-shaped (mirrored in FAQ §3.3).
+  const tierQ = 'Which incident terms fired in this window?';
   return `<section class="ntier" aria-labelledby="ntier-h">
-  <h3 class="ntier__h3" id="ntier-h">Incident terms fired on ${esc(corpus.banded.length)} of
-     ${esc(corpus.total)} items</h3>
-  <p class="nkey">${esc(counts)}. Tier is the weight of the term that matched, not a judgement
+  <h3 class="ntier__h3" id="ntier-h">${esc(tierQ)}</h3>
+  <p class="nkey">Fired on ${esc(corpus.banded.length)} of ${esc(corpus.total)} items.
+     ${esc(counts)}. Tier is the weight of the term that matched, not a judgement
      about the event &mdash; the matched words are printed beside each one. Every entry jumps to
      its row in the list.</p>
   <ol class="ntier__l">${rows}</ol>
