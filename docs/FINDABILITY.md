@@ -263,6 +263,7 @@ context.
 | 30 | Question-shaped titles/H2s + WebPage/Speakable/Breadcrumb/FAQ on `/p-doom.html` + `/ai-doomsday-clock.html` (visible FAQ matches schema) | Google | **Done** (2026-10-14) |
 | 31 | Question-shaped `/guide.html` + `/guide.md` + IndexNow ALWAYS evergreen rooms (history/instruments/map/…) for post-deploy crawl | Google + Bing | **Done** (2026-10-14) |
 | 32 | Question-shaped `/compare.html` `/alternatives.html` `/vs/*` hubs + methodology title/H2s (METHODOLOGY.md FAQ from visible questions) | Google | **Done** (2026-10-14) |
+| 33 | IndexNow ALWAYS covers gated hubs this build already emits (labs/models/tags/sources missing from ping set) | Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
