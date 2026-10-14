@@ -2216,4 +2216,35 @@ describe('tag pages', () => {
     assert.doesNotMatch(renderTag(rich, 'chatgpt-teens'), /doom score:\s*\d/i);
     assert.doesNotMatch(renderTag(rich, 'chatgpt-teens'), /probability of doom/i);
   });
+
+  it('pages large-language-models and frontier-ai hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('llm1', 'Foundations of Large Language Models'),
+          story('llm2', 'Large language models discover complementary heuristics for combinatorial optimization'),
+          story('llm3', 'Characterizing the role of reasoning tokens in large language models as state over tokens'),
+          story('llm4', 'Too agreeable to be accurate? Sycophancy of large language models in medical diagnosis'),
+          story('llm5', 'Guiding large language models to predict edit sequences for molecular synthesizability'),
+          story('fa1', 'White House restores UK access to frontier AI models after 17 day freeze'),
+          story('fa2', 'South Korea sets $3.5B plan to build frontier AI model'),
+          story('fa3', 'Yoshua Bengio: If you prioritize safety, leave frontier AI companies'),
+          story('fa4', 'Frontier AI models outperform analysts on earnings prediction'),
+          story('fa5', 'Towards safety cases for frontier AI training'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    assert.ok(ids.includes('large-language-models'));
+    assert.ok(ids.includes('frontier-ai'));
+    assert.match(renderTag(rich, 'large-language-models'), /What has SIREN scored about Large language models\?/);
+    assert.match(renderTag(rich, 'frontier-ai'), /What has SIREN scored about Frontier AI\?/);
+    assert.match(renderTag(rich, 'large-language-models'), /not a capability ranking/i);
+    assert.match(renderTag(rich, 'frontier-ai'), /not a capability ranking/i);
+    assert.doesNotMatch(renderTag(rich, 'large-language-models'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'frontier-ai'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'frontier-ai'), /probability of doom/i);
+  });
 });
