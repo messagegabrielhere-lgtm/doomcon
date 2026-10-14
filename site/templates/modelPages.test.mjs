@@ -383,6 +383,52 @@ describe('model pages', () => {
     assert.ok(!indexableModels(thin).some((m) => m.name === 'Kimi'));
   });
 
+  it('indexes Claude, GPT, Gemini, Qwen, DeepSeek-R, Llama, and Gemma model hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('cl1', 'Claude ships a new Anthropic checkpoint', ['Claude']),
+          story('cl2', 'Claude handles long-context agent tasks', ['Claude']),
+          story('cl3', 'Developers adopt Claude for coding agents', ['Claude']),
+          story('gp1', 'GPT models expand OpenAI API traffic', ['GPT']),
+          story('gp2', 'GPT fine-tunes land in enterprise copilots', ['GPT']),
+          story('gp3', 'Researchers benchmark GPT against open weights', ['GPT']),
+          story('ge1', 'Gemini multimodal updates land in Google apps', ['Gemini']),
+          story('ge2', 'Gemini API adds new reasoning modes', ['Gemini']),
+          story('ge3', 'Enterprises trial Gemini for document agents', ['Gemini']),
+          story('qw1', 'Qwen open-weight models expand Alibaba Cloud AI', ['Qwen']),
+          story('qw2', 'Developers pull Qwen checkpoints for agents', ['Qwen']),
+          story('qw3', 'Qwen multimodal release widens open-source use', ['Qwen']),
+          story('ds1', 'DeepSeek-R1 beats prior open baseline', ['DeepSeek-R']),
+          story('ds2', 'Labs react to DeepSeek-R reasoning scores', ['DeepSeek-R']),
+          story('ds3', 'DeepSeek-R open weights land on Hugging Face', ['DeepSeek-R']),
+          story('ll1', 'Llama open weights expand Meta AI distribution', ['Llama']),
+          story('ll2', 'Fine-tunes of Llama power local coding agents', ['Llama']),
+          story('ll3', 'Enterprises host Llama for private inference', ['Llama']),
+          story('gm1', 'Gemma open models expand Google DeepMind lineup', ['Gemma']),
+          story('gm2', 'Developers fine-tune Gemma for on-device apps', ['Gemma']),
+          story('gm3', 'Gemma checkpoints land in edge AI kits', ['Gemma']),
+        ],
+      },
+    };
+    for (const [name, slug] of [
+      ['Claude', 'claude'],
+      ['GPT', 'gpt'],
+      ['Gemini', 'gemini'],
+      ['Qwen', 'qwen'],
+      ['DeepSeek-R', 'deepseek-r'],
+      ['Llama', 'llama'],
+      ['Gemma', 'gemma'],
+    ]) {
+      assert.ok(indexableModels(rich).some((m) => m.name === name), name);
+      assert.ok(sitemapEntries(rich).some((e) => e.loc === `/model/${slug}.html`), slug);
+      assert.match(renderModel(rich, name), new RegExp(name));
+      assert.doesNotMatch(renderModel(rich, name), /doom score:\s*\d/i);
+    }
+  });
+
   it('indexes EmbeddingGemma, SynthID, and Clef model hubs', () => {
     const rich = {
       ...ctx,

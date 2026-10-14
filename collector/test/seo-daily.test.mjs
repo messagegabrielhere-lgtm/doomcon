@@ -95,6 +95,13 @@ describe('seo-daily parsers', () => {
     assert.ok(OUR_SURFACES.includes('/lab/meta.html'));
     assert.ok(OUR_SURFACES.includes('/lab/google-deepmind.html'));
     assert.ok(OUR_SURFACES.includes('/lab/xai.html'));
+    assert.ok(OUR_SURFACES.includes('/model/claude.html'));
+    assert.ok(OUR_SURFACES.includes('/model/gpt.html'));
+    assert.ok(OUR_SURFACES.includes('/model/gemini.html'));
+    assert.ok(OUR_SURFACES.includes('/model/qwen.html'));
+    assert.ok(OUR_SURFACES.includes('/model/deepseek-r.html'));
+    assert.ok(OUR_SURFACES.includes('/model/llama.html'));
+    assert.ok(OUR_SURFACES.includes('/model/gemma.html'));
     assert.ok(OUR_SURFACES.includes('/model/kimi.html'));
     assert.ok(OUR_SURFACES.includes('/model/glm.html'));
     assert.ok(OUR_SURFACES.includes('/model/grok.html'));
