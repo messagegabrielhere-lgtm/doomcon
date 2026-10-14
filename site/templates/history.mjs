@@ -38,7 +38,7 @@ const CHAPTERS = [
   {
     id: 'idea',
     numeral: 'I',
-    title: 'The idea arrives before the machines do',
+    title: 'When does the idea of AI risk arrive before the machines?',
     standfirst:
       'Every argument being had in 2026 was written down before anyone had the hardware to test ' +
       'it. Two of these three documents are funding proposals.',
@@ -46,7 +46,7 @@ const CHAPTERS = [
   {
     id: 'precedent',
     numeral: 'II',
-    title: 'The precedent nobody in AI can stop citing',
+    title: 'Which precedent can nobody in AI stop citing?',
     standfirst:
       'In 1974 a field called a halt on itself, and in 1975 it met in a conference centre on the ' +
       'California coast to write the rules. Every AI governance proposal since has been measured ' +
@@ -55,7 +55,7 @@ const CHAPTERS = [
   {
     id: 'shape',
     numeral: 'III',
-    title: 'The argument acquires a shape',
+    title: 'How does the AI-risk argument acquire a shape?',
     standfirst:
       'Between the second AI winter and the deep learning era, the worry got precise enough to be ' +
       'criticised — which is the point at which an intuition becomes a position.',
@@ -63,7 +63,7 @@ const CHAPTERS = [
   {
     id: 'jumps',
     numeral: 'IV',
-    title: 'The capability jumps',
+    title: 'Where did the capability jumps land?',
     standfirst:
       'Five dates on which something that could not be done became something that had been done. ' +
       'Note how ordinary the delivery mechanism is: a chess match, a contest entry, a preprint.',
@@ -71,7 +71,7 @@ const CHAPTERS = [
   {
     id: 'signatures',
     numeral: 'V',
-    title: 'The field signs its name',
+    title: 'When does the field sign its name on AI risk?',
     standfirst:
       'The distinguishing feature of this round of AI worry is that the people building the ' +
       'systems are the ones signing the letters. That is a dated, countable event, whatever you ' +
@@ -80,7 +80,7 @@ const CHAPTERS = [
   {
     id: 'dates',
     numeral: 'VI',
-    title: 'Governance acquires dates',
+    title: 'When does AI governance acquire dates?',
     standfirst:
       'The stretch where the governance pillar of this index became countable. Declarations are ' +
       'cheap and statutes are not, and both leave machine-readable records with numbers on them.',
@@ -101,7 +101,7 @@ const TIMELINE = [
     chapter: 'idea',
     date: '1950-10',
     display: 'October 1950',
-    title: 'Turing proposes a test instead of a definition',
+    title: 'What test did Turing propose instead of a definition?',
     body:
       'Alan Turing opens "Computing Machinery and Intelligence" by rejecting the question "can ' +
       'machines think?" as too ill-defined to answer, and substitutes an operational test that can ' +
@@ -116,7 +116,7 @@ const TIMELINE = [
     chapter: 'idea',
     date: '1955-08-31',
     display: '31 August 1955',
-    title: 'The name is coined, in a funding proposal',
+    title: 'Where was the name artificial intelligence coined?',
     body:
       'John McCarthy, Marvin Minsky, Nathaniel Rochester and Claude Shannon submit a proposal to ' +
       'the Rockefeller Foundation for a two-month, ten-man study at Dartmouth College the following ' +
@@ -131,7 +131,7 @@ const TIMELINE = [
     chapter: 'idea',
     date: '1965',
     display: '1965',
-    title: 'Good describes the intelligence explosion',
+    title: 'How did Good describe the intelligence explosion?',
     body:
       'I. J. Good, who had worked with Turing at Bletchley Park, sets out the recursive argument in ' +
       '"Speculations Concerning the First Ultraintelligent Machine": a machine that designs machines ' +
@@ -149,7 +149,7 @@ const TIMELINE = [
     chapter: 'precedent',
     date: '1974-07-26',
     display: '26 July 1974',
-    title: 'A field calls a moratorium on itself',
+    title: 'When did a field call a moratorium on itself?',
     body:
       'Paul Berg and ten co-signatories — among them David Baltimore, Stanley Cohen, Herbert Boyer ' +
       'and James Watson — publish a letter in Science asking laboratories worldwide to defer two ' +
@@ -165,7 +165,7 @@ const TIMELINE = [
     chapter: 'precedent',
     date: '1975-02-24',
     display: '24–27 February 1975',
-    title: 'Asilomar writes the rules',
+    title: 'What rules did Asilomar write?',
     body:
       'About 140 people — molecular biologists, plus lawyers, physicians and the press — meet at the ' +
       'Asilomar Conference Grounds in Pacific Grove, California, and agree a tiered containment ' +
@@ -184,7 +184,7 @@ const TIMELINE = [
     chapter: 'shape',
     date: '1993',
     display: '1993',
-    title: 'Vinge names the singularity and dates it',
+    title: 'Who named the singularity and dated it?',
     body:
       'Vernor Vinge presents "The Coming Technological Singularity" at the VISION-21 symposium held ' +
       'at NASA Lewis Research Center. He takes Good\'s recursive argument, gives it the name that ' +
@@ -198,7 +198,7 @@ const TIMELINE = [
     chapter: 'shape',
     date: '2003',
     display: '2003',
-    title: 'Bostrom builds the paperclip maximizer',
+    title: 'Who built the paperclip maximizer argument?',
     body:
       'In "Ethical Issues in Advanced Artificial Intelligence", Nick Bostrom introduces the thought ' +
       'experiment that has outlived every other piece of vocabulary in this field: a ' +
@@ -216,7 +216,7 @@ const TIMELINE = [
     chapter: 'jumps',
     date: '1997-05-11',
     display: '11 May 1997',
-    title: 'Deep Blue takes the rematch',
+    title: 'When did Deep Blue take the rematch?',
     body:
       'IBM\'s Deep Blue beats Garry Kasparov 3½–2½ in New York, winning the deciding game in nineteen ' +
       'moves. Chess had been the standing proxy for machine intelligence since the 1950s. It stopped ' +
@@ -229,7 +229,7 @@ const TIMELINE = [
     chapter: 'jumps',
     date: '2012-09',
     display: 'September 2012',
-    title: 'AlexNet ends the argument about deep learning',
+    title: 'How did AlexNet end the argument about deep learning?',
     body:
       'Alex Krizhevsky, Ilya Sutskever and Geoffrey Hinton enter a deep convolutional network ' +
       'trained on two consumer GPUs into the ImageNet challenge and record a 15.3% top-5 error rate ' +
@@ -244,7 +244,7 @@ const TIMELINE = [
     chapter: 'jumps',
     date: '2016-03-15',
     display: '15 March 2016',
-    title: 'AlphaGo beats Lee Sedol 4–1',
+    title: 'When did AlphaGo beat Lee Sedol 4–1?',
     body:
       'Go had been the standing counter-example: too large a search space, too dependent on ' +
       'intuition. DeepMind\'s AlphaGo took the five-game match in Seoul. Lee Sedol won game four, and ' +
@@ -257,7 +257,7 @@ const TIMELINE = [
     chapter: 'jumps',
     date: '2017-06-12',
     display: '12 June 2017',
-    title: 'The transformer paper is posted',
+    title: 'When was the transformer paper posted?',
     body:
       'Eight authors at Google publish an architecture that drops recurrence and convolution ' +
       'entirely in favour of attention. Almost every system this index counts today is a descendant ' +
@@ -272,7 +272,7 @@ const TIMELINE = [
     chapter: 'jumps',
     date: '2022-11-30',
     display: '30 November 2022',
-    title: 'ChatGPT ships as a research preview',
+    title: 'When did ChatGPT ship as a research preview?',
     body:
       'The underlying model was not new and the interface was a text box. What changed was who had ' +
       'access. This is the date the general public acquired an opinion about AI, and the date the ' +
@@ -287,7 +287,7 @@ const TIMELINE = [
     chapter: 'signatures',
     date: '2015-01-12',
     display: '12 January 2015',
-    title: 'The research-priorities letter, and the money behind it',
+    title: 'What was the research-priorities letter, and the money behind it?',
     body:
       'The Future of Life Institute circulates "Research Priorities for Robust and Beneficial ' +
       'Artificial Intelligence" to attendees of its Puerto Rico conference (2–5 January 2015) and ' +
@@ -304,7 +304,7 @@ const TIMELINE = [
     chapter: 'signatures',
     date: '2015-12-11',
     display: '11 December 2015',
-    title: 'OpenAI is announced as a non-profit',
+    title: 'How was OpenAI announced as a non-profit?',
     body:
       'Sam Altman and Elon Musk announce OpenAI as a non-profit research company with a stated ' +
       'billion dollars in committed funding, framed explicitly as a safety argument: that the safer ' +
@@ -320,7 +320,7 @@ const TIMELINE = [
     chapter: 'signatures',
     date: '2016-06-21',
     display: '21 June 2016',
-    title: 'Concrete Problems in AI Safety',
+    title: 'What are Concrete Problems in AI Safety?',
     body:
       'Dario Amodei, Chris Olah, Jacob Steinhardt, Paul Christiano, John Schulman and Dan Mané ' +
       'publish a preprint recasting the worry as five ordinary engineering problems: avoiding ' +
@@ -335,7 +335,7 @@ const TIMELINE = [
     chapter: 'signatures',
     date: '2017-01',
     display: 'January 2017',
-    title: 'The Asilomar AI Principles borrow the venue on purpose',
+    title: 'Why do the Asilomar AI Principles borrow the venue on purpose?',
     body:
       'The Beneficial AI conference, held at Asilomar on 5–8 January 2017, produces 23 principles ' +
       'across research questions, ethics and values, and longer-term issues. The choice of venue is ' +
@@ -350,7 +350,7 @@ const TIMELINE = [
     chapter: 'signatures',
     date: '2023-03-22',
     display: '22 March 2023',
-    title: 'The pause letter',
+    title: 'What is the pause letter?',
     body:
       'Eight days after GPT-4 shipped, the Future of Life Institute publishes an open letter calling ' +
       'for an immediate six-month halt to the training of systems more powerful than GPT-4, ' +
@@ -365,7 +365,7 @@ const TIMELINE = [
     chapter: 'signatures',
     date: '2023-05-01',
     display: '1 May 2023',
-    title: 'Hinton leaves Google to speak freely',
+    title: 'Why did Hinton leave Google to speak freely?',
     body:
       'Geoffrey Hinton — whose students built AlexNet, who shared the 2018 Turing Award for the work ' +
       'underpinning modern deep learning, and who shared the 2024 Nobel Prize in Physics — resigns ' +
@@ -380,7 +380,7 @@ const TIMELINE = [
     chapter: 'signatures',
     date: '2023-05-30',
     display: '30 May 2023',
-    title: 'One sentence, signed by the people building it',
+    title: 'What one sentence was signed by the people building it?',
     body:
       'The Center for AI Safety publishes a single-sentence statement placing extinction risk from ' +
       'AI alongside pandemics and nuclear war as a global priority. Its signatories include the ' +
@@ -396,7 +396,7 @@ const TIMELINE = [
     chapter: 'dates',
     date: '2023-10-30',
     display: '30 October 2023',
-    title: 'The United States regulates by executive order',
+    title: 'How did the United States regulate AI by executive order?',
     body:
       'Executive Order 14110 sets reporting duties for training runs above a compute threshold and ' +
       'directs a long list of agencies to act. Whatever its later fate, it is the moment AI ' +
@@ -410,7 +410,7 @@ const TIMELINE = [
     chapter: 'dates',
     date: '2023-11-01',
     display: '1–2 November 2023',
-    title: 'Bletchley Park, and twenty-eight signatures',
+    title: 'What was Bletchley Park, and twenty-eight signatures?',
     body:
       'The first international AI Safety Summit produces the Bletchley Declaration, signed by ' +
       'twenty-eight countries and the European Union, including both the United States and China. ' +
@@ -425,7 +425,7 @@ const TIMELINE = [
     chapter: 'dates',
     date: '2024-05-21',
     display: '21 May 2024',
-    title: 'Seoul turns a declaration into commitments',
+    title: 'How did Seoul turn a declaration into commitments?',
     body:
       'The AI Seoul Summit produces the Seoul Declaration and, alongside it, the Frontier AI Safety ' +
       'Commitments, under which frontier developers agreed to publish safety frameworks including ' +
@@ -441,7 +441,7 @@ const TIMELINE = [
     chapter: 'dates',
     date: '2024-08-01',
     display: '1 August 2024',
-    title: 'The EU AI Act enters into force, on a staircase',
+    title: 'When did the EU AI Act enter into force, on a staircase?',
     body:
       'The first comprehensive statutory AI regime anywhere takes effect: risk-tiered, with some uses ' +
       'banned outright. The obligations arrive on a published staircase — prohibited practices from ' +
@@ -458,7 +458,7 @@ const TIMELINE = [
     chapter: 'dates',
     date: '2024-10-08',
     display: '8 October 2024',
-    title: 'The Nobel committee credits the machinery',
+    title: 'How did the Nobel committee credit the machinery?',
     body:
       'John Hopfield and Geoffrey Hinton receive the Nobel Prize in Physics for foundational ' +
       'discoveries and inventions enabling machine learning with artificial neural networks. One of ' +
@@ -473,7 +473,7 @@ const TIMELINE = [
     chapter: 'dates',
     date: '2025-02-10',
     display: '10–11 February 2025',
-    title: 'Paris changes the subject, and two governments decline to sign',
+    title: 'How did Paris change the subject, and which two governments declined to sign?',
     body:
       'The AI Action Summit in Paris gathers participants from over a hundred countries and produces ' +
       'a non-binding Statement on Inclusive and Sustainable Artificial Intelligence with 61 ' +
@@ -488,7 +488,7 @@ const TIMELINE = [
     chapter: 'dates',
     date: '2026-02-03',
     display: '3 February 2026',
-    title: 'The second International AI Safety Report',
+    title: 'What is the second International AI Safety Report?',
     body:
       'The International AI Safety Report, chaired by Yoshua Bengio and written by over a hundred ' +
       'independent experts with backing from more than thirty countries and intergovernmental ' +
@@ -571,6 +571,136 @@ const FAQ = [
     a: 'It entered into force on 1 August 2024. Prohibited practices applied from 2 February 2025, ' +
        'obligations on general-purpose AI models from 2 August 2025, and general application from ' +
        '2 August 2026, with further high-risk phases dated in the regulation.',
+  },
+  // Tip #395: chapter H2s are question-shaped and mirrored here (§3.3).
+  {
+    q: 'When does the idea of AI risk arrive before the machines?',
+    a: 'Every argument being had in 2026 was written down before anyone had the hardware to test it. Two of these three documents are funding proposals.',
+  },
+  {
+    q: 'Which precedent can nobody in AI stop citing?',
+    a: 'In 1974 a field called a halt on itself, and in 1975 it met in a conference centre on the California coast to write the rules. Every AI governance proposal since has been measured against it, usually by people invoking the name and skipping the details.',
+  },
+  {
+    q: 'How does the AI-risk argument acquire a shape?',
+    a: 'Between the second AI winter and the deep learning era, the worry got precise enough to be criticised — which is the point at which an intuition becomes a position.',
+  },
+  {
+    q: 'Where did the capability jumps land?',
+    a: 'Five dates on which something that could not be done became something that had been done. Note how ordinary the delivery mechanism is: a chess match, a contest entry, a preprint.',
+  },
+  {
+    q: 'When does the field sign its name on AI risk?',
+    a: 'The distinguishing feature of this round of AI worry is that the people building the systems are the ones signing the letters. That is a dated, countable event, whatever you make of the content.',
+  },
+  {
+    q: 'When does AI governance acquire dates?',
+    a: 'The stretch where the governance pillar of this index became countable. Declarations are cheap and statutes are not, and both leave machine-readable records with numbers on them.',
+  },
+  // Tip #396: timeline entry H3s are question-shaped and mirrored here (§3.3).
+  {
+    q: 'What test did Turing propose instead of a definition?',
+    a: 'Alan Turing opens "Computing Machinery and Intelligence" by rejecting the question "can machines think?" as too ill-defined to answer, and substitutes an operational test that can actually be run. The move that starts the field is a refusal to argue about definitions and an insistence on something observable. This…',
+  },
+  {
+    q: 'Where was the name artificial intelligence coined?',
+    a: 'John McCarthy, Marvin Minsky, Nathaniel Rochester and Claude Shannon submit a proposal to the Rockefeller Foundation for a two-month, ten-man study at Dartmouth College the following summer. The phrase "artificial intelligence" is invented in that document, largely to sidestep the baggage of "cybernetics". The…',
+  },
+  {
+    q: 'How did Good describe the intelligence explosion?',
+    a: 'I. J. Good, who had worked with Turing at Bletchley Park, sets out the recursive argument in "Speculations Concerning the First Ultraintelligent Machine": a machine that designs machines better than people do would design a better machine than itself, and the process would not obviously stop. Good called such a…',
+  },
+  {
+    q: 'When did a field call a moratorium on itself?',
+    a: 'Paul Berg and ten co-signatories — among them David Baltimore, Stanley Cohen, Herbert Boyer and James Watson — publish a letter in Science asking laboratories worldwide to defer two named classes of recombinant DNA experiment until the hazards had been assessed. It is the one occasion on record where a research…',
+  },
+  {
+    q: 'What rules did Asilomar write?',
+    a: 'About 140 people — molecular biologists, plus lawyers, physicians and the press — meet at the Asilomar Conference Grounds in Pacific Grove, California, and agree a tiered containment scheme matching physical and biological safeguards to assessed risk. The summary statement was published in PNAS that June; the NIH…',
+  },
+  {
+    q: 'Who named the singularity and dated it?',
+    a: 'Vernor Vinge presents "The Coming Technological Singularity" at the VISION-21 symposium held at NASA Lewis Research Center. He takes Good\'s recursive argument, gives it the name that stuck, and — unusually for the genre — commits to a dated window. This index notices that detail: a dated claim can be scored…',
+  },
+  {
+    q: 'Who built the paperclip maximizer argument?',
+    a: 'In "Ethical Issues in Advanced Artificial Intelligence", Nick Bostrom introduces the thought experiment that has outlived every other piece of vocabulary in this field: a superintelligence whose top goal is the manufacture of paperclips, which therefore converts first the Earth and then whatever else it can reach…',
+  },
+  {
+    q: 'When did Deep Blue take the rematch?',
+    a: 'IBM\'s Deep Blue beats Garry Kasparov 3½–2½ in New York, winning the deciding game in nineteen moves. Chess had been the standing proxy for machine intelligence since the 1950s. It stopped being one the moment it fell, which is the pattern every benchmark on this list follows.',
+  },
+  {
+    q: 'How did AlexNet end the argument about deep learning?',
+    a: 'Alex Krizhevsky, Ilya Sutskever and Geoffrey Hinton enter a deep convolutional network trained on two consumer GPUs into the ImageNet challenge and record a 15.3% top-5 error rate against 26.2% for the next best entry. The gap was too large to argue with, and the field reorganised around it inside about eighteen…',
+  },
+  {
+    q: 'When did AlphaGo beat Lee Sedol 4–1?',
+    a: 'Go had been the standing counter-example: too large a search space, too dependent on intuition. DeepMind\'s AlphaGo took the five-game match in Seoul. Lee Sedol won game four, and that game remains the last one a top human won against the system.',
+  },
+  {
+    q: 'When was the transformer paper posted?',
+    a: 'Eight authors at Google publish an architecture that drops recurrence and convolution entirely in favour of attention. Almost every system this index counts today is a descendant of that paper. It is the clearest case in the record of a step change arriving as an ordinary preprint on an ordinary Monday — which is…',
+  },
+  {
+    q: 'When did ChatGPT ship as a research preview?',
+    a: 'The underlying model was not new and the interface was a text box. What changed was who had access. This is the date the general public acquired an opinion about AI, and the date the attention pillar of this index stopped being quiet.',
+  },
+  {
+    q: 'What was the research-priorities letter, and the money behind it?',
+    a: 'The Future of Life Institute circulates "Research Priorities for Robust and Beneficial Artificial Intelligence" to attendees of its Puerto Rico conference (2–5 January 2015) and publishes it on 12 January. Stephen Hawking, Elon Musk and Steve Wozniak sign alongside several hundred working researchers, and Musk…',
+  },
+  {
+    q: 'How was OpenAI announced as a non-profit?',
+    a: 'Sam Altman and Elon Musk announce OpenAI as a non-profit research company with a stated billion dollars in committed funding, framed explicitly as a safety argument: that the safer route is broad distribution rather than concentration. Musk left the board in 2018 and later founded xAI. Almost every sentence written…',
+  },
+  {
+    q: 'What are Concrete Problems in AI Safety?',
+    a: 'Dario Amodei, Chris Olah, Jacob Steinhardt, Paul Christiano, John Schulman and Dan Mané publish a preprint recasting the worry as five ordinary engineering problems: avoiding negative side effects, avoiding reward hacking, scalable oversight, safe exploration, and robustness to distributional shift. It is the…',
+  },
+  {
+    q: 'Why do the Asilomar AI Principles borrow the venue on purpose?',
+    a: 'The Beneficial AI conference, held at Asilomar on 5–8 January 2017, produces 23 principles across research questions, ethics and values, and longer-term issues. The choice of venue is the entire rhetorical move: chapter II, invoked by geography. Whether an intangible general-purpose technology admits the same…',
+  },
+  {
+    q: 'What is the pause letter?',
+    a: 'Eight days after GPT-4 shipped, the Future of Life Institute publishes an open letter calling for an immediate six-month halt to the training of systems more powerful than GPT-4, gathering tens of thousands of signatures including senior researchers and industry figures. No pause occurred. It is the clearest marker…',
+  },
+  {
+    q: 'Why did Hinton leave Google to speak freely?',
+    a: 'Geoffrey Hinton — whose students built AlexNet, who shared the 2018 Turing Award for the work underpinning modern deep learning, and who shared the 2024 Nobel Prize in Physics — resigns from Google and tells the New York Times he wants to discuss the risks without it reflecting on an employer. A field\'s most…',
+  },
+  {
+    q: 'What one sentence was signed by the people building it?',
+    a: 'The Center for AI Safety publishes a single-sentence statement placing extinction risk from AI alongside pandemics and nuclear war as a global priority. Its signatories include the chief executives of the leading labs. The document is one sentence by design: it was written so that nobody could decline to sign it on…',
+  },
+  {
+    q: 'How did the United States regulate AI by executive order?',
+    a: 'Executive Order 14110 sets reporting duties for training runs above a compute threshold and directs a long list of agencies to act. Whatever its later fate, it is the moment AI capability acquired a number in United States federal law, and the moment the governance pillar of this index acquired a signal worth counting.',
+  },
+  {
+    q: 'What was Bletchley Park, and twenty-eight signatures?',
+    a: 'The first international AI Safety Summit produces the Bletchley Declaration, signed by twenty-eight countries and the European Union, including both the United States and China. The venue was chosen for the symbolism. The substance was an agreement that the thing is worth meeting about — which, on a list where most…',
+  },
+  {
+    q: 'How did Seoul turn a declaration into commitments?',
+    a: 'The AI Seoul Summit produces the Seoul Declaration and, alongside it, the Frontier AI Safety Commitments, under which frontier developers agreed to publish safety frameworks including the thresholds at which they would judge risks intolerable. Bletchley established that the summits exist. Seoul is where they…',
+  },
+  {
+    q: 'When did the EU AI Act enter into force, on a staircase?',
+    a: 'The first comprehensive statutory AI regime anywhere takes effect: risk-tiered, with some uses banned outright. The obligations arrive on a published staircase — prohibited practices from 2 February 2025, general-purpose model obligations from 2 August 2025, general application from 2 August 2026, and further…',
+  },
+  {
+    q: 'How did the Nobel committee credit the machinery?',
+    a: 'John Hopfield and Geoffrey Hinton receive the Nobel Prize in Physics for foundational discoveries and inventions enabling machine learning with artificial neural networks. One of the two laureates had resigned from his job seventeen months earlier in order to talk about where the work was going. Both facts are in…',
+  },
+  {
+    q: 'How did Paris change the subject, and which two governments declined to sign?',
+    a: 'The AI Action Summit in Paris gathers participants from over a hundred countries and produces a non-binding Statement on Inclusive and Sustainable Artificial Intelligence with 61 signatories. The United States and the United Kingdom did not sign it, and the framing moved from safety toward investment and adoption.…',
+  },
+  {
+    q: 'What is the second International AI Safety Report?',
+    a: 'The International AI Safety Report, chaired by Yoshua Bengio and written by over a hundred independent experts with backing from more than thirty countries and intergovernmental organisations, publishes its second edition; the first appeared in January 2025. It is the closest thing this field has to an IPCC-style…',
   },
   // Tip #303: section H2s are question-shaped and mirrored here (§3.3).
   {

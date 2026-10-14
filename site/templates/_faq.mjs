@@ -257,6 +257,16 @@ export function items(ctx) {
       'On /search.html: result-group heading when FAQ answers match the query.'],
     ['Which Bunker Kit tools matched?',
       'On /search.html: result-group heading when Bunker Kit tools match the query.'],
+    ['When does the idea of AI risk arrive before the machines?',
+      'On /history.html: every argument being had in 2026 was written down before anyone had the hardware to test it.'],
+    ['Which precedent can nobody in AI stop citing?',
+      'On /history.html: the 1974–75 recombinant-DNA moratorium and Asilomar meeting, measured against every AI governance proposal since.'],
+    ['Where did the capability jumps land?',
+      'On /history.html: five dates on which something that could not be done became something that had been done.'],
+    ['What test did Turing propose instead of a definition?',
+      'On /history.html: Turing’s 1950 imitation game — a test instead of a definition of machine intelligence.'],
+    ['What is the pause letter?',
+      'On /history.html: the Future of Life Institute’s March 2023 call for a six-month halt past GPT-4; no pause took place.'],
   ];
 }
 
