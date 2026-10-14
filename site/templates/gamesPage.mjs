@@ -46,7 +46,7 @@ export function render(ctx) {
     ['Where is Containment?',
       'Containment: Can you stop an AI breakout? It is listed on this arcade page with the other free SIREN games.'],
     ['Is there music while you play?',
-      'Want music while you play? Turn on SIREN Radio.'],
+      'Want music while you play? Turn on What free music does SIREN Radio play?'],
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>
@@ -59,13 +59,15 @@ export function render(ctx) {
   <h1 class="bp__h1">${esc(qTitle)}</h1>
   <p class="lede">Free games and simulations about AI, the takeover scenario and the odds. No sign-up, nothing to install, and every one runs in your browser. Games sits in the menu on every page, so you can always get back here.</p>
   <div class="gm-g">${cards}</div>
-  <p>Want music while you play? Turn on <a href="${esc(ctx.href('/radio.html'))}">SIREN Radio</a>.</p>
+  <p>Want music while you play? Turn on <a href="${esc(ctx.href('/radio.html'))}">What free music does SIREN Radio play?</a></p>
   <section class="gm-faq" aria-labelledby="faq">
     <h2 id="faq">Questions people actually ask</h2>
     ${faqHtml}
     <p class="gm-faq-key">Search-shaped sibling:
       <a href="${esc(ctx.href('/contain.html'))}">Can you stop an AI breakout?</a>
-      · <a href="${esc(ctx.href('/day-after.html'))}">What happens the day after an AI catastrophe?</a>.</p>
+      · <a href="${esc(ctx.href('/day-after.html'))}">What happens the day after an AI catastrophe?</a>
+      · <a href="${esc(ctx.href('/radio.html'))}">What free music does SIREN Radio play?</a>
+      · <a href="${esc(ctx.href('/videos.html'))}">What free AI explainer videos does SIREN publish?</a>.</p>
   </section>
 </section>`;
   return page({
@@ -86,7 +88,7 @@ export function render(ctx) {
       },
       breadcrumbs(ctx, [
         { name: 'Home', path: '/' },
-        { name: 'Games', path: PATH },
+        { name: qTitle, path: PATH },
       ]),
       {
         '@context': 'https://schema.org',
