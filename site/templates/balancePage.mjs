@@ -61,6 +61,14 @@ const SPRITE = ['sec-signal', 'sec-archive', 'sec-history', 'sec-bliss', 'sec-me
   'state-live', 'state-dark', 'state-awaiting'];
 
 const SIDE_NAME = Object.freeze({ benefit: 'Benefit', harm: 'Harm' });
+
+/** Tip #379: side-column H3s are question-shaped (mirrored in FAQ §3.3). */
+function sideColQ(side, kind) {
+  const name = SIDE_NAME[side] || side;
+  if (kind === 'language') return `Which headlines matched ${name} language?`;
+  if (kind === 'register') return `What is in the ${name} register?`;
+  return `Which counters are on the ${name} side?`;
+}
 const LIST_NAME = Object.freeze({ benefit: 'the benefit list', harm: 'the harm list' });
 const CASE_NAME = Object.freeze({ benefit: 'The utopia case', harm: 'The doom case' });
 
@@ -320,8 +328,9 @@ function matchColumn(side, items, b, hrefs, lex) {
     : `<p class="bp__empty">No story in this window matched ${LIST_NAME[side]}${Number.isFinite(scanned) ? `, of ${count(scanned)} scanned` : ''}.
         That is a measured zero: the list exists, it is printed in full below, and it was applied to every
         scanned headline by the same rule as the other side.</p>`;
+  const q = sideColQ(side, 'language');
   return `<div class="bp__col" data-side="${side}">
-    <h3 class="bp__colh">${esc(SIDE_NAME[side])} language<span class="bp__eb">${Number.isFinite(listCount) ? `${count(listCount)} ${plural(listCount, 'story', 'stories')}` : 'count not in the file'}</span></h3>
+    <h3 class="bp__colh" aria-label="${esc(SIDE_NAME[side])} language">${esc(q)}<span class="bp__eb">${Number.isFinite(listCount) ? `${count(listCount)} ${plural(listCount, 'story', 'stories')}` : 'count not in the file'}</span></h3>
     ${body}
   </div>`;
 }
@@ -413,8 +422,9 @@ function registerColumn(side, L) {
   const conf = t && t.by_confidence
     ? Object.keys(t.by_confidence).sort().map((k) => `${count(t.by_confidence[k])} ${esc(k)}`).join(', ')
     : 'confidence not totalled';
+  const q = sideColQ(side, 'register');
   return `<div class="bp__col" data-side="${side}">
-    <h3 class="bp__colh">${esc(SIDE_NAME[side])} register<span class="bp__eb">${esc(CASE_NAME[side])}</span></h3>
+    <h3 class="bp__colh" aria-label="${esc(SIDE_NAME[side])} register">${esc(q)}<span class="bp__eb">${esc(CASE_NAME[side])}</span></h3>
     <p class="bp__colsub">${count(rows.length)} ${plural(rows.length, 'row', 'rows')} · ${t ? count(t.numbers) : 'an untotalled number of'} sourced numbers · ${conf}</p>
     <ul class="bp__lg" aria-label="${esc(SIDE_NAME[side])} status words">${legend}</ul>
     ${rows.map((r) => registerEntry(r, side, words)).join('')}
@@ -514,10 +524,13 @@ function countersSection(b) {
   <p class="bp__l">Window for the windowed ones: <b>${esc(w.from || 'unrecorded')} to ${esc(w.to || 'unrecorded')}</b>,
     ${esc(cs.window_rule || 'rule not recorded')}. A counter that failed is dark, with its error, and never a zero or an earlier run’s figure.</p>
   <div class="bp__cols">
-    ${SIDES.map((side) => `<div class="bp__col" data-side="${side}">
-      <h3 class="bp__colh">${esc(SIDE_NAME[side])} side<span class="bp__eb">${count(arr(cs[side]).length)} ${plural(arr(cs[side]).length, 'counter', 'counters')}</span></h3>
+    ${SIDES.map((side) => {
+      const q = sideColQ(side, 'side');
+      return `<div class="bp__col" data-side="${side}">
+      <h3 class="bp__colh" aria-label="${esc(SIDE_NAME[side])} side">${esc(q)}<span class="bp__eb">${count(arr(cs[side]).length)} ${plural(arr(cs[side]).length, 'counter', 'counters')}</span></h3>
       ${arr(cs[side]).map(counterCard).join('') || '<p class="bp__empty">No counter on this side in this build.</p>'}
-    </div>`).join('')}
+    </div>`;
+    }).join('')}
   </div>
 </section>`;
 }
@@ -768,6 +781,15 @@ export function render(ctx) {
       L.curation || 'Dated, sourced register rows, each carrying what was measured beside what is claimed about it.'],
     ['Which items were set aside by the rule?',
       'These carried a word from one of the lists and still counted on neither side. They are listed so the rule can be checked in the direction that does not flatter it.'],
+    // Tip #379: side-column H3s are question-shaped and mirrored in FAQ (§3.3).
+    ...SIDES.flatMap((side) => [
+      [sideColQ(side, 'language'),
+        `Headlines in the newsroom window that matched the ${SIDE_NAME[side]} word list — a measured count, never a net against the other side.`],
+      [sideColQ(side, 'register'),
+        `Dated, sourced ${SIDE_NAME[side]} register rows (${CASE_NAME[side]}), each carrying what was measured beside what is claimed about it.`],
+      [sideColQ(side, 'side'),
+        `${SIDE_NAME[side]} counters from public registries — each published as its publisher reports it, and never paired with the other side.`],
+    ]),
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>

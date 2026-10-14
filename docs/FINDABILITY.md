@@ -628,6 +628,8 @@ context.
 | 376 | `/live-x.html` lab + leader voice-card H3s + FAQPage use questions (was bare names + @handles as chips); Organization `knowsAbout` mirrors those questions; refuse live-X doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 377 | `/exploits.html` source-card H3s + FAQPage use questions (was “CISA Known Exploited Vulnerabilities catalogue” / “NVD CVE records…”); Organization `knowsAbout` mirrors those questions; refuse exploit-lag doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 378 | `/bliss.html` pillar-card H3s + FAQPage use questions (was bare “Science” / “Medicine” / …); Organization `knowsAbout` mirrors those questions; refuse BLISS doom-score / doom-probability / forecast claims | Google + Bing | **Done** (2026-10-14) |
+| 379 | `/balance.html` side-column H3s + FAQPage use questions (was “Harm/Benefit language” / “register” / “side”); Organization `knowsAbout` mirrors those questions; refuse net-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 380 | Home `/` lab-card H3s + FAQPage use questions (was bare lab names); Organization `knowsAbout` mirrors those questions; refuse race-as-doom-oracle / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
