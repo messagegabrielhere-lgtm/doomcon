@@ -183,12 +183,12 @@ export function renderKind(ctx, id) {
     ? `<h2>Older scored ${esc(def.name.toLowerCase())}</h2>
   <p class="kd__lede">Kept in the permanent archive after they left the live window. Still scored stories — not a forecast.</p>
   <ol class="kd__list">${storyRows(ctx, older)}</ol>
-  <p class="fresh__key"><a href="${esc(ctx.href('/item/archive.html'))}">Full story archive</a></p>`
+  <p class="fresh__key"><a href="${esc(ctx.href('/item/archive.html'))}">Which older AI stories has ${esc(brand.NAME)} kept in the archive?</a></p>`
     : '';
 
   const main = `${STYLE}
 <article class="kd prose">
-  <p class="kd__k"><a href="${esc(ctx.href('/news.html'))}">Newsroom</a> · <a href="${esc(ctx.href('/kind/'))}">Kinds</a> · <a href="${esc(ctx.href('/kinds.html'))}">Kinds hub</a></p>
+  <p class="kd__k"><a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a> · <a href="${esc(ctx.href('/kind/'))}">Which AI story kinds have ${esc(brand.NAME)} pages?</a> · <a href="${esc(ctx.href('/kinds.html'))}">Which AI story kinds has ${esc(brand.NAME)} scored?</a></p>
   <h1>What has ${esc(brand.NAME)} scored as ${esc(def.name)}?</h1>
   <p class="kd__lede">${esc(def.description)} Kind is the collector label on each scored item — not a judgement about quality or harm.</p>
   <div class="kd__stat" role="group" aria-label="Kind totals">
@@ -201,13 +201,13 @@ export function renderKind(ctx, id) {
     ? `<ol class="kd__list">${storyRows(ctx, items)}</ol>`
     : '<p>No scored story of this kind in the current window.</p>'}
   ${items.length > KIND_LIST_CAP
-    ? `<p class="fresh__key">${esc(String(items.length - KIND_LIST_CAP))} more on the <a href="${esc(ctx.href('/news.html'))}">full newsroom</a>.</p>`
-    : `<p class="fresh__key"><a href="${esc(ctx.href('/news.html'))}">Full newsroom →</a></p>`}
+    ? `<p class="fresh__key">${esc(String(items.length - KIND_LIST_CAP))} more on <a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a>.</p>`
+    : `<p class="fresh__key"><a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a></p>`}
   ${olderBlock}
   <h2 id="faq">Questions people actually ask</h2>
   ${faqHtml}
   ${others.length ? `<h2>Other kinds</h2>
-  <nav class="kd__nav" aria-label="Other kinds">${others.map((k) => `<a href="${esc(ctx.href(kindPath(k.id)))}">${esc(k.name)} <span class="num">(${esc(String(k.count))})</span></a>`).join('')}</nav>` : ''}
+  <nav class="kd__nav" aria-label="Other kinds">${others.map((k) => `<a href="${esc(ctx.href(kindPath(k.id)))}">What has ${esc(brand.NAME)} scored as ${esc(k.name)}?</a>`).join('')}</nav>` : ''}
 </article>`;
 
   return page({
@@ -236,9 +236,9 @@ export function renderKind(ctx, id) {
         })),
       },
     }, breadcrumbs(ctx, [
-      { name: 'Newsroom', path: '/news.html' },
-      { name: 'Kinds', path: '/kind/' },
-      { name: def.name, path },
+      { name: `Which AI stories has ${brand.NAME} scored in this window?`, path: '/news.html' },
+      { name: `Which AI story kinds have ${brand.NAME} pages?`, path: '/kind/' },
+      { name: `What has ${brand.NAME} scored as ${def.name}?`, path },
     ]), {
       '@context': 'https://schema.org',
       '@type': 'FAQPage',
@@ -271,13 +271,13 @@ export function renderIndex(ctx) {
   <h3>${esc(q)}</h3>
   <p>${esc(a)}</p>`).join('');
   const rows = kinds.map((k) => `<li>
-  <a href="${esc(ctx.href(kindPath(k.id)))}">${esc(k.name)}</a>
-  <span class="kd__meta">${esc(k.description)} · <span class="num">${esc(String(k.count))}</span> scored${k.archived ? ` (${esc(String(k.live))} live)` : ''}</span>
+  <a href="${esc(ctx.href(kindPath(k.id)))}">What has ${esc(brand.NAME)} scored as ${esc(k.name)}?</a>
+  <span class="kd__meta">${esc(k.name)} · ${esc(k.description)} · <span class="num">${esc(String(k.count))}</span> scored${k.archived ? ` (${esc(String(k.live))} live)` : ''}</span>
 </li>`).join('');
 
   const main = `${STYLE}
 <article class="kd prose">
-  <p class="kd__k"><a href="${esc(ctx.href('/news.html'))}">Newsroom</a> · Kinds · <a href="${esc(ctx.href('/kinds.html'))}">Kinds hub</a></p>
+  <p class="kd__k"><a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a> · Which AI story kinds have ${esc(brand.NAME)} pages? · <a href="${esc(ctx.href('/kinds.html'))}">Which AI story kinds has ${esc(brand.NAME)} scored?</a></p>
   <h1>Which AI story kinds have ${esc(brand.NAME)} pages?</h1>
   <p class="kd__lede">A kind earns a page when at least ${KIND_INDEX_MIN} scored stories with that collector label appear in the live window or the durable archive. Thinner kinds stay on the story page only.</p>
   ${kinds.length ? `<ol class="kd__list">${rows}</ol>` : '<p>No kind cleared the gate in this build.</p>'}
@@ -306,12 +306,12 @@ export function renderIndex(ctx) {
           '@type': 'ListItem',
           position: i + 1,
           url: ctx.url(kindPath(k.id)),
-          name: k.name,
+          name: `What has ${brand.NAME} scored as ${k.name}?`,
         })),
       },
     }, breadcrumbs(ctx, [
-      { name: 'Newsroom', path: '/news.html' },
-      { name: 'Kinds', path },
+      { name: `Which AI stories has ${brand.NAME} scored in this window?`, path: '/news.html' },
+      { name: `Which AI story kinds have ${brand.NAME} pages?`, path },
     ]), {
       '@context': 'https://schema.org',
       '@type': 'FAQPage',
@@ -348,23 +348,23 @@ export function renderKinds(ctx) {
   <h3>${esc(q)}</h3>
   <p>${esc(a)}</p>`).join('');
   const rows = kinds.map((k) => `<li>
-  <a href="${esc(ctx.href(kindPath(k.id)))}">${esc(k.name)}</a>
-  <span class="kd__meta">Kind hub · <span class="num">${esc(String(k.count))}</span> scored${k.archived ? ` (${esc(String(k.live))} live)` : ''}</span>
+  <a href="${esc(ctx.href(kindPath(k.id)))}">What has ${esc(brand.NAME)} scored as ${esc(k.name)}?</a>
+  <span class="kd__meta">${esc(k.name)} · Kind hub · <span class="num">${esc(String(k.count))}</span> scored${k.archived ? ` (${esc(String(k.live))} live)` : ''}</span>
 </li>`).join('');
   const main = `${STYLE}
 <article class="kd prose">
-  <p class="kd__k"><a href="${esc(ctx.href('/compare.html'))}">Compare</a> · <a href="${esc(ctx.href('/kind/'))}">Kinds</a> · Kinds hub</p>
+  <p class="kd__k"><a href="${esc(ctx.href('/compare.html'))}">Which AI doom indexes can you compare?</a> · <a href="${esc(ctx.href('/kind/'))}">Which AI story kinds have ${esc(brand.NAME)} pages?</a> · Which AI story kinds has ${esc(brand.NAME)} scored?</p>
   <h1>Which AI story kinds has ${esc(brand.NAME)} scored?</h1>
-  <p class="kd__lede">${esc(brand.NAME)} does not publish a kind “doom score.” It labels scored stories with collector kinds (press, forum, paper, …). This page lists kinds that already clear the same substance gate as <a href="${esc(ctx.href('/kind/'))}">/kind/</a> — at least ${KIND_INDEX_MIN} matching stories in the live window or archive.</p>
+  <p class="kd__lede">${esc(brand.NAME)} does not publish a kind “doom score.” It labels scored stories with collector kinds (press, forum, paper, …). This page lists kinds that already clear the same substance gate as <a href="${esc(ctx.href('/kind/'))}">Which AI story kinds have ${esc(brand.NAME)} pages?</a> — at least ${KIND_INDEX_MIN} matching stories in the live window or archive.</p>
   <div class="kd__stat" role="group" aria-label="Kinds hub totals">
     <div><b class="num">${esc(String(kinds.length))}</b><span>Kind hubs</span></div>
   </div>
   ${kinds.length ? `<ol class="kd__list">${rows}</ol>` : '<p>No kind hub cleared the gate in this build.</p>'}
   <h2 id="faq">Questions people actually ask</h2>
   ${faqHtml}
-  <p class="fresh__key"><a href="${esc(ctx.href('/kind/'))}">Kind directory →</a>
-     · <a href="${esc(ctx.href('/tags.html'))}">AI tags →</a>
-     · <a href="${esc(ctx.href('/news.html'))}">Newsroom →</a></p>
+  <p class="fresh__key"><a href="${esc(ctx.href('/kind/'))}">Which AI story kinds have ${esc(brand.NAME)} pages?</a>
+     · <a href="${esc(ctx.href('/tags.html'))}">Which AI tags has ${esc(brand.NAME)} scored stories about?</a>
+     · <a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a></p>
 </article>`;
   return page({
     ctx,
@@ -386,12 +386,12 @@ export function renderKinds(ctx) {
           '@type': 'ListItem',
           position: i + 1,
           url: ctx.url(kindPath(k.id)),
-          name: k.name,
+          name: `What has ${brand.NAME} scored as ${k.name}?`,
         })),
       },
     }, breadcrumbs(ctx, [
-      { name: 'Compare', path: '/compare.html' },
-      { name: 'Kinds', path },
+      { name: 'Which AI doom indexes can you compare?', path: '/compare.html' },
+      { name: `Which AI story kinds has ${brand.NAME} scored?`, path },
     ]), {
       '@context': 'https://schema.org',
       '@type': 'FAQPage',
