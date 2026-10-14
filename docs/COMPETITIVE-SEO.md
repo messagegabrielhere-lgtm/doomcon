@@ -1,6 +1,6 @@
 # Competitive SEO reverse-engineer
 
-**Measured:** 2026-10-14T17:39Z (live HTTP fetches via `seo-daily` / `fetch.mjs`).
+**Measured:** 2026-10-14T17:44Z (live HTTP fetches via `seo-daily` / `fetch.mjs`).
 Companion to `docs/COMPETITIVE.md` (Sept inventory) and `docs/FINDABILITY.md`
 (our playbook).
 

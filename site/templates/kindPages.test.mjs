@@ -117,6 +117,7 @@ describe('kind pages', () => {
     assert.match(html, /Archived paper from last week/);
     assert.match(html, /\/item\/archive\.html/);
     assert.doesNotMatch(html, /<h2>Older scored papers<\/h2>/);
+    assert.match(html, /"name"\s*:\s*"Archived paper from last week"/);
   });
 
   it('lets the durable archive keep a kind hub above the substance gate', () => {

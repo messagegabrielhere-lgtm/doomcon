@@ -158,6 +158,8 @@ describe('people pages', () => {
     assert.match(html, /Sam Altman discussed compute last month/);
     assert.match(html, /\/item\/archive\.html/);
     assert.doesNotMatch(html, /<h2 id="pp-archive">Older scored stories naming Sam Altman<\/h2>/);
+    assert.match(html, /"@type"\s*:\s*"Person"/);
+    assert.match(html, /"name"\s*:\s*"Sam Altman discussed compute last month"/);
   });
 
   it('indexes Nadella through Kavukcuoglu people hubs that clear the substance gate', () => {

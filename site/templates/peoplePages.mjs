@@ -9,7 +9,7 @@
 import { esc, utc } from './_html.mjs';
 import { page } from './layout.mjs';
 import { breadcrumbs, speakable } from './_seo.mjs';
-import { slugFor } from './itemPage.mjs';
+import { slugFor, storyItemListEntity } from './itemPage.mjs';
 import { avatarPortrait, avatarSprite, personIdFor, faceHref } from './_avatars.mjs';
 import * as brand from '../brand.mjs';
 
@@ -292,40 +292,51 @@ export function renderPerson(ctx, id) {
   ${others.length ? `<h2 id="other-people">${esc(othersQ)}</h2>
   <nav class="pp__nav" aria-label="Other people">${others.map((p) => `<a href="${esc(ctx.href(peoplePath(p.id)))}">What press has ${esc(brand.NAME)} scored about ${esc(p.name)}?</a>`).join('')}</nav>` : ''}
 </article>`;
+  const jsonld = [{
+    '@context': 'https://schema.org',
+    '@type': 'ProfilePage',
+    name: title,
+    url: ctx.url(path),
+    description,
+    speakable: speakable(['.pp__name', '.pp__lede']),
+    mainEntity: {
+      '@type': 'Person',
+      name: leader.name,
+      jobTitle: leader.role || undefined,
+      worksFor: leader.org ? { '@type': 'Organization', name: leader.org } : undefined,
+      sameAs: wiki ? [wiki] : undefined,
+    },
+    isPartOf: { '@type': 'WebSite', name: brand.PUBLICATION, url: ctx.url('/') },
+  }, breadcrumbs(ctx, [
+    { name: 'Which AI leaders are on the record this week?', path: '/leaders.html' },
+    { name: `Which AI leaders have press coverage pages on ${brand.NAME}?`, path: '/people/' },
+    { name: `What press has ${brand.NAME} scored about ${leader.name}?`, path },
+  ]), {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map(([q, a]) => ({
+      '@type': 'Question',
+      name: q,
+      acceptedAnswer: { '@type': 'Answer', text: a },
+    })),
+  }];
+  // Archive story list is visible on the page — emit ItemList so schema matches
+  // HTML (FINDABILITY #54). Keep Person as ProfilePage mainEntity.
+  if (older.length) {
+    jsonld.push({
+      '@context': 'https://schema.org',
+      name: olderQ,
+      ...storyItemListEntity(ctx, [], older, { liveCap: 12, archiveCap: 12 }),
+    });
+  }
+
   return page({
     ctx,
     path,
     title,
     description,
     noindex: !personIndexable(leader, ctx),
-    jsonld: [{
-      '@context': 'https://schema.org',
-      '@type': 'ProfilePage',
-      name: title,
-      url: ctx.url(path),
-      description,
-      speakable: speakable(['.pp__name', '.pp__lede']),
-      mainEntity: {
-        '@type': 'Person',
-        name: leader.name,
-        jobTitle: leader.role || undefined,
-        worksFor: leader.org ? { '@type': 'Organization', name: leader.org } : undefined,
-        sameAs: wiki ? [wiki] : undefined,
-      },
-      isPartOf: { '@type': 'WebSite', name: brand.PUBLICATION, url: ctx.url('/') },
-    }, breadcrumbs(ctx, [
-      { name: 'Which AI leaders are on the record this week?', path: '/leaders.html' },
-      { name: `Which AI leaders have press coverage pages on ${brand.NAME}?`, path: '/people/' },
-      { name: `What press has ${brand.NAME} scored about ${leader.name}?`, path },
-    ]), {
-      '@context': 'https://schema.org',
-      '@type': 'FAQPage',
-      mainEntity: faq.map(([q, a]) => ({
-        '@type': 'Question',
-        name: q,
-        acceptedAnswer: { '@type': 'Answer', text: a },
-      })),
-    }],
+    jsonld,
     main,
   });
 }
