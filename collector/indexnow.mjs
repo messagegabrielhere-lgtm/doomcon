@@ -72,7 +72,7 @@ export function defaultUrlList({ outDir = join(ROOT, 'public') } = {}) {
   const newsPath = join(outDir, 'news-sitemap.xml');
   if (existsSync(newsPath)) {
     try {
-      urls.push(...locsFromSitemap(readFileSync(newsPath, 'utf8'), 80));
+      urls.push(...locsFromSitemap(readFileSync(newsPath, 'utf8'), 200)); // FINDABILITY #50 — match NEWS_SITEMAP_CAP
     } catch { /* publish without a news sitemap is fine */ }
   }
   return [...new Set(urls)];
