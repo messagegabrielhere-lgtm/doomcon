@@ -174,6 +174,14 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('What are the SIREN terms of use'));
     assert.ok(org.knowsAbout.includes('SIREN disclosures'));
     assert.ok(org.knowsAbout.includes('What does SIREN disclose'));
+    assert.ok(org.knowsAbout.includes('What is the SIREN index, and what is it not'));
+    assert.ok(org.knowsAbout.includes('What does SIREN disclose about finance and markets'));
+    assert.ok(org.knowsAbout.includes('What affiliate and paid links does this site use'));
+    assert.ok(org.knowsAbout.includes('What does this page say about privacy and analytics'));
+    assert.ok(org.knowsAbout.includes('Which pages are satire or jokes'));
+    assert.ok(org.knowsAbout.includes('How are people and likenesses handled'));
+    assert.ok(org.knowsAbout.includes('What licence covers SIREN'));
+    assert.ok(org.knowsAbout.includes('How do you contact SIREN about disclosures'));
     assert.ok(org.knowsAbout.includes('SIREN brand guide'));
     assert.ok(org.knowsAbout.includes('Where is the SIREN brand guide'));
     assert.ok(org.knowsAbout.includes('AI models this index scored'));

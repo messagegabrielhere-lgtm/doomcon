@@ -632,16 +632,43 @@ export function terms(ctx) {
 export function disclosures(ctx) {
   const path = '/disclosures.html';
   // Head-term title: people search “SIREN disclosures” / what the site discloses.
-  const title = `What does ${brand.NAME} disclose? Legal notices in one place`;
+  const qTitle = `What does ${brand.NAME} disclose?`;
+  const title = `${qTitle} Legal notices in one place`;
   const description = `Legal and compliance disclosures for ${brand.NAME}: what the index is, not advice, affiliates, privacy, satire and licence — with links to the full terms.`;
   const x = brand.X_URL ? `<a href="${esc(brand.X_URL)}" rel="noopener">${esc(brand.X_HANDLE)}</a>` : 'the project account';
+  // Tip #310: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const indexQ = `What is the ${brand.NAME} index, and what is it not?`;
+  const financeQ = `What does ${brand.NAME} disclose about finance and markets?`;
+  const affiliateQ = 'What affiliate and paid links does this site use?';
+  const privacyQ = 'What does this page say about privacy and analytics?';
+  const satireQ = 'Which pages are satire or jokes?';
+  const peopleQ = 'How are people and likenesses handled?';
+  const licenceQ = `What licence covers ${brand.NAME}?`;
+  const contactQ = `How do you contact ${brand.NAME} about disclosures?`;
+  // FAQ from the SAME pairs rendered in HTML (§3.3). Refuse doom-probability.
   const faq = [
-    [`What does ${brand.NAME} disclose?`,
+    [qTitle,
       `This page maps every notice ${brand.NAME} makes: what the index is, that it is not advice, affiliate and paid links, privacy and analytics, satire, people and likenesses, and the licence. The full contracts are the terms and privacy pages.`],
+    [indexQ,
+      `${brand.DISCLAIMER} ${brand.LEGAL_NOT_ADVICE} Not a forecast, warning system, emergency alert or probability of harm. Names borrowed from DEFCON or the Doomsday Clock are commentary only.`],
+    [financeQ,
+      `Stock picks, scanner screens, AI paper trades, prediction-market odds, investor and congressional trade listings are automated, simulated or hypothetical. ${brand.NAME} is not a broker-dealer or registered investment adviser. Past and simulated results do not predict future results.`],
+    [affiliateQ,
+      `${brand.LEGAL_AFFILIATE} There is no display-ad network while ads stay off in configuration. A named sponsor, if any, is labelled and has no say over any number.`],
+    [privacyQ,
+      `Visits may be counted with Google Analytics and cookieless GoatCounter when those are turned on; both are disclosed on the privacy page. ${brand.LEGAL_NO_SELL}`],
+    [satireQ,
+      'Tally the mascot, the Bunker Kit, the game and similar pages are satire or jokes. Their counts can still be real arithmetic; the framing is not emergency, medical or survival advice.'],
+    [peopleQ,
+      'Illustrated portraits of public figures are generated artwork, not photographs. Names, marks and logos belong to their owners. Appearance here is not endorsement either way.'],
+    [licenceQ,
+      `${brand.LICENSE_BLURB}. Third-party data stays under its own licence, credited on the page that uses it.`],
     [`Is ${brand.NAME} financial or legal advice?`,
       `${brand.LEGAL_NOT_ADVICE} Stock picks, scanner screens and prediction-market odds are automated, simulated or hypothetical.`],
     [`Does ${brand.NAME} sell personal data?`,
       `${brand.LEGAL_NO_SELL} Visits may be counted with analytics when those are turned on; both are disclosed on the privacy page.`],
+    [contactQ,
+      'Corrections, takedown requests and privacy questions go by email, X, or an issue on the repository. Security reports are in SECURITY.md.'],
   ];
   const faqHtml = faq.map(([q, a]) => `
   <h3>${esc(q)}</h3>
@@ -649,46 +676,46 @@ export function disclosures(ctx) {
   const main = `${CSS}
 <section class="inf">
   <p class="eyebrow">Disclosures</p>
-  <div class="inf__top"><h1 class="bp__h1">What does ${esc(brand.NAME)} disclose?</h1></div>
+  <div class="inf__top"><h1 class="bp__h1">${esc(qTitle)}</h1></div>
   <p class="lede">Every notice ${esc(brand.NAME)} makes in one place. The full contracts are
     <a href="${esc(ctx.href('/terms.html'))}">What are the ${esc(brand.NAME)} terms of use?</a> and
     <a href="${esc(ctx.href('/privacy.html'))}">What does ${esc(brand.NAME)} know about you?</a>; this page is the map.</p>
 
-  <h2>What the index is</h2>
+  <h2>${esc(indexQ)}</h2>
   <ul>
     <li>${esc(brand.DISCLAIMER)}</li>
     <li>${esc(brand.LEGAL_NOT_ADVICE)}</li>
     <li>Not a forecast, warning system, emergency alert or probability of harm. Names borrowed from DEFCON or the Doomsday Clock are commentary only.</li>
   </ul>
 
-  <h2>Finance and markets</h2>
+  <h2>${esc(financeQ)}</h2>
   <p>Stock picks, scanner screens, AI paper trades, prediction-market odds, investor and congressional trade listings are automated, simulated or hypothetical.
     ${esc(brand.NAME)} is not a broker-dealer or registered investment adviser. Past and simulated results do not predict future results.
     Trading can lose money. Prediction markets and exchanges may be restricted where you live. The site-wide disclosure on every page repeats this.</p>
 
-  <h2>Affiliate and paid links</h2>
+  <h2>${esc(affiliateQ)}</h2>
   <p>${esc(brand.LEGAL_AFFILIATE)} There is no display-ad network while ads stay off in configuration.
     A named sponsor, if any, is labelled and has no say over any number.</p>
 
-  <h2>Privacy and analytics</h2>
+  <h2>${esc(privacyQ)}</h2>
   <p>Visits may be counted with Google Analytics and cookieless GoatCounter when those are turned on; both are disclosed on the privacy page.
     ${esc(brand.LEGAL_NO_SELL)} Live tool pages call third-party APIs from your browser (exchanges, maps, feeds); those providers see your IP under their own policies.</p>
 
-  <h2>Satire and jokes</h2>
+  <h2>${esc(satireQ)}</h2>
   <p>Tally the mascot, the Bunker Kit, the game and similar pages are satire or jokes. Their counts can still be real arithmetic; the framing is not emergency, medical or survival advice.</p>
 
-  <h2>People and likenesses</h2>
+  <h2>${esc(peopleQ)}</h2>
   <p>Illustrated portraits of public figures are generated artwork, not photographs. Names, marks and logos belong to their owners.
     Appearance here is not endorsement either way.</p>
 
-  <h2>Licence</h2>
+  <h2>${esc(licenceQ)}</h2>
   <p>${esc(brand.LICENSE_BLURB)}. Third-party data stays under its own licence, credited on the page that uses it.
     See the <a href="${esc(brand.REPO_URL)}/blob/main/LICENSE" rel="noopener">LICENSE</a> file in the repository.</p>
 
   <h2 id="faq">Questions people actually ask</h2>
   ${faqHtml}
 
-  <h2>Contact</h2>
+  <h2>${esc(contactQ)}</h2>
   <p>Corrections, takedown requests and privacy questions: ${mail}, ${x} on X, or an issue on the
     <a href="${esc(brand.REPO_URL)}" rel="noopener">repository</a>. Security reports: see
     <a href="${esc(brand.REPO_URL)}/blob/main/SECURITY.md" rel="noopener">SECURITY.md</a>.</p>
@@ -704,7 +731,7 @@ export function disclosures(ctx) {
       '@type': 'Question',
       name: q,
       acceptedAnswer: { '@type': 'Answer', text: a },
-    })), `What does ${brand.NAME} disclose?`),
+    })), qTitle),
     main,
   });
 }

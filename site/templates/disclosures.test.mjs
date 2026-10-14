@@ -35,3 +35,27 @@ test('disclosures.html ships question-shaped title, speakable, breadcrumbs, and 
   assert.doesNotMatch(html, /probability of doom is \d/i);
   assert.doesNotMatch(html, /SIREN.*p\(doom\) of \d/i);
 });
+
+test('disclosures.html section H2s use questions mirrored in FAQPage', () => {
+  const html = disclosures(ctx);
+  assert.match(html, /<h2>What is the SIREN index, and what is it not\?<\/h2>/);
+  assert.match(html, /<h2>What does SIREN disclose about finance and markets\?<\/h2>/);
+  assert.match(html, /<h2>What affiliate and paid links does this site use\?<\/h2>/);
+  assert.match(html, /<h2>What does this page say about privacy and analytics\?<\/h2>/);
+  assert.match(html, /<h2>Which pages are satire or jokes\?<\/h2>/);
+  assert.match(html, /<h2>How are people and likenesses handled\?<\/h2>/);
+  assert.match(html, /<h2>What licence covers SIREN\?<\/h2>/);
+  assert.match(html, /<h2>How do you contact SIREN about disclosures\?<\/h2>/);
+  assert.doesNotMatch(html, /<h2>What the index is<\/h2>/);
+  assert.doesNotMatch(html, /<h2>Finance and markets<\/h2>/);
+  assert.doesNotMatch(html, /<h2>Affiliate and paid links<\/h2>/);
+  assert.doesNotMatch(html, /<h2>Privacy and analytics<\/h2>/);
+  assert.doesNotMatch(html, /<h2>Satire and jokes<\/h2>/);
+  assert.doesNotMatch(html, /<h2>People and likenesses<\/h2>/);
+  assert.doesNotMatch(html, /<h2>Licence<\/h2>/);
+  assert.doesNotMatch(html, /<h2>Contact<\/h2>/);
+  assert.match(html, /"name"\s*:\s*"What is the SIREN index, and what is it not\?"/);
+  assert.match(html, /"name"\s*:\s*"What licence covers SIREN\?"/);
+  assert.match(html, /"name"\s*:\s*"How do you contact SIREN about disclosures\?"/);
+  assert.doesNotMatch(html, /probability of doom is \d/i);
+});
