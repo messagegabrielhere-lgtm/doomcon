@@ -521,6 +521,7 @@ context.
 | 269 | `/reference-plan.html` section H2s + FAQPage use questions for v1 / addenda / promotion / cutover / shift / official-vs-candidate (was “Reference v1, frozen” / “Addenda run as a shadow score” / “Promotion rule” / “Cutover” / “A permanent baseline shift” / “Official vs candidate, this reading”); Organization `knowsAbout` mirrors those questions; refuse doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 270 | `/nothing.html` section H2s + FAQPage use questions for ledger / method (was “The ledger” / “How the number is made”); Organization `knowsAbout` mirrors those questions; refuse doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 271 | `/labs.html` section H2s + FAQPage use questions for this-week / coming-up / earlier-weeks / lab-rules (was “This week: …” / “Coming up on the bench” / “Earlier weeks” / “Lab rules”); Organization `knowsAbout` mirrors those questions; refuse doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 272 | `/si-watch.html` section H2s + FAQPage use questions for coding / coming signals (was “What the AI agents are coding” / “Signals on the way”); Organization `knowsAbout` mirrors those questions; refuse doom-probability / takeover-forecast claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 

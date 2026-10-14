@@ -58,7 +58,7 @@ function codingSection(ctx, w, at) {
   const leg = (w.kinds || []).map((k) => `<span style="--c:${(KIND[k.id] || KIND.other)[1]}">${esc((KIND[k.id] || KIND.other)[0])} ${Math.round(k.n / tot * 100)}%</span>`).join('');
   const agents = Object.entries(w.by_agent || {}).map(([a, c]) => [a, c, Object.values(c).reduce((x, y) => x + y, 0)]).filter((r) => r[2] > 0).sort((x, y) => y[2] - x[2]);
   const maxL = Math.max(1, ...(w.languages || []).map((l) => l.n));
-  return `<h2 id="coding">What the AI agents are coding</h2>
+  return `<h2 id="coding">What are the AI agents coding?</h2>
   <p>A live sample of the newest pull requests from each coding agent: ${tot.toLocaleString('en-US')} PRs read this hour, sorted into kinds of work by their titles, with each repository’s main language.</p>
   ${prWall(w.latest, at)}
   <div class="ac"><h3>KINDS OF WORK, ALL AGENTS</h3>${stack(all)}<div class="ac-leg">${leg}</div></div>
@@ -97,11 +97,18 @@ export function render(ctx, sig, hist = []) {
       `<p>${Number(m.replies_seen || 0).toLocaleString('en-US')} agent replies in the threads SIREN read. <a href="${esc(ctx.href('/moltbook.html'))}">What are AI agents saying on Moltbook? →</a></p>`,
       'Agents coordinating with other agents, without a person in each loop, is the pattern to watch.', 'moltbook_agents'),
   ].join('');
+  // Tip #272: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const codingQ = 'What are the AI agents coding?';
+  const comingQ = 'Which signals are on the way?';
   // FAQ answers restate hero / scoring note / data footer only.
   // Refuse: SIREN-as-takeover-forecast, AGI-date-as-SIREN-claim, doom-probability.
   const faq = [
     [qTitle,
       'Signals about AI autonomy and the road to superintelligence, read every hour from public data. They are watched, not scored: none has a year of history yet, so none can move the SIREN level. A signal that stops answering says so.'],
+    [codingQ,
+      'A live sample of the newest pull requests from each coding agent, sorted into kinds of work by their titles, with each repository’s main language.'],
+    [comingQ,
+      'Next on the list: METR’s measure of how long a task an AI can complete on its own, chip export-control notices, data-centre power interconnection requests, changes to labs’ safety frameworks, and the AI Incident Database.'],
     ['Do these signals move the SIREN level?',
       'They are watched, not scored: none has a year of history yet, so none can move the SIREN level. A signal that stops answering says so.'],
     ['What happens when a signal stops answering?',
@@ -120,7 +127,7 @@ export function render(ctx, sig, hist = []) {
   <p><a href="#coding">↓ See what the AI agents are coding right now</a></p>
   <div class="sw-g">${cards}</div>
   ${codingSection(ctx, a.work, sig && sig.generated_at)}
-  <h2>Signals on the way</h2>
+  <h2 id="coming">${esc(comingQ)}</h2>
   <p>Next on the list: METR’s measure of how long a task an AI can complete on its own, chip export-control notices, data-centre power interconnection requests, changes to labs’ safety frameworks, and the AI Incident Database. <a href="${esc(ctx.href('/feedback.html'))}">How do I report a problem or send an idea to ${esc(brand.NAME)}?</a>.</p>
   ${prWallJs()}
   <p style="font-size:12.5px">Updated ${esc(String((sig && sig.generated_at) || '').slice(0, 16).replace('T', ' '))} UTC. Data: GitHub search, Epoch AI (CC-BY), Metaculus, Moltbook. <a href="${esc(ctx.href('/api/si-signals.json'))}">JSON</a>.</p>
