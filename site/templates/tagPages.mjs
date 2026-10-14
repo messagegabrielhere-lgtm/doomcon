@@ -1287,6 +1287,19 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'Off-policy reinforcement-learning research stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
     match: /\b[Oo]ff[- ][Pp]olicy\b/i,
   },
+  {
+    id: 'internet-access',
+    name: 'AI internet access',
+    description: 'AI internet-access restriction and eval stories scored in the newsroom or archive — coverage counts, not a containment forecast.',
+    // Require a halt/cut/pull/restrict verb so bare “internet access” advocacy does not soft-404 the hub.
+    match: /\b(?:halts?|halted|cuts?|cut|pulls?|pulled|restricts?|restricted|cuts?\s+off|cut\s+off)\b.{0,40}\binternet access\b/i,
+  },
+  {
+    id: 'manipulation-tasks',
+    name: 'Manipulation tasks',
+    description: 'Robot manipulation-task research stories scored in the newsroom or archive — coverage counts, not a robotics forecast.',
+    match: /\b[Mm]anipulation [Tt]asks?\b/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));

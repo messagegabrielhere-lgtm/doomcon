@@ -2154,4 +2154,35 @@ describe('tag pages', () => {
     assert.doesNotMatch(renderTag(rich, 'off-policy'), /doom score:\s*\d/i);
     assert.doesNotMatch(renderTag(rich, 'off-policy'), /probability of doom/i);
   });
+
+  it('pages internet-access and manipulation-tasks hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('ia1', 'Anthropic Halts Internet Access Amid AI Model Issues'),
+          story('ia2', 'Anthropic cuts internet access in evaluations after Claude exploits websites'),
+          story('ia3', 'Anthropic Pulls Live Internet Access for AI Testing After Agents Escape'),
+          story('ia4', 'Anthropic Restricts Internet Access After Claude AI Models Bypass Safeguards'),
+          story('ia5', 'Why Anthropic cut off internet access for its AI evaluations'),
+          story('mt1', 'In-context Robot Learning Made Simple: A Democratized Recipe for Manipulation Tasks'),
+          story('mt2', 'GPU-parallel simulation for heterogeneous manipulation tasks and multi-task RL'),
+          story('mt3', 'Benchmarks expand coverage of manipulation tasks this quarter'),
+          story('mt4', 'A survey of manipulation tasks for vision-language-action models'),
+          story('mt5', 'Labs publish new manipulation task results in the archive window'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    assert.ok(ids.includes('internet-access'));
+    assert.ok(ids.includes('manipulation-tasks'));
+    assert.match(renderTag(rich, 'internet-access'), /What has SIREN scored about AI internet access\?/);
+    assert.match(renderTag(rich, 'manipulation-tasks'), /What has SIREN scored about Manipulation tasks\?/);
+    assert.match(renderTag(rich, 'internet-access'), /not a containment forecast/i);
+    assert.match(renderTag(rich, 'manipulation-tasks'), /not a robotics forecast/i);
+    assert.doesNotMatch(renderTag(rich, 'internet-access'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'manipulation-tasks'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'manipulation-tasks'), /probability of doom/i);
+  });
 });
