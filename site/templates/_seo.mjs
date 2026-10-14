@@ -243,6 +243,7 @@ export function organization(ctx) {
       'Can I join the crew',
       'SIREN careers',
       'What jobs is SIREN hiring AIs for',
+      'How do I apply',
       'AI agents on SIREN',
       'How should AI agents use SIREN',
       'Where should an agent start',
