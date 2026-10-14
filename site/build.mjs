@@ -9,7 +9,7 @@
 
 import { stampAll, stampFiles } from './sitebar.mjs';
 import { flattenRooms } from './siteheader.mjs';
-import { readFile, writeFile, mkdir, readdir, copyFile, rm } from 'node:fs/promises';
+import { readFile, writeFile, mkdir, readdir, copyFile, rm, stat } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -1407,8 +1407,17 @@ async function main() {
       }
       const itemDir = path.join(args.out, 'item');
       if (existsSync(itemDir)) {
+        // GRACE PERIOD. The hourly pages (balance, lab/*, pillar/*, model/*,
+        // news-sitemap) still link items that rotated out on a fast tick, and
+        // deleting their briefs at once left those links 404ing until the next
+        // full build (17 dead /item links in the 2026-10-13 crawl). A brief
+        // that left the window stays for ITEM_GRACE_MS before it is pruned.
+        const ITEM_GRACE_MS = 72 * 3600_000;
+        const nowMs = Date.now();
         for (const name of await readdir(itemDir)) {
           if (!name.endsWith('.html') || keep.has(name)) continue;
+          if (/porno|xxx|sex-movie/i.test(name)) { await rm(path.join(itemDir, name), { force: true }); continue; }
+          try { if (nowMs - (await stat(path.join(itemDir, name))).mtimeMs < ITEM_GRACE_MS) continue; } catch { /* gone */ }
           await rm(path.join(itemDir, name), { force: true });
         }
       }

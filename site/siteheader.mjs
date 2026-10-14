@@ -45,7 +45,6 @@ export const WHATS_NEW = [
   ['/threats.html', 'px:threatshield', 'Threat board', 'Exploited software, botnets, solar storms and disasters, live.'],
   ['/self-aware.html', 'px:redeye', 'The night it wakes up', 'The Skynet scenario, played out on a map of real US data centres.'],
   ['/status.html', 'px:statuspulse', 'Is ChatGPT down?', 'Live status of ChatGPT, Claude, Copilot, Cursor and more, every minute.'],
-  ['/p-doom.html#voices', 'px:pclock', 'The p(doom) voices', '28 named estimates, Hinton to Yudkowsky, and a dial to set yours.'],
   ['/waffle.html', 'px:hurricane', 'Waffle House Index', 'Is the Waffle House open? Storms, waffles and AI data centres.'],
   ['/live.html', 'px:onair', 'AI on TV & radio', 'Live AI streams, news-channel segments and AI talk radio.'],
   ['/si-watch.html#coding', 'px:agentcode', 'What AI agents are coding', 'Live: agent pull requests by kind of work, language and repo.'],
@@ -192,9 +191,6 @@ export const RAIL = [
   ['/contain.html', 'px:core', 'Containment (arcade)'],
   ['/self-aware.html', 'px:redeye', 'The night it wakes up'],
   ['/day-after.html', 'px:megaphone', 'The Day After'],
-  ['/arena.html#battle', 'stocks', 'AI Battle'],
-  ['/bets.html', 'dice', 'Tally’s Bets'],
-  ['/p-doom.html#voices', 'px:pclock', 'Set your p(doom)'],
   '|',
   ['/radio.html', 'px:radio', 'SIREN Radio'],
 ];

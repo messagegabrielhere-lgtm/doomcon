@@ -26,7 +26,7 @@ import { readdir, mkdir, readFile, writeFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 
 import { fetchText, fetchJson } from './fetch.mjs';
-import { extractEntities, entityKinds, classifyPillar } from './news-sources/_entities.mjs';
+import { extractEntities, entityKinds, classifyPillar, isAdultSpam } from './news-sources/_entities.mjs';
 import { storyPass, STORY_SCORE } from './news-stories.mjs';
 import { toPlainText } from './news-sources/_feed.mjs';
 import { breakingPass } from './breaking.mjs';
@@ -933,6 +933,7 @@ async function main() {
       // that separates a dormant publisher from a broken parser.
       if (newestMs === null || rec.published_ms > newestMs) newestMs = rec.published_ms;
       if (rec.published_ms < cutoffMs) continue; // outside the rolling window
+      if (isAdultSpam(`${rec.title ?? ''} ${rec.summary ?? ''}`)) continue; // adult/porn spam, any source
       records.push(rec);
       kept += 1;
     }
@@ -1009,6 +1010,7 @@ async function main() {
   // stale score next to a duplicate of itself.
   const retained = previous.items
     .filter((i) => Date.parse(i.published_at) >= cutoffMs)
+    .filter((i) => !isAdultSpam(`${i.title ?? ''} ${i.summary ?? ''}`))
     .filter((i) => !records.some((r) => r.url === i.url))
     .map((i) => rescoreRetained(i, generatedAtMs))
     .filter(Boolean);
