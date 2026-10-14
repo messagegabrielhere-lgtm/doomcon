@@ -136,6 +136,8 @@ describe('IndexNow', () => {
     assert.ok(has('https://siren.watch/tags/ai-risks.html'));
     assert.ok(has('https://siren.watch/tags/ai-systems.html'));
     assert.ok(has('https://siren.watch/tags/machine-learning.html'));
+    assert.ok(has('https://siren.watch/tags/ai-industry.html'));
+    assert.ok(has('https://siren.watch/tags/ai-use.html'));
     assert.ok(has('https://siren.watch/model/mixtral.html'));
     assert.ok(has('https://siren.watch/tags/tsmc.html'));
     assert.ok(has('https://siren.watch/world.html'));
