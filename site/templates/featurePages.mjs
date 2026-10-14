@@ -75,7 +75,7 @@ function quiz({ id, questions, areas, intro }) {
       keys.forEach(function(k){total+=got[k]||0;tmax+=max[k]||0;});
       var pct=Math.round(100*total/(tmax||1));
       var ranked=keys.slice().sort(function(a,b){return ((got[a]||0)/(max[a]||1))-((got[b]||0)/(max[b]||1));});
-      var h='<h3>Your readiness: '+pct+'%</h3><div class="fx-meter"><i style="width:'+pct+'%"></i></div><p>Start with your weakest areas. Each has three moves you can make this month.</p>';
+      var h='<h3>What is your readiness score? '+pct+'%</h3><div class="fx-meter"><i style="width:'+pct+'%"></i></div><p>Start with your weakest areas. Each has three moves you can make this month.</p>';
       ranked.forEach(function(k,i){var s=Math.round(100*(got[k]||0)/(max[k]||1));h+='<h3 style="margin-top:16px">'+(i+1)+'. '+AREAS[k].name+' <span class="fx-pill">'+s+'%</span></h3><ul>'+AREAS[k].moves.map(function(m){return '<li>'+m+'</li>';}).join('')+'</ul>';});
       h+='<p><button class="fx-btn ghost" type="button" onclick="window.print()">PRINT MY PLAN</button></p>';
       out.innerHTML=h;out.hidden=false;out.scrollIntoView({behavior:'smooth',block:'start'});

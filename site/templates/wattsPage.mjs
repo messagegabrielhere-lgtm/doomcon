@@ -690,7 +690,7 @@ function waterPanel(infra) {
      Geological Survey’s, not ours.</p>
 
   <div class="iw">
-    <h3 class="iw__h">Nine gauges, ${esc(String(wMeta.reading_day ?? 'no reading'))}</h3>
+    <h3 class="iw__h">Which nine gauges sit beside datacentre clusters? · ${esc(String(wMeta.reading_day ?? 'no reading'))}</h3>
     ${w && w.state !== 'dark' ? `
     <p class="iw__lede">Median across the nine: <b>${esc(fmtNum(w.value, 1))}% ${
       w.value >= 0 ? 'below' : 'above'} normal</b>.
@@ -709,7 +709,7 @@ function waterPanel(infra) {
   </div>
 
   <div class="iw">
-    <h3 class="iw__h">Ten states, US Drought Monitor${
+    <h3 class="iw__h">Which ten states does the US Drought Monitor cover here?${
       d && d.state !== 'dark' ? ` · map of ${esc(String(d.meta?.map_date ?? ''))}` : ''}</h3>
     ${d && d.state !== 'dark' ? `
     <p class="iw__lede">Share of each state’s area in <b>D2 — severe drought</b> or worse.
@@ -1185,6 +1185,11 @@ export function render(ctx) {
       'Every grid has a daily minimum — the hour when air conditioning, offices and traffic have all gone home. What is still drawing power at four in the morning is the load that never stops. The overnight floor is the cleanest public proxy for always-on industrial demand that exists without a utility contract.'],
     [waterQ,
       'Cooling a datacentre consumes water, and nobody publishes the consumption. What is published, free and keyless, is the state of the water the clusters have to draw on: the flow in the river beside them.'],
+    // Tip #342: water-section H3s are question-shaped and mirrored in FAQ (§3.3).
+    ['Which nine gauges sit beside datacentre clusters?',
+      'The same nine USGS gauges beside named datacentre clusters, measured against each gauge\'s long-run median for that calendar date. Flow is rainfall and reservoir operation, not datacentre draw.'],
+    ['Which ten states does the US Drought Monitor cover here?',
+      'Share of each state\'s area in D2 — severe drought — or worse. The Drought Monitor is a weekly expert assessment, not an instrument reading.'],
     [buildQ,
       'Power and water are what a training cluster consumes. This is what it costs, and it is the one part of the story American public companies are legally obliged to write down.'],
     [srcQ,

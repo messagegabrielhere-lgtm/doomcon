@@ -590,6 +590,8 @@ context.
 | 338 | `/charts.html` post-modal H3, `/history.html` cautionary-tale H3, `/news.html` filter H3, `/race.html` blank-reading H3 + FAQPage use questions; Organization `knowsAbout` mirrors those questions; refuse chart/history/news/race doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 339 | `/world.html` method + register H3s + FAQPage use questions (was “The query” / “Geography” / “Licence” / “What the register can and cannot say”); Organization `knowsAbout` mirrors those questions; refuse world-map-as-draw / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 340 | `/exploits.html` source-section H3s + FAQPage use questions (was “The join” / “Quantiles…” / “The catalogue, for scale” / “Recompute it” / “Take the table”); Organization `knowsAbout` mirrors those questions; refuse exploit-lag-as-doom / AI-acceleration claims | Google + Bing | **Done** (2026-10-14) |
+| 341 | `/flock.html` method + direction + county H3s + FAQPage use questions (was “The harvest” / “Geography” / “Licence” / “Take the data” / “Recompute it” / “How the bearing was written” / “The counties with the most in them”); Organization `knowsAbout` mirrors those questions; refuse Flock-as-census / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 342 | `/waffle.html` chain/path/rank H3s, `/watts.html` gauge/drought H3s, `/si-ready.html` readiness result H3 + FAQPage use questions; Organization `knowsAbout` mirrors those questions; refuse outage-report / draw / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 

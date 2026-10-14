@@ -387,6 +387,12 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('What does the catalogue show for scale'));
     assert.ok(org.knowsAbout.includes('How do you recompute it'));
     assert.ok(org.knowsAbout.includes('How do you take the table'));
+    assert.ok(org.knowsAbout.includes('How was the harvest tiled'));
+    assert.ok(org.knowsAbout.includes('Which counties have the most mapped cameras'));
+    assert.ok(org.knowsAbout.includes('How many Waffle Houses are closed chain-wide right now'));
+    assert.ok(org.knowsAbout.includes('Which nine gauges sit beside datacentre clusters'));
+    assert.ok(org.knowsAbout.includes('Which ten states does the US Drought Monitor cover here'));
+    assert.ok(org.knowsAbout.includes('What is your readiness score'));
     assert.ok(org.knowsAbout.includes('AI harm and benefit side by side'));
     assert.ok(org.knowsAbout.includes('how does SIREN count AI harm and benefit side by side'));
     assert.ok(org.knowsAbout.includes('Tally desk unserious counts'));

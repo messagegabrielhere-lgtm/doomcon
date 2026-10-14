@@ -119,6 +119,14 @@ export function items(ctx) {
       `On /exploits.html, catalogue entries are joined to NVD records on cveID. Matched and unmatched counts are printed in the source section.`],
     ['How do you recompute it?',
       `On /exploits.html: two requests, no key. Fetch both feeds, join on cveID, subtract the UTC calendar dates.`],
+    ['How was the harvest tiled?',
+      `On /flock.html, a single US query times out, so the planet was tiled into seed boxes. Integrity checks compare count vs fetch.`],
+    ['How many Waffle Houses are closed chain-wide right now?',
+      `On /waffle.html when the locator answers: temporarily closed stores from Waffle House’s own locator, listed by state.`],
+    ['Which nine gauges sit beside datacentre clusters?',
+      `On /watts.html: nine USGS gauges beside named clusters, measured against each gauge’s long-run median — not datacentre draw.`],
+    ['What is your readiness score?',
+      `On /si-ready.html, the personal plan form prints a readiness percentage after you answer. It is a self-check, not a ${brand.NAME} index input.`],
   ];
 }
 

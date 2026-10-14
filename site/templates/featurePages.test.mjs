@@ -83,6 +83,8 @@ describe('si-ready page', () => {
     assert.match(html, /Does anything from the quiz leave my browser\?/);
     assert.match(html, /<h2>What are the six readiness areas\?<\/h2>/);
     assert.match(html, /<h2>What is the 3-minute readiness check\?<\/h2>/);
+    assert.match(html, /What is your readiness score\?/);
+    assert.doesNotMatch(html, /<h3>Your readiness:/);
     assert.match(html, /<h2>What is the full guide for how regular people can prepare\?<\/h2>/);
     assert.match(html, /<h2>What is a 30-day starter plan for SI readiness\?<\/h2>/);
     assert.match(html, /<h2>What should you not do when preparing for SI\?<\/h2>/);

@@ -33,6 +33,17 @@ describe('flock page', () => {
     assert.match(html, /id="flk-jur-h"[\s\S]*?Which jurisdictions have mapped Flock cameras\?/);
     assert.match(html, /id="flk-lim-h"[\s\S]*?What is this Flock register not\?/);
     assert.match(html, /id="flk-method-h"[\s\S]*?Where did the Flock map data come from\?/);
+    assert.match(html, /class="flk__sec__h3">How was the harvest tiled\?<\/h3>/);
+    assert.match(html, /class="flk__sec__h3">How was geography assigned\?<\/h3>/);
+    assert.match(html, /class="flk__sec__h3">What is the licence\?<\/h3>/);
+    assert.match(html, /class="flk__sec__h3">How do you take the data\?<\/h3>/);
+    assert.match(html, /class="flk__sec__h3">How do you recompute it\?<\/h3>/);
+    assert.match(html, /class="flk__sec__h3">Which counties have the most mapped cameras\?<\/h3>/);
+    assert.doesNotMatch(html, /class="flk__sec__h3">The harvest<\/h3>/);
+    assert.doesNotMatch(html, /class="flk__sec__h3">Geography<\/h3>/);
+    assert.doesNotMatch(html, /class="flk__sec__h3">Take the data<\/h3>/);
+    assert.match(html, /"name"\s*:\s*"How was the harvest tiled\?"/);
+    assert.match(html, /"name"\s*:\s*"Which counties have the most mapped cameras\?"/);
     assert.doesNotMatch(html, /id="flk-warn-h"[\s\S]{0,200}Read this before you read the map</);
     assert.doesNotMatch(html, /id="flk-map-h"[\s\S]{0,200}> The map\s*</);
     assert.doesNotMatch(html, /id="flk-jur-h"[\s\S]{0,200}> Jurisdictions\s*</);

@@ -131,6 +131,10 @@ describe('homepage FAQ', () => {
     assert.ok(qa.some(([q]) => q === 'What is the Overpass query?'));
     assert.ok(qa.some(([q]) => q === 'How was the join done?'));
     assert.ok(qa.some(([q]) => q === 'How do you recompute it?'));
+    assert.ok(qa.some(([q]) => q === 'How was the harvest tiled?'));
+    assert.ok(qa.some(([q]) => q === 'How many Waffle Houses are closed chain-wide right now?'));
+    assert.ok(qa.some(([q]) => q === 'Which nine gauges sit beside datacentre clusters?'));
+    assert.ok(qa.some(([q]) => q === 'What is your readiness score?'));
     const html = render(ctx);
     assert.match(html, /What is in the newsroom\?/);
     assert.match(html, /What is the signal feed\?/);
@@ -154,6 +158,10 @@ describe('homepage FAQ', () => {
     assert.match(html, /What is the Overpass query\?/);
     assert.match(html, /How was the join done\?/);
     assert.match(html, /How do you recompute it\?/);
+    assert.match(html, /How was the harvest tiled\?/);
+    assert.match(html, /How many Waffle Houses are closed chain-wide right now\?/);
+    assert.match(html, /Which nine gauges sit beside datacentre clusters\?/);
+    assert.match(html, /What is your readiness score\?/);
     assert.doesNotMatch(html, /probability of doom/i);
   });
 });

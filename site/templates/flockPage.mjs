@@ -1225,7 +1225,7 @@ function methodSection(ctx, f, m) {
 
   <p class="flk__sec__l">${esc(s.recompute || '')}</p>
 
-  <h3 class="flk__sec__h3">The harvest</h3>
+  <h3 class="flk__sec__h3">How was the harvest tiled?</h3>
   <p class="flk__sec__l">A single United States query is about 42 MB and times out, so the planet was
     tiled: <b>${N((c.seed_boxes || []).length)} seed boxes</b> covering it exactly once with no gap and
     no overlap, the contiguous states pre-cut into a grid. <b>${N(c.data_queries)} data queries</b> and
@@ -1247,20 +1247,20 @@ function methodSection(ctx, f, m) {
     is not rounded away: OpenStreetMap was edited between the count query and the fetch, and the two
     cameras added in that window are real.</p>
 
-  <h3 class="flk__sec__h3">Geography</h3>
+  <h3 class="flk__sec__h3">How was geography assigned?</h3>
   <p class="flk__sec__l">Counties and states come from <b>${esc(g.label || 'Census TIGERweb')}</b>,
     ${N(g.counties)} county polygons simplified to about ${g.simplify_deg ? `${Number(g.simplify_deg)}°` : '—'}
     — roughly 550 m. ${N(f.totals.near_a_county_boundary)} cameras sit close enough to a county line
     that the assignment could belong to the neighbour, and ${N(f.totals.outside_any_us_county)} fall
     outside any US county and are kept rather than dropped.</p>
 
-  <h3 class="flk__sec__h3">Licence</h3>
+  <h3 class="flk__sec__h3">What is the licence?</h3>
   <p class="flk__sec__l"><b>${esc(f.copy.attribution_required)}</b> —
     <a href="${esc(f.copy.attribution_url)}" rel="license noopener">${esc(f.copy.attribution_url)}</a>.
     ${esc((s.licence && s.licence.data) || 'Open Database License (ODbL) v1.0')}.
     ${esc(f.copy.attribution_note || '')}</p>
 
-  <h3 class="flk__sec__h3">Take the data</h3>
+  <h3 class="flk__sec__h3">How do you take the data?</h3>
   <p class="flk__sec__l">Both files are published beside this page, byte-identical to what the
     collector wrote — the build copies them verbatim rather than re-serialising, so the checksum of
     the file in the repository is the checksum of the file served here.</p>
@@ -1279,7 +1279,7 @@ function methodSection(ctx, f, m) {
         camera with its bearing.</span></li>` : ''}
   </ul>
 
-  <h3 class="flk__sec__h3">Recompute it</h3>
+  <h3 class="flk__sec__h3">How do you recompute it?</h3>
   <p class="flk__sec__l">Substitute a bounding box for the four zeroes and POST it to
     <code class="flk__tag">${esc(s.endpoint || '')}</code> as a form-encoded
     <code class="flk__tag">data=</code> field. A raw POST body answers HTTP 406.</p>
@@ -1333,7 +1333,7 @@ function directionSection(f) {
     is why the rose totals ${N(parsed)} and not ${N(t.mapped_worldwide)}.</p>
 
   ${Array.isArray(d.tag_forms) && d.tag_forms.length ? `
-  <h3 class="flk__sec__h3">How the bearing was written</h3>
+  <h3 class="flk__sec__h3">How was the bearing written?</h3>
   <p class="flk__sec__l">OpenStreetMap accepts ${N(d.tag_forms.length)} forms in this field and they
     are not equally solid. One of them is <b>derived rather than tagged</b>, and a page that folded
     them all together would be publishing a computation as an observation.</p>
@@ -1444,6 +1444,21 @@ export function render(ctx) {
       `This is a snapshot and not a time series. Nothing here says when a camera was installed or whether it is switched on — only that an OpenStreetMap object exists.`],
     [methodQ,
       `Every camera here is an OpenStreetMap object with Flock tags, unioned so unknown overlaps are not double-counted. Open Database Licence data, © OpenStreetMap contributors.`],
+    // Tip #341: method / direction / jurisdiction H3s are question-shaped and mirrored in FAQ (§3.3).
+    ['How was the harvest tiled?',
+      'A single United States query times out, so the planet was tiled into seed boxes with no gap and no overlap. Integrity checks compare what the server counted against what the fetch yielded.'],
+    ['How was geography assigned?',
+      'Counties and states come from Census TIGERweb polygons. Cameras near a county line are flagged; cameras outside any US county are kept rather than dropped.'],
+    ['What is the licence?',
+      '© OpenStreetMap contributors under the Open Database License (ODbL) v1.0. Attribution is a term of that licence.'],
+    ['How do you take the data?',
+      'Both files are published beside this page byte-identical to what the collector wrote — /api/flock.json and the points file.'],
+    ['How do you recompute it?',
+      'Substitute a bounding box for the four zeroes and POST it to the Overpass endpoint as a form-encoded data= field. A raw POST body answers HTTP 406.'],
+    ['How was the bearing written?',
+      'OpenStreetMap accepts several forms in the direction field; one of them is derived rather than tagged. They are listed separately so a computation is not published as an observation.'],
+    ['Which counties have the most mapped cameras?',
+      'The jurisdictions section ranks counties by cameras mapped. A dense county may differ from an empty one only in how many people were looking.'],
     ['Does a county with no pins have zero Flock cameras?',
       f.copy.empty_state || 'A county with no pins is a county nobody has mapped. It is not a county with no cameras.'],
     [`Does the Flock register feed the main ${brand.NAME} number?`,
@@ -1502,7 +1517,7 @@ ${jumpNav(present)}
     looks saturated and a state that looks empty may differ only in how many people were looking.</p>
   ${stateTable(f, m)}
 
-  <h3 class="flk__sec__h3">The counties with the most in them</h3>
+  <h3 class="flk__sec__h3">Which counties have the most mapped cameras?</h3>
   ${countyTable(f, m)}
 </section>
 
