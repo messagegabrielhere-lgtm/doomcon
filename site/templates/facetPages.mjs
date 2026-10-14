@@ -540,6 +540,8 @@ function labNeedles(player) {
     synopsys: ['synopsys'],
     airbnb: ['airbnb'],
     asana: ['asana'],
+    'goldman-sachs': ['goldman sachs'],
+    coinbase: ['coinbase'],
   };
   return [...new Set([...(extras[player.id] || []), ...names])];
 }

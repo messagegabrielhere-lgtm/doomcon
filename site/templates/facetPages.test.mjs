@@ -1072,6 +1072,59 @@ describe('lab facets', () => {
     assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/lab/asana.html'));
   });
 
+  it('indexes Goldman Sachs and Coinbase entity labs when archive headlines clear the gate', () => {
+    const withArch = {
+      ...ctx,
+      news: { ...ctx.news, items: [...ctx.news.items] },
+      itemArchive: [
+        {
+          id: 'gs1', title: 'Goldman Sachs Says AI Model Costs Matched 15 Years of PC Price Declines', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/gs1', published_at: '2026-09-01T01:00:00Z', score: 40,
+        },
+        {
+          id: 'gs2', title: 'Goldman Sachs data shows AI model costs fell as fast in three years as PC prices', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/gs2', published_at: '2026-09-02T01:00:00Z', score: 41,
+        },
+        {
+          id: 'gs3', title: 'Goldman Sachs: investors have provided ~$500B in financing to AI-linked groups', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/gs3', published_at: '2026-09-03T01:00:00Z', score: 42,
+        },
+        {
+          id: 'gsbad', title: 'A bank research note without naming the desk', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/gsbad', published_at: '2026-09-04T01:00:00Z', score: 30,
+        },
+        {
+          id: 'cb1', title: 'Coinbase Fraud Prevention: How Did a Fine-Tuned Qwen Model Beat Opus?', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/cb1', published_at: '2026-09-01T02:00:00Z', score: 40,
+        },
+        {
+          id: 'cb2', title: 'Coinbase fine-tunes Qwen3.5-9B model for fraud prevention', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/cb2', published_at: '2026-09-02T02:00:00Z', score: 41,
+        },
+        {
+          id: 'cb3', title: 'Newer AI models missed more payment fraud in Coinbase’s benchmark', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/cb3', published_at: '2026-09-03T02:00:00Z', score: 42,
+        },
+        {
+          id: 'cbbad', title: 'A crypto wallet tip without naming the exchange', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/cbbad', published_at: '2026-09-04T02:00:00Z', score: 30,
+        },
+      ],
+    };
+    const goldman = labsFromEntities(withArch).find((p) => p.id === 'goldman-sachs');
+    const coinbase = labsFromEntities(withArch).find((p) => p.id === 'coinbase');
+    assert.ok(goldman, 'Goldman Sachs clears ENTITY_LAB_MIN');
+    assert.ok(coinbase, 'Coinbase clears ENTITY_LAB_MIN');
+    assert.match(renderLab(withArch, goldman), /What has SIREN scored about Goldman Sachs\?/);
+    assert.match(renderLab(withArch, coinbase), /What has SIREN scored about Coinbase\?/);
+    assert.doesNotMatch(renderLab(withArch, goldman), /without naming the desk/);
+    assert.doesNotMatch(renderLab(withArch, coinbase), /without naming the exchange/);
+    assert.doesNotMatch(renderLab(withArch, goldman), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderLab(withArch, coinbase), /probability of doom/i);
+    assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/lab/goldman-sachs.html'));
+    assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/lab/coinbase.html'));
+  });
+
   it('indexes Supermicro, IREN, OpenRouter, and Reflection AI entity labs from archive', () => {
     const withArch = {
       ...ctx,

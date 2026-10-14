@@ -130,6 +130,10 @@ const ENTITY_DEFS = [
   { name: 'Airbnb', kind: 'lab', forms: ['Airbnb'] },
   // Work-management product — browser-agent cost and Muse integration stories.
   { name: 'Asana', kind: 'lab', forms: ['Asana'] },
+  // Bank research desk — AI model-cost and AI-financing headlines.
+  { name: 'Goldman Sachs', kind: 'lab', forms: ['Goldman Sachs'] },
+  // Crypto exchange — Qwen fraud-prevention / AI benchmark headlines.
+  { name: 'Coinbase', kind: 'lab', forms: ['Coinbase'] },
 
   // --- model families ---
   // GPT-6 Astra / Luna / Sol nicknames so /model/gpt clears when headlines
