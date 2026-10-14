@@ -172,6 +172,15 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('Where is the SIREN press kit'));
     assert.ok(org.knowsAbout.includes('SIREN terms of use'));
     assert.ok(org.knowsAbout.includes('What are the SIREN terms of use'));
+    assert.ok(org.knowsAbout.includes('Is SIREN information and entertainment only'));
+    assert.ok(org.knowsAbout.includes('What is the index, and what is it not'));
+    assert.ok(org.knowsAbout.includes('Is SIREN financial or investment advice'));
+    assert.ok(org.knowsAbout.includes('What do the security, surveillance and safety pages cover'));
+    assert.ok(org.knowsAbout.includes('How accurate and available is the site'));
+    assert.ok(org.knowsAbout.includes('Is there any warranty'));
+    assert.ok(org.knowsAbout.includes('What is the limitation of liability'));
+    assert.ok(org.knowsAbout.includes('What law governs these terms'));
+    assert.ok(org.knowsAbout.includes('How do changes, severability and your rights work'));
     assert.ok(org.knowsAbout.includes('SIREN disclosures'));
     assert.ok(org.knowsAbout.includes('What does SIREN disclose'));
     assert.ok(org.knowsAbout.includes('What is the SIREN index, and what is it not'));
