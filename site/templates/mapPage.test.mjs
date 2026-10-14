@@ -87,4 +87,11 @@ describe('map page', () => {
     assert.doesNotMatch(html, /bldstate__h"[^>]*>[\s\S]*Every jurisdiction, ranked/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
   });
+
+  it('moves-panel H3 uses a question mirrored in FAQPage', () => {
+    const html = render(ctx);
+    assert.match(html, /id="bld-moves"[^>]*>[\s\S]*What moves between collects\?/);
+    assert.match(html, /FAQPage[\s\S]*What moves between collects\?/);
+    assert.doesNotMatch(html, /id="bld-moves"[^>]*>[\s\S]*What moves between collects<\/h3>/);
+  });
 });

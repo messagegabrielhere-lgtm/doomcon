@@ -184,6 +184,8 @@ describe('homepage FAQ', () => {
     assert.ok(qa.some(([q]) => q === 'What would move one stage hotter?'));
     assert.ok(qa.some(([q]) => q === 'What does the Signal panel show?'));
     assert.ok(qa.some(([q]) => q === 'How did OpenAI fare in this window?'));
+    assert.ok(qa.some(([q]) => q === 'Which incident terms fired in this window?'));
+    assert.ok(qa.some(([q]) => q === 'What moves between collects?'));
     const html = render(ctx);
     assert.match(html, /What is in the newsroom\?/);
     assert.match(html, /What is the signal feed\?/);
@@ -260,6 +262,8 @@ describe('homepage FAQ', () => {
     assert.match(html, /What would move one stage hotter\?/);
     assert.match(html, /What does the Signal panel show\?/);
     assert.match(html, /How did OpenAI fare in this window\?/);
+    assert.match(html, /Which incident terms fired in this window\?/);
+    assert.match(html, /What moves between collects\?/);
     assert.doesNotMatch(html, /probability of doom/i);
   });
 });

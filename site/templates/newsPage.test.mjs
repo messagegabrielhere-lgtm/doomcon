@@ -29,6 +29,14 @@ const ctx = {
         url: 'https://example.test/a1',
         published_at: '2026-10-12T12:00:00Z',
         score: 50,
+        meta: {
+          incident: {
+            band: 'B',
+            severity: 0.6,
+            strong_signal: false,
+            terms: [{ term: 'breach', weight: 2 }],
+          },
+        },
       },
       {
         id: 'a2',
@@ -95,6 +103,9 @@ describe('newsroom page', () => {
     assert.match(html, /class="vh">How do you filter the scored list\?<\/h3>/);
     assert.doesNotMatch(html, /class="vh">Filter the list<\/h3>/);
     assert.match(html, /"name"\s*:\s*"How do you filter the scored list\?"/);
+    assert.match(html, /id="ntier-h">Which incident terms fired in this window\?<\/h3>/);
+    assert.match(html, /"name"\s*:\s*"Which incident terms fired in this window\?"/);
+    assert.doesNotMatch(html, /id="ntier-h">Incident terms fired on/);
     assert.doesNotMatch(html, /id="areel-h"[^>]*>Highest-scoring items</);
     assert.doesNotMatch(html, /id="arch-h"[^>]*>All items</);
     assert.doesNotMatch(html, /id="arch-src-h"[^>]*>Where these came from</);

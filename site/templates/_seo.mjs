@@ -756,6 +756,8 @@ export function organization(ctx) {
       'How did OpenAI fare in this window',
       'How did Anthropic fare in this window',
       'How did Google DeepMind fare in this window',
+      'Which incident terms fired in this window',
+      'What moves between collects',
       'How do these lines cross-check against the lab feeds',
       'How does a line get onto this page',
       'Which AI stories has SIREN scored in this window',

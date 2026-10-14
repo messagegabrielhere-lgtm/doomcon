@@ -1074,9 +1074,11 @@ function movesPanel(dc, model) {
     </li>`;
   }).join('');
 
+  // Tip #388: moves-panel H3 is question-shaped (mirrored in FAQ §3.3).
+  const movesQ = 'What moves between collects?';
   return `<section class="dcmv" aria-labelledby="bld-moves">
   <div class="dcmv__hd">
-    <h3 class="dcmv__h" id="bld-moves">${icon('sec-substrate')} What moves between collects</h3>
+    <h3 class="dcmv__h" id="bld-moves">${icon('sec-substrate')} ${esc(movesQ)}</h3>
     <p class="dcmv__sub">${esc(N(live.length))} of ${esc(N(model.gridRows.length))} balancing authorities
       publish a number without an account. These are the only figures on this page that can differ from the
       ones you saw last time.</p>
@@ -1430,6 +1432,9 @@ export function render(ctx) {
     // Tip #381: jurisdiction-table H3 is question-shaped and mirrored in FAQ (§3.3).
     ['Which jurisdictions are ranked by mapped sites?',
       'Every state in the contiguous frame, ranked by mapped sites. The states at the bottom with a zero are the point of this table.'],
+    // Tip #388: moves-panel H3 is question-shaped and mirrored in FAQ (§3.3).
+    ['What moves between collects?',
+      'Balancing authorities that publish a number without an account. These are the only figures on this page that can differ from the ones you saw last time. This page does not feed the main index.'],
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>

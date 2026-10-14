@@ -636,6 +636,8 @@ context.
 | 384 | Oven gate-card H3s on `/instruments.html` + `/classic.html` use questions (was “One stage hotter” / “One stage cooler”); Organization `knowsAbout` mirrors those questions; refuse oven-as-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 385 | `/classic.html` war-room panel H3s + FAQPage use questions (was “Signal” / “The brief” / “Newsroom” / …; jump nav keeps short labels); Organization `knowsAbout` mirrors those questions; refuse war-room-as-doom / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 386 | `/digest.html` per-lab H3s + FAQPage use questions (was bare lab names); Organization `knowsAbout` mirrors those questions; refuse digest-as-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 387 | `/news.html` incident-tier H3 + FAQPage use a question (was “Incident terms fired on N of M items”); Organization `knowsAbout` mirrors that question; refuse newsroom doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 388 | `/map.html` moves-panel H3 + FAQPage use a question (was “What moves between collects” without `?`); Organization `knowsAbout` mirrors that question; refuse map-as-draw / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 

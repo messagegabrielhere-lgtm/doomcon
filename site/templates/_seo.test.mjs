@@ -472,6 +472,8 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('How did OpenAI fare in this window'));
     assert.ok(org.knowsAbout.includes('How did Anthropic fare in this window'));
     assert.ok(org.knowsAbout.includes('How did Google DeepMind fare in this window'));
+    assert.ok(org.knowsAbout.includes('Which incident terms fired in this window'));
+    assert.ok(org.knowsAbout.includes('What moves between collects'));
     assert.ok(org.knowsAbout.includes('What AI Spaces are live on X'));
     assert.ok(org.knowsAbout.includes('Who is OpenAI on X'));
     assert.ok(org.knowsAbout.includes('AI harm and benefit side by side'));
