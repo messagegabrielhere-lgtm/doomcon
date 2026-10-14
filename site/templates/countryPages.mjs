@@ -211,20 +211,41 @@ export function renderCountry(ctx, iso2) {
     `${country.name}: ${n(country.total)} datacentre sites ${qualifier} (${n(country.operating)} operating, ${n(country.under_construction)} under construction, ${n(country.announced)} announced). A count of map objects, not of every datacentre that exists.`,
     160,
   );
+  // Tip #284: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const sitesQ = `Which named sites has ${brand.NAME} mapped in ${country.name}?`;
+  const storiesQ = `Which scored stories name ${country.name}?`;
+  const olderQ = `Which older scored stories name ${country.name}?`;
+  const subregionQ = 'Which other countries are in the same subregion?';
+  const cities = topCounts(sites.map((s) => s.city));
+  const operators = topCounts(sites.map((s) => s.operator));
+  const neighbours = indexableCountries(ctx)
+    .filter((c) => c.iso2 !== country.iso2 && c.subregion && c.subregion === country.subregion)
+    .slice(0, 12);
   const faq = [
     [`How many datacentres has ${brand.NAME} mapped in ${country.name}?`,
       `${n(country.total)} sites in ${country.name} ${qualifier} (${n(country.operating)} operating, ${n(country.under_construction)} under construction, ${n(country.announced)} announced). This is a count of OpenStreetMap objects, not every datacentre that exists.`],
+    [sitesQ,
+      shown.length
+        ? `${n(shown.length)} named ${shown.length === 1 ? 'site' : 'sites'} listed here${shown.length < sites.length ? ` of ${n(sites.length)} in the file` : ''}. Announced and under construction first, then operating, by name — map objects, not a national ranking.`
+        : 'The country total is published. This build has no per-site rows to list.'],
+    ...(stories.length
+      ? [[storiesQ,
+        'Headlines and summaries in the live newsroom window that name this country. Story counts are not a ranking of national AI activity and not a forecast.']]
+      : []),
+    ...(older.length
+      ? [[olderQ,
+        'Kept in the permanent archive after they left the live window. Still scored stories — not a forecast.']]
+      : []),
+    ...(neighbours.length
+      ? [[subregionQ,
+        `Other countries in ${country.subregion} that clear the same mapped-site gate, each linking How many datacentres has ${brand.NAME} mapped in that country?`]]
+      : []),
     [`Does ${brand.NAME} rank ${country.name} for AI risk?`,
       `No. ${brand.DISCLAIMER_SHORT} A country page counts mapped datacentre sites and matching headlines — not a national AI ranking or doom score.`],
   ];
   const faqHtml = faq.map(([q, a]) => `
   <h3>${esc(q)}</h3>
   <p>${esc(a)}</p>`).join('');
-  const cities = topCounts(sites.map((s) => s.city));
-  const operators = topCounts(sites.map((s) => s.operator));
-  const neighbours = indexableCountries(ctx)
-    .filter((c) => c.iso2 !== country.iso2 && c.subregion && c.subregion === country.subregion)
-    .slice(0, 12);
   const attribution = copy.attribution_url
     ? `<a href="${esc(copy.attribution_url)}" rel="noopener">${esc(copy.attribution_required || 'OpenStreetMap copyright')}</a>`
     : esc(copy.attribution_required || 'OpenStreetMap contributors');
@@ -239,13 +260,13 @@ export function renderCountry(ctx, iso2) {
   }).join('');
 
   const storyBlock = stories.length
-    ? `<h2>Scored stories naming ${esc(country.name)}</h2>
+    ? `<h2 id="stories">${esc(storiesQ)}</h2>
   <p class="fc__lede">Headlines and summaries in the live newsroom window that name this country. Story counts are not a ranking of national AI activity and not a forecast.</p>
   <ol class="fc__list">${storyRows(ctx, stories)}</ol>
   <p class="fresh__key"><a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a></p>`
     : '';
   const olderBlock = older.length
-    ? `<h2>Older scored stories naming ${esc(country.name)}</h2>
+    ? `<h2 id="older">${esc(olderQ)}</h2>
   <p class="fc__lede">Kept in the permanent archive after they left the live window. Still scored stories — not a forecast.</p>
   <ol class="fc__list">${storyRows(ctx, older)}</ol>
   <p class="fresh__key"><a href="${esc(ctx.href('/item/archive.html'))}">Which older AI stories has ${esc(brand.NAME)} kept in the archive?</a></p>`
@@ -271,7 +292,7 @@ export function renderCountry(ctx, iso2) {
      ${attribution}.</p>
   ${cities.length ? `<p>Cities named most often in this extract: ${cities.map(([name, count]) => `${esc(name)} (${esc(n(count))})`).join(', ')}.</p>` : ''}
   ${operators.length ? `<p>Operators named most often: ${operators.map(([name, count]) => `${esc(name)} (${esc(n(count))})`).join(', ')}.</p>` : ''}
-  <h2>Named sites</h2>
+  <h2 id="sites">${esc(sitesQ)}</h2>
   ${shown.length
     ? `<ol class="fc__list">${rows}</ol>
        <p class="fresh__key">${shown.length < sites.length
@@ -283,11 +304,10 @@ export function renderCountry(ctx, iso2) {
   ${olderBlock}
   <h2 id="faq">Questions people actually ask</h2>
   ${faqHtml}
-  ${neighbours.length ? `<h2>Same subregion</h2>
+  ${neighbours.length ? `<h2 id="same-subregion">${esc(subregionQ)}</h2>
   <nav class="fc__nav" aria-label="Other countries in ${esc(country.subregion)}">${neighbours.map((c) => `<a href="${esc(ctx.href(countryPath(c.iso2)))}">How many datacentres has ${esc(brand.NAME)} mapped in ${esc(c.name)}?</a>`).join('')}</nav>` : ''}
   <p class="fresh__key">Search-shaped directory: <a href="${esc(ctx.href('/countries.html'))}">Which AI datacentre countries has ${esc(brand.NAME)} mapped?</a>.</p>
 </article>`;
-
   const jsonld = [{
     '@context': 'https://schema.org',
     '@type': 'Dataset',
@@ -316,7 +336,7 @@ export function renderCountry(ctx, iso2) {
     jsonld.push({
       '@context': 'https://schema.org',
       '@type': 'ItemList',
-      name: `Scored stories naming ${country.name}`,
+      name: storiesQ,
       numberOfItems: Math.min(stories.length, COUNTRY_STORY_CAP),
       itemListElement: stories.slice(0, COUNTRY_STORY_CAP).map((it, i) => ({
         '@type': 'ListItem',

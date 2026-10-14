@@ -295,6 +295,10 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('Which scored stories are in the live window'));
     assert.ok(org.knowsAbout.includes('Which older scored stories are from a UTC day'));
     assert.ok(org.knowsAbout.includes('Which other days have scored stories'));
+    assert.ok(org.knowsAbout.includes('Which named sites has SIREN mapped in a country'));
+    assert.ok(org.knowsAbout.includes('Which scored stories name a country'));
+    assert.ok(org.knowsAbout.includes('Which older scored stories name a country'));
+    assert.ok(org.knowsAbout.includes('Which other countries are in the same subregion'));
     assert.ok(org.knowsAbout.includes('ready for superintelligence'));
     assert.ok(org.knowsAbout.includes('Ready for SI personal plan'));
     assert.ok(org.knowsAbout.includes('USA vs China AI race'));

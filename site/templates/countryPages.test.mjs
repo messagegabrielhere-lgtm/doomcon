@@ -158,12 +158,17 @@ describe('country pages', () => {
 
   it('lists live and archived stories that name the country', () => {
     const html = renderCountry(ctx, 'de');
-    assert.match(html, /Scored stories naming Germany/);
+    assert.match(html, /id="sites"[^>]*>Which named sites has SIREN mapped in Germany\?/);
+    assert.match(html, /id="stories"[^>]*>Which scored stories name Germany\?/);
     assert.match(html, /Germany expands AI datacentre grid deal/);
-    assert.match(html, /Older scored stories naming Germany/);
+    assert.match(html, /id="older"[^>]*>Which older scored stories name Germany\?/);
     assert.match(html, /Older Germany chip fab story/);
     assert.match(html, /ItemList/);
     assert.match(html, /\/item\/archive\.html/);
+    assert.match(html, /"@type"\s*:\s*"FAQPage"/);
+    assert.doesNotMatch(html, /<h2>Named sites<\/h2>/);
+    assert.doesNotMatch(html, /<h2>Scored stories naming Germany<\/h2>/);
+    assert.doesNotMatch(html, /<h2>Older scored stories naming Germany<\/h2>/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
   });
 
