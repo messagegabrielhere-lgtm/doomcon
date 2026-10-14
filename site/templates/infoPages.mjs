@@ -1031,13 +1031,37 @@ export function aiClock(ctx) {
 export function brandPage(ctx) {
   const path = '/brand.html';
   // Head-term title: people search “SIREN brand guide” / colours / Tally.
-  const title = `Where is the ${brand.NAME} brand guide? Name, colours, type, voice and Tally`;
+  const qTitle = `Where is the ${brand.NAME} brand guide?`;
+  const title = `${qTitle} Name, colours, type, voice and Tally`;
   const description = `How ${brand.NAME} looks and sounds: the level colours, the typefaces, the voice rules, and Tally the duty canary in five moods to download.`;
   const levels = [...brand.LEVELS].sort((a, b) => b.level - a.level);
   const sw = (name, v, note) => `<li class="br__sw"><i style="background:${v}"></i><b>${esc(name)}</b><code>${esc(v)}</code><span>${esc(note)}</span></li>`;
+  // Tip #315: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const ideaQ = `What is the ${brand.NAME} brand idea?`;
+  const nameQ = `How should the ${brand.NAME} name be written?`;
+  const tallyQ = 'Who is Tally, the duty canary?';
+  const colourQ = 'What colours does the brand use?';
+  const typeQ = 'What typefaces does the brand use?';
+  const voiceQ = 'What is the brand voice?';
+  const filesQ = 'Which brand files can you download?';
+  // FAQ from the SAME pairs rendered in HTML (§3.3). Refuse doom-probability.
   const faq = [
-    [`Where is the ${brand.NAME} brand guide?`,
+    [qTitle,
       `This page. It covers the name, level colours, typefaces, voice rules, and Tally the duty canary in five moods to download. Everything here may be used with credit; the site’s text and data are ${brand.LICENSE}.`],
+    [ideaQ,
+      `${brand.SLOGAN} A public-information bulletin from the 1950s, about a twenty-first-century subject, that shows its arithmetic. The costume is civil defence; the content is a count.`],
+    [nameQ,
+      `Always ${brand.NAME}, in capitals, followed by the level: “${brand.NAME} 4”. The publication line is “${brand.PUBLICATION}”. The tagline is “${brand.TAGLINE}”.`],
+    [tallyQ,
+      'Tally is the duty canary — the mascot. The helmet takes the level’s colour and the face takes the level’s mood. Use the drawing for the level you are talking about; do not recolour the body.'],
+    [colourQ,
+      'The five level colours carry meaning and are never used as decoration for something else. Amber is the brand accent.'],
+    [typeQ,
+      'Anton for headlines; Inter Tight for reading; JetBrains Mono for labels and numbers; Stardos Stencil for the wordmark and stamps only.'],
+    [voiceQ,
+      'Put the joke in the framing and keep the number straight. Say what was counted, by whom, and when. Say “loud” and “quiet”. Do not predict in the index or say a loud level means danger.'],
+    [filesQ,
+      'The mark and level badge as SVG, the current reading card and portrait card, and Tally in all five moods.'],
     [`Who is Tally?`,
       'Tally is the duty canary — the mascot. The helmet takes the level’s colour and the face takes the level’s mood. Use the drawing for the level you are talking about; do not recolour the body.'],
     [`Does a loud level mean danger?`,
@@ -1063,30 +1087,30 @@ export function brandPage(ctx) {
 </style>
 <section class="inf">
   <p class="eyebrow">Brand</p>
-  <div class="inf__top">${mascot({ size: 76, level: level(ctx) })}<h1 class="bp__h1">Where is the ${esc(brand.NAME)} brand guide?</h1></div>
+  <div class="inf__top">${mascot({ size: 76, level: level(ctx) })}<h1 class="bp__h1">${esc(qTitle)}</h1></div>
   <p class="lede">One page for anyone making something with the brand: a slide, a post, a story, a sticker. Everything here may be used with credit; ${esc(brand.LICENSE)}.</p>
 
-  <h2>The idea</h2>
+  <h2>${esc(ideaQ)}</h2>
   <p><b>${esc(brand.SLOGAN)}</b> A public-information bulletin from the 1950s, about a twenty-first-century subject, that shows its arithmetic.
     The costume is civil defence: hazard tape, a rubber stamp, a duty mascot. The content is a count.</p>
 
-  <h2>The name</h2>
+  <h2>${esc(nameQ)}</h2>
   <p>Always <b>${esc(brand.NAME)}</b>, in capitals, followed by the level: “${esc(brand.NAME)} 4”. The publication line is “${esc(brand.PUBLICATION)}”.
     The tagline is “${esc(brand.TAGLINE)}”</p>
 
-  <h2>Tally, the duty canary</h2>
+  <h2>${esc(tallyQ)}</h2>
   <p>The mascot. The helmet takes the level's colour and the face takes the level's mood. Use the drawing for the level you are talking about; do not recolour the body.</p>
   <ol class="br__row">
 ${levels.map((l) => `    <li class="br__t" style="--lvl:var(--heat-${l.level})">${mascot({ size: 120, level: l.level })}<b>${esc(l.level)} · ${esc(l.name)}</b><span>${esc(MOODS[l.level])}</span><a href="${esc(ctx.href(`/brand/tally-${l.level}.svg`))}" download>Download SVG</a></li>`).join('\n')}
   </ol>
 
-  <h2>Colour</h2>
+  <h2>${esc(colourQ)}</h2>
   <p>The five level colours carry meaning and are never used as decoration for something else. Amber is the brand accent.</p>
   <ul class="br__row">
     ${sw('Level 5', '#56b0e0', 'quietest')}${sw('Level 4', '#5fd08a', '')}${sw('Level 3 · accent', '#ffb020', 'also the brand amber')}${sw('Level 2', '#ff8b3d', '')}${sw('Level 1', '#ff5f56', 'loudest')}${sw('Ground', '#0b0c0e', 'page background')}${sw('Ink', '#e8eaee', 'text')}
   </ul>
 
-  <h2>Type</h2>
+  <h2>${esc(typeQ)}</h2>
   <div class="br__type">
     <p style="font:400 44px/1 var(--poster);text-transform:uppercase">Anton, for headlines</p>
     <p style="font:400 18px/1.5 var(--sans)">Inter Tight, for reading. Sentences, explanations, anything longer than a label.</p>
@@ -1094,7 +1118,7 @@ ${levels.map((l) => `    <li class="br__t" style="--lvl:var(--heat-${l.level})">
     <p style="font:700 20px/1.2 var(--stencil);letter-spacing:.14em;text-transform:uppercase">Stardos Stencil, for the wordmark and stamps only</p>
   </div>
 
-  <h2>Voice</h2>
+  <h2>${esc(voiceQ)}</h2>
   <div class="br__do">
     <div><p><b>Do</b></p><ul>
       <li>Put the joke in the framing and keep the number straight.</li>
@@ -1110,7 +1134,7 @@ ${levels.map((l) => `    <li class="br__t" style="--lvl:var(--heat-${l.level})">
     </ul></div>
   </div>
 
-  <h2>Files</h2>
+  <h2>${esc(filesQ)}</h2>
   <ul>
     <li><a href="${esc(ctx.href('/favicon.svg'))}">The mark</a> (SVG, lit to the current level) · <a href="${esc(ctx.href('/badge.svg'))}">level badge</a></li>
     <li><a href="${esc(ctx.href('/cards/state.png'))}">Current reading card</a> · <a href="${esc(ctx.href('/cards/state-portrait.png'))}">portrait card</a></li>
@@ -1129,7 +1153,7 @@ ${levels.map((l) => `    <li class="br__t" style="--lvl:var(--heat-${l.level})">
       '@type': 'Question',
       name: q,
       acceptedAnswer: { '@type': 'Answer', text: a },
-    })), 'Brand'),
+    })), qTitle),
     main,
   });
 }
@@ -1137,18 +1161,40 @@ ${levels.map((l) => `    <li class="br__t" style="--lvl:var(--heat-${l.level})">
 export function press(ctx) {
   const path = '/press.html';
   // Head-term title: people search “SIREN press kit” / how to cite the index.
-  const title = `Where is the ${brand.NAME} press kit? Facts, images and how to cite a reading`;
+  const qTitle = `Where is the ${brand.NAME} press kit?`;
+  const title = `${qTitle} Facts, images and how to cite a reading`;
   const description = `Facts, a liftable paragraph, images and a contact for anyone writing about ${brand.NAME}, the hourly AI activity index you can verify yourself.`;
   const st = ctx.state;
   const now = st && Number.isFinite(st.level)
     ? `${brand.NAME} ${st.level}, ${st.level_name}, composite ${Number(st.score).toFixed(1)} of 100, observed ${utc(st.generated_at)}` : null;
   const x = brand.X_URL ? `<a href="${esc(brand.X_URL)}" rel="noopener">${esc(brand.X_HANDLE)}</a>` : 'the project account';
   const n = Array.isArray(ctx.history) ? ctx.history.length : null;
+  // Tip #316: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const sentenceQ = `What is ${brand.NAME} in one sentence?`;
+  const paragraphQ = 'What paragraph can you lift?';
+  const factsQ = `What are the key ${brand.NAME} facts?`;
+  const citeQ = `How do I cite a ${brand.NAME} reading?`;
+  const imagesQ = 'Which press images can you use?';
+  const contactQ = `How do you contact ${brand.NAME} for press?`;
+  const coverageQ = 'Is there press coverage yet?';
+  // FAQ from the SAME pairs rendered in HTML (§3.3). Refuse doom-probability.
   const faq = [
-    [`Where is the ${brand.NAME} press kit?`,
+    [qTitle,
       `This page. It has a one-sentence description, a liftable paragraph, facts, image assets, how to cite a reading, and a contact. Everything here may be quoted; the site’s text and data are ${brand.LICENSE}.`],
-    [`How do I cite a ${brand.NAME} reading?`,
+    [sentenceQ,
+      `${brand.NAME} is an hourly index of how much is happening in AI, on a scale from 5 (quietest) to 1 (loudest), where every reading can be verified by the reader.`],
+    [paragraphQ,
+      `${brand.NAME} counts public AI activity across five pillars and turns it into one score from 0 to 100 and a level from 5 to 1. It measures tempo, not danger, and it does not forecast.`],
+    [factsQ,
+      'The index is scored hourly; the newsroom refreshes every minute. It is not a probability, a prediction, or a measure of how bad anything is. Readings are checkable in the browser.'],
+    [citeQ,
       'Use the “Cite this reading” line under the verify button on the home page. It links to one reading permanently, so the number in your piece does not change after you publish.'],
+    [imagesQ,
+      'Current reading card, portrait card, level badge, mark, Tally moods from the brand guide, and the embeddable widget.'],
+    [contactQ,
+      'Email or message on X. Corrections that change a number are recorded in the open on the repository.'],
+    [coverageQ,
+      'None yet. When there is some, it will be linked here, including the critical pieces.'],
     [`Does ${brand.NAME} publish a doom probability?`,
       `No. ${brand.DISCLAIMER_SHORT} The press kit states that plainly: the index is not a probability, a prediction, or a measure of how bad anything is.`],
   ];
@@ -1158,15 +1204,15 @@ export function press(ctx) {
   const main = `${CSS}
 <section class="inf">
   <p class="eyebrow">Press kit</p>
-  <div class="inf__top">${mascot({ size: 76, level: level(ctx) })}<h1 class="bp__h1">Where is the ${esc(brand.NAME)} press kit?</h1></div>
+  <div class="inf__top">${mascot({ size: 76, level: level(ctx) })}<h1 class="bp__h1">${esc(qTitle)}</h1></div>
   <p class="lede">Facts, a paragraph you can lift, images and a contact. Everything on this page may be quoted; the site's text and data are ${esc(brand.LICENSE)}.</p>
-  <h2>In one sentence</h2>
+  <h2>${esc(sentenceQ)}</h2>
   <p><b>${esc(brand.NAME)} is an hourly index of how much is happening in AI, on a scale from 5 (quietest) to 1 (loudest), where every reading can be verified by the reader.</b></p>
-  <h2>A paragraph you can lift</h2>
+  <h2>${esc(paragraphQ)}</h2>
   <p>${esc(brand.NAME)} counts public AI activity across five pillars (${brand.PILLARS.map((p) => esc(p.name.toLowerCase())).join(', ')}) and turns it into one score from 0 to 100 and a level from 5 to 1.
     It measures tempo, not danger, and it does not forecast. Each reading is published with a receipt containing its inputs and the hash of the receipt before it,
     and a button on the home page lets any visitor re-check the last twelve readings in their own browser. It is run by one person, carries no display-ad network, and labels Amazon Associate links where they appear.</p>
-  <h2>Facts</h2>
+  <h2>${esc(factsQ)}</h2>
   <ul>
     ${now ? `<li><b>Current reading:</b> ${esc(now)}. <a href="${esc(ctx.href('/'))}">AI activity index today · ${esc(brand.NAME)}</a>.</li>` : ''}
     ${n ? `<li><b>Readings published:</b> ${esc(n.toLocaleString('en-US'))}, each with a receipt. <a href="${esc(ctx.href('/moves/'))}">Where are the ${esc(brand.NAME)} index moves?</a>.</li>` : ''}
@@ -1176,9 +1222,9 @@ export function press(ctx) {
     <li><b>Jobs and medicine:</b> sourced, caveated pages on <a href="${esc(ctx.href('/jobs.html'))}">Is AI taking jobs?</a> and <a href="${esc(ctx.href('/medicine.html'))}">Is AI curing anything?</a>.</li>
     <li><b>Mascot:</b> Tally, the duty canary. The helmet colour and the face follow the level.</li>
   </ul>
-  <h2>How to cite a reading</h2>
+  <h2>${esc(citeQ)}</h2>
   <p>Use the "Cite this reading" line under the verify button on the home page. It links to one reading permanently, so the number in your piece does not change after you publish.</p>
-  <h2>Images</h2>
+  <h2>${esc(imagesQ)}</h2>
   <ul>
     <li><a href="${esc(ctx.href('/cards/state.png'))}">Current reading card</a> (1200×675 PNG, redrawn every reading)</li>
     <li><a href="${esc(ctx.href('/cards/state-portrait.png'))}">Portrait card</a> for stories and vertical video</li>
@@ -1188,9 +1234,9 @@ export function press(ctx) {
   </ul>
   <h2 id="faq">Questions people actually ask</h2>
   ${faqHtml}
-  <h2>Contact</h2>
+  <h2>${esc(contactQ)}</h2>
   <p>Email ${mail} or message ${x} on X. Corrections that change a number are recorded in the open on the <a href="${esc(brand.REPO_URL)}" rel="noopener">repository</a>.</p>
-  <h2>Coverage</h2>
+  <h2>${esc(coverageQ)}</h2>
   <p>None yet. When there is some, it will be linked here, including the critical pieces.</p>
 </section>`;
   return page({
@@ -1202,7 +1248,7 @@ export function press(ctx) {
       '@type': 'Question',
       name: q,
       acceptedAnswer: { '@type': 'Answer', text: a },
-    })), 'Press'),
+    })), qTitle),
     main,
   });
 }
