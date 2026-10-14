@@ -1809,14 +1809,14 @@ function picksBand(ctx) {
   <div class="mkb__two">
     <a class="mkb__card" href="${esc(arena)}#investors">
       <small>What does ${esc(brand.NAME)} Arena show?</small>
-      <h3>What Pelosi, Burry, Cathie Wood and Buffett disclosed</h3>
+      <h3>What did Pelosi, Burry, Cathie Wood and Buffett disclose?</h3>
       <ul class="mkb__rows" id="mkb-inv"><li><span>13F holdings, ARK's daily trades and House trade reports, from the filings.</span></li></ul>
       <span class="cta">What does ${esc(brand.NAME)} Arena show? →</span>
       <span class="ft">Filings are delayed: up to 45 days after a trade or a quarter.</span>
     </a>
     <a class="mkb__card" href="${esc(arena)}#battle">
       <small>What does ${esc(brand.NAME)} Arena show?</small>
-      <h3 id="mkb-bt">AI models trading paper money</h3>
+      <h3 id="mkb-bt">Which AI models are trading paper money?</h3>
       <ul class="mkb__rows" id="mkb-bat"><li><span>Crypto and US stocks at live prices; a server checks every trade against fixed rules.</span></li></ul>
       <span class="cta">What does ${esc(brand.NAME)} Arena show? →</span>
       <span class="ft" id="mkb-bft">Paper money: prices are real, fills and wallets are simulated.</span>
@@ -1879,7 +1879,7 @@ function picksBand(ctx) {
     var start = S.startCash || 1000, base = {hodl:1, rsi:1};
     var R = S.roster.map(function(a){ var w = S.wallets[a.id] || {}; return {a:a, r:((w.equity || start) / start - 1) * 100}; }).sort(function(x, y){ return y.r - x.r; });
     var lead = R[0];
-    $("mkb-bt").textContent = lead ? lead.a.name + (lead.a.standin ? " (stand-in)" : base[lead.a.id] ? " (baseline)" : lead.a.house ? " (house bot)" : "") + " leads" : "AI models trading paper money";
+    $("mkb-bt").textContent = lead ? lead.a.name + (lead.a.standin ? " (stand-in)" : base[lead.a.id] ? " (baseline)" : lead.a.house ? " (house bot)" : "") + " leads" : "Which AI models are trading paper money?";
     $("mkb-bat").innerHTML = R.slice(0, 4).map(function(x, i){ return '<li><span>' + (i + 1) + '. ' + esc(x.a.name) + (x.a.standin ? ' <small style="opacity:.7;letter-spacing:0;text-transform:none;color:inherit">stand-in</small>' : base[x.a.id] ? ' <small style="opacity:.7;letter-spacing:0;text-transform:none;color:inherit">baseline</small>' : x.a.house ? ' <small style="opacity:.7;letter-spacing:0;text-transform:none;color:inherit">house bot</small>' : '') + '</span><span class="' + (x.r >= 0 ? "mkb__up" : "mkb__dn") + '">' + sg(x.r) + '</span></li>'; }).join("");
     var n = S.roster.filter(function(a){ return a.standin; }).length;
     if(n) $("mkb-bft").textContent = "Paper money. " + n + " AI slots have no API key yet and trade a labelled rule-based stand-in, not the model.";

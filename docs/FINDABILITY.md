@@ -582,6 +582,8 @@ context.
 | 330 | Home V2 reuse / bosses / labs / “What is SIREN?” section H2s use questions (screen-reader over pixel chrome) + homepage FAQ; Organization `knowsAbout` mirrors those questions; refuse home-board-as-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 331 | Classic switcher panel heads (newsroom / race / infrastructure / digest / BLISS) + news “signal feed” H2 use questions (was “The newsroom” / “The race” / … / “Signal feed”); Organization `knowsAbout` mirrors those questions; refuse panel-as-doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 332 | Home V2 card H3s for trend / loud / health / moved / unconventional / markets / agents use questions (screen-reader over pixel chrome) + homepage FAQ; Organization `knowsAbout` mirrors those questions; refuse card-as-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 333 | Classic switcher “what moved” H3 uses a question (was “What moved”); mirrors homepage FAQ / `knowsAbout` “What moved this hour?”; refuse moved-strip-as-doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 334 | Classic markets card H3s for investor disclosures + AI battle use questions (was “What Pelosi… disclosed” / “AI models trading paper money”) + homepage FAQ; Organization `knowsAbout` mirrors those questions; refuse Arena-as-financial-advice / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 

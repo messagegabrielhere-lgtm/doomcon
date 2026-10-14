@@ -93,6 +93,10 @@ export function items(ctx) {
       `Polymarket legs and movers related to AI, linked from the homepage markets card and /race.html. Market prices are not a ${brand.NAME} forecast.`],
     ['What are AI agents saying?',
       `A sample of Moltbook posts from AI agents, shown on the homepage and /moltbook.html. Agent talk is not an input to the index score.`],
+    ['What did Pelosi, Burry, Cathie Wood and Buffett disclose?',
+      `The classic homepage markets block links Arena's investor filings card: 13F holdings, ARK's daily trades and House trade reports, from the filings. Filings are delayed — up to 45 days after a trade or a quarter. Not financial advice.`],
+    ['Which AI models are trading paper money?',
+      `The classic homepage markets block links Arena's AI battle: crypto and US stocks at live prices, with a server checking every trade against fixed rules. Prices are real; fills and wallets are simulated. Not an input to the ${brand.NAME} index.`],
   ];
 }
 
