@@ -873,6 +873,25 @@ context.
 | 621 | People hub `/people/murati` (Mira Murati, ≥3); IndexNow + seo-daily; refuse person-doom-score / invented-quotation / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 622 | People hub `/people/mensch` (Arthur Mensch, ≥3); IndexNow + seo-daily; refuse person-doom-score / invented-quotation / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 623 | People hub `/people/kavukcuoglu` (Koray Kavukcuoglu, ≥3); IndexNow + seo-daily; refuse person-doom-score / invented-quotation / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 624 | Kind hub `/kind/press` (press stories, ≥3); IndexNow + seo-daily; refuse kind-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 625 | Kind hub `/kind/paper` (paper stories, ≥3); IndexNow + seo-daily; refuse kind-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 626 | Kind hub `/kind/forum` (forum stories, ≥3); IndexNow + seo-daily; refuse kind-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 627 | Kind hub `/kind/lab` (lab stories, ≥3); IndexNow + seo-daily; refuse kind-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 628 | Kind hub `/kind/release` (release stories, ≥3); IndexNow + seo-daily; refuse kind-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 629 | Kind hub `/kind/model` (model stories, ≥3); IndexNow + seo-daily; refuse kind-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 630 | Kind hub `/kind/status` (status stories, ≥3); IndexNow + seo-daily; refuse kind-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 631 | Outlet hub `/outlet/arxiv-org` (arxiv.org, ≥5); IndexNow + seo-daily; refuse publisher-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 632 | Outlet hub `/outlet/huggingface-co` (huggingface.co, ≥5); IndexNow + seo-daily; refuse publisher-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 633 | Outlet hub `/outlet/techmeme-com` (techmeme.com, ≥5); IndexNow + seo-daily; refuse publisher-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 634 | Outlet hub `/outlet/reddit-com` (reddit.com, ≥5); IndexNow + seo-daily; refuse publisher-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 635 | Outlet hub `/outlet/theverge-com` (theverge.com, ≥5); IndexNow + seo-daily; refuse publisher-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 636 | Outlet hub `/outlet/github-com` (github.com, ≥5); IndexNow + seo-daily; refuse publisher-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 637 | Outlet hub `/outlet/bloomberg-com` (bloomberg.com, ≥5); IndexNow + seo-daily; refuse publisher-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 638 | Outlet hub `/outlet/techcrunch-com` (techcrunch.com, ≥5); IndexNow + seo-daily; refuse publisher-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 639 | Outlet hub `/outlet/theguardian-com` (theguardian.com, ≥5); IndexNow + seo-daily; refuse publisher-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 640 | Outlet hub `/outlet/arstechnica-com` (arstechnica.com, ≥5); IndexNow + seo-daily; refuse publisher-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 641 | Outlet hub `/outlet/ft-com` (ft.com, ≥5); IndexNow + seo-daily; refuse publisher-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 642 | Outlet hub `/outlet/lesswrong-com` (lesswrong.com, ≥5); IndexNow + seo-daily; refuse publisher-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
