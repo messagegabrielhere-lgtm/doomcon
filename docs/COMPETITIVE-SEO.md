@@ -1,6 +1,6 @@
 # Competitive SEO reverse-engineer
 
-**Measured:** 2026-10-14T18:00Z (live HTTP fetches via `seo-daily` / `fetch.mjs`).
+**Measured:** 2026-10-14T20:31Z (live HTTP fetches via `seo-daily` / `fetch.mjs`).
 Companion to `docs/COMPETITIVE.md` (Sept inventory) and `docs/FINDABILITY.md`
 (our playbook).
 
@@ -20,7 +20,7 @@ hijacks we cannot honestly answer stay refused (`CONTRACT.md`, `VOICE.md`).
 | **DoomBench** | **2,090** | none | “Live AI Doom Index” | FAQPage only | `/models` `/companies` `/countries` `/people` `/jobs` `/news` | no |
 | **Skynet Countdown** | **1,244** | none | “AGI Timeline Tracker” | Organization + WebSite | `/tags/*` + `/news/YYYY-MM-DD` | no |
 | **pizzint.watch** | **1,018** | **0** (empty again; flaps empty↔thin) | DEFCON + Doomsday Clock hijack + keywords meta | FAQPage + WebApplication | `/intel/*` briefs only; chips are `<button>`s | no (404 → SPA shell) |
-| **siren.watch** | **699** live → **~6,016** local Ready (`seo-daily` 2026-10-14T18:00Z; `deploy-pending-url-lead` until merge — clears DoomBench 2090 / Skynet 1244 / pizzint 1018) | **200** local news-sitemap cap (100 live until deploy); `google-news-open` while pizzint empty; #57 head-term keyword order | Head-term live title (“AI activity index today · SIREN …”) | Rich: Dataset, FAQ, Organization, VideoObject… | `/item/*` archive + entity hubs + day hubs (ItemList includes archive rows); IndexNow ALWAYS + day-hub disk ping + sitemap facet/archive sample | **yes** |
+| **siren.watch** | **6,244** live (clears DoomBench 2090 / Skynet 1245 / pizzint 1018; `deploy-pending-url-lead` closed 2026-10-14T20:30Z) | **200** news-sitemap (`google-news-open` while pizzint empty/thin) | Head-term live title (“AI activity index today · SIREN …”) | Rich: Dataset, FAQ, Organization, VideoObject… | `/item/*` archive + entity hubs + day hubs live | **yes** |
 | pdoom.ai | SPA shell | SPA shell | Sci-fi countdown + keyword stuffing | none | none | SPA shell |
 | takeofftracker.com | none | none | “AGI Metrics Dashboard” | none | none | none |
 
