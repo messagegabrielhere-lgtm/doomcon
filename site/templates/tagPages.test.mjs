@@ -1844,4 +1844,35 @@ describe('tag pages', () => {
     assert.doesNotMatch(renderTag(rich, 'emergency-brake'), /doom score:\s*\d/i);
     assert.doesNotMatch(renderTag(rich, 'emergency-brake'), /probability of doom/i);
   });
+
+  it('pages big-tech and gpt-6-astra hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('bt1', 'How Big Tech’s AI Race Fueled a Borrowing Boom'),
+          story('bt2', 'Why Big Tech Is Borrowing Billions to Fund AI Spending'),
+          story('bt3', 'Senate probe accuses Big Tech of misleading public on AI data centers'),
+          story('bt4', 'Big Tech sets out its pitches on AI agents'),
+          story('bt5', 'PC AI race intensifies as Big Tech joins on-device push'),
+          story('ga1', 'OpenAI cancels October release of GPT-6.1 Astra after tests'),
+          story('ga2', 'ChatSlide Puts GPT-6 Astra Behind Its Slide Generator'),
+          story('ga3', 'How NVIDIA GPUs Help Accelerate OpenAI’s GPT-6 Astra Ultrafast'),
+          story('ga4', 'OpenAI launches Dots, always-on agents powered by GPT-6 Astra'),
+          story('ga5', 'OpenAI scraps plans to publicly launch GPT-6.1 Astra'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    assert.ok(ids.includes('big-tech'));
+    assert.ok(ids.includes('gpt-6-astra'));
+    assert.match(renderTag(rich, 'big-tech'), /What has SIREN scored about Big Tech AI\?/);
+    assert.match(renderTag(rich, 'gpt-6-astra'), /What has SIREN scored about GPT-6 Astra\?/);
+    assert.match(renderTag(rich, 'big-tech'), /not a vendor ranking/i);
+    assert.match(renderTag(rich, 'gpt-6-astra'), /not a capability ranking/i);
+    assert.doesNotMatch(renderTag(rich, 'big-tech'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'gpt-6-astra'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'gpt-6-astra'), /probability of doom/i);
+  });
 });

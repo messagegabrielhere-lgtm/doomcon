@@ -30,6 +30,7 @@ const NEWS_KEYWORD_LABS = Object.freeze([
   'Winverse AI', 'Cisco', 'Epoch AI', 'Maia', 'Maia 300', 'OpenAI Codex', 'Codex',
   'Salesforce', 'World Labs', 'Firmus', 'SpaceX', 'HCLTech', 'Suno', 'Manus', 'Nano Banana',
   'Mistral Large 4', 'Le Chonk', 'Mixtral',
+  'GPT-6 Astra', 'GPT-6.1 Astra', 'GPT-6 Luna', 'GPT-6 Sol',
 ]);
 
 /**

@@ -666,6 +666,8 @@ context.
 | 414 | Topic tag `intelligent-ui` (live/archive ≥5); IndexNow ALWAYS + seo-daily monitor; refuse product-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 415 | Topic tag `gpt-6` (live/archive ≥5); IndexNow ALWAYS + seo-daily monitor; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 416 | Topic tag `emergency-brake` (live/archive ≥5); IndexNow ALWAYS + seo-daily monitor; refuse containment-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 417 | Topic tag `big-tech` (live/archive ≥5); IndexNow ALWAYS + seo-daily monitor; refuse vendor-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 418 | Topic tag `gpt-6-astra` (live/archive ≥5); GPT model forms add `GPT-6 Astra` / `GPT-6 Luna` / `GPT-6 Sol`; `news:keywords` surfaces those nicknames; IndexNow + seo-daily; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
