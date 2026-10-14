@@ -268,6 +268,15 @@ export function hasNoindex(html) {
     || /<meta[^>]+content=["'][^"']*noindex[^"']*["'][^>]+name=["']robots["']/i.test(String(html || ''));
 }
 
+/** True when the HTML-tag Search Console verification meta is present. */
+export function hasGscMeta(html) {
+  return /<meta[^>]+name=["']google-site-verification["'][^>]+content=["'][A-Za-z0-9_-]{10,120}["']/i.test(
+    String(html || ''),
+  ) || /<meta[^>]+content=["'][A-Za-z0-9_-]{10,120}["'][^>]+name=["']google-site-verification["']/i.test(
+    String(html || ''),
+  );
+}
+
 /** Conservative floor when facet sitemap modules cannot be loaded. */
 export const FACET_URL_FLOOR = 450;
 
@@ -504,6 +513,24 @@ export const OPEN_ENGINEERING = Object.freeze([
   },
 ]);
 
+/** Refine open-engineering copy once live home ships the GSC HTML-tag meta. */
+export function openEngineeringForReport(sites) {
+  const ours = (sites || []).find((s) => s.ours);
+  return OPEN_ENGINEERING.map((item) => {
+    if (item.id !== 'gsc-verify') return { ...item };
+    if (ours?.gsc_meta) {
+      return {
+        ...item,
+        text: 'Operator: GSC meta is live — submit sitemap.xml + news-sitemap.xml and confirm indexing (FINDABILITY #11)',
+      };
+    }
+    return {
+      ...item,
+      text: 'Operator: set GOOGLE_SITE_VERIFICATION + Search Console verify + submit both sitemaps (FINDABILITY #11)',
+    };
+  });
+}
+
 function sitePaths(origin) {
   const base = origin.replace(/\/$/, '');
   return {
@@ -537,6 +564,7 @@ export function measureSite(site, byUrl) {
     title: home?.ok ? extractTitle(home.value) : '',
     schema_types: home?.ok ? extractSchemaTypes(home.value) : [],
     noindex: home?.ok ? hasNoindex(home.value) : null,
+    gsc_meta: home?.ok ? hasGscMeta(home.value) : null,
     sitemap_urls: null,
     sitemap_is_index: null,
     news_sitemap_urls: null,
@@ -605,7 +633,7 @@ export async function runScoreboard({ fetchBatch = fetchAll } = {}) {
     sites,
     surfaces,
     local_ready,
-    open_engineering: OPEN_ENGINEERING.map((x) => ({ ...x })),
+    open_engineering: openEngineeringForReport(sites),
   };
   report.gaps = deriveGaps(report);
   return report;
@@ -627,6 +655,17 @@ export function formatMarkdown(report) {
     lines.push(`| ${name} | ${sm} | ${news} | ${title.replace(/\|/g, '/')} | ${schema} | ${llms} |`);
   }
   lines.push('');
+  {
+    const ours = (report.sites || []).find((s) => s.ours);
+    if (ours && ours.gsc_meta != null) {
+      lines.push(
+        ours.gsc_meta
+          ? '- GSC HTML-tag meta: **present** on live home (still submit sitemaps — FINDABILITY #11)'
+          : '- GSC HTML-tag meta: **absent** on live home (set `GOOGLE_SITE_VERIFICATION` — FINDABILITY #11)',
+      );
+      lines.push('');
+    }
+  }
   lines.push('## Findability surfaces (siren.watch)');
   lines.push('');
   for (const surf of report.surfaces || []) {
@@ -681,6 +720,14 @@ function selftest() {
     throw new Error(`schema types ${types}`);
   }
   if (hasNoindex('<meta name="robots" content="noindex,follow">') !== true) throw new Error('noindex');
+  if (hasGscMeta('<meta name="google-site-verification" content="AbCdEfGhIj_KlMnOpQrSt">') !== true) {
+    throw new Error('hasGscMeta true');
+  }
+  if (hasGscMeta('<meta name="description" content="x">') !== false) throw new Error('hasGscMeta false');
+  const engAbsent = openEngineeringForReport([{ ours: true, gsc_meta: false }]);
+  if (!/GOOGLE_SITE_VERIFICATION/.test(engAbsent[0].text)) throw new Error('open eng absent meta');
+  const engPresent = openEngineeringForReport([{ ours: true, gsc_meta: true }]);
+  if (!/meta is live/.test(engPresent[0].text)) throw new Error('open eng present meta');
 
   const report = {
     sites: [

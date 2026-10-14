@@ -310,6 +310,7 @@ context.
 | 77 | `openapi.json` + `api/index.json` list `/verify.html`, `/free-tools.html`, Search Trends HTML, and AI prediction-markets HTML so OpenAPI scrapers reach Outrank landings | Agents + developers | **Done** (2026-10-14) |
 | 78 | Rebuild live `news-sitemap.xml` with `NEWS_KEYWORD_LABS` (Character.AI / Mythos / x402 / YouTube Music / Claude Code) — gh-pages news-sitemap was stale vs #72 while `google-news-open` | Google News | **Done** (2026-10-14) |
 | 79 | `robots.txt` tip comments advertise free-tools + verify + Search Trends (crawlers that read robots before llms/agents) | Agents + Google | **Done** (2026-10-14) |
+| 80 | Layout unit test for `GOOGLE_SITE_VERIFICATION` meta + `seo-daily` detects live GSC HTML-tag (clears false “verified” guesses until operator sets secret / submits sitemaps — #11) | Google / daily agent | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
