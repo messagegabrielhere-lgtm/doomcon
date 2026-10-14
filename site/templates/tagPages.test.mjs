@@ -2526,4 +2526,35 @@ describe('tag pages', () => {
     assert.doesNotMatch(renderTag(rich, 'australia'), /doom score:\s*\d/i);
     assert.doesNotMatch(renderTag(rich, 'australia'), /probability of doom/i);
   });
+
+  it('pages show-hn and silicon-valley hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('hn1', 'Show HN: Mira, AI Walking Tours'),
+          story('hn2', 'Show HN: A calendar tracker for OpenAI\'s 28-day Codex reset challenge'),
+          story('hn3', 'Show HN: Faplex – like Claude agents but all machines and harnesses'),
+          story('hn4', 'Show HN: Plimsoll, a self-hosted sandbox for code your AI agent writes'),
+          story('hn5', 'Show HN: Skills Hub, a desktop app for managing AI agent skills'),
+          story('sv1', 'Silicon Valley is falling in line with Trump\'s attempt to rename AI'),
+          story('sv2', 'Current AI Landscape in Silicon Valley: Who Controls the Computing Power'),
+          story('sv3', 'In Silicon Valley, AI founders cheer Trump\'s calls for the industry to police itself'),
+          story('sv4', 'Trump\'s hands-off AI policy wins cheers in Silicon Valley but raises new questions'),
+          story('sv5', 'Silicon Valley\'s Compute Arms Race Intensifies as GPU Reselling Revenue Soars'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    assert.ok(ids.includes('show-hn'));
+    assert.ok(ids.includes('silicon-valley'));
+    assert.match(renderTag(rich, 'show-hn'), /What has SIREN scored about Show HN\?/);
+    assert.match(renderTag(rich, 'silicon-valley'), /What has SIREN scored about Silicon Valley AI\?/);
+    assert.match(renderTag(rich, 'show-hn'), /not a capability ranking/i);
+    assert.match(renderTag(rich, 'silicon-valley'), /not a market forecast/i);
+    assert.doesNotMatch(renderTag(rich, 'show-hn'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'silicon-valley'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'silicon-valley'), /probability of doom/i);
+  });
 });

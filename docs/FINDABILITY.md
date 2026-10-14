@@ -710,6 +710,8 @@ context.
 | 458 | Topic tag `india` (live/archive ≥5); IndexNow + seo-daily monitor; refuse national-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 459 | Topic tag `eu` (live/archive ≥5; refuse Europe synonym doorway); IndexNow + seo-daily monitor; refuse national-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 460 | Topic tag `australia` (live/archive ≥5); IndexNow + seo-daily monitor; refuse national-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 461 | Topic tag `show-hn` (live/archive ≥5); IndexNow + seo-daily monitor; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 462 | Topic tag `silicon-valley` (live/archive ≥5); IndexNow + seo-daily monitor; refuse market-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
