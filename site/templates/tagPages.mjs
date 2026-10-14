@@ -1470,6 +1470,18 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'Chatbot product and policy stories scored in the newsroom or archive — coverage counts, not a product score.',
     match: /\bchatbots?\b/i,
   },
+  {
+    id: 'liability',
+    name: 'AI liability',
+    description: 'AI liability and legal-responsibility stories scored in the newsroom or archive — coverage counts, not a harm forecast.',
+    match: /\bliability\b/i,
+  },
+  {
+    id: 'cybersecurity',
+    name: 'Cybersecurity',
+    description: 'AI cybersecurity and security-industry stories scored in the newsroom or archive — coverage counts, not a threat forecast.',
+    match: /\bcybersecurity\b/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));
