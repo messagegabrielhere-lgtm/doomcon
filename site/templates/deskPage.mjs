@@ -78,7 +78,7 @@ export function render(ctx) {
   const counterFaq = [];
   for (const [id, title, rx, what, joke] of COUNTERS) {
     const n = items.filter((i) => rx.test(String(i.title || ''))).length;
-    const line = `${title} ${N(n)} of ${N(total)} AI ${what.replace(/^headlines/, 'headlines')} as of ${at}. Counted by ${brand.NAME}.`;
+    const line = `${title} ${N(n)} of ${N(total)} AI ${what} as of ${at}. Counted by ${brand.NAME}.`;
     cards.push(`<li class="dk__c" id="${esc(id)}">
       <h2 class="dk__h">${esc(title)}</h2>
       <p class="dk__n num">${esc(N(n))}</p>
