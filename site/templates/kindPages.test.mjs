@@ -55,6 +55,12 @@ describe('kind pages', () => {
   it('ships /kinds.html over the same gated kind set', () => {
     const html = renderKinds(ctx);
     assert.match(html, /Which AI story kinds has SIREN scored\?/);
+    assert.match(html, /What has SIREN scored as Papers\?/);
+    assert.match(html, /Which AI doom indexes can you compare\?/);
+    assert.match(html, /Which AI story kinds have SIREN pages\?/);
+    assert.match(html, /kd__k"><a href="\/compare\.html">Which AI doom indexes can you compare\?<\/a>/);
+    assert.doesNotMatch(html, /kd__k"><a href="\/compare\.html">Compare<\/a>/);
+    assert.doesNotMatch(html, /kd__k"><a href="\/kind\/">Kinds<\/a>/);
     assert.match(html, /\/kind\/paper\.html/);
     assert.match(html, /does not publish a kind/);
     assert.match(html, /Questions people actually ask/);
@@ -63,6 +69,10 @@ describe('kind pages', () => {
     assert.match(html, /\/tags\.html/);
     const index = renderIndex(ctx);
     assert.match(index, /Which AI story kinds have SIREN pages\?/);
+    assert.match(index, /What has SIREN scored as Papers\?/);
+    assert.match(index, /Which AI stories has SIREN scored in this window\?/);
+    assert.match(index, /kd__k"><a href="\/news\.html">Which AI stories has SIREN scored in this window\?<\/a>/);
+    assert.doesNotMatch(index, /kd__k"><a href="\/news\.html">Newsroom<\/a>/);
     assert.match(index, /Questions people actually ask/);
     assert.match(index, /"@type"\s*:\s*"FAQPage"/);
     assert.match(index, /speakable/);
@@ -73,6 +83,13 @@ describe('kind pages', () => {
   it('lists stories with ItemList schema and refuses doom claims', () => {
     const html = renderKind(ctx, 'paper');
     assert.match(html, /<title>What has SIREN scored as Papers\?/);
+    assert.match(html, /<h1>What has SIREN scored as Papers\?<\/h1>/);
+    assert.match(html, /Which AI stories has SIREN scored in this window\?/);
+    assert.match(html, /Which AI story kinds have SIREN pages\?/);
+    assert.match(html, /Which AI story kinds has SIREN scored\?/);
+    assert.match(html, /kd__k"><a href="\/news\.html">Which AI stories has SIREN scored in this window\?<\/a>/);
+    assert.doesNotMatch(html, /kd__k"><a href="\/news\.html">Newsroom<\/a>/);
+    assert.doesNotMatch(html, /kd__k"><a href="\/kind\/">Kinds<\/a>/);
     assert.match(html, /CollectionPage/);
     assert.match(html, /ItemList/);
     assert.match(html, /Questions people actually ask/);
