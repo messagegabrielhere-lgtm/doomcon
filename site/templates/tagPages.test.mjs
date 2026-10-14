@@ -2774,4 +2774,35 @@ describe('tag pages', () => {
     assert.doesNotMatch(renderTag(rich, 'iran'), /doom score:\s*\d/i);
     assert.doesNotMatch(renderTag(rich, 'iran'), /probability of doom/i);
   });
+
+  it('pages email and cruelty hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('em1', 'Grok Bot launches its own email address at mail.grokbot.com'),
+          story('em2', 'Google Unveils Enterprise Gemini Agent with Its Own Email Account'),
+          story('em3', 'Splice CEO thinks AI emails are killing conversations'),
+          story('em4', 'Publishers warn staff about AI-drafted email replies to authors'),
+          story('em5', 'Enterprise IT locks down agent email inboxes after spam waves'),
+          story('cr1', 'Anthropic’s Claude cruelty policy risks humanising AI'),
+          story('cr2', 'Anthropic bans cruelty toward Claude starting Nov. 12'),
+          story('cr3', 'Anthropic Bans Cruelty to Claude, Still Won\'t Say What It Protects'),
+          story('cr4', 'Anthropic Bars Repeated Cruelty Toward Claude AI Models'),
+          story('cr5', 'Anthropic Bans Needless Cruelty Toward Its Claude AI Chatbot'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    assert.ok(ids.includes('email'));
+    assert.ok(ids.includes('cruelty'));
+    assert.match(renderTag(rich, 'email'), /What has SIREN scored about AI email\?/);
+    assert.match(renderTag(rich, 'cruelty'), /What has SIREN scored about AI cruelty\?/);
+    assert.match(renderTag(rich, 'email'), /not a product score/i);
+    assert.match(renderTag(rich, 'cruelty'), /not a sentience forecast/i);
+    assert.doesNotMatch(renderTag(rich, 'email'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'cruelty'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'cruelty'), /probability of doom/i);
+  });
 });
