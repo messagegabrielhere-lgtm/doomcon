@@ -1021,6 +1021,13 @@ describe('outlet facets', () => {
   it('renders an outlet page that lists its stories', () => {
     const html = renderSource(ctx, 'hn');
     assert.match(html, /What has SIREN scored via hn\?/);
+    assert.match(html, /<h1>What has SIREN scored via hn\?<\/h1>/);
+    assert.match(html, /Which AI stories has SIREN scored in this window\?/);
+    assert.match(html, /Which AI feed adapters have SIREN pages\?/);
+    assert.match(html, /Which AI news sources has SIREN scored via\?/);
+    assert.match(html, /fc__k"><a href="\/news\.html">Which AI stories has SIREN scored in this window\?<\/a>/);
+    assert.doesNotMatch(html, /fc__k"><a href="\/news\.html">Newsroom<\/a>/);
+    assert.doesNotMatch(html, /fc__k"><a href="\/source\/">Feed adapters<\/a>/);
     assert.match(html, /CollectionPage/);
     assert.match(html, /Questions people actually ask/);
     assert.match(html, /"@type"\s*:\s*"FAQPage"/);
@@ -1033,6 +1040,12 @@ describe('outlet facets', () => {
   it('ships /sources.html over the same gated feed-adapter set', () => {
     const html = renderSources(ctx);
     assert.match(html, /Which AI news sources has SIREN scored via\?/);
+    assert.match(html, /What has SIREN scored via hn\?/);
+    assert.match(html, /Which AI doom indexes can you compare\?/);
+    assert.match(html, /Which AI feed adapters have SIREN pages\?/);
+    assert.match(html, /fc__k"><a href="\/compare\.html">Which AI doom indexes can you compare\?<\/a>/);
+    assert.doesNotMatch(html, /fc__k"><a href="\/compare\.html">Compare<\/a>/);
+    assert.doesNotMatch(html, /fc__k"><a href="\/source\/">Feed adapters<\/a>/);
     assert.match(html, /\/source\/hn\.html/);
     assert.match(html, /does not publish a source/);
     assert.match(html, /Questions people actually ask/);
@@ -1041,6 +1054,10 @@ describe('outlet facets', () => {
     assert.match(html, /\/outlets\.html/);
     const srcIndex = renderSourceIndex(ctx);
     assert.match(srcIndex, /Which AI feed adapters have SIREN pages\?/);
+    assert.match(srcIndex, /What has SIREN scored via hn\?/);
+    assert.match(srcIndex, /Which AI stories has SIREN scored in this window\?/);
+    assert.match(srcIndex, /fc__k"><a href="\/news\.html">Which AI stories has SIREN scored in this window\?<\/a>/);
+    assert.doesNotMatch(srcIndex, /fc__k"><a href="\/news\.html">Newsroom<\/a>/);
     assert.match(srcIndex, /Questions people actually ask/);
     assert.match(srcIndex, /"@type"\s*:\s*"FAQPage"/);
     assert.match(srcIndex, /speakable/);

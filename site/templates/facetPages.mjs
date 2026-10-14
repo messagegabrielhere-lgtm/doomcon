@@ -963,18 +963,18 @@ export function renderSource(ctx, sourceId) {
   const others = indexableSources(ctx)
     .filter((s) => s.id !== sourceId)
     .slice(0, 12)
-    .map((s) => `<a href="${esc(ctx.href(sourcePath(s.id)))}">${esc(s.label)}</a>`)
+    .map((s) => `<a href="${esc(ctx.href(sourcePath(s.id)))}">What has ${esc(brand.NAME)} scored via ${esc(s.label)}?</a>`)
     .join('');
   const olderBlock = older.length
     ? `<h2>Older scored stories from ${esc(label)}</h2>
   <p class="fc__lede">Kept in the permanent archive after they left the live window. Still scored stories — not a forecast.</p>
   <ol class="fc__list">${itemRows(ctx, older, 12)}</ol>
-  <p class="fresh__key"><a href="${esc(ctx.href('/item/archive.html'))}">Full story archive</a></p>`
+  <p class="fresh__key"><a href="${esc(ctx.href('/item/archive.html'))}">Which older AI stories has ${esc(brand.NAME)} kept in the archive?</a></p>`
     : '';
 
   const main = `${STYLE}
 <article class="fc prose">
-  <p class="fc__k"><a href="${esc(ctx.href('/news.html'))}">Newsroom</a> · <a href="${esc(ctx.href('/source/'))}">Feed adapters</a> · <a href="${esc(ctx.href('/sources.html'))}">Sources hub</a></p>
+  <p class="fc__k"><a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a> · <a href="${esc(ctx.href('/source/'))}">Which AI feed adapters have ${esc(brand.NAME)} pages?</a> · <a href="${esc(ctx.href('/sources.html'))}">Which AI news sources has ${esc(brand.NAME)} scored via?</a></p>
   <h1>What has ${esc(brand.NAME)} scored via ${esc(label)}?</h1>
   <p class="fc__lede">Stories this index scored from ${esc(label)}. The words belong to the outlet. The score is computed here, and it measures how much the item moved inside the window, not whether the story is good or bad.</p>
   <div class="fc__stat" role="group" aria-label="Outlet counts">
@@ -1018,9 +1018,9 @@ export function renderSource(ctx, sourceId) {
         })),
       },
     }, breadcrumbs(ctx, [
-      { name: 'Newsroom', path: '/news.html' },
-      { name: 'Outlets', path: '/source/' },
-      { name: label, path },
+      { name: `Which AI stories has ${brand.NAME} scored in this window?`, path: '/news.html' },
+      { name: `Which AI feed adapters have ${brand.NAME} pages?`, path: '/source/' },
+      { name: `What has ${brand.NAME} scored via ${label}?`, path },
     ]), {
       '@context': 'https://schema.org',
       '@type': 'FAQPage',
@@ -1053,13 +1053,13 @@ export function renderSourceIndex(ctx) {
   <h3>${esc(q)}</h3>
   <p>${esc(a)}</p>`).join('');
   const rows = sources.map((s) => `<li>
-  <a href="${esc(ctx.href(sourcePath(s.id)))}">${esc(s.label)}</a>
-  <span class="fc__meta">${esc(s.id)}${s.archived ? ` · ${esc(String(s.live))} live / ${esc(String(s.archived))} archive` : ''}</span>
+  <a href="${esc(ctx.href(sourcePath(s.id)))}">What has ${esc(brand.NAME)} scored via ${esc(s.label)}?</a>
+  <span class="fc__meta">${esc(s.label)} · ${esc(s.id)}${s.archived ? ` · ${esc(String(s.live))} live / ${esc(String(s.archived))} archive` : ''}</span>
   <span class="fc__sc num">${esc(String(s.count))}</span>
 </li>`).join('');
   const main = `${STYLE}
 <article class="fc prose">
-  <p class="fc__k"><a href="${esc(ctx.href('/news.html'))}">Newsroom</a> · Feed adapters · <a href="${esc(ctx.href('/sources.html'))}">Sources hub</a></p>
+  <p class="fc__k"><a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a> · Which AI feed adapters have ${esc(brand.NAME)} pages? · <a href="${esc(ctx.href('/sources.html'))}">Which AI news sources has ${esc(brand.NAME)} scored via?</a></p>
   <h1>Which AI feed adapters have ${esc(brand.NAME)} pages?</h1>
   <p class="fc__lede">An outlet earns a page when at least ${SOURCE_INDEX_MIN} scored stories from it appear in the live window or the durable archive. Fewer than that stays on the story page only, so a one-off item does not become its own URL.</p>
   <ol class="fc__list">${rows}</ol>
@@ -1087,12 +1087,12 @@ export function renderSourceIndex(ctx) {
           '@type': 'ListItem',
           position: i + 1,
           url: ctx.url(sourcePath(s.id)),
-          name: s.label,
+          name: `What has ${brand.NAME} scored via ${s.label}?`,
         })),
       },
     }, breadcrumbs(ctx, [
-      { name: 'Newsroom', path: '/news.html' },
-      { name: 'Outlets', path: '/source/' },
+      { name: `Which AI stories has ${brand.NAME} scored in this window?`, path: '/news.html' },
+      { name: `Which AI feed adapters have ${brand.NAME} pages?`, path: '/source/' },
     ]), {
       '@context': 'https://schema.org',
       '@type': 'FAQPage',
@@ -1130,24 +1130,24 @@ export function renderSources(ctx) {
   <h3>${esc(q)}</h3>
   <p>${esc(a)}</p>`).join('');
   const rows = sources.map((s) => `<li>
-  <a href="${esc(ctx.href(sourcePath(s.id)))}">${esc(s.label)}</a>
-  <span class="fc__meta">Feed adapter · <span class="num">${esc(String(s.count))}</span> scored${s.archived ? ` (${esc(String(s.live))} live)` : ''}</span>
+  <a href="${esc(ctx.href(sourcePath(s.id)))}">What has ${esc(brand.NAME)} scored via ${esc(s.label)}?</a>
+  <span class="fc__meta">${esc(s.label)} · Feed adapter · <span class="num">${esc(String(s.count))}</span> scored${s.archived ? ` (${esc(String(s.live))} live)` : ''}</span>
 </li>`).join('');
   const main = `${STYLE}
 <article class="fc prose">
-  <p class="fc__k"><a href="${esc(ctx.href('/compare.html'))}">Compare</a> · <a href="${esc(ctx.href('/source/'))}">Feed adapters</a> · Sources hub</p>
+  <p class="fc__k"><a href="${esc(ctx.href('/compare.html'))}">Which AI doom indexes can you compare?</a> · <a href="${esc(ctx.href('/source/'))}">Which AI feed adapters have ${esc(brand.NAME)} pages?</a> · Which AI news sources has ${esc(brand.NAME)} scored via?</p>
   <h1>Which AI news sources has ${esc(brand.NAME)} scored via?</h1>
-  <p class="fc__lede">${esc(brand.NAME)} does not publish a source “doom score.” It publishes an activity index and scored stories. This page lists feed adapters that already clear the same substance gate as <a href="${esc(ctx.href('/source/'))}">/source/</a> — at least ${SOURCE_INDEX_MIN} matching stories in the live window or archive. Publisher hosts stay under <a href="${esc(ctx.href('/outlets.html'))}">/outlets.html</a>.</p>
+  <p class="fc__lede">${esc(brand.NAME)} does not publish a source “doom score.” It publishes an activity index and scored stories. This page lists feed adapters that already clear the same substance gate as <a href="${esc(ctx.href('/source/'))}">Which AI feed adapters have ${esc(brand.NAME)} pages?</a> — at least ${SOURCE_INDEX_MIN} matching stories in the live window or archive. Publisher hosts stay under <a href="${esc(ctx.href('/outlets.html'))}">Which AI outlets has ${esc(brand.NAME)} scored stories from?</a>.</p>
   <div class="fc__stat" role="group" aria-label="Sources hub totals">
     <div><b class="num">${esc(String(sources.length))}</b><span>Feed-adapter hubs</span></div>
   </div>
   ${sources.length ? `<ol class="fc__list">${rows}</ol>` : '<p>No feed-adapter hub cleared the gate in this build.</p>'}
   <h2 id="faq">Questions people actually ask</h2>
   ${faqHtml}
-  <p class="fresh__key"><a href="${esc(ctx.href('/source/'))}">Feed-adapter directory →</a>
-     · <a href="${esc(ctx.href('/outlets.html'))}">AI outlets →</a>
-     · <a href="${esc(ctx.href('/kinds.html'))}">AI story kinds →</a>
-     · <a href="${esc(ctx.href('/news.html'))}">Newsroom →</a></p>
+  <p class="fresh__key"><a href="${esc(ctx.href('/source/'))}">Which AI feed adapters have ${esc(brand.NAME)} pages?</a>
+     · <a href="${esc(ctx.href('/outlets.html'))}">Which AI outlets has ${esc(brand.NAME)} scored stories from?</a>
+     · <a href="${esc(ctx.href('/kinds.html'))}">Which AI story kinds has ${esc(brand.NAME)} scored?</a>
+     · <a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a></p>
 </article>`;
   return page({
     ctx,
@@ -1169,12 +1169,12 @@ export function renderSources(ctx) {
           '@type': 'ListItem',
           position: i + 1,
           url: ctx.url(sourcePath(s.id)),
-          name: s.label,
+          name: `What has ${brand.NAME} scored via ${s.label}?`,
         })),
       },
     }, breadcrumbs(ctx, [
-      { name: 'Compare', path: '/compare.html' },
-      { name: 'Sources', path },
+      { name: 'Which AI doom indexes can you compare?', path: '/compare.html' },
+      { name: `Which AI news sources has ${brand.NAME} scored via?`, path },
     ]), {
       '@context': 'https://schema.org',
       '@type': 'FAQPage',
