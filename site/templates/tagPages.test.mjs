@@ -2775,6 +2775,48 @@ describe('tag pages', () => {
     assert.doesNotMatch(renderTag(rich, 'iran'), /probability of doom/i);
   });
 
+  it('pages personalization, pruning, steering, and prefill hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('pe1', 'ReGain: Restoring Subject Fidelity in Personalization on Synthetic Images'),
+          story('pe2', 'MIRROR: From Imitation to Internalization in LLM Personalization'),
+          story('pe3', 'MemFold: Learning Compact Soft Memory for Long-Context Personalization'),
+          story('pe4', 'Bayesian Pairwise Merging for Model Personalization'),
+          story('pe5', 'PsPLUG: Balancing Implicit Personalization and Explicit Styles'),
+          story('pr1', 'SparseDecoding: Decoding-Aware Pruning for Accurate LLM Inference'),
+          story('pr2', 'EntroPrefill: Renyi-Guided Context Pruning for RAG'),
+          story('pr3', 'SlimWise: Decoupling Expert Pruning Across Prefill and Decode'),
+          story('pr4', 'DeCoPrune: Efficient KV-Cache Pruning for Autoregressive Video Diffusion'),
+          story('pr5', 'Structured Pruning and Fault Tolerance in Deep Neural Networks'),
+          story('st1', 'Learning to Steer, Steering to See: Geometry of RLVR via Trainable Steering'),
+          story('st2', 'Steerspeech: Activation Steering For Emotion Control In Generated Speech'),
+          story('st3', 'Steering Diffusion Models to Rare Events with Sequential Monte Carlo'),
+          story('st4', 'Coordinated Multi-Agent Diffusion Steering via Stochastic Optimal Control'),
+          story('st5', 'Closed-Loop Activation Steering for Bias Injection in Diffusion LMs'),
+          story('pf1', 'SlimWise: Decoupling Expert Pruning Across Prefill and Decode for MoE'),
+          story('pf2', 'Prefill-Free Cross-Family KV Cache Transfer for Multi-Agent LLMs'),
+          story('pf3', 'PEARL: Adaptive Prefill-Decode Execution for Agentic RL'),
+          story('pf4', 'Disaggregated Quantization: Specializing LLM Prefill and Decode'),
+          story('pf5', 'Custom vLLM fork shows Prefill bottlenecks on multi-GPU rigs'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    assert.ok(ids.includes('personalization'));
+    assert.ok(ids.includes('pruning'));
+    assert.ok(ids.includes('steering'));
+    assert.ok(ids.includes('prefill'));
+    assert.match(renderTag(rich, 'personalization'), /What has SIREN scored about AI personalization\?/);
+    assert.match(renderTag(rich, 'pruning'), /What has SIREN scored about Model pruning\?/);
+    assert.match(renderTag(rich, 'steering'), /What has SIREN scored about AI steering\?/);
+    assert.match(renderTag(rich, 'prefill'), /What has SIREN scored about LLM prefill\?/);
+    assert.doesNotMatch(renderTag(rich, 'personalization'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'steering'), /probability of doom/i);
+  });
+
   it('pages federated, counterfactual, retrieval, and 3d hubs', () => {
     const rich = {
       ...ctx,

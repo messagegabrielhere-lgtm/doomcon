@@ -198,6 +198,10 @@ describe('IndexNow', () => {
     assert.ok(has('https://siren.watch/tags/counterfactual.html'));
     assert.ok(has('https://siren.watch/tags/retrieval.html'));
     assert.ok(has('https://siren.watch/tags/3d.html'));
+    assert.ok(has('https://siren.watch/tags/personalization.html'));
+    assert.ok(has('https://siren.watch/tags/pruning.html'));
+    assert.ok(has('https://siren.watch/tags/steering.html'));
+    assert.ok(has('https://siren.watch/tags/prefill.html'));
     assert.ok(has('https://siren.watch/model/mixtral.html'));
     assert.ok(has('https://siren.watch/tags/tsmc.html'));
     assert.ok(has('https://siren.watch/world.html'));
