@@ -1729,6 +1729,30 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'Throughput and serving-capacity research stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
     match: /\b[Tt]hroughput\b/,
   },
+  {
+    id: 'latency',
+    name: 'AI latency',
+    description: 'Latency and response-time research stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
+    match: /\b[Ll]atency\b/,
+  },
+  {
+    id: 'logits',
+    name: 'Logits',
+    description: 'Logit-level model research stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
+    match: /\b[Ll]ogits?\b/,
+  },
+  {
+    id: 'adversarial',
+    name: 'Adversarial AI',
+    description: 'Adversarial attack and defense research stories scored in the newsroom or archive — coverage counts, not a harm forecast.',
+    match: /\b[Aa]dversarial\b/,
+  },
+  {
+    id: 'robustness',
+    name: 'AI robustness',
+    description: 'Robustness and distribution-shift research stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
+    match: /\b[Rr]obustness\b/,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));

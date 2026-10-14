@@ -2795,6 +2795,48 @@ describe('tag pages', () => {
     assert.doesNotMatch(renderTag(rich, 'reliability'), /probability of doom/i);
   });
 
+  it('pages latency, logits, adversarial, and robustness hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('la1', 'CARE: Certifying Acceleration for Vision-Language-Action Inference latency'),
+          story('la2', 'Cutting time-to-first-token latency in disaggregated serving'),
+          story('la3', 'P99 latency budgets for agent tool loops'),
+          story('la4', 'Why decode latency dominates interactive chat'),
+          story('la5', 'Hardware knobs that lower inference latency'),
+          story('lo1', 'Precision models that score every allowed label from the logits'),
+          story('lo2', 'Logit lens analysis of emergent misalignment'),
+          story('lo3', 'Calibrating temperature from logits in open models'),
+          story('lo4', 'Sparse logit routing for mixture-of-experts'),
+          story('lo5', 'Extracting refusal directions from residual logits'),
+          story('ad1', 'Adversarial prompts bypass agent guardrails in the wild'),
+          story('ad2', 'Adversarial robustness benchmarks for multimodal models'),
+          story('ad3', 'Training against adversarial suffixes for jailbreaks'),
+          story('ad4', 'Adversarial examples for retrieval-augmented generation'),
+          story('ad5', 'Certified defenses under adversarial patch attacks'),
+          story('rb1', 'Distributionally Robust Mixture-of-Experts Training'),
+          story('rb2', 'Measuring robustness under domain shift for VLMs'),
+          story('rb3', 'Robustness certificates for vision-language agents'),
+          story('rb4', 'Why robustness lags capability on math contests'),
+          story('rb5', 'Improving robustness with synthetic hard negatives'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    assert.ok(ids.includes('latency'));
+    assert.ok(ids.includes('logits'));
+    assert.ok(ids.includes('adversarial'));
+    assert.ok(ids.includes('robustness'));
+    assert.match(renderTag(rich, 'latency'), /What has SIREN scored about AI latency\?/);
+    assert.match(renderTag(rich, 'logits'), /What has SIREN scored about Logits\?/);
+    assert.match(renderTag(rich, 'adversarial'), /What has SIREN scored about Adversarial AI\?/);
+    assert.match(renderTag(rich, 'robustness'), /What has SIREN scored about AI robustness\?/);
+    assert.doesNotMatch(renderTag(rich, 'adversarial'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'robustness'), /probability of doom/i);
+  });
+
   it('pages observability, verifier, softmax, and throughput hubs', () => {
     const rich = {
       ...ctx,
