@@ -54,6 +54,7 @@ describe('news day hubs', () => {
     assert.match(html, /nd__k"><a href="\/news\.html">Which AI stories has SIREN scored in this window\?<\/a>/);
     assert.doesNotMatch(html, /nd__k"><a href="\/news\.html">Newsroom<\/a>/);
     assert.doesNotMatch(html, /nd__k">[^<]*· Day</);
+    assert.match(html, /id="window"[^>]*>Which scored stories are in the live window\?/);
     assert.match(html, /CollectionPage/);
     assert.match(html, /Questions people actually ask/);
     assert.match(html, /"@type"\s*:\s*"FAQPage"/);
@@ -61,6 +62,7 @@ describe('news day hubs', () => {
     assert.match(html, /Story a0/);
     assert.doesNotMatch(html, /noindex/);
     assert.match(html, /not a forecast and not a probability of harm/);
+    assert.doesNotMatch(html, /<h2>In this window<\/h2>/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
   });
 
@@ -76,8 +78,10 @@ describe('news day hubs', () => {
       },
     };
     const html = renderDay(withPeer, '2026-10-10');
+    assert.match(html, /id="other-days"[^>]*>Which other days have scored stories\?/);
     assert.match(html, /Which AI stories did SIREN score on 2026-10-09\?/);
     assert.match(html, /href="\/news\/2026-10-09\.html"/);
+    assert.doesNotMatch(html, /<h2>Other days<\/h2>/);
     assert.doesNotMatch(html, /nd__nav"[^>]*>[\s\S]*?>2026-10-09 <span/);
   });
 
@@ -89,8 +93,9 @@ describe('news day hubs', () => {
       ],
     };
     const html = renderDay(withArch, '2026-10-10');
-    assert.match(html, /Older scored stories from 2026-10-10/);
+    assert.match(html, /id="older"[^>]*>Which older scored stories are from 2026-10-10\?/);
     assert.match(html, /Archived story from that morning/);
     assert.match(html, /\/item\/archive\.html/);
+    assert.doesNotMatch(html, /<h2>Older scored stories from 2026-10-10<\/h2>/);
   });
 });

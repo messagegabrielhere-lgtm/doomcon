@@ -113,19 +113,35 @@ export function renderDay(ctx, day) {
     `${total} AI stories ${brand.NAME} scored on ${day} UTC (${items.length} in the live window). Each row links the permanent story page with the outlet and the score.`,
     160,
   );
+  // Tip #283: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const windowQ = 'Which scored stories are in the live window?';
+  const olderQ = `Which older scored stories are from ${day}?`;
+  const otherDaysQ = 'Which other days have scored stories?';
+  const days = indexableDays(ctx);
+  const others = days.filter((d) => d.day !== day);
   const faq = [
     [`Which AI stories did ${brand.NAME} score on ${day}?`,
       `${total} scored ${total === 1 ? 'story' : 'stories'} carry a published time on ${day} UTC (${items.length} in the live window${archivedAll.length ? `, ${archivedAll.length} in the archive` : ''}). Each row links the permanent story page — not a day doom score.`],
+    [windowQ,
+      items.length
+        ? `${items.length} scored ${items.length === 1 ? 'story' : 'stories'} with a published time on this UTC day in the live window.`
+        : 'No scored story falls on this UTC day in the current window.'],
+    ...(older.length
+      ? [[olderQ,
+        'Kept in the permanent archive after they left the live window. Still scored stories — not a forecast.']]
+      : []),
+    ...(others.length
+      ? [[otherDaysQ,
+        `Other UTC days with enough scored stories to index, each linking Which AI stories did ${brand.NAME} score on that day?`]]
+      : []),
     [`Does ${brand.NAME} publish a day doom score?`,
       `No. ${brand.DISCLAIMER_SHORT} A day hub lists scored stories with that UTC published date — activity tempo counts, not a probability of harm.`],
   ];
   const faqHtml = faq.map(([q, a]) => `
   <h3>${esc(q)}</h3>
   <p>${esc(a)}</p>`).join('');
-  const days = indexableDays(ctx);
-  const others = days.filter((d) => d.day !== day);
   const olderBlock = older.length
-    ? `<h2>Older scored stories from ${esc(day)}</h2>
+    ? `<h2 id="older">${esc(olderQ)}</h2>
   <p class="nd__lede">Kept in the permanent archive after they left the live window. Still scored stories — not a forecast.</p>
   <ol class="nd__list">${storyRows(ctx, older)}</ol>
   <p class="fresh__key"><a href="${esc(ctx.href('/item/archive.html'))}">Which older AI stories has ${esc(brand.NAME)} kept in the archive?</a></p>`
@@ -141,7 +157,7 @@ export function renderDay(ctx, day) {
     <div><b class="num">${esc(String(items.length))}</b><span>In live window · ${esc(day)} UTC</span></div>
     ${archivedAll.length ? `<div><b class="num">${esc(String(archivedAll.length))}</b><span>Older in archive</span></div>` : ''}
   </div>
-  <h2>In this window</h2>
+  <h2 id="window">${esc(windowQ)}</h2>
   ${items.length
     ? `<ol class="nd__list">${storyRows(ctx, items)}</ol>`
     : '<p>No scored story falls on this UTC day in the current window.</p>'}
@@ -149,7 +165,7 @@ export function renderDay(ctx, day) {
     ? `<p class="fresh__key">${esc(String(items.length - DAY_LIST_CAP))} more on <a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a>.</p>`
     : `<p class="fresh__key"><a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a></p>`}
   ${olderBlock}
-  ${others.length ? `<h2>Other days</h2>
+  ${others.length ? `<h2 id="other-days">${esc(otherDaysQ)}</h2>
   <nav class="nd__nav" aria-label="Other days">${others.map((d) => `<a href="${esc(ctx.href(dayPath(d.day)))}">Which AI stories did ${esc(brand.NAME)} score on ${esc(d.day)}?</a>`).join('')}</nav>` : ''}
   <h2 id="faq">Questions people actually ask</h2>
   ${faqHtml}
