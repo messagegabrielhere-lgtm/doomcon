@@ -56,3 +56,17 @@ test('history.html ships question-shaped title, matching H1, speakable, breadcru
   assert.doesNotMatch(html, /SIREN.*p\(doom\) of \d/i);
   assert.doesNotMatch(html, /noindex/);
 });
+
+test('history level and pillar legend H3s use questions mirrored in FAQPage', () => {
+  const html = render(ctx);
+  assert.match(html, /What does SIREN 5 · DORMANT mean\?/);
+  assert.match(html, /What does SIREN 4 · ROUTINE mean\?/);
+  assert.match(html, /What does SIREN 1 · UNPRECEDENTED mean\?/);
+  assert.match(html, /What does the Capability pillar count\?/);
+  assert.match(html, /What does the Markets pillar count\?/);
+  assert.match(html, /FAQPage[\s\S]*What does SIREN 5 · DORMANT mean\?/);
+  assert.match(html, /FAQPage[\s\S]*What does the Capability pillar count\?/);
+  assert.doesNotMatch(html, /<h3 class="lore-lv__h">SIREN 5 · DORMANT/);
+  assert.doesNotMatch(html, /<h3 class="lore-pl__h">Capability<\/h3>/);
+  assert.doesNotMatch(html, /probability of doom is \d/i);
+});

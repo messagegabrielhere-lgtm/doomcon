@@ -89,6 +89,8 @@ export function render(ctx) {
       `No. It never writes a quotation. The only words attributed to a named person anywhere on this page are the headline, reproduced exactly as the publication printed it. ${brand.DISCLAIMER_SHORT}`],
     [`Does ${brand.NAME} publish a leader doom score?`,
       `No. ${brand.DISCLAIMER_SHORT} The leader wire lists on-record headlines — not a ranking of how dangerous a person is.`],
+    // Tip #373: roster-group H3s are question-shaped and mirrored in FAQ (§3.3).
+    ...GROUPS.map(([, q, , blurb]) => [q, blurb]),
   ];
   const faqHtml = faq.map(([q, a]) => `
   <h3>${esc(q)}</h3>
@@ -221,19 +223,21 @@ function emptyPage(ctx) {
  */
 // The roster in three groups, each in fixed roster order. A silent person is
 // never dropped; they move to the group that says WHICH silence it is.
+// Tip #373: roster-group H3s are question-shaped (mirrored in FAQ §3.3).
+// Short aria labels keep the old chrome names for assistive tech / filters.
 const GROUPS = [
-  ['on_record', 'On the record', 'At least one line in the window, from the press or from their own official feed.'],
-  ['quiet', 'Quiet', 'Nothing in the window. Their sources answered (or they have none but the press), so this is a reading of them.'],
-  ['unreachable', 'Unreachable', 'Nothing in the window, and none of their official sources answered this run — this silence may be ours, not theirs.'],
+  ['on_record', 'Who is on the record?', 'On the record', 'At least one line in the window, from the press or from their own official feed.'],
+  ['quiet', 'Who is quiet this week?', 'Quiet', 'Nothing in the window. Their sources answered (or they have none but the press), so this is a reading of them.'],
+  ['unreachable', 'Who is unreachable this run?', 'Unreachable', 'Nothing in the window, and none of their official sources answered this run — this silence may be ours, not theirs.'],
 ];
 
 function rosterGroups(wire, ctx = null) {
   const asOf = wire.generated_at;
   const covAt = (wire.coverage && wire.coverage.generated_at) || asOf;
-  const groups = GROUPS.map(([key, label, blurb]) => {
+  const groups = GROUPS.map(([key, q, short, blurb]) => {
     const rows = wire.leaders.filter((l) => groupOf(l) === key);
     if (!rows.length) return '';
-    return `<h3 class="lwg__h" id="lwg-${esc(key)}" data-group="${esc(key)}">${esc(label)}
+    return `<h3 class="lwg__h" id="lwg-${esc(key)}" data-group="${esc(key)}" aria-label="${esc(short)}">${esc(q)}
       <span class="lwg__n num">${esc(rows.length)}</span></h3>
   <p class="lwg__b">${esc(blurb)}</p>
   <ol class="lwr lwr--g" aria-labelledby="lwg-${esc(key)}">${rows.map((l) => card(l, asOf, { ctx, covAt })).join('')}</ol>`;

@@ -197,6 +197,10 @@ export function items(ctx) {
       `On /live.html: Markets and business, with the AI trade most days.`],
     ['Who is CanaryBot on Moltbook?',
       `On /agents.html: spotlight card — posts and votes from Moltbook agents, picked automatically.`],
+    ['Who is on the record?',
+      `On /leaders.html: at least one line in the window, from the press or from their own official feed.`],
+    ['What does SIREN 5 · DORMANT mean?',
+      `On /history.html: Needle at rest. The floor of the scale.`],
   ];
 }
 
