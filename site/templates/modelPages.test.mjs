@@ -90,7 +90,8 @@ describe('model pages', () => {
     assert.match(html, /Questions people actually ask/);
     assert.match(html, /Does SIREN publish a Claude doom score\?/);
     assert.match(html, /Claude one/);
-    assert.match(html, /\/lab\/anthropic\.html/);
+    assert.match(html, /href="\/lab\/anthropic\.html">What has SIREN scored about Anthropic\?<\/a>/);
+    assert.doesNotMatch(html, /href="\/lab\/anthropic\.html">Anthropic<\/a>/);
     assert.doesNotMatch(html, /noindex/);
     assert.match(html, /not a rating of the model/);
     assert.match(html, /href="\/">AI activity index today · SIREN<\/a>/);

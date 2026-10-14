@@ -79,6 +79,10 @@ describe('newsroom page', () => {
     assert.match(html, /Which AI outlets has SIREN scored stories from\?/);
     assert.doesNotMatch(html, /narch__days-links"><a href="\/companies\.html">Companies<\/a>/);
     assert.doesNotMatch(html, /narch__days-links"><a href="\/tags\.html">Tags<\/a>/);
+    assert.match(html, /nlg__n"><a href="\/pillar\/capability\.html">What has SIREN scored under Capability\?<\/a>/);
+    assert.match(html, /nlg__n"><a href="\/pillar\/attention\.html">What has SIREN scored under Attention\?<\/a>/);
+    assert.match(html, /nlg__n"><a href="\/pillar\/compute\.html">What has SIREN scored under Compute &amp; Capital\?<\/a>/);
+    assert.doesNotMatch(html, /nlg__n"><a href="\/pillar\/capability\.html">Capability<\/a>/);
     assert.match(html, /Questions people actually ask/);
     assert.match(html, /"@type"\s*:\s*"FAQPage"/);
     assert.match(html, /speakable/);

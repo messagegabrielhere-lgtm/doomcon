@@ -127,7 +127,7 @@ function labNote(ctx, name) {
   const players = (ctx.race && Array.isArray(ctx.race.players)) ? ctx.race.players : [];
   const player = players.find((p) => p && p.id === id);
   if (!player) return '';
-  return ` Lab page: <a href="${esc(ctx.href(`/lab/${id}.html`))}">${esc(player.name)}</a>.`;
+  return ` Lab page: <a href="${esc(ctx.href(`/lab/${id}.html`))}">What has ${esc(brand.NAME)} scored about ${esc(player.name)}?</a>.`;
 }
 
 const STYLE = `<style>

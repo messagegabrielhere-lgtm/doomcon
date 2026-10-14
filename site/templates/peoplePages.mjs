@@ -212,8 +212,14 @@ export function renderPerson(ctx, id) {
   const extract = leader.profile && leader.profile.extract
     ? clip(leader.profile.extract, 280)
     : '';
+  const labName = (() => {
+    if (!leader.org_id) return '';
+    const players = (ctx.race && Array.isArray(ctx.race.players)) ? ctx.race.players : [];
+    const player = players.find((p) => p && p.id === leader.org_id);
+    return (player && player.name) || leader.org || leader.org_id;
+  })();
   const labLink = leader.org_id
-    ? ` Lab page: <a href="${esc(ctx.href(`/lab/${leader.org_id}.html`))}">${esc(leader.org || leader.org_id)}</a>.`
+    ? ` Lab page: <a href="${esc(ctx.href(`/lab/${leader.org_id}.html`))}">What has ${esc(brand.NAME)} scored about ${esc(labName)}?</a>.`
     : '';
   const others = indexablePeople(ctx).filter((p) => p.id !== leader.id).slice(0, 12);
   const archivedAll = archiveItemsForPerson(ctx, leader);

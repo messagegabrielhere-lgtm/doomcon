@@ -960,7 +960,7 @@ function playerRow(ctx, p, race) {
       <i class="rpill__fill" aria-hidden="true"></i>${tick}
       ${rank}
       <span class="rpill__mk${markFor(p).face ? ' rpill__mk--face' : ''}" aria-hidden="true">${markFor(p).face ? `<img src="${esc(markFor(p).face)}" alt="" loading="lazy">` : `<svg viewBox="0 0 24 24" focusable="false"><use href="#dc-avt-${esc(markFor(p).shape)}"/></svg>`}</span>
-      <span class="rpill__lab"><b class="rpill__name"><a href="${esc(ctx.href(`/lab/${p.id}.html`))}">${esc(p.name)}</a></b>${principal}</span>
+      <span class="rpill__lab"><b class="rpill__name"><a href="${esc(ctx.href(`/lab/${p.id}.html`))}">What has ${esc(brand.NAME)} scored about ${esc(p.name)}?</a></b>${principal}</span>
       <span class="rpill__right">${delta}${value}</span>
     </div>
     <dl class="rfacts">
