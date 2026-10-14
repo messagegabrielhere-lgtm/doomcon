@@ -63,7 +63,7 @@ describe('kind pages', () => {
     assert.doesNotMatch(html, /kd__k"><a href="\/kind\/">Kinds<\/a>/);
     assert.match(html, /\/kind\/paper\.html/);
     assert.match(html, /does not publish a kind/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /"@type"\s*:\s*"FAQPage"/);
     assert.match(html, /speakable/);
     assert.match(html, /\/tags\.html/);
@@ -73,7 +73,7 @@ describe('kind pages', () => {
     assert.match(index, /Which AI stories has SIREN scored in this window\?/);
     assert.match(index, /kd__k"><a href="\/news\.html">Which AI stories has SIREN scored in this window\?<\/a>/);
     assert.doesNotMatch(index, /kd__k"><a href="\/news\.html">Newsroom<\/a>/);
-    assert.match(index, /Questions people actually ask/);
+    assert.match(index, /What questions do people actually ask\?/);
     assert.match(index, /"@type"\s*:\s*"FAQPage"/);
     assert.match(index, /speakable/);
     assert.match(index, /\/kinds\.html/);
@@ -92,7 +92,7 @@ describe('kind pages', () => {
     assert.doesNotMatch(html, /kd__k"><a href="\/kind\/">Kinds<\/a>/);
     assert.match(html, /CollectionPage/);
     assert.match(html, /ItemList/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /"@type"\s*:\s*"FAQPage"/);
     assert.match(html, /speakable/);
     assert.match(html, /id="window"[^>]*>Which scored papers are in this window\?/);

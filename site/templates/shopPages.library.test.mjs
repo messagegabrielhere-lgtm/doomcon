@@ -21,7 +21,7 @@ describe('library page', () => {
     const html = library(ctx);
     assert.match(html, /<title>What AI books argue both sides of the case\?/);
     assert.match(html, /<h1 class="bp__h1">What AI books argue both sides of the case\?<\/h1>/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /Are these paid links\?/);
     assert.match(html, /Does buying a book move the SIREN score\?/);
     assert.match(html, /Is the reading list a doom probability\?/);

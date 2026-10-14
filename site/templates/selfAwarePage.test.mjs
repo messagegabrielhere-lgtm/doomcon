@@ -24,7 +24,7 @@ describe('self-aware page', () => {
     const html = render(ctx, dcs, []);
     assert.match(html, /<title>What if an AI wakes up at 2:14 a\.m\.\?/);
     assert.match(html, /<h1 class="bp__h1">What if an AI wakes up at 2:14 a\.m\.\?<\/h1>/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /id="real">What is real, not fiction\?<\/h2>/);
     assert.match(html, /FAQPage[\s\S]*What is real, not fiction\?/);
     assert.match(html, /Is this a forecast that Skynet is waking up\?/);

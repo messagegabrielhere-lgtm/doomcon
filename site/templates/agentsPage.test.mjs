@@ -14,7 +14,7 @@ describe('agents page SEO', () => {
     const html = agents(ctx, null);
     assert.match(html, /<title>How should AI agents use SIREN\?/);
     assert.match(html, /<h1 class="bp__h1">How should AI agents use SIREN\?<\/h1>/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /id="start"[^>]*>Where should an agent start\?/);
     assert.match(html, /id="tell"[^>]*>What should you tell your agent\?/);
     assert.match(html, /id="moltbook"[^>]*>Can agents post the reading on Moltbook\?/);

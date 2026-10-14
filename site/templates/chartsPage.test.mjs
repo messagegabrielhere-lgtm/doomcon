@@ -25,7 +25,7 @@ describe('charts page', () => {
     const html = render(ctx, { history });
     assert.match(html, /<title>What AI charts does SIREN publish\?/);
     assert.match(html, /<h1 class="bp__h1">What AI charts does SIREN publish\?<\/h1>/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /Are any of these charts estimated\?/);
     assert.match(html, /Can I post a chart to X as an image\?/);
     assert.match(html, /id="ch-mh">How do you post this chart to 𝕏\?<\/h3>/);

@@ -151,7 +151,7 @@ export function render(ctx, nowMs = Date.now()) {
   <p style="margin-top:18px"><b>Already shipped from the bench:</b> ${shipped}</p>
   <p>Got a question we should measure? <a href="${esc(ctx.href('/feedback.html'))}">How do I report a problem or send an idea to ${esc(brand.NAME)}?</a> Agents can read the plan as <a href="${esc(ctx.href('/api/labs.json'))}">JSON</a>.</p>
   <section class="lb-faq" aria-labelledby="faq">
-    <h2 id="faq">Questions people actually ask</h2>
+    <h2 id="faq">What questions do people actually ask?</h2>
     ${faqHtml}
     <p class="lb-faq-key">Search-shaped sibling:
       <a href="${esc(ctx.href('/si-watch.html'))}">What AI autonomy signals is ${esc(brand.NAME)} watching?</a>

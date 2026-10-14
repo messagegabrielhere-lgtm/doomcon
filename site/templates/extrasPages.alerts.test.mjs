@@ -20,7 +20,7 @@ describe('alerts page', () => {
     const html = alertsPage(ctx);
     assert.match(html, /<title>How do I get alerts when SIREN moves\?/);
     assert.match(html, /<h1>How do I get alerts when SIREN moves\?<\/h1>/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /id="pick">1 · Which triggers should you pick\?<\/h2>/);
     assert.match(html, /id="feeds">2 · What are your feed URLs\?<\/h2>/);
     assert.match(html, /id="email">3 · How do I turn a feed into email\?<\/h2>/);

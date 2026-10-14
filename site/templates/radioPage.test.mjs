@@ -14,7 +14,7 @@ describe('radio page', () => {
     const html = radio(ctx, null);
     assert.match(html, /<title>What free music does SIREN Radio play\?/);
     assert.match(html, /<h1 class="bp__h1">What free music does SIREN Radio play\?<\/h1>/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /Are there audio files, ads or licence fees\?/);
     assert.match(html, /How do I change stations\?/);
     assert.match(html, /Where can I hear these stations in videos\?/);

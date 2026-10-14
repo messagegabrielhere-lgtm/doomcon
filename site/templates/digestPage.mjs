@@ -144,7 +144,7 @@ ${entitySection(ctx, d, ents)}
 ${rulesSection(d)}
 
 <section class="dg__faq" aria-labelledby="faq">
-  <h2 id="faq">Questions people actually ask</h2>
+  <h2 id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
   <p class="dg__faq-key">Search-shaped sibling:
     <a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a>.</p>

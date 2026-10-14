@@ -84,7 +84,7 @@ export function render(ctx, data) {
   <div class="st-g">${svc.map(card).join('')}</div>
   <p style="font-size:12.5px;margin-top:18px">How it works: each card reads the provider’s public status feed. A provider that doesn’t answer shows as UNKNOWN, never as up. Status pages are run by the companies themselves and sometimes lag what users see. <a href="${esc(ctx.href('/api/ai-status.json'))}">JSON</a> · <a href="${esc(ctx.href('/dispatch.html'))}">What public feeds does ${esc(brand.NAME)} Dispatch show?</a> · <a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a> · <a href="${esc(ctx.href('/threats.html'))}">What could take the machines offline tonight?</a></p>
   <section class="st-faq" aria-labelledby="faq">
-    <h2 id="faq">Questions people actually ask</h2>
+    <h2 id="faq">What questions do people actually ask?</h2>
     ${faqHtml}
     <p class="st-faq-key">Search-shaped sibling:
       <a href="${esc(ctx.href('/threats.html'))}">What could take the machines offline tonight?</a>.</p>

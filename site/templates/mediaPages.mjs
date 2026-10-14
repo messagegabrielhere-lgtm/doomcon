@@ -137,7 +137,7 @@ export function videos(ctx) {
   <div class="md-vids">${cards}</div>
   <p>Want the music on its own — <a href="${esc(ctx.href('/radio.html'))}">What free music does SIREN Radio play?</a> Clips of the AI bosses themselves: <a href="${esc(ctx.href('/elon.html'))}">Where can you find real clips of AI leaders?</a></p>
   <section class="md-faq" aria-labelledby="faq">
-    <h2 id="faq">Questions people actually ask</h2>
+    <h2 id="faq">What questions do people actually ask?</h2>
     ${faqHtml}
     <p class="md-faq-key">Search-shaped sibling:
       <a href="${esc(ctx.href('/radio.html'))}">What free music does SIREN Radio play?</a>
@@ -234,7 +234,7 @@ export function radio(ctx, voice) {
   <p>Every SIREN video is scored by one of these stations. See <a href="${esc(ctx.href('/videos.html'))}">What free AI explainer videos does SIREN publish?</a></p>
   <p><a class="md-btn ghost" href="${esc(xShare(ctx, 'SIREN Radio: six stations of music generated live in your browser while you watch AI.', RADIO_PATH))}" target="_blank" rel="noopener">𝕏 POST SIREN RADIO</a></p>
   <section class="md-faq" aria-labelledby="faq">
-    <h2 id="faq">Questions people actually ask</h2>
+    <h2 id="faq">What questions do people actually ask?</h2>
     ${faqHtml}
     <p class="md-faq-key">Search-shaped sibling:
       <a href="${esc(ctx.href('/videos.html'))}">What free AI explainer videos does SIREN publish?</a>

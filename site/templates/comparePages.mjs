@@ -184,7 +184,7 @@ function faqEntities(pairs) {
 /** Visible FAQ from the SAME pairs as FAQPage JSON-LD (FINDABILITY schema rule). */
 function faqBlock(pairs) {
   if (!pairs || !pairs.length) return '';
-  return `<h2 id="faq">Questions people actually ask</h2>
+  return `<h2 id="faq">What questions do people actually ask?</h2>
 ${pairs.map(([q, a]) => `  <h3>${esc(q)}</h3>
   <p>${esc(a)}</p>`).join('\n')}`;
 }

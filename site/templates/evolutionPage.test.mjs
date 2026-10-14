@@ -38,7 +38,7 @@ describe('evolution page', () => {
     const html = render(withPicks, log, []);
     assert.match(html, /<title>How has AI activity moved day by day\?/);
     assert.match(html, /<h1 class="bp__h1">How has AI activity moved day by day\?<\/h1>/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /Does the Evolution Log move the SIREN index\?/);
     assert.match(html, /Are these forecasts\?/);
     assert.match(html, /What records are kept\?/);

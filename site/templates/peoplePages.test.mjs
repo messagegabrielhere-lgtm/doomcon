@@ -86,7 +86,7 @@ describe('people pages', () => {
     assert.doesNotMatch(html, /pp__k"><a href="\/leaders\.html">Leaders<\/a>/);
     assert.match(html, /\/people\/altman\.html/);
     assert.match(html, /does not publish a person/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /"@type"\s*:\s*"FAQPage"/);
     assert.match(html, /speakable/);
     assert.match(html, /\/companies\.html/);
@@ -97,7 +97,7 @@ describe('people pages', () => {
     assert.match(index, /Which AI leaders are on the record this week\?/);
     assert.match(index, /pp__k"><a href="\/leaders\.html">Which AI leaders are on the record this week\?<\/a>/);
     assert.doesNotMatch(index, /pp__k"><a href="\/leaders\.html">Leaders<\/a>/);
-    assert.match(index, /Questions people actually ask/);
+    assert.match(index, /What questions do people actually ask\?/);
     assert.match(index, /"@type"\s*:\s*"FAQPage"/);
     assert.match(index, /speakable/);
     assert.match(index, /\/people\.html/);
@@ -127,7 +127,7 @@ describe('people pages', () => {
     assert.doesNotMatch(html, /pp__k"><a href="\/people\/">People<\/a>/);
     assert.match(html, /ProfilePage/);
     assert.match(html, /FAQPage/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /id="pp-press"[^>]*>Which press coverage names Sam Altman\?/);
     assert.match(html, /Sam Altman in the news 0/);
     assert.match(html, /never writes a quotation/i);

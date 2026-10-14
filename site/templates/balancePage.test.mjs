@@ -26,7 +26,7 @@ describe('balance page', () => {
     const html = render(ctx);
     assert.match(html, /<title>How does SIREN count AI harm and benefit side by side\?/);
     assert.match(html, /<h1 class="bp__h1">How does SIREN count AI harm and benefit side by side\?<\/h1>/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /Does the balance feed the main SIREN number\?/);
     assert.match(html, /Is there a net score of harm versus benefit\?/);
     assert.match(html, /What do the newsroom word-list counts measure\?/);

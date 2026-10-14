@@ -11,7 +11,7 @@ describe('day-after page', () => {
   it('ships a question-shaped title, speakable WebPage, and matching FAQPage', () => {
     assert.match(html, /<title>What happens the day after an AI catastrophe\?/);
     assert.match(html, /<h1>What happens the day after an <b>AI catastrophe<\/b>\?<\/h1>/);
-    assert.match(html, /QUESTIONS PEOPLE ACTUALLY ASK|Questions people actually ask/i);
+    assert.match(html, /QUESTIONS PEOPLE ACTUALLY ASK|What questions do people actually ask?/i);
     assert.match(html, /Is this a forecast\?/);
     assert.match(html, /Does the game describe how to cause harm\?/);
     assert.match(html, /Where is the real-world backlash watch\?/);

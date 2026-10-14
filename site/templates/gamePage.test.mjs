@@ -11,7 +11,7 @@ describe('game / Tally Counts page', () => {
   it('ships a question-shaped title, speakable WebPage, and matching FAQPage', () => {
     assert.match(html, /<title>How do you play Tally Counts\?/);
     assert.match(html, /<h1>How do you play Tally Counts\?<\/h1>/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /Does Tally Counts feed the SIREN index\?/);
     assert.match(html, /Where is my best score kept\?/);
     assert.match(html, /Is there a leaderboard\?/);

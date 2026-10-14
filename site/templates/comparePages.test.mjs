@@ -47,7 +47,7 @@ describe('compare / alternatives conquest pages', () => {
     assert.doesNotMatch(hub, /compare honestly\?/);
     assert.match(hub, /Takeoff Tracker/);
     assert.match(hub, /"@type"\s*:\s*"FAQPage"/);
-    assert.match(hub, /Questions people actually ask/);
+    assert.match(hub, /What questions do people actually ask\?/);
     assert.match(hub, /What is the difference between SIREN and DoomBench/);
     assert.match(hub, /Does a louder SIREN reading mean AI is more dangerous/);
     assert.match(hub, /DoomBench/);
@@ -80,7 +80,7 @@ describe('compare / alternatives conquest pages', () => {
     assert.match(alt, /DoomBench alternative/i);
     assert.match(alt, /PizzINT/);
     assert.match(alt, /"@type"\s*:\s*"FAQPage"/);
-    assert.match(alt, /Questions people actually ask/);
+    assert.match(alt, /What questions do people actually ask\?/);
     assert.match(alt, /What is a good alternative to DoomBench/);
     assert.match(alt, /id="alt-right-h">When is SIREN the right alternative\?<\/h2>/);
     assert.match(alt, /id="alt-wrong-h">When is SIREN the wrong alternative\?<\/h2>/);
@@ -105,7 +105,7 @@ describe('compare / alternatives conquest pages', () => {
     assert.doesNotMatch(page, /cmp__k">Versus<\/p>/);
     assert.doesNotMatch(page, /"name"\s*:\s*"Compare"/);
     assert.doesNotMatch(page, /SIREN vs DoomBench — which should/);
-    assert.match(page, /Questions people actually ask/);
+    assert.match(page, /What questions do people actually ask\?/);
     assert.match(page, /does not score takeover risk/i);
     assert.match(page, /recompute/i);
     assert.match(page, /id="vs-each-h">What is each one\?<\/h2>/);
@@ -124,14 +124,14 @@ describe('compare / alternatives conquest pages', () => {
     const pizza = vsRival(ctx, 'pizzint');
     assert.match(pizza, /<title>SIREN vs PizzINT: which should you use\?/);
     assert.match(pizza, /<h1>SIREN vs PizzINT: which should you use\?<\/h1>/);
-    assert.match(pizza, /Questions people actually ask/);
+    assert.match(pizza, /What questions do people actually ask\?/);
     assert.match(pizza, /does not publish a DEFCON/i);
     assert.match(pizza, /Doomsday Clock/i);
     assert.doesNotMatch(pizza, /SIREN.*DEFCON \d/i);
     const takeoff = vsRival(ctx, 'takeofftracker');
     assert.match(takeoff, /<title>SIREN vs Takeoff Tracker: which should you use\?/);
     assert.match(takeoff, /<h1>SIREN vs Takeoff Tracker: which should you use\?<\/h1>/);
-    assert.match(takeoff, /Questions people actually ask/);
+    assert.match(takeoff, /What questions do people actually ask\?/);
     assert.match(takeoff, /does not publish an AGI timeline/i);
     assert.match(takeoff, /takeoff dashboard/i);
     assert.doesNotMatch(takeoff, /SIREN.*p\(doom\) of \d/i);
@@ -159,7 +159,7 @@ describe('compare / alternatives conquest pages', () => {
     assert.match(html, /\/vs\/takeofftracker\.html/);
     assert.match(html, /Takeoff Tracker/);
     assert.match(html, /"@type"\s*:\s*"FAQPage"/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
   });
 

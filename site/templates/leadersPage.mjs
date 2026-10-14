@@ -142,7 +142,7 @@ ${crossCheck(wire, crossQ)}
 ${method(ctx, wire, onRecord, quiet, methodQ)}
 
 <section class="sec" aria-labelledby="faq">
-  <h2 class="sec__h" id="faq">Questions people actually ask</h2>
+  <h2 class="sec__h" id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
 </section>`;
 

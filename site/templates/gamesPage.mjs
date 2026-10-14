@@ -61,7 +61,7 @@ export function render(ctx) {
   <div class="gm-g">${cards}</div>
   <p>Want music while you play? Turn on <a href="${esc(ctx.href('/radio.html'))}">What free music does SIREN Radio play?</a></p>
   <section class="gm-faq" aria-labelledby="faq">
-    <h2 id="faq">Questions people actually ask</h2>
+    <h2 id="faq">What questions do people actually ask?</h2>
     ${faqHtml}
     <p class="gm-faq-key">Search-shaped sibling:
       <a href="${esc(ctx.href('/contain.html'))}">Can you stop an AI breakout?</a>

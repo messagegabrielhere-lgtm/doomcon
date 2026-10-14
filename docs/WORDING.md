@@ -121,7 +121,7 @@ nothing above it.
 | `/history` | The scale, level by level | keep | — | Plain. |
 | `/history` | What this index does not claim | keep | — | Plain. |
 | `/history` | What is actually counted | keep | — | Plain. |
-| `/history` | Questions people actually ask | keep | — | Plain. |
+| `/history` | What questions do people actually ask? | keep | — | Question-shaped FAQ chrome (tip #401). |
 
 ### `/methodology` — words in `docs/METHODOLOGY.md`, rendered by `methodology.mjs`
 

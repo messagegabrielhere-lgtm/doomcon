@@ -180,7 +180,7 @@ ${list.map((e) => entry(ctx, e, L && L.status_words, t)).join('\n')}
   <p class="fresh__key"><b>${esc(N(hits.length))} of ${esc(N(items.length))}</b> headlines in the newsroom window mention ${esc(t.what)}${at ? `, as of ${esc(at)}` : ''}.
     Matched by word, so read them before trusting the count.</p>
   ${hits.length ? `<ul class="tp__news">${hits.slice(0, 12).map((i) => `<li><a href="${esc(i.url)}" rel="noopener">${esc(i.title)}</a><small>${esc(i.source)} · ${esc(String(i.published_at).slice(0, 10))}</small></li>`).join('')}</ul>` : ''}
-  <h2 class="sec__h tp__sec" id="faq">Questions people actually ask</h2>
+  <h2 class="sec__h tp__sec" id="faq">What questions do people actually ask?</h2>
 ${faqPairs.map(([q, a]) => `  <h3>${esc(q)}</h3>
   <p>${esc(a)}</p>`).join('\n')}
   <p><a href="${esc(ctx.href(other.path))}">${esc(other.h1)} →</a> · <a href="${esc(ctx.href('/balance.html'))}">How does ${esc(brand.NAME)} count AI harm and benefit side by side? →</a> · <a href="${esc(ctx.href('/library.html'))}">What AI books argue both sides of the case? →</a>${brand.X_URL ? ` · <a href="https://x.com/intent/follow?screen_name=${esc(brand.X_HANDLE.replace(/^@/, ''))}" rel="noopener">Follow ${esc(brand.X_HANDLE)} for updates to these numbers →</a>` : ''}</p>

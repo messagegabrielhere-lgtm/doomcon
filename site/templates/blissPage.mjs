@@ -469,7 +469,7 @@ ${hasScore ? '' : awaitingPanel(bliss, reporting, total, awaiting, dark, { noSco
 ${howComputed(ctx, bliss, howQ)}
 
 <section class="bfaq" aria-labelledby="faq">
-  <h2 id="faq">Questions people actually ask</h2>
+  <h2 id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
   <p class="bfaq-key">Search-shaped sibling:
     <a href="${esc(ctx.href('/watts.html'))}">What does the ${esc(brand.NAME)} infrastructure index read?</a>.</p>

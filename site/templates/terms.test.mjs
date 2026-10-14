@@ -24,7 +24,7 @@ test('terms.html ships question-shaped title, speakable, breadcrumbs, and visibl
   assert.match(html, /"@type"\s*:\s*"FAQPage"/);
   assert.match(html, /SpeakableSpecification/);
   assert.match(html, /BreadcrumbList/);
-  assert.match(html, /Questions people actually ask/);
+  assert.match(html, /What questions do people actually ask\?/);
   assert.match(html, /Does SIREN predict the future or measure danger\?/);
   assert.match(html, /href="\/disclosures\.html">What does SIREN disclose\?<\/a>/);
   assert.match(html, /href="\/privacy\.html">What does SIREN know about you\?<\/a>/);

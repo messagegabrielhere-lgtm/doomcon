@@ -271,7 +271,7 @@ export function render(ctx, { history = [], race = null, power = null } = {}) {
   ${card('waffle', 7, waffleQ, wafTk, wafSvg, `Our World in Data · ${esc(power && power.year || '')}`, wafTk, false, share)}
   <p style="font-size:12.5px">Polymarket links carry SIREN’s tracking tag. Prediction markets are restricted in some places. Not financial advice. Every chart is drawn from the data shown; nothing is estimated. A dark feed keeps the build-time chart.</p>
 <section class="chfaq" aria-labelledby="faq">
-  <h2 id="faq">Questions people actually ask</h2>
+  <h2 id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
   <p class="chfaq__key">Search-shaped sibling:
     <a href="${esc(ctx.href('/power.html'))}">Who makes the most electricity (China vs US)?</a>.</p>

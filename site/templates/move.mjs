@@ -115,7 +115,7 @@ export function render(ctx, move) {
   </div>
 
   <section aria-labelledby="faq">
-    <h2 id="faq">Questions people actually ask</h2>
+    <h2 id="faq">What questions do people actually ask?</h2>
     ${faqHtml}
   </section>
 

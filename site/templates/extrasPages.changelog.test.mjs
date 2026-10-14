@@ -40,10 +40,13 @@ describe('changelog page', () => {
     const html = changelogPage(ctx);
     assert.match(html, /<title>What moved the SIREN score this hour\?/);
     assert.match(html, /<h1>What moved the SIREN score this hour\?<\/h1>/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /Do news items move the score\?/);
     assert.match(html, /How do I get these as alerts\?/);
     assert.match(html, /Is an hourly move a doom probability\?/);
+    assert.match(html, /<h3 class="hd"><a[^>]*>What moved at 2026-10-13 20:00 UTC\?<\/a>/);
+    assert.match(html, /"name":\s*"What moved at 2026-10-13 20:00 UTC\?"/);
+    assert.doesNotMatch(html, /<div class="hd"><a[^>]*>2026-10-13 20:00 UTC<\/a>/);
     assert.match(html, /SpeakableSpecification/);
     assert.match(html, /FAQPage/);
     assert.match(html, /"@type":\s*"WebPage"/);

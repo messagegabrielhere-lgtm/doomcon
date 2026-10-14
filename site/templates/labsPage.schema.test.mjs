@@ -21,7 +21,7 @@ describe('labs page schema', () => {
     const html = render(ctx, Date.parse('2026-10-13T12:00:00Z'));
     assert.match(html, /<title>What is SIREN Labs measuring this week\?/);
     assert.match(html, /<h1 class="bp__h1">What is SIREN Labs measuring this week\?<\/h1>/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /id="week"[^>]*>What is on the bench this week\?<\/h2>/);
     assert.match(html, /id="next"[^>]*>What is coming up on the bench\?<\/h2>/);
     assert.match(html, /id="rules"[^>]*>What are the lab rules\?<\/h2>/);

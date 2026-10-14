@@ -21,7 +21,7 @@ describe('search page SEO', () => {
     const html = search(ctx, stats);
     assert.match(html, /<title>How do you search everything on SIREN\?/);
     assert.match(html, /<h1 class="bp__h1">How do you search everything on SIREN\?<\/h1>/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /How do results work\?/);
     assert.match(html, /Does search need JavaScript\?/);
     assert.match(html, /Rather browse than search\?/);

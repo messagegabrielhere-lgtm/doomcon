@@ -126,7 +126,7 @@ ${GEAR.map(([q, title, blurb]) => `    <li class="shp__b"><a href="${esc(amazonS
   <h2>${esc(moreQ)}</h2>
   <p><a href="${esc(ctx.href('/bunker-kit.html'))}">What free tools belong in a bunker kit?</a> (paid links too) · <a href="${esc(ctx.href('/sponsor.html'))}">How do you sponsor ${esc(brand.NAME)} without moving the number?</a> · <a href="${esc(ctx.href('/#support'))}">Donate</a></p>
   <section class="shp-faq" aria-labelledby="faq">
-    <h2 id="faq">Questions people actually ask</h2>
+    <h2 id="faq">What questions do people actually ask?</h2>
     ${faqHtml}
     <p class="shp-faq-key">Search-shaped sibling:
       <a href="${esc(ctx.href('/bunker-kit.html'))}">What free tools belong in a bunker kit?</a>
@@ -223,7 +223,7 @@ export function sponsor(ctx) {
   <p>Message ${x} on X with who you are and what you would like to run. One sponsor at a time, month by month.</p>
   <p><a class="shp__go" href="${esc(brand.X_URL || ctx.href('/about.html'))}" rel="noopener">Ask about sponsoring</a></p>
   <section class="shp-faq" aria-labelledby="faq">
-    <h2 id="faq">Questions people actually ask</h2>
+    <h2 id="faq">What questions do people actually ask?</h2>
     ${faqHtml}
     <p class="shp-faq-key">Search-shaped sibling:
       <a href="${esc(ctx.href('/library.html'))}">What AI books argue both sides of the case?</a>

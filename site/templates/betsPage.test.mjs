@@ -19,7 +19,7 @@ describe('bets page', () => {
     const html = render(ctx);
     assert.match(html, /<title>Does the SIREN index make forecasts\?/);
     assert.match(html, /<h1 class="bp__h1">Does the SIREN index make forecasts\?<\/h1>/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /Are these bets about the world or what AI does next\?/);
     assert.match(html, /How are the probabilities set\?/);
     assert.match(html, /Can bets be edited or deleted\?/);

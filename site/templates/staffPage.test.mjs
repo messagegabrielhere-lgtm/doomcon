@@ -14,7 +14,7 @@ describe('staff page SEO', () => {
     const html = staff(ctx);
     assert.match(html, /<title>Who is the automated crew that runs SIREN\?/);
     assert.match(html, /<h1 class="bp__h1">Who is the automated crew that runs SIREN\?<\/h1>/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /id="grok"[^>]*>Who is the Grok crew behind the business\?/);
     assert.match(html, /id="flow"[^>]*>How does the data crew work together\?/);
     assert.match(html, /id="data"[^>]*>Who is on the data crew\?/);

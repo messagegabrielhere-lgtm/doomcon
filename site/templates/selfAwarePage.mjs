@@ -117,7 +117,7 @@ export function render(ctx, dcs, usRings) {
     <li>What the experts think the odds are: <a href="${esc(ctx.href('/p-doom.html#voices'))}">What is p(doom)? →</a></li>
   </ul><p style="font-size:12.5px;margin:10px 0 0">Every number in the animation except the data-centre locations is made up for the story. Data centres from OpenStreetMap and public filings via SIREN’s <a href="${esc(ctx.href('/map.html'))}">How many datacentres has SIREN mapped in the United States?</a>. Skynet is the fictional AI from the Terminator films; this page is an homage, not affiliated.</p></div>
   <section class="sa-faq" aria-labelledby="faq">
-    <h2 id="faq">Questions people actually ask</h2>
+    <h2 id="faq">What questions do people actually ask?</h2>
     ${faqHtml}
     <p class="sa-faq-key">Search-shaped sibling:
       <a href="${esc(ctx.href('/si-watch.html'))}">What AI autonomy signals is SIREN watching?</a>

@@ -21,7 +21,7 @@ describe('bias page', () => {
     const html = biasPage(ctx);
     assert.match(html, /<title>What can SIREN not see\?/);
     assert.match(html, /<h1>What can SIREN not see\?<\/h1>/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /id="inputs">Where does each input lean\?<\/h2>/);
     assert.match(html, /id="skew">What does that skew\?<\/h2>/);
     assert.match(html, /id="candidates">Which sources are under consideration\?<\/h2>/);

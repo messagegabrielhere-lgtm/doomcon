@@ -11,7 +11,7 @@ describe('elon / Real Clips page', () => {
   it('ships a question-shaped title, speakable WebPage, and matching FAQPage', () => {
     assert.match(html, /<title>Where can you find real clips of AI leaders\?/);
     assert.match(html, /<h1>Where can you find real clips of AI leaders\?<\/h1>/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /How do you know a clip is real\?/);
     assert.match(html, /Are YouTube trends verified\?/);
     assert.match(html, /Can I check a clip I found\?/);

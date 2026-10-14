@@ -898,7 +898,7 @@ function chapterNav(ctx) {
     <ol>${links}
       <li><a href="#legend"><span class="lore-nav__n" aria-hidden="true">·</span>What is the SIREN scale, level by level?</a></li>
       <li><a href="#not"><span class="lore-nav__n" aria-hidden="true">·</span>What does this index not claim?</a></li>
-      <li><a href="#faq"><span class="lore-nav__n" aria-hidden="true">·</span>Questions people actually ask</a></li>
+      <li><a href="#faq"><span class="lore-nav__n" aria-hidden="true">·</span>What questions do people actually ask?</a></li>
       <li><a href="${esc(ctx.href('/methodology.html'))}"><span class="lore-nav__n" aria-hidden="true">·</span>How the ${esc(brand.NAME)} AI activity index is computed · methodology</a></li>
     </ol></nav>`;
 }
@@ -1095,7 +1095,7 @@ ${pillarLegend()}
     collected and published and left out of the composite. Reporting that third state as an outage
     would claim a failure that is not happening.</p>
 
-  <h2 id="faq">Questions people actually ask</h2>
+  <h2 id="faq">What questions do people actually ask?</h2>
   ${faqBlock()}
   <p class="lore-faq-key">Search-shaped sibling:
     <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>

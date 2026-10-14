@@ -302,7 +302,7 @@ export function renderCountry(ctx, iso2) {
     : `<p>The country total is published. This build has no per-site rows to list. <a href="${esc(ctx.href('/world.html'))}">How many datacentres has ${esc(brand.NAME)} mapped on Earth?</a> still carries the count.</p>`}
   ${storyBlock}
   ${olderBlock}
-  <h2 id="faq">Questions people actually ask</h2>
+  <h2 id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
   ${neighbours.length ? `<h2 id="same-subregion">${esc(subregionQ)}</h2>
   <nav class="fc__nav" aria-label="Other countries in ${esc(country.subregion)}">${neighbours.map((c) => `<a href="${esc(ctx.href(countryPath(c.iso2)))}">How many datacentres has ${esc(brand.NAME)} mapped in ${esc(c.name)}?</a>`).join('')}</nav>` : ''}
@@ -388,7 +388,7 @@ export function renderIndex(ctx) {
   <h1>Which AI datacentre countries have ${esc(brand.NAME)} pages?</h1>
   <p class="fc__lede">A country earns a page when OpenStreetMap has at least ${COUNTRY_INDEX_MIN} datacentre sites mapped there, ${esc(qualifier)}. Fewer than that stays on <a href="${esc(ctx.href('/world.html'))}">How many datacentres has ${esc(brand.NAME)} mapped on Earth?</a> only. ${esc(copy.what_zero_means || 'A country with no mapped datacentre is a country nobody has mapped.')}</p>
   ${rows ? `<ol class="fc__list">${rows}</ol>` : '<p>No country clears the gate in this file.</p>'}
-  <h2 id="faq">Questions people actually ask</h2>
+  <h2 id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
   <p class="fresh__key">Search-shaped directory: <a href="${esc(ctx.href('/countries.html'))}">Which AI datacentre countries has ${esc(brand.NAME)} mapped?</a>.</p>
 </article>`;
@@ -469,7 +469,7 @@ export function renderCountries(ctx) {
     <div><b class="num">${esc(n(countries.length))}</b><span>Country hubs</span></div>
   </div>
   ${countries.length ? `<ol class="fc__list">${rows}</ol>` : '<p>No country hub cleared the gate in this build.</p>'}
-  <h2 id="faq">Questions people actually ask</h2>
+  <h2 id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
   <p class="fresh__key"><a href="${esc(ctx.href('/country/'))}">Which AI datacentre countries have ${esc(brand.NAME)} pages?</a>
      · <a href="${esc(ctx.href('/world.html'))}">How many datacentres has ${esc(brand.NAME)} mapped on Earth?</a>

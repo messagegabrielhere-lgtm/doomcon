@@ -216,7 +216,7 @@ export function renderPillar(ctx, pillarId) {
        ${items.length > 40 ? `<p class="fresh__key">${esc(String(items.length - 40))} more in the window — see <a href="${esc(ctx.href('/item/'))}">Which scored AI stories are in the ${esc(brand.NAME)} live window?</a>.</p>` : ''}`
     : `<p>No scored stories in the current window for this pillar. The page stays up so the pillar reading remains addressable; it is not submitted to the sitemap while empty.</p>`}
   ${olderBlock}
-  <h2 id="faq">Questions people actually ask</h2>
+  <h2 id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
   ${peerPillars.length ? `<h2 id="other-pillars">${esc(othersQ)}</h2>
   <nav class="fc__pillars" aria-label="SIREN pillars">${otherPillars}</nav>` : ''}
@@ -299,7 +299,7 @@ export function renderPillarIndex(ctx) {
   <h1>Which AI activity pillars have ${esc(brand.NAME)} pages?</h1>
   <p class="fc__lede">A pillar earns a crawlable page when at least ${PILLAR_INDEX_MIN} scored stories under it appear in the live window or the durable archive. The live pillar score is activity tempo against this index’s frozen reference — not a probability of harm.</p>
   ${pillars.length ? `<ol class="fc__list">${rows}</ol>` : '<p>No pillar cleared the gate in this build.</p>'}
-  <h2 id="faq">Questions people actually ask</h2>
+  <h2 id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
   <p class="fresh__key">Search-shaped directory: <a href="${esc(ctx.href('/pillars.html'))}">Which AI activity pillars has ${esc(brand.NAME)} scored?</a>.</p>
 </article>`;
@@ -378,7 +378,7 @@ export function renderPillars(ctx) {
     <div><b class="num">${esc(String(pillars.length))}</b><span>Pillar hubs</span></div>
   </div>
   ${pillars.length ? `<ol class="fc__list">${rows}</ol>` : '<p>No pillar hub cleared the gate in this build.</p>'}
-  <h2 id="faq">Questions people actually ask</h2>
+  <h2 id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
   <p class="fresh__key"><a href="${esc(ctx.href('/pillar/'))}">Which AI activity pillars have ${esc(brand.NAME)} pages?</a>
      · <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>
@@ -678,7 +678,7 @@ export function renderLab(ctx, player) {
     ? `<ol class="fc__list">${itemRows(ctx, items)}</ol>`
     : `<p>No scored story in the current window names ${esc(player.name)}.${entityOnly ? '' : ' The race row above is still the addressable unit.'}</p>`}
   ${olderBlock}
-  <h2 id="faq">Questions people actually ask</h2>
+  <h2 id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
   ${peerLabs.length ? `<h2 id="other-labs">${esc(othersQ)}</h2>
   <nav class="fc__labs" aria-label="Labs">${labs}</nav>` : ''}
@@ -755,7 +755,7 @@ export function renderLabIndex(ctx) {
   <h1>Which AI labs have ${esc(brand.NAME)} pages?</h1>
   <p class="fc__lede">A lab earns a page when it sits on <a href="${esc(ctx.href('/race.html'))}">Who is winning the AI race?</a> or clears at least ${ENTITY_LAB_MIN} scored stories in the current window. Numbers are story counts and, where published, prediction-market odds — not a ranking of how dangerous a company is.</p>
   ${labs.length ? `<ol class="fc__list">${rows}</ol>` : '<p>No lab cleared the gate in this build.</p>'}
-  <h2 id="faq">Questions people actually ask</h2>
+  <h2 id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
   <p class="fresh__key">Search-shaped directory: <a href="${esc(ctx.href('/companies.html'))}">Which AI companies has ${esc(brand.NAME)} scored stories about?</a>.</p>
 </article>`;
@@ -834,7 +834,7 @@ export function renderCompanies(ctx) {
     <div><b class="num">${esc(String(labs.length))}</b><span>Company / lab hubs</span></div>
   </div>
   ${labs.length ? `<ol class="fc__list">${rows}</ol>` : '<p>No company hub cleared the gate in this build.</p>'}
-  <h2 id="faq">Questions people actually ask</h2>
+  <h2 id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
   <p class="fresh__key"><a href="${esc(ctx.href('/lab/'))}">Which AI labs have ${esc(brand.NAME)} pages?</a>
      · <a href="${esc(ctx.href('/compare.html'))}">Which AI doom indexes can you compare?</a>
@@ -1032,7 +1032,7 @@ export function renderSource(ctx, sourceId) {
     ? `<ol class="fc__list">${itemRows(ctx, items)}</ol>`
     : '<p>No scored stories from this outlet in the current window.</p>'}
   ${olderBlock}
-  <h2 id="faq">Questions people actually ask</h2>
+  <h2 id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
   ${peerSources.length ? `<h2 id="other-outlets">${esc(othersQ)}</h2><nav class="fc__labs" aria-label="Other outlets">${others}</nav>` : ''}
 </article>`;
@@ -1107,7 +1107,7 @@ export function renderSourceIndex(ctx) {
   <h1>Which AI feed adapters have ${esc(brand.NAME)} pages?</h1>
   <p class="fc__lede">An outlet earns a page when at least ${SOURCE_INDEX_MIN} scored stories from it appear in the live window or the durable archive. Fewer than that stays on the story page only, so a one-off item does not become its own URL.</p>
   <ol class="fc__list">${rows}</ol>
-  <h2 id="faq">Questions people actually ask</h2>
+  <h2 id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
   <p class="fresh__key">Search-shaped directory: <a href="${esc(ctx.href('/sources.html'))}">Which AI news sources has ${esc(brand.NAME)} scored via?</a>.</p>
 </article>`;
@@ -1186,7 +1186,7 @@ export function renderSources(ctx) {
     <div><b class="num">${esc(String(sources.length))}</b><span>Feed-adapter hubs</span></div>
   </div>
   ${sources.length ? `<ol class="fc__list">${rows}</ol>` : '<p>No feed-adapter hub cleared the gate in this build.</p>'}
-  <h2 id="faq">Questions people actually ask</h2>
+  <h2 id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
   <p class="fresh__key"><a href="${esc(ctx.href('/source/'))}">Which AI feed adapters have ${esc(brand.NAME)} pages?</a>
      · <a href="${esc(ctx.href('/outlets.html'))}">Which AI outlets has ${esc(brand.NAME)} scored stories from?</a>

@@ -245,7 +245,7 @@ export function render(ctx, data) {
   <h2 id="about">${esc(aboutQ)}</h2>
   <p class="lv-note">Video thumbnails come from YouTube (i.ytimg.com), so Google sees your IP address when the page loads; the player is YouTube’s privacy-enhanced one (youtube-nocookie.com) and loads only when you click. Podcast artwork and audio come from each show’s host. ${esc(brand.NAME)} picks nothing by hand and endorses nothing here: it is a filtered list of what is on. Machine-readable: <a href="${esc(ctx.href('/api/live-media.json'))}">api/live-media.json</a>. More live AI: <a href="${esc(ctx.href('/live-x.html'))}">Where are live X feeds and Spaces on AI?</a>, <a href="${esc(ctx.href('/elon.html'))}">Where can you find real clips of AI leaders?</a>, <a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a>.</p>
   <section class="lv-faq" aria-labelledby="faq">
-    <h2 id="faq">Questions people actually ask</h2>
+    <h2 id="faq">What questions do people actually ask?</h2>
     ${faqHtml}
     <p class="lv-faq-key">Search-shaped sibling:
       <a href="${esc(ctx.href('/radio.html'))}">What free music does SIREN Radio play?</a>

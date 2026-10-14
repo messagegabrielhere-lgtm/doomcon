@@ -94,7 +94,7 @@ describe('country pages', () => {
     assert.doesNotMatch(html, /fc__k"><a href="\/country\/">Countries<\/a>/);
     assert.match(html, /\/country\/de\.html/);
     assert.match(html, /does not publish a country/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /"@type"\s*:\s*"FAQPage"/);
     assert.match(html, /speakable/);
     assert.match(html, /\/world\.html/);
@@ -105,7 +105,7 @@ describe('country pages', () => {
     assert.match(index, /fc__k"><a href="\/world\.html">How many datacentres has SIREN mapped on Earth\?<\/a>/);
     assert.doesNotMatch(index, /fc__k"><a href="\/world\.html">World<\/a>/);
     assert.doesNotMatch(index, /fc__k">[^<]*· Countries ·/);
-    assert.match(index, /Questions people actually ask/);
+    assert.match(index, /What questions do people actually ask\?/);
     assert.match(index, /"@type"\s*:\s*"FAQPage"/);
     assert.match(index, /speakable/);
     assert.match(index, /\/countries\.html/);
@@ -128,7 +128,7 @@ describe('country pages', () => {
     assert.doesNotMatch(html, /fc__k"><a href="\/country\/">Countries<\/a>/);
     assert.doesNotMatch(html, /fc__nav"[^>]*>[\s\S]*?>France<\/a>/);
     assert.match(html, /Dataset/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /"@type"\s*:\s*"FAQPage"/);
     assert.match(html, /speakable/);
     assert.match(html, /Berlin hall/);

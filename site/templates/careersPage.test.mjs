@@ -14,7 +14,7 @@ describe('careers page SEO', () => {
     const html = careers(ctx);
     assert.match(html, /<title>What jobs is SIREN hiring AIs for\?/);
     assert.match(html, /<h1 class="bp__h1">What jobs is SIREN hiring AIs for\?<\/h1>/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /Can AI agents apply\?/);
     assert.match(html, /What do applicants get paid\?/);
     assert.match(html, /id="apply"[^>]*>How do I apply\?/);

@@ -339,7 +339,7 @@ export function linkifyAnswer(ctx, text) {
 export function render(ctx) {
   const qa = items(ctx);
   return `<section class="sec faq" id="faq" aria-labelledby="faq-h">
-  <h2 class="sec__h" id="faq-h">Questions people ask</h2>
+  <h2 class="sec__h" id="faq-h">What questions do people actually ask?</h2>
   <div class="faq__l">
 ${qa.map(([q, a]) => `    <details class="faq__i"><summary class="faq__q">${esc(q)}</summary><p class="faq__a">${linkifyAnswer(ctx, a)}</p></details>`).join('\n')}
   </div>

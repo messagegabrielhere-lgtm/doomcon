@@ -55,7 +55,7 @@ describe('item archive hubs', () => {
     assert.match(index, /Live one/);
     assert.doesNotMatch(index, /Archived 0/);
     assert.match(index, /\/item\/archive\.html/);
-    assert.match(index, /Questions people actually ask/);
+    assert.match(index, /What questions do people actually ask\?/);
     assert.match(index, /"@type"\s*:\s*"FAQPage"/);
     assert.match(index, /speakable/);
     assert.doesNotMatch(index, /doom score:\s*\d/i);
@@ -69,7 +69,7 @@ describe('item archive hubs', () => {
     assert.doesNotMatch(page1, /href="\/item\/">Live window<\/a>/);
     assert.match(page1, /Archived 0/);
     assert.match(page1, /ItemList/);
-    assert.match(page1, /Questions people actually ask/);
+    assert.match(page1, /What questions do people actually ask\?/);
     assert.match(page1, /"@type"\s*:\s*"FAQPage"/);
     assert.match(page1, /speakable/);
     assert.match(page1, /not a probability of harm/);
@@ -96,7 +96,7 @@ describe('item archive hubs', () => {
     assert.match(html, /id="it-score"[^>]*>What is the score on this story\?/);
     assert.match(html, /id="it-corr"[^>]*>How many sources carried this story\?/);
     assert.match(html, /id="it-rel"[^>]*>Which related stories are in this window\?/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /"@type"\s*:\s*"FAQPage"/);
     assert.match(html, /Live two/);
     assert.doesNotMatch(html, /<h2 id="it-score">The score<\/h2>/);

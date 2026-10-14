@@ -30,7 +30,7 @@ describe('power page', () => {
     const html = render(ctx, power);
     assert.match(html, /<title>Who makes the most electricity \(China vs US\)\?/);
     assert.match(html, /<h1 class="bp__h1">Who makes the most electricity \(China vs US\)\?<\/h1>/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /id="race">Who is winning the electricity race by year\?<\/h2>/);
     assert.match(html, /id="top20">Which countries are the top 20 generators in 2024\?<\/h2>/);
     assert.match(html, /id="percap">Who makes the most electricity per person\?<\/h2>/);

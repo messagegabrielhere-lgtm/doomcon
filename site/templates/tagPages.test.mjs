@@ -72,7 +72,7 @@ describe('tag pages', () => {
     assert.doesNotMatch(html, /tg__k"><a href="\/tags\/">Tags<\/a>/);
     assert.match(html, /SpeakableSpecification/);
     assert.match(html, /FAQPage/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /\/tags\/agents\.html/);
     assert.match(html, /does not publish a topic/);
     assert.match(html, /\/models\.html/);
@@ -93,7 +93,7 @@ describe('tag pages', () => {
     assert.match(html, /CollectionPage/);
     assert.match(html, /SpeakableSpecification/);
     assert.match(html, /FAQPage/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /id="window"[^>]*>Which scored stories are tagged AI agents in this window\?/);
     assert.match(html, /ItemList/);
     assert.match(html, /New AI agents ship computer use/);
@@ -111,7 +111,7 @@ describe('tag pages', () => {
     assert.match(index, /Which AI stories has SIREN scored in this window\?/);
     assert.match(index, /tg__k"><a href="\/news\.html">Which AI stories has SIREN scored in this window\?<\/a>/);
     assert.doesNotMatch(index, /tg__k"><a href="\/news\.html">Newsroom<\/a>/);
-    assert.match(index, /Questions people actually ask/);
+    assert.match(index, /What questions do people actually ask\?/);
     assert.match(index, /"@type"\s*:\s*"FAQPage"/);
     assert.match(index, /speakable/);
     assert.match(index, /\/tags\/agents\.html/);

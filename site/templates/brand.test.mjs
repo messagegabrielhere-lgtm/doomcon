@@ -24,7 +24,7 @@ test('brand.html ships question-shaped title, speakable, breadcrumbs, and visibl
   assert.match(html, /"@type"\s*:\s*"FAQPage"/);
   assert.match(html, /SpeakableSpecification/);
   assert.match(html, /BreadcrumbList/);
-  assert.match(html, /Questions people actually ask/);
+  assert.match(html, /What questions do people actually ask\?/);
   assert.match(html, /Who is Tally\?/);
   assert.doesNotMatch(html, /probability of doom is \d/i);
   assert.doesNotMatch(html, /SIREN.*p\(doom\) of \d/i);

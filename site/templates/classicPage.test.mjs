@@ -24,7 +24,7 @@ describe('classic page', () => {
     assert.match(html, /<title>Where is the full SIREN instrument panel\?/);
     assert.match(html, /<h1 class="bp__h1">Where is the full SIREN instrument panel\?<\/h1>/);
     assert.match(html, /rel="canonical" href="https:\/\/siren\.watch\/classic\.html"/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /How is this different from the home page\?/);
     assert.match(html, /Where do I check the working behind the number\?/);
     assert.match(html, /What does the reading look like as a clock\?/);

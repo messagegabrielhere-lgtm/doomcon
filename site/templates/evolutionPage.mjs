@@ -256,7 +256,7 @@ ${scanLog(log)}
 ${archive(picks)}
 <p class="ev-note">Data: <a href="https://github.com/messagegabrielhere-lgtm/doomcon/blob/main/data/watch-log.json" rel="noopener">watch-log.json</a> · desk-picks.json · history.ndjson · moltbook-history.ndjson, all in the public repo.</p>
 <section class="ev-faq" aria-labelledby="faq">
-  <h2 id="faq">Questions people actually ask</h2>
+  <h2 id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
   <p class="ev-faq-key">Search-shaped sibling:
     <a href="${esc(ctx.href('/moltbook.html'))}">What are AI agents saying on Moltbook?</a>

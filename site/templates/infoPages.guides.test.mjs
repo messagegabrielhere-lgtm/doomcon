@@ -25,7 +25,7 @@ describe('guides hub', () => {
     assert.match(html, /<title>What are the AI explainers\? p\(doom\), clocks, doom indexes/);
     assert.match(html, /<h1 class="bp__h1">What are the AI explainers\?<\/h1>/);
     assert.doesNotMatch(html, /What are the AI explainers — and what each number measures/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /Where are the AI doom and p\(doom\) explainers\?/);
     assert.match(html, /Does SIREN publish a doom probability\?/);
     assert.match(html, /\/guides\.html/);
@@ -87,7 +87,7 @@ describe('guides hub', () => {
     assert.doesNotMatch(html, /href="\/">See the live reading →<\/a>/);
     assert.match(html, /<title>Is there an AI doomsday clock\? Bulletin vs verifiable count/);
     assert.match(html, /<h1 class="bp__h1">Is there an AI doomsday clock\?<\/h1>/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /How close is the AI doomsday clock to midnight\?/);
     assert.match(html, /Who sets the AI doomsday clock\?/);
     assert.match(html, /Is SIREN a doomsday clock or a doom probability\?/);
@@ -133,7 +133,7 @@ describe('guides hub', () => {
     assert.doesNotMatch(html, /href="\/">See the live reading →<\/a>/);
     assert.match(html, /<title>What is p\(doom\)\? Hinton, Amodei, Musk, LeCun/);
     assert.match(html, /<h1 class="bp__h1">What is p\(doom\)\?<\/h1>/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /Why do p\(doom\) estimates differ so much\?/);
     assert.match(html, /Does SIREN publish a p\(doom\) or a doom probability\?/);
     assert.match(html, /What is Geoffrey Hinton/);

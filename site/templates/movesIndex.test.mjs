@@ -33,7 +33,7 @@ describe('moves index SEO', () => {
     const html = render(ctx);
     assert.match(html, /<title>Where are the SIREN index moves\?/);
     assert.match(html, /<h1 class="bp__h1">Where are the SIREN index moves\?<\/h1>/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /How is a SIREN move different from a scraped search ranking\?/);
     assert.match(html, /first-party receipt/);
     assert.match(html, /Scraped Google result pages/);

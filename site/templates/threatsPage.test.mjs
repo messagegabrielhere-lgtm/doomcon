@@ -18,7 +18,7 @@ describe('threats page', () => {
     const html = render(ctx, threats);
     assert.match(html, /<title>What could take the machines offline tonight\?/);
     assert.match(html, /<h1 class="bp__h1">What could take the machines offline tonight\?<\/h1>/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /id="kev">Which software was newly exploited \(CISA KEV, last 30 days\)\?<\/h2>/);
     assert.match(html, /id="botnets">Which botnet families are online\?<\/h2>/);
     assert.match(html, /id="space">What space weather alerts are active\?<\/h2>/);

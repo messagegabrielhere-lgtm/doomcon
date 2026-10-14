@@ -18,7 +18,7 @@ describe('status page', () => {
     const html = render(ctx, status);
     assert.match(html, /<title>Is ChatGPT down\? Is Claude down\?/);
     assert.match(html, /<h1 class="bp__h1">Is ChatGPT down\? Is Claude down\?<\/h1>/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /Does UNKNOWN mean the service is up\?/);
     assert.match(html, /Is ChatGPT down right now\?/);
     assert.match(html, /SpeakableSpecification/);

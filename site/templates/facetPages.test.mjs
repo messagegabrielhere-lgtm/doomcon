@@ -85,7 +85,7 @@ describe('pillar facets', () => {
     assert.match(html, /Which AI activity pillars have SIREN pages\?/);
     assert.match(html, /What has SIREN scored under Attention\?/);
     assert.match(html, /How the SIREN AI activity index is computed · methodology/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /"@type"\s*:\s*"FAQPage"/);
     assert.match(html, /speakable/);
     assert.match(html, /id="window"[^>]*>Which scored stories are under Capability in this window\?/);
@@ -201,7 +201,7 @@ describe('pillar facets', () => {
     assert.doesNotMatch(hub, /fc__k"><a href="\/pillar\/">Pillars<\/a>/);
     assert.match(hub, /\/pillar\/capability\.html/);
     assert.match(hub, /does not publish a pillar/);
-    assert.match(hub, /Questions people actually ask/);
+    assert.match(hub, /What questions do people actually ask\?/);
     assert.match(hub, /"@type"\s*:\s*"FAQPage"/);
     assert.match(hub, /speakable/);
     assert.match(hub, /\/methodology\.html/);
@@ -212,7 +212,7 @@ describe('pillar facets', () => {
     assert.match(index, /Which AI stories has SIREN scored in this window\?/);
     assert.match(index, /fc__k"><a href="\/news\.html">Which AI stories has SIREN scored in this window\?<\/a>/);
     assert.doesNotMatch(index, /fc__k"><a href="\/news\.html">Newsroom<\/a>/);
-    assert.match(index, /Questions people actually ask/);
+    assert.match(index, /What questions do people actually ask\?/);
     assert.match(index, /"@type"\s*:\s*"FAQPage"/);
     assert.match(index, /speakable/);
     assert.match(index, /\/pillars\.html/);
@@ -241,7 +241,7 @@ describe('lab facets', () => {
     assert.match(html, /id="other-labs"[^>]*>Which other labs have scored stories\?/);
     assert.match(html, /SpeakableSpecification/);
     assert.match(html, /FAQPage/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /lab\/anthropic\.html/);
     assert.match(html, /CollectionPage/);
     assert.match(html, /fc__k"><a href="\/race\.html">Who is winning the AI race\?<\/a>/);
@@ -1020,7 +1020,7 @@ describe('lab facets', () => {
     assert.match(labIndex, /Which AI labs have SIREN pages\?/);
     assert.match(labIndex, /\/lab\/openai\.html/);
     assert.match(labIndex, /\/companies\.html/);
-    assert.match(labIndex, /Questions people actually ask/);
+    assert.match(labIndex, /What questions do people actually ask\?/);
     assert.match(labIndex, /"@type"\s*:\s*"FAQPage"/);
     assert.match(labIndex, /speakable/);
     assert.match(labIndex, /not a doom ranking/);
@@ -1031,7 +1031,7 @@ describe('lab facets', () => {
     assert.match(companies, /\/compare\.html/);
     assert.match(companies, /SpeakableSpecification/);
     assert.match(companies, /FAQPage/);
-    assert.match(companies, /Questions people actually ask/);
+    assert.match(companies, /What questions do people actually ask\?/);
     assert.doesNotMatch(companies, /doom score:\s*\d/i);
   });
 });
@@ -1076,7 +1076,7 @@ describe('outlet facets', () => {
     assert.doesNotMatch(html, /fc__k"><a href="\/news\.html">Newsroom<\/a>/);
     assert.doesNotMatch(html, /fc__k"><a href="\/source\/">Feed adapters<\/a>/);
     assert.match(html, /CollectionPage/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /"@type"\s*:\s*"FAQPage"/);
     assert.match(html, /speakable/);
     assert.doesNotMatch(html, /noindex/);
@@ -1097,7 +1097,7 @@ describe('outlet facets', () => {
     assert.doesNotMatch(html, /fc__k"><a href="\/source\/">Feed adapters<\/a>/);
     assert.match(html, /\/source\/hn\.html/);
     assert.match(html, /does not publish a source/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /"@type"\s*:\s*"FAQPage"/);
     assert.match(html, /speakable/);
     assert.match(html, /\/outlets\.html/);
@@ -1107,7 +1107,7 @@ describe('outlet facets', () => {
     assert.match(srcIndex, /Which AI stories has SIREN scored in this window\?/);
     assert.match(srcIndex, /fc__k"><a href="\/news\.html">Which AI stories has SIREN scored in this window\?<\/a>/);
     assert.doesNotMatch(srcIndex, /fc__k"><a href="\/news\.html">Newsroom<\/a>/);
-    assert.match(srcIndex, /Questions people actually ask/);
+    assert.match(srcIndex, /What questions do people actually ask\?/);
     assert.match(srcIndex, /"@type"\s*:\s*"FAQPage"/);
     assert.match(srcIndex, /speakable/);
     assert.match(srcIndex, /\/sources\.html/);

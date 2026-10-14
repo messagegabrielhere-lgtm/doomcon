@@ -22,7 +22,7 @@ test('guide.html ships question H1, visible FAQ matching FAQPage, and speakable 
   const html = guide(ctx);
   assert.match(html, /<title>How does SIREN compare to DEFCON, the Doomsday Clock and p\(doom\)\?/);
   assert.match(html, /<h1 class="bp__h1">How does SIREN compare to DEFCON, the Doomsday Clock and p\(doom\)\?<\/h1>/);
-  assert.match(html, /Questions people actually ask/);
+  assert.match(html, /What questions do people actually ask\?/);
   assert.match(html, /Is SIREN a DEFCON level or the Bulletin.s Doomsday Clock\?/);
   assert.match(html, /What is p\(doom\)\?/);
   assert.match(html, /Does a loud SIREN reading mean AI is more dangerous\?/);

@@ -27,7 +27,7 @@ describe('instruments page', () => {
     const html = render(ctx, { view: 'instruments' });
     assert.match(html, /<title>What instruments sit behind the SIREN reading\?/);
     assert.match(html, /<h1 class="bp__h1">What instruments sit behind the SIREN reading\?<\/h1>/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /What does source health on this page report\?/);
     assert.match(html, /Where is the frozen reference distribution explained\?/);
     assert.match(html, /How do I put the index on my site\?/);

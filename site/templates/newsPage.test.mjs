@@ -91,7 +91,7 @@ describe('newsroom page', () => {
     assert.match(html, /nlg__n"><a href="\/pillar\/attention\.html">What has SIREN scored under Attention\?<\/a>/);
     assert.match(html, /nlg__n"><a href="\/pillar\/compute\.html">What has SIREN scored under Compute &amp; Capital\?<\/a>/);
     assert.doesNotMatch(html, /nlg__n"><a href="\/pillar\/capability\.html">Capability<\/a>/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /"@type"\s*:\s*"FAQPage"/);
     assert.match(html, /speakable/);
     assert.match(html, /CollectionPage/);

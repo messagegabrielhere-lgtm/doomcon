@@ -11,7 +11,7 @@ describe('prepper-checklist page', () => {
   it('ships a question-shaped title, speakable WebPage, and matching FAQPage', () => {
     assert.match(html, /<title>What belongs in a 72-hour prepper kit\?/);
     assert.match(html, /<h1>What belongs in a 72-hour prepper kit\?<\/h1>/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /Is this professional emergency advice\?/);
     assert.match(html, /Where do the water and food amounts come from\?/);
     assert.match(html, /Where can I find the gear crates\?/);

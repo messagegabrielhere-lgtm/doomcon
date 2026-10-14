@@ -19,7 +19,7 @@ describe('feedback page', () => {
     const html = feedback(ctx);
     assert.match(html, /<title>How do I report a problem or send an idea to SIREN\?/);
     assert.match(html, /<h1 class="bp__h1">How do I report a problem or send an idea to SIREN\?<\/h1>/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /Does this site store my feedback\?/);
     assert.match(html, /Are feedback issues public\?/);
     assert.match(html, /What kinds of reports can I send\?/);

@@ -26,7 +26,7 @@ describe('digest page', () => {
     const html = render(ctx);
     assert.match(html, /<title>What is the SIREN daily brief\?/);
     assert.match(html, /<h1 class="dg__h1">What is the SIREN daily brief\?<\/h1>/);
-    assert.match(html, /Questions people actually ask/);
+    assert.match(html, /What questions do people actually ask\?/);
     assert.match(html, /Was any of this written by a model\?/);
     assert.match(html, /How are items selected for the brief\?/);
     assert.match(html, /Where are the selection rules published\?/);
