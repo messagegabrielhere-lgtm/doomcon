@@ -74,6 +74,17 @@ describe('si-ready page', () => {
     assert.match(html, /Does this page predict when superintelligence arrives\?/);
     assert.match(html, /What does the 3-minute check cover\?/);
     assert.match(html, /Does anything from the quiz leave my browser\?/);
+    assert.match(html, /<h2>What are the six readiness areas\?<\/h2>/);
+    assert.match(html, /<h2>What is the 3-minute readiness check\?<\/h2>/);
+    assert.match(html, /<h2>What is the full guide for how regular people can prepare\?<\/h2>/);
+    assert.match(html, /<h2>What is a 30-day starter plan for SI readiness\?<\/h2>/);
+    assert.match(html, /<h2>What should you not do when preparing for SI\?<\/h2>/);
+    assert.match(html, /<h2>Where can you keep going from here\?<\/h2>/);
+    assert.doesNotMatch(html, /<h2>The six areas<\/h2>/);
+    assert.doesNotMatch(html, /<h2>Your check<\/h2>/);
+    assert.doesNotMatch(html, /<h2>Keep going<\/h2>/);
+    assert.doesNotMatch(html, /<h2>The full guide: how regular people can prepare<\/h2>/);
+    assert.match(html, /Does SIREN publish an SI-ready doom score\?/);
     assert.match(html, /SpeakableSpecification/);
     assert.match(html, /FAQPage/);
     assert.match(html, /"@type":\s*"WebPage"/);
@@ -81,8 +92,8 @@ describe('si-ready page', () => {
     assert.match(html, /\/ai-proof-job\.html/);
     assert.match(html, /How do I AI-proof my job\?/);
     assert.match(html, /\/breakthroughs\.html/);
-    const keep = html.match(/<h2>Keep going<\/h2>\s*<div class="fx-grid">([\s\S]*?)<\/div>/);
-    assert.ok(keep, 'expected Keep going cards');
+    const keep = html.match(/<h2>Where can you keep going from here\?<\/h2>\s*<div class="fx-grid">([\s\S]*?)<\/div>/);
+    assert.ok(keep, 'expected keep-going cards');
     assert.match(keep[1], /How do I AI-proof my job\? →/);
     assert.match(keep[1], /What belongs in a 72-hour prepper kit\? →/);
     assert.match(keep[1], /What AI breakthroughs has SIREN tracked\? →/);

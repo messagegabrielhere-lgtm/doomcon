@@ -190,12 +190,16 @@ const SI_DONT = [
   'Assume it is all hype, or that it is all over. Both are bets, and neither is a plan.',
 ];
 function siGuide() {
-  return `<h2>The full guide: how regular people can prepare</h2>
+  // Tip #305: section H2s are question-shaped (mirrored in siReady FAQ §3.3).
+  const guideQ = 'What is the full guide for how regular people can prepare?';
+  const plan30Q = 'What is a 30-day starter plan for SI readiness?';
+  const dontQ = 'What should you not do when preparing for SI?';
+  return `<h2>${esc(guideQ)}</h2>
   <p>Practical steps for anyone, whatever happens with superintelligence. Open a section to read it.</p>
   ${SI_GUIDE.map(([t, items], i) => `<details class="fx-card" style="margin:8px 0"${i === 0 ? ' open' : ''}><summary style="cursor:pointer;font:700 1.05rem/1.3 var(--sans);color:var(--ink)">${t}</summary><ul style="margin:10px 0 0">${items.map((x) => `<li>${x}</li>`).join('')}</ul></details>`).join('')}
-  <h2>A 30-day starter plan</h2>
+  <h2>${esc(plan30Q)}</h2>
   <div class="fx-grid">${SI_30.map(([w, d]) => `<div class="fx-card"><h3>${w}</h3><p>${d}</p></div>`).join('')}</div>
-  <h2>What not to do</h2>
+  <h2>${esc(dontQ)}</h2>
   <ul>${SI_DONT.map((d) => `<li>${d}</li>`).join('')}</ul>`;
 }
 
@@ -204,15 +208,36 @@ export function siReady(ctx) {
   const qTitle = 'Ready for superintelligence?';
   // FAQ answers restate hero / note / six-areas copy only.
   // Refuse: SI arrival dates, doom-probability titles, financial advice claims.
+  // Tip #305: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const areasQ = 'What are the six readiness areas?';
+  const checkQ = 'What is the 3-minute readiness check?';
+  const guideQ = 'What is the full guide for how regular people can prepare?';
+  const plan30Q = 'What is a 30-day starter plan for SI readiness?';
+  const dontQ = 'What should you not do when preparing for SI?';
+  const keepQ = 'Where can you keep going from here?';
   const faq = [
     [qTitle,
       'Nobody knows when, or if, AI becomes smarter than people at most things. You can still get ready for a world that keeps getting more automated, whichever way it goes. Answer twelve questions and get a plan for your weakest areas first. Nothing leaves your browser.'],
+    [areasQ,
+      'Six areas: work and skills, money and resilience, information and deepfakes, privacy and security, health, people and community, and civic voice.'],
+    [checkQ,
+      'Answer twelve questions and get a plan for your weakest areas first. Nothing leaves your browser.'],
+    [guideQ,
+      'Practical steps for anyone, whatever happens with superintelligence. Open a section to read it.'],
+    [plan30Q,
+      'Four weeks of concrete moves: two-factor and a password manager, audit your work week, build a 72-hour kit, talk with your family about AI and fakes.'],
+    [dontQ,
+      'Do not panic-sell, quit your job or move your life on a headline. Do not buy fear products. Do not trust a video because it looks real. Do not hand an AI app your passwords or bank logins.'],
+    [keepQ,
+      'Continue with How do I AI-proof my job?, the 72-hour prepper kit, and What AI breakthroughs has SIREN tracked.'],
     ['Does this page predict when superintelligence arrives?',
       `${brand.NAME} counts AI activity; it does not predict superintelligence. General information, not financial, legal, career or medical advice.`],
     ['What does the 3-minute check cover?',
       'Six areas: work and skills, money and resilience, information and deepfakes, privacy and security, health, people and community, and civic voice. Answer twelve questions and get a plan for your weakest areas first.'],
     ['Does anything from the quiz leave my browser?',
       'Nothing leaves your browser. Answer twelve questions and get a plan for your weakest areas first.'],
+    [`Does ${brand.NAME} publish an SI-ready doom score?`,
+      `No. ${brand.DISCLAIMER_SHORT} This page is a personal readiness check — not a probability of harm or an arrival date.`],
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>
@@ -224,12 +249,12 @@ export function siReady(ctx) {
   <h1 class="bp__h1">${esc(qTitle)}</h1>
   <p class="lede">Nobody knows when, or if, AI becomes smarter than people at most things. You can still get ready for a world that keeps getting more automated, whichever way it goes. Answer twelve questions and get a plan for your weakest areas first. Nothing leaves your browser.</p>
   ${shareBtn(ctx, 'Are you ready for superintelligence? Take the 3-minute check:', PATH)}
-  <h2>The six areas</h2>
+  <h2>${esc(areasQ)}</h2>
   <div class="fx-grid">${Object.values(SI_AREAS).map((a) => `<div class="fx-card"><h3>${esc(a.name)}</h3><p>${esc(a.moves[0])}</p></div>`).join('')}</div>
-  <h2>Your check</h2>
+  <h2>${esc(checkQ)}</h2>
   ${quiz({ id: 'siq', questions: SI_QS, areas: SI_AREAS })}
   ${siGuide().replace(/\/doomcon\//g, ctx.href('/'))}
-  <h2>Keep going</h2>
+  <h2>${esc(keepQ)}</h2>
   <div class="fx-grid">
     <a class="fx-card" href="${esc(ctx.href('/ai-proof-job.html'))}"><h3>How do I AI-proof my job? →</h3><p>Where AI hits your work, and how to grow with it.</p></a>
     <a class="fx-card" href="${esc(ctx.href('/prepper-checklist.html'))}"><h3>What belongs in a 72-hour prepper kit? →</h3><p>The physical side: water, food, power, documents.</p></a>
