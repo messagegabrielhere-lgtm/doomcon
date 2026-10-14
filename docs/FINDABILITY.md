@@ -726,6 +726,8 @@ context.
 | 474 | Topic tag `ads` (live/archive ≥5); IndexNow + seo-daily monitor; refuse market-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 475 | Topic tag `russia` (live/archive ≥5); IndexNow + seo-daily monitor; refuse national-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 476 | Topic tag `iran` (live/archive ≥5); IndexNow + seo-daily monitor; refuse national-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 477 | Topic tag `email` (live/archive ≥5); IndexNow + seo-daily monitor; refuse product-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 478 | Topic tag `cruelty` (live/archive ≥5); IndexNow + seo-daily monitor; refuse sentience-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
