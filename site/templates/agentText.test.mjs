@@ -200,6 +200,10 @@ test('robots.txt welcomes each AI agent by name and keeps the sitemaps', () => {
   assert.match(r, /https:\/\/siren\.watch\/agents\.md/);
   assert.match(r, /https:\/\/siren\.watch\/agents\.txt/);
   assert.match(r, /https:\/\/siren\.watch\/\.well-known\/api-catalog/);
+  assert.match(r, /Free tools: https:\/\/siren\.watch\/free-tools\.html/);
+  assert.match(r, /Verify a reading: https:\/\/siren\.watch\/verify\.html/);
+  assert.match(r, /Search Trends \(watched, not scored\): https:\/\/siren\.watch\/search-trends\.html/);
+  assert.match(r, /https:\/\/siren\.watch\/api\/search-trends\.json/);
   assert.match(r, /Sitemap: https:\/\/siren\.watch\/sitemap\.xml/);
   assert.match(r, /Sitemap: https:\/\/siren\.watch\/news-sitemap\.xml/);
   assert.doesNotMatch(r, /Disallow/);

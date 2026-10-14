@@ -218,6 +218,8 @@ export function robots(ctx) {
 # Start with ${ctx.url('/llms.txt')} · short agent entry ${ctx.url('/agents.md')}
 # Capability announcement: ${ctx.url('/agents.txt')} · API catalog ${ctx.url('/.well-known/api-catalog')}
 # Live reading: ${ctx.url('/api/now.txt')} · markdown ${ctx.url('/now.md')}
+# Free tools: ${ctx.url('/free-tools.html')} · Verify a reading: ${ctx.url('/verify.html')}
+# Search Trends (watched, not scored): ${ctx.url('/search-trends.html')} · ${ctx.url('/api/search-trends.json')}
 
 User-agent: *
 Allow: /
