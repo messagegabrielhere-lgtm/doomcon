@@ -76,7 +76,7 @@ function scaleRail(state, href) {
     </li>`;
   }).join('');
   return `<ol class="v2-scale" aria-label="${esc(brand.NAME)} scale, coolest first. ${esc(brand.NAME)} ${esc(level)} is current.">${cells}</ol>
-<p class="v2-scale__note">Five stages · the mark moves both ways · <a href="${esc(href('/classic.html#oven'))}">full oven with gates →</a></p>`;
+<p class="v2-scale__note">Five stages · the mark moves both ways · <a href="${esc(href('/classic.html#oven'))}">Where is the full ${esc(brand.NAME)} instrument panel? →</a></p>`;
 }
 
 function raceLeaderLine(ctx, href) {

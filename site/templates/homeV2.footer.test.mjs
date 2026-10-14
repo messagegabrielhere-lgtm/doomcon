@@ -21,6 +21,8 @@ const ctx = {
 describe('home v2 footer', () => {
   it('uses question-shaped legal and provenance sibling links', () => {
     const html = render(ctx, { head: '' });
+    assert.match(html, /href="\/classic\.html#oven">Where is the full SIREN instrument panel\? →<\/a>/);
+    assert.doesNotMatch(html, /href="\/classic\.html#oven">full oven with gates →<\/a>/);
     const feet = [...html.matchAll(/<p class="v2-foot">([\s\S]*?)<\/p>/g)].map((m) => m[1]);
     assert.ok(feet.length >= 2, 'expected home v2 foot paragraphs');
     const all = feet.join('\n');

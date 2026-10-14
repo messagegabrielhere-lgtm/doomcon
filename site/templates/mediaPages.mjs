@@ -11,19 +11,19 @@ import * as brand from '../brand.mjs';
 
 export const VIDEOS = [
   { id: 'road-to-si', file: 'siren-road-to-si', title: 'The road to superintelligence: 1950 to 2056 in 101 seconds', secs: 101, station: 'SIREN FM',
-    blurb: 'From Turing’s question to ChatGPT and AI Nobel prizes, then one plausible path to 2056. The future part is speculation, not a prediction.', page: '/history.html' },
+    blurb: 'From Turing’s question to ChatGPT and AI Nobel prizes, then one plausible path to 2056. The future part is speculation, not a prediction.', page: '/history.html', pageLabel: 'What is the history of AI risk?' },
   { id: 'explainer', file: 'siren-explainer', title: 'What is SIREN? A 42-second tour', secs: 42, station: 'SIREN FM',
-    blurb: 'The hourly reading, the five levels, and the rooms worth opening.', page: '/' },
+    blurb: 'The hourly reading, the five levels, and the rooms worth opening.', page: '/', pageLabel: 'AI activity index today · SIREN' },
   { id: 'tally', file: 'siren-tally', title: 'Meet Tally, SIREN’s duty canary', secs: 22, station: 'CANARY CHIPTUNE',
-    blurb: 'Five moods for five levels, and why a canary watches AI.', page: '/tally.html' },
+    blurb: 'Five moods for five levels, and why a canary watches AI.', page: '/tally.html', pageLabel: 'Who is Tally, the SIREN duty canary?' },
   { id: 'skynet', file: 'siren-skynet', title: 'Skynet status report: how loud is AI right now?', secs: 26, station: 'JUDGMENT DAY',
-    blurb: 'The five pillars behind the number: compute, markets, models, attention, policy.', page: '/methodology.html' },
+    blurb: 'The five pillars behind the number: compute, markets, models, attention, policy.', page: '/methodology.html', pageLabel: 'How the SIREN AI activity index is computed · methodology' },
   { id: 'si-ready', file: 'siren-si-ready', title: 'How regular people can prepare for superintelligence', secs: 26, station: 'BUNKER AMBIENT',
-    blurb: 'Four calm steps: learn the tools, build a cushion, verify, stay human.', page: '/si-ready.html' },
+    blurb: 'Four calm steps: learn the tools, build a cushion, verify, stay human.', page: '/si-ready.html', pageLabel: 'Ready for superintelligence?' },
   { id: 'ai-proof-job', file: 'siren-ai-proof-job', title: 'AI-proof your job in five moves', secs: 26, station: 'DATA RAIN LO-FI',
-    blurb: 'Map your tasks, automate yourself first, own the judgement.', page: '/ai-proof-job.html' },
+    blurb: 'Map your tasks, automate yourself first, own the judgement.', page: '/ai-proof-job.html', pageLabel: 'How do I AI-proof my job?' },
   { id: 'supply-drop', file: 'siren-supply-drop', title: 'Supply drop: the SIREN bunker kit', secs: 22, station: 'CANARY CHIPTUNE',
-    blurb: 'Six crates of gear, 50 free tools and a prepper checklist.', page: '/bunker-kit.html' },
+    blurb: 'Six crates of gear, 50 free tools and a prepper checklist.', page: '/bunker-kit.html', pageLabel: 'What free tools belong in a bunker kit?' },
 ];
 
 // Which video plays in the corner the first time a visitor lands on a page.
@@ -86,13 +86,16 @@ const CSS = `<style>
 const xShare = (ctx, text, path) => `https://x.com/intent/post?text=${encodeURIComponent(text)}&url=${encodeURIComponent(ctx.url(path))}&via=SIRENutf6`;
 const media = (ctx, f) => esc(ctx.href(`/media/${f}`));
 
+const VIDEOS_PATH = '/videos.html';
+const videosQTitle = 'What free AI explainer videos does SIREN publish?';
+
 /** One video card; used on /videos.html and on each feature page. */
 export function videoBlock(ctx, id, { heading = true } = {}) {
   const v = VIDEOS.find((x) => x.id === id);
   if (!v) return '';
   return `<figure class="md-vid" style="margin:18px 0;max-width:760px;border:1px solid var(--rule,#232C3B);border-radius:6px;overflow:hidden;background:#0E131D">
   <video style="display:block;width:100%;height:auto;aspect-ratio:16/9;background:#000" controls preload="none" playsinline width="1280" height="720" poster="${media(ctx, `${v.file}-poster.jpg`)}"><source src="${media(ctx, `${v.file}.webm`)}" type="video/webm"><source src="${media(ctx, `${v.file}.mp4`)}" type="video/mp4"></video>
-  <div style="padding:10px 14px">${heading ? `<h3 style="margin:0 0 4px;font-size:1rem">${esc(v.title)}</h3>` : ''}<p style="margin:0 0 4px">${esc(v.blurb)}</p><small style="font:600 11px/1.3 var(--mono,monospace);letter-spacing:.1em;opacity:.7">${v.secs} SEC · SOUNDTRACK: ${esc(v.station)} · <a href="${esc(ctx.href('/videos.html'))}">ALL VIDEOS</a></small></div>
+  <div style="padding:10px 14px">${heading ? `<h3 style="margin:0 0 4px;font-size:1rem">${esc(v.title)}</h3>` : ''}<p style="margin:0 0 4px">${esc(v.blurb)}</p><small style="font:600 11px/1.3 var(--mono,monospace);letter-spacing:.1em;opacity:.7">${v.secs} SEC · SOUNDTRACK: ${esc(v.station)} · <a href="${esc(ctx.href('/videos.html'))}">${esc(videosQTitle)}</a></small></div>
 </figure>${videoLd(ctx, v)}`;
 }
 
@@ -102,14 +105,11 @@ function videoLd(ctx, v) {
     contentUrl: ctx.url(`/media/${v.file}.mp4`), embedUrl: ctx.url(v.page) }).replace(/</g, '\\u003c')}</script>`;
 }
 
-const VIDEOS_PATH = '/videos.html';
-const videosQTitle = 'What free AI explainer videos does SIREN publish?';
-
 export function videos(ctx) {
   const cards = VIDEOS.map((v) => `<article class="md-vid" id="v-${esc(v.id)}">
   <video controls preload="none" playsinline width="1280" height="720" poster="${media(ctx, `${v.file}-poster.jpg`)}"><source src="${media(ctx, `${v.file}.webm`)}" type="video/webm"><source src="${media(ctx, `${v.file}.mp4`)}" type="video/mp4"></video>
   <div><h3>${esc(v.title)}</h3><p>${esc(v.blurb)}</p><small>${v.secs} SEC · 📻 ${esc(v.station)}</small>
-  <p><a href="${esc(ctx.href(v.page))}">Open the page →</a> · <a href="${esc(xShare(ctx, v.title, VIDEOS_PATH))}" target="_blank" rel="noopener">𝕏 Post</a> · <a href="${media(ctx, `${v.file}.mp4`)}" download>Download MP4</a></p></div>
+  <p><a href="${esc(ctx.href(v.page))}">${esc(v.pageLabel)} →</a> · <a href="${esc(xShare(ctx, v.title, VIDEOS_PATH))}" target="_blank" rel="noopener">𝕏 Post</a> · <a href="${media(ctx, `${v.file}.mp4`)}" download>Download MP4</a></p></div>
 </article>`).join('');
   // FAQ answers restate lede / body copy only.
   // Refuse: videos-as-forecast, doom-probability, SI-date-as-SIREN-claim.

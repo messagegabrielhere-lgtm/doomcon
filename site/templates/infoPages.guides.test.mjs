@@ -53,6 +53,8 @@ describe('guides hub', () => {
     assert.match(html, /guides\.md/);
     assert.match(html, /rel="alternate"[^>]*guides\.md/);
     assert.match(html, /href="\/">AI activity index today · SIREN →<\/a>/);
+    assert.match(html, /href="\/guides\.md">What are the AI explainers\?<\/a>/);
+    assert.doesNotMatch(html, /href="\/guides\.md">Markdown mirror →<\/a>/);
     assert.doesNotMatch(html, /href="\/">Live reading →<\/a>/);
   });
 
@@ -70,6 +72,8 @@ describe('guides hub', () => {
 
   it('ai-doomsday-clock ships matching question H1 and visible FAQ', () => {
     const html = aiClock(ctx);
+    assert.match(html, /href="\/">AI activity index today · SIREN →<\/a>/);
+    assert.doesNotMatch(html, /href="\/">See the live reading →<\/a>/);
     assert.match(html, /<title>Is there an AI doomsday clock\? Bulletin vs verifiable count/);
     assert.match(html, /<h1 class="bp__h1">Is there an AI doomsday clock\?<\/h1>/);
     assert.match(html, /Questions people actually ask/);
@@ -97,6 +101,8 @@ describe('guides hub', () => {
 
   it('p-doom ships matching question H1 and visible FAQ', () => {
     const html = pdoom(ctx);
+    assert.match(html, /href="\/">AI activity index today · SIREN →<\/a>/);
+    assert.doesNotMatch(html, /href="\/">See the live reading →<\/a>/);
     assert.match(html, /<title>What is p\(doom\)\? Hinton, Amodei, Musk, LeCun/);
     assert.match(html, /<h1 class="bp__h1">What is p\(doom\)\?<\/h1>/);
     assert.match(html, /Questions people actually ask/);
