@@ -1218,18 +1218,34 @@ export function renderTag(ctx, id) {
     `${total} scored stories about ${topic.name} on ${brand.NAME} (${items.length} in the live window). ${topic.description} Tempo, not a forecast.`,
     160,
   );
+  // Tip #290: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const windowQ = `Which scored stories are tagged ${topic.name} in this window?`;
+  const olderQ = `Which older scored stories are tagged ${topic.name}?`;
+  const othersQ = 'Which other tags have scored stories?';
+  const others = indexableTags(ctx).filter((t) => t.id !== topic.id);
   const faq = [
     [`What has ${brand.NAME} scored about ${topic.name}?`,
       `${total} scored stories match this published needle on ${brand.NAME} (${items.length} in the live window${archivedAll.length ? `, ${archivedAll.length} older in the archive` : ''}). ${topic.description}`],
+    [windowQ,
+      items.length
+        ? `${items.length} scored ${items.length === 1 ? 'story' : 'stories'} matched this published needle in the current window. A tag page lists headlines — not a topic doom score.`
+        : 'No scored story matched this tag in the current window.'],
+    ...(older.length
+      ? [[olderQ,
+        'Kept in the permanent archive after they left the live window. Still scored stories — not a forecast.']]
+      : []),
+    ...(others.length
+      ? [[othersQ,
+        `Other published tags that clear the substance gate, each linking What has ${brand.NAME} scored about that tag?`]]
+      : []),
     [`Does ${brand.NAME} publish a ${topic.name} doom score?`,
       `No. ${brand.DISCLAIMER_SHORT} A tag page lists matching headlines — not a probability of harm and not a ranking of the companies named.`],
   ];
   const faqHtml = faq.map(([q, a]) => `
   <h3>${esc(q)}</h3>
   <p>${esc(a)}</p>`).join('');
-  const others = indexableTags(ctx).filter((t) => t.id !== topic.id);
   const olderBlock = older.length
-    ? `<h2>Older scored stories tagged ${esc(topic.name)}</h2>
+    ? `<h2 id="older">${esc(olderQ)}</h2>
   <p class="tg__lede">Kept in the permanent archive after they left the live window. Still scored stories — not a forecast.</p>
   <ol class="tg__list">${storyRows(ctx, older)}</ol>
   <p class="fresh__key"><a href="${esc(ctx.href('/item/archive.html'))}">Which older AI stories has ${esc(brand.NAME)} kept in the archive?</a></p>`
@@ -1244,7 +1260,7 @@ export function renderTag(ctx, id) {
     <div><b class="num">${esc(String(items.length))}</b><span>Scored stories in window</span></div>
     ${archivedAll.length ? `<div><b class="num">${esc(String(archivedAll.length))}</b><span>Older in archive</span></div>` : ''}
   </div>
-  <h2>Stories tagged ${esc(topic.name)}</h2>
+  <h2 id="window">${esc(windowQ)}</h2>
   ${items.length
     ? `<ol class="tg__list">${storyRows(ctx, items)}</ol>`
     : '<p>No scored story matched this tag in the current window.</p>'}
@@ -1254,10 +1270,9 @@ export function renderTag(ctx, id) {
   ${olderBlock}
   <h2 id="faq">Questions people actually ask</h2>
   ${faqHtml}
-  ${others.length ? `<h2>Other tags</h2>
+  ${others.length ? `<h2 id="other-tags">${esc(othersQ)}</h2>
   <nav class="tg__nav" aria-label="Other tags">${others.map((t) => `<a href="${esc(ctx.href(tagPath(t.id)))}">What has ${esc(brand.NAME)} scored about ${esc(t.name)}?</a>`).join('')}</nav>` : ''}
 </article>`;
-
   return page({
     ctx,
     path,

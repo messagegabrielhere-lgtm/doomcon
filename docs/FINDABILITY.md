@@ -539,6 +539,7 @@ context.
 | 287 | `/pillar/*` pillar hubs section H2s + FAQPage use questions for window-stories / older-stories / other-pillars (was “Stories scored under …” / “Older scored stories under …” / “Other pillars”); Organization `knowsAbout` mirrors those questions; refuse pillar doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 288 | `/source/*` outlet hubs section H2s + FAQPage use questions for window-stories / older-stories / other-outlets (was “Stories from …” / “Older scored stories from …” / “Other outlets”); Organization `knowsAbout` mirrors those questions; refuse source doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 289 | `/people/*` people hubs section H2s + FAQPage use questions for on-record lines / press coverage / older-stories / other-people (was “On the record in this newsroom window” / “Press coverage sample” / “Older scored stories naming …” / “Other people on the wire”); Organization `knowsAbout` mirrors those questions; refuse person doom-score / invented-quotation / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 290 | `/tags/*` tag hubs section H2s + FAQPage use questions for window-stories / older-stories / other-tags (was “Stories tagged …” / “Older scored stories tagged …” / “Other tags”); Organization `knowsAbout` mirrors those questions; refuse topic doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
