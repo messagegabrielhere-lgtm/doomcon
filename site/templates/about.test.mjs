@@ -34,7 +34,7 @@ test('about.html ships matching question H1, speakable, breadcrumbs, and visible
   assert.ok(what, 'expected What it is paragraph');
   assert.match(what[1], /href="\/methodology\.html">How the SIREN AI activity index is computed · methodology<\/a>/);
   assert.doesNotMatch(what[1], /href="\/methodology\.html">methodology<\/a>/);
-  // Scope paid-for body only — layout footer Pages still uses short SECTIONS labels.
+  // Scope paid-for body only — layout footer Pages also use question SECTIONS labels.
   const paid = html.match(/<h2>How it is paid for<\/h2>\s*<p>([\s\S]*?)<\/p>/);
   assert.ok(paid, 'expected How it is paid for paragraph');
   assert.match(paid[1], /href="\/bunker-kit\.html">What free tools belong in a bunker kit\?<\/a>/);

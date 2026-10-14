@@ -50,4 +50,17 @@ describe('home v2 footer', () => {
     assert.doesNotMatch(all, /doom score:\s*\d/i);
     assert.doesNotMatch(all, /probability of doom/i);
   });
+
+  it('dash buttons and live news chip use alerts/export/news question H1s', () => {
+    const html = render(ctx, { head: '' });
+    assert.match(html, /href="\/alerts\.html">🔔 How do I get alerts when SIREN moves\?<\/a>/);
+    assert.match(html, /href="\/export\.html">⤓ How do I export and embed SIREN data\?<\/a>/);
+    assert.match(html, /href="\/news\.html"[^>]*>[\s\S]*?Which AI stories has SIREN scored in this window\?<\/a>/);
+    assert.doesNotMatch(html, /href="\/alerts\.html">🔔 ALERTS<\/a>/);
+    assert.doesNotMatch(html, /href="\/export\.html">⤓ DATA &amp; EMBED<\/a>/);
+    assert.doesNotMatch(html, /NEWS &amp; ALERTS LIVE/);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
+    assert.doesNotMatch(html, /probability of doom/i);
+  });
 });
+
