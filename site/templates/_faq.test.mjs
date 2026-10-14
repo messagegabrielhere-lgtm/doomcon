@@ -32,5 +32,14 @@ describe('homepage FAQ', () => {
     assert.match(html, /href="\/item\/archive\.html"/);
     assert.match(html, /href="\/compare\.html"/);
     assert.match(html, /href="\/ai-doomsday-clock\.html"/);
+    assert.match(html, /How does SIREN compare to DEFCON, the Doomsday Clock and p\(doom\)\?/);
+    assert.match(html, /Which AI doom indexes can you compare\?/);
+    assert.match(html, /Which AI indexes does SIREN contrast\?/);
+    assert.match(html, /What are AI doom index alternatives\?/);
+    assert.match(html, /Which AI leaders have press coverage pages on SIREN\?/);
+    assert.match(html, /Which AI news tags have SIREN pages\?/);
+    assert.doesNotMatch(html, /AI explainers hub →/);
+    assert.doesNotMatch(html, /Alternatives hub →/);
+    assert.doesNotMatch(html, /Versus directory →/);
   });
 });

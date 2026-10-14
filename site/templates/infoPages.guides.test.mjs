@@ -40,6 +40,13 @@ describe('guides hub', () => {
     assert.match(html, /\/methodology\.html/);
     assert.match(html, /How does SIREN compare to DEFCON/);
     assert.match(html, /How the SIREN AI activity index is computed/);
+    assert.match(html, /Which AI doom indexes can you compare\?/);
+    assert.match(html, /Which AI indexes does SIREN contrast\?/);
+    assert.match(html, /What are AI doom index alternatives\?/);
+    assert.match(html, /eyebrow"><a href="\/guide\.html">How does SIREN compare to DEFCON/);
+    assert.doesNotMatch(html, /eyebrow">Guides<\/p>/);
+    assert.doesNotMatch(html, />AI doom indexes compared</);
+    assert.doesNotMatch(html, />SIREN vs other AI indexes</);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /probability of doom is \d/i);
     assert.doesNotMatch(html, /noindex/);
@@ -74,7 +81,10 @@ describe('guides hub', () => {
     assert.match(html, /\/p-doom\.html/);
     assert.match(html, /\/methodology\.html/);
     assert.match(html, /How does SIREN compare to DEFCON/);
+    assert.match(html, /How the SIREN AI activity index is computed · methodology/);
     assert.match(html, /measures activity tempo/);
+    assert.doesNotMatch(html, /The side-by-side comparison/);
+    assert.doesNotMatch(html, /How the index is computed →/);
     assert.doesNotMatch(html, /<h1 class="bp__h1">The AI Doomsday Clock: is there one\?<\/h1>/);
     assert.doesNotMatch(html, /probability of doom is \d/i);
     assert.doesNotMatch(html, /SIREN.*p\(doom\) of \d/i);

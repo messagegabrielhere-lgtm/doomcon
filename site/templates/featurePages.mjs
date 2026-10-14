@@ -516,13 +516,13 @@ export function liveX(ctx) {
   // Refuse: doom-probability, SIREN-as-X-oracle, stuffing.
   const faq = [
     [qTitle,
-      'Every link below opens a live X feed, newest first, so it is never out of date. For a scored, de-duplicated version of the same news, the Newsroom reads 30+ sources every 15 minutes.'],
+      `Every link below opens a live X feed, newest first, so it is never out of date. For a scored, de-duplicated version of the same news, Which AI stories has ${brand.NAME} scored in this window? reads 30+ sources every 15 minutes.`],
     ['Does this page embed X?',
       `${brand.NAME} does not embed X on this page, so nothing loads from X until you click. Links go to X; what you see there is X's, under X's rules and privacy policy.`],
     ['What Spaces links are on this page?',
       'X Spaces are live audio conversations. These open X\'s search for Spaces about AI, chatbot Spaces, and AI safety Spaces; join any that are live now.'],
     ['Where is a scored version of the same AI news?',
-      'The Newsroom reads 30+ sources every 15 minutes for a scored, de-duplicated version of the same news.'],
+      `Which AI stories has ${brand.NAME} scored in this window? reads 30+ sources every 15 minutes for a scored, de-duplicated version of the same news.`],
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>
@@ -532,7 +532,7 @@ export function liveX(ctx) {
 <section class="fx">
   <p class="eyebrow">LIVE ON X · AI AS IT HAPPENS</p>
   <h1 class="bp__h1">${esc(qTitle)}</h1>
-  <p class="lede">Every link below opens a live X feed, newest first, so it is never out of date. For a scored, de-duplicated version of the same news, the <a href="${esc(ctx.href('/news.html'))}">Newsroom</a> reads 30+ sources every 15 minutes.</p>
+  <p class="lede">Every link below opens a live X feed, newest first, so it is never out of date. For a scored, de-duplicated version of the same news, <a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a> reads 30+ sources every 15 minutes.</p>
   <p><a class="fx-btn" href="https://x.com/SIRENutf6" target="_blank" rel="noopener">FOLLOW @SIRENutf6 ON X →</a></p>
   <h2>Live feeds</h2>
   <div class="fx-grid">${X_SEARCHES.map(([t, q]) => `<a class="fx-card" href="${esc(search(q))}" target="_blank" rel="noopener"><h3>${esc(t)} ↗</h3><p class="fx-meta">${esc(q)}</p></a>`).join('')}</div>
@@ -564,14 +564,14 @@ export function liveX(ctx) {
         '@context': 'https://schema.org',
         '@type': 'WebPage',
         name: qTitle,
-        description: 'Live X feeds and Spaces on AI, newest first. Links open X; nothing loads from X until you click. The Newsroom scores the same news from 30+ sources.',
+        description: `Live X feeds and Spaces on AI, newest first. Links open X; nothing loads from X until you click. Which AI stories has ${brand.NAME} scored in this window? scores the same news from 30+ sources.`,
         url: ctx.url(PATH),
         isPartOf: { '@type': 'WebSite', name: brand.NAME, url: ctx.url('/') },
         speakable: speakable(['h1.bp__h1', 'p.lede']),
       },
       breadcrumbs(ctx, [
         { name: 'Home', path: '/' },
-        { name: 'Live on X', path: PATH },
+        { name: qTitle, path: PATH },
       ]),
       {
         '@context': 'https://schema.org',
