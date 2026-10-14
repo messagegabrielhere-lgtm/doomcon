@@ -58,6 +58,16 @@ describe('world page', () => {
     assert.match(html, /Questions people actually ask/);
     assert.match(html, /Does a country with none mapped have zero datacentres\?/);
     assert.match(html, /Does the world map feed the main SIREN number\?/);
+    assert.match(html, /id="wld-warn-h"[\s\S]*?What should you read before the world map\?/);
+    assert.match(html, /id="wld-map-h"[\s\S]*?Where are the mapped datacentres on Earth\?/);
+    assert.match(html, /id="wld-country-h"[\s\S]*?Which countries have a mapped datacentre site\?/);
+    assert.match(html, /id="wld-lim-h"[\s\S]*?What can this world map say and not say\?/);
+    assert.match(html, /id="wld-method-h"[\s\S]*?Where did the world map data come from\?/);
+    assert.match(html, /id="wld-data-h"[\s\S]*?Where can you take the world map data\?/);
+    assert.doesNotMatch(html, /id="wld-warn-h"[\s\S]{0,200}Read this before you read the map</);
+    assert.doesNotMatch(html, /id="wld-map-h"[\s\S]{0,200}> The map\s*</);
+    assert.doesNotMatch(html, /id="wld-method-h"[\s\S]{0,200}Where this came from</);
+    assert.doesNotMatch(html, /id="wld-data-h"[\s\S]{0,200}Take the data</);
     assert.match(html, /SpeakableSpecification/);
     assert.match(html, /FAQPage/);
     assert.match(html, /"@type":\s*"Dataset"/);

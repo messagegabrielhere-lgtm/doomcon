@@ -192,6 +192,13 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('How many datacentres has SIREN mapped on Earth'));
     assert.ok(org.knowsAbout.includes('How many datacentres has SIREN mapped in Germany'));
     assert.ok(org.knowsAbout.includes('how many datacentres mapped on Earth'));
+    assert.ok(org.knowsAbout.includes('What should you read before the world map'));
+    assert.ok(org.knowsAbout.includes('Where are the mapped datacentres on Earth'));
+    assert.ok(org.knowsAbout.includes('Which countries have a mapped datacentre site'));
+    assert.ok(org.knowsAbout.includes('How much computing hardware is in orbit'));
+    assert.ok(org.knowsAbout.includes('What can this world map say and not say'));
+    assert.ok(org.knowsAbout.includes('Where did the world map data come from'));
+    assert.ok(org.knowsAbout.includes('Where can you take the world map data'));
     assert.ok(org.knowsAbout.includes('how many datacentres mapped in the United States'));
     assert.ok(org.knowsAbout.includes('SIREN infrastructure index'));
     assert.ok(org.knowsAbout.includes('what does the SIREN infrastructure index read'));
