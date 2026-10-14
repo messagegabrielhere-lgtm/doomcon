@@ -308,8 +308,8 @@ Honesty rules:
 - [What instruments sit behind the SIREN reading?](${u('/instruments.html')})
 - [Where are the SIREN index moves?](${u('/moves/')})
 - [Guide: SIREN vs DEFCON vs the Doomsday Clock vs p(doom)](${u('/guide.html')}) ([markdown](${u('/guide.md')}))
-- [Search Trends](${u('/search-trends.html')})
-- [AI prediction markets](${u('/ai-prediction-markets.html')})
+- [Which Google Search Trends for AI does SIREN watch?](${u('/search-trends.html')})
+- [Where are live AI prediction market odds?](${u('/ai-prediction-markets.html')})
 - [What are the AI explainers?](${u('/guides.html')}): p(doom), doomsday clocks, doom indexes — vocabulary without a doom probability ([guides.md](${u('/guides.md')}))
 - [Which AI doom indexes can you compare?](${u('/compare.html')}): SIREN vs DoomBench, Skynet Countdown, p(doom), PizzINT, Takeoff Tracker
 - [Which AI indexes does SIREN contrast?](${u('/vs.html')}): directory of honest versus pages
@@ -449,6 +449,8 @@ export function agentsMd(ctx) {
 - ${u('/news-sitemap.xml')} — Google News rolling sitemap (keyword-rich; hold while rivals flap)
 - ${u('/news.html')} — Which AI stories has SIREN scored in this window? (day hubs under /news/YYYY-MM-DD.html)
 - ${u('/guide.md')} — SIREN vs DEFCON vs Doomsday Clock vs p(doom)
+- ${u('/search-trends.html')} — Which Google Search Trends for AI does SIREN watch?
+- ${u('/ai-prediction-markets.html')} — Where are live AI prediction market odds?
 - ${u('/guides.html')} — What are the AI explainers? (p(doom), clocks, doom indexes)
 - ${u('/guides.md')} — markdown mirror of the explainers hub
 - ${u('/compare.html')} — Which AI doom indexes can you compare? (incl. PizzINT, Takeoff Tracker)
