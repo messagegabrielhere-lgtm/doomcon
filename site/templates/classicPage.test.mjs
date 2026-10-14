@@ -134,6 +134,24 @@ describe('classic page', () => {
     assert.doesNotMatch(html, /probability of doom/i);
   });
 
+  it('home module and switcher section H2s use questions mirrored in FAQ', () => {
+    const html = render({
+      ...ctx,
+      race: JSON.parse(readFileSync(new URL('../../data/race.json', import.meta.url), 'utf8')),
+      x: JSON.parse(readFileSync(new URL('../../data/x-surface.json', import.meta.url), 'utf8')),
+      digest: JSON.parse(readFileSync(new URL('../../data/digest.json', import.meta.url), 'utf8')),
+      deskPicks: JSON.parse(readFileSync(new URL('../../data/desk-picks.json', import.meta.url), 'utf8')),
+    }, { view: 'classic' });
+    assert.match(html, /id="vfy-h">How do you check a SIREN reading yourself\?<\/h2>/);
+    assert.match(html, /Where is every dataset on one panel\?/);
+    assert.match(html, /How do you check a SIREN reading yourself\?/);
+    assert.match(html, /Which frontier labs are monitored\?/);
+    assert.match(html, /Which labs’ posts are on the X wire\?/);
+    assert.doesNotMatch(html, /id="vfy-h">Don’t trust it\. Check it\.<\/h2>/);
+    assert.doesNotMatch(html, /Every dataset, one panel<span/);
+    assert.doesNotMatch(html, /probability of doom/i);
+  });
+
   it('explainers guide card uses the guide question H1', () => {
     const html = render(ctx, { view: 'classic' });
     assert.match(html, /href="\/guide\.html"><b>How does SIREN compare to DEFCON, the Doomsday Clock and p\(doom\)\?<\/b>/);

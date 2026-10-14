@@ -19,4 +19,11 @@ describe('labs monitor module', () => {
     assert.doesNotMatch(html, /full ranking →/);
     assert.doesNotMatch(html, /probability of doom/i);
   });
+
+  it('section H2 uses a question', () => {
+    const html = render(ctx);
+    assert.match(html, /id="labs-h">Which frontier labs are monitored\?<span/);
+    assert.doesNotMatch(html, /id="labs-h">The frontier labs, monitored/);
+    assert.doesNotMatch(html, /probability of doom/i);
+  });
 });

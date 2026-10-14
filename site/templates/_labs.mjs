@@ -190,10 +190,12 @@ export function render(ctx) {
     return s === 'live' || s === 'dormant';
   }).length;
 
+  // Tip #327: section H2 is question-shaped; homepage FAQ mirrors it (§3.3).
+  const labsQ = 'Which frontier labs are monitored?';
   return `${styleTag()}${avatarSprite()}
 <section class="sec labs" aria-labelledby="labs-h">
   <div class="labs__hd">
-    <h2 class="sec__h" id="labs-h">The frontier labs, monitored<span class="sec__eb">The watch floor</span></h2>
+    <h2 class="sec__h" id="labs-h">${esc(labsQ)}<span class="sec__eb">The watch floor</span></h2>
     <p class="labs__k">${esc(players.length)} labs monitored · read
       <time datetime="${esc(stamp)}">${esc(String(stamp).slice(11, 16))}Z</time>
       · <a href="${esc(href)}">Who is winning the AI race? →</a></p>

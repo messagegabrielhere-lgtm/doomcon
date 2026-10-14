@@ -45,6 +45,20 @@ export function items(ctx) {
       `Live panels on the homepage for the current reading: jobs and medicine, Tally’s bets, and other desks that refresh with each hourly observation. It is a jump board into those rooms, not a second index.`],
     ['What are the two questions everyone asks?',
       `Is AI taking jobs? and Is AI curing anything? — register counts with sources and caveats on /jobs.html and /medicine.html. The pictures on those cards are generated illustrations. The numbers are not.`],
+    ['What changed since the last reading?',
+      `The homepage strip and /digest.html compare the latest observation to the one before it: score delta, which pillars moved, and which sources flipped. A quiet strip means the dial held; it is not a forecast.`],
+    [`How do you check a ${brand.NAME} reading yourself?`,
+      `Every reading ships with a receipt of its inputs, score and the hash of the receipt before it. On the homepage, press the verify button: your browser fetches the public receipts, re-hashes them and walks the chain. Nothing is sent anywhere.`],
+    ['Which stories are desk picks?',
+      `Hand-picked headlines spotted in Reddit's AI communities. Each line is the publisher's own, linking to the original. Picks are not scored and do not move the index.`],
+    ['What story is developing right now?',
+      `When several independent outlets carry the same event in the newsroom window, the homepage groups them under one developing lead. The group does not move the index level; it is a corroboration view, not a risk claim.`],
+    ['Which labs’ posts are on the X wire?',
+      `Posts from frontier labs and AI accounts, found where Techmeme, Hacker News or the press cited them, and resolved through X's public embed endpoint. No API key and no scraping.`],
+    ['Which frontier labs are monitored?',
+      `The watch floor lists frontier labs with posture from visible public output only. A lab with no readable feed shows UNREAD, never QUIET. The full ranking lives on /race.html.`],
+    ['Where is every dataset on one panel?',
+      `The classic homepage desk switcher holds every live dataset already in the HTML — race, labs, X wire, power, digest and more — in one slot with no page load. It is a jump board, not a second index.`],
   ];
 }
 

@@ -69,8 +69,10 @@ export function render(ctx) {
   const move = ctx.url(`/moves/${st.receipt_id}.html`);
   const hash = st.receipt_hash ? String(st.receipt_hash) : null;
   const cite = `${brand.NAME} ${st.level} (${st.level_name}), composite ${Number(st.score).toFixed(1)} of 100, observed ${utc(st.generated_at)}. ${move}${hash ? ` Receipt ${hash}.` : ''}`;
+  // Tip #327: section H2 is question-shaped; homepage FAQ mirrors it (§3.3).
+  const verifyQ = `How do you check a ${brand.NAME} reading yourself?`;
   return `<section class="sec vfy" id="vfy" aria-labelledby="vfy-h" data-api="${esc(ctx.href('/api/'))}" data-depth="${DEPTH}">
-  <h2 class="sec__h" id="vfy-h">Don’t trust it. Check it.</h2>
+  <h2 class="sec__h" id="vfy-h">${esc(verifyQ)}</h2>
   <p class="lede">Every reading is published with a receipt: its inputs, its score, and the hash of the receipt before it.
     Press the button and your own browser fetches the last ${DEPTH} receipts, re-hashes each one and walks the chain.
     Nothing is sent anywhere, and no other doom number lets you do this.</p>
