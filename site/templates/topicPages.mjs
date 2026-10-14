@@ -70,12 +70,31 @@ export function entries(ctx, key) {
 
 export function hasTopic(ctx, key) { return entries(ctx, key).length > 0; }
 
+// Tip #400: register-entry H2s are question-shaped (mirrored in FAQ §3.3).
+const ENTRY_Q = Object.freeze({
+  'challenger-ai-cited-cuts': 'How many AI-cited US job cuts has Challenger counted?',
+  'hui-freelancer-earnings': 'What happened to Upwork freelancer earnings after ChatGPT?',
+  'drug-rentosertib': 'What did the AI-designed drug Rentosertib show in Phase 2a?',
+  'drug-ai-pipeline': 'How often do AI-discovered molecules pass Phase I and Phase II?',
+  'fda-ai-devices': 'How many AI medical devices has the FDA authorised?',
+  'mammography-masai': 'Was AI-supported mammography non-inferior to double reading?',
+  alphafold: 'How many open structure predictions has AlphaFold published?',
+  'co-scientist': 'Which Co-Scientist hypotheses were confirmed in the lab?',
+});
+
+export function entryQ(e) {
+  if (!e) return '';
+  if (ENTRY_Q[e.id]) return ENTRY_Q[e.id];
+  const t = String(e.title || '');
+  return t.endsWith('?') ? t : `What does the register record about ${t}?`;
+}
+
 /** The lead figure of a topic, for the home page and the nav tile. */
 export function lead(ctx, key) {
   const all = entries(ctx, key);
   const e = all.find((x) => x.id === TOPICS[key].leadId) || all[0];
   const n = e && Array.isArray(e.numbers) ? e.numbers[0] : null;
-  return n ? { value: String(n.value), unit: String(n.unit), date: String(n.date), id: e.id, title: e.title } : null;
+  return n ? { value: String(n.value), unit: String(n.unit), date: String(n.date), id: e.id, title: entryQ(e) } : null;
 }
 
 function entry(ctx, e, glosses, t) {
@@ -83,10 +102,11 @@ function entry(ctx, e, glosses, t) {
   const srcs = (Array.isArray(e.sources) ? e.sources : []).map((u, i) => `<a href="${esc(u)}" rel="noopener" title="${esc(u)}">${i + 1}</a>`).join(' ');
   const gloss = glosses && glosses[e.side] && glosses[e.side][e.status];
   const first = Array.isArray(e.numbers) && e.numbers[0];
-  const line = first ? `${first.value} ${first.unit} (${first.date}). ${e.title}` : e.title;
+  const q = entryQ(e);
+  const line = first ? `${first.value} ${first.unit} (${first.date}). ${q}` : q;
   return `<article class="tp__e" id="${esc(e.id)}" data-side="${esc(e.side)}">
     <p class="tp__chips"><span class="tp__chip"${gloss ? ` title="${esc(gloss)}"` : ''}>${esc(e.status)}</span><span class="tp__chip tp__chip--q">${esc(e.domain)}</span><span class="tp__asof">checked ${esc(e.as_of)}</span></p>
-    <h2 class="tp__h">${esc(e.title)}</h2>
+    <h2 class="tp__h">${esc(q)}</h2>
     ${nums ? `<ul class="tp__nums">${nums}</ul>` : ''}
     <h3 class="tp__k">What is measured?</h3><p>${esc(e.what_is_measured)}</p>
     <h3 class="tp__k">What gets claimed?</h3><p>${esc(e.what_is_claimed)}</p>
@@ -121,6 +141,9 @@ export function render(ctx, key) {
     [measuredQ, measuredA],
     [claimedQ, claimedA],
     [caveatQ, caveatA],
+    // Tip #400: entry H2s are question-shaped and mirrored in FAQ (§3.3).
+    ...list.map((e) => [entryQ(e),
+      `${e.what_is_measured || e.title} ${e.caveat || ''}`.trim()]),
   ];
 
   const main = `

@@ -273,6 +273,14 @@ export function items(ctx) {
       'On /nations.html: sites mapped by OpenStreetMap volunteers — shown but not scored when mapping is sparse.'],
     [`Which ${brand.NAME} index moves were scored on a UTC day?`,
       'On /moves/: each day section lists scored observations for that UTC day with inputs and a hash-chained receipt.'],
+    ['Is ChatGPT down right now?',
+      'On /status.html: SIREN reads OpenAI’s official status page; UNKNOWN never means up.'],
+    ['Is Claude down right now?',
+      'On /status.html: SIREN reads Anthropic’s official status page; UNKNOWN never means up.'],
+    ['How many AI-cited US job cuts has Challenger counted?',
+      'On /jobs.html: announced US job cuts that cite AI, with sources and caveats — not a forecast.'],
+    ['How many AI medical devices has the FDA authorised?',
+      'On /medicine.html: count of AI/ML-enabled devices on the FDA list — authorisation is not a measured patient benefit.'],
   ];
 }
 

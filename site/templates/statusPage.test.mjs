@@ -43,4 +43,16 @@ describe('status page', () => {
     assert.match(html, /FAQPage/);
     assert.doesNotMatch(html, /noindex/);
   });
+
+  it('service-card H2s use questions mirrored in FAQPage', () => {
+    const html = render(ctx, status);
+    assert.match(html, /id="openai"[^>]*>[\s\S]*Is ChatGPT down right now\?/);
+    assert.match(html, /id="claude"[^>]*>[\s\S]*Is Claude down right now\?/);
+    assert.match(html, /FAQPage[\s\S]*Is ChatGPT down right now\?/);
+    assert.match(html, /FAQPage[\s\S]*Is Claude down right now\?/);
+    assert.doesNotMatch(html, /<h2>ChatGPT<small>/);
+    assert.doesNotMatch(html, /<h2>Claude<small>/);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
+    assert.doesNotMatch(html, /UNKNOWN means (the service is )?up/i);
+  });
 });

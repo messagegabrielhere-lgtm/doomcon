@@ -93,4 +93,18 @@ describe('jobs / medicine topic pages', () => {
     assert.match(med, /Does an FDA authorisation mean a measured patient benefit/);
     assert.doesNotMatch(med, /SIREN.*p\(doom\) of \d/i);
   });
+
+  it('register-entry H2s use questions mirrored in FAQPage', () => {
+    const jobs = render(ctx, 'jobs');
+    assert.match(jobs, /id="challenger-ai-cited-cuts"[\s\S]*?<h2 class="tp__h">How many AI-cited US job cuts has Challenger counted\?<\/h2>/);
+    assert.match(jobs, /FAQPage[\s\S]*How many AI-cited US job cuts has Challenger counted\?/);
+    assert.doesNotMatch(jobs, /<h2 class="tp__h">Challenger AI-cited cuts<\/h2>/);
+    assert.doesNotMatch(jobs, /probability of doom is \d/i);
+
+    const med = render(ctx, 'medicine');
+    assert.match(med, /id="fda-ai-devices"[\s\S]*?<h2 class="tp__h">How many AI medical devices has the FDA authorised\?<\/h2>/);
+    assert.match(med, /FAQPage[\s\S]*How many AI medical devices has the FDA authorised\?/);
+    assert.doesNotMatch(med, /<h2 class="tp__h">FDA-authorised AI devices<\/h2>/);
+    assert.doesNotMatch(med, /SIREN.*p\(doom\) of \d/i);
+  });
 });
