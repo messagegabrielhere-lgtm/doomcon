@@ -5,6 +5,7 @@ import {
   itemsForPillar, pillarIndexable, renderPillar, pillarPath,
   itemsForLab, labIndexable, renderLab, labPath, labsFromRace, labsFromEntities,
   allLabs, indexableLabs, renderLabIndex, renderCompanies, sitemapEntries, ENTITY_LAB_MIN,
+  indexablePillars, renderPillarIndex, renderPillars, renderSources,
   PILLAR_INDEX_MIN, SOURCE_INDEX_MIN, sourceLabel, sourceIndexable, renderSource,
   indexableSources,
 } from './facetPages.mjs';
@@ -140,12 +141,38 @@ describe('lab facets', () => {
   });
 });
 
+describe('pillar + source directory hubs', () => {
+  it('ships /pillar/ and /pillars.html over the gated pillar set', () => {
+    assert.ok(indexablePillars(ctx).some((p) => p.id === 'capability'));
+    const idx = renderPillarIndex(ctx);
+    assert.match(idx, /Which AI activity pillars have SIREN pages\?/);
+    assert.match(idx, /\/pillar\/capability\.html/);
+    assert.match(idx, /\/pillars\.html/);
+    assert.match(idx, /FAQPage/);
+    const hubs = renderPillars(ctx);
+    assert.match(hubs, /Which AI activity pillars has SIREN scored\?/);
+    assert.match(hubs, /does not publish a pillar/);
+    assert.doesNotMatch(hubs, /doom score:\s*\d/i);
+  });
+
+  it('ships /sources.html over gated feed adapters', () => {
+    const html = renderSources(ctx);
+    assert.match(html, /Which AI news sources has SIREN scored via\?/);
+    assert.match(html, /\/source\/hn\.html/);
+    assert.match(html, /\/outlets\.html/);
+    assert.match(html, /FAQPage/);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
+  });
+});
+
 describe('facet sitemap', () => {
   it('emits only indexable facets', () => {
     const rows = sitemapEntries(ctx);
     const locs = rows.map((r) => r.loc);
     assert.ok(locs.includes('/pillar/capability.html'));
     assert.ok(!locs.includes('/pillar/markets.html'));
+    assert.ok(locs.includes('/pillar/'));
+    assert.ok(locs.includes('/pillars.html'));
     assert.ok(locs.includes('/lab/'));
     assert.ok(locs.includes('/companies.html'));
     assert.ok(locs.includes('/lab/openai.html'));
@@ -153,6 +180,7 @@ describe('facet sitemap', () => {
     assert.ok(locs.includes('/source/hn.html'));
     assert.ok(!locs.includes('/source/techcrunch.html'));
     assert.ok(locs.includes('/source/'));
+    assert.ok(locs.includes('/sources.html'));
   });
 });
 

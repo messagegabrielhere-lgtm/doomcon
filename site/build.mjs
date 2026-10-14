@@ -1534,6 +1534,10 @@ async function main() {
     for (const p of brand.PILLARS) {
       written.push(await write(args.out, `pillar/${p.id}.html`, facetPages.renderPillar(ctx, p.id)));
     }
+    if (facetPages.indexablePillars(ctx).length) {
+      written.push(await write(args.out, 'pillar/index.html', facetPages.renderPillarIndex(ctx)));
+      written.push(await write(args.out, 'pillars.html', facetPages.renderPillars(ctx)));
+    }
     for (const player of facetPages.allLabs(ctx)) {
       written.push(await write(args.out, `lab/${player.id}.html`, facetPages.renderLab(ctx, player)));
     }
@@ -1545,6 +1549,9 @@ async function main() {
       written.push(await write(args.out, `source/${s.id}.html`, facetPages.renderSource(ctx, s.id)));
     }
     written.push(await write(args.out, 'source/index.html', facetPages.renderSourceIndex(ctx)));
+    if (facetPages.indexableSources(ctx).length) {
+      written.push(await write(args.out, 'sources.html', facetPages.renderSources(ctx)));
+    }
     await writeModelAndCountryPages(ctx, args.out, write, written);
     await writePeopleAndDayPages(ctx, args.out, write, written);
     await writeTagPages(ctx, args.out, write, written);
@@ -1564,6 +1571,7 @@ async function main() {
     }
     await writeDirectoryAliases(args.out, [
       'news', 'leaders', 'companies', 'models', 'tags', 'kinds', 'outlets', 'people', 'countries',
+      'pillars', 'sources',
       ...facetPages.indexableSources(ctx).map((s) => `source/${s.id}`),
       ...modelAndCountryAliases(ctx),
       ...tagAliases(ctx),
@@ -1906,6 +1914,10 @@ async function main() {
   for (const p of brand.PILLARS) {
     written.push(await write(args.out, `pillar/${p.id}.html`, facetPages.renderPillar(ctx, p.id)));
   }
+  if (facetPages.indexablePillars(ctx).length) {
+    written.push(await write(args.out, 'pillar/index.html', facetPages.renderPillarIndex(ctx)));
+    written.push(await write(args.out, 'pillars.html', facetPages.renderPillars(ctx)));
+  }
   for (const player of facetPages.allLabs(ctx)) {
     written.push(await write(args.out, `lab/${player.id}.html`, facetPages.renderLab(ctx, player)));
   }
@@ -1917,6 +1929,9 @@ async function main() {
     written.push(await write(args.out, `source/${s.id}.html`, facetPages.renderSource(ctx, s.id)));
   }
   written.push(await write(args.out, 'source/index.html', facetPages.renderSourceIndex(ctx)));
+  if (facetPages.indexableSources(ctx).length) {
+    written.push(await write(args.out, 'sources.html', facetPages.renderSources(ctx)));
+  }
   await writeModelAndCountryPages(ctx, args.out, write, written);
   for (const m of moves) {
     written.push(await write(args.out, `moves/${m.id}.html`, movePage.render(ctx, m)));
@@ -1936,6 +1951,7 @@ async function main() {
       'game', 'bunker-kit', 'alerts', 'export', 'moltbook', 'staff', 'careers',
       'agents', 'tally', 'changelog', 'live', 'compare', 'alternatives',
       'companies', 'models', 'tags', 'kinds', 'outlets', 'people', 'countries',
+      'pillars', 'sources',
       ...comparePages.RIVALS.map((r) => r.path.replace(/^\//, '').replace(/\.html$/, '')),
       ...brand.PILLARS.map((p) => `pillar/${p.id}`),
       ...facetPages.allLabs(ctx).map((p) => `lab/${p.id}`),

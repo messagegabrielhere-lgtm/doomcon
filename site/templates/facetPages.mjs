@@ -73,6 +73,26 @@ export function pillarIndexable(ctx, pillarId) {
   return itemsForPillar(ctx, pillarId).length >= PILLAR_INDEX_MIN;
 }
 
+/** Pillars that clear the substance gate, busiest first (directory hubs). */
+export function indexablePillars(ctx) {
+  return brand.PILLARS
+    .map((p) => {
+      const live = itemsForPillar(ctx, p.id).length;
+      const st = pillarState(ctx, p.id);
+      return {
+        id: p.id,
+        name: p.name,
+        live,
+        archived: 0,
+        count: live,
+        score: st && Number.isFinite(st.score) ? st.score : null,
+        dark: !!(st && st.dark),
+      };
+    })
+    .filter((p) => p.count >= PILLAR_INDEX_MIN)
+    .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
+}
+
 function scoreCell(it) {
   if (!(Number.isFinite(it.score))) return '<span class="fc__sc mute">—</span>';
   return `<span class="fc__sc num">${esc(num(it.score, 1))}</span>`;
@@ -556,6 +576,236 @@ export function renderSourceIndex(ctx) {
   });
 }
 
+
+/** Directory of indexable /pillar pages. */
+export function renderPillarIndex(ctx) {
+  const pillars = indexablePillars(ctx);
+  const path = '/pillar/';
+  const title = `Which AI activity pillars have ${brand.NAME} pages?`;
+  const description = clip(
+    `${pillars.length} pillars with at least ${PILLAR_INDEX_MIN} scored stories on ${brand.NAME}. Each page lists those stories beside the live pillar reading.`,
+    160,
+  );
+  const faq = [
+    [`Which AI activity pillars have ${brand.NAME} pages?`,
+      `${pillars.length} pillars clear the substance gate of at least ${PILLAR_INDEX_MIN} matching stories in the live window. Each hub lists those stories beside the live pillar reading — not a pillar doom score.`],
+    [`Does ${brand.NAME} publish a pillar doom score?`,
+      `No. ${brand.DISCLAIMER_SHORT} These pages count scored stories under a pillar and the live tempo reading against this index’s frozen reference.`],
+  ];
+  const faqHtml = faq.map(([q, a]) => `
+  <h3>${esc(q)}</h3>
+  <p>${esc(a)}</p>`).join('');
+  const rows = pillars.map((p) => `<li>
+  <a href="${esc(ctx.href(pillarPath(p.id)))}">What has ${esc(brand.NAME)} scored under ${esc(p.name)}?</a>
+  <span class="fc__meta">${esc(p.name)} · ${esc(p.id)}${p.score != null ? ` · ${esc(num(p.score, 1))} / 100` : ''}</span>
+  <span class="fc__sc num">${esc(String(p.count))}</span>
+</li>`).join('');
+  const main = `${STYLE}
+<article class="fc prose">
+  <p class="fc__k"><a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a> · Which AI activity pillars have ${esc(brand.NAME)} pages? · <a href="${esc(ctx.href('/pillars.html'))}">Which AI activity pillars has ${esc(brand.NAME)} scored?</a></p>
+  <h1>Which AI activity pillars have ${esc(brand.NAME)} pages?</h1>
+  <p class="fc__lede">A pillar earns a crawlable page when at least ${PILLAR_INDEX_MIN} scored stories under it appear in the live window. The live pillar score is activity tempo against this index’s frozen reference — not a probability of harm.</p>
+  ${pillars.length ? `<ol class="fc__list">${rows}</ol>` : '<p>No pillar cleared the gate in this build.</p>'}
+  <h2 id="faq">What questions do people actually ask?</h2>
+  ${faqHtml}
+  <p class="fresh__key">Search-shaped directory: <a href="${esc(ctx.href('/pillars.html'))}">Which AI activity pillars has ${esc(brand.NAME)} scored?</a>.</p>
+</article>`;
+  return page({
+    ctx,
+    path,
+    title,
+    description,
+    noindex: pillars.length === 0,
+    jsonld: [{
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      name: title,
+      url: ctx.url(path),
+      description,
+      speakable: speakable(['h1', '.fc__lede']),
+      mainEntity: {
+        '@type': 'ItemList',
+        numberOfItems: pillars.length,
+        itemListElement: pillars.map((p, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          url: ctx.url(pillarPath(p.id)),
+          name: `What has ${brand.NAME} scored under ${p.name}?`,
+        })),
+      },
+    }, breadcrumbs(ctx, [
+      { name: `Which AI stories has ${brand.NAME} scored in this window?`, path: '/news.html' },
+      { name: `Which AI activity pillars have ${brand.NAME} pages?`, path },
+    ]), {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faq.map(([q, a]) => ({
+        '@type': 'Question',
+        name: q,
+        acceptedAnswer: { '@type': 'Answer', text: a },
+      })),
+    }],
+    main,
+  });
+}
+
+/**
+ * Head-term /pillars hub. Same gated pillar set as /pillar/, different title
+ * and lede for “AI activity pillars” queries — not a pillar doom score.
+ */
+export function renderPillars(ctx) {
+  const pillars = indexablePillars(ctx);
+  const path = '/pillars.html';
+  const title = `Which AI activity pillars has ${brand.NAME} scored?`;
+  const description = clip(
+    `${pillars.length} activity pillars with scored-story hubs on ${brand.NAME}. Each row links /pillar pages — tempo readings and story counts only, not a pillar doom score.`,
+    160,
+  );
+  const faq = [
+    [`Which AI activity pillars has ${brand.NAME} scored?`,
+      `${pillars.length} pillars clear the substance gate of at least ${PILLAR_INDEX_MIN} matching stories in the live window. Each hub lists those stories beside the live pillar reading — not a pillar doom score.`],
+    [`Does ${brand.NAME} publish a pillar doom score?`,
+      `No. ${brand.DISCLAIMER_SHORT} Numbers are story counts and tempo readings against this index’s frozen reference.`],
+  ];
+  const faqHtml = faq.map(([q, a]) => `
+  <h3>${esc(q)}</h3>
+  <p>${esc(a)}</p>`).join('');
+  const rows = pillars.map((p) => `<li>
+  <a href="${esc(ctx.href(pillarPath(p.id)))}">What has ${esc(brand.NAME)} scored under ${esc(p.name)}?</a>
+  <span class="fc__meta">${esc(p.name)} · Pillar hub · <span class="num">${esc(String(p.count))}</span> scored${p.score != null ? ` · ${esc(num(p.score, 1))} / 100` : ''}</span>
+</li>`).join('');
+  const main = `${STYLE}
+<article class="fc prose">
+  <p class="fc__k"><a href="${esc(ctx.href('/compare.html'))}">Which AI doom indexes can you compare?</a> · <a href="${esc(ctx.href('/pillar/'))}">Which AI activity pillars have ${esc(brand.NAME)} pages?</a> · Which AI activity pillars has ${esc(brand.NAME)} scored?</p>
+  <h1>Which AI activity pillars has ${esc(brand.NAME)} scored?</h1>
+  <p class="fc__lede">${esc(brand.NAME)} does not publish a pillar “doom score.” It publishes five activity pillars and scored stories under each. This page lists pillars that already clear the same substance gate as <a href="${esc(ctx.href('/pillar/'))}">Which AI activity pillars have ${esc(brand.NAME)} pages?</a> — at least ${PILLAR_INDEX_MIN} matching stories in the live window.</p>
+  <div class="fc__stat" role="group" aria-label="Pillars hub totals">
+    <div><b class="num">${esc(String(pillars.length))}</b><span>Pillar hubs</span></div>
+  </div>
+  ${pillars.length ? `<ol class="fc__list">${rows}</ol>` : '<p>No pillar hub cleared the gate in this build.</p>'}
+  <h2 id="faq">What questions do people actually ask?</h2>
+  ${faqHtml}
+  <p class="fresh__key"><a href="${esc(ctx.href('/pillar/'))}">Which AI activity pillars have ${esc(brand.NAME)} pages?</a>
+     · <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>
+     · <a href="${esc(ctx.href('/tags.html'))}">Which AI tags has ${esc(brand.NAME)} scored stories about?</a>
+     · <a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a></p>
+</article>`;
+  return page({
+    ctx,
+    path,
+    title,
+    description,
+    noindex: pillars.length === 0,
+    jsonld: [{
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      name: title,
+      url: ctx.url(path),
+      description,
+      speakable: speakable(['h1', '.fc__lede']),
+      mainEntity: {
+        '@type': 'ItemList',
+        numberOfItems: pillars.length,
+        itemListElement: pillars.map((p, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          url: ctx.url(pillarPath(p.id)),
+          name: `What has ${brand.NAME} scored under ${p.name}?`,
+        })),
+      },
+    }, breadcrumbs(ctx, [
+      { name: 'Which AI doom indexes can you compare?', path: '/compare.html' },
+      { name: `Which AI activity pillars has ${brand.NAME} scored?`, path },
+    ]), {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faq.map(([q, a]) => ({
+        '@type': 'Question',
+        name: q,
+        acceptedAnswer: { '@type': 'Answer', text: a },
+      })),
+    }],
+    main,
+  });
+}
+
+/** Head-term /sources hub for feed-adapter queries (publisher hosts stay under /outlets). */
+export function renderSources(ctx) {
+  const sources = indexableSources(ctx);
+  const path = '/sources.html';
+  const title = `Which AI news sources has ${brand.NAME} scored via?`;
+  const description = clip(
+    `${sources.length} feed adapters with scored-story hubs on ${brand.NAME}. Each row links /source pages — adapter story counts only, not a source doom score.`,
+    160,
+  );
+  const faq = [
+    [`Which AI news sources has ${brand.NAME} scored via?`,
+      `${sources.length} feed adapters clear the substance gate of at least ${SOURCE_INDEX_MIN} matching stories in the live window. Each hub lists those stories — not a source doom score.`],
+    [`Does ${brand.NAME} publish a source doom score?`,
+      `No. ${brand.DISCLAIMER_SHORT} These pages count scored stories from a feed adapter. Publisher hosts stay under /outlets.html.`],
+  ];
+  const faqHtml = faq.map(([q, a]) => `
+  <h3>${esc(q)}</h3>
+  <p>${esc(a)}</p>`).join('');
+  const rows = sources.map((s) => `<li>
+  <a href="${esc(ctx.href(sourcePath(s.id)))}">What has ${esc(brand.NAME)} scored via ${esc(s.label)}?</a>
+  <span class="fc__meta">${esc(s.label)} · Feed adapter · <span class="num">${esc(String(s.count))}</span> scored</span>
+</li>`).join('');
+  const main = `${STYLE}
+<article class="fc prose">
+  <p class="fc__k"><a href="${esc(ctx.href('/compare.html'))}">Which AI doom indexes can you compare?</a> · <a href="${esc(ctx.href('/source/'))}">Which AI feed adapters have ${esc(brand.NAME)} pages?</a> · Which AI news sources has ${esc(brand.NAME)} scored via?</p>
+  <h1>Which AI news sources has ${esc(brand.NAME)} scored via?</h1>
+  <p class="fc__lede">${esc(brand.NAME)} does not publish a source “doom score.” It publishes an activity index and scored stories. This page lists feed adapters that already clear the same substance gate as <a href="${esc(ctx.href('/source/'))}">Which AI feed adapters have ${esc(brand.NAME)} pages?</a> — at least ${SOURCE_INDEX_MIN} matching stories in the live window. Publisher hosts stay under <a href="${esc(ctx.href('/outlets.html'))}">Which AI outlets has ${esc(brand.NAME)} scored stories from?</a>.</p>
+  <div class="fc__stat" role="group" aria-label="Sources hub totals">
+    <div><b class="num">${esc(String(sources.length))}</b><span>Feed-adapter hubs</span></div>
+  </div>
+  ${sources.length ? `<ol class="fc__list">${rows}</ol>` : '<p>No feed-adapter hub cleared the gate in this build.</p>'}
+  <h2 id="faq">What questions do people actually ask?</h2>
+  ${faqHtml}
+  <p class="fresh__key"><a href="${esc(ctx.href('/source/'))}">Which AI feed adapters have ${esc(brand.NAME)} pages?</a>
+     · <a href="${esc(ctx.href('/outlets.html'))}">Which AI outlets has ${esc(brand.NAME)} scored stories from?</a>
+     · <a href="${esc(ctx.href('/kinds.html'))}">Which AI story kinds has ${esc(brand.NAME)} scored?</a>
+     · <a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a></p>
+</article>`;
+  return page({
+    ctx,
+    path,
+    title,
+    description,
+    noindex: sources.length === 0,
+    jsonld: [{
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      name: title,
+      url: ctx.url(path),
+      description,
+      speakable: speakable(['h1', '.fc__lede']),
+      mainEntity: {
+        '@type': 'ItemList',
+        numberOfItems: sources.length,
+        itemListElement: sources.map((s, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          url: ctx.url(sourcePath(s.id)),
+          name: `What has ${brand.NAME} scored via ${s.label}?`,
+        })),
+      },
+    }, breadcrumbs(ctx, [
+      { name: 'Which AI doom indexes can you compare?', path: '/compare.html' },
+      { name: `Which AI news sources has ${brand.NAME} scored via?`, path },
+    ]), {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faq.map(([q, a]) => ({
+        '@type': 'Question',
+        name: q,
+        acceptedAnswer: { '@type': 'Answer', text: a },
+      })),
+    }],
+    main,
+  });
+}
+
 /** Directory of indexable /lab pages (structural twin to /model/ and /source/). */
 export function renderLabIndex(ctx) {
   const labs = indexableLabs(ctx);
@@ -712,8 +962,22 @@ export function renderCompanies(ctx) {
 export function sitemapEntries(ctx) {
   const out = [];
   const lastNews = (ctx.news && ctx.news.generated_at) || (ctx.state && ctx.state.generated_at);
-  for (const p of brand.PILLARS) {
-    if (!pillarIndexable(ctx, p.id)) continue;
+  const pillars = indexablePillars(ctx);
+  if (pillars.length) {
+    out.push({
+      loc: '/pillar/',
+      changefreq: 'hourly',
+      priority: '0.75',
+      lastmod: lastNews,
+    });
+    out.push({
+      loc: '/pillars.html',
+      changefreq: 'hourly',
+      priority: '0.8',
+      lastmod: lastNews,
+    });
+  }
+  for (const p of pillars) {
     out.push({
       loc: pillarPath(p.id),
       changefreq: 'hourly',
@@ -750,6 +1014,12 @@ export function sitemapEntries(ctx) {
       loc: '/source/',
       changefreq: 'hourly',
       priority: '0.6',
+      lastmod: lastNews,
+    });
+    out.push({
+      loc: '/sources.html',
+      changefreq: 'hourly',
+      priority: '0.75',
       lastmod: lastNews,
     });
   }
