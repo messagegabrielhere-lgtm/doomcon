@@ -1626,6 +1626,30 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'Causal inference and discovery research stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
     match: /\b[Cc]ausal\b/i,
   },
+  {
+    id: 'federated',
+    name: 'Federated learning',
+    description: 'Federated-learning research stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
+    match: /\b[Ff]ederated\b/i,
+  },
+  {
+    id: 'counterfactual',
+    name: 'Counterfactual AI',
+    description: 'Counterfactual inference and audit research stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
+    match: /\b[Cc]ounterfactual\b/i,
+  },
+  {
+    id: 'retrieval',
+    name: 'AI retrieval',
+    description: 'Retrieval and retrieval-centric model research stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
+    match: /\b[Rr]etrieval\b/i,
+  },
+  {
+    id: '3d',
+    name: '3D AI',
+    description: '3D assets, worlds, and graphics research stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
+    match: /\b3D\b/,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));

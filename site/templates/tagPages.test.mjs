@@ -2775,6 +2775,48 @@ describe('tag pages', () => {
     assert.doesNotMatch(renderTag(rich, 'iran'), /probability of doom/i);
   });
 
+  it('pages federated, counterfactual, retrieval, and 3d hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('fe1', 'Best of Both Worlds in Federated LSA'),
+          story('fe2', 'ORDERS: Norm-Rank Aggregation for Personalized Federated Learning'),
+          story('fe3', 'Bias-Cancelling Weights for Federated Learning'),
+          story('fe4', 'PoCoFL: Policy-Compliant Federated Learning'),
+          story('fe5', 'Multi-Step Gradient Inversion in Federated Learning'),
+          story('cf1', 'DreamTrue: Counterfactual Post-Training for Robot World Models'),
+          story('cf2', 'A Counterfactual Audit of Legal Chain-of-Thought Faithfulness'),
+          story('cf3', 'Probabilistic Counterfactual Inference for Discrete Outcomes'),
+          story('cf4', 'Memadapter: Counterfactual Adaptation Against Memory-induced Sycophancy'),
+          story('cf5', 'Diagnosis under counterfactual inputs for time-series models'),
+          story('re1', 'Retrieval-Centric Deep Learning in Growing Nonparametric Neural Networks'),
+          story('re2', 'Effects of Retrieval Instructions in Embedding Models'),
+          story('re3', 'UNREAL: Unifying Retrieval and Long-Context with a Single Model'),
+          story('re4', 'EntroPrefill for Retrieval-Augmented Generation'),
+          story('re5', 'Monolingual Retrieval-Augmented Generation alignment study'),
+          story('td1', 'Nvidia cranks up real-time worlds for training AI agents and 3D worlds'),
+          story('td2', 'CMU professor uses Astra to create a detailed 3D dragon'),
+          story('td3', 'USDCraft: Programmatic Modeling of Articulated 3D Assets for Simulation'),
+          story('td4', 'A 3D creek running in your browser'),
+          story('td5', 'OpenAI Releases 175-Page 4D Proof Manuscript after 3D Kakeya work'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    assert.ok(ids.includes('federated'));
+    assert.ok(ids.includes('counterfactual'));
+    assert.ok(ids.includes('retrieval'));
+    assert.ok(ids.includes('3d'));
+    assert.match(renderTag(rich, 'federated'), /What has SIREN scored about Federated learning\?/);
+    assert.match(renderTag(rich, 'counterfactual'), /What has SIREN scored about Counterfactual AI\?/);
+    assert.match(renderTag(rich, 'retrieval'), /What has SIREN scored about AI retrieval\?/);
+    assert.match(renderTag(rich, '3d'), /What has SIREN scored about 3D AI\?/);
+    assert.doesNotMatch(renderTag(rich, 'federated'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, '3d'), /probability of doom/i);
+  });
+
   it('pages calibration, conformal, trajectory, and causal hubs', () => {
     const rich = {
       ...ctx,
