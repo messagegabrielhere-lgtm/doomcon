@@ -1711,4 +1711,44 @@ describe('tag pages', () => {
     assert.doesNotMatch(renderTag(rich, 'ai-slop'), /doom score:\s*\d/i);
     assert.doesNotMatch(renderTag(rich, 'gulf-ai'), /doom score:\s*\d/i);
   });
+
+  it('pages agentic-ai, ai-security, and ai-factories hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('aa1', 'Enterprises race to ship agentic AI workflows'),
+          story('aa2', 'What agentic AI means for customer support'),
+          story('aa3', 'Banks trial agentic AI for back-office work'),
+          story('aa4', 'Open-source agentic AI stacks mature'),
+          story('aa5', 'Regulators ask how agentic AI is supervised'),
+          story('as1', 'AI security startups raise a new round'),
+          story('as2', 'CISOs put AI security on the board agenda'),
+          story('as3', 'Red teams publish an AI security checklist'),
+          story('as4', 'Cloud vendors bundle AI security controls'),
+          story('as5', 'Researchers map AI security failure modes'),
+          story('af1', 'NVIDIA Opens Vera Rubin Architecture to Help Scale AI Factories'),
+          story('af2', 'NVIDIA and Cisco intro pluggable optics for AI factories'),
+          story('af3', 'Flex Expands Modular Data Center Portfolio for AI Factory Deployment'),
+          story('af4', 'DG Matrix Unveils Interport OS for AI Factories Based on NVIDIA MGX'),
+          story('af5', 'Amid Ecosystem Adoption, vendors help scale AI factories worldwide'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    assert.ok(ids.includes('agentic-ai'));
+    assert.ok(ids.includes('ai-security'));
+    assert.ok(ids.includes('ai-factories'));
+    assert.match(renderTag(rich, 'agentic-ai'), /What has SIREN scored about Agentic AI\?/);
+    assert.match(renderTag(rich, 'ai-security'), /What has SIREN scored about AI security\?/);
+    assert.match(renderTag(rich, 'ai-factories'), /What has SIREN scored about AI factories\?/);
+    assert.match(renderTag(rich, 'agentic-ai'), /not a capability forecast/i);
+    assert.match(renderTag(rich, 'ai-security'), /not a harm forecast/i);
+    assert.match(renderTag(rich, 'ai-factories'), /not a capacity forecast/i);
+    assert.doesNotMatch(renderTag(rich, 'agentic-ai'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'ai-security'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'ai-factories'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'ai-security'), /probability of doom/i);
+  });
 });
