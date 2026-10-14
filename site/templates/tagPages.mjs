@@ -1324,6 +1324,18 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'Frontier-AI product, policy, and lab stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
     match: /\bfrontier AI\b/i,
   },
+  {
+    id: 'local-ai',
+    name: 'Local AI',
+    description: 'Local-AI and on-device inference stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
+    match: /\blocal AI\b/i,
+  },
+  {
+    id: 'ai-generated',
+    name: 'AI-generated content',
+    description: 'AI-generated media and text stories scored in the newsroom or archive — coverage counts, not a harm forecast.',
+    match: /\bAI[- ]generated\b/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));
