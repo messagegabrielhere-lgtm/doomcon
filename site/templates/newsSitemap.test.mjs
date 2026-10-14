@@ -76,10 +76,31 @@ test('keywordsFor puts AI head terms before pillar/source meta on thin rows', ()
   const pillarAt = parts.indexOf('attention');
   const sourceAt = parts.indexOf('bluesky-ai');
   assert.ok(aiAt >= 0, kw);
+  assert.equal(parts[0], 'AI', kw);
   assert.ok(parts.includes('artificial intelligence'), kw);
   assert.ok(parts.includes('SIREN'), kw);
   if (pillarAt >= 0) assert.ok(aiAt < pillarAt, kw);
   if (sourceAt >= 0) assert.ok(aiAt < sourceAt, kw);
+});
+
+test('keywordsFor keeps AI head terms before topic-tag names', () => {
+  const kw = keywordsFor({
+    title: 'New AI agents ship computer use and prompt injection defenses',
+    summary: 'Agentic tool-use product with guardrails.',
+    pillar: 'capability',
+    kind: 'forum',
+    source: 'hn',
+    entities: [],
+  });
+  const parts = kw.split(',').map((s) => s.trim());
+  const aiAt = parts.indexOf('AI');
+  assert.ok(aiAt >= 0, kw);
+  assert.ok(aiAt <= 1, `AI should lead (or follow only a named lab): ${kw}`);
+  // Topic tags (Agents, Prompt injection, …) must not bury the head terms.
+  for (const topicish of ['Agents', 'Prompt injection', 'Computer use', 'capability']) {
+    const at = parts.indexOf(topicish);
+    if (at >= 0) assert.ok(aiAt < at, kw);
+  }
 });
 
 test('news sitemap keywords include Nemotron / Google DeepMind surfaces', () => {

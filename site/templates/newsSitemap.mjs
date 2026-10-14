@@ -80,14 +80,15 @@ export function keywordsFor(item) {
   if (item.kind) meta.push(String(item.kind));
   // Source slug is low-signal for Google News; keep it after head terms.
   if (item.source) meta.push(String(item.source).slice(0, 40));
-  // Head terms before pillar/source meta so thin rows still read as AI news
-  // (live deploy used to ship "attention, <source>, AI, SIREN" — FINDABILITY #50).
+  // Head terms before topic tags and pillar/source meta so thin rows still read
+  // as AI news (live still ships "attention, <source>, AI, SIREN"; topic-first
+  // order also buried "AI" under pillar-shaped tags — FINDABILITY #50/#57).
   const bits = [
     ...named,
-    ...topics,
     'AI',
     'artificial intelligence',
     brand.NAME,
+    ...topics,
     ...meta,
   ];
   // Cap 12 so entity + topic + lab keywords stay under Google News practical limits
