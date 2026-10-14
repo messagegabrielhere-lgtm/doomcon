@@ -170,6 +170,8 @@ const ALWAYS = Object.freeze([
   '/tags/ai-training.html',
   '/tags/rogue-ai.html',
   '/tags/ai-incidents.html',
+  '/tags/ai-computing.html',
+  '/tags/ai-demand.html',
   '/model/mixtral.html',
   '/tags/tsmc.html',
   '/people/',

@@ -2061,4 +2061,35 @@ describe('tag pages', () => {
     assert.doesNotMatch(renderTag(rich, 'ai-incidents'), /doom score:\s*\d/i);
     assert.doesNotMatch(renderTag(rich, 'ai-incidents'), /probability of doom/i);
   });
+
+  it('pages ai-computing and ai-demand hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('ac1', 'The AI Computing Crunch Is Making Rivals Into Partners'),
+          story('ac2', 'The AI Computing Power Gold Rush - Tech News Briefing'),
+          story('ac3', 'Why AI computing capacity deals keep landing in the newsroom'),
+          story('ac4', 'Cloud rivals partner through the AI computing crunch'),
+          story('ac5', 'What AI computing headlines say about infra spend this quarter'),
+          story('ad1', 'An Interview with Microsoft’s Scott Guthrie on Azure’s New AI Chip, Insatiable AI Demand'),
+          story('ad2', 'Does Advanced Micro Devices Face New AI Demand Risk After A Customer Reset?'),
+          story('ad3', 'Chipmakers debate whether AI demand can stay elevated'),
+          story('ad4', 'Cloud earnings calls keep circling AI demand'),
+          story('ad5', 'How AI demand shows up in accelerator order books'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    assert.ok(ids.includes('ai-computing'));
+    assert.ok(ids.includes('ai-demand'));
+    assert.match(renderTag(rich, 'ai-computing'), /What has SIREN scored about AI computing\?/);
+    assert.match(renderTag(rich, 'ai-demand'), /What has SIREN scored about AI demand\?/);
+    assert.match(renderTag(rich, 'ai-computing'), /not an infra forecast/i);
+    assert.match(renderTag(rich, 'ai-demand'), /not a market forecast/i);
+    assert.doesNotMatch(renderTag(rich, 'ai-computing'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'ai-demand'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'ai-demand'), /probability of doom/i);
+  });
 });
