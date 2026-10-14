@@ -1554,6 +1554,18 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'Long-horizon agent and planning research stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
     match: /\b[Ll]ong[- ][Hh]orizon\b/i,
   },
+  {
+    id: 'compositional',
+    name: 'Compositional AI',
+    description: 'Compositional generalization and generation research stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
+    match: /\b[Cc]ompositional\b/i,
+  },
+  {
+    id: 'latent',
+    name: 'Latent models',
+    description: 'Latent-space model and tokenizer research stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
+    match: /\b[Ll]atent\b/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));

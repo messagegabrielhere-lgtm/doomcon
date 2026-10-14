@@ -2775,6 +2775,36 @@ describe('tag pages', () => {
     assert.doesNotMatch(renderTag(rich, 'iran'), /probability of doom/i);
   });
 
+  it('pages compositional and latent hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('co1', 'Rethinking World-Action Model for Compositional Robotic Manipulation'),
+          story('co2', 'ORCA: Hunting Compositional Failures in Text-to-Image Diffusion'),
+          story('co3', 'Arm-wise Compositional Generalization in Dual-Arm VLA Models'),
+          story('co4', 'Gated Target Propagation for Compositional Generalization'),
+          story('co5', 'Weave Forcing: Compositional Memory Routing for Long Video'),
+          story('la1', 'Latent Core Tokenizer: Compress, but Meaningfully'),
+          story('la2', 'SplitJEPA: Learning Invariant and Variant Latent Worlds'),
+          story('la3', 'RoboJEPA: Scaling Robotic Latent World Models'),
+          story('la4', 'GRACE: Generation-aware latent compression for video'),
+          story('la5', 'Iris-3B: Going Beyond the Latent with Pixel-Space Diffusion'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    assert.ok(ids.includes('compositional'));
+    assert.ok(ids.includes('latent'));
+    assert.match(renderTag(rich, 'compositional'), /What has SIREN scored about Compositional AI\?/);
+    assert.match(renderTag(rich, 'latent'), /What has SIREN scored about Latent models\?/);
+    assert.match(renderTag(rich, 'compositional'), /not a capability ranking/i);
+    assert.match(renderTag(rich, 'latent'), /not a capability ranking/i);
+    assert.doesNotMatch(renderTag(rich, 'compositional'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'latent'), /probability of doom/i);
+  });
+
   it('pages on-policy and long-horizon hubs', () => {
     const rich = {
       ...ctx,

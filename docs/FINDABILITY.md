@@ -746,6 +746,8 @@ context.
 | 494 | Topic tag `long-horizon` (live/archive ≥5); IndexNow + seo-daily monitor; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 495 | Entity lab Walmart (`/lab/walmart`, ≥3 gate); IndexNow + seo-daily; refuse market-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 496 | Entity lab Netflix (`/lab/netflix`, ≥3 gate); IndexNow + seo-daily; refuse market-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 497 | Topic tag `compositional` (live/archive ≥5); IndexNow + seo-daily monitor; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 498 | Topic tag `latent` (live/archive ≥5); IndexNow + seo-daily monitor; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
