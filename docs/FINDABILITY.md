@@ -251,6 +251,7 @@ context.
 | 18 | `/news.html` question-shaped title/H1/H2s + FAQPage + Speakable + BreadcrumbList | Google | **Done** (2026-10-14) |
 | 19 | `/digest.html` question-shaped title/H1 + FAQPage (live still “The daily brief — N items”) | Google | **Done** (2026-10-14) |
 | 20 | `/race.html` question-shaped title/H1 + FAQPage (live still “The AI race — …”) | Google | **Done** (2026-10-14) |
+| 21 | `/methodology.html` head-term title + question H2s feeding FAQPage (live still “Methodology — …”) | Google | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
