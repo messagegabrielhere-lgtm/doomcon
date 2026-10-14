@@ -1968,4 +1968,35 @@ describe('tag pages', () => {
     assert.doesNotMatch(renderTag(rich, 'recursive-self-improvement'), /doom score:\s*\d/i);
     assert.doesNotMatch(renderTag(rich, 'recursive-self-improvement'), /probability of doom/i);
   });
+
+  it('pages ai-boom and deep-learning hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('abm1', 'OpenAI to create extra 200 Irish jobs as AI boom accelerates in Ireland'),
+          story('abm2', 'How the AI boom is reshaping data-centre financing'),
+          story('abm3', 'Investors debate whether the AI boom has further room'),
+          story('abm4', 'Regional hiring picks up in the AI boom'),
+          story('abm5', 'What the AI boom means for cloud capacity this quarter'),
+          story('dl1', 'Retrieval-Centric Deep Learning in Growing Nonparametric Neural Networks'),
+          story('dl2', 'A survey of deep learning methods for robotic control'),
+          story('dl3', 'Deep learning models cut inference cost in production'),
+          story('dl4', 'Why deep learning still dominates industrial vision pipelines'),
+          story('dl5', 'Labs publish deep learning benchmarks for science tasks'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    assert.ok(ids.includes('ai-boom'));
+    assert.ok(ids.includes('deep-learning'));
+    assert.match(renderTag(rich, 'ai-boom'), /What has SIREN scored about AI boom\?/);
+    assert.match(renderTag(rich, 'deep-learning'), /What has SIREN scored about Deep learning\?/);
+    assert.match(renderTag(rich, 'ai-boom'), /not a growth forecast/i);
+    assert.match(renderTag(rich, 'deep-learning'), /not a capability ranking/i);
+    assert.doesNotMatch(renderTag(rich, 'ai-boom'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'deep-learning'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'deep-learning'), /probability of doom/i);
+  });
 });
