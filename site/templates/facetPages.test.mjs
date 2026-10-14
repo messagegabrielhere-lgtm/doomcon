@@ -1019,6 +1019,59 @@ describe('lab facets', () => {
     assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/lab/synopsys.html'));
   });
 
+  it('indexes Airbnb and Asana entity labs when archive headlines clear the gate', () => {
+    const withArch = {
+      ...ctx,
+      news: { ...ctx.news, items: [...ctx.news.items] },
+      itemArchive: [
+        {
+          id: 'ab1', title: 'AI Agents Are a Threat to Travel Businesses. Airbnb Could Still Be a Winner.', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/ab1', published_at: '2026-09-01T01:00:00Z', score: 40,
+        },
+        {
+          id: 'ab2', title: 'AI photos are making it harder to know what you\'re booking on Airbnb', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/ab2', published_at: '2026-09-02T01:00:00Z', score: 41,
+        },
+        {
+          id: 'ab3', title: 'Q&A with Brian Chesky on Airbnb\'s plans for agent-to-agent interactions', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/ab3', published_at: '2026-09-03T01:00:00Z', score: 42,
+        },
+        {
+          id: 'abbad', title: 'A vacation rental photo without naming the marketplace', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/abbad', published_at: '2026-09-04T01:00:00Z', score: 30,
+        },
+        {
+          id: 'as1', title: 'Asana cuts model costs 76x in browser tests with GPT-6.1 Sol', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/as1', published_at: '2026-09-01T02:00:00Z', score: 40,
+        },
+        {
+          id: 'as2', title: 'Asana says cache changes cut a browser agent\'s cost 76x', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/as2', published_at: '2026-09-02T02:00:00Z', score: 41,
+        },
+        {
+          id: 'as3', title: 'Meta launches Muse for Small Business, integrating the AI agent with Asana', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/as3', published_at: '2026-09-03T02:00:00Z', score: 42,
+        },
+        {
+          id: 'asbad', title: 'A project board without naming the product', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/asbad', published_at: '2026-09-04T02:00:00Z', score: 30,
+        },
+      ],
+    };
+    const airbnb = labsFromEntities(withArch).find((p) => p.id === 'airbnb');
+    const asana = labsFromEntities(withArch).find((p) => p.id === 'asana');
+    assert.ok(airbnb, 'Airbnb clears ENTITY_LAB_MIN');
+    assert.ok(asana, 'Asana clears ENTITY_LAB_MIN');
+    assert.match(renderLab(withArch, airbnb), /What has SIREN scored about Airbnb\?/);
+    assert.match(renderLab(withArch, asana), /What has SIREN scored about Asana\?/);
+    assert.doesNotMatch(renderLab(withArch, airbnb), /without naming the marketplace/);
+    assert.doesNotMatch(renderLab(withArch, asana), /without naming the product/);
+    assert.doesNotMatch(renderLab(withArch, airbnb), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderLab(withArch, asana), /probability of doom/i);
+    assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/lab/airbnb.html'));
+    assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/lab/asana.html'));
+  });
+
   it('indexes Supermicro, IREN, OpenRouter, and Reflection AI entity labs from archive', () => {
     const withArch = {
       ...ctx,

@@ -538,6 +538,8 @@ function labNeedles(player) {
     tiktok: ['tiktok'],
     slack: ['slack'],
     synopsys: ['synopsys'],
+    airbnb: ['airbnb'],
+    asana: ['asana'],
   };
   return [...new Set([...(extras[player.id] || []), ...names])];
 }
