@@ -222,6 +222,12 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('What are the five pillars on this page'));
     assert.ok(org.knowsAbout.includes('Where are the recent SIREN index moves'));
     assert.ok(org.knowsAbout.includes('How do I put the index on my site'));
+    assert.ok(org.knowsAbout.includes('Where do I check the working behind the number'));
+    assert.ok(org.knowsAbout.includes('What does the reading look like as a clock'));
+    assert.ok(org.knowsAbout.includes('Where do the machines live'));
+    assert.ok(org.knowsAbout.includes('What does SIREN Arena show today'));
+    assert.ok(org.knowsAbout.includes('How do I hear when SIREN moves first'));
+    assert.ok(org.knowsAbout.includes('How does SIREN stay free without a paywall'));
     assert.ok(org.knowsAbout.includes('Waffle House Index'));
     assert.ok(org.knowsAbout.includes('is the Waffle House open'));
     assert.ok(org.knowsAbout.includes('AI threat board'));
