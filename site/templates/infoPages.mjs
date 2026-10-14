@@ -1497,6 +1497,8 @@ export function guides(ctx) {
   // different question-shaped title — schema/speakable pointed at the wrong H1.
   const qTitle = 'What are the AI explainers?';
   const description = `${qTitle} Plain guides on p(doom), AI doomsday clocks, DEFCON comparisons, and recomputable AI activity indexes. ${brand.NAME} counts tempo — it does not publish a doom probability.`;
+  // Tip #319: “Also” H2 is question-shaped and mirrored in FAQ (§3.3).
+  const alsoQ = 'What else sits next to these AI explainers?';
   // FAQ from the SAME pairs rendered in HTML (FINDABILITY schema rule — no invented Q&A).
   // Refuse: SIREN-as-doom-probability / stuffing synonym doorways / forecast.
   const faqPairs = [
@@ -1511,6 +1513,10 @@ export function guides(ctx) {
     [
       `Does ${brand.NAME} publish a doom probability?`,
       `No. ${brand.NAME} publishes an hourly AI activity count with a receipt. The explainer pages describe vocabulary other sites use; they do not turn the ${brand.NAME} reading into a chance of harm.`,
+    ],
+    [
+      alsoQ,
+      `The live AI activity index, the markdown mirror of this hub, the history of AI risk, and the both-sides library.`,
     ],
   ];
   const rows = GUIDES.map((g) => `<li style="padding:12px 0;border-bottom:1px solid var(--rule)">
@@ -1528,6 +1534,11 @@ export function guides(ctx) {
     These pages answer the vocabulary questions without inventing a probability of harm.
     ${esc(brand.NAME)} stays an hourly activity count with a receipt.</p>
   <ol style="list-style:none;padding:0;margin:16px 0 0">${rows}</ol>
+  <h2>${esc(alsoQ)}</h2>
+  <p><a href="${esc(ctx.href('/'))}">AI activity index today · ${esc(brand.NAME)} →</a>
+     · <a href="${esc(ctx.href('/guides.md'))}">What are the AI explainers?</a>
+     · <a href="${esc(ctx.href('/history.html'))}">What is the history of AI risk? →</a>
+     · <a href="${esc(ctx.href('/library.html'))}">What AI books argue both sides of the case? →</a></p>
   <h2 id="faq">Questions people actually ask</h2>
   ${faqHtml}
   <p>Search-shaped sibling:
@@ -1535,11 +1546,6 @@ export function guides(ctx) {
     · <a href="${esc(ctx.href('/p-doom.html'))}">What is p(doom)?</a>
     · <a href="${esc(ctx.href('/ai-doomsday-clock.html'))}">Is there an AI doomsday clock?</a>
     · <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>.</p>
-  <h2>Also</h2>
-  <p><a href="${esc(ctx.href('/'))}">AI activity index today · ${esc(brand.NAME)} →</a>
-     · <a href="${esc(ctx.href('/guides.md'))}">What are the AI explainers?</a>
-     · <a href="${esc(ctx.href('/history.html'))}">What is the history of AI risk? →</a>
-     · <a href="${esc(ctx.href('/library.html'))}">What AI books argue both sides of the case? →</a></p>
 </section>`;
   return page({
     ctx,
@@ -1604,7 +1610,7 @@ ${brand.NAME} stays an hourly activity count with a receipt.
 
 ${lines}
 
-## Also
+## What else sits next to these AI explainers?
 
 - [AI activity index today · ${brand.NAME}](${ctx.url('/')})
 - [guide.md](${ctx.url('/guide.md')}) · [methodology.md](${ctx.url('/methodology.md')})

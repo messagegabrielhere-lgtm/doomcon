@@ -40,4 +40,16 @@ describe('search page SEO', () => {
     assert.doesNotMatch(html, /probability of doom/i);
     assert.doesNotMatch(html, /noindex/);
   });
+
+  it('empty-state section H2s use questions mirrored in FAQPage', () => {
+    const html = search(ctx, stats);
+    assert.match(html, /<h2>Which search queries should you try first\?<\/h2>/);
+    assert.match(html, /<h2>Which rooms do people open most\?<\/h2>/);
+    assert.doesNotMatch(html, /<h2>Try one of these<\/h2>/);
+    assert.doesNotMatch(html, /<h2>Popular rooms<\/h2>/);
+    assert.match(html, /"name"\s*:\s*"Which search queries should you try first\?"/);
+    assert.match(html, /"name"\s*:\s*"Which rooms do people open most\?"/);
+    assert.match(html, /Starter queries on this page/);
+    assert.doesNotMatch(html, /probability of doom/i);
+  });
 });
