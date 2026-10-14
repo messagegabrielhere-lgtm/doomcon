@@ -596,24 +596,39 @@ export function renderLab(ctx, player) {
       : `${player.name} on ${brand.NAME}: live prediction-market odds ${fmtPct(m.probability)}, shipping and mindshare when reported, plus ${items.length} related scored stories.`,
     160,
   );
+  // Tip #286: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const windowQ = `Which related scored stories name ${player.name} in this window?`;
+  const olderQ = `Which older scored stories name ${player.name}?`;
+  const othersQ = 'Which other labs have scored stories?';
+  const peerLabs = allLabs(ctx).filter((p) => p.id !== player.id);
+  const labs = peerLabs
+    .map((p) => `<a href="${esc(ctx.href(labPath(p.id)))}">What has ${esc(brand.NAME)} scored about ${esc(p.name)}?</a>`)
+    .join('');
   const faq = [
     [`What has ${brand.NAME} scored about ${player.name}?`,
       entityOnly
         ? `${total} scored stories name ${player.name} on ${brand.NAME} (${items.length} in the live window${archivedAll.length ? `, ${archivedAll.length} older in the archive` : ''}). Story counts only — this page does not invent market odds.`
         : `${player.name} on ${brand.NAME}: live prediction-market odds ${fmtPct(m.probability)} when published, plus ${items.length} related scored stories in the live window${archivedAll.length ? ` and ${archivedAll.length} older in the archive` : ''}.`],
+    [windowQ,
+      items.length
+        ? `${items.length} scored ${items.length === 1 ? 'story names' : 'stories name'} ${player.name} in the current window. Story counts only — not a company doom score.`
+        : `No scored story in the current window names ${player.name}.${entityOnly ? '' : ' The race row above is still the addressable unit.'}`],
+    ...(older.length
+      ? [[olderQ,
+        'Kept in the permanent archive after they left the live window. Still scored stories — not a forecast.']]
+      : []),
+    ...(peerLabs.length
+      ? [[othersQ,
+        `Other labs that clear the substance gate, each linking What has ${brand.NAME} scored about that lab?`]]
+      : []),
     [`Does ${brand.NAME} publish a ${player.name} doom score?`,
       `No. ${brand.DISCLAIMER_SHORT} Numbers here are story counts${entityOnly ? '' : ' and, where published, prediction-market prices'} — not a ranking of how dangerous a company is.`],
   ];
   const faqHtml = faq.map(([q, a]) => `
   <h3>${esc(q)}</h3>
   <p>${esc(a)}</p>`).join('');
-
-  const labs = allLabs(ctx)
-    .filter((p) => p.id !== player.id)
-    .map((p) => `<a href="${esc(ctx.href(labPath(p.id)))}">What has ${esc(brand.NAME)} scored about ${esc(p.name)}?</a>`)
-    .join('');
   const olderBlock = older.length
-    ? `<h2>Older scored stories naming ${esc(player.name)}</h2>
+    ? `<h2 id="older">${esc(olderQ)}</h2>
   <p class="fc__lede">Kept in the permanent archive after they left the live window. Still scored stories — not a forecast.</p>
   <ol class="fc__list">${itemRows(ctx, older, 12)}</ol>
   <p class="fresh__key"><a href="${esc(ctx.href('/item/archive.html'))}">Which older AI stories has ${esc(brand.NAME)} kept in the archive?</a></p>`
@@ -644,17 +659,16 @@ export function renderLab(ctx, player) {
     ? 'Stories are scored newsroom items that name this lab. This page does not invent market odds.'
     : 'Odds and shipping signals come from the public race board; stories are scored newsroom items that name this lab.'}</p>
   ${stats}
-  <h2>Related stories in this window</h2>
+  <h2 id="window">${esc(windowQ)}</h2>
   ${items.length
     ? `<ol class="fc__list">${itemRows(ctx, items)}</ol>`
     : `<p>No scored story in the current window names ${esc(player.name)}.${entityOnly ? '' : ' The race row above is still the addressable unit.'}</p>`}
   ${olderBlock}
   <h2 id="faq">Questions people actually ask</h2>
   ${faqHtml}
-  <h2>Other labs</h2>
-  <nav class="fc__labs" aria-label="Labs">${labs}</nav>
+  ${peerLabs.length ? `<h2 id="other-labs">${esc(othersQ)}</h2>
+  <nav class="fc__labs" aria-label="Labs">${labs}</nav>` : ''}
 </article>`;
-
   return page({
     ctx,
     path,

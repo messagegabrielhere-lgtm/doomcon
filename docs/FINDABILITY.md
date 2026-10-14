@@ -535,6 +535,7 @@ context.
 | 283 | `/news/YYYY-MM-DD` day hubs section H2s + FAQPage use questions for live-window / older-from-day / other-days (was “In this window” / “Older scored stories from …” / “Other days”); Organization `knowsAbout` mirrors those questions; refuse day doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 284 | `/country/*` country hubs section H2s + FAQPage use questions for named-sites / scored-stories / older-stories / same-subregion (was “Named sites” / “Scored stories naming …” / “Older scored stories naming …” / “Same subregion”); Organization `knowsAbout` mirrors those questions; refuse country doom-score / national AI ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 285 | `/model/*` model hubs section H2s + FAQPage use questions for window-stories / older-stories / other-families (was “Stories in this window” / “Older scored stories naming …” / “Other model families”); Organization `knowsAbout` mirrors those questions; refuse model doom-score / model-rating / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 286 | `/lab/*` lab hubs section H2s + FAQPage use questions for window-stories / older-stories / other-labs (was “Related stories in this window” / “Older scored stories naming …” / “Other labs”); Organization `knowsAbout` mirrors those questions; refuse company doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
