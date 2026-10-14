@@ -271,6 +271,7 @@ context.
 | 38 | Sitewide footer/nav labels + agent pages + home modules use question H1/H2s mirrored in FAQ (keep #123 off-brand unlinks) | Google | **Done** (2026-10-14) |
 | 39 | Provenance + explainer infoPages and extras (alerts/export/bias/changelog/reference-plan) ship question H1/H2 + FAQ schema | Google | **Done** (2026-10-14) |
 | 40 | Instrument pages (balance/digest/evolution/desk/charts/exploits/flock/waffle/feature/moves/day) question H1/H2 + FAQ; facet breadcrumbs match H1s | Google | **Done** (2026-10-14) |
+| 41 | History/labs/leaders/map/live/moltbook/games/bets/classic/instruments question H1/H2 + FAQ; extras blurbs match page questions | Google | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
