@@ -26,6 +26,7 @@ function itemStamp(item) {
 const NEWS_KEYWORD_LABS = Object.freeze([
   'OpenAI', 'Anthropic', 'Google', 'DeepMind', 'Meta', 'xAI', 'Mistral', 'NVIDIA',
   'Microsoft', 'Amazon', 'AWS', 'Hugging Face', 'HuggingFace',
+  'Apple', 'Apple Intelligence', 'Palantir', 'ByteDance', 'Seed-OSS',
   'DeepSeek', 'AMD', 'Broadcom', 'Oracle', 'Tencent', 'Qualcomm', 'Qwen', 'Alibaba', 'Alibaba Cloud',
   'Huawei', 'Sony', 'Supermicro', 'IREN', 'OpenRouter', 'Reflection AI',
   'Muse Wonder', 'Artificial Analysis', 'Decart', 'Sakana AI', 'Isomorphic Labs',

@@ -71,6 +71,10 @@ describe('seo-daily parsers', () => {
     assert.ok(OUR_SURFACES.includes('/lab/nvidia.html'));
     assert.ok(OUR_SURFACES.includes('/lab/amazon.html'));
     assert.ok(OUR_SURFACES.includes('/lab/hugging-face.html'));
+    assert.ok(OUR_SURFACES.includes('/lab/reflection-ai.html'));
+    assert.ok(OUR_SURFACES.includes('/lab/apple.html'));
+    assert.ok(OUR_SURFACES.includes('/lab/palantir.html'));
+    assert.ok(OUR_SURFACES.includes('/lab/bytedance.html'));
     assert.ok(OUR_SURFACES.includes('/model/kimi.html'));
     assert.ok(OUR_SURFACES.includes('/model/glm.html'));
     assert.ok(OUR_SURFACES.includes('/model/grok.html'));
