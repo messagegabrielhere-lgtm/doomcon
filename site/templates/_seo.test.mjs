@@ -343,6 +343,14 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('Which labs’ posts are on the X wire'));
     assert.ok(org.knowsAbout.includes('Which frontier labs are monitored'));
     assert.ok(org.knowsAbout.includes('Where is every dataset on one panel'));
+    assert.ok(org.knowsAbout.includes('Which readings are most recent'));
+    assert.ok(org.knowsAbout.includes('Which AI leaders are on the record'));
+    assert.ok(org.knowsAbout.includes('Which items scored highest'));
+    assert.ok(org.knowsAbout.includes("What is today's signal"));
+    assert.ok(org.knowsAbout.includes('Which eight stories are newest'));
+    assert.ok(org.knowsAbout.includes('How do you reuse this SIREN reading'));
+    assert.ok(org.knowsAbout.includes('Which AI bosses are on watch'));
+    assert.ok(org.knowsAbout.includes('Which labs are monitored on the home board'));
     assert.ok(org.knowsAbout.includes('AI harm and benefit side by side'));
     assert.ok(org.knowsAbout.includes('how does SIREN count AI harm and benefit side by side'));
     assert.ok(org.knowsAbout.includes('Tally desk unserious counts'));

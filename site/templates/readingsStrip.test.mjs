@@ -24,4 +24,11 @@ describe('recent readings strip', () => {
     assert.doesNotMatch(html, /The full history/);
     assert.doesNotMatch(html, /probability of doom/i);
   });
+
+  it('section H2 uses a question', () => {
+    const html = render(ctx);
+    assert.match(html, /id="rd-h">Which readings are most recent\?<\/h2>/);
+    assert.doesNotMatch(html, /id="rd-h">Recent readings<\/h2>/);
+    assert.doesNotMatch(html, /probability of doom/i);
+  });
 });

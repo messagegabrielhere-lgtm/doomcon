@@ -100,8 +100,10 @@ function shareReuse(ctx, state, href) {
   const badgeMd = `[![${brand.NAME}](${ctx.url('/badge.svg')})](${ctx.url('/')})`;
   const iframe = `<iframe src="${ctx.url('/embed.html')}" width="320" height="96" style="border:0;overflow:hidden" title="${brand.NAME} reading" loading="lazy"></iframe>`;
   const pageUrl = ctx.url('/');
+  // Tip #330: section H2 is question-shaped (screen-reader); homepage FAQ mirrors it (§3.3).
+  const reuseQ = `How do you reuse this ${brand.NAME} reading?`;
   return `<section class="v2-share" id="reuse" data-sec="Reuse" aria-labelledby="v2-share-h">
-  <div class="v2-sec"><h2 id="v2-share-h">${pixelText('REUSE THIS READING', 4, '#FFFFFF', 'fit')}</h2><span>BADGE · EMBED · CITE · COPY LINK</span></div>
+  <div class="v2-sec"><h2 id="v2-share-h" class="v2-sr">${esc(reuseQ)}</h2><div aria-hidden="true">${pixelText('REUSE THIS READING', 4, '#FFFFFF', 'fit')}</div><span>BADGE · EMBED · CITE · COPY LINK</span></div>
   <div class="v2-share__grid">
     <div class="v2-share__card">
       <span class="cap">README BADGE</span>
@@ -718,16 +720,16 @@ ${movedPanel(wm, href)}
   <div class="v2-vfywrap">${verifyBox(ctx)}</div>
 
 
-  <div class="v2-sec" id="bosses" data-sec="Bosses"><h2>${pixelText('THE BOSSES ON WATCH', 4, '#FFFFFF', 'fit')}</h2><span>ON THE RECORD THIS WEEK · ${totals.on_record ?? 0} OF ${totals.leaders ?? 15}</span></div>
+  <div class="v2-sec" id="bosses" data-sec="Bosses"><h2 id="v2-bosses-h" class="v2-sr">Which AI bosses are on watch?</h2><div aria-hidden="true">${pixelText('THE BOSSES ON WATCH', 4, '#FFFFFF', 'fit')}</div><span>ON THE RECORD THIS WEEK · ${totals.on_record ?? 0} OF ${totals.leaders ?? 15}</span></div>
   <div class="v2-bosses">
     ${leaders.map((l) => { const s = bossStatus(l); return `<a class="boss" href="${href('/leaders.html')}"><img class="v2-face" loading="lazy" decoding="async" src="${img(FACE_BY_LEADER[l.id])}" width="96" height="96" alt=""><span class="nm">${esc(l.name.toUpperCase())}</span><span class="co">${esc(String(l.org).toUpperCase())}</span><span class="st ${s.cls}">${s.t}</span></a>`; }).join('')}
   </div>
 
-  <div class="v2-sec" id="labs" data-sec="Labs"><h2>${pixelText(`${players.length} LABS MONITORED`, 4, '#FFFFFF', 'fit')}</h2><span>ODDS OF BEST MODEL IN 2026 · POLYMARKET</span></div>
+  <div class="v2-sec" id="labs" data-sec="Labs"><h2 id="v2-labs-h" class="v2-sr">Which labs are monitored on the home board?</h2><div aria-hidden="true">${pixelText(`${players.length} LABS MONITORED`, 4, '#FFFFFF', 'fit')}</div><span>ODDS OF BEST MODEL IN 2026 · POLYMARKET</span></div>
   <div class="v2-labs">${players.map(lab).join('')}</div>
 
 <section class="v2-video" aria-labelledby="v2-video-h">
-    <div class="txt"><h2 id="v2-video-h">${pixelText('WHAT IS SIREN?', 4, '#FFFFFF', 'fit')}</h2><p>A 42-second tour: the hourly reading, the five levels, and the rooms worth opening. Sound on: the soundtrack is SIREN Radio, generated from the same code as the ♪ button.</p><p><a class="v2-btn sm" href="${href('/videos.html')}">What free AI explainer videos does ${esc(brand.NAME)} publish?</a></p></div>
+    <div class="txt"><h2 id="v2-video-h" class="v2-sr">What is SIREN?</h2><div aria-hidden="true">${pixelText('WHAT IS SIREN?', 4, '#FFFFFF', 'fit')}</div><p>A 42-second tour: the hourly reading, the five levels, and the rooms worth opening. Sound on: the soundtrack is SIREN Radio, generated from the same code as the ♪ button.</p><p><a class="v2-btn sm" href="${href('/videos.html')}">What free AI explainer videos does ${esc(brand.NAME)} publish?</a></p></div>
     <video controls preload="none" playsinline width="1280" height="720" poster="${href('/media/siren-explainer-poster.jpg')}">
       <source src="${href('/media/siren-explainer.webm')}" type="video/webm">
       <source src="${href('/media/siren-explainer.mp4')}" type="video/mp4">

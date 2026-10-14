@@ -84,4 +84,26 @@ describe('homepage FAQ', () => {
     assert.match(html, /Where is every dataset on one panel\?/);
     assert.doesNotMatch(html, /probability of doom/i);
   });
+
+  it('includes readings, reel, leaderwire and homeV2 questions mirrored from section H2s', () => {
+    const qa = items(ctx);
+    assert.ok(qa.some(([q]) => q === 'Which readings are most recent?'));
+    assert.ok(qa.some(([q]) => q === 'Which AI leaders are on the record?'));
+    assert.ok(qa.some(([q]) => q === 'Which items scored highest?'));
+    assert.ok(qa.some(([q]) => q === "What is today's signal?"));
+    assert.ok(qa.some(([q]) => q === 'Which eight stories are newest?'));
+    assert.ok(qa.some(([q]) => q === 'How do you reuse this SIREN reading?'));
+    assert.ok(qa.some(([q]) => q === 'Which AI bosses are on watch?'));
+    assert.ok(qa.some(([q]) => q === 'Which labs are monitored on the home board?'));
+    const html = render(ctx);
+    assert.match(html, /Which readings are most recent\?/);
+    assert.match(html, /Which AI leaders are on the record\?/);
+    assert.match(html, /Which items scored highest\?/);
+    assert.match(html, /What is today(?:'|&#39;|&apos;)s signal\?/);
+    assert.match(html, /Which eight stories are newest\?/);
+    assert.match(html, /How do you reuse this SIREN reading\?/);
+    assert.match(html, /Which AI bosses are on watch\?/);
+    assert.match(html, /Which labs are monitored on the home board\?/);
+    assert.doesNotMatch(html, /probability of doom/i);
+  });
 });

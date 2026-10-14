@@ -21,4 +21,11 @@ describe('homepage news module', () => {
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /probability of doom/i);
   });
+
+  it('signal reel H2 uses a question', () => {
+    const html = render(ctx);
+    assert.match(html, /id="reel-h">What is today(?:'|&#39;|&apos;)s signal\?<\/h2>/);
+    assert.doesNotMatch(html, /id="reel-h">Today(?:'|&#39;|&apos;)s signal<\/h2>/);
+    assert.doesNotMatch(html, /probability of doom/i);
+  });
 });

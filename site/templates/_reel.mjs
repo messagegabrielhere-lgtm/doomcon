@@ -439,7 +439,8 @@ export function reel(items, o = {}) {
   const picked = items.slice(0, limit);
   if (!picked.length) return '';
 
-  const heading = o.heading || 'Highest-scoring items';
+  // Tip #329: default section H2 is question-shaped when callers omit heading (§3.3).
+  const heading = o.heading || 'Which items scored highest?';
   const cards = picked.map((it, i) => card(it, i)).join('');
   const fresh = picked.filter((it) => it.fresh).length;
 
