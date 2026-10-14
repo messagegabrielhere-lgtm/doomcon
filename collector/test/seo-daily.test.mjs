@@ -10,6 +10,7 @@ import {
   measureSite,
   formatMarkdown,
   OPEN_ENGINEERING,
+  OUR_SURFACES,
 } from '../tools/seo-daily.mjs';
 
 describe('seo-daily parsers', () => {
@@ -90,5 +91,16 @@ describe('seo-daily measure + gaps', () => {
     assert.match(md, /SEO scoreboard/);
     assert.match(md, /\*\*siren\.watch\*\*/);
     assert.match(md, /example/);
+  });
+});
+
+describe('seo-daily surfaces', () => {
+  it('monitors gated facet hubs added for URL growth', () => {
+    assert.ok(OUR_SURFACES.includes('/tags/agents.html'));
+    assert.ok(OUR_SURFACES.includes('/tags.html'));
+    assert.ok(OUR_SURFACES.includes('/kinds.html'));
+    assert.ok(OUR_SURFACES.includes('/outlets.html'));
+    assert.ok(OUR_SURFACES.includes('/people.html'));
+    assert.ok(OUR_SURFACES.includes('/kind/press.html'));
   });
 });

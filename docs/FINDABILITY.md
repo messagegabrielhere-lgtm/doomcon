@@ -254,6 +254,7 @@ context.
 | 21 | Durable `data/item-archive.json` (ARCHIVE_MAX 5000) for `/item/` long-tail + newsroom cap 800 | Google | **Done** (2026-10-14) |
 | 22 | News-sitemap cap 150 with richer keywords | Google News | **Done** (2026-10-14) |
 | 23 | `/outlet/*` publisher hubs (≥5 scored stories) | Google | **Done** (2026-10-14) |
+| 24 | IndexNow ALWAYS + seo-daily OUR_SURFACES cover top gated `/tags/*` `/kind/*` `/outlet/*` `/people/*` hubs | Bing + daily scoreboard | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
