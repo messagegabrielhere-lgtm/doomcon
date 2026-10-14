@@ -177,7 +177,7 @@ export function renderPillar(ctx, pillarId) {
     ? `<h2>Older scored stories under ${esc(meta.name)}</h2>
   <p class="fc__lede">Kept in the permanent archive after they left the live window. Still scored stories — not a forecast.</p>
   <ol class="fc__list">${itemRows(ctx, older, 12)}</ol>
-  <p class="fresh__key"><a href="${esc(ctx.href('/item/archive.html'))}">Full story archive</a></p>`
+  <p class="fresh__key"><a href="${esc(ctx.href('/item/archive.html'))}">Which older AI stories has ${esc(brand.NAME)} kept in the archive?</a></p>`
     : '';
 
   const main = `${STYLE}
@@ -275,13 +275,13 @@ export function renderPillarIndex(ctx) {
   <h3>${esc(q)}</h3>
   <p>${esc(a)}</p>`).join('');
   const rows = pillars.map((p) => `<li>
-  <a href="${esc(ctx.href(pillarPath(p.id)))}">${esc(p.name)}</a>
-  <span class="fc__meta">${esc(p.id)}${p.archived ? ` · ${esc(String(p.live))} live / ${esc(String(p.archived))} archive` : ''}${p.score != null ? ` · ${esc(num(p.score, 1))} / 100` : ''}</span>
+  <a href="${esc(ctx.href(pillarPath(p.id)))}">What has ${esc(brand.NAME)} scored under ${esc(p.name)}?</a>
+  <span class="fc__meta">${esc(p.name)} · ${esc(p.id)}${p.archived ? ` · ${esc(String(p.live))} live / ${esc(String(p.archived))} archive` : ''}${p.score != null ? ` · ${esc(num(p.score, 1))} / 100` : ''}</span>
   <span class="fc__sc num">${esc(String(p.count))}</span>
 </li>`).join('');
   const main = `${STYLE}
 <article class="fc prose">
-  <p class="fc__k"><a href="${esc(ctx.href('/news.html'))}">Newsroom</a> · Pillars · <a href="${esc(ctx.href('/pillars.html'))}">Pillars hub</a></p>
+  <p class="fc__k"><a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a> · Which AI activity pillars have ${esc(brand.NAME)} pages? · <a href="${esc(ctx.href('/pillars.html'))}">Which AI activity pillars has ${esc(brand.NAME)} scored?</a></p>
   <h1>Which AI activity pillars have ${esc(brand.NAME)} pages?</h1>
   <p class="fc__lede">A pillar earns a crawlable page when at least ${PILLAR_INDEX_MIN} scored stories under it appear in the live window or the durable archive. The live pillar score is activity tempo against this index’s frozen reference — not a probability of harm.</p>
   ${pillars.length ? `<ol class="fc__list">${rows}</ol>` : '<p>No pillar cleared the gate in this build.</p>'}
@@ -309,12 +309,12 @@ export function renderPillarIndex(ctx) {
           '@type': 'ListItem',
           position: i + 1,
           url: ctx.url(pillarPath(p.id)),
-          name: p.name,
+          name: `What has ${brand.NAME} scored under ${p.name}?`,
         })),
       },
     }, breadcrumbs(ctx, [
-      { name: 'Newsroom', path: '/news.html' },
-      { name: 'Pillars', path },
+      { name: `Which AI stories has ${brand.NAME} scored in this window?`, path: '/news.html' },
+      { name: `Which AI activity pillars have ${brand.NAME} pages?`, path },
     ]), {
       '@context': 'https://schema.org',
       '@type': 'FAQPage',
@@ -352,24 +352,24 @@ export function renderPillars(ctx) {
   <h3>${esc(q)}</h3>
   <p>${esc(a)}</p>`).join('');
   const rows = pillars.map((p) => `<li>
-  <a href="${esc(ctx.href(pillarPath(p.id)))}">${esc(p.name)}</a>
-  <span class="fc__meta">Pillar hub · <span class="num">${esc(String(p.count))}</span> scored${p.archived ? ` (${esc(String(p.live))} live)` : ''}${p.score != null ? ` · ${esc(num(p.score, 1))} / 100` : ''}</span>
+  <a href="${esc(ctx.href(pillarPath(p.id)))}">What has ${esc(brand.NAME)} scored under ${esc(p.name)}?</a>
+  <span class="fc__meta">${esc(p.name)} · Pillar hub · <span class="num">${esc(String(p.count))}</span> scored${p.archived ? ` (${esc(String(p.live))} live)` : ''}${p.score != null ? ` · ${esc(num(p.score, 1))} / 100` : ''}</span>
 </li>`).join('');
   const main = `${STYLE}
 <article class="fc prose">
-  <p class="fc__k"><a href="${esc(ctx.href('/compare.html'))}">Compare</a> · <a href="${esc(ctx.href('/pillar/'))}">Pillars</a> · Pillars hub</p>
+  <p class="fc__k"><a href="${esc(ctx.href('/compare.html'))}">Which AI doom indexes can you compare?</a> · <a href="${esc(ctx.href('/pillar/'))}">Which AI activity pillars have ${esc(brand.NAME)} pages?</a> · Which AI activity pillars has ${esc(brand.NAME)} scored?</p>
   <h1>Which AI activity pillars has ${esc(brand.NAME)} scored?</h1>
-  <p class="fc__lede">${esc(brand.NAME)} does not publish a pillar “doom score.” It publishes five activity pillars and scored stories under each. This page lists pillars that already clear the same substance gate as <a href="${esc(ctx.href('/pillar/'))}">/pillar/</a> — at least ${PILLAR_INDEX_MIN} matching stories in the live window or archive.</p>
+  <p class="fc__lede">${esc(brand.NAME)} does not publish a pillar “doom score.” It publishes five activity pillars and scored stories under each. This page lists pillars that already clear the same substance gate as <a href="${esc(ctx.href('/pillar/'))}">Which AI activity pillars have ${esc(brand.NAME)} pages?</a> — at least ${PILLAR_INDEX_MIN} matching stories in the live window or archive.</p>
   <div class="fc__stat" role="group" aria-label="Pillars hub totals">
     <div><b class="num">${esc(String(pillars.length))}</b><span>Pillar hubs</span></div>
   </div>
   ${pillars.length ? `<ol class="fc__list">${rows}</ol>` : '<p>No pillar hub cleared the gate in this build.</p>'}
   <h2 id="faq">Questions people actually ask</h2>
   ${faqHtml}
-  <p class="fresh__key"><a href="${esc(ctx.href('/pillar/'))}">Pillar directory →</a>
-     · <a href="${esc(ctx.href('/methodology.html'))}">Methodology →</a>
-     · <a href="${esc(ctx.href('/tags.html'))}">AI tags →</a>
-     · <a href="${esc(ctx.href('/news.html'))}">Newsroom →</a></p>
+  <p class="fresh__key"><a href="${esc(ctx.href('/pillar/'))}">Which AI activity pillars have ${esc(brand.NAME)} pages?</a>
+     · <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>
+     · <a href="${esc(ctx.href('/tags.html'))}">Which AI tags has ${esc(brand.NAME)} scored stories about?</a>
+     · <a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a></p>
 </article>`;
   return page({
     ctx,
@@ -391,12 +391,12 @@ export function renderPillars(ctx) {
           '@type': 'ListItem',
           position: i + 1,
           url: ctx.url(pillarPath(p.id)),
-          name: p.name,
+          name: `What has ${brand.NAME} scored under ${p.name}?`,
         })),
       },
     }, breadcrumbs(ctx, [
-      { name: 'Compare', path: '/compare.html' },
-      { name: 'Pillars', path },
+      { name: 'Which AI doom indexes can you compare?', path: '/compare.html' },
+      { name: `Which AI activity pillars has ${brand.NAME} scored?`, path },
     ]), {
       '@context': 'https://schema.org',
       '@type': 'FAQPage',

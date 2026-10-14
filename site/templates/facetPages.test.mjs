@@ -162,6 +162,12 @@ describe('pillar facets', () => {
     assert.ok(!indexablePillars(ctx).some((p) => p.id === 'markets'));
     const hub = renderPillars(ctx);
     assert.match(hub, /Which AI activity pillars has SIREN scored\?/);
+    assert.match(hub, /What has SIREN scored under Capability\?/);
+    assert.match(hub, /Which AI doom indexes can you compare\?/);
+    assert.match(hub, /Which AI activity pillars have SIREN pages\?/);
+    assert.match(hub, /fc__k"><a href="\/compare\.html">Which AI doom indexes can you compare\?<\/a>/);
+    assert.doesNotMatch(hub, /fc__k"><a href="\/compare\.html">Compare<\/a>/);
+    assert.doesNotMatch(hub, /fc__k"><a href="\/pillar\/">Pillars<\/a>/);
     assert.match(hub, /\/pillar\/capability\.html/);
     assert.match(hub, /does not publish a pillar/);
     assert.match(hub, /Questions people actually ask/);
@@ -171,6 +177,10 @@ describe('pillar facets', () => {
     assert.doesNotMatch(hub, /doom score:\s*\d/i);
     const index = renderPillarIndex(ctx);
     assert.match(index, /Which AI activity pillars have SIREN pages\?/);
+    assert.match(index, /What has SIREN scored under Capability\?/);
+    assert.match(index, /Which AI stories has SIREN scored in this window\?/);
+    assert.match(index, /fc__k"><a href="\/news\.html">Which AI stories has SIREN scored in this window\?<\/a>/);
+    assert.doesNotMatch(index, /fc__k"><a href="\/news\.html">Newsroom<\/a>/);
     assert.match(index, /Questions people actually ask/);
     assert.match(index, /"@type"\s*:\s*"FAQPage"/);
     assert.match(index, /speakable/);
