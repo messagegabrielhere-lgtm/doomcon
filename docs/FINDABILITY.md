@@ -682,6 +682,8 @@ context.
 | 430 | Topic tag `ai-incidents` (live/archive ≥5); IndexNow + seo-daily monitor; refuse threat-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 431 | Topic tag `ai-computing` (live/archive ≥5); IndexNow + seo-daily monitor; refuse infra-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 432 | Topic tag `ai-demand` (live/archive ≥5); IndexNow + seo-daily monitor; refuse market-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 433 | Topic tag `decision-models` (live/archive ≥5); IndexNow + seo-daily monitor; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 434 | Topic tag `representation-learning` (live/archive ≥5); IndexNow + seo-daily monitor; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
