@@ -1801,6 +1801,30 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'Next-token prediction research stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
     match: /\bnext[- ]token\b/i,
   },
+  {
+    id: 'catastrophic-forgetting',
+    name: 'Catastrophic forgetting',
+    description: 'Catastrophic-forgetting research stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
+    match: /\bcatastrophic forgetting\b/i,
+  },
+  {
+    id: 'unsupervised',
+    name: 'Unsupervised learning',
+    description: 'Unsupervised learning research stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
+    match: /\b[Uu]nsupervised\b/,
+  },
+  {
+    id: 'backdoor',
+    name: 'AI backdoors',
+    description: 'Backdoor and trojan research stories scored in the newsroom or archive — coverage counts, not a harm forecast.',
+    match: /\b[Bb]ackdoors?\b/,
+  },
+  {
+    id: 'out-of-distribution',
+    name: 'Out-of-distribution',
+    description: 'Out-of-distribution detection research stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
+    match: /\bout[- ]of[- ]distribution\b/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));

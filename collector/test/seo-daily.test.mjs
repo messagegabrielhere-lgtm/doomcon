@@ -91,6 +91,10 @@ describe('seo-daily parsers', () => {
     assert.ok(OUR_SURFACES.includes('/tags/normalization.html'));
     assert.ok(OUR_SURFACES.includes('/tags/gigawatt.html'));
     assert.ok(OUR_SURFACES.includes('/tags/next-token.html'));
+    assert.ok(OUR_SURFACES.includes('/tags/catastrophic-forgetting.html'));
+    assert.ok(OUR_SURFACES.includes('/tags/unsupervised.html'));
+    assert.ok(OUR_SURFACES.includes('/tags/backdoor.html'));
+    assert.ok(OUR_SURFACES.includes('/tags/out-of-distribution.html'));
     assert.ok(OUR_SURFACES.includes('/jobs.html'));
     assert.ok(OUR_SURFACES.includes('/medicine.html'));
   });
