@@ -351,6 +351,15 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('How do you reuse this SIREN reading'));
     assert.ok(org.knowsAbout.includes('Which AI bosses are on watch'));
     assert.ok(org.knowsAbout.includes('Which labs are monitored on the home board'));
+    assert.ok(org.knowsAbout.includes('What is in the newsroom'));
+    assert.ok(org.knowsAbout.includes('What is the signal feed'));
+    assert.ok(org.knowsAbout.includes('What is the score trend'));
+    assert.ok(org.knowsAbout.includes('What pillars are loud right now'));
+    assert.ok(org.knowsAbout.includes('How is source health right now'));
+    assert.ok(org.knowsAbout.includes('What moved this hour'));
+    assert.ok(org.knowsAbout.includes('Which unconventional signals are watched'));
+    assert.ok(org.knowsAbout.includes('Which AI prediction markets are live'));
+    assert.ok(org.knowsAbout.includes('What are AI agents saying'));
     assert.ok(org.knowsAbout.includes('AI harm and benefit side by side'));
     assert.ok(org.knowsAbout.includes('how does SIREN count AI harm and benefit side by side'));
     assert.ok(org.knowsAbout.includes('Tally desk unserious counts'));

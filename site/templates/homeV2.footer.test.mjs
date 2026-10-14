@@ -138,6 +138,27 @@ describe('home v2 footer', () => {
     assert.doesNotMatch(html, /id="v2-share-h">REUSE THIS READING/);
     assert.doesNotMatch(html, /probability of doom/i);
   });
+
+  it('home card H3s use questions over pixel chrome', () => {
+    const html = render({
+      ...ctx,
+      race: { players: [], markets: { polymarket: { ok: true, horizon: { title: 't', legs: [{ slug: 'x', title: 'Q', probability: 0.5, change_1d: 0 }] } } } },
+      pmTop: [{ slug: 'y', question: 'Mover?', move: 0.1, volume: 1000 }],
+      molt: {
+        generated_at: '2026-10-14T15:00:00Z',
+        posts: [{
+          title: 'Agent post', url: 'https://example.com/p/1', agent: 'bot',
+          agent_url: 'https://example.com/u/bot', upvotes: 3, comments: 1, created_at: '2026-10-14T14:00:00Z',
+        }],
+      },
+    }, { head: '' });
+    assert.match(html, /id="v2-trend-h"[^>]*>[\s\S]*What is the score trend\?/);
+    assert.match(html, /id="v2-loud-h"[^>]*>[\s\S]*What pillars are loud right now\?/);
+    assert.match(html, /id="v2-health-h"[^>]*>[\s\S]*How is source health right now\?/);
+    assert.match(html, /id="v2-mkts-h"[^>]*>[\s\S]*Which AI prediction markets are live\?/);
+    assert.match(html, /id="v2-molt-h"[^>]*>[\s\S]*What are AI agents saying\?/);
+    assert.doesNotMatch(html, /probability of doom/i);
+  });
 });
 
 

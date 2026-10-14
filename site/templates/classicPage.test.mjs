@@ -159,9 +159,13 @@ describe('classic page', () => {
     assert.match(html, /Which readings are most recent\?/);
     assert.match(html, /Which eight stories are newest\?/);
     assert.match(html, /Which AI leaders are on the record\?/);
+    assert.match(html, /class="sw__ph">What is in the newsroom\?<\/h3>/);
+    assert.match(html, /class="sw__ph">Who is winning the AI race\?<\/h3>/);
     assert.doesNotMatch(html, /id="vfy-h">Don’t trust it\. Check it\.<\/h2>/);
     assert.doesNotMatch(html, /Every dataset, one panel<span/);
     assert.doesNotMatch(html, /id="rd-h">Recent readings<\/h2>/);
+    assert.doesNotMatch(html, /class="sw__ph">The newsroom<\/h3>/);
+    assert.doesNotMatch(html, /class="sw__ph">The race<\/h3>/);
     assert.doesNotMatch(html, /probability of doom/i);
   });
 
