@@ -1125,6 +1125,37 @@ describe('lab facets', () => {
     assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/lab/coinbase.html'));
   });
 
+  it('indexes McDonald\'s entity lab when archive headlines clear the gate', () => {
+    const withArch = {
+      ...ctx,
+      news: { ...ctx.news, items: [...ctx.news.items] },
+      itemArchive: [
+        {
+          id: 'md1', title: "McDonald's sued over AI tool that recommends prices to US franchisees", pillar: 'governance', source: 'hn',
+          url: 'https://example.test/md1', published_at: '2026-09-01T01:00:00Z', score: 40,
+        },
+        {
+          id: 'md2', title: "McDonald's Is Using AI to Dynamically Price Its Burgers", pillar: 'governance', source: 'hn',
+          url: 'https://example.test/md2', published_at: '2026-09-02T01:00:00Z', score: 41,
+        },
+        {
+          id: 'md3', title: "Your Big Mac might cost more if McDonald's AI thinks people nearby can afford it", pillar: 'governance', source: 'hn',
+          url: 'https://example.test/md3', published_at: '2026-09-03T01:00:00Z', score: 42,
+        },
+        {
+          id: 'mdbad', title: 'A QSR pricing note without naming the chain', pillar: 'governance', source: 'hn',
+          url: 'https://example.test/mdbad', published_at: '2026-09-04T01:00:00Z', score: 30,
+        },
+      ],
+    };
+    const mcdonald = labsFromEntities(withArch).find((p) => p.id === 'mcdonald-s');
+    assert.ok(mcdonald, "McDonald's clears ENTITY_LAB_MIN");
+    assert.match(renderLab(withArch, mcdonald), /What has SIREN scored about McDonald's\?/);
+    assert.doesNotMatch(renderLab(withArch, mcdonald), /without naming the chain/);
+    assert.doesNotMatch(renderLab(withArch, mcdonald), /doom score:\s*\d/i);
+    assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/lab/mcdonald-s.html'));
+  });
+
   it('indexes TypeSafe entity lab when archive headlines clear the gate', () => {
     const withArch = {
       ...ctx,

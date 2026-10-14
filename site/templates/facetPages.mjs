@@ -545,6 +545,7 @@ function labNeedles(player) {
     a16z: ['a16z', 'andreessen horowitz'],
     instinct: ['instinct'],
     typesafe: ['typesafe ai', 'typesafe'],
+    "mcdonald-s": ["mcdonald's", 'mcdonald’s', 'mcdonalds'],
   };
   return [...new Set([...(extras[player.id] || []), ...names])];
 }
