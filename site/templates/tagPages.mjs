@@ -10,7 +10,7 @@
 import { esc, num, utc } from './_html.mjs';
 import { page } from './layout.mjs';
 import { breadcrumbs, speakable } from './_seo.mjs';
-import { slugFor } from './itemPage.mjs';
+import { slugFor, storyItemListEntity } from './itemPage.mjs';
 import * as brand from '../brand.mjs';
 
 /** Minimum scored stories before a tag page is written and sitemapped. */
@@ -2049,16 +2049,10 @@ export function renderTag(ctx, id) {
       isPartOf: { '@type': 'WebSite', name: brand.PUBLICATION, url: ctx.url('/') },
       about: { '@type': 'Thing', name: topic.name, description: topic.description },
       speakable: speakable(['h1', '.tg__lede']),
-      mainEntity: {
-        '@type': 'ItemList',
-        numberOfItems: Math.min(items.length, TAG_LIST_CAP),
-        itemListElement: items.slice(0, TAG_LIST_CAP).map((it, i) => ({
-          '@type': 'ListItem',
-          position: i + 1,
-          url: ctx.url(`/item/${slugFor(it)}.html`),
-          name: it.title,
-        })),
-      },
+      mainEntity: storyItemListEntity(ctx, items, older, {
+        liveCap: TAG_LIST_CAP,
+        archiveCap: 12,
+      }),
     }, breadcrumbs(ctx, [
       { name: `Which AI stories has ${brand.NAME} scored in this window?`, path: '/news.html' },
       { name: `Which AI news tags have ${brand.NAME} pages?`, path: '/tags/' },

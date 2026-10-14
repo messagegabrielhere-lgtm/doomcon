@@ -12,7 +12,7 @@ import { publishedEntities, entitySlug } from '../../collector/news-sources/_ent
 import { esc, num, utc } from './_html.mjs';
 import { page } from './layout.mjs';
 import { breadcrumbs, speakable } from './_seo.mjs';
-import { slugFor } from './itemPage.mjs';
+import { slugFor, storyItemListEntity } from './itemPage.mjs';
 import * as brand from '../brand.mjs';
 
 /** Minimum scored stories before a pillar page is indexable (soft-404 gate). */
@@ -116,39 +116,6 @@ function itemRows(ctx, items, limit = 40) {
     · <time datetime="${esc(it.published_at || '')}">${esc(utc(it.published_at))}</time></span>
   ${scoreCell(it)}
 </li>`).join('');
-}
-
-/** Live window rows (≤40) then older archive rows (≤12) — matches visible lists. */
-const FACET_LIVE_LIST_CAP = 40;
-const FACET_ARCHIVE_LIST_CAP = 12;
-
-function storiesForItemList(liveItems, archivedItems) {
-  const out = [];
-  for (const it of liveItems || []) {
-    if (out.length >= FACET_LIVE_LIST_CAP) break;
-    out.push(it);
-  }
-  const liveCount = out.length;
-  for (const it of archivedItems || []) {
-    if (out.length >= liveCount + FACET_ARCHIVE_LIST_CAP) break;
-    out.push(it);
-  }
-  return out;
-}
-
-/** ItemList that mirrors on-page live + older blocks (FINDABILITY #52). */
-function itemListEntity(ctx, liveItems, archivedItems) {
-  const list = storiesForItemList(liveItems, archivedItems);
-  return {
-    '@type': 'ItemList',
-    numberOfItems: list.length,
-    itemListElement: list.map((it, i) => ({
-      '@type': 'ListItem',
-      position: i + 1,
-      url: ctx.url(`/item/${slugFor(it)}.html`),
-      name: it.title,
-    })),
-  };
 }
 
 const STYLE = `<style>
@@ -272,7 +239,7 @@ export function renderPillar(ctx, pillarId) {
         creator: { '@type': 'Organization', name: brand.PUBLICATION, url: ctx.url('/') },
       },
       speakable: speakable(['h1', '.fc__lede']),
-      mainEntity: itemListEntity(ctx, items, older),
+      mainEntity: storyItemListEntity(ctx, items, older),
     }, breadcrumbs(ctx, [
       { name: `Which AI stories has ${brand.NAME} scored in this window?`, path: '/news.html' },
       { name: `Which AI activity pillars have ${brand.NAME} pages?`, path: '/pillar/' },
@@ -521,7 +488,7 @@ export function renderLab(ctx, player) {
       about: { '@type': 'Organization', name: player.name },
       isPartOf: { '@type': 'WebSite', name: brand.PUBLICATION, url: ctx.url('/') },
       speakable: speakable(['h1', '.fc__lede']),
-      mainEntity: itemListEntity(ctx, items, older),
+      mainEntity: storyItemListEntity(ctx, items, older),
     }, breadcrumbs(ctx, [
       { name: 'Who is winning the AI race?', path: '/race.html' },
       { name: `Which AI labs have ${brand.NAME} pages?`, path: '/lab/' },
@@ -714,7 +681,7 @@ export function renderSource(ctx, sourceId) {
       isPartOf: { '@type': 'WebSite', name: brand.PUBLICATION, url: ctx.url('/') },
       about: { '@type': 'NewsMediaOrganization', name: label },
       speakable: speakable(['h1', '.fc__lede']),
-      mainEntity: itemListEntity(ctx, items, older),
+      mainEntity: storyItemListEntity(ctx, items, older),
     }, breadcrumbs(ctx, [
       { name: `Which AI stories has ${brand.NAME} scored in this window?`, path: '/news.html' },
       { name: `Which AI feed adapters have ${brand.NAME} pages?`, path: '/source/' },

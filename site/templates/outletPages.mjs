@@ -9,7 +9,7 @@
 import { esc, num, utc } from './_html.mjs';
 import { page } from './layout.mjs';
 import { breadcrumbs, speakable } from './_seo.mjs';
-import { slugFor } from './itemPage.mjs';
+import { slugFor, storyItemListEntity } from './itemPage.mjs';
 import * as brand from '../brand.mjs';
 
 /** Minimum scored stories before a publisher page is written and sitemapped. */
@@ -240,16 +240,10 @@ export function renderOutlet(ctx, domain) {
       description,
       isPartOf: { '@type': 'WebSite', name: brand.PUBLICATION, url: ctx.url('/') },
       speakable: speakable(['h1', '.od__lede']),
-      mainEntity: {
-        '@type': 'ItemList',
-        numberOfItems: Math.min(items.length, OUTLET_LIST_CAP),
-        itemListElement: items.slice(0, OUTLET_LIST_CAP).map((it, i) => ({
-          '@type': 'ListItem',
-          position: i + 1,
-          name: it.title,
-          url: ctx.url(`/item/${slugFor(it)}.html`),
-        })),
-      },
+      mainEntity: storyItemListEntity(ctx, items, older, {
+        liveCap: OUTLET_LIST_CAP,
+        archiveCap: 12,
+      }),
     }, breadcrumbs(ctx, [
       { name: `Which AI stories has ${brand.NAME} scored in this window?`, path: '/news.html' },
       { name: `Which AI publishers have ${brand.NAME} pages?`, path: '/outlet/' },

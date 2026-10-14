@@ -113,6 +113,7 @@ describe('model pages', () => {
     assert.match(html, /Archived Claude model card/);
     assert.match(html, /\/item\/archive\.html/);
     assert.doesNotMatch(html, /<h2>Older scored stories naming Claude<\/h2>/);
+    assert.match(html, /"name"\s*:\s*"Archived Claude model card"/);
   });
 
   it('links an indexable model from the story page and leaves a thin name as text', () => {

@@ -91,6 +91,36 @@ export function slugFor(item) {
   return `${base || 'item'}-${item.id}`;
 }
 
+/**
+ * CollectionPage ItemList that mirrors visible live + older archive rows
+ * (FINDABILITY #51–#53). Live first, then archive — caps match on-page lists.
+ */
+export function storyItemListEntity(ctx, liveItems, archivedItems, {
+  liveCap = 40,
+  archiveCap = 12,
+} = {}) {
+  const list = [];
+  for (const it of liveItems || []) {
+    if (list.length >= liveCap) break;
+    list.push(it);
+  }
+  const liveCount = list.length;
+  for (const it of archivedItems || []) {
+    if (list.length >= liveCount + archiveCap) break;
+    list.push(it);
+  }
+  return {
+    '@type': 'ItemList',
+    numberOfItems: list.length,
+    itemListElement: list.map((it, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      url: ctx.url(`/item/${slugFor(it)}.html`),
+      name: it.title,
+    })),
+  };
+}
+
 export function hasItems(ctx) {
   return Boolean(ctx && ctx.news && Array.isArray(ctx.news.items) && ctx.news.items.length);
 }

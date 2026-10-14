@@ -144,6 +144,7 @@ describe('outlet pages', () => {
     assert.match(html, /Older arxiv/);
     assert.match(html, /\/item\/archive\.html/);
     assert.doesNotMatch(html, /<h2>Older scored stories on arxiv\.org<\/h2>/);
+    assert.match(html, /"name"\s*:\s*"Older arxiv"/);
   });
 
   it('lets the durable archive keep a publisher hub above the substance gate', () => {

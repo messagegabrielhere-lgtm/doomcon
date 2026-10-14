@@ -164,6 +164,7 @@ describe('country pages', () => {
     assert.match(html, /id="older"[^>]*>Which older scored stories name Germany\?/);
     assert.match(html, /Older Germany chip fab story/);
     assert.match(html, /ItemList/);
+    assert.match(html, /"name"\s*:\s*"Older Germany chip fab story"/);
     assert.match(html, /\/item\/archive\.html/);
     assert.match(html, /"@type"\s*:\s*"FAQPage"/);
     assert.doesNotMatch(html, /<h2>Named sites<\/h2>/);

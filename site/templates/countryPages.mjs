@@ -10,7 +10,7 @@
 import { esc, utc } from './_html.mjs';
 import { page } from './layout.mjs';
 import { breadcrumbs, speakable } from './_seo.mjs';
-import { slugFor } from './itemPage.mjs';
+import { slugFor, storyItemListEntity } from './itemPage.mjs';
 import * as brand from '../brand.mjs';
 
 /** Minimum mapped sites before a country page is written and sitemapped. */
@@ -332,18 +332,14 @@ export function renderCountry(ctx, iso2) {
       acceptedAnswer: { '@type': 'Answer', text: a },
     })),
   }];
-  if (stories.length) {
+  if (stories.length || older.length) {
     jsonld.push({
       '@context': 'https://schema.org',
-      '@type': 'ItemList',
       name: storiesQ,
-      numberOfItems: Math.min(stories.length, COUNTRY_STORY_CAP),
-      itemListElement: stories.slice(0, COUNTRY_STORY_CAP).map((it, i) => ({
-        '@type': 'ListItem',
-        position: i + 1,
-        url: ctx.url(`/item/${slugFor(it)}.html`),
-        name: it.title,
-      })),
+      ...storyItemListEntity(ctx, stories, older, {
+        liveCap: COUNTRY_STORY_CAP,
+        archiveCap: COUNTRY_STORY_CAP,
+      }),
     });
   }
 

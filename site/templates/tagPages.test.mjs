@@ -134,6 +134,7 @@ describe('tag pages', () => {
     assert.match(html, /Archived AI agents story/);
     assert.match(html, /\/item\/archive\.html/);
     assert.doesNotMatch(html, /<h2>Older scored stories tagged AI agents<\/h2>/);
+    assert.match(html, /"name"\s*:\s*"Archived AI agents story from last week"/);
   });
 
   it('lets the durable archive keep a tag hub above the substance gate', () => {

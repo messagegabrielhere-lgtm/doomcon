@@ -9,7 +9,7 @@
 import { esc, utc, utcDay } from './_html.mjs';
 import { page } from './layout.mjs';
 import { breadcrumbs, speakable } from './_seo.mjs';
-import { slugFor } from './itemPage.mjs';
+import { slugFor, storyItemListEntity } from './itemPage.mjs';
 import * as brand from '../brand.mjs';
 
 /** Minimum scored stories before a day hub is written and sitemapped. */
@@ -171,19 +171,6 @@ export function renderDay(ctx, day) {
   ${faqHtml}
 </article>`;
 
-  // ItemList must match visible rows: most day hubs are archive-only after the
-  // live window rolls (FINDABILITY #51) — an empty live list with a full older
-  // block was schema that did not match on-page text (§3.3).
-  const listForSchema = [];
-  for (const it of items) {
-    if (listForSchema.length >= DAY_LIST_CAP) break;
-    listForSchema.push(it);
-  }
-  for (const it of archivedAll) {
-    if (listForSchema.length >= DAY_LIST_CAP) break;
-    listForSchema.push(it);
-  }
-
   return page({
     ctx,
     path,
@@ -199,16 +186,11 @@ export function renderDay(ctx, day) {
       datePublished: `${day}T00:00:00Z`,
       isPartOf: { '@type': 'WebSite', name: brand.PUBLICATION, url: ctx.url('/') },
       speakable: speakable(['h1', '.nd__lede']),
-      mainEntity: {
-        '@type': 'ItemList',
-        numberOfItems: listForSchema.length,
-        itemListElement: listForSchema.map((it, i) => ({
-          '@type': 'ListItem',
-          position: i + 1,
-          url: ctx.url(`/item/${slugFor(it)}.html`),
-          name: it.title,
-        })),
-      },
+      // Live first, then archive — fill up to DAY_LIST_CAP visible rows (#51/#53).
+      mainEntity: storyItemListEntity(ctx, items, archivedAll, {
+        liveCap: DAY_LIST_CAP,
+        archiveCap: DAY_LIST_CAP,
+      }),
     }, breadcrumbs(ctx, [
       { name: `Which AI stories has ${brand.NAME} scored in this window?`, path: '/news.html' },
       { name: `Which AI stories did ${brand.NAME} score on ${day}?`, path },

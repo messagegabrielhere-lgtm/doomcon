@@ -8,7 +8,7 @@ import { publishedEntities, entitySlug, entityMatchRegex } from '../../collector
 import { esc, num, utc } from './_html.mjs';
 import { page } from './layout.mjs';
 import { breadcrumbs, speakable } from './_seo.mjs';
-import { slugFor } from './itemPage.mjs';
+import { slugFor, storyItemListEntity } from './itemPage.mjs';
 import * as brand from '../brand.mjs';
 
 /** Minimum scored stories before a model page is written and sitemapped. */
@@ -245,16 +245,7 @@ export function renderModel(ctx, name) {
       about: { '@type': 'Thing', name },
       isPartOf: { '@type': 'WebSite', name: brand.PUBLICATION, url: ctx.url('/') },
       speakable: speakable(['h1', '.fc__lede']),
-      mainEntity: {
-        '@type': 'ItemList',
-        numberOfItems: Math.min(items.length, 40),
-        itemListElement: items.slice(0, 40).map((it, i) => ({
-          '@type': 'ListItem',
-          position: i + 1,
-          url: ctx.url(`/item/${slugFor(it)}.html`),
-          name: it.title,
-        })),
-      },
+      mainEntity: storyItemListEntity(ctx, items, older),
     }, breadcrumbs(ctx, [
       { name: `Which AI stories has ${brand.NAME} scored in this window?`, path: '/news.html' },
       { name: `Which AI model families have ${brand.NAME} pages?`, path: '/model/' },
