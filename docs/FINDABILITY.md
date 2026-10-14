@@ -656,6 +656,8 @@ context.
 | 404 | Entity lab Manus (`/lab/manus`, distinctive single-token form, ≥3 gate); `news:keywords` + IndexNow + seo-daily monitor | Google + Bing | **Done** (2026-10-14) |
 | 405 | Topic tags `ai-slop` + `gulf-ai` (live/archive ≥5); IndexNow ALWAYS samples; refuse harm-forecast / financial-advice claims | Google + Bing | **Done** (2026-10-14) |
 | 406 | Mixtral model forms add `Mistral Large 4` + `Le Chonk`; `news:keywords` + IndexNow `/model/mixtral.html` + seo-daily monitor | Google + Bing | **Done** (2026-10-14) |
+| 407 | `/live.html` YouTube live + TV card H3s + FAQPage use questions (was bare clip titles); Organization `knowsAbout` mirrors those question prefixes; refuse live-room-as-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 408 | `/live.html` podcast episode H3s + FAQPage use questions (was bare episode titles); Organization `knowsAbout` mirrors that question prefix; refuse endorsement-as-SIREN-claim / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 

@@ -106,14 +106,49 @@ const ext = (href, text, cls = '') => `<a${cls ? ` class="${cls}"` : ''} href="$
 const xBtn = (title, src, url) => `<button type="button" class="lv-xp" data-xpost="news" data-x-title="${esc(title)}" data-x-src="${esc(src)}" data-x-url="${esc(url)}" aria-label="Post this to X">𝕏 Post</button>`;
 const ytOk = (id) => /^[\w-]{11}$/.test(String(id || ''));
 
+/** Tip #407: YouTube card H3s are question-shaped (mirrored in FAQ §3.3). */
+function clipQ(title, { live = false } = {}) {
+  const t = String(title || '').trim().replace(/\?+$/, '') || 'untitled';
+  return live ? `Which live YouTube stream is this: ${t}?` : `What YouTube clip is this: ${t}?`;
+}
+
+/** Tip #408: podcast episode H3s are question-shaped (mirrored in FAQ §3.3). */
+function episodeQ(title) {
+  const t = String(title || '').trim().replace(/\?+$/, '') || 'untitled';
+  return `Which podcast episode is this: ${t}?`;
+}
+
+function videoMetaPlain(v, { live = false } = {}) {
+  if (live) {
+    const bits = [v.channel || 'YouTube'];
+    if (v.allow) bits.push('✓ NEWS/TECH');
+    if (v.started_at) bits.push(`LIVE SINCE ${hhmm(v.started_at)}`);
+    return `${bits.join(' · ')}. Opens on YouTube on demand.`;
+  }
+  const bits = [v.channel || 'YouTube'];
+  const w = when(v.published_at);
+  if (w) bits.push(w);
+  if (Number.isFinite(v.views)) bits.push(`${v.views.toLocaleString('en-US')} views`);
+  return `${bits.join(' · ')}. Opens on YouTube on demand.`;
+}
+
+function episodeMetaPlain(e) {
+  const bits = [e.show || 'AI podcast'];
+  const w = when(e.published_at);
+  if (w) bits.push(w);
+  if (e.duration) bits.push(mins(e.duration));
+  return `${bits.join(' · ')}. Audio streams from the show’s host on play.`;
+}
+
 function videoCard(v, { live = false } = {}) {
   if (!ytOk(v.id)) return '';
+  const q = clipQ(v.title, { live });
   const meta = live
     ? `${esc(v.channel)}${v.allow ? ' <span class="ok">✓ NEWS/TECH</span>' : ''}${v.started_at ? ` · LIVE SINCE ${esc(hhmm(v.started_at))}` : ''}`
     : `${esc(v.channel)} · ${esc(when(v.published_at))}${Number.isFinite(v.views) ? ` · ${esc(v.views.toLocaleString('en-US'))} views` : ''}`;
   return `<article class="lv-card">
   <div class="lv-media"><button type="button" class="lv-thumb" data-yt="${esc(v.id)}" data-yt-title="${esc(v.title)}" aria-label="Play: ${esc(v.title)}"><img loading="lazy" decoding="async" width="320" height="180" alt="" src="https://i.ytimg.com/vi/${esc(v.id)}/mqdefault.jpg"><span class="lv-play" aria-hidden="true">▶</span>${live ? '<span class="lv-badge">● LIVE</span>' : ''}</button></div>
-  <div class="lv-body"><h3>${esc(v.title)}</h3><p class="lv-meta">${meta}</p>
+  <div class="lv-body"><h3>${esc(q)}</h3><p class="lv-meta">${meta}</p>
   <div class="lv-acts">${xBtn(v.title, v.channel || 'YouTube', `https://www.youtube.com/watch?v=${v.id}`)}${ext(`https://www.youtube.com/watch?v=${v.id}`, 'Watch on YouTube ↗')}</div></div>
 </article>`;
 }
@@ -169,7 +204,7 @@ function radioSection(radio) {
   const queue = items.map((e) => ({ t: e.title, s: e.show, a: e.audio, i: e.image || '', l: e.link || '', d: e.published_at || '' }));
   const list = items.map((e, i) => `<li class="lv-ep" data-i="${i}" aria-current="false">
     <button type="button" data-play="${i}" aria-label="Play: ${esc(e.title)}">▶</button>${e.image ? `<img loading="lazy" decoding="async" width="40" height="40" alt="" src="${esc(e.image)}">` : ''}
-    <div><h3>${esc(e.title)}</h3><p class="lv-meta">${esc(e.show)} · ${esc(when(e.published_at))}${e.duration ? ` · ${esc(mins(e.duration))}` : ''}</p>
+    <div><h3>${esc(episodeQ(e.title))}</h3><p class="lv-meta">${esc(e.show)} · ${esc(when(e.published_at))}${e.duration ? ` · ${esc(mins(e.duration))}` : ''}</p>
     <div class="lv-acts">${xBtn(e.title, e.show, e.link || e.audio)}${e.link ? ext(e.link, 'Episode page ↗') : ''}</div></div></li>`).join('');
   return `<h2 id="radio">${esc(radioQ)}</h2><p class="lv-upd">${upd}</p>
   <div class="lv-radio" id="lv-radio">
@@ -228,6 +263,11 @@ export function render(ctx, data) {
       `More live AI: Where are live X feeds and Spaces on AI?; Where can you find real clips of AI leaders?; Which AI stories has ${brand.NAME} scored in this window?`],
     // Tip #371: 24/7 channel-card H3s are question-shaped and mirrored in FAQ (§3.3).
     ...newsRows(d.news_247).map((c) => [channelQ(c.name), c.blurb || 'Always on; opens on YouTube.']),
+    // Tip #407: YouTube live + TV card H3s are question-shaped and mirrored in FAQ (§3.3).
+    ...((d.live && d.live.items) || []).filter((v) => ytOk(v.id)).map((v) => [clipQ(v.title, { live: true }), videoMetaPlain(v, { live: true })]),
+    ...((d.tv && d.tv.items) || []).filter((v) => ytOk(v.id)).map((v) => [clipQ(v.title), videoMetaPlain(v)]),
+    // Tip #408: podcast episode H3s are question-shaped and mirrored in FAQ (§3.3).
+    ...((d.radio && d.radio.items) || []).filter((e) => /^https:\/\//.test(e.audio || '')).map((e) => [episodeQ(e.title), episodeMetaPlain(e)]),
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>
