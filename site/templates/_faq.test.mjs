@@ -188,6 +188,8 @@ describe('homepage FAQ', () => {
     assert.ok(qa.some(([q]) => q === 'What moves between collects?'));
     assert.ok(qa.some(([q]) => q === 'What was CISA actually cataloguing in the launch half-year?'));
     assert.ok(qa.some(([q]) => q === 'How ready are you on Work and skills?'));
+    assert.ok(qa.some(([q]) => q === 'How do SIREN and BLISS sit beside the beam?'));
+    assert.ok(qa.some(([q]) => q === 'Where do 28 named p(doom) estimates sit on one ladder?'));
     const html = render(ctx);
     assert.match(html, /What is in the newsroom\?/);
     assert.match(html, /What is the signal feed\?/);
@@ -268,6 +270,8 @@ describe('homepage FAQ', () => {
     assert.match(html, /What moves between collects\?/);
     assert.match(html, /What was CISA actually cataloguing in the launch half-year\?/);
     assert.match(html, /How ready are you on Work and skills\?/);
+    assert.match(html, /How do SIREN and BLISS sit beside the beam\?/);
+    assert.match(html, /Where do 28 named p\(doom\) estimates sit on one ladder\?/);
     assert.doesNotMatch(html, /probability of doom/i);
   });
 });

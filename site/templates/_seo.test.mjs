@@ -477,6 +477,9 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('What was CISA actually cataloguing in 2022-H1'));
     assert.ok(org.knowsAbout.includes('How ready are you on Work and skills'));
     assert.ok(org.knowsAbout.includes('How ready are you to move toward the work AI is worst at'));
+    assert.ok(org.knowsAbout.includes('How do SIREN and BLISS sit beside the beam'));
+    assert.ok(org.knowsAbout.includes('What can this page not say'));
+    assert.ok(org.knowsAbout.includes('Where do 28 named p(doom) estimates sit on one ladder'));
     assert.ok(org.knowsAbout.includes('What AI Spaces are live on X'));
     assert.ok(org.knowsAbout.includes('Who is OpenAI on X'));
     assert.ok(org.knowsAbout.includes('AI harm and benefit side by side'));

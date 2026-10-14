@@ -76,4 +76,18 @@ describe('balance page', () => {
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /net score of good versus evil/i);
   });
+
+  it('section H2s use questions mirrored in FAQPage', () => {
+    const html = render(ctx);
+    assert.match(html, /id="bp-ix-h"[^>]*>[\s\S]*How do SIREN and BLISS sit beside the beam\?/);
+    assert.match(html, /id="bp-lim-h"[^>]*>[\s\S]*What can this page not say\?/);
+    assert.match(html, /id="bp-method-h"[^>]*>[\s\S]*Where did this come from\?/);
+    assert.match(html, /id="bp-data-h"[^>]*>[\s\S]*Where can I take the data\?/);
+    assert.match(html, /FAQPage[\s\S]*How do SIREN and BLISS sit beside the beam\?/);
+    assert.match(html, /FAQPage[\s\S]*Where can I take the data\?/);
+    assert.doesNotMatch(html, /id="bp-ix-h"[^>]*>[\s\S]*SIREN and BLISS, as context<\/h2>/);
+    assert.doesNotMatch(html, /id="bp-lim-h"[^>]*>[\s\S]*What this cannot say<\/h2>/);
+    assert.doesNotMatch(html, /id="bp-data-h"[^>]*>[\s\S]*Take the data<\/h2>/);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
+  });
 });
