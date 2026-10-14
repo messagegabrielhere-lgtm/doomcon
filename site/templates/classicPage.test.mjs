@@ -109,6 +109,18 @@ describe('classic page', () => {
     assert.doesNotMatch(html, /probability of doom/i);
   });
 
+  it('war-room doors and closer alerts use page H1 questions', () => {
+    const html = render(ctx, { view: 'classic' });
+    assert.match(html, /id="war-room"/);
+    assert.match(html, /class="wr__go"[^>]*>What instruments sit behind the SIREN reading\? →<\/a>/);
+    assert.match(html, /class="wr__go"[^>]*>Which AI stories has SIREN scored in this window\? →<\/a>/);
+    assert.doesNotMatch(html, /class="wr__go"[^>]*>Open →<\/a>/);
+    assert.match(html, /href="\/alerts\.html">How do I get alerts when SIREN moves\?/);
+    assert.doesNotMatch(html, /Level alerts by RSS/);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
+    assert.doesNotMatch(html, /probability of doom/i);
+  });
+
   it('classic markets cards and desk switcher more-links use page H1 questions', () => {
     const html = render(ctx, { view: 'classic' });
     const go = html.match(/class="mkb__go">([\s\S]*?)<\/div>/);

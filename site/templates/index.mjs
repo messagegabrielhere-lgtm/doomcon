@@ -1436,14 +1436,34 @@ function sourceStrip(st) {
 // number is computed here that its own page does not also print.
 const WR_HUE = { signal: 'var(--lvl, var(--accent))', pillars: '#ff7a00', news: '#00a3ff', race: '#00e676', flock: '#00e5ff', datacenters: '#c9a0ff', exploits: '#ff5f56', leaders: '#ffb020', people: '#ff73c8', bets: '#8b9cff', corrob: '#5fd08a', brief: '#ffd166' };
 const WR_NAME = { race: 'The race', flock: 'Cameras', datacenters: 'Machines', exploits: 'Exploits', news: 'Corroboration', leaders: 'Leaders' };
+/** Visible war-room door labels match the target page H1 (FINDABILITY tip #247). */
+function wrGoQuestion(href) {
+  const base = String(href || '').replace(/^https?:\/\/[^/]+/, '').split(/[?#]/)[0] || '';
+  const q = {
+    '/instruments.html': `What instruments sit behind the ${brand.NAME} reading?`,
+    '/digest.html': `What is the ${brand.NAME} daily brief?`,
+    '/news.html': `Which AI stories has ${brand.NAME} scored in this window?`,
+    '/race.html': 'Who is winning the AI race?',
+    '/flock.html': `How many Flock ALPR cameras has ${brand.NAME} mapped?`,
+    '/map.html': `How many datacentres has ${brand.NAME} mapped in the United States?`,
+    '/exploits.html': 'How many days from a CVE going public to CISA listing it as exploited?',
+    '/leaders.html': 'Which AI leaders are on the record this week?',
+    '/jobs.html': 'Is AI taking jobs? What has actually been measured',
+    '/bets.html': `Does the ${brand.NAME} index make forecasts?`,
+  };
+  return q[base] || null;
+}
 function warRoom(ctx) {
   const st = ctx.state;
   if (!Number.isFinite(st.score)) return '';
   const panels = [];
-  const panel = (id, name, href, body, { wide = false, meta = '' } = {}) => panels.push({ id, name,
+  const panel = (id, name, href, body, { wide = false, meta = '' } = {}) => {
+    const go = wrGoQuestion(href) || `Open ${name}`;
+    panels.push({ id, name,
     html: `<article class="wr__p${wide ? ' wr__p--w' : ''}" id="wr-${esc(id)}" tabindex="-1" style="--ph:${WR_HUE[id] || 'var(--accent)'}">
-    <header class="wr__ph"><span class="wr__dot" aria-hidden="true"></span><h3 class="wr__pn">${esc(name)}</h3>${meta ? `<span class="wr__pm">${esc(meta)}</span>` : ''}<a class="wr__go" href="${esc(href)}" aria-label="Open ${esc(name)}">Open →</a></header>
+    <header class="wr__ph"><span class="wr__dot" aria-hidden="true"></span><h3 class="wr__pn">${esc(name)}</h3>${meta ? `<span class="wr__pm">${esc(meta)}</span>` : ''}<a class="wr__go" href="${esc(href)}" aria-label="${esc(go)}">${esc(go)} →</a></header>
     <div class="wr__pb">${body}</div></article>` });
+  };
 
   // SIGNAL: the score and its own recent record, drawn on the range it used.
   const rows = (Array.isArray(ctx.history) ? ctx.history : []).slice(-72).filter((r) => Number.isFinite(r.score));
@@ -1570,7 +1590,7 @@ function closer(ctx) {
   return `<section class="close rv" aria-label="Follow for level changes" style="--lvl:var(--heat-${esc(st.level)})">
   <h2 class="close__h">${esc(v ? v[1] : `${brand.NAME} ${st.level}.`)} <span>Hear it the hour that changes.</span></h2>
   <p class="close__p">One post when the level moves, with the receipt. Nothing in between.</p>
-  <p class="ans__cta"><a class="cta cta--pri" href="${esc(brand.X_URL)}" rel="noopener">Follow ${esc(brand.X_HANDLE)}</a><a class="cta cta--sec" href="${esc(ctx.href('/feed-level.xml'))}">Level alerts by RSS <span aria-hidden="true">›</span></a></p>
+  <p class="ans__cta"><a class="cta cta--pri" href="${esc(brand.X_URL)}" rel="noopener">Follow ${esc(brand.X_HANDLE)}</a><a class="cta cta--sec" href="${esc(ctx.href('/alerts.html'))}">How do I get alerts when ${esc(brand.NAME)} moves? <span aria-hidden="true">›</span></a></p>
 </section>`;
 }
 

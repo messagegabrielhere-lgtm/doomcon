@@ -431,8 +431,17 @@ export function vsRival(ctx, rivalId) {
     [`Does ${brand.NAME} publish the same number as ${rival.name}?`,
       `No. ${brand.NAME} does not score ${rival.short.toLowerCase()}. It scores observable activity across five pillars and says so on every page.`],
   ];
+  const relatedQ = {
+    '/p-doom.html': 'What is p(doom)?',
+    '/ai-doomsday-clock.html': 'Is there an AI doomsday clock?',
+    '/guide.html': `How does ${brand.NAME} compare to DEFCON, the Doomsday Clock and p(doom)?`,
+    '/methodology.html': `How the ${brand.NAME} AI activity index is computed · methodology`,
+  };
   const related = (rival.related || [])
-    .map((p) => `<a href="${esc(ctx.href(p))}">${esc(p.replace(/^\//, '').replace(/\.html$/, ''))} →</a>`)
+    .map((p) => {
+      const q = relatedQ[p] || p.replace(/^\//, '').replace(/\.html$/, '');
+      return `<a href="${esc(ctx.href(p))}">${esc(q)} →</a>`;
+    })
     .join(' · ');
   const main = `${CSS}
 <article class="cmp prose">
