@@ -5,14 +5,18 @@ import { render } from './index.mjs';
 
 const state = JSON.parse(readFileSync(new URL('../../data/state.json', import.meta.url), 'utf8'));
 const news = JSON.parse(readFileSync(new URL('../../data/news.json', import.meta.url), 'utf8'));
+const balance = JSON.parse(readFileSync(new URL('../../data/balance.json', import.meta.url), 'utf8'));
+const ledger = JSON.parse(readFileSync(new URL('../../data/ledger.json', import.meta.url), 'utf8'));
 
 const ctx = {
   url: (p) => `https://siren.watch${p === '/' ? '/' : p}`,
   href: (p) => p,
   cardFor: () => null,
-  routes: { balance: false, instruments: true },
+  routes: { balance: true, instruments: true },
   state,
   news,
+  balance,
+  ledger,
   history: [],
   moves: [],
   seriesFor: () => [],
@@ -28,6 +32,8 @@ describe('instruments page', () => {
     assert.match(html, /Where is the frozen reference distribution explained\?/);
     assert.match(html, /How do I put the index on my site\?/);
     assert.match(html, /id="api-h">What public JSON files does SIREN expose\?<\/h2>/);
+    assert.match(html, /id="bal-h">How does SIREN count AI harm and benefit side by side\?/);
+    assert.match(html, /id="oven-h">Where does the index sit\?/);
     assert.match(html, /id="record-h">Where does the score sit over time\?/);
     assert.match(html, /id="fresh-h">What does source health on this page report\?<\/h2>/);
     assert.match(html, /id="pillars-h">What are the five pillars on this page\?<\/h2>/);
@@ -37,7 +43,11 @@ describe('instruments page', () => {
     assert.match(html, /FAQPage[\s\S]*What public JSON files does SIREN expose\?/);
     assert.match(html, /FAQPage[\s\S]*Where does the score sit over time\?/);
     assert.match(html, /FAQPage[\s\S]*What are the five pillars on this page\?/);
+    assert.match(html, /FAQPage[\s\S]*How does SIREN count AI harm and benefit side by side\?/);
+    assert.match(html, /FAQPage[\s\S]*Where does the index sit\?/);
     assert.doesNotMatch(html, /id="api-h">Public JSON API<\/h2>/);
+    assert.doesNotMatch(html, /id="bal-h">Harm and benefit, side by side/);
+    assert.doesNotMatch(html, /id="oven-h">Where the index sits/);
     assert.doesNotMatch(html, /id="fresh-h">Source health<\/h2>/);
     assert.doesNotMatch(html, /id="pillars-h">The five pillars<\/h2>/);
     assert.doesNotMatch(html, /id="moves-h">Recent moves<\/h2>/);
