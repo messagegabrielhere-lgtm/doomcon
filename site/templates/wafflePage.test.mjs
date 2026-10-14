@@ -50,6 +50,17 @@ describe('waffle page', () => {
     assert.doesNotMatch(html, /doom score:\s*\d/i);
   });
 
+  it('storm-kit and why-watch H3s use questions mirrored in FAQPage', () => {
+    const html = render(ctx, waffle, null);
+    assert.match(html, /<h3>What belongs in a storm kit\? /);
+    assert.match(html, /<h3>Why does an AI site watch Waffle Houses\?<\/h3>/);
+    assert.doesNotMatch(html, /<h3>STORM KIT /);
+    assert.doesNotMatch(html, /<h3>WHY AN AI SITE WATCHES WAFFLES<\/h3>/);
+    assert.match(html, /"name"\s*:\s*"What belongs in a storm kit\?"/);
+    assert.match(html, /"name"\s*:\s*"Why does an AI site watch Waffle Houses\?"/);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
+  });
+
   it('other-storms section H2 uses a question mirrored in FAQPage when visible', () => {
     const html = render(ctx, waffle, null);
     assert.match(html, /<h2>Which other storms are active\?<\/h2>/);

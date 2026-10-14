@@ -88,9 +88,9 @@ function entry(ctx, e, glosses, t) {
     <p class="tp__chips"><span class="tp__chip"${gloss ? ` title="${esc(gloss)}"` : ''}>${esc(e.status)}</span><span class="tp__chip tp__chip--q">${esc(e.domain)}</span><span class="tp__asof">checked ${esc(e.as_of)}</span></p>
     <h2 class="tp__h">${esc(e.title)}</h2>
     ${nums ? `<ul class="tp__nums">${nums}</ul>` : ''}
-    <h3 class="tp__k">What is measured</h3><p>${esc(e.what_is_measured)}</p>
-    <h3 class="tp__k">What gets claimed</h3><p>${esc(e.what_is_claimed)}</p>
-    <h3 class="tp__k">The caveat</h3><p>${esc(e.caveat)}</p>
+    <h3 class="tp__k">What is measured?</h3><p>${esc(e.what_is_measured)}</p>
+    <h3 class="tp__k">What gets claimed?</h3><p>${esc(e.what_is_claimed)}</p>
+    <h3 class="tp__k">What is the caveat?</h3><p>${esc(e.caveat)}</p>
     <p class="tp__f">Sources ${srcs} · <a class="tp__x" rel="noopener" target="_blank" href="https://x.com/intent/post?text=${encodeURIComponent(line.slice(0, 230))}&amp;url=${encodeURIComponent(ctx.url(`${t.path}#${e.id}`))}">Post this on X</a> ·
       <a href="${esc(ctx.href(`/balance.html#reg-${e.id}`))}">How does ${esc(brand.NAME)} count AI harm and benefit side by side? →</a></p>
   </article>`;
@@ -108,9 +108,19 @@ export function render(ctx, key) {
   // Tip #326: newsroom H2 is question-shaped and mirrored in FAQ (§3.3).
   const newsQ = 'Which headlines mention this in the newsroom now?';
   const newsA = `${N(hits.length)} of ${N(items.length)} headlines in the newsroom window mention ${t.what}${at ? `, as of ${at}` : ''}. Matched by word, so read them before trusting the count.`;
+  // Tip #335: entry H3s are question-shaped and mirrored in FAQ (§3.3).
+  const measuredQ = 'What is measured?';
+  const claimedQ = 'What gets claimed?';
+  const caveatQ = 'What is the caveat?';
+  const measuredA = `Each register entry states what is counted for ${t.what}: the figure, its unit and the source date — not a forecast.`;
+  const claimedA = `Each entry states what the source claims about ${t.what}. Claims are not the same as verified outcomes.`;
+  const caveatA = `Each entry states the caveat that keeps the figure from being read as a ${brand.NAME} forecast or doom probability.`;
   const faqPairs = [
     ...(Array.isArray(t.faq) ? t.faq : []),
     [newsQ, newsA],
+    [measuredQ, measuredA],
+    [claimedQ, claimedA],
+    [caveatQ, caveatA],
   ];
 
   const main = `

@@ -71,6 +71,15 @@ describe('jobs / medicine topic pages', () => {
     assert.match(jobs, /<h2[^>]*>Which headlines mention this in the newsroom now\?<\/h2>/);
     assert.doesNotMatch(jobs, /<h2[^>]*>In the newsroom now<\/h2>/);
     assert.match(jobs, /"name"\s*:\s*"Which headlines mention this in the newsroom now\?"/);
+    assert.match(jobs, /class="tp__k">What is measured\?<\/h3>/);
+    assert.match(jobs, /class="tp__k">What gets claimed\?<\/h3>/);
+    assert.match(jobs, /class="tp__k">What is the caveat\?<\/h3>/);
+    assert.doesNotMatch(jobs, /class="tp__k">What is measured<\/h3>/);
+    assert.doesNotMatch(jobs, /class="tp__k">What gets claimed<\/h3>/);
+    assert.doesNotMatch(jobs, /class="tp__k">The caveat<\/h3>/);
+    assert.match(jobs, /"name"\s*:\s*"What is measured\?"/);
+    assert.match(jobs, /"name"\s*:\s*"What gets claimed\?"/);
+    assert.match(jobs, /"name"\s*:\s*"What is the caveat\?"/);
 
     const med = render(ctx, 'medicine');
     assert.match(med, /<title>Is AI curing anything\? Trial results, approvals and what they show/);

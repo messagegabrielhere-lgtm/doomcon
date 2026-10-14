@@ -97,6 +97,14 @@ export function items(ctx) {
       `The classic homepage markets block links Arena's investor filings card: 13F holdings, ARK's daily trades and House trade reports, from the filings. Filings are delayed — up to 45 days after a trade or a quarter. Not financial advice.`],
     ['Which AI models are trading paper money?',
       `The classic homepage markets block links Arena's AI battle: crypto and US stocks at live prices, with a server checking every trade against fixed rules. Prices are real; fills and wallets are simulated. Not an input to the ${brand.NAME} index.`],
+    ['What is measured?',
+      `On /jobs.html and /medicine.html, each register entry states what is counted — the figure, unit and source date — not a forecast.`],
+    ['What gets claimed?',
+      `On /jobs.html and /medicine.html, each entry states what the source claims. Claims are not the same as verified outcomes.`],
+    ['What is the caveat?',
+      `On /jobs.html and /medicine.html, each entry states the caveat that keeps the figure from being read as a ${brand.NAME} forecast or doom probability.`],
+    ['What belongs in a storm kit?',
+      `On /waffle.html, paid Amazon links for storm-kit staples are labelled as such and never change a number. Ready.gov’s full kit list is free; /bunker-kit.html lists free tools.`],
   ];
 }
 
