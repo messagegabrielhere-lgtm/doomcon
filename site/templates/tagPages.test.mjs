@@ -2775,6 +2775,63 @@ describe('tag pages', () => {
     assert.doesNotMatch(renderTag(rich, 'iran'), /probability of doom/i);
   });
 
+  it('pages financial, evaluation, serving, and bayesian hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('fi1', 'AI-powered attacks on Korean financial sectors linked to Chinese DDoS group'),
+          story('fi2', 'AI Financial Hacks Boost Security Startups Value'),
+          story('fi3', 'Financial AI Model Risk: Validation, Drift, and Oversight'),
+          story('fi4', 'Financial Security Institute Warned of AI Attack'),
+          story('fi5', 'PitchBook: robotics and physical AI companies raise in financial markets'),
+          story('ev1', 'Amazon Opens Multilingual AI Evaluation Funding Call'),
+          story('ev2', 'OmniCapBench: A Deep-Structured Evaluation Framework for Captioning'),
+          story('ev3', 'TerraVis: Towards Evaluation of World-Grounded Visual Consistency'),
+          story('ev4', 'Emotional optimization by newsroom AI needs behavioural evaluation'),
+          story('ev5', 'TestPrism: Rethinking Test Evaluation Beyond a Single Reference'),
+          story('sv1', 'TokenRouter: Efficient Serving System for Token-Level LLM Routing'),
+          story('sv2', 'SlimWise: Expert Pruning for Efficient MoE Serving'),
+          story('sv3', 'Characterizing High Bandwidth Flash for LLM Serving'),
+          story('sv4', 'EAServe: Encode-Aware Disaggregated Serving for Multimodal LLMs'),
+          story('sv5', 'A new model serving system for agentic workloads'),
+          story('ba1', 'Isotropic Gaussian Processes Improve Vanilla Bayesian Optimization'),
+          story('ba2', 'Bayesian Pairwise Merging for Model Personalization'),
+          story('ba3', 'BaRe-Mem: Bayesian Reliability Memory for Adaptive Agent Consultation'),
+          story('ba4', 'Small transformers track Bayesian evidence for latent common causes'),
+          story('ba5', 'GUIDE-FBO: Federated Bayesian Optimization with Uncertainty Intervention'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    assert.ok(ids.includes('financial'));
+    assert.ok(ids.includes('evaluation'));
+    assert.ok(ids.includes('serving'));
+    assert.ok(ids.includes('bayesian'));
+    assert.match(renderTag(rich, 'financial'), /What has SIREN scored about Financial AI\?/);
+    assert.match(renderTag(rich, 'evaluation'), /What has SIREN scored about AI evaluation\?/);
+    assert.match(renderTag(rich, 'serving'), /What has SIREN scored about LLM serving\?/);
+    assert.match(renderTag(rich, 'bayesian'), /What has SIREN scored about Bayesian AI\?/);
+    assert.doesNotMatch(renderTag(rich, 'financial'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'serving'), /probability of doom/i);
+    // Refuse corporate “serving as” false friends
+    const thin = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('bad1', 'Nico Caprez ascended to become an Nvidia VP, serving as its lead'),
+          story('bad2', 'Co-founders will initially have voting power through a new structure'),
+          story('bad3', 'A board member serving as interim chair'),
+          story('bad4', 'She is serving as CEO of a non-AI retailer'),
+          story('bad5', 'He spent years serving as an advisor'),
+        ],
+      },
+    };
+    assert.ok(!indexableTags(thin).some((t) => t.id === 'serving'));
+  });
+
   it('pages personalization, pruning, steering, and prefill hubs', () => {
     const rich = {
       ...ctx,

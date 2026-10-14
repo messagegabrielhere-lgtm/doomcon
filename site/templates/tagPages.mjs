@@ -1674,6 +1674,31 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'Prefill/decode serving research stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
     match: /\b[Pp]refill\b/i,
   },
+  {
+    id: 'financial',
+    name: 'Financial AI',
+    description: 'Financial-sector AI security and model-risk stories scored in the newsroom or archive — coverage counts, not a market forecast.',
+    match: /\b[Ff]inancial\b/i,
+  },
+  {
+    id: 'evaluation',
+    name: 'AI evaluation',
+    description: 'Evaluation framework and funding stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
+    match: /\b[Ee]valuation\b/i,
+  },
+  {
+    id: 'serving',
+    name: 'LLM serving',
+    description: 'LLM serving-system research stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
+    // Prefer serving-system forms so “serving as VP” corporate titles stay out.
+    match: /\b(?:LLM [Ss]erving|[Ss]erving [Ss]ystem|[Mm]oE [Ss]erving|[Mm]odel [Ss]erving|[Dd]isaggregated [Ss]erving)\b/,
+  },
+  {
+    id: 'bayesian',
+    name: 'Bayesian AI',
+    description: 'Bayesian optimization and inference research stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
+    match: /\b[Bb]ayesian\b/,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));

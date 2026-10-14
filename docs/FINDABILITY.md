@@ -766,6 +766,10 @@ context.
 | 514 | Topic tag `pruning` (live/archive ≥5); IndexNow + seo-daily monitor; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 515 | Topic tag `steering` (live/archive ≥5); IndexNow + seo-daily monitor; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 516 | Topic tag `prefill` (live/archive ≥5); IndexNow + seo-daily monitor; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 517 | Topic tag `financial` (live/archive ≥5); IndexNow + seo-daily monitor; refuse market-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 518 | Topic tag `evaluation` (live/archive ≥5); IndexNow + seo-daily monitor; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 519 | Topic tag `serving` (LLM/MoE/disaggregated serving forms, ≥5); IndexNow + seo-daily; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 520 | Topic tag `bayesian` (live/archive ≥5); IndexNow + seo-daily monitor; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
