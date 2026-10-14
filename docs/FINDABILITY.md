@@ -542,6 +542,7 @@ context.
 | 290 | `/tags/*` tag hubs section H2s + FAQPage use questions for window-stories / older-stories / other-tags (was “Stories tagged …” / “Older scored stories tagged …” / “Other tags”); Organization `knowsAbout` mirrors those questions; refuse topic doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 291 | `/kind/*` kind hubs section H2s + FAQPage use questions for window-stories / older-stories / other-kinds (was “{Kind} in this window” / “Older scored {kinds}” / “Other kinds”); Organization `knowsAbout` mirrors those questions; refuse kind doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 292 | `/outlet/*` publisher hubs section H2s + FAQPage use questions for window-stories / older-stories / other-publishers (was “Stories on …” / “Older scored stories on …” / “Other publishers”); Organization `knowsAbout` mirrors those questions; refuse publisher doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 293 | `/item/*` story pages section H2s + FAQPage use questions for score / corroboration / related (was “The score” / “How many sources carried it” / “Related in this window”); Organization `knowsAbout` mirrors those questions; refuse item doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
