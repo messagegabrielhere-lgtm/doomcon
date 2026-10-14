@@ -1247,6 +1247,114 @@ describe('lab facets', () => {
     }
   });
 
+  it('indexes Sony, Tesla, Waymo, ASML, Micron, Winverse AI, and Isomorphic Labs', () => {
+    const withArch = {
+      ...ctx,
+      news: { ...ctx.news, items: [...ctx.news.items] },
+      itemArchive: [
+        {
+          id: 'so1', title: 'Sony AI image sensors expand edge vision pipelines', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/so1', published_at: '2026-09-01T01:00:00Z', score: 40,
+        },
+        {
+          id: 'so2', title: 'Sony partners on AI content tools for creators', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/so2', published_at: '2026-09-02T01:00:00Z', score: 41,
+        },
+        {
+          id: 'so3', title: 'Sony invests in AI robotics sensing stacks', pillar: 'markets', source: 'hn',
+          url: 'https://example.test/so3', published_at: '2026-09-03T01:00:00Z', score: 42,
+        },
+        {
+          id: 'te1', title: 'Tesla Optimus demos new factory robot routines', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/te1', published_at: '2026-09-01T02:00:00Z', score: 40,
+        },
+        {
+          id: 'te2', title: 'Tesla Dojo training updates land in autonomy stack', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/te2', published_at: '2026-09-02T02:00:00Z', score: 41,
+        },
+        {
+          id: 'te3', title: 'Tesla FSD data engine expands AI fleet learning', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/te3', published_at: '2026-09-03T02:00:00Z', score: 42,
+        },
+        {
+          id: 'wa1', title: 'Waymo expands robotaxi service into new cities', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/wa1', published_at: '2026-09-01T03:00:00Z', score: 40,
+        },
+        {
+          id: 'wa2', title: 'Waymo AI driving stack adds new perception models', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/wa2', published_at: '2026-09-02T03:00:00Z', score: 41,
+        },
+        {
+          id: 'wa3', title: 'Regulators review Waymo autonomous deployment data', pillar: 'attention', source: 'hn',
+          url: 'https://example.test/wa3', published_at: '2026-09-03T03:00:00Z', score: 42,
+        },
+        {
+          id: 'as1', title: 'ASML EUV tools remain bottleneck for AI chip nodes', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/as1', published_at: '2026-09-01T04:00:00Z', score: 40,
+        },
+        {
+          id: 'as2', title: 'ASML raises outlook on AI semiconductor demand', pillar: 'markets', source: 'hn',
+          url: 'https://example.test/as2', published_at: '2026-09-02T04:00:00Z', score: 41,
+        },
+        {
+          id: 'as3', title: 'Foundries depend on ASML High-NA for AI processors', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/as3', published_at: '2026-09-03T04:00:00Z', score: 42,
+        },
+        {
+          id: 'mi1', title: 'Micron HBM shipments rise for AI accelerator boards', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/mi1', published_at: '2026-09-01T05:00:00Z', score: 40,
+        },
+        {
+          id: 'mi2', title: 'Micron expands memory capacity for AI data centres', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/mi2', published_at: '2026-09-02T05:00:00Z', score: 41,
+        },
+        {
+          id: 'mi3', title: 'Investors track Micron AI memory pricing cycle', pillar: 'markets', source: 'hn',
+          url: 'https://example.test/mi3', published_at: '2026-09-03T05:00:00Z', score: 42,
+        },
+        {
+          id: 'wi1', title: 'Winverse AI closes seed round for robotic foundation models', pillar: 'markets', source: 'hn',
+          url: 'https://example.test/wi1', published_at: '2026-09-01T06:00:00Z', score: 40,
+        },
+        {
+          id: 'wi2', title: 'Winverse demos embodied AI agents in warehouse trials', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/wi2', published_at: '2026-09-02T06:00:00Z', score: 41,
+        },
+        {
+          id: 'wi3', title: 'Labs watch Winverse AI after DeepSeek-backed launch', pillar: 'markets', source: 'hn',
+          url: 'https://example.test/wi3', published_at: '2026-09-03T06:00:00Z', score: 42,
+        },
+        {
+          id: 'iso1', title: 'Isomorphic Labs publishes new protein design results', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/iso1', published_at: '2026-09-01T07:00:00Z', score: 40,
+        },
+        {
+          id: 'iso2', title: 'Isomorphic Labs expands AI drug discovery partnerships', pillar: 'markets', source: 'hn',
+          url: 'https://example.test/iso2', published_at: '2026-09-02T07:00:00Z', score: 41,
+        },
+        {
+          id: 'iso3', title: 'DeepMind sibling Isomorphic Labs scales wet-lab AI loops', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/iso3', published_at: '2026-09-03T07:00:00Z', score: 42,
+        },
+      ],
+    };
+    for (const [id, name] of [
+      ['sony', 'Sony'],
+      ['tesla', 'Tesla'],
+      ['waymo', 'Waymo'],
+      ['asml', 'ASML'],
+      ['micron', 'Micron'],
+      ['winverse-ai', 'Winverse AI'],
+      ['isomorphic-labs', 'Isomorphic Labs'],
+    ]) {
+      const lab = labsFromEntities(withArch).find((p) => p.id === id);
+      assert.ok(lab, `${name} clears ENTITY_LAB_MIN`);
+      assert.match(renderLab(withArch, lab), new RegExp(`What has SIREN scored about ${name}\\?`));
+      assert.doesNotMatch(renderLab(withArch, lab), /doom score:\s*\d/i);
+      assert.ok(sitemapEntries(withArch).some((e) => e.loc === `/lab/${id}.html`));
+    }
+  });
+
   it('indexes Samsung, Supermicro, TSMC, and Huawei entity labs', () => {
     const withArch = {
       ...ctx,
