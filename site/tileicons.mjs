@@ -2,7 +2,7 @@
 // tiles on the homepage share a picture. 16x16 grids; build.mjs writes each
 // as public/img/px-<name>.svg and the tiles use them like the webp art.
 export const TILE_ICONS = {
-  radio: [{ a: '#818CF8', b: '#1E1B4B', c: '#E0E7FF', d: '#F87171' }, [
+  radio: [{ a: '#56B0E0', b: '#0A1A24', c: '#B8E0F5', d: '#F87171' }, [
     '..........c.....', '.........c......', '........c.......', '.aaaaaaaaaaaaaa.', 'a..............a', 'a.bbbbbb..ccc..a', 'a.bccccb.c...c.a', 'a.bbbbbb.c.d.c.a',
     'a.bccccb.c...c.a', 'a.bbbbbb..ccc..a', 'a..............a', 'a.aa.aa.aa.aa..a', 'a..............a', '.aaaaaaaaaaaaaa.', '..a..........a..', '................']],
   chat: [{ a: '#4ADE80', b: '#052E16', c: '#FFFFFF' }, [
@@ -20,7 +20,7 @@ export const TILE_ICONS = {
   antenna: [{ a: '#E5E7EB', b: '#38BDF8', c: '#F87171' }, [
     '.b...........b..', 'b..b.......b..b.', 'b.b...ccc...b.b.', 'b.b..ccccc..b.b.', 'b..b..ccc..b..b.', '.b.....a.....b..', '.......a........', '......aaa.......',
     '......a.a.......', '.....a...a......', '.....aaaaa......', '....a.....a.....', '....a.....a.....', '...a.......a....', '..aaaaaaaaaaa...', '................']],
-  tv: [{ a: '#A5B4FC', b: '#0B1020', c: '#F87171', d: '#FFFFFF' }, [
+  tv: [{ a: '#56B0E0', b: '#0B1020', c: '#F87171', d: '#FFFFFF' }, [
     '.....a...a......', '......a.a.......', '.......a........', 'aaaaaaaaaaaaaaaa', 'abbbbbbbbbbbbbba', 'abbbbcbbbbbbbbba', 'abbbbccbbbbbbbba', 'abbbbcccbbbbbbba',
     'abbbbccccbbbbbba', 'abbbbcccbbbbbbba', 'abbbbccbbbbbbbba', 'abbbbcbbbbbbbbba', 'aaaaaaaaaaaaaaaa', '..aa........aa..', '................', '................']],
   team: [{ a: '#9CA3AF', b: '#0B0F17', c: '#4ADE80', d: '#60A5FA' }, [
@@ -44,7 +44,7 @@ export const TILE_ICONS = {
   ruler: [{ a: '#FACC15', b: '#0B0F17', c: '#60A5FA' }, [
     '................', '................', '..............cc', '............cccc', 'aaaaaaaaaaaaaaaa', 'abababababababab', 'ab.b.b.ab.b.b.ab', 'a...............',
     'aaaaaaaaaaaaaaaa', '................', '..cc..........cc', '..cccccccccccccc', '..cc..........cc', '................', '................', '................']],
-  code: [{ a: '#4ADE80', b: '#A5B4FC', c: '#FFFFFF' }, [
+  code: [{ a: '#4ADE80', b: '#56B0E0', c: '#FFFFFF' }, [
     '................', '................', '....a......a....', '...a.......ba...', '..a....b....a...', '.a....b......a..', 'a....b........a.', '.a..b........a..',
     '..a.b.......a...', '...ab......a....', '....a...........', '.......cc.......', '......cccc......', '.....cccccc.....', '.......cc.......', '.......cc.......']],
   bell: [{ a: '#FACC15', b: '#CA8A04', c: '#F87171' }, [
@@ -122,7 +122,7 @@ export const TILE_ICONS = {
     '................', '..d.........d...', '...d...a...d....', '....d.aaa.d.....', '.d...aabaa...d..', '..d.aabbbaa.d...', '....aabbbaa.....', '....aabbbaa.....',
     '....aaaaaaa.....', '...ccccccccc....', '...ccccccccc....', '..ccccccccccc...', '..ccccccccccc...', '................', '................', '................']],
   // Search, Catalog, and the catalog's own cards for videos, feeds and data.
-  search: [{ a: '#A5B4FC', b: '#1E1B4B', c: '#E0E7FF', d: '#FACC15' }, [
+  search: [{ a: '#56B0E0', b: '#0A1A24', c: '#B8E0F5', d: '#FACC15' }, [
     '................', '....aaaaaa......', '...abbbbbba.....', '..abccbbbbba....', '.abcbbbbbbbba...', '.abcbbbbbbbba...', '.abbbbbbbbbba...', '.abbbbbbbbbba...',
     '.abbbbbbbbbba...', '..abbbbbbbba....', '...abbbbbbadd...', '....aaaaaa.ddd..', '............ddd.', '.............ddd', '................', '................']],
   catalog: [{ a: '#94A3B8', b: '#0F172A', c: '#4ADE80', d: '#F472B6' }, [
@@ -146,7 +146,7 @@ export const TILE_ICONS = {
     '................', '................', '..bb........bb..', '.b..b......b..b.', 'b....b....b....b', '......aaaa......', '................', '..cccccccccccc..',
     '..c..........c..', '..c..bb..bb..c..', '..c..........c..', '..c...cccc...c..', '..c..........c..', '..cccccccccccc..', '................', '................']],
   // The Arcade: a pixel arcade cabinet.
-  arcade: [{ a: '#7C3AED', b: '#1E1B4B', e: '#0B1020', c: '#4ADE80', f: '#312E81', d: '#F87171', g: '#FACC15', h: '#60A5FA' }, [
+  arcade: [{ a: '#7C3AED', b: '#0A1A24', e: '#0B1020', c: '#4ADE80', f: '#312E81', d: '#F87171', g: '#FACC15', h: '#60A5FA' }, [
     '....aaaaaaaa....', '...abbbbbbbba...', '...abeeeeeeba...', '...abecceceba...', '...abeeeeeeba...', '...abeceeceba...', '...abeeeeeeba...', '...abbbbbbbba...',
     '..aaaaaaaaaaaa..', '..afffffffffffa.', '..af.d..g.h.fa..', '..affffffffffa..', '...abbbbbbbba...', '...abbbbbbbba...', '...aaaaaaaaaa...', '................']],
   // The Evolution Log: a ruled logbook.

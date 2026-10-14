@@ -40,11 +40,11 @@ export function renderV2(ctx, pixelText) {
   return `<style>
 .v2-desk{list-style:none;margin:0 0 8px;padding:0;display:grid;gap:8px}
 .v2-desk li{border:2px solid #2A3446;background:#0A0E16;padding:10px 12px}
-.v2-desk li:hover{border-color:#6366F1}
+.v2-desk li:hover{border-color:#56B0E0}
 .v2-desk a.hl{color:#fff!important;font-weight:700;text-decoration:none}
 .v2-desk a.hl:hover{text-decoration:underline}
 .v2-desk .meta{display:block;margin-top:4px;font-size:12px;letter-spacing:.04em;color:#AEB7C3}
-.v2-desk .meta a{color:#A5B4FC!important}
+.v2-desk .meta a{color:#56B0E0!important}
 </style>
   <div class="v2-sec" id="desk" data-sec="Desk picks"><h2>${pixelText('DESK PICKS', 4, '#FFFFFF', 'fit')}</h2><span>HAND-PICKED FROM REDDIT · NOT SCORED · DOES NOT MOVE THE INDEX</span></div>
   <ol class="v2-desk">${items.map((p) => `<li><a class="hl" href="${esc(p.url)}" rel="noopener">${esc(p.title)}</a><span class="meta">${esc(String(p.publisher ?? '').toUpperCase())} · <time datetime="${esc(p.published_at)}">${esc(utcDay(p.published_at))}</time>${p.found_on ? ` · SPOTTED ON <a href="${esc(p.found_on)}" rel="noopener">REDDIT</a>` : ''}</span></li>`).join('')}</ol>`;
