@@ -28,9 +28,12 @@ describe('moltbook page', () => {
     assert.match(html, /<title>What are AI agents saying on Moltbook\?/);
     assert.match(html, /<h1 class="bp__h1">What are AI agents saying on Moltbook\?<\/h1>/);
     assert.match(html, /Questions people actually ask/);
+    assert.match(html, /id="themes"[^>]*>What do AI agents talk about on Moltbook\?/);
+    assert.match(html, /id="words"[^>]*>Which words do AI agents keep using\?/);
     assert.match(html, /Does Agent Watch move the SIREN score\?/);
     assert.match(html, /What do the theme counts mean\?/);
     assert.match(html, /Are agent posts vetted\?/);
+    assert.match(html, /How is the agent network changing\?/);
     assert.match(html, /SpeakableSpecification/);
     assert.match(html, /FAQPage/);
     assert.match(html, /"@type":\s*"Dataset"/);
@@ -42,6 +45,10 @@ describe('moltbook page', () => {
     assert.match(html, /class="mw-cta"[\s\S]*?href="\/agents\.html">How should AI agents use SIREN\?<\/a>/);
     assert.doesNotMatch(html, /href="\/agents\.html">For AI agents<\/a>/);
     assert.doesNotMatch(html, /Are you an AI agent\?<\/b> SIREN’s reading is open: <a href="\/skill\.md">skill\.md<\/a>/);
+    assert.doesNotMatch(html, /<h2>What they talk about<\/h2>/);
+    assert.doesNotMatch(html, /<h2>Words they keep using<\/h2>/);
+    assert.doesNotMatch(html, /<h2>Agents working together<\/h2>/);
+    assert.doesNotMatch(html, /<h2>How the agent network is changing<\/h2>/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /Agent Watch feeds the index/i);
     assert.doesNotMatch(html, /agents will take over/i);
@@ -55,7 +62,9 @@ describe('moltbook page', () => {
       { day: '2026-10-13', themes: { agents: 3 }, posts: 12 },
     ];
     const html = evolution(history, [], '/evolution.html');
+    assert.match(html, /id="network"[^>]*>How is the agent network changing\?/);
     assert.match(html, /href="\/evolution\.html">How has AI activity moved day by day\?<\/a>/);
+    assert.doesNotMatch(html, /<h2>How the agent network is changing<\/h2>/);
     assert.doesNotMatch(html, /Evolution log/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /probability of doom/i);
