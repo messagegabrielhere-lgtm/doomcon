@@ -171,6 +171,19 @@ export function renderDay(ctx, day) {
   ${faqHtml}
 </article>`;
 
+  // ItemList must match visible rows: most day hubs are archive-only after the
+  // live window rolls (FINDABILITY #51) — an empty live list with a full older
+  // block was schema that did not match on-page text (§3.3).
+  const listForSchema = [];
+  for (const it of items) {
+    if (listForSchema.length >= DAY_LIST_CAP) break;
+    listForSchema.push(it);
+  }
+  for (const it of archivedAll) {
+    if (listForSchema.length >= DAY_LIST_CAP) break;
+    listForSchema.push(it);
+  }
+
   return page({
     ctx,
     path,
@@ -188,8 +201,8 @@ export function renderDay(ctx, day) {
       speakable: speakable(['h1', '.nd__lede']),
       mainEntity: {
         '@type': 'ItemList',
-        numberOfItems: Math.min(items.length, DAY_LIST_CAP),
-        itemListElement: items.slice(0, DAY_LIST_CAP).map((it, i) => ({
+        numberOfItems: listForSchema.length,
+        itemListElement: listForSchema.map((it, i) => ({
           '@type': 'ListItem',
           position: i + 1,
           url: ctx.url(`/item/${slugFor(it)}.html`),

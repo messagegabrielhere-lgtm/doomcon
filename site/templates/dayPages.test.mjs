@@ -98,4 +98,23 @@ describe('news day hubs', () => {
     assert.match(html, /\/item\/archive\.html/);
     assert.doesNotMatch(html, /<h2>Older scored stories from 2026-10-10<\/h2>/);
   });
+
+  it('puts archive-only day stories into ItemList so schema matches visible HTML', () => {
+    const archiveOnly = {
+      ...ctx,
+      news: { generated_at: '2026-10-14T12:00:00Z', items: [] },
+      itemArchive: Array.from({ length: 5 }, (_, i) => (
+        story(`arch${i}`, '2026-10-01', `Archive-only day story ${i}`)
+      )),
+    };
+    assert.ok(indexableDays(archiveOnly).some((d) => d.day === '2026-10-01'));
+    const html = renderDay(archiveOnly, '2026-10-01');
+    assert.doesNotMatch(html, /noindex/);
+    assert.match(html, /Archive-only day story 0/);
+    assert.match(html, /"numberOfItems"\s*:\s*5/);
+    assert.match(html, /Archive-only day story 0/);
+    // ItemList name fields mirror the visible older list (not an empty live window).
+    assert.match(html, /"name"\s*:\s*"Archive-only day story 0"/);
+    assert.match(html, /"name"\s*:\s*"Archive-only day story 4"/);
+  });
 });
