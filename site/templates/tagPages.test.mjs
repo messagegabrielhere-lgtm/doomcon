@@ -2340,4 +2340,35 @@ describe('tag pages', () => {
     assert.doesNotMatch(renderTag(rich, 'ai-risks'), /doom score:\s*\d/i);
     assert.doesNotMatch(renderTag(rich, 'ai-risks'), /probability of doom/i);
   });
+
+  it('pages ai-systems and machine-learning hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('as1', 'Anthropic bans users from being cruel to its AI systems'),
+          story('as2', 'EU Scientific Panel on AI investigates incidents involving loss of control over AI systems'),
+          story('as3', 'Microsoft\'s senior director of AI systems hardware architecture joins OpenAI'),
+          story('as4', 'Meta says Wonder includes features designed to help AI systems perform more reliably'),
+          story('as5', 'Private, offline search of the literature with local AI systems'),
+          story('ml1', 'Machine learning analysis of cilia driven particle transport'),
+          story('ml2', 'Has machine learning research gotten more wordy?'),
+          story('ml3', 'What is the goal of unsupervised machine learning?'),
+          story('ml4', 'Origins of Universal Machine Learning Force-Field Errors in Multicomponent Materials'),
+          story('ml5', 'Feature identification for parameter extraction using machine learning'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    assert.ok(ids.includes('ai-systems'));
+    assert.ok(ids.includes('machine-learning'));
+    assert.match(renderTag(rich, 'ai-systems'), /What has SIREN scored about AI systems\?/);
+    assert.match(renderTag(rich, 'machine-learning'), /What has SIREN scored about Machine learning\?/);
+    assert.match(renderTag(rich, 'ai-systems'), /not a harm forecast/i);
+    assert.match(renderTag(rich, 'machine-learning'), /not a capability ranking/i);
+    assert.doesNotMatch(renderTag(rich, 'ai-systems'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'machine-learning'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'machine-learning'), /probability of doom/i);
+  });
 });

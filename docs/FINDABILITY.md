@@ -698,6 +698,8 @@ context.
 | 446 | Topic tag `white-house` (live/archive ≥5); IndexNow + seo-daily monitor; refuse policy-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 447 | Topic tag `ai-tools` (live/archive ≥5); IndexNow + seo-daily monitor; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 448 | Topic tag `ai-risks` (live/archive ≥5); IndexNow + seo-daily monitor; refuse harm-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 449 | Topic tag `ai-systems` (live/archive ≥5); IndexNow + seo-daily monitor; refuse harm-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 450 | Topic tag `machine-learning` (live/archive ≥5); IndexNow + seo-daily monitor; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
