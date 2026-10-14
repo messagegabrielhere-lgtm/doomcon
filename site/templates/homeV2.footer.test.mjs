@@ -159,6 +159,24 @@ describe('home v2 footer', () => {
     assert.match(html, /id="v2-molt-h"[^>]*>[\s\S]*What are AI agents saying\?/);
     assert.doesNotMatch(html, /probability of doom/i);
   });
+
+  it('lab-card H3s use questions', () => {
+    const html = render({
+      ...ctx,
+      race: {
+        players: [
+          { id: 'openai', name: 'OpenAI', rank: 1, principal: 'Sam Altman', market: { probability: 0.22, change_7d: 0.01 }, shipping: { github: { releases_30d: 3 } }, mindshare: { share: 0.2 } },
+          { id: 'anthropic', name: 'Anthropic', rank: 2, principal: 'Dario Amodei', market: { probability: 0.18, change_7d: -0.02 }, shipping: { github: { releases_30d: 2 } }, mindshare: { share: 0.15 } },
+        ],
+        markets: {},
+      },
+    }, { head: '' });
+    assert.match(html, /Who is OpenAI on the race board\?/);
+    assert.match(html, /Who is Anthropic on the race board\?/);
+    assert.doesNotMatch(html, /<h3>OPENAI<\/h3>/);
+    assert.doesNotMatch(html, /<h3>ANTHROPIC<\/h3>/);
+    assert.doesNotMatch(html, /probability of doom/i);
+  });
 });
 
 

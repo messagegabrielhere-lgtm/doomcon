@@ -176,6 +176,8 @@ describe('homepage FAQ', () => {
     assert.ok(qa.some(([q]) => q === 'Who is OpenAI on X?'));
     assert.ok(qa.some(([q]) => q === 'What is CISA Known Exploited Vulnerabilities catalogue?'));
     assert.ok(qa.some(([q]) => q === 'What does the BLISS Science pillar measure?'));
+    assert.ok(qa.some(([q]) => q === 'Which headlines matched Harm language?'));
+    assert.ok(qa.some(([q]) => q === 'Who is OpenAI on the race board?'));
     const html = render(ctx);
     assert.match(html, /What is in the newsroom\?/);
     assert.match(html, /What is the signal feed\?/);
@@ -244,6 +246,8 @@ describe('homepage FAQ', () => {
     assert.match(html, /Who is OpenAI on X\?/);
     assert.match(html, /What is CISA Known Exploited Vulnerabilities catalogue\?/);
     assert.match(html, /What does the BLISS Science pillar measure\?/);
+    assert.match(html, /Which headlines matched Harm language\?/);
+    assert.match(html, /Who is OpenAI on the race board\?/);
     assert.doesNotMatch(html, /probability of doom/i);
   });
 });

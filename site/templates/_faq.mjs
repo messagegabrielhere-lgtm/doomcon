@@ -209,6 +209,10 @@ export function items(ctx) {
       `On /exploits.html: Gives: cveID, vendorProject, product, dateAdded, knownRansomwareCampaignUse.`],
     ['What does the BLISS Science pillar measure?',
       `On /bliss.html: AI methods showing up in other people’s fields.`],
+    ['Which headlines matched Harm language?',
+      `On /balance.html: headlines in the newsroom window that matched the Harm word list — a measured count, never a net against the other side.`],
+    ['Who is OpenAI on the race board?',
+      `On the home board: odds of best model in 2026 · Polymarket, with releases and mindshare bars.`],
   ];
 }
 

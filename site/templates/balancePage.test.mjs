@@ -59,4 +59,21 @@ describe('balance page', () => {
     assert.match(html, /How does SIREN count AI harm and benefit side by side\?/);
     assert.match(html, /noindex/);
   });
+
+  it('side-column H3s use questions mirrored in FAQPage', () => {
+    const html = render(ctx);
+    assert.match(html, /Which headlines matched Harm language\?/);
+    assert.match(html, /Which headlines matched Benefit language\?/);
+    assert.match(html, /What is in the Harm register\?/);
+    assert.match(html, /What is in the Benefit register\?/);
+    assert.match(html, /Which counters are on the Harm side\?/);
+    assert.match(html, /Which counters are on the Benefit side\?/);
+    assert.match(html, /FAQPage[\s\S]*Which headlines matched Harm language\?/);
+    assert.match(html, /FAQPage[\s\S]*What is in the Benefit register\?/);
+    assert.doesNotMatch(html, /<h3 class="bp__colh">Harm language/);
+    assert.doesNotMatch(html, /<h3 class="bp__colh">Benefit register/);
+    assert.doesNotMatch(html, /<h3 class="bp__colh">Harm side/);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
+    assert.doesNotMatch(html, /net score of good versus evil/i);
+  });
 });

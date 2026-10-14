@@ -333,6 +333,15 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('What does the BLISS Openness pillar measure'));
     assert.ok(org.knowsAbout.includes('Which BLISS sources answered this run'));
     assert.ok(org.knowsAbout.includes('How is BLISS computed'));
+    assert.ok(org.knowsAbout.includes('Which headlines matched Harm language'));
+    assert.ok(org.knowsAbout.includes('Which headlines matched Benefit language'));
+    assert.ok(org.knowsAbout.includes('What is in the Harm register'));
+    assert.ok(org.knowsAbout.includes('What is in the Benefit register'));
+    assert.ok(org.knowsAbout.includes('Which counters are on the Harm side'));
+    assert.ok(org.knowsAbout.includes('Which counters are on the Benefit side'));
+    assert.ok(org.knowsAbout.includes('Who is OpenAI on the race board'));
+    assert.ok(org.knowsAbout.includes('Who is Anthropic on the race board'));
+    assert.ok(org.knowsAbout.includes('Who is Google DeepMind on the race board'));
     assert.ok(org.knowsAbout.includes('How long has Nothing Ever Changed'));
     assert.ok(org.knowsAbout.includes('How many headlines mention robots'));
     assert.ok(org.knowsAbout.includes('How many headlines use doom by name'));

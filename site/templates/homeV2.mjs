@@ -609,9 +609,11 @@ export function render(ctx, { head }) {
     const face = FACE_BY_LAB[p.id];
     const pic = face ? `<img class="v2-face sq" loading="lazy" decoding="async" src="${img(face)}" width="64" height="64" alt="">` : icon('robot', 5);
     const bar = (label, val, w, color) => `<div class="v2-bar"><span>${label}</span><span class="t"><i style="width:${Math.max(0, Math.min(100, w)).toFixed(1)}%;background:${color}"></i></span><b>${val}</b></div>`;
+    // Tip #380: lab-card H3s are question-shaped (mirrored in FAQ §3.3).
+    const labQ = `Who is ${p.name} on the race board?`;
     return `<article class="v2-lab${big ? ' hot' : ''}">
   <div class="hd">
-    <div class="row">${pic}<div class="nm"><h3>${esc(p.name.toUpperCase())}</h3><span>${esc(p.principal || 'No single principal')}</span></div><span class="odds">${pct(m.probability)}</span></div>
+    <div class="row">${pic}<div class="nm"><h3 aria-label="${esc(p.name)}">${esc(labQ)}</h3><span>${esc(p.principal || 'No single principal')}</span></div><span class="odds">${pct(m.probability)}</span></div>
     <div class="row sb"><span class="v2-pill ${pill.cls}">${pill.t}</span><span class="mv${big ? ' red' : ''}">${ch === null ? 'NO 7D REFERENCE' : `${ch >= 0 ? '▲' : '▼'} ${Math.abs(ch * 100).toFixed(1)} PTS / 7D`}</span></div>
   </div>
   <div class="sig"><span class="cap">SIGNAL ANALYSIS</span>
