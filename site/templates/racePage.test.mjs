@@ -36,6 +36,8 @@ describe('race page', () => {
     assert.match(html, /Dataset/);
     assert.match(html, /Does SIREN publish an AI race doom score\?/);
     assert.match(html, /market odds and observable activity/i);
+    assert.match(html, /href="\/news\.html">Which AI stories has SIREN scored in this window\?<\/a>/);
+    assert.doesNotMatch(html, /href="\/news\.html">the signal feed<\/a>/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
   });
 });

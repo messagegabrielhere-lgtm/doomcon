@@ -74,9 +74,19 @@ describe('classic page', () => {
     assert.ok(record, 'expected instruments record section');
     assert.match(record[0], /href="\/methodology\.html">How the SIREN AI activity index is computed · methodology →<\/a>/);
     assert.doesNotMatch(record[0], /href="\/methodology\.html">methodology page →<\/a>/);
+    assert.match(record[0], /href="\/history\.html">What is the history of AI risk\? →<\/a>/);
+    assert.doesNotMatch(record[0], /href="\/history\.html">Full history and every observation →<\/a>/);
     const faq = html.match(/class="inst__faq-key">([\s\S]*?)<\/p>/);
     assert.ok(faq, 'expected instruments FAQ sibling');
     assert.match(faq[1], /href="\/methodology\.html">How the SIREN AI activity index is computed · methodology<\/a>/);
     assert.doesNotMatch(faq[1], /href="\/methodology\.html">How the AI activity index is computed<\/a>/);
+  });
+
+  it('classic instrument CTA and scanner link use question H1s', () => {
+    const html = render(ctx, { view: 'classic' });
+    assert.match(html, /href="\/instruments\.html">What instruments sit behind the SIREN reading\? →<\/a>/);
+    assert.doesNotMatch(html, /href="\/instruments\.html">Open the instrument room →<\/a>/);
+    assert.match(html, /href="\/scanner\.html">What does the SIREN Capitulation Scanner show\?<\/a>/);
+    assert.doesNotMatch(html, /href="\/scanner\.html">Scanner<\/a>/);
   });
 });

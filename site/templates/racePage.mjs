@@ -1089,7 +1089,7 @@ function howComputed(ctx, race) {
 
   const mindBody = w
     ? `Share of SIREN's own news corpus naming that lab, computed from the entity list
-       <a href="${esc(ctx.href('/news.html'))}">the signal feed</a> already published &mdash; the same
+       <a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a> already published &mdash; the same
        extractor, so the two surfaces can never disagree about a headline.
        The window is ${esc(w.corpus)} items spanning
        <b class="num">${esc(num(w.observed_span_hours, 1))} hours</b>${w.corpus_is_capped ? `, not the nominal ${esc(w.nominal_window_days)} days: the corpus is capped at ${esc(w.max_items)} items and on a busy week the cap binds long before the window does` : ''}.

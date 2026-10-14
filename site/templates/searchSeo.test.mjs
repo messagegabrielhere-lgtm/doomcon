@@ -33,6 +33,8 @@ describe('search page SEO', () => {
     assert.match(html, /Where is everything on SIREN listed\?/);
     assert.match(html, /One box for the whole site/);
     assert.match(html, /Results appear as you type/);
+    assert.match(html, /href="\/catalog\.html">Where is everything on SIREN listed\?<\/a>/);
+    assert.doesNotMatch(html, /href="\/catalog\.html">catalog<\/a>/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /search[- ]as[- ]doom|doom oracle/i);
     assert.doesNotMatch(html, /probability of doom/i);

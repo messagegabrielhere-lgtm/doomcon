@@ -596,7 +596,7 @@ function entitySection(ctx, d, e) {
   <p class="dg__key">${wlNote ? `${esc(wlNote)}. ` : ''}${esc(e.items_naming_any_entity)} of ${esc(e.corpus_items)} items in the corpus name at
      least one of the ${esc(e.distinct_entities)} entities in the published vocabulary. A lab with no items
      is a measured zero across the live feeds, not a gap in collection. Market position and mindshare come
-     from <a href="${esc(ctx.href('/race.html'))}">the leaderboard</a>; item counts and release cadence are
+     from <a href="${esc(ctx.href('/race.html'))}">Who is winning the AI race?</a>; item counts and release cadence are
      computed here.</p>
   <div class="dg__labs">${blocks}</div>
 </section>`;
