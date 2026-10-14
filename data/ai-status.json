@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "generated_at": "2026-10-14T16:28:46.134Z",
+ "generated_at": "2026-10-14T17:06:21.700Z",
  "services": [
   {
    "id": "openai",
@@ -9,12 +9,27 @@
    "page": "https://status.openai.com",
    "api": "https://status.openai.com/api/v2/summary.json",
    "browser": true,
-   "indicator": "none",
-   "description": "All Systems Operational",
-   "updated_at": "2026-09-29T18:29:41Z",
-   "degraded": [],
+   "indicator": "minor",
+   "description": "Partial System Degradation",
+   "updated_at": "2026-10-14T17:02:47Z",
+   "degraded": [
+    {
+     "name": "Compliance API",
+     "status": "degraded_performance"
+    }
+   ],
    "components": 25,
-   "incidents": [],
+   "incidents": [
+    {
+     "name": "Delayed Costs data in the Compliance API",
+     "impact": "minor",
+     "status": "identified",
+     "started_at": "2026-10-14T17:00:44Z",
+     "updated_at": "2026-10-14T17:02:47Z",
+     "url": null,
+     "latest": "We have identified an issue causing delays in publishing organization cost data through the Costs API. API and ChatGPT usage are not affected, and other reporting channels remain available. We are working to restore normal data freshness."
+    }
+   ],
    "maintenance": 0,
    "error": null
   },
