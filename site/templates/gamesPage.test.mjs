@@ -24,6 +24,18 @@ describe('games page', () => {
     assert.match(html, /BreadcrumbList/);
     assert.match(html, /\/contain\.html/);
     assert.match(html, /\/day-after\.html/);
+    assert.match(html, /href="\/contain\.html"[^>]*>[\s\S]*?<b>Can you stop an AI breakout\?<\/b>/);
+    assert.match(html, /href="\/game\.html"[^>]*>[\s\S]*?<b>How do you play Tally Counts\?<\/b>/);
+    assert.match(html, /href="\/day-after\.html"[^>]*>[\s\S]*?<b>What happens the day after an AI catastrophe\?<\/b>/);
+    assert.match(html, /href="\/self-aware\.html"[^>]*>[\s\S]*?<b>What if an AI wakes up at 2:14 a\.m\.\?<\/b>/);
+    assert.match(html, /href="\/arena\.html#battle"[^>]*>[\s\S]*?<b>What does SIREN Arena show\?<\/b>/);
+    assert.match(html, /href="\/bets\.html"[^>]*>[\s\S]*?<b>Does the SIREN index make forecasts\?<\/b>/);
+    assert.match(html, /href="\/p-doom\.html#voices"[^>]*>[\s\S]*?<b>What is p\(doom\)\?<\/b>/);
+    assert.match(html, /href="\/si-ready\.html"[^>]*>[\s\S]*?<b>Ready for superintelligence\?<\/b>/);
+    assert.match(html, /href="\/ai-proof-job\.html"[^>]*>[\s\S]*?<b>How do I AI-proof my job\?<\/b>/);
+    assert.doesNotMatch(html, /<b>Containment<\/b>/);
+    assert.doesNotMatch(html, /<b>Signal or Noise<\/b>/);
+    assert.doesNotMatch(html, /<b>The Day After<\/b>/);
     assert.match(html, /No sign-up/);
     const music = html.match(/<div class="gm-g">[\s\S]*?<\/div>\s*<p>([\s\S]*?)<\/p>/);
     assert.ok(music, 'expected music paragraph after game cards');

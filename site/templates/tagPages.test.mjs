@@ -115,7 +115,8 @@ describe('tag pages', () => {
     const tags = tagsForItem(ctx, ctx.news.items[0]);
     assert.ok(tags.some((t) => t.id === 'agents'));
     const html = renderItem(ctx, ctx.news.items[0]);
-    assert.match(html, /href="\/tags\/agents\.html"/);
+    assert.match(html, /href="\/tags\/agents\.html">What has SIREN scored about AI agents\?<\/a>/);
+    assert.doesNotMatch(html, /href="\/tags\/agents\.html">AI agents<\/a>/);
   });
 
   it('links older archived stories that match the tag needle', () => {

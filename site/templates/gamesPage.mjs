@@ -9,15 +9,15 @@ const PATH = '/games.html';
 const qTitle = 'What free AI games can you play on SIREN?';
 
 export const GAMES = [
-  ['/contain.html', 'px:core', 'Containment', 'Arcade', 'Can you stop an AI breakout?', '#F87171'],
-  ['/game.html', 'px:joystick', 'Signal or Noise', '30 seconds', 'Count the real signals, ignore the predictions. Beat your best score.', '#4ADE80'],
-  ['/day-after.html', 'px:megaphone', 'The Day After', 'Strategy', 'What happens the day after an AI catastrophe?', '#FB923C'],
-  ['/self-aware.html', 'px:redeye', 'The Night It Wakes Up', 'Simulation', 'What if an AI wakes up at 2:14 a.m.?', '#EF4444'],
-  ['/arena.html#battle', 'stocks', 'AI Battle', 'Live', 'AI models trade stocks and crypto against live prices. Pick a winner.', '#60A5FA'],
-  ['/bets.html', 'dice', 'Tally’s Bets', 'Daily', 'Does the SIREN index make forecasts?', '#FACC15'],
-  ['/p-doom.html#voices', 'px:pclock', 'Set Your p(doom)', 'Dial', 'Twenty-eight named estimates, Hinton to Yudkowsky. Spin the dial and post yours.', '#A78BFA'],
-  ['/si-ready.html', 'px:backpack', 'Ready for SI?', 'Quiz', 'A three-minute quiz that ends in your personal superintelligence plan.', '#22D3EE'],
-  ['/ai-proof-job.html', 'px:rocket', 'AI-Proof Your Job', 'Quiz', 'Two minutes to find out how exposed your job is, and what to do about it.', '#34D399'],
+  ['/contain.html', 'px:core', 'Can you stop an AI breakout?', 'Arcade', 'Free browser game: stop the breakout before it escapes.', '#F87171'],
+  ['/game.html', 'px:joystick', 'How do you play Tally Counts?', '30 seconds', 'Count the real signals, ignore the predictions. Beat your best score.', '#4ADE80'],
+  ['/day-after.html', 'px:megaphone', 'What happens the day after an AI catastrophe?', 'Strategy', 'A short strategy sim about the first day after the break.', '#FB923C'],
+  ['/self-aware.html', 'px:redeye', 'What if an AI wakes up at 2:14 a.m.?', 'Simulation', 'A night-shift simulation, not a forecast.', '#EF4444'],
+  ['/arena.html#battle', 'stocks', 'What does SIREN Arena show?', 'Live', 'AI models trade stocks and crypto against live prices. Pick a winner.', '#60A5FA'],
+  ['/bets.html', 'dice', 'Does the SIREN index make forecasts?', 'Daily', 'Tally’s unserious daily bets — not the SIREN score.', '#FACC15'],
+  ['/p-doom.html#voices', 'px:pclock', 'What is p(doom)?', 'Dial', 'Twenty-eight named estimates, Hinton to Yudkowsky. Spin the dial and post yours.', '#A78BFA'],
+  ['/si-ready.html', 'px:backpack', 'Ready for superintelligence?', 'Quiz', 'A three-minute personal plan — not a SI date or doom forecast.', '#22D3EE'],
+  ['/ai-proof-job.html', 'px:rocket', 'How do I AI-proof my job?', 'Quiz', 'Two minutes to find out how exposed your job is, and what to do about it.', '#34D399'],
 ];
 
 const CSS = `<style>
