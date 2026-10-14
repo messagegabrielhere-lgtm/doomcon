@@ -2775,6 +2775,48 @@ describe('tag pages', () => {
     assert.doesNotMatch(renderTag(rich, 'iran'), /probability of doom/i);
   });
 
+  it('pages calibration, conformal, trajectory, and causal hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('ca1', 'MARGIN: Runtime Confidence Calibration for Multi-Agent Models'),
+          story('ca2', 'Online Conformal Calibration for RL-Driven Hardware-Aware NAS'),
+          story('ca3', 'Sys1Cal-v1 Dataset for Probability Calibration'),
+          story('ca4', 'From Migration to Calibration: Preserving Agent Capabilities'),
+          story('ca5', 'DIAL: Adaptive Human Preference Calibration for LLM Judges'),
+          story('cf1', 'Conformal Prediction Sets Quantify Information Gain'),
+          story('cf2', 'Reinforcement Learning with Conformal Action Sets'),
+          story('cf3', 'CLIFT: Conformal Self-Verification for Web Agent Training'),
+          story('cf4', 'ReCIRC: Rectified Conformal Risk Control'),
+          story('cf5', 'Two Conformal Constructions for Adaptive AI-Text Screening'),
+          story('tr1', 'Uncertainty-Aware Optimization for Highway Trajectory Prediction'),
+          story('tr2', 'Conditional Trajectory Peaks: Multimodal Policies over Action Chunks'),
+          story('tr3', 'Organising Trajectory Evidence for Language-Model Agent Assurance'),
+          story('tr4', 'DexPolicy: Scheduled Exploration for Trajectory-Guided Manipulation'),
+          story('tr5', 'Not All Rollouts Are Worth Learning: Trajectory Valuation for RL'),
+          story('cu1', 'Executing Causal Structure Learning with Linear-Attention Transformers'),
+          story('cu2', 'ProximalFM: Amortized Proximal Causal Inference under Hidden Confounding'),
+          story('cu3', 'Mapping the Scalability-Accuracy Frontier of Nonlinear Causal Discovery'),
+          story('cu4', 'What You Observe Determines How You Identify Causal Effects'),
+          story('cu5', 'The Statistical Cost of Causal Discovery with Feedback'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    assert.ok(ids.includes('calibration'));
+    assert.ok(ids.includes('conformal'));
+    assert.ok(ids.includes('trajectory'));
+    assert.ok(ids.includes('causal'));
+    assert.match(renderTag(rich, 'calibration'), /What has SIREN scored about AI calibration\?/);
+    assert.match(renderTag(rich, 'conformal'), /What has SIREN scored about Conformal prediction\?/);
+    assert.match(renderTag(rich, 'trajectory'), /What has SIREN scored about AI trajectories\?/);
+    assert.match(renderTag(rich, 'causal'), /What has SIREN scored about Causal AI\?/);
+    assert.doesNotMatch(renderTag(rich, 'calibration'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'causal'), /probability of doom/i);
+  });
+
   it('pages reward-model, graph-neural, generalization, and uncertainty hubs', () => {
     const rich = {
       ...ctx,
