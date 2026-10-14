@@ -37,6 +37,8 @@ export function pickItems(ctx) {
 export function renderV2(ctx, pixelText) {
   const items = pickItems(ctx);
   if (!items.length) return '';
+  // Tip #327: section H2 is question-shaped (screen-reader); catalog FAQ covers listing (§3.3).
+  const deskQ = 'Which stories are desk picks?';
   return `<style>
 .v2-desk{list-style:none;margin:0 0 8px;padding:0;display:grid;gap:8px}
 .v2-desk li{border:2px solid #2A3446;background:#0A0E16;padding:10px 12px}
@@ -45,8 +47,9 @@ export function renderV2(ctx, pixelText) {
 .v2-desk a.hl:hover{text-decoration:underline}
 .v2-desk .meta{display:block;margin-top:4px;font-size:12px;letter-spacing:.04em;color:#AEB7C3}
 .v2-desk .meta a{color:#A5B4FC!important}
+.v2-desk-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 </style>
-  <div class="v2-sec" id="desk" data-sec="Desk picks"><h2>${pixelText('DESK PICKS', 4, '#FFFFFF', 'fit')}</h2><span>HAND-PICKED FROM REDDIT · NOT SCORED · DOES NOT MOVE THE INDEX</span></div>
+  <div class="v2-sec" id="desk" data-sec="Desk picks"><h2 id="dpick-h" class="v2-desk-sr">${esc(deskQ)}</h2><div aria-hidden="true">${pixelText('DESK PICKS', 4, '#FFFFFF', 'fit')}</div><span>HAND-PICKED FROM REDDIT · NOT SCORED · DOES NOT MOVE THE INDEX</span></div>
   <ol class="v2-desk">${items.map((p) => `<li><a class="hl" href="${esc(p.url)}" rel="noopener">${esc(p.title)}</a><span class="meta">${esc(String(p.publisher ?? '').toUpperCase())} · <time datetime="${esc(p.published_at)}">${esc(utcDay(p.published_at))}</time>${p.found_on ? ` · SPOTTED ON <a href="${esc(p.found_on)}" rel="noopener">REDDIT</a>` : ''}</span></li>`).join('')}</ol>`;
 }
 
@@ -54,6 +57,8 @@ export function renderV2(ctx, pixelText) {
 export function render(ctx) {
   const items = pickItems(ctx);
   if (!items.length) return '';
+  // Tip #327: section H2 is question-shaped; homepage FAQ mirrors it (§3.3).
+  const deskQ = 'Which stories are desk picks?';
 
   return `<style>
 .dpick__list{list-style:none;margin:0;padding:0;display:grid;gap:8px}
@@ -63,7 +68,7 @@ export function render(ctx) {
 .dpick__meta{display:block;font-size:.85em;opacity:.75;margin-top:4px}
 </style>
 <section class="sec dpick" id="desk-picks" aria-labelledby="dpick-h">
-  <h2 class="sec__h" id="dpick-h">Desk picks</h2>
+  <h2 class="sec__h" id="dpick-h">${esc(deskQ)}</h2>
   <p class="lede">Stories we picked by hand after spotting them in Reddit's AI communities. Each headline is the
     publisher's own, linking to the original. Picks are not scored and do not move the index.</p>
   <ol class="dpick__list">${items.map(row).join('')}</ol>

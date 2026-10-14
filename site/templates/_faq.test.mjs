@@ -64,4 +64,24 @@ describe('homepage FAQ', () => {
     assert.match(html, /What are the two questions everyone asks\?/);
     assert.doesNotMatch(html, /probability of doom/i);
   });
+
+  it('includes home module and switcher questions mirrored from section H2s', () => {
+    const qa = items(ctx);
+    assert.ok(qa.some(([q]) => q === 'What changed since the last reading?'));
+    assert.ok(qa.some(([q]) => q === 'How do you check a SIREN reading yourself?'));
+    assert.ok(qa.some(([q]) => q === 'Which stories are desk picks?'));
+    assert.ok(qa.some(([q]) => q === 'What story is developing right now?'));
+    assert.ok(qa.some(([q]) => q === 'Which labs’ posts are on the X wire?'));
+    assert.ok(qa.some(([q]) => q === 'Which frontier labs are monitored?'));
+    assert.ok(qa.some(([q]) => q === 'Where is every dataset on one panel?'));
+    const html = render(ctx);
+    assert.match(html, /What changed since the last reading\?/);
+    assert.match(html, /How do you check a SIREN reading yourself\?/);
+    assert.match(html, /Which stories are desk picks\?/);
+    assert.match(html, /What story is developing right now\?/);
+    assert.match(html, /Which labs’ posts are on the X wire\?/);
+    assert.match(html, /Which frontier labs are monitored\?/);
+    assert.match(html, /Where is every dataset on one panel\?/);
+    assert.doesNotMatch(html, /probability of doom/i);
+  });
 });

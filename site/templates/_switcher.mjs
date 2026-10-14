@@ -1262,10 +1262,12 @@ export function render(ctx, o = {}) {
       ${p.more ? `<a class="sw__more" href="${esc(p.more.href)}">${esc(p.more.text)}</a>` : ''}
     </article>`).join('\n    ');
 
+  // Tip #328: section H2 is question-shaped; homepage FAQ mirrors it (§3.3).
+  const deskPanelQ = 'Where is every dataset on one panel?';
   return `${o.style === false ? '' : styleTag(rules)}
 <section class="sw" id="${esc(uid)}" aria-labelledby="${esc(uid)}-h">
   <div class="sw__hd">
-    <h2 class="sec__h" id="${esc(uid)}-h">Every dataset, one panel<span class="sec__eb">The desk</span></h2>
+    <h2 class="sec__h" id="${esc(uid)}-h">${esc(deskPanelQ)}<span class="sec__eb">The desk</span></h2>
     <p class="sw__k">${esc(list.length)} datasets · one slot · no page load · every one already in this HTML</p>
   </div>
   ${movedBand(movedModel(ctx))}

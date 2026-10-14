@@ -576,6 +576,8 @@ context.
 | 324 | Home Meet Tally + War room H2s + homepage FAQ, and `/desk.html` streak card H2 + FAQPage, use questions (was “Meet Tally” / “War room” / “Nothing Ever Changes”); Organization `knowsAbout` mirrors desk/war-room questions; PRIMARY nav chrome stays short; refuse desk-feeds-index / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 325 | `/desk.html` counter card H2s + FAQPage use questions for robots / billions / Betteridge / godfather / AGI / doom-by-name (was “The Robot Count” / “Billions Mentioned” / …); Organization `knowsAbout` mirrors those questions; refuse desk-feeds-index / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 326 | `/jobs.html` + `/medicine.html` newsroom H2 + FAQ, home “two questions” + “every room” H2s + homepage FAQ, and `/moves/*` pillars/inputs/receipt H2s + FAQPage, use questions; Organization `knowsAbout` mirrors those questions; refuse jobs/medicine forecast and move-as-doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 327 | Home modules what-changed / verify / desk-picks / developing / X-wire / labs section H2s + homepage FAQ use questions (was “What changed” / “Don’t trust it. Check it.” / “Desk picks” / “Developing” / “The labs’ posts on X” / “The frontier labs, monitored”); Organization `knowsAbout` mirrors those questions; refuse module-as-doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 328 | Classic homepage switcher desk H2 + homepage FAQ use a question (was “Every dataset, one panel”); Organization `knowsAbout` mirrors that question; refuse switcher-as-second-index / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 

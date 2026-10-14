@@ -18,4 +18,11 @@ describe('what-changed strip', () => {
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /probability of doom/i);
   });
+
+  it('section H2 uses a question', () => {
+    const html = render(ctx);
+    assert.match(html, /id="wc-h">What changed since the last reading\?<\/h2>/);
+    assert.doesNotMatch(html, /id="wc-h">What changed<\/h2>/);
+    assert.doesNotMatch(html, /probability of doom/i);
+  });
 });
