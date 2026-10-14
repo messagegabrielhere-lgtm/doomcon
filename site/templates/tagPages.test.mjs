@@ -2464,4 +2464,35 @@ describe('tag pages', () => {
     assert.doesNotMatch(renderTag(rich, 'singapore'), /doom score:\s*\d/i);
     assert.doesNotMatch(renderTag(rich, 'singapore'), /probability of doom/i);
   });
+
+  it('pages uk and india hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('uk1', 'UK ICO investigates AI agents at OpenAI, Meta and Anthropic'),
+          story('uk2', 'Rogue AI hack of UK cyber defences inevitable, minister warns'),
+          story('uk3', 'AI Is Less Regulated Than Milk. Can a New Role For The UK Change That?'),
+          story('uk4', 'White House reverses course and restores UK AI Safety Institute access'),
+          story('uk5', 'UK to Evaluate AI Models Before Release, Reversing Trump Policy'),
+          story('in1', 'Mirae Asset\'s CEO on India\'s AI Advantage'),
+          story('in2', 'What happens when a Google data centre comes to town? Southern India is finding out'),
+          story('in3', 'Anthropic PBC admits India arm is subsidiary in Belagavi brand dispute'),
+          story('in4', 'Google\'s $15 billion AI data centre in India faces local resistance'),
+          story('in5', 'India AI mission expands compute access for startups and researchers'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    assert.ok(ids.includes('uk'));
+    assert.ok(ids.includes('india'));
+    assert.match(renderTag(rich, 'uk'), /What has SIREN scored about UK AI\?/);
+    assert.match(renderTag(rich, 'india'), /What has SIREN scored about India AI\?/);
+    assert.match(renderTag(rich, 'uk'), /not a national ranking/i);
+    assert.match(renderTag(rich, 'india'), /not a national ranking/i);
+    assert.doesNotMatch(renderTag(rich, 'uk'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'india'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'india'), /probability of doom/i);
+  });
 });
