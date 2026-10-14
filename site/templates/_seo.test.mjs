@@ -380,6 +380,12 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('Which related stories are in this window'));
     assert.ok(org.knowsAbout.includes('ready for superintelligence'));
     assert.ok(org.knowsAbout.includes('Ready for SI personal plan'));
+    assert.ok(org.knowsAbout.includes('What are the six readiness areas'));
+    assert.ok(org.knowsAbout.includes('What is the 3-minute readiness check'));
+    assert.ok(org.knowsAbout.includes('What is the full guide for how regular people can prepare'));
+    assert.ok(org.knowsAbout.includes('What is a 30-day starter plan for SI readiness'));
+    assert.ok(org.knowsAbout.includes('What should you not do when preparing for SI'));
+    assert.ok(org.knowsAbout.includes('Where can you keep going from here'));
     assert.ok(org.knowsAbout.includes('USA vs China AI race'));
     assert.ok(org.knowsAbout.includes('USA vs China: who is winning the race to superintelligence'));
     assert.ok(org.knowsAbout.includes('How does this scoreboard work'));
