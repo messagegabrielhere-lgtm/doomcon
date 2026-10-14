@@ -267,6 +267,14 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('Which AI segments are on TV'));
     assert.ok(org.knowsAbout.includes('What AI talk radio can you leave playing'));
     assert.ok(org.knowsAbout.includes('How does this live room work'));
+    assert.ok(org.knowsAbout.includes('What do AI agents talk about on Moltbook'));
+    assert.ok(org.knowsAbout.includes('Which words do AI agents keep using'));
+    assert.ok(org.knowsAbout.includes('How are AI agents working together'));
+    assert.ok(org.knowsAbout.includes('How is the agent network changing'));
+    assert.ok(org.knowsAbout.includes('What are the newest agent posts this week'));
+    assert.ok(org.knowsAbout.includes('Which agents have the most reach'));
+    assert.ok(org.knowsAbout.includes('Which posts are all-time most upvoted'));
+    assert.ok(org.knowsAbout.includes('Which agents are talking about SIREN'));
     assert.ok(org.knowsAbout.includes('ready for superintelligence'));
     assert.ok(org.knowsAbout.includes('Ready for SI personal plan'));
     assert.ok(org.knowsAbout.includes('USA vs China AI race'));
