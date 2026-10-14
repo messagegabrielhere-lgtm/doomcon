@@ -107,6 +107,14 @@ describe('home v2 footer', () => {
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /probability of doom/i);
   });
+
+  it('home video CTA uses the videos question H1', () => {
+    const html = render(ctx, { head: '' });
+    assert.match(html, /href="\/videos\.html">What free AI explainer videos does SIREN publish\?<\/a>/);
+    assert.doesNotMatch(html, /NEW FILM: THE ROAD TO SUPERINTELLIGENCE/);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
+    assert.doesNotMatch(html, /probability of doom/i);
+  });
 });
 
 

@@ -69,6 +69,7 @@
 
 import { esc } from './_html.mjs';
 import { MAP_JS, STATUS_ORDER, STATUS_MARKS, pinSwatch, usMapCss } from './_usmap.mjs';
+import * as brand from '../brand.mjs';
 
 // ---------------------------------------------------------------------------
 // Equal Earth, longhand. See the header for the formula and its provenance.
@@ -504,7 +505,7 @@ export function worldTable(model, opts = {}) {
     const pageHref = countryHref ? countryHref(c) : '';
     return `<tr>
       <th scope="row"><b><a class="usm__go" href="#${esc(mapId)}" ${goAttr}="${esc(c.iso2)}" title="Zoom the map to ${esc(c.name)}">${esc(c.name)}</a></b>
-        ${pageHref ? `<a href="${esc(pageHref)}">country page</a>` : ''}
+        ${pageHref ? `<a href="${esc(pageHref)}">How many datacentres has ${esc(brand.NAME)} mapped in ${esc(c.name)}?</a>` : ''}
         <span>${esc(c.iso2)}${notes.length ? ` · ${esc(notes.join(' · '))}` : ''}</span></th>
       <td>${esc(c.continent || 'no continent recorded')}</td>
       <td class="usm__barcell">${bar(c)}<b class="usm__tot num">${N(c.total)}</b></td>

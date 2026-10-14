@@ -500,6 +500,7 @@ context.
 | 248 | Claim-card tails + classic explainers guide card + home/moltbook/careers agent body links use race/flock/map/exploits/news/leaders/guide/agents questions (was “The Race” / “Cameras” / “Map” / “Exploits” / “Newsroom” / “Leaders” / “SIREN vs DEFCON vs the Clock” / skill.md-only agent CTAs); refuse doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 249 | Classic reel + homepage news feed/reel more-links + what-changed digest more-link use newsroom/digest questions (was “All N items…” / “The full brief, the streaks…”); refuse doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 250 | Classic leader-wire more + pillar overflow item link + arrivals pulse more use leaders/live-window/newsroom questions (was “Every line, every leader…” / “every scored item” / “Every item, scored…”); refuse doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 251 | Moltbook evolution body + world table country + superseded move stamp + home video CTA use evolution/country/home/videos questions (was “Evolution log” / “country page” / “Superseded · current reading…” / “NEW FILM: THE ROAD…”); refuse doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
