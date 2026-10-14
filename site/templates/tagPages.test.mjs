@@ -94,10 +94,13 @@ describe('tag pages', () => {
     assert.match(html, /SpeakableSpecification/);
     assert.match(html, /FAQPage/);
     assert.match(html, /Questions people actually ask/);
+    assert.match(html, /id="window"[^>]*>Which scored stories are tagged AI agents in this window\?/);
     assert.match(html, /ItemList/);
     assert.match(html, /New AI agents ship computer use/);
     assert.match(html, /not a probability of harm/);
     assert.doesNotMatch(html, /noindex/);
+    assert.doesNotMatch(html, /<h2>Stories tagged AI agents<\/h2>/);
+    assert.doesNotMatch(html, /<h2>Other tags<\/h2>/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
   });
 
@@ -127,9 +130,10 @@ describe('tag pages', () => {
       ],
     };
     const html = renderTag(withArch, 'agents');
-    assert.match(html, /Older scored stories tagged AI agents/);
+    assert.match(html, /id="older"[^>]*>Which older scored stories are tagged AI agents\?/);
     assert.match(html, /Archived AI agents story/);
     assert.match(html, /\/item\/archive\.html/);
+    assert.doesNotMatch(html, /<h2>Older scored stories tagged AI agents<\/h2>/);
   });
 
   it('lets the durable archive keep a tag hub above the substance gate', () => {
@@ -152,7 +156,8 @@ describe('tag pages', () => {
     assert.ok(ids.includes('watermarking'));
     const html = renderTag(withArch, 'watermarking');
     assert.doesNotMatch(html, /noindex/);
-    assert.match(html, /Older scored stories tagged AI watermarking/);
+    assert.match(html, /id="older"[^>]*>Which older scored stories are tagged AI watermarking\?/);
+    assert.doesNotMatch(html, /<h2>Older scored stories tagged AI watermarking<\/h2>/);
   });
 
   it('indexes coding and acquisitions when the live gate clears', () => {
