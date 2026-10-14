@@ -561,11 +561,41 @@ const FAQ = [
        'obligations on general-purpose AI models from 2 August 2025, and general application from ' +
        '2 August 2026, with further high-risk phases dated in the regulation.',
   },
+  // Tip #303: section H2s are question-shaped and mirrored here (§3.3).
+  {
+    q: 'What is the paperclip maximizer, properly attributed?',
+    a: 'Bostrom\'s 2003 argument is not that a machine would hate anyone. It is that capability and ' +
+       'goals are independent — a system can be arbitrarily competent in the service of an arbitrarily ' +
+       'trivial objective — and that almost any objective implies the same instrumental sub-goals. ' +
+       'The paperclips are deliberately absurd.',
+  },
+  {
+    q: 'What is the SIREN scale, level by level?',
+    a: 'Five levels, counting down toward louder, borrowing DEFCON\'s grammar. Each is a statement ' +
+       'about where the composite sits in this index\'s own frozen reference distribution. Not one of ' +
+       'them is a statement about danger.',
+  },
+  {
+    q: 'What does this index not claim?',
+    a: 'It is not a probability of doom, a forecast, or a statement about danger. A scale is read as ' +
+       'whatever its name suggests; these level names describe the instrument rather than the danger.',
+  },
+  {
+    q: 'What does this index actually count?',
+    a: 'Five pillars, fixed and never reordered. Each is a mean over its live public sources, ' +
+       'normalised against a frozen reference distribution built once from backfill and never touched ' +
+       'again.',
+  },
   {
     q: 'Is SIREN a p(doom)?',
     a: 'No. The SIREN composite is a percentile of observed public activity across five pillars, ' +
        'rescaled to 0-100. It carries no units of risk, contains no forecast, and is not scored by ' +
        'any model or any person. It measures how much is happening, not how bad it is.',
+  },
+  {
+    q: 'Does SIREN publish a history-page doom score?',
+    a: 'No. Activity tempo, not probability of harm. This page is a sourced timeline of the AI-risk ' +
+       'argument — not a probability of harm.',
   },
 ];
 
@@ -706,8 +736,8 @@ function chapterNav(ctx) {
   ).join('');
   return `<nav class="lore-nav" aria-label="Chapters">
     <ol>${links}
-      <li><a href="#legend"><span class="lore-nav__n" aria-hidden="true">·</span>The scale, level by level</a></li>
-      <li><a href="#not"><span class="lore-nav__n" aria-hidden="true">·</span>What this index does not claim</a></li>
+      <li><a href="#legend"><span class="lore-nav__n" aria-hidden="true">·</span>What is the SIREN scale, level by level?</a></li>
+      <li><a href="#not"><span class="lore-nav__n" aria-hidden="true">·</span>What does this index not claim?</a></li>
       <li><a href="#faq"><span class="lore-nav__n" aria-hidden="true">·</span>Questions people actually ask</a></li>
       <li><a href="${esc(ctx.href('/methodology.html'))}"><span class="lore-nav__n" aria-hidden="true">·</span>How the ${esc(brand.NAME)} AI activity index is computed · methodology</a></li>
     </ol></nav>`;
@@ -817,6 +847,7 @@ export function render(ctx) {
   // Head-term H1 must match <title> (FINDABILITY tip #198): strangers search
   // “history of AI risk”, not the voice epithet alone.
   const qTitle = 'What is the history of AI risk?';
+  // Tip #303: closing section H2s are question-shaped (mirrored in FAQ §3.3).
 
   const main = `<style>${loreCss()}</style>
 <article class="prose">
@@ -840,7 +871,7 @@ ${chapters}
   ${decadeStrip()}
 
   <div class="lore-call">
-    <h2 id="paperclip">The paperclip maximizer, properly attributed</h2>
+    <h2 id="paperclip">What is the paperclip maximizer, properly attributed?</h2>
     <p>The paperclip maximizer is the most-cited and most-mangled object in this field, so it is
       worth stating precisely. Bostrom's 2003 argument is not that a machine would hate anyone. It
       is that <em>capability and goals are independent</em> — a system can be arbitrarily competent
@@ -855,7 +886,7 @@ ${chapters}
       and numbers — and the section after next is where it happened to a real one.</p>
   </div>
 
-  <h2 id="legend">The scale, level by level</h2>
+  <h2 id="legend">What is the SIREN scale, level by level?</h2>
   <p>Five levels, counting down toward louder, borrowing DEFCON's grammar so that nobody has to
     have the legend read to them. Each is a statement about where the composite sits in this
     index's own frozen reference distribution. Not one of them is a statement about danger.</p>
@@ -864,7 +895,7 @@ ${chapters}
 ${levelLegend()}
 
 <article class="prose">
-  <h2 id="not">What this index does not claim</h2>
+  <h2 id="not">What does this index not claim?</h2>
   ${notClaims()}
 
   <h3>The cautionary tale, in full, because it is ours too</h3>
@@ -882,7 +913,7 @@ ${levelLegend()}
     than by good intentions.</p>
   <p class="tl__src"><a href="https://www.who.int/publications/i/item/pandemic-influenza-risk-management-a-who-guide-to-inform-and-harmonize-national-and-international-pandemic-preparedness-and-response" rel="noopener">WHO, Pandemic Influenza Risk Management guidance (2013)</a></p>
 
-  <h2 id="counted">What is actually counted</h2>
+  <h2 id="counted">What does this index actually count?</h2>
   <p>Five pillars, fixed and never reordered. Each is a mean over its live public sources,
     normalised against a frozen reference distribution built once from backfill and never touched
     again — so a busy week cannot quietly redefine what "busy" means.</p>

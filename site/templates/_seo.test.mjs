@@ -131,6 +131,10 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('How the SIREN AI activity index is computed'));
     assert.ok(org.knowsAbout.includes('history of AI risk'));
     assert.ok(org.knowsAbout.includes('What is the history of AI risk'));
+    assert.ok(org.knowsAbout.includes('What is the paperclip maximizer, properly attributed'));
+    assert.ok(org.knowsAbout.includes('What is the SIREN scale, level by level'));
+    assert.ok(org.knowsAbout.includes('What does this index not claim'));
+    assert.ok(org.knowsAbout.includes('What does this index actually count'));
     assert.ok(org.knowsAbout.includes('How does SIREN compare to DEFCON, the Doomsday Clock and p(doom)'));
     assert.ok(org.knowsAbout.includes('Which AI doom indexes can you compare'));
     assert.ok(org.knowsAbout.includes('Which AI indexes does SIREN contrast'));
