@@ -92,6 +92,9 @@ describe('newsroom page', () => {
     assert.match(html, /id="corp-h"[^>]*>How are the scores spread in this window\?/);
     assert.match(html, /id="arch-h"[^>]*>Which scored items are in this window\?/);
     assert.match(html, /id="arch-src-h"[^>]*>Where did these scored stories come from\?/);
+    assert.match(html, /class="vh">How do you filter the scored list\?<\/h3>/);
+    assert.doesNotMatch(html, /class="vh">Filter the list<\/h3>/);
+    assert.match(html, /"name"\s*:\s*"How do you filter the scored list\?"/);
     assert.doesNotMatch(html, /id="areel-h"[^>]*>Highest-scoring items</);
     assert.doesNotMatch(html, /id="arch-h"[^>]*>All items</);
     assert.doesNotMatch(html, /id="arch-src-h"[^>]*>Where these came from</);

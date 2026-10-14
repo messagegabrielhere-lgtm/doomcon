@@ -122,6 +122,9 @@ export function render(ctx) {
         : 'No items in the collection window, so there is no distribution to draw. This is a measured zero and not an outage.'],
     [allQ,
       `${total} scored ${total === 1 ? 'item' : 'items'} in the current collection window, ranked by score and tagged to the pillar each one feeds.`],
+    // Tip #338: archive filter H3 is question-shaped and mirrored in FAQ (§3.3).
+    ['How do you filter the scored list?',
+      'Use the filter controls above the scored-item list to narrow by pillar, source or score without leaving the newsroom window. Filtering never invents items or changes a score.'],
     [srcQ,
       'Scores rank items against each other inside this window; they are not a probability of anything and they do not move the index on their own. The composite score and the level are computed from the five pillars, not from this list.'],
     [`Does ${brand.NAME} publish a newsroom doom score?`,
@@ -158,7 +161,7 @@ ${corpusSection(ctx, news, corpus, spreadQ)}
 <section class="sec narch" aria-labelledby="arch-h">
   <h2 class="sec__h" id="arch-h">${esc(allQ)}</h2>
   ${listKey(corpus)}
-  <h3 class="vh">Filter the list</h3>
+  <h3 class="vh">How do you filter the scored list?</h3>
   ${filterInputs(news, corpus)}
   ${filterBar(news, corpus)}
   <ol class="nfeed narch__list">${items.map(archiveRow).join('')}</ol>

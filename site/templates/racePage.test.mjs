@@ -42,6 +42,9 @@ describe('race page', () => {
     assert.match(html, /id="rtb-h"[^>]*>Who leads the AI race board\?/);
     assert.match(html, /id="rsrc-h"[^>]*>How healthy are the race sources\?/);
     assert.match(html, /id="rmeth-h"[^>]*>How is the race board computed\?/);
+    assert.match(html, /class="rmeth__h3">What does a blank reading mean\?<\/h3>/);
+    assert.doesNotMatch(html, /class="rmeth__h3">What a blank reading means<\/h3>/);
+    assert.match(html, /"name"\s*:\s*"What does a blank reading mean\?"/);
     assert.doesNotMatch(html, /id="rgfx-h"[^>]*>Every lab on one axis</);
     assert.doesNotMatch(html, /id="rtb-h"[^>]*>The leaderboard</);
     assert.doesNotMatch(html, /id="rsrc-h"[^>]*>Source health</);

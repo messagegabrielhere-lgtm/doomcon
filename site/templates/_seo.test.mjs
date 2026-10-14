@@ -367,6 +367,16 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('What is the caveat'));
     assert.ok(org.knowsAbout.includes('What belongs in a storm kit'));
     assert.ok(org.knowsAbout.includes('Why does an AI site watch Waffle Houses'));
+    assert.ok(org.knowsAbout.includes('Which nine river gauges sit beside datacentre clusters'));
+    assert.ok(org.knowsAbout.includes('What does each status mean in words'));
+    assert.ok(org.knowsAbout.includes('What does each confidence level mean in words'));
+    assert.ok(org.knowsAbout.includes('What are the sources for this map'));
+    assert.ok(org.knowsAbout.includes('What are the limitations, in full'));
+    assert.ok(org.knowsAbout.includes('What was tried and dropped'));
+    assert.ok(org.knowsAbout.includes('How do you post this chart to 𝕏'));
+    assert.ok(org.knowsAbout.includes('What is the cautionary tale, in full'));
+    assert.ok(org.knowsAbout.includes('How do you filter the scored list'));
+    assert.ok(org.knowsAbout.includes('What does a blank reading mean'));
     assert.ok(org.knowsAbout.includes('AI harm and benefit side by side'));
     assert.ok(org.knowsAbout.includes('how does SIREN count AI harm and benefit side by side'));
     assert.ok(org.knowsAbout.includes('Tally desk unserious counts'));

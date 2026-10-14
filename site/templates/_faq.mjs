@@ -105,6 +105,14 @@ export function items(ctx) {
       `On /jobs.html and /medicine.html, each entry states the caveat that keeps the figure from being read as a ${brand.NAME} forecast or doom probability.`],
     ['What belongs in a storm kit?',
       `On /waffle.html, paid Amazon links for storm-kit staples are labelled as such and never change a number. Ready.gov’s full kit list is free; /bunker-kit.html lists free tools.`],
+    ['What is the cautionary tale, in full?',
+      `On /history.html: the WHO pandemic scale measured geographic spread, not severity. A scale is read as whatever its name suggests — so ${brand.NAME} level names describe the instrument, not danger.`],
+    ['How do you filter the scored list?',
+      `On /news.html, filter controls above the scored-item list narrow by pillar, source or score. Filtering never invents items or changes a score.`],
+    ['What does a blank reading mean?',
+      `On /race.html, a blank mark means we looked and the channel did not answer. A printed zero is the only absence that is a measurement.`],
+    ['How do you post this chart to 𝕏?',
+      `On /charts.html, hit Post with image on any chart. On a phone the share sheet carries the picture and words; on a computer the picture is copied and X opens with your words.`],
   ];
 }
 

@@ -35,6 +35,17 @@ describe('map page', () => {
     assert.match(html, /id="bld-onepin"[\s\S]*?What does one pin say\?/);
     assert.match(html, /id="bld-largest"[\s\S]*?Which are the largest tagged sites\?/);
     assert.match(html, /id="bld-method"[\s\S]*?How was this US map built, and what is wrong with it\?/);
+    assert.match(html, /class="bldsec__h3">Which nine river gauges sit beside datacentre clusters\?<\/h3>/);
+    assert.match(html, /class="bldsec__h3">What does each status mean in words\?<\/h3>/);
+    assert.match(html, /class="bldsec__h3">What does each confidence level mean in words\?<\/h3>/);
+    assert.match(html, /class="bldsec__h3">What are the sources for this map\?<\/h3>/);
+    assert.match(html, /class="bldsec__h3">What are the limitations, in full\?<\/h3>/);
+    assert.match(html, /class="bldsec__h3">What was tried and dropped\?<\/h3>/);
+    assert.doesNotMatch(html, /class="bldsec__h3">The nine river gauges<\/h3>/);
+    assert.doesNotMatch(html, /class="bldsec__h3">Status, in words<\/h3>/);
+    assert.doesNotMatch(html, /class="bldsec__h3">The sources<\/h3>/);
+    assert.match(html, /"name"\s*:\s*"Which nine river gauges sit beside datacentre clusters\?"/);
+    assert.match(html, /"name"\s*:\s*"What was tried and dropped\?"/);
     assert.doesNotMatch(html, /id="bld-claim"[\s\S]{0,200}What this map cannot show you</);
     assert.doesNotMatch(html, /id="bld-map"[\s\S]{0,200}> The map\s*</);
     assert.doesNotMatch(html, /id="bld-water"[\s\S]{0,200}Drought, by county</);

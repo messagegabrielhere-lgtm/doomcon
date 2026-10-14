@@ -31,6 +31,9 @@ test('history.html ships question-shaped title, matching H1, speakable, breadcru
   assert.match(html, /id="legend">What is the SIREN scale, level by level\?<\/h2>/);
   assert.match(html, /id="not">What does this index not claim\?<\/h2>/);
   assert.match(html, /id="counted">What does this index actually count\?<\/h2>/);
+  assert.match(html, /<h3>What is the cautionary tale, in full\?<\/h3>/);
+  assert.doesNotMatch(html, /<h3>The cautionary tale, in full, because it is ours too<\/h3>/);
+  assert.match(html, /What is the cautionary tale, in full\?/);
   assert.doesNotMatch(html, /id="paperclip">The paperclip maximizer, properly attributed</);
   assert.doesNotMatch(html, /id="legend">The scale, level by level</);
   assert.doesNotMatch(html, /id="not">What this index does not claim</);

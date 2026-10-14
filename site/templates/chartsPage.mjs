@@ -245,6 +245,9 @@ export function render(ctx, { history = [], race = null, power = null } = {}) {
       'Every chart is drawn from the data shown; nothing is estimated. A dark feed keeps the build-time chart.'],
     ['Can I post a chart to X as an image?',
       'Hit Post with image on any chart to post it to X as a picture, with your own words. On a phone this opens your share sheet with the picture and words; on a computer the picture is copied and X opens with your words.'],
+    // Tip #338: post-modal H3 is question-shaped and mirrored in FAQ (§3.3).
+    ['How do you post this chart to 𝕏?',
+      'Hit Post with image on any chart. On a phone this opens your share sheet with the picture and words: pick X. On a computer the picture is copied, X opens with your words, and you paste the picture into the post.'],
     ['Where is the full power race table?',
       'The power race chart links to the full Our World in Data table on the power page.'],
     [`Does ${brand.NAME} publish a charts-page doom score?`,
@@ -275,7 +278,7 @@ export function render(ctx, { history = [], race = null, power = null } = {}) {
 </section>
 </section>
 <div class="ch-modal" id="ch-modal" hidden role="dialog" aria-modal="true" aria-labelledby="ch-mh"><div class="ch-box">
-  <h3 id="ch-mh">POST THIS CHART TO 𝕏</h3>
+  <h3 id="ch-mh">How do you post this chart to 𝕏?</h3>
   <img id="ch-img" alt="Chart image to post">
   <label for="ch-txt" style="display:block;margin-top:10px;font:700 12px var(--mono);color:#94A3B8">YOUR WORDS (edit freely)</label>
   <textarea id="ch-txt" maxlength="280"></textarea><div class="cnt" id="ch-cnt"></div>
