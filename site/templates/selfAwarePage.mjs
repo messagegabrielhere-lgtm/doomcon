@@ -82,7 +82,7 @@ export function render(ctx, dcs, usRings) {
     ['Is this a forecast that Skynet is waking up?',
       'WHAT IF · THE SKYNET SCENARIO — FICTION. The positions are real. The attack is invented. Every number in the animation except the data-centre locations is made up for the story.'],
     ['Are the data-centre locations real?',
-      `The positions are real. The attack is invented. Data centres from OpenStreetMap and public filings via SIREN’s power map. Skynet is the fictional AI from the Terminator films; this page is an homage, not affiliated.`],
+      `The positions are real. The attack is invented. Data centres from OpenStreetMap and public filings via How many datacentres has SIREN mapped in the United States?. Skynet is the fictional AI from the Terminator films; this page is an homage, not affiliated.`],
     ['What is actually happening tonight?',
       `Tonight’s actual reading: SIREN level ${L ?? '?'}, measured from public data every hour. What is actually attacking the machines tonight: the live threat board. Is ChatGPT down?`],
   ];
@@ -108,10 +108,10 @@ export function render(ctx, dcs, usRings) {
   <div class="sa-real"><h2>Back to what’s real</h2><ul>
     <li><b>Tonight’s actual reading:</b> SIREN level ${esc(L ?? '?')}, measured from public data every hour. <a href="${esc(ctx.href('/'))}">See the index →</a></li>
     <li>AI labs really are war-gaming the aftermath of an AI catastrophe. <a href="${esc(ctx.href('/day-after.html'))}">What happens the day after an AI catastrophe? →</a></li>
-    <li>Could you stop it? <a href="${esc(ctx.href('/contain.html'))}">Try the Containment game →</a> · <a href="${esc(ctx.href('/si-watch.html'))}">Watch what AI agents are doing right now →</a></li>
-    <li>What is actually attacking the machines tonight: <a href="${esc(ctx.href('/threats.html'))}">the live threat board →</a> · <a href="${esc(ctx.href('/status.html'))}">Is ChatGPT down? →</a></li>
-    <li>What the experts think the odds are: <a href="${esc(ctx.href('/p-doom.html#voices'))}">28 named p(doom) estimates →</a></li>
-  </ul><p style="font-size:12.5px;margin:10px 0 0">Every number in the animation except the data-centre locations is made up for the story. Data centres from OpenStreetMap and public filings via SIREN’s <a href="${esc(ctx.href('/map.html'))}">power map</a>. Skynet is the fictional AI from the Terminator films; this page is an homage, not affiliated.</p></div>
+    <li>Could you stop it? <a href="${esc(ctx.href('/contain.html'))}">Can you stop an AI breakout? →</a> · <a href="${esc(ctx.href('/si-watch.html'))}">What AI autonomy signals is SIREN watching? →</a></li>
+    <li>What is actually attacking the machines tonight: <a href="${esc(ctx.href('/threats.html'))}">What could take the machines offline tonight? →</a> · <a href="${esc(ctx.href('/status.html'))}">Is ChatGPT down? →</a></li>
+    <li>What the experts think the odds are: <a href="${esc(ctx.href('/p-doom.html#voices'))}">What is p(doom)? →</a></li>
+  </ul><p style="font-size:12.5px;margin:10px 0 0">Every number in the animation except the data-centre locations is made up for the story. Data centres from OpenStreetMap and public filings via SIREN’s <a href="${esc(ctx.href('/map.html'))}">How many datacentres has SIREN mapped in the United States?</a>. Skynet is the fictional AI from the Terminator films; this page is an homage, not affiliated.</p></div>
   <section class="sa-faq" aria-labelledby="faq">
     <h2 id="faq">Questions people actually ask</h2>
     ${faqHtml}

@@ -70,7 +70,7 @@ export function render(ctx) {
       <p class="dk__n num">${esc(N(st.n))}</p>
       <p class="dk__u">consecutive readings at level ${esc(st.level)}, ${esc(st.name)}, since ${esc(utc(st.since))}</p>
       <p class="dk__j">The dial works. It is just not moving. When it does, this resets to one and somebody posts about it.</p>
-      <p class="dk__f">${shareLink(ctx, line)} <a href="${esc(ctx.href('/moves/'))}">Every reading →</a></p>
+      <p class="dk__f">${shareLink(ctx, line)} <a href="${esc(ctx.href('/moves/'))}">Where are the ${esc(brand.NAME)} index moves? →</a></p>
     </li>`);
   }
   for (const [id, title, rx, what, joke] of COUNTERS) {

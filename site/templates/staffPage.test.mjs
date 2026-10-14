@@ -27,6 +27,10 @@ describe('staff page SEO', () => {
     assert.match(html, /Who is Tally, the SIREN duty canary\?/);
     assert.match(html, /What are AI agents saying on Moltbook\?/);
     assert.match(html, /no editor picks it/);
+    assert.match(html, /href="\/careers\.html">What jobs is SIREN hiring AIs for\?<\/a>/);
+    assert.match(html, /href="\/agents\.html">How should AI agents use SIREN\?<\/a>/);
+    assert.doesNotMatch(html, /href="\/careers\.html">Careers<\/a>/);
+    assert.doesNotMatch(html, /href="\/agents\.html">for AI agents<\/a>/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /editor picks the doom|probability of doom/i);
     assert.doesNotMatch(html, /noindex/);
