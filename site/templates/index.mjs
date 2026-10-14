@@ -227,7 +227,7 @@ main.wrap[data-level="1"] > .hero .ch--dial { animation: dcBreathe 1.1s ease-in-
 }
 .sec__h[id]::after { background: linear-gradient(90deg, var(--sh, var(--rule)) 0%, var(--rule) 45%); }
 /* No chip on a phone. Measured at 375px: its 16px pushed five sticky headings
-   onto an extra line - "Where the index sits" from 19px to 46 - and a sticky
+   onto an extra line - "Where does the index sit?" from 19px to 46 - and a sticky
    heading is the worst place to spend a line. The coloured rule stays. */
 @media (max-width: 560px) { .sec__h[id]::before { display: none; } }
 /* On paper the neon hues wash out, so they are deepened rather than dropped. */
@@ -679,8 +679,10 @@ main.wrap > .hero .hero__headline { margin: 0 0 var(--s-3); font: 500 var(--t-sm
   const instrumentsQ = `What instruments sit behind the ${brand.NAME} reading?`;
   // FAQ answers restate hero / record / embed / API copy only (FINDABILITY §3.3).
   // Refuse: doom-probability, forecast, or "the instruments predict" claims.
-  // Tip #260–#261: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  // Tip #260–#262: section H2s are question-shaped and mirrored in FAQ (§3.3).
   const instrumentsApiQ = `What public JSON files does ${brand.NAME} expose?`;
+  const instrumentsBalanceQ = `How does ${brand.NAME} count AI harm and benefit side by side?`;
+  const instrumentsOvenQ = 'Where does the index sit?';
   const instrumentsRecordQ = 'Where does the score sit over time?';
   const instrumentsHealthQ = 'What does source health on this page report?';
   const instrumentsPillarsQ = 'What are the five pillars on this page?';
@@ -689,6 +691,10 @@ main.wrap > .hero .hero__headline { margin: 0 0 var(--s-3); font: 500 var(--t-sm
   const instrumentsFaq = [
     [instrumentsQ,
       'The home page gives the reading. This page shows the working: where the score sits, how it has moved, which sources reported, what each pillar is doing, and how to take the number with you.'],
+    [instrumentsBalanceQ,
+      'Harm and benefit are counted side by side and never summed. Strongest evidence first on each side; a status word describes the evidence, not the importance.'],
+    [instrumentsOvenQ,
+      `Five stages, coolest on the left, lit at the one the index is in. Hotter means more is happening — not that anything is worse. The stages are the ${brand.NAME} levels themselves, not a second scale that could disagree with the first.`],
     [instrumentsRecordQ,
       'This page charts every scored observation over time. The history of AI risk page and the methodology page explain the frozen reference curve that never updates live.'],
     [instrumentsHealthQ,

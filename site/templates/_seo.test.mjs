@@ -216,6 +216,7 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('SIREN instruments'));
     assert.ok(org.knowsAbout.includes('what instruments sit behind the SIREN reading'));
     assert.ok(org.knowsAbout.includes('What public JSON files does SIREN expose'));
+    assert.ok(org.knowsAbout.includes('Where does the index sit'));
     assert.ok(org.knowsAbout.includes('Where does the score sit over time'));
     assert.ok(org.knowsAbout.includes('What does source health on this page report'));
     assert.ok(org.knowsAbout.includes('What are the five pillars on this page'));

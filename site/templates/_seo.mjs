@@ -123,6 +123,7 @@ export function organization(ctx) {
       'SIREN instruments',
       'what instruments sit behind the SIREN reading',
       'What public JSON files does SIREN expose',
+      'Where does the index sit',
       'Where does the score sit over time',
       'What does source health on this page report',
       'What are the five pillars on this page',

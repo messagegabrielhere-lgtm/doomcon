@@ -1114,7 +1114,7 @@ function jumpIndex(mainHtml) {
     // A heading counts when its own section is the outermost one open.
     if (depth === 1 && m[1]) {
       // The house-name tag after a plain heading (.sec__eb) is decoration; the
-      // jump index wants "Where the index sits", not "Where the index sits The oven".
+      // jump index wants "Where does the index sit?", not "… The oven".
       const text = m[2].replace(/<span class="sec__eb">[\s\S]*?<\/span>/g, '')
         .replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
       if (text) items.push({ id: m[1], text });

@@ -511,6 +511,7 @@ context.
 | 259 | BreadcrumbList leaf names across hubs use page H1 questions (was “Evolution Log” / “Waffle House Index” / “Race” / “Leaders” / “SIREN Labs” …); refuse doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 260 | `/instruments.html#api` H2 + FAQPage use “What public JSON files does SIREN expose?”; rooms-dialog search handoff uses search H1 (was “Public JSON API” / “Search everything for…”); refuse doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 261 | `/instruments.html` section H2s + FAQPage use questions for record / source health / pillars / moves / embed (was “The score over time” / “Source health” / “The five pillars” / “Recent moves” / “Put the index on your site”); Organization `knowsAbout` mirrors those questions; refuse doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 262 | Balance module + oven H2s + instruments FAQPage use “How does SIREN count AI harm and benefit side by side?” / “Where does the index sit?” (was “Harm and benefit, side by side” / “Where the index sits”); Organization `knowsAbout` mirrors oven question; refuse doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 

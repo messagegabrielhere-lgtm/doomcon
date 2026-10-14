@@ -21,4 +21,11 @@ describe('balance homepage module', () => {
     assert.doesNotMatch(html, /See the whole balance →/);
     assert.doesNotMatch(html, /probability of doom/i);
   });
+
+  it('ships a question-shaped module H2 (tip #262)', () => {
+    const html = render(ctx);
+    assert.match(html, /id="bal-h">How does SIREN count AI harm and benefit side by side\?/);
+    assert.doesNotMatch(html, /id="bal-h">Harm and benefit, side by side/);
+    assert.doesNotMatch(html, /probability of doom/i);
+  });
 });
