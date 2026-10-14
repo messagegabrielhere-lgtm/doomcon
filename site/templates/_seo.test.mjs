@@ -185,6 +185,13 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('How do you contact SIREN about privacy'));
     assert.ok(org.knowsAbout.includes('SIREN press kit'));
     assert.ok(org.knowsAbout.includes('Where is the SIREN press kit'));
+    assert.ok(org.knowsAbout.includes('What is SIREN in one sentence'));
+    assert.ok(org.knowsAbout.includes('What paragraph can you lift'));
+    assert.ok(org.knowsAbout.includes('What are the key SIREN facts'));
+    assert.ok(org.knowsAbout.includes('How do I cite a SIREN reading'));
+    assert.ok(org.knowsAbout.includes('Which press images can you use'));
+    assert.ok(org.knowsAbout.includes('How do you contact SIREN for press'));
+    assert.ok(org.knowsAbout.includes('Is there press coverage yet'));
     assert.ok(org.knowsAbout.includes('SIREN terms of use'));
     assert.ok(org.knowsAbout.includes('What are the SIREN terms of use'));
     assert.ok(org.knowsAbout.includes('Is SIREN information and entertainment only'));
@@ -208,6 +215,13 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('How do you contact SIREN about disclosures'));
     assert.ok(org.knowsAbout.includes('SIREN brand guide'));
     assert.ok(org.knowsAbout.includes('Where is the SIREN brand guide'));
+    assert.ok(org.knowsAbout.includes('What is the SIREN brand idea'));
+    assert.ok(org.knowsAbout.includes('How should the SIREN name be written'));
+    assert.ok(org.knowsAbout.includes('Who is Tally, the duty canary'));
+    assert.ok(org.knowsAbout.includes('What colours does the brand use'));
+    assert.ok(org.knowsAbout.includes('What typefaces does the brand use'));
+    assert.ok(org.knowsAbout.includes('What is the brand voice'));
+    assert.ok(org.knowsAbout.includes('Which brand files can you download'));
     assert.ok(org.knowsAbout.includes('AI models this index scored'));
     assert.ok(org.knowsAbout.includes('What has SIREN scored about Claude'));
     assert.ok(org.knowsAbout.includes('Which AI model families have SIREN pages'));

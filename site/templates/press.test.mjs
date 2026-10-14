@@ -30,7 +30,7 @@ test('press.html ships question-shaped title, speakable, breadcrumbs, and visibl
   assert.match(html, /href="\/instruments\.html#embed">What instruments sit behind the SIREN reading\?<\/a>/);
   assert.doesNotMatch(html, /href="\/methodology\.html">method<\/a>/);
   assert.doesNotMatch(html, /href="\/instruments\.html#embed">instruments page<\/a>/);
-  const facts = html.match(/<h2>Facts<\/h2>\s*<ul>([\s\S]*?)<\/ul>/);
+  const facts = html.match(/<h2>What are the key SIREN facts\?<\/h2>\s*<ul>([\s\S]*?)<\/ul>/);
   assert.ok(facts, 'expected press Facts list');
   assert.match(facts[1], /href="\/">AI activity index today · SIREN<\/a>/);
   assert.doesNotMatch(facts[1], /href="\/">Live page<\/a>/);
@@ -38,4 +38,24 @@ test('press.html ships question-shaped title, speakable, breadcrumbs, and visibl
   assert.doesNotMatch(facts[1], /href="\/moves\/">Archive<\/a>/);
   assert.doesNotMatch(html, /probability of doom is \d/i);
   assert.doesNotMatch(html, /SIREN.*p\(doom\) of \d/i);
+});
+
+test('press.html section H2s use questions mirrored in FAQPage', () => {
+  const html = press(ctx);
+  assert.match(html, /<h2>What is SIREN in one sentence\?<\/h2>/);
+  assert.match(html, /<h2>What paragraph can you lift\?<\/h2>/);
+  assert.match(html, /<h2>What are the key SIREN facts\?<\/h2>/);
+  assert.match(html, /<h2>How do I cite a SIREN reading\?<\/h2>/);
+  assert.match(html, /<h2>Which press images can you use\?<\/h2>/);
+  assert.match(html, /<h2>How do you contact SIREN for press\?<\/h2>/);
+  assert.match(html, /<h2>Is there press coverage yet\?<\/h2>/);
+  assert.doesNotMatch(html, /<h2>In one sentence<\/h2>/);
+  assert.doesNotMatch(html, /<h2>A paragraph you can lift<\/h2>/);
+  assert.doesNotMatch(html, /<h2>Facts<\/h2>/);
+  assert.doesNotMatch(html, /<h2>Images<\/h2>/);
+  assert.doesNotMatch(html, /<h2>Contact<\/h2>/);
+  assert.doesNotMatch(html, /<h2>Coverage<\/h2>/);
+  assert.match(html, /"name"\s*:\s*"What is SIREN in one sentence\?"/);
+  assert.match(html, /"name"\s*:\s*"Is there press coverage yet\?"/);
+  assert.doesNotMatch(html, /probability of doom is \d/i);
 });
