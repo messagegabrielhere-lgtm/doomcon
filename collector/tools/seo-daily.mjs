@@ -43,6 +43,8 @@ export const OUR_SURFACES = Object.freeze([
   '/.well-known/api-catalog',
   '/compare.html',
   '/alternatives.html',
+  '/vs/pizzint.html',
+  '/vs/takeofftracker.html',
   '/companies.html',
   '/models.html',
   '/pillars.html',

@@ -60,12 +60,33 @@ describe('compare / alternatives conquest pages', () => {
     assert.doesNotMatch(page, /SIREN.*p\(doom\) of \d/i);
   });
 
+  it('ships PizzINT and Takeoff Tracker conquest pages without borrowing their claims', () => {
+    assert.ok(RIVALS.some((r) => r.id === 'pizzint'));
+    assert.ok(RIVALS.some((r) => r.id === 'takeofftracker'));
+    const pizza = vsRival(ctx, 'pizzint');
+    assert.match(pizza, /SIREN vs PizzINT/);
+    assert.match(pizza, /does not publish a DEFCON level/i);
+    assert.match(pizza, /Pentagon Pizza Index with DEFCON/);
+    assert.doesNotMatch(pizza, /current DEFCON level is/i);
+    const takeoff = vsRival(ctx, 'takeofftracker');
+    assert.match(takeoff, /SIREN vs Takeoff Tracker/);
+    assert.match(takeoff, /does not publish an AGI timeline/i);
+    assert.match(takeoff, /AGI metrics dashboard/);
+    const alt = alternatives(ctx);
+    assert.match(alt, /PizzINT/);
+    assert.match(alt, /Takeoff Tracker/);
+    assert.match(alt, /Pentagon Pizza Index alternative/i);
+    assert.match(alt, /\/vs\/pizzint\.html/);
+  });
+
   it('sitemaps every conquest URL', () => {
     const entries = sitemapEntries(ctx);
     assert.equal(entries.length, 2 + RIVALS.length);
     assert.ok(entries.every((e) => e.loc && e.lastmod && e.priority));
     assert.ok(entries.some((e) => e.loc === '/compare.html'));
     assert.ok(entries.some((e) => e.loc === '/vs/doombench.html'));
+    assert.ok(entries.some((e) => e.loc === '/vs/pizzint.html'));
+    assert.ok(entries.some((e) => e.loc === '/vs/takeofftracker.html'));
   });
 
   it('returns empty for an unknown rival id', () => {

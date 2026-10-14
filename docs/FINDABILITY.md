@@ -258,6 +258,7 @@ context.
 | 25 | `seo-daily` `deploy-pending-url-lead` when local Ready ≥2k and live sitemap &lt; 50% of Ready — trail gaps yield to merge/deploy | Daily agent | **Done** (2026-10-14) |
 | 26 | DoomBench-shaped `/companies.html` + `/lab/` index + wire `/models.html` `/tags.html` `/people.html` `/countries.html` (already linked; were unwritten) | Google | **Done** (2026-10-14) |
 | 27 | `/pillars.html` + `/pillar/` index + `/sources.html` (linked from country/outlet pages; were unwritten) | Google | **Done** (2026-10-14) |
+| 28 | Conquest `/vs/pizzint.html` + `/vs/takeofftracker.html` (DEFCON/takeoff head terms without borrowing claims) | Google | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 

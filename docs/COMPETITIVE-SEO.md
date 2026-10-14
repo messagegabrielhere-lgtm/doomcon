@@ -138,6 +138,8 @@ contrast measurement methods (`VOICE.md`, `CONTRACT.md`).
 | `/vs/doombench.html` | Activity count vs qualitative doom index |
 | `/vs/skynet-countdown.html` | Activity count vs AGI timeline / control-loss % |
 | `/vs/pdoom.html` | Activity count vs opinion-as-percentage clocks |
+| `/vs/pizzint.html` | Activity count vs DEFCON / Pentagon Pizza Index brand hijack |
+| `/vs/takeofftracker.html` | Activity count vs AGI takeoff dashboard aggregates |
 
 Linked from homepage FAQ, `/guide.html`, catalog, `llms.txt`, and sitemap.
-Do **not** claim SIREN publishes takeover risk, AGI dates, or anyone’s p(doom).
+Do **not** claim SIREN publishes takeover risk, AGI dates, DEFCON levels, or anyone’s p(doom).
