@@ -664,6 +664,8 @@ context.
 | 412 | Topic tag `claude-opus` (live/archive ≥5); IndexNow ALWAYS + seo-daily monitor; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 413 | Topic tag `claude-haiku` (live/archive ≥5); IndexNow ALWAYS + seo-daily monitor; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 414 | Topic tag `intelligent-ui` (live/archive ≥5); IndexNow ALWAYS + seo-daily monitor; refuse product-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 415 | Topic tag `gpt-6` (live/archive ≥5); IndexNow ALWAYS + seo-daily monitor; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 416 | Topic tag `emergency-brake` (live/archive ≥5); IndexNow ALWAYS + seo-daily monitor; refuse containment-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 

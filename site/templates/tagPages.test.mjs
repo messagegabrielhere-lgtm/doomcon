@@ -1813,4 +1813,35 @@ describe('tag pages', () => {
     assert.doesNotMatch(renderTag(rich, 'intelligent-ui'), /doom score:\s*\d/i);
     assert.doesNotMatch(renderTag(rich, 'intelligent-ui'), /probability of doom/i);
   });
+
+  it('pages gpt-6 and emergency-brake hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('g1', 'OpenAI cancels October release of GPT-6.1 Astra after tests'),
+          story('g2', 'OpenAI’s GPT-6 may lead to robotics breakthrough'),
+          story('g3', 'Asana cuts model costs with GPT-6.1 Sol'),
+          story('g4', 'Claude Haiku 5.5 — better than GPT-6 Luna at the same pricing'),
+          story('g5', 'Accessing OpenAI GPT-6 models on Amazon Bedrock'),
+          story('eb1', "Microsoft CEO Nadella Calls for 'Emergency Brake' on Advanced AI"),
+          story('eb2', 'Microsoft’s Satya Nadella says AI models need an emergency brake'),
+          story('eb3', "Nadella says AI needs an 'emergency brake' that humans control"),
+          story('eb4', 'Why does Satya Nadella want an AI emergency brake?'),
+          story('eb5', 'Emergency brake: Microsoft CEO says powerful AI must be treated carefully'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    assert.ok(ids.includes('gpt-6'));
+    assert.ok(ids.includes('emergency-brake'));
+    assert.match(renderTag(rich, 'gpt-6'), /What has SIREN scored about GPT-6\?/);
+    assert.match(renderTag(rich, 'emergency-brake'), /What has SIREN scored about AI emergency brake\?/);
+    assert.match(renderTag(rich, 'gpt-6'), /not a capability ranking/i);
+    assert.match(renderTag(rich, 'emergency-brake'), /not a containment forecast/i);
+    assert.doesNotMatch(renderTag(rich, 'gpt-6'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'emergency-brake'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'emergency-brake'), /probability of doom/i);
+  });
 });
