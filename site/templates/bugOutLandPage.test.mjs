@@ -26,6 +26,13 @@ describe('bug-out-land page', () => {
     assert.match(html, /\/prepper-checklist\.html/);
     assert.match(html, /What belongs in a 72-hour prepper kit\?/);
     assert.match(html, /\/waffle\.html/);
+    const stock = html.match(/<h2>Then stock it<\/h2>\s*<p>([\s\S]*?)<\/p>/);
+    assert.ok(stock, 'expected Then stock it paragraph');
+    assert.match(stock[1], /href="\/prepper-checklist\.html">What belongs in a 72-hour prepper kit\?<\/a>/);
+    assert.match(stock[1], /href="\/bunker-kit\.html">What free tools belong in a bunker kit\?<\/a>/);
+    assert.doesNotMatch(stock[1], /href="\/prepper-checklist\.html">Prepper Checklist<\/a>/);
+    assert.doesNotMatch(stock[1], /href="\/bunker-kit\.html">Bunker Kit/);
+    assert.doesNotMatch(html, /BreadcrumbList[\s\S]*?"name"\s*:\s*"Bug-out land"/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     // Refuse affirmative Skynet-as-forecast claims; the FAQ question "Is this a
     // forecast that Skynet is coming?" is allowed (and answered as a joke).

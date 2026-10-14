@@ -108,7 +108,7 @@ const SI_AREAS = {
     'Remove yourself from people-search sites, and keep paper copies of key documents.'] },
   people: { name: 'Health, people and community', moves: [
     'Keep in-person friendships that do not run through a screen; they are the hardest thing to automate.',
-    'Have a household plan for outages: water, food, power and a meeting place (see the Prepper Checklist).',
+    'Have a household plan for outages: water, food, power and a meeting place (see What belongs in a 72-hour prepper kit?).',
     'Talk with your kids about AI: what it is good at, and that it can be wrong with confidence.'] },
   voice: { name: 'Civic voice', moves: [
     'Read one primary source on AI policy where you live, not a summary of it.',

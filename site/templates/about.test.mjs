@@ -30,6 +30,15 @@ test('about.html ships matching question H1, speakable, breadcrumbs, and visible
   assert.match(html, /\/methodology\.html/);
   assert.match(html, /\/guide\.html/);
   assert.match(html, /How does SIREN compare to DEFCON/);
+  // Scope paid-for body only — layout footer Pages still uses short SECTIONS labels.
+  const paid = html.match(/<h2>How it is paid for<\/h2>\s*<p>([\s\S]*?)<\/p>/);
+  assert.ok(paid, 'expected How it is paid for paragraph');
+  assert.match(paid[1], /href="\/bunker-kit\.html">What free tools belong in a bunker kit\?<\/a>/);
+  assert.match(paid[1], /href="\/library\.html">What AI books argue both sides of the case\?<\/a>/);
+  assert.match(paid[1], /href="\/sponsor\.html">How do you sponsor SIREN without moving the number\?<\/a>/);
+  assert.doesNotMatch(paid[1], /href="\/bunker-kit\.html">Bunker Kit<\/a>/);
+  assert.doesNotMatch(paid[1], /href="\/library\.html">reading list<\/a>/);
+  assert.doesNotMatch(paid[1], /href="\/sponsor\.html">one named sponsor<\/a>/);
   assert.doesNotMatch(html, /probability of doom is \d/i);
   assert.doesNotMatch(html, /SIREN.*p\(doom\) of \d/i);
   assert.doesNotMatch(html, /noindex/);

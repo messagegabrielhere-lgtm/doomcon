@@ -482,6 +482,7 @@ context.
 | 230 | `/videos.html` + `/radio.html` body/FAQ/breadcrumb siblings use radio + Real Clips + live + videos + games questions (was “Tune in to SIREN Radio” / “Real Clips” / “SIREN video” / “Videos” / “SIREN Radio”); refuse video/radio doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 231 | `/games.html` radio/FAQ/breadcrumb siblings + layout/home legal fine-print footers use arcade + radio + videos + terms/privacy/disclosures/about/methodology/sponsor/feedback questions (was “SIREN Radio” / “Games” / “Privacy” / “terms & disclaimers” / “About” / “How it works”); refuse games/footer doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 232 | `/si-ready.html` + `/ai-proof-job.html` keep-going/guide/breadcrumb siblings, extras methodology back-links, and `/power.html` related/FAQ siblings use prep + jobs + Real Clips + methodology + watts/map/world/charts questions (was “AI-proof your job” / “Prepper Checklist” / “Real Clips” / “Methodology” / “AI’s power draw”); refuse SI-date and doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 233 | `/bug-out-land.html` Then-stock-it/FAQ/breadcrumb + `/about.html` paid-for links + SI-ready prepper plain text use prepper + bunker + library + sponsor questions (was “Prepper Checklist” / “Bunker Kit” / “reading list” / “one named sponsor” / “Bug-out land”); refuse Skynet-forecast and doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
