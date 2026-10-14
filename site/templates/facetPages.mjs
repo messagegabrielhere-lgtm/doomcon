@@ -11,7 +11,7 @@ import { fileURLToPath } from 'node:url';
 import { publishedEntities, entitySlug } from '../../collector/news-sources/_entities.mjs';
 import { esc, num, utc } from './_html.mjs';
 import { page } from './layout.mjs';
-import { breadcrumbs } from './_seo.mjs';
+import { breadcrumbs, speakable } from './_seo.mjs';
 import { slugFor } from './itemPage.mjs';
 import * as brand from '../brand.mjs';
 
@@ -270,6 +270,14 @@ export function labIndexable(ctx, player) {
   const m = player.market || {};
   const hasOdds = Number.isFinite(m.probability);
   return hasOdds || itemsForLab(ctx, player).length >= LAB_NEWS_MIN;
+}
+
+/** Indexable labs with story counts for directory hubs (/lab/, /companies.html). */
+export function indexableLabs(ctx) {
+  return allLabs(ctx)
+    .filter((p) => labIndexable(ctx, p))
+    .map((p) => ({ ...p, count: itemsForLab(ctx, p).length }))
+    .sort((a, b) => (b.count - a.count) || a.name.localeCompare(b.name));
 }
 
 function fmtPct(p) {
@@ -548,6 +556,158 @@ export function renderSourceIndex(ctx) {
   });
 }
 
+/** Directory of indexable /lab pages (structural twin to /model/ and /source/). */
+export function renderLabIndex(ctx) {
+  const labs = indexableLabs(ctx);
+  const path = '/lab/';
+  const title = `Which AI labs have ${brand.NAME} pages?`;
+  const description = clip(
+    `${labs.length} AI labs and companies with a ${brand.NAME} /lab page — race-board rows or ≥${ENTITY_LAB_MIN} scored stories. Story counts and market odds where published; not a doom ranking.`,
+    160,
+  );
+  const faq = [
+    [`Which AI labs have ${brand.NAME} pages?`,
+      `${labs.length} labs clear the gate — race-board rows or at least ${ENTITY_LAB_MIN} matching headlines. Each hub lists those stories and, where published, prediction-market odds — not a lab doom score.`],
+    [`Does ${brand.NAME} publish a lab doom score?`,
+      `No. ${brand.DISCLAIMER_SHORT} Numbers are story counts and, where published, prediction-market prices.`],
+  ];
+  const faqHtml = faq.map(([q, a]) => `
+  <h3>${esc(q)}</h3>
+  <p>${esc(a)}</p>`).join('');
+  const rows = labs.map((p) => `<li>
+  <a href="${esc(ctx.href(labPath(p.id)))}">What has ${esc(brand.NAME)} scored about ${esc(p.name)}?</a>
+  <span class="fc__meta">${p.entityOnly ? 'Entity hub · story counts only' : 'Race board · odds when published'}</span>
+  <span class="fc__sc num">${esc(String(p.count))}</span>
+</li>`).join('');
+  const main = `${STYLE}
+<article class="fc prose">
+  <p class="fc__k"><a href="${esc(ctx.href('/race.html'))}">Who is winning the AI race?</a> · Which AI labs have ${esc(brand.NAME)} pages? · <a href="${esc(ctx.href('/companies.html'))}">Which AI companies has ${esc(brand.NAME)} scored stories about?</a></p>
+  <h1>Which AI labs have ${esc(brand.NAME)} pages?</h1>
+  <p class="fc__lede">A lab earns a page when it sits on <a href="${esc(ctx.href('/race.html'))}">Who is winning the AI race?</a> or clears at least ${ENTITY_LAB_MIN} scored stories in the current window. Numbers are story counts and, where published, prediction-market odds — not a ranking of how dangerous a company is.</p>
+  ${labs.length ? `<ol class="fc__list">${rows}</ol>` : '<p>No lab cleared the gate in this build.</p>'}
+  <h2 id="faq">What questions do people actually ask?</h2>
+  ${faqHtml}
+  <p class="fresh__key">Search-shaped directory: <a href="${esc(ctx.href('/companies.html'))}">Which AI companies has ${esc(brand.NAME)} scored stories about?</a>.</p>
+</article>`;
+  return page({
+    ctx,
+    path,
+    title,
+    description,
+    noindex: labs.length === 0,
+    jsonld: [{
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      name: title,
+      url: ctx.url(path),
+      description,
+      speakable: speakable(['h1', '.fc__lede']),
+      mainEntity: {
+        '@type': 'ItemList',
+        numberOfItems: labs.length,
+        itemListElement: labs.map((p, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          url: ctx.url(labPath(p.id)),
+          name: `What has ${brand.NAME} scored about ${p.name}?`,
+        })),
+      },
+    }, breadcrumbs(ctx, [
+      { name: 'Who is winning the AI race?', path: '/race.html' },
+      { name: `Which AI labs have ${brand.NAME} pages?`, path },
+    ]), {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faq.map(([q, a]) => ({
+        '@type': 'Question',
+        name: q,
+        acceptedAnswer: { '@type': 'Answer', text: a },
+      })),
+    }],
+    main,
+  });
+}
+
+/**
+ * DoomBench-shaped /companies head-term hub. Same gated lab set as /lab/,
+ * different title and lede for “AI companies” queries — not a synonym doorway
+ * farm and not a doom scoreboard.
+ */
+export function renderCompanies(ctx) {
+  const labs = indexableLabs(ctx);
+  const path = '/companies.html';
+  const title = `Which AI companies has ${brand.NAME} scored stories about?`;
+  const description = clip(
+    `${labs.length} AI companies and labs with scored-story hubs on ${brand.NAME}. Each row links /lab pages — tempo and story counts, not a company doom score.`,
+    160,
+  );
+  const faq = [
+    [`Which AI companies has ${brand.NAME} scored stories about?`,
+      `${labs.length} companies and labs clear the substance gate — race-board rows or at least ${ENTITY_LAB_MIN} matching headlines. Each hub lists those stories — not a company doom score.`],
+    [`Does ${brand.NAME} publish a company doom score?`,
+      `No. ${brand.DISCLAIMER_SHORT} Numbers are story counts and, where published, prediction-market prices.`],
+  ];
+  const faqHtml = faq.map(([q, a]) => `
+  <h3>${esc(q)}</h3>
+  <p>${esc(a)}</p>`).join('');
+  const rows = labs.map((p) => `<li>
+  <a href="${esc(ctx.href(labPath(p.id)))}">What has ${esc(brand.NAME)} scored about ${esc(p.name)}?</a>
+  <span class="fc__meta">${p.entityOnly ? 'Story hub' : 'Race board + stories'} · <span class="num">${esc(String(p.count))}</span> in window</span>
+</li>`).join('');
+  const main = `${STYLE}
+<article class="fc prose">
+  <p class="fc__k"><a href="${esc(ctx.href('/compare.html'))}">Which AI doom indexes can you compare?</a> · <a href="${esc(ctx.href('/lab/'))}">Which AI labs have ${esc(brand.NAME)} pages?</a> · Which AI companies has ${esc(brand.NAME)} scored stories about?</p>
+  <h1>Which AI companies has ${esc(brand.NAME)} scored stories about?</h1>
+  <p class="fc__lede">${esc(brand.NAME)} does not publish a company “doom score.” It publishes an activity index and scored stories. This page lists companies and labs that already clear the same substance gate as <a href="${esc(ctx.href('/lab/'))}">Which AI labs have ${esc(brand.NAME)} pages?</a> — race-board rows or at least ${ENTITY_LAB_MIN} matching headlines in the live window.</p>
+  <div class="fc__stat" role="group" aria-label="Company hub totals">
+    <div><b class="num">${esc(String(labs.length))}</b><span>Company / lab hubs</span></div>
+  </div>
+  ${labs.length ? `<ol class="fc__list">${rows}</ol>` : '<p>No company hub cleared the gate in this build.</p>'}
+  <h2 id="faq">What questions do people actually ask?</h2>
+  ${faqHtml}
+  <p class="fresh__key"><a href="${esc(ctx.href('/lab/'))}">Which AI labs have ${esc(brand.NAME)} pages?</a>
+     · <a href="${esc(ctx.href('/compare.html'))}">Which AI doom indexes can you compare?</a>
+     · <a href="${esc(ctx.href('/race.html'))}">Who is winning the AI race?</a></p>
+</article>`;
+  return page({
+    ctx,
+    path,
+    title,
+    description,
+    noindex: labs.length === 0,
+    jsonld: [{
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      name: title,
+      url: ctx.url(path),
+      description,
+      speakable: speakable(['h1', '.fc__lede']),
+      mainEntity: {
+        '@type': 'ItemList',
+        numberOfItems: labs.length,
+        itemListElement: labs.map((p, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          url: ctx.url(labPath(p.id)),
+          name: `What has ${brand.NAME} scored about ${p.name}?`,
+        })),
+      },
+    }, breadcrumbs(ctx, [
+      { name: 'Which AI doom indexes can you compare?', path: '/compare.html' },
+      { name: `Which AI companies has ${brand.NAME} scored stories about?`, path },
+    ]), {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faq.map(([q, a]) => ({
+        '@type': 'Question',
+        name: q,
+        acceptedAnswer: { '@type': 'Answer', text: a },
+      })),
+    }],
+    main,
+  });
+}
+
 /** Sitemap rows: only indexable facets (mirrors noindex). */
 export function sitemapEntries(ctx) {
   const out = [];
@@ -562,8 +722,22 @@ export function sitemapEntries(ctx) {
     });
   }
   const lastRace = (ctx.race && ctx.race.generated_at) || lastNews;
-  for (const player of allLabs(ctx)) {
-    if (!labIndexable(ctx, player)) continue;
+  const labs = indexableLabs(ctx);
+  if (labs.length) {
+    out.push({
+      loc: '/lab/',
+      changefreq: 'daily',
+      priority: '0.75',
+      lastmod: lastRace,
+    });
+    out.push({
+      loc: '/companies.html',
+      changefreq: 'daily',
+      priority: '0.8',
+      lastmod: lastRace,
+    });
+  }
+  for (const player of labs) {
     out.push({
       loc: labPath(player.id),
       changefreq: 'daily',

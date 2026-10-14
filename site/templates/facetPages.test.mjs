@@ -4,7 +4,7 @@ import * as brand from '../brand.mjs';
 import {
   itemsForPillar, pillarIndexable, renderPillar, pillarPath,
   itemsForLab, labIndexable, renderLab, labPath, labsFromRace, labsFromEntities,
-  allLabs, sitemapEntries, ENTITY_LAB_MIN,
+  allLabs, indexableLabs, renderLabIndex, renderCompanies, sitemapEntries, ENTITY_LAB_MIN,
   PILLAR_INDEX_MIN, SOURCE_INDEX_MIN, sourceLabel, sourceIndexable, renderSource,
   indexableSources,
 } from './facetPages.mjs';
@@ -119,6 +119,25 @@ describe('lab facets', () => {
     assert.match(html, /does not invent market odds/);
     assert.doesNotMatch(html, /Market odds \(best model\)/);
   });
+
+  it('ships /lab/ directory and DoomBench-shaped /companies.html hubs', () => {
+    assert.ok(indexableLabs(ctx).some((p) => p.id === 'openai'));
+    const labIndex = renderLabIndex(ctx);
+    assert.match(labIndex, /Which AI labs have SIREN pages\?/);
+    assert.match(labIndex, /\/lab\/openai\.html/);
+    assert.match(labIndex, /\/companies\.html/);
+    assert.match(labIndex, /What questions do people actually ask\?/);
+    assert.match(labIndex, /"@type"\s*:\s*"FAQPage"/);
+    assert.match(labIndex, /speakable/);
+    const companies = renderCompanies(ctx);
+    assert.match(companies, /Which AI companies has SIREN scored stories about\?/);
+    assert.match(companies, /does not publish a company/);
+    assert.match(companies, /\/lab\/openai\.html/);
+    assert.match(companies, /\/compare\.html/);
+    assert.match(companies, /SpeakableSpecification/);
+    assert.match(companies, /FAQPage/);
+    assert.doesNotMatch(companies, /doom score:\s*\d/i);
+  });
 });
 
 describe('facet sitemap', () => {
@@ -127,6 +146,8 @@ describe('facet sitemap', () => {
     const locs = rows.map((r) => r.loc);
     assert.ok(locs.includes('/pillar/capability.html'));
     assert.ok(!locs.includes('/pillar/markets.html'));
+    assert.ok(locs.includes('/lab/'));
+    assert.ok(locs.includes('/companies.html'));
     assert.ok(locs.includes('/lab/openai.html'));
     assert.ok(locs.includes('/lab/anthropic.html'));
     assert.ok(locs.includes('/source/hn.html'));

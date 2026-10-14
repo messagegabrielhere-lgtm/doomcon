@@ -734,11 +734,17 @@ async function writeModelAndCountryPages(ctx, outDir, write, written) {
     written.push(await write(outDir, `model/${model.slug}.html`, modelPages.renderModel(ctx, model.name)));
   }
   written.push(await write(outDir, 'model/index.html', modelPages.renderIndex(ctx)));
+  if (modelPages.indexableModels(ctx).length) {
+    written.push(await write(outDir, 'models.html', modelPages.renderModels(ctx)));
+  }
   if (ctx.routes && ctx.routes.world && ctx.world) {
     for (const country of countryPages.indexableCountries(ctx)) {
       written.push(await write(outDir, `country/${String(country.iso2).toLowerCase()}.html`, countryPages.renderCountry(ctx, country.iso2)));
     }
     written.push(await write(outDir, 'country/index.html', countryPages.renderIndex(ctx)));
+    if (countryPages.indexableCountries(ctx).length) {
+      written.push(await write(outDir, 'countries.html', countryPages.renderCountries(ctx)));
+    }
   }
 }
 
@@ -748,6 +754,7 @@ async function writePeopleAndDayPages(ctx, outDir, write, written) {
       written.push(await write(outDir, `people/${person.id}.html`, peoplePages.renderPerson(ctx, person.id)));
     }
     written.push(await write(outDir, 'people/index.html', peoplePages.renderIndex(ctx)));
+    written.push(await write(outDir, 'people.html', peoplePages.renderPeople(ctx)));
   }
   for (const day of dayPages.indexableDays(ctx)) {
     written.push(await write(outDir, `news/${day.day}.html`, dayPages.renderDay(ctx, day.day)));
@@ -761,6 +768,7 @@ async function writeTagPages(ctx, outDir, write, written) {
     written.push(await write(outDir, `tags/${tag.id}.html`, tagPages.renderTag(ctx, tag.id)));
   }
   written.push(await write(outDir, 'tags/index.html', tagPages.renderIndex(ctx)));
+  written.push(await write(outDir, 'tags.html', tagPages.renderTags(ctx)));
 }
 
 async function writeKindPages(ctx, outDir, write, written) {
@@ -1529,6 +1537,10 @@ async function main() {
     for (const player of facetPages.allLabs(ctx)) {
       written.push(await write(args.out, `lab/${player.id}.html`, facetPages.renderLab(ctx, player)));
     }
+    if (facetPages.indexableLabs(ctx).length) {
+      written.push(await write(args.out, 'lab/index.html', facetPages.renderLabIndex(ctx)));
+      written.push(await write(args.out, 'companies.html', facetPages.renderCompanies(ctx)));
+    }
     for (const s of facetPages.indexableSources(ctx)) {
       written.push(await write(args.out, `source/${s.id}.html`, facetPages.renderSource(ctx, s.id)));
     }
@@ -1551,7 +1563,7 @@ async function main() {
       if (leaders) written.push(await write(args.out, 'api/leaders.json', stableJson(leaders)));
     }
     await writeDirectoryAliases(args.out, [
-      'news', 'leaders',
+      'news', 'leaders', 'companies', 'models', 'tags', 'kinds', 'outlets', 'people', 'countries',
       ...facetPages.indexableSources(ctx).map((s) => `source/${s.id}`),
       ...modelAndCountryAliases(ctx),
       ...tagAliases(ctx),
@@ -1897,6 +1909,10 @@ async function main() {
   for (const player of facetPages.allLabs(ctx)) {
     written.push(await write(args.out, `lab/${player.id}.html`, facetPages.renderLab(ctx, player)));
   }
+  if (facetPages.indexableLabs(ctx).length) {
+    written.push(await write(args.out, 'lab/index.html', facetPages.renderLabIndex(ctx)));
+    written.push(await write(args.out, 'companies.html', facetPages.renderCompanies(ctx)));
+  }
   for (const s of facetPages.indexableSources(ctx)) {
     written.push(await write(args.out, `source/${s.id}.html`, facetPages.renderSource(ctx, s.id)));
   }
@@ -1919,6 +1935,7 @@ async function main() {
       'p-doom', 'ai-doomsday-clock', 'arena', 'scanner', 'monitor', 'elon',
       'game', 'bunker-kit', 'alerts', 'export', 'moltbook', 'staff', 'careers',
       'agents', 'tally', 'changelog', 'live', 'compare', 'alternatives',
+      'companies', 'models', 'tags', 'kinds', 'outlets', 'people', 'countries',
       ...comparePages.RIVALS.map((r) => r.path.replace(/^\//, '').replace(/\.html$/, '')),
       ...brand.PILLARS.map((p) => `pillar/${p.id}`),
       ...facetPages.allLabs(ctx).map((p) => `lab/${p.id}`),

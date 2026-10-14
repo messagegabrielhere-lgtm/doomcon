@@ -256,6 +256,7 @@ context.
 | 23 | `/outlet/*` publisher hubs (≥5 scored stories) | Google | **Done** (2026-10-14) |
 | 24 | IndexNow ALWAYS + seo-daily OUR_SURFACES cover top gated `/tags/*` `/kind/*` `/outlet/*` `/people/*` hubs | Bing + daily scoreboard | **Done** (2026-10-14) |
 | 25 | `seo-daily` `deploy-pending-url-lead` when local Ready ≥2k and live sitemap &lt; 50% of Ready — trail gaps yield to merge/deploy | Daily agent | **Done** (2026-10-14) |
+| 26 | DoomBench-shaped `/companies.html` + `/lab/` index + wire `/models.html` `/tags.html` `/people.html` `/countries.html` (already linked; were unwritten) | Google | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
