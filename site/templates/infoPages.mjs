@@ -55,12 +55,29 @@ export function about(ctx) {
   // Was “What is SIREN, and who is behind it?” under title “What is SIREN?”.
   const qTitle = `What is ${brand.NAME}?`;
   const description = `${qTitle} An independent, automated index of AI activity run by one person. How it works, how it is paid for, and how to get in touch.`;
+  // Tip #308: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const nameQ = 'What does the name SIREN mean?';
+  const whatQ = 'What is SIREN as a publication?';
+  const whoQ = `Who runs ${brand.NAME}?`;
+  const payQ = `How is ${brand.NAME} paid for?`;
+  const contactQ = `How do you contact ${brand.NAME}?`;
+  const termsQ = 'What are the terms, in plain words?';
   // FAQ from the SAME pairs rendered in HTML (§3.3). Refuse doom-probability.
   const faq = [
     [qTitle,
       `${brand.NAME} is a small, automated publication. A collector reads public sources every hour, a published formula turns them into a score, and a static site is rebuilt from the result. It measures AI activity tempo — not danger or a probability of harm.`],
-    [`Who runs ${brand.NAME}?`,
+    [nameQ,
+      'SI is superintelligence. REN is Real-time Early Notice. Together: a siren for the road to superintelligence, which tells you how loud things are and never claims to know how the road ends.'],
+    [whatQ,
+      `${brand.NAME} is a small, automated publication. A collector reads public sources every hour, a published formula turns them into a score, and a static site is rebuilt from the result. There is no editorial desk deciding the level.`],
+    [whoQ,
       'One person, independently. It is not affiliated with any AI lab, government body, or the organisations whose scales it borrows its grammar from. It is free to read, carries no display-ad network, and has no investors.'],
+    [payQ,
+      'Hosting is free. Some pages carry Amazon Associate links that are paid links and labelled where they appear. There is room for one named sponsor with no say over the number, and a donate link.'],
+    [contactQ,
+      'Corrections, data sources and press questions go by email, X, or an issue on the repository. A correction that changes a number is recorded in the open.'],
+    [termsQ,
+      'The site is information, not advice. It measures activity, not danger. Third-party data is shown under its own licence. The joke pages are jokes; their numbers are still real counts.'],
     [`Does ${brand.NAME} publish a doom probability?`,
       `No. ${brand.DISCLAIMER_SHORT} The methodology and every receipt are public so a stranger can recompute the number.`],
   ];
@@ -73,23 +90,23 @@ export function about(ctx) {
   <p class="eyebrow">About</p>
   <div class="inf__top">${mascot({ size: 76, level: level(ctx) })}<h1 class="bp__h1">${esc(qTitle)}</h1></div>
   <p class="lede">${esc(brand.DESCRIPTION)}</p>
-  <h2>The name</h2>
+  <h2>${esc(nameQ)}</h2>
   <p><b>SI</b> is superintelligence. <b>REN</b> is Real-time Early Notice. Together: a siren for the road to superintelligence, which tells you how loud things are and never claims to know how the road ends.
     The index was called ${esc(brand.FORMERLY)} until October 2026. Only the name changed; the method, the history and every receipt are the same.</p>
-  <h2>What it is</h2>
+  <h2>${esc(whatQ)}</h2>
   <p>${esc(brand.NAME)} is a small, automated publication. A collector reads public sources every hour, a published formula turns
     them into a score, and a static site is rebuilt from the result. There is no editorial desk deciding the level.
     <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a> has every formula and constant, and the
     <a href="${esc(brand.REPO_URL)}" rel="noopener">source code</a> is public.</p>
-  <h2>Who runs it</h2>
+  <h2>${esc(whoQ)}</h2>
   <p>One person, independently. It is not affiliated with any AI lab, government body or the organisations whose scales it
     borrows its grammar from. It is free to read, carries no display-ad network and has no investors.</p>
-  <h2>How it is paid for</h2>
+  <h2>${esc(payQ)}</h2>
   <p>Hosting is free. <a href="${esc(ctx.href('/bunker-kit.html'))}">What free tools belong in a bunker kit?</a> and
     <a href="${esc(ctx.href('/library.html'))}">What AI books argue both sides of the case?</a> carry Amazon links that are paid links: as an Amazon Associate,
     ${esc(brand.NAME)} earns from qualifying purchases. They are labelled where they appear. There is room for one named sponsor via
     <a href="${esc(ctx.href('/sponsor.html'))}">How do you sponsor ${esc(brand.NAME)} without moving the number?</a> — with no say over the number — and a donate link to ${x}.</p>
-  <h2>Contact</h2>
+  <h2>${esc(contactQ)}</h2>
   <p>Corrections, data sources and press questions: ${mail}, message ${x} on X, or open an issue on the
     <a href="${esc(brand.REPO_URL)}" rel="noopener">repository</a>. A correction that changes a number is recorded in the open.</p>
   <h2 id="faq">Questions people actually ask</h2>
@@ -98,7 +115,7 @@ export function about(ctx) {
     <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>
     · <a href="${esc(ctx.href('/guide.html'))}">How does ${esc(brand.NAME)} compare to DEFCON, the Doomsday Clock and p(doom)?</a>
     · <a href="${esc(ctx.href('/privacy.html'))}">What does ${esc(brand.NAME)} know about you?</a>.</p>
-  <h2>Terms, in plain words</h2>
+  <h2>${esc(termsQ)}</h2>
   <ul>
     <li>The site is information, not advice. Do not use it as the basis for financial, legal, safety or policy decisions.</li>
     <li>It measures activity, not danger. ${esc(brand.DISCLAIMER_SHORT)}</li>
