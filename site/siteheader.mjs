@@ -332,7 +332,8 @@ function dyn(k){
   var h='';
   if(SXrows&&raw.length>=2){var hits=window.sirenSearch.search(SXrows,raw).filter(function(x){return !roomSet[x.it[2]]}).slice(0,6);
     if(hits.length){h+='<li class="sh-rooms__g sh-dyn">ACROSS THE SITE</li>';hits.forEach(function(x){var it=x.it,ext=/^https?:/.test(it[2]);h+='<li class="sh-dyn"><a class="sh-rooms__i" href="'+e(ext?it[2]:D.base+it[2])+'"'+(ext?' target="_blank" rel="noopener"':'')+'><img src="'+e(sxImg(it))+'" width="34" height="34" alt="" loading="lazy"><span><b>'+window.sirenSearch.hl(it[1],raw)+'</b><small>'+e(((SX.types&&SX.types[it[0]])||it[0])+(it[3]?' · '+it[3]:''))+'</small></span></a></li>'})}}
-  h+='<li class="sh-dyn"><a class="sh-rooms__i sh-rooms__i--x" href="'+e(D.base+'/search.html?q='+encodeURIComponent(raw))+'"><span><b>Search everything for “'+e(raw)+'” →</b><small>Rooms, stories, leaders, videos, data and feeds</small></span></a></li>';
+  // Tip #260: handoff row uses the search page H1, not bare “Search everything”.
+  h+='<li class="sh-dyn"><a class="sh-rooms__i sh-rooms__i--x" href="'+e(D.base+'/search.html?q='+encodeURIComponent(raw))+'"><span><b>How do you search everything on SIREN? “'+e(raw)+'” →</b><small>Rooms, stories, leaders, videos, data and feeds</small></span></a></li>';
   ul.insertAdjacentHTML('beforeend',h);
   return [].slice.call(ul.querySelectorAll('.sh-dyn .sh-rooms__i'));
 }

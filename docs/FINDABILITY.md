@@ -509,6 +509,7 @@ context.
 | 257 | Header/home What’s New strip + rooms-dialog NEW entries use destination H1 questions (was “USA vs China” / “The Arcade” / “Live alerts” …); refuse doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 258 | BreadcrumbList root + relatedHtml / rooms-dialog home row use “AI activity index today · SIREN” and drop duplicate Home `/` crumbs (was bare “SIREN” / “Home” / “Index”); refuse doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 259 | BreadcrumbList leaf names across hubs use page H1 questions (was “Evolution Log” / “Waffle House Index” / “Race” / “Leaders” / “SIREN Labs” …); refuse doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 260 | `/instruments.html#api` H2 + FAQPage use “What public JSON files does SIREN expose?”; rooms-dialog search handoff uses search H1 (was “Public JSON API” / “Search everything for…”); refuse doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 

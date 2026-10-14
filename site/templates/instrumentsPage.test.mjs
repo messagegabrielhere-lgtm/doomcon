@@ -27,6 +27,10 @@ describe('instruments page', () => {
     assert.match(html, /What does source health on this page report\?/);
     assert.match(html, /Where is the frozen reference distribution explained\?/);
     assert.match(html, /How do I put the index on my site\?/);
+    assert.match(html, /id="api-h">What public JSON files does SIREN expose\?<\/h2>/);
+    assert.match(html, /What public JSON files does SIREN expose\?/);
+    assert.match(html, /FAQPage[\s\S]*What public JSON files does SIREN expose\?/);
+    assert.doesNotMatch(html, /id="api-h">Public JSON API<\/h2>/);
     assert.match(html, /SpeakableSpecification/);
     assert.match(html, /FAQPage/);
     assert.match(html, /"@type":\s*"WebPage"/);
