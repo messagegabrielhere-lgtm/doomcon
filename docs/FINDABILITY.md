@@ -786,6 +786,10 @@ context.
 | 534 | Topic tag `gradient` (live/archive ≥5); IndexNow + seo-daily monitor; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 535 | Topic tag `optimizer` (live/archive ≥5); IndexNow + seo-daily monitor; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 536 | Topic tag `regularization` (live/archive ≥5); IndexNow + seo-daily monitor; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 537 | Topic tag `attribution` (live/archive ≥5); IndexNow + seo-daily monitor; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 538 | Topic tag `normalization` (live/archive ≥5); IndexNow + seo-daily monitor; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 539 | Topic tag `gigawatt` (live/archive ≥5); IndexNow + seo-daily monitor; refuse capacity-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 540 | Topic tag `next-token` (live/archive ≥5); IndexNow + seo-daily monitor; refuse capability-ranking / doom-probability claims; refuse `adapters` false-friend doorway and `hallucination-detection` synonym of `hallucination` | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
