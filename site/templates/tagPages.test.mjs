@@ -2681,4 +2681,35 @@ describe('tag pages', () => {
     assert.doesNotMatch(renderTag(rich, 'ai-math'), /doom score:\s*\d/i);
     assert.doesNotMatch(renderTag(rich, 'ai-math'), /probability of doom/i);
   });
+
+  it('pages proofs and math-problems hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('pf1', 'As AI Closed In on Unique Games Proof, Researchers Raced to Beat the Machines'),
+          story('pf2', 'OpenAI Withdraws Three AI Mathematics Papers Due to Sign Error in Key Proof'),
+          story('pf3', "Soon We'll Have Math Proofs That No One Understands"),
+          story('pf4', 'Formal proof assistants absorb another AI-generated lemma'),
+          story('pf5', 'Mathematicians debate whether machine proofs belong in journals'),
+          story('mp1', 'Google Deepmind AlphaProof Nexus solved dozens of open math problems'),
+          story('mp2', 'OpenAI publishes papers solving open math problems from a single prompt'),
+          story('mp3', "OpenAI's unreleased model solved most of the math problems from a single prompt"),
+          story('mp4', 'Campus contests add AI tracks for hard math problems'),
+          story('mp5', 'Benchmarks expand to cover contest math problems for agents'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    assert.ok(ids.includes('proofs'));
+    assert.ok(ids.includes('math-problems'));
+    assert.match(renderTag(rich, 'proofs'), /What has SIREN scored about AI proofs\?/);
+    assert.match(renderTag(rich, 'math-problems'), /What has SIREN scored about Math problems\?/);
+    assert.match(renderTag(rich, 'proofs'), /not a capability ranking/i);
+    assert.match(renderTag(rich, 'math-problems'), /not a capability ranking/i);
+    assert.doesNotMatch(renderTag(rich, 'proofs'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'math-problems'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'math-problems'), /probability of doom/i);
+  });
 });
