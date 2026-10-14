@@ -137,11 +137,11 @@ function liveStrip(ctx) {
 
 function rivalNav(excludeId) {
   const links = [
-    `<a href="${esc('/compare.html')}">Full comparison</a>`,
-    `<a href="${esc('/vs.html')}">Versus hub</a>`,
-    `<a href="${esc('/alternatives.html')}">Alternatives hub</a>`,
-    ...RIVALS.filter((r) => r.id !== excludeId).map((r) => `<a href="${esc(r.path)}">${esc(r.name)}</a>`),
-    `<a href="${esc('/guide.html')}">DEFCON &amp; clocks</a>`,
+    `<a href="${esc('/compare.html')}">Which AI doom indexes can you compare?</a>`,
+    `<a href="${esc('/vs.html')}">Which AI indexes does ${esc(brand.NAME)} contrast?</a>`,
+    `<a href="${esc('/alternatives.html')}">What are AI doom index alternatives?</a>`,
+    ...RIVALS.filter((r) => r.id !== excludeId).map((r) => `<a href="${esc(r.path)}">${esc(brand.NAME)} vs ${esc(r.name)}: which should you use?</a>`),
+    `<a href="${esc('/guide.html')}">How does ${esc(brand.NAME)} compare to DEFCON, the Doomsday Clock and p(doom)?</a>`,
   ];
   return `<nav class="cmp__nav" aria-label="Compare pages">${links.join('')}</nav>`;
 }
@@ -229,7 +229,7 @@ export function compareHub(ctx) {
   ];
   const main = `${CSS}
 <article class="cmp prose">
-  <p class="cmp__k">Compare</p>
+  <p class="cmp__k">Which AI doom indexes can you compare?</p>
   <h1>${esc(qTitle)}</h1>
   <p class="cmp__lede">People searching for an “AI doom index” usually land on a judgement score, a countdown, or a DEFCON-shaped novelty page.
     ${esc(brand.NAME)} answers a different question: <b>how loud is AI activity right now</b>, measured hourly from public data.
@@ -239,7 +239,7 @@ export function compareHub(ctx) {
   ${comparisonTable()}
   <h2>Pick a rival</h2>
   ${RIVALS.map((r) => `<div class="cmp__card">
-    <h3><a href="${esc(ctx.href(r.path))}">${esc(brand.NAME)} vs ${esc(r.name)}</a></h3>
+    <h3><a href="${esc(ctx.href(r.path))}">${esc(brand.NAME)} vs ${esc(r.name)}: which should you use?</a></h3>
     <p>${esc(r.short)}. ${esc(r.measures)}. ${esc(r.recomputableNote)}.</p>
   </div>`).join('')}
   <h2>Complementary (not a doom index)</h2>
@@ -287,12 +287,12 @@ export function vsHub(ctx) {
       `No. Those sites score judgement about danger or timelines. ${brand.NAME} counts how loud AI activity is this hour. The versus pages only contrast measurement methods.`],
   ];
   const rows = RIVALS.map((r) => `<li>
-  <a href="${esc(ctx.href(r.path))}">${esc(brand.NAME)} vs ${esc(r.name)}</a>
+  <a href="${esc(ctx.href(r.path))}">${esc(brand.NAME)} vs ${esc(r.name)}: which should you use?</a>
   <span class="cmp__lede" style="display:block;margin:4px 0 0">${esc(r.short)}. ${esc(r.ourAngle)}</span>
 </li>`).join('');
   const main = `${CSS}
 <article class="cmp prose">
-  <p class="cmp__k">Versus</p>
+  <p class="cmp__k"><a href="${esc(ctx.href('/compare.html'))}">Which AI doom indexes can you compare?</a> · Which AI indexes does ${esc(brand.NAME)} contrast?</p>
   <h1>Which AI indexes does ${esc(brand.NAME)} contrast?</h1>
   <p class="cmp__lede">Search often lands on a doom score, a countdown, or a DEFCON-shaped novelty page.
     These versus pages state what each rival measures and what ${esc(brand.NAME)} refuses to claim.
@@ -304,20 +304,20 @@ export function vsHub(ctx) {
   <ol class="cmp__card" style="list-style:none;padding:0;margin:16px 0 0;display:grid;gap:10px">${rows}</ol>
   ${faqBlock(faq)}
   <h2>Also</h2>
-  <p><a href="${esc(ctx.href('/compare.html'))}">Full side-by-side table →</a>
-     · <a href="${esc(ctx.href('/alternatives.html'))}">Alternatives hub →</a>
-     · <a href="${esc(ctx.href('/guide.html'))}">DEFCON, Doomsday Clock and p(doom) →</a></p>
+  <p><a href="${esc(ctx.href('/compare.html'))}">Which AI doom indexes can you compare?</a>
+     · <a href="${esc(ctx.href('/alternatives.html'))}">What are AI doom index alternatives?</a>
+     · <a href="${esc(ctx.href('/guide.html'))}">How does ${esc(brand.NAME)} compare to DEFCON, the Doomsday Clock and p(doom)?</a></p>
   ${rivalNav(null)}
 </article>`;
   const listLd = {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
-    name: `${brand.NAME} versus other AI indexes`,
+    name: `Which AI indexes does ${brand.NAME} contrast?`,
     numberOfItems: RIVALS.length,
     itemListElement: RIVALS.map((r, i) => ({
       '@type': 'ListItem',
       position: i + 1,
-      name: `${brand.NAME} vs ${r.name}`,
+      name: `${brand.NAME} vs ${r.name}: which should you use?`,
       url: ctx.url(r.path),
     })),
   };
@@ -327,7 +327,10 @@ export function vsHub(ctx) {
     title,
     description,
     jsonld: [
-      ...pageJsonLd(ctx, path, title, description, [{ name: 'Versus', path }], faq),
+      ...pageJsonLd(ctx, path, title, description, [
+        { name: 'Which AI doom indexes can you compare?', path: '/compare.html' },
+        { name: `Which AI indexes does ${brand.NAME} contrast?`, path },
+      ], faq),
       listLd,
     ],
     main,
@@ -358,7 +361,7 @@ export function alternatives(ctx) {
   ];
   const main = `${CSS}
 <article class="cmp prose">
-  <p class="cmp__k">Alternatives</p>
+  <p class="cmp__k"><a href="${esc(ctx.href('/compare.html'))}">Which AI doom indexes can you compare?</a> · What are AI doom index alternatives?</p>
   <h1>${esc(qTitle)}</h1>
   <p class="cmp__lede">“Alternative” only helps if the substitute measures the same thing. Most AI doom indexes measure
     <b>judgement about danger</b>, or borrow DEFCON language for traffic. ${esc(brand.NAME)} measures <b>how much is happening</b>. Use this hub when a search
@@ -381,7 +384,7 @@ export function alternatives(ctx) {
   </ul>
   <h2>One page per rival</h2>
   ${RIVALS.map((r) => `<div class="cmp__card">
-    <h3><a href="${esc(ctx.href(r.path))}">${esc(r.name)} → ${esc(brand.NAME)}</a></h3>
+    <h3><a href="${esc(ctx.href(r.path))}">${esc(brand.NAME)} vs ${esc(r.name)}: which should you use?</a></h3>
     <p>${esc(r.ourAngle)}</p>
     <p class="fresh__key">Queries this page answers: ${esc(r.queryShapes.join('; '))}.</p>
   </div>`).join('')}
@@ -433,7 +436,7 @@ export function vsRival(ctx, rivalId) {
     .join(' · ');
   const main = `${CSS}
 <article class="cmp prose">
-  <p class="cmp__k">Versus</p>
+  <p class="cmp__k"><a href="${esc(ctx.href('/compare.html'))}">Which AI doom indexes can you compare?</a> · <a href="${esc(ctx.href('/vs.html'))}">Which AI indexes does ${esc(brand.NAME)} contrast?</a></p>
   <h1>${esc(qTitle)}</h1>
   <p class="cmp__lede">${esc(rival.ourAngle)}</p>
   ${liveStrip(ctx)}
@@ -458,10 +461,10 @@ export function vsRival(ctx, rivalId) {
   ${faqBlock(faq)}
   <h2>Where to go next</h2>
   <p><a href="${esc(ctx.href('/'))}">Current ${esc(brand.NAME)} reading →</a>
-     · <a href="${esc(ctx.href('/methodology.html'))}">Method →</a>
-     · <a href="${esc(ctx.href('/compare.html'))}">All indexes compared →</a>
-     · <a href="${esc(ctx.href('/vs.html'))}">Versus directory →</a>
-     · <a href="${esc(ctx.href('/alternatives.html'))}">Alternatives hub →</a>
+     · <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>
+     · <a href="${esc(ctx.href('/compare.html'))}">Which AI doom indexes can you compare?</a>
+     · <a href="${esc(ctx.href('/vs.html'))}">Which AI indexes does ${esc(brand.NAME)} contrast?</a>
+     · <a href="${esc(ctx.href('/alternatives.html'))}">What are AI doom index alternatives?</a>
      ${related ? `· ${related}` : ''}</p>
   ${rivalNav(rival.id)}
 </article>`;
@@ -477,8 +480,8 @@ export function vsRival(ctx, rivalId) {
       qTitle,
       description,
       [
-        { name: 'Compare', path: '/compare.html' },
-        { name: 'Versus', path: '/vs.html' },
+        { name: 'Which AI doom indexes can you compare?', path: '/compare.html' },
+        { name: `Which AI indexes does ${brand.NAME} contrast?`, path: '/vs.html' },
         { name: qTitle, path },
       ],
       faq,
