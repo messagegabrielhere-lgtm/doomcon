@@ -169,7 +169,10 @@ const fmt = (n) => Number(n || 0).toLocaleString('en-US');
 
 function rankCard(list, inPath, name) {
   list = list || [];
-  const head = name ? `DATA CENTRES RANKED BY IMPACT IF ${esc(name.toUpperCase())}’S WAFFLE HOUSES GO DARK` : 'DATA CENTRES NEXT TO CLOSED WAFFLE HOUSES';
+  // Tip #342: rank-card H3 is question-shaped (§3.3).
+  const head = name
+    ? `Which data centres would be hit if ${esc(name)}’s Waffle Houses go dark?`
+    : 'Which data centres sit next to closed Waffle Houses?';
   const col = (t) => (t === 'HIGH' ? '#F87171' : t === 'ELEVATED' ? '#FB923C' : '#FACC15');
   const rows = list.slice(0, 12).map((d, i) => `<li style="--c:${col(d.tier)}"><span class="n">${i + 1}</span><div><b>${esc(d.name)}</b>${d.operator && d.operator !== d.name ? ` · ${esc(d.operator)}` : ''}<small>${esc([d.city, d.state].filter(Boolean).join(', '))}${d.city || d.state ? ' · ' : ''}${esc(d.reasons.join(' · '))}</small><div class="bar"><i style="width:${d.score}%"></i></div></div><span class="t"><span>${d.score}</span>${esc(d.tier)}</span></li>`).join('');
   return `<div class="wf-c" style="grid-column:1/-1"><h3>${head}</h3>${rows ? `<ol class="wf-rk">${rows}</ol>` : `<p>${inPath ? `${inPath} data centres sit in the rough path, and none has closed Waffle Houses around it yet.` : 'No data centre has a cluster of closed Waffle Houses around it right now.'}</p>`}
@@ -202,11 +205,13 @@ export function render(ctx, data, us) {
         <div><b>${off ? fmt(off.closed) : '—'}</b><span>TEMPORARILY CLOSED, CHAIN-WIDE</span></div>
         <div><b>${off ? fmt(off.limited) : '—'}</b><span>POSTED HOURS NOT 24/7</span></div>
         <div><b>0</b><span>ACTIVE STORMS NEAR THE US</span></div>`;
-  const chain = off ? `<div class="wf-c"><h3>RIGHT NOW, CHAIN-WIDE: ${fmt(off.closed)} OF ${fmt(all.length)} CLOSED</h3>
+  // Tip #342: chain / path H3s are question-shaped (§3.3).
+  const chain = off ? `<div class="wf-c"><h3>How many Waffle Houses are closed chain-wide right now?</h3>
+      <p style="font:700 14px var(--mono);margin:0 0 8px;color:#FDE68A">${fmt(off.closed)} of ${fmt(all.length)} temporarily closed</p>
       ${off.by_state && off.by_state.length ? `<div class="wf-st">${off.by_state.slice(0, 14).map((b) => `<span>${esc(b.state)} ${b.n}</span>`).join('')}</div>` : ''}
       ${off.closed_list && off.closed_list.length ? `<ul>${off.closed_list.slice(0, 120).map((c) => `<li>${c.url ? `<a href="${esc(c.url)}" target="_blank" rel="noopener">` : ''}#${esc(c.no)} ${esc(c.city || '')}${c.state ? `, ${esc(c.state)}` : ''}${c.url ? '</a>' : ''}</li>`).join('')}</ul>` : '<p>Every Waffle House on the locator is open.</p>'}
       <p style="font-size:12.5px;margin:8px 0 0">Straight from Waffle House’s own store locator, which flags each store “temporarily closed”. Some closures are always there (remodels, staffing); a storm shows up as a cluster.</p></div>` : '';
-  const pathList = st ? `<div class="wf-c"><h3>${st.google ? `WAFFLE HOUSES CLOSED IN ${esc(st.name.toUpperCase())}’S PATH` : 'WAFFLE HOUSES CLOSEST TO THE PATH'}</h3>${st.google ? (st.google.places.filter((q) => q.closed || q.limited).length ? `<ul>${st.google.places.filter((q) => q.closed || q.limited).slice(0, 60).map((q) => `<li>${q.url ? `<a href="${esc(q.url)}" target="_blank" rel="noopener">` : ''}${esc(q.address || q.name)}${q.url ? '</a>' : ''} · ${q.closed ? 'closed' : 'short hours'}</li>`).join('')}</ul>` : `<p>All ${st.google.known} Waffle Houses in the path are open.</p>`) : (st.stores.length ? `<ul>${st.stores.slice(0, 30).map((q) => `<li>${esc(q.city || 'Waffle House')}${q.state ? `, ${esc(q.state)}` : ''} · ${q.d} km from the path</li>`).join('')}</ul>` : '<p>No Waffle Houses in the rough path.</p>')}</div>
+  const pathList = st ? `<div class="wf-c"><h3>${st.google ? `Which Waffle Houses are closed in ${esc(st.name)}’s path?` : 'Which Waffle Houses are closest to the path?'}</h3>${st.google ? (st.google.places.filter((q) => q.closed || q.limited).length ? `<ul>${st.google.places.filter((q) => q.closed || q.limited).slice(0, 60).map((q) => `<li>${q.url ? `<a href="${esc(q.url)}" target="_blank" rel="noopener">` : ''}${esc(q.address || q.name)}${q.url ? '</a>' : ''} · ${q.closed ? 'closed' : 'short hours'}</li>`).join('')}</ul>` : `<p>All ${st.google.known} Waffle Houses in the path are open.</p>`) : (st.stores.length ? `<ul>${st.stores.slice(0, 30).map((q) => `<li>${esc(q.city || 'Waffle House')}${q.state ? `, ${esc(q.state)}` : ''} · ${q.d} km from the path</li>`).join('')}</ul>` : '<p>No Waffle Houses in the rough path.</p>')}</div>
     ${rankCard(st.dc_impact, st.datacenters_in_path, st.name)}` : '';
 
   const PATH = '/waffle.html';
@@ -229,6 +234,17 @@ export function render(ctx, data, us) {
     // Tip #336: storm-kit H3 is question-shaped and mirrored in FAQ (§3.3).
     ['What belongs in a storm kit?',
       'Paid Amazon links on this page for storm-kit staples, labelled as such. As an Amazon Associate I earn from qualifying purchases; that never changes a number on this page. Ready.gov’s full kit list is free, and /bunker-kit.html lists free tools.'],
+    // Tip #342: chain / path / rank H3s mirrored in FAQ when those blocks can appear (§3.3).
+    ...(off ? [['How many Waffle Houses are closed chain-wide right now?',
+      `Straight from Waffle House’s own store locator: ${fmt(off.closed)} of ${fmt(all.length)} flagged temporarily closed. Some closures are always there; a storm shows up as a cluster.`]] : []),
+    ...(st ? [[st.google ? `Which Waffle Houses are closed in ${st.name}’s path?` : 'Which Waffle Houses are closest to the path?',
+      st.google
+        ? `Waffle Houses in ${st.name}’s rough path that the locator marks closed or short-hours, listed on this page.`
+        : 'Waffle Houses closest to the storm’s rough path, listed on this page.'],
+      [st.name
+        ? `Which data centres would be hit if ${st.name}’s Waffle Houses go dark?`
+        : 'Which data centres sit next to closed Waffle Houses?',
+        'Impact score 0–100 is a heuristic for where to look, not an outage report. Closed waffles mean no power, no staff or no safe roads — the same things a data centre needs.']] : []),
     ['Is the shaded path the official forecast cone?',
       'How it works: storms from the National Hurricane Center; the shaded path runs along the storm’s current motion for 24 hours with a radius set by its strength, so it is NOT the official forecast cone. Not a safety service: follow your local officials.'],
     ...(others

@@ -32,6 +32,12 @@ describe('watts page', () => {
     assert.match(html, /id="icorr-h"[^>]*>Which datacentre regions does Watts cover\?/);
     assert.match(html, /id="igrid-h"[^>]*>What does overnight grid load show\?/);
     assert.match(html, /id="iwater-h"[^>]*>What does river flow at the gauges show\?/);
+    assert.match(html, /class="iw__h">Which nine gauges sit beside datacentre clusters\?/);
+    assert.match(html, /class="iw__h">Which ten states does the US Drought Monitor cover here\?/);
+    assert.doesNotMatch(html, /class="iw__h">Nine gauges,/);
+    assert.doesNotMatch(html, /class="iw__h">Ten states, US Drought Monitor/);
+    assert.match(html, /"name"\s*:\s*"Which nine gauges sit beside datacentre clusters\?"/);
+    assert.match(html, /"name"\s*:\s*"Which ten states does the US Drought Monitor cover here\?"/);
     assert.match(html, /id="ibuild-h"[^>]*>Which filings mention datacentres\?/);
     assert.match(html, /id="isrc-h"[^>]*>What state is every Watts source in\?/);
     assert.match(html, /id="icant-h"[^>]*>What can this index not tell you\?/);

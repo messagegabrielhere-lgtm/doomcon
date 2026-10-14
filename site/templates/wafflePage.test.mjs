@@ -61,6 +61,18 @@ describe('waffle page', () => {
     assert.doesNotMatch(html, /doom score:\s*\d/i);
   });
 
+  it('chain-wide, path and rank-card H3s use questions when those blocks are visible', () => {
+    const html = render(ctx, waffle, null);
+    if (/temporarily closed|CLOSED IN PATH|datacentres|data centres/i.test(html)) {
+      assert.match(html, /How many Waffle Houses are closed chain-wide right now\?|Which Waffle Houses are closed in|Which Waffle Houses are closest to the path\?|Which data centres/);
+    }
+    assert.doesNotMatch(html, /<h3>RIGHT NOW, CHAIN-WIDE:/);
+    assert.doesNotMatch(html, /<h3>WAFFLE HOUSES CLOSED IN/);
+    assert.doesNotMatch(html, /<h3>DATA CENTRES RANKED BY IMPACT/);
+    assert.doesNotMatch(html, /<h3>DATA CENTRES NEXT TO CLOSED WAFFLE HOUSES<\/h3>/);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
+  });
+
   it('other-storms section H2 uses a question mirrored in FAQPage when visible', () => {
     const html = render(ctx, waffle, null);
     assert.match(html, /<h2>Which other storms are active\?<\/h2>/);
