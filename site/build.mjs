@@ -2161,6 +2161,8 @@ async function main() {
       search_trends: ctx.url('/api/search-trends.json'),
       search_trends_html: ctx.url('/search-trends.html'),
       ai_prediction_markets: ctx.url('/ai-prediction-markets.html'),
+      free_tools: ctx.url('/free-tools.html'),
+      verify: ctx.url('/verify.html'),
       fresh: ctx.url('/api/fresh.json'),
       search_index: ctx.url('/api/search-index.json'),
       embed: ctx.url('/embed.html'),

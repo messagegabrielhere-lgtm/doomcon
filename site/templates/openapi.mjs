@@ -145,6 +145,58 @@ export function render(ctx) {
           },
         },
       },
+      '/search-trends.html': {
+        get: {
+          tags: ['surfaces'],
+          summary: 'Which Google Search Trends for AI does SIREN watch? (HTML; watched, not scored)',
+          operationId: 'getSearchTrendsHtml',
+          responses: {
+            200: {
+              description: 'Question-shaped HTML landing for the Search Trends watch',
+              content: { 'text/html': { schema: { type: 'string' } } },
+            },
+          },
+        },
+      },
+      '/ai-prediction-markets.html': {
+        get: {
+          tags: ['surfaces'],
+          summary: 'Where are live AI prediction market odds? (HTML; market prices, not a SIREN forecast)',
+          operationId: 'getAiPredictionMarketsHtml',
+          responses: {
+            200: {
+              description: 'Question-shaped HTML landing for live lab/model market odds',
+              content: { 'text/html': { schema: { type: 'string' } } },
+            },
+          },
+        },
+      },
+      '/free-tools.html': {
+        get: {
+          tags: ['surfaces'],
+          summary: 'What free tools does SIREN publish? (HTML listicle of real instruments)',
+          operationId: 'getFreeToolsHtml',
+          responses: {
+            200: {
+              description: 'Directory of free instruments — verify, alerts, export, OpenAPI, trends',
+              content: { 'text/html': { schema: { type: 'string' } } },
+            },
+          },
+        },
+      },
+      '/verify.html': {
+        get: {
+          tags: ['surfaces'],
+          summary: 'How do you check a SIREN reading yourself? (in-browser receipt checker)',
+          operationId: 'getVerifyHtml',
+          responses: {
+            200: {
+              description: 'Free-tool landing: re-hash public receipts in the browser',
+              content: { 'text/html': { schema: { type: 'string' } } },
+            },
+          },
+        },
+      },
       '/api/now.txt': {
         get: {
           tags: ['index'],
