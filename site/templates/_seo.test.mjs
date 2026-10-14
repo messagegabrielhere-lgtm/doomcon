@@ -415,6 +415,8 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('Why check water before you buy'));
     assert.ok(org.knowsAbout.includes('What does the Work and skills area cover'));
     assert.ok(org.knowsAbout.includes('How do I move toward the work AI is worst at'));
+    assert.ok(org.knowsAbout.includes('How many AI agents are writing code'));
+    assert.ok(org.knowsAbout.includes('What does The Collector do'));
     assert.ok(org.knowsAbout.includes('What are the agents shipping right now'));
     assert.ok(org.knowsAbout.includes('AI harm and benefit side by side'));
     assert.ok(org.knowsAbout.includes('how does SIREN count AI harm and benefit side by side'));

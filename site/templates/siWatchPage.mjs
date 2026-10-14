@@ -83,17 +83,18 @@ function spark(hist, key) {
 export function render(ctx, sig, hist = []) {
   const c = (title, ok, value, unit, body, why, key) => `<article class="sw-c${ok ? '' : ' sw-dark'}"><h3>${esc(title)}</h3><div class="v">${ok ? value : 'NOT ANSWERING'}</div><div class="u">${esc(unit)}</div>${key ? spark(hist, key) : ''}${body}<p class="why"><b>Why it matters:</b> ${esc(why)}</p></article>`;
   const a = (sig && sig.agent_prs) || {}, f = (sig && sig.frontier) || {}, g = (sig && sig.agi_forecast) || {}, m = (sig && sig.moltbook) || {};
+  // Tip #359: signal-card H3s are question-shaped and mirrored in FAQ (§3.3).
   const cards = [
-    c('AI AGENTS WRITING CODE', a.ok || Number.isFinite(a.total_24h), Number(a.total_24h || 0).toLocaleString('en-US'), 'pull requests opened by AI coding agents’ own GitHub app accounts in the last 24 h',
+    c('How many AI agents are writing code?', a.ok || Number.isFinite(a.total_24h), Number(a.total_24h || 0).toLocaleString('en-US'), 'pull requests opened by AI coding agents’ own GitHub app accounts in the last 24 h',
       `<ul>${(a.by_agent || []).filter((x) => Number.isFinite(x.prs_24h)).sort((x, y) => y.prs_24h - x.prs_24h).map((x) => `<li>${esc(x.name)}: ${x.prs_24h.toLocaleString('en-US')}${x.approximate ? ' (at least)' : ''}</li>`).join('')}</ul>`
       + (Number.isFinite(a.branch_total_24h) ? `<p>Plus about <b>${a.branch_total_24h.toLocaleString('en-US')}</b> PRs opened through a person’s account from an agent’s default branch (an upper-bound proxy, since a person can name a branch that way too):</p><ul>${(a.by_branch || []).filter((x) => Number.isFinite(x.prs_24h)).sort((x, y) => y.prs_24h - x.prs_24h).map((x) => `<li>${esc(x.name)} <code>${esc(x.prefix)}</code>: ${x.prs_24h.toLocaleString('en-US')}</li>`).join('')}</ul>` : ''),
       'Software that writes and submits software is the first step of AI improving its own tools. This counts it in public.', 'agent_prs'),
-    c('FRONTIER MODELS', f.ok || Number.isFinite(f.models_90d), String(f.models_90d ?? '—'), 'notable AI models published in the last 90 days, by Epoch AI’s count',
+    c('How many frontier models shipped recently?', f.ok || Number.isFinite(f.models_90d), String(f.models_90d ?? '—'), 'notable AI models published in the last 90 days, by Epoch AI’s count',
       `${f.largest_run ? `<p>Largest training run on record (Epoch AI estimate): <b>${esc(f.largest_run.model || '')}</b> (${esc(f.largest_run.org || '')}), ${esc(fmtFlop(f.largest_run.flop))}.</p>` : ''}<ul>${(f.newest || []).map((x) => `<li>${esc(x.model || '')} · ${esc(x.org || '')} · ${esc(x.date || '')}</li>`).join('')}</ul>`,
       'How often the field ships a model worth recording, and how big the biggest training run has grown.', 'models_90d'),
-    c('WHEN DO FORECASTERS EXPECT AGI?', g.ok || !!g.median_date, esc(g.median_date || '—'), g.ok ? 'Metaculus community median for the first general AI system' : 'Metaculus now needs a free API token; this card returns once it is added',
+    c('When do forecasters expect AGI?', g.ok || !!g.median_date, esc(g.median_date || '—'), g.ok ? 'Metaculus community median for the first general AI system' : 'Metaculus now needs a free API token; this card returns once it is added',
       g.title ? `<p>${esc(g.title)}</p>` : '', 'Thousands of forecasters put a date on it. When that date moves earlier, the people paying closest attention expect things to move faster.', null),
-    c('AI AGENTS TALKING TO EACH OTHER', m.ok, Number(m.agents_seen || 0).toLocaleString('en-US'), 'distinct AI agents posting in the Moltbook threads SIREN tracks',
+    c('How many AI agents are talking to each other?', m.ok, Number(m.agents_seen || 0).toLocaleString('en-US'), 'distinct AI agents posting in the Moltbook threads SIREN tracks',
       `<p>${Number(m.replies_seen || 0).toLocaleString('en-US')} agent replies in the threads SIREN read. <a href="${esc(ctx.href('/moltbook.html'))}">What are AI agents saying on Moltbook? →</a></p>`,
       'Agents coordinating with other agents, without a person in each loop, is the pattern to watch.', 'moltbook_agents'),
   ].join('');
@@ -129,6 +130,15 @@ export function render(ctx, sig, hist = []) {
     // Tip #349: live PR-wall H3 is question-shaped and mirrored in FAQ (§3.3).
     ['What are the agents shipping right now?',
       'Preview images are GitHub’s own cards for each pull request. This page checks GitHub for newer agent PRs every minute while it is open.'],
+    // Tip #359: signal-card H3s are question-shaped and mirrored in FAQ (§3.3).
+    ['How many AI agents are writing code?',
+      'Pull requests opened by AI coding agents’ own GitHub app accounts in the last 24 h. Software that writes and submits software is the first step of AI improving its own tools. This counts it in public.'],
+    ['How many frontier models shipped recently?',
+      'Notable AI models published in the last 90 days, by Epoch AI’s count. How often the field ships a model worth recording, and how big the biggest training run has grown.'],
+    ['When do forecasters expect AGI?',
+      'Metaculus community median for the first general AI system. Thousands of forecasters put a date on it. When that date moves earlier, the people paying closest attention expect things to move faster.'],
+    ['How many AI agents are talking to each other?',
+      'Distinct AI agents posting in the Moltbook threads SIREN tracks. Agents coordinating with other agents, without a person in each loop, is the pattern to watch.'],
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>

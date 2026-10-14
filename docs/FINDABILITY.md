@@ -608,6 +608,8 @@ context.
 | 356 | `/bug-out-land.html` region + checklist card H3s + FAQPage use questions (was bare state names / “✔ Water”…); Organization `knowsAbout` mirrors those questions; refuse Skynet-as-forecast / real-estate-advice / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 357 | `/si-ready.html` readiness-area + 30-day week H3s + FAQPage use questions (was “Work and skills”… / “Week 1”…); Organization `knowsAbout` mirrors those questions; refuse SI-arrival / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 358 | `/ai-proof-job.html` five-move card H3s + FAQPage use questions (was “Move toward the work AI is worst at” / “Become the person who runs the AI” / …); Organization `knowsAbout` mirrors those questions; refuse job-guarantee / mass-unemployment / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 359 | `/si-watch.html` signal-card H3s + FAQPage use questions (was “AI AGENTS WRITING CODE” / “FRONTIER MODELS” / “WHEN DO FORECASTERS EXPECT AGI?” / “AI AGENTS TALKING TO EACH OTHER”); Organization `knowsAbout` mirrors those questions; refuse takeover-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 360 | `/staff.html` Grok-crew + data-crew card H3s + FAQPage use questions (was bare names “Cash” / “The Collector” / …); Organization `knowsAbout` mirrors those questions; refuse editor-picks-level / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
