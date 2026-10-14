@@ -104,15 +104,26 @@ export function render(ctx, nowMs = Date.now()) {
   const past = LABS.weeks.slice(0, wi).map((w) => `<div><b>WEEK OF ${esc(fmtD(w.start).toUpperCase())}</b><i>${esc(w.theme)}</i><ul>${w.items.map((it) => `<li>${esc(it.name)}</li>`).join('')}</ul></div>`).join('');
   const shipped = LABS.shipped.map(([h, l]) => `<a href="${esc(ctx.href(h))}">${esc(l)}</a>`).join(' · ');
 
+  // Tip #271: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const weekQ = 'What is on the bench this week?';
+  const nextQ = 'What is coming up on the bench?';
+  const pastQ = 'What were earlier weeks?';
+  const rulesQ = 'What are the lab rules?';
   // FAQ answers restate lede / lab rules / feedback copy only (FINDABILITY §3.3).
   // Refuse: SI-arrival date, labs-as-index-input, doom-probability, stuffing.
   const faq = [
     [qTitle,
       `The research bench behind ${brand.NAME}. Every week we take four or five questions about superintelligence that nobody is measuring well, find open data that can answer them, and build the instrument in public. Each experiment says what it counts and where the numbers come from. None of them is a forecast. This week: ${wk.theme}.`],
+    [weekQ,
+      `This week’s theme is “${wk.theme}”. ${wk.items.length} experiments are on the bench: ${wk.items.map((i) => i.name).join(', ')}.`],
+    [nextQ,
+      'Later weeks stay queued with their themes and experiment names until their start date; nothing ships as a forecast.'],
+    [pastQ,
+      'Earlier weeks stay listed with their themes and experiment names so the bench history is checkable.'],
+    [rulesQ,
+      'Open data only (every number from a public source we link to), show the method (each instrument publishes its rules so anyone can recompute it), count don’t predict, and ship or say why (an experiment either becomes a live room on SIREN or gets a note on why the data wasn’t good enough).'],
     ['Does Labs say when superintelligence arrives?',
       'Count, don’t predict. We measure what is happening. We don’t say when SI arrives.'],
-    ['What are the lab rules?',
-      'Open data only (every number from a public source we link to), show the method (each instrument publishes its rules so anyone can recompute it), count don’t predict, and ship or say why (an experiment either becomes a live room on SIREN or gets a note on why the data wasn’t good enough).'],
     [`Is ${brand.NAME} Labs a doom probability?`,
       `No. ${brand.NAME} Labs builds open-data instruments. The experiments count what is measurable; they are not a probability of harm, and they do not set the ${brand.NAME} level.`],
   ];
@@ -124,11 +135,11 @@ export function render(ctx, nowMs = Date.now()) {
   <p class="eyebrow">SIREN LABS · WEEK ${wkNo}</p>
   <h1 class="bp__h1">${esc(qTitle)}</h1>
   <p class="lede">The research bench behind ${esc(brand.NAME)}. Every week we take four or five questions about superintelligence that nobody is measuring well, find open data that can answer them, and build the instrument in public. Each experiment says what it counts and where the numbers come from. None of them is a forecast.</p>
-  <div class="lb-wk"><h2>This week: ${esc(wk.theme)}</h2><span>WEEK OF ${esc(fmtD(wk.start).toUpperCase())} · ${wk.items.length} EXPERIMENTS</span></div>
+  <div class="lb-wk"><h2 id="week">${esc(weekQ)}</h2><span>${esc(wk.theme)} · WEEK OF ${esc(fmtD(wk.start).toUpperCase())} · ${wk.items.length} EXPERIMENTS</span></div>
   <div class="lb-g">${wk.items.map((it, i) => card(it, i + 1)).join('')}</div>
-  ${next ? `<h2 style="margin-top:28px">Coming up on the bench</h2><div class="lb-next">${next}</div>` : ''}
-  ${past ? `<h2 style="margin-top:28px">Earlier weeks</h2><div class="lb-next">${past}</div>` : ''}
-  <h2 style="margin-top:28px">Lab rules</h2>
+  ${next ? `<h2 id="next" style="margin-top:28px">${esc(nextQ)}</h2><div class="lb-next">${next}</div>` : ''}
+  ${past ? `<h2 id="past" style="margin-top:28px">${esc(pastQ)}</h2><div class="lb-next">${past}</div>` : ''}
+  <h2 id="rules" style="margin-top:28px">${esc(rulesQ)}</h2>
   <div class="lb-rules">
     <div><b>Open data only</b>Every number comes from a public source we link to.</div>
     <div><b>Show the method</b>Each instrument publishes its rules so anyone can recompute it.</div>

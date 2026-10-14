@@ -22,6 +22,10 @@ describe('labs page schema', () => {
     assert.match(html, /<title>What is SIREN Labs measuring this week\?/);
     assert.match(html, /<h1 class="bp__h1">What is SIREN Labs measuring this week\?<\/h1>/);
     assert.match(html, /Questions people actually ask/);
+    assert.match(html, /id="week"[^>]*>What is on the bench this week\?<\/h2>/);
+    assert.match(html, /id="next"[^>]*>What is coming up on the bench\?<\/h2>/);
+    assert.match(html, /id="rules"[^>]*>What are the lab rules\?<\/h2>/);
+    assert.match(html, /FAQPage[\s\S]*What is on the bench this week\?/);
     assert.match(html, /Does Labs say when superintelligence arrives\?/);
     assert.match(html, /What are the lab rules\?/);
     assert.match(html, /Is SIREN Labs a doom probability\?/);
@@ -43,8 +47,18 @@ describe('labs page schema', () => {
     assert.doesNotMatch(html, /href="\/self-aware\.html">The night it wakes up<\/a>/);
     assert.doesNotMatch(html, /href="\/charts\.html">This week in charts<\/a>/);
     assert.doesNotMatch(html, /href="\/power\.html">The power race<\/a>/);
+    assert.doesNotMatch(html, /id="week"[^>]*>This week:/);
+    assert.doesNotMatch(html, /id="next"[^>]*>Coming up on the bench<\/h2>/);
+    assert.doesNotMatch(html, /id="rules"[^>]*>Lab rules<\/h2>/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /probability of doom/i);
     assert.doesNotMatch(html, /noindex/);
+  });
+
+  it('question-shapes earlier-weeks H2 when past weeks exist', () => {
+    const html = render(ctx, Date.parse('2026-10-20T12:00:00Z'));
+    assert.match(html, /id="past"[^>]*>What were earlier weeks\?<\/h2>/);
+    assert.match(html, /FAQPage[\s\S]*What were earlier weeks\?/);
+    assert.doesNotMatch(html, /id="past"[^>]*>Earlier weeks<\/h2>/);
   });
 });
