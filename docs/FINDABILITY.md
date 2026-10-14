@@ -614,6 +614,8 @@ context.
 | 362 | `/live-x.html` feed-card H3s + FAQPage use questions (was “Superintelligence, latest” / “AGI, latest” / …); Organization `knowsAbout` mirrors those questions; refuse live-X-as-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 363 | `/moltbook.html` standout-lane H3s + FAQPage use questions (was “FAST-RISING” / “SAFETY & DECEPTION” / “AGENTS ON HUMANS”); Organization `knowsAbout` mirrors those questions; refuse Agent-Watch-as-index / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 364 | `/vs/*` rival side-card H3s + FAQPage use questions (was bare rival name / “SIREN”); Organization `knowsAbout` mirrors those questions; refuse borrowed doom-probability / stuffing claims | Google + Bing | **Done** (2026-10-14) |
+| 365 | `/labs.html` experiment-card H3s + FAQPage use the measurable question (was bare names “The Recursion Meter” / …); Organization `knowsAbout` mirrors those questions; refuse SI-arrival / labs-as-index / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 366 | `/catalog.html` page-group H3s + FAQPage use questions (was “LIVE INTEL” / “PLAY & PREP” / …); Organization `knowsAbout` mirrors those questions; refuse catalog-as-doom-index / stuffing claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 

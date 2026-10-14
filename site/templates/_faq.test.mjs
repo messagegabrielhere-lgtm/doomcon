@@ -162,6 +162,8 @@ describe('homepage FAQ', () => {
     assert.ok(qa.some(([q]) => q === 'What is the latest on superintelligence?'));
     assert.ok(qa.some(([q]) => q === 'Which posts are fast-rising?'));
     assert.ok(qa.some(([q]) => q === 'What is DoomBench?'));
+    assert.ok(qa.some(([q]) => q === 'How much of the code that builds AI is now written by AI?'));
+    assert.ok(qa.some(([q]) => q === 'What is listed under LIVE INTEL?'));
     const html = render(ctx);
     assert.match(html, /What is in the newsroom\?/);
     assert.match(html, /What is the signal feed\?/);
@@ -216,6 +218,8 @@ describe('homepage FAQ', () => {
     assert.match(html, /What is the latest on superintelligence\?/);
     assert.match(html, /Which posts are fast-rising\?/);
     assert.match(html, /What is DoomBench\?/);
+    assert.match(html, /How much of the code that builds AI is now written by AI\?/);
+    assert.match(html, /What is listed under LIVE INTEL\?/);
     assert.doesNotMatch(html, /probability of doom/i);
   });
 });
