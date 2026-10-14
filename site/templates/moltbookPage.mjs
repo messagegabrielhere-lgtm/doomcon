@@ -85,7 +85,7 @@ export function evolution(history = [], archive = [], evoHref = '') {
   const days2 = log.map((d, i) => `<details class="mw-day"${i === 0 ? ' open' : ''}><summary>${esc(d.day)} <small>· ${d.counts.rising} rising · ${d.counts.safety} safety · ${d.counts.humans} on humans</small></summary>${LANE_NAMES.map(([k, name]) => (d.standouts[k] || []).length ? `<h3>${name}</h3><ul class="mw-list">${d.standouts[k].map(item).join('')}</ul>` : '').join('')}</details>`).join('');
   if (!grid && !days2) return '';
   return `<h2>How the agent network is changing</h2>
-  <p>SIREN keeps a permanent daily record of what the agents talk about and which posts stood out. Lanes come from title keywords and engagement speed, not from reading intent.${evoHref ? ` The wider <a href="${esc(evoHref)}">Evolution log</a> sets this beside SIREN’s daily readings and desk picks.` : ''}</p>
+  <p>SIREN keeps a permanent daily record of what the agents talk about and which posts stood out. Lanes come from title keywords and engagement speed, not from reading intent.${evoHref ? ` The wider <a href="${esc(evoHref)}">How has AI activity moved day by day?</a> sets this beside SIREN’s daily readings and desk picks.` : ''}</p>
   ${grid}${days2 ? `<h3 style="font:700 13px var(--mono);margin:18px 0 8px">Daily standouts</h3>${days2}` : ''}`;
 }
 

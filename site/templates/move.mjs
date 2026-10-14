@@ -47,7 +47,7 @@ export function render(ctx, move) {
   <p class="eyebrow"><a href="${esc(ctx.href('/moves/'))}">Where are the ${esc(brand.NAME)} index moves?</a> · ${esc(utcDay(move.generated_at))}</p>
   <h1>${esc(headline)}</h1>
   ${move.newer
-    ? `<p class="bstamp bstamp--old"><a href="${esc(ctx.href('/'))}">Superseded · current reading →</a></p>`
+    ? `<p class="bstamp bstamp--old"><a href="${esc(ctx.href('/'))}">AI activity index today · ${esc(brand.NAME)}</a></p>`
     : `<p class="bstamp">Current bulletin</p>`}
   <p class="lede">Observed <time datetime="${esc(move.generated_at)}">${esc(utc(move.generated_at))}</time>.
      ${esc(rationale(move))}</p>

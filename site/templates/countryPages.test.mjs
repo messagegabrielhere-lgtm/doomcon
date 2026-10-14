@@ -150,7 +150,9 @@ describe('country pages', () => {
     const html = worldTable(model, { countryHref: () => '/country/de.html' });
     assert.match(html, /data-wm-go="DE"/);
     assert.match(html, /href="\/country\/de\.html"/);
-    assert.match(html, /country page/);
+    assert.match(html, /href="\/country\/de\.html">How many datacentres has SIREN mapped in Germany\?<\/a>/);
+    assert.doesNotMatch(html, />country page</);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
   });
 
   it('lists live and archived stories that name the country', () => {

@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
-import { render } from './moltbookPage.mjs';
+import { render, evolution } from './moltbookPage.mjs';
 
 const molt = {
   generated_at: '2026-10-13T15:00:00Z',
@@ -47,5 +47,17 @@ describe('moltbook page', () => {
     assert.doesNotMatch(html, /agents will take over/i);
     assert.doesNotMatch(html, /probability of doom/i);
     assert.doesNotMatch(html, /noindex/);
+  });
+
+  it('evolution body link uses the evolution question H1', () => {
+    const history = [
+      { day: '2026-10-12', themes: { agents: 2 }, posts: 10 },
+      { day: '2026-10-13', themes: { agents: 3 }, posts: 12 },
+    ];
+    const html = evolution(history, [], '/evolution.html');
+    assert.match(html, /href="\/evolution\.html">How has AI activity moved day by day\?<\/a>/);
+    assert.doesNotMatch(html, /Evolution log/);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
+    assert.doesNotMatch(html, /probability of doom/i);
   });
 });
