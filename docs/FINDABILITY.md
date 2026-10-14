@@ -802,6 +802,10 @@ context.
 | 550 | Lab hub `/lab/groq` (Groq entity, ≥3); IndexNow + seo-daily; refuse company-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 551 | Model hub `/model/glm` (GLM / GLM-5 / GLM5.3 forms, ≥3); IndexNow + seo-daily; refuse model-doom-score / capability-ranking claims | Google + Bing | **Done** (2026-10-14) |
 | 552 | Model hub `/model/grok` (Grok forms, ≥3); IndexNow + seo-daily; refuse model-doom-score / capability-ranking claims; refuse ollama-polluted Llama monitor | Google + Bing | **Done** (2026-10-14) |
+| 553 | Lab hub `/lab/decart` (Decart entity, ≥3); IndexNow + seo-daily monitor; refuse company-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 554 | Lab hub `/lab/iren` (IREN entity, ≥3); IndexNow + seo-daily monitor; refuse company-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 555 | Model hub `/model/muse-wonder` (Muse Wonder forms, ≥3); IndexNow + seo-daily monitor; refuse model-doom-score / capability-ranking claims | Google + Bing | **Done** (2026-10-14) |
+| 556 | Lab hub `/lab/openrouter` (OpenRouter entity, ≥3); IndexNow + seo-daily; refuse company-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 

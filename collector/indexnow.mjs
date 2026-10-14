@@ -166,6 +166,7 @@ const ALWAYS = Object.freeze([
   '/lab/coreweave.html',
   '/lab/cognition.html',
   '/lab/groq.html',
+  '/lab/openrouter.html',
   '/model/kimi.html',
   '/model/glm.html',
   '/model/grok.html',

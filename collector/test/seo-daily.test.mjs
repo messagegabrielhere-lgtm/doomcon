@@ -52,9 +52,13 @@ describe('seo-daily parsers', () => {
     assert.ok(OUR_SURFACES.includes('/lab/coreweave.html'));
     assert.ok(OUR_SURFACES.includes('/lab/cognition.html'));
     assert.ok(OUR_SURFACES.includes('/lab/groq.html'));
+    assert.ok(OUR_SURFACES.includes('/lab/decart.html'));
+    assert.ok(OUR_SURFACES.includes('/lab/iren.html'));
+    assert.ok(OUR_SURFACES.includes('/lab/openrouter.html'));
     assert.ok(OUR_SURFACES.includes('/model/kimi.html'));
     assert.ok(OUR_SURFACES.includes('/model/glm.html'));
     assert.ok(OUR_SURFACES.includes('/model/grok.html'));
+    assert.ok(OUR_SURFACES.includes('/model/muse-wonder.html'));
     assert.ok(OUR_SURFACES.includes('/tags/on-policy.html'));
     assert.ok(OUR_SURFACES.includes('/tags/long-horizon.html'));
     assert.ok(OUR_SURFACES.includes('/tags/compositional.html'));
