@@ -1214,6 +1214,18 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'Recursive-self-improvement research stories scored in the newsroom or archive — coverage counts, not an autonomy forecast.',
     match: /\b[Rr]ecursive [Ss]elf(?:[- ][Ii]mprovement)?\b/i,
   },
+  {
+    id: 'ai-boom',
+    name: 'AI boom',
+    description: 'AI-boom hiring and investment stories scored in the newsroom or archive — coverage counts, not a growth forecast.',
+    match: /\bAI boom\b/i,
+  },
+  {
+    id: 'deep-learning',
+    name: 'Deep learning',
+    description: 'Deep-learning research and product stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
+    match: /\b[Dd]eep [Ll]earning\b/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));
