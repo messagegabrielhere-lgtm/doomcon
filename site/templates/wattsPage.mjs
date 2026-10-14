@@ -94,6 +94,11 @@ const CORRIDORS = Object.freeze([
     gauges: [], states: ['CA'], control: true },
 ]);
 
+/** Tip #382: corridor-card H3s are question-shaped (mirrored in FAQ §3.3). */
+function corridorQ(c) {
+  return `What does Watts see in ${c.name}?`;
+}
+
 // ---------------------------------------------------------------------------
 // Small helpers
 // ---------------------------------------------------------------------------
@@ -374,7 +379,7 @@ function corridorBoard(infra) {
     return `
   <article class="ic" id="corridor-${esc(c.id)}">
     <header class="ic__h">
-      <h3 class="ic__name">${esc(c.name)}${c.control ? ' <span class="ic__ctl">reference</span>' : ''}</h3>
+      <h3 class="ic__name" aria-label="${esc(c.name)}">${esc(corridorQ(c))}${c.control ? ' <span class="ic__ctl">reference</span>' : ''}</h3>
       <p class="ic__place">${esc(c.place)}</p>
     </header>
     <div class="ic__cell"><p class="ic__ck">Grid</p>${gridCell}</div>
@@ -1214,6 +1219,11 @@ export function render(ctx) {
       'index has a short record, and a short record makes every reading look more ordinary than it may be.'],
     [`Does ${brand.NAME} publish a Watts doom score?`,
       `No. ${brand.DISCLAIMER_SHORT} Watts is an infrastructure tempo reading — not a probability of harm and not a forecast.`],
+    // Tip #382: corridor-card H3s are question-shaped and mirrored in FAQ (§3.3).
+    ...CORRIDORS.map((c) => [
+      corridorQ(c),
+      `${c.place}. Grid: ${c.gridLabel}${c.control ? ' (reference)' : ''}. What each of the three pillars can and cannot see there.`,
+    ]),
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>

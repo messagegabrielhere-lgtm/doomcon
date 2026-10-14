@@ -278,6 +278,9 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('what does the SIREN infrastructure index read'));
     assert.ok(org.knowsAbout.includes('What should you read before the Watts charts'));
     assert.ok(org.knowsAbout.includes('Which datacentre regions does Watts cover'));
+    assert.ok(org.knowsAbout.includes('What does Watts see in Central Ohio'));
+    assert.ok(org.knowsAbout.includes('What does Watts see in Arizona'));
+    assert.ok(org.knowsAbout.includes('What does Watts see in Oregon'));
     assert.ok(org.knowsAbout.includes('What does overnight grid load show'));
     assert.ok(org.knowsAbout.includes('What does river flow at the gauges show'));
     assert.ok(org.knowsAbout.includes('Which filings mention datacentres'));
@@ -415,6 +418,10 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('What kinds of work are all agents doing'));
     assert.ok(org.knowsAbout.includes('What does shape mean on this map'));
     assert.ok(org.knowsAbout.includes('What does colour mean on this map'));
+    assert.ok(org.knowsAbout.includes('Which jurisdictions are ranked by mapped sites'));
+    assert.ok(org.knowsAbout.includes('What does Watts see in Texas'));
+    assert.ok(org.knowsAbout.includes('What does Watts see in Northern Virginia'));
+    assert.ok(org.knowsAbout.includes('What does Watts see in California'));
     assert.ok(org.knowsAbout.includes('Why is every pin one colour'));
     assert.ok(org.knowsAbout.includes('What would move it'));
     assert.ok(org.knowsAbout.includes('What is in the news about AI catastrophe, safety, and p(doom)'));

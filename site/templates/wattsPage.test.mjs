@@ -61,4 +61,16 @@ describe('watts page', () => {
     assert.match(html, /What does the SIREN infrastructure index read\?/);
     assert.match(html, /noindex/);
   });
+
+  it('corridor-card H3s use questions mirrored in FAQPage', () => {
+    const html = render(ctx);
+    assert.match(html, /What does Watts see in Texas\?/);
+    assert.match(html, /What does Watts see in Northern Virginia\?/);
+    assert.match(html, /What does Watts see in California\?/);
+    assert.match(html, /FAQPage[\s\S]*What does Watts see in Texas\?/);
+    assert.match(html, /FAQPage[\s\S]*What does Watts see in New York\?/);
+    assert.doesNotMatch(html, /<h3 class="ic__name">Texas/);
+    assert.doesNotMatch(html, /<h3 class="ic__name">Northern Virginia/);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
+  });
 });

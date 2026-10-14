@@ -213,6 +213,10 @@ export function items(ctx) {
       `On /balance.html: headlines in the newsroom window that matched the Harm word list — a measured count, never a net against the other side.`],
     ['Who is OpenAI on the race board?',
       `On the home board: odds of best model in 2026 · Polymarket, with releases and mindshare bars.`],
+    ['Which jurisdictions are ranked by mapped sites?',
+      `On /map.html: every state in the contiguous frame, ranked by mapped sites. The states at the bottom with a zero are the point of this table.`],
+    ['What does Watts see in Texas?',
+      `On /watts.html: Dallas · Austin · San Antonio. Grid: ERCOT. What each of the three pillars can and cannot see there.`],
   ];
 }
 
