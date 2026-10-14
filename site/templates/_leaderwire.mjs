@@ -109,8 +109,7 @@ export function render(ctx, { heading = DEFAULT_HEADING, href = '/leaders.html' 
      in the wire, which is why every line can be checked by clicking it.</p>
   ${legend(wire)}
   <ol class="lw__l">${wire.leaders.map((l) => row(l, { compact: true, anchor: pageHref })).join('')}</ol>
-  <p class="lw__more"><a href="${esc(pageHref)}">Every line, every leader, and the watch-floor
-     cross-check &rarr;</a></p>
+  <p class="lw__more"><a href="${esc(pageHref)}">Which AI leaders are on the record this week?</a></p>
 </section>`;
 }
 
