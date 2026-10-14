@@ -159,22 +159,37 @@ export function renderPillar(ctx, pillarId) {
     `${brand.NAME} ${meta.name} pillar: ${status}. ${meta.description} ${total} scored stories (live window plus archive).`,
     160,
   );
+  // Tip #287: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const windowQ = `Which scored stories are under ${meta.name} in this window?`;
+  const olderQ = `Which older scored stories are under ${meta.name}?`;
+  const othersQ = 'Which other pillars have scored stories?';
+  const peerPillars = brand.PILLARS.filter((p) => p.id !== pillarId);
+  const otherPillars = peerPillars
+    .map((p) => `<a href="${esc(ctx.href(pillarPath(p.id)))}">What has ${esc(brand.NAME)} scored under ${esc(p.name)}?</a>`)
+    .join('');
   const faq = [
     [`What has ${brand.NAME} scored under ${meta.name}?`,
       `${total} scored stories under the ${meta.name} pillar (${items.length} in the live window${archivedAll.length ? `, ${archivedAll.length} older in the archive` : ''}). ${meta.description} Current reading: ${status}.`],
+    [windowQ,
+      items.length
+        ? `${items.length} scored ${items.length === 1 ? 'story' : 'stories'} under ${meta.name} in the current window. A pillar filter on the newsroom — not a pillar doom score.`
+        : 'No scored stories in the current window for this pillar. The page stays up so the pillar reading remains addressable; it is not submitted to the sitemap while empty.'],
+    ...(older.length
+      ? [[olderQ,
+        'Kept in the permanent archive after they left the live window. Still scored stories — not a forecast.']]
+      : []),
+    ...(peerPillars.length
+      ? [[othersQ,
+        `The other ${brand.NAME} pillars, each linking What has ${brand.NAME} scored under that pillar?`]]
+      : []),
     [`Does ${brand.NAME} publish a ${meta.name} doom score?`,
       `No. ${brand.DISCLAIMER_SHORT} A pillar page lists scored stories and the live tempo reading against this index’s frozen reference.`],
   ];
   const faqHtml = faq.map(([q, a]) => `
   <h3>${esc(q)}</h3>
   <p>${esc(a)}</p>`).join('');
-
-  const otherPillars = brand.PILLARS
-    .filter((p) => p.id !== pillarId)
-    .map((p) => `<a href="${esc(ctx.href(pillarPath(p.id)))}">What has ${esc(brand.NAME)} scored under ${esc(p.name)}?</a>`)
-    .join('');
   const olderBlock = older.length
-    ? `<h2>Older scored stories under ${esc(meta.name)}</h2>
+    ? `<h2 id="older">${esc(olderQ)}</h2>
   <p class="fc__lede">Kept in the permanent archive after they left the live window. Still scored stories — not a forecast.</p>
   <ol class="fc__list">${itemRows(ctx, older, 12)}</ol>
   <p class="fresh__key"><a href="${esc(ctx.href('/item/archive.html'))}">Which older AI stories has ${esc(brand.NAME)} kept in the archive?</a></p>`
@@ -195,7 +210,7 @@ export function renderPillar(ctx, pillarId) {
   <p class="fresh__key">This page is the crawlable face of the ${esc(meta.name)} filter on the newsroom.
      The composite ${esc(brand.NAME)} reading still lives on <a href="${esc(ctx.href('/'))}">AI activity index today · ${esc(brand.NAME)}</a>;
      the method is on <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>.</p>
-  <h2>Stories scored under ${esc(meta.name)}</h2>
+  <h2 id="window">${esc(windowQ)}</h2>
   ${items.length
     ? `<ol class="fc__list">${itemRows(ctx, items)}</ol>
        ${items.length > 40 ? `<p class="fresh__key">${esc(String(items.length - 40))} more in the window — see <a href="${esc(ctx.href('/item/'))}">Which scored AI stories are in the ${esc(brand.NAME)} live window?</a>.</p>` : ''}`
@@ -203,11 +218,10 @@ export function renderPillar(ctx, pillarId) {
   ${olderBlock}
   <h2 id="faq">Questions people actually ask</h2>
   ${faqHtml}
-  <h2>Other pillars</h2>
-  <nav class="fc__pillars" aria-label="SIREN pillars">${otherPillars}</nav>
+  ${peerPillars.length ? `<h2 id="other-pillars">${esc(othersQ)}</h2>
+  <nav class="fc__pillars" aria-label="SIREN pillars">${otherPillars}</nav>` : ''}
   <p class="fresh__key">Search-shaped directory: <a href="${esc(ctx.href('/pillars.html'))}">Which AI activity pillars has ${esc(brand.NAME)} scored?</a>.</p>
 </article>`;
-
   return page({
     ctx,
     path,

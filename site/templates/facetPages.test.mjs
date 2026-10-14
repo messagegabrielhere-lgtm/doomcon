@@ -88,10 +88,14 @@ describe('pillar facets', () => {
     assert.match(html, /Questions people actually ask/);
     assert.match(html, /"@type"\s*:\s*"FAQPage"/);
     assert.match(html, /speakable/);
+    assert.match(html, /id="window"[^>]*>Which scored stories are under Capability in this window\?/);
+    assert.match(html, /id="other-pillars"[^>]*>Which other pillars have scored stories\?/);
     assert.match(html, /pillar\/attention\.html/);
     assert.match(html, /href="\/">AI activity index today · SIREN<\/a>/);
     assert.doesNotMatch(html, /href="\/">homepage<\/a>/);
     assert.doesNotMatch(html, /noindex/);
+    assert.doesNotMatch(html, /<h2>Stories scored under Capability<\/h2>/);
+    assert.doesNotMatch(html, /<h2>Other pillars<\/h2>/);
     assert.doesNotMatch(html, /pillar doom score:\s*\d/i);
     assert.equal(pillarPath('capability'), '/pillar/capability.html');
   });
@@ -115,9 +119,10 @@ describe('pillar facets', () => {
       }],
     };
     const html = renderPillar(withArch, 'capability');
-    assert.match(html, /Older scored stories under Capability/);
+    assert.match(html, /id="older"[^>]*>Which older scored stories are under Capability\?/);
     assert.match(html, /Archived capability story/);
     assert.match(html, /\/item\/archive\.html/);
+    assert.doesNotMatch(html, /<h2>Older scored stories under Capability<\/h2>/);
   });
 
   it('overflow more-link uses the live-window item question H1', () => {
@@ -179,7 +184,8 @@ describe('pillar facets', () => {
     assert.equal(pillarIndexable(withArch, 'markets'), true);
     const html = renderPillar(withArch, 'markets');
     assert.doesNotMatch(html, /noindex/);
-    assert.match(html, /Older scored stories under Markets/);
+    assert.match(html, /id="older"[^>]*>Which older scored stories are under Markets\?/);
+    assert.doesNotMatch(html, /<h2>Older scored stories under Markets<\/h2>/);
   });
 
   it('ships /pillars.html and /pillar/ over the same gated pillar set', () => {
