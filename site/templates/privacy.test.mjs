@@ -29,6 +29,8 @@ test('privacy.html ships matching question H1, speakable, breadcrumbs, and visib
   assert.match(html, /\/about\.html/);
   assert.match(html, /What is SIREN\?/);
   assert.match(html, /\/disclosures\.html/);
+  assert.match(html, /href="\/feedback\.html">How do I report a problem or send an idea to SIREN\?<\/a>/);
+  assert.doesNotMatch(html, /href="\/feedback\.html">feedback form<\/a>/);
   assert.doesNotMatch(html, /probability of doom is \d/i);
   assert.doesNotMatch(html, /noindex/);
 });

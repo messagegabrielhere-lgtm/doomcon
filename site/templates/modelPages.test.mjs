@@ -93,6 +93,8 @@ describe('model pages', () => {
     assert.match(html, /\/lab\/anthropic\.html/);
     assert.doesNotMatch(html, /noindex/);
     assert.match(html, /not a rating of the model/);
+    assert.match(html, /href="\/">AI activity index today · SIREN<\/a>/);
+    assert.doesNotMatch(html, /href="\/">homepage<\/a>/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
   });
 

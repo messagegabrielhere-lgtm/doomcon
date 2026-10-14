@@ -130,7 +130,7 @@ function liveStrip(ctx) {
     <div><b class="num">${esc(num(st.score, 1))}</b><span>of 100 this hour</span></div>
     <div><b class="num">${esc(utc(st.generated_at))}</b><span>UTC reading time</span></div>
   </div>
-  <p class="fresh__key"><a href="${esc(ctx.href('/'))}">Live dial →</a>
+  <p class="fresh__key"><a href="${esc(ctx.href('/'))}">AI activity index today · ${esc(brand.NAME)} →</a>
      · <a href="${esc(ctx.href('/api/state.json'))}">state.json →</a>
      · Scale runs 5 (quietest) to 1 (loudest). Tempo, not danger.</p>`;
 }
@@ -460,7 +460,7 @@ export function vsRival(ctx, rivalId) {
   </ul>
   ${faqBlock(faq)}
   <h2>Where to go next</h2>
-  <p><a href="${esc(ctx.href('/'))}">Current ${esc(brand.NAME)} reading →</a>
+  <p><a href="${esc(ctx.href('/'))}">AI activity index today · ${esc(brand.NAME)} →</a>
      · <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>
      · <a href="${esc(ctx.href('/compare.html'))}">Which AI doom indexes can you compare?</a>
      · <a href="${esc(ctx.href('/vs.html'))}">Which AI indexes does ${esc(brand.NAME)} contrast?</a>

@@ -63,6 +63,8 @@ describe('world page', () => {
     assert.match(html, /"@type":\s*"Dataset"/);
     assert.match(html, /BreadcrumbList/);
     assert.match(html, /\/countries\.html/);
+    assert.match(html, /href="\/country\/">Which AI datacentre countries have SIREN pages\?<\/a>/);
+    assert.doesNotMatch(html, /href="\/country\/">Countries with at least three mapped sites<\/a>/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /noindex/);
   });

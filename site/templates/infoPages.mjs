@@ -191,7 +191,7 @@ export function privacy(ctx) {
     ${!hasGc && !hasGa
       ? `<li><b>No analytics scripts.</b> There is no tracking script, pixel or visitor counter on this site. Your host and any page you open that calls a third-party API still see a normal web request.</li>`
       : ''}
-    <li><b>No accounts.</b> There is nothing to sign up for. The <a href="${esc(ctx.href('/feedback.html'))}">feedback form</a> stores and sends nothing itself: it opens a pre-filled, <b>public</b> issue on GitHub that you choose whether to submit, under GitHub's privacy policy.</li>
+    <li><b>No accounts.</b> There is nothing to sign up for. The <a href="${esc(ctx.href('/feedback.html'))}">How do I report a problem or send an idea to ${esc(brand.NAME)}?</a> form stores and sends nothing itself: it opens a pre-filled, <b>public</b> issue on GitHub that you choose whether to submit, under GitHub's privacy policy.</li>
     <li><b>Browser storage.</b> A few preferences are kept in your own browser's local storage: the last reading you saw, your
       language choice, your best score in the game, and the panel settings on the live monitor and scanner pages. They never
       leave your device, and clearing site data removes them.</li>
@@ -1008,8 +1008,8 @@ export function press(ctx) {
     and a button on the home page lets any visitor re-check the last twelve readings in their own browser. It is run by one person, carries no display-ad network, and labels Amazon Associate links where they appear.</p>
   <h2>Facts</h2>
   <ul>
-    ${now ? `<li><b>Current reading:</b> ${esc(now)}. <a href="${esc(ctx.href('/'))}">Live page</a>.</li>` : ''}
-    ${n ? `<li><b>Readings published:</b> ${esc(n.toLocaleString('en-US'))}, each with a receipt. <a href="${esc(ctx.href('/moves/'))}">Archive</a>.</li>` : ''}
+    ${now ? `<li><b>Current reading:</b> ${esc(now)}. <a href="${esc(ctx.href('/'))}">AI activity index today · ${esc(brand.NAME)}</a>.</li>` : ''}
+    ${n ? `<li><b>Readings published:</b> ${esc(n.toLocaleString('en-US'))}, each with a receipt. <a href="${esc(ctx.href('/moves/'))}">Where are the ${esc(brand.NAME)} index moves?</a>.</li>` : ''}
     <li><b>Update cadence:</b> the index is scored hourly; the newsroom refreshes every minute.</li>
     <li><b>What it is not:</b> a probability, a prediction, or a measure of how bad anything is.</li>
     <li><b>Checkable:</b> <a href="${esc(ctx.href('/#vfy'))}">verify the readings in your browser</a>, read <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>, or the <a href="${esc(brand.REPO_URL)}" rel="noopener">source</a>.</li>
@@ -1314,7 +1314,7 @@ export function guides(ctx) {
     · <a href="${esc(ctx.href('/ai-doomsday-clock.html'))}">Is there an AI doomsday clock?</a>
     · <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>.</p>
   <h2>Also</h2>
-  <p><a href="${esc(ctx.href('/'))}">Live reading →</a>
+  <p><a href="${esc(ctx.href('/'))}">AI activity index today · ${esc(brand.NAME)} →</a>
      · <a href="${esc(ctx.href('/guides.md'))}">Markdown mirror →</a>
      · <a href="${esc(ctx.href('/history.html'))}">What is the history of AI risk? →</a>
      · <a href="${esc(ctx.href('/library.html'))}">What AI books argue both sides of the case? →</a></p>
@@ -1384,7 +1384,7 @@ ${lines}
 
 ## Also
 
-- [Live reading](${ctx.url('/')})
+- [AI activity index today · ${brand.NAME}](${ctx.url('/')})
 - [guide.md](${ctx.url('/guide.md')}) · [methodology.md](${ctx.url('/methodology.md')})
 - [What is the history of AI risk?](${ctx.url('/history.html')})
 `;
