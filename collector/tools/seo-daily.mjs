@@ -13,7 +13,7 @@
 //
 // Network: every request goes through collector/fetch.mjs (CONTRACT.md).
 
-import { writeFile, mkdir } from 'node:fs/promises';
+import { writeFile, mkdir, readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { fetchAll } from '../fetch.mjs';
@@ -189,6 +189,111 @@ export function hasNoindex(html) {
     || /<meta[^>]+content=["'][^"']*noindex[^"']*["'][^>]+name=["']robots["']/i.test(String(html || ''));
 }
 
+/** Conservative floor when facet sitemap modules cannot be loaded. */
+export const FACET_URL_FLOOR = 450;
+
+/**
+ * Count gated facet / hub sitemap rows this tree would emit (tags, labs,
+ * outlets, people, days, conquest, …). Falls back to null on import/data miss.
+ */
+export async function countLocalFacetUrls(root = ROOT) {
+  try {
+    const news = JSON.parse(await readFile(path.join(root, 'data/news.json'), 'utf8'));
+    const arch = JSON.parse(await readFile(path.join(root, 'data/item-archive.json'), 'utf8'));
+    const race = JSON.parse(await readFile(path.join(root, 'data/race.json'), 'utf8'));
+    const state = JSON.parse(await readFile(path.join(root, 'data/state.json'), 'utf8'));
+    let leaders = null;
+    let leadersCoverage = null;
+    try {
+      leaders = JSON.parse(await readFile(path.join(root, 'data/leaders.json'), 'utf8'));
+      leadersCoverage = JSON.parse(await readFile(path.join(root, 'data/leaders-coverage.json'), 'utf8'));
+    } catch {
+      /* people hubs stay empty without leaders */
+    }
+    // Country hubs need world.json + routes.world (same gate as site/build.mjs).
+    // Without them countryEntries always returns [] and the facet count under-reports.
+    let world = null;
+    try {
+      world = JSON.parse(await readFile(path.join(root, 'data/world.json'), 'utf8'));
+    } catch {
+      /* countries stay off the facet count without the map file */
+    }
+    const worldReady = Boolean(
+      world
+      && Array.isArray(world.countries)
+      && world.countries.length
+      && Array.isArray(world.sites),
+    );
+    const ctx = {
+      news,
+      itemArchive: Array.isArray(arch.items) ? arch.items : [],
+      race,
+      state,
+      leaders,
+      leadersCoverage,
+      world: worldReady ? world : null,
+      routes: { world: worldReady },
+      href: (p) => p,
+      url: (p) => `https://siren.watch${p === '/' ? '/' : p}`,
+      cardFor: () => null,
+    };
+    const site = path.join(root, 'site/templates');
+    const load = async (file, name) => {
+      const mod = await import(pathToFileURL(path.join(site, file)).href);
+      return mod[name];
+    };
+    const [
+      tagEntries, facetEntries, modelEntries, compareEntries,
+      peopleEntries, countryEntries, kindEntries, outletEntries, dayEntries,
+    ] = await Promise.all([
+      load('tagPages.mjs', 'sitemapEntries'),
+      load('facetPages.mjs', 'sitemapEntries'),
+      load('modelPages.mjs', 'sitemapEntries'),
+      load('comparePages.mjs', 'sitemapEntries'),
+      load('peoplePages.mjs', 'sitemapEntries'),
+      load('countryPages.mjs', 'sitemapEntries'),
+      load('kindPages.mjs', 'sitemapEntries'),
+      load('outletPages.mjs', 'sitemapEntries'),
+      load('dayPages.mjs', 'sitemapEntries'),
+    ]);
+    const parts = [
+      tagEntries(ctx), facetEntries(ctx), modelEntries(ctx), compareEntries(ctx),
+      peopleEntries(ctx), countryEntries(ctx), kindEntries(ctx), outletEntries(ctx),
+      dayEntries(ctx),
+    ];
+    return parts.reduce((n, rows) => n + (Array.isArray(rows) ? rows.length : 0), 0);
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Estimate sitemap URLs this tree can publish once collect.yml rebuilds
+ * gh-pages: live news items + durable archive + gated facets.
+ * Pure filesystem peek — no network.
+ */
+export async function readLocalReadyUrls(root = ROOT) {
+  try {
+    const news = JSON.parse(await readFile(path.join(root, 'data/news.json'), 'utf8'));
+    const arch = JSON.parse(await readFile(path.join(root, 'data/item-archive.json'), 'utf8'));
+    const live = Array.isArray(news.items) ? news.items.length : 0;
+    const archived = Array.isArray(arch.items) ? arch.items.length : 0;
+    if (!live && !archived) return null;
+    // Prefer a live count of gated facet sitemap rows; never drop below the
+    // floor so deploy-pending stays honest if a module fails to load.
+    const counted = await countLocalFacetUrls(root);
+    const facets = Math.max(FACET_URL_FLOOR, Number.isFinite(counted) ? counted : 0);
+    return {
+      live,
+      archived,
+      facets,
+      estimated_sitemap: live + archived + facets,
+    };
+  } catch {
+    return null;
+  }
+}
+
 /**
  * Build a gap list from one measured scoreboard.
  * Pure: no network. Kept exportable for --selftest and the daily agent prompt.
@@ -205,7 +310,22 @@ export function deriveGaps(report) {
     gaps.push({ id: 'us-down', severity: 'high', text: `siren.watch home failed: ${ours.error || 'unknown'}` });
   }
 
-  if (ours.sitemap_urls != null && ours.sitemap_urls < 500) {
+  const local = report.local_ready;
+  const localEst = local && Number.isFinite(local.estimated_sitemap) ? local.estimated_sitemap : null;
+  const deployPending = Boolean(
+    localEst
+    && ours.sitemap_urls != null
+    && localEst >= 2000
+    && ours.sitemap_urls < localEst * 0.5,
+  );
+
+  if (deployPending) {
+    gaps.push({
+      id: 'deploy-pending-url-lead',
+      severity: 'high',
+      text: `Repo is ready for ~${localEst} sitemap URLs (live ${local.live} + archive ${local.archived}) but live siren.watch still shows ${ours.sitemap_urls} — merge/deploy so gh-pages rebuilds (collect.yml)`,
+    });
+  } else if (ours.sitemap_urls != null && ours.sitemap_urls < 500) {
     gaps.push({
       id: 'url-count-low',
       severity: 'medium',
@@ -223,7 +343,12 @@ export function deriveGaps(report) {
 
   for (const s of report.sites || []) {
     if (s.ours || !s.ok) continue;
-    if (s.sitemap_urls != null && ours.sitemap_urls != null && s.sitemap_urls > ours.sitemap_urls * 1.5) {
+    // When the tree already has a deployable lead, do not nag "grow facets" —
+    // the daily pass should merge/deploy first (deploy-pending-url-lead).
+    if (!deployPending
+      && s.sitemap_urls != null
+      && ours.sitemap_urls != null
+      && s.sitemap_urls > ours.sitemap_urls * 1.5) {
       gaps.push({
         id: `trail-${s.id}-urls`,
         severity: 'medium',
@@ -234,7 +359,7 @@ export function deriveGaps(report) {
       gaps.push({
         id: 'pizzint-news-alive',
         severity: 'medium',
-        text: `pizzint news-sitemap has ${s.news_sitemap_urls} URLs again — Google News is contested`,
+        text: `pizzint news-sitemap has ${s.news_sitemap_urls} URLs again — Google News is contested; keep our rolling news-sitemap full and keyword-rich`,
       });
     }
   }
@@ -370,11 +495,13 @@ export async function runScoreboard({ fetchBatch = fetchAll } = {}) {
     };
   });
 
+  const local_ready = await readLocalReadyUrls(ROOT);
   const report = {
     measured_at,
     host: 'siren.watch',
     sites,
     surfaces,
+    local_ready,
     open_engineering: OPEN_ENGINEERING.map((x) => ({ ...x })),
   };
   report.gaps = deriveGaps(report);
@@ -401,6 +528,19 @@ export function formatMarkdown(report) {
   lines.push('');
   for (const surf of report.surfaces || []) {
     lines.push(`- ${surf.ok ? 'OK' : 'FAIL'} \`${surf.path}\`${surf.ok ? ` (${surf.bytes} B)` : ` — ${surf.error || surf.status}`}`);
+  }
+  if (report.local_ready && Number.isFinite(report.local_ready.estimated_sitemap)) {
+    const L = report.local_ready;
+    const facetN = Number.isFinite(L.facets)
+      ? L.facets
+      : (Number.isFinite(L.estimated_sitemap) && Number.isFinite(L.live) && Number.isFinite(L.archived)
+        ? L.estimated_sitemap - L.live - L.archived
+        : FACET_URL_FLOOR);
+    lines.push('');
+    lines.push(
+      `## Local tree (pre-deploy)\n\n- Ready estimate **~${L.estimated_sitemap}** sitemap URLs `
+      + `(live news ${L.live} + item-archive ${L.archived} + ~${facetN} facets)`,
+    );
   }
   lines.push('');
   lines.push('## Gaps / next moves');
@@ -463,9 +603,25 @@ function selftest() {
   for (const need of ['news-sitemap-empty', 'url-count-low', 'trail-doombench-urls', 'pizzint-news-alive', 'surface-/llms.txt']) {
     if (!ids.has(need)) throw new Error(`missing gap ${need}: ${[...ids]}`);
   }
+  const deployGaps = deriveGaps({
+    ...report,
+    sites: report.sites.map((s) => (s.ours ? { ...s, sitemap_urls: 683, news_sitemap_urls: 100 } : s)),
+    local_ready: { live: 800, archived: 5000, estimated_sitemap: 6220 },
+    surfaces: [{ path: '/llms.txt', ok: true }],
+    open_engineering: [],
+  });
+  const deployIds = new Set(deployGaps.map((g) => g.id));
+  if (!deployIds.has('deploy-pending-url-lead')) throw new Error('deploy-pending gap missing');
+  if (deployIds.has('trail-doombench-urls')) throw new Error('trail gap should yield to deploy-pending');
 
-  const md = formatMarkdown({ ...report, measured_at: '2026-10-12T00:00:00.000Z', gaps });
+  const md = formatMarkdown({
+    ...report,
+    measured_at: '2026-10-12T00:00:00.000Z',
+    gaps,
+    local_ready: { live: 800, archived: 5000, facets: 420, estimated_sitemap: 6220 },
+  });
   if (!md.includes('siren.watch') || !md.includes('Gaps')) throw new Error('markdown');
+  if (!md.includes('Local tree') || !md.includes('6220')) throw new Error('local-ready markdown');
 
   console.log('seo-daily selftest: ok');
 }

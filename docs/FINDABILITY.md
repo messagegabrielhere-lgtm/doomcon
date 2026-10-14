@@ -255,6 +255,7 @@ context.
 | 22 | News-sitemap cap 150 with richer keywords | Google News | **Done** (2026-10-14) |
 | 23 | `/outlet/*` publisher hubs (≥5 scored stories) | Google | **Done** (2026-10-14) |
 | 24 | IndexNow ALWAYS + seo-daily OUR_SURFACES cover top gated `/tags/*` `/kind/*` `/outlet/*` `/people/*` hubs | Bing + daily scoreboard | **Done** (2026-10-14) |
+| 25 | `seo-daily` `deploy-pending-url-lead` when local Ready ≥2k and live sitemap &lt; 50% of Ready — trail gaps yield to merge/deploy | Daily agent | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
@@ -284,15 +285,19 @@ Each daily pass:
 
 1. Run `seo-daily.mjs` — re-measure siren.watch vs pizzint / DoomBench / Skynet /
    pdoom / takeofftracker (sitemap counts, news sitemap, home title, schema,
-   `llms.txt`, our findability surfaces).
-2. Scan for **new search trends** we can honestly answer (activity tempo, not
+   `llms.txt`, our findability surfaces, plus local Ready from news +
+   item-archive + gated facets).
+2. If gaps include `deploy-pending-url-lead`, **merge/deploy first** so
+   `collect.yml` rebuilds gh-pages — do not keep shipping facet volume while
+   live still trails the local tree.
+3. Scan for **new search trends** we can honestly answer (activity tempo, not
    doom probability). Prefer head terms already in `COMPETITIVE-SEO.md` /
    conquest pages over synonym doorway farms.
-3. Ship **one** concrete improvement: gated URL facet, title/description fix,
+4. Ship **one** concrete improvement: gated URL facet, title/description fix,
    schema that matches visible HTML, internal links, or conquest/evergreen copy.
    Open a PR. Update the live scoreboard paragraph in `COMPETITIVE-SEO.md` when
    rival numbers move.
-4. Refuse: keyword stuffing, thin synonym doorways, future-tense doom claims,
+5. Refuse: keyword stuffing, thin synonym doorways, future-tense doom claims,
    schema that does not match on-page text (`VOICE.md`, `CONTRACT.md`, §3.3).
 
 Success metric stays **indexed pages + honest head-term clicks**, not raw

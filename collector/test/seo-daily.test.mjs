@@ -11,6 +11,8 @@ import {
   formatMarkdown,
   OPEN_ENGINEERING,
   OUR_SURFACES,
+  FACET_URL_FLOOR,
+  readLocalReadyUrls,
 } from '../tools/seo-daily.mjs';
 
 describe('seo-daily parsers', () => {
@@ -77,6 +79,39 @@ describe('seo-daily measure + gaps', () => {
     assert.ok(ids.includes('open-gsc-verify'));
   });
 
+  it('flags deploy-pending when local Ready dwarfs live sitemap and suppresses trail gaps', () => {
+    const gaps = deriveGaps({
+      sites: [
+        {
+          id: 'siren', name: 'siren.watch', ours: true, ok: true,
+          title: 'AI activity index today', sitemap_urls: 693, news_sitemap_urls: 100, schema_types: [],
+        },
+        {
+          id: 'doombench', name: 'DoomBench', ours: false, ok: true,
+          title: 'x', sitemap_urls: 2090, news_sitemap_urls: null, schema_types: [],
+        },
+      ],
+      local_ready: { live: 800, archived: 5000, facets: 230, estimated_sitemap: 6030 },
+      surfaces: [],
+      open_engineering: [],
+    });
+    const ids = gaps.map((g) => g.id);
+    assert.ok(ids.includes('deploy-pending-url-lead'));
+    assert.ok(!ids.includes('trail-doombench-urls'));
+    assert.ok(!ids.includes('url-count-low'));
+  });
+
+  it('reads local Ready estimate from news + archive + facets', async () => {
+    assert.ok(FACET_URL_FLOOR >= 450);
+    const ready = await readLocalReadyUrls();
+    assert.ok(ready);
+    assert.ok(ready.live > 0);
+    assert.ok(ready.archived > 0);
+    assert.ok(ready.facets >= FACET_URL_FLOOR);
+    assert.equal(ready.estimated_sitemap, ready.live + ready.archived + ready.facets);
+    assert.ok(ready.estimated_sitemap >= 2000);
+  });
+
   it('renders markdown scoreboard', () => {
     const md = formatMarkdown({
       measured_at: '2026-10-12T12:00:00.000Z',
@@ -86,10 +121,13 @@ describe('seo-daily measure + gaps', () => {
         schema_types: ['WebSite'], llms_ok: true,
       }],
       surfaces: [{ path: '/llms.txt', ok: true, bytes: 1200 }],
+      local_ready: { live: 800, archived: 5000, facets: 230, estimated_sitemap: 6030 },
       gaps: [{ id: 'x', severity: 'low', text: 'example' }],
     });
     assert.match(md, /SEO scoreboard/);
     assert.match(md, /\*\*siren\.watch\*\*/);
+    assert.match(md, /Local tree/);
+    assert.match(md, /6030/);
     assert.match(md, /example/);
   });
 });
