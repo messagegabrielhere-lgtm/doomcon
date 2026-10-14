@@ -198,7 +198,7 @@ function siGuide() {
   <p>Practical steps for anyone, whatever happens with superintelligence. Open a section to read it.</p>
   ${SI_GUIDE.map(([t, items], i) => `<details class="fx-card" style="margin:8px 0"${i === 0 ? ' open' : ''}><summary style="cursor:pointer;font:700 1.05rem/1.3 var(--sans);color:var(--ink)">${t}</summary><ul style="margin:10px 0 0">${items.map((x) => `<li>${x}</li>`).join('')}</ul></details>`).join('')}
   <h2>${esc(plan30Q)}</h2>
-  <div class="fx-grid">${SI_30.map(([w, d]) => `<div class="fx-card"><h3>${w}</h3><p>${d}</p></div>`).join('')}</div>
+  <div class="fx-grid">${SI_30.map(([w, d]) => `<div class="fx-card"><h3>What do you do in ${w} of the SI plan?</h3><p>${d}</p></div>`).join('')}</div>
   <h2>${esc(dontQ)}</h2>
   <ul>${SI_DONT.map((d) => `<li>${d}</li>`).join('')}</ul>`;
 }
@@ -238,6 +238,9 @@ export function siReady(ctx) {
       'Nothing leaves your browser. Answer twelve questions and get a plan for your weakest areas first.'],
     [`Does ${brand.NAME} publish an SI-ready doom score?`,
       `No. ${brand.DISCLAIMER_SHORT} This page is a personal readiness check — not a probability of harm or an arrival date.`],
+    // Tip #357: readiness-area + 30-day week H3s are question-shaped and mirrored in FAQ (§3.3).
+    ...Object.values(SI_AREAS).map((a) => [`What does the ${a.name} area cover?`, a.moves[0]]),
+    ...SI_30.map(([w, d]) => [`What do you do in ${w} of the SI plan?`, d]),
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>
@@ -250,7 +253,7 @@ export function siReady(ctx) {
   <p class="lede">Nobody knows when, or if, AI becomes smarter than people at most things. You can still get ready for a world that keeps getting more automated, whichever way it goes. Answer twelve questions and get a plan for your weakest areas first. Nothing leaves your browser.</p>
   ${shareBtn(ctx, 'Are you ready for superintelligence? Take the 3-minute check:', PATH)}
   <h2>${esc(areasQ)}</h2>
-  <div class="fx-grid">${Object.values(SI_AREAS).map((a) => `<div class="fx-card"><h3>${esc(a.name)}</h3><p>${esc(a.moves[0])}</p></div>`).join('')}</div>
+  <div class="fx-grid">${Object.values(SI_AREAS).map((a) => `<div class="fx-card"><h3>What does the ${esc(a.name)} area cover?</h3><p>${esc(a.moves[0])}</p></div>`).join('')}</div>
   <h2>${esc(checkQ)}</h2>
   ${quiz({ id: 'siq', questions: SI_QS, areas: SI_AREAS })}
   ${siGuide().replace(/\/doomcon\//g, ctx.href('/'))}
@@ -368,6 +371,17 @@ export function jobProof(ctx) {
       'Forecasts of jobs lost to AI disagree wildly. See Is AI taking jobs? — it lists only what has been measured, with sources, and says what the counts do not show.'],
     [`Does ${brand.NAME} publish an AI-proof-job doom score?`,
       `No. ${brand.DISCLAIMER_SHORT} This page is a personal job-readiness check — not a mass-unemployment forecast.`],
+    // Tip #358: five-move card H3s are question-shaped and mirrored in FAQ (§3.3).
+    ['How do I move toward the work AI is worst at?',
+      JOB_AREAS.tasks.moves[0]],
+    ['How do I become the person who runs the AI?',
+      JOB_AREAS.tools.moves[0]],
+    ['How do I make my value visible?',
+      JOB_AREAS.proof.moves[0]],
+    ['How do I keep learning on purpose?',
+      JOB_AREAS.learn.moves[0]],
+    ['How do I build a safety net?',
+      JOB_AREAS.net.moves[0]],
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>
@@ -380,7 +394,13 @@ export function jobProof(ctx) {
   <p class="lede">AI changes tasks before it changes jobs. The people who do best are usually the ones who learn the tools first, move toward the work AI is worst at, and make their value easy to see. Ten questions, then a plan in the order that matters for you.</p>
   ${shareBtn(ctx, 'How exposed is your job to AI, and what to do about it. A 2-minute plan:', PATH)}
   <h2>${esc(movesQ)}</h2>
-  <div class="fx-grid">${Object.values(JOB_AREAS).map((a) => `<div class="fx-card"><h3>${esc(a.name)}</h3><p>${esc(a.moves[0])}</p></div>`).join('')}</div>
+  <div class="fx-grid">
+    <div class="fx-card"><h3>How do I move toward the work AI is worst at?</h3><p>${esc(JOB_AREAS.tasks.moves[0])}</p></div>
+    <div class="fx-card"><h3>How do I become the person who runs the AI?</h3><p>${esc(JOB_AREAS.tools.moves[0])}</p></div>
+    <div class="fx-card"><h3>How do I make my value visible?</h3><p>${esc(JOB_AREAS.proof.moves[0])}</p></div>
+    <div class="fx-card"><h3>How do I keep learning on purpose?</h3><p>${esc(JOB_AREAS.learn.moves[0])}</p></div>
+    <div class="fx-card"><h3>How do I build a safety net?</h3><p>${esc(JOB_AREAS.net.moves[0])}</p></div>
+  </div>
   <h2>${esc(planQ)}</h2>
   ${quiz({ id: 'jobq', questions: JOB_QS, areas: JOB_AREAS })}
   <h2>${esc(countedQ)}</h2>
