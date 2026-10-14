@@ -841,6 +841,11 @@ context.
 | 589 | Lab hub `/lab/micron` (Micron entity, ≥3); IndexNow + seo-daily; refuse company-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 590 | Lab hub `/lab/winverse-ai` (Winverse AI entity, ≥3); IndexNow + seo-daily; refuse company-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 591 | Lab hub `/lab/isomorphic-labs` (Isomorphic Labs entity, ≥3); IndexNow + seo-daily; refuse company-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 592 | Lab hub `/lab/openai` (OpenAI race lab); IndexNow + seo-daily; refuse company-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 593 | Lab hub `/lab/anthropic` (Anthropic race lab); IndexNow + seo-daily; refuse company-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 594 | Lab hub `/lab/meta` (Meta AI race lab); IndexNow + seo-daily; refuse company-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 595 | Lab hub `/lab/google-deepmind` (Google DeepMind race lab); IndexNow + seo-daily; refuse company-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 596 | Lab hub `/lab/xai` (xAI race lab); IndexNow + seo-daily; refuse company-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
