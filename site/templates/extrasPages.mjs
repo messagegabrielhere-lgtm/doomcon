@@ -586,7 +586,7 @@ export function referencePlanPage(ctx, ref = null) {
     }).join('');
     const scoreD = isNum(sh.score) && isNum(s.score) ? sh.score - s.score : null;
     const addenda = Array.isArray(sh.addenda_sources) ? sh.addenda_sources : [];
-    shadowHtml = `<h2 id="now">Official vs candidate, this reading</h2>
+    shadowHtml = `<h2 id="now">How do official and candidate scores compare this reading?</h2>
 <p>A candidate score is live. It uses the frozen v1 reference plus ${addenda.length ? `the addenda for <b>${addenda.map((x) => esc(typeof x === 'string' ? x : (x && x.id) || '')).join(', ')}</b>` : 'pending addenda'}. Only the official column sets the level.</p>
 <div class="xt-tbl"><table><thead><tr><th></th><th>Official (v1)</th><th>Candidate</th><th>Diff</th></tr></thead><tbody>
 <tr><td><b>Composite</b></td><td class="n"><b>${fmt(s.score)}</b></td><td class="n"><b>${fmt(sh.score)}</b></td><td class="n ${scoreD === null ? 'xt-flat' : cls(scoreD)}">${scoreD === null ? '—' : esc(dTxt(scoreD))}</td></tr>
@@ -594,7 +594,7 @@ export function referencePlanPage(ctx, ref = null) {
 ${rows}</tbody></table></div>
 <p class="xt-note">Both columns come from the same hourly run and the same raw values; they differ only in which reference grids are allowed to score a source.</p>`;
   } else {
-    shadowHtml = `<h2 id="now">Official vs candidate, this reading</h2>
+    shadowHtml = `<h2 id="now">How do official and candidate scores compare this reading?</h2>
 <p>No addenda are live yet, so there is no candidate score to compare: the official score is the only score. ${Array.isArray(s.uncalibrated_sources) && s.uncalibrated_sources.length ? `${s.uncalibrated_sources.length} sources (${s.uncalibrated_sources.map(esc).join(', ')}) are collected and published every hour but not scored; they are the first in line for an addendum.` : ''}</p>`;
   }
 
@@ -607,15 +607,32 @@ ${ref.sources ? `<tr><th>Sources with grids</th><td>${ref.sources.map(esc).join(
 ${ref.hash ? `<tr><th>File hash</th><td><code>${esc(ref.hash)}</code></td></tr>` : ''}
 </tbody></table></div>` : '';
 
+  // Tip #269: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const v1Q = 'What is reference v1, and why is it frozen?';
+  const addendaQ = 'How do addenda run as a shadow score?';
+  const promoQ = 'When is an addendum promoted?';
+  const cutoverQ = 'What happens at cutover?';
+  const shiftQ = 'How does a permanent baseline shift work?';
+  const nowQ = 'How do official and candidate scores compare this reading?';
   // FAQ answers restate lede / addenda / promotion / cutover copy only (FINDABILITY §3.3).
   // Refuse: doom-probability, stuffing, quiet-rebase claims.
   const faq = [
     [qTitle,
       `Every ${brand.NAME} score is a percentile against a frozen reference: a year of history per source, cut into fixed grids and never regenerated. Freezing it is what lets anyone re-run the arithmetic on an old receipt and get the same number. Sources get added and the world shifts, so the reference has to change sometimes — under a published rule, not a quiet rebuild.`],
+    [v1Q,
+      'A year of history per source, cut into fixed grids in data/reference.json. Rebuilding it in place would silently rebase every score ever published, so it is never rebuilt; changes arrive as separate addenda.'],
+    [addendaQ,
+      'Collect (uncalibrated, visible raw value, no weight), calibrate (own reference year in an addendum with its own hash; v1 is not touched), then shadow (official score from v1 only and a candidate score from v1 plus addenda, published side by side; only the official one sets the level).'],
+    [promoQ,
+      'Only when all three hold: at least 14 days of shadow running, at least 95% uptime for the new source over that period, and a published diff of official vs candidate for every reading in the shadow period, with the level changes the candidate would have caused.'],
+    [cutoverQ,
+      'Promotion creates reference v2: v1 plus the addenda, as a new file with a new hash. Receipts carry the reference version and hash they were computed against, so every receipt issued under v1 still verifies against v1.'],
+    [shiftQ,
+      'If a source sits pinned near the top of its v1 grid for weeks, a new reference window runs 30 days side by side with the old one, both published, before it takes over. The old window, its hash and its receipts remain.'],
+    [nowQ,
+      'Both columns come from the same hourly run and the same raw values; they differ only in which reference grids are allowed to score a source. Only the official column sets the level.'],
     ['How do new sources join the score?',
       'Collect (uncalibrated, visible raw value, no weight), calibrate (own reference year in an addendum with its own hash; v1 is not touched), then shadow (official score from v1 only and a candidate score from v1 plus addenda, published side by side; only the official one sets the level).'],
-    ['When is an addendum promoted?',
-      'Only when all three hold: at least 14 days of shadow running, at least 95% uptime for the new source over that period, and a published diff of official vs candidate for every reading in the shadow period, with the level changes the candidate would have caused.'],
     [`Does updating the baseline make ${brand.NAME} a doom forecast?`,
       `No. ${brand.NAME} measures activity tempo. A new reference version keeps old receipts checkable against the file they used; it does not turn the index into a probability of harm.`],
   ];
@@ -627,18 +644,18 @@ ${ref.hash ? `<tr><th>File hash</th><td><code>${esc(ref.hash)}</code></td></tr>`
 <h1>${esc(qTitle)}</h1>
 <p class="lede">Every ${esc(brand.NAME)} score is a percentile against a frozen reference: a year of history per source, cut into fixed grids and never regenerated. Freezing it is what lets anyone re-run the arithmetic on an old receipt and get the same number. But sources get added and the world shifts, so the reference has to change sometimes. This is the rule for how, written down before it is needed.</p>
 
-<h2 id="v1">Reference v1, frozen</h2>
+<h2 id="v1">${esc(v1Q)}</h2>
 ${refFacts}
 <p>The file is <a href="${esc(brand.REPO_URL)}/blob/main/data/reference.json" target="_blank" rel="noopener">data/reference.json</a>. Rebuilding it in place would silently rebase every score ever published, so it is never rebuilt. Changes arrive as separate addenda.</p>
 
-<h2 id="addenda">Addenda run as a shadow score</h2>
+<h2 id="addenda">${esc(addendaQ)}</h2>
 <ol>
 <li><b>Collect.</b> A new source is collected and published hourly as <i>uncalibrated</i>: its raw value is visible, it has no weight.</li>
 <li><b>Calibrate.</b> Its own reference year is backfilled into an addendum file with its own hash. v1 is not touched.</li>
 <li><b>Shadow.</b> Every hour the engine computes two scores from the same raw values: the <b>official</b> score (v1 only) and a <b>candidate</b> score (v1 plus addenda). Both are published side by side; only the official one sets the level, posts to X or fires the feeds.</li>
 </ol>
 
-<h2 id="promotion">Promotion rule</h2>
+<h2 id="promotion">${esc(promoQ)}</h2>
 <p>An addendum is promoted only when all three hold:</p>
 <ul>
 <li>at least <b>14 days</b> of shadow running;</li>
@@ -646,10 +663,10 @@ ${refFacts}
 <li>a <b>published diff</b>: official vs candidate for every reading in the shadow period, with the level changes the candidate would have caused.</li>
 </ul>
 
-<h2 id="cutover">Cutover</h2>
+<h2 id="cutover">${esc(cutoverQ)}</h2>
 <p>Promotion creates <b>reference v2</b>: v1 plus the addenda, as a new file with a new hash. Receipts carry the reference version and hash they were computed against, so every receipt issued under v1 still verifies against v1, which stays in the repository forever. The cutover reading is marked on the history chart and in <a href="${esc(ctx.href('/changelog.html'))}">What moved the ${esc(brand.NAME)} score this hour?</a>.</p>
 
-<h2 id="shift">A permanent baseline shift</h2>
+<h2 id="shift">${esc(shiftQ)}</h2>
 <p>If the world moves so far that a source sits pinned near the top of its v1 grid for weeks, the window itself has to move. That is handled as a new reference window, not an edit: the new window runs <b>30 days side by side</b> with the old one, both published, before it takes over. The old window, its hash and its receipts remain.</p>
 
 ${shadowHtml}
