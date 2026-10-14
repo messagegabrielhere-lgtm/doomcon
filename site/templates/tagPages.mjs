@@ -1266,7 +1266,8 @@ export const TOPIC_DEFS = Object.freeze([
     id: 'decision-models',
     name: 'Decision models',
     description: 'Decision-model and decision-scoring product stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
-    match: /\b[Dd]ecision[- ][Mm]odels?\b/i,
+    // Microsoft-Decision-1 / decision-scoring model keep the hub above TAG_INDEX_MIN.
+    match: /\b(?:Microsoft[- ]Decision[- ]?\d|[Dd]ecision(?:[- ]scoring)?[- ][Mm]odels?)\b/i,
   },
   {
     id: 'representation-learning',
