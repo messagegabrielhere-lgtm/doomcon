@@ -2775,6 +2775,26 @@ describe('tag pages', () => {
     assert.doesNotMatch(renderTag(rich, 'iran'), /probability of doom/i);
   });
 
+  it('pages reliability hub', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('re1', 'RATED: Reliability-Aware AI Agent Tool Retrieval via Execution Dynamics'),
+          story('re2', 'What mathematicians should know about the Lean Theorem Prover: reliability & AI'),
+          story('re3', 'Large Language Model Turnover Undermines Screening reliability studies'),
+          story('re4', 'Cross-user reliability for GUI agents in production'),
+          story('re5', 'BaRe-Mem: Bayesian Reliability Memory for Adaptive Agent Consultation'),
+        ],
+      },
+    };
+    assert.ok(indexableTags(rich).some((t) => t.id === 'reliability'));
+    assert.match(renderTag(rich, 'reliability'), /What has SIREN scored about AI reliability\?/);
+    assert.doesNotMatch(renderTag(rich, 'reliability'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'reliability'), /probability of doom/i);
+  });
+
   it('pages financial, evaluation, serving, and bayesian hubs', () => {
     const rich = {
       ...ctx,

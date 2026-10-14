@@ -36,6 +36,9 @@ const MODEL_LAB = {
   'Nano Banana': 'google-deepmind',
   Jev: 'typesafe',
   Dots: 'openai',
+  EmbeddingGemma: 'google-deepmind',
+  SynthID: 'google-deepmind',
+  Clef: 'cloudflare',
 };
 
 const MODELS = publishedEntities().filter((e) => e.kind === 'model');
