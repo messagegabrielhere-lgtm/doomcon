@@ -93,6 +93,9 @@ export function apiCatalog(ctx) {
           { href: u('/api/now.txt'), type: 'text/plain', title: 'Current reading in a few plain lines' },
           { href: u('/now.md'), type: 'text/markdown', title: 'Markdown snapshot of the reading' },
           { href: u('/api/news.json'), type: 'application/json', title: 'Scored newsroom window (JSON)' },
+          { href: u('/api/search-trends.json'), type: 'application/json', title: 'Google Search Trends for AI (watched, not scored)' },
+          { href: u('/search-trends.html'), type: 'text/html', title: 'Which Google Search Trends for AI does SIREN watch?' },
+          { href: u('/ai-prediction-markets.html'), type: 'text/html', title: 'Where are live AI prediction market odds?' },
           { href: u('/news-sitemap.xml'), type: 'application/xml', title: 'Google News rolling sitemap' },
           { href: u('/news.html'), type: 'text/html', title: 'Which AI stories has SIREN scored in this window?' },
           { href: u('/agents.md'), type: 'text/markdown', title: 'Short agent entry: what to fetch first' },
@@ -170,6 +173,9 @@ export function mcpServerCard(ctx) {
       news: ctx.url('/api/news.json'),
       news_sitemap: ctx.url('/news-sitemap.xml'),
       newsroom: ctx.url('/news.html'),
+      search_trends: ctx.url('/api/search-trends.json'),
+      search_trends_html: ctx.url('/search-trends.html'),
+      ai_prediction_markets: ctx.url('/ai-prediction-markets.html'),
     },
   };
 }
@@ -191,6 +197,9 @@ Start here:
 - ${u('/api/now.txt')} — current reading in a few plain lines
 - ${u('/now.md')} — markdown snapshot + top scored stories
 - ${u('/api/news.json')} — scored newsroom window (JSON)
+- ${u('/api/search-trends.json')} — Google Search Trends for AI (watched, not scored)
+- ${u('/search-trends.html')} — Which Google Search Trends for AI does ${brand.NAME} watch?
+- ${u('/ai-prediction-markets.html')} — Where are live AI prediction market odds?
 - ${u('/news-sitemap.xml')} — Google News rolling sitemap (keyword-rich; prefer over HTML scraping)
 - ${u('/news.html')} — Which AI stories has ${brand.NAME} scored in this window? (UTC day hubs under /news/YYYY-MM-DD.html)
 - ${u('/openapi.json')} — every JSON endpoint

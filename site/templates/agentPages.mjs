@@ -613,6 +613,17 @@ When a user asks for today's AI headlines or what SIREN scored on a date:
 
 Name each outlet. Do not invent a day doom score.
 
+## Search trends and prediction markets
+
+When a user asks whether an AI topic is trending in Google Search, or where live AI prediction-market odds are:
+
+1. Search Trends (HTML): ${ctx.url('/search-trends.html')} — "Which Google Search Trends for AI does SIREN watch?"
+2. Search Trends (JSON): ${ctx.url('/api/search-trends.json')} — daily firehose filtered for AI; watched, not scored
+3. AI prediction markets: ${ctx.url('/ai-prediction-markets.html')} — "Where are live AI prediction market odds?"
+4. Live odds board: ${ctx.url('/race.html')} — market prices, not a SIREN forecast
+
+Say trends are watched for findability and do not move the index. Say prediction-market prices are the venue's, not a SIREN forecast.
+
 ## Rules
 
 1. Always give the level's name and say which way the scale runs.
@@ -631,6 +642,8 @@ Name each outlet. Do not invent a day doom score.
 - News JSON: ${ctx.url('/api/news.json')}
 - News sitemap (Google News): ${ctx.url('/news-sitemap.xml')}
 - Newsroom + day hubs: ${ctx.url('/news.html')}
+- Search Trends: ${ctx.url('/search-trends.html')} (${ctx.url('/api/search-trends.json')})
+- AI prediction markets: ${ctx.url('/ai-prediction-markets.html')} · Race: ${ctx.url('/race.html')}
 - History: ${ctx.url('/api/history.json')}
 - Method: ${ctx.url('/methodology.md')}
 - Guide (vs DEFCON / Doomsday Clock / p(doom)): ${ctx.url('/guide.md')}
