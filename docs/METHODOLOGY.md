@@ -1,4 +1,4 @@
-# Methodology
+# How the SIREN AI activity index is computed · methodology
 
 Every other live AI-risk index scores by human or model judgement. DoomBench's
 own FAQ has to explain that its 67.8 "does not mean a 60 percent probability."
@@ -8,7 +8,7 @@ expert opinion." None of them can be independently recomputed by a stranger.
 **This one can.** Same code, same public data, same number. That is the only
 claim SIREN makes, and this page exists so you can falsify it.
 
-## What the index measures — and what it does not
+## What does the index measure — and what does it not?
 
 SIREN measures the **observable activity tempo of the AI field relative to its
 own history**: how fast models are shipping, how much compute and capital is
@@ -29,7 +29,7 @@ mechanically prevented from using future tense — `will`, `expect`, `predict`,
 `imminent`, `soon`, `coming`, `warns`, `forecast`, `likely` are a hard-banned
 word list enforced by a unit test, not by editorial discipline.
 
-## The five pillars
+## What are the five pillars?
 
 | id | measures | current sources |
 |---|---|---|
@@ -43,7 +43,7 @@ Every source returns a number where **higher always means more activity**. A
 source that naturally points the other way is negated inside its own adapter, so
 the convention holds everywhere downstream.
 
-### Why the market pillar is not "average odds of AGI"
+### Why is the market pillar not “average odds of AGI”?
 
 Because averaging odds measures the wrong thing, and it breaks.
 
@@ -69,7 +69,12 @@ speech. Both adapters therefore re-filter locally against a word-boundary AI
 token regex, and report how many markets they rejected as `rejected_off_topic` so
 you can audit the basket rather than trust it.
 
-## The arithmetic
+## How does the arithmetic work?
+
+Four steps, always in this order: normalise each live source against a frozen
+reference, smooth the noisy ones, compose a mean across pillars that still have
+data, then map the composite onto a level with anti-flap guards. The subsections
+below are the whole formula.
 
 ### 1. Normalise
 
@@ -136,7 +141,7 @@ Counting *down* to 1, following DEFCON, because that grammar needs no explaining
 The 0–100 score is published alongside the level — the AQI dual-output pattern,
 where you get both "157" and "Unhealthy".
 
-## Why the level does not flicker
+## Why does the level not flicker?
 
 An index that oscillates across a boundary destroys its own credibility. Six
 layers prevent it, all live in v1:
@@ -150,7 +155,7 @@ layers prevent it, all live in v1:
 5. **One step per change** — never 5 → 3. The level walks a staircase.
 6. **2-of-5 pillar quorum** must agree with the direction before anything moves.
 
-## Missing data stays missing
+## What happens when a source is missing?
 
 A source that fails is **dark**. It is not zero, not last-known-good, not
 interpolated.
@@ -166,7 +171,7 @@ in 24 hours across 16 monitored locations, and its homepage prints a confident
 DOUGHCON 5 over four pizzerias reading NO DATA. Never print a confident number
 over a dead pipe.
 
-## The receipt behind every number
+## What is a receipt, and can I check one?
 
 Every scored observation writes a receipt to `data/receipts/`, hash-chained:
 
@@ -188,7 +193,7 @@ we recorded. We therefore snapshot the value *and the exact query string* at
 fetch time and never recompute history. A receipt records what we saw, not what
 the source says today.
 
-## How this index could mislead you
+## How could this index mislead you?
 
 Three concrete failure modes of our own method. Naming them is the price of
 asking to be taken seriously.
@@ -216,7 +221,7 @@ happens the honest fix is a versioned `v2` reference with both series published
 side by side, not a quiet re-baseline. We commit to that in advance, here, where
 it can be held against us.
 
-## Reference versions and the shadow index
+## What are reference versions and the shadow index?
 
 The reference distribution in `data/reference.json` is **v1, frozen**. Sources
 it does not calibrate (today: the equity basket, GPU rents, GOV.UK, the three
@@ -230,7 +235,7 @@ old receipt still verifies. The full procedure, including how a permanent
 baseline shift is handled, is in
 [REFERENCE-VERSIONING.md](REFERENCE-VERSIONING.md).
 
-## Known biases
+## What biases does this index carry?
 
 The sources are **English-language and US-centric**, and the index inherits
 that:
@@ -266,7 +271,7 @@ with its own backfill test:
 Adding a source changes what the index measures, so each one is a reference
 version event, not a silent improvement.
 
-## Reproduce it yourself
+## How do I recompute the index myself?
 
 No Node installation required:
 
@@ -280,12 +285,12 @@ docker run --rm --network host -v "$PWD":/app -w /app node:20-alpine node collec
 Compare your `data/state.json` against the published one. If they disagree, that
 is a bug and we want the issue.
 
-## Attribution
+## Where does the historical training-compute data come from?
 
 Historical training-compute and notable-model data comes from **[Epoch
 AI](https://epoch.ai/)**, used under CC-BY 4.0.
 
-## Limitations, stated plainly
+## What are the limitations, stated plainly?
 
 - Backfill coverage varies by source; sources admitted to the reference set had
   to be backfillable, but not all reach equally far.

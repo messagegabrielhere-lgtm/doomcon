@@ -39,6 +39,7 @@
 import { highlightHtml as nationsHighlight } from './nationsPage.mjs';
 import { esc, utc, utcDay, num } from './_html.mjs';
 import { page } from './layout.mjs';
+import { breadcrumbs, speakable } from './_seo.mjs';
 import { avatarSprite, personIdFor, PEOPLE, faceHref } from './_avatars.mjs';
 import * as brand from '../brand.mjs';
 import { polymarketUrl, polymarketHasRef } from '../monetize.mjs';
@@ -710,8 +711,11 @@ function moveChart(race) {
 // ---------------------------------------------------------------------------
 
 function raceGraphics(race) {
+  // Tip #296: section H2s are question-shaped (mirrored in FAQ).
+  const fieldQ = 'How do the labs sit on one axis?';
+  const moveQ = 'How did each lab change over seven days?';
   return `<section class="sec rgfx" aria-labelledby="rgfx-h">
-  <h2 class="sec__h" id="rgfx-h">Every lab on one axis<span class="sec__eb">The field</span></h2>
+  <h2 class="sec__h" id="rgfx-h">${esc(fieldQ)}<span class="sec__eb">The field</span></h2>
   <p class="rnote rgfx__lede">Every lab on the board, on one absolute 0&ndash;100% axis. The dot is the
      price now; the hollow ring is where that leg traded seven days ago. Nothing is normalised to the
      leader &mdash; one lab really is most of this market.</p>
@@ -719,7 +723,7 @@ function raceGraphics(race) {
 </section>
 
 <section class="sec rgfx" aria-labelledby="rgfx-move-h">
-  <h2 class="sec__h" id="rgfx-move-h">Seven-day change, per lab<span class="sec__eb">Seven days</span></h2>
+  <h2 class="sec__h" id="rgfx-move-h">${esc(moveQ)}<span class="sec__eb">Seven days</span></h2>
   <p class="rnote rgfx__lede">Two observations per lab and a line joining them. There is no price
      history in <code>race.json</code>, so there is no curve here to draw and none is invented.</p>
   ${moveChart(race)}
@@ -789,8 +793,9 @@ function partitionBar(race) {
     othersSum > 0 ? `${others.length} other contenders ${pct(othersSum, 1)} combined` : null]
     .filter(Boolean).join(', ');
 
+  const oddsQ = 'How are the odds split across the board?';
   return `<section class="sec rpartwrap" aria-labelledby="rpart-h">
-  <h2 class="sec__h" id="rpart-h">How the odds are split<span class="sec__eb">The whole board</span></h2>
+  <h2 class="sec__h" id="rpart-h">${esc(oddsQ)}<span class="sec__eb">The whole board</span></h2>
   <div class="rpart" role="img" aria-label="${esc(`${poly.horizon.title} — ${readout}.`)}">${segs}</div>
   <ul class="rpart__key">${keyItems}</ul>
   <p class="rnote">${esc(poly.horizon.legs_live)} legs are trading on
@@ -845,8 +850,9 @@ function leaderboard(ctx, race) {
        <em>not</em> placed last at 0% &mdash; "nobody is offering this bet" is not a low probability.</p>`
     : '';
 
+  const boardQ = 'Who leads the AI race board?';
   return `<section class="sec rlbwrap" aria-labelledby="rtb-h">
-  <h2 class="sec__h" id="rtb-h">The leaderboard</h2>
+  <h2 class="sec__h" id="rtb-h">${esc(boardQ)}</h2>
   <p class="rnote rlb__key">The fill behind each row is the live year-end probability on an absolute
      0&ndash;100% scale, never normalised to the leader, and the figure at the right edge is the same
      number. The <b>tick</b> at the track's edge is where that leg traded seven days ago. Under every
@@ -959,7 +965,7 @@ function playerRow(ctx, p, race) {
       <i class="rpill__fill" aria-hidden="true"></i>${tick}
       ${rank}
       <span class="rpill__mk${markFor(p).face ? ' rpill__mk--face' : ''}" aria-hidden="true">${markFor(p).face ? `<img src="${esc(markFor(p).face)}" alt="" loading="lazy">` : `<svg viewBox="0 0 24 24" focusable="false"><use href="#dc-avt-${esc(markFor(p).shape)}"/></svg>`}</span>
-      <span class="rpill__lab"><b class="rpill__name"><a href="${esc(ctx.href(`/lab/${p.id}.html`))}">${esc(p.name)}</a></b>${principal}</span>
+      <span class="rpill__lab"><b class="rpill__name"><a href="${esc(ctx.href(`/lab/${p.id}.html`))}">What has ${esc(brand.NAME)} scored about ${esc(p.name)}?</a></b>${principal}</span>
       <span class="rpill__right">${delta}${value}</span>
     </div>
     <dl class="rfacts">
@@ -1034,8 +1040,9 @@ function instrumentStrip(race) {
     ? `All ${(race.sources ?? []).length} instruments answered on this run.`
     : `${dark.length} of ${(race.sources ?? []).length} instruments are dark. Their readings are blank above. Nothing is filled in.`;
 
+  const srcQ = 'How healthy are the race sources?';
   return `<section class="sec" aria-labelledby="rsrc-h">
-  <h2 class="sec__h" id="rsrc-h">Source health</h2>
+  <h2 class="sec__h" id="rsrc-h">${esc(srcQ)}</h2>
   <ul class="rchips">${rows}</ul>
   <p class="rnote">${esc(key)}</p>
 </section>`;
@@ -1088,7 +1095,7 @@ function howComputed(ctx, race) {
 
   const mindBody = w
     ? `Share of SIREN's own news corpus naming that lab, computed from the entity list
-       <a href="${esc(ctx.href('/news.html'))}">the signal feed</a> already published &mdash; the same
+       <a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a> already published &mdash; the same
        extractor, so the two surfaces can never disagree about a headline.
        The window is ${esc(w.corpus)} items spanning
        <b class="num">${esc(num(w.observed_span_hours, 1))} hours</b>${w.corpus_is_capped ? `, not the nominal ${esc(w.nominal_window_days)} days: the corpus is capped at ${esc(w.max_items)} items and on a busy week the cap binds long before the window does` : ''}.
@@ -1116,8 +1123,9 @@ function howComputed(ctx, race) {
            comment, so the exclusion cannot quietly go stale.`)
     : `The Manifold probe was dark on this run.`;
 
+  const methQ = 'How is the race board computed?';
   return `<section class="sec rmeth" aria-labelledby="rmeth-h">
-  <h2 class="sec__h" id="rmeth-h">How this is computed</h2>
+  <h2 class="sec__h" id="rmeth-h">${esc(methQ)}</h2>
   <dl class="rmeth__l">
     ${item('The rank', rankBody)}
     ${item('Cross-check columns', spotBody)}
@@ -1130,7 +1138,7 @@ function howComputed(ctx, race) {
       independent intelligence, speed and cost leaderboards. ${esc(brand.NAME)} does not copy those
       scores onto this page. Money-backed odds and shipping counts answer a different question.`)}
   </dl>
-  <h3 class="rmeth__h3">What a blank reading means</h3>
+  <h3 class="rmeth__h3">What does a blank reading mean?</h3>
   <ul class="rlegend">
     ${Object.entries(ABSENCE).map(([, a]) => `<li><span class="rab">${esc(a.mark)}</span><span>${esc(a.title)}</span></li>`).join('')}
     <li><span class="rab rab--zero num">0</span><span>We looked, the channel answered, and the answer is genuinely zero. This is the only one of the six that is a measurement.</span></li>
@@ -1158,11 +1166,55 @@ export function render(ctx) {
     ? `${leader.name} leads at ${pct(leader.market.probability, 1)}`
     : 'No ranking was produced on this run';
 
+  // Head-term title: people search “AI race” / who is winning.
+  const title = `Who is winning the AI race?`;
   const description = leader
     ? `Live, money-backed odds on who holds the best AI model: ${race.players.filter((p) => p.rank).length} frontier labs ` +
       `ranked by Polymarket, cross-checked against Kalshi, with 30-day shipping activity and news mindshare for each. ` +
       `${headline}. Compiled ${utc(race.generated_at)}.`
     : `${brand.NAME}'s AI race leaderboard could not compute a ranking on this build: the ranking market is dark.`;
+  // Tip #296: FAQ mirrors question-shaped section H2s (FINDABILITY §3.3).
+  const fieldQ = 'How do the labs sit on one axis?';
+  const moveQ = 'How did each lab change over seven days?';
+  const oddsQ = 'How are the odds split across the board?';
+  const boardQ = 'Who leads the AI race board?';
+  const srcQ = 'How healthy are the race sources?';
+  const methQ = 'How is the race board computed?';
+  const faq = [
+    [`Who is winning the AI race?`,
+      leader
+        ? `${leader.name} leads at ${pct(leader.market.probability, 1)} among ${race.players.length} frontier labs ranked by a live prediction market. These are market odds and observable activity — not a ${brand.NAME} prediction and not a race doom score.`
+        : `No ranking was produced on this run — the ranking market is dark. These are market odds and observable activity when available — not a ${brand.NAME} prediction.`],
+    [fieldQ,
+      'Every lab on the board, on one absolute 0–100% axis. The dot is the price now; the hollow ring is where that leg traded seven days ago. Nothing is normalised to the leader — one lab really is most of this market.'],
+    [moveQ,
+      'Two observations per lab and a line joining them. There is no price history in race.json, so there is no curve here to draw and none is invented.'],
+    [oddsQ,
+      poly?.ok
+        ? `${poly.horizon.legs_live} legs are trading on ${poly.horizon.title}, and they are mutually exclusive: exactly one resolves YES. Segment widths are normalised by the sum of live legs; the percentages printed are the raw prices.`
+        : 'The ranking market did not answer on this run, so the odds partition is not drawn.'],
+    [boardQ,
+      leader
+        ? `${leader.name} leads at ${pct(leader.market.probability, 1)}. The fill behind each row is the live year-end probability on an absolute 0–100% scale, never normalised to the leader.`
+        : 'No ranking was produced on this run — the ranking market is dark.'],
+    [srcQ,
+      (() => {
+        const dark = (race.sources ?? []).filter((s) => !s.ok);
+        return dark.length === 0
+          ? `All ${(race.sources ?? []).length} instruments answered on this run.`
+          : `${dark.length} of ${(race.sources ?? []).length} instruments are dark. Their readings are blank. Nothing is filled in.`;
+      })()],
+    [methQ,
+      `Labs are ranked by a live prediction market and annotated with shipping activity and news mindshare. Every number links to the thing it came from. Not a quality ranking and not a ${brand.NAME} prediction.`],
+    // Tip #338: blank-reading H3 is question-shaped and mirrored in FAQ (§3.3).
+    ['What does a blank reading mean?',
+      'A blank mark means we looked and the channel did not answer, or the absence legend applies. A printed zero is the only absence that is a measurement: we looked, the channel answered, and the answer is genuinely zero.'],
+    [`Does ${brand.NAME} publish an AI race doom score?`,
+      `No. These are market odds and observable activity. They are not a ${brand.NAME} prediction. ${brand.DISCLAIMER_SHORT}`],
+  ];
+  const faqHtml = faq.map(([q, a]) => `
+  <h3>${esc(q)}</h3>
+  <p>${esc(a)}</p>`).join('');
 
   // The principal-mark sprite. _avatars.avatarSprite() emits the eight outlines
   // ONCE as <symbol>s plus the per-person accent rules; every <use href="#dc-avt-*">
@@ -1173,7 +1225,7 @@ export function render(ctx) {
   const main = `<style>${raceCss(race)}</style>
 ${avatarSprite()}
 <section class="rintro">
-  <h1 class="rintro__h1">The AI race</h1>
+  <h1 class="rintro__h1">Who is winning the AI race?</h1>
   ${nationsHighlight(ctx, ctx.nations)}
   <p class="lede">Who is winning, and how sure is the money? ${esc(race.players.length)} frontier labs
      and the people running them, ranked by a live prediction market and annotated with what each one
@@ -1195,12 +1247,17 @@ ${leaderboard(ctx, race)}
 ${howComputed(ctx, race)}
 
 ${instrumentStrip(race)}
+
+<section class="sec" aria-labelledby="faq">
+  <h2 class="sec__h" id="faq">What questions do people actually ask?</h2>
+  ${faqHtml}
+</section>
 `;
 
   return page({
     ctx,
     path: PATH,
-    title: `The AI race — ${headline} · ${brand.NAME}`,
+    title,
     ogTitle: `${brand.NAME}: the AI race — ${headline}`,
     description,
     // ctx.cardFor('race') prefers data/cards/race.png when the card generator
@@ -1211,7 +1268,20 @@ ${instrumentStrip(race)}
     ogImageAlt: leader
       ? `${brand.NAME} AI race leaderboard: ${leader.name} at ${pct(leader.market.probability, 1)}`
       : `${brand.NAME} AI race leaderboard`,
-    jsonld: [itemList(ctx, race), dataset(ctx, race)],
+    jsonld: [
+      itemList(ctx, race),
+      dataset(ctx, race, { name: title, description }),
+      breadcrumbs(ctx, [{ name: title, path: PATH }]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map(([q, a]) => ({
+          '@type': 'Question',
+          name: q,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
+      },
+    ],
     main,
   });
 }
@@ -1226,11 +1296,11 @@ function emptyPage(ctx) {
     ctx,
     path: PATH,
     noindex: true,
-    title: `The AI race · ${brand.NAME}`,
+    title: `Who is winning the AI race?`,
     description: `${brand.NAME}'s AI race leaderboard has not published a run yet.`,
     main: `<style>${raceCss(null)}</style>
 <section class="rintro">
-  <h1 class="rintro__h1">The AI race</h1>
+  <h1 class="rintro__h1">Who is winning the AI race?</h1>
   <p class="lede">No leaderboard has been published in this build. This is not an empty
      result &mdash; it is the absence of a result, and the two are different states. When
      <code>data/race.json</code> is present it is rendered here in full.</p>
@@ -1298,17 +1368,20 @@ function itemList(ctx, race) {
   };
 }
 
-function dataset(ctx, race) {
+function dataset(ctx, race, opts = {}) {
   const w = race.news_window;
+  const name = opts.name || 'Who is winning the AI race?';
+  const description = opts.description
+    || ('Per-lab live prediction-market probability with a 7-day change, 30-day shipping activity '
+      + 'across GitHub releases, Hugging Face model publication and OpenRouter listings, and share of '
+      + `${brand.NAME}'s own AI news corpus. Every field is null-safe: an unavailable signal is `
+      + 'reported unavailable and is never imputed or set to zero.');
   return {
     '@context': 'https://schema.org',
     '@type': 'Dataset',
-    name: `${brand.NAME} AI race leaderboard`,
-    description:
-      'Per-lab live prediction-market probability with a 7-day change, 30-day shipping activity ' +
-      'across GitHub releases, Hugging Face model publication and OpenRouter listings, and share of ' +
-      `${brand.NAME}'s own AI news corpus. Every field is null-safe: an unavailable signal is ` +
-      'reported unavailable and is never imputed or set to zero.',
+    name,
+    description,
+    speakable: speakable(['h1.rintro__h1', 'p.lede']),
     url: ctx.url(PATH),
     identifier: ctx.url('/api/race.json'),
     version: race.formula_version,
