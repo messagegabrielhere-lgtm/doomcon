@@ -1252,7 +1252,7 @@ function consoleBlock(dc, model, joint) {
            ${esc(N(model.totals.pinned))} pins on a 343-pixel map is a smudge, and a smudge that cannot be
            read still looks authoritative. The controls above and the table below carry every channel the
            map encodes except position.</p>
-        <h3 class="bldsec__h3 bldstate__h">${icon('rows')} Every jurisdiction, ranked
+        <h3 class="bldsec__h3 bldstate__h" aria-label="Every jurisdiction, ranked">${icon('rows')} Which jurisdictions are ranked by mapped sites?
           <span class="bldcount num">${esc(N(model.states.length))}</span></h3>
         <p class="bldsec__l">Every state in the contiguous frame, ranked by mapped sites. The states at the
            bottom with a zero are the point of this table.</p>
@@ -1427,6 +1427,9 @@ export function render(ctx) {
       `No. This page is a ${brand.NAME} sub-index. It draws, joins, and counts mapped sites — it does not feed the hourly activity index.`],
     [`Does ${brand.NAME} publish a US-map doom score?`,
       `No. ${brand.DISCLAIMER_SHORT} The US map counts OpenStreetMap datacentre sites joined to drought and grid data — not a probability of harm.`],
+    // Tip #381: jurisdiction-table H3 is question-shaped and mirrored in FAQ (§3.3).
+    ['Which jurisdictions are ranked by mapped sites?',
+      'Every state in the contiguous frame, ranked by mapped sites. The states at the bottom with a zero are the point of this table.'],
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>

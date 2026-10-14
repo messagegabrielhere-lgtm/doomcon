@@ -79,4 +79,12 @@ describe('map page', () => {
     assert.match(html, /How many datacentres has SIREN mapped in the United States\?/);
     assert.match(html, /noindex/);
   });
+
+  it('jurisdiction-table H3 uses a question mirrored in FAQPage', () => {
+    const html = render(ctx);
+    assert.match(html, /Which jurisdictions are ranked by mapped sites\?/);
+    assert.match(html, /FAQPage[\s\S]*Which jurisdictions are ranked by mapped sites\?/);
+    assert.doesNotMatch(html, /bldstate__h"[^>]*>[\s\S]*Every jurisdiction, ranked/);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
+  });
 });

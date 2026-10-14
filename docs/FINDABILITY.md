@@ -630,6 +630,8 @@ context.
 | 378 | `/bliss.html` pillar-card H3s + FAQPage use questions (was bare “Science” / “Medicine” / …); Organization `knowsAbout` mirrors those questions; refuse BLISS doom-score / doom-probability / forecast claims | Google + Bing | **Done** (2026-10-14) |
 | 379 | `/balance.html` side-column H3s + FAQPage use questions (was “Harm/Benefit language” / “register” / “side”); Organization `knowsAbout` mirrors those questions; refuse net-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 380 | Home `/` lab-card H3s + FAQPage use questions (was bare lab names); Organization `knowsAbout` mirrors those questions; refuse race-as-doom-oracle / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 381 | `/map.html` jurisdiction-table H3 + FAQPage use a question (was “Every jurisdiction, ranked”); Organization `knowsAbout` mirrors that question; refuse map-as-draw / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 382 | `/watts.html` corridor-card H3s + FAQPage use questions (was bare “Texas” / “Northern Virginia” / …); Organization `knowsAbout` mirrors those questions; refuse Watts doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
