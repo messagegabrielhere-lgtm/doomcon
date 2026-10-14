@@ -602,6 +602,8 @@ context.
 | 350 | `/export.html` badge + snippet H3s + FAQPage use questions (was “Live in Google Sheets” / “Widget (iframe)” / “Badge, for READMEs…” / “Badge (HTML/Markdown)” / “Share card…” / “JavaScript” / “Shell” / “Attribution line”); Organization `knowsAbout` mirrors those questions; refuse paid-API / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 351 | `/export.html` download-card H3s + FAQPage use questions (was “Every reading as CSV/JSON” / “Current pillars as CSV” / “Current reading as JSON” / “Current reading as one line of text” / “API index”); Organization `knowsAbout` mirrors those questions; refuse paid-API / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 352 | `/bias.html` candidate-card H3s + FAQPage use questions (was “Other-language Wikipedia pageviews” / “EUR-Lex” / “China: MIIT and CAC notices” / “Japan: METI” / “India: MeitY”); Organization `knowsAbout` mirrors those questions; refuse doom-probability / stuffing claims | Google + Bing | **Done** (2026-10-14) |
+| 353 | `/agents.html` start-here file-card H3s + FAQPage use questions (was “agents.md” / “agents.txt” / “skill.md” / “llms.txt” / “api-catalog” / “api/state.json” / “agent-kit”); Organization `knowsAbout` mirrors those questions; refuse scrape-Google / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 354 | `/evolution.html` timed-scan + archive-day H3s + FAQPage use questions (was “SCAN · …” / bare UTC day heads); Organization `knowsAbout` mirrors those question patterns; refuse Evolution-Log-as-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 

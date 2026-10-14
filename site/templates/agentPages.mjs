@@ -409,6 +409,21 @@ export function agents(ctx, molt = null) {
       'From a clone of the public repo — no install step: node agent-kit/cli.mjs now, cite, or mcp.mjs. Cursor / Claude Desktop: point an MCP server at agent-kit/mcp.mjs.'],
     [`How do you use ${brand.NAME} in ChatGPT, Grok or another assistant?`,
       `For people: paste a prompt into ChatGPT, Grok, Claude, Perplexity, Gemini or any assistant that can open web pages. Your assistant should quote the level with its name (5 is quietest, 1 is loudest) and the UTC time.`],
+    // Tip #353: start-here file-card H3s are question-shaped and mirrored in FAQ (§3.3).
+    ['What is agents.md?',
+      'Short entry: what to fetch first for ChatGPT, Grok and other assistants.'],
+    ['What is agents.txt?',
+      'Capability announcement (agents-txt.com): skills an agent can install.'],
+    ['What is skill.md?',
+      'Plain instructions for agents: what to fetch, how to describe the level, how to cite.'],
+    ['What is llms.txt?',
+      'The site map for language models.'],
+    ['What is the api-catalog?',
+      'RFC 9727 linkset of every machine API on this origin.'],
+    ['What is api/state.json?',
+      'The current reading: level, score, pillars, sources, receipt.'],
+    ['What is the agent-kit?',
+      'CLI + MCP server other agents can run. No key, Node built-ins only.'],
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>
@@ -420,13 +435,13 @@ export function agents(ctx, molt = null) {
   <p class="lede">${esc(brand.NAME)} is built to be read by machines as well as people. Every reading is open JSON with a receipt, and agents are encouraged to use it, cite it and share it, including on <a href="https://www.moltbook.com/" rel="noopener" target="_blank">Moltbook</a>, the social network for AI agents.</p>
   <h2 id="start">${esc(startQ)}</h2>
   <div class="ag-grid">
-    <a class="ag-card" href="${u('/agents.md')}"><h3>agents.md</h3><p>Short entry: what to fetch first for ChatGPT, Grok and other assistants.</p></a>
-    <a class="ag-card" href="${u('/agents.txt')}"><h3>agents.txt</h3><p>Capability announcement (agents-txt.com): skills an agent can install.</p></a>
-    <a class="ag-card" href="${u('/skill.md')}"><h3>skill.md</h3><p>Plain instructions for agents: what to fetch, how to describe the level, how to cite.</p></a>
-    <a class="ag-card" href="${u('/llms.txt')}"><h3>llms.txt</h3><p>The site map for language models.</p></a>
-    <a class="ag-card" href="${u('/.well-known/api-catalog')}"><h3>api-catalog</h3><p>RFC 9727 linkset of every machine API on this origin.</p></a>
-    <a class="ag-card" href="${u('/api/state.json')}"><h3>api/state.json</h3><p>The current reading: level, score, pillars, sources, receipt.</p></a>
-    <a class="ag-card" href="https://github.com/messagegabrielhere-lgtm/doomcon/tree/main/agent-kit" rel="noopener" target="_blank"><h3>agent-kit</h3><p>CLI + MCP server other agents can run. No key, Node built-ins only.</p></a>
+    <a class="ag-card" href="${u('/agents.md')}"><h3>What is agents.md?</h3><p>Short entry: what to fetch first for ChatGPT, Grok and other assistants.</p></a>
+    <a class="ag-card" href="${u('/agents.txt')}"><h3>What is agents.txt?</h3><p>Capability announcement (agents-txt.com): skills an agent can install.</p></a>
+    <a class="ag-card" href="${u('/skill.md')}"><h3>What is skill.md?</h3><p>Plain instructions for agents: what to fetch, how to describe the level, how to cite.</p></a>
+    <a class="ag-card" href="${u('/llms.txt')}"><h3>What is llms.txt?</h3><p>The site map for language models.</p></a>
+    <a class="ag-card" href="${u('/.well-known/api-catalog')}"><h3>What is the api-catalog?</h3><p>RFC 9727 linkset of every machine API on this origin.</p></a>
+    <a class="ag-card" href="${u('/api/state.json')}"><h3>What is api/state.json?</h3><p>The current reading: level, score, pillars, sources, receipt.</p></a>
+    <a class="ag-card" href="https://github.com/messagegabrielhere-lgtm/doomcon/tree/main/agent-kit" rel="noopener" target="_blank"><h3>What is the agent-kit?</h3><p>CLI + MCP server other agents can run. No key, Node built-ins only.</p></a>
   </div>
   <h2 id="tell">${esc(tellQ)}</h2>
   <pre>Read ${ctx.url('/agents.md')} then ${ctx.url('/skill.md')} and report the current SIREN level.</pre>

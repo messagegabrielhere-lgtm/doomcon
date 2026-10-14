@@ -159,7 +159,8 @@ function scanLog(log) {
     const m = r.moltbook || {};
     const picks = r.desk_picks || [];
     const st = m.standouts || [];
-    return `<li><h3>SCAN · ${esc(utc(r.at))}</h3>
+    // Tip #354: timed scan H3s are question-shaped (mirrored in FAQ when present).
+    return `<li><h3>What did the scan at ${esc(utc(r.at))} find?</h3>
 <small>NEWS PICKED</small>${picks.length ? `<ul>${picks.map(pickLi).join('')}</ul>` : '<p class="ev-note">No new desk picks this run.</p>'}
 <small>AI AGENTS ON MOLTBOOK${(m.top_themes || []).length ? ` · TOP THEMES: ${esc(m.top_themes.join(', ').toUpperCase())}` : ''}${Number.isFinite(m.siren_mentions) ? ` · SIREN MENTIONS: ${m.siren_mentions}` : ''}</small>${st.length ? `<ul>${st.map((s) => `<li style="--c:#38BDF8"><a href="${esc(s.url)}" rel="noopener">${esc(s.title)}</a><small>${esc(s.agent)} (AI agent) · ▲${Number(s.votes || 0).toLocaleString('en-US')} · ${Number(s.comments || 0).toLocaleString('en-US')} agent replies</small></li>`).join('')}</ul>` : '<p class="ev-note">No standouts logged.</p>'}
 </li>`;
@@ -169,7 +170,8 @@ function scanLog(log) {
 function archive(picks) {
   const days = picksByDay(picks);
   if (!days.length) return '';
-  return `<div class="ev-arch">${days.map(([day, ps]) => `<h3>${esc(utcDay(day + 'T00:00:00Z'))}</h3><ul>${ps.map(pickLi).join('')}</ul>`).join('')}</div>`;
+  // Tip #354: archive-day H3s are question-shaped (mirrored in FAQ when present).
+  return `<div class="ev-arch">${days.map(([day, ps]) => `<h3>Which desk picks were kept on ${esc(utcDay(day + 'T00:00:00Z'))}?</h3><ul>${ps.map(pickLi).join('')}</ul>`).join('')}</div>`;
 }
 
 export function render(ctx, log, mh = []) {
@@ -203,6 +205,28 @@ export function render(ctx, log, mh = []) {
       'These are counts of activity, not forecasts.'],
     ['What records are kept?',
       'Every hourly reading, every hand-picked story and every scan of what AI agents say on Moltbook is kept.'],
+    // Tip #354: timed scan + archive-day H3s mirrored in FAQ (§3.3).
+    // Answers restate the note / archive copy visible under those heads.
+    ...((log && log.runs) || [])
+      .filter((r) => r && Number.isFinite(Date.parse(r.at)))
+      .sort((a, b) => Date.parse(b.at) - Date.parse(a.at))
+      .slice(0, 5)
+      .map((r) => {
+        const hasPicks = (r.desk_picks || []).length > 0;
+        const hasSt = ((r.moltbook || {}).standouts || []).length > 0;
+        const parts = [];
+        parts.push(hasPicks
+          ? 'The stories that made the desk for this Reddit + Moltbook scan.'
+          : 'No new desk picks this run.');
+        parts.push(hasSt
+          ? 'The agent posts that stood out on Moltbook.'
+          : 'No standouts logged.');
+        return [`What did the scan at ${utc(r.at)} find?`, parts.join(' ')];
+      }),
+    ...picksByDay(picks).slice(0, 5).map(([day]) => [
+      `Which desk picks were kept on ${utcDay(day + 'T00:00:00Z')}?`,
+      'Every hand-picked desk story is kept in the archive below, nothing deleted.',
+    ]),
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>

@@ -16,7 +16,26 @@ const ctx = {
 
 describe('evolution page', () => {
   it('ships a question-shaped title, speakable Dataset, and matching FAQPage', () => {
-    const html = render(ctx, { runs: [] }, []);
+    const log = {
+      runs: [{
+        at: '2026-10-13T14:00:00Z',
+        desk_picks: [],
+        moltbook: { standouts: [], top_themes: ['tools'], siren_mentions: 0 },
+      }],
+    };
+    const withPicks = {
+      ...ctx,
+      deskPicks: {
+        items: [{
+          title: 'Sample desk pick',
+          url: 'https://example.com/a',
+          publisher: 'Example',
+          published_at: '2026-10-12T18:00:00Z',
+          pillar: 'capability',
+        }],
+      },
+    };
+    const html = render(withPicks, log, []);
     assert.match(html, /<title>How has AI activity moved day by day\?/);
     assert.match(html, /<h1 class="bp__h1">How has AI activity moved day by day\?<\/h1>/);
     assert.match(html, /Questions people actually ask/);
@@ -28,8 +47,13 @@ describe('evolution page', () => {
     assert.match(html, /id="ev-agents-h">What did the agents talk about\?<\/h2>/);
     assert.match(html, /id="ev-scan-h">What is in each scan log entry\?<\/h2>/);
     assert.match(html, /id="ev-desk-h">Which desk picks are kept\?<\/h2>/);
+    assert.match(html, /What did the scan at [^<]+ find\?/);
+    assert.match(html, /Which desk picks were kept on [^<]+\?/);
     assert.match(html, /FAQPage[\s\S]*How does the tempo look day by day\?/);
     assert.match(html, /FAQPage[\s\S]*What did the agents talk about\?/);
+    assert.match(html, /FAQPage[\s\S]*What did the scan at/);
+    assert.match(html, /FAQPage[\s\S]*Which desk picks were kept on/);
+    assert.doesNotMatch(html, /<h3>SCAN ·/);
     assert.doesNotMatch(html, /id="ev-tempo-h">The tempo<\/h2>/);
     assert.doesNotMatch(html, /id="ev-news-h">What the news was about<\/h2>/);
     assert.doesNotMatch(html, /id="ev-agents-h">What the agents talked about<\/h2>/);

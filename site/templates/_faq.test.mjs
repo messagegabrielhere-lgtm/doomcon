@@ -149,6 +149,8 @@ describe('homepage FAQ', () => {
     assert.ok(qa.some(([q]) => q === 'What badge works when iframes are stripped?'));
     assert.ok(qa.some(([q]) => q === 'How do I download every reading as CSV?'));
     assert.ok(qa.some(([q]) => q === 'Would other-language Wikipedia pageviews help?'));
+    assert.ok(qa.some(([q]) => q === 'What is agents.md?'));
+    assert.ok(qa.some(([q]) => q === 'What did the scan at a given UTC time find?'));
     assert.ok(qa.some(([q]) => q === 'What are the agents shipping right now?'));
     const html = render(ctx);
     assert.match(html, /What is in the newsroom\?/);
@@ -191,6 +193,8 @@ describe('homepage FAQ', () => {
     assert.match(html, /What badge works when iframes are stripped\?/);
     assert.match(html, /How do I download every reading as CSV\?/);
     assert.match(html, /Would other-language Wikipedia pageviews help\?/);
+    assert.match(html, /What is agents\.md\?/);
+    assert.match(html, /What did the scan at a given UTC time find\?/);
     assert.match(html, /What are the agents shipping right now\?/);
     assert.doesNotMatch(html, /probability of doom/i);
   });
