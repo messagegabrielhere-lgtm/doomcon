@@ -308,6 +308,8 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('What does one catalogue entry look like in full'));
     assert.ok(org.knowsAbout.includes('What can this exploit-lag data not do'));
     assert.ok(org.knowsAbout.includes('Where did this exploit-lag data come from, and how do you recompute it'));
+    assert.ok(org.knowsAbout.includes('What is CISA Known Exploited Vulnerabilities catalogue'));
+    assert.ok(org.knowsAbout.includes('What is NVD CVE records for the KEV set (cve.published)'));
     assert.ok(org.knowsAbout.includes('Flock ALPR camera map'));
     assert.ok(org.knowsAbout.includes('how many Flock ALPR cameras has SIREN mapped'));
     assert.ok(org.knowsAbout.includes('What should you read before the Flock map'));
@@ -324,6 +326,11 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('Why does BLISS have no score in this build'));
     assert.ok(org.knowsAbout.includes('Why is BLISS awaiting its baseline'));
     assert.ok(org.knowsAbout.includes('What are the five BLISS pillars'));
+    assert.ok(org.knowsAbout.includes('What does the BLISS Science pillar measure'));
+    assert.ok(org.knowsAbout.includes('What does the BLISS Medicine pillar measure'));
+    assert.ok(org.knowsAbout.includes('What does the BLISS Access pillar measure'));
+    assert.ok(org.knowsAbout.includes('What does the BLISS Adoption pillar measure'));
+    assert.ok(org.knowsAbout.includes('What does the BLISS Openness pillar measure'));
     assert.ok(org.knowsAbout.includes('Which BLISS sources answered this run'));
     assert.ok(org.knowsAbout.includes('How is BLISS computed'));
     assert.ok(org.knowsAbout.includes('How long has Nothing Ever Changed'));

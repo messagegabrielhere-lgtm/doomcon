@@ -67,4 +67,16 @@ describe('bliss page', () => {
     assert.match(html, /ruler has not been built yet/);
     assert.doesNotMatch(html, /doom probability/i);
   });
+
+  it('pillar-card H3s use questions mirrored in FAQPage', () => {
+    const html = render(ctx);
+    assert.match(html, /What does the BLISS Science pillar measure\?/);
+    assert.match(html, /What does the BLISS Medicine pillar measure\?/);
+    assert.match(html, /What does the BLISS Openness pillar measure\?/);
+    assert.match(html, /FAQPage[\s\S]*What does the BLISS Science pillar measure\?/);
+    assert.match(html, /FAQPage[\s\S]*What does the BLISS Access pillar measure\?/);
+    assert.doesNotMatch(html, /<h3 class="bp__name"[^>]*>[^<]*Science<\/h3>/);
+    assert.doesNotMatch(html, /<h3 class="bp__name"[^>]*>[^<]*Medicine<\/h3>/);
+    assert.doesNotMatch(html, /doom probability/i);
+  });
 });

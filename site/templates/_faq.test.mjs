@@ -174,6 +174,8 @@ describe('homepage FAQ', () => {
     assert.ok(qa.some(([q]) => q === 'What does SIREN 5 · DORMANT mean?'));
     assert.ok(qa.some(([q]) => q === 'What AI Spaces are live on X?'));
     assert.ok(qa.some(([q]) => q === 'Who is OpenAI on X?'));
+    assert.ok(qa.some(([q]) => q === 'What is CISA Known Exploited Vulnerabilities catalogue?'));
+    assert.ok(qa.some(([q]) => q === 'What does the BLISS Science pillar measure?'));
     const html = render(ctx);
     assert.match(html, /What is in the newsroom\?/);
     assert.match(html, /What is the signal feed\?/);
@@ -240,6 +242,8 @@ describe('homepage FAQ', () => {
     assert.match(html, /What does SIREN 5 · DORMANT mean\?/);
     assert.match(html, /What AI Spaces are live on X\?/);
     assert.match(html, /Who is OpenAI on X\?/);
+    assert.match(html, /What is CISA Known Exploited Vulnerabilities catalogue\?/);
+    assert.match(html, /What does the BLISS Science pillar measure\?/);
     assert.doesNotMatch(html, /probability of doom/i);
   });
 });

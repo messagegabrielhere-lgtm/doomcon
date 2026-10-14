@@ -626,6 +626,8 @@ context.
 | 374 | `/history.html` level-legend + pillar-legend H3s + FAQPage use questions (was “SIREN N · NAME” / bare pillar names); Organization `knowsAbout` mirrors those questions; refuse history-page doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 375 | `/live-x.html` Spaces-card H3s + FAQPage use questions (was “AI Spaces” / “Chatbot Spaces” / “AI safety Spaces” chips); Organization `knowsAbout` mirrors those questions; refuse live-X doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 376 | `/live-x.html` lab + leader voice-card H3s + FAQPage use questions (was bare names + @handles as chips); Organization `knowsAbout` mirrors those questions; refuse live-X doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 377 | `/exploits.html` source-card H3s + FAQPage use questions (was “CISA Known Exploited Vulnerabilities catalogue” / “NVD CVE records…”); Organization `knowsAbout` mirrors those questions; refuse exploit-lag doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 378 | `/bliss.html` pillar-card H3s + FAQPage use questions (was bare “Science” / “Medicine” / …); Organization `knowsAbout` mirrors those questions; refuse BLISS doom-score / doom-probability / forecast claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
