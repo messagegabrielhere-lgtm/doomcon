@@ -35,6 +35,8 @@ describe('bias page', () => {
     assert.match(html, /\/feedback\.html/);
     assert.match(html, /How the SIREN AI activity index is computed · methodology/);
     assert.match(html, /How do I report a problem or send an idea to SIREN\?/);
+    assert.match(html, /href="\/news\.html">Which AI stories has SIREN scored in this window\?<\/a>/);
+    assert.doesNotMatch(html, /href="\/news\.html">newsroom<\/a>/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /probability of doom/i);
     assert.doesNotMatch(html, /noindex/);

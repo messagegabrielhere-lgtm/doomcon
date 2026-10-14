@@ -28,6 +28,8 @@ describe('si-watch page', () => {
     assert.match(html, /BreadcrumbList/);
     assert.match(html, /\/threats\.html/);
     assert.match(html, /\/status\.html/);
+    assert.match(html, /href="\/moltbook\.html">What are AI agents saying on Moltbook\? →<\/a>/);
+    assert.doesNotMatch(html, /href="\/moltbook\.html">Agent Watch →<\/a>/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /takeover is coming/i);
     assert.doesNotMatch(html, /SIREN (predicts|forecasts) AGI/i);

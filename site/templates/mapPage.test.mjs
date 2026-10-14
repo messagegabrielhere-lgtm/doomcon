@@ -33,6 +33,8 @@ describe('map page', () => {
     assert.match(html, /"@type":\s*"Dataset"/);
     assert.match(html, /BreadcrumbList/);
     assert.match(html, /\/world\.html/);
+    assert.match(html, /href="\/watts\.html">What does the SIREN infrastructure index read\?<\/a>/);
+    assert.doesNotMatch(html, /href="\/watts\.html">The infrastructure index<\/a>/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /noindex/);
   });

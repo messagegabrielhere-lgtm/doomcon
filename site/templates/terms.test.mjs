@@ -26,6 +26,10 @@ test('terms.html ships question-shaped title, speakable, breadcrumbs, and visibl
   assert.match(html, /BreadcrumbList/);
   assert.match(html, /Questions people actually ask/);
   assert.match(html, /Does SIREN predict the future or measure danger\?/);
+  assert.match(html, /href="\/disclosures\.html">What does SIREN disclose\?<\/a>/);
+  assert.match(html, /href="\/privacy\.html">What does SIREN know about you\?<\/a>/);
+  assert.doesNotMatch(html, /href="\/disclosures\.html">disclosures<\/a>/);
+  assert.doesNotMatch(html, /href="\/privacy\.html">privacy page<\/a>/);
   assert.doesNotMatch(html, /probability of doom is \d/i);
   assert.doesNotMatch(html, /SIREN.*p\(doom\) of \d/i);
 });

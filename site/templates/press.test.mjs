@@ -26,6 +26,10 @@ test('press.html ships question-shaped title, speakable, breadcrumbs, and visibl
   assert.match(html, /BreadcrumbList/);
   assert.match(html, /Questions people actually ask/);
   assert.match(html, /How do I cite a SIREN reading\?/);
+  assert.match(html, /href="\/methodology\.html">How the SIREN AI activity index is computed · methodology<\/a>/);
+  assert.match(html, /href="\/instruments\.html#embed">What instruments sit behind the SIREN reading\?<\/a>/);
+  assert.doesNotMatch(html, /href="\/methodology\.html">method<\/a>/);
+  assert.doesNotMatch(html, /href="\/instruments\.html#embed">instruments page<\/a>/);
   assert.doesNotMatch(html, /probability of doom is \d/i);
   assert.doesNotMatch(html, /SIREN.*p\(doom\) of \d/i);
 });
