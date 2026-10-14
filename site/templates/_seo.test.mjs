@@ -283,6 +283,10 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('What do the five moods mean'));
     assert.ok(org.knowsAbout.includes('Where does Tally work on the site'));
     assert.ok(org.knowsAbout.includes('Can I use Tally in my own posts'));
+    assert.ok(org.knowsAbout.includes('Who is the Grok crew behind the business'));
+    assert.ok(org.knowsAbout.includes('How does the data crew work together'));
+    assert.ok(org.knowsAbout.includes('Who is on the data crew'));
+    assert.ok(org.knowsAbout.includes('Can I join the crew'));
     assert.ok(org.knowsAbout.includes('ready for superintelligence'));
     assert.ok(org.knowsAbout.includes('Ready for SI personal plan'));
     assert.ok(org.knowsAbout.includes('USA vs China AI race'));
