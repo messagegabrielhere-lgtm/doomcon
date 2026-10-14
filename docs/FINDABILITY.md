@@ -798,6 +798,10 @@ context.
 | 546 | Model hub `/model/kimi` (Kimi / Kimi K2 forms, ≥3); IndexNow + seo-daily; refuse model-doom-score / capability-ranking claims | Google + Bing | **Done** (2026-10-14) |
 | 547 | Lab hub `/lab/coreweave` (CoreWeave entity, ≥3); IndexNow + seo-daily; refuse company-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 548 | Topic tag `disentanglement` (live/archive ≥5); IndexNow + seo-daily monitor; refuse capability-ranking / doom-probability claims; refuse noisy `citation` / `cuda` doorways | Google + Bing | **Done** (2026-10-14) |
+| 549 | Lab hub `/lab/cognition` (Cognition / Devin forms, ≥3); IndexNow + seo-daily; refuse company-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 550 | Lab hub `/lab/groq` (Groq entity, ≥3); IndexNow + seo-daily; refuse company-doom-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 551 | Model hub `/model/glm` (GLM / GLM-5 / GLM5.3 forms, ≥3); IndexNow + seo-daily; refuse model-doom-score / capability-ranking claims | Google + Bing | **Done** (2026-10-14) |
+| 552 | Model hub `/model/grok` (Grok forms, ≥3); IndexNow + seo-daily; refuse model-doom-score / capability-ranking claims; refuse ollama-polluted Llama monitor | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 

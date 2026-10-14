@@ -328,6 +328,31 @@ describe('model pages', () => {
     assert.ok(sitemapEntries(rich).some((e) => e.loc === '/model/jev.html'));
   });
 
+  it('indexes GLM and Grok model hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('gl1', 'Intel CEO Says DeepSeek, Kimi, GLM Are Good Enough', []),
+          story('gl2', 'Strata for GLM5.3 Flash is here for some', []),
+          story('gl3', 'Ecosia switches to open-weight models including Qwen, GLM, Kimi', []),
+          story('gk1', 'Grok 4.7 Release: Pricing, Benchmarks vs Claude 5.5', []),
+          story('gk2', 'Musk Says Some Grok Training Traces Read Like Torture', []),
+          story('gk3', 'AI shopping with Grok sparks privacy debate', []),
+        ],
+      },
+    };
+    assert.ok(indexableModels(rich).some((m) => m.name === 'GLM'));
+    assert.ok(indexableModels(rich).some((m) => m.name === 'Grok'));
+    assert.ok(sitemapEntries(rich).some((e) => e.loc === '/model/glm.html'));
+    assert.ok(sitemapEntries(rich).some((e) => e.loc === '/model/grok.html'));
+    assert.match(renderModel(rich, 'GLM'), /What has SIREN scored about GLM\?|GLM/);
+    assert.match(renderModel(rich, 'Grok'), /What has SIREN scored about Grok\?|Grok/);
+    assert.doesNotMatch(renderModel(rich, 'GLM'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderModel(rich, 'Grok'), /probability of doom/i);
+  });
+
   it('indexes Kimi from Moonshot-family title forms', () => {
     const rich = {
       ...ctx,

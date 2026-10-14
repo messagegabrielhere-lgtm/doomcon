@@ -40,6 +40,7 @@ const MODEL_LAB = {
   SynthID: 'google-deepmind',
   Clef: 'cloudflare',
   Kimi: 'moonshot-ai',
+  GLM: 'zhipu',
 };
 
 const MODELS = publishedEntities().filter((e) => e.kind === 'model');
