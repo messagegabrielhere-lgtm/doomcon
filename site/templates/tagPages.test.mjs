@@ -2402,4 +2402,35 @@ describe('tag pages', () => {
     assert.doesNotMatch(renderTag(rich, 'ai-use'), /doom score:\s*\d/i);
     assert.doesNotMatch(renderTag(rich, 'ai-use'), /probability of doom/i);
   });
+
+  it('pages ai-cloud and ai-era hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('ac1', 'IREN Stock Price Forecast: Multi-Year AI Cloud Deal With Anthropic'),
+          story('ac2', 'Iren Shares Rise 5% Premarket Following Reported Multi-Year AI Cloud Deal'),
+          story('ac3', 'IREN Rises Overnight After Report of Anthropic AI Cloud Deal'),
+          story('ac4', 'Iren shares jump 5% in premarket trade on report of Anthropic AI cloud deal'),
+          story('ac5', 'Is IONOS Group Below Fair Value As AI Cloud Demand Lifts Its Growth Story?'),
+          story('ae1', 'Navigating the Fog of ARR in the AI Era'),
+          story('ae2', 'Ask HN: What to Build in the AI Era?'),
+          story('ae3', 'Show HN: Shpyrd – A new type of cloud for AI era'),
+          story('ae4', 'Cybersecurity Crisis Communication in the AI Era'),
+          story('ae5', 'Evolving programming languages in the AI era'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    assert.ok(ids.includes('ai-cloud'));
+    assert.ok(ids.includes('ai-era'));
+    assert.match(renderTag(rich, 'ai-cloud'), /What has SIREN scored about AI cloud\?/);
+    assert.match(renderTag(rich, 'ai-era'), /What has SIREN scored about AI era\?/);
+    assert.match(renderTag(rich, 'ai-cloud'), /not a supply forecast/i);
+    assert.match(renderTag(rich, 'ai-era'), /not a market forecast/i);
+    assert.doesNotMatch(renderTag(rich, 'ai-cloud'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'ai-era'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'ai-era'), /probability of doom/i);
+  });
 });
