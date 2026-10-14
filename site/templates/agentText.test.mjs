@@ -124,9 +124,8 @@ test('llms.txt follows the llmstxt.org shape and lists the endpoints', () => {
   assert.ok(lines.length < 240, `${lines.length} lines`);
   for (const p of ['/api/now.txt', '/now.md', '/api/state.json', '/api/history.json', '/api/news.json', '/api/leaders.json',
     '/api/si-signals.json', '/api/search-index.json', '/api/fresh.json', '/api/health.json', '/api/receipts/', '/feed.xml', '/openapi.json',
-    '/methodology.md', '/guide.md', '/guides.html', '/guides.md', '/agents.md', '/agents.txt',
-    '/.well-known/api-catalog', '/compare.html', '/vs.html', '/alternatives.html',
-    '/vs/pizzint.html', '/vs/takeofftracker.html']) {
+    '/methodology.md', '/guide.md', '/guides.md', '/agents.md', '/agents.txt', '/.well-known/api-catalog', '/guides.html', '/compare.html', '/vs.html', '/alternatives.html',
+    '/vs/pizzint.html', '/pillars.html', '/sources.html', '/countries.html']) {
     assert.ok(txt.includes(`https://siren.watch${p}`), p);
   }
   assert.ok(txt.includes(dispatchFeedUrl()));
@@ -140,6 +139,8 @@ test('llms.txt follows the llmstxt.org shape and lists the endpoints', () => {
   assert.match(txt, /## Complementary/);
   assert.match(txt, /ChatGPT \/ Grok/);
   assert.match(txt, /agent-kit/);
+  assert.match(txt, /Do not scrape Google Search/);
+  assert.match(txt, /\/moves\//);
   assert.doesNotMatch(txt, /@[a-z0-9-]+\.[a-z]/i, 'no email addresses');
   const full = llmsFullTxt(ctx, { state, history, url });
   assert.ok(full.startsWith(txt));
@@ -150,16 +151,17 @@ test('agents.md is a short fetch-first entry for ChatGPT and Grok', () => {
   const md = agentsMd({ url });
   assert.match(md, /^# SIREN for AI agents/);
   assert.match(md, /ChatGPT, Grok/);
-  for (const p of ['/api/now.txt', '/now.md', '/llms.txt', '/skill.md', '/agents.html',
-    '/compare.html', '/vs.html', '/agents.txt']) {
+  for (const p of ['/api/now.txt', '/now.md', '/llms.txt', '/skill.md', '/agents.html', '/compare.html', '/agents.txt']) {
     assert.ok(md.includes(`https://siren.watch${p}`), p);
   }
   assert.match(md, /not a prediction|Never call it a prediction/);
+  assert.match(md, /Do not scrape Google Search/);
+  assert.match(md, /\/moves\//);
   assert.match(md, /artificialanalysis\.ai/);
   assert.match(md, /agent-kit/);
   assert.match(md, /siren_now|cli\.mjs/);
   assert.match(md, /api-catalog|agents\.txt/);
-  assert.ok(md.split('\n').length < 100, 'keep it short for assistants');
+  assert.ok(md.split('\n').length < 105, 'keep it short for assistants');
 });
 
 test('robots.txt welcomes each AI agent by name and keeps the sitemaps', () => {

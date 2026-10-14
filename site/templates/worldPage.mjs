@@ -41,6 +41,7 @@
 
 import { esc, utc } from './_html.mjs';
 import { page } from './layout.mjs';
+import { breadcrumbs, speakable } from './_seo.mjs';
 import * as brand from '../brand.mjs';
 import { worldModel, worldFigure, worldLegend, worldTable, worldMapCss } from './_worldmap.mjs';
 import { countryIndexable, countryPath } from './countryPages.mjs';
@@ -159,15 +160,16 @@ const MAP_HREF = '__MAP_HREF__';
 function theCaveat(w) {
   const copy = w.copy || {};
   const asOf = w.as_of_date || 'the day it was read';
+  const warnQ = 'What should you read before the world map?';
   return `<section class="wld__warn" aria-labelledby="wld-warn-h">
-  <h2 class="wld__warn__h" id="wld-warn-h">${icon('sec-signal')} Read this before you read the map</h2>
+  <h2 class="wld__warn__h" id="wld-warn-h">${icon('sec-signal')} ${esc(warnQ)}</h2>
   <p class="wld__warn__p wld__warn__p--lead">${esc(copy.what_zero_means || '')}</p>
   <p class="wld__warn__p">Every figure on this page counts map objects carrying a datacentre tag in
     OpenStreetMap on ${esc(asOf)}. Coverage follows volunteers, not deployments: a dense country is a
     country somebody mapped, and comparing two countries here is partly comparing how many people were
     looking.</p>
   <p class="wld__warn__p wld__warn__p--last">This page joins nothing; it counts. The United States figure
-    here is not the figure on <a href="${MAP_HREF}">the United States map</a>, which keeps only the sites it
+    here is not the figure on <a href="${MAP_HREF}">How many datacentres has ${esc(brand.NAME)} mapped in the United States?</a>, which keeps only the sites it
     can place in a county and joins them to drought, grid and river data. Both numbers are printed, and
     neither is adjusted toward the other.</p>
 </section>`;
@@ -189,8 +191,9 @@ function mapCaption(w, m) {
 
 function mapSection(w, m) {
   const t = m.totals;
+  const mapQ = 'Where are the mapped datacentres on Earth?';
   return `<section class="wld__sec" id="the-map" aria-labelledby="wld-map-h">
-  <h2 class="wld__sec__h" id="wld-map-h">${icon('sec-map')} The map
+  <h2 class="wld__sec__h" id="wld-map-h">${icon('sec-map')} ${esc(mapQ)}
     <span class="wld__count num">${N(t.pinned)}</span></h2>
   <p class="wld__sec__l">One pin per mapped site, drawn exactly where OpenStreetMap places the object. The
     picture needs no JavaScript and every figure in it is a number in the table below. With it, the map pans
@@ -222,15 +225,16 @@ function countrySection(ctx, w, m) {
       <span class="num">${N(c.count)}</span><span class="wld__cont__p num">${t.sites ? pct(c.count / t.sites) : '—'}</span></li>`).join('');
   const top = m.countries[0] || null;
 
+  const countryQ = 'Which countries have a mapped datacentre site?';
   return `<section class="wld__sec" id="by-country" aria-labelledby="wld-country-h">
-  <h2 class="wld__sec__h" id="wld-country-h">${icon('sec-substrate')} Every country with a mapped site
+  <h2 class="wld__sec__h" id="wld-country-h">${icon('sec-substrate')} ${esc(countryQ)}
     <span class="wld__count num">${count(t.countriesWithSites, '—')}/${count(t.countriesInRoster, '—')}</span></h2>
   <p class="wld__sec__l">Ranked by sites mapped. ${top ? `${esc(top.name)} tops the ranking with ${N(top.total)} —
     ${t.sites ? pct(top.total / t.sites) : '—'} of every mapped site on Earth — and that is a fact about where
     OpenStreetMap's datacentre mappers are as much as about where datacentres are.` : ''} The
     ${count(t.countriesWithNone, '—')} countries in the roster with none mapped are not a tail of this ranking;
     they are outside it, because nobody has looked.
-    <a href="${esc(ctx.href('/country/'))}">Countries with at least three mapped sites</a> each have a page.</p>
+    <a href="${esc(ctx.href('/country/'))}">Which AI datacentre countries have ${esc(brand.NAME)} pages?</a> each have a page.</p>
   <ul class="wld__cont" aria-label="Mapped sites by continent">${conts}</ul>
   ${worldTable(m, {
     mapId: MAP_ID,
@@ -325,8 +329,9 @@ function orbitTable(o) {
 function orbitSection(o) {
   const t = o.totals || {};
   const honesty = (Array.isArray(o.honesty) ? o.honesty : []).map((s) => `<li>${esc(s)}</li>`).join('');
+  const orbitQ = 'How much computing hardware is in orbit?';
   return `<section class="wld__sec" id="orbit" aria-labelledby="wld-orbit-h">
-  <h2 class="wld__sec__h" id="wld-orbit-h">${icon('sec-substrate')} Computing hardware in orbit<span class="sec__eb">Off the planet</span>
+  <h2 class="wld__sec__h" id="wld-orbit-h">${icon('sec-substrate')} ${esc(orbitQ)}<span class="sec__eb">Off the planet</span>
     <span class="wld__count num">${N(o.totals && Number.isFinite(o.totals.in_orbit_spacecraft)
       ? o.totals.in_orbit_spacecraft : o.programmes.length)}</span></h2>
   <p class="wld__sec__l wld__sec__l--lead">${esc(o.verdict || '')}</p>
@@ -340,7 +345,7 @@ function orbitSection(o) {
   ${orbitStatusChips(o)}
   ${orbitTable(o)}
   <p class="wld__sec__l">${esc(o.what_this_is || '')}</p>
-  ${honesty ? `<h3 class="wld__sec__h3">What the register can and cannot say</h3>
+  ${honesty ? `<h3 class="wld__sec__h3">What can the register say and not say?</h3>
   <ul class="wld__lim">${honesty}</ul>` : ''}
 </section>`;
 }
@@ -354,8 +359,9 @@ function limitsSection(w, m) {
   const t = w.totals || {};
   const honesty = (Array.isArray(w.honesty) ? w.honesty : []).map((s) => `<li>${esc(s)}</li>`).join('');
   const disagree = (Array.isArray(w.sites) ? w.sites : []).filter((s) => s.tag_disagrees).length;
+  const limQ = 'What can this world map say and not say?';
   return `<section class="wld__sec" id="limits" aria-labelledby="wld-lim-h">
-  <h2 class="wld__sec__h" id="wld-lim-h">${icon('sec-signal')} What this can and cannot say</h2>
+  <h2 class="wld__sec__h" id="wld-lim-h">${icon('sec-signal')} ${esc(limQ)}</h2>
   <p class="wld__sec__l wld__sec__l--lead">${esc(copy.what_zero_means || '')}</p>
   <p class="wld__sec__l">Published by the collector, printed here unedited.</p>
   <ul class="wld__lim">${honesty}</ul>
@@ -381,8 +387,9 @@ function methodSection(ctx, w, outline) {
   const simp = outline.simplify || {};
   const oc = outline.counts || {};
   const variants = Array.isArray(s.tag_variants) ? s.tag_variants : [];
+  const methodQ = 'Where did the world map data come from?';
   return `<section class="wld__sec" id="method" aria-labelledby="wld-method-h">
-  <h2 class="wld__sec__h" id="wld-method-h">${icon('sec-method')} Where this came from</h2>
+  <h2 class="wld__sec__h" id="wld-method-h">${icon('sec-method')} ${esc(methodQ)}</h2>
 
   <p class="wld__sec__l"><b>${esc(s.label || 'OpenStreetMap via Overpass')}.</b> One planet-wide query against
     <code class="wld__tag">${esc(s.endpoint || 'the Overpass endpoint')}</code>, keyless, for
@@ -394,14 +401,14 @@ function methodSection(ctx, w, outline) {
     <b>${w.generated_at ? esc(utc(w.generated_at)) : 'at an unpublished time'}</b>
     (${esc(s.harvest_origin || 'origin not recorded')}, refreshed every ${count(s.refresh_days, '—')} days).</p>
 
-  <h3 class="wld__sec__h3">The query</h3>
+  <h3 class="wld__sec__h3">What is the Overpass query?</h3>
   <p class="wld__sec__l">Sent as the <code class="wld__tag">data=</code> field of a GET, which Overpass accepts
     identically to a form-encoded POST. Every figure on this page is arithmetic over the response.</p>
   <pre class="wld__pre"><code>${esc(s.query_template || '')}</code></pre>
   ${variants.length ? `<p class="wld__sec__n">The ${N(variants.length)} tag variants, unioned:
     ${variants.map((v) => `<code class="wld__tag">${esc(v)}</code>`).join(' ')}</p>` : ''}
 
-  <h3 class="wld__sec__h3">Geography</h3>
+  <h3 class="wld__sec__h3">How was geography assigned?</h3>
   <p class="wld__sec__l">Countries were assigned against <b>${esc(g.label || 'Natural Earth admin-0 countries')}</b>
     ${g.version ? `(${esc(g.version)})` : ''}, ${count(g.countries, 'an unpublished number of')} polygons,
     ${esc(g.licence || 'licence not recorded')}, read from
@@ -415,7 +422,7 @@ function methodSection(ctx, w, outline) {
     Drawing is not attribution: a pin's country came from the finer file, and the coarser one is only the
     picture under it. ${esc(copy.outline_credit || '')}</p>
 
-  <h3 class="wld__sec__h3">Licence</h3>
+  <h3 class="wld__sec__h3">What is the licence?</h3>
   <p class="wld__sec__l"><b>${esc(copy.attribution_required || '© OpenStreetMap contributors')}</b> —
     <a href="${esc(copy.attribution_url || 'https://www.openstreetmap.org/copyright')}" rel="license noopener">${esc(copy.attribution_url || 'https://www.openstreetmap.org/copyright')}</a>.
     ${esc((s.licence && s.licence.data) || 'Open Database License (ODbL) v1.0')}. Attribution is a term of that
@@ -430,8 +437,9 @@ function methodSection(ctx, w, outline) {
 
 function dataSection(ctx, w, m, orbital) {
   const t = m.totals;
+  const dataQ = 'Where can you take the world map data?';
   return `<section class="wld__sec" id="data" aria-labelledby="wld-data-h">
-  <h2 class="wld__sec__h" id="wld-data-h">${icon('sec-api')} Take the data</h2>
+  <h2 class="wld__sec__h" id="wld-data-h">${icon('sec-api')} ${esc(dataQ)}</h2>
   <p class="wld__sec__l">Published beside this page byte-identical to the committed files — the build copies
     them verbatim rather than re-serialising, so the checksum of the file in the repository is the checksum of
     the file served here.</p>
@@ -489,8 +497,9 @@ export function render(ctx) {
   const q = String(copy.headline_qualifier || '');
 
   const headline = `${N(t.sites)} datacentres ${q}`;
+  const title = `How many datacentres has ${brand.NAME} mapped on Earth?`;
   const description =
-    `Every datacentre OpenStreetMap has mapped anywhere on Earth — ${N(t.sites)} objects in `
+    `How many datacentres has ${brand.NAME} mapped on Earth? ${N(t.sites)} OpenStreetMap objects in `
     + `${count(t.countries_with_sites, 'an unpublished number of')} countries, ${q}, on an equal-area map `
     + `with a ranked country table. ${count(t.countries_with_none, '—')} countries in the roster have none `
     + `mapped, which means nobody has mapped them rather than that there are none. `
@@ -501,13 +510,66 @@ export function render(ctx) {
     + `Open Database Licence data, © OpenStreetMap contributors. `
     + (w.generated_at ? `Compiled ${utc(w.generated_at)}.` : '');
 
+  // Tip #299: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const warnQ = 'What should you read before the world map?';
+  const mapQ = 'Where are the mapped datacentres on Earth?';
+  const countryQ = 'Which countries have a mapped datacentre site?';
+  const orbitQ = 'How much computing hardware is in orbit?';
+  const limQ = 'What can this world map say and not say?';
+  const methodQ = 'Where did the world map data come from?';
+  const dataQ = 'Where can you take the world map data?';
+  // FAQ answers restates visible hero / caveat copy only (FINDABILITY §3.3).
+  const faq = [
+    [`How many datacentres has ${brand.NAME} mapped on Earth?`,
+      `${N(t.sites)} map objects carrying a datacentre tag in OpenStreetMap, ${q}. That is a count of map objects, not ${copy.never_say || 'the number of datacentres in the world'}.`],
+    [warnQ,
+      `Every figure on this page counts map objects carrying a datacentre tag in OpenStreetMap. Coverage follows volunteers, not deployments: a dense country is a country somebody mapped.`],
+    [mapQ,
+      `One pin per mapped site, drawn exactly where OpenStreetMap places the object. ${N(m.totals.pinned)} pins on an Equal Earth projection.`],
+    [countryQ,
+      `Ranked by sites mapped. Countries in the roster with none mapped are outside the ranking, because nobody has looked — not because there are none.`],
+    ...(orbital ? [[orbitQ,
+      `Spacecraft in orbit carrying compute hardware against satellites filed or planned for it. The two numbers are printed together everywhere on this page, because the second one printed alone is a press release.`]] : []),
+    [limQ,
+      copy.what_zero_means || 'A country with no mapped datacentre is a country nobody has mapped rather than a country with none. This is a snapshot and not a time series.'],
+    [methodQ,
+      `One planet-wide Overpass query against OpenStreetMap, keyless. Attribution is a term of the ODbL licence, not a courtesy.`],
+    // Tip #339: method / orbit H3s are question-shaped and mirrored in FAQ (§3.3).
+    ['What can the register say and not say?',
+      'Honesty limits for the orbital-compute register are listed under that heading when the register is present — what the filings can and cannot establish.'],
+    ['What is the Overpass query?',
+      'The method section prints the Overpass query sent as the data= field of a GET. Every figure on this page is arithmetic over the response.'],
+    ['How was geography assigned?',
+      'Countries were assigned against Natural Earth admin-0 countries. Drawing outlines use a coarser file; a pin\'s country came from the finer file.'],
+    ['What is the licence?',
+      '© OpenStreetMap contributors under the Open Database License (ODbL) v1.0. Attribution is a term of that licence, not a courtesy.'],
+    // Tip #346: world legend H3s are question-shaped and mirrored in FAQ (§3.3).
+    ['What does shape mean on this map?',
+      'Shape is status. Status is read from the OpenStreetMap tag that set it: construction, proposed or planned, or operating. Every pin carries its status in the JSON.'],
+    ['Why is every pin one colour?',
+      'Neither drought nor capacity joins exist outside the United States, so here every pin is the same size and the same colour, and nothing is being said by either.'],
+    ['What is not drawn?',
+      'Countries with no mapped datacentre, sites outside the drawn frame, and pins with no usable coordinate are listed in the legend rather than dragged onto the map empty.'],
+    [dataQ,
+      `Published beside this page byte-identical to the committed files — /api/world.json carries every number on this page.`],
+    [`Does a country with none mapped have zero datacentres?`,
+      copy.what_zero_means || 'A country with no mapped datacentre is a country nobody has mapped rather than a country with none.'],
+    [`Does the world map feed the main ${brand.NAME} number?`,
+      `No. This page is a ${brand.NAME} sub-index. It draws, attributes, and counts mapped sites — it does not feed the hourly activity index.`],
+    [`Does ${brand.NAME} publish a world-map doom score?`,
+      `No. ${brand.DISCLAIMER_SHORT} The world map counts OpenStreetMap datacentre tags — not a probability of harm and not a forecast.`],
+  ];
+  const faqHtml = faq.map(([qAsk, a]) => `
+  <h3>${esc(qAsk)}</h3>
+  <p>${esc(a)}</p>`).join('');
+
   const main = `<style>${worldMapCss()}${worldCss()}</style>
 ${iconSprite({ only: SPRITE })}
 <div class="usm-scope wld">
 
 <section class="wld__hero">
   <p class="wld__eyebrow">The world · a ${esc(brand.NAME)} sub-index · does not feed the main number</p>
-  <h1 class="wld__h1">Every mapped datacentre on Earth</h1>
+  <h1 class="wld__h1">How many datacentres has ${esc(brand.NAME)} mapped on Earth?</h1>
   <p class="wld__sub">${N(t.sites)} map objects carrying a datacentre tag, ${esc(q)}</p>
   <p class="wld__lede">Where anybody has written a datacentre into OpenStreetMap — a public, openly-licensed
     map that anyone can read and anyone can edit — attributed to a country and counted. The United States
@@ -532,6 +594,13 @@ ${methodSection(ctx, w, outline)}
 
 ${dataSection(ctx, w, m, orbital)}
 
+<section class="wld__faq" aria-labelledby="faq">
+  <h2 id="faq">What questions do people actually ask?</h2>
+  ${faqHtml}
+  <p class="wld__faq-key">Search-shaped directory:
+    <a href="${esc(ctx.href('/countries.html'))}">Which AI datacentre countries has ${esc(brand.NAME)} mapped?</a>.</p>
+</section>
+
 <p class="wld__odbl">Datacentre locations on this page are
   <a href="${esc(copy.attribution_url || 'https://www.openstreetmap.org/copyright')}" rel="license noopener">${esc(copy.attribution_required || '© OpenStreetMap contributors')}</a>,
   licensed under the Open Database License. ${esc(copy.outline_credit || '')}</p>
@@ -540,12 +609,27 @@ ${dataSection(ctx, w, m, orbital)}
   return page({
     ctx,
     path: PATH,
-    title: `Every mapped datacentre on Earth — ${headline} · ${brand.NAME}`,
-    ogTitle: `${brand.NAME}: ${headline}`,
+    title: `${title} · ${headline} · ${brand.NAME}`,
+    ogTitle: `${brand.NAME}: ${title}`,
     description,
     ogImage: ctx.cardFor ? ctx.cardFor('world') : null,
     ogImageAlt: `${brand.NAME} equal-area map of every datacentre mapped in OpenStreetMap, ${q}`,
-    jsonld: [dataset(ctx, w, m)],
+    jsonld: [
+      dataset(ctx, w, m, title),
+      breadcrumbs(ctx, [
+        { name: 'Home', path: '/' },
+        { name: title, path: PATH },
+      ]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map(([qAsk, a]) => ({
+          '@type': 'Question',
+          name: qAsk,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
+      },
+    ],
     main: main.split(MAP_HREF).join(ctx.href('/map.html')),
     bodyEnd: enhanceJs(),
   });
@@ -553,15 +637,16 @@ ${dataSection(ctx, w, m, orbital)}
 
 /** ctx.world or the outline absent. Builds, says so plainly, and carries noindex. */
 function emptyPage(ctx) {
+  const title = `How many datacentres has ${brand.NAME} mapped on Earth?`;
   return page({
     ctx,
     path: PATH,
     noindex: true,
-    title: `Every mapped datacentre on Earth · ${brand.NAME}`,
+    title: `${title} · ${brand.NAME}`,
     description: 'The world datacentre map is not in this build.',
     main: `<div class="wld"><section class="wld__hero">
   <p class="wld__eyebrow">The world · a ${esc(brand.NAME)} sub-index</p>
-  <h1 class="wld__h1">Every mapped datacentre on Earth</h1>
+  <h1 class="wld__h1">How many datacentres has ${esc(brand.NAME)} mapped on Earth?</h1>
   <p class="wld__lede">This build carries no <code>data/world.json</code> or no
     <code>data/world-outline.json</code>, so there is nothing to draw. The page exists and says so rather
     than inventing a map. Run <code>collector/world.mjs</code> and rebuild.</p>
@@ -569,7 +654,7 @@ function emptyPage(ctx) {
   });
 }
 
-function dataset(ctx, w, m) {
+function dataset(ctx, w, m, title) {
   const s = w.source || {};
   const t = w.totals || {};
   const vars = [
@@ -584,7 +669,7 @@ function dataset(ctx, w, m) {
   return {
     '@context': 'https://schema.org',
     '@type': 'Dataset',
-    name: `${brand.NAME} — every datacentre mapped in OpenStreetMap, worldwide, by country`,
+    name: title || `How many datacentres has ${brand.NAME} mapped on Earth?`,
     description:
       'Every map object carrying a datacentre tag in OpenStreetMap, anywhere on Earth, attributed to a '
       + 'country by point-in-polygon against Natural Earth outlines and counted by status. A count of map '
@@ -599,6 +684,7 @@ function dataset(ctx, w, m) {
     isAccessibleForFree: true,
     spatialCoverage: { '@type': 'Place', name: 'World' },
     keywords: ['datacentres', 'artificial intelligence', 'OpenStreetMap', 'Natural Earth', 'orbital data centres'],
+    speakable: speakable(['h1.wld__h1', 'p.wld__lede']),
     distribution: [{
       '@type': 'DataDownload',
       encodingFormat: 'application/json',
@@ -629,6 +715,11 @@ function worldCss() {
 .wld__plain{font:400 var(--t-base)/1.55 var(--sans);margin:0 0 var(--s-5);max-width:60ch;
   padding:var(--s-3) var(--s-4);background:var(--wash-alt);border-left:3px solid var(--accent);
   border-radius:var(--radius)}
+.wld__faq{margin:var(--sec) 0 var(--s-5);max-width:62ch}
+.wld__faq h2{font:600 var(--t-lg)/1.2 var(--sans);margin:0 0 var(--s-3)}
+.wld__faq h3{font:600 var(--t-base)/1.3 var(--sans);margin:var(--s-4) 0 var(--s-2)}
+.wld__faq p{font:400 var(--t-base)/1.55 var(--sans);color:var(--ink-dim);margin:0 0 var(--s-2)}
+.wld__faq-key{margin-top:var(--s-4)!important}
 
 .wld__c{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:1px;
   background:var(--rule-soft);border:1px solid var(--rule-soft);border-radius:var(--radius);overflow:hidden}
