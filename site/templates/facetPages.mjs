@@ -979,22 +979,39 @@ export function renderSource(ctx, sourceId) {
     `${total} scored stories from ${label} on ${brand.NAME} (live window plus archive). The outlet wrote them. The score is ours. Tempo, not a forecast.`,
     160,
   );
+  // Tip #288: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const windowQ = `Which scored stories are from ${label} in this window?`;
+  const olderQ = `Which older scored stories are from ${label}?`;
+  const othersQ = 'Which other outlets have scored stories?';
+  const peerSources = indexableSources(ctx)
+    .filter((s) => s.id !== sourceId)
+    .slice(0, 12);
+  const others = peerSources
+    .map((s) => `<a href="${esc(ctx.href(sourcePath(s.id)))}">What has ${esc(brand.NAME)} scored via ${esc(s.label)}?</a>`)
+    .join('');
   const faq = [
     [`What has ${brand.NAME} scored via ${label}?`,
       `${total} scored stories arrived through the ${label} feed adapter (${items.length} in the live window${archivedAll.length ? `, ${archivedAll.length} older in the archive` : ''}). The words belong to the outlet; the score measures activity tempo.`],
+    [windowQ,
+      items.length
+        ? `${items.length} scored ${items.length === 1 ? 'story' : 'stories'} from ${label} in the current window. The words belong to the outlet; the score measures activity tempo — not a source doom score.`
+        : 'No scored stories from this outlet in the current window.'],
+    ...(older.length
+      ? [[olderQ,
+        'Kept in the permanent archive after they left the live window. Still scored stories — not a forecast.']]
+      : []),
+    ...(peerSources.length
+      ? [[othersQ,
+        `Other feed adapters that clear the substance gate, each linking What has ${brand.NAME} scored via that outlet?`]]
+      : []),
     [`Does ${brand.NAME} publish a ${label} doom score?`,
       `No. ${brand.DISCLAIMER_SHORT} A source page lists scored stories from that feed adapter — not a ranking of how dangerous the outlet is.`],
   ];
   const faqHtml = faq.map(([q, a]) => `
   <h3>${esc(q)}</h3>
   <p>${esc(a)}</p>`).join('');
-  const others = indexableSources(ctx)
-    .filter((s) => s.id !== sourceId)
-    .slice(0, 12)
-    .map((s) => `<a href="${esc(ctx.href(sourcePath(s.id)))}">What has ${esc(brand.NAME)} scored via ${esc(s.label)}?</a>`)
-    .join('');
   const olderBlock = older.length
-    ? `<h2>Older scored stories from ${esc(label)}</h2>
+    ? `<h2 id="older">${esc(olderQ)}</h2>
   <p class="fc__lede">Kept in the permanent archive after they left the live window. Still scored stories — not a forecast.</p>
   <ol class="fc__list">${itemRows(ctx, older, 12)}</ol>
   <p class="fresh__key"><a href="${esc(ctx.href('/item/archive.html'))}">Which older AI stories has ${esc(brand.NAME)} kept in the archive?</a></p>`
@@ -1010,16 +1027,15 @@ export function renderSource(ctx, sourceId) {
     <div><b class="num">${esc(String(items.length))}</b><span>In live window</span></div>
     ${archivedAll.length ? `<div><b class="num">${esc(String(archivedAll.length))}</b><span>Older in archive</span></div>` : ''}
   </div>
-  <h2>Stories from ${esc(label)}</h2>
+  <h2 id="window">${esc(windowQ)}</h2>
   ${items.length
     ? `<ol class="fc__list">${itemRows(ctx, items)}</ol>`
     : '<p>No scored stories from this outlet in the current window.</p>'}
   ${olderBlock}
   <h2 id="faq">Questions people actually ask</h2>
   ${faqHtml}
-  ${others ? `<h2>Other outlets</h2><nav class="fc__labs" aria-label="Other outlets">${others}</nav>` : ''}
+  ${peerSources.length ? `<h2 id="other-outlets">${esc(othersQ)}</h2><nav class="fc__labs" aria-label="Other outlets">${others}</nav>` : ''}
 </article>`;
-
   return page({
     ctx,
     path,
