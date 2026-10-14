@@ -39,6 +39,8 @@ describe('desk page', () => {
     assert.match(html, /\/balance\.html/);
     assert.match(html, /href="\/news\.html">Which AI stories has SIREN scored in this window\?<\/a>/);
     assert.doesNotMatch(html, /href="\/news\.html">newsroom<\/a>/);
+    assert.match(html, /href="\/game\.html">How do you play Tally Counts\? →<\/a>/);
+    assert.doesNotMatch(html, /href="\/game\.html">Play Tally Counts/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /these counts feed the main index/i);
     assert.doesNotMatch(html, /noindex/);

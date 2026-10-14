@@ -377,9 +377,9 @@ export function search(ctx, stats = {}) {
     <h2>Try one of these</h2>
     <ul class="sx-sug">${SUGGEST.map((s) => `<li><a href="${esc(ctx.href(`${SEARCH_PATH}?q=${encodeURIComponent(s)}`))}" data-q="${esc(s)}">${esc(s)}</a></li>`).join('')}</ul>
     ${popular.length ? `<h2>Popular rooms</h2><div class="ct-g">${popular.map((e) => `<a class="ct-c" href="${esc(ctx.href(e.url))}"><img src="${esc(img(e.icon))}" width="40" height="40" alt="" loading="lazy"><span><b>${esc(e.title)}</b><small>${esc(e.desc)}</small></span></a>`).join('')}</div>` : ''}
-    <p>Rather browse? The <a href="${esc(ctx.href('/catalog.html'))}">catalog</a> lists every room, tool, game, video, data file and feed in one place.</p>
+    <p>Rather browse? <a href="${esc(ctx.href('/catalog.html'))}">Where is everything on SIREN listed?</a> lists every room, tool, game, video, data file and feed in one place.</p>
   </div>
-  <noscript><p>Search runs in your browser and needs JavaScript. Everything it covers is also listed in the <a href="${esc(ctx.href('/catalog.html'))}">catalog</a>, which works without it.</p></noscript>
+  <noscript><p>Search runs in your browser and needs JavaScript. Everything it covers is also listed on <a href="${esc(ctx.href('/catalog.html'))}">Where is everything on SIREN listed?</a>, which works without it.</p></noscript>
   <section class="sx-faq" aria-labelledby="faq">
     <h2 id="faq">Questions people actually ask</h2>
     ${faqHtml}
@@ -410,7 +410,7 @@ function render(){
     h+='<section class="sx-g"><h2>'+S.esc(D.types[k])+' <span>'+list.length+'</span></h2><ol class="sx-l">';
     list.slice(0,lim).forEach(function(r){var it=r.it,ext=/^https?:/.test(it[2]);h+='<li><a class="sx-r" role="option" id="sx-r'+(n++)+'" href="'+S.esc(u(it[2]))+'"'+(ext?' target="_blank" rel="noopener"':'')+'><img src="'+S.esc(im(it))+'" width="36" height="36" alt="" loading="lazy"><span><b>'+S.hl(it[1],v)+'</b>'+(it[3]?'<small>'+S.hl(it[3],v)+'</small>':'')+'<i>'+S.esc(shown(it[2]))+(ext?' ↗':'')+'</i></span></a></li>'});
     h+='</ol>'+(list.length>lim?'<button type="button" class="sx-more" data-t="'+k+'">Show all '+list.length+' '+S.esc(D.types[k].toLowerCase())+' →</button>':'')+'</section>'});
-  if(!all.length)h='<p>Nothing on the site matches “'+S.esc(v)+'”. Check the spelling, try fewer words, or browse the <a href="'+BASE+'/catalog.html">catalog</a>.</p>';
+  if(!all.length)h='<p>Nothing on the site matches “'+S.esc(v)+'”. Check the spelling, try fewer words, or browse <a href="'+BASE+'/catalog.html">Where is everything on SIREN listed?</a>.</p>';
   res.innerHTML=h;links=[].slice.call(res.querySelectorAll('.sx-r'));q.setAttribute('aria-expanded',links.length?'true':'false');
   stat.textContent=all.length?(all.length+' result'+(all.length===1?'':'s')+' for “'+v+'”'+(type?' in '+D.types[type]:'')+' · '+(Date.now()-t0)+' ms'):'';
   mark(links.length&&sel>=0?0:-1)}
@@ -487,7 +487,7 @@ export function catalog(ctx, entries) {
     ['How do I filter the catalog?',
       'Filter by type or by word.'],
     ['Where do I find stories, leaders and Bunker Kit tools?',
-      'For stories, leaders and the Bunker Kit’s tools, use Search.'],
+      'For stories, leaders and the Bunker Kit’s tools, use How do you search everything on SIREN?'],
     ['What kinds of things are listed?',
       'Every room, tool, game, video, data file, feed and embed on the site.'],
   ];
@@ -496,7 +496,7 @@ export function catalog(ctx, entries) {
   <p>${esc(a)}</p>`).join('');
   const main = `${CSS}<section class="ct">
   <p class="eyebrow">CATALOG · ${total} THINGS</p><h1 class="bp__h1">${esc(catalogQTitle)}</h1>
-  <p class="lede">Every room, tool, game, video, data file, feed and embed on the site, in one directory. Filter by type or by word; for stories, leaders and the Bunker Kit’s tools, use <a href="${esc(ctx.href('/search.html'))}">Search</a>.</p>
+  <p class="lede">Every room, tool, game, video, data file, feed and embed on the site, in one directory. Filter by type or by word; for stories, leaders and the Bunker Kit’s tools, use <a href="${esc(ctx.href('/search.html'))}">How do you search everything on SIREN?</a>.</p>
   <div class="ct-bar">
     <label for="ct-q" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Filter the catalog</label>
     <input class="ct-q" id="ct-q" type="search" autocomplete="off" spellcheck="false" placeholder="Filter the catalog…">
@@ -504,7 +504,7 @@ export function catalog(ctx, entries) {
   </div>
   <p class="sx-stat" id="ct-n" aria-live="polite"></p>
   ${sections}
-  <p class="ct-none" id="ct-none" hidden>Nothing in the catalog matches. <a id="ct-sx" href="${esc(ctx.href('/search.html'))}">Search everything →</a></p>
+  <p class="ct-none" id="ct-none" hidden>Nothing in the catalog matches. <a id="ct-sx" href="${esc(ctx.href('/search.html'))}">How do you search everything on SIREN? →</a></p>
   <section class="ct-faq" aria-labelledby="faq">
     <h2 id="faq">Questions people actually ask</h2>
     ${faqHtml}

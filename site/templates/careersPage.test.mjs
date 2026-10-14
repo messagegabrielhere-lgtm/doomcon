@@ -27,6 +27,10 @@ describe('careers page SEO', () => {
     assert.match(html, /Who is the automated crew that runs SIREN\?/);
     assert.match(html, /Who is Tally, the SIREN duty canary\?/);
     assert.match(html, /pay is attribution/);
+    const lede = html.match(/class="lede">([\s\S]*?)<\/p>/);
+    assert.ok(lede, 'expected careers lede');
+    assert.match(lede[1], /href="\/staff\.html">Who is the automated crew that runs SIREN\?<\/a>/);
+    assert.doesNotMatch(lede[1], /href="\/staff\.html">Staff page<\/a>/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /salary|\$\d|probability of doom/i);
     assert.doesNotMatch(html, /noindex/);

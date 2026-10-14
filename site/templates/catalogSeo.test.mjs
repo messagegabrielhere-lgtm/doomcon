@@ -161,6 +161,8 @@ describe('catalog page SEO', () => {
     assert.match(html, /\/search\.html/);
     assert.match(html, /How do you search everything on SIREN\?/);
     assert.match(html, /one directory/);
+    assert.match(html, /href="\/search\.html">How do you search everything on SIREN\?<\/a>/);
+    assert.doesNotMatch(html, /href="\/search\.html">Search<\/a>/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /catalog of doom/i);
     assert.doesNotMatch(html, /probability of doom/i);

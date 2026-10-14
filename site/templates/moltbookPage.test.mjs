@@ -38,6 +38,8 @@ describe('moltbook page', () => {
     assert.match(html, /\/si-watch\.html/);
     assert.match(html, /\/bets\.html/);
     assert.match(html, /never moves the SIREN score/);
+    assert.match(html, /href="\/agents\.html">How should AI agents use SIREN\?<\/a>/);
+    assert.doesNotMatch(html, /href="\/agents\.html">For AI agents<\/a>/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /Agent Watch feeds the index/i);
     assert.doesNotMatch(html, /agents will take over/i);

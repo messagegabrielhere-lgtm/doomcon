@@ -134,7 +134,7 @@ ${cards.join('\n')}
   <p class="dk__fine">What these are not: a signal, a forecast, or an input to ${esc(brand.NAME)}. A headline count measures what
     editors wrote, in the feeds this site reads, inside one window. Matching is by word, so a headline about a film called
     “The Godfather” would count; the newsroom only keeps AI stories, which is why that has not happened yet.</p>
-  <p><a href="${esc(ctx.href('/game.html'))}">Play Tally Counts, the 30-second counting game →</a></p>
+  <p><a href="${esc(ctx.href('/game.html'))}">How do you play Tally Counts? →</a></p>
   <section class="dk__faq" aria-labelledby="faq">
     <h2 id="faq">Questions people actually ask</h2>
     ${faqHtml}

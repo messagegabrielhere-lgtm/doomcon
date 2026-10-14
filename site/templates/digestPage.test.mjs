@@ -39,6 +39,8 @@ describe('digest page', () => {
     assert.ok(key, 'expected digest key paragraph');
     assert.match(key[1], /href="\/methodology\.html">How the SIREN AI activity index is computed · methodology<\/a>/);
     assert.doesNotMatch(key[1], /href="\/methodology\.html">the methodology<\/a>/);
+    assert.match(html, /href="\/race\.html">Who is winning the AI race\?<\/a>/);
+    assert.doesNotMatch(html, /href="\/race\.html">the leaderboard<\/a>/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /noindex/);
   });

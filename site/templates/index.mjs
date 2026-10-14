@@ -721,7 +721,7 @@ ${oven.render(ctx)}
   <p class="lede">${esc(recordLede(obs))}</p>
   ${indexHistoryChart(ctx.history, { id: 'home', now: state.score })}
   <p class="fresh__key">${esc(recordKey(obs))}
-     <a href="${esc(ctx.href('/history.html'))}">Full history and every observation →</a></p>
+     <a href="${esc(ctx.href('/history.html'))}">What is the history of AI risk? →</a></p>
   <p class="fresh__key">Where today sits inside the frozen reference distribution, and why that curve
      is never updated live, is drawn and explained on the
      <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology →</a></p>
@@ -891,7 +891,7 @@ ${switcher.render(ctx)}
   <h2 class="sec__h" id="inst-h">Check the working</h2>
   <p class="lede">The score over time, source health, the five pillars, every recent move, the harm and benefit scale,
     the embed code and the public JSON API all live in one place.</p>
-  <p><a class="bunk__go" href="${esc(ctx.href('/instruments.html'))}">Open the instrument room →</a></p>
+  <p><a class="bunk__go" href="${esc(ctx.href('/instruments.html'))}">What instruments sit behind the ${esc(brand.NAME)} reading? →</a></p>
 </section>
 
  ${faq.render(ctx)}
@@ -1638,7 +1638,7 @@ ${levels.map((l) => `    <li class="mt__i${l.level === cur ? ' mt__i--on' : ''}"
       <b class="mt__n">${esc(l.level)} · ${esc(l.name)}</b><span class="mt__m">${esc(MOODS[l.level])}</span>
     </li>`).join('\n')}
   </ol>
-  <p class="fresh__key"><a href="${esc(ctx.href('/bets.html'))}">Tally's bets: scored forecasts →</a> · <a href="${esc(ctx.href('/desk.html'))}">Tally's desk: the unserious counts →</a> · <a href="${esc(ctx.href('/game.html'))}">Play Tally Counts →</a></p>
+  <p class="fresh__key"><a href="${esc(ctx.href('/bets.html'))}">Does the ${esc(brand.NAME)} index make forecasts? →</a> · <a href="${esc(ctx.href('/desk.html'))}">What unserious counts does ${esc(brand.NAME)} keep on Tally’s desk? →</a> · <a href="${esc(ctx.href('/game.html'))}">How do you play Tally Counts? →</a></p>
 </section>`;
 }
 
@@ -1687,9 +1687,9 @@ function homeMap(ctx) {
       <path class="hmap__land" d="${land}"/><g class="hmap__dots">${dots}</g>
     </svg>
   </a>
-  <p class="fresh__key">Dots are sites grouped by area; bigger means more. <a href="${esc(ctx.href('/world.html'))}">The full map, every site and country →</a> ·
-    <a href="${esc(ctx.href('/country/'))}">By country →</a> ·
-    <a href="${esc(ctx.href('/map.html'))}">US sites, drought and the grid →</a> · <a href="${esc(ctx.href('/flock.html'))}">Cameras →</a></p>
+  <p class="fresh__key">Dots are sites grouped by area; bigger means more. <a href="${esc(ctx.href('/world.html'))}">How many datacentres has ${esc(brand.NAME)} mapped on Earth? →</a> ·
+    <a href="${esc(ctx.href('/country/'))}">Which AI datacentre countries have ${esc(brand.NAME)} pages? →</a> ·
+    <a href="${esc(ctx.href('/map.html'))}">How many datacentres has ${esc(brand.NAME)} mapped in the United States? →</a> · <a href="${esc(ctx.href('/flock.html'))}">How many Flock ALPR cameras has ${esc(brand.NAME)} mapped? →</a></p>
 </section>`;
 }
 
@@ -1773,7 +1773,7 @@ function picksBand(ctx) {
     <a class="pri" href="${esc(arena)}">All picks and the track record →</a>
     <a href="${esc(arena)}#investors">Big investors</a>
     <a href="${esc(arena)}#battle">AI battle</a>
-    <a href="${esc(ctx.href('/scanner.html'))}">Scanner</a>
+    <a href="${esc(ctx.href('/scanner.html'))}">What does the ${esc(brand.NAME)} Capitulation Scanner show?</a>
   </div>
   <p class="mkb__note" id="mkb-rec">Picks come from an automated, hypothetical screen. Not financial advice; we are not financial advisors.</p>
 <script>
