@@ -453,13 +453,64 @@ export const TERMS_UPDATED = '12 October 2026';
 export function terms(ctx) {
   const path = '/terms.html';
   // Head-term title: people search “SIREN terms” / what the index disclaims.
-  const title = `What are the ${brand.NAME} terms of use? Disclaimers and what the index is not`;
+  const qTitle = `What are the ${brand.NAME} terms of use?`;
+  const title = `${qTitle} Disclaimers and what the index is not`;
   const description = `${brand.NAME} is information and commentary, not advice. Terms of use, the no-warranty and liability terms, and what the index does and does not claim.`;
   const x = brand.X_URL ? `<a href="${esc(brand.X_URL)}" rel="noopener">${esc(brand.X_HANDLE)}</a> on X` : 'the project account';
   const repo = `<a href="${esc(brand.REPO_URL)}/issues" rel="noopener">an issue on the repository</a>`;
+  // Tip #311: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const infoQ = `1. Is ${brand.NAME} information and entertainment only?`;
+  const indexQ = '2. What is the index, and what is it not?';
+  const financeQ = `3. Is ${brand.NAME} financial or investment advice?`;
+  const safetyQ = '4. What do the security, surveillance and safety pages cover?';
+  const peopleQ = "5. How are people, companies and other people's words treated?";
+  const accuracyQ = '6. How accurate and available is the site?';
+  const linksQ = '7. What about links, paid links and third-party services?';
+  const useQ = '8. What are the rules for your use of the site and its data?';
+  const warrantyQ = '9. Is there any warranty?';
+  const liabilityQ = '10. What is the limitation of liability?';
+  const indemnityQ = '11. What is the indemnity?';
+  const childrenQ = '12. Is the site directed at children?';
+  const personalQ = '13. What about personal information and “do not sell”?';
+  const copyrightQ = '14. How do copyright concerns and corrections work?';
+  const lawQ = '15. What law governs these terms?';
+  const changesQ = '16. How do changes, severability and your rights work?';
+  // FAQ from the SAME pairs rendered in HTML (§3.3). Refuse doom-probability.
   const faq = [
-    [`What are the ${brand.NAME} terms of use?`,
+    [qTitle,
       `By using ${brand.NAME} — this website, its data files, feeds, embeds, badge, share cards and posts — you agree to these terms. The site is information, commentary and entertainment; it is not financial, legal, safety or medical advice.`],
+    [infoQ,
+      'Everything on the site is general information, commentary and, in places, satire. It is not advice of any kind and does not create any professional, advisory or fiduciary relationship with you.'],
+    [indexQ,
+      `${brand.DISCLAIMER} It is not a forecast, a warning system, an emergency alert or a statement that any harm is likely or imminent. Names borrowed from other scales are used for comparison and commentary only.`],
+    [financeQ,
+      `${brand.NAME} and its operator are not a broker-dealer, a registered investment adviser, a financial planner or a tax adviser. Nothing on the site is a recommendation or solicitation to buy, sell or hold any security or other instrument.`],
+    [safetyQ,
+      'Vulnerability data, camera and infrastructure maps, live world data, dispatch and joke pages are for ambient awareness or satire only. They are not for navigation, emergency response or survival guidance.'],
+    [peopleQ,
+      `Companies, labs, products and public figures are named to report or comment on public information. Rankings are mechanical outputs of a published formula. Humour and exaggeration, including the mascot, are satire.`],
+    [accuracyQ,
+      'The site is assembled automatically from third-party sources. Figures may be inaccurate, incomplete, stale or temporarily missing. Each reading has a public receipt, but no figure is guaranteed.'],
+    [linksQ,
+      `${brand.LEGAL_AFFILIATE} The site links to other websites it does not control. A sponsor, if there is one, is labelled and has no say over any number.`],
+    [useQ,
+      `${brand.LICENSE_BLURB}. Do not use the site or its data to break the law, harass anyone, or misrepresent ${brand.NAME} as an official alert.`],
+    [warrantyQ,
+      'The site and everything on it are provided “as is” and “as available”, without warranties of any kind, to the fullest extent the law allows.'],
+    [liabilityQ,
+      `To the fullest extent the law allows, ${brand.NAME}, its operator and contributors are not liable for damages arising from use of the site. Where liability cannot be excluded, it is limited to zero dollars.`],
+    [indemnityQ,
+      `If you misuse the site or its data, or break these terms or the law in connection with them, you agree to cover resulting claims for ${brand.NAME} and its operator.`],
+    [childrenQ,
+      'The site is meant for a general adult audience. It is not directed at children under 13, or under 16 where that higher age applies.'],
+    [personalQ,
+      `${brand.LEGAL_NO_SELL} Details of analytics, hosts and browser-side API calls are on the privacy page.`],
+    [copyrightQ,
+      'If you believe something on the site infringes your rights, is inaccurate, or should be removed, email, contact X, or open a repository issue with the page address and what you would like changed.'],
+    [lawQ,
+      'These terms are governed by the laws of the United States, without regard to conflict-of-law rules, except where a mandatory local law says otherwise.'],
+    [changesQ,
+      'These terms may be updated at any time; the date at the top shows the latest version. If any part is found unenforceable, the rest still applies.'],
     [`Does ${brand.NAME} predict the future or measure danger?`,
       `No. ${brand.DISCLAIMER_SHORT} It is not a forecast, a warning system, or an emergency alert.`],
     [`Is ${brand.NAME} affiliated with DEFCON or the Doomsday Clock?`,
@@ -477,7 +528,7 @@ export function terms(ctx) {
 </style>
 <section class="inf">
   <p class="eyebrow">Terms &amp; disclaimers</p>
-  <div class="inf__top"><h1 class="bp__h1">What are the ${esc(brand.NAME)} terms of use?</h1></div>
+  <div class="inf__top"><h1 class="bp__h1">${esc(qTitle)}</h1></div>
   <p class="lede">Last updated ${esc(TERMS_UPDATED)}. By using ${esc(brand.NAME)} — this website, its data files, feeds, embeds, badge,
     share cards and posts — you agree to these terms. If you do not agree, please do not use it.
     A shorter map of every notice is on <a href="${esc(ctx.href('/disclosures.html'))}">What does ${esc(brand.NAME)} disclose?</a>.</p>
@@ -489,12 +540,12 @@ export function terms(ctx) {
       and the site is provided as is, with no warranty. Use it at your own risk.</p>
   </div>
 
-  <h2>1. Information and entertainment only</h2>
+  <h2>${esc(infoQ)}</h2>
   <p>Everything on the site is general information, commentary and, in places, satire. It is not advice of any kind and does
     not create any professional, advisory or fiduciary relationship with you. Do not make financial, investment, legal,
     security, safety, medical, emergency, travel or policy decisions based on it. Talk to a qualified professional first.</p>
 
-  <h2>2. What the index is, and is not</h2>
+  <h2>${esc(indexQ)}</h2>
   <ul>
     <li>${esc(brand.DISCLAIMER)}</li>
     <li>It is not a forecast, a warning system, an emergency alert or a statement that any harm is likely or imminent.
@@ -503,7 +554,7 @@ export function terms(ctx) {
       comparison and commentary only. ${esc(brand.NAME)} is not connected with the organisations behind them.</li>
   </ul>
 
-  <h2>3. Not financial or investment advice</h2>
+  <h2>${esc(financeQ)}</h2>
   <p>The stock picks, screens, scores, prediction-market readings, forecasts, investor and congressional trade disclosures,
     AI trading competition and any other market content are automated, simulated or hypothetical, and are published for
     information and entertainment only. ${esc(brand.NAME)} and its operator are not a broker-dealer, a registered investment
@@ -512,7 +563,7 @@ export function terms(ctx) {
     results. Trading involves risk, including the loss of more than you invest. Do your own research and consult a licensed
     professional. The forecasts page is a public scoring exercise, not betting: no money is taken or paid.</p>
 
-  <h2>4. Security, surveillance and safety pages</h2>
+  <h2>${esc(safetyQ)}</h2>
   <ul>
     <li><b>Vulnerability data</b> is summarised from public government catalogues. The site publishes no exploit code and gives
       no security advice; follow your vendors' guidance and a qualified security professional.</li>
@@ -530,7 +581,7 @@ export function terms(ctx) {
       safety guidance. For real preparedness, use your local emergency-management authority.</li>
   </ul>
 
-  <h2>5. People, companies and other people's words</h2>
+  <h2>${esc(peopleQ)}</h2>
   <ul>
     <li>Companies, AI labs, products, public figures and officials are named only to report public information, comment on it
       or identify it. Names, logos and trademarks belong to their owners. Cultural references used for commentary, such as “Skynet” (from the Terminator films), the Waffle House Index (a FEMA nickname) and the Doomsday Clock, belong to their owners; SIREN is not connected with or endorsed by StudioCanal, Waffle House, Inc., the Bulletin of the Atomic Scientists, or any studio, company or organisation named. Their appearance does not mean they endorse, sponsor
@@ -547,20 +598,20 @@ export function terms(ctx) {
     <li>Humour and exaggeration on the site, including anything said by the mascot, are satire and not literal statements of fact.</li>
   </ul>
 
-  <h2>6. Accuracy and availability</h2>
+  <h2>${esc(accuracyQ)}</h2>
   <p>The site is assembled automatically by code that reads third-party sources on a schedule. Sources change, fail, rate-limit
     and publish errors; scheduled runs are often late. Figures may therefore be inaccurate, incomplete, stale or temporarily
     missing, and the site may be unavailable or change without notice. Each reading has a public receipt so you can check it,
     and corrections are made in the open, but no figure is guaranteed.</p>
 
-  <h2>7. Links, paid links and third-party services</h2>
+  <h2>${esc(linksQ)}</h2>
   <p>The site links to other websites and services that ${esc(brand.NAME)} does not control and is not responsible for. Visiting them
     is at your own risk and under their own terms and privacy policies. Some links are paid or affiliate links:
     ${esc(brand.LEGAL_AFFILIATE)} A sponsor, if there is one, is labelled and has no say over any number.
     Listing a product is not a guarantee of it; check it yourself before you buy.
     Prediction-market and exchange links may be unavailable or restricted where you live; that is their rule, not a recommendation from this site. Some prediction-market or exchange links may carry a referral code that pays SIREN a share of fees; where one does, it is labelled as a referral link. Using prediction markets may be illegal or restricted for people under 18 or in your state or country; check before you trade. Any paid tool offered on the site in future will show its price, refund terms and seller details at checkout, before you pay.</p>
 
-  <h2>8. Your use of the site and its data</h2>
+  <h2>${esc(useQ)}</h2>
   <ul>
     <li>${esc(brand.LICENSE_BLURB)}. Reuse with credit. Third-party data stays under its own
       licence, as credited on the page that uses it. Nothing here grants rights in anyone else's content or trademarks.</li>
@@ -569,42 +620,42 @@ export function terms(ctx) {
     <li>Please be reasonable with automated access to the data files so the site stays up for everyone.</li>
   </ul>
 
-  <h2>9. No warranty</h2>
+  <h2>${esc(warrantyQ)}</h2>
   <p class="inf__caps">THE SITE AND EVERYTHING ON IT ARE PROVIDED "AS IS" AND "AS AVAILABLE", WITHOUT WARRANTIES OF ANY KIND, EXPRESS
     OR IMPLIED, INCLUDING WARRANTIES OF ACCURACY, COMPLETENESS, TIMELINESS, MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
     NON-INFRINGEMENT, TO THE FULLEST EXTENT THE LAW ALLOWS.</p>
 
-  <h2>10. Limitation of liability</h2>
+  <h2>${esc(liabilityQ)}</h2>
   <p class="inf__caps">TO THE FULLEST EXTENT THE LAW ALLOWS, ${esc(brand.NAME.toUpperCase())}, ITS OPERATOR AND CONTRIBUTORS ARE NOT LIABLE FOR
     ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, EXEMPLARY OR PUNITIVE DAMAGES, OR ANY LOSS OF PROFITS, MONEY, DATA OR
     GOODWILL, ARISING FROM OR RELATED TO YOUR USE OF, OR INABILITY TO USE, THE SITE, ITS DATA OR ANY LINKED SITE, WHETHER IN
     CONTRACT, TORT OR OTHERWISE, EVEN IF ADVISED OF THE POSSIBILITY. WHERE LIABILITY CANNOT BE EXCLUDED, IT IS LIMITED TO ZERO
     DOLLARS (US$0), THE AMOUNT YOU PAID TO USE THE SITE.</p>
 
-  <h2>11. Indemnity</h2>
+  <h2>${esc(indemnityQ)}</h2>
   <p>If you misuse the site or its data, or break these terms or the law in connection with them, you agree to cover any claims,
     losses and reasonable costs that result for ${esc(brand.NAME)} and its operator.</p>
 
-  <h2>12. Children</h2>
+  <h2>${esc(childrenQ)}</h2>
   <p>The site is meant for a general adult audience. It is not directed at children under 13, or under 16 where that higher age applies.
     See <a href="${esc(ctx.href('/privacy.html'))}">What does ${esc(brand.NAME)} know about you?</a> for how visits are measured and how to ask for removal of something a child posted publicly via the feedback form.</p>
 
-  <h2>13. Personal information and “do not sell”</h2>
+  <h2>${esc(personalQ)}</h2>
   <p>${esc(brand.LEGAL_NO_SELL)} Details of analytics, hosts and browser-side API calls are on
     <a href="${esc(ctx.href('/privacy.html'))}">What does ${esc(brand.NAME)} know about you?</a>.</p>
 
-  <h2>14. Copyright concerns and corrections</h2>
+  <h2>${esc(copyrightQ)}</h2>
   <p>If you believe something on the site infringes your rights, is inaccurate, or should be removed, email ${mail}, contact ${x} or open
     ${repo} with the page address and what you would like changed. Valid requests are handled promptly.
     There is no user-upload feature; the site is a static publication that reports, links to and briefly quotes other people's work.</p>
   <p><b>Copyright notices (DMCA-style).</b> To ask for removal of material you own, send to ${mail}: your contact details; the work you say is infringed; the exact page address and the item on it; a statement that you believe in good faith the use is not authorised by you, your agent or the law; a statement that the notice is accurate and, under penalty of perjury, that you are the owner or authorised to act for the owner; and your physical or electronic signature. Material that meets these points is taken down or corrected while the claim is looked at. If your material was removed and you believe that was a mistake, reply with a counter-notice giving the same details and the reason. Misrepresenting a claim can make you liable for damages.</p>
 
-  <h2>15. Governing law</h2>
+  <h2>${esc(lawQ)}</h2>
   <p>These terms are governed by the laws of the United States, without regard to conflict-of-law rules, except where a mandatory local law says otherwise.
     Nothing here chooses a specific state venue or waives rights you cannot waive. If a dispute cannot be resolved informally through ${mail}, ${x} or ${repo},
     either side may use a court of competent jurisdiction that will hear the claim.</p>
 
-  <h2>16. Changes, severability and your rights</h2>
+  <h2>${esc(changesQ)}</h2>
   <p>These terms may be updated at any time; the date at the top shows the latest version, and continuing to use the site means
     you accept it. If any part is found unenforceable, the rest still applies. Nothing in these terms limits any right you have
     that the law does not allow to be limited. This page is not a substitute for advice from your own lawyer.</p>
@@ -623,7 +674,7 @@ export function terms(ctx) {
       '@type': 'Question',
       name: q,
       acceptedAnswer: { '@type': 'Answer', text: a },
-    })), `What are the ${brand.NAME} terms of use?`),
+    })), qTitle),
     main,
   });
 }

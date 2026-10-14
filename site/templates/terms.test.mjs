@@ -33,3 +33,20 @@ test('terms.html ships question-shaped title, speakable, breadcrumbs, and visibl
   assert.doesNotMatch(html, /probability of doom is \d/i);
   assert.doesNotMatch(html, /SIREN.*p\(doom\) of \d/i);
 });
+
+test('terms.html section H2s use questions mirrored in FAQPage', () => {
+  const html = terms(ctx);
+  assert.match(html, /<h2>1\. Is SIREN information and entertainment only\?<\/h2>/);
+  assert.match(html, /<h2>2\. What is the index, and what is it not\?<\/h2>/);
+  assert.match(html, /<h2>3\. Is SIREN financial or investment advice\?<\/h2>/);
+  assert.match(html, /<h2>4\. What do the security, surveillance and safety pages cover\?<\/h2>/);
+  assert.match(html, /<h2>9\. Is there any warranty\?<\/h2>/);
+  assert.match(html, /<h2>16\. How do changes, severability and your rights work\?<\/h2>/);
+  assert.doesNotMatch(html, /<h2>1\. Information and entertainment only<\/h2>/);
+  assert.doesNotMatch(html, /<h2>2\. What the index is, and is not<\/h2>/);
+  assert.doesNotMatch(html, /<h2>9\. No warranty<\/h2>/);
+  assert.doesNotMatch(html, /<h2>10\. Limitation of liability<\/h2>/);
+  assert.match(html, /"name"\s*:\s*"1\. Is SIREN information and entertainment only\?"/);
+  assert.match(html, /"name"\s*:\s*"16\. How do changes, severability and your rights work\?"/);
+  assert.doesNotMatch(html, /probability of doom is \d/i);
+});
