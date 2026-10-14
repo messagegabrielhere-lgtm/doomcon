@@ -81,6 +81,35 @@ export function render(ctx) {
       `${brief.shown || 0} of ${brief.candidates || 0} items published in the last ${brief.window_hours || 24} hours cleared a selection rule. The selection rules and every threshold are published in the methodology and in docs/DIGEST.md.`],
     ['Where are the selection rules published?',
       'The selection rules and every threshold are published in the methodology and in docs/DIGEST.md. Every threshold on this page travels inside data/digest.json beside the numbers it produced.'],
+    // Tip #344: changed / streaks / method H3s are question-shaped and mirrored in FAQ (§3.3).
+    ['What moved on the index?',
+      'Against the previous observation: composite and pillar moves, level hold or change, and the anti-flap rule that fired.'],
+    ['Which sources changed state?',
+      'Feed and index source state transitions since the previous digest — went dark, came back — with the full roster tally below.'],
+    ['What does the leaderboard show?',
+      'Ranked on live prediction-market odds. Movers since the previous digest and the venue’s own 7-day change.'],
+    ['What arrived in the corpus?',
+      'Items that entered the record in the last hour and day, with the coverage note from how deep the live file runs.'],
+    ['What were the first sightings?',
+      'Names that appeared in the corpus for the first time since the ledger was established.'],
+    ['Which streaks are running?',
+      'Counted in consecutive observations, not in days — this index observes roughly hourly.'],
+    ['What are the highs and lows in the log?',
+      'Every record on this page is scoped to this log, and nothing here is called all-time.'],
+    ['What is the arithmetic?',
+      (() => {
+        const f0 = (d.streaks && Array.isArray(d.streaks.facts) && d.streaks.facts[0]) || null;
+        if (!f0) return 'Every record on this page is scoped to this log, and nothing here is called all-time.';
+        return typeof f0 === 'string' ? f0 : (f0.text || 'Every record on this page is scoped to this log, and nothing here is called all-time.');
+      })()],
+    ['What is the velocity baseline?',
+      (d.velocity && d.velocity.state === 'live')
+        ? `The velocity baseline is live: the corpus holds ${d.velocity.prior_hours}h of history older than the brief window, against the ${d.velocity.min_prior_hours}h a baseline needs.`
+        : `The velocity baseline is awaiting data: ${(d.velocity && d.velocity.reason) || 'the prior segment is too short'}. The source-surge rule therefore fires for nobody in this build.`],
+    ['What are the engagement thresholds?',
+      'Computed per source from this window, not fixed in advance: Hacker News points, Hugging Face upvotes and Hugging Face likes run on three different scales, and a fixed cut-off does not survive a quiet week.'],
+    ['What are the three source states?',
+      'live — it answered and it is scored. dark — the fetch or the parse failed; it is excluded and never imputed. awaiting baseline — it answered perfectly and there is no frozen history to score it against yet.'],
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>
@@ -335,7 +364,7 @@ function indexBlock(idx) {
     : '';
 
   if (!diff || diff.state !== 'live') {
-    return `<h3 class="dg__h3">The index</h3>
+    return `<h3 class="dg__h3">What moved on the index?</h3>
       ${awaiting(diff && diff.reason)}
       ${held}`;
   }
@@ -362,7 +391,7 @@ function indexBlock(idx) {
        ${esc(signedOr(day.score_delta, 2))}, ${esc(day.pillars_moved)} pillars moved.</p>`
     : `<p class="dg__key">A 24-hour comparison is awaiting a baseline: ${esc((day && day.reason) || 'no observation in range')}.</p>`;
 
-  return `<h3 class="dg__h3">The index</h3>
+  return `<h3 class="dg__h3">What moved on the index?</h3>
   <p class="dg__key">Against the previous observation, ${esc(diff.reference_age_hours)}h earlier at
      <time datetime="${esc(diff.reference_at)}">${esc(utc(diff.reference_at))}</time>.
      ${esc(diff.level_changed ? `The level moved from ${diff.level_from} to ${diff.level_to}.` : `The level held at ${diff.level_to}.`)}</p>
@@ -396,10 +425,10 @@ function indexBlock(idx) {
 function sourcesBlock(s) {
   if (!s) return '';
   if (s.state !== 'live') {
-    return `<h3 class="dg__h3">Sources</h3>${awaiting(s.reason)}${sourceTally(s)}`;
+    return `<h3 class="dg__h3">Which sources changed state?</h3>${awaiting(s.reason)}${sourceTally(s)}`;
   }
   if (!s.transitions.length) {
-    return `<h3 class="dg__h3">Sources</h3>
+    return `<h3 class="dg__h3">Which sources changed state?</h3>
       <p class="dg__key">No feed and no index source changed state since the previous digest. That is a
          measured result, not a skipped check: the full roster and its current state is below.</p>
       ${sourceTally(s)}`;
@@ -409,7 +438,7 @@ function sourcesBlock(s) {
     <code>${esc(t.id)}</code>
     <span class="dg__transs">${esc(t.family)} &middot; ${esc(t.from)} &rarr; ${esc(t.to)}</span>
   </li>`).join('');
-  return `<h3 class="dg__h3">Sources</h3>
+  return `<h3 class="dg__h3">Which sources changed state?</h3>
     <p class="dg__key">${esc(s.transitions.length)} state ${esc(s.transitions.length === 1 ? 'change' : 'changes')}
        since the previous digest &mdash; ${esc(s.went_dark)} went dark, ${esc(s.came_back)} came back.</p>
     <ul class="dg__translist">${rows}</ul>
@@ -431,7 +460,7 @@ function sourceTally(s) {
 function raceBlock(ctx, r) {
   if (!r) return '';
   if (r.state === 'absent') {
-    return `<h3 class="dg__h3">The leaderboard</h3>
+    return `<h3 class="dg__h3">What does the leaderboard show?</h3>
       <p class="dg__key">${esc(r.reason || 'data/race.json was not present at digest time.')}</p>`;
   }
   const href = ctx.href('/race.html');
@@ -466,7 +495,7 @@ function raceBlock(ctx, r) {
       ? `<p class="dg__key">No position moved by a rank or by half a point since the previous digest.</p>`
       : awaiting(r.reason);
 
-  return `<h3 class="dg__h3">The leaderboard</h3>
+  return `<h3 class="dg__h3">What does the leaderboard show?</h3>
     <p class="dg__key">Ranked on live ${esc(r.venue || 'prediction-market')} odds.
        ${r.leader ? `${esc(r.leader.name)} leads at ${esc(pct(r.leader.probability))}.` : ''}
        <a href="${esc(href)}">Who is winning the AI race? &rarr;</a></p>
@@ -494,16 +523,16 @@ function firstSeenBlock(f, counts) {
   // row reads "200 new - 6h on record" rather than "200 new in 24h", which
   // would be false: the first run stamped 101 items as first-seen simply
   // because it was the first run to look at them.
-  const arrivals = counts ? `<h3 class="dg__h3">Arrivals</h3>
+  const arrivals = counts ? `<h3 class="dg__h3">What arrived in the corpus?</h3>
     <p class="dg__key">
       ${newBadgeFor(counts, 3600, { noun: 'arrived' })}
       ${newBadgeFor(counts, 86400, { noun: 'arrived' })}
       ${esc(newCoverageNote(counts))}</p>` : '';
   if (f.state !== 'live') {
-    return `${arrivals}<h3 class="dg__h3">First sightings</h3>${awaiting(f.reason)}`;
+    return `${arrivals}<h3 class="dg__h3">What were the first sightings?</h3>${awaiting(f.reason)}`;
   }
   if (!f.entities.length && !f.sources.length) {
-    return `${arrivals}<h3 class="dg__h3">First sightings</h3>
+    return `${arrivals}<h3 class="dg__h3">What were the first sightings?</h3>
       <p class="dg__key">No name appeared in the corpus for the first time. The ledger has run
          ${esc(f.runs)} ${esc(f.runs === 1 ? 'time' : 'times')} since
          <time datetime="${esc(f.established_at)}">${esc(utc(f.established_at))}</time>.</p>`;
@@ -516,7 +545,7 @@ function firstSeenBlock(f, counts) {
   const srcs = f.sources.length
     ? `<p class="dg__key">New to the corpus this run: ${f.sources.map((x) => `<code>${esc(x.id)}</code>`).join(', ')}.</p>`
     : '';
-  return `${arrivals}<h3 class="dg__h3">First sightings</h3>
+  return `${arrivals}<h3 class="dg__h3">What were the first sightings?</h3>
     <p class="dg__key">${esc(f.entities.length)} ${esc(f.entities.length === 1 ? 'name' : 'names')} appeared in the
        corpus for the first time since the ledger was established
        <time datetime="${esc(f.established_at)}">${esc(utc(f.established_at))}</time>.</p>
@@ -574,13 +603,13 @@ function streakSection(d, s) {
      <time datetime="${esc(s.first_observation_at)}">${esc(utc(s.first_observation_at))}</time>. An all-time
      high needs a record longer than the claim it carries, and this one is not there yet.</p>
 
-  ${running.length ? `<h3 class="dg__h3">Running streaks</h3>
+  ${running.length ? `<h3 class="dg__h3">Which streaks are running?</h3>
   <p class="dg__key">Counted in consecutive observations, not in days &mdash; this index observes roughly
      hourly, and calling three consecutive rises &ldquo;three days&rdquo; would be false.</p>
   <ul class="dg__streaks">${streakRows}</ul>` : ''}
   ${stillLine}
 
-  ${recRows ? `<h3 class="dg__h3">Highs and lows in the log</h3>
+  ${recRows ? `<h3 class="dg__h3">What are the highs and lows in the log?</h3>
   <div class="dg__scroll"><table class="dg__t dg__t--drop">
     <caption class="vh">Record high and low for each series across ${esc(s.scope)}</caption>
     <thead><tr><th scope="col">Series</th><th scope="col">Now</th><th scope="col">Log low</th>
@@ -589,7 +618,7 @@ function streakSection(d, s) {
   </table></div>` : ''}
   ${flatLine}
 
-  ${facts ? `<h3 class="dg__h3">The arithmetic</h3><ul class="dg__facts">${facts}</ul>` : ''}
+  ${facts ? `<h3 class="dg__h3">What is the arithmetic?</h3><ul class="dg__facts">${facts}</ul>` : ''}
 </section>`;
 }
 
@@ -690,10 +719,10 @@ function rulesSection(d) {
     <tbody>${ruleRows}</tbody>
   </table></div>
 
-  <h3 class="dg__h3">Velocity</h3>
+  <h3 class="dg__h3">What is the velocity baseline?</h3>
   <p class="dg__key">${velLine}</p>
 
-  ${engRows ? `<h3 class="dg__h3">Engagement thresholds</h3>
+  ${engRows ? `<h3 class="dg__h3">What are the engagement thresholds?</h3>
   <p class="dg__key">Computed per source from this window, not fixed in advance: Hacker News points,
      Hugging Face upvotes and Hugging Face likes run on three different scales, and a fixed cut-off does not
      survive a quiet week. A source with fewer than ${esc(d.rules.ENGAGEMENT_MIN_SAMPLES)} scored items has
@@ -705,7 +734,7 @@ function rulesSection(d) {
     <tbody>${engRows}</tbody>
   </table></div>` : ''}
 
-  <h3 class="dg__h3">The three source states</h3>
+  <h3 class="dg__h3">What are the three source states?</h3>
   <p class="dg__key"><b>live</b> &mdash; it answered and it is scored.
      <b>dark</b> &mdash; the fetch or the parse failed; it is excluded and never imputed.
      <b>awaiting baseline</b> &mdash; it answered perfectly and there is no frozen history to score it

@@ -38,6 +38,18 @@ describe('digest page', () => {
     assert.match(html, /FAQPage[\s\S]*What is in today's brief\?/);
     assert.match(html, /FAQPage[\s\S]*What changed on the index\?/);
     assert.match(html, /FAQPage[\s\S]*How is this page computed\?/);
+    assert.match(html, /<h3 class="dg__h3">What moved on the index\?<\/h3>/);
+    assert.match(html, /<h3 class="dg__h3">Which sources changed state\?<\/h3>/);
+    assert.match(html, /<h3 class="dg__h3">What does the leaderboard show\?<\/h3>/);
+    assert.match(html, /<h3 class="dg__h3">What is the velocity baseline\?<\/h3>/);
+    assert.match(html, /<h3 class="dg__h3">What are the three source states\?<\/h3>/);
+    assert.match(html, /FAQPage[\s\S]*What moved on the index\?/);
+    assert.match(html, /FAQPage[\s\S]*What are the three source states\?/);
+    assert.doesNotMatch(html, /<h3 class="dg__h3">The index<\/h3>/);
+    assert.doesNotMatch(html, /<h3 class="dg__h3">Sources<\/h3>/);
+    assert.doesNotMatch(html, /<h3 class="dg__h3">The leaderboard<\/h3>/);
+    assert.doesNotMatch(html, /<h3 class="dg__h3">Velocity<\/h3>/);
+    assert.doesNotMatch(html, /<h3 class="dg__h3">The three source states<\/h3>/);
     assert.doesNotMatch(html, /id="dg-brief-h">The brief /);
     assert.doesNotMatch(html, /id="dg-chg-h">What changed<\/h2>/);
     assert.doesNotMatch(html, /id="dg-st-h">Streaks and records<\/h2>/);

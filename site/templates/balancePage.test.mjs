@@ -30,6 +30,18 @@ describe('balance page', () => {
     assert.match(html, /Does the balance feed the main SIREN number\?/);
     assert.match(html, /Is there a net score of harm versus benefit\?/);
     assert.match(html, /What do the newsroom word-list counts measure\?/);
+    assert.match(html, /<h3 class="bp__h3">What does the beam never tilt on\?<\/h3>/);
+    assert.match(html, /<h3 class="bp__h3">What do the honesty lines say about the counts\?<\/h3>/);
+    assert.match(html, /<h3 class="bp__h3">What is the rule on both sides\?<\/h3>/);
+    assert.match(html, /<h3 class="bp__h3">What is on the harm list\?/);
+    assert.match(html, /<h3 class="bp__h3">What is on the benefit list\?/);
+    assert.match(html, /<h3 class="bp__h3">Which hedge words and negators apply\?<\/h3>/);
+    assert.match(html, /<h3 class="bp__h3">What are the registers\?<\/h3>/);
+    assert.match(html, /FAQPage[\s\S]*What is the rule on both sides\?/);
+    assert.match(html, /FAQPage[\s\S]*What does the beam never tilt on\?/);
+    assert.doesNotMatch(html, /<h3 class="bp__h3">The rule, the same on both sides<\/h3>/);
+    assert.doesNotMatch(html, /<h3 class="bp__h3">About the counts<\/h3>/);
+    assert.doesNotMatch(html, /<h3 class="bp__h3">Hedge words and negators<\/h3>/);
     assert.match(html, /SpeakableSpecification/);
     assert.match(html, /FAQPage/);
     assert.match(html, /"@type":\s*"Dataset"/);
