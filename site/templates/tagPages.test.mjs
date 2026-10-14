@@ -2795,6 +2795,48 @@ describe('tag pages', () => {
     assert.doesNotMatch(renderTag(rich, 'reliability'), /probability of doom/i);
   });
 
+  it('pages catastrophic-forgetting, unsupervised, backdoor, and out-of-distribution hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('cf1', 'A Deafening Silence: Catastrophic Forgetting Lives in the Output Embeddings'),
+          story('cf2', 'PaLoRA: Paced Low-Rank Adaptation for Continual Learning against catastrophic forgetting'),
+          story('cf3', 'Off-Policy Merging reduces catastrophic forgetting vs on-policy distillation'),
+          story('cf4', 'Measuring catastrophic forgetting after preference tuning'),
+          story('cf5', 'Replay buffers that reduce catastrophic forgetting in agents'),
+          story('us1', 'What is the goal of unsupervised machine learning?'),
+          story('us2', 'DeepTopoClustering: Unsupervised Derivation of Surface Process Taxonomy'),
+          story('us3', 'Prompt2Skill: Unsupervised Skill Optimization From Natural Language'),
+          story('us4', 'Unsupervised anomaly segmentation protocol for brain MRI'),
+          story('us5', 'TaskBridge: Bridging Unsupervised Tabular Anomaly Detection'),
+          story('bd1', 'Understanding and Enhancing Backdoor Persistency in LLM Agent Post-Training'),
+          story('bd2', 'Topology-Conditioned Backdoors: Language Models That Insert Vulnerabilities'),
+          story('bd3', 'Removing the NEEDLE: Backdoor Removal in LLMs via Weight Orthogonalisation'),
+          story('bd4', 'Evaluating poisoning attacks that plant backdoors in IoT models'),
+          story('bd5', 'AI Models Can Provably Hide Arbitrary Capabilities via backdoors'),
+          story('od1', 'Prospective Prediction of out-of-distribution Degradation from Source-Side Training Dynamics'),
+          story('od2', 'ReMaD: Tuning-free Domain Adaptation for Out-of-Distribution Detection'),
+          story('od3', 'PrefPI: Preference-Guided Steering into Out-of-Distribution Behaviors'),
+          story('od4', 'Benchmarks for out of distribution shift in multimodal agents'),
+          story('od5', 'Calibrating classifiers under out-of-distribution inputs'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    assert.ok(ids.includes('catastrophic-forgetting'));
+    assert.ok(ids.includes('unsupervised'));
+    assert.ok(ids.includes('backdoor'));
+    assert.ok(ids.includes('out-of-distribution'));
+    assert.match(renderTag(rich, 'catastrophic-forgetting'), /What has SIREN scored about Catastrophic forgetting\?/);
+    assert.match(renderTag(rich, 'unsupervised'), /What has SIREN scored about Unsupervised learning\?/);
+    assert.match(renderTag(rich, 'backdoor'), /What has SIREN scored about AI backdoors\?/);
+    assert.match(renderTag(rich, 'out-of-distribution'), /What has SIREN scored about Out-of-distribution\?/);
+    assert.doesNotMatch(renderTag(rich, 'backdoor'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'out-of-distribution'), /probability of doom/i);
+  });
+
   it('pages attribution, normalization, gigawatt, and next-token hubs', () => {
     const rich = {
       ...ctx,

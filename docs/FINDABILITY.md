@@ -790,6 +790,10 @@ context.
 | 538 | Topic tag `normalization` (live/archive ≥5); IndexNow + seo-daily monitor; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 539 | Topic tag `gigawatt` (live/archive ≥5); IndexNow + seo-daily monitor; refuse capacity-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 540 | Topic tag `next-token` (live/archive ≥5); IndexNow + seo-daily monitor; refuse capability-ranking / doom-probability claims; refuse `adapters` false-friend doorway and `hallucination-detection` synonym of `hallucination` | Google + Bing | **Done** (2026-10-14) |
+| 541 | Topic tag `catastrophic-forgetting` (live/archive ≥5); IndexNow + seo-daily monitor; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 542 | Topic tag `unsupervised` (live/archive ≥5); IndexNow + seo-daily monitor; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 543 | Topic tag `backdoor` (live/archive ≥5); IndexNow + seo-daily; refuse harm-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 544 | Topic tag `out-of-distribution` (live/archive ≥5); IndexNow + seo-daily monitor; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
