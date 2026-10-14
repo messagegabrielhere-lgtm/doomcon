@@ -127,6 +127,11 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('verifiable AI doomsday clock'));
     assert.ok(org.knowsAbout.includes('what is p(doom)'));
     assert.ok(org.knowsAbout.includes('What is p(doom)'));
+    assert.ok(org.knowsAbout.includes('Where does the term p(doom) come from'));
+    assert.ok(org.knowsAbout.includes('Why do p(doom) estimates differ so much'));
+    assert.ok(org.knowsAbout.includes('What can p(doom) not tell you'));
+    assert.ok(org.knowsAbout.includes('How is SIREN different from p(doom)'));
+    assert.ok(org.knowsAbout.includes('What else should you read about p(doom)'));
     assert.ok(org.knowsAbout.includes('how the AI activity index is computed'));
     assert.ok(org.knowsAbout.includes('How the SIREN AI activity index is computed'));
     assert.ok(org.knowsAbout.includes('history of AI risk'));

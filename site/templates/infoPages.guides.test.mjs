@@ -124,6 +124,23 @@ describe('guides hub', () => {
     assert.doesNotMatch(html, /noindex/);
   });
 
+  it('p-doom section H2s use questions mirrored in FAQPage', () => {
+    const html = pdoom(ctx);
+    assert.match(html, /<h2>Where does the term p\(doom\) come from\?<\/h2>/);
+    assert.match(html, /<h2>Why do p\(doom\) estimates differ so much\?<\/h2>/);
+    assert.match(html, /<h2>What can p\(doom\) not tell you\?<\/h2>/);
+    assert.match(html, /<h2>How is SIREN different from p\(doom\)\?<\/h2>/);
+    assert.match(html, /<h2>What else should you read about p\(doom\)\?<\/h2>/);
+    assert.doesNotMatch(html, /<h2>Where the term comes from<\/h2>/);
+    assert.doesNotMatch(html, /<h2>Why the numbers differ so much<\/h2>/);
+    assert.doesNotMatch(html, /<h2>What p\(doom\) cannot tell you<\/h2>/);
+    assert.doesNotMatch(html, /<h2>How SIREN is different<\/h2>/);
+    assert.doesNotMatch(html, /<h2>Read more<\/h2>/);
+    assert.match(html, /"name"\s*:\s*"Where does the term p\(doom\) come from\?"/);
+    assert.match(html, /"name"\s*:\s*"How is SIREN different from p\(doom\)\?"/);
+    assert.doesNotMatch(html, /probability of doom is \d/i);
+  });
+
   it('p-doom voices sibling links use news/live/day-after/library question H1s', () => {
     const html = pdoom(ctx);
     assert.match(html, /href="\/news\.html">Which AI stories has SIREN scored in this window\? →<\/a>/);

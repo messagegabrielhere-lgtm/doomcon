@@ -848,6 +848,12 @@ export function pdoom(ctx) {
   // Head-term question (FINDABILITY tip #201): glossary query, not a
   // SIREN doom-probability claim. H1 must match <title>.
   const qTitle = 'What is p(doom)?';
+  // Tip #312: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const originQ = 'Where does the term p(doom) come from?';
+  const differQ = 'Why do p(doom) estimates differ so much?';
+  const cannotQ = 'What can p(doom) not tell you?';
+  const differentQ = `How is ${brand.NAME} different from p(doom)?`;
+  const moreQ = 'What else should you read about p(doom)?';
   // FAQ answers restate lede / differ / SIREN-instead / voices copy only (§3.3).
   // Refuse: SIREN-as-p(doom), SIREN-as-doom-probability, forecast.
   // Visible FAQ + FAQPage from the SAME array (schema without HTML was a gap).
@@ -855,10 +861,18 @@ export function pdoom(ctx) {
   const faq = [
     [qTitle,
       'p(doom) is shorthand for "probability of doom": one person\'s estimate, as a percentage, that advanced AI leads to a catastrophic outcome for humanity. It is an opinion expressed as a number, with no agreed method behind it.'],
-    ['Why do p(doom) estimates differ so much?',
+    [originQ,
+      'It started as informal slang among people who work on and argue about AI risk, as a quick way to ask “how worried are you?” It spread into interviews and headlines once prominent researchers and executives began giving their own figures in public.'],
+    [differQ,
       'Because "doom" is not defined the same way by everyone, the time frame varies, and the figure is a judgement rather than a measurement.'],
+    [cannotQ,
+      'It cannot be verified or recomputed, and it does not tell you what is happening today. A room of experts with very different figures can all be looking at the same facts.'],
+    [differentQ,
+      `${brand.NAME} does not estimate the chance of anything. It counts how much is happening in AI, hourly, and reports it as a level from 5 (quietest) to 1 (loudest). Everyone has a p(doom); nobody has a receipt.`],
     [`Does ${brand.NAME} publish a p(doom) or a doom probability?`,
       `No. ${brand.NAME} measures activity tempo — how much is happening in AI this hour — not danger and not a probability of harm. Everyone has a p(doom); nobody has a receipt.`],
+    [moreQ,
+      `Compare ${brand.NAME} to DEFCON, the Doomsday Clock and p(doom); read the AI doomsday clock explainer; browse AI books that argue both sides; or open the history of AI risk.`],
     ...voicesFaq().map((e) => [e.name, e.acceptedAnswer.text]),
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
@@ -872,17 +886,17 @@ export function pdoom(ctx) {
   <p class="lede"><b>p(doom) is shorthand for “probability of doom”: one person’s estimate, as a percentage, that advanced AI leads to a catastrophic outcome for humanity.</b>
     It is an opinion expressed as a number. There is no agreed method for producing it and no way to check one.</p>
   ${voicesSection(ctx, ctx.state && ctx.state.level)}
-  <h2>Where the term comes from</h2>
+  <h2>${esc(originQ)}</h2>
   <p>It started as informal slang among people who work on and argue about AI risk, as a quick way to ask “how worried are you?” It spread into interviews and headlines once prominent researchers and executives began giving their own figures in public.</p>
-  <h2>Why the numbers differ so much</h2>
+  <h2>${esc(differQ)}</h2>
   <ul>
     <li><b>“Doom” is not defined.</b> Some people mean human extinction, others mean permanent loss of control, others something milder. Two people can give the same number and mean different things.</li>
     <li><b>The time frame varies.</b> Ten years, this century, ever.</li>
     <li><b>It is a judgement, not a measurement.</b> Estimates given in public run from near zero to near certain, and the same person’s figure can move with the news.</li>
   </ul>
-  <h2>What p(doom) cannot tell you</h2>
+  <h2>${esc(cannotQ)}</h2>
   <p>It cannot be verified or recomputed, and it does not tell you what is happening today. A room of experts with very different figures can all be looking at the same facts.</p>
-  <h2>How ${esc(brand.NAME)} is different</h2>
+  <h2>${esc(differentQ)}</h2>
   <p>${esc(brand.NAME)} does not estimate the chance of anything. It counts how much is happening in AI, hourly, and reports it as a level from 5 (quietest) to 1 (loudest).
     Every reading ships with a receipt, and a button on the home page lets you <a href="${esc(ctx.href('/#vfy'))}">re-check the published record in your own browser</a>.
     The site’s line is: everyone has a p(doom), nobody has a receipt.</p>
@@ -893,7 +907,7 @@ export function pdoom(ctx) {
     <a href="${esc(ctx.href('/guide.html'))}">How does ${esc(brand.NAME)} compare to DEFCON, the Doomsday Clock and p(doom)?</a>
     · <a href="${esc(ctx.href('/ai-doomsday-clock.html'))}">Is there an AI doomsday clock?</a>
     · <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>.</p>
-  <h2>Read more</h2>
+  <h2>${esc(moreQ)}</h2>
   <p><a href="${esc(ctx.href('/guide.html'))}">How does ${esc(brand.NAME)} compare to DEFCON, the Doomsday Clock and p(doom)? →</a> ·
     <a href="${esc(ctx.href('/ai-doomsday-clock.html'))}">Is there an AI doomsday clock? →</a> ·
     <a href="${esc(ctx.href('/library.html'))}">What AI books argue both sides of the case? →</a> ·
