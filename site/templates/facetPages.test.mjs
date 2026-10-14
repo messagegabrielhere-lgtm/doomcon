@@ -1125,6 +1125,59 @@ describe('lab facets', () => {
     assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/lab/coinbase.html'));
   });
 
+  it('indexes a16z and Instinct entity labs when archive headlines clear the gate', () => {
+    const withArch = {
+      ...ctx,
+      news: { ...ctx.news, items: [...ctx.news.items] },
+      itemArchive: [
+        {
+          id: 'a1', title: 'a16z’s Olivia Moore on the state of consumer AI', pillar: 'markets', source: 'hn',
+          url: 'https://example.test/a1', published_at: '2026-09-01T01:00:00Z', score: 40,
+        },
+        {
+          id: 'a2', title: 'Andreessen Horowitz Backs Jev Maker at $7.5 Billion Value', pillar: 'markets', source: 'hn',
+          url: 'https://example.test/a2', published_at: '2026-09-02T01:00:00Z', score: 41,
+        },
+        {
+          id: 'a3', title: 'Ghost emerges from stealth with an $11M seed led by a16z', pillar: 'markets', source: 'hn',
+          url: 'https://example.test/a3', published_at: '2026-09-03T01:00:00Z', score: 42,
+        },
+        {
+          id: 'abad', title: 'A venture note without naming the firm', pillar: 'markets', source: 'hn',
+          url: 'https://example.test/abad', published_at: '2026-09-04T01:00:00Z', score: 30,
+        },
+        {
+          id: 'i1', title: 'Instinct was the buzziest AI agent around — can it survive Muse?', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/i1', published_at: '2026-09-01T02:00:00Z', score: 40,
+        },
+        {
+          id: 'i2', title: 'AI agent startup Instinct raised a $1B Series C from Sequoia', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/i2', published_at: '2026-09-02T02:00:00Z', score: 41,
+        },
+        {
+          id: 'i3', title: 'Meta, Walmart, Instinct, Shopify publish the Personal Agent Protocol', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/i3', published_at: '2026-09-03T02:00:00Z', score: 42,
+        },
+        {
+          id: 'ibad', title: 'A product roundup without naming the agent startup', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/ibad', published_at: '2026-09-04T02:00:00Z', score: 30,
+        },
+      ],
+    };
+    const a16z = labsFromEntities(withArch).find((p) => p.id === 'a16z');
+    const instinct = labsFromEntities(withArch).find((p) => p.id === 'instinct');
+    assert.ok(a16z, 'a16z clears ENTITY_LAB_MIN');
+    assert.ok(instinct, 'Instinct clears ENTITY_LAB_MIN');
+    assert.match(renderLab(withArch, a16z), /What has SIREN scored about a16z\?/);
+    assert.match(renderLab(withArch, instinct), /What has SIREN scored about Instinct\?/);
+    assert.doesNotMatch(renderLab(withArch, a16z), /without naming the firm/);
+    assert.doesNotMatch(renderLab(withArch, instinct), /without naming the agent startup/);
+    assert.doesNotMatch(renderLab(withArch, a16z), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderLab(withArch, instinct), /probability of doom/i);
+    assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/lab/a16z.html'));
+    assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/lab/instinct.html'));
+  });
+
   it('indexes Supermicro, IREN, OpenRouter, and Reflection AI entity labs from archive', () => {
     const withArch = {
       ...ctx,

@@ -542,6 +542,8 @@ function labNeedles(player) {
     asana: ['asana'],
     'goldman-sachs': ['goldman sachs'],
     coinbase: ['coinbase'],
+    a16z: ['a16z', 'andreessen horowitz'],
+    instinct: ['instinct'],
   };
   return [...new Set([...(extras[player.id] || []), ...names])];
 }

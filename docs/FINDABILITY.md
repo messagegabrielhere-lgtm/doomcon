@@ -736,6 +736,8 @@ context.
 | 484 | Entity lab Asana (`/lab/asana`, ≥3 gate); IndexNow + seo-daily; refuse product-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 485 | Entity lab Goldman Sachs (`/lab/goldman-sachs`, ≥3 gate); IndexNow + seo-daily; refuse market-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 486 | Entity lab Coinbase (`/lab/coinbase`, ≥3 gate); IndexNow + seo-daily; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 487 | Entity lab a16z (`/lab/a16z`, a16z / Andreessen Horowitz forms, ≥3 gate); IndexNow + seo-daily; refuse market-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 488 | Entity lab Instinct (`/lab/instinct`, ≥3 gate); IndexNow + seo-daily; refuse product-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 

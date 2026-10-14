@@ -134,6 +134,12 @@ const ENTITY_DEFS = [
   { name: 'Goldman Sachs', kind: 'lab', forms: ['Goldman Sachs'] },
   // Crypto exchange — Qwen fraud-prevention / AI benchmark headlines.
   { name: 'Coinbase', kind: 'lab', forms: ['Coinbase'] },
+  // Venture firm — consumer-AI / agent-startup financing headlines.
+  // Prefer a16z + full firm name (no bare “Andreessen” so person-only lines stay out).
+  { name: 'a16z', kind: 'lab', forms: ['a16z', 'Andreessen Horowitz'] },
+  // AI agent startup — Muse-rival / Personal Agent Protocol headlines.
+  // Distinctive single token (word boundaries keep “instinctively” out).
+  { name: 'Instinct', kind: 'lab', forms: ['Instinct'] },
 
   // --- model families ---
   // GPT-6 Astra / Luna / Sol nicknames so /model/gpt clears when headlines
