@@ -720,6 +720,8 @@ context.
 | 468 | Topic tag `cybersecurity` (live/archive ≥5); IndexNow + seo-daily monitor; refuse threat-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 469 | Topic tag `privacy` (live/archive ≥5); IndexNow + seo-daily monitor; refuse harm-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 470 | Topic tag `ai-math` (live/archive ≥5); IndexNow + seo-daily monitor; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 471 | Topic tag `proofs` (live/archive ≥5); IndexNow + seo-daily monitor; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 472 | Topic tag `math-problems` (live/archive ≥5); IndexNow + seo-daily monitor; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
