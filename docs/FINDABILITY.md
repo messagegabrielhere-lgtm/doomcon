@@ -282,6 +282,7 @@ context.
 | 49 | IndexNow ALWAYS covers #48 archive-widened `/source/*` hubs + `defaultUrlList` pings UTC `/news/YYYY-MM-DD` day hubs from disk; `seo-daily` `google-news-open` while pizzint news-sitemap is empty | Bing + Google News | **Done** (2026-10-14) |
 | 50 | News-sitemap cap **200** (48h often 300–400 items) + head-term keywords before pillar/source meta; IndexNow samples 200 news locs; Nemotron / Google DeepMind / o-series surfaces — Google News contest while pizzint flaps | Google News | **Done** (2026-10-14) |
 | 51 | `/news/YYYY-MM-DD` ItemList schema includes archive stories that appear on the page (19/20 hubs were archive-only with empty live ItemList — schema≠HTML) | Google | **Done** (2026-10-14) |
+| 52 | Pillar/lab/source CollectionPage ItemList includes visible archive rows (≤12) after live rows (≤40) — same schema=HTML rule as #51 | Google | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 

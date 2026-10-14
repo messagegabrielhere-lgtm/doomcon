@@ -114,6 +114,9 @@ describe('pillar facets', () => {
     assert.match(html, /Which older scored stories are under Capability\?/);
     assert.match(html, /Archived capability story about agents/);
     assert.doesNotMatch(html, /noindex/);
+    // ItemList must include the visible archive row (FINDABILITY #52).
+    assert.match(html, /"name"\s*:\s*"Archived capability story about agents"/);
+    assert.match(html, /"numberOfItems"\s*:\s*5/); // 4 live + 1 archive
   });
 });
 
@@ -158,6 +161,7 @@ describe('lab facets', () => {
     const html = renderLab(withArch, openai);
     assert.match(html, /Which older scored stories name OpenAI\?/);
     assert.match(html, /Archived OpenAI story about agents/);
+    assert.match(html, /"name"\s*:\s*"Archived OpenAI story about agents"/);
   });
 
   it('adds entity-only labs that clear the story gate without inventing odds', () => {
@@ -265,6 +269,8 @@ describe('outlet facets', () => {
     const html = renderSource(withArch, 'techcrunch');
     assert.doesNotMatch(html, /noindex/);
     assert.match(html, /Archived TechCrunch AI one/);
+    assert.match(html, /"name"\s*:\s*"Archived TechCrunch AI one"/);
+    assert.match(html, /"name"\s*:\s*"Archived TechCrunch AI two"/);
   });
 
   it('renders an outlet page that lists its stories', () => {
