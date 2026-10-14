@@ -1166,6 +1166,18 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'Emergency-brake-on-AI policy and Nadella-quote stories scored in the newsroom or archive — coverage counts, not a containment forecast.',
     match: /\bEmergency Brake\b/i,
   },
+  {
+    id: 'big-tech',
+    name: 'Big Tech AI',
+    description: 'Big Tech AI race and capital stories scored in the newsroom or archive — coverage counts, not a vendor ranking.',
+    match: /\bBig Tech\b/i,
+  },
+  {
+    id: 'gpt-6-astra',
+    name: 'GPT-6 Astra',
+    description: 'GPT-6 Astra / GPT-6.1 Astra product stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
+    match: /\bGPT-6(?:\.1)? Astra\b/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));

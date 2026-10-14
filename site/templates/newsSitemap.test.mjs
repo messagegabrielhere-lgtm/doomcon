@@ -232,6 +232,18 @@ test('news sitemap keywords include Le Chonk / Mistral Large 4 surfaces', () => 
   assert.match(kw, /Le Chonk|Mistral Large 4|Mixtral/);
 });
 
+test('news sitemap keywords include GPT-6 Astra / Luna / Sol surfaces', () => {
+  const kw = keywordsFor({
+    title: 'OpenAI cancels October release of GPT-6.1 Astra after tests',
+    summary: 'GPT-6 Astra, GPT-6 Luna, and GPT-6 Sol nicknames appear in product coverage.',
+    pillar: 'capability',
+    kind: 'press',
+    source: 'hn',
+    entities: [],
+  });
+  assert.match(kw, /GPT-6 Astra|GPT-6\.1 Astra|GPT-6 Luna|GPT-6 Sol/);
+});
+
 test('keywordsFor keeps lab surfaces ahead of topic-tag flood under the 12-cap', () => {
   const kw = keywordsFor({
     title: 'Decart agents ship computer use, prompt injection defenses, and multimodal reasoning',
