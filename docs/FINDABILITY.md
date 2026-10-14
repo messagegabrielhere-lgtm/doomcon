@@ -297,6 +297,7 @@ context.
 | 64 | IndexNow ALWAYS covers skill package + `/api/news.json`; news-sitemap keyword surfaces for Trail of Bits / DualEntry / Qwen N1 / Grok Voice / HomeView / AA-AgentPerf / DeepSeek V4.1 / MI355X (live 48h window) | Bing + Google News | **Done** (2026-10-14) |
 | 65 | Clear CodeQL “replace substring with itself” on desk share lines (`what.replace(/^headlines/, 'headlines')` → `what`) so PR #125 stays mergeable under `deploy-pending-url-lead` | Merge / deploy | **Done** (2026-10-14) |
 | 66 | Question-shaped `/search-trends.html` + `/ai-prediction-markets.html` titles/H1/H2/FAQ; IndexNow ALWAYS + `seo-daily` CORE_LIVE_SURFACES monitor both | Google + Bing | **Done** (2026-10-14) |
+| 67 | `llms.txt` / `agents.md` / home tiles advertise question-shaped Search Trends + AI prediction-markets URLs (live agent maps had omitted them after HTML-only overlay) | Agents + Google | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 

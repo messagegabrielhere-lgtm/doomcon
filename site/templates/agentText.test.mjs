@@ -125,9 +125,12 @@ test('llms.txt follows the llmstxt.org shape and lists the endpoints', () => {
   for (const p of ['/api/now.txt', '/now.md', '/api/state.json', '/api/history.json', '/api/news.json', '/api/leaders.json',
     '/api/si-signals.json', '/api/search-index.json', '/api/fresh.json', '/api/health.json', '/api/receipts/', '/feed.xml', '/openapi.json',
     '/methodology.md', '/guide.md', '/guides.md', '/agents.md', '/agents.txt', '/.well-known/api-catalog', '/guides.html', '/compare.html', '/vs.html', '/alternatives.html',
-    '/vs/pizzint.html', '/pillars.html', '/sources.html', '/countries.html', '/news-sitemap.xml', '/news.html']) {
+    '/vs/pizzint.html', '/pillars.html', '/sources.html', '/countries.html', '/news-sitemap.xml', '/news.html',
+    '/search-trends.html', '/ai-prediction-markets.html', '/api/search-trends.json']) {
     assert.ok(txt.includes(`https://siren.watch${p}`), p);
   }
+  assert.match(txt, /Which Google Search Trends for AI does SIREN watch\?/);
+  assert.match(txt, /Where are live AI prediction market odds\?/);
   assert.match(txt, /Which AI stories has SIREN scored by UTC day\?/);
   assert.match(txt, /news-sitemap\.xml/);
   assert.ok(txt.includes(dispatchFeedUrl()));
@@ -153,9 +156,12 @@ test('agents.md is a short fetch-first entry for ChatGPT and Grok', () => {
   const md = agentsMd({ url });
   assert.match(md, /^# SIREN for AI agents/);
   assert.match(md, /ChatGPT, Grok/);
-  for (const p of ['/api/now.txt', '/now.md', '/llms.txt', '/skill.md', '/agents.html', '/compare.html', '/agents.txt', '/news-sitemap.xml', '/news.html']) {
+  for (const p of ['/api/now.txt', '/now.md', '/llms.txt', '/skill.md', '/agents.html', '/compare.html', '/agents.txt', '/news-sitemap.xml', '/news.html',
+    '/search-trends.html', '/ai-prediction-markets.html']) {
     assert.ok(md.includes(`https://siren.watch${p}`), p);
   }
+  assert.match(md, /Which Google Search Trends for AI does SIREN watch\?/);
+  assert.match(md, /Where are live AI prediction market odds\?/);
   assert.match(md, /not a prediction|Never call it a prediction/);
   assert.match(md, /Do not scrape Google Search/);
   assert.match(md, /\/moves\//);
