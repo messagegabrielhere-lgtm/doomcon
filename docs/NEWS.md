@@ -384,8 +384,11 @@ abstract, it does not belong in a governance keyword list.**
 
 ## Rolling window and idempotency
 
-- 7 days, newest first, capped at **400 items** — `MAX_ITEMS` is a mobile-first
-  budget, raised from 200 as the source basket grew past fifty adapters.
+- 7 days, newest first, capped at **800 items** — `MAX_ITEMS` is the live
+  newsroom / phone budget, raised from 200→400→800 as the source basket grew.
+  Rows that miss the cap (or age off the window) are kept in
+  `data/item-archive.json` (max 1,600) so `/item/` pages and `sitemap.xml` keep
+  growing without asking a cellular client to download the whole long tail.
 - Items that have aged off their source feed but are still inside the window are
   carried forward and **re-scored against the new clock**. Only recency moves;
   every other component is reused verbatim, because only recency depends on time.

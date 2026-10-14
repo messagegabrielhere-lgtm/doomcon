@@ -65,9 +65,14 @@ import { readNews, reel, pillarSigil, pillarSprite, newsSourceStrip } from './_r
 import { newsCss, liveHead, legend, feedRow } from './news.mjs';
 import { PILLAR_GLYPH } from './_charts.mjs';
 import { page } from './layout.mjs';
+import { breadcrumbs, speakable } from './_seo.mjs';
+import { dayPath, indexableDays } from './dayPages.mjs';
+import { tagPath, indexableTags } from './tagPages.mjs';
+import { kindPath, indexableKinds } from './kindPages.mjs';
+import { outletPath, indexableOutlets } from './outletPages.mjs';
+import { archivePagePath, archivePageCount, archivedItems } from './itemPage.mjs';
 import * as brand from '../brand.mjs';
 import { breakingStrip, speedBox, breakingCss } from './_breaking.mjs';
-import { breadcrumbs, speakable } from './_seo.mjs';
 
 const PATH = '/news.html';
 const REEL_CARDS = 10;
@@ -101,23 +106,26 @@ export function render(ctx) {
     `Every AI news item ${brand.NAME} scored in the current window: ${total} items across ` +
     `${days} days, ranked, pillar-tagged and linked to the source that carried each one. ` +
     `Compiled ${utc(news.generated_at)}.`;
+  // Tip #297: section H2s are question-shaped and mirrored in FAQ (§3.3).
   const topQ = 'Which items scored highest in this window?';
   const spreadQ = 'How are the scores spread in this window?';
   const allQ = 'Which scored items are in this window?';
   const srcQ = 'Where did these scored stories come from?';
   const faq = [
-    [title,
+    [`Which AI stories has ${brand.NAME} scored in this window?`,
       `${total} scored ${total === 1 ? 'item' : 'items'} across ${days} day${days === 1 ? '' : 's'} in the current collection window. Each headline links to the source that carried it — not a newsroom doom score.`],
     [topQ,
-      'The highest-scoring items in the current collection window, each linked to the source that carried it. Scores rank items against each other inside this window — not a newsroom doom score.'],
+      `The highest-scoring items in the current collection window, each linked to the source that carried it. Scores rank items against each other inside this window — not a newsroom doom score.`],
     [spreadQ,
       corpus.total
         ? 'Bar height is a count of items; position along the axis is the score those items were given. Each bar is stacked by pillar. Scores are not a probability of anything.'
         : 'No items in the collection window, so there is no distribution to draw. This is a measured zero and not an outage.'],
     [allQ,
       `${total} scored ${total === 1 ? 'item' : 'items'} in the current collection window, ranked by score and tagged to the pillar each one feeds.`],
+    // Tip #338: archive filter H3 is question-shaped and mirrored in FAQ (§3.3).
     ['How do you filter the scored list?',
       'Use the filter controls above the scored-item list to narrow by pillar, source or score without leaving the newsroom window. Filtering never invents items or changes a score.'],
+    // Tip #387: incident-tier H3 is question-shaped and mirrored in FAQ (§3.3).
     ['Which incident terms fired in this window?',
       'Tier is the weight of the term that matched, not a judgement about the event — the matched words are printed beside each one. Every entry jumps to its row in the list. Scores are not a newsroom doom score.'],
     [srcQ,
@@ -141,6 +149,12 @@ ${breakingStrip(ctx, { href: ctx.href })}
      links to the source that carried it.</p>
   ${liveHead(news, 'Collection window', 'arch-live')}
   ${legend(news)}
+  ${entityDirNav(ctx)}
+  ${dayHubNav(ctx, items)}
+  ${tagHubNav(ctx)}
+  ${kindHubNav(ctx)}
+  ${outletHubNav(ctx)}
+  ${archiveHubNav(ctx)}
 </section>
 
 ${reel(items, { id: 'areel', limit: REEL_CARDS, heading: topQ })}
@@ -168,7 +182,7 @@ ${corpusSection(ctx, news, corpus, spreadQ)}
 </section>
 
 <section class="sec" aria-labelledby="faq">
-  <h2 class="sec__h" id="faq">Questions about this newsroom window</h2>
+  <h2 class="sec__h" id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
 </section>`;
 
@@ -177,24 +191,14 @@ ${corpusSection(ctx, news, corpus, spreadQ)}
     motion: true,
     path: PATH,
     title,
-    ogTitle: title,
+    ogTitle: `${brand.NAME} signal feed — ${total} scored items`,
     description,
     ogImage: ctx.cardFor && ctx.state ? ctx.cardFor(ctx.state.receipt_id) : null,
     ogImageAlt: `${brand.NAME} share card`,
     jsonld: [
-      {
-        '@context': 'https://schema.org',
-        '@type': 'CollectionPage',
-        name: title,
-        url: ctx.url(PATH),
-        description,
-        inLanguage: 'en',
-        isAccessibleForFree: true,
-        dateModified: news.generated_at,
-        speakable: speakable(['.narch__h1', '.lede']),
-        isPartOf: { '@type': 'WebSite', name: brand.NAME, url: ctx.url('/') },
-      },
+      collectionPage(ctx, news, { name: title, description }),
       itemList(ctx, news),
+      breadcrumbs(ctx, [{ name: `Which AI stories has ${brand.NAME} scored in this window?`, path: PATH }]),
       {
         '@context': 'https://schema.org',
         '@type': 'FAQPage',
@@ -204,7 +208,6 @@ ${corpusSection(ctx, news, corpus, spreadQ)}
           acceptedAnswer: { '@type': 'Answer', text: a },
         })),
       },
-      breadcrumbs(ctx, [{ name: title, path: PATH }]),
     ],
     main,
   });
@@ -216,17 +219,16 @@ ${corpusSection(ctx, news, corpus, spreadQ)}
  * build.mjs can also just skip writing this file; hasNews(ctx) is the guard.
  */
 function emptyPage(ctx) {
-  const title = `Which AI stories has ${brand.NAME} scored in this window?`;
   return page({
     ctx,
     path: PATH,
     noindex: true,
-    title,
+    title: `Which AI stories has ${brand.NAME} scored in this window?`,
     description: `${brand.NAME} news collection has not published a window yet.`,
     main: `<style>${newsCss()}${archiveCss()}</style>${pillarSprite()}
 <section class="narch__intro">
   <p class="eyebrow">AI signal feed</p>
-  <h1 class="narch__h1">${esc(title)}</h1>
+  <h1 class="narch__h1">Which AI stories has ${esc(brand.NAME)} scored in this window?</h1>
   <p class="lede">No collection window has been published in this build. This page is not
      an empty result &mdash; it is the absence of a result, and the two are different states.
      When <code>data/news.json</code> is present it is rendered here in full.</p>
@@ -237,6 +239,106 @@ function emptyPage(ctx) {
 function uniqueDays(items) {
   const set = new Set(items.map((it) => utcDay(it.published_at)));
   return set.size;
+}
+
+/**
+ * Head-term entity directories — keeps new /companies /models /people /pillars
+ * /countries /sources hubs one click from the newsroom after deploy (anti-orphan).
+ */
+function entityDirNav(ctx) {
+  const links = [
+    ['/companies.html', `Which AI companies has ${brand.NAME} scored stories about?`],
+    ['/models.html', `Which AI models has ${brand.NAME} scored stories about?`],
+    ['/people.html', `Which AI people has ${brand.NAME} scored press about?`],
+    ['/pillars.html', `Which AI activity pillars has ${brand.NAME} scored?`],
+    ['/tags.html', `Which AI tags has ${brand.NAME} scored stories about?`],
+    ['/kinds.html', `Which AI story kinds has ${brand.NAME} scored?`],
+    ['/outlets.html', `Which AI outlets has ${brand.NAME} scored stories from?`],
+    ['/sources.html', `Which AI news sources has ${brand.NAME} scored via?`],
+    ['/guides.html', 'What are the AI explainers?'],
+    ['/vs.html', `Which AI indexes does ${brand.NAME} contrast?`],
+  ];
+  if (ctx.routes && ctx.routes.world && ctx.world) {
+    links.push(['/countries.html', `Which AI datacentre countries has ${brand.NAME} mapped?`]);
+  }
+  const html = links
+    .map(([href, label]) => `<a href="${esc(ctx.href(href))}">${esc(label)}</a>`)
+    .join('');
+  return `<nav class="narch__days" aria-label="Entity directories">
+  <p class="narch__days-k">Directories</p>
+  <div class="narch__days-links">${html}</div>
+</nav>`;
+}
+
+/** Links to /news/YYYY-MM-DD.html hubs that clear the substance gate. */
+function dayHubNav(ctx, items) {
+  const days = indexableDays(ctx);
+  if (!days.length) return '';
+  // Keep the nav honest if the page was handed a different item list.
+  const present = new Set(items.map((it) => {
+    try { return utcDay(it.published_at); } catch { return null; }
+  }).filter(Boolean));
+  const links = days
+    .filter((d) => present.has(d.day))
+    .map((d) => `<a href="${esc(ctx.href(dayPath(d.day)))}">Which AI stories did ${esc(brand.NAME)} score on ${esc(d.day)}? <span class="num">(${esc(String(d.count))})</span></a>`)
+    .join('');
+  if (!links) return '';
+  return `<nav class="narch__days" aria-label="News by UTC day">
+  <p class="narch__days-k">By UTC day</p>
+  <div class="narch__days-links">${links}</div>
+</nav>`;
+}
+
+/** Links to /tags/<id>.html hubs that clear the substance gate. */
+function tagHubNav(ctx) {
+  const tags = indexableTags(ctx);
+  if (!tags.length) return '';
+  const links = tags
+    .map((t) => `<a href="${esc(ctx.href(tagPath(t.id)))}">What has ${esc(brand.NAME)} scored about ${esc(t.name)}? <span class="num">(${esc(String(t.count))})</span></a>`)
+    .join('');
+  return `<nav class="narch__days" aria-label="News by topic tag">
+  <p class="narch__days-k">By topic · <a href="${esc(ctx.href('/tags/'))}">Which AI news tags have ${esc(brand.NAME)} pages?</a> · <a href="${esc(ctx.href('/tags.html'))}">Which AI tags has ${esc(brand.NAME)} scored stories about?</a></p>
+  <div class="narch__days-links">${links}</div>
+</nav>`;
+}
+
+/** Links to /kind/<id>.html hubs that clear the substance gate. */
+function kindHubNav(ctx) {
+  const kinds = indexableKinds(ctx);
+  if (!kinds.length) return '';
+  const links = kinds
+    .map((k) => `<a href="${esc(ctx.href(kindPath(k.id)))}">What has ${esc(brand.NAME)} scored as ${esc(k.name)}? <span class="num">(${esc(String(k.count))})</span></a>`)
+    .join('');
+  return `<nav class="narch__days" aria-label="News by story kind">
+  <p class="narch__days-k">By kind · <a href="${esc(ctx.href('/kind/'))}">Which AI story kinds have ${esc(brand.NAME)} pages?</a> · <a href="${esc(ctx.href('/kinds.html'))}">Which AI story kinds has ${esc(brand.NAME)} scored?</a></p>
+  <div class="narch__days-links">${links}</div>
+</nav>`;
+}
+
+/** Links to /outlet/<host> publisher hubs that clear the substance gate. */
+function outletHubNav(ctx) {
+  const outlets = indexableOutlets(ctx).slice(0, 12);
+  if (!outlets.length) return '';
+  const links = outlets
+    .map((o) => `<a href="${esc(ctx.href(outletPath(o.domain)))}">What has ${esc(brand.NAME)} scored from ${esc(o.domain)}? <span class="num">(${esc(String(o.count))})</span></a>`)
+    .join('');
+  return `<nav class="narch__days" aria-label="News by publisher">
+  <p class="narch__days-k">By publisher · <a href="${esc(ctx.href('/outlet/'))}">Which AI publishers have ${esc(brand.NAME)} pages?</a> · <a href="${esc(ctx.href('/outlets.html'))}">Which AI outlets has ${esc(brand.NAME)} scored stories from?</a></p>
+  <div class="narch__days-links">${links}</div>
+</nav>`;
+}
+
+/** Link into the paginated durable /item/ archive (stories outside the live window). */
+function archiveHubNav(ctx) {
+  const n = archivedItems(ctx).length;
+  if (!n) return '';
+  const pages = archivePageCount(ctx);
+  return `<nav class="narch__days" aria-label="Older scored stories">
+  <p class="narch__days-k">Older scored stories</p>
+  <div class="narch__days-links"><a href="${esc(ctx.href(archivePagePath(1)))}">Which older AI stories has ${esc(brand.NAME)} kept in the archive?</a>
+    <span class="num">(${esc(String(n))} across ${esc(String(pages))} page${pages === 1 ? '' : 's'})</span>
+    · <a href="${esc(ctx.href('/item/'))}">Which scored AI stories are in the ${esc(brand.NAME)} live window?</a></div>
+</nav>`;
 }
 
 // ---------------------------------------------------------------------------
@@ -936,10 +1038,10 @@ function yieldPlot(rows, axis, g, tid, did, variantCls) {
 // THE CORPUS SECTION
 // ---------------------------------------------------------------------------
 
-function corpusSection(ctx, news, corpus, heading = 'How are the scores spread in this window?') {
+function corpusSection(ctx, news, corpus, spreadQ = 'How are the scores spread in this window?') {
   if (!corpus.total) {
     return `<section class="sec ncorp" aria-labelledby="corp-h">
-  <h2 class="sec__h" id="corp-h">${esc(heading)}<span class="sec__eb">The shape of this window</span></h2>
+  <h2 class="sec__h" id="corp-h">${esc(spreadQ)}<span class="sec__eb">The shape of this window</span></h2>
   <p class="nkey">No items in the collection window, so there is no distribution to draw.
      This is a measured zero and not an outage &mdash; the per-source strip below says which
      feeds answered and which did not.</p>
@@ -947,7 +1049,7 @@ function corpusSection(ctx, news, corpus, heading = 'How are the scores spread i
   }
 
   return `<section class="sec ncorp" aria-labelledby="corp-h">
-  <h2 class="sec__h" id="corp-h">${esc(heading)}<span class="sec__eb">The shape of this window</span></h2>
+  <h2 class="sec__h" id="corp-h">${esc(spreadQ)}<span class="sec__eb">The shape of this window</span></h2>
   <p class="nkey">Bar height is a <b>count of items</b>; position along the axis is the
      <b>score</b> those items were given. Each bar is stacked by pillar, bottom to top, in the
      order printed in the key below it.</p>
@@ -973,7 +1075,7 @@ function pillarKey(ctx, corpus) {
     return `<li class="nlg__i" data-pillar="${esc(p.id)}">
       <span class="nlg__ord num" aria-hidden="true">${i + 1}</span>
       ${pillarSigil(p.id)}
-      <b class="nlg__n"><a href="${esc(ctx.href(`/pillar/${p.id}.html`))}">${esc(p.name)}</a></b>
+      <b class="nlg__n"><a href="${esc(ctx.href(`/pillar/${p.id}.html`))}">What has ${esc(brand.NAME)} scored under ${esc(p.name)}?</a></b>
       <span class="nlg__c num">${esc(p.count)}</span>
       <span class="nlg__pct num">${esc(pct)}%</span>
       <span class="nlg__sp num">${esc(span)}</span>
@@ -1049,9 +1151,12 @@ function tierStrip(corpus) {
     </li>`;
   }).join('');
 
+  // Tip #387: incident-tier H3 is question-shaped (mirrored in FAQ §3.3).
+  const tierQ = 'Which incident terms fired in this window?';
   return `<section class="ntier" aria-labelledby="ntier-h">
-  <h3 class="ntier__h3" id="ntier-h">Which incident terms fired in this window?</h3>
-  <p class="nkey">${esc(corpus.banded.length)} of ${esc(corpus.total)} items. ${esc(counts)}. Tier is the weight of the term that matched, not a judgement
+  <h3 class="ntier__h3" id="ntier-h">${esc(tierQ)}</h3>
+  <p class="nkey">Fired on ${esc(corpus.banded.length)} of ${esc(corpus.total)} items.
+     ${esc(counts)}. Tier is the weight of the term that matched, not a judgement
      about the event &mdash; the matched words are printed beside each one. Every entry jumps to
      its row in the list.</p>
   <ol class="ntier__l">${rows}</ol>
@@ -1235,21 +1340,22 @@ function clip(text, max) {
 // Structured data
 // ---------------------------------------------------------------------------
 
-function collectionPage(ctx, news) {
-  const name = `Which AI stories has ${brand.NAME} scored in this window?`;
+function collectionPage(ctx, news, opts = {}) {
+  const name = opts.name || `Which AI stories has ${brand.NAME} scored in this window?`;
+  const description = opts.description
+    || (`Every AI news item ${brand.NAME} scored in the current collection window, ranked by `
+      + 'score, tagged to one of five pillars and linked to the source that carried it.');
   return {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
     name,
     url: ctx.url(PATH),
-    description:
-      `Every AI news item ${brand.NAME} scored in the current collection window, ranked by ` +
-      'score, tagged to one of five pillars and linked to the source that carried it.',
+    description,
+    speakable: speakable(['h1.narch__h1', 'p.lede']),
     inLanguage: 'en',
     isAccessibleForFree: true,
     dateModified: news.generated_at,
     license: 'https://creativecommons.org/licenses/by/4.0/',
-    speakable: speakable(['.narch__h1', '.lede']),
     isPartOf: { '@type': 'WebSite', name: brand.NAME, url: ctx.url('/') },
   };
 }
@@ -1333,6 +1439,11 @@ function archiveCss(present = brand.PILLARS) {
 .narch__h1 { font-size: clamp(1.7rem, 7vw, 2.3rem); letter-spacing: -0.025em; margin: 0 0 12px; }
 .narch__intro .lede { margin-bottom: 16px; }
 .narch__intro .nhead { margin-top: 18px; }
+.narch__days { margin: 16px 0 0; padding: 12px 0 0; border-top: 1px solid var(--rule); }
+.narch__days-k { margin: 0 0 8px; font: 600 var(--t-xs)/1.3 var(--mono); color: var(--ink-faint); letter-spacing: .04em; text-transform: uppercase; }
+.narch__days-links { display: flex; flex-wrap: wrap; gap: 8px; }
+.narch__days-links a { font: 600 var(--t-sm)/1.3 var(--sans); padding: 6px 10px; border: 1px solid var(--rule); border-radius: 6px; color: var(--ink); text-decoration: none; }
+.narch__days-links a:hover { background: var(--bg-sunken); }
 
 /* ---- the corpus block -------------------------------------------------- */
 

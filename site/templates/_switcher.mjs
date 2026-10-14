@@ -449,7 +449,7 @@ function movedBand(m) {
 
   return `<section class="sw__moved" aria-labelledby="sw-moved-h">
   <div class="sw__mhd">
-    <h3 class="sw__mh" id="sw-moved-h">What moved</h3>
+    <h3 class="sw__mh" id="sw-moved-h">What moved this hour?</h3>
     <p class="sw__mk">last two observations &middot; ${esc(span)} apart &middot; ${esc(String(m.priorAt).slice(11, 16))}Z &rarr; ${esc(String(m.at).slice(11, 16))}Z</p>
   </div>
   <div class="sw__mtop">${score}${level}</div>
@@ -541,7 +541,7 @@ ${statRow([
    The rail is the newest eight in publication order. The list under it is the highest-scoring
    ${esc(rows.length)}. Which stories lead one and not the other is itself the reading.</p>
 
-${reel(railItems, { id: 'sw-latest', limit: RAIL_CARDS, heading: 'The eight newest stories', href: archive, total: news.total })}
+${reel(railItems, { id: 'sw-latest', limit: RAIL_CARDS, heading: 'Which eight stories are newest?', href: archive, total: news.total })}
 <p class="nkey">Ordered by publication time, newest first — <b>not</b> by score. The numeral on each card
    is its position on this rail${spread ? `, and the eighth card is ${esc(spread)} old at the compile stamp` : ''}.</p>
 
@@ -1088,8 +1088,9 @@ export function panels(ctx) {
       delta: Number.isFinite(nnew) && nnew > 0
         ? { text: `${nnew} new`, title: `${nnew} items published since the previous observation at ${String(moved.priorAt).slice(11, 16)}Z` }
         : null,
-      head: { title: 'The newsroom', stamp: `compiled ${clock(news.generated_at) || ''}` },
-      more: { href: ctx.href('/news.html'), text: `All ${news.total} items, each score decomposed` },
+      // Tip #331: panel head titles are question-shaped (§3.3).
+      head: { title: 'What is in the newsroom?', stamp: `compiled ${clock(news.generated_at) || ''}` },
+      more: { href: ctx.href('/news.html'), text: `Which AI stories has ${brand.NAME} scored in this window?` },
       body: () => signalPanel(ctx, news, nnew),
     });
   }
@@ -1104,8 +1105,8 @@ export function panels(ctx) {
       count: race.players.length,
       countTitle: `${race.players.length} labs on live prediction-market odds`,
       state: dark ? 'dark' : 'live',
-      head: { title: 'The race', stamp: `read ${clock(race.generated_at) || ''}` },
-      more: { href: ctx.href('/race.html'), text: 'The full board, and the six things an empty cell can mean' },
+      head: { title: 'Who is winning the AI race?', stamp: `read ${clock(race.generated_at) || ''}` },
+      more: { href: ctx.href('/race.html'), text: 'Who is winning the AI race?' },
       body: () => racePanel(ctx, race),
     });
     out.push({
@@ -1120,7 +1121,7 @@ export function panels(ctx) {
       // verbatim is the point: one watch floor, one definition of "posture",
       // and no second copy to drift.
       head: false,
-      more: { href: ctx.href('/race.html'), text: 'Every lab, every channel, every blank cell' },
+      more: { href: ctx.href('/race.html'), text: 'Who is winning the AI race?' },
       body: () => labs.render(ctx),
     });
   }
@@ -1152,8 +1153,8 @@ export function panels(ctx) {
       count: n,
       countTitle: `${n} keyless grid, drought and build-out sources`,
       state,
-      head: { title: 'The infrastructure index', stamp: `read ${clock(infra.generated_at) || ''}` },
-      more: { href: ctx.href('/watts.html'), text: 'The full substrate board, corridor by corridor' },
+      head: { title: `What does the ${brand.NAME} infrastructure index read?`, stamp: `read ${clock(infra.generated_at) || ''}` },
+      more: { href: ctx.href('/watts.html'), text: `What does the ${brand.NAME} infrastructure index read?` },
       body: () => substratePanel(ctx, infra),
     });
   }
@@ -1167,8 +1168,8 @@ export function panels(ctx) {
       count: dg.items.length,
       countTitle: `${dg.items.length} items that cleared the corroboration rule`,
       state: 'live',
-      head: { title: 'The digest', stamp: `compiled ${clock(dg.d.as_of || dg.d.generated_at) || ''}` },
-      more: { href: ctx.href('/digest.html'), text: 'The full digest, with what changed and why' },
+      head: { title: `What is the ${brand.NAME} daily brief?`, stamp: `compiled ${clock(dg.d.as_of || dg.d.generated_at) || ''}` },
+      more: { href: ctx.href('/digest.html'), text: `What is the ${brand.NAME} daily brief?` },
       body: () => digestPanel(ctx, dg),
     });
   }
@@ -1186,8 +1187,8 @@ export function panels(ctx) {
       count: onRecord,
       countTitle: `${onRecord} of ${rows.length} leaders on the record this week`,
       state: onRecord ? 'live' : 'uncal',
-      head: { title: 'AI leaders, on the record', stamp: `read ${clock(ctx.leaders.generated_at) || ''}` },
-      more: { href: ctx.href('/leaders.html'), text: 'Every leader, including the silent ones' },
+      head: { title: 'Which AI leaders are on the record?', stamp: `read ${clock(ctx.leaders.generated_at) || ''}` },
+      more: { href: ctx.href('/leaders.html'), text: 'Which AI leaders are on the record this week?' },
       body: () => leaderwire.render(ctx, { heading: null }),
     });
   }
@@ -1201,8 +1202,8 @@ export function panels(ctx) {
       count: Number.isFinite(bl.score) ? num(bl.score, 1) : 0,
       countTitle: Number.isFinite(bl.score) ? `BLISS score ${num(bl.score, 1)} of 100` : 'No BLISS score yet',
       state: Number.isFinite(bl.score) ? 'live' : 'uncal',
-      head: { title: 'The upside index', stamp: `read ${clock(bl.generated_at) || ''}` },
-      more: { href: ctx.href('/bliss.html'), text: 'The full board' },
+      head: { title: `What is BLISS, the ${brand.NAME} upside index?`, stamp: `read ${clock(bl.generated_at) || ''}` },
+      more: { href: ctx.href('/bliss.html'), text: `What is BLISS, the ${brand.NAME} upside index?` },
       body: () => blissPanel(ctx, bl),
     });
   }
@@ -1262,10 +1263,12 @@ export function render(ctx, o = {}) {
       ${p.more ? `<a class="sw__more" href="${esc(p.more.href)}">${esc(p.more.text)}</a>` : ''}
     </article>`).join('\n    ');
 
+  // Tip #328: section H2 is question-shaped; homepage FAQ mirrors it (§3.3).
+  const deskPanelQ = 'Where is every dataset on one panel?';
   return `${o.style === false ? '' : styleTag(rules)}
 <section class="sw" id="${esc(uid)}" aria-labelledby="${esc(uid)}-h">
   <div class="sw__hd">
-    <h2 class="sec__h" id="${esc(uid)}-h">Every dataset, one panel<span class="sec__eb">The desk</span></h2>
+    <h2 class="sec__h" id="${esc(uid)}-h">${esc(deskPanelQ)}<span class="sec__eb">The desk</span></h2>
     <p class="sw__k">${esc(list.length)} datasets · one slot · no page load · every one already in this HTML</p>
   </div>
   ${movedBand(movedModel(ctx))}

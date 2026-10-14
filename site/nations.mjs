@@ -60,27 +60,30 @@ export function nationsRace({ race, power, world } = {}) {
   const ka = race && race.markets && race.markets.kalshi;
   const measures = [];
   if (pm && pm.ok && pm.horizon && pm.horizon.legs) {
-    measures.push({ id: 'odds-2026', label: `Odds the best AI model is theirs at ${pm.horizon.end_date ? new Date(pm.horizon.end_date).toLocaleDateString('en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' }) : 'the horizon'}`, kind: 'pct', by: marketByCountry(pm.horizon.legs), src: 'Polymarket', url: pm.horizon.url, scored: true });
+    // Tip #397: measure H2s are question-shaped (mirrored in FAQ §3.3).
+    const horizonWhen = pm.horizon.end_date ? new Date(pm.horizon.end_date).toLocaleDateString('en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' }) : 'the horizon';
+    measures.push({ id: 'odds-2026', label: `What are the odds the best AI model is theirs by ${horizonWhen}?`, kind: 'pct', by: marketByCountry(pm.horizon.legs), src: 'Polymarket', url: pm.horizon.url, scored: true });
   }
   if (pm && pm.ok && pm.spot && pm.spot.legs) {
-    measures.push({ id: 'odds-spot', label: `Odds the best AI model is theirs at ${pm.spot.end_date ? new Date(pm.spot.end_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' }) : 'month end'}`, kind: 'pct', by: marketByCountry(pm.spot.legs), src: 'Polymarket', url: pm.spot.url, scored: true });
+    const spotWhen = pm.spot.end_date ? new Date(pm.spot.end_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' }) : 'month end';
+    measures.push({ id: 'odds-spot', label: `What are the odds the best AI model is theirs by ${spotWhen}?`, kind: 'pct', by: marketByCountry(pm.spot.legs), src: 'Polymarket', url: pm.spot.url, scored: true });
   }
   if (ka && ka.ok && ka.legs) {
-    measures.push({ id: 'kalshi', label: 'Best single lab’s chance of a top-ranked model this year', kind: 'pct', by: bestByCountry(ka.legs), src: 'Kalshi', url: ka.url, scored: true });
+    measures.push({ id: 'kalshi', label: 'What is each country’s best single-lab chance of a top-ranked model this year?', kind: 'pct', by: bestByCountry(ka.legs), src: 'Kalshi', url: ka.url, scored: true });
   }
   const legs = (pm && pm.spot && pm.spot.legs) || (pm && pm.horizon && pm.horizon.legs) || [];
   const labs = labsByCountry(legs);
   if (legs.length) {
     const by = {}; for (const k of Object.keys(labs)) by[k] = labs[k].length;
-    measures.push({ id: 'labs', label: 'Frontier labs the markets are pricing', kind: 'count', by, src: 'Polymarket', url: pm.spot ? pm.spot.url : pm.horizon.url, scored: true, list: labs });
+    measures.push({ id: 'labs', label: 'Which frontier labs are the markets pricing by country?', kind: 'count', by, src: 'Polymarket', url: pm.spot ? pm.spot.url : pm.horizon.url, scored: true, list: labs });
   }
   if (power && power.top) {
     const by = {}; for (const c of power.top) { const k = ISO3[c.iso]; if (k) by[k] = c.twh; }
-    measures.push({ id: 'power', label: `Electricity generated in ${power.year} (TWh) — the fuel for AI`, kind: 'twh', by, src: 'Our World in Data', url: 'https://github.com/owid/energy-data', scored: true });
+    measures.push({ id: 'power', label: `How much electricity did each country generate in ${power.year} (TWh)?`, kind: 'twh', by, src: 'Our World in Data', url: 'https://github.com/owid/energy-data', scored: true });
   }
   if (world && world.countries) {
     const by = {}; for (const c of world.countries) if (c.iso2 && c.total) by[c.iso2] = c.total;
-    measures.push({ id: 'dc', label: 'Data centres mapped in OpenStreetMap', kind: 'count', by, src: 'OpenStreetMap', url: 'https://www.openstreetmap.org/copyright', scored: false, note: 'OpenStreetMap is thinly mapped in China, so this badly undercounts Chinese sites. Shown for context, not scored.' });
+    measures.push({ id: 'dc', label: 'How many data centres does OpenStreetMap map by country?', kind: 'count', by, src: 'OpenStreetMap', url: 'https://www.openstreetmap.org/copyright', scored: false, note: 'OpenStreetMap is thinly mapped in China, so this badly undercounts Chinese sites. Shown for context, not scored.' });
   }
   let us = 0, cn = 0;
   for (const m of measures) {

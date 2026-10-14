@@ -8,7 +8,23 @@ import { WHATS_NEW } from '../siteheader.mjs';
 import { TILE_ICONS } from '../tileicons.mjs';
 
 test('room and What’s New icons are unique per destination', () => {
-  const ctx = { href: (p) => p, url: (p) => p, news: { items: [] }, routes: {}, molt: null, leaders: null };
+  // Enable optional rooms so WHATS_NEW cannot collide with gated world/balance tiles.
+  const ctx = {
+    href: (p) => p,
+    url: (p) => p,
+    news: { items: [] },
+    routes: { world: true, flock: true, exploits: true, balance: true },
+    molt: { fresh: [1], posts: [1] },
+    leaders: { totals: { leaders: 10, on_record: 3 } },
+    race: { players: [{ rank: 1, name: 'x', market: { probability: 0.5 } }] },
+    infra: { score: 1 },
+    datacenters: { sites: [1] },
+    world: { totals: { sites: 1 } },
+    flock: { totals: { mapped_worldwide: 1 } },
+    history: [1],
+    digest: {},
+    liveMedia: { live: { items: [] } },
+  };
   const rows = roomGroups(ctx).flatMap(([, list]) => list.map(([h, art, label]) => [h.split('#')[0], art, label]));
   for (const [h, art, label] of WHATS_NEW) rows.push(['new:' + h, art, label]);
   const byIcon = new Map();

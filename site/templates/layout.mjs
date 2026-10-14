@@ -61,27 +61,26 @@ import * as marks from '../brandmarks.mjs';
  * no scalar and is deliberately left bare: a nav that invented a number for the
  * page that explains the numbers would be a joke at its own expense.
  */
+// `label` = page H1 question (footer Pages + next/prev + All-rooms palette).
+// `short` = compact chrome for the feature-bar tile and pixel room banner.
 const SECTIONS = [
-  { href: '/', label: 'Index', short: 'Index',
+  { href: '/', label: 'AI activity index today · SIREN', short: 'Index',
     blurb: 'The composite, the five pillars, the live signal feed.',
     count: (ctx) => (ctx.state && Number.isFinite(ctx.state.score)
       ? { v: num(ctx.state.score, 1), k: 'composite score' } : null) },
-  // A side project on its own data track (scanner-data, investors-data,
-  // arena-data), so no count here: its numbers load in the page itself.
-  // A side project on its own data track (elon-data), like Stock picks above: no
-  // count here, the clip index loads in the page itself.
-  { href: '/race.html', label: 'The Race', short: 'Race', needs: 'race',
+  // Arena / Real Clips stay off the footer nav (#123 off-brand unlink).
+  { href: '/race.html', label: 'Who is winning the AI race?', short: 'Race', needs: 'race',
     blurb: 'Frontier labs ranked on live prediction-market odds.',
     count: raceCount },
-  { href: '/news.html', label: 'Newsroom', short: 'News', needs: 'news',
+  { href: '/news.html', label: 'Which AI stories has SIREN scored in this window?', short: 'News', needs: 'news',
     blurb: 'Every story, scored on how many independent sources carried it.',
     count: (ctx) => (ctx.news && Array.isArray(ctx.news.items) && ctx.news.items.length
       ? { v: String(ctx.news.items.length), k: 'scored items' } : null) },
-  { href: '/watts.html', label: 'Power', short: 'Power', needs: 'watts',
+  { href: '/watts.html', label: 'What does the SIREN infrastructure index read?', short: 'Power', needs: 'watts',
     blurb: 'The substrate index: grid load, drought and buildout under the models.',
     count: (ctx) => (ctx.infra && Number.isFinite(ctx.infra.score)
       ? { v: num(ctx.infra.score, 1), k: 'substrate score' } : null) },
-  { href: '/map.html', label: 'Map', short: 'Map', needs: 'map',
+  { href: '/map.html', label: 'How many datacentres has SIREN mapped in the United States?', short: 'Map', needs: 'map',
     blurb: 'Where the compute physically sits, against the water it needs.',
     count: (ctx) => (ctx.datacenters && ctx.datacenters.counts
       ? { v: String(ctx.datacenters.counts.sites ?? ctx.datacenters.sites.length), k: 'datacentres mapped' } : null) },
@@ -98,7 +97,7 @@ const SECTIONS = [
   // typed here. No total in the payload, no figure on the tile — the dot,
   // not the length of some other array standing in for a number that was
   // not published.
-  { href: '/world.html', label: 'World', short: 'World', needs: 'world',
+  { href: '/world.html', label: 'How many datacentres has SIREN mapped on Earth?', short: 'World', needs: 'world',
     blurb: 'Every datacentre mapped in OpenStreetMap, anywhere on Earth. Then orbit: what flies, against what is filed.',
     count: (ctx) => {
       const w = ctx.world;
@@ -117,7 +116,7 @@ const SECTIONS = [
   // number in a navigation bar is read as a total by default. The qualifier
   // comes from the payload rather than from a string typed here, so it cannot
   // drift from the date the data was actually collected.
-  { href: '/flock.html', label: 'Cameras', short: 'Cameras', needs: 'flock',
+  { href: '/flock.html', label: 'How many Flock ALPR cameras has SIREN mapped?', short: 'Cameras', needs: 'flock',
     blurb: 'Automated licence-plate readers, as volunteers have mapped them into OpenStreetMap.',
     count: (ctx) => {
       const f = ctx.flock;
@@ -137,7 +136,7 @@ const SECTIONS = [
   // screen reader hears in place of the figure and what a pointer shows, and
   // it says which catalogue, since when, and as of when. Every part of it
   // comes from the payload, so it cannot drift from the data.
-  { href: '/exploits.html', label: 'Exploits', short: 'Exploits', needs: 'exploits',
+  { href: '/exploits.html', label: 'How many days from a CVE going public to CISA listing it as exploited?', short: 'Exploits', needs: 'exploits',
     blurb: 'Days from a vulnerability record going public to the US government cataloguing it as exploited. Flat for four years.',
     count: (ctx) => {
       const e = ctx.exploits;
@@ -147,7 +146,7 @@ const SECTIONS = [
       const since = all.first_listed ? ` since it opened on ${all.first_listed}` : '';
       return { v: grouped(all.n), k: `entries in the whole CISA catalogue of exploited vulnerabilities${since}, ${q}` };
     } },
-  { href: '/leaders.html', label: 'Leaders', short: 'Leaders', needs: 'leaders',
+  { href: '/leaders.html', label: 'Which AI leaders are on the record this week?', short: 'Leaders', needs: 'leaders',
     blurb: 'What the people running AI said this week, as their publishers printed it.',
     count: (ctx) => {
       const rows = ctx.leaders && Array.isArray(ctx.leaders.leaders) ? ctx.leaders.leaders : null;
@@ -155,7 +154,7 @@ const SECTIONS = [
       const on = rows.filter((r) => Array.isArray(r.lines) && r.lines.length).length;
       return { v: `${on}/${rows.length}`, k: 'leaders on the record this week' };
     } },
-  { href: '/digest.html', label: 'Digest', short: 'Digest', needs: 'digest',
+  { href: '/digest.html', label: 'What is the SIREN daily brief?', short: 'Digest', needs: 'digest',
     blurb: 'The day in one page, assembled from the scored corpus.' },
   // BALANCE TAKES UPSIDE'S TILE. The operator asked for the other viewpoint —
   // AI solving problems, beside the doom case — and /balance is where that
@@ -170,11 +169,11 @@ const SECTIONS = [
   // colon separates two counts and computes nothing. `k` says what they are
   // and which window, from the file's own stamp. A dark newsroom has no count
   // on either pan, so the tile prints the dot, never 0 : 0.
-  { href: '/jobs.html', label: 'Jobs', short: 'Jobs', needs: 'balance',
-    blurb: 'AI and jobs: what has been measured, and what the counts do not show.' },
-  { href: '/medicine.html', label: 'Medicine', short: 'Medicine', needs: 'balance',
-    blurb: 'AI in medicine: trials, authorisations and databases on the record.' },
-  { href: '/balance.html', label: 'Balance', short: 'Balance', needs: 'balance',
+  { href: '/jobs.html', label: 'Is AI taking jobs? What has actually been measured', short: 'Jobs', needs: 'balance',
+    blurb: 'Is AI taking jobs? What has been measured, and what the counts do not show.' },
+  { href: '/medicine.html', label: 'Is AI curing anything? Trial results, approvals and what they show', short: 'Medicine', needs: 'balance',
+    blurb: 'Is AI curing anything? Trials, authorisations and databases on the record.' },
+  { href: '/balance.html', label: 'How does SIREN count AI harm and benefit side by side?', short: 'Balance', needs: 'balance',
     blurb: 'Harm and benefit, counted side by side and never summed.',
     count: balanceCount },
   // /bliss stays in SECTIONS, so it keeps its row in the footer's Pages list
@@ -182,33 +181,38 @@ const SECTIONS = [
   // it YIELDS to the Balance tile, and comes back whenever there is no
   // /balance to yield to: a build without data/balance.json must not leave
   // BLISS reachable from the footer alone.
-  { href: '/bliss.html', label: 'Upside', short: 'Upside', needs: 'bliss', yieldsTo: 'balance',
+  { href: '/bliss.html', label: 'What is BLISS, the SIREN upside index?', short: 'Upside', needs: 'bliss', yieldsTo: 'balance',
     blurb: 'The same machinery, pointed the other way.',
     count: (ctx) => (ctx.bliss && Number.isFinite(ctx.bliss.score)
       ? { v: num(ctx.bliss.score, 1), k: 'bliss score' } : null) },
-  { href: '/methodology.html', label: 'Methodology', short: 'Method',
-    blurb: 'Every formula and constant. Recompute the number yourself.' },
-  { href: '/instruments.html', label: 'Instruments', short: 'Instruments',
-    blurb: 'Score history, source health, the five pillars, moves, embed and API.' },
-  { href: '/ai-doomsday-clock.html', label: 'The Clock', short: 'Clock',
+  { href: '/methodology.html', label: 'How the SIREN AI activity index is computed · methodology', short: 'Method',
+    blurb: 'How the SIREN AI activity index is computed · methodology — every formula. Recompute yourself.' },
+  { href: '/instruments.html', label: 'What instruments sit behind the SIREN reading?', short: 'Instruments',
+    blurb: 'What instruments sit behind the SIREN reading? Score history, source health, pillars, moves, embed and API.' },
+  // Tally’s Bets stays off the footer nav (#123 off-brand unlink).
+  { href: '/ai-doomsday-clock.html', label: 'Is there an AI doomsday clock?', short: 'Clock',
     blurb: 'The reading as a clock face, and what the other clocks are.' },
-  { href: '/nothing.html', label: 'Nothing Ever Happens', short: 'Nothing', needs: 'nothing',
+  { href: '/nothing.html', label: 'How often do dated AI claims miss?', short: 'Nothing', needs: 'nothing',
     blurb: 'The skeptic’s counter: dated AI claims that missed, scored in public.',
     count: (ctx) => {
       // Lightweight: only whether the page can build. Score lives on the page.
       if (!ctx || !ctx.state) return null;
       return { v: 'NEH', k: 'skeptic counter for dated AI claims' };
     } },
-  { href: '/desk.html', label: 'Tally’s Desk', short: 'Desk', needs: 'news',
+  { href: '/desk.html', label: 'What unserious counts does SIREN keep on Tally’s desk?', short: 'Desk', needs: 'news',
     blurb: 'The unserious counts: robots, godfathers, question marks.' },
-  { href: '/game.html', label: 'Game', short: 'Game',
+  { href: '/game.html', label: 'How do you play Tally Counts?', short: 'Game',
     blurb: 'Tally Counts: thirty seconds of counting signals and ignoring predictions.' },
-  { href: '/history.html', label: 'History', short: 'History',
+  { href: '/library.html', label: 'What AI books argue both sides of the case?', short: 'Books',
+    blurb: 'Books from every side of the AI argument. Paid links.' },
+  { href: '/bunker-kit.html', label: 'What free tools belong in a bunker kit?', short: 'Bunker',
+    blurb: 'Fifty free tools and one crate of gear.' },
+  { href: '/history.html', label: 'What is the history of AI risk?', short: 'History',
     blurb: 'Sixty years of the same argument, dated and attributed.',
     count: (ctx) => (Array.isArray(ctx.history) && ctx.history.length
       ? { v: String(ctx.history.length), k: 'scored observations' } : null) },
-  { href: '/moves/', label: 'Archive', short: 'Archive',
-    blurb: 'Every scored observation, each with a hash-chained receipt.',
+  { href: '/moves/', label: 'Where are the SIREN index moves?', short: 'Archive',
+    blurb: 'Where are the SIREN index moves? Every scored observation, each with a hash-chained receipt.',
     count: (ctx) => (Array.isArray(ctx.moves) && ctx.moves.length
       ? { v: String(ctx.moves.length), k: 'archived moves' } : null) },
 ];
@@ -771,8 +775,9 @@ function pageBanner(ctx, path) {
   const art = roomArt(path);
   const sec = SECTIONS.find((x) => x.href === path) || PAL_EXTRA.find((x) => x.href === path);
   if (!art || !sec || path === '/') return '';
-  const label = String(sec.label).replace(/[‘’]/g, "'").replace(/[()?]/g, ' ').replace(/\s+/g, ' ').trim();
-  return `<div class="v2pt" aria-hidden="true"><img src="${esc(ctx.href(`/img/art-${art}.webp`))}" width="96" height="96" alt=""><div class="v2pt__t">${pixelText(label, 5, '#FFFFFF', 'v2pt__h')}${sec.blurb ? `<p>${esc(sec.blurb)}</p>` : ''}</div></div>\n`;
+  // Pixel banner uses short chrome; footer / next/prev keep the question label.
+  const banner = String(sec.short || sec.label).replace(/[‘’]/g, "'").replace(/[()?]/g, ' ').replace(/\s+/g, ' ').trim();
+  return `<div class="v2pt" aria-hidden="true"><img src="${esc(ctx.href(`/img/art-${art}.webp`))}" width="96" height="96" alt=""><div class="v2pt__t">${pixelText(banner, 5, '#FFFFFF', 'v2pt__h')}${sec.blurb ? `<p>${esc(sec.blurb)}</p>` : ''}</div></div>\n`;
 }
 
 function v2StatusBar(ctx) {
@@ -821,14 +826,15 @@ function serpDescription(description) {
    The old per-page jump palette lived here; site/siteheader.mjs replaced it.
 --------------------------------------------------------------------------- */
 const PAL_EXTRA = [
-  { href: '/about.html', label: 'About', blurb: 'Who runs this and how it is paid for.' },
-  { href: '/guide.html', label: 'Guide to the levels', blurb: 'What each of the five levels means.' },
-  { href: '/ai-doomsday-clock.html', label: 'AI doomsday clock', blurb: 'What exists, and the one you can verify.' },
-  { href: '/moves/', label: 'Every reading', blurb: 'The full record, each with its receipt.' },
-  { href: '/sponsor.html', label: 'Sponsor', blurb: 'One named sponsor at a time.' },
-  { href: '/privacy.html', label: 'Privacy', blurb: 'What a visit measures: Google Analytics and GoatCounter.' },
-  { href: '/terms.html', label: 'Terms & disclaimers', blurb: 'Information, not advice. No warranty.' },
-  { href: '/disclosures.html', label: 'Disclosures', blurb: 'Affiliate, finance, privacy and satire notices in one place.' },
+  { href: '/about.html', label: 'What is SIREN?', blurb: 'An independent AI activity index — who runs it and how it is paid for.' },
+  { href: '/guide.html', label: 'How does SIREN compare to DEFCON, the Doomsday Clock and p(doom)?', blurb: 'What each measure is — and is not.' },
+  { href: '/p-doom.html', label: 'What is p(doom)?', blurb: 'The number nobody can check, explained.' },
+  { href: '/ai-doomsday-clock.html', label: 'Is there an AI doomsday clock?', blurb: 'What exists, and the one you can verify.' },
+  { href: '/moves/', label: 'Where are the SIREN index moves?', blurb: 'The full record, each with its receipt.' },
+  { href: '/sponsor.html', label: 'How do you sponsor SIREN without moving the number?', blurb: 'One named sponsor at a time.' },
+  { href: '/privacy.html', label: 'What does SIREN know about you?', blurb: 'Privacy policy — analytics and third parties.' },
+  { href: '/terms.html', label: 'What are the SIREN terms of use?', blurb: 'Disclaimers and what the index is not.' },
+  { href: '/disclosures.html', label: 'What does SIREN disclose?', blurb: 'Affiliate, finance, privacy and satire notices in one place.' },
 ];
 // World moved to All pages so the games get a thumb slot (after pizzint's rail).
 const TAB_ROOMS = [['/', 'War room'], ['/news.html', 'News'], ['/race.html', 'Race']];
@@ -891,10 +897,16 @@ function featureBar(ctx, sections, path, { inline = false } = {}) {
     // assistive technology, title for a pointer. Neither changes the visible
     // tile, and a tile with no count is unchanged.
     const unit = c && c.k ? `${c.v} ${c.k}` : '';
-    const named = unit ? ` aria-label="${esc(`${item.label}: ${unit}`)}" title="${esc(unit)}"` : '';
+    const tile = item.short || item.label;
+    // Visible tile stays compact (`short`); aria-label carries the page question.
+    const named = unit
+      ? ` aria-label="${esc(`${item.label}: ${unit}`)}" title="${esc(unit)}"`
+      : (item.short && item.short !== item.label
+        ? ` aria-label="${esc(item.label)}"`
+        : '');
     return `<a class="fb__t" href="${esc(ctx.href(item.href))}"${current}${named} style="--fb-hue:${esc(art.hue)}">
       ${roomArt(item.href) ? `<img class="fb__img" src="${esc(ctx.href(`/img/art-${roomArt(item.href)}.webp`))}" width="30" height="30" alt="" loading="lazy">` : `<svg class="fb__m" viewBox="0 0 16 16" aria-hidden="true" focusable="false">${art.mark}</svg>`}
-      <span class="fb__l">${esc(item.label)}</span>
+      <span class="fb__l">${esc(tile)}</span>
       ${c ? `<b class="fb__n num">${esc(c.v)}</b>` : '<span class="fb__n fb__n--none" aria-hidden="true">·</span>'}
     </a>`;
   });
@@ -1094,7 +1106,7 @@ function jumpIndex(mainHtml) {
     // A heading counts when its own section is the outermost one open.
     if (depth === 1 && m[1]) {
       // The house-name tag after a plain heading (.sec__eb) is decoration; the
-      // jump index wants "Where the index sits", not "Where the index sits The oven".
+      // jump index wants "Where does the index sit?", not "… The oven".
       const text = m[2].replace(/<span class="sec__eb">[\s\S]*?<\/span>/g, '')
         .replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
       if (text) items.push({ id: m[1], text });
@@ -1426,12 +1438,12 @@ function footer(ctx, sections, path) {
   // MEASURED 2026-09-27 at 1024px: the footer was 1,179px tall, 902 of them
   // the index, because thirteen pages and nine data files each carried a
   // sentence. The nav bar at the top of every page already sells each page
-  // with its label and its live count, and the homepage's "Public JSON API"
-  // section describes every file; a footer that repeats both is a second
-  // screen of scrolling past the end of the page. Pages and Data are bare
-  // labels now - Pages in two columns - and Data carries one pointer to the
-  // section that explains it. Provenance keeps its one line. Target: under
-  // 500px at desktop width.
+  // with its label and its live count, and /instruments.html#api describes
+  // every file; a footer that repeats both is a second screen of scrolling
+  // past the end of the page. Pages and Data are bare labels now - Pages in
+  // two columns - and Data carries one pointer (tip #256: instruments H1
+  // question) to the section that explains it. Provenance keeps its one line.
+  // Target: under 500px at desktop width.
   const col = (id, heading, items, blurbKey = null, note = '') => `
     <div class="foot__col">
       <h2 class="foot__h" id="${esc(id)}">${esc(heading)}</h2>
@@ -1451,15 +1463,16 @@ function footer(ctx, sections, path) {
   // brand.X_URL for the same reason twitter:site is: with no handle there is
   // no account, and a dead "support us" link is worse than none.
   const source = [
-    { href: '/about.html', label: 'About', blurb: 'What this is, who runs it, how it is paid for, and how to get in touch.' },
-    { href: '/ai-doomsday-clock.html', label: 'AI doomsday clock?', blurb: 'What exists, and one you can verify.' },
-    { href: '/guide.html', label: 'Guide', blurb: 'SIREN, DEFCON, the Doomsday Clock and p(doom): what each one measures.' },
-    { href: '/sponsor.html', label: 'Sponsor', blurb: 'One labelled sponsor at a time, with no say over the number.' },
-    { href: '/brand.html', label: 'Brand', blurb: 'Name, colours, type, voice and Tally to download.' },
-    { href: '/press.html', label: 'Press kit', blurb: 'Facts, a paragraph to lift, images and a contact.' },
-    { href: '/privacy.html', label: 'Privacy', blurb: 'Every trace a visit can leave, including analytics.' },
-    { href: '/terms.html', label: 'Terms & disclaimers', blurb: 'Information and commentary, not advice. No warranty, no liability.' },
-    { href: '/disclosures.html', label: 'Disclosures', blurb: 'Affiliate, finance, privacy and satire notices in one place.' },
+    { href: '/about.html', label: 'What is SIREN?', blurb: 'An independent AI activity index — who runs it, how it is paid for, and how to get in touch.' },
+    { href: '/p-doom.html', label: 'What is p(doom)?', blurb: 'The probability-of-doom number, explained.' },
+    { href: '/ai-doomsday-clock.html', label: 'Is there an AI doomsday clock?', blurb: 'What exists, and one you can verify.' },
+    { href: '/guide.html', label: 'How does SIREN compare to DEFCON, the Doomsday Clock and p(doom)?', blurb: 'What each measure is — and is not.' },
+    { href: '/sponsor.html', label: 'How do you sponsor SIREN without moving the number?', blurb: 'One labelled sponsor at a time, with no say over the number.' },
+    { href: '/brand.html', label: 'Where is the SIREN brand guide?', blurb: 'Name, colours, type, voice and Tally to download.' },
+    { href: '/press.html', label: 'Where is the SIREN press kit?', blurb: 'Facts, a paragraph to lift, images and how to cite a reading.' },
+    { href: '/privacy.html', label: 'What does SIREN know about you?', blurb: 'Privacy policy — every trace a visit can leave.' },
+    { href: '/terms.html', label: 'What are the SIREN terms of use?', blurb: 'Disclaimers and what the index is not.' },
+    { href: '/disclosures.html', label: 'What does SIREN disclose?', blurb: 'Affiliate, finance, privacy and satire notices in one place.' },
     { href: brand.REPO_URL, label: 'Source code', blurb: `Every line that produced these numbers. ${brand.LICENSE_BLURB}.` },
   ];
   if (brand.X_URL) {
@@ -1588,7 +1601,7 @@ function footer(ctx, sections, path) {
       <div class="foot__cols">
         ${col('foot-pages', 'Pages', sections)}
         ${col('foot-data', 'Data', dataLinks, null,
-    `<p class="foot__note">What each file holds is described under <a href="${esc(ctx.href('/instruments.html'))}#api">Public JSON API</a>.</p>`)}
+    `<p class="foot__note">What each file holds is described under <a href="${esc(ctx.href('/instruments.html'))}#api">What instruments sit behind the ${esc(brand.NAME)} reading?</a></p>`)}
         ${col('foot-src', 'Provenance', source, 'blurb')}
       </div>
     </div>
@@ -1602,9 +1615,9 @@ function footer(ctx, sections, path) {
     <p class="foot__fine"><b>Not advice.</b> ${esc(brand.LEGAL_NOT_ADVICE)}
       Data is automated and may be wrong or late; provided as is, with no warranty. Not affiliated with any company, lab, person or agency named here.
       ${esc(brand.LEGAL_AFFILIATE)}
-      Use of this site means you accept the <a href="${esc(ctx.href('/terms.html'))}">terms &amp; disclaimers</a>.
-      <a href="${esc(ctx.href('/privacy.html'))}">Privacy</a>.
-      <a href="${esc(ctx.href('/disclosures.html'))}">Disclosures</a>.</p>
+      Use of this site means you accept the <a href="${esc(ctx.href('/terms.html'))}">What are the ${esc(brand.NAME)} terms of use?</a>
+      <a href="${esc(ctx.href('/privacy.html'))}">What does ${esc(brand.NAME)} know about you?</a>
+      <a href="${esc(ctx.href('/disclosures.html'))}">What does ${esc(brand.NAME)} disclose?</a></p>
   </div>
 </footer>`;
 }

@@ -48,9 +48,9 @@ export function render(ctx) {
     <li><span>Fault</span><b>ours</b></li>
     <li><span>Stack trace shown to you</span><b>none — on purpose</b></li>
     <li><span>What to do</span><b>reload, or come back shortly</b></li>
-    <li><span>How to tell us</span><b><a href="${esc(ctx.href('/feedback.html'))}">feedback form</a></b></li>
+    <li><span>How to tell us</span><b><a href="${esc(ctx.href('/feedback.html'))}">How do I report a problem or send an idea to ${esc(brand.NAME)}?</a></b></li>
   </ul>
-  <p><a class="nf__go" href="${esc(ctx.href('/'))}">Back to the index →</a></p>
+  <p><a class="nf__go" href="${esc(ctx.href('/'))}">AI activity index today · ${esc(brand.NAME)} →</a></p>
 </section>`;
   return page({
     ctx,

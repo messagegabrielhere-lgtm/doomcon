@@ -687,12 +687,6 @@ jobs:
           METACULUS_TOKEN: ${{ secrets.METACULUS_TOKEN }}
         run: node collector/si-signals.mjs
 
-      - name: Google Search Trends watch
-        # Daily trending RSS filtered for AI head terms. Findability only;
-        # does not move the index. A failure keeps the previous file.
-        continue-on-error: true
-        run: node collector/search-trends.mjs
-
       - name: The power race
         # Electricity generation by country (Our World in Data, keyless).
         # Annual data; the collector refetches at most once a day.

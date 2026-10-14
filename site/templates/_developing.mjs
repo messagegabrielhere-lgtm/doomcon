@@ -134,10 +134,12 @@ export function render(ctx) {
 
   const sources = (story.sources || []).join(', ');
 
+  // Tip #327: section H2 is question-shaped; homepage FAQ mirrors it (§3.3).
+  const developingQ = 'What story is developing right now?';
   return `${styleTag()}
 <section class="dv" aria-labelledby="dv-h">
   <div class="dv__head">
-    <h2 class="dv__h" id="dv-h"><span class="dv__glyph" aria-hidden="true">◎</span> Developing</h2>
+    <h2 class="dv__h" id="dv-h"><span class="dv__glyph" aria-hidden="true">◎</span> ${esc(developingQ)}</h2>
     <p class="dv__count">${esc(String(story.source_count))} independent source${story.source_count === 1 ? '' : 's'} &middot; first at <time datetime="${esc(story.first_published_at)}">${esc(utcClock(story.first_published_at))} UTC</time>, latest <time datetime="${esc(story.last_published_at)}">${esc(utcClock(story.last_published_at))} UTC</time></p>
   </div>
 

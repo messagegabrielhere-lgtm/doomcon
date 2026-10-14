@@ -41,8 +41,6 @@ import * as moltbookPage from './templates/moltbookPage.mjs';
 import * as evolutionPage from './templates/evolutionPage.mjs';
 import * as livePage from './templates/livePage.mjs';
 import * as siWatchPage from './templates/siWatchPage.mjs';
-import * as searchTrendsPage from './templates/searchTrendsPage.mjs';
-import * as aiPredictionMarketsPage from './templates/aiPredictionMarketsPage.mjs';
 import * as wafflePage from './templates/wafflePage.mjs';
 import * as statusPage from './templates/statusPage.mjs';
 import * as selfAwarePage from './templates/selfAwarePage.mjs';
@@ -205,9 +203,15 @@ import * as facetPages from './templates/facetPages.mjs';
 import * as modelPages from './templates/modelPages.mjs';
 import * as countryPages from './templates/countryPages.mjs';
 import * as comparePages from './templates/comparePages.mjs';
+import * as peoplePages from './templates/peoplePages.mjs';
+import * as dayPages from './templates/dayPages.mjs';
+import * as tagPages from './templates/tagPages.mjs';
+import * as kindPages from './templates/kindPages.mjs';
+import * as outletPages from './templates/outletPages.mjs';
 import { page as layoutPage } from './templates/layout.mjs';
 import { render as sitemap, robots } from './templates/sitemap.mjs';
 import { INDEXNOW_KEY } from '../collector/indexnow.mjs';
+import { loadArchive, archiveOnlyItems } from '../collector/item-archive.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -730,12 +734,73 @@ async function writeModelAndCountryPages(ctx, outDir, write, written) {
     written.push(await write(outDir, `model/${model.slug}.html`, modelPages.renderModel(ctx, model.name)));
   }
   written.push(await write(outDir, 'model/index.html', modelPages.renderIndex(ctx)));
+  if (modelPages.indexableModels(ctx).length) {
+    written.push(await write(outDir, 'models.html', modelPages.renderModels(ctx)));
+  }
   if (ctx.routes && ctx.routes.world && ctx.world) {
     for (const country of countryPages.indexableCountries(ctx)) {
       written.push(await write(outDir, `country/${String(country.iso2).toLowerCase()}.html`, countryPages.renderCountry(ctx, country.iso2)));
     }
     written.push(await write(outDir, 'country/index.html', countryPages.renderIndex(ctx)));
+    if (countryPages.indexableCountries(ctx).length) {
+      written.push(await write(outDir, 'countries.html', countryPages.renderCountries(ctx)));
+    }
   }
+}
+
+async function writePeopleAndDayPages(ctx, outDir, write, written) {
+  if (peoplePages.indexablePeople(ctx).length) {
+    for (const person of peoplePages.indexablePeople(ctx)) {
+      written.push(await write(outDir, `people/${person.id}.html`, peoplePages.renderPerson(ctx, person.id)));
+    }
+    written.push(await write(outDir, 'people/index.html', peoplePages.renderIndex(ctx)));
+    written.push(await write(outDir, 'people.html', peoplePages.renderPeople(ctx)));
+  }
+  for (const day of dayPages.indexableDays(ctx)) {
+    written.push(await write(outDir, `news/${day.day}.html`, dayPages.renderDay(ctx, day.day)));
+  }
+}
+
+async function writeTagPages(ctx, outDir, write, written) {
+  const tags = tagPages.indexableTags(ctx);
+  if (!tags.length) return;
+  for (const tag of tags) {
+    written.push(await write(outDir, `tags/${tag.id}.html`, tagPages.renderTag(ctx, tag.id)));
+  }
+  written.push(await write(outDir, 'tags/index.html', tagPages.renderIndex(ctx)));
+  written.push(await write(outDir, 'tags.html', tagPages.renderTags(ctx)));
+}
+
+async function writeKindPages(ctx, outDir, write, written) {
+  const kinds = kindPages.indexableKinds(ctx);
+  if (!kinds.length) return;
+  for (const kind of kinds) {
+    written.push(await write(outDir, `kind/${kind.id}.html`, kindPages.renderKind(ctx, kind.id)));
+  }
+  written.push(await write(outDir, 'kind/index.html', kindPages.renderIndex(ctx)));
+  written.push(await write(outDir, 'kinds.html', kindPages.renderKinds(ctx)));
+}
+
+async function writeOutletPages(ctx, outDir, write, written) {
+  const outlets = outletPages.indexableOutlets(ctx);
+  if (!outlets.length) return;
+  for (const o of outlets) {
+    written.push(await write(outDir, `outlet/${o.slug}.html`, outletPages.renderOutlet(ctx, o.domain)));
+  }
+  written.push(await write(outDir, 'outlet/index.html', outletPages.renderIndex(ctx)));
+  written.push(await write(outDir, 'outlets.html', outletPages.renderOutlets(ctx)));
+}
+
+function tagAliases(ctx) {
+  return tagPages.indexableTags(ctx).map((tag) => `tags/${tag.id}`);
+}
+
+function kindAliases(ctx) {
+  return kindPages.indexableKinds(ctx).map((kind) => `kind/${kind.id}`);
+}
+
+function outletAliases(ctx) {
+  return outletPages.indexableOutlets(ctx).map((o) => `outlet/${o.slug}`);
 }
 
 function modelAndCountryAliases(ctx) {
@@ -744,6 +809,10 @@ function modelAndCountryAliases(ctx) {
     names.push(...countryPages.indexableCountries(ctx).map((country) => `country/${String(country.iso2).toLowerCase()}`));
   }
   return names;
+}
+
+function peopleAliases(ctx) {
+  return peoplePages.indexablePeople(ctx).map((person) => `people/${person.id}`);
 }
 
 async function writeDirectoryAliases(outDir, names, write, written) {
@@ -896,6 +965,15 @@ async function main() {
     }
   } else {
     warn('data/news.json is absent; building without the newsroom. Run collector/news.mjs first.');
+  }
+
+  // Permanent /item/ long-tail beyond the live newsroom cap. Absent or unreadable
+  // → empty archive; the live window still builds.
+  let itemArchiveDoc = { items: [], updated_at: null };
+  try {
+    itemArchiveDoc = await loadArchive(path.join(args.data, 'item-archive.json'));
+  } catch (err) {
+    warn(`data/item-archive.json unreadable (${err.message}); building without the item archive.`);
   }
 
   // Same separate-failure-domain rule as news: /race going dark must not stop
@@ -1204,10 +1282,19 @@ async function main() {
   const cssName = `s-${createHash('sha256').update(sheet).digest('hex').slice(0, 12)}.css`;
   const cssHref = `${brand.BASE_PATH}/${cssName}`;
 
+  const liveNewsItems = (news && Array.isArray(news.items)) ? news.items : [];
+  const archivedItems = archiveOnlyItems(itemArchiveDoc, liveNewsItems);
+
   const ctx = {
     state,
     logos,
     news,
+    // Scored stories outside the live newsroom cap — sitemap + /item/ pages.
+    itemArchive: archivedItems,
+    itemArchiveMeta: {
+      updated_at: itemArchiveDoc.updated_at || null,
+      total: Array.isArray(itemArchiveDoc.items) ? itemArchiveDoc.items.length : 0,
+    },
     breaking,
     deskPicks,
     race,
@@ -1407,13 +1494,32 @@ async function main() {
         written.push(await write(args.out, rel, itemPage.render(ctx, it, related)));
         itemRewritten += 1;
       }
+      // Archived scored stories keep their permanent pages across news-only
+      // ticks. Do not delete them when they leave the live window.
+      for (const it of (ctx.itemArchive || [])) {
+        if (!it || !it.id) continue;
+        const slug = itemPage.slugFor(it);
+        keep.add(`${slug}.html`);
+        const rel = `item/${slug}.html`;
+        const abs = path.join(args.out, rel);
+        if (existsSync(abs)) {
+          itemSkipped += 1;
+          continue;
+        }
+        const related = (byPillar.get(it.pillar) || [])
+          .filter((r) => r.id !== it.id)
+          .slice(0, 5);
+        written.push(await write(args.out, rel, itemPage.render(ctx, it, related)));
+        itemRewritten += 1;
+      }
       const itemDir = path.join(args.out, 'item');
       if (existsSync(itemDir)) {
         // GRACE PERIOD. The hourly pages (balance, lab/*, pillar/*, model/*,
         // news-sitemap) still link items that rotated out on a fast tick, and
         // deleting their briefs at once left those links 404ing until the next
         // full build (17 dead /item links in the 2026-10-13 crawl). A brief
-        // that left the window stays for ITEM_GRACE_MS before it is pruned.
+        // that left the window stays for ITEM_GRACE_MS before it is pruned —
+        // unless it is in the durable item archive (kept above).
         const ITEM_GRACE_MS = 72 * 3600_000;
         const nowMs = Date.now();
         for (const name of await readdir(itemDir)) {
@@ -1428,14 +1534,29 @@ async function main() {
     for (const p of brand.PILLARS) {
       written.push(await write(args.out, `pillar/${p.id}.html`, facetPages.renderPillar(ctx, p.id)));
     }
-    for (const player of facetPages.labsFromRace(ctx)) {
+    if (facetPages.indexablePillars(ctx).length) {
+      written.push(await write(args.out, 'pillar/index.html', facetPages.renderPillarIndex(ctx)));
+      written.push(await write(args.out, 'pillars.html', facetPages.renderPillars(ctx)));
+    }
+    for (const player of facetPages.allLabs(ctx)) {
       written.push(await write(args.out, `lab/${player.id}.html`, facetPages.renderLab(ctx, player)));
+    }
+    if (facetPages.indexableLabs(ctx).length) {
+      written.push(await write(args.out, 'lab/index.html', facetPages.renderLabIndex(ctx)));
+      written.push(await write(args.out, 'companies.html', facetPages.renderCompanies(ctx)));
     }
     for (const s of facetPages.indexableSources(ctx)) {
       written.push(await write(args.out, `source/${s.id}.html`, facetPages.renderSource(ctx, s.id)));
     }
     written.push(await write(args.out, 'source/index.html', facetPages.renderSourceIndex(ctx)));
+    if (facetPages.indexableSources(ctx).length) {
+      written.push(await write(args.out, 'sources.html', facetPages.renderSources(ctx)));
+    }
     await writeModelAndCountryPages(ctx, args.out, write, written);
+    await writePeopleAndDayPages(ctx, args.out, write, written);
+    await writeTagPages(ctx, args.out, write, written);
+    await writeKindPages(ctx, args.out, write, written);
+    await writeOutletPages(ctx, args.out, write, written);
     // Keep the crawl surfaces in step with the newsroom window (item + facet
     // URLs change every fast pass; a stale sitemap is how Google News goes quiet).
     written.push(await write(args.out, 'sitemap.xml', sitemap(ctx)));
@@ -1449,9 +1570,13 @@ async function main() {
       if (leaders) written.push(await write(args.out, 'api/leaders.json', stableJson(leaders)));
     }
     await writeDirectoryAliases(args.out, [
-      'news', 'leaders',
+      'news', 'leaders', 'companies', 'models', 'tags', 'kinds', 'outlets', 'people', 'countries',
+      'pillars', 'sources',
       ...facetPages.indexableSources(ctx).map((s) => `source/${s.id}`),
       ...modelAndCountryAliases(ctx),
+      ...tagAliases(ctx),
+      ...kindAliases(ctx),
+      ...outletAliases(ctx),
     ], write, written);
     written.push(await write(args.out, 'feed.xml', feed.render(ctx)));
     if (news) written.push(await write(args.out, 'api/news.json', stableJson(news)));
@@ -1647,12 +1772,6 @@ async function main() {
     try { sh = (await readFile(path.join(args.data, 'si-signals-history.ndjson'), 'utf8')).trim().split('\n').filter(Boolean).map((l) => JSON.parse(l)); } catch { sh = []; }
     written.push(await write(args.out, 'si-watch.html', siWatchPage.render(ctx, sig, sh)));
     if (sig) written.push(await write(args.out, 'api/si-signals.json', JSON.stringify(sig, null, 2) + '\n'));
-    let trends = null, th = [];
-    try { trends = JSON.parse(await readFile(path.join(args.data, 'search-trends.json'), 'utf8')); } catch { trends = null; }
-    try { th = (await readFile(path.join(args.data, 'search-trends-history.ndjson'), 'utf8')).trim().split('\n').filter(Boolean).map((l) => JSON.parse(l)); } catch { th = []; }
-    written.push(await write(args.out, 'search-trends.html', searchTrendsPage.render(ctx, trends, th)));
-    if (trends) written.push(await write(args.out, 'api/search-trends.json', JSON.stringify(trends, null, 2) + '\n'));
-    written.push(await write(args.out, 'ai-prediction-markets.html', aiPredictionMarketsPage.render(ctx, ctx.race)));
   }
   written.push(await write(args.out, 'bug-out-land.html', agentPages.land(ctx)));
   // skill.md (+ discovery mirrors) is written in writeAgentText so the news
@@ -1687,6 +1806,8 @@ async function main() {
   written.push(await write(args.out, 'sponsor.html', shopPages.sponsor(ctx)));
   written.push(await write(args.out, 'guide.html', infoPages.guide(ctx)));
   written.push(await write(args.out, 'guide.md', infoPages.guideMd(ctx)));
+  written.push(await write(args.out, 'guides.html', infoPages.guides(ctx)));
+  written.push(await write(args.out, 'guides.md', infoPages.guidesMd(ctx)));
   // Competitor conquest landings: intercept DoomBench / Skynet / p(doom)
   // alternative queries without borrowing their doom-probability claims.
   for (const entry of comparePages.renderAll(ctx)) {
@@ -1719,6 +1840,13 @@ async function main() {
   if (leadersPage.hasLeaders(ctx)) {
     written.push(await write(args.out, 'leaders.html', leadersPage.render(ctx)));
   }
+  // People + day hubs (COMPETITIVE-SEO.md): DoomBench /people and Skynet
+  // /news/YYYY-MM-DD — gated so thin days and quiet roster rows stay off-index.
+  await writePeopleAndDayPages(ctx, args.out, write, written);
+  // Topic tags (Skynet /tags/* shape): curated needles, substance gate.
+  await writeTagPages(ctx, args.out, write, written);
+  await writeKindPages(ctx, args.out, write, written);
+  await writeOutletPages(ctx, args.out, write, written);
   // /flock. The ALPR camera map, from OpenStreetMap via Overpass.
   //
   // ctx.routes.flock — set immediately after ctx is built, above — is the ONE
@@ -1761,6 +1889,7 @@ async function main() {
   // gets 997 of its 1,018 sitemap URLs. Each of ours carries the score
   // decomposition and the corroboration set, so these are unique computed
   // pages rather than the thin doorway pages this pattern usually produces.
+  // Live window + data/item-archive.json (cap overflow and aged-off rows).
   if (itemPage.hasItems(ctx)) {
     const items = ctx.news.items;
     const byPillar = new Map();
@@ -1774,6 +1903,12 @@ async function main() {
         .slice(0, 5);
       written.push(await write(args.out, `item/${itemPage.slugFor(it)}.html`, itemPage.render(ctx, it, related)));
     }
+    for (const it of (ctx.itemArchive || [])) {
+      const related = (byPillar.get(it.pillar) || [])
+        .filter((r) => r.id !== it.id)
+        .slice(0, 5);
+      written.push(await write(args.out, `item/${itemPage.slugFor(it)}.html`, itemPage.render(ctx, it, related)));
+    }
     written.push(await write(args.out, 'item/index.html', itemPage.renderIndex(ctx)));
   }
   // Faceted landings (COMPETITIVE-SEO.md): DoomBench/Skynet win on entity URL
@@ -1781,13 +1916,24 @@ async function main() {
   for (const p of brand.PILLARS) {
     written.push(await write(args.out, `pillar/${p.id}.html`, facetPages.renderPillar(ctx, p.id)));
   }
-  for (const player of facetPages.labsFromRace(ctx)) {
+  if (facetPages.indexablePillars(ctx).length) {
+    written.push(await write(args.out, 'pillar/index.html', facetPages.renderPillarIndex(ctx)));
+    written.push(await write(args.out, 'pillars.html', facetPages.renderPillars(ctx)));
+  }
+  for (const player of facetPages.allLabs(ctx)) {
     written.push(await write(args.out, `lab/${player.id}.html`, facetPages.renderLab(ctx, player)));
+  }
+  if (facetPages.indexableLabs(ctx).length) {
+    written.push(await write(args.out, 'lab/index.html', facetPages.renderLabIndex(ctx)));
+    written.push(await write(args.out, 'companies.html', facetPages.renderCompanies(ctx)));
   }
   for (const s of facetPages.indexableSources(ctx)) {
     written.push(await write(args.out, `source/${s.id}.html`, facetPages.renderSource(ctx, s.id)));
   }
   written.push(await write(args.out, 'source/index.html', facetPages.renderSourceIndex(ctx)));
+  if (facetPages.indexableSources(ctx).length) {
+    written.push(await write(args.out, 'sources.html', facetPages.renderSources(ctx)));
+  }
   await writeModelAndCountryPages(ctx, args.out, write, written);
   for (const m of moves) {
     written.push(await write(args.out, `moves/${m.id}.html`, movePage.render(ctx, m)));
@@ -1805,12 +1951,18 @@ async function main() {
       'bets', 'privacy', 'terms', 'disclosures', 'feedback', 'sponsor', 'instruments',
       'p-doom', 'ai-doomsday-clock', 'arena', 'scanner', 'monitor', 'elon',
       'game', 'bunker-kit', 'alerts', 'export', 'moltbook', 'staff', 'careers',
-      'agents', 'tally', 'changelog', 'live', 'compare', 'alternatives',
+      'agents', 'tally', 'changelog', 'live', 'compare', 'alternatives', 'vs', 'guides',
+      'companies', 'models', 'tags', 'kinds', 'outlets', 'people', 'countries',
+      'pillars', 'sources',
       ...comparePages.RIVALS.map((r) => r.path.replace(/^\//, '').replace(/\.html$/, '')),
       ...brand.PILLARS.map((p) => `pillar/${p.id}`),
-      ...facetPages.labsFromRace(ctx).map((p) => `lab/${p.id}`),
+      ...facetPages.allLabs(ctx).map((p) => `lab/${p.id}`),
       ...facetPages.indexableSources(ctx).map((s) => `source/${s.id}`),
       ...modelAndCountryAliases(ctx),
+      ...peopleAliases(ctx),
+      ...tagAliases(ctx),
+      ...kindAliases(ctx),
+      ...outletAliases(ctx),
     ],
     write,
     written,

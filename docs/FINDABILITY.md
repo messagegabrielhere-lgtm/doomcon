@@ -227,22 +227,6 @@ context.
 - [ ] Spot-check: ask ChatGPT / Perplexity / Claude "What is SIREN / DOOMCON AI index right now?" and "Is there an AI doomsday clock?" — record whether they cite us, and which URL.
 - [ ] Register the site in Google Merchant / News only if we ship a real news sitemap with dated `NewsArticle` pages — not before.
 
-### 3.1a Google Search Trends watch (shipping)
-
-`collector/search-trends.mjs` reads Google’s public Trending Now RSS (US + GB),
-filters for AI, and checks a frozen head-term watchlist (prediction markets,
-doom clock, p(doom), lab names, brand). Output: `data/search-trends.json`,
-`/search-trends.html`, `/api/search-trends.json`. **Watched, not scored** —
-same posture as Takeover Watch. Interest-over-time still comes from Wikipedia
-pageviews in the attention pillar; Trends explore has no stable keyless API.
-
-Companion evergreen: `/ai-prediction-markets.html` answers the “AI prediction
-markets” head term honestly (live odds on The Race; SIREN is not a forecast).
-
-Brand queries with **zero crawlable pages** (example from ops: “ai prediction
-mintieo”) will not rank. Google needs an indexed URL that answers the query —
-Trends monitoring alone does not create one.
-
 ### 3.2 Engineering, ranked by expected findability per unit of work
 
 | # | Change | Channel | Status |
@@ -255,19 +239,63 @@ Trends monitoring alone does not create one.
 | 6 | `/openapi.json` + sitemap entries for API docs | Agents + developers | **Done** |
 | 7 | Head-term homepage title + FAQ ("AI activity level today", verifiable doomsday clock) | Google | **Done** (2026-10-10) |
 | 8 | Organization JSON-LD + IndexNow ping after publish + GSC meta hook | Google + Bing | **Done** (2026-10-10) |
-| 9 | Optional markdown mirrors for methodology and guide | Agents | **Done** |
-| 10 | Mobile card view / less above-fold weight | Google CWV | Open |
+| 9 | Optional markdown mirrors for methodology and guide | Agents | **Done** (live `/methodology.md`, `/guide.md`) |
+| 10 | Mobile card view / less above-fold weight | Google CWV | **Done** (2026-10-14) — phone-width `<details>` deferral + below-fold `content-visibility:auto` |
 | 11 | Verify Search Console; submit both sitemaps | Operator | Open |
-| 12 | `/country/<iso>` + `/model/<slug>` entity axes | Google | **Done** (2026-10-10) |
+| 12 | `/country/<iso>` for countries with ≥3 mapped datacentre sites, and `/model/<slug>` for model families named in ≥3 scored stories | Google | **Done** (2026-10-10) |
 | 13 | `/compare`, `/alternatives`, `/vs/*` conquest landings | Google | **Done** (2026-10-10) |
 | 14 | `/agents.md` + Grok/xAI named Allow + ChatGPT query routing in `llms.txt` | ChatGPT + Grok | **Done** (2026-10-11) |
-| 15 | People pages + news day hubs (DoomBench/Skynet URL shape) | Google | Open PR #86 |
+| 15 | `/people/*` leader coverage pages + `/news/YYYY-MM-DD` day hubs + entity-only `/lab/*` | Google | **Done** (2026-10-14) |
 | 16 | `/agents.txt` + `/agents.json` + `/.well-known/api-catalog` + skills index + MCP server card | Agent discovery | **Done** (this pass) |
-| 17 | News-sitemap cap **200** + AI-first keywords (slim live hotfix) | Google News | **Done** (2026-10-14) |
-| 18 | `/news.html` question-shaped title/H1/H2s + FAQPage + Speakable + BreadcrumbList | Google | **Done** (2026-10-14) |
-| 19 | `/digest.html` question-shaped title/H1 + FAQPage (live still “The daily brief — N items”) | Google | **Done** (2026-10-14) |
-| 20 | `/race.html` question-shaped title/H1 + FAQPage (live still “The AI race — …”) | Google | **Done** (2026-10-14) |
-| 21 | `/methodology.html` head-term title + question H2s feeding FAQPage (live still “Methodology — …”) | Google | **Done** (2026-10-14) |
+17
+18
+19
+20
+21
+| 22 | Homepage below-fold `content-visibility:auto` (CWV; crawlers still see full HTML) | Google CWV | **Done** (2026-10-14) |
+| 23 | `/source/*` adapter hubs link older archive stories; phone-width home board deferral | Google CWV | **Done** (2026-10-14) |
+| 24 | `/tags/*` topic hubs (Skynet URL shape; curated needles, ≥5 stories) | Google | **Done** (2026-10-14) |
+| 25 | `/kind/*` story-kind hubs (press/forum/paper; ≥5 stories) | Google | **Done** (2026-10-14) |
+| 26 | Durable `data/item-archive.json` (ARCHIVE_MAX 5000) for `/item/` long-tail + newsroom cap 800 | Google | **Done** (2026-10-14) |
+| 27 | News-sitemap cap 150 with richer keywords | Google News | **Done** (2026-10-14) |
+| 28 | `/outlet/*` publisher hubs (≥5 scored stories) | Google | **Done** (2026-10-14) |
+| 29 | IndexNow ALWAYS + seo-daily OUR_SURFACES cover top gated `/tags/*` `/kind/*` `/outlet/*` `/people/*` hubs | Bing + daily scoreboard | **Done** (2026-10-14) |
+| 30 | `seo-daily` `deploy-pending-url-lead` when local Ready ≥2k and live sitemap &lt; 50% of Ready — trail gaps yield to merge/deploy | Daily agent | **Done** (2026-10-14) |
+| 31 | DoomBench-shaped `/companies.html` + `/lab/` index + wire `/models.html` `/tags.html` `/people.html` `/countries.html` (already linked; were unwritten) | Google | **Done** (2026-10-14) |
+| 32 | `/pillars.html` + `/pillar/` index + `/sources.html` (linked from country/outlet pages; were unwritten) | Google | **Done** (2026-10-14) |
+| 33 | Conquest `/vs/pizzint.html` + `/vs/takeofftracker.html` (DEFCON/takeoff head terms without borrowing claims) | Google | **Done** (2026-10-14) |
+| 34 | `/guides.html` + `/guides.md` evergreen explainer hub + `/vs.html` conquest directory (linked; were unwritten) | Google + agents | **Done** (2026-10-14) |
+| 35 | Question-shaped titles/H2s + WebPage/Speakable/Breadcrumb/FAQ on `/p-doom.html` + `/ai-doomsday-clock.html` (visible FAQ matches schema) | Google | **Done** (2026-10-14) |
+| 36 | Question-shaped `/guide.html` + `/guide.md` + IndexNow ALWAYS evergreen rooms (history/instruments/map/…) for post-deploy crawl | Google + Bing | **Done** (2026-10-14) |
+| 37 | Question-shaped `/compare.html` `/alternatives.html` `/vs/*` hubs + methodology title/H2s (METHODOLOGY.md FAQ from visible questions) | Google | **Done** (2026-10-14) |
+| 38 | IndexNow ALWAYS covers gated hubs this build already emits (labs/models/tags/sources missing from ping set) | Bing | **Done** (2026-10-14) |
+| 39 | Newsroom question H1 + FAQ + entity-directory nav (companies/models/tags/guides/vs…) so post-deploy hubs are not orphans | Google | **Done** (2026-10-14) |
+| 40 | Homepage `roomGroups` question labels + entity/conquest hub tiles (companies/models/tags/guides/compare/vs/…) with unique px icons | Google | **Done** (2026-10-14) |
+| 41 | Catalog/search + agents.md + siteheader list entity/conquest hubs under question titles; IndexNow ALWAYS covers `/moves/` | Google + agents + Bing | **Done** (2026-10-14) |
+| 42 | Homepage FAQ + question-shaped home H2s link entity/conquest hubs (schema matches visible FAQ); readers map H2 question-shaped | Google | **Done** (2026-10-14) |
+| 43 | Sitewide footer/nav labels + agent pages + home modules use question H1/H2s mirrored in FAQ (keep #123 off-brand unlinks) | Google | **Done** (2026-10-14) |
+| 44 | Provenance + explainer infoPages and extras (alerts/export/bias/changelog/reference-plan) ship question H1/H2 + FAQ schema | Google | **Done** (2026-10-14) |
+| 45 | Instrument pages (balance/digest/evolution/desk/charts/exploits/flock/waffle/feature/moves/day) question H1/H2 + FAQ; facet breadcrumbs match H1s | Google | **Done** (2026-10-14) |
+| 46 | History/labs/leaders/map/live/moltbook/games/bets/classic/instruments question H1/H2 + FAQ; extras blurbs match page questions | Google | **Done** (2026-10-14) |
+| 47 | Static rooms + nations/nothing/power/moves/news-sitemap question H1/H2 + FAQ (arena/bunker/contain/dispatch/…) | Google | **Done** (2026-10-14) |
+| 48 | Race/watts/world/threats/status/si-watch/self-aware/shop/topic/radio/videos/tally/staff/press/privacy/terms question H1/H2 + FAQ | Google | **Done** (2026-10-14) |
+| 49 | Pillar/lab/source detail + `/source/` directory: question H1/title/FAQ/speakable (live-window gates only — no archive-widen while `deploy-pending-url-lead`) | Google | **Done** (2026-10-14) |
+| 50 | IndexNow ALWAYS covers question-titled rooms (`/status` `/catalog` `/nations` …) + `defaultUrlList` samples sitemap archive/facet tails (news cap 100) — Bing path after merge | Bing | **Done** (2026-10-14) |
+| 51 | `seo-daily`: monitor live rooms; collapse undeployed surface-404 flood into `surfaces-awaiting-deploy` while `deploy-pending-url-lead`; decode rival title entities | Daily agent | **Done** (2026-10-14) |
+| 52 | Pillar/lab pages list older archive stories + word-bound lab matching (FAQ/H2 mirrored); **live-window index gates unchanged** while deploy-pending | Google | **Done** (2026-10-14) |
+| 53 | `/source/*` durable gate: live + archive story count (same as tags/kinds/outlets/models) — ~+16 feed-adapter hubs when archive fills thin adapters | Google | **Done** (2026-10-14) |
+| 54 | IndexNow ALWAYS covers #48 archive-widened `/source/*` hubs + `defaultUrlList` pings UTC `/news/YYYY-MM-DD` day hubs from disk; `seo-daily` `google-news-open` while pizzint news-sitemap is empty | Bing + Google News | **Done** (2026-10-14) |
+| 55 | News-sitemap cap **200** (48h often 300–400 items) + head-term keywords before pillar/source meta; IndexNow samples 200 news locs; Nemotron / Google DeepMind / o-series surfaces — Google News contest while pizzint flaps | Google News | **Done** (2026-10-14) |
+| 56 | `/news/YYYY-MM-DD` ItemList schema includes archive stories that appear on the page (19/20 hubs were archive-only with empty live ItemList — schema≠HTML) | Google | **Done** (2026-10-14) |
+| 57 | Pillar/lab/source CollectionPage ItemList includes visible archive rows (≤12) after live rows (≤40) — same schema=HTML rule as #51 | Google | **Done** (2026-10-14) |
+| 58 | Shared `storyItemListEntity` on tag/outlet/model/country (+ day/facet reuse) so every entity hub ItemList includes visible archive rows | Google | **Done** (2026-10-14) |
+| 59 | Kind hubs use `storyItemListEntity`; people ProfilePages emit archive-story ItemList beside Person mainEntity when older rows are shown | Google | **Done** (2026-10-14) |
+| 60 | `llms.txt` / `agents.md`: question-shaped day hubs (newest 5), news-sitemap discovery, “today’s headlines” tip — AI-search path while `google-news-open` | Agents + Google News | **Done** (2026-10-14) |
+| 61 | `skill.md`: “Today’s scored stories” cite path (now.md, newsroom, UTC day hubs, news-sitemap) + More links — same AI-search lane as #55 for skill consumers | Agents + Google News | **Done** (2026-10-14) |
+| 62 | News-sitemap `news:keywords`: `AI` / `artificial intelligence` / SIREN before topic-tag names (not only before pillar/source meta) — thin rows stop leading with pillar slugs while `google-news-open` | Google News | **Done** (2026-10-14) |
+| 63 | `api-catalog` + `ai.txt` + `agents.txt` comments + MCP `related` advertise `/news-sitemap.xml`, `/api/news.json`, `/news.html` — AI-search path while `google-news-open` (no new facet URLs) | Agents + Google News | **Done** (2026-10-14) |
+| 64 | IndexNow ALWAYS covers skill package + `/api/news.json`; news-sitemap keyword surfaces for Trail of Bits / DualEntry / Qwen N1 / Grok Voice / HomeView / AA-AgentPerf / DeepSeek V4.1 / MI355X (live 48h window) | Bing + Google News | **Done** (2026-10-14) |
+| 65 | Clear CodeQL “replace substring with itself” on desk share lines (`what.replace(/^headlines/, 'headlines')` → `what`) so PR #125 stays mergeable under `deploy-pending-url-lead` | Merge / deploy | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
@@ -282,7 +310,40 @@ Trends monitoring alone does not create one.
 
 ---
 
-## 4. Weekly loop (add to the VIRAL.md Monday review)
+## 4. Daily SEO agent loop
+
+A recurring Cursor Cloud Agent timer runs this playbook every day (15:00 UTC,
+after `post-daily`). The durable command it starts from:
+
+```bash
+node collector/tools/seo-daily.mjs           # human scoreboard
+node collector/tools/seo-daily.mjs --json    # machine report + gaps[]
+node collector/tools/seo-daily.mjs --selftest
+```
+
+Each daily pass:
+
+1. Run `seo-daily.mjs` — re-measure siren.watch vs pizzint / DoomBench / Skynet /
+   pdoom / takeofftracker (sitemap counts, news sitemap, home title, schema,
+   `llms.txt`, our findability surfaces, plus local Ready from news +
+   item-archive + gated facets).
+2. If gaps include `deploy-pending-url-lead`, **merge/deploy first** so
+   `collect.yml` rebuilds gh-pages — do not keep shipping facet volume while
+   live still trails the local tree.
+3. Scan for **new search trends** we can honestly answer (activity tempo, not
+   doom probability). Prefer head terms already in `COMPETITIVE-SEO.md` /
+   conquest pages over synonym doorway farms.
+4. Ship **one** concrete improvement: gated URL facet, title/description fix,
+   schema that matches visible HTML, internal links, or conquest/evergreen copy.
+   Open a PR. Update the live scoreboard paragraph in `COMPETITIVE-SEO.md` when
+   rival numbers move.
+5. Refuse: keyword stuffing, thin synonym doorways, future-tense doom claims,
+   schema that does not match on-page text (`VOICE.md`, `CONTRACT.md`, §3.3).
+
+Success metric stays **indexed pages + honest head-term clicks**, not raw
+sitemap vanity (`COMPETITIVE.md` Phase 2).
+
+## 5. Weekly loop (add to the VIRAL.md Monday review)
 
 1. Search Console: indexed pages, impressions, clicks; note branded vs head-term.
 2. Crawl a sample of new `/item/` URLs — title, description, canonical, JSON-LD valid.
@@ -292,7 +353,7 @@ Trends monitoring alone does not create one.
 
 ---
 
-## 5. Sources
+## 6. Sources
 
 | Claim | Source | Read |
 |---|---|---|

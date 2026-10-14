@@ -2,12 +2,21 @@
 // but does not score. Each card says what it counts and why it matters.
 import { esc } from './_html.mjs';
 import { page } from './layout.mjs';
+import { breadcrumbs, speakable } from './_seo.mjs';
 import * as brand from '../brand.mjs';
 import { prWall, PRWALL_CSS, prWallJs } from './_livewalls.mjs';
+
+const PATH = '/si-watch.html';
+const qTitle = 'What AI autonomy signals is SIREN watching?';
 
 const CSS = `<style>
 .sw{max-width:1080px}.sw .eyebrow{font:600 12px/1 var(--mono);letter-spacing:.16em;color:#F87171;margin:0 0 10px}
 .sw h2{font:700 1.25rem/1.2 var(--sans);margin:30px 0 10px;color:var(--ink)}.sw p{color:var(--ink-dim);line-height:1.6}
+.sw-faq{margin:var(--sec,2rem) 0 var(--s-5,1.25rem);max-width:62ch}
+.sw-faq h2{font:600 var(--t-lg,1.125rem)/1.2 var(--sans);margin:0 0 var(--s-3,.75rem);color:var(--ink)}
+.sw-faq h3{font:600 var(--t-base,1rem)/1.3 var(--sans);margin:var(--s-4,1rem) 0 var(--s-2,.5rem);color:var(--ink)}
+.sw-faq p{font:400 var(--t-base,1rem)/1.55 var(--sans);color:var(--ink-dim);margin:0 0 var(--s-2,.5rem)}
+.sw-faq-key{margin-top:var(--s-4,1rem)!important}
 .sw-g{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:14px;margin:16px 0}
 .sw-c{border:1px solid var(--rule);background:var(--bg-raised,#0E131D);border-radius:6px;padding:16px;display:flex;flex-direction:column;gap:8px}
 .sw-c h3{margin:0;font:700 13px/1.3 var(--mono);letter-spacing:.1em;color:#FCA5A5}
@@ -49,17 +58,17 @@ function codingSection(ctx, w, at) {
   const leg = (w.kinds || []).map((k) => `<span style="--c:${(KIND[k.id] || KIND.other)[1]}">${esc((KIND[k.id] || KIND.other)[0])} ${Math.round(k.n / tot * 100)}%</span>`).join('');
   const agents = Object.entries(w.by_agent || {}).map(([a, c]) => [a, c, Object.values(c).reduce((x, y) => x + y, 0)]).filter((r) => r[2] > 0).sort((x, y) => y[2] - x[2]);
   const maxL = Math.max(1, ...(w.languages || []).map((l) => l.n));
-  return `<h2 id="coding">What the AI agents are coding</h2>
+  return `<h2 id="coding">What are the AI agents coding?</h2>
   <p>A live sample of the newest pull requests from each coding agent: ${tot.toLocaleString('en-US')} PRs read this hour, sorted into kinds of work by their titles, with each repository’s main language.</p>
   ${prWall(w.latest, at)}
-  <div class="ac"><h3>KINDS OF WORK, ALL AGENTS</h3>${stack(all)}<div class="ac-leg">${leg}</div></div>
+  <div class="ac"><h3>What kinds of work are all agents doing?</h3>${stack(all)}<div class="ac-leg">${leg}</div></div>
   <div class="ac-g">
-    <div class="ac"><h3>BY AGENT</h3>${agents.map(([a, c, n]) => `<div class="ac-row"><b>${esc(a)}</b>${stack(c)}<span>${n}</span></div>`).join('')}</div>
-    <div class="ac"><h3>LANGUAGES</h3>${(w.languages || []).length ? w.languages.map((l) => `<div class="ac-row"><b>${esc(l.name)}</b><div class="ac-bar" style="width:${(l.n / maxL * 100).toFixed(1)}%"></div><span>${l.n}</span></div>`).join('') : '<p>Languages fill in as repositories are looked up.</p>'}</div>
+    <div class="ac"><h3>How does the work break down by agent?</h3>${agents.map(([a, c, n]) => `<div class="ac-row"><b>${esc(a)}</b>${stack(c)}<span>${n}</span></div>`).join('')}</div>
+    <div class="ac"><h3>Which languages show up in the sample?</h3>${(w.languages || []).length ? w.languages.map((l) => `<div class="ac-row"><b>${esc(l.name)}</b><div class="ac-bar" style="width:${(l.n / maxL * 100).toFixed(1)}%"></div><span>${l.n}</span></div>`).join('') : '<p>Languages fill in as repositories are looked up.</p>'}</div>
   </div>
   <div class="ac-g">
-    <div class="ac"><h3>JUST OPENED</h3><ul class="ac-feed">${(w.latest || []).slice(0, 12).map((x) => { const k = KIND[x.kind] || KIND.other; return `<li><span class="ac-tag" style="background:${k[1]}">${esc(k[0].split(' ')[0].toUpperCase())}</span><a href="${esc(x.url)}" target="_blank" rel="noopener nofollow">${esc(x.title)}</a><small>${esc(x.agent)} · ${esc(x.repo)}${x.language ? ` · ${esc(x.language)}` : ''} · ${esc(ago(x.at, now))}</small></li>`; }).join('')}</ul></div>
-    <div class="ac"><h3>BUSIEST REPOSITORIES IN THE SAMPLE</h3><ul class="ac-feed">${(w.top_repos || []).map((r) => `<li><a href="https://github.com/${esc(r.repo)}" target="_blank" rel="noopener nofollow">${esc(r.repo)}</a><small>${r.n} agent PR${r.n === 1 ? '' : 's'} in the sample</small></li>`).join('')}</ul>
+    <div class="ac"><h3>Which pull requests just opened?</h3><ul class="ac-feed">${(w.latest || []).slice(0, 12).map((x) => { const k = KIND[x.kind] || KIND.other; return `<li><span class="ac-tag" style="background:${k[1]}">${esc(k[0].split(' ')[0].toUpperCase())}</span><a href="${esc(x.url)}" target="_blank" rel="noopener nofollow">${esc(x.title)}</a><small>${esc(x.agent)} · ${esc(x.repo)}${x.language ? ` · ${esc(x.language)}` : ''} · ${esc(ago(x.at, now))}</small></li>`; }).join('')}</ul></div>
+    <div class="ac"><h3>Which repositories are busiest in the sample?</h3><ul class="ac-feed">${(w.top_repos || []).map((r) => `<li><a href="https://github.com/${esc(r.repo)}" target="_blank" rel="noopener nofollow">${esc(r.repo)}</a><small>${r.n} agent PR${r.n === 1 ? '' : 's'} in the sample</small></li>`).join('')}</ul>
     <p style="font-size:12.5px;margin-top:10px">How it works: the newest 30 PRs from each agent’s own GitHub account and 20 from each agent’s default branch name, read hourly from GitHub search. Kinds come from title words such as fix, feat, docs and bump, so a vague title lands in Other.</p></div>
   </div>`;
 }
@@ -74,31 +83,117 @@ function spark(hist, key) {
 export function render(ctx, sig, hist = []) {
   const c = (title, ok, value, unit, body, why, key) => `<article class="sw-c${ok ? '' : ' sw-dark'}"><h3>${esc(title)}</h3><div class="v">${ok ? value : 'NOT ANSWERING'}</div><div class="u">${esc(unit)}</div>${key ? spark(hist, key) : ''}${body}<p class="why"><b>Why it matters:</b> ${esc(why)}</p></article>`;
   const a = (sig && sig.agent_prs) || {}, f = (sig && sig.frontier) || {}, g = (sig && sig.agi_forecast) || {}, m = (sig && sig.moltbook) || {};
+  // Tip #359: signal-card H3s are question-shaped and mirrored in FAQ (§3.3).
   const cards = [
-    c('AI AGENTS WRITING CODE', a.ok || Number.isFinite(a.total_24h), Number(a.total_24h || 0).toLocaleString('en-US'), 'pull requests opened by AI coding agents’ own GitHub app accounts in the last 24 h',
+    c('How many AI agents are writing code?', a.ok || Number.isFinite(a.total_24h), Number(a.total_24h || 0).toLocaleString('en-US'), 'pull requests opened by AI coding agents’ own GitHub app accounts in the last 24 h',
       `<ul>${(a.by_agent || []).filter((x) => Number.isFinite(x.prs_24h)).sort((x, y) => y.prs_24h - x.prs_24h).map((x) => `<li>${esc(x.name)}: ${x.prs_24h.toLocaleString('en-US')}${x.approximate ? ' (at least)' : ''}</li>`).join('')}</ul>`
       + (Number.isFinite(a.branch_total_24h) ? `<p>Plus about <b>${a.branch_total_24h.toLocaleString('en-US')}</b> PRs opened through a person’s account from an agent’s default branch (an upper-bound proxy, since a person can name a branch that way too):</p><ul>${(a.by_branch || []).filter((x) => Number.isFinite(x.prs_24h)).sort((x, y) => y.prs_24h - x.prs_24h).map((x) => `<li>${esc(x.name)} <code>${esc(x.prefix)}</code>: ${x.prs_24h.toLocaleString('en-US')}</li>`).join('')}</ul>` : ''),
       'Software that writes and submits software is the first step of AI improving its own tools. This counts it in public.', 'agent_prs'),
-    c('FRONTIER MODELS', f.ok || Number.isFinite(f.models_90d), String(f.models_90d ?? '—'), 'notable AI models published in the last 90 days, by Epoch AI’s count',
+    c('How many frontier models shipped recently?', f.ok || Number.isFinite(f.models_90d), String(f.models_90d ?? '—'), 'notable AI models published in the last 90 days, by Epoch AI’s count',
       `${f.largest_run ? `<p>Largest training run on record (Epoch AI estimate): <b>${esc(f.largest_run.model || '')}</b> (${esc(f.largest_run.org || '')}), ${esc(fmtFlop(f.largest_run.flop))}.</p>` : ''}<ul>${(f.newest || []).map((x) => `<li>${esc(x.model || '')} · ${esc(x.org || '')} · ${esc(x.date || '')}</li>`).join('')}</ul>`,
       'How often the field ships a model worth recording, and how big the biggest training run has grown.', 'models_90d'),
-    c('WHEN DO FORECASTERS EXPECT AGI?', g.ok || !!g.median_date, esc(g.median_date || '—'), g.ok ? 'Metaculus community median for the first general AI system' : 'Metaculus now needs a free API token; this card returns once it is added',
+    c('When do forecasters expect AGI?', g.ok || !!g.median_date, esc(g.median_date || '—'), g.ok ? 'Metaculus community median for the first general AI system' : 'Metaculus now needs a free API token; this card returns once it is added',
       g.title ? `<p>${esc(g.title)}</p>` : '', 'Thousands of forecasters put a date on it. When that date moves earlier, the people paying closest attention expect things to move faster.', null),
-    c('AI AGENTS TALKING TO EACH OTHER', m.ok, Number(m.agents_seen || 0).toLocaleString('en-US'), 'distinct AI agents posting in the Moltbook threads SIREN tracks',
-      `<p>${Number(m.replies_seen || 0).toLocaleString('en-US')} agent replies in the threads SIREN read. <a href="${esc(ctx.href('/moltbook.html'))}">Agent Watch →</a></p>`,
+    c('How many AI agents are talking to each other?', m.ok, Number(m.agents_seen || 0).toLocaleString('en-US'), 'distinct AI agents posting in the Moltbook threads SIREN tracks',
+      `<p>${Number(m.replies_seen || 0).toLocaleString('en-US')} agent replies in the threads SIREN read. <a href="${esc(ctx.href('/moltbook.html'))}">What are AI agents saying on Moltbook? →</a></p>`,
       'Agents coordinating with other agents, without a person in each loop, is the pattern to watch.', 'moltbook_agents'),
   ].join('');
+  // Tip #272: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const codingQ = 'What are the AI agents coding?';
+  const comingQ = 'Which signals are on the way?';
+  // FAQ answers restate hero / scoring note / data footer only.
+  // Refuse: SIREN-as-takeover-forecast, AGI-date-as-SIREN-claim, doom-probability.
+  const faq = [
+    [qTitle,
+      'Signals about AI autonomy and the road to superintelligence, read every hour from public data. They are watched, not scored: none has a year of history yet, so none can move the SIREN level. A signal that stops answering says so.'],
+    [codingQ,
+      'A live sample of the newest pull requests from each coding agent, sorted into kinds of work by their titles, with each repository’s main language.'],
+    [comingQ,
+      'Next on the list: METR’s measure of how long a task an AI can complete on its own, chip export-control notices, data-centre power interconnection requests, changes to labs’ safety frameworks, and the AI Incident Database.'],
+    ['Do these signals move the SIREN level?',
+      'They are watched, not scored: none has a year of history yet, so none can move the SIREN level. A signal that stops answering says so.'],
+    ['What happens when a signal stops answering?',
+      'A signal that stops answering says so.'],
+    ['Where does the data come from?',
+      'Data: GitHub search, Epoch AI (CC-BY), Metaculus, Moltbook.'],
+    // Tip #345: coding-section H3s are question-shaped and mirrored in FAQ (§3.3).
+    ['What kinds of work are all agents doing?',
+      'A live sample of the newest pull requests from each coding agent, sorted into kinds of work by their titles.'],
+    ['How does the work break down by agent?',
+      'Each coding agent’s share of the sample, stacked by kind of work from PR titles.'],
+    ['Which languages show up in the sample?',
+      'Each repository’s main language, looked up as repositories are resolved. Languages fill in as repositories are looked up.'],
+    ['Which pull requests just opened?',
+      'The newest pull requests in the sample, labelled by kind from title words such as fix, feat, docs and bump.'],
+    ['Which repositories are busiest in the sample?',
+      'Repositories with the most agent PRs in this hour’s sample. How it works: the newest 30 PRs from each agent’s own GitHub account and 20 from each agent’s default branch name.'],
+    // Tip #349: live PR-wall H3 is question-shaped and mirrored in FAQ (§3.3).
+    ['What are the agents shipping right now?',
+      'Preview images are GitHub’s own cards for each pull request. This page checks GitHub for newer agent PRs every minute while it is open.'],
+    // Tip #359: signal-card H3s are question-shaped and mirrored in FAQ (§3.3).
+    ['How many AI agents are writing code?',
+      'Pull requests opened by AI coding agents’ own GitHub app accounts in the last 24 h. Software that writes and submits software is the first step of AI improving its own tools. This counts it in public.'],
+    ['How many frontier models shipped recently?',
+      'Notable AI models published in the last 90 days, by Epoch AI’s count. How often the field ships a model worth recording, and how big the biggest training run has grown.'],
+    ['When do forecasters expect AGI?',
+      'Metaculus community median for the first general AI system. Thousands of forecasters put a date on it. When that date moves earlier, the people paying closest attention expect things to move faster.'],
+    ['How many AI agents are talking to each other?',
+      'Distinct AI agents posting in the Moltbook threads SIREN tracks. Agents coordinating with other agents, without a person in each loop, is the pattern to watch.'],
+  ];
+  const faqHtml = faq.map(([qAsk, a]) => `
+  <h3>${esc(qAsk)}</h3>
+  <p>${esc(a)}</p>`).join('');
+
   const main = `${CSS}${PRWALL_CSS}<section class="sw">
-  <p class="eyebrow">TAKEOVER WATCH · NOT IN THE SCORE</p><h1 class="bp__h1">Watching for the takeoff</h1>
+  <p class="eyebrow">TAKEOVER WATCH · NOT IN THE SCORE</p>
+  <h1 class="bp__h1">${esc(qTitle)}</h1>
   <p class="lede">Signals about AI autonomy and the road to superintelligence, read every hour from public data. They are watched, not scored: none has a year of history yet, so none can move the SIREN level. A signal that stops answering says so.</p>
   <p><a href="#coding">↓ See what the AI agents are coding right now</a></p>
   <div class="sw-g">${cards}</div>
   ${codingSection(ctx, a.work, sig && sig.generated_at)}
-  <h2>Signals on the way</h2>
-  <p>Next on the list: METR’s measure of how long a task an AI can complete on its own, chip export-control notices, data-centre power interconnection requests, changes to labs’ safety frameworks, and the AI Incident Database. <a href="${esc(ctx.href('/feedback.html'))}">Suggest a signal</a>.</p>
+  <h2 id="coming">${esc(comingQ)}</h2>
+  <p>Next on the list: METR’s measure of how long a task an AI can complete on its own, chip export-control notices, data-centre power interconnection requests, changes to labs’ safety frameworks, and the AI Incident Database. <a href="${esc(ctx.href('/feedback.html'))}">How do I report a problem or send an idea to ${esc(brand.NAME)}?</a>.</p>
   ${prWallJs()}
   <p style="font-size:12.5px">Updated ${esc(String((sig && sig.generated_at) || '').slice(0, 16).replace('T', ' '))} UTC. Data: GitHub search, Epoch AI (CC-BY), Metaculus, Moltbook. <a href="${esc(ctx.href('/api/si-signals.json'))}">JSON</a>.</p>
+  <section class="sw-faq" aria-labelledby="faq">
+    <h2 id="faq">What questions do people actually ask?</h2>
+    ${faqHtml}
+    <p class="sw-faq-key">Search-shaped sibling:
+      <a href="${esc(ctx.href('/threats.html'))}">What could take the machines offline tonight?</a>
+      · <a href="${esc(ctx.href('/status.html'))}">Is ChatGPT down? Is Claude down?</a>.</p>
+  </section>
 </section>`;
-  return page({ ctx, path: '/si-watch.html', title: `Takeover Watch: AI autonomy signals · ${brand.NAME}`,
-    description: 'Signals on the road to superintelligence: AI agents writing code on GitHub, frontier model releases, the Metaculus AGI forecast and AI agents talking on Moltbook, read hourly.', main });
+  return page({
+    ctx,
+    path: PATH,
+    title: `${qTitle} · ${brand.NAME}`,
+    ogTitle: `${brand.NAME}: ${qTitle}`,
+    description: `${qTitle} AI agents writing code on GitHub, frontier model releases, the Metaculus AGI forecast and AI agents talking on Moltbook — watched hourly, not scored into the SIREN level.`,
+    jsonld: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'Dataset',
+        name: qTitle,
+        description: 'Signals about AI autonomy and the road to superintelligence, read every hour from public data. Watched, not scored into the SIREN level.',
+        url: ctx.url(PATH),
+        isPartOf: { '@type': 'WebSite', name: brand.NAME, url: ctx.url('/') },
+        speakable: speakable(['h1.bp__h1', 'p.lede']),
+        ...(typeof (sig && sig.generated_at) === 'string' ? { dateModified: sig.generated_at } : {}),
+      },
+      breadcrumbs(ctx, [
+        { name: 'Home', path: '/' },
+        { name: qTitle, path: PATH },
+      ]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map(([qAsk, a]) => ({
+          '@type': 'Question',
+          name: qAsk,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
+      },
+    ],
+    main,
+  });
 }

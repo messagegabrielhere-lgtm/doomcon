@@ -8,6 +8,7 @@
 
 import { esc, num, utc, utcClock, utcDay } from './_html.mjs';
 import { page } from './layout.mjs';
+import { breadcrumbs, speakable } from './_seo.mjs';
 import * as brand from '../brand.mjs';
 import {
   DELTA_THRESHOLD, PILLAR_THRESHOLD, PILLAR_IDS, pillarName,
@@ -62,20 +63,26 @@ export const CSS = `<style>
 .xt-log>li{border-left:3px solid var(--rule);padding:6px 0 12px 14px;margin:0 0 6px}
 .xt-log>li.lv{border-left-color:#F87171}
 .xt-log>li.big{border-left-color:#FBBF24}
-.xt-log .hd{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:baseline;font:600 13px/1.4 var(--mono);color:var(--ink)}
+.xt-log .hd{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:baseline;font:600 13px/1.4 var(--mono);color:var(--ink);margin:0}
 .xt-log .hd a{color:var(--ink)}
 .xt-log .hd .t{color:var(--ink-faint,#6B7686);font-weight:500}
 .xt-log .news{list-style:none;padding:0;margin:6px 0 0}
 .xt-log .news li{font-size:14px;margin:3px 0;line-height:1.45}
 .xt-log .news .src{font:500 11px var(--mono);color:var(--ink-faint,#6B7686)}
 .xt-back{margin-top:36px;font-size:14px}
+.xt-faq{margin:28px 0 0;max-width:62ch}
+.xt-faq h2{font:700 1.25rem/1.25 var(--sans);margin:0 0 10px;color:var(--ink)}
+.xt-faq h3{font:700 1rem/1.3 var(--sans);margin:14px 0 6px;color:var(--ink)}
+.xt-faq p{margin:0 0 6px;font-size:14px;color:var(--ink-dim);line-height:1.55}
+.xt-faq-key{margin-top:14px!important}
+.xt-faq a{color:var(--accent,#4ADE80);text-decoration:underline;text-underline-offset:2px}
 </style>`;
 
-function shell(ctx, { path, title, description, main, head, bodyEnd, jsonld }) {
+function shell(ctx, { path, title, description, ogTitle, main, head, bodyEnd, jsonld }) {
   // No "back to the index" link: the shared header's brand does that on every page.
-  const back = `<p class="xt-back"><a href="${esc(ctx.href('/methodology.html'))}">Methodology</a> · <a href="${esc(ctx.href('/feedback.html'))}">Feedback</a></p>`;
+  const back = `<p class="xt-back"><a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a> · <a href="${esc(ctx.href('/feedback.html'))}">How do I report a problem or send an idea to ${esc(brand.NAME)}?</a></p>`;
   return page({
-    ctx, path, title: `${title} · ${brand.NAME}`, description,
+    ctx, path, title: `${title} · ${brand.NAME}`, description, ogTitle,
     main: `${CSS}\n<section class="xt">\n${main}\n${back}\n</section>`,
     head, bodyEnd, jsonld,
   });
@@ -106,6 +113,8 @@ export function feedCatalogue() {
 // /alerts.html
 // ---------------------------------------------------------------------------
 export function alertsPage(ctx) {
+  const PATH = '/alerts.html';
+  const qTitle = `How do I get alerts when ${brand.NAME} moves?`;
   const feeds = feedCatalogue();
   const checks = feeds.map((f) => `<label><input type="checkbox" data-feed="${esc(f.key)}"${f.checked ? ' checked' : ''}><span><b>${esc(f.title)}</b><br>${esc(f.blurb)}</span></label>`).join('');
   const list = feeds.map((f) => {
@@ -121,41 +130,89 @@ export function alertsPage(ctx) {
   const xUrl = brand.X_URL || 'https://x.com/SIRENutf6';
   const handle = brand.X_HANDLE || '@SIRENutf6';
 
+  // Tip #268: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const pickQ = 'Which triggers should you pick?';
+  const feedsQ = 'What are your feed URLs?';
+  const emailQ = 'How do I turn a feed into email?';
+  const hookQ = 'How do I send it to a webhook, Slack or Discord?';
+  const xQ = 'How do I follow on X?';
+  const tabQ = 'How do I get notified while this tab is open?';
+  // FAQ answers restate lede / email note / in-tab note only (FINDABILITY §3.3).
+  // Refuse: private email intake, alerts-as-index-input, doom-probability.
+  const faq = [
+    [qTitle,
+      `Pick what counts as news to you: a level change, a big swing in the score, or one pillar spiking. Every trigger is a plain RSS feed rebuilt with each hourly reading, so it works in any feed reader and can be piped to email, Slack, Discord or a webhook with free tools. Nothing to sign up for here.`],
+    [pickQ,
+      'A level change, a big swing in the score, or one pillar spiking — each trigger is a plain RSS feed rebuilt with each hourly reading.'],
+    [feedsQ,
+      'Copy a URL into your feed reader, or open it straight in Feedly or Inoreader. OPML imports several feeds at once.'],
+    [emailQ,
+      `Your address goes to the third-party email tools (Blogtrottr, FeedRabbit), not to ${brand.NAME}; this site never asks for it.`],
+    [hookQ,
+      'Pipe an RSS feed URL through IFTTT, Zapier, Make or Slack\'s RSS app. Feeds rebuild about hourly.'],
+    [xQ,
+      `${brand.NAME} posts level changes and notable readings on X. Follow, then tap the bell and choose "All posts".`],
+    [tabQ,
+      'Leave this page open in a tab. Your browser checks the current reading every 10 minutes and shows a desktop notification when one of your thresholds trips. It stops when you close the tab.'],
+    [`Does ${brand.NAME} ask for my email?`,
+      `Your address goes to the third-party email tools (Blogtrottr, FeedRabbit), not to ${brand.NAME}; this site never asks for it.`],
+    ['Can I get notified without a feed reader?',
+      'Leave this page open in a tab. Your browser checks the current reading every 10 minutes and shows a desktop notification when one of your thresholds trips. Your settings stay in this browser\'s local storage and are never sent anywhere. It stops when you close the tab.'],
+    [`Do alerts move the ${brand.NAME} score?`,
+      `They never move the ${brand.NAME} score. Subscribing to RSS or in-tab notifications is separate from the tempo index.`],
+    // Tip #349: email / webhook card H3s are question-shaped and mirrored in FAQ (§3.3).
+    ['How do I email alerts with Blogtrottr?',
+      'Open blogtrottr.com, paste a feed URL from step 2, enter your address on their site and choose "real-time". You get one email per new item. Free.'],
+    ['How do I email alerts with FeedRabbit?',
+      'At feedrabbit.com, add the feed URL and pick instant or a daily digest. Free tier available.'],
+    ['How do I pipe a feed through IFTTT?',
+      'Create an applet: If "RSS Feed → New feed item" (paste the URL), Then "Webhooks → Make a web request", or Discord, Slack, SMS, phone notification.'],
+    ['How do I pipe a feed through Zapier?',
+      'Trigger "RSS by Zapier → New Item in Feed", action "Webhooks by Zapier → POST" (or Slack / Discord / Teams).'],
+    ['How do I pipe a feed through Make?',
+      'Scenario: "RSS → Watch RSS feed items" → "HTTP → Make a request" to your endpoint. Set the schedule to every 15–60 minutes.'],
+    ['How do I subscribe in Slack directly?',
+      'Add Slack\'s RSS app to a channel and run /feed subscribe <feed URL>.'],
+  ];
+  const faqHtml = faq.map(([qAsk, a]) => `
+  <h3>${esc(qAsk)}</h3>
+  <p>${esc(a)}</p>`).join('');
+
   const main = `<p class="eyebrow">Alerts</p>
-<h1>Get told when ${esc(brand.NAME)} moves</h1>
+<h1>${esc(qTitle)}</h1>
 <p class="lede">Pick what counts as news to you: a level change, a big swing in the score, or one pillar spiking. Every trigger below is a plain RSS feed rebuilt with each hourly reading, so it works in any feed reader and can be piped to email, Slack, Discord or a webhook with free tools. Nothing to sign up for here.</p>
 
-<h2 id="pick">1 · Pick your triggers</h2>
+<h2 id="pick">1 · Which triggers should you pick?</h2>
 <div class="xt-checks" id="xt-picks">${checks}</div>
 
-<h2 id="feeds">2 · Your feed URLs</h2>
+<h2 id="feeds">2 · What are your feed URLs?</h2>
 <p>Copy a URL into your feed reader, or open it straight in Feedly or Inoreader.</p>
 <ul class="xt-feeds" id="xt-feeds">
 ${list}
 </ul>
 <p class="xt-row"><button type="button" class="xt-btn ghost" id="xt-opml">DOWNLOAD SELECTED AS OPML</button><span class="xt-note">OPML imports several feeds at once into most readers.</span></p>
 
-<h2 id="email">3 · Turn a feed into email</h2>
+<h2 id="email">3 · How do I turn a feed into email?</h2>
 <div class="xt-grid">
-  <div class="xt-card"><h3>Blogtrottr (free)</h3><p>Open <a href="https://blogtrottr.com/" target="_blank" rel="noopener">blogtrottr.com</a>, paste a feed URL from step 2, enter your address on their site and choose "real-time". You get one email per new item.</p></div>
-  <div class="xt-card"><h3>FeedRabbit (free tier)</h3><p>At <a href="https://feedrabbit.com/" target="_blank" rel="noopener">feedrabbit.com</a>, add the feed URL and pick instant or a daily digest.</p></div>
+  <div class="xt-card"><h3>How do I email alerts with Blogtrottr?</h3><p>Open <a href="https://blogtrottr.com/" target="_blank" rel="noopener">blogtrottr.com</a>, paste a feed URL from step 2, enter your address on their site and choose "real-time". You get one email per new item. Free.</p></div>
+  <div class="xt-card"><h3>How do I email alerts with FeedRabbit?</h3><p>At <a href="https://feedrabbit.com/" target="_blank" rel="noopener">feedrabbit.com</a>, add the feed URL and pick instant or a daily digest. Free tier available.</p></div>
 </div>
 <p class="xt-note">Both are independent third-party services with their own terms and privacy policies. Your address goes to them, not to ${esc(brand.NAME)}; this site never asks for it.</p>
 
-<h2 id="webhook">4 · Or send it to a webhook, Slack or Discord</h2>
+<h2 id="webhook">4 · How do I send it to a webhook, Slack or Discord?</h2>
 <div class="xt-grid">
-  <div class="xt-card"><h3>IFTTT</h3><p>Create an applet: <b>If</b> "RSS Feed → New feed item" (paste the URL), <b>Then</b> "Webhooks → Make a web request", or Discord, Slack, SMS, phone notification.</p></div>
-  <div class="xt-card"><h3>Zapier</h3><p>Trigger "RSS by Zapier → New Item in Feed", action "Webhooks by Zapier → POST" (or Slack / Discord / Teams). Item title, link and description are available as fields.</p></div>
-  <div class="xt-card"><h3>Make</h3><p>Scenario: "RSS → Watch RSS feed items" → "HTTP → Make a request" to your endpoint. Set the schedule to every 15–60 minutes.</p></div>
-  <div class="xt-card"><h3>Slack directly</h3><p>Add Slack's RSS app to a channel and run <code>/feed subscribe &lt;feed URL&gt;</code>.</p></div>
+  <div class="xt-card"><h3>How do I pipe a feed through IFTTT?</h3><p>Create an applet: <b>If</b> "RSS Feed → New feed item" (paste the URL), <b>Then</b> "Webhooks → Make a web request", or Discord, Slack, SMS, phone notification.</p></div>
+  <div class="xt-card"><h3>How do I pipe a feed through Zapier?</h3><p>Trigger "RSS by Zapier → New Item in Feed", action "Webhooks by Zapier → POST" (or Slack / Discord / Teams). Item title, link and description are available as fields.</p></div>
+  <div class="xt-card"><h3>How do I pipe a feed through Make?</h3><p>Scenario: "RSS → Watch RSS feed items" → "HTTP → Make a request" to your endpoint. Set the schedule to every 15–60 minutes.</p></div>
+  <div class="xt-card"><h3>How do I subscribe in Slack directly?</h3><p>Add Slack's RSS app to a channel and run <code>/feed subscribe &lt;feed URL&gt;</code>.</p></div>
 </div>
 <p class="xt-note">Feeds rebuild once per reading (about hourly), so polling more often than every 15 minutes gains nothing. Each item's &lt;guid&gt; is fixed per reading time, so reruns never double-post.</p>
 
-<h2 id="x">5 · Follow on X</h2>
+<h2 id="x">5 · How do I follow on X?</h2>
 <p>${esc(brand.NAME)} posts level changes and notable readings on X as <a href="${esc(xUrl)}" target="_blank" rel="noopener">${esc(handle)}</a>. Follow, then tap the bell on the profile and choose "All posts" to get a push notification on your phone.</p>
 <p><a class="xt-btn" href="${esc(xUrl)}" target="_blank" rel="noopener">FOLLOW ${esc(handle)} ON X →</a></p>
 
-<h2 id="tab">6 · Notify me while this tab is open</h2>
+<h2 id="tab">6 · How do I get notified while this tab is open?</h2>
 <p>No feed reader at all? Leave this page open in a tab. Your browser checks the <a href="${esc(ctx.href('/api/state.json'))}">current reading</a> every 10 minutes and shows a desktop notification when one of your thresholds trips. Your settings stay in this browser's local storage and are never sent anywhere. It stops when you close the tab.</p>
 <div class="xt-card">
   <div class="xt-row"><label class="xt-row"><input type="checkbox" id="xn-level" checked> Level changes</label></div>
@@ -165,7 +222,14 @@ ${list}
   <p class="xt-row"><button type="button" class="xt-btn" id="xn-start">NOTIFY ME WHILE THIS TAB IS OPEN</button><button type="button" class="xt-btn ghost" id="xn-stop" hidden>STOP</button></p>
   <p class="xt-status" id="xn-status" role="status" aria-live="polite"></p>
 </div>
-<p class="xt-note">${esc(brand.DISCLAIMER)}</p>`;
+<p class="xt-note">${esc(brand.DISCLAIMER)}</p>
+<section class="xt-faq" aria-labelledby="faq">
+  <h2 id="faq">What questions do people actually ask?</h2>
+  ${faqHtml}
+  <p class="xt-faq-key">Search-shaped sibling:
+    <a href="${esc(ctx.href('/export.html'))}">How do I export and embed ${esc(brand.NAME)} data?</a>
+    · <a href="${esc(ctx.href('/feedback.html'))}">How do I report a problem or send an idea to ${esc(brand.NAME)}?</a>.</p>
+</section>`;
 
   const js = `<script>(function(){
 var BASE=${JSON.stringify(ctx.href('/'))}.replace(/\\/$/,'');
@@ -219,11 +283,37 @@ $('xn-stop').addEventListener('click',function(){if(timer)clearInterval(timer);t
 document.querySelectorAll('#xn-level,#xn-delta-on,#xn-delta,#xn-pillar-on,#xn-pillar,[data-np]').forEach(function(el){el.addEventListener('change',function(){ls('siren-alert-cfg',cfg())})});
 })();</script>`;
 
+  const description = `${qTitle} Get an alert when ${brand.NAME} changes level, the score swings ${DELTA_THRESHOLD}+ points or a pillar spikes. RSS feeds you can pipe to email, Slack, Discord or a webhook. This site never asks for your email.`;
   return shell(ctx, {
-    path: '/alerts.html',
-    title: 'Alerts: RSS, email, webhook and X',
-    description: `Get an alert when ${brand.NAME} changes level, the score swings ${DELTA_THRESHOLD}+ points or a pillar spikes. RSS feeds you can pipe to email, Slack, Discord or a webhook.`,
+    path: PATH,
+    title: qTitle,
+    ogTitle: `${brand.NAME}: ${qTitle}`,
+    description,
     main, bodyEnd: js,
+    jsonld: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        name: qTitle,
+        description: `RSS, email recipes, webhook tools and in-tab notifications for ${brand.NAME} level changes, score swings and pillar spikes. Nothing to sign up for here.`,
+        url: ctx.url(PATH),
+        isPartOf: { '@type': 'WebSite', name: brand.NAME, url: ctx.url('/') },
+        speakable: speakable(['h1', 'p.lede']),
+      },
+      breadcrumbs(ctx, [
+        { name: 'Home', path: '/' },
+        { name: qTitle, path: PATH },
+      ]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map(([qAsk, a]) => ({
+          '@type': 'Question',
+          name: qAsk,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
+      },
+    ],
   });
 }
 
@@ -231,6 +321,8 @@ document.querySelectorAll('#xn-level,#xn-delta-on,#xn-delta,#xn-pillar-on,#xn-pi
 // /export.html
 // ---------------------------------------------------------------------------
 export function exportPage(ctx) {
+  const PATH = '/export.html';
+  const qTitle = `How do I export and embed ${brand.NAME} data?`;
   const s = ctx.state;
   const embedSnippet = `<iframe src="${ctx.url('/embed.html')}" width="320" height="152" style="border:0;max-width:100%" loading="lazy" title="${brand.NAME}: AI activity tempo"></iframe>`;
   const badgeHtml = `<a href="${ctx.url('/')}"><img src="${ctx.url('/badge.svg')}" alt="${brand.NAME} current level" height="20"></a>`;
@@ -247,55 +339,150 @@ export function exportPage(ctx) {
   const sheets = `=IMPORTDATA("${ctx.url('/api/history.csv')}")`;
   const attribution = `Data: ${brand.NAME} (${ctx.url('/')}), ${brand.LICENSE}. Activity tempo, not probability of harm.`;
 
+  // Tip #351: download-card H3s are question-shaped and mirrored in FAQ (§3.3).
   const dl = [
-    ['api/history.csv', 'Every reading as CSV', `t, score, level, degraded, rule_fired and one column per pillar. ${Array.isArray(ctx.history) ? ctx.history.length : 0} rows today; opens in Excel, Sheets, pandas.`],
-    ['api/history.json', 'Every reading as JSON', 'The same observations plus every per-source score.'],
-    ['api/pillars.csv', 'Current pillars as CSV', 'The five pillars right now: score, percentile, sources ok, dark and uncalibrated flags.'],
-    ['api/state.json', 'Current reading as JSON', 'Everything on the homepage, including each source\'s raw value and its receipt hash.'],
-    ['api/latest.txt', 'Current reading as one line of text', 'For shell prompts, status bars and chat bots: curl it and print it.'],
-    ['api/index.json', 'API index', 'Every endpoint, including per-reading receipts at api/receipts/{id}.json.'],
+    ['api/history.csv', 'How do I download every reading as CSV?', `t, score, level, degraded, rule_fired and one column per pillar. ${Array.isArray(ctx.history) ? ctx.history.length : 0} rows today; opens in Excel, Sheets, pandas.`],
+    ['api/history.json', 'How do I download every reading as JSON?', 'The same observations plus every per-source score.'],
+    ['api/pillars.csv', 'How do I download current pillars as CSV?', 'The five pillars right now: score, percentile, sources ok, dark and uncalibrated flags.'],
+    ['api/state.json', 'How do I download the current reading as JSON?', 'Everything on the homepage, including each source\'s raw value and its receipt hash.'],
+    ['api/latest.txt', 'How do I download the current reading as one line of text?', 'For shell prompts, status bars and chat bots: curl it and print it.'],
+    ['api/index.json', 'Where is the API index?', 'Every endpoint, including per-reading receipts at api/receipts/{id}.json.'],
   ].map(([p, t, d]) => `<div class="xt-card"><h3><a href="${esc(ctx.href(`/${p}`))}" download>${esc(t)}</a></h3><p><code>/${esc(p)}</code></p><p>${esc(d)}</p></div>`).join('');
 
   const snippet = (id, label, code) => `<h3 style="margin-top:18px">${esc(label)}</h3><pre id="${id}">${esc(code)}</pre><button type="button" class="xt-btn sm ghost" data-copy-from="${id}">COPY</button>`;
 
+  // Tip #268: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const dlQ = 'What can I download?';
+  const embQ = 'How do I embed the current reading?';
+  const codeQ = 'How do I use it from code?';
+  const licQ = 'What is the licence and credit?';
+  // FAQ answers restate lede / download / CORS / licence copy only (FINDABILITY §3.3).
+  // Refuse: paid API / export-as-index-input / doom-probability.
+  const faq = [
+    [qTitle,
+      `Every number ${brand.NAME} publishes is downloadable, embeddable and free to reuse under ${brand.LICENSE} with a credit line. Files rebuild with each hourly reading.`],
+    [dlQ,
+      'Every reading as CSV or JSON, current pillars as CSV, the current reading as JSON or one line of text, and an API index that lists every endpoint including per-reading receipts.'],
+    [embQ,
+      'The widget is a 320×152 box that redraws with every reading and matches light or dark pages. It renders the number server-side, so it still shows with scripts blocked.'],
+    [codeQ,
+      'No key, no rate limit beyond GitHub\'s own. The site sends Access-Control-Allow-Origin: *, so these files can be fetched from any web page without a proxy. Please cache: data changes about once an hour.'],
+    [licQ,
+      `Text and data are ${brand.LICENSE}. Reuse anything, commercially too, with a credit line next to it.`],
+    ['What files can I download?',
+      'Every reading as CSV or JSON, current pillars as CSV, the current reading as JSON or one line of text, and an API index that lists every endpoint including per-reading receipts.'],
+    ['Do I need an API key?',
+      'No key, no rate limit beyond GitHub\'s own. The site sends Access-Control-Allow-Origin: *, so these files can be fetched from any web page without a proxy. Please cache: data changes about once an hour.'],
+    [`Does exporting move the ${brand.NAME} score?`,
+      `It never moves the ${brand.NAME} score. Downloads, embeds and API fetches are separate from the tempo index.`],
+    // Tip #351: download-card H3s are question-shaped and mirrored in FAQ (§3.3).
+    ['How do I download every reading as CSV?',
+      `t, score, level, degraded, rule_fired and one column per pillar. ${Array.isArray(ctx.history) ? ctx.history.length : 0} rows today; opens in Excel, Sheets, pandas.`],
+    ['How do I download every reading as JSON?',
+      'The same observations plus every per-source score.'],
+    ['How do I download current pillars as CSV?',
+      'The five pillars right now: score, percentile, sources ok, dark and uncalibrated flags.'],
+    ['How do I download the current reading as JSON?',
+      'Everything on the homepage, including each source\'s raw value and its receipt hash.'],
+    ['How do I download the current reading as one line of text?',
+      'For shell prompts, status bars and chat bots: curl it and print it.'],
+    ['Where is the API index?',
+      'Every endpoint, including per-reading receipts at api/receipts/{id}.json.'],
+    // Tip #350: badge / snippet H3s are question-shaped and mirrored in FAQ (§3.3).
+    ['How do I use it live in Google Sheets?',
+      'Paste the Sheets formula from this page into a cell. Files rebuild with each hourly reading.'],
+    ['How do I embed the widget iframe?',
+      'The widget is a 320×152 box that redraws with every reading and matches light or dark pages. It renders the number server-side, so it still shows with scripts blocked.'],
+    ['What badge works when iframes are stripped?',
+      'Use the badge SVG for READMEs and newsletters that strip iframes. HTML and Markdown snippets are printed beside the preview.'],
+    ['How do I add the badge in HTML?',
+      'Copy the Badge (HTML) snippet on this page next to the badge preview.'],
+    ['How do I add the badge in Markdown?',
+      'Copy the Badge (Markdown) snippet on this page next to the badge preview.'],
+    ['How do I use the share card image?',
+      'The share card is a 1200×675 PNG. Copy the snippet on this page.'],
+    ['How do I fetch it from JavaScript?',
+      'No key. Fetch the published JSON or text endpoints from any web page; cache about once an hour.'],
+    ['How do I fetch it from the shell?',
+      'curl the published text endpoint. No key beyond GitHub\'s own limits.'],
+    ['What attribution line should I use?',
+      `Text and data are ${brand.LICENSE}. Reuse anything, commercially too, with the attribution line printed on this page.`],
+  ];
+  const faqHtml = faq.map(([qAsk, a]) => `
+  <h3>${esc(qAsk)}</h3>
+  <p>${esc(a)}</p>`).join('');
+
   const main = `<p class="eyebrow">Export and embed</p>
-<h1>Take the data with you</h1>
+<h1>${esc(qTitle)}</h1>
 <p class="lede">Every number ${esc(brand.NAME)} publishes is downloadable, embeddable and free to reuse under ${esc(brand.LICENSE)} with a credit line. Files rebuild with each hourly reading${s && s.generated_at ? `; this page was built from the reading at ${esc(utc(s.generated_at))}` : ''}.</p>
 
-<h2 id="download">Download</h2>
+<h2 id="download">What can I download?</h2>
 <div class="xt-grid">${dl}</div>
-${snippet('xs-sheets', 'Live in Google Sheets', sheets)}
+${snippet('xs-sheets', 'How do I use it live in Google Sheets?', sheets)}
 
-<h2 id="embed">Embed the current reading</h2>
+<h2 id="embed">How do I embed the current reading?</h2>
 <p>The widget is a 320×152 box that redraws with every reading and matches light or dark pages. It renders the number server-side, so it still shows with scripts blocked.</p>
 <iframe src="${esc(ctx.href('/embed.html'))}" width="320" height="152" style="border:0;max-width:100%" loading="lazy" title="${esc(brand.NAME)} widget preview"></iframe>
-${snippet('xs-iframe', 'Widget (iframe)', embedSnippet)}
-<h3 style="margin-top:18px">Badge, for READMEs and newsletters that strip iframes</h3>
+${snippet('xs-iframe', 'How do I embed the widget iframe?', embedSnippet)}
+<h3 style="margin-top:18px">What badge works when iframes are stripped?</h3>
 <p><img src="${esc(ctx.href('/badge.svg'))}" alt="${esc(brand.NAME)} badge preview" height="20"></p>
-${snippet('xs-badge-html', 'Badge (HTML)', badgeHtml)}
-${snippet('xs-badge-md', 'Badge (Markdown)', badgeMd)}
-${snippet('xs-card', 'Share card image (1200×675 PNG)', cardHtml)}
+${snippet('xs-badge-html', 'How do I add the badge in HTML?', badgeHtml)}
+${snippet('xs-badge-md', 'How do I add the badge in Markdown?', badgeMd)}
+${snippet('xs-card', 'How do I use the share card image?', cardHtml)}
 
-<h2 id="api">Use it from code</h2>
-${snippet('xs-js', 'JavaScript', jsSnippet)}
-${snippet('xs-curl', 'Shell', `curl -s ${ctx.url('/api/latest.txt')}`)}
+<h2 id="api">How do I use it from code?</h2>
+${snippet('xs-js', 'How do I fetch it from JavaScript?', jsSnippet)}
+${snippet('xs-curl', 'How do I fetch it from the shell?', `curl -s ${ctx.url('/api/latest.txt')}`)}
 <p><b>CORS:</b> the site is served by GitHub Pages, which sends <code>Access-Control-Allow-Origin: *</code>, so these files can be fetched from any web page without a proxy. No key, no rate limit beyond GitHub's own. Please cache: data changes about once an hour.</p>
 
-<h2 id="licence">Licence and credit</h2>
+<h2 id="licence">What is the licence and credit?</h2>
 <p>Text and data are ${esc(brand.LICENSE)}. Reuse anything, commercially too, with this line (or an equivalent) next to it:</p>
-${snippet('xs-attr', 'Attribution line', attribution)}
-<p class="xt-note">${esc(brand.DISCLAIMER)} Want an alert instead of a file? See <a href="${esc(ctx.href('/alerts.html'))}">alerts</a>.</p>`;
+${snippet('xs-attr', 'What attribution line should I use?', attribution)}
+<p class="xt-note">${esc(brand.DISCLAIMER)} Want an alert instead of a file? See <a href="${esc(ctx.href('/alerts.html'))}">How do I get alerts when ${esc(brand.NAME)} moves?</a>.</p>
+<section class="xt-faq" aria-labelledby="faq">
+  <h2 id="faq">What questions do people actually ask?</h2>
+  ${faqHtml}
+  <p class="xt-faq-key">Search-shaped sibling:
+    <a href="${esc(ctx.href('/alerts.html'))}">How do I get alerts when ${esc(brand.NAME)} moves?</a>
+    · <a href="${esc(ctx.href('/agents.html'))}">How should AI agents use ${esc(brand.NAME)}?</a>.</p>
+</section>`;
 
   const js = `<script>(function(){document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('[data-copy-from]');if(!b)return;
 var el=document.getElementById(b.getAttribute('data-copy-from'));if(!el)return;var t=el.textContent;
 var done=function(){var o=b.textContent;b.textContent='COPIED';setTimeout(function(){b.textContent=o},1400)};
 if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done,function(){prompt('Copy',t)})}else{prompt('Copy',t)}})})();</script>`;
 
+  const description = `${qTitle} Download every ${brand.NAME} reading as CSV or JSON, embed the live widget or badge, or fetch the current reading from code. Free under ${brand.LICENSE}. No API key.`;
   return shell(ctx, {
-    path: '/export.html',
-    title: 'Export and embed: CSV, JSON, widget, badge',
-    description: `Download every ${brand.NAME} reading as CSV or JSON, embed the live widget or badge, or fetch the current reading from code. Free under ${brand.LICENSE}.`,
+    path: PATH,
+    title: qTitle,
+    ogTitle: `${brand.NAME}: ${qTitle}`,
+    description,
     main, bodyEnd: js,
+    jsonld: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        name: qTitle,
+        description: `CSV, JSON, widget, badge and public API for ${brand.NAME} readings. Free under ${brand.LICENSE} with attribution. No key.`,
+        url: ctx.url(PATH),
+        isPartOf: { '@type': 'WebSite', name: brand.NAME, url: ctx.url('/') },
+        speakable: speakable(['h1', 'p.lede']),
+      },
+      breadcrumbs(ctx, [
+        { name: 'Home', path: '/' },
+        { name: qTitle, path: PATH },
+      ]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map(([qAsk, a]) => ({
+          '@type': 'Question',
+          name: qAsk,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
+      },
+    ],
   });
 }
 
@@ -303,6 +490,8 @@ if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.write
 // /bias.html
 // ---------------------------------------------------------------------------
 export function biasPage(ctx) {
+  const PATH = '/bias.html';
+  const qTitle = `What can ${brand.NAME} not see?`;
   const inputs = [
     ['arXiv', 'Capability', 'Preprints are overwhelmingly in English, and the habit of posting to arXiv first is strongest in US and European labs. Work that appears first in Chinese-language venues or company blogs is undercounted.'],
     ['GitHub releases, Hugging Face, OpenRouter', 'Capability (uncalibrated)', 'Western-hosted platforms. Chinese labs often ship first on ModelScope or domestic mirrors, so a busy week in Beijing can look quiet here.'],
@@ -313,23 +502,64 @@ export function biasPage(ctx) {
     ['Polymarket, Kalshi, Manifold', 'Markets (uncalibrated)', 'English-language questions written mostly by and for US traders. What they choose to list is itself a filter.'],
   ].map(([n, p, d]) => `<tr><td><b>${esc(n)}</b></td><td>${esc(p)}</td><td>${esc(d)}</td></tr>`).join('');
 
+  // Tip #352: candidate-card H3s are question-shaped and mirrored in FAQ (§3.3).
   const candidates = [
-    ['Other-language Wikipedia pageviews', 'Attention', 'Same Wikimedia pageviews API the English series already uses, pointed at the German, French, Spanish, Japanese, Chinese and other editions. The cheapest fix on this list: same method, same receipts.'],
-    ['EUR-Lex', 'Governance', 'The EU\'s official journal and legal database. Counting AI-related acts, implementing decisions and consultations would add the jurisdiction with the most active AI rulebook.'],
-    ['China: MIIT and CAC notices', 'Governance', 'Public notices from the Ministry of Industry and Information Technology and the Cyberspace Administration of China, including published batches of registered generative AI services.'],
-    ['Japan: METI', 'Governance', 'The Ministry of Economy, Trade and Industry\'s AI guidelines, study groups and policy publications.'],
-    ['India: MeitY', 'Governance', 'The Ministry of Electronics and Information Technology\'s advisories, IndiaAI programme notices and consultations.'],
+    ['Would other-language Wikipedia pageviews help?', 'Attention', 'Same Wikimedia pageviews API the English series already uses, pointed at the German, French, Spanish, Japanese, Chinese and other editions. The cheapest fix on this list: same method, same receipts.'],
+    ['Would EUR-Lex widen governance?', 'Governance', 'The EU\'s official journal and legal database. Counting AI-related acts, implementing decisions and consultations would add the jurisdiction with the most active AI rulebook.'],
+    ['Would China MIIT and CAC notices help?', 'Governance', 'Public notices from the Ministry of Industry and Information Technology and the Cyberspace Administration of China, including published batches of registered generative AI services.'],
+    ['Would Japan METI publications help?', 'Governance', 'The Ministry of Economy, Trade and Industry\'s AI guidelines, study groups and policy publications.'],
+    ['Would India MeitY notices help?', 'Governance', 'The Ministry of Electronics and Information Technology\'s advisories, IndiaAI programme notices and consultations.'],
   ].map(([n, p, d]) => `<div class="xt-card"><h3>${esc(n)}</h3><p><span class="xt-pill">${esc(p)}</span></p><p>${esc(d)}</p></div>`).join('');
 
+  // Tip #268: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const leanQ = 'Where does each input lean?';
+  const skewQ = 'What does that skew?';
+  const candQ = 'Which sources are under consideration?';
+  const propQ = 'How do I propose a source?';
+  // FAQ answers restate lede / skew / candidates copy only (FINDABILITY §3.3).
+  // Refuse: doom-probability, stuffing, bias-as-excuse-to-hide-method.
+  const faq = [
+    [qTitle,
+      `An index is only as wide as its inputs. Ours are public, free and recomputable, and that choice comes with a tilt: almost everything ${brand.NAME} counts is published in English, and most of it in the United States.`],
+    [leanQ,
+      'Almost everything counted is published in English, and most of it in the United States. The table below names the lean of each input.'],
+    [skewQ,
+      'Timing (events outside the English-speaking web reach inputs late or never), size (the level reads how busy the English-speaking AI world is), governance (US and UK calendar, not the world\'s), and attention (stories ignored on Hacker News do not exist to that pillar).'],
+    [candQ,
+      'Each candidate has to be public, free to read without a private agreement, machine-readable, with enough history to build a reference year, and licensed so the counts can be republished with receipts.'],
+    [propQ,
+      `Know a public, non-English or non-Western dataset that counts AI activity? Send it through the feedback form with a link to its API or download, how far back it goes, and its licence.`],
+    ['What does that skew?',
+      'Timing (events outside the English-speaking web reach inputs late or never), size (the level reads how busy the English-speaking AI world is), governance (US and UK calendar, not the world\'s), and attention (stories ignored on Hacker News do not exist to that pillar).'],
+    ['How do new sources get into the score?',
+      'A new source never goes straight into the score. It is collected and published as an uncalibrated signal first, then run as a shadow score beside the official one, and promoted only under the published rule on how the baseline gets updated.'],
+    [`Is the biased reading a doom probability?`,
+      `No. ${brand.NAME} measures activity tempo. The level reads how busy the English-speaking AI world is — not danger, and not a probability of harm.`],
+    // Tip #352: candidate-card H3s are question-shaped and mirrored in FAQ (§3.3).
+    ['Would other-language Wikipedia pageviews help?',
+      'Same Wikimedia pageviews API the English series already uses, pointed at the German, French, Spanish, Japanese, Chinese and other editions. The cheapest fix on this list: same method, same receipts.'],
+    ['Would EUR-Lex widen governance?',
+      'The EU\'s official journal and legal database. Counting AI-related acts, implementing decisions and consultations would add the jurisdiction with the most active AI rulebook.'],
+    ['Would China MIIT and CAC notices help?',
+      'Public notices from the Ministry of Industry and Information Technology and the Cyberspace Administration of China, including published batches of registered generative AI services.'],
+    ['Would Japan METI publications help?',
+      'The Ministry of Economy, Trade and Industry\'s AI guidelines, study groups and policy publications.'],
+    ['Would India MeitY notices help?',
+      'The Ministry of Electronics and Information Technology\'s advisories, IndiaAI programme notices and consultations.'],
+  ];
+  const faqHtml = faq.map(([qAsk, a]) => `
+  <h3>${esc(qAsk)}</h3>
+  <p>${esc(a)}</p>`).join('');
+
   const main = `<p class="eyebrow">Known biases and blind spots</p>
-<h1>What ${esc(brand.NAME)} cannot see</h1>
+<h1>${esc(qTitle)}</h1>
 <p class="lede">An index is only as wide as its inputs. Ours are public, free and recomputable, and that choice comes with a tilt: almost everything ${esc(brand.NAME)} counts is published in English, and most of it in the United States. This page says where that bends the reading, and what we are looking at to straighten it.</p>
 
-<h2 id="inputs">Where each input leans</h2>
+<h2 id="inputs">Where does each input lean?</h2>
 <div class="xt-tbl"><table><thead><tr><th>Input</th><th>Pillar</th><th>Lean</th></tr></thead><tbody>${inputs}</tbody></table></div>
-<p>Most news sources behind the <a href="${esc(ctx.href('/news.html'))}">newsroom</a> are English-language as well. The newsroom does not feed the score, but it shapes which stories sit next to it.</p>
+<p>Most news sources behind <a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a> are English-language as well. That newsroom does not feed the score, but it shapes which stories sit next to it.</p>
 
-<h2 id="skew">What that skews</h2>
+<h2 id="skew">What does that skew?</h2>
 <ul>
 <li><b>Timing.</b> A launch, rule or funding round outside the English-speaking web reaches our inputs late, when English coverage catches up, or never. The score can lag real events by days.</li>
 <li><b>Size.</b> Activity is measured against each source's own history, so a source that systematically misses one region also has a quieter baseline. The bias is consistent rather than random, which keeps hour-to-hour moves meaningful but means the level reads "how busy is the English-speaking AI world".</li>
@@ -337,19 +567,52 @@ export function biasPage(ctx) {
 <li><b>Attention.</b> A story that is huge in Seoul or São Paulo and ignored on Hacker News does not exist as far as this pillar knows.</li>
 </ul>
 
-<h2 id="candidates">Sources under consideration</h2>
+<h2 id="candidates">Which sources are under consideration?</h2>
 <p>Each candidate has to meet the same bar as today's inputs: public, free to read without a private agreement, machine-readable, with enough history to build a reference year, and licensed so the counts can be republished with receipts. Anyone has to be able to recompute the number.</p>
 <div class="xt-grid">${candidates}</div>
-<p>A new source never goes straight into the score. It is collected and published as an <b>uncalibrated</b> signal first, then run as a shadow score beside the official one, and promoted only under the published rule on <a href="${esc(ctx.href('/reference-plan.html'))}">how the baseline gets updated</a>.</p>
+<p>A new source never goes straight into the score. It is collected and published as an <b>uncalibrated</b> signal first, then run as a shadow score beside the official one, and promoted only under the published rule on <a href="${esc(ctx.href('/reference-plan.html'))}">How does the ${esc(brand.NAME)} baseline get updated?</a>.</p>
 
-<h2 id="propose">Propose a source</h2>
-<p>Know a public, non-English or non-Western dataset that counts AI activity? Send it through the <a href="${esc(ctx.href('/feedback.html'))}">feedback page</a> with a link to its API or download, how far back it goes, and its licence. The more of those three you can answer, the faster it can be tested.</p>`;
+<h2 id="propose">How do I propose a source?</h2>
+<p>Know a public, non-English or non-Western dataset that counts AI activity? Send it through the <a href="${esc(ctx.href('/feedback.html'))}">How do I report a problem or send an idea to ${esc(brand.NAME)}?</a> form with a link to its API or download, how far back it goes, and its licence. The more of those three you can answer, the faster it can be tested.</p>
+<section class="xt-faq" aria-labelledby="faq">
+  <h2 id="faq">What questions do people actually ask?</h2>
+  ${faqHtml}
+  <p class="xt-faq-key">Search-shaped sibling:
+    <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>
+    · <a href="${esc(ctx.href('/feedback.html'))}">How do I report a problem or send an idea to ${esc(brand.NAME)}?</a>.</p>
+</section>`;
 
+  const description = `${qTitle} ${brand.NAME}'s inputs are mostly English-language and US-based. Where that skews the reading, and the non-English public sources under consideration to fix it.`;
   return shell(ctx, {
-    path: '/bias.html',
-    title: 'Known biases and blind spots',
-    description: `${brand.NAME}'s inputs are mostly English-language and US-based. Where that skews the reading, and the non-English public sources under consideration to fix it.`,
+    path: PATH,
+    title: qTitle,
+    ogTitle: `${brand.NAME}: ${qTitle}`,
+    description,
     main,
+    jsonld: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        name: qTitle,
+        description: `${brand.NAME}'s inputs lean English and US-based. Where that skews timing, size, governance and attention — and candidates to widen the view.`,
+        url: ctx.url(PATH),
+        isPartOf: { '@type': 'WebSite', name: brand.NAME, url: ctx.url('/') },
+        speakable: speakable(['h1', 'p.lede']),
+      },
+      breadcrumbs(ctx, [
+        { name: 'Home', path: '/' },
+        { name: qTitle, path: PATH },
+      ]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map(([qAsk, a]) => ({
+          '@type': 'Question',
+          name: qAsk,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
+      },
+    ],
   });
 }
 
@@ -357,6 +620,8 @@ export function biasPage(ctx) {
 // /reference-plan.html
 // ---------------------------------------------------------------------------
 export function referencePlanPage(ctx, ref = null) {
+  const PATH = '/reference-plan.html';
+  const qTitle = `How does the ${brand.NAME} baseline get updated?`;
   const s = ctx.state || {};
   const sh = s.shadow && typeof s.shadow === 'object' ? s.shadow : null;
   const fmt = (v) => (isNum(v) ? num(v, 1) : '—');
@@ -379,7 +644,7 @@ export function referencePlanPage(ctx, ref = null) {
     }).join('');
     const scoreD = isNum(sh.score) && isNum(s.score) ? sh.score - s.score : null;
     const addenda = Array.isArray(sh.addenda_sources) ? sh.addenda_sources : [];
-    shadowHtml = `<h2 id="now">Official vs candidate, this reading</h2>
+    shadowHtml = `<h2 id="now">How do official and candidate scores compare this reading?</h2>
 <p>A candidate score is live. It uses the frozen v1 reference plus ${addenda.length ? `the addenda for <b>${addenda.map((x) => esc(typeof x === 'string' ? x : (x && x.id) || '')).join(', ')}</b>` : 'pending addenda'}. Only the official column sets the level.</p>
 <div class="xt-tbl"><table><thead><tr><th></th><th>Official (v1)</th><th>Candidate</th><th>Diff</th></tr></thead><tbody>
 <tr><td><b>Composite</b></td><td class="n"><b>${fmt(s.score)}</b></td><td class="n"><b>${fmt(sh.score)}</b></td><td class="n ${scoreD === null ? 'xt-flat' : cls(scoreD)}">${scoreD === null ? '—' : esc(dTxt(scoreD))}</td></tr>
@@ -387,7 +652,7 @@ export function referencePlanPage(ctx, ref = null) {
 ${rows}</tbody></table></div>
 <p class="xt-note">Both columns come from the same hourly run and the same raw values; they differ only in which reference grids are allowed to score a source.</p>`;
   } else {
-    shadowHtml = `<h2 id="now">Official vs candidate, this reading</h2>
+    shadowHtml = `<h2 id="now">How do official and candidate scores compare this reading?</h2>
 <p>No addenda are live yet, so there is no candidate score to compare: the official score is the only score. ${Array.isArray(s.uncalibrated_sources) && s.uncalibrated_sources.length ? `${s.uncalibrated_sources.length} sources (${s.uncalibrated_sources.map(esc).join(', ')}) are collected and published every hour but not scored; they are the first in line for an addendum.` : ''}</p>`;
   }
 
@@ -400,22 +665,55 @@ ${ref.sources ? `<tr><th>Sources with grids</th><td>${ref.sources.map(esc).join(
 ${ref.hash ? `<tr><th>File hash</th><td><code>${esc(ref.hash)}</code></td></tr>` : ''}
 </tbody></table></div>` : '';
 
+  // Tip #269: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const v1Q = 'What is reference v1, and why is it frozen?';
+  const addendaQ = 'How do addenda run as a shadow score?';
+  const promoQ = 'When is an addendum promoted?';
+  const cutoverQ = 'What happens at cutover?';
+  const shiftQ = 'How does a permanent baseline shift work?';
+  const nowQ = 'How do official and candidate scores compare this reading?';
+  // FAQ answers restate lede / addenda / promotion / cutover copy only (FINDABILITY §3.3).
+  // Refuse: doom-probability, stuffing, quiet-rebase claims.
+  const faq = [
+    [qTitle,
+      `Every ${brand.NAME} score is a percentile against a frozen reference: a year of history per source, cut into fixed grids and never regenerated. Freezing it is what lets anyone re-run the arithmetic on an old receipt and get the same number. Sources get added and the world shifts, so the reference has to change sometimes — under a published rule, not a quiet rebuild.`],
+    [v1Q,
+      'A year of history per source, cut into fixed grids in data/reference.json. Rebuilding it in place would silently rebase every score ever published, so it is never rebuilt; changes arrive as separate addenda.'],
+    [addendaQ,
+      'Collect (uncalibrated, visible raw value, no weight), calibrate (own reference year in an addendum with its own hash; v1 is not touched), then shadow (official score from v1 only and a candidate score from v1 plus addenda, published side by side; only the official one sets the level).'],
+    [promoQ,
+      'Only when all three hold: at least 14 days of shadow running, at least 95% uptime for the new source over that period, and a published diff of official vs candidate for every reading in the shadow period, with the level changes the candidate would have caused.'],
+    [cutoverQ,
+      'Promotion creates reference v2: v1 plus the addenda, as a new file with a new hash. Receipts carry the reference version and hash they were computed against, so every receipt issued under v1 still verifies against v1.'],
+    [shiftQ,
+      'If a source sits pinned near the top of its v1 grid for weeks, a new reference window runs 30 days side by side with the old one, both published, before it takes over. The old window, its hash and its receipts remain.'],
+    [nowQ,
+      'Both columns come from the same hourly run and the same raw values; they differ only in which reference grids are allowed to score a source. Only the official column sets the level.'],
+    ['How do new sources join the score?',
+      'Collect (uncalibrated, visible raw value, no weight), calibrate (own reference year in an addendum with its own hash; v1 is not touched), then shadow (official score from v1 only and a candidate score from v1 plus addenda, published side by side; only the official one sets the level).'],
+    [`Does updating the baseline make ${brand.NAME} a doom forecast?`,
+      `No. ${brand.NAME} measures activity tempo. A new reference version keeps old receipts checkable against the file they used; it does not turn the index into a probability of harm.`],
+  ];
+  const faqHtml = faq.map(([qAsk, a]) => `
+  <h3>${esc(qAsk)}</h3>
+  <p>${esc(a)}</p>`).join('');
+
   const main = `<p class="eyebrow">Reference plan</p>
-<h1>How the baseline gets updated</h1>
+<h1>${esc(qTitle)}</h1>
 <p class="lede">Every ${esc(brand.NAME)} score is a percentile against a frozen reference: a year of history per source, cut into fixed grids and never regenerated. Freezing it is what lets anyone re-run the arithmetic on an old receipt and get the same number. But sources get added and the world shifts, so the reference has to change sometimes. This is the rule for how, written down before it is needed.</p>
 
-<h2 id="v1">Reference v1, frozen</h2>
+<h2 id="v1">${esc(v1Q)}</h2>
 ${refFacts}
 <p>The file is <a href="${esc(brand.REPO_URL)}/blob/main/data/reference.json" target="_blank" rel="noopener">data/reference.json</a>. Rebuilding it in place would silently rebase every score ever published, so it is never rebuilt. Changes arrive as separate addenda.</p>
 
-<h2 id="addenda">Addenda run as a shadow score</h2>
+<h2 id="addenda">${esc(addendaQ)}</h2>
 <ol>
 <li><b>Collect.</b> A new source is collected and published hourly as <i>uncalibrated</i>: its raw value is visible, it has no weight.</li>
 <li><b>Calibrate.</b> Its own reference year is backfilled into an addendum file with its own hash. v1 is not touched.</li>
 <li><b>Shadow.</b> Every hour the engine computes two scores from the same raw values: the <b>official</b> score (v1 only) and a <b>candidate</b> score (v1 plus addenda). Both are published side by side; only the official one sets the level, posts to X or fires the feeds.</li>
 </ol>
 
-<h2 id="promotion">Promotion rule</h2>
+<h2 id="promotion">${esc(promoQ)}</h2>
 <p>An addendum is promoted only when all three hold:</p>
 <ul>
 <li>at least <b>14 days</b> of shadow running;</li>
@@ -423,21 +721,54 @@ ${refFacts}
 <li>a <b>published diff</b>: official vs candidate for every reading in the shadow period, with the level changes the candidate would have caused.</li>
 </ul>
 
-<h2 id="cutover">Cutover</h2>
-<p>Promotion creates <b>reference v2</b>: v1 plus the addenda, as a new file with a new hash. Receipts carry the reference version and hash they were computed against, so every receipt issued under v1 still verifies against v1, which stays in the repository forever. The cutover reading is marked on the history chart and in the <a href="${esc(ctx.href('/changelog.html'))}">changelog</a>.</p>
+<h2 id="cutover">${esc(cutoverQ)}</h2>
+<p>Promotion creates <b>reference v2</b>: v1 plus the addenda, as a new file with a new hash. Receipts carry the reference version and hash they were computed against, so every receipt issued under v1 still verifies against v1, which stays in the repository forever. The cutover reading is marked on the history chart and in <a href="${esc(ctx.href('/changelog.html'))}">What moved the ${esc(brand.NAME)} score this hour?</a>.</p>
 
-<h2 id="shift">A permanent baseline shift</h2>
+<h2 id="shift">${esc(shiftQ)}</h2>
 <p>If the world moves so far that a source sits pinned near the top of its v1 grid for weeks, the window itself has to move. That is handled as a new reference window, not an edit: the new window runs <b>30 days side by side</b> with the old one, both published, before it takes over. The old window, its hash and its receipts remain.</p>
 
 ${shadowHtml}
 
-<p class="xt-note">Why the care: an index that quietly rebases can make any trend it likes. Ours can only change in public, with the old arithmetic still checkable. See also <a href="${esc(ctx.href('/bias.html'))}">known biases</a> and the <a href="${esc(ctx.href('/methodology.html'))}">methodology</a>.</p>`;
+<p class="xt-note">Why the care: an index that quietly rebases can make any trend it likes. Ours can only change in public, with the old arithmetic still checkable. See also <a href="${esc(ctx.href('/bias.html'))}">What can ${esc(brand.NAME)} not see?</a> and <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>.</p>
+<section class="xt-faq" aria-labelledby="faq">
+  <h2 id="faq">What questions do people actually ask?</h2>
+  ${faqHtml}
+  <p class="xt-faq-key">Search-shaped sibling:
+    <a href="${esc(ctx.href('/bias.html'))}">What can ${esc(brand.NAME)} not see?</a>
+    · <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>.</p>
+</section>`;
 
+  const description = `${qTitle} ${brand.NAME}'s reference is frozen. New sources run as a shadow score for 14+ days before promotion to a new reference version, and old receipts still verify.`;
   return shell(ctx, {
-    path: '/reference-plan.html',
-    title: 'How the baseline gets updated',
-    description: `${brand.NAME}'s reference is frozen. New sources run as a shadow score for 14+ days before promotion to a new reference version, and old receipts still verify.`,
+    path: PATH,
+    title: qTitle,
+    ogTitle: `${brand.NAME}: ${qTitle}`,
+    description,
     main,
+    jsonld: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        name: qTitle,
+        description: `${brand.NAME} freezes its reference year. New sources shadow for 14+ days with a published diff before promotion; old receipts still verify.`,
+        url: ctx.url(PATH),
+        isPartOf: { '@type': 'WebSite', name: brand.NAME, url: ctx.url('/') },
+        speakable: speakable(['h1', 'p.lede']),
+      },
+      breadcrumbs(ctx, [
+        { name: 'Home', path: '/' },
+        { name: qTitle, path: PATH },
+      ]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map(([qAsk, a]) => ({
+          '@type': 'Question',
+          name: qAsk,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
+      },
+    ],
   });
 }
 
@@ -445,8 +776,12 @@ ${shadowHtml}
 // /changelog.html
 // ---------------------------------------------------------------------------
 export function changelogPage(ctx) {
+  const PATH = '/changelog.html';
+  const qTitle = `What moved the ${brand.NAME} score this hour?`;
   const entries = hourlyEntries(ctx, 48);
   const srcName = (id) => id;
+  // Tip #402: hour-row H3s are question-shaped and mirrored in FAQ (§3.3).
+  const hourQ = (at) => `What moved at ${utcDay(at)} ${utcClock(at)} UTC?`;
 
   const li = entries.map((e) => {
     const big = Math.abs(e.score_delta) >= DELTA_THRESHOLD;
@@ -466,25 +801,79 @@ export function changelogPage(ctx) {
       : '';
     const gap = e.gap_hours > 1.75 ? ` <span class="t">(vs ${Math.round(e.gap_hours)} h earlier: no reading in between)</span>` : '';
     const anchor = `h-${e.hour.slice(0, 13)}`;
+    const hq = hourQ(e.at);
     return `<li id="${esc(anchor)}" class="${e.level_change ? 'lv' : big ? 'big' : ''}">
-<div class="hd"><a href="${esc(ctx.href(readingPath(ctx, e.at)))}">${esc(utcDay(e.at))} ${esc(utcClock(e.at))} UTC</a><span>${esc(brand.NAME)} ${esc(e.level)} · ${esc(num(e.score, 1))} <span class="${cls(e.score_delta)}">${esc(dTxt(e.score_delta))}</span></span>${e.degraded ? '<span class="t">degraded</span>' : ''}${gap}</div>
+<h3 class="hd"><a href="${esc(ctx.href(readingPath(ctx, e.at)))}">${esc(hq)}</a><span>${esc(brand.NAME)} ${esc(e.level)} · ${esc(num(e.score, 1))} <span class="${cls(e.score_delta)}">${esc(dTxt(e.score_delta))}</span></span>${e.degraded ? '<span class="t">degraded</span>' : ''}${gap}</h3>
 ${lvl || pills || srcs ? `<div>${lvl}${pills}${srcs}</div>` : '<div class="xt-note">No pillar moved by 0.1 or more.</div>'}
 ${news}
 </li>`;
   }).join('\n');
 
-  const main = `<p class="eyebrow">Changelog</p>
-<h1>What moved</h1>
-<p class="lede">The last ${entries.length} hours with a reading, newest first: how far the score and each pillar moved since the hour before, any level change, any source going dark or coming back, and the three highest-scored news items published in between. Red marks a level change, amber a move of ${DELTA_THRESHOLD}+ points. ▲ is louder, ▼ quieter.</p>
-<p><a class="xt-btn ghost" href="${esc(ctx.href('/alerts.html'))}">GET THESE AS ALERTS →</a><a class="xt-btn ghost" href="${esc(ctx.href('/history.html'))}">FULL HISTORY →</a></p>
-${entries.length ? `<ol class="xt-log">\n${li}\n</ol>` : '<p>Not enough readings yet: the changelog starts with the second hour on record.</p>'}
-<p class="xt-note">News items are context, not cause: the newsroom does not feed the score. ${esc(brand.DISCLAIMER)}</p>`;
+  // FAQ answers restate lede / note / alerts / hour-row copy only (FINDABILITY §3.3).
+  // Refuse: doom-probability, newsroom-as-cause, stuffing.
+  const faq = [
+    [qTitle,
+      `The last ${entries.length || 48} hours with a reading, newest first: how far the score and each pillar moved since the hour before, any level change, any source going dark or coming back, and the three highest-scored news items published in between. Red marks a level change, amber a move of ${DELTA_THRESHOLD}+ points.`],
+    ['Do news items move the score?',
+      'News items are context, not cause: the newsroom does not feed the score.'],
+    ['How do I get these as alerts?',
+      `Use the alerts page for RSS feeds, email recipes, and in-tab notifications when the level changes or the score moves by ${DELTA_THRESHOLD}+ points.`],
+    [`Is an hourly move a doom probability?`,
+      `No. ${brand.NAME} measures activity tempo hour by hour. ▲ is louder and ▼ is quieter — not danger, and not a probability of harm.`],
+  ];
+  for (const e of entries) {
+    faq.push([hourQ(e.at),
+      `${brand.NAME} ${e.level} · ${num(e.score, 1)} (${dTxt(e.score_delta)}) at that hour — pillars, sources, and top news below the heading when they moved.`]);
+  }
+  const faqHtml = faq.map(([qAsk, a]) => `
+  <h3>${esc(qAsk)}</h3>
+  <p>${esc(a)}</p>`).join('');
 
+  const main = `<p class="eyebrow">Changelog</p>
+<h1>${esc(qTitle)}</h1>
+<p class="lede">The last ${entries.length} hours with a reading, newest first: how far the score and each pillar moved since the hour before, any level change, any source going dark or coming back, and the three highest-scored news items published in between. Red marks a level change, amber a move of ${DELTA_THRESHOLD}+ points. ▲ is louder, ▼ quieter.</p>
+<p><a class="xt-btn ghost" href="${esc(ctx.href('/alerts.html'))}">How do I get alerts when ${esc(brand.NAME)} moves?</a><a class="xt-btn ghost" href="${esc(ctx.href('/history.html'))}">What is the history of AI risk? →</a></p>
+${entries.length ? `<ol class="xt-log">\n${li}\n</ol>` : '<p>Not enough readings yet: the changelog starts with the second hour on record.</p>'}
+<p class="xt-note">News items are context, not cause: the newsroom does not feed the score. ${esc(brand.DISCLAIMER)}</p>
+<section class="xt-faq" aria-labelledby="faq">
+  <h2 id="faq">What questions do people actually ask?</h2>
+  ${faqHtml}
+  <p class="xt-faq-key">Search-shaped sibling:
+    <a href="${esc(ctx.href('/alerts.html'))}">How do I get alerts when ${esc(brand.NAME)} moves?</a>
+    · <a href="${esc(ctx.href('/reference-plan.html'))}">How does the ${esc(brand.NAME)} baseline get updated?</a>.</p>
+</section>`;
+
+  const description = `${qTitle} Hour by hour: score and pillar changes, level changes, sources going dark, and the top news of each hour.`;
   return shell(ctx, {
-    path: '/changelog.html',
-    title: 'What moved: the hourly changelog',
-    description: `Hour by hour, what moved the ${brand.NAME} AI activity index: score and pillar changes, level changes, sources going dark, and the top news of each hour.`,
+    path: PATH,
+    title: qTitle,
+    ogTitle: `${brand.NAME}: ${qTitle}`,
+    description,
     main,
+    jsonld: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        name: qTitle,
+        description: `Hour-by-hour ${brand.NAME} moves: score, pillars, level changes, sources dark/live, and top news context.`,
+        url: ctx.url(PATH),
+        isPartOf: { '@type': 'WebSite', name: brand.NAME, url: ctx.url('/') },
+        speakable: speakable(['h1', 'p.lede']),
+      },
+      breadcrumbs(ctx, [
+        { name: 'Home', path: '/' },
+        { name: qTitle, path: PATH },
+      ]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map(([qAsk, a]) => ({
+          '@type': 'Question',
+          name: qAsk,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
+      },
+    ],
   });
 }
 

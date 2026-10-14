@@ -11,8 +11,18 @@
 
 import { esc } from './_html.mjs';
 import { page } from './layout.mjs';
+import { breadcrumbs, speakable } from './_seo.mjs';
 import * as brand from '../brand.mjs';
 import { NEWS_247 } from '../../collector/live-media.mjs';
+
+const PATH = '/live.html';
+const qTitle = 'What AI is on TV and radio right now?';
+// Tip #276: section H2s are question-shaped and mirrored in FAQ (§3.3).
+const liveNowQ = 'Which AI streams are live now?';
+const news247Q = 'Which 24/7 news channels can you open live?';
+const onTvQ = 'Which AI segments are on TV?';
+const radioQ = 'What AI talk radio can you leave playing?';
+const aboutQ = 'How does this live room work?';
 
 const CSS = `<style>
 .lv{max-width:1100px;overflow-wrap:anywhere}
@@ -50,8 +60,8 @@ const CSS = `<style>
 .lv-247{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,220px),1fr));gap:10px;margin:10px 0}
 .lv-247 a{display:block;padding:12px 14px;border:1px solid var(--rule);border-radius:6px;background:var(--bg-raised,#0E131D);text-decoration:none;color:var(--ink)}
 .lv-247 a:hover,.lv-247 a:focus-visible{border-color:#F87171}
-.lv-247 b{display:block;font:700 14px/1.3 var(--sans)}
-.lv-247 b::before{content:"● ";color:#F87171}
+.lv-247 h3{display:block;margin:0;font:700 14px/1.3 var(--sans);color:var(--ink)}
+.lv-247 h3::before{content:"● ";color:#F87171}
 .lv-247 span{display:block;font-size:13px;color:var(--ink-dim);margin-top:4px}
 .lv-radio{border:1px solid var(--rule);border-radius:6px;background:#000;padding:14px;margin:10px 0}
 .lv-now{display:flex;gap:12px;align-items:center;min-width:0}
@@ -73,6 +83,11 @@ const CSS = `<style>
 .lv-ep div{flex:1;min-width:0}
 .lv-ep h3{margin:0 0 3px;font:700 .95rem/1.3 var(--sans);color:var(--ink)}
 .lv-note{font-size:13px}
+.lv-faq{margin:36px 0 12px;max-width:62ch}
+.lv-faq h2{font:600 var(--t-lg,1.125rem)/1.2 var(--sans);margin:0 0 var(--s-3,.75rem);color:var(--ink)}
+.lv-faq h3{font:600 var(--t-base,1rem)/1.3 var(--sans);margin:var(--s-4,1rem) 0 var(--s-2,.5rem);color:var(--ink)}
+.lv-faq p{font:400 var(--t-base,1rem)/1.55 var(--sans);color:var(--ink-dim);margin:0 0 var(--s-2,.5rem)}
+.lv-faq-key{margin-top:var(--s-4,1rem)!important}
 @media (max-width:560px){.lv-ep img{display:none}.lv-now img{width:48px;height:48px}}
 </style>`;
 
@@ -91,14 +106,49 @@ const ext = (href, text, cls = '') => `<a${cls ? ` class="${cls}"` : ''} href="$
 const xBtn = (title, src, url) => `<button type="button" class="lv-xp" data-xpost="news" data-x-title="${esc(title)}" data-x-src="${esc(src)}" data-x-url="${esc(url)}" aria-label="Post this to X">𝕏 Post</button>`;
 const ytOk = (id) => /^[\w-]{11}$/.test(String(id || ''));
 
+/** Tip #407: YouTube card H3s are question-shaped (mirrored in FAQ §3.3). */
+function clipQ(title, { live = false } = {}) {
+  const t = String(title || '').trim().replace(/\?+$/, '') || 'untitled';
+  return live ? `Which live YouTube stream is this: ${t}?` : `What YouTube clip is this: ${t}?`;
+}
+
+/** Tip #408: podcast episode H3s are question-shaped (mirrored in FAQ §3.3). */
+function episodeQ(title) {
+  const t = String(title || '').trim().replace(/\?+$/, '') || 'untitled';
+  return `Which podcast episode is this: ${t}?`;
+}
+
+function videoMetaPlain(v, { live = false } = {}) {
+  if (live) {
+    const bits = [v.channel || 'YouTube'];
+    if (v.allow) bits.push('✓ NEWS/TECH');
+    if (v.started_at) bits.push(`LIVE SINCE ${hhmm(v.started_at)}`);
+    return `${bits.join(' · ')}. Opens on YouTube on demand.`;
+  }
+  const bits = [v.channel || 'YouTube'];
+  const w = when(v.published_at);
+  if (w) bits.push(w);
+  if (Number.isFinite(v.views)) bits.push(`${v.views.toLocaleString('en-US')} views`);
+  return `${bits.join(' · ')}. Opens on YouTube on demand.`;
+}
+
+function episodeMetaPlain(e) {
+  const bits = [e.show || 'AI podcast'];
+  const w = when(e.published_at);
+  if (w) bits.push(w);
+  if (e.duration) bits.push(mins(e.duration));
+  return `${bits.join(' · ')}. Audio streams from the show’s host on play.`;
+}
+
 function videoCard(v, { live = false } = {}) {
   if (!ytOk(v.id)) return '';
+  const q = clipQ(v.title, { live });
   const meta = live
     ? `${esc(v.channel)}${v.allow ? ' <span class="ok">✓ NEWS/TECH</span>' : ''}${v.started_at ? ` · LIVE SINCE ${esc(hhmm(v.started_at))}` : ''}`
     : `${esc(v.channel)} · ${esc(when(v.published_at))}${Number.isFinite(v.views) ? ` · ${esc(v.views.toLocaleString('en-US'))} views` : ''}`;
   return `<article class="lv-card">
   <div class="lv-media"><button type="button" class="lv-thumb" data-yt="${esc(v.id)}" data-yt-title="${esc(v.title)}" aria-label="Play: ${esc(v.title)}"><img loading="lazy" decoding="async" width="320" height="180" alt="" src="https://i.ytimg.com/vi/${esc(v.id)}/mqdefault.jpg"><span class="lv-play" aria-hidden="true">▶</span>${live ? '<span class="lv-badge">● LIVE</span>' : ''}</button></div>
-  <div class="lv-body"><h3>${esc(v.title)}</h3><p class="lv-meta">${meta}</p>
+  <div class="lv-body"><h3>${esc(q)}</h3><p class="lv-meta">${meta}</p>
   <div class="lv-acts">${xBtn(v.title, v.channel || 'YouTube', `https://www.youtube.com/watch?v=${v.id}`)}${ext(`https://www.youtube.com/watch?v=${v.id}`, 'Watch on YouTube ↗')}</div></div>
 </article>`;
 }
@@ -112,13 +162,22 @@ function liveSection(ctx, live) {
   else if (live && live.status === 'no-key') body = `<div class="lv-empty"><b>No AI live streams right now.</b> The live search is switched off on this build, so this shelf stays empty. The 24/7 news channels below are always on.</div>`;
   else if (live && live.status === 'error') body = `<div class="lv-empty"><b>No AI live streams right now.</b> The last live search did not answer (${esc(live.error || 'error')}); it tries again within the hour. Meanwhile the 24/7 news channels below are always on.</div>`;
   else body = `<div class="lv-empty"><b>No AI live streams right now.</b> Nothing live about AI passed the filter at the last check. The 24/7 news channels below are always on.</div>`;
-  return `<h2 id="live-now">Live now</h2><p class="lv-upd">${upd}</p>${body}`;
+  return `<h2 id="live-now">${esc(liveNowQ)}</h2><p class="lv-upd">${upd}</p>${body}`;
+}
+
+/** Tip #371: 24/7 channel-card H3s are question-shaped (mirrored in FAQ §3.3). */
+function channelQ(name) {
+  return `What is ${name} streaming live?`;
+}
+
+function newsRows(list) {
+  return (list && list.length ? list : NEWS_247).filter((c) => /^UC[\w-]{22}$/.test(c.id));
 }
 
 function newsSection(list) {
-  const rows = (list && list.length ? list : NEWS_247).filter((c) => /^UC[\w-]{22}$/.test(c.id));
-  return `<h2 id="news-247">24/7 news channels</h2><p class="lv-upd">ALWAYS ON · OPENS ON YOUTUBE</p>
-  <div class="lv-247">${rows.map((c) => `<a href="https://www.youtube.com/channel/${esc(c.id)}/live" target="_blank" rel="noopener"><b>${esc(c.name)} ↗</b><span>${esc(c.blurb || '')}</span></a>`).join('')}</div>
+  const rows = newsRows(list);
+  return `<h2 id="news-247">${esc(news247Q)}</h2><p class="lv-upd">ALWAYS ON · OPENS ON YOUTUBE</p>
+  <div class="lv-247">${rows.map((c) => `<a href="https://www.youtube.com/channel/${esc(c.id)}/live" target="_blank" rel="noopener" aria-label="${esc(c.name)}"><h3>${esc(channelQ(c.name))}</h3><span>${esc(c.blurb || '')}</span></a>`).join('')}</div>
   <p class="lv-note">Each link opens whatever that channel is streaming live right now. General news, not only AI.</p>`;
 }
 
@@ -131,7 +190,7 @@ function tvSection(tv) {
     ? `<div class="lv-grid">${items.map((v) => videoCard(v)).join('')}</div>`
     : `<div class="lv-empty"><b>No AI segments to show yet.</b> ${!(tv && tv.fetched_at) ? 'The channel feeds have not been checked yet; they are read every 15 minutes.' : srcs.length && !ok ? 'None of the channel feeds answered at the last check; it retries every 15 minutes.' : 'None of the news channels we follow posted an AI story in the last 72 hours.'}</div>`;
   const names = srcs.filter((s) => s.ok).map((s) => s.name);
-  return `<h2 id="on-tv">AI on TV</h2><p class="lv-upd">${upd}</p>${body}
+  return `<h2 id="on-tv">${esc(onTvQ)}</h2><p class="lv-upd">${upd}</p>${body}
   ${names.length ? `<p class="lv-note">From the YouTube channels of ${esc(names.join(', '))}. Headlines are matched on AI terms; newest first.</p>` : ''}`;
 }
 
@@ -140,14 +199,14 @@ function radioSection(radio) {
   const srcs = (radio && radio.sources) || [];
   const upd = radio && radio.fetched_at ? `UPDATED ${esc(hhmm(radio.fetched_at))} · ${srcs.filter((s) => s.ok).length} OF ${srcs.length} SHOWS ANSWERED` : 'NOT CHECKED YET';
   if (!items.length) {
-    return `<h2 id="radio">AI talk radio</h2><p class="lv-upd">${upd}</p><div class="lv-empty"><b>No episodes to play right now.</b> ${radio && radio.fetched_at ? 'The podcast feeds did not answer at the last check; the list refreshes every hour.' : 'The podcast feeds have not been read yet; the list refreshes every hour.'}</div>`;
+    return `<h2 id="radio">${esc(radioQ)}</h2><p class="lv-upd">${upd}</p><div class="lv-empty"><b>No episodes to play right now.</b> ${radio && radio.fetched_at ? 'The podcast feeds did not answer at the last check; the list refreshes every hour.' : 'The podcast feeds have not been read yet; the list refreshes every hour.'}</div>`;
   }
   const queue = items.map((e) => ({ t: e.title, s: e.show, a: e.audio, i: e.image || '', l: e.link || '', d: e.published_at || '' }));
   const list = items.map((e, i) => `<li class="lv-ep" data-i="${i}" aria-current="false">
     <button type="button" data-play="${i}" aria-label="Play: ${esc(e.title)}">▶</button>${e.image ? `<img loading="lazy" decoding="async" width="40" height="40" alt="" src="${esc(e.image)}">` : ''}
-    <div><h3>${esc(e.title)}</h3><p class="lv-meta">${esc(e.show)} · ${esc(when(e.published_at))}${e.duration ? ` · ${esc(mins(e.duration))}` : ''}</p>
+    <div><h3>${esc(episodeQ(e.title))}</h3><p class="lv-meta">${esc(e.show)} · ${esc(when(e.published_at))}${e.duration ? ` · ${esc(mins(e.duration))}` : ''}</p>
     <div class="lv-acts">${xBtn(e.title, e.show, e.link || e.audio)}${e.link ? ext(e.link, 'Episode page ↗') : ''}</div></div></li>`).join('');
-  return `<h2 id="radio">AI talk radio</h2><p class="lv-upd">${upd}</p>
+  return `<h2 id="radio">${esc(radioQ)}</h2><p class="lv-upd">${upd}</p>
   <div class="lv-radio" id="lv-radio">
     <div class="lv-now"><img id="lv-art" alt="" width="64" height="64" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><div><small id="lv-state">READY · ${items.length} EPISODES QUEUED</small><strong id="lv-title">${esc(items[0].title)}</strong><em id="lv-show">${esc(items[0].show)}</em></div></div>
     <audio id="lv-audio" controls preload="none"></audio>
@@ -181,20 +240,91 @@ window.LiveRadio={get index(){return i},get queue(){return Q},next:function(){lo
 export function render(ctx, data) {
   const d = data || {};
   const counts = [(d.live && d.live.items || []).length, (d.tv && d.tv.items || []).length, (d.radio && d.radio.items || []).length];
+  // FAQ answers restate lede / about / section copy only (FINDABILITY §3.3).
+  // Refuse: live-room-as-forecast, endorsement-as-SIREN-claim, doom-probability.
+  const faq = [
+    [qTitle,
+      'Live broadcasts about artificial intelligence, the latest AI segments from the big news channels, and AI talk radio you can leave playing. Everything opens on demand: nothing plays and no player loads until you press play.'],
+    [liveNowQ,
+      'Streams are found by a YouTube search for AI news, at most once an hour, so one may have ended since. Channels marked ✓ are established news or tech outlets and are listed first; the rest passed a filter for AI topics and against music loops and crypto scams.'],
+    [news247Q,
+      'Each link opens whatever that channel is streaming live right now. General news, not only AI. Always on; opens on YouTube.'],
+    [onTvQ,
+      'AI segments from the big news channels’ last 72 hours. Headlines are matched on AI terms; newest first. Channel feeds are read every 15 minutes.'],
+    [radioQ,
+      'Plays the newest episodes from AI podcasts back to back, newest first, and moves on by itself when one ends. Audio streams straight from each show’s own host when you press play.'],
+    [aboutQ,
+      `Video thumbnails come from YouTube (i.ytimg.com), so Google sees your IP address when the page loads; the player is YouTube’s privacy-enhanced one (youtube-nocookie.com) and loads only when you click. Podcast artwork and audio come from each show’s host. ${brand.NAME} picks nothing by hand and endorses nothing here: it is a filtered list of what is on.`],
+    ['Does anything autoplay?',
+      'Everything opens on demand: nothing plays and no player loads until you press play.'],
+    ['Does SIREN endorse these streams?',
+      `${brand.NAME} picks nothing by hand and endorses nothing here: it is a filtered list of what is on.`],
+    ['Where else is live AI on SIREN?',
+      `More live AI: Where are live X feeds and Spaces on AI?; Where can you find real clips of AI leaders?; Which AI stories has ${brand.NAME} scored in this window?`],
+    // Tip #371: 24/7 channel-card H3s are question-shaped and mirrored in FAQ (§3.3).
+    ...newsRows(d.news_247).map((c) => [channelQ(c.name), c.blurb || 'Always on; opens on YouTube.']),
+    // Tip #407: YouTube live + TV card H3s are question-shaped and mirrored in FAQ (§3.3).
+    ...((d.live && d.live.items) || []).filter((v) => ytOk(v.id)).map((v) => [clipQ(v.title, { live: true }), videoMetaPlain(v, { live: true })]),
+    ...((d.tv && d.tv.items) || []).filter((v) => ytOk(v.id)).map((v) => [clipQ(v.title), videoMetaPlain(v)]),
+    // Tip #408: podcast episode H3s are question-shaped and mirrored in FAQ (§3.3).
+    ...((d.radio && d.radio.items) || []).filter((e) => /^https:\/\//.test(e.audio || '')).map((e) => [episodeQ(e.title), episodeMetaPlain(e)]),
+  ];
+  const faqHtml = faq.map(([qAsk, a]) => `
+  <h3>${esc(qAsk)}</h3>
+  <p>${esc(a)}</p>`).join('');
   const main = `${CSS}
 <section class="lv">
   <p class="eyebrow"><b aria-hidden="true"></b>LIVE · AI ON TV &amp; RADIO</p>
-  <h1 class="bp__h1">AI on TV &amp; radio</h1>
+  <h1 class="bp__h1">${esc(qTitle)}</h1>
   <p class="lede">Live broadcasts about artificial intelligence, the latest AI segments from the big news channels, and AI talk radio you can leave playing. Everything opens on demand: nothing plays and no player loads until you press play.</p>
   <ul class="lv-jump"><li><a href="#live-now">● Live now (${counts[0]})</a></li><li><a href="#news-247">24/7 news</a></li><li><a href="#on-tv">AI on TV (${counts[1]})</a></li><li><a href="#radio">Talk radio (${counts[2]})</a></li></ul>
   ${liveSection(ctx, d.live)}
   ${newsSection(d.news_247)}
   ${tvSection(d.tv)}
   ${radioSection(d.radio)}
-  <h2>About this room</h2>
-  <p class="lv-note">Video thumbnails come from YouTube (i.ytimg.com), so Google sees your IP address when the page loads; the player is YouTube’s privacy-enhanced one (youtube-nocookie.com) and loads only when you click. Podcast artwork and audio come from each show’s host. ${esc(brand.NAME)} picks nothing by hand and endorses nothing here: it is a filtered list of what is on. Machine-readable: <a href="${esc(ctx.href('/api/live-media.json'))}">api/live-media.json</a>. More live AI: <a href="${esc(ctx.href('/live-x.html'))}">Live on X</a>, <a href="${esc(ctx.href('/elon.html'))}">Real Clips</a>, <a href="${esc(ctx.href('/news.html'))}">the Newsroom</a>.</p>
+  <h2 id="about">${esc(aboutQ)}</h2>
+  <p class="lv-note">Video thumbnails come from YouTube (i.ytimg.com), so Google sees your IP address when the page loads; the player is YouTube’s privacy-enhanced one (youtube-nocookie.com) and loads only when you click. Podcast artwork and audio come from each show’s host. ${esc(brand.NAME)} picks nothing by hand and endorses nothing here: it is a filtered list of what is on. Machine-readable: <a href="${esc(ctx.href('/api/live-media.json'))}">api/live-media.json</a>. More live AI: <a href="${esc(ctx.href('/live-x.html'))}">Where are live X feeds and Spaces on AI?</a>, <a href="${esc(ctx.href('/elon.html'))}">Where can you find real clips of AI leaders?</a>, <a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a>.</p>
+  <section class="lv-faq" aria-labelledby="faq">
+    <h2 id="faq">What questions do people actually ask?</h2>
+    ${faqHtml}
+    <p class="lv-faq-key">Search-shaped sibling:
+      <a href="${esc(ctx.href('/radio.html'))}">What free music does SIREN Radio play?</a>
+      · <a href="${esc(ctx.href('/videos.html'))}">What free AI explainer videos does SIREN publish?</a>
+      · <a href="${esc(ctx.href('/live-x.html'))}">Where are live X feeds and Spaces on AI?</a>
+      · <a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a>.</p>
+  </section>
 </section>
 ${SCRIPT}`;
-  return page({ ctx, path: '/live.html', title: `LIVE: AI on TV & radio · ${brand.NAME}`,
-    description: 'Live YouTube broadcasts about AI, the latest AI segments from CNBC, Bloomberg, BBC, CBS and other news channels, 24/7 news streams, and AI talk radio from the top AI podcasts, played back to back.', main });
+  return page({
+    ctx,
+    path: PATH,
+    title: `${qTitle} · ${brand.NAME}`,
+    ogTitle: `${brand.NAME}: ${qTitle}`,
+    description: `${qTitle} Live YouTube broadcasts about AI, AI segments from major news channels, 24/7 news streams, and AI talk radio — on demand, nothing autoplays.`,
+    jsonld: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'CollectionPage',
+        name: qTitle,
+        description: 'Live AI broadcasts, AI TV segments, 24/7 news streams, and AI talk radio. On demand; SIREN picks nothing by hand and endorses nothing here.',
+        url: ctx.url(PATH),
+        isPartOf: { '@type': 'WebSite', name: brand.NAME, url: ctx.url('/') },
+        speakable: speakable(['h1.bp__h1', 'p.lede']),
+      },
+      breadcrumbs(ctx, [
+        { name: 'Home', path: '/' },
+        { name: qTitle, path: PATH },
+      ]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map(([qAsk, a]) => ({
+          '@type': 'Question',
+          name: qAsk,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
+      },
+    ],
+    main,
+  });
 }

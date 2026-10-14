@@ -60,28 +60,154 @@ const ENTITY_DEFS = [
   { name: 'Tencent', kind: 'lab', forms: ['Tencent'] },
   { name: 'ByteDance', kind: 'lab', forms: ['ByteDance', 'Seed-OSS'] },
   { name: 'Ai2', kind: 'lab', forms: ['Allen Institute for AI', 'AI2', 'Ai2'] },
+  // Compute / infra / software names that clear the entity-lab story gate often
+  // enough to earn /lab pages (DoomBench /companies shape) without inventing
+  // a market row or a doom score for the company.
+  { name: 'Oracle', kind: 'lab', forms: ['Oracle'] },
+  { name: 'Palantir', kind: 'lab', forms: ['Palantir'] },
+  { name: 'Adobe', kind: 'lab', forms: ['Adobe'] },
+  { name: 'Broadcom', kind: 'lab', forms: ['Broadcom'] },
+  { name: 'Cloudflare', kind: 'lab', forms: ['Cloudflare'] },
+  { name: 'SoftBank', kind: 'lab', forms: ['SoftBank'] },
+  { name: 'Intel', kind: 'lab', forms: ['Intel'] },
+  { name: 'AMD', kind: 'lab', forms: ['AMD', 'Advanced Micro Devices'] },
+  { name: 'Groq', kind: 'lab', forms: ['Groq'] },
+  { name: 'Samsung', kind: 'lab', forms: ['Samsung'] },
+  { name: 'ASML', kind: 'lab', forms: ['ASML'] },
+  { name: 'Cognition', kind: 'lab', forms: ['Cognition', 'Devin'] },
+  { name: 'CoreWeave', kind: 'lab', forms: ['CoreWeave'] },
+  { name: 'Qualcomm', kind: 'lab', forms: ['Qualcomm'] },
+  { name: 'Tesla', kind: 'lab', forms: ['Tesla'] },
+  { name: 'Waymo', kind: 'lab', forms: ['Waymo'] },
+  { name: 'Micron', kind: 'lab', forms: ['Micron'] },
+  { name: 'TSMC', kind: 'lab', forms: ['TSMC', 'Taiwan Semiconductor'] },
+  { name: 'Physical Intelligence', kind: 'lab', forms: ['Physical Intelligence'] },
+  { name: 'Huawei', kind: 'lab', forms: ['Huawei'] },
+  { name: 'Sony', kind: 'lab', forms: ['Sony'] },
+  { name: 'Supermicro', kind: 'lab', forms: ['Supermicro', 'Super Micro'] },
+  { name: 'IREN', kind: 'lab', forms: ['IREN'] },
+  { name: 'OpenRouter', kind: 'lab', forms: ['OpenRouter'] },
+  { name: 'Reflection AI', kind: 'lab', forms: ['Reflection AI'] },
+  { name: 'Decart', kind: 'lab', forms: ['Decart'] },
+  { name: 'Sakana AI', kind: 'lab', forms: ['Sakana AI', 'Sakana'] },
+  { name: 'Isomorphic Labs', kind: 'lab', forms: ['Isomorphic Labs'] },
+  { name: 'Winverse AI', kind: 'lab', forms: ['Winverse AI', 'Winverse'] },
+  { name: 'Cisco', kind: 'lab', forms: ['Cisco'] },
+  // Research org behind training-compute datasets / LLM leaderboards — require
+  // the two-word form so bare “Epoch” (history) does not match.
+  { name: 'Epoch AI', kind: 'lab', forms: ['Epoch AI'] },
+  // Independent model-eval lab — two-word form only (no bare “Analysis”).
+  { name: 'Artificial Analysis', kind: 'lab', forms: ['Artificial Analysis'] },
+  // Enterprise CRM + AI cloud — distinctive single token.
+  { name: 'Salesforce', kind: 'lab', forms: ['Salesforce'] },
+  // Fei-Fei Li spatial-intelligence lab — two-word form only (no bare “World”).
+  { name: 'World Labs', kind: 'lab', forms: ['World Labs'] },
+  // Nvidia-backed Australian datacentre / AI infra — distinctive single token
+  // (no bare “Firm” so “data centre firm” alone does not match).
+  { name: 'Firmus', kind: 'lab', forms: ['Firmus'] },
+  // SpaceX AI-chip / GPU compute stories — distinctive single token
+  // (no bare “space” so unrelated space headlines do not match).
+  { name: 'SpaceX', kind: 'lab', forms: ['SpaceX'] },
+  // Indian IT / Anthropic enterprise-agentic partner — HCLTech or HCL Tech
+  // (no bare “HCL” so unrelated HCL Group headlines alone do not match).
+  { name: 'HCLTech', kind: 'lab', forms: ['HCLTech', 'HCL Tech'] },
+  // AI music / speech product — distinctive single token (no bare “sun”).
+  { name: 'Suno', kind: 'lab', forms: ['Suno'] },
+  // China-origin AI agent product (Butterfly Effect) — distinctive single token
+  // (lookaround boundaries keep “manuscripts” from matching).
+  { name: 'Manus', kind: 'lab', forms: ['Manus'] },
+  // Russia’s Yandex / YandexGPT / Yandex Cloud — datacentre and chatbot stories.
+  // Prefer Yandex* forms so bare “Russia’s Google” nicknames stay out.
+  { name: 'Yandex', kind: 'lab', forms: ['YandexGPT', 'Yandex Cloud', 'Yandex'] },
+  // TikTok product brand (distinct from ByteDance lab) — CEO / product AI stories.
+  { name: 'TikTok', kind: 'lab', forms: ['TikTok'] },
+  // Slack workspace product — AI-agent / leaked-message enterprise stories.
+  // Distinctive single token (no bare “slack” verb forms beyond word boundaries).
+  { name: 'Slack', kind: 'lab', forms: ['Slack'] },
+  // EDA / chip-design software — OpenAI and Amazon AI partnership headlines.
+  { name: 'Synopsys', kind: 'lab', forms: ['Synopsys'] },
+  // Travel marketplace — agent-to-agent / AI-photo booking stories.
+  { name: 'Airbnb', kind: 'lab', forms: ['Airbnb'] },
+  // Work-management product — browser-agent cost and Muse integration stories.
+  { name: 'Asana', kind: 'lab', forms: ['Asana'] },
+  // Bank research desk — AI model-cost and AI-financing headlines.
+  { name: 'Goldman Sachs', kind: 'lab', forms: ['Goldman Sachs'] },
+  // Crypto exchange — Qwen fraud-prevention / AI benchmark headlines.
+  { name: 'Coinbase', kind: 'lab', forms: ['Coinbase'] },
+  // Venture firm — consumer-AI / agent-startup financing headlines.
+  // Prefer a16z + full firm name (no bare “Andreessen” so person-only lines stay out).
+  { name: 'a16z', kind: 'lab', forms: ['a16z', 'Andreessen Horowitz'] },
+  // AI agent startup — Muse-rival / Personal Agent Protocol headlines.
+  // Distinctive single token (word boundaries keep “instinctively” out).
+  { name: 'Instinct', kind: 'lab', forms: ['Instinct'] },
+  // Jev decision-model maker — fundraising / Fortune-500 adoption headlines.
+  // Prefer TypeSafe* forms (no bare “safe”) so unrelated safety copy stays out.
+  { name: 'TypeSafe', kind: 'lab', forms: ['TypeSafe AI', 'Typesafe AI', 'TypeSafe'] },
+  // QSR brand — AI dynamic-pricing / franchise lawsuit headlines.
+  // Prefer McDonald’s* forms (no bare “Donald”) so unrelated names stay out.
+  { name: "McDonald's", kind: 'lab', forms: ["McDonald's", 'McDonald’s', 'McDonalds'] },
+  // Retailer — AI shopping-assistant / Personal Agent Protocol headlines.
+  { name: 'Walmart', kind: 'lab', forms: ['Walmart'] },
+  // Streaming / studio — AI layoff, salary, and datacentre-comparison headlines.
+  { name: 'Netflix', kind: 'lab', forms: ['Netflix'] },
 
   // --- model families ---
-  { name: 'GPT', kind: 'model', forms: ['GPT-3', 'GPT-4', 'GPT-4o', 'GPT-5', 'GPT-6', 'ChatGPT', 'GPT'] },
+  // GPT-6 Astra / Luna / Sol nicknames so /model/gpt clears when headlines
+  // use the product codename without a bare “GPT-6” token nearby.
+  { name: 'GPT', kind: 'model', forms: ['GPT-3', 'GPT-4', 'GPT-4o', 'GPT-5', 'GPT-6.1 Astra', 'GPT-6 Astra', 'GPT-6 Luna', 'GPT-6 Sol', 'GPT-6', 'ChatGPT', 'GPT'] },
   { name: 'o-series', kind: 'model', forms: ['o1-preview', 'o1', 'o3-mini', 'o3', 'o4-mini', 'o4'] },
-  { name: 'Claude', kind: 'model', forms: ['Claude', 'Claude Code', 'Opus', 'Sonnet', 'Haiku'] },
-  { name: 'Gemini', kind: 'model', forms: ['Gemini'] },
+  // Opus 5.5 nickname so /model/claude clears when headlines use the version
+  // string without a bare “Claude” token nearby.
+  { name: 'Claude', kind: 'model', forms: ['Claude', 'Claude Code', 'Opus 5.5', 'Opus', 'Sonnet', 'Haiku'] },
+  // Gemini 4 Argon / Carbon nicknames so /model/gemini clears when headlines
+  // use the product codename without a bare “Gemini” token nearby.
+  { name: 'Gemini', kind: 'model', forms: ['Gemini 4 Argon', 'Gemini 4 Carbon', 'Gemini 4', 'Gemini'] },
   { name: 'Gemma', kind: 'model', forms: ['Gemma'] },
   { name: 'Llama', kind: 'model', forms: ['Llama', 'LLaMA'] },
   { name: 'Grok', kind: 'model', forms: ['Grok'] },
   { name: 'Qwen', kind: 'model', forms: ['Qwen', 'Qwen2', 'Qwen3', 'QwQ'] },
-  { name: 'DeepSeek-R', kind: 'model', forms: ['DeepSeek-R1', 'DeepSeek-V3', 'DeepSeek-V4'] },
-  { name: 'Mixtral', kind: 'model', forms: ['Mixtral', 'Magistral', 'Devstral', 'Codestral'] },
+  // Bare "DeepSeek" also lands the model family (lab entity still matches too).
+  // Archive rows often only carry the lab name; model hubs re-match forms on
+  // title/summary so /model/deepseek-r stays indexable (DoomBench shape).
+  { name: 'DeepSeek-R', kind: 'model', forms: ['DeepSeek-R1', 'DeepSeek-V3', 'DeepSeek-V4', 'DeepSeek-V2', 'DeepSeek R1', 'DeepSeek V3', 'DeepSeek'] },
+  // Le Chonk / Mistral Large 4 nickname forms so /model/mixtral clears when
+  // headlines use the product nickname without “Mistral Large”.
+  { name: 'Mixtral', kind: 'model', forms: ['Mixtral', 'Magistral', 'Devstral', 'Codestral', 'Mistral Large 4', 'Mistral Large', 'Mistral Small', 'Mistral Nemo', 'Le Chonk', 'le Chonk'] },
   { name: 'Phi', kind: 'model', forms: ['Phi-3', 'Phi-4'] },
   { name: 'Command R', kind: 'model', forms: ['Command R', 'Command A'] },
   { name: 'Kimi', kind: 'model', forms: ['Kimi', 'Kimi K2'] },
-  { name: 'GLM', kind: 'model', forms: ['GLM-4', 'GLM'] },
+  // GLM-5 / GLM5.3 nickname forms so /model/glm clears when headlines
+  // omit a bare “GLM” token next to the version string.
+  { name: 'GLM', kind: 'model', forms: ['GLM-5.3', 'GLM5.3', 'GLM-5', 'GLM5', 'GLM-4', 'GLM'] },
   { name: 'Nemotron', kind: 'model', forms: ['Nemotron'] },
   { name: 'Sora', kind: 'model', forms: ['Sora'] },
   { name: 'Veo', kind: 'model', forms: ['Veo'] },
   { name: 'Whisper', kind: 'model', forms: ['Whisper'] },
   { name: 'Stable Diffusion', kind: 'model', forms: ['Stable Diffusion', 'SDXL'] },
   { name: 'FLUX', kind: 'model', forms: ['FLUX.1', 'FLUX'] },
+  { name: 'Muse Wonder', kind: 'model', forms: ['Muse Wonder', 'Muse Wonder Full'] },
+  // Microsoft’s Azure Maia / Maia 300 custom AI chip family — titles name the
+  // chip; ≥ MODEL_INDEX_MIN stories clear /model/maia (not a chip doom score).
+  { name: 'Maia', kind: 'model', forms: ['Maia 300', 'Azure Maia', 'Maia'] },
+  // OpenAI Codex coding agent — avoid bare "Codex" (too many false friends).
+  // Safe multi-word forms clear MODEL_INDEX_MIN for /model/codex.
+  { name: 'Codex', kind: 'model', forms: ['OpenAI Codex', 'Codex CLI', 'Codex Hackathon', 'ChatGPT and Codex'] },
+  // Google image-gen family — require “Nano Banana” (no bare “Banana”).
+  { name: 'Nano Banana', kind: 'model', forms: ['Nano Banana 2.1', 'Nano Banana 2', 'Nano Banana'] },
+  // TypeSafe decision-model family — titles name Jev / JEV; word boundaries
+  // keep “jevu” / unrelated tokens out. ≥ MODEL_INDEX_MIN clears /model/jev.
+  { name: 'Jev', kind: 'model', forms: ['Jev', 'JEV'] },
+  // OpenAI always-on agent product — avoid bare “Dots” (too many false friends).
+  // Safe OpenAI-anchored forms clear MODEL_INDEX_MIN for /model/dots.
+  { name: 'Dots', kind: 'model', forms: ['OpenAI Dots', "OpenAI's Dots", 'OpenAI’s Dots'] },
+  // Google DeepMind embedding family — require EmbeddingGemma (no bare Gemma clash
+  // with the existing Gemma model entity; forms are distinct product strings).
+  { name: 'EmbeddingGemma', kind: 'model', forms: ['EmbeddingGemma 2', 'EmbeddingGemma'] },
+  // Google DeepMind watermark / detector family — SynthID and SynthID Bio / Detector.
+  { name: 'SynthID', kind: 'model', forms: ['SynthID Bio', 'SynthID Detector', 'SynthID'] },
+  // Cloudflare decision-model family — Clef / Clef-omni / Clef-flash. Bare “Clef”
+  // clears MODEL_INDEX_MIN in current wire; music-clef false friends stay rare.
+  { name: 'Clef', kind: 'model', forms: ['Clef-omni', 'Clef-flash', 'Clef'] },
 ];
 
 const COMPILED = ENTITY_DEFS.map((d) => ({ name: d.name, kind: d.kind, re: surfaceRegex(d.forms) }));
@@ -89,6 +215,12 @@ const COMPILED = ENTITY_DEFS.map((d) => ({ name: d.name, kind: d.kind, re: surfa
 /** Canonical names and kinds, without the surface-form matchers. */
 export function publishedEntities() {
   return ENTITY_DEFS.map(({ name, kind }) => ({ name, kind }));
+}
+
+/** Compiled surface-form matcher for one published entity name, or null. */
+export function entityMatchRegex(name) {
+  const row = COMPILED.find((e) => e.name === name);
+  return row ? row.re : null;
 }
 
 /** Stable URL slug for a canonical entity name (`DeepSeek-R` → `deepseek-r`). */
@@ -145,19 +277,6 @@ const AI_TOKENS = surfaceRegex([
   'open weights', 'training run', 'tokens', 'benchmark', 'H100', 'H200', 'B200', 'GB200', 'MI300',
   'robotaxi', 'humanoid', 'prompt injection', 'model weights',
 ]);
-
-/**
- * Adult / porn-spam headlines. Google News and other aggregators occasionally
- * surface SEO spam ("... secret porno clips ... xxx ...") that matches an AI
- * token. Nothing on this list belongs in the newsroom, so it is dropped before
- * scoring regardless of source.
- */
-// Spam vocabulary only: legitimate reporting on deepfake porn uses "porn",
-// not "porno"/"xxx"/"sex movie", so this does not drop real news about abuse.
-const ADULT_RE = /\b(porno\w*|xxx+|sex\s*(movie|video|tape|clip|scene)s?|hentai|milfs?|camgirls?)\b/i;
-export function isAdultSpam(text) {
-  return !!text && ADULT_RE.test(String(text));
-}
 
 export function isAiRelevant(text) {
   if (!text) return false;

@@ -11,6 +11,7 @@
 
 import { pixelText } from './templates/_pixel.mjs';
 import { SEARCH_CORE_JS } from './searchcore.mjs';
+import { homeCrumbName } from './templates/_seo.mjs';
 
 export const HEADER_MARK = 'data-siteheader';
 export const NAV_JS_PATH = 'nav/site-nav.js';
@@ -35,22 +36,23 @@ export const PRIMARY = [
 // at the top of the room finder and as a strip on the homepage. Newest first;
 // keep it to about six so it stays a highlight reel, not a second menu.
 export const WHATS_NEW = [
-  ['/#readers', 'globe', 'Where readers are', 'A daily map of SIREN readers by country, from GoatCounter.'],
-  ['/nations.html', 'px:tugofwar', 'USA vs China', 'The nations race to superintelligence, scored live.'],
-  ['/labs.html', 'px:beaker', 'SIREN Labs', 'This week’s experiments in measuring superintelligence.'],
-  ['/games.html', 'px:joystick', 'The Arcade', 'Every SIREN game in one place, one click from any page.'],
-  ['/evolution.html', 'px:logbook', 'The Evolution Log', 'Every reading, news pick and Moltbook scan, kept day by day.'],
-  ['/charts.html', 'px:trendchart', 'This week in charts', 'Live AI odds, the SIREN trend and the power race, each with an X post.'],
-  ['/power.html', 'px:pylon', 'The power race', 'Who makes the most electricity: China vs the US, per person, fastest growing.'],
-  ['/threats.html', 'px:threatshield', 'Threat board', 'Exploited software, botnets, solar storms and disasters, live.'],
-  ['/self-aware.html', 'px:redeye', 'The night it wakes up', 'The Skynet scenario, played out on a map of real US data centres.'],
-  ['/status.html', 'px:statuspulse', 'Is ChatGPT down?', 'Live status of ChatGPT, Claude, Copilot, Cursor and more, every minute.'],
-  ['/waffle.html', 'px:hurricane', 'Waffle House Index', 'Is the Waffle House open? Storms, waffles and AI data centres.'],
-  ['/live.html', 'px:onair', 'AI on TV & radio', 'Live AI streams, news-channel segments and AI talk radio.'],
-  ['/si-watch.html#coding', 'px:agentcode', 'What AI agents are coding', 'Live: agent pull requests by kind of work, language and repo.'],
-  ['/day-after.html', 'px:flame', 'The Day After', 'Game out the public revolt after an AI catastrophe.'],
-  ['/dispatch.html', 'px:seismo', 'Live alerts', 'Big quakes and extreme weather within about a minute.'],
-  ['/leaders.html', 'px:headline', 'Leaders in the news', 'Every AI boss’s coverage, refreshed every 15 minutes.'],
+  ['/#readers', 'px:film', 'Where are SIREN readers?', 'A daily map of SIREN readers by country, from GoatCounter.'],
+  ['/nations.html', 'px:tugofwar', 'USA vs China: who is winning the race to superintelligence?', 'The nations race to superintelligence, scored live.'],
+  ['/labs.html', 'px:beaker', 'What is SIREN Labs measuring this week?', 'This week’s experiments in measuring superintelligence.'],
+  ['/games.html', 'px:joystick', 'What free AI games can you play on SIREN?', 'Every SIREN game in one place, one click from any page.'],
+  ['/evolution.html', 'px:logbook', 'How has AI activity moved day by day?', 'Every reading, news pick and Moltbook scan, kept day by day.'],
+  ['/charts.html', 'px:trendchart', 'What AI charts does SIREN publish?', 'Live AI odds, the SIREN trend and the power race, each with an X post.'],
+  ['/power.html', 'px:pylon', 'Who makes the most electricity (China vs US)?', 'Who makes the most electricity: China vs the US, per person, fastest growing.'],
+  ['/threats.html', 'px:threatshield', 'What could take the machines offline tonight?', 'Exploited software, botnets, solar storms and disasters, live.'],
+  ['/self-aware.html', 'px:redeye', 'What if an AI wakes up at 2:14 a.m.?', 'The Skynet scenario, played out on a map of real US data centres.'],
+  ['/status.html', 'px:statuspulse', 'Is ChatGPT down? Is Claude down?', 'Live status of ChatGPT, Claude, Copilot, Cursor and more, every minute.'],
+  ['/p-doom.html#voices', 'px:pclock', 'What is p(doom)?', '28 named estimates, Hinton to Yudkowsky, and a dial to set yours.'],
+  ['/waffle.html', 'px:hurricane', 'Is the Waffle House open?', 'Is the Waffle House open? Storms, waffles and AI data centres.'],
+  ['/live.html', 'px:onair', 'What AI is on TV and radio right now?', 'Live AI streams, news-channel segments and AI talk radio.'],
+  ['/si-watch.html#coding', 'px:agentcode', 'What AI autonomy signals is SIREN watching?', 'Live: agent pull requests by kind of work, language and repo.'],
+  ['/day-after.html', 'px:flame', 'What happens the day after an AI catastrophe?', 'Game out the public revolt after an AI catastrophe.'],
+  ['/dispatch.html', 'px:seismo', 'What public feeds does SIREN Dispatch show?', 'Big quakes and extreme weather within about a minute.'],
+  ['/leaders.html', 'px:headline', 'Which AI leaders are on the record this week?', 'Every AI boss’s coverage, refreshed every 15 minutes.'],
 ];
 
 const esc = (v) => String(v ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -191,6 +193,9 @@ export const RAIL = [
   ['/contain.html', 'px:core', 'Containment (arcade)'],
   ['/self-aware.html', 'px:redeye', 'The night it wakes up'],
   ['/day-after.html', 'px:megaphone', 'The Day After'],
+  ['/arena.html#battle', 'stocks', 'AI Battle'],
+  ['/bets.html', 'dice', "Tally's Bets"],
+  ['/p-doom.html#voices', 'px:pclock', 'Set your p(doom)'],
   '|',
   ['/radio.html', 'px:radio', 'SIREN Radio'],
 ];
@@ -265,7 +270,7 @@ export function relatedHtml(rooms, rel, base = '') {
   const pn = prev || next ? `<div class="sh-pn">${prev ? `<a href="${esc(base + prev[0])}" data-sh-prev rel="prev"><small>← Previous · [</small><b>${esc(prev[2])}</b></a>` : ''}${next ? `<a href="${esc(base + next[0])}" data-sh-next rel="next"><small>Next · ] →</small><b>${esc(next[2])}</b></a>` : ''}</div>` : '';
   return `
 <nav class="sh-rel" ${HEADER_MARK}-rel aria-label="You are here">
-<ol class="sh-crumb"><li><a href="${esc(`${base}/`)}">Home</a></li><li><a href="${esc(`${base}/#rooms`)}" data-sh-rooms-group="${esc(group)}">${esc(gTitle)}</a></li><li><span aria-current="page">${esc(label)}</span></li></ol>
+<ol class="sh-crumb"><li><a href="${esc(`${base}/`)}">${esc(homeCrumbName())}</a></li><li><a href="${esc(`${base}/#rooms`)}" data-sh-rooms-group="${esc(group)}">${esc(gTitle)}</a></li><li><span aria-current="page">${esc(label)}</span></li></ol>
 ${pn}
 ${pick.length ? `<p class="sh-rel__h">Related rooms · ${esc(gTitle)}</p>
 <div class="sh-rel__g">${pick.map(([h, art, l, b]) => `<a class="sh-rel__a" href="${esc(base + h)}"><img src="${esc(imgOf(base, art))}" width="40" height="40" alt="" loading="lazy" decoding="async"><span><b>${esc(l)}</b><small>${esc(b)}</small></span></a>`).join('')}</div>` : ''}
@@ -293,7 +298,8 @@ function build(){
   if(secs.length){h+='<li class="sh-rooms__g">ON THIS PAGE</li>';secs.forEach(function(s){var l=s.getAttribute('data-sec');h+='<li><a class="sh-rooms__i" href="#'+e(s.id)+'" data-k="'+e((l+' on this page section').toLowerCase())+'"><span><b>'+e(l)+'</b><small>On this page</small></span></a></li>'})}
   // Home first, then the rooms you used last, then every group once.
   var homeK='index home war room level score dashboard';
-  h+='<li><a class="sh-rooms__i sh-rooms__i--p" href="'+e(D.base+'/')+'" data-k="'+homeK+'"'+(cur('/')?' aria-current="page"':'')+'><img src="'+e(img('siren'))+'" width="34" height="34" alt="" loading="lazy"><span><b>Index</b><small>The level, the score and the war room</small></span></a></li>';
+  // Tip #258: rooms-dialog home row matches the live home title (not bare “Index”).
+  h+='<li><a class="sh-rooms__i sh-rooms__i--p" href="'+e(D.base+'/')+'" data-k="'+homeK+'"'+(cur('/')?' aria-current="page"':'')+'><img src="'+e(img('siren'))+'" width="34" height="34" alt="" loading="lazy"><span><b>${homeCrumbName().replace(/\\/g, '\\\\').replace(/'/g, "\\'")}</b><small>The level, the score and the war room</small></span></a></li>';
   var byP={},uniq=[],seenP={};D.rooms.forEach(function(r){var k=r[0].split('#')[0];if(!byP[r[0]])byP[r[0]]=r;if(seenP[r[0]])return;seenP[r[0]]=1;uniq.push(r)});
   var rec=recent().filter(function(p){return byP[p]&&!cur(p)}).slice(0,5);
   if(rec.length){h+='<li class="sh-rooms__g sh-rooms__g--rec">RECENT</li>';rec.forEach(function(p){var r=byP[p];h+='<li><a class="sh-rooms__i sh-rooms__i--p" href="'+e(D.base+r[0])+'" data-k="'+e((r[2]+' '+r[3]).toLowerCase())+'"><img src="'+e(img(r[1]))+'" width="34" height="34" alt="" loading="lazy"><span><b>'+e(r[2])+'</b><small>'+e(r[3])+'</small></span></a></li>'})}
@@ -302,7 +308,8 @@ function build(){
   uniq.forEach(function(r){if(r[4]!==g){g=r[4];groups.push(g);h+='<li class="sh-rooms__g" id="shg-'+groups.length+'">'+e(g)+'</li>'}h+='<li><a class="sh-rooms__i" href="'+e(D.base+r[0])+'" data-k="'+e((r[2]+' '+r[3]+' '+r[4]).toLowerCase())+'"'+(cur(r[0])?' aria-current="page"':'')+'><img src="'+e(img(r[1]))+'" width="34" height="34" alt="" loading="lazy"><span><b>'+e(r[2])+'</b><small>'+e(r[3])+'</small></span></a></li>'});
   // Group chips: jump straight to a section of the list.
   h=h.replace('<ul class="sh-rooms__l">','<nav class="sh-rooms__chips" aria-label="Jump to a group">'+groups.map(function(x,i){return '<button type="button" data-shg="'+(i+1)+'">'+e(x.charAt(0)+x.slice(1).toLowerCase())+'</button>'}).join('')+'</nav><ul class="sh-rooms__l">');
-  h+='</ul><p class="sh-rooms__k">↑ ↓ move · Enter open · Esc close · / anywhere · [ ] prev/next room · <a href="'+e(D.base)+'/search.html" style="color:#A5B4FC">full search</a> · <a href="'+e(D.base)+'/catalog.html" style="color:#A5B4FC">catalog</a></p></div>';
+  // Tip #256: keyboard-help links match destination H1s (search + catalog).
+  h+='</ul><p class="sh-rooms__k">↑ ↓ move · Enter open · Esc close · / anywhere · [ ] prev/next room · <a href="'+e(D.base)+'/search.html" style="color:#A5B4FC">How do you search everything on SIREN?</a> · <a href="'+e(D.base)+'/catalog.html" style="color:#A5B4FC">Where is everything on SIREN listed?</a></p></div>';
   dlg.innerHTML=h;document.body.appendChild(dlg);
   q=dlg.querySelector('.sh-rooms__q');stat=items=[].slice.call(dlg.querySelectorAll('.sh-rooms__i'));
   q.addEventListener('input',filt);
@@ -325,7 +332,8 @@ function dyn(k){
   var h='';
   if(SXrows&&raw.length>=2){var hits=window.sirenSearch.search(SXrows,raw).filter(function(x){return !roomSet[x.it[2]]}).slice(0,6);
     if(hits.length){h+='<li class="sh-rooms__g sh-dyn">ACROSS THE SITE</li>';hits.forEach(function(x){var it=x.it,ext=/^https?:/.test(it[2]);h+='<li class="sh-dyn"><a class="sh-rooms__i" href="'+e(ext?it[2]:D.base+it[2])+'"'+(ext?' target="_blank" rel="noopener"':'')+'><img src="'+e(sxImg(it))+'" width="34" height="34" alt="" loading="lazy"><span><b>'+window.sirenSearch.hl(it[1],raw)+'</b><small>'+e(((SX.types&&SX.types[it[0]])||it[0])+(it[3]?' · '+it[3]:''))+'</small></span></a></li>'})}}
-  h+='<li class="sh-dyn"><a class="sh-rooms__i sh-rooms__i--x" href="'+e(D.base+'/search.html?q='+encodeURIComponent(raw))+'"><span><b>Search everything for “'+e(raw)+'” →</b><small>Rooms, stories, leaders, videos, data and feeds</small></span></a></li>';
+  // Tip #260: handoff row uses the search page H1, not bare “Search everything”.
+  h+='<li class="sh-dyn"><a class="sh-rooms__i sh-rooms__i--x" href="'+e(D.base+'/search.html?q='+encodeURIComponent(raw))+'"><span><b>How do you search everything on SIREN? “'+e(raw)+'” →</b><small>Rooms, stories, leaders, videos, data and feeds</small></span></a></li>';
   ul.insertAdjacentHTML('beforeend',h);
   return [].slice.call(ul.querySelectorAll('.sh-dyn .sh-rooms__i'));
 }

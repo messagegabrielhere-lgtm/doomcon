@@ -20,6 +20,7 @@
 
 import { esc, utc, signed } from './_html.mjs';
 import { pillarTag, pillarSprite, pillarCss } from './_reel.mjs';
+import * as brand from '../brand.mjs';
 
 // How many moved pillars get a chip before the rest collapse into a count.
 // Five chips plus a composite chip wrap to three rows at 375px; four is the
@@ -48,14 +49,16 @@ export function render(ctx) {
     ? liveBody(d, diff)
     : baselineBody(d, diff);
 
+  // Tip #327: section H2 is question-shaped; homepage FAQ mirrors it (§3.3).
+  const changedQ = 'What changed since the last reading?';
   return `${styleTag()}
 <section class="wc" aria-labelledby="wc-h">
   <div class="wc__head">
-    <h2 class="wc__h" id="wc-h">What changed</h2>
+    <h2 class="wc__h" id="wc-h">${esc(changedQ)}</h2>
     <p class="wc__ref">${refLine(d, diff)}</p>
   </div>
   ${body}
-  <p class="wc__more"><a href="${esc(href)}">The full brief, the streaks and the per-lab rollups &rarr;</a></p>
+  <p class="wc__more"><a href="${esc(href)}">What is the ${esc(brand.NAME)} daily brief?</a></p>
 </section>`;
 }
 

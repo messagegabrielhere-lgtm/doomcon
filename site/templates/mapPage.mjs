@@ -42,6 +42,7 @@
 
 import { esc, utc, num } from './_html.mjs';
 import { page } from './layout.mjs';
+import { breadcrumbs, speakable } from './_seo.mjs';
 import * as brand from '../brand.mjs';
 // mapTable is deliberately NOT imported. _usmap.mjs still exports it and it is
 // still correct; this page now renders its own jurisdiction table instead,
@@ -196,8 +197,9 @@ function plainSentence(dc, model) {
 
 function theClaim(dc) {
   const copy = dc.copy || {};
+  const claimQ = 'What can this US map not show you?';
   return `<section class="bldwarn" aria-labelledby="bld-claim">
-  <h2 class="bldwarn__h" id="bld-claim">${icon('sec-method')} What this map cannot show you</h2>
+  <h2 class="bldwarn__h" id="bld-claim">${icon('sec-method')} ${esc(claimQ)}</h2>
   <p class="bldwarn__p bldwarn__p--lead">${esc(copy.the_claim_and_its_size || '')}</p>
   <p class="bldwarn__p"><b>${esc(copy.empty_state || '')}</b> OpenStreetMap coverage is volunteer-maintained
      and uneven. Virginia has ${esc(N((dc.counts && dc.counts.by_state && dc.counts.by_state.VA && dc.counts.by_state.VA.total) || 0))}
@@ -223,13 +225,13 @@ function theClaim(dc) {
 
 const JUMPS = [
   { href: '#what-moves', label: 'What moves', icon: 'sec-substrate' },
-  { href: '#the-map', label: 'The map', icon: 'sec-map' },
-  { href: '#one-pin', label: 'One pin', icon: 'operating' },
-  { href: '#the-water', label: 'The water', icon: 'drop' },
-  { href: '#the-power', label: 'The power', icon: 'sec-substrate' },
+  { href: '#the-map', label: 'Where are the mapped US datacentres?', icon: 'sec-map' },
+  { href: '#one-pin', label: 'What does one pin say?', icon: 'operating' },
+  { href: '#the-water', label: 'Which counties are in drought?', icon: 'drop' },
+  { href: '#the-power', label: 'Which grid sits under each pin?', icon: 'sec-substrate' },
   { href: '#by-state', label: 'By state', icon: 'rows' },
-  { href: '#largest', label: 'Largest tagged', icon: 'under_construction' },
-  { href: '#method', label: 'Method &amp; limits', icon: 'sec-method' },
+  { href: '#largest', label: 'Which are the largest tagged sites?', icon: 'under_construction' },
+  { href: '#method', label: 'How was this US map built?', icon: 'sec-method' },
 ];
 
 function jumpNav() {
@@ -281,8 +283,9 @@ function waterSection(dc, model) {
     if (r && Object.prototype.hasOwnProperty.call(rel, r)) rel[r] += 1;
   }
 
+  const waterQ = 'Which counties with mapped sites are in drought?';
   return `<section class="bldsec" id="the-water" aria-labelledby="bld-water">
-  <h2 class="bldsec__h" id="bld-water">${icon('drop')} Drought, by county<span class="sec__eb">The water</span></h2>
+  <h2 class="bldsec__h" id="bld-water">${icon('drop')} ${esc(waterQ)}<span class="sec__eb">The water</span></h2>
   <p class="bldsec__l">Drought is the resource this map can actually carry, because the US Drought Monitor
      publishes it by county and every pin has a county. It is the colour of every dot above.
      <b>${esc(N(t.inDrought))} of ${esc(N(t.sites))}</b> pins stand in a county carrying a category on the
@@ -292,8 +295,8 @@ function waterSection(dc, model) {
 
   <p class="bldsec__n">${esc((dc.honesty && dc.honesty[4]) || '')}</p>
 
-  <h3 class="bldsec__h3">The nine river gauges</h3>
-  <p class="bldsec__l">The same nine USGS gauges <a href="${esc(ctxHrefPlaceholder)}">Watts</a> reads, each one beside a named
+  <h3 class="bldsec__h3">Which nine river gauges sit beside datacentre clusters?</h3>
+  <p class="bldsec__l">The same nine USGS gauges <a href="${esc(ctxHrefPlaceholder)}">What does the ${esc(brand.NAME)} infrastructure index read?</a> reads, each one beside a named
      datacentre cluster, measured against that gauge's own long-run median for this day of the year.
      ${esc(N(rel.local))} of ${esc(N(t.sites))} pins have one within 50 km; ${esc(N(rel.regional))} are regional and
      ${esc(N(rel.distant))} are distant. A gauge 800 km away describes a different watershed, and every pin
@@ -339,8 +342,9 @@ function powerSection(dc, model) {
     </li>`;
   };
 
+  const powerQ = 'Which grid sits under each pin?';
   return `<section class="bldsec" id="the-power" aria-labelledby="bld-power">
-  <h2 class="bldsec__h" id="bld-power">${icon('sec-substrate')} The grid under each pin<span class="sec__eb">The power</span></h2>
+  <h2 class="bldsec__h" id="bld-power">${icon('sec-substrate')} ${esc(powerQ)}<span class="sec__eb">The power</span></h2>
   <p class="bldsec__l">Every pin is assigned to the balancing authority that runs its state's grid, with named
      county exceptions where that is wrong. Three of those authorities publish a real-time number without an
      account, and they cover <b>${esc(N(t.withGridReading))} of ${esc(N(t.sites))}</b> pins.
@@ -348,7 +352,7 @@ function powerSection(dc, model) {
      is not one of them.` : ''}</p>
   <p class="bldsec__l">A blank cell reads as an oversight. A named wall reads as a boundary of the instrument,
      which is what it is. Every grid below with no number says why in its own words, and those words are the
-     same ones <a href="${esc(ctxHrefPlaceholder)}">Watts</a> prints for the same grid.</p>
+     same ones <a href="${esc(ctxHrefPlaceholder)}">What does the ${esc(brand.NAME)} infrastructure index read?</a> prints for the same grid.</p>
   <ul class="bldgs">${withFeed.map(card).join('')}${without.map(card).join('')}</ul>
   <p class="bldsec__n"><b>A balancing authority is not a state, and this table treats it as one.</b>
      ${esc((dc.grid_table && dc.grid_table.caveat) || '')}. El Paso and Hudspeth, the far Panhandle, east Texas,
@@ -415,8 +419,9 @@ function joinedExamples(dc, model) {
     </li>`;
   }).join('');
 
+  const pinQ = 'What does one pin say?';
   return `<section class="bldsec" id="one-pin" aria-labelledby="bld-onepin">
-  <h2 class="bldsec__h" id="bld-onepin">${icon('operating')} What one pin says</h2>
+  <h2 class="bldsec__h" id="bld-onepin">${icon('operating')} ${esc(pinQ)}</h2>
   <p class="bldsec__l">A dot is not an argument. This is what is behind one, for each of the three grids
      that publish a number without an account, plus the grid carrying the most pins on this map — which
      publishes nothing. Each line is the site's own stable sentence, then the live grid reading for the grid
@@ -458,8 +463,9 @@ function largestSection(dc, model) {
     .slice(0, 12);
 
   if (!tagged.length) {
+    const largestQ = 'Which are the largest tagged sites?';
     return `<section class="bldsec" id="largest" aria-labelledby="bld-largest">
-  <h2 class="bldsec__h" id="bld-largest">${icon('under_construction')} The largest tagged sites</h2>
+  <h2 class="bldsec__h" id="bld-largest">${icon('under_construction')} ${esc(largestQ)}</h2>
   <p class="bldsec__l">No site in this build carries an IT-power tag. That is a statement about
      OpenStreetMap's tagging, not about the buildings.</p>
 </section>`;
@@ -480,8 +486,9 @@ function largestSection(dc, model) {
   }).join('');
 
   const total = (dc.counts && dc.counts.with_capacity_tag) || tagged.length;
+  const largestQ = 'Which are the largest tagged sites?';
   return `<section class="bldsec" id="largest" aria-labelledby="bld-largest">
-  <h2 class="bldsec__h" id="bld-largest">${icon('under_construction')} The largest tagged sites</h2>
+  <h2 class="bldsec__h" id="bld-largest">${icon('under_construction')} ${esc(largestQ)}</h2>
   <p class="bldsec__l">The ${tagged.length} biggest of the <b>${esc(N(total))}</b> sites carrying an IT-power
      tag — two per cent of the map. This is not a ranking of the largest datacentres in the United States.
      It is a ranking of the ones a volunteer typed a megawatt figure into. Each line is the site's own stable
@@ -527,19 +534,20 @@ function methodSection(ctx, dc, model) {
   )).join('');
   const honesty = (dc.honesty || []).map((h) => `<li>${esc(h)}</li>`).join('');
 
+  const methodQ = 'How was this US map built, and what is wrong with it?';
   return `<section class="bldsec" id="method" aria-labelledby="bld-method">
-  <h2 class="bldsec__h" id="bld-method">${icon('sec-method')} How this was built, and what is wrong with it</h2>
+  <h2 class="bldsec__h" id="bld-method">${icon('sec-method')} ${esc(methodQ)}</h2>
 
-  <h3 class="bldsec__h3">Status, in words</h3>
+  <h3 class="bldsec__h3">What does each status mean in words?</h3>
   <ul class="bldleg">${statusLegend}</ul>
-  <h3 class="bldsec__h3">Confidence, in words</h3>
+  <h3 class="bldsec__h3">What does each confidence level mean in words?</h3>
   <p class="bldsec__l">Confidence is a statement about the <b>record</b>, not about the building.</p>
   <ul class="bldleg bldleg--plain">${confLegend}</ul>
 
-  <h3 class="bldsec__h3">The sources</h3>
+  <h3 class="bldsec__h3">What are the sources for this map?</h3>
   ${sourceTable(dc)}
 
-  <h3 class="bldsec__h3">Every limitation, in full</h3>
+  <h3 class="bldsec__h3">What are the limitations, in full?</h3>
   <ol class="bldlim">${honesty}</ol>
   <p class="bldsec__n">Two of the sources share one host, and the whole existing half of this map depends on a
      single volunteer-run Overpass instance. Three mirrors and a seven-day disk cache are the only redundancy
@@ -547,7 +555,7 @@ function methodSection(ctx, dc, model) {
      county line can land in the neighbouring county; ${esc(N(dc.sites.filter((s) => s.county_boundary_risk).length))}
      pins carry that flag.</p>
 
-  <h3 class="bldsec__h3">What was tried and dropped</h3>
+  <h3 class="bldsec__h3">What was tried and dropped?</h3>
   <p class="bldsec__l">The Federal Register names no datacentre projects: of 437 documents whose full text
      carries the phrase over eighteen months, four have it in the title and not one of them is a project — a
      flight-data web portal, a paediatric emergency data repository, a permitting executive order and a
@@ -576,7 +584,7 @@ function methodSection(ctx, dc, model) {
 function siblingCard(ctx) {
   return `<aside class="bldsib">
   <p class="bldsib__k">Same subject, different instrument</p>
-  <h2 class="bldsib__h"><a href="${esc(ctx.href('/watts.html'))}">The infrastructure index</a></h2>
+  <h2 class="bldsib__h"><a href="${esc(ctx.href('/watts.html'))}">What does the ${esc(brand.NAME)} infrastructure index read?</a></h2>
   <p class="bldsib__p">This page asks <b>where the buildings are</b>. Watts asks <b>how the substrate is
      holding up</b>: grid overnight floors in three control regions, streamflow at the nine gauges above,
      drought across ten states, and the SEC and Federal Register paper trail, scored on to a five-stop scale.
@@ -1066,9 +1074,11 @@ function movesPanel(dc, model) {
     </li>`;
   }).join('');
 
+  // Tip #388: moves-panel H3 is question-shaped (mirrored in FAQ §3.3).
+  const movesQ = 'What moves between collects?';
   return `<section class="dcmv" aria-labelledby="bld-moves">
   <div class="dcmv__hd">
-    <h3 class="dcmv__h" id="bld-moves">${icon('sec-substrate')} What moves between collects</h3>
+    <h3 class="dcmv__h" id="bld-moves">${icon('sec-substrate')} ${esc(movesQ)}</h3>
     <p class="dcmv__sub">${esc(N(live.length))} of ${esc(N(model.gridRows.length))} balancing authorities
       publish a number without an account. These are the only figures on this page that can differ from the
       ones you saw last time.</p>
@@ -1244,7 +1254,7 @@ function consoleBlock(dc, model, joint) {
            ${esc(N(model.totals.pinned))} pins on a 343-pixel map is a smudge, and a smudge that cannot be
            read still looks authoritative. The controls above and the table below carry every channel the
            map encodes except position.</p>
-        <h3 class="bldsec__h3 bldstate__h">${icon('rows')} Every jurisdiction, ranked
+        <h3 class="bldsec__h3 bldstate__h" aria-label="Every jurisdiction, ranked">${icon('rows')} Which jurisdictions are ranked by mapped sites?
           <span class="bldcount num">${esc(N(model.states.length))}</span></h3>
         <p class="bldsec__l">Every state in the contiguous frame, ranked by mapped sites. The states at the
            bottom with a zero are the point of this table.</p>
@@ -1353,9 +1363,11 @@ export function render(ctx) {
   const t = model.totals;
 
   const headline = `${N(c.sites)} datacentres mapped, ${N(t.droughtD1)} of them in a county in drought`;
+  const title = `How many datacentres has ${brand.NAME} mapped in the United States?`;
+  const pctDrought = c.sites ? Math.round((t.droughtD1 / c.sites) * 100) : 0;
 
   const description =
-    `Every datacentre OpenStreetMap has mapped in the United States — ${N(c.sites)} sites, ` +
+    `How many datacentres has ${brand.NAME} mapped in the United States? ${N(c.sites)} OpenStreetMap sites, ` +
     `${N((c.by_status || {}).under_construction)} under construction, ${N((c.by_status || {}).announced)} proposed — ` +
     `joined to the US Drought Monitor category of the county each one sits in, the nearest of nine USGS river ` +
     `gauges, and the grid it draws from. ${N(t.droughtD1)} pins stand in a county in drought; ` +
@@ -1363,12 +1375,77 @@ export function render(ctx) {
     `Nothing here measures a datacentre's power or water draw, and the page says so above the map. ` +
     `Compiled ${utc(dc.generated_at)}.`;
 
+  // Tip #300: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const claimQ = 'What can this US map not show you?';
+  const mapQ = 'Where are the mapped US datacentres?';
+  const waterQ = 'Which counties with mapped sites are in drought?';
+  const powerQ = 'Which grid sits under each pin?';
+  const pinQ = 'What does one pin say?';
+  const largestQ = 'Which are the largest tagged sites?';
+  const methodQ = 'How was this US map built, and what is wrong with it?';
+  // FAQ answers restate hero / claim copy only (FINDABILITY §3.3).
+  const faq = [
+    [title,
+      `${N(c.sites)} datacentres have been mapped in the United States by OpenStreetMap volunteers; ${N(t.droughtD1)} of them — ${pctDrought}% — stand in a county the US Drought Monitor placed in drought (D1 or worse) this week. This is a map of buildings, not of electricity.`],
+    [claimQ,
+      `Nothing here measures a datacentre's power or water draw. Capacity is tagged on a small share of sites, so no total megawatt figure is printed. "Operating" means the building exists — not that servers are in it.`],
+    [mapQ,
+      `Three controls sit on top of this picture and none of them needs JavaScript: shape, colour, and jurisdiction. ${N(t.pinned)} pins are on the map.`],
+    [waterQ,
+      `Drought is the resource this map can actually carry, because the US Drought Monitor publishes it by county and every pin has a county. ${N(t.inDrought)} of ${N(t.sites)} pins stand in a county carrying a drought category.`],
+    [powerQ,
+      `Every pin is assigned to the balancing authority that runs its state's grid. Three of those authorities publish a real-time number without an account.`],
+    [pinQ,
+      `A dot is not an argument. This is what is behind one, for each of the three grids that publish a number without an account, plus the grid carrying the most pins on this map.`],
+    [largestQ,
+      `A ranking of sites carrying an IT-power tag — a sample of a sample of the map, not a ranking of the largest datacentres in the United States.`],
+    [methodQ,
+      `Status and confidence are stated in words. Every limitation is published in full. This does not feed the main ${brand.NAME} number.`],
+    // Tip #337: method / water H3s are question-shaped and mirrored in FAQ (§3.3).
+    ['Which nine river gauges sit beside datacentre clusters?',
+      `The same nine USGS gauges the infrastructure index reads, each beside a named datacentre cluster, measured against that gauge's own long-run median for this day of the year. Flow is a statement about rainfall and reservoir operation, not about consumption.`],
+    ['What does each status mean in words?',
+      'Status marks on this map are stated in words in the method section — operating, planned, and the other recorded states — as labels for mapped buildings, not for server load.'],
+    ['What does each confidence level mean in words?',
+      'Confidence is a statement about the record, not about the building. High, medium and low are defined in the method section.'],
+    ['What are the sources for this map?',
+      'The method section lists every source this map reads, including OpenStreetMap Overpass and the drought and streamflow joins.'],
+    ['What are the limitations, in full?',
+      'Every limitation is published in the method section, including Overpass dependency, county-line geocoding risk, and that this page does not feed the main index.'],
+    ['What was tried and dropped?',
+      'Federal Register full-text search, SEC address geocoding as pins, and full OpenStreetMap geometry were tried and dropped for the reasons stated in the method section.'],
+    // Tip #346: map legend H3s are question-shaped and mirrored in FAQ (§3.3).
+    ['What does shape mean on this map?',
+      'Shape is status. Distinguishable in greyscale and in a screenshot. Status is read from the OpenStreetMap tag that set it, and every pin carries that tag in the JSON.'],
+    ['What does colour mean on this map?',
+      'Colour is the drought in that county. US Drought Monitor categories are printed in words beside the ramp so a reader who cannot separate two hues still gets the number.'],
+    ['What does size mean on this map?',
+      'Size is capacity, where it is published. A fixed dot means known site with capacity unpublished; a ringed and scaled pin means an IT-power tag exists.'],
+    [`Does this map measure a datacentre's power or water draw?`,
+      `No. Nothing here measures a datacentre's power or water draw, and the page says so above the map. What any of these buildings actually draws is not published by anyone.`],
+    [`Does a state with no pins have zero datacentres?`,
+      copy.empty_state || 'A state with no pins is a state nobody has mapped. It is not a state with no datacentres.'],
+    [`Does the US map feed the main ${brand.NAME} number?`,
+      `No. This page is a ${brand.NAME} sub-index. It draws, joins, and counts mapped sites — it does not feed the hourly activity index.`],
+    [`Does ${brand.NAME} publish a US-map doom score?`,
+      `No. ${brand.DISCLAIMER_SHORT} The US map counts OpenStreetMap datacentre sites joined to drought and grid data — not a probability of harm.`],
+    // Tip #381: jurisdiction-table H3 is question-shaped and mirrored in FAQ (§3.3).
+    ['Which jurisdictions are ranked by mapped sites?',
+      'Every state in the contiguous frame, ranked by mapped sites. The states at the bottom with a zero are the point of this table.'],
+    // Tip #388: moves-panel H3 is question-shaped and mirrored in FAQ (§3.3).
+    ['What moves between collects?',
+      'Balancing authorities that publish a number without an account. These are the only figures on this page that can differ from the ones you saw last time. This page does not feed the main index.'],
+  ];
+  const faqHtml = faq.map(([qAsk, a]) => `
+  <h3>${esc(qAsk)}</h3>
+  <p>${esc(a)}</p>`).join('');
+
   const main = `<style>${usMapCss()}${mapCss()}${consoleCss(model)}</style>
 ${iconSprite({ only: SPRITE })}
 <div class="usm-scope bld">
 <section class="bldhero">
   <p class="bldhero__eyebrow">${esc(copy.name || 'The Build')} · a ${esc(brand.NAME)} sub-index · does not feed the main number</p>
-  <h1 class="bldhero__h1">Every mapped US datacentre</h1>
+  <h1 class="bldhero__h1">How many datacentres has ${esc(brand.NAME)} mapped in the United States?</h1>
   <p class="bldhero__sub">${esc(copy.question || '')}</p>
   <p class="bldhero__lede">${esc(copy.standfirst || '')}</p>
   <p class="bldhero__plain">${plainSentence(dc, model)}</p>
@@ -1384,7 +1461,7 @@ ${jumpNav()}
 </section>
 
 <section class="bldsec" id="the-map" aria-labelledby="bld-map">
-  <h2 class="bldsec__h" id="bld-map">${icon('sec-map')} The map
+  <h2 class="bldsec__h" id="bld-map">${icon('sec-map')} ${esc(mapQ)}
     <span class="bldcount num">${esc(N(t.pinned))}</span></h2>
   <p class="bldsec__l">Three controls sit on top of this picture and none of them needs JavaScript: shape,
      colour, and one of ${esc(N(model.states.length))} jurisdictions. They dim the map rather than cutting
@@ -1405,18 +1482,40 @@ ${largestSection(dc, model)}
 
 ${methodSection(ctx, dc, model)}
 
+<section class="bldfaq" aria-labelledby="faq">
+  <h2 id="faq">What questions do people actually ask?</h2>
+  ${faqHtml}
+  <p class="bldfaq__key">Search-shaped sibling:
+    <a href="${esc(ctx.href('/world.html'))}">How many datacentres has ${esc(brand.NAME)} mapped on Earth?</a>.</p>
+</section>
+
 ${siblingCard(ctx)}
 </div>`;
 
   return page({
     ctx,
     path: PATH,
-    title: `Every mapped US datacentre — ${headline} · ${brand.NAME}`,
-    ogTitle: `${brand.NAME}: ${headline}`,
+    title: `${title} · ${headline} · ${brand.NAME}`,
+    ogTitle: `${brand.NAME}: ${title}`,
     description,
     ogImage: ctx.cardFor ? ctx.cardFor('map') : null,
     ogImageAlt: `${brand.NAME} map of mapped United States datacentres: ${headline}`,
-    jsonld: [dataset(ctx, dc, model)],
+    jsonld: [
+      dataset(ctx, dc, model, title),
+      breadcrumbs(ctx, [
+        { name: 'Home', path: '/' },
+        { name: title, path: PATH },
+      ]),
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map(([qAsk, a]) => ({
+          '@type': 'Question',
+          name: qAsk,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
+      },
+    ],
     main: main.split(ctxHrefPlaceholder).join(ctx.href('/watts.html')),
     bodyEnd: enhanceJs(),
   });
@@ -1424,16 +1523,17 @@ ${siblingCard(ctx)}
 
 /** ctx.datacenters absent. Builds, says so plainly, and carries noindex. */
 function emptyPage(ctx) {
+  const title = `How many datacentres has ${brand.NAME} mapped in the United States?`;
   return page({
     ctx,
     path: PATH,
     noindex: true,
-    title: `Every mapped US datacentre — the map · ${brand.NAME}`,
+    title: `${title} · ${brand.NAME}`,
     description: `${brand.NAME}'s datacentre map has not published a run yet.`,
     main: `<style>${mapCss()}</style>
 <section class="bldhero">
   <p class="bldhero__eyebrow">The Build · a ${esc(brand.NAME)} sub-index</p>
-  <h1 class="bldhero__h1">Every mapped US datacentre</h1>
+  <h1 class="bldhero__h1">How many datacentres has ${esc(brand.NAME)} mapped in the United States?</h1>
   <p class="bldhero__sub">Where the datacentres are, and what the power and the water around them are doing.</p>
   <p class="bldhero__lede">No run has been published in this build. This is not an empty map — it is the
      absence of a map, and the two are different states. An empty map would be a finding, and it is not one
@@ -1443,11 +1543,11 @@ function emptyPage(ctx) {
   });
 }
 
-function dataset(ctx, dc, model) {
+function dataset(ctx, dc, model, title) {
   return {
     '@context': 'https://schema.org',
     '@type': 'Dataset',
-    name: `${brand.NAME} — mapped United States datacentres and the resources around them`,
+    name: title || `How many datacentres has ${brand.NAME} mapped in the United States?`,
     description:
       'Every datacentre mapped in the United States by OpenStreetMap volunteers, with status read from the ' +
       'tag that set it, joined to the US Drought Monitor category of its county, the nearest of nine USGS ' +
@@ -1460,6 +1560,7 @@ function dataset(ctx, dc, model) {
     isAccessibleForFree: true,
     spatialCoverage: { '@type': 'Place', name: 'United States' },
     keywords: ['datacentres', 'artificial intelligence', 'electricity grid', 'drought', 'streamflow', 'OpenStreetMap'],
+    speakable: speakable(['h1.bldhero__h1', 'p.bldhero__lede']),
     distribution: [{
       '@type': 'DataDownload',
       encodingFormat: 'application/json',
@@ -1497,6 +1598,11 @@ function mapCss() {
 .bldhero__plain{font:400 var(--t-base)/1.55 var(--sans);margin:0 0 var(--s-5);max-width:60ch;
   padding:var(--s-3) var(--s-4);background:var(--wash-alt);border-left:3px solid var(--accent);
   border-radius:var(--radius)}
+.bldfaq{margin:var(--sec) 0 var(--s-5);max-width:62ch}
+.bldfaq h2{font:600 var(--t-lg)/1.2 var(--sans);margin:0 0 var(--s-3)}
+.bldfaq h3{font:600 var(--t-base)/1.3 var(--sans);margin:var(--s-4) 0 var(--s-2)}
+.bldfaq p{font:400 var(--t-base)/1.55 var(--sans);color:var(--ink-dim);margin:0 0 var(--s-2)}
+.bldfaq__key{margin-top:var(--s-4)!important}
 
 .bldc{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:1px;
   background:var(--rule-soft);border:1px solid var(--rule-soft);border-radius:var(--radius);overflow:hidden}
