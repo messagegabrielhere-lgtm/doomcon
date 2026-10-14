@@ -90,6 +90,11 @@ describe('seo-daily parsers', () => {
     assert.ok(OUR_SURFACES.includes('/lab/micron.html'));
     assert.ok(OUR_SURFACES.includes('/lab/winverse-ai.html'));
     assert.ok(OUR_SURFACES.includes('/lab/isomorphic-labs.html'));
+    assert.ok(OUR_SURFACES.includes('/lab/openai.html'));
+    assert.ok(OUR_SURFACES.includes('/lab/anthropic.html'));
+    assert.ok(OUR_SURFACES.includes('/lab/meta.html'));
+    assert.ok(OUR_SURFACES.includes('/lab/google-deepmind.html'));
+    assert.ok(OUR_SURFACES.includes('/lab/xai.html'));
     assert.ok(OUR_SURFACES.includes('/model/kimi.html'));
     assert.ok(OUR_SURFACES.includes('/model/glm.html'));
     assert.ok(OUR_SURFACES.includes('/model/grok.html'));

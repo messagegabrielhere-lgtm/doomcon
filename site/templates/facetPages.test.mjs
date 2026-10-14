@@ -1247,6 +1247,36 @@ describe('lab facets', () => {
     }
   });
 
+  it('indexes OpenAI, Anthropic, Meta, Google DeepMind, and xAI race labs', () => {
+    const withRace = {
+      ...ctx,
+      race: {
+        ...ctx.race,
+        players: [
+          { id: 'openai', name: 'OpenAI', principal: 'Sam Altman', market: { probability: 0.32, change_7d: 0.02 } },
+          { id: 'anthropic', name: 'Anthropic', principal: 'Dario Amodei', market: { probability: 0.28, change_7d: -0.01 } },
+          { id: 'meta', name: 'Meta AI', principal: 'Mark Zuckerberg', market: { probability: 0.12, change_7d: 0.01 } },
+          { id: 'google-deepmind', name: 'Google DeepMind', principal: 'Demis Hassabis', market: { probability: 0.18, change_7d: 0.0 } },
+          { id: 'xai', name: 'xAI', principal: 'Elon Musk', market: { probability: 0.08, change_7d: 0.01 } },
+        ],
+      },
+    };
+    for (const [id, name] of [
+      ['openai', 'OpenAI'],
+      ['anthropic', 'Anthropic'],
+      ['meta', 'Meta AI'],
+      ['google-deepmind', 'Google DeepMind'],
+      ['xai', 'xAI'],
+    ]) {
+      const lab = labsFromRace(withRace).find((p) => p.id === id);
+      assert.ok(lab, `${name} is on the race board`);
+      assert.equal(labIndexable(withRace, lab), true);
+      assert.match(renderLab(withRace, lab), new RegExp(`What has SIREN scored about ${name}\\?`));
+      assert.doesNotMatch(renderLab(withRace, lab), /doom score:\s*\d/i);
+      assert.ok(sitemapEntries(withRace).some((e) => e.loc === `/lab/${id}.html`));
+    }
+  });
+
   it('indexes Sony, Tesla, Waymo, ASML, Micron, Winverse AI, and Isomorphic Labs', () => {
     const withArch = {
       ...ctx,
