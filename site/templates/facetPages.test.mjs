@@ -1178,6 +1178,75 @@ describe('lab facets', () => {
     assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/lab/netflix.html'));
   });
 
+  it('indexes DeepSeek, Mistral, AMD, and Broadcom entity labs', () => {
+    const withArch = {
+      ...ctx,
+      news: { ...ctx.news, items: [...ctx.news.items] },
+      itemArchive: [
+        {
+          id: 'ds1', title: 'DeepSeek Backs Ex-Tencent AI Scientist’s $400 Million Robot Lab', pillar: 'markets', source: 'hn',
+          url: 'https://example.test/ds1', published_at: '2026-09-01T01:00:00Z', score: 40,
+        },
+        {
+          id: 'ds2', title: 'DeepSeek’s cost-saving AI may lead to inaccuracy in model performance', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/ds2', published_at: '2026-09-02T01:00:00Z', score: 41,
+        },
+        {
+          id: 'ds3', title: 'DeepSeek agrees to lead robotic AI startup Winverse AI seed round', pillar: 'markets', source: 'hn',
+          url: 'https://example.test/ds3', published_at: '2026-09-03T01:00:00Z', score: 42,
+        },
+        {
+          id: 'mi1', title: 'Mistral to Release New AI Model to Better Compete With U.S. Rivals', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/mi1', published_at: '2026-09-01T02:00:00Z', score: 40,
+        },
+        {
+          id: 'mi2', title: 'Mistral releases open-weight Arabic realtime STT', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/mi2', published_at: '2026-09-02T02:00:00Z', score: 41,
+        },
+        {
+          id: 'mi3', title: 'Mistral says Le Chonk can challenge the best AI models', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/mi3', published_at: '2026-09-03T02:00:00Z', score: 42,
+        },
+        {
+          id: 'am1', title: 'AMD expands Instinct GPU roadmap for AI training clusters', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/am1', published_at: '2026-09-01T03:00:00Z', score: 40,
+        },
+        {
+          id: 'am2', title: 'Advanced Micro Devices wins AI accelerator orders from hyperscalers', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/am2', published_at: '2026-09-02T03:00:00Z', score: 41,
+        },
+        {
+          id: 'am3', title: 'AMD MI300 deployments accelerate open-weight inference', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/am3', published_at: '2026-09-03T03:00:00Z', score: 42,
+        },
+        {
+          id: 'br1', title: 'Broadcom custom AI ASICs expand beyond Google TPU partners', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/br1', published_at: '2026-09-01T04:00:00Z', score: 40,
+        },
+        {
+          id: 'br2', title: 'Broadcom AI networking chips underpin new cluster fabrics', pillar: 'compute', source: 'hn',
+          url: 'https://example.test/br2', published_at: '2026-09-02T04:00:00Z', score: 41,
+        },
+        {
+          id: 'br3', title: 'Investors watch Broadcom as AI ASIC demand climbs', pillar: 'markets', source: 'hn',
+          url: 'https://example.test/br3', published_at: '2026-09-03T04:00:00Z', score: 42,
+        },
+      ],
+    };
+    for (const [id, name] of [
+      ['deepseek', 'DeepSeek'],
+      ['mistral', 'Mistral'],
+      ['amd', 'AMD'],
+      ['broadcom', 'Broadcom'],
+    ]) {
+      const lab = labsFromEntities(withArch).find((p) => p.id === id);
+      assert.ok(lab, `${name} clears ENTITY_LAB_MIN`);
+      assert.match(renderLab(withArch, lab), new RegExp(`What has SIREN scored about ${name}\\?`));
+      assert.doesNotMatch(renderLab(withArch, lab), /doom score:\s*\d/i);
+      assert.ok(sitemapEntries(withArch).some((e) => e.loc === `/lab/${id}.html`));
+    }
+  });
+
   it('indexes Sakana AI, Physical Intelligence, Zhipu, and Cloudflare entity labs', () => {
     const withArch = {
       ...ctx,
