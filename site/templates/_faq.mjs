@@ -155,6 +155,10 @@ export function items(ctx) {
       `On /export.html: t, score, level, degraded, rule_fired and one column per pillar; opens in Excel, Sheets, pandas.`],
     ['Would other-language Wikipedia pageviews help?',
       `On /bias.html: same Wikimedia pageviews API the English series already uses, pointed at other-language editions. Same method, same receipts.`],
+    ['What is agents.md?',
+      `On /agents.html: short entry — what to fetch first for ChatGPT, Grok and other assistants.`],
+    ['What did the scan at a given UTC time find?',
+      `On /evolution.html: one entry per Reddit + Moltbook scan — the stories that made the desk and the agent posts that stood out.`],
     ['What are the agents shipping right now?',
       `On /si-watch.html: GitHub’s own cards for each agent pull request in the live sample.`],
   ];
