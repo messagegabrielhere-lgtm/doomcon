@@ -252,7 +252,7 @@ function beamSection(ctx, b, m) {
     real span moves with how busy the news is, and any series built from these counts has to use shares, not raw counts.
     ${kinds ? `Not scanned, by kind: ${kinds}, ${count(nr.not_scanned.total)} in all, because vendor blogs never report their own harms and arXiv abstracts discuss attacks as subject matter.` : ''}
     ${it && Number.isFinite(it.hedged_headlines) ? `${count(it.hedged_headlines)} scanned ${plural(it.hedged_headlines, 'headline', 'headlines')} tripped the hedge rule.` : ''}</p>
-  ${never ? `<h3 class="bp__h3">What the beam never tilts on</h3><ul class="bp__lim bp__lim--plain">${never}</ul>` : ''}
+  ${never ? `<h3 class="bp__h3">What does the beam never tilt on?</h3><ul class="bp__lim bp__lim--plain">${never}</ul>` : ''}
   ${br.print ? `<p class="bp__n"><b>What is printed.</b> ${esc(br.print)}.</p>` : ''}
 </section>`;
 }
@@ -346,7 +346,7 @@ function matchesSection(ctx, b, m) {
   <div class="bp__cols">
     ${SIDES.map((side) => matchColumn(side, arr(nr.matched[side]), b, hrefs, lex)).join('')}
   </div>
-  ${aside.length ? `<h3 class="bp__h3">Set aside by the rule, with a list word in them: ${count(aside.length)}</h3>
+  ${aside.length ? `<h3 class="bp__h3">Which items were set aside by the rule? <span class="bp__ver">${count(aside.length)}</span></h3>
   <p class="bp__l">These carried a word from one of the lists and still counted on neither side. They are listed
     so the rule can be checked in the direction that does not flatter it.</p>
   <ul class="bp__aside">${aside.map((x) => `<li>
@@ -609,8 +609,8 @@ function limitsSection(b, L) {
   <h2 class="bp__h" id="bp-lim-h">${icon('sec-signal')} What this cannot say</h2>
   <p class="bp__l">Published in the two files and printed here unedited: the collector’s five lines about the
     counts, then the registers’ lines about the rows.</p>
-  ${a ? `<h3 class="bp__h3">About the counts</h3><ul class="bp__lim">${a}</ul>` : ''}
-  ${c ? `<h3 class="bp__h3">About the registers</h3><ul class="bp__lim">${c}</ul>` : ''}
+  ${a ? `<h3 class="bp__h3">What do the honesty lines say about the counts?</h3><ul class="bp__lim">${a}</ul>` : ''}
+  ${c ? `<h3 class="bp__h3">What do the honesty lines say about the registers?</h3><ul class="bp__lim">${c}</ul>` : ''}
   ${meas && meas.in_sample === true ? `<p class="bp__n"><b>Every precision figure for the word lists is in-sample.</b>
     The lists were tuned on the same headlines they were scored on, by one labeller; the first honest test is
     the next window. The benefit side’s precision rests on ${count(meas.benefit_all_history && meas.benefit_all_history.matched, 'an unrecorded number of')} matches in all history.</p>` : ''}
@@ -656,7 +656,7 @@ function methodSection(b, L) {
   return `<section class="bp__sec" id="method" aria-labelledby="bp-method-h">
   <h2 class="bp__h" id="bp-method-h">${icon('sec-method')} Where this came from</h2>
 
-  <h3 class="bp__h3">The rule, the same on both sides</h3>
+  <h3 class="bp__h3">What is the rule on both sides?</h3>
   <ul class="bp__lim bp__lim--plain">
     ${rule.matching ? `<li><b>Matching.</b> ${esc(rule.matching)}.</li>` : ''}
     ${lx.not_scanned_kinds ? `<li><b>Not scanned.</b> Items of kind ${chips(lx.not_scanned_kinds)}.</li>` : ''}
@@ -666,24 +666,24 @@ function methodSection(b, L) {
     ${rule.same_rule_both_sides === true ? '<li><b>Symmetry.</b> One rule, applied to both lists in the same pass.</li>' : ''}
   </ul>
 
-  <h3 class="bp__h3">The harm list, ${count(sizes.harm, 'an unrecorded number of')} terms <span class="bp__ver">lexicon ${esc(lx.version || 'unversioned')}</span></h3>
+  <h3 class="bp__h3">What is on the harm list? <span class="bp__ver">${count(sizes.harm, 'an unrecorded number of')} terms · lexicon ${esc(lx.version || 'unversioned')}</span></h3>
   <p class="bp__chips">${chips(lx.harm_terms) || 'Not in the file.'}</p>
-  <h3 class="bp__h3">The benefit list, ${count(sizes.benefit, 'an unrecorded number of')} terms</h3>
+  <h3 class="bp__h3">What is on the benefit list? <span class="bp__ver">${count(sizes.benefit, 'an unrecorded number of')} terms</span></h3>
   <p class="bp__chips">${chips(lx.benefit_terms) || 'Not in the file.'}</p>
   <p class="bp__n">The two lists differ in size and reach. Both are printed in full so the difference is
     visible, and it is not corrected by any weighting. Any edit to either list makes a new instrument.</p>
-  <h3 class="bp__h3">Hedge words and negators</h3>
+  <h3 class="bp__h3">Which hedge words and negators apply?</h3>
   <p class="bp__chips"><span class="bp__chk">Hedges</span> ${chips(lx.hedge_terms) || 'not in the file'}</p>
   <p class="bp__chips"><span class="bp__chk">Negators</span> ${chips(lx.negators) || 'not in the file'}</p>
   ${arr(drop.harm).length || arr(drop.benefit).length ? `<p class="bp__n"><b>Dropped from the previous version</b> after
     producing false positives: harm ${chips(drop.harm) || 'none'}; benefit ${chips(drop.benefit) || 'none'}.</p>` : ''}
 
-  ${meas ? `<h3 class="bp__h3">Measured precision</h3>
+  ${meas ? `<h3 class="bp__h3">What is the measured precision?</h3>
   <p class="bp__l">${esc(meas.labels || '')} Sample: ${esc(meas.sample || 'not recorded')}.
     ${Number.isFinite(meas.matched_both_lists) ? `${count(meas.matched_both_lists)} ${plural(meas.matched_both_lists, 'item', 'items')} in the sample matched both lists.` : ''}</p>
   ${precisionTable(meas)}` : ''}
 
-  <h3 class="bp__h3">The registers</h3>
+  <h3 class="bp__h3">What are the registers?</h3>
   <p class="bp__l">${esc(L.curation || 'No curation policy in the file.')}</p>
   ${dropped ? `<p class="bp__l"><b>Left out of individual rows, and why:</b></p><ul class="bp__lim bp__lim--plain">${dropped}</ul>` : ''}
   <p class="bp__n">${retired.length ? `${count(retired.length)} ${plural(retired.length, 'row has', 'rows have')} been retired and ${plural(retired.length, 'is', 'are')} kept in the file with the date and the reason.` : 'No row has been retired.'}
@@ -744,6 +744,30 @@ export function render(ctx) {
       noNet],
     ['What do the newsroom word-list counts measure?',
       m.sentence || 'The newsroom window is dark this build.'],
+    // Tip #343: method / limits H3s are question-shaped and mirrored in FAQ (§3.3).
+    ['What does the beam never tilt on?',
+      arr(b.beam_rule && b.beam_rule.never_on).join(' ')
+      || 'The beam section lists what never moves either pan when those lines are in the file.'],
+    ['What do the honesty lines say about the counts?',
+      'Published in the two files and printed here unedited: the collector’s five lines about the counts.'],
+    ['What do the honesty lines say about the registers?',
+      'Published in the two files and printed here unedited: the registers’ lines about the rows.'],
+    ['What is the rule on both sides?',
+      (b.lexicon && b.lexicon.rule && b.lexicon.rule.same_rule_both_sides === true
+        ? 'One rule, applied to both lists in the same pass.'
+        : 'The matching, hedge and negation rules from the published lexicon, applied on both sides.')],
+    ['What is on the harm list?',
+      'Both word lists are printed in full so the difference is visible, and it is not corrected by any weighting.'],
+    ['What is on the benefit list?',
+      'Both word lists are printed in full so the difference is visible, and it is not corrected by any weighting. Any edit to either list makes a new instrument.'],
+    ['Which hedge words and negators apply?',
+      'A word with “no”, “not” or “never” just before it was ignored and is not marked. The hedge and negator chips are printed under the method section.'],
+    ['What is the measured precision?',
+      'Every precision figure for the word lists is in-sample. The lists were tuned on the same headlines they were scored on, by one labeller; the first honest test is the next window.'],
+    ['What are the registers?',
+      L.curation || 'Dated, sourced register rows, each carrying what was measured beside what is claimed about it.'],
+    ['Which items were set aside by the rule?',
+      'These carried a word from one of the lists and still counted on neither side. They are listed so the rule can be checked in the direction that does not flatter it.'],
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>

@@ -127,6 +127,12 @@ export function items(ctx) {
       `On /watts.html: nine USGS gauges beside named clusters, measured against each gauge’s long-run median — not datacentre draw.`],
     ['What is your readiness score?',
       `On /si-ready.html, the personal plan form prints a readiness percentage after you answer. It is a self-check, not a ${brand.NAME} index input.`],
+    ['What is the rule on both sides?',
+      `On /balance.html: one rule, applied to both harm and benefit word lists in the same pass. No net score across the two sides.`],
+    ['What moved on the index?',
+      `On /digest.html: composite and pillar moves since the previous observation, with level hold or change and the anti-flap rule that fired.`],
+    ['What are the three source states?',
+      `On /digest.html: live, dark, and awaiting baseline — kept apart so a missing baseline is never reported as an outage.`],
   ];
 }
 
