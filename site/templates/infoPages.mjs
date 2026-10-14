@@ -79,7 +79,7 @@ export function about(ctx) {
   <h2>What it is</h2>
   <p>${esc(brand.NAME)} is a small, automated publication. A collector reads public sources every hour, a published formula turns
     them into a score, and a static site is rebuilt from the result. There is no editorial desk deciding the level.
-    The <a href="${esc(ctx.href('/methodology.html'))}">methodology</a> has every formula and constant, and the
+    <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a> has every formula and constant, and the
     <a href="${esc(brand.REPO_URL)}" rel="noopener">source code</a> is public.</p>
   <h2>Who runs it</h2>
   <p>One person, independently. It is not affiliated with any AI lab, government body or the organisations whose scales it

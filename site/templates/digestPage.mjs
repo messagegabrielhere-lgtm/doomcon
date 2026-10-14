@@ -79,7 +79,7 @@ export function render(ctx) {
      template with measured numbers substituted into it &mdash; how many independent sources carried an
      item, how that source is publishing against its own baseline, which lab is named and where that lab
      sits on the leaderboard. The selection rules and every threshold are published in
-     <a href="${esc(ctx.href('/methodology.html'))}">the methodology</a> and in <code>docs/DIGEST.md</code>.</p>
+     <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a> and in <code>docs/DIGEST.md</code>.</p>
 </section>
 
 ${briefSection(d, brief, counts)}

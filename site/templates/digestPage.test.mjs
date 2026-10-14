@@ -35,6 +35,10 @@ describe('digest page', () => {
     assert.match(html, /"@type":\s*"Report"/);
     assert.match(html, /BreadcrumbList/);
     assert.match(html, /\/news\.html/);
+    const key = html.match(/<p class="dg__key">([\s\S]*?)<\/p>/);
+    assert.ok(key, 'expected digest key paragraph');
+    assert.match(key[1], /href="\/methodology\.html">How the SIREN AI activity index is computed · methodology<\/a>/);
+    assert.doesNotMatch(key[1], /href="\/methodology\.html">the methodology<\/a>/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /noindex/);
   });

@@ -77,7 +77,7 @@ export function render(ctx) {
   <p><button type="button" class="vfy__go" data-vfy-go hidden>Verify the last ${DEPTH} readings in my browser</button></p>
   <div class="vfy__out" data-vfy-out hidden aria-live="polite"></div>
   <p class="fresh__key">What this proves: the published record has not been edited after the fact. What it does not prove: that the inputs
-    were right. For that, read the <a href="${esc(ctx.href('/methodology.html'))}">method</a> and the
+    were right. For that, read <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a> and the
     <a href="${esc(brand.REPO_URL)}" rel="noopener">source</a>. The files:
     <a href="${esc(ctx.href(`/api/receipts/${st.receipt_id}.json`))}">this reading’s receipt</a> ·
     <a href="${esc(ctx.href('/api/history.json'))}">every reading</a>.</p>

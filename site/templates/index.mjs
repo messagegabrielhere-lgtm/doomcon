@@ -724,7 +724,7 @@ ${oven.render(ctx)}
      <a href="${esc(ctx.href('/history.html'))}">Full history and every observation →</a></p>
   <p class="fresh__key">Where today sits inside the frozen reference distribution, and why that curve
      is never updated live, is drawn and explained on the
-     <a href="${esc(ctx.href('/methodology.html'))}">methodology page →</a></p>
+     <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology →</a></p>
 </section>
 
 <section class="fresh" aria-labelledby="fresh-h">
@@ -781,7 +781,7 @@ ${oven.render(ctx)}
   <h2 id="faq">Questions people actually ask</h2>
   ${instrumentsFaqHtml}
   <p class="inst__faq-key">Search-shaped sibling:
-    <a href="${esc(ctx.href('/methodology.html'))}">How the AI activity index is computed</a>.</p>
+    <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>.</p>
 </section>
 
 ${style}`;
@@ -901,9 +901,9 @@ ${switcher.render(ctx)}
   <p class="lede">${esc(brand.NAME)} is free, the number will never be behind a paywall, and visit counts are disclosed on the privacy page:
     a number you have to pay to check is not a number anybody can check. It pays its way four ways, all labelled.</p>
   <div class="earn">
-    <a class="earn__c" href="${esc(ctx.href('/library.html'))}"><b>The reading list</b><span>${esc(BOOK_COUNT)} books from every side of the AI argument.</span><i>Paid links</i></a>
-    <a class="earn__c" href="${esc(ctx.href('/bunker-kit.html'))}"><b>The Bunker Kit</b><span>50 free tools, and one crate of gear that is not free.</span><i>Paid links</i></a>
-    <a class="earn__c" href="${esc(ctx.href('/sponsor.html'))}"><b>Sponsor the index</b><span>One named sponsor at a time, with no say over the number.</span><i>Open</i></a>
+    <a class="earn__c" href="${esc(ctx.href('/library.html'))}"><b>What AI books argue both sides of the case?</b><span>${esc(BOOK_COUNT)} books from every side of the AI argument.</span><i>Paid links</i></a>
+    <a class="earn__c" href="${esc(ctx.href('/bunker-kit.html'))}"><b>What free tools belong in a bunker kit?</b><span>50 free tools, and one crate of gear that is not free.</span><i>Paid links</i></a>
+    <a class="earn__c" href="${esc(ctx.href('/sponsor.html'))}"><b>How do you sponsor ${esc(brand.NAME)} without moving the number?</b><span>One named sponsor at a time, with no say over the number.</span><i>Open</i></a>
     ${brand.X_URL ? `<a class="earn__c" href="${esc(brand.X_URL)}" rel="noopener"><b>Donate with X Money</b><span>Open ${esc(brand.X_HANDLE)} and use the Money ($) button on the profile.</span><i>Any amount</i></a>` : ''}
   </div>
   <p class="fresh__key">As an Amazon Associate, ${esc(brand.NAME)} earns from qualifying purchases. Paid links are marked wherever they appear, and nothing a reader buys changes a number.</p>

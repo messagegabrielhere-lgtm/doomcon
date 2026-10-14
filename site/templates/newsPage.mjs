@@ -157,7 +157,7 @@ ${corpusSection(ctx, news, corpus)}
   <p class="nkey">Scores rank items against each other inside this window; they are not a
      probability of anything and they do not move the index on their own. The composite score and
      the level are computed from the five pillars, not from this list.
-     <a href="${esc(ctx.href('/methodology.html'))}">Read the methodology &rarr;</a></p>
+     <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology &rarr;</a></p>
 </section>
 
 <section class="sec" aria-labelledby="faq">
