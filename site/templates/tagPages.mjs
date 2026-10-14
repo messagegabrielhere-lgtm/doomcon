@@ -1232,12 +1232,12 @@ export function renderTag(ctx, id) {
     ? `<h2>Older scored stories tagged ${esc(topic.name)}</h2>
   <p class="tg__lede">Kept in the permanent archive after they left the live window. Still scored stories — not a forecast.</p>
   <ol class="tg__list">${storyRows(ctx, older)}</ol>
-  <p class="fresh__key"><a href="${esc(ctx.href('/item/archive.html'))}">Full story archive</a></p>`
+  <p class="fresh__key"><a href="${esc(ctx.href('/item/archive.html'))}">Which older AI stories has ${esc(brand.NAME)} kept in the archive?</a></p>`
     : '';
 
   const main = `${STYLE}
 <article class="tg prose">
-  <p class="tg__k"><a href="${esc(ctx.href('/news.html'))}">Newsroom</a> · <a href="${esc(ctx.href('/tags/'))}">Tags</a> · <a href="${esc(ctx.href('/tags.html'))}">Tags hub</a></p>
+  <p class="tg__k"><a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a> · <a href="${esc(ctx.href('/tags/'))}">Which AI news tags have ${esc(brand.NAME)} pages?</a> · <a href="${esc(ctx.href('/tags.html'))}">Which AI tags has ${esc(brand.NAME)} scored stories about?</a></p>
   <h1>What has ${esc(brand.NAME)} scored about ${esc(topic.name)}?</h1>
   <p class="tg__lede">${esc(topic.description)} A tag page lists scored stories whose title or summary matched a published needle — not a probability of harm and not a ranking of the companies named.</p>
   <div class="tg__stat" role="group" aria-label="Tag totals">
@@ -1249,13 +1249,13 @@ export function renderTag(ctx, id) {
     ? `<ol class="tg__list">${storyRows(ctx, items)}</ol>`
     : '<p>No scored story matched this tag in the current window.</p>'}
   ${items.length > TAG_LIST_CAP
-    ? `<p class="fresh__key">${esc(String(items.length - TAG_LIST_CAP))} more on the <a href="${esc(ctx.href('/news.html'))}">full newsroom</a>.</p>`
-    : `<p class="fresh__key"><a href="${esc(ctx.href('/news.html'))}">Full newsroom →</a></p>`}
+    ? `<p class="fresh__key">${esc(String(items.length - TAG_LIST_CAP))} more on <a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a>.</p>`
+    : `<p class="fresh__key"><a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a></p>`}
   ${olderBlock}
   <h2 id="faq">Questions people actually ask</h2>
   ${faqHtml}
   ${others.length ? `<h2>Other tags</h2>
-  <nav class="tg__nav" aria-label="Other tags">${others.map((t) => `<a href="${esc(ctx.href(tagPath(t.id)))}">${esc(t.name)} <span class="num">(${esc(String(t.count))})</span></a>`).join('')}</nav>` : ''}
+  <nav class="tg__nav" aria-label="Other tags">${others.map((t) => `<a href="${esc(ctx.href(tagPath(t.id)))}">What has ${esc(brand.NAME)} scored about ${esc(t.name)}?</a>`).join('')}</nav>` : ''}
 </article>`;
 
   return page({
@@ -1284,9 +1284,9 @@ export function renderTag(ctx, id) {
         })),
       },
     }, breadcrumbs(ctx, [
-      { name: 'Newsroom', path: '/news.html' },
-      { name: 'Tags', path: '/tags/' },
-      { name: topic.name, path },
+      { name: `Which AI stories has ${brand.NAME} scored in this window?`, path: '/news.html' },
+      { name: `Which AI news tags have ${brand.NAME} pages?`, path: '/tags/' },
+      { name: `What has ${brand.NAME} scored about ${topic.name}?`, path },
     ]), {
       '@context': 'https://schema.org',
       '@type': 'FAQPage',
@@ -1319,13 +1319,13 @@ export function renderIndex(ctx) {
   <h3>${esc(q)}</h3>
   <p>${esc(a)}</p>`).join('');
   const rows = tags.map((t) => `<li>
-  <a href="${esc(ctx.href(tagPath(t.id)))}">${esc(t.name)}</a>
-  <span class="tg__meta">${esc(t.description)} · <span class="num">${esc(String(t.count))}</span> stories${t.archived ? ` (${esc(String(t.live))} live)` : ''}</span>
+  <a href="${esc(ctx.href(tagPath(t.id)))}">What has ${esc(brand.NAME)} scored about ${esc(t.name)}?</a>
+  <span class="tg__meta">${esc(t.name)} · ${esc(t.description)} · <span class="num">${esc(String(t.count))}</span> stories${t.archived ? ` (${esc(String(t.live))} live)` : ''}</span>
 </li>`).join('');
 
   const main = `${STYLE}
 <article class="tg prose">
-  <p class="tg__k"><a href="${esc(ctx.href('/news.html'))}">Newsroom</a> · Tags · <a href="${esc(ctx.href('/tags.html'))}">Tags hub</a></p>
+  <p class="tg__k"><a href="${esc(ctx.href('/news.html'))}">Which AI stories has ${esc(brand.NAME)} scored in this window?</a> · Which AI news tags have ${esc(brand.NAME)} pages? · <a href="${esc(ctx.href('/tags.html'))}">Which AI tags has ${esc(brand.NAME)} scored stories about?</a></p>
   <h1>Which AI news tags have ${esc(brand.NAME)} pages?</h1>
   <p class="tg__lede">A topic earns a page when at least ${TAG_INDEX_MIN} scored stories match a published needle in the live window or the durable archive. Thinner matches stay on the story page only.</p>
   ${tags.length ? `<ol class="tg__list">${rows}</ol>` : '<p>No tag cleared the gate in this build.</p>'}
@@ -1354,12 +1354,12 @@ export function renderIndex(ctx) {
           '@type': 'ListItem',
           position: i + 1,
           url: ctx.url(tagPath(t.id)),
-          name: t.name,
+          name: `What has ${brand.NAME} scored about ${t.name}?`,
         })),
       },
     }, breadcrumbs(ctx, [
-      { name: 'Newsroom', path: '/news.html' },
-      { name: 'Tags', path },
+      { name: `Which AI stories has ${brand.NAME} scored in this window?`, path: '/news.html' },
+      { name: `Which AI news tags have ${brand.NAME} pages?`, path },
     ]), {
       '@context': 'https://schema.org',
       '@type': 'FAQPage',
@@ -1397,25 +1397,25 @@ export function renderTags(ctx) {
   <h3>${esc(q)}</h3>
   <p>${esc(a)}</p>`).join('');
   const rows = tags.map((t) => `<li>
-  <a href="${esc(ctx.href(tagPath(t.id)))}">${esc(t.name)}</a>
-  <span class="tg__meta">Topic hub · <span class="num">${esc(String(t.count))}</span> scored${t.archived ? ` (${esc(String(t.live))} live)` : ''}</span>
+  <a href="${esc(ctx.href(tagPath(t.id)))}">What has ${esc(brand.NAME)} scored about ${esc(t.name)}?</a>
+  <span class="tg__meta">${esc(t.name)} · Topic hub · <span class="num">${esc(String(t.count))}</span> scored${t.archived ? ` (${esc(String(t.live))} live)` : ''}</span>
 </li>`).join('');
   const main = `${STYLE}
 <article class="tg prose">
-  <p class="tg__k"><a href="${esc(ctx.href('/compare.html'))}">Compare</a> · <a href="${esc(ctx.href('/tags/'))}">Tags</a> · Tags hub</p>
+  <p class="tg__k"><a href="${esc(ctx.href('/compare.html'))}">Which AI doom indexes can you compare?</a> · <a href="${esc(ctx.href('/tags/'))}">Which AI news tags have ${esc(brand.NAME)} pages?</a> · Which AI tags has ${esc(brand.NAME)} scored stories about?</p>
   <h1>Which AI tags has ${esc(brand.NAME)} scored stories about?</h1>
-  <p class="tg__lede">${esc(brand.NAME)} does not publish a topic “doom score.” It publishes an activity index and scored stories. This page lists topic hubs that already clear the same substance gate as <a href="${esc(ctx.href('/tags/'))}">/tags/</a> — at least ${TAG_INDEX_MIN} matching headlines in the live window or archive (Skynet-shaped tags without their timeline claims).</p>
+  <p class="tg__lede">${esc(brand.NAME)} does not publish a topic “doom score.” It publishes an activity index and scored stories. This page lists topic hubs that already clear the same substance gate as <a href="${esc(ctx.href('/tags/'))}">Which AI news tags have ${esc(brand.NAME)} pages?</a> — at least ${TAG_INDEX_MIN} matching headlines in the live window or archive (Skynet-shaped tags without their timeline claims).</p>
   <div class="tg__stat" role="group" aria-label="Tags hub totals">
     <div><b class="num">${esc(String(tags.length))}</b><span>Topic hubs</span></div>
   </div>
   ${tags.length ? `<ol class="tg__list">${rows}</ol>` : '<p>No tag hub cleared the gate in this build.</p>'}
   <h2 id="faq">Questions people actually ask</h2>
   ${faqHtml}
-  <p class="fresh__key"><a href="${esc(ctx.href('/tags/'))}">Tag directory →</a>
-     · <a href="${esc(ctx.href('/models.html'))}">AI models →</a>
-     · <a href="${esc(ctx.href('/companies.html'))}">AI companies →</a>
-     · <a href="${esc(ctx.href('/people.html'))}">AI people →</a>
-     · <a href="${esc(ctx.href('/compare.html'))}">How this index differs from Skynet Countdown →</a></p>
+  <p class="fresh__key"><a href="${esc(ctx.href('/tags/'))}">Which AI news tags have ${esc(brand.NAME)} pages?</a>
+     · <a href="${esc(ctx.href('/models.html'))}">Which AI models has ${esc(brand.NAME)} scored stories about?</a>
+     · <a href="${esc(ctx.href('/companies.html'))}">Which AI companies has ${esc(brand.NAME)} scored stories about?</a>
+     · <a href="${esc(ctx.href('/people.html'))}">Which AI people has ${esc(brand.NAME)} scored press about?</a>
+     · <a href="${esc(ctx.href('/compare.html'))}">Which AI doom indexes can you compare?</a></p>
 </article>`;
   return page({
     ctx,
@@ -1437,12 +1437,12 @@ export function renderTags(ctx) {
           '@type': 'ListItem',
           position: i + 1,
           url: ctx.url(tagPath(t.id)),
-          name: t.name,
+          name: `What has ${brand.NAME} scored about ${t.name}?`,
         })),
       },
     }, breadcrumbs(ctx, [
-      { name: 'Compare', path: '/compare.html' },
-      { name: 'Tags', path },
+      { name: 'Which AI doom indexes can you compare?', path: '/compare.html' },
+      { name: `Which AI tags has ${brand.NAME} scored stories about?`, path },
     ]), {
       '@context': 'https://schema.org',
       '@type': 'FAQPage',

@@ -206,6 +206,8 @@ export function organization(ctx) {
       'Which AI leaders are on the record this week',
       'Which AI stories has SIREN scored in this window',
       'Which AI tags has SIREN scored stories about',
+      'Which AI news tags have SIREN pages',
+      'What has SIREN scored about AI agents',
       'AI IPOs this index scored',
       'scored AI stories this index kept',
       'AI doom index alternatives',
