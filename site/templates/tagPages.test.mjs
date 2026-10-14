@@ -2099,13 +2099,13 @@ describe('tag pages', () => {
       news: {
         generated_at: ctx.state.generated_at,
         items: [
-          story('dm1', 'Microsoft unveils Microsoft-Decision-1, a fast decision-scoring model'),
+          story('dm1', 'Microsoft unveils Microsoft-Decision-1, a fast decision model'),
           story('dm2', 'Nace.AI Drex 1.5: 9B Decision Model Scores 58.08'),
           story('dm3', 'How decision models show up in enterprise scoring stacks'),
           story('dm4', 'Labs publish decision model benchmarks for routing tasks'),
           story('dm5', 'What decision models mean for cheap high-volume inference'),
-          story('rl1', 'HRIL: Learning Multimodal Synergy via Higher-Order Tensor Modeling'),
-          story('rl2', 'DSReg: Provably Recovering Individual World Latents without Reconstruction'),
+          story('rl1', 'HRIL: Representation learning via higher-order tensor modeling'),
+          story('rl2', 'DSReg advances representation learning without reconstruction'),
           story('rl3', 'A survey of representation learning for robotics'),
           story('rl4', 'Why representation learning still dominates self-supervised papers'),
           story('rl5', 'New representation learning results land in the newsroom window'),
