@@ -214,10 +214,23 @@ export function compareHub(ctx) {
   // Was “Which AI doom indexes can you compare honestly?” under a shorter title.
   const qTitle = 'Which AI doom indexes can you compare?';
   const description = `${qTitle} ${brand.NAME} is an hourly AI activity count you can recompute. DoomBench scores takeover evidence, Skynet Countdown estimates AGI dates, p(doom) clocks publish opinions, PizzINT borrows DEFCON/Doomsday framing, and Takeoff Tracker aggregates AGI metrics. Side-by-side without borrowing their claims.`;
+  // Tip #267: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const sideQ = 'How do they compare side by side?';
+  const pickQ = 'Which rival should you pick?';
+  const compQ = 'Which complementary index is not a doom index?';
+  const alsoQ = 'What else is on this site?';
   // FAQ from the SAME pairs as FAQPage (§3.3). Refuse doom-probability / DEFCON hijack / forecast.
   const faq = [
     [qTitle,
       `${brand.NAME} next to DoomBench, Skynet Countdown, p(doom) clocks, PizzINT and Takeoff Tracker — method by method. ${brand.NAME} is an hourly recomputable activity count; the others are judgement scores, countdowns, opinions, or title hijacks.`],
+    [sideQ,
+      `${brand.NAME} is an hourly recomputable activity count; the rivals are judgement scores, countdowns, opinions, or title hijacks. The table below compares method by method.`],
+    [pickQ,
+      'Each rival has a dedicated versus page: DoomBench, Skynet Countdown, p(doom) clocks, PizzINT and Takeoff Tracker.'],
+    [compQ,
+      `For which model is smartest, cheapest or fastest, use Artificial Analysis. That is independent quality, speed and cost. ${brand.NAME} is tempo. They pair; they do not substitute.`],
+    [alsoQ,
+      'Versus hub, alternatives hub, guide, methodology and export/embed live on this site beside the comparison table.'],
     [`What is the difference between ${brand.NAME} and DoomBench?`,
       `${brand.NAME} measures AI activity tempo from public data every hour and publishes a receipt. DoomBench publishes a qualitative doom index from sourced evidence about takeover risk. One is a count; the other is a judgement-scored risk index.`],
     ['Which AI doom index can I recompute myself?',
@@ -235,14 +248,14 @@ export function compareHub(ctx) {
     ${esc(brand.NAME)} answers a different question: <b>how loud is AI activity right now</b>, measured hourly from public data.
     This page puts that next to the rivals people actually type.</p>
   ${liveStrip(ctx)}
-  <h2>Side by side</h2>
+  <h2 id="cmp-side-h">How do they compare side by side?</h2>
   ${comparisonTable()}
-  <h2>Pick a rival</h2>
+  <h2 id="cmp-pick-h">Which rival should you pick?</h2>
   ${RIVALS.map((r) => `<div class="cmp__card">
     <h3><a href="${esc(ctx.href(r.path))}">${esc(brand.NAME)} vs ${esc(r.name)}: which should you use?</a></h3>
     <p>${esc(r.short)}. ${esc(r.measures)}. ${esc(r.recomputableNote)}.</p>
   </div>`).join('')}
-  <h2>Complementary (not a doom index)</h2>
+  <h2 id="cmp-comp-h">Which complementary index is not a doom index?</h2>
   <p>For <b>which model is smartest, cheapest or fastest</b>, use
     <a href="${esc(aa.url)}" rel="noopener">${esc(aa.name)}</a>.
     That is independent quality, speed and cost. ${esc(brand.NAME)} is tempo.
@@ -252,7 +265,7 @@ export function compareHub(ctx) {
     <a href="${esc(ctx.href('/vs.html'))}">Which AI indexes does ${esc(brand.NAME)} contrast?</a>
     · <a href="${esc(ctx.href('/guide.html'))}">How does ${esc(brand.NAME)} compare to DEFCON, the Doomsday Clock and p(doom)?</a>
     · <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>.</p>
-  <h2>Also on this site</h2>
+  <h2 id="cmp-also-h">What else is on this site?</h2>
   <p><a href="${esc(ctx.href('/vs.html'))}">Which AI indexes does ${esc(brand.NAME)} contrast? →</a>
      · <a href="${esc(ctx.href('/alternatives.html'))}">What are AI doom index alternatives? →</a>
      · <a href="${esc(ctx.href('/guide.html'))}">How does ${esc(brand.NAME)} compare to DEFCON, the Doomsday Clock and p(doom)? →</a>
@@ -303,7 +316,7 @@ export function vsHub(ctx) {
   </div>
   <ol class="cmp__card" style="list-style:none;padding:0;margin:16px 0 0;display:grid;gap:10px">${rows}</ol>
   ${faqBlock(faq)}
-  <h2>Also</h2>
+  <h2 id="vs-also-h">What else should you read?</h2>
   <p><a href="${esc(ctx.href('/compare.html'))}">Which AI doom indexes can you compare?</a>
      · <a href="${esc(ctx.href('/alternatives.html'))}">What are AI doom index alternatives?</a>
      · <a href="${esc(ctx.href('/guide.html'))}">How does ${esc(brand.NAME)} compare to DEFCON, the Doomsday Clock and p(doom)?</a></p>
@@ -344,10 +357,23 @@ export function alternatives(ctx) {
   // Was “What are AI doom index alternatives, and what is each one?” under a shorter title.
   const qTitle = 'What are AI doom index alternatives?';
   const description = `${qTitle} Looking for a DoomBench, Skynet Countdown, p(doom), PizzINT or Takeoff Tracker alternative? ${brand.NAME} is an hourly AI activity index with open code, CORS JSON and hash-chained receipts — not a DEFCON level or probability of doom.`;
+  // Tip #267: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const rightQ = `When is ${brand.NAME} the right alternative?`;
+  const wrongQ = `When is ${brand.NAME} the wrong alternative?`;
+  const oneQ = 'Where is one page per rival?';
+  const allQ = 'Where can you compare everything?';
   // FAQ from the SAME pairs as FAQPage (§3.3). Refuse doom-probability / DEFCON hijack / forecast.
   const faq = [
     [qTitle,
       `${brand.NAME} if you want a recomputable hourly activity count instead of a judgement doom score, AGI date, personal p(doom), DEFCON-shaped novelty page, or multi-panel takeoff dashboard. The pages below say when it is the right substitute — and when it is not.`],
+    [rightQ,
+      'When you want a number a stranger can recompute from public data and a published receipt, an embeddable widget and CORS-open JSON, and tempo rather than a takeover probability or fake DEFCON.'],
+    [wrongQ,
+      'When you need a scored takeover argument (DoomBench), an AGI date (Skynet Countdown), a personal p(doom), Pentagon-pizza novelty, a multi-panel takeoff dashboard, or model intelligence rankings.'],
+    [oneQ,
+      'Each rival has a dedicated versus page listed below, with the queries that page answers.'],
+    [allQ,
+      'The full side-by-side table is on Which AI doom indexes can you compare?; the versus hub lists every rival page.'],
     ['What is a good alternative to DoomBench?',
       `${brand.NAME} if you want a recomputable activity tempo reading instead of a qualitative doom score. It does not replace DoomBench’s takeover-evidence framing; it answers a different question with arithmetic you can check.`],
     ['What is a good alternative to Skynet Countdown?',
@@ -367,13 +393,13 @@ export function alternatives(ctx) {
     <b>judgement about danger</b>, or borrow DEFCON language for traffic. ${esc(brand.NAME)} measures <b>how much is happening</b>. Use this hub when a search
     for DoomBench, Skynet Countdown, p(doom), PizzINT or Takeoff Tracker brought you here and you need the honest fork.</p>
   ${liveStrip(ctx)}
-  <h2>When ${esc(brand.NAME)} is the right alternative</h2>
+  <h2 id="alt-right-h">When is ${esc(brand.NAME)} the right alternative?</h2>
   <ul>
     <li>You want a number a stranger can recompute from public data and a published receipt.</li>
     <li>You want an embeddable widget and a CORS-open JSON API, not a client-rendered shell.</li>
     <li>You want tempo (releases, compute, attention, governance, markets), not a takeover probability or a fake DEFCON.</li>
   </ul>
-  <h2>When it is the wrong alternative</h2>
+  <h2 id="alt-wrong-h">When is ${esc(brand.NAME)} the wrong alternative?</h2>
   <ul>
     <li>You need a scored argument about AI takeover risk — that is DoomBench’s product, not ours.</li>
     <li>You need an estimated AGI date or control-loss percentage — that is Skynet Countdown’s product, not ours.</li>
@@ -382,7 +408,7 @@ export function alternatives(ctx) {
     <li>You want a multi-panel AGI takeoff dashboard (timelines, stocks, arena ranks, collected p(doom)) — that is Takeoff Tracker’s product, not ours.</li>
     <li>You need model intelligence, speed or cost rankings — that is <a href="${esc(aa.url)}" rel="noopener">${esc(aa.name)}</a>, not an activity index.</li>
   </ul>
-  <h2>One page per rival</h2>
+  <h2 id="alt-one-h">Where is one page per rival?</h2>
   ${RIVALS.map((r) => `<div class="cmp__card">
     <h3><a href="${esc(ctx.href(r.path))}">${esc(brand.NAME)} vs ${esc(r.name)}: which should you use?</a></h3>
     <p>${esc(r.ourAngle)}</p>
@@ -394,7 +420,7 @@ export function alternatives(ctx) {
     · <a href="${esc(ctx.href('/vs.html'))}">Which AI indexes does ${esc(brand.NAME)} contrast?</a>
     · <a href="${esc(ctx.href('/guide.html'))}">How does ${esc(brand.NAME)} compare to DEFCON, the Doomsday Clock and p(doom)?</a>
     · <a href="${esc(ctx.href('/p-doom.html'))}">What is p(doom)?</a>.</p>
-  <h2>Compare everything</h2>
+  <h2 id="alt-all-h">Where can you compare everything?</h2>
   <p><a href="${esc(ctx.href('/compare.html'))}">Which AI doom indexes can you compare? →</a>
      · <a href="${esc(ctx.href('/vs.html'))}">Which AI indexes does ${esc(brand.NAME)} contrast? →</a>
      · <a href="${esc(ctx.href('/guide.html'))}">How does ${esc(brand.NAME)} compare to DEFCON, the Doomsday Clock and p(doom)? →</a>
@@ -449,7 +475,7 @@ export function vsRival(ctx, rivalId) {
   <h1>${esc(qTitle)}</h1>
   <p class="cmp__lede">${esc(rival.ourAngle)}</p>
   ${liveStrip(ctx)}
-  <h2>What each one is</h2>
+  <h2 id="vs-each-h">What is each one?</h2>
   ${comparisonTable()}
   <h3>${esc(rival.name)}</h3>
   <ul>
@@ -468,7 +494,7 @@ export function vsRival(ctx, rivalId) {
     <li><b>Does not publish:</b> takeover probability, AGI date, anyone’s p(doom), a military DEFCON level, or the Bulletin’s Doomsday Clock.</li>
   </ul>
   ${faqBlock(faq)}
-  <h2>Where to go next</h2>
+  <h2 id="vs-next-h">Where should you go next?</h2>
   <p><a href="${esc(ctx.href('/'))}">AI activity index today · ${esc(brand.NAME)} →</a>
      · <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>
      · <a href="${esc(ctx.href('/compare.html'))}">Which AI doom indexes can you compare?</a>

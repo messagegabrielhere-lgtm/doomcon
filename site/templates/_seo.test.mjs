@@ -242,6 +242,15 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('What did the agents talk about'));
     assert.ok(org.knowsAbout.includes('What is in each scan log entry'));
     assert.ok(org.knowsAbout.includes('Which desk picks are kept'));
+    assert.ok(org.knowsAbout.includes('How do they compare side by side'));
+    assert.ok(org.knowsAbout.includes('Which rival should you pick'));
+    assert.ok(org.knowsAbout.includes('Which complementary index is not a doom index'));
+    assert.ok(org.knowsAbout.includes('When is SIREN the right alternative'));
+    assert.ok(org.knowsAbout.includes('When is SIREN the wrong alternative'));
+    assert.ok(org.knowsAbout.includes('Where is one page per rival'));
+    assert.ok(org.knowsAbout.includes('Where can you compare everything'));
+    assert.ok(org.knowsAbout.includes('What is each one'));
+    assert.ok(org.knowsAbout.includes('Where should you go next'));
     assert.ok(org.knowsAbout.includes('Waffle House Index'));
     assert.ok(org.knowsAbout.includes('is the Waffle House open'));
     assert.ok(org.knowsAbout.includes('AI threat board'));

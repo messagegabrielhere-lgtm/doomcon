@@ -55,7 +55,13 @@ describe('compare / alternatives conquest pages', () => {
     assert.match(hub, /PizzINT/);
     assert.match(hub, /SIREN 4/);
     assert.match(hub, /55\.5/);
-    assert.match(hub, /Complementary \(not a doom index\)/);
+    assert.match(hub, /id="cmp-side-h">How do they compare side by side\?<\/h2>/);
+    assert.match(hub, /id="cmp-pick-h">Which rival should you pick\?<\/h2>/);
+    assert.match(hub, /id="cmp-comp-h">Which complementary index is not a doom index\?<\/h2>/);
+    assert.match(hub, /id="cmp-also-h">What else is on this site\?<\/h2>/);
+    assert.match(hub, /FAQPage[\s\S]*How do they compare side by side\?/);
+    assert.doesNotMatch(hub, /id="cmp-side-h">Side by side<\/h2>/);
+    assert.doesNotMatch(hub, /id="cmp-comp-h">Complementary \(not a doom index\)<\/h2>/);
     assert.match(hub, /artificialanalysis\.ai/);
     assert.match(hub, /\/vs\.html/);
     assert.match(hub, /Which AI indexes does SIREN contrast/);
@@ -76,6 +82,11 @@ describe('compare / alternatives conquest pages', () => {
     assert.match(alt, /"@type"\s*:\s*"FAQPage"/);
     assert.match(alt, /Questions people actually ask/);
     assert.match(alt, /What is a good alternative to DoomBench/);
+    assert.match(alt, /id="alt-right-h">When is SIREN the right alternative\?<\/h2>/);
+    assert.match(alt, /id="alt-wrong-h">When is SIREN the wrong alternative\?<\/h2>/);
+    assert.match(alt, /id="alt-one-h">Where is one page per rival\?<\/h2>/);
+    assert.match(alt, /id="alt-all-h">Where can you compare everything\?<\/h2>/);
+    assert.doesNotMatch(alt, /id="alt-right-h">When SIREN is the right alternative<\/h2>/);
     assert.match(alt, /Artificial Analysis/);
     assert.match(alt, /artificialanalysis\.ai/);
     assert.match(alt, /Which AI doom indexes can you compare/);
@@ -97,6 +108,10 @@ describe('compare / alternatives conquest pages', () => {
     assert.match(page, /Questions people actually ask/);
     assert.match(page, /does not score takeover risk/i);
     assert.match(page, /recompute/i);
+    assert.match(page, /id="vs-each-h">What is each one\?<\/h2>/);
+    assert.match(page, /id="vs-next-h">Where should you go next\?<\/h2>/);
+    assert.doesNotMatch(page, /id="vs-each-h">What each one is<\/h2>/);
+    assert.doesNotMatch(page, /id="vs-next-h">Where to go next<\/h2>/);
     assert.match(page, /href="\/">AI activity index today · SIREN →<\/a>/);
     assert.doesNotMatch(page, /href="\/">Current SIREN reading →<\/a>/);
     assert.doesNotMatch(page, /SIREN.*p\(doom\) of \d/i);
