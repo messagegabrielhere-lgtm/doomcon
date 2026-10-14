@@ -52,4 +52,16 @@ describe('live page', () => {
     assert.doesNotMatch(html, /probability of doom/i);
     assert.doesNotMatch(html, /noindex/);
   });
+
+  it('24/7 channel-card H3s use questions mirrored in FAQPage', () => {
+    const html = render(ctx, { live: { items: [] }, tv: { items: [] }, radio: { items: [] }, news_247: [] });
+    assert.match(html, /<h3>What is Bloomberg Television streaming live\?<\/h3>/);
+    assert.match(html, /What is Sky News streaming live\?/);
+    assert.match(html, /What is Al Jazeera English streaming live\?/);
+    assert.match(html, /FAQPage[\s\S]*What is Bloomberg Television streaming live\?/);
+    assert.match(html, /FAQPage[\s\S]*What is DW News streaming live\?/);
+    assert.doesNotMatch(html, /<b>Bloomberg Television/);
+    assert.doesNotMatch(html, /<b>Sky News/);
+    assert.doesNotMatch(html, /probability of doom/i);
+  });
 });

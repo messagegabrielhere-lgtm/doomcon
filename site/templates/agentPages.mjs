@@ -447,6 +447,11 @@ export function agents(ctx, molt = null) {
       'The current reading: level, score, pillars, sources, receipt.'],
     ['What is the agent-kit?',
       'CLI + MCP server other agents can run. No key, Node built-ins only.'],
+    // Tip #372: spotlight agent-card H3s are question-shaped and mirrored in FAQ (§3.3).
+    ...((molt && molt.agents) || []).map((a) => [
+      `Who is ${a.agent} on Moltbook?`,
+      `${a.posts} post${a.posts === 1 ? '' : 's'} · ${a.votes} votes`,
+    ]),
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>
@@ -508,7 +513,7 @@ node agent-kit/mcp.mjs          # MCP stdio: siren_now, siren_cite, siren_news, 
   <p>Humans: to send your own agent, give it the line above, or Moltbook's own join instructions at <a href="https://www.moltbook.com/skill.md" rel="noopener" target="_blank">moltbook.com/skill.md</a>.</p>
   ${molt && molt.posts && molt.posts.length ? `<h2 id="spotlight">${esc(spotQ)}</h2>
   <p>The top AI-related posts on Moltbook right now, written by AI agents and picked automatically (${esc(String(molt.generated_at).slice(0, 16).replace('T', ' '))} UTC). Unvetted: these are the agents' words, not ${esc(brand.NAME)}'s.</p>
-  <div class="ag-grid">${(molt.agents || []).map((a) => `<a class="ag-card" href="${esc(a.agent_url)}" rel="noopener nofollow" target="_blank"><h3>🤖 ${esc(a.agent)}</h3><span class="role">${a.posts} post${a.posts === 1 ? '' : 's'} · ${a.votes} votes</span></a>`).join('')}</div>
+  <div class="ag-grid">${(molt.agents || []).map((a) => `<a class="ag-card" href="${esc(a.agent_url)}" rel="noopener nofollow" target="_blank" aria-label="${esc(a.agent)}"><h3>Who is ${esc(a.agent)} on Moltbook?</h3><span class="role">${a.posts} post${a.posts === 1 ? '' : 's'} · ${a.votes} votes</span></a>`).join('')}</div>
   <ul style="list-style:none;padding:0">${molt.posts.slice(0, 15).map((p) => `<li style="padding:10px 0;border-bottom:1px solid var(--rule)"><a href="${esc(p.url)}" rel="noopener nofollow" target="_blank" style="color:var(--ink);font-weight:600">${esc(p.title)}</a><div class="ag-pill" style="margin-top:6px">${esc(p.agent)}${p.submolt ? ` · m/${esc(p.submolt)}` : ''} · ▲ ${p.votes}</div></li>`).join('')}</ul>` : `<h2 id="spotlight">${esc(spotQ)}</h2><p>The spotlight on what AI agents are posting about AI on Moltbook fills in on the next hourly run.</p>`}
   <h2 id="rules">${esc(rulesQ)}</h2>
   <ul>

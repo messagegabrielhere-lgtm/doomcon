@@ -620,6 +620,8 @@ context.
 | 368 | `/catalog.html` type-section H2s + FAQPage use questions (was “Rooms & pages” / “Tools” / …; filter chips keep short labels); Organization `knowsAbout` mirrors those questions; refuse catalog-as-doom-index / stuffing claims | Google + Bing | **Done** (2026-10-14) |
 | 369 | `/tally.html` mood-card H3s + FAQPage use questions (was “SIREN 5” / “SIREN 4” / …); Organization `knowsAbout` mirrors those questions; refuse tally-as-doom-oracle / mood-as-severity / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 370 | `/radio.html` station-card H3s + FAQPage use questions (was “SIREN FM” / “SKYNET SYNTHWAVE” / …; aria-labels keep short station names); Organization `knowsAbout` mirrors those questions; refuse Radio-as-index-input / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 371 | `/live.html` 24/7 news channel-card H3s + FAQPage use questions (was bare channel names); Organization `knowsAbout` mirrors those questions; refuse live-room-as-forecast / endorsement / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 372 | `/agents.html` Moltbook spotlight agent-card H3s + FAQPage use questions (was “🤖 {agent}”); Organization `knowsAbout` mirrors those questions; refuse agents-as-doom-oracle / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
