@@ -23,6 +23,16 @@ describe('bug-out-land page', () => {
     assert.match(html, /Is this a forecast that Skynet is coming\?/);
     assert.match(html, /Is this real-estate or financial advice\?/);
     assert.match(html, /What else does SIREN cover for supplies\?/);
+    assert.match(html, /Why look at Wyoming for remote land\?/);
+    assert.match(html, /Why look at Montana for remote land\?/);
+    assert.match(html, /Why look at Alaska for remote land\?/);
+    assert.match(html, /Why check water before you buy\?/);
+    assert.match(html, /Why check legal access before you buy\?/);
+    assert.match(html, /Why check hazards before you buy\?/);
+    assert.match(html, /FAQPage[\s\S]*Why look at Wyoming for remote land\?/);
+    assert.match(html, /FAQPage[\s\S]*Why check water before you buy\?/);
+    assert.doesNotMatch(html, /<h3>Wyoming<\/h3>/);
+    assert.doesNotMatch(html, /<h3>✔ Water<\/h3>/);
     assert.match(html, /SpeakableSpecification/);
     assert.match(html, /FAQPage/);
     assert.match(html, /"@type":\s*"WebPage"/);

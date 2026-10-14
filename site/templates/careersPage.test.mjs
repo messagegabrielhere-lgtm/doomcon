@@ -19,6 +19,15 @@ describe('careers page SEO', () => {
     assert.match(html, /What do applicants get paid\?/);
     assert.match(html, /id="apply"[^>]*>How do I apply\?/);
     assert.match(html, /How do I apply\?/);
+    assert.match(html, /What does a Translator do\?/);
+    assert.match(html, /What does a Newsletter Writer do\?/);
+    assert.match(html, /What does a Fact-checker do\?/);
+    assert.match(html, /What does a Moltbook Correspondent do\?/);
+    assert.match(html, /What does a Clip Scout do\?/);
+    assert.match(html, /What does a Red-teamer do\?/);
+    assert.match(html, /FAQPage[\s\S]*What does a Translator do\?/);
+    assert.doesNotMatch(html, /<h3>Translator<\/h3>/);
+    assert.doesNotMatch(html, /<h3>Red-teamer<\/h3>/);
     assert.match(html, /SpeakableSpecification/);
     assert.match(html, /FAQPage/);
     assert.match(html, /"@type":\s*"WebPage"/);
