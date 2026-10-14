@@ -2619,4 +2619,35 @@ describe('tag pages', () => {
     assert.doesNotMatch(renderTag(rich, 'chatbots'), /doom score:\s*\d/i);
     assert.doesNotMatch(renderTag(rich, 'chatbots'), /probability of doom/i);
   });
+
+  it('pages liability and cybersecurity hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('li1', 'Trump’s AI Liability Push Opens Blame Game for Models Gone Rogue'),
+          story('li2', "Trump's AI Liability Push: Developers Pay for Missteps"),
+          story('li3', 'Trump’s AI liability push opens blame game for models gone rogue'),
+          story('li4', 'Congress debates product liability rules for AI agents'),
+          story('li5', 'Q&A on AI liability after the DOD drops a contractor'),
+          story('cy1', 'Microsoft CEO’s AI Warning Draws Little Reaction From Cybersecurity Stocks'),
+          story('cy2', 'AI godfather Yann LeCun: Anthropic CEO deluded, doesn\'t understand cybersecurity'),
+          story('cy3', 'California AG issues subpoena in a broader cybersecurity inquiry into OpenAI'),
+          story('cy4', 'Cybersecurity firms race to ship AI-assisted threat detection'),
+          story('cy5', 'Enterprises rethink cybersecurity budgets after AI agent breaches'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    assert.ok(ids.includes('liability'));
+    assert.ok(ids.includes('cybersecurity'));
+    assert.match(renderTag(rich, 'liability'), /What has SIREN scored about AI liability\?/);
+    assert.match(renderTag(rich, 'cybersecurity'), /What has SIREN scored about Cybersecurity\?/);
+    assert.match(renderTag(rich, 'liability'), /not a harm forecast/i);
+    assert.match(renderTag(rich, 'cybersecurity'), /not a threat forecast/i);
+    assert.doesNotMatch(renderTag(rich, 'liability'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'cybersecurity'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'cybersecurity'), /probability of doom/i);
+  });
 });
