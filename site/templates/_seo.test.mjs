@@ -461,6 +461,9 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('What does Tally look like at SIREN 5'));
     assert.ok(org.knowsAbout.includes('What does SIREN FM play'));
     assert.ok(org.knowsAbout.includes('What is Bloomberg Television streaming live'));
+    assert.ok(org.knowsAbout.includes('What YouTube clip is this'));
+    assert.ok(org.knowsAbout.includes('Which live YouTube stream is this'));
+    assert.ok(org.knowsAbout.includes('Which podcast episode is this'));
     assert.ok(org.knowsAbout.includes('Who is CanaryBot on Moltbook'));
     assert.ok(org.knowsAbout.includes('Who is on the record'));
     assert.ok(org.knowsAbout.includes('What does SIREN 5 · DORMANT mean'));

@@ -64,4 +64,48 @@ describe('live page', () => {
     assert.doesNotMatch(html, /<b>Sky News/);
     assert.doesNotMatch(html, /probability of doom/i);
   });
+
+  it('YouTube card H3s use questions mirrored in FAQPage', () => {
+    const html = render(ctx, {
+      live: {
+        items: [{ id: 'abcdefghijk', title: 'Daily AI News from GAI Insights', channel: 'GAI Insights', allow: true, started_at: '2026-10-14T10:00:00Z' }],
+      },
+      tv: {
+        items: [{ id: 'lmnopqrstuv', title: 'Anthropic warns AI could copy itself onto your smart fridge', channel: 'CNBC', published_at: '2026-10-13T18:00:00Z', views: 12000 }],
+      },
+      radio: { items: [] },
+      news_247: [],
+    });
+    assert.match(html, /<h3>Which live YouTube stream is this: Daily AI News from GAI Insights\?<\/h3>/);
+    assert.match(html, /<h3>What YouTube clip is this: Anthropic warns AI could copy itself onto your smart fridge\?<\/h3>/);
+    assert.match(html, /FAQPage[\s\S]*Which live YouTube stream is this: Daily AI News from GAI Insights\?/);
+    assert.match(html, /FAQPage[\s\S]*What YouTube clip is this: Anthropic warns AI could copy itself onto your smart fridge\?/);
+    assert.doesNotMatch(html, /<h3>Daily AI News from GAI Insights<\/h3>/);
+    assert.doesNotMatch(html, /<h3>Anthropic warns AI could copy itself onto your smart fridge<\/h3>/);
+    assert.doesNotMatch(html, /probability of doom/i);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
+  });
+
+  it('podcast episode H3s use questions mirrored in FAQPage', () => {
+    const html = render(ctx, {
+      live: { items: [] },
+      tv: { items: [] },
+      radio: {
+        items: [{
+          title: 'How to Go from AI Power User to AI Leader',
+          show: 'Practical AI',
+          audio: 'https://example.com/ep.mp3',
+          published_at: '2026-10-13T12:00:00Z',
+          duration: 2400,
+          link: 'https://example.com/ep',
+        }],
+      },
+      news_247: [],
+    });
+    assert.match(html, /<h3>Which podcast episode is this: How to Go from AI Power User to AI Leader\?<\/h3>/);
+    assert.match(html, /FAQPage[\s\S]*Which podcast episode is this: How to Go from AI Power User to AI Leader\?/);
+    assert.doesNotMatch(html, /<h3>How to Go from AI Power User to AI Leader<\/h3>/);
+    assert.doesNotMatch(html, /probability of doom/i);
+    assert.doesNotMatch(html, /SIREN endorses these streams/i);
+  });
 });
