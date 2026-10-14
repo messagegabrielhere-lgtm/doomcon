@@ -93,9 +93,9 @@ export function render(ctx, nowMs = Date.now()) {
   const wk = LABS.weeks[wi];
   const wkNo = wi + 1;
   const fmtD = (s) => new Date(s + 'T12:00:00Z').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
+  // Tip #365: experiment-card H3s use the measurable question (mirrored in FAQ §3.3).
   const card = (it, n) => `<article class="lb-c" id="${esc(it.id)}" style="--c:${it.c}">
-    <header><img src="${img(it.icon)}" width="40" height="40" alt=""><div><span class="n">EXPERIMENT ${wkNo}.${n}</span><h3>${esc(it.name)}</h3></div></header>
-    <p class="q">${esc(it.q)}</p>
+    <header><img src="${img(it.icon)}" width="40" height="40" alt=""><div><span class="n">EXPERIMENT ${wkNo}.${n} · ${esc(it.name)}</span><h3>${esc(it.q)}</h3></div></header>
     <dl><dt>BUILD</dt><dd>${esc(it.build)}</dd><dt>DATA</dt><dd>${esc(it.data)}</dd><dt>MEASURE</dt><dd>${esc(it.measure)}</dd></dl>
     <span class="lb-st">● ON THE BENCH</span>
     <button type="button" data-xpost="page" data-x-title="SIREN Labs, experiment ${wkNo}.${n}: ${esc(it.q)}" data-x-src="SIREN Labs" data-x-url="${share}#${esc(it.id)}">𝕏 Post this question</button>
@@ -126,6 +126,8 @@ export function render(ctx, nowMs = Date.now()) {
       'Count, don’t predict. We measure what is happening. We don’t say when SI arrives.'],
     [`Is ${brand.NAME} Labs a doom probability?`,
       `No. ${brand.NAME} Labs builds open-data instruments. The experiments count what is measurable; they are not a probability of harm, and they do not set the ${brand.NAME} level.`],
+    // Tip #365: experiment-card H3s are question-shaped and mirrored in FAQ (§3.3).
+    ...wk.items.map((it) => [it.q, `${it.name}: ${it.measure}`]),
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>

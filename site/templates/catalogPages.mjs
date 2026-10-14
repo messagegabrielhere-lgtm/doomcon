@@ -478,12 +478,20 @@ export function catalog(ctx, entries) {
   for (const e of entries) (by[e.type] = by[e.type] || []).push(e);
   const card = (e) => `<a class="ct-c" href="${esc(ctx.href(e.url))}" data-k="${esc(`${e.title} ${e.desc} ${e.keys || ''} ${e.group || ''} ${e.url}`.toLowerCase())}"><img src="${esc(img(e.icon || TYPE_ICON[e.type]))}" width="40" height="40" alt="" loading="lazy"><span><b>${esc(e.title)}</b>${e.desc ? `<small>${esc(e.desc)}</small>` : ''}<i>${esc(e.meta || (e.url === '/' ? 'home' : e.url.replace(/^\//, '')))}</i></span></a>`;
   const types = CATALOG_TYPES.filter((t) => by[t]);
+  // Tip #366: page-group H3s are question-shaped and mirrored in FAQ (§3.3).
+  const groupQ = (g) => `What is listed under ${g}?`;
+  const pageGroups = [];
+  if (by.page) {
+    for (const e of by.page) {
+      let g = pageGroups.find((x) => x[0] === e.group);
+      if (!g) pageGroups.push(g = [e.group, []]);
+      g[1].push(e);
+    }
+  }
   const sections = types.map((t) => {
     let body;
     if (t === 'page') {
-      const groups = [];
-      for (const e of by.page) { let g = groups.find((x) => x[0] === e.group); if (!g) groups.push(g = [e.group, []]); g[1].push(e); }
-      body = groups.map(([g, list]) => `<div class="ct-sub"><h3>${esc(g)}</h3><div class="ct-g">${list.map(card).join('')}</div></div>`).join('');
+      body = pageGroups.map(([g, list]) => `<div class="ct-sub"><h3>${esc(groupQ(g))}</h3><div class="ct-g">${list.map(card).join('')}</div></div>`).join('');
     } else body = `<div class="ct-g">${by[t].map(card).join('')}</div>`;
     return `<section class="ct-s" id="ct-${t}" data-t="${t}"><h2>${esc(TYPE_LABEL[t])}<span>${by[t].length}</span></h2>${body}</section>`;
   }).join('');
@@ -499,6 +507,8 @@ export function catalog(ctx, entries) {
       'For stories, leaders and the Bunker Kit’s tools, use How do you search everything on SIREN?'],
     ['What kinds of things are listed?',
       'Every room, tool, game, video, data file, feed and embed on the site.'],
+    ...pageGroups.map(([g, list]) => [groupQ(g),
+      `${list.length} room${list.length === 1 ? '' : 's'} and pages under ${g} in the catalog.`]),
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>

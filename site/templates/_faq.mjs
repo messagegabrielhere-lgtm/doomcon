@@ -181,6 +181,10 @@ export function items(ctx) {
       `On /moltbook.html: standout lane from title keywords and engagement speed, not from reading intent.`],
     ['What is DoomBench?',
       `On /vs/doombench.html: rival side-card under What is each one? — public claim, measures, who sets it, and whether a stranger can recompute it.`],
+    ['How much of the code that builds AI is now written by AI?',
+      `On /labs.html: The Recursion Meter — a daily share of agent-authored PRs merged into core AI stacks, with a 30-day trend line.`],
+    ['What is listed under LIVE INTEL?',
+      `On /catalog.html: rooms and pages under the LIVE INTEL group in the catalog.`],
   ];
 }
 
