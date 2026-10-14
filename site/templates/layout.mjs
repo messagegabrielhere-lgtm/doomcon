@@ -1614,9 +1614,9 @@ function footer(ctx, sections, path) {
     <p class="foot__fine"><b>Not advice.</b> ${esc(brand.LEGAL_NOT_ADVICE)}
       Data is automated and may be wrong or late; provided as is, with no warranty. Not affiliated with any company, lab, person or agency named here.
       ${esc(brand.LEGAL_AFFILIATE)}
-      Use of this site means you accept the <a href="${esc(ctx.href('/terms.html'))}">terms &amp; disclaimers</a>.
-      <a href="${esc(ctx.href('/privacy.html'))}">Privacy</a>.
-      <a href="${esc(ctx.href('/disclosures.html'))}">Disclosures</a>.</p>
+      Use of this site means you accept the <a href="${esc(ctx.href('/terms.html'))}">What are the ${esc(brand.NAME)} terms of use?</a>
+      <a href="${esc(ctx.href('/privacy.html'))}">What does ${esc(brand.NAME)} know about you?</a>
+      <a href="${esc(ctx.href('/disclosures.html'))}">What does ${esc(brand.NAME)} disclose?</a></p>
   </div>
 </footer>`;
 }
