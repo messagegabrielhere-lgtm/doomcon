@@ -124,6 +124,8 @@ describe('IndexNow', () => {
     assert.ok(has('https://siren.watch/tags/off-policy.html'));
     assert.ok(has('https://siren.watch/tags/internet-access.html'));
     assert.ok(has('https://siren.watch/tags/manipulation-tasks.html'));
+    assert.ok(has('https://siren.watch/tags/safety-concerns.html'));
+    assert.ok(has('https://siren.watch/tags/chatgpt-teens.html'));
     assert.ok(has('https://siren.watch/model/mixtral.html'));
     assert.ok(has('https://siren.watch/tags/tsmc.html'));
     assert.ok(has('https://siren.watch/world.html'));

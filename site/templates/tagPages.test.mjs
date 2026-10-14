@@ -2185,4 +2185,35 @@ describe('tag pages', () => {
     assert.doesNotMatch(renderTag(rich, 'manipulation-tasks'), /doom score:\s*\d/i);
     assert.doesNotMatch(renderTag(rich, 'manipulation-tasks'), /probability of doom/i);
   });
+
+  it('pages safety-concerns and chatgpt-teens hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('sc1', 'Google restricts access to new AI model over safety concerns'),
+          story('sc2', 'US and China explore AI hot line amid safety concerns'),
+          story('sc3', 'Trump’s hands-off AI policy raises new safety concerns'),
+          story('sc4', 'Investors weigh lab disclosures amid safety concerns'),
+          story('sc5', 'What safety concerns show up in this week’s scored stories'),
+          story('ct1', 'Watchdog Says ChatGPT for Teens Missed Crisis Alerts; OpenAI Disputes Test'),
+          story('ct2', 'ChatGPT for Teens — Is AI Safety for Youths Falling Short?'),
+          story('ct3', 'OpenAI Says Teens Spend Under 15 Minutes A Day On ChatGPT Amid Safety Concerns'),
+          story('ct4', 'Report: ChatGPT teen suicide safeguards failed to alert parents'),
+          story('ct5', 'ChatGPT for Teens is live. Here’s how parents are reacting'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    assert.ok(ids.includes('safety-concerns'));
+    assert.ok(ids.includes('chatgpt-teens'));
+    assert.match(renderTag(rich, 'safety-concerns'), /What has SIREN scored about AI safety concerns\?/);
+    assert.match(renderTag(rich, 'chatgpt-teens'), /What has SIREN scored about ChatGPT for teens\?/);
+    assert.match(renderTag(rich, 'safety-concerns'), /not a harm forecast/i);
+    assert.match(renderTag(rich, 'chatgpt-teens'), /not a harm forecast/i);
+    assert.doesNotMatch(renderTag(rich, 'safety-concerns'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'chatgpt-teens'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'chatgpt-teens'), /probability of doom/i);
+  });
 });
