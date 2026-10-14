@@ -69,6 +69,16 @@ describe('newsroom page', () => {
     const html = render(ctx);
     assert.match(html, /<title>Which AI stories has SIREN scored in this window\?/);
     assert.match(html, /<h1 class="narch__h1">Which AI stories has SIREN scored in this window\?<\/h1>/);
+    assert.match(html, /"name"\s*:\s*"Which AI stories has SIREN scored in this window\?"/);
+    assert.doesNotMatch(html, /"name"\s*:\s*"Newsroom"/);
+    assert.match(html, /Which AI companies has SIREN scored stories about\?/);
+    assert.match(html, /Which AI models has SIREN scored stories about\?/);
+    assert.match(html, /Which AI people has SIREN scored press about\?/);
+    assert.match(html, /Which AI tags has SIREN scored stories about\?/);
+    assert.match(html, /Which AI story kinds has SIREN scored\?/);
+    assert.match(html, /Which AI outlets has SIREN scored stories from\?/);
+    assert.doesNotMatch(html, /narch__days-links"><a href="\/companies\.html">Companies<\/a>/);
+    assert.doesNotMatch(html, /narch__days-links"><a href="\/tags\.html">Tags<\/a>/);
     assert.match(html, /Questions people actually ask/);
     assert.match(html, /"@type"\s*:\s*"FAQPage"/);
     assert.match(html, /speakable/);

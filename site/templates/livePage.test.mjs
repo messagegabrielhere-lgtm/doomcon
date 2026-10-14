@@ -25,6 +25,18 @@ describe('live page', () => {
     assert.match(html, /\/radio\.html/);
     assert.match(html, /\/videos\.html/);
     assert.match(html, /nothing plays and no player loads/);
+    assert.match(html, /Where are live X feeds and Spaces on AI\?/);
+    assert.match(html, /Where can you find real clips of AI leaders\?/);
+    assert.match(html, /Which AI stories has SIREN scored in this window\?/);
+    const aboutNote = html.match(/<h2>About this room<\/h2>\s*<p class="lv-note">([\s\S]*?)<\/p>/);
+    assert.ok(aboutNote, 'expected About this room lv-note');
+    assert.match(aboutNote[1], /href="\/live-x\.html">Where are live X feeds and Spaces on AI\?<\/a>/);
+    assert.match(aboutNote[1], /href="\/elon\.html">Where can you find real clips of AI leaders\?<\/a>/);
+    assert.match(aboutNote[1], /href="\/news\.html">Which AI stories has SIREN scored in this window\?<\/a>/);
+    assert.doesNotMatch(aboutNote[1], /href="\/live-x\.html">Live on X<\/a>/);
+    assert.doesNotMatch(aboutNote[1], /href="\/elon\.html">Real Clips<\/a>/);
+    assert.doesNotMatch(aboutNote[1], /href="\/news\.html">the Newsroom<\/a>/);
+    assert.doesNotMatch(html, /"name"\s*:\s*"AI on TV & radio"/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /SIREN endorses these streams/i);
     assert.doesNotMatch(html, /probability of doom/i);
