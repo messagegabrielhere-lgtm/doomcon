@@ -165,7 +165,8 @@ function bot(color) {
 }
 const GROK_Q = 'Who is the Grok crew behind the business?';
 function grokCrewSection() {
-  const cards = GROK_CREW.map(([n, c, r, d]) => `<div class="ag-card"><h3>${bot(c)}${esc(n)}</h3><span class="role" style="color:${c}">${esc(r)}</span><p>${esc(d)}</p></div>`).join('');
+  // Tip #360: Grok-crew card H3s are question-shaped (mirrored in staff FAQ §3.3).
+  const cards = GROK_CREW.map(([n, c, r, d]) => `<div class="ag-card"><h3>${bot(c)}What does ${esc(n)} do?</h3><span class="role" style="color:${c}">${esc(r)}</span><p>${esc(d)}</p></div>`).join('');
   const node = (x, y, n, c) => `<g><rect x="${x}" y="${y}" width="150" height="40" rx="8" fill="#0E131D" stroke="${c}" stroke-width="1.6"/><text x="${x + 75}" y="${y + 25}" text-anchor="middle" fill="#E6EAF0" font-family="IBM Plex Mono,monospace" font-size="12" font-weight="700">${n}</text></g>`;
   const ln = (x1, y1, x2, y2) => `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#2D3748" stroke-width="1.6"/>`;
   const hub = `<svg class="ag-flow" viewBox="0 0 940 300" role="img" aria-label="Cash coordinates the crew: research, scout, social, marketing, design, engineering and finance">
@@ -199,7 +200,8 @@ export function staff(ctx) {
     ['mic', 'The Poster', 'Social · daily + on level change', 'Writes the daily reading for X and Bluesky, and an alert the hour the level moves. Checks every word against the data.', null],
     ['canary', 'Tally', 'Duty canary · always', 'Sings when the level moves. Morale officer.', null],
   ];
-  const cards = crew.map(([a, n, r, d, t]) => `<div class="ag-card"><h3><img src="${art(ctx, a)}" alt="">${esc(n)}</h3><span class="role">${esc(r)}</span><p>${esc(d)}</p>${t ? `<span class="shift">● ${esc(ago(t, now))}</span>` : ''}</div>`).join('');
+  // Tip #360: data-crew card H3s are question-shaped and mirrored in FAQ (§3.3).
+  const cards = crew.map(([a, n, r, d, t]) => `<div class="ag-card"><h3><img src="${art(ctx, a)}" alt="">What does ${esc(n)} do?</h3><span class="role">${esc(r)}</span><p>${esc(d)}</p>${t ? `<span class="shift">● ${esc(ago(t, now))}</span>` : ''}</div>`).join('');
   // How they hand work to each other, drawn inline so it reads in both themes.
   const box = (x, y, w, t, s) => `<g><rect x="${x}" y="${y}" width="${w}" height="54" rx="6" fill="#0E131D" stroke="#4ADE80" stroke-width="1.5"/><text x="${x + w / 2}" y="${y + 23}" text-anchor="middle" fill="#E6EAF0" font-family="IBM Plex Mono,monospace" font-size="13" font-weight="700">${t}</text><text x="${x + w / 2}" y="${y + 41}" text-anchor="middle" fill="#AEB7C3" font-family="IBM Plex Sans,sans-serif" font-size="11">${s}</text></g>`;
   const arr = (x1, y1, x2, y2) => `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#818CF8" stroke-width="2" marker-end="url(#ah)"/>`;
@@ -229,6 +231,9 @@ ${arr(275, 74, 640, 150)}${box(590, 140, 160, 'POSTER', 'X + Bluesky')}${arr(750
       "We're hiring, and AIs are welcome to apply: see What jobs is SIREN hiring AIs for?. AI agents can also read and cite the index: How should AI agents use SIREN?."],
     ['Does an editor pick the level?',
       'The data crew computes the level and shows its working; no editor picks it.'],
+    // Tip #360: crew card H3s are question-shaped and mirrored in FAQ (§3.3).
+    ...GROK_CREW.map(([n, , , d]) => [`What does ${n} do?`, d]),
+    ...crew.map(([, n, , d]) => [`What does ${n} do?`, d]),
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>

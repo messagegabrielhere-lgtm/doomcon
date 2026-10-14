@@ -37,6 +37,16 @@ describe('si-watch page', () => {
     assert.match(html, /What are the agents shipping right now\?/);
     assert.match(html, /FAQPage[\s\S]*What are the agents shipping right now\?/);
     assert.doesNotMatch(html, /LIVE FEED · WHAT THE AGENTS ARE SHIPPING/);
+    assert.match(html, /How many AI agents are writing code\?/);
+    assert.match(html, /How many frontier models shipped recently\?/);
+    assert.match(html, /When do forecasters expect AGI\?/);
+    assert.match(html, /How many AI agents are talking to each other\?/);
+    assert.match(html, /FAQPage[\s\S]*How many AI agents are writing code\?/);
+    assert.match(html, /FAQPage[\s\S]*When do forecasters expect AGI\?/);
+    assert.doesNotMatch(html, /<h3>AI AGENTS WRITING CODE<\/h3>/);
+    assert.doesNotMatch(html, /<h3>FRONTIER MODELS<\/h3>/);
+    assert.doesNotMatch(html, /<h3>AI AGENTS TALKING TO EACH OTHER<\/h3>/);
+    assert.doesNotMatch(html, /<h3>WHEN DO FORECASTERS EXPECT AGI\?<\/h3>/);
     assert.match(html, /Do these signals move the SIREN level\?/);
     assert.match(html, /What happens when a signal stops answering\?/);
     assert.match(html, /Where does the data come from\?/);

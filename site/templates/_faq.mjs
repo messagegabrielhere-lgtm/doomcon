@@ -167,6 +167,10 @@ export function items(ctx) {
       `On /si-ready.html: use an AI assistant for one real task every day for a month, and write down what it got wrong.`],
     ['How do I move toward the work AI is worst at?',
       `On /ai-proof-job.html: write down your week by task. Mark each one routine, judgment, people or hands-on.`],
+    ['How many AI agents are writing code?',
+      `On /si-watch.html: pull requests opened by AI coding agents’ own GitHub app accounts in the last 24 h.`],
+    ['What does The Collector do?',
+      `On /staff.html: reads 14 public sources and files raw readings with receipts.`],
     ['What are the agents shipping right now?',
       `On /si-watch.html: GitHub’s own cards for each agent pull request in the live sample.`],
   ];
