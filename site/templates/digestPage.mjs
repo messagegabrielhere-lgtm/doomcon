@@ -453,7 +453,7 @@ function raceBlock(ctx, r) {
   return `<h3 class="dg__h3">The leaderboard</h3>
     <p class="dg__key">Ranked on live ${esc(r.venue || 'prediction-market')} odds.
        ${r.leader ? `${esc(r.leader.name)} leads at ${esc(pct(r.leader.probability))}.` : ''}
-       <a href="${esc(href)}">The full leaderboard &rarr;</a></p>
+       <a href="${esc(href)}">Who is winning the AI race? &rarr;</a></p>
     ${sinceBlock}
     ${sevenRows ? `<h4 class="dg__h4">The venue&rsquo;s own 7-day change</h4>
       <p class="dg__key">This column comes from the market, not from our record, so it is a live number on

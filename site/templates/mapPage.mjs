@@ -294,7 +294,7 @@ function waterSection(dc, model) {
   <p class="bldsec__n">${esc((dc.honesty && dc.honesty[4]) || '')}</p>
 
   <h3 class="bldsec__h3">The nine river gauges</h3>
-  <p class="bldsec__l">The same nine USGS gauges <a href="${esc(ctxHrefPlaceholder)}">Watts</a> reads, each one beside a named
+  <p class="bldsec__l">The same nine USGS gauges <a href="${esc(ctxHrefPlaceholder)}">What does the ${esc(brand.NAME)} infrastructure index read?</a> reads, each one beside a named
      datacentre cluster, measured against that gauge's own long-run median for this day of the year.
      ${esc(N(rel.local))} of ${esc(N(t.sites))} pins have one within 50 km; ${esc(N(rel.regional))} are regional and
      ${esc(N(rel.distant))} are distant. A gauge 800 km away describes a different watershed, and every pin
@@ -349,7 +349,7 @@ function powerSection(dc, model) {
      is not one of them.` : ''}</p>
   <p class="bldsec__l">A blank cell reads as an oversight. A named wall reads as a boundary of the instrument,
      which is what it is. Every grid below with no number says why in its own words, and those words are the
-     same ones <a href="${esc(ctxHrefPlaceholder)}">Watts</a> prints for the same grid.</p>
+     same ones <a href="${esc(ctxHrefPlaceholder)}">What does the ${esc(brand.NAME)} infrastructure index read?</a> prints for the same grid.</p>
   <ul class="bldgs">${withFeed.map(card).join('')}${without.map(card).join('')}</ul>
   <p class="bldsec__n"><b>A balancing authority is not a state, and this table treats it as one.</b>
      ${esc((dc.grid_table && dc.grid_table.caveat) || '')}. El Paso and Hudspeth, the far Panhandle, east Texas,

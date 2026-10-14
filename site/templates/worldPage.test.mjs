@@ -65,6 +65,8 @@ describe('world page', () => {
     assert.match(html, /\/countries\.html/);
     assert.match(html, /href="\/country\/">Which AI datacentre countries have SIREN pages\?<\/a>/);
     assert.doesNotMatch(html, /href="\/country\/">Countries with at least three mapped sites<\/a>/);
+    assert.match(html, /How many datacentres has SIREN mapped in the United States\?<\/a>/);
+    assert.doesNotMatch(html, />the United States map<\/a>/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /noindex/);
   });

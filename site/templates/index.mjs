@@ -1770,7 +1770,7 @@ function picksBand(ctx) {
     </a>
   </div>
   <div class="mkb__go">
-    <a class="pri" href="${esc(arena)}">All picks and the track record →</a>
+    <a class="pri" href="${esc(arena)}">What does ${esc(brand.NAME)} Arena show? →</a>
     <a href="${esc(arena)}#investors">Big investors</a>
     <a href="${esc(arena)}#battle">AI battle</a>
     <a href="${esc(ctx.href('/scanner.html'))}">What does the ${esc(brand.NAME)} Capitulation Scanner show?</a>

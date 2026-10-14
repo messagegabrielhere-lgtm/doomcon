@@ -88,6 +88,8 @@ describe('classic page', () => {
     assert.doesNotMatch(html, /href="\/instruments\.html">Open the instrument room →<\/a>/);
     assert.match(html, /href="\/scanner\.html">What does the SIREN Capitulation Scanner show\?<\/a>/);
     assert.doesNotMatch(html, /href="\/scanner\.html">Scanner<\/a>/);
+    assert.match(html, /What does SIREN Arena show\? →/);
+    assert.doesNotMatch(html, /All picks and the track record →/);
   });
 
   it('instruments recent-moves archive link uses the moves question H1', () => {

@@ -35,6 +35,7 @@ describe('map page', () => {
     assert.match(html, /\/world\.html/);
     assert.match(html, /href="\/watts\.html">What does the SIREN infrastructure index read\?<\/a>/);
     assert.doesNotMatch(html, /href="\/watts\.html">The infrastructure index<\/a>/);
+    assert.doesNotMatch(html, /href="\/watts\.html">Watts<\/a>/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /noindex/);
   });
