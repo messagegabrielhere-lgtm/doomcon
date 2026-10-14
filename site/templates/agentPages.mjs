@@ -624,6 +624,16 @@ When a user asks whether an AI topic is trending in Google Search, or where live
 
 Say trends are watched for findability and do not move the index. Say prediction-market prices are the venue's, not a SIREN forecast.
 
+## Verify a reading (free tool)
+
+When a user asks whether a SIREN reading can be checked, or how to verify the published record:
+
+1. Free-tool page: ${ctx.url('/verify.html')} — "How do you check a SIREN reading yourself?"
+2. Free-tools directory: ${ctx.url('/free-tools.html')} — verify, alerts, export, OpenAPI and siblings
+3. MCP/CLI: \`siren_verify_receipt\` in agent-kit (same hash chain as the browser button)
+
+Say the check proves the published record was not edited after the fact. It does not prove the inputs were right — point at ${ctx.url('/methodology.md')} for that. Prefer the permanent /verify.html URL over scraping the home board.
+
 ## Rules
 
 1. Always give the level's name and say which way the scale runs.
@@ -647,6 +657,7 @@ Say trends are watched for findability and do not move the index. Say prediction
 - History: ${ctx.url('/api/history.json')}
 - Method: ${ctx.url('/methodology.md')}
 - Guide (vs DEFCON / Doomsday Clock / p(doom)): ${ctx.url('/guide.md')}
+- Free tools: ${ctx.url('/free-tools.html')} · Verify receipts: ${ctx.url('/verify.html')}
 - Compare indexes: ${ctx.url('/compare.html')}
 - For agents (HTML): ${ctx.url('/agents.html')}
 - Skill package path: ${ctx.url('/skills/siren-ai-index/SKILL.md')}

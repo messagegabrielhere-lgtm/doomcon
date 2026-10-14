@@ -116,6 +116,28 @@ test('news sitemap keywords include Nemotron / Google DeepMind surfaces', () => 
   assert.match(kw, /Google DeepMind|DeepMind/);
 });
 
+test('news sitemap keywords include Character.AI / Mythos / Prime Intellect surfaces', () => {
+  const a = keywordsFor({
+    title: 'Now that Character.AI is going bankrupt, what happens to all of its users’ data?',
+    summary: '',
+    pillar: 'attention',
+    kind: 'press',
+    source: 'hn',
+    entities: [],
+  });
+  assert.match(a, /Character\.AI|Character AI/);
+  const b = keywordsFor({
+    title: "Bank of America hired 1,000 contractors to patch software flaws exposed by Anthropic's Mythos",
+    summary: 'Prime Intellect acquires Moondream; Sachin Katti and Sarah Friar also in the window.',
+    pillar: 'capability',
+    kind: 'press',
+    source: 'hn',
+    entities: [],
+  });
+  assert.match(b, /Mythos/);
+  assert.match(b, /Prime Intellect|Moondream|Sachin Katti|Sarah Friar|Bank of America/);
+});
+
 test('news sitemap keywords include Trail of Bits / DualEntry / Qwen N1 surfaces', () => {
   const a = keywordsFor({
     title: 'OpenAI Weighs Deal for One-Time Security Partner Trail of Bits',

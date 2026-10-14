@@ -898,7 +898,7 @@ export function pdoom(ctx) {
   <p>It cannot be verified or recomputed, and it does not tell you what is happening today. A room of experts with very different figures can all be looking at the same facts.</p>
   <h2>${esc(differentQ)}</h2>
   <p>${esc(brand.NAME)} does not estimate the chance of anything. It counts how much is happening in AI, hourly, and reports it as a level from 5 (quietest) to 1 (loudest).
-    Every reading ships with a receipt, and a button on the home page lets you <a href="${esc(ctx.href('/#vfy'))}">re-check the published record in your own browser</a>.
+    Every reading ships with a receipt, and a free tool lets you <a href="${esc(ctx.href('/verify.html'))}">re-check the published record in your own browser</a>.
     The site’s line is: everyone has a p(doom), nobody has a receipt.</p>
   ${nowLine(ctx)}
   <h2 id="faq">What questions do people actually ask?</h2>
@@ -993,7 +993,7 @@ export function aiClock(ctx) {
   <ul>
     <li><b>It counts.</b> Releases, compute and capital, attention, governance and markets, from public sources, every hour.</li>
     <li><b>It reports tempo, not danger.</b> The level runs from 5 (quietest) to 1 (loudest). Loud means a lot is happening; it does not mean things are going badly.</li>
-    <li><b>It can be checked.</b> Each reading has a receipt, and the home page has a button that <a href="${esc(ctx.href('/#vfy'))}">re-verifies the record in your browser</a>.</li>
+    <li><b>It can be checked.</b> Each reading has a receipt, and a free tool <a href="${esc(ctx.href('/verify.html'))}">re-verifies the record in your browser</a>.</li>
     <li><b>It moves when the world does.</b> Hourly, not yearly.</li>
   </ul>
   ${nowLine(ctx)}
@@ -1188,7 +1188,7 @@ export function press(ctx) {
     [factsQ,
       'The index is scored hourly; the newsroom refreshes every minute. It is not a probability, a prediction, or a measure of how bad anything is. Readings are checkable in the browser.'],
     [citeQ,
-      'Use the “Cite this reading” line under the verify button on the home page. It links to one reading permanently, so the number in your piece does not change after you publish.'],
+      `Use the “Cite this reading” line under the verify button on How do you check a ${brand.NAME} reading yourself? (also on the home board). It links to one reading permanently, so the number in your piece does not change after you publish.`],
     [imagesQ,
       'Current reading card, portrait card, level badge, mark, Tally moods from the brand guide, and the embeddable widget.'],
     [contactQ,
@@ -1218,12 +1218,12 @@ export function press(ctx) {
     ${n ? `<li><b>Readings published:</b> ${esc(n.toLocaleString('en-US'))}, each with a receipt. <a href="${esc(ctx.href('/moves/'))}">Where are the ${esc(brand.NAME)} index moves?</a>.</li>` : ''}
     <li><b>Update cadence:</b> the index is scored hourly; the newsroom refreshes every minute.</li>
     <li><b>What it is not:</b> a probability, a prediction, or a measure of how bad anything is.</li>
-    <li><b>Checkable:</b> <a href="${esc(ctx.href('/#vfy'))}">verify the readings in your browser</a>, read <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>, or the <a href="${esc(brand.REPO_URL)}" rel="noopener">source</a>.</li>
+    <li><b>Checkable:</b> <a href="${esc(ctx.href('/verify.html'))}">How do you check a ${esc(brand.NAME)} reading yourself?</a>, read <a href="${esc(ctx.href('/methodology.html'))}">How the ${esc(brand.NAME)} AI activity index is computed · methodology</a>, or the <a href="${esc(brand.REPO_URL)}" rel="noopener">source</a>.</li>
     <li><b>Jobs and medicine:</b> sourced, caveated pages on <a href="${esc(ctx.href('/jobs.html'))}">Is AI taking jobs?</a> and <a href="${esc(ctx.href('/medicine.html'))}">Is AI curing anything?</a>.</li>
     <li><b>Mascot:</b> Tally, the duty canary. The helmet colour and the face follow the level.</li>
   </ul>
   <h2>${esc(citeQ)}</h2>
-  <p>Use the "Cite this reading" line under the verify button on the home page. It links to one reading permanently, so the number in your piece does not change after you publish.</p>
+  <p>Use the "Cite this reading" line under the verify button on <a href="${esc(ctx.href('/verify.html'))}">How do you check a ${esc(brand.NAME)} reading yourself?</a> (also on the home board). It links to one reading permanently, so the number in your piece does not change after you publish.</p>
   <h2>${esc(imagesQ)}</h2>
   <ul>
     <li><a href="${esc(ctx.href('/cards/state.png'))}">Current reading card</a> (1200×675 PNG, redrawn every reading)</li>
@@ -1486,6 +1486,16 @@ export const GUIDES = Object.freeze([
     path: '/medicine.html',
     name: 'Is AI curing anything?',
     blurb: 'Trials, authorisations, and caveats — not a cure claim.',
+  },
+  {
+    path: '/free-tools.html',
+    name: 'What free tools does SIREN publish?',
+    blurb: 'Verify receipts, alerts, export, OpenAPI — free instruments, not a doom calculator.',
+  },
+  {
+    path: '/verify.html',
+    name: 'How do you check a SIREN reading yourself?',
+    blurb: 'Re-hash the last 12 public receipts in your browser.',
   },
 ]);
 

@@ -227,7 +227,9 @@ ${list}
   <h2 id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
   <p class="xt-faq-key">Search-shaped sibling:
-    <a href="${esc(ctx.href('/export.html'))}">How do I export and embed ${esc(brand.NAME)} data?</a>
+    <a href="${esc(ctx.href('/verify.html'))}">How do you check a ${esc(brand.NAME)} reading yourself?</a>
+    · <a href="${esc(ctx.href('/free-tools.html'))}">What free tools does ${esc(brand.NAME)} publish?</a>
+    · <a href="${esc(ctx.href('/export.html'))}">How do I export and embed ${esc(brand.NAME)} data?</a>
     · <a href="${esc(ctx.href('/feedback.html'))}">How do I report a problem or send an idea to ${esc(brand.NAME)}?</a>.</p>
 </section>`;
 
@@ -443,7 +445,9 @@ ${snippet('xs-attr', 'What attribution line should I use?', attribution)}
   <h2 id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
   <p class="xt-faq-key">Search-shaped sibling:
-    <a href="${esc(ctx.href('/alerts.html'))}">How do I get alerts when ${esc(brand.NAME)} moves?</a>
+    <a href="${esc(ctx.href('/verify.html'))}">How do you check a ${esc(brand.NAME)} reading yourself?</a>
+    · <a href="${esc(ctx.href('/free-tools.html'))}">What free tools does ${esc(brand.NAME)} publish?</a>
+    · <a href="${esc(ctx.href('/alerts.html'))}">How do I get alerts when ${esc(brand.NAME)} moves?</a>
     · <a href="${esc(ctx.href('/agents.html'))}">How should AI agents use ${esc(brand.NAME)}?</a>.</p>
 </section>`;
 

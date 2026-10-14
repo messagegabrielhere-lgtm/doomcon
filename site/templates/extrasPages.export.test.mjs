@@ -60,6 +60,10 @@ describe('export page', () => {
     assert.match(html, /never moves the SIREN score/);
     assert.match(html, /\/alerts\.html/);
     assert.match(html, /\/agents\.html/);
+    assert.match(html, /\/verify\.html/);
+    assert.match(html, /\/free-tools\.html/);
+    assert.match(html, /How do you check a SIREN reading yourself\?/);
+    assert.match(html, /What free tools does SIREN publish\?/);
     assert.match(html, /How do I get alerts when SIREN moves\?/);
     assert.match(html, /How should AI agents use SIREN\?/);
     assert.doesNotMatch(html, /id="download">Download<\/h2>/);

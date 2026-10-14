@@ -57,7 +57,7 @@ export const CATALOG_TYPES = ['page', 'tool', 'game', 'video', 'data', 'feed', '
 
 // Rooms that are something you play or use rather than read.
 const GAMES = new Set(['/game.html', '/contain.html', '/day-after.html', '/arena.html#battle']);
-const TOOLS = new Set(['/search.html', '/catalog.html', '/scanner.html', '/si-ready.html', '/ai-proof-job.html', '/prepper-checklist.html', '/bug-out-land.html', '/bunker-kit.html', '/arena.html']);
+const TOOLS = new Set(['/search.html', '/catalog.html', '/scanner.html', '/si-ready.html', '/ai-proof-job.html', '/prepper-checklist.html', '/bug-out-land.html', '/bunker-kit.html', '/arena.html', '/verify.html', '/free-tools.html', '/alerts.html', '/export.html']);
 
 // Pages that are not homepage rooms. Written only if the file exists; anything
 // written that is in neither list still turns up, from its own <title>.
@@ -67,6 +67,8 @@ const MORE_PAGES = [
   ['/methodology.html', 'magnifier', 'How the SIREN AI activity index is computed · methodology', 'Every formula — recompute yourself. Not a doom probability.'],
   ['/guide.html', 'clock', 'How does SIREN compare to DEFCON, the Doomsday Clock and p(doom)?', 'What each measure is — and is not.'],
   ['/guides.html', 'clock', 'What are the AI explainers?', 'p(doom), clocks, doom indexes — vocabulary without a doom probability.'],
+  ['/free-tools.html', 'magnifier', 'What free tools does SIREN publish?', 'Verify, alerts, export, OpenAPI — free instruments, no account.'],
+  ['/verify.html', 'magnifier', 'How do you check a SIREN reading yourself?', 'Re-hash the last 12 public receipts in your browser.'],
   ['/compare.html', 'px:updown', 'Which AI doom indexes can you compare?', 'SIREN vs DoomBench, Skynet Countdown, p(doom), PizzINT and Takeoff Tracker.'],
   ['/vs.html', 'px:updown', 'Which AI indexes does SIREN contrast?', 'Directory of honest versus pages — activity tempo, not doom claims.'],
   ['/alternatives.html', 'px:updown', 'What are AI doom index alternatives?', 'When SIREN is the right substitute — and when it is not.'],

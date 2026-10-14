@@ -215,6 +215,8 @@ const ALWAYS = Object.freeze([
   '/evolution.html',
   '/export.html',
   '/feedback.html',
+  '/free-tools.html',
+  '/verify.html',
   '/game.html',
   '/games.html',
   '/kind/status.html',

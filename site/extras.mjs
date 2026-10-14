@@ -9,7 +9,8 @@
 //   api/history.csv              t, score, level, degraded, rule_fired, one column per pillar
 //   api/pillars.csv              the current pillars
 //   api/latest.txt               the current reading as one line
-//   alerts.html export.html bias.html reference-plan.html changelog.html
+//   verify.html free-tools.html alerts.html export.html bias.html
+//   reference-plan.html changelog.html
 // feed-level.xml and feed.xml are build.mjs's and are not touched.
 //
 // Also exported for the homepage: whatMoved(ctx), alternativeSignals(state).
@@ -27,6 +28,8 @@ import {
 import {
   alertsPage, exportPage, biasPage, referencePlanPage, changelogPage,
 } from './templates/extrasPages.mjs';
+import { verifyPage } from './templates/verifyPage.mjs';
+import { freeToolsPage } from './templates/freeToolsPage.mjs';
 
 export { whatMoved, alternativeSignals };
 
@@ -36,6 +39,8 @@ const MAX_ITEMS = 50;
 
 /** Pages this module writes, for the sitemap / nav / guide. */
 export const EXTRAS_PAGES = [
+  { path: '/verify.html', label: 'Verify a reading', blurb: 'How do you check a SIREN reading yourself?' },
+  { path: '/free-tools.html', label: 'Free tools', blurb: 'What free tools does SIREN publish?' },
   { path: '/alerts.html', label: 'Alerts', blurb: 'RSS, email, webhook and X alerts for level changes and spikes.' },
   { path: '/export.html', label: 'Export and embed', blurb: 'CSV and JSON downloads, the widget, the badge, the API.' },
   { path: '/changelog.html', label: 'What moved', blurb: 'What moved the SIREN score this hour?' },
@@ -232,6 +237,8 @@ export async function writeExtras(ctx, write, outDir, opts = {}) {
   written.push(await write(outDir, 'api/pillars.csv', pillarsCsv(ctx)));
   written.push(await write(outDir, 'api/latest.txt', latestTxt(ctx)));
 
+  written.push(await write(outDir, 'verify.html', verifyPage(ctx)));
+  written.push(await write(outDir, 'free-tools.html', freeToolsPage(ctx)));
   written.push(await write(outDir, 'alerts.html', alertsPage(ctx)));
   written.push(await write(outDir, 'export.html', exportPage(ctx)));
   written.push(await write(outDir, 'bias.html', biasPage(ctx)));

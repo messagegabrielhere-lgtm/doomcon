@@ -103,6 +103,10 @@ describe('skill.md SEO', () => {
     assert.match(md, /https:\/\/siren\.watch\/ai-prediction-markets\.html/);
     assert.match(md, /watched for findability|watched, not scored/i);
     assert.match(md, /not a SIREN forecast/i);
+    assert.match(md, /## Verify a reading \(free tool\)/);
+    assert.match(md, /https:\/\/siren\.watch\/verify\.html/);
+    assert.match(md, /https:\/\/siren\.watch\/free-tools\.html/);
+    assert.match(md, /not edited after the fact/);
     assert.doesNotMatch(md, /doom score:\s*\d/i);
     assert.doesNotMatch(md, /probability of doom/i);
   });
