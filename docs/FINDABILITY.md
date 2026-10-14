@@ -277,6 +277,7 @@ context.
 | 44 | Pillar/lab/source detail + `/source/` directory: question H1/title/FAQ/speakable (live-window gates only — no archive-widen while `deploy-pending-url-lead`) | Google | **Done** (2026-10-14) |
 | 45 | IndexNow ALWAYS covers question-titled rooms (`/status` `/catalog` `/nations` …) + `defaultUrlList` samples sitemap archive/facet tails (news cap 100) — Bing path after merge | Bing | **Done** (2026-10-14) |
 | 46 | `seo-daily`: monitor live rooms; collapse undeployed surface-404 flood into `surfaces-awaiting-deploy` while `deploy-pending-url-lead`; decode rival title entities | Daily agent | **Done** (2026-10-14) |
+| 47 | Pillar/lab pages list older archive stories + word-bound lab matching (FAQ/H2 mirrored); **live-window index gates unchanged** while deploy-pending | Google | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 

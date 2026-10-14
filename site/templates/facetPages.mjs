@@ -64,12 +64,23 @@ export function itemsForPillar(ctx, pillarId) {
     .sort((a, b) => String(b.published_at || '').localeCompare(String(a.published_at || '')));
 }
 
+/** Older scored stories under this pillar, kept in the durable item archive. */
+export function archiveItemsForPillar(ctx, pillarId) {
+  const archived = Array.isArray(ctx.itemArchive) ? ctx.itemArchive : [];
+  return archived
+    .filter((it) => it && it.pillar === pillarId)
+    .slice()
+    .sort((a, b) => String(b.published_at || '').localeCompare(String(a.published_at || '')));
+}
+
 function pillarState(ctx, pillarId) {
   const list = (ctx.state && Array.isArray(ctx.state.pillars)) ? ctx.state.pillars : [];
   return list.find((p) => p && p.id === pillarId) || null;
 }
 
 export function pillarIndexable(ctx, pillarId) {
+  // Live-window gate only while deploy-pending (FINDABILITY §4) — archive
+  // stories enrich the page body but do not widen sitemap indexability yet.
   return itemsForPillar(ctx, pillarId).length >= PILLAR_INDEX_MIN;
 }
 
@@ -129,6 +140,8 @@ const STYLE = `<style>
 export function renderPillar(ctx, pillarId) {
   const meta = brand.pillarMeta(pillarId);
   const items = itemsForPillar(ctx, pillarId);
+  const archivedAll = archiveItemsForPillar(ctx, pillarId);
+  const older = archivedAll.slice(0, 12);
   const st = pillarState(ctx, pillarId);
   // Live-window gate only while deploy-pending (FINDABILITY §4) — do not
   // widen indexability via archive counts until the live sitemap leads.
@@ -145,6 +158,7 @@ export function renderPillar(ctx, pillarId) {
   );
   // Tip #287: section H2s are question-shaped and mirrored in FAQ (§3.3).
   const windowQ = `Which scored stories are under ${meta.name} in this window?`;
+  const olderQ = `Which older scored stories are under ${meta.name}?`;
   const othersQ = 'Which other pillars have scored stories?';
   const peerPillars = brand.PILLARS.filter((p) => p.id !== pillarId);
   const otherPillars = peerPillars
@@ -152,11 +166,15 @@ export function renderPillar(ctx, pillarId) {
     .join('');
   const faq = [
     [`What has ${brand.NAME} scored under ${meta.name}?`,
-      `${items.length} scored stories under the ${meta.name} pillar in the live window. ${meta.description} Current reading: ${status}.`],
+      `${items.length} scored stories under the ${meta.name} pillar in the live window${archivedAll.length ? ` (${archivedAll.length} older in the archive)` : ''}. ${meta.description} Current reading: ${status}.`],
     [windowQ,
       items.length
         ? `${items.length} scored ${items.length === 1 ? 'story' : 'stories'} under ${meta.name} in the current window. A pillar filter on the newsroom — not a pillar doom score.`
         : 'No scored stories in the current window for this pillar. The page stays up so the pillar reading remains addressable; it is not submitted to the sitemap while empty.'],
+    ...(older.length
+      ? [[olderQ,
+        'Kept in the permanent archive after they left the live window. Still scored stories — not a forecast.']]
+      : []),
     ...(peerPillars.length
       ? [[othersQ,
         `The other ${brand.NAME} pillars, each linking What has ${brand.NAME} scored under that pillar?`]]
@@ -167,6 +185,12 @@ export function renderPillar(ctx, pillarId) {
   const faqHtml = faq.map(([q, a]) => `
   <h3>${esc(q)}</h3>
   <p>${esc(a)}</p>`).join('');
+  const olderBlock = older.length
+    ? `<h2 id="older">${esc(olderQ)}</h2>
+  <p class="fc__lede">Kept in the permanent archive after they left the live window. Still scored stories — not a forecast.</p>
+  <ol class="fc__list">${itemRows(ctx, older, 12)}</ol>
+  <p class="fresh__key"><a href="${esc(ctx.href('/item/archive.html'))}">Which older AI stories has ${esc(brand.NAME)} kept in the archive?</a></p>`
+    : '';
 
   const main = `${STYLE}
 <article class="fc prose">
@@ -176,6 +200,7 @@ export function renderPillar(ctx, pillarId) {
   <div class="fc__stat" role="group" aria-label="Current pillar reading">
     <div><b class="num">${esc(scoreTxt != null ? scoreTxt : '—')}</b><span>Pillar score / 100</span></div>
     <div><b class="num">${esc(String(items.length))}</b><span>Scored stories in window</span></div>
+    ${archivedAll.length ? `<div><b class="num">${esc(String(archivedAll.length))}</b><span>Older in archive</span></div>` : ''}
     <div><b>${esc(st && st.dark ? 'DARK' : (st && st.uncalibrated ? 'CALIBRATING' : 'LIVE'))}</b><span>Source posture</span></div>
   </div>
   <p class="fresh__key">This page is the crawlable face of the ${esc(meta.name)} filter on the newsroom.
@@ -186,6 +211,7 @@ export function renderPillar(ctx, pillarId) {
     ? `<ol class="fc__list">${itemRows(ctx, items)}</ol>
        ${items.length > 40 ? `<p class="fresh__key">${esc(String(items.length - 40))} more in the window — see <a href="${esc(ctx.href('/item/'))}">Which scored AI stories are in the ${esc(brand.NAME)} live window?</a>.</p>` : ''}`
     : `<p>No scored stories in the current window for this pillar. The page stays up so the pillar reading remains addressable; it is not submitted to the sitemap while empty.</p>`}
+  ${olderBlock}
   <h2 id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
   ${peerPillars.length ? `<h2 id="other-pillars">${esc(othersQ)}</h2>
@@ -301,16 +327,39 @@ function labNeedles(player) {
   return [...new Set([...(extras[player.id] || []), ...names])];
 }
 
+function escapeLabRe(value) {
+  return String(value || '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+/** True when a scored story names this lab (entity list or word-bound needles). */
+export function itemMatchesLab(it, player) {
+  if (!it || !player) return false;
+  const entityName = player.entityName || player.name;
+  if (Array.isArray(it.entities) && it.entities.includes(entityName)) return true;
+  const needles = labNeedles(player);
+  const hay = `${it.title || ''} ${it.source || ''} ${it.summary || ''}`;
+  // Word-ish boundaries so short forms (AMD, Intel) do not match inside
+  // "demand" / "intelligent".
+  return needles.some((n) => {
+    if (!n || n.length < 3) return false;
+    const re = new RegExp(`(?:^|[^A-Za-z0-9])${escapeLabRe(n)}(?:[^A-Za-z0-9]|$)`, 'i');
+    return re.test(hay);
+  });
+}
+
 export function itemsForLab(ctx, player) {
   const items = (ctx.news && Array.isArray(ctx.news.items)) ? ctx.news.items : [];
-  const entityName = player.entityName || player.name;
-  const needles = labNeedles(player);
   return items
-    .filter((it) => {
-      if (Array.isArray(it.entities) && it.entities.includes(entityName)) return true;
-      const hay = `${it.title || ''} ${it.source || ''} ${it.summary || ''}`.toLowerCase();
-      return needles.some((n) => n.length >= 3 && hay.includes(n));
-    })
+    .filter((it) => itemMatchesLab(it, player))
+    .slice()
+    .sort((a, b) => String(b.published_at || '').localeCompare(String(a.published_at || '')));
+}
+
+/** Older scored stories naming this lab, kept in the durable item archive. */
+export function archiveItemsForLab(ctx, player) {
+  const archived = Array.isArray(ctx.itemArchive) ? ctx.itemArchive : [];
+  return archived
+    .filter((it) => itemMatchesLab(it, player))
     .slice()
     .sort((a, b) => String(b.published_at || '').localeCompare(String(a.published_at || '')));
 }
@@ -318,7 +367,8 @@ export function itemsForLab(ctx, player) {
 export function labIndexable(ctx, player) {
   // A live race row is substance even with sparse news hits; require either
   // market odds or enough news so we never sitemap a name-only shell.
-  // Entity-only labs have no odds — they need ENTITY_LAB_MIN stories.
+  // Entity-only labs have no odds — they need ENTITY_LAB_MIN live stories
+  // (archive enriches the page; deploy-pending keeps the gate live-only).
   if (player && player.entityOnly) {
     return itemsForLab(ctx, player).length >= ENTITY_LAB_MIN;
   }
@@ -342,6 +392,8 @@ function fmtPct(p) {
 export function renderLab(ctx, player) {
   const path = labPath(player.id);
   const items = itemsForLab(ctx, player);
+  const archivedAll = archiveItemsForLab(ctx, player);
+  const older = archivedAll.slice(0, 12);
   // Live-window / race-row gate only while deploy-pending — no archive widen.
   const indexable = labIndexable(ctx, player);
   const m = player.market || {};
@@ -358,6 +410,7 @@ export function renderLab(ctx, player) {
   );
   // Tip #286: section H2s are question-shaped and mirrored in FAQ (§3.3).
   const windowQ = `Which related scored stories name ${player.name} in this window?`;
+  const olderQ = `Which older scored stories name ${player.name}?`;
   const othersQ = 'Which other labs have scored stories?';
   const peerLabs = allLabs(ctx).filter((p) => p.id !== player.id);
   const labs = peerLabs
@@ -366,12 +419,16 @@ export function renderLab(ctx, player) {
   const faq = [
     [`What has ${brand.NAME} scored about ${player.name}?`,
       entityOnly
-        ? `${items.length} scored stories name ${player.name} on ${brand.NAME} in the live window. Story counts only — this page does not invent market odds.`
-        : `${player.name} on ${brand.NAME}: live prediction-market odds ${fmtPct(m.probability)} when published, plus ${items.length} related scored stories in the live window.`],
+        ? `${items.length} scored stories name ${player.name} on ${brand.NAME} in the live window${archivedAll.length ? ` (${archivedAll.length} older in the archive)` : ''}. Story counts only — this page does not invent market odds.`
+        : `${player.name} on ${brand.NAME}: live prediction-market odds ${fmtPct(m.probability)} when published, plus ${items.length} related scored stories in the live window${archivedAll.length ? ` and ${archivedAll.length} older in the archive` : ''}.`],
     [windowQ,
       items.length
         ? `${items.length} scored ${items.length === 1 ? 'story names' : 'stories name'} ${player.name} in the current window. Story counts only — not a company doom score.`
         : `No scored story in the current window names ${player.name}.${entityOnly ? '' : ' The race row above is still the addressable unit.'}`],
+    ...(older.length
+      ? [[olderQ,
+        'Kept in the permanent archive after they left the live window. Still scored stories — not a forecast.']]
+      : []),
     ...(peerLabs.length
       ? [[othersQ,
         `Other labs that clear the substance gate, each linking What has ${brand.NAME} scored about that lab?`]]
@@ -382,10 +439,17 @@ export function renderLab(ctx, player) {
   const faqHtml = faq.map(([q, a]) => `
   <h3>${esc(q)}</h3>
   <p>${esc(a)}</p>`).join('');
+  const olderBlock = older.length
+    ? `<h2 id="older">${esc(olderQ)}</h2>
+  <p class="fc__lede">Kept in the permanent archive after they left the live window. Still scored stories — not a forecast.</p>
+  <ol class="fc__list">${itemRows(ctx, older, 12)}</ol>
+  <p class="fresh__key"><a href="${esc(ctx.href('/item/archive.html'))}">Which older AI stories has ${esc(brand.NAME)} kept in the archive?</a></p>`
+    : '';
 
   const stats = entityOnly
     ? `<div class="fc__stat" role="group" aria-label="Lab signals">
     <div><b class="num">${esc(String(items.length))}</b><span>Related scored stories</span></div>
+    ${archivedAll.length ? `<div><b class="num">${esc(String(archivedAll.length))}</b><span>Older in archive</span></div>` : ''}
   </div>
   <p class="fresh__key">Not on <a href="${esc(ctx.href('/race.html'))}">Who is winning the AI race?</a> this build — this page is a newsroom facet only.
      Stories match the published entity list or the lab's common name forms.</p>`
@@ -393,6 +457,7 @@ export function renderLab(ctx, player) {
     <div><b class="num">${esc(fmtPct(m.probability))}</b><span>Market odds (best model)</span></div>
     <div><b class="num">${esc(Number.isFinite(m.change_7d) ? `${m.change_7d >= 0 ? '+' : '−'}${Math.abs(m.change_7d * 100).toFixed(1)} pts` : '—')}</b><span>7-day change</span></div>
     <div><b class="num">${esc(String(items.length))}</b><span>Related scored stories</span></div>
+    ${archivedAll.length ? `<div><b class="num">${esc(String(archivedAll.length))}</b><span>Older in archive</span></div>` : ''}
   </div>
   <p class="fresh__key"><a href="${esc(ctx.href('/race.html'))}">Who is winning the AI race?</a>
      · Odds are prediction-market prices, not ${esc(brand.NAME)} judgements.</p>`;
@@ -410,6 +475,7 @@ export function renderLab(ctx, player) {
   ${items.length
     ? `<ol class="fc__list">${itemRows(ctx, items)}</ol>`
     : `<p>No scored story in the current window names ${esc(player.name)}.${entityOnly ? '' : ' The race row above is still the addressable unit.'}</p>`}
+  ${olderBlock}
   <h2 id="faq">What questions do people actually ask?</h2>
   ${faqHtml}
   ${peerLabs.length ? `<h2 id="other-labs">${esc(othersQ)}</h2>

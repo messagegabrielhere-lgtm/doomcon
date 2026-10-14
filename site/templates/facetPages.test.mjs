@@ -2,8 +2,9 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 import * as brand from '../brand.mjs';
 import {
-  itemsForPillar, pillarIndexable, renderPillar, pillarPath,
-  itemsForLab, labIndexable, renderLab, labPath, labsFromRace, labsFromEntities,
+  itemsForPillar, archiveItemsForPillar, pillarIndexable, renderPillar, pillarPath,
+  itemsForLab, archiveItemsForLab, itemMatchesLab, labIndexable, renderLab, labPath,
+  labsFromRace, labsFromEntities,
   allLabs, indexableLabs, renderLabIndex, renderCompanies, sitemapEntries, ENTITY_LAB_MIN,
   indexablePillars, renderPillarIndex, renderPillars, renderSources,
   PILLAR_INDEX_MIN, SOURCE_INDEX_MIN, sourceLabel, sourceIndexable, renderSource,
@@ -93,6 +94,27 @@ describe('pillar facets', () => {
     const html = renderPillar(ctx, 'markets');
     assert.match(html, /noindex/);
   });
+
+  it('lists older archive stories on pillar pages without widening the live gate', () => {
+    const withArch = {
+      ...ctx,
+      itemArchive: [{
+        id: 'old-cap',
+        title: 'Archived capability story about agents',
+        pillar: 'capability',
+        source: 'hn',
+        url: 'https://example.test/old-cap',
+        published_at: '2026-10-01T01:00:00Z',
+        score: 41,
+      }],
+    };
+    assert.equal(archiveItemsForPillar(withArch, 'capability').length, 1);
+    assert.equal(pillarIndexable(withArch, 'markets'), false, 'archive alone must not index a thin pillar');
+    const html = renderPillar(withArch, 'capability');
+    assert.match(html, /Which older scored stories are under Capability\?/);
+    assert.match(html, /Archived capability story about agents/);
+    assert.doesNotMatch(html, /noindex/);
+  });
 });
 
 describe('lab facets', () => {
@@ -112,6 +134,30 @@ describe('lab facets', () => {
     assert.match(html, /FAQPage/);
     assert.match(html, /speakable/);
     assert.equal(labPath('openai'), '/lab/openai.html');
+  });
+
+  it('matches labs on word boundaries and lists archive stories without widening the gate', () => {
+    const amd = { id: 'amd', name: 'AMD', entityOnly: true, entityName: 'AMD' };
+    assert.equal(itemMatchesLab({ title: 'AMD ships MI300X', summary: '' }, amd), true);
+    assert.equal(itemMatchesLab({ title: 'Demand for GPUs rises', summary: '' }, amd), false);
+    const withArch = {
+      ...ctx,
+      itemArchive: [{
+        id: 'old-oai',
+        title: 'Archived OpenAI story about agents',
+        pillar: 'capability',
+        source: 'hn',
+        url: 'https://example.test/old-oai',
+        published_at: '2026-10-01T01:00:00Z',
+        score: 55,
+        entities: ['OpenAI'],
+      }],
+    };
+    const openai = withArch.race.players[0];
+    assert.equal(archiveItemsForLab(withArch, openai).length, 1);
+    const html = renderLab(withArch, openai);
+    assert.match(html, /Which older scored stories name OpenAI\?/);
+    assert.match(html, /Archived OpenAI story about agents/);
   });
 
   it('adds entity-only labs that clear the story gate without inventing odds', () => {
