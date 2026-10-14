@@ -34,6 +34,7 @@ const MODEL_LAB = {
   Maia: 'microsoft',
   Codex: 'openai',
   'Nano Banana': 'google-deepmind',
+  Jev: 'typesafe',
 };
 
 const MODELS = publishedEntities().filter((e) => e.kind === 'model');

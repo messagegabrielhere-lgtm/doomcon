@@ -1125,6 +1125,37 @@ describe('lab facets', () => {
     assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/lab/coinbase.html'));
   });
 
+  it('indexes TypeSafe entity lab when archive headlines clear the gate', () => {
+    const withArch = {
+      ...ctx,
+      news: { ...ctx.news, items: [...ctx.news.items] },
+      itemArchive: [
+        {
+          id: 'ts1', title: 'Jev AI model creator TypeSafe raises $870M at $7.5B valuation', pillar: 'markets', source: 'hn',
+          url: 'https://example.test/ts1', published_at: '2026-09-01T01:00:00Z', score: 40,
+        },
+        {
+          id: 'ts2', title: 'TypeSafe CEO Diogo Almeida says Jev is in use by Fortune 500 companies', pillar: 'markets', source: 'hn',
+          url: 'https://example.test/ts2', published_at: '2026-09-02T01:00:00Z', score: 41,
+        },
+        {
+          id: 'ts3', title: 'Jev developer TypeSafe AI raised a $870M Series A led by a16z', pillar: 'markets', source: 'hn',
+          url: 'https://example.test/ts3', published_at: '2026-09-03T01:00:00Z', score: 42,
+        },
+        {
+          id: 'tsbad', title: 'A decision-model note without naming the maker', pillar: 'markets', source: 'hn',
+          url: 'https://example.test/tsbad', published_at: '2026-09-04T01:00:00Z', score: 30,
+        },
+      ],
+    };
+    const typesafe = labsFromEntities(withArch).find((p) => p.id === 'typesafe');
+    assert.ok(typesafe, 'TypeSafe clears ENTITY_LAB_MIN');
+    assert.match(renderLab(withArch, typesafe), /What has SIREN scored about TypeSafe\?/);
+    assert.doesNotMatch(renderLab(withArch, typesafe), /without naming the maker/);
+    assert.doesNotMatch(renderLab(withArch, typesafe), /doom score:\s*\d/i);
+    assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/lab/typesafe.html'));
+  });
+
   it('indexes a16z and Instinct entity labs when archive headlines clear the gate', () => {
     const withArch = {
       ...ctx,
