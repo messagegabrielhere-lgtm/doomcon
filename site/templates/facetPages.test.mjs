@@ -1178,6 +1178,75 @@ describe('lab facets', () => {
     assert.ok(sitemapEntries(withArch).some((e) => e.loc === '/lab/netflix.html'));
   });
 
+  it('indexes Sakana AI, Physical Intelligence, Zhipu, and Cloudflare entity labs', () => {
+    const withArch = {
+      ...ctx,
+      news: { ...ctx.news, items: [...ctx.news.items] },
+      itemArchive: [
+        {
+          id: 'sk1', title: 'Sakana AI Demonstrates a Working RSI Loop', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/sk1', published_at: '2026-09-01T01:00:00Z', score: 40,
+        },
+        {
+          id: 'sk2', title: "Sakana AI's self-improving model gets better at solving and judging", pillar: 'capability', source: 'hn',
+          url: 'https://example.test/sk2', published_at: '2026-09-02T01:00:00Z', score: 41,
+        },
+        {
+          id: 'sk3', title: 'Sakana AI’s LLM Peer Review System Catches 73% of Core-Claim Errors', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/sk3', published_at: '2026-09-03T01:00:00Z', score: 42,
+        },
+        {
+          id: 'pi1', title: 'Warehouse robotics startup expands its deal with Physical Intelligence', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/pi1', published_at: '2026-09-01T02:00:00Z', score: 40,
+        },
+        {
+          id: 'pi2', title: 'Magic-W0: A Structured World-Action Foundation Model for Physical Intelligence', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/pi2', published_at: '2026-09-02T02:00:00Z', score: 41,
+        },
+        {
+          id: 'pi3', title: 'PhysVista: Benchmarking Physical Intelligence in VLMs', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/pi3', published_at: '2026-09-03T02:00:00Z', score: 42,
+        },
+        {
+          id: 'zh1', title: 'River AI Opens Inference 20% Below DeepSeek and Z.ai Rates', pillar: 'markets', source: 'hn',
+          url: 'https://example.test/zh1', published_at: '2026-09-01T03:00:00Z', score: 40,
+        },
+        {
+          id: 'zh2', title: 'Zhipu ships GLM updates for enterprise buyers', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/zh2', published_at: '2026-09-02T03:00:00Z', score: 41,
+        },
+        {
+          id: 'zh3', title: 'Investors watch Zhipu as open-weight competition heats up', pillar: 'markets', source: 'hn',
+          url: 'https://example.test/zh3', published_at: '2026-09-03T03:00:00Z', score: 42,
+        },
+        {
+          id: 'cf1', title: 'Cloudflare Open Sources Decision Models for AI Agents', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/cf1', published_at: '2026-09-01T04:00:00Z', score: 40,
+        },
+        {
+          id: 'cf2', title: 'Cloudflare Traces Turns the Proxy Layer into OpenTelemetry Spans', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/cf2', published_at: '2026-09-02T04:00:00Z', score: 41,
+        },
+        {
+          id: 'cf3', title: 'Talorys – A self-hosted personal AI agent on Cloudflare free tier', pillar: 'capability', source: 'hn',
+          url: 'https://example.test/cf3', published_at: '2026-09-03T04:00:00Z', score: 42,
+        },
+      ],
+    };
+    for (const [id, name] of [
+      ['sakana-ai', 'Sakana AI'],
+      ['physical-intelligence', 'Physical Intelligence'],
+      ['zhipu', 'Zhipu'],
+      ['cloudflare', 'Cloudflare'],
+    ]) {
+      const lab = labsFromEntities(withArch).find((p) => p.id === id);
+      assert.ok(lab, `${name} clears ENTITY_LAB_MIN`);
+      assert.match(renderLab(withArch, lab), new RegExp(`What has SIREN scored about ${name}\\?`));
+      assert.doesNotMatch(renderLab(withArch, lab), /doom score:\s*\d/i);
+      assert.ok(sitemapEntries(withArch).some((e) => e.loc === `/lab/${id}.html`));
+    }
+  });
+
   it('indexes Decart, IREN, and OpenRouter entity labs when archive headlines clear the gate', () => {
     const withArch = {
       ...ctx,

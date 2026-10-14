@@ -522,6 +522,7 @@ function labNeedles(player) {
     'reflection-ai': ['reflection ai'],
     decart: ['decart'],
     'sakana-ai': ['sakana ai', 'sakana'],
+    zhipu: ['zhipu', 'z.ai'],
     'isomorphic-labs': ['isomorphic labs'],
     'winverse-ai': ['winverse ai', 'winverse'],
     cisco: ['cisco'],
