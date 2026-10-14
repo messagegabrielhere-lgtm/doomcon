@@ -299,7 +299,7 @@ Honesty rules:
 ## Explainers (search head terms)
 
 - [Method](${u('/methodology.html')}): every formula and constant ([markdown](${u('/methodology.md')}))
-- [Guide: SIREN vs DEFCON vs the Doomsday Clock vs p(doom)](${u('/guide.html')}) ([markdown](${u('/guide.md')}))
+- [How does SIREN compare to DEFCON, the Doomsday Clock and p(doom)?](${u('/guide.html')}) ([markdown](${u('/guide.md')}))
 - [What are the AI explainers?](${u('/guides.html')}): p(doom), doomsday clocks, doom indexes — vocabulary without a doom probability ([guides.md](${u('/guides.md')}))
 - [AI doom indexes compared](${u('/compare.html')}): SIREN vs DoomBench, Skynet Countdown, p(doom), PizzINT, Takeoff Tracker
 - [Which AI indexes does SIREN contrast?](${u('/vs.html')}): directory of honest versus pages
@@ -404,7 +404,7 @@ export function agentsMd(ctx) {
 ## Head-term pages (Google + answer engines)
 
 - ${u('/')} — live AI activity index today
-- ${u('/guide.md')} — SIREN vs DEFCON vs Doomsday Clock vs p(doom)
+- ${u('/guide.md')} — How does SIREN compare to DEFCON, the Doomsday Clock and p(doom)?
 - ${u('/guides.html')} — What are the AI explainers? (p(doom), clocks, doom indexes)
 - ${u('/guides.md')} — markdown mirror of the explainers hub
 - ${u('/compare.html')} — AI doom indexes compared (incl. PizzINT, Takeoff Tracker)
