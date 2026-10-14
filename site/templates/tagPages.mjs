@@ -1300,6 +1300,18 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'Robot manipulation-task research stories scored in the newsroom or archive — coverage counts, not a robotics forecast.',
     match: /\b[Mm]anipulation [Tt]asks?\b/i,
   },
+  {
+    id: 'safety-concerns',
+    name: 'AI safety concerns',
+    description: 'AI safety-concerns coverage scored in the newsroom or archive — coverage counts, not a harm forecast.',
+    match: /\b[Ss]afety [Cc]oncerns\b/i,
+  },
+  {
+    id: 'chatgpt-teens',
+    name: 'ChatGPT for teens',
+    description: 'ChatGPT-for-teens and youth-product stories scored in the newsroom or archive — coverage counts, not a harm forecast.',
+    match: /\bChatGPT for [Tt]eens?\b|\b[Tt]eens?\b.{0,40}\bChatGPT\b|\bChatGPT\b.{0,40}\b[Tt]eens?\b/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));

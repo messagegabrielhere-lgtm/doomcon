@@ -688,6 +688,8 @@ context.
 | 436 | Topic tag `off-policy` (live/archive ≥5); IndexNow + seo-daily monitor; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 437 | Topic tag `internet-access` (live/archive ≥5; halt/cut/pull/restrict + internet access); IndexNow + seo-daily; refuse containment-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 438 | Topic tag `manipulation-tasks` (live/archive ≥5); IndexNow + seo-daily monitor; refuse robotics-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 439 | Topic tag `safety-concerns` (live/archive ≥5); IndexNow + seo-daily monitor; refuse harm-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 440 | Topic tag `chatgpt-teens` (live/archive ≥5); IndexNow + seo-daily monitor; refuse harm-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
