@@ -304,6 +304,7 @@ context.
 | 71 | Live `/` + `/catalog.html` list question-shaped Search Trends + AI prediction-markets (LIVE INTEL tiles + catalog DATA) — durable on `main`; gh-pages overlay until a full collect Publish sticks | Agents + Google | **Done** (2026-10-14) |
 | 72 | News-sitemap `NEWS_KEYWORD_LABS` refresh for live 48h surfaces (Character.AI, Mythos, Sarah Friar, Sachin Katti, Prime Intellect, Moondream, ollama, …) while `pizzint-news-alive` | Google News | **Done** (2026-10-14) |
 | 73 | Outrank-style free-tool landings: `/verify.html` (receipt checker + WebApplication) + `/free-tools.html` listicle; IndexNow / sitemap / `llms.txt` / agents / catalog / home tiles | Google + AI mentions | **Done** (2026-10-14) |
+| 74 | Live `llms.txt` / `agents.md` / `skill.md` + sitemap locs advertise `/verify.html` + `/free-tools.html` (main had #73; gh-pages agent maps lagged until overlay — lab/day-hub lines preserved) | Agents + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
