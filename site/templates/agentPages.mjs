@@ -612,17 +612,28 @@ const LISTINGS = [
 export function land(ctx) {
   const PATH = '/bug-out-land.html';
   const qTitle = 'Where to buy remote land to ride out Skynet?';
+  // Tip #281: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const regionsQ = 'Which regions do people look at for remote land?';
+  const checkQ = 'What is the checklist before you buy?';
+  const listQ = 'Where is land listed?';
+  const stockQ = 'What else does SIREN cover for supplies?';
   // FAQ answers restate hero / note / checklist framing only.
   // Refuse: Skynet-as-forecast, real-estate advice claims, doom-probability titles.
   const faq = [
     [qTitle,
       'The Skynet part is a joke. Wanting land that can keep you fed, watered and warm when the grid, the apps or the supply chain fail is not. These are the regions homesteaders and preppers look at most in the US, the checklist that separates a refuge from a money pit, and where land is listed.'],
+    [regionsQ,
+      'These are the regions homesteaders and preppers look at most in the US.'],
+    [checkQ,
+      'The checklist that separates a refuge from a money pit: Water, Legal access, Soil and season, Hazards, Power and internet, Rules, Rights below, Medical and supplies.'],
+    [listQ,
+      `LandWatch, Land.com, LandSearch, Zillow land listings, Realtor.com land, United Country Real Estate, and USDA rural home loans. Links to listing sites are plain links; ${brand.NAME} is not paid for them.`],
+    [stockQ,
+      'What belongs in a 72-hour prepper kit? and What free tools belong in a bunker kit? cover water, food, power and the rest.'],
     ['Is this a forecast that Skynet is coming?',
       'The Skynet part is a joke. Wanting land that can keep you fed, watered and warm when the grid, the apps or the supply chain fail is not.'],
     ['Is this real-estate or financial advice?',
       `General information, not real-estate, legal or financial advice. Prices and conditions change; visit before you buy, and have a local attorney check title, access and water rights. Links to listing sites are plain links; ${brand.NAME} is not paid for them.`],
-    ['What else does SIREN cover for supplies?',
-      'What belongs in a 72-hour prepper kit? and What free tools belong in a bunker kit? cover water, food, power and the rest.'],
   ];
   const faqHtml = faq.map(([qAsk, a]) => `
   <h3>${esc(qAsk)}</h3>
@@ -634,13 +645,13 @@ export function land(ctx) {
   <h1 class="bp__h1">${esc(qTitle)}</h1>
   <p class="lede">The Skynet part is a joke. Wanting land that can keep you fed, watered and warm when the grid, the apps or the supply chain fail is not. These are the regions homesteaders and preppers look at most in the US, the checklist that separates a refuge from a money pit, and where land is listed.</p>
   <a class="ag-btn ghost" href="${esc(xShare(ctx, 'Where to buy remote land to ride out Skynet (and the checklist that actually matters):', PATH))}" target="_blank" rel="noopener">𝕏 POST THIS</a>
-  <h2>Regions people look at</h2>
+  <h2 id="regions">${esc(regionsQ)}</h2>
   <div class="ag-grid">${REGIONS.map(([r, d]) => `<div class="ag-card"><h3>${esc(r)}</h3><p>${esc(d)}</p></div>`).join('')}</div>
-  <h2>The checklist before you buy</h2>
+  <h2 id="checklist">${esc(checkQ)}</h2>
   <div class="ag-grid">${CHECK.map(([c, d]) => `<div class="ag-card"><h3>✔ ${esc(c)}</h3><p>${esc(d)}</p></div>`).join('')}</div>
-  <h2>Where land is listed</h2>
+  <h2 id="listings">${esc(listQ)}</h2>
   <p>${LISTINGS.map(([n, h]) => `<a class="ag-btn ghost" href="${esc(h)}" rel="noopener" target="_blank">${esc(n)} ↗</a>`).join('')}</p>
-  <h2>Then stock it</h2>
+  <h2 id="stock">${esc(stockQ)}</h2>
   <p><a href="${esc(ctx.href('/prepper-checklist.html'))}">What belongs in a 72-hour prepper kit?</a> and <a href="${esc(ctx.href('/bunker-kit.html'))}">What free tools belong in a bunker kit?</a> cover water, food, power and the rest.</p>
   <p class="ag-note">General information, not real-estate, legal or financial advice. Prices and conditions change; visit before you buy, and have a local attorney check title, access and water rights. Links to listing sites are plain links; ${esc(brand.NAME)} is not paid for them.</p>
   <section class="ag-faq" aria-labelledby="faq">

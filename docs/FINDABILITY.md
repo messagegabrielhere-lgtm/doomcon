@@ -530,6 +530,7 @@ context.
 | 278 | `/agents.html` section H2s + FAQPage use questions for start / tell / Moltbook / spotlight / rules (was “Start here” / “Tell your agent” / “On Moltbook” / “Agents spotlight…” / “Rules for agents”); Organization `knowsAbout` mirrors those questions; refuse agents-as-doom-oracle / scrape-Google-for-rank / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 279 | `/tally.html` section H2s + FAQPage use questions for moods / where-Tally-works / use-in-posts (was “One bird, five moods” / “Where Tally works” / “Tally for your stuff”); Organization `knowsAbout` mirrors those questions; refuse tally-as-doom-oracle / mood-as-severity / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 280 | `/staff.html` section H2s + FAQPage use questions for Grok crew / data-crew flow / data crew / join (was “The Grok crew…” / “How the data crew works together” / “The data crew” / “Join them”); Organization `knowsAbout` mirrors those questions; refuse editor-picks-the-level / staff-as-doom-oracle / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 281 | `/bug-out-land.html` section H2s + FAQPage use questions for regions / checklist / listings / supplies (was “Regions people look at” / “The checklist before you buy” / “Where land is listed” / “Then stock it”); Organization `knowsAbout` mirrors those questions; refuse Skynet-as-forecast / real-estate-advice / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
