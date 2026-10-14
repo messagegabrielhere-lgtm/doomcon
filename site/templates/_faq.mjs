@@ -43,6 +43,8 @@ export function items(ctx) {
       `Tally is the duty canary, the mascot. The helmet is painted in the current level's colour and the face follows the level: asleep at 5, in full squawk at 1. Tally also keeps the unserious counts and runs the counting game.`],
     ['What is in the war room?',
       `Live panels on the homepage for the current reading: jobs and medicine, Tally’s bets, and other desks that refresh with each hourly observation. It is a jump board into those rooms, not a second index.`],
+    ['What are the two questions everyone asks?',
+      `Is AI taking jobs? and Is AI curing anything? — register counts with sources and caveats on /jobs.html and /medicine.html. The pictures on those cards are generated illustrations. The numbers are not.`],
   ];
 }
 

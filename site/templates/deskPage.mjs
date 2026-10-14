@@ -16,19 +16,19 @@ import { mascot } from './_mascot.mjs';
 const PATH = '/desk.html';
 const N = (n) => Number(n).toLocaleString('en-US');
 
-/** Headline counters: [id, title, pattern, what it counts, the joke]. */
+/** Headline counters: [id, question H2, pattern, what it counts, the joke]. Tip #325. */
 const COUNTERS = [
-  ['robots', 'The Robot Count', /\brobot/i, 'headlines containing the word "robot"',
+  ['robots', 'How many headlines mention robots?', /\brobot/i, 'headlines containing the word "robot"',
     'A robot in a headline is not a robot in your kitchen. It is still a robot in a headline, and those we can count.'],
-  ['billions', 'Billions Mentioned', /\bbillions?\b|\$\s?[\d.]+\s?(?:bn\b|b\b)/i, 'headlines that mention a billion of something',
+  ['billions', 'How many headlines mention billions?', /\bbillions?\b|\$\s?[\d.]+\s?(?:bn\b|b\b)/i, 'headlines that mention a billion of something',
     'Usually dollars. Occasionally parameters. Never apologies.'],
-  ['betteridge', 'The Betteridge Index', /\?\s*$/, 'headlines that end in a question mark',
+  ['betteridge', 'How many headlines end in a question mark?', /\?\s*$/, 'headlines that end in a question mark',
     'Betteridge’s law says the answer to any headline ending in a question mark is no. We only count the question marks.'],
-  ['godfather', 'Godfather Sightings', /godfather/i, 'headlines containing the word "godfather"',
+  ['godfather', 'How many headlines mention a godfather?', /godfather/i, 'headlines containing the word "godfather"',
     'The field has more godfathers than a film trilogy. This is how many turned up this window.'],
-  ['agi', 'The Said-It Counter', /\bAGI\b|superintelligen/i, 'headlines that say "AGI" or "superintelligence"',
+  ['agi', 'How many headlines say AGI or superintelligence?', /\bAGI\b|superintelligen/i, 'headlines that say "AGI" or "superintelligence"',
     'Saying it is free. Counting how often it is said is also free, which is why it is here.'],
-  ['doom', 'Doom, By Name', /\bdoom|extinction|apocalyp|existential/i, 'headlines that use doom, extinction, apocalypse or existential',
+  ['doom', 'How many headlines use doom by name?', /\bdoom|extinction|apocalyp|existential/i, 'headlines that use doom, extinction, apocalypse or existential',
     'The word in our own name, counted where other people use it. It measures vocabulary and nothing else.'],
 ];
 
@@ -75,9 +75,10 @@ export function render(ctx) {
       <p class="dk__f">${shareLink(ctx, line)} <a href="${esc(ctx.href('/moves/'))}">Where are the ${esc(brand.NAME)} index moves? →</a></p>
     </li>`);
   }
+  const counterFaq = [];
   for (const [id, title, rx, what, joke] of COUNTERS) {
     const n = items.filter((i) => rx.test(String(i.title || ''))).length;
-    const line = `${title}: ${N(n)} of ${N(total)} AI ${what.replace(/^headlines/, 'headlines')} as of ${at}. Counted by ${brand.NAME}.`;
+    const line = `${title} ${N(n)} of ${N(total)} AI ${what.replace(/^headlines/, 'headlines')} as of ${at}. Counted by ${brand.NAME}.`;
     cards.push(`<li class="dk__c" id="${esc(id)}">
       <h2 class="dk__h">${esc(title)}</h2>
       <p class="dk__n num">${esc(N(n))}</p>
@@ -85,9 +86,10 @@ export function render(ctx) {
       <p class="dk__j">${esc(joke)}</p>
       <p class="dk__f">${shareLink(ctx, line)}</p>
     </li>`);
+    counterFaq.push([title, joke]);
   }
 
-  // FAQ answers restate hero / fine-print / streak copy only (FINDABILITY §3.3).
+  // FAQ answers restate hero / fine-print / streak / counter jokes only (FINDABILITY §3.3).
   // Refuse: signal, forecast, or input to the main index.
   const faq = [
     [qTitle,
@@ -96,6 +98,7 @@ export function render(ctx) {
       ? [[streakQ,
         `The dial works. It is just not moving: ${N(st.n)} consecutive readings at level ${st.level}, ${st.name}, since ${utc(st.since)}. When it does move, this resets to one.`]]
       : []),
+    ...counterFaq,
     [`Do Tally’s desk counts feed the main ${brand.NAME} number?`,
       `Tally’s desk · does not feed the main number. What these are not: a signal, a forecast, or an input to ${brand.NAME}.`],
     ['Are these side indexes a signal or a forecast?',

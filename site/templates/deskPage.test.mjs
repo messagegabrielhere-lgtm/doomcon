@@ -62,4 +62,19 @@ describe('desk page', () => {
     assert.match(html, /consecutive readings at level/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
   });
+
+  it('counter card H2s use questions mirrored in FAQPage', () => {
+    const html = render(ctx);
+    assert.match(html, /<h2 class="dk__h">How many headlines mention robots\?<\/h2>/);
+    assert.match(html, /<h2 class="dk__h">How many headlines mention billions\?<\/h2>/);
+    assert.match(html, /<h2 class="dk__h">How many headlines end in a question mark\?<\/h2>/);
+    assert.match(html, /<h2 class="dk__h">How many headlines mention a godfather\?<\/h2>/);
+    assert.match(html, /<h2 class="dk__h">How many headlines say AGI or superintelligence\?<\/h2>/);
+    assert.match(html, /<h2 class="dk__h">How many headlines use doom by name\?<\/h2>/);
+    assert.doesNotMatch(html, /<h2 class="dk__h">The Robot Count<\/h2>/);
+    assert.doesNotMatch(html, /<h2 class="dk__h">Doom, By Name<\/h2>/);
+    assert.match(html, /"name"\s*:\s*"How many headlines mention robots\?"/);
+    assert.match(html, /"name"\s*:\s*"How many headlines use doom by name\?"/);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
+  });
 });

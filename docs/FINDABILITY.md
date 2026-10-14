@@ -574,6 +574,8 @@ context.
 | 322 | `/radio.html` section H2s + FAQPage use questions for Tally voice / hear-in-videos (was “Tally’s voice update” / “Hear it in the videos”); Organization `knowsAbout` mirrors those questions; refuse Radio-as-index-input / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 323 | `/bliss.html` cold-start H2 + FAQPage use questions for no-score / awaiting-baseline (was “BLISS has no score in this build” / “BLISS is awaiting its baseline”); Organization `knowsAbout` mirrors those questions; refuse doom-probability / forecast claims | Google + Bing | **Done** (2026-10-14) |
 | 324 | Home Meet Tally + War room H2s + homepage FAQ, and `/desk.html` streak card H2 + FAQPage, use questions (was “Meet Tally” / “War room” / “Nothing Ever Changes”); Organization `knowsAbout` mirrors desk/war-room questions; PRIMARY nav chrome stays short; refuse desk-feeds-index / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 325 | `/desk.html` counter card H2s + FAQPage use questions for robots / billions / Betteridge / godfather / AGI / doom-by-name (was “The Robot Count” / “Billions Mentioned” / …); Organization `knowsAbout` mirrors those questions; refuse desk-feeds-index / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 326 | `/jobs.html` + `/medicine.html` newsroom H2 + FAQ, home “two questions” + “every room” H2s + homepage FAQ, and `/moves/*` pillars/inputs/receipt H2s + FAQPage, use questions; Organization `knowsAbout` mirrors those questions; refuse jobs/medicine forecast and move-as-doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 

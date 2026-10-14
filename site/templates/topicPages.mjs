@@ -105,6 +105,13 @@ export function render(ctx, key) {
   const at = ctx.news && ctx.news.generated_at ? utc(ctx.news.generated_at) : null;
   const level = ctx.state && Number.isFinite(ctx.state.level) ? ctx.state.level : null;
   const other = key === 'jobs' ? TOPICS.medicine : TOPICS.jobs;
+  // Tip #326: newsroom H2 is question-shaped and mirrored in FAQ (§3.3).
+  const newsQ = 'Which headlines mention this in the newsroom now?';
+  const newsA = `${N(hits.length)} of ${N(items.length)} headlines in the newsroom window mention ${t.what}${at ? `, as of ${at}` : ''}. Matched by word, so read them before trusting the count.`;
+  const faqPairs = [
+    ...(Array.isArray(t.faq) ? t.faq : []),
+    [newsQ, newsA],
+  ];
 
   const main = `
 <style>
@@ -136,17 +143,16 @@ export function render(ctx, key) {
   <p class="fresh__key">${esc(N(list.length))} ${list.length === 1 ? 'entry' : 'entries'} from the hand-verified registers${L && L.as_of_date ? `, checked as of ${esc(L.as_of_date)}` : ''}.
     ${esc(t.not)}</p>
 ${list.map((e) => entry(ctx, e, L && L.status_words, t)).join('\n')}
-  <h2 class="sec__h tp__sec" id="in-the-news">In the newsroom now</h2>
+  <h2 class="sec__h tp__sec" id="in-the-news">${esc(newsQ)}</h2>
   <p class="fresh__key"><b>${esc(N(hits.length))} of ${esc(N(items.length))}</b> headlines in the newsroom window mention ${esc(t.what)}${at ? `, as of ${esc(at)}` : ''}.
     Matched by word, so read them before trusting the count.</p>
   ${hits.length ? `<ul class="tp__news">${hits.slice(0, 12).map((i) => `<li><a href="${esc(i.url)}" rel="noopener">${esc(i.title)}</a><small>${esc(i.source)} · ${esc(String(i.published_at).slice(0, 10))}</small></li>`).join('')}</ul>` : ''}
   <h2 class="sec__h tp__sec" id="faq">Questions people actually ask</h2>
-${(t.faq || []).map(([q, a]) => `  <h3>${esc(q)}</h3>
+${faqPairs.map(([q, a]) => `  <h3>${esc(q)}</h3>
   <p>${esc(a)}</p>`).join('\n')}
   <p><a href="${esc(ctx.href(other.path))}">${esc(other.h1)} →</a> · <a href="${esc(ctx.href('/balance.html'))}">How does ${esc(brand.NAME)} count AI harm and benefit side by side? →</a> · <a href="${esc(ctx.href('/library.html'))}">What AI books argue both sides of the case? →</a>${brand.X_URL ? ` · <a href="https://x.com/intent/follow?screen_name=${esc(brand.X_HANDLE.replace(/^@/, ''))}" rel="noopener">Follow ${esc(brand.X_HANDLE)} for updates to these numbers →</a>` : ''}</p>
 </section>`;
 
-  const faqPairs = Array.isArray(t.faq) ? t.faq : [];
   const jsonld = [
     {
       '@context': 'https://schema.org',
@@ -194,8 +200,9 @@ export function homeCards(ctx) {
     </a>`;
   });
   if (!cards.length) return '';
+  // Tip #326: section H2 is question-shaped; home FAQ mirrors it (§3.3).
   return `<section class="sec tq" id="two-questions" aria-labelledby="tq-h">
-  <h2 class="sec__h" id="tq-h">The two questions everyone asks</h2>
+  <h2 class="sec__h" id="tq-h">What are the two questions everyone asks?</h2>
   <div class="tq__l">${cards.join('')}</div>
   <p class="fresh__key">The pictures on these cards are generated illustrations. The numbers are not.</p>
 </section>`;
