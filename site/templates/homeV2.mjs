@@ -232,8 +232,9 @@ export function roomGroups(ctx) {
 
 function roomsGrid(ctx, href, img) {
   const groups = roomGroups(ctx);
+  // Tip #326: section H2 is question-shaped (screen-reader); catalog FAQ covers listing (§3.3).
   return `<section class="v2-rooms" id="rooms" data-sec="Every room" aria-labelledby="v2-rooms-h">
-  <h2 id="v2-rooms-h" class="v2-sr">Every room</h2>
+  <h2 id="v2-rooms-h" class="v2-sr">Where is every room on SIREN?</h2>
   ${groups.map(([g, list]) => {
     return `<div class="v2-rgroup"><span class="v2-rgh">${esc(g)}</span><div class="v2-rgrid">${list.map(([p, art, label, n, blurb]) => `<a class="v2-room" href="${href(p)}"><img src="${img(art)}" width="56" height="56" alt="" loading="lazy"><span class="v2-room__t"><b>${esc(label)}</b>${n ? `<i>${esc(n)}</i>` : ''}<small>${esc(blurb)}</small></span></a>`).join('')}</div></div>`;
   }).join('')}

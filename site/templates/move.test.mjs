@@ -37,4 +37,19 @@ describe('move page', () => {
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /probability of doom/i);
   });
+
+  it('section H2s use questions mirrored in FAQPage', () => {
+    const html = render(ctx, baseMove);
+    assert.match(html, /<h2 id="pillars">Which pillars scored at this observation\?<\/h2>/);
+    assert.match(html, /<h2 id="inputs">Which inputs did the engine see\?<\/h2>/);
+    assert.match(html, /<h2 id="receipt">What is the receipt for this observation\?<\/h2>/);
+    assert.doesNotMatch(html, /<h2 id="pillars">Pillars at this observation<\/h2>/);
+    assert.doesNotMatch(html, /<h2 id="inputs">Inputs<\/h2>/);
+    assert.doesNotMatch(html, /<h2 id="receipt">Receipt<\/h2>/);
+    assert.match(html, /"@type"\s*:\s*"FAQPage"/);
+    assert.match(html, /"name"\s*:\s*"Which pillars scored at this observation\?"/);
+    assert.match(html, /"name"\s*:\s*"What is the receipt for this observation\?"/);
+    assert.match(html, /Does this move mean a doom probability\?/);
+    assert.doesNotMatch(html, /probability of doom is \d/i);
+  });
 });

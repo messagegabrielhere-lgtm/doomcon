@@ -327,7 +327,15 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('Which BLISS sources answered this run'));
     assert.ok(org.knowsAbout.includes('How is BLISS computed'));
     assert.ok(org.knowsAbout.includes('How long has Nothing Ever Changed'));
+    assert.ok(org.knowsAbout.includes('How many headlines mention robots'));
+    assert.ok(org.knowsAbout.includes('How many headlines use doom by name'));
     assert.ok(org.knowsAbout.includes('What is in the war room'));
+    assert.ok(org.knowsAbout.includes('What are the two questions everyone asks'));
+    assert.ok(org.knowsAbout.includes('Which headlines mention this in the newsroom now'));
+    assert.ok(org.knowsAbout.includes('Which pillars scored at this observation'));
+    assert.ok(org.knowsAbout.includes('Which inputs did the engine see'));
+    assert.ok(org.knowsAbout.includes('What is the receipt for this observation'));
+    assert.ok(org.knowsAbout.includes('Where is every room on SIREN'));
     assert.ok(org.knowsAbout.includes('AI harm and benefit side by side'));
     assert.ok(org.knowsAbout.includes('how does SIREN count AI harm and benefit side by side'));
     assert.ok(org.knowsAbout.includes('Tally desk unserious counts'));

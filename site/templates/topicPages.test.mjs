@@ -68,6 +68,9 @@ describe('jobs / medicine topic pages', () => {
     assert.match(jobs, /href="\/library\.html">What AI books argue both sides of the case\? →<\/a>/);
     assert.doesNotMatch(jobs, /href="\/library\.html">Books on the argument \(paid links\) →<\/a>/);
     assert.doesNotMatch(jobs, /probability of doom is \d/i);
+    assert.match(jobs, /<h2[^>]*>Which headlines mention this in the newsroom now\?<\/h2>/);
+    assert.doesNotMatch(jobs, /<h2[^>]*>In the newsroom now<\/h2>/);
+    assert.match(jobs, /"name"\s*:\s*"Which headlines mention this in the newsroom now\?"/);
 
     const med = render(ctx, 'medicine');
     assert.match(med, /<title>Is AI curing anything\? Trial results, approvals and what they show/);
