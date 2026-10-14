@@ -1747,7 +1747,7 @@ function picksBand(ctx) {
   <div class="mkb__top">
     <a class="mkb__potd" id="mkb-potd" href="${esc(arena)}">
       <small>&#9733; Pick of the day</small>
-      <b class="tk" id="mkb-tk">See today's picks</b>
+      <b class="tk" id="mkb-tk">What does ${esc(brand.NAME)} Arena show?</b>
       <span class="nm" id="mkb-nm">A fixed RSI(2) pullback screen of about 150 large US stocks, with every past pick scored.</span>
       <div class="st" id="mkb-st"></div>
     </a>
@@ -1755,24 +1755,24 @@ function picksBand(ctx) {
   </div>
   <div class="mkb__two">
     <a class="mkb__card" href="${esc(arena)}#investors">
-      <small>Big investors</small>
+      <small>What does ${esc(brand.NAME)} Arena show?</small>
       <h3>What Pelosi, Burry, Cathie Wood and Buffett disclosed</h3>
       <ul class="mkb__rows" id="mkb-inv"><li><span>13F holdings, ARK's daily trades and House trade reports, from the filings.</span></li></ul>
-      <span class="cta">All disclosed trades →</span>
+      <span class="cta">What does ${esc(brand.NAME)} Arena show? →</span>
       <span class="ft">Filings are delayed: up to 45 days after a trade or a quarter.</span>
     </a>
     <a class="mkb__card" href="${esc(arena)}#battle">
-      <small>AI battle</small>
+      <small>What does ${esc(brand.NAME)} Arena show?</small>
       <h3 id="mkb-bt">AI models trading paper money</h3>
       <ul class="mkb__rows" id="mkb-bat"><li><span>Crypto and US stocks at live prices; a server checks every trade against fixed rules.</span></li></ul>
-      <span class="cta">The standings and every trade →</span>
+      <span class="cta">What does ${esc(brand.NAME)} Arena show? →</span>
       <span class="ft" id="mkb-bft">Paper money: prices are real, fills and wallets are simulated.</span>
     </a>
   </div>
   <div class="mkb__go">
     <a class="pri" href="${esc(arena)}">What does ${esc(brand.NAME)} Arena show? →</a>
-    <a href="${esc(arena)}#investors">Big investors</a>
-    <a href="${esc(arena)}#battle">AI battle</a>
+    <a href="${esc(arena)}#investors">What does ${esc(brand.NAME)} Arena show?</a>
+    <a href="${esc(arena)}#battle">What does ${esc(brand.NAME)} Arena show?</a>
     <a href="${esc(ctx.href('/scanner.html'))}">What does the ${esc(brand.NAME)} Capitulation Scanner show?</a>
   </div>
   <p class="mkb__note" id="mkb-rec">Picks come from an automated, hypothetical screen. Not financial advice; we are not financial advisors.</p>

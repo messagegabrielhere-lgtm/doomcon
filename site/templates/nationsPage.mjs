@@ -155,5 +155,5 @@ export function highlightHtml(ctx, nr) {
   <span style="display:block;font:700 11px/1 var(--mono,monospace);letter-spacing:.16em;color:#FCA5A5;margin-bottom:8px">★ FEATURED · THE NATIONS RACE</span>
   <span style="display:flex;align-items:center;justify-content:space-between;gap:10px;font:800 20px/1.2 var(--sans,system-ui)"><span>🇺🇸 USA ${(us * 100).toFixed(0)}%</span><span style="font:800 26px var(--mono,monospace)">${nr.score.US}–${nr.score.CN}</span><span>${(cn * 100).toFixed(1)}% CHINA 🇨🇳</span></span>
   <span style="display:flex;height:10px;border-radius:5px;overflow:hidden;margin:10px 0 6px"><i style="flex:${Math.max(us, 0.03)};background:#3B82F6"></i><i style="flex:${Math.max(ot, 0.01)};background:#475569"></i><i style="flex:${Math.max(cn, 0.03)};background:#EF4444"></i></span>
-  <span style="font-size:13px;color:#CBD5E1">Market odds that the best AI model is American vs Chinese, plus labs and electricity. See the full scoreboard →</span></a>`;
+  <span style="font-size:13px;color:#CBD5E1">Market odds that the best AI model is American vs Chinese, plus labs and electricity. ${esc(qTitle)} →</span></a>`;
 }

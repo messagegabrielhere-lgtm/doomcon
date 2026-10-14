@@ -113,7 +113,7 @@ function shareReuse(ctx, state, href) {
       <span class="cap">EMBED</span>
       <pre class="v2-share__code" tabindex="0">${esc(iframe)}</pre>
       <button type="button" class="v2-btn sm" data-copy="${esc(iframe)}">Copy embed code</button>
-      <p class="small"><a href="${esc(href('/embed.html'))}">Open the widget</a> · no script, no key, no tracking</p>
+      <p class="small"><a href="${esc(href('/export.html'))}#embed">How do I export and embed ${esc(brand.NAME)} data?</a> · no script, no key, no tracking</p>
     </div>
     <div class="v2-share__card">
       <span class="cap">CITE THIS READING</span>

@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 import { nationsRace } from '../nations.mjs';
-import { render } from './nationsPage.mjs';
+import { highlightHtml, render } from './nationsPage.mjs';
 
 const ctx = {
   url: (p) => `https://siren.watch${p === '/' ? '/' : p}`,
@@ -67,4 +67,12 @@ describe('nations page', () => {
     assert.match(html, /FAQPage/);
     assert.doesNotMatch(html, /noindex/);
   });
+
+  it('highlight card CTA uses the nations page H1 question', () => {
+    const html = highlightHtml(ctx, sample);
+    assert.match(html, /USA vs China: who is winning the race to superintelligence\? →/);
+    assert.doesNotMatch(html, /See the full scoreboard/);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
+  });
 });
+

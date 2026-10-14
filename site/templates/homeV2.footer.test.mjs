@@ -62,5 +62,13 @@ describe('home v2 footer', () => {
     assert.doesNotMatch(html, /doom score:\s*\d/i);
     assert.doesNotMatch(html, /probability of doom/i);
   });
+
+  it('reuse embed helper links to the export question, not the noindex widget', () => {
+    const html = render(ctx, { head: '' });
+    assert.match(html, /href="\/export\.html#embed">How do I export and embed SIREN data\?<\/a>/);
+    assert.doesNotMatch(html, /href="\/embed\.html">Open the widget<\/a>/);
+    assert.doesNotMatch(html, /doom score:\s*\d/i);
+  });
 });
+
 
