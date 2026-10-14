@@ -679,16 +679,29 @@ main.wrap > .hero .hero__headline { margin: 0 0 var(--s-3); font: 500 var(--t-sm
   const instrumentsQ = `What instruments sit behind the ${brand.NAME} reading?`;
   // FAQ answers restate hero / record / embed / API copy only (FINDABILITY §3.3).
   // Refuse: doom-probability, forecast, or "the instruments predict" claims.
-  // Tip #260: API section H2 is question-shaped and mirrored in FAQ (FINDABILITY §3.3).
+  // Tip #260–#261: section H2s are question-shaped and mirrored in FAQ (§3.3).
   const instrumentsApiQ = `What public JSON files does ${brand.NAME} expose?`;
+  const instrumentsRecordQ = 'Where does the score sit over time?';
+  const instrumentsHealthQ = 'What does source health on this page report?';
+  const instrumentsPillarsQ = 'What are the five pillars on this page?';
+  const instrumentsMovesQ = `Where are the recent ${brand.NAME} index moves?`;
+  const instrumentsEmbedQ = 'How do I put the index on my site?';
   const instrumentsFaq = [
     [instrumentsQ,
       'The home page gives the reading. This page shows the working: where the score sits, how it has moved, which sources reported, what each pillar is doing, and how to take the number with you.'],
-    ['What does source health on this page report?',
+    [instrumentsRecordQ,
+      'This page charts every scored observation over time. The history of AI risk page and the methodology page explain the frozen reference curve that never updates live.'],
+    [instrumentsHealthQ,
       healthSentence(state)],
+    [instrumentsPillarsQ,
+      'Which part of the field is loudest today. Each bar is linear in score from 0 to 100, so the ordering is the comparison; the cards underneath carry each pillar\'s own history.'],
+    [instrumentsMovesQ,
+      moves
+        ? `Recent scored moves are listed on this page, with the full archive at Where are the ${brand.NAME} index moves?`
+        : 'No scored observations recorded yet. Moves appear here the first time the index is computed twice.'],
     ['Where is the frozen reference distribution explained?',
       'Where today sits inside the frozen reference distribution, and why that curve is never updated live, is drawn and explained on the methodology page.'],
-    ['How do I put the index on my site?',
+    [instrumentsEmbedQ,
       'One iframe. No script, no tracking, no key. It renders light or dark to match the page it sits in, and the number inside it is server-rendered too.'],
     [instrumentsApiQ,
       `Static JSON under /api/: state, history, health and per-reading receipts. No key, no rate limit, ${brand.LICENSE}. Attribution: ${brand.DOMAIN}.`],
@@ -721,7 +734,7 @@ ${balanceModule(ctx)}
 ${oven.render(ctx)}
 
 <section class="sec" id="record" aria-labelledby="record-h">
-  <h2 class="sec__h" id="record-h">The score over time<span class="sec__eb">The record</span></h2>
+  <h2 class="sec__h" id="record-h">${esc(instrumentsRecordQ)}<span class="sec__eb">The record</span></h2>
   <p class="lede">${esc(recordLede(obs))}</p>
   ${indexHistoryChart(ctx.history, { id: 'home', now: state.score })}
   <p class="fresh__key">${esc(recordKey(obs))}
@@ -732,7 +745,7 @@ ${oven.render(ctx)}
 </section>
 
 <section class="fresh" aria-labelledby="fresh-h">
-  <h2 class="sec__h" id="fresh-h">Source health</h2>
+  <h2 class="sec__h" id="fresh-h">${esc(instrumentsHealthQ)}</h2>
   <p class="lede">${esc(healthSentence(state))}</p>
   ${healthBar(state)}
   <details class="fresh__more">
@@ -742,7 +755,7 @@ ${oven.render(ctx)}
 </section>
 
 <section class="sec" aria-labelledby="pillars-h">
-  <h2 class="sec__h" id="pillars-h">The five pillars</h2>
+  <h2 class="sec__h" id="pillars-h">${esc(instrumentsPillarsQ)}</h2>
   <p class="lede">Which part of the field is loudest today. Each bar is linear in score from 0 to 100,
      so the ordering is the comparison; the cards underneath carry each pillar's own history.</p>
   ${pillarRanked(state.pillars, { id: 'home' })}
@@ -751,7 +764,7 @@ ${oven.render(ctx)}
 </section>
 
 <section class="sec" aria-labelledby="moves-h">
-  <h2 class="sec__h" id="moves-h">Recent moves</h2>
+  <h2 class="sec__h" id="moves-h">${esc(instrumentsMovesQ)}</h2>
   ${moves
     ? `<ul class="moves">${moves}</ul>
        <p class="fresh__key"><a href="${esc(ctx.href('/moves/'))}">Where are the ${esc(brand.NAME)} index moves? →</a></p>`
@@ -759,7 +772,7 @@ ${oven.render(ctx)}
 </section>
 
 <section class="sec" id="embed" aria-labelledby="embed-h">
-  <h2 class="sec__h" id="embed-h">Put the index on your site</h2>
+  <h2 class="sec__h" id="embed-h">${esc(instrumentsEmbedQ)}</h2>
   <p class="lede">One iframe. No script, no tracking, no key. It renders light or dark to match
      the page it sits in, and the number inside it is server-rendered too.</p>
   <div class="clip"><div class="snippet">${esc(snippet)}</div></div>

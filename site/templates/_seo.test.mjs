@@ -215,6 +215,12 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('what AI breakthroughs has SIREN tracked'));
     assert.ok(org.knowsAbout.includes('SIREN instruments'));
     assert.ok(org.knowsAbout.includes('what instruments sit behind the SIREN reading'));
+    assert.ok(org.knowsAbout.includes('What public JSON files does SIREN expose'));
+    assert.ok(org.knowsAbout.includes('Where does the score sit over time'));
+    assert.ok(org.knowsAbout.includes('What does source health on this page report'));
+    assert.ok(org.knowsAbout.includes('What are the five pillars on this page'));
+    assert.ok(org.knowsAbout.includes('Where are the recent SIREN index moves'));
+    assert.ok(org.knowsAbout.includes('How do I put the index on my site'));
     assert.ok(org.knowsAbout.includes('Waffle House Index'));
     assert.ok(org.knowsAbout.includes('is the Waffle House open'));
     assert.ok(org.knowsAbout.includes('AI threat board'));
