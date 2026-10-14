@@ -247,11 +247,11 @@ context.
 | 14 | `/agents.md` + Grok/xAI named Allow + ChatGPT query routing in `llms.txt` | ChatGPT + Grok | **Done** (2026-10-11) |
 | 15 | `/people/*` leader coverage pages + `/news/YYYY-MM-DD` day hubs + entity-only `/lab/*` | Google | **Done** (2026-10-14) |
 | 16 | `/agents.txt` + `/agents.json` + `/.well-known/api-catalog` + skills index + MCP server card | Agent discovery | **Done** (this pass) |
-17
-18
-19
-20
-21
+| 17 | News-sitemap cap **200** + AI-first keywords (slim live hotfix) | Google News | **Done** (2026-10-14) |
+| 18 | `/news.html` question-shaped title/H1/H2s + FAQPage + Speakable + BreadcrumbList | Google | **Done** (2026-10-14) |
+| 19 | `/digest.html` question-shaped title/H1 + FAQPage (live still “The daily brief — N items”) | Google | **Done** (2026-10-14) |
+| 20 | `/race.html` question-shaped title/H1 + FAQPage (live still “The AI race — …”) | Google | **Done** (2026-10-14) |
+| 21 | `/methodology.html` head-term title + question H2s feeding FAQPage (live still “Methodology — …”) | Google | **Done** (2026-10-14) |
 | 22 | Homepage below-fold `content-visibility:auto` (CWV; crawlers still see full HTML) | Google CWV | **Done** (2026-10-14) |
 | 23 | `/source/*` adapter hubs link older archive stories; phone-width home board deferral | Google CWV | **Done** (2026-10-14) |
 | 24 | `/tags/*` topic hubs (Skynet URL shape; curated needles, ≥5 stories) | Google | **Done** (2026-10-14) |
