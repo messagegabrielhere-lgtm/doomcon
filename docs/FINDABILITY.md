@@ -714,6 +714,8 @@ context.
 | 462 | Topic tag `silicon-valley` (live/archive ≥5); IndexNow + seo-daily monitor; refuse market-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 463 | Topic tag `government-websites` (live/archive ≥5); IndexNow + seo-daily monitor; refuse harm-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 | 464 | Topic tag `security-incidents` (live/archive ≥5); IndexNow + seo-daily monitor; refuse threat-forecast / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 465 | Topic tag `artificial-intelligence` (live/archive ≥5); IndexNow + seo-daily monitor; refuse capability-ranking / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
+| 466 | Topic tag `chatbots` (live/archive ≥5); IndexNow + seo-daily monitor; refuse product-score / doom-probability claims | Google + Bing | **Done** (2026-10-14) |
 
 ### 3.3 Refusals (search edition)
 
