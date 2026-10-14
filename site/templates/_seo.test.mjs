@@ -318,6 +318,9 @@ describe('IndexNow', () => {
     assert.ok(org.knowsAbout.includes('Which scored stories are tagged in this window'));
     assert.ok(org.knowsAbout.includes('Which older scored stories are tagged'));
     assert.ok(org.knowsAbout.includes('Which other tags have scored stories'));
+    assert.ok(org.knowsAbout.includes('Which scored stories of a kind are in this window'));
+    assert.ok(org.knowsAbout.includes('Which older scored stories of a kind are kept'));
+    assert.ok(org.knowsAbout.includes('Which other kinds have scored stories'));
     assert.ok(org.knowsAbout.includes('ready for superintelligence'));
     assert.ok(org.knowsAbout.includes('Ready for SI personal plan'));
     assert.ok(org.knowsAbout.includes('USA vs China AI race'));
