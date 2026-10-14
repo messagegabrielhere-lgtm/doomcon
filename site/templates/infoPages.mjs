@@ -161,16 +161,51 @@ export function privacy(ctx) {
   const gaId = hasGa ? esc(MONETIZE.analytics.gtag) : '';
   const x = brand.X_URL ? `<a href="${esc(brand.X_URL)}" rel="noopener">${esc(brand.X_HANDLE)}</a> on X` : 'the project account';
   const repo = `<a href="${esc(brand.REPO_URL)}/issues" rel="noopener">an issue on the repository</a>`;
+  // Tip #309: section H2s are question-shaped and mirrored in FAQ (§3.3).
+  const responsibleQ = `Who is responsible for ${brand.NAME} privacy?`;
+  const choicesQ = 'What are your choices about analytics cookies?';
+  const siteQ = 'What does the site itself do with a visit?';
+  const californiaQ = 'How do California and similar privacy laws apply?';
+  const rightsQ = 'What rights do you have under EU, UK and similar laws?';
+  const childrenQ = 'Is the site directed at children?';
+  const thirdQ = 'Which third parties does a visit touch?';
+  const retentionQ = 'How long is visit data retained?';
+  const embedQ = 'Do the embed and the badge track visitors?';
+  const contactQ = `How do you contact ${brand.NAME} about privacy?`;
   // FAQ from the SAME pairs rendered in HTML (§3.3). Refuse doom-probability / data-sale claims beyond LEGAL_NO_SELL.
   const faq = [
     [qTitle,
       `${brand.NAME} keeps no visitor accounts. A visit may leave host logs (GitHub Pages), optional analytics if enabled, and local preferences in your browser. This page lists every way a visit can leave a trace.`],
+    [responsibleQ,
+      `${brand.NAME} is run by one independent operator. There is no company account and no postal address published here. Privacy questions and data requests go by email, X, or an issue on the repository. The operator decides what analytics run and what is linked; they do not sell visitor lists.`],
+    ...(hasGa ? [[choicesQ,
+      'In Europe, the UK and Switzerland, Google Analytics cookies stay off until you choose “Allow analytics” in the banner. If your browser sends Global Privacy Control, analytics cookies stay off everywhere. Advertising storage, ad personalisation and Google signals are switched off for every visitor. Change your mind any time via privacy choices or by clearing this site’s data in your browser.']] : []),
+    [siteQ,
+      hasGa
+        ? `Google Analytics may set cookies when analytics are allowed. This site’s own code does not call document.cookie. There are no accounts; preferences such as theme and game scores stay in local storage on your device.`
+        : 'No first-party cookies from this site’s own code. There are no accounts; preferences such as theme and game scores stay in local storage on your device.'],
+    [californiaQ,
+      `${brand.LEGAL_NO_SELL} ${brand.NAME} has no login and no customer database of its own. Visit data that reaches Google Analytics or the host is disclosed on this page. California residents can email, contact X, or open a repository issue; requests that apply to this project are handled promptly.`],
+    [rightsQ,
+      `Where GDPR, UK GDPR or similar laws apply, you may have rights to access, correct, delete, restrict or object to processing of personal data, and to lodge a complaint with a supervisory authority. ${brand.NAME} itself does not keep an account profile for you. For data held by a third party named on this page, use that party’s tools or ask here and the request will be pointed at the right place.`],
+    [childrenQ,
+      `The site is meant for a general adult audience. It is not directed at children under 13 (COPPA) or at children under 16 where that higher age applies. ${brand.NAME} does not knowingly collect personal information from children.`],
+    [thirdQ,
+      'A visit may touch GitHub Pages as host, optional analytics if enabled, first-party fonts, live-data APIs you open in the browser, YouTube thumbnails on media pages, outbound links you choose, and labelled affiliate or Amazon Associate links. Fonts are served from this site.'],
+    [retentionQ,
+      hasGa
+        ? 'This site does not keep a server-side log of individual visitors beyond what the host retains. Google Analytics retains data according to the property’s retention setting (months, not forever). Local storage on your device lasts until you clear it.'
+        : 'This site does not keep a server-side log of individual visitors beyond what the host retains. Google Analytics is off. Local storage on your device lasts until you clear it.'],
+    [embedQ,
+      'The iframe embed and the README badge are static files. They set no cookies and load nothing from third parties on the pages that use them.'],
     [`Does ${brand.NAME} sell personal data?`,
       `${brand.LEGAL_NO_SELL} The operator does not sell visitor lists.`],
     ['Are there first-party cookies?',
       hasGa
         ? 'Google Analytics may set cookies when analytics are allowed. This site’s own code does not call document.cookie. Preferences such as theme and game scores stay in local storage on your device.'
         : 'No first-party cookies from this site’s own code. Preferences such as theme and game scores stay in local storage on your device.'],
+    [contactQ,
+      `See What is ${brand.NAME}? for how to get in touch, or What does ${brand.NAME} disclose? for the short map of every legal notice on the site.`],
   ];
   const faqHtml = faq.map(([q, a]) => `
   <h3>${esc(q)}</h3>
@@ -182,11 +217,11 @@ export function privacy(ctx) {
   <p class="lede">Last updated ${esc(PRIVACY_UPDATED)}. Very little is kept by ${esc(brand.NAME)} itself.
     This page lists every way a visit can leave a trace, who receives it, and what rights you have.</p>
 
-  <h2>Who is responsible</h2>
+  <h2>${esc(responsibleQ)}</h2>
   <p>${esc(brand.NAME)} is run by one independent operator. There is no company account and no postal address published here.
     Privacy questions and data requests go to ${mail} (or ${x}, or ${repo}). The operator decides what analytics run and what is linked; they do not sell visitor lists.</p>
 
-  ${hasGa ? `<h2>Your choices about analytics cookies</h2>
+  ${hasGa ? `<h2>${esc(choicesQ)}</h2>
   <ul>
     <li><b>Europe, the UK and Switzerland:</b> Google Analytics cookies stay off until you choose “Allow analytics” in the banner. Until then Google receives only cookieless, consent-mode signals.</li>
     <li><b>Global Privacy Control:</b> if your browser sends GPC, analytics cookies stay off everywhere, and the site treats it as an opt-out of any sale or sharing.</li>
@@ -194,7 +229,7 @@ export function privacy(ctx) {
     <li><b>Change your mind any time:</b> <a href="#" data-consent-open>open privacy choices</a>, or clear this site's data in your browser.</li>
   </ul>` : ''}
 
-  <h2>What the site itself does</h2>
+  <h2>${esc(siteQ)}</h2>
   <ul>
     ${hasGa
       ? `<li><b>Cookies from Google Analytics.</b> Pages load Google Analytics (measurement ID ${gaId}), which may set cookies Google uses to recognise returning visitors and measure traffic (_ga, _ga_*, and related). This site's own code does not call <code>document.cookie</code>.</li>`
@@ -214,21 +249,21 @@ export function privacy(ctx) {
       leave your device, and clearing site data removes them.</li>
   </ul>
 
-  <h2>California and similar privacy laws</h2>
+  <h2>${esc(californiaQ)}</h2>
   <p>${esc(brand.LEGAL_NO_SELL)} ${esc(brand.NAME)} has no login and no customer database of its own.
     Visit data that reaches Google Analytics or the host is described above. If you are a California resident and want to know what a covered business holds about you, email ${mail}, contact ${x} or open ${repo}; requests that apply to this project are handled promptly.
     You can also use industry opt-outs such as the <a href="https://optout.aboutads.info/" rel="noopener">Digital Advertising Alliance</a> tools where they apply to third parties you visit through this site.</p>
 
-  <h2>Your rights (EU/UK and elsewhere)</h2>
+  <h2>${esc(rightsQ)}</h2>
   <p>Where GDPR, UK GDPR or similar laws apply, you may have rights to access, correct, delete, restrict or object to processing of personal data, and to lodge a complaint with a supervisory authority.
     ${esc(brand.NAME)} itself does not keep an account profile for you. For data held by Google, GoatCounter, GitHub or another third party named on this page, use that party's tools or ask here and the request will be pointed at the right place.
     ${hasGa ? 'To limit Google Analytics in your browser, use Google\'s <a href="https://tools.google.com/dlpage/gaoptout" rel="noopener">opt-out add-on</a>, block third-party cookies, or use a content blocker.' : ''}</p>
 
-  <h2>Children</h2>
+  <h2>${esc(childrenQ)}</h2>
   <p>The site is meant for a general adult audience. It is not directed at children under 13 (COPPA) or at children under 16 where that higher age applies.
     ${esc(brand.NAME)} does not knowingly collect personal information from children. If you believe a child submitted personal data through a public GitHub issue opened from the feedback form, email ${mail} or contact ${x} so it can be removed.</p>
 
-  <h2>Third parties a visit touches</h2>
+  <h2>${esc(thirdQ)}</h2>
   <ul>
     <li><b>GitHub Pages</b> hosts the site, so GitHub's servers receive your IP address and browser details, as any web host does.</li>
     ${hasGa
@@ -262,7 +297,7 @@ ${mzOn.newsletter() ? `<li><b>Email newsletter.</b> If you subscribe, your email
       may set its own cookies to attribute a purchase. ${esc(brand.LEGAL_AFFILIATE)}</li>
   </ul>
 
-  <h2>Retention</h2>
+  <h2>${esc(retentionQ)}</h2>
   <ul>
     <li><b>This site</b> does not keep a server-side log of individual visitors beyond what the host (GitHub Pages) retains under its own policy.</li>
     <li><b>GoatCounter</b>${hasGc ? ' keeps aggregate visit counts without personal data; see GoatCounter\'s own retention terms.' : ' is off.'}</li>
@@ -270,7 +305,7 @@ ${mzOn.newsletter() ? `<li><b>Email newsletter.</b> If you subscribe, your email
     <li><b>Local storage</b> on your device lasts until you clear it.</li>
   </ul>
 
-  <h2>The embed and the badge</h2>
+  <h2>${esc(embedQ)}</h2>
   <p>The iframe embed and the README badge are static files. They set no cookies and load nothing from third parties on the pages that use them.</p>
 
   <h2 id="faq">Questions people actually ask</h2>
@@ -279,7 +314,7 @@ ${mzOn.newsletter() ? `<li><b>Email newsletter.</b> If you subscribe, your email
     <a href="${esc(ctx.href('/about.html'))}">What is ${esc(brand.NAME)}?</a>
     · <a href="${esc(ctx.href('/disclosures.html'))}">What does ${esc(brand.NAME)} disclose?</a>
     · <a href="${esc(ctx.href('/feedback.html'))}">How do I report a problem or send an idea to ${esc(brand.NAME)}?</a>.</p>
-  <h2>Contact</h2>
+  <h2>${esc(contactQ)}</h2>
   <p>See <a href="${esc(ctx.href('/about.html'))}">What is ${esc(brand.NAME)}?</a> for how to get in touch, or
     <a href="${esc(ctx.href('/disclosures.html'))}">What does ${esc(brand.NAME)} disclose?</a> for the short map of every legal notice on the site.</p>
 </section>`;

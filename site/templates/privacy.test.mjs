@@ -34,3 +34,30 @@ test('privacy.html ships matching question H1, speakable, breadcrumbs, and visib
   assert.doesNotMatch(html, /probability of doom is \d/i);
   assert.doesNotMatch(html, /noindex/);
 });
+
+test('privacy.html section H2s use questions mirrored in FAQPage', () => {
+  const html = privacy(ctx);
+  assert.match(html, /<h2>Who is responsible for SIREN privacy\?<\/h2>/);
+  assert.match(html, /<h2>What does the site itself do with a visit\?<\/h2>/);
+  assert.match(html, /<h2>How do California and similar privacy laws apply\?<\/h2>/);
+  assert.match(html, /<h2>What rights do you have under EU, UK and similar laws\?<\/h2>/);
+  assert.match(html, /<h2>Is the site directed at children\?<\/h2>/);
+  assert.match(html, /<h2>Which third parties does a visit touch\?<\/h2>/);
+  assert.match(html, /<h2>How long is visit data retained\?<\/h2>/);
+  assert.match(html, /<h2>Do the embed and the badge track visitors\?<\/h2>/);
+  assert.match(html, /<h2>How do you contact SIREN about privacy\?<\/h2>/);
+  assert.doesNotMatch(html, /<h2>Who is responsible<\/h2>/);
+  assert.doesNotMatch(html, /<h2>What the site itself does<\/h2>/);
+  assert.doesNotMatch(html, /<h2>California and similar privacy laws<\/h2>/);
+  assert.doesNotMatch(html, /<h2>Your rights \(EU\/UK and elsewhere\)<\/h2>/);
+  assert.doesNotMatch(html, /<h2>Children<\/h2>/);
+  assert.doesNotMatch(html, /<h2>Third parties a visit touches<\/h2>/);
+  assert.doesNotMatch(html, /<h2>Retention<\/h2>/);
+  assert.doesNotMatch(html, /<h2>The embed and the badge<\/h2>/);
+  assert.doesNotMatch(html, /<h2>Contact<\/h2>/);
+  assert.match(html, /"name"\s*:\s*"Who is responsible for SIREN privacy\?"/);
+  assert.match(html, /"name"\s*:\s*"What does the site itself do with a visit\?"/);
+  assert.match(html, /"name"\s*:\s*"Do the embed and the badge track visitors\?"/);
+  assert.match(html, /"name"\s*:\s*"How do you contact SIREN about privacy\?"/);
+  assert.doesNotMatch(html, /probability of doom is \d/i);
+});
