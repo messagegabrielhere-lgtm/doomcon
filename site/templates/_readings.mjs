@@ -410,7 +410,8 @@ function cell(rd, ctx) {
 // Public
 // ---------------------------------------------------------------------------
 
-const DEFAULT_HEADING = 'Recent readings';
+// Tip #329: default section H2 is question-shaped; homepage FAQ mirrors it (§3.3).
+const DEFAULT_HEADING = 'Which readings are most recent?';
 
 /**
  * The strip.

@@ -141,14 +141,27 @@ describe('classic page', () => {
       x: JSON.parse(readFileSync(new URL('../../data/x-surface.json', import.meta.url), 'utf8')),
       digest: JSON.parse(readFileSync(new URL('../../data/digest.json', import.meta.url), 'utf8')),
       deskPicks: JSON.parse(readFileSync(new URL('../../data/desk-picks.json', import.meta.url), 'utf8')),
+      leaders: JSON.parse(readFileSync(new URL('../../data/leaders.json', import.meta.url), 'utf8')),
+      history: Array.from({ length: 8 }, (_, i) => ({
+        generated_at: `2026-10-0${i + 1}T12:00:00Z`,
+        t: Date.parse(`2026-10-0${i + 1}T12:00:00Z`),
+        score: 50 + i,
+        level: 4,
+        level_name: 'ROUTINE',
+        degraded: false,
+      })),
     }, { view: 'classic' });
     assert.match(html, /id="vfy-h">How do you check a SIREN reading yourself\?<\/h2>/);
     assert.match(html, /Where is every dataset on one panel\?/);
     assert.match(html, /How do you check a SIREN reading yourself\?/);
     assert.match(html, /Which frontier labs are monitored\?/);
     assert.match(html, /Which labs’ posts are on the X wire\?/);
+    assert.match(html, /Which readings are most recent\?/);
+    assert.match(html, /Which eight stories are newest\?/);
+    assert.match(html, /Which AI leaders are on the record\?/);
     assert.doesNotMatch(html, /id="vfy-h">Don’t trust it\. Check it\.<\/h2>/);
     assert.doesNotMatch(html, /Every dataset, one panel<span/);
+    assert.doesNotMatch(html, /id="rd-h">Recent readings<\/h2>/);
     assert.doesNotMatch(html, /probability of doom/i);
   });
 

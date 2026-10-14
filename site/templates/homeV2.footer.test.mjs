@@ -128,6 +128,16 @@ describe('home v2 footer', () => {
     assert.doesNotMatch(html, /v2-room__t"><b>Containment<\/b>/);
     assert.doesNotMatch(html, /doom score:\s*\d/i);
   });
+
+  it('reuse, bosses, labs and video section H2s use questions', () => {
+    const html = render(ctx, { head: '' });
+    assert.match(html, /id="v2-share-h"[^>]*>How do you reuse this SIREN reading\?<\/h2>/);
+    assert.match(html, /id="v2-bosses-h"[^>]*>Which AI bosses are on watch\?<\/h2>/);
+    assert.match(html, /id="v2-labs-h"[^>]*>Which labs are monitored on the home board\?<\/h2>/);
+    assert.match(html, /id="v2-video-h"[^>]*>What is SIREN\?<\/h2>/);
+    assert.doesNotMatch(html, /id="v2-share-h">REUSE THIS READING/);
+    assert.doesNotMatch(html, /probability of doom/i);
+  });
 });
 
 

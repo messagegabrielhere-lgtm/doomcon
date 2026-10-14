@@ -541,7 +541,7 @@ ${statRow([
    The rail is the newest eight in publication order. The list under it is the highest-scoring
    ${esc(rows.length)}. Which stories lead one and not the other is itself the reading.</p>
 
-${reel(railItems, { id: 'sw-latest', limit: RAIL_CARDS, heading: 'The eight newest stories', href: archive, total: news.total })}
+${reel(railItems, { id: 'sw-latest', limit: RAIL_CARDS, heading: 'Which eight stories are newest?', href: archive, total: news.total })}
 <p class="nkey">Ordered by publication time, newest first — <b>not</b> by score. The numeral on each card
    is its position on this rail${spread ? `, and the eighth card is ${esc(spread)} old at the compile stamp` : ''}.</p>
 
@@ -1186,7 +1186,7 @@ export function panels(ctx) {
       count: onRecord,
       countTitle: `${onRecord} of ${rows.length} leaders on the record this week`,
       state: onRecord ? 'live' : 'uncal',
-      head: { title: 'AI leaders, on the record', stamp: `read ${clock(ctx.leaders.generated_at) || ''}` },
+      head: { title: 'Which AI leaders are on the record?', stamp: `read ${clock(ctx.leaders.generated_at) || ''}` },
       more: { href: ctx.href('/leaders.html'), text: 'Which AI leaders are on the record this week?' },
       body: () => leaderwire.render(ctx, { heading: null }),
     });

@@ -59,6 +59,22 @@ export function items(ctx) {
       `The watch floor lists frontier labs with posture from visible public output only. A lab with no readable feed shows UNREAD, never QUIET. The full ranking lives on /race.html.`],
     ['Where is every dataset on one panel?',
       `The classic homepage desk switcher holds every live dataset already in the HTML — race, labs, X wire, power, digest and more — in one slot with no page load. It is a jump board, not a second index.`],
+    ['Which readings are most recent?',
+      `The classic homepage lists the newest scored observations with level, score and delta. Each row links to its move page and receipt. It is a log of tempo, not a forecast.`],
+    ['Which AI leaders are on the record?',
+      `The leader wire and /leaders.html show on-record lines from the press window, in the publishers' own words. No invented quotations. A quiet row means no matching line this window.`],
+    ['Which items scored highest?',
+      `The news reel highlights the highest-scoring stories in the current window. Scores measure activity fit against the frozen reference, not harm or benefit.`],
+    ["What is today's signal?",
+      `The classic signal reel is the day's highest-activity stories from the scored newsroom window, each with its pillar and score. Open /news.html for the full board.`],
+    ['Which eight stories are newest?',
+      `Inside the classic desk switcher, the Latest panel lists the eight newest scored stories by publication time. Membership is automated; nothing is hand-picked into that rail.`],
+    [`How do you reuse this ${brand.NAME} reading?`,
+      `The homepage reuse strip offers a README badge, an iframe embed, a plain-text citation and a copy-link control. No script, no key, and no tracking in the embed.`],
+    ['Which AI bosses are on watch?',
+      `The homepage bosses strip links to /leaders.html for people with enough on-record press this week. Portraits are generated illustrations, not photographs.`],
+    ['Which labs are monitored on the home board?',
+      `The homepage labs strip shows frontier labs with live prediction-market odds for best model in 2026. Odds are market prices, not a ${brand.NAME} forecast.`],
   ];
 }
 

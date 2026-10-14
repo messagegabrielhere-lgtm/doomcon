@@ -74,7 +74,8 @@ export function render(ctx) {
 ${reel(news.items, {
     id: 'reel',
     limit: REEL_CARDS,
-    heading: "Today's signal",
+    // Tip #329: section H2 is question-shaped (§3.3).
+    heading: "What is today's signal?",
     href: archiveHref,
   })}
 <section class="sec news" aria-labelledby="news-h">
