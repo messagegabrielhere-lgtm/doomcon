@@ -20,6 +20,7 @@
 
 import { esc, utc, signed } from './_html.mjs';
 import { pillarTag, pillarSprite, pillarCss } from './_reel.mjs';
+import * as brand from '../brand.mjs';
 
 // How many moved pillars get a chip before the rest collapse into a count.
 // Five chips plus a composite chip wrap to three rows at 375px; four is the
@@ -55,7 +56,7 @@ export function render(ctx) {
     <p class="wc__ref">${refLine(d, diff)}</p>
   </div>
   ${body}
-  <p class="wc__more"><a href="${esc(href)}">The full brief, the streaks and the per-lab rollups &rarr;</a></p>
+  <p class="wc__more"><a href="${esc(href)}">What is the ${esc(brand.NAME)} daily brief?</a></p>
 </section>`;
 }
 
