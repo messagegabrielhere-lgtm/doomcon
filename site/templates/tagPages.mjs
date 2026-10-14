@@ -1178,6 +1178,18 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'GPT-6 Astra / GPT-6.1 Astra product stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
     match: /\bGPT-6(?:\.1)? Astra\b/i,
   },
+  {
+    id: 'gemini-4',
+    name: 'Gemini 4',
+    description: 'Gemini 4 / Gemini 4 Argon / Carbon product stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
+    match: /\bGemini[- ]?4(?:\.\d+)?\b/i,
+  },
+  {
+    id: 'ai-waiver',
+    name: 'AI waiver',
+    description: 'AI-waiver and likeness-consent stories scored in the newsroom or archive — coverage counts, not a legal forecast.',
+    match: /\bAI [Ww]aiver\b/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));
