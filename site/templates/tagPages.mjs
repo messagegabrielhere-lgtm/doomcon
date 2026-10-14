@@ -1566,6 +1566,18 @@ export const TOPIC_DEFS = Object.freeze([
     description: 'Latent-space model and tokenizer research stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
     match: /\b[Ll]atent\b/i,
   },
+  {
+    id: 'autoregressive',
+    name: 'Autoregressive models',
+    description: 'Autoregressive generation research stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
+    match: /\b[Aa]utoregressive\b/i,
+  },
+  {
+    id: 'simulation',
+    name: 'AI simulation',
+    description: 'Simulation and sim-to-real research stories scored in the newsroom or archive — coverage counts, not a capability ranking.',
+    match: /\b[Ss]imulation\b/i,
+  },
 ]);
 
 const BY_ID = new Map(TOPIC_DEFS.map((t) => [t.id, t]));

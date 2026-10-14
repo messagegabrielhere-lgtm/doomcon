@@ -2775,6 +2775,36 @@ describe('tag pages', () => {
     assert.doesNotMatch(renderTag(rich, 'iran'), /probability of doom/i);
   });
 
+  it('pages autoregressive and simulation hubs', () => {
+    const rich = {
+      ...ctx,
+      news: {
+        generated_at: ctx.state.generated_at,
+        items: [
+          story('ar1', 'NAMVIS: Next-Scale Autoregressive Multi-View Image Synthesis'),
+          story('ar2', 'QuadTok: Quadtree Visual Tokenizer for Autoregressive Image Generation'),
+          story('ar3', 'SGF+: Decoupling Gradient Flows for Autoregressive Video Generation'),
+          story('ar4', 'Autoregressive diffusion hybrids for long video'),
+          story('ar5', 'Scaling laws for autoregressive image models'),
+          story('sim1', 'USDCraft: Geometrically Grounded Programmatic Modeling for Simulation'),
+          story('sim2', 'Evaluating the Transfer of Co-Evolved Communication from 2D to 3D Simulation'),
+          story('sim3', 'Synthesis Through Simulation: Generating Coherent Enterprise Data'),
+          story('sim4', 'From Unity Simulation to Diffusion-Based Augmentation'),
+          story('sim5', 'Agent-system interaction at simulation scale'),
+        ],
+      },
+    };
+    const ids = indexableTags(rich).map((t) => t.id);
+    assert.ok(ids.includes('autoregressive'));
+    assert.ok(ids.includes('simulation'));
+    assert.match(renderTag(rich, 'autoregressive'), /What has SIREN scored about Autoregressive models\?/);
+    assert.match(renderTag(rich, 'simulation'), /What has SIREN scored about AI simulation\?/);
+    assert.match(renderTag(rich, 'autoregressive'), /not a capability ranking/i);
+    assert.match(renderTag(rich, 'simulation'), /not a capability ranking/i);
+    assert.doesNotMatch(renderTag(rich, 'autoregressive'), /doom score:\s*\d/i);
+    assert.doesNotMatch(renderTag(rich, 'simulation'), /probability of doom/i);
+  });
+
   it('pages compositional and latent hubs', () => {
     const rich = {
       ...ctx,
