@@ -37,6 +37,8 @@ describe('compare / alternatives conquest pages', () => {
     const hub = compareHub(ctx);
     assert.match(hub, /AI doom indexes compared/);
     assert.match(hub, /"@type"\s*:\s*"FAQPage"/);
+    assert.match(hub, /"dateModified"\s*:\s*"2026-10-10T14:00:00Z"/);
+    assert.match(hub, /article:modified_time/);
     assert.match(hub, /DoomBench/);
     assert.match(hub, /Skynet Countdown/);
     assert.match(hub, /SIREN 4/);

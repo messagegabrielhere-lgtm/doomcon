@@ -1,11 +1,11 @@
 # Findability — Google Search and AI answer engines
 
 **Status:** playbook, measured against the live site on **2026-10-08**, with
-engineering checklist updates through **2026-10-11** (ChatGPT / Grok agent
-surfaces). Companion to `docs/GROWTH.md` (UX moves), `docs/COMPETITIVE.md`
-(URL-count war), `docs/COMPETITIVE-SEO.md` (live reverse-engineer of rival
-titles/sitemaps/schema), `docs/VIRAL.md` (distribution on X), and
-`docs/MONETIZE.md` (earning without losing rank).
+engineering checklist updates through **2026-10-14** (ChatGPT citation study
+§2.6 + evergreen structure/freshness). Companion to `docs/GROWTH.md` (UX moves),
+`docs/COMPETITIVE.md` (URL-count war), `docs/COMPETITIVE-SEO.md` (live
+reverse-engineer of rival titles/sitemaps/schema), `docs/VIRAL.md` (distribution
+on X), and `docs/MONETIZE.md` (earning without losing rank).
 
 Two different surfaces, one shared substrate:
 
@@ -214,6 +214,30 @@ context.
 - Gating the JSON behind keys or blocking CORS on public reads.
 - Changing URLs when the score updates (the receipt is the version; the path
   stays stable).
+- Treating `llms.txt` as a ChatGPT citation lever — see §2.6.
+
+### 2.6 ChatGPT citation study (2026-10-13)
+
+SE Ranking analysed ~129k sites / ~216k pages / 100k prompts for what correlates
+with ChatGPT citations ([thread](https://x.com/alexgroberman/status/2110035111853109297)).
+Headline factors, mapped onto what this repo can actually do:
+
+| Study signal | Approximate lift | Our honest move |
+|---|---|---|
+| Referring domains / domain trust | Strongest (≈3.5× at extreme DR) | Earn links via HN / press / methodology cites; **refuse bought backlinks** (§2.5, `VOICE.md`) |
+| Homepage / domain traffic | ≈2× | Distribution in `VIRAL.md`; keep the home reading quotable |
+| Reddit / Quora mentions | ≈4× | Operator: answer real questions with a receipt link — never spam farms |
+| Content depth with data / examples | Longer + multi-angle beat short | Evergreen explainers already carry tables + live reading; keep expanding with verifiable counts |
+| Clear structure (question H2s, short sections) | ≈70% more citations | **Ship** question-shaped H2s + FAQ that mirrors visible text on `/guide`, `/p-doom`, `/ai-doomsday-clock`, compare hubs |
+| Freshness (updated in last ~3 months) | ≈2× | Hourly rebuild already refreshes live pages; emit `dateModified` + `article:modified_time` from `state.generated_at` |
+| Question titles + FAQs | Helped smaller sites | Already on home / compare; extend to guide + clock pages |
+| Review platforms (G2, Trustpilot, …) | 3–6× | N/A for a free index — skip fake profiles |
+| Core Web Vitals | ≈3× for fast vs slow | Still open: mobile card view / less above-fold weight (#10) |
+| `llms.txt` | **Negligible** | Keep as an agent map (§2.1); do **not** treat as a ranking or citation factor |
+
+Engineering priority after this study: structure + freshness + CWV on pages that
+already answer head terms. Authority and Reddit/Quora are operator work;
+`llms.txt` expansion is maintenance, not a citation strategy.
 
 ---
 
@@ -226,6 +250,7 @@ context.
 - [ ] When the custom domain is live: re-verify, set preferred domain, 301 map.
 - [ ] Spot-check: ask ChatGPT / Perplexity / Claude "What is SIREN / DOOMCON AI index right now?" and "Is there an AI doomsday clock?" — record whether they cite us, and which URL.
 - [ ] Register the site in Google Merchant / News only if we ship a real news sitemap with dated `NewsArticle` pages — not before.
+- [ ] Earn mentions: answer one real Reddit / Quora / HN question per week with a receipt link (no self-promo spam; §2.6). Prefer threads already asking for a number.
 
 ### 3.2 Engineering, ranked by expected findability per unit of work
 
@@ -247,6 +272,7 @@ context.
 | 14 | `/agents.md` + Grok/xAI named Allow + ChatGPT query routing in `llms.txt` | ChatGPT + Grok | **Done** (2026-10-11) |
 | 15 | People pages + news day hubs (DoomBench/Skynet URL shape) | Google | Open PR #86 |
 | 16 | `/agents.txt` + `/agents.json` + `/.well-known/api-catalog` + skills index + MCP server card | Agent discovery | **Done** (this pass) |
+| 17 | Question-shaped H2s + `dateModified` / `article:modified_time` + FAQ/WebPage/Speakable on evergreen explainers (`/guide`, `/p-doom`, `/ai-doomsday-clock`, compare hubs) | ChatGPT + Google | **Done** (2026-10-14) — SE Ranking study §2.6 |
 
 ### 3.3 Refusals (search edition)
 
@@ -257,6 +283,8 @@ context.
 | `Disallow` lines for unshipped experiments | Publishes the roadmap (`TEARDOWN` / pizzint lesson) |
 | Schema that does not match visible text | Rich-result spam policy |
 | Treating `llms.txt` as a Google ranking factor | [Google: not used](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide) |
+| Treating `llms.txt` as a ChatGPT citation factor | SE Ranking 2026-10 study: negligible vs authority / structure / freshness |
+| Buying DR50+ backlinks or fake review profiles | Study’s #1 correlator is authority; buying it is spam and banned here |
 | Monetization that breaks the SEO rules in `MONETIZE.md` | Ads above the fold / layout shift / AdSense consent walls |
 
 ---
@@ -281,3 +309,4 @@ context.
 | Live robots, sitemap (~480 URLs), `llms.txt`, API index, homepage title/description, news-sitemap 404 | HTTP checks against the Pages site | 2026-10-08 |
 | Rival SEO re-measure: pizzint news-sitemap empty; DoomBench 2,081 URLs; Skynet 1,237; SIREN ~530 + news-sitemap 100 | `docs/COMPETITIVE-SEO.md` | 2026-10-10 |
 | URL-count strategy, news sitemap, Speakable, Search Console success metric | `docs/COMPETITIVE.md`, `docs/VIRAL.md` §7 | this repo |
+| ChatGPT citation correlates: backlinks, structure, freshness, Reddit/Quora; `llms.txt` negligible | [Alex Groberman / SE Ranking thread](https://x.com/alexgroberman/status/2110035111853109297) | 2026-10-13 |
